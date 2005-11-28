@@ -33,6 +33,8 @@ Legend:
 
 VirtueMart 1.0
 *************************************
+---- VirtueMart 1.0.1 released ----
+
 28-11-2005 soeren
 ^ renamed the vmLog function 'flush' to 'printLog' to prevent early flushing (was it caused by the function name?? would be another curious php bug)
 ! wrong error handling when a user is not allowed to view the requested page (Security Issue).

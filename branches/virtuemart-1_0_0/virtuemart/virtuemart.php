@@ -18,6 +18,13 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 
 global $mosConfig_absolute_path, $product_id;
 
+
+// Pre-Chache the output of the component
+// why? Hmm. http://virtuemart.net/index.php?option=com_flyspray&Itemid=83&do=details&id=300
+if( ob_get_level() === 0 ) {
+	ob_start();
+}
+	
 /* Load the virtuemart main parse code */
 require_once( $mosConfig_absolute_path.'/components/'.$option.'/virtuemart_parser.php' );
 
@@ -69,16 +76,21 @@ else {
 
 	if (( !$pagePermissionsOK || !$funcParams ) && $_REQUEST['page'] != 'checkout.index') {
 
-		if( !$pagePermissionsOK && $error == $VM_LANG->_PHPSHOP_MOD_NO_AUTH ) {
-			$page = @$_REQUEST['page'];
+		if( !$pagePermissionsOK && defined('_VM_PAGE_NOT_AUTH') ) {
+			$page = 'checkout.login_form';
 			echo '<br/><br/>'._DO_LOGIN.'<br/><br/>';
-			$modulename = "checkout";
-			$pagename= "login_form";
+		}
+		elseif( !$pagePermissionsOK && defined('_VM_PAGE_NOT_FOUND') ) {
+			$page = HOMEPAGE;
 		}
 		else {
 			$page = $_SESSION['last_page'];
 		}
 	}
+
+	$my_page= explode ( '.', $page );
+	$modulename = $my_page[0];
+	$pagename = $my_page[1];
 
 	// For there's no errorpage to display the error,
 	// we must echo it before the page is loaded

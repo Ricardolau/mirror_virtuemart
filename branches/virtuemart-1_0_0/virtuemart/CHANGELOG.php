@@ -31,8 +31,16 @@ Legend:
 
 --------------------------------------------------------------------------------------------------------------
 
-VirtueMart 1.0
+VirtueMart 1.0.x
 *************************************
+
+30-11-2005
+# added a routine to unpublish mambo-phpShop mambots on upgrade
+# added checks for the existance of files which are to be loaded
+# added a check if $ps_shopper_group is an instantiated ps_shopper_group object to admin.user_form.php
+# renamed all occurences of $PHP_SELF to $_SERVER['PHP_SELF']
+# fixed a bug in the page navigation on the browse page (document.adminForm is null or not an object)
+
 ---- VirtueMart 1.0.1 released ----
 
 28-11-2005 soeren

@@ -225,7 +225,15 @@ else {
             <img src=\"".IMAGEURL."ps_image/acroread.png\" alt=\"PDF\" height=\"32\" width=\"32\" border=\"0\" /></a></td></tr></table>";
 			}
 			// Load requested PAGE
-			include( PAGEPATH.$modulename.".".$pagename.".php" );
+			if( file_exists( PAGEPATH.$modulename.".".$pagename.".php" )) {
+				include( PAGEPATH.$modulename.".".$pagename.".php" );
+			}
+			elseif( file_exists( PAGEPATH . HOMEPAGE.'.php' )) {
+				include( PAGEPATH . HOMEPAGE.'.php' );
+			}
+			else {
+				include( PAGEPATH.'shop.index.php');
+			}
 
 			if (SHOWVERSION) {
 				include(PAGEPATH ."footer.php");

@@ -145,6 +145,8 @@ class zw_waiting_list {
 	function notify_list($product_id) {
 		global $sess;
 		
+		$option = mosGetParam( $_REQUEST, 'option' );
+		
 		if (!$product_id) {
 			return False;
 		}
@@ -178,7 +180,7 @@ class zw_waiting_list {
 			$notice_body .= " is now in stock and can be purchased by following this link\n";
 
 			// now get the url information
-			$url = $sess->url( URL . "index.php?page=shop.product_details&flypage=shop.flypage&product_id=$product_id" );
+			$url = URL . "index.php?page=shop.product_details&flypage=shop.flypage&product_id=$product_id&option=$option&Itemid=".$sess->getShopItemid();
 			$notice_body .= $url;
 			$notice_body .= "\n";
 

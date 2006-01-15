@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: order.order_list.php,v 1.5 2005/11/05 14:11:57 soeren_nb Exp $
+* @version $Id: order.order_list.php,v 1.6 2005/11/14 18:58:14 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -25,17 +25,18 @@ require_once( CLASSPATH . "pageNavigation.class.php" );
 require_once( CLASSPATH . "htmlTools.class.php" );
 
 if (!empty($keyword)) {
-	$list  = "SELECT  order_id,#__{vm}_orders.cdate,#__{vm}_orders.mdate,order_total,";
-	$list .= "order_status FROM #__{vm}_orders, #__users WHERE ";
-	$count = "SELECT  count(*) as num_rows FROM #__{vm}_orders, #__users WHERE ";
-	$q  = "(#__{vm}_orders.order_id LIKE '%$keyword%' ";
-	$q .= "OR #__{vm}_orders.order_status LIKE '%$keyword%' ";
-	$q .= "OR #__users.username LIKE '%$keyword%' ";
-	$q .= ") ";
-	$q .= "AND (#__{vm}_orders.user_id=#__users.id) ";
-	$q .= "AND #__{vm}_orders.vendor_id='".$_SESSION['ps_vendor_id']."' ";
-	$q .= "ORDER BY #__{vm}_orders.cdate DESC ";
-	$list .= $q . " LIMIT $limitstart, " . $limit;
+        $list  = "SELECT  order_id,#__{vm}_orders.cdate,#__{vm}_orders.mdate,order_total,";
+        $list .= "order_status FROM #__{vm}_orders, #__{vm}_user_info WHERE ";
+        $count = "SELECT  count(*) as num_rows FROM #__{vm}_orders, #-_{vm}_user_info WHERE ";
+        $q  = "(#__{vm}_orders.order_id LIKE '%$keyword%' ";
+        $q .= "OR #__{vm}_orders.order_status LIKE '%$keyword%' ";
+        $q .= "OR first_name LIKE '%$keyword%' ";
+        $q .= "OR last_name LIKE '%$keyword%' ";
+        $q .= ") ";
+        $q .= "AND (#__{vm}_orders.user_id=#__{vm}_user_info.user_id) ";
+        $q .= "AND #__{vm}_orders.vendor_id='".$_SESSION['ps_vendor_id']."' ";
+        $q .= "ORDER BY #__{vm}_orders.cdate DESC ";
+        $list .= $q . " LIMIT $limitstart, " . $limit;
 	$count .= $q;   
 }
 else {

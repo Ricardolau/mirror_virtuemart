@@ -33,6 +33,13 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+11-01-2006 soeren
+# Task #433 Blocked message (popup) on registration
+
+20-12-2005 soeren
+^ silently registered users don't have to remember their old usernames now (Task #385 returning hidden/silent users can't use the same email address)
+# order list: searching by user names won't work
+
 15-12-2005 soeren
 # product prices can be zero or empty now. When the product price is left empty in the product form, an existing price will be deleted and no price will be added.
 ^ PayPal payment extra info now subtracts order and coupon discounts from the order subtotal

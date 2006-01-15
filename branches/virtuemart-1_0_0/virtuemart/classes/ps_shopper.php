@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: ps_shopper.php,v 1.12 2005/11/12 08:32:08 soeren_nb Exp $
+* @version $Id: ps_shopper.php,v 1.13 2005/11/16 06:57:51 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -171,7 +171,15 @@ class ps_shopper {
 
 			$_POST['name'] = $d['first_name']." ".$d['last_name'];
 			if( VM_SILENT_REGISTRATION == '1' ) {
-				$_POST['username'] = $d['username'] = substr( str_replace( '-', '_', $d['email'] ), 0, 25 );
+				$silent_username = substr( str_replace( '-', '_', $d['email'] ), 0, 25 );
+				$db->query( 'SELECT username FROM `#__users` WHERE username=\''.$silent_username.'\'');
+				$i = 0;
+				while( $db->next_record()) {
+					$silent_username = substr_replace( $silent_username, $i, strlen($silent_username)-1 );
+					$db->query( 'SELECT username FROM `#__users` WHERE username=\''.$silent_username.'\'');
+					$i++;
+				}
+				$_POST['username'] = $d['username'] = $silent_username;
 				$_POST['password'] = $d['password'] = mosMakePassword();
 				$_POST['password2'] = $_POST['password'];
 			}
@@ -262,11 +270,14 @@ class ps_shopper {
 		$q .= "VALUES ('$uid', '$ps_vendor_id','".$d['shopper_group_id']."', '$customer_nr')";
 		$db->query($q);
 		
-		if( !$my->id ) {
+		if( !$my->id && $mosConfig_useractivation == '0') {
 			$mainframe->login($d['username'], md5( $d['password'] ));
+			mosRedirect( "index.php?option=$option&page=checkout.index" );
+		}
+		else {
+			mosRedirect( "index.php?option=$option&page=shop.index", _REG_COMPLETE_ACTIVATE );
 		}
 		
-		mosRedirect( "index.php?option=$option&page=checkout.index" );
 		return True;
     
 	}

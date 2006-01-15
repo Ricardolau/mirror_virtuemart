@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_shopper_group.php,v 1.5 2005/10/25 19:36:49 soeren_nb Exp $
+* @version $Id: ps_shopper_group.php,v 1.6 2005/11/24 06:25:40 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -275,7 +275,7 @@ class ps_shopper_group {
 			else {
 				$selected = '';
 			}
-			echo "<option value=\"" . $db->f("shopper_group_id")  . "\">";
+			echo "<option value=\"" . $db->f("shopper_group_id")  . "\"$selected>";
 			echo $db->f("shopper_group_name") . '; '.$db->f('vendor_name').' (Vendor ID: '.$db->f('vendor_id').")</option>\n";
 			
 		}

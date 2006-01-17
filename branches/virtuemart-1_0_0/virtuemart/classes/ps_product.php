@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_product.php,v 1.24.2.2 2005/12/07 20:10:10 soeren_nb Exp $
+* @version $Id: ps_product.php,v 1.24.2.3 2005/12/15 20:59:29 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -1901,7 +1901,7 @@ class ps_product extends vmAbstractObject {
 
 				if ($auth["show_price_including_tax"] == 1) {
 					$my_taxrate = $this->get_product_taxrate($product_id);
-					$base_price += ($my_taxrate * $price);
+					$base_price += ($my_taxrate * $base_price);
 				}
 				else {
 					$my_taxrate = 0;

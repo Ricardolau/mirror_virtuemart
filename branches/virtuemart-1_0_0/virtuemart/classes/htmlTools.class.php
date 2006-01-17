@@ -3,7 +3,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 /**
 * This file contains functions and classes for common html tasks
 *
-* @version $Id: htmlTools.class.php,v 1.18 2005/11/12 08:32:07 soeren_nb Exp $
+* @version $Id: htmlTools.class.php,v 1.19.2.1 2005/11/30 20:18:59 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -479,7 +479,7 @@ class vmCommonHTML {
 		if( in_array( 'email', $required_fields)) {
 		
 			echo '
-			if( !(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(form.email.value))) {
+			if( !(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(form.email.value))) {
 				alert( \''. html_entity_decode( _REGWARN_MAIL ).'\');
 				return false;
 			}';

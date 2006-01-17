@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: product.product_form.php,v 1.13 2005/11/18 16:43:50 soeren_nb Exp $
+* @version $Id: product.product_form.php,v 1.14.2.1 2005/12/15 20:59:30 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -26,6 +26,7 @@ if( is_array( $product_id ))
 $product_parent_id = mosGetParam( $_REQUEST, 'product_parent_id');
 $next_page = mosGetParam( $_REQUEST, 'next_page', "product.product_display" );
 $option = empty($option)?mosgetparam( $_REQUEST, 'option', 'com_virtuemart'):$option;
+$clone_product = mosGetParam( $_REQUEST, 'clone_product', "0" );
 
 $dl_checked = "";
 $curr_filename = "";
@@ -49,7 +50,12 @@ if ($product_parent_id) {
 else {
     $product_parent_id = '';
     if ($product_id = @$vars["product_id"]) {
-        $action = $VM_LANG->_PHPSHOP_PRODUCT_FORM_UPDATE_PRODUCT_LBL;
+    	if( $clone_product == '1') {
+    		$action = $VM_LANG->_PHPSHOP_PRODUCT_CLONE;
+    	}
+    	else {
+    		$action = $VM_LANG->_PHPSHOP_PRODUCT_FORM_UPDATE_ITEM_LBL;
+    	}
     } 
     else {
         $action = $VM_LANG->_PHPSHOP_PRODUCT_FORM_NEW_PRODUCT_LBL;
@@ -118,7 +124,6 @@ $shopper_db->next_record();
 $my_shopper_group_id = $shopper_db->f("shopper_group_id");
 
 // For cloning a product, we just need to empty the variable product_id
-$clone_product = mosGetParam( $_REQUEST, 'clone_product', "0" );
 if( $clone_product == "1" ) {
   $product_id = "";
 }

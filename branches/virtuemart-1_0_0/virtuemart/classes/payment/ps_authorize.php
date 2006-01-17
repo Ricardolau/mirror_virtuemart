@@ -4,7 +4,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * The ps_authorize class, containing the payment processing code
 *  for transactions with authorize.net 
 *
-* @version $Id: ps_authorize.php,v 1.7 2005/11/16 19:33:55 soeren_nb Exp $
+* @version $Id: ps_authorize.php,v 1.8 2005/11/18 16:43:50 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage payment
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -454,20 +454,20 @@ class ps_authorize {
         
         global $vendor_mail, $vendor_currency, $VM_LANG, $vmLogger;
         $database = new ps_DB();
-        /*
+        
         $host = "secure.authorize.net";
         $port = 443;
         $path = "/gateway/transact.dll";  
- CERTIFICATION
-Visa Test Account           4007000000027
-Amex Test Account           370000000000002
-Master Card Test Account    6011000000000012
-Discover Test Account       5424000000000015
-*/
-        $host = "certification.authorize.net";
-        $port = 443;
-        $path = "/gateway/transact.dll";
-
+		/* CERTIFICATION
+		Visa Test Account           4007000000027
+		Amex Test Account           370000000000002
+		Master Card Test Account    6011000000000012
+		Discover Test Account       5424000000000015
+		
+		$host = "certification.authorize.net";
+		$port = 443;
+		$path = "/gateway/transact.dll";
+		*/
         if( empty($d['order_number'])) {
             $vmLogger->err("Error: No Order Number provided.");
             return false;

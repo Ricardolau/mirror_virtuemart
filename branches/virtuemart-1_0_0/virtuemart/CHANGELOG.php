@@ -33,8 +33,27 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+16-01-2006 soeren
+
+# Task #443 - Registration not possible with .info domain
+# Task #418 - Can't assign multiple product types to a product
+# Task #417 - Changing status to 'C' for auth net settle del. trans ID!
+# product list not showing all search options
+# Using recent Itemid instead of 1, when the Shop has no own Itemid
+# Task 412 - no tax on attributes
+# Task 413 -  wrong price on details page when using quantity-based prices
++ added Australia Post shipping module by Ben Wilson (ben@diversionware.com.au)
+# mosproductsnapshot Mambot wouldn't correctly display linked images
++ Download ID "hack" by Eugene, scott, joomlasolutions!
+	Customers can get their download IDs for downloading files
+	directly from the order details page (products are linked)
++ showing filesize for files which are listed on the product details page (by djlongy)
+
 11-01-2006 soeren
 # Task #433 Blocked message (popup) on registration
+
+27-12-2005 soeren
+# mod_productscroller not using category ID for filtering products
 
 20-12-2005 soeren
 ^ silently registered users don't have to remember their old usernames now (Task #385 returning hidden/silent users can't use the same email address)

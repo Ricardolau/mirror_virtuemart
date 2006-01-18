@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: shop.product_details.php,v 1.12.2.1 2005/11/28 19:06:53 soeren_nb Exp $
+* @version $Id: shop.product_details.php,v 1.12.2.2 2005/12/04 18:21:44 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -206,7 +206,7 @@ if ($product_parent_id != 0) {
 
   /* Wrap the Image into an URL when applicable */
   if ( $db_product->f("product_url") ) { 
-    $product_image = "<a href=\"". $db_product->f("product_url")."\" title=\"".$product_name."\">";
+    $product_image = "<a href=\"". $db_product->f("product_url")."\" title=\"".$product_name."\" target=\"_blank\">";
     $product_image .= $ps_product->image_tag($full_image, "alt=\"".$product_name."\"", 0);
     $product_image .= "</a>";
   }

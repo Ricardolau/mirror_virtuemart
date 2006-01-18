@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: version.php,v 1.15 2005/11/24 06:25:40 soeren_nb Exp $
+* @version $Id: version.php,v 1.15.2.1 2005/11/28 17:55:22 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -21,22 +21,22 @@ class vmVersion {
 	/** @var string Product */
 	var $PRODUCT = 'VirtueMart';
 	/** @var int Release Number */
-	var $RELEASE = '1.0.1';
+	var $RELEASE = '1.0.2';
 	/** @var string Development Status */
 	var $DEV_STATUS = 'stable';
 	/** @var string Codename */
-	// Billy Boy Arnold was the father of the modern blues harp
-	var $CODENAME = 'Billy Boy Arnold';
+	// Album by Billy Boy Arnold
+	var $CODENAME = 'Eldorado Cadillac';
 	/** @var string Date */
-	var $RELDATE = '28/11/2005';
+	var $RELDATE = '18/01/2006';
 	/** @var string Time */
-	var $RELTIME = '19:25';
+	var $RELTIME = '21:11';
 	/** @var string Timezone */
 	var $RELTZ = 'GMT';
 	/** @var string Copyright Text */
-	var $COPYRIGHT = 'Copyright (C) 2005 Soeren Eberhardt. All rights reserved.'; 
+	var $COPYRIGHT = 'Copyright (C) 2005-2006 Soeren Eberhardt. All rights reserved.'; 
 	/** @var string URL */
-	var $URL = '<a href="http://virtuemart.net">VirtueMart</a> is a Free Component for Mambo released under the GNU/GPL License.';
+	var $URL = '<a href="http://virtuemart.net">VirtueMart</a> is a Free Component for Joomla!/Mambo released under the GNU/GPL License.';
 }
 $VMVERSION =& new vmVersion();
 

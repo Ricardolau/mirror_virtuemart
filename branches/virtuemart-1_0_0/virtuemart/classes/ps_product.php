@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_product.php,v 1.24.2.3 2005/12/15 20:59:29 soeren_nb Exp $
+* @version $Id: ps_product.php,v 1.24.2.4 2006/01/17 19:04:13 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -795,6 +795,10 @@ class ps_product extends vmAbstractObject {
 		$q = "DELETE FROM #__{vm}_product_mf_xref WHERE product_id='$product_id'";
 		$db->setQuery($q); $db->query();
 
+		/* Delete Product - ProductType Relations */
+		$q  = "DELETE FROM `#__{vm}_product_product_type_xref` WHERE `product_id`=$product_id";
+		$db->setQuery($q); $db->query();
+		
 		/* Delete product votes */
 		$q  = "DELETE FROM #__{vm}_product_votes WHERE product_id='$product_id'";
 		$db->setQuery($q); $db->query();

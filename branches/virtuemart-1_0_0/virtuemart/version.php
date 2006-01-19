@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: version.php,v 1.15.2.1 2005/11/28 17:55:22 soeren_nb Exp $
+* @version $Id: version.php,v 1.15.2.2 2006/01/18 20:13:08 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -28,9 +28,9 @@ class vmVersion {
 	// Album by Billy Boy Arnold
 	var $CODENAME = 'Eldorado Cadillac';
 	/** @var string Date */
-	var $RELDATE = '18/01/2006';
+	var $RELDATE = '19/01/2006';
 	/** @var string Time */
-	var $RELTIME = '21:11';
+	var $RELTIME = '21:16';
 	/** @var string Timezone */
 	var $RELTZ = 'GMT';
 	/** @var string Copyright Text */

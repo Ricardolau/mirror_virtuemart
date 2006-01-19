@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: admin.martlanguages.php,v 1.4 2005/10/15 15:26:14 soeren_nb Exp $
+* @version $Id$
 * @package VirtueMart
 * @subpackage languages	\ Hungarian \ Translated by Jozsef Tamas Herczeg, www.soft-trans.hu
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -30,7 +30,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADD = 'Hozzáadás';
 	var $_PHPSHOP_UPDATE = 'Frissítés';
 	var $_PHPSHOP_DELETE = 'Törlés';
-	var $_PHPSHOP_SELECT = '- Válasszon';
+	var $_PHPSHOP_SELECT = '- Válassz';
 	var $_PHPSHOP_SUBMIT = 'Küldés';
 	var $_PHPSHOP_RANDOM = 'Véletlenszerû termék';
 	var $_PHPSHOP_LATEST = 'Legújabb termékek';
@@ -63,23 +63,23 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CART_SUBTOTAL = 'Részösszeg';
 	var $_PHPSHOP_ADD_SHIPTO_1 = 'Hozzáadás: új';
 	var $_PHPSHOP_ADD_SHIPTO_2 = 'Szállítási cím';
-	var $_PHPSHOP_NO_SEARCH_RESULT = 'A keresése nem eredményezett találatot.<br />';
+	var $_PHPSHOP_NO_SEARCH_RESULT = 'A keresésed nem eredményezett találatot.<br />';
 	var $_PHPSHOP_PRICE_LABEL = 'Ár: ';
 	var $_PHPSHOP_ORDER_BUTTON_LABEL = 'Hozzáad a bevásárlókosárhoz';
-	var $_PHPSHOP_NO_CUSTOMER = 'Ön még nem nyilvántartott ügyfél. Kérjük, adja meg számlázási adatait.';
-	var $_PHPSHOP_DELETE_MSG = 'Biztosan törölni akarja ezt a bejegyzést?';
+	var $_PHPSHOP_NO_CUSTOMER = 'Még nem vagy nyilvántartott ügyfél. Kérjük, add meg számlázási adataidat.';
+	var $_PHPSHOP_DELETE_MSG = 'Biztosan törölni akarod ezt a bejegyzést?';
 	var $_PHPSHOP_THANKYOU = 'Köszönjük a megrendelést!';
 	var $_PHPSHOP_NOT_SHIPPED = 'Még nincs leszállítva';
 	var $_PHPSHOP_EMAIL_SENDTO = 'A megerõsítõ e-mailt elküldtük erre címre';
-	var $_PHPSHOP_NO_USER_TO_SELECT = 'Sajnos nincs olyan MOS - felhasználó, akit Ön hozzáadhatna a com_virtuemart felhasználó-listához';
+	var $_PHPSHOP_NO_USER_TO_SELECT = 'Sajnos nincs olyan MOS - felhasználó, akit hozzáadhatnál a com_virtuemart felhasználó-listához';
 	var $_PHPSHOP_ERROR = 'HIBA';
 	var $_PHPSHOP_MOD_NOT_REG = 'A modul nincs regisztrálva.';
 	var $_PHPSHOP_MOD_ISNO_REG = 'nem érvényes phpShop modul.';
-	var $_PHPSHOP_MOD_NO_AUTH = 'Önnek nincs joga a kért modul használatához.';
+	var $_PHPSHOP_MOD_NO_AUTH = 'Nincs jogod a kért modul használatához.';
 	var $_PHPSHOP_PAGE_404_1 = 'Az oldal nem létezik';
 	var $_PHPSHOP_PAGE_404_2 = 'Az adott fájlnév nem létezik. Nem található az alábbi fájl:';
 	var $_PHPSHOP_PAGE_403 = 'Elégtelen hozzáférési jogok';
-	var $_PHPSHOP_FUNC_NO_EXEC = 'Önnek nincs joga végrehajtani ';
+	var $_PHPSHOP_FUNC_NO_EXEC = 'Nincs jogod végrehajtani ';
 	var $_PHPSHOP_FUNC_NOT_REG = 'A funkció nincs regisztrálva';
 	var $_PHPSHOP_FUNC_ISNO_REG = ' nem érvényes MOS_com_phpShop funkció.';
 	var $_PHPSHOP_ADMIN_MOD = 'Admin';
@@ -165,7 +165,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_STATE_LIST_2_CODE = 'Állam/megye kódja (2)';
 	var $_PHPSHOP_ADDRESS = 'Cím';
 	var $_PHPSHOP_CONTINUE = 'Folytatás';
-	var $_PHPSHOP_EMPTY_CART = 'Jelenleg üres a bevásárlókosara.';
+	var $_PHPSHOP_EMPTY_CART = 'Jelenleg üres a bevásárlókosarad.';
 	var $_PHPSHOP_ISSHIPPING_MOD = 'InterShipper';
 	var $_PHPSHOP_ISSHIP_PING_MNU = 'Az InterShipper kiszolgáló pingelése';
 	var $_PHPSHOP_ISSHIP_PING_LBL = 'InterShipper kiszolgáló pingelés ';
@@ -295,12 +295,12 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_FORM_ITEM_DIM_WEIGHT_LBL = 'Tétel méretei és súlya';
 	var $_PHPSHOP_PRODUCT_FORM_ITEM_IMAGES_LBL = 'Tétel képek';
 	var $_PHPSHOP_PRODUCT_FORM_RETURN_LBL = 'Visszatérés a szülõtermékhez';
-	var $_PHPSHOP_PRODUCT_FORM_IMAGE_UPDATE_LBL = 'Írja be az új kép útvonalát a jelenlegi kép frissítéséhez.';
+	var $_PHPSHOP_PRODUCT_FORM_IMAGE_UPDATE_LBL = 'Írd be az új kép útvonalát a jelenlegi kép frissítéséhez.';
 	var $_PHPSHOP_PRODUCT_FORM_IMAGE_DELETE_LBL = 'A jelenlegi kép törlése.';
 	var $_PHPSHOP_PRODUCT_FORM_PRODUCT_ITEMS_LBL = 'Termék tételek';
 	var $_PHPSHOP_PRODUCT_FORM_ITEM_ATTRIBUTES_LBL = 'Tétel attribútumok';
-	var $_PHPSHOP_PRODUCT_FORM_DELETE_PRODUCT_MSG = 'Biztosan törölni akarja ezt a terméket,\\n és a hozzá kapcsolódó tételeket?';
-	var $_PHPSHOP_PRODUCT_FORM_DELETE_ITEM_MSG = 'Biztosan törölni akarja ezt a tételt?';
+	var $_PHPSHOP_PRODUCT_FORM_DELETE_PRODUCT_MSG = 'Biztosan törölni akarod ezt a terméket,\\n és a hozzá kapcsolódó tételeket?';
+	var $_PHPSHOP_PRODUCT_FORM_DELETE_ITEM_MSG = 'Biztosan törölni akarod ezt a tételt?';
 	var $_PHPSHOP_PRODUCT_FORM_VENDOR = 'Eladó';
 	var $_PHPSHOP_PRODUCT_FORM_MANUFACTURER = 'Gyártó';
 	var $_PHPSHOP_PRODUCT_FORM_SKU = 'Cikksz.';
@@ -508,7 +508,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_TAX_FORM_LBL = 'Adózási adatok hozzáadása';
 	var $_PHPSHOP_TAX_FORM_STATE = 'Adózási állam vagy terület';
 	var $_PHPSHOP_TAX_FORM_COUNTRY = 'Adózási ország';
-	var $_PHPSHOP_TAX_FORM_RATE = 'Adókulcs (16% esetén => 0.16-ot írjon be)';
+	var $_PHPSHOP_TAX_FORM_RATE = 'Adókulcs (16% esetén => 0.16-ot írj be)';
 	var $_PHPSHOP_VENDOR_MOD = 'Eladók';
 	var $_PHPSHOP_VENDOR_ADMIN = 'Eladók';
 	var $_PHPSHOP_VENDOR_LIST_MNU = 'Eladók listázása';
@@ -615,7 +615,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ZONE_ASSIGN_MNU = 'Hozzárendelés zónákhoz';
 	var $_PHPSHOP_ZONE_ASSIGN_COUNTRY_LBL = 'Ország';
 	var $_PHPSHOP_ZONE_ASSIGN_CURRENT_LBL = 'Jelenlegi zóna';
-	var $_PHPSHOP_ZONE_ASSIGN_ASSIGN_LBL = 'Rendelje hozzá egy zónához';
+	var $_PHPSHOP_ZONE_ASSIGN_ASSIGN_LBL = 'Rendeld hozzá egy zónához';
 	var $_PHPSHOP_ZONE_ASSIGN_UPDATE_LBL = 'Frissít';
 	var $_PHPSHOP_ASSIGN_ZONE_PG_LBL = 'Hozzárendelés zónákhoz';
 	var $_PHPSHOP_ZONE_FORM_NAME_LBL = 'Zóna név';
@@ -627,22 +627,22 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ZONE_LIST_DESC_LBL = 'Zóna leírás';
 	var $_PHPSHOP_ZONE_LIST_COST_PER_LBL = 'Zóna költség tételenként';
 	var $_PHPSHOP_ZONE_LIST_COST_LIMIT_LBL = 'Zóna költséghatár';
-	var $_PHPSHOP_LOGIN_FIRST = 'Kérjük, jelentkezzen be vagy regisztrálja magát (használja a bejelentkezési modult!).<br>Köszönjük.';
+	var $_PHPSHOP_LOGIN_FIRST = 'Kérjük, jelentkezz be vagy regisztrálj (használd a bejelentkezési modult!).<br>Köszönjük.';
 	var $_PHPSHOP_STORE_FORM_TOS = 'Használati feltételek';
-	var $_PHPSHOP_AGREE_TO_TOS = 'Kérjük, fogadja el a használati feltételeinket!';
+	var $_PHPSHOP_AGREE_TO_TOS = 'Kérjük, fogadd el a használati feltételeinket!';
 	var $_PHPSHOP_I_AGREE_TO_TOS = 'Elfogadom a használati feltételeket.';
-	var $_PHPSHOP_LEAVE_BLANK = '(hagyja üresen, ha nincs <br />hozzá egyéni php-fájl!)';
-	var $_PHPSHOP_RETURN_LOGIN = 'Visszatérõ vásárlók: Kérjük, jelentkezzen be';
-	var $_PHPSHOP_NEW_CUSTOMER = 'Új? Kérjük, adja meg a számlázási adatait';
+	var $_PHPSHOP_LEAVE_BLANK = '(hagyd üresen, ha nincs <br />hozzá egyéni php-fájl!)';
+	var $_PHPSHOP_RETURN_LOGIN = 'Visszatérõ vásárlók: Kérjük, jelentkezz be';
+	var $_PHPSHOP_NEW_CUSTOMER = 'Új? Kérjük, add meg a számlázási adataidat';
 	var $_PHPSHOP_ACC_CUSTOMER_ACCOUNT = 'Vásárlói fiók:';
 	var $_PHPSHOP_ACC_ORDER_INFO = 'Rendelési adatok';
-	var $_PHPSHOP_ACC_UPD_BILL = 'Itt módosíthatja a számlázási címét.';
-	var $_PHPSHOP_ACC_UPD_SHIP = 'Itt adhatja hozzá/tarthatja karban a szállítási címeket.';
+	var $_PHPSHOP_ACC_UPD_BILL = 'Itt módosíthatod a számlázási címedet.';
+	var $_PHPSHOP_ACC_UPD_SHIP = 'Itt adhatod hozzá/tarthatod karban a szállítási címeket.';
 	var $_PHPSHOP_ACC_ACCOUNT_INFO = 'Fiók adatai';
 	var $_PHPSHOP_ACC_SHIP_INFO = 'Szállítási cím';
 	var $_PHPSHOP_ACC_NO_ORDERS = 'Nincs megjeleníthetõ megrendelés';
 	var $_PHPSHOP_ACC_BILL_DEF = '- Alapértelmezett (azonos a számlázási címmel)';
-	var $_PHPSHOP_SHIPTO_TEXT = 'Itt adhatja hozzá a rendeltetési helyeket az Ön fiókjához. Kérjük, találjon ki az alább megadandó rendeltetési hely számára alkalmas becenevet vagy kódot.';
+	var $_PHPSHOP_SHIPTO_TEXT = 'Itt adhatod hozzá a rendeltetési helyeket a fiókodhoz. Kérjük, találj ki az alább megadandó rendeltetési hely számára alkalmas becenevet vagy kódot.';
 	var $_PHPSHOP_CONFIG = 'Beállítások';
 	var $_PHPSHOP_USERS = 'Felhasználók';
 	var $_PHPSHOP_IS_CC_PAYMENT = 'Hitelkártyás fizetés?';
@@ -677,10 +677,10 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CARRIER_FORM_NAME = 'Szállítócég';
 	var $_PHPSHOP_CARRIER_FORM_LIST_ORDER = 'Listázási sorrend';
 	var $_PHPSHOP_ERR_MSG_CARRIER_EXIST = 'HIBA: Szállító ID már létezik.';
-	var $_PHPSHOP_ERR_MSG_CARRIER_ID_REQ = 'HIBA: Válasszon egy szállítót.';
-	var $_PHPSHOP_ERR_MSG_CARRIER_INUSE = 'HIBA: Legalább egy szállítási díjtétel létezik, elõbb törölje le ezeket, és csak utána a szállítót';
+	var $_PHPSHOP_ERR_MSG_CARRIER_ID_REQ = 'HIBA: Válassz egy szállítót.';
+	var $_PHPSHOP_ERR_MSG_CARRIER_INUSE = 'HIBA: Legalább egy szállítási díjtétel létezik, elõbb töröld le ezeket, és csak utána a szállítót';
 	var $_PHPSHOP_ERR_MSG_CARRIER_NOTFOUND = 'HIBA: Nem találom a szállítót ezzel az ID -vel.';
-	var $_PHPSHOP_ERR_MSG_RATE_CARRIER_ID_REQ = 'HIBA: Válasszon egy szállítót.';
+	var $_PHPSHOP_ERR_MSG_RATE_CARRIER_ID_REQ = 'HIBA: Válassz egy szállítót.';
 	var $_PHPSHOP_ERR_MSG_RATE_CARRIER_ID_INV = 'HIBA: Nem találom a szállítót ezzel az ID -vel.';
 	var $_PHPSHOP_ERR_MSG_RATE_NAME_REQ = 'HIBA: A díjtétel leírását meg kell adni.';
 	var $_PHPSHOP_ERR_MSG_RATE_COUNTRY_CODE_INV = 'HIBA: A célország érvénytelen. Több ország megadható az alábbi elválasztó használatával  ";".';
@@ -688,47 +688,47 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ERR_MSG_RATE_WEIGHT_END_REQ = 'HIBA: Meg kell adni a legnagyobb súlyt';
 	var $_PHPSHOP_ERR_MSG_RATE_WEIGHT_STARTEND_INV = 'HIBA: A legkisebb súly kisebb kell legyen, mint a legnagyobb súly';
 	var $_PHPSHOP_ERR_MSG_RATE_WEIGHT_VALUE_REQ = 'HIBA: Meg kell adni a szállítási költséget';
-	var $_PHPSHOP_ERR_MSG_RATE_CURRENCY_ID_INV = 'HIBA: Válasszon egy pénznemet';
+	var $_PHPSHOP_ERR_MSG_RATE_CURRENCY_ID_INV = 'HIBA: Válassz egy pénznemet';
 	var $_PHPSHOP_ERR_MSG_RATE_ID_REQ = 'HIBA: Meg kell adni a szállítási díjtételt';
-	var $_PHPSHOP_INFO_MSG_PLEASE_SELECT = 'Kérjük, válasszon';
+	var $_PHPSHOP_INFO_MSG_PLEASE_SELECT = 'Kérjük, válassz';
 	var $_PHPSHOP_INFO_MSG_CARRIER = 'Szállító';
 	var $_PHPSHOP_INFO_MSG_SHIPPING_METHOD = 'Szállítási költség';
 	var $_PHPSHOP_INFO_MSG_SHIPPING_PRICE = 'Ár';
 	var $_PHPSHOP_INFO_MSG_VAT_ZERO_LBL = '0 (-nincs-)';
 	var $_PHPSHOP_PAYMENT_FORM_CC = 'Hitelkártya';
-	var $_PHPSHOP_PAYMENT_FORM_USE_PP = 'Használja a Payment Processort';
+	var $_PHPSHOP_PAYMENT_FORM_USE_PP = 'Használd a Payment Processort';
 	var $_PHPSHOP_PAYMENT_FORM_BANK_DEBIT = 'Banki terhelés';
 	var $_PHPSHOP_PAYMENT_FORM_AO = 'Csak cím, átvételkor fizetendõ (postai utánvét)';
-	var $_PHPSHOP_CHECKOUT_MSG_2 = 'Kérjük, válasszon egy szállítási címet!';
-	var $_PHPSHOP_CHECKOUT_MSG_3 = 'Kérjük, válassza ki a szállítási módot!';
-	var $_PHPSHOP_CHECKOUT_MSG_4 = 'Kérjük, válassza ki a fizetési módot!';
-	var $_PHPSHOP_CHECKOUT_MSG_99 = 'Kérjük, tekintse át a megadott adatokat, és hagyja jóvá a rendelést!';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_SHIP = 'Kérjük, válassza ki a szállítási módot.';
-	var $_PHPSHOP_CHECKOUT_ERR_OTHER_SHIP = 'Kérjük, válasszon másik szállítási módot.';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_PAYM = 'Kérjük, válassza ki a fizetési módot.';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_CCNR = 'Kérjük, adja meg a hitelkártyaszámát.';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_CCNAME = 'Kérjük, adja meg a hitelkártyán szereplõ nevet.';
+	var $_PHPSHOP_CHECKOUT_MSG_2 = 'Kérjük, válassz egy szállítási címet!';
+	var $_PHPSHOP_CHECKOUT_MSG_3 = 'Kérjük, válaszd ki a szállítási módot!';
+	var $_PHPSHOP_CHECKOUT_MSG_4 = 'Kérjük, válaszd ki a fizetési módot!';
+	var $_PHPSHOP_CHECKOUT_MSG_99 = 'Kérjük, tekintsd át a megadott adatokat, és hagyd jóvá a rendelést!';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_SHIP = 'Kérjük, válaszd ki a szállítási módot.';
+	var $_PHPSHOP_CHECKOUT_ERR_OTHER_SHIP = 'Kérjük, válassz másik szállítási módot.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_PAYM = 'Kérjük, válaszd ki a fizetési módot.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_CCNR = 'Kérjük, add meg a hitelkártyaszámodat.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_CCNAME = 'Kérjük, add meg a hitelkártyán szereplõ nevet.';
 	var $_PHPSHOP_CHECKOUT_ERR_NO_CCDATE = 'A megadott hitelkártya szám nem érvényes.';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_CCMON = 'Kérjük, adja meg a hitelkártya lejárati hónapját.';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_CCYEAR = 'Kérjük, adja meg a  hitelkártya lejárati évét.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_CCMON = 'Kérjük, add meg a hitelkártya lejárati hónapját.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_CCYEAR = 'Kérjük, add meg a  hitelkártya lejárati évét.';
 	var $_PHPSHOP_CHECKOUT_ERR_CCDATE_INV = 'A lejárati dátum nem érvényes.';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_SHIPTO = 'Kérjük, válasszon szállítási címet.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_SHIPTO = 'Kérjük, válassz szállítási címet.';
 	var $_PHPSHOP_CHECKOUT_ERR_CCNUM_INV = 'Érvénytelen számlaszám.';
-	var $_PHPSHOP_CHECKOUT_ERR_EMPTY_CART = 'A bevásárlókosara üres!';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_CARR = 'HIBA: Kérjük, válasszon egy szállítót!';
+	var $_PHPSHOP_CHECKOUT_ERR_EMPTY_CART = 'A bevásárlókosarad üres!';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_CARR = 'HIBA: Kérjük, válassz egy szállítót!';
 	var $_PHPSHOP_CHECKOUT_ERR_RATE_NOT_FOUND = 'HIBA: A kiválasztott szállítási díjtételt nem találom!';
-	var $_PHPSHOP_CHECKOUT_ERR_SHIPTO_NOT_FOUND = 'HIBA: Nem található az Ön szállítási címe!';
+	var $_PHPSHOP_CHECKOUT_ERR_SHIPTO_NOT_FOUND = 'HIBA: Nem található a szállítási címed!';
 	var $_PHPSHOP_CHECKOUT_ERR_NO_CCDATA = 'HIBA: Itt nem található semmilyen hitelkártya adat...';
 	var $_PHPSHOP_CHECKOUT_ERR_NO_CCNR_FOUND = 'HIBA: Nem található a hitelkártyaszám!';
-	var $_PHPSHOP_CHECKOUT_ERR_TEST = 'Sajnos az Ön által megadott hitelkártyaszám egy tesztelési szám!';
+	var $_PHPSHOP_CHECKOUT_ERR_TEST = 'Sajnos az általad megadott hitelkártyaszám egy tesztelési szám!';
 	var $_PHPSHOP_CHECKOUT_ERR_NO_USER_DATA = 'Nem található a user_id az adatbázisban!';
 	var $_PHPSHOP_CHECKOUT_ERR_NO_BA_HOLDER_NAME = 'Még nem adtad meg a számlavezetõ bankfiók nevét.';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_IBAN = 'Nem adta meg az IBAN azonosítóját.';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_BA_NUM = 'Nem adta meg a bankszámla számát.';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_BANK_SORT = 'Nem adta meg a bank sorszámát/azonosítóját.';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_BANK_NAME = 'Nem adta meg a bank nevét.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_IBAN = 'Nem adtad meg az IBAN azonosítódat.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_BA_NUM = 'Nem adtad meg a bankszámlád számát.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_BANK_SORT = 'Nem adtad meg a bank sorszámát/azonosítóját.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_BANK_NAME = 'Nem adtad meg a bankod nevét.';
 	var $_PHPSHOP_CHECKOUT_ERR_NO_VALID_STEP = 'A vásárláshoz meg kell tenni az összes kért lépést!';
-	var $_PHPSHOP_CHECKOUT_MSG_LOG = 'A fizetési információit elmentettük késõbbi feldolgozás céljából.<br />';
+	var $_PHPSHOP_CHECKOUT_MSG_LOG = 'A fizetési információidat elmentettük késõbbi feldolgozás céljából.<br />';
 	var $_PHPSHOP_CHECKOUT_ERR_MIN_POV = 'A minimális vásárlási megbízás értékét még nem érte el.';
 	var $_PHPSHOP_CHECKOUT_ERR_MIN_POV2 = 'A minimális vásárlási megbízás értéke:';
 	var $_PHPSHOP_CHECKOUT_PAYMENT_CC = 'Hitelkártyás fizetés';
@@ -744,42 +744,42 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_MODULES = 'Modulok';
 	var $_PHPSHOP_FUNCTIONS = 'Funkciók';
 	var $_PHPSHOP_SPECIAL_PRODUCTS = 'Speciális termékek';
-	var $_PHPSHOP_CHECKOUT_CUSTOMER_NOTE = 'Kérjük, ha óhajtja, hagyjon üzenetet a rendelése mellett';
+	var $_PHPSHOP_CHECKOUT_CUSTOMER_NOTE = 'Kérjük, ha óhajtod, hagyj üzenetet a rendelésed mellett';
 	var $_PHPSHOP_ORDER_PRINT_CUSTOMER_NOTE = 'Vásárlói közlemény';
 	var $_PHPSHOP_INCLUDING_TAX = '($tax % áfával)';
-	var $_PHPSHOP_PLEASE_SEL_ITEM = 'Kérjük, válasszon egy tételt';
+	var $_PHPSHOP_PLEASE_SEL_ITEM = 'Kérjük, válassz egy tételt';
 	var $_PHPSHOP_PRODUCT_FORM_ITEM_LBL = 'Tétel';
 	var $_PHPSHOP_DOWNLOADS_TITLE = 'Letöltési részleg';
 	var $_PHPSHOP_DOWNLOADS_START = 'Letöltés megkezdése';
-	var $_PHPSHOP_DOWNLOADS_INFO = 'Kérjük, adja meg az e-mailban kapott Download-ID-t és kattintson  a Letöltés megkezdése gombra.';
+	var $_PHPSHOP_DOWNLOADS_INFO = 'Kérjük, add meg az e-mailban kapott Download-ID-t és kattints a Letöltés megkezdése gombra.';
 	var $_PHPSHOP_DOWNLOADS_ERR_EXP = 'Sajnos lejárt a letöltésre rendelkezésre álló idõ!';
-	var $_PHPSHOP_DOWNLOADS_ERR_MAX = 'Sajnos elérte a maximális letöltés-számot!';
-	var $_PHPSHOP_DOWNLOADS_ERR_INV = 'Érvénytelen  Download-ID!';
+	var $_PHPSHOP_DOWNLOADS_ERR_MAX = 'Sajnos elérted a maximális letöltés-számot!';
+	var $_PHPSHOP_DOWNLOADS_ERR_INV = 'Érvénytelen Download-ID!';
 	var $_PHPSHOP_DOWNLOADS_ERR_SEND = 'Nem küldhetõ el az üzenet az alábbi címre: ';
 	var $_PHPSHOP_DOWNLOADS_SEND_MSG = 'Az üzenet elküldve az alábbi címre: ';
 	var $_PHPSHOP_DOWNLOADS_SEND_SUBJ = 'Letöltési infók';
 	var $_PHPSHOP_DOWNLOADS_SEND_MSG_1 = 'a megrendelt fájl(ok) letölthetõk';
-	var $_PHPSHOP_DOWNLOADS_SEND_MSG_2 = 'Kérjük, adja meg az alábbi  Download-ID-t a Letöltési részlegen:  ';
+	var $_PHPSHOP_DOWNLOADS_SEND_MSG_2 = 'Kérjük, add meg az alábbi Download-ID-t a Letöltési részlegen:  ';
 	var $_PHPSHOP_DOWNLOADS_SEND_MSG_3 = 'fájlonként a maximális letöltési szám: ';
-	var $_PHPSHOP_DOWNLOADS_SEND_MSG_4 = 'Töltse le legfeljebb {expire} nap alatt az elsõ letöltéstõl számítva';
+	var $_PHPSHOP_DOWNLOADS_SEND_MSG_4 = 'Töltsd le legfeljebb {expire} nap alatt az elsõ letöltéstõl számítva';
 	var $_PHPSHOP_DOWNLOADS_SEND_MSG_5 = 'Kérdések? Problémák?';
 	var $_PHPSHOP_DOWNLOADS_SEND_MSG_6 = 'Letöltési infó által ';
 	var $_PHPSHOP_PRODUCT_FORM_DOWNLOADABLE = 'letölthetõ termék?';
 	var $_PHPSHOP_PAYPAL_THANKYOU = 'Köszönjük a kifizetést. 
-        A tranzakció sikeres volt. A PayPal e-mailben fogja értesíteni a tranzakció részleteirõl. 
-        Most folytathatja, vagy bejelentkezhet a <a href=http://www.paypal.com>www.paypal.com</a> -ra, ahol megtekintheti a tranzakció részleteit.';
-	var $_PHPSHOP_PAYPAL_ERROR = 'A tranzakció feldolgozása közben hiba történt. A megrendelése állapotát nem lehet frissíteni.';
-	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER1 = 'Köszönjük, hogy nálunk vásárolt. Az Ön rendelési adatai következnek.';
-	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER2 = 'Köszönjük a támogatását.';
+        A tranzakció sikeres volt. A PayPal e-mailben fog értesíteni a tranzakció részleteirõl. 
+        Most folytathatod, vagy bejelentkezhetsz a <a href=http://www.paypal.com>www.paypal.com</a> -ra, ahol megtekintheti a tranzakció részleteit.';
+	var $_PHPSHOP_PAYPAL_ERROR = 'A tranzakció feldolgozása közben hiba történt. A megrendelésed állapotát nem lehet frissíteni.';
+	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER1 = 'Köszönjük, hogy nálunk vásároltál. A rendelési adataid következnek.';
+	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER2 = 'Köszönjük a támogatásodat.';
 	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER3 = 'Kérdések? Problémák?';
-	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER4 = 'A következõ rendelést küldte be:';
-	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER5 = 'Tekintse meg a rendelését a következõ hivatkozásra kattintva:';
+	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER4 = 'A következõ rendelést küldted be:';
+	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER5 = 'Tekintsd meg a rendelésedet a következõ hivatkozásra kattintva:';
 	var $_PHPSHOP_CART_ERROR_NO_NEGATIVE = 'Negatív mennyiség nem megengedett.';
-	var $_PHPSHOP_CART_ERROR_NO_VALID_QUANTITY = 'Kérjük, válasszon ki egy lehetséges mennyiséget ebbõl a  tételbõl.';
+	var $_PHPSHOP_CART_ERROR_NO_VALID_QUANTITY = 'Kérjük, válassz ki egy lehetséges mennyiséget ebbõl a  tételbõl.';
 	var $_PHPSHOP_CART_STOCK_1 = 'A kiválasztott mennyiség túllépi a készletet. ';
 	var $_PHPSHOP_CART_STOCK_2 = 'Pillanatnyilag $product_in_stock tétel kapható. ';
-	var $_PHPSHOP_CART_STOCK_3 = 'Kattintson ide az elõjegyzésbe vételhez.';
-	var $_PHPSHOP_CART_SELECT_ITEM = 'Kérjük, hogy válasszon a speciális tételekbõl a részletes leíró oldalon!';
+	var $_PHPSHOP_CART_STOCK_3 = 'Kattints ide az elõjegyzésbe vételhez.';
+	var $_PHPSHOP_CART_SELECT_ITEM = 'Kérjük, hogy válassz a speciális tételekbõl a részletes leíró oldalon!';
 	var $_PHPSHOP_REGISTRATION_FORM_NONE = 'nincs';
 	var $_PHPSHOP_REGISTRATION_FORM_MR = 'Úr';
 	var $_PHPSHOP_REGISTRATION_FORM_MRS = 'Asszony';
@@ -797,7 +797,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_AFFILIATE_LIST_ORDERS = 'Rendelések listázása';
 	var $_PHPSHOP_AFFILIATE_EMAIL_MNU = 'E-mail küldése a partnereknek';
 	var $_PHPSHOP_AFFILIATE_EMAIL_LBL = 'E-mail küldése a partnereknek';
-	var $_PHPSHOP_AFFILIATE_EMAIL_WHO = 'Kinek küld e-mailt (* = MIND)?';
+	var $_PHPSHOP_AFFILIATE_EMAIL_WHO = 'Kinek küldesz e-mailt (* = MIND)?';
 	var $_PHPSHOP_AFFILIATE_EMAIL_CONTENT = 'E-mail címe';
 	var $_PHPSHOP_AFFILIATE_EMAIL_SUBJECT = 'Tárgy';
 	var $_PHPSHOP_AFFILIATE_EMAIL_STATS = 'Tartalmazza a jelenlegi statisztikát is';
@@ -817,13 +817,13 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_STATISTIC_SUM = 'Összes';
 	var $_PHPSHOP_STATISTIC_NEW_ORDERS = 'Új rendelések';
 	var $_PHPSHOP_STATISTIC_NEW_CUSTOMERS = 'Új vásárlók';
-	var $_PHPSHOP_WAITING_LIST_MESSAGE = 'Kérjük, adja meg alább az e-mail címét, hogy értesíteni tudjuk, amint kapható lesz a keresett termék. 
-                                         Az e-mail címét nem adjuk ki, nem adjuk el, nem használjuk fel más célra, mint kizárólag arra, hogy értesítsük önt,
+	var $_PHPSHOP_WAITING_LIST_MESSAGE = 'Kérjük, add meg alább az e-mail címedet, hogy értesíteni tudjunk, amint kapható lesz a keresett termék. 
+                                         Az e-mail címedet nem adjuk ki, nem adjuk el, nem használjuk fel más célra, mint kizárólag arra, hogy értesítsünk,
                                          amint a keresett termék ismét kapható lesz.<br /><br />Köszönjük!';
-	var $_PHPSHOP_WAITING_LIST_THANKS = 'Köszönjük a türelmét! <br />Azonnal értesítjük, ha a termék ismét kapható lesz.';
+	var $_PHPSHOP_WAITING_LIST_THANKS = 'Köszönjük a türelmedet! <br />Azonnal értesítünk, ha a termék ismét kapható lesz.';
 	var $_PHPSHOP_WAITING_LIST_NOTIFY_ME = 'Értesíts!';
 	var $_PHPSHOP_CHECK_OUT_THANK_YOU_PRINT_VIEW = 'Nyomtatási nézet';
-	var $_PHPSHOP_ADMIN_CFG_AUTORIZE_OR_CYBERCASH = 'Kérjük, válasszon VAGY az Authorize.net VAGY a CyberCash közül';
+	var $_PHPSHOP_ADMIN_CFG_AUTORIZE_OR_CYBERCASH = 'Kérjük, válassz VAGY az Authorize.net VAGY a CyberCash közül';
 	var $_PHPSHOP_ADMIN_CFG_FILE_STATUS = ' Konfigurációs fájl állapota:';
 	var $_PHPSHOP_ADMIN_CFG_FILE_STATUS_WRITEABLE = 'írható';
 	var $_PHPSHOP_ADMIN_CFG_FILE_STATUS_UNWRITEABLE = 'írásvédett';
@@ -835,11 +835,11 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOADABLEGOODS = 'Letöltések';
 	var $_PHPSHOP_ADMIN_CFG_PAYEMENTOPTIONS = 'Fizetések';
 	var $_PHPSHOP_ADMIN_CFG_USE_ONLY_AS_CATALOGUE = 'Használat csak katalógusként';
-	var $_PHPSHOP_ADMIN_CFG_USE_ONLY_AS_CATALOGUE_EXPLAIN = 'Ha bejelöli, akkor minden bevásárlókosár funkció letiltásra kerül.';
+	var $_PHPSHOP_ADMIN_CFG_USE_ONLY_AS_CATALOGUE_EXPLAIN = 'Ha bejelölöd, akkor minden bevásárlókosár funkció letiltásra kerül.';
 	var $_PHPSHOP_ADMIN_CFG_SHOW_PRICES = 'Árak megjelenítése';
 	var $_PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX = 'Adóval együtt mutassa az árakat?';
-	var $_PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX_EXPLAIN = 'Állítsa be, hogy a vásárló az árakat adóval együtt vagy adó nélkül lássa.';
-	var $_PHPSHOP_ADMIN_CFG_SHOW_PRICES_EXPLAIN = 'Jelölje be az árak megjelenítéséhez. Katalógusként történõ használat esetén egyesek nem szeretik, hogy láthatók legyenek az árak az oldalakon.';
+	var $_PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX_EXPLAIN = 'Állítsd be, hogy a vásárló az árakat adóval együtt vagy adó nélkül lássa.';
+	var $_PHPSHOP_ADMIN_CFG_SHOW_PRICES_EXPLAIN = 'Jelöld be az árak megjelenítéséhez. Katalógusként történõ használat esetén egyesek nem szeretik, hogy láthatók legyenek az árak az oldalakon.';
 	var $_PHPSHOP_ADMIN_CFG_VIRTUAL_TAX = 'Virtuális adó';
 	var $_PHPSHOP_ADMIN_CFG_VIRTUAL_TAX_EXPLAIN = 'Ez adja meg, hogy a 0 súlyúként szereplõ tételekre számítson-e szállítási költséget vagy nem. Módosítsa a  ps_checkout.php->calc_order_taxable()-t, hogy személyre szabja ezt.';
 	var $_PHPSHOP_ADMIN_CFG_TAX_MODE = 'Adózási mód:';
@@ -848,33 +848,33 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_EXPLAIN = 'Ez adja meg, hogy melyik adókulcs lesz figyelembe véve az adószámításnál:<br />
                                                 <ul><li>az üzlettulajdonos székhelye szerint érvényes állami/területi adókulcs</li><br/>
                                                 <li>vagy a vásárló otthona szerint érvényes állami/területi adókulcs.</li></ul>';
-	var $_PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE = 'Megengedi több adókulcs használatát?';
-	var $_PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE_EXPLAIN = 'Jelölje be, ha önnek olyan termékei is vannak, amelyekhez különbözõ adókulcsok tartoznak (pl. 9% a könyvek, 19% az egyéb termékek számára)';
+	var $_PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE = 'Megengeded több adókulcs használatát?';
+	var $_PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE_EXPLAIN = 'Jelöld be, ha olyan termékeid is vannak, amelyekhez különbözõ adókulcsok tartoznak (pl. 9% a könyvek, 19% az egyéb termékek számára)';
 	var $_PHPSHOP_ADMIN_CFG_SUBSTRACT_PAYEMENT_BEFORE = 'A kifizetési kedvezményeket vegye-e figyelembe az adók és a szállítási illetékek kiszámítása elõtt?';
 	var $_PHPSHOP_ADMIN_CFG_REVIEW = 'A Vásárlói vélemények/Értékelési rendszer engedélyezése';
 	var $_PHPSHOP_ADMIN_CFG_REVIEW_EXPLAIN = 'Ha engedélyezett, akkor a vásárlók <strong>értékelhetik a termékeket</strong>, és <strong>megírhatják a véleményüket</strong> róluk. <br />
                                                                                 Így a vásárlók leírhatják a tapasztalataikat a termékekkel kapcsolatban más vásárlók számára.<br />';
 	var $_PHPSHOP_ADMIN_CFG_SUBSTRACT_PAYEMENT_BEFORE_EXPLAIN = 'Beállítja a jelzõt, hogy le kell-e vonni az árengedményt a kiválasztott fizetéshez az adózás és a szállítás ELÕTT (bejelölt) vagy UTÁN.';
 	var $_PHPSHOP_ADMIN_CFG_ACCOUNT_CAN_BE_BLANK = 'Megadhatják a vásárlók a bankszámla adataikat?';
-	var $_PHPSHOP_ADMIN_CFG_ACCOUNT_CAN_BE_BLANK_EXPLAIN = 'Jelölje be, ha a vásárlók megadhatják a bankszámla adataikat a regisztrálási folyamat alatt.';
+	var $_PHPSHOP_ADMIN_CFG_ACCOUNT_CAN_BE_BLANK_EXPLAIN = 'Jelöld be, ha a vásárlók megadhatják a bankszámla adataikat a regisztrálási folyamat alatt.';
 	var $_PHPSHOP_ADMIN_CFG_CAN_SELECT_STATE = 'Kiválaszthatnak a vásárlók egy államot/területet/megyét?';
-	var $_PHPSHOP_ADMIN_CFG_CAN_SELECT_STATE_EXPLAIN = 'Jelölje be, ha a vásárlók megadhatják az üzletbe történõ regisztráláskor az állam/terület/megye azonosító adataikat.';
+	var $_PHPSHOP_ADMIN_CFG_CAN_SELECT_STATE_EXPLAIN = 'Jelöld be, ha a vásárlók megadhatják az üzletbe történõ regisztráláskor az állam/terület/megye azonosító adataikat.';
 	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS = 'El kell fogadni a Használati feltételeket?';
-	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS_EXPLAIN = 'Jelölje be, ha azt akarja, hogy a vásárlóknak kötelezõ módon el kell fogadniuk a használatii feltételeket a regisztrálás elõtt.';
+	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS_EXPLAIN = 'Jelöld be, ha azt akarod, hogy a vásárlóknak kötelezõ módon el kell fogadniuk a használatii feltételeket a regisztrálás elõtt.';
 	var $_PHPSHOP_ADMIN_CFG_CHECK_STOCK = 'Ellenõrzi a raktárat?';
 	var $_PHPSHOP_ADMIN_CFG_CHECK_STOCK_EXPLAIN = 'Megadja, hogy kell-e ellenõrizni a raktáron lévõ termékek számát, amikor a vásárló beteszi a terméket a bevásárlókosárba. 
                                                                                        Ha be van állítva, akkor nem engedi meg a vásárlónak, hogy egy termékbõl több darabot tegyen a bevásárló-kosarába, mint ahány ténylegesen raktáron van.';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE = 'Engedélyezi a partnerprogramot?';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE_EXPLAIN = 'Ez engedélyezi a partnerek követését az üzlet felhasználói oldalán. Engedélyezze, ha az adminisztrátori panelben már adott hozzá partnercégeket.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE = 'Engedélyezed a partnerprogramot?';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE_EXPLAIN = 'Ez engedélyezi a partnerek követését az üzlet felhasználói oldalán. Engedélyezd, ha az adminisztrátori panelben már adtál hozzá partnercégeket.';
 	var $_PHPSHOP_ADMIN_CFG_MAIL_FORMAT = 'Megrendelõ-levél formátuma:';
 	var $_PHPSHOP_ADMIN_CFG_MAIL_FORMAT_TEXT = 'Szöveges e-mail';
 	var $_PHPSHOP_ADMIN_CFG_MAIL_FORMAT_HTML = 'HTML e-mail';
 	var $_PHPSHOP_ADMIN_CFG_MAIL_FORMAT_EXPLAIN = 'Ez határozza meg a rendelést visszaigazoló e-mailek beállítását:<br />
                                                                                         <ul><li>egyszerû szöveges e-mailként</li>
                                                                                         <li>képekkel illusztrált HTML e-mailként.</li></ul>';
-	var $_PHPSHOP_ADMIN_CFG_FRONTENDAMDIN = 'Engedélyezi a nem kiszolgáló-oldali felhasználók számára a látogatói oldalról történõ adminisztrációt?';
-	var $_PHPSHOP_ADMIN_CFG_FRONTENDAMDIN_EXPLAIN = 'Ezzel a beállítással engedélyezheti a honlapról történõ adminisztrációt azon felhasználók számára, 
-                                                                                            akiknek nincs joguk az Adminisztrációs panel közvetlen elérésére, de phpShop adminisztrációs jogaik vannak (pl. Regisztrált/Szerkesztõ besorolásuk van).';
+	var $_PHPSHOP_ADMIN_CFG_FRONTENDAMDIN = 'Engedélyezed a nem kiszolgáló-oldali felhasználók számára a látogatói oldalról történõ adminisztrációt?';
+	var $_PHPSHOP_ADMIN_CFG_FRONTENDAMDIN_EXPLAIN = 'Ezzel a beállítással engedélyezheted a honlapról történõ adminisztrációt azon felhasználók számára, 
+                                                                                            akiknek nincs joguk az Adminisztrációs panel közvetlen elérésére, de VirtueMart adminisztrációs jogaik vannak (pl. Regisztrált/Szerkesztõ besorolásuk van).';
 	var $_PHPSHOP_ADMIN_CFG_URL = 'URL';
 	var $_PHPSHOP_ADMIN_CFG_URL_EXPLAIN = 'A honlap webcíme. Rendszerint azonos a Mambo URL-lel (a végén a lezáró /-el!)';
 	var $_PHPSHOP_ADMIN_CFG_URLSECURE = 'BIZTONSÁGOS URL';
@@ -920,29 +920,29 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_MAXIMUMROWS_EXPLAIN = 'Beállítja a megrendelés kiválasztás listában megjelenítendõ sorok számát.';
 	var $_PHPSHOP_ADMIN_CFG_SHOWPHPSHOP_VERSION = 'A lábjegyzet megjelenítése ';
 	var $_PHPSHOP_ADMIN_CFG_SHOWPHPSHOP_VERSION_EXPLAIN = 'Megjeleníti a "powered by VirtueMart" képet a lábjegyzetben.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD = 'Válassza ki az üzlet szállítási módját';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD = 'Válaszd ki az üzlet szállítási módját';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_STANDARD = 'Standard Szállítási modul  egyénileg konfigurált szállítmányozókkal és díjtételekkel. <strong>AJÁNLOTT!</strong>';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_ZONE = '  	Zonális szállítás Ország-modul 1.0 Verzió<br />
-                                                                                                            Ha ezzel a modullal kapcsolatban több információra van szüksége, kérjük, látogasson el a <a href="http://ZephWare.com">http://ZephWare.com</a> címre<br />
-                                                                                                            a részletekért lépjen kapcsolatba a <a href="mailto:zephware@devcompany.com">ZephWare.com</a>-mal<br /> Jelölje be, hogy lehetõvé tegye a zonális szállítás modul használatát';
+                                                                                                            Ha ezzel a modullal kapcsolatban több információra van szükséged, kérjük, látogass el a <a href="http://ZephWare.com">http://ZephWare.com</a> címre<br />
+                                                                                                            a részletekért lépj kapcsolatba a <a href="mailto:zephware@devcompany.com">ZephWare.com</a>-mal<br /> Jelöld be, hogy lehetõvé tedd a zonális szállítás modul használatát';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS = '<a href="http://www.ups.com" target="_blank">UPS Online? Tools</a> szállítási kalkulátor';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_ACCESS_CODE = 'UPS hozzáférési kód';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_ACCESS_CODE_EXPLAIN = 'Az ön UPS hozzáférési kódja';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_ACCESS_CODE_EXPLAIN = 'Az UPS hozzáférési kódod';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_USER_ID = 'UPS felhasználói azonosító';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_USER_ID_EXPLAIN = 'Az UPS-tõl kapott felhasználói azonosító';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_PASSWORD = 'UPS jelszó';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_PASSWORD_EXPLAIN = 'Az UPS-fiók jelszava';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER = 'InterShipper modul. Csak akkor jelölje be, ha van InterShipper.com fiókja';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_DISABLE = 'Letiltja a Szállítási mód kiválasztását. Akkor válassza, ha a vásárlói letölthetõ termékeket vásárolnak, amelyeket nem kell postázni.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER = 'InterShipper modul. Csak akkor jelöld be, ha van InterShipper.com fiókod';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_DISABLE = 'Letiltja a Szállítási mód kiválasztását. Akkor válaszd, ha a vásárlóid letölthetõ termékeket vásárolnak, amelyeket nem kell postázni.';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_PASSWORD = 'InterShipper jelszó';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_PASSWORD_EXPLAIN = 'Az Ön InterShipper fiókjának jelszava.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_PASSWORD_EXPLAIN = 'Az InterShipper fiókod jelszava.';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_EMAIL = 'InterShipper e-mail';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_EMAIL_EXPLAIN = 'Az Ön InterShipper fiókjának e-mail címe.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_EMAIL_EXPLAIN = 'Az InterShipper fiókod e-mail címe.';
 	var $_PHPSHOP_ADMIN_CFG_STORE_ENCODEKEY = 'TITKOSÍTÁSI KULCS';
-	var $_PHPSHOP_ADMIN_CFG_STORE_ENCODEKEY_EXPLAIN = 'Az adatbázisban tároltt adatok titkosítására használt kulcs. Azt jelenti, hogy ezt a fájlt mindenkor védeni kell a megtekintéstõl.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_ENCODEKEY_EXPLAIN = 'Az adatbázisban tárolt adatok titkosítására használt kulcs. Azt jelenti, hogy ezt a fájlt mindenkor védeni kell a megtekintéstõl.';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_CHECKOUTBAR = 'A Pénztár sáv engedélyezése';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_CHECKOUTBAR_EXPLAIN = 'Akkor jelölje be, ha meg akarja jeleníteni a \'pénztár sávot\' a vásárlónak a fizetési folyamat során (1 - 2 - 3 - 4 grafikákkal).';
-	var $_PHPSHOP_ADMIN_CFG_CHECKOUT_PROCESS = 'Válassza ki az üzlet pénztári folyamatát';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_CHECKOUTBAR_EXPLAIN = 'Akkor jelöld be, ha meg akarod jeleníteni a \'pénztár sávot\' a vásárlónak a fizetési folyamat során (1 - 2 - 3 - 4 grafikákkal).';
+	var $_PHPSHOP_ADMIN_CFG_CHECKOUT_PROCESS = 'Válaszd ki az üzlet pénztári folyamatát';
 	var $_PHPSHOP_ADMIN_CFG_CHECKOUT_PROCESS_STANDARD = '<strong>Szokásos:</strong><br/>
                1. Szállítási cím kérése<br />
               2. Szállítási mód kérése<br />
@@ -960,46 +960,46 @@ class vmLanguage extends vmAbstractLanguage {
                1. Fizetési mód kérése<br />
               2. Rendelés feladása';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_DOWNLOADS = 'A letöltések engedélyezése';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_DOWNLOADS_EXPLAIN = 'Jelölje be, ha engedélyezni akarja a letöltéseket. Csak akkor, ha letölthetõ cikkeket akar eladni.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_DOWNLOADS_EXPLAIN = 'Jelöld be, ha engedélyezni akarod a letöltéseket. Csak akkor, ha letölthetõ cikkeket akarsz eladni.';
 	var $_PHPSHOP_ADMIN_CFG_ORDER_ENABLE_DOWNLOADS = 'A letöltést engedélyezõ rendelési állapot';
-	var $_PHPSHOP_ADMIN_CFG_ORDER_ENABLE_DOWNLOADS_EXPLAIN = 'Válassza ki azt a rendelési állapotot, amely esetében a vásárló e-mailben értesítést kap a letöltésrõl.';
+	var $_PHPSHOP_ADMIN_CFG_ORDER_ENABLE_DOWNLOADS_EXPLAIN = 'Válaszd ki azt a rendelési állapotot, amely esetében a vásárló e-mailben értesítést kap a letöltésrõl.';
 	var $_PHPSHOP_ADMIN_CFG_ORDER_DISABLE_DOWNLOADS = 'A letöltéseket tiltó rendelési állapot';
 	var $_PHPSHOP_ADMIN_CFG_ORDER_DISABLE_DOWNLOADS_EXPLAIN = 'Beállítja azt a rendelési állapotot, amelynél a letöltés letiltott a vevõ számára.';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOADROOT = 'LETÖLTÉSI GYÖKÉR';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOADROOT_EXPLAIN = 'A letölthetõ fájlok tényleges elérési útvonala. (a végén a lezáró /-el!)<br>
-        <span class="message">A saját üzlete biztonsága érdekében: Ha lehet, akkor kérjük, hogy használjon A WEBGYÖKÉRTÕL KÍVÜL lévõ könyvtárat</span>';
+        <span class="message">A saját üzleted biztonsága érdekében: Ha lehet, akkor kérjük, hogy használj A WEBGYÖKÉRTÕL KÍVÜL lévõ könyvtárat</span>';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_MAX = 'Letöltések száma';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_MAX_EXPLAIN = 'Beállítja az egy letöltési azonosítóval engedélyezett letöltések számát (egy rendelés számára)';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE = 'Letöltési határidõ';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE_EXPLAIN = 'Beállítja a letöltési idõintervallumot <strong>másodpercekben</strong> amelyben  a letöltés engedélyezve van a vevõ számára. 
   Az idõintervallum az elsõ letöltéssel kezdõdik! Amikor a megengedett idõ lejár, a letöltési ID le lesz tiltva.<br />Megjegyzés : 86400s=24h.';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYPAL = 'Lehetõvé teszi az IPN kifizetéseket a PayPal-on keresztül?';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYPAL_EXPLAIN = 'Jelölje be, ha a PayMate kifizetési rendszer használatát akarja engedélyezni.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYPAL_EXPLAIN = 'Jelöld be, ha a PayMate kifizetési rendszer használatát akarod engedélyezni.';
 	var $_PHPSHOP_ADMIN_CFG_PAYPAL_EMAIL = 'PayPal kifizetési e-mail:';
 	var $_PHPSHOP_ADMIN_CFG_PAYPAL_EMAIL_EXPLAIN = 'A vállalati e-mail cím  PayPal kifizetés számára. Ugyancsak használva mint receiver_email.';
 	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS = 'A sikeres tranzakciók rendelési állapota';
-	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS_EXPLAIN = 'Válassza ki azt a rendelés állapotot, amely a tényleges rendeléshez lesz rendelve, ha a PayPal IPN sikeres volt. Ha letöltéssel elérhetõ termékeket árul: 
-  válassza ki azt az állapotot, amely lehetõvé teszi a letöltést (ami után a vevõ azonnal értesítést kap e-mailben a letöltés engedélyezésérõl).';
+	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS_EXPLAIN = 'Válaszd ki azt a rendelés állapotot, amely a tényleges megrendeléshez lesz rendelve, ha a PayPal IPN sikeres volt. Ha letöltéssel elérhetõ termékeket árulsz: 
+  válassad ki azt az állapotot, amely lehetõvé teszi a letöltést (ami után a vevõ azonnal értesítést kap e-mailben a letöltés engedélyezésérõl).';
 	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED = 'A sikertelen tranzakciók rendelési állapota';
-	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED_EXPLAIN = 'Válassza ki a sikertelen PayPal-tranzakciók rendelési állapotát.';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYMATE = 'Lehetõvé teszi a PayMate kifizetéseket?';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYMATE_EXPLAIN = 'Jelölje be, ha az Ausztráliai PayMate kifizetési rendszer használatát akarja engedélyezni.';
+	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED_EXPLAIN = 'Válaszd ki a sikertelen PayPal tranzakciók rendelési állapotát.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYMATE = 'Lehetõvé teszed a PayMate kifizetéseket?';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYMATE_EXPLAIN = 'Jelöld be, ha az Ausztráliai PayMate kifizetési rendszer használatát akarod engedélyezni.';
 	var $_PHPSHOP_ADMIN_CFG_PAYMATE_USERNAME = 'PayMate felhasználónév:';
-	var $_PHPSHOP_ADMIN_CFG_PAYMATE_USERNAME_EXPLAIN = 'Az ön PayMate felhasználói azonosítója.';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET = 'Lehetõvé teszi az Authorize.net használatát?';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_EXPLAIN = 'Jelölje be, ha az Authorize.net szolgáltatásait akarja használni a VirtueMartban.';
+	var $_PHPSHOP_ADMIN_CFG_PAYMATE_USERNAME_EXPLAIN = 'A PayMate felhasználói azonosítód.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET = 'Lehetõvé teszed az Authorize.net használatát?';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_EXPLAIN = 'Jelöld be, ha az Authorize.net szolgáltatásait akarod használni a VirtueMartban.';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_TESTMODE = 'Teszt mód?';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_TESTMODE_EXPLAIN = 'Válassza a \'Yes\'-t tesztelési célokra, \'No\'-t a rendszer élesben való használatához.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_TESTMODE_EXPLAIN = 'Válaszd a \'Yes\'-t tesztelési célokra, \'No\'-t a rendszer élesben való használatához.';
 	var $_PHPSHOP_ADMIN_CFG_YES = 'Igen';
 	var $_PHPSHOP_ADMIN_CFG_NO = 'Nem';
 	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_USERNAME = 'Authorize.net bejelentkezési ID';
-	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_USERNAME_EXPLAIN = 'Ez az ön Authorize.net bejelentkezési ID-je';
-	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_KEY = 'Authorize.net tranzakció kulcs';
-	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_KEY_EXPLAIN = 'Ez az ön Authorize.net tranzakciós kulcsa';
+	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_USERNAME_EXPLAIN = 'Ez az Authorize.net bejelentkezési ID-d';
+	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_KEY = 'Authorize.net tranzakciós kulcs';
+	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_KEY_EXPLAIN = 'Ez az Authorize.net tranzakciós kulcsod';
 	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_AUTENTICATIONTYPE = 'Hitelesítés típusa';
 	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_AUTENTICATIONTYPE_EXPLAIN = 'Ez egy Authorize.Net hitelesítés típus.';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_CYBERCASH = 'Engedélyezi a CyberCash-t?';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_CYBERCASH_EXPLAIN = 'Jelölje be, ha a CyberCash szolgáltatásait akarja használni a VirtueMartban.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_CYBERCASH = 'Engedélyezed a CyberCash-t?';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_CYBERCASH_EXPLAIN = 'Jelöld be, ha a CyberCash szolgáltatásait akarod használni a VirtueMartban.';
 	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_MERCHAND = 'CyberCash MERCHANT';
 	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_MERCHAND_EXPLAIN = 'A CC_MERCHANT a CyberCash kereskedõi azonosító';
 	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_MERCHAND_KEY = 'CyberCash kereskedõi kulcs';
@@ -1016,33 +1016,33 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_SEARCH_DESCRIPTION = 'Csak a termékleírás';
 	var $_PHPSHOP_SEARCH_AND = 'és';
 	var $_PHPSHOP_SEARCH_NOT = 'nem';
-	var $_PHPSHOP_SEARCH_TEXT1 = 'Az elsõ legördülõ listában választhatja ki azt a kategóriát, amelyikre korlátozni kívánja a keresést. 
-        A második legördülõ listában egy bizonyos termékinformációra (pl. név) korlátozhatja a keresést. 
-        Miután kiválasztotta ezeket (vagy meghagyta az alapértelmezett MINDEN értéket), írja be a keresendõ kulcsszót. ';
-	var $_PHPSHOP_SEARCH_TEXT2 = ' További kulcsszó megadásával, valamint az ÉS vagy a NEM mûveleti jel választásával tovább finomíthatja a keresést. 
+	var $_PHPSHOP_SEARCH_TEXT1 = 'Az elsõ legördülõ listában választhatod ki azt a kategóriát, amelyikre korlátozni kívánod a keresést. 
+        A második legördülõ listában egy bizonyos termékinformációra (pl. név) korlátozhatod a keresést. 
+        Miután kiválasztottad ezeket (vagy meghagytad az alapértelmezett MINDEN értéket), írd be a keresendõ kulcsszót. ';
+	var $_PHPSHOP_SEARCH_TEXT2 = ' További kulcsszó megadásával, valamint az ÉS vagy a NEM mûveleti jel választásával tovább finomíthatod a keresést. 
         Az ÉS választása azt jelenti, hogy mindkét szónak benne kell lennie a megjelenítendõ termék számára. 
         A NEM választása azt jelenti, hogy a termék csak akkor lesz látható, ha az elsõ kulcsszó megtalálható, 
         a második viszont nem.';
 	var $_PHPSHOP_ORDERBY = 'Rendezési mód';
 	var $_PHPSHOP_CUSTOMER_RATING = 'Átlagos vásárlói értékelés';
 	var $_PHPSHOP_TOTAL_VOTES = 'Összes szavazat';
-	var $_PHPSHOP_CAST_VOTE = 'Kérjük, szavazzon';
+	var $_PHPSHOP_CAST_VOTE = 'Kérjük, szavazz';
 	var $_PHPSHOP_RATE_BUTTON = 'Érték';
 	var $_PHPSHOP_RATE_NOM = 'Értékelés';
 	var $_PHPSHOP_REVIEWS = 'Vásárlói vélemények';
 	var $_PHPSHOP_NO_REVIEWS = 'Még senki sem nyilvánított véleményt errõl a termékrõl.';
-	var $_PHPSHOP_WRITE_FIRST_REVIEW = 'Legyen Ön az elsõ, és írja meg a véleményét...';
-	var $_PHPSHOP_REVIEW_LOGIN = 'Kérjük, jelentkezzen be és írja meg a véleményét.';
-	var $_PHPSHOP_REVIEW_ERR_RATE = 'Kérjük, értékelje a terméket, hogy kiegészítse a véleményét!';
+	var $_PHPSHOP_WRITE_FIRST_REVIEW = 'Légy az elsõ, és írd meg a véleményedet...';
+	var $_PHPSHOP_REVIEW_LOGIN = 'Kérjük, jelentkezz be és írd meg a véleményedet.';
+	var $_PHPSHOP_REVIEW_ERR_RATE = 'Kérjük, értékeld a terméket, hogy kiegészítsd a véleményedet!';
 	var $_PHPSHOP_REVIEW_ERR_COMMENT1 = 'Kérjük, írjon még valamit a véleményéhez. Legalább 100 karakter a megengedett alsó határ!';
-	var $_PHPSHOP_REVIEW_ERR_COMMENT2 = 'Kérjük, rövidítse le a véleményét. Legfeljebb 2000 karakter engedélyezett.';
-	var $_PHPSHOP_WRITE_REVIEW = 'Írja meg a véleményét errõl a termékrõl!';
-	var $_PHPSHOP_REVIEW_RATE = 'Elõször értékelje a terméket. Kérjük, válassza ki 5 (kiváló) és 0 (pocsék) között az értékelést.';
-	var $_PHPSHOP_REVIEW_COMMENT = 'Most kérjük, írja meg (röviden) a véleményét... (legalább 100, legfeljebb 2000 karakter)';
+	var $_PHPSHOP_REVIEW_ERR_COMMENT2 = 'Kérjük, rövidítsd le a véleményedet. Legfeljebb 2000 karakter engedélyezett.';
+	var $_PHPSHOP_WRITE_REVIEW = 'Írd meg a véleményedet errõl a termékrõl!';
+	var $_PHPSHOP_REVIEW_RATE = 'Elõször értékeld a terméket. Kérjük, válaszd ki 5 (kiváló) és 0 (pocsék) között az értékelést.';
+	var $_PHPSHOP_REVIEW_COMMENT = 'Most kérjük, írd meg (röviden) a véleményedet... (legalább 100, legfeljebb 2000 karakter)';
 	var $_PHPSHOP_REVIEW_COUNT = 'Karakterek száma: ';
 	var $_PHPSHOP_REVIEW_SUBMIT = 'Vélemény beküldése';
-	var $_PHPSHOP_REVIEW_ALREADYDONE = 'Ön már megírta a véleményét errõl a termékrõl. Köszönjük.';
-	var $_PHPSHOP_REVIEW_THANKYOU = 'Köszönjük a véleményét.';
+	var $_PHPSHOP_REVIEW_ALREADYDONE = 'Te már megírtad a véleményedet errõl a termékrõl. Köszönjük.';
+	var $_PHPSHOP_REVIEW_THANKYOU = 'Köszönjük a véleményedet.';
 	var $_PHPSHOP_COMMENT = 'Megjegyzés';
 	var $_PHPSHOP_CREDITCARD_FORM_LBL = 'Hitelkártyatípusok hozzáadása/módosítása';
 	var $_PHPSHOP_CREDITCARD_NAME = 'Hitelkártya neve';
@@ -1052,20 +1052,20 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_UDATE_ADDRESS = 'Cím frissítése';
 	var $_PHPSHOP_CONTINUE_SHOPPING = 'Tovább vásárolok';
 	var $_PHPSHOP_THANKYOU_SUCCESS = 'A rendelés feladása sikerült!';
-	var $_PHPSHOP_ORDER_LINK = 'Ennek a hivatkozásnak a követésével megtekintheti a rendelési adatokat.';
-	var $_PHPSHOP_ORDER_STATUS_CHANGE_SEND_MSG_1 = 'Megváltozott az Ön {order_id} sz. rendelésének az állapota.';
+	var $_PHPSHOP_ORDER_LINK = 'Ennek a hivatkozásnak a követésével megtekintheted a rendelési adatokat.';
+	var $_PHPSHOP_ORDER_STATUS_CHANGE_SEND_MSG_1 = 'Megváltozott az {order_id} sz. rendelésed állapota.';
 	var $_PHPSHOP_ORDER_STATUS_CHANGE_SEND_MSG_2 = 'Az új állapot ez:';
-	var $_PHPSHOP_ORDER_STATUS_CHANGE_SEND_MSG_3 = 'A rendelési adatok megtekintéséhez kérjük, hogy kövesse ezt a hivatkozást (vagy másolja át a böngészõjébe):';
-	var $_PHPSHOP_ORDER_STATUS_CHANGE_SEND_SUBJ = 'Rendelési állapot módosítása: Az Ön rendelése {order_id}';
-	var $_PHPSHOP_ORDER_LIST_NOTIFY = 'Értesíti a vásárlót?';
-	var $_PHPSHOP_ORDER_LIST_NOTIFY_ERR = 'Kérjük, hogy elõbb módosítsa a rendelés állapotát!';
+	var $_PHPSHOP_ORDER_STATUS_CHANGE_SEND_MSG_3 = 'A rendelési adatok megtekintéséhez kérjük, hogy kövesd ezt a hivatkozást (vagy másold át a böngészõdbe):';
+	var $_PHPSHOP_ORDER_STATUS_CHANGE_SEND_SUBJ = 'Rendelési állapot módosítása: A rendelésed {order_id}';
+	var $_PHPSHOP_ORDER_LIST_NOTIFY = 'Értesíted a vásárlót?';
+	var $_PHPSHOP_ORDER_LIST_NOTIFY_ERR = 'Kérjük, hogy elõbb módosítsd a rendelés állapotát!';
 	var $_PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT = 'Az alapértelmezett vásárlócsoport árengedménye (%-ban)';
 	var $_PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP = 'Pozitív X összeg jelentése: Ha ENNÉL a vásárlócsoportnál nincs ára a terméknek, akkor X %-kal csökkenti az alapértelmezett árat. Negatív összegnek fordított a hatása.';
 	var $_PHPSHOP_PRODUCT_DISCOUNT_LBL = 'Árengedmény';
 	var $_PHPSHOP_PRODUCT_DISCOUNT_LIST_LBL = 'Árengedmények listája';
 	var $_PHPSHOP_PRODUCT_DISCOUNT_ADDEDIT = 'Árengedmény hozzáadása/módosítása';
 	var $_PHPSHOP_PRODUCT_DISCOUNT_AMOUNT = 'Engedmény mértéke';
-	var $_PHPSHOP_PRODUCT_DISCOUNT_AMOUNT_TIP = 'Írja be az engedmény mértékét';
+	var $_PHPSHOP_PRODUCT_DISCOUNT_AMOUNT_TIP = 'Írd be az engedmény mértékét';
 	var $_PHPSHOP_PRODUCT_DISCOUNT_AMOUNTTYPE = 'Engedmény típusa';
 	var $_PHPSHOP_PRODUCT_DISCOUNT_ISPERCENT = 'Százalék';
 	var $_PHPSHOP_PRODUCT_DISCOUNT_ISTOTAL = 'Összeg';
@@ -1114,14 +1114,14 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_FILES_FORM_IMAGE = 'Kép';
 	var $_PHPSHOP_FILES_FORM_UPLOAD_TO = 'Feltöltés ide';
 	var $_PHPSHOP_FILES_FORM_UPLOAD_IMAGEPATH = 'alapértelmezett termékkép útvonal';
-	var $_PHPSHOP_FILES_FORM_UPLOAD_OWNPATH = 'Adja meg a fájl helyét';
+	var $_PHPSHOP_FILES_FORM_UPLOAD_OWNPATH = 'Add meg a fájl helyét';
 	var $_PHPSHOP_FILES_FORM_UPLOAD_DOWNLOADPATH = 'Letöltési útvonal (pl. a letölthetõ termékek értékesítéséhez!)';
 	var $_PHPSHOP_FILES_FORM_AUTO_THUMBNAIL = 'A miniatûr létrehozása automatikusan?';
 	var $_PHPSHOP_FILES_FORM_FILE_PUBLISHED = 'Közzétett a fájl?';
 	var $_PHPSHOP_FILES_FORM_FILE_TITLE = 'Fájlcím (amit a vásárló lát)';
 	var $_PHPSHOP_FILES_FORM_FILE_DESC = 'Fájl leírása';
 	var $_PHPSHOP_FILES_FORM_FILE_URL = 'Fájl webcíme (elhagyható)';
-	var $_PHPSHOP_FILES_PATH_ERROR = 'Kérjük, hogy érvényes útvonalat adjon meg!';
+	var $_PHPSHOP_FILES_PATH_ERROR = 'Kérjük, hogy érvényes útvonalat adj meg!';
 	var $_PHPSHOP_FILES_IMAGE_RESIZE_SUCCESS = 'A miniatûr elkészítése sikerült!';
 	var $_PHPSHOP_FILES_IMAGE_RESIZE_FAILURE = 'NEM készíthetõ el a miniatûr kép!';
 	var $_PHPSHOP_FILES_UPLOAD_FAILURE = 'Fájl-/Képfeltöltési hiba';
@@ -1138,11 +1138,11 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_COUPON_LIST = 'Kuponok listázása';
 	var $_PHPSHOP_COUPON_ALREADY_REDEEMED = 'Mar beváltották a kupont.';
 	var $_PHPSHOP_COUPON_REDEEMED = 'A kupon beváltása sikerült! Köszönjük.';
-	var $_PHPSHOP_COUPON_ENTER_HERE = 'Ha van kuponkódja, akkor kérjük, hogy írja be az alábbi mezõbe:';
+	var $_PHPSHOP_COUPON_ENTER_HERE = 'Ha van kuponkódod, akkor kérjük, hogy írd be az alábbi mezõbe:';
 	var $_PHPSHOP_COUPON_SUBMIT_BUTTON = 'Küldés';
-	var $_PHPSHOP_COUPON_CODE_EXISTS = 'Már van ilyen kuponkód. Kérjük, hogy próbálja újra.';
+	var $_PHPSHOP_COUPON_CODE_EXISTS = 'Már van ilyen kuponkód. Kérjük, hogy próbáld újra.';
 	var $_PHPSHOP_COUPON_EDIT_HEADER = 'Kupon frissítése';
-	var $_PHPSHOP_COUPON_EDIT_HELP_TEXT = 'Kattintson egy kuponkódra a módosításához, ill. a kuponkód törléséhez jelölje ki, majd kattintson a Törlés gombra:';
+	var $_PHPSHOP_COUPON_EDIT_HELP_TEXT = 'Kattints egy kuponkódra a módosításához, ill. a kuponkód törléséhez jelöld ki, majd kattints a Törlés gombra:';
 	var $_PHPSHOP_COUPON_CODE_HEADER = 'Kód';
 	var $_PHPSHOP_COUPON_PERCENT_TOTAL = 'Százalék vagy összeg';
 	var $_PHPSHOP_COUPON_TYPE = 'Kupon típusa';
@@ -1151,8 +1151,8 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_COUPON_TYPE_PERMANENT = 'Tartós kupon';
 	var $_PHPSHOP_COUPON_VALUE_HEADER = 'Érték';
 	var $_PHPSHOP_COUPON_DELETE_BUTTON = 'Kód törlése';
-	var $_PHPSHOP_COUPON_CONFIRM_DELETE = 'Biztosan törölni akarja ezt a kuponkódot?';
-	var $_PHPSHOP_COUPON_COMPLETE_ALL_FIELDS = 'Kérjük, hogy töltsön ki minden mezõt.';
+	var $_PHPSHOP_COUPON_CONFIRM_DELETE = 'Biztosan törölni akarod ezt a kuponkódot?';
+	var $_PHPSHOP_COUPON_COMPLETE_ALL_FIELDS = 'Kérjük, hogy tölts ki minden mezõt.';
 	var $_PHPSHOP_COUPON_VALUE_NOT_NUMBER = 'A kupon értéke szám kell, hogy legyen.';
 	var $_PHPSHOP_COUPON_NEW_HEADER = 'Új kupon';
 	var $_PHPSHOP_COUPON_COUPON_HEADER = 'Kuponkód';
@@ -1162,9 +1162,9 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_COUPON_CODE_SAVED = 'A kuponkód mentése kész.';
 	var $_PHPSHOP_COUPON_SAVE_BUTTON = 'Kupon mentése';
 	var $_PHPSHOP_COUPON_DISCOUNT = 'Árengedmény a kuponra';
-	var $_PHPSHOP_COUPON_CODE_INVALID = 'Nem található a kuponkód. Kérjük, hogy próbálja újra.';
+	var $_PHPSHOP_COUPON_CODE_INVALID = 'Nem található a kuponkód. Kérjük, hogy próbáld újra.';
 	var $_PHPSHOP_COUPONS_ENABLE = 'A kupon használatának engedélyezése';
-	var $_PHPSHOP_COUPONS_ENABLE_EXPLAIN = 'Ha engedélyezi a kuponok használatát, akkor a vásárlók olyan kuponszámokat írhatnak be, amivel engedményt kapnak a vásárlásukból.';
+	var $_PHPSHOP_COUPONS_ENABLE_EXPLAIN = 'Ha engedélyezrf a kuponok használatát, akkor a vásárlók olyan kuponszámokat írhatnak be, amivel engedményt kapnak a vásárlásukból.';
 	var $_PHPSHOP_FREE_SHIPPING = 'Ingyenes szállítás';
 	var $_PHPSHOP_FREE_SHIPPING_CUSTOMER_TEXT = 'Ingyenes a szállítása ennek a terméknek!';
 	var $_PHPSHOP_FREE_SHIPPING_AMOUNT = 'Az ingyenes szállítás legkisebb összege';
@@ -1176,13 +1176,13 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_PDF_BUTTON = 'PDF-gomb';
 	var $_PHPSHOP_ADMIN_CFG_PDF_BUTTON_EXPLAIN = 'Megjeleníti vagy elrejti a PDF-gombot az üzletben';
 	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS_ONORDER = 'El kell MINDEN RENDELÉSKOR fogadni a használati feltételeket?';
-	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS_ONORDER_EXPLAIN = 'Akkor jelölje be, ha azt akarja, hogy a vásárló MINDEN RENDELÉSKOR (a rendelés feladása elõtt) fogadja el a használati feltételeket.';
+	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS_ONORDER_EXPLAIN = 'Akkor jelöld be, ha azt akarod, hogy a vásárló MINDEN RENDELÉSKOR (a rendelés feladása elõtt) fogadja el a használati feltételeket.';
 	var $_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE = 'Bankszámla típusa';
 	var $_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE_CHECKING = 'Checking';
 	var $_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE_BUSINESSCHECKING = 'Business Checking';
 	var $_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE_SAVINGS = 'Takarék';
 	var $_PHPSHOP_PAYMENT_AN_RECURRING = 'Ismétlõdõ számlázások?';
-	var $_PHPSHOP_PAYMENT_AN_RECURRING_TOOLTIP = 'Döntse el, hogy szüksége van-e az ismétlõdõ számlázásokra.';
+	var $_PHPSHOP_PAYMENT_AN_RECURRING_TOOLTIP = 'Döntsd el, hogy szükséged van-e az ismétlõdõ számlázásokra.';
 	var $_PHPSHOP_INTERNAL_ERROR = 'Belsõ hiba történt a következõ kérés feldolgozásakor';
 	var $_PHPSHOP_PAYMENT_ERROR = 'Hiba történt a fizetés feldolgozásakor';
 	var $_PHPSHOP_PAYMENT_TRANSACTION_SUCCESS = 'A fizetés feldolgozása sikerült';
@@ -1197,27 +1197,27 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_UPS_COMMERCIAL = 'Kereskedelmi szállítás (COM)';
 	var $_PHPSHOP_UPS_RESIDENTIAL_TOOLTIP = 'Árajánlat a helybeli (RES) vagy a kereskedelmi (COM) szállításra.';
 	var $_PHPSHOP_UPS_HANDLING_FEE = 'Kezelési költség';
-	var $_PHPSHOP_UPS_HANDLING_FEE_TOOLTIP = 'Az Ön által felszámított kezelési költség ennél a szállítási módnál.';
+	var $_PHPSHOP_UPS_HANDLING_FEE_TOOLTIP = 'Az általad felszámított kezelési költség ennél a szállítási módnál.';
 	var $_PHPSHOP_UPS_TAX_CLASS = 'Adóosztály';
 	var $_PHPSHOP_UPS_TAX_CLASS_TOOLTIP = 'A következõ adóosztály használata a szállítási költségre.';
 	var $_PHPSHOP_ERROR_CODE = 'Hibakód';
 	var $_PHPSHOP_ERROR_DESC = 'Hibaleírás';
 	var $_PHPSHOP_CHANGE_TRANSACTION_KEY = 'A tranzakciókulcs megjelenítése / megváltoztatása';
 	var $_PHPSHOP_CHANGE_PASSKEY_FORM = 'A jelszó/tranzakciókulcs megjelenítése/megváltoztatása';
-	var $_PHPSHOP_TYPE_PASSWORD = 'Kérjük, hogy írja be a felhasználói jelszavát';
+	var $_PHPSHOP_TYPE_PASSWORD = 'Kérjük, hogy írd be a felhasználói jelszavadat';
 	var $_PHPSHOP_CURRENT_PASSWORD = 'Jelenlegi jelszó';
 	var $_PHPSHOP_CURRENT_TRANSACTION_KEY = 'Jelenlegi tranzakciókulcs';
 	var $_PHPSHOP_CHANGE_PASSKEY_SUCCESS = 'A tranzakciókulcs megváltoztatása sikerült.';
 	var $_PHPSHOP_PAYMENT_CVV2 = 'A hitelkártyakód értékének kérése/rögzítése (CVV2/CVC2/CID)';
-	var $_PHPSHOP_PAYMENT_CVV2_TOOLTIP = 'Ellenõrzi az érvényes CVV2/CVC2/CID értéket (három vagy négy számjegybõl álló szám a hitelkártya hátlapján, az American Express kártyák elõlapján)?';
-	var $_PHPSHOP_CUSTOMER_CVV2_TOOLTIP = 'Kérjük, hogy írja be a hitelkártya hátlapján (American Express kártyák elõlapján) lévõ három vagy négy számjegybõl álló számot';
-	var $_PHPSHOP_CUSTOMER_CVV2_ERROR = 'Be kell írnia a hitelkártya kódját a folytatáshoz.';
-	var $_PHPSHOP_PRODUCT_FORM_FILENAME = 'VAGY írja be egy fájl nevét';
-	var $_PHPSHOP_PRODUCT_FORM_FILENAME_TOOLTIP = 'MEGJEGYZÉS: Itt írhatja be a fájl nevét. <strong>Ha megadja itt egy fájl nevét, akkor egy fájl sem kerül feltöltésre!!! Kézzel kell FTP-n feltöltenie!</strong>.';
-	var $_PHPSHOP_PRODUCT_FORM_UPLOAD = 'VAGY töltsön fel egy új fájlt';
-	var $_PHPSHOP_PRODUCT_FORM_UPLOAD_TOOLTIP = 'Feltölthet egy helyi fájlt. Ez a fájl lesz az Ön által eladott termék. Le fogja cserélni a létezõ fájlt.';
-	var $_PHPSHOP_PRODUCT_FORM_AVAILABILITY_TOOLTIP1 = 'Írjon be valamilyen szöveget ide, amit a vásárló a termék röplapján olvashat el.<br />pl.: 24 ó, 48 óra, 3 - 5 nap, Rendelésre.....';
-	var $_PHPSHOP_PRODUCT_FORM_AVAILABILITY_TOOLTIP2 = 'VAGY válassza ki az adatlapon (röplapon) látható képet.<br />A képek a <i>/components/com_virtuemart/shop_image/availability</i> könyvtárban találhatók.<br />';
+	var $_PHPSHOP_PAYMENT_CVV2_TOOLTIP = 'Ellenõrzöd az érvényes CVV2/CVC2/CID értéket (három vagy négy számjegybõl álló szám a hitelkártya hátlapján, az American Express kártyák elõlapján)?';
+	var $_PHPSHOP_CUSTOMER_CVV2_TOOLTIP = 'Kérjük, hogy írd be a hitelkártya hátlapján (American Express kártyák elõlapján) lévõ három vagy négy számjegybõl álló számot';
+	var $_PHPSHOP_CUSTOMER_CVV2_ERROR = 'Be kell írnod a hitelkártya kódját a folytatáshoz.';
+	var $_PHPSHOP_PRODUCT_FORM_FILENAME = 'VAGY írd be egy fájl nevét';
+	var $_PHPSHOP_PRODUCT_FORM_FILENAME_TOOLTIP = 'MEGJEGYZÉS: Itt írhatod be a fájl nevét. <strong>Ha megadod itt egy fájl nevét, akkor egy fájl sem kerül feltöltésre!!! Kézzel kell FTP-n feltöltened!</strong>.';
+	var $_PHPSHOP_PRODUCT_FORM_UPLOAD = 'VAGY tölts fel egy új fájlt';
+	var $_PHPSHOP_PRODUCT_FORM_UPLOAD_TOOLTIP = 'Feltölthetsz egy helyi fájlt. Ez a fájl lesz az általad eladott termék. Le fogja cserélni a létezõ fájlt.';
+	var $_PHPSHOP_PRODUCT_FORM_AVAILABILITY_TOOLTIP1 = 'Írj be valamilyen szöveget ide, amit a vásárló a termék röplapján olvashat el.<br />pl.: 24 ó, 48 óra, 3 - 5 nap, Rendelésre.....';
+	var $_PHPSHOP_PRODUCT_FORM_AVAILABILITY_TOOLTIP2 = 'VAGY válaszd ki az adatlapon (röplapon) látható képet.<br />A képek a <i>/components/com_virtuemart/shop_image/availability</i> könyvtárban találhatók.<br />';
 	var $_PHPSHOP_PRODUCT_FORM_ATTRIBUTE_LIST = 'Attribútumlista';
 	var $_PHPSHOP_PRODUCT_FORM_ATTRIBUTE_LIST_EXAMPLES = '<h4>Példák az attribútumlista formátumára:</h4>
         <pre>Méret,XL[+1.99],M,S[-2.99];Szín,Piros,Zöld,Sárga,KöltségSzíb[=24.00];ÉsÍgyTovább,..,..</pre>
@@ -1231,25 +1231,25 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_FORM_CUSTOM_ATTRIBUTE_LIST_EXAMPLES = '<h4>Példák az egyéni attribútumok listájának formátumára:</h4>
         <pre>Név;Extrák;</strong>...</pre>';
 	var $_PHPSHOP_MULTISELECT = '<i>Többszörös kijelölés: a CTRL-gombbal és az egérrel';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN = 'Engedélyezi az eProcessingNetwork.com fizetést?';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN_EXPLAIN = 'Jelölje be az eProcessingNetwork.com használatához a VirtueMarttal.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN = 'Engedélyezed az eProcessingNetwork.com fizetést?';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN_EXPLAIN = 'Jelöld be az eProcessingNetwork.com használatához a VirtueMarttal.';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN_TESTMODE = 'Mód tesztelése ?';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN_TESTMODE_EXPLAIN = 'Teszteléshez válassza az \'Igen\' lehetõséget. Az élõ tranzakciók engedélyezéséhez válassza a \'Nem\' lehetõséget.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN_TESTMODE_EXPLAIN = 'Teszteléshez válaszd az \'Igen\' lehetõséget. Az élõ tranzakciók engedélyezéséhez válaszd a \'Nem\' lehetõséget.';
 	var $_PHPSHOP_ADMIN_CFG_EPN_USERNAME = 'eProcessingNetwork.com felhasználónév';
-	var $_PHPSHOP_ADMIN_CFG_EPN_USERNAME_EXPLAIN = 'Ez az Ön eProcessingNetwork.com felhasználóneve';
+	var $_PHPSHOP_ADMIN_CFG_EPN_USERNAME_EXPLAIN = 'Ez az eProcessingNetwork.com felhasználóneved';
 	var $_PHPSHOP_ADMIN_CFG_EPN_KEY = 'eProcessingNetwork.com tranzakciókulcs';
-	var $_PHPSHOP_ADMIN_CFG_EPN_KEY_EXPLAIN = 'Ez az Ön eProcessingNetwork.com tranzakciókulcsa';
+	var $_PHPSHOP_ADMIN_CFG_EPN_KEY_EXPLAIN = 'Ez az eProcessingNetwork.com tranzakciókulcsod';
 	var $_PHPSHOP_ADMIN_CFG_EPN_AUTENTICATIONTYPE = 'Hitelesítési típus';
 	var $_PHPSHOP_ADMIN_CFG_EPN_AUTENTICATIONTYPE_EXPLAIN = 'Ez az eProcessingNetwork.com hitelesítési típusa.';
 	var $_PHPSHOP_RELATED_PRODUCTS = 'Kapcsolódó termékek';
-	var $_PHPSHOP_RELATED_PRODUCTS_TIP = 'Ezzel a listával árukapcsolásokat hozhat létre. Válasszon csak ki egy vagy több terméket itt, majd ezek lesznek a <strong>Kapcsolódó termékek</strong>.';
-	var $_PHPSHOP_RELATED_PRODUCTS_HEADING = 'Talán ez(ek) a termék(ek) is érdeklik Önt';
+	var $_PHPSHOP_RELATED_PRODUCTS_TIP = 'Ezzel a listával árukapcsolásokat hozhatsz létre. Válassz csak ki egy vagy több terméket itt, majd ezek lesznek a <strong>Kapcsolódó termékek</strong>.';
+	var $_PHPSHOP_RELATED_PRODUCTS_HEADING = 'Talán ez(ek) a termék(ek) is érdekelnek';
 	var $_PHPSHOP_IMAGE_ACTION = 'Képmûvelet';
 	var $_PHPSHOP_NONE = 'nincs';
 	var $_PHPSHOP_ORDER_HISTORY = 'Rendelési elõzmények';
 	var $_PHPSHOP_ORDER_HISTORY_COMMENT = 'Megjegyzés';
 	var $_PHPSHOP_ORDER_HISTORY_COMMENT_EMAIL = 'A rendeléssel kapcsolatos megjegyzés';
-	var $_PHPSHOP_ORDER_HISTORY_INCLUDE_COMMENT = 'Beleveszi ezt a megjegyzést?';
+	var $_PHPSHOP_ORDER_HISTORY_INCLUDE_COMMENT = 'Beleveszed ezt a megjegyzést?';
 	var $_PHPSHOP_ORDER_HISTORY_DATE_ADDED = 'Hozzáadás dátuma';
 	var $_PHPSHOP_ORDER_HISTORY_CUSTOMER_NOTIFIED = 'Kapott értesítést a vevõ?';
 	var $_PHPSHOP_ORDER_STATUS_CHANGE = 'Rendelési állapot megváltoztatása';
@@ -1321,7 +1321,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_UNIT = 'Egység';
 	var $_PHPSHOP_PARAMETER_SEARCH = 'Speciális keresés a paraméterek alapján';
 	var $_PHPSHOP_ADVANCED_PARAMETER_SEARCH = 'Paraméterek keresése';
-	var $_PHPSHOP_PARAMETER_SEARCH_TEXT1 = 'Meg akarja keresni a mûszaki paraméterekkel egyezõ termékeket?<BR>Bármilyen elõre elkészített ûrlapot felhasználhat:';
+	var $_PHPSHOP_PARAMETER_SEARCH_TEXT1 = 'Meg akarod keresni a mûszaki paraméterekkel egyezõ termékeket?<BR>Bármilyen elõre elkészített ûrlapot felhasználhatsz:';
 	var $_PHPSHOP_PARAMETER_SEARCH_NO_PRODUCT_TYPE = 'Sajnos nincs kategória a kereséshez.';
 	var $_PHPSHOP_PARAMETER_SEARCH_BAD_PRODUCT_TYPE = 'Sajnos nincs ilyen nevû közzétett terméktípus.';
 	var $_PHPSHOP_PARAMETER_SEARCH_IS_LIKE = 'Olyan, mint';
@@ -1345,7 +1345,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CSV_FROM_DIRECTORY = 'Betöltés könyvtárból';
 	var $_PHPSHOP_CSV_FROM_SERVER = 'A CSV fájl betöltése a kiszolgálóról';
 	var $_PHPSHOP_CSV_EXPORT_TO_FILE = 'Exportálás CSV fájlba';
-	var $_PHPSHOP_CSV_SELECT_FIELD_ORDERING = 'Válassza ki a mezõ rendezési típusát';
+	var $_PHPSHOP_CSV_SELECT_FIELD_ORDERING = 'Válaszd ki a mezõ rendezési típusát';
 	var $_PHPSHOP_CSV_DEFAULT_ORDERING = 'Alapértelmezett rendezés';
 	var $_PHPSHOP_CSV_CUSTOMIZED_ORDERING = 'Saját egyéni rendezésem';
 	var $_PHPSHOP_CSV_SUBMIT_EXPORT = 'Az összes termék exportálása CSV fájlba';
@@ -1358,9 +1358,9 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CSV_IMPORT_EXPORT = 'Importálás/Exportálás';
 	var $_PHPSHOP_CSV_NEW_FIELD = 'Új mezõ hozzáadása';
 	var $_PHPSHOP_CSV_DOCUMENTATION = 'Dokumentáció';
-	var $_PHPSHOP_PRODUCT_NOT_FOUND = 'Sajnos az Ön által kért termék nem található!';
+	var $_PHPSHOP_PRODUCT_NOT_FOUND = 'Sajnos az általad kért termék nem található!';
 	var $_PHPSHOP_ADMIN_CFG_SHOW_OUT_OF_STOCK_PRODUCTS = 'A nem kapható termékek megjelenítése';
-	var $_PHPSHOP_ADMIN_CFG_SHOW_OUT_OF_STOCK_PRODUCTS_EXPLAIN = 'Ha engedélyezi, akkor láthatók lesznek a jelenleg nem kapható termékek. Egyéb esetben rejtettek maradnak az ilyen termékek.';
+	var $_PHPSHOP_ADMIN_CFG_SHOW_OUT_OF_STOCK_PRODUCTS_EXPLAIN = 'Ha engedélyezed, akkor láthatók lesznek a jelenleg nem kapható termékek. Egyéb esetben rejtettek maradnak az ilyen termékek.';
 	var $_PHPSHOP_PRODUCT_PACKAGING1 = 'Number {unit}s in packaging:';
 	var $_PHPSHOP_PRODUCT_PACKAGING2 = 'Number {unit}s in box:';
 	var $_PHPSHOP_HIDE_OUT_OF_STOCK = 'Az elfogyott termékek elrejtése';
@@ -1378,11 +1378,11 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_EXPAND_TREE = 'A fa kibontása';
 	var $_PHPSHOP_COLLAPSE_TREE = 'A fa összecsukása';
 	var $_PHPSHOP_PRODUCT_FORM_DISCOUNTED_PRICE = 'Akciós ár';
-	var $_PHPSHOP_PRODUCT_FORM_DISCOUNTED_PRICE_TIP = 'Itt hatálytalaníthatja a megadott árengedményt. Írja be a termék speciális engedményes árát.<br/>
+	var $_PHPSHOP_PRODUCT_FORM_DISCOUNTED_PRICE_TIP = 'Itt hatálytalaníthatod a megadott árengedményt. Írd be a termék speciális engedményes árát.<br/>
 Az engedményes árból új akciós bejegyzést fog létrehozni az üzlet.';
 	var $_PHPSHOP_CART_PRICE_PER_UNIT = 'Egységár';
 	var $_PHPSHOP_ADMIN_CFG_SHOP_OFFLINE = 'Zárva az üzlet?';
-	var $_PHPSHOP_ADMIN_CFG_SHOP_OFFLINE_TIP = 'Ha bejelöli, akkor az üzlet Zárva üzenetet fog megjeleníteni.';
+	var $_PHPSHOP_ADMIN_CFG_SHOP_OFFLINE_TIP = 'Ha bejelölöd, akkor az üzlet Zárva üzenetet fog megjeleníteni.';
 	var $_PHPSHOP_ADMIN_CFG_SHOP_OFFLINE_MSG = 'Zárva üzenet';
 	var $_PHPSHOP_ADMIN_CFG_TABLEPREFIX = 'Az üzlet tábláinak tábla elõtagja';
 	var $_PHPSHOP_ADMIN_CFG_TABLEPREFIX_TIP = 'Ez alapértelmezésként a <strong>vm</strong>';
@@ -1392,19 +1392,19 @@ Az engedményes árból új akciós bejegyzést fog létrehozni az üzlet.';
 	var $_PHPSHOP_ADMIN_CFG_SHOW_PRODUCT_COUNT_TIP = 'Látható a kategóriában lévõ termékek száma, mint pl. Kategória (4)?';
 	var $_PHPSHOP_ADMIN_CFG_ADDTOCART_STYLE = 'A berakom-a-kosárba gomb sémája';
 	var $_PHPSHOP_ADMIN_CFG_DYNAMIC_THUMBNAIL_RESIZING = 'A dinamikus miniatûr-átméretezés engedélyezése?';
-	var $_PHPSHOP_ADMIN_CFG_DYNAMIC_THUMBNAIL_RESIZING_TIP = 'Bejelölésével engedélyezi a képek dinamikus átméretezését. Ez azt jelenti, hogy a PHP GD2 funkcióinak felhasználásával az összes miniatûr kép átméretezésre kerül,
+	var $_PHPSHOP_ADMIN_CFG_DYNAMIC_THUMBNAIL_RESIZING_TIP = 'Bejelölésével engedélyezed a képek dinamikus átméretezését. Ez azt jelenti, hogy a PHP GD2 funkcióinak felhasználásával az összes miniatûr kép átméretezésre kerül,
         hogy igazodjon az alább megadott méretekhez (a GD2-támogatást úgy ellenõrizheti, ha a "Rendszer" -> "Rendszerinfó" -> "PHP infó" -> gd lehetõséghez tallóz. 
         A miniatûr kép minõsége sokkal jobb, mint azoké, melyeket a böngészõ "méretezett át". Az újonnan generált képeket a /shop_image/prduct/resized könyvtárba teszi. Ha a képet már átméretezte, akkor ezt a másolatot küldi a böngészõnek, vagyis egy képet sem méretez át újra meg újra.';
 	var $_PHPSHOP_ADMIN_CFG_THUMBNAIL_WIDTH = 'A miniatûr kép szélessége';
 	var $_PHPSHOP_ADMIN_CFG_THUMBNAIL_WIDTH_TIP = 'Az átméretezett miniatûr cél <strong>szélessége</strong>.';
 	var $_PHPSHOP_ADMIN_CFG_THUMBNAIL_HEIGHT = 'A miniatûr kép magassága';
 	var $_PHPSHOP_ADMIN_CFG_THUMBNAIL_HEIGHT_TIP = 'Az átméretezett miniatûr cél <strong>magassága</strong>.';
-	var $_PHPSHOP_ADMIN_CFG_SHIPPING_NO_SELECTION = 'Jelöljön be legalább egy jelölõnégyzetet a Szállítás beállításai lapon!';
+	var $_PHPSHOP_ADMIN_CFG_SHIPPING_NO_SELECTION = 'Jelölj be legalább egy jelölõnégyzetet a Szállítás beállításai lapon!';
 	var $_PHPSHOP_ADMIN_CFG_PRICE_CONFIGURATION = 'Ár beállításai';
 	var $_PHPSHOP_ADMIN_CFG_PRICE_ACCESS_LEVEL = 'Az árak a következõ tagcsoport számára láthatók';
 	var $_PHPSHOP_ADMIN_CFG_PRICE_ACCESS_LEVEL_TIP = 'A kiválasztott tagcsoport, valamint a magasabb szintû jogosultságokkal rendelkezõ tagcsoportok láthatják a fogyasztói árakat.';
 	var $_PHPSHOP_ADMIN_CFG_PRICE_SHOW_INCLUDINGTAX = 'A "(XX% áfával)" megjelenítése, ha felszámítható?';
-	var $_PHPSHOP_ADMIN_CFG_PRICE_SHOW_INCLUDINGTAX_TIP = 'Ha bejelöli, akkor a felhasználók látni fogják a "(xx% áfával)" szöveget, ha az árak kijelzése az áfával történik.';
+	var $_PHPSHOP_ADMIN_CFG_PRICE_SHOW_INCLUDINGTAX_TIP = 'Ha bejelölöd, akkor a felhasználók látni fogják a "(xx% áfával)" szöveget, ha az árak kijelzése az áfával történik.';
 	var $_PHPSHOP_ADMIN_CFG_PRICE_SHOW_PACKAGING_PRICELABEL = 'Látható a csomagolás árcédulája?';
 	var $_PHPSHOP_ADMIN_CFG_PRICE_SHOW_PACKAGING_PRICELABEL_TIP = 'Bejelölése esetén az árcédula a termék egységének és csomagolásának értékébõl származik:<br/>
 <strong>Egységár (10 darab)<strong><br/>
@@ -1418,12 +1418,12 @@ Ha nem jelöli be, akkor az árcédula úgy néz ki, ahogy szokott: <strong>Ára: xx.x
 	var $_PHPSHOP_ADMIN_CFG_USER_REGISTRATION_SETTINGS = 'Felhasználói regisztrálás beállításai';
 	var $_PHPSHOP_ADMIN_CFG_ALLOW_REGISTRATION = 'Engedélyezett a felhasználók regisztrálása?';
 	var $_PHPSHOP_ADMIN_CFG_ACCOUNT_ACTIVATION = 'Új fiókaktiválásra van szükség?';
-	var $_PHPSHOP_ADMIN_CFG_SILENT_REGISTRATION = 'Csendes (rejtett) felhasználói regisztrálást használ?';
+	var $_PHPSHOP_ADMIN_CFG_SILENT_REGISTRATION = 'Csendes (rejtett) felhasználói regisztrálást használsz?';
 	var $_PHPSHOP_ADMIN_CFG_SILENT_REGISTRATION_TIP = 'Engedélyezése esetén nem kell új fiók létrehozásakor kitölteniük a felhasználóknak a felhasználónevet és a jelszót. Ehelyett az e-mail cím kerül felhasználásra az új fiók létrehozásához, és véletlenszerû jelszót generál a rendszer. A regisztrációs adatokat postázza a vásárlónak.';
-	var $_PHPSHOP_USER_SEND_REGISTRATION_DETAILS = 'Tisztelt %s!
+	var $_PHPSHOP_USER_SEND_REGISTRATION_DETAILS = 'Helló, %s!
 
-Köszönjük, hogy regisztrált a(z) %s tartományon. A felhasználói fiókját elkészítettük.
-Az alábbi felhasználónévvel és jelszóval léphet be a(z) %s tartományra:
+Köszönjük, hogy regisztráltál a(z) %s tartományon. A felhasználói fiókodat elkészítettük.
+Az alábbi felhasználónévvel és jelszóval léphetsz be a(z) %s tartományra:
 
 Felhasználónév - %s
 Jelszó - %s
@@ -1437,14 +1437,14 @@ Jelszó - %s
 	var $_PEAR_LOG_EMERG = 'Vészhelyzet';
 	var $_PEAR_LOG_NOTICE = 'Közlemény';
 	var $_PEAR_LOG_DEBUG = 'Hibakeresés';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_PFP = 'Engedélyezi a PayFlow Pro fizetést?';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_PFP_EXPLAIN = 'Jelölje be a VeriSign PayFlow Pro használatához a VirtueMart-tal.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_PFP = 'Engedélyezed a PayFlow Pro fizetést?';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_PFP_EXPLAIN = 'Jelöld be a VeriSign PayFlow Pro használatához a VirtueMart-tal.';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_PFP_TESTMODE = 'Mód tesztelése ?';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_PFP_TESTMODE_EXPLAIN = 'Tesztelés alatt válassza az \'Igen\' lehetõséget. Az élõ tranzakciók engedélyezéséhez válassza a \'Nem\' lehetõséget.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_PFP_TESTMODE_EXPLAIN = 'Tesztelés alatt válaszd az \'Igen\' lehetõséget. Az élõ tranzakciók engedélyezéséhez válassza a \'Nem\' lehetõséget.';
 	var $_PHPSHOP_ADMIN_CFG_PFP_PARTNER = 'VeriSign által feldolgozott partnerazonosító';
-	var $_PHPSHOP_ADMIN_CFG_PFP_PARTNET_EXPLAIN = 'A partnerazonosító, amit az a hivatalos VeriSign-viszonteladó adott, aki bejegyezte Önt a PayFlow Pro szolgáltatásba';
+	var $_PHPSHOP_ADMIN_CFG_PFP_PARTNET_EXPLAIN = 'A partnerazonosító, amit az a hivatalos VeriSign-viszonteladó adott, aki bejegyzett téged a PayFlow Pro szolgáltatásba';
 	var $_PHPSHOP_ADMIN_CFG_PFP_USERNAME = 'PayFlow Pro felhasználónév';
-	var $_PHPSHOP_ADMIN_CFG_PFP_USERNAME_EXPLAIN = 'Ez az Ön PayFlow Pro felhasználóneve';
+	var $_PHPSHOP_ADMIN_CFG_PFP_USERNAME_EXPLAIN = 'Ez a PayFlow Pro felhasználóneved';
         
 }
 class phpShopLanguage extends vmLanguage { }

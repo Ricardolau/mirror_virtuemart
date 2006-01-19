@@ -33,8 +33,11 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
-16-01-2006 soeren
+19-01-2006 soeren
+# Deleting a product didn't delete the product <-> product type relationship,
+	so you couldn't delete the product type
 
+16-01-2006 soeren
 # Task #443 - Registration not possible with .info domain
 # Task #418 - Can't assign multiple product types to a product
 # Task #417 - Changing status to 'C' for auth net settle del. trans ID!

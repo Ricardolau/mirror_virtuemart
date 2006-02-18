@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_session.php,v 1.15 2005/11/12 08:32:08 soeren_nb Exp $
+* @version $Id: ps_session.php,v 1.15.2.1 2006/01/17 19:04:14 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -57,6 +57,8 @@ class ps_session {
 			elseif( $_COOKIE['sessioncookie'] != $sessioncookie ) {			
 				$_COOKIE['sessioncookie'] = $sessioncookie;
 			}
+			// Fix for Mambo 4.5.3h; I hope this will not smash other components using Sessions
+			@session_write_close();
 			
 			session_name( $this->_session_name );
 			session_id( $_COOKIE[$this->_session_name] );

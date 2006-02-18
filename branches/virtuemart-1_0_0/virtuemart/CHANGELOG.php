@@ -33,6 +33,40 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+
+17-02-2006 soeren
+
+# When price field left empty and product had no price, a price record (0) was added.
+# Task #456 — Foreign adress give error on checkout
+	If you leave the ZIP start or end fields empty, automatically "00000" or "99999"
+	is inserted. This was a trap for many users.
+# Task #515 — Problem with Authorize.net after upgrade
+# Task #519 — Fatal error when adding a manufacturer
+# linkpoint class using wrong user information query (ps_linkpoint.php)
+# order list query error
++ order and user list can be filtered by full name now 
+	(before it was possible to search for the first name OR the last name, not both at the same time)
+	
+14-02-2006 soeren
+
+# Task #514 — add to cart URL does not always work
+# Task #509 — Deleting manufacturer bug
+# Task #495 — Related products list doesn't update with new products: 
+	now displaying 2000 related products instead of 1000.
+# Task #483 — fatal error in admin.user_form.php in line 101
+# Task #480 — Various Errors (one fatal) in vm_dtree.php
+# Task #474 — Changing default flypage is broken
+# Task #473 — Free Shipping broken: SQL statement in global.php
+# Task #471 — The script sleight.js isn't loaded when SEF URLs is on
+# Task #468 — wrong variable in standard_shipping.php
+
+08-02-2006
+# "empty cart bug" using Mambo 4.5.3h
+# Shoppers / Users couldn't be deleted.
+# Task #486 - HTTPS Error In Virtuemart.cfg.php (not every server uses port 443 for secure connections)
+
+---- VirtueMart 1.0.2 released ----
+
 19-01-2006 soeren
 # Deleting a product didn't delete the product <-> product type relationship,
 	so you couldn't delete the product type
@@ -47,7 +81,7 @@ VirtueMart 1.0.x
 # Task 413 -  wrong price on details page when using quantity-based prices
 + added Australia Post shipping module by Ben Wilson (ben@diversionware.com.au)
 # mosproductsnapshot Mambot wouldn't correctly display linked images
-+ Download ID "hack" by Eugene, scott, joomlasolutions!
++ Download ID "hack" by Eugene, wooly, scott, joomlasolutions!
 	Customers can get their download IDs for downloading files
 	directly from the order details page (products are linked)
 + showing filesize for files which are listed on the product details page (by djlongy)

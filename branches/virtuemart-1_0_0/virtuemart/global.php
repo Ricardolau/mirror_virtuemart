@@ -1,7 +1,7 @@
 <?php
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
-* @version $Id: global.php,v 1.4 2005/10/04 18:30:34 soeren_nb Exp $
+* @version $Id: global.php,v 1.4.2.1 2005/12/01 20:00:32 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -38,7 +38,7 @@ if( $my->id ) {
 
 $_SESSION["ps_vendor_id"] = $ps_vendor_id = $default_vendor;
 
-$q = "SELECT vendor_id, vendor_min_pov,vendor_name,vendor_store_name,contact_email,vendor_full_image, 
+$q = "SELECT vendor_id, vendor_min_pov,vendor_name,vendor_store_name,contact_email,vendor_full_image, vendor_freeshipping,
 			vendor_address_1, vendor_city, vendor_state, vendor_country, country_2_code, country_3_code,
 			vendor_zip, vendor_phone, vendor_store_desc, vendor_currency, vendor_currency_display_style
 		FROM (`#__{vm}_vendor`, `#__{vm}_country`)

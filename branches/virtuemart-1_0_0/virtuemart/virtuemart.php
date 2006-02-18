@@ -208,7 +208,7 @@ else {
 			$auth, $ps_checkout,$error, $error_type, $func_perms, $func_list, $func_class, $func_method, $func_list, $dir_list, $mosConfig_allowUserRegistration ;
 
 			if( is_callable( array("mosMainFrame", "addCustomHeadTag" ) ) && !stristr( $_SERVER['PHP_SELF'], "index2.php") ) {
-				$mainframe->addCustomHeadTag( "<script type=\"text/javascript\" src=\"components/$option/js/sleight.js\"></script>
+				$mainframe->addCustomHeadTag( "<script type=\"text/javascript\" src=\"$mosConfig_live_site/components/$option/js/sleight.js\"></script>
 <script type=\"text/javascript\" src=\"$mosConfig_live_site/components/$option/js/sleightbg.js\"></script>
 <link type=\"text/css\" rel=\"stylesheet\" media=\"screen, projection\" href=\"$mosConfig_live_site/components/$option/css/shop.css\" />" );
 			} else {

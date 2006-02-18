@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_cart.php,v 1.11 2005/11/01 18:39:46 soeren_nb Exp $
+* @version $Id: ps_cart.php,v 1.12.2.1 2005/12/01 20:00:32 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -165,8 +165,7 @@ class ps_cart {
 		/* if the cart was updated we gotta update any coupon discounts to avoid ppl getting free stuff */
 		if( !empty( $_SESSION['coupon_discount'] )) {
 			// Update the Coupon Discount !!
-			require_once( CLASSPATH . "ps_coupon.php" );
-			ps_coupon::process_coupon_code( $d );
+			$_POST['do_coupon'] = 'yes';
 		}
 
 		$cart = $_SESSION['cart'];

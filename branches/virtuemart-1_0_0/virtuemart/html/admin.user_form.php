@@ -98,6 +98,7 @@ $tabs->startTab( $VM_LANG->_PHPSHOP_USER_FORM_BILLTO_LBL, "billto-page");
 		<td nowrap="nowrap" style="text-align:right;" width="38%" ><?php echo $VM_LANG->_PHPSHOP_USER_FORM_PERMS ?>:</td> 
 		<td width="62%" > 
 			<?php
+			if( !isset( $ps_user)) { $ps_user = new ps_user(); }
 			$ps_user->list_perms("perms", $db->sf("perms"));
 			?> 
 		</td> 

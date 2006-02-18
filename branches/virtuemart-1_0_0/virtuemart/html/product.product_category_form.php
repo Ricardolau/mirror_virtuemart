@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: product.product_category_form.php,v 1.6 2005/09/30 10:14:30 codename-matrix Exp $
+* @version $Id: product.product_category_form.php,v 1.7 2005/11/18 16:43:50 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -35,7 +35,7 @@ if ($category_id) {
 } 
 elseif (empty($vars["error"])) {
     $default["category_publish"] = "Y";
-    $default["category_flypage"] = "shop.flypage";
+    $default["category_flypage"] = FLYPAGE;
     $default["category_browsepage"] = CATEGORY_TEMPLATE;
     $default["products_per_row"] = PRODUCTS_PER_ROW; 
 }

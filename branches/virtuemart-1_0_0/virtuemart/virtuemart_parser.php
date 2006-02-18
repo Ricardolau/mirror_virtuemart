@@ -114,7 +114,7 @@ if( !defined( '_VM_PARSER_LOADED' )) {
 	$ps_shopper_group = new ps_shopper_group();
 
 	// Set the mosConfig_live_site to its' SSL equivalent
-	if( $_SERVER['SERVER_PORT'] == 443 || @strstr( "checkout.", $page )) {
+	if( @$_SERVER['HTTPS'] == 'on' || @strstr( "checkout.", $page )) {
 		// temporary solution until we have
 		// $mosConfig_secure_site
 		$GLOBALS['real_mosConfig_live_site'] = $GLOBALS['mosConfig_live_site'];

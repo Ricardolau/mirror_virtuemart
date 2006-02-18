@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: ps_shipping.php,v 1.3 2005/09/27 17:48:50 soeren_nb Exp $
+* @version $Id: ps_shipping.php,v 1.4 2005/09/29 20:01:14 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -277,6 +277,14 @@ class ps_shipping {
       $d["error"] = $VM_LANG->_PHPSHOP_ERR_MSG_RATE_WEIGHT_END_REQ;
       return False;
     }
+
+		if( $d["shipping_rate_zip_start"] == "") {
+			$d["shipping_rate_zip_start"] = '00000';
+		}
+		if ($d["shipping_rate_zip_end"] == "") {
+			$d["shipping_rate_zip_end"] = '99999';
+		}
+		
     if ($d["shipping_rate_weight_start"] >= $d["shipping_rate_weight_end"]) {
       $d["error"] = $VM_LANG->_PHPSHOP_ERR_MSG_RATE_WEIGHT_STARTEND_INV;
       return False;
@@ -379,6 +387,14 @@ class ps_shipping {
       }
       chop($src_str);
     }
+
+		if( $d["shipping_rate_zip_start"] == "") {
+			$d["shipping_rate_zip_start"] = '00000';
+		}
+		if ($d["shipping_rate_zip_end"] == "") {
+			$d["shipping_rate_zip_end"] = '99999';
+		}
+		
     $q .= "shipping_rate_country='$src_str',";
     $q .= "shipping_rate_zip_start='" . $d["shipping_rate_zip_start"] . "',";
     $q .= "shipping_rate_zip_end='" . $d["shipping_rate_zip_end"] . "',";

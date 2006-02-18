@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: ps_user.php,v 1.8 2005/11/01 18:39:46 soeren_nb Exp $
+* @version $Id: ps_user.php,v 1.9.2.1 2005/12/15 20:59:30 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -372,10 +372,10 @@ class ps_user {
 		$this->removeUsers( $d['user_id' ], $d );
 		
 		if( !is_array( $d['user_id'] ))
-			$d['user_id'][0] = $d['user_id'];
+			$d['user_id'] = array( $d['user_id'] );
 			
 		foreach( $d['user_id'] as $user ) {
-			if (!$this->validate_delete($user_id)) {
+			if (!$this->validate_delete($user)) {
 				return False;
 			}
 			// Delete user_info entries

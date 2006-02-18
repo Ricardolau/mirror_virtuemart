@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: ps_config.php,v 1.7 2005/10/18 05:16:51 soeren_nb Exp $
+* @version $Id: ps_config.php,v 1.9 2005/10/25 19:33:52 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -145,10 +145,11 @@ else {
 define( 'URL', \$mosConfig_live_site.\$app );
 define( 'SECUREURL', '".$d['conf_SECUREURL']."' );
 
-if( \$_SERVER['SERVER_PORT'] == 443 )
+if ( @\$_SERVER['HTTPS'] == 'on' ) {
 	define( 'IMAGEURL', SECUREURL .'components/com_virtuemart/shop_image/' );
-else
+} else {
 	define( 'IMAGEURL', URL .'components/com_virtuemart/shop_image/' );
+}
 define( 'COMPONENTURL', URL .'administrator/components/com_virtuemart/' );
 define( 'ADMINPATH', \$mosConfig_absolute_path.'/administrator/components/com_virtuemart/' );
 define( 'CLASSPATH', ADMINPATH.'classes/' );

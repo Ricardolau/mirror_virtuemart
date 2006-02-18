@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: admin.user_list.php,v 1.4 2005/10/04 18:30:34 soeren_nb Exp $
+* @version $Id: admin.user_list.php,v 1.5.2.1 2005/12/11 12:42:56 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -35,6 +35,7 @@ if ( !empty($keyword) ) {
 	$q .= "ui.company LIKE '%$keyword%' OR ";
 	$q .= "ui.last_name LIKE '%$keyword%' OR ";
 	$q .= "ui.first_name LIKE '%$keyword%' OR ";
+	$q .= "CONCAT( `ui`.`first_name`, ' ', `ui`.`last_name`) LIKE '%$keyword%' OR ";
 	$q .= "ui.phone_1 LIKE '%$keyword%' ";
 	$q .= ") AND ";
 }

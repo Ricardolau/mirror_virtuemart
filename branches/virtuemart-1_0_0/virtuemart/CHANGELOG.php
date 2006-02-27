@@ -33,7 +33,42 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+22-02-2006 soeren
 
+# Task #536 — vendor info page error
+# page navigation on browse pages contained the live site URL.
+# standard shipping module doing wrong number_format when amount is greater than 999.99
+# fixed: multiple tax rates / subtotal re-calculation when discounts are applied
+# ps_product_category::get_cid => category ID query not executed
+# attribute prices being displayed without tax, although "show prices including tax" is active
+# totals getting stored without decimals: changed "setlocale( LC_NUMERIC, 'en' )" to "setlocale( LC_NUMERIC, 'en_US' )"
++ page title on order details page in account maintenance
+# checkout login form using sefRelToAbs for $return
+^ using the same "Add-to-cart" image as in product_details in browse page now
+# tax rates were stored with 0.0000 value
+
+! DATABASE STRUCTURE CHANGED 
+---
+	# http://virtuemart.net/index.php?option=com_flyspray&Itemid=83&do=details&id=521
+	ALTER TABLE `jos_vm_product_mf_xref` CHANGE `product_id` `product_id` INT( 11 ) NULL DEFAULT NULL 
+	
+	# Store multiple-tax-rates details for each order when applicable
+	ALTER TABLE `jos_vm_orders` ADD `order_tax_details` TEXT NOT NULL AFTER `order_tax` ;
+---
+
+
+21-02-2006 soeren
+
+# Task #525 — USPS shipping module: User details SQL query
+# order email: text part had ugly HTML entities in it (e.g. &euro; )
+^ file downloads (paid downloads): reading and sending the file is now handled by a new function 
+	(previously: readfile, now: vmReadFileChunked )
+# fixes for compatibility with Joomla 1.1.x, still maintaining backwards compatibility with Mambo
+	- added $vmInputFilter to global declaration list in virtuemart.php
+	- virtuemart module dealing with wrong module paths
+	- ps_perm needed its own ACL manipulation methods
+	- ps_session doesn't need to append "&Itemid=" in the backend
+	
 17-02-2006 soeren
 
 # When price field left empty and product had no price, a price record (0) was added.

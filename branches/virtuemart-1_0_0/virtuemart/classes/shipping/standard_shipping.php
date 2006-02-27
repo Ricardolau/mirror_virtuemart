@@ -2,7 +2,7 @@
 defined('_VALID_MOS') or die('Direct Access to this location is not allowed.');
 /**
 *
-* @version $Id: standard_shipping.php,v 1.14.2.1 2005/12/04 18:22:27 soeren_nb Exp $
+* @version $Id: standard_shipping.php,v 1.14.2.2 2006/02/18 09:20:11 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage shipping
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -88,7 +88,7 @@ class standard_shipping {
 				$shipping_rate_id = urlencode( $this->classname."|"
 									.$dbc->f("shipping_carrier_name")."|"
 									.$dbr->f("shipping_rate_name")."|"
-									.number_format($total_shipping_handling, 2)."|"
+									.number_format($total_shipping_handling, 2, '.', '')."|"
 									.$dbr->f("shipping_rate_id"));
 				
 				$_SESSION[$shipping_rate_id] = 1;

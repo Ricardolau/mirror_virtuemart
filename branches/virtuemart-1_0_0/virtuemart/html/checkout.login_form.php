@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: checkout.login_form.php,v 1.5 2005/10/18 18:45:35 soeren_nb Exp $
+* @version $Id: checkout.login_form.php,v 1.6 2005/11/18 16:43:50 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -46,6 +46,6 @@ $return = str_replace( 'option', '&amp;option', $return );
   <input type="hidden" name="op2" value="login" />
   <input type="hidden" name="remember" value="yes" />
   <input type="hidden" name="lang" value="<?php echo $mosConfig_lang; ?>" />
-  <input type="hidden" name="return" value="<?php echo sefRelToAbs( $return ) ?>" />
+  <input type="hidden" name="return" value="<?php echo $return ?>" />
 </form>
 

@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: ro_basket_b2b.html.php,v 1.2 2005/09/27 17:51:26 soeren_nb Exp $
+* @version $Id: ro_basket_b2b.html.php,v 1.3 2005/09/29 20:02:56 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage templates
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -16,7 +16,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * http://virtuemart.net
 */
 ?>
-<table width="100%" cellspacing="0" cellpadding="4" border="0">
+<table width="100%" cellspacing="2" cellpadding="4" border="0">
   <tr align="left" class="sectiontableheader">
 	<th><?php echo $VM_LANG->_PHPSHOP_CART_NAME ?></th>
 	<th><?php echo $VM_LANG->_PHPSHOP_CART_SKU ?></th>
@@ -61,7 +61,7 @@ if( $shipping ) { ?>
 <?php } 
 if ( $tax ) { ?>
   <tr class="sectiontableentry2">
-	<td colspan="4" align="right"><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_TOTAL_TAX ?>: </td> 
+	<td colspan="4" align="right" valign="top"><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_TOTAL_TAX ?>: </td> 
 	<td><?php echo $tax_display ?></td>
   </tr>
 <?php }

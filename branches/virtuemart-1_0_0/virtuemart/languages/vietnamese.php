@@ -1441,6 +1441,7 @@ Mật khẩu - %s
 	var $_PHPSHOP_ADMIN_CFG_PFP_PARTNET_EXPLAIN = 'The Partner ID provided to you by the authorized VeriSign Reseller that registered you for the PayFlow Pro service';
 	var $_PHPSHOP_ADMIN_CFG_PFP_USERNAME = 'PayFlow Pro Login ID';
 	var $_PHPSHOP_ADMIN_CFG_PFP_USERNAME_EXPLAIN = 'This is your PayFlow Pro Login ID';
+	var $_VM_TAXDETAILS_LABEL = 'Tax Total contains';
         
 }
 class phpShopLanguage extends vmLanguage { }

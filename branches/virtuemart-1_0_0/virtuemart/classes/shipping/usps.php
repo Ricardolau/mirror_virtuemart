@@ -2,7 +2,7 @@
 defined('_VALID_MOS') or die('Direct Access to this location is not allowed.');
 /**
 *
-* @version $Id: usps.php,v 1.5 2005/10/28 09:35:36 soeren_nb Exp $
+* @version $Id: usps.php,v 1.7 2005/11/16 14:43:32 codename-matrix Exp $
 * @package VirtueMart
 * @subpackage shipping
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -38,12 +38,9 @@ class usps {
 		/** Read current Configuration ***/
 		require_once(CLASSPATH ."shipping/".$this->classname.".cfg.php");
 
-		$q  = "SELECT * FROM #__users, #__{vm}_country WHERE user_info_id='" . $d["ship_to_info_id"]."' AND ( country=country_2_code OR country=country_3_code)";
+		$q  = "SELECT * FROM `#__{vm}_user_info`, `#__{vm}_country` WHERE user_info_id='" . $d["ship_to_info_id"]."' AND ( country=country_2_code OR country=country_3_code)";
 		$db->query($q);
-		if( !$db->next_record()) {
-			$q  = "SELECT * FROM #__{vm}_user_info, #__{vm}_country WHERE user_info_id='" . $d["ship_to_info_id"]."' AND ( country=country_2_code OR country=country_3_code)";
-			$db->query($q);
-		}
+		$db->next_record();
 
 		$q  = "SELECT * FROM #__{vm}_vendor WHERE vendor_id='".$_SESSION['ps_vendor_id']."'";
 		$dbv->query($q);

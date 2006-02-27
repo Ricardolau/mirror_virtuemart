@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: order.order_print.php,v 1.8 2005/11/16 06:59:04 soeren_nb Exp $
+* @version $Id: order.order_print.php,v 1.9.2.1 2005/12/01 20:00:33 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -438,7 +438,13 @@ else {
 				<td width="19%"><div align="right"><strong><?php echo $CURRENCY_DISPLAY->getFullValue($db->f("order_total")); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></strong>
 				  </td>
 			  </tr>
-			</table>
+			  <tr>
+				<td width="5%">&nbsp;</td>
+				<td width="42%">&nbsp;</td>
+				<td colspan="3">&nbsp;</td>
+				<td width="19%"><?php echo ps_checkout::show_tax_details( $db->f('order_tax_details') ); ?></td>
+			  </tr>
+			  </table>
 		  </td>
 		</tr>
 		<tr>

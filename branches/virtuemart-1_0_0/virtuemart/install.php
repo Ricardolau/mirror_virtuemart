@@ -6,7 +6,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * - running SQL updates
 * - finishing the installation
 *
-* @version $Id: install.php,v 1.13 2005/11/08 19:21:00 soeren_nb Exp $
+* @version $Id: install.php,v 1.14 2005/11/12 08:32:07 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -98,17 +98,23 @@ function installvirtuemart( $install_type, $install_sample_data=false ){
 		require_once( $admin_dir."/sql/sql.update.from.mambo-phpshop-1.1.php" );
 		require_once( $admin_dir."/sql/sql.update.from.mambo-phpshop-1.2-RC2.to.1.2-stable-pl3.php" );
 		require_once( $admin_dir."/sql/sql.update.mambo-phpshop-1.2-stable-pl3.to.virtuemart.php" );
+		require_once( $admin_dir."/sql/sql.update.virtuemart-1.0.x.to.virtuemart-1.0.3.php" );
 	}
 	//UDATE FROM mambo-phpShop 1..2 RC2
 	elseif ($install_type=='update12') {  
   
 		require_once( $admin_dir."/sql/sql.update.from.mambo-phpshop-1.2-RC2.to.1.2-stable-pl3.php" );
 		require_once( $admin_dir."/sql/sql.update.mambo-phpshop-1.2-stable-pl3.to.virtuemart.php" );
+		require_once( $admin_dir."/sql/sql.update.virtuemart-1.0.x.to.virtuemart-1.0.3.php" );
 	}
 	//UDATE FROM mambo-phpShop 1..2 stable-pl3
 	elseif ($install_type=='update12pl3') {  
   
 		require_once( $admin_dir."/sql/sql.update.mambo-phpshop-1.2-stable-pl3.to.virtuemart.php" );
+		require_once( $admin_dir."/sql/sql.update.virtuemart-1.0.x.to.virtuemart-1.0.3.php" );
+	}
+	elseif( $install_type == 'updatevm10x' ) {
+		require_once( $admin_dir."/sql/sql.update.virtuemart-1.0.x.to.virtuemart-1.0.3.php" );
 	}
 
 	// New Installation : Create all tables

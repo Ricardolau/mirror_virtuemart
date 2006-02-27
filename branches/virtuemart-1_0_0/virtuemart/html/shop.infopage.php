@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: shop.infopage.php,v 1.2 2005/09/27 17:51:26 soeren_nb Exp $
+* @version $Id: shop.infopage.php,v 1.3 2005/09/29 20:02:18 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -29,7 +29,7 @@ $ps_product_attribute = new ps_product_attribute;
 
 <?php
   $q  = "SELECT * FROM #__{vm}_vendor WHERE ";
-  $q .= "vendor_id='$vendor_id'";
+  $q .= "vendor_id='".intval($vendor_id)."'";
   $db->query($q);
   $db->next_record();
   
@@ -48,15 +48,15 @@ $ps_product_attribute = new ps_product_attribute;
 ?>
    <br />
   <div align="center">
-    <a href="<? $db->p("vendor_url") ?>" target="blank">
-      <img border="0" src="<? echo IMAGEURL ?>vendor/<?php echo $v_logo; ?>">
+    <a href="<?php $db->p("vendor_url") ?>" target="blank">
+      <img border="0" src="<?php echo IMAGEURL ?>vendor/<?php echo $v_logo; ?>">
     </a>
   </div>
   <br /><br />
   <table align="center" cellspacing="0" cellpadding="0" border="0">
       <tr valign="top"> 
         <th colspan="2" align="center" class="sectiontableheader">
-          <strong><? echo $VM_LANG->_PHPSHOP_STORE_FORM_CONTACT_LBL ?></strong>
+          <strong><?php echo $VM_LANG->_PHPSHOP_STORE_FORM_CONTACT_LBL ?></strong>
         </th>
 	</tr>
 	<tr valign="top">
@@ -67,19 +67,16 @@ $ps_product_attribute = new ps_product_attribute;
 
 	<tr>
       <td valign="top" align="center" colspan="2">
-          <br /><? echo $VM_LANG->_PHPSHOP_PAYMENT_METHOD_LIST_NAME ?>:&nbsp;<?php echo $v_title ." " . $v_first_name . " " . $v_last_name ?>
-          <br /><? echo $VM_LANG->_PHPSHOP_STORE_FORM_PHONE ?>:&nbsp;<?php $db->p("contact_phone_1");?>
-          <br /><? echo $VM_LANG->_PHPSHOP_STORE_FORM_FAX ?>:&nbsp;<?php echo $v_fax ?>
-          <br /><? echo $VM_LANG->_PHPSHOP_STORE_FORM_EMAIL ?>:&nbsp;<?php echo $v_email; ?><br />
-          <br /><a href="<? $db->p("vendor_url") ?>" target="_blank"><? $db->p("vendor_url") ?></a><br />
+          <br /><?php echo $VM_LANG->_PHPSHOP_PAYMENT_METHOD_LIST_NAME ?>:&nbsp;<?php echo $v_title ." " . $v_first_name . " " . $v_last_name ?>
+          <br /><?php echo $VM_LANG->_PHPSHOP_STORE_FORM_PHONE ?>:&nbsp;<?php $db->p("contact_phone_1");?>
+          <br /><?php echo $VM_LANG->_PHPSHOP_STORE_FORM_FAX ?>:&nbsp;<?php echo $v_fax ?>
+          <br /><?php echo $VM_LANG->_PHPSHOP_STORE_FORM_EMAIL ?>:&nbsp;<?php echo $v_email; ?><br />
+          <br /><a href="<?php $db->p("vendor_url") ?>" target="_blank"><?php $db->p("vendor_url") ?></a><br />
       </td>
 	</tr>
 	<tr>
       <td valign="top" align="left" colspan="2">
           <br><?php $db->p("vendor_store_desc") ?><br />
       </td>
-	</TR>
+	</tr>
 </table>
-
-
-<!-- Body ends here -->

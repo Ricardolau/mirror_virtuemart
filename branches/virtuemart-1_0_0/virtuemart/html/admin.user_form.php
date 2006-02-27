@@ -50,6 +50,7 @@ $tabs->startTab( 'General User Information', "userform-page");
 
 $_REQUEST['cid'][0] = $user_id;
 $_REQUEST['task'] = 'edit';
+$GLOBALS['option'] = 'com_users'; // Cheat Joomla 1.1
 $mainframe->_path->admin_html = $mosConfig_absolute_path.'/administrator/components/com_users/admin.users.html.php';
 $mainframe->_path->class = $mosConfig_absolute_path.'/administrator/components/com_users/users.class.php';
 ob_start();
@@ -59,10 +60,15 @@ ob_end_clean();
 
 $userform = str_replace( '<form action="index2.php" method="post" name="adminForm">', '', $userform );
 $userform = str_replace( '</form>', '', $userform );
-
+$userform = str_replace( '<div id="editcell">', '', $userform );
+$userform = str_replace( '</table>
+		</div>', '</table>', $userform );
 echo $userform;
-$_REQUEST['option'] = 'com_virtuemart';
-$tabs->endPane();
+
+$_REQUEST['option'] = $GLOBALS['option'] = 'com_virtuemart';
+
+$tabs->endTab();
+
 $tabs->startTab( $VM_LANG->_PHPSHOP_USER_FORM_BILLTO_LBL, "billto-page");
 ?>
 <table class="adminform">  

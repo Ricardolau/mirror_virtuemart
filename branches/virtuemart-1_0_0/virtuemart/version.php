@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: version.php,v 1.15.2.2 2006/01/18 20:13:08 soeren_nb Exp $
+* @version $Id: version.php,v 1.15.2.3 2006/01/19 20:16:44 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -21,16 +21,16 @@ class vmVersion {
 	/** @var string Product */
 	var $PRODUCT = 'VirtueMart';
 	/** @var int Release Number */
-	var $RELEASE = '1.0.2';
+	var $RELEASE = '1.0.3';
 	/** @var string Development Status */
 	var $DEV_STATUS = 'stable';
 	/** @var string Codename */
-	// Album by Billy Boy Arnold
-	var $CODENAME = 'Eldorado Cadillac';
+	// Song by Chester Arthur Burnett aka Howlin' Wolf; http://en.wikipedia.org/wiki/Howlin%27_Wolf; 
+	var $CODENAME = 'Little Red Rooster';
 	/** @var string Date */
-	var $RELDATE = '19/01/2006';
+	var $RELDATE = '27/02/2006';
 	/** @var string Time */
-	var $RELTIME = '21:16';
+	var $RELTIME = '20:16';
 	/** @var string Timezone */
 	var $RELTZ = 'GMT';
 	/** @var string Copyright Text */

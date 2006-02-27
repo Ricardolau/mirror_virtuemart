@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_session.php,v 1.15.2.1 2006/01/17 19:04:14 soeren_nb Exp $
+* @version $Id: ps_session.php,v 1.15.2.2 2006/02/18 09:20:11 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -314,7 +314,12 @@ class ps_session {
 	function url($text) {
 		global $mm_action_url;
 		
-		$Itemid = "&Itemid=".$this->getShopItemid();
+		if( !defined( '_PSHOP_ADMIN' )) {
+			$Itemid = "&Itemid=".$this->getShopItemid();
+		}
+		else {
+			$Itemid = '';
+		}
 
 		switch ($text) {
 			case SECUREURL:

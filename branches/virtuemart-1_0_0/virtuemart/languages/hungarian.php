@@ -2,9 +2,9 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: admin.martlanguages.php,v 1.4 2005/10/15 15:26:14 soeren_nb Exp $
+* @version $Id: admin.martlanguages.php,v 1.6 2006/01/15 19:42:45 soeren_nb Exp $
 * @package VirtueMart
-* @subpackage languages	\ Hungarian \ Translated by Jozsef Tamas Herczeg, www.soft-trans.hu
+* @subpackage languages
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -1445,6 +1445,7 @@ Jelszó - %s
 	var $_PHPSHOP_ADMIN_CFG_PFP_PARTNET_EXPLAIN = 'A partnerazonosító, amit az a hivatalos VeriSign-viszonteladó adott, aki bejegyezte Önt a PayFlow Pro szolgáltatásba';
 	var $_PHPSHOP_ADMIN_CFG_PFP_USERNAME = 'PayFlow Pro felhasználónév';
 	var $_PHPSHOP_ADMIN_CFG_PFP_USERNAME_EXPLAIN = 'Ez az Ön PayFlow Pro felhasználóneve';
+	var $_VM_TAXDETAILS_LABEL = 'Tax Total contains';
         
 }
 class phpShopLanguage extends vmLanguage { }

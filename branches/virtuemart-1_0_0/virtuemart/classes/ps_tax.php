@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_tax.php,v 1.8 2005/11/12 08:32:08 soeren_nb Exp $
+* @version $Id: ps_tax.php,v 1.9 2005/11/24 06:25:40 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -51,10 +51,10 @@ class ps_tax {
 			$vmLogger->err( 'You must enter a tax rate.' );
 			$valid = False;
 		}
-		$d["tax_rate"] = str_replace( ',', '.', $d['tax_rate']);
 		if( (float)@$d["tax_rate"] > 1.0 ) {
 			$d["tax_rate"] = floatval(@$d["tax_rate"]) / 100;
 		}
+		$d["tax_rate"] = str_replace( ',', '.', $d['tax_rate']);
 
 		return $valid;
 	}
@@ -86,10 +86,11 @@ class ps_tax {
 			$vmLogger->err( 'You must enter a tax rate.' );
 			return False;
 		}
-		$d["tax_rate"] = str_replace( ',', '.', $d['tax_rate']);
 		if( (float)@$d["tax_rate"] > 1.0 ) {
 			$d["tax_rate"] = floatval(@$d["tax_rate"]) / 100;
 		}
+		$d["tax_rate"] = str_replace( ',', '.', $d['tax_rate']);
+		
 		return True;
 	}
 	/**

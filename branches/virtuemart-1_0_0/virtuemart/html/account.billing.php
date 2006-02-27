@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: account.billing.php,v 1.5 2005/10/12 18:13:11 soeren_nb Exp $
+* @version $Id: account.billing.php,v 1.6 2005/10/24 18:13:07 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -94,9 +94,12 @@ $q =  "SELECT * FROM #__users, #__{vm}_user_info
 $db->query($q);
 $db->next_record();
 
-echo "<div><a href=\"".$sess->url( SECUREURL ."index.php?page=account.index")."\" title=\"".$VM_LANG->_PHPSHOP_ACCOUNT_TITLE."\">"
-      .$VM_LANG->_PHPSHOP_ACCOUNT_TITLE."</a> -&gt; "
-      .$VM_LANG->_PHPSHOP_USER_FORM_BILLTO_LBL."</div><br/>";
+require_once( CLASSPATH.'ps_product_category.php');
+$pathway = "<a href=\"".$sess->url( SECUREURL ."index.php?page=account.index")."\" title=\"".$VM_LANG->_PHPSHOP_ACCOUNT_TITLE."\">"
+      .$VM_LANG->_PHPSHOP_ACCOUNT_TITLE."</a> ".ps_product_category::pathway_separator().' '
+      .$VM_LANG->_PHPSHOP_USER_FORM_BILLTO_LBL;
+$mainframe->appendPathWay( $pathway );
+echo "<div>$pathway</div><br/>";
 
 // Form validation function
 vmCommonHTML::printJS_formvalidation( $required_fields, 'adminForm', 'submitshopperform' );

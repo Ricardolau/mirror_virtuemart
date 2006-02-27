@@ -5,8 +5,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * @version $Id$
 * @package VirtueMart
 * @subpackage languages
-* @author: Ivo Apostolov
-* @copyright Copyright (C) 2004-2005 Joomla! Bulgaria - Ivo Apostolov. All rights reserved.
+* @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -1422,6 +1421,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_PFP_PARTNET_EXPLAIN = 'Partner ID Ви позволява да ползвате услугите на PayFlow Pro';
 	var $_PHPSHOP_ADMIN_CFG_PFP_USERNAME = 'PayFlow Pro ID идентификация';
 	var $_PHPSHOP_ADMIN_CFG_PFP_USERNAME_EXPLAIN = 'Вашието PayFlow Pro ID';
+	var $_VM_TAXDETAILS_LABEL = 'Tax Total contains';
         
 }
 class phpShopLanguage extends vmLanguage { }

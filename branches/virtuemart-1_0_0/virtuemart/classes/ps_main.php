@@ -3,7 +3,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 /**
 * This is no class! This file only provides core virtuemart functions.
 * 
-* @version $Id: ps_main.php,v 1.10 2005/11/07 20:22:06 soeren_nb Exp $
+* @version $Id: ps_main.php,v 1.11 2005/11/24 06:25:40 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -911,7 +911,7 @@ if (!defined('ENT_QUOTES')) {
  * @link        http://php.net/function.html_entity_decode
  * @author      David Irvine <dave@codexweb.co.za>
  * @author      Aidan Lister <aidan@php.net>
- * @version     $Revision: 1.10 $
+ * @version     $Revision: 1.11 $
  * @since       PHP 4.3.0
  * @internal    Setting the charset will not do anything
  * @require     PHP 4.0.0 (user_error)
@@ -936,5 +936,38 @@ function vmHtmlEntityDecode($string, $quote_style = ENT_COMPAT, $charset = null)
     }
 
     return strtr($string, $trans_tbl);
+}
+
+/**
+ * Reads a file and sends them in chunks to the browser
+ * This should overcome memory problems
+ * http://www.php.net/manual/en/function.readfile.php#54295
+ *
+ * @param string $filename
+ * @param boolean $retbytes
+ * @return mixed
+ */
+function vmReadFileChunked($filename,$retbytes=true) {
+	$chunksize = 1*(1024*1024); // how many bytes per chunk
+	$buffer = '';
+	$cnt =0;
+	// $handle = fopen($filename, 'rb');
+	$handle = fopen($filename, 'rb');
+	if ($handle === false) {
+		return false;
+	}
+	while (!feof($handle)) {
+		$buffer = fread($handle, $chunksize);
+		echo $buffer;
+		flush();
+		if ($retbytes) {
+			$cnt += strlen($buffer);
+		}
+	}
+	$status = fclose($handle);
+	if ($retbytes && $status) {
+		return $cnt; // return num. bytes delivered like readfile() does.
+	}
+	return $status;
 }
 ?>

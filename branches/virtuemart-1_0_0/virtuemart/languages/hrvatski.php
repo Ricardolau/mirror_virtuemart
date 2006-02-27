@@ -1,5 +1,5 @@
 <?php
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
 * @version $Id$
@@ -1437,7 +1437,8 @@ Korisnièko Ime - %s
 	var $_PHPSHOP_ADMIN_CFG_PFP_PARTNET_EXPLAIN = 'Partner ID koju ste dobili kao autorizirani VeriSign Reseller i kojom ste registrirani kao korisnik PayFlow Pro usluge';
 	var $_PHPSHOP_ADMIN_CFG_PFP_USERNAME = 'PayFlow Pro Login ID';
 	var $_PHPSHOP_ADMIN_CFG_PFP_USERNAME_EXPLAIN = 'Ovdje unesite svoje PayFlow Pro korisnièko ime.';
-
+	var $_VM_TAXDETAILS_LABEL = 'Tax Total contains';
+        
 }
 class phpShopLanguage extends vmLanguage { }
 

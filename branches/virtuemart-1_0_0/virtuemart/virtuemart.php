@@ -16,7 +16,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * http://virtuemart.net
 */
 
-global $mosConfig_absolute_path, $product_id;
+global $mosConfig_absolute_path, $product_id, $vmInputFilter;
 
 
 // Pre-Chache the output of the component

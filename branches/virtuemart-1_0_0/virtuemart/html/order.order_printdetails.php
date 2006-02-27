@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: order.order_printdetails.php,v 1.4 2005/10/04 18:30:35 soeren_nb Exp $
+* @version $Id: order.order_printdetails.php,v 1.5 2005/10/17 19:05:29 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -384,7 +384,8 @@ $db->next_record();
           }
           if (PAYMENT_DISCOUNT_BEFORE == '1') { ?></strong><? } ?>&nbsp;&nbsp;&nbsp;</td>
         </tr>
-        <?php if ($db->f("order_discount") != 0.00 && PAYMENT_DISCOUNT_BEFORE != '1') { ?>
+        <?php 
+        if ($db->f("order_discount") != 0.00 && PAYMENT_DISCOUNT_BEFORE != '1') { ?>
         <tr>
         <td colspan="4" align="right"><?php 
               if( $db->f("order_discount") > 0)
@@ -408,8 +409,14 @@ $db->next_record();
           </td>
         </tr>
         <?php
-            } ?>
-            
+        } 
+        ?>
+        <tr>
+            <td colspan="4" align="right">&nbsp;</td>
+        <td align="right"><strong><?php echo ps_checkout::show_tax_details( $db->f('order_tax_details') ); ?>
+        </strong>&nbsp;&nbsp;&nbsp;
+          </td>
+        </tr>            
       </table>
     </td>
   </tr>

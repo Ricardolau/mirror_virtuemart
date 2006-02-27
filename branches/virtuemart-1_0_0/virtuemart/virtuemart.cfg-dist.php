@@ -36,7 +36,7 @@ else {
 define( 'URL', $mosConfig_live_site.$app );
 define( 'SECUREURL', $mosConfig_live_site.$app);
 
-if ( @$_SERVER['HTTPS'] == 'on')) {
+if ( @$_SERVER['HTTPS'] == 'on' ) {
 	define( 'IMAGEURL', SECUREURL .'components/com_virtuemart/shop_image/' );
 } else {
 	define( 'IMAGEURL', URL .'components/com_virtuemart/shop_image/' );

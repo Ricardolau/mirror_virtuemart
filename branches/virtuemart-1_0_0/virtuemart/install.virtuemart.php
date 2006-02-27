@@ -58,10 +58,18 @@ function com_install() {
 	$pshop_tables = $database->loadObjectList();
 	
 	if( !empty( $pshop_tables )) {
-	  $installation = "update";
+	  $installation = "phpshopupdate";
 	}
-	else
-	  $installation = "new";
+	else {
+		$database->setQuery( 'SELECT id FROM `#__components` WHERE name = \'virtuemart_version\'' );
+		$old_version =  $database->loadResult();
+		if( $old_version || file_exists( $mosConfig_absolute_path.'/administrator/components/com_virtuemart/classes/htmlTools.class.php') {
+			$installation = 'vm_update';
+		}
+		else {
+			$installation = "new";
+		}
+	}
 	?>
 	<link rel="stylesheet" href="components/com_virtuemart/install.css" type="text/css" />
 	<div align="center">
@@ -125,7 +133,21 @@ function com_install() {
 									</tr>
 									<?php 
 								}
-								else {  ?>
+								elseif( $installation == 'vm_update' ) { ?>
+									<tr>
+										<td colspan="3" class="error">[UPDATE MODE]<br/>The Installation script has found out that you've already installed VirtueMart, so let's update your Database.</td>
+									</tr>
+									<tr>
+										<td align="left" colspan="3">If you're updating from VirtueMart  <strong>&lt; 1.0.3</strong> you'll have to click on this link!<br />
+											<br /><br/>
+											<div align="center">
+												<a title="UPDATE FROM VERSION 1.0.x &gt;&gt;" onclick="alert('Please don\'t interrupt the next Step! \n It is essential for updating VirtueMart.');" name="Button2" class="button" href="index2.php?option=com_virtuemart&install_type=updatevm10x">UPDATE FROM VERSION 1.0.x &gt;&gt;</a>
+											</div>
+										</td>
+									</tr>
+									<?php
+								}
+								elseif( $installation == 'phpshopupdate' ) {  ?>
 									<tr>
 										<td colspan="3" class="error">[UPDATE MODE]<br/>The Installation Script has found existing mambo-phpShop Tables, so let's update your Database.</td>
 									</tr>

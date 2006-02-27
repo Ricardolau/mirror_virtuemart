@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_product.php,v 1.24.2.5 2006/01/19 20:16:09 soeren_nb Exp $
+* @version $Id: ps_product.php,v 1.24.2.6 2006/02/18 09:20:11 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -2084,12 +2084,12 @@ class ps_product extends vmAbstractObject {
 
 			$html .= "<span style=\"font-weight:bold;\">".$db->f("product_name")."</span>\n";
 			$html .= "<br />\n";
-			$url = "?page=shop.product_details&category_id=$cid&flypage=".$this->get_flypage($db->f("product_id"));
+			
 			if ($db->f("product_parent_id")) {
-				$url = "?page=shop.product_details&flypage=".$this->get_flypage($db->f("product_parent_id"));
+				$url = "?page=shop.product_details&category_id=$cid&flypage=".$this->get_flypage($db->f("product_parent_id"));
 				$url .= "&product_id=" . $db->f("product_parent_id");
 			} else {
-				$url = "?page=shop.product_details&flypage=".$this->get_flypage($db->f("product_id"));
+				$url = "?page=shop.product_details&category_id=$cid&flypage=".$this->get_flypage($db->f("product_id"));
 				$url .= "&product_id=" . $db->f("product_id");
 			}
 			$html .= "<a title=\"".$db->f("product_name")."\" href=\"". $sess->url($mm_action_url. "index.php" . $url)."\">";

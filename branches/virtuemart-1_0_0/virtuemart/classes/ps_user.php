@@ -35,34 +35,32 @@ class ps_user {
     global $my, $perm, $vmLogger;
     $valid = true;
     
-    if (empty($d["country"])) {
-      $vmLogger->warning( 'Please select a country.' );
-      $valid = false;
-    }
-	if (empty($d["address_1"])) {
-      $vmLogger->warning( '"Address 1" is a required field.');
-      $valid = false;
-    }
-    if ( empty($d["city"]) ) {
-      $vmLogger->warning( '"City" is a required field.' );
-      $valid = false;
-    }
-    if (CAN_SELECT_STATES == '1') {
-        if ( empty($d["state"]) ) {
-          $vmLogger->warning( '"State/Region" is a required field.' );
-          $valid = false;
-        }
-    }
-    if ( empty($d["zip"]) ) {
-      $vmLogger->warning( '"Zip" is a required field.' );
-      $valid = false;
-    }
-    /*
-    if (!$d["phone_1"]) {
-      $d["error"] .= "'Phone Number' is a required field.";
-      $valid = false;
-    }
-    */
+    if( !$perm->check( 'admin,storeadmin')) {
+	    	
+	    if (empty($d["country"])) {
+	      $vmLogger->warning( 'Please select a country.' );
+	      $valid = false;
+	    }
+		if (empty($d["address_1"])) {
+	      $vmLogger->warning( '"Address 1" is a required field.');
+	      $valid = false;
+	    }
+	    if ( empty($d["city"]) ) {
+	      $vmLogger->warning( '"City" is a required field.' );
+	      $valid = false;
+	    }
+	    if (CAN_SELECT_STATES == '1') {
+	        if ( empty($d["state"]) ) {
+	          $vmLogger->warning( '"State/Region" is a required field.' );
+	          $valid = false;
+	        }
+	    }
+	    if ( empty($d["zip"]) ) {
+	      $vmLogger->warning( '"Zip" is a required field.' );
+	      $valid = false;
+	    }
+	}
+	
     if (!$d['perms']) {
       $vmLogger->warning( 'You must assign the user to a group.' );
       $valid = false;
@@ -93,34 +91,32 @@ class ps_user {
 		  $vmLogger->warning( 'Please select a user to update.' );
 		  $valid = false;
 		}
-		if (empty($d["country"])) {
-		  $vmLogger->warning( 'Please select a country.');
-		  $valid = false;
-		}
-			if (!$d["address_1"]) {
-		  $vmLogger->warning( '"Address 1" is a required field.' );
-		  $valid = false;
-		}
-		if (!$d["city"]) {
-		  $vmLogger->warning( '"City" is a required field.' );
-		  $valid = false;
-		}
-		if (CAN_SELECT_STATES == '1') {
-			if (!$d["state"]) {
-			  $vmLogger->warning( '"State/Region" is a required field.' );
+		if( !$perm->check( 'admin,storeadmin')) {
+			
+			if (empty($d["country"])) {
+			  $vmLogger->warning( 'Please select a country.');
+			  $valid = false;
+			}
+				if (!$d["address_1"]) {
+			  $vmLogger->warning( '"Address 1" is a required field.' );
+			  $valid = false;
+			}
+			if (!$d["city"]) {
+			  $vmLogger->warning( '"City" is a required field.' );
+			  $valid = false;
+			}
+			if (CAN_SELECT_STATES == '1') {
+				if (!$d["state"]) {
+				  $vmLogger->warning( '"State/Region" is a required field.' );
+				  $valid = false;
+				}
+			}
+			if (!$d["zip"]) {
+			  $vmLogger->warning( '"Zip" is a required field.' );
 			  $valid = false;
 			}
 		}
-		if (!$d["zip"]) {
-		  $vmLogger->warning( '"Zip" is a required field.' );
-		  $valid = false;
-		}
-		/*
-		if (!$d["phone_1"]) {
-		  $d["error"] .= "'Phone Number' is a required field.";
-		  $valid = false;
-		}
-		*/
+		
 	    if (!$d['perms']) {
 	      $vmLogger->warning( 'You must assign the user to a group.' );
 	      $valid = false;
@@ -145,9 +141,11 @@ class ps_user {
 		global $my, $vmLogger;
 		$auth = $_SESSION['auth'];
 		
+		$valid = true;
+		
 		if( empty($id)) {
 			$vmLogger->err( 'Please select a user to delete.' );
-			return False;
+			return false;
 		}
 		$db = new ps_DB();
 		$q = "SELECT user_id, perms FROM #__{vm}_user_info WHERE user_id=$id";
@@ -155,12 +153,13 @@ class ps_user {
 		$perms = $db->f('perms');
 		if( $this->permissions[$perms] >= $this->permissions[$auth['perms']]) {
 			$vmLogger->err( 'You have no permission to delete a user of that usertype: '.$perms );
-			return false;
+			$valid = false;
 		}
 		if( $id == $my->id) {
 			$vmLogger->err( 'Very funny, but you cannot delete yourself.' );
-			return false;			
+			$valid = false;			
 		}
+		
 		return $valid;
 	}
 	  
@@ -299,7 +298,7 @@ class ps_user {
 		$q .= "address_1='" . $d["address_1"] . "', ";
 		$q .= "address_2='" . $d["address_2"] . "', ";
 		$q .= "city='" . $d["city"] . "', ";
-		$q .= "state='" . $d["state"] . "', ";
+		$q .= "state='" . @$d["state"] . "', ";
 		$q .= "country='" . $d["country"] . "', ";
 		$q .= "zip='" . $d["zip"] . "', ";
 		$q .= "user_email='" . $d["email"] . "', ";
@@ -319,10 +318,12 @@ class ps_user {
 		$q .= "address_type='BT'";
 		
 		$db->query($q);
-		if( $perm->check("admin"))
+		if( $perm->check("admin")) {
 			$vendor_id = $d['vendor_id'];
-		else
+		}
+		else {
 			$vendor_id = $ps_vendor_id;
+		}
 		
 		$db->query( "SELECT COUNT(user_id) FROM #__{vm}_auth_user_vendor WHERE vendor_id='".$vendor_id."' AND user_id='" . $d["user_id"] . "'" );
 		if( $db->num_rows() < 1 ) {		
@@ -371,12 +372,13 @@ class ps_user {
 		
 		$this->removeUsers( $d['user_id' ], $d );
 		
-		if( !is_array( $d['user_id'] ))
+		if( !is_array( $d['user_id'] )) {
 			$d['user_id'] = array( $d['user_id'] );
+		}
 			
 		foreach( $d['user_id'] as $user ) {
-			if (!$this->validate_delete($user)) {
-				return False;
+			if( !$this->validate_delete( $user ) ) {
+				return false;
 			}
 			// Delete user_info entries
 			$q  = "DELETE FROM #__{vm}_user_info ";
@@ -431,9 +433,17 @@ class ps_user {
 	* into Joomla
 	*/
 	function saveUser( &$d ) {
-		global $database, $my;
+		global $database, $my, $_VERSION;
 		global $mosConfig_live_site, $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_sitename;
-	
+		
+		$aro_id = 'aro_id';
+		$group_id = 'group_id';
+		// Column names have changed (but why???)
+		if( $_VERSION->PRODUCT == 'Joomla!' && $_VERSION->RELEASE >= 1.1 ) {
+			$aro_id = 'id';
+			$group_id = 'id';
+		}
+		
 		$row = new mosUser( $database );
 		if (!$row->bind( $_POST )) {
 			echo "<script type=\"text/javascript\"> alert('".vmHtmlEntityDecode($row->getError())."');</script>\n";
@@ -472,7 +482,7 @@ class ps_user {
 		// save usertype to usetype column
 		$query = "SELECT name"
 		. "\n FROM #__core_acl_aro_groups"
-		. "\n WHERE group_id = $row->gid"
+		. "\n WHERE `$group_id` = $row->gid"
 		;
 		$database->setQuery( $query );
 		$usertype = $database->loadResult();
@@ -508,7 +518,7 @@ class ps_user {
 		
 		// update the ACL
 		if ( !$isNew ) {
-			$query = "SELECT aro_id"
+			$query = "SELECT `$aro_id`"
 			. "\n FROM #__core_acl_aro"
 			. "\n WHERE value = '$row->id'"
 			;
@@ -562,7 +572,7 @@ class ps_user {
 		global $database, $acl, $my;
 	
 		if (!is_array( $cid ) ) {
-			$cid[0] = $cid;
+			$cid = array( $cid );
 		}
 	
 		if ( count( $cid ) ) {

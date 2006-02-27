@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: admin.show_cfg.php,v 1.11 2005/11/08 19:21:02 soeren_nb Exp $
+* @version $Id: admin.show_cfg.php,v 1.12 2005/11/18 16:43:50 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -21,10 +21,14 @@ global $acl;
 $option = empty($option)?mosgetparam( $_REQUEST, 'option', 'com_virtuemart'):$option;
 
 // Compose the Access DropDown List, for the first time used for setting Price Acess
-$db->query( 'SELECT group_id FROM #__core_acl_aro_groups WHERE name=\''.VM_PRICE_ACCESS_LEVEL.'\'' );
+$fieldname = 'group_id';
+if( $_VERSION->PRODUCT == 'Joomla!' && $_VERSION->RELEASE >= 1.1 ) {
+	$fieldname = 'id';
+}
+$db->query( 'SELECT `'.$fieldname.'` FROM #__core_acl_aro_groups WHERE name=\''.VM_PRICE_ACCESS_LEVEL.'\'' );
 $db->next_record();
-$gtree = $acl->get_group_children_tree( null, 'USERS', false );
-$access_group_list = mosHTML::selectList( $gtree, 'conf_VM_PRICE_ACCESS_LEVEL', 'size="4"', 'value', 'text', $db->f('group_id') );
+$gtree = ps_perm::getGroupChildrenTree( null, 'USERS', false );
+$access_group_list = mosHTML::selectList( $gtree, 'conf_VM_PRICE_ACCESS_LEVEL', 'size="4"', 'value', 'text', $db->f($fieldname) );
 		
 $title = '&nbsp;&nbsp;&nbsp;<img src="'. IMAGEURL .'ps_image/settings.png" width="32" height="32" border="0" />';
 $title .= $VM_LANG->_PHPSHOP_CONFIG;

@@ -281,6 +281,9 @@ if( !defined( '_VM_PARSER_LOADED' )) {
 	// I don't get it, why Joomla uses masked gid values!
 	if( !defined( '_PSHOP_ADMIN' )) {
 		$my = $mainframe->getUser();
+		if( isset( $my->_model )) {
+			$my = $my->_model;
+		}
 	}
 	
 	// the Log object holds all error messages

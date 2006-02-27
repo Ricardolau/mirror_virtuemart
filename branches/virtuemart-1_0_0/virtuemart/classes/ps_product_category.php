@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_product_category.php,v 1.13 2005/11/02 20:06:59 soeren_nb Exp $
+* @version $Id: ps_product_category.php,v 1.14.2.1 2005/11/30 20:18:59 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -1142,7 +1142,7 @@ class ps_product_category extends vmAbstractObject {
 		$q = "SELECT #__{vm}_category.category_id FROM #__{vm}_category,#__{vm}_product_category_xref ";
 		$q .= "WHERE product_id='$product_id' ";
 		$q .= "AND #__{vm}_category.category_id = #__{vm}_product_category_xref.category_id ";
-		$db->query();
+		$db->query( $q );
 		$db->next_record();
 
 		return (int)$db->f('category_id');

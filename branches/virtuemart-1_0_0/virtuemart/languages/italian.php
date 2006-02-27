@@ -1,10 +1,10 @@
 <?php
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: italian.php,v 1.0.2 2006/01/16 11:12:08 GiorgioBLU $
+* @version $Id: admin.martlanguages.php,v 1.6 2006/01/15 19:42:45 soeren_nb Exp $
 * @package VirtueMart
-* @subpackage italian languages by GiorgioBLU - TTI Member - www.joomla.it
+* @subpackage languages
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -683,7 +683,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ERR_MSG_RATE_CARRIER_ID_REQ = 'ERRORE: Scegli un Corriere.';
 	var $_PHPSHOP_ERR_MSG_RATE_CARRIER_ID_INV = 'ERRORE: Non riesco a trovare un Corriere con questo ID.';
 	var $_PHPSHOP_ERR_MSG_RATE_NAME_REQ = 'ERRORE: Devi inserire una descrizione tariffa.';
-	var $_PHPSHOP_ERR_MSG_RATE_COUNTRY_CODE_INV = 'ERRORE: La nazione di destinazione non è valida. Separa le Nazioni con \";\".';
+	var $_PHPSHOP_ERR_MSG_RATE_COUNTRY_CODE_INV = 'ERRORE: La nazione di destinazione non è valida. Separa le Nazioni con ";".';
 	var $_PHPSHOP_ERR_MSG_RATE_WEIGHT_START_REQ = 'ERRORE: Un peso inferiore è richiesto';
 	var $_PHPSHOP_ERR_MSG_RATE_WEIGHT_END_REQ = 'ERRORE: Un peso maggiore è richiesto';
 	var $_PHPSHOP_ERR_MSG_RATE_WEIGHT_STARTEND_INV = 'ERRORE: Il peso più basso deve essere inferiore al peso massimo';
@@ -1445,7 +1445,8 @@ Password - %s
 	var $_PHPSHOP_ADMIN_CFG_PFP_PARTNET_EXPLAIN = 'The Partner ID provided to you by the authorized VeriSign Reseller that registered you for the PayFlow Pro service';
 	var $_PHPSHOP_ADMIN_CFG_PFP_USERNAME = 'PayFlow Pro Login ID';
 	var $_PHPSHOP_ADMIN_CFG_PFP_USERNAME_EXPLAIN = 'This is your PayFlow Pro Login ID';
-
+	var $_VM_TAXDETAILS_LABEL = 'Tax Total contains';
+        
 }
 class phpShopLanguage extends vmLanguage { }
 

@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_checkout.php,v 1.21 2005/11/18 16:43:50 soeren_nb Exp $
+* @version $Id: ps_checkout.php,v 1.22.2.2 2005/12/15 20:59:29 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -30,7 +30,9 @@ define("CHECK_OUT_GET_FINAL_CONFIRMATION", 99);
 class ps_checkout {
 	var $classname = "ps_checkout";
 	var $_SHIPPING = null;
-
+	/** @var int The current subtotal */
+	var $_subtotal = 0;
+	
 	/**
 	 * Initiate Shipping Modules
 	 *
@@ -43,8 +45,9 @@ class ps_checkout {
 		* and IF the cart total is more than that Free Shipping amount,
 		* let's set Order Shipping = 0
 		*/
-		$total = $this->calc_order_subtotal($vars);
-		if( $vendor_freeshipping > 0 && $total > $vendor_freeshipping) {
+		$this->_subtotal = $this->calc_order_subtotal($vars);
+		
+		if( $vendor_freeshipping > 0 && $this->_subtotal > $vendor_freeshipping) {
 			$PSHOP_SHIPPING_MODULES = Array( "free_shipping" );
 			include_once( CLASSPATH. "shipping/free_shipping.php" );
 			$this->_SHIPPING =& new free_shipping();
@@ -648,19 +651,16 @@ class ps_checkout {
 		return True;
 	}
 
-
-
-	/**************************************************************************
-	** name: add()
-	** created by: gday
-	** description:  Store the order information in the database
-	** parameters: $d
-	** returns:  True - order information stored
-	**          False - Failure in storing the order information
-	***************************************************************************/
+	/**
+	 * This is the main function which stores the order information in the database
+	 * 
+	 * @author gday, soeren, many others!
+	 * @param array $d The REQUEST/$vars array
+	 * @return boolean
+	 */
 	function add( &$d ) {
-		global $HTTP_POST_VARS, $afid, $VM_LANG, $mosConfig_debug, $mosConfig_offset,
-		$vmLogger, $vmInputFilter;
+		global $order_tax_details, $afid, $VM_LANG, $mosConfig_debug, $mosConfig_offset,
+		$vmLogger, $vmInputFilter, $discount_factor;
 
 		$ps_vendor_id = $_SESSION["ps_vendor_id"];
 		$auth = $_SESSION['auth'];
@@ -685,7 +685,7 @@ class ps_checkout {
 
 		/* sets _subtotal */
 		$order_subtotal = $tmp_subtotal = $this->calc_order_subtotal($d);
-
+		
 		$order_taxable = $this->calc_order_taxable($d);
 
 		$payment_discount = $d['payment_discount'] = $this->get_payment_discount($d['payment_method_id'], $order_subtotal);
@@ -698,33 +698,14 @@ class ps_checkout {
 			$coupon_discount = 0.00;
 		}
 
-		$payment_discount_untaxed = $payment_discount;
-		$coupon_discount_untaxed = $coupon_discount;
-
-
-		if ($auth["show_price_including_tax"] == 1) {
-			// Here we need to re-calculate the Discount
-			// because we assume the Discount is "including Tax"
-			$taxrate = ps_product::get_taxrate();
-			$payment_discount_untaxed = floatval($payment_discount) / ($taxrate+1);
-			$coupon_discount_untaxed = $coupon_discount / ($taxrate+1);
-		}
-
-		$tmp_subtotal -= $payment_discount_untaxed;
-		$tmp_subtotal -= $coupon_discount_untaxed;
-
-		$order_taxable -= $coupon_discount_untaxed;
-
-		$order_taxable -= floatval( $payment_discount_untaxed );
-
 		// make sure Total doesn't become negative
 		if( $tmp_subtotal < 0 ) $order_subtotal = $tmp_subtotal = 0;
 		if( $order_taxable < 0 ) $order_taxable = 0;
 
-		/* sets _order_tax */
+		// from now on we have $order_tax_details
 		$d['order_tax'] = $order_tax = round( $this->calc_order_tax($order_taxable, $d), 2 );
-
-		if( $this->_SHIPPING ) {
+		
+		if( $this->_SHIPPING ) {			
 			/* sets _shipping */
 			$d['order_shipping'] = $order_shipping = round( $this->calc_order_shipping( $d ), 2 );
 
@@ -732,6 +713,9 @@ class ps_checkout {
 			* btw: This is WEIRD! To get an exactly rounded value we have to convert
 			* the amount to a String and call "round" with the string. */
 			$d['order_shipping_tax'] = $order_shipping_tax = round( strval($this->calc_order_shipping_tax($d)), 2 );
+			
+			//$shipping_taxrate = $this->_SHIPPING->get_tax_rate();
+			//@$order_tax_details[$shipping_taxrate] += $order_shipping_tax;
 		}
 		else {
 			$d['order_shipping'] = $order_shipping = $order_shipping_tax = $d['order_shipping_tax'] = 0.00;
@@ -739,7 +723,14 @@ class ps_checkout {
 
 		$timestamp = time() + ($mosConfig_offset*60*60);
 
-		$d['order_total'] = $order_total = $tmp_subtotal + $order_tax + $order_shipping + $order_shipping_tax;
+		$d['order_total'] = $order_total = 	$tmp_subtotal 
+											+ $order_tax 
+											+ $order_shipping 
+											+ $order_shipping_tax
+											- $coupon_discount
+											- $payment_discount;
+		
+		$order_tax *= $discount_factor;
 		
 		if (!$this->validate_form($d)) {
 			return false;
@@ -748,18 +739,7 @@ class ps_checkout {
 		if (!$this->validate_add($d)) {
 			return false;
 		}
-		/*
-		if (PAYMENT_DISCOUNT_BEFORE != '1') {
-		if($auth["show_price_including_tax"] == 1) {
-		$order_total -= $payment_discount_untaxed;
-		$order_total -= $coupon_discount_untaxed;
-		}
-		else {
-		$order_total -= $payment_discount;
-		$order_total -= $coupon_discount;
-		}
-		}
-		*/
+
 		// make sure Total doesn't become negative
 		if( $order_total < 0 ) $order_total = 0;
 
@@ -770,7 +750,7 @@ class ps_checkout {
 		
 Subtotal: '.$order_subtotal.'
 Taxable: '.$order_taxable.'
-Payment Discount: '.$payment_discount.' (untaxed: '.$payment_discount_untaxed.')
+Payment Discount: '.$payment_discount.'
 Coupon Discount: '.$coupon_discount.'
 Shipping: '.$order_shipping.'
 Shipping Tax : '.$order_shipping_tax.'
@@ -808,24 +788,27 @@ Order Total: '.$order_total.'
 		}
 
 		/* Insert the main order information */
-		$q = "INSERT INTO #__{vm}_orders ";
-		$q .= "(user_id, vendor_id, order_number, user_info_id, ";
-		$q .= "ship_method_id, order_total, order_subtotal, order_tax, order_shipping, ";
-		$q .= "order_shipping_tax,  order_discount, coupon_discount,order_currency, order_status, cdate, ";
-		$q .= "mdate,customer_note,ip_address) ";
+		$q = "INSERT INTO #__{vm}_orders \n";
+		$q .= "(user_id, vendor_id, order_number, user_info_id, ship_method_id, \n";
+		$q .= "order_total, order_subtotal, order_tax, order_tax_details, order_shipping, \n";
+		$q .= "order_shipping_tax, order_discount, coupon_discount,order_currency, order_status, cdate, \n";
+		$q .= "mdate,customer_note,ip_address) \n";
 		$q .= "VALUES (";
 		$q .= "'" . $auth["user_id"] . "', ";
 		$q .= $ps_vendor_id . ", ";
 		$q .= "'" . $order_number . "', '";
 		$q .= $d["ship_to_info_id"] . "', '";
 
-		if (!empty($d["shipping_rate_id"]))
-		$q .= urldecode($d["shipping_rate_id"]) . "', '";
-		else
-		$q .= "', '";
+		if (!empty($d["shipping_rate_id"])) {
+			$q .= urldecode($d["shipping_rate_id"]) . "', '";
+		}
+		else {
+			$q .= "', '";
+		}
 		$q .= $order_total . "', '";
 		$q .= $order_subtotal . "', '";
 		$q .= $order_tax . "', '";
+		$q .= serialize($order_tax_details). "', '";
 		$q .= $order_shipping . "', '";
 		$q .= $order_shipping_tax . "', '";
 		$q .= $payment_discount . "', '";
@@ -835,10 +818,12 @@ Order Total: '.$order_total.'
 		$q .= $timestamp . "', '";
 		$q .= $timestamp. "', '";
 		$q .= htmlspecialchars(strip_tags($d['customer_note'])) . "', '";
-		if (!empty($_SERVER['REMOTE_ADDR']))
-		$q .= $_SERVER['REMOTE_ADDR'] . "') ";
-		else
-		$q .= $HTTP_SERVER_VARS['REMOTE_ADDR'] . "') ";
+		if (!empty($_SERVER['REMOTE_ADDR'])) {
+			$q .= $_SERVER['REMOTE_ADDR'] . "') ";
+		}
+		else {
+			$q .= "unknown') ";
+		}
 		$db->query($q);
 		$db->next_record();
 
@@ -912,11 +897,11 @@ Order Total: '.$order_total.'
 			$product_price_arr = $ps_product->get_adjusted_attribute_price($cart[$i]["product_id"], $cart[$i]["description"]);
 			$product_price = $product_price_arr["product_price"];
 
-			if( empty( $_SESSION['product_info'][$cart[$i]["product_id"]]['tax_rate'] )) {
+			if( empty( $_SESSION['product_sess'][$cart[$i]["product_id"]]['tax_rate'] )) {
 				$my_taxrate = $ps_product->get_product_taxrate($cart[$i]["product_id"] );
 			}
 			else {
-				$my_taxrate = $_SESSION['product_info'][$cart[$i]["product_id"]]['tax_rate'];
+				$my_taxrate = $_SESSION['product_sess'][$cart[$i]["product_id"]]['tax_rate'];
 			}
 			// Attribute handling
 			$product_parent_id = $dboi->f('product_parent_id');
@@ -1045,7 +1030,7 @@ Order Total: '.$order_total.'
 		// Send the e-mail confirmation messages
 		$this->email_receipt($order_id);
 
-		// Reset the cart
+		// Reset the cart (=empty it)
 		$ps_cart->reset();
 
 		// Unset the payment_method variables
@@ -1054,18 +1039,20 @@ Order Total: '.$order_total.'
 		$d["order_payment_expire"] = "";
 		$d["order_payment_name"] = "";
 		$d["credit_card_code"] = "";
+		// Clear the sensitive Session data
 		$_SESSION['ccdata']['order_payment_name']  = "";
 		$_SESSION['ccdata']['order_payment_number']  = "";
 		$_SESSION['ccdata']['order_payment_expire_month'] = "";
 		$_SESSION['ccdata']['order_payment_expire_year'] = "";
 		$_SESSION['ccdata']['credit_card_code'] = "";
-		$HTTP_POST_VARS["payment_method_id"] = "";
-		$HTTP_POST_VARS["order_payment_number"] = "";
-		$HTTP_POST_VARS["order_payment_expire"] = "";
-		$HTTP_POST_VARS["order_payment_name"] = "";
 		$_SESSION['coupon_discount'] = "";
 		$_SESSION['coupon_id'] = "";
 		$_SESSION['coupon_redeemed'] = false;
+		
+		$_POST["payment_method_id"] = "";
+		$_POST["order_payment_number"] = "";
+		$_POST["order_payment_expire"] = "";
+		$_POST["order_payment_name"] = "";
 		
 		return True;
 	}
@@ -1091,23 +1078,71 @@ Order Total: '.$order_total.'
 
 		return($order_number);
 	}
-
-
-	/***************************************************************************
-	** name: calc_order_taxable()
-	** created by: Chris Coleman
-	** description:  Calculates the taxable order subtotal for the order.
-	** If an item has no weight, it is non taxable.
-	** parameters: $d TAX_VIRTUAL
-	** returns: taxable dollar value for this order.
+	
+	/**************************************************************************
+	** name: calc_order_subtotal()
+	** created by: gday
+	** description:  Calculate the order subtotal for the current order.
+	**               Does not include tax or shipping charges.
+	** parameters: $d
+	** returns: sub total for this order
 	***************************************************************************/
-	function calc_order_taxable($d) {
+	function calc_order_subtotal( &$d ) {
+		global $order_tax_details;
+		
+		$order_tax_details = array();
+		$d['order_subtotal_withtax'] = 0;
+		$d['payment_discount'] = 0;
+		$auth = $_SESSION['auth'];
+		$cart = $_SESSION['cart'];
+		$order_subtotal = 0;
 
+		require_once(CLASSPATH.'ps_product.php');
+		$ps_product= new ps_product;
+
+		for($i = 0; $i < $cart["idx"]; $i++) {
+			$my_taxrate = $ps_product->get_product_taxrate($cart[$i]["product_id"] );
+			$price = $ps_product->get_adjusted_attribute_price($cart[$i]["product_id"], $cart[$i]["description"]);
+			$product_price = $price["product_price"];
+			if( $auth["show_price_including_tax"] == 1 ) {
+				$product_price = round( ($product_price *($my_taxrate+1)), 2 );
+				$product_price *= $cart[$i]["quantity"];
+				$d['order_subtotal_withtax'] += $product_price;
+				$product_price = $product_price /($my_taxrate+1);
+				$order_subtotal += $product_price;
+			}
+			else {
+				$order_subtotal += $product_price * $cart[$i]["quantity"];
+				
+				$product_price = round( ($product_price *($my_taxrate+1)), 2 );
+				$product_price *= $cart[$i]["quantity"];
+				$d['order_subtotal_withtax'] += $product_price;
+				$product_price = $product_price /($my_taxrate+1);
+			}
+			// Calculate the amounts for each tax rate
+			if( !isset( $order_tax_details[$my_taxrate] )) {
+				$order_tax_details[$my_taxrate] = 0;
+			}
+			$order_tax_details[$my_taxrate] += $price["product_price"]*$my_taxrate*$cart[$i]["quantity"];
+		}
+
+		return($order_subtotal);
+	}
+
+
+	/**
+	 * Calculates the taxable order subtotal for the order.
+	 * If an item has no weight, it is non taxable.
+	 * @author Chris Coleman
+	 * @param array $d
+	 * @return float Subtotal
+	 */
+	function calc_order_taxable($d) {
 		$auth = $_SESSION['auth'];
 		$cart = $_SESSION['cart'];
 
 		$subtotal = 0.0;
-
+		
 		require_once(CLASSPATH.'ps_product.php');
 		$ps_product= new ps_product;
 		require_once(CLASSPATH.'ps_shipping_method.php');
@@ -1125,66 +1160,29 @@ Order Total: '.$order_total.'
 		}
 		return($subtotal);
 	}
-
-	/**************************************************************************
-	** name: calc_order_subtotal()
-	** created by: gday
-	** description:  Calculate the order subtotal for the current order.
-	**               Does not include tax or shipping charges.
-	** parameters: $d
-	** returns: sub total for this order
-	***************************************************************************/
-	function calc_order_subtotal($d) {
-
-		$auth = $_SESSION['auth'];
-		$cart = $_SESSION['cart'];
-		$order_subtotal = 0;
-
-		require_once(CLASSPATH.'ps_product.php');
-		$ps_product= new ps_product;
-
-		for($i = 0; $i < $cart["idx"]; $i++) {
-			$price = $ps_product->get_adjusted_attribute_price($cart[$i]["product_id"], $cart[$i]["description"]);
-			$product_price = $price["product_price"];
-			if( $auth["show_price_including_tax"] == 1 ) {
-				if( empty( $_SESSION['product_info'][$cart[$i]["product_id"]]['tax_rate'] )) {
-					$my_taxrate = $ps_product->get_product_taxrate($cart[$i]["product_id"] );
-				}
-				else {
-					$my_taxrate = $_SESSION['product_info'][$cart[$i]["product_id"]]['tax_rate'];
-				}
-				$product_price = round( ($product_price *($my_taxrate+1)), 2 );
-				$product_price *= $cart[$i]["quantity"];
-				$product_price = $product_price /($my_taxrate+1);
-				$order_subtotal += $product_price;
-			}
-			else {
-				$order_subtotal += $product_price * $cart[$i]["quantity"];
-			}
-		}
-
-		return($order_subtotal);
-	}
-
-	/**************************************************************************
-	** name: calc_order_tax()
-	** created by: pablo
-	** description:Calculate the tax charges for the current order.
-	**            You can switch the way, taxes are calculated:
-	**             either based on the VENDOR address,
-	**             or based on the ship-to address.
-	** parameters: $d
-	**             $order_subtotal - sub total for the order
-	** returns: Tax for the current order
-	***************************************************************************/
+	
+	/**
+	 * Calculate the tax charges for the current order.
+	 * You can switch the way, taxes are calculated:
+	 * either based on the VENDOR address,
+	 * or based on the ship-to address.
+	 * ! Creates the global $order_tax_details
+	 *
+	 * @param float $order_taxable
+	 * @param array $d
+	 * @return float
+	 */
 	function calc_order_tax($order_taxable, $d) {
+		global $order_tax_details, $discount_factor;
 		$auth = $_SESSION['auth'];
 		$ps_vendor_id = $_SESSION["ps_vendor_id"];
 		$db = new ps_DB;
-
+		
 		require_once(CLASSPATH.'ps_tax.php');
 		$ps_tax = new ps_tax;
-
+		
+		$discount_factor = 1;
+		
 		// Shipping address based TAX
 		if (TAX_MODE == '0') {
 			$q = "SELECT state, country FROM #__{vm}_user_info ";
@@ -1210,6 +1208,7 @@ Order Total: '.$order_total.'
 			else {
 				$order_tax = 0.0;
 			}
+			$order_tax_details[$db->f('tax_rate')] = $order_tax;
 		}
 		// Store Owner Address based TAX
 		elseif (TAX_MODE == '1') {
@@ -1222,20 +1221,27 @@ Order Total: '.$order_total.'
 				if ($db->next_record()) {
 					$tax_rate = $db->f("tax_rate");
 					$rate = $order_taxable * $tax_rate;
-					if (empty($rate))
-					$order_tax = 0.0;
-					else
-					$order_tax = $rate;
+					if (empty($rate)) {
+						$order_tax = 0.0;
+					}
+					else {
+						$order_tax = $rate;
+					}
 				}
-				else
-				$order_tax = 0.0;
+				else {
+					$order_tax = 0.0;
+				}
+				$order_tax_details[$db->f('tax_rate')] = $order_tax;
 			}
 			else {
 				// Calculate the Tax with a tax rate for every product
 				$cart = $_SESSION['cart'];
 				$order_tax = 0.0;
 				$total = 0.0;
-
+				if( (!empty( $_SESSION['coupon_discount'] ) || !empty( $d['payment_discount'] ))
+					&& PAYMENT_DISCOUNT_BEFORE == '1' ) {
+					$order_tax_details = array();
+				}
 				require_once(CLASSPATH.'ps_product.php');
 				$ps_product= new ps_product;
 				require_once(CLASSPATH.'ps_shipping_method.php');
@@ -1245,30 +1251,53 @@ Order Total: '.$order_total.'
 
 					if ($item_weight !=0 or TAX_VIRTUAL) {
 						$price = $ps_product->get_adjusted_attribute_price($cart[$i]["product_id"], $cart[$i]["description"]);
-
 						$tax_rate = $ps_product->get_product_taxrate($cart[$i]["product_id"]);
-
+						if( (!empty( $_SESSION['coupon_discount'] ) || !empty( $d['payment_discount'] ))
+							&& PAYMENT_DISCOUNT_BEFORE == '1' ) {
+							$factor = (100 * ($_SESSION['coupon_discount'] + $d['payment_discount'])) / $this->_subtotal;
+							$price["product_price"] = $price["product_price"] - ($factor * $price["product_price"] / 100);
+							@$order_tax_details[$tax_rate] += $price["product_price"] * $tax_rate * $cart[$i]["quantity"];
+						}
+						
 						$order_tax += $price["product_price"] * $tax_rate * $cart[$i]["quantity"];
 						$total += $price["product_price"] * $cart[$i]["quantity"];
 					}
 				}
 
-				if( !empty( $_SESSION['coupon_discount'] ) || !empty( $d['payment_discount'] ) ) {
-					if( $total > 0 ) {
-						$factor = $order_taxable / $total;
+				if( (!empty( $_SESSION['coupon_discount'] ) || !empty( $d['payment_discount'] ))
+					&& PAYMENT_DISCOUNT_BEFORE != '1' ) {
+						
+					// Here we need to re-calculate the Discount
+					// because we assume the Discount is "including Tax"
+					$discounted_total = $d['order_subtotal_withtax'] - $_SESSION['coupon_discount'] - $d['payment_discount'];
+					
+					if( $discounted_total != $d['order_subtotal_withtax'] ) {
+						$discount_factor = $discounted_total / $d['order_subtotal_withtax'];
+						
+						foreach( $order_tax_details as $rate => $value ) {
+							$order_tax_details[$rate] = $value * $discount_factor;
+						}
 					}
-					else {
-						$factor = 1;
-					}
-					$order_tax = $order_tax * $factor;
+					
 				}
-
+				if( $this->_SHIPPING ) {
+					$taxrate = $this->_SHIPPING->get_tax_rate();
+					if( $taxrate ) {
+						$rate = $this->_SHIPPING->get_rate( $d );
+						if( $auth["show_price_including_tax"] == 1 ) {
+							@$order_tax_details[$taxrate] += $rate - ($rate / ($taxrate+1));
+						}
+						else {
+							@$order_tax_details[$taxrate] += $rate * $taxrate;
+						}
+					}
+				}
 			}
 
 		}
 		return( round( $order_tax, 2 ) );
 	}
-
+  
 	/**************************************************************************
 	** name: calc_order_shipping()
 	** created by: soeren
@@ -1702,7 +1731,10 @@ Order Total: '.$order_total.'
 			$shopper_message .= " ./. \n";
 		}
 		$shopper_message .= "------------------------------------------------------------------------\n";
-
+		
+		// Decode things like &euro; => €
+		$shopper_message = vmHtmlEntityDecode( $shopper_message );
+		
 		// End of Purchase Order
 		// *********************
 
@@ -2002,7 +2034,40 @@ Order Total: '.$order_total.'
 			echo "<br />";
 		}
 	}
-
+	/**
+	 * Displays the order_tax_details array when it contains
+	 * more than one 
+	 * @param mixed $details
+	 * @return string
+	 */
+	function show_tax_details( $details ) {
+		global $discount_factor, $CURRENCY_DISPLAY, $VM_LANG;
+		
+		if( !isset( $discount_factor) || !empty($_REQUEST['discount_factor'])) {
+			$discount_factor = 1;
+		}
+		$auth = $_SESSION['auth'];
+		if( !is_array( $details )) {
+			$details = @unserialize( $details );
+			if( !is_array($details)) {
+				return false;
+			}
+		}
+		$html = '';
+		if( sizeof( $details) > 1 ) {
+			$html .= '<br />'.$VM_LANG->_VM_TAXDETAILS_LABEL.':<br />';
+			
+			foreach ($details as $rate => $value ) {
+				if( !$auth['show_price_including_tax']) {
+					$value /= $discount_factor;
+				}
+				$rate = str_replace( '-', $CURRENCY_DISPLAY->decimal, $rate )*100;
+				$html .= $CURRENCY_DISPLAY->getFullValue( $value, 5 ).' ('.$rate.'% '.$VM_LANG->_PHPSHOP_CART_TAX.')<br />';
+			}
+		}
+		return $html;
+	}
+	
 	/*
 	* @abstract This function is very useful to round totals with definite decimals.
 	*

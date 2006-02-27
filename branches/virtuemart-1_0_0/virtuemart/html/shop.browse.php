@@ -3,7 +3,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 /**
 * This is the Main Product Listing File!
 *
-* @version $Id: shop.browse.php,v 1.10.2.2 2005/11/30 20:18:59 soeren_nb Exp $
+* @version $Id: shop.browse.php,v 1.10.2.3 2006/02/18 09:20:11 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -211,7 +211,7 @@ else {
 		if( PSHOP_SHOW_TOP_PAGENAV =='1' && $num_rows > $limit ) {
 			// PAGE NAVIGATION AT THE TOP
 			echo "<br/><div style=\"text-align:center;\">";
-			echo sefReltoAbs($pagenav->writePagesLinks( $search_string ));
+			echo $pagenav->writePagesLinks( $search_string );
 			echo "</div><br/>";
 		}
 	}
@@ -353,7 +353,7 @@ else {
 			$form_addtocart = "<form action=\"". $mm_action_url ."index.php\" method=\"post\" name=\"addtocart\" id=\"addtocart".$i."\">\n
                 <label for=\"quantity_".$i."\">".$VM_LANG->_PHPSHOP_CART_QUANTITY.":</label>\n
                 <input id=\"quantity_".$i."\" class=\"inputbox\" type=\"text\" size=\"3\" name=\"quantity\" value=\"1\" />
-                <input class=\"button\" type=\"submit\" name=\"submit\" value=\"".$VM_LANG->_PHPSHOP_CART_ADD_TO."\" />\n
+                <input type=\"submit\" style=\"text-align:center;background-position:bottom left;width:160px;height:35px;cursor:pointer;border:none;font-weight:bold;font-family:inherit;background: url('". IMAGEURL ."ps_image/".PSHOP_ADD_TO_CART_STYLE ."') no-repeat left center transparent;vertical-align: middle;overflow:hidden;\" value=\"".$VM_LANG->_PHPSHOP_CART_ADD_TO ."\" title=\"".$VM_LANG->_PHPSHOP_CART_ADD_TO."\" />
                 <input type=\"hidden\" name=\"category_id\" value=\"". @$_REQUEST['category_id'] ."\" />\n
                 <input type=\"hidden\" name=\"product_id\" value=\"". $db_browse->f("product_id") ."\" />\n
                 <input type=\"hidden\" name=\"page\" value=\"shop.cart\" />\n
@@ -477,7 +477,7 @@ if ( $num_rows > $limit && @$_REQUEST['output'] != "pdf") {
 		require_once( $mosConfig_absolute_path.'/includes/pageNavigation.php');
 		$pagenav = new mosPageNav( $num_rows, $limitstart, $limit);
 	}
-	echo sefReltoAbs($pagenav->writePagesLinks( $search_string ));
+	echo $pagenav->writePagesLinks( $search_string );
 }
 if( $num_rows > 5 && @$_REQUEST['output'] != "pdf") {
 	echo "<br/><br/><form action=\"$search_string\" method=\"post\">"._PN_DISPLAY_NR."&nbsp;&nbsp;";

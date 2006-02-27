@@ -1032,6 +1032,7 @@ CREATE TABLE IF NOT EXISTS `jos_vm_orders` (
   `order_total` decimal(10,2) NOT NULL default '0.00',
   `order_subtotal` decimal(10,5) default NULL,
   `order_tax` decimal(10,2) default NULL,
+  `order_tax_details` TEXT NOT NULL,
   `order_shipping` decimal(10,2) default NULL,
   `order_shipping_tax` decimal(10,2) default NULL,
   `coupon_discount` decimal(10,2) NOT NULL default '0.00',
@@ -1277,7 +1278,7 @@ CREATE TABLE IF NOT EXISTS `jos_vm_product_files` (
 ## 
 
 CREATE TABLE IF NOT EXISTS `jos_vm_product_mf_xref` (
-  `product_id` varchar(32) default NULL,
+  `product_id` int(11) default NULL,
   `manufacturer_id` int(11) default NULL,
   KEY `idx_product_mf_xref_product_id` (`product_id`),
   KEY `idx_product_mf_xref_manufacturer_id` (`manufacturer_id`)

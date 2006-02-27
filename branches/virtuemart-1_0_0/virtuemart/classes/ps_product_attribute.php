@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_product_attribute.php,v 1.6 2005/10/17 19:05:29 soeren_nb Exp $
+* @version $Id: ps_product_attribute.php,v 1.7 2005/11/09 20:55:04 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -311,7 +311,7 @@ class ps_product_attribute {
 					if( $attribtxt != "") {
 						$vorzeichen=substr($base_value,strrpos($base_value, '[')+1,1); // negative, equal or positive?
 						if( $_SESSION["auth"]["show_price_including_tax"] == 1 ) {
-							$price = floatval(substr($base_value,strrpos($base_value, '[')+2))*(1+ @$_SESSION['product_info'][$product_id]['tax_rate']); // calculate Tax
+							$price = floatval(substr($base_value,strrpos($base_value, '[')+2))*(1+ @$_SESSION['product_sess'][$product_id]['tax_rate']); // calculate Tax
 						}
 						else {
 							$price = floatval(substr($base_value,strrpos($base_value, '[')+2));

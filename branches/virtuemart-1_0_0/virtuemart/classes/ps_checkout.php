@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_checkout.php,v 1.22.2.2 2005/12/15 20:59:29 soeren_nb Exp $
+* @version $Id: ps_checkout.php,v 1.22.2.3 2006/02/27 19:41:42 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -1119,11 +1119,13 @@ Order Total: '.$order_total.'
 				$d['order_subtotal_withtax'] += $product_price;
 				$product_price = $product_price /($my_taxrate+1);
 			}
-			// Calculate the amounts for each tax rate
-			if( !isset( $order_tax_details[$my_taxrate] )) {
-				$order_tax_details[$my_taxrate] = 0;
+			if( MULTIPLE_TAXRATES_ENABLE ) {
+				// Calculate the amounts for each tax rate
+				if( !isset( $order_tax_details[$my_taxrate] )) {
+					$order_tax_details[$my_taxrate] = 0;
+				}
+				$order_tax_details[$my_taxrate] += $price["product_price"]*$my_taxrate*$cart[$i]["quantity"];
 			}
-			$order_tax_details[$my_taxrate] += $price["product_price"]*$my_taxrate*$cart[$i]["quantity"];
 		}
 
 		return($order_subtotal);
@@ -1213,14 +1215,16 @@ Order Total: '.$order_total.'
 		// Store Owner Address based TAX
 		elseif (TAX_MODE == '1') {
 
-			if (MULTIPLE_TAXRATES_ENABLE != '1') {
-				$q = "SELECT tax_rate FROM #__{vm}_vendor, #__{vm}_tax_rate ";
+			if (MULTIPLE_TAXRATES_ENABLE != '1' ) {
+				$q = "SELECT `tax_rate` FROM #__{vm}_vendor, #__{vm}_tax_rate ";
 				$q .= "WHERE tax_country=vendor_country ";
-				$q .= "AND #__{vm}_vendor.vendor_id='1'";
+				$q .= "AND #__{vm}_vendor.vendor_id='1' ";
+				$q .= "ORDER BY `tax_rate` DESC";
 				$db->query($q);
 				if ($db->next_record()) {
 					$tax_rate = $db->f("tax_rate");
 					$rate = $order_taxable * $tax_rate;
+					
 					if (empty($rate)) {
 						$order_tax = 0.0;
 					}
@@ -1240,6 +1244,8 @@ Order Total: '.$order_total.'
 				$total = 0.0;
 				if( (!empty( $_SESSION['coupon_discount'] ) || !empty( $d['payment_discount'] ))
 					&& PAYMENT_DISCOUNT_BEFORE == '1' ) {
+					// We need to recalculate the tax details when the discounts are applied
+					// BEFORE taxes - because they affect the product subtotals then
 					$order_tax_details = array();
 				}
 				require_once(CLASSPATH.'ps_product.php');
@@ -1252,8 +1258,10 @@ Order Total: '.$order_total.'
 					if ($item_weight !=0 or TAX_VIRTUAL) {
 						$price = $ps_product->get_adjusted_attribute_price($cart[$i]["product_id"], $cart[$i]["description"]);
 						$tax_rate = $ps_product->get_product_taxrate($cart[$i]["product_id"]);
+						
 						if( (!empty( $_SESSION['coupon_discount'] ) || !empty( $d['payment_discount'] ))
 							&& PAYMENT_DISCOUNT_BEFORE == '1' ) {
+							// Reduce the product subtotals by the factor the complete subtotal is reduced/raised by the discounts
 							$factor = (100 * ($_SESSION['coupon_discount'] + $d['payment_discount'])) / $this->_subtotal;
 							$price["product_price"] = $price["product_price"] - ($factor * $price["product_price"] / 100);
 							@$order_tax_details[$tax_rate] += $price["product_price"] * $tax_rate * $cart[$i]["quantity"];

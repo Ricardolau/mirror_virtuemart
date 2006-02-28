@@ -63,7 +63,7 @@ function com_install() {
 	else {
 		$database->setQuery( 'SELECT id FROM `#__components` WHERE name = \'virtuemart_version\'' );
 		$old_version =  $database->loadResult();
-		if( $old_version || file_exists( $mosConfig_absolute_path.'/administrator/components/com_virtuemart/classes/htmlTools.class.php') {
+		if( $old_version || file_exists( $mosConfig_absolute_path.'/administrator/components/com_virtuemart/classes/htmlTools.class.php')) {
 			$installation = 'vm_update';
 		}
 		else {

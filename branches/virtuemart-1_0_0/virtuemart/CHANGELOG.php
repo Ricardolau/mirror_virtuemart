@@ -35,6 +35,7 @@ VirtueMart 1.0.x
 *************************************
 22-02-2006 soeren
 
+# tax total calculated based on product tax rate when TAX_MODE = 1 (store-address based tax mode)
 # Task #536 — vendor info page error
 # page navigation on browse pages contained the live site URL.
 # standard shipping module doing wrong number_format when amount is greater than 999.99
@@ -94,6 +95,7 @@ VirtueMart 1.0.x
 # Task #473 — Free Shipping broken: SQL statement in global.php
 # Task #471 — The script sleight.js isn't loaded when SEF URLs is on
 # Task #468 — wrong variable in standard_shipping.php
+# Task #455 - Silent registration not working
 
 08-02-2006
 # "empty cart bug" using Mambo 4.5.3h

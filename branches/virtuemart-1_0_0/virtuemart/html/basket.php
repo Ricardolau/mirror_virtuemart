@@ -7,7 +7,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * This version of the basket allows to change quantities and delete products from the cart
 * The ro_basket (=read only) doesn't allow that.
 * 
-* @version $Id: basket.php,v 1.7 2005/11/12 08:32:19 soeren_nb Exp $
+* @version $Id: basket.php,v 1.7.2.1 2006/02/27 19:41:42 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2006 Soeren Eberhardt. All rights reserved.
@@ -94,7 +94,7 @@ else {
 		/* Product PRICE */
 		$my_taxrate = $ps_product->get_product_taxrate($cart[$i]["product_id"], $weight_subtotal);
 		$tax = $my_taxrate * 100;
-
+		
 		$price = $ps_product->get_adjusted_attribute_price($cart[$i]["product_id"], $cart[$i]["description"]);
 
 		if( $auth["show_price_including_tax"] == 1 ) {

@@ -3,7 +3,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 /**
 * This is the Main Product Listing File!
 *
-* @version $Id: shop.browse.php,v 1.10.2.3 2006/02/18 09:20:11 soeren_nb Exp $
+* @version $Id: shop.browse.php,v 1.10.2.4 2006/02/27 19:41:42 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -19,7 +19,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 mm_showMyFileName( __FILE__ );
 
 global $manufacturer_id,$keyword1,$keyword2,$search_category,$DescOrderBy,$search_limiter,
-$search_op,$orderby,$product_type_id;
+$search_op,$orderby,$product_type_id, $default, $vmInputFilter, $VM_BROWSE_ORDERBY_FIELDS;
 
 echo "<h3>".$VM_LANG->_PHPSHOP_BROWSE_LBL."</h3>\n";
 
@@ -34,9 +34,18 @@ $ps_product_category = new ps_product_category;
 require_once (CLASSPATH."ps_reviews.php");
 
 $Itemid = mosgetparam($_REQUEST, "Itemid", null);
-if (empty($orderby)) $orderby = "{vm}_product.product_name";
+$keyword1 = $vmInputFilter->safeSQL( urldecode(mosGetParam( $_REQUEST, 'keyword1', null )));
+$keyword2 = $vmInputFilter->safeSQL( urldecode(mosGetParam( $_REQUEST, 'keyword2', null )));
+// possible values: [ASC|DESC]
+$DescOrderBy = $vmInputFilter->safeSQL( mosGetParam( $_REQUEST, 'DescOrderBy', "ASC" ));
+$search_limiter= $vmInputFilter->safeSQL( mosGetParam( $_REQUEST, 'search_limiter', null ));
+$search_op= $vmInputFilter->safeSQL( mosGetParam( $_REQUEST, 'search_op', null ));
+// possible values: 
+// product_name, product_price, product_sku, product_cdate (=latest additions)
+$orderby = $vmInputFilter->safeSQL( mosGetParam( $_REQUEST, 'orderby', VM_BROWSE_ORDERBY_FIELD ));
+
 if (empty($category_id)) $category_id = $search_category;
-global $default;
+
 $default['category_flypage'] = FLYPAGE;
 
 if (!empty($category_id) ) {
@@ -155,30 +164,51 @@ else {
 ?>
     <!-- ORDER BY .... FORM -->
     <form action="<?php echo $mm_action_url."index.php" ?>" method="get" name="order">
-    <?php echo $VM_LANG->_PHPSHOP_ORDERBY ?>: 
-      <select class="inputbox" name="orderby" onchange="order.submit()">
-        <option value="{vm}_product.product_name" >
-         <?php echo $VM_LANG->_PHPSHOP_SELECT ?></option>
-        <option value="{vm}_product.product_name" <?php echo $orderby=="{vm}_product.product_name" ? "selected=\"selected\"" : "";?>>
-        <?php echo $VM_LANG->_PHPSHOP_PRODUCT_NAME_TITLE ?></option>
-        <?php
-		if (_SHOW_PRICES == '1' && $auth['show_prices']) { ?>
-	              <option value="{vm}_product_price.product_price" <?php echo $orderby=="{vm}_product_price.product_price" ? "selected=\"selected\"" : "";?>>
-	              <?php echo $VM_LANG->_PHPSHOP_PRODUCT_PRICE_TITLE ?></option><?php 
-		} ?>
-      </select>
+    <?php 
+    if( !empty( $VM_BROWSE_ORDERBY_FIELDS )) {
+    	echo $VM_LANG->_PHPSHOP_ORDERBY ?>: 
+	      <select class="inputbox" name="orderby" onchange="order.submit()">
+	        <option value="product_name" >
+	         <?php echo $VM_LANG->_PHPSHOP_SELECT ?></option>
+	      <?php
+	      // SORT BY PRODUCT NAME
+	      if( in_array( 'product_name', $VM_BROWSE_ORDERBY_FIELDS)) { ?>
+	        	<option value="product_name" <?php echo $orderby=="product_name" ? "selected=\"selected\"" : "";?>>
+	        	<?php echo $VM_LANG->_PHPSHOP_PRODUCT_NAME_TITLE ?></option>
+	      <?php
+	      }
+	      // SORT BY PRODUCT SKU
+	      if( in_array( 'product_sku', $VM_BROWSE_ORDERBY_FIELDS)) { ?>
+	        	<option value="product_sku" <?php echo $orderby=="product_sku" ? "selected=\"selected\"" : "";?>>
+	        	<?php echo $VM_LANG->_PHPSHOP_CART_SKU ?></option>
+	       		<?php
+	      }
+	      // SORT BY PRODUCT PRICE
+		  if (_SHOW_PRICES == '1' && $auth['show_prices'] && in_array( 'product_price', $VM_BROWSE_ORDERBY_FIELDS)) { ?>
+				<option value="product_price" <?php echo $orderby=="product_price" ? "selected=\"selected\"" : "";?>>
+		        <?php echo $VM_LANG->_PHPSHOP_PRODUCT_PRICE_TITLE ?></option><?php 
+		  } 
+		  // SORT BY PRODUCT CREATION DATE
+	      if( in_array( 'product_cdate', $VM_BROWSE_ORDERBY_FIELDS)) { ?>?>
+	        	<option value="product_cdate" <?php echo $orderby=="product_cdate" ? "selected=\"selected\"" : "";?>>
+	        	<?php echo $VM_LANG->_PHPSHOP_LATEST ?></option>
+	       		<?php
+	      }
+	      ?>
+	      </select>
 	  <?php
-	  if ($DescOrderBy == "DESC") {
+    }
+	if ($DescOrderBy == "DESC") {
 	  	$icon = "sort_desc.png";
 	  	$selected = Array( "selected=\"selected\"", "" );
 	  	$asc_desc = Array( "DESC", "ASC" );
-	  }
-	  else {
+	}
+	else {
 	  	$icon = "sort_asc.png";
 	  	$selected = Array( "", "selected=\"selected\"" );
 	  	$asc_desc = Array( "ASC", "DESC" );
-	  }
-	  echo mm_writeWithJS('<input type="hidden" name="DescOrderBy" value="'.$asc_desc[0].'" /><a href="#" onclick="document.order.DescOrderBy.value=\''.$asc_desc[1].'\'; order.submit()"><img src="'. $mosConfig_live_site."/images/M_images/$icon"  .'" border="0" alt="'. $VM_LANG->_PHPSHOP_PARAMETER_SEARCH_DESCENDING_ORDER .'" title="'.$VM_LANG->_PHPSHOP_PARAMETER_SEARCH_DESCENDING_ORDER .'" width="12" height="12"/></a>',
+	}
+	echo mm_writeWithJS('<input type="hidden" name="DescOrderBy" value="'.$asc_desc[0].'" /><a href="#" onclick="document.order.DescOrderBy.value=\''.$asc_desc[1].'\'; order.submit()"><img src="'. $mosConfig_live_site."/images/M_images/$icon"  .'" border="0" alt="'. $VM_LANG->_PHPSHOP_PARAMETER_SEARCH_DESCENDING_ORDER .'" title="'.$VM_LANG->_PHPSHOP_PARAMETER_SEARCH_DESCENDING_ORDER .'" width="12" height="12"/></a>',
 	  '<select class="inputbox" name="DescOrderBy">
                                 <option '.$selected[0].' value="DESC">'.$VM_LANG->_PHPSHOP_PARAMETER_SEARCH_DESCENDING_ORDER.'</option>
                                 <option '.$selected[1].' value="ASC">'.$VM_LANG->_PHPSHOP_PARAMETER_SEARCH_ASCENDING_ORDER.'</option>

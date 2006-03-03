@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: order.order_print.php,v 1.9.2.1 2005/12/01 20:00:33 soeren_nb Exp $
+* @version $Id: order.order_print.php,v 1.9.2.2 2006/02/27 19:41:42 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -68,7 +68,7 @@ else {
 			<?php
 			$tab = new mShopTabs( 0, 1, "myTab");
 			$tab->startPane( "order_change_pane" );
-			$tab->startTab( "Order Status Change", "order_change_pane" );
+			$tab->startTab( "Order Status Change", "order_change_page" );
 			?>
 			<table class="adminlist">
 			 <tr>
@@ -101,7 +101,7 @@ else {
 			</table>
 				<?php
 				$tab->endTab();
-				$tab->startTab( $VM_LANG->_PHPSHOP_ORDER_HISTORY, "order_history_pane" );
+				$tab->startTab( $VM_LANG->_PHPSHOP_ORDER_HISTORY, "order_history_page" );
 				?>
 			<table class="adminlist">
 			 <tr >

@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_session.php,v 1.15.2.2 2006/02/18 09:20:11 soeren_nb Exp $
+* @version $Id: ps_session.php,v 1.15.2.3 2006/02/27 19:41:42 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -63,6 +63,9 @@ class ps_session {
 			session_name( $this->_session_name );
 			session_id( $_COOKIE[$this->_session_name] );
 			
+			if( @$_REQUEST['option'] == 'com_virtuemart' ) {
+			    ob_start();
+			}
 			session_start();
 			
 			if( !empty($_SESSION) && !empty($_COOKIE[$this->_session_name])) {

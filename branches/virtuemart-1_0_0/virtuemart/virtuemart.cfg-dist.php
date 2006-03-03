@@ -52,6 +52,7 @@ define('VM_PRICE_SHOW_PACKAGING_PRICELABEL', '1' );
 define('VM_PRICE_SHOW_INCLUDINGTAX', '1' );
 define('VM_PRICE_ACCESS_LEVEL', 'Public Frontend' );
 define('VM_SILENT_REGISTRATION', '1');
+define('VM_BROWSE_ORDERBY_FIELD', 'product_name');
 define('PSHOP_IS_OFFLINE', '');
 define('PSHOP_OFFLINE_MESSAGE', '<h2>Our Shop is currently down for maintenance.</h2> Please check back again soon.');
 define('USE_AS_CATALOGUE', '');
@@ -101,6 +102,10 @@ define('PSHOP_PDF_BUTTON_ENABLE', '1');
 define('PSHOP_SHOW_PRODUCTS_IN_CATEGORY', '1');
 define('PSHOP_SHOW_TOP_PAGENAV', '1');
 define('PSHOP_SHOW_OUT_OF_STOCK_PRODUCTS', '1');
+
+/* OrderByFields */
+global $VM_BROWSE_ORDERBY_FIELDS;
+$VM_BROWSE_ORDERBY_FIELDS = array( 'product_name', 'product_price', 'product_cdate' );
 
 /* Shipping Methods Definition */
 global $PSHOP_SHIPPING_MODULES;

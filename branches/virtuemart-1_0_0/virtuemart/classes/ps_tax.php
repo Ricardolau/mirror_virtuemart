@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_tax.php,v 1.9 2005/11/24 06:25:40 soeren_nb Exp $
+* @version $Id: ps_tax.php,v 1.9.2.1 2006/02/27 19:41:42 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -215,15 +215,17 @@ class ps_tax {
 		$db = new ps_DB;
 
 		// Get list of Values
-		$q = "SELECT * FROM #__{vm}_tax_rate ORDER BY tax_rate_id ASC";
+		$q = "SELECT `tax_rate_id`, `tax_rate`  FROM `#__{vm}_tax_rate` ORDER BY `tax_rate` DESC, `tax_rate_id` ASC";
 		$db->query($q);
 
 		$html = "<select class=\"inputbox\" name=\"$select_name\"";
-		if ($on_change!='')
-		$html .= " onchange=\"$on_change\"";
+		if ($on_change!='') {
+			$html .= " onchange=\"$on_change\"";
+		}
 		$html .= ">\n";
-		if ($select_name == "shipping_rate_vat_id" || stristr($select_name, "tax_class") || $select_name == "zone_tax_rate")
-		$html .= "<option value=\"0\">" . $VM_LANG->_PHPSHOP_INFO_MSG_VAT_ZERO_LBL . "</option>\n";
+		if ($select_name == "shipping_rate_vat_id" || stristr($select_name, "tax_class") || $select_name == "zone_tax_rate") {
+			$html .= "<option value=\"0\">" . $VM_LANG->_PHPSHOP_INFO_MSG_VAT_ZERO_LBL . "</option>\n";
+		}
 		$tax_rates = Array();
 		while ($db->next_record()) {
 			$tax_rates[$db->f("tax_rate_id")] = $db->f("tax_rate");

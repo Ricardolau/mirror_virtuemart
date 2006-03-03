@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: ps_config.php,v 1.9 2005/10/25 19:33:52 soeren_nb Exp $
+* @version $Id: ps_config.php,v 1.9.2.1 2006/02/18 09:20:10 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -61,6 +61,7 @@ function writeconfig(&$d) {
             "VM_PRICE_SHOW_INCLUDINGTAX"  =>      "conf_VM_PRICE_SHOW_INCLUDINGTAX",
             "VM_PRICE_ACCESS_LEVEL"  =>      "conf_VM_PRICE_ACCESS_LEVEL",
             "VM_SILENT_REGISTRATION"  =>      "conf_VM_SILENT_REGISTRATION",
+            "VM_BROWSE_ORDERBY_FIELD"  =>      "conf_VM_BROWSE_ORDERBY_FIELD",
             "ENABLE_DOWNLOADS"  =>      "conf_ENABLE_DOWNLOADS",
             "DOWNLOAD_MAX"  =>      "conf_DOWNLOAD_MAX",
             "DOWNLOAD_EXPIRE"  =>      "conf_DOWNLOAD_EXPIRE",
@@ -106,6 +107,7 @@ function writeconfig(&$d) {
             "PSHOP_SHOW_PRODUCTS_IN_CATEGORY" => "conf_PSHOP_SHOW_PRODUCTS_IN_CATEGORY",
             "PSHOP_SHOW_TOP_PAGENAV"    	=>      "conf_PSHOP_SHOW_TOP_PAGENAV",
             "PSHOP_SHOW_OUT_OF_STOCK_PRODUCTS"    	=>      "conf_PSHOP_SHOW_OUT_OF_STOCK_PRODUCTS",
+            "VM_BROWSE_ORDERBY_FIELDS"    	=>      "conf_VM_BROWSE_ORDERBY_FIELDS",
             "PSHOP_SHIPPING_MODULE"    	=>      "conf_SHIPPING"
             );
             
@@ -155,35 +157,51 @@ define( 'ADMINPATH', \$mosConfig_absolute_path.'/administrator/components/com_vi
 define( 'CLASSPATH', ADMINPATH.'classes/' );
 define( 'PAGEPATH', ADMINPATH.'html/' );
 define( 'IMAGEPATH', \$mosConfig_absolute_path.'/components/com_virtuemart/shop_image/' );\n\n";
-
-    while (list($key, $value) = each($my_config_array)) {
-        if($key == "PSHOP_SHIPPING_MODULE" ) {
-            $config .= "\n/* Shipping Methods Definition */\nglobal \$PSHOP_SHIPPING_MODULES;\n";
-            $i = 0;
-            foreach( $d['conf_SHIPPING'] as $shipping_module) {
-                $config.= "\$PSHOP_SHIPPING_MODULES[$i] = \"$shipping_module\";\n";
-                $i++;
-            }
-        }
-        else
-            $config .= "define('".$key."', '".$d[$value]."');\n";
-    }
-    
-    $config .= "?>";
-
-	if ($fp = fopen(ADMINPATH ."virtuemart.cfg.php", "w")) {
-		fputs($fp, $config, strlen($config));
-		fclose ($fp);
-
-		defined('_PSHOP_ADMIN') ? 
-        mosRedirect( "index2.php?page=admin.show_cfg&option=com_virtuemart", "The configuration details have been updated!" ) :
-        mosRedirect( "index.php?page=admin.show_cfg&option=com_virtuemart", "The configuration details have been updated!" );
-
-	} else {
-        defined('_PSHOP_ADMIN') ? 
-        mosRedirect( "index2.php?page=admin.show_cfg&option=com_virtuemart", "An Error Has Occurred! Unable to open config file to write!" ) :
-        mosRedirect( "index.php?page=admin.show_cfg&option=com_virtuemart", "TAn Error Has Occurred! Unable to open config file to write!" );
-	}
+		
+    	// LOOP THROUGH ALL CONFIGURATION VARIABLES
+	    while (list($key, $value) = each($my_config_array)) {
+	    	
+	        if( $key == "PSHOP_SHIPPING_MODULE" ) {
+	            $config .= "\n/* Shipping Methods Definition */\nglobal \$PSHOP_SHIPPING_MODULES;\n";
+	            $i = 0;
+	            foreach( $d['conf_SHIPPING'] as $shipping_module) {
+	                $config.= "\$PSHOP_SHIPPING_MODULES[$i] = \"$shipping_module\";\n";
+	                $i++;
+	            }
+	        }
+	        elseif( $key == "VM_BROWSE_ORDERBY_FIELDS" ) {
+	            $config .= "\n/* OrderByFields */\nglobal \$VM_BROWSE_ORDERBY_FIELDS;\n";
+	            $config .= "\$VM_BROWSE_ORDERBY_FIELDS = array( ";
+	            $i= 0;
+	            foreach( $d['conf_VM_BROWSE_ORDERBY_FIELDS'] as $orderbyfield) {
+	                $config.= "'$orderbyfield'";
+	                if( $i+1 < sizeof( $d['conf_VM_BROWSE_ORDERBY_FIELDS'] )) {
+	                	$config .= ',';
+	                }
+	                $i++;
+	            }
+	            $config.= " );\n";
+	        }
+	        else {
+	        	$config .= "define('".$key."', '".$d[$value]."');\n";
+	        }
+	    }
+	    
+	    $config .= "?>";
+	
+		if ($fp = fopen(ADMINPATH ."virtuemart.cfg.php", "w")) {
+			fputs($fp, $config, strlen($config));
+			fclose ($fp);
+	
+			defined('_PSHOP_ADMIN') ? 
+	        mosRedirect( "index2.php?page=admin.show_cfg&option=com_virtuemart", "The configuration details have been updated!" ) :
+	        mosRedirect( "index.php?page=admin.show_cfg&option=com_virtuemart", "The configuration details have been updated!" );
+	
+		} else {
+	        defined('_PSHOP_ADMIN') ? 
+	        mosRedirect( "index2.php?page=admin.show_cfg&option=com_virtuemart", "An Error Has Occurred! Unable to open config file to write!" ) :
+	        mosRedirect( "index.php?page=admin.show_cfg&option=com_virtuemart", "TAn Error Has Occurred! Unable to open config file to write!" );
+		}
     }
   } // end function writeconfig
   

@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: admin.show_cfg.php,v 1.12 2005/11/18 16:43:50 soeren_nb Exp $
+* @version $Id: admin.show_cfg.php,v 1.12.2.1 2006/02/27 19:41:42 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -16,8 +16,10 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * http://virtuemart.net
 */
 mm_showMyFileName( __FILE__ );
-global $acl;
-
+global $acl, $VM_BROWSE_ORDERBY_FIELDS;
+if( !isset( $VM_BROWSE_ORDERBY_FIELDS )) {
+	$VM_BROWSE_ORDERBY_FIELDS = array();
+}
 $option = empty($option)?mosgetparam( $_REQUEST, 'option', 'com_virtuemart'):$option;
 
 // Compose the Access DropDown List, for the first time used for setting Price Acess
@@ -482,6 +484,36 @@ $tabs->startTab( $VM_LANG->_PHPSHOP_ADMIN_CFG_PATHANDURL, "pathandurl-page");
             <input type="checkbox" name="conf_PSHOP_SHOW_TOP_PAGENAV" class="inputbox" <?php if (PSHOP_SHOW_TOP_PAGENAV == '1') echo "checked=\"checked\""; ?> value="1" />
         </td>
         <td><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_NAV_AT_TOP_TIP ?></td>
+    </tr>
+    <tr>
+        <td class="labelcell"><?php echo $VM_LANG->_VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL ?></td>
+        <td>
+        	<select class="inputbox" name="conf_VM_BROWSE_ORDERBY_FIELD">
+        		<option value="product_name" <?php if (@VM_BROWSE_ORDERBY_FIELD == 'product_name') echo "selected=\"selected\""; ?>><?php echo $VM_LANG->_PHPSHOP_PRODUCT_NAME_TITLE ?></option>
+        		<option value="product_price" <?php if (@VM_BROWSE_ORDERBY_FIELD == 'product_price') echo "selected=\"selected\""; ?>><?php echo $VM_LANG->_PHPSHOP_PRODUCT_PRICE_TITLE ?></option>
+        		<option value="product_sku" <?php if (@VM_BROWSE_ORDERBY_FIELD == 'product_sku') echo "selected=\"selected\""; ?>><?php echo $VM_LANG->_PHPSHOP_CART_SKU ?></option>
+        		<option value="product_cdate" <?php if (@VM_BROWSE_ORDERBY_FIELD == 'product_cdate') echo "selected=\"selected\""; ?>><?php echo $VM_LANG->_PHPSHOP_LATEST ?></option>
+            </select>
+        </td>
+        <td><?php echo $VM_LANG->_VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL_TIP ?></td>
+    </tr>
+    <tr>
+        <td class="labelcell"><?php echo $VM_LANG->_VM_BROWSE_ORDERBY_FIELDS_LBL ?></td>
+        <td>
+			<input name="conf_VM_BROWSE_ORDERBY_FIELDS[]" type="checkbox" value="product_name" <?php if (in_array( 'product_name', $VM_BROWSE_ORDERBY_FIELDS )) echo "checked=\"checked\""; ?> id="conf_VM_BROWSE_ORDERBY_FIELDS1" />
+			<label for="conf_VM_BROWSE_ORDERBY_FIELDS1"><?php echo $VM_LANG->_PHPSHOP_PRODUCT_NAME_TITLE ?></label><br />
+            
+			<input name="conf_VM_BROWSE_ORDERBY_FIELDS[]" type="checkbox" value="product_price" <?php if (in_array( 'product_price', $VM_BROWSE_ORDERBY_FIELDS )) echo "checked=\"checked\""; ?> id="conf_VM_BROWSE_ORDERBY_FIELDS2" />
+			<label for="conf_VM_BROWSE_ORDERBY_FIELDS2"><?php echo $VM_LANG->_PHPSHOP_PRODUCT_PRICE_TITLE ?></label><br />
+
+			<input name="conf_VM_BROWSE_ORDERBY_FIELDS[]" type="checkbox" value="product_cdate" <?php if (in_array( 'product_cdate', $VM_BROWSE_ORDERBY_FIELDS )) echo "checked=\"checked\""; ?> id="conf_VM_BROWSE_ORDERBY_FIELDS3" />
+			<label for="conf_VM_BROWSE_ORDERBY_FIELDS3"><?php echo $VM_LANG->_PHPSHOP_LATEST ?></label><br />
+
+			<input name="conf_VM_BROWSE_ORDERBY_FIELDS[]" type="checkbox" value="product_sku" <?php if (in_array( 'product_sku', $VM_BROWSE_ORDERBY_FIELDS )) echo "checked=\"checked\""; ?> id="conf_VM_BROWSE_ORDERBY_FIELDS4" />
+			<label for="conf_VM_BROWSE_ORDERBY_FIELDS4"><?php echo $VM_LANG->_PHPSHOP_CART_SKU ?></label>
+			
+        </td>
+        <td><?php echo $VM_LANG->_VM_BROWSE_ORDERBY_FIELDS_LBL_TIP ?></td>
     </tr>
     <tr>
         <td class="labelcell"><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_SHOW_PRODUCT_COUNT ?></td>

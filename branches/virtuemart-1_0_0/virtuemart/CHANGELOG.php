@@ -33,11 +33,26 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
-22-02-2006 soeren
+
+02-03-2006 soeren
+# Task #432 — missing ST address in order_user_info when using default address
+# Task #482 — error with multiple mod_virtuemart
+# Task #541 — IE gets error in admin orders
+# View by Manufacturer: Products without prices not shown
++ new global variable $VM_BROWSE_ORDERBY_FIELDS, contains all sort-by fields for the browse page
+^ moved $orderby code to shop.browse.php and shop_browse_queries.php
++ new configuration constant: VM_BROWSE_ORDERBY_FIELD can be [product_name|product_price|product_cdate|product_sku]
++ added "ob_start" to the session class to prevent HTML output BEFORE the template is loaded ( Task #553 — Product Display)
+^ tax rates in drop-down list in product form are ordered by rate, descending now
+
+28-02-2006 soeren
 
 # tax total calculated based on product tax rate when TAX_MODE = 1 (store-address based tax mode)
 # Task #536 — vendor info page error
 # page navigation on browse pages contained the live site URL.
+
+22-02-2006 soeren
+
 # standard shipping module doing wrong number_format when amount is greater than 999.99
 # fixed: multiple tax rates / subtotal re-calculation when discounts are applied
 # ps_product_category::get_cid => category ID query not executed
@@ -99,7 +114,7 @@ VirtueMart 1.0.x
 
 08-02-2006
 # "empty cart bug" using Mambo 4.5.3h
-# Shoppers / Users couldn't be deleted.
+# Task #502 — Deleting User From VirtueMart 
 # Task #486 - HTTPS Error In Virtuemart.cfg.php (not every server uses port 443 for secure connections)
 
 ---- VirtueMart 1.0.2 released ----

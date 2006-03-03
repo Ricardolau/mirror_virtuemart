@@ -4,7 +4,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * This file is to be included from the file shop.browse.php
 * and uses variables from the environment of the file shop.browse.php
 *
-* @version $Id: shop_browse_queries.php,v 1.5 2005/10/10 18:49:19 soeren_nb Exp $
+* @version $Id: shop_browse_queries.php,v 1.6 2005/11/21 20:45:42 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -23,38 +23,51 @@ mm_showMyFileName( __FILE__ );
 *
 */
 // These are the names of all fields we fetch data from
-$fieldnames = "product_name,products_per_row,category_browsepage,category_flypage,#__{vm}_product.product_id,#__{vm}_category.category_id,product_full_image,product_thumb_image,product_s_desc,product_parent_id,product_publish,product_in_stock,product_sku";
-$count_name = "COUNT(DISTINCT #__{vm}_product.product_sku) as num_rows";
+$fieldnames = "`product_name`,`products_per_row`,`category_browsepage`,`category_flypage`,`#__{vm}_product`.`product_id`,`#__{vm}_category`.`category_id`,`product_full_image`,`product_thumb_image`,`product_s_desc`,`product_parent_id`,`product_publish`,`product_in_stock`,`product_sku`";
+$count_name = "COUNT(DISTINCT `#__{vm}_product`.`product_sku`) as num_rows";
+
+switch( $orderby ) {
+	case 'product_name':
+		$orderbyField = '`#__{vm}_product`.`product_name`'; break;
+	case 'product_price':
+		$orderbyField = '`#__{vm}_product_price`.`product_price`'; break;
+	case 'product_sku':
+		$orderbyField = '`#__{vm}_product`.`product_sku`'; break;
+	case 'product_cdate':
+		$orderbyField = '`#__{vm}_product`.`cdate`'; break;
+	default:
+		$orderbyField = '`#__{vm}_product`.`product_name`'; break;
+}
 
 /** Changed Product Type - Begin */
 if (!empty($product_type_id)) {
 	require_once (CLASSPATH."ps_product_type.php");
-	$ps_product_type = new ps_product_type;
+	$ps_product_type = new ps_product_type();
 
 	// list parameters:
-	$q  = "SELECT * FROM #__{vm}_product_type_parameter WHERE product_type_id='$product_type_id'";
+	$q  = "SELECT `parameter_name`, `parameter_type` FROM `#__{vm}_product_type_parameter` WHERE `product_type_id`='$product_type_id'";
 	$db_browse->query($q);
 
 	/*** GET ALL PUBLISHED PRODUCT WHICH MATCH PARAMETERS ***/
-	$list  = "SELECT DISTINCT $fieldnames FROM (#__{vm}_product, #__{vm}_category, #__{vm}_product_category_xref,#__{vm}_shopper_group) ";
-	$count  = "SELECT $count_name FROM (#__{vm}_product, #__{vm}_category, #__{vm}_product_category_xref,#__{vm}_shopper_group) ";
+	$list  = "SELECT DISTINCT $fieldnames FROM (`#__{vm}_product`, `#__{vm}_category`, `#__{vm}_product_category_xref`,`#__{vm}_shopper_group`) ";
+	$count  = "SELECT $count_name FROM (`#__{vm}_product`, `#__{vm}_category`, `#__{vm}_product_category_xref`,`#__{vm}_shopper_group`) ";
 
-	$q  = "LEFT JOIN #__{vm}_product_price ON #__{vm}_product.product_id = #__{vm}_product_price.product_id ";
-	$q .= "LEFT JOIN #__{vm}_product_type_$product_type_id ON #__{vm}_product.product_id = #__{vm}_product_type_$product_type_id.product_id ";
-	$q .= "LEFT JOIN #__{vm}_product_product_type_xref ON #__{vm}_product.product_id = #__{vm}_product_product_type_xref.product_id ";
-	$q .= "WHERE #__{vm}_product_category_xref.category_id=#__{vm}_category.category_id ";
-	// $q .= "AND #__{vm}_product.product_id=#__{vm}_product_category_xref.product_id ";
-	//  $q .= "AND #__{vm}_product.product_parent_id='0' ";
-	$q .= "AND (#__{vm}_product.product_id=#__{vm}_product_category_xref.product_id ";
-	$q .= "OR #__{vm}_product.product_parent_id=#__{vm}_product_category_xref.product_id)";
+	$q  = "LEFT JOIN `#__{vm}_product_price` ON `#__{vm}_product`.`product_id` = `#__{vm}_product_price`.`product_id` ";
+	$q .= "\n \n LEFT JOIN `#__{vm}_product_type_$product_type_id` ON `#__{vm}_product`.`product_id` = `#__{vm}_product_type_$product_type_id`.`product_id` ";
+	$q .= "\n LEFT JOIN `#__{vm}_product_product_type_xref` ON `#__{vm}_product`.`product_id` = `#__{vm}_product_product_type_xref.`product_id` ";
+	$q .= "\n WHERE `#__{vm}_product_category_xref`.`category_id`=`#__{vm}_category`.`category_id` ";
+	// $q .= "\n AND `#__{vm}_product`.`product_id`=`#__{vm}_product_category_xref`.`product_id` ";
+	//  $q .= "\n AND `#__{vm}_product`.`product_parent_id`='0' ";
+	$q .= "\n AND (`#__{vm}_product`.`product_id`=`#__{vm}_product_category_xref`.`product_id` ";
+	$q .= "\n OR `#__{vm}_product`.`product_parent_id`=`#__{vm}_product_category_xref`.`product_id`)";
 	if( !$perm->check("admin,storeadmin") ) {
-		$q .= " AND product_publish='Y'";
+		$q .= "\n  AND `product_publish`='Y'";
 		if( CHECK_STOCK && PSHOP_SHOW_OUT_OF_STOCK_PRODUCTS != "1") {
-			$q .= " AND product_in_stock > 0 ";
+			$q .= "\n  AND `product_in_stock` > 0 ";
 		}
 	}
 
-	$q .= "AND #__{vm}_product_product_type_xref.product_type_id=$product_type_id ";
+	$q .= "\n AND `#__{vm}_product_product_type_xref`.`product_type_id`=$product_type_id ";
 
 	// find by parameters
 	while ($db_browse->next_record()) {
@@ -118,7 +131,7 @@ if (!empty($product_type_id)) {
 				if( strlen($get_item_value) ) $get_item_value = "'".$get_item_value."'";
 			}
 			if( !empty($parameter_name) ) $parameter_name = "`".$parameter_name."`";
-			$q .= "AND ".$parameter_name.$comp.$get_item_value." ";
+			$q .= "\n AND ".$parameter_name.$comp.$get_item_value." ";
 		}
 	}
 	$item_name = "price";
@@ -135,18 +148,18 @@ if (!empty($product_type_id)) {
 			case "gt": $comp = " > "; break;
 			case "ne": $comp = " <> "; break;
 		}
-		$q .= "AND ( ISNULL(product_price) OR product_price".$comp.$get_item_value." ) ";
+		$q .= "\n AND ( ISNULL(product_price) OR product_price".$comp.$get_item_value." ) ";
 		$auth = $_SESSION['auth'];
 		// get Shopper Group
-		$q .= "AND ( ISNULL(#__{vm}_product_price.shopper_group_id) OR #__{vm}_product_price.shopper_group_id IN (";
+		$q .= "\n AND ( ISNULL(`#__{vm}_product_price`.`shopper_group_id`) OR `#__{vm}_product_price`.`shopper_group_id` IN (";
 		$comma="";
 		if ($auth["user_id"] != 0) { // find user's Shopper Group
-		$q2 = "SELECT `shopper_group_id` FROM `#__{vm}_shopper_vendor_xref` WHERE `user_id`='".$auth["user_id"]."'";
-		$db_browse->query($q2);
-		while ($db_browse->next_record()) {
-			$q .= $comma.$db_browse->f("shopper_group_id");
-			$comma=",";
-		}
+			$q2 = "SELECT `shopper_group_id` FROM `#__{vm}_shopper_vendor_xref` WHERE `user_id`='".$auth["user_id"]."'";
+			$db_browse->query($q2);
+			while ($db_browse->next_record()) {
+				$q .= $comma.$db_browse->f("shopper_group_id");
+				$comma=",";
+			}
 		}
 		// find default Shopper Groups
 		$q2 = "SELECT `shopper_group_id` FROM `#__{vm}_shopper_group` WHERE `default` = 1";
@@ -155,12 +168,12 @@ if (!empty($product_type_id)) {
 			$q .= $comma.$db_browse->f("shopper_group_id");
 			$comma=",";
 		}
-		$q .= ")) ";
+		$q .= "\n )) ";
 	}
 
-	$q .= "GROUP BY #__{vm}_product.product_sku ";
+	$q .= "\n GROUP BY `#__{vm}_product`.`product_sku` ";
 	$count .= $q;
-	$q .= "ORDER BY #__$orderby ".$DescOrderBy;
+	$q .= "\n ORDER BY $orderbyFieldField ".$DescOrderBy;
 	$list .= $q . " LIMIT $limitstart, " . $limit;
 	//  $error = $list; // only for debug
 }
@@ -168,80 +181,80 @@ if (!empty($product_type_id)) {
 elseif (empty($manufacturer_id)) {
 
 	/*** GET ALL PUBLISHED PRODUCTS ***/
-	$list  = "SELECT DISTINCT $fieldnames FROM (#__{vm}_product, #__{vm}_category, #__{vm}_product_category_xref,#__{vm}_shopper_group) ";
-	$count  = "SELECT $count_name FROM (#__{vm}_product, #__{vm}_category, #__{vm}_product_category_xref,#__{vm}_shopper_group) ";
-	$q  = "LEFT JOIN #__{vm}_product_price ON #__{vm}_product.product_id = #__{vm}_product_price.product_id ";
-	$q .= "WHERE #__{vm}_product_category_xref.category_id=#__{vm}_category.category_id ";
+	$list  = "SELECT DISTINCT $fieldnames FROM (`#__{vm}_product`, `#__{vm}_category`, `#__{vm}_product_category_xref`,`#__{vm}_shopper_group`) ";
+	$count  = "SELECT $count_name FROM (`#__{vm}_product`, `#__{vm}_category`, `#__{vm}_product_category_xref`,`#__{vm}_shopper_group`) ";
+	$q  = "LEFT JOIN `#__{vm}_product_price` ON `#__{vm}_product`.`product_id` = `#__{vm}_product_price`.`product_id` ";
+	$q .= "\n WHERE `#__{vm}_product_category_xref`.`category_id`=`#__{vm}_category`.`category_id` ";
 	if( $category_id ) {
-		$q .= "AND #__{vm}_product_category_xref.category_id='".$category_id."' ";
+		$q .= "\n AND `#__{vm}_product_category_xref`.`category_id`='".$category_id."' ";
 	}
-	$q .= "AND #__{vm}_product.product_id=#__{vm}_product_category_xref.product_id ";
-	$q .= "AND #__{vm}_product.product_parent_id='0' ";
+	$q .= "\n AND `#__{vm}_product`.`product_id`=`#__{vm}_product_category_xref`.`product_id` ";
+	$q .= "\n AND `#__{vm}_product`.`product_parent_id`='0' ";
 	if( !$perm->check("admin,storeadmin") ) {
-		$q .= " AND product_publish='Y'";
+		$q .= "\n  AND `product_publish`='Y'";
 		if( CHECK_STOCK && PSHOP_SHOW_OUT_OF_STOCK_PRODUCTS != "1") {
-			$q .= " AND product_in_stock > 0 ";
+			$q .= "\n  AND `product_in_stock` > 0 ";
 		}
 	}
 
-	$q .= "AND ((";
+	$q .= "\n AND ((";
 	if ($auth["shopper_group_id"] > 0) {
-		$q .= "#__{vm}_shopper_group.shopper_group_id=#__{vm}_product_price.shopper_group_id ";
-		//$q .= "AND #__{vm}_shopper_group.shopper_group_id='".$auth["shopper_group_id"]."'";
+		$q .= "\n `#__{vm}_shopper_group`.`shopper_group_id`=`#__{vm}_product_price`.`shopper_group_id` ";
+		//$q .= "\n AND `#__{vm}_shopper_group`.`shopper_group_id`='".$auth["`shopper_group_id`"]."'";
 	}
 	else {
-		$q .= "#__{vm}_shopper_group.shopper_group_id=#__{vm}_product_price.shopper_group_id ";
-		//$q .= "AND #__{vm}_shopper_group.default = '1' ";
+		$q .= "\n `#__{vm}_shopper_group`.`shopper_group_id`=`#__{vm}_product_price`.`shopper_group_id` ";
+		//$q .= "\n AND `#__{vm}_shopper_group`.default = '1' ";
 	}
-	$q .= ") OR (#__{vm}_product_price.product_id IS NULL)) ";
+	$q .= "\n ) OR (`#__{vm}_product_price`.`product_id` IS NULL)) ";
 
 	if( $keyword1 ) {
-		$q .= "AND (";
+		$q .= "\n AND (";
 		if ($search_limiter=="name") {
-			$q .= "#__{vm}_product.product_name LIKE '%$keyword1%' ";
+			$q .= "\n `#__{vm}_product`.`product_name` LIKE '%$keyword1%' ";
 		}
 		elseif ($search_limiter=="cp") {
-			$q .= "#__{vm}_product.product_url LIKE '%$keyword1%' ";
+			$q .= "\n `#__{vm}_product`.`product_url` LIKE '%$keyword1%' ";
 		}
 		elseif ($search_limiter=="desc") {
-			$q .= "#__{vm}_product.product_s_desc LIKE '%$keyword1%' OR ";
-			$q .= "#__{vm}_product.product_desc LIKE '%$keyword1%'";
+			$q .= "\n `#__{vm}_product`.`product_s_desc` LIKE '%$keyword1%' OR ";
+			$q .= "\n `#__{vm}_product`.`product_desc` LIKE '%$keyword1%'";
 		}
 		else {
-			$q .= "#__{vm}_product.product_name LIKE '%$keyword1%' OR ";
-			$q .= "#__{vm}_product.product_url LIKE '%$keyword1%' OR ";
-			$q .= "#__{vm}_category.category_name LIKE '%$keyword1%' OR ";
-			$q .= "#__{vm}_product.product_sku LIKE '%$keyword1%' OR ";
-			$q .= "#__{vm}_product.product_s_desc LIKE '%$keyword1%' OR ";
-			$q .= "#__{vm}_product.product_desc LIKE '%$keyword1%'";
+			$q .= "\n `#__{vm}_product`.`product_name` LIKE '%$keyword1%' OR ";
+			$q .= "\n `#__{vm}_product`.`product_url` LIKE '%$keyword1%' OR ";
+			$q .= "\n `#__{vm}_category`.`category_name` LIKE '%$keyword1%' OR ";
+			$q .= "\n `#__{vm}_product`.`product_sku` LIKE '%$keyword1%' OR ";
+			$q .= "\n `#__{vm}_product`.`product_s_desc` LIKE '%$keyword1%' OR ";
+			$q .= "\n `#__{vm}_product`.`product_desc` LIKE '%$keyword1%'";
 		}
-		$q .= ") ";
+		$q .= "\n ) ";
 		/*** KEYWORD 2 TO REFINE THE SEARCH ***/
 		if ( !empty($keyword2) ) {
-			$q .= "$search_op (";
+			$q .= "\n $search_op (";
 			if ($search_limiter=="name") {
-				$q .= "#__{vm}_product.product_name LIKE '%$keyword2%' ";
+				$q .= "\n `#__{vm}_product`.product_name LIKE '%$keyword2%' ";
 			}
 			elseif ($search_limiter=="cp") {
-				$q .= "#__{vm}_product.product_url LIKE '%$keyword2%' ";
+				$q .= "\n `#__{vm}_product`.product_url LIKE '%$keyword2%' ";
 			}
 			elseif ($search_limiter=="desc") {
-				$q .= "#__{vm}_product.product_s_desc LIKE '%$keyword2%' OR ";
-				$q .= "#__{vm}_product.product_desc LIKE '%$keyword2%'";
+				$q .= "\n `#__{vm}_product`.`product_s_desc` LIKE '%$keyword2%' OR ";
+				$q .= "\n `#__{vm}_product`.`product_desc` LIKE '%$keyword2%'";
 			}
 			else {
-				$q .= "#__{vm}_product.product_name LIKE '%$keyword2%' OR ";
-				$q .= "#__{vm}_product.product_url LIKE '%$keyword2%' OR ";
-				$q .= "#__{vm}_category.category_name LIKE '%$keyword2%' OR ";
-				$q .= "#__{vm}_product.product_sku LIKE '%$keyword2%' OR ";
-				$q .= "#__{vm}_product.product_s_desc LIKE '%$keyword2%' OR ";
-				$q .= "#__{vm}_product.product_desc LIKE '%$keyword2%'";
+				$q .= "\n `#__{vm}_product`.`product_name` LIKE '%$keyword2%' OR ";
+				$q .= "\n `#__{vm}_product`.`product_url` LIKE '%$keyword2%' OR ";
+				$q .= "\n `#__{vm}_category`.`category_name` LIKE '%$keyword2%' OR ";
+				$q .= "\n `#__{vm}_product`.`product_sku` LIKE '%$keyword2%' OR ";
+				$q .= "\n `#__{vm}_product`.product_s_desc` LIKE '%$keyword2%' OR ";
+				$q .= "\n `#__{vm}_product`.`product_desc` LIKE '%$keyword2%'";
 			}
-			$q .= ") ";
+			$q .= "\n ) ";
 		}
 	}
 	elseif( $keyword ) {
-		$q .= "AND (";
+		$q .= "\n AND (";
 		$keywords = explode( " ", $keyword, 10 );
 		$numKeywords = count( $keywords );
 		$i = 1;
@@ -253,50 +266,51 @@ elseif (empty($manufacturer_id)) {
 				if( $searchstring[strlen($searchstring)-1] == "\"" || $searchstring[strlen($searchstring)-1]=="'" )
 				$searchstring[strlen($searchstring)-1] = " ";
 				$searchstring = trim( $searchstring );
-				$q .= "(#__{vm}_product.product_name LIKE '%$searchstring%' OR ";
-				$q .= "#__{vm}_product.product_sku LIKE '%$searchstring%' OR ";
-				$q .= "#__{vm}_product.product_s_desc LIKE '%$searchstring%' OR ";
-				$q .= "#__{vm}_product.product_desc LIKE '%$searchstring%') ";
+				$q .= "\n (`#__{vm}_product`.`product_name` LIKE '%$searchstring%' OR ";
+				$q .= "\n `#__{vm}_product`.`product_sku` LIKE '%$searchstring%' OR ";
+				$q .= "\n `#__{vm}_product`.`product_s_desc` LIKE '%$searchstring%' OR ";
+				$q .= "\n `#__{vm}_product`.`product_desc` LIKE '%$searchstring%') ";
 			}
 			if( $i++ < $numKeywords )
-			$q .= " AND ";
+			$q .= "\n  AND ";
 		}
-		$q .= ") ";
+		$q .= "\n ) ";
 	}
 	$count .= $q;
-	$q .= "GROUP BY #__{vm}_product.product_sku ";
-	$q .= "ORDER BY #__$orderby $DescOrderBy";
+	$q .= "\n GROUP BY `#__{vm}_product`.`product_sku` ";
+	$q .= "\n ORDER BY $orderbyField $DescOrderBy";
 	$list .= $q . " LIMIT $limitstart, " . $limit;
 }
 
 /*** GET ALL PUBLISHED PRODUCTS FROM THAT MANUFACTURER ***/
 elseif (!empty($manufacturer_id)) {
-	$list  = "SELECT DISTINCT * FROM (#__{vm}_product, #__{vm}_product_mf_xref, #__{vm}_product_price,#__{vm}_shopper_group) ";
-	$count  = "SELECT $count_name FROM (#__{vm}_product, #__{vm}_product_mf_xref, #__{vm}_product_price,#__{vm}_shopper_group,#__{vm}_shopper_vendor_xref) WHERE ";
+	$list  = "SELECT DISTINCT * FROM (`#__{vm}_product`, `#__{vm}_product_mf_xref`,`#__{vm}_shopper_group` ";
+	$count  = "SELECT $count_name FROM (`#__{vm}_product`, `#__{vm}_product_mf_xref`,`#__{vm}_shopper_group` ";
 	$q  = " manufacturer_id='".$manufacturer_id."' ";
-	$q .= "AND #__{vm}_product.product_id=#__{vm}_product_mf_xref.product_id ";
-	$q .= "AND #__{vm}_product.product_id=#__{vm}_product_price.product_id ";
-	if ($perm->is_registered_customer($my->id)) {
-		$list .= ",#__{vm}_shopper_vendor_xref WHERE ";
-		$q .= "AND #__{vm}_shopper_vendor_xref.user_id = '".$my->id."' ";
-		$q .= "AND #__{vm}_shopper_vendor_xref.shopper_group_id=#__{vm}_product_price.shopper_group_id ";
-		$q .= "AND #__{vm}_shopper_vendor_xref.shopper_group_id=#__{vm}_shopper_group.shopper_group_id ";
+	$q .= "\n AND `#__{vm}_product`.`product_id`=`#__{vm}_product_mf_xref`.`product_id` ";
+	if( $perm->is_registered_customer($my->id) ) {
+		$list .= ",`#__{vm}_shopper_vendor_xref`) LEFT JOIN `#__{vm}_product_price` ON `#__{vm}_product`.`product_id` = `#__{vm}_product_price`.`product_id` WHERE ";
+		$count .= ",`#__{vm}_shopper_vendor_xref`) LEFT JOIN `#__{vm}_product_price` ON `#__{vm}_product`.`product_id` = `#__{vm}_product_price`.`product_id` WHERE ";
+		$q .= "\n AND (`#__{vm}_product`.`product_id`=`#__{vm}_product_price`.`product_id` OR `#__{vm}_product_price`.`product_id` IS NULL) ";
+		$q .= "\n AND ((`#__{vm}_shopper_vendor_xref`.user_id =".$my->id." ";
+		//$q .= "\n AND `#__{vm}_shopper_vendor_xref`.`shopper_group_id`=`#__{vm}_product_price`.`shopper_group_id` ";
+		$q .= "\n AND `#__{vm}_shopper_vendor_xref`.`shopper_group_id`=`#__{vm}_shopper_group`.`shopper_group_id`) OR `#__{vm}_product_price`.`shopper_group_id` IS NULL) ";
 	}
 	else {
-		$list .= " WHERE ";
-		$q .= "AND #__{vm}_shopper_group.default = '1' ";
-		$q .= "AND #__{vm}_shopper_group.shopper_group_id=#__{vm}_product_price.shopper_group_id ";
+		$list .= ") WHERE ";
+		$q .= "\n AND `#__{vm}_shopper_group`.default = '1' ";
+		$q .= "\n AND `#__{vm}_shopper_group`.`shopper_group_id`=`#__{vm}_product_price`.`shopper_group_id` ";
 	}
-	$q .= "AND ((product_parent_id='0') OR (product_parent_id='')) ";
+	$q .= "\n AND ((`product_parent_id`='0') OR (`product_parent_id`='')) ";
 	if( !$perm->check("admin,storeadmin") ) {
-		$q .= " AND product_publish='Y' ";
+		$q .= "\n  AND `product_publish`='Y' ";
 		if( CHECK_STOCK && PSHOP_SHOW_OUT_OF_STOCK_PRODUCTS != "1") {
-			$q .= " AND product_in_stock > 0 ";
+			$q .= "\n  AND product_in_stock > 0 ";
 		}
 	}
 	$count .= $q;
-	$q .= "GROUP BY #__{vm}_product.product_sku ";
-	$q .= "ORDER BY #__$orderby $DescOrderBy";
+	$q .= "\n GROUP BY `#__{vm}_product`.`product_sku` ";
+	$q .= "\n ORDER BY $orderbyField $DescOrderBy";
 	$list .= $q . " LIMIT $limitstart, " . $limit;
 }
 // BACK TO shop.browse.php !

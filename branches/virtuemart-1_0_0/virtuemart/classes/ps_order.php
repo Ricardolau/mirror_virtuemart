@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_order.php,v 1.12.2.1 2005/12/01 20:00:32 soeren_nb Exp $
+* @version $Id: ps_order.php,v 1.12.2.2 2006/02/27 19:41:42 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -459,7 +459,8 @@ class ps_order {
 
 				header('Content-Type: ' . $mime_type);
 				header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-
+				header('Content-Length: ' . filesize($datei) );
+				
 				if ($UserBrowser == 'IE') {
 					header('Content-Disposition: attachment; filename="' . $file_name . '"');
 					header('Cache-Control: must-revalidate, post-check=0, pre-check=0');

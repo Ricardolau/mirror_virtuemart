@@ -33,6 +33,10 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+04-03-2006 soeren
+# short php tags in shop.manufacturer_page.php
+# Task #551 — Cart showing extra products after adding first item
+# Task #562 — Discount deletion problem
 
 02-03-2006 soeren
 # Task #432 — missing ST address in order_user_info when using default address

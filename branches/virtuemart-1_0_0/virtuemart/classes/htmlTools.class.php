@@ -3,7 +3,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 /**
 * This file contains functions and classes for common html tasks
 *
-* @version $Id: htmlTools.class.php,v 1.19.2.1 2005/11/30 20:18:59 soeren_nb Exp $
+* @version $Id: htmlTools.class.php,v 1.19.2.2 2006/01/17 19:04:13 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -604,7 +604,7 @@ function mm_writeWithJS( $textToWrap, $noscriptText ) {
 */
 function vmPopupLink( $link, $text, $popupWidth=640, $popupHeight=480, $target='_blank', $title='' ) {
 	
-	$jslink = "<a href=\"javascript:void window.open('$link', 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=$popupWidth,height=$popupHeight,directories=no,location=no');\" title=\"$title\">$text</a>";
+	$jslink = "<a href=\"javascript:void window.open('$link', 'win2', 'status=no,toolbar=no,scrollbars=no,titlebar=no,menubar=no,resizable=yes,width=$popupWidth,height=$popupHeight,directories=no,location=no');\" title=\"$title\">$text</a>";
 	$noscriptlink = "<a href=\"$link\" target=\"$target\" title=\"$title\">$text</a>";
 	return mm_writeWithJS( $jslink, $noscriptlink );
 }

@@ -45,8 +45,20 @@ class ps_session {
 			// Session not yet started!";
 			// Set the virtuemart cookie, using the md5 hash of the recent mambo/joomla session
 			if( empty($_COOKIE[$this->_session_name])) {
-				$_COOKIE[$this->_session_name] = md5($mainframe->_session->session_id);
+				if( is_callable( array( 'mosMainframe', 'sessionCookieName'))) {
+					// Session Cookie `name`
+					$sessionCookieName 	= mosMainFrame::sessionCookieName();
+					// Get Session Cookie `value`
+					$sessioncookie 		= mosGetParam( $_COOKIE, $sessionCookieName, null );
+					// Session ID / `value`
+					$sessionValueCheck 	= mosMainFrame::sessionCookieValue( $sessioncookie );
+					$_COOKIE[$this->_session_name] = md5( $sessionValueCheck );
+				}
+				else {
+					$_COOKIE[$this->_session_name] = md5($mainframe->_session->session_id);
+				}
 			}
+			
 			// Set the sessioncookie if its missing
 			// this is needed for joomla sites only
 			$sessionCookieName = md5( 'site'.$GLOBALS['mosConfig_live_site'] );

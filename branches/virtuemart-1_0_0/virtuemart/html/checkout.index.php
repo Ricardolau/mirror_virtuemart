@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: checkout.index.php,v 1.4 2005/11/01 18:39:46 soeren_nb Exp $
+* @version $Id: checkout.index.php,v 1.5 2005/11/05 14:11:57 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -169,6 +169,7 @@ if ($checkout) {
             $i = 0;
             
             foreach( $PSHOP_SHIPPING_MODULES as $shipping_module ) {
+            	$vmLogger->debug( 'Starting Shipping module: '.$shipping_module );
                 include_once( CLASSPATH. "shipping/".$shipping_module.".php" );
                 eval( "\$SHIPPING =& new ".$shipping_module."();");
                 $SHIPPING->list_rates( $vars );

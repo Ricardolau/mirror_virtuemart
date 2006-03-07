@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: product.product_form.php,v 1.14.2.1 2005/12/15 20:59:30 soeren_nb Exp $
+* @version $Id: product.product_form.php,v 1.14.2.2 2006/01/17 19:04:14 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -280,7 +280,7 @@ else {
       </td>
       <td width="79%" >
 		<input type="text" size="10" name="discounted_price_override" onkeyup="try { document.adminForm.product_discount_id[document.adminForm.product_discount_id.length-1].selected=true; } catch( e ) {}" />&nbsp;&nbsp;
-		<?php echo mm_ToolTip( $PHPSHOP_LANG->_PHPSHOP_PRODUCT_FORM_DISCOUNTED_PRICE_TIP ) ?>
+		<?php echo mm_ToolTip( $VM_LANG->_PHPSHOP_PRODUCT_FORM_DISCOUNTED_PRICE_TIP ) ?>
 	</td>
     </tr>
     <tr><td colspan="2">&nbsp;</td></tr>

@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_checkout.php,v 1.22.2.4 2006/02/28 18:35:36 soeren_nb Exp $
+* @version $Id: ps_checkout.php,v 1.22.2.5 2006/03/03 07:09:01 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -1717,6 +1717,9 @@ Order Total: '.$order_total.'
 			$shopper_message .= $VM_LANG->_PHPSHOP_ORDER_PRINT_TOTAL_TAX."      = ";
 			$shopper_message .= $CURRENCY_DISPLAY->getFullValue($order_tax) . "\n";
 		}
+		if( $db->f('order_tax_details') ) {
+			$shopper_message .= str_replace( '<br />', "\n", ps_checkout::show_tax_details( $db->f('order_tax_details') ) );
+		}
 		// Payment Details
 		$shopper_message .= "\n\n------------------------------------------------------------------------\n";
 		$shopper_message .= $payment_info_details_text;
@@ -1902,7 +1905,7 @@ Order Total: '.$order_total.'
 
 			$html = str_replace('{phpShopOrderSubtotal}',$CURRENCY_DISPLAY->getFullValue($sub_total),$html);
 			$html = str_replace('{phpShopOrderShipping}',$CURRENCY_DISPLAY->getFullValue($order_shipping),$html);
-			$html = str_replace('{phpShopOrderTax}',$CURRENCY_DISPLAY->getFullValue($order_tax),$html);
+			$html = str_replace('{phpShopOrderTax}',$CURRENCY_DISPLAY->getFullValue($order_tax). ps_checkout::show_tax_details( $db->f('order_tax_details') ), $html );
 
 			$html = str_replace('{phpShopOrderTotal}',$CURRENCY_DISPLAY->getFullValue($order_total),$html);
 

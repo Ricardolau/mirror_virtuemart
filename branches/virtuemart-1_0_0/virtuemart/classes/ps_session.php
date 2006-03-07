@@ -2,10 +2,10 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_session.php,v 1.15.2.3 2006/02/27 19:41:42 soeren_nb Exp $
+* @version $Id: ps_session.php,v 1.15.2.5 2006/03/06 20:28:48 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
+* @copyright Copyright (C) 2004-2006 Soeren Eberhardt. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -16,14 +16,12 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * http://virtuemart.net
 */
 
-/****************************************************************************
-* CLASS DESCRIPTION
-*
-* ps_session
-*
-* The class is the former session class for virtuemart
-*
-*************************************************************************/
+
+/**
+ * This class handles the session initialization, restart
+ * and the re-init of a session after redirection to a Shared SSL domain
+ *
+ */
 class ps_session {
 
 	var $component_name = "option=com_virtuemart";
@@ -42,33 +40,22 @@ class ps_session {
 	function initSession() {
 		global $vmLogger, $mainframe;
 		if( empty($_SESSION)) {
-			// Session not yet started!";
+			// Session not yet started!
+
+			$sessionId = $this->getSessionId();
+			
 			// Set the virtuemart cookie, using the md5 hash of the recent mambo/joomla session
 			if( empty($_COOKIE[$this->_session_name])) {
-				if( is_callable( array( 'mosMainframe', 'sessionCookieName'))) {
-					// Session Cookie `name`
-					$sessionCookieName 	= mosMainFrame::sessionCookieName();
-					// Get Session Cookie `value`
-					$sessioncookie 		= mosGetParam( $_COOKIE, $sessionCookieName, null );
-					// Session ID / `value`
-					$sessionValueCheck 	= mosMainFrame::sessionCookieValue( $sessioncookie );
-					$_COOKIE[$this->_session_name] = md5( $sessionValueCheck );
-				}
-				else {
-					$_COOKIE[$this->_session_name] = md5($mainframe->_session->session_id);
-				}
+				$_COOKIE[$this->_session_name] = md5( $sessionId );
 			}
-			
-			// Set the sessioncookie if its missing
-			// this is needed for joomla sites only
-			$sessionCookieName = md5( 'site'.$GLOBALS['mosConfig_live_site'] );
-			$sessioncookie 	= mosGetParam( $_COOKIE, $sessionCookieName, null );
+			// Mambo backwards compatibility
 			if( empty($_COOKIE['sessioncookie'])) {
-				$_COOKIE['sessioncookie'] = $sessioncookie;
+				$_COOKIE['sessioncookie'] = $sessionId;
 			}
-			elseif( $_COOKIE['sessioncookie'] != $sessioncookie ) {			
-				$_COOKIE['sessioncookie'] = $sessioncookie;
+			elseif( $_COOKIE['sessioncookie'] != $sessionId ) {			
+				$_COOKIE['sessioncookie'] = $sessionId;
 			}
+
 			// Fix for Mambo 4.5.3h; I hope this will not smash other components using Sessions
 			@session_write_close();
 			
@@ -92,6 +79,31 @@ class ps_session {
 		}	
 	}
 	
+	/**
+	 * Returns the Joomla/Mambo Session ID
+	 *
+	 */
+	function getSessionId() {
+		
+		// Joomla >= 1.0.8
+		if( is_callable( array( 'mosMainframe', 'sessionCookieName'))) {
+			
+			// Session Cookie `name`
+			$sessionCookieName 	= mosMainFrame::sessionCookieName();
+			// Get Session Cookie `value`
+			$sessionCookie 		= mosGetParam( $_COOKIE, $sessionCookieName, null );
+			// Session ID / `value`
+			return mosMainFrame::sessionCookieValue( $sessionCookie );
+			
+		}
+		// Mambo and Joomla <= 1.0.7
+		elseif( !empty( $mainframe->_session->session_id )) {
+			// Set the sessioncookie if its missing
+			// this is needed for joomla sites only
+			return $mainframe->_session->session_id;
+		}
+		
+	}
 	function restartSession( $sid = '') {
 		
 		// Save the session data and close the session
@@ -109,7 +121,7 @@ class ps_session {
 	function emptySession() {
 		global $mainframe;
 		$_SESSION = array();
-		$_COOKIE[$this->_session_name] = md5($mainframe->_session->session_id);
+		$_COOKIE[$this->_session_name] = md5( $this->getSessionId() );
 	}
 	/**
      * This is a solution for  the Shared SSL problem
@@ -137,7 +149,11 @@ class ps_session {
 			// and the https Domain Name. If both do not match, we move on
 			// else we leave this function.
 			if( $this->check_Shared_SSL( $ssl_domain ) && $_SERVER['SERVER_PORT'] != 443) {
-				if( $_VERSION->PRODUCT == 'Joomla!') {
+				if( is_callable( array( 'mosMainframe', 'sessionCookieName'))) {
+					// Session Cookie `name`
+					$sessionCookieName 	= mosMainFrame::sessionCookieName();
+				}
+				elseif( $_VERSION->PRODUCT == 'Joomla!') {
 					$sessionCookieName = md5( 'site'.$GLOBALS['mosConfig_live_site'] );
 				}
 				else {
@@ -195,7 +211,12 @@ class ps_session {
 	                * so we can delete it. But Deleting Cookies is not trivial...we just set the
 	                * Session Cookie again with an empty value. This erases the Cookie.
 	                */
-					if( $_VERSION->PRODUCT == 'Joomla!') {
+					if( is_callable( array( 'mosMainframe', 'sessionCookieName'))) {
+						// Session Cookie `name`
+						$sessionCookieName 	= mosMainFrame::sessionCookieName();
+					}
+					elseif( $_VERSION->PRODUCT == 'Joomla!') {
+						
 						if( !empty($GLOBALS['real_mosConfig_live_site'])) {
 							$sessionCookieName = md5( 'site'.$GLOBALS['real_mosConfig_live_site'] );
 						}
@@ -312,10 +333,8 @@ class ps_session {
 	 *
 	 * @param string $text
 	 */
-	function purl($text) {
-		
-		echo $this->url( $text );
-		
+	function purl($text) {		
+		echo $this->url( $text );		
 	}
 	
 	/**

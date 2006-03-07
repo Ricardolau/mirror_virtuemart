@@ -33,6 +33,12 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+07-03-2006 soeren
+
+# more ps_session class fixes to work on Joomla 1.0.8
+^ setting memory_limit to 16M when it is lower
++ multiple tax rate details in order email
+
 04-03-2006 soeren
 # short php tags in shop.manufacturer_page.php
 # Task #551 — Cart showing extra products after adding first item

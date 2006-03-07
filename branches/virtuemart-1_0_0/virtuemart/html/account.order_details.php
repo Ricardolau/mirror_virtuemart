@@ -2,10 +2,10 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: account.order_details.php,v 1.8.2.1 2006/01/17 19:04:14 soeren_nb Exp $
+* @version $Id: account.order_details.php,v 1.8.2.2 2006/02/27 19:41:42 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
-* @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
+* @copyright Copyright (C) 2004-2006 Soeren Eberhardt. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or

@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_session.php,v 1.15.2.5 2006/03/06 20:28:48 soeren_nb Exp $
+* @version $Id: ps_session.php,v 1.15.2.6 2006/03/07 19:34:01 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2006 Soeren Eberhardt. All rights reserved.
@@ -84,19 +84,22 @@ class ps_session {
 	 *
 	 */
 	function getSessionId() {
-		
+
 		// Joomla >= 1.0.8
-		if( is_callable( array( 'mosMainframe', 'sessionCookieName'))) {
-			
+		if( is_callable( array( 'mosMainframe', 'sessionCookieName'))) {			
 			// Session Cookie `name`
 			$sessionCookieName 	= mosMainFrame::sessionCookieName();
 			// Get Session Cookie `value`
 			$sessionCookie 		= mosGetParam( $_COOKIE, $sessionCookieName, null );
 			// Session ID / `value`
 			return mosMainFrame::sessionCookieValue( $sessionCookie );
-			
 		}
-		// Mambo and Joomla <= 1.0.7
+		// Mambo 4.6
+		elseif( is_callable( array('mosSession', 'getCurrent' ))) {
+			$session =& mosSession::getCurrent();
+			return $session->session_id;
+		}
+		// Mambo <= 4.5.2.3 and Joomla <= 1.0.7
 		elseif( !empty( $mainframe->_session->session_id )) {
 			// Set the sessioncookie if its missing
 			// this is needed for joomla sites only

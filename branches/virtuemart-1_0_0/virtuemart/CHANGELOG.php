@@ -21,6 +21,8 @@ This is a non-exhaustive (but still near complete) changelog for
 VirtueMart, including beta and release candidate versions.
 Our thanks to all those people who've contributed bug reports and code fixes.
 
+Official BugTracker: http://virtuemart.net/index.php?option=com_flyspray&Itemid=91
+
 Legend:
 
 # -> Bug Fix
@@ -34,6 +36,7 @@ Legend:
 VirtueMart 1.0.x
 *************************************
 10-03-2006 soeren
+
 # Task #325 Log out does not work
 # missing $mosConfig_absolute_path in currency_convert.php
 

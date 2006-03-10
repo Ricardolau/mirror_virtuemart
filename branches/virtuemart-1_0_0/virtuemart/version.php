@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: version.php,v 1.15.2.3 2006/01/19 20:16:44 soeren_nb Exp $
+* @version $Id: version.php,v 1.15.2.4 2006/02/27 19:41:41 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -28,9 +28,9 @@ class vmVersion {
 	// Song by Chester Arthur Burnett aka Howlin' Wolf; http://en.wikipedia.org/wiki/Howlin%27_Wolf; 
 	var $CODENAME = 'Little Red Rooster';
 	/** @var string Date */
-	var $RELDATE = '27/02/2006';
+	var $RELDATE = '10/03/2006';
 	/** @var string Time */
-	var $RELTIME = '20:16';
+	var $RELTIME = '20:21';
 	/** @var string Timezone */
 	var $RELTZ = 'GMT';
 	/** @var string Copyright Text */

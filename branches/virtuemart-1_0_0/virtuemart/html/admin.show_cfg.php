@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: admin.show_cfg.php,v 1.12.2.1 2006/02/27 19:41:42 soeren_nb Exp $
+* @version $Id: admin.show_cfg.php,v 1.12.2.2 2006/03/03 07:09:02 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -42,9 +42,10 @@ $formObj->startForm();
 
 $ps_html->writableIndicator( $mosConfig_absolute_path.'/administrator/components/com_virtuemart/virtuemart.cfg.php' ); 
 
+$spacer = '&nbsp;&nbsp;&nbsp;';
 $tabs = new mShopTabs(0, 1, "_main");
 $tabs->startPane("content-pane");
-$tabs->startTab( $VM_LANG->_PHPSHOP_ADMIN_CFG_GLOBAL, "global-page");
+$tabs->startTab( $spacer . $VM_LANG->_PHPSHOP_ADMIN_CFG_GLOBAL . $spacer, "global-page");
 
 ?>
 <br/>
@@ -383,7 +384,7 @@ $tabs->startTab( $VM_LANG->_PHPSHOP_ADMIN_CFG_GLOBAL, "global-page");
 <?php
 
 $tabs->endTab();
-$tabs->startTab( $VM_LANG->_PHPSHOP_ADMIN_CFG_PATHANDURL, "pathandurl-page");
+$tabs->startTab( $spacer . $VM_LANG->_PHPSHOP_ADMIN_CFG_PATHANDURL . $spacer, "pathandurl-page");
 ?>
 
 <fieldset>
@@ -447,7 +448,7 @@ $tabs->startTab( $VM_LANG->_PHPSHOP_ADMIN_CFG_PATHANDURL, "pathandurl-page");
 </fieldset>
 <?php
   $tabs->endTab();
-  $tabs->startTab( $VM_LANG->_PHPSHOP_ADMIN_CFG_SITE, "site-page");
+  $tabs->startTab( $spacer . $VM_LANG->_PHPSHOP_ADMIN_CFG_SITE . $spacer, "site-page");
     $subtabs2 = new mShopTabs(0, 0, "_layout");
     $subtabs2->startPane("layout-pane");
     $subtabs2->startTab( "Display", "layout-1-page");
@@ -608,7 +609,7 @@ $tabs->startTab( $VM_LANG->_PHPSHOP_ADMIN_CFG_PATHANDURL, "pathandurl-page");
     }
     ?>
     <tr>
-        <td class="labelcell"><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_SEARCHCOLOR1 ?></strong></td>
+        <td class="labelcell"><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_SEARCHCOLOR1 ?></td>
         <td>
             <input type="text" name="conf_SEARCH_COLOR_1" class="inputbox" value="<?php echo SEARCH_COLOR_1 ?>" />
         </td>
@@ -616,7 +617,7 @@ $tabs->startTab( $VM_LANG->_PHPSHOP_ADMIN_CFG_PATHANDURL, "pathandurl-page");
         </td>
     </tr>
     <tr>
-        <td class="labelcell"><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_SEARCHCOLOR2 ?></strong></td>
+        <td class="labelcell"><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_SEARCHCOLOR2 ?></td>
         <td>
             <input type="text" name="conf_SEARCH_COLOR_2" class="inputbox" value="<?php echo SEARCH_COLOR_2 ?>" />
         </td>
@@ -630,7 +631,7 @@ $tabs->startTab( $VM_LANG->_PHPSHOP_ADMIN_CFG_PATHANDURL, "pathandurl-page");
     $subtabs2->endPane();
   $tabs->endTab();
   
-  $tabs->startTab( $VM_LANG->_PHPSHOP_ADMIN_CFG_SHIPPING, "shipping-page");
+  $tabs->startTab( $spacer . $VM_LANG->_PHPSHOP_ADMIN_CFG_SHIPPING . $spacer, "shipping-page");
 ?>
 
 
@@ -704,7 +705,7 @@ foreach( $rows as $row ) {
 </fieldset>
 <?php
   $tabs->endTab();
-  $tabs->startTab( $VM_LANG->_PHPSHOP_ADMIN_CFG_CHECKOUT, "checkout-page");
+  $tabs->startTab( $spacer . $VM_LANG->_PHPSHOP_ADMIN_CFG_CHECKOUT . $spacer, "checkout-page");
 ?>
 
 <table class="adminform">
@@ -717,7 +718,7 @@ foreach( $rows as $row ) {
         </td>
     </tr>
     <tr>
-        <td rowspan="4" valign="top"><div align="right"><strong><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_CHECKOUT_PROCESS ?></td>
+        <td rowspan="4" valign="top"><div align="right"><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_CHECKOUT_PROCESS ?></td>
         <td width="40" valign="top">
             <input type="radio" name="conf_CHECKOUT_STYLE" <?php if (CHECKOUT_STYLE == '1') echo "checked=\"checked\""; ?> value="1" />
         </td>
@@ -749,7 +750,7 @@ foreach( $rows as $row ) {
 
 <?php
   $tabs->endTab();
-  $tabs->startTab( $VM_LANG->_PHPSHOP_ADMIN_CFG_DOWNLOADABLEGOODS, "download-page");
+  $tabs->startTab( $spacer. $VM_LANG->_PHPSHOP_ADMIN_CFG_DOWNLOADABLEGOODS . $spacer, "download-page");
 ?>
 
   <table class="adminform">

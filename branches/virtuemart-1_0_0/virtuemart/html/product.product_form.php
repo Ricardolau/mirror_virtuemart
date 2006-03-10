@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: product.product_form.php,v 1.14.2.2 2006/01/17 19:04:14 soeren_nb Exp $
+* @version $Id: product.product_form.php,v 1.14.2.3 2006/03/07 19:34:02 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -245,7 +245,7 @@ else {
             </td>
             <td>&nbsp;<?php
                 echo mm_ToolTip( $VM_LANG->_PHPSHOP_PRICE_FORM_GROUP . ": ".$shopper_db->f("shopper_group_name")); ?>               
-                <input type="hidden" name="shopper_group_id" value="<? echo $my_shopper_group_id ?>" />
+                <input type="hidden" name="shopper_group_id" value="<?php echo $my_shopper_group_id ?>" />
              </td>
             </tr>
         </table>

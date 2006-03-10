@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: product.csv_upload.php,v 1.3 2005/09/27 17:51:26 soeren_nb Exp $
+* @version $Id: product.csv_upload.php,v 1.4 2005/09/29 20:02:18 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -173,7 +173,7 @@ $tabs->startTab( $VM_LANG->_PHPSHOP_CONFIG, "field_list" );
         </td>
         <td><?php
         if( !in_array( $db->f( "field_name"), $ps_csv->reserved_words )) { ?>
-            <a class="toolbar" href="index2.php?option=com_virtuemart&page=<? echo $_REQUEST['page'] ?>&func=csvFieldDelete&field_id=<? echo $db->f("field_id") ?>" onclick="return confirm('<? echo $VM_LANG->_PHPSHOP_DELETE_MSG ?>');" onmouseout="MM_swapImgRestore();"  onmouseover="MM_swapImage('Delete<? echo $i ?>','','<? echo IMAGEURL ?>ps_image/delete_f2.gif',1);"><img src="<?php echo IMAGEURL ?>ps_image/delete.gif" alt="Delete this record" name="Delete<? echo $i ?>" align="middle" border="0"/>
+            <a class="toolbar" href="index2.php?option=com_virtuemart&page=<?php echo $_REQUEST['page'] ?>&func=csvFieldDelete&field_id=<?php echo $db->f("field_id") ?>" onclick="return confirm('<?php echo $VM_LANG->_PHPSHOP_DELETE_MSG ?>');" onmouseout="MM_swapImgRestore();"  onmouseover="MM_swapImage('Delete<?php echo $i ?>','','<?php echo IMAGEURL ?>ps_image/delete_f2.gif',1);"><img src="<?php echo IMAGEURL ?>ps_image/delete.gif" alt="Delete this record" name="Delete<?php echo $i ?>" align="middle" border="0"/>
             </a>
         <?php
         } 

@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: account.shipping.php,v 1.2 2005/09/27 17:51:26 soeren_nb Exp $
+* @version $Id: account.shipping.php,v 1.3 2005/09/29 20:02:18 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -46,7 +46,7 @@ $db->query($q);
 ?>
    <br/><br/>
    <div>
-      <a class="button" href="<?php $sess->purl(SECUREURL . "index.php?page=account.shipto&next_page=account.shipping"); ?>"><? echo $VM_LANG->_PHPSHOP_USER_FORM_ADD_SHIPTO_LBL ?></a>
+      <a class="button" href="<?php $sess->purl(SECUREURL . "index.php?page=account.shipto&next_page=account.shipping"); ?>"><?php echo $VM_LANG->_PHPSHOP_USER_FORM_ADD_SHIPTO_LBL ?></a>
    </div>
 </fieldset>
 <!-- Body ends here -->

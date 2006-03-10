@@ -33,9 +33,15 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
-07-03-2006 soeren
+10-03-2006 soeren
+# Task #325 Log out does not work
+# missing $mosConfig_absolute_path in currency_convert.php
 
-# more ps_session class fixes to work on Joomla 1.0.8
+07-03-2006 soeren
+# many short tag fixes (< ? => < ?php )
+# Task #566 — DescOrderBy doesn't work with SEF
+# more ps_session class fixes to work on Joomla 1.0.8 & Mambo 4.6
+	seems to me as if some Joomla 1.0.8 users are suffering serious Session problems now
 ^ setting memory_limit to 16M when it is lower
 + multiple tax rate details in order email
 

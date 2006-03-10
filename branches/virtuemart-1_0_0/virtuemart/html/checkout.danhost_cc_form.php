@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: checkout.danhost_cc_form.php,v 1.3 2005/09/29 20:02:18 soeren_nb Exp $
+* @version $Id: checkout.danhost_cc_form.php,v 1.4 2005/10/28 09:35:36 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -183,7 +183,7 @@ if( $md5_check === md5( $submitted_hashbase . $mosConfig_secret . ENCODE_KEY) ) 
 else {
 ?>
       <img src="<?php echo IMAGEURL ?>ps_image/button_cancel.png" align="center" alt="Failure" border="0" />
-      <span class="message"><? echo $VM_LANG->_PHPSHOP_PAYMENT_ERROR ?> (MD5 Check failed)</span>
+      <span class="message"><?php echo $VM_LANG->_PHPSHOP_PAYMENT_ERROR ?> (MD5 Check failed)</span>
 <?php
 }
 ?>

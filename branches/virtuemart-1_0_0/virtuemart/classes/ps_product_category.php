@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_product_category.php,v 1.14.2.1 2005/11/30 20:18:59 soeren_nb Exp $
+* @version $Id: ps_product_category.php,v 1.14.2.2 2006/02/27 19:41:42 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -487,8 +487,9 @@ class ps_product_category extends vmAbstractObject {
 			// Get only published categories
 			$query  = "SELECT category_id, category_description, category_name,category_child_id as cid, category_parent_id as pid,list_order, category_publish
 						FROM #__{vm}_category, #__{vm}_category_xref WHERE ";
-			if( $only_published )
-			$query .= "#__{vm}_category.category_publish='Y' AND ";
+			if( $only_published ) {
+				$query .= "#__{vm}_category.category_publish='Y' AND ";
+			}
 			$query .= "#__{vm}_category.category_id=#__{vm}_category_xref.category_child_id ";
 			if( !empty( $keyword )) {
 				$query .= "AND ( category_name LIKE '%$keyword%' ";

@@ -3,7 +3,7 @@
 *
 * 2Checkout Order Confirmation Handler
 *
-* @version $Id: checkout.2Checkout_result.php,v 1.2 2005/09/27 17:51:26 soeren_nb Exp $
+* @version $Id: checkout.2Checkout_result.php,v 1.3 2005/09/29 20:02:18 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -52,7 +52,7 @@ else {
   if ($compare_hash1 != $compare_hash2) {
         ?>
         <img src="<?php echo IMAGEURL ?>ps_image/button_cancel.png" align="center" alt="Failure" border="0" />
-        <span class="message"><? echo $VM_LANG->_PHPSHOP_PAYMENT_ERROR ?></span><?php
+        <span class="message"><?php echo $VM_LANG->_PHPSHOP_PAYMENT_ERROR ?></span><?php
   }
   else {
         $qv = "SELECT order_id, order_number FROM #__{vm}_orders ";

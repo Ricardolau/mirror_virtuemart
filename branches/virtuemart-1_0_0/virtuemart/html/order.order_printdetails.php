@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: order.order_printdetails.php,v 1.5 2005/10/17 19:05:29 soeren_nb Exp $
+* @version $Id: order.order_printdetails.php,v 1.5.2.1 2006/02/27 19:41:42 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -35,7 +35,7 @@ $db->next_record();
 <table width="100%" align="center" border="0" cellspacing="0" cellpadding="2">
   <tr>
     <td valign="top">
-     <h2><? echo $VM_LANG->_PHPSHOP_ORDER_PRINT_PO_LBL ?></h2>
+     <h2><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_PO_LBL ?></h2>
      <p><?php
         echo $vendor_name . "<br />";
         echo $vendor_address . "<br />";
@@ -50,19 +50,19 @@ $db->next_record();
 <table border="0" cellspacing="0" cellpadding="2" width="100%">
   <!-- begin customer information --> 
   <tr class="sectiontableheader"> 
-    <th align="left" colspan="2"><? echo $VM_LANG->_PHPSHOP_ACC_ORDER_INFO ?></th>
+    <th align="left" colspan="2"><?php echo $VM_LANG->_PHPSHOP_ACC_ORDER_INFO ?></th>
   </tr>
   <tr> 
-    <td><? echo $VM_LANG->_PHPSHOP_ORDER_PRINT_PO_NUMBER?>:</td>
+    <td><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_PO_NUMBER?>:</td>
     <td><?php printf("%08d", $db->f("order_id")); ?></td>
   </tr>
 
   <tr> 
-    <td><? echo $VM_LANG->_PHPSHOP_ORDER_PRINT_PO_DATE ?>:</td>
+    <td><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_PO_DATE ?>:</td>
     <td><?php echo date("d-M-Y H:i", $db->f("cdate")); ?></td>
   </tr>
   <tr> 
-    <td><? echo $VM_LANG->_PHPSHOP_ORDER_PRINT_PO_STATUS ?>:</td>
+    <td><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_PO_STATUS ?>:</td>
     <td><?php
          $q = "SELECT order_status_name FROM #__{vm}_order_status WHERE ";
          $q .= "order_status_code = '" . $db->f("order_status") . "'";
@@ -77,7 +77,7 @@ $db->next_record();
   <!-- End Customer Information --> 
   <!-- Begin 2 column bill-ship to --> 
   <tr class="sectiontableheader"> 
-    <th align="left" colspan="2"><? echo $VM_LANG->_PHPSHOP_ORDER_PRINT_CUST_INFO_LBL ?></th>
+    <th align="left" colspan="2"><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_CUST_INFO_LBL ?></th>
   </tr>
   <tr valign="top"> 
     <td width="50%"> <!-- Begin BillTo --><?php
@@ -90,14 +90,14 @@ $db->next_record();
   ?> 
       <table width="100%" cellspacing="0" cellpadding="2" border="0">
         <tr> 
-          <td colspan="2"><strong><? echo $VM_LANG->_PHPSHOP_ORDER_PRINT_BILL_TO_LBL ?></strong></td>
+          <td colspan="2"><strong><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_BILL_TO_LBL ?></strong></td>
         </tr>
         <tr> 
-          <td><? echo $VM_LANG->_PHPSHOP_ORDER_PRINT_COMPANY ?> :</td>
+          <td><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_COMPANY ?> :</td>
           <td><?php $dbbt->p("company"); ?></td>
         </tr>
         <tr> 
-          <td><? echo $VM_LANG->_PHPSHOP_SHOPPER_LIST_NAME ?> :</td>
+          <td><?php echo $VM_LANG->_PHPSHOP_SHOPPER_LIST_NAME ?> :</td>
           <td><?php 
                 $dbbt->p("first_name"); 
                 echo " ";
@@ -107,7 +107,7 @@ $db->next_record();
          ?></td>
         </tr>
         <tr valign="top"> 
-          <td><? echo $VM_LANG->_PHPSHOP_ADDRESS ?> :</td>
+          <td><?php echo $VM_LANG->_PHPSHOP_ADDRESS ?> :</td>
           <td><?php 
               $dbbt->p("address_1"); 
               echo "<br />";
@@ -115,19 +115,19 @@ $db->next_record();
          ?></td>
         </tr>
         <tr> 
-          <td><? echo $VM_LANG->_PHPSHOP_ORDER_PRINT_CITY ?> :</td>
+          <td><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_CITY ?> :</td>
           <td><?php $dbbt->p("city"); ?></td>
         </tr>
         <tr> 
-          <td><? echo $VM_LANG->_PHPSHOP_ORDER_PRINT_STATE ?> :</td>
+          <td><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_STATE ?> :</td>
           <td><?php $dbbt->p("state"); ?></td>
         </tr>
         <tr> 
-          <td><? echo $VM_LANG->_PHPSHOP_ORDER_PRINT_ZIP ?> :</td>
+          <td><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_ZIP ?> :</td>
           <td><?php $dbbt->p("zip"); ?></td>
         </tr>
         <tr> 
-          <td><? echo $VM_LANG->_PHPSHOP_ORDER_PRINT_COUNTRY ?> :</td>
+          <td><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_COUNTRY ?> :</td>
           <td><?php 
 		$country = $dbbt->f("country");
 		$dbc->query( "SELECT country_name FROM #__{vm}_country WHERE country_3_code = '$country'");
@@ -137,15 +137,15 @@ $db->next_record();
 	?></td>
         </tr>
         <tr> 
-          <td><? echo $VM_LANG->_PHPSHOP_ORDER_PRINT_PHONE ?> :</td>
+          <td><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_PHONE ?> :</td>
           <td><?php $dbbt->p("phone_1"); ?></td>
         </tr>
         <tr> 
-          <td><? echo $VM_LANG->_PHPSHOP_ORDER_PRINT_FAX ?> :</td>
+          <td><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_FAX ?> :</td>
           <td><?php $dbbt->p("fax"); ?></td>
         </tr>
         <tr> 
-          <td><? echo $VM_LANG->_PHPSHOP_ORDER_PRINT_EMAIL ?> :</td>
+          <td><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_EMAIL ?> :</td>
           <td><?php $dbbt->p("user_email"); ?></td>
         </tr>
       </table>
@@ -157,14 +157,14 @@ $db->next_record();
   ?> 
  <table width="100%" cellspacing="0" cellpadding="2" border="0">
         <tr> 
-          <td colspan="2"><strong><? echo $VM_LANG->_PHPSHOP_ORDER_PRINT_SHIP_TO_LBL ?></strong></td>
+          <td colspan="2"><strong><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_SHIP_TO_LBL ?></strong></td>
         </tr>
         <tr> 
-          <td><? echo $VM_LANG->_PHPSHOP_ORDER_PRINT_COMPANY ?> :</td>
+          <td><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_COMPANY ?> :</td>
           <td><?php $dbst->p("company"); ?></td>
         </tr>
         <tr> 
-          <td><? echo $VM_LANG->_PHPSHOP_SHOPPER_LIST_NAME ?> :</td>
+          <td><?php echo $VM_LANG->_PHPSHOP_SHOPPER_LIST_NAME ?> :</td>
           <td><?php 
          $dbst->p("first_name"); 
          echo " ";
@@ -174,7 +174,7 @@ $db->next_record();
          ?></td>
         </tr>
         <tr valign="top"> 
-          <td><? echo $VM_LANG->_PHPSHOP_ADDRESS ?> :</td>
+          <td><?php echo $VM_LANG->_PHPSHOP_ADDRESS ?> :</td>
           <td><?php 
           $dbst->p("address_1"); 
           echo "<br />";
@@ -182,19 +182,19 @@ $db->next_record();
          ?></td>
         </tr>
         <tr> 
-          <td><? echo $VM_LANG->_PHPSHOP_ORDER_PRINT_CITY ?> :</td>
+          <td><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_CITY ?> :</td>
           <td><?php $dbst->p("city"); ?></td>
         </tr>
         <tr> 
-          <td><? echo $VM_LANG->_PHPSHOP_ORDER_PRINT_STATE ?> :</td>
+          <td><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_STATE ?> :</td>
           <td><?php $dbst->p("state"); ?></td>
         </tr>
         <tr> 
-          <td><? echo $VM_LANG->_PHPSHOP_ORDER_PRINT_ZIP ?> :</td>
+          <td><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_ZIP ?> :</td>
           <td><?php $dbst->p("zip"); ?></td>
         </tr>
         <tr> 
-          <td><? echo $VM_LANG->_PHPSHOP_ORDER_PRINT_COUNTRY ?> :</td>
+          <td><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_COUNTRY ?> :</td>
           <td><?php 
 		if( $country != $dbst->f("country")) {
 			$country = $dbst->f("country");
@@ -206,11 +206,11 @@ $db->next_record();
 		?></td>
         </tr>
         <tr> 
-          <td><? echo $VM_LANG->_PHPSHOP_ORDER_PRINT_PHONE ?> :</td>
+          <td><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_PHONE ?> :</td>
           <td><?php $dbst->p("phone_1"); ?></td>
         </tr>
         <tr> 
-          <td><? echo $VM_LANG->_PHPSHOP_ORDER_PRINT_FAX ?> :</td>
+          <td><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_FAX ?> :</td>
           <td><?php $dbst->p("fax"); ?></td>
         </tr>
       </table>
@@ -227,15 +227,15 @@ $db->next_record();
       <table width="100%" border="0" cellspacing="0" cellpadding="1">
         
         <tr class="sectiontableheader"> 
-          <th align="left"><? echo $VM_LANG->_PHPSHOP_ORDER_PRINT_CUST_SHIPPING_LBL ?></th>
+          <th align="left"><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_CUST_SHIPPING_LBL ?></th>
         </tr>
         <tr> 
           <td> 
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr> 
-                <td><strong><? echo $VM_LANG->_PHPSHOP_ORDER_PRINT_SHIPPING_CARRIER_LBL ?></strong></td>
-                <td><strong><? echo $VM_LANG->_PHPSHOP_ORDER_PRINT_SHIPPING_MODE_LBL ?></strong></td>
-                <td><strong><? echo $VM_LANG->_PHPSHOP_ORDER_PRINT_PRICE ?>&nbsp;</strong></td>
+                <td><strong><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_SHIPPING_CARRIER_LBL ?></strong></td>
+                <td><strong><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_SHIPPING_MODE_LBL ?></strong></td>
+                <td><strong><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_PRICE ?>&nbsp;</strong></td>
               </tr>
               <tr> 
                 <td><?php 
@@ -369,12 +369,12 @@ $db->next_record();
      
         <tr> 
           <td colspan="4" align="right">
-          <? if (PAYMENT_DISCOUNT_BEFORE == '1') { ?><strong><? } 
+          <?php if (PAYMENT_DISCOUNT_BEFORE == '1') { ?><strong><?php } 
           
-          echo $VM_LANG->_PHPSHOP_CART_TOTAL .":"; if (PAYMENT_DISCOUNT_BEFORE != '1') { ?></strong><? } ?></td>
+          echo $VM_LANG->_PHPSHOP_CART_TOTAL .":"; if (PAYMENT_DISCOUNT_BEFORE != '1') { ?></strong><?php } ?></td>
           
-          <td align="right"><? 
-          if (PAYMENT_DISCOUNT_BEFORE == '1') { ?><strong><?  
+          <td align="right"><?php 
+          if (PAYMENT_DISCOUNT_BEFORE == '1') { ?><strong><?php  
             $total = $db->f("order_total");
             echo $CURRENCY_DISPLAY->getFullValue($total);
           }
@@ -382,7 +382,7 @@ $db->next_record();
             $total = $db->f("order_subtotal") + $db->f("order_tax") + $db->f("order_shipping");
             echo $CURRENCY_DISPLAY->getFullValue($total);
           }
-          if (PAYMENT_DISCOUNT_BEFORE == '1') { ?></strong><? } ?>&nbsp;&nbsp;&nbsp;</td>
+          if (PAYMENT_DISCOUNT_BEFORE == '1') { ?></strong><?php } ?>&nbsp;&nbsp;&nbsp;</td>
         </tr>
         <?php 
         if ($db->f("order_discount") != 0.00 && PAYMENT_DISCOUNT_BEFORE != '1') { ?>
@@ -469,11 +469,11 @@ $db->next_record();
         <td><?php echo $VM_LANG->_PHPSHOP_ORDER_PRINT_EXPIRE_DATE ?> :</td>
         <td><?php echo date("M-Y", $dbpm->f("order_payment_expire")); ?> </td>
       </tr>
-	  <? } ?>
+	  <?php } ?>
       <!-- end payment information --> 
       </table>
 </center>
-<? // }
+<?php // }
   
   /** Print out the customer note **/
   if ( $db->f("customer_note") ) {

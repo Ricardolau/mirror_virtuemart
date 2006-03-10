@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: shop.error.php,v 1.2 2005/09/27 17:51:26 soeren_nb Exp $
+* @version $Id: shop.error.php,v 1.3 2005/09/29 20:02:18 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -23,7 +23,7 @@ mm_showMyFileName( __FILE__ );
       <table width="100%" border="0" cellspacing="0" cellpadding="2" bgcolor="khaki">
         <tr align="center"> 
           <td> 
-            <h4><? echo $VM_LANG->_PHPSHOP_ERROR ?></h4>
+            <h4><?php echo $VM_LANG->_PHPSHOP_ERROR ?></h4>
             <span class="message"><?php echo $error_type;?></span>
             <center>
               <span class="message"><?php echo $error?></span>

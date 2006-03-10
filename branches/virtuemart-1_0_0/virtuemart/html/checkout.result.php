@@ -3,7 +3,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 /**
 * PayPal IPN Result Checker
 *
-* @version $Id: checkout.result.php,v 1.4 2005/10/27 16:09:13 soeren_nb Exp $
+* @version $Id: checkout.result.php,v 1.5 2005/10/27 19:45:38 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -40,7 +40,7 @@ else {
       }
       else { ?>
         <img src="<?php echo IMAGEURL ?>ps_image/button_cancel.png" align="center" alt="Failure" border="0" />
-        <span class="message"><? echo $VM_LANG->_PHPSHOP_PAYPAL_ERROR ?></span>
+        <span class="message"><?php echo $VM_LANG->_PHPSHOP_PAYPAL_ERROR ?></span>
     
     <?php
     } ?>

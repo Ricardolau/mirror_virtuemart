@@ -1,7 +1,7 @@
 <?php
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
-* @version $Id: virtuemart.error.php,v 1.1 2005/09/06 20:04:22 soeren_nb Exp $
+* @version $Id: phpshop.error.php,v 1.2 2005/09/29 20:02:18 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage HTML
 * Contains code from PHPShop(tm):
@@ -31,7 +31,7 @@ mm_showMyFileName( __FILE__ );
       <table width="100%" border="0" cellspacing="0" cellpadding="2" bgcolor="#FFCC33">
         <tr align="center"> 
           <td> 
-            <h4><font face="Verdana, Arial, Helvetica, sans-serif"><? echo $VM_LANG->_PHPSHOP_ERROR ?></font></h4>
+            <h4><font face="Verdana, Arial, Helvetica, sans-serif"><?php echo $VM_LANG->_PHPSHOP_ERROR ?></font></h4>
             <h5><font face="Verdana, Arial, Helvetica, sans-serif"><?php echo $error_type;?></font></h5>
             <center>
               <h5><font face="Verdana, Arial, Helvetica, sans-serif"><?php echo $error?></font></h5>

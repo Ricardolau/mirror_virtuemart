@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: account.index.php,v 1.5 2005/11/04 15:16:48 soeren_nb Exp $
+* @version $Id: account.index.php,v 1.7 2005/11/22 18:30:08 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -26,7 +26,7 @@ $mainframe->setPageTitle( $VM_LANG->_PHPSHOP_ACCOUNT_TITLE );
 if ($perm->is_registered_customer($auth['user_id'])) {
 
 ?>
-  <strong><? echo $VM_LANG->_PHPSHOP_ACC_CUSTOMER_ACCOUNT ?></strong>
+  <strong><?php echo $VM_LANG->_PHPSHOP_ACC_CUSTOMER_ACCOUNT ?></strong>
   <?php  echo $auth["first_name"] . " " . $auth["last_name"] . "<br />";?>
   <br />
   <table border="0" cellspacing="0" cellpadding="10" width="100%" align="center">
@@ -38,7 +38,7 @@ if ($perm->is_registered_customer($auth['user_id'])) {
           <?php 
           echo "<img src=\"".IMAGEURL."ps_image/identity.png\" align=\"middle\" height=\"48\" width=\"48\" border=\"0\" alt=\"".$VM_LANG->_PHPSHOP_ACCOUNT_TITLE."\" />&nbsp;";
           echo $VM_LANG->_PHPSHOP_ACC_ACCOUNT_INFO ?></a></strong>
-          <br /><? echo $VM_LANG->_PHPSHOP_ACC_UPD_BILL ?>
+          <br /><?php echo $VM_LANG->_PHPSHOP_ACC_UPD_BILL ?>
       </td>
     </tr>
     <?php
@@ -52,7 +52,7 @@ if ($perm->is_registered_customer($auth['user_id'])) {
 		  echo "<img src=\"".IMAGEURL."ps_image/web.png\" align=\"middle\" border=\"0\" height=\"32\" width=\"32\" alt=\"".$VM_LANG->_PHPSHOP_ACC_SHIP_INFO."\" />&nbsp;&nbsp;&nbsp;";
 		  echo $VM_LANG->_PHPSHOP_ACC_SHIP_INFO ?></a></strong>
 			<br />
-			<? echo $VM_LANG->_PHPSHOP_ACC_UPD_SHIP ?>
+			<?php echo $VM_LANG->_PHPSHOP_ACC_UPD_SHIP ?>
 		  </td>
 		</tr>
 		<?php

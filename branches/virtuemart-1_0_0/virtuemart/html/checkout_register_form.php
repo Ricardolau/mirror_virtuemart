@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: checkout_register_form.php,v 1.12 2005/11/18 16:43:50 soeren_nb Exp $
+* @version $Id: checkout_register_form.php,v 1.13.2.1 2005/12/04 18:22:04 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -207,18 +207,29 @@ vmCommonHTML::printJS_formvalidation( $required_fields );
 			      <br/><br/>';
    }
    
-    ?>
-	<div align="center">	
-		<input type="submit" value="<?php echo _BUTTON_SEND_REG; ?>" class="button" onclick="return( submitregistration());" />
+    echo '
+	<div align="center">';
+    
+	if( !$mosConfig_useractivation ) {
+		echo '<input type="checkbox" name="remember" value="yes" id="remember_login2" checked="checked" />
+		<label for="remember_login2">'. _REMEMBER_ME .'</label><br /><br />';
+	}
+	else {
+		echo '<input type="hidden" name="remember" value="yes" />';
+	}
+	echo '
+		<input type="submit" value="'. _BUTTON_SEND_REG . '" class="button" onclick="return( submitregistration());" />
 	</div>
-	<input type="hidden" name="Itemid" value="<?php echo @$_REQUEST['Itemid'] ?>" />
-	<input type="hidden" name="gid" value="<?php echo $my->gid ?>" />
-	<input type="hidden" name="id" value="<?php echo $my->id ?>" />
-	<input type="hidden" name="user_id" value="<?php echo $my->id ?>" />
+	<input type="hidden" name="Itemid" value="'. @$_REQUEST['Itemid'] .'" />
+	<input type="hidden" name="gid" value="'. $my->gid .'" />
+	<input type="hidden" name="id" value="'. $my->id .'" />
+	<input type="hidden" name="user_id" value="'. $my->id .'" />
 	<input type="hidden" name="option" value="com_virtuemart" />
-	<input type="hidden" name="remember" value="yes" />
-	<input type="hidden" name="useractivation" value="<?php echo $mosConfig_useractivation; ?>" />
+	
+	<input type="hidden" name="useractivation" value="'. $mosConfig_useractivation .'" />
 	<input type="hidden" name="func" value="shopperadd" />
 	<input type="hidden" name="page" value="checkout.index" />
 	</form>
-</div>
+</div>';
+	
+?>

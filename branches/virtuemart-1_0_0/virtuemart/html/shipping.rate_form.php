@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: shipping.rate_form.php,v 1.3 2005/09/27 17:51:26 soeren_nb Exp $
+* @version $Id: shipping.rate_form.php,v 1.5 2005/09/30 10:14:30 codename-matrix Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -24,6 +24,7 @@ $formObj->startForm();
 
 $shipping_rate_id = mosgetparam( $_REQUEST, 'shipping_rate_id');
 $option = empty($option)?mosgetparam( $_REQUEST, 'option', 'com_virtuemart'):$option;
+if (!isset($ps_shipping)) { $ps_shipping = new ps_shipping();
 
 if (!empty($shipping_rate_id)) {
   $q = "SELECT * FROM #__{vm}_shipping_rate WHERE shipping_rate_id='$shipping_rate_id'";

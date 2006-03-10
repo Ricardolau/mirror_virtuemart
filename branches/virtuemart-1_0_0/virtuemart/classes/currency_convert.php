@@ -3,7 +3,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 /**
 * Currency Converter Live Module 
 * 
-* @version $Id: currency_convert.php,v 1.2 2005/09/27 17:48:50 soeren_nb Exp $
+* @version $Id: currency_convert.php,v 1.3.2.1 2005/12/11 12:43:22 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -18,7 +18,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 */
 
 function convertECB ($amountA, $currA, $currB) {
-	global $mosConfig_cachepath, $mosConfig_live_site;
+	global $mosConfig_cachepath, $mosConfig_live_site, $mosConfig_absolute_path;
 	/* variables:
 	* $amountA 	- amount to convert
 	* $currA 	- currency to covert from

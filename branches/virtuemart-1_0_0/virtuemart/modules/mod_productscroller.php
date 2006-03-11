@@ -1,7 +1,7 @@
 <?php
 /**
-* mambo-phphop Product Scroller Module
-* NOTE: THIS MODULE REQUIRES AN INSTALLED MAMBO-PHPSHOP COMPONENT!
+* VirtueMart Product Scroller Module
+* NOTE: THIS MODULE REQUIRES AN INSTALLED VirtueMart COMPONENT!
 *
 * @version $Id: mod_productscroller.php,v 1.6 2005/11/07 20:22:28 soeren_nb Exp $
 * @package VirtueMart
@@ -30,11 +30,13 @@ require_once( $mosConfig_absolute_path.'/components/com_virtuemart/virtuemart_pa
 * @param $params the results from mosParseParams( $module->params );
 * @example $scroller = new productScroller($params);
 */
+if( !class_exists('productScroller')) { // Prevent double class declaration
+	
 class productScroller {
-	/** @var int */
+	/**
+  * @var $NumberOfProducts
+  */
 	var $NumberOfProducts = 5;
-	/** @var int The category id to filter by
-	var $category_id = null;
 	/**
   * // scroll, alternate, slide
   * @var $ScrollBehavior
@@ -124,28 +126,22 @@ class productScroller {
   */
 	var $ScrollMargin = '2';
 
+	var $params = null;
 	/**
-  * sort variables used by the returnSortType() function
-  */
-	var $sort_asc  = 'newest';
-	var $sort_desc = 'oldest';
-	var $sort_rand = 'random';
-	var $params;
-	/**
-* set mammeters
-*/ 
+	* set mammeters
+	*/ 
 	function productScroller (&$params) {
 
 		$this->params = $params;
-
-		$this->category_id = $params->get( 'category_id', null ); // Display products from this category only
-		
 		// standard mammeters
-		$this->show_product_name              =  $params->get('show_product_name', "yes");
-		$this->show_addtocart              =  $params->get('show_addtocart', "yes");
-		$this->show_price              =  $params->get('show_price', "yes");
-		$this->NumberOfProducts              =  $params->get('NumberOfProducts', $this->NumberOfProducts);
-		$this->ScrollSection     =  $params->get('ScrollSection', $this->ScrollSection);
+		$this->show_product_name		=  $params->get('show_product_name', "yes");
+		$this->show_addtocart			=  $params->get('show_addtocart', "yes");
+		$this->show_price				=  $params->get('show_price', "yes");
+		$this->category_id				=  intval( $params->get('category_id', 0 ) );
+		// Limit by NoP
+		$this->NumberOfProducts			=  $params->get('NumberOfProducts', $this->NumberOfProducts);
+		
+		$this->ScrollSection     		=  $params->get('ScrollSection', $this->ScrollSection);
 		$this->ScrollBehavior           =  $params->get('ScrollBehavior', $this->ScrollBehavior);
 		$this->ScrollDirection          =  $params->get('ScrollDirection', $this->ScrollDirection);
 		$this->ScrollHeight             =  $params->get('ScrollHeight', $this->ScrollHeight);
@@ -153,7 +149,7 @@ class productScroller {
 		$this->ScrollAmount             =  $params->get('ScrollAmount', $this->ScrollAmount);
 		$this->ScrollDelay              =  $params->get('ScrollDelay', $this->ScrollDelay);
 		$this->ScrollAlign              =  $params->get('ScrollAlign', $this->ScrollAlign);
-		$this->ScrollSortMethod        =  $params->get('ScrollSortMethod', $this->ScrollSortMethod);
+		$this->ScrollSortMethod			=  $params->get('ScrollSortMethod', $this->ScrollSortMethod);
 		$this->ScrollTitles             =  $params->get('ScrollTitles', $this->ScrollTitles);
 		$this->ScrollSpaceChar         =  $params->get('ScrollSpaceChar', $this->ScrollSpaceChar);
 		$this->ScrollSpaceCharTimes   =  $params->get('ScrollSpaceCharTimes', $this->ScrollSpaceCharTimes);
@@ -228,40 +224,12 @@ class productScroller {
             </div>";
 	} // end displayScroller
 
-	/**
-* Returns a converted mammeter value to an actual DB query element
-*/ 
-	function returnSortType($type) {
-		$change_type='';
-		switch($type) {
-			case strncmp($type,$this->sort_asc,3): $change_type='ASC'; break;
-			case strncmp($type,$this->sort_desc,3): $change_type='DESC'; break;
-			default: $change_type='ASC'; break;
-		}
-		return $change_type;
-	} // end returnSortType
-
 } // end class productScroller
-
-// start of Product Scroller Script
-$params =& new mosParameters( $module->params );
-$scroller =& new productScroller($params);
-
-
-/**
-* Load Products
-**/ 
-$rows = getProductSKU( $scroller->NumberOfProducts, $scroller->ScrollSortMethod, $scroller->category_id, $scroller->returnSortType($scroller->ScrollSortMethod)  );
-
-/**
-* Display Product Scroller
-**/ 
-$scroller->displayScroller($rows);
 
 /**
 * Helper DB function
 */
-function getProductSKU( $limit=0, $how=null, $category_id=0, $order='asc' ) {
+function getProductSKU( $limit=0, $how=null, $category_id=0 ) {
 	global $my, $mosConfig_offset;
 	
 	$database = new ps_DB();
@@ -275,7 +243,7 @@ function getProductSKU( $limit=0, $how=null, $category_id=0, $order='asc' ) {
 	$query = "SELECT p.product_sku FROM #__{vm}_product AS p";
 
 	if( $category_id != 0 ) {
-		$query .= "\nJOIN #__{vm}_product_category_xref as pc ON p.product_id=pc.product_id AND pc.category_id='$category_id'";
+		$query .= "\nJOIN #__{vm}_product_category_xref as pc ON p.product_id=pc.product_id AND pc.category_id=$category_id";
 	}
 
 	$query .= "\n WHERE p.product_publish = 'Y' AND product_parent_id=0 ";
@@ -284,16 +252,37 @@ function getProductSKU( $limit=0, $how=null, $category_id=0, $order='asc' ) {
 	}
 	switch( $how ) {
 		case 'random':
-		$query .= "\n ORDER BY RAND() $limit";
-		break;
+			$query .= "\n ORDER BY RAND() $limit";
+			break;
+		case 'newest':
+			$query .= "\n ORDER BY cdate DESC $limit";
+			break;
+		case 'oldest':
+			$query .= "\n ORDER BY cdate ASC $limit";
+			break;
 		default:
-		$query .= "\n ORDER BY cdate $order $limit";
-		break;
+			$query .= "\n ORDER BY cdate DESC $limit";
+			break;
 	}
 	$database->query( $query );
 
 	$rows = $database->record;
 	return $rows;
 }
+}
+
+// start of Product Scroller Script
+$params =& new mosParameters( $module->params );
+$scroller =& new productScroller($params);
+
+/**
+* Load Products
+**/ 
+$rows = getProductSKU( $scroller->NumberOfProducts, $scroller->ScrollSortMethod, $scroller->category_id );
+
+/**
+* Display Product Scroller
+**/ 
+$scroller->displayScroller($rows);
 
 ?>

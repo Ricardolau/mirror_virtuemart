@@ -2,7 +2,7 @@
 /**
 * VirtueMart Show-Product-Snapshop Mambot
 *
-* @version $Id: mosproductsnap.php,v 1.3 2005/11/01 18:39:46 soeren_nb Exp $
+* @version $Id: mosproductsnap.php,v 1.4 2005/11/21 20:45:42 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage mambots
 *
@@ -53,13 +53,16 @@ function mosProductSnapshotPlugin_onPrepareContent( $published, &$row, &$params,
       
       // Assign Bot Parameters
       $id = $pshop_productsnap_params[0];
-      $showprice = $pshop_productsnap_params[1]=='true' ? true : false;
-      $showdesc = $pshop_productsnap_params[2]=='true' ? true : false;
-      $showaddtocart = $pshop_productsnap_params[3]=='true' ? true : false;
-      $align  = $pshop_productsnap_params[4];
-      
-      $showsnapshot = return_snapshot( $id, $showprice, $showdesc, $showaddtocart, $align);
-  
+      $showprice = @$pshop_productsnap_params[1]=='true' ? true : false;
+      $showdesc = @$pshop_productsnap_params[2]=='true' ? true : false;
+      $showaddtocart = @$pshop_productsnap_params[3]=='true' ? true : false;
+      $align  = @$pshop_productsnap_params[4];
+      if( !empty( $id )) {
+        $showsnapshot = return_snapshot( $id, $showprice, $showdesc, $showaddtocart, $align);
+      }
+          else {
+                $showsnapshot = 'Error: '.__FUNCTION__.' received no product ID<br/>';
+          }
       $pshop_productsnap_entrytext = preg_replace("/{product_snapshot:id=.+?}/", $showsnapshot, $pshop_productsnap_entrytext, 1);
     }
     $row->text = $pshop_productsnap_entrytext;
@@ -104,7 +107,8 @@ function mosProductSnapshotPlugin_onPrepareContent( $published, &$row, &$params,
       }
       
       $html .= "<tr><td align=\"center\"><a title=\"".$db->f("product_name")."\" href=\"". $sess->url(URL . $url)."\">";
-      $html .= "<img alt=\"".$db->f("product_name")."\" hspace=\"7\" src=\"".IMAGEURL."/product/".$db->f("product_thumb_image")."\" width=\"90\" border=\"0\" />";
+      $html .= $ps_product->image_tag( $db->f("product_thumb_image"), "alt=\"".$db->f("product_name")."\" hspace=\"7\"" );
+      
       $html .= "</a></td></tr>\n";
       
       if ($showdesc)

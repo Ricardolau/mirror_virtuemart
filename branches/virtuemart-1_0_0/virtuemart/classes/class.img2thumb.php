@@ -3,7 +3,7 @@
 // defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: class.img2thumb.php,v 1.4 2005/09/29 20:01:12 soeren_nb Exp $
+* @version $Id: class.img2thumb.php,v 1.5 2005/10/26 19:23:32 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -215,26 +215,32 @@ class Img2Thumb	{
 			else
 			  $im_out = imagecreate($maxX,$maxY);
 			  
-			// Need to image fill just in case image is transparent, don't always want black background
-			$bgfill = imagecolorallocate( $im_out, $this->bg_red, $this->bg_green, $this->bg_blue );
- 		    
-			if( function_exists( "imageAntiAlias" ))
-			  imageAntiAlias($im_out,true);
- 		    imagealphablending($im_out, false);
-		    if( function_exists( "imagesavealpha"))
-			  imagesavealpha($im_out,true);
-		    if( function_exists( "imagecolorallocatealpha"))
-			  $transparent = imagecolorallocatealpha($im_out, 255, 255, 255, 127);
-			
-			//imagefill( $im_out, 0,0, $bgfill );
-			if( function_exists("imagecopyresampled") )
-			  ImageCopyResampled($im_out, $orig_img, $adjustX, $adjustY, 0, 0, $newxsize, $newysize,$orig_size[0], $orig_size[1]);
-			else
-			  ImageCopyResized($im_out, $orig_img, $adjustX, $adjustY, 0, 0, $newxsize, $newysize,$orig_size[0], $orig_size[1]);
-		}
-		else
-		{
-		
+                        // Need to image fill just in case image is transparent, don't always want black background
+                        $bgfill = imagecolorallocate( $im_out, $this->bg_red, $this->bg_green, $this->bg_blue );
+                    
+                        if( function_exists( "imageAntiAlias" )) {
+                                imageAntiAlias($im_out,true);
+                        }
+                    imagealphablending($im_out, false);
+                    if( function_exists( "imagesavealpha")) {
+                        imagesavealpha($im_out,true);
+                    }
+                    if( function_exists( "imagecolorallocatealpha")) {
+                        $transparent = imagecolorallocatealpha($im_out, 255, 255, 255, 127);
+                    }
+                        
+                        //imagefill( $im_out, 0,0, $bgfill );
+                        if( function_exists("imagecopyresampled") ){
+                                ImageCopyResampled($im_out, $orig_img, $adjustX, $adjustY, 0, 0, $newxsize, $newysize,$orig_size[0], $orig_size[1]);
+                        }
+                        else {
+                                ImageCopyResized($im_out, $orig_img, $adjustX, $adjustY, 0, 0, $newxsize, $newysize,$orig_size[0], $orig_size[1]);
+                        }
+                        
+                }
+                else
+                {
+                
 			if( function_exists("imagecreatetruecolor") )
 			  $im_out = ImageCreateTrueColor($newxsize,$newysize);
 			else
@@ -266,25 +272,32 @@ class Img2Thumb	{
 	function NewImgSave($new_img,$fileout,$type)
 	{
 
-		switch($type)
-		{
-			case "gif":
-				if( function_exists("imagegif") )
-				{
-					if (strtolower(substr($fileout,strlen($fileout)-4,4))!=".gif")
-						$fileout .= ".png";
-					return imagepng($new_img,$fileout);
-					break;
-				}
-				else
-					$this->NewImgSave( $new_img, $fileout, "jpg" );
-			case "jpg":
-				if (strtolower(substr($fileout,strlen($fileout)-4,4))!=".jpg")
-					$fileout .= ".jpg";
-				return imagejpeg($new_img,$fileout);
-				break;
-			case "png":
-				if (strtolower(substr($fileout,strlen($fileout)-4,4))!=".png")
+                switch($type)
+                {
+                        case "gif":
+                                if( !function_exists("imagegif") )
+                                {
+                                        if (strtolower(substr($fileout,strlen($fileout)-4,4))!=".gif") {
+                                                $fileout .= ".png";
+                                        }
+                                        return imagepng($new_img,$fileout);
+                                        
+                                }
+                                else {
+                                        if (strtolower(substr($fileout,strlen($fileout)-4,4))!=".gif") {
+                                                $fileout .= '.gif';
+                                        }
+                                        return imagegif( $new_img, $fileout );
+                                        
+                                }
+                                break;
+                        case "jpg":
+                                if (strtolower(substr($fileout,strlen($fileout)-4,4))!=".jpg")
+                                        $fileout .= ".jpg";
+                                return imagejpeg($new_img, $fileout, 100);
+                                break;
+                        case "png":
+                                if (strtolower(substr($fileout,strlen($fileout)-4,4))!=".png")
 					$fileout .= ".png";
 				return imagepng($new_img,$fileout);
 				break;

@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_order.php,v 1.12.2.2 2006/02/27 19:41:42 soeren_nb Exp $
+* @version $Id: ps_order.php,v 1.12.2.3 2006/03/06 20:28:48 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -29,52 +29,29 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 *************************************************************************/
 class ps_order {
 	var $classname = "ps_order";
-	var $error;
+        var $error;
 
 
-	/**************************************************************************
-	* name: find
-	* created by: pablo
-	* description: find an order by its order_id
-	* parameters:
-	* returns:
-	**************************************************************************/
-	function find(&$d, $start=0) {
-		$db = new ps_DB;
+        /**
+         * Changes the status of an order
+         * @author pablo
+         * @author soeren
+         * @author Uli
+         * 
+         *
+         * @param array $d
+         * @return boolean
+         */
+        function order_status_update(&$d) {
 
+                $db = new ps_DB;
+                $timestamp = time();
+                if( empty($_REQUEST['include_comment'])) {
+                $include_comment="N";
+                }
 
-		$q = "SELECT * from #__{vm}_orders where ";
-		$q .= "order_id = '" . $d["order_id"] . "'";
-		$db->query($q);
-		if ($db->next_record()) {
-			return True;
-		}
-		else {
-			$d["error"] = "ORDER NOT FOUND:  The order number you entered was not found.";
-			return False;
-		}
-	}
-
-
-	/**************************************************************************
-	* name: order_status_update
-	* created by: pablo, download-mod by Uli
-	* description: changes the status of an order.  Can be 3 statuses:
-	*              default: P - pending
-	*                       C - complete
-	*                       X - canceled
-	* parameters:
-	* returns:
-	**************************************************************************/
-	function order_status_update(&$d) {
-
-		$db = new ps_DB;
-		$timestamp = time();
-		if( empty($_REQUEST['include_comment']))
-		$include_comment="N";
-
-		// get the current order status
-		$curr_order_status = @$d["current_order_status"];
+                // get the current order status
+                $curr_order_status = @$d["current_order_status"];
 		$notify_customer = empty($d['notify_customer']) ? "N" : $d['notify_customer'];
 		if( $notify_customer=="Y" ) {
 			$notify_customer=1; 
@@ -457,23 +434,23 @@ class ps_order {
 				// dump anything in the buffer
 				@ob_end_clean();
 
-				header('Content-Type: ' . $mime_type);
-				header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-				header('Content-Length: ' . filesize($datei) );
-				
-				if ($UserBrowser == 'IE') {
-					header('Content-Disposition: attachment; filename="' . $file_name . '"');
+                                header('Content-Type: ' . $mime_type);
+                                header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+                                header('Content-Length: ' . filesize($datei) );
+                                
+                                if ($UserBrowser == 'IE') {
+                                        header('Content-Disposition: attachment; filename="' . $file_name . '"');
 					header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 					header('Pragma: public');
 				} else {
 					header('Content-Disposition: attachment; filename="' . $file_name . '"');
-					header('Pragma: no-cache');
-				}
-				/*** Now send the file!! ***/
-				vmReadFileChunked( $datei );
+                                        header('Pragma: no-cache');
+                                }
+                                /*** Now send the file!! ***/
+                                vmReadFileChunked( $datei );
 
-				exit();
-			}
+                                exit();
+                        }
 			else {
 				$vmLogger->err( "Sorry, but the requested file can't be read from the Server" );
 				return false;

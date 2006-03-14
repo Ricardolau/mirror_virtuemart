@@ -4,7 +4,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * Header file for the shop administration.
 * shows all modules that are available to the user in a dropdown menu
 *
-* @version $Id: header.php,v 1.8 2005/11/03 21:01:31 soeren_nb Exp $
+* @version $Id: header.php,v 1.8.2.1 2006/03/07 19:33:57 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -22,18 +22,21 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 global $error, $page, $ps_product, $ps_product_category;
 $product_id = mosGetParam( $_REQUEST, 'product_id' );
 
-if( is_array( $product_id ))
-	$recent_product_id = "";
-else
-	$recent_product_id = $product_id;
-	
+if( is_array( $product_id )) {
+        $recent_product_id = "";
+}
+else {
+        $recent_product_id = $product_id;
+}
+        
 $mod = array();
 $q = "SELECT module_name,module_perms from #__{vm}_module WHERE module_publish='Y'";
 $q .= "AND module_name <> 'checkout' ORDER BY list_order ASC";
 $db->query($q);
 while ($db->next_record()) {
-	if ($perm->check($db->f("module_perms")))
-		$mod[] = $db->f("module_name");
+        if ($perm->check($db->f("module_perms"))) {
+                $mod[] = $db->f("module_name");
+}
 }
 if (!defined('_PSHOP_ADMIN')) {
   $my_path = "includes/js/ThemeOffice/";
@@ -48,16 +51,23 @@ if (!defined('_PSHOP_ADMIN')) {
 <link rel="stylesheet" href="administrator/templates/<?php echo $adminTemplate; ?>/css/template_css.css" type="text/css" />
 <script language="JavaScript" src="includes/js/JSCookMenu.js" type="text/javascript"></script>
 <script language="JavaScript" src="<?php echo $my_path ?>theme.js" type="text/javascript"></script>
-<?php }
+        <?php 
+}
     else {
       $my_path = "../includes/js/ThemeOffice/";
     }
     ?>
 <script language="JavaScript" type="text/javascript">
 var vmMenu =
-[  <?php for ($i=0;$i < sizeof($mod);$i++) {  // recurse through all modules 
+[  <?php 
 
-            $label = "\$lbl =  htmlspecialchars( \$VM_LANG->_PHPSHOP_".strtoupper($mod[$i])."_MOD, ENT_QUOTES );";
+// To be able to display special characters,
+// we must 
+ob_start();
+
+for ($i=0;$i < sizeof($mod);$i++) {  // recurse through all modules 
+
+    $label = "\$lbl = \$VM_LANG->_PHPSHOP_".strtoupper($mod[$i])."_MOD;";
             eval($label);
              switch($mod[$i]) {
             
@@ -309,7 +319,22 @@ var vmMenu =
                         ['<img src="<?php echo $my_path ?>edit.png" />','<?php echo $VM_LANG->_PHPSHOP_COUPON_NEW_HEADER ?>','<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&page=coupon.coupon_form") ?>',null,'<?php echo $VM_LANG->_PHPSHOP_COUPON_NEW_HEADER ?>']
                         <?php break;
           }
-        }   ?>
+}
+
+// Get the buffered menu code
+$menu_code = ob_get_contents();
+// clean this output buffer and end it
+ob_end_clean();
+// convert all special chars into HTML entities
+$menu_code = htmlentities( $menu_code, ENT_NOQUOTES );
+// reconvert "htmlspecialchars"
+$menu_code = str_replace( '&gt;', '>', 
+                         str_replace( '&lt;', '<', 
+                         str_replace( '&amp;', '&', $menu_code )));
+
+echo $menu_code;
+
+?>
           ]          
 ];
 </script>

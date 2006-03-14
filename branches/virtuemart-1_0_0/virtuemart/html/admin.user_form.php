@@ -25,17 +25,17 @@ global $ps_shopper_group;
 include_class( 'shopper' );
 
 if( !isset($ps_shopper_group)) {
-	$ps_shopper_group = new ps_shopper_group();
+        $ps_shopper_group = new ps_shopper_group();
 }
 
-$user_id = mosGetParam( $_REQUEST, 'user_id' );
+$user_id = intval( mosGetParam( $_REQUEST, 'user_id' ));
 
 if( !empty($user_id) ) {
-	$q = "SELECT * FROM #__users AS u LEFT JOIN #__{vm}_user_info AS ui ON id=user_id ";
-	$q .= "WHERE id='$user_id' ";
-	$q .= "AND (address_type='BT' OR address_type IS NULL ) ";
-	$q .= "AND gid <= ".$my->gid;
-	$db->query($q);
+        $q = "SELECT * FROM #__users AS u LEFT JOIN #__{vm}_user_info AS ui ON id=user_id ";
+        $q .= "WHERE id=$user_id ";
+        $q .= "AND (address_type='BT' OR address_type IS NULL ) ";
+        $q .= "AND gid <= ".$my->gid;
+        $db->query($q);
 	$db->next_record();
 }
 
@@ -62,7 +62,7 @@ $userform = str_replace( '<form action="index2.php" method="post" name="adminFor
 $userform = str_replace( '</form>', '', $userform );
 $userform = str_replace( '<div id="editcell">', '', $userform );
 $userform = str_replace( '</table>
-		</div>', '</table>', $userform );
+                </div>', '</table>', $userform );
 echo $userform;
 
 $_REQUEST['option'] = $GLOBALS['option'] = 'com_virtuemart';
@@ -72,43 +72,43 @@ $tabs->endTab();
 $tabs->startTab( $VM_LANG->_PHPSHOP_USER_FORM_BILLTO_LBL, "billto-page");
 ?>
 <table class="adminform">  
+        <tr> 
+                <td nowrap="nowrap" style="text-align:right;" width="38%" ><?php echo $VM_LANG->_PHPSHOP_USER_FORM_TITLE ?>:</td> 
+                <td width="62%" > 
+                        <?php $ps_html->list_user_title($db->sf("title")); ?> 
+                </td> 
+        </tr>
+        <tr> 
+                <td nowrap="nowrap" style="text-align:right;" width="38%"><?php echo $VM_LANG->_PHPSHOP_USER_FORM_FIRST_NAME ?>:</td> 
+                <td width="62%"> 
+                        <input type="text" name="first_name" size="18" value="<?php $db->sp("first_name") ?>" /> 
+                </td> 
+        </tr> 
+        <tr> 
+                <td nowrap="nowrap" style="text-align:right;" width="38%"><?php echo $VM_LANG->_PHPSHOP_USER_FORM_LAST_NAME ?>:</td> 
+                <td width="62%"> 
+                <input type="text" name="last_name" size="18" value="<?php $db->sp("last_name") ?>" /> 
+                </td> 
+        </tr> 
+        <tr> 
+                <td nowrap="nowrap" style="text-align:right;" width="38%" ><?php echo $VM_LANG->_PHPSHOP_USER_FORM_MIDDLE_NAME ?>:</td> 
+                <td width="62%" > 
+                        <input type="text" name="middle_name" size="16" value="<?php $db->sp("middle_name") ?>" /> 
+                </td> 
+        </tr>
+        <tr> 
+                <td style="text-align:right;"><?php echo $VM_LANG->_PHPSHOP_PRODUCT_FORM_VENDOR ?>:</td>
+                <td><?php $ps_product->list_vendor($db->f("vendor_id"));  ?></td>
+        </tr>
 	<tr> 
-		<td nowrap="nowrap" style="text-align:right;" width="38%" ><?php echo $VM_LANG->_PHPSHOP_USER_FORM_TITLE ?>:</td> 
-		<td width="62%" > 
-			<?php $ps_html->list_user_title($db->sf("title")); ?> 
-		</td> 
-	</tr>
-	<tr> 
-		<td nowrap="nowrap" style="text-align:right;" width="38%"><?php echo $VM_LANG->_PHPSHOP_USER_FORM_FIRST_NAME ?>:</td> 
-		<td width="62%"> 
-			<input type="text" name="first_name" size="18" value="<?php $db->sp("first_name") ?>" /> 
-		</td> 
-	</tr> 
-	<tr> 
-		<td nowrap="nowrap" style="text-align:right;" width="38%"><?php echo $VM_LANG->_PHPSHOP_USER_FORM_LAST_NAME ?>:</td> 
-		<td width="62%"> 
-		<input type="text" name="last_name" size="18" value="<?php $db->sp("last_name") ?>" /> 
-		</td> 
-	</tr> 
-	<tr> 
-		<td nowrap="nowrap" style="text-align:right;" width="38%" ><?php echo $VM_LANG->_PHPSHOP_USER_FORM_MIDDLE_NAME ?>:</td> 
-		<td width="62%" > 
-			<input type="text" name="middle_name" size="16" value="<?php $db->sp("middle_name") ?>" /> 
-		</td> 
-	</tr>
-	<tr> 
-		<td style="text-align:right;"><?php echo $VM_LANG->_PHPSHOP_PRODUCT_FORM_VENDOR ?>:</td>
-		<td><?php $ps_product->list_vendor($db->f("vendor_id"));  ?></td>
-	</tr>
-	<tr> 
-		<td nowrap="nowrap" style="text-align:right;" width="38%" ><?php echo $VM_LANG->_PHPSHOP_USER_FORM_PERMS ?>:</td> 
-		<td width="62%" > 
-			<?php
-			if( !isset( $ps_user)) { $ps_user = new ps_user(); }
-			$ps_user->list_perms("perms", $db->sf("perms"));
-			?> 
-		</td> 
-	</tr> 
+                <td nowrap="nowrap" style="text-align:right;" width="38%" ><?php echo $VM_LANG->_PHPSHOP_USER_FORM_PERMS ?>:</td> 
+                <td width="62%" > 
+                        <?php
+                        if( !isset( $ps_user)) { $ps_user = new ps_user(); }
+                        $ps_user->list_perms("perms", $db->sf("perms"));
+                        ?> 
+                </td> 
+        </tr> 
 </table> 
 
 <h3><?php echo $VM_LANG->_PHPSHOP_USER_FORM_BILLTO_LBL ?></h3>
@@ -155,8 +155,8 @@ $tabs->startTab( $VM_LANG->_PHPSHOP_USER_FORM_BILLTO_LBL, "billto-page");
             <td ><?php
               echo $ps_html->dynamic_state_lists( "country", "state", $db->sf('country'), $db->sf('state') );
               ?>
-            </td>
-          </tr>
+                        </td>
+                </tr>
           <tr> 
           <tr> 
              <td nowrap="nowrap" style="text-align:right;" width="38%" > <?php echo $VM_LANG->_PHPSHOP_USER_FORM_PHONE ?>:</td> 
@@ -169,67 +169,67 @@ $tabs->startTab( $VM_LANG->_PHPSHOP_USER_FORM_BILLTO_LBL, "billto-page");
             <td > 
               <input type="text" class="inputbox" name="phone_2" size="40" value="<?php $db->sp("phone_2") ?>">
             </td>
-	</tr>
+        </tr>
           <tr> 
              <td nowrap="nowrap" style="text-align:right;" width="38%" ><?php echo $VM_LANG->_PHPSHOP_USER_FORM_FAX ?>:</td> 
              <td width="62%" > 
               <input type="text" name="fax" size="12" value="<?php $db->sp("fax") ?>" /> 
             </td> 
            </tr> 
-	<tr> 
-		<td nowrap="nowrap" width="38%">&nbsp; </td> 
-		<td nowrap="nowrap" width="62%">&nbsp;</td> 
-	</tr> 
-	<?php 
-	/**
-	<!-- If you do not wish show a EXTRA FIELD in this form add into condition "false && ".
-			 For example: if( false && $VM_LANG->_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_1 != "" ) -->
-		<!-- EXTRA FIELD 1 - BEGIN - You can move this section into any other position of form. -->
-	*/
-	if( $VM_LANG->_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_1 != "" ) { ?>
-		<tr> 
-			<td style="text-align:right;" ><?php echo $VM_LANG->_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_1 ?>:</td>
-			<td > 
-			<input type="text" class="inputbox" name="extra_field_1" size="40" value="<?php $db->sp("extra_field_1") ?>">
-			</td>
-		</tr>
-		<?php 
-	}
-	if( $VM_LANG->_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_2 != "" ) { ?>
-		<tr> 
-			<td style="text-align:right;"><?php echo $VM_LANG->_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_2 ?>:</td>
-			<td > 
-			<input type="text" class="inputbox" name="extra_field_2" size="40" value="<?php $db->sp("extra_field_2") ?>">
-			</td>
-		</tr>
-		<?php 
-	}
-	if( $VM_LANG->_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_3 != "" ) { ?>
-		<tr> 
-			<td style="text-align:right;"><?php echo $VM_LANG->_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_3 ?>:</td>
-			<td > 
-				<input type="text" class="inputbox" name="extra_field_3" size="40" value="<?php $db->sp("extra_field_3") ?>">
-			</td>
-		</tr>
-		<?php 
-	} 
-	if( $VM_LANG->_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_4 != "" ) { ?>
-		<tr> 
-			<td style="text-align:right;"><?php echo $VM_LANG->_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_4 ?>:</td>
-			<td ><?php $ps_html->list_extra_field_4($db->sf("extra_field_4")); ?></td>
-		</tr>
-		<?php 
-	}
-	if( $VM_LANG->_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_5 != "" ) { ?>
-		<tr> 
-			<td style="text-align:right;"><?php echo $VM_LANG->_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_5 ?>:</td>
-			<td ><?php $ps_html->list_extra_field_5($db->sf("extra_field_5")); ?></td>
-		</tr>
-		<?php 
-	}
-	# <!-- EXTRA FIELD 5 - END -->
-	?>
-
+        <tr> 
+                <td nowrap="nowrap" width="38%">&nbsp; </td> 
+                <td nowrap="nowrap" width="62%">&nbsp;</td> 
+        </tr> 
+        <?php 
+        /**
+        <!-- If you do not wish show a EXTRA FIELD in this form add into condition "false && ".
+                         For example: if( false && $VM_LANG->_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_1 != "" ) -->
+                <!-- EXTRA FIELD 1 - BEGIN - You can move this section into any other position of form. -->
+        */
+        if( $VM_LANG->_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_1 != "" ) { ?>
+                <tr> 
+                        <td style="text-align:right;" ><?php echo $VM_LANG->_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_1 ?>:</td>
+                        <td > 
+                        <input type="text" class="inputbox" name="extra_field_1" size="40" value="<?php $db->sp("extra_field_1") ?>">
+                        </td>
+                </tr>
+                <?php 
+        }
+        if( $VM_LANG->_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_2 != "" ) { ?>
+                <tr> 
+                        <td style="text-align:right;"><?php echo $VM_LANG->_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_2 ?>:</td>
+                        <td > 
+                        <input type="text" class="inputbox" name="extra_field_2" size="40" value="<?php $db->sp("extra_field_2") ?>">
+                        </td>
+                </tr>
+                <?php 
+        }
+        if( $VM_LANG->_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_3 != "" ) { ?>
+                <tr> 
+                        <td style="text-align:right;"><?php echo $VM_LANG->_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_3 ?>:</td>
+                        <td > 
+                                <input type="text" class="inputbox" name="extra_field_3" size="40" value="<?php $db->sp("extra_field_3") ?>">
+                        </td>
+                </tr>
+                <?php 
+        } 
+        if( $VM_LANG->_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_4 != "" ) { ?>
+                <tr> 
+                        <td style="text-align:right;"><?php echo $VM_LANG->_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_4 ?>:</td>
+                        <td ><?php $ps_html->list_extra_field_4($db->sf("extra_field_4")); ?></td>
+                </tr>
+                <?php 
+        }
+        if( $VM_LANG->_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_5 != "" ) { ?>
+                <tr> 
+                        <td style="text-align:right;"><?php echo $VM_LANG->_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_5 ?>:</td>
+                        <td ><?php $ps_html->list_extra_field_5($db->sf("extra_field_5")); ?></td>
+                </tr>
+                <?php 
+        }
+        # <!-- EXTRA FIELD 5 - END -->
+        ?>
+       
 </table> 
        
 <?php 
@@ -271,7 +271,7 @@ $tabs->startTab( $VM_LANG->_PHPSHOP_SHOPPER_FORM_LBL, "third-page");
   $selected[1] = $db->sf('bank_account_type')=="Business Checking" ? 'selected="selected"' : '';
   $selected[2] = $db->sf('bank_account_type')=="Savings" ? 'selected="selected"' : '';
 ?>
-
+        
 <h3><?php echo $VM_LANG->_PHPSHOP_SHOPPER_FORM_LBL ?> </h3>
 <table class="adminform">
           <tr> 
@@ -283,46 +283,46 @@ $tabs->startTab( $VM_LANG->_PHPSHOP_SHOPPER_FORM_LBL, "third-page");
           <tr> 
             <td style="text-align:right;"> <?php echo $VM_LANG->_PHPSHOP_SHOPPER_FORM_GROUP ?>:</td>
             <td><?php
-		include_class('shopper');
-		$sg_id = $ps_shopper_group->get_shoppergroup_by_id($db->f("user_id"));
-		$ps_shopper_group->list_shopper_groups("shopper_group_id",$sg_id["shopper_group_id"]);?>
+                include_class('shopper');
+                $sg_id = $ps_shopper_group->get_shoppergroup_by_id($db->f("user_id"));
+                $ps_shopper_group->list_shopper_groups("shopper_group_id",$sg_id["shopper_group_id"]);?>
             </td>
           </tr>
 </table>
 
 <h3><?php echo $VM_LANG->_PHPSHOP_ACCOUNT_BANK_TITLE ?> </h3>
-	
+
 <table class="adminform">
         <tr>
-		<td style="text-align:right;"><?php echo $VM_LANG->_PHPSHOP_ACCOUNT_LBL_BANK_ACCOUNT_HOLDER ?>:</td>
-		<td><input type="text" class="inputbox" name="bank_account_holder" size="40" value="<?php $db->sp("bank_account_holder") ?>"></td>
-	</tr>
+                <td style="text-align:right;"><?php echo $VM_LANG->_PHPSHOP_ACCOUNT_LBL_BANK_ACCOUNT_HOLDER ?>:</td>
+                <td><input type="text" class="inputbox" name="bank_account_holder" size="40" value="<?php $db->sp("bank_account_holder") ?>"></td>
+        </tr>
         <tr>
-		<td style="text-align:right;" width="100"><?php echo $VM_LANG->_PHPSHOP_ACCOUNT_LBL_BANK_ACCOUNT_NR ?>:</td>
-		<td width="85%" ><input type="text" class="inputbox" name="bank_account_nr" size="40" value="<?php $db->sp("bank_account_nr") ?>"></td>
-	</tr>
+                <td style="text-align:right;" width="100"><?php echo $VM_LANG->_PHPSHOP_ACCOUNT_LBL_BANK_ACCOUNT_NR ?>:</td>
+                <td width="85%" ><input type="text" class="inputbox" name="bank_account_nr" size="40" value="<?php $db->sp("bank_account_nr") ?>"></td>
+        </tr>
         <tr>
-		<td style="text-align:right;"><?php echo $VM_LANG->_PHPSHOP_ACCOUNT_LBL_BANK_SORT_CODE ?>:</td>
-		<td><input type="text" class="inputbox" name="bank_sort_code" size="40" value="<?php $db->sp("bank_sort_code") ?>"></td>
-	</tr>
+                <td style="text-align:right;"><?php echo $VM_LANG->_PHPSHOP_ACCOUNT_LBL_BANK_SORT_CODE ?>:</td>
+                <td><input type="text" class="inputbox" name="bank_sort_code" size="40" value="<?php $db->sp("bank_sort_code") ?>"></td>
+        </tr>
         <tr>
-		<td style="text-align:right;"><?php echo $VM_LANG->_PHPSHOP_ACCOUNT_LBL_BANK_NAME ?>:</td>
-		<td><input type="text" class="inputbox" name="bank_name" size="40" value="<?php $db->sp("bank_name") ?>"></td>
-	</tr>
+                <td style="text-align:right;"><?php echo $VM_LANG->_PHPSHOP_ACCOUNT_LBL_BANK_NAME ?>:</td>
+                <td><input type="text" class="inputbox" name="bank_name" size="40" value="<?php $db->sp("bank_name") ?>"></td>
+        </tr>
         <tr>
-		<td style="text-align:right;"><?php echo $VM_LANG->_PHPSHOP_ACCOUNT_LBL_BANK_IBAN ?>:</td>
-		<td><input type="text" class="inputbox" name="bank_iban" size="40" value="<?php $db->sp("bank_iban") ?>"></td>
-	</tr>
+                <td style="text-align:right;"><?php echo $VM_LANG->_PHPSHOP_ACCOUNT_LBL_BANK_IBAN ?>:</td>
+                <td><input type="text" class="inputbox" name="bank_iban" size="40" value="<?php $db->sp("bank_iban") ?>"></td>
+        </tr>
         <tr>
-		<td width="27%" nowrap="nowrap" style="text-align:right;" ><?php echo $VM_LANG->_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE ?>:</td>
-		<td width="73%" >
-			<select class="inputbox" name="bank_account_type">
-				<option <?php echo $selected[0] ?> value="Checking"><?php echo $VM_LANG->_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE_CHECKING ?></option>
-				<option <?php echo $selected[1] ?> value="Business Checking"><?php echo $VM_LANG->_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE_BUSINESSCHECKING ?></option>
-				<option <?php echo $selected[2] ?> value="Savings"><?php echo $VM_LANG->_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE_SAVINGS ?></option>
-			</select>
-		</td>
-	</tr>
+                <td width="27%" nowrap="nowrap" style="text-align:right;" ><?php echo $VM_LANG->_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE ?>:</td>
+                <td width="73%" >
+                        <select class="inputbox" name="bank_account_type">
+                                <option <?php echo $selected[0] ?> value="Checking"><?php echo $VM_LANG->_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE_CHECKING ?></option>
+                                <option <?php echo $selected[1] ?> value="Business Checking"><?php echo $VM_LANG->_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE_BUSINESSCHECKING ?></option>
+                                <option <?php echo $selected[2] ?> value="Savings"><?php echo $VM_LANG->_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE_SAVINGS ?></option>
+                        </select>
+                </td>
+        </tr>
 </table>
 
 <?php

@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: admin.martlanguages.php,v 1.6 2006/01/15 19:42:45 soeren_nb Exp $
+* @version $Id: norwegian.php,v 1.11.2.2 2006/03/03 07:09:06 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -436,13 +436,13 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_SHOPPER_FORM_PHONE2 = 'Mobil';
 	var $_PHPSHOP_SHOPPER_FORM_FAX = 'Faks';
 	var $_PHPSHOP_SHOPPER_FORM_EMAIL = 'E-post';
-	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_1 = 'Ekstra felt 1';
-	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_2 = 'Ekstra felt 2';
-	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_3 = 'Ekstra felt 3';
-	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_4 = 'Ekstra felt 4';
+	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_1 = '';
+	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_2 = '';
+	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_3 = '';
+	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_4 = '';
 	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_4_1 = 'Ja';
 	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_4_2 = 'Nei';
-	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_5 = 'Ekstra felt 5';
+	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_5 = '';
 	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_5_1 = 'AAA';
 	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_5_2 = 'BBB';
 	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_5_3 = 'CCC';

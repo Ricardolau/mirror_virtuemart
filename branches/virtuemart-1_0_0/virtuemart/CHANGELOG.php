@@ -33,6 +33,19 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+14-03-2006 soeren
+
+# session_id problems: when the session ID is empty, session_id( ... ) is not longer called to prevent mixed up or empty carts.
+
+12-03-2006 soeren
+
+# users, who are logged in, but not yet registered as customer/shopper 
+	can't directly continue their "checkout" after registration as shopper
+# users who are logged in, but have an empty "usertype" field don't see prices
+# added $manufacturer_id support for caching pages
+
+---- VirtueMart 1.0.3 released ----
+
 11-03-2006 soeren
 # syntax error in shipping.rate_form.php
 

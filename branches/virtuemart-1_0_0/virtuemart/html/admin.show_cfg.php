@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: admin.show_cfg.php,v 1.12.2.2 2006/03/03 07:09:02 soeren_nb Exp $
+* @version $Id: admin.show_cfg.php,v 1.12.2.3 2006/03/10 15:55:15 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -18,20 +18,20 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 mm_showMyFileName( __FILE__ );
 global $acl, $VM_BROWSE_ORDERBY_FIELDS;
 if( !isset( $VM_BROWSE_ORDERBY_FIELDS )) {
-	$VM_BROWSE_ORDERBY_FIELDS = array();
+        $VM_BROWSE_ORDERBY_FIELDS = array();
 }
 $option = empty($option)?mosgetparam( $_REQUEST, 'option', 'com_virtuemart'):$option;
 
 // Compose the Access DropDown List, for the first time used for setting Price Acess
 $fieldname = 'group_id';
 if( $_VERSION->PRODUCT == 'Joomla!' && $_VERSION->RELEASE >= 1.1 ) {
-	$fieldname = 'id';
+        $fieldname = 'id';
 }
 $db->query( 'SELECT `'.$fieldname.'` FROM #__core_acl_aro_groups WHERE name=\''.VM_PRICE_ACCESS_LEVEL.'\'' );
 $db->next_record();
 $gtree = ps_perm::getGroupChildrenTree( null, 'USERS', false );
 $access_group_list = mosHTML::selectList( $gtree, 'conf_VM_PRICE_ACCESS_LEVEL', 'size="4"', 'value', 'text', $db->f($fieldname) );
-		
+                
 $title = '&nbsp;&nbsp;&nbsp;<img src="'. IMAGEURL .'ps_image/settings.png" width="32" height="32" border="0" />';
 $title .= $VM_LANG->_PHPSHOP_CONFIG;
 
@@ -489,11 +489,11 @@ $tabs->startTab( $spacer . $VM_LANG->_PHPSHOP_ADMIN_CFG_PATHANDURL . $spacer, "p
     <tr>
         <td class="labelcell"><?php echo $VM_LANG->_VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL ?></td>
         <td>
-        	<select class="inputbox" name="conf_VM_BROWSE_ORDERBY_FIELD">
-        		<option value="product_name" <?php if (@VM_BROWSE_ORDERBY_FIELD == 'product_name') echo "selected=\"selected\""; ?>><?php echo $VM_LANG->_PHPSHOP_PRODUCT_NAME_TITLE ?></option>
-        		<option value="product_price" <?php if (@VM_BROWSE_ORDERBY_FIELD == 'product_price') echo "selected=\"selected\""; ?>><?php echo $VM_LANG->_PHPSHOP_PRODUCT_PRICE_TITLE ?></option>
-        		<option value="product_sku" <?php if (@VM_BROWSE_ORDERBY_FIELD == 'product_sku') echo "selected=\"selected\""; ?>><?php echo $VM_LANG->_PHPSHOP_CART_SKU ?></option>
-        		<option value="product_cdate" <?php if (@VM_BROWSE_ORDERBY_FIELD == 'product_cdate') echo "selected=\"selected\""; ?>><?php echo $VM_LANG->_PHPSHOP_LATEST ?></option>
+                <select class="inputbox" name="conf_VM_BROWSE_ORDERBY_FIELD">
+                        <option value="product_name" <?php if (@VM_BROWSE_ORDERBY_FIELD == 'product_name') echo "selected=\"selected\""; ?>><?php echo $VM_LANG->_PHPSHOP_PRODUCT_NAME_TITLE ?></option>
+                        <option value="product_price" <?php if (@VM_BROWSE_ORDERBY_FIELD == 'product_price') echo "selected=\"selected\""; ?>><?php echo $VM_LANG->_PHPSHOP_PRODUCT_PRICE_TITLE ?></option>
+                        <option value="product_sku" <?php if (@VM_BROWSE_ORDERBY_FIELD == 'product_sku') echo "selected=\"selected\""; ?>><?php echo $VM_LANG->_PHPSHOP_CART_SKU ?></option>
+                        <option value="product_cdate" <?php if (@VM_BROWSE_ORDERBY_FIELD == 'product_cdate') echo "selected=\"selected\""; ?>><?php echo $VM_LANG->_PHPSHOP_LATEST ?></option>
             </select>
         </td>
         <td><?php echo $VM_LANG->_VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL_TIP ?></td>
@@ -501,18 +501,18 @@ $tabs->startTab( $spacer . $VM_LANG->_PHPSHOP_ADMIN_CFG_PATHANDURL . $spacer, "p
     <tr>
         <td class="labelcell"><?php echo $VM_LANG->_VM_BROWSE_ORDERBY_FIELDS_LBL ?></td>
         <td>
-			<input name="conf_VM_BROWSE_ORDERBY_FIELDS[]" type="checkbox" value="product_name" <?php if (in_array( 'product_name', $VM_BROWSE_ORDERBY_FIELDS )) echo "checked=\"checked\""; ?> id="conf_VM_BROWSE_ORDERBY_FIELDS1" />
-			<label for="conf_VM_BROWSE_ORDERBY_FIELDS1"><?php echo $VM_LANG->_PHPSHOP_PRODUCT_NAME_TITLE ?></label><br />
+                        <input name="conf_VM_BROWSE_ORDERBY_FIELDS[]" type="checkbox" value="product_name" <?php if (in_array( 'product_name', $VM_BROWSE_ORDERBY_FIELDS )) echo "checked=\"checked\""; ?> id="conf_VM_BROWSE_ORDERBY_FIELDS1" />
+                        <label for="conf_VM_BROWSE_ORDERBY_FIELDS1"><?php echo $VM_LANG->_PHPSHOP_PRODUCT_NAME_TITLE ?></label><br />
             
-			<input name="conf_VM_BROWSE_ORDERBY_FIELDS[]" type="checkbox" value="product_price" <?php if (in_array( 'product_price', $VM_BROWSE_ORDERBY_FIELDS )) echo "checked=\"checked\""; ?> id="conf_VM_BROWSE_ORDERBY_FIELDS2" />
-			<label for="conf_VM_BROWSE_ORDERBY_FIELDS2"><?php echo $VM_LANG->_PHPSHOP_PRODUCT_PRICE_TITLE ?></label><br />
+                        <input name="conf_VM_BROWSE_ORDERBY_FIELDS[]" type="checkbox" value="product_price" <?php if (in_array( 'product_price', $VM_BROWSE_ORDERBY_FIELDS )) echo "checked=\"checked\""; ?> id="conf_VM_BROWSE_ORDERBY_FIELDS2" />
+                        <label for="conf_VM_BROWSE_ORDERBY_FIELDS2"><?php echo $VM_LANG->_PHPSHOP_PRODUCT_PRICE_TITLE ?></label><br />
 
-			<input name="conf_VM_BROWSE_ORDERBY_FIELDS[]" type="checkbox" value="product_cdate" <?php if (in_array( 'product_cdate', $VM_BROWSE_ORDERBY_FIELDS )) echo "checked=\"checked\""; ?> id="conf_VM_BROWSE_ORDERBY_FIELDS3" />
-			<label for="conf_VM_BROWSE_ORDERBY_FIELDS3"><?php echo $VM_LANG->_PHPSHOP_LATEST ?></label><br />
+                        <input name="conf_VM_BROWSE_ORDERBY_FIELDS[]" type="checkbox" value="product_cdate" <?php if (in_array( 'product_cdate', $VM_BROWSE_ORDERBY_FIELDS )) echo "checked=\"checked\""; ?> id="conf_VM_BROWSE_ORDERBY_FIELDS3" />
+                        <label for="conf_VM_BROWSE_ORDERBY_FIELDS3"><?php echo $VM_LANG->_PHPSHOP_LATEST ?></label><br />
 
-			<input name="conf_VM_BROWSE_ORDERBY_FIELDS[]" type="checkbox" value="product_sku" <?php if (in_array( 'product_sku', $VM_BROWSE_ORDERBY_FIELDS )) echo "checked=\"checked\""; ?> id="conf_VM_BROWSE_ORDERBY_FIELDS4" />
-			<label for="conf_VM_BROWSE_ORDERBY_FIELDS4"><?php echo $VM_LANG->_PHPSHOP_CART_SKU ?></label>
-			
+                        <input name="conf_VM_BROWSE_ORDERBY_FIELDS[]" type="checkbox" value="product_sku" <?php if (in_array( 'product_sku', $VM_BROWSE_ORDERBY_FIELDS )) echo "checked=\"checked\""; ?> id="conf_VM_BROWSE_ORDERBY_FIELDS4" />
+                        <label for="conf_VM_BROWSE_ORDERBY_FIELDS4"><?php echo $VM_LANG->_PHPSHOP_CART_SKU ?></label>
+                        
         </td>
         <td><?php echo $VM_LANG->_VM_BROWSE_ORDERBY_FIELDS_LBL_TIP ?></td>
     </tr>
@@ -645,63 +645,62 @@ $rows = $ps_shipping_method->method_list();
 $i = 0;
 foreach( $rows as $row ) { 
     if( $row['filename'] == "standard_shipping.php" ) { ?>
-		<tr>
-			<td>
-				<input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" <?php if (array_search('standard_shipping', $PSHOP_SHIPPING_MODULES) !== false) echo "checked=\"checked\""; ?> value="standard_shipping" />
-				
-			</td>
-			<td><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_STANDARD ?>
-			</td>
-		</tr><?php  
-		}
+                <tr>
+                        <td>
+                                <input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" <?php if (array_search('standard_shipping', $PSHOP_SHIPPING_MODULES) !== false) echo "checked=\"checked\""; ?> value="standard_shipping" />
+                        </td>
+                        <td><label for="sh<?php echo $i ?>"><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_STANDARD ?></label>
+                        </td>
+                </tr><?php  
+                }
 		elseif( $row['filename'] == "zone_shipping.php" ) { ?>
 		<tr>
-			<td valign="top">
-				<input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" <?php if (array_search('zone_shipping', $PSHOP_SHIPPING_MODULES) !== false) echo "checked=\"checked\""; ?> value="zone_shipping" />
-			</td>
-			<td><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_ZONE ?>
-			</td>
-		</tr><?php  
-		}
+                        <td valign="top">
+                                <input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" <?php if (array_search('zone_shipping', $PSHOP_SHIPPING_MODULES) !== false) echo "checked=\"checked\""; ?> value="zone_shipping" />
+                        </td>
+                        <td><label for="sh<?php echo $i ?>"><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_ZONE ?></label>
+                        </td>
+                </tr><?php  
+                }
 		elseif( $row['filename'] == "ups.php" ) { ?>
 		<tr>
-			<td>
-				<input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" <?php if (array_search('ups', $PSHOP_SHIPPING_MODULES) !== false) echo "checked=\"checked\""; ?> value="ups" />
-			</td>
-			<td><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS ?>
-			</td>
-		</tr><?php  
-		}
+                        <td>
+                                <input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" <?php if (array_search('ups', $PSHOP_SHIPPING_MODULES) !== false) echo "checked=\"checked\""; ?> value="ups" />
+                        </td>
+                        <td><label for="sh<?php echo $i ?>"><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS ?></label>
+                        </td>
+                </tr><?php  
+                }
 		elseif( $row['filename'] == "intershipper.php" ) { ?>
 		<tr>
-			<td>
-				<input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" <?php if (array_search('intershipper', $PSHOP_SHIPPING_MODULES) !== false) echo "checked=\"checked\""; ?> value="intershipper" />
-			</td>
-			<td><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER ?>
-			</td>
-		</tr><?php  
-		}
+                        <td>
+                                <input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" <?php if (array_search('intershipper', $PSHOP_SHIPPING_MODULES) !== false) echo "checked=\"checked\""; ?> value="intershipper" />
+                        </td>
+                        <td><label for="sh<?php echo $i ?>"><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER ?></label>
+                        </td>
+                </tr><?php  
+                }
 		elseif( $row['filename'] != "no_shipping.php" ) {
 	?><tr>
-		<td>
-			<input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" <?php if (array_search(basename($row['filename'], ".php"), $PSHOP_SHIPPING_MODULES) !== false) echo "checked=\"checked\""; ?> value="<?php echo basename($row['filename'], ".php") ?>" />
-		</td>
-		<td><?php echo $row["description"]; ?></td>
-		</tr><?php    
-		}
-		$i++;
+                <td>
+                        <input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" <?php if (array_search(basename($row['filename'], ".php"), $PSHOP_SHIPPING_MODULES) !== false) echo "checked=\"checked\""; ?> value="<?php echo basename($row['filename'], ".php") ?>" />
+                </td>
+                <td><label for="sh<?php echo $i ?>"><?php echo $row["description"]; ?></label></td>
+                </tr><?php    
+                }
+                $i++;
 	}
 	echo "<input type=\"hidden\" name=\"shippingMethodCount\" value=\"".count($rows)."\" />";
 		?>
 		<tr><td colspan="2"><hr/></td></tr>
 		<tr>
-			<td>
-				<input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" onclick="unCheckAndDisable( this.checked );" <?php if (NO_SHIPPING == '1') echo "checked=\"checked\""; ?> value="no_shipping" />
-			</td>
-			<td><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_DISABLE ?>
-			</td>
-		</tr>
-	</table>
+                        <td>
+                                <input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" onclick="unCheckAndDisable( this.checked );" <?php if (NO_SHIPPING == '1') echo "checked=\"checked\""; ?> value="no_shipping" />
+                        </td>
+                        <td><label for="sh<?php echo $i ?>"><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_DISABLE ?></label>
+                        </td>
+                </tr>
+        </table>
 </fieldset>
 <?php
   $tabs->endTab();

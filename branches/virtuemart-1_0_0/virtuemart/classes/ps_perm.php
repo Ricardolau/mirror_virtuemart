@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_perm.php,v 1.10 2005/11/12 08:32:08 soeren_nb Exp $
+* @version $Id: ps_perm.php,v 1.11.2.1 2006/02/27 19:41:42 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -49,6 +49,9 @@ class ps_perm {
 		if( empty( $my->usertype ) ) {
 			if( empty( $my->id )) { 
 				$gid = 29; 
+			}
+			else {
+				$gid = $my->gid;
 			}
 			$fieldname = ($_VERSION->RELEASE >= 1.1 && $_VERSION->PRODUCT == 'Joomla!' ) ? 'id' : 'group_id';
 			$db->query( 'SELECT name FROM #__core_acl_aro_groups WHERE `'.$fieldname.'` =\''.$gid.'\'' );

@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_creditcard.php,v 1.6 2005/10/11 17:03:28 soeren_nb Exp $
+* @version $Id: ps_creditcard.php,v 1.7.2.1 2005/12/01 20:00:32 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -216,19 +216,21 @@ class ps_creditcard {
 		else
 		$selected_arr = Array();
 		$db = new ps_DB;
-		$q = "SELECT creditcard_name, creditcard_id FROM #__{vm}_creditcard WHERE vendor_id='".$_SESSION['ps_vendor_id']."'";
-		$db->query( $q );
-		$html = "";
+                $q = "SELECT creditcard_name, creditcard_id FROM #__{vm}_creditcard WHERE vendor_id='".$_SESSION['ps_vendor_id']."'";
+                $db->query( $q );
+                $html = "";
+                $i = 0;
+                while( $db->next_record() ) {
+                        $html .= "<input type=\"checkbox\" name=\"creditcard[]\"  id=\"creditcard$i\" value=\"".$db->f("creditcard_id")."\" class=\"inputbox\" ";
+                        if (in_array($db->f("creditcard_id"), $selected_arr)) {
+                                $html .= "checked=\checked\"";
+                        }
+                        $html .= "/>";
+                        $html .= "<label for=\"creditcard$i\">".$db->f("creditcard_name")."</label><br/>";
+                        $i++;
+                }
 
-		while( $db->next_record() ) {
-			$html .= "<input type=\"checkbox\" name=\"creditcard[]\" value=\"".$db->f("creditcard_id")."\" class=\"inputbox\" ";
-			if (in_array($db->f("creditcard_id"), $selected_arr))
-			$html .= "checked=\checked\"";
-			$html .= "/>";
-			$html .= $db->f("creditcard_name")."<br/>";
-		}
-
-		echo $html;
+                echo $html;
 	}
 
 	/**************************************************************************

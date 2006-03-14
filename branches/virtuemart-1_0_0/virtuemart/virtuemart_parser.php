@@ -18,9 +18,19 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * http://virtuemart.net
 */
 
-/**
-* This file has nearly the same functionality as the old phpShop Parser - index.php -
-*/
+// Raise memory_limit to 16M when it is too low
+// Especially the product section needs much memory
+$memLimit = @ini_get('memory_limit');
+if( stristr( $memLimit, 'k') ) {
+	$memLimit = str_replace( 'k', '', str_replace( 'K', '', $memLimit )) * 1024;
+}
+elseif( stristr( $memLimit, 'm') ) {
+	$memLimit = str_replace( 'm', '', str_replace( 'M', '', $memLimit )) * 1024 * 1024;
+}
+if( $memLimit < 16777216 ) {
+	@ini_set('memory_limit', '16M');
+}
+
 $option = mosGetParam( $_REQUEST, 'option' );
 
 if( !defined( '_VM_PARSER_LOADED' )) {
@@ -90,8 +100,8 @@ if( !defined( '_VM_PARSER_LOADED' )) {
 	 * See http://pear.php.net/package/Log
 	 * @global Log vmLogger
 	 */
-	$GLOBALS['vmLogger'] = $vmLogger = &vmLog::singleton('display', '', '', $vmLoggerConf, PEAR_LOG_TIP);
-	
+	$vmLogger = &vmLog::singleton('display', '', '', $vmLoggerConf, PEAR_LOG_TIP);
+	$GLOBALS['vmLogger'] =& $vmLogger;
 	// Instantiate the DB class
 	$db = new ps_DB();
 	
@@ -114,7 +124,7 @@ if( !defined( '_VM_PARSER_LOADED' )) {
 	$ps_shopper_group = new ps_shopper_group();
 
 	// Set the mosConfig_live_site to its' SSL equivalent
-	if( @$_SERVER['HTTPS'] == 'on' || @strstr( "checkout.", $page )) {
+	if( $_SERVER['SERVER_PORT'] == 443 || @$_SERVER['HTTPS'] == 'on' || @strstr( $page, "checkout." )) {
 		// temporary solution until we have
 		// $mosConfig_secure_site
 		$GLOBALS['real_mosConfig_live_site'] = $GLOBALS['mosConfig_live_site'];

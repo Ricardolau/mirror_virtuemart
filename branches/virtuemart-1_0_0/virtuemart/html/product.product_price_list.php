@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: product.product_price_list.php,v 1.4 2005/09/29 20:02:18 soeren_nb Exp $
+* @version $Id: product.product_price_list.php,v 1.5 2005/11/09 20:55:04 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -44,13 +44,15 @@ if( !$perm->check("admin"))
   $q .= "AND #__{vm}_shopper_group.vendor_id = '$ps_vendor_id' ";
 $q .= "AND #__{vm}_shopper_group.shopper_group_id = #__{vm}_product_price.shopper_group_id ";
 $q .= "ORDER BY shopper_group_name,price_quantity_start, product_price ";
-$list .= $q . "LIMIT $limitstart, $limit";
+
 $count .= $q;
 $db->query($count);
 $num_rows = $db->num_rows();
 
 // Create the Page Navigation
 $pageNav = new vmPageNav( $num_rows, $limitstart, $limit );
+
+$list .= $q . 'LIMIT '.$pageNav->limitstart.', '.$pageNav->limit;
 
 // Create the List Object with page navigation
 $listObj = new listFactory( $pageNav );

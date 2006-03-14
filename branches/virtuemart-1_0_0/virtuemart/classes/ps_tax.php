@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_tax.php,v 1.9.2.1 2006/02/27 19:41:42 soeren_nb Exp $
+* @version $Id: ps_tax.php,v 1.9.2.2 2006/03/03 07:09:01 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -26,13 +26,13 @@ class ps_tax {
 	 * @return boolean True on success, false on failure
 	 */
 	function validate_add(&$d) {
-		global $vmLogger;
-		$valid = true;
-		$db = new ps_DB;
-		if( TAX_MODE != '1' ) {
-			$q = "SELECT tax_rate_id from #__{vm}_tax_rate WHERE tax_state='" . $d["tax_state"] . "'";
-			$db->query($q);
-			if ($db->next_record()) {
+                global $vmLogger;
+                $valid = true;
+                $db = new ps_DB;
+                if( TAX_MODE != '1' && $d['tax_state'] != ' - ' ) {
+                        $q = "SELECT tax_rate_id from #__{vm}_tax_rate WHERE tax_state='" . $d["tax_state"] . "'";
+                        $db->query($q);
+                        if ($db->next_record()) {
 				$vmLogger->err( 'This state is already listed.' );
 				$valid = False;
 			}
@@ -48,16 +48,16 @@ class ps_tax {
 			$valid = False;
 		}
 		if (!$d["tax_rate"]) {
-			$vmLogger->err( 'You must enter a tax rate.' );
-			$valid = False;
-		}
-		if( (float)@$d["tax_rate"] > 1.0 ) {
-			$d["tax_rate"] = floatval(@$d["tax_rate"]) / 100;
-		}
-		$d["tax_rate"] = str_replace( ',', '.', $d['tax_rate']);
+                        $vmLogger->err( 'You must enter a tax rate.' );
+                        $valid = False;
+                }
+                if( (float)@$d["tax_rate"] > 1.0 ) {
+                        $d["tax_rate"] = floatval(@$d["tax_rate"]) / 100;
+                }
+                $d["tax_rate"] = str_replace( ',', '.', $d['tax_rate']);
 
-		return $valid;
-	}
+                return $valid;
+        }
 	/**
 	 * Validates the input values before updating an item
 	 *
@@ -83,17 +83,17 @@ class ps_tax {
 			return False;
 		}
 		if (!$d["tax_rate"]) {
-			$vmLogger->err( 'You must enter a tax rate.' );
-			return False;
-		}
-		if( (float)@$d["tax_rate"] > 1.0 ) {
-			$d["tax_rate"] = floatval(@$d["tax_rate"]) / 100;
-		}
-		$d["tax_rate"] = str_replace( ',', '.', $d['tax_rate']);
-		
-		return True;
-	}
-	/**
+                        $vmLogger->err( 'You must enter a tax rate.' );
+                        return False;
+                }
+                if( (float)@$d["tax_rate"] > 1.0 ) {
+                        $d["tax_rate"] = floatval(@$d["tax_rate"]) / 100;
+                }
+                $d["tax_rate"] = str_replace( ',', '.', $d['tax_rate']);
+                
+                return True;
+        }
+        /**
 	 * Validates the input values before deleting an item
 	 *
 	 * @param arry $d The _REQUEST array
@@ -212,23 +212,23 @@ class ps_tax {
 	***************************************************************************/
 	function list_tax_value($select_name, $selected_value_id, $on_change='') {
 		global $VM_LANG;
-		$db = new ps_DB;
+                $db = new ps_DB;
 
-		// Get list of Values
-		$q = "SELECT `tax_rate_id`, `tax_rate`  FROM `#__{vm}_tax_rate` ORDER BY `tax_rate` DESC, `tax_rate_id` ASC";
-		$db->query($q);
+                // Get list of Values
+                $q = "SELECT `tax_rate_id`, `tax_rate`  FROM `#__{vm}_tax_rate` ORDER BY `tax_rate` DESC, `tax_rate_id` ASC";
+                $db->query($q);
 
-		$html = "<select class=\"inputbox\" name=\"$select_name\"";
-		if ($on_change!='') {
-			$html .= " onchange=\"$on_change\"";
-		}
-		$html .= ">\n";
-		if ($select_name == "shipping_rate_vat_id" || stristr($select_name, "tax_class") || $select_name == "zone_tax_rate") {
-			$html .= "<option value=\"0\">" . $VM_LANG->_PHPSHOP_INFO_MSG_VAT_ZERO_LBL . "</option>\n";
-		}
-		$tax_rates = Array();
-		while ($db->next_record()) {
-			$tax_rates[$db->f("tax_rate_id")] = $db->f("tax_rate");
+                $html = "<select class=\"inputbox\" name=\"$select_name\"";
+                if ($on_change!='') {
+                        $html .= " onchange=\"$on_change\"";
+                }
+                $html .= ">\n";
+                if ($select_name == "shipping_rate_vat_id" || stristr($select_name, "tax_class") || $select_name == "zone_tax_rate") {
+                        $html .= "<option value=\"0\">" . $VM_LANG->_PHPSHOP_INFO_MSG_VAT_ZERO_LBL . "</option>\n";
+                }
+                $tax_rates = Array();
+                while ($db->next_record()) {
+                        $tax_rates[$db->f("tax_rate_id")] = $db->f("tax_rate");
 			$html .= "<option value=\"";
 			$html .= $db->f("tax_rate_id")."\"";
 			if ($db->f("tax_rate_id")==$selected_value_id) {

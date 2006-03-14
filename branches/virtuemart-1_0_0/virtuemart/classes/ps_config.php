@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: ps_config.php,v 1.9.2.1 2006/02/18 09:20:10 soeren_nb Exp $
+* @version $Id: ps_config.php,v 1.9.2.2 2006/03/03 07:09:01 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -29,8 +29,8 @@ class ps_config {
 function writeconfig(&$d) {
     global $my, $db;
     
-	$group_id = intval( $d['conf_VM_PRICE_ACCESS_LEVEL'] );
-	$db->query( 'SELECT name FROM #__core_acl_aro_groups WHERE group_id=\''.$group_id.'\'' );
+        $group_id = intval( $d['conf_VM_PRICE_ACCESS_LEVEL'] );
+        $db->query( 'SELECT name FROM #__core_acl_aro_groups WHERE group_id=\''.$group_id.'\'' );
 	$db->next_record();
 	$d['conf_VM_PRICE_ACCESS_LEVEL'] = $db->f('name');
 	
@@ -105,10 +105,10 @@ function writeconfig(&$d) {
             "PSHOP_COUPONS_ENABLE" => "conf_PSHOP_COUPONS_ENABLE",
             "PSHOP_PDF_BUTTON_ENABLE" => "conf_PSHOP_PDF_BUTTON_ENABLE",
             "PSHOP_SHOW_PRODUCTS_IN_CATEGORY" => "conf_PSHOP_SHOW_PRODUCTS_IN_CATEGORY",
-            "PSHOP_SHOW_TOP_PAGENAV"    	=>      "conf_PSHOP_SHOW_TOP_PAGENAV",
-            "PSHOP_SHOW_OUT_OF_STOCK_PRODUCTS"    	=>      "conf_PSHOP_SHOW_OUT_OF_STOCK_PRODUCTS",
-            "VM_BROWSE_ORDERBY_FIELDS"    	=>      "conf_VM_BROWSE_ORDERBY_FIELDS",
-            "PSHOP_SHIPPING_MODULE"    	=>      "conf_SHIPPING"
+            "PSHOP_SHOW_TOP_PAGENAV"            =>      "conf_PSHOP_SHOW_TOP_PAGENAV",
+            "PSHOP_SHOW_OUT_OF_STOCK_PRODUCTS"          =>      "conf_PSHOP_SHOW_OUT_OF_STOCK_PRODUCTS",
+            "VM_BROWSE_ORDERBY_FIELDS"          =>      "conf_VM_BROWSE_ORDERBY_FIELDS",
+            "PSHOP_SHIPPING_MODULE"     =>      "conf_SHIPPING"
             );
             
     $config = "<?php
@@ -118,7 +118,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 *
 * @package VirtueMart
 * @subpackage core
-* @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
+* @copyright Copyright (C) 2004-2006 Soeren Eberhardt. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -157,51 +157,47 @@ define( 'ADMINPATH', \$mosConfig_absolute_path.'/administrator/components/com_vi
 define( 'CLASSPATH', ADMINPATH.'classes/' );
 define( 'PAGEPATH', ADMINPATH.'html/' );
 define( 'IMAGEPATH', \$mosConfig_absolute_path.'/components/com_virtuemart/shop_image/' );\n\n";
-		
-    	// LOOP THROUGH ALL CONFIGURATION VARIABLES
-	    while (list($key, $value) = each($my_config_array)) {
-	    	
-	        if( $key == "PSHOP_SHIPPING_MODULE" ) {
-	            $config .= "\n/* Shipping Methods Definition */\nglobal \$PSHOP_SHIPPING_MODULES;\n";
-	            $i = 0;
+                
+        // LOOP THROUGH ALL CONFIGURATION VARIABLES
+            while (list($key, $value) = each($my_config_array)) {
+                
+                if( $key == "PSHOP_SHIPPING_MODULE" ) {
+                    $config .= "\n/* Shipping Methods Definition */\nglobal \$PSHOP_SHIPPING_MODULES;\n";
+                    $i = 0;
 	            foreach( $d['conf_SHIPPING'] as $shipping_module) {
 	                $config.= "\$PSHOP_SHIPPING_MODULES[$i] = \"$shipping_module\";\n";
-	                $i++;
-	            }
-	        }
-	        elseif( $key == "VM_BROWSE_ORDERBY_FIELDS" ) {
-	            $config .= "\n/* OrderByFields */\nglobal \$VM_BROWSE_ORDERBY_FIELDS;\n";
-	            $config .= "\$VM_BROWSE_ORDERBY_FIELDS = array( ";
-	            $i= 0;
-	            foreach( $d['conf_VM_BROWSE_ORDERBY_FIELDS'] as $orderbyfield) {
-	                $config.= "'$orderbyfield'";
-	                if( $i+1 < sizeof( $d['conf_VM_BROWSE_ORDERBY_FIELDS'] )) {
-	                	$config .= ',';
-	                }
-	                $i++;
-	            }
-	            $config.= " );\n";
-	        }
-	        else {
-	        	$config .= "define('".$key."', '".$d[$value]."');\n";
-	        }
-	    }
-	    
-	    $config .= "?>";
-	
+                        $i++;
+                    }
+                }
+                elseif( $key == "VM_BROWSE_ORDERBY_FIELDS" ) {
+                    $config .= "\n/* OrderByFields */\nglobal \$VM_BROWSE_ORDERBY_FIELDS;\n";
+                    $config .= "\$VM_BROWSE_ORDERBY_FIELDS = array( ";
+                    $i= 0;
+                    foreach( $d['conf_VM_BROWSE_ORDERBY_FIELDS'] as $orderbyfield) {
+                        $config.= "'$orderbyfield'";
+                        if( $i+1 < sizeof( $d['conf_VM_BROWSE_ORDERBY_FIELDS'] )) {
+                                $config .= ',';
+                        }
+                        $i++;
+                    }
+                    $config.= " );\n";
+                }
+                else {
+                        $config .= "define('".$key."', '".$d[$value]."');\n";
+                }
+            }
+            
+            $config .= "?>";
+        
 		if ($fp = fopen(ADMINPATH ."virtuemart.cfg.php", "w")) {
-			fputs($fp, $config, strlen($config));
-			fclose ($fp);
-	
-			defined('_PSHOP_ADMIN') ? 
-	        mosRedirect( "index2.php?page=admin.show_cfg&option=com_virtuemart", "The configuration details have been updated!" ) :
-	        mosRedirect( "index.php?page=admin.show_cfg&option=com_virtuemart", "The configuration details have been updated!" );
-	
-		} else {
-	        defined('_PSHOP_ADMIN') ? 
-	        mosRedirect( "index2.php?page=admin.show_cfg&option=com_virtuemart", "An Error Has Occurred! Unable to open config file to write!" ) :
-	        mosRedirect( "index.php?page=admin.show_cfg&option=com_virtuemart", "TAn Error Has Occurred! Unable to open config file to write!" );
-		}
+                        fputs($fp, $config, strlen($config));
+                        fclose ($fp);
+        
+                mosRedirect( $_SERVER['PHP_SELF']."?page=admin.show_cfg&option=com_virtuemart", $VM_LANG->_VM_CONFIGURATION_CHANGE_SUCCESS );
+        
+                } else {
+                mosRedirect( $_SERVER['PHP_SELF']."?page=admin.show_cfg&option=com_virtuemart", sprintf( $VM_LANG->_VM_CONFIGURATION_CHANGE_FAILURE, ADMINPATH ."virtuemart.cfg.php" ) );
+                }
     }
   } // end function writeconfig
   

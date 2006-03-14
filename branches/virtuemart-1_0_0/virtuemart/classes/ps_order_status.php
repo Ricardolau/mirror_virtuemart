@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: ps_order_status.php,v 1.3 2005/09/27 17:48:50 soeren_nb Exp $
+* @version $Id: ps_order_status.php,v 1.4 2005/09/29 20:01:13 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -172,8 +172,16 @@ class ps_order_status {
 		}
 		$html .= "</select>\n";
 		
-		return $html;
-	}
-
+                return $html;
+        }
+        
+        function getOrderStatusName( $order_status_code ) {
+                $db = new ps_DB;
+                
+                $q = "SELECT order_status_id, order_status_name FROM #__{vm}_order_status WHERE `order_status_code`='".$order_status_code."'";
+                $db->query($q);
+                $db->next_record();
+                return $db->f("order_status_name");
+        }
 }
 ?>

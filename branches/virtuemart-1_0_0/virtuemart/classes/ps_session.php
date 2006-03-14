@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_session.php,v 1.15.2.6 2006/03/07 19:34:01 soeren_nb Exp $
+* @version $Id: ps_session.php,v 1.15.2.7 2006/03/08 20:05:31 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2006 Soeren Eberhardt. All rights reserved.
@@ -43,10 +43,10 @@ class ps_session {
 			// Session not yet started!
 
 			$sessionId = $this->getSessionId();
-			
+			$sessionIdHash = md5( $sessionId );
 			// Set the virtuemart cookie, using the md5 hash of the recent mambo/joomla session
 			if( empty($_COOKIE[$this->_session_name])) {
-				$_COOKIE[$this->_session_name] = md5( $sessionId );
+				$_COOKIE[$this->_session_name] = $sessionIdHash;
 			}
 			// Mambo backwards compatibility
 			if( empty($_COOKIE['sessioncookie'])) {
@@ -60,7 +60,9 @@ class ps_session {
 			@session_write_close();
 			
 			session_name( $this->_session_name );
-			session_id( $_COOKIE[$this->_session_name] );
+			if( !empty( $sessionId )) {
+				session_id( $sessionIdHash );
+			}
 			
 			if( @$_REQUEST['option'] == 'com_virtuemart' ) {
 			    ob_start();

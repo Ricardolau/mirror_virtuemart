@@ -3,7 +3,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 /**
 * This is no class! This file only provides core virtuemart functions.
 * 
-* @version $Id: ps_main.php,v 1.11 2005/11/24 06:25:40 soeren_nb Exp $
+* @version $Id: ps_main.php,v 1.11.2.1 2006/02/27 19:41:42 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -122,14 +122,14 @@ function validate_image(&$d,$field_name,$table_name) {
 	
 	/**
 	 * The commands to be executed by the process_images
-	 * function are returned as a string here.  The
-	 * commands are EVAL commands separated by ";"
-	 */
-	if (!isset($d['image_commands'])) {
-		$d['image_commands'] = "";
-	}
+         * function are returned as a string here.  The
+         * commands are EVAL commands separated by ";"
+         */
+        if (empty($d['image_commands'])) {
+                $d['image_commands'] = array();
+        }
 
-	/* Generate text to display in error messages */
+        /* Generate text to display in error messages */
 	if (eregi("thumb",$field_name)) {
 		$image_type = "thumbnail image";
 	} elseif (eregi("full",$field_name))  {
@@ -141,26 +141,36 @@ function validate_image(&$d,$field_name,$table_name) {
 	/* If User types "none" in Image Upload Field */
 	if ($d[$field_name."_action"] == "delete") {
 		/* If there is a current image file */
-		if (!empty($curr_file)) {
-			
-			$delete = str_replace("\\", "/", realpath($path."/".$curr_file));
-			if( file_exists( $delete ) )
-			$d["image_commands"] .= "\$ret = unlink(\"$delete\");";
-			$vmLogger->debug( 'Preparing: delete old '.$image_type.' '.$delete );
-			/* Remove the resized image if exists */
-			if( PSHOP_IMG_RESIZE_ENABLE=="1" && $image_type == "thumbnail image") {
+                if (!empty($curr_file)) {
+                        
+                        $delete = str_replace("\\", "/", realpath($path."/".$curr_file));
+                        $d["image_commands"][] = "if( file_exists( \"$delete\" ) ) {
+                                                                                \$ret = unlink(\"$delete\");
+                                                                                }
+                                                                                else {
+                                                                                        \$ret = true;
+                                                                                }";
+                        
+                        $vmLogger->debug( 'Preparing: delete old '.$image_type.' '.$delete );
+                        /* Remove the resized image if exists */
+                        if( PSHOP_IMG_RESIZE_ENABLE=="1" && $image_type == "thumbnail image") {
 				$pathinfo = pathinfo( $delete );
 				isset($pathinfo["dirname"]) or $pathinfo["dirname"] = "";
-				isset($pathinfo["extension"]) or $pathinfo["extension"] = "";
-				$filehash = basename( $delete, ".".$pathinfo["extension"] );
-				$resizedfilename = $pathinfo["dirname"]."/resized/".$filehash."_".PSHOP_IMG_WIDTH."x".PSHOP_IMG_HEIGHT.".".$pathinfo["extension"];
-				if( file_exists($resizedfilename)) {
-					$d["image_commands"] .= "\$ret = unlink(\"$resizedfilename\");";
-					$vmLogger->debug( 'Preparing: delete resized thumbnail '.$resizedfilename );
-				}
-			}
+                                isset($pathinfo["extension"]) or $pathinfo["extension"] = "";
+                                $filehash = basename( $delete, ".".$pathinfo["extension"] );
+                                $resizedfilename = $pathinfo["dirname"]."/resized/".$filehash."_".PSHOP_IMG_WIDTH."x".PSHOP_IMG_HEIGHT.".".$pathinfo["extension"];
+                                
+                                $d["image_commands"][] = "if( file_exists(\"$resizedfilename\")) {
+                                                                                        \$ret = unlink(\"$resizedfilename\");
+                                                                                }
+                                                                                else {
+                                                                                        \$ret = true;
+                                                                                }";
+                                $vmLogger->debug( 'Preparing: delete resized thumbnail '.$resizedfilename );
+                                
+                        }
 
-		}
+                }
 		$d[$field_name] = "";
 		return true;
 	}
@@ -181,12 +191,14 @@ function validate_image(&$d,$field_name,$table_name) {
 		$vmLogger->err( 'The File Upload was not successful: there\'s no uploaded temporary file!' );
 		return false;
 	}
-	// Check permissions to read temp file
-	if (!is_readable($temp_file)) {
-		$vmLogger->err( 'Cannot read uploaded '.$image_type.' temp file: '.$temp_file.'.
-    One common reason for this that the upload path cannot be accessed because of the open_basedir settings in the php.ini.' );
-		return false;
-	}
+        // Check permissions to read temp file
+        if (!is_readable($temp_file)) {
+                $vmLogger->err( 'Cannot read uploaded '.$image_type.' temp file: '.$temp_file.'.
+                                        One common reason for this that the upload path cannot be accessed 
+                                        because of the open_basedir settings in the php.ini. Or maybe the 
+                                        directory for temporary upload files on this server is not readable.' );
+                return false;
+        }
 
 	// Generate Image Destination File Name
 	$to_file = md5(uniqid("VirtueMart"));
@@ -206,33 +218,42 @@ function validate_image(&$d,$field_name,$table_name) {
 
 
 	/* If Updating */
-	if (!empty($curr_file)) {
-		/* Command to remove old image file */
-		$delete = str_replace( "\\", "/", realpath($path)."/".$curr_file);
-		if( file_exists( $delete ) ) {
-			$d["image_commands"] .= "\$ret = unlink(\"$delete\");";
-			$vmLogger->debug( 'Preparing: delete old '.$image_type.' '.$delete );
-		}
-		/* Remove the resized image if exists */
-		if( PSHOP_IMG_RESIZE_ENABLE=="1" && $image_type == "thumbnail image") {
-			$pathinfo = pathinfo( $delete );
-			$filehash = basename( $delete, ".".$pathinfo["extension"] );
-			$resizedfilename = $pathinfo["dirname"]."/resized/".$filehash."_".PSHOP_IMG_WIDTH."x".PSHOP_IMG_HEIGHT.".".$pathinfo["extension"];
-			if( file_exists($resizedfilename)) {
-				$d["image_commands"] .= "\$ret = unlink(\"$resizedfilename\");";
-				$vmLogger->debug( 'Preparing: delete resized thumbnail '.$resizedfilename );
-			}
-		}
-	}
+        if (!empty($curr_file)) {
+                /* Command to remove old image file */
+                $delete = str_replace( "\\", "/", realpath($path)."/".$curr_file);
+                
+                $d["image_commands"][] = "if( file_exists( \"$delete\" ) ) {
+                                                                        \$ret = unlink(\"$delete\");
+                                                                  } else { \$ret = true; }";
+                $vmLogger->debug( 'Preparing: delete old '.$image_type.' '.$delete );
+                
+                /* Remove the resized image if exists */
+                if( PSHOP_IMG_RESIZE_ENABLE=="1" && $image_type == "thumbnail image") {
+                        $pathinfo = pathinfo( $delete );
+                        $filehash = basename( $delete, ".".$pathinfo["extension"] );
+                        $resizedfilename = $pathinfo["dirname"]."/resized/".$filehash."_".PSHOP_IMG_WIDTH."x".PSHOP_IMG_HEIGHT.".".$pathinfo["extension"];
+                        
+                        $d["image_commands"][] = "if( file_exists($resizedfilename)) {
+                                                                                \$ret = unlink(\"$resizedfilename\");
+                                                                          } else { \$ret = true; }";
+                        $vmLogger->debug( 'Preparing: delete resized thumbnail '.$resizedfilename );
+                        
+                }
+        }
 
-	/* Command to move uploaded file into destination directory */
-	$d["image_commands"] .= "\$ret = copy(\"".addslashes(realpath($temp_file))."\", \"".$path.$to_file."\");";
-	if( file_exists( realpath($temp_file) )) {
-		$d["image_commands"] .= "\$ret = @unlink(\"".addslashes(realpath($temp_file))."\" );";
-	}
+        /* Command to move uploaded file into destination directory */
+        $d["image_commands"][] = "\$ret = copy(\"".addslashes(realpath($temp_file))."\", \"".$path.$to_file."\");";
+        
+        $d["image_commands"][] = "if( file_exists( realpath(\"$temp_file\") )) {
+                                                                \$ret = @unlink(\"".addslashes(realpath($temp_file))."\" );
+                                                          }
+                                                          else {
+                                                                \$ret = true;
+                                                          }";
+        
 
-	/* Return new image file name */
-	$d[$field_name] = $to_file;
+        /* Return new image file name */
+        $d[$field_name] = $to_file;
 	return true;
 }
 
@@ -245,29 +266,28 @@ function validate_image(&$d,$field_name,$table_name) {
 function process_images(&$d) {
 	global $vmLogger;
 	require_once(CLASSPATH.'ps_product_files.php');
-	
-	if (!empty($d["image_commands"])) {
+        
+        if (!empty($d["image_commands"])) {
 
-		$commands = explode(";",ereg_replace(";$","",$d["image_commands"]));
-		$commands = str_replace('\\"', '"', $commands);
-		$d["image_commands"] = "";
-		
-		$cnt = count($commands);
-		for ($i=0;$i<$cnt;$i++) {
-			eval($commands[$i] . ";");
-			if ($ret == false) {
-				$vmLogger->err ( 'Image Update command failed:
-								'. $commands[$i] );
-				return false;
-			}
-			else {
-				$vmLogger->debug( 'Successfully processed image command:
-				'.$commands[$i] );
-			}
+                foreach ( $d['image_commands'] as $command ) {
+                        $command = str_replace('\\"', '"', $command);
+                        
+                        $res = eval($command . ";");
+                        if( $res === false ) {
+                                $vmLogger->err( 'Parse Error in this command: '.$command);
+                        }
+                        if ($ret == false) {
+                                $vmLogger->err ( 'The following image update command failed: '. $command );
+                                return false;
+                        }
+                        else {
+                                $vmLogger->debug( 'Successfully processed image command: '.$command );
+                        }
 
-		}
-	}
-	return true;
+                }
+                $d["image_commands"] = array();
+        }
+        return true;
 }
 
 /**************************************************************************
@@ -911,7 +931,7 @@ if (!defined('ENT_QUOTES')) {
  * @link        http://php.net/function.html_entity_decode
  * @author      David Irvine <dave@codexweb.co.za>
  * @author      Aidan Lister <aidan@php.net>
- * @version     $Revision: 1.11 $
+ * @version     $Revision: 1.11.2.1 $
  * @since       PHP 4.3.0
  * @internal    Setting the charset will not do anything
  * @require     PHP 4.0.0 (user_error)
@@ -970,4 +990,5 @@ function vmReadFileChunked($filename,$retbytes=true) {
 	}
 	return $status;
 }
+
 ?>

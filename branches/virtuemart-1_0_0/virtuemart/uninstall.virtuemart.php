@@ -87,6 +87,8 @@ function com_uninstall() {
 	$db->query( 'DROP TABLE `#__{vm}_visit`;' );
 	$db->query( 'DROP TABLE `#__{vm}_waiting_list`;' );
 	$db->query( 'DROP TABLE `#__{vm}_zone_shipping`;' );
+	
+	$db->query( 'DELETE FROM `#__components` WHERE name = \'virtuemart_version\';' );
   
 }
 

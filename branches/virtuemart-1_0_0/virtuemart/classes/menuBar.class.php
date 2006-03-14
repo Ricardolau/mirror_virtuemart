@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: menuBar.class.php,v 1.5 2005/09/29 20:01:13 soeren_nb Exp $
+* @version $Id: menuBar.class.php,v 1.6 2005/10/01 08:55:44 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -152,16 +152,18 @@ class vmMenuBar extends mosMenuBar {
 				$href = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please make a selection from the list to $alt');}else{vm_submitButton('$task','$formName', '$page')}";
 			else
 				$href = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please make a selection from the list to $alt');}else{vm_submitListFunc('$task','$formName', '$func')}";
-		} else {
-			$href = "javascript:vm_submitButton('$task','$formName', '$page')";
-		}
-		if( empty( $task ))
-			$image_name = uniqid( "img_" );
-		else
-			$image_name  = $task;
-		if ($icon && $iconOver) {
-			?>
-			<td>
+                } else {
+                        $href = "javascript:vm_submitButton('$task','$formName', '$page')";
+                }
+                if( empty( $task )) {
+                        $image_name = uniqid( "img_" );
+                }
+                else {
+                        $image_name  = $task;
+                }
+                if ($icon && $iconOver) {
+                        ?>
+                        <td>
 			<a class="toolbar" href="<?php echo $href;?>" onmouseout="MM_swapImgRestore();"  onmouseover="MM_swapImage('<?php echo $image_name;?>','','<?php echo $iconOver;?>',1);">
 			<img name="<?php echo $image_name;?>" src="<?php echo $icon;?>" alt="<?php echo $alt;?>" border="0" align="middle" />
 			&nbsp;<br/>

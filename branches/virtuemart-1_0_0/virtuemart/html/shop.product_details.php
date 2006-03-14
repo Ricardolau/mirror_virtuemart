@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: shop.product_details.php,v 1.12.2.2 2005/12/04 18:21:44 soeren_nb Exp $
+* @version $Id: shop.product_details.php,v 1.12.2.3 2006/01/18 19:40:59 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -39,6 +39,7 @@ $flypage = str_replace( 'shop.', '', $flypage);
 
 $product_id = mosgetparam($_REQUEST, "product_id", null);
 $category_id = mosgetparam($_REQUEST, "category_id", null);
+$manufacturer_id = mosgetparam($_REQUEST, "manufacturer_id", null);
 $Itemid = mosgetparam($_REQUEST, "Itemid", null);
 $db_product = new ps_DB;
 
@@ -285,16 +286,17 @@ if ($product_parent_id != 0) {
           .$ps_product_attribute->list_custom_attribute($product_id);
           // end added for custom attribute modification
 	if (USE_AS_CATALOGUE != '1' && $product_price != "" && !stristr( $product_price, $VM_LANG->_PHPSHOP_PRODUCT_CALL )) { 
-		$addtocart .= "
+                $addtocart .= "
         <p><label for=\"quantity\" style=\"vertical-align: middle;\">".$VM_LANG->_PHPSHOP_CART_QUANTITY.":</label>
             <input type=\"text\" class=\"inputbox\" size=\"4\" id=\"quantity\" name=\"quantity\" value=\"1\" style=\"vertical-align: middle;\" />&nbsp;
-            <input type=\"submit\" 
-              style=\"text-align:center;background-position:bottom left;width:160px;height:35px;cursor:pointer;border:none;font-weight:bold;font-family:inherit;background: url('". IMAGEURL ."ps_image/".PSHOP_ADD_TO_CART_STYLE ."') no-repeat left center transparent;vertical-align: middle;\" 
-              value=\"".$VM_LANG->_PHPSHOP_CART_ADD_TO ."\"
-              title=\"".$VM_LANG->_PHPSHOP_CART_ADD_TO."\" />
+            <input type=\"submit\" ";
+                $addtocart .= "style=\"text-align:center;background-position:bottom left;width:160px;height:35px;cursor:pointer;border:none;font-weight:bold;font-family:inherit;background: url('". IMAGEURL ."ps_image/".PSHOP_ADD_TO_CART_STYLE ."') no-repeat left center transparent;vertical-align: middle;\" ";
+                $addtocart .= "value=\"".$VM_LANG->_PHPSHOP_CART_ADD_TO ."\" title=\"".$VM_LANG->_PHPSHOP_CART_ADD_TO."\" />
           </p>
       <input type=\"hidden\" name=\"flypage\" value=\"shop.$flypage\" />
       <input type=\"hidden\" name=\"page\" value=\"shop.cart\" />
+      <input type=\"hidden\" name=\"manufacturer_id\" value=\"$manufacturer_id\" />
+      <input type=\"hidden\" name=\"category_id\" value=\"$category_id\" />
       <input type=\"hidden\" name=\"func\" value=\"cartAdd\" />
       <input type=\"hidden\" name=\"option\" value=\"$option\" />
       <input type=\"hidden\" name=\"Itemid\" value=\"$Itemid\" />";
@@ -361,6 +363,15 @@ $template = str_replace( "{mosConfig_live_site}", $mosConfig_live_site, $templat
 $template = str_replace( "{related_products}", $related_product_html, $template );
 $template = str_replace( "{product_type}", $product_type, $template ); // Changed Product Type
 $template = str_replace( "{product_packaging}", $product_packaging, $template ); // Changed Packaging
+
+/* 
+  Really cool regular expression that let's you easily translate the flypage 
+  Usage:
+   {vm_lang:_PHPSHOP__PHPSHOP_ACCOUNT_TITLE} 
+   will print the content of $VM_LANG->_PHPSHOP_ACCOUNT_TITLE
+   from the current language
+*/
+$template = preg_replace("/{vm_lang:([^}]*)}/ie", "\$VM_LANG->\\1", $template);
 
 /* Finish and Print out the Page */
 echo $template;

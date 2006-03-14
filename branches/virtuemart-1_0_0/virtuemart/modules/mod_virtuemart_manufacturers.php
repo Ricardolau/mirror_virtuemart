@@ -3,7 +3,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 /**
 * Manufacturer Module
 *
-* NOTE: THIS MODULE REQUIRES THE MAMBO-PHPSHOP COMPONENT!
+* NOTE: THIS MODULE REQUIRES THE VIRTUEMART COMPONENT!
 /*
 * @version $Id$
 * @package VirtueMart
@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * www.virtuemart.net
 */
 
-global $mosConfig_absolute_path;
+global $mosConfig_absolute_path, $sess;
 
 $text_before = $params->get( 'text_before', '');
 $show_dropdown = $params->get( 'show_dropdown', 1);
@@ -81,10 +81,15 @@ if( $show_dropdown == 1 ) { ?>
         <select class="inputbox" name="manufacturer_id">
             <option value=""><?php echo _CMN_SELECT ?></option>
         <?php  
-	foreach ($res as $manufacturer) { ?>
-            <option value="<?php echo $manufacturer->manufacturer_id ?>"><?php echo $manufacturer->mf_name ?></option>
-          <?php 
-	} ?>
+                        foreach ($res as $manufacturer) { 
+                                $selected = '';
+                                if( @$_REQUEST['manufacturer_id'] == $manufacturer->manufacturer_id ) {
+                                        $selected = 'selected="selected"';      
+                                }
+                                echo "<option value=\"".$manufacturer->manufacturer_id ."\" $selected>". $manufacturer->mf_name ."</option>\n";
+          
+                        } 
+        ?>
         </select>
     </td>
   </tr>

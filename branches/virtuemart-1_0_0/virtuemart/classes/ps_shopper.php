@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: ps_shopper.php,v 1.13.2.1 2006/01/15 19:37:05 soeren_nb Exp $
+* @version $Id: ps_shopper.php,v 1.13.2.2 2006/02/28 18:35:36 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -272,6 +272,9 @@ class ps_shopper {
 		
 		if( !$my->id && $mosConfig_useractivation == '0') {
 			$mainframe->login($d['username'], md5( $d['password'] ));
+			mosRedirect( "index.php?option=$option&page=checkout.index" );
+		}
+		elseif( $my->id ) {
 			mosRedirect( "index.php?option=$option&page=checkout.index" );
 		}
 		else {

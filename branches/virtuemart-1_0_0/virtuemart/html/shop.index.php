@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: shop.index.php,v 1.4 2005/10/27 16:09:13 soeren_nb Exp $
+* @version $Id: shop.index.php,v 1.5 2005/11/16 19:33:55 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -35,12 +35,12 @@ $iCol = 1;
 $categories_per_row = 4;
 $cellwidth = intval( 100 / $categories_per_row );
 ?>
-<table class="moduletable" width="100%" cellspacing="0" cellpadding="0">  
+<table width="100%" cellspacing="0" cellpadding="0">  
   <tr>
-    <th colspan="<?php echo $categories_per_row ?>"><?php echo $VM_LANG->_PHPSHOP_CATEGORIES ?></th>
+    <td class="componentheading" colspan="<?php echo $categories_per_row ?>"><?php echo $VM_LANG->_PHPSHOP_CATEGORIES ?></td>
   </tr>
   <?php
-	// cycle through the returned rows displaying them in a table
+        // cycle through the returned rows displaying them in a table
 	// with links to the product category
 	// escaping in and out of php is now permitted
     while( $db->next_record() ) {	  

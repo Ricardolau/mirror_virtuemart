@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: ps_module.php,v 1.6.2.1 2005/11/28 17:55:23 soeren_nb Exp $
+* @version $Id: ps_module.php,v 1.6.2.3 2005/12/01 20:00:32 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -251,11 +251,12 @@ class ps_module {
   function checkModulePermissions( $calledPage ) {
 	
 	global $page, $VM_LANG, $error_type, $vmLogger, $perm;
-	
-	// "shop.browse" => module: shop, page: browse
+        
+        // "shop.browse" => module: shop, page: browse
     $my_page= explode ( '.', $page );
-	if( empty( $my_page[1] ))
-		return false;
+        if( empty( $my_page[1] )) {
+                return false;
+        }
     $modulename = $my_page[0];
     $pagename = $my_page[1];
     

@@ -40,29 +40,8 @@ class ps_session {
 	function initSession() {
 		global $vmLogger, $mainframe;
 		if( empty($_SESSION)) {
-			// Session not yet started!
-
-			$sessionId = $this->getSessionId();
-			$sessionIdHash = md5( $sessionId );
-			// Set the virtuemart cookie, using the md5 hash of the recent mambo/joomla session
-			if( empty($_COOKIE[$this->_session_name])) {
-				$_COOKIE[$this->_session_name] = $sessionIdHash;
-			}
-			// Mambo backwards compatibility
-			if( empty($_COOKIE['sessioncookie'])) {
-				$_COOKIE['sessioncookie'] = $sessionId;
-			}
-			elseif( $_COOKIE['sessioncookie'] != $sessionId ) {			
-				$_COOKIE['sessioncookie'] = $sessionId;
-			}
-
-			// Fix for Mambo 4.5.3h; I hope this will not smash other components using Sessions
-			@session_write_close();
-			
+			// Session not yet started!			
 			session_name( $this->_session_name );
-			if( !empty( $sessionId )) {
-				session_id( $sessionIdHash );
-			}
 			
 			if( @$_REQUEST['option'] == 'com_virtuemart' ) {
 			    ob_start();
@@ -80,13 +59,13 @@ class ps_session {
 			$vmLogger->debug( 'A Session had already been started...you seem to be using SMF, phpBB or another Sesson based Software.' );
 		}	
 	}
-	
+		
 	/**
 	 * Returns the Joomla/Mambo Session ID
 	 *
 	 */
 	function getSessionId() {
-
+		global $mainframe;
 		// Joomla >= 1.0.8
 		if( is_callable( array( 'mosMainframe', 'sessionCookieName'))) {			
 			// Session Cookie `name`
@@ -154,25 +133,18 @@ class ps_session {
 			// and the https Domain Name. If both do not match, we move on
 			// else we leave this function.
 			if( $this->check_Shared_SSL( $ssl_domain ) && $_SERVER['SERVER_PORT'] != 443) {
-				if( is_callable( array( 'mosMainframe', 'sessionCookieName'))) {
-					// Session Cookie `name`
-					$sessionCookieName 	= mosMainFrame::sessionCookieName();
-				}
-				elseif( $_VERSION->PRODUCT == 'Joomla!') {
-					$sessionCookieName = md5( 'site'.$GLOBALS['mosConfig_live_site'] );
-				}
-				else {
-					$sessionCookieName = 'sessioncookie';
-				}
+				
+				$sessionId = $this->getSessionId();
+				
 				if( !empty($my->id)) {
 					// User is already logged in
 					// We need to transfer the usercookie if present
-					$martID = @base64_encode( $_COOKIE[$this->_session_name]."|".$_COOKIE[$sessionCookieName]."|".$_COOKIE['usercookie']['password']."|".$_COOKIE['usercookie']['username'] );
+					$martID = @base64_encode( $_COOKIE[$this->_session_name]."|".$sessionId."|".$_COOKIE['usercookie']['password']."|".$_COOKIE['usercookie']['username'] );
 
 				}
 				else {
 					// User is not logged in, but has Cart Contents
-					$martID = base64_encode( $_COOKIE[$this->_session_name]."|".$_COOKIE['sessioncookie'] );
+					$martID = base64_encode( $_COOKIE[$this->_session_name]."|".$sessionId );
 				}
 				$sessionFile = IMAGEPATH. md5( $martID ).'.sess';
 				$session_contents = session_encode();
@@ -211,45 +183,10 @@ class ps_session {
 					$usercookie["password"] = @$id_array[2];
 					$usercookie["username"] = @$id_array[3];
 	
-					/** Mambo sets a Visitor Cookie (on each new page load) with a new Session Value
-	                * This Cookie is useless, since the customer is no visitor at this point -
-	                * so we can delete it. But Deleting Cookies is not trivial...we just set the
-	                * Session Cookie again with an empty value. This erases the Cookie.
-	                */
-					if( is_callable( array( 'mosMainframe', 'sessionCookieName'))) {
-						// Session Cookie `name`
-						$sessionCookieName 	= mosMainFrame::sessionCookieName();
+					// Log the user in with his username
+					if( !empty( $usercookie["username"]) && !empty( $usercookie["password"] )) {
+						$mainframe->login( $usercookie["username"], $usercookie["password"] );
 					}
-					elseif( $_VERSION->PRODUCT == 'Joomla!') {
-						
-						if( !empty($GLOBALS['real_mosConfig_live_site'])) {
-							$sessionCookieName = md5( 'site'.$GLOBALS['real_mosConfig_live_site'] );
-						}
-						else {
-							$sessionCookieName = md5( 'site'.$GLOBALS['mosConfig_live_site'] );
-						}
-					}
-					else {
-						$sessionCookieName = 'sessioncookie';
-						
-					}
-					setcookie( $sessionCookieName, "", time() - 43200, "/" );
-					// Set the "old" new Cookies now
-					setcookie( $sessionCookieName, $sessioncookie, time() + 43200, "/", dirname($ssl_domain), true );
-					// Get sure the cookie is set
-					$_COOKIE[$sessionCookieName] = $sessioncookie;
-	
-					// Set the Cookie for VirtueMart
-					$_COOKIE[$this->_session_name] = $virtuemartcookie;
-					
-					// Also log the user in when he was already logged in at the other domain
-					if(!empty($usercookie["password"]) && !empty($usercookie["username"])) {
-						$lifetime = time() + 365*24*60*60;
-						setcookie( "usercookie[username]", $usercookie["username"], $lifetime, "/" );
-						setcookie( "usercookie[password]", $usercookie["password"], $lifetime, "/" );
-					}
-					
-					$this->restartSession( $virtuemartcookie );
 					
 					require_once( ADMINPATH.'install.copy.php');
 					
@@ -259,7 +196,7 @@ class ps_session {
 					$session_data = file_get_contents( $sessionFile );
 					// Delete it for security and disk space reasons
 					unlink( $sessionFile );
-
+					
 					// Read the session data into $_SESSION
 					session_decode( $session_data );
 					

@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_perm.php,v 1.11.2.1 2006/02/27 19:41:42 soeren_nb Exp $
+* @version $Id: ps_perm.php,v 1.11.2.2 2006/03/14 18:42:11 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -45,29 +45,34 @@ class ps_perm {
 		$db = new ps_DB;
 		$auth = array();
 		
-		// Get the usertype property when not present
-		if( empty( $my->usertype ) ) {
-			if( empty( $my->id )) { 
-				$gid = 29; 
+		if( intval(VM_PRICE_ACCESS_LEVEL) > 0 ) {
+			// Get the usertype property when not present
+			if( empty( $my->usertype ) ) {
+				if( empty( $my->id )) { 
+					$gid = 29; 
+				}
+				else {
+					$gid = $my->gid;
+				}
+				$fieldname = ($_VERSION->RELEASE >= 1.1 && $_VERSION->PRODUCT == 'Joomla!' ) ? 'id' : 'group_id';
+				$db->query( 'SELECT `name` FROM `#__core_acl_aro_groups` WHERE `'.$fieldname.'` ='.$gid );
+				$db->next_record();
+				$my->usertype = $db->f( 'name' );
+			}
+			
+			$this->prepareACL();
+			
+			// Is the user allowed to see the prices?
+			// this code will change when Joomla has a good ACL implementation
+			if( is_callable( array( $user, 'authorize'))) {			
+				$auth['show_prices']  = $user->authorize( 'virtuemart', 'prices' );	
 			}
 			else {
-				$gid = $my->gid;
+				$auth['show_prices']  = $acl->acl_check( 'virtuemart', 'prices', 'users', strtolower($my->usertype), null, null );
 			}
-			$fieldname = ($_VERSION->RELEASE >= 1.1 && $_VERSION->PRODUCT == 'Joomla!' ) ? 'id' : 'group_id';
-			$db->query( 'SELECT name FROM #__core_acl_aro_groups WHERE `'.$fieldname.'` =\''.$gid.'\'' );
-			$db->next_record();
-			$my->usertype = $db->f( 'name' );
-		}
-		
-		$this->prepareACL();
-		
-		// Is the user allowed to see the prices?
-		// this code will change when Joomla has a good ACL implementation
-		if( is_callable( array( $user, 'authorize'))) {			
-			$auth['show_prices']  = $user->authorize( 'virtuemart', 'prices' );	
 		}
 		else {
-			$auth['show_prices']  = $acl->acl_check( 'virtuemart', 'prices', 'users', strtolower($my->usertype), null, null );
+			$auth['show_prices'] = 1;
 		}
 		
 		if (!empty($my->id)) { // user has already logged in

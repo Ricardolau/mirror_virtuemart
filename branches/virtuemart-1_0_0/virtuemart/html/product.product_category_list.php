@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: product.product_category_list.php,v 1.6 2005/10/27 16:09:13 soeren_nb Exp $
+* @version $Id: product.product_category_list.php,v 1.7 2005/11/12 08:32:19 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -132,7 +132,7 @@ for($n = $limitstart ; $n < $nrows ; $n++) {
 	
 	$listObj->addCell( "&nbsp;&nbsp;". $category_tmp[$row_list[$n]]["category_description"] );
 	
-	$listObj->addCell( ps_product_category::products_in_category( $category_tmp[$row_list[$n]]["category_child_id"] )
+	$listObj->addCell( ps_product_category::product_count( $category_tmp[$row_list[$n]]["category_child_id"] )
 						."&nbsp;<a href=\"". $_SERVER['PHP_SELF'] . "?page=product.product_list&category_id=" . $category_tmp[$row_list[$n]]["category_child_id"]."&option=com_virtuemart"
 						. "\">[ ".$VM_LANG->_PHPSHOP_SHOW." ]</a>"
 					);

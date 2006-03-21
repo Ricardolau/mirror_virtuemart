@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: admin.martlanguages.php,v 1.6 2006/01/15 19:42:45 soeren_nb Exp $
+* @version $Id: english.php,v 1.12.2.2 2006/03/03 07:09:04 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -74,7 +74,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_NO_USER_TO_SELECT = 'Sorry, there\'s no MOS - user that you could add to the com_virtuemart userlist';
 	var $_PHPSHOP_ERROR = 'ERROR';
 	var $_PHPSHOP_MOD_NOT_REG = 'Module Not Registered.';
-	var $_PHPSHOP_MOD_ISNO_REG = 'is not a valid phpShop module.';
+	var $_PHPSHOP_MOD_ISNO_REG = 'is not a valid VirtueMart module.';
 	var $_PHPSHOP_MOD_NO_AUTH = 'You do not have permission to access the requested module.';
 	var $_PHPSHOP_PAGE_404_1 = 'Page Does Not Exist';
 	var $_PHPSHOP_PAGE_404_2 = 'Given filename does not exist. Cannot find file:';

@@ -46,7 +46,7 @@ class ps_session {
 			if( @$_REQUEST['option'] == 'com_virtuemart' ) {
 			    ob_start();
 			}
-			session_start();
+			@session_start();
 			
 			if( !empty($_SESSION) && !empty($_COOKIE[$this->_session_name])) {
 				$vmLogger->debug( 'A Session called '.$this->_session_name.' (ID: '.session_id().') was successfully started!' );
@@ -115,7 +115,7 @@ class ps_session {
 	 * The function is called on each page load.
 	 */
 	function prepare_SSL_Session() {
-		global $my, $mosConfig_secret, $_VERSION;
+		global $mainframe, $my, $mosConfig_secret, $_VERSION;
 
 		$ssl_redirect = mosGetParam( $_GET, "ssl_redirect", 0 );
 		$martID = mosGetParam( $_GET, 'martID', null );
@@ -288,7 +288,7 @@ class ps_session {
 	 * @return string The reformatted URL
 	 */
 	function url($text) {
-		global $mm_action_url;
+		global $mm_action_url, $page;
 		
 		if( !defined( '_PSHOP_ADMIN' )) {
 			$Itemid = "&Itemid=".$this->getShopItemid();
@@ -330,7 +330,7 @@ class ps_session {
 	
 					$appendix = $prep.substr($text, $limiter, strlen($text)-1).$appendix;
 					$appendix = sefRelToAbs( str_replace( $prep.'&', $prep.'?', $appendix ) );
-					if( !stristr( $appendix, $mm_action_url ) ) {
+					if( !stristr( $appendix, URL ) && !stristr( $appendix, SECUREURL ) ) {
 						$appendix = $mm_action_url . $appendix;
 					}
 				}
@@ -343,6 +343,9 @@ class ps_session {
 	
 				if ( stristr($text, SECUREURL)) {
 					$appendix = str_replace(URL, SECUREURL, $appendix);
+				}
+				elseif( !@strstr( $page, "checkout." ) && !@strstr( $page, "account." ) ) {
+					$appendix = str_replace(SECUREURL, URL, $appendix);
 				}
 	
 				$text = $appendix;

@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: account.billing.php,v 1.6 2005/10/24 18:13:07 soeren_nb Exp $
+* @version $Id: account.billing.php,v 1.6.2.1 2006/02/27 19:41:42 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -110,11 +110,11 @@ vmCommonHTML::printJS_formvalidation( $required_fields, 'adminForm', 'submitshop
   
 <div style="float:left;width:90%;text-align:right;"> 
     <span>
-    	<input type="image" src="administrator/images/save_f2.png" name="submit" alt="<?php echo _E_SAVE ?>"  onclick="return( submitshopperform());" />
+    	<input type="image" src="images/save_f2.png" name="submit" alt="<?php echo _E_SAVE ?>"  onclick="return( submitshopperform());" />
     </span>
     <span style="margin-left:10px;">
     	<a href="<?php $sess->purl( SECUREURL."index.php?page=account.index") ?>">
-    		<img src="administrator/images/back_f2.png" alt="<?php echo _BACK ?>" border="0" />
+    		<img src="images/back_f2.png" alt="<?php echo _BACK ?>" border="0" />
     	</a>
     </span>
 </div>

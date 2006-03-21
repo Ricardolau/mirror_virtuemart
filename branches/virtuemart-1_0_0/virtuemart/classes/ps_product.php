@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_product.php,v 1.24.2.8 2006/02/28 18:35:36 soeren_nb Exp $
+* @version $Id: ps_product.php,v 1.24.2.9 2006/03/07 19:34:01 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -1131,7 +1131,7 @@ class ps_product extends vmAbstractObject {
 	function get_vend_idname($vendor_id) {
 		$db = new ps_DB;
 
-		$q = "SELECT vendor_name FROM #__{vm}_vendor ";
+		$q = "SELECT vendor_name,vendor_id FROM #__{vm}_vendor ";
 		$q .= "WHERE vendor_id='$vendor_id'";
 
 		$db->query($q);
@@ -1199,7 +1199,7 @@ class ps_product extends vmAbstractObject {
 	function get_mf_name($product_id) {
 		$db = new ps_DB;
 
-		$q = "SELECT mf_name FROM #__{vm}_product_mf_xref,#__{vm}_manufacturer ";
+		$q = "SELECT mf_name,#__{vm}_manufacturer.manufacturer_id FROM #__{vm}_product_mf_xref,#__{vm}_manufacturer ";
 		$q .= "WHERE product_id='$product_id' ";
 		$q .= "AND #__{vm}_manufacturer.manufacturer_id=#__{vm}_product_mf_xref.manufacturer_id";
 

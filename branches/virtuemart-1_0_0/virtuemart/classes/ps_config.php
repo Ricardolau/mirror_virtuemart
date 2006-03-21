@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: ps_config.php,v 1.9.2.2 2006/03/03 07:09:01 soeren_nb Exp $
+* @version $Id: ps_config.php,v 1.9.2.3 2006/03/14 18:42:10 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -27,13 +27,19 @@ class ps_config {
  ****************************************************************************/
 
 function writeconfig(&$d) {
-    global $my, $db;
+    global $my, $db, $_VERSION;
     
-        $group_id = intval( $d['conf_VM_PRICE_ACCESS_LEVEL'] );
-        $db->query( 'SELECT name FROM #__core_acl_aro_groups WHERE group_id=\''.$group_id.'\'' );
-	$db->next_record();
-	$d['conf_VM_PRICE_ACCESS_LEVEL'] = $db->f('name');
-	
+    $group_id = intval( $d['conf_VM_PRICE_ACCESS_LEVEL'] );
+    if( $group_id != 0 ) {
+	    $fieldname = ($_VERSION->RELEASE >= 1.1 && $_VERSION->PRODUCT == 'Joomla!' ) ? 'id' : 'group_id';
+	    $db->query( 'SELECT `name` FROM `#__core_acl_aro_groups` WHERE `'.$fieldname.'`='.$group_id );
+		$db->next_record();
+		
+		$d['conf_VM_PRICE_ACCESS_LEVEL'] = $db->f('name');
+    }
+    else {
+    	$d['conf_VM_PRICE_ACCESS_LEVEL'] = 0;
+    }
     if ($_POST['myname'] != "Jabba Binks")
         return false;
     else {

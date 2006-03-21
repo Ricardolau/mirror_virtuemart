@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_linkpoint.php,v 1.4 2005/11/16 14:43:32 codename-matrix Exp $
+* @version $Id: ps_linkpoint.php,v 1.4.2.1 2006/02/18 09:20:11 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage payment
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -194,7 +194,7 @@ class ps_linkpoint {
 
         // Get user billing information
         $dbbt = new ps_DB;
-        $qt = "SELECT * FROM `#__{vm}_userinfo` WHERE id='".$auth["user_id"]."' AND address_type='BT'";
+        $qt = "SELECT * FROM `#__{vm}_user_info` WHERE user_id='".$auth["user_id"]."' AND address_type='BT'";
         $dbbt->query($qt);
         $dbbt->next_record();
         $user_info_id = $dbbt->f("user_info_id");

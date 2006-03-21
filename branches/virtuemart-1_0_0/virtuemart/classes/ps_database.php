@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_database.php,v 1.9.2.1 2005/12/01 20:00:32 soeren_nb Exp $
+* @version $Id: ps_database.php,v 1.9.2.2 2006/03/14 18:42:11 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -33,17 +33,17 @@ class ps_DB extends database {
 	/** @var string   The current sql Query    */
 	var $_sql = "";
 	/** @var boolean Flag to see if a query has been renewed between two query calls */
-        var $_query_set= false;
-        /** @var boolean   true if next_record has already been called   */
-        var $called = false;
-        /** @var database The core database object */
-        var $_database = null;
-        
-        function ps_DB() {
-                global $database;
-                $this->_database = $database;
-        }
-        /**
+	var $_query_set= false;
+	/** @var boolean   true if next_record has already been called   */
+	var $called = false;
+	/** @var database The core database object */
+	var $_database = null;
+
+	function ps_DB() {
+		global $database;
+		$this->_database = $database;
+	}
+	/**
      * Clone an object
      *
      * @param mixed $obj
@@ -61,23 +61,23 @@ class ps_DB extends database {
     *
     * @param string The SQL query
     */
-        function setQuery( $sql ) {
-                $vm_prefix = "{vm}";
+	function setQuery( $sql ) {
+		$vm_prefix = "{vm}";
 
-                $this->_sql = str_replace( $vm_prefix, VM_TABLEPREFIX, $sql );
-                $this->_database->setQuery( $this->_sql );
-                $this->_query_set = true;
-        }
+		$this->_sql = str_replace( $vm_prefix, VM_TABLEPREFIX, $sql );
+		$this->_database->setQuery( $this->_sql );
+		$this->_query_set = true;
+	}
 
 	/**
 	* Runs query and sets up the query id for the class.
 	*
         * @param string The SQL query
         */
-        function query( $q='' ) {
-                global $mosConfig_dbprefix, $mosConfig_debug, $vmLogger;
-                $prefix = "#__";
-                $vm_prefix = "{vm}";
+	function query( $q='' ) {
+		global $mosConfig_dbprefix, $mosConfig_debug, $vmLogger;
+		$prefix = "#__";
+		$vm_prefix = "{vm}";
 
 		if (empty($q) ) {
 			if( empty($this->_sql)) {
@@ -90,21 +90,21 @@ class ps_DB extends database {
 		else {
 			$this->setQuery( $q );
 		}
-		
+
 		$this->row = 0;
 		$this->called = false;
 		$this->record = null;
-                $this->record = Array(0);
+		$this->record = Array(0);
 
-                if (strtoupper(substr( $this->_sql , 0, 6 )) == "SELECT" ) {
-                        $this->record = $this->_database->loadObjectList();
-                }
-                else {
-                        $this->_database->query();
-                }
-                
-                $this->_query_set = false;
-		
+		if (strtoupper(substr( $this->_sql , 0, 6 )) == "SELECT" ) {
+			$this->record = $this->_database->loadObjectList();
+		}
+		else {
+			$this->_database->query();
+		}
+
+		$this->_query_set = false;
+
 	}
 
 	/**
@@ -219,26 +219,26 @@ class ps_DB extends database {
   	*/
 	function sp($field_name, $stripslashes=true) {
 		echo $this->sf( $field_name, $stripslashes);
-        }
+	}
 
-        /**
+	/**
          * Returns the number of rows in the RecordSet from a query.
          * @return int
          */
 	function num_rows() {
 		return sizeof( $this->record );
 	}
-	
+
 	/**
 	 * Returns the ID of the last AUTO_INCREMENT INSERT.
 	 *
          * @return int
          */
-        function last_insert_id() {
-                return $this->_database->insertid();
-        }
-        
-        /**
+	function last_insert_id() {
+		return $this->_database->insertid();
+	}
+
+	/**
 	 * returns true when the actual row is the last record in the record set
 	 * otherwise returns false
 	 *
@@ -255,42 +255,45 @@ class ps_DB extends database {
 	function reset() {
 
 		$this->row = 0;
-                $this->called = false;
+		$this->called = false;
 
-        }
-        
-///////////////////////////////
-// Parental Database functions
-// We must overwrite them because
-// we still use a global database
-// object, not a ps_DB object
-///////////////////////////////
-        function loadResult() {
-                return $this->_database->loadResult();
-        }
-        function loadResultArray($numinarray = 0) {
-                return $this->_database->loadResultArray( $numinarray );
-        }
-        function loadAssocList( $key='' ) {
-                return $this->_database->loadAssocList( $key );
-        }
-        function loadObject( &$object ) {
-                return $this->_database->loadObject($object);
-        }
-        function loadObjectList( $key='' ) {
-                return $this->_database->loadObjectList( $key );
-        }
-        function loadRow() {
-                return $this->_database->loadRow();
-        }
-        function loadRowList( $key='' ) {
-                return $this->_database->loadRowList($key);
-        }
-        function getErrorMsg() {
-                return $this->_database->getErrorMsg();
-        }
-        function stderr() {
-                return $this->_database->stderr();
-        }
+	}
+
+	///////////////////////////////
+	// Parental Database functions
+	// We must overwrite them because
+	// we still use a global database
+	// object, not a ps_DB object
+	///////////////////////////////
+	function loadResult() {
+		return $this->_database->loadResult();
+	}
+	function loadResultArray($numinarray = 0) {
+		return $this->_database->loadResultArray( $numinarray );
+	}
+	function loadAssocList( $key='' ) {
+		return $this->_database->loadAssocList( $key );
+	}
+	function loadObject( &$object ) {
+		return $this->_database->loadObject($object);
+	}
+	function loadObjectList( $key='' ) {
+		return $this->_database->loadObjectList( $key );
+	}
+	function loadRow() {
+		return $this->_database->loadRow();
+	}
+	function loadRowList( $key='' ) {
+		return $this->_database->loadRowList($key);
+	}
+	function getErrorMsg() {
+		return $this->_database->getErrorMsg();
+	}
+	function stderr() {
+		return $this->_database->stderr();
+	}
+	function getEscaped( $text ) {
+		return $this->_database->getEscaped( $text );
+	}
 }
 ?>

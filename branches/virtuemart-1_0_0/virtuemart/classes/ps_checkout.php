@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_checkout.php,v 1.22.2.5 2006/03/03 07:09:01 soeren_nb Exp $
+* @version $Id: ps_checkout.php,v 1.22.2.6 2006/03/07 19:34:01 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -268,12 +268,13 @@ class ps_checkout {
 		// We don't need to validate a payment method when
 		// the user has no order total he should pay
 		if( empty( $_REQUEST['order_total'])) {
+			
 			if( !empty( $d['order_total'])) {
 				if( $d['order_total'] <= 0.00 ) {
 					return true;
 				}
 			}
-			if( $order_total <= 0.00 ) {
+			if( isset($order_total) && $order_total <= 0.00 ) {
 				return true;
 			}
 		}
@@ -434,7 +435,7 @@ class ps_checkout {
 		}
 		switch ($d["checkout_this_step"]) {
 
-				case CHECK_OUT_GET_FINAL_BASKET :
+			case CHECK_OUT_GET_FINAL_BASKET :
 	
 				// The User has finished his works on the Basket, now the next steps
 				$d["checkout_this_step"] = CHECK_OUT_GET_SHIPPING_ADDR;
@@ -905,17 +906,16 @@ Order Total: '.$order_total.'
 			}
 			// Attribute handling
 			$product_parent_id = $dboi->f('product_parent_id');
-			
+			$description = '';
 			if( $product_parent_id > 0 ) {
-				$description = '';
+				
 				$db_atts = $ps_product->attribute_sql( $dboi->f('product_id'), $product_parent_id );
 				while( $db_atts->next_record()) {
 					$description .=	$db_atts->f('attribute_name').': '.$db_atts->f('attribute_value').'; ';
 				}
 			}
-			else {
-				$description = $_SESSION['cart'][$i]["description"];
-			}
+			
+			$description .= $_SESSION['cart'][$i]["description"];
 			
 			$product_final_price = round( ($product_price *($my_taxrate+1)), 2 );
 

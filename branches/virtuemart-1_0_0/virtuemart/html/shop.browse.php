@@ -3,7 +3,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 /**
 * This is the Main Product Listing File!
 *
-* @version $Id: shop.browse.php,v 1.10.2.6 2006/03/10 15:55:15 soeren_nb Exp $
+* @version $Id: shop.browse.php,v 1.10.2.7 2006/03/14 18:42:23 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -208,7 +208,7 @@ else {
                 $selected = Array( "", "selected=\"selected\"" );
                 $asc_desc = Array( "ASC", "DESC" );
         }
-        echo mm_writeWithJS('<input type="hidden" name="DescOrderBy" value="'.$asc_desc[0].'" /><a href="javascript:void(0);" onclick="document.order.DescOrderBy.value=\''.$asc_desc[1].'\'; order.submit()"><img src="'. $mosConfig_live_site."/images/M_images/$icon"  .'" border="0" alt="'. $VM_LANG->_PHPSHOP_PARAMETER_SEARCH_DESCENDING_ORDER .'" title="'.$VM_LANG->_PHPSHOP_PARAMETER_SEARCH_DESCENDING_ORDER .'" width="12" height="12"/></a>',
+        echo mm_writeWithJS('<input type="hidden" name="DescOrderBy" value="'.$asc_desc[0].'" /><a href="javascript: document.order.DescOrderBy.value=\''.$asc_desc[1].'\'; document.order.submit()"><img src="'. $mosConfig_live_site."/images/M_images/$icon"  .'" border="0" alt="'. $VM_LANG->_PHPSHOP_PARAMETER_SEARCH_DESCENDING_ORDER .'" title="'.$VM_LANG->_PHPSHOP_PARAMETER_SEARCH_DESCENDING_ORDER .'" width="12" height="12"/></a>',
           '<select class="inputbox" name="DescOrderBy">
                                 <option '.$selected[0].' value="DESC">'.$VM_LANG->_PHPSHOP_PARAMETER_SEARCH_DESCENDING_ORDER.'</option>
                                 <option '.$selected[1].' value="ASC">'.$VM_LANG->_PHPSHOP_PARAMETER_SEARCH_ASCENDING_ORDER.'</option>
@@ -311,17 +311,17 @@ else {
 				$product_thumb_image = 0;
 			}
 		}
-		if( $product_thumb_image ) {
-			if( substr( $product_thumb_image, 0, 4) != "http" ) {
-				if(PSHOP_IMG_RESIZE_ENABLE == '1') {
-					$product_thumb_image = $mosConfig_live_site."/components/com_virtuemart/show_image_in_imgtag.php?filename=".urlencode($product_thumb_image)."&newxsize=".PSHOP_IMG_WIDTH."&newysize=".PSHOP_IMG_HEIGHT."&fileout=";
-				}
-				else {
-					$product_thumb_image = IMAGEURL."product/".$product_thumb_image;
-				}
+		if( $product_thumb_image && file_exists(IMAGEPATH."product/".$product_thumb_image) ) {
+			
+			if( PSHOP_IMG_RESIZE_ENABLE == '1') {
+				$product_thumb_image = $mosConfig_live_site."/components/com_virtuemart/show_image_in_imgtag.php?filename=".urlencode($product_thumb_image)."&newxsize=".PSHOP_IMG_WIDTH."&newysize=".PSHOP_IMG_HEIGHT."&fileout=";
 			}
+			else {
+				$product_thumb_image = IMAGEURL."product/".$product_thumb_image;
+			}
+			
 		}
-		else {
+		elseif( empty( $product_thumb_image ) || substr( $product_thumb_image, 0, 4) != "http" ) {
 			$product_thumb_image = IMAGEURL.NO_IMAGE;
 		}
 

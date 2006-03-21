@@ -33,9 +33,37 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+20-03-2006 soeren
+# Task #601 — Show the Number of Products in a Category
++ for debugging: added '@ini_set( 'display_errors', 1 );' to virtuemart_parser.php
+	for making PHP errors visible
+^ changed behaviour for HTTPS links when in HTTPS mode.
+	When the user is NOT on "checkout" or "account" pages, all links are generated using the http://... URL
+	This will allow leaving the HTTPS mode 2 after the order has been placed.
+# Task #490 — adding attributes error on sub-items
+# Task #518 — Reports miss same-day orders
+# Task #558 — Bug in report basic module
+^ showing "no image" image when a product thumbnail image is not available
+# Task #470 — Close tablerow after Categorylisting
++ products can be viewed using the SKU now. Works for the product details page:
+	Instead of "&product_id=XX" just use "&sku=YY" where YY stands for the SKU of the product
+# credit card number not checked on form submit, another bug, same reason: payment method can be left unchecked
++ added: autocomplete="off" to the credit card form to prevent sensible information being prefilled
++ Order item status update by manelzaera
+# Task #617 — Wrong image path in account.billing.php
+# Task #615 — Cannot add multiple Product Types to a Product
+
+16-03-2006 soeren
+
+# Sort ASC / DESC icon not working on Internet Explorer
+# wrong query in payment module for Linkpoint (ps_linkpoint.php)
+^ restricting prices by user access level can be completely 
+	disabled in the shop administration now (useful for people using ACL extensions like JACL)
+# manufacturer search code contained wrong SQL (shop_browse_queries.php) + various SQL fixes
+
 14-03-2006 soeren
 
-# session_id problems: when the session ID is empty, session_id( ... ) is not longer called to prevent mixed up or empty carts.
+# Fixed the session problems (removed the call to session_id() and various lines of unnecessary code)
 
 12-03-2006 soeren
 

@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: product.product_product_type_form.php,v 1.5.2.1 2006/01/17 19:04:14 soeren_nb Exp $
+* @version $Id: product.product_product_type_form.php,v 1.5.2.2 2006/01/17 19:29:35 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -62,7 +62,7 @@ $formObj->startForm();
 	$q .= "FROM `#__{vm}_product_type` ";
 	$first = true;
 	while( $db->next_record() ) {
-		if( $first ) { $q = " WHERE "; $first = false; }
+		if( $first ) { $q .= " WHERE "; $first = false; }
 		$q .= "product_type_id != '".$db->f("product_type_id")."' ";
 		if (!$db->is_last_record() ) { $q .= "AND "; }
 	}

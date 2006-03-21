@@ -4,7 +4,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * This file is to be included from the file shop.browse.php
 * and uses variables from the environment of the file shop.browse.php
 *
-* @version $Id: shop_browse_queries.php,v 1.6 2005/11/21 20:45:42 soeren_nb Exp $
+* @version $Id: shop_browse_queries.php,v 1.6.2.1 2006/03/03 07:09:02 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -173,7 +173,7 @@ if (!empty($product_type_id)) {
 
 	$q .= "\n GROUP BY `#__{vm}_product`.`product_sku` ";
 	$count .= $q;
-	$q .= "\n ORDER BY $orderbyFieldField ".$DescOrderBy;
+	$q .= "\n ORDER BY $orderbyField ".$DescOrderBy;
 	$list .= $q . " LIMIT $limitstart, " . $limit;
 	//  $error = $list; // only for debug
 }
@@ -271,8 +271,9 @@ elseif (empty($manufacturer_id)) {
 				$q .= "\n `#__{vm}_product`.`product_s_desc` LIKE '%$searchstring%' OR ";
 				$q .= "\n `#__{vm}_product`.`product_desc` LIKE '%$searchstring%') ";
 			}
-			if( $i++ < $numKeywords )
-			$q .= "\n  AND ";
+			if( $i++ < $numKeywords ) {
+				$q .= "\n  AND ";
+			}
 		}
 		$q .= "\n ) ";
 	}
@@ -293,13 +294,13 @@ elseif (!empty($manufacturer_id)) {
 		$count .= ",`#__{vm}_shopper_vendor_xref`) LEFT JOIN `#__{vm}_product_price` ON `#__{vm}_product`.`product_id` = `#__{vm}_product_price`.`product_id` WHERE ";
 		$q .= "\n AND (`#__{vm}_product`.`product_id`=`#__{vm}_product_price`.`product_id` OR `#__{vm}_product_price`.`product_id` IS NULL) ";
 		$q .= "\n AND ((`#__{vm}_shopper_vendor_xref`.user_id =".$my->id." ";
-		//$q .= "\n AND `#__{vm}_shopper_vendor_xref`.`shopper_group_id`=`#__{vm}_product_price`.`shopper_group_id` ";
 		$q .= "\n AND `#__{vm}_shopper_vendor_xref`.`shopper_group_id`=`#__{vm}_shopper_group`.`shopper_group_id`) OR `#__{vm}_product_price`.`shopper_group_id` IS NULL) ";
 	}
 	else {
-		$list .= ") WHERE ";
-		$q .= "\n AND `#__{vm}_shopper_group`.default = '1' ";
-		$q .= "\n AND `#__{vm}_shopper_group`.`shopper_group_id`=`#__{vm}_product_price`.`shopper_group_id` ";
+		$list .= ")  LEFT JOIN `#__{vm}_product_price` ON `#__{vm}_product`.`product_id` = `#__{vm}_product_price`.`product_id` WHERE ";
+		$count .= ") LEFT JOIN `#__{vm}_product_price` ON `#__{vm}_product`.`product_id` = `#__{vm}_product_price`.`product_id` WHERE ";
+		$q .= "\n AND (`#__{vm}_product`.`product_id`=`#__{vm}_product_price`.`product_id` OR `#__{vm}_product_price`.`product_id` IS NULL) ";
+		$q .= "\n AND `#__{vm}_shopper_group`.`default` = '1' ";
 	}
 	$q .= "\n AND ((`product_parent_id`='0') OR (`product_parent_id`='')) ";
 	if( !$perm->check("admin,storeadmin") ) {

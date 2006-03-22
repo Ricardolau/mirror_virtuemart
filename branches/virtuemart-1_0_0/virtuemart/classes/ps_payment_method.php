@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: ps_payment_method.php,v 1.9 2005/10/19 17:51:19 soeren_nb Exp $
+* @version $Id: ps_payment_method.php,v 1.10 2005/10/27 16:09:13 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -407,12 +407,14 @@ class ps_payment_method extends vmAbstractObject {
        if( $selector == "' OR enable_processor='Y" ) {
           echo "onchange=\"javascript: changeCreditCardList();\" ";
        }
-       if ((($db->f("payment_method_id") == $payment_method_id) || $db->num_rows() < 2) && !@$GLOBALS['payment_selected']) {
+       if (( $db->f("payment_method_id") == $payment_method_id || empty( $payment_method_id ) ) && !@$GLOBALS['payment_selected']) {
           echo "checked=\"checked\" />\n";
           $GLOBALS['payment_selected'] = true;
        }
-       else
-          echo ">\n";
+       else {
+       	echo ">\n";
+       }
+       
        $discount  = $db->f("payment_method_discount");
        echo "<label for=\"".$db->f("payment_method_name")."\">".$db->f("payment_method_name");
        if ($discount > 0.00) {

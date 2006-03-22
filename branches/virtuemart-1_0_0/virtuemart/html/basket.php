@@ -7,7 +7,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * This version of the basket allows to change quantities and delete products from the cart
 * The ro_basket (=read only) doesn't allow that.
 * 
-* @version $Id: basket.php,v 1.7.2.2 2006/02/28 18:35:36 soeren_nb Exp $
+* @version $Id: basket.php,v 1.7.2.3 2006/03/14 18:42:23 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2006 Soeren Eberhardt. All rights reserved.
@@ -133,7 +133,7 @@ else {
         <input type=\"hidden\" name=\"func\" value=\"cartUpdate\" />
         <input type=\"hidden\" name=\"product_id\" value=\"". $_SESSION['cart'][$i]["product_id"] ."\" />
         <input type=\"hidden\" name=\"Itemid\" value=\"". @$_REQUEST['Itemid'] ."\" />
-        <input type=\"hidden\" name=\"description\" value=\"". $cart[$i]["description"]."\" />
+        <input type=\"hidden\" name=\"description\" value=\"". stripslashes($cart[$i]["description"])."\" />
         <input type=\"image\" name=\"update\" title=\"". $VM_LANG->_PHPSHOP_CART_UPDATE ."\" src=\"". IMAGEURL ."ps_image/edit_f2.gif\" border=\"0\"  alt=\"". $VM_LANG->_PHPSHOP_UPDATE ."\" />
       </form>";
 		$product_rows[$i]['delete_form'] = "<form action=\"$action_url\" method=\"post\" name=\"delete\" >

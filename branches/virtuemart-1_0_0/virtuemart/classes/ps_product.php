@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_product.php,v 1.24.2.9 2006/03/07 19:34:01 soeren_nb Exp $
+* @version $Id: ps_product.php,v 1.24.2.10 2006/03/21 19:38:21 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -1769,9 +1769,9 @@ class ps_product extends vmAbstractObject {
 	function getDescriptionWithTax( $description, $product_id=0 ) {
 		global $CURRENCY_DISPLAY, $mosConfig_secret;
 		$auth = $_SESSION['auth'];
-		
+		$description = stripslashes($description);
 		// if we've been given a description to deal with, get the adjusted price
-		if ($description != '' && stristr( $description, "[" ) 
+		if ($description != '' && stristr( $description, "[" )
 			&& $auth["show_price_including_tax"] == 1 && $product_id != 0 ) {
 
 			$my_taxrate = $this->get_product_taxrate($product_id);

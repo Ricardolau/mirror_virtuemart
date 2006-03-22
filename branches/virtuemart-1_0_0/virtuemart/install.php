@@ -6,7 +6,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * - running SQL updates
 * - finishing the installation
 *
-* @version $Id: install.php,v 1.14 2005/11/12 08:32:07 soeren_nb Exp $
+* @version $Id: install.php,v 1.14.2.1 2006/02/27 19:41:41 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -268,7 +268,7 @@ include( \$mosConfig_absolute_path.'/components/com_virtuemart/virtuemart_parser
 	}
 	// Finally insert the version number into the database
 	include_once( $mosConfig_absolute_path.'/administrator/components/com_virtuemart/version.php' );
-	global $VM_VERSION;
+	global $VMVERSION;
 	
 	$database->setQuery( 'SELECT id FROM `#__components` WHERE name = \'virtuemart_version\'' );
 	$old_version =  $database->loadResult();

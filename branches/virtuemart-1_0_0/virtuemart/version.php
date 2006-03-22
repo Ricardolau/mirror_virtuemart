@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: version.php,v 1.15.2.4 2006/02/27 19:41:41 soeren_nb Exp $
+* @version $Id: version.php,v 1.15.2.5 2006/03/10 19:27:42 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -15,22 +15,30 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 *
 * http://virtuemart.net
 */
-
+if( class_exists( 'vmVersion' ) ) {
+	$VMVERSION =& new vmVersion();
+	
+	$shortversion = $VMVERSION->PRODUCT . " " . $VMVERSION->RELEASE . " " . $VMVERSION->DEV_STATUS. " ";
+		
+	$myVersion = $shortversion . " [".$VMVERSION->CODENAME ."] <br />" . $VMVERSION->RELDATE . " "
+	. $VMVERSION->RELTIME . " " . $VMVERSION->RELTZ;
+	return;
+}
 /** Version information */
 class vmVersion {
 	/** @var string Product */
 	var $PRODUCT = 'VirtueMart';
 	/** @var int Release Number */
-	var $RELEASE = '1.0.3';
+	var $RELEASE = '1.0.4';
 	/** @var string Development Status */
 	var $DEV_STATUS = 'stable';
 	/** @var string Codename */
-	// Song by Chester Arthur Burnett aka Howlin' Wolf; http://en.wikipedia.org/wiki/Howlin%27_Wolf; 
-	var $CODENAME = 'Little Red Rooster';
+	// Song written by Willie Dixon for Howlin' Wolf; http://en.wikipedia.org/wiki/Willie_Dixon
+	var $CODENAME = 'Hidden Charms';
 	/** @var string Date */
-	var $RELDATE = '10/03/2006';
+	var $RELDATE = '23/03/2006';
 	/** @var string Time */
-	var $RELTIME = '20:21';
+	var $RELTIME = '21:31';
 	/** @var string Timezone */
 	var $RELTZ = 'GMT';
 	/** @var string Copyright Text */

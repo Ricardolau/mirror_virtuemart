@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_order.php,v 1.12.2.4 2006/03/14 18:42:11 soeren_nb Exp $
+* @version $Id: ps_order.php,v 1.12.2.5 2006/03/21 19:38:21 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -43,9 +43,10 @@ class ps_order {
          * @return boolean
          */
 	function order_status_update(&$d) {
-
+		global $mosConfig_offset;
+		
 		$db = new ps_DB;
-		$timestamp = time();
+		$timestamp = time() + ($mosConfig_offset*60*60);
 		if( empty($_REQUEST['include_comment'])) {
 			$include_comment="N";
 		}

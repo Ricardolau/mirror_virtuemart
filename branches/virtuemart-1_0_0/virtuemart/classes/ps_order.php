@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_order.php,v 1.12.2.5 2006/03/21 19:38:21 soeren_nb Exp $
+* @version $Id: ps_order.php,v 1.12.2.6 2006/03/22 19:31:10 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -47,6 +47,8 @@ class ps_order {
 		
 		$db = new ps_DB;
 		$timestamp = time() + ($mosConfig_offset*60*60);
+		$mysqlDatetime = date("Y-m-d G:i:s",$timestamp);
+
 		if( empty($_REQUEST['include_comment'])) {
 			$include_comment="N";
 		}
@@ -158,7 +160,7 @@ class ps_order {
 		// Update the Order History.
 		$q = "INSERT INTO #__{vm}_order_history ";
 		$q .= "(order_id,order_status_code,date_added,customer_notified,comments) VALUES (";
-		$q .= "'".$d["order_id"] . "', '" . $d["order_status"] . "', NOW(), '$notify_customer', '".$d['order_comment']."')";
+		$q .= "'".$d["order_id"] . "', '" . $d["order_status"] . "', '$mysqlDatetime', '$notify_customer', '".$d['order_comment']."')";
 		$db->query($q);
 
 		// Do we need to re-update the Stock Level?

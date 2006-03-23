@@ -6,7 +6,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * - running SQL updates
 * - finishing the installation
 *
-* @version $Id: install.php,v 1.14.2.1 2006/02/27 19:41:41 soeren_nb Exp $
+* @version $Id: install.php,v 1.14.2.2 2006/03/22 19:29:04 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -134,7 +134,7 @@ function installvirtuemart( $install_type, $install_sample_data=false ){
 	if ($install_sample_data) {
 		require_once( $admin_dir.'sql/sql.sampledata.php' );
 	}
-	else {
+	elseif ($install_type=='newinstall') {
 		/*** Delete the Sample Product - Images ***/
 		@unlink( $mosConfig_absolute_path."/components/com_virtuemart/shop_image/product/1aa8846d3cfe3504b2ccaf7c23bb748f.jpg" );
 		@unlink( $mosConfig_absolute_path."/components/com_virtuemart/shop_image/product/1b0c96d67abdbea648cd0ea96fd6abcb.jpg" );

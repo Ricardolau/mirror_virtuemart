@@ -33,6 +33,11 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+23-03-2006 soeren
+
++ ProductScroller module: added the category_id parameter to the XML file, so you can now specify a category_id (or a comma-separated list of more than one category_id) 
+	to filter the products by (multiple) category/ies
+	
 20-03-2006 soeren
 ^ Payment method preselecection: the first displayed payment method is always pre-selected now
 # "delete from cart" fails when the custom attribute value contains quotes

@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_product.php,v 1.24.2.10 2006/03/21 19:38:21 soeren_nb Exp $
+* @version $Id: ps_product.php,v 1.24.2.11 2006/03/22 19:29:59 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -1771,10 +1771,13 @@ class ps_product extends vmAbstractObject {
 		$auth = $_SESSION['auth'];
 		$description = stripslashes($description);
 		// if we've been given a description to deal with, get the adjusted price
-		if ($description != '' && stristr( $description, "[" )
-			&& $auth["show_price_including_tax"] == 1 && $product_id != 0 ) {
-
-			$my_taxrate = $this->get_product_taxrate($product_id);
+		if ($description != '' && stristr( $description, "[" ) && $product_id != 0 ) {
+			if( $auth["show_price_including_tax"] == 1) {
+				$my_taxrate = $this->get_product_taxrate($product_id);
+			}
+			else {
+				$my_taxrate = 0.00;
+			}
 
 			// We must care for custom attribute fields! Their value can be freely given
 			// by the customer, so we mustn't include them into the price calculation
@@ -1840,10 +1843,11 @@ class ps_product extends vmAbstractObject {
 							}
 						}
 						
-						$value_notax = (float)substr($my_mod,1);
+						$value_notax = substr($my_mod,1);
+						
 						if( abs($value_notax) >0 ) {
 							$value_taxed = $value_notax * ($my_taxrate+1);
-						
+							
 							$description = str_replace( $value_notax, $CURRENCY_DISPLAY->getFullValue( $value_taxed ), $description);
 						}
 						elseif( $my_mod === "+0" || $my_mod === '-0') {

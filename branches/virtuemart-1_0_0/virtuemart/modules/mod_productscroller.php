@@ -3,7 +3,7 @@
 * VirtueMart Product Scroller Module
 * NOTE: THIS MODULE REQUIRES AN INSTALLED VirtueMart COMPONENT!
 *
-* @version $Id: mod_productscroller.php,v 1.6 2005/11/07 20:22:28 soeren_nb Exp $
+* @version $Id: mod_productscroller.php,v 1.6.2.3 2006/03/11 18:06:18 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage modules
 * 
@@ -137,7 +137,7 @@ class productScroller {
 		$this->show_product_name		=  $params->get('show_product_name', "yes");
 		$this->show_addtocart			=  $params->get('show_addtocart', "yes");
 		$this->show_price				=  $params->get('show_price', "yes");
-		$this->category_id				=  intval( $params->get('category_id', 0 ) );
+		$this->category_id				=  explode(',', $params->get('category_id', 0 ) );
 		// Limit by NoP
 		$this->NumberOfProducts			=  $params->get('NumberOfProducts', $this->NumberOfProducts);
 		
@@ -241,11 +241,22 @@ function getProductSKU( $limit=0, $how=null, $category_id=0 ) {
 	}
 
 	$query = "SELECT p.product_sku FROM #__{vm}_product AS p";
-
-	if( $category_id != 0 ) {
-		$query .= "\nJOIN #__{vm}_product_category_xref as pc ON p.product_id=pc.product_id AND pc.category_id=$category_id";
+	$first = true;
+	foreach( $category_id as $cat ) {
+		$cat = intval( $cat );
+		if( $category_id != 0 ) {
+			if( $first ) {
+				$query .= "\nJOIN #__{vm}_product_category_xref as pc ON p.product_id=pc.product_id AND (pc.category_id=$cat \n";
+				$first = false;
+			}
+			else {
+				$query .= "OR pc.category_id=$cat \n";
+			}
+		}
 	}
-
+	if( !$first ) {
+		$query .= ") ";
+	}
 	$query .= "\n WHERE p.product_publish = 'Y' AND product_parent_id=0 ";
 	if( CHECK_STOCK && PSHOP_SHOW_OUT_OF_STOCK_PRODUCTS != "1") {
 		$query .= " AND product_in_stock > 0 ";

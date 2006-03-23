@@ -1925,3 +1925,4 @@ CREATE TABLE IF NOT EXISTS `mos_vm_zone_shipping` (
   KEY `zone_id` (`zone_id`)
 ) TYPE=MyISAM COMMENT='The Zones managed by the Zone Shipping Module';
 
+INSERT INTO `mos_components` (name, parent, params ) VALUES ( 'virtuemart_version', 9999, 'RELEASE=1.0.4\nDEV_STATUS=stable');

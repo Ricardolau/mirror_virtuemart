@@ -97,5 +97,5 @@ DROP TABLE IF EXISTS  `jos_vm_zone_shipping`;
 ############################################################
 
 DELETE FROM `jos_components` WHERE `option`='com_virtuemart';
-
+DELETE FROM `jos_components` WHERE `name`='virtuemart_version';
 

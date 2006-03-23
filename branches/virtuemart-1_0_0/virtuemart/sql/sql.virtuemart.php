@@ -1936,7 +1936,7 @@ $db->query( "INSERT INTO `#__{vm}_zone_shipping` VALUES (1, 'Default', 6.00, 35.
  * Well, because we add them here.
  */
 $db->query( "SELECT * FROM #__users"); 
-$row = $database->loadObjectList();
+$row = $db->loadObjectList();
 foreach( $row as $user) {
 	$db->query( "INSERT INTO `#__{vm}_auth_user_vendor` VALUES ('".$user->id."', '1');" );
 	$db->query( "INSERT INTO `#__{vm}_shopper_vendor_xref` VALUES ('".$user->id."', '1', '5', '');" );

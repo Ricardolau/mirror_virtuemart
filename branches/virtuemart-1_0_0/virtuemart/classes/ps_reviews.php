@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_reviews.php,v 1.6 2005/10/24 11:16:41 codename-matrix Exp $
+* @version $Id: ps_reviews.php,v 1.7 2005/10/28 09:35:36 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -290,7 +290,7 @@ class ps_reviews {
               }
 		  }
           if ($commented==false) {
-            $comment=nl2br(htmlspecialchars(strip_tags($d["comment"])));
+            $comment=$db->getEscaped( nl2br(htmlspecialchars(strip_tags($d["comment"]))) );
             $sql="INSERT INTO #__{vm}_product_reviews (product_id, comment, userid, time, user_rating) VALUES 
                       ('".$d["product_id"]."', '$comment', '".$my->id."', '".time()."', '".$d["user_rating"]."')";
             $db->query( $sql );

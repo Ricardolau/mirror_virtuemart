@@ -38,6 +38,7 @@ VirtueMart 1.0.x
 # Order "Print View" link lead to a 404 error
 + ProductScroller module: added the category_id parameter to the XML file, so you can now specify a category_id (or a comma-separated list of more than one category_id) 
 	to filter the products by (multiple) category/ies
+# Product Reviews are not added to the database, although the vote is added
 	
 20-03-2006 soeren
 ^ Payment method preselecection: the first displayed payment method is always pre-selected now

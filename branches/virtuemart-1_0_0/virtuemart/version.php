@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: version.php,v 1.15.2.5 2006/03/10 19:27:42 soeren_nb Exp $
+* @version $Id: version.php,v 1.15.2.6 2006/03/22 19:29:04 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -36,9 +36,9 @@ class vmVersion {
 	// Song written by Willie Dixon for Howlin' Wolf; http://en.wikipedia.org/wiki/Willie_Dixon
 	var $CODENAME = 'Hidden Charms';
 	/** @var string Date */
-	var $RELDATE = '23/03/2006';
+	var $RELDATE = '24/03/2006';
 	/** @var string Time */
-	var $RELTIME = '21:31';
+	var $RELTIME = '19:23';
 	/** @var string Timezone */
 	var $RELTZ = 'GMT';
 	/** @var string Copyright Text */

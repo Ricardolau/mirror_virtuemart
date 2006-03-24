@@ -35,6 +35,7 @@ VirtueMart 1.0.x
 *************************************
 23-03-2006 soeren
 
+# Order "Print View" link lead to a 404 error
 + ProductScroller module: added the category_id parameter to the XML file, so you can now specify a category_id (or a comma-separated list of more than one category_id) 
 	to filter the products by (multiple) category/ies
 	

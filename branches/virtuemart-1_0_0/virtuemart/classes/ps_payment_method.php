@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: ps_payment_method.php,v 1.10 2005/10/27 16:09:13 soeren_nb Exp $
+* @version $Id: ps_payment_method.php,v 1.10.2.1 2006/03/22 19:30:39 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -178,8 +178,9 @@ class ps_payment_method extends vmAbstractObject {
         include( CLASSPATH."payment/ps_payment.php" );
         $_PAYMENT = new ps_payment();
     }
-    
-    $_PAYMENT->write_configuration( $d );
+    if( is_callable( array( $_PAYMENT, 'write_configuration'))) {
+    	$_PAYMENT->write_configuration( $d );
+    }
     
     if (!$d["shopper_group_id"]) {
        $q =  "SELECT * from #__{vm}_shopper_group WHERE ";

@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: shop.cart.php,v 1.3.2.1 2006/02/27 19:41:42 soeren_nb Exp $
+* @version $Id: shop.cart.php,v 1.3.2.2 2006/03/14 18:42:23 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -66,7 +66,7 @@ if ($cart["idx"]) {
        </div><?php
    }
    else {
- ?>
+ ?><br />
  <div style="text-align:center;width:40%;float:left;">
      <h3><a href="<?php $sess->purl( $mm_action_url . "index.php?page=checkout.index&ssl_redirect=1"); ?>">
      <img src="<?php echo IMAGEURL ?>ps_image/forward.png" align="middle" width="32" height="32" alt="Forward" border="0" />

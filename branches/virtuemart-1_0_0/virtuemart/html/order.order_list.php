@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: order.order_list.php,v 1.6.2.2 2006/02/18 09:20:11 soeren_nb Exp $
+* @version $Id: order.order_list.php,v 1.6.2.3 2006/03/24 18:24:30 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -24,35 +24,28 @@ $form_code = "";
 require_once( CLASSPATH . "pageNavigation.class.php" );
 require_once( CLASSPATH . "htmlTools.class.php" );
 
+
+$list  = "SELECT order_id,order_status, #__{vm}_orders.cdate,#__{vm}_orders.mdate,order_total,#__{vm}_orders.user_id,";
+$list .= "first_name, last_name FROM #__{vm}_orders, #__{vm}_user_info WHERE ";
+$count = "SELECT count(*) as num_rows FROM #__{vm}_orders, #__{vm}_user_info WHERE ";
+$q = '';
 if (!empty($keyword)) {
-        $list  = "SELECT  order_id,#__{vm}_orders.cdate,#__{vm}_orders.mdate,order_total,";
-        $list .= "order_status FROM #__{vm}_orders, #__{vm}_user_info WHERE ";
-        $count = "SELECT  count(*) as num_rows FROM #__{vm}_orders, #__{vm}_user_info WHERE ";
         $q  = "(#__{vm}_orders.order_id LIKE '%$keyword%' ";
         $q .= "OR #__{vm}_orders.order_status LIKE '%$keyword%' ";
         $q .= "OR first_name LIKE '%$keyword%' ";
         $q .= "OR last_name LIKE '%$keyword%' ";
 		$q .= "OR CONCAT(`first_name`, ' ', `last_name`) LIKE '%$keyword%' ";
-        $q .= ") ";
-        $q .= "AND (#__{vm}_orders.user_id=#__{vm}_user_info.user_id) ";
-        $q .= "AND #__{vm}_orders.vendor_id='".$_SESSION['ps_vendor_id']."' ";
-        $q .= "ORDER BY #__{vm}_orders.cdate DESC ";
-        $list .= $q . " LIMIT $limitstart, " . $limit;
-	$count .= $q;   
+        $q .= ") AND ";
 }
-else {
-	$keyword = "";
-	$q = "";
-	$list  = "SELECT * FROM #__{vm}_orders ";
-	$count = "SELECT count(*) as num_rows FROM #__{vm}_orders ";
-	$q .= "WHERE  #__{vm}_orders.vendor_id='".$_SESSION['ps_vendor_id']."' ";
-	if (!empty($show)) 
-		$q .= "AND order_status = '$show' ";
-		
-	$q .= "ORDER BY #__{vm}_orders.cdate DESC ";
-	$list .= $q . " LIMIT $limitstart, " . $limit;
-	$count .= $q;   
+if (!empty($show)) {
+	$q .= "order_status = '$show' AND ";
 }
+$q .= "(#__{vm}_orders.user_id=#__{vm}_user_info.user_id) ";
+$q .= "AND #__{vm}_orders.vendor_id='".$_SESSION['ps_vendor_id']."' ";
+$q .= "ORDER BY #__{vm}_orders.cdate DESC ";
+$list .= $q . " LIMIT $limitstart, " . $limit;
+$count .= $q;   
+
 $db->query($count);
 $db->next_record();
 $num_rows = $db->f("num_rows");
@@ -92,6 +85,7 @@ $listObj->startTable();
 $columns = Array(  "#" => "width=\"20\"", 
 					"<input type=\"checkbox\" name=\"toggle\" value=\"\" onclick=\"checkAll(".$num_rows.")\" />" => "width=\"20\"",
 					$VM_LANG->_PHPSHOP_ORDER_LIST_ID => '',
+					$VM_LANG->_PHPSHOP_ORDER_PRINT_NAME => '',
 					$VM_LANG->_PHPSHOP_CHECK_OUT_THANK_YOU_PRINT_VIEW => '',
 					$VM_LANG->_PHPSHOP_ORDER_LIST_CDATE => '',
 					$VM_LANG->_PHPSHOP_ORDER_LIST_MDATE => '',
@@ -116,6 +110,14 @@ while ($db->next_record()) {
 	
 	$url = $_SERVER['PHP_SELF']."?page=$modulename.order_print&limitstart=$limitstart&keyword=$keyword&order_id=". $db->f("order_id");
 	$tmp_cell = "<a href=\"" . $sess->url($url) . "\">".sprintf("%08d", $db->f("order_id"))."</a><br />";
+	$listObj->addCell( $tmp_cell );
+	
+	$tmp_cell = $db->f('first_name').' '.$db->f('last_name');
+	if( $perm->check('admin') && defined('_PSHOP_ADMIN')) {
+		$url = $_SERVER['PHP_SELF']."?page=admin.user_form&amp;user_id=". $db->f("user_id");
+		$tmp_cell = '<a href="'.$sess->url( $url ).'">'.$tmp_cell.'</a>';
+	}
+	
 	$listObj->addCell( $tmp_cell );
 	
 	$details_url = $sess->url( $_SERVER['PHP_SELF']."?page=order.order_printdetails&amp;order_id=".$db->f("order_id")."&amp;no_menu=1");

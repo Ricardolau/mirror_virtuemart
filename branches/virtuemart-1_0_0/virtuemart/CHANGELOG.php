@@ -33,6 +33,21 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+28-03-2006
++ customer name on order list (thanks to deneb!)
+# Fixed PayPal notify.php script:
+	- wrong field name (` order_currency` instead of `order_currency`)
+	- checking received currency and amount against database
+# parameter search query missing a `
+
+27-03-2006 soeren
+
+# version.php causing fatal error regarding "class vmVersion previously declared..."
+# Prices visible to all users, although restricted
+# Admin Menu not visible with chinese language file (htmlentities missing third (=Charset) parameter)
+# CSV Export doesn't export parent product SKU (parent-child relationship gets lost)
+# fixed a small typo in the product scroller module
+
 23-03-2006 soeren
 
 # Order "Print View" link lead to a 404 error

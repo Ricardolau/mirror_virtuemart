@@ -4,7 +4,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * Header file for the shop administration.
 * shows all modules that are available to the user in a dropdown menu
 *
-* @version $Id: header.php,v 1.8.2.1 2006/03/07 19:33:57 soeren_nb Exp $
+* @version $Id: header.php,v 1.8.2.2 2006/03/14 18:42:04 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -30,7 +30,7 @@ else {
 }
         
 $mod = array();
-$q = "SELECT module_name,module_perms from #__{vm}_module WHERE module_publish='Y'";
+$q = "SELECT module_name,module_perms from #__{vm}_module WHERE module_publish='Y' ";
 $q .= "AND module_name <> 'checkout' ORDER BY list_order ASC";
 $db->query($q);
 while ($db->next_record()) {
@@ -326,7 +326,8 @@ $menu_code = ob_get_contents();
 // clean this output buffer and end it
 ob_end_clean();
 // convert all special chars into HTML entities
-$menu_code = htmlentities( $menu_code, ENT_NOQUOTES );
+$iso = explode( '=', _ISO );
+$menu_code = htmlentities( $menu_code, ENT_NOQUOTES, $iso[1] );
 // reconvert "htmlspecialchars"
 $menu_code = str_replace( '&gt;', '>', 
                          str_replace( '&lt;', '<', 

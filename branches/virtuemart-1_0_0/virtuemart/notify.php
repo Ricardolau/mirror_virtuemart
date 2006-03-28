@@ -2,7 +2,7 @@
 /**
 * PayPal IPN Handler
 *
-* @version $Id: notify.php,v 1.5 2005/10/07 14:29:57 soeren_nb Exp $
+* @version $Id: notify.php,v 1.5.2.1 2006/03/14 18:42:04 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -285,7 +285,7 @@ if ($_POST) {
       
       // Get the Order Details from the database      
       $qv = "SELECT `order_id`, `order_number`, `user_id`, `order_subtotal`
-                                `order_total`, ` order_currency`, `order_tax`, 
+                                `order_total`, `order_currency`, `order_tax`, 
                                 `order_shipping_tax`, `coupon_discount`, `order_discount`
                         FROM `#__{vm}_orders` 
                         WHERE `order_number`='".$invoice."'";

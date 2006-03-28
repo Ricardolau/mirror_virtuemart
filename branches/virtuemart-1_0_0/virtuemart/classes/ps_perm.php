@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_perm.php,v 1.11.2.2 2006/03/14 18:42:11 soeren_nb Exp $
+* @version $Id: ps_perm.php,v 1.11.2.3 2006/03/21 19:38:21 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -45,7 +45,7 @@ class ps_perm {
 		$db = new ps_DB;
 		$auth = array();
 		
-		if( intval(VM_PRICE_ACCESS_LEVEL) > 0 ) {
+		if( VM_PRICE_ACCESS_LEVEL != '' ) {
 			// Get the usertype property when not present
 			if( empty( $my->usertype ) ) {
 				if( empty( $my->id )) { 

@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: version.php,v 1.15.2.6 2006/03/22 19:29:04 soeren_nb Exp $
+* @version $Id: version.php,v 1.15.2.7 2006/03/24 18:24:24 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -24,6 +24,7 @@ if( class_exists( 'vmVersion' ) ) {
 	. $VMVERSION->RELTIME . " " . $VMVERSION->RELTZ;
 	return;
 }
+if( !class_exists( 'vmVersion' ) ) {
 /** Version information */
 class vmVersion {
 	/** @var string Product */
@@ -53,5 +54,6 @@ $shortversion = $VMVERSION->PRODUCT . " " . $VMVERSION->RELEASE . " " . $VMVERSI
 $myVersion = $shortversion . " [".$VMVERSION->CODENAME ."] <br />" . $VMVERSION->RELDATE . " "
 	. $VMVERSION->RELTIME . " " . $VMVERSION->RELTZ;
 	
+}
 
 ?>

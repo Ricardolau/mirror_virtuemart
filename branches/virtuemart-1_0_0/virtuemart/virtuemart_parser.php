@@ -158,7 +158,7 @@ if( !defined( '_VM_PARSER_LOADED' )) {
 	if( $option == "com_virtuemart" ) {
 
 		// Get sure that we have float values with a decimal point!
-		setlocale( LC_NUMERIC, 'en_US', 'en' );
+		@setlocale( LC_NUMERIC, 'en_US', 'en' );
 		
 		// some input validation for limitstart
 		if (!empty($_REQUEST['limitstart'])) {

@@ -4,7 +4,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * This file is to be included from the file shop.browse.php
 * and uses variables from the environment of the file shop.browse.php
 *
-* @version $Id: shop_browse_queries.php,v 1.6.2.1 2006/03/03 07:09:02 soeren_nb Exp $
+* @version $Id: shop_browse_queries.php,v 1.6.2.2 2006/03/21 19:38:23 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -54,7 +54,7 @@ if (!empty($product_type_id)) {
 
 	$q  = "LEFT JOIN `#__{vm}_product_price` ON `#__{vm}_product`.`product_id` = `#__{vm}_product_price`.`product_id` ";
 	$q .= "\n \n LEFT JOIN `#__{vm}_product_type_$product_type_id` ON `#__{vm}_product`.`product_id` = `#__{vm}_product_type_$product_type_id`.`product_id` ";
-	$q .= "\n LEFT JOIN `#__{vm}_product_product_type_xref` ON `#__{vm}_product`.`product_id` = `#__{vm}_product_product_type_xref.`product_id` ";
+	$q .= "\n LEFT JOIN `#__{vm}_product_product_type_xref` ON `#__{vm}_product`.`product_id` = `#__{vm}_product_product_type_xref`.`product_id` ";
 	$q .= "\n WHERE `#__{vm}_product_category_xref`.`category_id`=`#__{vm}_category`.`category_id` ";
 	// $q .= "\n AND `#__{vm}_product`.`product_id`=`#__{vm}_product_category_xref`.`product_id` ";
 	//  $q .= "\n AND `#__{vm}_product`.`product_parent_id`='0' ";

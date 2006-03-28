@@ -3,7 +3,7 @@
 * VirtueMart Product Scroller Module
 * NOTE: THIS MODULE REQUIRES AN INSTALLED VirtueMart COMPONENT!
 *
-* @version $Id: mod_productscroller.php,v 1.6.2.3 2006/03/11 18:06:18 soeren_nb Exp $
+* @version $Id: mod_productscroller.php,v 1.6.2.4 2006/03/23 20:05:38 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage modules
 * 
@@ -244,7 +244,7 @@ function getProductSKU( $limit=0, $how=null, $category_id=0 ) {
 	$first = true;
 	foreach( $category_id as $cat ) {
 		$cat = intval( $cat );
-		if( $category_id != 0 ) {
+		if( $cat != 0 ) {
 			if( $first ) {
 				$query .= "\nJOIN #__{vm}_product_category_xref as pc ON p.product_id=pc.product_id AND (pc.category_id=$cat \n";
 				$first = false;

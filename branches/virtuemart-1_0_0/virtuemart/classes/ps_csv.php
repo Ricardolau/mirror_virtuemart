@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: ps_csv.php,v 1.6 2005/11/14 18:58:13 soeren_nb Exp $
+* @version $Id: ps_csv.php,v 1.7.2.2 2005/12/01 20:00:32 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -707,8 +707,8 @@ class ps_csv {
               }
             }
             $database->query( "SELECT product_sku FROM #__{vm}_product WHERE product_id='".$db->f("product_parent_id")."'" );
-            $product_sku = $database->record;
-            $export_sku = $product_sku;
+            $database->next_record();
+            $export_sku = $database->f('product_sku');
           }
             
           if( $use_standard_order == "Y" ) {

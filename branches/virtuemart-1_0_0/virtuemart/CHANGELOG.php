@@ -33,8 +33,27 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
-28-03-2006
-+ customer name on order list (thanks to deneb!)
+02-04-2006 soeren
+
+# Task #632 - get_flypage doesn't take into consideration parent products (ps_product.php)
+# Task #631 - Customer Unable to Remove Data from Bill To / Ship To Fields (ps_shopper.php)
+# Task #629 - PayFlow Pro does not handle 4 digit expiration dates gracefully
+# Task #511 - Discount % percentage is ignored by cart (ps_product.php)
+# Page redirection on error from Ship-To address from fixed, thanks TJ! (account.shipto.php)
+
+30-03-2006 soeren
+
+^ integrated the changes to the authorize.net class by Daniel Wagner (http://virtuemart.net/index.php?option=com_flyspray&do=details&id=634&Itemid=83)
+# wrong object names in PayPal notify.php script lead to a fatal error
+# Task #656 - "Remember Me" must be enabled to checkout, checkout_registration_form.php
+# tooltip function: added charset parameter to encode UTF-8 strings too, htmlTools.class.php
++ introduced a new function called "vmGetCharset" to return the current charset from the _ISO setting (UTF-8 by default), ps_main.php
+
+28-03-2006 soeren
+# query error in ps_affiliate.php
+# fixed reviews listing ("More..." - link when more than 5 reviews exist for a product) in the frontend (ps_reviews.php)
+# fixed page navigation on product review list in adminsitration (product.review_list.php)
++ customer name on order list (thanks to deneb!), (order.order_list.php)
 # Fixed PayPal notify.php script:
 	- wrong field name (` order_currency` instead of `order_currency`)
 	- checking received currency and amount against database
@@ -47,6 +66,8 @@ VirtueMart 1.0.x
 # Admin Menu not visible with chinese language file (htmlentities missing third (=Charset) parameter)
 # CSV Export doesn't export parent product SKU (parent-child relationship gets lost)
 # fixed a small typo in the product scroller module
+
+---- VirtueMart 1.0.3 released ----
 
 23-03-2006 soeren
 

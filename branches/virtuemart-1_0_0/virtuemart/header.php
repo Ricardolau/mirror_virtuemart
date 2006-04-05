@@ -23,10 +23,10 @@ global $error, $page, $ps_product, $ps_product_category;
 $product_id = mosGetParam( $_REQUEST, 'product_id' );
 
 if( is_array( $product_id )) {
-        $recent_product_id = "";
+    $recent_product_id = "";
 }
 else {
-        $recent_product_id = $product_id;
+    $recent_product_id = $product_id;
 }
         
 $mod = array();
@@ -326,8 +326,8 @@ $menu_code = ob_get_contents();
 // clean this output buffer and end it
 ob_end_clean();
 // convert all special chars into HTML entities
-$iso = explode( '=', _ISO );
-$menu_code = htmlentities( $menu_code, ENT_NOQUOTES, $iso[1] );
+
+$menu_code = htmlentities( $menu_code, ENT_NOQUOTES, vmGetCharset() );
 // reconvert "htmlspecialchars"
 $menu_code = str_replace( '&gt;', '>', 
                          str_replace( '&lt;', '<', 

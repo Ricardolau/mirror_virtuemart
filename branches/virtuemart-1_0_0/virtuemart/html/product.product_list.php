@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: product.product_list.php,v 1.9.2.1 2005/12/07 20:10:10 soeren_nb Exp $
+* @version $Id: product.product_list.php,v 1.9.2.2 2006/01/17 19:04:14 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -297,7 +297,7 @@ if ($num_rows > 0) {
 		$db_cat->query("SELECT count(*) as num_rows FROM #__{vm}_product_reviews WHERE product_id='".$db->f("product_id")."'");
 		$db_cat->next_record();
 		if ($db_cat->f("num_rows")) {
-			$tmp_cell = $db_cat->f("num_rows")."&nbsp;";
+			$tmpcell = $db_cat->f("num_rows")."&nbsp;";
 			$tmpcell .= "<a href=\"".$_SERVER["PHP_SELF"]."?option=com_virtuemart&page=product.review_list&product_id=".$db->f("product_id")."\">";
 			$tmpcell .= "[".$VM_LANG->_PHPSHOP_SHOW."]</a>";
 		}

@@ -3,7 +3,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 /**
 * This is the Main Product Listing File!
 *
-* @version $Id: shop.browse.php,v 1.10.2.7 2006/03/14 18:42:23 soeren_nb Exp $
+* @version $Id: shop.browse.php,v 1.10.2.8 2006/03/21 19:38:23 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -294,14 +294,14 @@ else {
 		// If no flypage is set then use the default as set in virtuemart.cfg.php
 		$flypage = $db_browse->sf("category_flypage");
 		
-		if (empty($flypage)){
-                        $flypage = FLYPAGE;
-                }
+		if (empty($flypage)) {
+			$flypage = FLYPAGE;
+		}
                 
-                $url = $sess->url( $mm_action_url."index.php?page=shop.product_details&flypage=$flypage&product_id=" . $db_browse->f("product_id") . "&category_id=" . $db_browse->f("category_id"). "&manufacturer_id=" . $manufacturer_id);
+        $url = $sess->url( $mm_action_url."index.php?page=shop.product_details&flypage=$flypage&product_id=" . $db_browse->f("product_id") . "&category_id=" . $db_browse->f("category_id"). "&manufacturer_id=" . $manufacturer_id);
 
-                if( $db_browse->f("product_thumb_image") ) {
-                        $product_thumb_image = $db_browse->f("product_thumb_image");
+        if( $db_browse->f("product_thumb_image") ) {
+                $product_thumb_image = $db_browse->f("product_thumb_image");
 		}
 		else {
 			if( $product_parent_id != 0 ) {
@@ -311,17 +311,22 @@ else {
 				$product_thumb_image = 0;
 			}
 		}
-		if( $product_thumb_image && file_exists(IMAGEPATH."product/".$product_thumb_image) ) {
-			
-			if( PSHOP_IMG_RESIZE_ENABLE == '1') {
-				$product_thumb_image = $mosConfig_live_site."/components/com_virtuemart/show_image_in_imgtag.php?filename=".urlencode($product_thumb_image)."&newxsize=".PSHOP_IMG_WIDTH."&newysize=".PSHOP_IMG_HEIGHT."&fileout=";
+		if( $product_thumb_image ) {
+			if( substr( $product_thumb_image, 0, 4) != "http" ) {
+				if(PSHOP_IMG_RESIZE_ENABLE == '1') {
+					$product_thumb_image = $mosConfig_live_site."/components/com_virtuemart/show_image_in_imgtag.php?filename=".urlencode($product_thumb_image)."&newxsize=".PSHOP_IMG_WIDTH."&newysize=".PSHOP_IMG_HEIGHT."&fileout=";
+				}
+				else {
+					if( file_exists( IMAGEPATH."product/".$product_thumb_image )) {
+                        $product_thumb_image = IMAGEURL."product/".$product_thumb_image;
+                    }
+                    else {
+                        $product_thumb_image = IMAGEURL.NO_IMAGE;
+                    }
+				}
 			}
-			else {
-				$product_thumb_image = IMAGEURL."product/".$product_thumb_image;
-			}
-			
 		}
-		elseif( empty( $product_thumb_image ) || substr( $product_thumb_image, 0, 4) != "http" ) {
+		else {
 			$product_thumb_image = IMAGEURL.NO_IMAGE;
 		}
 

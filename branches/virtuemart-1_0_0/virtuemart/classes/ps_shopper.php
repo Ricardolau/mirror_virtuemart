@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: ps_shopper.php,v 1.13.2.2 2006/02/28 18:35:36 soeren_nb Exp $
+* @version $Id: ps_shopper.php,v 1.13.2.3 2006/03/14 18:42:11 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -450,23 +450,39 @@ class ps_shopper {
 		
 		/* Update Bill To */
 		$q  = "UPDATE #__{vm}_user_info SET ";
-		if (!empty($d['company']))
+		if (!empty($d['company'])) {
 			$q .= "company='" . $d["company"] . "', ";
+		} else { 
+			$q .= "company='', "; 
+		}
 		$q .= "title='" . $d["title"] . "', ";
 		$q .= "last_name='" . $d["last_name"] . "', ";
 		$q .= "first_name='" . $d["first_name"] . "', ";
-		if (!empty($d['middle_name']))
+		if (!empty($d['middle_name'])) {
 			$q .= "middle_name='" . $d["middle_name"] . "', ";
+		}
+		else {
+			$q .= "middle_name='', ";
+		}
 		$q .= "phone_1='" . $d["phone_1"] . "', ";
-		if (!empty($d['phone_2']))
+		if (!empty($d['phone_2'])) {
 			$q .= "phone_2='" . $d["phone_2"] . "',";
-		if (!empty($d['fax']))
+		} else {
+			$q .= "phone_2='',";
+		}
+		if (!empty($d['fax'])) {
 			$q .= "fax='" . $d["fax"] . "', ";
+		} else {
+			$q .= "fax='', ";
+		}
 		$q .= 	"address_1='" . $d["address_1"] . "', ";
 		$q .= "address_2='" . @$d["address_2"] . "', ";
 		$q .= "city='" . $d["city"] . "', ";
-		if (!empty($d['state']))
+		if (!empty($d['state'])){
 			$q .= "state='" . $d["state"] . "', ";
+		} else {
+			$q .= "state='', ";
+		}
 		$q .= "country='" . $d["country"] . "', ";
 		$q .= "zip='" . $d["zip"] . "', ";
 		$q .= "extra_field_1='" . @$d["extra_field_1"] . "', ";
@@ -474,19 +490,35 @@ class ps_shopper {
 		$q .= "extra_field_3='" . @$d["extra_field_3"] . "', ";
 		$q .= "extra_field_4='" . @$d["extra_field_4"] . "', ";
 		$q .= "extra_field_5='" . @$d["extra_field_5"] . "' ";
-		if (!empty($d['bank_iban']))
+		if (!empty($d['bank_iban'])) {
 			$q .= ",bank_iban='" . $d["bank_iban"] . "' ";
-		if (!empty($d['bank_account_nr']))
+		} else {
+			$q .= ",bank_iban='' ";
+		}
+		if (!empty($d['bank_account_nr'])){
 			$q .= ",bank_account_nr='" . $d["bank_account_nr"] . "' ";
-		if (!empty($d['bank_sort_code']))
+		} else { 
+			$q .= ",bank_account_nr='' ";
+		}
+		if (!empty($d['bank_sort_code'])) {
 			$q .= ",bank_sort_code='" . $d["bank_sort_code"] . "' ";
-		if (!empty($d['bank_name']))
+		} else { 
+			$q .= ",bank_sort_code='' ";
+		}
+		if (!empty($d['bank_name'])) {
 			$q .= ",bank_name='" . $d["bank_name"] . "'";
-		if (!empty($d['bank_account_holder']))
+		} else {
+			$q .= ",bank_name=''";
+		}
+		if (!empty($d['bank_account_holder'])) {
 			$q .= ", bank_account_holder='" . $d["bank_account_holder"] . "' ";
-		if (mShop_validateEmail(@$d['email']))
+		} else {
+			$q .= ", bank_account_holder='' ";
+		}
+		if (mShop_validateEmail(@$d['email'])) {
 			$q .= ",user_email = '".@$d['email']."' ";
-		$q .= "WHERE user_id='" . $user_id . "' AND address_type='BT'";
+		}
+		$q .= "WHERE user_id=" . intval( $user_id ). " AND address_type='BT'";
 	  
 		$db->query($q);
 	  

@@ -54,16 +54,17 @@ if ($_POST) {
         
         // load Joomla Language File
         if (file_exists( $mosConfig_absolute_path. '/language/'.$mosConfig_lang.'.php' )) {
-                require_once( $mosConfig_absolute_path. '/language/'.$mosConfig_lang.'.php' );
+            require_once( $mosConfig_absolute_path. '/language/'.$mosConfig_lang.'.php' );
         }
         else {
-                require_once( $mosConfig_absolute_path. '/language/english.php' );
+            require_once( $mosConfig_absolute_path. '/language/english.php' );
         }
     /*** END of Joomla config ***/
     
     
     /*** VirtueMart part ***/        
         require_once($mosConfig_absolute_path.'/administrator/components/com_virtuemart/virtuemart.cfg.php');
+        require_once( CLASSPATH. 'ps_main.php');
         
 		require_once( CLASSPATH. "language.class.php" );
 	
@@ -84,12 +85,12 @@ if ($_POST) {
         /* Load the VirtueMart database class */
         require_once( CLASSPATH. 'ps_database.php' );
         
-                if( PAYPAL_DEBUG == "1" ) {
-                        $debug_email_address = $mosConfig_mailfrom;
-                }
-                else {
-                        $debug_email_address = PAYPAL_EMAIL;
-                }
+		if( PAYPAL_DEBUG == "1" ) {
+			$debug_email_address = $mosConfig_mailfrom;
+		}
+		else {
+			$debug_email_address = PAYPAL_EMAIL;
+		}
                         
     /*** END VirtueMart part ***/
     
@@ -289,10 +290,10 @@ if ($_POST) {
                                 `order_shipping_tax`, `coupon_discount`, `order_discount`
                         FROM `#__{vm}_orders` 
                         WHERE `order_number`='".$invoice."'";
-      $dbbt = new ps_DB;
-      $dbbt->query($qv);
-      $dbbt->next_record();
-      $order_id = $dbbt->f("order_id");
+      $db = new ps_DB;
+      $db->query($qv);
+      $db->next_record();
+      $order_id = $db->f("order_id");
      
       $d['order_id'] = $order_id;
       $d['notify_customer'] = "Y";
@@ -321,7 +322,7 @@ if ($_POST) {
                     $mail->Send();
                     exit();
                 }
-                $tax_total = $db->f("order_tax") + $db->f("order_shipping_tax");
+                /*$tax_total = $db->f("order_tax") + $db->f("order_shipping_tax");
                                 $discount_total = $db->f("coupon_discount") + $db->f("order_discount");
                                 $amount_check = round( $db->f("order_subtotal")+$tax_total-$discount_total, 2);
                                 
@@ -347,6 +348,7 @@ if ($_POST) {
                     $mail->Send();
                     exit();
                 }
+                */
                 // UPDATE THE ORDER STATUS to 'Completed'
                 if(eregi ("Completed", $payment_status)) {
                     $d['order_status'] = PAYPAL_VERIFIED_STATUS;                    
@@ -391,7 +393,7 @@ if ($_POST) {
                 a Failed PayPal Transaction on $mosConfig_live_site requires your attention.
                 -----------------------------------------------------------
                 Order ID: ".$d['order_id']."
-                User ID: ".$dbbt->f("user_id")."
+                User ID: ".$db->f("user_id")."
                 Payment Status returned by PayPal: $payment_status 
                 
                 $error_description";
@@ -414,7 +416,7 @@ if ($_POST) {
                 $mail->Body .= "REMOTE IP ADDRESS: ".$_SERVER['REMOTE_ADDR']."\n";
                 $mail->Body .= "REMOTE HOST NAME: $remote_hostname\n";
                 $mail->Body .= "Order ID: ".$d['order_id']."\n";
-                $mail->Body .= "User ID: ".$dbbt->f("user_id")."\n";
+                $mail->Body .= "User ID: ".$db->f("user_id")."\n";
                 $mail->Body .= $error_description;
                 $mail->Send();
 

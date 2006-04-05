@@ -3,7 +3,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 /**
 * This file contains functions and classes for common html tasks
 *
-* @version $Id: htmlTools.class.php,v 1.19.2.3 2006/03/06 20:28:47 soeren_nb Exp $
+* @version $Id: htmlTools.class.php,v 1.19.2.4 2006/03/21 19:38:21 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -448,7 +448,7 @@ class vmCommonHTML {
 	/**
 	 * Prints a JS function to validate all fields
 	 * given in the array $required_fields
-	 * Does only test if non-empty
+	 * Does only test if non-empty (or if no options are selected)
 	 * Includes a check for a valid email-address
 	 *
 	 * @param array $required_fields The list of form elements that are to be validated
@@ -541,10 +541,10 @@ function mm_ToolTip( $tooltip, $title='Tip!', $image = "{mosConfig_live_site}/im
 	defined( 'vmToolTipCalled') or define('vmToolTipCalled', 1);
 	
 	if( function_exists('mysql_real_escape_string')) {
-		$tooltip = htmlentities( mysql_real_escape_string($tooltip), ENT_QUOTES);
+		$tooltip = htmlentities( mysql_real_escape_string($tooltip), ENT_QUOTES, vmGetCharset() );
 	}
 	else {
-		$tooltip = htmlentities( mysql_escape_string($tooltip), ENT_QUOTES);
+		$tooltip = htmlentities( mysql_escape_string($tooltip), ENT_QUOTES, vmGetCharset() );
 	}
 	
 	if ( !empty($width) ) {

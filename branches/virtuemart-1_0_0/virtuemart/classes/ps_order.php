@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_order.php,v 1.12.2.6 2006/03/22 19:31:10 soeren_nb Exp $
+* @version $Id: ps_order.php,v 1.12.2.7 2006/03/23 20:06:16 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -327,7 +327,7 @@ class ps_order {
 
 		if( !empty($d['include_comment']) && !empty($d['order_comment']) ) {
 			$message .= $VM_LANG->_PHPSHOP_ORDER_HISTORY_COMMENT_EMAIL.":\n";
-			$message .= $d['order_comment'];
+			$message .= stripslashes( $d['order_comment'] );
 			$message .= "\n____________________________________________________________\n\n";
 		}
 

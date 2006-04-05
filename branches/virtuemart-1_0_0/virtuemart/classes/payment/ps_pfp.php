@@ -273,6 +273,8 @@ class ps_pfp {
 		$name = $dbbt->f("first_name") . ' ' . $dbbt->f("last_name");
 		$expmon = $_SESSION['ccdata']['order_payment_expire_month'];
 		$expyear = $_SESSION['ccdata']['order_payment_expire_year'];
+		$expmon = sprintf("%02d", $expmon % 100);
+		$expyear = sprintf("%02d", $expyear % 100);
 		/* Pay Flow Pro vars to send */
 		$request = array (
 			'USER' => PFP_LOGIN,

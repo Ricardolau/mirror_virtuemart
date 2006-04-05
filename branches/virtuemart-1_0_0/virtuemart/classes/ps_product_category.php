@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_product_category.php,v 1.14.2.3 2006/03/10 15:55:15 soeren_nb Exp $
+* @version $Id: ps_product_category.php,v 1.14.2.4 2006/03/21 19:38:22 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -1219,7 +1219,7 @@ class ps_product_category extends vmAbstractObject {
 		$db->next_record();
 		if ($db->f("category_parent_id")) {
 			$link = "<a class=\"pathway\" href=\"";
-			$link .= $sess->url($_SERVER['PHP_SELF'] . "?page=shop.browse&category_id=$category_id");
+			$link .= $sess->url($_SERVER['PHP_SELF'] . "?page=shop.browse&amp;category_id=$category_id");
 			$link .= "\">";
 			$link .= $db->f("category_name");
 			$link .= "</a>";
@@ -1228,7 +1228,7 @@ class ps_product_category extends vmAbstractObject {
 		}
 		else {
 			$link = "<a class=\"pathway\" href=\"";
-			$link .= $sess->url($_SERVER['PHP_SELF'] . "?page=shop.browse&category_id=$category_id");
+			$link .= $sess->url($_SERVER['PHP_SELF'] . "?page=shop.browse&amp;category_id=$category_id");
 			$link .= "\">";
 			$link .= $db->f("category_name");
 			$link .= "</a>";

@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_product.php,v 1.24.2.11 2006/03/22 19:29:59 soeren_nb Exp $
+* @version $Id: ps_product.php,v 1.24.2.12 2006/03/23 20:06:16 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -1078,26 +1078,36 @@ class ps_product extends vmAbstractObject {
 	 * @param int $product_id
 	 * @return string The flypage value for that product
 	 */
-	function get_flypage($product_id) {
+        function get_flypage($product_id) {
+ 
+            if( empty( $_SESSION['product_sess'][$product_id]['flypage'] )) {
+                    $db = new ps_DB;
+                    $productParentId = $product_id;
+                    do {
+                        $q = "SELECT
+                                `#__{vm}_product`.`product_parent_id` AS product_parent_id,
+                                `#__{vm}_category`.`category_flypage`
+                        FROM
+                                `#__{vm}_product`
 
-		if( empty( $_SESSION['product_sess'][$product_id]['flypage'] )) {
-			$db = new ps_DB;
-			$q = "SELECT #__{vm}_category.category_flypage FROM #__{vm}_category, #__{vm}_product_category_xref, #__{vm}_product ";
-			$q .= "WHERE #__{vm}_product.product_id='$product_id' ";
-			$q .= "AND #__{vm}_product_category_xref.product_id=#__{vm}_product.product_id ";
-			$q .= "AND #__{vm}_product_category_xref.category_id=#__{vm}_category.category_id";
+                        LEFT JOIN `#__{vm}_product_category_xref` ON `#__{vm}_product_category_xref`.`product_id` = `#__{vm}_product`.`product_id`
+                        LEFT JOIN `#__{vm}_category` ON `#__{vm}_product_category_xref`.`category_id` = `#__{vm}_category`.`category_id`
 
-			$db->setQuery($q); $db->query();
-			$db->next_record();
-			if ($db->f("category_flypage")) {
-				$_SESSION['product_sess'][$product_id]['flypage'] = $db->f("category_flypage");
-			}
-			else {
-				$_SESSION['product_sess'][$product_id]['flypage'] = FLYPAGE;
-			}
-		}
-		return $_SESSION['product_sess'][$product_id]['flypage'];
-	}
+                        WHERE `#__{vm}_product`.`product_id`='$productParentId'
+                        ";
+
+                        $db->query($q);
+                        $db->next_record();
+                    } while( $db->f("product_parent_id") && !$db->f("category_flypage"));
+
+                    if ($db->f("category_flypage")) {
+                            $_SESSION['product_sess'][$product_id]['flypage'] = $db->f("category_flypage");
+                    } else {
+                            $_SESSION['product_sess'][$product_id]['flypage'] = FLYPAGE;
+                    }
+            }
+            return $_SESSION['product_sess'][$product_id]['flypage'];
+        }
 	
 	/**
 	 * Function to get the name of the vendor the product is associated with
@@ -1747,7 +1757,7 @@ class ps_product extends vmAbstractObject {
 			else {
 				switch( $discount_info["is_percent"] ) {
 					case 0: $price["product_price"] = (($price["product_price"])-$discount_info["amount"]); break;
-					case 1: $price["product_price"] = ($price["product_price"] - $discount_info["amount"]/$price["product_price"]); break;
+					case 1: $price["product_price"] = ($price["product_price"] - ($discount_info["amount"]/100)*$price["product_price"]); break;
 				}
 			}
 		}

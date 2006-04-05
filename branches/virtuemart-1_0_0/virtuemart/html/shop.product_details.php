@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: shop.product_details.php,v 1.12.2.4 2006/03/14 18:42:23 soeren_nb Exp $
+* @version $Id: shop.product_details.php,v 1.12.2.5 2006/03/21 19:38:23 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -359,6 +359,7 @@ $template = str_replace( "{navigation_pathway}", $navigation_pathway, $template 
 $template = str_replace( "{navigation_childlist}", $navigation_childlist, $template );
 $template = str_replace( "{product_name}", $product_name, $template );
 $template = str_replace( "{product_image}", $product_image, $template );
+$template = str_replace( "{full_image}", $full_image, $template ); // to display the full image on flypage
 $template = str_replace( "{more_images}", $more_images, $template );
 $template = str_replace( "{file_list}", $file_list, $template );
 $template = str_replace( "{edit_link}", $edit_link, $template );

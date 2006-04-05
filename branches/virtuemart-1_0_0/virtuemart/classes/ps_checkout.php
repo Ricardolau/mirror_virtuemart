@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_checkout.php,v 1.22.2.6 2006/03/07 19:34:01 soeren_nb Exp $
+* @version $Id: ps_checkout.php,v 1.22.2.7 2006/03/21 19:38:21 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -773,6 +773,7 @@ Order Total: '.$order_total.'
 			if (!$_PAYMENT->process_payment($order_number,$order_total, $d)) {
 				$vmLogger->err( $VM_LANG->_PHPSHOP_PAYMENT_ERROR." ($payment_class)" );
 				$_SESSION['last_page'] = "checkout.index";
+				$_REQUEST["checkout_next_step"] = CHECK_OUT_GET_PAYMENT_METHOD;
 				return False;
 			}
 		}
@@ -841,9 +842,11 @@ Order Total: '.$order_total.'
 		/**
 	    * Insert the initial Order History.
 	    */
+		$mysqlDatetime = date("Y-m-d G:i:s", $timestamp);
+		
 		$q = "INSERT INTO #__{vm}_order_history ";
 		$q .= "(order_id,order_status_code,date_added,customer_notified,comments) VALUES (";
-		$q .= "'$order_id', 'P', NOW(), '1', '')";
+		$q .= "'$order_id', 'P', '" . $mysqlDatetime . "', 1, '')";
 		$db->query($q);
 
 		/**

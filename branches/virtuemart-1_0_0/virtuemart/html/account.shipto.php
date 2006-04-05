@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: account.shipto.php,v 1.4 2005/10/25 19:36:49 soeren_nb Exp $
+* @version $Id: account.shipto.php,v 1.4.2.1 2006/03/10 15:55:15 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -66,6 +66,7 @@ echo "<br />".$VM_LANG->_PHPSHOP_SHIPTO_TEXT. "<br /><br /><br />";
   <input type="hidden" name="option" value="com_virtuemart" />
   <input type="hidden" name="Itemid" value="<?php echo $Itemid ?>" />
   <input type="hidden" name="page" value="<?php echo $next_page ?>" />
+  <input type="hidden" name="next_page" value="<?php echo $next_page ?>" />
 <?php
    if (!empty($user_info_id)) { ?>
       <input type="hidden" name="func" value="userAddressUpdate" />
@@ -251,6 +252,7 @@ echo "<br />".$VM_LANG->_PHPSHOP_SHIPTO_TEXT. "<br /><br /><br />";
       <form action="<?php echo SECUREURL ?>index.php" method="post">
         <input type="hidden" name="option" value="com_virtuemart" />
         <input type="hidden" name="page" value="<?php echo $next_page ?>" />
+        <input type="hidden" name="next_page" value="<?php echo $next_page ?>" />
         <input type="hidden" name="func" value="useraddressdelete" />
         <input type="hidden" name="user_info_id" value="<?php echo $user_info_id ?>" />
         <input type="hidden" name="user_id" value="<?php echo $auth["user_id"] ?>" />

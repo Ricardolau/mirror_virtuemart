@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_affiliate.php,v 1.3 2005/09/27 17:48:50 soeren_nb Exp $
+* @version $Id: ps_affiliate.php,v 1.5 2005/09/30 10:14:30 codename-matrix Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -256,9 +256,9 @@ class ps_affiliate {
    
    //get the affiliate id from affiliate table for this user
 	$q =  "SELECT * FROM #__{vm}_affiliate, #__users";
-	$q .= " WHERE #__{vm}_affiliate.user_id = #__users.user_info_id";
+	$q .= " WHERE #__{vm}_affiliate.user_id = #__{vm}_user_info.user_info_id";
 	if(!$affiliate_id){
-		$q .= " AND #__users.id = '".$auth["user_id"]."'";
+		$q .= " AND #__{vm}_user_info.user_id = '".$auth["user_id"]."'";
 	}
 	else {
 		$q .=" AND #__{vm}_affiliate.affiliate_id = '".$affiliate_id."'";

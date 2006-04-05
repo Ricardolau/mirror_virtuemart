@@ -1935,7 +1935,7 @@ $db->query( "INSERT INTO `#__{vm}_zone_shipping` VALUES (1, 'Default', 6.00, 35.
  * You wonder why users are visible in VirtueMart after installation?
  * Well, because we add them here.
  */
-$db->query( "SELECT * FROM #__users"); 
+$db->query( "SELECT `id`, `email`, `registerDate`, `lastvisitDate` FROM `#__users`"); 
 $row = $db->loadObjectList();
 foreach( $row as $user) {
 	$db->query( "INSERT INTO `#__{vm}_auth_user_vendor` VALUES ('".$user->id."', '1');" );

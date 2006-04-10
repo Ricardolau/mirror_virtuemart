@@ -52,6 +52,7 @@ $_REQUEST['cid'][0] = $user_id;
 $_REQUEST['task'] = 'edit';
 $GLOBALS['option'] = 'com_users'; // Cheat Joomla 1.1
 $mainframe->_path->admin_html = $mosConfig_absolute_path.'/administrator/components/com_users/admin.users.html.php';
+require_once( $mainframe->_path->admin_html );
 $mainframe->_path->class = $mosConfig_absolute_path.'/administrator/components/com_users/users.class.php';
 ob_start();
 require( $mosConfig_absolute_path.'/administrator/components/com_users/admin.users.php' );

@@ -33,6 +33,10 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+09-04-2006
+
+# Task #686 - VirtueMart and Mambo 4.6.0 (admin.user_form.php. virtuemart_parser.php)
+
 02-04-2006 soeren
 
 # Task #632 - get_flypage doesn't take into consideration parent products (ps_product.php)

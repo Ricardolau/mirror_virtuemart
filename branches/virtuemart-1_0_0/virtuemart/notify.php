@@ -2,7 +2,7 @@
 /**
 * PayPal IPN Handler
 *
-* @version $Id: notify.php,v 1.5.2.1 2006/03/14 18:42:04 soeren_nb Exp $
+* @version $Id: notify.php,v 1.5.2.3 2006/04/05 18:16:48 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -67,7 +67,18 @@ if ($_POST) {
         require_once( CLASSPATH. 'ps_main.php');
         
 		require_once( CLASSPATH. "language.class.php" );
-	
+		require_once(CLASSPATH."Log/Log.php");
+		$vmLoggerConf = array(
+			'buffering' => true
+			);
+		/**
+		 * This Log Object will help us log messages and errors
+		 * See http://pear.php.net/package/Log
+		 * @global Log vmLogger
+		 */
+		$vmLogger = &vmLog::singleton('display', '', '', $vmLoggerConf, PEAR_LOG_TIP);
+		$GLOBALS['vmLogger'] =& $vmLogger;
+		
         require_once( $mosConfig_absolute_path . '/includes/phpmailer/class.phpmailer.php');
         $mail = new mosPHPMailer();
         $mail->PluginDir = $mosConfig_absolute_path . '/includes/phpmailer/';

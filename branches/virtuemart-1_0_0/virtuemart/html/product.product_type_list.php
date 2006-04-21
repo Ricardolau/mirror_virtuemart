@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: product.product_type_list.php,v 1.4 2005/09/27 17:51:26 soeren_nb Exp $
+* @version $Id: product.product_type_list.php,v 1.5 2005/09/29 20:02:18 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -24,13 +24,15 @@ $q .= $category_id . "' AND ";
 $q .= "#__{vm}_category.category_id=#__{vm}_category_xref.category_child_id ";
 $q .= "AND #__{vm}_category.vendor_id = $ps_vendor_id ";*/
 $q .= "ORDER BY product_type_list_order asc ";
-$q .= "LIMIT $limitstart, $limit";
-$db->setQuery($q);   
-$db->query();
+
+$db->query( $q );
 $num_rows = $db->num_rows();
 
 // Create the Page Navigation
 $pageNav = new vmPageNav( $num_rows, $limitstart, $limit );
+
+$q .= "LIMIT {$pageNav->limitstart}, {$pageNav->limit}";
+$db->query( $q );
 
 // Create the List Object with page navigation
 $listObj = new listFactory( $pageNav );

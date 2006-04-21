@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: admin.user_list.php,v 1.5.2.1 2005/12/11 12:42:56 soeren_nb Exp $
+* @version $Id: admin.user_list.php,v 1.5.2.2 2006/02/18 09:20:11 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -24,8 +24,8 @@ if (!$acl->acl_check( 'administration', 'manage', 'users', $my->usertype, 'compo
 require_once( CLASSPATH . "pageNavigation.class.php" );
 require_once( CLASSPATH . "htmlTools.class.php" );
 
-$list  = "SELECT * FROM #__users AS u LEFT JOIN #__{vm}_user_info AS ui ON id=user_id";
-$count = "SELECT COUNT(id) as num_rows FROM #__users AS u LEFT JOIN #__{vm}_user_info AS ui ON id=user_id";
+$list  = "SELECT * FROM #__users AS u LEFT JOIN #__{vm}_user_info AS ui ON u.id=ui.user_id";
+$count = "SELECT COUNT(id) as num_rows FROM #__users AS u LEFT JOIN #__{vm}_user_info AS ui ON u.id=ui.user_id";
 $q = " WHERE ";
 if ( !empty($keyword) ) {	
 	$q .= " (u.username LIKE '%$keyword%' OR ";

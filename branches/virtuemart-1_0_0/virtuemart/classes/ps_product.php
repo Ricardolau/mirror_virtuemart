@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_product.php,v 1.24.2.12 2006/03/23 20:06:16 soeren_nb Exp $
+* @version $Id: ps_product.php,v 1.24.2.13 2006/04/05 18:16:53 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -1098,7 +1098,9 @@ class ps_product extends vmAbstractObject {
 
                         $db->query($q);
                         $db->next_record();
-                    } while( $db->f("product_parent_id") && !$db->f("category_flypage"));
+                        $productParentId = $db->f("product_parent_id");
+                    } 
+                    while( $db->f("product_parent_id") && !$db->f("category_flypage"));
 
                     if ($db->f("category_flypage")) {
                             $_SESSION['product_sess'][$product_id]['flypage'] = $db->f("category_flypage");
@@ -1910,7 +1912,9 @@ class ps_product extends vmAbstractObject {
 			$price_info = $this->get_price( $product_id );
 			// Get the Base Price of the Product
 			$base_price_info = $this->get_price($product_id, true );
-
+			if( $price_info === false ) {
+				$price_info = $base_price_info;
+			}
 			$html = "";
 			$undiscounted_price = 0;
 			if (isset($price_info["product_price_id"])) {

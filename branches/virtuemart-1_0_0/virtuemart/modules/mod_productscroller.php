@@ -242,6 +242,7 @@ function getProductSKU( $limit=0, $how=null, $category_id=0 ) {
 
 	$query = "SELECT p.product_sku FROM #__{vm}_product AS p";
 	$first = true;
+	if( empty( $category_id )) { $category_id = array(); }
 	foreach( $category_id as $cat ) {
 		$cat = intval( $cat );
 		if( $cat != 0 ) {

@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_session.php,v 1.15.2.7 2006/03/08 20:05:31 soeren_nb Exp $
+* @version $Id: ps_session.php,v 1.15.2.10 2006/03/21 19:38:22 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2006 Soeren Eberhardt. All rights reserved.
@@ -39,12 +39,18 @@ class ps_session {
      */
 	function initSession() {
 		global $vmLogger, $mainframe;
-		if( empty($_SESSION)) {
+		
+		// Some servers start the session before we can, so close those and start again		
+		if( !defined('_PSHOP_ADMIN') && !empty($_SESSION)) {
+			session_write_close();
+			unset( $_SESSION );
+		}
+		if( empty( $_SESSION )) {
 			// Session not yet started!			
 			session_name( $this->_session_name );
 			
 			if( @$_REQUEST['option'] == 'com_virtuemart' ) {
-			    ob_start();
+				ob_start();
 			}
 			@session_start();
 			
@@ -55,9 +61,6 @@ class ps_session {
 				$vmLogger->debug( 'A Cookie had to be set to keep the session (there was none - does your Browser keep the Cookie?) although a Session already has been started! If you see this message on each page load, your browser doesn\'t accept Cookies from this site.' );
 			}
 		}
-		elseif( !defined('_PSHOP_ADMIN')) {
-			$vmLogger->debug( 'A Session had already been started...you seem to be using SMF, phpBB or another Sesson based Software.' );
-		}	
 	}
 		
 	/**

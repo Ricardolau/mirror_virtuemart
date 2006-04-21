@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: ps_config.php,v 1.9.2.3 2006/03/14 18:42:10 soeren_nb Exp $
+* @version $Id: ps_config.php,v 1.9.2.4 2006/03/21 19:38:21 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -27,7 +27,7 @@ class ps_config {
  ****************************************************************************/
 
 function writeconfig(&$d) {
-    global $my, $db, $_VERSION;
+    global $my, $db, $_VERSION, $VM_LANG;
     
     $group_id = intval( $d['conf_VM_PRICE_ACCESS_LEVEL'] );
     if( $group_id != 0 ) {

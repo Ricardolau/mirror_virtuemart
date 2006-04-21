@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_order.php,v 1.12.2.7 2006/03/23 20:06:16 soeren_nb Exp $
+* @version $Id: ps_order.php,v 1.12.2.8 2006/04/05 18:16:53 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -63,8 +63,7 @@ class ps_order {
 			$notify_customer=0;
 		}
 
-		$d['order_comment'] = empty($d['order_comment']) ? "" : $d['order_comment'];
-		$d['order_comment'] = $db->getEscaped( $d['order_comment'] );
+		$d['order_comment'] = empty($d['order_comment']) ? "" : $db->getEscaped( $d['order_comment'] );
 		
 		// When the order is set to "confirmed", we can capture
 		// the Payment with authorize.net

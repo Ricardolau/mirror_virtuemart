@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: shop.cart.php,v 1.3.2.2 2006/03/14 18:42:23 soeren_nb Exp $
+* @version $Id: shop.cart.php,v 1.3.2.3 2006/03/28 19:40:15 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -25,7 +25,7 @@ $continue_link = '';
 if( !empty( $category_id)) {
         $continue_link = $sess->url( $_SERVER['PHP_SELF'].'?page=shop.browse&amp;category_id='.$category_id );
 }
-elseif( empty( $category_id) && !empty($product_id)) {
+elseif( empty( $category_id) && !empty($product_id) && empty($func)) {
         $db->query( 'SELECT `category_id` FROM `#__{vm}_product_category_xref` WHERE `product_id`='.intval($product_id) );
         $db->next_record();
         $category_id = $db->f('category_id');

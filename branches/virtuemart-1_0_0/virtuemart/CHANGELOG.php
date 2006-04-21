@@ -33,10 +33,32 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+20-04-2006 soeren
+# Task #722 - Undefined index: coupon_discount in ps_checkout.php
+# Task #721 - Trying to get property of non-object in shop.debug.php
+# Task #720 - Undefined $VM_LANG in ps_config.php
+# Task #719 - User list and user registration not compatible with UserExtended Component (ps_perm.php, admin.user_list.php)
+# Task #715 - List Prices not showing since upgrade to 1.0.4 (ps_product.php, function show_prices)
+# Task #560 - Clone Product with Child Products (added "SHOW" as result-returning-case ps_database.php)
+# Task #675 - No permissions to view products after search (virtuemart.searchbot.php)
+# Task #698 - Lost password link uses relative link instead of absolute (mod_virtuemart.php)
+# Task #707 - Payment method at the end of the checkout is not shown (ps_checkout.php)
+# Task #703 - Continue Shopping appears after modifying order details in shopping cart 
+^ registered users (logged in) who are NOT registered as a customer (no billing address and 
+	no shopper group) now get the "default" shopper group id when browsing the shop. (ps_perm.php)
+	
+18-04-2006
+
+# Task #705 - Product Type Pagelinks are not working due to wrong $num_rows
+# Task #706 - Session Problems in Mambo 4.5.3h (closing opened sessions when session.auto_start=1, ps_session.php)
+# search for the correct flypage lead to endless loop (ps_product.php)
+
 09-04-2006
 
 # Task #686 - VirtueMart and Mambo 4.6.0 (admin.user_form.php. virtuemart_parser.php)
-
+# Task #646 - Search according to Parameters incorrect query
+# Task #642 - Set Locale Error (virtuemart_parser.php)
+ 
 02-04-2006 soeren
 
 # Task #632 - get_flypage doesn't take into consideration parent products (ps_product.php)

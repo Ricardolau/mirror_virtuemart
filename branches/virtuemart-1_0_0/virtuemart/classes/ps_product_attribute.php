@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_product_attribute.php,v 1.7 2005/11/09 20:55:04 soeren_nb Exp $
+* @version $Id: ps_product_attribute.php,v 1.7.2.1 2006/02/27 19:41:42 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -323,7 +323,11 @@ class ps_product_attribute {
 							$attribut_hint = "test";
 						}
 						$base_var=str_replace(" ","_",$base_value);
-						$html.="<option value=\"$base_var\">$attribtxt&nbsp;(&nbsp;".$vorzeichen."&nbsp;".$CURRENCY_DISPLAY->getFullValue($price)."&nbsp;)</option>";
+						$html.="<option value=\"$base_var\">$attribtxt";
+						if( $_SESSION['auth']['show_prices'] ) {
+							$html .= "&nbsp;(&nbsp;".$vorzeichen."&nbsp;".$CURRENCY_DISPLAY->getFullValue($price)."&nbsp;)";
+						}
+						$html .= "</option>";
 					}
 					else {
 						$base_var=str_replace(" ","_",$base_value);

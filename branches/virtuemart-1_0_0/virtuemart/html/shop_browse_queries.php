@@ -4,7 +4,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * This file is to be included from the file shop.browse.php
 * and uses variables from the environment of the file shop.browse.php
 *
-* @version $Id: shop_browse_queries.php,v 1.6.2.2 2006/03/21 19:38:23 soeren_nb Exp $
+* @version $Id: shop_browse_queries.php,v 1.6.2.3 2006/03/28 19:40:15 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -285,7 +285,7 @@ elseif (empty($manufacturer_id)) {
 
 /*** GET ALL PUBLISHED PRODUCTS FROM THAT MANUFACTURER ***/
 elseif (!empty($manufacturer_id)) {
-	$list  = "SELECT DISTINCT * FROM (`#__{vm}_product`, `#__{vm}_product_mf_xref`,`#__{vm}_shopper_group` ";
+	$list  = "SELECT DISTINCT *,`#__{vm}_product`.`product_id` FROM (`#__{vm}_product`, `#__{vm}_product_mf_xref`,`#__{vm}_shopper_group` ";
 	$count  = "SELECT $count_name FROM (`#__{vm}_product`, `#__{vm}_product_mf_xref`,`#__{vm}_shopper_group` ";
 	$q  = " manufacturer_id='".$manufacturer_id."' ";
 	$q .= "\n AND `#__{vm}_product`.`product_id`=`#__{vm}_product_mf_xref`.`product_id` ";

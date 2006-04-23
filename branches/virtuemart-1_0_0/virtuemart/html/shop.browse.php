@@ -3,7 +3,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 /**
 * This is the Main Product Listing File!
 *
-* @version $Id: shop.browse.php,v 1.10.2.8 2006/03/21 19:38:23 soeren_nb Exp $
+* @version $Id: shop.browse.php,v 1.10.2.9 2006/04/05 18:16:54 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -297,7 +297,7 @@ else {
 		if (empty($flypage)) {
 			$flypage = FLYPAGE;
 		}
-                
+
         $url = $sess->url( $mm_action_url."index.php?page=shop.product_details&flypage=$flypage&product_id=" . $db_browse->f("product_id") . "&category_id=" . $db_browse->f("category_id"). "&manufacturer_id=" . $manufacturer_id);
 
         if( $db_browse->f("product_thumb_image") ) {

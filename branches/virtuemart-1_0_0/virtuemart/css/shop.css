@@ -3,7 +3,12 @@
 
 /* Shop Styles here please
 */
-
+.legalinfo {
+	background: lightgray;
+	border: 2px solid gray;
+	margin: 10px;
+	padding: 0px 0px 10px 10px;
+}
 /*
 General Formatting
 */

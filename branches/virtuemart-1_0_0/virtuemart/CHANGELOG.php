@@ -33,8 +33,19 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+27-04-2006 soeren
+# Task #729 - additional address links in admin (admin.user_form.php)
+# Task #733 - Discount causes error message in Order Details page (account.order_details.php
+# Task #73 - Order Confirm E-Mail - Plain text & html text of Message differ (ps_checkout.php)
+# fixed mis-aligned icons on administraton start page (ps_html.php)
+# product type list & form missing an object (product.product_type_list/_form.php)
+
 23-04-2006 soeren
 
++ Now it is possible to easily inform your customers about their order cancellation right
+	and your returns policy (as required by law in most european countries!)
+	=> added 3 new configuration parameters (affected files: ps_config.php, admin.show_cfg.php, checkout.index.php, language files)
+	! Update your configuration when updating from an earlier version
 # hiding attribute price modifiers when the user has no permission to view prices (ps_product_attribute.php)
 
 20-04-2006 soeren

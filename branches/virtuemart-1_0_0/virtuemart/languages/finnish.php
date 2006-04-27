@@ -1,10 +1,10 @@
 <?php
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
-* @version $Id: english.php,v 1.12.2.2 2006/03/03 07:09:04 soeren_nb Exp $
-* @Original version $Id: finnish.php,v 1.12.2.2 2006/03/03 07:09:04 soeren_nb Exp $
-* Modified  2006/3/20 10:45:53 by Mauri Narhi
-* @package VirtueMart 1.0.x language finnish.php
+*
+* @version $Id: admin.martlanguages.php,v 1.6 2006/01/15 19:42:45 soeren_nb Exp $
+* @package VirtueMart
+* @subpackage languages
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -16,24 +16,24 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * http://virtuemart.net
 */
 class vmLanguage extends vmAbstractLanguage {
-    var $_PHPSHOP_MENU = 'Valikko';
-    var $_PHPSHOP_CATEGORY = 'Kategoria';
-    var $_PHPSHOP_CATEGORIES = 'Kategoriat';
-    var $_PHPSHOP_SELECT_CATEGORY = 'Valitse kategoria:';
-    var $_PHPSHOP_ADMIN = 'Hallinta';
-    var $_PHPSHOP_PRODUCT = 'Tuote';
-    var $_PHPSHOP_LIST = 'Luettelo';
-    var $_PHPSHOP_ALL = 'Kaikki';
-    var $_PHPSHOP_LIST_ALL_PRODUCTS = 'Näytä kaikki tuotteet';
-    var $_PHPSHOP_VIEW = 'Katso';
-    var $_PHPSHOP_SHOW = 'Näytä';
-    var $_PHPSHOP_ADD = 'Lisää';
-    var $_PHPSHOP_UPDATE = 'Päivitä';
-    var $_PHPSHOP_DELETE = 'Poista';
-    var $_PHPSHOP_SELECT = 'Valitse';
-    var $_PHPSHOP_SUBMIT = 'Lisää';
-    var $_PHPSHOP_RANDOM = 'Näyteikkunassa';
-    var $_PHPSHOP_LATEST = 'Uusimmat tuotteet';
+	var $_PHPSHOP_MENU = 'Valikko';
+	var $_PHPSHOP_CATEGORY = 'Kategoria';
+	var $_PHPSHOP_CATEGORIES = 'Kategoriat';
+	var $_PHPSHOP_SELECT_CATEGORY = 'Valitse kategoria:';
+	var $_PHPSHOP_ADMIN = 'Hallinta';
+	var $_PHPSHOP_PRODUCT = 'Tuote';
+	var $_PHPSHOP_LIST = 'Luettelo';
+	var $_PHPSHOP_ALL = 'Kaikki';
+	var $_PHPSHOP_LIST_ALL_PRODUCTS = 'Näytä kaikki tuotteet';
+	var $_PHPSHOP_VIEW = 'Katso';
+	var $_PHPSHOP_SHOW = 'Näytä';
+	var $_PHPSHOP_ADD = 'Lisää';
+	var $_PHPSHOP_UPDATE = 'Päivitä';
+	var $_PHPSHOP_DELETE = 'Poista';
+	var $_PHPSHOP_SELECT = 'Valitse';
+	var $_PHPSHOP_SUBMIT = 'Lisää';
+	var $_PHPSHOP_RANDOM = 'Näyteikkunassa';
+	var $_PHPSHOP_LATEST = 'Uusimmat tuotteet';
 	var $_PHPSHOP_HOME_TITLE = 'Etusivu';
 	var $_PHPSHOP_CART_TITLE = 'Ostoskori';
 	var $_PHPSHOP_CHECKOUT_TITLE = 'Osta tuotteet';
@@ -82,7 +82,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_FUNC_NO_EXEC = 'Sinulla ei ole oikeusia suorittaa';
 	var $_PHPSHOP_FUNC_NOT_REG = 'Toimintoa ei ole rekisteröity';
 	var $_PHPSHOP_FUNC_ISNO_REG = ' ei ole käypä VirtueMart toiminto.';
-    	var $_PHPSHOP_ADMIN_MOD = 'Hallinta';
+	var $_PHPSHOP_ADMIN_MOD = 'Hallinta';
 	var $_PHPSHOP_USER_LIST_MNU = 'Luettele käyttäjät';
 	var $_PHPSHOP_USER_LIST_LBL = 'Käyttäjäluettelo';
 	var $_PHPSHOP_USER_LIST_USERNAME = 'Käyttäjänimi';
@@ -763,7 +763,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_DOWNLOADS_SEND_MSG_3 = 'maksimilatauskerrat jokaiselle tiedostolle on: ';
 	var $_PHPSHOP_DOWNLOADS_SEND_MSG_4 = 'Lataus voimassa {expire} päivää ensimmäisen latauksen jälkeen';
 	var $_PHPSHOP_DOWNLOADS_SEND_MSG_5 = 'Kysymyksiä? Ongelmia?';
-	var $_PHPSHOP_DOWNLOADS_SEND_MSG_6 = 'Lataustiedon toimitti '; // esim. Lataustiedon toimitti Malli Oy.
+	var $_PHPSHOP_DOWNLOADS_SEND_MSG_6 = 'Lataustiedon toimitti ';
 	var $_PHPSHOP_PRODUCT_FORM_DOWNLOADABLE = 'Ladattava tuote?';
 	var $_PHPSHOP_PAYPAL_THANKYOU = 'Kiitos maksusta. Suoritus onnistui. Maksuvahvistus tulee sähköpostilla PayPal:ista. Voit nyt jatkaa tai kirjautua sisään <a href=http://www.paypal.com>www.paypal.com</a> nähdäksesi maksutiedot.';
 	var $_PHPSHOP_PAYPAL_ERROR = 'Suorituksesi käsittelyn aikana tapahtui VIRHE. Tilauksesi tilaa ei voitu päivittää.';
@@ -803,7 +803,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_AFFILIATE_FORM_ACTIVE = 'Aktiivi?';
 	var $_PHPSHOP_DELIVERY_TIME = 'Toimitusaika ';
 	var $_PHPSHOP_DELIVERY_INFORMATION = 'Toimitustiedot';
-	var $_PHPSHOP_MORE_CATEGORIES = '';
+	var $_PHPSHOP_MORE_CATEGORIES = 'more categories';
 	var $_PHPSHOP_AVAILABILITY = 'Saatavuus';
 	var $_PHPSHOP_CURRENTLY_NOT_AVAILABLE = 'Tämä tuote ei ole tällä hetkellä saatavilla.';
 	var $_PHPSHOP_PRODUCT_AVAILABLE_AGAIN = 'Saamme sitä varastoon uudestaan: ';
@@ -815,10 +815,10 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_STATISTIC_SUM = 'Summa';
 	var $_PHPSHOP_STATISTIC_NEW_ORDERS = 'Uudet tilaukset';
 	var $_PHPSHOP_STATISTIC_NEW_CUSTOMERS = 'Uudet asiakkaat';
-      var $_PHPSHOP_WAITING_LIST_MESSAGE = 'Syötä email-osoitteesi, jos haluat tiedon tuotteen tulosta varastoon. Emme käytä tai luovuta antaamasi osoitetta mihinkään muuhun tarkoitukseen, kuin ilmoittaaksemme tuotteen saapumisesta varastoon.<br /><br />Kiitos!';
-      var $_PHPSHOP_WAITING_LIST_THANKS = 'Kiitos kärsivällisyydestä! <br />Ilmoitamme heti, kun varastomme on täydentynyt.';
-      var $_PHPSHOP_WAITING_LIST_NOTIFY_ME = 'Ilmoita minulle!';
-      var $_PHPSHOP_CHECK_OUT_THANK_YOU_PRINT_VIEW = 'Tulosta näkymä';
+	var $_PHPSHOP_WAITING_LIST_MESSAGE = 'Syötä email-osoitteesi, jos haluat tiedon tuotteen tulosta varastoon. Emme käytä tai luovuta antaamasi osoitetta mihinkään muuhun tarkoitukseen, kuin ilmoittaaksemme tuotteen saapumisesta varastoon.<br /><br />Kiitos!';
+	var $_PHPSHOP_WAITING_LIST_THANKS = 'Kiitos kärsivällisyydestä! <br />Ilmoitamme heti, kun varastomme on täydentynyt.';
+	var $_PHPSHOP_WAITING_LIST_NOTIFY_ME = 'Ilmoita minulle!';
+	var $_PHPSHOP_CHECK_OUT_THANK_YOU_PRINT_VIEW = 'Tulosta näkymä';
 	var $_PHPSHOP_ADMIN_CFG_AUTORIZE_OR_CYBERCASH = 'Valitse JOKO Authorize.net TAI CyberCash';
 	var $_PHPSHOP_ADMIN_CFG_FILE_STATUS = ' Asetustiedoston tila:';
 	var $_PHPSHOP_ADMIN_CFG_FILE_STATUS_WRITEABLE = 'Muokattavissa';
@@ -955,41 +955,41 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_MAX_EXPLAIN = 'Aseta enimmäismäärä latauksille, jonka yksi lataustunnus (Download-ID) voi tehdä tilausta kohti';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE = 'Latauksen aikaraja';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE_EXPLAIN = 'Aseta aika <strong>sekunneissa</strong>, jonka aikana asiakkaan on suoritettava latauksensa. Aika alkaa ensimmäisestä lataamisesta! Kun aika ylittyy, lataamistunnus  (download-ID) lakkaa olemasta voimassa.<br />Muista: 86400s=24h.';
-var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYPAL = 'Salli IPN-maksu PayPalin kautta?';
-var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYPAL_EXPLAIN = 'Merkitse tämä, jos haluat asiakkaittesi käyttävän PayPal-maksutapaa.';
-var $_PHPSHOP_ADMIN_CFG_PAYPAL_EMAIL = 'PayPal-maksun sähköpostiosoite:';
-var $_PHPSHOP_ADMIN_CFG_PAYPAL_EMAIL_EXPLAIN = 'Yrityksesi (business email) sähköpostiosoite PayPal-maksuja varten. Käytetään myös vastaanottajaosoitteena (receiver_email).';
-var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS = 'Tilaustilanne/vaihe (Order Status), jossa rahansiirto voi onnistua (for successful transactions)';
-var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS_EXPLAIN = 'Valitse tilanne/vaihe, johon tilaus asetetaan, jos PayPal-siirto onnistui. (Select the order status to which the actual order is set, if the PayPal IPN was successful.) Jos latausmahdollisuus on aktivoituna, aseta tilaustilanne/vaihe, jossa lataus voi onnistua (asiakas saa tästä välittömästi tiedon sähköpostitse). (If using download selling options: 
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYPAL = 'Salli IPN-maksu PayPalin kautta?';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYPAL_EXPLAIN = 'Merkitse tämä, jos haluat asiakkaittesi käyttävän PayPal-maksutapaa.';
+	var $_PHPSHOP_ADMIN_CFG_PAYPAL_EMAIL = 'PayPal-maksun sähköpostiosoite:';
+	var $_PHPSHOP_ADMIN_CFG_PAYPAL_EMAIL_EXPLAIN = 'Yrityksesi (business email) sähköpostiosoite PayPal-maksuja varten. Käytetään myös vastaanottajaosoitteena (receiver_email).';
+	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS = 'Tilaustilanne/vaihe (Order Status), jossa rahansiirto voi onnistua (for successful transactions)';
+	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS_EXPLAIN = 'Valitse tilanne/vaihe, johon tilaus asetetaan, jos PayPal-siirto onnistui. (Select the order status to which the actual order is set, if the PayPal IPN was successful.) Jos latausmahdollisuus on aktivoituna, aseta tilaustilanne/vaihe, jossa lataus voi onnistua (asiakas saa tästä välittömästi tiedon sähköpostitse). (If using download selling options: 
   select the status which enables the download (then the customer is instantly notified about the download via e-mail).)';
-var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED = 'Tilaustilanne/vaihe epäonnistuneita siirtoja varten. (Order Status for failed transactions)';
-var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED_EXPLAIN = 'Valitse tilaustilanne/vaihe epäonnstuneita PayPal-siirtoja varten. (Select an order status for failed PayPal transactions.)';
-var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYMATE = 'Aktivoi maksaminen PayMaten kautta ?';
-var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYMATE_EXPLAIN = 'Merkitse tämä, jos aiot sallia asiakkaasi käyttävän  australialaista PayMate-maksujärjestelmää.';
-var $_PHPSHOP_ADMIN_CFG_PAYMATE_USERNAME = 'PayMate-käyttäjänimi:';
-var $_PHPSHOP_ADMIN_CFG_PAYMATE_USERNAME_EXPLAIN = 'PayMate-käyttäjätilisi.';
-var $_PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET = 'Aktivoi Authorize.net-maksujärjestelmä?';
-var $_PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_EXPLAIN = 'Merkitse tähän, jos aiot käyttää Authorize.net-järjestelmää.';
-var $_PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_TESTMODE = 'Testaustila ?';
-var $_PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_TESTMODE_EXPLAIN = 'Valitse "Yes" testataksesi. Valitse "No" mahdollistamaan suorat rahansiirrot.';
+	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED = 'Tilaustilanne/vaihe epäonnistuneita siirtoja varten. (Order Status for failed transactions)';
+	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED_EXPLAIN = 'Valitse tilaustilanne/vaihe epäonnstuneita PayPal-siirtoja varten. (Select an order status for failed PayPal transactions.)';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYMATE = 'Aktivoi maksaminen PayMaten kautta ?';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYMATE_EXPLAIN = 'Merkitse tämä, jos aiot sallia asiakkaasi käyttävän  australialaista PayMate-maksujärjestelmää.';
+	var $_PHPSHOP_ADMIN_CFG_PAYMATE_USERNAME = 'PayMate-käyttäjänimi:';
+	var $_PHPSHOP_ADMIN_CFG_PAYMATE_USERNAME_EXPLAIN = 'PayMate-käyttäjätilisi.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET = 'Aktivoi Authorize.net-maksujärjestelmä?';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_EXPLAIN = 'Merkitse tähän, jos aiot käyttää Authorize.net-järjestelmää.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_TESTMODE = 'Testaustila ?';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_TESTMODE_EXPLAIN = 'Valitse "Yes" testataksesi. Valitse "No" mahdollistamaan suorat rahansiirrot.';
 	var $_PHPSHOP_ADMIN_CFG_YES = 'Kyllä';
 	var $_PHPSHOP_ADMIN_CFG_NO = 'Ei';
-var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_USERNAME = 'Authorize.net-kirjautumistunnus (Login ID)';
-var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_USERNAME_EXPLAIN = 'Tässä on Authorize.Net-kirjautumistunnuksesi. (Login ID)';
-var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_KEY = 'Authorize.net-siirtoavain (Transaction Key)';
-var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_KEY_EXPLAIN = 'Tässä on Authorize.net-siirtoavaimesi (Transaction Key)';
-var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_AUTENTICATIONTYPE = 'Varmistamistapa (Authentication Type)';
-var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_AUTENTICATIONTYPE_EXPLAIN = 'Tässä on Authorize.Net-varmennustapa. (authentication type).';
-var $_PHPSHOP_ADMIN_CFG_ENABLE_CYBERCASH = 'Salli CyberCash?';
-var $_PHPSHOP_ADMIN_CFG_ENABLE_CYBERCASH_EXPLAIN = 'Merkitse tämä, jos aiot käyttää CyberCash-maksutapaa.';
-var $_PHPSHOP_ADMIN_CFG_CYBERCASH_MERCHAND = 'CyberCash MERCHANT';
-var $_PHPSHOP_ADMIN_CFG_CYBERCASH_MERCHAND_EXPLAIN = 'CC_MERCHANT on CyberCash-kauppiastunnus (Merchant ID)';
-var $_PHPSHOP_ADMIN_CFG_CYBERCASH_MERCHAND_KEY = 'CyberCash-kauppiasavain (Merchant Key)';
-var $_PHPSHOP_ADMIN_CFG_CYBERCASH_MERCHAND_KEY_EXPLAIN = 'CyberCash-kauppiasavain (Merchant Key) on  CyberCashin antama kauppiasoikeus';
-var $_PHPSHOP_ADMIN_CFG_CYBERCASH_URL = 'CyberCash-maksuosoite (PAYMENT URL)';
-var $_PHPSHOP_ADMIN_CFG_CYBERCASH_URL_EXPLAIN = 'CyberCash-maksuosoite (PAYMENT URL) on Cybercashin turvallinen maksuosoite (secure payment)';
-var $_PHPSHOP_ADMIN_CFG_CYBERCASH_AUTENTICATIONTYPE = 'CyberCash AUTH TYPE';
-var $_PHPSHOP_ADMIN_CFG_CYBERCASH_AUTENTICATIONTYPE_EXPLAIN = 'CyberCash AUTH TYPE on Cybercash varmennustyyppi (authentication type)';
+	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_USERNAME = 'Authorize.net-kirjautumistunnus (Login ID)';
+	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_USERNAME_EXPLAIN = 'Tässä on Authorize.Net-kirjautumistunnuksesi. (Login ID)';
+	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_KEY = 'Authorize.net-siirtoavain (Transaction Key)';
+	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_KEY_EXPLAIN = 'Tässä on Authorize.net-siirtoavaimesi (Transaction Key)';
+	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_AUTENTICATIONTYPE = 'Varmistamistapa (Authentication Type)';
+	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_AUTENTICATIONTYPE_EXPLAIN = 'Tässä on Authorize.Net-varmennustapa. (authentication type).';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_CYBERCASH = 'Salli CyberCash?';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_CYBERCASH_EXPLAIN = 'Merkitse tämä, jos aiot käyttää CyberCash-maksutapaa.';
+	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_MERCHAND = 'CyberCash MERCHANT';
+	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_MERCHAND_EXPLAIN = 'CC_MERCHANT on CyberCash-kauppiastunnus (Merchant ID)';
+	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_MERCHAND_KEY = 'CyberCash-kauppiasavain (Merchant Key)';
+	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_MERCHAND_KEY_EXPLAIN = 'CyberCash-kauppiasavain (Merchant Key) on  CyberCashin antama kauppiasoikeus';
+	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_URL = 'CyberCash-maksuosoite (PAYMENT URL)';
+	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_URL_EXPLAIN = 'CyberCash-maksuosoite (PAYMENT URL) on Cybercashin turvallinen maksuosoite (secure payment)';
+	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_AUTENTICATIONTYPE = 'CyberCash AUTH TYPE';
+	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_AUTENTICATIONTYPE_EXPLAIN = 'CyberCash AUTH TYPE on Cybercash varmennustyyppi (authentication type)';
 	var $_PHPSHOP_ADVANCED_SEARCH = 'Tarkennettu haku';
 	var $_PHPSHOP_SEARCH_ALL_CATEGORIES = 'Etsi kaikista tuoteryhmistä';
 	var $_PHPSHOP_SEARCH_ALL_PRODINFO = 'Etsi kaikista tuotetiedoista';
@@ -1001,26 +1001,26 @@ var $_PHPSHOP_ADMIN_CFG_CYBERCASH_AUTENTICATIONTYPE_EXPLAIN = 'CyberCash AUTH TY
 	var $_PHPSHOP_SEARCH_TEXT1 = 'Ensimmäinen pudotuslista antaa mahdollisuuden rajata haku yhteen tuotekategorian. Toinen pudotuslista antaa mahdollisuuden rajata haku tiettyyn tuotetiedon osaan, esim. tuotenimistä. Kun olet tehnyt nämä rajaukset (tai pitäytynyt perusvalinnoissa), tee haku haluamallasi hakusanalla.';
 	var $_PHPSHOP_SEARCH_TEXT2 = ' Voit tarkentaa hakua lisäsanoilla sekä käyttämällä niiden välissä JA- tai EI-operaattoreita. JA-sanan lisäys merkitsee, että kummankin hakusanan on esiinnyttävä myös haettavassa kohteessa. EI-sanan käyttö merkitsee, että valituksi tulee kohde, jossa ensimmäinen hakusana esiintyy mutta toinen ei.';
 	var $_PHPSHOP_ORDERBY = 'Järjestys';
-    var $_PHPSHOP_CUSTOMER_RATING  = 'Keskimääräinen asiakasarvio';
-    var $_PHPSHOP_TOTAL_VOTES = 'Äänten määrä';
-    var $_PHPSHOP_CAST_VOTE = 'Äänestä';
-    var $_PHPSHOP_RATE_BUTTON = 'Arvioi';
-    var $_PHPSHOP_RATE_NOM = 'Arvio';
-    var $_PHPSHOP_REVIEWS = 'Asiakkaiden arvioita';
-    var $_PHPSHOP_NO_REVIEWS = 'Ei vielä asiakasarviointeja tälle tuotteelle.';
-    var $_PHPSHOP_WRITE_FIRST_REVIEW = 'Jospa olisit ensimmäinen arvionantaja...';
-    var $_PHPSHOP_REVIEW_LOGIN = 'Kirjaudu sisään ja anna arviosi.';
-    var $_PHPSHOP_REVIEW_ERR_RATE = 'Anna vielä arvosana tuotteelle arviosi päätteeksi!';
-    var $_PHPSHOP_REVIEW_ERR_COMMENT1 = 'Kirjoita vielä muutama sana. Minimimerkkimäärämme on: 100';
-    var $_PHPSHOP_REVIEW_ERR_COMMENT2 = 'Lyhennä hiukan arviotasi. Enimmäismerkkimäärämme on: 2000';
-    var $_PHPSHOP_WRITE_REVIEW = 'Kirjoita arviosi tästä tuotteesta!';
-    var $_PHPSHOP_REVIEW_RATE = 'Ensiksi: anna arvosana. Valitse asteikolta 0:sta (huonoin) 5 tähteen (paras).';
-    var $_PHPSHOP_REVIEW_COMMENT = 'Seuraavaksi: kirjoita lyhyt arvioteksti ....(min. 100, max. 2000 merkkiä) ';
-    var $_PHPSHOP_REVIEW_COUNT = 'Merkkimäärä: ';
-    var $_PHPSHOP_REVIEW_SUBMIT = 'Lähetä arvio';
-    var $_PHPSHOP_REVIEW_ALREADYDONE = 'Meillä on jo aiemmin laatimasi arvio tälle tuotteelle.';
-    var $_PHPSHOP_REVIEW_THANKYOU = 'Kiitos arviosta!';
-    var $_PHPSHOP_COMMENT= 'Kommentti';
+	var $_PHPSHOP_CUSTOMER_RATING = 'Keskimääräinen asiakasarvio';
+	var $_PHPSHOP_TOTAL_VOTES = 'Äänten määrä';
+	var $_PHPSHOP_CAST_VOTE = 'Äänestä';
+	var $_PHPSHOP_RATE_BUTTON = 'Arvioi';
+	var $_PHPSHOP_RATE_NOM = 'Arvio';
+	var $_PHPSHOP_REVIEWS = 'Asiakkaiden arvioita';
+	var $_PHPSHOP_NO_REVIEWS = 'Ei vielä asiakasarviointeja tälle tuotteelle.';
+	var $_PHPSHOP_WRITE_FIRST_REVIEW = 'Jospa olisit ensimmäinen arvionantaja...';
+	var $_PHPSHOP_REVIEW_LOGIN = 'Kirjaudu sisään ja anna arviosi.';
+	var $_PHPSHOP_REVIEW_ERR_RATE = 'Anna vielä arvosana tuotteelle arviosi päätteeksi!';
+	var $_PHPSHOP_REVIEW_ERR_COMMENT1 = 'Kirjoita vielä muutama sana. Minimimerkkimäärämme on: 100';
+	var $_PHPSHOP_REVIEW_ERR_COMMENT2 = 'Lyhennä hiukan arviotasi. Enimmäismerkkimäärämme on: 2000';
+	var $_PHPSHOP_WRITE_REVIEW = 'Kirjoita arviosi tästä tuotteesta!';
+	var $_PHPSHOP_REVIEW_RATE = 'Ensiksi: anna arvosana. Valitse asteikolta 0:sta (huonoin) 5 tähteen (paras).';
+	var $_PHPSHOP_REVIEW_COMMENT = 'Seuraavaksi: kirjoita lyhyt arvioteksti ....(min. 100, max. 2000 merkkiä) ';
+	var $_PHPSHOP_REVIEW_COUNT = 'Merkkimäärä: ';
+	var $_PHPSHOP_REVIEW_SUBMIT = 'Lähetä arvio';
+	var $_PHPSHOP_REVIEW_ALREADYDONE = 'Meillä on jo aiemmin laatimasi arvio tälle tuotteelle.';
+	var $_PHPSHOP_REVIEW_THANKYOU = 'Kiitos arviosta!';
+	var $_PHPSHOP_COMMENT = 'Kommentti';
 	var $_PHPSHOP_CREDITCARD_FORM_LBL = 'Lisää tai muokkaa luottokorttityyppejä';
 	var $_PHPSHOP_CREDITCARD_NAME = 'Luottokortin nimi';
 	var $_PHPSHOP_CREDITCARD_CODE = 'Luottokortti lyhytkoodi';
@@ -1056,7 +1056,7 @@ var $_PHPSHOP_ADMIN_CFG_CYBERCASH_AUTENTICATIONTYPE_EXPLAIN = 'CyberCash AUTH TY
 	var $_PHPSHOP_FLYPAGE_ENLARGE_IMAGE = 'Suurenna kuvaa';
 	var $_PHPSHOP_CURRENCY_DISPLAY = 'Valuutan esitystapa';
 	var $_PHPSHOP_CURRENCY_SYMBOL = 'Valuutan symboli';
-	var $_PHPSHOP_CURRENCY_SYMBOL_TOOLTIP = 'Voit käyttää myös HTML muotoja (esim. &amp;euro;,&amp;pound;,&amp;yen;,...)';
+	var $_PHPSHOP_CURRENCY_SYMBOL_TOOLTIP = 'Voit käyttää myös HTML muotoja (esim. &euro;,&pound;,&yen;,...)';
 	var $_PHPSHOP_CURRENCY_DECIMALS = 'Desimaalit';
 	var $_PHPSHOP_CURRENCY_DECIMALS_TOOLTIP = 'Esitettyjen desimaalien määrä (voi olla 0)<br><b>Suorittaa pyöristyksen mikäli luvun desimaalien määrä on eri</b>';
 	var $_PHPSHOP_CURRENCY_DECIMALSYMBOL = 'Desimaalin symboli';
@@ -1147,7 +1147,7 @@ var $_PHPSHOP_ADMIN_CFG_CYBERCASH_AUTENTICATIONTYPE_EXPLAIN = 'CyberCash AUTH TY
 	var $_PHPSHOP_FREE_SHIPPING_AMOUNT = 'Ilmaiseen rahtiin oikeuttava minimisumma on ';
 	var $_PHPSHOP_FREE_SHIPPING_AMOUNT_TOOLTIP = 'Minimisumma (SISÄLTÄEN VERON!) joka oikeuttaa ilmaiseen rahtiin 
                                                 (esim: <strong>50</strong> tarkoitaa ilmaista rahtia, kun asikas ostaa vähintään
-                                                 50 &amp;euro; (sisältäen veron) tai suuremmalla summalla.';
+                                                 50 &euro; (sisältäen veron) tai suuremmalla summalla.';
 	var $_PHPSHOP_YOUR_STORE = 'Sinun kauppasi';
 	var $_PHPSHOP_CONTROL_PANEL = 'Hallintapaneeli';
 	var $_PHPSHOP_ADMIN_CFG_PDF_BUTTON = 'PDF - Kuvake';
@@ -1208,16 +1208,16 @@ var $_PHPSHOP_ADMIN_CFG_CYBERCASH_AUTENTICATIONTYPE_EXPLAIN = 'CyberCash AUTH TY
 	var $_PHPSHOP_PRODUCT_FORM_CUSTOM_ATTRIBUTE_LIST_EXAMPLES = '<h4>Esimerkkejä erityispiirrelistan sisällöstä:</h4>
         <pre>Nimi;Ekstra;...</pre>';
 	var $_PHPSHOP_MULTISELECT = 'Käytä monivalintaan Ctrl-nappia ja hiirtä';
-var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN = 'Sallitaanko eProcessingNetwork.com-maksu?';
-var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN_EXPLAIN = 'Merkitse tämä, jos sallit eProcessingNetwork.com-maksutavan.';
-var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN_TESTMODE = 'Testaustila ?';
-var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN_TESTMODE_EXPLAIN = 'Valitse KYLLÄ  testaamista varten. Valitse EI varsinaista maksutoimintaa varten.';
-var $_PHPSHOP_ADMIN_CFG_EPN_USERNAME = 'eProcessingNetwork.com-kirjautumistunnus (Login ID)';
-var $_PHPSHOP_ADMIN_CFG_EPN_USERNAME_EXPLAIN = 'Tämä on eProcessingNetwork.com-kirjutumistunnuksesi (Login ID)';
-var $_PHPSHOP_ADMIN_CFG_EPN_KEY = 'eProcessingNetwork.com-siirtoavain (Transaction Key)';
-var $_PHPSHOP_ADMIN_CFG_EPN_KEY_EXPLAIN = 'Tämä on eProcessingNetwork.com-siirtoavaimesi (Transaction Key)';
-var $_PHPSHOP_ADMIN_CFG_EPN_AUTENTICATIONTYPE = 'Vahvistamistyyppi (Authentication Type)';
-var $_PHPSHOP_ADMIN_CFG_EPN_AUTENTICATIONTYPE_EXPLAIN = 'Tämä on eProcessingNetwork.comin vahvistamistyyppi (authentication type).';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN = 'Sallitaanko eProcessingNetwork.com-maksu?';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN_EXPLAIN = 'Merkitse tämä, jos sallit eProcessingNetwork.com-maksutavan.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN_TESTMODE = 'Testaustila ?';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN_TESTMODE_EXPLAIN = 'Valitse KYLLÄ  testaamista varten. Valitse EI varsinaista maksutoimintaa varten.';
+	var $_PHPSHOP_ADMIN_CFG_EPN_USERNAME = 'eProcessingNetwork.com-kirjautumistunnus (Login ID)';
+	var $_PHPSHOP_ADMIN_CFG_EPN_USERNAME_EXPLAIN = 'Tämä on eProcessingNetwork.com-kirjutumistunnuksesi (Login ID)';
+	var $_PHPSHOP_ADMIN_CFG_EPN_KEY = 'eProcessingNetwork.com-siirtoavain (Transaction Key)';
+	var $_PHPSHOP_ADMIN_CFG_EPN_KEY_EXPLAIN = 'Tämä on eProcessingNetwork.com-siirtoavaimesi (Transaction Key)';
+	var $_PHPSHOP_ADMIN_CFG_EPN_AUTENTICATIONTYPE = 'Vahvistamistyyppi (Authentication Type)';
+	var $_PHPSHOP_ADMIN_CFG_EPN_AUTENTICATIONTYPE_EXPLAIN = 'Tämä on eProcessingNetwork.comin vahvistamistyyppi (authentication type).';
 	var $_PHPSHOP_RELATED_PRODUCTS = 'Sukulaistuotteet';
 	var $_PHPSHOP_RELATED_PRODUCTS_TIP = 'Voit tällä listalla luoda tuotesukulaisuuksia. Valitse yksi tai useampia tuotteita, joista tulee siten keskenään <strong>tuotesukulaisia</strong>.';
 	var $_PHPSHOP_RELATED_PRODUCTS_HEADING = 'Ehkä myös tämä tai nämä tuotteet kiinnnostavat.';
@@ -1230,72 +1230,72 @@ var $_PHPSHOP_ADMIN_CFG_EPN_AUTENTICATIONTYPE_EXPLAIN = 'Tämä on eProcessingNetw
 	var $_PHPSHOP_ORDER_HISTORY_DATE_ADDED = 'Lisäyspäivämäärä';
 	var $_PHPSHOP_ORDER_HISTORY_CUSTOMER_NOTIFIED = 'Onko asiakkaalle ilmoitettu?';
 	var $_PHPSHOP_ORDER_STATUS_CHANGE = 'Tilauksen tilan muutos';
-    var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_USERNAME = 'USPS-postituksen käyttäjänimi';
-    var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_USERNAME_TOOLTIP = 'USPS-postituksen käyttäjänimi';
-    var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PASSWORD = 'USPS-postituksen salasana';
-    var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PASSWORD_TOOLTIP = 'USPS-postituksen salasana';
-    var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SERVER = 'USPS-postituksen palvelin (server)';
-    var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SERVER_TOOLTIP = 'USPS-postituksen palvelin (server)';
-    var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PATH = 'USPS-postituksen polku (path)';
-    var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PATH_TOOLTIP = 'USPS-postituksen polku (path)';
-    var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_CONTAINER = 'USPS-postituksen kontti (container)';
-    var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_CONTAINER_TOOLTIP = 'USPS-postituksen kontti (container)';
-    var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGESIZE = 'USPS-paketin koko';
-    var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGESIZE_TOOLTIP = 'USPS-paketin koko';
-    var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGEID = 'USPS-paketin tunnus (Package ID) (pitää olla enemmän kuin 0, koskee vain yhtä pakettia kerrallaan (does not support multiple packages)';
-    var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGEID_TOOLTIP = 'USPS-paketin tunnus (Package ID) (pitää olla enemmän kuin 0)';
-    var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIPSERVICE = 'USPS-postitustapa (Express,First Class,Priority,Parcel,BPM,Library,Media)';
-    var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIPSERVICE_TOOLTIP = 'USPS-postitustapa (Express,First Class,Priority,Parcel,BPM,Library,Media)';
-    var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_HANDLING_FEE = 'Käsittelymaksu';
-    var $_PHPSHOP_USPS_HANDLING_FEE = 'Käsittelymaksusi tälle postitustavalle.';
-    var $_PHPSHOP_USPS_HANDLING_FEE_TOOLTIP = 'Käsittelymaksusi tälle postitustavalle.';
-    var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLHANDLINGFEE = 'Käsittelymaksusi kansainvälisille USPS-postituksille.';
-    var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLHANDLINGFEE_TOOLTIP = 'Käsittelymaksusi kansainvälisille  USPS-postituksille.';
-    var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLLBRATE = 'Painoyksikkökohtainen maksu kansainvälisille USPS-postituksille.';
-    var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLLBRATE_TOOLTIP = 'Painoyksikkökohtainen maksu kansainvälisille USPS-postituksille.';
-    var $_PHPSHOP_USPS_RESPONSE_ERROR = 'USPS ei kyennyt antamaan vastausta postituskulutiedusteluun.';
-    var $_PHPSHOP_PARAMETERS_LBL = 'Muuttujat/parametrit';
-    var $_PHPSHOP_PRODUCT_TYPE_LBL = 'Tuotetyyppi';
-    var $_PHPSHOP_PRODUCT_TYPE_LIST_LBL = 'Tuotetyyppilista';
-    var $_PHPSHOP_PRODUCT_TYPE_ADDEDIT = 'Lisää/muokkaa tuotetyyppi(ä)';
-    var $_PHPSHOP_PRODUCT_PRODUCT_TYPE_LIST_LBL = 'Tyyppilista tuotteille:';
-    var $_PHPSHOP_PRODUCT_PRODUCT_TYPE_LIST_MNU = 'Listaa tuotetyypit';
-    var $_PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_LBL = 'Lisää tuotetyyppi kohtaan';
-    var $_PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_MNU = 'Lisää tuotetyyppi';
-    var $_PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_PRODUCT_TYPE = 'Tuotetyyppi';
-    var $_PHPSHOP_PRODUCT_TYPE_FORM_NAME = 'Tuotetyypin nimi';
-    var $_PHPSHOP_PRODUCT_TYPE_FORM_DESCRIPTION = 'Tuotetyypin kuvaus';
-    var $_PHPSHOP_PRODUCT_TYPE_FORM_PARAMETERS = 'Muuttujat/parametrit';
-    var $_PHPSHOP_PRODUCT_TYPE_FORM_LBL = 'Tuotetyypin tiedot';
-    var $_PHPSHOP_PRODUCT_TYPE_FORM_PUBLISH = 'Julkaise?';
-    var $_PHPSHOP_PRODUCT_TYPE_FORM_BROWSEPAGE = 'Tuotetyyppien selailusivu';
-    var $_PHPSHOP_PRODUCT_TYPE_FORM_FLYPAGE = 'Tuotetyyppi-ikkuna';
-    var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_LIST_LBL = 'Tuotetyypin muuttujat';
-    var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_LBL = 'Muuttujatieto';
-    var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_NOT_FOUND = 'Tuotetyyppiä ei löydy!';
-    var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_NAME = 'Muuttujan nimi';
-    VAR $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_NAME_DESCRIPTION = 'Tämä nimi toimii taulukon sarakenimenä. Kirjoitetaan yhtenäisin kirjaimin ja ilman välejä.<BR>Esimerkiksi: main_material';
-    var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_LABEL = 'Muuttujan otsake';
-    var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DESCRIPTION = 'Muuttujan kuvaus';
-    var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE = 'Muuttujatyyppi';
-    var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_INTEGER = 'Numero';
-    var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TEXT = 'Teksti';
-    var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_SHORTTEXT = 'Lyhyt teksti';
-    var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_FLOAT = 'Kelluva';
-    var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_CHAR = 'Merkki';
-    var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATETIME = 'Päivämäärä ja aika';
-    var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE = 'Päivämäärä';
-    var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE_FORMAT = 'YYYY-MM-DD';
-    var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TIME = 'Aika';
-    var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TIME_FORMAT = 'HH:MM:SS';
-    var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_BREAK = 'Rivinvaihto';
-    var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_MULTIVALUE = 'Useita arvoja';
-    var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_VALUES = 'Mahdollisia arvoja';
-    var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_MULTISELECT = 'Näytetäänkö mahdollisia arvoja monivalintoja varten?';
-    var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_VALUES_DESCRIPTION = '<strong>Jos valitaan mahdolliset arvot -valinta, muuttujat (parametrit) voivat saada vain niitä arvoja. Esimerkki mahdollisista muuttuja-arvoista:</strong><BR><span class=\"sectionname\">teräs;puu;muovi;...</span>';
-    var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DEFAULT = 'Oletusarvo';
-    var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DEFAULT_HELP_TEXT = 'Muuttujan oletusarvon määrittelyssä käytetään seuraavaa muotoa:<ul><li>Pvm: YYYY-MM-DD</li><li>Aika: HH:MM:SS</li><li>Pvm & aika: YYYY-MM-DD HH:MM:SS</li></ul>';
-    var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_UNIT = 'Yksikkö';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_USERNAME = 'USPS-postituksen käyttäjänimi';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_USERNAME_TOOLTIP = 'USPS-postituksen käyttäjänimi';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PASSWORD = 'USPS-postituksen salasana';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PASSWORD_TOOLTIP = 'USPS-postituksen salasana';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SERVER = 'USPS-postituksen palvelin (server)';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SERVER_TOOLTIP = 'USPS-postituksen palvelin (server)';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PATH = 'USPS-postituksen polku (path)';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PATH_TOOLTIP = 'USPS-postituksen polku (path)';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_CONTAINER = 'USPS-postituksen kontti (container)';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_CONTAINER_TOOLTIP = 'USPS-postituksen kontti (container)';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGESIZE = 'USPS-paketin koko';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGESIZE_TOOLTIP = 'USPS-paketin koko';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGEID = 'USPS-paketin tunnus (Package ID) (pitää olla enemmän kuin 0, koskee vain yhtä pakettia kerrallaan (does not support multiple packages)';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGEID_TOOLTIP = 'USPS-paketin tunnus (Package ID) (pitää olla enemmän kuin 0)';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIPSERVICE = 'USPS-postitustapa (Express,First Class,Priority,Parcel,BPM,Library,Media)';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIPSERVICE_TOOLTIP = 'USPS-postitustapa (Express,First Class,Priority,Parcel,BPM,Library,Media)';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_HANDLING_FEE = 'Käsittelymaksu';
+	var $_PHPSHOP_USPS_HANDLING_FEE = 'Käsittelymaksusi tälle postitustavalle.';
+	var $_PHPSHOP_USPS_HANDLING_FEE_TOOLTIP = 'Käsittelymaksusi tälle postitustavalle.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLHANDLINGFEE = 'Käsittelymaksusi kansainvälisille USPS-postituksille.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLHANDLINGFEE_TOOLTIP = 'Käsittelymaksusi kansainvälisille  USPS-postituksille.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLLBRATE = 'Painoyksikkökohtainen maksu kansainvälisille USPS-postituksille.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLLBRATE_TOOLTIP = 'Painoyksikkökohtainen maksu kansainvälisille USPS-postituksille.';
+	var $_PHPSHOP_USPS_RESPONSE_ERROR = 'USPS ei kyennyt antamaan vastausta postituskulutiedusteluun.';
+	var $_PHPSHOP_PARAMETERS_LBL = 'Muuttujat/parametrit';
+	var $_PHPSHOP_PRODUCT_TYPE_LBL = 'Tuotetyyppi';
+	var $_PHPSHOP_PRODUCT_TYPE_LIST_LBL = 'Tuotetyyppilista';
+	var $_PHPSHOP_PRODUCT_TYPE_ADDEDIT = 'Lisää/muokkaa tuotetyyppi(ä)';
+	var $_PHPSHOP_PRODUCT_PRODUCT_TYPE_LIST_LBL = 'Tyyppilista tuotteille:';
+	var $_PHPSHOP_PRODUCT_PRODUCT_TYPE_LIST_MNU = 'Listaa tuotetyypit';
+	var $_PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_LBL = 'Lisää tuotetyyppi kohtaan';
+	var $_PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_MNU = 'Lisää tuotetyyppi';
+	var $_PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_PRODUCT_TYPE = 'Tuotetyyppi';
+	var $_PHPSHOP_PRODUCT_TYPE_FORM_NAME = 'Tuotetyypin nimi';
+	var $_PHPSHOP_PRODUCT_TYPE_FORM_DESCRIPTION = 'Tuotetyypin kuvaus';
+	var $_PHPSHOP_PRODUCT_TYPE_FORM_PARAMETERS = 'Muuttujat/parametrit';
+	var $_PHPSHOP_PRODUCT_TYPE_FORM_LBL = 'Tuotetyypin tiedot';
+	var $_PHPSHOP_PRODUCT_TYPE_FORM_PUBLISH = 'Julkaise?';
+	var $_PHPSHOP_PRODUCT_TYPE_FORM_BROWSEPAGE = 'Tuotetyyppien selailusivu';
+	var $_PHPSHOP_PRODUCT_TYPE_FORM_FLYPAGE = 'Tuotetyyppi-ikkuna';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_LIST_LBL = 'Tuotetyypin muuttujat';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_LBL = 'Muuttujatieto';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_NOT_FOUND = 'Tuotetyyppiä ei löydy!';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_NAME = 'Muuttujan nimi';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_NAME_DESCRIPTION = 'Tämä nimi toimii taulukon sarakenimenä. Kirjoitetaan yhtenäisin kirjaimin ja ilman välejä.<BR>Esimerkiksi: main_material';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_LABEL = 'Muuttujan otsake';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DESCRIPTION = 'Muuttujan kuvaus';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE = 'Muuttujatyyppi';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_INTEGER = 'Numero';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TEXT = 'Teksti';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_SHORTTEXT = 'Lyhyt teksti';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_FLOAT = 'Kelluva';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_CHAR = 'Merkki';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATETIME = 'Päivämäärä ja aika';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE = 'Päivämäärä';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE_FORMAT = 'YYYY-MM-DD';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TIME = 'Aika';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TIME_FORMAT = 'HH:MM:SS';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_BREAK = 'Rivinvaihto';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_MULTIVALUE = 'Useita arvoja';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_VALUES = 'Mahdollisia arvoja';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_MULTISELECT = 'Näytetäänkö mahdollisia arvoja monivalintoja varten?';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_VALUES_DESCRIPTION = '<strong>Jos valitaan mahdolliset arvot -valinta, muuttujat (parametrit) voivat saada vain niitä arvoja. Esimerkki mahdollisista muuttuja-arvoista:</strong><BR><span class="sectionname">teräs;puu;muovi;...</span>';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DEFAULT = 'Oletusarvo';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DEFAULT_HELP_TEXT = 'Muuttujan oletusarvon määrittelyssä käytetään seuraavaa muotoa:<ul><li>Pvm: YYYY-MM-DD</li><li>Aika: HH:MM:SS</li><li>Pvm & aika: YYYY-MM-DD HH:MM:SS</li></ul>';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_UNIT = 'Yksikkö';
 	var $_PHPSHOP_PARAMETER_SEARCH = 'Muuttujiin perustuva tehohaku';
 	var $_PHPSHOP_ADVANCED_PARAMETER_SEARCH = 'Muuttujahaku';
 	var $_PHPSHOP_PARAMETER_SEARCH_TEXT1 = 'Haluatko hakea tuotteita niiden teknisten muuttujien (parametrien) perusteella?<BR>Voit käyttää mitä tahansa valmista lomaketta:';
@@ -1428,6 +1428,20 @@ Salasana - %s
 	var $_VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL_TIP = 'Määrittää, mikä on tuptteiden oletusjärjestys tuotesivuilla';
 	var $_VM_BROWSE_ORDERBY_FIELDS_LBL = 'Valinnaiset "Järjestys" valinnat';
 	var $_VM_BROWSE_ORDERBY_FIELDS_LBL_TIP = 'Valitse "Järjestys" valinnat, joilla käyttäjät valitsevat tuotejärjestyksen tuotesivuilla. Jos et valitse mitään, "Järjestys"-kenttää ei näytetä ollenkaan.';
+	var $_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO = 'Show a short note about your "Returns Policy" on the order confirmation page?';
+	var $_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO_TIP = 'In most european countries store owners are required by law to inform their customers about return and order cancellation policies. So this should be enabled in most cases.';
+	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT = 'Legal information text (short version).';
+	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT_TIP = 'This text instructs your customers in short about your return and order cancellation policy. It is shown on the last page of checkout, just above the "Confirm Order" button.';
+	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK = 'Long version of the return policy (link to a content item).';
+	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK_TIP = 'Please add a new content item about the details of your return and order cancellation policy.
+Afterwards you can select it here.';
+	var $_VM_LEGALINFO_SHORTTEXT = '<h5>Returns Policy</h5>
+
+You can cancel this order within two weeks after we have received it.
+You can return new, unopened items from a cancelled order within 2 weeks after they have been 
+delivered to you. Items should be returned in their original packaging.
+For more information on cancelling orders and returning items, see the <a href="%s" onclick="%s" target="_blank">Our Returns Policy</a> page.';
+        
 }
 class phpShopLanguage extends vmLanguage { }
 

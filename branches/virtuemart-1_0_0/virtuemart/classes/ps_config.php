@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: ps_config.php,v 1.9.2.4 2006/03/21 19:38:21 soeren_nb Exp $
+* @version $Id: ps_config.php,v 1.9.2.5 2006/04/21 17:05:17 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -68,6 +68,9 @@ function writeconfig(&$d) {
             "VM_PRICE_ACCESS_LEVEL"  =>      "conf_VM_PRICE_ACCESS_LEVEL",
             "VM_SILENT_REGISTRATION"  =>      "conf_VM_SILENT_REGISTRATION",
             "VM_BROWSE_ORDERBY_FIELD"  =>      "conf_VM_BROWSE_ORDERBY_FIELD",
+			"VM_ONCHECKOUT_SHOW_LEGALINFO"  =>      "conf_VM_ONCHECKOUT_SHOW_LEGALINFO",
+			"VM_ONCHECKOUT_LEGALINFO_SHORTTEXT"  =>      "conf_VM_ONCHECKOUT_LEGALINFO_SHORTTEXT",
+			"VM_ONCHECKOUT_LEGALINFO_LINK"  =>      "conf_VM_ONCHECKOUT_LEGALINFO_LINK",
             "ENABLE_DOWNLOADS"  =>      "conf_ENABLE_DOWNLOADS",
             "DOWNLOAD_MAX"  =>      "conf_DOWNLOAD_MAX",
             "DOWNLOAD_EXPIRE"  =>      "conf_DOWNLOAD_EXPIRE",
@@ -189,21 +192,21 @@ define( 'IMAGEPATH', \$mosConfig_absolute_path.'/components/com_virtuemart/shop_
                     $config.= " );\n";
                 }
                 else {
-                        $config .= "define('".$key."', '".$d[$value]."');\n";
+					$config .= "define('".$key."', '".@$d[$value]."');\n";
                 }
             }
             
             $config .= "?>";
         
 		if ($fp = fopen(ADMINPATH ."virtuemart.cfg.php", "w")) {
-                        fputs($fp, $config, strlen($config));
-                        fclose ($fp);
+			fputs($fp, $config, strlen($config));
+			fclose ($fp);
         
-                mosRedirect( $_SERVER['PHP_SELF']."?page=admin.show_cfg&option=com_virtuemart", $VM_LANG->_VM_CONFIGURATION_CHANGE_SUCCESS );
+			mosRedirect( $_SERVER['PHP_SELF']."?page=admin.show_cfg&option=com_virtuemart", $VM_LANG->_VM_CONFIGURATION_CHANGE_SUCCESS );
         
-                } else {
-                mosRedirect( $_SERVER['PHP_SELF']."?page=admin.show_cfg&option=com_virtuemart", sprintf( $VM_LANG->_VM_CONFIGURATION_CHANGE_FAILURE, ADMINPATH ."virtuemart.cfg.php" ) );
-                }
+		} else {
+			mosRedirect( $_SERVER['PHP_SELF']."?page=admin.show_cfg&option=com_virtuemart", sprintf( $VM_LANG->_VM_CONFIGURATION_CHANGE_FAILURE, ADMINPATH ."virtuemart.cfg.php" ) );
+		}
     }
   } // end function writeconfig
   

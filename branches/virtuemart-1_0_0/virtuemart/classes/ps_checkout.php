@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_checkout.php,v 1.22.2.8 2006/04/05 18:16:53 soeren_nb Exp $
+* @version $Id: ps_checkout.php,v 1.22.2.9 2006/04/21 17:05:17 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -1472,7 +1472,7 @@ Order Total: '.$order_total.'
 		$dboi->query($q_oi);
 
 		$db_payment = new ps_DB;
-		$q  = "SELECT payment_method_name FROM #__{vm}_order_payment as op, #__{vm}_payment_method as pm
+		$q  = "SELECT op.payment_method_id, payment_method_name FROM #__{vm}_order_payment as op, #__{vm}_payment_method as pm
               WHERE order_id='$order_id' AND op.payment_method_id=pm.payment_method_id";
 		$db_payment->query($q);
 		$db_payment->next_record();

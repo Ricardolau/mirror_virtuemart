@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: admin.show_cfg.php,v 1.12.2.4 2006/03/14 18:42:22 soeren_nb Exp $
+* @version $Id: admin.show_cfg.php,v 1.12.2.5 2006/03/21 19:38:23 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -302,6 +302,46 @@ $tabs->startTab( $spacer . $VM_LANG->_PHPSHOP_ADMIN_CFG_GLOBAL . $spacer, "globa
 				<input type="checkbox" id="conf_PSHOP_AGREE_TO_TOS_ONORDER" name="conf_PSHOP_AGREE_TO_TOS_ONORDER" class="inputbox" <?php if (PSHOP_AGREE_TO_TOS_ONORDER == '1') echo "checked=\"checked\""; ?> value="1" />
 			</td>
 			<td><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_AGREE_TERMS_ONORDER_EXPLAIN ?>
+			</td>
+		</tr>
+		<tr>
+			<td class="labelcell">
+				<label for="conf_VM_ONCHECKOUT_SHOW_LEGALINFO"><?php echo $VM_LANG->_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO ?></label>
+			</td>
+			<td>
+				<input type="checkbox" id="conf_VM_ONCHECKOUT_SHOW_LEGALINFO" name="conf_VM_ONCHECKOUT_SHOW_LEGALINFO" class="inputbox" <?php if (@VM_ONCHECKOUT_SHOW_LEGALINFO == '1') echo "checked=\"checked\""; ?> value="1" />
+			</td>
+			<td><?php echo mm_ToolTip( $VM_LANG->_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO_TIP ) ?>
+			</td>
+		</tr>
+		<tr>
+			<td class="labelcell">
+				<label for="conf_VM_ONCHECKOUT_LEGALINFO_SHORTTEXT"><?php echo $VM_LANG->_VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT ?></label>
+			</td>
+			<td>
+				<textarea rows="6" cols="40" id="conf_VM_ONCHECKOUT_LEGALINFO_SHORTTEXT" name="conf_VM_ONCHECKOUT_LEGALINFO_SHORTTEXT" class="inputbox"><?php if( @VM_ONCHECKOUT_LEGALINFO_SHORTTEXT=='' || !defined('VM_ONCHECKOUT_LEGALINFO_SHORTTEXT')) {echo $VM_LANG->_VM_LEGALINFO_SHORTTEXT;} else {echo @VM_ONCHECKOUT_LEGALINFO_SHORTTEXT;} ?></textarea>
+			</td>
+			<td><?php echo mm_ToolTip( $VM_LANG->_VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT_TIP ) ?>
+			</td>
+		</tr>
+		<tr>
+			<td class="labelcell">
+				<label for="conf_VM_ONCHECKOUT_LEGALINFO_LINK"><?php echo $VM_LANG->_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK ?></label>
+			</td>
+			<td>
+			<?php
+				$database->setQuery( "SELECT id AS value, CONCAT( title, ' (', title_alias, ')' ) AS text FROM #__content ORDER BY id" );
+				$content = $database->loadObjectList( );
+				$select =  "<select size=\"5\" name=\"conf_VM_ONCHECKOUT_LEGALINFO_LINK\" id=\"conf_VM_ONCHECKOUT_LEGALINFO_LINK\" class=\"inputbox\">\n"; 
+				foreach($content as $objElement) { 
+					$selected = @VM_ONCHECKOUT_LEGALINFO_LINK == $objElement->value ? 'selected="selected"' : '';
+					$select .= "<option value=\"{$objElement->value}\" $selected>{$objElement->text}</option>\n"; 
+				} 
+				$select .=  "</select>\n"; 
+				echo $select;
+			?>
+			</td>
+			<td><?php echo mm_ToolTip( $VM_LANG->_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK_TIP ) ?>
 			</td>
 		</tr>
 	</table>

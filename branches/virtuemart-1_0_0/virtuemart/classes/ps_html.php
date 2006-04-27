@@ -4,7 +4,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * This Class provides some utility functions
 * to easily create drop-down lists
 *
-* @version $Id: ps_html.php,v 1.14.2.2 2006/02/18 09:20:10 soeren_nb Exp $
+* @version $Id: ps_html.php,v 1.14.2.3 2006/03/11 18:06:17 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -481,13 +481,11 @@ class ps_html {
 	 * @param string $text The text / label for the link
 	 */
 	function writePanelIcon( $image, $link, $text ) {
-		echo '<div class="icon" style="float:left;">
-			<a href="'.$link.'">
-				<div class="iconimage">
-					<img src="'.$image.'" alt="'.$text.'" align="middle" name="image" border="0" />
-				</div>
-			'.$text.'</a>
-		</div>';
+		echo '<div style="float:left;"><div class="icon">
+			<a title="'.$text.'" href="'.$link.'">
+					<img src="'.$image.'" alt="'.$text.'" align="middle" name="image" border="0" /><br />
+			'.$text.'</a></div></div>
+			';
 
 	}
 }

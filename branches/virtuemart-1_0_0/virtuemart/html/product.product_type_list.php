@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: product.product_type_list.php,v 1.5 2005/09/29 20:02:18 soeren_nb Exp $
+* @version $Id: product.product_type_list.php,v 1.5.2.1 2006/04/21 17:05:17 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -17,6 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 */
 require_once( CLASSPATH . "pageNavigation.class.php" );
 require_once( CLASSPATH . "htmlTools.class.php" );
+global $ps_product_type;
 
 $q = "SELECT * FROM #__{vm}_product_type ";
 /*    $q .= "WHERE #__{vm}_category_xref.category_parent_id='";

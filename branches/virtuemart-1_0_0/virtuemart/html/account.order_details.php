@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: account.order_details.php,v 1.8.2.2 2006/02/27 19:41:42 soeren_nb Exp $
+* @version $Id: account.order_details.php,v 1.8.2.3 2006/03/07 19:34:02 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2006 Soeren Eberhardt. All rights reserved.
@@ -518,7 +518,7 @@ if( PAYMENT_DISCOUNT_BEFORE == '1') {
               </td> 
               <td align="right"><?php
               if ($db->f("order_discount") > 0 )
-              echo "- ".$CURRENCY_DISPLAY->getFullValue(abs());
+              echo "- ".$CURRENCY_DISPLAY->getFullValue(abs($db->f("order_discount")));
               elseif ($db->f("order_discount") < 0 )
                  echo "+ ".$CURRENCY_DISPLAY->getFullValue(abs($db->f("order_discount"))); ?>
               &nbsp;&nbsp;&nbsp;</td>

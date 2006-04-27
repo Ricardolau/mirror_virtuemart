@@ -1458,6 +1458,19 @@ Passwort - %s
 	var $_VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL_TIP = 'Defines by which field products are ordered by default on the browse pages';
 	var $_VM_BROWSE_ORDERBY_FIELDS_LBL = 'Available "Sort-by" fields';
 	var $_VM_BROWSE_ORDERBY_FIELDS_LBL_TIP = 'Choose the "Sort-by" fields for the browse page. Each one defines a sort method for the product browse page. If you deselect all, the Order-By-Form will not be shown.';
+	var $_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO = 'Verbraucherhinweis zum Widerrufs- oder Rückgaberecht anzeigen?';
+	var $_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO_TIP = 'In Deutschland und Österreich besteht die Verpflichtung, den Verbraucher bereits vor Abschluss eines unter ausschließlicher Verwendung von Fernkommunikationsmitteln geschlossenen Vertrages auf sein unabdingbares Rückgabe- bzw Widerrufsrecht hinzuweisen. Daher sollte dieser Konfigurationspunkt unbedingt aktiviert werden.';
+	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT = 'Widerrufs- und Rückgabebelehrung (Kurzversion).';
+	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT_TIP = 'Dieser Text informiert den Kunden über dessen Widerrufs- und Rückgaberecht (wird über der Schaltfläche "Bestellung absenden" auf der letzten Seite des Bestellvorgangs angezeigt).';
+	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK = 'Ausführliche Version der Widerrufs- und Rückgabebelehrung (Link zu einem Artikel).';
+	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK_TIP = 'Hier kann ein Artikel ausgewählt werden, der den Kunden ausführlich über dessen Widerrufs- und Rückgaberecht informiert.
+Bitte hier einen Artikel auswählen!';
+	var $_VM_LEGALINFO_SHORTTEXT = '<strong>Ihr Widerrufs- und Rückgaberecht:</strong><br />
+Sie können diese Bestellung innerhalb von zwei Wochen ohne Angabe von Gründen 
+schriftlich widerrufen. Bereits ausgelieferte Ware können Sie innerhalb von zwei Wochen ab 
+Erhalt der Lieferung ohne Angabe von Gründen an uns zurücksenden. Detaillierte Informationen zu 
+Ihrem Widerrufs- und Rückgaberecht finden Sie <a href="%s" onclick="%s" target="_blank">hier</a> und in der Bestätigungs-Mail, die Ihnen wenige 
+Minuten nach dem Absenden dieser Bestellung zugehen wird.';
         
 }
 class phpShopLanguage extends vmLanguage { }

@@ -3,7 +3,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 /**
 * This is no class! This file only provides core virtuemart functions.
 * 
-* @version $Id: ps_main.php,v 1.11.2.2 2006/03/14 18:42:11 soeren_nb Exp $
+* @version $Id: ps_main.php,v 1.11.2.3 2006/04/05 18:16:53 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -931,12 +931,19 @@ if (!defined('ENT_QUOTES')) {
  * @link        http://php.net/function.html_entity_decode
  * @author      David Irvine <dave@codexweb.co.za>
  * @author      Aidan Lister <aidan@php.net>
- * @version     $Revision: 1.11.2.2 $
+ * @version     $Revision: 1.11.2.3 $
  * @since       PHP 4.3.0
  * @internal    Setting the charset will not do anything
  * @require     PHP 4.0.0 (user_error)
  */
 function vmHtmlEntityDecode($string, $quote_style = ENT_COMPAT, $charset = null) {
+	
+	if( is_null( $charset )) {
+		$charset = vmGetCharset();
+	}
+	if( function_exists( 'html_entity_decode' )) {
+		return @html_entity_decode( $string, $quote_style, $charset );
+	}
 	
     if (!is_int($quote_style) && !is_null($quote_style)) {
         user_error(__FUNCTION__.'() expects parameter 2 to be long, ' .

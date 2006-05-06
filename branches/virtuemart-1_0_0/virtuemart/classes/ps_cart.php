@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_cart.php,v 1.12.2.2 2006/02/18 09:20:10 soeren_nb Exp $
+* @version $Id: ps_cart.php,v 1.12.2.3 2006/03/22 19:29:59 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -231,7 +231,7 @@ class ps_cart {
 				// modified for the advanced attribute modification
 				if ( ($_SESSION['cart'][$i]["product_id"] == $product_id )
 				&&
-				($_SESSION['cart'][$i]["description"] == $d["description"] )
+				($_SESSION['cart'][$i]["description"] == stripslashes($d["description"]) )
 				) {
 					$_SESSION['cart'][$i]["quantity"] = $quantity;
 				}

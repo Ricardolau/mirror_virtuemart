@@ -2,7 +2,7 @@
 /**
 * PayPal IPN Handler
 *
-* @version $Id: notify.php,v 1.5.2.3 2006/04/05 18:16:48 soeren_nb Exp $
+* @version $Id: notify.php,v 1.5.2.4 2006/04/16 17:38:23 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -316,7 +316,7 @@ if ($_POST) {
       // ...read the results of the verification...
       // If VERIFIED = continue to process the TX...
       //-------------------------------------------
-        if (eregi ( "VERIFIED", $res)) {
+        if (eregi ( "VERIFIED", $res) || @PAYPAL_VERIFIED_ONLY == '0' ) {
             //----------------------------------------------------------------------
             // If the payment_status is Completed... Get the password for the product
             // from the DB and email it to the customer.

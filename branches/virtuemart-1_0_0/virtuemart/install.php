@@ -6,7 +6,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * - running SQL updates
 * - finishing the installation
 *
-* @version $Id: install.php,v 1.14.2.2 2006/03/22 19:29:04 soeren_nb Exp $
+* @version $Id: install.php,v 1.14.2.3 2006/03/23 20:06:16 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -99,6 +99,7 @@ function installvirtuemart( $install_type, $install_sample_data=false ){
 		require_once( $admin_dir."/sql/sql.update.from.mambo-phpshop-1.2-RC2.to.1.2-stable-pl3.php" );
 		require_once( $admin_dir."/sql/sql.update.mambo-phpshop-1.2-stable-pl3.to.virtuemart.php" );
 		require_once( $admin_dir."/sql/sql.update.virtuemart-1.0.x.to.virtuemart-1.0.3.php" );
+		require_once( $admin_dir."/sql/sql.update.virtuemart-1.0.3.to.virtuemart-1.0.5.php" );
 	}
 	//UDATE FROM mambo-phpShop 1..2 RC2
 	elseif ($install_type=='update12') {  
@@ -106,15 +107,21 @@ function installvirtuemart( $install_type, $install_sample_data=false ){
 		require_once( $admin_dir."/sql/sql.update.from.mambo-phpshop-1.2-RC2.to.1.2-stable-pl3.php" );
 		require_once( $admin_dir."/sql/sql.update.mambo-phpshop-1.2-stable-pl3.to.virtuemart.php" );
 		require_once( $admin_dir."/sql/sql.update.virtuemart-1.0.x.to.virtuemart-1.0.3.php" );
+		require_once( $admin_dir."/sql/sql.update.virtuemart-1.0.3.to.virtuemart-1.0.5.php" );
 	}
 	//UDATE FROM mambo-phpShop 1..2 stable-pl3
 	elseif ($install_type=='update12pl3') {  
   
 		require_once( $admin_dir."/sql/sql.update.mambo-phpshop-1.2-stable-pl3.to.virtuemart.php" );
 		require_once( $admin_dir."/sql/sql.update.virtuemart-1.0.x.to.virtuemart-1.0.3.php" );
+		require_once( $admin_dir."/sql/sql.update.virtuemart-1.0.3.to.virtuemart-1.0.5.php" );
 	}
-	elseif( $install_type == 'updatevm10x' ) {
+	elseif( $install_type == 'vm_update_from102_orOlder' ) {
 		require_once( $admin_dir."/sql/sql.update.virtuemart-1.0.x.to.virtuemart-1.0.3.php" );
+		require_once( $admin_dir."/sql/sql.update.virtuemart-1.0.3.to.virtuemart-1.0.5.php" );
+	}
+	elseif( $install_type == 'vm_update_from103_orYounger' ) {
+		require_once( $admin_dir."/sql/sql.update.virtuemart-1.0.3.to.virtuemart-1.0.5.php" );
 	}
 
 	// New Installation : Create all tables

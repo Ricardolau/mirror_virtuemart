@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_paypal.php,v 1.3 2005/09/29 20:02:18 soeren_nb Exp $
+* @version $Id: ps_paypal.php,v 1.3.2.1 2006/04/10 19:10:13 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage payment
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -37,7 +37,7 @@ class ps_paypal {
         /** Read current Configuration ***/
         include_once(CLASSPATH ."payment/".$this->classname.".cfg.php");
     ?>
-    <table>
+    <table class="adminform">
         <tr>
         <td><strong><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_TESTMODE ?></strong></td>
             <td>
@@ -86,7 +86,7 @@ class ps_paypal {
             <td><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS_EXPLAIN ?>
             </td>
         </tr>
-            <tr>
+        <tr>
             <td><strong>Order Status for Pending Payments</strong></td>
             <td>
                 <select name="PAYPAL_PENDING_STATUS" class="inputbox" >
@@ -103,6 +103,19 @@ class ps_paypal {
             </td>
             <td>The order Status to which Orders are set, which have no completed Payment Transaction. 
             The transaction was not cancelled in this case, but it is just pending and waiting for completion.</td>
+        </tr>
+
+        <tr>
+        <td><strong>Accept only verified buyers?</strong></td>
+            <td>
+                <select name="PAYPAL_VERIFIED_ONLY" class="inputbox" >
+	                <option <?php if (@PAYPAL_VERIFIED_ONLY != '1') echo "selected=\"selected\""; ?> value="0"><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_NO ?></option>
+	                <option <?php if (@PAYPAL_VERIFIED_ONLY == '1') echo "selected=\"selected\""; ?> value="1"><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_YES ?></option>
+                </select>
+            </td>
+            <td>Here you can choose if you only want to accept payments from buyers with a
+            <strong>verified</strong> PayPal account (when an account is not verified, PayPal does transfer the funds, but they do not fully guarantee the validity of the sale).
+            </td>
         </tr>
         </tr>
             <tr>
@@ -160,6 +173,7 @@ class ps_paypal {
       $my_config_array = array(
                               "PAYPAL_DEBUG" => $d['PAYPAL_DEBUG'],
                               "PAYPAL_EMAIL" => $d['PAYPAL_EMAIL'],
+                              "PAYPAL_VERIFIED_ONLY" => $d['PAYPAL_VERIFIED_ONLY'],
                               "PAYPAL_VERIFIED_STATUS" => $d['PAYPAL_VERIFIED_STATUS'],
                               "PAYPAL_PENDING_STATUS" => $d['PAYPAL_PENDING_STATUS'],
                               "PAYPAL_INVALID_STATUS" => $d['PAYPAL_INVALID_STATUS']

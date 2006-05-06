@@ -32,8 +32,8 @@ function virtuemart_is_installed() {
 			$version_info = new mosParameters( $old_version->params );
 			include_once( $mosConfig_absolute_path.'/administrator/components/'.$option.'/version.php' );
 			$VMVERSION = new vmVersion();
-			$result = version_compare( $version_info->get( 'RELEASE' ), '1.0.3' );
-			
+			$result = version_compare( $version_info->get( 'RELEASE' ), '1.0.5' );
+			// IF we need to update, version_compare has returned -1, that means that the current version is lower than 1.0.5
 			if( $result == -1 ) {
 				return false;
 			}			
@@ -70,8 +70,8 @@ function com_install() {
 		// Refuse to install on Mambo 4.5.0
 		if( _RELEASE == '4.5' || (float)_RELEASE <= 4.50 )
 			die( '<h2>VirtueMart Installation can\'t continue: Wrong Mambo version!</h2>
-<p>VirtueMart requires at least Mambo <strong>4.5.1</strong></p>
-<p>Your Version: Mambo <strong>'._RELEASE.'.0 '._DEV_STATUS.' '._DEV_LEVEL.'</strong>, Codename: '._CODENAME.'</p>' );
+					<p>VirtueMart requires at least Mambo <strong>4.5.1</strong></p>
+					<p>Your Version: Mambo <strong>'._RELEASE.'.0 '._DEV_STATUS.' '._DEV_LEVEL.'</strong>, Codename: '._CODENAME.'</p>' );
 	}
 	// Check for old mambo-phpShop Tables. When they exist,
 	// offer an Upgrade
@@ -82,10 +82,19 @@ function com_install() {
 	  $installation = "phpshopupdate";
 	}
 	else {
-		$database->setQuery( 'SELECT id FROM `#__components` WHERE name = \'virtuemart_version\'' );
+		$database->setQuery( 'SELECT id,params FROM `#__components` WHERE name = \'virtuemart_version\'' );
 		$old_version =  $database->loadResult();
 		if( $old_version && file_exists( $mosConfig_absolute_path.'/administrator/components/com_virtuemart/classes/htmlTools.class.php')) {
-			$installation = 'vm_update';
+			$version_info = new mosParameters( $old_version->params );
+			$isBefore_103 = version_compare( $version_info->get( 'RELEASE' ), '1.0.3' );
+			// Version_compare returns -1, which is true for the meaning of the variable meaning
+			if( $isBefore_103 == -1 ) {
+				// the update from
+				$installation = 'vm_update_from102_orOlder';
+			}
+			else {
+				$installation = 'vm_update_from103_orYounger';
+			}
 		}
 		else {
 			$installation = "new";
@@ -154,7 +163,7 @@ function com_install() {
 									</tr>
 									<?php 
 								}
-								elseif( $installation == 'vm_update' ) { 
+								elseif( $installation == 'vm_update_from102_orOlder' || $installation == 'vm_update_from103_orYounger' ) { 
 									$old_version = get_class($version_info) =='mosparameters' ? $version_info->get( 'RELEASE') : '1.0.x';
 									?>
 										<td colspan="3" class="error">[UPDATE MODE]<br/>The Installation script has found out that you've already installed VirtueMart <?php echo $old_version ?>, so let's update your Database.</td>
@@ -163,7 +172,7 @@ function com_install() {
 									<tr>
 										<td align="left" colspan="3">
 											<div align="center">
-												<a title="UPDATE FROM VERSION <?php echo $old_version ?> &gt;&gt;" onclick="alert('Please don\'t interrupt the next Step! \n It is essential for updating VirtueMart.');" name="Button2" class="button" href="index2.php?option=com_virtuemart&install_type=updatevm10x">UPDATE FROM VERSION <?php echo $old_version ?> &gt;&gt;</a>
+												<a title="UPDATE FROM VERSION <?php echo $old_version ?> &gt;&gt;" onclick="alert('Please don\'t interrupt the next Step! \n It is essential for updating VirtueMart.');" name="Button2" class="button" href="index2.php?option=com_virtuemart&install_type=<?php echo $installation ?>">UPDATE FROM VERSION <?php echo $old_version ?> &gt;&gt;</a>
 											</div><br /><br/>
 											Your version is NOT <strong><?php echo $old_version ?></strong>? Then please just delete the file <pre><?php echo dirname(__FILE__).'/install.php' ?></pre><br />
 											

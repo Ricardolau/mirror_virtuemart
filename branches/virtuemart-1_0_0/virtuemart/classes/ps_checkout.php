@@ -1530,20 +1530,46 @@ Order Total: '.$order_total.'
 		// ******************************
 		// Shopper Header
 		$shopper_header = $VM_LANG->_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER1."\n";
-
+		
+		// Get the legal information about the returns/order cancellation policy
+		if( @VM_ONCHECKOUT_SHOW_LEGALINFO == '1' ) {
+			$article = intval(@VM_ONCHECKOUT_LEGALINFO_LINK);
+			if( $article > 0 ) {
+				$content = new mosContent( $database );
+				$content->load( $article );
+				if( $content->introtext != '' ) {
+					$legal_info_title = $content->title;
+					$legal_info_text = strip_tags( str_replace( '<br />', "\n", $content->introtext ));
+					$legal_info_html = $content->introtext;
+				}
+			}
+		}
+		
 		//Shopper Footer
 		$shopper_footer = "\n\n".$VM_LANG->_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER2."\n";
 		$shopper_footer .= "\n\n".$VM_LANG->_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER5."\n";
 		$shopper_footer .= $shopper_order_link;
 		$shopper_footer .= "\n\n".$VM_LANG->_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER3."\n";
 		$shopper_footer .= "Email: " . $from_email;
-
+		// New in version 1.0.5
+		if( @VM_ONCHECKOUT_SHOW_LEGALINFO == '1' && !empty( $legal_info_title )) {
+			$shopper_footer .= "\n\n____________________________________________\n";
+			$shopper_footer .= $legal_info_title."\n";
+			$shopper_footer .= $legal_info_text."\n";
+		}
+		
 		$shopper_footer_html = "<br /><br />".$VM_LANG->_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER2."<br />";
 		$shopper_footer_html .= "<br /><a title=\"".$VM_LANG->_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER5."\" href=\"$shopper_order_link\">"
 		. $VM_LANG->_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER5."</a>";
 		$shopper_footer_html .= "<br /><br />".$VM_LANG->_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER3."<br />";
 		$shopper_footer_html .= _CMN_EMAIL.": <a href=\"mailto:" . $from_email."\">".$from_email."</a>";
-
+		// New in version 1.0.5
+		if( @VM_ONCHECKOUT_SHOW_LEGALINFO == '1' && !empty( $legal_info_title )) {
+			$shopper_footer_html .= "<br /><br />____________________________________________<br />";
+			$shopper_footer_html .= '<h5>'.$legal_info_title.'</h5>';
+			$shopper_footer_html .= $legal_info_html.'<br />';
+		}
+		
 		// Vendor Header
 		$vendor_header = $VM_LANG->_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER4."\n";
 
@@ -1571,7 +1597,7 @@ Order Total: '.$order_total.'
 		
 		$dbos = new ps_DB;
 
-		$q = "SELECT order_status_name FROM `#__{vm}_order_status` WHERE order_status_code='".$db->f("order_status")."'";
+		$q = "SELECT order_status_id, order_status_name FROM `#__{vm}_order_status` WHERE order_status_code='".$db->f("order_status")."'";
 		$dbos->query($q);
 		$dbos->next_record();
 		
@@ -1875,7 +1901,6 @@ Order Total: '.$order_total.'
 			$html = str_replace('{phpShopVendorCity}',$v_ci,$html);
 			$html = str_replace('{phpShopVendorState}',$v_st,$html);
 			$html = str_replace('{phpShopVendorImage}',$v_vfi,$html);
-			$html = str_replace('{phpShopOrderHeaderMsg}',$shopper_header,$html);
 			$html = str_replace('{phpShopOrderHeader}',$VM_LANG->_PHPSHOP_ORDER_PRINT_PO_LBL,$html);
 			$html = str_replace('{phpShopOrderNumber}',$v_oi,$html);
 			$html = str_replace('{phpShopOrderDate}',strftime( _DATE_FORMAT_LC, $db->f("cdate")),$html);
@@ -1929,8 +1954,11 @@ Order Total: '.$order_total.'
 				$html = str_replace('{SHIPPING_INFO_DETAILS}', " ./. ", $html);
 			}
 
-			$shopper_html = str_replace('{phpShopOrderClosingMsg}',$shopper_footer_html,$html);
-			$vendor_html = str_replace('{phpShopOrderClosingMsg}',$vendor_footer_html,$html);
+			$shopper_html = str_replace('{phpShopOrderHeaderMsg}',$shopper_header, $html);
+			$shopper_html = str_replace('{phpShopOrderClosingMsg}',$shopper_footer_html, $shopper_html);
+			
+			$vendor_html = str_replace('{phpShopOrderHeaderMsg}',$vendor_header, $html);
+			$vendor_html = str_replace('{phpShopOrderClosingMsg}',$vendor_footer_html,$vendor_html);
 			$html = $shopper_html;
 
 			/*

@@ -1,27 +1,41 @@
 <?php
 defined('_VALID_MOS') or die('Direct Access to this location is not allowed.'); 
-/**
-*
-* @version $Id: ups.cfg.php,v 1.2 2005/09/27 17:51:26 soeren_nb Exp $
-* @package VirtueMart
-* @subpackage shipping
-* @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
-* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* VirtueMart is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See /administrator/components/com_virtuemart/COPYRIGHT.php for copyright notices and details.
-*
-* http://virtuemart.net
-*/
-define ('UPS_ACCESS_CODE', 'yyy');
-define ('UPS_USER_ID', 'xxx-xxx');
-define ('UPS_PASSWORD', 'yyyyyyyyyyyyyy');
-define ('UPS_PICKUP_TYPE', '01');
+
+define ('UPS_ACCESS_CODE', 'xxx');
+define ('UPS_USER_ID', 'yyy');
+define ('UPS_PASSWORD', 'zzz');
+define ('UPS_PICKUP_TYPE', '02');
 define ('UPS_PACKAGE_TYPE', '02');
 define ('UPS_RESIDENTIAL', 'yes');
 define ('UPS_HANDLING_FEE', '0');
 define ('UPS_TAX_CLASS', '0');
-define ('UPS_TAX_BASIS', 'Shipping');
+define ('Override_Source_Zip', '');
+define ('Show_Delivery_Days_Quote', '1');
+define ('Show_Delivery_ETA_Quote', '1');
+define ('Show_Delivery_Warning', '1');
+define ('UPS_Next_Day_Air', '01');
+define ('UPS_Next_Day_Air_FSC', '12.50');
+define ('UPS_2nd_Day_Air', '02');
+define ('UPS_2nd_Day_Air_FSC', '12.50');
+define ('UPS_Ground', '03');
+define ('UPS_Ground_FSC', '3.75');
+define ('UPS_Worldwide_Express_SM', '07');
+define ('UPS_Worldwide_Express_SM_FSC', '12.50');
+define ('UPS_Worldwide_Expedited_SM', '08');
+define ('UPS_Worldwide_Expedited_SM_FSC', '12.50');
+define ('UPS_Standard', '11');
+define ('UPS_Standard_FSC', '3.75');
+define ('UPS_3_Day_Select', '12');
+define ('UPS_3_Day_Select_FSC', '12.50');
+define ('UPS_Next_Day_Air_Saver', '13');
+define ('UPS_Next_Day_Air_Saver_FSC', '12.50');
+define ('UPS_Next_Day_Air_Early_AM', '14');
+define ('UPS_Next_Day_Air_Early_AM_FSC', '12.50');
+define ('UPS_Worldwide_Express_Plus_SM', '54');
+define ('UPS_Worldwide_Express_Plus_SM_FSC', '12.50');
+define ('UPS_2nd_Day_Air_AM', '59');
+define ('UPS_2nd_Day_Air_AM_FSC', '12.50');
+define ('UPS_Express_Saver', '65');
+define ('UPS_Express_Saver_FSC', '12.50');
+define ('na', '64');
 ?>

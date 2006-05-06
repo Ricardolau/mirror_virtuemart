@@ -657,17 +657,17 @@ class usps {
         </td>
     </tr>
 	<tr>
-        <td><strong><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_MACHINABLE ?></strong></td>
+        <td><strong><?php echo _VM_LANG_USPS_MACHINABLE ?></strong></td>
 		<td><input class="inputbox" type="checkbox" name="USPS_MACHINABLE" <?php if (USPS_MACHINABLE  == 1) echo "checked=\"checked\""; ?>value="1" /></td>
-		<td><?php echo mm_ToolTip($VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_MACHINABLE_TOOLTIP) ?></td>
+		<td><?php echo mm_ToolTip(_VM_LANG_USPS_MACHINABLE_TOOLTIP) ?></td>
     </tr>
 	<tr>
-	  <td><strong><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_QUOTE ?></strong></td>
+	  <td><strong><?php echo _VM_LANG_USPS_QUOTE ?></strong></td>
 	  <td><input class="inputbox" type="checkbox" name="USPS_SHOW_DELIVERY_QUOTE" <?php if (USPS_SHOW_DELIVERY_QUOTE == 1) echo "checked=\"checked\""; ?> value="1" /></td>
-	  <td><?php echo mm_ToolTip($VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_QUOTE_TOOLTIP) ?></td>
+	  <td><?php echo mm_ToolTip(_VM_LANG_USPS_QUOTE_TOOLTIP) ?></td>
 	</tr>
 	<tr>
-		<td colspan="3"><hr><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP; ?><hr></td>
+		<td colspan="3"><hr><?php echo _VM_LANG_USPS_SHIP; ?><hr></td>
 	</tr>
 <!-- added for new shipping rate V2 code ... Domestic Shipping-->
 	<?php $count = 10; $i = 0; ?> 
@@ -675,14 +675,14 @@ class usps {
 	$dom_option = constant("USPS_SHIP".$i);
 	?>
 	<tr>
-        <td><strong><?php $var_name = "\$VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP$i"; eval("\$var = $var_name;"); echo $var; ?></strong></td>
+        <td><strong><?php $var_name = "_VM_LANG_USPS_SHIP$i"; eval("\$var = $var_name;"); echo $var; ?></strong></td>
 		<td><input class="inputbox" type="checkbox" name="USPS_SHIP<?php echo $i; ?>" <?php $var_name = "\$dom_option"; eval("\$var = $var_name;"); if ($var  == 1) echo "checked=\"checked\""; ?> value="1" /></td>
-		<td><?php $var_name = "\$VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP".$i; eval("\$var = $var_name;"); echo mm_ToolTip($var) ?></td>
+		<td><?php $var_name = "_VM_LANG_USPS_SHIP".$i; eval("\$var = $var_name;"); echo mm_ToolTip($var) ?></td>
     </tr>
 	<?php $i++; ?>
 	<?php endwhile; ?> 
 	<tr>
-		<td colspan="3"><hr><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL; ?><hr></td>
+		<td colspan="3"><hr><?php echo _VM_LANG_USPS_INTL; ?><hr></td>
 	</tr>
 <!-- added for new shipping rate V2 code ... International Shipping -->
 	<?php $count = 9; $i = 0; ?>
@@ -690,9 +690,9 @@ class usps {
 	$int_option = constant("USPS_INTL".$i);
 	?>
 	<tr>
-        <td><strong><?php $var_name = "\$VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL$i"; eval("\$var = $var_name;"); echo $var; ?></strong></td>
+        <td><strong><?php $var_name = "_VM_LANG_USPS_INTL$i"; eval("\$var = $var_name;"); echo $var; ?></strong></td>
 		<td><input class="inputbox" type="checkbox" name="USPS_INTL<?php echo $i; ?>" <?php $var_name = "\$int_option"; eval("\$var = $var_name;"); if ($var  == 1) echo "checked=\"checked\""; ?> value="1" /></td>
-		<td><?php $var_name = "\$VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL".$i; eval("\$var = $var_name;"); echo mm_ToolTip($var) ?></td>
+		<td><?php $var_name = "_VM_LANG_USPS_INTL".$i; eval("\$var = $var_name;"); echo mm_ToolTip($var) ?></td>
     </tr>
 	<?php $i++; ?>
 	<?php endwhile; ?>	
@@ -776,4 +776,32 @@ class usps {
 	} //end function write_configuration
 
 }
+
+define( '_VM_LANG_USPS_MACHINABLE', 'Machinable Packages?' );
+define( '_VM_LANG_USPS_MACHINABLE_TOOLTIP', 'Can packages be processed on the machine?' );
+define( '_VM_LANG_USPS_QUOTE', 'Show Delivery Days Quote?' );
+define( '_VM_LANG_USPS_QUOTE_TOOLTIP', 'Show Delivery Days Quote?' );
+define( '_VM_LANG_USPS_SHIP', 'Domestic Shipping Options' );
+define( '_VM_LANG_USPS_SHIP0', 'USPS Express Mail PO to Addressee' );
+define( '_VM_LANG_USPS_SHIP1', 'USPS Express Mail Flat Rate Envelope (12.5" x 9.5")' );
+define( '_VM_LANG_USPS_SHIP2', 'USPS Priority Mail' );
+define( '_VM_LANG_USPS_SHIP3', 'USPS Priority Mail Flat Rate Envelope (12.5" x 9.5")' );
+define( '_VM_LANG_USPS_SHIP4', 'USPS Priority Mail Flat Rate Box (11.25" x 8.75" x 6")' );
+define( '_VM_LANG_USPS_SHIP5', 'USPS Priority Mail Flat Rate Box (14" x 12" x 3.5")' );
+define( '_VM_LANG_USPS_SHIP6', 'USPS First-Class Mail' );
+define( '_VM_LANG_USPS_SHIP7', 'USPS Parcel Post' );
+define( '_VM_LANG_USPS_SHIP8', 'USPS Bound Printed Matter' );
+define( '_VM_LANG_USPS_SHIP9', 'USPS Media Mail' );
+define( '_VM_LANG_USPS_SHIP10', 'USPS Library Mail' );
+define( '_VM_LANG_USPS_INTL', 'International Shipping Options' );
+define( '_VM_LANG_USPS_INTL0', 'USPS Global Express Guaranteed Document Service' );
+define( '_VM_LANG_USPS_INTL1', 'USPS Global Express Guaranteed Non-Document Service' );
+define( '_VM_LANG_USPS_INTL2', 'USPS Global Express Mail (EMS)' );
+define( '_VM_LANG_USPS_INTL3', 'USPS Global Priority Mail - Flat-rate Envelope (Large)' );
+define( '_VM_LANG_USPS_INTL4', 'USPS Global Priority Mail - Flat-rate Envelope (Small)' );
+define( '_VM_LANG_USPS_INTL5', 'USPS Global Priority Mail - Variable Weight (Single)' );
+define( '_VM_LANG_USPS_INTL6', 'USPS Airmail Letter Post' );
+define( '_VM_LANG_USPS_INTL7', 'USPS Airmail Parcel Post' );
+define( '_VM_LANG_USPS_INTL8', 'USPS Economy (Surface) Letter Post' );
+define( '_VM_LANG_USPS_INTL9', 'USPS Economy (Surface) Parcel Post' );
 ?>

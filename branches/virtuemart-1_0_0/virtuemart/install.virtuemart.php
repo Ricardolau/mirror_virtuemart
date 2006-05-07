@@ -83,7 +83,8 @@ function com_install() {
 	}
 	else {
 		$database->setQuery( 'SELECT id,params FROM `#__components` WHERE name = \'virtuemart_version\'' );
-		$old_version =  $database->loadResult();
+		$database->loadObject( $old_version );
+		
 		if( $old_version && file_exists( $mosConfig_absolute_path.'/administrator/components/com_virtuemart/classes/htmlTools.class.php')) {
 			$version_info = new mosParameters( $old_version->params );
 			$isBefore_103 = version_compare( $version_info->get( 'RELEASE' ), '1.0.3' );

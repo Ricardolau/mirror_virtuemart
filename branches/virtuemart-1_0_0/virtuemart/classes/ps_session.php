@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_session.php,v 1.15.2.10 2006/03/21 19:38:22 soeren_nb Exp $
+* @version $Id: ps_session.php,v 1.15.2.11 2006/04/21 17:05:17 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2006 Soeren Eberhardt. All rights reserved.
@@ -255,7 +255,7 @@ class ps_session {
 
 		if( empty( $_REQUEST['shopItemid'] )) {
 			$db = new ps_DB;
-			$db->query( "SELECT id FROM #__menu WHERE link='index.php?option=com_virtuemart' AND published='1'");
+			$db->query( "SELECT id FROM #__menu WHERE link='index.php?option=com_virtuemart' AND published=1 AND access=0");
 			if( $db->next_record() ) {
 				$_REQUEST['shopItemid'] = $db->f("id");
 			}

@@ -209,7 +209,7 @@ else {
 
 			// Show the PDF Button?
 			if( PSHOP_PDF_BUTTON_ENABLE=='1' && !isset($_REQUEST['output']) && ($page=="shop.browse" || $page=="shop.product_details")) {
-				echo "<table align=\"right\"><tr><td><a title=\"PDF\" target=\"_blank\" href=\"index2.php?option=$option&page=shop.pdf_output&showpage=$page&pop=1&output=pdf&product_id=$product_id&category_id=$category_id\">
+				echo "<table align=\"right\"><tr><td><a title=\"PDF\" target=\"_blank\" href=\"index2.php?option=$option&page=shop.pdf_output&amp;showpage=$page&amp;pop=1&amp;output=pdf&amp;product_id=$product_id&amp;category_id=$category_id&amp;Itemid=".$sess->getShopItemid()."\">
             <img src=\"".IMAGEURL."ps_image/acroread.png\" alt=\"PDF\" height=\"32\" width=\"32\" border=\"0\" /></a></td></tr></table>";
 			}
 			// Load requested PAGE

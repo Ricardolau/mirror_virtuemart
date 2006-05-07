@@ -34,7 +34,8 @@ Legend:
 VirtueMart 1.0.x
 *************************************
 05-05-2006 soeren
-
+# added missing Itemid parameter in the product file list (ps_product_files.php) and the PDF-button link (virtuemart.php)
+# Task #724 - Coupon discount becomes 0.00 when adding a new item (basket.php)
 ^ Updated the UPS and USPS shipping modules with the versions contributed by koltz & deneb
 # Task #738 — shop.pdf_output.php creates a loop when /usr/bin/htmldoc is available (shop.pdf_output.php)
 

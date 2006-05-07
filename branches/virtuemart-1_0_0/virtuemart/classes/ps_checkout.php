@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_checkout.php,v 1.22.2.9 2006/04/21 17:05:17 soeren_nb Exp $
+* @version $Id: ps_checkout.php,v 1.22.2.11 2006/05/06 10:05:26 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -1427,7 +1427,7 @@ Order Total: '.$order_total.'
 	**          False - error occured
 	***************************************************************************/
 	function email_receipt($order_id) {
-		global $sess, $ps_product, $VM_LANG, $CURRENCY_DISPLAY, $vmLogger,
+		global $sess, $ps_product, $VM_LANG, $CURRENCY_DISPLAY, $vmLogger, $database, 
 		$mosConfig_absolute_path, $mosConfig_live_site, $mosConfig_mailfrom,
 		$mosConfig_fromname, $mosConfig_smtpauth, $mosConfig_mailer, $mosConfig_lang,
 		$mosConfig_smtpuser, $mosConfig_smtppass, $mosConfig_smtphost;

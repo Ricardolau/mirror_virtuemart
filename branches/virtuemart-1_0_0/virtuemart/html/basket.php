@@ -7,7 +7,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * This version of the basket allows to change quantities and delete products from the cart
 * The ro_basket (=read only) doesn't allow that.
 * 
-* @version $Id: basket.php,v 1.7.2.3 2006/03/14 18:42:23 soeren_nb Exp $
+* @version $Id: basket.php,v 1.7.2.4 2006/03/22 19:29:59 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2006 Soeren Eberhardt. All rights reserved.
@@ -151,7 +151,7 @@ else {
         $vars["total"] = $total;
         $subtotal_display = $CURRENCY_DISPLAY->getFullValue($total);
 
-        if (!empty($_POST["do_coupon"]) || (($func == 'cartadd' || $func == 'cartupdate') && !empty($_SESSION['coupon_discount'])) ) {
+        if (!empty($_POST["do_coupon"]) || ((strtolower($func) == 'cartadd' || strtolower($func) == 'cartupdate') && !empty($_SESSION['coupon_discount'])) ) {
                 /* process the coupon */
 
                 // make sure they arent trying to run it twice

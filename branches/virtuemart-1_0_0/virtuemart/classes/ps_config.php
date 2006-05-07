@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: ps_config.php,v 1.9.2.5 2006/04/21 17:05:17 soeren_nb Exp $
+* @version $Id: ps_config.php,v 1.9.2.6 2006/04/27 19:35:52 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -192,7 +192,7 @@ define( 'IMAGEPATH', \$mosConfig_absolute_path.'/components/com_virtuemart/shop_
                     $config.= " );\n";
                 }
                 else {
-					$config .= "define('".$key."', '".@$d[$value]."');\n";
+					$config .= "define('".$key."', '".str_replace("'", "\'", stripslashes(@$d[$value]))."');\n";
                 }
             }
             

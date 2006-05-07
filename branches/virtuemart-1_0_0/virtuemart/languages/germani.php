@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: admin.martlanguages.php,v 1.6 2006/01/15 19:42:45 soeren_nb Exp $
+* @version $Id: germani.php,v 1.10.2.3 2006/04/27 19:35:54 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -806,7 +806,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_AFFILIATE_FORM_ACTIVE = 'Aktiv?';
 	var $_PHPSHOP_DELIVERY_TIME = 'Lieferzeit';
 	var $_PHPSHOP_DELIVERY_INFORMATION = 'Informationen zur Lieferung';
-	var $_PHPSHOP_MORE_CATEGORIES = 'mehr Kategorien';
+	var $_PHPSHOP_MORE_CATEGORIES = 'weitere Unterkategorien';
 	var $_PHPSHOP_AVAILABILITY = 'Verfügbarkeit';
 	var $_PHPSHOP_CURRENTLY_NOT_AVAILABLE = 'Dieses Produkt ist zur Zeit leider nicht verfügbar.';
 	var $_PHPSHOP_PRODUCT_AVAILABLE_AGAIN = 'Voraussichtlich wieder lieferbar ab: ';

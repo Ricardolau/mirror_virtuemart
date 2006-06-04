@@ -2,7 +2,8 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: admin.martlanguages.php,v 1.6 2006/01/15 19:42:45 soeren_nb Exp $
+* @version $Id: finnish.php,v 1.10.2.4 2006/05/07 19:35:53 soeren_nb Exp $
+* @ 2006/05/09 11:06:14 updated by Mauri
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -1428,20 +1429,19 @@ Salasana - %s
 	var $_VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL_TIP = 'M‰‰ritt‰‰, mik‰ on tuptteiden oletusj‰rjestys tuotesivuilla';
 	var $_VM_BROWSE_ORDERBY_FIELDS_LBL = 'Valinnaiset "J‰rjestys" valinnat';
 	var $_VM_BROWSE_ORDERBY_FIELDS_LBL_TIP = 'Valitse "J‰rjestys" valinnat, joilla k‰ytt‰j‰t valitsevat tuotej‰rjestyksen tuotesivuilla. Jos et valitse mit‰‰n, "J‰rjestys"-kentt‰‰ ei n‰ytet‰ ollenkaan.';
-	var $_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO = 'Show a short note about your "Returns Policy" on the order confirmation page?';
-	var $_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO_TIP = 'In most european countries store owners are required by law to inform their customers about return and order cancellation policies. So this should be enabled in most cases.';
-	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT = 'Legal information text (short version).';
-	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT_TIP = 'This text instructs your customers in short about your return and order cancellation policy. It is shown on the last page of checkout, just above the "Confirm Order" button.';
-	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK = 'Long version of the return policy (link to a content item).';
-	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK_TIP = 'Please add a new content item about the details of your return and order cancellation policy.
-Afterwards you can select it here.';
-	var $_VM_LEGALINFO_SHORTTEXT = '<h5>Returns Policy</h5>
+	var $_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO = 'N‰yt‰ lyhyt ilmoitus "Palautusoikeus", tilausta hyv‰ksytt‰ess‰?';
+	var $_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO_TIP = 'Monessa euroopan maassa, kauppiaan on ilmoitettava asiakkailleen tilauksen palautus ja -purkamisehdot. Valinta n‰ytt‰‰ viestin.';
+	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT = 'Palautuoikeus teksti(lyhyt versio). Jos et k‰yt‰ allaolevaa pitk‰‰ tekstisivua, niin poista lyhyen tekstin lopusta linkkiteksti.';
+	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT_TIP = 'T‰h‰n tulee lyhyt viesti palautusoikeudesta. Se n‰ytet‰‰n asiakkaalle tilausvahvistuksessa.';
+	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK = 'Pitk‰ versio palautusoikeus-tekstist‰(linkki tekstisivulle(content item)).';
+	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK_TIP = 'Valitse t‰st‰ sivu(content item),jossa on selostus palautusoikeudesta. Jos et ole viel‰ tehnyt sellaista sivua, 
+niin tee sivu hallintapaneelissa ja lis‰‰ sen linkki t‰ss‰.';
+	var $_VM_LEGALINFO_SHORTTEXT = '<h5>Palautusoikeus</h5>
+Tuotteilla on 14 vrk:n palautusoikeus edellytt‰en, 
+ett‰ tuote palautetaan omassa alkuper‰ispakkauksessaan k‰ytt‰m‰ttˆm‰n‰. 
+Vaihdoissa ja palautuksissa liit‰ l‰hetyksen mukaan mahdollinen pakkauslista.
+Lis‰tietoa palautusoikeudesta,  <a href="%s" onclick="%s" target="_blank">Palautusoikeus</a> sivu.';
 
-You can cancel this order within two weeks after we have received it.
-You can return new, unopened items from a cancelled order within 2 weeks after they have been 
-delivered to you. Items should be returned in their original packaging.
-For more information on cancelling orders and returning items, see the <a href="%s" onclick="%s" target="_blank">Our Returns Policy</a> page.';
-        
 }
 class phpShopLanguage extends vmLanguage { }
 

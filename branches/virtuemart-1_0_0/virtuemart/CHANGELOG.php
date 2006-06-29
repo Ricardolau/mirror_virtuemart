@@ -33,6 +33,24 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+
+28-06-2006 soeren
+
+# Task #788 - HTML bug in ps_order.php
+# Task #787 - Tab 'Order Status' in order admin panel empty in IE7 (order.order_print.php)
+# Task #784 — Can't edit files/images without a title (product.file_list.php)
+# Task #800 - Order list error: double order listings of the same order (order.order_list.php)
+# Task #814 - mysql_escape_string issues (class.inputfilter.php, htmltools.class.php)
+# Task #816 - missing "alt" attribute in category images on shop.index.php
+^ adjusted login procedure to comply with Joomla 1.0.10 (ps_main.php, checkout.login_form, mod_virtuemart.php)
+	+ added new functions called "vmSpoofValue" and "vmSpoofCheck" as used in Joomla 1.0.10
+
+07-06-2006 soeren
+# Task #795 - Edit user with VM 1.0.5 and Joomla 1.0.9
+# "only variables should be assigned by reference..." errors in the file menuBar.class.php
+
+---- VirtueMart 1.0.5 released ----
+
 07-05-2006 soeren
 
 # Itemid issue: the shop was also fetching restricted menu items and used their Itemid, which resulted in "You're not allowed to view this resource..." (ps_session.php)
@@ -41,7 +59,7 @@ VirtueMart 1.0.x
 
 05-05-2006 soeren
 ^ Updated the UPS and USPS shipping modules with the versions contributed by koltz & deneb
-# Task #738 — shop.pdf_output.php creates a loop when /usr/bin/htmldoc is available (shop.pdf_output.php)
+# Task #738 - shop.pdf_output.php creates a loop when /usr/bin/htmldoc is available (shop.pdf_output.php)
 
 ! DATABASE STRUCTURE CHANGED!
 ^ The length of some DECIMAL fields is not enough
@@ -149,7 +167,7 @@ VirtueMart 1.0.x
 # CSV Export doesn't export parent product SKU (parent-child relationship gets lost)
 # fixed a small typo in the product scroller module
 
----- VirtueMart 1.0.3 released ----
+---- VirtueMart 1.0.4 released ----
 
 23-03-2006 soeren
 

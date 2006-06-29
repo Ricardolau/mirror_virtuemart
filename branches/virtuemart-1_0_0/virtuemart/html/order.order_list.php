@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: order.order_list.php,v 1.6.2.3 2006/03/24 18:24:30 soeren_nb Exp $
+* @version $Id: order.order_list.php,v 1.6.2.4 2006/03/28 19:40:15 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -28,7 +28,7 @@ require_once( CLASSPATH . "htmlTools.class.php" );
 $list  = "SELECT order_id,order_status, #__{vm}_orders.cdate,#__{vm}_orders.mdate,order_total,#__{vm}_orders.user_id,";
 $list .= "first_name, last_name FROM #__{vm}_orders, #__{vm}_user_info WHERE ";
 $count = "SELECT count(*) as num_rows FROM #__{vm}_orders, #__{vm}_user_info WHERE ";
-$q = '';
+$q = "address_type = 'BT' AND ";
 if (!empty($keyword)) {
         $q  = "(#__{vm}_orders.order_id LIKE '%$keyword%' ";
         $q .= "OR #__{vm}_orders.order_status LIKE '%$keyword%' ";

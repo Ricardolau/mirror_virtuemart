@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: order.order_print.php,v 1.9.2.2 2006/02/27 19:41:42 soeren_nb Exp $
+* @version $Id: order.order_print.php,v 1.9.2.3 2006/03/03 07:09:02 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -64,12 +64,13 @@ else {
 			</table>
 		  </td>
 		  <td valign="top" width="65%">
-			<form method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
+			
 			<?php
 			$tab = new mShopTabs( 0, 1, "myTab");
 			$tab->startPane( "order_change_pane" );
 			$tab->startTab( "Order Status Change", "order_change_page" );
 			?>
+			<form method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
 			<table class="adminlist">
 			 <tr>
 			  <th colspan="3"><?php echo $VM_LANG->_PHPSHOP_ORDER_STATUS_CHANGE ?></th>
@@ -95,10 +96,11 @@ else {
 				<input type="checkbox" name="notify_customer" checked="checked" value="Y" /> <?php echo $VM_LANG->_PHPSHOP_ORDER_LIST_NOTIFY ?>
 				<br/>
 				<input type="checkbox" name="include_comment" checked="checked" value="Y" /> <?php echo $VM_LANG->_PHPSHOP_ORDER_HISTORY_INCLUDE_COMMENT ?>
-				</form>
+				
 			  </td>
 			 </tr>
 			</table>
+			</form>
 				<?php
 				$tab->endTab();
 				$tab->startTab( $VM_LANG->_PHPSHOP_ORDER_HISTORY, "order_history_page" );

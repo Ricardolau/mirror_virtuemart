@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_checkout.php,v 1.22.2.11 2006/05/06 10:05:26 soeren_nb Exp $
+* @version $Id: ps_checkout.php,v 1.22.2.12 2006/05/07 11:19:03 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -2058,7 +2058,7 @@ Order Total: '.$order_total.'
 			foreach( $rate_details as $k => $v ) {
 				if( $k == 3 ) {
 					echo $CURRENCY_DISPLAY->getFullValue( $v )."; ";
-				} elseif( $k > 0 ) {
+				} elseif( $k > 0 && $k < 4) {
 					echo "$v; ";
 				}
 			}

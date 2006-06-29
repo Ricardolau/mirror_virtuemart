@@ -2,7 +2,7 @@
 /**
 * PayPal IPN Handler
 *
-* @version $Id: notify.php,v 1.5.2.4 2006/04/16 17:38:23 soeren_nb Exp $
+* @version $Id: notify.php,v 1.5.2.5 2006/05/06 10:05:25 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.

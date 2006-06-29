@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_pbs.php,v 1.2 2005/09/27 17:48:50 soeren_nb Exp $
+* @version $Id: ps_pbs.php,v 1.4 2005/11/16 14:43:32 codename-matrix Exp $
 * @package VirtueMart
 * @subpackage payment
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.

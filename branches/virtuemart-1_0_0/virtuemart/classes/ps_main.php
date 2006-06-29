@@ -3,7 +3,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 /**
 * This is no class! This file only provides core virtuemart functions.
 * 
-* @version $Id: ps_main.php,v 1.11.2.3 2006/04/05 18:16:53 soeren_nb Exp $
+* @version $Id: ps_main.php,v 1.11.2.4 2006/05/06 10:05:27 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -931,7 +931,7 @@ if (!defined('ENT_QUOTES')) {
  * @link        http://php.net/function.html_entity_decode
  * @author      David Irvine <dave@codexweb.co.za>
  * @author      Aidan Lister <aidan@php.net>
- * @version     $Revision: 1.11.2.3 $
+ * @version     $Revision: 1.11.2.4 $
  * @since       PHP 4.3.0
  * @internal    Setting the charset will not do anything
  * @require     PHP 4.0.0 (user_error)
@@ -1013,4 +1013,83 @@ function vmGetCharset() {
 	}
 }
 
+/**
+ * Equivalent to Joomla's josSpoofCheck function
+ * @author Joomla core team
+ *
+ * @param boolean $header
+ * @param unknown_type $alt
+ */
+function vmSpoofCheck( $header=NULL, $alt=NULL ) {	
+	$validate 	= mosGetParam( $_POST, vmSpoofValue($alt), 0 );
+	
+	// probably a spoofing attack
+	if (!$validate) {
+		header( 'HTTP/1.0 403 Forbidden' );
+		mosErrorAlert( _NOT_AUTH );
+		return;
+	}
+	
+	// First, make sure the form was posted from a browser.
+	// For basic web-forms, we don't care about anything
+	// other than requests from a browser:   
+	if (!isset( $_SERVER['HTTP_USER_AGENT'] )) {
+		header( 'HTTP/1.0 403 Forbidden' );
+		mosErrorAlert( _NOT_AUTH );
+		return;
+	}
+	
+	// Make sure the form was indeed POST'ed:
+	//  (requires your html form to use: action="post")
+	if (!$_SERVER['REQUEST_METHOD'] == 'POST' ) {
+		header( 'HTTP/1.0 403 Forbidden' );
+		mosErrorAlert( _NOT_AUTH );
+		return;
+	}
+	
+	if ($header) {
+	// Attempt to defend against header injections:
+		$badStrings = array(
+			'Content-Type:',
+			'MIME-Version:',
+			'Content-Transfer-Encoding:',
+			'bcc:',
+			'cc:'
+		);
+		
+		// Loop through each POST'ed value and test if it contains
+		// one of the $badStrings:
+		foreach ($_POST as $k => $v){
+			foreach ($badStrings as $v2) {
+				if (strpos( $v, $v2 ) !== false) {
+					header( "HTTP/1.0 403 Forbidden" );
+					mosErrorAlert( _NOT_AUTH );
+					return;
+				}
+			}
+		}   
+		
+		// Made it past spammer test, free up some memory
+		// and continue rest of script:   
+		unset($k, $v, $v2, $badStrings);
+	}
+}
+/**
+ * Equivalent to Joomla's josSpoofValue function
+ *
+ * @param boolean $alt
+ * @return string Validation Hash
+ */
+function vmSpoofValue($alt=NULL) {
+	global $mainframe;
+	
+	if ($alt) {
+		$random		= date( 'Ymd' );
+	} else {		
+		$random		= date( 'dmY' );
+	}
+	$validate 	= mosHash( $mainframe->getCfg( 'db' ) . $random );
+	
+	return $validate;
+}
 ?>

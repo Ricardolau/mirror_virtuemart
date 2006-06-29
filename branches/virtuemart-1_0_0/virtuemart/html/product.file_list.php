@@ -5,7 +5,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * @author Soeren Eberhardt
 * @param int product_id
 *
-* @version $Id: product.file_list.php,v 1.5 2005/10/27 16:09:13 soeren_nb Exp $
+* @version $Id: product.file_list.php,v 1.6 2005/11/22 18:30:08 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -46,8 +46,9 @@ $db->next_record();
 if( $db->num_rows() < 1 && $task != "cancel" ) {
   mosRedirect( $_SERVER['PHP_SELF']."?option=com_virtuemart&page=product.file_form&product_id=$product_id" );
 }
-else
+else {
 	$num_rows = $db->num_rows();
+}
 	
 // Create the Page Navigation
 $pageNav = new vmPageNav( $num_rows, $limitstart, $limit );
@@ -85,15 +86,17 @@ while ($db->next_record()) {
 	// The row number
 	$listObj->addCell( $pageNav->rowNumber( $i ) );
 	
-	$isProductDownload = $db->f("file_title") == $dbf->f("attribute_value") ? true : false;
+	$isProductDownload = ($db->f("file_title") == $dbf->f("attribute_value") && $db->f("file_title") != '' ) ? true : false;
 	
 	// The Checkbox
 	$listObj->addCell( mosHTML::idBox( $i, $db->f("file_id"), $isProductDownload, "file_id" ) );
 	
-	if($db->f("file_name")) 
+	if($db->f("file_name")) {
 		$tmp_cell = basename($db->f("file_name"));
-	else
+	}
+	else {
 		$tmp_cell = basename($db->f("file_url"));
+	}
 	$listObj->addCell( $tmp_cell );	
 	
 	$tmp_cell = "";

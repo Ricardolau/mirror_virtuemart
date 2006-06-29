@@ -980,13 +980,11 @@ class ps_product_category extends vmAbstractObject {
 					$num += ps_product_category::product_count($db->f("category_child_id"));
 				}
 			}
-			if( $num ) {
-				return " ($num) ";
-			}
+
+			return " ($num) ";
 		}
-		else {
-			return ( "" );
-		}
+		else
+		return ( "" );
 
 	}
 

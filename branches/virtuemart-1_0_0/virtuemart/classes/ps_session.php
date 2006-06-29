@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_session.php,v 1.15.2.11 2006/04/21 17:05:17 soeren_nb Exp $
+* @version $Id: ps_session.php,v 1.15.2.12 2006/05/07 12:39:03 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2006 Soeren Eberhardt. All rights reserved.
@@ -287,7 +287,7 @@ class ps_session {
 	 * where XX is the Id of an entry in the table mos_menu with "link: option=com_virtuemart"
 	 * It also calls sefRelToAbs to apply SEF formatting
 	 * 
-	 * @param strong $text THE URL
+	 * @param string $text THE URL
 	 * @return string The reformatted URL
 	 */
 	function url($text) {

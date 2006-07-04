@@ -1,9 +1,9 @@
 <?php
 defined('_VALID_MOS') or die('Direct Access to this location is not allowed.');
 /**
-*  MODIFIED BY DENEB
+*  MODIFIED BY Corey Koltz & DENEB
 *
-* @version $Id: usps.php,v 1.7.2.1a 2006/02/27 19:41:42 soeren_nb Exp $
+* @version $Id: usps.php,v 1.7.2.3 2006/05/06 10:22:19 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage shipping
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -51,8 +51,8 @@ class usps {
 		$order_weight = $d['weight'];
 
 		if($order_weight > 0) {
-			if( $order_weight > 150.00 )
-			$order_weight = 150.00;
+			if( $order_weight > 70.00 )
+			$order_weight = 70.00;
 
 			//USPS Username
 			$usps_username = USPS_USERNAME;
@@ -66,20 +66,22 @@ class usps {
 			//USPS Path
 			$usps_path = USPS_PATH;
 
-			//USPS container
-			$usps_container = USPS_CONTAINER;
-
 			//USPS package size
 			$usps_packagesize = USPS_PACKAGESIZE;
 
 			//USPS Package ID
-			$usps_packageid = USPS_PACKAGEID;
+			$usps_packageid = 0;
 
 			//USPS International Per Pound Rate
 			$usps_intllbrate = USPS_INTLLBRATE;
 
 			//USPS International handling fee
 			$usps_intlhandlingfee = USPS_INTLHANDLINGFEE;
+
+			//Pad the shipping weight to allow weight for shipping materials
+			$usps_padding = USPS_PADDING;
+			$usps_padding = $usps_padding * 0.01;
+			$order_weight = ($order_weight * $usps_padding) + $order_weight;
 			
 			//USPS Machinable for Parcel Post
 			$usps_machinable = USPS_MACHINABLE;
@@ -122,7 +124,7 @@ class usps {
 			//The zip that you are shipping from
 			$source_zip = $dbv->f("vendor_zip");
 
-			$shpService = USPS_SHIPSERVICE; //"Priority";
+			$shpService = 'All'; //"Priority";
 			
 			//The zip that you are shipping to
 			$dest_country = $db->f("country_2_code");
@@ -139,8 +141,16 @@ class usps {
 			$dest_zip = $db->f("zip");
 			//$weight_measure
 			$shipping_pounds_intl = ceil ($order_weight);
-			$shipping_pounds = floor ($order_weight);
+			if ($order_weight < 0.88)
+			{
+			$shipping_pounds = 0;
 			$shipping_ounces = round(16 * ($order_weight - floor($order_weight)));
+			}
+			else
+			{
+			$shipping_pounds = ceil ($order_weight);
+			$shipping_ounces = 0;
+			}
 
 			$os = array("Mac", "NT", "Irix", "Linux");
 			$states = array("AK","AR","AZ","CA","CO","CT","DC","DE","FL","GA","HI","IA","ID","IL","IN","KS","KY","LA","MA","MD","ME","MI","MN","MO","MS","MT","NC","ND","NE","NH","NJ","NM","NV","NY","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WI","WV","WY");
@@ -156,7 +166,6 @@ class usps {
 				$xmlPost .= "<ZipDestination>".$dest_zip."</ZipDestination>";
 				$xmlPost .= "<Pounds>".$shipping_pounds."</Pounds>";
 				$xmlPost .= "<Ounces>".$shipping_ounces."</Ounces>";
-				//$xmlPost .= "<Container>".$usps_container."</Container>";
 				$xmlPost .= "<Size>".$usps_packagesize."</Size>";
 				$xmlPost .= "<Machinable>".$usps_machinable."</Machinable>";
 				$xmlPost .= "</Package></RateV2Request>";
@@ -579,44 +588,19 @@ class usps {
             <?php echo mm_ToolTip($VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PATH_TOOLTIP) ?>
         </td>
     </tr>
-	<tr>
-        <td><strong><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_CONTAINER ?></strong>
-		</td>
-		<td>
-            <input type="text" name="USPS_CONTAINER" class="inputbox" value="<? echo USPS_CONTAINER ?>" />
-		</td>
-		<td>
-            <?php echo mm_ToolTip($VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_CONTAINER_TOOLTIP) ?>
-        </td>
     </tr>
 	<tr>
         <td><strong><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGESIZE ?></strong>
 		</td>
 		<td>
-            <input type="text" name="USPS_PACKAGESIZE" class="inputbox" value="<? echo USPS_PACKAGESIZE ?>" />
+  			<select name="USPS_PACKAGESIZE">
+				<option value="REGULAR" <?php if (USPS_PACKAGESIZE == 'REGULAR') echo "selected=\"selected\""; ?> >Regular</option>
+				<option value="LARGE" <?php if (USPS_PACKAGESIZE == 'LARGE') echo "selected=\"selected\""; ?> >Large</option>
+				<option value="OVERSIZE" <?php if (USPS_PACKAGESIZE == 'OVERSIZE') echo "selected=\"selected\""; ?>>Oversize</option>
+			</select>
 		</td>
 		<td>
             <?php echo mm_ToolTip($VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGESIZE_TOOLTIP) ?>
-        </td>
-    </tr>
-	<tr>
-        <td><strong><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGEID ?></strong>
-		</td>
-		<td>
-            <input type="text" name="USPS_PACKAGEID" class="inputbox" value="<? echo USPS_PACKAGEID ?>" />
-		</td>
-		<td>
-            <?php echo mm_ToolTip($VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGEID_TOOLTIP) ?>
-        </td>
-    </tr>
-	<tr>
-        <td><strong><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIPSERVICE ?></strong>
-		</td>
-		<td>
-            <input type="text" name="USPS_SHIPSERVICE" class="inputbox" value="<? echo USPS_SHIPSERVICE ?>" />
-		</td>
-		<td>
-            <?php echo mm_ToolTip($VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIPSERVICE_TOOLTIP) ?>
         </td>
     </tr>
 	  <tr>
@@ -635,6 +619,11 @@ class usps {
 	  <td><strong><?php echo $VM_LANG->_PHPSHOP_USPS_HANDLING_FEE ?></strong></td>
 	  <td><input class="inputbox" TYPE="text" name="USPS_HANDLINGFEE" value="<?php echo USPS_HANDLINGFEE ?>" /></td>
 	  <td><?php echo mm_ToolTip($VM_LANG->_PHPSHOP_USPS_HANDLING_FEE_TOOLTIP) ?></td>
+	</tr>
+	<tr>
+	  <td><strong><?php echo $VM_LANG->_PHPSHOP_USPS_PADDING ?></strong></td>
+	  <td><input class="inputbox" TYPE="text" name="USPS_PADDING" value="<?php echo USPS_PADDING ?>" /></td>
+	  <td><?php echo mm_ToolTip($VM_LANG->_PHPSHOP_USPS_PADDING_TOOLTIP) ?></td>
 	</tr>
 	<tr>
         <td><strong><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLLBRATE ?></strong>
@@ -658,12 +647,26 @@ class usps {
     </tr>
 	<tr>
         <td><strong><?php echo _VM_LANG_USPS_MACHINABLE ?></strong></td>
-		<td><input class="inputbox" type="checkbox" name="USPS_MACHINABLE" <?php if (USPS_MACHINABLE  == 1) echo "checked=\"checked\""; ?>value="1" /></td>
+		<td>
+		<label>
+		<input name="USPS_MACHINABLE" type="radio" <?php if (USPS_MACHINABLE == 1) echo "checked=\"checked\""; ?> value="1" />
+		Yes</label>
+		<label>
+		<input name="USPS_MACHINABLE" type="radio" <?php if (USPS_MACHINABLE == 0) echo "checked=\"checked\""; ?> value="0" />
+		No</label>
+		</td>
 		<td><?php echo mm_ToolTip(_VM_LANG_USPS_MACHINABLE_TOOLTIP) ?></td>
     </tr>
 	<tr>
 	  <td><strong><?php echo _VM_LANG_USPS_QUOTE ?></strong></td>
-	  <td><input class="inputbox" type="checkbox" name="USPS_SHOW_DELIVERY_QUOTE" <?php if (USPS_SHOW_DELIVERY_QUOTE == 1) echo "checked=\"checked\""; ?> value="1" /></td>
+	  <td>
+		<label>
+		<input name="USPS_SHOW_DELIVERY_QUOTE" type="radio" <?php if (USPS_SHOW_DELIVERY_QUOTE == 1) echo "checked=\"checked\""; ?> value="1" />
+		Yes</label>
+		<label>
+		<input name="USPS_SHOW_DELIVERY_QUOTE" type="radio" <?php if (USPS_SHOW_DELIVERY_QUOTE == 0) echo "checked=\"checked\""; ?> value="0" />
+		No</label>
+		</td>
 	  <td><?php echo mm_ToolTip(_VM_LANG_USPS_QUOTE_TOOLTIP) ?></td>
 	</tr>
 	<tr>
@@ -676,7 +679,14 @@ class usps {
 	?>
 	<tr>
         <td><strong><?php $var_name = "_VM_LANG_USPS_SHIP$i"; eval("\$var = $var_name;"); echo $var; ?></strong></td>
-		<td><input class="inputbox" type="checkbox" name="USPS_SHIP<?php echo $i; ?>" <?php $var_name = "\$dom_option"; eval("\$var = $var_name;"); if ($var  == 1) echo "checked=\"checked\""; ?> value="1" /></td>
+		<td>
+		<label>
+		<input name="USPS_SHIP<?php echo $i; ?>" type="radio" <?php $var_name = "\$dom_option"; eval("\$var = $var_name;"); if ($var  == 1) echo "checked=\"checked\""; ?> value="1" />
+		Yes</label>
+		<label>
+		<input name="USPS_SHIP<?php echo $i; ?>" type="radio" <?php $var_name = "\$dom_option"; eval("\$var = $var_name;"); if ($var  == 0) echo "checked=\"checked\""; ?> value="0" />
+		No</label>
+		</td>
 		<td><?php $var_name = "_VM_LANG_USPS_SHIP".$i; eval("\$var = $var_name;"); echo mm_ToolTip($var) ?></td>
     </tr>
 	<?php $i++; ?>
@@ -691,7 +701,14 @@ class usps {
 	?>
 	<tr>
         <td><strong><?php $var_name = "_VM_LANG_USPS_INTL$i"; eval("\$var = $var_name;"); echo $var; ?></strong></td>
-		<td><input class="inputbox" type="checkbox" name="USPS_INTL<?php echo $i; ?>" <?php $var_name = "\$int_option"; eval("\$var = $var_name;"); if ($var  == 1) echo "checked=\"checked\""; ?> value="1" /></td>
+		<td>
+		<label>
+		<input name="USPS_INTL<?php echo $i; ?>" type="radio" <?php $var_name = "\$int_option"; eval("\$var = $var_name;"); if ($var  == 1) echo "checked=\"checked\""; ?> value="1" />
+		Yes</label>
+		<label>
+		<input name="USPS_INTL<?php echo $i; ?>" type="radio" <?php $var_name = "\$int_option"; eval("\$var = $var_name;"); if ($var  == 0) echo "checked=\"checked\""; ?> value="0" />
+		No</label>
+		</td>
 		<td><?php $var_name = "_VM_LANG_USPS_INTL".$i; eval("\$var = $var_name;"); echo mm_ToolTip($var) ?></td>
     </tr>
 	<?php $i++; ?>
@@ -719,17 +736,15 @@ class usps {
 	*/
 	function write_configuration( &$d ) {
 	    global $vmLogger;
-
+		
 		$my_config_array = array("USPS_USERNAME" => $d['USPS_USERNAME'],
 		"USPS_PASSWORD" => $d['USPS_PASSWORD'],
 		"USPS_SERVER" => $d['USPS_SERVER'],
 		"USPS_PATH" => $d['USPS_PATH'],
-		"USPS_CONTAINER" => $d['USPS_CONTAINER'],
 		"USPS_PACKAGESIZE" => $d['USPS_PACKAGESIZE'],
-		"USPS_PACKAGEID" => $d['USPS_PACKAGEID'],
-		"USPS_SHIPSERVICE" => $d['USPS_SHIPSERVICE'],
 		"USPS_TAX_CLASS" => $d['USPS_TAX_CLASS'],
 		"USPS_HANDLINGFEE" => $d['USPS_HANDLINGFEE'],
+		"USPS_PADDING" => $d['USPS_PADDING'],
 		"USPS_INTLLBRATE" => $d['USPS_INTLLBRATE'],
 		"USPS_INTLHANDLINGFEE" => $d['USPS_INTLHANDLINGFEE'],
 		"USPS_MACHINABLE" => $d['USPS_MACHINABLE'],
@@ -782,6 +797,7 @@ define( '_VM_LANG_USPS_MACHINABLE_TOOLTIP', 'Can packages be processed on the ma
 define( '_VM_LANG_USPS_QUOTE', 'Show Delivery Days Quote?' );
 define( '_VM_LANG_USPS_QUOTE_TOOLTIP', 'Show Delivery Days Quote?' );
 define( '_VM_LANG_USPS_SHIP', 'Domestic Shipping Options' );
+define( '_VM_LANG_USPS_PADDING_TOOLTIP', 'Pad the shipping weight to allow weight for shipping materials' );
 define( '_VM_LANG_USPS_SHIP0', 'USPS Express Mail PO to Addressee' );
 define( '_VM_LANG_USPS_SHIP1', 'USPS Express Mail Flat Rate Envelope (12.5" x 9.5")' );
 define( '_VM_LANG_USPS_SHIP2', 'USPS Priority Mail' );

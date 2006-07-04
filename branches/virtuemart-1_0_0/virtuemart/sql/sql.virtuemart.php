@@ -2089,7 +2089,7 @@ $db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (7, 1, '2Checkout', 'ps
 	
 	 \$version = \"2\";
 	 \$url = \"https://www2.2checkout.com/2co/buyer/purchase\";
-	 \$formdata[\'x_amount\'] = \$db->f(\"order_total\");
+	 \$formdata[\'x_amount\'] = number_format(\$db->f(\"order_total\"), 2, \'.\', \'\');
 	
 	 //build the post string
 	 \$poststring = \'\';

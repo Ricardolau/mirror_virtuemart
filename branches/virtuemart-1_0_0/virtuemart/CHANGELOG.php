@@ -33,9 +33,18 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+02-07-2006 soeren
+
+# Free Shipping not calculated on "subtotal with tax", but without tax (ps_checkout.php)
+^ Updated Search Mambot (Thank you Mark! - http://virtuemart.net/index.php?option=com_smf&Itemid=71&topic=19615.msg46837#msg46837)
+
 
 28-06-2006 soeren
 
+# Task #665 - shipping address save but without display (virtuemart_parser.php)
+# Task #780 - VM don't send the confirmation order to user or admin, update status order don't run (ps_affiliate.php)
+# Task #817 - relative url is missing server base (ps_product_attribute.php)
+# 2Checkout order_total number format corrected
 # Task #788 - HTML bug in ps_order.php
 # Task #787 - Tab 'Order Status' in order admin panel empty in IE7 (order.order_print.php)
 # Task #784 — Can't edit files/images without a title (product.file_list.php)

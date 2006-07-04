@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_product_attribute.php,v 1.7.2.1 2006/02/27 19:41:42 soeren_nb Exp $
+* @version $Id: ps_product_attribute.php,v 1.7.2.2 2006/04/23 19:40:07 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -228,7 +228,7 @@ class ps_product_attribute {
 		if( $db->num_rows() > 0 ) {
 			$flypage = $ps_product->get_flypage( $product_id );
 			$html .= "<label for=\"product_id_field\">".$VM_LANG->_PHPSHOP_PLEASE_SEL_ITEM."</label>: <br />";
-			$html .= "<select class=\"inputbox\" onchange=\"var id = document.getElementById('addtocart').product_id[selectedIndex].value; if(id != '') {window.location='index.php?option=com_virtuemart&page=shop.product_details&flypage=$flypage&Itemid=$Itemid&category_id=$category_id&product_id=' + id } ;\" id=\"product_id_field\" name=\"product_id\">\n";
+			$html .= "<select class=\"inputbox\" onchange=\"var id = document.getElementById('addtocart').product_id[selectedIndex].value; if(id != '') {window.location='".$_SERVER['PHP_SELF']."?option=com_virtuemart&page=shop.product_details&flypage=$flypage&Itemid=$Itemid&category_id=$category_id&product_id=' + id } ;\" id=\"product_id_field\" name=\"product_id\">\n";
 			$html .= "<option value=\"$product_id\">".$VM_LANG->_PHPSHOP_SELECT."</option>";
 			while ($db->next_record()) {
 				$selected = isset($child_id) ? ($db->f("product_id")==$child_id ? "selected=\"selected\"" : "") : "";

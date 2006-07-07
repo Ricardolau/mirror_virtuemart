@@ -1673,7 +1673,7 @@ Order Total: '.$order_total.'
 				$shopper_message .= "SERVICE  = ";
 			}
 			$shopper_message .= $dboi->f("product_name") . "; "
-								.$ps_product->getDescriptionWithTax( $dboi->f("product_attribute"),$dboi->f("product_id") ."\n";
+								.$ps_product->getDescriptionWithTax( $dboi->f("product_attribute"),$dboi->f("product_id")) ."\n";
 			$shopper_message .= $VM_LANG->_PHPSHOP_ORDER_PRINT_QUANTITY." = ";
 			$shopper_message .= $dboi->f("product_quantity") . "\n";
 			$shopper_message .= $VM_LANG->_PHPSHOP_ORDER_PRINT_SKU."      = ";

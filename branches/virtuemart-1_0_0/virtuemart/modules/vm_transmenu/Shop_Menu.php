@@ -39,7 +39,7 @@ class Shop_Menu{
 								FROM #__{vm}_category, #__{vm}_category_xref 
 								WHERE #__{vm}_category.category_publish='Y' 
 									AND #__{vm}_category.category_id=#__{vm}_category_xref.category_child_id 
-								ORDER BY name ASC";
+								ORDER BY list_order, name ASC";
 		
 		$this->_db->setQuery( $query );
 		$database->setQuery( $this->_db->_sql );

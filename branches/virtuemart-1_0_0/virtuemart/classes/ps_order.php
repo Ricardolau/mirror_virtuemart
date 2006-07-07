@@ -282,6 +282,7 @@ class ps_order {
 		##---------------------------updated 03/28/2004-----------------------------------
 
 		elseif ($d["order_status"]==DISABLE_DOWNLOAD_STATUS) {
+			$db = new ps_DB;
 			$q = "DELETE FROM #__{vm}_product_download WHERE order_id=" . $d["order_id"];
 			$db->query($q);
 			$db->next_record();

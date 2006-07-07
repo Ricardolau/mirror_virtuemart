@@ -33,6 +33,15 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+
+07-07-2006 soeren
+
+# Task #775 - Transmenu (at least) does not sort categories correctly (Shop_Menu.php)
+# Task #802 - filename not saved when adding a product (ps_product.php)
+# Task #803 - TAX now showing on attribute price modifications in confirm Mail AND order confirmation page (account.order_details.php, ps_checkout.php)
+# Task #829 - Call to a member function on a non-object (on order status update, ps_order.php)
++ reintroduced the PayPal IPN amount/currency check, now using the correct PayPal variables (it's so easy if you know them, grr)
+
 02-07-2006 soeren
 
 # Free Shipping not calculated on "subtotal with tax", but without tax (ps_checkout.php)
@@ -47,7 +56,8 @@ VirtueMart 1.0.x
 # 2Checkout order_total number format corrected
 # Task #788 - HTML bug in ps_order.php
 # Task #787 - Tab 'Order Status' in order admin panel empty in IE7 (order.order_print.php)
-# Task #784 — Can't edit files/images without a title (product.file_list.php)
+# Task #784 - Can't edit files/images without a title (product.file_list.php)
+# Task #801 - 'vmMenu' not defined (htmltools.class.php)
 # Task #800 - Order list error: double order listings of the same order (order.order_list.php)
 # Task #814 - mysql_escape_string issues (class.inputfilter.php, htmltools.class.php)
 # Task #816 - missing "alt" attribute in category images on shop.index.php

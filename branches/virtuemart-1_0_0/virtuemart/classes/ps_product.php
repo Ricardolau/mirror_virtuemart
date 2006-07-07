@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_product.php,v 1.24.2.13 2006/04/05 18:16:53 soeren_nb Exp $
+* @version $Id: ps_product.php,v 1.24.2.14 2006/04/21 17:05:17 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -317,7 +317,7 @@ class ps_product extends vmAbstractObject {
 				}
 			}
 			else {
-				$d["file_title"] = $d["file_name"];
+				$d["file_title"] = $d["filename"];
 			}
 			// Insert an attribute called "download", attribute_value: filename
 			$q2  = "INSERT INTO #__{vm}_product_attribute ";

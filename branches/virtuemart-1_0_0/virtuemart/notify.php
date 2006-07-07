@@ -142,20 +142,32 @@ if ($_POST) {
     
     
     $paypal_receiver_email = PAYPAL_EMAIL;
+    $business = trim(stripslashes($_POST['business'])); 
     $item_name = trim(stripslashes($_POST['item_name']));
     $item_number = trim(stripslashes($_POST['item_number']));
     $payment_status = trim(stripslashes($_POST['payment_status']));
-    $payment_gross = trim(stripslashes($_POST['payment_gross']));
+    
+    // The order total amount including taxes, shipping and discounts
+    $mc_gross = trim(stripslashes($_POST['mc_gross']));
+    
+    // Can be USD, GBP, EUR, CAD, JPY
+    $currency_code =  trim(stripslashes($_POST['mc_currency']));
+    
     $txn_id = trim(stripslashes($_POST['txn_id']));
     $receiver_email = trim(stripslashes($_POST['receiver_email']));
     $payer_email = trim(stripslashes($_POST['payer_email']));
     $payment_date = trim(stripslashes($_POST['payment_date']));
+    
+    // The Order Number (not order_id !)
     $invoice =  trim(stripslashes($_POST['invoice']));
+    
     $amount =  trim(stripslashes($_POST['amount']));
-    $currency_code =  trim(stripslashes($_POST['currency_code']));
+    
     $quantity = trim(stripslashes($_POST['quantity']));
     $pending_reason = trim(stripslashes($_POST['pending_reason']));
     $payment_method = trim(stripslashes($_POST['payment_method']));
+    
+    // Billto
     $first_name = trim(stripslashes($_POST['first_name']));
     $last_name = trim(stripslashes($_POST['last_name']));
     $address_street = trim(stripslashes($_POST['address_street']));
@@ -163,12 +175,13 @@ if ($_POST) {
     $address_state = trim(stripslashes($_POST['address_state']));
     $address_zipcode = trim(stripslashes($_POST['address_zip']));
     $address_country = trim(stripslashes($_POST['address_country']));
+    
     $payer_email = trim(stripslashes($_POST['payer_email']));
     $address_status = trim(stripslashes($_POST['address_status']));
+    
     $payer_status = trim(stripslashes($_POST['payer_status']));
     $notify_version = trim(stripslashes($_POST['notify_version'])); 
     $verify_sign = trim(stripslashes($_POST['verify_sign'])); 
-    $business = trim(stripslashes($_POST['business'])); 
     $custom = trim(stripslashes($_POST['custom'])); 
     $txn_type = trim(stripslashes($_POST['txn_type'])); 
     
@@ -179,7 +192,7 @@ if ($_POST) {
     }  
     */
     if( PAYPAL_DEBUG != "1" ) {
-    
+    	// Get the list of IP addresses for www.paypal.com
         $paypal_iplist = gethostbynamel('www.paypal.com');
         
         $paypal_sandbox_hostname = 'ipn.sandbox.paypal.com';
@@ -193,8 +206,10 @@ if ($_POST) {
         }
         else {
             $ips = "";
+            // Loop through all allowed IPs and test if the remote IP connected here
+            // is a valid IP address
             foreach( $paypal_iplist as $ip ) {
-                $ips .= "$ip,";
+                $ips .= "$ip,\n";
                 $parts = explode( ".", $ip );
                 $first_three = $parts[0].".".$parts[1].".".$parts[2];
                 if( preg_match("/^$first_three/", $_SERVER['REMOTE_ADDR']) ) {
@@ -333,33 +348,25 @@ if ($_POST) {
                     $mail->Send();
                     exit();
                 }
-                /*$tax_total = $db->f("order_tax") + $db->f("order_shipping_tax");
-                                $discount_total = $db->f("coupon_discount") + $db->f("order_discount");
-                                $amount_check = round( $db->f("order_subtotal")+$tax_total-$discount_total, 2);
+                
+                // AMOUNT and CURRENCY CODE CHECK
+				$amount_check = $db->f("order_total");
                                 
-                if( $amount != $amount_check 
-                        || $currency_code != $db->f('order_currency')
-                                ) {
+                if( $mc_gross != $amount_check 
+                   || $currency_code != $db->f('order_currency') ) {
                     $mail->From = $mosConfig_mailfrom;
                     $mail->FromName = $mosConfig_fromname;
                     $mail->AddAddress($debug_email_address);
-                    $mail->Subject = "PayPal IPN Transaction on your site: Received Amount not correct";
+                    $mail->Subject = "PayPal IPN Error: Order Total/Currency Check failed";
                     $mail->Body = "During a paypal transaction on your site the received amount didn't match the order total.
                     Order Number: $invoice.
-                    The amount received was: $amount.
-                    It should be:
-                                   ".$db->f("order_tax")." (Order Tax)
-                                 + ".$db->f("order_shipping_tax")." (Order shipping tax)
-                                 - ".$db->f("coupon_discount")." (Coupon Discount)
-                                 - ".$db->f("order_discount")." (Payment Discount)
-                                 + ".$db->f("order_subtotal")." (Order Subtotal)
-                                 ----------------------------------------------
-                                 = ".$amount_check;
+                    The amount received was: $mc_gross $currency_code.
+                    It should be: $amount_check ".$db->f("order_currency");
                     
                     $mail->Send();
                     exit();
                 }
-                */
+                
                 // UPDATE THE ORDER STATUS to 'Completed'
                 if(eregi ("Completed", $payment_status)) {
                     $d['order_status'] = PAYPAL_VERIFIED_STATUS;                    

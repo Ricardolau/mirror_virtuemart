@@ -1672,7 +1672,8 @@ Order Total: '.$order_total.'
 				$shopper_message .= $dboi->f("order_item_name") . "\n";
 				$shopper_message .= "SERVICE  = ";
 			}
-			$shopper_message .= $dboi->f("product_name") . "; ".$dboi->f("product_attribute") ."\n";
+			$shopper_message .= $dboi->f("product_name") . "; "
+								.$ps_product->getDescriptionWithTax( $dboi->f("product_attribute"),$dboi->f("product_id") ."\n";
 			$shopper_message .= $VM_LANG->_PHPSHOP_ORDER_PRINT_QUANTITY." = ";
 			$shopper_message .= $dboi->f("product_quantity") . "\n";
 			$shopper_message .= $VM_LANG->_PHPSHOP_ORDER_PRINT_SKU."      = ";
@@ -1812,8 +1813,9 @@ Order Total: '.$order_total.'
 				$my_qty = $dboi->f("product_quantity");
 				$order_items .= "<tr class=\"Stil1\"><td>". $my_qty . "</td>";
 				$order_items .= "<td>".$dboi->f("product_name");
-				if($dboi->f("product_attribute"))
-				$order_items .= " (".$dboi->f("product_attribute") .")";
+				if($dboi->f("product_attribute")) {
+					$order_items .= " (".$ps_product->getDescriptionWithTax( $dboi->f("product_attribute"), $dboi->f("product_id")) .")";
+				}
 				$order_items .= "</td>";
 				$order_items .= "<td>".$ps_product->get_field($dboi->f("product_id"), "product_sku") . "</td>";
 				if ($auth["show_price_including_tax"] == 1) {

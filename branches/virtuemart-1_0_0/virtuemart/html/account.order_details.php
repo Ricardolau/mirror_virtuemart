@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: account.order_details.php,v 1.8.2.3 2006/03/07 19:34:02 soeren_nb Exp $
+* @version $Id: account.order_details.php,v 1.8.2.4 2006/04/27 19:35:52 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2006 Soeren Eberhardt. All rights reserved.
@@ -465,7 +465,9 @@ if ($dbos->f("order_status_code") == ENABLE_DOWNLOAD_STATUS && ENABLE_DOWNLOADS)
 		          		echo '<a href="'.$sess->url( $mm_action_url."index.php?page=shop.product_details&product_id=$product_id") .'" title="'.$dbcart->f("order_item_name").'">';
 		          	}
 		          	$dbcart->p("order_item_name");
-		          	echo " <div style=\"font-size:smaller;\">" . $dbcart->f("product_attribute") . "</div>";
+		          	echo " <div style=\"font-size:smaller;\">" 
+		          			. $ps_product->getDescriptionWithTax( $dbcart->f("product_attribute") , $product_id )
+		          			. "</div>";
 		          	if( !empty( $product_id )) {
 		          		echo "</a>";
 		          	}

@@ -36,17 +36,17 @@ VirtueMart 1.0.x
 
 07-07-2006 soeren
 
+# empty cart on checkout when using Shared SSL in SEF mode
 # Task #775 - Transmenu (at least) does not sort categories correctly (Shop_Menu.php)
 # Task #802 - filename not saved when adding a product (ps_product.php)
 # Task #803 - TAX now showing on attribute price modifications in confirm Mail AND order confirmation page (account.order_details.php, ps_checkout.php)
 # Task #829 - Call to a member function on a non-object (on order status update, ps_order.php)
-+ reintroduced the PayPal IPN amount/currency check, now using the correct PayPal variables (it's so easy if you know them, grr)
++ reintroduced the PayPal IPN amount/currency check, now using the correct PayPal variables (notify.php)
 
 02-07-2006 soeren
 
-# Free Shipping not calculated on "subtotal with tax", but without tax (ps_checkout.php)
+# Free Shipping not calculated on "subtotal with tax", but on "subtotal without tax" (ps_checkout.php)
 ^ Updated Search Mambot (Thank you Mark! - http://virtuemart.net/index.php?option=com_smf&Itemid=71&topic=19615.msg46837#msg46837)
-
 
 28-06-2006 soeren
 

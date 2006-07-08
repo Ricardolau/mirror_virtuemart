@@ -150,6 +150,7 @@ class ps_session {
 					$martID = base64_encode( $_COOKIE[$this->_session_name]."|".$sessionId );
 				}
 				$sessionFile = IMAGEPATH. md5( $martID ).'.sess';
+				
 				$session_contents = session_encode();
 				if( file_exists( ADMINPATH.'install.copy.php')) {
 					require_once( ADMINPATH.'install.copy.php');
@@ -157,7 +158,7 @@ class ps_session {
 				file_put_contents( $sessionFile, $session_contents );
 
 				// Redirect and send the Cookie Values within the variable martID
-				mosRedirect( $this->url(SECUREURL . "index.php?page=checkout.index&martID=$martID") );
+				mosRedirect( SECUREURL . "index.php?option=com_virtuemart&page=checkout.index&martID=$martID" );
 			}
 			// do nothing but redirect
 			else {

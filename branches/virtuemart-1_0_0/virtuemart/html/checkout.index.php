@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: checkout.index.php,v 1.5.2.2 2006/03/21 19:38:23 soeren_nb Exp $
+* @version $Id: checkout.index.php,v 1.5.2.3 2006/04/27 19:35:52 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -334,9 +334,12 @@ if ($checkout) {
                 include(PAGEPATH. 'checkout_register_form.php');
 ?>
                 <br />
-<?php      }
+<?php
+          }
     }
 }
-else mosRedirect('index.php?option=com_virtuemart', $VM_LANG->_PHPSHOP_EMPTY_CART);
+else {
+	mosRedirect( $sess->url( $_SERVER['PHP_SELF'].'' ), $VM_LANG->_PHPSHOP_EMPTY_CART);
+}
 
 ?>

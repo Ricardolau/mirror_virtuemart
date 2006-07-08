@@ -311,11 +311,11 @@ if ($_POST) {
       debug_msg( "5. $error_description ");
       
       // Get the Order Details from the database      
-      $qv = "SELECT `order_id`, `order_number`, `user_id`, `order_subtotal`
-                                `order_total`, `order_currency`, `order_tax`, 
-                                `order_shipping_tax`, `coupon_discount`, `order_discount`
-                        FROM `#__{vm}_orders` 
-                        WHERE `order_number`='".$invoice."'";
+      $qv = "SELECT `order_id`, `order_number`, `user_id`, `order_subtotal`,
+                    `order_total`, `order_currency`, `order_tax`, 
+                    `order_shipping_tax`, `coupon_discount`, `order_discount`
+                FROM `#__{vm}_orders` 
+                WHERE `order_number`='".$invoice."'";
       $db = new ps_DB;
       $db->query($qv);
       $db->next_record();
@@ -359,9 +359,10 @@ if ($_POST) {
                     $mail->AddAddress($debug_email_address);
                     $mail->Subject = "PayPal IPN Error: Order Total/Currency Check failed";
                     $mail->Body = "During a paypal transaction on your site the received amount didn't match the order total.
+                    Order ID: ".$db->f('order_id').".
                     Order Number: $invoice.
                     The amount received was: $mc_gross $currency_code.
-                    It should be: $amount_check ".$db->f("order_currency");
+                    It should be: $amount_check ".$db->f("order_currency").".";
                     
                     $mail->Send();
                     exit();

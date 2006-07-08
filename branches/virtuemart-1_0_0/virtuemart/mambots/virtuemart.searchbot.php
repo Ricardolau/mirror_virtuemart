@@ -57,34 +57,39 @@ function botSearchVM( $text, $phrase='', $ordering='' ) {
 	switch ($ordering) {
 		case 'newest':
 		default:
-			$order = 'cdate DESC';
+			$order = '#__vm_product.cdate DESC';
 			break;
 		case 'oldest':
-			$order = 'cdate ASC';
+			$order = '#__vm_product.cdate ASC';
 			break;
 		case 'popular':
-			$order = '';
+			$order = '#__vm_product.product_name ASC';
 			break;
 		case 'alpha':
-			$order = 'product_name ASC';
+			$order = '#__vm_product.product_name ASC';
 			break;
 		case 'category':
-			$order = '';
+			$order = '#__vm_category.category_name ASC';
 			break;
 	}
+    
   
   $database->setQuery( " SELECT id, name FROM  `#__menu` WHERE link LIKE '%com_virtuemart%' AND published=1 AND access=0");
   $database->loadObject( $Item );
   $ItemName = !empty( $Item->name ) ? $Item->name : "Shop";
   $Itemid = !empty( $Item->id ) ? $Item->id : "1";
-  
+
   $query = "SELECT product_name as title,"
-               . "\n    FROM_UNIXTIME( cdate, '%Y-%m-%d %H:%i:%s'  ) AS created," 
+               . "\n    FROM_UNIXTIME( #__vm_product.cdate, '%Y-%m-%d %H:%i:%s'  ) AS created," 
                . "\n    product_s_desc AS text,"
-               . "\n    '$ItemName' as section,"
-               . "\n    CONCAT('index.php?option=com_virtuemart&page=shop.product_details&flypage=shop.flypage&product_id=', product_id, '&Itemid=".$Itemid."' ) as href,"
+               . "\n    CONCAT('$ItemName/',#__vm_category.category_name) as section,"
+               
+               . "\n    CONCAT('index.php?option=com_virtuemart&page=shop.product_details&flypage=',#__vm_category.category_flypage,'&category_id=',#__vm_category.category_id,'&product_id=', #__vm_product.product_id, '&Itemid=".$Itemid."' ) as href,"
                . "\n    '2' as browsernav"
                . "\n FROM #__vm_product"
+               . "\n LEFT JOIN `#__vm_product_category_xref` ON `#__vm_product_category_xref`.`product_id` = `#__vm_product`.`product_id`"
+               . "\n LEFT JOIN `#__vm_category` ON `#__vm_product_category_xref`.`category_id` = `#__vm_category`.`category_id`"
+
                . "\n WHERE $where"
 			   . "\n AND (product_parent_id='' OR product_parent_id='0')"
 			   . "\n AND product_publish='Y'"
@@ -93,6 +98,7 @@ function botSearchVM( $text, $phrase='', $ordering='' ) {
   $database->setQuery( $query );
 
   $row = $database->loadObjectList();
+  
   return $row;
 }
 

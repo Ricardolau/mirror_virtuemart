@@ -5,7 +5,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * @version $Id: version.php,v 1.15.2.9 2006/05/07 09:20:29 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage core
-* @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
+* @copyright Copyright (C) 2004-2006 Soeren Eberhardt. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -30,16 +30,16 @@ class vmVersion {
 	/** @var string Product */
 	var $PRODUCT = 'VirtueMart';
 	/** @var int Release Number */
-	var $RELEASE = '1.0.5';
+	var $RELEASE = '1.0.6';
 	/** @var string Development Status */
 	var $DEV_STATUS = 'stable';
 	/** @var string Codename */
-	// Song written by Willie Dixon for Howlin' Wolf; http://en.wikipedia.org/wiki/Willie_Dixon
-	var $CODENAME = 'Built for Comfort';
+	// Song written by Led Zeppelin: http://en.wikipedia.org/wiki/South_Bound_Suarez
+	var $CODENAME = 'South Bound Suarez';
 	/** @var string Date */
-	var $RELDATE = '07/05/2006';
+	var $RELDATE = '08/07/2006';
 	/** @var string Time */
-	var $RELTIME = '19:23';
+	var $RELTIME = '21:36';
 	/** @var string Timezone */
 	var $RELTZ = 'GMT';
 	/** @var string Copyright Text */

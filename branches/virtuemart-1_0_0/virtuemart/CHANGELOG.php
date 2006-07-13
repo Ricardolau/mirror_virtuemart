@@ -36,6 +36,7 @@ VirtueMart 1.0.x
 
 07-07-2006 soeren
 
+# integrated fixed USPS class (by Corey, from 10.05.2006, http://virtuemart.net/index.php?option=com_smf&Itemid=71&topic=16214.0)
 # empty cart on checkout when using Shared SSL in SEF mode
 # Task #775 - Transmenu (at least) does not sort categories correctly (Shop_Menu.php)
 # Task #802 - filename not saved when adding a product (ps_product.php)

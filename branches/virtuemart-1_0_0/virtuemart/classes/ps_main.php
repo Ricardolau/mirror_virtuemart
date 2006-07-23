@@ -1012,7 +1012,11 @@ function vmGetCharset() {
 		return 'UTF-8';
 	}
 }
-
+if( !function_exists( 'moshash' )) {
+	function mosHash( $seed ) {
+	    return md5( $GLOBALS['mosConfig_secret'] . md5( $seed ) );
+	}
+}
 /**
  * Equivalent to Joomla's josSpoofCheck function
  * @author Joomla core team

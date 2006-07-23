@@ -3,7 +3,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 /**
 * Currency Converter Live Module 
 * 
-* @version $Id: currency_convert.php,v 1.3.2.1 2005/12/11 12:43:22 soeren_nb Exp $
+* @version $Id: currency_convert.php,v 1.3.2.2 2006/03/10 15:54:18 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.

@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_linkpoint.php,v 1.4.2.1 2006/02/18 09:20:11 soeren_nb Exp $
+* @version $Id: ps_linkpoint.php,v 1.4.2.2 2006/03/21 19:38:22 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage payment
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.

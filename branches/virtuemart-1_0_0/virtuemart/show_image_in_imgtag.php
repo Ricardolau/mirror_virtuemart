@@ -5,7 +5,7 @@
 * @author Andreas Martens <heyn@plautdietsch.de>
 * @author Patrick Teague <webdude@veslach.com>
 *
-* @version $Id: show_image_in_imgtag.php,v 1.4 2005/09/29 20:20:58 soeren_nb Exp $
+* @version $Id: show_image_in_imgtag.php,v 1.5 2005/10/27 19:42:53 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.

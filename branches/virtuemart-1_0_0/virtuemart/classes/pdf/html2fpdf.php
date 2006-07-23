@@ -1,7 +1,7 @@
 <?php
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
-* @version $Id: html2fpdf_site.php,v 1.3 2005/09/29 20:02:18 soeren_nb Exp $
+* @version $Id: html2fpdf.php,v 1.4 2005/10/17 19:05:29 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage HMTL2PDF
 * @author Renato Coelho

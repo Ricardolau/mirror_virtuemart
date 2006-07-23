@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_tax.php,v 1.9.2.2 2006/03/03 07:09:01 soeren_nb Exp $
+* @version $Id: ps_tax.php,v 1.9.2.3 2006/03/14 18:42:11 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.

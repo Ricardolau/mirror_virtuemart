@@ -3,7 +3,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 /**
 * PayPal IPN Result Checker
 *
-* @version $Id: checkout.result.php,v 1.5 2005/10/27 19:45:38 soeren_nb Exp $
+* @version $Id: checkout.result.php,v 1.5.2.1 2006/03/10 15:55:15 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.

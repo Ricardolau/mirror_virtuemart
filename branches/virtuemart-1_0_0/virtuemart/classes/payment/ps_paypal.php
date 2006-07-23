@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_paypal.php,v 1.3.2.1 2006/04/10 19:10:13 soeren_nb Exp $
+* @version $Id: ps_paypal.php,v 1.3.2.2 2006/05/06 10:05:27 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage payment
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.

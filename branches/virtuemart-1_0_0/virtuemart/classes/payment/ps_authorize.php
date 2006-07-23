@@ -4,7 +4,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * The ps_authorize class, containing the payment processing code
 *  for transactions with authorize.net 
 *
-* @version $Id: ps_authorize.php,v 1.8.2.3 2006/03/14 18:42:12 soeren_nb Exp $
+* @version $Id: ps_authorize.php,v 1.8.2.4 2006/04/05 18:16:53 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage payment
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.

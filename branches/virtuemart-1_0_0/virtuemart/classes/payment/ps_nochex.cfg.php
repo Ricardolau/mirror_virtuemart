@@ -1,7 +1,7 @@
 <?php
 /**
 *
-* @version $Id: ps_nochex.cfg.php,v 1.2 2005/09/27 17:48:50 soeren_nb Exp $
+* @version $Id: ps_nochex.cfg.php,v 1.3 2005/09/29 20:02:18 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage payment
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.

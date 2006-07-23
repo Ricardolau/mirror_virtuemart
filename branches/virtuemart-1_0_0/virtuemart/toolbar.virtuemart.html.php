@@ -15,7 +15,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 *
 * http://virtuemart.net
 */
-$_REQUEST['keyword'] = urldecode(mosgetparam($_REQUEST, 'keyword', 0));
+$_REQUEST['keyword'] = urldecode(mosgetparam($_REQUEST, 'keyword', ''));
 $keyword = $_REQUEST['keyword'];
 
 global $vmIcons;

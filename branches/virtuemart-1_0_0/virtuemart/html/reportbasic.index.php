@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: reportbasic.index.php,v 1.4 2005/10/19 09:01:08 codename-matrix Exp $
+* @version $Id: reportbasic.index.php,v 1.4.2.1 2006/03/21 19:38:23 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.

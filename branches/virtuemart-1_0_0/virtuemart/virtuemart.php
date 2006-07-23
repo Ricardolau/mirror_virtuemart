@@ -223,7 +223,7 @@ else {
                                 include( PAGEPATH.'shop.index.php');
                         }
                         if ( !empty($mosConfig_caching) && $vmDoCaching) {
-                                echo '<span class="small">'._LAST_UPDATED.': '.strftime( _DATE_FORMAT_LC2 ).'</span';
+                                echo '<span class="small">'._LAST_UPDATED.': '.strftime( _DATE_FORMAT_LC2 ).'</span>';
                         }
                         if (SHOWVERSION) {
                                 include(PAGEPATH ."footer.php");

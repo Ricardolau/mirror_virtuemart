@@ -33,10 +33,23 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+22-07-2006 soeren
+
++ added a workaround for installations where the "Session Save Path" is not writable. 
+	VM will try using the global cache path for storing session files instead.
+	
+17-07-2006 soeren
+# wrong redirection on checkout login when using Shared SSL on a Windows Server (checkout.login_form.php)
+# added the missing function mosHash (Mambo-only problem!)
+
+---- VirtueMart 1.0.6 released ----
+
+08-07-2006 soeren
+
+# fixed USPS class by Corey
 
 07-07-2006 soeren
 
-# integrated fixed USPS class (by Corey, from 10.05.2006, http://virtuemart.net/index.php?option=com_smf&Itemid=71&topic=16214.0)
 # empty cart on checkout when using Shared SSL in SEF mode
 # Task #775 - Transmenu (at least) does not sort categories correctly (Shop_Menu.php)
 # Task #802 - filename not saved when adding a product (ps_product.php)

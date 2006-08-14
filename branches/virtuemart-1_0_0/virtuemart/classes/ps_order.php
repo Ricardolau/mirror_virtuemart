@@ -63,7 +63,7 @@ class ps_order {
 			$notify_customer=0;
 		}
 
-		$d['order_comment'] = empty($d['order_comment']) ? "" : $db->getEscaped( stripslashes($d['order_comment']) );
+		$d['order_comment'] = empty($d['order_comment']) ? "" : $d['order_comment'];
 		
 		// When the order is set to "confirmed", we can capture
 		// the Payment with authorize.net
@@ -159,7 +159,7 @@ class ps_order {
 		// Update the Order History.
 		$q = "INSERT INTO #__{vm}_order_history ";
 		$q .= "(order_id,order_status_code,date_added,customer_notified,comments) VALUES (";
-		$q .= "'".$d["order_id"] . "', '" . $d["order_status"] . "', '$mysqlDatetime', '$notify_customer', '".$d['order_comment']."')";
+		$q .= "'".$d["order_id"] . "', '" . $d["order_status"] . "', '$mysqlDatetime', '$notify_customer', '".$db->getEscaped( stripslashes($d['order_comment']) )."')";
 		$db->query($q);
 
 		// Do we need to re-update the Stock Level?
@@ -327,7 +327,10 @@ class ps_order {
 
 		if( !empty($d['include_comment']) && !empty($d['order_comment']) ) {
 			$message .= $VM_LANG->_PHPSHOP_ORDER_HISTORY_COMMENT_EMAIL.":\n";
-			$message .= stripslashes( $d['order_comment'] );
+			if( get_magic_quotes_gpc() ) {
+				$d['order_comment'] = stripslashes( $d['order_comment'] );
+			}
+			$message .= $d['order_comment'];
 			$message .= "\n____________________________________________________________\n\n";
 		}
 

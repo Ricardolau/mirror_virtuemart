@@ -351,9 +351,9 @@ class ps_checkout {
 		}
 		elseif ($dbp->f("enable_processor") == "B") {
 			$_SESSION['ccdata']['creditcard_code'] = "";
-			// Bankeinzug
+			// Bank Account
 			$dbu = new ps_DB; //DB User
-			$q  = "SELECT bank_account_holder,bank_iban,bank_account_nr,bank_sort_code,bank_name FROM #__{vm}_user_info WHERE user_id = '" . $d["user_id"] . "'";
+			$q  = "SELECT bank_account_holder,bank_iban,bank_account_nr,bank_sort_code,bank_name FROM `#__{vm}_user_info` WHERE `user_id` = " . $auth["user_id"];
 			$dbu->query($q);
 			if (!$dbu->next_record()) {
 				$vmLogger->err( $VM_LANG->_PHPSHOP_CHECKOUT_ERR_NO_USER_DATA );

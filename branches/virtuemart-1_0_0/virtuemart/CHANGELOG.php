@@ -33,10 +33,18 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+14-08-2006 soeren
+
+# Task #804 - On status change text showing 'rn' instead of CR (ps_order.php)
+
+27-07-2006 soeren
+
+# Task #850 - Order list not showing all orders (order.order_list.php)
+
 22-07-2006 soeren
 
 + added a workaround for installations where the "Session Save Path" is not writable. 
-	VM will try using the global cache path for storing session files instead.
+	VM will try using the global cache path for storing session files instead.(ps_session.php)
 	
 17-07-2006 soeren
 # wrong redirection on checkout login when using Shared SSL on a Windows Server (checkout.login_form.php)

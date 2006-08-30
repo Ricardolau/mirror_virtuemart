@@ -196,7 +196,7 @@ else {
         }
         
         /* SHOW TAX */
-        if (!empty($_REQUEST['ship_to_info_id']) || TAX_MODE == '1') {
+        if (!empty($_REQUEST['ship_to_info_id']) || ps_checkout::tax_based_on_vendor_address() ) {
 
                 $show_tax = true;
 

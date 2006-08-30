@@ -179,13 +179,13 @@ class ps_cart {
 	 * @return boolean result of the update
 	 */
 	function update(&$d) {
-		global $sess,$VM_LANG, $vmLogger;
+		global $sess,$VM_LANG, $func;
 
 		include_class("product");
 
 		$db = new ps_DB;
 		$product_id = $d["product_id"];
-		$quantity = $d["quantity"];
+		$quantity = !empty($d["quantity"]) ? $d["quantity"] : 1;
 		$_SESSION['last_page'] = "shop.cart";
 
 		// Check for negative quantity
@@ -197,25 +197,6 @@ class ps_cart {
 		if (!ereg("^[0-9]*$", $quantity)) {
 			$vmLogger->warning( $VM_LANG->_PHPSHOP_CART_ERROR_NO_VALID_QUANTITY );
 			return False;
-		}
-
-		// Check to see if checking stock quantity
-		if (CHECK_STOCK) {
-			$q = "SELECT product_in_stock ";
-			$q .= "FROM #__{vm}_product where product_id=";
-			$q .= $product_id;
-			$db->query($q);
-			$db->next_record();
-			$product_in_stock = $db->f("product_in_stock");
-			if (empty($product_in_stock)) $product_in_stock = 0;
-			if ($quantity > $product_in_stock) {
-				$msg = $VM_LANG->_PHPSHOP_CART_STOCK_1;
-				eval( "\$msg .= \"".$VM_LANG->_PHPSHOP_CART_STOCK_2."\";" );
-				
-				$vmLogger->tip( $msg );
-				$GLOBALS['page'] = 'shop.waiting_list';
-				return true;
-			}
 		}
 
 		if (!$product_id) {
@@ -233,18 +214,34 @@ class ps_cart {
 				&&
 				($_SESSION['cart'][$i]["description"] == stripslashes($d["description"]) )
 				) {
+					if( strtolower( $func ) == 'cartadd' ) {
+						$quantity += $_SESSION['cart'][$i]["quantity"];
+					}
+					// Check to see if checking stock quantity
+					if (CHECK_STOCK) {
+						$q = "SELECT product_in_stock ";
+						$q .= "FROM #__{vm}_product where product_id=";
+						$q .= $product_id;
+						$db->query($q);
+						$db->next_record();
+						$product_in_stock = $db->f("product_in_stock");
+						if (empty($product_in_stock)) $product_in_stock = 0;
+						if (($quantity) > $product_in_stock) {
+							$msg = $VM_LANG->_PHPSHOP_CART_STOCK_1;
+							eval( "\$msg .= \"".$VM_LANG->_PHPSHOP_CART_STOCK_2."\";" );
+							
+							$vmLogger->tip( $msg );
+
+							$page = 'shop.waiting_list';
+							
+							return true;
+						}
+					}
 					$_SESSION['cart'][$i]["quantity"] = $quantity;
 				}
 			}
 		}
-		if( !empty( $_SESSION['coupon_discount'] )) {
-			// Update the Coupon Discount !!
-			$_POST['do_coupon'] = 'yes';
-		}
-		$_SESSION["cart"]=$_SESSION['cart'];
-		return True;
 	}
-
 	/**
 	 * deletes a given product_id from the cart
 	 *

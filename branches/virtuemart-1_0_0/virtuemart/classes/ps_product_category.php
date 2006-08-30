@@ -585,11 +585,13 @@ class ps_product_category extends vmAbstractObject {
 				array_push($row_temp,$j);
 				array_push($depth_temp,$depth + 1);
 				}
-				if( empty( $categories[@$category_tmp[$j]["category_parent_id"]] )) {
+				if (array_key_exists($j, $category_tmp)) {
+					if( empty( $categories[@$category_tmp[$j]["category_parent_id"]] )) {
 
-					array_push($id_temp,"");
-					array_push($row_temp,"");
-					array_push($depth_temp,"");
+						array_push($id_temp,"");
+						array_push($row_temp,"");
+						array_push($depth_temp,"");
+					}
 				}
 			}
 			$id_list = $id_temp;

@@ -48,6 +48,7 @@ class ps_checkout {
 		$this->_subtotal = $this->calc_order_subtotal($vars);
 		
 		if( $vendor_freeshipping > 0 && $vars['order_subtotal_withtax'] > $vendor_freeshipping) {
+			echo $vars['order_subtotal_withtax'];
 			$PSHOP_SHIPPING_MODULES = Array( "free_shipping" );
 			include_once( CLASSPATH. "shipping/free_shipping.php" );
 			$this->_SHIPPING =& new free_shipping();
@@ -819,7 +820,7 @@ Order Total: '.$order_total.'
 		$q .= "'P', '";
 		$q .= $timestamp . "', '";
 		$q .= $timestamp. "', '";
-		$q .= htmlspecialchars(strip_tags($d['customer_note'])) . "', '";
+		$q .= $db->getEscaped( htmlspecialchars(strip_tags($d['customer_note']))) . "', '";
 		if (!empty($_SERVER['REMOTE_ADDR'])) {
 			$q .= $_SERVER['REMOTE_ADDR'] . "') ";
 		}
@@ -1189,7 +1190,7 @@ Order Total: '.$order_total.'
 		$discount_factor = 1;
 		
 		// Shipping address based TAX
-		if (TAX_MODE == '0') {
+		if ( !$this->tax_based_on_vendor_address () ) {
 			$q = "SELECT state, country FROM #__{vm}_user_info ";
 			$q .= "WHERE user_info_id='".@$_REQUEST["ship_to_info_id"] . "'";
 			$db->query($q);
@@ -1215,9 +1216,9 @@ Order Total: '.$order_total.'
 			}
 			$order_tax_details[$db->f('tax_rate')] = $order_tax;
 		}
-		// Store Owner Address based TAX
-		elseif (TAX_MODE == '1') {
-
+		
+		else {
+			/*// Store Owner Address based TAX
 			if (MULTIPLE_TAXRATES_ENABLE != '1' ) {
 				$q = "SELECT `tax_rate` FROM #__{vm}_vendor, #__{vm}_tax_rate ";
 				$q .= "WHERE tax_country=vendor_country ";
@@ -1240,7 +1241,7 @@ Order Total: '.$order_total.'
 				}
 				$order_tax_details[$db->f('tax_rate')] = $order_tax;
 			}
-			else {
+			else {*/
 				// Calculate the Tax with a tax rate for every product
 				$cart = $_SESSION['cart'];
 				$order_tax = 0.0;
@@ -1265,11 +1266,18 @@ Order Total: '.$order_total.'
 						if( (!empty( $_SESSION['coupon_discount'] ) || !empty( $d['payment_discount'] ))
 							&& PAYMENT_DISCOUNT_BEFORE == '1' ) {
 							// Reduce the product subtotals by the factor the complete subtotal is reduced/raised by the discounts
-							$factor = (100 * (@$_SESSION['coupon_discount'] + @$d['payment_discount'])) / $this->_subtotal;
+							$use_coupon_discount= @$_SESSION['coupon_discount'];
+							if( !empty( $_SESSION['coupon_discount'] )) {
+								if( $auth["show_price_including_tax"] == 1 ) {
+									$use_coupon_discount = $_SESSION['coupon_discount'] / ($tax_rate+1);
+								}
+							}
+							$factor = (100 * ($use_coupon_discount + @$d['payment_discount'])) / $this->_subtotal;
 							$price["product_price"] = $price["product_price"] - ($factor * $price["product_price"] / 100);
 							@$order_tax_details[$tax_rate] += $price["product_price"] * $tax_rate * $cart[$i]["quantity"];
 						}
 						
+						//echo "$order_tax += {$price["product_price"]} * $tax_rate * {$cart[$i]["quantity"]}";
 						$order_tax += $price["product_price"] * $tax_rate * $cart[$i]["quantity"];
 						$total += $price["product_price"] * $cart[$i]["quantity"];
 					}
@@ -1303,7 +1311,7 @@ Order Total: '.$order_total.'
 						}
 					}
 				}
-			}
+			//}
 
 		}
 		return( round( $order_tax, 2 ) );
@@ -2127,5 +2135,54 @@ Order Total: '.$order_total.'
 	}
 
 
+
+	/**
+	 * If the customer is in the EU then tax should be charged according to the
+	 *  vendor's address, and this function will return true.
+	 */
+	function tax_based_on_vendor_address () {
+		global $__tax_based_on_vendor_address;
+		global $vmLogger;
+	
+		if (!isset ($__tax_based_on_vendor_address)) {
+			$__tax_based_on_vendor_address = ps_checkout::_tax_based_on_vendor_address ();
+			if ($__tax_based_on_vendor_address)
+				$vmLogger->debug ('calculating tax based on vendor address');
+			else
+				$vmLogger->debug ('calculating tax based on shipping address');
+		}
+		return $__tax_based_on_vendor_address;
+	}
+	
+	function _tax_based_on_vendor_address () {
+		global $auth;
+		global $vmLogger;
+	
+		switch (TAX_MODE) {
+		case '0':
+			return false;
+	
+		case '1':
+			return true;
+	
+		case '17749':
+			if (! array_key_exists ('country', $auth)) {
+				$vmLogger->debug ('shopper\'s country is not known; defaulting to vendor-based tax');
+				return true;
+			}
+	
+			$vmLogger->debug ('shopper is in ' . $auth['country']);
+			return ps_checkout::country_in_eu_common_vat_zone ($auth['country']);
+	
+		default:
+			$vmLogger->warning ('unknown TAX_MODE "' . TAX_MODE . '"');
+			return true;
+		}
+	}
+	
+	function country_in_eu_common_vat_zone ($country) {
+		$eu_countries = array ('AUT', 'BEL', 'CYP', 'CZE', 'DNK', 'EST', 'FIN', 'FRA', 'DEU', 'GRC', 'HUN', 'IRL', 'ITA', 'LVA', 'LTU', 'LUX', 'MLT', 'POL', 'PRT', 'SVK', 'SVN', 'ESP', 'SWE', 'NLD', 'GBR');
+		return in_array ($country, $eu_countries);
+	}
 }
 ?>

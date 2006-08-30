@@ -25,8 +25,9 @@ include_once("../../administrator/components/com_virtuemart/virtuemart.cfg.php")
 //	Image2Thumbnail - Klasse einbinden 
 include( CLASSPATH . "class.img2thumb.php");
 
-$filename = @basename(urldecode($_REQUEST['filename']));
-$filename = IMAGEPATH."product/".$filename;
+$basefilename = @basename(urldecode($_REQUEST['filename']));
+$filename = IMAGEPATH."product/".$basefilename;
+$filename2 = IMAGEPATH."product/resized/".$basefilename;
 $newxsize = @$_REQUEST['newxsize'];
 $newysize = @$_REQUEST['newysize'];
 $maxsize = false;
@@ -42,7 +43,9 @@ if( !isset($maxsize) )
 */
 
 /* Minimum security */
-file_exists( $filename ) or exit();
+if( !file_exists( $filename ) && !file_exists( $filename2 )) {
+	die('File does not exist');
+}
 
 $fileinfo = pathinfo( $filename );
 $file = str_replace(".".$fileinfo['extension'], "", $fileinfo['basename']);
@@ -65,12 +68,23 @@ else {
   $noimgif="";
 }
 
-$fileout = IMAGEPATH."/product/resized/".$file."_".PSHOP_IMG_WIDTH."x".PSHOP_IMG_HEIGHT.$noimgif.$ext;
+if( file_exists($filename2)) { 
+	$fileout = $filename2;
+} else {
+	$fileout = IMAGEPATH."/product/resized/".$file."_".PSHOP_IMG_WIDTH."x".PSHOP_IMG_HEIGHT.$noimgif.$ext;
+}
+
+// Tell the user agent to cache this script/stylesheet for an hour
+$age = 3600;
+header( 'Expires: '.gmdate( 'D, d M Y H:i:s', time()+ $age ) . ' GMT' );
+header( 'Cache-Control: max-age='.$age.', must-revalidate' );
 
 if( file_exists( $fileout ) ) {
   /* We already have a resized image
   * So send the file to the browser */
-  switch($ext)
+  
+	header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', @filemtime( $fileout ) ) . ' GMT' );
+  	switch($ext)
 		{
 			case ".gif":
 				header ("Content-type: image/gif");
@@ -87,11 +101,13 @@ if( file_exists( $fileout ) ) {
 		}
 }
 else {
-  /* We need to resize the image and Save the new one (all done in the constructor) */
-  $neu = new Img2Thumb($filename,$newxsize,$newysize,$fileout,$maxsize,$bgred,$bggreen,$bgblue);
-  
-  /* Send the file to the browser */
-  switch($ext)
+ 	/* We need to resize the image and Save the new one (all done in the constructor) */
+  	$neu = new Img2Thumb($filename,$newxsize,$newysize,$fileout,$maxsize,$bgred,$bggreen,$bgblue);
+  	
+  	header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', @filemtime( $fileout ) ) . ' GMT' );
+  	
+  	/* Send the file to the browser */
+  	switch($ext)
 		{
 			case ".gif":
 				header ("Content-type: image/gif");

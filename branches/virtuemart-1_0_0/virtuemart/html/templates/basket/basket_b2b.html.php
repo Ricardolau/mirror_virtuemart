@@ -28,12 +28,14 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
   </tr>
 <?php foreach( $product_rows as $product ) { ?>
   <tr valign="top" class="<?php echo $product['row_color'] ?>">
-	<form action="<?php echo $action_url ?>" method="post">
-	<input type="hidden" name="option" value="com_virtuemart" />
 	<td><?php echo $product['product_name'] . $product['product_attributes'] ?></td>
     <td><?php echo $product['product_sku'] ?></td>
     <td><?php echo $product['product_price'] ?></td>
-    <td><?php echo $product['quantity_box'] ?></td>
+    <td>
+    	<form action="<?php echo $action_url ?>" method="post">
+		<input type="hidden" name="option" value="com_virtuemart" />
+		<?php echo $product['quantity_box'] ?>
+	</td>
     <td><?php echo $product['subtotal'] ?></td>
     <td><?php echo $product['update_form'] ?></td>
     <td><?php echo $product['delete_form'] ?></td>

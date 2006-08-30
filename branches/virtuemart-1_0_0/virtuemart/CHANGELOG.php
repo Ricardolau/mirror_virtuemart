@@ -33,6 +33,34 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+29-08-2006 soeren
+
+# Task #887 - Minimum Amount for Free Shipping (ps_main.php)
+^ EU tax mode implementation by Sam Morris <sam@robots.org.uk>
+	(http://virtuemart.net/index.php?option=com_smf&Itemid=71&topic=21124.msg52587#msg52587)
+	affected files: ps_checkout.php, ps_product.php, basket.php, admin.show_cfg.php, all language files
+# possible errors in tax total calculation when coupons are used in vendor-based tax mode
+# Task #901 - FileManager's pics > Commas in Tittle bug.
+^ Task #904 - Cannot delete Product_type assingment of a product
+# Task #735 - attributes errors (ps_product.php) - (double currency symbols and price modifiers not adding up when one "price setter" is selected in the attributes)
+
+# Task #866 - Error removing last item from cart (checkout.index.php)
+^ Adding the same product again and again now updates the quantity in cart
+# Task #839 - "Add to Cart" twice for same product removes product (ps_cart.php)
+^ added cache-control / expire / last-modified headers in show_image_in_imgtag.php to 
+	increase performance by using client caching capabilities
+^ updated the mShop_validateEmail function to check for correct email addresses (ps_main.php)
++ added name & subject checks for email sending (J! 1.0.11) (ps_main.php)
+^ changed the vmSpoofValue function to work with J! 1.0.11 (ps_main.php)
+
+26-08-2006 soeren
+
+#  Task #902 - extra_field_4, fatal error when using extra fields in language file (checkout_register_form.php
+
+23-08-2006 soeren
+# "A shipping address with this nickname already exists" (ps_user_address.php)
+# Blank PO on checkout (ps_checkout.php)
+
 14-08-2006 soeren
 
 # Task #804 - On status change text showing 'rn' instead of CR (ps_order.php)

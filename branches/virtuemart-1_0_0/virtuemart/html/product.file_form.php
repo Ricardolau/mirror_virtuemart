@@ -45,7 +45,7 @@ if( !empty($file_id) ) {
   $selected_type[1] = $db->f("file_is_image")==0 ? "checked=\"checked\"" : "";
 }
 else {
-	$default["file_title"] = "My Title";
+	$default["file_title"] = $db->f("product_name");
 	$default["file_published"] = "1";
 }
 
@@ -110,7 +110,7 @@ $formObj->startForm( 'adminForm', 'enctype="multipart/form-data"');
     <tr> 
       <td><div align="right" ><strong><?php echo $VM_LANG->_PHPSHOP_FILES_FORM_FILE_TITLE ?>:</strong></div></td>
       <td> 
-        <input type="text" class="inputbox" name="file_title" size="32" value="<?php $db->sp("file_title") ?>" />
+        <input type="text" class="inputbox" name="file_title" size="32" value="<?php echo shopMakeHtmlSafe( $db->sf("file_title")) ?>" />
       </td>
     </tr>
     <tr> 

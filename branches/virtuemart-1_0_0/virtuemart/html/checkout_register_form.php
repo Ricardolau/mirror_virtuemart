@@ -195,7 +195,7 @@ vmCommonHTML::printJS_formvalidation( $required_fields );
 	   			break;
 	   		
 	   		case 'extra_field_4': case 'extra_field_5':
-	   			eval( "\$ps_html->list_extra_field_$i( mosGetParam( \$_REQUEST, 'extra_field_$i'), \"id=\\\"extra_field_$i\\\"\");" );
+	   			eval( "\$ps_html->list_$fieldname( mosGetParam( \$_REQUEST, '$fieldname'), \"id=\\\"$fieldname\\\"\");" );
 	   			break;
 	   			
    			default:

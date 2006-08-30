@@ -1,11 +1,11 @@
 <?php
-defined( '_VALID_MOS' ) or die( 'Acesso restrito.' );
+defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: portuguese.php, language pt-PT v1.4 2006/08/06 00:50:00 for Virtuemart 1.0.6 /by: horus_68 ( www.joomlapt.com ) $
+* @version $Id: admin.martlanguages.php,v 1.6 2006/01/15 19:42:45 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright de Idioma (C) 2004-2005 www.joomla.pt todos os direitos reservados.
+* @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -1261,14 +1261,10 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SERVER_TOOLTIP = 'USPS servidor da empresa transportadora. Actualmente só funciona num servidor online! Deverá ser production.shippingapis.com';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PATH = 'USPS - caminho da transportadora';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PATH_TOOLTIP = 'USPS caminho da transportadora, deverá ser /ShippingAPI.dll';
-//	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_CONTAINER = 'USPS conteúdo do transporte';
-//	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_CONTAINER_TOOLTIP = 'USPS conteúdo do transporte';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGESIZE = 'USPS Tamanho da embalagem';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGESIZE_TOOLTIP = 'As escolhas são Regular, Grande e Muito grande. Esta configuração deve ser feita para as suas encomendas mais habituais e são baseadas nas dimensões do pacote. Padrão é Regular';
 	var $_PHPSHOP_USPS_PADDING = 'Percentagem a adicionar ao peso para pacote de envio. (Incluir %)';
 	var $_PHPSHOP_USPS_PADDING_TOOLTIP = 'Adaptar o peso para permitir o peso adicional do pacote e caixa de envio. Isto permite adicionar peso às definições do peso dos itens.  É necessário incluir o sinal de percentagem (%).  Exemplo 15%';
-//	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIPSERVICE = 'USPS Tipo de transporte (Expresso,Primeira classe,Prioritário,Parcelado,BPM,Livros,Media)';
-//	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIPSERVICE_TOOLTIP = 'USPS Tipo de transporte (Expresso,Primeira classe,Prioritário,Parcelado,BPM,Livros,Media)';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_HANDLING_FEE = 'Taxa de manuseamento';
 	var $_PHPSHOP_USPS_HANDLING_FEE = 'A sua taxa de manuseamento para este método de transporte.';
 	var $_PHPSHOP_USPS_HANDLING_FEE_TOOLTIP = 'Pretende cobrar um extra aos utilizadores para envios USPS? Em formato Euro 2.00';
@@ -1277,51 +1273,51 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLLBRATE = 'A sua taxa por kilo para transportes internacionais USPS.';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLLBRATE_TOOLTIP = 'A sua taxa por kilo para transportes internacionais USPS.';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_MACHINABLE = 'Se forem utilizadas encomendas parceladas e for inferior a 1,7kg e acima de 16kg.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_MACHINABLE_TOOLTIP = "Este pacote pode ser gerido por uma máquina?  Padrão deve ser Não.";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP = "USPS Correio doméstico";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP0 = "USPS Correio expresso em mão";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP0_TOOLTIP = "USPS Correio expresso normal.";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP1 = "USPS Correio expresso em envelope de tarifa plana (31 x 24cm)";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP1_TOOLTIP = "Seleccionar se pretende enviar via USPS Correio expresso em envelope de tarifa plana. Padrão deve ser Não já que pode ser mais barato que a tarifa actual mas pode não caber no envelope.";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP2 = "USPS Correio prioritário";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP2_TOOLTIP = "USPS Correio prioritário normal.";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP3 = "USPS Correio prioritário em envelope de taxa plana (31 x 24cm)";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP3_TOOLTIP = "Seleccionar se pretende enviar via USPS Correio prioritário em envelope de taxa plana.  Padrão deve ser Não já que pode ser mais barato que a tarifa actual mas pode não caber no envelope.";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP4 = "USPS Correio prioritário em caixa de tarifa plana (28.6 x 22.2 x 15.2cm)";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP4_TOOLTIP = "Seleccionar se pretende enviar via USPS Correio prioritário em caixa de tarifa plana.  Padrão deve ser Não já que pode ser mais barato que a tarifa actual mas pode não caber na caixa.";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP5 = "USPS Correio prioritário em caixa de tarifa plana (35 x 30 x 8.8cm)";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP5_TOOLTIP = "Seleccionar se pretende enviar via USPS Correio prioritário em caixa de tarifa plana.  Padrão deve ser Não já que pode ser mais barato que a tarifa actual mas pode não caber na caixa.";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP6 = "USPS Correio de Primeira Classe (inferior a 390g.)";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP6_TOOLTIP = "Seleccionar se pretende enviar via USPS Correio de Primeira Classe.  Isto só será exibido se o peso do pacote for inferior a 40kg.";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP7 = "USPS Envio de parcelas";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP7_TOOLTIP = "USPS Correio parcelado normal.";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP8 = "USPS Conjunto de material impresso";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP8_TOOLTIP = "Seleccionar se pretende enviar via USPS Conjunto de material impresso.  Padrão deve ser Não a não ser que envie revistas ou jornais em grupos.  Limite são 6,8kg.";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP9 = "USPS Correio de Media";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP9_TOOLTIP = "Seleccionar se pretende enviar via USPS Correio de Media.  Padrão deve ser Não.";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP10 = "USPS Correio de biblioteca";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP10_TOOLTIP = "Seleccionar se pretende enviar via USPS Correio de Biblioteca.  Padrão deve ser Não.";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL = "USPS Correio internacional";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL0 = "USPS Serviço global expresso de documentos registados";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL0_TOOLTIP = "Seleccionar se pretende enviar via USPS Serviço global expresso de documentos registados.  Padrão deve ser Não.";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL1 = "USPS Serviço global expresso de documentos não-registados";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL1_TOOLTIP = "Seleccionar se pretende enviar via USPS Serviço global expresso de documentos não-registados.  Padrão deve ser Não.";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL2 = "USPS Correio expresso global (EMS)";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL2_TOOLTIP = "USPS Correio expresso global normal.";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL3 = "USPS Correio global prioritário em Envelope Grande de taxa plana";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL3_TOOLTIP = "Seleccionar se pretende enviar via USPS Correio global prioritário em Envelope grande de taxa plana.  Padrão deve ser Não já que pode ser mais barato que a tarifa actual mas pode não caber no envelope.";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL4 = "USPS Correio global prioritário em Envelope pequeno de taxa plana";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL4_TOOLTIP = "Seleccionar se pretende enviar via USPS Correio global prioritário em Envelope pequeno de taxa plana.  Padrão deve ser Não já que pode ser mais barato que a tarifa actual mas pode não caber no envelope.";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL5 = "USPS Correio de prioridade global - Peso variável";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL5_TOOLTIP = "USPS Correio prioritário global normal.";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL6 = "USPS Correio de carta por via aérea";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL6_TOOLTIP = "Seleccionar se pretende enviar via USPS Correio de carta por via aérea.  Padrão deve ser Não já que pode ser mais barato que a tarifa actual mas pode não caber no envelope.";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL7 = "USPS envio de parcela por via aérea";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL7_TOOLTIP = "USPS envio normal de parcela por via aérea.";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL8 = "USPS Correio carta económico";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL8_TOOLTIP = "Seleccionar se pretende enviar via USPS Correio carta económico.  Padrão deve ser Não já que pode ser mais barato que a tarifa actual mas pode não caber no envelope.";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL9 = "USPS envio económico de parcela";
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL9_TOOLTIP = "Correio parcelado normal económico.";
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_MACHINABLE_TOOLTIP = 'Este pacote pode ser gerido por uma máquina?  Padrão deve ser Não.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP = 'USPS Correio doméstico';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP0 = 'USPS Correio expresso em mão';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP0_TOOLTIP = 'USPS Correio expresso normal.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP1 = 'USPS Correio expresso em envelope de tarifa plana (31 x 24cm)';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP1_TOOLTIP = 'Seleccionar se pretende enviar via USPS Correio expresso em envelope de tarifa plana. Padrão deve ser Não já que pode ser mais barato que a tarifa actual mas pode não caber no envelope.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP2 = 'USPS Correio prioritário';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP2_TOOLTIP = 'USPS Correio prioritário normal.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP3 = 'USPS Correio prioritário em envelope de taxa plana (31 x 24cm)';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP3_TOOLTIP = 'Seleccionar se pretende enviar via USPS Correio prioritário em envelope de taxa plana.  Padrão deve ser Não já que pode ser mais barato que a tarifa actual mas pode não caber no envelope.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP4 = 'USPS Correio prioritário em caixa de tarifa plana (28.6 x 22.2 x 15.2cm)';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP4_TOOLTIP = 'Seleccionar se pretende enviar via USPS Correio prioritário em caixa de tarifa plana.  Padrão deve ser Não já que pode ser mais barato que a tarifa actual mas pode não caber na caixa.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP5 = 'USPS Correio prioritário em caixa de tarifa plana (35 x 30 x 8.8cm)';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP5_TOOLTIP = 'Seleccionar se pretende enviar via USPS Correio prioritário em caixa de tarifa plana.  Padrão deve ser Não já que pode ser mais barato que a tarifa actual mas pode não caber na caixa.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP6 = 'USPS Correio de Primeira Classe (inferior a 390g.)';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP6_TOOLTIP = 'Seleccionar se pretende enviar via USPS Correio de Primeira Classe.  Isto só será exibido se o peso do pacote for inferior a 40kg.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP7 = 'USPS Envio de parcelas';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP7_TOOLTIP = 'USPS Correio parcelado normal.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP8 = 'USPS Conjunto de material impresso';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP8_TOOLTIP = 'Seleccionar se pretende enviar via USPS Conjunto de material impresso.  Padrão deve ser Não a não ser que envie revistas ou jornais em grupos.  Limite são 6,8kg.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP9 = 'USPS Correio de Media';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP9_TOOLTIP = 'Seleccionar se pretende enviar via USPS Correio de Media.  Padrão deve ser Não.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP10 = 'USPS Correio de biblioteca';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP10_TOOLTIP = 'Seleccionar se pretende enviar via USPS Correio de Biblioteca.  Padrão deve ser Não.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL = 'USPS Correio internacional';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL0 = 'USPS Serviço global expresso de documentos registados';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL0_TOOLTIP = 'Seleccionar se pretende enviar via USPS Serviço global expresso de documentos registados.  Padrão deve ser Não.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL1 = 'USPS Serviço global expresso de documentos não-registados';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL1_TOOLTIP = 'Seleccionar se pretende enviar via USPS Serviço global expresso de documentos não-registados.  Padrão deve ser Não.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL2 = 'USPS Correio expresso global (EMS)';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL2_TOOLTIP = 'USPS Correio expresso global normal.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL3 = 'USPS Correio global prioritário em Envelope Grande de taxa plana';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL3_TOOLTIP = 'Seleccionar se pretende enviar via USPS Correio global prioritário em Envelope grande de taxa plana.  Padrão deve ser Não já que pode ser mais barato que a tarifa actual mas pode não caber no envelope.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL4 = 'USPS Correio global prioritário em Envelope pequeno de taxa plana';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL4_TOOLTIP = 'Seleccionar se pretende enviar via USPS Correio global prioritário em Envelope pequeno de taxa plana.  Padrão deve ser Não já que pode ser mais barato que a tarifa actual mas pode não caber no envelope.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL5 = 'USPS Correio de prioridade global - Peso variável';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL5_TOOLTIP = 'USPS Correio prioritário global normal.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL6 = 'USPS Correio de carta por via aérea';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL6_TOOLTIP = 'Seleccionar se pretende enviar via USPS Correio de carta por via aérea.  Padrão deve ser Não já que pode ser mais barato que a tarifa actual mas pode não caber no envelope.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL7 = 'USPS envio de parcela por via aérea';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL7_TOOLTIP = 'USPS envio normal de parcela por via aérea.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL8 = 'USPS Correio carta económico';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL8_TOOLTIP = 'Seleccionar se pretende enviar via USPS Correio carta económico.  Padrão deve ser Não já que pode ser mais barato que a tarifa actual mas pode não caber no envelope.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL9 = 'USPS envio económico de parcela';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL9_TOOLTIP = 'Correio parcelado normal económico.';
 	var $_PHPSHOP_USPS_RESPONSE_ERROR = 'USPS não conseguiu processar o pedido de taxa de transporte.';
 	var $_PHPSHOP_PARAMETERS_LBL = 'Parâmetros';
 	var $_PHPSHOP_PRODUCT_TYPE_LBL = 'Tipo de produto';
@@ -1509,6 +1505,7 @@ Se o produto não corresponder às suas expectativas, assiste-lhe o direito de res
 O consumidor dispõe de um prazo de 15 dias úteis a contar da recepção da mercadoria para devolver a mesma à entidade fornecedora, efectuando esta a sua troca ou reembolso. Esta garantia aplica-se a produtos em estado de novo, sem utilizações e na embalagem original.
 No caso do direito de resolução ser utilizado, os montantes que já tiverem sido pagos pelo consumidor serão reembolsados no prazo de 15 dias a contar da data da recepção das mercadorias devolvidas. 
 Para mais informações sobre cancelamento de encomendas e devolução de produtos, veja a página <a href="%s" onclick="%s" target="_blank">A nossa política de devoluções</a>.';
+	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_EU = 'European Union mode';
         
 }
 class phpShopLanguage extends vmLanguage { }

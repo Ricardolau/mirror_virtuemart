@@ -23,16 +23,16 @@ $mainframe->setPageTitle( $VM_LANG->_PHPSHOP_CART_TITLE );
 
 $continue_link = '';
 if( !empty( $category_id)) {
-        $continue_link = $sess->url( $_SERVER['PHP_SELF'].'?page=shop.browse&amp;category_id='.$category_id );
+    $continue_link = $sess->url( $_SERVER['PHP_SELF'].'?page=shop.browse&amp;category_id='.$category_id );
 }
-elseif( empty( $category_id) && !empty($product_id) && empty($func)) {
-        $db->query( 'SELECT `category_id` FROM `#__{vm}_product_category_xref` WHERE `product_id`='.intval($product_id) );
-        $db->next_record();
-        $category_id = $db->f('category_id');
-        $continue_link = $sess->url( $_SERVER['PHP_SELF'].'?page=shop.browse&amp;category_id='.$category_id );
+elseif( empty( $category_id) && !empty($product_id)) {
+    $db->query( 'SELECT `category_id` FROM `#__{vm}_product_category_xref` WHERE `product_id`='.intval($product_id) );
+    $db->next_record();
+    $category_id = $db->f('category_id');
+    $continue_link = $sess->url( $_SERVER['PHP_SELF'].'?page=shop.browse&amp;category_id='.$category_id );
 }
 elseif( !empty( $manufacturer_id )) {
-        $continue_link = $sess->url( $_SERVER['PHP_SELF'].'?page=shop.browse&amp;manufacturer_id='.$manufacturer_id );
+    $continue_link = $sess->url( $_SERVER['PHP_SELF'].'?page=shop.browse&amp;manufacturer_id='.$manufacturer_id );
 }
 
 $show_basket = true;

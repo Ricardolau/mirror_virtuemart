@@ -347,15 +347,34 @@ function process_date_time(&$d,$field,$type="") {
  * @return boolean The result of the validation
  */
 function mShop_validateEmail( $email ) {
-
-	if(ereg('^[_a-z0-9A-Z+-]+(\.[_a-z0-9A-Z+-]+)*@[a-z0-9A-Z-]+(\.[a-z0-9A-Z-]+)*$', $email)) {      
-		return(true);
-	}
-	else {
-		return(false);
-	}
+	$valid = preg_match( '/^[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}$/', $email );
+	
+	return $valid;
 }
 
+/**
+ * Checks if a given string is a valid (from-)name or subject for an email
+ *
+ * @since		1.0.7
+ * @param		string		$string		String to check for validity
+ * @return		boolean
+ */
+function vmValidateName( $string ) {
+	/*
+	 * The following regular expression blocks all strings containing any low control characters:
+	 * 0x00-0x1F, 0x7F
+	 * These should be control characters in almost all used charsets.
+	 * The high control chars in ISO-8859-n (0x80-0x9F) are unused (e.g. http://en.wikipedia.org/wiki/ISO_8859-1)
+	 * Since they are valid UTF-8 bytes (e.g. used as the second byte of a two byte char),
+	 * they must not be filtered.
+	 */
+	$invalid = preg_match( '/[\x00-\x1F\x7F]/', $string );
+	if ($invalid) {
+		return false;
+	} else {
+		return true;
+	}
+}
 
 /****************************************************************************
 *    function: post
@@ -545,7 +564,7 @@ function include_class($module) {
 			require_once(CLASSPATH. 'ps_checkout.php' );
 	
 			//Instantiate Class
-			$ps_checkout = new ps_checkout;
+			//$ps_checkout = new ps_checkout;
 	
 			break;
 
@@ -856,6 +875,12 @@ function vmCreateMail( $from='', $fromname='', $subject='', $body='' ) {
 */
 function vmMail($from, $fromname, $recipient, $subject, $body, $Altbody, $mode=false, $cc=NULL, $bcc=NULL, $images=null, $attachment=null ) {
 	global $mosConfig_debug;
+
+		// Filter from, fromname and subject
+	if (!mShop_validateEmail( $from ) || !vmValidateName( $fromname ) || !vmValidateName( $subject )) {
+		return false;
+	}
+	
 	$mail = vmCreateMail( $from, $fromname, $subject, $body );
 	
 	if( $Altbody != "" ) {
@@ -872,22 +897,40 @@ function vmMail($from, $fromname, $recipient, $subject, $body, $Altbody, $mode=f
 	}
 	if( is_array($recipient) ) {
 		foreach ($recipient as $to) {
-			$mail->AddAddress($to);
+			if( mShop_validateEmail( $to )) {
+				$mail->AddAddress($to);
+			}
 		}
 	} else {
-		$mail->AddAddress($recipient);
+		if( mShop_validateEmail( $recipient )) {
+			$mail->AddAddress($recipient);
+		}
 	}
 	if (isset($cc)) {
 		if( is_array($cc) )
-			foreach ($cc as $to) $mail->AddCC($to);
-		else
-			$mail->AddCC($cc);
+			foreach ($cc as $to) {
+				if( mShop_validateEmail( $to )) {
+					$mail->AddCC($to);
+				}
+			}
+		else {
+			if( mShop_validateEmail( $cc )) {
+				$mail->AddCC($cc);
+			}
+		}
 	}
 	if (isset($bcc)) {
 		if( is_array($bcc) )
-			foreach ($bcc as $to) $mail->AddBCC($to);
-		else
-			$mail->AddBCC($bcc);
+			foreach ($bcc as $to) {
+				if( mShop_validateEmail( $to )) {
+					$mail->AddBCC($to);
+				}
+			}
+		else {
+			if( mShop_validateEmail( $bcc )) {
+				$mail->AddBCC($bcc);
+			}
+		}
 	}
 	if( $images ) {
 		foreach( $images as $image) {
@@ -1085,14 +1128,25 @@ function vmSpoofCheck( $header=NULL, $alt=NULL ) {
  * @return string Validation Hash
  */
 function vmSpoofValue($alt=NULL) {
-	global $mainframe;
+	global $mainframe, $_VERSION;
 	
 	if ($alt) {
-		$random		= date( 'Ymd' );
+		if ( $alt == 1 ) {
+			$random		= date( 'Ymd' );
+		} else {
+			$random		= $alt . date( 'Ymd' );
+		}
 	} else {		
 		$random		= date( 'dmY' );
 	}
 	$validate 	= mosHash( $mainframe->getCfg( 'db' ) . $random );
+	
+	if( $_VERSION->DEV_LEVEL >= 11 ) {
+		// Joomla 1.0.11 compatibility workaround
+		// the prefix ensures that the hash is non-numeric
+		// otherwise it will be intercepted by globals.php
+		$validate = 'j' . $validate;
+	}
 	
 	return $validate;
 }

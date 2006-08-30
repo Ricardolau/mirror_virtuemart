@@ -162,8 +162,9 @@ if ($checkout) {
         
             if( empty( $ship_to_info_id )) {
                 // Get the Bill to user_info_id
-                $database->setQuery( "SELECT user_info_id FROM #__users WHERE id='".$my->id."'" );
-                $vars["ship_to_info_id"] = $ship_to_info_id = $database->loadResult();
+                $db->query( "SELECT `user_info_id` FROM `#__{vm}_user_info` WHERE `user_id`=".intval($my->id) );
+                $db->next_record();
+                $vars["ship_to_info_id"] = $ship_to_info_id = $db->f('user_info_id');
             }
             $vars["weight"] = $weight_total;
             $i = 0;
@@ -339,7 +340,7 @@ if ($checkout) {
     }
 }
 else {
-	mosRedirect( $sess->url( $_SERVER['PHP_SELF'].'' ), $VM_LANG->_PHPSHOP_EMPTY_CART);
+	mosRedirect( $sess->url( 'index.php?option=com_virtuemart&page=shop.cart' ) );
 }
 
 ?>

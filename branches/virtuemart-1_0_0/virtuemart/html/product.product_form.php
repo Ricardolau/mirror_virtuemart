@@ -1,5 +1,5 @@
 <?php
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
+defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
 * @version $Id: product.product_form.php,v 1.14.2.4 2006/03/10 15:55:15 soeren_nb Exp $
@@ -20,9 +20,10 @@ mm_showMyFileName( __FILE__ );
 require_once( CLASSPATH.'ps_product_discount.php' );
 
 $product_id = mosGetParam( $_REQUEST, 'product_id');
-if( is_array( $product_id ))
+if( is_array( $product_id )) {
 	$product_id = (int)$product_id[0];
-	
+}
+
 $product_parent_id = mosGetParam( $_REQUEST, 'product_parent_id');
 $next_page = mosGetParam( $_REQUEST, 'next_page', "product.product_display" );
 $option = empty($option)?mosgetparam( $_REQUEST, 'option', 'com_virtuemart'):$option;
@@ -35,36 +36,36 @@ $my_categories = array();
 $related_products = Array();
 
 if ($product_parent_id) {
-    if ($product_id) {
-        $action = $VM_LANG->_PHPSHOP_PRODUCT_FORM_UPDATE_ITEM_LBL;
-    } 
-    else {
-        $action = $VM_LANG->_PHPSHOP_PRODUCT_FORM_NEW_ITEM_LBL;
-    }
-    $info_label = $VM_LANG->_PHPSHOP_PRODUCT_FORM_ITEM_INFO_LBL;
-    $status_label = $VM_LANG->_PHPSHOP_PRODUCT_FORM_ITEM_STATUS_LBL;
-    $dim_weight_label = $VM_LANG->_PHPSHOP_PRODUCT_FORM_ITEM_DIM_WEIGHT_LBL;
-    $images_label = $VM_LANG->_PHPSHOP_PRODUCT_FORM_ITEM_IMAGES_LBL;
-    $delete_message = $VM_LANG->_PHPSHOP_PRODUCT_FORM_DELETE_ITEM_MSG;
+	if ($product_id) {
+		$action = $VM_LANG->_PHPSHOP_PRODUCT_FORM_UPDATE_ITEM_LBL;
+	}
+	else {
+		$action = $VM_LANG->_PHPSHOP_PRODUCT_FORM_NEW_ITEM_LBL;
+	}
+	$info_label = $VM_LANG->_PHPSHOP_PRODUCT_FORM_ITEM_INFO_LBL;
+	$status_label = $VM_LANG->_PHPSHOP_PRODUCT_FORM_ITEM_STATUS_LBL;
+	$dim_weight_label = $VM_LANG->_PHPSHOP_PRODUCT_FORM_ITEM_DIM_WEIGHT_LBL;
+	$images_label = $VM_LANG->_PHPSHOP_PRODUCT_FORM_ITEM_IMAGES_LBL;
+	$delete_message = $VM_LANG->_PHPSHOP_PRODUCT_FORM_DELETE_ITEM_MSG;
 }
 else {
-    $product_parent_id = '';
-    if ($product_id = @$vars["product_id"]) {
-    	if( $clone_product == '1') {
-    		$action = $VM_LANG->_PHPSHOP_PRODUCT_CLONE;
-    	}
-    	else {
-    		$action = $VM_LANG->_PHPSHOP_PRODUCT_FORM_UPDATE_ITEM_LBL;
-    	}
-    } 
-    else {
-        $action = $VM_LANG->_PHPSHOP_PRODUCT_FORM_NEW_PRODUCT_LBL;
-    }
-    $info_label = $VM_LANG->_PHPSHOP_PRODUCT_FORM_PRODUCT_INFO_LBL;
-    $status_label = $VM_LANG->_PHPSHOP_PRODUCT_FORM_PRODUCT_STATUS_LBL;
-    $dim_weight_label = $VM_LANG->_PHPSHOP_PRODUCT_FORM_PRODUCT_DIM_WEIGHT_LBL;
-    $images_label = $VM_LANG->_PHPSHOP_PRODUCT_FORM_PRODUCT_IMAGES_LBL;
-    $delete_message = $VM_LANG->_PHPSHOP_PRODUCT_FORM_DELETE_PRODUCT_MSG;
+	$product_parent_id = '';
+	if ($product_id = @$vars["product_id"]) {
+		if( $clone_product == '1') {
+			$action = $VM_LANG->_PHPSHOP_PRODUCT_CLONE;
+		}
+		else {
+			$action = $VM_LANG->_PHPSHOP_PRODUCT_FORM_UPDATE_ITEM_LBL;
+		}
+	}
+	else {
+		$action = $VM_LANG->_PHPSHOP_PRODUCT_FORM_NEW_PRODUCT_LBL;
+	}
+	$info_label = $VM_LANG->_PHPSHOP_PRODUCT_FORM_PRODUCT_INFO_LBL;
+	$status_label = $VM_LANG->_PHPSHOP_PRODUCT_FORM_PRODUCT_STATUS_LBL;
+	$dim_weight_label = $VM_LANG->_PHPSHOP_PRODUCT_FORM_PRODUCT_DIM_WEIGHT_LBL;
+	$images_label = $VM_LANG->_PHPSHOP_PRODUCT_FORM_PRODUCT_IMAGES_LBL;
+	$delete_message = $VM_LANG->_PHPSHOP_PRODUCT_FORM_DELETE_PRODUCT_MSG;
 }
 
 if (!empty($product_id)) {
@@ -72,60 +73,60 @@ if (!empty($product_id)) {
 }
 
 if (!empty($product_id)) {
-  // get the Database object we're filling the product form with
-  $db = $ps_product->sql($product_id); 
-  $db->next_record();
-  
-  // Get category IDs
-  $db2 = new ps_DB;
-  $q = "SELECT category_id FROM #__{vm}_product_category_xref WHERE product_id='$product_id'";
-  $db2->query($q);
-  while ($db2->next_record()) {
-      $my_categories[$db2->f("category_id")] = "1";
-  }
-  
-  // Get the Manufacturer ID
-  $db2->query("SELECT manufacturer_id FROM #__{vm}_product_mf_xref WHERE product_id='$product_id'");
-  $db2->next_record();
-  $manufacturer_id = $db2->f("manufacturer_id");
-    
-  // Get the Related Products
-  $db2->query("SELECT related_products FROM #__{vm}_product_relations WHERE product_id='$product_id'");
-  if($db2->next_record()) {
-  	$related_products = explode("|", $db2->f("related_products"));
-  }
-    
-  // Look if the Product is downloadable
-  $q_dl = "SELECT attribute_name,attribute_value AS filename FROM #__{vm}_product_attribute WHERE ";
-  $q_dl .= "product_id='$product_id' AND attribute_name='download'";
-  $db2->query($q_dl);
-  if ($db2->next_record()) {
-    $dl_checked = "checked=\"checked\"";
-  }
-  $curr_filename = $db2->f("filename");
-  
+	// get the Database object we're filling the product form with
+	$db = $ps_product->sql($product_id);
+	$db->next_record();
+
+	// Get category IDs
+	$db2 = new ps_DB;
+	$q = "SELECT category_id FROM #__{vm}_product_category_xref WHERE product_id='$product_id'";
+	$db2->query($q);
+	while ($db2->next_record()) {
+		$my_categories[$db2->f("category_id")] = "1";
+	}
+
+	// Get the Manufacturer ID
+	$db2->query("SELECT manufacturer_id FROM #__{vm}_product_mf_xref WHERE product_id='$product_id'");
+	$db2->next_record();
+	$manufacturer_id = $db2->f("manufacturer_id");
+
+	// Get the Related Products
+	$db2->query("SELECT related_products FROM #__{vm}_product_relations WHERE product_id='$product_id'");
+	if($db2->next_record()) {
+		$related_products = explode("|", $db2->f("related_products"));
+	}
+
+	// Look if the Product is downloadable
+	$q_dl = "SELECT attribute_name,attribute_value AS filename FROM #__{vm}_product_attribute WHERE ";
+	$q_dl .= "product_id='$product_id' AND attribute_name='download'";
+	$db2->query($q_dl);
+	if ($db2->next_record()) {
+		$dl_checked = "checked=\"checked\"";
+	}
+	$curr_filename = $db2->f("filename");
+
 }
 elseif (empty($vars["error"])) {
-  $default["product_publish"] = "Y";
-  $default["product_weight_uom"] = $VM_LANG->_PHPSHOP_PRODUCT_FORM_WEIGHT_UOM_DEFAULT;
-  $default["product_lwh_uom"] = $VM_LANG->_PHPSHOP_PRODUCT_FORM_DIMENSION_UOM_DEFAULT;
-  $default["product_unit"] = $VM_LANG->_PHPSHOP_PRODUCT_FORM_UNIT_DEFAULT;
-  $default["product_available_date"] = time();
+	$default["product_publish"] = "Y";
+	$default["product_weight_uom"] = $VM_LANG->_PHPSHOP_PRODUCT_FORM_WEIGHT_UOM_DEFAULT;
+	$default["product_lwh_uom"] = $VM_LANG->_PHPSHOP_PRODUCT_FORM_DIMENSION_UOM_DEFAULT;
+	$default["product_unit"] = $VM_LANG->_PHPSHOP_PRODUCT_FORM_UNIT_DEFAULT;
+	$default["product_available_date"] = time();
 }
 // get the default shopper group
 $shopper_db = new ps_DB;
 $q =  "SELECT shopper_group_id,shopper_group_name FROM #__{vm}_shopper_group WHERE `default`= '1' AND vendor_id='".$db->f("vendor_id")."'";
 $shopper_db->query($q);
-if ($shopper_db->num_rows()<1) {  // when there is no "default", take the first in the table 
-    $q =  "SELECT shopper_group_id,shopper_group_name from #__{vm}_shopper_group WHERE vendor_id='$ps_vendor_id'";
-    $shopper_db->query($q);
+if ($shopper_db->num_rows()<1) {  // when there is no "default", take the first in the table
+	$q =  "SELECT shopper_group_id,shopper_group_name from #__{vm}_shopper_group WHERE vendor_id='$ps_vendor_id'";
+	$shopper_db->query($q);
 }
 $shopper_db->next_record();
 $my_shopper_group_id = $shopper_db->f("shopper_group_id");
 
 // For cloning a product, we just need to empty the variable product_id
 if( $clone_product == "1" ) {
-  $product_id = "";
+	$product_id = "";
 }
 ?>
 <link rel="stylesheet" type="text/css" media="all" href="<?php echo $mosConfig_live_site ?>/includes/js/calendar/calendar-mos.css" title="green" />
@@ -140,7 +141,7 @@ $title .= $action;
 
 if( !empty( $product_id )) {
 	$title .= " :: " . $db->f("product_name");
-	$flypage = $ps_product->get_flypage($product_id); 
+	$flypage = $ps_product->get_flypage($product_id);
 	?>
 	<a href="<?php echo $mosConfig_live_site."/index2.php?option=com_virtuemart&page=shop.product_details&flypage=$flypage&product_id=$product_id" ?>" target="_blank">
 		  <?php echo $VM_LANG->_PHPSHOP_PRODUCT_FORM_SHOW_FLYPAGE ?>
@@ -169,18 +170,18 @@ $tabs->startTab( "<img src=\"". IMAGEURL ."ps_image/edit.png\" align=\"center\" 
       <?php echo $VM_LANG->_PHPSHOP_PRODUCT_FORM_PUBLISH ?>:</div>
       </td>
       <td width="79%" > <?php if ($db->sf("product_publish")=="Y") { 
-    echo "<input type=\"checkbox\" name=\"product_publish\" value=\"Y\" checked=\"checked\" />";
-} 
-else {
-    echo "<input type=\"checkbox\" name=\"product_publish\" value=\"Y\" />";
-}
+      	echo "<input type=\"checkbox\" name=\"product_publish\" value=\"Y\" checked=\"checked\" />";
+      }
+      else {
+      	echo "<input type=\"checkbox\" name=\"product_publish\" value=\"Y\" />";
+      }
 ?> </td>
     </tr>
     <tr> 
       <td width="21%" ><div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_PHPSHOP_PRODUCT_FORM_SKU ?>:</div>
       </td>
       <td width="79%" height="2"> 
-        <input type="text" class="inputbox"  name="product_sku" value="<?php $db->sp("product_sku"); ?>" size="32" maxlength="64" />
+        <input type="text" class="inputbox"  name="product_sku" value="<?php echo shopMakeHtmlSafe( $db->sf("product_sku") ); ?>" size="32" maxlength="64" />
       </td>
     </tr>
     <tr> 
@@ -239,8 +240,8 @@ else {
                 <input type="hidden" name="product_price_id" value="<?php echo @$price["product_price_id"] ?>" />
             </td>
             <td><?php
-              if(empty($price["product_currency"]))
-                $price["product_currency"] = $vendor_currency;
+            if(empty($price["product_currency"]))
+            $price["product_currency"] = $vendor_currency;
               $ps_html->list_currency("product_currency",$price["product_currency"]) ?>
             </td>
             <td>&nbsp;<?php
@@ -303,7 +304,7 @@ else {
       </td>
       <td width="85%">
         <?php
-		editorArea( 'editor1', htmlspecialchars( $db->sf("product_desc"), ENT_QUOTES ), 'product_desc', '550', '300', '55', '25' )
+        editorArea( 'editor1', htmlspecialchars( $db->sf("product_desc"), ENT_QUOTES ), 'product_desc', '550', '300', '55', '25' )
 	?>
       </td>
     </tr>
@@ -348,11 +349,11 @@ $tabs->startTab( "<img src=\"". IMAGEURL ."ps_image/options.png\" width=\"16\" h
       <br /><br />
         <select class="inputbox" name="image" onchange="javascript:if (document.adminForm.image.options[selectedIndex].value!='') {document.imagelib.src='<?php echo IMAGEURL ?>availability/' + document.adminForm.image.options[selectedIndex].value; document.adminForm.product_availability.value=document.adminForm.image.options[selectedIndex].value;} else {document.imagelib.src='<?php echo $mosConfig_live_site ?>/images/stories/noimage.png'}">
           <option value="">Select Image</option><?php
-            $path = IMAGEPATH."availability";
-            $files = mosReadDirectory( "$path", ".", true, true);
-            foreach ($files as $file) { 
-                $file_info = pathinfo($file);
-                $filename = $file_info['basename']; 
+          $path = IMAGEPATH."availability";
+          $files = mosReadDirectory( "$path", ".", true, true);
+          foreach ($files as $file) {
+          	$file_info = pathinfo($file);
+          	$filename = $file_info['basename'];
                 if ($filename != "index.html") {?>
                 <option <?php echo ($db->f("product_availability")==$filename) ? "selected=\"selected\"" : "" ?> value="<?php echo $filename ?>">
                 <?php echo $filename ?>
@@ -408,7 +409,7 @@ $tabs->startTab( "<img src=\"". IMAGEURL ."ps_image/options.png\" width=\"16\" h
 
 <?php
 $db_items = $ps_product->items_sql($product_id);
-if (!$product_parent_id and $product_id and $db_items->num_rows() > 0) { 
+if (!$product_parent_id and $product_id and $db_items->num_rows() > 0) {
 ?> 
   <table width="100%" border="0" cellspacing="0" cellpadding="2">
     <tr> 
@@ -424,12 +425,12 @@ if (!$product_parent_id and $product_id and $db_items->num_rows() > 0) {
       <td><?php echo $VM_LANG->_PHPSHOP_PRODUCT_FORM_SKU ?></td>
       <td><?php echo $VM_LANG->_PHPSHOP_PRODUCT_FORM_PRICE ?></td>
       <?php
-  $db_heading = $ps_product->attribute_sql("",$product_id);
-  while ($db_heading->next_record()) {
+      $db_heading = $ps_product->attribute_sql("",$product_id);
+      while ($db_heading->next_record()) {
 ?> 
       <td><?php echo $db_heading->sf("attribute_name"); ?></td>
       <?php
-  }
+      }
 ?> </tr>
     <tr> 
       <td colspan="<?php echo $db_heading->num_rows() + 3 ?>"> 
@@ -437,42 +438,42 @@ if (!$product_parent_id and $product_id and $db_items->num_rows() > 0) {
       </td>
     </tr>
     <?php
-  while ($db_items->next_record()) {
+    while ($db_items->next_record()) {
 ?> 
     <tr nowrap> 
       <td> <?php
-    $url = $_SERVER['PHP_SELF'] . "?page=$modulename.product_form&product_id=" . $db_items->f("product_id") . "&product_parent_id=$product_id";
-    echo "<a href=\"" . $sess->url($url) . "\">";
-    echo $db_items->f("product_name"); 
-    echo "</a>"; 
+      $url = $_SERVER['PHP_SELF'] . "?page=$modulename.product_form&product_id=" . $db_items->f("product_id") . "&product_parent_id=$product_id";
+      echo "<a href=\"" . $sess->url($url) . "\">";
+      echo $db_items->f("product_name");
+      echo "</a>";
 ?> </td>
       <td><?php $db_items->sp("product_sku"); ?> </td>
       <td> <?php
-    $price = $ps_product->get_price($db_items->f("product_id"));
-    $url  = $_SERVER['PHP_SELF'] . "?page=$modulename.product_price_list&product_id=" . $db_items->f("product_id") . "&product_parent_id=$product_parent_id";
-    $url .= "&return_args=" . urlencode("page=$page&product_id=$product_id");
-    echo "<a href=\"" . $sess->url($url) . "\">";
-    if ($price) {
-      if (!empty($price["item"])) {
-        echo $price["product_price"];
+      $price = $ps_product->get_price($db_items->f("product_id"));
+      $url  = $_SERVER['PHP_SELF'] . "?page=$modulename.product_price_list&product_id=" . $db_items->f("product_id") . "&product_parent_id=$product_parent_id";
+      $url .= "&return_args=" . urlencode("page=$page&product_id=$product_id");
+      echo "<a href=\"" . $sess->url($url) . "\">";
+      if ($price) {
+      	if (!empty($price["item"])) {
+      		echo $price["product_price"];
+      	} else {
+      		echo "none";
+      	}
       } else {
-        echo "none";
-      } 
-    } else {
-      echo "none";
-    }
-    echo "</a>";
+      	echo "none";
+      }
+      echo "</a>";
 ?> </td>
       <?php
-    $db_detail = $ps_product->attribute_sql($db_items->f("product_id"),$product_id);
-    while ($db_detail->next_record()) {
+      $db_detail = $ps_product->attribute_sql($db_items->f("product_id"),$product_id);
+      while ($db_detail->next_record()) {
 ?> 
       <td><?php $db_detail->p("attribute_value"); ?></td>
       <?php
-    }
+      }
 ?> </tr>
     <?php
-  } 
+    }
 ?> 
   </table>
   <?php
@@ -486,18 +487,18 @@ if (!$product_parent_id and $product_id and $db_items->num_rows() > 0) {
       <td colspan="2"><strong><?php echo $VM_LANG->_PHPSHOP_PRODUCT_FORM_ITEM_ATTRIBUTES_LBL ?></strong></td>
     </tr>
     <?php
-  if (!empty($_REQUEST['product_id'])) {
-    $db_attribute = $ps_product->attribute_sql($product_id,$product_parent_id);
-  } else {
-    $db_attribute = $ps_product->attribute_sql("",$product_parent_id);
-  }
-  $num = 0;
-  while ($db_attribute->next_record()) {
+    if (!empty($_REQUEST['product_id'])) {
+    	$db_attribute = $ps_product->attribute_sql($product_id,$product_parent_id);
+    } else {
+    	$db_attribute = $ps_product->attribute_sql("",$product_parent_id);
+    }
+    $num = 0;
+    while ($db_attribute->next_record()) {
     $num++; ?> 
     <tr nowrap> 
       <td width="21%" height="22" > 
         <div style="text-align:right;font-weight:bold;"><?php
-          echo $db_attribute->sf("attribute_name") . ":";
+        echo $db_attribute->sf("attribute_name") . ":";
           $field_name = "attribute_$num"; ?></div>
       </td>
       <td width="79%" > 
@@ -508,7 +509,7 @@ if (!$product_parent_id and $product_id and $db_items->num_rows() > 0) {
   } ?> 
   </table>
   <?php
-} 
+}
 
 $tabs->endTab();
 $tabs->startTab( "<img src=\"". IMAGEURL ."ps_image/info.png\" width=\"16\" height=\"16\" align=\"center\" border=\"0\" alt=\"info\" />&nbsp;$dim_weight_label", "about-page");
@@ -518,7 +519,7 @@ $tabs->startTab( "<img src=\"". IMAGEURL ."ps_image/info.png\" width=\"16\" heig
 <table class="adminform">
  <tr>
   <td width="50%"><?php
-    echo "<h2>$dim_weight_label</h2>";
+  echo "<h2>$dim_weight_label</h2>";
 ?><table>
     <tr> 
       <td width="21%" valign="top" > 
@@ -645,13 +646,13 @@ $tabs->endTab();
 $tabs->startTab( "<img src=\"". IMAGEURL ."ps_image/image.png\" width=\"16\" height=\"16\" align=\"center\" border=\"0\" />&nbsp;$images_label", "images-page");
 
 if( !stristr( $db->f("product_thumb_image"), "http") && $clone_product != "1" )
-  echo "<input type=\"hidden\" name=\"product_thumb_image_curr\" value=\"". $db->f("product_thumb_image") ."\" />";
+echo "<input type=\"hidden\" name=\"product_thumb_image_curr\" value=\"". $db->f("product_thumb_image") ."\" />";
 
 if( !stristr( $db->f("product_full_image"), "http") && $clone_product != "1" )
-  echo "<input type=\"hidden\" name=\"product_full_image_curr\" value=\"". $db->f("product_full_image") ."\" />";
-  
- $ps_html->writableIndicator( array( IMAGEPATH."product", IMAGEPATH."product/resized") );
- 
+echo "<input type=\"hidden\" name=\"product_full_image_curr\" value=\"". $db->f("product_full_image") ."\" />";
+
+$ps_html->writableIndicator( array( IMAGEPATH."product", IMAGEPATH."product/resized") );
+
  ?>
   <table class="adminform" >
     <tr> 
@@ -660,7 +661,7 @@ if( !stristr( $db->f("product_full_image"), "http") && $clone_product != "1" )
         <table>
           <tr> 
             <td colspan="2" ><?php 
-              if ($product_id) {
+            if ($product_id) {
                 echo $VM_LANG->_PHPSHOP_PRODUCT_FORM_IMAGE_UPDATE_LBL . "<br />"; } ?> 
               <input type="file" class="inputbox" name="product_full_image" onchange="document.adminForm.product_full_image_url.value='';document.adminForm.product_full_image_action[1].checked=true;" size="50" maxlength="255" />
             </td>
@@ -687,11 +688,11 @@ if( !stristr( $db->f("product_full_image"), "http") && $clone_product != "1" )
             <td width="79%" >
               <?php 
               if( stristr($db->f("product_full_image"), "http") )
-                $product_full_image_url = $db->f("product_full_image");
+              $product_full_image_url = $db->f("product_full_image");
               else if(!empty($_REQUEST['product_full_image_url']))
-                $product_full_image_url = $_REQUEST['product_full_image_url'];
+              $product_full_image_url = $_REQUEST['product_full_image_url'];
               else
-                $product_full_image_url = "";
+              $product_full_image_url = "";
               ?>
               <input type="text" class="inputbox" size="50" name="product_full_image_url" value="<?php echo $product_full_image_url ?>" onchange="if( this.value.length>0) document.adminForm.product_full_image_action[1].checked=false; else document.adminForm.product_full_image_action[1].checked=true; toggleDisable( document.adminForm.product_full_image_action[1], document.adminForm.product_thumb_image_url, true );toggleDisable( document.adminForm.product_full_image_action[1], document.adminForm.product_thumb_image, true );" />
             </td>
@@ -702,7 +703,7 @@ if( !stristr( $db->f("product_full_image"), "http") && $clone_product != "1" )
               <div style="overflow:auto;">
                 <?php 
                 if( $clone_product != "1" ) {
-                	echo $ps_product->image_tag($db->f("product_full_image"), "", 0); 
+                	echo $ps_product->image_tag($db->f("product_full_image"), "", 0);
                 }
                 ?>
               </div>
@@ -737,11 +738,11 @@ if( !stristr( $db->f("product_full_image"), "http") && $clone_product != "1" )
             <td width="79%" >
               <?php 
               if( stristr($db->f("product_thumb_image"), "http") )
-                $product_thumb_image_url = $db->f("product_thumb_image");
+              $product_thumb_image_url = $db->f("product_thumb_image");
               else if(!empty($_REQUEST['product_thumb_image_url']))
-                $product_thumb_image_url = $_REQUEST['product_thumb_image_url'];
+              $product_thumb_image_url = $_REQUEST['product_thumb_image_url'];
               else
-                $product_thumb_image_url = "";
+              $product_thumb_image_url = "";
               ?>
               <input type="text" class="inputbox" size="50" name="product_thumb_image_url" value="<?php echo $product_thumb_image_url ?>" />
             </td>
@@ -752,7 +753,7 @@ if( !stristr( $db->f("product_full_image"), "http") && $clone_product != "1" )
               <div style="overflow:auto;">
                 <?php 
                 if( $clone_product != "1" )
-                  echo $ps_product->image_tag($db->f("product_thumb_image"), "", 0) 
+                echo $ps_product->image_tag($db->f("product_thumb_image"), "", 0)
                 ?>
               </div>
             </td>
@@ -777,7 +778,7 @@ $tabs->startTab( "<img src=\"". IMAGEURL ."ps_image/related.png\" width=\"16\" h
 				<?php echo mm_ToolTip( $VM_LANG->_PHPSHOP_RELATED_PRODUCTS_TIP );  ?>
 			</td>
 			<td width="79%"><?php 
-				echo $ps_html->list_products("related_products[]", $related_products, $product_id, false ); 
+			echo $ps_html->list_products("related_products[]", $related_products, $product_id, false );
 			?></td>
 		</tr>
 	</table>
@@ -785,162 +786,167 @@ $tabs->startTab( "<img src=\"". IMAGEURL ."ps_image/related.png\" width=\"16\" h
 <?php
 $tabs->endTab();
 
-  // Get Product Types
-  $dba = new ps_DB;
-  $q  = "SELECT * FROM #__{vm}_product_product_type_xref,#__{vm}_product_type WHERE ";
-  $q .= "#__{vm}_product_product_type_xref.product_type_id=#__{vm}_product_type.product_type_id ";
-  $q .= "AND product_id='$product_id' ";
+// Get Product Types
+$dba = new ps_DB;
+$q  = "SELECT * FROM #__{vm}_product_product_type_xref,#__{vm}_product_type WHERE ";
+$q .= "#__{vm}_product_product_type_xref.product_type_id=#__{vm}_product_type.product_type_id ";
+$q .= "AND product_id='$product_id' ";
 /*  if (!$product_parent_id) {
-    $q .= "AND product_id='$product_id' ";
-  }
-  else {
-    $q .= "AND product_id='$product_parent_id' ";
-  }*/
-  $q .= "ORDER BY product_type_list_order";
-  $dba->query($q);
-  
-  $dbpt = new ps_DB;
-  $dbp = new ps_DB;
+$q .= "AND product_id='$product_id' ";
+}
+else {
+$q .= "AND product_id='$product_parent_id' ";
+}*/
+$q .= "ORDER BY product_type_list_order";
+$dba->query($q);
 
-  while ($dba->next_record()) {
-  
-  $product_type_id = $dba->f("product_type_id");
-  
-$tabs->startTab( "<img src=\"". IMAGEURL ."ps_image/info.png\" width=\"16\" height=\"16\" align=\"center\" border=\"0\" />&nbsp;".$dba->f("product_type_name"), "parameter-page-$product_type_id");
+$dbpt = new ps_DB;
+$dbp = new ps_DB;
 
-  $q  = "SELECT * FROM #__{vm}_product_type_parameter WHERE ";
-  $q .= "product_type_id='$product_type_id' ";
-  $q .= "ORDER BY parameter_list_order";
-  $dbpt->query($q);
-  
-  $q  = "SELECT * FROM #__{vm}_product_type_$product_type_id WHERE ";
-  $q .= "product_id='$product_id'";
-  $dbp->query($q);
+while ($dba->next_record()) {
+
+	$product_type_id = $dba->f("product_type_id");
+
+	$tabs->startTab( "<img src=\"". IMAGEURL ."ps_image/info.png\" width=\"16\" height=\"16\" align=\"center\" border=\"0\" />&nbsp;".$dba->f("product_type_name"), "parameter-page-$product_type_id");
+
+	$q  = "SELECT * FROM #__{vm}_product_type_parameter WHERE ";
+	$q .= "product_type_id='$product_type_id' ";
+	$q .= "ORDER BY parameter_list_order";
+	$dbpt->query($q);
+
+	$q  = "SELECT * FROM #__{vm}_product_type_$product_type_id WHERE ";
+	$q .= "product_id='$product_id'";
+	$dbp->query($q);
 ?>
 
-  <table width="100%" border="0" cellspacing="0" cellpadding="2">
+  <table class="adminform">
     <tr> 
-      <td colspan="2" height="2" >&nbsp;</td>
+      <td colspan="2"><h2><?php echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_LBL.': '.$dba->f("product_type_name") ?></h2>
+      
+      <?php
+      	echo '<h3>'._E_REMOVE.' =&gt; '.$ps_html->deleteButton( "product_type_id", $product_type_id, "productProductTypeDelete", $keyword, $limitstart, "&product_id=$product_id&product_parent_id=$product_parent_id&next_page=$next_page" ) . '</h3>';
+      ?>
+      </td>
     </tr>
 
     <?php 
-	while ($dbpt->next_record()) {
-		if ($dbpt->f("parameter_type")!="B") {
-			echo "<tr>\n  <td width=\"21%\" height=\"2\" valign=\"top\"><div style=\"text-align:right;font-weight:bold;\">";
-			echo $dbpt->f("parameter_label");
-			
-			if ($dbpt->f("parameter_description")) {
-				echo "&nbsp;";
-				echo mm_ToolTip($dbpt->f("parameter_description"));
-			}
-			echo "&nbsp;:</div>\n  </td>\n  <td width=\"79%\" height=\"2\" >";
-			
-			$parameter_values=$dbpt->f("parameter_values");
-			if (!empty($parameter_values)) { // List of values
-				$fields=explode(";",$parameter_values);
-				echo "<select class=\"inputbox\" name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name");
-				
-				if ($dbpt->f("parameter_type")=="V") { //  Type: Multiple Values
-					$size = min(count($fields),6);
-					echo "[]\" multiple size=\"$size\">\n";
-					$selected_value = array();
-					$get_item_value = $dbp->f($dbpt->f("parameter_name"));
-					$get_item_value = explode(",",$get_item_value);
-					foreach($get_item_value as $value) {
-						$selected_value[$value] = 1;
-					}
-					foreach($fields as $field) {
-						echo "<option value=\"$field\"".(($selected_value[$field]==1) ? " selected>" : ">"). $field."</option>\n";
-					}
-				}
-				else {  // Other Parameter type
-					echo "\">\n";
-					foreach($fields as $field) {
-						echo "<option value=\"$field\" ";
-						if ($dbp->f($dbpt->f("parameter_name")) == $field) echo "selected=\"selected\"";
-						echo " >".$field."</option>\n";
-					}
-				}
-				echo "</select>\n";
-			}
-			else { // Input field
-				switch( $dbpt->f("parameter_type") ) {
-					case "I": // Integer
-					case "F": // Float
-					case "D": // Date & Time
-					case "A": // Date
-					case "M": // Time
-						echo "    <input type=\"text\" class=\"inputbox\"  name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name")."\" value=\"".$dbp->f($dbpt->f("parameter_name"))."\" size=\"20\" />";
-					break;
-					case "T": // Text
-					case "S": // Short Text
-						echo "<textarea class=\"inputbox\" name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name")."\" cols=\"35\" rows=\"6\" >";
-						echo $dbp->sf($dbpt->f("parameter_name"))."</textarea>";
-					break;
-					case "C": // Char
-						echo "    <input type=\"text\" class=\"inputbox\"  name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name")."\" value=\"".$dbp->f($dbpt->f("parameter_name"))."\" size=\"5\" />";
-					break;
-					case "V": // Multiple Values
-						echo "    <input type=\"text\" class=\"inputbox\"  name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name")."\" value=\"".$dbp->f($dbpt->f("parameter_name"))."\" size=\"20\" />";
-						
-// 						$fields=explode(";",$parameter_values);
-// 						echo "<select class=\"inputbox\" name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name");
-// 						if ($db->f("parameter_multiselect")=="Y") {
-// 							$size = min(count($fields),6);
-// 							echo "[]\" multiple size=\"$size\">\n";
-// 							$selected_value = array();
-// 							$get_item_value = explode(",",$dbp->sf($dbpt->f("parameter_name")));
-// 							foreach($get_item_value as $value) {
-// 								$selected_value[$value] = 1;
-// 							}
-// 							foreach($fields as $field) {
-// 								echo "<option value=\"$field\"".(($selected_value[$field]==1) ? " selected>" : ">"). $field."</option>\n";
-// 							}
-// 						}
-// 						else {
-// 							echo "\">\n";
-// 							$get_item_value = $dbp->sf($dbpt->f("parameter_name"));
-// 							foreach($fields as $field) {
-// 								echo "<option value=\"$field\"".(($get_item_value==$field) ? " selected>" : ">"). $field."</option>\n";
-// 							}
-// 						}
-// 						echo "</select>";
-						break;
-					default: // Default type Short Text
-						echo "    <input type=\"text\" class=\"inputbox\" name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name")."\" value=\"".$dbp->f($dbpt->f("parameter_name"))."\" size=\"20\" />";
-				}
-			}
-			echo " ".$dbpt->f("parameter_unit");
-			if ($dbpt->f("parameter_default")) {
-				echo " (".$VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DEFAULT.": ";
-				echo $dbpt->f("parameter_default").")";
-			}
-			echo " [ ".$VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE.": ";
-			switch( $dbpt->f("parameter_type") ) {
-				case "I": echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_INTEGER; break;	// Integer
-				case "T": echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TEXT; break; 	// Text
-				case "S": echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_SHORTTEXT; break; // Short Text
-				case "F": echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_FLOAT; break; 	// Float
-				case "C": echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_CHAR; break; 	// Char
-				case "D": echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATETIME." ";	// Date & Time
-					echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE_FORMAT." ";
-					echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TIME_FORMAT;
-					break;
-				case "A": echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE." ";		// Date
-					echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE_FORMAT;
-					break;
-				case "M": echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TIME." ";		// Time
-					echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TIME_FORMAT;
-					break;
-				case "V": echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_MULTIVALUE; break; 	// Multiple Value
-			}
-			echo " ]";
-		}
-		else {
-			echo "<tr>\n  <td colspan=\"2\" height=\"2\" ><hr/>";
-		}
-		echo "  </td>\n</tr>";
-	}
+    while ($dbpt->next_record()) {
+    	if ($dbpt->f("parameter_type")!="B") {
+    		echo "<tr>\n  <td width=\"21%\" height=\"2\" valign=\"top\"><div style=\"text-align:right;font-weight:bold;\">";
+    		echo $dbpt->f("parameter_label");
+
+    		if ($dbpt->f("parameter_description")) {
+    			echo "&nbsp;";
+    			echo mm_ToolTip($dbpt->f("parameter_description"));
+    		}
+    		echo "&nbsp;:</div>\n  </td>\n  <td width=\"79%\" height=\"2\" >";
+
+    		$parameter_values=$dbpt->f("parameter_values");
+    		if (!empty($parameter_values)) { // List of values
+    			$fields=explode(";",$parameter_values);
+    			echo "<select class=\"inputbox\" name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name");
+
+    			if ($dbpt->f("parameter_type")=="V") { //  Type: Multiple Values
+    				$size = min(count($fields),6);
+    				echo "[]\" multiple size=\"$size\">\n";
+    				$selected_value = array();
+    				$get_item_value = $dbp->f($dbpt->f("parameter_name"));
+    				$get_item_value = explode(",",$get_item_value);
+    				foreach($get_item_value as $value) {
+    					$selected_value[$value] = 1;
+    				}
+    				foreach($fields as $field) {
+    					echo "<option value=\"$field\"".(($selected_value[$field]==1) ? " selected>" : ">"). $field."</option>\n";
+    				}
+    			}
+    			else {  // Other Parameter type
+    				echo "\">\n";
+    				foreach($fields as $field) {
+    					echo "<option value=\"$field\" ";
+    					if ($dbp->f($dbpt->f("parameter_name")) == $field) echo "selected=\"selected\"";
+    					echo " >".$field."</option>\n";
+    				}
+    			}
+    			echo "</select>\n";
+    		}
+    		else { // Input field
+    			switch( $dbpt->f("parameter_type") ) {
+    				case "I": // Integer
+    				case "F": // Float
+    				case "D": // Date & Time
+    				case "A": // Date
+    				case "M": // Time
+    				echo "    <input type=\"text\" class=\"inputbox\"  name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name")."\" value=\"".$dbp->f($dbpt->f("parameter_name"))."\" size=\"20\" />";
+    				break;
+    				case "T": // Text
+    				case "S": // Short Text
+    				echo "<textarea class=\"inputbox\" name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name")."\" cols=\"35\" rows=\"6\" >";
+    				echo $dbp->sf($dbpt->f("parameter_name"))."</textarea>";
+    				break;
+    				case "C": // Char
+    				echo "    <input type=\"text\" class=\"inputbox\"  name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name")."\" value=\"".$dbp->f($dbpt->f("parameter_name"))."\" size=\"5\" />";
+    				break;
+    				case "V": // Multiple Values
+    				echo "    <input type=\"text\" class=\"inputbox\"  name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name")."\" value=\"".$dbp->f($dbpt->f("parameter_name"))."\" size=\"20\" />";
+
+    				// 						$fields=explode(";",$parameter_values);
+    				// 						echo "<select class=\"inputbox\" name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name");
+    				// 						if ($db->f("parameter_multiselect")=="Y") {
+    				// 							$size = min(count($fields),6);
+    				// 							echo "[]\" multiple size=\"$size\">\n";
+    				// 							$selected_value = array();
+    				// 							$get_item_value = explode(",",$dbp->sf($dbpt->f("parameter_name")));
+    				// 							foreach($get_item_value as $value) {
+    				// 								$selected_value[$value] = 1;
+    				// 							}
+    				// 							foreach($fields as $field) {
+    				// 								echo "<option value=\"$field\"".(($selected_value[$field]==1) ? " selected>" : ">"). $field."</option>\n";
+    				// 							}
+    				// 						}
+    				// 						else {
+    				// 							echo "\">\n";
+    				// 							$get_item_value = $dbp->sf($dbpt->f("parameter_name"));
+    				// 							foreach($fields as $field) {
+    				// 								echo "<option value=\"$field\"".(($get_item_value==$field) ? " selected>" : ">"). $field."</option>\n";
+    				// 							}
+    				// 						}
+    				// 						echo "</select>";
+    				break;
+    				default: // Default type Short Text
+    				echo "    <input type=\"text\" class=\"inputbox\" name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name")."\" value=\"".$dbp->f($dbpt->f("parameter_name"))."\" size=\"20\" />";
+    			}
+    		}
+    		echo " ".$dbpt->f("parameter_unit");
+    		if ($dbpt->f("parameter_default")) {
+    			echo " (".$VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DEFAULT.": ";
+    			echo $dbpt->f("parameter_default").")";
+    		}
+    		echo " [ ".$VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE.": ";
+    		switch( $dbpt->f("parameter_type") ) {
+    			case "I": echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_INTEGER; break;	// Integer
+    			case "T": echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TEXT; break; 	// Text
+    			case "S": echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_SHORTTEXT; break; // Short Text
+    			case "F": echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_FLOAT; break; 	// Float
+    			case "C": echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_CHAR; break; 	// Char
+    			case "D": echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATETIME." ";	// Date & Time
+    			echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE_FORMAT." ";
+    			echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TIME_FORMAT;
+    			break;
+    			case "A": echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE." ";		// Date
+    			echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE_FORMAT;
+    			break;
+    			case "M": echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TIME." ";		// Time
+    			echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TIME_FORMAT;
+    			break;
+    			case "V": echo $VM_LANG->_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_MULTIVALUE; break; 	// Multiple Value
+    		}
+    		echo " ]";
+    	}
+    	else {
+    		echo "<tr>\n  <td colspan=\"2\" height=\"2\" ><hr/>";
+    	}
+    	echo "  </td>\n</tr>";
+    }
 ?>
 
   </table>
@@ -950,29 +956,29 @@ $tabs->startTab( "<img src=\"". IMAGEURL ."ps_image/info.png\" width=\"16\" heig
   $tabs->endTab();
   //<!-- Changed Product Type - End -->
 }
-if( $clone_product == "1" ) {  
-  $tabs->startTab( "<img src=\"". IMAGEURL ."ps_image/copy_f2.gif\" width=\"16\" height=\"16\" align=\"center\" border=\"0\" />Clone Product Otions", "clone-page" );
-  echo '<input type="hidden" name="clone_product" value="Y" />';
-  echo '<input type="hidden" name="old_product_id" value="'.$_REQUEST['product_id'].'" />';
-  $db_att = new ps_DB;
-  $db->query( "SELECT product_id, product_name 
+if( $clone_product == "1" ) {
+	$tabs->startTab( "<img src=\"". IMAGEURL ."ps_image/copy_f2.gif\" width=\"16\" height=\"16\" align=\"center\" border=\"0\" />Clone Product Otions", "clone-page" );
+	echo '<input type="hidden" name="clone_product" value="Y" />';
+	echo '<input type="hidden" name="old_product_id" value="'.$_REQUEST['product_id'].'" />';
+	$db_att = new ps_DB;
+	$db->query( "SELECT product_id, product_name
                 FROM #__{vm}_product
                 WHERE product_parent_id='".$_REQUEST['product_id']."' " );
-  if( $db->num_rows() > 0 ) {
-  	echo "<h3>Also clone these Child Items:</h3>";
-  }
-  while( $db->next_record() ) {
-    $db_att->query( "SELECT attribute_name, attribute_value FROM #__{vm}_product_attribute 
+	if( $db->num_rows() > 0 ) {
+		echo "<h3>Also clone these Child Items:</h3>";
+	}
+	while( $db->next_record() ) {
+		$db_att->query( "SELECT attribute_name, attribute_value FROM #__{vm}_product_attribute
                       WHERE product_id ='".$db->f("product_id")."'" );
-    echo '<input type="checkbox" checked="checked" name="child_items[]" value="'.$db->f("product_id").'" id="child_'.$db->f("product_id").'" />
+		echo '<input type="checkbox" checked="checked" name="child_items[]" value="'.$db->f("product_id").'" id="child_'.$db->f("product_id").'" />
     <label for="child_'.$db->f("product_id").'">'.$db->f("product_name").' (';
-    while( $db_att->next_record() ) {
-    	echo $db_att->f("attribute_name").": ".$db_att->f("attribute_value")."; ";
-    }
-    echo ')</label><br/>';
-  }
-  
-  $tabs->endTab();
+		while( $db_att->next_record() ) {
+			echo $db_att->f("attribute_name").": ".$db_att->f("attribute_value")."; ";
+		}
+		echo ')</label><br/>';
+	}
+
+	$tabs->endTab();
 }
 
 $tabs->endPane();
@@ -992,61 +998,61 @@ $formObj->finishForm( $funcname, $next_page, $option );
 <!--
 function toggleDisable( elementOnChecked, elementDisable, disableOnChecked ) {
 	try {
-	  if( !disableOnChecked ) {
-	    if(elementOnChecked.checked==true) {
-	      elementDisable.disabled=false; 
-	    }
-	    else {
-	      elementDisable.disabled=true;
-	    }
-	  }
-	  else {
-	    if(elementOnChecked.checked==true) {
-	      elementDisable.disabled=true; 
-	    }
-	    else {
-	      elementDisable.disabled=false;
-	    }
-	  }
+		if( !disableOnChecked ) {
+			if(elementOnChecked.checked==true) {
+				elementDisable.disabled=false;
+			}
+			else {
+				elementDisable.disabled=true;
+			}
+		}
+		else {
+			if(elementOnChecked.checked==true) {
+				elementDisable.disabled=true;
+			}
+			else {
+				elementDisable.disabled=false;
+			}
+		}
 	}
 	catch( e ) {}
 }
-// borrowed from OSCommerce with small modifications. 
+// borrowed from OSCommerce with small modifications.
 // All rights reserved.
 var tax_rates = new Array();
 <?php
 foreach( $tax_rates as $tax_rate_id => $tax_rate ) {
-  echo "tax_rates[\"$tax_rate_id\"] = $tax_rate;\n";
+	echo "tax_rates[\"$tax_rate_id\"] = $tax_rate;\n";
 }
 ?>
 function doRound(x, places) {
-  return Math.round(x * Math.pow(10, places)) / Math.pow(10, places);
+	return Math.round(x * Math.pow(10, places)) / Math.pow(10, places);
 }
 
 function getTaxRate() {
-  var selected_value = document.adminForm.product_tax_id.selectedIndex;
-  var parameterVal = document.adminForm.product_tax_id[selected_value].value;
+	var selected_value = document.adminForm.product_tax_id.selectedIndex;
+	var parameterVal = document.adminForm.product_tax_id[selected_value].value;
 
-  if ( (parameterVal > 0) && (tax_rates[parameterVal] > 0) ) {
-    return tax_rates[parameterVal];
-  } else {
-    return 0;
-  }
+	if ( (parameterVal > 0) && (tax_rates[parameterVal] > 0) ) {
+		return tax_rates[parameterVal];
+	} else {
+		return 0;
+	}
 }
 
 function updateGross() {
 	if( document.adminForm.product_price.value != '' ) {
 		var taxRate = getTaxRate();
-		
+
 		var r = new RegExp("\,", "i");
 		document.adminForm.product_price.value = document.adminForm.product_price.value.replace( r, "." );
-		  
+
 		var grossValue = document.adminForm.product_price.value;
-		  
+
 		if (taxRate > 0) {
 			grossValue = grossValue * (taxRate + 1);
 		}
-		
+
 		document.adminForm.product_price_incl_tax.value = doRound(grossValue, 5);
 	}
 }
@@ -1054,16 +1060,16 @@ function updateGross() {
 function updateNet() {
 	if( document.adminForm.product_price_incl_tax.value != '' ) {
 		var taxRate = getTaxRate();
-		  
+
 		var r = new RegExp("\,", "i");
 		document.adminForm.product_price_incl_tax.value = document.adminForm.product_price_incl_tax.value.replace( r, "." );
-		  
+
 		var netValue = document.adminForm.product_price_incl_tax.value;
-		
+
 		if (taxRate > 0) {
 			netValue = netValue / (taxRate + 1);
 		}
-		
+
 		document.adminForm.product_price.value = doRound(netValue, 5);
 	}
 }
@@ -1074,7 +1080,7 @@ function updateDiscountedPrice() {
 			var selected_discount = document.adminForm.product_discount_id.selectedIndex;
 			var discountCalc = document.adminForm.product_discount_id[selected_discount].id;
 			var origPrice = document.adminForm.product_price_incl_tax.value;
-			
+
 			if( discountCalc ) {
 				eval( 'var discPrice = ' + origPrice + discountCalc );
 				if( discPrice != origPrice ) {

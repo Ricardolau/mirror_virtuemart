@@ -1864,8 +1864,8 @@ class ps_product extends vmAbstractObject {
 						
 						if( abs($value_notax) >0 ) {
 							$value_taxed = $value_notax * ($my_taxrate+1);
-							
-							$description = str_replace( $my_mod, $my_mod[0].' '.$CURRENCY_DISPLAY->getFullValue( $value_taxed ), $description);
+							$temp_desc_new  = str_replace( $my_mod, $my_mod[0].' '.$CURRENCY_DISPLAY->getFullValue( $value_taxed ), $temp_desc );
+							$description = str_replace( $temp_desc, $temp_desc_new, $description);
 						}
 						elseif( $my_mod === "+0" || $my_mod === '-0') {
 							$description = str_replace( "[".$my_mod."]", '', $description);
@@ -1880,7 +1880,6 @@ class ps_product extends vmAbstractObject {
 		}
 		
 		$description = str_replace( $CURRENCY_DISPLAY->symbol, '@saved@', $description );
-		$description = str_replace( '@saved@@saved@', '@saved@', $description ); // remove double currency symbols
 		$description = str_replace( "[", " (", $description );
 		$description = str_replace( "]", ")", $description );
 		$description = str_replace( ":", ": ", $description );

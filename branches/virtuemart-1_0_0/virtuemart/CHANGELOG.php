@@ -33,6 +33,20 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+02-09-2006 gregdev
+
+# Task #933 - Reports fail with RG_EMULATION=0
+# Task #870 - Wrong template used for Order Status Change link (ps_order.php)
+# Task #868 - missing pathway's style class in Account Maintenance (account.billing.php, account.order_details.php, account.shipto.php, account.shipping.php)
+# Task #867 - errors in german language-file
+# Task #861 - Control panel when press any button on frontend administration are not displayed. (reportbasic.index.php)
+
+31-08-2006 soeren
+
+^ updated Error/Messages CSS styles
+^ Link behaviour changed for "I agree to the terms of service". 
+	Now a click on the link doesn't toggle the checkbox. (checkout_register_form.php)
+
 29-08-2006 soeren
 
 # Task #887 - Minimum Amount for Free Shipping (ps_main.php)

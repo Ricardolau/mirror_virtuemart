@@ -71,7 +71,7 @@ $formObj->startForm();
     <tr> 
       <td width="22%" align="right"  valign="top"><?php echo $VM_LANG->_PHPSHOP_MANUFACTURER_FORM_DESCRIPTION ?>:</td>
       <td width="78%" ><?php
-		editorArea( 'editor1', $db->f("mf_desc"), 'mf_desc', '300', '100', '70', '15' )
+		editorArea( 'editor1', $db->f("mf_desc"), 'mf_desc', '500', '200', '70', '20' )
 	?>
       </td>
     <tr align="center"> 

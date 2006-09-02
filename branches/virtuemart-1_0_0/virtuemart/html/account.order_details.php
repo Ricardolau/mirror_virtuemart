@@ -36,7 +36,7 @@ if ($db->next_record()) {
 	
 	$mainframe->setPageTitle( $VM_LANG->_PHPSHOP_ACC_ORDER_INFO.' : '.$VM_LANG->_PHPSHOP_ORDER_LIST_ID.' '.$db->f('order_id'));
 	require_once( CLASSPATH.'ps_product_category.php');
-	$pathway = "<a href=\"".$sess->url( SECUREURL ."index.php?page=account.index")."\" title=\"".$VM_LANG->_PHPSHOP_ACCOUNT_TITLE."\">"
+	$pathway = "<a class=\"pathway\" href=\"".$sess->url( SECUREURL ."index.php?page=account.index")."\" title=\"".$VM_LANG->_PHPSHOP_ACCOUNT_TITLE."\">"
 	      .$VM_LANG->_PHPSHOP_ACCOUNT_TITLE."</a> ".ps_product_category::pathway_separator().' '
 	      .$VM_LANG->_PHPSHOP_ACC_ORDER_INFO;
 	$mainframe->appendPathWay( $pathway );
@@ -62,7 +62,7 @@ if ($db->next_record()) {
   <a href="<?php $sess->purl(SECUREURL.'index.php?page=account.index'); ?>">
   <img src="<?php echo IMAGEURL ?>ps_image/undo.png" alt="Back"  height="32" width="32" border="0" align="left" />
   </a>
-    <center>
+    
     <br />
     <script type="text/javascript">
     document.write('<a href="javascript:void window.open(\'<?php echo $mosConfig_live_site."/index2.php?page=account.order_details&order_id=$order_id&pop=1&option=com_virtuemart&print=1" ?>\', \'win2\', \'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=yes,resizable=yes,width=640,height=480,directories=no,location=no\');">');
@@ -642,6 +642,7 @@ if( PAYMENT_DISCOUNT_BEFORE == '1') {
       </table>
     </td>
   </tr>
+  </table>
   <!-- End Order Items Information --> 
 
 <br />
@@ -684,7 +685,7 @@ if( PAYMENT_DISCOUNT_BEFORE == '1') {
 	  <?php } ?>
       <!-- end payment information --> 
       </table>
-</center>
+
 <?php // }
 
     /** Print out the customer note **/

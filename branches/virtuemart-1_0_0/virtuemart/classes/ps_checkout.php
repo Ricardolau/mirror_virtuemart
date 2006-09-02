@@ -48,7 +48,7 @@ class ps_checkout {
 		$this->_subtotal = $this->calc_order_subtotal($vars);
 		
 		if( $vendor_freeshipping > 0 && $vars['order_subtotal_withtax'] > $vendor_freeshipping) {
-			echo $vars['order_subtotal_withtax'];
+
 			$PSHOP_SHIPPING_MODULES = Array( "free_shipping" );
 			include_once( CLASSPATH. "shipping/free_shipping.php" );
 			$this->_SHIPPING =& new free_shipping();

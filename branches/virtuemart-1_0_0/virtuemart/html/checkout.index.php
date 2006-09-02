@@ -340,7 +340,7 @@ if ($checkout) {
     }
 }
 else {
-	mosRedirect( $sess->url( 'index.php?option=com_virtuemart&page=shop.cart' ) );
+	mosRedirect( $sess->url( 'index.php?page=shop.cart' ) );
 }
 
 ?>

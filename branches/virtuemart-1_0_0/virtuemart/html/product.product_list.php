@@ -99,9 +99,8 @@ if (!empty($category_id)) {
 	$q .= "ORDER BY product_publish DESC,product_name ";
 }  
 elseif (!empty($keyword)) {
-	$list  = "SELECT DISTINCT *";
-	$list .= " FROM #__{vm}_product WHERE ";
-	$count = "SELECT DISTINCT count(*) as num_rows FROM #__{vm}_product WHERE ";
+	$list  = "SELECT * FROM #__{vm}_product WHERE ";
+	$count = "SELECT COUNT(*) as num_rows FROM #__{vm}_product WHERE ";
 	$q = $search_sql;
 	$q .= "AND #__{vm}_product.product_parent_id='' ";
 	if (!$perm->check("admin")) {
@@ -114,8 +113,8 @@ elseif (!empty($keyword)) {
 	$q .= " ORDER BY product_publish DESC,product_name ";
 }
 elseif (!empty($product_parent_id)) {
-	$list  = "SELECT DISTINCT * FROM #__{vm}_product WHERE ";
-	$count = "SELECT DISTINCT count(*) as num_rows FROM #__{vm}_product WHERE ";
+	$list  = "SELECT * FROM #__{vm}_product WHERE ";
+	$count = "SELECT COUNT(*) as num_rows FROM #__{vm}_product WHERE ";
 	$q = "product_parent_id='$product_parent_id' ";
 	$q .= !empty($vendor) ? "AND #__{vm}_product.vendor_id='$vendor'" : "";
 	if( !empty( $keyword)) {
@@ -128,8 +127,8 @@ elseif (!empty($product_parent_id)) {
 } 
 /** Changed Product Type - Begin */
 elseif (!empty($product_type_id)) {
-	$list  = "SELECT DISTINCT * FROM #__{vm}_product,#__{vm}_product_product_type_xref WHERE ";
-	$count = "SELECT DISTINCT count(*) as num_rows FROM #__{vm}_product,#__{vm}_product_product_type_xref WHERE ";
+	$list  = "SELECT * FROM #__{vm}_product,#__{vm}_product_product_type_xref WHERE ";
+	$count = "SELECT count(*) as num_rows FROM #__{vm}_product,#__{vm}_product_product_type_xref WHERE ";
 	$q = "#__{vm}_product.product_id=#__{vm}_product_product_type_xref.product_id ";
 	$q .= "AND product_type_id='$product_type_id' ";
 	if (!$perm->check("admin")) {
@@ -154,8 +153,8 @@ elseif (!empty($search_date)) {
         $date = $d["search_date"];
         switch( $search_type ) {
             case "product" : 
-                $list  = "SELECT DISTINCT * FROM #__{vm}_product WHERE ";
-                $count = "SELECT DISTINCT count(*) as num_rows FROM #__{vm}_product WHERE ";
+				$list  = "SELECT * FROM #__{vm}_product WHERE ";
+				$count = "SELECT COUNT(*) as num_rows FROM #__{vm}_product WHERE ";
                 break;
             case "withoutprice" :
             case "price" :
@@ -198,8 +197,8 @@ elseif (!empty($search_date)) {
 }
 /** Changed search by date - End */
 else {
-	$list  = "SELECT DISTINCT * FROM #__{vm}_product WHERE ";
-	$count = "SELECT DISTINCT count(*) as num_rows FROM #__{vm}_product WHERE ";
+	$list  = "SELECT * FROM #__{vm}_product WHERE ";
+	$count = "SELECT COUNT(*) as num_rows FROM #__{vm}_product WHERE ";
 	$q = "product_parent_id='0' ";
 	if (!$perm->check("admin")) {
 		$q  .= "AND #__{vm}_product.vendor_id = '$ps_vendor_id' ";

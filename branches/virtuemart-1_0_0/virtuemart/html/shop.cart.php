@@ -43,40 +43,42 @@ echo '<h2>'. $VM_LANG->_PHPSHOP_CART_TITLE .'</h2>
 include(PAGEPATH. 'basket.php');
 
 echo '<!-- End Cart -->
-';
+<br />';
 
 if ($cart["idx"]) {
-        echo '<br />
- <div style="text-align:center;width:40%;float:left;">&nbsp;';
+	
+    if( $continue_link != '') {
+ 		?>
+ 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     	<span class="componentheading"><a href="<?php echo $continue_link ?>">
+     		<img src="<?php echo IMAGEURL ?>ps_image/back.png" align="absmiddle" width="22" height="22" alt="Back" border="0" />
+      		<?php echo $VM_LANG->_PHPSHOP_CONTINUE_SHOPPING; ?>
+     		</a>
+     	</span>
+ 		<?php
+    }
         
-        if( $continue_link != '') {
- ?>
-     <h3><a href="<?php echo $continue_link ?>">
-     <img src="<?php echo IMAGEURL ?>ps_image/back.png" align="middle" width="32" height="32" alt="Back" border="0" />
-      <?php echo $VM_LANG->_PHPSHOP_CONTINUE_SHOPPING; ?>
-     </a></h3>
- <?php
-        }
-        echo '</div>';
         
-   if (!defined('_MIN_POV_REACHED')) { ?>
-       <div style="text-align:center;width:40%;float:left;">
-       <br /><br />
+   	if (!defined('_MIN_POV_REACHED')) { ?>
+       
+      
            <span style="font-weight:bold;"><?php echo $VM_LANG->_PHPSHOP_CHECKOUT_ERR_MIN_POV2 . " ".$CURRENCY_DISPLAY->getFullValue($_SESSION['minimum_pov']) ?></span>
-       </div><?php
-   }
-   else {
- ?><br />
- <div style="text-align:center;width:40%;float:left;">
-     <h3><a href="<?php $sess->purl( $mm_action_url . "index.php?page=checkout.index&ssl_redirect=1"); ?>">
-     <img src="<?php echo IMAGEURL ?>ps_image/forward.png" align="middle" width="32" height="32" alt="Forward" border="0" />
-      <?php echo $VM_LANG->_PHPSHOP_CHECKOUT_TITLE ?>
-     </a></h3>
- </div>
+       <?php
+   	}
+   	else {
  
- <?php
- }
+	?>
+ 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	    <span class="componentheading"><a href="<?php $sess->purl( $mm_action_url . "index.php?page=checkout.index&ssl_redirect=1"); ?>">
+	     	<img src="<?php echo IMAGEURL ?>ps_image/forward.png" align="absmiddle" width="22" height="22" alt="Forward" border="0" />
+	      	<?php echo $VM_LANG->_PHPSHOP_CHECKOUT_TITLE ?>
+	     	</a>
+	    </span>
+ 
+		<?php
+ 	}
  ?>
+ </div>
 <br style="clear:both;" /><br/>
 
 <?php

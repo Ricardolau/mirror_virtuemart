@@ -33,6 +33,11 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+07-09-2006 soeren
+
+- removed the call to session_write_close() completely (was introduced for Mambo compatibility, but now it seems just to break it) (ps_session.php)
+# PNGs not displaying in Internet Explorer: updated the Sleight.js for PNG/IE Fix (sleight.js)
+
 03-09-2006 soeren
 
 # Problem downloading larger files, e.g. >16MB (ps_main.php) (http://virtuemart.net/index.php?option=com_smf&Itemid=71&topic=20481.msg53015#msg53015)

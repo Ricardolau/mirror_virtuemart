@@ -30,16 +30,16 @@ class vmVersion {
 	/** @var string Product */
 	var $PRODUCT = 'VirtueMart';
 	/** @var int Release Number */
-	var $RELEASE = '1.0.6';
+	var $RELEASE = '1.0.7';
 	/** @var string Development Status */
 	var $DEV_STATUS = 'stable';
 	/** @var string Codename */
-	// Song written by Led Zeppelin: http://en.wikipedia.org/wiki/South_Bound_Suarez
-	var $CODENAME = 'South Bound Suarez';
+	// Series of performances by Dusty Springfield, with John Paul Jones: http://en.wikipedia.org/wiki/John_Paul_Jones_%28musician%29
+	var $CODENAME = 'Talk Of The Town';
 	/** @var string Date */
-	var $RELDATE = '08/07/2006';
+	var $RELDATE = '11/09/2006';
 	/** @var string Time */
-	var $RELTIME = '21:36';
+	var $RELTIME = '18:00';
 	/** @var string Timezone */
 	var $RELTZ = 'GMT';
 	/** @var string Copyright Text */

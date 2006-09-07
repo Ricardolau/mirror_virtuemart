@@ -40,12 +40,8 @@ class ps_session {
 	function initSession() {
 		global $vmLogger, $mainframe, $mosConfig_absolute_path;
 		
-		// Some servers start the session before we can, so close those and start again		
-		if( !defined('_PSHOP_ADMIN') && !empty($_SESSION)) {
-			session_write_close();
-			unset( $_SESSION );
-		}
-		
+		if( empty( $_SESSION ) || session_id() == '') {
+			
 			if( !is_writable( session_save_path()) ) {
 				$try_these_paths = array( 'Cache Path' => $mosConfig_absolute_path. '/cache',
 											'Media Directory' => $mosConfig_absolute_path.'/media',
@@ -63,7 +59,7 @@ class ps_session {
 				$vmLogger->err( 'The directory to store session data is not writable. Please correct this or contact your provider.');
 			}
 		
-		if( empty( $_SESSION )) {
+		
 			// Session not yet started!			
 			session_name( $this->_session_name );
 			

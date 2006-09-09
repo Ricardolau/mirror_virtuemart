@@ -1506,6 +1506,9 @@ O consumidor dispõe de um prazo de 15 dias úteis a contar da recepção da mercado
 No caso do direito de resolução ser utilizado, os montantes que já tiverem sido pagos pelo consumidor serão reembolsados no prazo de 15 dias a contar da data da recepção das mercadorias devolvidas. 
 Para mais informações sobre cancelamento de encomendas e devolução de produtos, veja a página <a href="%s" onclick="%s" target="_blank">A nossa política de devoluções</a>.';
 	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_EU = 'European Union mode';
+	var $_VM_SESSION_SAVEPATH_UNWRITABLE = 'The directory to store session data is not writable. Please correct this or contact your provider.';
+	var $_VM_SESSION_SAVEPATH_UNWRITABLE_TMPFIX = 'The Session Save Path %s is not writable. Please correct this! The shop is temporarily trying to use the %s instead.\'';
+	var $_VM_SESSION_COOKIES_NOT_ACCEPTED_TIP = 'Your browser does not accept cookies. If you want to put products into your cart and purchase them you need to enable cookies.';
         
 }
 class phpShopLanguage extends vmLanguage { }

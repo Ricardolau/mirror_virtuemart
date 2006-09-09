@@ -1498,6 +1498,9 @@ You can return new, unopened items from a cancelled order within 2 weeks after t
 delivered to you. Items should be returned in their original packaging.
 For more information on cancelling orders and returning items, see the <a href="%s" onclick="%s" target="_blank">Our Returns Policy</a> page.';
 	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_EU = 'European Union mode';
+	var $_VM_SESSION_SAVEPATH_UNWRITABLE = 'The directory to store session data is not writable. Please correct this or contact your provider.';
+	var $_VM_SESSION_SAVEPATH_UNWRITABLE_TMPFIX = 'The Session Save Path %s is not writable. Please correct this! The shop is temporarily trying to use the %s instead.\'';
+	var $_VM_SESSION_COOKIES_NOT_ACCEPTED_TIP = 'Your browser does not accept cookies. If you want to put products into your cart and purchase them you need to enable cookies.';
         
 }
 class phpShopLanguage extends vmLanguage { }

@@ -14,7 +14,7 @@ function fnLoadPngs() {
     var itsAllGood = (rslt != null && Number(rslt[1]) >= 5.5);
 
     for (var i = document.images.length - 1, img = null; (img = document.images[i]); i--) {
-        if (itsAllGood && img.src.match(/(.*)\/com_virtuemart\/(.*)\.png$/i) != null) {
+        if (itsAllGood && img.src.match(/(.*)\/com_virtuemart\/(.*)\.png/i) != null) {        
             fnFixPng(img);
             img.attachEvent("onpropertychange", fnPropertyChanged);
         }

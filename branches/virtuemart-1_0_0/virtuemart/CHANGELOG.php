@@ -33,8 +33,11 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+08-09-2006 soeren
++ introduced a new cookie check function that checks if the user accepts cookies - and if not - displays
+	a nice information about this issue. (ps_session.php)
+	
 07-09-2006 soeren
-
 - removed the call to session_write_close() completely (was introduced for Mambo compatibility, but now it seems just to break it) (ps_session.php)
 # PNGs not displaying in Internet Explorer: updated the Sleight.js for PNG/IE Fix (sleight.js)
 

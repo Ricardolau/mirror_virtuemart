@@ -33,6 +33,17 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+12-09-2006 soeren
+
+^ CSV: If a field is NOT included in the CSV file (like product description) an existing value won't be overwritten
+^ CSV: removed the requirement to have all fields in the CSV file (you can now leave all optional fields away!)
+^ CSV: Changed the default CSV Field Ordering (only affects new installations)
+	The first fields are now: product_sku,product_name,category_path,product_price,product_s_desc,product_desc,....
+
++ added a login form at the download page, so returning customers can easily login now.
+^ improved the check for the session save path. If the session save path is not writable due to open_basedir
+	restrictions, no error is generated, because PHP can use such a directory when it is set in the php.ini
+
 08-09-2006 soeren
 + introduced a new cookie check function that checks if the user accepts cookies - and if not - displays
 	a nice information about this issue. (ps_session.php)

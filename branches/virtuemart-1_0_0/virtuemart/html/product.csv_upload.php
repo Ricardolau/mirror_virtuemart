@@ -206,9 +206,9 @@ $tabs->startTab( $VM_LANG->_PHPSHOP_CSV_DOCUMENTATION, "doc-page" );
   <br />
   <strong>Example File:</strong><br />
   <div class="quote" style="max-width:600px;overflow:scroll;">
-  <pre><?php echo htmlentities('"G01","<p>Nice hand shovel to dig with in the yard.</p>","<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5\" Diameter<br>  Tungsten handle tip with 5 point loft<br>","8d886c5855770cc01a3b8a2db57f6600.jpg","cca3cd5db813ee6badf6a3598832f2fc.jpg","10.0000","pounds","0.0000","0.0000","0.0000","inches","10","1072911600","Y","1","Hand Shovel","4.99000","Hand Tools","1","2","0","G01","","","Color::1|Size::2",""
-"G02","A really long ladder to reach high places.","<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5\" Diameter<br>  Tungsten handle tip with 5 point loft<br>","ffd5d5ace2840232c8c32de59553cd8d.jpg","8cb8d644ef299639b7eab25829d13dbc.jpg","10.0000","pounds","0.0000","0.0000","0.0000","inches","76","1072911600","N","0","Ladder","49.99000","Garden Tools","1","2","0","G02","","","Material::1",""
-"G03","Nice shovel.  You can dig your way to China with this one.","<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5\" Diameter<br>  Tungsten handle tip with 5 point loft<br>","8147a3a9666aec0296525dbd81f9705e.jpg","520efefd6d7977f91b16fac1149c7438.jpg","10.0000","pounds","0.0000","0.0000","0.0000","inches","32","1072911600","N","0","Shovel","24.99000","Garden Tools","1","2","0","G03","Size,XL[+1.99],M,S[-2.99];Colour,Red,Green,Yellow,ExpensiveColor[=24.00]","","",""</div>');
+  <pre><?php echo htmlentities('"G01","Hand Shovel","Hand Tools","4.99000","<p>Nice hand shovel to dig with in the yard.</p>","<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5\" Diameter<br>  Tungsten handle tip with 5 point loft<br>","8d886c5855770cc01a3b8a2db57f6600.jpg","cca3cd5db813ee6badf6a3598832f2fc.jpg","10.0000","pounds","0.0000","0.0000","0.0000","inches","10","1072911600","1","1","2","0","G01","","","Color::1|Size::2",""
+"G02","Ladder","Garden Tools","49.99000","A really long ladder to reach high places.","<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5\" Diameter<br>  Tungsten handle tip with 5 point loft<br>","ffd5d5ace2840232c8c32de59553cd8d.jpg","8cb8d644ef299639b7eab25829d13dbc.jpg","10.0000","pounds","0.0000","0.0000","0.0000","inches","76","1072911600","0","1","2","0","G02","","","Material::1",""
+"G03","Shovel","Garden Tools","24.99000","Nice shovel.  You can dig your way to China with this one.","<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5\" Diameter<br>  Tungsten handle tip with 5 point loft<br>","8147a3a9666aec0296525dbd81f9705e.jpg","520efefd6d7977f91b16fac1149c7438.jpg","10.0000","pounds","0.0000","0.0000","0.0000","inches","32","1072911600","0","1","2","0","G03","Size,XL[+1.99],M,S[-2.99];Colour,Red,Green,Yellow,ExpensiveColor[=24.00]","","",""');
 ?></pre></div>
   <br />
   <strong>Please check the Tab "Configuration" above to see the list of all the fields you can include in the CSV file.
@@ -217,11 +217,6 @@ $tabs->startTab( $VM_LANG->_PHPSHOP_CSV_DOCUMENTATION, "doc-page" );
     product_sku<br />
     product_name<br />
     category_path<br />
-  <br />
-  But you must have 25 (this is the default setting) fields!<br />
-  <br />
-  <span class="message">It's important to provide all the optional fields even when they are empty!</span>
-  (just write <strong>,"",</strong> then)
   <br />
   <br />
   <br />
@@ -237,7 +232,7 @@ $tabs->startTab( $VM_LANG->_PHPSHOP_CSV_DOCUMENTATION, "doc-page" );
   need to FTP the image directly to the <i>/shop_image/product</i> folder.<br /><br />
   
   You can add new fields to the list of CSV fields, but please note that the field name must
-  match a name of a field in the table <strong>mos_{vm}_csv</strong>!<br/>
+  match a name of a field in the table <strong>jos_vm_csv</strong>!<br/>
   You can change the ordering of all the fields just as you need it.
 </div>
 <?php 

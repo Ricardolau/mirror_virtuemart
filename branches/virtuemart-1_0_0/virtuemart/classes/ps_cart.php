@@ -179,7 +179,7 @@ class ps_cart {
 	 * @return boolean result of the update
 	 */
 	function update(&$d) {
-		global $sess,$VM_LANG, $func;
+		global $sess,$VM_LANG, $func, $vmLogger;
 
 		include_class("product");
 

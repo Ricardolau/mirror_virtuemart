@@ -46,6 +46,7 @@ if ($perm->check("admin,storeadmin,shopper")) { ?>
 }
 else {
 	$vmLogger->info( _NOT_AUTH."; "._DO_LOGIN );
+	include( PAGEPATH . 'checkout.login_form.php');
 }
 
 ?>

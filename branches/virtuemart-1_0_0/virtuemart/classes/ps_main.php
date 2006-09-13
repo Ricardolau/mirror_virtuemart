@@ -415,7 +415,7 @@ function mShop_post( $host,$query,$others='' ){
  * @return boolean The result of the validation
  */
 function mShop_validateEUVat( $euvat ){
-	$eurl = "www.europa.eu.int/comm/taxation_customs/vies/cgi-bin/viesquer";
+	$eurl = "ec.europa.eu/taxation_customs/vies/cgi-bin/viesquer";
 	if(!ereg("([a-zA-Z][a-zA-Z])[- ]*([0-9]*)", $euvat, $r)){
 		return false;
 	}
@@ -423,8 +423,9 @@ function mShop_validateEUVat( $euvat ){
 	$VAT = $r[2];
 	$query = "Lang=EN&MS=$CountryCode&ISO=$CountryCode&VAT=$VAT";
 	$ret = mShop_post($eurl, $query);
-	if (ereg("Yes, valid VAT number", $ret))
-	return true;
+	if (ereg("Yes, valid VAT number", $ret)) {
+		return true;
+    }
 	return false;
 
 }

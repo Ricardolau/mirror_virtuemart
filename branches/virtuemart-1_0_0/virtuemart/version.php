@@ -37,9 +37,9 @@ class vmVersion {
 	// Series of performances by Dusty Springfield, with John Paul Jones: http://en.wikipedia.org/wiki/John_Paul_Jones_%28musician%29
 	var $CODENAME = 'Talk Of The Town';
 	/** @var string Date */
-	var $RELDATE = '11/09/2006';
+	var $RELDATE = '13/09/2006';
 	/** @var string Time */
-	var $RELTIME = '18:00';
+	var $RELTIME = '20:00';
 	/** @var string Timezone */
 	var $RELTZ = 'GMT';
 	/** @var string Copyright Text */

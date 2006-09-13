@@ -72,8 +72,8 @@ class ps_DB extends database {
 	/**
 	* Runs query and sets up the query id for the class.
 	*
-        * @param string The SQL query
-        */
+	* @param string The SQL query
+	*/
 	function query( $q='' ) {
 		global $mosConfig_dbprefix, $mosConfig_debug, $vmLogger;
 		$prefix = "#__";
@@ -97,15 +97,25 @@ class ps_DB extends database {
 		$this->record = Array(0);
 
 		if (strtoupper(substr( $this->_sql , 0, 6 )) == "SELECT" 
-			|| strtoupper(substr( $this->_sql , 0, 4 ))=='SHOW' ) {
+			|| strtoupper(substr( $this->_sql , 0, 4 ))=='SHOW' 
+			|| strtoupper(substr( $this->_sql , 0, 7 ))=='EXPLAIN' 
+			|| strtoupper(substr( $this->_sql , 0, 8 ))=='DESCRIBE' 
+			) {
 			$this->record = $this->_database->loadObjectList();
+			
+			if( $this->record === false ) {
+				$result = false;
+			}
 		}
 		else {
-			$this->_database->query();
+			$result = $this->_database->query();
 		}
 
 		$this->_query_set = false;
-
+		
+		if( isset( $result )) {
+			return $result;
+		}
 	}
 
 	/**
@@ -223,9 +233,9 @@ class ps_DB extends database {
 	}
 
 	/**
-         * Returns the number of rows in the RecordSet from a query.
-         * @return int
-         */
+	 * Returns the number of rows in the RecordSet from a query.
+	 * @return int
+	 */
 	function num_rows() {
 		return sizeof( $this->record );
 	}
@@ -233,8 +243,8 @@ class ps_DB extends database {
 	/**
 	 * Returns the ID of the last AUTO_INCREMENT INSERT.
 	 *
-         * @return int
-         */
+	 * @return int
+	 */
 	function last_insert_id() {
 		return $this->_database->insertid();
 	}

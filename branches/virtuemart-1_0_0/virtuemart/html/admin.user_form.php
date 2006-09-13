@@ -20,6 +20,9 @@ mm_showMyFileName( __FILE__ );
 global $ps_shopper_group;
 include_class( 'shopper' );
 
+require_once(CLASSPATH. 'ps_user.php' );
+require_once(CLASSPATH. 'ps_user_address.php' );
+
 if( !isset($ps_shopper_group)) {
         $ps_shopper_group = new ps_shopper_group();
 }

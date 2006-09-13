@@ -35,6 +35,8 @@ VirtueMart 1.0.x
 *************************************
 12-09-2006 soeren
 
+# Fatal Error on admin user form (admin.user_form.php)
+# Smaller fixes for RG_EMULATION, 0 (ps_checkout.php, ps_reportbasic.php, reportbasic.index.php)
 ^ CSV: If a field is NOT included in the CSV file (like product description) an existing value won't be overwritten
 ^ CSV: removed the requirement to have all fields in the CSV file (you can now leave all optional fields away!)
 ^ CSV: Changed the default CSV Field Ordering (only affects new installations)

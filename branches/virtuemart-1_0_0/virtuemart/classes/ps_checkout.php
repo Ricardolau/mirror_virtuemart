@@ -91,8 +91,10 @@ class ps_checkout {
 	 */
 	function show_checkout_bar($steps_to_do, $step_msg, $step_count, $highlighted_step) {
 
-		global $sess, $ship_to_info_id, $shipping_rate_id;
+		global $sess;
 
+		$ship_to_info_id = mosgetparam( $_REQUEST, 'ship_to_info_id');
+		$shipping_rate_id = urldecode(mosGetParam( $_REQUEST, "shipping_rate_id" ));
 		// CSS style for the <td> tag of the cell which is actually highlighted
 		$highlighted_style = 'style="font-weight: bold;"';
 		echo '

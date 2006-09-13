@@ -208,8 +208,9 @@ class ps_csv {
 						$dbu->query( "DELETE FROM #__{vm}_product_attribute_sku WHERE product_id ='".$dbp->f("product_id")."'");
 						while(list(,$val) = each($attributes)) {
 							$values = explode( "::", $val );
-							if( empty( $values[1] ))
-							$values[1] = $i;
+							if( empty( $values[1] )) {
+								$values[1] = $i;
+							}
 							$dbu->query( "INSERT INTO #__{vm}_product_attribute_sku (`product_id`, `attribute_name`, `attribute_list`)
                                     VALUES ('".$dbp->f("product_id")."', '".$values[0]."', '".$values[1]."' )");
 							$i++;
@@ -227,8 +228,9 @@ class ps_csv {
 						$dbu->query( "DELETE FROM #__{vm}_product_attribute WHERE product_id ='".$dbp->f("product_id")."'");
 						while(list(,$val) = each($attribute_values)) {
 							$values = explode( "::", $val );
-							if( empty( $values[1] ))
-							$values[1] = "";
+							if( empty( $values[1] )) {
+								$values[1] = "";
+							}
 							$dbu->query( "INSERT INTO #__{vm}_product_attribute (`product_id`, `attribute_name`, `attribute_value`)
                                     VALUES ('".$dbp->f("product_id")."', '".$values[0]."', '".$values[1]."' )");
 							$i++;
@@ -274,7 +276,7 @@ class ps_csv {
 						}
 					}
 					// Add report for this line to message
-					$d["message"] .= "Line: $line Updated Product SKU: $product_sku<br />";
+					$d["message"] .= "Line: $line, <strong>Updated</strong> Product SKU: $product_sku<br />";
 				}
 				else {
 					/*************************************
@@ -305,7 +307,9 @@ class ps_csv {
 					$q .= ") ";
 					$q = str_replace( ",)", ")", $q );
 
-					$dbu->query($q);
+					if( !$dbu->query($q) ) {
+						continue;
+					}
 
 					$product_id = $dbu->last_insert_id();
 

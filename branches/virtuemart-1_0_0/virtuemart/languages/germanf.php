@@ -1515,9 +1515,9 @@ Erhalt der Lieferung ohne Angabe von Gründen an uns zurücksenden. Detaillierte I
 Ihrem Widerrufs- und Rückgaberecht finden Sie <a href="%s" onclick="%s" target="_blank">hier</a> und in der Bestätigungs-Mail, die Ihnen wenige 
 Minuten nach dem Absenden dieser Bestellung zugehen wird.';
 	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_EU = 'European Union mode';
-	var $_VM_SESSION_SAVEPATH_UNWRITABLE = 'The directory to store session data is not writable. Please correct this or contact your provider.';
-	var $_VM_SESSION_SAVEPATH_UNWRITABLE_TMPFIX = 'The Session Save Path %s is not writable. Please correct this! The shop is temporarily trying to use the %s instead.\'';
-	var $_VM_SESSION_COOKIES_NOT_ACCEPTED_TIP = 'Your browser does not accept cookies. If you want to put products into your cart and purchase them you need to enable cookies.';
+	var $_VM_SESSION_SAVEPATH_UNWRITABLE = 'Das Verzeichnis zum Speichern der Sitzungsdaten ist nicht beschreibbar - bitte korrigieren Sie das oder kontaktieren Sie Ihren Provider.';
+	var $_VM_SESSION_SAVEPATH_UNWRITABLE_TMPFIX = 'Das Verzeichnis zum Speichern der Sitzungsdaten (%s ) ist nicht beschreibbar. Der Shop wird alternativ das %s nutzen.\'';
+	var $_VM_SESSION_COOKIES_NOT_ACCEPTED_TIP = 'Ihr Browser akzeptiert sog. Cookies nicht. Diese sind zum Speichern von Produkten in Ihrem Warenkorb notwendig. Bitte erlauben Sie Cookies, so dass Sie auch Bestellungen auf dieser Seite ausführen können.';
         
 }
 class phpShopLanguage extends vmLanguage { }

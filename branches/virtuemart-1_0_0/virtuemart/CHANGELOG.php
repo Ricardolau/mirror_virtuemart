@@ -33,6 +33,13 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+
+---- VirtueMart 1.0.7 released ----
+
+13-09-2006 soeren
+
+# vendor info page not displaying information (RG_EMULATION issue, shop.infopage.php)
+
 12-09-2006 soeren
 
 # Fatal Error on admin user form (admin.user_form.php)

@@ -39,7 +39,7 @@ $option = mosGetParam( $_REQUEST, 'option' );
 
 if( !defined( '_VM_PARSER_LOADED' )) {
 	global $my;
-	
+	$_REQUEST['Itemid'] = intval( $_REQUEST['Itemid'] );
 	$page = mosgetparam($_REQUEST, 'page', "");
 	$func = mosgetparam($_REQUEST, 'func', "");
 	

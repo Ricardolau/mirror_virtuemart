@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 */
 
 mm_showMyFileName( __FILE__ );
-global $page;
+global $page, $sess;
 echo "<table width=\"100%\"><tr class=\"sectiontableentry1\"><td width=\"100%\">";
 
 if (@$_SESSION['invalid_coupon'] == true) {
@@ -30,7 +30,7 @@ echo $VM_LANG->_PHPSHOP_COUPON_ENTER_HERE . "<br/>
     
     <form action=\"".$mm_action_url . "index.php\" method=\"post\">
 		<input type=\"text\" name=\"coupon_code\" width=\"10\" maxlength=\"30\" class=\"inputbox\" />
-		<input type=\"hidden\" name=\"Itemid\" value=\"".@$_REQUEST['Itemid']."\" />
+		<input type=\"hidden\" name=\"Itemid\" value=\"".$sess->getShopItemid()."\" />
 		<input type=\"hidden\" name=\"do_coupon\" value=\"yes\" />
 		<input type=\"hidden\" name=\"option\" value=\"$option\" />
 		<input type=\"hidden\" name=\"page\" value=\"".$page."\" />

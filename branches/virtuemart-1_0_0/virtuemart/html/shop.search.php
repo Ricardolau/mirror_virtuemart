@@ -23,8 +23,9 @@ $mainframe->setPageTitle( $VM_LANG->_PHPSHOP_ADVANCED_SEARCH );
 <h2><?php echo $VM_LANG->_PHPSHOP_ADVANCED_SEARCH ?></h2>
 
 <br/>
-<a href="<?php echo URL ?>index.php?option=com_virtuemart&page=shop.parameter_search&Itemid=<?php $_REQUEST['Itemid'] ?>">
-<h3><?php echo $VM_LANG->_PHPSHOP_PARAMETER_SEARCH ?></h3></a>
+<a href="<?php echo $sess->url( $mm_action_url.basename($_SERVER['PHP_SELF']).'?page=shop.parameter_search' ) ?>">
+	<h3><?php echo $VM_LANG->_PHPSHOP_PARAMETER_SEARCH ?></h3>
+</a>
 <br/>
 <table width="100%" border="0" cellpadding="2" cellspacing="0">
 <tr>
@@ -35,7 +36,7 @@ $mainframe->setPageTitle( $VM_LANG->_PHPSHOP_ADVANCED_SEARCH );
 	<form action="<?php echo URL ?>index.php" method="post" name="adv_search">
 	<input type="hidden" name="page" value="shop.browse" />
 	<input type="hidden" name="option" value="com_virtuemart" />
-	<input type="hidden" name="Itemid" value="<?php echo @$_REQUEST['Itemid'] ?>" />
+	<input type="hidden" name="Itemid" value="<?php echo $sess->getShopItemid() ?>" />
   
 	<table width="100%" border="0" cellpadding="0" cellspacing="0">
 	<tr>

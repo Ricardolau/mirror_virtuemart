@@ -37,7 +37,7 @@ echo "<h2>".$VM_LANG->_PHPSHOP_PARAMETER_SEARCH."</h2>";
 		echo $VM_LANG->_PHPSHOP_PARAMETER_SEARCH_IN_CATEGORY.": ".$db->f("product_type_name");
 		// Reset form
 		echo "</td><td align=\"center\">";
-		echo "<form action=\"".$_SERVER['PHP_SELF']. "?option=com_virtuemart&page=shop.parameter_search_form&product_type_id=". $product_type_id. "&Itemid=" .$_REQUEST['Itemid']. "\" method=\"post\" name=\"reset\">\n";
+		echo "<form action=\"".$sess->url( $mm_action_url.basename($_SERVER['PHP_SELF']). "?page=shop.parameter_search_form&product_type_id=". $product_type_id ). "\" method=\"post\" name=\"reset\">\n";
 		echo "<input type=\"submit\" class=\"button\" name=\"reset\" value=\"";
 		echo $VM_LANG->_PHPSHOP_PARAMETER_SEARCH_RESET_FORM ."\">\n</form>";
 		echo "</td><td width=\"40%\">&nbsp;</td></tr></table>\n";
@@ -48,7 +48,7 @@ echo "<h2>".$VM_LANG->_PHPSHOP_PARAMETER_SEARCH."</h2>";
 <input type="hidden" name="option" value="com_virtuemart" />
 <input type="hidden" name="page" value="shop.browse" />
 <input type="hidden" name="product_type_id" value="<?php echo $product_type_id ?>" />
-<input type="hidden" name="Itemid" value="<?php echo @$_REQUEST['Itemid'] ?>" />
+<input type="hidden" name="Itemid" value="<?php echo $sess->getShopItemid() ?>" />
 <BR>
 
 <?php 

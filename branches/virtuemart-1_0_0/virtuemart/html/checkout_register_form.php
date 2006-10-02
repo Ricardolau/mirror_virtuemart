@@ -223,7 +223,7 @@ vmCommonHTML::printJS_formvalidation( $required_fields );
 	echo '
 		<input type="submit" value="'. _BUTTON_SEND_REG . '" class="button" onclick="return( submitregistration());" />
 	</div>
-	<input type="hidden" name="Itemid" value="'. @$_REQUEST['Itemid'] .'" />
+	<input type="hidden" name="Itemid" value="'. $sess->getShopItemid() .'" />
 	<input type="hidden" name="gid" value="'. $my->gid .'" />
 	<input type="hidden" name="id" value="'. $my->id .'" />
 	<input type="hidden" name="user_id" value="'. $my->id .'" />

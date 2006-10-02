@@ -20,7 +20,7 @@ mm_showMyFileName( __FILE__ );
 $mainframe->setPageTitle( $VM_LANG->_PHPSHOP_USER_FORM_BILLTO_LBL );
       
 $next_page = mosGetParam( $_REQUEST, "next_page", "account.index");
-$Itemid = mosGetParam( $_REQUEST, "Itemid", null);
+$Itemid = $sess->getShopItemid();
 
 $missing = mosGetParam( $vars, 'missing' );
 $missing_style = "color: Red; font-weight: Bold;";

@@ -20,7 +20,6 @@ mm_showMyFileName( __FILE__ );
 
 require_once(CLASSPATH.'ps_product.php');
 $ps_product= new ps_product;
-$Itemid = mosGetParam( $_REQUEST, "Itemid", null );
 
 global $vendor_currency;
 

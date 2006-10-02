@@ -379,7 +379,7 @@ $db->next_record();
             echo $CURRENCY_DISPLAY->getFullValue($total);
           }
           else {
-            $total = $db->f("order_subtotal") + $db->f("order_tax") + $db->f("order_shipping");
+            $total = $db->f("order_subtotal") + $db->f("order_tax") + $db->f("order_shipping") + $db->f("order_shipping_tax");
             echo $CURRENCY_DISPLAY->getFullValue($total);
           }
           if (PAYMENT_DISCOUNT_BEFORE == '1') { ?></strong><?php } ?>&nbsp;&nbsp;&nbsp;</td>

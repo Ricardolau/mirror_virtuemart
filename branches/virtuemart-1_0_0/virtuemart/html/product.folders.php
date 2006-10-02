@@ -84,7 +84,7 @@ class phpShopmenu {
           foreach ($categories as $category) {
             $ibg++;
             $Treeid = $ibg == 0 ? 1 : $ibg;
-            $itemid = isset($_REQUEST['itemid']) ? '&itemid='.$_REQUEST['itemid'] : "";
+            $itemid = isset($_REQUEST['Itemid']) ? '&Itemid='.intval($_REQUEST['Itemid']) : "";
             $mymenu_content.= ",\n[null,'".$category->cname;
             $mymenu_content.= ps_product_category::products_in_category( $category->cid );
             $mymenu_content.= "','".$_SERVER['PHP_SELF'].'?option=com_virtuemart&page=product.product_category_form&category_id='.$category->cid."','_self','".$category->cname."'\n ";

@@ -41,7 +41,7 @@ $product_id = intval( mosgetparam($_REQUEST, "product_id", null) );
 $product_sku = $db->getEscaped( mosgetparam($_REQUEST, "sku", '' ) );
 $category_id = mosgetparam($_REQUEST, "category_id", null);
 $manufacturer_id = mosgetparam($_REQUEST, "manufacturer_id", null);
-$Itemid = mosgetparam($_REQUEST, "Itemid", null);
+$Itemid = $sess->getShopItemid();
 $db_product = new ps_DB;
 
 // Get the product info from the database

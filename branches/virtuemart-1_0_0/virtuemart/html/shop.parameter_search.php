@@ -37,7 +37,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 	$db->query($q);
 	while ($db->next_record()) {
 		echo "<tr><td>";
-		echo "<a href=\"".URL."index.php?option=com_virtuemart&page=shop.parameter_search_form&product_type_id=".$db->f("product_type_id")."&Itemid=".$_REQUEST['Itemid']."\">";
+		echo "<a href=\"".$sess->url( $mm_action_url."index.php?page=shop.parameter_search_form&product_type_id=".$db->f("product_type_id"))."\">";
 		echo $db->f("product_type_name");
 		echo "</a></td>\n<td>";
 		echo $db->f("product_type_description");

@@ -58,7 +58,7 @@ class ps_reviews {
   } 
   
   function voteform( $product_id ) {
-      global $VM_LANG, $page, $my, $option;
+      global $VM_LANG, $page, $my, $option, $sess;
       $html = "";
       if (PSHOP_ALLOW_REVIEWS == "1" && !empty($my->id)) { 
         $html = "<strong>". $VM_LANG->_PHPSHOP_CAST_VOTE .":</strong>&nbsp;&nbsp;
@@ -76,7 +76,7 @@ class ps_reviews {
             <input type=\"hidden\" name=\"option\" value=\"$option\" />
             <input type=\"hidden\" name=\"page\" value=\"$page\" />
             <input type=\"hidden\" name=\"category_id\" value=\"". @$_REQUEST['category_id'] ."\" />
-            <input type=\"hidden\" name=\"Itemid\" value=\"". @$_REQUEST['Itemid'] ."\" />
+            <input type=\"hidden\" name=\"Itemid\" value=\"". $sess->getShopItemid() ."\" />
             <input type=\"hidden\" name=\"func\" value=\"addVote\" />
         </form>";
       }
@@ -127,7 +127,7 @@ class ps_reviews {
   }
   
   function reviewform( $product_id ) {
-      global $db, $my, $page, $VM_LANG, $option;
+      global $db, $my, $page, $VM_LANG, $option, $sess;
       $html = "";
       
       $db->query("SELECT userid FROM #__{vm}_product_reviews WHERE product_id='$product_id' AND userid='".$my->id."'");
@@ -222,7 +222,7 @@ class ps_reviews {
             <input type=\"hidden\" name=\"option\" value=\"$option\" />
             <input type=\"hidden\" name=\"page\" value=\"$page\" />
             <input type=\"hidden\" name=\"category_id\" value=\"". @$_REQUEST['category_id'] ."\" />
-            <input type=\"hidden\" name=\"Itemid\" value=\"". @$_REQUEST['Itemid'] ."\" />
+            <input type=\"hidden\" name=\"Itemid\" value=\"". $sess->getShopItemid() ."\" />
             <input type=\"hidden\" name=\"func\" value=\"addReview\" />
         </form>";
         

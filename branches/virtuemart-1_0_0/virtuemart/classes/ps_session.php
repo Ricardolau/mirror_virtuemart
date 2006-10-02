@@ -342,7 +342,7 @@ class ps_session {
 			}
 			else {
 				if( !empty( $_REQUEST['Itemid'] )) {
-					$_REQUEST['shopItemid'] = $_REQUEST['Itemid'];
+					$_REQUEST['shopItemid'] = intval( $_REQUEST['Itemid'] );
 				}
 				else {
 					$_REQUEST['shopItemid'] = 1;

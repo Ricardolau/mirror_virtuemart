@@ -33,7 +33,7 @@ require_once (CLASSPATH."ps_product_category.php");
 $ps_product_category = new ps_product_category;
 require_once (CLASSPATH."ps_reviews.php");
 
-$Itemid = mosgetparam($_REQUEST, "Itemid", null);
+$Itemid = $sess->getShopItemid();
 $keyword1 = $vmInputFilter->safeSQL( urldecode(mosGetParam( $_REQUEST, 'keyword1', null )));
 $keyword2 = $vmInputFilter->safeSQL( urldecode(mosGetParam( $_REQUEST, 'keyword2', null )));
 // possible values: [ASC|DESC]
@@ -131,7 +131,7 @@ else {
 	if (!empty($product_type_id) && @$_REQUEST['output'] != "pdf") {
     ?>
     <div align="right">
-    <form action="<?php echo $mm_action_url."index.php?option=com_virtuemart&page=shop.parameter_search_form&product_type_id=$product_type_id&Itemid=" . $_REQUEST['Itemid'] ?>" method="post" name="back">
+    <form action="<?php $sess->purl( $mm_action_url."index.php?page=shop.parameter_search_form&product_type_id=".$product_type_id ) ?>" method="post" name="back">
         <?php 
         echo $ps_product_type->get_parameter_form($product_type_id);
         ?>	  
@@ -216,7 +216,7 @@ else {
                             <input class="button" type="submit" value="'.$VM_LANG->_PHPSHOP_SUBMIT.'" />');
 
 		?>
-        <input type="hidden" name="Itemid" value="<?php echo @$_REQUEST['Itemid'] ?>" />
+        <input type="hidden" name="Itemid" value="<?php echo $Itemid ?>" />
         <input type="hidden" name="option" value="com_virtuemart" />
         <input type="hidden" name="page" value="shop.browse" />
         <input type="hidden" name="category_id" value="<?php echo $category_id ?>" />

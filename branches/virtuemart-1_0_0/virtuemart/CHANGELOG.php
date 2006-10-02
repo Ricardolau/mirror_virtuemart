@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+02.10.2006 soeren
+
+!# fixed various non-critical XSS vulnerabilities though Itemid parameter
 
 ---- VirtueMart 1.0.7 released ----
 

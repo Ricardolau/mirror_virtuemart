@@ -350,7 +350,7 @@ class ps_session {
 			}
 		}
 
-		return $_REQUEST['shopItemid'];
+		return intval($_REQUEST['shopItemid']);
 
 	}
 	

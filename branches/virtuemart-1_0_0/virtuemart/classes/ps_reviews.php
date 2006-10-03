@@ -61,6 +61,7 @@ class ps_reviews {
       global $VM_LANG, $page, $my, $option, $sess;
       $html = "";
       if (PSHOP_ALLOW_REVIEWS == "1" && !empty($my->id)) { 
+        $category_id = intval(mosGetParam($_REQUEST, 'category_id', 0));
         $html = "<strong>". $VM_LANG->_PHPSHOP_CAST_VOTE .":</strong>&nbsp;&nbsp;
         <form method=\"post\" action=\"". URL ."index.php\">
             <select name=\"user_rating\" class=\"inputbox\">
@@ -75,7 +76,7 @@ class ps_reviews {
             <input type=\"hidden\" name=\"product_id\" value=\"$product_id\" />
             <input type=\"hidden\" name=\"option\" value=\"$option\" />
             <input type=\"hidden\" name=\"page\" value=\"$page\" />
-            <input type=\"hidden\" name=\"category_id\" value=\"". @$_REQUEST['category_id'] ."\" />
+            <input type=\"hidden\" name=\"category_id\" value=\"". $category_id ."\" />
             <input type=\"hidden\" name=\"Itemid\" value=\"". $sess->getShopItemid() ."\" />
             <input type=\"hidden\" name=\"func\" value=\"addVote\" />
         </form>";
@@ -120,8 +121,10 @@ class ps_reviews {
               else 
                 $html .= $VM_LANG->_PHPSHOP_REVIEW_LOGIN;
           }
-          if( !$showall && $num_rows >=5 )
-            $html .= "<a href=\"".$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING']."&showall=1\">"._MORE."</a>";
+          if( !$showall && $num_rows >=5 ) {
+            $query_string = mosGetParam($_SERVER, 'QUERY_STRING', '');
+            $html .= "<a href=\"".$_SERVER['PHP_SELF'].'?'.$query_string."&showall=1\">"._MORE."</a>";
+          }
       }
       return $html;
   }
@@ -135,6 +138,7 @@ class ps_reviews {
       $alreadycommented = $db->num_rows() > 0;
 	  
       if (PSHOP_ALLOW_REVIEWS == "1" && !empty($my->id) && !$alreadycommented) { 
+        $category_id = intval(mosGetParam($_REQUEST, 'category_id', 0));
         $html = "<script language=\"JavaScript\" type=\"text/javascript\">//<![CDATA[
         function check_reviewform() {
             var form = document.getElementById('reviewform');
@@ -221,7 +225,7 @@ class ps_reviews {
             <input type=\"hidden\" name=\"product_id\" value=\"$product_id\" />
             <input type=\"hidden\" name=\"option\" value=\"$option\" />
             <input type=\"hidden\" name=\"page\" value=\"$page\" />
-            <input type=\"hidden\" name=\"category_id\" value=\"". @$_REQUEST['category_id'] ."\" />
+            <input type=\"hidden\" name=\"category_id\" value=\"". $category_id ."\" />
             <input type=\"hidden\" name=\"Itemid\" value=\"". $sess->getShopItemid() ."\" />
             <input type=\"hidden\" name=\"func\" value=\"addReview\" />
         </form>";

@@ -18,7 +18,8 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 mm_showMyFileName( __FILE__ );
 
 $registration_enabled = $mosConfig_allowUserRegistration;
-$return = $mm_action_url . 'index.php?' . $_SERVER['QUERY_STRING'];
+$query_string = mosGetParam($_SERVER, 'QUERY_STRING', '');
+$return = $mm_action_url . 'index.php?' . $query_string;
 // converts & to &amp; for xtml compliance
 $return = str_replace( '&', '&amp;', $return );
 $return = str_replace( 'option', '&amp;option', $return );

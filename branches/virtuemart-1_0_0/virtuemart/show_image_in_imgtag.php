@@ -83,7 +83,6 @@ if( file_exists( $fileout ) ) {
   /* We already have a resized image
   * So send the file to the browser */
   
-	header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', @filemtime( $fileout ) ) . ' GMT' );
   	switch($ext)
 		{
 			case ".gif":
@@ -103,8 +102,6 @@ if( file_exists( $fileout ) ) {
 else {
  	/* We need to resize the image and Save the new one (all done in the constructor) */
   	$neu = new Img2Thumb($filename,$newxsize,$newysize,$fileout,$maxsize,$bgred,$bggreen,$bgblue);
-  	
-  	header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', @filemtime( $fileout ) ) . ' GMT' );
   	
   	/* Send the file to the browser */
   	switch($ext)

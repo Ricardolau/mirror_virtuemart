@@ -21,12 +21,12 @@ global $page, $sess;
 echo "<table width=\"100%\"><tr class=\"sectiontableentry1\"><td width=\"100%\">";
 
 if (@$_SESSION['invalid_coupon'] == true) {
-	echo "<strong>" . $VM_LANG->_PHPSHOP_COUPON_CODE_INVALID . "</strong><br/>";
+	echo "<strong>" . $VM_LANG->_PHPSHOP_COUPON_CODE_INVALID . "</strong><br />";
 }
 if( !empty($_REQUEST['coupon_error']) ) {
-	echo $_REQUEST['coupon_error']."<br/>";
+	echo mosGetParam($_REQUEST, 'coupon_error', '')."<br />";
 }
-echo $VM_LANG->_PHPSHOP_COUPON_ENTER_HERE . "<br/>
+echo $VM_LANG->_PHPSHOP_COUPON_ENTER_HERE . "<br />
     
     <form action=\"".$mm_action_url . "index.php\" method=\"post\">
 		<input type=\"text\" name=\"coupon_code\" width=\"10\" maxlength=\"30\" class=\"inputbox\" />

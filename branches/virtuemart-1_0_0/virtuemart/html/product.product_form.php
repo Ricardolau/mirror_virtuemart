@@ -690,7 +690,7 @@ $ps_html->writableIndicator( array( IMAGEPATH."product", IMAGEPATH."product/resi
               if( stristr($db->f("product_full_image"), "http") )
               $product_full_image_url = $db->f("product_full_image");
               else if(!empty($_REQUEST['product_full_image_url']))
-              $product_full_image_url = $_REQUEST['product_full_image_url'];
+              $product_full_image_url = mosGetParam($_REQUEST, 'product_full_image_url');
               else
               $product_full_image_url = "";
               ?>
@@ -740,7 +740,7 @@ $ps_html->writableIndicator( array( IMAGEPATH."product", IMAGEPATH."product/resi
               if( stristr($db->f("product_thumb_image"), "http") )
               $product_thumb_image_url = $db->f("product_thumb_image");
               else if(!empty($_REQUEST['product_thumb_image_url']))
-              $product_thumb_image_url = $_REQUEST['product_thumb_image_url'];
+              $product_thumb_image_url = mosGetParam($_REQUEST, 'product_thumb_image_url');
               else
               $product_thumb_image_url = "";
               ?>

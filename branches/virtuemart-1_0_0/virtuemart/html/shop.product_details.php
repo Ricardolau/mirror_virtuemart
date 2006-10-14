@@ -269,7 +269,7 @@ $images->images = $db->f("images");
     $more_images = "";
   if( !empty($images->images) ) {
     /* Build the JavaScript Link */
-    $more_images = "<a href=\"$mosConfig_live_site/index.php?option=com_virtuemart&page=shop.view_images&flypage=".@$_REQUEST['flypage']."&product_id=$product_id&category_id=$category_id&Itemid=$Itemid\">";
+    $more_images = "<a href=\"$mosConfig_live_site/index.php?option=com_virtuemart&page=shop.view_images&flypage=".mosGetParam($_REQUEST, 'flypage')."&product_id=$product_id&category_id=$category_id&Itemid=$Itemid\">";
     $more_images .= "<img src=\"".IMAGEURL."ps_image/more_images.png\" width=\"16\" height=\"16\" border=\"0\" alt=\"".$VM_LANG->_PHPSHOP_MORE_IMAGES ." (".$images->images.")\" />";
     $more_images .= "<br />".$VM_LANG->_PHPSHOP_MORE_IMAGES." (".$images->images.")</a>";
   }

@@ -33,6 +33,10 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+13.10.2006 gregdev
+
+!# fixed various non-critical XSS vulnerabilities
+
 04.10.2006 gregdev
 
 #  Task #978 — PHP Short-Tag used in ps_paypal.php

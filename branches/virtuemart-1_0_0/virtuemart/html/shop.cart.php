@@ -78,8 +78,7 @@ if ($cart["idx"]) {
 		<?php
  	}
  ?>
- </div>
-<br style="clear:both;" /><br/>
+<br style="clear:both;" /><br />
 
 <?php
 // End if statement

@@ -43,8 +43,9 @@ $cellwidth = intval( 100 / $categories_per_row );
         // cycle through the returned rows displaying them in a table
 	// with links to the product category
 	// escaping in and out of php is now permitted
+    $col_count = 0;
     while( $db->next_record() ) {	  
-	  
+	  $col_count++;
         if ($iCol == 1) {
           echo "<tr>";
         }
@@ -71,6 +72,8 @@ $cellwidth = intval( 100 / $categories_per_row );
           $iCol++;
 
 	  }
+      if ($col_count % $categories_per_row) 
+        echo "<tr/>";
 ?>
 </table>
 <?php echo $vendor_store_desc;  ?>

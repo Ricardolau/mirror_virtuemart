@@ -4,10 +4,10 @@ rem Configuration
 rem ----------------------------------------------------------------------------
 
 rem ... The Version Number for the Filenames
-set version="1.1.0"
+set version="1.0.8"
 
-rem ... The Path to your CVS Repository
-set CVS_PATH="C:\downloads\Joomla\virtuemart\"
+rem ... The Path to your SVN Repository
+set SVN_PATH="C:\downloads\Joomla\virtuemart\"
 
 rem ... The Path to your Result Directory
 set WRITE_PATH="C:\downloads\Joomla\virtuemart\"%version%
@@ -39,89 +39,89 @@ rem along with eDe; if not, write to the Free Software
 rem Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 rem ----------------------------------------------------------------------------
 @echo on
-%zip% a -ttar -r %CVS_PATH%\admin_files.tar %CVS_PATH%\classes %CVS_PATH%\html %CVS_PATH%\languages %CVS_PATH%\sql
-%zip% d %CVS_PATH%\admin_files.tar languages\*.php -x!languages\english.php
-%zip% d -r %CVS_PATH%\admin_files.tar CVS\
-%zip% a -tgzip %CVS_PATH%\admin_files.tar.gz %CVS_PATH%\admin_files.tar 
-del %CVS_PATH%\admin_files.tar
+%zip% a -ttar -r %SVN_PATH%\admin_files.tar %SVN_PATH%\classes %SVN_PATH%\html %SVN_PATH%\languages %SVN_PATH%\sql
+%zip% d %SVN_PATH%\admin_files.tar languages\*.php -x!languages\english.php
+%zip% d -r %SVN_PATH%\admin_files.tar SVN\
+%zip% a -tgzip %SVN_PATH%\admin_files.tar.gz %SVN_PATH%\admin_files.tar 
+del %SVN_PATH%\admin_files.tar
 
-%zip% a -ttar -r %CVS_PATH%\frontend_files.tar %CVS_PATH%\js %CVS_PATH%\shop_image %CVS_PATH%\themes %CVS_PATH%\fetchscript.php %CVS_PATH%\virtuemart.php %CVS_PATH%\virtuemart_parser.php %CVS_PATH%\show_image_in_imgtag.php
-%zip% a -ttar %CVS_PATH%\frontend_files.tar %CVS_PATH%\index.html
-%zip% d -r %CVS_PATH%\frontend_files.tar CVS\
-%zip% a -tgzip %CVS_PATH%\frontend_files.tar.gz %CVS_PATH%\frontend_files.tar 
-del %CVS_PATH%\frontend_files.tar
+%zip% a -ttar -r %SVN_PATH%\frontend_files.tar %SVN_PATH%\js %SVN_PATH%\shop_image %SVN_PATH%\virtuemart.php %SVN_PATH%\virtuemart_parser.php %SVN_PATH%\show_image_in_imgtag.php
+%zip% a -ttar %SVN_PATH%\frontend_files.tar %SVN_PATH%\index.html
+%zip% d -r %SVN_PATH%\frontend_files.tar SVN\
+%zip% a -tgzip %SVN_PATH%\frontend_files.tar.gz %SVN_PATH%\frontend_files.tar 
+del %SVN_PATH%\frontend_files.tar
 
-%zip% a -ttar -r- %CVS_PATH%\com_virtuemart.tar %CVS_PATH%\*.*
-%zip% d %CVS_PATH%\com_virtuemart.tar fetchscript.php virtuemart.php virtuemart_parser.php show_image_in_imgtag.php
+%zip% a -ttar -r- %SVN_PATH%\com_virtuemart.tar %SVN_PATH%\*.*
+%zip% d %SVN_PATH%\com_virtuemart.tar virtuemart.php virtuemart_parser.php show_image_in_imgtag.php
 
 FOR /F "tokens=1,2,3,4 delims=/. " %%a in ('date/T') do set CDATE=%%c%%b%%a
-%zip% a -tgzip %CVS_PATH%\com_virtuemart_%version%.tar.gz %CVS_PATH%\com_virtuemart.tar
+%zip% a -tgzip %SVN_PATH%\com_virtuemart_%version%.tar.gz %SVN_PATH%\com_virtuemart.tar
 
-del %CVS_PATH%\admin_files.tar.gz
-del %CVS_PATH%\frontend_files.tar.gz
-del %CVS_PATH%\com_virtuemart.tar
+del %SVN_PATH%\admin_files.tar.gz
+del %SVN_PATH%\frontend_files.tar.gz
+del %SVN_PATH%\com_virtuemart.tar
 
-%zip% a -ttar -r %CVS_PATH%\mod_virtuemart.tar %CVS_PATH%\modules\dtree %CVS_PATH%\modules\vm_transmenu %CVS_PATH%\modules\mod_virtuemart.php %CVS_PATH%\modules\mod_virtuemart.xml %CVS_PATH%\modules\vm_dtree.php %CVS_PATH%\modules\vm_JSCookTree.php %CVS_PATH%\modules\vm_JSCook.php %CVS_PATH%\modules\vm_transmenu.php
-%zip% d -r %CVS_PATH%\mod_virtuemart.tar CVS\
-%zip% a -tgzip %CVS_PATH%\mod_virtuemart_%version%.tar.gz %CVS_PATH%\mod_virtuemart.tar
-del %CVS_PATH%\mod_virtuemart.tar
+%zip% a -ttar -r %SVN_PATH%\mod_virtuemart.tar %SVN_PATH%\modules\dtree %SVN_PATH%\modules\vm_transmenu %SVN_PATH%\modules\mod_virtuemart.php %SVN_PATH%\modules\mod_virtuemart.xml %SVN_PATH%\modules\vm_dtree.php %SVN_PATH%\modules\vm_JSCookTree.php %SVN_PATH%\modules\vm_JSCook.php %SVN_PATH%\modules\vm_transmenu.php
+%zip% d -r %SVN_PATH%\mod_virtuemart.tar SVN\
+%zip% a -tgzip %SVN_PATH%\mod_virtuemart_%version%.tar.gz %SVN_PATH%\mod_virtuemart.tar
+del %SVN_PATH%\mod_virtuemart.tar
 
-%zip% a -ttar -r %CVS_PATH%\mod_virtuemart.tar %CVS_PATH%\modules\mod_virtuemart_allinone.php %CVS_PATH%\modules\mod_virtuemart_allinone.xml
-%zip% a -tgzip %CVS_PATH%\mod_virtuemart_allinone_%version%.tar.gz %CVS_PATH%\mod_virtuemart.tar
-del %CVS_PATH%\mod_virtuemart.tar
-%zip% a -ttar -r %CVS_PATH%\mod_virtuemart.tar %CVS_PATH%\modules\mod_virtuemart_cart.php %CVS_PATH%\modules\mod_virtuemart_cart.xml
-%zip% a -tgzip %CVS_PATH%\mod_virtuemart_cart_%version%.tar.gz %CVS_PATH%\mod_virtuemart.tar
-del %CVS_PATH%\mod_virtuemart.tar
-%zip% a -ttar -r %CVS_PATH%\mod_virtuemart.tar %CVS_PATH%\modules\mod_virtuemart_featureprod.php %CVS_PATH%\modules\mod_virtuemart_featureprod.xml
-%zip% a -tgzip %CVS_PATH%\mod_virtuemart_featureprod_%version%.tar.gz %CVS_PATH%\mod_virtuemart.tar
-del %CVS_PATH%\mod_virtuemart.tar
-%zip% a -ttar -r %CVS_PATH%\mod_virtuemart.tar %CVS_PATH%\modules\mod_virtuemart_latestprod.php %CVS_PATH%\modules\mod_virtuemart_latestprod.xml
-%zip% a -tgzip %CVS_PATH%\mod_virtuemart_latestprod_%version%.tar.gz %CVS_PATH%\mod_virtuemart.tar
-del %CVS_PATH%\mod_virtuemart.tar
-%zip% a -ttar -r %CVS_PATH%\mod_virtuemart.tar %CVS_PATH%\modules\mod_virtuemart_manufacturers.php %CVS_PATH%\modules\mod_virtuemart_manufacturers.xml
-%zip% a -tgzip %CVS_PATH%\mod_virtuemart_manufacturers_%version%.tar.gz %CVS_PATH%\mod_virtuemart.tar
-del %CVS_PATH%\mod_virtuemart.tar
-%zip% a -ttar -r %CVS_PATH%\mod_virtuemart.tar %CVS_PATH%\modules\mod_productscroller.php %CVS_PATH%\modules\mod_productscroller.xml
-%zip% a -tgzip %CVS_PATH%\mod_productscroller_%version%.tar.gz %CVS_PATH%\mod_virtuemart.tar
-del %CVS_PATH%\mod_virtuemart.tar
-%zip% a -ttar -r %CVS_PATH%\mod_virtuemart.tar %CVS_PATH%\modules\mod_product_categories.php %CVS_PATH%\modules\mod_product_categories.xml
-%zip% a -tgzip %CVS_PATH%\mod_product_categories_%version%.tar.gz %CVS_PATH%\mod_virtuemart.tar
-del %CVS_PATH%\mod_virtuemart.tar
-%zip% a -ttar -r %CVS_PATH%\mod_virtuemart.tar %CVS_PATH%\modules\mod_virtuemart_randomprod.php %CVS_PATH%\modules\mod_virtuemart_randomprod.xml
-%zip% a -tgzip %CVS_PATH%\mod_virtuemart_randomprod_%version%.tar.gz %CVS_PATH%\mod_virtuemart.tar
-del %CVS_PATH%\mod_virtuemart.tar
-%zip% a -ttar -r %CVS_PATH%\mod_virtuemart.tar %CVS_PATH%\modules\mod_virtuemart_search.php %CVS_PATH%\modules\mod_virtuemart_search.xml
-%zip% a -tgzip %CVS_PATH%\mod_virtuemart_search_%version%.tar.gz %CVS_PATH%\mod_virtuemart.tar
-del %CVS_PATH%\mod_virtuemart.tar
-%zip% a -ttar -r %CVS_PATH%\mod_virtuemart.tar %CVS_PATH%\modules\mod_virtuemart_topten.php %CVS_PATH%\modules\mod_virtuemart_topten.xml
-%zip% a -tgzip %CVS_PATH%\mod_virtuemart_topten_%version%.tar.gz %CVS_PATH%\mod_virtuemart.tar
-del %CVS_PATH%\mod_virtuemart.tar
+%zip% a -ttar -r %SVN_PATH%\mod_virtuemart.tar %SVN_PATH%\modules\mod_virtuemart_allinone.php %SVN_PATH%\modules\mod_virtuemart_allinone.xml
+%zip% a -tgzip %SVN_PATH%\mod_virtuemart_allinone_%version%.tar.gz %SVN_PATH%\mod_virtuemart.tar
+del %SVN_PATH%\mod_virtuemart.tar
+%zip% a -ttar -r %SVN_PATH%\mod_virtuemart.tar %SVN_PATH%\modules\mod_virtuemart_cart.php %SVN_PATH%\modules\mod_virtuemart_cart.xml
+%zip% a -tgzip %SVN_PATH%\mod_virtuemart_cart_%version%.tar.gz %SVN_PATH%\mod_virtuemart.tar
+del %SVN_PATH%\mod_virtuemart.tar
+%zip% a -ttar -r %SVN_PATH%\mod_virtuemart.tar %SVN_PATH%\modules\mod_virtuemart_featureprod.php %SVN_PATH%\modules\mod_virtuemart_featureprod.xml
+%zip% a -tgzip %SVN_PATH%\mod_virtuemart_featureprod_%version%.tar.gz %SVN_PATH%\mod_virtuemart.tar
+del %SVN_PATH%\mod_virtuemart.tar
+%zip% a -ttar -r %SVN_PATH%\mod_virtuemart.tar %SVN_PATH%\modules\mod_virtuemart_latestprod.php %SVN_PATH%\modules\mod_virtuemart_latestprod.xml
+%zip% a -tgzip %SVN_PATH%\mod_virtuemart_latestprod_%version%.tar.gz %SVN_PATH%\mod_virtuemart.tar
+del %SVN_PATH%\mod_virtuemart.tar
+%zip% a -ttar -r %SVN_PATH%\mod_virtuemart.tar %SVN_PATH%\modules\mod_virtuemart_manufacturers.php %SVN_PATH%\modules\mod_virtuemart_manufacturers.xml
+%zip% a -tgzip %SVN_PATH%\mod_virtuemart_manufacturers_%version%.tar.gz %SVN_PATH%\mod_virtuemart.tar
+del %SVN_PATH%\mod_virtuemart.tar
+%zip% a -ttar -r %SVN_PATH%\mod_virtuemart.tar %SVN_PATH%\modules\mod_productscroller.php %SVN_PATH%\modules\mod_productscroller.xml
+%zip% a -tgzip %SVN_PATH%\mod_productscroller_%version%.tar.gz %SVN_PATH%\mod_virtuemart.tar
+del %SVN_PATH%\mod_virtuemart.tar
+%zip% a -ttar -r %SVN_PATH%\mod_virtuemart.tar %SVN_PATH%\modules\mod_product_categories.php %SVN_PATH%\modules\mod_product_categories.xml
+%zip% a -tgzip %SVN_PATH%\mod_product_categories_%version%.tar.gz %SVN_PATH%\mod_virtuemart.tar
+del %SVN_PATH%\mod_virtuemart.tar
+%zip% a -ttar -r %SVN_PATH%\mod_virtuemart.tar %SVN_PATH%\modules\mod_virtuemart_randomprod.php %SVN_PATH%\modules\mod_virtuemart_randomprod.xml
+%zip% a -tgzip %SVN_PATH%\mod_virtuemart_randomprod_%version%.tar.gz %SVN_PATH%\mod_virtuemart.tar
+del %SVN_PATH%\mod_virtuemart.tar
+%zip% a -ttar -r %SVN_PATH%\mod_virtuemart.tar %SVN_PATH%\modules\mod_virtuemart_search.php %SVN_PATH%\modules\mod_virtuemart_search.xml
+%zip% a -tgzip %SVN_PATH%\mod_virtuemart_search_%version%.tar.gz %SVN_PATH%\mod_virtuemart.tar
+del %SVN_PATH%\mod_virtuemart.tar
+%zip% a -ttar -r %SVN_PATH%\mod_virtuemart.tar %SVN_PATH%\modules\mod_virtuemart_topten.php %SVN_PATH%\modules\mod_virtuemart_topten.xml
+%zip% a -tgzip %SVN_PATH%\mod_virtuemart_topten_%version%.tar.gz %SVN_PATH%\mod_virtuemart.tar
+del %SVN_PATH%\mod_virtuemart.tar
 
-%zip% a -ttar -r %CVS_PATH%\mambot_virtuemart.tar %CVS_PATH%\mambots\mosproductsnap.php %CVS_PATH%\mambots\mosproductsnap.xml
-%zip% a -tgzip %CVS_PATH%\mosproductsnap_%version%.tar.gz %CVS_PATH%\mambot_virtuemart.tar
-del %CVS_PATH%\mambot_virtuemart.tar
-%zip% a -ttar -r %CVS_PATH%\mambot_virtuemart.tar %CVS_PATH%\mambots\virtuemart.searchbot.php %CVS_PATH%\mambots\virtuemart.searchbot.xml
-%zip% a -tgzip %CVS_PATH%\virtuemart.searchbot_%version%.tar.gz %CVS_PATH%\mambot_virtuemart.tar
-del %CVS_PATH%\mambot_virtuemart.tar
+%zip% a -ttar -r %SVN_PATH%\mambot_virtuemart.tar %SVN_PATH%\mambots\mosproductsnap.php %SVN_PATH%\mambots\mosproductsnap.xml
+%zip% a -tgzip %SVN_PATH%\mosproductsnap_%version%.tar.gz %SVN_PATH%\mambot_virtuemart.tar
+del %SVN_PATH%\mambot_virtuemart.tar
+%zip% a -ttar -r %SVN_PATH%\mambot_virtuemart.tar %SVN_PATH%\mambots\virtuemart.searchbot.php %SVN_PATH%\mambots\virtuemart.searchbot.xml
+%zip% a -tgzip %SVN_PATH%\virtuemart.searchbot_%version%.tar.gz %SVN_PATH%\mambot_virtuemart.tar
+del %SVN_PATH%\mambot_virtuemart.tar
 
-%zip% a -tzip %WRITE_PATH%\VirtueMart_%version%_COMPLETE_PACKAGE.zip %CVS_PATH%\com_virtuemart_%version%.tar.gz %CVS_PATH%\mod_virtuemart_%version%.tar.gz %CVS_PATH%\mod_virtuemart_allinone_%version%.tar.gz %CVS_PATH%\mod_virtuemart_cart_%version%.tar.gz %CVS_PATH%\mod_virtuemart_featureprod_%version%.tar.gz %CVS_PATH%\mod_virtuemart_latestprod_%version%.tar.gz %CVS_PATH%\mod_virtuemart_randomprod_%version%.tar.gz %CVS_PATH%\mod_virtuemart_manufacturers_%version%.tar.gz %CVS_PATH%\mod_product_categories_%version%.tar.gz %CVS_PATH%\mod_productscroller_%version%.tar.gz %CVS_PATH%\mod_virtuemart_search_%version%.tar.gz %CVS_PATH%\mod_virtuemart_topten_%version%.tar.gz %CVS_PATH%\mosproductsnap_%version%.tar.gz %CVS_PATH%\virtuemart.searchbot_%version%.tar.gz %CVS_PATH%\REAMDE.php
+%zip% a -tzip %WRITE_PATH%\VirtueMart_%version%_COMPLETE_PACKAGE.zip %SVN_PATH%\com_virtuemart_%version%.tar.gz %SVN_PATH%\mod_virtuemart_%version%.tar.gz %SVN_PATH%\mod_virtuemart_allinone_%version%.tar.gz %SVN_PATH%\mod_virtuemart_cart_%version%.tar.gz %SVN_PATH%\mod_virtuemart_featureprod_%version%.tar.gz %SVN_PATH%\mod_virtuemart_latestprod_%version%.tar.gz %SVN_PATH%\mod_virtuemart_randomprod_%version%.tar.gz %SVN_PATH%\mod_virtuemart_manufacturers_%version%.tar.gz %SVN_PATH%\mod_product_categories_%version%.tar.gz %SVN_PATH%\mod_productscroller_%version%.tar.gz %SVN_PATH%\mod_virtuemart_search_%version%.tar.gz %SVN_PATH%\mod_virtuemart_topten_%version%.tar.gz %SVN_PATH%\mosproductsnap_%version%.tar.gz %SVN_PATH%\virtuemart.searchbot_%version%.tar.gz %SVN_PATH%\REAMDE.php
 
-%zip% a -ttar -r %CVS_PATH%\languages.tar %CVS_PATH%\languages
-%zip% d -r %CVS_PATH%\languages.tar CVS\ languages\english.php
-%zip% a -tgzip %WRITE_PATH%\Language_Pack_for_VirtueMart_%version%.tar.gz %CVS_PATH%\languages.tar 
-del %CVS_PATH%\languages.tar
+%zip% a -ttar -r %SVN_PATH%\languages.tar %SVN_PATH%\languages
+%zip% d -r %SVN_PATH%\languages.tar SVN\ languages\english.php
+%zip% a -tgzip %WRITE_PATH%\Language_Pack_for_VirtueMart_%version%.tar.gz %SVN_PATH%\languages.tar 
+del %SVN_PATH%\languages.tar
 
-del %CVS_PATH%\mod_virtuemart_%version%.tar.gz
-del %CVS_PATH%\com_virtuemart_%version%.tar.gz
-del %CVS_PATH%\mod_virtuemart_allinone_%version%.tar.gz
-del %CVS_PATH%\mod_virtuemart_cart_%version%.tar.gz
-del %CVS_PATH%\mod_virtuemart_featureprod_%version%.tar.gz
-del %CVS_PATH%\mod_virtuemart_latestprod_%version%.tar.gz
-del %CVS_PATH%\mod_productscroller_%version%.tar.gz
-del %CVS_PATH%\mod_product_categories_%version%.tar.gz
-del %CVS_PATH%\mod_virtuemart_randomprod_%version%.tar.gz
-del %CVS_PATH%\mod_virtuemart_manufacturers_%version%.tar.gz
-del %CVS_PATH%\mod_virtuemart_search_%version%.tar.gz
-del %CVS_PATH%\mod_virtuemart_topten_%version%.tar.gz
-del %CVS_PATH%\mosproductsnap_%version%.tar.gz
-del %CVS_PATH%\virtuemart.searchbot_%version%.tar.gz
+del %SVN_PATH%\mod_virtuemart_%version%.tar.gz
+del %SVN_PATH%\com_virtuemart_%version%.tar.gz
+del %SVN_PATH%\mod_virtuemart_allinone_%version%.tar.gz
+del %SVN_PATH%\mod_virtuemart_cart_%version%.tar.gz
+del %SVN_PATH%\mod_virtuemart_featureprod_%version%.tar.gz
+del %SVN_PATH%\mod_virtuemart_latestprod_%version%.tar.gz
+del %SVN_PATH%\mod_productscroller_%version%.tar.gz
+del %SVN_PATH%\mod_product_categories_%version%.tar.gz
+del %SVN_PATH%\mod_virtuemart_randomprod_%version%.tar.gz
+del %SVN_PATH%\mod_virtuemart_manufacturers_%version%.tar.gz
+del %SVN_PATH%\mod_virtuemart_search_%version%.tar.gz
+del %SVN_PATH%\mod_virtuemart_topten_%version%.tar.gz
+del %SVN_PATH%\mosproductsnap_%version%.tar.gz
+del %SVN_PATH%\virtuemart.searchbot_%version%.tar.gz

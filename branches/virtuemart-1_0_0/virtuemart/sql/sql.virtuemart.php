@@ -5,7 +5,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * @version $Id$
 * @package VirtueMart
 * @subpackage core
-* @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
+* @copyright Copyright (C) 2004-2006 Soeren Eberhardt. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -446,7 +446,7 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_csv` (
 ## Dumping data for table `#__{vm}_csv`
 ## 
 
-$db->query( "INSERT INTO `#__{vm}_csv`(1, 'product_sku', '', 1, 'Y'),
+$db->query( "INSERT INTO `#__{vm}_csv` VALUES (1, 'product_sku', '', 1, 'Y'),
 (2, 'product_s_desc', '', 5, 'N'),
 (3, 'product_desc', '', 6, 'N'),
 (4, 'product_thumb_image', '', 7, 'N'),

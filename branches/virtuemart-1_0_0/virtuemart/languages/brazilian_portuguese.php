@@ -509,8 +509,7 @@ Item';
 	var $_PHPSHOP_PAYMENT_METHOD_LIST_SHOPPER_GROUP = 'Grupo de Cliente';
 	var $_PHPSHOP_PAYMENT_METHOD_LIST_ENABLE_PROCESSOR = 'Cybercash';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_MNU = 'Adicionar Método de Pagamento';
-	var $_PHPSHOP_PAYMENT_METHOD_FORM_LBL = 'Formulário de Método de
-Pagamento';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_LBL = 'Formulário de Método de Pagamento';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_NAME = 'Nome de Formulário de Pagamento';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_SHOPPER_GROUP = 'Grupo de Cliente';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_DISCOUNT = 'Desconto';
@@ -586,17 +585,13 @@ Pagamento';
 	var $_PHPSHOP_MANUFACTURER_FORM_EMAIL = 'E-mail';
 	var $_PHPSHOP_MANUFACTURER_FORM_URL = 'Página do Fabricante';
 	var $_PHPSHOP_MANUFACTURER_FORM_DESCRIPTION = 'Descrição';
-	var $_PHPSHOP_MANUFACTURER_CAT_LIST_MNU = 'Listar Categorias de
-Fabricantes';
-	var $_PHPSHOP_MANUFACTURER_CAT_LIST_LBL = 'Lista de Categorias de
-Fabricantes';
+	var $_PHPSHOP_MANUFACTURER_CAT_LIST_MNU = 'Listar Categorias de Fabricantes';
+	var $_PHPSHOP_MANUFACTURER_CAT_LIST_LBL = 'Lista de Categorias de Fabricantes';
 	var $_PHPSHOP_MANUFACTURER_CAT_NAME = 'Nome da Categoria';
 	var $_PHPSHOP_MANUFACTURER_CAT_DESCRIPTION = 'Descrição da Categoria';
 	var $_PHPSHOP_MANUFACTURER_CAT_MANUFACTURERS = 'Fabricantes';
-	var $_PHPSHOP_MANUFACTURER_CAT_FORM_MNU = 'Adicionar Categoria de
-Fabricante';
-	var $_PHPSHOP_MANUFACTURER_CAT_FORM_LBL = 'Detalhes da Categoria de
-Fabricante';
+	var $_PHPSHOP_MANUFACTURER_CAT_FORM_MNU = 'Adicionar Categoria de Fabricante';
+	var $_PHPSHOP_MANUFACTURER_CAT_FORM_LBL = 'Detalhes da Categoria de Fabricante';
 	var $_PHPSHOP_MANUFACTURER_CAT_FORM_INFO_LBL = 'Informação da Categoria';
 	var $_PHPSHOP_MANUFACTURER_CAT_FORM_NAME = 'Nome da Categoria';
 	var $_PHPSHOP_MANUFACTURER_CAT_FORM_DESCRIPTION = 'Descrição da Categoria';
@@ -632,8 +627,7 @@ Fabricante';
 	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO_CCNUM = 'Número de Cartão de Crédito';
 	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO_EXDATE = 'Data de Expiração';
 	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO_COMPORDER = 'Completar a Encomenda';
-	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO_REQINFO = 'Informação requerida quando
-o pagamento por Cartão de Crédito é seleccionado.';
+	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO_REQINFO = 'Informação requerida quando o pagamento por Cartão de Crédito é seleccionado.';
 	var $_PHPSHOP_ZONE_MOD = 'Envio por Zonas';
 	var $_PHPSHOP_ZONE_LIST_MNU = 'Listar Zonas';
 	var $_PHPSHOP_ZONE_FORM_MNU = 'Adicionar Zona';
@@ -652,8 +646,7 @@ o pagamento por Cartão de Crédito é seleccionado.';
 	var $_PHPSHOP_ZONE_LIST_DESC_LBL = 'Descrição da Zona';
 	var $_PHPSHOP_ZONE_LIST_COST_PER_LBL = 'Custo por Zona do Artigo';
 	var $_PHPSHOP_ZONE_LIST_COST_LIMIT_LBL = 'Limite de Custo da Zona';
-	var $_PHPSHOP_LOGIN_FIRST = 'Por favor, faça o Login ou registe-se
-primeiro.<br>Obrigado.';
+	var $_PHPSHOP_LOGIN_FIRST = 'Por favor, faça o Login ou registe-se primeiro.<br>Obrigado.';
 	var $_PHPSHOP_STORE_FORM_TOS = 'Termos do Serviço';
 	var $_PHPSHOP_AGREE_TO_TOS = 'Tem de concordar com os Termos do Serviço.';
 	var $_PHPSHOP_I_AGREE_TO_TOS = 'Concordo com os Termos do Serviço';
@@ -1004,7 +997,7 @@ backend.';
 	var $_PHPSHOP_ADMIN_CFG_MAIL_FORMAT_TEXT = 'Text mail';
 	var $_PHPSHOP_ADMIN_CFG_MAIL_FORMAT_HTML = 'HTML mail';
 	var $_PHPSHOP_ADMIN_CFG_MAIL_FORMAT_EXPLAIN = 'Determina o formato dos
-e-mails de confirmação das encomendas:<br />
+e-mails de confirmação das encomendas:<br /> 
 
 <ul><li>como e-mail de texto simples</li>
 
@@ -1288,8 +1281,7 @@ comentário....(min. 100, máx. 2000 letras) ';
 para este produto. Obrigado.';
 	var $_PHPSHOP_REVIEW_THANKYOU = 'Obrigado pelo seu comentário.';
 	var $_PHPSHOP_COMMENT = 'Comentário';
-	var $_PHPSHOP_CREDITCARD_FORM_LBL = 'Adicionar/Editar Tipos Cartão
-Crédito';
+	var $_PHPSHOP_CREDITCARD_FORM_LBL = 'Adicionar/Editar Tipos Cartão Crédito';
 	var $_PHPSHOP_CREDITCARD_NAME = 'Nome de Cartão de Crédito';
 	var $_PHPSHOP_CREDITCARD_CODE = 'Código Curto do Cartão de Crédito';
 	var $_PHPSHOP_CREDITCARD_TYPE = 'Tipo de Cartão de Crédito';
@@ -1894,7 +1886,43 @@ Se não escolher nenhum, a opção "Ordenar por" não aparecerá.';
 	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_EU = 'European Union mode';
 	var $_VM_SESSION_SAVEPATH_UNWRITABLE = 'The directory to store session data is not writable. Please correct this or contact your provider.';
 	var $_VM_SESSION_SAVEPATH_UNWRITABLE_TMPFIX = 'The Session Save Path %s is not writable. Please correct this! The shop is temporarily trying to use the %s instead.\'';
-	var $_VM_SESSION_COOKIES_NOT_ACCEPTED_TIP = 'Your browser does not accept cookies. If you want to put products into your cart and purchase them you need to enable cookies.';
+	var $_VM_SESSION_COOKIES_NOT_ACCEPTED_TIP = 'Seu browser não aceita cookies. Se você quiser colocar produtos no carrinho e comprá-los, você deverá habilitar cookies.';
+	var $_PHPSHOP_CSV_SKIP_FIRST_LINE = 'Skip first line';
+	var $_PHPSHOP_CSV_SKIP_DEFAULT_VALUE = 'Skip default value';
+	var $_PHPSHOP_CSV_OVERWRITE_EXISTING_DATA = 'Overwrite existing data';
+	var $_PHPSHOP_CSV_INCLUDE_COLUMN_HEADERS = 'Include column headers';
+	var $_PHPSHOP_CSV_UPLOAD_SETTINGS = 'Upload Settings';
+	var $_PHPSHOP_CSV_AVAILABLE_FIELDS = 'Available Fields';
+	var $_PHPSHOP_CSV_OUTPUT_CSV_UPLOAD_MESSAGES = 'CSV upload messages:';
+	var $_PHPSHOP_CSV_OUTPUT_COUNT = 'Count';
+	var $_PHPSHOP_CSV_OUTPUT_TOTAL = 'Total';
+	var $_PHPSHOP_CSV_OUTPUT_FILE_IMPORTED = 'CSV File Imported';
+	var $_PHPSHOP_CSV_OUTPUT_UPDATED = 'Updated';
+	var $_PHPSHOP_CSV_OUTPUT_DELETED = 'Deleted';
+	var $_PHPSHOP_CSV_OUTPUT_ADDED = 'Added';
+	var $_PHPSHOP_CSV_OUTPUT_SKIPPED = 'Skipped';
+	var $_PHPSHOP_CSV_OUTPUT_INCORRECT = 'Incorrect';
+	var $_PHPSHOP_CSV_AVAILABLE_FIELDS_USE = 'The following fields are available for your use to import or export.';
+	var $_PHPSHOP_CSV_MINIMAL_FIELDS = 'The minimal required fields are product_sku, product_name and category_path. Except for the product_sku, the other two fields are not unique.';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_SKU = 'The unique identifier for a product.<br /.>Values:<ul><li>Number</li><li>Letters</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_NAME = 'The name of the product.Values:<ul><li>Text: No HTML code allowed.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DELETE = 'The product_delete field is a special field. This field is used to determine if a product should be deleted or not.<br />Usage:<ol><li>Add the the name "product_delete" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the value Y. If the field contains any other value, the product will not be deleted.</li></ol><br /.>Values:<ul><li>Y: Yes, the product is to be deleted</li><li>N: No, the product is not to be deleted</li><li>Empty: Empty value, the product is not to be deleted</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DESC = 'Long description for the product.<br />Values:<ul><li>Text: HTML code allowed.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_S_DESC = 'Short description for the product.<br />Values:<ul><li>Text: No HTML code allowed.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PUBLISH = 'The status if a product is published or not.<br />Values:<ul><li>Y: Yes, the product is published</li><li>N: No, the product is not published</li><li>Empty: Empty value, the product is published.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_WIDTH = 'The width of the product.<br />Values:<ul><li>Number</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_HEIGHT = 'The height of the product.<br />Values:<ul><li>Number</li></ul>';
+	var $PHPSHOP_CSV_EXPLANATION_PRODUCT_LENGTH = 'The length of the product.<br />Values:<ul><li>Number</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_AVAILABLE_DATE = 'The date a product will become availabable. For import the date should be in the format of day/month/year or day-month-year. On Windows systems the date goes until 19/01/2038.<br />Usage:<ol><li>Add the the name "product_available_date" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with a date value. If the field contains any other value, the data will be ignored.</li></ol><br />Values:<ul><li>Date: day/month/year or day-month-year</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_IN_STOCK = 'The number of articles that you have in stock.<br /><br />Usage:<ol><li>Add the the name "product_in_stock" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with a numeric value. If the field contains any other value, the default value will be used.</li></ol><br />Values:<ul><li>Number</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTE = 'The different choices a product has. Use this to give a product different specifications. For example a t-shirt that comes in different sizes and colours. You can specify the sizes and colours like this: Size,XL[+1.99],M,S[-2.99];Colour,Red,Green,Yellow,ExpensiveColor[=24.00];AndSoOn,..,..<br /><br />You can adjust the prices per attribute by using the following options:<ul><li>+: Add this amount to the configured price.</li><li>-: Subtract this amount from the configured price.</li><li>=: Set the product\\\'s price to this amount.</li></ul><br />Usage:<ol><li>Add the the name "attribute" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the attribute text.</li></ol><br /.>Values:<ul><li>Text: No HTML code allowed.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_AVAILABILITY = 'This shows when the product is available. The value can be a descriptive text or the name of an image filename. Images must be placed in "shop_image/availability/".<br />Usage:<ol><li>Add the the name "product_availability" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_FULL_IMAGE = 'The filename of the image as located in the "shop_image/product/" folder. The filename can also be a URL.<br />NOTE: If you have dynamic resizing enabled, you need to fill the "product_thumb_image" field. VirtueMart resizes the image specified there.<br/><br />Usage:<ol><li>Add the the name "product_full_image" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text:<ul><li>No HTML code allowed</li><li>URL\\\'s are allowed.</li></ul></li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_THUMB_IMAGE = 'The filename of the thumbnail image as located in the "shop_image/product/" folder. The filename can also be a URL.<br />NOTE: If you have dynamic resizing enabled, there still needs to be a value in this field. VirtueMart resizes the image that is specified here.<br /><br />Usage:<ol><li>Add the the name "product_full_image" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text:<ul><li>No HTML code allowed</li><li>URL\\\'s are allowed.</li></ul></li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_CUSTOM_ATTRIBUTE = 'A custom attribute will add an input field to the product page with the description of the attribute supplied. Custom attributes are specified like this: Name;Extras;...<br />Usage:<ol><li>Add the the name "custom_attribute" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the attribute text.</li></ol><br /.>Values:<ul><li>Text: No HTML code allowed.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PACKAGING = 'Specify the number of items in the package.<br />Usage:<ol><li>Add the the name "product_packaging" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the number of items in the package.</li></ol><br /.>Values:<ul><li>Number</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_BOX = 'Specify the number of items in the box.<br />Usage:<ol><li>Add the the name "product_box" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the number of items in the box.</li></ol><br /.>Values:<ul><li>Number</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT = 'Specify the amount or percentage of discount the product has. The values entered are exact values, no calculation is made. This is the same as if you are filling in a discount via the Product Discount List. If the discount already exists, it will not be added to the database but the product will be linked to the existing discount. The criteria for determining if a discount already exists the following values have to be exactly the same:<ol><li>Amount, be it a total or percentage</li><li>Start date</li><li>End date</li></ol>This prevents from filling the database with a huge number of the same discounts.<br /><br />Usage:<ol><li>Add the the name "product_discount" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Optional: Add the the name "product_discount_date_start" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Optional: Add the the name "product_discount_date_end" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add the chosen columns to your CSV file with the corresponding values.</li></ol><br /.>Values:<ul><li>product_discount</li><ul><li>Number<br />e.g. 10</li><li>Percentage: Must include the % sign<br />e.g. 10%</li></ul><li>product_discount_date_start</li><ul><li>Date: day/month/year or day-month-year<br />Day and month can be a 1 or 2 digit notation.<br />Year can be a 2 or 4 digit notation.</li></ul><li>product_discount_date_end</li><ul><li>Date: day/month/year or day-month-year<br />Day and month can be a 1 or 2 digit notation.<br />Year can be a 2 or 4 digit notation.</li></ul></ul>';
         
 }
 class phpShopLanguage extends vmLanguage { }

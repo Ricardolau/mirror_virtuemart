@@ -33,6 +33,19 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+02.11.2006 soeren
+
+^ added RolandH's CSV Import improvements (v. 0.4, http://virtuemart.net/index.php?option=com_smf&Itemid=71&topic=22738.0, thanks Roland!!)
+
+
+30.10.2006 soeren
+
+# no title tag displayed for empty categories (shop.browse.php)
+
+27.10.2007 soeren
+# PayPal notify script not sending Download ID (notify.php, thanks R Browne!; http://virtuemart.net/index.php?option=com_smf&Itemid=71&topic=22296.msg56419#msg56419)
+# Task #996 - Brazilian Portuguese translation problem (brazilian_portuguese.php)
+
 18.10.2006 gregdev
 
 #  Task #959 — Virtuemart search bot not working properly

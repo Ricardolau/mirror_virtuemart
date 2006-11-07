@@ -130,7 +130,8 @@ for($n = $limitstart ; $n < $nrows ; $n++) {
 				. "</a>";
 	$listObj->addCell( $tmp_cell );
 	
-	$listObj->addCell( "&nbsp;&nbsp;". $category_tmp[$row_list[$n]]["category_description"] );
+	$desc = strlen( $category_tmp[$row_list[$n]]["category_description"] ) > 255 ? mm_ToolTip( $category_tmp[$row_list[$n]]["category_description"], $VM_LANG->_PHPSHOP_CATEGORY_FORM_DESCRIPTION ) :$category_tmp[$row_list[$n]]["category_description"];
+	$listObj->addCell( "&nbsp;&nbsp;". $desc );
 	
 	$listObj->addCell( ps_product_category::product_count( $category_tmp[$row_list[$n]]["category_child_id"] )
 						."&nbsp;<a href=\"". $_SERVER['PHP_SELF'] . "?page=product.product_list&category_id=" . $category_tmp[$row_list[$n]]["category_child_id"]."&option=com_virtuemart"

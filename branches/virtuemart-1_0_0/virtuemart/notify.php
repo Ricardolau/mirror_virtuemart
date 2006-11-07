@@ -102,7 +102,11 @@ if ($_POST) {
 		else {
 			$debug_email_address = PAYPAL_EMAIL;
 		}
-                        
+	    // restart session
+	    require_once(CLASSPATH."ps_session.php");
+	
+	    // Constructor initializes the session!
+	    $sess = new ps_session();                        
     /*** END VirtueMart part ***/
     
     debug_msg( "1. Finished Initialization of the notify.php script" );

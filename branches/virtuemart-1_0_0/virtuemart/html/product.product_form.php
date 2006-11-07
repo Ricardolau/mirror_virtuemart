@@ -423,7 +423,7 @@ if (!$product_parent_id and $product_id and $db_items->num_rows() > 0) {
     <tr nowrap> 
       <td><?php echo $VM_LANG->_PHPSHOP_PRODUCT_FORM_NAME ?></td>
       <td><?php echo $VM_LANG->_PHPSHOP_PRODUCT_FORM_SKU ?></td>
-      <td><?php echo $VM_LANG->_PHPSHOP_PRODUCT_FORM_PRICE ?></td>
+      <td><?php echo $VM_LANG->_PHPSHOP_PRODUCT_FORM_PRICE_NET ?></td>
       <?php
       $db_heading = $ps_product->attribute_sql("",$product_id);
       while ($db_heading->next_record()) {

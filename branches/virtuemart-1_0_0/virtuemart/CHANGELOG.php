@@ -33,6 +33,10 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+10.11.2006 gregdev
+
+#  Fixed duplicate error message when no shipping address is chosen during checkout (Task #972).
+
 02.11.2006 soeren
 
 ^ added RolandH's CSV Import improvements (v. 0.4, http://virtuemart.net/index.php?option=com_smf&Itemid=71&topic=22738.0, thanks Roland!!)

@@ -25,12 +25,16 @@ $payment_method_id = mosgetparam( $_REQUEST, 'payment_method_id');
 $Itemid = $sess->getShopItemid();
 $checkout_next_step = mosgetparam( $_REQUEST, 'checkout_next_step', 2);
 $checkout_this_step = mosgetparam( $_REQUEST, 'checkout_this_step', 2);
+echo 'ci1-this: ' . $checkout_this_step.'<br />';
+echo 'ci1-next: ' . $checkout_next_step.'<br />';
 if( empty( $vars["error"] ) ) {
 	$checkout_this_step = $checkout_next_step;
 }
 if( empty( $checkout_this_step )) {
 	$checkout_this_step = 2;
 }
+echo 'ci2-this: ' . $checkout_this_step.'<br />';
+echo 'ci2-next: ' . $checkout_next_step.'<br />';
 
 echo '<h3>'. $VM_LANG->_PHPSHOP_CHECKOUT_TITLE .'</h3>';
 
@@ -102,6 +106,8 @@ else {
     include(PAGEPATH . 'basket.php');
 
 }
+echo 'ci3-this: ' . $checkout_this_step.'<br />';
+echo 'ci3-next: ' . $checkout_next_step.'<br />';
 
 echo '<br />';
     

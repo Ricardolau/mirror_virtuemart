@@ -1049,7 +1049,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CREDITCARD_LIST_LBL = 'Lista kart kredytowych';
 	var $_PHPSHOP_UDATE_ADDRESS = 'Aktualizuj adres';
 	var $_PHPSHOP_CONTINUE_SHOPPING = 'Kontynuuj zakupy';
-	var $_PHPSHOP_THANKYOU_SUCCESS = 'Twoje zamówienie zosta³o pomy¶lnie wys³ane! Teraz dokonaj zap³aty w serwisie przelewy24.pl';
+	var $_PHPSHOP_THANKYOU_SUCCESS = 'Twoje zamówienie zosta³o pomy¶lnie wys³ane!';
 	var $_PHPSHOP_ORDER_LINK = 'Kliknij ten link, aby zobaczyæ szczegó³y zamówienia.';
 	var $_PHPSHOP_ORDER_STATUS_CHANGE_SEND_MSG_1 = 'status Twojego zamówienia nr {order_id} zosta³ zmieniony.';
 	var $_PHPSHOP_ORDER_STATUS_CHANGE_SEND_MSG_2 = 'Nowy status to:';
@@ -1494,17 +1494,14 @@ Has³o - %s
 	var $_VM_BROWSE_ORDERBY_FIELDS_LBL = 'Dostêpne pola kryterium sortowania';
 	var $_VM_BROWSE_ORDERBY_FIELDS_LBL_TIP = 'Wybierz pola kryterium sortowania na stronie katalogu produktów. Ka¿de okre¶la metodê sortowania na stronie katalogu produktów. Je¶li wy³±czysz wszystkie, formularz sortowania nie bêdzie wy¶wietlany.';
 	var $_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO = 'Pokazywaæ krótk± informacjê o zasadach zwrotu na stronie potwierdzenia zamówienia?';
-	var $_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO_TIP = 'W wiêkszo¶ci krajów europejskich w³a¶ciciele sklepów s± prawnie zobowi¹zani do poinformowania klientów o zasadach anulowania zamówienia i zwrotu towaru. Powinno wiêc byæ w³±czone.';
+	var $_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO_TIP = 'W wiêkszo¶ci krajów europejskich w³a¶ciciele sklepów s± prawnie zobowi±zani do poinformowania klientów o zasadach anulowania zamówienia i zwrotu towaru. Powinno wiêc byæ w³±czone.';
 	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT = 'Tekst notki prawnej (wersja skrócona).';
 	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT_TIP = 'Ten tekst w skrócie informuje klientów o zasadach anulowania zamówienia i zwrotu towaru w Twym sklepie. Pokazywany jest na ostatniej stronie procesu zamówienia, tu¿ nad przyciskiem "Potwierd¼ zamówienie".';
 	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK = 'Pe³na wersja zasad zwrotu (³±cze do elementu artyku³).';
 	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK_TIP = 'Najpierw dodaj artyku³ z dok³adnym opisem zasad anulowania zamówienia i zwrotu towaru, a nastêpnie wska¿ go tutaj.';
 	var $_VM_LEGALINFO_SHORTTEXT = '<h5>Zasady zwrotu</h5>
 
-You can cancel this order within two weeks after we have received it.
-You can return new, unopened items from a cancelled order within 2 weeks after they have been 
-delivered to you. Items should be returned in their original packaging.
-For more information on cancelling orders and returning items, see the <a href="%s" onclick="%s" target="_blank">Our Returns Policy</a> page.';
+Zgodnie z art. 7.1. Ustawy o ochronie niektórych praw konsumenckich masz prawo do anulowania zamówienia w ci±gu 10 dni od wys³ania przesy³ki. W takim wypadku musisz na w³asny koszt odes³aæ towar w oryginalnym, nienaruszonym opakowaniu. Pieni±dze zostan± zwrócone na Twoje konto natychmiast po otrzymaniu przez nas towaru. Pe³ne informacje znajdziesz na stronie naszych <a href="%s" onclick="%s" target="_blank">Warunków zakupu</a>.';
         
 }
 class phpShopLanguage extends vmLanguage { }

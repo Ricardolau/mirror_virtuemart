@@ -148,7 +148,7 @@ if ($_POST) {
     $paypal_receiver_email = PAYPAL_EMAIL;
     $business = trim(stripslashes($_POST['business'])); 
     $item_name = trim(stripslashes($_POST['item_name']));
-    $item_number = trim(stripslashes($_POST['item_number']));
+    $item_number = trim(stripslashes(@$_POST['item_number']));
     $payment_status = trim(stripslashes($_POST['payment_status']));
     
     // The order total amount including taxes, shipping and discounts
@@ -165,28 +165,29 @@ if ($_POST) {
     // The Order Number (not order_id !)
     $invoice =  trim(stripslashes($_POST['invoice']));
     
-    $amount =  trim(stripslashes($_POST['amount']));
+    $amount =  trim(stripslashes(@$_POST['amount']));
     
     $quantity = trim(stripslashes($_POST['quantity']));
-    $pending_reason = trim(stripslashes($_POST['pending_reason']));
-    $payment_method = trim(stripslashes($_POST['payment_method']));
+    $pending_reason = trim(stripslashes(@$_POST['pending_reason']));
+    $payment_method = trim(stripslashes(@$_POST['payment_method'])); // deprecated
+    $payment_type = trim(stripslashes(@$_POST['payment_type']));
     
     // Billto
     $first_name = trim(stripslashes($_POST['first_name']));
     $last_name = trim(stripslashes($_POST['last_name']));
-    $address_street = trim(stripslashes($_POST['address_street']));
-    $address_city = trim(stripslashes($_POST['address_city']));
-    $address_state = trim(stripslashes($_POST['address_state']));
-    $address_zipcode = trim(stripslashes($_POST['address_zip']));
-    $address_country = trim(stripslashes($_POST['address_country']));
+    $address_street = trim(stripslashes(@$_POST['address_street']));
+    $address_city = trim(stripslashes(@$_POST['address_city']));
+    $address_state = trim(stripslashes(@$_POST['address_state']));
+    $address_zipcode = trim(stripslashes(@$_POST['address_zip']));
+    $address_country = trim(stripslashes(@$_POST['address_country']));
+    $residence_country = trim(stripslashes(@$_POST['residence_country']));
     
-    $payer_email = trim(stripslashes($_POST['payer_email']));
-    $address_status = trim(stripslashes($_POST['address_status']));
+    $address_status = trim(stripslashes(@$_POST['address_status']));
     
     $payer_status = trim(stripslashes($_POST['payer_status']));
     $notify_version = trim(stripslashes($_POST['notify_version'])); 
     $verify_sign = trim(stripslashes($_POST['verify_sign'])); 
-    $custom = trim(stripslashes($_POST['custom'])); 
+    $custom = trim(stripslashes(@$_POST['custom'])); 
     $txn_type = trim(stripslashes($_POST['txn_type'])); 
     
     /*
@@ -327,6 +328,9 @@ if ($_POST) {
      
       $d['order_id'] = $order_id;
       $d['notify_customer'] = "Y";
+
+      // we need this for ps_order->order_status_update() (when it calls notify_customer() )
+      $_SESSION['ps_vendor_id'] = '1';
 	  
       // remove post headers if present.
       $res = preg_replace("'Content-type: text/plain'si","",$res);

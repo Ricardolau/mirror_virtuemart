@@ -33,6 +33,10 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+22.11.2006 gregdev
+
+#  Error suppression on some non-existant PayPal variables in notify.php; added vendor id for order status update emails in notify.php 
+
 10.11.2006 gregdev
 
 #  Fixed duplicate error message when no shipping address is chosen during checkout (Task #972).

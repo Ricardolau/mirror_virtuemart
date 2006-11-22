@@ -32,7 +32,6 @@ $pathway = "<a class=\"pathway\" href=\"".$sess->url( SECUREURL ."index.php?page
 $mainframe->appendPathWay( $pathway );
 echo "<div>$pathway</div><br/>";
 
-$vars['country'] = empty( $_REQUEST['country'] ) ? $vendor_country : mosGetParam($_REQUEST, 'country');
 $missing = mosGetParam( $vars, 'missing' );
 $missing_style = "color: Red; font-weight: Bold;";
 
@@ -46,6 +45,10 @@ if (!empty($user_info_id)) {
   $q .=  " AND address_type='ST'";
   $db->query($q);
   $db->next_record();
+}
+
+if( !$db->num_rows()) {
+	$vars['country'] = empty( $_REQUEST['country'] ) ? $vendor_country : mosGetParam($_REQUEST, 'country');
 }
 
 /*****************************

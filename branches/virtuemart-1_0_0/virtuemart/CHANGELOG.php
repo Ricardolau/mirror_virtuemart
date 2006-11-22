@@ -35,7 +35,8 @@ VirtueMart 1.0.x
 *************************************
 22.11.2006 gregdev
 
-#  Error suppression on some non-existant PayPal variables in notify.php; added vendor id for order status update emails in notify.php 
+#  Error suppression on some non-existant PayPal variables in notify.php; added vendor id for order status update emails in notify.php
+#  Task #842 - fixed preselected country when editing an existing shipping address 
 
 10.11.2006 gregdev
 

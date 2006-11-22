@@ -107,6 +107,11 @@ if ($_POST) {
 	
 	    // Constructor initializes the session!
 	    $sess = new ps_session();                        
+	    
+	    // Include globals; for this, $db is needed, as is htmlTools.class.php
+	    $db = new ps_DB;
+	    require_once( CLASSPATH. 'htmlTools.class.php' );
+	    require_once( ADMINPATH. 'global.php' );
     /*** END VirtueMart part ***/
     
     debug_msg( "1. Finished Initialization of the notify.php script" );
@@ -329,9 +334,6 @@ if ($_POST) {
       $d['order_id'] = $order_id;
       $d['notify_customer'] = "Y";
 
-      // we need this for ps_order->order_status_update() (when it calls notify_customer() )
-      $_SESSION['ps_vendor_id'] = '1';
-	  
       // remove post headers if present.
       $res = preg_replace("'Content-type: text/plain'si","",$res);
       

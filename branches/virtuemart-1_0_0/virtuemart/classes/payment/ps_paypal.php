@@ -117,8 +117,7 @@ class ps_paypal {
             <strong>verified</strong> PayPal account (when an account is not verified, PayPal does transfer the funds, but they do not fully guarantee the validity of the sale).
             </td>
         </tr>
-        </tr>
-            <tr>
+        <tr>
             <td><strong><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED ?></strong></td>
             <td>
                 <select name="PAYPAL_INVALID_STATUS" class="inputbox" >

@@ -33,14 +33,21 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+
 22.11.2006 gregdev
 
 #  Error suppression on some non-existant PayPal variables in notify.php; added vendor id for order status update emails in notify.php
 #  Task #842 - fixed preselected country when editing an existing shipping address 
 
-10.11.2006 gregdev
+22.11.2006 soeren
 
+# fixed PayPal IPN script, mail_download_id works (notify.php)
+# Task #877 - cannot complete checkout when final amount is 0 (ps_checkout.php)
+
+10.11.2006 gregdev
 #  Fixed duplicate error message when no shipping address is chosen during checkout (Task #972).
+
+
 
 02.11.2006 soeren
 

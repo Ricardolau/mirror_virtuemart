@@ -217,8 +217,13 @@ class ps_order {
 		$VM_LANG, $mosConfig_smtpauth, $mosConfig_mailer, $vmLogger,
 		$mosConfig_smtpuser, $mosConfig_smtppass, $mosConfig_smtphost;
 
-		$url = $mosConfig_live_site."/index.php?option=com_virtuemart&page=shop.downloads&Itemid=".$sess->getShopItemid();
-
+		// modif
+		if(is_null($sess)){
+			$url = $mosConfig_live_site."/index.php?option=com_virtuemart&page=shop.downloads&Itemid=1";
+		} else {
+			$url = $mosConfig_live_site."/index.php?option=com_virtuemart&page=shop.downloads&Itemid=".$sess->getShopItemid();
+		}
+		
 		if ($d["order_status"]==ENABLE_DOWNLOAD_STATUS) {
 			$dbw = new ps_DB;
 			$dbw_2 = new ps_DB;
@@ -269,12 +274,15 @@ class ps_order {
 				$result = vmMail( $dbv->f("contact_email"), $dbv->f("vendor_name"),
 				$db->f("user_email"), $mail_Subject, $mail_Body, '' );
 
-				if ($result) {
-					$vmLogger->info( $VM_LANG->_PHPSHOP_DOWNLOADS_SEND_MSG. " ". $db->f("first_name") . " " . $db->f("last_name") . " ".$db->f("user_email") );
-				}
+				//modif
+				if(!is_null($sess)){
+					if ($result) {
+						$vmLogger->info( $VM_LANG->_PHPSHOP_DOWNLOADS_SEND_MSG. " ". $db->f("first_name") . " " . $db->f("last_name") . " ".$db->f("user_email") );
+					}
 
-				else {
-					$vmLogger->warning( $VM_LANG->_PHPSHOP_DOWNLOADS_ERR_SEND." ". $db->f("first_name") . " " . $db->f("last_name") . ", ".$db->f("user_email")." (". $mail->ErrorInfo.")" );
+					else {
+						$vmLogger->warning( $VM_LANG->_PHPSHOP_DOWNLOADS_ERR_SEND." ". $db->f("first_name") . " " . $db->f("last_name") . ", ".$db->f("user_email")." (". $mail->ErrorInfo.")" );
+					}
 				}
 			}
 		}
@@ -299,17 +307,24 @@ class ps_order {
 	* returns: true
 	**************************************************************************/
 	function notify_customer( &$d ){
-		global $mosConfig_live_site, $mosConfig_absolute_path, $sess,
+		global $mosConfig_live_site, $mosConfig_absolute_path, $sess, $ps_vendor_id,
 		$VM_LANG, $mosConfig_smtpauth, $mosConfig_mailer, $vmLogger,
 		$mosConfig_smtpuser, $mosConfig_smtppass, $mosConfig_smtphost;
 
-		$Itemid = $sess->getShopItemid();
+	 	
+		// modif
+		if(is_null($sess)){
+			$Itemid = 1;
+		} else {
+			$Itemid = $sess->getShopItemid();
+		}
+
 		$url = $mosConfig_live_site."/index.php?option=com_virtuemart&page=account.order_details&order_id=".$d["order_id"]."&Itemid=$Itemid";
 
 		$db = new ps_DB;
 		$dbv = new ps_DB;
 		$q = "SELECT vendor_name,contact_email FROM #__{vm}_vendor ";
-		$q .= "WHERE vendor_id='".$_SESSION['ps_vendor_id']."'";
+		$q .= "WHERE vendor_id=$ps_vendor_id";
 		$dbv->query($q);
 		$dbv->next_record();
 
@@ -355,11 +370,13 @@ class ps_order {
 		$db->f("user_email"), $mail_Subject, $mail_Body, '' );
 
 		/* Send the email */
-		if ($result) {
-			$vmLogger->info( $VM_LANG->_PHPSHOP_DOWNLOADS_SEND_MSG. " ". $db->f("first_name") . " " . $db->f("last_name") . ", ".$db->f("user_email") );
-		}
-		else {
-			$vmLogger->warning( $VM_LANG->_PHPSHOP_DOWNLOADS_ERR_SEND.' '. $db->f("first_name") . " " . $db->f("last_name") . ", ".$db->f("user_email")." (". $result->ErrorInfo.")" );
+		//modif
+		if(!is_null($sess)){
+			if ($result) {
+				$vmLogger->info( $VM_LANG->_PHPSHOP_DOWNLOADS_SEND_MSG. " ". $db->f("first_name") . " " . $db->f("last_name") . ", ".$db->f("user_email") );
+			} else {
+				$vmLogger->warning( $VM_LANG->_PHPSHOP_DOWNLOADS_ERR_SEND.' '. $db->f("first_name") . " " . $db->f("last_name") . ", ".$db->f("user_email")." (". $result->ErrorInfo.")" );
+			}
 		}
 	}
 

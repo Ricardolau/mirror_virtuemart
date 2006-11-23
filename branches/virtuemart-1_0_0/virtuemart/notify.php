@@ -48,15 +48,43 @@ if ($_POST) {
         }
         else
             die( "Joomla Configuration File not found!" );
-                        
-        require_once($mosConfig_absolute_path. '/includes/database.php');
-        $database = new database( $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db, $mosConfig_dbprefix );
+        
+        include_once( $my_path.'/compat.joomla1.5.php' );
+        
+        if( class_exists( 'jconfig')) {
+			define( '_JEXEC', 1 );
+			define('JPATH_BASE', $mosConfig_absolute_path );
+			
+			require_once ( JPATH_BASE .'/includes/defines.php' );
+			require_once ( JPATH_BASE .'/includes/application.php' );
+			require_once ( JPATH_BASE. '/includes/database.php');
+			// create the mainframe object
+			$mainframe = new JSite();
+			
+			// set the configuration
+			$mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');
+			
+			// load system plugin group
+			JPluginHelper::importPlugin( 'system' );
+			
+			// trigger the onStart events
+			$mainframe->triggerEvent( 'onBeforeStart' );
+			
+			// create the session
+			$mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId() );
+			$database =& JFactory::getDBO();
+        }
+        else {
+        	
+        	require_once($mosConfig_absolute_path. '/includes/database.php');
+        	$database = new database( $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db, $mosConfig_dbprefix );
+        }
         
         // load Joomla Language File
         if (file_exists( $mosConfig_absolute_path. '/language/'.$mosConfig_lang.'.php' )) {
             require_once( $mosConfig_absolute_path. '/language/'.$mosConfig_lang.'.php' );
         }
-        else {
+        elseif (file_exists( $mosConfig_absolute_path. '/language/english.php' )) {
             require_once( $mosConfig_absolute_path. '/language/english.php' );
         }
     /*** END of Joomla config ***/
@@ -79,10 +107,10 @@ if ($_POST) {
 		$vmLogger = &vmLog::singleton('display', '', '', $vmLoggerConf, PEAR_LOG_TIP);
 		$GLOBALS['vmLogger'] =& $vmLogger;
 		
-        require_once( $mosConfig_absolute_path . '/includes/phpmailer/class.phpmailer.php');
-        $mail = new mosPHPMailer();
-        $mail->PluginDir = $mosConfig_absolute_path . '/includes/phpmailer/';
-        $mail->SetLanguage("en", $mosConfig_absolute_path . '/includes/phpmailer/language/');
+        require_once( CLASSPATH . 'phpmailer/class.phpmailer.php');
+        $mail = new vmPHPMailer();
+        $mail->PluginDir = CLASSPATH . 'phpmailer/';
+        $mail->SetLanguage("en", CLASSPATH . 'phpmailer/language/');
               
         /* load the VirtueMart Language File */
         if (file_exists( ADMINPATH. 'languages/'.$mosConfig_lang.'.php' ))
@@ -202,9 +230,11 @@ if ($_POST) {
     }  
     */
     if( PAYPAL_DEBUG != "1" ) {
-    	// Get the list of IP addresses for www.paypal.com
+    	// Get the list of IP addresses for www.paypal.com and notify.paypal.com
         $paypal_iplist = gethostbynamel('www.paypal.com');
-        
+		$paypal_iplist2 = gethostbynamel('notify.paypal.com');
+        $paypal_iplist = array_merge( $paypal_iplist, $paypal_iplist2 );
+
         $paypal_sandbox_hostname = 'ipn.sandbox.paypal.com';
         $remote_hostname = gethostbyaddr( $_SERVER['REMOTE_ADDR'] );
         
@@ -224,7 +254,11 @@ if ($_POST) {
                 $first_three = $parts[0].".".$parts[1].".".$parts[2];
                 if( preg_match("/^$first_three/", $_SERVER['REMOTE_ADDR']) ) {
                     $valid_ip = true;
-                    $hostname = "www.paypal.com";
+                    if( in_array( $ip, $paypal_iplist2 ) ) {
+                        $hostname = "notify.paypal.com";
+                    } else {
+                        $hostname = "www.paypal.com";
+                    }
                 }
             }
         }

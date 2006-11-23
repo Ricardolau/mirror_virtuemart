@@ -267,15 +267,13 @@ class ps_checkout {
 
 		$auth = $_SESSION['auth'];
 		$cart = $_SESSION['cart'];
-		
+
 		// We don't need to validate a payment method when
 		// the user has no order total he should pay
-		if( empty( $_REQUEST['order_total'])) {
+		if( empty( $_REQUEST['order_total'])) { // Checking REQUEST array to prevent arbitrary user input
 			
-			if( !empty( $d['order_total'])) {
-				if( $d['order_total'] <= 0.00 ) {
-					return true;
-				}
+			if( isset( $d['order_total']) && $d['order_total'] <= 0.00 ) {
+				return true;	
 			}
 			if( isset($order_total) && $order_total <= 0.00 ) {
 				return true;
@@ -452,8 +450,7 @@ class ps_checkout {
 	
 				// The User has choosen a Shipping address
 				if (empty($d["ship_to_info_id"])) {
-					$vmLogger->err( $VM_LANG->_PHPSHOP_CHECKOUT_ERR_NO_SHIPTO );
-					$_REQUEST['checkout_next_step'] = CHECK_OUT_GET_SHIPPING_ADDR;
+					$d["error"] = $VM_LANG->_PHPSHOP_CHECKOUT_ERR_NO_SHIPTO;
 					return False;
 				}
 				break;
@@ -728,14 +725,21 @@ class ps_checkout {
 
 		$timestamp = time() + ($mosConfig_offset*60*60);
 
-		$d['order_total'] = $order_total = 	$tmp_subtotal 
-											+ $order_tax 
-											+ $order_shipping 
-											+ $order_shipping_tax
-											- $coupon_discount
-											- $payment_discount;
+		$order_total = 	$tmp_subtotal 
+					+ $order_tax 
+					+ $order_shipping 
+					+ $order_shipping_tax
+					- $coupon_discount
+					- $payment_discount;
 		
 		$order_tax *= $discount_factor;
+		
+		// make sure Total doesn't become negative
+		if( $order_total < 0 ) $order_total = 0;
+
+		$order_total = round( $order_total, 2);
+		
+		$d['order_total'] = $order_total;
 		
 		if (!$this->validate_form($d)) {
 			return false;
@@ -744,12 +748,6 @@ class ps_checkout {
 		if (!$this->validate_add($d)) {
 			return false;
 		}
-
-		// make sure Total doesn't become negative
-		if( $order_total < 0 ) $order_total = 0;
-
-		$order_total = round( $order_total, 2);
-
 
 		$vmLogger->debug( '-- Checkout Debug--
 		
@@ -1294,7 +1292,7 @@ Order Total: '.$order_total.'
 					// because we assume the Discount is "including Tax"
 					$discounted_total = $d['order_subtotal_withtax'] - @$_SESSION['coupon_discount'] - $d['payment_discount'];
 					
-					if( $discounted_total != $d['order_subtotal_withtax'] ) {
+					if( $discounted_total != $d['order_subtotal_withtax'] && $d['order_subtotal_withtax'] > 0.00 ) {
 						$discount_factor = $discounted_total / $d['order_subtotal_withtax'];
 						
 						foreach( $order_tax_details as $rate => $value ) {

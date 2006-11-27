@@ -254,13 +254,9 @@ if ($_POST) {
                 $first_three = $parts[0].".".$parts[1].".".$parts[2];
                 if( preg_match("/^$first_three/", $_SERVER['REMOTE_ADDR']) ) {
                     $valid_ip = true;
-                    if( in_array( $ip, $paypal_iplist2 ) ) {
-                        $hostname = "notify.paypal.com";
-                    } else {
-                        $hostname = "www.paypal.com";
-                    }
                 }
             }
+            $hostname = $_SERVER['REMOTE_ADDR'];
         }
         
         if( !$valid_ip ) {

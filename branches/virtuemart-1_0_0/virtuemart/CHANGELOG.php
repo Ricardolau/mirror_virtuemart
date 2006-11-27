@@ -33,10 +33,14 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+27.11.2006 soeren
+
+# Task #1011 - Cancelled Products get added to Top Ten Module (ps_order.php)
+
 24.11.2006 soeren
 # Task #1027 - Error in stock handling (ps_checkout.php)
 # Task #1014 - Authorize.net test mode error
-# Task #1015 - Pathway duplicated in account.billing, account.shipping, accoutn.shipto
+# Task #1015 - Pathway duplicated in account.billing, account.shipping, account.shipto
 
 22.11.2006 gregdev
 

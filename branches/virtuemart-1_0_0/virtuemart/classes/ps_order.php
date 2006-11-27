@@ -165,7 +165,7 @@ class ps_order {
 		// Do we need to re-update the Stock Level?
 		if( ($d["order_status"] == "X" || $d["order_status"]=="R" ||
 			$d["order_status"] == "x" || $d["order_status"]=="r") &&
-			CHECK_STOCK == '1' &&
+			//CHECK_STOCK == '1' &&
 			$curr_order_status != $d["order_status"]
 			) {
 			// Get the order items and update the stock level
@@ -608,19 +608,19 @@ class ps_order {
 			$this->error = "Unable to delete without the order id.";
 			return False;
 		}
-		if( CHECK_STOCK == '1' ) {
-			// Get the order items and update the stock level
-			// to the number before the order was placed
-			$q = "SELECT product_id, product_quantity FROM #__{vm}_order_item WHERE order_id='$order_id'";
-			$db->query( $q );
-			$dbu = new ps_DB;
-			// Now update each ordered product
-			while( $db->next_record() ) {
-				$q = "UPDATE #__{vm}_product SET product_in_stock=product_in_stock+".$db->f("product_quantity")
-				.",product_sales=product_sales-".$db->f("product_quantity")." WHERE product_id='".$db->f("product_id")."'";
-				$dbu->query( $q );
-			}
+		
+		// Get the order items and update the stock level
+		// to the number before the order was placed
+		$q = "SELECT product_id, product_quantity FROM #__{vm}_order_item WHERE order_id='$order_id'";
+		$db->query( $q );
+		$dbu = new ps_DB;
+		// Now update each ordered product
+		while( $db->next_record() ) {
+			$q = "UPDATE #__{vm}_product SET product_in_stock=product_in_stock+".$db->f("product_quantity")
+			.",product_sales=product_sales-".$db->f("product_quantity")." WHERE product_id='".$db->f("product_id")."'";
+			$dbu->query( $q );
 		}
+
 		return True;
 	}
 

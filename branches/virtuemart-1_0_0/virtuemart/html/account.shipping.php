@@ -24,7 +24,7 @@ $pathway = "<a class=\"pathway\" href=\"".$sess->url( SECUREURL ."index.php?page
       .$VM_LANG->_PHPSHOP_ACCOUNT_TITLE."</a> ".ps_product_category::pathway_separator().' '
       .$VM_LANG->_PHPSHOP_USER_FORM_SHIPTO_LBL;
 $mainframe->appendPathWay( $pathway );
-echo "<div>$pathway</div><br/>";
+//echo "<div>$pathway</div><br/>";
       
 $q  = "SELECT * FROM #__{vm}_user_info WHERE ";
 $q .= "(address_type='ST' OR address_type='st') ";

@@ -301,8 +301,11 @@ class ps_authorize {
 		else {
 			$dbst = $dbbt;
 		}
-
-		$host = "secure.authorize.net";
+		if(AN_TEST_REQUEST) {
+			$host = 'test.authorize.net';
+		} else  {
+			$host = "secure.authorize.net";
+		}
 		$port = 443;
 		$path = "/gateway/transact.dll";
 		// Option to send email to merchant from gateway
@@ -526,9 +529,6 @@ class ps_authorize {
 		global $vendor_mail, $vendor_currency, $VM_LANG, $vmLogger;
 		$database = new ps_DB();
 
-		$host = "secure.authorize.net";
-		$port = 443;
-		$path = "/gateway/transact.dll";
 		/*CERTIFICATION
 		Visa Test Account           4007000000027
 		Amex Test Account           370000000000002
@@ -546,6 +546,14 @@ class ps_authorize {
 		/*** Get the Configuration File for authorize.net ***/
 		require_once(CLASSPATH ."payment/".$this->classname.".cfg.php");
 
+		if(AN_TEST_REQUEST) {
+			$host = 'test.authorize.net';
+		} else  {
+			$host = "secure.authorize.net";
+		}
+		$port = 443;
+		$path = "/gateway/transact.dll";
+		
 		// Get the Transaction Key securely from the database
 		$database->query( "SELECT DECODE(payment_passkey,'".ENCODE_KEY."') as passkey FROM #__{vm}_payment_method WHERE payment_class='".$this->classname."'" );
 		$transaction = $database->record[0];

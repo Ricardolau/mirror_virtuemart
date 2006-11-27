@@ -39,7 +39,7 @@ if ($auto == 1 && !empty( $category_id ) ) {
     . " AND d.product_id = b.product_id "
     . " AND b.product_id = c.product_id AND c.manufacturer_id = a.manufacturer_id ";
 }
-$query .= "ORDER BY mf_name ASC";
+$query .= "ORDER BY a.mf_name ASC";
 $db = new ps_DB;
 $db->query( $query );
 

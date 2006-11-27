@@ -20,7 +20,7 @@ mm_showMyFileName( __FILE__ );
 $manufacturer_id = intval( mosGetParam( $_GET, 'manufacturer_id' ));
 
 if( !empty( $manufacturer_id ) ) {
-  $q  = "SELECT mf_name,mf_email,mf_desc,mf_url FROM #__{vm}_manufacturer WHERE ";
+  $q  = "SELECT manufacturer_id, mf_name,mf_email,mf_desc,mf_url FROM #__{vm}_manufacturer WHERE ";
   $q .= "manufacturer_id=$manufacturer_id";
   $db->query($q);
   $db->next_record();

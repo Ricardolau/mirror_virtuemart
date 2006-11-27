@@ -30,7 +30,7 @@ $pathway = "<a class=\"pathway\" href=\"".$sess->url( SECUREURL ."index.php?page
       .$VM_LANG->_PHPSHOP_USER_FORM_SHIPTO_LBL."</a> ".ps_product_category::pathway_separator().' '
       .$VM_LANG->_PHPSHOP_SHOPPER_FORM_SHIPTO_LBL;
 $mainframe->appendPathWay( $pathway );
-echo "<div>$pathway</div><br/>";
+//echo "<div>$pathway</div><br/>";
 
 $missing = mosGetParam( $vars, 'missing' );
 $missing_style = "color: Red; font-weight: Bold;";

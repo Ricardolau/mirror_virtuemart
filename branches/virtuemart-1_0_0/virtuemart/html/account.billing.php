@@ -99,7 +99,7 @@ $pathway = "<a class=\"pathway\" href=\"".$sess->url( SECUREURL ."index.php?page
       .$VM_LANG->_PHPSHOP_ACCOUNT_TITLE."</a> ".ps_product_category::pathway_separator().' '
       .$VM_LANG->_PHPSHOP_USER_FORM_BILLTO_LBL;
 $mainframe->appendPathWay( $pathway );
-echo "<div>$pathway</div><br/>";
+//echo "<div>$pathway</div><br/>";
 
 // Form validation function
 vmCommonHTML::printJS_formvalidation( $required_fields, 'adminForm', 'submitshopperform' );

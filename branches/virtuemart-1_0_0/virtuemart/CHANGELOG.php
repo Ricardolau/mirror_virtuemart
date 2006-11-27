@@ -33,6 +33,10 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+24.11.2006 soeren
+# Task #1027 - Error in stock handling (ps_checkout.php)
+# Task #1014 - Authorize.net test mode error
+# Task #1015 - Pathway duplicated in account.billing, account.shipping, accoutn.shipto
 
 22.11.2006 gregdev
 

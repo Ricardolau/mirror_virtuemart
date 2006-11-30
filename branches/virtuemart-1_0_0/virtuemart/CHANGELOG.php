@@ -33,6 +33,10 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+29.11.2006 gregdev
+
+# Adjusted so that updating an existing shipping address does not require a new address name (ps_user_address.php)
+
 27.11.2006 soeren
 
 # Task #1011 - Cancelled Products get added to Top Ten Module (ps_order.php)

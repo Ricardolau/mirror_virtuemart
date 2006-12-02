@@ -33,6 +33,10 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+02.12.2006 gregdev
+
+# Task #988 - fixed path to noimage file (product.product_form.php)
+
 29.11.2006 gregdev
 
 # Adjusted so that updating an existing shipping address does not require a new address name (ps_user_address.php)

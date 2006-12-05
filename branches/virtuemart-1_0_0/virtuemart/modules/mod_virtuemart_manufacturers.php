@@ -30,14 +30,16 @@ $category_id = mosGetParam( $_REQUEST, 'category_id', '' );
 require_once( $mosConfig_absolute_path."/components/com_virtuemart/virtuemart_parser.php");
 $sess = new ps_session;
 
-$query  = "SELECT distinct a.manufacturer_id,a.mf_name FROM #__{vm}_manufacturer AS a ";
 if ($auto == 1 && !empty( $category_id ) ) {
-    $query .= ", #__{vm}_product_category_xref AS d, "
-    . " #__{vm}_product AS b, "
-    . " #__{vm}_product_mf_xref AS c "
-    . " WHERE d.category_id='$category_id'"
-    . " AND d.product_id = b.product_id "
-    . " AND b.product_id = c.product_id AND c.manufacturer_id = a.manufacturer_id ";
+	$query  = "SELECT distinct a.manufacturer_id,a.mf_name FROM #__{vm}_manufacturer AS a, ";
+    $query .= "\n#__{vm}_product AS b,"
+    . "\n#__{vm}_product_mf_xref AS c,"
+    . "\n#__{vm}_product_category_xref AS d, "
+    . "\nWHERE d.category_id='$category_id'"
+    . "\n AND d.product_id = b.product_id "
+    . "\n AND b.product_id = c.product_id AND c.manufacturer_id = a.manufacturer_id ";
+} else {
+	$query  = "SELECT a.manufacturer_id,a.mf_name FROM #__{vm}_manufacturer AS a ";
 }
 $query .= "ORDER BY a.mf_name ASC";
 $db = new ps_DB;

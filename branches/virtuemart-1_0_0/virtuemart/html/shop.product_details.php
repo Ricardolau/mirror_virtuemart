@@ -66,7 +66,8 @@ $db_product->query( $q );
 
 // Redirect back to Product Browse Page on Error
 if( !$db_product->next_record() ) {
-  mosRedirect( $_SERVER['PHP_SELF']."?option=com_virtuemart&keyword={$_SESSION['keyword']}&category_id={$_SESSION['category_id']}&limitstart={$_SESSION['limitstart']}", $VM_LANG->_PHPSHOP_PRODUCT_NOT_FOUND );
+  	$vmLogger->err( $VM_LANG->_PHPSHOP_PRODUCT_NOT_FOUND );
+	return;
 }
 if( empty($product_id)) {
 	$product_id = $db_product->f('product_id');

@@ -37,6 +37,12 @@ VirtueMart 1.0.x
 
 # Task #988 - fixed path to noimage file (product.product_form.php)
 
+01.12.2006 soeren
+
+# Task #1035 - Sorry, but the Product you\'ve requested wasn\'t found! (shop.product_details.php)
+# Task #1029 - You are not authorized to view this resource. when viewing user list
+# Task #1012 - Manufacturers in Manufacturer Module List not Alpha sorted
+ 
 29.11.2006 gregdev
 
 # Adjusted so that updating an existing shipping address does not require a new address name (ps_user_address.php)

@@ -37,7 +37,7 @@ class ps_html {
 	 * @param string $extra More attributes when needed
 	 * @return string HTML drop-down list
 	 */
-	function dropdown_display($name, $value, $arr, $size=1, $multiple="", $extra="") {
+	function dropdown_display($name, $value, &$arr, $size=1, $multiple="", $extra="") {
 
 		if( !empty( $arr ) ) {
 			echo "<select class=\"inputbox\" name=\"$name\" size=\"$size\" $multiple $extra>\n";

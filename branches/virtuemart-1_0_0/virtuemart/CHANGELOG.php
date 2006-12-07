@@ -33,9 +33,11 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
-02.12.2006 gregdev
 
-# Task #988 - fixed path to noimage file (product.product_form.php)
+07.12.2006 soeren
+
+# Task #390 - Top Ten Product Module randomly generates items (mod_virtuemart_topten.php)
+
 
 01.12.2006 soeren
 

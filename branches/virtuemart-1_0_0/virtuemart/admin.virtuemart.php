@@ -18,6 +18,8 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 
 defined( '_PSHOP_ADMIN' ) or define( '_PSHOP_ADMIN', '1' );
 
+include( dirname(__FILE__).'/compat.joomla1.5.php');
+
 $no_menu = mosGetParam( $_REQUEST, 'no_menu', 0 );
 global $VM_LANG;
 /*** INSTALLER SECTION ***/

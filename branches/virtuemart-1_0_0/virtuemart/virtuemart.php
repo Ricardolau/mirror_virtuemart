@@ -21,6 +21,8 @@ global $mosConfig_absolute_path, $product_id, $vmInputFilter;
 /* Load the virtuemart main parse code */
 require_once( $mosConfig_absolute_path.'/components/'.$option.'/virtuemart_parser.php' );
 
+include( $mosConfig_absolute_path.'/administrator/components/'.$option.'/compat.joomla1.5.php');
+
 $my_page= explode ( '.', $page );
 $modulename = $my_page[0];
 $pagename = $my_page[1];

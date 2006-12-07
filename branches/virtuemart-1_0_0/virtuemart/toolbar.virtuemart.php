@@ -28,6 +28,9 @@ if( stristr( $_SERVER['PHP_SELF'], 'administrator')) {
 	
 global $page;
 if (!file_exists( $mosConfig_absolute_path.'/administrator/components/com_virtuemart/install.php' )) {
+	
+	include( dirname(__FILE__).'/compat.joomla1.5.php');
+	
     // We parse the phpShop main code before loading the toolbar,
     // for we can catch errors and adjust the toolbar when
     // the admin has to stay on a site or is redirected back on error

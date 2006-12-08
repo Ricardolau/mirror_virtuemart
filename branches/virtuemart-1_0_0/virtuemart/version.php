@@ -30,14 +30,14 @@ class vmVersion {
 	/** @var string Product */
 	var $PRODUCT = 'VirtueMart';
 	/** @var int Release Number */
-	var $RELEASE = '1.0.7';
+	var $RELEASE = '1.0.8';
 	/** @var string Development Status */
 	var $DEV_STATUS = 'stable';
 	/** @var string Codename */
-	// Series of performances by Dusty Springfield, with John Paul Jones: http://en.wikipedia.org/wiki/John_Paul_Jones_%28musician%29
-	var $CODENAME = 'Talk Of The Town';
+	// Song by the Foo Fighters, in which John Paul Jones plays Mandolin: http://en.wikipedia.org/wiki/In_Your_Honor
+	var $CODENAME = 'Another Round';
 	/** @var string Date */
-	var $RELDATE = '13/09/2006';
+	var $RELDATE = '08/12/2006';
 	/** @var string Time */
 	var $RELTIME = '20:00';
 	/** @var string Timezone */

@@ -61,7 +61,7 @@ $columns = Array(  "#" => "width=\"20\"",
 					$VM_LANG->_PHPSHOP_MODULE_LIST_PERMS => "",
 					$VM_LANG->_PHPSHOP_MODULE_LIST_FUNCTIONS => "",
 					$VM_LANG->_PHPSHOP_MODULE_LIST_ORDER => "",
-					_E_REMOVE => "width=\"5%\""
+					$VM_LANG->_E_REMOVE => "width=\"5%\""
 				);
 $listObj->writeTableHeader( $columns );
 

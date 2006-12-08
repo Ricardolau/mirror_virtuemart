@@ -35,9 +35,9 @@ $q = "SELECT module_name,module_perms from #__{vm}_module WHERE module_publish='
 $q .= "AND module_name <> 'checkout' ORDER BY list_order ASC";
 $db->query($q);
 while ($db->next_record()) {
-        if ($perm->check($db->f("module_perms"))) {
-                $mod[] = $db->f("module_name");
-}
+    if ($perm->check($db->f("module_perms"))) {
+        $mod[] = $db->f("module_name");
+	}
 }
 if (!defined('_PSHOP_ADMIN')) {
   $my_path = "includes/js/ThemeOffice/";
@@ -48,16 +48,18 @@ if (!defined('_PSHOP_ADMIN')) {
   // We need the admin template css now, but which one? - so check here
   $adminTemplate = $_VERSION->PRODUCT == 'Joomla!' ? 'joomla_admin' : 'mambo_admin_blue';
 ?>
-<link rel="stylesheet" href="<?php echo $my_path ?>theme.css" type="text/css" />
 <link rel="stylesheet" href="administrator/templates/<?php echo $adminTemplate; ?>/css/template_css.css" type="text/css" />
-<script language="JavaScript" src="includes/js/JSCookMenu.js" type="text/javascript"></script>
-<script language="JavaScript" src="<?php echo $my_path ?>theme.js" type="text/javascript"></script>
         <?php 
 }
-    else {
-      $my_path = "../includes/js/ThemeOffice/";
-    }
+else {
+  $my_path = "../includes/js/ThemeOffice/";
+}
+if( class_exists('jconfig') || !defined('_PSHOP_ADMIN')) {
+	echo '<script language="JavaScript" src="'. $mosConfig_live_site .'/includes/js/JSCookMenu.js" type="text/javascript"></script>';
+}
     ?>
+<script language="JavaScript" src="<?php echo $my_path ?>theme.js" type="text/javascript"></script>
+<link rel="stylesheet" href="<?php echo $my_path ?>theme.css" type="text/css" />
 <script language="JavaScript" type="text/javascript">
 var vmMenu =
 [  <?php 

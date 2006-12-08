@@ -57,7 +57,7 @@ require_once( CLASSPATH . "htmlTools.class.php" );
           <input class="button" type="submit" name="search" value="<?php echo $VM_LANG->_PHPSHOP_SEARCH_TITLE?>" />
 		  <br/>
          <select class="inputbox" id="category_id" name="category_id" onchange="window.location='<?php echo $_SERVER['PHP_SELF'] ?>?option=com_virtuemart&page=product.product_list&category_id='+document.getElementById('category_id').options[selectedIndex].value;">
-		<option value=""><?php echo _SEL_CATEGORY ?></option>
+		<option value=""><?php echo $VM_LANG->_SEL_CATEGORY ?></option>
 		<?php
          $ps_product_category->list_tree( $category_id );
         ?>
@@ -245,7 +245,7 @@ $columns = Array(  "#" => "",
 					$VM_LANG->_PHPSHOP_REVIEWS => "width=\"10%\"",
 					$VM_LANG->_PHPSHOP_PRODUCT_LIST_PUBLISH => "width=\"5%\"",
 					$VM_LANG->_PHPSHOP_PRODUCT_CLONE => "",
-					_E_REMOVE => "width=\"5%\""
+					$VM_LANG->_E_REMOVE => "width=\"5%\""
 				);
 $listObj->writeTableHeader( $columns );
 

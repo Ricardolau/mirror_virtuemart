@@ -1914,7 +1914,7 @@ Order Total: '.$order_total.'
 			$html = str_replace('{phpShopVendorImage}',$v_vfi,$html);
 			$html = str_replace('{phpShopOrderHeader}',$VM_LANG->_PHPSHOP_ORDER_PRINT_PO_LBL,$html);
 			$html = str_replace('{phpShopOrderNumber}',$v_oi,$html);
-			$html = str_replace('{phpShopOrderDate}',strftime( _DATE_FORMAT_LC, $db->f("cdate")),$html);
+			$html = str_replace('{phpShopOrderDate}',strftime( $VM_LANG->_DATE_FORMAT_LC, $db->f("cdate")),$html);
 			$html = str_replace('{phpShopOrderStatus}', $order_status, $html);
 
 			$html = str_replace('{phpShopBTCompany}', $dbbt->f("company"), $html);

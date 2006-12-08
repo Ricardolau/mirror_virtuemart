@@ -313,6 +313,8 @@ class ps_payment_method extends vmAbstractObject {
   ** returns:
   ***************************************************************************/
   function list_method($payment_method_id) {
+  	global $VM_LANG;
+  
     $ps_vendor_id = $_SESSION["ps_vendor_id"];
     $db = new ps_DB;
  
@@ -343,7 +345,7 @@ class ps_payment_method extends vmAbstractObject {
 
     // Start drop down list
     echo "<select class=\"inputbox\" name=\"payment_method_id\">\n";
-    echo "<option value=\"0\">"._PHPSHOP_SELECT."</option>\n";
+    echo "<option value=\"0\">".$VM_LANG->_PHPSHOP_SELECT."</option>\n";
     while ($db->next_record()) {
        echo "<option value=" . $db->f("payment_method_id") . " ";
        if ($db->f("payment_method_id") == $payment_method_id) 

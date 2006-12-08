@@ -118,7 +118,7 @@ $tabs->startTab( "<img src=\"". IMAGEURL ."ps_image/edit.png\" align=\"center\" 
 </table>
 <?php
 $tabs->endTab();
-$tabs->startTab( "<img src=\"". IMAGEURL ."ps_image/image.png\" width=\"16\" height=\"16\" align=\"center\" border=\"0\" />&nbsp;"._E_IMAGES, "status-page");
+$tabs->startTab( "<img src=\"". IMAGEURL ."ps_image/image.png\" width=\"16\" height=\"16\" align=\"center\" border=\"0\" />&nbsp;".$VM_LANG->_E_IMAGES, "status-page");
 
 if( !stristr( $db->f("category_thumb_image"), "http") )
   echo "<input type=\"hidden\" name=\"category_thumb_image_curr\" value=\"". $db->f("category_thumb_image") ."\" />";
@@ -159,7 +159,7 @@ if( !stristr( $db->f("category_full_image"), "http") )
           </tr>
           <tr><td colspan="2">&nbsp;</td></tr>
           <tr> 
-            <td width="21%" ><?php echo _URL." ("._CMN_OPTIONAL."!)&nbsp;"; ?></td>
+            <td width="21%" ><?php echo $VM_LANG->_URL." (".$VM_LANG->_CMN_OPTIONAL."!)&nbsp;"; ?></td>
             <td width="79%" >
               <?php 
               if( stristr($db->f("category_full_image"), "http") )
@@ -205,7 +205,7 @@ if( !stristr( $db->f("category_full_image"), "http") )
           </tr>
           <tr><td colspan="2">&nbsp;</td></tr>
           <tr> 
-            <td width="21%" ><?php echo _URL." ("._CMN_OPTIONAL.")&nbsp;"; ?></td>
+            <td width="21%" ><?php echo $VM_LANG->_URL." (".$VM_LANG->_CMN_OPTIONAL.")&nbsp;"; ?></td>
             <td width="79%" >
               <?php 
               if( stristr($db->f("category_thumb_image"), "http") )

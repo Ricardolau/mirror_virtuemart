@@ -40,10 +40,10 @@ $shopper_fields = array();
 // an index called uniqid('fieldset_begin')
 // and the end uniqid('fieldset_end')
 $shopper_fields[uniqid('fieldset_begin')] = $VM_LANG->_PHPSHOP_ACC_ACCOUNT_INFO;
-	$shopper_fields['username'] = _REGISTER_UNAME;
+	$shopper_fields['username'] = $VM_LANG->_REGISTER_UNAME;
 	$shopper_fields['password'] = $VM_LANG->_PHPSHOP_SHOPPER_FORM_PASSWORD_1;
 	$shopper_fields['password2'] = $VM_LANG->_PHPSHOP_SHOPPER_FORM_PASSWORD_2;
-	$shopper_fields['email'] = _REGISTER_EMAIL;
+	$shopper_fields['email'] = $VM_LANG->_REGISTER_EMAIL;
 $shopper_fields[uniqid('fieldset_end')]	 = "";
 
 $shopper_fields[uniqid('fieldset_begin')] = $VM_LANG->_PHPSHOP_USER_FORM_BILLTO_LBL;
@@ -85,7 +85,7 @@ if (LEAVE_BANK_DATA == '1') {
 
 
 if (!empty($missing))
-    echo "<script type=\"text/javascript\"> alert('"._CONTACT_FORM_NC."'); </script>\n";
+    echo "<script type=\"text/javascript\"> alert('".$VM_LANG->_CONTACT_FORM_NC."'); </script>\n";
 
 $q =  "SELECT * FROM #__users, #__{vm}_user_info 
 		WHERE user_id='" . $auth["user_id"] . "' 
@@ -110,16 +110,16 @@ vmCommonHTML::printJS_formvalidation( $required_fields, 'adminForm', 'submitshop
   
 <div style="float:left;width:90%;text-align:right;"> 
     <span>
-    	<input type="image" src="images/save_f2.png" name="submit" alt="<?php echo _E_SAVE ?>"  onclick="return( submitshopperform());" />
+    	<input type="image" src="images/save_f2.png" name="submit" alt="<?php echo $VM_LANG->_CMN_SAVE ?>"  onclick="return( submitshopperform());" />
     </span>
     <span style="margin-left:10px;">
     	<a href="<?php $sess->purl( SECUREURL."index.php?page=account.index") ?>">
-    		<img src="images/back_f2.png" alt="<?php echo _BACK ?>" border="0" />
+    		<img src="images/back_f2.png" alt="<?php echo $VM_LANG->_BACK ?>" border="0" />
     	</a>
     </span>
 </div>
 <div style="width:90%;">
-	<div style="padding:5px;text-align:center;"><strong>(* = <?php echo _CMN_REQUIRED ?>)</strong></div>
+	<div style="padding:5px;text-align:center;"><strong>(* = <?php echo $VM_LANG->_CMN_REQUIRED ?>)</strong></div>
    <?php
    foreach( $shopper_fields as $fieldname => $label) {
    		if( stristr( $fieldname, 'fieldset_begin' )) {

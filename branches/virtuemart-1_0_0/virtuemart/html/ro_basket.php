@@ -27,6 +27,7 @@ $ps_checkout = new ps_checkout;
 require_once(CLASSPATH . 'ps_shipping_method.php' );
 
 global $weight_total, $total, $tax_total, $order_tax_details, $discount_factor;
+$cart = $_SESSION['cart'];
 
 /* make sure this is the checkout screen */
 if ($cart["idx"] == 0) {
@@ -264,4 +265,5 @@ else {
   }
   
 }
+
 ?>

@@ -78,7 +78,7 @@ class PDF extends HTML2FPDF {
     $this->divwidth = $this->pgwidth;
     $this->divheight = 8.5;
   
-    //Custom Word Wrap (para melhorar organização das palvras no titulo)
+    //Custom Word Wrap (para melhorar organizaï¿½ï¿½o das palvras no titulo)
     $maxwidth = $this->divwidth;
     $titulo = trim($titulo);
     $words = preg_split('/ +/', $titulo);
@@ -95,7 +95,7 @@ class PDF extends HTML2FPDF {
       $nextwordwidth = $this->GetStringWidth($nextword);
       if((strlen($word) <= 3) and ($nextword != '') and ($width + $wordwidth + $nextwordwidth > $maxwidth))
       {
-         //Para não ficar um artigo/preposição esquecido(a) no final de uma linha
+         //Para nï¿½o ficar um artigo/preposiï¿½ï¿½o esquecido(a) no final de uma linha
          $width = $wordwidth + $space;
          $titulo = rtrim($titulo)."\n".$word.' ';
       }
@@ -104,7 +104,7 @@ class PDF extends HTML2FPDF {
          $width += $wordwidth + $space;
          $titulo .= $word.' ';
       }
-      else //Palavra não cabe, pular linha e inserir na outra linha
+      else //Palavra nï¿½o cabe, pular linha e inserir na outra linha
       {
          $width = $wordwidth + $space;
          $titulo = rtrim($titulo)."\n".$word.' ';
@@ -148,12 +148,12 @@ class PDF extends HTML2FPDF {
   
   //Page footer
   function Footer() {
-      global $mosConfig_live_site, $vendor_name;
+      global $mosConfig_live_site, $vendor_name, $VM_LANG;
   //! @desc Insert footer on every page
   //! @return void
       //Position at 1.0 cm from bottom
       $this->SetY(-10);
-      //Copyright //especial para esta versão
+      //Copyright //especial para esta versï¿½o
       $this->SetFont('Arial','B',9);
       $this->SetTextColor(0);
       $texto = "Copyright ".chr(169).date('Y')."  -  $vendor_name  -  ";
@@ -167,7 +167,7 @@ class PDF extends HTML2FPDF {
       //Arial italic 9
       $this->SetFont('Arial','I',9);
       //Page number
-      $this->Cell(0,10, _PN_PAGE." ".$this->PageNo()." "._PN_OF." {nb}",0,0,'R');
+      $this->Cell(0,10, $VM_LANG->_PN_PAGE." ".$this->PageNo()." ".$VM_LANG->_PN_OF." {nb}",0,0,'R');
       //Return Font to normal
       $this->SetFont('Arial','',11);
   }

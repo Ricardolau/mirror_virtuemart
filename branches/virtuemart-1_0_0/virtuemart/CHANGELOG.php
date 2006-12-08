@@ -5,7 +5,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 * @version $Id$
 * @package VirtueMart
 * @subpackage core
-* @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
+* @copyright Copyright (C) 2004-2006 Soeren Eberhardt. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -33,6 +33,12 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+08.12.2006 soeren
+
+# Task #998 - reordering fails due to incorrect number of rows
+^ changed all language constants into VM_LANG variables (a lot of files affected!)
+^ added all the language strings from the Joomla language file used in Virtuemart to the VM language files
+! Language Files have been changed
 
 07.12.2006 soeren
 

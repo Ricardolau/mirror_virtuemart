@@ -44,7 +44,7 @@ class MENU_virtuemart {
     function FORMS_MENU_SAVE_CANCEL() {     
         global $mosConfig_absolute_path,$mosConfig_live_site, $mosConfig_lang, $VM_LANG, 
         		$page, $limitstart,	$mosConfig_editor, $vmIcons;
-		$bar = & JToolBar::getInstance('JComponent');
+		@$bar =& JToolBar::getInstance('JComponent');
         $product_parent_id = mosGetParam( $_REQUEST, 'product_parent_id', 0 );
         $product_id = mosGetParam( $_REQUEST, 'product_id' );
 		if( is_array( $product_id ))
@@ -150,7 +150,7 @@ class MENU_virtuemart {
 		}
 		vmMenuBar::spacer();
 		
-		vmMenuBar::save( 'save', _E_SAVE );
+		vmMenuBar::save( 'save', $VM_LANG->_CMN_SAVE );
 		
         vmMenuBar::spacer();
 		
@@ -179,7 +179,7 @@ class MENU_virtuemart {
 
         $my_page = str_replace('list','form',$page);
 		
-        vmMenuBar::addNew( "new", $my_page, _CMN_NEW );
+        vmMenuBar::addNew( "new", $my_page, $VM_LANG->_CMN_NEW );
 		
         if ($page == 'admin.country_state_list') {
 			// Back to the country

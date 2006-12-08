@@ -105,7 +105,7 @@ if ($num_rows == 0 && !empty($keyword)) {
 	echo $VM_LANG->_PHPSHOP_NO_SEARCH_RESULT;
 }
 elseif( $num_rows == 0 && empty($product_type_id) ) {
-	echo _EMPTY_CATEGORY;
+	echo $VM_LANG->_EMPTY_CATEGORY;
 }
 /*** NOW START THE PRODUCT LIST ***/
 else {
@@ -230,7 +230,7 @@ else {
 		}
 		
 		if( PSHOP_SHOW_TOP_PAGENAV =='1' && ($num_rows > $limit || $num_rows > 5)) {
-			echo "&nbsp;&nbsp;&nbsp;&nbsp;"._PN_DISPLAY_NR."&nbsp;&nbsp;";
+			echo "&nbsp;&nbsp;&nbsp;&nbsp;".$VM_LANG->_PN_DISPLAY_NR."&nbsp;&nbsp;";
 			//echo "<form action=\"$search_string\" method=\"post\">";
 			$pagenav->writeLimitBox( $search_string );
 			echo "<noscript><input type=\"submit\" value=\"".$VM_LANG->_PHPSHOP_SUBMIT."\" /></noscript></form>";
@@ -351,7 +351,7 @@ else {
 		}
 		$product_name = $db_browse->f("product_name");
 		if( $db_browse->f("product_publish") == "N" ) {
-			$product_name .= " (".vmHtmlEntityDecode(_CMN_UNPUBLISHED).")";
+			$product_name .= " (".vmHtmlEntityDecode($VM_LANG->_CMN_UNPUBLISHED).")";
 		}
 
 		if( empty($product_name) && $product_parent_id!=0 ) {
@@ -515,7 +515,7 @@ if ( $num_rows > $limit && @$_REQUEST['output'] != "pdf") {
         echo $pagenav->writePagesLinks( $search_string );
 }
 if( $num_rows > 5 && @$_REQUEST['output'] != "pdf") {
-        echo "<br/><br/><form action=\"$search_string\" method=\"post\">"._PN_DISPLAY_NR."&nbsp;&nbsp;";
+        echo "<br/><br/><form action=\"$search_string\" method=\"post\">".$VM_LANG->_PN_DISPLAY_NR."&nbsp;&nbsp;";
 	$pagenav->writeLimitBox( $search_string );
 	echo "<noscript><input class=\"button\" type=\"submit\" value=\"".$VM_LANG->_PHPSHOP_SUBMIT."\" /></noscript></form>";
 }

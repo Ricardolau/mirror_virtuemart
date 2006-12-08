@@ -104,8 +104,6 @@ else {
 }
 
 echo '<br />';
-    
-
 
 if ($checkout) {
     // We have something in the Card so move on

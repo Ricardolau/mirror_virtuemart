@@ -156,7 +156,7 @@ if ( $show_login_form == "yes" ) {
 	  <td colspan="2" valign="top">
 		<div align="left" style="margin: 0px; padding: 0px;">
 		  <form action="<?php echo $mm_action_url ?>index.php?option=logout" method="post" name="login" id="login">
-			<input type="submit" name="Submit" class="button" value="<?php echo _BUTTON_LOGOUT ?>" /><br /><hr />
+			<input type="submit" name="Submit" class="button" value="<?php echo $VM_LANG->_BUTTON_LOGOUT ?>" /><br /><hr />
 			<input type="hidden" name="op2" value="logout" />
 			<input type="hidden" name="return" value="<?php echo $mm_action_url ?>index.php" />
 			<input type="hidden" name="lang" value="english" />
@@ -173,17 +173,17 @@ if ( $show_login_form == "yes" ) {
 		<tr>
 		  <td colspan="2" align="left" valign="top" style="margin: 0px; padding: 0px;">
 			<form action="<?php echo $mm_action_url ?>index.php?option=login" method="post" name="login" id="login">
-			<label for="username_field"><?php echo _USERNAME ?></label><br/>
+			<label for="username_field"><?php echo $VM_LANG->_USERNAME ?></label><br/>
 			<input class="inputbox" type="text" id="username_field" size="12" name="username" />
 		  <br/>
-			<label for="password_field"><?php echo _PASSWORD ?></label><br/>
+			<label for="password_field"><?php echo $VM_LANG->_PASSWORD ?></label><br/>
 			<input type="password" class="inputbox" id="password_field" size="12" name="passwd" />
 			<input type="hidden" value="login" name="op2" />
 			<input type="hidden" value="yes" name="remember" />
 			<?php $query_string = mosGetParam($_SERVER, 'QUERY_STRING', ''); ?>
 			<input type="hidden" value="<?php $sess->purl($mm_action_url . "index.php?". $query_string); ?>" name="return" />
 		  <br/>
-			<input type="submit" value="<?php echo _BUTTON_LOGIN ?>" class="button" name="Login" />
+			<input type="submit" value="<?php echo $VM_LANG->_BUTTON_LOGIN ?>" class="button" name="Login" />
 			
 			<?php
 		  	// used for spoof hardening
@@ -196,7 +196,7 @@ if ( $show_login_form == "yes" ) {
 		<tr>
 		  <td colspan="2">
 			<a href="<?php echo sefRelToAbs( 'index.php?option=com_registration&amp;task=lostPassword&amp;Itemid='.$Itemid ); ?>">
-			<?php echo _LOST_PASSWORD; ?>
+			<?php echo $VM_LANG->_LOST_PASSWORD; ?>
 			</a>
 		  </td>
 		</tr>
@@ -205,9 +205,9 @@ if ( $show_login_form == "yes" ) {
 		?>
 			<tr>
 			  <td colspan="2">
-				<?php echo _NO_ACCOUNT; ?>
+				<?php echo $VM_LANG->_NO_ACCOUNT; ?>
 				<a href="<?php $sess->purl( SECUREURL.'index.php?option=com_virtuemart&amp;page=shop.registration' ); ?>">
-				<?php echo _CREATE_ACCOUNT; ?>
+				<?php echo $VM_LANG->_CREATE_ACCOUNT; ?>
 				</a>
 				<hr />
 			  </td>

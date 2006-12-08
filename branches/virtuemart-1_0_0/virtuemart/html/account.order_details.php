@@ -709,7 +709,7 @@ if( PAYMENT_DISCOUNT_BEFORE == '1') {
 
 } /* End of security check */
 else {
-	echo '<h4>'._LOGIN_TEXT .'</h4><br/>';
+	echo '<h4>'.$VM_LANG->_LOGIN_TEXT .'</h4><br/>';
 	include(PAGEPATH.'checkout.login_form.php');
 	echo '<br/><br/>';
 } ?>

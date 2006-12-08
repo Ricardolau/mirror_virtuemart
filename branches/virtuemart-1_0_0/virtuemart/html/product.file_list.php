@@ -71,7 +71,7 @@ $columns = Array(  "#" => 'width="20"',
 					$VM_LANG->_PHPSHOP_UPDATE => '',
 					$VM_LANG->_PHPSHOP_FILES_LIST_FILETYPE => '',
 					$VM_LANG->_PHPSHOP_FILEMANAGER_PUBLISHED => '',
-					_E_REMOVE => "width=\"5%\""
+					$VM_LANG->_E_REMOVE => "width=\"5%\""
 				);
 $listObj->writeTableHeader( $columns );
 

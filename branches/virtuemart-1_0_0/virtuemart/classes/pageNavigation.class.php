@@ -68,6 +68,7 @@ class vmPageNav {
 	* @return string The html for the pages counter, eg, Results 1-10 of x
 	*/
 	function getPagesCounter() {
+		global $VM_LANG;
 	    $html = '';
 		$from_result = $this->limitstart+1;
 		if ($this->limitstart + $this->limit < $this->total) {
@@ -76,7 +77,7 @@ class vmPageNav {
 			$to_result = $this->total;
 		}
 		if ($this->total > 0) {
-			$html .= _PN_RESULTS." $from_result - $to_result "._PN_OF." $this->total";
+			$html .= $VM_LANG->_PN_RESULTS." $from_result - $to_result ".$VM_LANG->_PN_OF." $this->total";
 		} else {
 			//$html .= "\nNo records found.";
 		}
@@ -92,6 +93,7 @@ class vmPageNav {
 	* @return string The html links for pages, eg, previous, next, 1 2 3 ... x
 	*/
 	function getPagesLinks() {
+		global $VM_LANG;
 	    $html = '';
 		$displayed_pages = 10;
 		$total_pages = ceil( $this->total / $this->limit );
@@ -105,11 +107,11 @@ class vmPageNav {
 
 		if ($this_page > 1) {
 			$page = ($this_page - 2) * $this->limit;
-			$html .= "\n<a href=\"#beg\" class=\"pagenav\" title=\"first page\" onclick=\"javascript: document.adminForm.limitstart.value=0; document.adminForm.submit();return false;\">&lt;&lt; "._PN_START."</a>";
-			$html .= "\n<a href=\"#prev\" class=\"pagenav\" title=\"previous page\" onclick=\"javascript: document.adminForm.limitstart.value=$page; document.adminForm.submit();return false;\">&lt; "._PN_PREVIOUS."</a>";
+			$html .= "\n<a href=\"#beg\" class=\"pagenav\" title=\"first page\" onclick=\"javascript: document.adminForm.limitstart.value=0; document.adminForm.submit();return false;\">&lt;&lt; ".$VM_LANG->_PN_START."</a>";
+			$html .= "\n<a href=\"#prev\" class=\"pagenav\" title=\"previous page\" onclick=\"javascript: document.adminForm.limitstart.value=$page; document.adminForm.submit();return false;\">&lt; ".$VM_LANG->_PN_PREVIOUS."</a>";
 		} else {
-			$html .= "\n<span class=\"pagenav\">&lt;&lt; "._PN_START."</span>";
-			$html .= "\n<span class=\"pagenav\">&lt; "._PN_PREVIOUS."</span>";
+			$html .= "\n<span class=\"pagenav\">&lt;&lt; ".$VM_LANG->_PN_START."</span>";
+			$html .= "\n<span class=\"pagenav\">&lt; ".$VM_LANG->_PN_PREVIOUS."</span>";
 		}
 
 		for ($i=$start_loop; $i <= $stop_loop; $i++) {
@@ -124,16 +126,17 @@ class vmPageNav {
 		if ($this_page < $total_pages) {
 			$page = $this_page * $this->limit;
 			$end_page = ($total_pages-1) * $this->limit;
-			$html .= "\n<a href=\"#next\" class=\"pagenav\" title=\"next page\" onclick=\"javascript: document.adminForm.limitstart.value=$page; document.adminForm.submit();return false;\"> "._PN_NEXT." &gt;</a>";
-			$html .= "\n<a href=\"#end\" class=\"pagenav\" title=\"end page\" onclick=\"javascript: document.adminForm.limitstart.value=$end_page; document.adminForm.submit();return false;\"> "._PN_END." &gt;&gt;</a>";
+			$html .= "\n<a href=\"#next\" class=\"pagenav\" title=\"next page\" onclick=\"javascript: document.adminForm.limitstart.value=$page; document.adminForm.submit();return false;\"> ".$VM_LANG->_PN_NEXT." &gt;</a>";
+			$html .= "\n<a href=\"#end\" class=\"pagenav\" title=\"end page\" onclick=\"javascript: document.adminForm.limitstart.value=$end_page; document.adminForm.submit();return false;\"> ".$VM_LANG->_PN_END." &gt;&gt;</a>";
 		} else {
-			$html .= "\n<span class=\"pagenav\">"._PN_NEXT." &gt;</span>";
-			$html .= "\n<span class=\"pagenav\">"._PN_END." &gt;&gt;</span>";
+			$html .= "\n<span class=\"pagenav\">".$VM_LANG->_PN_NEXT." &gt;</span>";
+			$html .= "\n<span class=\"pagenav\">".$VM_LANG->_PN_END." &gt;&gt;</span>";
 		}
 		return $html;
 	}
 	
 	function getListFooter() {
+		global $VM_LANG;
 	    $html = '<table class="adminlist">';
 	    if( $this->total > $this->limit || $this->limitstart > 0) {
 	    	
@@ -142,7 +145,7 @@ class vmPageNav {
 			$html .= $this->getPagesLinks();
 			$html .= '</th></tr>';
 	    }
-		$html .= '<tr><td nowrap="true" width="48%" align="right">'._PN_DISPLAY_NR.'</td>';
+		$html .= '<tr><td nowrap="true" width="48%" align="right">'.$VM_LANG->_PN_DISPLAY_NR.'</td>';
 		$html .= '<td>' .$this->getLimitBox() . '</td>';
 		$html .= '<td nowrap="true" width="48%" align="left">' . $this->getPagesCounter() . '</td>';
 		$html .= '</tr></table>';

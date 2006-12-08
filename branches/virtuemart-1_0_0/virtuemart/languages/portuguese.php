@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: admin.martlanguages.php,v 1.6 2006/01/15 19:42:45 soeren_nb Exp $
+* @version $Id: admin.martlanguages.php 466 2006-11-07 20:40:22 +0100 (Di, 07 Nov 2006) soeren_nb $
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -1545,6 +1545,128 @@ Para mais informações sobre cancelamento de encomendas e devolução de produtos, 
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PACKAGING = 'Specify the number of items in the package.<br />Usage:<ol><li>Add the the name "product_packaging" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the number of items in the package.</li></ol><br /.>Values:<ul><li>Number</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_BOX = 'Specify the number of items in the box.<br />Usage:<ol><li>Add the the name "product_box" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the number of items in the box.</li></ol><br /.>Values:<ul><li>Number</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT = 'Specify the amount or percentage of discount the product has. The values entered are exact values, no calculation is made. This is the same as if you are filling in a discount via the Product Discount List. If the discount already exists, it will not be added to the database but the product will be linked to the existing discount. The criteria for determining if a discount already exists the following values have to be exactly the same:<ol><li>Amount, be it a total or percentage</li><li>Start date</li><li>End date</li></ol>This prevents from filling the database with a huge number of the same discounts.<br /><br />Usage:<ol><li>Add the the name "product_discount" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Optional: Add the the name "product_discount_date_start" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Optional: Add the the name "product_discount_date_end" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add the chosen columns to your CSV file with the corresponding values.</li></ol><br /.>Values:<ul><li>product_discount</li><ul><li>Number<br />e.g. 10</li><li>Percentage: Must include the % sign<br />e.g. 10%</li></ul><li>product_discount_date_start</li><ul><li>Date: day/month/year or day-month-year<br />Day and month can be a 1 or 2 digit notation.<br />Year can be a 2 or 4 digit notation.</li></ul><li>product_discount_date_end</li><ul><li>Date: day/month/year or day-month-year<br />Day and month can be a 1 or 2 digit notation.<br />Year can be a 2 or 4 digit notation.</li></ul></ul>';
+	var $_ITEM_PREVIOUS = 'previous';
+	var $_ITEM_NEXT = 'next';
+	var $_CMN_OK = 'Ok';
+	var $_CMN_CONTINUE = 'Continue';
+	var $_CMN_CANCEL = 'Cancel';
+	var $_BUTTON_SEND_REG = 'Send Registration';
+	var $_CONTACT_FORM_NC = 'Please make sure the form is complete and valid.';
+	var $_CMN_REQUIRED = 'Required';
+	var $_CMN_NEW = 'New';
+	var $_CMN_SAVE = 'Save';
+	var $_CMN_NEW_ITEM_LAST = 'New items default to the last place. Ordering can be changed after this item is saved.';
+	var $_CMN_OPTIONAL = 'Optional';
+	var $_E_APPLY = 'Apply';
+	var $_E_IMAGES = 'Images';
+	var $_URL = 'URL:';
+	var $_SEL_CATEGORY = 'Select a category';
+	var $_E_REMOVE = 'Remove';
+	var $_PN_LT = '<';
+	var $_PN_RT = '>';
+	var $_PN_PAGE = 'Page';
+	var $_PN_OF = 'of';
+	var $_PN_START = 'Start';
+	var $_PN_PREVIOUS = 'Prev';
+	var $_PN_NEXT = 'Next';
+	var $_PN_END = 'End';
+	var $_PN_DISPLAY_NR = 'Display #';
+	var $_PN_RESULTS = 'Results';
+	var $_CMN_PRINT = 'Print';
+	var $_CMN_PDF = 'PDF';
+	var $_CMN_EMAIL = 'E-mail';
+	var $_BACK = 'Back';
+	var $_USERNAME = 'Username';
+	var $_PASSWORD = 'Password';
+	var $_BUTTON_LOGIN = 'Login';
+	var $_REGISTER_UNAME = 'Username';
+	var $_REGISTER_EMAIL = 'Email';
+	var $_REGWARN_NAME = 'Please enter your name.';
+	var $_REGWARN_UNAME = 'Please enter a user name.';
+	var $_REGWARN_MAIL = 'Please enter a valid e-mail address.';
+	var $_SEND_SUB = 'Account details for %s at %s';
+	var $_ASEND_MSG = 'Hello %s,
+	
+	A new user has registered at %s.
+	This email contains their details:
+	
+	Name - %s
+	e-mail - %s
+	Username - %s
+	
+	Please do not respond to this message as it is automatically generated and is for information purposes only';
+	var $_REG_COMPLETE = '<div class="componentheading">Registration Complete!</div><br />You may now login.';
+	var $_REG_COMPLETE_ACTIVATE = '<div class="componentheading">Registration Complete!</div><br />Your account has been created and activation link has been sent to the e-mail address you entered. Note that you must activate the account by clicking on the activation link when you get the e-mail before you can login.';
+	var $_DATE_FORMAT_LC = '%A, %d %B %Y';
+	var $_LAST_UPDATED = 'Last Updated';
+	var $_NOT_AUTH = 'You are not authorized to view this resource.';
+	var $_DO_LOGIN = 'You need to login.';
+	var $_VALID_AZ09 = 'Please enter a valid %s.  No spaces, more than %d characters and contain 0-9,a-z,A-Z';
+	var $_CMN_PUBLISHED = 'Published';
+	var $_CMN_UNPUBLISHED = 'Unpublished';
+	var $_MORE = 'More...';
+	var $_EMPTY_CATEGORY = 'This Category is currently empty.';
+	var $_BUTTON_LOGOUT = 'Logout';
+	var $_NO_ACCOUNT = 'No account yet?';
+	var $_CREATE_ACCOUNT = 'Register';
+	var $_REGWARN_PASS = 'Please enter a valid password.  No spaces, more than 6 characters and contain 0-9,a-z,A-Z';
+	var $_REGWARN_VPASS1 = 'Please verify the password.';
+	var $_REGWARN_VPASS2 = 'Password and verification do not match, please try again.';
+	var $_USEND_MSG_ACTIVATE = 'Hello %s,
+
+
+
+Thank you for registering at %s. Your account is created and must be activated before you can use it.
+
+To activate the account click on the following link or copy-paste it in your browser:
+
+%s
+
+
+
+After activation you may login to %s using the following username and password:
+
+
+
+Username - %s
+
+Password - %s';
+	var $_USEND_MSG = 'Hello %s,
+
+
+
+Thank you for registering at %s.
+
+
+
+You may now login to %s using the username and password you registered with.';
+	var $_PROMPT_PASSWORD = 'Lost your Password?';
+	var $_HI = 'Hi';
+	var $_NEW_USER_MESSAGE_SUBJECT = 'New User Details';
+	var $_NEW_USER_MESSAGE = 'Hello %s,
+
+
+
+
+
+You have been added as a user to %s by an Administrator.
+
+
+
+This email contains your username and password to log into the %s
+
+
+
+Username - %s
+
+Password - %s
+
+
+
+
+
+Please do not respond to this message as it is automatically generated and is for information purposes only';
+	var $_REMEMBER_ME = 'Remember me';
         
 }
 class phpShopLanguage extends vmLanguage { }

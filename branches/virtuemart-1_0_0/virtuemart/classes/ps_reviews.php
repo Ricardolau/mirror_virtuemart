@@ -110,7 +110,7 @@ class ps_reviews {
 				$i=0;
 				$db->query("SELECT name FROM #__users WHERE id='".$dbc->f("userid")."'");
 				$db->next_record();
-				$html .= "<strong>". $db->f("name")."&nbsp;&nbsp;(". strftime (_DATE_FORMAT_LC, $dbc->f("time")).")</strong><br />";
+				$html .= "<strong>". $db->f("name")."&nbsp;&nbsp;(". strftime ( $VM_LANG->_DATE_FORMAT_LC, $dbc->f("time")).")</strong><br />";
 				$html .= $VM_LANG->_PHPSHOP_RATE_NOM.": <img src=\"".IMAGEURL."stars/".$dbc->f("user_rating").".gif\" border=\"0\" alt=\"".$dbc->f("user_rating")."\" />";
 				$html .= "<br />".$dbc->f("comment")."<br /><br />";
           }
@@ -123,7 +123,7 @@ class ps_reviews {
           }
           if( !$showall && $num_rows >=5 ) {
             $query_string = mosGetParam($_SERVER, 'QUERY_STRING', '');
-            $html .= "<a href=\"".$_SERVER['PHP_SELF'].'?'.$query_string."&showall=1\">"._MORE."</a>";
+            $html .= "<a href=\"".$_SERVER['PHP_SELF'].'?'.$query_string."&showall=1\">".$VM_LANG->_MORE."</a>";
           }
       }
       return $html;

@@ -105,8 +105,11 @@ else {
 	) {
 		define( '_FRONTEND_ADMIN_LOADED', '1' );
 		$mainframe->loadEditor = 1;
-		require_once( $mosConfig_absolute_path."/editor/editor.php" );
-		initEditor();
+		if( file_exists( $mosConfig_absolute_path."/editor/editor.php" )) {
+			require_once( $mosConfig_absolute_path."/editor/editor.php" );
+			initEditor();
+		}
+		
 
 		$editor1_array = Array('product.product_form' => 'product_desc',
 		'product.product_category_form' => 'category_description',
@@ -223,7 +226,7 @@ else {
 	                include( PAGEPATH.'shop.index.php');
 	        }
 	        if ( !empty($mosConfig_caching) && $vmDoCaching) {
-	                echo '<span class="small">'._LAST_UPDATED.': '.strftime( _DATE_FORMAT_LC2 ).'</span>';
+	                echo '<span class="small">'._LAST_UPDATED.': '.strftime( $VM_LANG->_DATE_FORMAT_LC2 ).'</span>';
 	        }
 	        if (SHOWVERSION) {
 	                include(PAGEPATH ."footer.php");

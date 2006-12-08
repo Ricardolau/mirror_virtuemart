@@ -24,7 +24,7 @@ $missing = mosGetParam( $_REQUEST, "missing", "" );
 $missing_style = "color:red; font-weight:bold;";
 
 if (!empty( $missing )) {
-	echo "<script type=\"text/javascript\">alert('"._CONTACT_FORM_NC."'); </script>\n";
+	echo "<script type=\"text/javascript\">alert('".$VM_LANG->_CONTACT_FORM_NC."'); </script>\n";
 }
 $label_div_style = 'float:left;width:30%;text-align:right;vertical-align:bottom;font-weight: bold;padding-right: 5px;';
 $field_div_style = 'float:left;width:60%;';
@@ -46,8 +46,8 @@ if (!$my->id && VM_SILENT_REGISTRATION != '1' ) {
 	
 	// Create a new fieldset
 	$shopper_fields[uniqid('fieldset_begin')] = $VM_LANG->_PHPSHOP_ORDER_PRINT_CUST_INFO_LBL;
-		$shopper_fields['username'] = _REGISTER_UNAME;
-		$shopper_fields['email'] = _REGISTER_EMAIL;
+		$shopper_fields['username'] = $VM_LANG->_REGISTER_UNAME;
+		$shopper_fields['email'] = $VM_LANG->_REGISTER_EMAIL;
 		$shopper_fields['password'] = $VM_LANG->_PHPSHOP_SHOPPER_FORM_PASSWORD_1;
 		$shopper_fields['password2'] = $VM_LANG->_PHPSHOP_SHOPPER_FORM_PASSWORD_2;
 	// Finish the fieldset
@@ -75,7 +75,7 @@ $shopper_fields[uniqid('fieldset_begin')] = $VM_LANG->_PHPSHOP_USER_FORM_BILLTO_
 	$shopper_fields['phone_2'] = $VM_LANG->_PHPSHOP_SHOPPER_FORM_PHONE2;
 	$shopper_fields['fax'] = $VM_LANG->_PHPSHOP_SHOPPER_FORM_FAX;
 	if (!$my->id && VM_SILENT_REGISTRATION == '1') {
-		$shopper_fields['email'] = _REGISTER_EMAIL;
+		$shopper_fields['email'] = $VM_LANG->_REGISTER_EMAIL;
 		$required_fields[] = 'email';
 	}
 	
@@ -107,7 +107,7 @@ if (LEAVE_BANK_DATA == '1') {
 
 // Does the customer have to agree to your Terms & Conditions?
 if (MUST_AGREE_TO_TOS == '1') {
-	$shopper_fields[uniqid('fieldset_begin')] = _BUTTON_SEND_REG;
+	$shopper_fields[uniqid('fieldset_begin')] = $VM_LANG->_BUTTON_SEND_REG;
 		// This label is a JS link with a noscript alternative for non-JS users
 		$shopper_fields['agreed'] = '<script type="text/javascript">//<![CDATA[
 				document.write(\'<label for="agreed_field">'.htmlspecialchars( $VM_LANG->_PHPSHOP_I_AGREE_TO_TOS, ENT_QUOTES ).'</label><a href="javascript:void window.open(\\\''. $mosConfig_live_site .'/index2.php?option=com_virtuemart&page=shop.tos&pop=1\\\', \\\'win2\\\', \\\'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no\\\');">\');
@@ -129,7 +129,7 @@ vmCommonHTML::printJS_formvalidation( $required_fields );
 <form action="<?php echo $mm_action_url ?>index.php" method="post" name="adminForm">
 	
 <div style="width:90%;">
-	<div style="padding:5px;text-align:center;"><strong>(* = <?php echo _CMN_REQUIRED ?>)</strong></div>
+	<div style="padding:5px;text-align:center;"><strong>(* = <?php echo $VM_LANG->_CMN_REQUIRED ?>)</strong></div>
    <?php
    foreach( $shopper_fields as $fieldname => $label) {
    		if( stristr( $fieldname, 'fieldset_begin' )) {
@@ -215,13 +215,13 @@ vmCommonHTML::printJS_formvalidation( $required_fields );
     
 	if( !$mosConfig_useractivation && VM_SILENT_REGISTRATION != '1') {
 		echo '<input type="checkbox" name="remember" value="yes" id="remember_login2" checked="checked" />
-		<label for="remember_login2">'. _REMEMBER_ME .'</label><br /><br />';
+		<label for="remember_login2">'. $VM_LANG->_REMEMBER_ME .'</label><br /><br />';
 	}
 	else {
 		echo '<input type="hidden" name="remember" value="yes" />';
 	}
 	echo '
-		<input type="submit" value="'. _BUTTON_SEND_REG . '" class="button" onclick="return( submitregistration());" />
+		<input type="submit" value="'. $VM_LANG->_BUTTON_SEND_REG . '" class="button" onclick="return( submitregistration());" />
 	</div>
 	<input type="hidden" name="Itemid" value="'. $sess->getShopItemid() .'" />
 	<input type="hidden" name="gid" value="'. $my->gid .'" />

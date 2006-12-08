@@ -75,6 +75,6 @@ if ($perm->is_registered_customer($auth['user_id'])) {
 <!-- Body ends here -->
 <?php } 
 else { 
-    echo _LOGIN_TEXT .'<br/><br/><br/>';
+    echo $VM_LANG->_LOGIN_TEXT .'<br/><br/><br/>';
     include(PAGEPATH.'checkout.login_form.php');
 } ?>

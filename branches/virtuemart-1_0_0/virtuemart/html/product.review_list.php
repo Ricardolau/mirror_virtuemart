@@ -57,7 +57,7 @@ $columns = Array(  "#" => "width=\"20\"",
 					"Name/Date" => 'width="15%"',
 					$VM_LANG->_PHPSHOP_REVIEW_COMMENT => 'width="45%"',
 					$VM_LANG->_PHPSHOP_RATE_NOM => 'width="25%"',
-					_E_REMOVE => 'width="10%"'
+					$VM_LANG->_E_REMOVE => 'width="10%"'
 				);
 $listObj->writeTableHeader( $columns );
 

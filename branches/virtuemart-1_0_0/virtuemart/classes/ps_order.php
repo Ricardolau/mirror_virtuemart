@@ -673,7 +673,7 @@ class ps_order {
 	}
 
 	function order_print_navigation( $order_id=1 ) {
-		global $sess, $modulename;
+		global $sess, $modulename, $VM_LANG;
 
 		$navi_db =& new ps_DB;
 
@@ -685,9 +685,9 @@ class ps_order {
 		if ($navi_db->f("order_id")) {
 			$url = $_SERVER['PHP_SELF'] . "?page=$modulename.order_print&order_id=";
 			$url .= $navi_db->f("order_id");
-			$navigation .= "<a class=\"pagenav\" href=\"" . $sess->url($url) . "\">" ._ITEM_PREVIOUS."</a> | ";
+			$navigation .= "<a class=\"pagenav\" href=\"" . $sess->url($url) . "\">" .$VM_LANG->_ITEM_PREVIOUS."</a> | ";
 		} else
-		$navigation .= "<span class=\"pagenav\">" ._ITEM_PREVIOUS." | </span>";
+		$navigation .= "<span class=\"pagenav\">" .$VM_LANG->_ITEM_PREVIOUS." | </span>";
 
 		$q = "SELECT order_id FROM #__{vm}_orders WHERE ";
 		$q .= "order_id > '$order_id' ORDER BY order_id";
@@ -696,9 +696,9 @@ class ps_order {
 		if ($navi_db->f("order_id")) {
 			$url = $_SERVER['PHP_SELF'] . "?page=$modulename.order_print&order_id=";
 			$url .= $navi_db->f("order_id");
-			$navigation .= "<a class=\"pagenav\" href=\"" . $sess->url($url) ."\">". _ITEM_NEXT."</a>";
+			$navigation .= "<a class=\"pagenav\" href=\"" . $sess->url($url) ."\">". $VM_LANG->_ITEM_NEXT."</a>";
 		} else
-		$navigation .= "<span class=\"pagenav\">"._ITEM_NEXT."</span>";
+		$navigation .= "<span class=\"pagenav\">".$VM_LANG->_ITEM_NEXT."</span>";
 
 		$navigation .= "\n</strong>\n</div>\n";
 

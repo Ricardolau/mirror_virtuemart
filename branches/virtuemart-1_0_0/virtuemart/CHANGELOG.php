@@ -38,6 +38,9 @@ VirtueMart 1.0.x
 
 # Task #390 - Top Ten Product Module randomly generates items (mod_virtuemart_topten.php)
 
+02.12.2006 gregdev
+
+# Task #988 - Fixed path to noimage file
 
 01.12.2006 soeren
 

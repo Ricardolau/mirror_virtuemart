@@ -31,7 +31,10 @@ function installvirtuemart( $install_type, $install_sample_data=false ){
 	$frontend_file = $mosConfig_absolute_path."/components/com_virtuemart/frontend_files.tar.gz";
 	$admin_dir = $mosConfig_absolute_path."/administrator/components/com_virtuemart/";
 	$admin_file = $mosConfig_absolute_path."/administrator/components/com_virtuemart/admin_files.tar.gz";
-  
+	
+    @rename( $frontend_file.'~', $frontend_file );
+    @rename( $admin_file.'~', $admin_file );
+	
 	// Check if the Archives are there
 	if( file_exists( $frontend_file ) && file_exists( $admin_file ) ) {
 		
@@ -80,7 +83,7 @@ function installvirtuemart( $install_type, $install_sample_data=false ){
 	elseif( !is_dir( $frontend_dir."/js" ) || !is_dir( $admin_dir."/classes" ) ) {	
 		die( "<span class=\"message\"><strong>ERROR!<br/>
 		a)</strong> No Archive Files and <br/>
-		<strong>b)</strong> no directory structure for mambo-phpShop.<br/><br/>
+		<strong>b)</strong> no directory structure for Virtuemart.<br/><br/>
 		What's wrong? Either YOU unpack all the files and upload them or I do that (I can do that when Safe Mode is OFF).
 		</span>" );
 	}

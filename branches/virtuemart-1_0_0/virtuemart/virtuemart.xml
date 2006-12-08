@@ -9,7 +9,7 @@
 	<version>1.0.8</version>
 	<description>Online-Shop / E-Commerce Component</description>
   <files>
-      <filename>frontend_files.tar.gz</filename>
+      <filename>frontend_files.tar.gz~</filename>
   </files>
   <install>
       <queries>
@@ -27,7 +27,7 @@
     <menu>VirtueMart</menu>
       <files>
         <filename>2checkout_notify.php</filename>
-        <filename>admin_files.tar.gz</filename>
+        <filename>admin_files.tar.gz~</filename>
         <filename>admin.virtuemart.php</filename>
         <filename>admin.styles.css</filename>
         <filename>cart.gif</filename>

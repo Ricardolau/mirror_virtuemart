@@ -1621,6 +1621,7 @@ Password - %s
 
 Please do not respond to this message as it is automatically generated and is for information purposes only';
 	var $_REMEMBER_ME = 'Remember me';
+	var $_REGISTER_TITLE = 'Registration';
         
 }
 class phpShopLanguage extends vmLanguage { }

@@ -16,7 +16,8 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * http://virtuemart.net
 */
 mm_showMyFileName( __FILE__ );
-
+$mainframe->setPageTitle( $VM_LANG->_REGISTER_TITLE );
+$mainframe->appendPathWay( $VM_LANG->_REGISTER_TITLE.' / '. _BUTTON_LOGIN );
 if( !$my->id ) {
   ?>
             <fieldset>

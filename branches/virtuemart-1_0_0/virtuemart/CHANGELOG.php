@@ -33,20 +33,25 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+09.12.2006 soeren
+# Task #1045 - ps_product_category::get_navigation_list cannot be called twice! (ps_product_category.php)
+# Task #1040 - Redirect after registration (ps_shopper.php)
+
 08.12.2006 soeren
 
++ added a pathway to the cart page (shop.cart)
+- removed the PayFlow Pro payment class, it can be downloaded including the necessary SDK from virtuemart.net
+
+! various fixes to make VirtueMart compatible to Joomla! 1.5
 # Task #998 - reordering fails due to incorrect number of rows
 ^ changed all language constants into VM_LANG variables (a lot of files affected!)
 ^ added all the language strings from the Joomla language file used in Virtuemart to the VM language files
-! Language Files have been changed
+! new language tokens in the language files
 
 07.12.2006 soeren
 
 # Task #390 - Top Ten Product Module randomly generates items (mod_virtuemart_topten.php)
 
-02.12.2006 gregdev
-
-# Task #988 - Fixed path to noimage file
 
 01.12.2006 soeren
 

@@ -1214,7 +1214,8 @@ class ps_product_category extends vmAbstractObject {
 		$db = new ps_DB;
 
 		static $i=0;
-		static $html = "";
+		$html = '';
+		
 		$q = "SELECT category_id, category_name,category_parent_id FROM #__{vm}_category, #__{vm}_category_xref WHERE ";
 		$q .= "#__{vm}_category_xref.category_child_id='$category_id' ";
 		$q .= "AND #__{vm}_category.category_id='$category_id'";
@@ -1227,7 +1228,7 @@ class ps_product_category extends vmAbstractObject {
 			$link .= $db->f("category_name");
 			$link .= "</a>";
 			$category_list[$i++] = " ".$this->pathway_separator()." ". $link;
-			$this->get_navigation_list($db->f("category_parent_id"));
+			$html .= $this->get_navigation_list($db->f("category_parent_id"));
 		}
 		else {
 			$link = "<a class=\"pathway\" href=\"";

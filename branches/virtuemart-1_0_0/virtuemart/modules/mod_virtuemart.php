@@ -196,7 +196,7 @@ if ( $show_login_form == "yes" ) {
 		<tr>
 		  <td colspan="2">
 			<a href="<?php echo sefRelToAbs( 'index.php?option=com_registration&amp;task=lostPassword&amp;Itemid='.$Itemid ); ?>">
-			<?php echo $VM_LANG->_LOST_PASSWORD; ?>
+			<?php echo $VM_LANG->_PROMPT_PASSWORD; ?>
 			</a>
 		  </td>
 		</tr>

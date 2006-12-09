@@ -46,7 +46,10 @@ $db = new ps_DB;
 $db->query( $query );
 
 $res = $db->record;
-    
+if( empty( $res )) {
+	echo 'No manufacturers defined!';
+	return;
+}
 ?>
 <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
 

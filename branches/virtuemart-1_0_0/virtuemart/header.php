@@ -58,7 +58,7 @@ if( class_exists('jconfig') || !defined('_PSHOP_ADMIN')) {
 	echo '<script language="JavaScript" src="'. $mosConfig_live_site .'/includes/js/JSCookMenu.js" type="text/javascript"></script>';
 }
     ?>
-<script language="JavaScript" src="<?php echo $my_path ?>theme.js" type="text/javascript"></script>
+<script language="JavaScript" src="includes/js/ThemeOffice/theme.js" type="text/javascript"></script>
 <link rel="stylesheet" href="<?php echo $my_path ?>theme.css" type="text/css" />
 <script language="JavaScript" type="text/javascript">
 var vmMenu =

@@ -102,13 +102,13 @@ VirtueMart 1.0.x
 
 18.10.2006 gregdev
 
-#  Task #959 — Virtuemart search bot not working properly
+#  Task #959 - Virtuemart search bot not working properly
 
 17.10.2006 gregdev
 
-#  Task #969 — order_id error in Dutch language file VM vs. 1.0.7
-#  Task #973 — Error in mod_product_categories
-#  Task #956 — Closing DIV-Tag in html/shop.cart.php
+#  Task #969 - order_id error in Dutch language file VM vs. 1.0.7
+#  Task #973 - Error in mod_product_categories
+#  Task #956 - Closing DIV-Tag in html/shop.cart.php
 !# fixed various non-critical XSS vulnerabilities
 
 13.10.2006 gregdev
@@ -117,7 +117,7 @@ VirtueMart 1.0.x
 
 04.10.2006 gregdev
 
-#  Task #978 — PHP Short-Tag used in ps_paypal.php
+#  Task #978 - PHP Short-Tag used in ps_paypal.php
 
 02.10.2006 gregdev
 

@@ -17,6 +17,11 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 function virtuemart_is_installed() {
 	global $database, $mosConfig_absolute_path, $mosConfig_dbprefix, 
 		$VMVERSION, $shortversion, $myVersion, $version_info;
+
+	//add VirtueMart admin menu image
+	$database->setQuery( "UPDATE #__components SET admin_menu_img = '../administrator/components/com_virtuemart/favicon.ico' WHERE admin_menu_link = 'option=com_virtuemart'");
+	$database->query();
+
 	$option = 'com_virtuemart';
 	$installfile = dirname( __FILE__ ) . "/install.php";
 	

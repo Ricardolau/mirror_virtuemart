@@ -33,6 +33,10 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+12.12.2006 gregdev
+
+^ Added line to virtuemart.xml for the new favicon.ico file.
+
 09.12.2006 soeren
 # Task #1045 - ps_product_category::get_navigation_list cannot be called twice! (ps_product_category.php)
 # Task #1040 - Redirect after registration (ps_shopper.php)

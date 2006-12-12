@@ -45,7 +45,7 @@ rem ----------------------------------------------------------------------------
 %zip% a -tgzip %SVN_PATH%\admin_files.tar.gz~ %SVN_PATH%\admin_files.tar 
 del %SVN_PATH%\admin_files.tar
 
-%zip% a -ttar -r %SVN_PATH%\frontend_files.tar %SVN_PATH%\js %SVN_PATH%\shop_image %SVN_PATH%\virtuemart.php %SVN_PATH%\virtuemart_parser.php %SVN_PATH%\show_image_in_imgtag.php
+%zip% a -ttar -r %SVN_PATH%\frontend_files.tar %SVN_PATH%\css %SVN_PATH%\js %SVN_PATH%\shop_image %SVN_PATH%\virtuemart.php %SVN_PATH%\virtuemart_parser.php %SVN_PATH%\show_image_in_imgtag.php
 %zip% a -ttar %SVN_PATH%\frontend_files.tar %SVN_PATH%\index.html
 %zip% d -r %SVN_PATH%\frontend_files.tar .svn\
 %zip% a -tgzip %SVN_PATH%\frontend_files.tar.gz~ %SVN_PATH%\frontend_files.tar 

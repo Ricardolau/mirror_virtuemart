@@ -33,6 +33,13 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+
+13.12.2006 soeren
+
+# Fixed Login issue during Checkout on Mambo 4.6.x and Joomla! 1.5
+# Task #1052 - php short tags in many files
+# Task #1051 - PDF generation Problem
+
 12.12.2006 gregdev
 
 ^ Added line to virtuemart.xml for the new favicon.ico file.

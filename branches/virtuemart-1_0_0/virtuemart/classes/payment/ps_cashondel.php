@@ -44,43 +44,43 @@ class ps_cashondel {
           <tr>
           <td><strong>5000</strong> =></td>
               <td>
-                  <input type="text" name="CASH_ON_DEL_5000" class="inputbox" value="<?  echo CASH_ON_DEL_5000 ?>" />
+                  <input type="text" name="CASH_ON_DEL_5000" class="inputbox" value="<?php  echo CASH_ON_DEL_5000 ?>" />
               </td>
           </tr> 
           <tr>
           <td><strong>10000</strong> =></td>
               <td>
-                  <input type="text" name="CASH_ON_DEL_10000" class="inputbox" value="<?  echo CASH_ON_DEL_10000 ?>" />
+                  <input type="text" name="CASH_ON_DEL_10000" class="inputbox" value="<?php  echo CASH_ON_DEL_10000 ?>" />
               </td>
           </tr>
           <tr>
           <td><strong>20000</strong> =></td>
               <td>
-                  <input type="text" name="CASH_ON_DEL_20000" class="inputbox" value="<?  echo CASH_ON_DEL_20000 ?>" />
+                  <input type="text" name="CASH_ON_DEL_20000" class="inputbox" value="<?php  echo CASH_ON_DEL_20000 ?>" />
               </td>
           </tr>
           <tr>
           <td><strong>30000</strong> =></td>
               <td>
-                  <input type="text" name="CASH_ON_DEL_30000" class="inputbox" value="<?  echo CASH_ON_DEL_30000 ?>" />
+                  <input type="text" name="CASH_ON_DEL_30000" class="inputbox" value="<?php  echo CASH_ON_DEL_30000 ?>" />
               </td>
           </tr>
           <tr>
           <td><strong>40000</strong> =></td>
               <td>
-                  <input type="text" name="CASH_ON_DEL_40000" class="inputbox" value="<?  echo CASH_ON_DEL_40000 ?>" />
+                  <input type="text" name="CASH_ON_DEL_40000" class="inputbox" value="<?php  echo CASH_ON_DEL_40000 ?>" />
               </td>
           </tr>
           <tr>
           <td><strong>50000</strong> =></td>
               <td>
-                  <input type="text" name="CASH_ON_DEL_50000" class="inputbox" value="<?  echo CASH_ON_DEL_50000 ?>" />
+                  <input type="text" name="CASH_ON_DEL_50000" class="inputbox" value="<?php  echo CASH_ON_DEL_50000 ?>" />
               </td>
           </tr>
           <tr>
           <td><strong>100000</strong> =></td>
               <td>
-                  <input type="text" name="CASH_ON_DEL_100000" class="inputbox" value="<?  echo CASH_ON_DEL_100000 ?>" />
+                  <input type="text" name="CASH_ON_DEL_100000" class="inputbox" value="<?php  echo CASH_ON_DEL_100000 ?>" />
               </td>
           </tr>
 

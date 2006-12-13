@@ -888,6 +888,7 @@ foreach( $rows as $row ) {
 // Add necessary hidden fields
 $formObj->hiddenField( 'conf_SEARCH_ROWS', $mosConfig_list_limit );
 $formObj->hiddenField( 'myname', 'Jabba Binks' );
+$formObj->hiddenField( 'pshop_mode', 'admin' );
 
 // Write your form with mixed tags and text fields
 // and finally close the form:

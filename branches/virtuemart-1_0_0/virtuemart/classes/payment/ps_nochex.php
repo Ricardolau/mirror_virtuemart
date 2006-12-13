@@ -36,7 +36,7 @@ class ps_nochex {
         <tr>
         <td><strong>NoChex Email</strong></td>
             <td>
-                <input type="text" name="NOCHEX_EMAIL" class="inputbox" value="<?  echo NOCHEX_EMAIL ?>" />
+                <input type="text" name="NOCHEX_EMAIL" class="inputbox" value="<?php  echo NOCHEX_EMAIL ?>" />
             </td>
             <td>The Email-Account for your NoChex Payments. 
             </td>

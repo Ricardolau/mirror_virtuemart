@@ -39,7 +39,7 @@ class ps_twocheckout {
         <tr>
             <td><strong>2Checkout.com Seller/Vendor ID</strong></td>
             <td>
-                <input type="text" name="TWOCO_LOGIN" class="inputbox" value="<? echo TWOCO_LOGIN ?>" />
+                <input type="text" name="TWOCO_LOGIN" class="inputbox" value="<?php echo TWOCO_LOGIN ?>" />
             </td>
             <td>Your 2Checkout.com Seller id
             </td>
@@ -47,7 +47,7 @@ class ps_twocheckout {
         <tr>
             <td><strong>2Checkout.com Secret Word</strong></td>
             <td>
-                <input type="text" name="TWOCO_SECRETWORD" class="inputbox" value="<? echo TWOCO_SECRETWORD ?>" />
+                <input type="text" name="TWOCO_SECRETWORD" class="inputbox" value="<?php echo TWOCO_SECRETWORD ?>" />
             </td>
             <td>Your Secret Word for 2Checkout.com. Makes the transactions more secure.
             </td>
@@ -102,8 +102,8 @@ class ps_twocheckout {
             <td><strong>Merchant Notifications</strong></td>
             <td>
                 <select name="TWOCO_MERCHANT_EMAIL" class="inputbox" >
-                  <option <? if (TWOCO_MERCHANT_EMAIL == 'True') echo "selected=\"selected\""; ?> value="True"><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_YES ?></option>
-                  <option <? if (TWOCO_MERCHANT_EMAIL == 'False') echo "selected=\"selected\""; ?> value="False"><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_NO ?></option>
+                  <option <?php if (TWOCO_MERCHANT_EMAIL == 'True') echo "selected=\"selected\""; ?> value="True"><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_YES ?></option>
+                  <option <?php if (TWOCO_MERCHANT_EMAIL == 'False') echo "selected=\"selected\""; ?> value="False"><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_NO ?></option>
                 </select>
             </td>
             <td>Should 2CheckOut e-mail a receipt to the store owner?
@@ -113,8 +113,8 @@ class ps_twocheckout {
             <td><strong>Test Mode?</strong></td>
             <td>
                 <select name="TWOCO_TESTMODE" class="inputbox" >
-                  <option <? if (TWOCO_TESTMODE == 'Y') echo "selected=\"selected\""; ?> value="Y"><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_YES ?></option>
-                  <option <? if (TWOCO_TESTMODE == 'N') echo "selected=\"selected\""; ?> value="N"><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_NO ?></option>
+                  <option <?php if (TWOCO_TESTMODE == 'Y') echo "selected=\"selected\""; ?> value="Y"><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_YES ?></option>
+                  <option <?php if (TWOCO_TESTMODE == 'N') echo "selected=\"selected\""; ?> value="N"><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_NO ?></option>
                 </select>
             </td>
             <td>Select yes to enable the Test/Demo mode?

@@ -388,7 +388,7 @@ class intershipper {
         <tr>
 		  <td width="20%"><strong>Intershipper Username</strong>:</td>
 		  <td colspan="3" width="80%">
-			  <input type="text" name="IS_USERNAME" class="inputbox" value="<? echo IS_USERNAME ?>" />
+			  <input type="text" name="IS_USERNAME" class="inputbox" value="<?php echo IS_USERNAME ?>" />
 			<?php echo mm_ToolTip('The InterShipper Username') ?>
 		  </td>
 		</tr>
@@ -396,7 +396,7 @@ class intershipper {
 			<td><strong><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_PASSWORD ?></strong>:
 			</td>
 			<td colspan="3">
-				<input type="text" name="IS_PASSWORD" class="inputbox" value="<? echo IS_PASSWORD ?>" />
+				<input type="text" name="IS_PASSWORD" class="inputbox" value="<?php echo IS_PASSWORD ?>" />
 			  <?php echo mm_ToolTip($VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_PASSWORD_EXPLAIN) ?>
 			</td>
 		</tr>
@@ -404,7 +404,7 @@ class intershipper {
 			<td><strong><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_EMAIL ?></strong>:
 			</td>
 			<td colspan="3">
-				<input type="text" name="IS_EMAIL" class="inputbox" value="<? echo IS_EMAIL ?>" />
+				<input type="text" name="IS_EMAIL" class="inputbox" value="<?php echo IS_EMAIL ?>" />
 				<?php echo mm_ToolTip($VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_EMAIL_EXPLAIN) ?>
 			</td>
 		</tr>

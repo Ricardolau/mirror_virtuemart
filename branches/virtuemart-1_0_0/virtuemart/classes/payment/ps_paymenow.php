@@ -36,7 +36,7 @@ class ps_paymenow {
         <tr>
             <td><strong>PayMeNow ID</strong></td>
             <td>
-                <input type="text" name="PN_LOGIN" class="inputbox" value="<? echo PN_LOGIN ?>" />
+                <input type="text" name="PN_LOGIN" class="inputbox" value="<?php echo PN_LOGIN ?>" />
             </td>
             <td>The PayMeNow Login/Account ID</td>
         </tr>

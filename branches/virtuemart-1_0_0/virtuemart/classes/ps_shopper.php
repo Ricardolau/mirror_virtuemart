@@ -271,7 +271,11 @@ class ps_shopper {
 		$db->query($q);
 		
 		if( !$my->id && $mosConfig_useractivation == '0') {
-			$mainframe->login($d['username'], md5( $d['password'] ));
+			if( defined('_JEXEC') || class_exists('mambocore')) {
+				$mainframe->login($d['username'], $d['password'] );
+			} else {
+				$mainframe->login($d['username'], md5( $d['password'] ));
+			}
 			if( !empty( $_SESSION['cart']['idx'])) {
 				$redirect_to_page = 'checkout.index';
 			} else {

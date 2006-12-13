@@ -48,7 +48,7 @@ class ps_epn {
         <tr>
             <td><strong><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_EPN_USERNAME ?></strong></td>
             <td>
-                <input type="text" name="EPN_LOGIN" class="inputbox" value="<? echo EPN_LOGIN ?>" />
+                <input type="text" name="EPN_LOGIN" class="inputbox" value="<?php echo EPN_LOGIN ?>" />
             </td>
             <td><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_EPN_USERNAME_EXPLAIN ?>
             </td>

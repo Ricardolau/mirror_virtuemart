@@ -35,7 +35,7 @@ class ps_worldpay {
           <tr>
           <td><strong>WorldPay Installation ID</strong></td>
               <td>
-                  <input type="text" name="WORLDPAY_INST_ID" class="inputbox" value="<?  echo WORLDPAY_INST_ID ?>" />
+                  <input type="text" name="WORLDPAY_INST_ID" class="inputbox" value="<?php echo WORLDPAY_INST_ID ?>" />
               </td>
               <td>The "Installation ID", you've got from WorldPay.
               </td>

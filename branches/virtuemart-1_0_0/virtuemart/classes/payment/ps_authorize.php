@@ -50,7 +50,7 @@ class ps_authorize {
         <tr>
             <td><strong><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_AUTORIZENET_USERNAME ?></strong></td>
             <td>
-                <input type="text" name="AN_LOGIN" class="inputbox" value="<? echo AN_LOGIN ?>" />
+                <input type="text" name="AN_LOGIN" class="inputbox" value="<?php echo AN_LOGIN ?>" />
             </td>
             <td><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_AUTORIZENET_USERNAME_EXPLAIN ?>
             </td>

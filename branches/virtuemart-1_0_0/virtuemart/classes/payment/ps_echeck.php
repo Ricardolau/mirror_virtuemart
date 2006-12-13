@@ -48,7 +48,7 @@ class ps_echeck {
         <tr>
             <td><strong><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_AUTORIZENET_USERNAME ?></strong></td>
             <td>
-                <input type="text" name="ECK_LOGIN" class="inputbox" value="<? echo ECK_LOGIN ?>" />
+                <input type="text" name="ECK_LOGIN" class="inputbox" value="<?php echo ECK_LOGIN ?>" />
             </td>
             <td><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_AUTORIZENET_USERNAME_EXPLAIN ?>
             </td>

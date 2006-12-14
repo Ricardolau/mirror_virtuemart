@@ -1666,6 +1666,18 @@ Password - %s
 Please do not respond to this message as it is automatically generated and is for information purposes only';
 	var $_REMEMBER_ME = 'Remember me';
 	var $_REGISTER_TITLE = 'Registration';
+	var $_JAN = 'January';
+	var $_FEB = 'February';
+	var $_MAR = 'March';
+	var $_APR = 'April';
+	var $_MAY = 'May';
+	var $_JUN = 'June';
+	var $_JUL = 'July';
+	var $_AUG = 'August';
+	var $_SEP = 'September';
+	var $_OCT = 'October';
+	var $_NOV = 'November';
+	var $_DEC = 'December';
         
 }
 class phpShopLanguage extends vmLanguage { }

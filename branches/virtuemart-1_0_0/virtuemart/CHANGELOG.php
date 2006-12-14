@@ -33,16 +33,16 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+14.12.2006 soeren
+
+# Task #1059 - Wrong Sort title in shop.browse.php
+# missing month names in the language file
 
 13.12.2006 soeren
 
 # Fixed Login issue during Checkout on Mambo 4.6.x and Joomla! 1.5
 # Task #1052 - php short tags in many files
 # Task #1051 - PDF generation Problem
-
-12.12.2006 gregdev
-
-^ Added line to virtuemart.xml for the new favicon.ico file.
 
 09.12.2006 soeren
 # Task #1045 - ps_product_category::get_navigation_list cannot be called twice! (ps_product_category.php)

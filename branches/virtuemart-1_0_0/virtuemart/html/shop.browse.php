@@ -161,12 +161,12 @@ else {
 				}
 			}
 		}
-?>
-    <!-- ORDER BY .... FORM -->
-    <form action="<?php echo $mm_action_url."index.php" ?>" method="get" name="order">
-    <?php 
-    if( !empty( $VM_BROWSE_ORDERBY_FIELDS )) {
-        echo $VM_LANG->_PHPSHOP_ORDERBY ?>: 
+		?>
+	    <!-- ORDER BY .... FORM -->
+	    <form action="<?php echo $mm_action_url."index.php" ?>" method="get" name="order">
+	    <?php 
+	    if( !empty( $VM_BROWSE_ORDERBY_FIELDS )) {
+	        echo $VM_LANG->_PHPSHOP_ORDERBY ?>: 
               <select class="inputbox" name="orderby" onchange="order.submit()">
                 <option value="product_name" >
                  <?php echo $VM_LANG->_PHPSHOP_SELECT ?></option>
@@ -197,23 +197,25 @@ else {
               ?>
               </select>
           <?php
-    }
-        if ($DescOrderBy == "DESC") {
-                $icon = "sort_desc.png";
-                $selected = Array( "selected=\"selected\"", "" );
-	  	$asc_desc = Array( "DESC", "ASC" );
-	}
-	else {
-	  	$icon = "sort_asc.png";
-                $selected = Array( "", "selected=\"selected\"" );
-                $asc_desc = Array( "ASC", "DESC" );
-        }
-        echo mm_writeWithJS('<input type="hidden" name="DescOrderBy" value="'.$asc_desc[0].'" /><a href="javascript: document.order.DescOrderBy.value=\''.$asc_desc[1].'\'; document.order.submit()"><img src="'. $mosConfig_live_site."/images/M_images/$icon"  .'" border="0" alt="'. $VM_LANG->_PHPSHOP_PARAMETER_SEARCH_DESCENDING_ORDER .'" title="'.$VM_LANG->_PHPSHOP_PARAMETER_SEARCH_DESCENDING_ORDER .'" width="12" height="12"/></a>',
+	    }
+	    if ($DescOrderBy == "DESC") {
+	        $icon = "sort_desc.png";
+	        $alt_asc_desc = $VM_LANG->_PHPSHOP_PARAMETER_SEARCH_DESCENDING_ORDER;
+	        $selected = Array( "selected=\"selected\"", "" );
+		  	$asc_desc = Array( "DESC", "ASC" );
+		}
+		else {
+		  	$icon = "sort_asc.png";
+		  	$alt_asc_desc = $VM_LANG->_PHPSHOP_PARAMETER_SEARCH_ASCENDING_ORDER;
+	        $selected = Array( "", "selected=\"selected\"" );
+	        $asc_desc = Array( "ASC", "DESC" );
+	    }
+	    echo mm_writeWithJS('<input type="hidden" name="DescOrderBy" value="'.$asc_desc[0].'" /><a href="javascript: document.order.DescOrderBy.value=\''.$asc_desc[1].'\'; document.order.submit()"><img src="'. $mosConfig_live_site."/images/M_images/$icon"  .'" border="0" alt="'. $alt_asc_desc .'" title="'.$VM_LANG->_PHPSHOP_PARAMETER_SEARCH_DESCENDING_ORDER .'" width="12" height="12"/></a>',
           '<select class="inputbox" name="DescOrderBy">
-                                <option '.$selected[0].' value="DESC">'.$VM_LANG->_PHPSHOP_PARAMETER_SEARCH_DESCENDING_ORDER.'</option>
-                                <option '.$selected[1].' value="ASC">'.$VM_LANG->_PHPSHOP_PARAMETER_SEARCH_ASCENDING_ORDER.'</option>
-                            </select>
-                            <input class="button" type="submit" value="'.$VM_LANG->_PHPSHOP_SUBMIT.'" />');
+            <option '.$selected[0].' value="DESC">'.$VM_LANG->_PHPSHOP_PARAMETER_SEARCH_DESCENDING_ORDER.'</option>
+            <option '.$selected[1].' value="ASC">'.$VM_LANG->_PHPSHOP_PARAMETER_SEARCH_ASCENDING_ORDER.'</option>
+        </select>
+        <input class="button" type="submit" value="'.$VM_LANG->_PHPSHOP_SUBMIT.'" />');
 
 		?>
         <input type="hidden" name="Itemid" value="<?php echo $Itemid ?>" />
@@ -238,13 +240,13 @@ else {
 		else {
 			echo "</form>\n";
 		}
-                if( PSHOP_SHOW_TOP_PAGENAV =='1' && $num_rows > $limit ) {
-                        // PAGE NAVIGATION AT THE TOP
-                        echo "<br/><div style=\"text-align:center;\">";
-                        echo $pagenav->writePagesLinks( $search_string );
-                        echo "</div><br/>";
-                }
+        if( PSHOP_SHOW_TOP_PAGENAV =='1' && $num_rows > $limit ) {
+                // PAGE NAVIGATION AT THE TOP
+                echo "<br/><div style=\"text-align:center;\">";
+                echo $pagenav->writePagesLinks( $search_string );
+                echo "</div><br/>";
         }
+    }
 	$use_tables = @$_REQUEST['output'] == "pdf" ? true : false;
 
 	if( $use_tables ) {

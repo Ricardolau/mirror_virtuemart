@@ -35,6 +35,7 @@ VirtueMart 1.0.x
 *************************************
 14.12.2006 soeren
 
+^ added RolandH's CSV Import improvements (v. 0.75, http://virtuemart.net/index.php?option=com_smf&Itemid=71&topic=22738.0, thanks RolandD!!)
 # Task #1059 - Wrong Sort title in shop.browse.php
 # missing month names in the language file
 
@@ -94,14 +95,7 @@ VirtueMart 1.0.x
 # Task #877 - cannot complete checkout when final amount is 0 (ps_checkout.php)
 
 10.11.2006 gregdev
-#  Fixed duplicate error message when no shipping address is chosen during checkout (Task #972).
-
-
-
-02.11.2006 soeren
-
-^ added RolandH's CSV Import improvements (v. 0.4, http://virtuemart.net/index.php?option=com_smf&Itemid=71&topic=22738.0, thanks Roland!!)
-
+#  Fixed duplicate error message when no shipping address is chosen during checkout (Task #972)
 
 30.10.2006 soeren
 

@@ -131,8 +131,11 @@ class ps_manufacturer {
                         $d["error"] = $this->error;
                         return false;
 		}
-		$q = "INSERT INTO #__{vm}_manufacturer (mf_name, mf_email, mf_desc, mf_category_id, mf_url)";
+		$q = "INSERT INTO #__{vm}_manufacturer (";
+		if (isset($d["mf_id"])) $q .= "manufacturer_id, ";
+		$q .= "mf_name, mf_email, mf_desc, mf_category_id, mf_url)";
 		$q .= " VALUES ('";
+		if (isset($d["mf_id"])) $q .= $d["mf_id"] . "','";
 		$q .= $d["mf_name"] . "','";
 		$q .= $d["mf_email"] . "','";
 		$q .= $d["mf_desc"] . "','";

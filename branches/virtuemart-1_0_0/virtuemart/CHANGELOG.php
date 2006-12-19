@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+19.12.2006 soeren
+# "&amp;#039;" instead of "apostrophe" in title tags (shop.product_details.php)
+ 
 14.12.2006 soeren
 
 ^ added RolandH's CSV Import improvements (v. 0.75, http://virtuemart.net/index.php?option=com_smf&Itemid=71&topic=22738.0, thanks RolandD!!)

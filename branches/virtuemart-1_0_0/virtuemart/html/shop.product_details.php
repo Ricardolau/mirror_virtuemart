@@ -154,7 +154,7 @@ $images->images = $db->f("images");
     $mainframe->appendPathWay( $navigation_pathway );
  
   /* Set Dynamic Page Title */
-    $mainframe->setPageTitle( html_entity_decode( substr($product_name, 0, 60 ) ));
+    $mainframe->setPageTitle( html_entity_decode( substr($product_name, 0, 60 ), ENT_QUOTES ));
 
   /* Prepend Product Short Description Meta Tag "description" */
     $mainframe->prependMetaTag( "description", strip_tags( $db_product->f("product_s_desc")) );

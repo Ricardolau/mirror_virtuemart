@@ -469,11 +469,12 @@ INSERT INTO `mos_vm_csv` VALUES (1, 'product_sku', '', 1, 'Y'),
 (18, 'manufacturer_id', '', 18, 'N'),
 (19, 'product_tax_id', '', 19, 'N'),
 (20, 'product_sales', '', 20, 'N'),
-(21, 'product_parent_id', '0', 21, 'N'),
+(21, 'product_parent_sku', '0', 21, 'N'),
 (22, 'attribute', '', 22, 'N'),
 (23, 'custom_attribute', '', 23, 'N'),
 (24, 'attributes', '', 24, 'N'),
-(25, 'attribute_values', '', 25, 'N');
+(25, 'attribute_values', '', 25, 'N'),
+(25, 'product_discount', '', 26, 'N');
 
 ## --------------------------------------------------------
 

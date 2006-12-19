@@ -1,7 +1,9 @@
 <?php
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
-*
+*	CSV Import/Export File (Improved)
+* @author soeren, RolandD (rdalmulder@hotmail.com)
+* 
 * @version $Id: product.csv_upload.php,v 1.4.2.1 2006/03/10 15:55:15 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
@@ -12,7 +14,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * is derivative of works licensed under the GNU General Public License or
 * other free or open source software licenses.
 * See /administrator/components/com_virtuemart/COPYRIGHT.php for copyright notices and details.
-*
+* 
 * http://virtuemart.net
 */
 mm_showMyFileName( __FILE__ );
@@ -217,13 +219,15 @@ $tabs->startTab( $VM_LANG->_PHPSHOP_CONFIG, "field_list" );
 		<?php
 		if ( in_array( $db->f("field_name"), $ps_csv->reserved_words )){
 			echo "<input type=\"hidden\" name=\"field[$i][_name]\" value=\"".$db->f("field_name")."\" />";
-			echo "<select name=\"field[".$i."][_name]\" disabled=disabled>";
+			echo "<select name=\"field[".$i."][_name]\" disabled=\"disabled\">\n";
 		}
-		else echo "<select name=\"field[".$i."][_name]\">";
+		else {
+			echo "<select name=\"field[".$i."][_name]\">\n";
+		}
 
 		foreach ($ps_csv->supported_fields as $fieldname) {
 			echo "<option value=\"".$fieldname."\"";
-			if($db->f("field_name")==$fieldname) echo "selected=\"selected\"";
+			if($db->f("field_name")==$fieldname) echo " selected=\"selected\"";
 			echo ">".$fieldname."</option>";
 		}
 		echo "</select>";
@@ -317,27 +321,6 @@ echo $VM_LANG->_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_MULTIPLE_PRICES_UPLOAD;
 echo "</div>";
 echo "<hr />";
 ?>
-</div>
-<?php
-$tabs->endTab();
-$tabs->startTab($VM_LANG->_PHPSHOP_CSV_ABOUT, "about");
-?>
-<div style="text-align: left;">
-<span style="font-weight: bold">Name: </span>CSV Improved<br />
-<span style="font-weight: bold">Version: </span>0.7<br />
-<span style="font-weight: bold">Coded by: </span>RolandD<br />
-<span style="font-weight: bold">Contact: </span>rdalmulder@hotmail.com<br />
-<span style="font-weight: bold">Support: </span><a href="http://virtuemart.net/index.php?option=com_smf&Itemid=71&topic=22738.0" target="_blank">VirtueMart Forum</a><br />
-<span style="font-weight: bold">Credits: </span>Credits go to the VirtueMart team for bringing a wonderful program and writing the original CSV upload.<br />
-<span style="font-weight: bold">Copyright: </span>2006<br />
-<span style="font-weight: bold">License: </span>Freeware, use at your own risk! No responsibility is taken for any data loss.<br />
-<span style="font-weight: bold">Donations: </span>Donations are kindly accepted through Paypal.
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-	<input type="hidden" name="cmd" value="_s-xclick">
-	<input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-but21.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
-	<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
-	<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----">
-</form>
 </div>
 <?php
 $tabs->endTab();

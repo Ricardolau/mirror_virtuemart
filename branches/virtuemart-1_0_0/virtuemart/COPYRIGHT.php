@@ -36,12 +36,17 @@ VirtueMart includes or is derivative of works distributed under the following co
 
 CreditCard Class
 ---
-Copyright:	Daniel Fróz Costa
+Copyright:	Daniel Frï¿½z Costa
 License:	Public Domain
 
 Currency Converter Module
 ----
 Copyright:	2004 Werner Knudsen
+License:	GNU General Public License (GPL)
+
+CSV Improved
+----
+Copyright:	2006 RolandD
 License:	GNU General Public License (GPL)
 
 FPDF

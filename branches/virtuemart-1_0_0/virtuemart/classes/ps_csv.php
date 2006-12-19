@@ -73,6 +73,7 @@ class ps_csv {
 							"product_delete",
 							"product_desc",
 							"product_discount",
+							"product_discount_id",
 							"product_full_image",
 							"product_height",
 							"product_length",
@@ -1222,7 +1223,7 @@ class ps_csv {
 		
 		// Get row positions of each element as set in csv table
 		$db = new ps_DB;
-		$q = "SELECT * FROM #__{vm}_csv WHERE field_required = 'Y' ORDER BY field_ordering";
+		$q = "SELECT * FROM #__{vm}_csv ORDER BY field_ordering";
 		$db->query($q);
 
 		$csv_ordering = array();

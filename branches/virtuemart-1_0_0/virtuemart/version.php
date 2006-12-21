@@ -37,9 +37,9 @@ class vmVersion {
 	// Song by the Foo Fighters, in which John Paul Jones plays Mandolin: http://en.wikipedia.org/wiki/In_Your_Honor
 	var $CODENAME = 'Another Round';
 	/** @var string Date */
-	var $RELDATE = '08/12/2006';
+	var $RELDATE = '19/12/2006';
 	/** @var string Time */
-	var $RELTIME = '20:00';
+	var $RELTIME = '12:00';
 	/** @var string Timezone */
 	var $RELTZ = 'GMT';
 	/** @var string Copyright Text */

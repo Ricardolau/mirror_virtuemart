@@ -33,7 +33,13 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+21.12.2006 soeren
+# Task #1069 - "< ?php echo" appears in New Item button link when creating a child item
 19.12.2006 soeren
+# file downloads (ps_main.php, function vmReadFileChunked): 
+	^ preventing script time-outs, 
+	^ shortened the script sleep phase to 100 msec.
+# Add-to-Cart button shown for users that aren't allowed to see prices (shop.product_details.php, see http://virtuemart.net/index.php?option=com_smf&Itemid=71&topic=13824.0)
 # "&amp;#039;" instead of "apostrophe" in title tags (shop.product_details.php)
  
 14.12.2006 soeren

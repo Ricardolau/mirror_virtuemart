@@ -126,7 +126,7 @@ class MENU_virtuemart {
 			/*** Adding an item is only pssible, if the product has attributes ***/
 			if (ps_product::product_has_attributes( $product_id ) ) { 
 				// Add Item
-				$href=$_SERVER['PHP_SELF']."?option=com_virtuemart&page=product.product_form&product_parent_id=$product_id&limitstart=<?php echo $limitstart";
+				$href=$_SERVER['PHP_SELF']."?option=com_virtuemart&page=product.product_form&product_parent_id=$product_id&limitstart=$limitstart";
 				$alt = "&nbsp;". $VM_LANG->_PHPSHOP_PRODUCT_FORM_NEW_ITEM_LBL;
 				vmMenuBar::customHref( $href, $vmIcons['new_icon'], $vmIcons['new_icon2'], $alt );
 				vmMenuBar::spacer();

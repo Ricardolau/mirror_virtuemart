@@ -1235,7 +1235,7 @@ class ps_csv {
         * Get all products - including items
         * as well as products without a price
         **/
-		$sql = 'SELECT *, jos_vm_product.product_id FROM #__{vm}_product
+		$sql = 'SELECT *, #__vm_product.product_id FROM #__{vm}_product
         		LEFT OUTER JOIN #__{vm}_product_price
         		ON #__{vm}_product.product_id = #__{vm}_product_price.product_id
         		AND #__{vm}_product.vendor_id = \'1\'

@@ -4,7 +4,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * 	SQL update script for upgrading 
 *	from VirtueMart 1.0.x to VirtueMart 1.0.8
 * 
-* @version $Id$
+* @version $Id: sql.update.virtuemart-1.0.5.to.virtuemart-1.0.8.php 590 2006-12-22 20:49:26Z soeren_nb $
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2006 Soeren Eberhardt. All rights reserved.
@@ -19,13 +19,13 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 */
 
 // Rename the field 'product_parent_id' to 'product_parent_sku', which is the correct name for it's function
-$db->setQuery( "UPDATE `jos_vm_csv` SET `field_name` = 'product_parent_sku',
+$db->setQuery( "UPDATE #__{vm}_csv` SET `field_name` = 'product_parent_sku',
 `field_default_value` = '',
 `field_required` = 'N' WHERE `field_name` = 'product_parent_id' LIMIT 1" );
 $db->query();
 
 // Add a new field 'product_discount' to allow direct discount insertion
-$db->setQuery( "INSERT INTO `jos_vm_csv` ( `field_id` , `field_name` , `field_default_value` , `field_ordering` , `field_required` )
+$db->setQuery( "INSERT INTO `#__{vm}_csv` ( `field_id` , `field_name` , `field_default_value` , `field_ordering` , `field_required` )
 VALUES ( NULL , 'product_discount', NULL , '26', 'N' )" );
 $db->query();
 

@@ -34,6 +34,7 @@ Legend:
 VirtueMart 1.0.x
 *************************************
 21.12.2006 soeren
+^ better ordering for the list of products in the tab "Related Products" => now grouped by category including the category name
 # Task #1069 - "< ?php echo" appears in New Item button link when creating a child item
 19.12.2006 soeren
 # file downloads (ps_main.php, function vmReadFileChunked): 

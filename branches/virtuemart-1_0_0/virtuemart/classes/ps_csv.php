@@ -46,6 +46,7 @@ class ps_csv {
 							 "product_available_date",
 							 "product_availability",
 							 "product_special",
+							 "product_discount",
 							 "product_discount_id",
 							 "product_name",
 							 "product_sales",
@@ -196,7 +197,7 @@ class ps_csv {
 		$file = $d['csv_file'];
 		$this->fp = fopen ($file,"r");
 		$this_error = "";
-		$this->line = 1;
+		$this->line = 0;
 		
 		// Retrieve first line
 		$this->RetrieveSingleLine();
@@ -441,6 +442,9 @@ class ps_csv {
 			}
 			if ($this->debug) $this->csv_debug['message'] .= '<hr>Processing SKU: '.$product_details->product_sku.'<br />';
 			if ($this->debug) $this->csv_debug['message'] .= 'Going into normal upload<br />';
+			
+			// Process discount
+			$product_details->ProcessDiscount();
 			
 			// If a required field was missing, add to error to main message and start next line
 			// Otherwise add or update product
@@ -1235,7 +1239,7 @@ class ps_csv {
         * Get all products - including items
         * as well as products without a price
         **/
-		$sql = 'SELECT *, #__vm_product.product_id FROM #__{vm}_product
+	   $sql = 'SELECT *, #__{vm}_product.product_id FROM #__{vm}_product
         		LEFT OUTER JOIN #__{vm}_product_price
         		ON #__{vm}_product.product_id = #__{vm}_product_price.product_id
         		AND #__{vm}_product.vendor_id = \'1\'
@@ -1270,8 +1274,8 @@ class ps_csv {
 				if ($id != count($csv_ordering)) $contents .= $this->delim;
 				else $contents .= "\n";
 			}
+			$contents .= "\n";
 		}
-		$contents .= "\n";
 		/** Loop through all records
 		* and create the csv file - line after line ***/
 		while ($db->next_record()) {
@@ -1328,7 +1332,7 @@ class ps_csv {
 					. $this->delim . 	$this->encl . $db->f("product_tax_id") . $this->encl
 					. $this->delim . 	$this->encl . $db->f("product_sales") . $this->encl
 					. $this->delim . 	$this->encl . $export_sku . $this->encl
-					. $this->delim . 	$this->encl . addslashes( $db->f("attribute") ). $this->encl
+					. $this->delimGetDefaultShopperGroupID . 	$this->encl . addslashes( $db->f("attribute") ). $this->encl
 					. $this->delim . 	$this->encl . addslashes( $db->f("custom_attribute") ). $this->encl
 					. $this->delim . 	$this->encl . addslashes( $attributes ). $this->encl
 					. $this->delim . 	$this->encl . addslashes( $attribute_values ). $this->encl ."\n";
@@ -1399,6 +1403,7 @@ class ps_csv {
 		}
 		/*** Now dump the data!! ***/
 		echo $contents;
+		
 		// do nothin' more
 		exit();
 	}
@@ -1542,6 +1547,9 @@ class ps_csv {
 		foreach ($this->use_in_product_query as $id => $column) {
 			// Process only those fields that the user has set to required
 			if  (array_key_exists($column, $this->required_fields)) {
+				// Add a redirect for the product discount
+				if ($column == "product_discount") $column = "product_discount_id";
+				
 				if ($query_type == "update") $q .= $column . " = '" . $dbu->getEscaped($product_details->$column) . "', ";			
 				else if ($query_type == "add") {
 					$qfields .= $column.", ";
@@ -1549,6 +1557,7 @@ class ps_csv {
 				}
 			}
 		}
+		
 		if ($query_type == "update") {
 			$q .= "mdate='".$timestamp."' ";
 			// If the user is not using the product publish field, we set it to yes
@@ -1572,7 +1581,7 @@ class ps_csv {
 			if ($this->debug) $this->csv_debug['message'] .= 'Adding product: <a onclick="switchMenu(\''.$product_details->product_sku.'_adding_product\');" title="Show/hide query">Show/hide query</a><div id="'.$product_details->product_sku.'_adding_product" style="display: none; border: 1px solid #000000; padding: 5px;">'.htmlentities($q).'</div><br />';
 		}
 		if ($dbu->query($q)) {
-			$product_details->product_id = $dbu->last_insert_id();
+			if ($query_type == "add") $product_details->product_id = $dbu->last_insert_id();
 			return true;
 		}
 		else return false;
@@ -1592,43 +1601,48 @@ class ps_csv {
 		$dbpq = new ps_DB;
 		$q = "";
 		// Check if the product price is to be updated
-		if ($product_details->product_price) {
-			// Check if the price already exists if we are updating
-			if ($query_type == "update") {
-				$q = "SELECT COUNT(product_price_id) AS total FROM #__{vm}_product_price ";
+		// Check if the price already exists if we are updating
+		if ($query_type == "update") {
+			$q = "SELECT COUNT(product_price_id) AS total FROM #__{vm}_product_price ";
+			$q .= "WHERE product_id='".$product_details->product_id."'";
+			$dbpq->query($q);
+			if ($dbpq->f("total") == 0) $query_type = "add";
+		}
+		
+		if (strlen($product_details->product_price) == 0) $query_type = "delete";
+		
+		// Get the default shopper group ID
+		$this->GetDefaultShopperGroupID($product_details->vendor_id);
+		switch ($query_type) {
+			case "add":
+				// Add  product price for default shopper group
+				$q = "INSERT INTO #__{vm}_product_price ";
+				$q .= "(product_price,product_currency,product_id,shopper_group_id,mdate) ";
+				$q .= "VALUES ('";
+				$q .= $product_details->product_price."', '";
+				$q .= $product_details->product_currency."', '";
+				$q .= $product_details->product_id."', '";
+				$q .= $GLOBALS[$product_details->vendor_id]["default_shopper_group"] . "', '";
+				$q .= $timestamp . "') ";
+				if ($this->debug) $this->csv_debug['message'] .= 'Adding price query: <a onclick="switchMenu(\''.$product_details->product_sku.'_add_price\');" title="Show/hide query">Show/hide query</a><div id="'.$product_details->product_sku.'_add_price" style="display: none; border: 1px solid #000000; padding: 5px;">'.htmlentities($q).'</div><br />';
+				break;
+				
+			case "update":
+				// Update product price for default shopper group
+				$q = "UPDATE #__{vm}_product_price SET ";
+				$q .= "product_price='" . $product_details->product_price."', ";
+				$q .= "product_currency='" . $product_details->product_currency."', ";
+				$q .= "shopper_group_id='" . $GLOBALS[$product_details->vendor_id]["default_shopper_group"] . "', ";
+				$q .= "mdate='" . $timestamp . "' ";
 				$q .= "WHERE product_id='".$product_details->product_id."'";
-				$dbpq->query($q);
-				if ($dbpq->f("total") == 0) $query_type = "add";
-			}
-			
-			// Get the default shopper group ID
-			$this->GetDefaultShopperGroupID($product_details->vendor_id);
-			
-			switch ($query_type) {
-				case "add":
-					// Add  product price for default shopper group
-					$q = "INSERT INTO #__{vm}_product_price ";
-					$q .= "(product_price,product_currency,product_id,shopper_group_id,mdate) ";
-					$q .= "VALUES ('";
-					$q .= $product_details->product_price."', '";
-					$q .= $product_details->product_currency."', '";
-					$q .= $product_details->product_id."', '";
-					$q .= $GLOBALS[$product_details->vendor_id]["default_shopper_group"] . "', '";
-					$q .= $timestamp . "') ";
-					if ($this->debug) $this->csv_debug['message'] .= 'Adding price query: <a onclick="switchMenu(\''.$product_details->product_sku.'_add_price\');" title="Show/hide query">Show/hide query</a><div id="'.$product_details->product_sku.'_add_price" style="display: none; border: 1px solid #000000; padding: 5px;">'.htmlentities($q).'</div><br />';
-					break;
-					
-				case "update":
-					// Update product price for default shopper group
-					$q = "UPDATE #__{vm}_product_price SET ";
-					$q .= "product_price='" . $product_details->product_price."', ";
-					$q .= "product_currency='" . $product_details->product_currency."', ";
-					$q .= "shopper_group_id='" . $GLOBALS[$product_details->vendor_id]["default_shopper_group"] . "', ";
-					$q .= "mdate='" . $timestamp . "' ";
-					$q .= "WHERE product_id='".$product_details->product_id."'";
-					if ($this->debug) $this->csv_debug['message'] .= 'Updating price: <a onclick="switchMenu(\''.$product_details->product_sku.'_update_price\');" title="Show/hide query">Show/hide query</a><div id="'.$product_details->product_sku.'_update_price" style="display: none; border: 1px solid #000000; padding: 5px;">'.htmlentities($q).'</div><br />';
-					break;
-			}
+				if ($this->debug) $this->csv_debug['message'] .= 'Updating price: <a onclick="switchMenu(\''.$product_details->product_sku.'_update_price\');" title="Show/hide query">Show/hide query</a><div id="'.$product_details->product_sku.'_update_price" style="display: none; border: 1px solid #000000; padding: 5px;">'.htmlentities($q).'</div><br />';
+				break;
+			case "delete":
+				// Delete the product price for default shopper group
+				$q = "DELETE FROM #__{vm}_product_price ";
+				$q .= "WHERE product_id='".$product_details->product_id."'";
+				if ($this->debug) $this->csv_debug['message'] .= 'Deleting price: <a onclick="switchMenu(\''.$product_details->product_sku.'_delete_price\');" title="Show/hide query">Show/hide query</a><div id="'.$product_details->product_sku.'_delete_price" style="display: none; border: 1px solid #000000; padding: 5px;">'.htmlentities($q).'</div><br />';
+				break;
 		}
 		if ($dbpq->query($q)) return true;
 		else return false;
@@ -2119,9 +2133,10 @@ class product_details {
 	var $product_availability  = false;
 	var $product_special  = false;
 	var $product_discount = 0;
-	var $product_discount_percentage = 0;
+	var $product_discount_percentage = "0";
 	var $product_discount_date_start = 0;
 	var $product_discount_date_end = 0;
+	var $product_discount_id = false;
 	var $product_name  = false;
 	var $product_sales  = false;
 	var $attribute  = false;
@@ -2188,7 +2203,6 @@ class product_details {
 	function get_product_id() {
 		global $data, $ps_csv;
 		$db = new ps_DB;
-		
 		if (isset($ps_csv->csv_fields["product_sku"])) {
 			$q = "SELECT product_id FROM #__{vm}_product WHERE product_sku = '".$data[$ps_csv->csv_fields["product_sku"]["ordering"]-1]."'";
 			$db->query($q);
@@ -2280,7 +2294,7 @@ class product_details {
 	}
 	
 	function get_product_discount() {
-		global $data;
+		global $data, $ps_csv;
 		
 		$this->ValidateCSVInput("product_discount");
 		
@@ -2293,7 +2307,6 @@ class product_details {
 			}
 			else $this->product_discount = str_replace(",",".",$this->product_discount);
 		}
-		$this->product_discount_id = $this->ProcessDiscount();
 	}
 	
 	function get_product_discount_percentage() {
@@ -2436,7 +2449,7 @@ class product_details {
 		global $data, $ps_csv;
 		
 		if (isset($ps_csv->csv_fields[$fieldname])) {
-			if (!empty($data[$ps_csv->csv_fields[$fieldname]["ordering"]-1])) {
+			if (strlen($data[$ps_csv->csv_fields[$fieldname]["ordering"]-1]) > 0) {
 				$this->$fieldname = trim($data[$ps_csv->csv_fields[$fieldname]["ordering"]-1]);
 			}
 			else if (!$ps_csv->skip_default_value) {
@@ -2447,41 +2460,48 @@ class product_details {
 	
 	/**
 	 * Stores the discount for a product
-	 * @param int $d $d['task'] must be "publish" or "unpublish"
 	 * @return unknown
 	 */
 	function ProcessDiscount() {
-		global $data, $database, $d;
+		global $data, $database, $d, $ps_csv;
 		
-		$ddc = new ps_DB;
-		
-		// Values of the discount to add it to the database
-		$d['amount'] = $this->product_discount;
-		$d['is_percent'] = $this->product_discount_percentage;
-		$d['start_date'] = $this->product_discount_date_start;
-		$d['end_date'] = $this->product_discount_date_end;
-		
-		// Check if the amount exists in the database
-		$q_discount = "SELECT COUNT(discount_id) AS total_discount_ids FROM #__{vm}_product_discount WHERE amount = '".$this->product_discount."' ";
-		$q_discount .= "AND is_percent = '".$this->product_discount_percentage."' ";
-		$q_discount .= "AND start_date = '".$this->product_discount_date_start."' ";
-		$q_discount .= "AND end_date = '".$this->product_discount_date_end."'";
-		$ddc->query($q_discount);
-		
-		if ($ddc->f('total_discount_ids') > 0) {
-			$q_discount = "SELECT MIN(discount_id) AS discount_id FROM #__{vm}_product_discount WHERE amount = '".$this->product_discount."' ";
+		if (isset($ps_csv->required_fields["product_discount_id"])) {
+			$this->product_discount_id = $data[$ps_csv->csv_fields["product_discount_id"]["ordering"]-1];
+		}
+		else {
+			$ddc = new ps_DB;
+			
+			// Values of the discount to add it to the database
+			$d['amount'] = $this->product_discount;
+			$d['is_percent'] = $this->product_discount_percentage;
+			$d['start_date'] = $this->product_discount_date_start;
+			$d['end_date'] = $this->product_discount_date_end;
+			
+			// Check if the amount exists in the database
+			$q_discount = "SELECT COUNT(discount_id) AS total_discount_ids FROM #__{vm}_product_discount WHERE amount = '".$this->product_discount."' ";
 			$q_discount .= "AND is_percent = '".$this->product_discount_percentage."' ";
 			$q_discount .= "AND start_date = '".$this->product_discount_date_start."' ";
 			$q_discount .= "AND end_date = '".$this->product_discount_date_end."'";
+			if ($ps_csv->debug) $ps_csv->csv_debug['message'] .= 'Check if a discount exists: <a onclick="switchMenu(\''.$this->product_sku.'_product_discount\');" title="Show/hide query">Show/hide query</a><div id="'.$this->product_sku.'_product_discount" style="display: none; border: 1px solid #000000; padding: 5px;">'.htmlentities($q_discount).'</div><br />';
 			$ddc->query($q_discount);
-			return $ddc->f('discount_id');
-		}
-		else {
-			require_once( CLASSPATH. 'ps_product_discount.php' );
-			$ps_product_discount = new ps_product_discount;
-			$ps_product_discount->add( $d );
-			$d['product_discount_id'] = $database->insertid();
-			return $d['product_discount_id'];
+			
+			if ($ddc->f('total_discount_ids') > 0) {
+				$q_discount = "SELECT MIN(discount_id) AS discount_id FROM #__{vm}_product_discount WHERE amount = '".$this->product_discount."' ";
+				$q_discount .= "AND is_percent = '".$this->product_discount_percentage."' ";
+				$q_discount .= "AND start_date = '".$this->product_discount_date_start."' ";
+				$q_discount .= "AND end_date = '".$this->product_discount_date_end."'";
+				if ($ps_csv->debug) $ps_csv->csv_debug['message'] .= 'Discount exists, return discount id: <a onclick="switchMenu(\''.$this->product_sku.'_discount_id\');" title="Show/hide query">Show/hide query</a><div id="'.$this->product_sku.'_discount_id" style="display: none; border: 1px solid #000000; padding: 5px;">'.htmlentities($q_discount).'</div><br />';
+				$ddc->query($q_discount);
+				$this->product_discount_id = $ddc->f('discount_id');
+			}
+			else {
+				require_once( CLASSPATH. 'ps_product_discount.php' );
+				$ps_product_discount = new ps_product_discount;
+				$ps_product_discount->add( $d );
+				$d['product_discount_id'] = $database->insertid();
+				if ($ps_csv->debug) $ps_csv->csv_debug['message'] .= 'Discount does not exist, create discount<br />';
+				$this->product_discount_id = $d['product_discount_id'];
+			}
 		}
 	}
 }

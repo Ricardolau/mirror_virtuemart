@@ -16,6 +16,10 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * http://virtuemart.net
 */
 mm_showMyFileName( __FILE__ );
+global $mosConfig_cachepath;
+if (!defined('_PSHOP_ADMIN')) $my_path = "includes/js/ThemeOffice/";
+else $my_path = "../includes/js/ThemeOffice/";
+
 if (isset($vars["show_preview"]) && strtoupper($vars["show_preview"]) == "Y") {
 	if (empty($vars['preview_only'])) { ?>
 		<div style="width: 40%; float: right;">

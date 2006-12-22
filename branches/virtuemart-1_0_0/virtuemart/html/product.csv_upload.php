@@ -1,9 +1,7 @@
 <?php
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
-*	CSV Import/Export File (Improved)
-* @author soeren, RolandD (rdalmulder@hotmail.com)
-* 
+*
 * @version $Id: product.csv_upload.php,v 1.4.2.1 2006/03/10 15:55:15 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage html
@@ -14,7 +12,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * is derivative of works licensed under the GNU General Public License or
 * other free or open source software licenses.
 * See /administrator/components/com_virtuemart/COPYRIGHT.php for copyright notices and details.
-* 
+*
 * http://virtuemart.net
 */
 mm_showMyFileName( __FILE__ );
@@ -179,7 +177,7 @@ $tabs->startTab( $VM_LANG->_PHPSHOP_CSV_IMPORT_EXPORT, "uploadform" );
 			for="include_column_headers"><?php echo $VM_LANG->_PHPSHOP_CSV_INCLUDE_COLUMN_HEADERS; ?></label> <br />
 		<br />
 		<a href="#"
-			onclick="javascript: document.adminForm.func.value='export_csv'; document.adminForm.no_html.value='1';submitbutton();">
+			onclick="javascript: document.adminForm.func.value='export_csv'; document.adminForm.no_html.value='1';submitbutton();document.adminForm.func.value='product_csv';">
 		<img alt="Export" border="0" src="<?php echo $mosConfig_live_site ?>/administrator/images/backup.png"
 		align="center" /><?php echo $VM_LANG->_PHPSHOP_CSV_SUBMIT_EXPORT ?></a></td>
 	</tr>
@@ -205,11 +203,14 @@ $tabs->startTab( $VM_LANG->_PHPSHOP_CONFIG, "field_list" );
 		<th><?php echo $VM_LANG->_PHPSHOP_CSV_FIELD_REQUIRED ?></th>
 		<th><?php echo $VM_LANG->_PHPSHOP_DELETE ?></th>
 	</tr>
-	<form name="fieldUpdate" method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>"> <input
-		type="hidden" name="option" value="com_virtuemart" /> <input
-		type="hidden" name="func" value="csvFieldUpdate" /> <input
-		type="hidden" name="page" value="product.csv_upload" />
+	<form name="fieldUpdate" method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>"> 
+		<input type="hidden" name="option" value="com_virtuemart" /> 
+		<input type="hidden" name="func" value="csvFieldUpdate" /> 
+		<input type="hidden" name="page" value="product.csv_upload" />
+		<?php if (@$_REQUEST['pshop_mode'] == "admin") {?> 
+			<input type="hidden" name="pshop_mode" value="admin" />
 		<?php
+		}
 		$db->query( "SELECT * FROM #__{vm}_csv ORDER BY field_ordering" );
 		$i = 1;
 		while( $db->next_record() ) { ?>
@@ -219,15 +220,13 @@ $tabs->startTab( $VM_LANG->_PHPSHOP_CONFIG, "field_list" );
 		<?php
 		if ( in_array( $db->f("field_name"), $ps_csv->reserved_words )){
 			echo "<input type=\"hidden\" name=\"field[$i][_name]\" value=\"".$db->f("field_name")."\" />";
-			echo "<select name=\"field[".$i."][_name]\" disabled=\"disabled\">\n";
+			echo "<select name=\"field[".$i."][_name]\" disabled=disabled>";
 		}
-		else {
-			echo "<select name=\"field[".$i."][_name]\">\n";
-		}
+		else echo "<select name=\"field[".$i."][_name]\">";
 
 		foreach ($ps_csv->supported_fields as $fieldname) {
 			echo "<option value=\"".$fieldname."\"";
-			if($db->f("field_name")==$fieldname) echo " selected=\"selected\"";
+			if($db->f("field_name")==$fieldname) echo "selected=\"selected\"";
 			echo ">".$fieldname."</option>";
 		}
 		echo "</select>";

@@ -93,13 +93,17 @@ function com_install() {
 		if( $old_version && file_exists( $mosConfig_absolute_path.'/administrator/components/com_virtuemart/classes/htmlTools.class.php')) {
 			$version_info = new mosParameters( $old_version->params );
 			$isBefore_103 = version_compare( $version_info->get( 'RELEASE' ), '1.0.3' );
+			$isBefore_105 = version_compare( $version_info->get( 'RELEASE' ), '1.0.5' );
 			// Version_compare returns -1, which is true for the meaning of the variable meaning
 			if( $isBefore_103 == -1 ) {
 				// the update from
 				$installation = 'vm_update_from102_orOlder';
 			}
-			else {
+			elseif( $isBefore_103 > -1 && $isBefore_105  == -1) {
 				$installation = 'vm_update_from103_orYounger';
+			}
+			elseif( $isBefore_105 > -1) {
+				$installation = 'vm_update_from105_orYounger';
 			}
 		}
 		else {

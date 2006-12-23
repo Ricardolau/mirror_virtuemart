@@ -183,23 +183,23 @@ class Img2Thumb	{
 		// [2] = type
 		// [3] = img tag "width=xx height=xx" values
 		
-		$orig_size = getimagesize($filename);
+        $orig_size = getimagesize($filename);
 
-		$maxX = $newxsize;
-		$maxY = $newysize;
-		
-		if ($orig_size[0]<$orig_size[1])
-		{
-			$newxsize = $newysize * ($orig_size[0]/$orig_size[1]);
-			$adjustX = ($maxX - $newxsize)/2;
-			$adjustY = 0;
-		}
-		else
-		{
-			$newysize = $newxsize / ($orig_size[0]/$orig_size[1]);
-			$adjustX = 0;
-			$adjustY = ($maxY - $newysize)/2;
-		}
+        $maxX = $newxsize;
+        $maxY = $newysize;
+
+        if (($orig_size[0]/$orig_size[1])<($maxX/$maxY))
+        {
+                $newxsize = $newysize * ($orig_size[0]/$orig_size[1]);
+                $adjustX = ($maxX - $newxsize)/2;
+                $adjustY = 0;
+        }
+        else
+        {
+                $newysize = $newxsize / ($orig_size[0]/$orig_size[1]);
+                $adjustX = 0;
+                $adjustY = ($maxY - $newysize)/2;
+        }
 		
 		/* Original code removed to allow for maxSize thumbnails
 		$im_out = ImageCreateTrueColor($newxsize,$newysize);

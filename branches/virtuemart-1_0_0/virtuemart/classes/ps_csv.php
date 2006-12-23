@@ -139,6 +139,8 @@ class ps_csv {
 								    "product_currency",
 								    "price_quantity_start",
 								    "price_quantity_end");
+	var $encl;
+	var $delim;
 	
 	function ps_csv() {
 		$this->process = "NormalUpload";
@@ -1269,11 +1271,7 @@ class ps_csv {
 		$db_attribute_values = new ps_DB;
 		// Add the column headers if user choose them
 		if ($include_column_headers) {
-			foreach($csv_ordering as $id => $column_name) {
-				$contents .=  $this->encl.$column_name.$this->encl;
-				if ($id != count($csv_ordering)) $contents .= $this->delim;
-				else $contents .= "\n";
-			}
+			$contents .= $this->encl. implode( $this->encl.$this->delim . $this->encl, $csv_ordering ) . $this->encl;
 			$contents .= "\n";
 		}
 		/** Loop through all records
@@ -1289,8 +1287,9 @@ class ps_csv {
 						$attributes .= $db_attributes->f("attribute_name"). "::". $db_attributes->f("attribute_list");
 						// to be replaced by
 						// if( !$db_attributes->is_last_record())
-						if( $db_attributes->row+1 < $db_attributes->num_rows())
-						$attributes .= "|";
+						if( $db_attributes->row+1 < $db_attributes->num_rows()) {
+							$attributes .= "|";
+						}
 					}
 				}
 				
@@ -1302,8 +1301,9 @@ class ps_csv {
 					$db_attribute_values->reset();
 					while( $db_attribute_values->next_record() ) {
 						$attribute_values .= $db_attribute_values->f("attribute_name")."::". $db_attribute_values->f("attribute_value");
-						if( $db_attribute_values->row+1 < $db_attribute_values->num_rows())
-						$attribute_values .= "|";
+						if( $db_attribute_values->row+1 < $db_attribute_values->num_rows()) {
+							$attribute_values .= "|";
+						}
 					}
 				}
 				$database->query( "SELECT product_sku FROM #__{vm}_product WHERE product_id='".$db->f("product_parent_id")."'" );
@@ -1312,60 +1312,60 @@ class ps_csv {
 			}
 			if ($use_standard_order == "Y") {
 				$contents .= 	$this->encl . $db->f("product_sku"). 	$this->encl
-					. $this->delim .	$this->encl . addslashes( $db->f("product_name")) . $this->encl
-					. $this->delim . 	$this->encl . addslashes( $this->get_category_path( $db->f("product_id") ) ). $this->encl
-					. $this->delim . 	$this->encl . $db->f("product_price") . $this->encl
-					. $this->delim . 	$this->encl . trim( addslashes( $db->f("product_s_desc"))) . $this->encl
-					. $this->delim . 	$this->encl . trim( addslashes($db->f("product_desc"))) . $this->encl
-					. $this->delim . 	$this->encl . addslashes( $db->f("product_thumb_image")) . $this->encl
-					. $this->delim . 	$this->encl . addslashes( $db->f("product_full_image")) . $this->encl
-					. $this->delim . 	$this->encl . $db->f("product_weight") . $this->encl
-					. $this->delim . 	$this->encl . $db->f("product_weight_uom") . $this->encl
-					. $this->delim . 	$this->encl . $db->f("product_length") . $this->encl
-					. $this->delim . 	$this->encl . $db->f("product_width") . $this->encl
-					. $this->delim . 	$this->encl . $db->f("product_height") . $this->encl
-					. $this->delim . 	$this->encl . addslashes( $db->f("product_lwh_uom")) . $this->encl
-					. $this->delim . 	$this->encl . $db->f("product_in_stock") . $this->encl
-					. $this->delim . 	$this->encl . $db->f("product_available_date") . $this->encl
-					. $this->delim . 	$this->encl . $db->f("product_discount_id") . $this->encl
-					. $this->delim . 	$this->encl . $db->f("manufacturer_id") . $this->encl
-					. $this->delim . 	$this->encl . $db->f("product_tax_id") . $this->encl
-					. $this->delim . 	$this->encl . $db->f("product_sales") . $this->encl
-					. $this->delim . 	$this->encl . $export_sku . $this->encl
-					. $this->delimGetDefaultShopperGroupID . 	$this->encl . addslashes( $db->f("attribute") ). $this->encl
-					. $this->delim . 	$this->encl . addslashes( $db->f("custom_attribute") ). $this->encl
-					. $this->delim . 	$this->encl . addslashes( $attributes ). $this->encl
-					. $this->delim . 	$this->encl . addslashes( $attribute_values ). $this->encl ."\n";
+					. $this->delim .	$this->getEscapedAndEnclosed( $db->f("product_name"))
+					. $this->delim . 	$this->getEscapedAndEnclosed( $this->get_category_path( $db->f("product_id") ) )
+					. $this->delim . 	$this->getEscapedAndEnclosed( $db->f("product_price") )
+					. $this->delim . 	$this->cleanString( $this->getEscapedAndEnclosed( $db->f("product_s_desc")))
+					. $this->delim . 	$this->cleanString( $this->getEscapedAndEnclosed($db->f("product_desc")))
+					. $this->delim . 	$this->getEscapedAndEnclosed( $db->f("product_thumb_image"))
+					. $this->delim . 	$this->getEscapedAndEnclosed( $db->f("product_full_image"))
+					. $this->delim . 	$this->getEscapedAndEnclosed( $db->f("product_weight") )
+					. $this->delim . 	$this->getEscapedAndEnclosed( $db->f("product_weight_uom") )
+					. $this->delim . 	$this->getEscapedAndEnclosed( $db->f("product_length") )
+					. $this->delim . 	$this->getEscapedAndEnclosed( $db->f("product_width") )
+					. $this->delim . 	$this->getEscapedAndEnclosed( $db->f("product_height") )
+					. $this->delim . 	$this->getEscapedAndEnclosed( $db->f("product_lwh_uom"))
+					. $this->delim . 	$this->getEscapedAndEnclosed( $db->f("product_in_stock") )
+					. $this->delim . 	$this->getEscapedAndEnclosed( $db->f("product_available_date") )
+					. $this->delim . 	$this->getEscapedAndEnclosed( $db->f("product_discount_id") )
+					. $this->delim . 	$this->getEscapedAndEnclosed( $db->f("manufacturer_id") )
+					. $this->delim . 	$this->getEscapedAndEnclosed( $db->f("product_tax_id") )
+					. $this->delim . 	$this->getEscapedAndEnclosed( $db->f("product_sales") )
+					. $this->delim . 	$this->getEscapedAndEnclosed( $export_sku )
+					. $this->delim . 	$this->getEscapedAndEnclosed( $db->f("attribute") )
+					. $this->delim . 	$this->getEscapedAndEnclosed( $db->f("custom_attribute") )
+					. $this->delim . 	$this->getEscapedAndEnclosed( $attributes )
+					. $this->delim . 	$this->getEscapedAndEnclosed( $attribute_values ) ."\n";
 			}
 			else {
 				$num = sizeof( $csv_ordering );
 				for( $i = 0; $i < $num; $i++ ) {
 					if( $csv_ordering[$i] == "category_path" ) {
-						$contents .= $this->encl . addslashes( $this->get_category_path( $db->f("product_id") ) ). $this->encl;
+						$contents .= $this->getEscapedAndEnclosed( $this->get_category_path( $db->f("product_id") ) );
 					}
 					elseif( $csv_ordering[$i] == "attributes" ) {
-						$contents .= $this->encl . addslashes( $attributes ) . $this->encl;
+						$contents .= $this->getEscapedAndEnclosed( $attributes ) ;
 					}
 					elseif( $csv_ordering[$i] == "attribute_values" ) {
-						$contents .= $this->encl . addslashes( $attribute_values ). $this->encl;
+						$contents .= $this->getEscapedAndEnclosed( $attribute_values );
 					}
 					// PROBLEM: when exporting the Product Parent ID we can't be sure
 					// that the Parent Product gets the same ID on re-import
 					// So we just take the Parent Product's SKU!
 					elseif( $csv_ordering[$i] == "product_parent_sku" ) {
-						$contents .= $this->encl . $export_sku . $this->encl;
+						$contents .= $this->getEscapedAndEnclosed( $export_sku );
 					}
 					// To be able to import the date again, we need to make sure it
 					// is human readable again
 					elseif( $csv_ordering[$i] == "product_available_date" ) {
 						$date_parts = getdate(trim($db->f($csv_ordering[$i])));
-						$contents .= $this->encl . $date_parts["mday"]."/".$date_parts["mon"]."/".$date_parts["year"] . $this->encl;
+						$contents .= $this->getEscapedAndEnclosed( $date_parts["mday"]."/".$date_parts["mon"]."/".$date_parts["year"] );
 					}
 					else {
-						$contents .= $this->encl . trim($db->f($csv_ordering[$i] )) . $this->encl;
+						$contents .= $this->getEscapedAndEnclosed( $this->cleanString($db->f($csv_ordering[$i] )) );
 					}
 					// Add delimiter (if not line end)
-					if( $i < $num ) {
+					if( $i+1 < $num ) {
 						$contents .= $this->delim;
 					}
 				}
@@ -2108,6 +2108,30 @@ class ps_csv {
 			else return $dbsg->f("shopper_group_id");
 		}
 	}
+	/**
+	 * Strips all line endings from a string
+	 *
+	 * @param unknown_type $str
+	 * @return unknown
+	 */
+	function cleanString( $str ) {
+		return str_replace(	"\r", '',
+				str_replace( "\n", '', trim($str) ));
+	}
+	/**
+	 * Strips all line endings from a string
+	 *
+	 * @param unknown_type $str
+	 * @return unknown
+	 */
+	function getEscapedAndEnclosed( $str ) {
+		switch( $this->encl ) {
+			case '"':
+				return $this->encl . str_replace('"', '""', $str ) . $this->encl;
+			default:
+				return $this->encl . str_replace($this->encl, '\\' .$this->encl, $str ) . $this->encl;
+		}
+	}
 }
 
 class product_details {
@@ -2703,5 +2727,6 @@ class product_type_parameters {
 			$this->product_type_list_order = $db->f("parameter_list_order");
 		}
 	}
+
 }
 ?>

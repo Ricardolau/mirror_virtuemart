@@ -241,7 +241,7 @@ $columns = Array(  "#" => "",
 					$VM_LANG->_PHPSHOP_PRODUCT_LIST_NAME => "width=\"30%\"",
 					$VM_LANG->_PHPSHOP_PRODUCT_LIST_SKU => "width=\"15%\"",
 					$VM_LANG->_PHPSHOP_CATEGORY => "width=\"15%\"",
-					$VM_LANG->_PHPSHOP_VENDOR_MOD => "width=\"15%\"",
+					$VM_LANG->_PHPSHOP_MANUFACTURER_MOD => "width=\"15%\"",
 					$VM_LANG->_PHPSHOP_REVIEWS => "width=\"10%\"",
 					$VM_LANG->_PHPSHOP_PRODUCT_LIST_PUBLISH => "width=\"5%\"",
 					$VM_LANG->_PHPSHOP_PRODUCT_CLONE => "",
@@ -296,7 +296,7 @@ if ($num_rows > 0) {
 		}
 		$listObj->addCell( $tmpcell );
 		
-		$listObj->addCell( $ps_product->getVendorName($db->f("vendor_id")) );
+		$listObj->addCell( $ps_product->get_mf_name($db->f("product_id")) );
 		
 		$db_cat->query("SELECT count(*) as num_rows FROM #__{vm}_product_reviews WHERE product_id='".$db->f("product_id")."'");
 		$db_cat->next_record();

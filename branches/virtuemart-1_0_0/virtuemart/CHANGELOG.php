@@ -33,6 +33,11 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+27.12.2006 soeren
+# Task #1072 - Wrong Tip! (coupon.coupon_form.php)
+^ displaying Manufacturer name in the product list instead of the vendor name.
+
+
 21.12.2006 soeren
 ^ better ordering for the list of products in the tab "Related Products" => now grouped by category including the category name
 # Task #1069 - "< ?php echo" appears in New Item button link when creating a child item

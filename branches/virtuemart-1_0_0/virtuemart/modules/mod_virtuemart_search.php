@@ -3,7 +3,7 @@
 * VirtueMart Search Module
 * NOTE: THIS MODULE REQUIRES THE PHPSHOP COMPONENT FOR MOS!
 *
-* @version $Id$
+* @version $Id: mod_virtuemart_search.php 178 2005-12-07 21:10:10 +0100 (Mi, 07 Dez 2005) soeren_nb $
 * @package VirtueMart
 * @subpackage modules
 *

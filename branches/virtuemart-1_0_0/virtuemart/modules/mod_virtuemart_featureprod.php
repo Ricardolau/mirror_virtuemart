@@ -3,7 +3,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 /*
 * Special Products Module
 *
-* @version $Id$
+* @version $Id: mod_virtuemart_featureprod.php 300 2006-05-06 12:05:27 +0200 (Sa, 06 Mai 2006) soeren_nb $
 * @package VirtueMart
 * @subpackage modules
 *

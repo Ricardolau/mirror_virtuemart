@@ -2,7 +2,7 @@
 defined('_VALID_MOS') or die('Direct Access to this location is not allowed.');
 /**
 *
-* @version $Id$
+* @version $Id: auspost.php 216 2006-01-17 20:04:14 +0100 (Di, 17 Jan 2006) soeren_nb $
 * @package VirtueMart
 * @subpackage shipping
 * @copyright Copyright (C) 2006 Ben Wilson. All rights reserved.

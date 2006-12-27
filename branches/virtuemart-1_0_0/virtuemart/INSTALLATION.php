@@ -1,7 +1,7 @@
 <?php
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
-* @version $Id$
+* @version $Id: INSTALLATION.php 136 2005-11-16 20:33:55 +0100 (Mi, 16 Nov 2005) soeren_nb $
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.

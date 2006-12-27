@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 /**
 *
-* @version $Id$
+* @version $Id: CHANGELOG.php 596 2006-12-27 11:17:20Z soeren_nb $
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2006 Soeren Eberhardt. All rights reserved.

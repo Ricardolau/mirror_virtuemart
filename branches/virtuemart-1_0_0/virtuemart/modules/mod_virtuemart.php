@@ -4,7 +4,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * mambo-phphop Main Module
 * NOTE: THIS MODULE REQUIRES AN INSTALLED MAMBO-PHPSHOP COMPONENT!
 *
-* @version $Id$
+* @version $Id: mod_virtuemart.php 558 2006-12-09 17:43:23Z soeren_nb $
 * @package VirtueMart
 * @subpackage modules
 * 

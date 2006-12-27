@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id$
+* @version $Id: sql.update.from.mambo-phpshop-1.2-RC2.to.1.2-stable-pl3.php 30 2005-10-01 18:24:53 +0200 (Sa, 01 Okt 2005) soeren_nb $
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.

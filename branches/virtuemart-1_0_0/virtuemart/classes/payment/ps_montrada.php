@@ -1,7 +1,7 @@
 <?php
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
-* @version $Id$
+* @version $Id: ps_montrada.php 137 2005-11-17 10:31:13 +0100 (Do, 17 Nov 2005) codename-matrix $
 * @package mambo-phpShop
 * @subpackage Payment
 * @copyright (C) 2005 Benjamin Schirmer

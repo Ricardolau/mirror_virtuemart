@@ -2,7 +2,8 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: admin.martlanguages.php 466 2006-11-07 20:40:22 +0100 (Di, 07 Nov 2006) soeren_nb $
+* @version $Id: admin.martlanguages.php,v 1.6 2006/01/15 19:42:45 soeren_nb Exp $
+* @ 2006/12/20 02:11:37 updated to VM 1.0.8 by Mauri & shrike
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -41,7 +42,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_LOGOUT_TITLE = 'Kirjaudu ulos';
 	var $_PHPSHOP_BROWSE_TITLE = 'Selaa';
 	var $_PHPSHOP_SEARCH_TITLE = 'Etsi';
-	var $_PHPSHOP_ACCOUNT_TITLE = 'Tilin Ylläpito';
+	var $_PHPSHOP_ACCOUNT_TITLE = 'Tilin ylläpito';
 	var $_PHPSHOP_NAVIGATION_TITLE = 'Navigaatio';
 	var $_PHPSHOP_DEPARTMENT_TITLE = 'Osasto';
 	var $_PHPSHOP_INFO = 'Informaatio';
@@ -79,7 +80,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PAGE_404_1 = 'Sivua ei löydy';
 	var $_PHPSHOP_PAGE_404_2 = 'Annetua tiedostonimeä ei löydy:';
 	var $_PHPSHOP_PAGE_403 = 'Ei tarvittavia oikeuksia';
-	var $_PHPSHOP_FUNC_NO_EXEC = 'Sinulla ei ole oikeusia suorittaa';
+	var $_PHPSHOP_FUNC_NO_EXEC = 'Sinulla ei ole oikeuksia suorittaa';
 	var $_PHPSHOP_FUNC_NOT_REG = 'Toimintoa ei ole rekisteröity';
 	var $_PHPSHOP_FUNC_ISNO_REG = ' ei ole käypä VirtueMart toiminto.';
 	var $_PHPSHOP_ADMIN_MOD = 'Hallinta';
@@ -103,8 +104,8 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_USER_FORM_PASSWORD_1 = 'Salasana';
 	var $_PHPSHOP_USER_FORM_PASSWORD_2 = 'Vahvista salasana';
 	var $_PHPSHOP_USER_FORM_PERMS = 'Oikeudet';
-	var $_PHPSHOP_USER_FORM_CUSTOMER_NUMBER = 'Asiakas numero / ID';
-	var $_PHPSHOP_USER_FORM_COMPANY_NAME = 'Yrityksen nimi';
+	var $_PHPSHOP_USER_FORM_CUSTOMER_NUMBER = 'Asiakasnumero / ID';
+	var $_PHPSHOP_USER_FORM_COMPANY_NAME = 'Yhdistys/Yritys-nimi';
 	var $_PHPSHOP_USER_FORM_ADDRESS_1 = 'Lähiosoite';
 	var $_PHPSHOP_USER_FORM_ADDRESS_2 = 'Lähiosoite 2.rivi';
 	var $_PHPSHOP_USER_FORM_CITY = 'Postitoimipaikka';
@@ -196,7 +197,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ISSHIP_FORM_CHARGE_P_LBL = 'prosentti';
 	var $_PHPSHOP_ISSHIP_FORM_DAYS_LBL = 'päivää';
 	var $_PHPSHOP_ISSHIP_FORM_HEAVY_LBL = ' Raskaat Lastit';
-	var $_PHPSHOP_ORDER_MOD = 'Tilaus';
+	var $_PHPSHOP_ORDER_MOD = 'Tilaukset';
 	var $_PHPSHOP_ORDER_CONFIRM_MNU = 'Vahvista tilaus';
 	var $_PHPSHOP_ORDER_CANCEL_MNU = 'Peruuta tilaus';
 	var $_PHPSHOP_ORDER_PRINT_MNU = 'Tulosta tilaus';
@@ -257,7 +258,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ORDER_STATUS_FORM_LBL = 'Tilauksen tila';
 	var $_PHPSHOP_ORDER_STATUS_FORM_CODE = 'Tilauksen tilan koodi';
 	var $_PHPSHOP_ORDER_STATUS_FORM_NAME = 'Tilauksen tilan nimi';
-	var $_PHPSHOP_ORDER_STATUS_FORM_LIST_ORDER = 'Luettele tilaukset';
+	var $_PHPSHOP_ORDER_STATUS_FORM_LIST_ORDER = 'Luettelojärjestys';
 	var $_PHPSHOP_PRODUCT_MOD = 'Tuotteet';
 	var $_PHPSHOP_CURRENT_PRODUCT = 'Nykyinen tuote';
 	var $_PHPSHOP_CURRENT_ITEM = 'Nykyinen artikkeli';
@@ -314,7 +315,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_FORM_IN_STOCK = 'Varastossa';
 	var $_PHPSHOP_PRODUCT_FORM_ON_ORDER = 'Tilauksessa';
 	var $_PHPSHOP_PRODUCT_FORM_AVAILABLE_DATE = 'Saatavuuspäivä';
-	var $_PHPSHOP_PRODUCT_FORM_SPECIAL = 'Tarjouksessa';
+	var $_PHPSHOP_PRODUCT_FORM_SPECIAL = 'Erikoistuote(Feature)';
 	var $_PHPSHOP_PRODUCT_FORM_DISCOUNT_TYPE = 'Alennustyyppi';
 	var $_PHPSHOP_PRODUCT_FORM_PUBLISH = 'Julkaise?';
 	var $_PHPSHOP_PRODUCT_FORM_LENGTH = 'Pituus';
@@ -351,7 +352,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ATTRIBUTE_LIST_MNU = 'Luettele ominaisuudet';
 	var $_PHPSHOP_ATTRIBUTE_LIST_LBL = 'Ominaisuuslista:';
 	var $_PHPSHOP_ATTRIBUTE_LIST_NAME = 'Ominaisuuden nimi';
-	var $_PHPSHOP_ATTRIBUTE_LIST_ORDER = 'Luettele tilaukset';
+	var $_PHPSHOP_ATTRIBUTE_LIST_ORDER = 'Luettelojärjestys';
 	var $_PHPSHOP_ATTRIBUTE_FORM_MNU = 'Lisää ominaisuus';
 	var $_PHPSHOP_ATTRIBUTE_FORM_LBL = 'Ominaisuuslomake';
 	var $_PHPSHOP_ATTRIBUTE_FORM_NEW_FOR_PRODUCT = 'Uusi ominaisuus tuotteelle';
@@ -359,8 +360,8 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ATTRIBUTE_FORM_NEW_FOR_ITEM = 'Uusi ominaisuus artikkelille';
 	var $_PHPSHOP_ATTRIBUTE_FORM_UPDATE_FOR_ITEM = 'Päivitä artikkelin ominaisuus';
 	var $_PHPSHOP_ATTRIBUTE_FORM_NAME = 'Ominaisuuden nimi';
-	var $_PHPSHOP_ATTRIBUTE_FORM_ORDER = 'Luettele tilaukset';
-	var $_PHPSHOP_PRICE_LIST_MNU = 'Luettele kategoriat';
+	var $_PHPSHOP_ATTRIBUTE_FORM_ORDER = 'Luettelojärjestys';
+	var $_PHPSHOP_PRICE_LIST_MNU = 'Hintalista';
 	var $_PHPSHOP_PRICE_LIST_LBL = 'Hinta *puu*';
 	var $_PHPSHOP_PRICE_LIST_FOR_LBL = 'Hinta: ';
 	var $_PHPSHOP_PRICE_LIST_GROUP_NAME = 'Ryhmän nimi';
@@ -399,7 +400,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_SHOP_MOD = 'Kauppa';
 	var $_PHPSHOP_PRODUCT_THUMB_TITLE = 'Näytekuva';
 	var $_PHPSHOP_PRODUCT_PRICE_TITLE = 'Hinta';
-	var $_PHPSHOP_ORDER_STATUS_P = 'Ratkaisematon';
+	var $_PHPSHOP_ORDER_STATUS_P = 'Käsittelemätön';
 	var $_PHPSHOP_ORDER_STATUS_C = 'Vahvistettu';
 	var $_PHPSHOP_ORDER_STATUS_X = 'Peruutettu';
 	var $_PHPSHOP_ORDER_BUTTON = 'Tilaus';
@@ -425,7 +426,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_SHOPPER_FORM_PASSWORD_1 = 'Salasana';
 	var $_PHPSHOP_SHOPPER_FORM_PASSWORD_2 = 'Vahvista salasana';
 	var $_PHPSHOP_SHOPPER_FORM_GROUP = 'Ostajaryhmä';
-	var $_PHPSHOP_SHOPPER_FORM_COMPANY_NAME = 'Yrityksen nimi';
+	var $_PHPSHOP_SHOPPER_FORM_COMPANY_NAME = 'Yhdistys/Yritys-nimi';
 	var $_PHPSHOP_SHOPPER_FORM_ADDRESS_1 = 'Lähiosoite';
 	var $_PHPSHOP_SHOPPER_FORM_ADDRESS_2 = 'Lähiosoite 2.rivi';
 	var $_PHPSHOP_SHOPPER_FORM_CITY = 'Postitoimipaikka';
@@ -495,9 +496,9 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_SHOPPER_GROUP = 'Ostajaryhmä';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_DISCOUNT = 'Alennus';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_CODE = 'Koodi';
-	var $_PHPSHOP_PAYMENT_METHOD_FORM_LIST_ORDER = 'Luettele tilaukset';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_LIST_ORDER = 'Luettelojärjestys';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_ENABLE_PROCESSOR = 'Käytä Cybercash';
-	var $_PHPSHOP_TAX_MOD = 'Alv';
+	var $_PHPSHOP_TAX_MOD = 'Vero';
 	var $_PHPSHOP_TAX_RATE = 'Veroprosentit';
 	var $_PHPSHOP_TAX_LIST_MNU = 'Luettele veroprosentit';
 	var $_PHPSHOP_TAX_LIST_LBL = 'Veroprosenttiluettelo';
@@ -584,7 +585,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_CALL = 'Kysy hinta';
 	var $_PHPSHOP_PRODUCT_PREVIOUS = 'Edellinen';
 	var $_PHPSHOP_PRODUCT_NEXT = 'Seuraava';
-	var $_PHPSHOP_CART_TAX = 'Vero';
+	var $_PHPSHOP_CART_TAX = 'Alv';
 	var $_PHPSHOP_CART_SHIPPING = 'Huolinta';
 	var $_PHPSHOP_CART_TOTAL = 'Summa';
 	var $_PHPSHOP_CHECKOUT_NEXT = 'Seuraava';
@@ -675,7 +676,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_SHIPPING_RATE_LIST_RATE_WSTART = 'Paino alkaen ...';
 	var $_PHPSHOP_SHIPPING_RATE_LIST_RATE_WEND = '... asti';
 	var $_PHPSHOP_CARRIER_FORM_NAME = 'Huolinta Yritys';
-	var $_PHPSHOP_CARRIER_FORM_LIST_ORDER = ' Luettelojärjestys ';
+	var $_PHPSHOP_CARRIER_FORM_LIST_ORDER = 'Luettelojärjestys';
 	var $_PHPSHOP_ERR_MSG_CARRIER_EXIST = 'VIRHE: Huolitsijatunnus on olemassa.';
 	var $_PHPSHOP_ERR_MSG_CARRIER_ID_REQ = 'VIRHE: Valitse huolitsija.';
 	var $_PHPSHOP_ERR_MSG_CARRIER_INUSE = 'VIRHE: Ainakin yksi rahtitariffi on olemassa, poista tariffit ennen huolitsijaa';
@@ -706,7 +707,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CHECKOUT_ERR_NO_SHIP = ' Valitse lähetystapa.';
 	var $_PHPSHOP_CHECKOUT_ERR_OTHER_SHIP = ' Valitse toinen lähetystapa.';
 	var $_PHPSHOP_CHECKOUT_ERR_NO_PAYM = ' Valitse maksutapa.';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_CCNR = 'Syötä luottokortisi numero.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_CCNR = 'Syötä luottokorttisi numero.';
 	var $_PHPSHOP_CHECKOUT_ERR_NO_CCNAME = 'Syötä luottokortissa oleva nimi.';
 	var $_PHPSHOP_CHECKOUT_ERR_NO_CCDATE = 'Syötetty luottokortti numero ei ole voimassa.';
 	var $_PHPSHOP_CHECKOUT_ERR_NO_CCMON = 'Syötä luottokortin voimassaolo kuukausi.';
@@ -720,7 +721,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CHECKOUT_ERR_SHIPTO_NOT_FOUND = 'VIRHE: Toimitusosoitettasi ei löydetty!';
 	var $_PHPSHOP_CHECKOUT_ERR_NO_CCDATA = 'VIRHE: Ei ole luottokorttitietoja... ';
 	var $_PHPSHOP_CHECKOUT_ERR_NO_CCNR_FOUND = 'VIRHE: Luottokorttinumeroa ei löydy!';
-	var $_PHPSHOP_CHECKOUT_ERR_TEST = 'Pahoittelen, käyttämäsi luottokorttinnumero on testinumero!';
+	var $_PHPSHOP_CHECKOUT_ERR_TEST = 'Pahoittelen, käyttämäsi luottokorttinumero on testinumero!';
 	var $_PHPSHOP_CHECKOUT_ERR_NO_USER_DATA = 'Käyttäjätunnusta ei löytynyt tietokannasta!';
 	var $_PHPSHOP_CHECKOUT_ERR_NO_BA_HOLDER_NAME = 'Et ole antanut pankkitilisi haltijanimeä.';
 	var $_PHPSHOP_CHECKOUT_ERR_NO_IBAN = 'Et ole antanut IBAN tunnustasi.';
@@ -751,7 +752,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_FORM_ITEM_LBL = 'Artikkeli';
 	var $_PHPSHOP_DOWNLOADS_TITLE = 'Latausalue';
 	var $_PHPSHOP_DOWNLOADS_START = 'Aloita lataus';
-	var $_PHPSHOP_DOWNLOADS_INFO = 'Syöta sähköpostissa saamasi lataus-ID ja paina \'Aloita Lataus\'.';
+	var $_PHPSHOP_DOWNLOADS_INFO = 'Syötä sähköpostissa saamasi lataus-ID ja paina \'Aloita Lataus\'.';
 	var $_PHPSHOP_DOWNLOADS_ERR_EXP = 'Latauksesi on vanhentunut';
 	var $_PHPSHOP_DOWNLOADS_ERR_MAX = 'Kaikki latauskertasi on käytetty';
 	var $_PHPSHOP_DOWNLOADS_ERR_INV = 'Epäkelpo lataus-ID!';
@@ -771,13 +772,13 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER2 = 'Kiitos tilauksestasi.';
 	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER3 = 'Kysymyksiä? Ongelmia?';
 	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER4 = 'Seuraava tilaus on vastaanotettu.';
-	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER5 = 'Katso tilausta seuraamalla allaolevaa linkkiä.';
+	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER5 = 'Katso tilausta seuraamalla alla olevaa linkkiä.';
 	var $_PHPSHOP_CART_ERROR_NO_NEGATIVE = 'Negatiiviset määrät eivät ole sallittuja.';
 	var $_PHPSHOP_CART_ERROR_NO_VALID_QUANTITY = 'Syötä oikea määrä tälle tuotteelle.';
 	var $_PHPSHOP_CART_STOCK_1 = 'Valittu määrä ylittää varastomäärän.';
 	var $_PHPSHOP_CART_STOCK_2 = 'Tällä hetkellä $product_in_stock tuotetta saatavilla.';
 	var $_PHPSHOP_CART_STOCK_3 = 'Paina tästä jos haluat jonotuslistalle.';
-	var $_PHPSHOP_CART_SELECT_ITEM = 'Valitse erikoistuote yksityiskohtaiselta sivulta!';
+	var $_PHPSHOP_CART_SELECT_ITEM = 'Valitse tuotteen lisäkentästä esim.Koko tai Tarjous!';
 	var $_PHPSHOP_REGISTRATION_FORM_NONE = 'Ei mitään';
 	var $_PHPSHOP_REGISTRATION_FORM_MR = 'Herra';
 	var $_PHPSHOP_REGISTRATION_FORM_MRS = 'Rouva';
@@ -788,11 +789,11 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_AFFILIATE_LIST_MNU = 'Luettele filiaalit';
 	var $_PHPSHOP_AFFILIATE_LIST_LBL = 'Filiaaliluettelo';
 	var $_PHPSHOP_AFFILIATE_LIST_AFFILIATE_NAME = 'Filiaalin nimi';
-	var $_PHPSHOP_AFFILIATE_LIST_AFFILIATE_ACTIVE = 'Aktiivi';
+	var $_PHPSHOP_AFFILIATE_LIST_AFFILIATE_ACTIVE = 'Aktiivinen';
 	var $_PHPSHOP_AFFILIATE_LIST_RATE = 'Taksa';
 	var $_PHPSHOP_AFFILIATE_LIST_MONTH_TOTAL = 'Kuukausi yhteensä';
 	var $_PHPSHOP_AFFILIATE_LIST_MONTH_COMMISSION = 'Kuukauden komissio';
-	var $_PHPSHOP_AFFILIATE_LIST_ORDERS = 'Luettele tilaukset';
+	var $_PHPSHOP_AFFILIATE_LIST_ORDERS = 'Luettelojärjestys';
 	var $_PHPSHOP_AFFILIATE_EMAIL_MNU = 'Email Filiaalit';
 	var $_PHPSHOP_AFFILIATE_EMAIL_LBL = 'Email Filiaalit';
 	var $_PHPSHOP_AFFILIATE_EMAIL_WHO = 'Kenelle Email(* = ALL)';
@@ -800,10 +801,10 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_AFFILIATE_EMAIL_SUBJECT = 'Aihe';
 	var $_PHPSHOP_AFFILIATE_EMAIL_STATS = 'Sisällytä tämänhetkinen tilasto ';
 	var $_PHPSHOP_AFFILIATE_FORM_RATE = 'Komissiotaksa';
-	var $_PHPSHOP_AFFILIATE_FORM_ACTIVE = 'Aktiivi?';
+	var $_PHPSHOP_AFFILIATE_FORM_ACTIVE = 'Aktiivinen?';
 	var $_PHPSHOP_DELIVERY_TIME = 'Toimitusaika ';
 	var $_PHPSHOP_DELIVERY_INFORMATION = 'Toimitustiedot';
-	var $_PHPSHOP_MORE_CATEGORIES = 'more categories';
+	var $_PHPSHOP_MORE_CATEGORIES = 'Muut kategoriat';
 	var $_PHPSHOP_AVAILABILITY = 'Saatavuus';
 	var $_PHPSHOP_CURRENTLY_NOT_AVAILABLE = 'Tämä tuote ei ole tällä hetkellä saatavilla.';
 	var $_PHPSHOP_PRODUCT_AVAILABLE_AGAIN = 'Saamme sitä varastoon uudestaan: ';
@@ -815,7 +816,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_STATISTIC_SUM = 'Summa';
 	var $_PHPSHOP_STATISTIC_NEW_ORDERS = 'Uudet tilaukset';
 	var $_PHPSHOP_STATISTIC_NEW_CUSTOMERS = 'Uudet asiakkaat';
-	var $_PHPSHOP_WAITING_LIST_MESSAGE = 'Syötä email-osoitteesi, jos haluat tiedon tuotteen tulosta varastoon. Emme käytä tai luovuta antaamasi osoitetta mihinkään muuhun tarkoitukseen, kuin ilmoittaaksemme tuotteen saapumisesta varastoon.<br /><br />Kiitos!';
+	var $_PHPSHOP_WAITING_LIST_MESSAGE = 'Syötä email-osoitteesi, jos haluat tiedon tuotteen tulosta varastoon. Emme käytä tai luovuta antamaasi osoitetta mihinkään muuhun tarkoitukseen, kuin ilmoittaaksemme tuotteen saapumisesta varastoon.<br /><br />Kiitos!';
 	var $_PHPSHOP_WAITING_LIST_THANKS = 'Kiitos kärsivällisyydestä! <br />Ilmoitamme heti, kun varastomme on täydentynyt.';
 	var $_PHPSHOP_WAITING_LIST_NOTIFY_ME = 'Ilmoita minulle!';
 	var $_PHPSHOP_CHECK_OUT_THANK_YOU_PRINT_VIEW = 'Tulosta näkymä';
@@ -865,11 +866,11 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_FRONTENDAMDIN = 'Salli hallinta etupuolelta niille, joilla ei ole oikeuksia hallintapuolelle (backend)?';
 	var $_PHPSHOP_ADMIN_CFG_FRONTENDAMDIN_EXPLAIN = 'Tällä asetuksella voit mahdollistaa (frontend) etupuolelta hallinnan niille käyttäjille, jotka ovat kauppa-admineja, mutta joilla ei ole Joomla/Mambo Backend-oikeuksia (esim. Registered ja  Editor).';
 	var $_PHPSHOP_ADMIN_CFG_URL = 'URL';
-	var $_PHPSHOP_ADMIN_CFG_URL_EXPLAIN = 'URL sivuillesi. Yleensä identtinen Joomla/Mambo URL:in kanssa(kauttaviiva perässä!)';
+	var $_PHPSHOP_ADMIN_CFG_URL_EXPLAIN = 'URL sivuillesi. Yleensä identtinen Joomla/Mambo URL:in kanssa(kauttaviiva rivin lopussa!)';
 	var $_PHPSHOP_ADMIN_CFG_URLSECURE = 'SECUREURL';
-	var $_PHPSHOP_ADMIN_CFG_URLSECURE_EXPLAIN = 'Suojattu URL sivuillesi. (https - kauttaviiva perässä!)';
+	var $_PHPSHOP_ADMIN_CFG_URLSECURE_EXPLAIN = 'Suojattu URL sivuillesi. (https - kauttaviiva rivin lopussa!)';
 	var $_PHPSHOP_ADMIN_CFG_URLCOMPONENT = 'COMPONENTURL';
-	var $_PHPSHOP_ADMIN_CFG_URLCOMPONENT_EXPLAIN = 'URL VirtueMart-komponentiin. (kauttaviiva perässä!)';
+	var $_PHPSHOP_ADMIN_CFG_URLCOMPONENT_EXPLAIN = 'URL VirtueMart-komponenttiin. (kauttaviiva rivin lopussa!)';
 	var $_PHPSHOP_ADMIN_CFG_URLIMAGE = 'IMAGEURL';
 	var $_PHPSHOP_ADMIN_CFG_URLIMAGE_EXPLAIN = 'URL VirtueMart-komponentin kuvahakemistoon.(kauttaviiva perässä!)';
 	var $_PHPSHOP_ADMIN_CFG_ADMINPATH = 'ADMINPATH';
@@ -891,9 +892,9 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_FLYPAGE = 'FLYPAGE';
 	var $_PHPSHOP_ADMIN_CFG_FLYPAGE_EXPLAIN = 'Oletussivu tuotteen tietojen esitykseen.';
 	var $_PHPSHOP_ADMIN_CFG_CATEGORY_TEMPLATE = 'Kategoriamallinne';
-	var $_PHPSHOP_ADMIN_CFG_CATEGORY_TEMPLATE_EXPLAIN = 'Määrittelee oletusmallinnuksen tuotteiden esittelyyn kategoriassa.<br />Voit luoda uusia mallinuksia räätälöimällä olemassa olevia mallinnustiedostoja <br />(löytyvät hakemistosta <strong>COMPONENTPATH/html/templates/</strong> ja alkavat browse_)';
+	var $_PHPSHOP_ADMIN_CFG_CATEGORY_TEMPLATE_EXPLAIN = 'Määrittelee oletusmallinnuksen tuotteiden esittelyyn kategoriassa.<br />Voit luoda uusia mallinnuksia räätälöimällä olemassa olevia mallinnustiedostoja <br />(löytyvät hakemistosta <strong>COMPONENTPATH/html/templates/</strong> ja alkavat browse_)';
 	var $_PHPSHOP_ADMIN_CFG_PRODUCTS_PER_ROW = 'Oletusmäärä tuotteita rivissä';
-	var $_PHPSHOP_ADMIN_CFG_PRODUCTS_PER_ROW_EXPLAIN = 'Määrittelee tuotteiden määrän riviä kohden. <br />Esimerkki: Jos astetat määräksi 4, kategoriamallinnus näyttää 4 tuotetta per rivi';
+	var $_PHPSHOP_ADMIN_CFG_PRODUCTS_PER_ROW_EXPLAIN = 'Määrittelee tuotteiden määrän riviä kohden. <br />Esimerkki: Jos asetat määräksi 4, kategoriamallinnus näyttää 4 tuotetta per rivi';
 	var $_PHPSHOP_ADMIN_CFG_NOIMAGEPAGE = '"no image" kuva';
 	var $_PHPSHOP_ADMIN_CFG_NOIMAGEPAGE_EXPLAIN = 'Tämä kuva näkyy, kun tuotteelle ei ole määritelty kuvaa.';
 	var $_PHPSHOP_ADMIN_CFG_SEARCHROWS = 'Hakurivit';
@@ -925,7 +926,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_STORE_ENCODEKEY = 'KOODAUSAVAIN';
 	var $_PHPSHOP_ADMIN_CFG_STORE_ENCODEKEY_EXPLAIN = 'Tällä avaimella salataan tiedot tietokannassa. Tämän takia tämä tiedoston näkyminen tulisi aina suojata.';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_CHECKOUTBAR = 'Näytä maksamispolun(Checkout Bar)';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_CHECKOUTBAR_EXPLAIN = 'Aseta päälle, jos haluat maksamispolun(Checkout-Bar) näkyvän asiakaalle maksuprosessin aikana ( 1 - 2 - 3 - 4 graafisesti esitettynä).';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_CHECKOUTBAR_EXPLAIN = 'Aseta päälle, jos haluat maksamispolun(Checkout-Bar) näkyvän asiakkaalle maksuprosessin aikana ( 1 - 2 - 3 - 4 graafisesti esitettynä).';
 	var $_PHPSHOP_ADMIN_CFG_CHECKOUT_PROCESS = 'Valitse kauppasi maksuprosessi (checkout)';
 	var $_PHPSHOP_ADMIN_CFG_CHECKOUT_PROCESS_STANDARD = '<strong>Normaali :</strong><br/>
               1. Lähetysosoite<br />
@@ -948,7 +949,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_ORDER_ENABLE_DOWNLOADS = 'Tilauksen tila(order status), joka mahdollistaa latauksen';
 	var $_PHPSHOP_ADMIN_CFG_ORDER_ENABLE_DOWNLOADS_EXPLAIN = 'Valitse tilauksen tila(order status), jolla asiakas saa tiedon latausmahdollisuudesta.';
 	var $_PHPSHOP_ADMIN_CFG_ORDER_DISABLE_DOWNLOADS = 'Tilauksen tila(order status), joka estää lataamisen';
-	var $_PHPSHOP_ADMIN_CFG_ORDER_DISABLE_DOWNLOADS_EXPLAIN = 'Asettaa tilauksen tilan(order status), joka estää asikasta lataamasta tiedostoa.';
+	var $_PHPSHOP_ADMIN_CFG_ORDER_DISABLE_DOWNLOADS_EXPLAIN = 'Asettaa tilauksen tilan(order status), joka estää asiakasta lataamasta tiedostoa.';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOADROOT = 'Latauspolku';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOADROOT_EXPLAIN = 'Fyysinen polku ladattavien tiedostojen hakemistoon. (kauttaviiva lopussa!)<br><span class="message">Turvavinkki: Jos voit, niin tallenna lataustiedostot muualle, kuin www-sivustosi juureen!</span>';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_MAX = 'Latausten maksimimäärä';
@@ -963,7 +964,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS_EXPLAIN = 'Valitse tilanne/vaihe, johon tilaus asetetaan, jos PayPal-siirto onnistui. (Select the order status to which the actual order is set, if the PayPal IPN was successful.) Jos latausmahdollisuus on aktivoituna, aseta tilaustilanne/vaihe, jossa lataus voi onnistua (asiakas saa tästä välittömästi tiedon sähköpostitse). (If using download selling options: 
   select the status which enables the download (then the customer is instantly notified about the download via e-mail).)';
 	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED = 'Tilaustilanne/vaihe epäonnistuneita siirtoja varten. (Order Status for failed transactions)';
-	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED_EXPLAIN = 'Valitse tilaustilanne/vaihe epäonnstuneita PayPal-siirtoja varten. (Select an order status for failed PayPal transactions.)';
+	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED_EXPLAIN = 'Valitse tilaustilanne/vaihe epäonnistuneita PayPal-siirtoja varten. (Select an order status for failed PayPal transactions.)';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYMATE = 'Aktivoi maksaminen PayMaten kautta ?';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYMATE_EXPLAIN = 'Merkitse tämä, jos aiot sallia asiakkaasi käyttävän  australialaista PayMate-maksujärjestelmää.';
 	var $_PHPSHOP_ADMIN_CFG_PAYMATE_USERNAME = 'PayMate-käyttäjänimi:';
@@ -1099,7 +1100,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_FILES_FORM_FILE_DESC = 'Tiedoston kuvaus';
 	var $_PHPSHOP_FILES_FORM_FILE_URL = 'Tiedoston URL (valinnainen)';
 	var $_PHPSHOP_FILES_PATH_ERROR = 'Anna tiedoston polku!';
-	var $_PHPSHOP_FILES_IMAGE_RESIZE_SUCCESS = 'Näytekuva onnistuneesti luotu!';
+	var $_PHPSHOP_FILES_IMAGE_RESIZE_SUCCESS = 'Näytekuva luotiin onnistuneesti!';
 	var $_PHPSHOP_FILES_IMAGE_RESIZE_FAILURE = 'Näytekuvaa EI voitu luoda!';
 	var $_PHPSHOP_FILES_UPLOAD_FAILURE = 'Kuvan/tiedoston latausvirhe';
 	var $_PHPSHOP_FILES_FULLIMG_DELETE_FAILURE = 'Isoa kuvaa ei voitu poistaa.';
@@ -1146,12 +1147,12 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_FREE_SHIPPING_CUSTOMER_TEXT = 'Tämän tilaus toimitetaan rahtivapaasti!';
 	var $_PHPSHOP_FREE_SHIPPING_AMOUNT = 'Ilmaiseen rahtiin oikeuttava minimisumma on ';
 	var $_PHPSHOP_FREE_SHIPPING_AMOUNT_TOOLTIP = 'Minimisumma (SISÄLTÄEN VERON!) joka oikeuttaa ilmaiseen rahtiin 
-                                                (esim: <strong>50</strong> tarkoitaa ilmaista rahtia, kun asikas ostaa vähintään
+                                                (esim: <strong>50</strong> tarkoittaa ilmaista rahtia, kun asiakas ostaa vähintään
                                                  50 &euro; (sisältäen veron) tai suuremmalla summalla.';
 	var $_PHPSHOP_YOUR_STORE = 'Sinun kauppasi';
 	var $_PHPSHOP_CONTROL_PANEL = 'Hallintapaneeli';
 	var $_PHPSHOP_ADMIN_CFG_PDF_BUTTON = 'PDF - Kuvake';
-	var $_PHPSHOP_ADMIN_CFG_PDF_BUTTON_EXPLAIN = 'Näytä tai piiloita PDF-kuvake kaupassa';
+	var $_PHPSHOP_ADMIN_CFG_PDF_BUTTON_EXPLAIN = 'Näytä tai piilota PDF-kuvake kaupassa';
 	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS_ONORDER = 'Kaupankäyntiehdot pitää hyväksyä JOKAISESSA TILAUKSESSA?';
 	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS_ONORDER_EXPLAIN = 'Valitse jos haluat, että asiakkaasi hyväksyy kaupanehdot JOKAISESSA TILAUKSESSA (ennen tilauksen tekoa).';
 	var $_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE = 'Pankkitilin tyyppi';
@@ -1220,7 +1221,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_EPN_AUTENTICATIONTYPE_EXPLAIN = 'Tämä on eProcessingNetwork.comin vahvistamistyyppi (authentication type).';
 	var $_PHPSHOP_RELATED_PRODUCTS = 'Sukulaistuotteet';
 	var $_PHPSHOP_RELATED_PRODUCTS_TIP = 'Voit tällä listalla luoda tuotesukulaisuuksia. Valitse yksi tai useampia tuotteita, joista tulee siten keskenään <strong>tuotesukulaisia</strong>.';
-	var $_PHPSHOP_RELATED_PRODUCTS_HEADING = 'Ehkä myös tämä tai nämä tuotteet kiinnnostavat.';
+	var $_PHPSHOP_RELATED_PRODUCTS_HEADING = 'Ehkä myös tämä tai nämä tuotteet kiinnostavat.';
 	var $_PHPSHOP_IMAGE_ACTION = 'Kuvan toiminta';
 	var $_PHPSHOP_NONE = 'ei mitään';
 	var $_PHPSHOP_ORDER_HISTORY = 'Tilaushistoria';
@@ -1357,8 +1358,8 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_FEE = 'Pakkauskulut';
 	var $_PHPSHOP_PRODUCT_CLONE = 'Kopioi tuote';
 	var $_PHPSHOP_CSV_SETTINGS = 'Asetukset';
-	var $_PHPSHOP_CSV_DELIMITER = 'CSV-rajausmerkki (Delimiter)';
-	var $_PHPSHOP_CSV_ENCLOSURE = 'Kentän sulkumerkki (Field Enclosure Char)';
+	var $_PHPSHOP_CSV_DELIMITER = 'Kenttien erotinmerkki (Delimiter)';
+	var $_PHPSHOP_CSV_ENCLOSURE = 'Tekstin erotinmerkki (Field Enclosure Char)';
 	var $_PHPSHOP_CSV_UPLOAD_FILE = 'Tuo CSV tiedosto';
 	var $_PHPSHOP_CSV_SUBMIT_FILE = 'Tuo CSV tiedosto';
 	var $_PHPSHOP_CSV_FROM_DIRECTORY = 'Tuo serverin hakemistosta';
@@ -1373,7 +1374,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CSV_FIELD_NAME = 'Kentän nimi';
 	var $_PHPSHOP_CSV_DEFAULT_VALUE = 'Oletusarvo';
 	var $_PHPSHOP_CSV_FIELD_ORDERING = 'Kenttien järjestys';
-	var $_PHPSHOP_CSV_FIELD_REQUIRED = 'Vaaditut kentät?';
+	var $_PHPSHOP_CSV_FIELD_REQUIRED = 'Pakolliset kentät?';
 	var $_PHPSHOP_CSV_IMPORT_EXPORT = 'Tuo/Vie';
 	var $_PHPSHOP_CSV_NEW_FIELD = 'Lisää uusi kenttä';
 	var $_PHPSHOP_CSV_DOCUMENTATION = 'Ohjeet';
@@ -1400,7 +1401,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_FORM_DISCOUNTED_PRICE_TIP = 'Tässä voit lisätä alennuksen tälle tuotteelle.<br/>Kaupan alennusasetuksiin lisätään tämä alennus.';
 	var $_PHPSHOP_CART_PRICE_PER_UNIT = 'Yksikköhinta';
 	var $_PHPSHOP_ADMIN_CFG_SHOP_OFFLINE = 'Kauppa on offline-tilassa?';
-	var $_PHPSHOP_ADMIN_CFG_SHOP_OFFLINE_TIP = 'Jos valiset tämän, kauppa on Offline-tilassa ja näyttää allaolevan viestin.';
+	var $_PHPSHOP_ADMIN_CFG_SHOP_OFFLINE_TIP = 'Jos valitset tämän, kauppa on Offline-tilassa ja näyttää alla olevan viestin.';
 	var $_PHPSHOP_ADMIN_CFG_SHOP_OFFLINE_MSG = 'Offline-tilan viesti';
 	var $_PHPSHOP_ADMIN_CFG_TABLEPREFIX = 'Prefix, kaupan tietokantatauluille';
 	var $_PHPSHOP_ADMIN_CFG_TABLEPREFIX_TIP = '<strong>vm</strong> on oletuksena';
@@ -1412,7 +1413,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_DYNAMIC_THUMBNAIL_RESIZING = 'Salli dynaamisten näytekuvien luonti?';
 	var $_PHPSHOP_ADMIN_CFG_DYNAMIC_THUMBNAIL_RESIZING_TIP = 'Kun valittu, sallit dynaamisten näytekuvien luonnin. Kaikki näytekuvat luodaan valitsemaasi kokoon
         käyttäen PHP\'n GD2 funktiota. (Voit tarkistaa GD2 tuen hallintapaneelista "System" -> "System Info" -> "PHP Info" -> gd.) 
-        Näytekuvien laatu on parempi kuin kuvien, jotka ovat "pienennetty" selaimessa. Uudet näytekuvat tallenetaan hakemistoon /shop_image/prduct/resized. Jos kuva on jo kerran pienennetty, käytetään sitä. Näin kuvia ei pienennetä aina uudestaan.';
+        Näytekuvien laatu on parempi kuin kuvien, jotka ovat "pienennetty" selaimessa. Uudet näytekuvat tallennetaan hakemistoon /shop_image/prduct/resized. Jos kuva on jo kerran pienennetty, käytetään sitä. Näin kuvia ei pienennetä aina uudestaan.';
 	var $_PHPSHOP_ADMIN_CFG_THUMBNAIL_WIDTH = 'Näytekuvan leveys';
 	var $_PHPSHOP_ADMIN_CFG_THUMBNAIL_WIDTH_TIP = 'Kuvan <strong>leveys</strong> näytekuvalle.';
 	var $_PHPSHOP_ADMIN_CFG_THUMBNAIL_HEIGHT = 'Näytekuvan korkeus';
@@ -1431,7 +1432,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_TAX_CONFIGURATION = 'Veron asetukset';
 	var $_PHPSHOP_PRODUCT_LIST_QUANTITY_START = 'Kappalemäärä alkaa';
 	var $_PHPSHOP_PRODUCT_LIST_QUANTITY_END = 'Kappalemäärä loppuu';
-	var $_PHPSHOP_ADMIN_CFG_USER_REGISTRATION_SETTINGS = 'Käyttäjien rekisteröintiasetukset';
+	var $_PHPSHOP_ADMIN_CFG_USER_REGISTRATION_SETTINGS = 'Käyttäjien rekisteröinti asetukset';
 	var $_PHPSHOP_ADMIN_CFG_ALLOW_REGISTRATION = '*User registration allowed*?';
 	var $_PHPSHOP_ADMIN_CFG_ACCOUNT_ACTIVATION = '*New account activation necessary*?';
 	var $_PHPSHOP_ADMIN_CFG_SILENT_REGISTRATION = 'Käytä helppoa rekisteröitymistä?';
@@ -1440,7 +1441,7 @@ class vmLanguage extends vmAbstractLanguage {
 
 Kiitos rekisteröitymisestäsi %s :n sivustolle. Asiakastietosi on tallennettu.
 
-Voit jatkossa käyttää tilauksissa allaolevia tunnuksia.
+Voit jatkossa käyttää tilauksissa alla olevia tunnuksia.
 Sivusto %s 
 
 Käyttäjätunnus - %s
@@ -1467,12 +1468,12 @@ Salasana - %s
 	var $_PHPSHOP_ADMIN_CFG_PFP_USERNAME_EXPLAIN = 'Kirjoita tähän "PayFlow Pro Login ID"';
 	var $_VM_TAXDETAILS_LABEL = 'Vero sisältää';
 	var $_VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL = 'Oletusarvo "Järjestys" valikossa';
-	var $_VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL_TIP = 'Määrittää, mikä on tuptteiden oletusjärjestys tuotesivuilla';
+	var $_VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL_TIP = 'Määrittää, mikä on tuotteiden oletusjärjestys tuotesivuilla';
 	var $_VM_BROWSE_ORDERBY_FIELDS_LBL = 'Valinnaiset "Järjestys" valinnat';
 	var $_VM_BROWSE_ORDERBY_FIELDS_LBL_TIP = 'Valitse "Järjestys" valinnat, joilla käyttäjät valitsevat tuotejärjestyksen tuotesivuilla. Jos et valitse mitään, "Järjestys"-kenttää ei näytetä ollenkaan.';
 	var $_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO = 'Näytä lyhyt ilmoitus "Palautusoikeus", tilausta hyväksyttäessä?';
-	var $_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO_TIP = 'Monessa euroopan maassa, kauppiaan on ilmoitettava asiakkailleen tilauksen palautus ja -purkamisehdot. Valinta näyttää viestin.';
-	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT = 'Palautuoikeus teksti(lyhyt versio). Jos et käytä allaolevaa pitkää tekstisivua, niin poista lyhyen tekstin lopusta linkkiteksti.';
+	var $_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO_TIP = 'Monessa Euroopan maassa, kauppiaan on ilmoitettava asiakkailleen tilauksen palautus- ja purkamisehdot. Valinta näyttää viestin.';
+	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT = 'Palautusoikeus teksti(lyhyt versio). Jos et käytä alla olevaa pitkää tekstisivua, niin poista lyhyen tekstin lopusta linkkiteksti.';
 	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT_TIP = 'Tähän tulee lyhyt viesti palautusoikeudesta. Se näytetään asiakkaalle tilausvahvistuksessa.';
 	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK = 'Pitkä versio palautusoikeus-tekstistä(linkki tekstisivulle(content item)).';
 	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK_TIP = 'Valitse tästä sivu(content item),jossa on selostus palautusoikeudesta. Jos et ole vielä tehnyt sellaista sivua, 
@@ -1482,205 +1483,178 @@ Tuotteilla on 14 vrk:n palautusoikeus edellyttäen,
 että tuote palautetaan omassa alkuperäispakkauksessaan käyttämättömänä. 
 Vaihdoissa ja palautuksissa liitä lähetyksen mukaan mahdollinen pakkauslista.
 Lisätietoa palautusoikeudesta,  <a href="%s" onclick="%s" target="_blank">Palautusoikeus</a> sivu.';
-	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_EU = 'European Union mode';
-	var $_VM_SESSION_SAVEPATH_UNWRITABLE = 'The directory to store session data is not writable. Please correct this or contact your provider.';
-	var $_VM_SESSION_SAVEPATH_UNWRITABLE_TMPFIX = 'The Session Save Path %s is not writable. Please correct this! The shop is temporarily trying to use the %s instead.\'';
-	var $_VM_SESSION_COOKIES_NOT_ACCEPTED_TIP = 'Your browser does not accept cookies. If you want to put products into your cart and purchase them you need to enable cookies.';
-	var $_PHPSHOP_CSV_SKIP_FIRST_LINE = 'Skip first line';
-	var $_PHPSHOP_CSV_SKIP_DEFAULT_VALUE = 'Skip default value';
-	var $_PHPSHOP_CSV_OVERWRITE_EXISTING_DATA = 'Overwrite existing data';
-	var $_PHPSHOP_CSV_INCLUDE_COLUMN_HEADERS = 'Include column headers';
-	var $_PHPSHOP_CSV_UPLOAD_SETTINGS = 'Upload Settings';
-	var $_PHPSHOP_CSV_AVAILABLE_FIELDS = 'Available Fields';
-	var $_PHPSHOP_CSV_OUTPUT_CSV_UPLOAD_MESSAGES = 'CSV upload messages:';
-	var $_PHPSHOP_CSV_OUTPUT_COUNT = 'Count';
-	var $_PHPSHOP_CSV_OUTPUT_TOTAL = 'Total';
-	var $_PHPSHOP_CSV_OUTPUT_FILE_IMPORTED = 'CSV File Imported';
-	var $_PHPSHOP_CSV_OUTPUT_UPDATED = 'Updated';
-	var $_PHPSHOP_CSV_OUTPUT_DELETED = 'Deleted';
-	var $_PHPSHOP_CSV_OUTPUT_ADDED = 'Added';
-	var $_PHPSHOP_CSV_OUTPUT_SKIPPED = 'Skipped';
-	var $_PHPSHOP_CSV_OUTPUT_INCORRECT = 'Incorrect';
-	var $_PHPSHOP_CSV_AVAILABLE_FIELDS_USE = 'The following fields are available for your use to import or export.';
-	var $_PHPSHOP_CSV_MINIMAL_FIELDS = 'The minimal required fields are product_sku, product_name and category_path. Except for the product_sku, the other two fields are not unique.';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_SKU = 'The unique identifier for a product.<br /.>Values:<ul><li>Number</li><li>Letters</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_NAME = 'The name of the product.Values:<ul><li>Text: No HTML code allowed.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DELETE = 'The product_delete field is a special field. This field is used to determine if a product should be deleted or not.<br />Usage:<ol><li>Add the the name "product_delete" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the value Y. If the field contains any other value, the product will not be deleted.</li></ol><br /.>Values:<ul><li>Y: Yes, the product is to be deleted</li><li>N: No, the product is not to be deleted</li><li>Empty: Empty value, the product is not to be deleted</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DESC = 'Long description for the product.<br />Values:<ul><li>Text: HTML code allowed.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_S_DESC = 'Short description for the product.<br />Values:<ul><li>Text: No HTML code allowed.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PUBLISH = 'The status if a product is published or not.<br />Values:<ul><li>Y: Yes, the product is published</li><li>N: No, the product is not published</li><li>Empty: Empty value, the product is published.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_WIDTH = 'The width of the product.<br />Values:<ul><li>Number</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_HEIGHT = 'The height of the product.<br />Values:<ul><li>Number</li></ul>';
-	var $PHPSHOP_CSV_EXPLANATION_PRODUCT_LENGTH = 'The length of the product.<br />Values:<ul><li>Number</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_AVAILABLE_DATE = 'The date a product will become availabable. For import the date should be in the format of day/month/year or day-month-year. On Windows systems the date goes until 19/01/2038.<br />Usage:<ol><li>Add the the name "product_available_date" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with a date value. If the field contains any other value, the data will be ignored.</li></ol><br />Values:<ul><li>Date: day/month/year or day-month-year</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_IN_STOCK = 'The number of articles that you have in stock.<br /><br />Usage:<ol><li>Add the the name "product_in_stock" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with a numeric value. If the field contains any other value, the default value will be used.</li></ol><br />Values:<ul><li>Number</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTE = 'The different choices a product has. Use this to give a product different specifications. For example a t-shirt that comes in different sizes and colours. You can specify the sizes and colours like this: Size,XL[+1.99],M,S[-2.99];Colour,Red,Green,Yellow,ExpensiveColor[=24.00];AndSoOn,..,..<br /><br />You can adjust the prices per attribute by using the following options:<ul><li>+: Add this amount to the configured price.</li><li>-: Subtract this amount from the configured price.</li><li>=: Set the product\\\'s price to this amount.</li></ul><br />Usage:<ol><li>Add the the name "attribute" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the attribute text.</li></ol><br /.>Values:<ul><li>Text: No HTML code allowed.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_AVAILABILITY = 'This shows when the product is available. The value can be a descriptive text or the name of an image filename. Images must be placed in "shop_image/availability/".<br />Usage:<ol><li>Add the the name "product_availability" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_FULL_IMAGE = 'The filename of the image as located in the "shop_image/product/" folder. The filename can also be a URL.<br />NOTE: If you have dynamic resizing enabled, you need to fill the "product_thumb_image" field. VirtueMart resizes the image specified there.<br/><br />Usage:<ol><li>Add the the name "product_full_image" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text:<ul><li>No HTML code allowed</li><li>URL\\\'s are allowed.</li></ul></li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_THUMB_IMAGE = 'The filename of the thumbnail image as located in the "shop_image/product/" folder. The filename can also be a URL.<br />NOTE: If you have dynamic resizing enabled, there still needs to be a value in this field. VirtueMart resizes the image that is specified here.<br /><br />Usage:<ol><li>Add the the name "product_full_image" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text:<ul><li>No HTML code allowed</li><li>URL\\\'s are allowed.</li></ul></li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_CUSTOM_ATTRIBUTE = 'A custom attribute will add an input field to the product page with the description of the attribute supplied. Custom attributes are specified like this: Name;Extras;...<br />Usage:<ol><li>Add the the name "custom_attribute" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the attribute text.</li></ol><br /.>Values:<ul><li>Text: No HTML code allowed.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PACKAGING = 'Specify the number of items in the package.<br />Usage:<ol><li>Add the the name "product_packaging" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the number of items in the package.</li></ol><br /.>Values:<ul><li>Number</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_BOX = 'Specify the number of items in the box.<br />Usage:<ol><li>Add the the name "product_box" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the number of items in the box.</li></ol><br /.>Values:<ul><li>Number</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT = 'Specify the amount or percentage of discount the product has. The values entered are exact values, no calculation is made. This is the same as if you are filling in a discount via the Product Discount List. If the discount already exists, it will not be added to the database but the product will be linked to the existing discount. The criteria for determining if a discount already exists the following values have to be exactly the same:<ol><li>Amount, be it a total or percentage</li><li>Start date</li><li>End date</li></ol>This prevents from filling the database with a huge number of the same discounts.<br /><br />Usage:<ol><li>Add the the name "product_discount" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Optional: Add the the name "product_discount_date_start" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Optional: Add the the name "product_discount_date_end" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add the chosen columns to your CSV file with the corresponding values.</li></ol><br /.>Values:<ul><li>product_discount</li><ul><li>Number<br />e.g. 10</li><li>Percentage: Must include the % sign<br />e.g. 10%</li></ul><li>product_discount_date_start</li><ul><li>Date: day/month/year or day-month-year<br />Day and month can be a 1 or 2 digit notation.<br />Year can be a 2 or 4 digit notation.</li></ul><li>product_discount_date_end</li><ul><li>Date: day/month/year or day-month-year<br />Day and month can be a 1 or 2 digit notation.<br />Year can be a 2 or 4 digit notation.</li></ul></ul>';
-	var $_ITEM_PREVIOUS = 'previous';
-	var $_ITEM_NEXT = 'next';
+	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_EU = 'European Union -veromuoto';
+	var $_VM_SESSION_SAVEPATH_UNWRITABLE = 'Session data kansio on kirjoitussuojattu. Muuta kirjoitusoikeus, tai ota yhteys palveluntarjoajaan.';
+	var $_VM_SESSION_SAVEPATH_UNWRITABLE_TMPFIX = 'Session Save Path %s on kirjoitussuojattu. Muuta kirjoitusoikeus! Yritetään tilapäisesti käyttää %s .';
+	var $_VM_SESSION_COOKIES_NOT_ACCEPTED_TIP = 'Selaimesi ei salli evästeitä (cookies). Muuta selaimesi asetuksissa, salli evästeet (enable cookies).';
+	var $_PHPSHOP_CSV_SKIP_FIRST_LINE = 'Ohita ensimmäinen rivi';
+	var $_PHPSHOP_CSV_SKIP_DEFAULT_VALUE = 'Ohita oletusarvot';
+	var $_PHPSHOP_CSV_OVERWRITE_EXISTING_DATA = 'Ylikirjoita?';
+	var $_PHPSHOP_CSV_INCLUDE_COLUMN_HEADERS = 'Sisällytä sarakkeiden otsikot';
+	var $_PHPSHOP_CSV_UPLOAD_SETTINGS = 'Siirron asetukset';
+	var $_PHPSHOP_CSV_AVAILABLE_FIELDS = 'Käytettävissä olevat kentät';
+	var $_PHPSHOP_CSV_OUTPUT_CSV_UPLOAD_MESSAGES = 'CSV siirto viestit:';
+	var $_PHPSHOP_CSV_OUTPUT_COUNT = 'Määrä';
+	var $_PHPSHOP_CSV_OUTPUT_TOTAL = 'Kokonaismäärä';
+	var $_PHPSHOP_CSV_OUTPUT_FILE_IMPORTED = 'CSV tiedosto tuotu';
+	var $_PHPSHOP_CSV_OUTPUT_UPDATED = 'Päivitetty';
+	var $_PHPSHOP_CSV_OUTPUT_DELETED = 'Poistettu';
+	var $_PHPSHOP_CSV_OUTPUT_ADDED = 'Lisätty';
+	var $_PHPSHOP_CSV_OUTPUT_SKIPPED = 'Ohitettu';
+	var $_PHPSHOP_CSV_OUTPUT_INCORRECT = 'Virheellinen';
+	var $_PHPSHOP_CSV_AVAILABLE_FIELDS_USE = 'Seuraavat kentät ovat käytettävissä sekä latauksessa että viennissä (import or export).';
+	var $_PHPSHOP_CSV_MINIMAL_FIELDS = 'Vähintään nämä kentät vaaditaan: product_sku, product_name ja category_path. Vain product_sku on yksilöllinen, kaksi muuta eivät ole.';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_SKU = 'Tuotteen yksilöllinen tunniste.<br /.>Arvot:<ul><li>Numero</li><li>Kirjain</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_NAME = 'Tuotten nimi. Arvot:<ul><li>Teksti: Ei sallita HTML-koodia.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DELETE = 'product_delete kenttä on erikoiskenttä. Tällä kentällä määritellään, poistetaanko tuote vai ei.<br />Käyttö:<ol><li>Lisää teksti "product_delete" asetusnäyttöön. Teksti on kirjoitettava juuri näin (case sensitive) ja pitää olla pienillä kirjaimilla.</li><li>Lisää sarake CSV-tiedostoon arvolla Y. Jos kentässä on joku muu arvo, tuotetta ei poisteta.</li></ol><br /.>Arvot:<ul><li>Y: Kyllä, tuote poistetaan</li><li>N: Ei, tuotetta ei poisteta</li><li>Tyhjä: Tyhjä arvo, tuotetta ei poisteta</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DESC = 'Tuotteen pitkä kuvaus.<br />Arvot:<ul><li>Teksti: Sallitaan HTML-koodia.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_S_DESC = 'Tuotteen lyhyt kuvaus.<br />Arvot:<ul><li>Teksti: Ei sallita HTML-koodia.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PUBLISH = 'Onko tuote julkaistu vai ei.<br />Arvot:<ul><li>Y: Kyllä, tuote on julkaistu</li><li>N: Ei, tuote ei ole julkaistu</li><li>Tyhjä: Tyhjä arvo, tuote on julkaistu.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_WIDTH = 'Tuotteen leveys.<br />Arvot:<ul><li>Numero</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_HEIGHT = 'Tuotteen korkeus.<br />Arvot:<ul><li>Numero</li></ul>';
+	var $PHPSHOP_CSV_EXPLANATION_PRODUCT_LENGTH = 'Tuotteen pituus.<br />Arvot:<ul><li>Numero</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_AVAILABLE_DATE = 'Päiväys, jolloin tuote on saatavilla. Päiväyksen muoto on oltava päivä/kuukausi/vuosi tai päivä-kuukausi-vuosi. Windows järjestelmässä päiväys menee 19/01/2038 saakka.<br />Käyttö:<ol><li>Lisää teksti "product_available_date" asetusnäyttöön. Teksti on kirjoitettava juuri näin (case sensitive) ja pitää olla pienillä kirjaimilla.</li><li>Lisää sarake CSV-tiedostoon päivämäärä arvolla. Jos kentässä on joku muu arvo, sitä ei huomioida.</li></ol><br />Arvot:<ul><li>Päivämäärä: päivä/kuukausi/vuosi tai päivä-kuukausi-vuosi</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_IN_STOCK = 'Artikkeleiden määrä varastossa.<br /><br />Käyttö:<ol><li>Lisää teksti "product_in_stock" asetusnäyttöön. Teksti on kirjoitettava juuri näin (case sensitive) ja pitää olla pienillä kirjaimilla.</li><li>Lisää sarake CSV-tiedostoon numeroarvolla. Jos kentässä on joku muu arvo, oletusarvoa käytetään.</li></ol><br />Arvot:<ul><li>Numero</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTE = 'Tuotteen piirrelista. Käytä tätä, kun annat tuotteelle ominaisuuksia. Esim. t-paidalla on eri kokoja ja värejä. Voit määritellä koot ja värit näin: Koko,XL[+1.99],M,S[-2.99];Väri,Punainen,Vihreä,Keltainen,KallisVäri[=24.00];jne,..,..<br /><br />Voit määrittää hinnan ominaisuudelle, käyttämällä seuraavia vaihtoehtoja:<ul><li>+: Lisää annetun luvun hintaan.</li><li>-: Vähentää annetun luvun hinnasta.</li><li>=: Muuttaa annetun luvun hinnaksi.</li></ul><br />Käyttö:<ol><li>Lisää teksti "attribute" asetusnäyttöön. Teksti on kirjoitettava juuri näin (case sensitive) ja pitää olla pienillä kirjaimilla.</li><li>Lisää sarake CSV-tiedostoon arvolla ominaisuusteksti.</li></ol><br /.>Arvot:<ul><li>Teksti: Ei sallita HTML-koodia.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_AVAILABILITY = 'Tällä näytetään koska tuote on saatavilla. Arvo voi olla kuvaava teksti tai kuvan nimi. Kuva täytyy olla hakemistossa "shop_image/availability/".<br />Käyttö:<ol><li>Lisää teksti "product_availability" asetusnäyttöön. Teksti on kirjoitettava juuri näin (case sensitive) ja pitää olla pienillä kirjaimilla.</li><li>Lisää sarake CSV-tiedostoon teksti arvolla.</li></ol><br />Arvot:<ul><li>Teksti: Ei sallita HTML-koodia.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_FULL_IMAGE = 'Ison tuotekuvan nimi, "shop_image/product/" hakemistossa. Kuvan nimi voi olla myös URL.<br />HUOM: Jos käytössä on dynaamisten näytekuvien luonti, on täytettävä myös "product_thumb_image" kenttä. VirtueMart luo näytekuvan sinne.<br/><br />Käyttö:<ol><li>Lisää teksti "product_full_image" asetusnäyttöön. Teksti on kirjoitettava juuri näin (case sensitive) ja pitää olla pienillä kirjaimilla.</li><li>Lisää sarake CSV-tiedostoon teksti arvolla.</li></ol><br />Arvot:<ul><li>Teksti:<ul><li>Ei sallita HTML-koodia</li><li>URL on sallittu.</li></ul></li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_THUMB_IMAGE = 'Näytekuvan nimi "shop_image/product/" hakemistossa. Kuvan nimi voi olla myös URL.<br />HUOM: Jos käytössä on dynaamisten näytekuvien luonti, tämä kenttä on kuitenkin täytettävä. VirtueMart luo näytekuvan tänne.<br /><br />Käyttö:<ol><li>Lisää teksti "product_full_image" asetusnäyttöön. Teksti on kirjoitettava juuri näin (case sensitive) ja pitää olla pienillä kirjaimilla.</li><li>Lisää sarake CSV-tiedostoon teksti arvolla.</li></ol><br />Arvot:<ul><li>Teksti:<ul><li>Ei sallita HTML-koodia</li><li>URL on sallittu.</li></ul></li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_CUSTOM_ATTRIBUTE = 'Tuotteen erityispiirrelista lisää kentän tuotesivulle, ominaisuus kuvauksella. Erityisominaisuudet voi laittaa esim: Nimi;Extra;...<br />Käyttö:<ol><li>Lisää teksti "custom_attribute" asetusnäyttöön. Teksti on kirjoitettava juuri näin (case sensitive) ja pitää olla pienillä kirjaimilla.</li><li>Lisää sarake CSV-tiedostoon ominaisuusarvolla.</li></ol><br /.>Arvot:<ul><li>Teksti: Ei sallita HTML-koodia.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PACKAGING = 'Määrittää kuinka monta kappaletta on pakkauksessa.<br />Käyttö:<ol><li>Lisää teksti "product_packaging" asetusnäyttöön. Teksti on kirjoitettava juuri näin (case sensitive) ja pitää olla pienillä kirjaimilla.</li><li>Lisää sarake CSV-tiedostoon numeroarvolla kappaletta pakkauksessa.</li></ol><br /.>Arvot:<ul><li>Numero</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_BOX = 'Määrittää kuinka monta kappaletta on laatikossa.<br />Käyttö:<ol><li>Lisää teksti "product_box" asetusnäyttöön. Teksti on kirjoitettava juuri näin (case sensitive) ja pitää olla pienillä kirjaimilla.</li><li>Lisää sarake CSV-tiedostoon numeroarvolla kappaletta laatikossa.</li></ol><br /.>Arvot:<ul><li>Numero</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT = 'Määrittää tuotteen alennusprosentin tai määrän. Arvo on täsmällinen, (ei lasketa). Toimii samoin, kuin lisäisit alennuksen tuotteen alennuslistasta. Jos alennus (määrä tai prosentti) on jo olemassa, sitä ei lisätä tietokantaan, mutta tuote linkitetään olemassa olevaan alennukseen. Kriteeri sille, että olemassa oleva alennus havaitaan, seuraavat arvot on oltava tarkalleen samat:<ol><li>Amount, määrä tai prosentti</li><li>Start date</li><li>End date</li></ol>Tämä estää tietokantaan tallentumasta suuren määrän alennuksia.<br /><br />Käyttö:<ol><li>Lisää teksti "product_discount" asetusnäyttöön. Teksti on kirjoitettava juuri näin (case sensitive) ja pitää olla pienillä kirjaimilla.</li><li>Omavalintainen: Lisää teksti "product_discount_date_start" asetusnäyttöön. Teksti on kirjoitettava juuri näin (case sensitive) ja pitää olla pienillä kirjaimilla.</li><li>Omavalintainen: Lisää teksti "product_discount_date_end" asetusnäyttöön. Teksti on kirjoitettava juuri näin (case sensitive) ja pitää olla pienillä kirjaimilla.</li><li>Lisää sarakkeet CSV-tiedostoon vastaavilla arvoilla.</li></ol><br /.>Arvot:<ul><li>product_discount</li><ul><li>Numero<br />esim. 10</li><li>Prosentti: täytyy sisältyä % merkki<br />esim. 10%</li></ul><li>product_discount_date_start</li><ul><li>Päivämäärä: päivä/kuukausi/vuosi tai päivä-kuukausi-vuosi<br />Päivä ja kuukausi voi olla 1 tai 2 numeroinen.<br />Vuosi voi olla 2 tai 4 numeroinen.</li></ul><li>product_discount_date_end</li><ul><li>Päivämäärä: päivä/kuukausi/vuosi tai päivä-kuukausi-vuosi<br />Päivä ja kuukausi voi olla 1 tai 2 numeroinen.<br />Vuosi voi olla 2 tai 4 numeroinen.</li></ul></ul>';
+	var $_ITEM_PREVIOUS = 'edellinen';
+	var $_ITEM_NEXT = 'seuraava';
 	var $_CMN_OK = 'Ok';
-	var $_CMN_CONTINUE = 'Continue';
-	var $_CMN_CANCEL = 'Cancel';
-	var $_BUTTON_SEND_REG = 'Send Registration';
-	var $_CONTACT_FORM_NC = 'Please make sure the form is complete and valid.';
-	var $_CMN_REQUIRED = 'Required';
-	var $_CMN_NEW = 'New';
-	var $_CMN_SAVE = 'Save';
-	var $_CMN_NEW_ITEM_LAST = 'New items default to the last place. Ordering can be changed after this item is saved.';
-	var $_CMN_OPTIONAL = 'Optional';
-	var $_E_APPLY = 'Apply';
-	var $_E_IMAGES = 'Images';
+	var $_CMN_CONTINUE = 'Jatka';
+	var $_CMN_CANCEL = 'Peru';
+	var $_BUTTON_SEND_REG = 'Lähetä rekisteröinti';
+	var $_CONTACT_FORM_NC = 'Ole hyvä ja tarkista, että olet täyttänyt kaikki kentät.';
+	var $_CMN_REQUIRED = 'Pakollinen';
+	var $_CMN_NEW = 'Uusi';
+	var $_CMN_SAVE = 'Tallenna';
+	var $_CMN_NEW_ITEM_LAST = 'Uudet artikkelit tulevat oletusarvoisesti viimeiseksi. Järjestyksen voi muuttaa tallennuksen jälkeen.';
+	var $_CMN_OPTIONAL = 'Valinnainen';
+	var $_E_APPLY = 'Käytä';
+	var $_E_IMAGES = 'Kuvat';
 	var $_URL = 'URL:';
-	var $_SEL_CATEGORY = 'Select a category';
-	var $_E_REMOVE = 'Remove';
-	var $_PN_LT = '<';
-	var $_PN_RT = '>';
-	var $_PN_PAGE = 'Page';
-	var $_PN_OF = 'of';
-	var $_PN_START = 'Start';
-	var $_PN_PREVIOUS = 'Prev';
-	var $_PN_NEXT = 'Next';
-	var $_PN_END = 'End';
-	var $_PN_DISPLAY_NR = 'Display #';
-	var $_PN_RESULTS = 'Results';
-	var $_CMN_PRINT = 'Print';
+	var $_SEL_CATEGORY = 'Valitse kategoria';
+	var $_E_REMOVE = 'Poista';
+	var $_PN_LT = '&lt;';
+	var $_PN_RT = '&gt;';
+	var $_PN_PAGE = 'Sivu';
+	var $_PN_OF = '/';
+	var $_PN_START = 'Alkuun';
+	var $_PN_PREVIOUS = 'Edellinen';
+	var $_PN_NEXT = 'Seuraava';
+	var $_PN_END = 'Loppuun';
+	var $_PN_DISPLAY_NR = 'Näyttö #';
+	var $_PN_RESULTS = 'Tulokset';
+	var $_CMN_PRINT = 'Tulosta';
 	var $_CMN_PDF = 'PDF';
-	var $_CMN_EMAIL = 'E-mail';
-	var $_BACK = 'Back';
-	var $_USERNAME = 'Username';
-	var $_PASSWORD = 'Password';
-	var $_BUTTON_LOGIN = 'Login';
-	var $_REGISTER_UNAME = 'Username';
-	var $_REGISTER_EMAIL = 'Email';
-	var $_REGWARN_NAME = 'Please enter your name.';
-	var $_REGWARN_UNAME = 'Please enter a user name.';
-	var $_REGWARN_MAIL = 'Please enter a valid e-mail address.';
-	var $_SEND_SUB = 'Account details for %s at %s';
-	var $_ASEND_MSG = 'Hello %s,
+	var $_CMN_EMAIL = 'Sähköposti';
+	var $_BACK = 'Takaisin';
+	var $_USERNAME = 'Käyttäjänimi';
+	var $_PASSWORD = 'Salasana';
+	var $_BUTTON_LOGIN = 'Kirjaudu';
+	var $_REGISTER_UNAME = 'Käyttäjätunnus';
+	var $_REGISTER_EMAIL = 'Sähköposti';
+	var $_REGWARN_NAME = 'Kirjoita nimesi.';
+	var $_REGWARN_UNAME = 'Kirjoita käyttäjätunnuksesi.';
+	var $_REGWARN_MAIL = 'Kirjoita sähköpostiosoitteesi oikeassa muodossa.';
+	var $_SEND_SUB = 'Asiakkaan %s tiedot sivustolta %s';
+	var $_ASEND_MSG = 'Hei %s,
 	
-	A new user has registered at %s.
-	This email contains their details:
+	Uusi käyttäjä on rekisteröitynyt %s -sivustolle.
+	Alla hänen tietonsa:
 	
-	Name - %s
-	e-mail - %s
-	Username - %s
+	Nimi - %s
+	Sähköposti - %s
+	Käyttäjätunnus - %s
 	
-	Please do not respond to this message as it is automatically generated and is for information purposes only';
-	var $_REG_COMPLETE = '<div class="componentheading">Registration Complete!</div><br />You may now login.';
-	var $_REG_COMPLETE_ACTIVATE = '<div class="componentheading">Registration Complete!</div><br />Your account has been created and activation link has been sent to the e-mail address you entered. Note that you must activate the account by clicking on the activation link when you get the e-mail before you can login.';
+	Tämä on automaattinen viesti. Älä vastaa tähän viestiin ';
+	var $_REG_COMPLETE = '<div class="componentheading">Rekisteröinti valmis!</div><br />Salasanasi on lähetetty antamaasi sähköpostiosoitteeseen.';
+	var $_REG_COMPLETE_ACTIVATE = '<div class="componentheading">Rekisteröinti valmis</div><br />Käyttäjätilisi on luotu ja antamaasi sähköpostiosoitteeseen on lähetetty aktivoimislinkin sisältävä viesti. <br />Tili tulee aktivoida napsauttamalla viestissä olevaa linkkiä ennen kuin voit kirjautua sivustolle.';
 	var $_DATE_FORMAT_LC = '%A, %d %B %Y';
-	var $_LAST_UPDATED = 'Last Updated';
-	var $_NOT_AUTH = 'You are not authorized to view this resource.';
-	var $_DO_LOGIN = 'You need to login.';
-	var $_VALID_AZ09 = 'Please enter a valid %s.  No spaces, more than %d characters and contain 0-9,a-z,A-Z';
-	var $_CMN_PUBLISHED = 'Published';
-	var $_CMN_UNPUBLISHED = 'Unpublished';
-	var $_MORE = 'More...';
-	var $_EMPTY_CATEGORY = 'This Category is currently empty.';
-	var $_BUTTON_LOGOUT = 'Logout';
-	var $_NO_ACCOUNT = 'No account yet?';
-	var $_CREATE_ACCOUNT = 'Register';
-	var $_REGWARN_PASS = 'Please enter a valid password.  No spaces, more than 6 characters and contain 0-9,a-z,A-Z';
-	var $_REGWARN_VPASS1 = 'Please verify the password.';
-	var $_REGWARN_VPASS2 = 'Password and verification do not match, please try again.';
-	var $_USEND_MSG_ACTIVATE = 'Hello %s,
+	var $_LAST_UPDATED = 'Viimeksi päivitetty';
+	var $_NOT_AUTH = 'Sinulla ei ole tarvittavia oikeuksia sivun katsomiseen.';
+	var $_DO_LOGIN = 'Sinun tulee kirjautua.';
+	var $_VALID_AZ09 = 'Anna %s joka on vähintään %d merkkiä pitkä. Merkit 0-9,a-z,A-Z ovat sallittuja';
+	var $_CMN_PUBLISHED = 'Julkaistu';
+	var $_CMN_UNPUBLISHED = 'Julkaisematon';
+	var $_MORE = 'Lisää...';
+	var $_EMPTY_CATEGORY = 'Kategoria on tyhjä.';
+	var $_BUTTON_LOGOUT = 'Kirjaudu ulos';
+	var $_NO_ACCOUNT = 'Ei vielä käyttäjätunnusta?';
+	var $_CREATE_ACCOUNT = 'Luo tunnus';
+	var $_REGWARN_PASS = 'Virheellinen salasana. Ei välilyöntejä ja vähintään kuusi merkkiä pitkä. Merkit 0-9,a-z,A-Z ovat sallittuja';
+	var $_REGWARN_VPASS1 = 'Vahvista salasana.';
+	var $_REGWARN_VPASS2 = 'Salasanat eivät täsmää, yritä uudelleen.';
+	var $_USEND_MSG_ACTIVATE = 'Hei %s, 	
+Kiitos rekisteröitymisestäsi sivustolle: %s. 	
+	
+Käyttäjätilisi on luotu, mutta odottaa sen aktivoimista ennen kuin saat sen käyttöösi. Aktivoidaksesi tilisi napsauta alla olevaa linkkiä tai kopioi se selaimesi osoiteriville:	
+%s	
+	
+Aktivoimisen jälkeen voit kirjautua sivustolle %s seuraavilla tiedoilla:	
+	
+Käyttäjätunnus - %s	
+Salasana - %s';
+	var $_USEND_MSG = 'Hei %s,	
 
+Sinut on lisätty käyttäjäksi %s -sivustolle.	
 
-
-Thank you for registering at %s. Your account is created and must be activated before you can use it.
-
-To activate the account click on the following link or copy-paste it in your browser:
-
-%s
-
-
-
-After activation you may login to %s using the following username and password:
-
-
-
-Username - %s
-
-Password - %s';
-	var $_USEND_MSG = 'Hello %s,
-
-
-
-Thank you for registering at %s.
-
-
-
-You may now login to %s using the username and password you registered with.';
-	var $_PROMPT_PASSWORD = 'Lost your Password?';
-	var $_HI = 'Hi';
-	var $_NEW_USER_MESSAGE_SUBJECT = 'New User Details';
-	var $_NEW_USER_MESSAGE = 'Hello %s,
-
-
-
-
-
-You have been added as a user to %s by an Administrator.
-
-
-
-This email contains your username and password to log into the %s
-
-
-
-Username - %s
-
-Password - %s
-
-
-
-
-
-Please do not respond to this message as it is automatically generated and is for information purposes only';
-	var $_REMEMBER_ME = 'Remember me';
-	var $_REGISTER_TITLE = 'Registration';
-	var $_JAN = 'January';
-	var $_FEB = 'February';
-	var $_MAR = 'March';
-	var $_APR = 'April';
-	var $_MAY = 'May';
-	var $_JUN = 'June';
-	var $_JUL = 'July';
-	var $_AUG = 'August';
-	var $_SEP = 'September';
-	var $_OCT = 'October';
-	var $_NOV = 'November';
-	var $_DEC = 'December';
+Voit nyt kirjautua %s -sivustolle rekisteröitymisen yhteydessä antamillasi tiedoilla.';
+	var $_PROMPT_PASSWORD = 'Salasana unohtunut?';
+	var $_HI = 'Hei';
+	var $_NEW_USER_MESSAGE_SUBJECT = 'Uuden ylläpitäjän tiedot';
+	var $_NEW_USER_MESSAGE = 'Hei %s,	
+Sinut on luotu käyttäjäksi %s sivustolle ylläpidon toimesta.	
+	
+Ohessa käyttäjätunnus ja salasana sivustolle %s	
+	
+Käyttäjätunnus - %s	
+Salasana - %s	
+	
+Älä vastaa tähän viestiin, tämä on järjestelmän automaattisesti lähettämä sähköposti';
+	var $_REMEMBER_ME = 'Muista minut';
+	var $_REGISTER_TITLE = 'Rekisteröinti';
+	var $_JAN = 'Tammikuu';
+	var $_FEB = 'Helmikuu';
+	var $_MAR = 'Maaliskuu';
+	var $_APR = 'Huhtikuu';
+	var $_MAY = 'Toukokuu';
+	var $_JUN = 'Kesäkuu';
+	var $_JUL = 'Heinäkuu';
+	var $_AUG = 'Elokuu';
+	var $_SEP = 'Syyskuu';
+	var $_OCT = 'Lokakuu';
+	var $_NOV = 'Marraskuu';
+	var $_DEC = 'Joulukuu';
 	var $_PHPSHOP_CSV_VERSION = '0.7';
-	var $_PHPSHOP_CSV_ABOUT = 'About';
-	var $_PHPSHOP_CSV_PRICE_LIST_ONLY = 'Price list upload only';
-	var $_PHPSHOP_CSV_MULTIPLE_PRICES_UPLOAD = 'Multiple prices upload';
-	var $_PHPSHOP_CSV_IMPORT_CONFIG_CSV_FILE = 'Use column headers as configuration';
-	var $_PHPSHOP_CSV_COLLECT_DEBUG_INFO = 'Collect debug information';
-	var $_PHPSHOP_CSV_SHOW_PREVIEW = 'Show preview';
-	var $_PHPSHOP_CSV_REGULAR_UPLOAD = 'Regular upload';
-	var $_PHPSHOP_CSV_PRODUCT_TYPE_UPLOAD = 'Product type upload';
-	var $_PHPSHOP_CSV_PRODUCT_TYPE_PARAMETERS_UPLOAD = 'Product type parameters upload';
-	var $_PHPSHOP_CSV_PRODUCT_TYPE_XREF_UPLOAD = 'Product type cross reference upload';
-	var $_PHPSHOP_CSV_PRODUCT_TYPE_DETAIL_UPLOAD = 'Product type detail upload';
-	var $_PHPSHOP_CSV_EMPTY_DATABASE = 'Empty database';
-	var $_PHPSHOP_CSV_CONTINUE_UPLOAD = 'Continue upload';
-	var $_PHPSHOP_CSV_CANCEL_UPLOAD = 'Cancel upload';
-	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION = '<span style="color: #FF0000; font-size: 1.2em;">Steps to upload a CSV file</span>
+	var $_PHPSHOP_CSV_ABOUT = 'Tiedot';
+	var $_PHPSHOP_CSV_PRICE_LIST_ONLY = 'Vain hintalistan siirto palvelimelle';
+	var $_PHPSHOP_CSV_MULTIPLE_PRICES_UPLOAD = 'Usean hinnan tuonti';
+	var $_PHPSHOP_CSV_IMPORT_CONFIG_CSV_FILE = 'Sarakkeiden otsikot, asetuksena';
+	var $_PHPSHOP_CSV_COLLECT_DEBUG_INFO = 'Kerää -debug- tiedot';
+	var $_PHPSHOP_CSV_SHOW_PREVIEW = 'Näytä esikatselu';
+	var $_PHPSHOP_CSV_REGULAR_UPLOAD = 'Tavallinen siirto';
+	var $_PHPSHOP_CSV_PRODUCT_TYPE_UPLOAD = 'Tuotetyypin siirto';
+	var $_PHPSHOP_CSV_PRODUCT_TYPE_PARAMETERS_UPLOAD = 'Tuotetyyppien parametrien siirto';
+	var $_PHPSHOP_CSV_PRODUCT_TYPE_XREF_UPLOAD = 'Tuotetyypin viitauksien siirto';
+	var $_PHPSHOP_CSV_PRODUCT_TYPE_DETAIL_UPLOAD = 'Tuotetyypin kuvauksen siirto';
+	var $_PHPSHOP_CSV_EMPTY_DATABASE = 'Poista tuotteet tietokannasta';
+	var $_PHPSHOP_CSV_CONTINUE_UPLOAD = 'Jatka siirtoa';
+	var $_PHPSHOP_CSV_CANCEL_UPLOAD = 'Lopeta siirto';
+	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION = '<span style="color: #FF0000; font-size: 1.2em;">CSV tiedoston siirto palvelimelle.</span>
 
 										<ol>
 
-										<li>Create a product list as a CSV file either with or without column headers.
+										<li>Luo tuotelista CSV tiedostoon joko ilman sarakkeiden otsikoita tai niiden kanssa.
 
-										<br />Recommended is to use the text delimiter ~ (tilde) and the field delimiter ^ (caret).
+										<br />On suositeltavaa käyttää tekstierottimena ~ (tilde) ja kenttäerottimena^ (caret).
 
-										<br /><span style="font-weight: bold;">Example File:</span><br />
+										<br /><span style="font-weight: bold;">Esimerkki tiedosto:</span><br />
 
 										<div class="quote" style="width:600px;overflow:scroll;"><pre>~G01~^~Hand Shovel~^~Hand Tools~^~4.99000~^~<p>Nice hand shovel to dig with in the yard.</p>~^~<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5\~ Diameter<br>  Tungsten handle tip with 5 point loft<br>~^~8d886c5855770cc01a3b8a2db57f6600.jpg~^~cca3cd5db813ee6badf6a3598832f2fc.jpg~^~10.0000~^~pounds~^~0.0000~^~0.0000~^~0.0000~^~inches~^~10~^~1072911600~^~1~^~1~^~2~^~0~^~G01~^~~^~~^~Color::1|Size::2~^~~
 
@@ -1688,11 +1662,11 @@ Please do not respond to this message as it is automatically generated and is fo
 
 ~G03~^~Shovel~^~Garden Tools~^~24.99000~^~Nice shovel.  You can dig your way to China with this one.~^~<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5\~ Diameter<br>  Tungsten handle tip with 5 point loft<br>~^~8147a3a9666aec0296525dbd81f9705e.jpg~^~520efefd6d7977f91b16fac1149c7438.jpg~^~10.0000~^~pounds~^~0.0000~^~0.0000~^~0.0000~^~inches~^~32~^~1072911600~^~0~^~1~^~2~^~0~^~G03~^~Size,XL[+1.99],M,S[-2.99];Colour,Red,Green,Yellow,ExpensiveColor[=24.00]~^~~^~~^~~</pre></div></li>
 
-										<li>Setup the fields on the "Configuration" tab in the same order as the CSV file. The fields must match the exact place in the CSV file.
+										<li>Laita CSV tiedoston kentät samaan järjestykseen, kuin "Asetukset" välilehdessä. Kentät täytyy olla samoin kuin CSV tiedostossa.
 
-										<br />E.g. product_sku, product_desc, product_price, category_path<br />
+										<br />Esim. product_sku, product_desc, product_price, category_path<br />
 
-										<br /><span style="font-weight: bold;">Minimum required information to add a product is:</span><br />
+										<br /><span style="font-weight: bold;">Tuotteelle on minimissään annettava nämä tiedot:</span><br />
 
 										product_sku<br />
 
@@ -1700,42 +1674,42 @@ Please do not respond to this message as it is automatically generated and is fo
 
 										category_path<br />
 
-										<br /><span style="font-weight: bold;">category_path</span> is a slash delimited string which begins
+										<br /><span style="font-weight: bold;">category_path</span> on vinoviivoilla erotettu rivi, joka alkaa
 
-										with a top-level category and follows with sub-categories, e.g. <br />
+										pääkategoriasta ja jatkuu alakategorioilla, esim. <br />
 
 										<div class="quote">category/sub-category_1/sub_category_2</div>
 
 										<br />
 
-										When the product has to be assigned to more than one category, you can
+										Kun tuote lisätään useampaan kategoriaan kuin yhteen, erota
 
-										provide all categories,<br />
+										kategoriat toisistaan,<br />
 
-										delimited by a <span style="font-weight: bold;">|</span>
+										merkillä <span style="font-weight: bold;">|</span>
 
 										<div class="quote">Category/Sub-category_1/Sub_category_2|Category2/Subcategory22|Category3/Subcategory33</div>
 
 										</li>
 
-										<li>Choose the delimiters on the "Import/Export" tab.</li>
+										<li>Valitse erotinmerkit "Tuo/Vie" välilehdestä.</li>
 
-										<li>Choose the upload settings on the "Import/Export" tab.</li>
+										<li>Valitse palvelimelle siirron asetukset "Tuo/Vie" välilehdestä.</li>
 
-										<li>Choose either to upload the file from your local computer (Submit CSV File) or to use a local file (Load CSV File from Server).</li>
+										<li>Valitse siirrätkö tiedoston paikalliselta tietokoneelta (Tuo CSV tiedosto) tai serverillä olevan tiedoston (Tuo serverin hakemistosta).</li>
 
-										<li>The import starts.</li>
+										<li>Tiedoston tuonti alkaa.</li>
 
 										</ol>';
-	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_PRODUCT_TYPES = '<span style="color: #FF0000; font-size: 1.2em;">Product Types</span><br /><br />
+	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_PRODUCT_TYPES = '<span style="color: #FF0000; font-size: 1.2em;">Tuotetyypit</span><br /><br />
 
-													To add product types, you need 4 CSV files. Each CSV file represents a part of the product type.
+													Lisätäksesi tuotetyyppejä, tarvitset 4 CSV tiedostoa. Näistä jokainen CSV tiedosto esittää osaa tuotetyypistä.
 
 													<ul>
 
-													<li><span style="font-weight: bold;">Product types</span><br />
+													<li><span style="font-weight: bold;">Tuotetyypit</span><br />
 
-													This CSV file contains the main product types and should look like this:
+													Tämä CSV tiedosto sisältää perus tuotetyypit, ja pitää näyttää tältä:
 
 													<table border="1">
 
@@ -1751,9 +1725,9 @@ Please do not respond to this message as it is automatically generated and is fo
 
 													</li><br />
 
-													<li><span style="font-weight: bold;">Product type parameters</span><br />
+													<li><span style="font-weight: bold;">Tuotetyypin parametrit</span><br />
 
-													This CSV file contains the parameters per product type and should look like this:
+													Tämä CSV tiedosto sisältää tuotetyypin parametrit, ja pitää näyttää tältä:
 
 													<div style="width: 50%; overflow: auto; height: 100px;">
 
@@ -1773,35 +1747,34 @@ Please do not respond to this message as it is automatically generated and is fo
 
 													<br />
 
-													The product type parameter type can have several values, they are:
+													Tuotetyypin parametrityypillä voi olla useita arvoja:
 
 													<ul>
+													<li>I: Kokonaisluku</li>
 
-													<li>I: Integer</li>
+													<li>T: Teksti</li>
 
-													<li>T: Text</li>
+													<li>S: Lyhyt Teksti</li>
 
-													<li>S: Short Text</li>
-
-													<li>F: Float</li>
+													<li>F: Kelluva</li>
 
 													<li>C: Char</li>
 
-													<li>D: Date & Time</li>
+													<li>D: Päiväys & Aika</li>
 
-													<li>M: Time</li>
+													<li>M: Aika</li>
 
-													<li>V: Multiple Values</li>
+													<li>V: Useat arvot</li>
 
-													<li>B: Break Line</li>
+													<li>B: Viiva</li>
 
 													</ul>
 
 													</li><br />
 
-													<li><span style="font-weight: bold;">Items per product type name</span><br />
+													<li><span style="font-weight: bold;">Artikkelit tuotetyypin nimellä</span><br />
 
-													This CSV file contains the details per product type parameter name and should look like this:
+													Tämä CSV tiedosto sisältää tiedot tuotetyypin parametrin nimellä , ja pitää näyttää tältä:
 
 													<table border="1">
 
@@ -1813,13 +1786,13 @@ Please do not respond to this message as it is automatically generated and is fo
 
 													</table><br />
 
-													Per product type name you need a seperate CSV file. The reason for this is that the column names for each CSV file is different because of the set of product type parameters.
+													Tuotetyypin nimelle tarvitaan erillinen CSV tiedosto. Syynä tähän on se että sarakkeiden nimet jokaisessa CSV tiedostossa on erilaiset,johtuen tuotetyypin parametrien tyylistä.
 
 													</li><br />
 
-													<li><span style="font-weight: bold;">Product type cross reference to product SKU</span><br />
+													<li><span style="font-weight: bold;">Tuotetyypin viittaus(cross reference) tuotenumeroon</span><br />
 
-													This CSV file contains the link between a product type and a product SKU and should look like this:
+													Tämä CSV tiedosto sisältää linkin tuotetyyppiin ja tuotenumeroon, ja pitää näyttää tältä:
 
 													<table border="1">
 
@@ -1835,24 +1808,24 @@ Please do not respond to this message as it is automatically generated and is fo
 
 													</ul><br />
 
-													Procedure:<br />
+													Prosessi:<br />
 
 													<ol>
 
-													<li>Upload Product Types CSV file</li>
+													<li>Tuo Tuotetyypit, CSV tiedosto</li>
 
-													<li>Upload Product Type Parameters CSV file</li>
+													<li>Tuo Tuotetyypin parametrit, CSV tiedosto</li>
 
-													<li>Upload Product Type Items CSV file</li>
+													<li>Tuo Artikkelit tuotetyypin nimellä, CSV tiedosto</li>
 
-													<li>Upload Product Type Cross Reference CSV file</li>
+													<li>Tuo Tuotetyypin viittaus, CSV tiedosto</li>
 
 													</ol>';
-	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_EMPTY_DATABASE = '<span style="color: #FF0000; font-size: 1.2em;">Empty Database</span><br /><br />
+	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_EMPTY_DATABASE = '<span style="color: #FF0000; font-size: 1.2em;">Poista tuotteet tietokannasta</span><br /><br />
 
-													 <span style="color: #FF0000; font-size: 2em;">USE WITH CAUTION !!! NO RESTORE !!!</span><br /><br />
+													 <span style="color: #FF0000; font-size: 2em;">KÄYTÄ VAROEN !!! EI VOI PALAUTTAA !!!</span><br /><br />
 
-													 Emptying the database will remove ALL data in your database from the following tables:
+													 Tämä poistaa kaiken tiedon tietokannasta näistä tauluista:
 
 													 <ul>
 
@@ -1884,7 +1857,7 @@ Please do not respond to this message as it is automatically generated and is fo
 
 													 </ul>
 
-													 All but the first manufacturer is removed:
+													 Kaikki muut paitsi ensimmäinen valmistaja poistetaan:
 
 													 <ul>
 
@@ -1892,7 +1865,7 @@ Please do not respond to this message as it is automatically generated and is fo
 
 													 </ul>
 
-													 The following tables are completely deleted:
+													 Seuraavat taulut poistetaan kokonaan:
 
 													 <ul>
 
@@ -1900,30 +1873,30 @@ Please do not respond to this message as it is automatically generated and is fo
 
 													 </ul>
 
-													 The x represents the number of the table. This number relates to the product types that are in the system. Since the product types table is completely emptied, these tables are removed. Uploading new product types will recreate the tables.<br /><br />
+													  x esittää taulun numeroa. Tämä numero liittyy tuotetyyppiin, joka on systeemissä. Kun tuotetyyppi taulut on tyhjennetty, ne poistetaan. Kun luodaan uusia tuotetyyppejä, taulut luodaan uudestaan.<br /><br />
 
-													 Procedure:
+													 Prosessi:
 
 													 <ol>
 
-													 <li>Choose "Empty Database" from the dropdown on the Upload Settings</li>
+													 <li>Valitse pudotusvalikosta "Poista tuotteet tietokannasta", "Siirron asetukset" kohdasta</li>
 
-													 <li>Check "Collect debug information" if you want additional result information</li>
+													 <li>Valitse "Kerää -debug- tiedot", jos tarvitset sitä tietoa</li>
 
-													 <li>Click "Submit CSV File" or "Load CSV File from Server". No need to enter a filename.</li>
+													 <li>Click "Tuo CSV tiedosto" tai "Tuo CSV tiedosto serverin hakemistosta". Ei tarvitse tiedostonimeä.</li>
 
-													 <li>You are asked if you are sure you want to empty your database. Click OK if you are sure otherwise click Cancel</li>
+													 <li>Seuraavaksi kysytään jos haluat tyhjentää tietokannan. Klikkaa OK, jos olet varma, muuten klikkaa Peruuta</li>
 
-													 <li>The database is now emptied or you are returned to the main screen depending on your previous choice</li>
+													 <li>Tuotteet on nyt poistettu tietokannasta tai olet takaisin CSV sivulla, riippuen mitä valitsit</li>
 
 													 </ol>';
-	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_MULTIPLE_PRICES_UPLOAD = '<span style="color: #FF0000; font-size: 1.2em;">Multiple prices upload</span><br /><br />
+	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_MULTIPLE_PRICES_UPLOAD = '<span style="color: #FF0000; font-size: 1.2em;">Usean hinnan tuonti</span><br /><br />
 
-														    Procedure:
+														    Prosessi:
 
 														    <ol>
 
-														    <li>Create a CSV file that contains the following fields:
+														    <li>Luo CSV tiedosto, jossa on seuraavat kentät:
 
 														    	<ul>
 
@@ -1941,29 +1914,29 @@ Please do not respond to this message as it is automatically generated and is fo
 
 															</ul>
 
-														    See the Available Fields tab for what information each field contains. If you want to use the column headers as configuration, fill the first line with the column headers name.
+														    Katso -Käytettävissä olevat kentät- välilehdestä niiden tiedot. Jos käytät -Sarakkeiden otsikot, asetuksina- , täytä ensimmäinen rivi sarakkeiden otsikoiden nimillä.
 
 														    </li>
 
-														    <li>Either set the configuration fields, as mentioned in point 1 on the Configuration tab or if you added column headers to your CSV file, select "Use column headers as configuration" at the Upload Settings.
+														    <li>Laita joko asetuksen kentät, Asetukset välilehden kohdassa 1, tai jos lisäät sarakkeiden nimet CSV tiedostoon, valitse "Sarakkeiden otsikot, asetuksena" tuonnin asetuksina.
 
 														    </li>
 
-														    <li>Select "Multiple Prices Upload" at the Upload Settings</li>
+														    <li>Valitse "Usean hinnan tuonti" Siirron asetukset kohdasta</li>
 
-														    <li>Optionally, choose "Show preview" and/or "Collect debug information"</li>
+														    <li>Valinnaisesti, käytä "Näytä esikatselu" ja/tai "Kerää -debug- tiedot"</li>
 
-														    <li>Select a file to upload or to load from directory</li>
+														    <li>Valitse tiedosto jonka tuot tietokoneelta tai serverin hakemistosta</li>
 
-														    <li>Select "Submit CSV File" or "Load CSV File from Server" depending if you are uploading a file or loading a file from a directory</li>
+														    <li>Valitse "Tuo CSV tiedosto" tai "Tuo CSV serverin hakemistosta"</li>
 
-														    <li>The prices will now be imported</li>
+														    <li>Nyt hinnat tuodaan</li>
 
 														    </ol><br /><br />
 
-														    <span style="font-weight: bold;">Price delete</span><br />
+														    <span style="font-weight: bold;">Hinnan poisto</span><br />
 
-														    Using the multiple prices import it is also possible to delete prices. A price is deleted when the following fields in the CSV file match the data in the database:
+														    Useiden hintojen tuonnilla, voi myös poistaa hintoja. Hinta poistetaan, kun seuraavien kenttien tiedot, CSV tiedostossa, löytyvät tietokannasta:
 
 														    <ul>
 
@@ -1978,64 +1951,63 @@ Please do not respond to this message as it is automatically generated and is fo
 														    <li>price_quantity_end</li>
 
 														    </ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PRICE = 'The price for a product without currency denominator.<br /><br />Usage:<ol><li>Select the name "product_price" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a price value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_LENGTH = 'The length of the product.<br /><br />Usage:<ol><li>Select the name "product_length" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_LWH_UOM = 'The measurement of length, width and height of the product.This can be inches, centimeters, etc.<br /><br />Usage:<ol><li>Select the name "product_lwh_uom" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_WEIGHT = 'The weight of the product.<br /><br />Usage:<ol><li>Select the name "product_weight" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_WEIGHT_UOM = 'The measurement of weight of the product.This can be pounds, kilo, etc.<br /><br />Usage:<ol><li>Select the name "product_weight_uom" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTES = 'Attributes are part of a product and are used by the child products to give them specifications.<br />Usage:<ol><li>Select the name "attributes" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the attributes text.</li></ol><br />Values:<ul><li>Text: No HTML code allowed.<br />The values must be seperated by a pipe symbol (|). E.g.: attribute_name::list_order|attribute_name::list_order</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTE_VALUES = 'Attribute values are the values of child products that are linked to the attributes of the parent product.<br />Usage:<ol><li>Select the name "custom_attribute" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the attribute value text.</li></ol><br />Values:<ul><li>Text: No HTML code allowed.<br />The values must be seperated by a pipe symbol (|). E.g.: attribute_name::attribute_value|attribute_name::attribute_value</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT_DATE_START = 'The day the discount for a product starts. For more information see "product_discount".<br /><br />Usage:<ol><li>Select the name "product_discount_date_start" from the dropdown menu on the configuration screen.</li><li>Add the chosen columns to your CSV file with the date value.</li></ol><br />Values:<ul><li>product_discount_date_start</li><ul><li>Date: day/month/year or day-month-year<br />Day and month can be a 1 or 2 digit notation.<br />Year can be a 2 or 4 digit notation.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT_DATE_END = 'The day the discount for a product ends. For more information see "product_discount".<br /><br />Usage:<ol><li>Select the name "product_discount_date_end" from the dropdown menu on the configuration screen.</li><li>Add the chosen columns to your CSV file with the date value.</li></ol><br />Values:<ul><li>product_discount_date_end</li><ul><li>Date: day/month/year or day-month-year<br />Day and month can be a 1 or 2 digit notation.<br />Year can be a 2 or 4 digit notation.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_UPLOAD_SETTINGS = '<ul><li><span style="font-weight: bold;">Skip first line</span><br />If the CSV file has a header line at the beginning, choose this option to skip that line. This prevents the header from being added to your database.</li><li><span style="font-weight: bold;">Overwrite existing data</span><br />When adding new products to your database, unchecking this option prevents any existing data to be replaced for products that already exist in your database. Default is to update product data.</li><li><span style="font-weight: bold;">Skip default value</span><br />On the configuration page, a default value can be specified in case the field is empty in the CSV file. Enabling this option, the import will not include the field for updating if there is no value in the CSV file.</li><li><span style="font-weight: bold;">Price list upload only</span><br />The Price list upload only is to be used if you are updating the prices of your products. The layout of the CSV is expected to be 2 columns:<ol><li>product_sku</span></li><li>product_price</li></ol></li>Please note that it does NOT take into account the settings on the configuration page.<li><span style="font-weight: bold;">Use column headers as configuration</span><br />If the CSV file has column headers on the first line, this option can be used to use the column headers as the current configuration. The column headers should match one of the column names defined on the Available Tabs page. This configuration is on a per use basis, nothing is saved. Default values cannot be used with this option.</li><li><span style="font-weight: bold;">Show preview</span><br />Shows a 5 line preview of the file to be imported. The import can then be either cancelled or continued.</li><li><span style="font-weight: bold;">Collect debug information</span><br />In case of problems, use this option to see what happens during the import. At the end of the import a report will be generated with the steps and queries done during the import.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_MANUFACTURER_NAME = 'The name of the manufacturer that is related to the product. This is used in combination with the manufacturer ID. If no manufacturer ID is specified, only the name is checked. New manufacturers will be created wiht incremental IDs. The process of adding/updating manufacturers follows the following guidelines:<ol><li>Name exists, ID exists --> ID is updated if different</li><li>Name exists, ID does not exist --> New manufacturer created with increment ID</li><li>Name does not exist, ID exists --> Generic name added with existing ID</li><li>Name does not exist, ID does not exist --> Do nothing</li></ol>Usage:<ol><li>Select the name "manufacturer_name" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the manufacturer name.</li></ol><br />Values:<ul><li>Text: No HTML code allowed.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_MANUFACTURER_ID = 'The ID of the manufacturer that is related to the product and must be unique. This is used in combination with the manufacturer name. If no manufacturer name is specified only, the product manufacturer link will be added/updated. Adding/updating manufacturers follows the following process:<ol><li>Name exists, ID exists --> ID is updated if different</li><li>Name exists, ID does not exist --> New manufacturer created with increment ID</li><li>Name does not exist, ID exists --> Generic name added with existing ID</li><li>Name does not exist, ID does not exist --> Do nothing</li></ol>When no name or ID exists nothing is done to prevent numerous generic name manufacturers from being added.<br /><br />Usage:<ol><li>Select the name "manufacturer_id" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the manufacturer ID.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_URL = 'A URL to either a picture or webpage of the product. When linked to a picture, the picture will be shown on the product details page.<br /><br />Usage:<ol><li>Select the name "product_url" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_SALES = 'The number of products that have been sold.<br /><br />Usage:<ol><li>Select the name "product_sales" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_SPECIAL = 'When a product is set to be "On Special" it will be featured in the Featured Products block.<br />Usage:<ol><li>Select the name "product_special" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value Y.</li></ol><br />Values:<ul><li>Y: Yes, the product is on special</li><li>N: No, the product is not on special</li><li>Empty: Empty value, the product is not on special</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_UNIT = 'The unit of the product as it is sold. I.e. box, bag, etc.<br />Usage:<ol><li>Select the name "product_unit" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value Y.</li></ol><br />Values:<ul><li>Text: No HTML allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_CATEGORY_PATH = 'Parent products are categorized according to the category path. The category path specifies in which category a product belongs. This only counts for main products not for child products since child products relate to parent products, not to categories. For child products this field must be left empty. The product_parent_sku must be empty for main products since they do not relate to any other parent product.<br /><br />Usage:<ol><li>Select the name "category_path" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the path.</li></ol><br />Values:<ul><li>Text: No HTML allowed<br />The category path must be seperated by a forward slash (/). E.g.: Furniture/Chairs/Teak</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PARENT_SKU = 'The product parent sku is needed to identify the parent of child products. Please note: the "category_path" field MUST be empty otherwise the product will be treated as a parent product.<br />Usage:<ol><li>Select the name "category_path" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the product_sku value of the parent product.</li></ol><br />Values:<ul><li>Numeric</li><li>Letters</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TAX_ID = 'The ID of the tax rate that you want to apply to the product<br />Usage:<ol><li>Select the name "product_tax_id" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the product_tax_id value of the appropiate tax.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_CURRENCY = 'A different currency can be specified on a per product basis.<br />Usage:<ol><li>Select the name "product_currency" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value of the new currency.</li></ol><br />Values:<ul><li>Text: No HTML allowed<br />E.g.: EUR, USD, IDR</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_BROWSEPAGE = 'This is a custom page to show your product types. Leave this BLANK if you have no individual php-file for it.<br /><br />Usage:<ol><li>Select the name "product_type_browsepage" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text:<ul><li>No HTML code allowed</li><li>URL\'s are allowed.</li></ul></li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_DESCRIPTION = 'A description for your product type.<br /><br />Usage:<ol><li>Select the name "product_type_description" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_FLYPAGE = 'This is a custom page to show your product types. Leave this BLANK if you have no individual php-file for it.<br /><br />Usage:<ol><li>Select the name "product_type_flypage" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text:<ul><li>No HTML code allowed</li><li>URL\'s are allowed.</li></ul></li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_NAME = 'The name of the product type. This name must be unique and without spaces.<br /><br />Usage:<ol><li>Select the name "product_type_name" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_DEFAULT = 'A default value to show when there is nothing else filled in for the parameter.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_default" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_DESCRIPTION = 'A description for your product type parameter.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_description" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_LABEL = 'A label for your product type parameter.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_label" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_LIST_ORDER = 'Specify in which order the product parameter is to be displayed.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_list_order" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_MULTISELECT = 'Set to yes to show possible parameter values as multiple select items<br /><br />Usage:<ol><li>Select the name "product_type_parameter_list_multiselect" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value Y or N.</li></ol><br />Values:<ul><li>Y: Yes, the values are multi select</li><li>N: No, the values are not multi select</li><li>Empty: Empty value, the values are not multi select</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_NAME = 'The name of the product type parameter. This name must be unique and without spaces as it will be the column name for the parameter details.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_type" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_TYPE = 'This sets the type of parameter that will be used. There are a number of different values that can be used.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_type" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value.</li></ol><br />Values:<ul><li>Text:<ul>
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PRICE = 'Tuotteen hinta, ilman valuutta merkkiä.<br /><br />Käyttö:<ol><li>Valitse "product_price" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon hinta-arvona.</li></ol><br />Arvot:<ul><li>Numero</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_LENGTH = 'Tuotteen pituus.<br /><br />Käyttö:<ol><li>Valitse "product_length" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon numeerisena.</li></ol><br />Arvot:<ul><li>Numero</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_LWH_UOM = 'Tuotteen mitat (pituus, leveys ja korkeus). Voi olla tuumaa, senttejä, millimetrejä, jne.<br /><br />Käyttö:<ol><li>Valitse "product_lwh_uom" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon tekstinä.</li></ol><br />Arvot:<ul><li>Teksti: HTML-koodit ei sallittuja.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_WEIGHT = 'Tuotteen paino.<br /><br />Käyttö:<ol><li>Valitse "product_weight" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon numeerisena.</li></ol><br />Arvot:<ul><li>Numero</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_WEIGHT_UOM = 'Tuotteen painoyksikkö. Voi olla g, kg, jne.<br /><br />Käyttö:<ol><li>Valitse "product_weight_uom" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon tekstinä.</li></ol><br />Arvot:<ul><li>Teksti: HTML-koodit ei sallittuja.</li></ul>';	
+	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTES = 'Ominaisuudet ovat osia tuotetta ja niitä käytetään alatuotteilla antamaan niille spesifikaatioita.<br />Käyttö:<ol><li>Valitse "attributes" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon ominaisuus tekstinä.</li></ol><br />Arvot:<ul><li>Teksti: HTML-koodit ei sallittuja.<br />Arvot on erotettava toisistaan pystyviiva(|) merkillä. Esim.: attribute_name::list_order|attribute_name::list_order</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTE_VALUES = 'Ominaisuus arvot, on alatuotteiden arvoja, jotka liittyvät päätuotteen ominaisuuksiin..<br />Käyttö:<ol><li>Valitse "custom_attribute" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon ominaisuusarvo tekstinä.</li></ol><br />Arvot:<ul><li>Teksti: HTML-koodit ei sallittuja.<br />Arvot on erotettava toisistaan pystyviiva(|) merkillä. Esim.: attribute_name::attribute_value|attribute_name::attribute_value</li></ul>';                                                                                                                                  
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT_DATE_START = 'Päivä jolloin tuotteen alennus alkaa. Lisää tietoa, katso "product_discount".<br /><br />Käyttö:<ol><li>Valitse "product_discount_date_start" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon päivämääränä.</li></ol><br />Arvot:<ul><li>product_discount_date_start</li><ul><li>Päivämäärä: päivä/kuukausi/vuosi tai päivä-kuukausi-vuosi<br />Päivä ja kuukausi voi olla 1 tai 2 numeroinen.<br />Vuosi voi olla 2 tai 4 numeroinen.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT_DATE_END = 'Päivä jolloin tuotteen alennus loppuu. Lisää tietoa, katso "product_discount".<br /><br />Käyttö:<ol><li>Valitse "product_discount_date_end" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon päivämääränä.</li></ol><br />Arvot:<ul><li>product_discount_date_end</li><ul><li>Päivämäärä: päivä/kuukausi/vuosi tai päivä-kuukausi-vuosi<br />Päivä ja kuukausi voi olla 1 tai 2 numeroinen.<br />Vuosi voi olla 2 tai 4 numeroinen.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_UPLOAD_SETTINGS = '<ul><li><span style="font-weight: bold;">Ohita ensimmäinen rivi</span><br />Jos CSV tiedoston alussa on otsikkorivi, tällä valinnalla ohitat sen. Tämä estää otsikoiden lisäämistä tietokantaan (tuotetietoina).</li><li><span style="font-weight: bold;">Ylikirjoita tiedot</span><br />Lisättäessä uusia tuotteita tietokantaan, rastin poistaminen tästä kohdasta estää korvaamasta jo olemassa olevat tuotetiedot tietokannassa. Oletuksena päivittää tuotetiedot.</li><li><span style="font-weight: bold;">Ohita oletusarvo</span><br />Asetukset sivulla, oletusarvo voidaan määritellä, jos kenttä on tyhjä CSV-tiedostossa. Valitsemalla tämän, tietojen tuonti ei päivitä kenttää, jos CSV-tiedostossa ei ole mitään arvoa.</li><li><span style="font-weight: bold;">Vain hinnaston tuonti</span><br />Hinnaston tuontia käytetään, kun päivität tuotteiden hintoja. CSV:n ulkoasun odotetaan olevan 2 saraketta:<ol><li>product_sku</span></li><li>product_price</li></ol></li>Huomaa että tämä ei vaikuta asetuksiin, -Asetukset- sivulla.<li><span style="font-weight: bold;">Sarakkeiden otsikot, asetuksena</span><br />Jos CSV-tiedostolla on sarakenimet ensimmäisellä rivillä, tällä voidaan ottaa käyttöön sarakenimet, nykyisenä rakenteena. Sarakenimet pitää myös olla samoja kuin -Käytettävissä olevat kentät- välilehdessä. Asetusta käytetään vain siirron aikana, asetusta ei tallenneta. Oletusarvoja ei voida käyttää tällä optiolla.</li><li><span style="font-weight: bold;">Näytä esikatselu</span><br />Näyttää viidellä rivillä tuotavan tiedoston tiedot. Siirron voi perua tai jatkaa.</li><li><span style="font-weight: bold;">Kerää -debug- tiedot</span><br />Ongelmatilanteissa, käytä tätä nähdäksesi mitä siirron aikana tapahtuu. Siirron loputtua, luodaan raportti tapahtumista.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_MANUFACTURER_NAME = 'Valmistajan nimi, joka liittyy tuotteeseen. Tätä käytetään yhdessä valmistajan ID:n kanssa. Jos valmistajan ID:tä ei ole määritelty, käytetään vain nimeä. Uusille valmistajille luodaan id nousevalla arvolla. Valmistajien lisääminen/päivitys käyttää seuraavanlaista prosessia:<ol><li>Nimi on olemassa, ID on olemassa --> ID päivitetään, jos erilainen</li><li>Nimi on olemassa, ID ei ole olemassa --> Uusi valmistaja luodaan nousevalla ID:llä</li><li>Nimeä ei ole, ID on --> Nimi lisätään olemassa olevalla ID:llä</li><li>Nimeä ei ole, ID ei ole olemassa --> Ei tehdä mitään</li></ol>Käyttö:<ol><li>Valitse "manufacturer_name" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon valmistajan nimellä.</li></ol><br />Arvot:<ul><li>Teksti: HTML-koodi ei sallittu.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_MANUFACTURER_ID = 'Valmistajan ID, joka liittyy tuotteeseen ja täytyy olla yksilöllinen. Tätä käytetään yhdessä valmistajan nimen kanssa. Jos valmistajan nimeä ei ole määritelty, tuotteen valmistajan linkki lisätään/päivitetään. Valmistajien lisääminen/päivitys käyttää seuraavanlaista prosessia:<ol><li>Nimi on olemassa, ID on olemassa  --> ID päivitetään, jos erilainen</li><li>Nimi on olemassa, ID ei ole olemassa --> Uusi valmistaja luodaan nousevalla ID:llä</li><li>Nimeä ei ole, ID on --> Nimi lisätään olemassa olevalla ID:llä</li><li>Nimeä ei ole, ID ei ole olemassa --> Ei tehdä mitään</li></ol>Jos nimeä tai ID:tä ei ole, mitään ei tehdä, tällä estetään lukuisien nimien lisääminen.<br /><br />Käyttö:<ol><li>Valitse "manufacturer_id" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon valmistajan ID.</li></ol><br />Arvot:<ul><li>Numeerinen</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_URL = 'URL joko kuvalle tai tuotteen web-sivulle. Kun linkitetty kuvaan, kuva näkyy tuotesivulla.<br /><br />Käyttö:<ol><li>Valitse "product_url" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon tekstinä.</li></ol><br />Arvot:<ul><li>HTML-koodi ei sallittu</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_SALES = 'Tuotteiden määrä, jotka on myyty.<br /><br />Käyttö:<ol><li>Valitse "product_sales" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon numerona.</li></ol><br />Arvot:<ul><li>Numeerinen</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_SPECIAL = 'Kun tuote on laitettu "On Special" Erikoistuote(Feature), sillä on lisäominaisuus ja kuuluu myös lisäominaisuus tuoteryhmään.<br />Käyttö:<ol><li>Valitse "product_special" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon arvolla Y.</li></ol><br />Arvot:<ul><li>Y: Kyllä, tuotteella on lisäominaisuus</li><li>N: Ei, tuotteella ei ole lisäominaisuutta</li><li>Tyhjä: Tyhjä kenttä, tuotteella ei ole lisäominaisuutta</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_UNIT = 'Myynnissä oleva tuoteyksikkö. Esim. laatikko, pakkaus, jne.<br />Käyttö:<ol><li>Valitse "product_unit" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon arvolla Y.</li></ol><br />Arvot:<ul><li>HTML-koodi ei sallittu</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_CATEGORY_PATH = 'Päätuotteet luokitellaan kategoriapolun mukaan. Kategoriapolku määrittelee, mihin kategoriaan tuote kuuluu. Tämä ottaa huomioon vain päätuotteet, ei alatuotteita koska alatuotteet liittyvät päätuotteisiin, eivätkä kategorioihin. Alatuotteille tämä kenttä täytyy jättää tyhjäksi. product_parent_sku täytyy olla tyhjä päätuotteille, koska ne eivät liity mihinkään muuhun päätuotteisiin.<br /><br />Käyttö:<ol><li>Valitse "category_path" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon polkuna.</li></ol><br />Arvot:<ul><li>HTML-koodi ei sallittu<br />Kategoriat polussa täytyy olla erotettuna vinoviivalla (/). Esim.: Huonekalut/Tuolit/Tiikki</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PARENT_SKU = 'Tuotteen päätuotenumerolla tunnistetaan alatuotteiden päätuote. Huomaa: "category_path" kenttä TÄYTYY olla tyhjä, muuten tuotetta pidetään päätuotteena.<br />Käyttö:<ol><li>Valitse "category_path" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon päätuotteen (product_sku) arvolla.</li></ol><br />Arvot:<ul><li>Numerot</li><li>Kirjaimet</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TAX_ID = 'Tuotteen veroprosentin ID<br />Käyttö:<ol><li>Valitse "product_tax_id" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon product_tax_id veron arvolla.</li></ol><br />Arvot:<ul><li>Numeerinen</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_CURRENCY = 'Eri valuutta voidaan määritellä tuotetta kohti.<br />Käyttö:<ol><li>Valitse "product_currency" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon uuden valuutan arvolla.</li></ol><br />Arvot:<ul><li>HTML-koodi ei sallittu<br />Esim.: EUR, USD, IDR</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_BROWSEPAGE = 'Tämä on erikois-sivu, joka näyttää tuotetyypit. Jätä TYHJÄKSI, jos ei ole mitään yksittäistä php-tiedostoa sitä varten.<br /><br />Käyttö:<ol><li>Valitse "product_type_browsepage" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon tekstinä.</li></ol><br />Arvot:<ul><li>Teksti:<ul><li>HTML-koodit ei sallittuja</li><li>URL on sallittu.</li></ul></li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_DESCRIPTION = 'Kuvaus tuotetyypille.<br /><br />Käyttö:<ol><li>Valitse "product_type_description" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon tekstinä.</li></ol><br />Arvot:<ul><li>Teksti: HTML-koodi sallittu</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_FLYPAGE = 'Tämä on erikois-sivu, joka näyttää tuotetyypit. Jätä TYHJÄKSI, jos ei ole mitään yksittäistä php-tiedostoa sitä varten.<br /><br />Käyttö:<ol><li>Valitse "product_type_flypage" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon tekstinä.</li></ol><br />Arvot:<ul><li>Teksti:<ul><li>HTML-koodit ei sallittuja</li><li>URL on sallittu.</li></ul></li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_NAME = 'Tuotetyypin nimi. Tämä nimi täytyy olla yksilöllinen, ja ilman välilyöntejä.<br /><br />Käyttö:<ol><li>Valitse "product_type_name" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon tekstinä.</li></ol><br />Arvot:<ul><li>Teksti: HTML-koodit ei sallittuja</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_DEFAULT = 'Oletusarvo jota käytetään, jos parametrille ei ole annettu arvoa.<br /><br />Käyttö:<ol><li>Valitse "product_type_parameter_default" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon tekstinä.</li></ol><br />Arvot:<ul><li>Teksti: HTML-koodit ei sallittuja</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_DESCRIPTION = 'Tuotetyypin parametrin kuvaus.<br /><br />Käyttö:<ol><li>Valitse "product_type_parameter_description" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon tekstinä.</li></ol><br />Arvot:<ul><li>Teksti: HTML-koodit ei sallittuja</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_LABEL = 'Etiketti tuotetyypin paremetrille.<br /><br />Käyttö:<ol><li>Valitse "product_type_parameter_label" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon tekstinä.</li></ol><br />Arvot:<ul><li>Teksti: HTML-koodit ei sallittuja</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_LIST_ORDER = 'Määrää missä järjestyksessä tuotteen parametri näytetään.<br /><br />Käyttö:<ol><li>Valitse "product_type_parameter_list_order" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon tekstinä.</li></ol><br />Arvot:<ul><li>Numeerinen</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_MULTISELECT = 'Laittamalla Kyllä, mahdolliset parametriarvot näkyvät monivalintaisena<br /><br />Käyttö:<ol><li>Valitse "product_type_parameter_list_multiselect" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon arvolla Y tai N.</li></ol><br />Arvot:<ul><li>Y: Kyllä, arvot ovat monivalintaisia</li><li>N: Ei, arvot eivät ole monivalintaisia</li><li>Tyhjä: Tyhjä kenttä, arvot eivät ole monivalintaisia</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_NAME = 'Tuotetyyppiparametrin nimi. Tämä nimi pitää olla yksilöllinen, ja ilman välilyöntejä, koska sitä käytetään sarakkeen nimenä parametrin tiedoissa.<br /><br />Käyttö:<ol><li>Valitse "product_type_parameter_type" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon tekstinä.</li></ol><br />Arvot:<ul><li>Teksti: HTML-koodit ei sallittuja</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_TYPE = 'Tämä asettaa parametrin tyypin, jota käytetään. Useita eri arvoja, joita voidaan käyttää.<br /><br />Käyttö:<ol><li>Valitse "product_type_parameter_type" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon arvona.</li></ol><br />Arvot:<ul><li>Kirjain:<ul>
 
-													<li>I: Integer</li>
+													<li>I: Kokonaisluku</li>
 
-													<li>T: Text</li>
+													<li>T: Teksti</li>
 
-													<li>S: Short Text</li>
+													<li>S: Lyhyt Teksti</li>
 
-													<li>F: Float</li>
+													<li>F: Kelluva</li>
 
 													<li>C: Char</li>
 
-													<li>D: Date & Time</li>
+													<li>D: Päiväys & Aika</li>
 
-													<li>M: Time</li>
+													<li>M: Aika</li>
 
-													<li>V: Multiple Values</li>
+													<li>V: Useat arvot</li>
 
-													<li>B: Break Line</li>
+													<li>B: Viiva</li>
 
 													</ul></li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_UNIT = 'The unit the product type parameter refers to.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_unit" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_VALUES = 'These are the values for the parameter and have to meet the requirement set by the parameter type.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_values" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>This depends on the type set in the product_type_parameter_type field. All values have to be semi-colon (;) seperated.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PUBLISH = 'The status if a product type is published or not.<br /><br />Usage:<ol><li>Select the name "product_type_publish" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Y: Yes, the product type is published</li><li>N: No, the product type is not published</li><li>Empty: Empty value, the product type is published.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRICE_DELETE = 'The price_delete field is a special field. This field is used to determine if a price for a product should be deleted or not. This field is used when doing a multiple price upload. Before a price is deleted it needs to match the following fields:<ul><li>product_sku</li><li>product_price</li><li>product_currency</li><li>price_quantity_start</li><li>price_quantity_end</li></ul><br />Usage:<ol><li>Select the name "price_delete" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value Y. If the field contains any other value, the product will not be deleted.</li></ol><br />Values:<ul><li>Y: Yes, the price is to be deleted</li><li>N: No, the price is not to be deleted</li><li>Empty: Empty value, the price is not to be deleted</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRICE_QUANTITY_START = 'The quantity at which the mentioned price is available.<br /><br />Usage:<ol><li>Select the name "price_quantity_start" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values: Numeric</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRICE_QUANTITY_END = 'The quantity at which the mentioned price is no longer available.<br /><br />Usage:<ol><li>Select the name "price_quantity_end" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values: Numeric</li></ul>';
-        
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_UNIT = 'Yksikkö, johon tuotetyyppiparametri viittaa.<br /><br />Käyttö:<ol><li>Valitse "product_type_parameter_unit" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon tekstinä.</li></ol><br />Arvot:<ul><li>Teksti: HTML-koodit ei sallittuja</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_VALUES = 'Nämä ovat arvot parametria varten ja ne täytyy täyttää vaatimuksen, joka parametrityypillä on.<br /><br />Käyttö:<ol><li>Valitse "product_type_parameter_values" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon tekstinä.</li></ol><br />Arvot:<ul><li>Tämä riippuu tyypistä, joka on asetettu product_type_parameter_type kenttään. Kaikkien arvojen täytyy olla puolipisteillä (;) erotettu.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PUBLISH = 'Julkaistu tai julkaisematon tila.<br /><br />Käyttö:<ol><li>Valitse "product_type_publish" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon tekstinä.</li></ol><br />Arvot:<ul><li>Y: Kyllä, tuotetyyppi on julkaistu</li><li>N: Ei, tuotetyyppiä ei ole julkaistu</</li><li>Tyhjä: Tyhjä kenttä, tuotetyyppi on julkaistu.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRICE_DELETE = 'price_delete kenttä on erikoiskenttä. Tätä kenttää käytetään määräämään pitäisikö poistaa tuotteen hinta, tai ei. Tätä kenttää käytetään, kun tuodaan useita hintoja. Ennen kuin hinta poistetaan, se täytyy liittyä seuraaviin kenttiin:<ul><li>product_sku</li><li>product_price</li><li>product_currency</li><li>price_quantity_start</li><li>price_quantity_end</li></ul><br />Käyttö:<ol><li>Valitse "price_delete" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon arvolla Y. Jos kentässä on joku muu arvo, hintaa ei poisteta.</li></ol><br />Arvot:<ul><li>Y: Kyllä, hinta poistetaan</li><li>N: hintaa ei poisteta </li><li>Tyhjä: Tyhjä arvo, hintaa ei poisteta </li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRICE_QUANTITY_START = 'Määrä, jossa mainittu hinta on käytettävissä.<br /><br />Käyttö:<ol><li>Valitse "price_quantity_start" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon numerona.</li></ol><br />Arvot: Numeerinen</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRICE_QUANTITY_END = 'Määrä, jossa mainittu hinta ei ole enää saatavilla.<br /><br />Käyttö:<ol><li>Valitse "price_quantity_end" pudotusvalikosta, asetukset välilehdessä.</li><li>Lisää sarake CSV-tiedostoon numerona.</li></ol><br />Arvot: Numeerinen</li></ul>';
 }
 class phpShopLanguage extends vmLanguage { }
 

@@ -8,8 +8,8 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
+* to the GNu General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNu General Public License or
 * other free or open source software licenses.
 * See /administrator/components/com_virtuemart/COPYRIGHT.php for copyright notices and details.
 *
@@ -31,7 +31,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_UPDATE = 'Update';
 	var $_PHPSHOP_DELETE = 'Verwijder';
 	var $_PHPSHOP_SELECT = 'Selecteer';
-	var $_PHPSHOP_SUBMIT = 'Submit';
+	var $_PHPSHOP_SUBMIT = 'Verstuur';
 	var $_PHPSHOP_RANDOM = 'Willekeurige Producten';
 	var $_PHPSHOP_LATEST = 'Nieuwste Producten';
 	var $_PHPSHOP_HOME_TITLE = 'Home';
@@ -49,7 +49,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCTS_LBL = 'Producten';
 	var $_PHPSHOP_PRODUCT_LBL = 'Product';
 	var $_PHPSHOP_SEARCH_LBL = 'Zoek';
-	var $_PHPSHOP_FLYPAGE_LBL = 'Product Details';
+	var $_PHPSHOP_FLYPAGE_LBL = 'Meer informatie';
 	var $_PHPSHOP_PRODUCT_SEARCH_LBL = 'Product Zoeken';
 	var $_PHPSHOP_PRODUCT_NAME_TITLE = 'Product Naam';
 	var $_PHPSHOP_PRODUCT_CATEGORY_TITLE = 'Product Categorie';
@@ -57,51 +57,50 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CART_SHOW = 'Bekijk Mandje';
 	var $_PHPSHOP_CART_ADD_TO = 'Toevoegen';
 	var $_PHPSHOP_CART_NAME = 'Naam';
-	var $_PHPSHOP_CART_SKU = 'Artik. Nr.';
+	var $_PHPSHOP_CART_SKU = 'Art.Nr.';
 	var $_PHPSHOP_CART_PRICE = 'Prijs';
 	var $_PHPSHOP_CART_QUANTITY = 'Aantal';
 	var $_PHPSHOP_CART_SUBTOTAL = 'Subtotaal';
-	var $_PHPSHOP_ADD_SHIPTO_1 = 'Nieuwe toevoegen';
-	var $_PHPSHOP_ADD_SHIPTO_2 = 'Verzend Adres';
-	var $_PHPSHOP_NO_SEARCH_RESULT = 'Uw zoektocht heeft niets opgeleverd.<br />';
+	var $_PHPSHOP_ADD_SHIPTO_1 = 'Toevoegen';
+	var $_PHPSHOP_ADD_SHIPTO_2 = 'Afleveradres';
+	var $_PHPSHOP_NO_SEARCH_RESULT = 'uw zoekopdracht heeft geen resultaten opgeleverd.<br />';
 	var $_PHPSHOP_PRICE_LABEL = 'Prijs: ';
 	var $_PHPSHOP_ORDER_BUTTON_LABEL = 'Toevoegen';
 	var $_PHPSHOP_NO_CUSTOMER = 'Sorry, maar u bent geen geregistreerde klant. Registreert u zich eerst voordat u verder winkelt.';
-	var $_PHPSHOP_DELETE_MSG = 'Weet U zeker dat U dit wenst te verwijderen?';
-	var $_PHPSHOP_THANKYOU = 'Bedankt voor Uw bestelling.';
+	var $_PHPSHOP_DELETE_MSG = 'Weet u zeker dat u dit wenst te verwijderen?';
+	var $_PHPSHOP_THANKYOU = 'Bedankt voor uw bestelling.';
 	var $_PHPSHOP_NOT_SHIPPED = 'Nog niet verzonden.';
-	var $_PHPSHOP_EMAIL_SENDTO = 'Een bevestigings e-mail is verzonden naar';
-	var $_PHPSHOP_NO_USER_TO_SELECT = 'Sorry, er is geen Mambo/Joomla - gebruiker die u aan de com_phpshop userlijst kunt toevoegen';
+	var $_PHPSHOP_EMAIL_SENDTO = 'Een bevestigingsemail is verzonden naar';
 	var $_PHPSHOP_ERROR = 'ERROR';
 	var $_PHPSHOP_MOD_NOT_REG = 'Module niet geregistreerd.';
-	var $_PHPSHOP_MOD_ISNO_REG = 'is geen geldige phpShop module.';
-	var $_PHPSHOP_MOD_NO_AUTH = 'Uw heeft geen bevoegdheid om de gewenste module op te vragen.';
+	var $_PHPSHOP_MOD_ISNO_REG = 'is geen geldige VirtueMart module.';
+	var $_PHPSHOP_MOD_NO_AUTH = 'uw heeft geen bevoegdheid om de gewenste module op te vragen.';
 	var $_PHPSHOP_PAGE_404_1 = 'Pagina bestaat niet.';
 	var $_PHPSHOP_PAGE_404_2 = 'De opgegeven bestandsnaam bestaat niet. Kan het bestand niet vinden:';
 	var $_PHPSHOP_PAGE_403 = 'Niet genoeg toegangsrechten';
-	var $_PHPSHOP_FUNC_NO_EXEC = 'U heeft geen bevoegdheid om de handeling uit te voeren';
+	var $_PHPSHOP_FUNC_NO_EXEC = 'u heeft geen bevoegdheid om de handeling uit te voeren';
 	var $_PHPSHOP_FUNC_NOT_REG = 'Functie niet geregistreerd';
-	var $_PHPSHOP_FUNC_ISNO_REG = 'is geen geldige MOS_com_phpShop functie.';
+	var $_PHPSHOP_FUNC_ISNO_REG = 'is geen geldige VirtueMart functie.';
 	var $_PHPSHOP_ADMIN_MOD = 'Administratie';
 	var $_PHPSHOP_USER_LIST_MNU = 'Toon de gebruikers';
-	var $_PHPSHOP_USER_LIST_LBL = 'Gebruikers Lijst';
-	var $_PHPSHOP_USER_LIST_USERNAME = 'Gebruikersnaal';
-	var $_PHPSHOP_USER_LIST_FULL_NAME = 'Volledige Naam';
+	var $_PHPSHOP_USER_LIST_LBL = 'Gebruikerslijst';
+	var $_PHPSHOP_USER_LIST_USERNAME = 'Gebruikersnaam';
+	var $_PHPSHOP_USER_LIST_FULL_NAME = 'Volledige naam';
 	var $_PHPSHOP_USER_LIST_GROUP = 'Groep';
 	var $_PHPSHOP_USER_FORM_MNU = 'Gebruiker Toevoegen';
 	var $_PHPSHOP_USER_FORM_LBL = 'Toevoegen/Update Gebruiker Informatie';
 	var $_PHPSHOP_USER_FORM_BILLTO_LBL = 'Facturatiegegevens';
-	var $_PHPSHOP_USER_FORM_SHIPTO_LBL = 'Verzend Adressen';
+	var $_PHPSHOP_USER_FORM_SHIPTO_LBL = 'Afleveradressen';
 	var $_PHPSHOP_USER_FORM_ADD_SHIPTO_LBL = 'Adres Toevoegen';
-	var $_PHPSHOP_USER_FORM_NO_SHIPPING_ADDRESSES = 'Geen verzend adressen';
-	var $_PHPSHOP_USER_FORM_ADDRESS_LABEL = 'Nicknaam Adres';
+	var $_PHPSHOP_USER_FORM_NO_SHIPPING_ADDRESSES = 'Geen afleveradressen';
+	var $_PHPSHOP_USER_FORM_ADDRESS_LABEL = 'Verkorte Code';
 	var $_PHPSHOP_USER_FORM_FIRST_NAME = 'Voornaam';
-	var $_PHPSHOP_USER_FORM_LAST_NAME = 'Famillienaam';
+	var $_PHPSHOP_USER_FORM_LAST_NAME = 'Achternaam';
 	var $_PHPSHOP_USER_FORM_MIDDLE_NAME = 'Tussenvoegsel';
 	var $_PHPSHOP_USER_FORM_TITLE = 'Titel';
 	var $_PHPSHOP_USER_FORM_USERNAME = 'Gebruikersnaam';
 	var $_PHPSHOP_USER_FORM_PASSWORD_1 = 'Wachtwoord';
-	var $_PHPSHOP_USER_FORM_PASSWORD_2 = 'Bevestig Wachtwoord';
+	var $_PHPSHOP_USER_FORM_PASSWORD_2 = 'Bevestig wachtwoord';
 	var $_PHPSHOP_USER_FORM_PERMS = 'Permissies';
 	var $_PHPSHOP_USER_FORM_CUSTOMER_NUMBER = 'Klantnummer / ID';
 	var $_PHPSHOP_USER_FORM_COMPANY_NAME = 'Bedrijfsnaam';
@@ -165,7 +164,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_STATE_LIST_2_CODE = 'Provincie Code (2)';
 	var $_PHPSHOP_ADDRESS = 'Adres';
 	var $_PHPSHOP_CONTINUE = 'Doorgaan';
-	var $_PHPSHOP_EMPTY_CART = 'Uw mandje is momenteel leeg.';
+	var $_PHPSHOP_EMPTY_CART = 'uw mandje is momenteel leeg.';
 	var $_PHPSHOP_ISSHIPPING_MOD = 'InterShipper';
 	var $_PHPSHOP_ISSHIP_PING_MNU = 'Ping InterShipper Server';
 	var $_PHPSHOP_ISSHIP_PING_LBL = 'InterShipper-Server Ping ';
@@ -174,23 +173,23 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ISSHIP_PING_CARRIER_LBL = 'Vervoerder';
 	var $_PHPSHOP_ISSHIP_PING_RESPONSE_LBL = 'Reactie<BR>Tijd';
 	var $_PHPSHOP_ISSHIP_PING_TIME_LBL = 'sec.';
-	var $_PHPSHOP_ISSHIP_LIST_MNU = 'Bekijk Verzend Methoden';
-	var $_PHPSHOP_ISSHIP_LIST_LBL = 'Actieve Verzend Methoden';
-	var $_PHPSHOP_ISSHIP_LIST_CARRIER_LBL = 'Verzend Methoden';
+	var $_PHPSHOP_ISSHIP_LIST_MNU = 'Bekijk Verzendmethoden';
+	var $_PHPSHOP_ISSHIP_LIST_LBL = 'Actieve Verzendmethoden';
+	var $_PHPSHOP_ISSHIP_LIST_CARRIER_LBL = 'Verzendmethoden';
 	var $_PHPSHOP_ISSHIP_LIST_PUBLISH_LBL = 'Actief';
-	var $_PHPSHOP_ISSHIP_LIST_RATE_LBL = 'Verwerkings Kosten';
+	var $_PHPSHOP_ISSHIP_LIST_RATE_LBL = 'Verwerkingskosten';
 	var $_PHPSHOP_ISSHIP_LIST_LEAD_LBL = 'Verwerkingstermijn';
 	var $_PHPSHOP_ISSHIP_LIST_CHARGE_F_LBL = 'vaste prijs';
 	var $_PHPSHOP_ISSHIP_LIST_CHARGE_P_LBL = 'procent';
 	var $_PHPSHOP_ISSHIP_LIST_DAYS_LBL = 'dagen';
 	var $_PHPSHOP_ISSHIP_LIST_HEAVY_LBL = 'Zware Pakketten';
-	var $_PHPSHOP_ISSHIP_FORM_MNU = ' Configureren van de Verzend Methoden';
-	var $_PHPSHOP_ISSHIP_FORM_ADD_LBL = 'Verzend Methode Toevoegen';
-	var $_PHPSHOP_ISSHIP_FORM_UPDATE_LBL = 'Verzend Methode Configureren';
+	var $_PHPSHOP_ISSHIP_FORM_MNU = ' Configureren van de Verzendmethoden';
+	var $_PHPSHOP_ISSHIP_FORM_ADD_LBL = 'Verzendmethode toevoegen';
+	var $_PHPSHOP_ISSHIP_FORM_UPDATE_LBL = 'Verzendmethode configureren';
 	var $_PHPSHOP_ISSHIP_FORM_REFRESH_LBL = 'Vernieuwen';
-	var $_PHPSHOP_ISSHIP_FORM_CARRIER_LBL = 'Verzend Methode';
+	var $_PHPSHOP_ISSHIP_FORM_CARRIER_LBL = 'Verzendmethode';
 	var $_PHPSHOP_ISSHIP_FORM_PUBLISH_LBL = 'Activeren';
-	var $_PHPSHOP_ISSHIP_FORM_HANDLING_LBL = 'Verwerkings Kost';
+	var $_PHPSHOP_ISSHIP_FORM_HANDLING_LBL = 'Verwerkingskosten';
 	var $_PHPSHOP_ISSHIP_FORM_LEAD_LBL = 'Verwerkingstermijn';
 	var $_PHPSHOP_ISSHIP_FORM_CHARGE_F_LBL = 'vaste prijs';
 	var $_PHPSHOP_ISSHIP_FORM_CHARGE_P_LBL = 'procent';
@@ -198,25 +197,25 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ISSHIP_FORM_HEAVY_LBL = 'Zware Pakketten';
 	var $_PHPSHOP_ORDER_MOD = 'Bestellingen';
 	var $_PHPSHOP_ORDER_CONFIRM_MNU = 'Bevestig Bestelling';
-	var $_PHPSHOP_ORDER_CANCEL_MNU = 'Annuleert Bestelling';
+	var $_PHPSHOP_ORDER_CANCEL_MNU = 'Annuleer Bestelling';
 	var $_PHPSHOP_ORDER_PRINT_MNU = 'Print Bestelling';
 	var $_PHPSHOP_ORDER_DELETE_MNU = 'Verwijder Bestelling';
 	var $_PHPSHOP_ORDER_LIST_MNU = 'Bekijk Bestellingen';
 	var $_PHPSHOP_ORDER_LIST_LBL = 'Bestellingen Lijst';
-	var $_PHPSHOP_ORDER_LIST_ID = 'Order Nummer';
-	var $_PHPSHOP_ORDER_LIST_CDATE = 'Order Datum';
+	var $_PHPSHOP_ORDER_LIST_ID = 'Ordernummer';
+	var $_PHPSHOP_ORDER_LIST_CDATE = 'Orderdatum';
 	var $_PHPSHOP_ORDER_LIST_MDATE = 'Laatste Wijziging';
 	var $_PHPSHOP_ORDER_LIST_STATUS = 'Status';
 	var $_PHPSHOP_ORDER_LIST_TOTAL = 'SubTotaal';
 	var $_PHPSHOP_ORDER_ITEM = 'Order Items';
 	var $_PHPSHOP_ORDER_PRINT_PO_LBL = 'Koop Order';
-	var $_PHPSHOP_ORDER_PRINT_PO_NUMBER = 'Order Nummer';
-	var $_PHPSHOP_ORDER_PRINT_PO_DATE = 'Order Daum';
-	var $_PHPSHOP_ORDER_PRINT_PO_STATUS = 'Order Status';
-	var $_PHPSHOP_ORDER_PRINT_CUST_INFO_LBL = 'Klant Informatie';
-	var $_PHPSHOP_ORDER_PRINT_CUST_BILLING_LBL = 'Rekening Informatie';
-	var $_PHPSHOP_ORDER_PRINT_CUST_SHIPPING_LBL = 'Verzend Informatie';
-	var $_PHPSHOP_ORDER_PRINT_BILL_TO_LBL = 'Rekening Aan';
+	var $_PHPSHOP_ORDER_PRINT_PO_NUMBER = 'Ordernummer';
+	var $_PHPSHOP_ORDER_PRINT_PO_DATE = 'Orderdatum';
+	var $_PHPSHOP_ORDER_PRINT_PO_STATUS = 'Orderstatus';
+	var $_PHPSHOP_ORDER_PRINT_CUST_INFO_LBL = 'Klantinformatie';
+	var $_PHPSHOP_ORDER_PRINT_CUST_BILLING_LBL = 'Factuurinformatie';
+	var $_PHPSHOP_ORDER_PRINT_CUST_SHIPPING_LBL = 'Verzendinformatie';
+	var $_PHPSHOP_ORDER_PRINT_BILL_TO_LBL = 'Factuur Aan:';
 	var $_PHPSHOP_ORDER_PRINT_SHIP_TO_LBL = 'Verzend Naar';
 	var $_PHPSHOP_ORDER_PRINT_NAME = 'Naam';
 	var $_PHPSHOP_ORDER_PRINT_COMPANY = 'Bedrijf';
@@ -239,17 +238,17 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ORDER_PRINT_TOTAL_TAX = 'BTW';
 	var $_PHPSHOP_ORDER_PRINT_SHIPPING = 'Verzending- en afhandelingskosten';
 	var $_PHPSHOP_ORDER_PRINT_SHIPPING_TAX = 'Verzendingsbelasting';
-	var $_PHPSHOP_ORDER_PRINT_PAYMENT_LBL = 'Betalings Methode';
+	var $_PHPSHOP_ORDER_PRINT_PAYMENT_LBL = 'Betalingsmethode';
 	var $_PHPSHOP_ORDER_PRINT_ACCOUNT_NAME = 'Account Naam';
 	var $_PHPSHOP_ORDER_PRINT_ACCOUNT_NUMBER = 'Account Nummer';
 	var $_PHPSHOP_ORDER_PRINT_EXPIRE_DATE = 'Verloop Datum';
-	var $_PHPSHOP_ORDER_PRINT_PAYMENT_LOG_LBL = 'Betalings Log';
+	var $_PHPSHOP_ORDER_PRINT_PAYMENT_LOG_LBL = 'Betalingslog';
 	var $_PHPSHOP_ORDER_PRINT_SHIPPING_LBL = 'Verzend Informatie';
-	var $_PHPSHOP_ORDER_PRINT_PAYINFO_LBL = 'Betalings Informatie';
+	var $_PHPSHOP_ORDER_PRINT_PAYINFO_LBL = 'Betalingsinformatie';
 	var $_PHPSHOP_ORDER_PRINT_SHIPPING_CARRIER_LBL = 'Vervoerder';
-	var $_PHPSHOP_ORDER_PRINT_SHIPPING_MODE_LBL = 'Verzendings Methode';
-	var $_PHPSHOP_ORDER_PRINT_SHIPPING_DATE_LBL = 'Verzendings Datum';
-	var $_PHPSHOP_ORDER_PRINT_SHIPPING_PRICE_LBL = 'Verzendings Prijs';
+	var $_PHPSHOP_ORDER_PRINT_SHIPPING_MODE_LBL = 'Verzendingsmethode';
+	var $_PHPSHOP_ORDER_PRINT_SHIPPING_DATE_LBL = 'Verzendingsdatum';
+	var $_PHPSHOP_ORDER_PRINT_SHIPPING_PRICE_LBL = 'Verzendingsprijs';
 	var $_PHPSHOP_ORDER_STATUS_LIST_MNU = 'Bekijk Order Status Types';
 	var $_PHPSHOP_ORDER_STATUS_FORM_MNU = 'Order Status Type Toevoegen';
 	var $_PHPSHOP_ORDER_STATUS_LIST_CODE = 'Order Status Code';
@@ -299,8 +298,8 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_FORM_IMAGE_DELETE_LBL = 'Verwijder huidige afbeelding';
 	var $_PHPSHOP_PRODUCT_FORM_PRODUCT_ITEMS_LBL = 'Product Items';
 	var $_PHPSHOP_PRODUCT_FORM_ITEM_ATTRIBUTES_LBL = 'Item Attributen';
-	var $_PHPSHOP_PRODUCT_FORM_DELETE_PRODUCT_MSG = 'Weet U zeker dat u het product wilt verwijderen\\\\en de Items die er bij horen?';
-	var $_PHPSHOP_PRODUCT_FORM_DELETE_ITEM_MSG = 'Weet U zeker dat u het item wilt verwijderen?';
+	var $_PHPSHOP_PRODUCT_FORM_DELETE_PRODUCT_MSG = 'Weet u zeker dat u het product wilt verwijderen\\\\en de Items die er bij horen?';
+	var $_PHPSHOP_PRODUCT_FORM_DELETE_ITEM_MSG = 'Weet u zeker dat u het item wilt verwijderen?';
 	var $_PHPSHOP_PRODUCT_FORM_VENDOR = 'Verkoper';
 	var $_PHPSHOP_PRODUCT_FORM_MANUFACTURER = 'Fabrikant';
 	var $_PHPSHOP_PRODUCT_FORM_SKU = 'Art. Nr.';
@@ -315,7 +314,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_FORM_ON_ORDER = 'Op Bestelling';
 	var $_PHPSHOP_PRODUCT_FORM_AVAILABLE_DATE = 'Beschikbaarheids Datum';
 	var $_PHPSHOP_PRODUCT_FORM_SPECIAL = 'Speciaal aan';
-	var $_PHPSHOP_PRODUCT_FORM_DISCOUNT_TYPE = 'Kortings Type';
+	var $_PHPSHOP_PRODUCT_FORM_DISCOUNT_TYPE = 'Kortingstype';
 	var $_PHPSHOP_PRODUCT_FORM_PUBLISH = 'Tonen?';
 	var $_PHPSHOP_PRODUCT_FORM_LENGTH = 'Lengte';
 	var $_PHPSHOP_PRODUCT_FORM_WIDTH = 'Breedte';
@@ -330,9 +329,9 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_FORM_UNIT = 'Eenheid';
 	var $_PHPSHOP_PRODUCT_FORM_UNIT_DEFAULT = 'stuk';
 	var $_PHPSHOP_PRODUCT_FORM_PACKAGING = 'Aantal in de Verpakking';
-	var $_PHPSHOP_PRODUCT_FORM_PACKAGING_DESCRIPTION = 'Hier kan U het aantal eenheden in de verpakking invullen. (max. 65535)';
+	var $_PHPSHOP_PRODUCT_FORM_PACKAGING_DESCRIPTION = 'Hier kan u het aantal eenheden in de verpakking invullen. (max. 65535)';
 	var $_PHPSHOP_PRODUCT_FORM_BOX = 'Eenheden in Doos';
-	var $_PHPSHOP_PRODUCT_FORM_BOX_DESCRIPTION = 'Hier kan U het aantal eenheden in een doos invullen. (max. 65535)';
+	var $_PHPSHOP_PRODUCT_FORM_BOX_DESCRIPTION = 'Hier kan u het aantal eenheden in een doos invullen. (max. 65535)';
 	var $_PHPSHOP_PRODUCT_DISPLAY_ADD_PRODUCT_LBL = 'Product Toevoeging Resultaat';
 	var $_PHPSHOP_PRODUCT_DISPLAY_UPDATE_PRODUCT_LBL = 'Product Update Resultaat';
 	var $_PHPSHOP_PRODUCT_DISPLAY_ADD_ITEM_LBL = 'Item Toevoeging Resultaat';
@@ -378,7 +377,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_REPORTBASIC_MOD = 'Rapporten';
 	var $_PHPSHOP_RB_INDIVIDUAL = 'Individuele Product Overzicht';
 	var $_PHPSHOP_RB_SALE_TITLE = 'Verkoop Overzicht';
-	var $_PHPSHOP_RB_SALES_PAGE_TITLE = 'Verkoops Activiteit Overzicht';
+	var $_PHPSHOP_RB_SALES_PAGE_TITLE = 'Verkoopsactiviteit Overzicht';
 	var $_PHPSHOP_RB_INTERVAL_TITLE = 'Bepaal Periode';
 	var $_PHPSHOP_RB_INTERVAL_MONTHLY_TITLE = 'Maandelijks';
 	var $_PHPSHOP_RB_INTERVAL_WEEKLY_TITLE = 'Wekelijks';
@@ -407,23 +406,23 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_SHOPPER_LIST_MNU = 'Bekijk Klanten';
 	var $_PHPSHOP_SHOPPER_LIST_LBL = 'Klanten Lijst';
 	var $_PHPSHOP_SHOPPER_LIST_USERNAME = 'Gebruikersnaam';
-	var $_PHPSHOP_SHOPPER_LIST_NAME = 'Volledige Naam';
+	var $_PHPSHOP_SHOPPER_LIST_NAME = 'Volledige naam';
 	var $_PHPSHOP_SHOPPER_LIST_GROUP = 'Groep';
 	var $_PHPSHOP_SHOPPER_FORM_MNU = 'Klant Toevoegen';
 	var $_PHPSHOP_SHOPPER_FORM_LBL = 'Klant Informatie';
 	var $_PHPSHOP_SHOPPER_FORM_BILLTO_LBL = 'Facturatiegegevens';
 	var $_PHPSHOP_SHOPPER_FORM_ADDRESS_INFO_LBL = 'Informatie';
-	var $_PHPSHOP_SHOPPER_FORM_SHIPTO_LBL = 'Verzindingsgegevens';
+	var $_PHPSHOP_SHOPPER_FORM_SHIPTO_LBL = 'Verzendingsgegevens';
 	var $_PHPSHOP_SHOPPER_FORM_ADD_SHIPTO_LBL = 'Adres Toevoegen';
 	var $_PHPSHOP_SHOPPER_FORM_ADDRESS_LABEL = 'Nickname Adres';
 	var $_PHPSHOP_SHOPPER_FORM_USERNAME = 'Gebruikersnaam';
 	var $_PHPSHOP_SHOPPER_FORM_FIRST_NAME = 'Voornaam';
-	var $_PHPSHOP_SHOPPER_FORM_LAST_NAME = 'Famillienaam';
+	var $_PHPSHOP_SHOPPER_FORM_LAST_NAME = 'Achternaam';
 	var $_PHPSHOP_SHOPPER_FORM_MIDDLE_NAME = 'Tussenvoegsel';
 	var $_PHPSHOP_SHOPPER_FORM_TITLE = 'Titel';
 	var $_PHPSHOP_SHOPPER_FORM_SHOPPERNAME = 'Klantnaam';
 	var $_PHPSHOP_SHOPPER_FORM_PASSWORD_1 = 'Wachtwoord';
-	var $_PHPSHOP_SHOPPER_FORM_PASSWORD_2 = 'Bevestig Wachtwoord';
+	var $_PHPSHOP_SHOPPER_FORM_PASSWORD_2 = 'Bevestig wachtwoord';
 	var $_PHPSHOP_SHOPPER_FORM_GROUP = 'Klant Groep';
 	var $_PHPSHOP_SHOPPER_FORM_COMPANY_NAME = 'Bedrijfsnaam';
 	var $_PHPSHOP_SHOPPER_FORM_ADDRESS_1 = 'Adres 1';
@@ -471,7 +470,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_STORE_FORM_PHONE = 'Telefoon';
 	var $_PHPSHOP_STORE_FORM_CURRENCY = 'Valuta';
 	var $_PHPSHOP_STORE_FORM_CATEGORY = 'Winkel Categorie';
-	var $_PHPSHOP_STORE_FORM_LAST_NAME = 'Famillienaam';
+	var $_PHPSHOP_STORE_FORM_LAST_NAME = 'Achternaam';
 	var $_PHPSHOP_STORE_FORM_FIRST_NAME = 'Voornaam';
 	var $_PHPSHOP_STORE_FORM_MIDDLE_NAME = 'Tussenvoegsel';
 	var $_PHPSHOP_STORE_FORM_TITLE = 'Titel';
@@ -482,16 +481,16 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_STORE_FORM_IMAGE_PATH = 'Afbeelding Pad';
 	var $_PHPSHOP_STORE_FORM_DESCRIPTION = 'Omschrijving';
 	var $_PHPSHOP_PAYMENT = 'Betaling';
-	var $_PHPSHOP_PAYMENT_METHOD_LIST_MNU = 'Bekijk Betalings Methode';
-	var $_PHPSHOP_PAYMENT_METHOD_LIST_LBL = 'Betalings Methode Lijst';
+	var $_PHPSHOP_PAYMENT_METHOD_LIST_MNU = 'Bekijk Betalingsmethode';
+	var $_PHPSHOP_PAYMENT_METHOD_LIST_LBL = 'Betalingsmethode Lijst';
 	var $_PHPSHOP_PAYMENT_METHOD_LIST_NAME = 'Naam';
 	var $_PHPSHOP_PAYMENT_METHOD_LIST_CODE = 'Code';
 	var $_PHPSHOP_PAYMENT_METHOD_LIST_DISCOUNT = 'Korting';
 	var $_PHPSHOP_PAYMENT_METHOD_LIST_SHOPPER_GROUP = 'Klantgroep';
-	var $_PHPSHOP_PAYMENT_METHOD_LIST_ENABLE_PROCESSOR = 'Betalings Methode Type';
-	var $_PHPSHOP_PAYMENT_METHOD_FORM_MNU = 'Betalings Methode Toevoegen';
-	var $_PHPSHOP_PAYMENT_METHOD_FORM_LBL = 'Betalings Methode Formulier';
-	var $_PHPSHOP_PAYMENT_METHOD_FORM_NAME = 'Betalings Methode Naam';
+	var $_PHPSHOP_PAYMENT_METHOD_LIST_ENABLE_PROCESSOR = 'Betalingsmethode Type';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_MNU = 'Betalingsmethode Toevoegen';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_LBL = 'Betalingsmethode Formulier';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_NAME = 'Betalingsmethode Naam';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_SHOPPER_GROUP = 'Klantgroep';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_DISCOUNT = 'Korting';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_CODE = 'Code';
@@ -499,15 +498,15 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_ENABLE_PROCESSOR = 'Payment methode type';
 	var $_PHPSHOP_TAX_MOD = 'Belasting';
 	var $_PHPSHOP_TAX_RATE = 'Belasting Tarieven';
-	var $_PHPSHOP_TAX_LIST_MNU = 'Bekijk Belastings Tarieven';
-	var $_PHPSHOP_TAX_LIST_LBL = 'Belastings Tarieven Lijst';
-	var $_PHPSHOP_TAX_LIST_STATE = 'Belastings Regio';
+	var $_PHPSHOP_TAX_LIST_MNU = 'Bekijk Belastingstarieven';
+	var $_PHPSHOP_TAX_LIST_LBL = 'Belastingstarieven Lijst';
+	var $_PHPSHOP_TAX_LIST_STATE = 'Belastingsregio';
 	var $_PHPSHOP_TAX_LIST_COUNTRY = 'Belasting Land';
-	var $_PHPSHOP_TAX_LIST_RATE = 'Belastings Tarief';
-	var $_PHPSHOP_TAX_FORM_MNU = 'Belastings Tarief Toevoegen';
-	var $_PHPSHOP_TAX_FORM_LBL = 'Belastings Informatie Toevoegen';
-	var $_PHPSHOP_TAX_FORM_STATE = 'Belastings Regio';
-	var $_PHPSHOP_TAX_FORM_COUNTRY = 'Belastings Land';
+	var $_PHPSHOP_TAX_LIST_RATE = 'Belastingstarief';
+	var $_PHPSHOP_TAX_FORM_MNU = 'Belastingstarief toevoegen';
+	var $_PHPSHOP_TAX_FORM_LBL = 'Belastingsinformatie Toevoegen';
+	var $_PHPSHOP_TAX_FORM_STATE = 'Belastingsregio';
+	var $_PHPSHOP_TAX_FORM_COUNTRY = 'Belastingsland';
 	var $_PHPSHOP_TAX_FORM_RATE = 'Belastingstarief (voor 21% => vul 0.21 in)';
 	var $_PHPSHOP_VENDOR_MOD = 'Verkoper';
 	var $_PHPSHOP_VENDOR_ADMIN = 'Verkopers';
@@ -532,7 +531,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_VENDOR_FORM_PHONE = 'Telefoon';
 	var $_PHPSHOP_VENDOR_FORM_CURRENCY = 'Valuta';
 	var $_PHPSHOP_VENDOR_FORM_CATEGORY = 'Verkoper Categorie';
-	var $_PHPSHOP_VENDOR_FORM_LAST_NAME = 'Famillienaam';
+	var $_PHPSHOP_VENDOR_FORM_LAST_NAME = 'Achternaam';
 	var $_PHPSHOP_VENDOR_FORM_FIRST_NAME = 'Voornaam';
 	var $_PHPSHOP_VENDOR_FORM_MIDDLE_NAME = 'Tussenvoegsel';
 	var $_PHPSHOP_VENDOR_FORM_TITLE = 'Titel';
@@ -589,26 +588,26 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CART_TOTAL = 'Totaal';
 	var $_PHPSHOP_CHECKOUT_NEXT = 'Volgende';
 	var $_PHPSHOP_CHECKOUT_REGISTER = 'Registreer';
-	var $_PHPSHOP_CHECKOUT_CONF_BILLINFO = 'Rekenings Informatie';
+	var $_PHPSHOP_CHECKOUT_CONF_BILLINFO = 'Rekeningsinformatie';
 	var $_PHPSHOP_CHECKOUT_CONF_COMPANY = 'Bedrijf';
 	var $_PHPSHOP_CHECKOUT_CONF_NAME = 'Naam';
 	var $_PHPSHOP_CHECKOUT_CONF_ADDRESS = 'Adres';
 	var $_PHPSHOP_CHECKOUT_CONF_PHONE = 'Telefoon';
 	var $_PHPSHOP_CHECKOUT_CONF_FAX = 'Fax';
 	var $_PHPSHOP_CHECKOUT_CONF_EMAIL = 'E-mail';
-	var $_PHPSHOP_CHECKOUT_CONF_SHIPINFO = 'Verzendings Informatie';
+	var $_PHPSHOP_CHECKOUT_CONF_SHIPINFO = 'Verzendingsinformatie';
 	var $_PHPSHOP_CHECKOUT_CONF_SHIPINFO_COMPANY = 'Bedrijf';
 	var $_PHPSHOP_CHECKOUT_CONF_SHIPINFO_NAME = 'Naam';
 	var $_PHPSHOP_CHECKOUT_CONF_SHIPINFO_ADDRESS = 'Adres';
 	var $_PHPSHOP_CHECKOUT_CONF_SHIPINFO_PHONE = 'Telefoon';
 	var $_PHPSHOP_CHECKOUT_CONF_SHIPINFO_FAX = 'Fax';
 	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO = 'Facturatiegegevens';
-	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO_NAMECARD = 'Naam op de Kredietkaart';
-	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO_METHOD = 'Betalings Methode';
-	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO_CCNUM = 'Kredietkaart Nummer';
+	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO_NAMECARD = 'Naam creditcard houder';
+	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO_METHOD = 'Betalingsmethode';
+	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO_CCNUM = 'Creditcard nummer';
 	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO_EXDATE = 'Geldig tot';
 	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO_COMPORDER = 'Bestelling Versturen';
-	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO_REQINFO = 'Verplichte informatie wanneer men kiest voor betaling met kredietkaart';
+	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO_REQINFO = 'Verplichte informatie wanneer men kiest voor betaling met creditcard';
 	var $_PHPSHOP_ZONE_MOD = 'Zone Verzendkosten';
 	var $_PHPSHOP_ZONE_LIST_MNU = 'Bekijk Zones';
 	var $_PHPSHOP_ZONE_FORM_MNU = 'Zone Toevoegen';
@@ -628,7 +627,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ZONE_LIST_COST_PER_LBL = 'Zone kosten per item';
 	var $_PHPSHOP_ZONE_LIST_COST_LIMIT_LBL = 'Zone kost limiet';
 	var $_PHPSHOP_LOGIN_FIRST = 'Log in of registreer tot deze site eerst, a.u.b. Bedankt!';
-	var $_PHPSHOP_STORE_FORM_TOS = 'Leverings Voorwaarden';
+	var $_PHPSHOP_STORE_FORM_TOS = 'Leveringsvoorwaarden';
 	var $_PHPSHOP_AGREE_TO_TOS = 'Ga a.u.b. eerst akkoord met onze leveringsvoorwaarden.';
 	var $_PHPSHOP_I_AGREE_TO_TOS = 'Ik ga akkoord met de leveringsvoorwaarden';
 	var $_PHPSHOP_LEAVE_BLANK = '(Laat leeg wanneer u hier geen eigen <br />php-file voor heeft!)';
@@ -636,16 +635,16 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_NEW_CUSTOMER = 'Nieuw hier? Vul hier a.u.b. eerst uw gegevens in';
 	var $_PHPSHOP_ACC_CUSTOMER_ACCOUNT = 'Klant Account:';
 	var $_PHPSHOP_ACC_ORDER_INFO = 'Order Informatie';
-	var $_PHPSHOP_ACC_UPD_BILL = 'Hier kan U Uw facturatie gegevens aanpassen.';
-	var $_PHPSHOP_ACC_UPD_SHIP = 'Hier kan U Uw verzendgegevens aanpassen.';
+	var $_PHPSHOP_ACC_UPD_BILL = 'Hier kan u uw facturatie gegevens aanpassen.';
+	var $_PHPSHOP_ACC_UPD_SHIP = 'Hier kan u uw verzendgegevens aanpassen.';
 	var $_PHPSHOP_ACC_ACCOUNT_INFO = 'Account Informatie';
 	var $_PHPSHOP_ACC_SHIP_INFO = 'Verzend Informatie';
 	var $_PHPSHOP_ACC_NO_ORDERS = 'Geen Orders Aanwezig';
 	var $_PHPSHOP_ACC_BILL_DEF = '- Standaard (zelfde als facturatiegegevens)';
-	var $_PHPSHOP_SHIPTO_TEXT = 'U kan verzend adressen toevoegen aan uw account. Bedenk een geschikte code of sleutelwoord (nicknaam) voor uw verzend adres.';
+	var $_PHPSHOP_SHIPTO_TEXT = 'u kan verzend adressen toevoegen aan uw account. Bedenk een geschikte code of sleutelwoord (nicknaam) voor uw verzend adres.';
 	var $_PHPSHOP_CONFIG = 'Configuratie';
 	var $_PHPSHOP_USERS = 'Klanten';
-	var $_PHPSHOP_IS_CC_PAYMENT = 'is Kredietkaart betaling?';
+	var $_PHPSHOP_IS_CC_PAYMENT = 'is creditcard betaling?';
 	var $_PHPSHOP_SHIPPING_MOD = 'Verzending';
 	var $_PHPSHOP_SHIPPING_MENU_LABEL = 'Verzending';
 	var $_PHPSHOP_CARRIER_LIST_MNU = 'Bekijk Vervoerders';
@@ -695,46 +694,46 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_INFO_MSG_SHIPPING_METHOD = 'Verzendingstarief';
 	var $_PHPSHOP_INFO_MSG_SHIPPING_PRICE = 'Prijs';
 	var $_PHPSHOP_INFO_MSG_VAT_ZERO_LBL = '0 (-geen-)';
-	var $_PHPSHOP_PAYMENT_FORM_CC = 'Kredietkaart';
-	var $_PHPSHOP_PAYMENT_FORM_USE_PP = 'Gebruik Betalings Verwerker';
+	var $_PHPSHOP_PAYMENT_FORM_CC = 'Creditcard';
+	var $_PHPSHOP_PAYMENT_FORM_USE_PP = 'Gebruik Betalingsverwerker';
 	var $_PHPSHOP_PAYMENT_FORM_BANK_DEBIT = 'Bank debit';
 	var $_PHPSHOP_PAYMENT_FORM_AO = 'Enkel Adres (betaling bij levering)';
-	var $_PHPSHOP_CHECKOUT_MSG_2 = 'Selecteer een Leveringsadres!';
-	var $_PHPSHOP_CHECKOUT_MSG_3 = 'Selecteer een verzendings methode!';
-	var $_PHPSHOP_CHECKOUT_MSG_4 = 'Selecteer een betalings methode!';
+	var $_PHPSHOP_CHECKOUT_MSG_2 = 'Selecteer een afleveradres!';
+	var $_PHPSHOP_CHECKOUT_MSG_3 = 'Selecteer een verzendingsmethode!';
+	var $_PHPSHOP_CHECKOUT_MSG_4 = 'Selecteer een betalingsmethode!';
 	var $_PHPSHOP_CHECKOUT_MSG_99 = 'Controleer de gegevens en bevestig de bestelling!';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_SHIP = 'Selecteer een verzend methode.';
-	var $_PHPSHOP_CHECKOUT_ERR_OTHER_SHIP = 'Selecteer een andere verzend methode.';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_PAYM = 'Selecteer een betalings methode.';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_CCNR = 'Vul Uw Kredietkaart nummer in.';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_CCNAME = 'Vul de naam op de Kredietkaart in.';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_CCDATE = 'Het Kredietkaartnummer dat U ingaf is ongeldig';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_CCMON = 'Vul de verval maand van Uw Kredietkaart in.';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_CCYEAR = 'Vul het verval jaar van Uw Kredietkaart in.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_SHIP = 'Selecteer een verzendmethode.';
+	var $_PHPSHOP_CHECKOUT_ERR_OTHER_SHIP = 'Selecteer een andere verzendmethode.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_PAYM = 'Selecteer een betalingsmethode.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_CCNR = 'Vul uw creditcard nummer in.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_CCNAME = 'Vul de naam van de creditcard houder in.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_CCDATE = 'Het creditcardnummer dat u ingaf is ongeldig';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_CCMON = 'Vul de verval maand van uw creditcard in.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_CCYEAR = 'Vul het verval jaar van uw creditcard in.';
 	var $_PHPSHOP_CHECKOUT_ERR_CCDATE_INV = 'De vervaldatum is ongeldig.';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_SHIPTO = 'Selecteer het leveringsadres.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_SHIPTO = 'Selecteer het afleveradres.';
 	var $_PHPSHOP_CHECKOUT_ERR_CCNUM_INV = 'Verkeerd rekeningsnummer.';
-	var $_PHPSHOP_CHECKOUT_ERR_EMPTY_CART = 'Er is niets in Uw mandje!';
+	var $_PHPSHOP_CHECKOUT_ERR_EMPTY_CART = 'Er is niets in uw mandje!';
 	var $_PHPSHOP_CHECKOUT_ERR_NO_CARR = 'ERROR: Selecteer een vervoerder!';
 	var $_PHPSHOP_CHECKOUT_ERR_RATE_NOT_FOUND = 'ERROR: Het geselecteerde verzendtarief was niet gevonden!';
-	var $_PHPSHOP_CHECKOUT_ERR_SHIPTO_NOT_FOUND = 'ERROR: Uw leveringsadres werd niet gevonden';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_CCDATA = 'ERROR: Er zijn geen Kredietkaart gegevens...';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_CCNR_FOUND = 'ERROR: Kredietkaartnummer niet gevonden';
-	var $_PHPSHOP_CHECKOUT_ERR_TEST = 'Sorry, maar het Kredietkaart nummer dat U gebruikte is een Test nummer!';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_USER_DATA = 'De gebruikers id werd niet gevonden in de databank';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_BA_HOLDER_NAME = 'U heeft geen eigenaarsnaam van de bankrekening opgegeven.';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_IBAN = 'U heeft geen IBAN nummer opgegeven.';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_BA_NUM = 'U heeft uw banknummer niet opgegeven';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_BANK_SORT = 'U heeft geen BIC code opgegeven';
-	var $_PHPSHOP_CHECKOUT_ERR_NO_BANK_NAME = 'U heeft de banknaam niet opgegeven';
+	var $_PHPSHOP_CHECKOUT_ERR_SHIPTO_NOT_FOUND = 'ERROR: uw afleveradres werd niet gevonden';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_CCDATA = 'ERROR: Er zijn geen creditcard gegevens...';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_CCNR_FOUND = 'ERROR: creditcardnummer niet gevonden';
+	var $_PHPSHOP_CHECKOUT_ERR_TEST = 'Sorry, maar het creditcardnummer dat u gebruikte is een Test nummer!';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_USER_DATA = 'De gebruikers naam is niet gevonden in de database';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_BA_HOLDER_NAME = 'u heeft geen eigenaarsnaam van de bankrekening opgegeven.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_IBAN = 'u heeft geen IBAN nummer opgegeven.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_BA_NUM = 'u heeft uw banknummer niet opgegeven';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_BANK_SORT = 'u heeft geen BIC code opgegeven';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_BANK_NAME = 'u heeft de banknaam niet opgegeven';
 	var $_PHPSHOP_CHECKOUT_ERR_NO_VALID_STEP = 'De uitcheck module heeft een geldige stap nodig!';
 	var $_PHPSHOP_CHECKOUT_MSG_LOG = 'Betalings informatie opgeslagen voor latere verwerking.<BR>';
 	var $_PHPSHOP_CHECKOUT_ERR_MIN_POV = 'Minimum bestedings bedrag voor onze winkel is nog niet bereikt';
 	var $_PHPSHOP_CHECKOUT_ERR_MIN_POV2 = 'Het minimum bestedings bedrag voor deze winkel is:';
-	var $_PHPSHOP_CHECKOUT_PAYMENT_CC = 'Kredietkaart Betaling';
-	var $_PHPSHOP_CHECKOUT_PAYMENT_OTHER = 'andere betalings methoden';
-	var $_PHPSHOP_CHECKOUT_PAYMENT_SELECT = 'Selecteer een betaling methode a.u.b. :';
-	var $_PHPSHOP_STORE_FORM_MPOV = 'Minimum bestedings bedrag voor Uw winkel';
+	var $_PHPSHOP_CHECKOUT_PAYMENT_CC = 'Creditcard Betaling';
+	var $_PHPSHOP_CHECKOUT_PAYMENT_OTHER = 'andere betalingsmethoden';
+	var $_PHPSHOP_CHECKOUT_PAYMENT_SELECT = 'Selecteer a.u.b. een betalingsmethode:';
+	var $_PHPSHOP_STORE_FORM_MPOV = 'Minimum bestedings bedrag voor uw winkel';
 	var $_PHPSHOP_ACCOUNT_BANK_TITLE = 'Bankrekening informatie';
 	var $_PHPSHOP_ACCOUNT_LBL_BANK_ACCOUNT_NR = 'Rekeningnummer';
 	var $_PHPSHOP_ACCOUNT_LBL_BANK_SORT_CODE = 'BIC nummer';
@@ -744,7 +743,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_MODULES = 'Modules';
 	var $_PHPSHOP_FUNCTIONS = 'Functies';
 	var $_PHPSHOP_SPECIAL_PRODUCTS = 'Speciale Producten';
-	var $_PHPSHOP_CHECKOUT_CUSTOMER_NOTE = 'U kan een bericht toevoegen aan Uw bestelling';
+	var $_PHPSHOP_CHECKOUT_CUSTOMER_NOTE = 'u kan een bericht toevoegen aan uw bestelling';
 	var $_PHPSHOP_ORDER_PRINT_CUSTOMER_NOTE = 'Opmerking / Vraag van de klant';
 	var $_PHPSHOP_INCLUDING_TAX = '(incl. $tax % btw)';
 	var $_PHPSHOP_PLEASE_SEL_ITEM = 'Selecteer a.u.b. een item';
@@ -752,13 +751,13 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_DOWNLOADS_TITLE = 'Download omgeving';
 	var $_PHPSHOP_DOWNLOADS_START = 'Begin met de Download';
 	var $_PHPSHOP_DOWNLOADS_INFO = 'Vul Download-ID in die u heeft gekregen via e-mail en klik \'Begin met de Download\'.';
-	var $_PHPSHOP_DOWNLOADS_ERR_EXP = 'Sorry, maar Uw download periode is verlopen.';
+	var $_PHPSHOP_DOWNLOADS_ERR_EXP = 'Sorry, maar uw download periode is verlopen.';
 	var $_PHPSHOP_DOWNLOADS_ERR_MAX = 'Sorry, maar het maximaal aantal downloads is bereikt';
 	var $_PHPSHOP_DOWNLOADS_ERR_INV = 'Ongeldig Download-ID!';
 	var $_PHPSHOP_DOWNLOADS_ERR_SEND = 'Kan geen bericht verzenden naar';
 	var $_PHPSHOP_DOWNLOADS_SEND_MSG = 'Bericht verzonden naar';
 	var $_PHPSHOP_DOWNLOADS_SEND_SUBJ = 'Download-Info';
-	var $_PHPSHOP_DOWNLOADS_SEND_MSG_1 = 'Uw bestelling is klaar voor Download';
+	var $_PHPSHOP_DOWNLOADS_SEND_MSG_1 = 'uw bestelling is klaar voor Download';
 	var $_PHPSHOP_DOWNLOADS_SEND_MSG_2 = 'Gebruikt de volgende Download-ID(s) in onze Download omgeving: ';
 	var $_PHPSHOP_DOWNLOADS_SEND_MSG_3 = 'het maximale aantal downloads voor elk bestand is:';
 	var $_PHPSHOP_DOWNLOADS_SEND_MSG_4 = 'Download tot {expire} dagen na de eerste download';
@@ -766,11 +765,11 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_DOWNLOADS_SEND_MSG_6 = 'Download-Info van ';
 	var $_PHPSHOP_PRODUCT_FORM_DOWNLOADABLE = 'downloadable product?';
 	var $_PHPSHOP_PAYPAL_THANKYOU = 'Bedankt voor de betaling. 
-        De transactie was succesvol. U krijgt een bevestigings e-mail voor deze transactie van PayPal. 
-        U kan doorgaan of U aanmelden op <a href=http://www.paypal.com>www.paypal.com</a> om de details van de transactie te bekijken.';
-	var $_PHPSHOP_PAYPAL_ERROR = 'Een fout is opgetreden bij de verwerking van Uw transactie. De status van de bestelling kan niet aangepast worden.';
-	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER1 = 'Dank U voor de bestelling. De informatie van Uw bestelling volgt.';
-	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER2 = 'Nogmaals bedankt voor Uw bezoek.';
+        De transactie was succesvol. u krijgt een bevestigings e-mail voor deze transactie van PayPal. 
+        u kan doorgaan of u aanmelden op <a href=http://www.paypal.com>www.paypal.com</a> om de details van de transactie te bekijken.';
+	var $_PHPSHOP_PAYPAL_ERROR = 'Een fout is opgetreden bij de verwerking van uw transactie. De status van de bestelling kan niet aangepast worden.';
+	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER1 = 'Dank u voor de bestelling. De informatie van uw bestelling volgt.';
+	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER2 = 'Nogmaals bedankt voor uw bezoek.';
 	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER3 = 'Vragen? Problemen?';
 	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER4 = 'De volgende bestelling is ontvangen.';
 	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER5 = 'Bekijk de bestelling door middel van de link hieronder.';
@@ -798,13 +797,13 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_AFFILIATE_EMAIL_MNU = 'Bekijk E-mail Wederverkopers';
 	var $_PHPSHOP_AFFILIATE_EMAIL_LBL = 'E-mail Wederverkopers';
 	var $_PHPSHOP_AFFILIATE_EMAIL_WHO = 'E-mail naar wie (* = Allemaal)';
-	var $_PHPSHOP_AFFILIATE_EMAIL_CONTENT = 'Uw E-mail';
+	var $_PHPSHOP_AFFILIATE_EMAIL_CONTENT = 'uw E-mail';
 	var $_PHPSHOP_AFFILIATE_EMAIL_SUBJECT = 'Het onderwerp';
 	var $_PHPSHOP_AFFILIATE_EMAIL_STATS = 'Invoegen huidige statistieken';
 	var $_PHPSHOP_AFFILIATE_FORM_RATE = 'Commisie percentage';
 	var $_PHPSHOP_AFFILIATE_FORM_ACTIVE = 'Actief?';
 	var $_PHPSHOP_DELIVERY_TIME = 'Normaal verzonden na';
-	var $_PHPSHOP_DELIVERY_INFORMATION = 'Leverings Informatie';
+	var $_PHPSHOP_DELIVERY_INFORMATION = 'Afleverinformatie';
 	var $_PHPSHOP_MORE_CATEGORIES = 'meer categorieën';
 	var $_PHPSHOP_AVAILABILITY = 'Beschikbaarheid';
 	var $_PHPSHOP_CURRENTLY_NOT_AVAILABLE = 'Dit product is momenteel niet beschikbaar.';
@@ -841,10 +840,10 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_VIRTUAL_TAX = 'Virtuele Belasting';
 	var $_PHPSHOP_ADMIN_CFG_VIRTUAL_TAX_EXPLAIN = 'Dit bepaalt of er over artikelen met een gewicht van 0 belasting wordt geheven. Wijzig ps_checkout.php->calc_order_taxable() om dit aan te passen.';
 	var $_PHPSHOP_ADMIN_CFG_TAX_MODE = 'Belasting modus:';
-	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_SHIP = 'Gebaseerd op leverings adres';
+	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_SHIP = 'Gebaseerd op afleveradres';
 	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_VENDOR = 'Gebaseerd op verkopers adres';
-	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_EXPLAIN = 'Dit bepaalt welk belastingtarief gekozen wordt:<br /><ul><li>de plaats waar de winkel is gevestigd (verkopersadres)</li><br/><li>de plaats waar de klant vandaan komt. (leveringsadres)</li></ul>';
-	var $_PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE = 'Meerdere belastings tarieven gebruiken?';
+	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_EXPLAIN = 'Dit bepaalt welk belastingtarief gekozen wordt:<br /><ul><li>de plaats waar de winkel is gevestigd (verkopersadres)</li><br/><li>de plaats waar de klant vandaan komt. (afleveradres)</li></ul>';
+	var $_PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE = 'Meerdere belastingstarieven gebruiken?';
 	var $_PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE_EXPLAIN = 'Gebruik deze optie, als er artikelen zijn die in verschillende belastingtarieven vallen zoals boeken 6% en luxe goederen 21%.';
 	var $_PHPSHOP_ADMIN_CFG_SUBSTRACT_PAYEMENT_BEFORE = 'Pas korting toe voor belasting/verzending?';
 	var $_PHPSHOP_ADMIN_CFG_REVIEW = 'Activeer Klant Recensie/Beoordelings Systeem';
@@ -871,18 +870,6 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_URL_EXPLAIN = 'e URL naar uw website. Normaal gesproken identiek aan de Joomla / Mambo URL (met een slash op het einde!)';
 	var $_PHPSHOP_ADMIN_CFG_URLSECURE = 'SECUREURL';
 	var $_PHPSHOP_ADMIN_CFG_URLSECURE_EXPLAIN = 'De beveiligde URL naar uw website. (https - met een slash op het einde!)';
-	var $_PHPSHOP_ADMIN_CFG_URLCOMPONENT = 'COMPONENTURL';
-	var $_PHPSHOP_ADMIN_CFG_URLCOMPONENT_EXPLAIN = 'De URL naar het Virtuemart component. (met een slash op het einde!)';
-	var $_PHPSHOP_ADMIN_CFG_URLIMAGE = 'IMAGEURL';
-	var $_PHPSHOP_ADMIN_CFG_URLIMAGE_EXPLAIN = 'De URL voor de VirtueMart component afbeelding folder.(met trailing slash op het einde!)';
-	var $_PHPSHOP_ADMIN_CFG_ADMINPATH = 'ADMINPATH';
-	var $_PHPSHOP_ADMIN_CFG_ADMINPATH_EXPLAIN = 'Het pad naar de VirtueMart component folder.';
-	var $_PHPSHOP_ADMIN_CFG_CLASSPATH = 'CLASSPATH';
-	var $_PHPSHOP_ADMIN_CFG_CLASSPATH_EXPLAIN = 'Het pad naar de VirtueMart classes folder.';
-	var $_PHPSHOP_ADMIN_CFG_PAGEPATH = 'PAGEPATH';
-	var $_PHPSHOP_ADMIN_CFG_PAGEPATH_EXPLAIN = 'Het pad naar de VirtueMart html folder.';
-	var $_PHPSHOP_ADMIN_CFG_IMAGEPATH = 'IMAGEPATH';
-	var $_PHPSHOP_ADMIN_CFG_IMAGEPATH_EXPLAIN = 'Het pad naar de VirtueMart shop_image folder.';
 	var $_PHPSHOP_ADMIN_CFG_HOMEPAGE = 'HOMEPAGE';
 	var $_PHPSHOP_ADMIN_CFG_HOMEPAGE_EXPLAIN = 'Dit is de pagina die standaard geladen wordt.';
 	var $_PHPSHOP_ADMIN_CFG_ERRORPAGE = 'ERRORPAGE';
@@ -899,52 +886,45 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_PRODUCTS_PER_ROW_EXPLAIN = 'Dit definieerd het standaard aantal producten in een rij. <br />Bijvoorbeeld: Als het aantal op 4 staat, dan laat het categorie sjabloon 4 producten per rij zien';
 	var $_PHPSHOP_ADMIN_CFG_NOIMAGEPAGE = '"geen afbeelding" afbeelding';
 	var $_PHPSHOP_ADMIN_CFG_NOIMAGEPAGE_EXPLAIN = 'Deze afbeelding wordt weergegeven als er geen product afbeelding beschikbaar is.';
-	var $_PHPSHOP_ADMIN_CFG_SEARCHROWS = 'SEARCH ROWS';
-	var $_PHPSHOP_ADMIN_CFG_SEARCHROWS_EXPLAIN = 'Bepaalt het aantal rijen per pagina wanneer de zoekresultaten worden weergegen in een lijst.';
-	var $_PHPSHOP_ADMIN_CFG_SEARCHCOLOR1 = 'SEARCH COLOR 1';
-	var $_PHPSHOP_ADMIN_CFG_SEARCHCOLOR1_EXPLAIN = 'Geeft de kleur aan van de oneven rijen in een resultaten lijst.';
-	var $_PHPSHOP_ADMIN_CFG_SEARCHCOLOR2 = 'SEARCH COLOR 2';
-	var $_PHPSHOP_ADMIN_CFG_SEARCHCOLOR2_EXPLAIN = 'Geeft de kleur aan van de even rijen in een resultaten lijst.';
-	var $_PHPSHOP_ADMIN_CFG_MAXIMUMROWS = 'MAXIMUM ROWS';
 	var $_PHPSHOP_ADMIN_CFG_MAXIMUMROWS_EXPLAIN = 'Bepaald het aantal rijen die getoond worden in het bestellingslijst selectie scherm.';
 	var $_PHPSHOP_ADMIN_CFG_SHOWPHPSHOP_VERSION = 'Toon voettekst';
 	var $_PHPSHOP_ADMIN_CFG_SHOWPHPSHOP_VERSION_EXPLAIN = 'Toont een powered-by-VirtueMart voettekst afbeelding.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD = 'Kies de verzendingsmethode van Uw winkel';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD = 'Kies de verzendingsmethode van uw winkel';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_STANDARD = 'Standaard Verzendings module met individueel geconfigureerde bedrijven en tarieven. <strong>AANBEVOLEN !</strong>';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_ZONE = 'Zone Verzendings Module Landen Versie 1.0<br />Voor meer informatie over deze module bezoek je best <a href="http://ZephWare.com">http://ZephWare.com</a><br />voor details of contact <a href="mailto:zephware@devcompany.com">ZephWare.com</a><br /> Selecteer dit om de zone verzendingsmodule te activeren';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS = '<a href="http://www.ups.com" target="_blank">UPS Online Tools</a> Shipping calculation';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_ACCESS_CODE = 'UPS toegangs code';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_ACCESS_CODE_EXPLAIN = 'Uw UPS toegangs code';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_ACCESS_CODE_EXPLAIN = 'uw UPS toegangs code';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_USER_ID = 'UPS gebruikersnaam';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_USER_ID_EXPLAIN = 'De gebruikersnaam die U van UPS gekregen heeft';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_USER_ID_EXPLAIN = 'De gebruikersnaam die u van UPS gekregen heeft';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_PASSWORD = 'UPS wachtwoord';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_PASSWORD_EXPLAIN = 'Het wachtwoord voor Uw UPS account';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER = 'InterShipper Module. Alleen kiezen als U een <a href="http://www.intershipper.com" target="_blank">Intershipper.com</a> account heeft.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_DISABLE = 'Schakel Verzendmethode uit. Kies dit als u alleen goederen verkoopt die niet verscheept hoeven te worden.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_PASSWORD_EXPLAIN = 'Het wachtwoord voor uw UPS account';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER = 'InterShipper Module. Alleen kiezen als u een <a href="http://www.intershipper.com" target="_blank">Intershipper.com</a> account heeft.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_DISABLE = 'Schakel verzendmethode uit. Kies dit als u alleen goederen verkoopt die niet verscheept hoeven te worden.';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_PASSWORD = 'InterShipper Wachtwoord';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_PASSWORD_EXPLAIN = 'Het wachtwoord van Uw InterShipper account';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_PASSWORD_EXPLAIN = 'Het wachtwoord van uw InterShipper account';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_EMAIL = 'InterShipper e-mail';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_EMAIL_EXPLAIN = 'Uw e-mail adres voor uw InterShipper account';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_EMAIL_EXPLAIN = 'uw e-mail adres voor uw InterShipper account';
 	var $_PHPSHOP_ADMIN_CFG_STORE_ENCODEKEY = 'ENCODE KEY';
 	var $_PHPSHOP_ADMIN_CFG_STORE_ENCODEKEY_EXPLAIN = 'Wordt gebruikt om data die wordt opgeslagen in de database te vergrendelen met deze sleutel. Dit betekent dat dit bestand ten alle tijden beschermd moet zijn tegen lezen.';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_CHECKOUTBAR = 'Activeer de afreken balk';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_CHECKOUTBAR_EXPLAIN = 'Activeer dit, indien de \'afreken-balk\' getoond moet worden aan de klant tijdens de afreken procedure ( 1 - 2 - 3 - 4 met afbeeldingen).';
 	var $_PHPSHOP_ADMIN_CFG_CHECKOUT_PROCESS = 'Kies uw winkel\'s afreken procedure';
 	var $_PHPSHOP_ADMIN_CFG_CHECKOUT_PROCESS_STANDARD = '<strong>Standaard :</strong><br/>
-               1. Verzoek verzendings adres<br />
-              2. Verzoek verzendings methode<br />
-              3. Verzoek betalings methode<br />
+               1. Verzoek verzendingsadres<br />
+              2. Verzoek verzendingsmethode<br />
+              3. Verzoek betalingsmethode<br />
               4. Bevestig bestelling';
 	var $_PHPSHOP_ADMIN_CFG_CHECKOUT_PROCESS_2 = '<strong>Procedure 2:</strong><br/>
-               1. Verzoek verzendings adres<br />
-              2. Verzoek betalings methode<br />
+               1. Verzoek verzendingsadres<br />
+              2. Verzoek betalingsmethode<br />
               3. Bevestig bestelling';
 	var $_PHPSHOP_ADMIN_CFG_CHECKOUT_PROCESS_3 = '<strong>Procedure 3:</strong><br/>
-               1. Verzoek verzendings methode<br />
-              2. Verzoek betalings methode<br />
+               1. Verzoek verzendingsmethode<br />
+              2. Verzoek betalingsmethode<br />
               3. Bevestig bestelling';
 	var $_PHPSHOP_ADMIN_CFG_CHECKOUT_PROCESS_4 = '<strong>Procedure 4:</strong><br/>
-               1. Verzoek betalings methode<br />
+               1. Verzoek betalingsmethode<br />
               2. Bevestig bestelling';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_DOWNLOADS = 'Downloads Toestaan';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_DOWNLOADS_EXPLAIN = 'Kies deze optie om de download mogelijkheden te activeren. Alleen als u artikelen verkoopt die te downloaden zijn.';
@@ -954,38 +934,38 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_ORDER_DISABLE_DOWNLOADS_EXPLAIN = 'Selecteer de order status die er voor zorgt dat de download voor de klant niet toegelaten is.';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOADROOT = 'DOWNLOADROOT';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOADROOT_EXPLAIN = 'Het fysische pad naar de bestanden voor de klanten download. (gevolgd door een slash op het einde!<br>
-        <span class="message">Voor de veiligheid van Uw winkel: Indien mogelijk gebruik een directorie BUITEN DE ROOT VAN DE WEBSITE</span>';
+        <span class="message">Voor de veiligheid van uw winkel: Indien mogelijk gebruik een directorie BUITEN DE ROOT VAN DE WEBSITE</span>';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_MAX = 'Maximaal aantal downloads';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_MAX_EXPLAIN = 'Dit is het aantal maal een download kan gebeuren met dezelfde Download-ID, (voor 1 bestelling)';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE = 'Verlooptijd Download';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE_EXPLAIN = 'Dit zet de tijd <strong>in seconden</strong> gedurende dewelke de download mogelijk is voor de klant. 
   Deze tijd begint te lopen na de eerste download! Wanneer de tijd is verlopen dan wordt het download-ID uitgeschakelt.<br />Opmerking : 86400 sec. = 24 uur.';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYPAL = 'Betaling via PayPal toelaten?';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYPAL_EXPLAIN = 'Aanvinken om Uw klanten toe te laten te betalen via PayPal.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYPAL_EXPLAIN = 'Aanvinken om uw klanten toe te laten te betalen via PayPal.';
 	var $_PHPSHOP_ADMIN_CFG_PAYPAL_EMAIL = 'PayPal e-mail:';
-	var $_PHPSHOP_ADMIN_CFG_PAYPAL_EMAIL_EXPLAIN = 'Het e-mail adres dat U gebruikt voor PayPal betalingen.Dit adres wordt ook gebruikt als ontvanger_email.';
+	var $_PHPSHOP_ADMIN_CFG_PAYPAL_EMAIL_EXPLAIN = 'Het e-mail adres dat u gebruikt voor PayPal betalingen.Dit adres wordt ook gebruikt als ontvanger_email.';
 	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS = 'Order status voor succesvolle transacties';
-	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS_EXPLAIN = 'Selecteer de order status die de bestelling krijgt nar een succesvolle PayPal betaling. Indien U downloadable producten gebruikt: selecteer de status die de download toelaat (de klant wordt onmiddelijk op de hoogte gebracht via e-mail.';
+	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS_EXPLAIN = 'Selecteer de order status die de bestelling krijgt nar een succesvolle PayPal betaling. Indien u downloadable producten gebruikt: selecteer de status die de download toelaat (de klant wordt onmiddelijk op de hoogte gebracht via e-mail.';
 	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED = 'Order status voor mislukte PayPal transacties';
 	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED_EXPLAIN = 'Selecteer de order status voor mislukte PayPal transacties';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYMATE = 'Betaling via PayMate toelaten?';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYMATE_EXPLAIN = 'Aanvinken om Uw klanten toe te laten te betalen via het Australische PayMate systeem.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYMATE_EXPLAIN = 'Aanvinken om uw klanten toe te laten te betalen via het Australische PayMate systeem.';
 	var $_PHPSHOP_ADMIN_CFG_PAYMATE_USERNAME = 'PayMate gebruikersnaam:';
-	var $_PHPSHOP_ADMIN_CFG_PAYMATE_USERNAME_EXPLAIN = 'Uw gebruikersaccount voor PayMate.';
+	var $_PHPSHOP_ADMIN_CFG_PAYMATE_USERNAME_EXPLAIN = 'uw gebruikersaccount voor PayMate.';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET = 'Betaling via Authorize.net toelaten?';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_EXPLAIN = 'Aanvinken om Uw klanten toe te laten te betalen via het Authorize.net';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_EXPLAIN = 'Aanvinken om uw klanten toe te laten te betalen via het Authorize.net';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_TESTMODE = 'Test mode ?';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_TESTMODE_EXPLAIN = 'Selecteer \'Ja\' om te testen. Selecteer \'Nee\' om live transacties toe te laten.';
 	var $_PHPSHOP_ADMIN_CFG_YES = 'Ja';
 	var $_PHPSHOP_ADMIN_CFG_NO = 'Nee';
 	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_USERNAME = 'Authorize.net Login Id';
-	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_USERNAME_EXPLAIN = 'Dit is Uw Authorize.Net login ID';
+	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_USERNAME_EXPLAIN = 'Dit is uw Authorize.Net login ID';
 	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_KEY = 'Authorize.net Transaction Key';
-	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_KEY_EXPLAIN = 'Dit is Uw  Authorize.net Transaction Key';
+	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_KEY_EXPLAIN = 'Dit is uw  Authorize.net Transaction Key';
 	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_AUTENTICATIONTYPE = 'Authenticatie Type';
 	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_AUTENTICATIONTYPE_EXPLAIN = 'Dit is het Authorize.Net authenticatie type';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_CYBERCASH = 'CyberCash toelaten?';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_CYBERCASH_EXPLAIN = 'Aanvinken om Uw klanten toe te laten te betalen via het CyberCash';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_CYBERCASH_EXPLAIN = 'Aanvinken om uw klanten toe te laten te betalen via het CyberCash';
 	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_MERCHAND = 'CyberCash VERKOPER';
 	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_MERCHAND_EXPLAIN = 'De CC_MERCHANT is het CyberCash Verkopers ID';
 	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_MERCHAND_KEY = 'CyberCash Verkoper Key';
@@ -1005,7 +985,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_SEARCH_TEXT1 = 'De eerste drop-down-lijst geeft u de mogelijkheid om een categorie te selecteren waarin u wilt zoeken. 
         Met de tweede drop-down-lijst kunt u aangeven in welke product informatie u wilt zoeken (bv. Naam). 
         Wanneer u een keuze genaakt heeft (of het bij de standaard ALLES laat), vult u een zoekwoord in.';
-	var $_PHPSHOP_SEARCH_TEXT2 = 'U kunt u zoek aktie nog verder verfijnen door een extra zoekwoord toe te voegen en een keuze te maken uit de EN of NIET operator. 
+	var $_PHPSHOP_SEARCH_TEXT2 = 'u kunt u zoek aktie nog verder verfijnen door een extra zoekwoord toe te voegen en een keuze te maken uit de EN of NIET operator. 
         Selecteren van EN houdt in dat beide woorden aanwezig moeten zijn voordat een product gevonden wordt. 
         Selecteren van NIET houdt in dat alleen producten getoont worden waar het eerste zoekwoord zich in bevind en het tweede zoekwoord niet.';
 	var $_PHPSHOP_ORDERBY = 'Sorteer op';
@@ -1017,7 +997,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_REVIEWS = 'Klant recensies';
 	var $_PHPSHOP_NO_REVIEWS = 'Er zijn nog geen recensies geschreven voor dit product.';
 	var $_PHPSHOP_WRITE_FIRST_REVIEW = 'Wees de eerste om een recensie te schrijven...';
-	var $_PHPSHOP_REVIEW_LOGIN = 'Gelieve U aan te melden om een recensie te schrijven.';
+	var $_PHPSHOP_REVIEW_LOGIN = 'Gelieve u aan te melden om een recensie te schrijven.';
 	var $_PHPSHOP_REVIEW_ERR_RATE = 'Geeft u een waardering voor dit produkt om uw recensie te voltooien!';
 	var $_PHPSHOP_REVIEW_ERR_COMMENT1 = 'Schrijf a.u.b. een langere recensie. Mininum aantal tekens vereist: 100';
 	var $_PHPSHOP_REVIEW_ERR_COMMENT2 = 'Schrijf a.u.b. een kortere recensie. Maximum aantal tekens toegestaan: 2000';
@@ -1026,22 +1006,22 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_REVIEW_COMMENT = 'Stap 2: Schrijf een (korte) recensie....(minimaal 100, maximaal 2000 tekens)';
 	var $_PHPSHOP_REVIEW_COUNT = 'Aantal geschreven tekens: ';
 	var $_PHPSHOP_REVIEW_SUBMIT = 'Verstuur Recensie';
-	var $_PHPSHOP_REVIEW_ALREADYDONE = 'U heeft reeds een recensie geschreven voor dit product. Dank u wel.';
+	var $_PHPSHOP_REVIEW_ALREADYDONE = 'u heeft reeds een recensie geschreven voor dit product. Dank u wel.';
 	var $_PHPSHOP_REVIEW_THANKYOU = 'Bedankt voor uw recensie.';
 	var $_PHPSHOP_COMMENT = 'Commentaar';
-	var $_PHPSHOP_CREDITCARD_FORM_LBL = 'Toevoegen/Wijzigen Kredietkaart Types';
-	var $_PHPSHOP_CREDITCARD_NAME = 'Kredietkaartnaam';
-	var $_PHPSHOP_CREDITCARD_CODE = 'Kredietkaart - Afkorting';
-	var $_PHPSHOP_CREDITCARD_TYPE = 'Kredietkaart Type';
-	var $_PHPSHOP_CREDITCARD_LIST_LBL = 'Kredietkaart lijst';
+	var $_PHPSHOP_CREDITCARD_FORM_LBL = 'Toevoegen/Wijzigen creditcard Types';
+	var $_PHPSHOP_CREDITCARD_NAME = 'Creditcardnaam';
+	var $_PHPSHOP_CREDITCARD_CODE = 'Creditcard - Afkorting';
+	var $_PHPSHOP_CREDITCARD_TYPE = 'Creditcard Type';
+	var $_PHPSHOP_CREDITCARD_LIST_LBL = 'Creditcard lijst';
 	var $_PHPSHOP_UDATE_ADDRESS = 'Adres Bijwerken';
 	var $_PHPSHOP_CONTINUE_SHOPPING = 'Verder Winkelen';
-	var $_PHPSHOP_THANKYOU_SUCCESS = 'Uw bestelling is succesvol geplaatst';
+	var $_PHPSHOP_THANKYOU_SUCCESS = 'uw bestelling is succesvol geplaatst';
 	var $_PHPSHOP_ORDER_LINK = 'Klik hier om de details van uw bestelling te zien.';
 	var $_PHPSHOP_ORDER_STATUS_CHANGE_SEND_MSG_1 = 'De status van uw order nr. {order_id} is gewijzigd.';
 	var $_PHPSHOP_ORDER_STATUS_CHANGE_SEND_MSG_2 = 'De nieuwe status is:';
 	var $_PHPSHOP_ORDER_STATUS_CHANGE_SEND_MSG_3 = 'Om de details van uw bestelling te zien, klik hier (of kopieer het in uw browser):';
-	var $_PHPSHOP_ORDER_STATUS_CHANGE_SEND_SUBJ = 'Bestelling status wijziging: Uw bestelling {order_id}';
+	var $_PHPSHOP_ORDER_STATUS_CHANGE_SEND_SUBJ = 'Bestelling status wijziging: uw bestelling {order_id}';
 	var $_PHPSHOP_ORDER_LIST_NOTIFY = 'Klant informeren?';
 	var $_PHPSHOP_ORDER_LIST_NOTIFY_ERR = 'Wijzig eerst de status van de bestelling!';
 	var $_PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT = 'Prijs Korting op standaard Klant Groep (in %)';
@@ -1059,12 +1039,12 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_DISCOUNT_STARTDATE_TIP = 'Geef de dag waarop de korting begint';
 	var $_PHPSHOP_PRODUCT_DISCOUNT_ENDDATE = 'Eind datum van de korting';
 	var $_PHPSHOP_PRODUCT_DISCOUNT_ENDDATE_TIP = 'Geef de dag waarop de korting eindigt';
-	var $_PHPSHOP_PRODUCT_DISCOUNT_ADDDISCOUNT_TIP = 'U kan het Product Kortings Formulier gebruiken om kortingen toe te voegen.!';
-	var $_PHPSHOP_PRODUCT_DISCOUNT_SAVE = 'U bespaart';
+	var $_PHPSHOP_PRODUCT_DISCOUNT_ADDDISCOUNT_TIP = 'u kan het Product Kortings Formulier gebruiken om kortingen toe te voegen.!';
+	var $_PHPSHOP_PRODUCT_DISCOUNT_SAVE = 'u bespaart';
 	var $_PHPSHOP_FLYPAGE_ENLARGE_IMAGE = 'Bekijk grote afbeelding';
 	var $_PHPSHOP_CURRENCY_DISPLAY = 'Valuta Weergave Stijl';
 	var $_PHPSHOP_CURRENCY_SYMBOL = 'Valuta symbool';
-	var $_PHPSHOP_CURRENCY_SYMBOL_TOOLTIP = 'U kunt ook HTML Entities gebruiken (e.g. €,£,¥,...)';
+	var $_PHPSHOP_CURRENCY_SYMBOL_TOOLTIP = 'u kunt ook HTML Entities gebruiken (e.g. €,£,¥,...)';
 	var $_PHPSHOP_CURRENCY_DECIMALS = 'Decimalen';
 	var $_PHPSHOP_CURRENCY_DECIMALS_TOOLTIP = 'Aantal getoonde decimalen (mag 0 zijn)<br><b>Wordt afgerond wanneer getal is ingegeven met een ander aantal decimalen</b>';
 	var $_PHPSHOP_CURRENCY_DECIMALSYMBOL = 'Decimaal symbool';
@@ -1119,11 +1099,11 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_FILES_NOT_FOUND = 'Sorry, maar het gevraagde bestand is niet gevonden!';
 	var $_PHPSHOP_IMAGE_NOT_FOUND = 'Afbeedling niet gevonden!';
 	var $_PHPSHOP_COUPON_MOD = 'Kortingsbon';
-	var $_PHPSHOP_COUPONS = 'Kortingsbons';
+	var $_PHPSHOP_COUPONS = 'Kortingsbonnen';
 	var $_PHPSHOP_COUPON_LIST = 'Kortingbon Lijst';
 	var $_PHPSHOP_COUPON_ALREADY_REDEEMED = 'Kortingsbon is al een keer gebruikt.';
 	var $_PHPSHOP_COUPON_REDEEMED = 'Kortingsbon ingediend! Bedankt.';
-	var $_PHPSHOP_COUPON_ENTER_HERE = 'Heeft U een kortingscode, vul hem hieronder in:';
+	var $_PHPSHOP_COUPON_ENTER_HERE = 'Heeft u een kortingscode, vul hem hieronder in:';
 	var $_PHPSHOP_COUPON_SUBMIT_BUTTON = 'Verzend';
 	var $_PHPSHOP_COUPON_CODE_EXISTS = 'Die kortingscode bestaat reeds. Probeer het nog een keer.';
 	var $_PHPSHOP_COUPON_EDIT_HEADER = 'Kortingsbon Updaten';
@@ -1136,7 +1116,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_COUPON_TYPE_PERMANENT = 'Permanente Kortingsbon';
 	var $_PHPSHOP_COUPON_VALUE_HEADER = 'Waarde';
 	var $_PHPSHOP_COUPON_DELETE_BUTTON = 'Verwijder code';
-	var $_PHPSHOP_COUPON_CONFIRM_DELETE = 'Weet U zeker dat U deze kortingscode wenst te verwijderen?';
+	var $_PHPSHOP_COUPON_CONFIRM_DELETE = 'Weet u zeker dat u deze kortingscode wenst te verwijderen?';
 	var $_PHPSHOP_COUPON_COMPLETE_ALL_FIELDS = 'Alle velden moeten ingevuld wijn.';
 	var $_PHPSHOP_COUPON_VALUE_NOT_NUMBER = 'Kortingsbon waarde moet een getal zijn.';
 	var $_PHPSHOP_COUPON_NEW_HEADER = 'Nieuwe kortingsbon';
@@ -1156,25 +1136,25 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_FREE_SHIPPING_AMOUNT_TOOLTIP = 'Het bedrag (INCL. BTW!) vanwaar geen verzendkosten worden berekend 
                                                 (bijvoorbeeld: <strong>50</strong> betekent geen verzendkosten wanneer een klant een bestelling plaatst
                                                 van € 50 (incl. BTW) of meer.';
-	var $_PHPSHOP_YOUR_STORE = 'Uw winkel';
+	var $_PHPSHOP_YOUR_STORE = 'uw winkel';
 	var $_PHPSHOP_CONTROL_PANEL = 'Controle Paneel';
 	var $_PHPSHOP_ADMIN_CFG_PDF_BUTTON = 'PDF - knop';
 	var $_PHPSHOP_ADMIN_CFG_PDF_BUTTON_EXPLAIN = 'De PDF - knop aan- of uitzetten in de winkel';
 	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS_ONORDER = 'Moet akkoord gaan met de leveringsvoorwaarden bij elke bestelling?';
-	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS_ONORDER_EXPLAIN = 'Aanvinken als U wenst dat de klant akkoord moet gaan met de leveringsvoorwaarden bij ELKE bestelling (voor de order geplaatst wordt).';
+	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS_ONORDER_EXPLAIN = 'Aanvinken als u wenst dat de klant akkoord moet gaan met de leveringsvoorwaarden bij ELKE bestelling (voor de order geplaatst wordt).';
 	var $_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE = 'Bankrekening Type';
 	var $_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE_CHECKING = 'Zichtrekening';
 	var $_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE_BUSINESSCHECKING = 'Zichtrekening';
 	var $_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE_SAVINGS = 'Spaarrekening';
 	var $_PHPSHOP_PAYMENT_AN_RECURRING = 'Terugkerende betalingen?';
-	var $_PHPSHOP_PAYMENT_AN_RECURRING_TOOLTIP = 'Definieer of U terugkerende betalingen toelaat.';
+	var $_PHPSHOP_PAYMENT_AN_RECURRING_TOOLTIP = 'Definieer of u terugkerende betalingen toelaat.';
 	var $_PHPSHOP_INTERNAL_ERROR = 'Interne Error tijdens het verwerken voor de Request naar';
 	var $_PHPSHOP_PAYMENT_ERROR = 'Fout in het verwerken van de betaling';
 	var $_PHPSHOP_PAYMENT_TRANSACTION_SUCCESS = 'Betaling succesvol verwerkt.';
 	var $_PHPSHOP_UPS_RESPONSE_ERROR = 'UPS was niet in staat de Verzending te verwerken';
 	var $_PHPSHOP_UPS_SHIPPING_GUARANTEED_DAYS = 'Gegarendeerde levering binnen (dagen)';
 	var $_PHPSHOP_UPS_PICKUP_METHOD = 'UPS Pickup Methode';
-	var $_PHPSHOP_UPS_PICKUP_METHOD_TOOLTIP = 'Hoe geeft U pakjes aan UPS?';
+	var $_PHPSHOP_UPS_PICKUP_METHOD_TOOLTIP = 'Hoe geeft u pakjes aan UPS?';
 	var $_PHPSHOP_UPS_PACKAGE_TYPE = 'UPS Verpakking?';
 	var $_PHPSHOP_UPS_PACKAGE_TYPE_TOOLTIP = 'Selecteer de standaard verpakkingswijze';
 	var $_PHPSHOP_UPS_TYPE_RESIDENTIAL = 'Residentiele Aflevering?';
@@ -1182,25 +1162,25 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_UPS_COMMERCIAL = 'Commerciele aflevering  (COM)';
 	var $_PHPSHOP_UPS_RESIDENTIAL_TOOLTIP = 'Prijsopgave voor Residentiele (RES) en commerciele (COM) aflevering .';
 	var $_PHPSHOP_UPS_HANDLING_FEE = 'Behandelings kost';
-	var $_PHPSHOP_UPS_HANDLING_FEE_TOOLTIP = 'De behandelings kost voor de door U geselecteerde verzendingsmethode.';
+	var $_PHPSHOP_UPS_HANDLING_FEE_TOOLTIP = 'De behandelings kost voor de door u geselecteerde verzendingsmethode.';
 	var $_PHPSHOP_UPS_TAX_CLASS = 'Belastings Klasse';
-	var $_PHPSHOP_UPS_TAX_CLASS_TOOLTIP = 'Gebruik de volgende belastings klasse voor de verzendigsprijs.';
+	var $_PHPSHOP_UPS_TAX_CLASS_TOOLTIP = 'Gebruik de volgende belastingsklasse voor de verzendigsprijs.';
 	var $_PHPSHOP_ERROR_CODE = 'Fout Code';
 	var $_PHPSHOP_ERROR_DESC = 'Fout Beschrijving';
 	var $_PHPSHOP_CHANGE_TRANSACTION_KEY = 'Toon / Wijzig de Transactie Sleutel';
-	var $_PHPSHOP_CHANGE_PASSKEY_FORM = 'Toon/ Wijzig  passwoord/Transacite Sleutel';
-	var $_PHPSHOP_TYPE_PASSWORD = 'Typ a.u.b. Uw paswoord in';
-	var $_PHPSHOP_CURRENT_PASSWORD = 'Hudig Paswoord';
+	var $_PHPSHOP_CHANGE_PASSKEY_FORM = 'Toon/ Wijzig  wachtwoord/Transacite Sleutel';
+	var $_PHPSHOP_TYPE_PASSWORD = 'Vul a.u.b. uw wachtwoord in';
+	var $_PHPSHOP_CURRENT_PASSWORD = 'Huidig wachtwoord';
 	var $_PHPSHOP_CURRENT_TRANSACTION_KEY = 'Huidige Transactie Sleutel';
 	var $_PHPSHOP_CHANGE_PASSKEY_SUCCESS = 'De Transactie Sleutel werd succesvol gewijzigd.';
-	var $_PHPSHOP_PAYMENT_CVV2 = 'Vraag de Kredietkaart Code waarde (CVV2/CVC2/CID)';
-	var $_PHPSHOP_PAYMENT_CVV2_TOOLTIP = 'Controleer of er een geldige CVV2/CVC2/CID waarde (3 of 4 cijfers op de achterzijde van een kredietkaart, op de voorzijde bij American Express kaarten)?';
-	var $_PHPSHOP_CUSTOMER_CVV2_TOOLTIP = 'Geef a.u.b. de 3 (of 4) cijfers van de CVV2/CVC2/CID op de achterzijde van uw kredietkaart (American Express kaarten hebben deze code op de voorzijde).';
-	var $_PHPSHOP_CUSTOMER_CVV2_ERROR = 'U moet de Kredietkaart code ingeven om verder te kunnen.';
+	var $_PHPSHOP_PAYMENT_CVV2 = 'Vraag de creditcard Code waarde (CVV2/CVC2/CID)';
+	var $_PHPSHOP_PAYMENT_CVV2_TOOLTIP = 'Controleer of er een geldige CVV2/CVC2/CID waarde (3 of 4 cijfers op de achterzijde van een creditcard, op de voorzijde bij American Express kaarten)?';
+	var $_PHPSHOP_CUSTOMER_CVV2_TOOLTIP = 'Geef a.u.b. de 3 (of 4) cijfers van de CVV2/CVC2/CID op de achterzijde van uw creditcard (American Express kaarten hebben deze code op de voorzijde).';
+	var $_PHPSHOP_CUSTOMER_CVV2_ERROR = 'u moet de creditcard code ingeven om verder te kunnen.';
 	var $_PHPSHOP_PRODUCT_FORM_FILENAME = 'Vul een bestandnaam in';
 	var $_PHPSHOP_PRODUCT_FORM_FILENAME_TOOLTIP = 'Opm.: Hier kunt u een bestandsnaam invullen. <strong>Wanneer u dat doet worden er geen bestanden ge-upload!!! Dit moet u dan doen via FTP!</strong>.';
 	var $_PHPSHOP_PRODUCT_FORM_UPLOAD = 'OF upload een nieuw bestand';
-	var $_PHPSHOP_PRODUCT_FORM_UPLOAD_TOOLTIP = 'U kunt een bestand van uw pc uploaden. Dit is dan het product wat u verkoopt. Een reeds bestaande bestand wordt vervangen.';
+	var $_PHPSHOP_PRODUCT_FORM_UPLOAD_TOOLTIP = 'u kunt een bestand van uw pc uploaden. Dit is dan het product wat u verkoopt. Een reeds bestaande bestand wordt vervangen.';
 	var $_PHPSHOP_PRODUCT_FORM_AVAILABILITY_TOOLTIP1 = 'Type een tekst wat getoond wordt aan de klant op de product flypage.<br />Bijvoorbeeld: 24u, 48 uur , 3 - 5 dagen, Op bestelling.....';
 	var $_PHPSHOP_PRODUCT_FORM_AVAILABILITY_TOOLTIP2 = 'OF selecteer een afbeelding.<br />De afbeeldingen bevinden zich in de directory <i>/components/com_phpshop/shop_image/availability</i><br />';
 	var $_PHPSHOP_PRODUCT_FORM_ATTRIBUTE_LIST = 'Specificatie Lijst';
@@ -1217,23 +1197,23 @@ class vmLanguage extends vmAbstractLanguage {
         <span class="sectionname"><strong>Naam;Extras;</strong>...</span>';
 	var $_PHPSHOP_MULTISELECT = 'Selecteer meerdere door ctrl en muisklik';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN = 'eProceesingNetwork.com gebruiken?';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN_EXPLAIN = 'Aanvinken om Uw klanten toe te laten te betalen via het eProceesingNetwork.com.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN_EXPLAIN = 'Aanvinken om uw klanten toe te laten te betalen via het eProceesingNetwork.com.';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN_TESTMODE = 'Test mode ?';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN_TESTMODE_EXPLAIN = 'Selecteer \'Ja\' om te testen, \'Nee\' voert effectief betalingen uit.';
 	var $_PHPSHOP_ADMIN_CFG_EPN_USERNAME = 'eProcessingNetwork.com Login ID';
-	var $_PHPSHOP_ADMIN_CFG_EPN_USERNAME_EXPLAIN = 'Dit is Uw eProcessingNetwork.com Login ID';
+	var $_PHPSHOP_ADMIN_CFG_EPN_USERNAME_EXPLAIN = 'Dit is uw eProcessingNetwork.com Login ID';
 	var $_PHPSHOP_ADMIN_CFG_EPN_KEY = 'eProcessingNetwork.com Transactie Sleutel';
-	var $_PHPSHOP_ADMIN_CFG_EPN_KEY_EXPLAIN = 'Dit is Uw eProcessingNetwork.com Transactie Sleutel';
+	var $_PHPSHOP_ADMIN_CFG_EPN_KEY_EXPLAIN = 'Dit is uw eProcessingNetwork.com Transactie Sleutel';
 	var $_PHPSHOP_ADMIN_CFG_EPN_AUTENTICATIONTYPE = 'Authenticatie Type';
 	var $_PHPSHOP_ADMIN_CFG_EPN_AUTENTICATIONTYPE_EXPLAIN = 'Dit is het eProcessingNetwork.com authenticatie type.';
 	var $_PHPSHOP_RELATED_PRODUCTS = 'Verwante Producten';
-	var $_PHPSHOP_RELATED_PRODUCTS_TIP = 'U kan met de lijst Product relaties opbouwen. Selecteer een of meer producten hier en dan zijn deze <strong>Verwante Producten</strong>.';
+	var $_PHPSHOP_RELATED_PRODUCTS_TIP = 'u kan met de lijst Product relaties opbouwen. Selecteer een of meer producten hier en dan zijn deze <strong>Verwante Producten</strong>.';
 	var $_PHPSHOP_RELATED_PRODUCTS_HEADING = 'Misschien ook iets voor u';
 	var $_PHPSHOP_IMAGE_ACTION = 'Afbeelding actie';
 	var $_PHPSHOP_NONE = 'niets';
 	var $_PHPSHOP_ORDER_HISTORY = 'Bestelling Historiek';
 	var $_PHPSHOP_ORDER_HISTORY_COMMENT = 'Commentaar';
-	var $_PHPSHOP_ORDER_HISTORY_COMMENT_EMAIL = 'Commentaar bij Uw bestelling';
+	var $_PHPSHOP_ORDER_HISTORY_COMMENT_EMAIL = 'Commentaar bij uw bestelling';
 	var $_PHPSHOP_ORDER_HISTORY_INCLUDE_COMMENT = 'Commentaar toevoegen?';
 	var $_PHPSHOP_ORDER_HISTORY_DATE_ADDED = 'Toegevoegd op Datum';
 	var $_PHPSHOP_ORDER_HISTORY_CUSTOMER_NOTIFIED = 'Klant op de hoogte gebracht?';
@@ -1344,11 +1324,11 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_MULTISELECT = 'Laat Mogelijke Waarden als selectielijst zien?';
 	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_VALUES_DESCRIPTION = '<strong>Indien er Mogelijke Waarden zijn, dan kan de Parameter enkel dze waarden krijgen. Voorbeelden van mogelijke waarden zijns:</strong><BR><span class="sectionname">Staal, Hout,...</span>';
 	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DEFAULT = 'Standaard waarde';
-	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DEFAULT_HELP_TEXT = 'Voor de standaard waarde gebruikt U het volgende formaat:<ul><li>Datum: JJJJ-MM-DD</li><li>Tijd: HH:MM:SS</li><li>Datum & Tijd: JJJJ-MM-DD HH:MM:SS</li></ul>';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DEFAULT_HELP_TEXT = 'Voor de standaard waarde gebruikt u het volgende formaat:<ul><li>Datum: JJJJ-MM-DD</li><li>Tijd: HH:MM:SS</li><li>Datum & Tijd: JJJJ-MM-DD HH:MM:SS</li></ul>';
 	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_UNIT = 'Eenheid';
 	var $_PHPSHOP_PARAMETER_SEARCH = 'Geavanceerd zoeken volgens Parameters';
 	var $_PHPSHOP_ADVANCED_PARAMETER_SEARCH = 'Parameters Zoeken';
-	var $_PHPSHOP_PARAMETER_SEARCH_TEXT1 = 'U kunt producten zoeken m.b.v. van technische parameters?<BR>U kunt elk gewenst formulier gebruiken:';
+	var $_PHPSHOP_PARAMETER_SEARCH_TEXT1 = 'u kunt producten zoeken m.b.v. van technische parameters?<BR>u kunt elk gewenst formulier gebruiken:';
 	var $_PHPSHOP_PARAMETER_SEARCH_NO_PRODUCT_TYPE = 'Er is geen resultaat wat met u zoekopdracht overeen komt.';
 	var $_PHPSHOP_PARAMETER_SEARCH_BAD_PRODUCT_TYPE = 'Er is geen gepubliseerd product type met deze naam.';
 	var $_PHPSHOP_PARAMETER_SEARCH_IS_LIKE = 'Zelfde als';
@@ -1405,7 +1385,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_EXPAND_TREE = 'Expand Tree';
 	var $_PHPSHOP_COLLAPSE_TREE = 'Collapse Tree';
 	var $_PHPSHOP_PRODUCT_FORM_DISCOUNTED_PRICE = 'Verminderde Prijs';
-	var $_PHPSHOP_PRODUCT_FORM_DISCOUNTED_PRICE_TIP = 'Hier kan U een speciale korting geven aan dit product. Deze heeft voorrang over andere kortingstypen (en de laatste worden dus niet gebruikt).<br/>';
+	var $_PHPSHOP_PRODUCT_FORM_DISCOUNTED_PRICE_TIP = 'Hier kan u een speciale korting geven aan dit product. Deze heeft voorrang over andere kortingstypen (en de laatste worden dus niet gebruikt).<br/>';
 	var $_PHPSHOP_CART_PRICE_PER_UNIT = 'Prijs per Eenheid';
 	var $_PHPSHOP_ADMIN_CFG_SHOP_OFFLINE = 'Winkel is offline?';
 	var $_PHPSHOP_ADMIN_CFG_SHOP_OFFLINE_TIP = 'Aangevinkt, zal de winkel een Offline Boodschap tonen';
@@ -1418,7 +1398,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_SHOW_PRODUCT_COUNT_TIP = 'Toont het aantal prodcuten in een bepaalde categorie, bijvoorbeeld Categorie (4)';
 	var $_PHPSHOP_ADMIN_CFG_ADDTOCART_STYLE = 'Aan-winkelwagentje Button Stijl';
 	var $_PHPSHOP_ADMIN_CFG_DYNAMIC_THUMBNAIL_RESIZING = 'Dynamic Thumbnail Resizing aan?';
-	var $_PHPSHOP_ADMIN_CFG_DYNAMIC_THUMBNAIL_RESIZING_TIP = 'Indien aangevinkt dan laat U het dynamische resizen toe van afbeeldingen. Dit betekent dat alle Thumbnail afbeeldingen geresized worden naar het formaat dat hieronder wordt ingegeven, dit door middel van de GD2 functies in PHP.         U kan nakijken of de GD2 functies beschibaar zijn op Uw website door te klikken op "System" -> "System Info" -> "PHP Info" -> gd.   De kwaliteit van de Thumbnail afbeelding is veel beter dan afbeldingen die geresized worden door de browser. De aangemaakte afbeeldoingen worden geplaatst in de folder /shop_image/prduct/resized. Indien er reeds een thumbnail is aangemaakt dan wordt er geen meer aangemaakt.';
+	var $_PHPSHOP_ADMIN_CFG_DYNAMIC_THUMBNAIL_RESIZING_TIP = 'Indien aangevinkt dan laat u het dynamische resizen toe van afbeeldingen. Dit betekent dat alle Thumbnail afbeeldingen geresized worden naar het formaat dat hieronder wordt ingegeven, dit door middel van de GD2 functies in PHP.         u kan nakijken of de GD2 functies beschibaar zijn op uw website door te klikken op "System" -> "System Info" -> "PHP Info" -> gd.   De kwaliteit van de Thumbnail afbeelding is veel beter dan afbeldingen die geresized worden door de browser. De aangemaakte afbeeldoingen worden geplaatst in de folder /shop_image/prduct/resized. Indien er reeds een thumbnail is aangemaakt dan wordt er geen meer aangemaakt.';
 	var $_PHPSHOP_ADMIN_CFG_THUMBNAIL_WIDTH = 'Breedte Thumbnail Afbeelding';
 	var $_PHPSHOP_ADMIN_CFG_THUMBNAIL_WIDTH_TIP = 'De <strong>breedte</strong> van de geresizede Thumbnail Afbeelding.';
 	var $_PHPSHOP_ADMIN_CFG_THUMBNAIL_HEIGHT = 'Hoogte Thumbnail Afbeelding';
@@ -1443,11 +1423,11 @@ Wanneer niet aangevinkt dan is de prijslabel zoals gewoonlijk <strong>Prijs: $xx
 	var $_PHPSHOP_ADMIN_CFG_ALLOW_REGISTRATION = 'Gebruiker registratie toestaan?';
 	var $_PHPSHOP_ADMIN_CFG_ACCOUNT_ACTIVATION = 'Nieuwe gebruiker activatie nodig?';
 	var $_PHPSHOP_ADMIN_CFG_SILENT_REGISTRATION = 'Gebruik verborgen gebruiker registratie?';
-	var $_PHPSHOP_ADMIN_CFG_SILENT_REGISTRATION_TIP = 'Wanneer geselecteerd dan hoeven de gebruikers geen gebruikersnaam en paswoord in te geven voor een nieuwe account. Het e-mail adres wordt gebruikt voor de nieuwe gebruiker en een random paswoord wordt gegenereerd. De registratie details worden verzonden naar de klant.';
+	var $_PHPSHOP_ADMIN_CFG_SILENT_REGISTRATION_TIP = 'Wanneer dit selecteerd dan hoeven de gebruikers geen gebruikersnaam en wachtwoord in te geven voor een nieuwe account. Het e-mail adres wordt gebruikt voor de nieuwe gebruiker en een random wachtwoord wordt gegenereerd. De registratie details worden verzonden naar de klant.';
 	var $_PHPSHOP_USER_SEND_REGISTRATION_DETAILS = 'Hallo %s,
 
-Dank U om te registeren bij %s. Uw gebruikers account is net gecreëerd.
-U kan zich aanmelden bij %s door gebruik te maken van de volgende gebruikersnaam en wachtwoord:
+Dank u om te registeren bij %s. Uw gebruikersaccount is net gecreëerd.
+u kan zich aanmelden bij %s door gebruik te maken van de volgende gebruikersnaam en wachtwoord:
 
 Gebruikersnaam - %s
 Wachtwoord - %s
@@ -1516,7 +1496,6 @@ For more information on cancelling orders and returning items, see the <a href="
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PUBLISH = 'The status if a product is published or not.<br />Values:<ul><li>Y: Yes, the product is published</li><li>N: No, the product is not published</li><li>Empty: Empty value, the product is published.</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_WIDTH = 'The width of the product.<br />Values:<ul><li>Number</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_HEIGHT = 'The height of the product.<br />Values:<ul><li>Number</li></ul>';
-	var $PHPSHOP_CSV_EXPLANATION_PRODUCT_LENGTH = 'The length of the product.<br />Values:<ul><li>Number</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_AVAILABLE_DATE = 'The date a product will become availabable. For import the date should be in the format of day/month/year or day-month-year. On Windows systems the date goes until 19/01/2038.<br />Usage:<ol><li>Add the the name "product_available_date" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with a date value. If the field contains any other value, the data will be ignored.</li></ol><br />Values:<ul><li>Date: day/month/year or day-month-year</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_IN_STOCK = 'The number of articles that you have in stock.<br /><br />Usage:<ol><li>Add the the name "product_in_stock" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with a numeric value. If the field contains any other value, the default value will be used.</li></ol><br />Values:<ul><li>Number</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTE = 'The different choices a product has. Use this to give a product different specifications. For example a t-shirt that comes in different sizes and colours. You can specify the sizes and colours like this: Size,XL[+1.99],M,S[-2.99];Colour,Red,Green,Yellow,ExpensiveColor[=24.00];AndSoOn,..,..<br /><br />You can adjust the prices per attribute by using the following options:<ul><li>+: Add this amount to the configured price.</li><li>-: Subtract this amount from the configured price.</li><li>=: Set the product\\\'s price to this amount.</li></ul><br />Usage:<ol><li>Add the the name "attribute" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the attribute text.</li></ol><br /.>Values:<ul><li>Text: No HTML code allowed.</li></ul>';
@@ -1558,10 +1537,10 @@ For more information on cancelling orders and returning items, see the <a href="
 	var $_CMN_PDF = 'PDF';
 	var $_CMN_EMAIL = 'E-mail';
 	var $_BACK = 'Back';
-	var $_USERNAME = 'Username';
+	var $_USERNAME = 'Gebruikersnaam';
 	var $_PASSWORD = 'Password';
 	var $_BUTTON_LOGIN = 'Login';
-	var $_REGISTER_UNAME = 'Username';
+	var $_REGISTER_UNAME = 'Gebruikersnaam';
 	var $_REGISTER_EMAIL = 'Email';
 	var $_REGWARN_NAME = 'Please enter your name.';
 	var $_REGWARN_UNAME = 'Please enter a user name.';
@@ -1572,9 +1551,9 @@ For more information on cancelling orders and returning items, see the <a href="
 	A new user has registered at %s.
 	This email contains their details:
 	
-	Name - %s
-	e-mail - %s
-	Username - %s
+	Naam - %s
+	E-mail - %s
+	Gebruikersnaam - %s
 	
 	Please do not respond to this message as it is automatically generated and is for information purposes only';
 	var $_REG_COMPLETE = '<div class="componentheading">Registration Complete!</div><br />You may now login.';
@@ -1606,11 +1585,11 @@ To activate the account click on the following link or copy-paste it in your bro
 
 
 
-After activation you may login to %s using the following username and password:
+After activation you may login to %s using the following Gebruikersnaam and password:
 
 
 
-Username - %s
+Gebruikersnaam - %s
 
 Password - %s';
 	var $_USEND_MSG = 'Hello %s,
@@ -1621,7 +1600,7 @@ Thank you for registering at %s.
 
 
 
-You may now login to %s using the username and password you registered with.';
+You may now login to %s using the gebruikersnaam and password you registered with.';
 	var $_PROMPT_PASSWORD = 'Lost your Password?';
 	var $_HI = 'Hi';
 	var $_NEW_USER_MESSAGE_SUBJECT = 'New User Details';
@@ -1635,11 +1614,11 @@ You have been added as a user to %s by an Administrator.
 
 
 
-This email contains your username and password to log into the %s
+This email contains your gebruikersnaam and password to log into the %s
 
 
 
-Username - %s
+Gebruikersnaam - %s
 
 Password - %s
 
@@ -1648,25 +1627,25 @@ Password - %s
 
 
 Please do not respond to this message as it is automatically generated and is for information purposes only';
-	var $_REMEMBER_ME = 'Remember me';
-	var $_REGISTER_TITLE = 'Registration';
-	var $_JAN = 'January';
-	var $_FEB = 'February';
-	var $_MAR = 'March';
-	var $_APR = 'April';
-	var $_MAY = 'May';
-	var $_JUN = 'June';
-	var $_JUL = 'July';
-	var $_AUG = 'August';
-	var $_SEP = 'September';
-	var $_OCT = 'October';
-	var $_NOV = 'November';
-	var $_DEC = 'December';
+	var $_REMEMBER_ME = 'Gegevens ounthouden';
+	var $_REGISTER_TITLE = 'Registratie';
+	var $_JAN = 'januari';
+	var $_FEB = 'februari';
+	var $_MAR = 'maart';
+	var $_APR = 'april';
+	var $_MAY = 'mei';
+	var $_JUN = 'juni';
+	var $_JUL = 'juli';
+	var $_AUG = 'augustus';
+	var $_SEP = 'september';
+	var $_OCT = 'oktober';
+	var $_NOV = 'november';
+	var $_DEC = 'december';
 	var $_PHPSHOP_CSV_VERSION = '0.7';
 	var $_PHPSHOP_CSV_ABOUT = 'About';
-	var $_PHPSHOP_CSV_PRICE_LIST_ONLY = 'Price list upload only';
-	var $_PHPSHOP_CSV_MULTIPLE_PRICES_UPLOAD = 'Multiple prices upload';
-	var $_PHPSHOP_CSV_IMPORT_CONFIG_CSV_FILE = 'Use column headers as configuration';
+	var $_PHPSHOP_CSV_PRICE_LIST_ONLY = 'Alleen deze prijstlijst uploaden';
+	var $_PHPSHOP_CSV_MULTIPLE_PRICES_UPLOAD = 'Meedere prijslijsten uploaden';
+	var $_PHPSHOP_CSV_IMPORT_CONFIG_CSV_FILE = 'Kolomkoppen gebruiken';
 	var $_PHPSHOP_CSV_COLLECT_DEBUG_INFO = 'Collect debug information';
 	var $_PHPSHOP_CSV_SHOW_PREVIEW = 'Show preview';
 	var $_PHPSHOP_CSV_REGULAR_UPLOAD = 'Regular upload';
@@ -1824,7 +1803,7 @@ Please do not respond to this message as it is automatically generated and is fo
 
 													<li><span style="font-weight: bold;">Product type cross reference to product SKU</span><br />
 
-													This CSV file contains the link between a product type and a product SKU and should look like this:
+													This CSV file contains the link between a product type and a product SKu and should look like this:
 
 													<table border="1">
 

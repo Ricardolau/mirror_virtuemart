@@ -33,6 +33,11 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+28.12.2006 soeren
+
+^ Update the language files, removed some errors/typos
+# fixed a security issue in virtuemart_parser.php
+
 27.12.2006 soeren
 # Task #1072 - Wrong Tip! (coupon.coupon_form.php)
 ^ displaying Manufacturer name in the product list instead of the vendor name.

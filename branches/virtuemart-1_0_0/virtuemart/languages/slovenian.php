@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: slovenian.php,v 1.00 WIN1250 2006/12/21 23:11:25 laba_bostjan Exp $
+* @version $Id: admin.martlanguages.php 466 2006-11-07 20:40:22 +0100 (Di, 07 Nov 2006) soeren_nb $
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -12,7 +12,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * is derivative of works licensed under the GNU General Public License or
 * other free or open source software licenses.
 * See /administrator/components/com_virtuemart/COPYRIGHT.php for copyright notices and details.
-* charset=cp-1250 (defined here so that editors recognize encoding) - don't remove this line
+*
 * http://virtuemart.net
 */
 class vmLanguage extends vmAbstractLanguage {
@@ -1022,7 +1022,6 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_SEARCH_TEXT2 = ' Iskanje lahko poglobite z dodatkom druge kljuène besede in izbiro funkcije IN ali NE. 
         Èe izberete IN, morajo podatki izdelka vsebovati obe besedi, da bo prikazan. 
         Èe izberete IN, morajo podatki izdelka vsebovati prvo besedo, druge pa ne, da bo izdelek prikazan.';
-
 	var $_PHPSHOP_ORDERBY = 'Uredi po';
 	var $_PHPSHOP_CUSTOMER_RATING = 'Povreèna ocena strank';
 	var $_PHPSHOP_TOTAL_VOTES = 'Skupno št. glasov';
@@ -1261,13 +1260,12 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SERVER_TOOLTIP = 'Strežnik transporta USPS';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PATH = 'Pot transporta USPS';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PATH_TOOLTIP = 'Pot transporta USPS';
-	
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGESIZE = 'Velikost paketa USPS';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGESIZE_TOOLTIP = 'Velikost paketa USPS';
 	var $_PHPSHOP_USPS_PADDING = 'Odstotek dodatne obtežitve paketa. (Vkljuèi %)';
 	var $_PHPSHOP_USPS_PADDING_TOOLTIP = 'Nastavite odstotek dodatne teže oblog za zašèito paketa med transportom. Èe uporabljate to možnost, lahko nastavitvah predmetov vnesete dejansko težo predmeta .  Obvezna je uporaba oznake %.  Na primer: 15%';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_HANDLING_FEE = 'Manipulacijska tarifa';
-        var $_PHPSHOP_USPS_HANDLING_FEE = 'Manipulacijska tarifa za to vrsto transporta.';
+	var $_PHPSHOP_USPS_HANDLING_FEE = 'Manipulacijska tarifa za to vrsto transporta.';
 	var $_PHPSHOP_USPS_HANDLING_FEE_TOOLTIP = 'Manipulacijska tarifa za to vrsto transporta.';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLHANDLINGFEE = 'Mednarodna manipulacijska tarifa za USPS pošiljke.';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLHANDLINGFEE_TOOLTIP = 'Mednarodna manipulacijska tarifa za USPS pošiljke.';
@@ -1535,43 +1533,13 @@ Veè informacij o preklicu naroèil in vraèilu izdelkov poišèite na strani <a href
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PUBLISH = 'Stanje, ki opisuje, ali je izdelek objavljen.<br />Vrednosti:<ul><li>Y: Da, izdelek je objavljen</li><li>N: Ne, izdelek ni objavljen</li><li>Prazno: Prazno polje, izdelek je objavljen.</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_WIDTH = 'Širina izdelka.<br />Vrednosti:<ul><li>Število</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_HEIGHT = 'Višina izdelka.<br />Vrednosti:<ul><li>Število</li></ul>';
-	var $PHPSHOP_CSV_EXPLANATION_PRODUCT_LENGTH = 'Dolžina izdelka.<br />Vrednosti:<ul><li>Število</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_AVAILABLE_DATE = 'Datum, ko bo izdelek na voljo. Zaradi uvoza podatkov mora biti datum v obliki dan/mesec/leto ali dan-mesec-leto. V okoljih Windows je zadnji mogoèi datum 19/01/2038.<br />Uporaba:<ol><li>Na nastavitveni strani dodajte ime "product_available_date". Ime mora biti napisano z malimi èrkami.</li><li>V CSV datoteko dodajte stolpec z vrednostmi datuma. Èe polje vsebuje druge podatke, ti ne bodo upoštevani.</li></ol><br />Vrednosti:<ul><li>Datum: dan/mesec/leto ali dan-mesec-leto</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_IN_STOCK = 'Število kosov na zalogi.<br /><br />Uporaba:<ol><li>Na nastavitveni strani dodajte ime "product_in_stock". Ime mora biti napisano z malimi èrkami.</li><li>V CSV datoteko dodajte stolpec s številènimi vrednostmi. Èe polje vsebuje druge podatke, bo uporabljena privzeta vrednost.</li></ol><br />Vrednosti:<ul><li>Število</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTE = 'Možnosti, ki so na voljo pri izdelku. To polje uporabite za razliène lastnosti. Na primer, oblaèila so razliènih velikosti in barv. Tukaj jih lahko doloèite: Velikost,XL[+1.99],M,S[-2.99];Barva,Rdeèa,Zelena,Rumena,Drage barve[=24.00];Itd.,..,..<br /><br />Z naslednjimi možnosti doloèite spremembo cene glede na lastnost:<ul><li>+: Osnovni ceni doda vrednost na podlagi lastnosti.</li><li>-: Osnovni ceni odvzame vrednost na podlagi lastnosti.</li><li>=: Nastavi ceno\\\ izdelka na doloèeno vrednost.</li></ul><br />Uporaba:<ol><li>Na nastavitveni strani dodajte ime "attribute". Ime mora biti napisano z malimi èrkami.</li><li>V CSV dodajte stolpec z dodanimi lastnostmi.</li></ol><br /.>Vrednosti:<ul><li>Besedilo: HTML koda ni dovoljena.</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_AVAILABILITY = 'Prikazuje, ali je izdelek na voljo. Vrednost je lahko opisno besedilo ali ime datoteke slike. Slike shranite v mapo "shop_image/availability/".<br />Uporaba:<ol><li>Na nastavitveni strani dodajte ime "product_availability". Ime mora biti napisano z malimi èrkami.</li><li>V CSV datoteko dodajte stolpec z besedilno vrednostjo.</li></ol><br />Vrednosti:<ul><li>Besedilo: HTML koda ni dovoljena.</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_FULL_IMAGE = 'Ime datoteke slike, ki je shranjena v mapi "shop_image/product/". Ime datoteke je lahko tudi URL.<br />OPOMBA: Èe je dinamièna nastavitev velikosti vkljuèena, morate izpolniti polje "product_thumb_image". VirtueMart spremeni velikost slike, kot je doloèeno.<br/><br />Uporaba:<ol><li>Na nastavitveni strani dodajte ime "product_full_image". Ime mora biti napisano z malimi èrkami.</li><li>V CSV datoteko dodajte stolpec z besedilno vrednostjo.</li></ol><br />Vrednosti:<ul><li>Besedilo:<ul><li>HTML koda ni dovoljena</li><li>URL\\\naslovi so dovoljeni.</li></ul></li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_THUMB_IMAGE = 'Ime datoteke predstavitvene slike, ki je shranjena v mapi "shop_image/product/" folder. Ime datoteke je lahko tudi URL.<br />OPOMBA: Tudi èe je dinamièna nastavitev velikosti vkljuèena, mora biti v tem polju vrednost. VirtueMart spremeni velikost slike, kot je doloèeno.<br /><br />Uporaba:<ol><li>Na nastavitveni strani dodajte ime "product_full_image". Ime mora biti napisano z malimi èrkami.</li><li>V CSV datoteko dodajte stolpec z besedilno vrednostjo.</li></ol><br />Vrednosti:<ul><li>Besedilo:<ul><li>No HTML koda ni dovoljena</li><li>URL\\\naslovi so dovoljeni.</li></ul></li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_CUSTOM_ATTRIBUTE = Polje lastnosti po izbiri bo na strani izdelka dodalo polje vnosa z opisom lastnosti. Lastnosti po izbiri doloèite tako: Ime;Dodatki;...<br />Uporaba:<ol><li>Na nastavitveni strani dodajte ime "custom_attribute". Ime mora biti napisano z malimi èrkami.</li><li>V CSV datoteko dodajte stolpec z besedilom lastnosti.</li></ol><br /.>Vrednosti:<ul><li>Besedilo: HTML koda ni dovoljena.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PACKAGING = 'Doloèite število kosov v paketu.<br />Uporaba:<ol><li>Na nastavitveni strani dodajte ime "product_packaging". Ime mora biti napisano z malimi èrkami.</li><li>V CSV datoteko dodajte stolpec s številom kosov v paketu.</li></ol><br /.>Vrednosti:<ul><li>Število</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_BOX = 'Doloèite število kosov v škatli.<br />Uporaba:<ol><li>Na nastavitveni strani dodajte ime "product_box". Ime mora biti napisano z malimi èrkami.</li><li>V CSV datoteko dodajte stolpec s številom kosov v škatli.</li></ol><br /.>Vrednosti:<ul><li>Število</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT = 'Doloèite odstotek popusta, ki velja za izdelek. Vpisane vrednosti so natanène vrednosti, zato raèunanje ni potrebno. Postopek je enak kot pri vnosu podatkov na Seznam popustov za izdelke. Èe popust že obstaja, novi ne bo dodan v bazo podatkov, izdelek pa bo povezan na že nastavljeni popust. Kriterij, ki mora biti izpolnjen za veljavnost obstojeèega popusta je, da se ujemajo naslednje verdnosti:<ol><li>Vrednost popusta, znesek ali odstotek</li><li>Datum zaèetka veljavnosti</li><li>Datum konca veljavnosti</li></ol>To prepreèuje, da bi v bazi podatkov prišlo do podvajanj enakih popustov.<br /><br />Uporaba:<ol><li>Na nastavitveni strani dodajte ime "product_discount". Ime mora biti napisano z malimi èrkami.</li><li>Dodatno: Na nastavitveni strani dodajte ime "product_discount_date_start". Ime mora biti napisano z malimi èrkami.</li><li>Dodatno: Na nastavitveni strani dodajte ime "product_discount_date_end". Ime mora biti napisano z malimi èrkami.</li><li>V CSV datoteko dodajte stolpec z izbranimi vrednostmi.</li></ol><br /.>Vrednosti:<ul><li>product_discount</li><ul><li>Število<br />npr. 10</li><li>Odstotek: Mora vkljuèevati znak %<br />npr. 10%</li></ul><li>product_discount_date_start</li><ul><li>Datum: dan/mesec/leto ali dan-mesec-leto<br />Dan in mesec sta lahko 1 ali 2-mestni števili.<br />Leto je lahko 2 ali 4-mestno število.</li></ul><li>product_discount_date_end</li><ul><li>Datum: dan/mesec/leto ali dan-mesec-leto<br />Dan in mesec sta lahko 1 ali 2-mestni števili.<br />Leto je lahko 2 ali 4-mestno število.</li></ul></ul>';
-	var $_ITEM_PREVIOUS = 'nazaj';
-	var $_ITEM_NEXT = 'naprej';
-	var $_CMN_OK = 'V redu';
-	var $_CMN_CONTINUE = 'Nadaljuj';
-	var $_CMN_CANCEL = 'Preklièi';
-	var $_BUTTON_SEND_REG = 'Pošlji registracijo';
-	var $_CONTACT_FORM_NC = 'Prosimo, poskrbite, da bo obrazec pravilno izpolnjen.';
-	var $_CMN_REQUIRED = 'Obvezno';
-	var $_CMN_NEW = 'Novo';
-	var $_CMN_SAVE = 'Shrani';
-	var $_CMN_NEW_ITEM_LAST = 'Novi predmeti so vedno na zadnjem mestu. Ko shranite ta predmet, lahko spremenite naroèilo.';
-	var $_CMN_OPTIONAL = 'Dodatno';
-	var $_E_APPLY = 'Uporabi';
-	var $_E_IMAGES = 'Slike';
-	var $_URL = 'URL:';
-	var $_SEL_CATEGORY = 'Izberite kategorijo';
-	var $_E_REMOVE = 'Odstrani';
-	var $_PN_LT = '<';
-	var $_PN_RT = '>';
-	var $_PN_PAGE = 'Stran';
-	var $_PN_OF = 'od';
-	var $_PN_START = 'Zaèetek';
-	var $_PN_PREVIOUS = 'Nazaj';
-	var $_PN_NEXT = 'Naprej';
-	var $_PN_END = 'Konec';
-	var $_PN_DISPLAY_NR = 'Prikaži #';
+	var $_PHPSHOP_CSV_EXPLANATION_CUSTOM_ATTRIBUTE = 'custom_attribute';
 	var $_PN_RESULTS = 'Rezultati';
 	var $_CMN_PRINT = 'Natisni';
 	var $_CMN_PDF = 'PDF';

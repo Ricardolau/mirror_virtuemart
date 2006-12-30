@@ -1612,7 +1612,6 @@ Bitte nicht auf diese Nachricht antworten, da sie automatisch generiert wurde un
 	var $_BUTTON_LOGOUT = 'Abmelden';
 	var $_NO_ACCOUNT = 'Noch kein Benutzerkonto?';
 	var $_CREATE_ACCOUNT = 'Registrieren';
-	var $_VALID_AZ09 = 'Bitte geben Sie ein gütiges Passwort ein. Keine Leerzeichen, mehr als 6 Zeichen und nur 0-9,a-z,A-Z verwenden.';
 	var $_REGWARN_VPASS1 = 'Bitte bestätigen Sie das Passwort.';
 	var $_REGWARN_VPASS2 = 'Die eingegebenen Passwörter stimmen nicht überein, bitte versuchen Sie es noch einmal.';
 	var $_USEND_MSG_ACTIVATE = 'Hallo %s,

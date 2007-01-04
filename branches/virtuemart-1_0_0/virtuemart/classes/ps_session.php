@@ -166,7 +166,12 @@ class ps_session {
 				if( !empty($my->id)) {
 					// User is already logged in
 					// We need to transfer the usercookie if present
-					$martID = @base64_encode( $_COOKIE[$this->_session_name]."|".$sessionId."|".$_COOKIE['usercookie']['password']."|".$_COOKIE['usercookie']['username'] );
+					if( empty( $_COOKIE['usercookie'] )) {
+						$userinfo = $my->password.'|'.$my->username;
+					} else {
+						$userinfo = $_COOKIE['usercookie']['password']."|".$_COOKIE['usercookie']['username'];
+					}
+					$martID = @base64_encode( $_COOKIE[$this->_session_name]."|".$sessionId."|".$userinfo );
 
 				}
 				else {
@@ -205,7 +210,7 @@ class ps_session {
 					$cookievals = base64_decode( $martID );
 	
 					$id_array = explode( "|", $cookievals );
-	
+					
 					$virtuemartcookie = $id_array[0];
 					$sessioncookie = $id_array[1];
 					$usercookie["password"] = @$id_array[2];

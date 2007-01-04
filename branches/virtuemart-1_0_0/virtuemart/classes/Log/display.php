@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: display.php 157 2005-11-28 18:57:36 +0100 (Mo, 28 Nov 2005) soeren_nb $
+* @version $Id$
 * @package VirtueMart
 * @subpackage Log
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.

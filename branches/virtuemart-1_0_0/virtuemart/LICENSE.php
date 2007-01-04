@@ -1,7 +1,7 @@
 <?php
 /**
 *
-* @version $Id: LICENSE.php 20 2005-09-29 22:02:56 +0200 (Do, 29 Sep 2005) soeren_nb $
+* @version $Id$
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.

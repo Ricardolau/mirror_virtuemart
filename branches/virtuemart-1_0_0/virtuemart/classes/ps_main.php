@@ -3,7 +3,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 /**
 * This is no class! This file only provides core virtuemart functions.
 * 
-* @version $Id: ps_main.php,v 1.11.2.4 2006/05/06 10:05:27 soeren_nb Exp $
+* @version $Id$
 * @package VirtueMart
 * @subpackage classes
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -975,7 +975,7 @@ if (!defined('ENT_QUOTES')) {
  * @link        http://php.net/function.html_entity_decode
  * @author      David Irvine <dave@codexweb.co.za>
  * @author      Aidan Lister <aidan@php.net>
- * @version     $Revision: 1.11.2.4 $
+ * @version     $Revision$
  * @since       PHP 4.3.0
  * @internal    Setting the charset will not do anything
  * @require     PHP 4.0.0 (user_error)

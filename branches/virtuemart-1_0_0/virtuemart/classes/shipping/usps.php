@@ -3,7 +3,7 @@ defined('_VALID_MOS') or die('Direct Access to this location is not allowed.');
 /**
 *  MODIFIED BY Corey Koltz & DENEB
 *
-* @version $Id: usps.php,v 1.7.2.3 2006/05/06 10:22:19 soeren_nb Exp $
+* @version $Id$
 * @package VirtueMart
 * @subpackage shipping
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.

@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: sql.update.virtuemart-1.0.3.to.virtuemart-1.0.5.php 300 2006-05-06 12:05:27 +0200 (Sa, 06 Mai 2006) soeren_nb $
+* @version $Id$
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2006 Soeren Eberhardt. All rights reserved.

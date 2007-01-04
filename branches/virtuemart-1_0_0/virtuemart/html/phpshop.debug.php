@@ -1,7 +1,7 @@
 <?php
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
-* @version $Id: phpshop.debug.php,v 1.2 2005/09/29 20:02:18 soeren_nb Exp $
+* @version $Id$
 * @package VirtueMart
 * @subpackage HTML
 * Contains code from PHPShop(tm):

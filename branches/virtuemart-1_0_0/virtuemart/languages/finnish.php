@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: admin.martlanguages.php 466 2006-11-07 20:40:22 +0100 (Di, 07 Nov 2006) soeren_nb $
+* @version $Id$
 * @ 2006/12/22 05:37:12 updated to VM 1.0.8 by Mauri & shrike
 * @package VirtueMart
 * @subpackage languages

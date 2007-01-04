@@ -1,7 +1,7 @@
 <?php
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
-* @version $Id: helveticab.php,v 1.4 2005/10/17 19:05:29 soeren_nb Exp $
+* @version $Id$
 * @package VirtueMart
 * @subpackage HMTL2PDF
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.

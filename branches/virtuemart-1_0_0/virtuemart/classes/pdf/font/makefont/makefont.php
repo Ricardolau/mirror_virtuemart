@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: makefont.php,v 1.3 2005/09/29 20:02:18 soeren_nb Exp $
+* @version $Id$
 * @package VirtueMart
 * @subpackage HMTL2PDF
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.

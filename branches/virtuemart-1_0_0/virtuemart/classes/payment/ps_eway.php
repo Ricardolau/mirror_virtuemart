@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: ps_eway.php,v 1.4 2005/11/16 14:43:32 codename-matrix Exp $
+* @version $Id$
 * @package VirtueMart
 * @subpackage payment
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -244,7 +244,7 @@ class ps_eway {
   *
   * (c) Copyright Matthew Horoschun, CanPrint Communications 2005.
   *
-  * $Id: ps_eway.php,v 1.4 2005/11/16 14:43:32 codename-matrix Exp $
+  * $Id$
   *
   * Date:    2005-04-18
   * Version: 2.0

@@ -5,7 +5,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 *
 * NOTE: THIS MODULE REQUIRES THE VIRTUEMART COMPONENT!
 /*
-* @version $Id: mod_virtuemart_manufacturers.php 557 2006-12-09 17:43:06Z soeren_nb $
+* @version $Id$
 * @package VirtueMart
 * @subpackage modules
 *

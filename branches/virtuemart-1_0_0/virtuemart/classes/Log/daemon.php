@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
-* @version $Id: daemon.php 122 2005-11-09 21:55:04 +0100 (Mi, 09 Nov 2005) soeren_nb $
+* @version $Id$
 * @package VirtueMart
 * @subpackage Log
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -16,7 +16,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * http://virtuemart.net
 */
 
-// $Id: daemon.php 122 2005-11-09 21:55:04 +0100 (Mi, 09 Nov 2005) soeren_nb $
+// $Id$
 
 /**
  * The Log_daemon class is a concrete implementation of the Log::

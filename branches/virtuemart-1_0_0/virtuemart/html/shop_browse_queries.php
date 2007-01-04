@@ -4,7 +4,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * This file is to be included from the file shop.browse.php
 * and uses variables from the environment of the file shop.browse.php
 *
-* @version $Id: shop_browse_queries.php,v 1.6.2.4 2006/04/23 19:40:07 soeren_nb Exp $
+* @version $Id$
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.

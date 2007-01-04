@@ -1,4 +1,4 @@
-# $Id: virtuemart.installation.mambo.sql 582 2006-12-19 09:46:12Z soeren_nb $
+# $Id$
 #
 # To undo the changes done by this script, run uninstall.phpshop.sql
 #

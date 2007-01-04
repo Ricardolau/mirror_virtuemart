@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: COPYRIGHT.php 582 2006-12-19 09:46:12Z soeren_nb $
+* @version $Id$
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.

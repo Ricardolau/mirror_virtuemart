@@ -6,7 +6,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * @author Tomas V.V.Cox <cox@idecnet.com>
 *
 *
-* @version $Id: PEAR.php,v 1.3 2005/09/29 20:01:12 soeren_nb Exp $
+* @version $Id$
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -39,7 +39,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 // |          Tomas V.V.Cox <cox@idecnet.com>                           |
 // +--------------------------------------------------------------------+
 //
-// $Id: PEAR.php,v 1.3 2005/09/29 20:01:12 soeren_nb Exp $
+// $Id$
 //
 
 define('PEAR_ERROR_RETURN',     1);

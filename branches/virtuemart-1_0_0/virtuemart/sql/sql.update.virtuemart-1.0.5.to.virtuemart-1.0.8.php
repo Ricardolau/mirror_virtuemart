@@ -4,7 +4,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * 	SQL update script for upgrading 
 *	from VirtueMart 1.0.x to VirtueMart 1.0.8
 * 
-* @version $Id: sql.update.virtuemart-1.0.5.to.virtuemart-1.0.8.php 590 2006-12-22 20:49:26Z soeren_nb $
+* @version $Id$
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2006 Soeren Eberhardt. All rights reserved.

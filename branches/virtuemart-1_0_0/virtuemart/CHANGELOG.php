@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 /**
 *
-* @version $Id: CHANGELOG.php 596 2006-12-27 11:17:20Z soeren_nb $
+* @version $Id$
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2006 Soeren Eberhardt. All rights reserved.
@@ -33,8 +33,15 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+
+04.01.2007 soeren
+# Task #1081 - Cannot delete products (virtuemart_parser.php)
+
 04.01.2007 gregdev
 # Fixed check for authorize.net test mode (ps_authorize.php).
+
+--- VirtueMart 1.0.8 released ---
+
 
 28.12.2006 soeren
 

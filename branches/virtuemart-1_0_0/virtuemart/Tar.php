@@ -4,7 +4,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * @author Vincent Blavet <vincent@blavet.net>
 *
 *
-* @version $Id: Tar.php,v 1.3 2005/09/29 20:01:12 soeren_nb Exp $
+* @version $Id$
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -44,7 +44,7 @@ define ('ARCHIVE_TAR_ATT_SEPARATOR', 90001);
 * Creates a (compressed) Tar archive
 *
 * @author   Vincent Blavet <vincent@blavet.net>
-* @version  $Revision: 1.3 $
+* @version  $Revision$
 * @package  Archive
 */
 class Archive_Tar extends PEAR

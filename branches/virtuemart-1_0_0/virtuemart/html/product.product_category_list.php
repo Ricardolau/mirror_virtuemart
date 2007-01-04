@@ -111,7 +111,12 @@ if( $limit < $nrows )
 	}
 
 for($n = $limitstart ; $n < $nrows ; $n++) {
-	$catname = shopMakeHtmlSafe( $category_tmp[$row_list[$n]]["category_name"] );
+	if (!isset($row_list[$n])) {
+		$curcat = $category_tmp[$n];
+	} else {
+		$curcat = $category_tmp[$row_list[$n]];
+	}
+	$catname = shopMakeHtmlSafe( $curcat["category_name"] );
 	
 	$listObj->newRow();
 	
@@ -119,33 +124,33 @@ for($n = $limitstart ; $n < $nrows ; $n++) {
 	$listObj->addCell( $pageNav->rowNumber( $ibg ) );
 	
 	// The Checkbox
-	$listObj->addCell( mosHTML::idBox( $ibg, $category_tmp[$row_list[$n]]["category_child_id"], false, "category_id" ) );
+	$listObj->addCell( mosHTML::idBox( $ibg, $curcat["category_child_id"], false, "category_id" ) );
 	
 	// Which category depth level we are in?
-	$repeat = $depth_list[$n]+1;
+	$repeat = @$depth_list[$n]+1;
 	$tmp_cell = str_repeat("&nbsp;&nbsp;&nbsp;", $repeat ) 
 				. "&#095&#095;|" . $repeat ."|&nbsp;"
-				."<a href=\"". $_SERVER['PHP_SELF'] . "?option=com_virtuemart&page=product.product_category_form&category_id=" . $category_tmp[$row_list[$n]]["category_child_id"]. "&category_parent_id=" . $category_tmp[$row_list[$n]]["category_parent_id"]."\">"
+				."<a href=\"". $_SERVER['PHP_SELF'] . "?option=com_virtuemart&page=product.product_category_form&category_id=" . $curcat["category_child_id"]. "&category_parent_id=" . $curcat["category_parent_id"]."\">"
 				. $catname
 				. "</a>";
 	$listObj->addCell( $tmp_cell );
 	
-	$desc = strlen( $category_tmp[$row_list[$n]]["category_description"] ) > 255 ? mm_ToolTip( $category_tmp[$row_list[$n]]["category_description"], $VM_LANG->_PHPSHOP_CATEGORY_FORM_DESCRIPTION ) :$category_tmp[$row_list[$n]]["category_description"];
+	$desc = strlen( $curcat["category_description"] ) > 255 ? mm_ToolTip( $curcat["category_description"], $VM_LANG->_PHPSHOP_CATEGORY_FORM_DESCRIPTION ) :$curcat["category_description"];
 	$listObj->addCell( "&nbsp;&nbsp;". $desc );
 	
-	$listObj->addCell( ps_product_category::product_count( $category_tmp[$row_list[$n]]["category_child_id"] )
-						."&nbsp;<a href=\"". $_SERVER['PHP_SELF'] . "?page=product.product_list&category_id=" . $category_tmp[$row_list[$n]]["category_child_id"]."&option=com_virtuemart"
+	$listObj->addCell( ps_product_category::product_count( $curcat["category_child_id"] )
+						."&nbsp;<a href=\"". $_SERVER['PHP_SELF'] . "?page=product.product_list&category_id=" . $curcat["category_child_id"]."&option=com_virtuemart"
 						. "\">[ ".$VM_LANG->_PHPSHOP_SHOW." ]</a>"
 					);
 	// Publish / Unpublish
-	$tmp_cell = "<a href=\"". $sess->url( $_SERVER['PHP_SELF']."?page=product.product_category_list&category_id=".$category_tmp[$row_list[$n]]["category_child_id"]."&func=changePublishState" );
-	if ($category_tmp[$row_list[$n]]["category_publish"]=='N') {
+	$tmp_cell = "<a href=\"". $sess->url( $_SERVER['PHP_SELF']."?page=product.product_category_list&category_id=".$curcat["category_child_id"]."&func=changePublishState" );
+	if ($curcat["category_publish"]=='N') {
 		$tmp_cell .= "&task=publish\">";
 	} 
 	else { 
 		$tmp_cell .= "&task=unpublish\">";
 	}
-	$tmp_cell .= vmCommonHTML::getYesNoIcon ( $category_tmp[$row_list[$n]]["category_publish"] );
+	$tmp_cell .= vmCommonHTML::getYesNoIcon ( $curcat["category_publish"] );
 	$tmp_cell .= "</a>";
 	$listObj->addCell( $tmp_cell );
 	
@@ -154,37 +159,40 @@ for($n = $limitstart ; $n < $nrows ; $n++) {
 	// not on database information
 	// Check for predecessors and brothers and sisters
 	$upCondition = $downCondition = false;
-	if( !isset( $levels[$depth_list[$n]+1] ))
+	if( !isset( $levels[@$depth_list[$n]+1] )) {
 		$levels[$depth_list[$n]+1] = 1;
-	if( $category_tmp[$row_list[$n]]["category_parent_id"] == @$category_tmp[$row_list[$n-1]]["category_parent_id"])
+	}
+	if( $curcat["category_parent_id"] == @$category_tmp[$row_list[$n-1]]["category_parent_id"]) {
 		$upCondition = true;
-	if( $category_tmp[$row_list[$n]]["category_parent_id"] == @$category_tmp[$row_list[$n+1]]["category_parent_id"] )
+	}
+	if( $curcat["category_parent_id"] == @$category_tmp[$row_list[$n+1]]["category_parent_id"] ) {
 		$downCondition = true;
+	}
 	if( !$downCondition || !$upCondition ) {
 		
-		if( $levelcounter[$category_tmp[$row_list[$n]]["category_parent_id"]] > $levels[$depth_list[$n]+1] )
+		if( @$levelcounter[$category_tmp[$row_list[$n]]["category_parent_id"]] > $levels[@$depth_list[$n]+1] )
 			$downCondition = true;
-			if( $levels[$depth_list[$n]+1] > 1 )
+			if( $levels[@$depth_list[$n]+1] > 1 )
 				$upCondition = true;
-		if( $levelcounter[$category_tmp[$row_list[$n]]["category_parent_id"]] == $levels[$depth_list[$n]+1] ) {
+		if( @$levelcounter[$category_tmp[$row_list[$n]]["category_parent_id"]] == $levels[@$depth_list[$n]+1] ) {
 			$upCondition = true;
 			$downCondition = false;
 		}
-		if( $levelcounter[$category_tmp[$row_list[$n]]["category_parent_id"]] < $levels[$depth_list[$n]+1] ) {
+		if( @$levelcounter[$category_tmp[$row_list[$n]]["category_parent_id"]] < $levels[@$depth_list[$n]+1] ) {
 			$downCondition = false;
 			$upCondition = false;
 		}
 	}
-	$levels[$depth_list[$n]+1]++;
+	$levels[@$depth_list[$n]+1]++;
 	
 	$listObj->addCell( $pageNav->orderUpIcon( $ibg, $upCondition, 'orderup', 'Order Down', $page, 'reorder' )
 						. '&nbsp;'
-						.$pageNav->orderDownIcon( $ibg, $levelcounter[$category_tmp[$row_list[$n]]["category_parent_id"]], $downCondition, 'orderdown', 'Order Down', $page, 'reorder' )
+						.$pageNav->orderDownIcon( $ibg, @$levelcounter[$curcat["category_parent_id"]], $downCondition, 'orderdown', 'Order Down', $page, 'reorder' )
 					);
 					
-	$listObj->addCell( vmCommonHTML::getOrderingField( $category_tmp[$row_list[$n]]["list_order"] ) );
+	$listObj->addCell( vmCommonHTML::getOrderingField( $curcat["list_order"] ) );
 	
-	$listObj->addCell( $ps_html->deleteButton( "category_id", $category_tmp[$row_list[$n]]["category_child_id"], "productCategoryDelete", $keyword, $limitstart ) );
+	$listObj->addCell( $ps_html->deleteButton( "category_id", $curcat["category_child_id"], "productCategoryDelete", $keyword, $limitstart ) );
 	
 	$ibg++;
 }

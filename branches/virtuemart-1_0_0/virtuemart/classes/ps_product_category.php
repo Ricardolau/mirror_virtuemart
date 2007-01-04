@@ -1257,13 +1257,13 @@ class ps_product_category extends vmAbstractObject {
 		global $db;
 
 		if( !empty( $d['category_id'] )) {
-			$cid = $d['category_id'][0];
+			$cid = (int)$d['category_id'][0];
 
 			switch( $d["task"] ) {
 				case "orderup":
 				$q = "SELECT list_order,category_parent_id FROM #__{vm}_category,#__{vm}_category_xref ";
-				$q .= "WHERE category_id='".$cid[0]."' ";
-				$q .= "AND category_child_id='".$cid[0]."' ";
+				$q .= "WHERE category_id='".$cid."' ";
+				$q .= "AND category_child_id='".$cid."' ";
 				$db->query($q);
 				$db->next_record();
 				$currentpos = $db->f("list_order");
@@ -1281,7 +1281,7 @@ class ps_product_category extends vmAbstractObject {
 				// Update the category and decrease the list_order
 				$q = "UPDATE #__{vm}_category ";
 				$q .= "SET list_order=list_order-1 ";
-				$q .= "WHERE category_id='".$cid[0]."'";
+				$q .= "WHERE category_id='".$cid."'";
 				$db->query($q);
 
 				$q = "UPDATE #__{vm}_category ";
@@ -1293,8 +1293,8 @@ class ps_product_category extends vmAbstractObject {
 
 				case "orderdown":
 				$q = "SELECT list_order,category_parent_id FROM #__{vm}_category,#__{vm}_category_xref ";
-				$q .= "WHERE category_id='".$cid[0]."' ";
-				$q .= "AND category_child_id='".$cid[0]."' ";
+				$q .= "WHERE category_id='".$cid."' ";
+				$q .= "AND category_child_id='".$cid."' ";
 				$db->query($q);
 				$db->next_record();
 				$currentpos = $db->f("list_order");
@@ -1311,7 +1311,7 @@ class ps_product_category extends vmAbstractObject {
 
 				$q = "UPDATE #__{vm}_category ";
 				$q .= "SET list_order=list_order+1 ";
-				$q .= "WHERE category_id='".$cid[0]."' ";
+				$q .= "WHERE category_id='".$cid."' ";
 				$db->query($q);
 
 				$q = "UPDATE #__{vm}_category ";

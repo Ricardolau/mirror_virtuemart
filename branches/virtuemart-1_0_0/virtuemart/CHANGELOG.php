@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+04.01.2007 gregdev
+# Fixed check for authorize.net test mode (ps_authorize.php).
+
 28.12.2006 soeren
 
 ^ Update the language files, removed some errors/typos

@@ -301,10 +301,10 @@ class ps_authorize {
 		else {
 			$dbst = $dbbt;
 		}
-		if(AN_TEST_REQUEST) {
+		if(AN_TEST_REQUEST=='TRUE') {
 			$host = 'test.authorize.net';
 		} else  {
-			$host = "secure.authorize.net";
+			$host = 'secure.authorize.net';
 		}
 		$port = 443;
 		$path = "/gateway/transact.dll";
@@ -546,10 +546,10 @@ class ps_authorize {
 		/*** Get the Configuration File for authorize.net ***/
 		require_once(CLASSPATH ."payment/".$this->classname.".cfg.php");
 
-		if(AN_TEST_REQUEST) {
+		if(AN_TEST_REQUEST=='TRUE') {
 			$host = 'test.authorize.net';
 		} else  {
-			$host = "secure.authorize.net";
+			$host = 'secure.authorize.net';
 		}
 		$port = 443;
 		$path = "/gateway/transact.dll";

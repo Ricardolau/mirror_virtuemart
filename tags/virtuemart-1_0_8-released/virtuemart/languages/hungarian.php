@@ -1,0 +1,2066 @@
+<?php
+defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
+/**
+*
+* @version $Id: admin.martlanguages.php 466 2006-11-07 20:40:22 +0100 (Di, 07 Nov 2006) soeren_nb $
+* @package VirtueMart
+* @subpackage languages
+* @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+* VirtueMart is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See /administrator/components/com_virtuemart/COPYRIGHT.php for copyright notices and details.
+*
+* http://virtuemart.net
+*/
+class vmLanguage extends vmAbstractLanguage {
+	var $_PHPSHOP_MENU = 'Menü';
+	var $_PHPSHOP_CATEGORY = 'Kategória';
+	var $_PHPSHOP_CATEGORIES = 'Kategóriák';
+	var $_PHPSHOP_SELECT_CATEGORY = 'Kiválaszt egy kategóriát:';
+	var $_PHPSHOP_ADMIN = 'Adminisztráció';
+	var $_PHPSHOP_PRODUCT = 'Termék';
+	var $_PHPSHOP_LIST = 'Listázás';
+	var $_PHPSHOP_ALL = 'Mind';
+	var $_PHPSHOP_LIST_ALL_PRODUCTS = 'Az összes termék listázása';
+	var $_PHPSHOP_VIEW = 'Nézet';
+	var $_PHPSHOP_SHOW = 'Megjelenítés';
+	var $_PHPSHOP_ADD = 'Hozzáadás';
+	var $_PHPSHOP_UPDATE = 'Frissítés';
+	var $_PHPSHOP_DELETE = 'Törlés';
+	var $_PHPSHOP_SELECT = '- Válasszon';
+	var $_PHPSHOP_SUBMIT = 'Küldés';
+	var $_PHPSHOP_RANDOM = 'Véletlenszerû termék';
+	var $_PHPSHOP_LATEST = 'Legújabb termékek';
+	var $_PHPSHOP_HOME_TITLE = 'Fõlap';
+	var $_PHPSHOP_CART_TITLE = 'Kosár';
+	var $_PHPSHOP_CHECKOUT_TITLE = 'Pénztár';
+	var $_PHPSHOP_LOGIN_TITLE = 'Belépés';
+	var $_PHPSHOP_LOGOUT_TITLE = 'Kilépés';
+	var $_PHPSHOP_BROWSE_TITLE = 'Tallózás';
+	var $_PHPSHOP_SEARCH_TITLE = 'Keresd';
+	var $_PHPSHOP_ACCOUNT_TITLE = 'Fiók karbantartása';
+	var $_PHPSHOP_NAVIGATION_TITLE = 'Navigálás';
+	var $_PHPSHOP_DEPARTMENT_TITLE = 'Részleg';
+	var $_PHPSHOP_INFO = 'Információ';
+	var $_PHPSHOP_BROWSE_LBL = 'Tallózás';
+	var $_PHPSHOP_PRODUCTS_LBL = 'termék';
+	var $_PHPSHOP_PRODUCT_LBL = 'termék';
+	var $_PHPSHOP_SEARCH_LBL = 'Keres';
+	var $_PHPSHOP_FLYPAGE_LBL = 'Termékadatok';
+	var $_PHPSHOP_PRODUCT_SEARCH_LBL = 'Termékkeresõ';
+	var $_PHPSHOP_PRODUCT_NAME_TITLE = 'Termék neve';
+	var $_PHPSHOP_PRODUCT_CATEGORY_TITLE = 'Termék kategória';
+	var $_PHPSHOP_PRODUCT_DESC_TITLE = 'Leírás';
+	var $_PHPSHOP_CART_SHOW = 'Ugrás a bevásárlókosárhoz';
+	var $_PHPSHOP_CART_ADD_TO = 'Kosárba rakom!';
+	var $_PHPSHOP_CART_NAME = 'Név';
+	var $_PHPSHOP_CART_SKU = 'Cikksz.';
+	var $_PHPSHOP_CART_PRICE = 'Ár';
+	var $_PHPSHOP_CART_QUANTITY = 'Mennyiség';
+	var $_PHPSHOP_CART_SUBTOTAL = 'Részösszeg';
+	var $_PHPSHOP_ADD_SHIPTO_1 = 'Hozzáadás: új';
+	var $_PHPSHOP_ADD_SHIPTO_2 = 'Szállítási cím';
+	var $_PHPSHOP_NO_SEARCH_RESULT = 'A keresése nem eredményezett találatot.<br />';
+	var $_PHPSHOP_PRICE_LABEL = 'Ár: ';
+	var $_PHPSHOP_ORDER_BUTTON_LABEL = 'Hozzáad a bevásárlókosárhoz';
+	var $_PHPSHOP_NO_CUSTOMER = 'Ön még nem nyilvántartott ügyfél. Kérjük, adja meg számlázási adatait.';
+	var $_PHPSHOP_DELETE_MSG = 'Biztosan törölni akarja ezt a bejegyzést?';
+	var $_PHPSHOP_THANKYOU = 'Köszönjük a megrendelést!';
+	var $_PHPSHOP_NOT_SHIPPED = 'Még nincs leszállítva';
+	var $_PHPSHOP_EMAIL_SENDTO = 'A megerõsítõ e-mailt elküldtük erre címre';
+	var $_PHPSHOP_NO_USER_TO_SELECT = 'Sajnos nincs olyan MOS - felhasználó, akit Ön hozzáadhatna a com_virtuemart felhasználó-listához';
+	var $_PHPSHOP_ERROR = 'HIBA';
+	var $_PHPSHOP_MOD_NOT_REG = 'A modul nincs regisztrálva.';
+	var $_PHPSHOP_MOD_ISNO_REG = 'nem érvényes phpShop modul.';
+	var $_PHPSHOP_MOD_NO_AUTH = 'Önnek nincs joga a kért modul használatához.';
+	var $_PHPSHOP_PAGE_404_1 = 'Az oldal nem létezik';
+	var $_PHPSHOP_PAGE_404_2 = 'Az adott fájlnév nem létezik. Nem található az alábbi fájl:';
+	var $_PHPSHOP_PAGE_403 = 'Elégtelen hozzáférési jogok';
+	var $_PHPSHOP_FUNC_NO_EXEC = 'Önnek nincs joga végrehajtani ';
+	var $_PHPSHOP_FUNC_NOT_REG = 'A funkció nincs regisztrálva';
+	var $_PHPSHOP_FUNC_ISNO_REG = ' nem érvényes MOS_com_phpShop funkció.';
+	var $_PHPSHOP_ADMIN_MOD = 'Admin';
+	var $_PHPSHOP_USER_LIST_MNU = 'Felhasználó listázás';
+	var $_PHPSHOP_USER_LIST_LBL = 'Felhasználók';
+	var $_PHPSHOP_USER_LIST_USERNAME = 'Felhasználónév';
+	var $_PHPSHOP_USER_LIST_FULL_NAME = 'Teljes név';
+	var $_PHPSHOP_USER_LIST_GROUP = 'Csoport';
+	var $_PHPSHOP_USER_FORM_MNU = 'Felhasználó hozzáadása';
+	var $_PHPSHOP_USER_FORM_LBL = 'Felhasználói adatok hozzáadása/frissítése';
+	var $_PHPSHOP_USER_FORM_BILLTO_LBL = 'Számlázási cím';
+	var $_PHPSHOP_USER_FORM_SHIPTO_LBL = 'Szállítási címek';
+	var $_PHPSHOP_USER_FORM_ADD_SHIPTO_LBL = 'Cím hozzáadása';
+	var $_PHPSHOP_USER_FORM_NO_SHIPPING_ADDRESSES = 'Nincsenek szállítási címek.';
+	var $_PHPSHOP_USER_FORM_ADDRESS_LABEL = 'Cím becenév';
+	var $_PHPSHOP_USER_FORM_FIRST_NAME = 'Vezetéknév';
+	var $_PHPSHOP_USER_FORM_LAST_NAME = 'Utónév';
+	var $_PHPSHOP_USER_FORM_MIDDLE_NAME = 'Családnév';
+	var $_PHPSHOP_USER_FORM_TITLE = 'Megszólítás';
+	var $_PHPSHOP_USER_FORM_USERNAME = 'Felhasználónév';
+	var $_PHPSHOP_USER_FORM_PASSWORD_1 = 'Jelszó';
+	var $_PHPSHOP_USER_FORM_PASSWORD_2 = 'Jelszó megerõsítése';
+	var $_PHPSHOP_USER_FORM_PERMS = 'Engedélyek';
+	var $_PHPSHOP_USER_FORM_CUSTOMER_NUMBER = 'Ügyfélszám / azonosító';
+	var $_PHPSHOP_USER_FORM_COMPANY_NAME = 'Cég';
+	var $_PHPSHOP_USER_FORM_ADDRESS_1 = 'Cím 1';
+	var $_PHPSHOP_USER_FORM_ADDRESS_2 = 'Cím 2';
+	var $_PHPSHOP_USER_FORM_CITY = 'Város';
+	var $_PHPSHOP_USER_FORM_STATE = 'Állam/Tartomány/Megye';
+	var $_PHPSHOP_USER_FORM_ZIP = 'Irányítószám';
+	var $_PHPSHOP_USER_FORM_COUNTRY = 'Ország';
+	var $_PHPSHOP_USER_FORM_PHONE = 'Telefon';
+	var $_PHPSHOP_USER_FORM_PHONE2 = 'Mobiltelefon';
+	var $_PHPSHOP_USER_FORM_FAX = 'Fax';
+	var $_PHPSHOP_USER_FORM_EMAIL = 'E-mail';
+	var $_PHPSHOP_MODULE_LIST_MNU = 'Modulok listázása';
+	var $_PHPSHOP_MODULE_LIST_LBL = 'Modulok';
+	var $_PHPSHOP_MODULE_LIST_NAME = 'Modul neve';
+	var $_PHPSHOP_MODULE_LIST_PERMS = 'Modul jogosultságok';
+	var $_PHPSHOP_MODULE_LIST_FUNCTIONS = 'Funkciók';
+	var $_PHPSHOP_MODULE_LIST_ORDER = 'Listázási sorrend';
+	var $_PHPSHOP_MODULE_FORM_MNU = 'Modul hozzáadása';
+	var $_PHPSHOP_MODULE_FORM_LBL = 'Modul tulajdonságai';
+	var $_PHPSHOP_MODULE_FORM_MODULE_LABEL = 'Modul cimke (a fõmenüben)';
+	var $_PHPSHOP_MODULE_FORM_NAME = 'Modul neve';
+	var $_PHPSHOP_MODULE_FORM_PERMS = 'Modul jogosultságok';
+	var $_PHPSHOP_MODULE_FORM_HEADER = 'Modul fejléc';
+	var $_PHPSHOP_MODULE_FORM_FOOTER = 'Modul lábléc';
+	var $_PHPSHOP_MODULE_FORM_MENU = 'Látható a modul az Admin menüben?';
+	var $_PHPSHOP_MODULE_FORM_ORDER = 'Megjelenítési sorrend';
+	var $_PHPSHOP_MODULE_FORM_DESCRIPTION = 'A modul leírása';
+	var $_PHPSHOP_MODULE_FORM_LANGUAGE_CODE = 'Nyelvkód';
+	var $_PHPSHOP_MODULE_FORM_LANGUAGE_file = 'Nyelvi fájl';
+	var $_PHPSHOP_FUNCTION_LIST_MNU = 'Funkciók listázása';
+	var $_PHPSHOP_FUNCTION_LIST_LBL = 'Funkciók';
+	var $_PHPSHOP_FUNCTION_LIST_NAME = 'Funkció neve';
+	var $_PHPSHOP_FUNCTION_LIST_CLASS = 'Osztálynév';
+	var $_PHPSHOP_FUNCTION_LIST_METHOD = 'Osztály metódus';
+	var $_PHPSHOP_FUNCTION_LIST_PERMS = 'Jogosultságok';
+	var $_PHPSHOP_FUNCTION_FORM_MNU = 'Funkció hozzáadása';
+	var $_PHPSHOP_FUNCTION_FORM_LBL = 'Funkció tulajdonságai';
+	var $_PHPSHOP_FUNCTION_FORM_NAME = 'Funkció neve';
+	var $_PHPSHOP_FUNCTION_FORM_CLASS = 'Osztálynév';
+	var $_PHPSHOP_FUNCTION_FORM_METHOD = 'Osztály metódus';
+	var $_PHPSHOP_FUNCTION_FORM_PERMS = 'Funkció jogosultságok';
+	var $_PHPSHOP_FUNCTION_FORM_DESCRIPTION = 'Funkció leírása';
+	var $_PHPSHOP_CURRENCY_LIST_MNU = 'Pénznemek listázása';
+	var $_PHPSHOP_CURRENCY_LIST_LBL = 'Pénznemek';
+	var $_PHPSHOP_CURRENCY_LIST_ADD = 'Pénznem hozzáadása';
+	var $_PHPSHOP_CURRENCY_LIST_NAME = 'Pénznem neve';
+	var $_PHPSHOP_CURRENCY_LIST_CODE = 'Pénznem kódja';
+	var $_PHPSHOP_COUNTRY_LIST_MNU = 'Országok listázása';
+	var $_PHPSHOP_COUNTRY_LIST_LBL = 'Országok';
+	var $_PHPSHOP_COUNTRY_LIST_ADD = 'Ország hozzáadása';
+	var $_PHPSHOP_COUNTRY_LIST_NAME = 'Ország neve';
+	var $_PHPSHOP_COUNTRY_LIST_3_CODE = 'Országkód (3 betûs)';
+	var $_PHPSHOP_COUNTRY_LIST_2_CODE = 'Országkód (2 betûs)';
+	var $_PHPSHOP_STATE_LIST_MNU = 'Államok listázása';
+	var $_PHPSHOP_STATE_LIST_LBL = 'Államok/Tartományok/Megyék: ';
+	var $_PHPSHOP_STATE_LIST_ADD = 'Állam/Megye hozzáadása/módosítása';
+	var $_PHPSHOP_STATE_LIST_NAME = 'Állam/megye neve';
+	var $_PHPSHOP_STATE_LIST_3_CODE = 'Állam/megye kódja (3)';
+	var $_PHPSHOP_STATE_LIST_2_CODE = 'Állam/megye kódja (2)';
+	var $_PHPSHOP_ADDRESS = 'Cím';
+	var $_PHPSHOP_CONTINUE = 'Folytatás';
+	var $_PHPSHOP_EMPTY_CART = 'Jelenleg üres a bevásárlókosara.';
+	var $_PHPSHOP_ISSHIPPING_MOD = 'InterShipper';
+	var $_PHPSHOP_ISSHIP_PING_MNU = 'Az InterShipper kiszolgáló pingelése';
+	var $_PHPSHOP_ISSHIP_PING_LBL = 'InterShipper kiszolgáló pingelés ';
+	var $_PHPSHOP_ISSHIP_PING_ERROR_LBL = 'Az InterShipper pingelése sikertelen';
+	var $_PHPSHOP_ISSHIP_PING_GOOD_LBL = 'Az InterShipper pingelése sikerült';
+	var $_PHPSHOP_ISSHIP_PING_CARRIER_LBL = 'Hordozó';
+	var $_PHPSHOP_ISSHIP_PING_RESPONSE_LBL = 'Válasz<br />idõ';
+	var $_PHPSHOP_ISSHIP_PING_TIME_LBL = 'mp.';
+	var $_PHPSHOP_ISSHIP_LIST_MNU = 'Szállítási módok listázása';
+	var $_PHPSHOP_ISSHIP_LIST_LBL = 'Aktív szállítási módok';
+	var $_PHPSHOP_ISSHIP_LIST_CARRIER_LBL = 'Szállítási módok';
+	var $_PHPSHOP_ISSHIP_LIST_PUBLISH_LBL = 'Aktív';
+	var $_PHPSHOP_ISSHIP_LIST_RATE_LBL = 'Kezelési költség';
+	var $_PHPSHOP_ISSHIP_LIST_LEAD_LBL = 'Átfutási idõ';
+	var $_PHPSHOP_ISSHIP_LIST_CHARGE_F_LBL = 'általánydíj';
+	var $_PHPSHOP_ISSHIP_LIST_CHARGE_P_LBL = 'százalák';
+	var $_PHPSHOP_ISSHIP_LIST_DAYS_LBL = 'napok';
+	var $_PHPSHOP_ISSHIP_LIST_HEAVY_LBL = 'Túlsúlyos küldemény';
+	var $_PHPSHOP_ISSHIP_FORM_MNU = 'Szállítási módok beállítása';
+	var $_PHPSHOP_ISSHIP_FORM_ADD_LBL = 'Szállítási mód hozzáadása';
+	var $_PHPSHOP_ISSHIP_FORM_UPDATE_LBL = 'Szállítási mód beállítása';
+	var $_PHPSHOP_ISSHIP_FORM_REFRESH_LBL = 'Frissítés';
+	var $_PHPSHOP_ISSHIP_FORM_CARRIER_LBL = 'Szállítási mód';
+	var $_PHPSHOP_ISSHIP_FORM_PUBLISH_LBL = 'Aktiválás';
+	var $_PHPSHOP_ISSHIP_FORM_HANDLING_LBL = 'Kezelési költség';
+	var $_PHPSHOP_ISSHIP_FORM_LEAD_LBL = 'Átfutási idõ';
+	var $_PHPSHOP_ISSHIP_FORM_CHARGE_F_LBL = 'általánydíj';
+	var $_PHPSHOP_ISSHIP_FORM_CHARGE_P_LBL = 'százalék';
+	var $_PHPSHOP_ISSHIP_FORM_DAYS_LBL = 'napok';
+	var $_PHPSHOP_ISSHIP_FORM_HEAVY_LBL = 'Túlsúlyos küldemény';
+	var $_PHPSHOP_ORDER_MOD = 'Rendelések';
+	var $_PHPSHOP_ORDER_CONFIRM_MNU = 'Rendelés jóváhagyása';
+	var $_PHPSHOP_ORDER_CANCEL_MNU = 'Rendelés visszavonása';
+	var $_PHPSHOP_ORDER_PRINT_MNU = 'Rendelés nyomtatása';
+	var $_PHPSHOP_ORDER_DELETE_MNU = 'Rendelés törlése';
+	var $_PHPSHOP_ORDER_LIST_MNU = 'Rendelések listázása';
+	var $_PHPSHOP_ORDER_LIST_LBL = 'Rendelések';
+	var $_PHPSHOP_ORDER_LIST_ID = 'Rendelési szám';
+	var $_PHPSHOP_ORDER_LIST_CDATE = 'Rendelés dátuma';
+	var $_PHPSHOP_ORDER_LIST_MDATE = 'Módosítva';
+	var $_PHPSHOP_ORDER_LIST_STATUS = 'Állapot';
+	var $_PHPSHOP_ORDER_LIST_TOTAL = 'Részösszeg';
+	var $_PHPSHOP_ORDER_ITEM = 'Megrendelt termékek';
+	var $_PHPSHOP_ORDER_PRINT_PO_LBL = 'Megrendelés';
+	var $_PHPSHOP_ORDER_PRINT_PO_NUMBER = 'Rendelési szám';
+	var $_PHPSHOP_ORDER_PRINT_PO_DATE = 'Rendelés dátuma';
+	var $_PHPSHOP_ORDER_PRINT_PO_STATUS = 'Rendelési állapot';
+	var $_PHPSHOP_ORDER_PRINT_CUST_INFO_LBL = 'Vásárló adatai';
+	var $_PHPSHOP_ORDER_PRINT_CUST_BILLING_LBL = 'Számlázási cím';
+	var $_PHPSHOP_ORDER_PRINT_CUST_SHIPPING_LBL = 'Szállítási adatok';
+	var $_PHPSHOP_ORDER_PRINT_BILL_TO_LBL = 'Számlázási cím';
+	var $_PHPSHOP_ORDER_PRINT_SHIP_TO_LBL = 'Szállítási cím';
+	var $_PHPSHOP_ORDER_PRINT_NAME = 'Név';
+	var $_PHPSHOP_ORDER_PRINT_COMPANY = 'Cég';
+	var $_PHPSHOP_ORDER_PRINT_ADDRESS_1 = 'Cím 1';
+	var $_PHPSHOP_ORDER_PRINT_ADDRESS_2 = 'Cím 2';
+	var $_PHPSHOP_ORDER_PRINT_CITY = 'Város';
+	var $_PHPSHOP_ORDER_PRINT_STATE = 'Állam/Megye';
+	var $_PHPSHOP_ORDER_PRINT_ZIP = 'Irányítószám';
+	var $_PHPSHOP_ORDER_PRINT_COUNTRY = 'Ország';
+	var $_PHPSHOP_ORDER_PRINT_PHONE = 'Telefon';
+	var $_PHPSHOP_ORDER_PRINT_FAX = 'Fax';
+	var $_PHPSHOP_ORDER_PRINT_EMAIL = 'E-mail';
+	var $_PHPSHOP_ORDER_PRINT_ITEMS_LBL = 'Megrendelés tételek';
+	var $_PHPSHOP_ORDER_PRINT_QUANTITY = 'Mennyiség';
+	var $_PHPSHOP_ORDER_PRINT_QTY = 'Mennyiség';
+	var $_PHPSHOP_ORDER_PRINT_SKU = 'Cikksz.';
+	var $_PHPSHOP_ORDER_PRINT_PRICE = 'Ár';
+	var $_PHPSHOP_ORDER_PRINT_TOTAL = 'Összesen';
+	var $_PHPSHOP_ORDER_PRINT_SUBTOTAL = 'Részösszeg';
+	var $_PHPSHOP_ORDER_PRINT_TOTAL_TAX = 'Áfa összesen';
+	var $_PHPSHOP_ORDER_PRINT_SHIPPING = 'Szállítási és kezelési költség';
+	var $_PHPSHOP_ORDER_PRINT_SHIPPING_TAX = 'Szállítási adó';
+	var $_PHPSHOP_ORDER_PRINT_PAYMENT_LBL = 'Fizetési mód';
+	var $_PHPSHOP_ORDER_PRINT_ACCOUNT_NAME = 'Fiók neve';
+	var $_PHPSHOP_ORDER_PRINT_ACCOUNT_NUMBER = 'Számlaszám';
+	var $_PHPSHOP_ORDER_PRINT_EXPIRE_DATE = 'Lejárati idõ';
+	var $_PHPSHOP_ORDER_PRINT_PAYMENT_LOG_LBL = 'Kifizetési napló';
+	var $_PHPSHOP_ORDER_PRINT_SHIPPING_LBL = 'Szállítási információ';
+	var $_PHPSHOP_ORDER_PRINT_PAYINFO_LBL = 'Fizetési információ';
+	var $_PHPSHOP_ORDER_PRINT_SHIPPING_CARRIER_LBL = 'Hordozó';
+	var $_PHPSHOP_ORDER_PRINT_SHIPPING_MODE_LBL = 'Szállítási mód';
+	var $_PHPSHOP_ORDER_PRINT_SHIPPING_DATE_LBL = 'Szállítás dátuma';
+	var $_PHPSHOP_ORDER_PRINT_SHIPPING_PRICE_LBL = 'Szállítás ára';
+	var $_PHPSHOP_ORDER_STATUS_LIST_MNU = 'Rendelési állapottípusok listázása';
+	var $_PHPSHOP_ORDER_STATUS_FORM_MNU = 'Rendelési állapottípus hozzáadása';
+	var $_PHPSHOP_ORDER_STATUS_LIST_CODE = 'Rendelési állapot kódja';
+	var $_PHPSHOP_ORDER_STATUS_LIST_NAME = 'Rendelési állapot neve';
+	var $_PHPSHOP_ORDER_STATUS_FORM_LBL = 'Rendelési állapot';
+	var $_PHPSHOP_ORDER_STATUS_FORM_CODE = 'Rndelési állapot kódja';
+	var $_PHPSHOP_ORDER_STATUS_FORM_NAME = 'Rndelési állapot neve';
+	var $_PHPSHOP_ORDER_STATUS_FORM_LIST_ORDER = 'Listázási sorrend';
+	var $_PHPSHOP_PRODUCT_MOD = 'Termékek';
+	var $_PHPSHOP_CURRENT_PRODUCT = 'Jelenlegi termék';
+	var $_PHPSHOP_CURRENT_ITEM = 'Jelenlegi tétel';
+	var $_PHPSHOP_PRODUCT_INVENTORY_LBL = 'Raktárkészlet';
+	var $_PHPSHOP_PRODUCT_INVENTORY_MNU = 'Raktárkészlet megtekintése';
+	var $_PHPSHOP_PRODUCT_INVENTORY_PRICE = 'Ár';
+	var $_PHPSHOP_PRODUCT_INVENTORY_STOCK = 'Menny.';
+	var $_PHPSHOP_PRODUCT_INVENTORY_WEIGHT = 'Súly';
+	var $_PHPSHOP_PRODUCT_LIST_MNU = 'Termékek listázása';
+	var $_PHPSHOP_PRODUCT_LIST_LBL = 'Termékek';
+	var $_PHPSHOP_PRODUCT_LIST_NAME = 'Termék neve';
+	var $_PHPSHOP_PRODUCT_LIST_SKU = 'Cikksz.';
+	var $_PHPSHOP_PRODUCT_LIST_PUBLISH = 'Közzétéve';
+	var $_PHPSHOP_PRODUCT_LIST_SEARCH_BY_DATE = 'Termékkeresés';
+	var $_PHPSHOP_PRODUCT_LIST_SEARCH_BY_DATE_TYPE_PRODUCT = 'módosítva';
+	var $_PHPSHOP_PRODUCT_LIST_SEARCH_BY_DATE_TYPE_PRICE = 'módosított árral';
+	var $_PHPSHOP_PRODUCT_LIST_SEARCH_BY_DATE_TYPE_WITHOUTPRICE = 'ár nélkül';
+	var $_PHPSHOP_PRODUCT_LIST_SEARCH_BY_DATE_AFTER = 'Utána';
+	var $_PHPSHOP_PRODUCT_LIST_SEARCH_BY_DATE_BEFORE = 'Elõtte';
+	var $_PHPSHOP_PRODUCT_FORM_MNU = 'Termék hozzáadása';
+	var $_PHPSHOP_PRODUCT_FORM_EDIT_PRODUCT = 'Termék szerkesztése';
+	var $_PHPSHOP_PRODUCT_FORM_SHOW_FLYPAGE = 'Termék röplap elõnézete az üzletben';
+	var $_PHPSHOP_PRODUCT_FORM_ADD_ITEM_MNU = 'Tétel hozzáadása';
+	var $_PHPSHOP_PRODUCT_FORM_ADD_ANOTHER_ITEM_MNU = 'Új tétel hozzáadása';
+	var $_PHPSHOP_PRODUCT_FORM_NEW_PRODUCT_LBL = 'Új termék';
+	var $_PHPSHOP_PRODUCT_FORM_UPDATE_PRODUCT_LBL = 'Termék frissítése';
+	var $_PHPSHOP_PRODUCT_FORM_PRODUCT_INFO_LBL = 'Termékinformáció';
+	var $_PHPSHOP_PRODUCT_FORM_PRODUCT_STATUS_LBL = 'Termék állapota';
+	var $_PHPSHOP_PRODUCT_FORM_PRODUCT_DIM_WEIGHT_LBL = 'Termék méretei és súlya';
+	var $_PHPSHOP_PRODUCT_FORM_PRODUCT_IMAGES_LBL = 'Termékképek';
+	var $_PHPSHOP_PRODUCT_FORM_NEW_ITEM_LBL = 'Új tétel';
+	var $_PHPSHOP_PRODUCT_FORM_UPDATE_ITEM_LBL = 'Tétel frissítése';
+	var $_PHPSHOP_PRODUCT_FORM_ITEM_INFO_LBL = 'Tétel információk';
+	var $_PHPSHOP_PRODUCT_FORM_ITEM_STATUS_LBL = 'Tétel státusa';
+	var $_PHPSHOP_PRODUCT_FORM_ITEM_DIM_WEIGHT_LBL = 'Tétel méretei és súlya';
+	var $_PHPSHOP_PRODUCT_FORM_ITEM_IMAGES_LBL = 'Tétel képek';
+	var $_PHPSHOP_PRODUCT_FORM_RETURN_LBL = 'Visszatérés a szülõtermékhez';
+	var $_PHPSHOP_PRODUCT_FORM_IMAGE_UPDATE_LBL = 'Írja be az új kép útvonalát a jelenlegi kép frissítéséhez.';
+	var $_PHPSHOP_PRODUCT_FORM_IMAGE_DELETE_LBL = 'A jelenlegi kép törlése.';
+	var $_PHPSHOP_PRODUCT_FORM_PRODUCT_ITEMS_LBL = 'Termék tételek';
+	var $_PHPSHOP_PRODUCT_FORM_ITEM_ATTRIBUTES_LBL = 'Tétel attribútumok';
+	var $_PHPSHOP_PRODUCT_FORM_DELETE_PRODUCT_MSG = 'Biztosan törölni akarja ezt a terméket,\\n és a hozzá kapcsolódó tételeket?';
+	var $_PHPSHOP_PRODUCT_FORM_DELETE_ITEM_MSG = 'Biztosan törölni akarja ezt a tételt?';
+	var $_PHPSHOP_PRODUCT_FORM_VENDOR = 'Eladó';
+	var $_PHPSHOP_PRODUCT_FORM_MANUFACTURER = 'Gyártó';
+	var $_PHPSHOP_PRODUCT_FORM_SKU = 'Cikksz.';
+	var $_PHPSHOP_PRODUCT_FORM_NAME = 'Név';
+	var $_PHPSHOP_PRODUCT_FORM_URL = 'Webcím';
+	var $_PHPSHOP_PRODUCT_FORM_CATEGORY = 'Kategória';
+	var $_PHPSHOP_PRODUCT_FORM_PRICE_GROSS = 'Fogyasztói ár (bruttó)';
+	var $_PHPSHOP_PRODUCT_FORM_PRICE_NET = 'Fogyasztói ár (nettó)';
+	var $_PHPSHOP_PRODUCT_FORM_DESCRIPTION = 'Termékismertetõ';
+	var $_PHPSHOP_PRODUCT_FORM_S_DESC = 'Rövid ismertetõ';
+	var $_PHPSHOP_PRODUCT_FORM_IN_STOCK = 'Raktáron';
+	var $_PHPSHOP_PRODUCT_FORM_ON_ORDER = 'Megrendelve';
+	var $_PHPSHOP_PRODUCT_FORM_AVAILABLE_DATE = 'Mikortól kapható';
+	var $_PHPSHOP_PRODUCT_FORM_SPECIAL = 'Akciós termék';
+	var $_PHPSHOP_PRODUCT_FORM_DISCOUNT_TYPE = 'Árengedmény típusa';
+	var $_PHPSHOP_PRODUCT_FORM_PUBLISH = 'Közzétéve?';
+	var $_PHPSHOP_PRODUCT_FORM_LENGTH = 'Hosszúság';
+	var $_PHPSHOP_PRODUCT_FORM_WIDTH = 'Szélesség';
+	var $_PHPSHOP_PRODUCT_FORM_HEIGHT = 'Magasság';
+	var $_PHPSHOP_PRODUCT_FORM_DIMENSION_UOM = 'Mértékegység';
+	var $_PHPSHOP_PRODUCT_FORM_WEIGHT = 'Súly';
+	var $_PHPSHOP_PRODUCT_FORM_WEIGHT_UOM = 'Mértékegység';
+	var $_PHPSHOP_PRODUCT_FORM_THUMB_IMAGE = 'Miniatûr';
+	var $_PHPSHOP_PRODUCT_FORM_FULL_IMAGE = 'Nagy kép';
+	var $_PHPSHOP_PRODUCT_FORM_WEIGHT_UOM_DEFAULT = 'font';
+	var $_PHPSHOP_PRODUCT_FORM_DIMENSION_UOM_DEFAULT = 'hüvelyk';
+	var $_PHPSHOP_PRODUCT_FORM_UNIT = 'Mértékegység';
+	var $_PHPSHOP_PRODUCT_FORM_UNIT_DEFAULT = 'darab';
+	var $_PHPSHOP_PRODUCT_FORM_PACKAGING = 'Units in Packaging';
+	var $_PHPSHOP_PRODUCT_FORM_PACKAGING_DESCRIPTION = 'Here you can fill in a number unit in packaging. (max. 65535)';
+	var $_PHPSHOP_PRODUCT_FORM_BOX = 'Units in Box';
+	var $_PHPSHOP_PRODUCT_FORM_BOX_DESCRIPTION = 'Here you can fill in a number unit in box. (max. 65535)';
+	var $_PHPSHOP_PRODUCT_DISPLAY_ADD_PRODUCT_LBL = 'Termék hozzáadás eredménye';
+	var $_PHPSHOP_PRODUCT_DISPLAY_UPDATE_PRODUCT_LBL = 'Termékfrissítés eredménye';
+	var $_PHPSHOP_PRODUCT_DISPLAY_ADD_ITEM_LBL = 'Tétel hozzáadás eredménye';
+	var $_PHPSHOP_PRODUCT_DISPLAY_UPDATE_ITEM_LBL = 'Tétel frissítés eredménye';
+	var $_PHPSHOP_PRODUCT_CSV_UPLOAD = 'CSV feltöltés használata';
+	var $_PHPSHOP_PRODUCT_FOLDERS = 'Termékcsoportok';
+	var $_PHPSHOP_CATEGORY_LIST_MNU = 'Kategóriák listázása';
+	var $_PHPSHOP_CATEGORY_LIST_LBL = 'Kategóriafa';
+	var $_PHPSHOP_CATEGORY_FORM_MNU = 'Kategória hozzáadása';
+	var $_PHPSHOP_CATEGORY_FORM_LBL = 'Kategória tulajdonságai';
+	var $_PHPSHOP_CATEGORY_FORM_NAME = 'Kategória neve';
+	var $_PHPSHOP_CATEGORY_FORM_PARENT = 'Szülõkategória';
+	var $_PHPSHOP_CATEGORY_FORM_DESCRIPTION = 'Kategória leírása';
+	var $_PHPSHOP_CATEGORY_FORM_PUBLISH = 'Közzétéve?';
+	var $_PHPSHOP_CATEGORY_FORM_FLYPAGE = 'Kategória röplap';
+	var $_PHPSHOP_ATTRIBUTE_LIST_MNU = 'Attribútumok listázása';
+	var $_PHPSHOP_ATTRIBUTE_LIST_LBL = 'Attribútumok';
+	var $_PHPSHOP_ATTRIBUTE_LIST_NAME = 'Attribútum neve';
+	var $_PHPSHOP_ATTRIBUTE_LIST_ORDER = 'Listázási sorrend';
+	var $_PHPSHOP_ATTRIBUTE_FORM_MNU = 'Attribútum hozzáadása';
+	var $_PHPSHOP_ATTRIBUTE_FORM_LBL = 'Attribútum ûrlap';
+	var $_PHPSHOP_ATTRIBUTE_FORM_NEW_FOR_PRODUCT = 'Új termékattribútum:';
+	var $_PHPSHOP_ATTRIBUTE_FORM_UPDATE_FOR_PRODUCT = 'Termékattribútum frissítése';
+	var $_PHPSHOP_ATTRIBUTE_FORM_NEW_FOR_ITEM = 'Új tételattribútum:';
+	var $_PHPSHOP_ATTRIBUTE_FORM_UPDATE_FOR_ITEM = 'Tételattribútum frissítése';
+	var $_PHPSHOP_ATTRIBUTE_FORM_NAME = 'Attribútum neve';
+	var $_PHPSHOP_ATTRIBUTE_FORM_ORDER = 'Listázási sorrend';
+	var $_PHPSHOP_PRICE_LIST_MNU = 'Árlista';
+	var $_PHPSHOP_PRICE_LIST_LBL = 'Árlista';
+	var $_PHPSHOP_PRICE_LIST_FOR_LBL = 'Ára';
+	var $_PHPSHOP_PRICE_LIST_GROUP_NAME = 'Csoport neve';
+	var $_PHPSHOP_PRICE_LIST_PRICE = 'Ár';
+	var $_PHPSHOP_PRODUCT_LIST_CURRENCY = 'Pénznem';
+	var $_PHPSHOP_PRICE_FORM_MNU = 'Ár hozzáadása';
+	var $_PHPSHOP_PRICE_FORM_LBL = 'Árinformáció';
+	var $_PHPSHOP_PRICE_FORM_NEW_FOR_PRODUCT = 'A termék új ára';
+	var $_PHPSHOP_PRICE_FORM_UPDATE_FOR_PRODUCT = 'A termék árának frissítése';
+	var $_PHPSHOP_PRICE_FORM_NEW_FOR_ITEM = 'Új tételár';
+	var $_PHPSHOP_PRICE_FORM_UPDATE_FOR_ITEM = 'Tétel árának frissítése';
+	var $_PHPSHOP_PRICE_FORM_PRICE = 'Ár';
+	var $_PHPSHOP_PRICE_FORM_CURRENCY = 'Pénznem';
+	var $_PHPSHOP_PRICE_FORM_GROUP = 'Vásárlócsoport';
+	var $_PHPSHOP_REPORTBASIC_MOD = 'Jelentések';
+	var $_PHPSHOP_RB_INDIVIDUAL = 'Egyéni terméklisták';
+	var $_PHPSHOP_RB_SALE_TITLE = 'Eladási jelentések';
+	var $_PHPSHOP_RB_SALES_PAGE_TITLE = 'Eladási adatok áttekintése';
+	var $_PHPSHOP_RB_INTERVAL_TITLE = 'Válassza ki az idõtartamot';
+	var $_PHPSHOP_RB_INTERVAL_MONTHLY_TITLE = 'Havi';
+	var $_PHPSHOP_RB_INTERVAL_WEEKLY_TITLE = 'Heti';
+	var $_PHPSHOP_RB_INTERVAL_DAILY_TITLE = 'Napi';
+	var $_PHPSHOP_RB_THISMONTH_BUTTON = 'E havi';
+	var $_PHPSHOP_RB_LASTMONTH_BUTTON = 'Múlt havi';
+	var $_PHPSHOP_RB_LAST60_BUTTON = 'Utolsó 60 nap';
+	var $_PHPSHOP_RB_LAST90_BUTTON = 'Utolsó 90 nap';
+	var $_PHPSHOP_RB_START_DATE_TITLE = 'Mettõl';
+	var $_PHPSHOP_RB_END_DATE_TITLE = 'Meddig';
+	var $_PHPSHOP_RB_SHOW_SEL_RANGE = 'A megadott idõtartam mutatása';
+	var $_PHPSHOP_RB_REPORT_FOR = 'Jelentés ';
+	var $_PHPSHOP_RB_DATE = 'Dátum';
+	var $_PHPSHOP_RB_ORDERS = 'Rendelések';
+	var $_PHPSHOP_RB_TOTAL_ITEMS = 'Össz. eladott tételek';
+	var $_PHPSHOP_RB_REVENUE = 'Jövedelem';
+	var $_PHPSHOP_RB_PRODLIST = 'Termék listázás';
+	var $_PHPSHOP_SHOP_MOD = 'Üzlet';
+	var $_PHPSHOP_PRODUCT_THUMB_TITLE = 'Kép';
+	var $_PHPSHOP_PRODUCT_PRICE_TITLE = 'Ár';
+	var $_PHPSHOP_ORDER_STATUS_P = 'Függõ';
+	var $_PHPSHOP_ORDER_STATUS_C = 'Visszaigazolva';
+	var $_PHPSHOP_ORDER_STATUS_X = 'Visszavonva';
+	var $_PHPSHOP_ORDER_BUTTON = 'Rendelés';
+	var $_PHPSHOP_SHOPPER_MOD = 'Vásárlók';
+	var $_PHPSHOP_SHOPPER_LIST_MNU = 'Vásárlók listázása';
+	var $_PHPSHOP_SHOPPER_LIST_LBL = 'Vásárlók listája';
+	var $_PHPSHOP_SHOPPER_LIST_USERNAME = 'Felhasználónév';
+	var $_PHPSHOP_SHOPPER_LIST_NAME = 'Teljes név';
+	var $_PHPSHOP_SHOPPER_LIST_GROUP = 'Csoport';
+	var $_PHPSHOP_SHOPPER_FORM_MNU = 'Vásárló hozzáadása';
+	var $_PHPSHOP_SHOPPER_FORM_LBL = 'Vásárló adatai';
+	var $_PHPSHOP_SHOPPER_FORM_BILLTO_LBL = 'Számlázási cím';
+	var $_PHPSHOP_SHOPPER_FORM_ADDRESS_INFO_LBL = 'Információ';
+	var $_PHPSHOP_SHOPPER_FORM_SHIPTO_LBL = 'Szállítási cím';
+	var $_PHPSHOP_SHOPPER_FORM_ADD_SHIPTO_LBL = 'Címet hozzáad';
+	var $_PHPSHOP_SHOPPER_FORM_ADDRESS_LABEL = 'Cím álnév';
+	var $_PHPSHOP_SHOPPER_FORM_USERNAME = 'Felhasználónév';
+	var $_PHPSHOP_SHOPPER_FORM_FIRST_NAME = 'Vezetéknév';
+	var $_PHPSHOP_SHOPPER_FORM_LAST_NAME = 'Utónév';
+	var $_PHPSHOP_SHOPPER_FORM_MIDDLE_NAME = 'Családnév';
+	var $_PHPSHOP_SHOPPER_FORM_TITLE = 'Megszólítás';
+	var $_PHPSHOP_SHOPPER_FORM_SHOPPERNAME = 'Vásárlónév';
+	var $_PHPSHOP_SHOPPER_FORM_PASSWORD_1 = 'Jelszó';
+	var $_PHPSHOP_SHOPPER_FORM_PASSWORD_2 = 'Jelszó megerõsítése';
+	var $_PHPSHOP_SHOPPER_FORM_GROUP = 'Vásárlócsoport';
+	var $_PHPSHOP_SHOPPER_FORM_COMPANY_NAME = 'Cég';
+	var $_PHPSHOP_SHOPPER_FORM_ADDRESS_1 = 'Cím 1';
+	var $_PHPSHOP_SHOPPER_FORM_ADDRESS_2 = 'Cím 2';
+	var $_PHPSHOP_SHOPPER_FORM_CITY = 'Város';
+	var $_PHPSHOP_SHOPPER_FORM_STATE = 'Állam/Tartomány/Megye';
+	var $_PHPSHOP_SHOPPER_FORM_ZIP = 'Irányítószám';
+	var $_PHPSHOP_SHOPPER_FORM_COUNTRY = 'Ország';
+	var $_PHPSHOP_SHOPPER_FORM_PHONE = 'Telefon';
+	var $_PHPSHOP_SHOPPER_FORM_PHONE2 = 'Mobiltelefon';
+	var $_PHPSHOP_SHOPPER_FORM_FAX = 'Fax';
+	var $_PHPSHOP_SHOPPER_FORM_EMAIL = 'E-mail';
+	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_1 = '';
+	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_2 = '';
+	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_3 = '';
+	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_4 = '';
+	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_4_1 = 'Igen';
+	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_4_2 = 'Nem';
+	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_5 = '';
+	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_5_1 = 'AAA';
+	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_5_2 = 'BBB';
+	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_5_3 = 'CCC';
+	var $_PHPSHOP_SHOPPER_GROUP_LIST_MNU = 'Vásárlócsoportok listázása';
+	var $_PHPSHOP_SHOPPER_GROUP_LIST_LBL = 'Vásárlócsoportok';
+	var $_PHPSHOP_SHOPPER_GROUP_LIST_NAME = 'Csoportnév';
+	var $_PHPSHOP_SHOPPER_GROUP_LIST_DESCRIPTION = 'Csoport leírása';
+	var $_PHPSHOP_SHOPPER_GROUP_FORM_LBL = 'Vásárlócsoport ûrlapja';
+	var $_PHPSHOP_SHOPPER_GROUP_FORM_MNU = 'Vásárlócsoport hozzáadása';
+	var $_PHPSHOP_SHOPPER_GROUP_FORM_NAME = 'Csoport neve';
+	var $_PHPSHOP_SHOPPER_GROUP_FORM_DESC = 'Csoport leírása';
+	var $_PHPSHOP_STORE_MOD = 'Üzlet';
+	var $_PHPSHOP_STORE_FORM_MNU = 'Üzlet szerkesztése';
+	var $_PHPSHOP_STORE_FORM_LBL = 'Üzlet adatai';
+	var $_PHPSHOP_STORE_FORM_CONTACT_LBL = 'Kapcsolattartó';
+	var $_PHPSHOP_STORE_FORM_FULL_IMAGE = 'Nagy kép';
+	var $_PHPSHOP_STORE_FORM_UPLOAD = 'Kép feltöltése';
+	var $_PHPSHOP_STORE_FORM_STORE_NAME = 'Üzlet neve';
+	var $_PHPSHOP_STORE_FORM_COMPANY_NAME = 'Üzlettulajdonos cégneve';
+	var $_PHPSHOP_STORE_FORM_ADDRESS_1 = 'Cím 1';
+	var $_PHPSHOP_STORE_FORM_ADDRESS_2 = 'Cím 2';
+	var $_PHPSHOP_STORE_FORM_CITY = 'Város';
+	var $_PHPSHOP_STORE_FORM_STATE = 'Állam/Tartomány/Megye';
+	var $_PHPSHOP_STORE_FORM_COUNTRY = 'Ország';
+	var $_PHPSHOP_STORE_FORM_ZIP = 'Irányítószám';
+	var $_PHPSHOP_STORE_FORM_PHONE = 'Telefon';
+	var $_PHPSHOP_STORE_FORM_CURRENCY = 'Pénznem';
+	var $_PHPSHOP_STORE_FORM_CATEGORY = 'Üzlet kategóriája';
+	var $_PHPSHOP_STORE_FORM_LAST_NAME = 'Utónév';
+	var $_PHPSHOP_STORE_FORM_FIRST_NAME = 'Vezetéknév';
+	var $_PHPSHOP_STORE_FORM_MIDDLE_NAME = 'Családnév';
+	var $_PHPSHOP_STORE_FORM_TITLE = 'Megszólítás';
+	var $_PHPSHOP_STORE_FORM_PHONE_1 = 'Telefon 1';
+	var $_PHPSHOP_STORE_FORM_PHONE_2 = 'Telefon 2';
+	var $_PHPSHOP_STORE_FORM_FAX = 'Fax';
+	var $_PHPSHOP_STORE_FORM_EMAIL = 'E-mail';
+	var $_PHPSHOP_STORE_FORM_IMAGE_PATH = 'Kép útvonala';
+	var $_PHPSHOP_STORE_FORM_DESCRIPTION = 'Leírás';
+	var $_PHPSHOP_PAYMENT = 'Fizetés';
+	var $_PHPSHOP_PAYMENT_METHOD_LIST_MNU = 'Fizetési módok';
+	var $_PHPSHOP_PAYMENT_METHOD_LIST_LBL = 'Fizetési módok';
+	var $_PHPSHOP_PAYMENT_METHOD_LIST_NAME = 'Név';
+	var $_PHPSHOP_PAYMENT_METHOD_LIST_CODE = 'Kód';
+	var $_PHPSHOP_PAYMENT_METHOD_LIST_DISCOUNT = 'Árengedmény';
+	var $_PHPSHOP_PAYMENT_METHOD_LIST_SHOPPER_GROUP = 'Vásárlócsoport';
+	var $_PHPSHOP_PAYMENT_METHOD_LIST_ENABLE_PROCESSOR = 'Fizetési mód típusa';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_MNU = 'Fizetési mód hozzáadása';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_LBL = 'Fizetési mód ûrlap';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_NAME = 'Fizetési mód neve';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_SHOPPER_GROUP = 'Vásárlócsoport';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_DISCOUNT = 'Árengedmény';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_CODE = 'Kód';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_LIST_ORDER = 'Listázási sorrend';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_ENABLE_PROCESSOR = 'Fizetési mód típusa';
+	var $_PHPSHOP_TAX_MOD = 'Adózás';
+	var $_PHPSHOP_TAX_RATE = 'Adókulcsok';
+	var $_PHPSHOP_TAX_LIST_MNU = 'Adókulcsok listázása';
+	var $_PHPSHOP_TAX_LIST_LBL = 'Adókulcsok listája';
+	var $_PHPSHOP_TAX_LIST_STATE = 'Adózási állam vagy terület';
+	var $_PHPSHOP_TAX_LIST_COUNTRY = 'Adózási ország';
+	var $_PHPSHOP_TAX_LIST_RATE = 'Adókulcs';
+	var $_PHPSHOP_TAX_FORM_MNU = 'Adókulcs hozzáadása';
+	var $_PHPSHOP_TAX_FORM_LBL = 'Adózási adatok hozzáadása';
+	var $_PHPSHOP_TAX_FORM_STATE = 'Adózási állam vagy terület';
+	var $_PHPSHOP_TAX_FORM_COUNTRY = 'Adózási ország';
+	var $_PHPSHOP_TAX_FORM_RATE = 'Adókulcs (16% esetén => 0.16-ot írjon be)';
+	var $_PHPSHOP_VENDOR_MOD = 'Eladók';
+	var $_PHPSHOP_VENDOR_ADMIN = 'Eladók';
+	var $_PHPSHOP_VENDOR_LIST_MNU = 'Eladók listázása';
+	var $_PHPSHOP_VENDOR_LIST_LBL = 'Eladók';
+	var $_PHPSHOP_VENDOR_LIST_VENDOR_NAME = 'Eladó neve';
+	var $_PHPSHOP_VENDOR_LIST_ADMIN = 'Admin';
+	var $_PHPSHOP_VENDOR_FORM_MNU = 'Eladó hozzáadása';
+	var $_PHPSHOP_VENDOR_FORM_LBL = 'Információ hozzáadása';
+	var $_PHPSHOP_VENDOR_FORM_INFO_LBL = 'Eladó tulajdonságai';
+	var $_PHPSHOP_VENDOR_FORM_CONTACT_LBL = 'Elérhetõségi információ';
+	var $_PHPSHOP_VENDOR_FORM_FULL_IMAGE = 'Nagy kép';
+	var $_PHPSHOP_VENDOR_FORM_UPLOAD = 'Kép feltöltése';
+	var $_PHPSHOP_VENDOR_FORM_STORE_NAME = 'Eladó üzlet neve';
+	var $_PHPSHOP_VENDOR_FORM_COMPANY_NAME = 'Eladó cég neve';
+	var $_PHPSHOP_VENDOR_FORM_ADDRESS_1 = 'Cím 1';
+	var $_PHPSHOP_VENDOR_FORM_ADDRESS_2 = 'Cím 2';
+	var $_PHPSHOP_VENDOR_FORM_CITY = 'Város';
+	var $_PHPSHOP_VENDOR_FORM_STATE = 'Állam/Tartomány/Megye';
+	var $_PHPSHOP_VENDOR_FORM_COUNTRY = 'Ország';
+	var $_PHPSHOP_VENDOR_FORM_ZIP = 'Irányítószám';
+	var $_PHPSHOP_VENDOR_FORM_PHONE = 'Telefon';
+	var $_PHPSHOP_VENDOR_FORM_CURRENCY = 'Pénznem';
+	var $_PHPSHOP_VENDOR_FORM_CATEGORY = 'Eladó-kategória';
+	var $_PHPSHOP_VENDOR_FORM_LAST_NAME = 'Utónév';
+	var $_PHPSHOP_VENDOR_FORM_FIRST_NAME = 'Vezetéknév';
+	var $_PHPSHOP_VENDOR_FORM_MIDDLE_NAME = 'Családnév';
+	var $_PHPSHOP_VENDOR_FORM_TITLE = 'Megszólítás';
+	var $_PHPSHOP_VENDOR_FORM_PHONE_1 = 'Telefon 1';
+	var $_PHPSHOP_VENDOR_FORM_PHONE_2 = 'Telefon 2';
+	var $_PHPSHOP_VENDOR_FORM_FAX = 'Fax';
+	var $_PHPSHOP_VENDOR_FORM_EMAIL = 'E-mail';
+	var $_PHPSHOP_VENDOR_FORM_IMAGE_PATH = 'Kép útvonala';
+	var $_PHPSHOP_VENDOR_FORM_DESCRIPTION = 'Leírás';
+	var $_PHPSHOP_VENDOR_CAT_LIST_MNU = 'Eladó-kategóriák listázása';
+	var $_PHPSHOP_VENDOR_CAT_LIST_LBL = 'Eladó-kategóriák';
+	var $_PHPSHOP_VENDOR_CAT_NAME = 'Kategória neve';
+	var $_PHPSHOP_VENDOR_CAT_DESCRIPTION = 'Kategória leírása';
+	var $_PHPSHOP_VENDOR_CAT_VENDORS = 'Eladók';
+	var $_PHPSHOP_VENDOR_CAT_FORM_MNU = 'Eladó-kategória hozzáadása';
+	var $_PHPSHOP_VENDOR_CAT_FORM_LBL = 'Eladó-kategória ûrlap';
+	var $_PHPSHOP_VENDOR_CAT_FORM_INFO_LBL = 'Kategória tulajdonságai';
+	var $_PHPSHOP_VENDOR_CAT_FORM_NAME = 'Kategória neve';
+	var $_PHPSHOP_VENDOR_CAT_FORM_DESCRIPTION = 'Kategória leírása';
+	var $_PHPSHOP_MANUFACTURER_MOD = 'Gyártók';
+	var $_PHPSHOP_MANUFACTURER_ADMIN = 'Gyártók';
+	var $_PHPSHOP_MANUFACTURER_LIST_MNU = 'Gyártók listázása';
+	var $_PHPSHOP_MANUFACTURER_LIST_LBL = 'Gyártók';
+	var $_PHPSHOP_MANUFACTURER_LIST_MANUFACTURER_NAME = 'Gyártó neve';
+	var $_PHPSHOP_MANUFACTURER_LIST_ADMIN = 'Admin';
+	var $_PHPSHOP_MANUFACTURER_FORM_MNU = 'Gyártó hozzáadása';
+	var $_PHPSHOP_MANUFACTURER_FORM_LBL = 'Információ hozzáadása';
+	var $_PHPSHOP_MANUFACTURER_FORM_INFO_LBL = 'Információk a gyártóról';
+	var $_PHPSHOP_MANUFACTURER_FORM_NAME = 'Gyártó neve';
+	var $_PHPSHOP_MANUFACTURER_FORM_CATEGORY = 'Gyártó-kategória';
+	var $_PHPSHOP_MANUFACTURER_FORM_EMAIL = 'E-mail';
+	var $_PHPSHOP_MANUFACTURER_FORM_URL = 'Gyártó honlapjának címe';
+	var $_PHPSHOP_MANUFACTURER_FORM_DESCRIPTION = 'Leírás';
+	var $_PHPSHOP_MANUFACTURER_CAT_LIST_MNU = 'Gyártó-kategóriák listázása';
+	var $_PHPSHOP_MANUFACTURER_CAT_LIST_LBL = 'Gyártó-kategóriák';
+	var $_PHPSHOP_MANUFACTURER_CAT_NAME = 'Kategória neve';
+	var $_PHPSHOP_MANUFACTURER_CAT_DESCRIPTION = 'Kategória leírás';
+	var $_PHPSHOP_MANUFACTURER_CAT_MANUFACTURERS = 'Gyártók';
+	var $_PHPSHOP_MANUFACTURER_CAT_FORM_MNU = 'Gyártó-kategória hozzáadása';
+	var $_PHPSHOP_MANUFACTURER_CAT_FORM_LBL = 'Gyártó-kategória ûrlap';
+	var $_PHPSHOP_MANUFACTURER_CAT_FORM_INFO_LBL = 'Kategória információ';
+	var $_PHPSHOP_MANUFACTURER_CAT_FORM_NAME = 'Kategória neve';
+	var $_PHPSHOP_MANUFACTURER_CAT_FORM_DESCRIPTION = 'Kategória leírás';
+	var $_PHPSHOP_HELP_MOD = 'Súgó';
+	var $_PHPSHOP_CART_ACTION = 'Frissítés';
+	var $_PHPSHOP_CART_UPDATE = 'Frissíti a kosár tartalmát';
+	var $_PHPSHOP_CART_DELETE = 'Kiveszi a terméket a kosárból';
+	var $_PHPSHOP_PRODUCT_PRICETAG = 'Ár';
+	var $_PHPSHOP_PRODUCT_CALL = 'Hívjon az árért';
+	var $_PHPSHOP_PRODUCT_PREVIOUS = 'Elõzõ';
+	var $_PHPSHOP_PRODUCT_NEXT = 'TOVÁBB';
+	var $_PHPSHOP_CART_TAX = 'Adó';
+	var $_PHPSHOP_CART_SHIPPING = 'Szállítási és kezelési költség';
+	var $_PHPSHOP_CART_TOTAL = 'Összesen';
+	var $_PHPSHOP_CHECKOUT_NEXT = 'Tovább';
+	var $_PHPSHOP_CHECKOUT_REGISTER = 'REGISZTRÁL';
+	var $_PHPSHOP_CHECKOUT_CONF_BILLINFO = 'Számlázási információ';
+	var $_PHPSHOP_CHECKOUT_CONF_COMPANY = 'Cég';
+	var $_PHPSHOP_CHECKOUT_CONF_NAME = 'Név';
+	var $_PHPSHOP_CHECKOUT_CONF_ADDRESS = 'Cím';
+	var $_PHPSHOP_CHECKOUT_CONF_PHONE = 'Telefon';
+	var $_PHPSHOP_CHECKOUT_CONF_FAX = 'Fax';
+	var $_PHPSHOP_CHECKOUT_CONF_EMAIL = 'E-mail';
+	var $_PHPSHOP_CHECKOUT_CONF_SHIPINFO = 'Szállítási információ';
+	var $_PHPSHOP_CHECKOUT_CONF_SHIPINFO_COMPANY = 'Cég';
+	var $_PHPSHOP_CHECKOUT_CONF_SHIPINFO_NAME = 'Név';
+	var $_PHPSHOP_CHECKOUT_CONF_SHIPINFO_ADDRESS = 'Cím';
+	var $_PHPSHOP_CHECKOUT_CONF_SHIPINFO_PHONE = 'Telefon';
+	var $_PHPSHOP_CHECKOUT_CONF_SHIPINFO_FAX = 'Fax';
+	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO = 'Fizetési információ';
+	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO_NAMECARD = 'Név a hitelkártyán';
+	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO_METHOD = 'Fizetési mód';
+	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO_CCNUM = 'Hitelkártya szám';
+	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO_EXDATE = 'Lejárati dátum';
+	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO_COMPORDER = 'Rendelés feladása';
+	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO_REQINFO = 'kért információ amikor hitelkártyás kifizetés van kiválasztva';
+	var $_PHPSHOP_ZONE_MOD = 'Zonális szállítás';
+	var $_PHPSHOP_ZONE_LIST_MNU = 'Zónák listázása';
+	var $_PHPSHOP_ZONE_FORM_MNU = 'Zóna hozzáadása';
+	var $_PHPSHOP_ZONE_ASSIGN_MNU = 'Hozzárendelés zónákhoz';
+	var $_PHPSHOP_ZONE_ASSIGN_COUNTRY_LBL = 'Ország';
+	var $_PHPSHOP_ZONE_ASSIGN_CURRENT_LBL = 'Jelenlegi zóna';
+	var $_PHPSHOP_ZONE_ASSIGN_ASSIGN_LBL = 'Rendelje hozzá egy zónához';
+	var $_PHPSHOP_ZONE_ASSIGN_UPDATE_LBL = 'Frissít';
+	var $_PHPSHOP_ASSIGN_ZONE_PG_LBL = 'Hozzárendelés zónákhoz';
+	var $_PHPSHOP_ZONE_FORM_NAME_LBL = 'Zóna név';
+	var $_PHPSHOP_ZONE_FORM_DESC_LBL = 'Zóna leírás';
+	var $_PHPSHOP_ZONE_FORM_COST_PER_LBL = 'Zóna költség tételenként';
+	var $_PHPSHOP_ZONE_FORM_COST_LIMIT_LBL = 'Zóna költséghatár';
+	var $_PHPSHOP_ZONE_LIST_LBL = 'Zóna lista';
+	var $_PHPSHOP_ZONE_LIST_NAME_LBL = 'Zóna név';
+	var $_PHPSHOP_ZONE_LIST_DESC_LBL = 'Zóna leírás';
+	var $_PHPSHOP_ZONE_LIST_COST_PER_LBL = 'Zóna költség tételenként';
+	var $_PHPSHOP_ZONE_LIST_COST_LIMIT_LBL = 'Zóna költséghatár';
+	var $_PHPSHOP_LOGIN_FIRST = 'Kérjük, jelentkezzen be vagy regisztrálja magát (használja a bejelentkezési modult!).<br>Köszönjük.';
+	var $_PHPSHOP_STORE_FORM_TOS = 'Használati feltételek';
+	var $_PHPSHOP_AGREE_TO_TOS = 'Kérjük, fogadja el a használati feltételeinket!';
+	var $_PHPSHOP_I_AGREE_TO_TOS = 'Elfogadom a használati feltételeket.';
+	var $_PHPSHOP_LEAVE_BLANK = '(hagyja üresen, ha nincs <br />hozzá egyéni php-fájl!)';
+	var $_PHPSHOP_RETURN_LOGIN = 'Visszatérõ vásárlók: Kérjük, jelentkezzen be';
+	var $_PHPSHOP_NEW_CUSTOMER = 'Új? Kérjük, adja meg a számlázási adatait';
+	var $_PHPSHOP_ACC_CUSTOMER_ACCOUNT = 'Vásárlói fiók:';
+	var $_PHPSHOP_ACC_ORDER_INFO = 'Rendelési adatok';
+	var $_PHPSHOP_ACC_UPD_BILL = 'Itt módosíthatja a számlázási címét.';
+	var $_PHPSHOP_ACC_UPD_SHIP = 'Itt adhatja hozzá/tarthatja karban a szállítási címeket.';
+	var $_PHPSHOP_ACC_ACCOUNT_INFO = 'Fiók adatai';
+	var $_PHPSHOP_ACC_SHIP_INFO = 'Szállítási cím';
+	var $_PHPSHOP_ACC_NO_ORDERS = 'Nincs megjeleníthetõ megrendelés';
+	var $_PHPSHOP_ACC_BILL_DEF = '- Alapértelmezett (azonos a számlázási címmel)';
+	var $_PHPSHOP_SHIPTO_TEXT = 'Itt adhatja hozzá a rendeltetési helyeket az Ön fiókjához. Kérjük, találjon ki az alább megadandó rendeltetési hely számára alkalmas becenevet vagy kódot.';
+	var $_PHPSHOP_CONFIG = 'Beállítások';
+	var $_PHPSHOP_USERS = 'Felhasználók';
+	var $_PHPSHOP_IS_CC_PAYMENT = 'Hitelkártyás fizetés?';
+	var $_PHPSHOP_SHIPPING_MOD = 'Szállítás';
+	var $_PHPSHOP_SHIPPING_MENU_LABEL = 'Szállítás';
+	var $_PHPSHOP_CARRIER_LIST_MNU = 'Szállítók listázása';
+	var $_PHPSHOP_CARRIER_LIST_LBL = 'Szállítók';
+	var $_PHPSHOP_RATE_LIST_MNU = 'Szállítási díjak';
+	var $_PHPSHOP_RATE_LIST_LBL = 'Szállítási díjak';
+	var $_PHPSHOP_CARRIER_LIST_NAME_LBL = 'Név';
+	var $_PHPSHOP_CARRIER_LIST_ORDER_LBL = 'Listázási sorrend';
+	var $_PHPSHOP_CARRIER_FORM_MNU = 'Szállító létrehozása';
+	var $_PHPSHOP_CARRIER_FORM_LBL = 'Szállító módosítása/létrehozása';
+	var $_PHPSHOP_RATE_FORM_MNU = 'Szállítási díj létrehozása';
+	var $_PHPSHOP_RATE_FORM_LBL = 'Szállítási díj létrehozása/módosítása';
+	var $_PHPSHOP_RATE_FORM_NAME = 'Szállítási díj leírása';
+	var $_PHPSHOP_RATE_FORM_CARRIER = 'Szállító';
+	var $_PHPSHOP_RATE_FORM_COUNTRY = 'Ország';
+	var $_PHPSHOP_RATE_FORM_ZIP_START = 'Irányítószám sorozat kezdete';
+	var $_PHPSHOP_RATE_FORM_ZIP_END = 'Irányítószám sorozat vége';
+	var $_PHPSHOP_RATE_FORM_WEIGHT_START = 'Legkisebb súly';
+	var $_PHPSHOP_RATE_FORM_WEIGHT_END = 'Legnagyobb súly';
+	var $_PHPSHOP_RATE_FORM_VALUE = 'Illeték';
+	var $_PHPSHOP_RATE_FORM_PACKAGE_FEE = 'A csomagja illetéke';
+	var $_PHPSHOP_RATE_FORM_CURRENCY = 'Pénznem';
+	var $_PHPSHOP_RATE_FORM_VAT_ID = 'TVA azonosító';
+	var $_PHPSHOP_RATE_FORM_LIST_ORDER = 'Listázási sorrend';
+	var $_PHPSHOP_SHIPPING_RATE_LIST_CARRIER_LBL = 'Szállító';
+	var $_PHPSHOP_SHIPPING_RATE_LIST_RATE_NAME = 'Szállítási díj leírása';
+	var $_PHPSHOP_SHIPPING_RATE_LIST_RATE_WSTART = 'Súly  ...-tól';
+	var $_PHPSHOP_SHIPPING_RATE_LIST_RATE_WEND = '... ig';
+	var $_PHPSHOP_CARRIER_FORM_NAME = 'Szállítócég';
+	var $_PHPSHOP_CARRIER_FORM_LIST_ORDER = 'Listázási sorrend';
+	var $_PHPSHOP_ERR_MSG_CARRIER_EXIST = 'HIBA: Szállító ID már létezik.';
+	var $_PHPSHOP_ERR_MSG_CARRIER_ID_REQ = 'HIBA: Válasszon egy szállítót.';
+	var $_PHPSHOP_ERR_MSG_CARRIER_INUSE = 'HIBA: Legalább egy szállítási díjtétel létezik, elõbb törölje le ezeket, és csak utána a szállítót';
+	var $_PHPSHOP_ERR_MSG_CARRIER_NOTFOUND = 'HIBA: Nem találom a szállítót ezzel az ID -vel.';
+	var $_PHPSHOP_ERR_MSG_RATE_CARRIER_ID_REQ = 'HIBA: Válasszon egy szállítót.';
+	var $_PHPSHOP_ERR_MSG_RATE_CARRIER_ID_INV = 'HIBA: Nem találom a szállítót ezzel az ID -vel.';
+	var $_PHPSHOP_ERR_MSG_RATE_NAME_REQ = 'HIBA: A díjtétel leírását meg kell adni.';
+	var $_PHPSHOP_ERR_MSG_RATE_COUNTRY_CODE_INV = 'HIBA: A célország érvénytelen. Több ország megadható az alábbi elválasztó használatával  ";".';
+	var $_PHPSHOP_ERR_MSG_RATE_WEIGHT_START_REQ = 'HIBA: Meg kell adni a legkisebb súlyt';
+	var $_PHPSHOP_ERR_MSG_RATE_WEIGHT_END_REQ = 'HIBA: Meg kell adni a legnagyobb súlyt';
+	var $_PHPSHOP_ERR_MSG_RATE_WEIGHT_STARTEND_INV = 'HIBA: A legkisebb súly kisebb kell legyen, mint a legnagyobb súly';
+	var $_PHPSHOP_ERR_MSG_RATE_WEIGHT_VALUE_REQ = 'HIBA: Meg kell adni a szállítási költséget';
+	var $_PHPSHOP_ERR_MSG_RATE_CURRENCY_ID_INV = 'HIBA: Válasszon egy pénznemet';
+	var $_PHPSHOP_ERR_MSG_RATE_ID_REQ = 'HIBA: Meg kell adni a szállítási díjtételt';
+	var $_PHPSHOP_INFO_MSG_PLEASE_SELECT = 'Kérjük, válasszon';
+	var $_PHPSHOP_INFO_MSG_CARRIER = 'Szállító';
+	var $_PHPSHOP_INFO_MSG_SHIPPING_METHOD = 'Szállítási költség';
+	var $_PHPSHOP_INFO_MSG_SHIPPING_PRICE = 'Ár';
+	var $_PHPSHOP_INFO_MSG_VAT_ZERO_LBL = '0 (-nincs-)';
+	var $_PHPSHOP_PAYMENT_FORM_CC = 'Hitelkártya';
+	var $_PHPSHOP_PAYMENT_FORM_USE_PP = 'Használja a Payment Processort';
+	var $_PHPSHOP_PAYMENT_FORM_BANK_DEBIT = 'Banki terhelés';
+	var $_PHPSHOP_PAYMENT_FORM_AO = 'Csak cím, átvételkor fizetendõ (postai utánvét)';
+	var $_PHPSHOP_CHECKOUT_MSG_2 = 'Kérjük, válasszon egy szállítási címet!';
+	var $_PHPSHOP_CHECKOUT_MSG_3 = 'Kérjük, válassza ki a szállítási módot!';
+	var $_PHPSHOP_CHECKOUT_MSG_4 = 'Kérjük, válassza ki a fizetési módot!';
+	var $_PHPSHOP_CHECKOUT_MSG_99 = 'Kérjük, tekintse át a megadott adatokat, és hagyja jóvá a rendelést!';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_SHIP = 'Kérjük, válassza ki a szállítási módot.';
+	var $_PHPSHOP_CHECKOUT_ERR_OTHER_SHIP = 'Kérjük, válasszon másik szállítási módot.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_PAYM = 'Kérjük, válassza ki a fizetési módot.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_CCNR = 'Kérjük, adja meg a hitelkártyaszámát.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_CCNAME = 'Kérjük, adja meg a hitelkártyán szereplõ nevet.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_CCDATE = 'A megadott hitelkártya szám nem érvényes.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_CCMON = 'Kérjük, adja meg a hitelkártya lejárati hónapját.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_CCYEAR = 'Kérjük, adja meg a  hitelkártya lejárati évét.';
+	var $_PHPSHOP_CHECKOUT_ERR_CCDATE_INV = 'A lejárati dátum nem érvényes.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_SHIPTO = 'Kérjük, válasszon szállítási címet.';
+	var $_PHPSHOP_CHECKOUT_ERR_CCNUM_INV = 'Érvénytelen számlaszám.';
+	var $_PHPSHOP_CHECKOUT_ERR_EMPTY_CART = 'A bevásárlókosara üres!';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_CARR = 'HIBA: Kérjük, válasszon egy szállítót!';
+	var $_PHPSHOP_CHECKOUT_ERR_RATE_NOT_FOUND = 'HIBA: A kiválasztott szállítási díjtételt nem találom!';
+	var $_PHPSHOP_CHECKOUT_ERR_SHIPTO_NOT_FOUND = 'HIBA: Nem található az Ön szállítási címe!';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_CCDATA = 'HIBA: Itt nem található semmilyen hitelkártya adat...';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_CCNR_FOUND = 'HIBA: Nem található a hitelkártyaszám!';
+	var $_PHPSHOP_CHECKOUT_ERR_TEST = 'Sajnos az Ön által megadott hitelkártyaszám egy tesztelési szám!';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_USER_DATA = 'Nem található a user_id az adatbázisban!';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_BA_HOLDER_NAME = 'Még nem adtad meg a számlavezetõ bankfiók nevét.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_IBAN = 'Nem adta meg az IBAN azonosítóját.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_BA_NUM = 'Nem adta meg a bankszámla számát.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_BANK_SORT = 'Nem adta meg a bank sorszámát/azonosítóját.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_BANK_NAME = 'Nem adta meg a bank nevét.';
+	var $_PHPSHOP_CHECKOUT_ERR_NO_VALID_STEP = 'A vásárláshoz meg kell tenni az összes kért lépést!';
+	var $_PHPSHOP_CHECKOUT_MSG_LOG = 'A fizetési információit elmentettük késõbbi feldolgozás céljából.<br />';
+	var $_PHPSHOP_CHECKOUT_ERR_MIN_POV = 'A minimális vásárlási megbízás értékét még nem érte el.';
+	var $_PHPSHOP_CHECKOUT_ERR_MIN_POV2 = 'A minimális vásárlási megbízás értéke:';
+	var $_PHPSHOP_CHECKOUT_PAYMENT_CC = 'Hitelkártyás fizetés';
+	var $_PHPSHOP_CHECKOUT_PAYMENT_OTHER = 'Egyéb fizetési módok';
+	var $_PHPSHOP_CHECKOUT_PAYMENT_SELECT = 'Kérjük, válassza ki a fizetési módot:';
+	var $_PHPSHOP_STORE_FORM_MPOV = 'Minimális vásárlási megbízás értéke';
+	var $_PHPSHOP_ACCOUNT_BANK_TITLE = 'Bankszámla adatai';
+	var $_PHPSHOP_ACCOUNT_LBL_BANK_ACCOUNT_NR = 'Számlaszám';
+	var $_PHPSHOP_ACCOUNT_LBL_BANK_SORT_CODE = 'Bank sorszám/azonosító kód';
+	var $_PHPSHOP_ACCOUNT_LBL_BANK_NAME = 'Bank neve';
+	var $_PHPSHOP_ACCOUNT_LBL_BANK_IBAN = 'IBAN';
+	var $_PHPSHOP_ACCOUNT_LBL_BANK_ACCOUNT_HOLDER = 'Számlatulajdonos';
+	var $_PHPSHOP_MODULES = 'Modulok';
+	var $_PHPSHOP_FUNCTIONS = 'Funkciók';
+	var $_PHPSHOP_SPECIAL_PRODUCTS = 'Speciális termékek';
+	var $_PHPSHOP_CHECKOUT_CUSTOMER_NOTE = 'Kérjük, ha óhajtja, hagyjon üzenetet a rendelése mellett';
+	var $_PHPSHOP_ORDER_PRINT_CUSTOMER_NOTE = 'Vásárlói közlemény';
+	var $_PHPSHOP_INCLUDING_TAX = '($tax % áfával)';
+	var $_PHPSHOP_PLEASE_SEL_ITEM = 'Kérjük, válasszon egy tételt';
+	var $_PHPSHOP_PRODUCT_FORM_ITEM_LBL = 'Tétel';
+	var $_PHPSHOP_DOWNLOADS_TITLE = 'Letöltési részleg';
+	var $_PHPSHOP_DOWNLOADS_START = 'Letöltés megkezdése';
+	var $_PHPSHOP_DOWNLOADS_INFO = 'Kérjük, adja meg az e-mailban kapott Download-ID-t és kattintson  a Letöltés megkezdése gombra.';
+	var $_PHPSHOP_DOWNLOADS_ERR_EXP = 'Sajnos lejárt a letöltésre rendelkezésre álló idõ!';
+	var $_PHPSHOP_DOWNLOADS_ERR_MAX = 'Sajnos elérte a maximális letöltés-számot!';
+	var $_PHPSHOP_DOWNLOADS_ERR_INV = 'Érvénytelen  Download-ID!';
+	var $_PHPSHOP_DOWNLOADS_ERR_SEND = 'Nem küldhetõ el az üzenet az alábbi címre: ';
+	var $_PHPSHOP_DOWNLOADS_SEND_MSG = 'Az üzenet elküldve az alábbi címre: ';
+	var $_PHPSHOP_DOWNLOADS_SEND_SUBJ = 'Letöltési infók';
+	var $_PHPSHOP_DOWNLOADS_SEND_MSG_1 = 'a megrendelt fájl(ok) letölthetõk';
+	var $_PHPSHOP_DOWNLOADS_SEND_MSG_2 = 'Kérjük, adja meg az alábbi  Download-ID-t a Letöltési részlegen:  ';
+	var $_PHPSHOP_DOWNLOADS_SEND_MSG_3 = 'fájlonként a maximális letöltési szám: ';
+	var $_PHPSHOP_DOWNLOADS_SEND_MSG_4 = 'Töltse le legfeljebb {expire} nap alatt az elsõ letöltéstõl számítva';
+	var $_PHPSHOP_DOWNLOADS_SEND_MSG_5 = 'Kérdések? Problémák?';
+	var $_PHPSHOP_DOWNLOADS_SEND_MSG_6 = 'Letöltési infó által ';
+	var $_PHPSHOP_PRODUCT_FORM_DOWNLOADABLE = 'letölthetõ termék?';
+	var $_PHPSHOP_PAYPAL_THANKYOU = 'Köszönjük a kifizetést. 
+        A tranzakció sikeres volt. A PayPal e-mailben fogja értesíteni a tranzakció részleteirõl. 
+        Most folytathatja, vagy bejelentkezhet a <a href=http://www.paypal.com>www.paypal.com</a> -ra, ahol megtekintheti a tranzakció részleteit.';
+	var $_PHPSHOP_PAYPAL_ERROR = 'A tranzakció feldolgozása közben hiba történt. A megrendelése állapotát nem lehet frissíteni.';
+	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER1 = 'Köszönjük, hogy nálunk vásárolt. Az Ön rendelési adatai következnek.';
+	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER2 = 'Köszönjük a támogatását.';
+	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER3 = 'Kérdések? Problémák?';
+	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER4 = 'A következõ rendelést küldte be:';
+	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER5 = 'Tekintse meg a rendelését a következõ hivatkozásra kattintva:';
+	var $_PHPSHOP_CART_ERROR_NO_NEGATIVE = 'Negatív mennyiség nem megengedett.';
+	var $_PHPSHOP_CART_ERROR_NO_VALID_QUANTITY = 'Kérjük, válasszon ki egy lehetséges mennyiséget ebbõl a  tételbõl.';
+	var $_PHPSHOP_CART_STOCK_1 = 'A kiválasztott mennyiség túllépi a készletet. ';
+	var $_PHPSHOP_CART_STOCK_2 = 'Pillanatnyilag $product_in_stock tétel kapható. ';
+	var $_PHPSHOP_CART_STOCK_3 = 'Kattintson ide az elõjegyzésbe vételhez.';
+	var $_PHPSHOP_CART_SELECT_ITEM = 'Kérjük, hogy válasszon a speciális tételekbõl a részletes leíró oldalon!';
+	var $_PHPSHOP_REGISTRATION_FORM_NONE = 'nincs';
+	var $_PHPSHOP_REGISTRATION_FORM_MR = 'Úr';
+	var $_PHPSHOP_REGISTRATION_FORM_MRS = 'Asszony';
+	var $_PHPSHOP_REGISTRATION_FORM_DR = 'Dr.';
+	var $_PHPSHOP_REGISTRATION_FORM_PROF = 'Prof.';
+	var $_PHPSHOP_DEFAULT = 'Alapértelmezett';
+	var $_PHPSHOP_AFFILIATE_MOD = 'Partnerek adminisztrációja';
+	var $_PHPSHOP_AFFILIATE_LIST_MNU = 'A partnerek listázása';
+	var $_PHPSHOP_AFFILIATE_LIST_LBL = 'Partnerek listája';
+	var $_PHPSHOP_AFFILIATE_LIST_AFFILIATE_NAME = 'A partner neve';
+	var $_PHPSHOP_AFFILIATE_LIST_AFFILIATE_ACTIVE = 'Aktív';
+	var $_PHPSHOP_AFFILIATE_LIST_RATE = 'Kamatláb';
+	var $_PHPSHOP_AFFILIATE_LIST_MONTH_TOTAL = 'Havi összeg';
+	var $_PHPSHOP_AFFILIATE_LIST_MONTH_COMMISSION = 'Havi jutalék';
+	var $_PHPSHOP_AFFILIATE_LIST_ORDERS = 'Rendelések listázása';
+	var $_PHPSHOP_AFFILIATE_EMAIL_MNU = 'E-mail küldése a partnereknek';
+	var $_PHPSHOP_AFFILIATE_EMAIL_LBL = 'E-mail küldése a partnereknek';
+	var $_PHPSHOP_AFFILIATE_EMAIL_WHO = 'Kinek küld e-mailt (* = MIND)?';
+	var $_PHPSHOP_AFFILIATE_EMAIL_CONTENT = 'E-mail címe';
+	var $_PHPSHOP_AFFILIATE_EMAIL_SUBJECT = 'Tárgy';
+	var $_PHPSHOP_AFFILIATE_EMAIL_STATS = 'Tartalmazza a jelenlegi statisztikát is';
+	var $_PHPSHOP_AFFILIATE_FORM_RATE = 'Jutalék (százalék)';
+	var $_PHPSHOP_AFFILIATE_FORM_ACTIVE = 'Aktív?';
+	var $_PHPSHOP_DELIVERY_TIME = 'Szállítási határidõ';
+	var $_PHPSHOP_DELIVERY_INFORMATION = 'Kézbesítési információk';
+	var $_PHPSHOP_MORE_CATEGORIES = 'több kategória';
+	var $_PHPSHOP_AVAILABILITY = 'Hozzáférhetõség';
+	var $_PHPSHOP_CURRENTLY_NOT_AVAILABLE = 'Jelenleg nem kapható ez a termék.';
+	var $_PHPSHOP_PRODUCT_AVAILABLE_AGAIN = 'Ismét kapható lesz: ';
+	var $_PHPSHOP_STATISTIC_SUMMARY = 'Összegzés';
+	var $_PHPSHOP_STATISTIC_STATISTICS = 'Statisztika';
+	var $_PHPSHOP_STATISTIC_CUSTOMERS = 'Vásárlók';
+	var $_PHPSHOP_STATISTIC_ACTIVE_PRODUCTS = 'aktív termékek';
+	var $_PHPSHOP_STATISTIC_INACTIVE_PRODUCTS = 'inaktív termékek';
+	var $_PHPSHOP_STATISTIC_SUM = 'Összes';
+	var $_PHPSHOP_STATISTIC_NEW_ORDERS = 'Új rendelések';
+	var $_PHPSHOP_STATISTIC_NEW_CUSTOMERS = 'Új vásárlók';
+	var $_PHPSHOP_WAITING_LIST_MESSAGE = 'Kérjük, adja meg alább az e-mail címét, hogy értesíteni tudjuk, amint kapható lesz a keresett termék. 
+                                         Az e-mail címét nem adjuk ki, nem adjuk el, nem használjuk fel más célra, mint kizárólag arra, hogy értesítsük önt,
+                                         amint a keresett termék ismét kapható lesz.<br /><br />Köszönjük!';
+	var $_PHPSHOP_WAITING_LIST_THANKS = 'Köszönjük a türelmét! <br />Azonnal értesítjük, ha a termék ismét kapható lesz.';
+	var $_PHPSHOP_WAITING_LIST_NOTIFY_ME = 'Értesíts!';
+	var $_PHPSHOP_CHECK_OUT_THANK_YOU_PRINT_VIEW = 'Nyomtatási nézet';
+	var $_PHPSHOP_ADMIN_CFG_AUTORIZE_OR_CYBERCASH = 'Kérjük, válasszon VAGY az Authorize.net VAGY a CyberCash közül';
+	var $_PHPSHOP_ADMIN_CFG_FILE_STATUS = ' Konfigurációs fájl állapota:';
+	var $_PHPSHOP_ADMIN_CFG_FILE_STATUS_WRITEABLE = 'írható';
+	var $_PHPSHOP_ADMIN_CFG_FILE_STATUS_UNWRITEABLE = 'írásvédett';
+	var $_PHPSHOP_ADMIN_CFG_GLOBAL = 'Általános';
+	var $_PHPSHOP_ADMIN_CFG_PATHANDURL = 'Útvonal és webcím';
+	var $_PHPSHOP_ADMIN_CFG_SITE = 'Honlap';
+	var $_PHPSHOP_ADMIN_CFG_SHIPPING = 'Szállítás';
+	var $_PHPSHOP_ADMIN_CFG_CHECKOUT = 'Pénztár';
+	var $_PHPSHOP_ADMIN_CFG_DOWNLOADABLEGOODS = 'Letöltések';
+	var $_PHPSHOP_ADMIN_CFG_PAYEMENTOPTIONS = 'Fizetések';
+	var $_PHPSHOP_ADMIN_CFG_USE_ONLY_AS_CATALOGUE = 'Használat csak katalógusként';
+	var $_PHPSHOP_ADMIN_CFG_USE_ONLY_AS_CATALOGUE_EXPLAIN = 'Ha bejelöli, akkor minden bevásárlókosár funkció letiltásra kerül.';
+	var $_PHPSHOP_ADMIN_CFG_SHOW_PRICES = 'Árak megjelenítése';
+	var $_PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX = 'Adóval együtt mutassa az árakat?';
+	var $_PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX_EXPLAIN = 'Állítsa be, hogy a vásárló az árakat adóval együtt vagy adó nélkül lássa.';
+	var $_PHPSHOP_ADMIN_CFG_SHOW_PRICES_EXPLAIN = 'Jelölje be az árak megjelenítéséhez. Katalógusként történõ használat esetén egyesek nem szeretik, hogy láthatók legyenek az árak az oldalakon.';
+	var $_PHPSHOP_ADMIN_CFG_VIRTUAL_TAX = 'Virtuális adó';
+	var $_PHPSHOP_ADMIN_CFG_VIRTUAL_TAX_EXPLAIN = 'Ez adja meg, hogy a 0 súlyúként szereplõ tételekre számítson-e szállítási költséget vagy nem. Módosítsa a  ps_checkout.php->calc_order_taxable()-t, hogy személyre szabja ezt.';
+	var $_PHPSHOP_ADMIN_CFG_TAX_MODE = 'Adózási mód:';
+	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_SHIP = 'A szállítási cím alapján';
+	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_VENDOR = 'Az eladó címe alapján';
+	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_EXPLAIN = 'Ez adja meg, hogy melyik adókulcs lesz figyelembe véve az adószámításnál:<br />
+                                                <ul><li>az üzlettulajdonos székhelye szerint érvényes állami/területi adókulcs</li><br/>
+                                                <li>vagy a vásárló otthona szerint érvényes állami/területi adókulcs.</li></ul>';
+	var $_PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE = 'Megengedi több adókulcs használatát?';
+	var $_PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE_EXPLAIN = 'Jelölje be, ha önnek olyan termékei is vannak, amelyekhez különbözõ adókulcsok tartoznak (pl. 9% a könyvek, 19% az egyéb termékek számára)';
+	var $_PHPSHOP_ADMIN_CFG_SUBSTRACT_PAYEMENT_BEFORE = 'A kifizetési kedvezményeket vegye-e figyelembe az adók és a szállítási illetékek kiszámítása elõtt?';
+	var $_PHPSHOP_ADMIN_CFG_REVIEW = 'A Vásárlói vélemények/Értékelési rendszer engedélyezése';
+	var $_PHPSHOP_ADMIN_CFG_REVIEW_EXPLAIN = 'Ha engedélyezett, akkor a vásárlók <strong>értékelhetik a termékeket</strong>, és <strong>megírhatják a véleményüket</strong> róluk. <br />
+                                                                                Így a vásárlók leírhatják a tapasztalataikat a termékekkel kapcsolatban más vásárlók számára.<br />';
+	var $_PHPSHOP_ADMIN_CFG_SUBSTRACT_PAYEMENT_BEFORE_EXPLAIN = 'Beállítja a jelzõt, hogy le kell-e vonni az árengedményt a kiválasztott fizetéshez az adózás és a szállítás ELÕTT (bejelölt) vagy UTÁN.';
+	var $_PHPSHOP_ADMIN_CFG_ACCOUNT_CAN_BE_BLANK = 'Megadhatják a vásárlók a bankszámla adataikat?';
+	var $_PHPSHOP_ADMIN_CFG_ACCOUNT_CAN_BE_BLANK_EXPLAIN = 'Jelölje be, ha a vásárlók megadhatják a bankszámla adataikat a regisztrálási folyamat alatt.';
+	var $_PHPSHOP_ADMIN_CFG_CAN_SELECT_STATE = 'Kiválaszthatnak a vásárlók egy államot/területet/megyét?';
+	var $_PHPSHOP_ADMIN_CFG_CAN_SELECT_STATE_EXPLAIN = 'Jelölje be, ha a vásárlók megadhatják az üzletbe történõ regisztráláskor az állam/terület/megye azonosító adataikat.';
+	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS = 'El kell fogadni a Használati feltételeket?';
+	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS_EXPLAIN = 'Jelölje be, ha azt akarja, hogy a vásárlóknak kötelezõ módon el kell fogadniuk a használatii feltételeket a regisztrálás elõtt.';
+	var $_PHPSHOP_ADMIN_CFG_CHECK_STOCK = 'Ellenõrzi a raktárat?';
+	var $_PHPSHOP_ADMIN_CFG_CHECK_STOCK_EXPLAIN = 'Megadja, hogy kell-e ellenõrizni a raktáron lévõ termékek számát, amikor a vásárló beteszi a terméket a bevásárlókosárba. 
+                                                                                       Ha be van állítva, akkor nem engedi meg a vásárlónak, hogy egy termékbõl több darabot tegyen a bevásárló-kosarába, mint ahány ténylegesen raktáron van.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE = 'Engedélyezi a partnerprogramot?';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE_EXPLAIN = 'Ez engedélyezi a partnerek követését az üzlet felhasználói oldalán. Engedélyezze, ha az adminisztrátori panelben már adott hozzá partnercégeket.';
+	var $_PHPSHOP_ADMIN_CFG_MAIL_FORMAT = 'Megrendelõ-levél formátuma:';
+	var $_PHPSHOP_ADMIN_CFG_MAIL_FORMAT_TEXT = 'Szöveges e-mail';
+	var $_PHPSHOP_ADMIN_CFG_MAIL_FORMAT_HTML = 'HTML e-mail';
+	var $_PHPSHOP_ADMIN_CFG_MAIL_FORMAT_EXPLAIN = 'Ez határozza meg a rendelést visszaigazoló e-mailek beállítását:<br />
+                                                                                        <ul><li>egyszerû szöveges e-mailként</li>
+                                                                                        <li>képekkel illusztrált HTML e-mailként.</li></ul>';
+	var $_PHPSHOP_ADMIN_CFG_FRONTENDAMDIN = 'Engedélyezi a nem kiszolgáló-oldali felhasználók számára a látogatói oldalról történõ adminisztrációt?';
+	var $_PHPSHOP_ADMIN_CFG_FRONTENDAMDIN_EXPLAIN = 'Ezzel a beállítással engedélyezheti a honlapról történõ adminisztrációt azon felhasználók számára, 
+                                                                                            akiknek nincs joguk az Adminisztrációs panel közvetlen elérésére, de phpShop adminisztrációs jogaik vannak (pl. Regisztrált/Szerkesztõ besorolásuk van).';
+	var $_PHPSHOP_ADMIN_CFG_URL = 'URL';
+	var $_PHPSHOP_ADMIN_CFG_URL_EXPLAIN = 'A honlap webcíme. Rendszerint azonos a Mambo URL-lel (a végén a lezáró /-el!)';
+	var $_PHPSHOP_ADMIN_CFG_URLSECURE = 'BIZTONSÁGOS URL';
+	var $_PHPSHOP_ADMIN_CFG_URLSECURE_EXPLAIN = 'A hely biztonságos webcíme. (https - a végén a lezáró /-el!)';
+	var $_PHPSHOP_ADMIN_CFG_URLCOMPONENT = 'COMPONENTURL';
+	var $_PHPSHOP_ADMIN_CFG_URLCOMPONENT_EXPLAIN = 'A VirtueMart komponens webcíme. (a végén a lezáró /-el!)';
+	var $_PHPSHOP_ADMIN_CFG_URLIMAGE = 'IMAGEURL';
+	var $_PHPSHOP_ADMIN_CFG_URLIMAGE_EXPLAIN = 'A VirtueMart összetevõk kép-könyvtára URL-je.  (a végén a lezáró /-el!)';
+	var $_PHPSHOP_ADMIN_CFG_ADMINPATH = 'ADMINPATH';
+	var $_PHPSHOP_ADMIN_CFG_ADMINPATH_EXPLAIN = 'A VirtueMart összetevõk könyvtár útvonala.';
+	var $_PHPSHOP_ADMIN_CFG_CLASSPATH = 'CLASSPATH';
+	var $_PHPSHOP_ADMIN_CFG_CLASSPATH_EXPLAIN = 'A VirtueMart classes könyvtár útvonala.';
+	var $_PHPSHOP_ADMIN_CFG_PAGEPATH = 'PAGEPATH';
+	var $_PHPSHOP_ADMIN_CFG_PAGEPATH_EXPLAIN = 'A VirtueMart html könyvtár útvonala.';
+	var $_PHPSHOP_ADMIN_CFG_IMAGEPATH = 'IMAGEPATH';
+	var $_PHPSHOP_ADMIN_CFG_IMAGEPATH_EXPLAIN = 'A VirtueMart shop_image könyvtár útvonala.';
+	var $_PHPSHOP_ADMIN_CFG_HOMEPAGE = 'KEZDÕLAP';
+	var $_PHPSHOP_ADMIN_CFG_HOMEPAGE_EXPLAIN = 'Ez az alapértelmezettként betöltendõ oldal.';
+	var $_PHPSHOP_ADMIN_CFG_ERRORPAGE = 'HIBAOLDAL';
+	var $_PHPSHOP_ADMIN_CFG_ERRORPAGE_EXPLAIN = 'Ez a hibaüzenetek megjelenítésének azz alapértelmezett oldala.';
+	var $_PHPSHOP_ADMIN_CFG_DEBUGPAGE = 'HIBAKERESÕOLDAL';
+	var $_PHPSHOP_ADMIN_CFG_DEBUGPAGE_EXPLAIN = 'Ez a hibakeresési üzenetek megjelenítésének az alapértelmezett oldala.';
+	var $_PHPSHOP_ADMIN_CFG_DEBUG = 'HIBAKERESÉS ?';
+	var $_PHPSHOP_ADMIN_CFG_DEBUG_EXPLAIN = 'HIBAKERESÉS?   Bekapcsolja a hibakeresési kimenetet. Ennek hatására jelenik meg mindegyik oldal alján a HIBAKERESÕ OLDAL. Nagyon hasznos a fejlesztés során, ugyanis megmutatja a bevásárlókosár tartalmát, az ûrlapmezõk értékeit, stb.';
+	var $_PHPSHOP_ADMIN_CFG_FLYPAGE = 'RÖPLAP';
+	var $_PHPSHOP_ADMIN_CFG_FLYPAGE_EXPLAIN = 'Ez a termékadatok megjelenítésének az alapértelmezett oldala.';
+	var $_PHPSHOP_ADMIN_CFG_CATEGORY_TEMPLATE = 'Kategóriasablon';
+	var $_PHPSHOP_ADMIN_CFG_CATEGORY_TEMPLATE_EXPLAIN = 'Ez határozza meg egy bizonyos kategóriába tartozó termékek megjelenítésére használandó alapértelmezett kategória sablont.<br />
+                                                                                                      A létezõ sablonfájlok testreszabásával új sablonokat készíthet <br />
+                                                                                                      (melyek a <strong>KOMPONENSÚTVONAL/html/templates/</strong> könyvtárban találhatók, a nevük browse_ elõtaggal kezdõdik)';
+	var $_PHPSHOP_ADMIN_CFG_PRODUCTS_PER_ROW = 'Az egy sorban lévõ termékek alapértelmezett száma';
+	var $_PHPSHOP_ADMIN_CFG_PRODUCTS_PER_ROW_EXPLAIN = 'Megadja a soronként megjelenítendõ termékek számát. <br />
+                                                                                                      Például: Ha ön 4-et ír be, a Kategória stíluslap 4 terméket mutat soronként';
+	var $_PHPSHOP_ADMIN_CFG_NOIMAGEPAGE = '"no image" kép';
+	var $_PHPSHOP_ADMIN_CFG_NOIMAGEPAGE_EXPLAIN = 'Ez a kép látható, ha nincs kép a termékrõl.';
+	var $_PHPSHOP_ADMIN_CFG_SEARCHROWS = 'KERESÉSI SOROK';
+	var $_PHPSHOP_ADMIN_CFG_SEARCHROWS_EXPLAIN = 'Meghatározza az oldalankénti sorok számát a keresés találatainak listázásakor.';
+	var $_PHPSHOP_ADMIN_CFG_SEARCHCOLOR1 = 'KERESÉS 1. SZÍNE';
+	var $_PHPSHOP_ADMIN_CFG_SEARCHCOLOR1_EXPLAIN = 'A páratlan sorok színét állítja be a találatlistában.';
+	var $_PHPSHOP_ADMIN_CFG_SEARCHCOLOR2 = 'KERESÉS 2. SZÍNE';
+	var $_PHPSHOP_ADMIN_CFG_SEARCHCOLOR2_EXPLAIN = 'A páros sorok színét állítja be a találatlistában.';
+	var $_PHPSHOP_ADMIN_CFG_MAXIMUMROWS = 'SOROK SZÁMA';
+	var $_PHPSHOP_ADMIN_CFG_MAXIMUMROWS_EXPLAIN = 'Beállítja a megrendelés kiválasztás listában megjelenítendõ sorok számát.';
+	var $_PHPSHOP_ADMIN_CFG_SHOWPHPSHOP_VERSION = 'A lábjegyzet megjelenítése ';
+	var $_PHPSHOP_ADMIN_CFG_SHOWPHPSHOP_VERSION_EXPLAIN = 'Megjeleníti a "powered by VirtueMart" képet a lábjegyzetben.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD = 'Válassza ki az üzlet szállítási módját';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_STANDARD = 'Standard Szállítási modul  egyénileg konfigurált szállítmányozókkal és díjtételekkel. <strong>AJÁNLOTT!</strong>';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_ZONE = '  	Zonális szállítás Ország-modul 1.0 Verzió<br />
+                                                                                                            Ha ezzel a modullal kapcsolatban több információra van szüksége, kérjük, látogasson el a <a href="http://ZephWare.com">http://ZephWare.com</a> címre<br />
+                                                                                                            a részletekért lépjen kapcsolatba a <a href="mailto:zephware@devcompany.com">ZephWare.com</a>-mal<br /> Jelölje be, hogy lehetõvé tegye a zonális szállítás modul használatát';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS = '<a href="http://www.ups.com" target="_blank">UPS Online? Tools</a> szállítási kalkulátor';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_ACCESS_CODE = 'UPS hozzáférési kód';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_ACCESS_CODE_EXPLAIN = 'Az ön UPS hozzáférési kódja';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_USER_ID = 'UPS felhasználói azonosító';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_USER_ID_EXPLAIN = 'Az UPS-tõl kapott felhasználói azonosító';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_PASSWORD = 'UPS jelszó';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_PASSWORD_EXPLAIN = 'Az UPS-fiók jelszava';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER = 'InterShipper modul. Csak akkor jelölje be, ha van InterShipper.com fiókja';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_DISABLE = 'Letiltja a Szállítási mód kiválasztását. Akkor válassza, ha a vásárlói letölthetõ termékeket vásárolnak, amelyeket nem kell postázni.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_PASSWORD = 'InterShipper jelszó';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_PASSWORD_EXPLAIN = 'Az Ön InterShipper fiókjának jelszava.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_EMAIL = 'InterShipper e-mail';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_EMAIL_EXPLAIN = 'Az Ön InterShipper fiókjának e-mail címe.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_ENCODEKEY = 'TITKOSÍTÁSI KULCS';
+	var $_PHPSHOP_ADMIN_CFG_STORE_ENCODEKEY_EXPLAIN = 'Az adatbázisban tároltt adatok titkosítására használt kulcs. Azt jelenti, hogy ezt a fájlt mindenkor védeni kell a megtekintéstõl.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_CHECKOUTBAR = 'A Pénztár sáv engedélyezése';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_CHECKOUTBAR_EXPLAIN = 'Akkor jelölje be, ha meg akarja jeleníteni a \'pénztár sávot\' a vásárlónak a fizetési folyamat során (1 - 2 - 3 - 4 grafikákkal).';
+	var $_PHPSHOP_ADMIN_CFG_CHECKOUT_PROCESS = 'Válassza ki az üzlet pénztári folyamatát';
+	var $_PHPSHOP_ADMIN_CFG_CHECKOUT_PROCESS_STANDARD = '<strong>Szokásos:</strong><br/>
+               1. Szállítási cím kérése<br />
+              2. Szállítási mód kérése<br />
+              3. Fizetési mód kérése<br />
+              4. Rendelés feladása';
+	var $_PHPSHOP_ADMIN_CFG_CHECKOUT_PROCESS_2 = '<strong>2. folyamat:</strong><br/>
+               1. Szállítási cím kérése<br />
+              2. Fizetési mód kérése<br />
+              3. Rendelés feladása';
+	var $_PHPSHOP_ADMIN_CFG_CHECKOUT_PROCESS_3 = '<strong>3. folyamat:</strong><br/>
+               1. Szállítási mód kérése<br />
+              2. Fizetési mód kérése<br />
+              3. Rendelés feladása';
+	var $_PHPSHOP_ADMIN_CFG_CHECKOUT_PROCESS_4 = '<strong>4. folyamat:</strong><br/>
+               1. Fizetési mód kérése<br />
+              2. Rendelés feladása';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_DOWNLOADS = 'A letöltések engedélyezése';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_DOWNLOADS_EXPLAIN = 'Jelölje be, ha engedélyezni akarja a letöltéseket. Csak akkor, ha letölthetõ cikkeket akar eladni.';
+	var $_PHPSHOP_ADMIN_CFG_ORDER_ENABLE_DOWNLOADS = 'A letöltést engedélyezõ rendelési állapot';
+	var $_PHPSHOP_ADMIN_CFG_ORDER_ENABLE_DOWNLOADS_EXPLAIN = 'Válassza ki azt a rendelési állapotot, amely esetében a vásárló e-mailben értesítést kap a letöltésrõl.';
+	var $_PHPSHOP_ADMIN_CFG_ORDER_DISABLE_DOWNLOADS = 'A letöltéseket tiltó rendelési állapot';
+	var $_PHPSHOP_ADMIN_CFG_ORDER_DISABLE_DOWNLOADS_EXPLAIN = 'Beállítja azt a rendelési állapotot, amelynél a letöltés letiltott a vevõ számára.';
+	var $_PHPSHOP_ADMIN_CFG_DOWNLOADROOT = 'LETÖLTÉSI GYÖKÉR';
+	var $_PHPSHOP_ADMIN_CFG_DOWNLOADROOT_EXPLAIN = 'A letölthetõ fájlok tényleges elérési útvonala. (a végén a lezáró /-el!)<br>
+        <span class="message">A saját üzlete biztonsága érdekében: Ha lehet, akkor kérjük, hogy használjon A WEBGYÖKÉRTÕL KÍVÜL lévõ könyvtárat</span>';
+	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_MAX = 'Letöltések száma';
+	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_MAX_EXPLAIN = 'Beállítja az egy letöltési azonosítóval engedélyezett letöltések számát (egy rendelés számára)';
+	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE = 'Letöltési határidõ';
+	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE_EXPLAIN = 'Beállítja a letöltési idõintervallumot <strong>másodpercekben</strong> amelyben  a letöltés engedélyezve van a vevõ számára. 
+  Az idõintervallum az elsõ letöltéssel kezdõdik! Amikor a megengedett idõ lejár, a letöltési ID le lesz tiltva.<br />Megjegyzés : 86400s=24h.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYPAL = 'Lehetõvé teszi az IPN kifizetéseket a PayPal-on keresztül?';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYPAL_EXPLAIN = 'Jelölje be, ha a PayMate kifizetési rendszer használatát akarja engedélyezni.';
+	var $_PHPSHOP_ADMIN_CFG_PAYPAL_EMAIL = 'PayPal kifizetési e-mail:';
+	var $_PHPSHOP_ADMIN_CFG_PAYPAL_EMAIL_EXPLAIN = 'A vállalati e-mail cím  PayPal kifizetés számára. Ugyancsak használva mint receiver_email.';
+	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS = 'A sikeres tranzakciók rendelési állapota';
+	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS_EXPLAIN = 'Válassza ki azt a rendelés állapotot, amely a tényleges rendeléshez lesz rendelve, ha a PayPal IPN sikeres volt. Ha letöltéssel elérhetõ termékeket árul: 
+  válassza ki azt az állapotot, amely lehetõvé teszi a letöltést (ami után a vevõ azonnal értesítést kap e-mailben a letöltés engedélyezésérõl).';
+	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED = 'A sikertelen tranzakciók rendelési állapota';
+	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED_EXPLAIN = 'Válassza ki a sikertelen PayPal-tranzakciók rendelési állapotát.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYMATE = 'Lehetõvé teszi a PayMate kifizetéseket?';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYMATE_EXPLAIN = 'Jelölje be, ha az Ausztráliai PayMate kifizetési rendszer használatát akarja engedélyezni.';
+	var $_PHPSHOP_ADMIN_CFG_PAYMATE_USERNAME = 'PayMate felhasználónév:';
+	var $_PHPSHOP_ADMIN_CFG_PAYMATE_USERNAME_EXPLAIN = 'Az ön PayMate felhasználói azonosítója.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET = 'Lehetõvé teszi az Authorize.net használatát?';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_EXPLAIN = 'Jelölje be, ha az Authorize.net szolgáltatásait akarja használni a VirtueMartban.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_TESTMODE = 'Teszt mód?';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_TESTMODE_EXPLAIN = 'Válassza a \'Yes\'-t tesztelési célokra, \'No\'-t a rendszer élesben való használatához.';
+	var $_PHPSHOP_ADMIN_CFG_YES = 'Igen';
+	var $_PHPSHOP_ADMIN_CFG_NO = 'Nem';
+	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_USERNAME = 'Authorize.net bejelentkezési ID';
+	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_USERNAME_EXPLAIN = 'Ez az ön Authorize.net bejelentkezési ID-je';
+	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_KEY = 'Authorize.net tranzakció kulcs';
+	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_KEY_EXPLAIN = 'Ez az ön Authorize.net tranzakciós kulcsa';
+	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_AUTENTICATIONTYPE = 'Hitelesítés típusa';
+	var $_PHPSHOP_ADMIN_CFG_AUTORIZENET_AUTENTICATIONTYPE_EXPLAIN = 'Ez egy Authorize.Net hitelesítés típus.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_CYBERCASH = 'Engedélyezi a CyberCash-t?';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_CYBERCASH_EXPLAIN = 'Jelölje be, ha a CyberCash szolgáltatásait akarja használni a VirtueMartban.';
+	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_MERCHAND = 'CyberCash MERCHANT';
+	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_MERCHAND_EXPLAIN = 'A CC_MERCHANT a CyberCash kereskedõi azonosító';
+	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_MERCHAND_KEY = 'CyberCash kereskedõi kulcs';
+	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_MERCHAND_KEY_EXPLAIN = 'CyberCash kereskedõi kulcs a CyberCash által megadott MERCHANT kód';
+	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_URL = 'CyberCash PAYMENT URL';
+	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_URL_EXPLAIN = 'A CyberCash PAYMENT URL az az URL, amit a Cybercash adott meg a biztonságos kifizetés céljára.';
+	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_AUTENTICATIONTYPE = 'CyberCash AUTH TYPE';
+	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_AUTENTICATIONTYPE_EXPLAIN = 'CyberCash AUTH TYPE a Cybercase számára megadandó Cybercash hitelesítés típus';
+	var $_PHPSHOP_ADVANCED_SEARCH = 'Speciális keresés';
+	var $_PHPSHOP_SEARCH_ALL_CATEGORIES = 'Keresés minden kategóriában';
+	var $_PHPSHOP_SEARCH_ALL_PRODINFO = 'Keresés minden termékinformációban';
+	var $_PHPSHOP_SEARCH_PRODNAME = 'Csak a terméknév';
+	var $_PHPSHOP_SEARCH_MANU_VENDOR = 'Csak a gyártó/eladó';
+	var $_PHPSHOP_SEARCH_DESCRIPTION = 'Csak a termékleírás';
+	var $_PHPSHOP_SEARCH_AND = 'és';
+	var $_PHPSHOP_SEARCH_NOT = 'nem';
+	var $_PHPSHOP_SEARCH_TEXT1 = 'Az elsõ legördülõ listában választhatja ki azt a kategóriát, amelyikre korlátozni kívánja a keresést. 
+        A második legördülõ listában egy bizonyos termékinformációra (pl. név) korlátozhatja a keresést. 
+        Miután kiválasztotta ezeket (vagy meghagyta az alapértelmezett MINDEN értéket), írja be a keresendõ kulcsszót. ';
+	var $_PHPSHOP_SEARCH_TEXT2 = ' További kulcsszó megadásával, valamint az ÉS vagy a NEM mûveleti jel választásával tovább finomíthatja a keresést. 
+        Az ÉS választása azt jelenti, hogy mindkét szónak benne kell lennie a megjelenítendõ termék számára. 
+        A NEM választása azt jelenti, hogy a termék csak akkor lesz látható, ha az elsõ kulcsszó megtalálható, 
+        a második viszont nem.';
+	var $_PHPSHOP_ORDERBY = 'Rendezési mód';
+	var $_PHPSHOP_CUSTOMER_RATING = 'Átlagos vásárlói értékelés';
+	var $_PHPSHOP_TOTAL_VOTES = 'Összes szavazat';
+	var $_PHPSHOP_CAST_VOTE = 'Kérjük, szavazzon';
+	var $_PHPSHOP_RATE_BUTTON = 'Érték';
+	var $_PHPSHOP_RATE_NOM = 'Értékelés';
+	var $_PHPSHOP_REVIEWS = 'Vásárlói vélemények';
+	var $_PHPSHOP_NO_REVIEWS = 'Még senki sem nyilvánított véleményt errõl a termékrõl.';
+	var $_PHPSHOP_WRITE_FIRST_REVIEW = 'Legyen Ön az elsõ, és írja meg a véleményét...';
+	var $_PHPSHOP_REVIEW_LOGIN = 'Kérjük, jelentkezzen be és írja meg a véleményét.';
+	var $_PHPSHOP_REVIEW_ERR_RATE = 'Kérjük, értékelje a terméket, hogy kiegészítse a véleményét!';
+	var $_PHPSHOP_REVIEW_ERR_COMMENT1 = 'Kérjük, írjon még valamit a véleményéhez. Legalább 100 karakter a megengedett alsó határ!';
+	var $_PHPSHOP_REVIEW_ERR_COMMENT2 = 'Kérjük, rövidítse le a véleményét. Legfeljebb 2000 karakter engedélyezett.';
+	var $_PHPSHOP_WRITE_REVIEW = 'Írja meg a véleményét errõl a termékrõl!';
+	var $_PHPSHOP_REVIEW_RATE = 'Elõször értékelje a terméket. Kérjük, válassza ki 5 (kiváló) és 0 (pocsék) között az értékelést.';
+	var $_PHPSHOP_REVIEW_COMMENT = 'Most kérjük, írja meg (röviden) a véleményét... (legalább 100, legfeljebb 2000 karakter)';
+	var $_PHPSHOP_REVIEW_COUNT = 'Karakterek száma: ';
+	var $_PHPSHOP_REVIEW_SUBMIT = 'Vélemény beküldése';
+	var $_PHPSHOP_REVIEW_ALREADYDONE = 'Ön már megírta a véleményét errõl a termékrõl. Köszönjük.';
+	var $_PHPSHOP_REVIEW_THANKYOU = 'Köszönjük a véleményét.';
+	var $_PHPSHOP_COMMENT = 'Megjegyzés';
+	var $_PHPSHOP_CREDITCARD_FORM_LBL = 'Hitelkártyatípusok hozzáadása/módosítása';
+	var $_PHPSHOP_CREDITCARD_NAME = 'Hitelkártya neve';
+	var $_PHPSHOP_CREDITCARD_CODE = 'Hitelkártya - rövid kód';
+	var $_PHPSHOP_CREDITCARD_TYPE = 'Hitelkártyatípus';
+	var $_PHPSHOP_CREDITCARD_LIST_LBL = 'Hitelkártyák';
+	var $_PHPSHOP_UDATE_ADDRESS = 'Cím frissítése';
+	var $_PHPSHOP_CONTINUE_SHOPPING = 'Tovább vásárolok';
+	var $_PHPSHOP_THANKYOU_SUCCESS = 'A rendelés feladása sikerült!';
+	var $_PHPSHOP_ORDER_LINK = 'Ennek a hivatkozásnak a követésével megtekintheti a rendelési adatokat.';
+	var $_PHPSHOP_ORDER_STATUS_CHANGE_SEND_MSG_1 = 'Megváltozott az Ön {order_id} sz. rendelésének az állapota.';
+	var $_PHPSHOP_ORDER_STATUS_CHANGE_SEND_MSG_2 = 'Az új állapot ez:';
+	var $_PHPSHOP_ORDER_STATUS_CHANGE_SEND_MSG_3 = 'A rendelési adatok megtekintéséhez kérjük, hogy kövesse ezt a hivatkozást (vagy másolja át a böngészõjébe):';
+	var $_PHPSHOP_ORDER_STATUS_CHANGE_SEND_SUBJ = 'Rendelési állapot módosítása: Az Ön rendelése {order_id}';
+	var $_PHPSHOP_ORDER_LIST_NOTIFY = 'Értesíti a vásárlót?';
+	var $_PHPSHOP_ORDER_LIST_NOTIFY_ERR = 'Kérjük, hogy elõbb módosítsa a rendelés állapotát!';
+	var $_PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT = 'Az alapértelmezett vásárlócsoport árengedménye (%-ban)';
+	var $_PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP = 'Pozitív X összeg jelentése: Ha ENNÉL a vásárlócsoportnál nincs ára a terméknek, akkor X %-kal csökkenti az alapértelmezett árat. Negatív összegnek fordított a hatása.';
+	var $_PHPSHOP_PRODUCT_DISCOUNT_LBL = 'Árengedmény';
+	var $_PHPSHOP_PRODUCT_DISCOUNT_LIST_LBL = 'Árengedmények listája';
+	var $_PHPSHOP_PRODUCT_DISCOUNT_ADDEDIT = 'Árengedmény hozzáadása/módosítása';
+	var $_PHPSHOP_PRODUCT_DISCOUNT_AMOUNT = 'Engedmény mértéke';
+	var $_PHPSHOP_PRODUCT_DISCOUNT_AMOUNT_TIP = 'Írja be az engedmény mértékét';
+	var $_PHPSHOP_PRODUCT_DISCOUNT_AMOUNTTYPE = 'Engedmény típusa';
+	var $_PHPSHOP_PRODUCT_DISCOUNT_ISPERCENT = 'Százalék';
+	var $_PHPSHOP_PRODUCT_DISCOUNT_ISTOTAL = 'Összeg';
+	var $_PHPSHOP_PRODUCT_DISCOUNT_ISPERCENT_TIP = 'Százalék vagy összeg legyen a mérték?';
+	var $_PHPSHOP_PRODUCT_DISCOUNT_STARTDATE = 'Árengedmény kezdete';
+	var $_PHPSHOP_PRODUCT_DISCOUNT_STARTDATE_TIP = 'Meghatározza, hogy melyik napon kezdõdik az árengedmény';
+	var $_PHPSHOP_PRODUCT_DISCOUNT_ENDDATE = 'Árengedmény vége';
+	var $_PHPSHOP_PRODUCT_DISCOUNT_ENDDATE_TIP = 'Meghatározza, hogy melyik napon fejezõdik be az árengedmény';
+	var $_PHPSHOP_PRODUCT_DISCOUNT_ADDDISCOUNT_TIP = 'A Termék árengedmény ûrlapon adhatja hozzá az engedményeket!';
+	var $_PHPSHOP_PRODUCT_DISCOUNT_SAVE = 'Megtakarítás';
+	var $_PHPSHOP_FLYPAGE_ENLARGE_IMAGE = 'Tekintse meg a nagy képet';
+	var $_PHPSHOP_CURRENCY_DISPLAY = 'Pénznem megjelenítési séma';
+	var $_PHPSHOP_CURRENCY_SYMBOL = 'Pénznem rövidítése';
+	var $_PHPSHOP_CURRENCY_SYMBOL_TOOLTIP = 'HTML-entitásokat (pl. ?,?,?,...) is használhat itt';
+	var $_PHPSHOP_CURRENCY_DECIMALS = 'Tizedesjegyek';
+	var $_PHPSHOP_CURRENCY_DECIMALS_TOOLTIP = 'A kijelzett tizedesjegyek száma (lehet 0)<br><b>Kerekíítésre kerül, ha az érték különféle tizedes számjegyekbõl áll</b>';
+	var $_PHPSHOP_CURRENCY_DECIMALSYMBOL = 'Tizedesjel';
+	var $_PHPSHOP_CURRENCY_DECIMALSYMBOL_TOOLTIP = 'A tizedesjelként használt karakter';
+	var $_PHPSHOP_CURRENCY_THOUSANDS = 'Ezres elválasztójel';
+	var $_PHPSHOP_CURRENCY_THOUSANDS_TOOLTIP = 'Az ezresek tagolására használt karakter (üres lehet)';
+	var $_PHPSHOP_CURRENCY_POSITIVE_DISPLAY = 'Pozitív formátum';
+	var $_PHPSHOP_CURRENCY_POSITIVE_DISPLAY_TOOLTIP = 'A pozitív értékek kijelzéséhez használt megjelenítés-formátum.<br>(Szimbólum alatt a pénznem-szimbólum értendõ)';
+	var $_PHPSHOP_CURRENCY_NEGATIVE_DISPLAY = 'Negatív formátum';
+	var $_PHPSHOP_CURRENCY_NEGATIVE_DISPLAY_TOOLTIP = 'A negatív értékek kijelzéséhez használt megjelenítés-formátum.<br>(Szimbólum alatt a pénznem-szimbólum értendõ)';
+	var $_PHPSHOP_OTHER_LISTS = 'Egyéb terméklisták';
+	var $_PHPSHOP_MORE_IMAGES = 'További képek megtekintése';
+	var $_PHPSHOP_AVAILABLE_IMAGES = 'Létezõ képek a következõhöz:';
+	var $_PHPSHOP_BACK_TO_DETAILS = 'Vissza a termékadatokhoz';
+	var $_PHPSHOP_FILEMANAGER = 'Fájlkezelõ';
+	var $_PHPSHOP_FILEMANAGER_LIST = 'Fájlkezelõ::Terméklista';
+	var $_PHPSHOP_FILEMANAGER_ADD = 'Kép/fájl hozzáadása';
+	var $_PHPSHOP_FILEMANAGER_IMAGES = 'Hozzárendelt képek';
+	var $_PHPSHOP_FILEMANAGER_DOWNLOADABLE = 'Letölthetõ?';
+	var $_PHPSHOP_FILEMANAGER_FILES = 'Hozzárendelt fájlok (adatlapok, ...)';
+	var $_PHPSHOP_FILEMANAGER_PUBLISHED = 'Közzétéve?';
+	var $_PHPSHOP_FILES_LIST = 'Fájlkezelõ::Kép/Fájllista a következõhöz:';
+	var $_PHPSHOP_FILES_LIST_FILENAME = 'Fájlnév';
+	var $_PHPSHOP_FILES_LIST_FILETITLE = 'Fájlcím';
+	var $_PHPSHOP_FILES_LIST_FILETYPE = 'Fájltípus';
+	var $_PHPSHOP_FILES_LIST_EDITFILE = 'Fájlbejegyzés szerkesztése';
+	var $_PHPSHOP_FILES_LIST_FULL_IMG = 'Nagy kép';
+	var $_PHPSHOP_FILES_LIST_THUMBNAIL_IMG = 'Miniatûr kép';
+	var $_PHPSHOP_FILES_FORM = 'Fájl feltöltése a következõhöz:';
+	var $_PHPSHOP_FILES_FORM_CURRENT_FILE = 'Jelenlegi fájl';
+	var $_PHPSHOP_FILES_FORM_FILE = 'Fájl';
+	var $_PHPSHOP_FILES_FORM_IMAGE = 'Kép';
+	var $_PHPSHOP_FILES_FORM_UPLOAD_TO = 'Feltöltés ide';
+	var $_PHPSHOP_FILES_FORM_UPLOAD_IMAGEPATH = 'alapértelmezett termékkép útvonal';
+	var $_PHPSHOP_FILES_FORM_UPLOAD_OWNPATH = 'Adja meg a fájl helyét';
+	var $_PHPSHOP_FILES_FORM_UPLOAD_DOWNLOADPATH = 'Letöltési útvonal (pl. a letölthetõ termékek értékesítéséhez!)';
+	var $_PHPSHOP_FILES_FORM_AUTO_THUMBNAIL = 'A miniatûr létrehozása automatikusan?';
+	var $_PHPSHOP_FILES_FORM_FILE_PUBLISHED = 'Közzétett a fájl?';
+	var $_PHPSHOP_FILES_FORM_FILE_TITLE = 'Fájlcím (amit a vásárló lát)';
+	var $_PHPSHOP_FILES_FORM_FILE_DESC = 'Fájl leírása';
+	var $_PHPSHOP_FILES_FORM_FILE_URL = 'Fájl webcíme (elhagyható)';
+	var $_PHPSHOP_FILES_PATH_ERROR = 'Kérjük, hogy érvényes útvonalat adjon meg!';
+	var $_PHPSHOP_FILES_IMAGE_RESIZE_SUCCESS = 'A miniatûr elkészítése sikerült!';
+	var $_PHPSHOP_FILES_IMAGE_RESIZE_FAILURE = 'NEM készíthetõ el a miniatûr kép!';
+	var $_PHPSHOP_FILES_UPLOAD_FAILURE = 'Fájl-/Képfeltöltési hiba';
+	var $_PHPSHOP_FILES_FULLIMG_DELETE_FAILURE = 'Nem törölhetõ a nagy kép fájlja.';
+	var $_PHPSHOP_FILES_FULLIMG_DELETE_SUCCESS = 'A nagy kép törlése sikerült.';
+	var $_PHPSHOP_FILES_THUMBIMG_DELETE_FAILURE = 'Nem törölhetõ a miniatûr képfájlja (talán nem is létezik): ';
+	var $_PHPSHOP_FILES_THUMBIMG_DELETE_SUCCESS = 'A miniatûr kép törlése sikerült.';
+	var $_PHPSHOP_FILES_FILE_DELETE_FAILURE = 'Nem törölhetõ a fájl.';
+	var $_PHPSHOP_FILES_FILE_DELETE_SUCCESS = 'A fájl törlése sikerült.';
+	var $_PHPSHOP_FILES_NOT_FOUND = 'Sajnos nem található a kért fájl!';
+	var $_PHPSHOP_IMAGE_NOT_FOUND = 'Nem található a kép!';
+	var $_PHPSHOP_COUPON_MOD = 'Kupon';
+	var $_PHPSHOP_COUPONS = 'Kuponok';
+	var $_PHPSHOP_COUPON_LIST = 'Kuponok listázása';
+	var $_PHPSHOP_COUPON_ALREADY_REDEEMED = 'Mar beváltották a kupont.';
+	var $_PHPSHOP_COUPON_REDEEMED = 'A kupon beváltása sikerült! Köszönjük.';
+	var $_PHPSHOP_COUPON_ENTER_HERE = 'Ha van kuponkódja, akkor kérjük, hogy írja be az alábbi mezõbe:';
+	var $_PHPSHOP_COUPON_SUBMIT_BUTTON = 'Küldés';
+	var $_PHPSHOP_COUPON_CODE_EXISTS = 'Már van ilyen kuponkód. Kérjük, hogy próbálja újra.';
+	var $_PHPSHOP_COUPON_EDIT_HEADER = 'Kupon frissítése';
+	var $_PHPSHOP_COUPON_EDIT_HELP_TEXT = 'Kattintson egy kuponkódra a módosításához, ill. a kuponkód törléséhez jelölje ki, majd kattintson a Törlés gombra:';
+	var $_PHPSHOP_COUPON_CODE_HEADER = 'Kód';
+	var $_PHPSHOP_COUPON_PERCENT_TOTAL = 'Százalék vagy összeg';
+	var $_PHPSHOP_COUPON_TYPE = 'Kupon típusa';
+	var $_PHPSHOP_COUPON_TYPE_TOOLTIP = 'Az ajándékkupon a rendelés során történõ felhasználás után törlésre kerül. A tartós kupont annyiszor használhatja a vásárló, ahányszor csak akarja.';
+	var $_PHPSHOP_COUPON_TYPE_GIFT = 'Ajándékkupon';
+	var $_PHPSHOP_COUPON_TYPE_PERMANENT = 'Tartós kupon';
+	var $_PHPSHOP_COUPON_VALUE_HEADER = 'Érték';
+	var $_PHPSHOP_COUPON_DELETE_BUTTON = 'Kód törlése';
+	var $_PHPSHOP_COUPON_CONFIRM_DELETE = 'Biztosan törölni akarja ezt a kuponkódot?';
+	var $_PHPSHOP_COUPON_COMPLETE_ALL_FIELDS = 'Kérjük, hogy töltsön ki minden mezõt.';
+	var $_PHPSHOP_COUPON_VALUE_NOT_NUMBER = 'A kupon értéke szám kell, hogy legyen.';
+	var $_PHPSHOP_COUPON_NEW_HEADER = 'Új kupon';
+	var $_PHPSHOP_COUPON_COUPON_HEADER = 'Kuponkód';
+	var $_PHPSHOP_COUPON_PERCENT = 'Százalék';
+	var $_PHPSHOP_COUPON_TOTAL = 'Összeg';
+	var $_PHPSHOP_COUPON_VALUE = 'Érték';
+	var $_PHPSHOP_COUPON_CODE_SAVED = 'A kuponkód mentése kész.';
+	var $_PHPSHOP_COUPON_SAVE_BUTTON = 'Kupon mentése';
+	var $_PHPSHOP_COUPON_DISCOUNT = 'Árengedmény a kuponra';
+	var $_PHPSHOP_COUPON_CODE_INVALID = 'Nem található a kuponkód. Kérjük, hogy próbálja újra.';
+	var $_PHPSHOP_COUPONS_ENABLE = 'A kupon használatának engedélyezése';
+	var $_PHPSHOP_COUPONS_ENABLE_EXPLAIN = 'Ha engedélyezi a kuponok használatát, akkor a vásárlók olyan kuponszámokat írhatnak be, amivel engedményt kapnak a vásárlásukból.';
+	var $_PHPSHOP_FREE_SHIPPING = 'Ingyenes szállítás';
+	var $_PHPSHOP_FREE_SHIPPING_CUSTOMER_TEXT = 'Ingyenes a szállítása ennek a terméknek!';
+	var $_PHPSHOP_FREE_SHIPPING_AMOUNT = 'Az ingyenes szállítás legkisebb összege';
+	var $_PHPSHOP_FREE_SHIPPING_AMOUNT_TOOLTIP = 'Az az összeg (ÁFÁVAL!), amivel ingyenes a szállítás 
+                                                (például: az <strong>50</strong> akkor jelent ingyenes szállítást, ha a vásárló
+                                                50 dollárt (áfával) vagy többet fizet.';
+	var $_PHPSHOP_YOUR_STORE = 'Üzletem';
+	var $_PHPSHOP_CONTROL_PANEL = 'Irányító központ';
+	var $_PHPSHOP_ADMIN_CFG_PDF_BUTTON = 'PDF-gomb';
+	var $_PHPSHOP_ADMIN_CFG_PDF_BUTTON_EXPLAIN = 'Megjeleníti vagy elrejti a PDF-gombot az üzletben';
+	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS_ONORDER = 'El kell MINDEN RENDELÉSKOR fogadni a használati feltételeket?';
+	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS_ONORDER_EXPLAIN = 'Akkor jelölje be, ha azt akarja, hogy a vásárló MINDEN RENDELÉSKOR (a rendelés feladása elõtt) fogadja el a használati feltételeket.';
+	var $_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE = 'Bankszámla típusa';
+	var $_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE_CHECKING = 'Checking';
+	var $_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE_BUSINESSCHECKING = 'Business Checking';
+	var $_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE_SAVINGS = 'Takarék';
+	var $_PHPSHOP_PAYMENT_AN_RECURRING = 'Ismétlõdõ számlázások?';
+	var $_PHPSHOP_PAYMENT_AN_RECURRING_TOOLTIP = 'Döntse el, hogy szüksége van-e az ismétlõdõ számlázásokra.';
+	var $_PHPSHOP_INTERNAL_ERROR = 'Belsõ hiba történt a következõ kérés feldolgozásakor';
+	var $_PHPSHOP_PAYMENT_ERROR = 'Hiba történt a fizetés feldolgozásakor';
+	var $_PHPSHOP_PAYMENT_TRANSACTION_SUCCESS = 'A fizetés feldolgozása sikerült';
+	var $_PHPSHOP_UPS_RESPONSE_ERROR = 'Az UPS nem tudta feldolgozni a szállítási költség kérését.';
+	var $_PHPSHOP_UPS_SHIPPING_GUARANTEED_DAYS = 'Garantált nap(ok) a szállításra';
+	var $_PHPSHOP_UPS_PICKUP_METHOD = 'UPS felvételi (pickup) mód';
+	var $_PHPSHOP_UPS_PICKUP_METHOD_TOOLTIP = 'Hogyan adja le a csomagokat a UPS-nek?';
+	var $_PHPSHOP_UPS_PACKAGE_TYPE = 'UPS-csomagolás?';
+	var $_PHPSHOP_UPS_PACKAGE_TYPE_TOOLTIP = 'Válassza ki a csomagolás alapértelmezett típusát.';
+	var $_PHPSHOP_UPS_TYPE_RESIDENTIAL = 'Helybeli szállítás?';
+	var $_PHPSHOP_UPS_RESIDENTIAL = 'Helybeli (RES)';
+	var $_PHPSHOP_UPS_COMMERCIAL = 'Kereskedelmi szállítás (COM)';
+	var $_PHPSHOP_UPS_RESIDENTIAL_TOOLTIP = 'Árajánlat a helybeli (RES) vagy a kereskedelmi (COM) szállításra.';
+	var $_PHPSHOP_UPS_HANDLING_FEE = 'Kezelési költség';
+	var $_PHPSHOP_UPS_HANDLING_FEE_TOOLTIP = 'Az Ön által felszámított kezelési költség ennél a szállítási módnál.';
+	var $_PHPSHOP_UPS_TAX_CLASS = 'Adóosztály';
+	var $_PHPSHOP_UPS_TAX_CLASS_TOOLTIP = 'A következõ adóosztály használata a szállítási költségre.';
+	var $_PHPSHOP_ERROR_CODE = 'Hibakód';
+	var $_PHPSHOP_ERROR_DESC = 'Hibaleírás';
+	var $_PHPSHOP_CHANGE_TRANSACTION_KEY = 'A tranzakciókulcs megjelenítése / megváltoztatása';
+	var $_PHPSHOP_CHANGE_PASSKEY_FORM = 'A jelszó/tranzakciókulcs megjelenítése/megváltoztatása';
+	var $_PHPSHOP_TYPE_PASSWORD = 'Kérjük, hogy írja be a felhasználói jelszavát';
+	var $_PHPSHOP_CURRENT_PASSWORD = 'Jelenlegi jelszó';
+	var $_PHPSHOP_CURRENT_TRANSACTION_KEY = 'Jelenlegi tranzakciókulcs';
+	var $_PHPSHOP_CHANGE_PASSKEY_SUCCESS = 'A tranzakciókulcs megváltoztatása sikerült.';
+	var $_PHPSHOP_PAYMENT_CVV2 = 'A hitelkártyakód értékének kérése/rögzítése (CVV2/CVC2/CID)';
+	var $_PHPSHOP_PAYMENT_CVV2_TOOLTIP = 'Ellenõrzi az érvényes CVV2/CVC2/CID értéket (három vagy négy számjegybõl álló szám a hitelkártya hátlapján, az American Express kártyák elõlapján)?';
+	var $_PHPSHOP_CUSTOMER_CVV2_TOOLTIP = 'Kérjük, hogy írja be a hitelkártya hátlapján (American Express kártyák elõlapján) lévõ három vagy négy számjegybõl álló számot';
+	var $_PHPSHOP_CUSTOMER_CVV2_ERROR = 'Be kell írnia a hitelkártya kódját a folytatáshoz.';
+	var $_PHPSHOP_PRODUCT_FORM_FILENAME = 'VAGY írja be egy fájl nevét';
+	var $_PHPSHOP_PRODUCT_FORM_FILENAME_TOOLTIP = 'MEGJEGYZÉS: Itt írhatja be a fájl nevét. <strong>Ha megadja itt egy fájl nevét, akkor egy fájl sem kerül feltöltésre!!! Kézzel kell FTP-n feltöltenie!</strong>.';
+	var $_PHPSHOP_PRODUCT_FORM_UPLOAD = 'VAGY töltsön fel egy új fájlt';
+	var $_PHPSHOP_PRODUCT_FORM_UPLOAD_TOOLTIP = 'Feltölthet egy helyi fájlt. Ez a fájl lesz az Ön által eladott termék. Le fogja cserélni a létezõ fájlt.';
+	var $_PHPSHOP_PRODUCT_FORM_AVAILABILITY_TOOLTIP1 = 'Írjon be valamilyen szöveget ide, amit a vásárló a termék röplapján olvashat el.<br />pl.: 24 ó, 48 óra, 3 - 5 nap, Rendelésre.....';
+	var $_PHPSHOP_PRODUCT_FORM_AVAILABILITY_TOOLTIP2 = 'VAGY válassza ki az adatlapon (röplapon) látható képet.<br />A képek a <i>/components/com_virtuemart/shop_image/availability</i> könyvtárban találhatók.<br />';
+	var $_PHPSHOP_PRODUCT_FORM_ATTRIBUTE_LIST = 'Attribútumlista';
+	var $_PHPSHOP_PRODUCT_FORM_ATTRIBUTE_LIST_EXAMPLES = '<h4>Példák az attribútumlista formátumára:</h4>
+        <pre>Méret,XL[+1.99],M,S[-2.99];Szín,Piros,Zöld,Sárga,KöltségSzíb[=24.00];ÉsÍgyTovább,..,..</pre>
+        <h4>Beépített árigazítások a speciális attribútummódosítások használatához:</h4>
+        <pre>
+        + == Hozzáadja ezt az összeget a megállapított árhoz.<br />
+        - == Kivonja ezt az összeget a megállapított árból.<br />
+        = == Erre az összegre állítja a termék árát.
+      </pre>';
+	var $_PHPSHOP_PRODUCT_FORM_CUSTOM_ATTRIBUTE_LIST = 'Egyéni attribútumok listája';
+	var $_PHPSHOP_PRODUCT_FORM_CUSTOM_ATTRIBUTE_LIST_EXAMPLES = '<h4>Példák az egyéni attribútumok listájának formátumára:</h4>
+        <pre>Név;Extrák;</strong>...</pre>';
+	var $_PHPSHOP_MULTISELECT = '<i>Többszörös kijelölés: a CTRL-gombbal és az egérrel';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN = 'Engedélyezi az eProcessingNetwork.com fizetést?';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN_EXPLAIN = 'Jelölje be az eProcessingNetwork.com használatához a VirtueMarttal.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN_TESTMODE = 'Mód tesztelése ?';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN_TESTMODE_EXPLAIN = 'Teszteléshez válassza az \'Igen\' lehetõséget. Az élõ tranzakciók engedélyezéséhez válassza a \'Nem\' lehetõséget.';
+	var $_PHPSHOP_ADMIN_CFG_EPN_USERNAME = 'eProcessingNetwork.com felhasználónév';
+	var $_PHPSHOP_ADMIN_CFG_EPN_USERNAME_EXPLAIN = 'Ez az Ön eProcessingNetwork.com felhasználóneve';
+	var $_PHPSHOP_ADMIN_CFG_EPN_KEY = 'eProcessingNetwork.com tranzakciókulcs';
+	var $_PHPSHOP_ADMIN_CFG_EPN_KEY_EXPLAIN = 'Ez az Ön eProcessingNetwork.com tranzakciókulcsa';
+	var $_PHPSHOP_ADMIN_CFG_EPN_AUTENTICATIONTYPE = 'Hitelesítési típus';
+	var $_PHPSHOP_ADMIN_CFG_EPN_AUTENTICATIONTYPE_EXPLAIN = 'Ez az eProcessingNetwork.com hitelesítési típusa.';
+	var $_PHPSHOP_RELATED_PRODUCTS = 'Kapcsolódó termékek';
+	var $_PHPSHOP_RELATED_PRODUCTS_TIP = 'Ezzel a listával árukapcsolásokat hozhat létre. Válasszon csak ki egy vagy több terméket itt, majd ezek lesznek a <strong>Kapcsolódó termékek</strong>.';
+	var $_PHPSHOP_RELATED_PRODUCTS_HEADING = 'Talán ez(ek) a termék(ek) is érdeklik Önt';
+	var $_PHPSHOP_IMAGE_ACTION = 'Képmûvelet';
+	var $_PHPSHOP_NONE = 'nincs';
+	var $_PHPSHOP_ORDER_HISTORY = 'Rendelési elõzmények';
+	var $_PHPSHOP_ORDER_HISTORY_COMMENT = 'Megjegyzés';
+	var $_PHPSHOP_ORDER_HISTORY_COMMENT_EMAIL = 'A rendeléssel kapcsolatos megjegyzés';
+	var $_PHPSHOP_ORDER_HISTORY_INCLUDE_COMMENT = 'Beleveszi ezt a megjegyzést?';
+	var $_PHPSHOP_ORDER_HISTORY_DATE_ADDED = 'Hozzáadás dátuma';
+	var $_PHPSHOP_ORDER_HISTORY_CUSTOMER_NOTIFIED = 'Kapott értesítést a vevõ?';
+	var $_PHPSHOP_ORDER_STATUS_CHANGE = 'Rendelési állapot megváltoztatása';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_USERNAME = 'USPS shipping username';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_USERNAME_TOOLTIP = 'Username that you received from registering at USPS.com.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PASSWORD = 'USPS shipping password';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PASSWORD_TOOLTIP = 'Password that you received from registering at USPS.com.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SERVER = 'USPS shipping server';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SERVER_TOOLTIP = 'USPS shipping server, currently only works on live server!  Should be production.shippingapis.com';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PATH = 'USPS shipping path';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PATH_TOOLTIP = 'USPS shipping path, should be /ShippingAPI.dll';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGESIZE = 'USPS Package Size';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGESIZE_TOOLTIP = 'Choices are Regular, Large, and Oversize.  This should be set to what you mostly mail and is based on the dimensions of the package.  Normally just Regular.';
+	var $_PHPSHOP_USPS_PADDING = 'Percent to pad weight for shipping package. (Include %)';
+	var $_PHPSHOP_USPS_PADDING_TOOLTIP = 'Pad the shipping weight to allow additional weight for shipping box and packing. Using this allows you to put actual weight in your items weight settings.  Requires you to have the % sign included.  Example 15%';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_HANDLING_FEE = 'Handling Fee';
+	var $_PHPSHOP_USPS_HANDLING_FEE = 'Your Handling fee for this shipping method.';
+	var $_PHPSHOP_USPS_HANDLING_FEE_TOOLTIP = 'Do you want to charge extra for users to ship USPS?  In dollar format, example 2.00';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLHANDLINGFEE = 'Your International Handling fee for USPS shipments.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLHANDLINGFEE_TOOLTIP = 'Do you want to charge extra for users to ship Internationally with USPS.  This is on top of the normal Handling Fee.  Example 2.00';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLLBRATE = 'Your International per pound rate for USPS shipments.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLLBRATE_TOOLTIP = 'Your International per pound rate for USPS shipments.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_MACHINABLE = 'If Parcel Post is used and package is under 6oz & over 35lbs.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_MACHINABLE_TOOLTIP = 'Is this package able to be handled by a machine.  Default should be No.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP = 'USPS Domestic Mail';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP0 = 'USPS Express Mail PO to Addressee';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP0_TOOLTIP = 'Standard USPS Express Mail.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP1 = 'USPS Express Mail Flat Rate Envelope (12.5" x 9.5")';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP1_TOOLTIP = 'Select this if you allow shipping via the USPS Express Mail Flat Rate Envelope. Default should be No as it could come up cheaper than actual shipping and might not fit in the envelope.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP2 = 'USPS Priority Mail';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP2_TOOLTIP = 'Standard USPS Priority Mail.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP3 = 'USPS Priority Mail Flat Rate Envelope (12.5" x 9.5")';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP3_TOOLTIP = 'Select this if you allow shipping via the USPS Priority Mail Flat Rate Envelope.  Default should be No as it could come up cheaper than actual shipping and might not fit in the envelope.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP4 = 'USPS Priority Mail Flat Rate Box (11.25" x 8.75" x 6")';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP4_TOOLTIP = 'Select this if you allow shipping via the USPS Priority Mail Flat Rate Box.  Default should be No as it could come up cheaper than actual shipping and might not fit in the box.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP5 = 'USPS Priority Mail Flat Rate Box (14" x 12" x 3.5")';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP5_TOOLTIP = 'Select this if you allow shipping via the USPS Priority Mail Flat Rate Box.  Default should be No as it could come up cheaper than actual shipping and might not fit in the box.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP6 = 'USPS First Class (Under 14oz)';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP6_TOOLTIP = 'Select this if you allow shipping via USPS First Class Mail.  This will only be displayed if package weight is under .88 pounds.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP7 = 'USPS Parcel post';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP7_TOOLTIP = 'Standard USPS Parcel Post Mail.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP8 = 'USPS Bound Printed Matter';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP8_TOOLTIP = 'Select this if you allow shipping via USPS Bound Printed Matter.  Default should be No unless you ship bound magazines or newspapers in groups.  15 pound limit.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP9 = 'USPS Media Mail';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP9_TOOLTIP = 'Select this if you allow shipping via USPS Media Mail.  Default should be No.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP10 = 'USPS Library Mail';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP10_TOOLTIP = 'Select this if you allow shipping via USPS Library Mail.  Default should be No.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL = 'USPS International Mail';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL0 = 'USPS Global Express Gauranteed Document Service';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL0_TOOLTIP = 'Select this if you allow shipping via USPS Global Express Gauranteed Document Service.  Default should be No.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL1 = 'USPS Global Express Gauranteed Non-Document Service';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL1_TOOLTIP = 'Select this if you allow shipping via USPS Global Express Gauranteed Non-Document Service.  Default should be No.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL2 = 'USPS Global Express Mail (EMS)';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL2_TOOLTIP = 'Standard USPS Global Express Mail.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL3 = 'USPS Global Priority Mail Flat Envelope Large';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL3_TOOLTIP = 'Select this if you allow shipping via USPS Global Priority Mail Flat Envelope Large.  Default should be No as it could come up cheaper than actual shipping and might not fit in the envelope.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL4 = 'USPS Global Priority Mail Flat Envelope Small';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL4_TOOLTIP = 'Select this if you allow shipping via USPS Global Priority Mail Flat Envelope Large.  Default should be No as it could come up cheaper than actual shipping and might not fit in the envelope.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL5 = 'USPS Global Priority Mail - Variable Weight';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL5_TOOLTIP = 'Standard USPS Global Priority Mail.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL6 = 'USPS Airmail Letter Post';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL6_TOOLTIP = 'Select this if you allow shipping via USPS Airmail Letter Post.  Default should be No as it could come up cheaper than actual shipping and might not fit in the letter.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL7 = 'USPS Airmail Parcel Post';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL7_TOOLTIP = 'Standard USPS Airmail Parcel Post.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL8 = 'USPS Economy Letter Post';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL8_TOOLTIP = 'Select this if you allow shipping via USPS Economy Letter Post.  Default should be No as it could come up cheaper than actual shipping and might not fit in the letter.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL9 = 'USPS Economy Parcel Post';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL9_TOOLTIP = 'Standard Economy Parcel Post.';
+	var $_PHPSHOP_USPS_RESPONSE_ERROR = 'Az USPS nem tudta feldolgozni a szállítási dátum kérést.';
+	var $_PHPSHOP_PARAMETERS_LBL = 'Paraméterek';
+	var $_PHPSHOP_PRODUCT_TYPE_LBL = 'Terméktípus';
+	var $_PHPSHOP_PRODUCT_TYPE_LIST_LBL = 'Terméktípusok';
+	var $_PHPSHOP_PRODUCT_TYPE_ADDEDIT = 'Terméktípus hozzáadása/módosítása';
+	var $_PHPSHOP_PRODUCT_PRODUCT_TYPE_LIST_LBL = 'Terméktípusok listája a következõhöz:';
+	var $_PHPSHOP_PRODUCT_PRODUCT_TYPE_LIST_MNU = 'A terméktípusok kilistázása';
+	var $_PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_LBL = 'Terméktípus hozzáadása a következõhöz';
+	var $_PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_MNU = 'Terméktípus hozzáadása';
+	var $_PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_PRODUCT_TYPE = 'Terméktípus';
+	var $_PHPSHOP_PRODUCT_TYPE_FORM_NAME = 'Terméktípus neve';
+	var $_PHPSHOP_PRODUCT_TYPE_FORM_DESCRIPTION = 'Terméktípus leírása';
+	var $_PHPSHOP_PRODUCT_TYPE_FORM_PARAMETERS = 'Paraméterek';
+	var $_PHPSHOP_PRODUCT_TYPE_FORM_LBL = 'Terméktípus tulajdonságai';
+	var $_PHPSHOP_PRODUCT_TYPE_FORM_PUBLISH = 'Közzétéve?';
+	var $_PHPSHOP_PRODUCT_TYPE_FORM_BROWSEPAGE = 'Terméktípus böngészõ-lapja';
+	var $_PHPSHOP_PRODUCT_TYPE_FORM_FLYPAGE = 'Terméktípus röplap';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_LIST_LBL = 'A terméktípus paraméterei';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_LBL = 'Paraméter információja';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_NOT_FOUND = 'Nem található a terméktípus!';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_NAME = 'Paraméter neve';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_NAME_DESCRIPTION = 'Ez a név lesz a táblázat oszlopának a neve. Egyedinek kell lennie, szóköz nélkül.<BR>Például: alap_anyag';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_LABEL = 'Paraméter címkéje';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DESCRIPTION = 'Paraméter leírása';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE = 'Paraméter típusa';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_INTEGER = 'Egész szám';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TEXT = 'Szöveg';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_SHORTTEXT = 'Rövid szöveg';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_FLOAT = 'Float';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_CHAR = 'Char';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATETIME = 'Dátum és idõ';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE = 'Dátum';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE_FORMAT = 'YYYY-MM-DD';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TIME = 'Idõpont';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TIME_FORMAT = 'HH:MM:SS';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_BREAK = 'Sortörés';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_MULTIVALUE = 'Több érték';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_VALUES = 'Lehetséges értékek';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_MULTISELECT = 'A lehetséges értékek megjelenítése többszörös kijelölésként?';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_VALUES_DESCRIPTION = '<strong>Ha meg vannak adva a lehetséges értékek, akkor a paraméternek csaz ezek az értékei lehetnek. Példa a lehetséges értékekre:</strong><BR><span class="sectionname">Acél;Fa;Mûanyag;...</span>';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DEFAULT = 'Alapérték';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DEFAULT_HELP_TEXT = 'A paraméter alapértelmezett értékéhez ezt a formátumot használja:<ul><li>Dátum: YYYY-MM-DD</li><li>Idõ: HH:MM:SS</li><li>Dátum és idõ: YYYY-MM-DD HH:MM:SS</li></ul>';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_UNIT = 'Egység';
+	var $_PHPSHOP_PARAMETER_SEARCH = 'Speciális keresés a paraméterek alapján';
+	var $_PHPSHOP_ADVANCED_PARAMETER_SEARCH = 'Paraméterek keresése';
+	var $_PHPSHOP_PARAMETER_SEARCH_TEXT1 = 'Meg akarja keresni a mûszaki paraméterekkel egyezõ termékeket?<BR>Bármilyen elõre elkészített ûrlapot felhasználhat:';
+	var $_PHPSHOP_PARAMETER_SEARCH_NO_PRODUCT_TYPE = 'Sajnos nincs kategória a kereséshez.';
+	var $_PHPSHOP_PARAMETER_SEARCH_BAD_PRODUCT_TYPE = 'Sajnos nincs ilyen nevû közzétett terméktípus.';
+	var $_PHPSHOP_PARAMETER_SEARCH_IS_LIKE = 'Olyan, mint';
+	var $_PHPSHOP_PARAMETER_SEARCH_IS_NOT_LIKE = 'NEM olyan, mint';
+	var $_PHPSHOP_PARAMETER_SEARCH_FULLTEXT = 'Teljes szöveges keresés';
+	var $_PHPSHOP_PARAMETER_SEARCH_FIND_IN_SET_ALL = 'Minden kijelölt';
+	var $_PHPSHOP_PARAMETER_SEARCH_FIND_IN_SET_ANY = 'Bármelyik kijelölt';
+	var $_PHPSHOP_PARAMETER_SEARCH_RESET_FORM = 'Ûrlap kiürítése';
+	var $_PHPSHOP_PARAMETER_SEARCH_IN_CATEGORY = 'Keresés kategóriában';
+	var $_PHPSHOP_PARAMETER_SEARCH_CHANGE_PARAMETERS = 'Paraméterek módosítása';
+	var $_PHPSHOP_PARAMETER_SEARCH_DESCENDING_ORDER = 'Csökkenõ rendezés';
+	var $_PHPSHOP_PARAMETER_SEARCH_ASCENDING_ORDER = 'Növekvõ rendezés';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETERS_IN_CATEGORY = 'A kategória paraméterei';
+	var $_PHPSHOP_FEE = 'Díj';
+	var $_PHPSHOP_PRODUCT_CLONE = 'Termék klónozása';
+	var $_PHPSHOP_CSV_SETTINGS = 'Beállítások';
+	var $_PHPSHOP_CSV_DELIMITER = 'Határolójel';
+	var $_PHPSHOP_CSV_ENCLOSURE = 'Mezõ lezáró karakter';
+	var $_PHPSHOP_CSV_UPLOAD_FILE = 'CSV fájl feltöltése';
+	var $_PHPSHOP_CSV_SUBMIT_FILE = 'A CSV fájl küldése';
+	var $_PHPSHOP_CSV_FROM_DIRECTORY = 'Betöltés könyvtárból';
+	var $_PHPSHOP_CSV_FROM_SERVER = 'A CSV fájl betöltése a kiszolgálóról';
+	var $_PHPSHOP_CSV_EXPORT_TO_FILE = 'Exportálás CSV fájlba';
+	var $_PHPSHOP_CSV_SELECT_FIELD_ORDERING = 'Válassza ki a mezõ rendezési típusát';
+	var $_PHPSHOP_CSV_DEFAULT_ORDERING = 'Alapértelmezett rendezés';
+	var $_PHPSHOP_CSV_CUSTOMIZED_ORDERING = 'Saját egyéni rendezésem';
+	var $_PHPSHOP_CSV_SUBMIT_EXPORT = 'Az összes termék exportálása CSV fájlba';
+	var $_PHPSHOP_CSV_CONFIGURATION_HEADER = 'CSV importálás / exportálás beállításai';
+	var $_PHPSHOP_CSV_SAVE_CHANGES = 'Változtatások mentése';
+	var $_PHPSHOP_CSV_FIELD_NAME = 'Mezõnév';
+	var $_PHPSHOP_CSV_DEFAULT_VALUE = 'alapértelmezett érték';
+	var $_PHPSHOP_CSV_FIELD_ORDERING = 'Mezõk sorrendje';
+	var $_PHPSHOP_CSV_FIELD_REQUIRED = 'Kötelezõ a mezõ?';
+	var $_PHPSHOP_CSV_IMPORT_EXPORT = 'Importálás/Exportálás';
+	var $_PHPSHOP_CSV_NEW_FIELD = 'Új mezõ hozzáadása';
+	var $_PHPSHOP_CSV_DOCUMENTATION = 'Dokumentáció';
+	var $_PHPSHOP_PRODUCT_NOT_FOUND = 'Sajnos az Ön által kért termék nem található!';
+	var $_PHPSHOP_ADMIN_CFG_SHOW_OUT_OF_STOCK_PRODUCTS = 'A nem kapható termékek megjelenítése';
+	var $_PHPSHOP_ADMIN_CFG_SHOW_OUT_OF_STOCK_PRODUCTS_EXPLAIN = 'Ha engedélyezi, akkor láthatók lesznek a jelenleg nem kapható termékek. Egyéb esetben rejtettek maradnak az ilyen termékek.';
+	var $_PHPSHOP_PRODUCT_PACKAGING1 = 'Number {unit}s in packaging:';
+	var $_PHPSHOP_PRODUCT_PACKAGING2 = 'Number {unit}s in box:';
+	var $_PHPSHOP_HIDE_OUT_OF_STOCK = 'Az elfogyott termékek elrejtése';
+	var $_PHPSHOP_FEATURED_PRODUCTS_LIST_LBL = 'Ajánlott és akciós termékek';
+	var $_PHPSHOP_FEATURED = 'Ajánlat';
+	var $_PHPSHOP_BACK_TO_COUNTRY = 'Vissza az országhoz';
+	var $_PHPSHOP_BACK_TO_FILEMANAGER = 'Vissza a fájlkezelõhöz';
+	var $_PHPSHOP_ADD_STATE = 'Állam hozzáadása';
+	var $_PHPSHOP_LIST_STATES = 'Államok listázása';
+	var $_PHPSHOP_SHOW_FEATURED_AND_DISCOUNTED = 'ajánlott ÉS akciós';
+	var $_PHPSHOP_SHOW_FEATURED = 'ajánlott termékek';
+	var $_PHPSHOP_SHOW_DISCOUNTED = 'akciós termékek';
+	var $_PHPSHOP_FILTER = 'Szûrõ';
+	var $_PHPSHOP_BACK_TO_MAIN_SITE = 'Vissza a fõ webhelyre';
+	var $_PHPSHOP_EXPAND_TREE = 'A fa kibontása';
+	var $_PHPSHOP_COLLAPSE_TREE = 'A fa összecsukása';
+	var $_PHPSHOP_PRODUCT_FORM_DISCOUNTED_PRICE = 'Akciós ár';
+	var $_PHPSHOP_PRODUCT_FORM_DISCOUNTED_PRICE_TIP = 'Itt hatálytalaníthatja a megadott árengedményt. Írja be a termék speciális engedményes árát.<br/>
+Az engedményes árból új akciós bejegyzést fog létrehozni az üzlet.';
+	var $_PHPSHOP_CART_PRICE_PER_UNIT = 'Egységár';
+	var $_PHPSHOP_ADMIN_CFG_SHOP_OFFLINE = 'Zárva az üzlet?';
+	var $_PHPSHOP_ADMIN_CFG_SHOP_OFFLINE_TIP = 'Ha bejelöli, akkor az üzlet Zárva üzenetet fog megjeleníteni.';
+	var $_PHPSHOP_ADMIN_CFG_SHOP_OFFLINE_MSG = 'Zárva üzenet';
+	var $_PHPSHOP_ADMIN_CFG_TABLEPREFIX = 'Az üzlet tábláinak tábla elõtagja';
+	var $_PHPSHOP_ADMIN_CFG_TABLEPREFIX_TIP = 'Ez alapértelmezésként a <strong>vm</strong>';
+	var $_PHPSHOP_ADMIN_CFG_NAV_AT_TOP = 'Látható az oldalnavigálás a terméklista tetején?';
+	var $_PHPSHOP_ADMIN_CFG_NAV_AT_TOP_TIP = 'Be- vagy kikapcsolja az oldalnavigálás megjelenítését a terméklista tetején a felhasználói oldalon.';
+	var $_PHPSHOP_ADMIN_CFG_SHOW_PRODUCT_COUNT = 'Látható a termékek száma?';
+	var $_PHPSHOP_ADMIN_CFG_SHOW_PRODUCT_COUNT_TIP = 'Látható a kategóriában lévõ termékek száma, mint pl. Kategória (4)?';
+	var $_PHPSHOP_ADMIN_CFG_ADDTOCART_STYLE = 'A berakom-a-kosárba gomb sémája';
+	var $_PHPSHOP_ADMIN_CFG_DYNAMIC_THUMBNAIL_RESIZING = 'A dinamikus miniatûr-átméretezés engedélyezése?';
+	var $_PHPSHOP_ADMIN_CFG_DYNAMIC_THUMBNAIL_RESIZING_TIP = 'Bejelölésével engedélyezi a képek dinamikus átméretezését. Ez azt jelenti, hogy a PHP GD2 funkcióinak felhasználásával az összes miniatûr kép átméretezésre kerül,
+        hogy igazodjon az alább megadott méretekhez (a GD2-támogatást úgy ellenõrizheti, ha a "Rendszer" -> "Rendszerinfó" -> "PHP infó" -> gd lehetõséghez tallóz. 
+        A miniatûr kép minõsége sokkal jobb, mint azoké, melyeket a böngészõ "méretezett át". Az újonnan generált képeket a /shop_image/prduct/resized könyvtárba teszi. Ha a képet már átméretezte, akkor ezt a másolatot küldi a böngészõnek, vagyis egy képet sem méretez át újra meg újra.';
+	var $_PHPSHOP_ADMIN_CFG_THUMBNAIL_WIDTH = 'A miniatûr kép szélessége';
+	var $_PHPSHOP_ADMIN_CFG_THUMBNAIL_WIDTH_TIP = 'Az átméretezett miniatûr cél <strong>szélessége</strong>.';
+	var $_PHPSHOP_ADMIN_CFG_THUMBNAIL_HEIGHT = 'A miniatûr kép magassága';
+	var $_PHPSHOP_ADMIN_CFG_THUMBNAIL_HEIGHT_TIP = 'Az átméretezett miniatûr cél <strong>magassága</strong>.';
+	var $_PHPSHOP_ADMIN_CFG_SHIPPING_NO_SELECTION = 'Jelöljön be legalább egy jelölõnégyzetet a Szállítás beállításai lapon!';
+	var $_PHPSHOP_ADMIN_CFG_PRICE_CONFIGURATION = 'Ár beállításai';
+	var $_PHPSHOP_ADMIN_CFG_PRICE_ACCESS_LEVEL = 'Az árak a következõ tagcsoport számára láthatók';
+	var $_PHPSHOP_ADMIN_CFG_PRICE_ACCESS_LEVEL_TIP = 'A kiválasztott tagcsoport, valamint a magasabb szintû jogosultságokkal rendelkezõ tagcsoportok láthatják a fogyasztói árakat.';
+	var $_PHPSHOP_ADMIN_CFG_PRICE_SHOW_INCLUDINGTAX = 'A "(XX% áfával)" megjelenítése, ha felszámítható?';
+	var $_PHPSHOP_ADMIN_CFG_PRICE_SHOW_INCLUDINGTAX_TIP = 'Ha bejelöli, akkor a felhasználók látni fogják a "(xx% áfával)" szöveget, ha az árak kijelzése az áfával történik.';
+	var $_PHPSHOP_ADMIN_CFG_PRICE_SHOW_PACKAGING_PRICELABEL = 'Látható a csomagolás árcédulája?';
+	var $_PHPSHOP_ADMIN_CFG_PRICE_SHOW_PACKAGING_PRICELABEL_TIP = 'Bejelölése esetén az árcédula a termék egységének és csomagolásának értékébõl származik:<br/>
+<strong>Egységár (10 darab)<strong><br/>
+Ha nem jelöli be, akkor az árcédula úgy néz ki, ahogy szokott: <strong>Ára: xx.xx Ft</strong>';
+	var $_PHPSHOP_ADMIN_CFG_MORE_CORE_SETTINGS = 'További alapbeállítások';
+	var $_PHPSHOP_ADMIN_CFG_CORE_SETTINGS = 'Alapbeállítások';
+	var $_PHPSHOP_ADMIN_CFG_FRONTEND_FEATURES = 'Felhasználó-oldali funkciók';
+	var $_PHPSHOP_ADMIN_CFG_TAX_CONFIGURATION = 'Adózási beállítások';
+	var $_PHPSHOP_PRODUCT_LIST_QUANTITY_START = 'Mennyiség kezdete';
+	var $_PHPSHOP_PRODUCT_LIST_QUANTITY_END = 'Mennyiség vége';
+	var $_PHPSHOP_ADMIN_CFG_USER_REGISTRATION_SETTINGS = 'Felhasználói regisztrálás beállításai';
+	var $_PHPSHOP_ADMIN_CFG_ALLOW_REGISTRATION = 'Engedélyezett a felhasználók regisztrálása?';
+	var $_PHPSHOP_ADMIN_CFG_ACCOUNT_ACTIVATION = 'Új fiókaktiválásra van szükség?';
+	var $_PHPSHOP_ADMIN_CFG_SILENT_REGISTRATION = 'Csendes (rejtett) felhasználói regisztrálást használ?';
+	var $_PHPSHOP_ADMIN_CFG_SILENT_REGISTRATION_TIP = 'Engedélyezése esetén nem kell új fiók létrehozásakor kitölteniük a felhasználóknak a felhasználónevet és a jelszót. Ehelyett az e-mail cím kerül felhasználásra az új fiók létrehozásához, és véletlenszerû jelszót generál a rendszer. A regisztrációs adatokat postázza a vásárlónak.';
+	var $_PHPSHOP_USER_SEND_REGISTRATION_DETAILS = 'Tisztelt %s!
+
+Köszönjük, hogy regisztrált a(z) %s tartományon. A felhasználói fiókját elkészítettük.
+Az alábbi felhasználónévvel és jelszóval léphet be a(z) %s tartományra:
+
+Felhasználónév - %s
+Jelszó - %s
+';
+	var $_PEAR_LOG_CRIT = 'Kritikus';
+	var $_PEAR_LOG_ERR = 'Hiba';
+	var $_PEAR_LOG_WARNING = 'Figyelmeztetés';
+	var $_PEAR_LOG_INFO = 'Információ';
+	var $_PEAR_LOG_TIP = 'Információ';
+	var $_PEAR_LOG_ALERT = 'Riasztás';
+	var $_PEAR_LOG_EMERG = 'Vészhelyzet';
+	var $_PEAR_LOG_NOTICE = 'Közlemény';
+	var $_PEAR_LOG_DEBUG = 'Hibakeresés';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_PFP = 'Engedélyezi a PayFlow Pro fizetést?';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_PFP_EXPLAIN = 'Jelölje be a VeriSign PayFlow Pro használatához a VirtueMart-tal.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_PFP_TESTMODE = 'Mód tesztelése ?';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_PFP_TESTMODE_EXPLAIN = 'Tesztelés alatt válassza az \'Igen\' lehetõséget. Az élõ tranzakciók engedélyezéséhez válassza a \'Nem\' lehetõséget.';
+	var $_PHPSHOP_ADMIN_CFG_PFP_PARTNER = 'VeriSign által feldolgozott partnerazonosító';
+	var $_PHPSHOP_ADMIN_CFG_PFP_PARTNET_EXPLAIN = 'A partnerazonosító, amit az a hivatalos VeriSign-viszonteladó adott, aki bejegyezte Önt a PayFlow Pro szolgáltatásba';
+	var $_PHPSHOP_ADMIN_CFG_PFP_USERNAME = 'PayFlow Pro felhasználónév';
+	var $_PHPSHOP_ADMIN_CFG_PFP_USERNAME_EXPLAIN = 'Ez az Ön PayFlow Pro felhasználóneve';
+	var $_VM_TAXDETAILS_LABEL = 'Tax Total contains';
+	var $_VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL = 'Default product sort order';
+	var $_VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL_TIP = 'Defines by which field products are ordered by default on the browse pages';
+	var $_VM_BROWSE_ORDERBY_FIELDS_LBL = 'Available "Sort-by" fields';
+	var $_VM_BROWSE_ORDERBY_FIELDS_LBL_TIP = 'Choose the "Sort-by" fields for the browse page. Each one defines a sort method for the product browse page. If you deselect all, the Order-By-Form will not be shown.';
+	var $_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO = 'Show a short note about your "Returns Policy" on the order confirmation page?';
+	var $_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO_TIP = 'In most european countries store owners are required by law to inform their customers about return and order cancellation policies. So this should be enabled in most cases.';
+	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT = 'Legal information text (short version).';
+	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT_TIP = 'This text instructs your customers in short about your return and order cancellation policy. It is shown on the last page of checkout, just above the "Confirm Order" button.';
+	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK = 'Long version of the return policy (link to a content item).';
+	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK_TIP = 'Please add a new content item about the details of your return and order cancellation policy.
+Afterwards you can select it here.';
+	var $_VM_LEGALINFO_SHORTTEXT = '<h5>Returns Policy</h5>
+
+You can cancel this order within two weeks after we have received it.
+You can return new, unopened items from a cancelled order within 2 weeks after they have been 
+delivered to you. Items should be returned in their original packaging.
+For more information on cancelling orders and returning items, see the <a href="%s" onclick="%s" target="_blank">Our Returns Policy</a> page.';
+	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_EU = 'European Union mode';
+	var $_VM_SESSION_SAVEPATH_UNWRITABLE = 'The directory to store session data is not writable. Please correct this or contact your provider.';
+	var $_VM_SESSION_SAVEPATH_UNWRITABLE_TMPFIX = 'The Session Save Path %s is not writable. Please correct this! The shop is temporarily trying to use the %s instead.\'';
+	var $_VM_SESSION_COOKIES_NOT_ACCEPTED_TIP = 'Your browser does not accept cookies. If you want to put products into your cart and purchase them you need to enable cookies.';
+	var $_PHPSHOP_CSV_SKIP_FIRST_LINE = 'Skip first line';
+	var $_PHPSHOP_CSV_SKIP_DEFAULT_VALUE = 'Skip default value';
+	var $_PHPSHOP_CSV_OVERWRITE_EXISTING_DATA = 'Overwrite existing data';
+	var $_PHPSHOP_CSV_INCLUDE_COLUMN_HEADERS = 'Include column headers';
+	var $_PHPSHOP_CSV_UPLOAD_SETTINGS = 'Upload Settings';
+	var $_PHPSHOP_CSV_AVAILABLE_FIELDS = 'Available Fields';
+	var $_PHPSHOP_CSV_OUTPUT_CSV_UPLOAD_MESSAGES = 'CSV upload messages:';
+	var $_PHPSHOP_CSV_OUTPUT_COUNT = 'Count';
+	var $_PHPSHOP_CSV_OUTPUT_TOTAL = 'Total';
+	var $_PHPSHOP_CSV_OUTPUT_FILE_IMPORTED = 'CSV File Imported';
+	var $_PHPSHOP_CSV_OUTPUT_UPDATED = 'Updated';
+	var $_PHPSHOP_CSV_OUTPUT_DELETED = 'Deleted';
+	var $_PHPSHOP_CSV_OUTPUT_ADDED = 'Added';
+	var $_PHPSHOP_CSV_OUTPUT_SKIPPED = 'Skipped';
+	var $_PHPSHOP_CSV_OUTPUT_INCORRECT = 'Incorrect';
+	var $_PHPSHOP_CSV_AVAILABLE_FIELDS_USE = 'The following fields are available for your use to import or export.';
+	var $_PHPSHOP_CSV_MINIMAL_FIELDS = 'The minimal required fields are product_sku, product_name and category_path. Except for the product_sku, the other two fields are not unique.';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_SKU = 'The unique identifier for a product.<br /.>Values:<ul><li>Number</li><li>Letters</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_NAME = 'The name of the product.Values:<ul><li>Text: No HTML code allowed.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DELETE = 'The product_delete field is a special field. This field is used to determine if a product should be deleted or not.<br />Usage:<ol><li>Add the the name "product_delete" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the value Y. If the field contains any other value, the product will not be deleted.</li></ol><br /.>Values:<ul><li>Y: Yes, the product is to be deleted</li><li>N: No, the product is not to be deleted</li><li>Empty: Empty value, the product is not to be deleted</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DESC = 'Long description for the product.<br />Values:<ul><li>Text: HTML code allowed.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_S_DESC = 'Short description for the product.<br />Values:<ul><li>Text: No HTML code allowed.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PUBLISH = 'The status if a product is published or not.<br />Values:<ul><li>Y: Yes, the product is published</li><li>N: No, the product is not published</li><li>Empty: Empty value, the product is published.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_WIDTH = 'The width of the product.<br />Values:<ul><li>Number</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_HEIGHT = 'The height of the product.<br />Values:<ul><li>Number</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_AVAILABLE_DATE = 'The date a product will become availabable. For import the date should be in the format of day/month/year or day-month-year. On Windows systems the date goes until 19/01/2038.<br />Usage:<ol><li>Add the the name "product_available_date" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with a date value. If the field contains any other value, the data will be ignored.</li></ol><br />Values:<ul><li>Date: day/month/year or day-month-year</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_IN_STOCK = 'The number of articles that you have in stock.<br /><br />Usage:<ol><li>Add the the name "product_in_stock" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with a numeric value. If the field contains any other value, the default value will be used.</li></ol><br />Values:<ul><li>Number</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTE = 'The different choices a product has. Use this to give a product different specifications. For example a t-shirt that comes in different sizes and colours. You can specify the sizes and colours like this: Size,XL[+1.99],M,S[-2.99];Colour,Red,Green,Yellow,ExpensiveColor[=24.00];AndSoOn,..,..<br /><br />You can adjust the prices per attribute by using the following options:<ul><li>+: Add this amount to the configured price.</li><li>-: Subtract this amount from the configured price.</li><li>=: Set the product\\\'s price to this amount.</li></ul><br />Usage:<ol><li>Add the the name "attribute" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the attribute text.</li></ol><br /.>Values:<ul><li>Text: No HTML code allowed.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_AVAILABILITY = 'This shows when the product is available. The value can be a descriptive text or the name of an image filename. Images must be placed in "shop_image/availability/".<br />Usage:<ol><li>Add the the name "product_availability" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_FULL_IMAGE = 'The filename of the image as located in the "shop_image/product/" folder. The filename can also be a URL.<br />NOTE: If you have dynamic resizing enabled, you need to fill the "product_thumb_image" field. VirtueMart resizes the image specified there.<br/><br />Usage:<ol><li>Add the the name "product_full_image" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text:<ul><li>No HTML code allowed</li><li>URL\\\'s are allowed.</li></ul></li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_THUMB_IMAGE = 'The filename of the thumbnail image as located in the "shop_image/product/" folder. The filename can also be a URL.<br />NOTE: If you have dynamic resizing enabled, there still needs to be a value in this field. VirtueMart resizes the image that is specified here.<br /><br />Usage:<ol><li>Add the the name "product_full_image" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text:<ul><li>No HTML code allowed</li><li>URL\\\'s are allowed.</li></ul></li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_CUSTOM_ATTRIBUTE = 'A custom attribute will add an input field to the product page with the description of the attribute supplied. Custom attributes are specified like this: Name;Extras;...<br />Usage:<ol><li>Add the the name "custom_attribute" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the attribute text.</li></ol><br /.>Values:<ul><li>Text: No HTML code allowed.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PACKAGING = 'Specify the number of items in the package.<br />Usage:<ol><li>Add the the name "product_packaging" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the number of items in the package.</li></ol><br /.>Values:<ul><li>Number</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_BOX = 'Specify the number of items in the box.<br />Usage:<ol><li>Add the the name "product_box" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the number of items in the box.</li></ol><br /.>Values:<ul><li>Number</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT = 'Specify the amount or percentage of discount the product has. The values entered are exact values, no calculation is made. This is the same as if you are filling in a discount via the Product Discount List. If the discount already exists, it will not be added to the database but the product will be linked to the existing discount. The criteria for determining if a discount already exists the following values have to be exactly the same:<ol><li>Amount, be it a total or percentage</li><li>Start date</li><li>End date</li></ol>This prevents from filling the database with a huge number of the same discounts.<br /><br />Usage:<ol><li>Add the the name "product_discount" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Optional: Add the the name "product_discount_date_start" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Optional: Add the the name "product_discount_date_end" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add the chosen columns to your CSV file with the corresponding values.</li></ol><br /.>Values:<ul><li>product_discount</li><ul><li>Number<br />e.g. 10</li><li>Percentage: Must include the % sign<br />e.g. 10%</li></ul><li>product_discount_date_start</li><ul><li>Date: day/month/year or day-month-year<br />Day and month can be a 1 or 2 digit notation.<br />Year can be a 2 or 4 digit notation.</li></ul><li>product_discount_date_end</li><ul><li>Date: day/month/year or day-month-year<br />Day and month can be a 1 or 2 digit notation.<br />Year can be a 2 or 4 digit notation.</li></ul></ul>';
+	var $_ITEM_PREVIOUS = 'previous';
+	var $_ITEM_NEXT = 'next';
+	var $_CMN_OK = 'Ok';
+	var $_CMN_CONTINUE = 'Continue';
+	var $_CMN_CANCEL = 'Cancel';
+	var $_BUTTON_SEND_REG = 'Send Registration';
+	var $_CONTACT_FORM_NC = 'Please make sure the form is complete and valid.';
+	var $_CMN_REQUIRED = 'Required';
+	var $_CMN_NEW = 'New';
+	var $_CMN_SAVE = 'Save';
+	var $_CMN_NEW_ITEM_LAST = 'New items default to the last place. Ordering can be changed after this item is saved.';
+	var $_CMN_OPTIONAL = 'Optional';
+	var $_E_APPLY = 'Apply';
+	var $_E_IMAGES = 'Images';
+	var $_URL = 'URL:';
+	var $_SEL_CATEGORY = 'Select a category';
+	var $_E_REMOVE = 'Remove';
+	var $_PN_LT = '<';
+	var $_PN_RT = '>';
+	var $_PN_PAGE = 'Page';
+	var $_PN_OF = 'of';
+	var $_PN_START = 'Start';
+	var $_PN_PREVIOUS = 'Prev';
+	var $_PN_NEXT = 'Next';
+	var $_PN_END = 'End';
+	var $_PN_DISPLAY_NR = 'Display #';
+	var $_PN_RESULTS = 'Results';
+	var $_CMN_PRINT = 'Print';
+	var $_CMN_PDF = 'PDF';
+	var $_CMN_EMAIL = 'E-mail';
+	var $_BACK = 'Back';
+	var $_USERNAME = 'Username';
+	var $_PASSWORD = 'Password';
+	var $_BUTTON_LOGIN = 'Login';
+	var $_REGISTER_UNAME = 'Username';
+	var $_REGISTER_EMAIL = 'Email';
+	var $_REGWARN_NAME = 'Please enter your name.';
+	var $_REGWARN_UNAME = 'Please enter a user name.';
+	var $_REGWARN_MAIL = 'Please enter a valid e-mail address.';
+	var $_SEND_SUB = 'Account details for %s at %s';
+	var $_ASEND_MSG = 'Hello %s,
+	
+	A new user has registered at %s.
+	This email contains their details:
+	
+	Name - %s
+	e-mail - %s
+	Username - %s
+	
+	Please do not respond to this message as it is automatically generated and is for information purposes only';
+	var $_REG_COMPLETE = '<div class="componentheading">Registration Complete!</div><br />You may now login.';
+	var $_REG_COMPLETE_ACTIVATE = '<div class="componentheading">Registration Complete!</div><br />Your account has been created and activation link has been sent to the e-mail address you entered. Note that you must activate the account by clicking on the activation link when you get the e-mail before you can login.';
+	var $_DATE_FORMAT_LC = '%A, %d %B %Y';
+	var $_LAST_UPDATED = 'Last Updated';
+	var $_NOT_AUTH = 'You are not authorized to view this resource.';
+	var $_DO_LOGIN = 'You need to login.';
+	var $_VALID_AZ09 = 'Please enter a valid %s.  No spaces, more than %d characters and contain 0-9,a-z,A-Z';
+	var $_CMN_PUBLISHED = 'Published';
+	var $_CMN_UNPUBLISHED = 'Unpublished';
+	var $_MORE = 'More...';
+	var $_EMPTY_CATEGORY = 'This Category is currently empty.';
+	var $_BUTTON_LOGOUT = 'Logout';
+	var $_NO_ACCOUNT = 'No account yet?';
+	var $_CREATE_ACCOUNT = 'Register';
+	var $_REGWARN_PASS = 'Please enter a valid password.  No spaces, more than 6 characters and contain 0-9,a-z,A-Z';
+	var $_REGWARN_VPASS1 = 'Please verify the password.';
+	var $_REGWARN_VPASS2 = 'Password and verification do not match, please try again.';
+	var $_USEND_MSG_ACTIVATE = 'Hello %s,
+
+
+
+Thank you for registering at %s. Your account is created and must be activated before you can use it.
+
+To activate the account click on the following link or copy-paste it in your browser:
+
+%s
+
+
+
+After activation you may login to %s using the following username and password:
+
+
+
+Username - %s
+
+Password - %s';
+	var $_USEND_MSG = 'Hello %s,
+
+
+
+Thank you for registering at %s.
+
+
+
+You may now login to %s using the username and password you registered with.';
+	var $_PROMPT_PASSWORD = 'Lost your Password?';
+	var $_HI = 'Hi';
+	var $_NEW_USER_MESSAGE_SUBJECT = 'New User Details';
+	var $_NEW_USER_MESSAGE = 'Hello %s,
+
+
+
+
+
+You have been added as a user to %s by an Administrator.
+
+
+
+This email contains your username and password to log into the %s
+
+
+
+Username - %s
+
+Password - %s
+
+
+
+
+
+Please do not respond to this message as it is automatically generated and is for information purposes only';
+	var $_REMEMBER_ME = 'Remember me';
+	var $_REGISTER_TITLE = 'Registration';
+	var $_JAN = 'January';
+	var $_FEB = 'February';
+	var $_MAR = 'March';
+	var $_APR = 'April';
+	var $_MAY = 'May';
+	var $_JUN = 'June';
+	var $_JUL = 'July';
+	var $_AUG = 'August';
+	var $_SEP = 'September';
+	var $_OCT = 'October';
+	var $_NOV = 'November';
+	var $_DEC = 'December';
+	var $_PHPSHOP_CSV_VERSION = '0.7';
+	var $_PHPSHOP_CSV_ABOUT = 'About';
+	var $_PHPSHOP_CSV_PRICE_LIST_ONLY = 'Price list upload only';
+	var $_PHPSHOP_CSV_MULTIPLE_PRICES_UPLOAD = 'Multiple prices upload';
+	var $_PHPSHOP_CSV_IMPORT_CONFIG_CSV_FILE = 'Use column headers as configuration';
+	var $_PHPSHOP_CSV_COLLECT_DEBUG_INFO = 'Collect debug information';
+	var $_PHPSHOP_CSV_SHOW_PREVIEW = 'Show preview';
+	var $_PHPSHOP_CSV_REGULAR_UPLOAD = 'Regular upload';
+	var $_PHPSHOP_CSV_PRODUCT_TYPE_UPLOAD = 'Product type upload';
+	var $_PHPSHOP_CSV_PRODUCT_TYPE_PARAMETERS_UPLOAD = 'Product type parameters upload';
+	var $_PHPSHOP_CSV_PRODUCT_TYPE_XREF_UPLOAD = 'Product type cross reference upload';
+	var $_PHPSHOP_CSV_PRODUCT_TYPE_DETAIL_UPLOAD = 'Product type detail upload';
+	var $_PHPSHOP_CSV_EMPTY_DATABASE = 'Empty database';
+	var $_PHPSHOP_CSV_CONTINUE_UPLOAD = 'Continue upload';
+	var $_PHPSHOP_CSV_CANCEL_UPLOAD = 'Cancel upload';
+	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION = '<span style="color: #FF0000; font-size: 1.2em;">Steps to upload a CSV file</span>
+
+										<ol>
+
+										<li>Create a product list as a CSV file either with or without column headers.
+
+										<br />Recommended is to use the text delimiter ~ (tilde) and the field delimiter ^ (caret).
+
+										<br /><span style="font-weight: bold;">Example File:</span><br />
+
+										<div class="quote" style="width:600px;overflow:scroll;"><pre>~G01~^~Hand Shovel~^~Hand Tools~^~4.99000~^~<p>Nice hand shovel to dig with in the yard.</p>~^~<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5\~ Diameter<br>  Tungsten handle tip with 5 point loft<br>~^~8d886c5855770cc01a3b8a2db57f6600.jpg~^~cca3cd5db813ee6badf6a3598832f2fc.jpg~^~10.0000~^~pounds~^~0.0000~^~0.0000~^~0.0000~^~inches~^~10~^~1072911600~^~1~^~1~^~2~^~0~^~G01~^~~^~~^~Color::1|Size::2~^~~
+
+~G02~^~Ladder~^~Garden Tools~^~49.99000~^~A really long ladder to reach high places.~^~<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5\~ Diameter<br>  Tungsten handle tip with 5 point loft<br>~^~ffd5d5ace2840232c8c32de59553cd8d.jpg~^~8cb8d644ef299639b7eab25829d13dbc.jpg~^~10.0000~^~pounds~^~0.0000~^~0.0000~^~0.0000~^~inches~^~76~^~1072911600~^~0~^~1~^~2~^~0~^~G02~^~~^~~^~Material::1~^~~
+
+~G03~^~Shovel~^~Garden Tools~^~24.99000~^~Nice shovel.  You can dig your way to China with this one.~^~<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5\~ Diameter<br>  Tungsten handle tip with 5 point loft<br>~^~8147a3a9666aec0296525dbd81f9705e.jpg~^~520efefd6d7977f91b16fac1149c7438.jpg~^~10.0000~^~pounds~^~0.0000~^~0.0000~^~0.0000~^~inches~^~32~^~1072911600~^~0~^~1~^~2~^~0~^~G03~^~Size,XL[+1.99],M,S[-2.99];Colour,Red,Green,Yellow,ExpensiveColor[=24.00]~^~~^~~^~~</pre></div></li>
+
+										<li>Setup the fields on the "Configuration" tab in the same order as the CSV file. The fields must match the exact place in the CSV file.
+
+										<br />E.g. product_sku, product_desc, product_price, category_path<br />
+
+										<br /><span style="font-weight: bold;">Minimum required information to add a product is:</span><br />
+
+										product_sku<br />
+
+										product_name<br />
+
+										category_path<br />
+
+										<br /><span style="font-weight: bold;">category_path</span> is a slash delimited string which begins
+
+										with a top-level category and follows with sub-categories, e.g. <br />
+
+										<div class="quote">category/sub-category_1/sub_category_2</div>
+
+										<br />
+
+										When the product has to be assigned to more than one category, you can
+
+										provide all categories,<br />
+
+										delimited by a <span style="font-weight: bold;">|</span>
+
+										<div class="quote">Category/Sub-category_1/Sub_category_2|Category2/Subcategory22|Category3/Subcategory33</div>
+
+										</li>
+
+										<li>Choose the delimiters on the "Import/Export" tab.</li>
+
+										<li>Choose the upload settings on the "Import/Export" tab.</li>
+
+										<li>Choose either to upload the file from your local computer (Submit CSV File) or to use a local file (Load CSV File from Server).</li>
+
+										<li>The import starts.</li>
+
+										</ol>';
+	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_PRODUCT_TYPES = '<span style="color: #FF0000; font-size: 1.2em;">Product Types</span><br /><br />
+
+													To add product types, you need 4 CSV files. Each CSV file represents a part of the product type.
+
+													<ul>
+
+													<li><span style="font-weight: bold;">Product types</span><br />
+
+													This CSV file contains the main product types and should look like this:
+
+													<table border="1">
+
+													<tr style="border: 1px solid #000000;"><td>product_type_name</td><td>product_type_description</td><td>product_type_publish</td><td>product_type_browsepage</td><td>product_type_flypage</td></tr>
+
+													<tr><td>Music track</td><td>Track</td><td>Y</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+
+													<tr><td>Music album</td><td>Album</td><td>Y</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+
+													<tr><td>Music artist</td><td>Artist</td><td>Y</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+
+													</table>
+
+													</li><br />
+
+													<li><span style="font-weight: bold;">Product type parameters</span><br />
+
+													This CSV file contains the parameters per product type and should look like this:
+
+													<div style="width: 50%; overflow: auto; height: 100px;">
+
+													<table border="1">
+
+													<tr><td>product_type_name</td><td>product_type_parameter_name</td><td>product_type_parameter_label</td><td>product_type_parameter_description</td><td>product_type_parameter_list_order</td><td>product_type_parameter_type</td><td>product_type_parameter_values</td><td>product_type_parameter_multiselect</td><td>product_type_parameter_default</td><td>product_type_parameter_unit</td></tr>
+
+													<tr><td>Music artist</td><td>Name</td><td>Name</td><td>Artist Name</td><td>1</td><td>I</td><td>&nbsp;</td><td>N</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+
+													<tr><td>Music artist</td><td>Birth</td><td>Birth</td><td>Artist Birth</td><td>2</td><td>D</td><td>&nbsp;</td><td>N</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+
+													<tr><td>Music album</td><td>Duration</td><td>Duration</td><td>Duration of album</td><td>3</td><td>M</td><td>00:01:00;00:02:00;00:03:00</td><td>Y</td><td>00:02:00</td><td>minutes</td></tr>
+
+													</table>
+
+													</div>
+
+													<br />
+
+													The product type parameter type can have several values, they are:
+
+													<ul>
+
+													<li>I: Integer</li>
+
+													<li>T: Text</li>
+
+													<li>S: Short Text</li>
+
+													<li>F: Float</li>
+
+													<li>C: Char</li>
+
+													<li>D: Date & Time</li>
+
+													<li>M: Time</li>
+
+													<li>V: Multiple Values</li>
+
+													<li>B: Break Line</li>
+
+													</ul>
+
+													</li><br />
+
+													<li><span style="font-weight: bold;">Items per product type name</span><br />
+
+													This CSV file contains the details per product type parameter name and should look like this:
+
+													<table border="1">
+
+													<tr><td>product_sku</td><td>product_type_name</td><td>product_type_parameter_namex</td><td>product_type_parameter_namex</td></tr>
+
+													<tr><td>1234</td><td>Music artist</td><td>Singing Star</td><td>1975</td></tr>
+
+													<tr><td>5678</td><td>Music artist</td><td>Rocking Band</td><td>1980</td></tr>
+
+													</table><br />
+
+													Per product type name you need a seperate CSV file. The reason for this is that the column names for each CSV file is different because of the set of product type parameters.
+
+													</li><br />
+
+													<li><span style="font-weight: bold;">Product type cross reference to product SKU</span><br />
+
+													This CSV file contains the link between a product type and a product SKU and should look like this:
+
+													<table border="1">
+
+													<tr><td>product_sku</td><td>product_type_name</td></tr>
+
+													<tr><td>1234</td><td>Music artist</td></tr>
+
+													<tr><td>5678</td><td>Music artist</td></tr>
+
+													</table>
+
+													</li>
+
+													</ul><br />
+
+													Procedure:<br />
+
+													<ol>
+
+													<li>Upload Product Types CSV file</li>
+
+													<li>Upload Product Type Parameters CSV file</li>
+
+													<li>Upload Product Type Items CSV file</li>
+
+													<li>Upload Product Type Cross Reference CSV file</li>
+
+													</ol>';
+	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_EMPTY_DATABASE = '<span style="color: #FF0000; font-size: 1.2em;">Empty Database</span><br /><br />
+
+													 <span style="color: #FF0000; font-size: 2em;">USE WITH CAUTION !!! NO RESTORE !!!</span><br /><br />
+
+													 Emptying the database will remove ALL data in your database from the following tables:
+
+													 <ul>
+
+													 <li>products</li>
+
+													 <li>products</li>
+
+													 <li>product_price</li>
+
+													 <li>product_mf_xref</li>
+
+													 <li>product_attribute</li>
+
+													 <li>category</li>
+
+													 <li>category_xref</li>
+
+													 <li>product_attribute_sku</li>
+
+													 <li>product_category_xref</li>
+
+													 <li>product_discount</li>
+
+													 <li>product_type</li>
+
+													 <li>product_type_parameter</li>
+
+													 <li>product_product_type_xref</li>
+
+													 </ul>
+
+													 All but the first manufacturer is removed:
+
+													 <ul>
+
+													 <li>manufacturer</li>
+
+													 </ul>
+
+													 The following tables are completely deleted:
+
+													 <ul>
+
+													 <li>product_type_x</li>
+
+													 </ul>
+
+													 The x represents the number of the table. This number relates to the product types that are in the system. Since the product types table is completely emptied, these tables are removed. Uploading new product types will recreate the tables.<br /><br />
+
+													 Procedure:
+
+													 <ol>
+
+													 <li>Choose "Empty Database" from the dropdown on the Upload Settings</li>
+
+													 <li>Check "Collect debug information" if you want additional result information</li>
+
+													 <li>Click "Submit CSV File" or "Load CSV File from Server". No need to enter a filename.</li>
+
+													 <li>You are asked if you are sure you want to empty your database. Click OK if you are sure otherwise click Cancel</li>
+
+													 <li>The database is now emptied or you are returned to the main screen depending on your previous choice</li>
+
+													 </ol>';
+	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_MULTIPLE_PRICES_UPLOAD = '<span style="color: #FF0000; font-size: 1.2em;">Multiple prices upload</span><br /><br />
+
+														    Procedure:
+
+														    <ol>
+
+														    <li>Create a CSV file that contains the following fields:
+
+														    	<ul>
+
+															<li>product_sku</li>
+
+															<li>product_price</li>
+
+															<li>product_currency</li>
+
+															<li>price_quantity_start</li>
+
+															<li>price_quantity_end</li>
+
+															<li>price_delete</li>
+
+															</ul>
+
+														    See the Available Fields tab for what information each field contains. If you want to use the column headers as configuration, fill the first line with the column headers name.
+
+														    </li>
+
+														    <li>Either set the configuration fields, as mentioned in point 1 on the Configuration tab or if you added column headers to your CSV file, select "Use column headers as configuration" at the Upload Settings.
+
+														    </li>
+
+														    <li>Select "Multiple Prices Upload" at the Upload Settings</li>
+
+														    <li>Optionally, choose "Show preview" and/or "Collect debug information"</li>
+
+														    <li>Select a file to upload or to load from directory</li>
+
+														    <li>Select "Submit CSV File" or "Load CSV File from Server" depending if you are uploading a file or loading a file from a directory</li>
+
+														    <li>The prices will now be imported</li>
+
+														    </ol><br /><br />
+
+														    <span style="font-weight: bold;">Price delete</span><br />
+
+														    Using the multiple prices import it is also possible to delete prices. A price is deleted when the following fields in the CSV file match the data in the database:
+
+														    <ul>
+
+														    <li>product_sku</li>
+
+														    <li>product_price</li>
+
+														    <li>product_currency</li>
+
+														    <li>price_quantity_start</li>
+
+														    <li>price_quantity_end</li>
+
+														    </ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PRICE = 'The price for a product without currency denominator.<br /><br />Usage:<ol><li>Select the name "product_price" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a price value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_LENGTH = 'The length of the product.<br /><br />Usage:<ol><li>Select the name "product_length" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_LWH_UOM = 'The measurement of length, width and height of the product.This can be inches, centimeters, etc.<br /><br />Usage:<ol><li>Select the name "product_lwh_uom" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_WEIGHT = 'The weight of the product.<br /><br />Usage:<ol><li>Select the name "product_weight" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_WEIGHT_UOM = 'The measurement of weight of the product.This can be pounds, kilo, etc.<br /><br />Usage:<ol><li>Select the name "product_weight_uom" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTES = 'Attributes are part of a product and are used by the child products to give them specifications.<br />Usage:<ol><li>Select the name "attributes" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the attributes text.</li></ol><br />Values:<ul><li>Text: No HTML code allowed.<br />The values must be seperated by a pipe symbol (|). E.g.: attribute_name::list_order|attribute_name::list_order</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTE_VALUES = 'Attribute values are the values of child products that are linked to the attributes of the parent product.<br />Usage:<ol><li>Select the name "custom_attribute" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the attribute value text.</li></ol><br />Values:<ul><li>Text: No HTML code allowed.<br />The values must be seperated by a pipe symbol (|). E.g.: attribute_name::attribute_value|attribute_name::attribute_value</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT_DATE_START = 'The day the discount for a product starts. For more information see "product_discount".<br /><br />Usage:<ol><li>Select the name "product_discount_date_start" from the dropdown menu on the configuration screen.</li><li>Add the chosen columns to your CSV file with the date value.</li></ol><br />Values:<ul><li>product_discount_date_start</li><ul><li>Date: day/month/year or day-month-year<br />Day and month can be a 1 or 2 digit notation.<br />Year can be a 2 or 4 digit notation.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT_DATE_END = 'The day the discount for a product ends. For more information see "product_discount".<br /><br />Usage:<ol><li>Select the name "product_discount_date_end" from the dropdown menu on the configuration screen.</li><li>Add the chosen columns to your CSV file with the date value.</li></ol><br />Values:<ul><li>product_discount_date_end</li><ul><li>Date: day/month/year or day-month-year<br />Day and month can be a 1 or 2 digit notation.<br />Year can be a 2 or 4 digit notation.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_UPLOAD_SETTINGS = '<ul><li><span style="font-weight: bold;">Skip first line</span><br />If the CSV file has a header line at the beginning, choose this option to skip that line. This prevents the header from being added to your database.</li><li><span style="font-weight: bold;">Overwrite existing data</span><br />When adding new products to your database, unchecking this option prevents any existing data to be replaced for products that already exist in your database. Default is to update product data.</li><li><span style="font-weight: bold;">Skip default value</span><br />On the configuration page, a default value can be specified in case the field is empty in the CSV file. Enabling this option, the import will not include the field for updating if there is no value in the CSV file.</li><li><span style="font-weight: bold;">Price list upload only</span><br />The Price list upload only is to be used if you are updating the prices of your products. The layout of the CSV is expected to be 2 columns:<ol><li>product_sku</span></li><li>product_price</li></ol></li>Please note that it does NOT take into account the settings on the configuration page.<li><span style="font-weight: bold;">Use column headers as configuration</span><br />If the CSV file has column headers on the first line, this option can be used to use the column headers as the current configuration. The column headers should match one of the column names defined on the Available Tabs page. This configuration is on a per use basis, nothing is saved. Default values cannot be used with this option.</li><li><span style="font-weight: bold;">Show preview</span><br />Shows a 5 line preview of the file to be imported. The import can then be either cancelled or continued.</li><li><span style="font-weight: bold;">Collect debug information</span><br />In case of problems, use this option to see what happens during the import. At the end of the import a report will be generated with the steps and queries done during the import.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_MANUFACTURER_NAME = 'The name of the manufacturer that is related to the product. This is used in combination with the manufacturer ID. If no manufacturer ID is specified, only the name is checked. New manufacturers will be created wiht incremental IDs. The process of adding/updating manufacturers follows the following guidelines:<ol><li>Name exists, ID exists --> ID is updated if different</li><li>Name exists, ID does not exist --> New manufacturer created with increment ID</li><li>Name does not exist, ID exists --> Generic name added with existing ID</li><li>Name does not exist, ID does not exist --> Do nothing</li></ol>Usage:<ol><li>Select the name "manufacturer_name" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the manufacturer name.</li></ol><br />Values:<ul><li>Text: No HTML code allowed.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_MANUFACTURER_ID = 'The ID of the manufacturer that is related to the product and must be unique. This is used in combination with the manufacturer name. If no manufacturer name is specified only, the product manufacturer link will be added/updated. Adding/updating manufacturers follows the following process:<ol><li>Name exists, ID exists --> ID is updated if different</li><li>Name exists, ID does not exist --> New manufacturer created with increment ID</li><li>Name does not exist, ID exists --> Generic name added with existing ID</li><li>Name does not exist, ID does not exist --> Do nothing</li></ol>When no name or ID exists nothing is done to prevent numerous generic name manufacturers from being added.<br /><br />Usage:<ol><li>Select the name "manufacturer_id" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the manufacturer ID.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_URL = 'A URL to either a picture or webpage of the product. When linked to a picture, the picture will be shown on the product details page.<br /><br />Usage:<ol><li>Select the name "product_url" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML allowed</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_SALES = 'The number of products that have been sold.<br /><br />Usage:<ol><li>Select the name "product_sales" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_SPECIAL = 'When a product is set to be "On Special" it will be featured in the Featured Products block.<br />Usage:<ol><li>Select the name "product_special" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value Y.</li></ol><br />Values:<ul><li>Y: Yes, the product is on special</li><li>N: No, the product is not on special</li><li>Empty: Empty value, the product is not on special</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_UNIT = 'The unit of the product as it is sold. I.e. box, bag, etc.<br />Usage:<ol><li>Select the name "product_unit" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value Y.</li></ol><br />Values:<ul><li>Text: No HTML allowed</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_CATEGORY_PATH = 'Parent products are categorized according to the category path. The category path specifies in which category a product belongs. This only counts for main products not for child products since child products relate to parent products, not to categories. For child products this field must be left empty. The product_parent_sku must be empty for main products since they do not relate to any other parent product.<br /><br />Usage:<ol><li>Select the name "category_path" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the path.</li></ol><br />Values:<ul><li>Text: No HTML allowed<br />The category path must be seperated by a forward slash (/). E.g.: Furniture/Chairs/Teak</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PARENT_SKU = 'The product parent sku is needed to identify the parent of child products. Please note: the "category_path" field MUST be empty otherwise the product will be treated as a parent product.<br />Usage:<ol><li>Select the name "category_path" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the product_sku value of the parent product.</li></ol><br />Values:<ul><li>Numeric</li><li>Letters</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TAX_ID = 'The ID of the tax rate that you want to apply to the product<br />Usage:<ol><li>Select the name "product_tax_id" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the product_tax_id value of the appropiate tax.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_CURRENCY = 'A different currency can be specified on a per product basis.<br />Usage:<ol><li>Select the name "product_currency" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value of the new currency.</li></ol><br />Values:<ul><li>Text: No HTML allowed<br />E.g.: EUR, USD, IDR</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_BROWSEPAGE = 'This is a custom page to show your product types. Leave this BLANK if you have no individual php-file for it.<br /><br />Usage:<ol><li>Select the name "product_type_browsepage" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text:<ul><li>No HTML code allowed</li><li>URL\'s are allowed.</li></ul></li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_DESCRIPTION = 'A description for your product type.<br /><br />Usage:<ol><li>Select the name "product_type_description" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: HTML code allowed</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_FLYPAGE = 'This is a custom page to show your product types. Leave this BLANK if you have no individual php-file for it.<br /><br />Usage:<ol><li>Select the name "product_type_flypage" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text:<ul><li>No HTML code allowed</li><li>URL\'s are allowed.</li></ul></li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_NAME = 'The name of the product type. This name must be unique and without spaces.<br /><br />Usage:<ol><li>Select the name "product_type_name" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_DEFAULT = 'A default value to show when there is nothing else filled in for the parameter.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_default" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_DESCRIPTION = 'A description for your product type parameter.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_description" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: HTML code allowed</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_LABEL = 'A label for your product type parameter.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_label" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_LIST_ORDER = 'Specify in which order the product parameter is to be displayed.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_list_order" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_MULTISELECT = 'Set to yes to show possible parameter values as multiple select items<br /><br />Usage:<ol><li>Select the name "product_type_parameter_list_multiselect" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value Y or N.</li></ol><br />Values:<ul><li>Y: Yes, the values are multi select</li><li>N: No, the values are not multi select</li><li>Empty: Empty value, the values are not multi select</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_NAME = 'The name of the product type parameter. This name must be unique and without spaces as it will be the column name for the parameter details.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_type" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_TYPE = 'This sets the type of parameter that will be used. There are a number of different values that can be used.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_type" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value.</li></ol><br />Values:<ul><li>Text:<ul>
+
+													<li>I: Integer</li>
+
+													<li>T: Text</li>
+
+													<li>S: Short Text</li>
+
+													<li>F: Float</li>
+
+													<li>C: Char</li>
+
+													<li>D: Date & Time</li>
+
+													<li>M: Time</li>
+
+													<li>V: Multiple Values</li>
+
+													<li>B: Break Line</li>
+
+													</ul></li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_UNIT = 'The unit the product type parameter refers to.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_unit" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_VALUES = 'These are the values for the parameter and have to meet the requirement set by the parameter type.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_values" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>This depends on the type set in the product_type_parameter_type field. All values have to be semi-colon (;) seperated.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PUBLISH = 'The status if a product type is published or not.<br /><br />Usage:<ol><li>Select the name "product_type_publish" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Y: Yes, the product type is published</li><li>N: No, the product type is not published</li><li>Empty: Empty value, the product type is published.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRICE_DELETE = 'The price_delete field is a special field. This field is used to determine if a price for a product should be deleted or not. This field is used when doing a multiple price upload. Before a price is deleted it needs to match the following fields:<ul><li>product_sku</li><li>product_price</li><li>product_currency</li><li>price_quantity_start</li><li>price_quantity_end</li></ul><br />Usage:<ol><li>Select the name "price_delete" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value Y. If the field contains any other value, the product will not be deleted.</li></ol><br />Values:<ul><li>Y: Yes, the price is to be deleted</li><li>N: No, the price is not to be deleted</li><li>Empty: Empty value, the price is not to be deleted</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRICE_QUANTITY_START = 'The quantity at which the mentioned price is available.<br /><br />Usage:<ol><li>Select the name "price_quantity_start" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values: Numeric</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRICE_QUANTITY_END = 'The quantity at which the mentioned price is no longer available.<br /><br />Usage:<ol><li>Select the name "price_quantity_end" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values: Numeric</li></ul>';
+        
+}
+class phpShopLanguage extends vmLanguage { }
+
+/** @global vmLanguage $VM_LANG */
+$VM_LANG =& new vmLanguage();
+?>

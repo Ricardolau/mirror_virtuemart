@@ -2,6 +2,9 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
+* CORRIGIDO PARA O PORTUGUÊS DO BRASIL - CORRECTED TO BRAZILIAN PORTUGUESE
+* por/by Fernando Soares - http://www.fernandosoares.com.br - 2006-12-30
+*
 * @version $Id: admin.martlanguages.php 466 2006-11-07 20:40:22 +0100 (Di, 07 Nov 2006) soeren_nb $
 * @package VirtueMart
 * @subpackage languages
@@ -182,7 +185,7 @@ Envio.';
 	var $_PHPSHOP_ISSHIP_PING_RESPONSE_LBL = 'Tempo de<BR>Resposta';
 	var $_PHPSHOP_ISSHIP_PING_TIME_LBL = 'sec.';
 	var $_PHPSHOP_ISSHIP_LIST_MNU = 'Listar Métodos de Envio';
-	var $_PHPSHOP_ISSHIP_LIST_LBL = 'Método de Envio Actual';
+	var $_PHPSHOP_ISSHIP_LIST_LBL = 'Método de Envio Atual';
 	var $_PHPSHOP_ISSHIP_LIST_CARRIER_LBL = 'Método de Envio';
 	var $_PHPSHOP_ISSHIP_LIST_PUBLISH_LBL = 'Activo';
 	var $_PHPSHOP_ISSHIP_LIST_RATE_LBL = 'Despesas de transporte';
@@ -266,8 +269,8 @@ Envio.';
 	var $_PHPSHOP_ORDER_STATUS_FORM_NAME = 'Nome de Estado da Encomenda';
 	var $_PHPSHOP_ORDER_STATUS_FORM_LIST_ORDER = 'Listar Encomendas';
 	var $_PHPSHOP_PRODUCT_MOD = 'Produtos';
-	var $_PHPSHOP_CURRENT_PRODUCT = 'Produto Actual';
-	var $_PHPSHOP_CURRENT_ITEM = 'Artigo Actual';
+	var $_PHPSHOP_CURRENT_PRODUCT = 'Produto Atual';
+	var $_PHPSHOP_CURRENT_ITEM = 'Artigo Atual';
 	var $_PHPSHOP_PRODUCT_INVENTORY_LBL = 'Inventário';
 	var $_PHPSHOP_PRODUCT_INVENTORY_MNU = 'Ver Inventário';
 	var $_PHPSHOP_PRODUCT_INVENTORY_PRICE = 'Preço';
@@ -304,7 +307,7 @@ alterado';
 	var $_PHPSHOP_PRODUCT_FORM_ITEM_IMAGES_LBL = 'Imagens';
 	var $_PHPSHOP_PRODUCT_FORM_RETURN_LBL = 'Regressar a Produto Relacionado';
 	var $_PHPSHOP_PRODUCT_FORM_IMAGE_UPDATE_LBL = 'Para Atualizar a imagem
-actual, vá à pasta e insira a nova imagem.';
+atual, vá à pasta e insira a nova imagem.';
 	var $_PHPSHOP_PRODUCT_FORM_IMAGE_DELETE_LBL = 'Escreva ';
 	var $_PHPSHOP_PRODUCT_FORM_PRODUCT_ITEMS_LBL = 'Artigos';
 	var $_PHPSHOP_PRODUCT_FORM_ITEM_ATTRIBUTES_LBL = 'Atributos';
@@ -633,7 +636,7 @@ Item';
 	var $_PHPSHOP_ZONE_FORM_MNU = 'Adicionar Zona';
 	var $_PHPSHOP_ZONE_ASSIGN_MNU = 'Atribuir Zona';
 	var $_PHPSHOP_ZONE_ASSIGN_COUNTRY_LBL = 'País';
-	var $_PHPSHOP_ZONE_ASSIGN_CURRENT_LBL = 'Zona Actual';
+	var $_PHPSHOP_ZONE_ASSIGN_CURRENT_LBL = 'Zona Atual';
 	var $_PHPSHOP_ZONE_ASSIGN_ASSIGN_LBL = 'Atribuir Zona';
 	var $_PHPSHOP_ZONE_ASSIGN_UPDATE_LBL = 'Atualizar';
 	var $_PHPSHOP_ASSIGN_ZONE_PG_LBL = 'Atribuir Zonas';
@@ -655,16 +658,15 @@ arquivo php individual)';
 	var $_PHPSHOP_RETURN_LOGIN = 'É cliente Registrado? Por favor, faça o
 Login';
 	var $_PHPSHOP_NEW_CUSTOMER = 'Novo(a) cliente? Por favor, insira os seus
-dados para facturação';
+dados para faturamento';
 	var $_PHPSHOP_ACC_CUSTOMER_ACCOUNT = 'Conta de Cliente:';
 	var $_PHPSHOP_ACC_ORDER_INFO = 'Informação de Encomenda';
-	var $_PHPSHOP_ACC_UPD_BILL = 'Aqui encontra os dados para facturação.';
-	var $_PHPSHOP_ACC_UPD_SHIP = 'Aqui adiciona ou actualiza a Endereço para
-envio.';
+	var $_PHPSHOP_ACC_UPD_BILL = 'Aqui você pode atualizar seus dados para faturamento.';
+	var $_PHPSHOP_ACC_UPD_SHIP = 'Aqui adiciona ou atualiza a Endereço para envio.';
 	var $_PHPSHOP_ACC_ACCOUNT_INFO = 'Informação de Conta';
 	var $_PHPSHOP_ACC_SHIP_INFO = 'Informação de Envio';
 	var $_PHPSHOP_ACC_NO_ORDERS = 'Não há encomendas para mostrar';
-	var $_PHPSHOP_ACC_BILL_DEF = '- Por defeito (igual ao de facturação)';
+	var $_PHPSHOP_ACC_BILL_DEF = '- Padrão (igual ao de faturamento)';
 	var $_PHPSHOP_SHIPTO_TEXT = 'Pode adicionar Endereços de envio à sua conta.
 Por favor, escolha um apelido ou código para a Endereço que Selecionar
 abaixo.';
@@ -861,8 +863,7 @@ permitidas.';
 	var $_PHPSHOP_CART_ERROR_NO_VALID_QUANTITY = 'Por favor introduza uma
 quantidade válida para este produto.';
 	var $_PHPSHOP_CART_STOCK_1 = 'A quantidade selecionada excede o stock.';
-	var $_PHPSHOP_CART_STOCK_2 = 'Actualmente temos $product_in_stock produtos
-disponiveis. ';
+	var $_PHPSHOP_CART_STOCK_2 = 'Atualmente temos $product_in_stock produtos disponíveis.';
 	var $_PHPSHOP_CART_STOCK_3 = 'Clique aqui se desejar aguardar em lista de
 espera.';
 	var $_PHPSHOP_CART_SELECT_ITEM = 'Por favor selecione um item especial da
@@ -872,7 +873,7 @@ página de detalhes!';
 	var $_PHPSHOP_REGISTRATION_FORM_MRS = 'Sra.';
 	var $_PHPSHOP_REGISTRATION_FORM_DR = 'Dr.';
 	var $_PHPSHOP_REGISTRATION_FORM_PROF = 'Prof.';
-	var $_PHPSHOP_DEFAULT = 'Por defeito';
+	var $_PHPSHOP_DEFAULT = 'Padrão';
 	var $_PHPSHOP_AFFILIATE_MOD = 'Administração de Afiliados';
 	var $_PHPSHOP_AFFILIATE_LIST_MNU = 'Lista de Afiliados';
 	var $_PHPSHOP_AFFILIATE_LIST_LBL = 'Affiliates List';
@@ -945,9 +946,7 @@ ps_checkout.php->calc_order_taxable() para o efeito.';
 vendedor';
 	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_EXPLAIN = 'Esta opção determina qual o
 modo de taxação a utilizar:<br />
-
 <ul><li>o do Distrito / País do Comprador</li><br/>
-
 <li>ou de origem do Vendedor.</li></ul>';
 	var $_PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE = 'Ativar múltiplas taxas de
 imposto?';
@@ -961,7 +960,6 @@ Produtos';
 	var $_PHPSHOP_ADMIN_CFG_REVIEW_EXPLAIN = 'Quando activo, permite aos
 clientes <strong>avaliar </strong> e <strong>escrever apreciações</strong>
 dos produtos. <br />
-
 Assim, podem relatar e partilhar as suas experiências do produto.<br />';
 	var $_PHPSHOP_ADMIN_CFG_SUBSTRACT_PAYEMENT_BEFORE_EXPLAIN = 'Determina se o
 desconto é subtraído ANTES (a selecionar) ou DEPOIS do
@@ -985,7 +983,6 @@ registam.';
 	var $_PHPSHOP_ADMIN_CFG_CHECK_STOCK_EXPLAIN = 'Esta opção força uma
 verificação do stock sempre que um cliente adiciona um item ao cesto de
 compras.
-
 Quando selecionado, o cliente não poderá adicionar itens que não existam em
 stock.';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE = 'Ativar o Programa de
@@ -998,15 +995,12 @@ backend.';
 	var $_PHPSHOP_ADMIN_CFG_MAIL_FORMAT_HTML = 'HTML mail';
 	var $_PHPSHOP_ADMIN_CFG_MAIL_FORMAT_EXPLAIN = 'Determina o formato dos
 e-mails de confirmação das encomendas:<br /> 
-
 <ul><li>como e-mail de texto simples</li>
-
 <li>ou como html com imagens.</li></ul>';
 	var $_PHPSHOP_ADMIN_CFG_FRONTENDAMDIN = 'Permitir Administração do Frontend
 para Utilizadores non-Backend?';
 	var $_PHPSHOP_ADMIN_CFG_FRONTENDAMDIN_EXPLAIN = 'Esta opção habilita a
 Administração do Frontend para clientes
-
 que são Administradores de Loja, mas que não podem aceder ao Mambo Backend
 (ex: Registrado / Editor).';
 	var $_PHPSHOP_ADMIN_CFG_URL = 'Endereço (URL)';
@@ -1053,16 +1047,13 @@ para mostrar os detalhes dos produtos.';
 	var $_PHPSHOP_ADMIN_CFG_CATEGORY_TEMPLATE_EXPLAIN = 'Esta é a página
 pré-definida para os templates de categoria (para mostrar produtos numa
 categoria).<br />
-
 É possivel criar novos templates por alterar arquivos de templates
 existentes <br />
-
 (existentes na pasta <strong>COMPONENTPATH/html/templates/</strong> e
 começados por browse_)';
 	var $_PHPSHOP_ADMIN_CFG_PRODUCTS_PER_ROW = 'Número de produtos por fila';
 	var $_PHPSHOP_ADMIN_CFG_PRODUCTS_PER_ROW_EXPLAIN = 'Define o número de
 produtos por fila. <br />
-
 Exemplo: Se definido para 4, o template de categoria mostrará 4 produtos por
 fila';
 	var $_PHPSHOP_ADMIN_CFG_NOIMAGEPAGE = 'imagem "no image"';
@@ -1090,11 +1081,9 @@ standard com configuração individual de transporte e tarifas.
 <strong>RECOMENDADO !</strong>';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_ZONE = '   Módulo Zona de
 Envio Versão do País 1.0<br />
-
 Para mais informação sobre este módulo Por favor visite <a href="
 http://ZephWare.com">http://ZephWare.com</a<http://zephware.com/">http://ZephWare.com</a>
 >
-
 para mais detalhes <br />ou contacte <a href="
 mailto:zephware@devcompany.com">zephware@devcompany.com</a><br<zephware@devcompany.com">zephware@devcompany.com</a><br>/>
 Escolha esta opção para Ativar o módulo de zona de envio';
@@ -1243,7 +1232,7 @@ produto';
 	var $_PHPSHOP_SEARCH_TEXT1 = 'A primeira lista permite selecionar uma
 categoria a fim de limitar a procura.
         A segunda lista permite limitar os detalhes do produto (ex. Nome).
-        Uma vez selecionadas (ou deixadas por defeito), introduza a
+        Uma vez selecionadas (ou deixadas no padrão), introduza a
 palavra-chave que deseja pesquisar. ';
 	var $_PHPSHOP_SEARCH_TEXT2 = 'Pode adicionar mais palavras-chave e
 operadores como E ou NÃO.
@@ -1302,7 +1291,7 @@ encomenda: Encomenda {order_id}';
 	var $_PHPSHOP_ORDER_LIST_NOTIFY = 'Avisar o cliente?';
 	var $_PHPSHOP_ORDER_LIST_NOTIFY_ERR = 'Por favor altere primeiro o estado
 da encomenda!';
-	var $_PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT = 'Desconto por defeito para este
+	var $_PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT = 'Desconto padrão para este
 Grupo de Clientes (em %)';
 	var $_PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP = 'Um valor positivo (X)
 significa que: Se o produto não tiver preço pré-definido para ESTE Grupo de
@@ -1374,11 +1363,11 @@ para';
 	var $_PHPSHOP_FILES_LIST_FULL_IMG = 'Imagem grande';
 	var $_PHPSHOP_FILES_LIST_THUMBNAIL_IMG = 'Imagem pequena';
 	var $_PHPSHOP_FILES_FORM = 'Carregar (upload) arquivo para';
-	var $_PHPSHOP_FILES_FORM_CURRENT_FILE = 'arquivo actual';
+	var $_PHPSHOP_FILES_FORM_CURRENT_FILE = 'arquivo atual';
 	var $_PHPSHOP_FILES_FORM_FILE = 'arquivo';
 	var $_PHPSHOP_FILES_FORM_IMAGE = 'Imagem';
 	var $_PHPSHOP_FILES_FORM_UPLOAD_TO = 'Carregar (Upload) para';
-	var $_PHPSHOP_FILES_FORM_UPLOAD_IMAGEPATH = 'Caminho por defeito para a
+	var $_PHPSHOP_FILES_FORM_UPLOAD_IMAGEPATH = 'Caminho padrão para a
 imagem do produto';
 	var $_PHPSHOP_FILES_FORM_UPLOAD_OWNPATH = 'Especifique a localização do
 arquivo';
@@ -1693,9 +1682,9 @@ possíveis como selecção múltipla?';
 forem selecionados valores possíveis, o parâmetro apenas pode ter esses
 valores. Exemplo para valores possíveis:</strong><BR><span
 class="sectionname">Metal;Madeira;Plástico;...</span>';
-	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DEFAULT = 'Valor por defeito';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DEFAULT = 'Valor padrão';
 	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DEFAULT_HELP_TEXT = 'Para o
-parâmetro "Valor por defeito" use este formato:<ul><li>Data:
+parâmetro "Valor padrão" use este formato:<ul><li>Data:
 AAA-MM-DD</li><li>Hora: HH:MM:SS</li><li>Data & Hora: AAAA-MM-DD
 HH:MM:SS</li></ul>';
 	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_UNIT = 'Unidade';
@@ -1844,11 +1833,9 @@ clientes não precisam inserir um Utilizador e Password para uma nova conta.
 Em vez disso usam um endereço de e-mail e recebem uma password gerada
 aleatóriamente. Os dados de registo são enviados por e-mail ao cliente.';
 	var $_PHPSHOP_USER_SEND_REGISTRATION_DETAILS = 'Olá %s,
-
 Obrigado por se registar na %s. A sua conta de cliente foi criada com
 sucesso.
 Pode fazer o login em nosso sistema %s utilizando os seguintes dados:
-
 Utilizador - %s
 Password - %s
 ';
@@ -1877,7 +1864,7 @@ Login ID';
 	var $_VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL = 'Ordenação por
 defeito';
 	var $_VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL_TIP = 'Define o critério de
-ordenação por defeito dos produtos';
+ordenação padrão dos produtos';
 	var $_VM_BROWSE_ORDERBY_FIELDS_LBL = 'Campos "Ordenar por" disponíveis';
 	var $_VM_BROWSE_ORDERBY_FIELDS_LBL_TIP = 'Escolha quais os campos "Ordenar
 por" que deseja. Cada um define um método de ordenação diferente segundo o
@@ -1991,30 +1978,17 @@ Se não escolher nenhum, a opção "Ordenar por" não aparecerá.';
 	var $_REGWARN_VPASS2 = 'Password and verification do not match, please try again.';
 	var $_USEND_MSG_ACTIVATE = 'Hello %s,
 
-
-
 Thank you for registering at %s. Your account is created and must be activated before you can use it.
-
 To activate the account click on the following link or copy-paste it in your browser:
-
 %s
-
-
 
 After activation you may login to %s using the following username and password:
 
-
-
 Username - %s
-
 Password - %s';
 	var $_USEND_MSG = 'Hello %s,
 
-
-
 Thank you for registering at %s.
-
-
 
 You may now login to %s using the username and password you registered with.';
 	var $_PROMPT_PASSWORD = 'Lost your Password?';
@@ -2023,23 +1997,12 @@ You may now login to %s using the username and password you registered with.';
 	var $_NEW_USER_MESSAGE = 'Hello %s,
 
 
-
-
-
 You have been added as a user to %s by an Administrator.
-
-
 
 This email contains your username and password to log into the %s
 
-
-
 Username - %s
-
 Password - %s
-
-
-
 
 
 Please do not respond to this message as it is automatically generated and is for information purposes only';
@@ -2073,310 +2036,159 @@ Please do not respond to this message as it is automatically generated and is fo
 	var $_PHPSHOP_CSV_CONTINUE_UPLOAD = 'Continue upload';
 	var $_PHPSHOP_CSV_CANCEL_UPLOAD = 'Cancel upload';
 	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION = '<span style="color: #FF0000; font-size: 1.2em;">Steps to upload a CSV file</span>
-
 										<ol>
-
 										<li>Create a product list as a CSV file either with or without column headers.
-
 										<br />Recommended is to use the text delimiter ~ (tilde) and the field delimiter ^ (caret).
-
 										<br /><span style="font-weight: bold;">Example File:</span><br />
-
 										<div class="quote" style="width:600px;overflow:scroll;"><pre>~G01~^~Hand Shovel~^~Hand Tools~^~4.99000~^~<p>Nice hand shovel to dig with in the yard.</p>~^~<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5\~ Diameter<br>  Tungsten handle tip with 5 point loft<br>~^~8d886c5855770cc01a3b8a2db57f6600.jpg~^~cca3cd5db813ee6badf6a3598832f2fc.jpg~^~10.0000~^~pounds~^~0.0000~^~0.0000~^~0.0000~^~inches~^~10~^~1072911600~^~1~^~1~^~2~^~0~^~G01~^~~^~~^~Color::1|Size::2~^~~
-
 ~G02~^~Ladder~^~Garden Tools~^~49.99000~^~A really long ladder to reach high places.~^~<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5\~ Diameter<br>  Tungsten handle tip with 5 point loft<br>~^~ffd5d5ace2840232c8c32de59553cd8d.jpg~^~8cb8d644ef299639b7eab25829d13dbc.jpg~^~10.0000~^~pounds~^~0.0000~^~0.0000~^~0.0000~^~inches~^~76~^~1072911600~^~0~^~1~^~2~^~0~^~G02~^~~^~~^~Material::1~^~~
-
 ~G03~^~Shovel~^~Garden Tools~^~24.99000~^~Nice shovel.  You can dig your way to China with this one.~^~<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5\~ Diameter<br>  Tungsten handle tip with 5 point loft<br>~^~8147a3a9666aec0296525dbd81f9705e.jpg~^~520efefd6d7977f91b16fac1149c7438.jpg~^~10.0000~^~pounds~^~0.0000~^~0.0000~^~0.0000~^~inches~^~32~^~1072911600~^~0~^~1~^~2~^~0~^~G03~^~Size,XL[+1.99],M,S[-2.99];Colour,Red,Green,Yellow,ExpensiveColor[=24.00]~^~~^~~^~~</pre></div></li>
-
 										<li>Setup the fields on the "Configuration" tab in the same order as the CSV file. The fields must match the exact place in the CSV file.
-
 										<br />E.g. product_sku, product_desc, product_price, category_path<br />
-
 										<br /><span style="font-weight: bold;">Minimum required information to add a product is:</span><br />
-
 										product_sku<br />
-
 										product_name<br />
-
 										category_path<br />
-
 										<br /><span style="font-weight: bold;">category_path</span> is a slash delimited string which begins
-
 										with a top-level category and follows with sub-categories, e.g. <br />
-
 										<div class="quote">category/sub-category_1/sub_category_2</div>
-
 										<br />
-
 										When the product has to be assigned to more than one category, you can
-
 										provide all categories,<br />
-
 										delimited by a <span style="font-weight: bold;">|</span>
-
 										<div class="quote">Category/Sub-category_1/Sub_category_2|Category2/Subcategory22|Category3/Subcategory33</div>
-
 										</li>
-
 										<li>Choose the delimiters on the "Import/Export" tab.</li>
-
 										<li>Choose the upload settings on the "Import/Export" tab.</li>
-
 										<li>Choose either to upload the file from your local computer (Submit CSV File) or to use a local file (Load CSV File from Server).</li>
-
 										<li>The import starts.</li>
-
 										</ol>';
 	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_PRODUCT_TYPES = '<span style="color: #FF0000; font-size: 1.2em;">Product Types</span><br /><br />
-
 													To add product types, you need 4 CSV files. Each CSV file represents a part of the product type.
-
 													<ul>
-
 													<li><span style="font-weight: bold;">Product types</span><br />
-
 													This CSV file contains the main product types and should look like this:
-
 													<table border="1">
-
 													<tr style="border: 1px solid #000000;"><td>product_type_name</td><td>product_type_description</td><td>product_type_publish</td><td>product_type_browsepage</td><td>product_type_flypage</td></tr>
-
 													<tr><td>Music track</td><td>Track</td><td>Y</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-
 													<tr><td>Music album</td><td>Album</td><td>Y</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-
 													<tr><td>Music artist</td><td>Artist</td><td>Y</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-
 													</table>
-
 													</li><br />
-
 													<li><span style="font-weight: bold;">Product type parameters</span><br />
-
 													This CSV file contains the parameters per product type and should look like this:
-
 													<div style="width: 50%; overflow: auto; height: 100px;">
-
 													<table border="1">
-
 													<tr><td>product_type_name</td><td>product_type_parameter_name</td><td>product_type_parameter_label</td><td>product_type_parameter_description</td><td>product_type_parameter_list_order</td><td>product_type_parameter_type</td><td>product_type_parameter_values</td><td>product_type_parameter_multiselect</td><td>product_type_parameter_default</td><td>product_type_parameter_unit</td></tr>
-
 													<tr><td>Music artist</td><td>Name</td><td>Name</td><td>Artist Name</td><td>1</td><td>I</td><td>&nbsp;</td><td>N</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-
 													<tr><td>Music artist</td><td>Birth</td><td>Birth</td><td>Artist Birth</td><td>2</td><td>D</td><td>&nbsp;</td><td>N</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-
 													<tr><td>Music album</td><td>Duration</td><td>Duration</td><td>Duration of album</td><td>3</td><td>M</td><td>00:01:00;00:02:00;00:03:00</td><td>Y</td><td>00:02:00</td><td>minutes</td></tr>
-
 													</table>
-
 													</div>
-
 													<br />
-
 													The product type parameter type can have several values, they are:
-
 													<ul>
-
 													<li>I: Integer</li>
-
 													<li>T: Text</li>
-
 													<li>S: Short Text</li>
-
 													<li>F: Float</li>
-
 													<li>C: Char</li>
-
 													<li>D: Date & Time</li>
-
 													<li>M: Time</li>
-
 													<li>V: Multiple Values</li>
-
 													<li>B: Break Line</li>
-
 													</ul>
-
 													</li><br />
-
 													<li><span style="font-weight: bold;">Items per product type name</span><br />
-
 													This CSV file contains the details per product type parameter name and should look like this:
-
 													<table border="1">
-
 													<tr><td>product_sku</td><td>product_type_name</td><td>product_type_parameter_namex</td><td>product_type_parameter_namex</td></tr>
-
 													<tr><td>1234</td><td>Music artist</td><td>Singing Star</td><td>1975</td></tr>
-
 													<tr><td>5678</td><td>Music artist</td><td>Rocking Band</td><td>1980</td></tr>
-
 													</table><br />
-
 													Per product type name you need a seperate CSV file. The reason for this is that the column names for each CSV file is different because of the set of product type parameters.
-
 													</li><br />
-
 													<li><span style="font-weight: bold;">Product type cross reference to product SKU</span><br />
-
 													This CSV file contains the link between a product type and a product SKU and should look like this:
-
 													<table border="1">
-
 													<tr><td>product_sku</td><td>product_type_name</td></tr>
-
 													<tr><td>1234</td><td>Music artist</td></tr>
-
 													<tr><td>5678</td><td>Music artist</td></tr>
-
 													</table>
-
 													</li>
-
 													</ul><br />
-
 													Procedure:<br />
-
 													<ol>
-
 													<li>Upload Product Types CSV file</li>
-
 													<li>Upload Product Type Parameters CSV file</li>
-
 													<li>Upload Product Type Items CSV file</li>
-
 													<li>Upload Product Type Cross Reference CSV file</li>
-
 													</ol>';
 	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_EMPTY_DATABASE = '<span style="color: #FF0000; font-size: 1.2em;">Empty Database</span><br /><br />
-
 													 <span style="color: #FF0000; font-size: 2em;">USE WITH CAUTION !!! NO RESTORE !!!</span><br /><br />
-
 													 Emptying the database will remove ALL data in your database from the following tables:
-
 													 <ul>
-
 													 <li>products</li>
-
 													 <li>products</li>
-
 													 <li>product_price</li>
-
 													 <li>product_mf_xref</li>
-
 													 <li>product_attribute</li>
-
 													 <li>category</li>
-
 													 <li>category_xref</li>
-
 													 <li>product_attribute_sku</li>
-
 													 <li>product_category_xref</li>
-
 													 <li>product_discount</li>
-
 													 <li>product_type</li>
-
 													 <li>product_type_parameter</li>
-
 													 <li>product_product_type_xref</li>
-
 													 </ul>
-
 													 All but the first manufacturer is removed:
-
 													 <ul>
-
 													 <li>manufacturer</li>
-
 													 </ul>
-
 													 The following tables are completely deleted:
-
 													 <ul>
-
 													 <li>product_type_x</li>
-
 													 </ul>
-
 													 The x represents the number of the table. This number relates to the product types that are in the system. Since the product types table is completely emptied, these tables are removed. Uploading new product types will recreate the tables.<br /><br />
-
 													 Procedure:
-
 													 <ol>
-
 													 <li>Choose "Empty Database" from the dropdown on the Upload Settings</li>
-
 													 <li>Check "Collect debug information" if you want additional result information</li>
-
 													 <li>Click "Submit CSV File" or "Load CSV File from Server". No need to enter a filename.</li>
-
 													 <li>You are asked if you are sure you want to empty your database. Click OK if you are sure otherwise click Cancel</li>
-
 													 <li>The database is now emptied or you are returned to the main screen depending on your previous choice</li>
-
 													 </ol>';
 	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_MULTIPLE_PRICES_UPLOAD = '<span style="color: #FF0000; font-size: 1.2em;">Multiple prices upload</span><br /><br />
-
 														    Procedure:
-
 														    <ol>
-
 														    <li>Create a CSV file that contains the following fields:
-
 														    	<ul>
-
 															<li>product_sku</li>
-
 															<li>product_price</li>
-
 															<li>product_currency</li>
-
 															<li>price_quantity_start</li>
-
 															<li>price_quantity_end</li>
-
 															<li>price_delete</li>
-
 															</ul>
-
 														    See the Available Fields tab for what information each field contains. If you want to use the column headers as configuration, fill the first line with the column headers name.
-
 														    </li>
-
 														    <li>Either set the configuration fields, as mentioned in point 1 on the Configuration tab or if you added column headers to your CSV file, select "Use column headers as configuration" at the Upload Settings.
-
 														    </li>
-
 														    <li>Select "Multiple Prices Upload" at the Upload Settings</li>
-
 														    <li>Optionally, choose "Show preview" and/or "Collect debug information"</li>
-
 														    <li>Select a file to upload or to load from directory</li>
-
 														    <li>Select "Submit CSV File" or "Load CSV File from Server" depending if you are uploading a file or loading a file from a directory</li>
-
 														    <li>The prices will now be imported</li>
-
 														    </ol><br /><br />
-
 														    <span style="font-weight: bold;">Price delete</span><br />
-
 														    Using the multiple prices import it is also possible to delete prices. A price is deleted when the following fields in the CSV file match the data in the database:
-
 														    <ul>
-
 														    <li>product_sku</li>
-
 														    <li>product_price</li>
-
 														    <li>product_currency</li>
-
 														    <li>price_quantity_start</li>
-
 														    <li>price_quantity_end</li>
-
 														    </ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PRICE = 'The price for a product without currency denominator.<br /><br />Usage:<ol><li>Select the name "product_price" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a price value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_LENGTH = 'The length of the product.<br /><br />Usage:<ol><li>Select the name "product_length" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
@@ -2409,25 +2221,15 @@ Please do not respond to this message as it is automatically generated and is fo
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_MULTISELECT = 'Set to yes to show possible parameter values as multiple select items<br /><br />Usage:<ol><li>Select the name "product_type_parameter_list_multiselect" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value Y or N.</li></ol><br />Values:<ul><li>Y: Yes, the values are multi select</li><li>N: No, the values are not multi select</li><li>Empty: Empty value, the values are not multi select</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_NAME = 'The name of the product type parameter. This name must be unique and without spaces as it will be the column name for the parameter details.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_type" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_TYPE = 'This sets the type of parameter that will be used. There are a number of different values that can be used.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_type" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value.</li></ol><br />Values:<ul><li>Text:<ul>
-
 													<li>I: Integer</li>
-
 													<li>T: Text</li>
-
 													<li>S: Short Text</li>
-
 													<li>F: Float</li>
-
 													<li>C: Char</li>
-
 													<li>D: Date & Time</li>
-
 													<li>M: Time</li>
-
 													<li>V: Multiple Values</li>
-
 													<li>B: Break Line</li>
-
 													</ul></li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_UNIT = 'The unit the product type parameter refers to.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_unit" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_VALUES = 'These are the values for the parameter and have to meet the requirement set by the parameter type.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_values" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>This depends on the type set in the product_type_parameter_type field. All values have to be semi-colon (;) seperated.</li></ul>';
@@ -2438,7 +2240,6 @@ Please do not respond to this message as it is automatically generated and is fo
         
 }
 class phpShopLanguage extends vmLanguage { }
-
 /** @global vmLanguage $VM_LANG */
 $VM_LANG =& new vmLanguage();
 ?>

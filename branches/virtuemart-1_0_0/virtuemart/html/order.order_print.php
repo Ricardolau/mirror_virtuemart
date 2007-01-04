@@ -68,7 +68,7 @@ else {
 			<?php
 			$tab = new mShopTabs( 0, 1, "myTab");
 			$tab->startPane( "order_change_pane" );
-			$tab->startTab( "Order Status Change", "order_change_page" );
+			$tab->startTab( $VM_LANG->_PHPSHOP_ORDER_STATUS_CHANGE, "order_change_page" );
 			?>
 			<form method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
 			<table class="adminlist">

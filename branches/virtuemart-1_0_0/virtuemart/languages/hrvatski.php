@@ -1,5 +1,5 @@
 <?php
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
+defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /**
 *
 * @version $Id$
@@ -23,9 +23,9 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN = 'Administracija';
 	var $_PHPSHOP_PRODUCT = 'Proizvod';
 	var $_PHPSHOP_LIST = 'Lista';
-	var $_PHPSHOP_ALL = 'Svi';
+	var $_PHPSHOP_ALL = 'Sve';
 	var $_PHPSHOP_LIST_ALL_PRODUCTS = 'Lista Svih Proizvoda';
-	var $_PHPSHOP_VIEW = 'Pogledaj';
+	var $_PHPSHOP_VIEW = 'Pregled';
 	var $_PHPSHOP_SHOW = 'Prikaži';
 	var $_PHPSHOP_ADD = 'Dodavanje';
 	var $_PHPSHOP_UPDATE = 'Izmjena';
@@ -49,7 +49,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCTS_LBL = 'Proizvodi';
 	var $_PHPSHOP_PRODUCT_LBL = 'Proizvod';
 	var $_PHPSHOP_SEARCH_LBL = 'Traži';
-	var $_PHPSHOP_FLYPAGE_LBL = 'Detaljne Informacije';
+	var $_PHPSHOP_FLYPAGE_LBL = 'Detaljnije';
 	var $_PHPSHOP_PRODUCT_SEARCH_LBL = 'Pretraživanje: ';
 	var $_PHPSHOP_PRODUCT_NAME_TITLE = 'Naziv Proizvoda';
 	var $_PHPSHOP_PRODUCT_CATEGORY_TITLE = 'Kategorija Proizvoda';
@@ -61,11 +61,11 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CART_PRICE = 'Cijena';
 	var $_PHPSHOP_CART_QUANTITY = 'Kolièina';
 	var $_PHPSHOP_CART_SUBTOTAL = 'Zbroj';
-	var $_PHPSHOP_ADD_SHIPTO_1 = 'Dodavanje nove';
-	var $_PHPSHOP_ADD_SHIPTO_2 = 'Adrese za Dostavu';
+	var $_PHPSHOP_ADD_SHIPTO_1 = 'Dodavanje ';
+	var $_PHPSHOP_ADD_SHIPTO_2 = 'Adresa za Dostavu';
 	var $_PHPSHOP_NO_SEARCH_RESULT = 'Pretraživanje nije dalo rezultata.<br />';
 	var $_PHPSHOP_PRICE_LABEL = 'Cijena: ';
-	var $_PHPSHOP_ORDER_BUTTON_LABEL = 'U Košaricu';
+	var $_PHPSHOP_ORDER_BUTTON_LABEL = 'u Košaricu';
 	var $_PHPSHOP_NO_CUSTOMER = 'Još niste registrirani. Molimo vas da upišete podatke za slanje raèuna.';
 	var $_PHPSHOP_DELETE_MSG = 'Jeste li sigurni da želite izbrisati ovu stavku?';
 	var $_PHPSHOP_THANKYOU = 'Hvala na Vašoj narudžbi.';
@@ -108,7 +108,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_USER_FORM_ADDRESS_1 = 'Adresa 1';
 	var $_PHPSHOP_USER_FORM_ADDRESS_2 = 'Adresa 2';
 	var $_PHPSHOP_USER_FORM_CITY = 'Grad';
-	var $_PHPSHOP_USER_FORM_STATE = 'Županija';
+	var $_PHPSHOP_USER_FORM_STATE = 'State';
 	var $_PHPSHOP_USER_FORM_ZIP = 'Poštanski broj';
 	var $_PHPSHOP_USER_FORM_COUNTRY = 'Država';
 	var $_PHPSHOP_USER_FORM_PHONE = 'Telefon';
@@ -120,7 +120,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_MODULE_LIST_NAME = 'Dozvole Modula';
 	var $_PHPSHOP_MODULE_LIST_PERMS = 'Dozvole Modula';
 	var $_PHPSHOP_MODULE_LIST_FUNCTIONS = 'Funkcije';
-	var $_PHPSHOP_MODULE_LIST_ORDER = 'Redoslijed';
+	var $_PHPSHOP_MODULE_LIST_ORDER = 'Redosljed';
 	var $_PHPSHOP_MODULE_FORM_MNU = 'Novi Modul';
 	var $_PHPSHOP_MODULE_FORM_LBL = 'Podaci o modulu';
 	var $_PHPSHOP_MODULE_FORM_MODULE_LABEL = 'Etiketa modula (za gornji izbornik)';
@@ -129,7 +129,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_MODULE_FORM_HEADER = 'Zaglavlje modula';
 	var $_PHPSHOP_MODULE_FORM_FOOTER = 'Podnožje modula';
 	var $_PHPSHOP_MODULE_FORM_MENU = 'Prikaži modul u administratorskom izborniku?';
-	var $_PHPSHOP_MODULE_FORM_ORDER = 'Redoslijed';
+	var $_PHPSHOP_MODULE_FORM_ORDER = 'Redosljed';
 	var $_PHPSHOP_MODULE_FORM_DESCRIPTION = 'Opis modula';
 	var $_PHPSHOP_MODULE_FORM_LANGUAGE_CODE = 'Jezièni Kod';
 	var $_PHPSHOP_MODULE_FORM_LANGUAGE_file = 'Jezièna datoteka';
@@ -165,7 +165,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_STATE_LIST_2_CODE = 'Kod regije (2)';
 	var $_PHPSHOP_ADDRESS = 'Adresa';
 	var $_PHPSHOP_CONTINUE = 'Nastavak';
-	var $_PHPSHOP_EMPTY_CART = 'Vaša Košarica je trenutno prazna.';
+	var $_PHPSHOP_EMPTY_CART = 'Košarica je trenutno prazna.';
 	var $_PHPSHOP_ISSHIPPING_MOD = 'InterShipper';
 	var $_PHPSHOP_ISSHIP_PING_MNU = 'Pingaj InterShipper Server';
 	var $_PHPSHOP_ISSHIP_PING_LBL = 'InterShipper-Server Ping ';
@@ -209,7 +209,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ORDER_LIST_STATUS = 'Status';
 	var $_PHPSHOP_ORDER_LIST_TOTAL = 'Ukupno';
 	var $_PHPSHOP_ORDER_ITEM = 'Naruèi proizvod';
-	var $_PHPSHOP_ORDER_PRINT_PO_LBL = 'Kupi naruèeno';
+	var $_PHPSHOP_ORDER_PRINT_PO_LBL = 'Narudžba';
 	var $_PHPSHOP_ORDER_PRINT_PO_NUMBER = 'Broj Narudžbe';
 	var $_PHPSHOP_ORDER_PRINT_PO_DATE = 'Datum Narudžbe';
 	var $_PHPSHOP_ORDER_PRINT_PO_STATUS = 'Status Narudžbe';
@@ -223,7 +223,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ORDER_PRINT_ADDRESS_1 = 'Adresa 1';
 	var $_PHPSHOP_ORDER_PRINT_ADDRESS_2 = 'Adresa 2';
 	var $_PHPSHOP_ORDER_PRINT_CITY = 'Grad';
-	var $_PHPSHOP_ORDER_PRINT_STATE = 'Županija';
+	var $_PHPSHOP_ORDER_PRINT_STATE = 'State';
 	var $_PHPSHOP_ORDER_PRINT_ZIP = 'Poštanski broj';
 	var $_PHPSHOP_ORDER_PRINT_COUNTRY = 'Država';
 	var $_PHPSHOP_ORDER_PRINT_PHONE = 'Telefon';
@@ -257,7 +257,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ORDER_STATUS_FORM_LBL = 'Status Narudžbe';
 	var $_PHPSHOP_ORDER_STATUS_FORM_CODE = 'Kod Statusa Narudžbe';
 	var $_PHPSHOP_ORDER_STATUS_FORM_NAME = 'Naziv Statusa Narudžbe';
-	var $_PHPSHOP_ORDER_STATUS_FORM_LIST_ORDER = 'Redoslijed';
+	var $_PHPSHOP_ORDER_STATUS_FORM_LIST_ORDER = 'Redosljed';
 	var $_PHPSHOP_PRODUCT_MOD = 'Proizvodi';
 	var $_PHPSHOP_CURRENT_PRODUCT = 'Trenutni proizvod';
 	var $_PHPSHOP_CURRENT_ITEM = 'Trenutni artikl';
@@ -281,24 +281,24 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_FORM_EDIT_PRODUCT = 'Ureðivanje ovog Proizvoda';
 	var $_PHPSHOP_PRODUCT_FORM_SHOW_FLYPAGE = 'Prikaz stranice proizvoda u duæanu';
 	var $_PHPSHOP_PRODUCT_FORM_ADD_ITEM_MNU = 'Novi Artikl';
-	var $_PHPSHOP_PRODUCT_FORM_ADD_ANOTHER_ITEM_MNU = 'Dodaj drugi artikl';
+	var $_PHPSHOP_PRODUCT_FORM_ADD_ANOTHER_ITEM_MNU = 'Novi Artikl';
 	var $_PHPSHOP_PRODUCT_FORM_NEW_PRODUCT_LBL = 'Novi Proizvod';
 	var $_PHPSHOP_PRODUCT_FORM_UPDATE_PRODUCT_LBL = 'Ažuriranje Proizvoda';
 	var $_PHPSHOP_PRODUCT_FORM_PRODUCT_INFO_LBL = 'Informacije o Proizvodu';
 	var $_PHPSHOP_PRODUCT_FORM_PRODUCT_STATUS_LBL = 'Status Proizvoda';
-	var $_PHPSHOP_PRODUCT_FORM_PRODUCT_DIM_WEIGHT_LBL = 'Dimenzije i Težina Proizvoda';
+	var $_PHPSHOP_PRODUCT_FORM_PRODUCT_DIM_WEIGHT_LBL = 'Dimenzije i Težina';
 	var $_PHPSHOP_PRODUCT_FORM_PRODUCT_IMAGES_LBL = 'Slike Proizvoda';
 	var $_PHPSHOP_PRODUCT_FORM_NEW_ITEM_LBL = 'Novi Artikl';
 	var $_PHPSHOP_PRODUCT_FORM_UPDATE_ITEM_LBL = 'Ažuriranje Artikla';
-	var $_PHPSHOP_PRODUCT_FORM_ITEM_INFO_LBL = 'Informacije o Artiklu';
-	var $_PHPSHOP_PRODUCT_FORM_ITEM_STATUS_LBL = 'Status Artikla';
-	var $_PHPSHOP_PRODUCT_FORM_ITEM_DIM_WEIGHT_LBL = 'Dimenzije i težina proizvoda';
-	var $_PHPSHOP_PRODUCT_FORM_ITEM_IMAGES_LBL = 'Slike Artikala';
-	var $_PHPSHOP_PRODUCT_FORM_RETURN_LBL = 'Povratak na Matièni Proizvod';
+	var $_PHPSHOP_PRODUCT_FORM_ITEM_INFO_LBL = 'Postavke Artikla';
+	var $_PHPSHOP_PRODUCT_FORM_ITEM_STATUS_LBL = 'Status';
+	var $_PHPSHOP_PRODUCT_FORM_ITEM_DIM_WEIGHT_LBL = 'Dimenzije i težina';
+	var $_PHPSHOP_PRODUCT_FORM_ITEM_IMAGES_LBL = 'Slike';
+	var $_PHPSHOP_PRODUCT_FORM_RETURN_LBL = 'Matièni Proizvod';
 	var $_PHPSHOP_PRODUCT_FORM_IMAGE_UPDATE_LBL = 'Da bi izmijenili sliku unesite putanju do nove slike.';
 	var $_PHPSHOP_PRODUCT_FORM_IMAGE_DELETE_LBL = 'Izbriši postojeæu sliku.';
 	var $_PHPSHOP_PRODUCT_FORM_PRODUCT_ITEMS_LBL = 'Artikli';
-	var $_PHPSHOP_PRODUCT_FORM_ITEM_ATTRIBUTES_LBL = 'Svojstva artikla';
+	var $_PHPSHOP_PRODUCT_FORM_ITEM_ATTRIBUTES_LBL = 'Svojstva';
 	var $_PHPSHOP_PRODUCT_FORM_DELETE_PRODUCT_MSG = 'Želite li stvarno izbrisati ovaj proizvod\\ni s njim povezane artikle?';
 	var $_PHPSHOP_PRODUCT_FORM_DELETE_ITEM_MSG = 'Želite li stvarno izbrisati ovaj artikl?';
 	var $_PHPSHOP_PRODUCT_FORM_VENDOR = 'Dobavljaè';
@@ -325,8 +325,8 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_FORM_WEIGHT_UOM = 'Mjerna Jedinica';
 	var $_PHPSHOP_PRODUCT_FORM_THUMB_IMAGE = 'Mini Slika';
 	var $_PHPSHOP_PRODUCT_FORM_FULL_IMAGE = 'Puna Slika';
-	var $_PHPSHOP_PRODUCT_FORM_WEIGHT_UOM_DEFAULT = 'pounds';
-	var $_PHPSHOP_PRODUCT_FORM_DIMENSION_UOM_DEFAULT = 'inches';
+	var $_PHPSHOP_PRODUCT_FORM_WEIGHT_UOM_DEFAULT = 'kg';
+	var $_PHPSHOP_PRODUCT_FORM_DIMENSION_UOM_DEFAULT = 'mm';
 	var $_PHPSHOP_PRODUCT_FORM_UNIT = 'Jedinica';
 	var $_PHPSHOP_PRODUCT_FORM_UNIT_DEFAULT = 'komad';
 	var $_PHPSHOP_PRODUCT_FORM_PACKAGING = 'Jedinica u Pakovanju';
@@ -351,15 +351,15 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ATTRIBUTE_LIST_MNU = 'Lista Atributa';
 	var $_PHPSHOP_ATTRIBUTE_LIST_LBL = 'Lista Atributa za';
 	var $_PHPSHOP_ATTRIBUTE_LIST_NAME = 'Naziv Atributa';
-	var $_PHPSHOP_ATTRIBUTE_LIST_ORDER = 'Redoslijed';
+	var $_PHPSHOP_ATTRIBUTE_LIST_ORDER = 'Redosljed';
 	var $_PHPSHOP_ATTRIBUTE_FORM_MNU = 'Novi Atribut';
 	var $_PHPSHOP_ATTRIBUTE_FORM_LBL = 'Atribut';
 	var $_PHPSHOP_ATTRIBUTE_FORM_NEW_FOR_PRODUCT = 'Dodavanje Atributa za Proizvod ';
 	var $_PHPSHOP_ATTRIBUTE_FORM_UPDATE_FOR_PRODUCT = 'Ureðivanje Atributa za Proizvod ';
 	var $_PHPSHOP_ATTRIBUTE_FORM_NEW_FOR_ITEM = 'Dodavanje Atributa za Artikl ';
 	var $_PHPSHOP_ATTRIBUTE_FORM_UPDATE_FOR_ITEM = 'Ureðivanje';
-	var $_PHPSHOP_ATTRIBUTE_FORM_NAME = 'Naziv Artikla';
-	var $_PHPSHOP_ATTRIBUTE_FORM_ORDER = 'Redoslijed';
+	var $_PHPSHOP_ATTRIBUTE_FORM_NAME = 'Naziv Atributa';
+	var $_PHPSHOP_ATTRIBUTE_FORM_ORDER = 'Redosljed';
 	var $_PHPSHOP_PRICE_LIST_MNU = 'Lista Cijena';
 	var $_PHPSHOP_PRICE_LIST_LBL = 'Lista Cijena';
 	var $_PHPSHOP_PRICE_LIST_FOR_LBL = 'Cijena za';
@@ -429,7 +429,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_SHOPPER_FORM_ADDRESS_1 = 'Adresa 1';
 	var $_PHPSHOP_SHOPPER_FORM_ADDRESS_2 = 'Adresa 2';
 	var $_PHPSHOP_SHOPPER_FORM_CITY = 'Grad';
-	var $_PHPSHOP_SHOPPER_FORM_STATE = 'Županija';
+	var $_PHPSHOP_SHOPPER_FORM_STATE = 'State';
 	var $_PHPSHOP_SHOPPER_FORM_ZIP = 'Poštanski broj';
 	var $_PHPSHOP_SHOPPER_FORM_COUNTRY = 'Država';
 	var $_PHPSHOP_SHOPPER_FORM_PHONE = 'Telefon';
@@ -465,7 +465,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_STORE_FORM_ADDRESS_1 = 'Adresa 1';
 	var $_PHPSHOP_STORE_FORM_ADDRESS_2 = 'Adresa 2';
 	var $_PHPSHOP_STORE_FORM_CITY = 'Grad';
-	var $_PHPSHOP_STORE_FORM_STATE = 'Županija';
+	var $_PHPSHOP_STORE_FORM_STATE = 'State';
 	var $_PHPSHOP_STORE_FORM_COUNTRY = 'Država';
 	var $_PHPSHOP_STORE_FORM_ZIP = 'Poštanski broj';
 	var $_PHPSHOP_STORE_FORM_PHONE = 'Telefon';
@@ -495,7 +495,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_SHOPPER_GROUP = 'Grupa kupaca';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_DISCOUNT = 'Popust';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_CODE = 'Kod';
-	var $_PHPSHOP_PAYMENT_METHOD_FORM_LIST_ORDER = 'Redoslijed';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_LIST_ORDER = 'Redosljed';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_ENABLE_PROCESSOR = 'Tip Naèina Plaæanja';
 	var $_PHPSHOP_TAX_MOD = 'Porez';
 	var $_PHPSHOP_TAX_RATE = 'Porezne stope';
@@ -526,7 +526,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_VENDOR_FORM_ADDRESS_1 = 'Adresa 1';
 	var $_PHPSHOP_VENDOR_FORM_ADDRESS_2 = 'Adresa 2';
 	var $_PHPSHOP_VENDOR_FORM_CITY = 'Grad';
-	var $_PHPSHOP_VENDOR_FORM_STATE = 'Županija';
+	var $_PHPSHOP_VENDOR_FORM_STATE = 'State';
 	var $_PHPSHOP_VENDOR_FORM_COUNTRY = 'Država';
 	var $_PHPSHOP_VENDOR_FORM_ZIP = 'Poštanski broj';
 	var $_PHPSHOP_VENDOR_FORM_PHONE = 'Telefon';
@@ -581,7 +581,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CART_UPDATE = 'Izmjena Kolièine Proizvoda u Košarici';
 	var $_PHPSHOP_CART_DELETE = 'Uklanjanje Proizvoda iz Košarice';
 	var $_PHPSHOP_PRODUCT_PRICETAG = 'Cijena';
-	var $_PHPSHOP_PRODUCT_CALL = 'Nazovite radi cijene';
+	var $_PHPSHOP_PRODUCT_CALL = 'Nazovite za cijenu';
 	var $_PHPSHOP_PRODUCT_PREVIOUS = 'Prethodni';
 	var $_PHPSHOP_PRODUCT_NEXT = 'Slijedeæi';
 	var $_PHPSHOP_CART_TAX = 'Porez';
@@ -620,13 +620,13 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ASSIGN_ZONE_PG_LBL = 'Dodjeli zone';
 	var $_PHPSHOP_ZONE_FORM_NAME_LBL = 'Naziv zone';
 	var $_PHPSHOP_ZONE_FORM_DESC_LBL = 'Opis Zone';
-	var $_PHPSHOP_ZONE_FORM_COST_PER_LBL = 'Cijena po artiklu';
-	var $_PHPSHOP_ZONE_FORM_COST_LIMIT_LBL = 'Limit cijene';
+	var $_PHPSHOP_ZONE_FORM_COST_PER_LBL = 'Cijena po artiklu za Zonu';
+	var $_PHPSHOP_ZONE_FORM_COST_LIMIT_LBL = 'Limit cijene za Zonu';
 	var $_PHPSHOP_ZONE_LIST_LBL = 'Popis zona';
 	var $_PHPSHOP_ZONE_LIST_NAME_LBL = 'Naziv zone';
 	var $_PHPSHOP_ZONE_LIST_DESC_LBL = 'Opis zone';
-	var $_PHPSHOP_ZONE_LIST_COST_PER_LBL = 'Cijena po artiklu';
-	var $_PHPSHOP_ZONE_LIST_COST_LIMIT_LBL = 'Limit cijene';
+	var $_PHPSHOP_ZONE_LIST_COST_PER_LBL = 'Cijena po artiklu za Zonu';
+	var $_PHPSHOP_ZONE_LIST_COST_LIMIT_LBL = 'Limit cijene za Zonu';
 	var $_PHPSHOP_LOGIN_FIRST = 'Molimo vas da se prvo prijavite ili registrirate na stranicu.<br>Hvala.';
 	var $_PHPSHOP_STORE_FORM_TOS = 'Uvjeti korištenja';
 	var $_PHPSHOP_AGREE_TO_TOS = 'Prihvatite uvjete korištenja.';
@@ -641,7 +641,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ACC_ACCOUNT_INFO = 'Informacije o korisnièkom raèunu';
 	var $_PHPSHOP_ACC_SHIP_INFO = 'Podatci za Dostavu';
 	var $_PHPSHOP_ACC_NO_ORDERS = 'Nema narudžbi za prikazati';
-	var $_PHPSHOP_ACC_BILL_DEF = '- Primarno (kao za naplatu)';
+	var $_PHPSHOP_ACC_BILL_DEF = ' Primarna (kao za naplatu)';
 	var $_PHPSHOP_SHIPTO_TEXT = 'Možete vašem raèunu dodavati adrese za dostavu. Odaberite prikladan naziv ili kod za dostavnu lokaciju koju odaberete ispod.';
 	var $_PHPSHOP_CONFIG = 'Konfiguracija';
 	var $_PHPSHOP_USERS = 'Korisnici';
@@ -653,7 +653,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_RATE_LIST_MNU = 'Dostavne Tarife';
 	var $_PHPSHOP_RATE_LIST_LBL = 'Lista Dostavnih Tarifa';
 	var $_PHPSHOP_CARRIER_LIST_NAME_LBL = 'Naziv';
-	var $_PHPSHOP_CARRIER_LIST_ORDER_LBL = 'Redoslijed';
+	var $_PHPSHOP_CARRIER_LIST_ORDER_LBL = 'Redosljed';
 	var $_PHPSHOP_CARRIER_FORM_MNU = 'Novi Dostavljaè';
 	var $_PHPSHOP_CARRIER_FORM_LBL = 'Dodavanje/Ureðivanje Dostavljaèa';
 	var $_PHPSHOP_RATE_FORM_MNU = 'Nova Dostavna Tarifa ';
@@ -669,20 +669,20 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_RATE_FORM_PACKAGE_FEE = 'Pristojba za vašu pošiljku';
 	var $_PHPSHOP_RATE_FORM_CURRENCY = 'Valuta';
 	var $_PHPSHOP_RATE_FORM_VAT_ID = 'Stopa poreza';
-	var $_PHPSHOP_RATE_FORM_LIST_ORDER = 'Redoslijed';
+	var $_PHPSHOP_RATE_FORM_LIST_ORDER = 'Redosljed';
 	var $_PHPSHOP_SHIPPING_RATE_LIST_CARRIER_LBL = 'Dostavljaè';
 	var $_PHPSHOP_SHIPPING_RATE_LIST_RATE_NAME = 'Opis dostavne tarife';
 	var $_PHPSHOP_SHIPPING_RATE_LIST_RATE_WSTART = 'težina od ...';
 	var $_PHPSHOP_SHIPPING_RATE_LIST_RATE_WEND = '... do';
 	var $_PHPSHOP_CARRIER_FORM_NAME = 'Dostavljaè';
-	var $_PHPSHOP_CARRIER_FORM_LIST_ORDER = 'Prikaži narudžbu';
+	var $_PHPSHOP_CARRIER_FORM_LIST_ORDER = 'Redosljed';
 	var $_PHPSHOP_ERR_MSG_CARRIER_EXIST = 'GREŠKA: Postoji ID dostavljaèa.';
-	var $_PHPSHOP_ERR_MSG_CARRIER_ID_REQ = 'GREŠKA: Izaberi dostavljaèa.';
-	var $_PHPSHOP_ERR_MSG_CARRIER_INUSE = 'GREŠKA: Postoji barem jedna dostavna tarifa, obrišite cijene prije dostavljaèa';
+	var $_PHPSHOP_ERR_MSG_CARRIER_ID_REQ = 'GREŠKA: Niste odabrali dostavljaèa.';
+	var $_PHPSHOP_ERR_MSG_CARRIER_INUSE = 'GREŠKA: Postoji barem jedna dostavna tarifa, izbrišite dostavne tarife prije brisanja dostavljaèa';
 	var $_PHPSHOP_ERR_MSG_CARRIER_NOTFOUND = 'GREŠKA: Ne mogu pronaæi dostavljaèa s tim ID-om.';
-	var $_PHPSHOP_ERR_MSG_RATE_CARRIER_ID_REQ = 'GREŠKA: Izaberi dostavljaèa.';
-	var $_PHPSHOP_ERR_MSG_RATE_CARRIER_ID_INV = 'GREŠKA: Ne mogu pronaæi dostavljaèa s tim ID-om';
-	var $_PHPSHOP_ERR_MSG_RATE_NAME_REQ = 'GREŠKA: Zahtjevan opisnik pristojbe.';
+	var $_PHPSHOP_ERR_MSG_RATE_CARRIER_ID_REQ = 'GREŠKA: Niste odabrali id dostavljaèa.';
+	var $_PHPSHOP_ERR_MSG_RATE_CARRIER_ID_INV = 'GREŠKA: Nije pronaðen dostavljaè s tim ID-om';
+	var $_PHPSHOP_ERR_MSG_RATE_NAME_REQ = 'GREŠKA: Tarifa mora imati naziv.';
 	var $_PHPSHOP_ERR_MSG_RATE_COUNTRY_CODE_INV = 'GREŠKA: Neispravno unesena država. Više od jedne države možete odvojiti s ";".';
 	var $_PHPSHOP_ERR_MSG_RATE_WEIGHT_START_REQ = 'GREŠKA: Unesite najmanju težinu';
 	var $_PHPSHOP_ERR_MSG_RATE_WEIGHT_END_REQ = 'GREŠKA: Unesite najveæu težinu';
@@ -692,14 +692,14 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ERR_MSG_RATE_ID_REQ = 'GREŠKA: Unesite dostavnu tarifu.';
 	var $_PHPSHOP_INFO_MSG_PLEASE_SELECT = 'Odaberite';
 	var $_PHPSHOP_INFO_MSG_CARRIER = 'Dostavljaè';
-	var $_PHPSHOP_INFO_MSG_SHIPPING_METHOD = 'Vrsta usluge';
+	var $_PHPSHOP_INFO_MSG_SHIPPING_METHOD = 'Naèin dostave';
 	var $_PHPSHOP_INFO_MSG_SHIPPING_PRICE = 'Cijena';
 	var $_PHPSHOP_INFO_MSG_VAT_ZERO_LBL = '0 (-ništa-)';
 	var $_PHPSHOP_PAYMENT_FORM_CC = 'Kreditna Kartica';
-	var $_PHPSHOP_PAYMENT_FORM_USE_PP = 'Koristi procesor plaæanja';
+	var $_PHPSHOP_PAYMENT_FORM_USE_PP = 'Koristiti procesor plaæanja';
 	var $_PHPSHOP_PAYMENT_FORM_BANK_DEBIT = 'Debit';
 	var $_PHPSHOP_PAYMENT_FORM_AO = 'Samo adresa / Plaæanje po dostavi';
-	var $_PHPSHOP_CHECKOUT_MSG_2 = 'Odaberite adresu za slanje!';
+	var $_PHPSHOP_CHECKOUT_MSG_2 = 'Odaberite adresu za dostavu!';
 	var $_PHPSHOP_CHECKOUT_MSG_3 = 'Odaberite naèin dostave!';
 	var $_PHPSHOP_CHECKOUT_MSG_4 = 'Odaberite naèin plaæanja!';
 	var $_PHPSHOP_CHECKOUT_MSG_99 = 'Provjerite podatke i potvrdite narudžbu!';
@@ -747,7 +747,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CHECKOUT_CUSTOMER_NOTE = 'Ako želite, možete nam ostaviti napomenu uz vašu narudžbu';
 	var $_PHPSHOP_ORDER_PRINT_CUSTOMER_NOTE = 'Napomena kupca';
 	var $_PHPSHOP_INCLUDING_TAX = '(ukljuèen PDV)';
-	var $_PHPSHOP_PLEASE_SEL_ITEM = 'Odaberite artikl';
+	var $_PHPSHOP_PLEASE_SEL_ITEM = 'Odaberite opciju';
 	var $_PHPSHOP_PRODUCT_FORM_ITEM_LBL = 'Artikl';
 	var $_PHPSHOP_DOWNLOADS_TITLE = 'Download Proizvoda';
 	var $_PHPSHOP_DOWNLOADS_START = 'Zapoèni download';
@@ -764,7 +764,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_DOWNLOADS_SEND_MSG_4 = 'Downloadajte do najdalje {expire} dana nakon prvog downloada';
 	var $_PHPSHOP_DOWNLOADS_SEND_MSG_5 = 'Imate li pitanja ili problema?';
 	var $_PHPSHOP_DOWNLOADS_SEND_MSG_6 = 'Download-Info ';
-	var $_PHPSHOP_PRODUCT_FORM_DOWNLOADABLE = 'proizvod za download?';
+	var $_PHPSHOP_PRODUCT_FORM_DOWNLOADABLE = 'Proizvod za download?';
 	var $_PHPSHOP_PAYPAL_THANKYOU = 'Hvala na uplati.
         Transakcija je uspješno dovršena. Primit æete konfirmacijski Email za transakciju putem PayPala.
         Možete se prijaviti na <a href=http://www.paypal.com>www.paypal.com</a> da vidite detalje transakcije.';
@@ -820,7 +820,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_WAITING_LIST_MESSAGE = 'Molimo, unesite svoju Email adresu da bi smo vas mogli obavijestiti kada ovaj proizvod opet postane dostupan.
                                         Vaša Email adresa neæe biti upotrebljavana za ništa drugo osim da vas obavijestimo
 						    da je proizvod ponovo dostupan.<br /><br />Hvala!';
-	var $_PHPSHOP_WAITING_LIST_THANKS = 'Hvala što ste prièekali! <br />Obavijestit æemo vas èim dobijemo proizvode.';
+	var $_PHPSHOP_WAITING_LIST_THANKS = 'Hvala što ste odluèili prièekati! <br />Obavijestit æemo vas èim dobijemo proizvode koji vas interesiraju.';
 	var $_PHPSHOP_WAITING_LIST_NOTIFY_ME = 'Obavijesti me!';
 	var $_PHPSHOP_CHECK_OUT_THANK_YOU_PRINT_VIEW = 'Ispis';
 	var $_PHPSHOP_ADMIN_CFG_AUTORIZE_OR_CYBERCASH = 'Molimo, odaberite ILI Authorize.net ILI CyberCash';
@@ -838,7 +838,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_USE_ONLY_AS_CATALOGUE_EXPLAIN = 'Ovime se onemoguæuje funkcionalnost košarice.';
 	var $_PHPSHOP_ADMIN_CFG_SHOW_PRICES = 'Prikazati cijene';
 	var $_PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX = 'Prikazati cijene s porezom';
-	var $_PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX_EXPLAIN = 'Želite li ura&#269;unati porez u prikazane cijene.';
+	var $_PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX_EXPLAIN = 'Želite li uraèunati porez u prikazane cijene.';
 	var $_PHPSHOP_ADMIN_CFG_SHOW_PRICES_EXPLAIN = 'Iskljuèite ovo ako želite koristiti katalog funkcionalnost - bez prikazivanja cijena.';
 	var $_PHPSHOP_ADMIN_CFG_VIRTUAL_TAX = 'Virtualni Porez';
 	var $_PHPSHOP_ADMIN_CFG_VIRTUAL_TAX_EXPLAIN = 'Želite li uraèunati porez na proizvode èija je težina nula. Ovo možete prilagoditi u ps_checkout.php->calc_order_taxable().';
@@ -847,7 +847,8 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_VENDOR = 'Bazirano na adresi duæana';
 	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_EXPLAIN = 'Ovdje odreðujete po kojoj poreznoj stopi se izraèunava porez:<br />
                                                 <ul><li>porez države iz koje je kupac</li><br/>
-                                                <li>porez države iz koje je vlasnik duæana.</li></ul>';
+                                                <li>porez države iz koje je vlasnik duæana.</li></ul>
+                                                <li>ili "Metoda Europske Unije", gdje se koristi porezna stopa "po-proizvodu" ako je kupac iz Europske Unije, a u ostali sluèajevima porezna stopa je sukladno adresama kupaca.</li></ul>';
 	var $_PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE = 'Omoguæiti višestruke porezne stope?';
 	var $_PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE_EXPLAIN = 'Oznaèite ovo ako imate razlièite porezne stope za razlièite proizvode (npr. 7% za knjige i hranu, 16% za ostale stvari)';
 	var $_PHPSHOP_ADMIN_CFG_SUBSTRACT_PAYEMENT_BEFORE = 'Odbiti popuste prije uraèunavanja poreza/dostave?';
@@ -857,12 +858,12 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_ACCOUNT_CAN_BE_BLANK = 'Informacije o bankovnom raèunu';
 	var $_PHPSHOP_ADMIN_CFG_ACCOUNT_CAN_BE_BLANK_EXPLAIN = 'Oznaèite ako želite da vaši kupci mogu ostaviti podatke o bankovnom raèunu prilikom registracije.';
 	var $_PHPSHOP_ADMIN_CFG_CAN_SELECT_STATE = 'Odabir županije';
-	var $_PHPSHOP_ADMIN_CFG_CAN_SELECT_STATE_EXPLAIN = 'Oznaèite ako želite da vaši kupci mogu odabrati županiju prilikom registracije.';
+	var $_PHPSHOP_ADMIN_CFG_CAN_SELECT_STATE_EXPLAIN = 'Oznaèite ako želite da vaši kupci mogu odabrati US State prilikom registracije.';
 	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS = 'Obavezni pristanak na uvjete korištenja';
 	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS_EXPLAIN = 'Oznaèite ako želite da kupac mora pristati na uvjete korištenja prilikom registracije.';
 	var $_PHPSHOP_ADMIN_CFG_CHECK_STOCK = 'Provjera zaliha';
-	var $_PHPSHOP_ADMIN_CFG_CHECK_STOCK_EXPLAIN = 'Provjerava stanje zaliha pri dodavanju artikla u košaricu.
-                                                     Ako je ovo ukljuèeno, kupac neæe moæi dodati u košaricu više artikala nego što ih je na skladištu.';
+	var $_PHPSHOP_ADMIN_CFG_CHECK_STOCK_EXPLAIN = 'Provjerava stanje zaliha pri dodavanju proizvoda u košaricu.
+                                                     Ako je ovo ukljuèeno, kupac neæe moæi dodati u košaricu više proizvoda nego što ih je na skladištu.';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE = 'Suradnièki program';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE_EXPLAIN = 'Ovo omoguæava praæenje suradnika u shop-frontendu. Omoguæite ako ste u backendu dodali suradnike.';
 	var $_PHPSHOP_ADMIN_CFG_MAIL_FORMAT = 'Format Emaila narudžbe:';
@@ -932,7 +933,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_EMAIL = 'InterShipper email';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_EMAIL_EXPLAIN = 'Vaša email adresa za intershipper korisnièki raèun.';
 	var $_PHPSHOP_ADMIN_CFG_STORE_ENCODEKEY = 'ENCODE KEY';
-	var $_PHPSHOP_ADMIN_CFG_STORE_ENCODEKEY_EXPLAIN = 'Koristi se za enkripciju podataka pohranjenih u bazi. Ovo zna&#269;i da bi ova datoteka trebala uvijek biti zašti&#263;ena od &#269;itanja.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_ENCODEKEY_EXPLAIN = 'Koristi se za enkripciju podataka pohranjenih u bazi. Ovo znaèi da bi ova datoteka trebala uvijek biti zaštiæena od èitanja.';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_CHECKOUTBAR = 'Omoguæi Checkout Bar';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_CHECKOUTBAR_EXPLAIN = 'Oznaèite ovo ako želite da \'checkout-bar\' bude prikazan kupcima za vrijeme procesa kupnje ( 1 - 2 - 3 - 4 sa grafikom).';
 	var $_PHPSHOP_ADMIN_CFG_CHECKOUT_PROCESS = 'Izaberite naèin kupnje za vaš duæan';
@@ -997,9 +998,9 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_MERCHAND = 'CyberCash Trgovac';
 	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_MERCHAND_EXPLAIN = 'CC_TRGOVAC je vaše CyberCash korisnièko ime';
 	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_MERCHAND_KEY = 'CyberCash  Kljuè Trgovca';
-	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_MERCHAND_KEY_EXPLAIN = 'CyberCash Merchant Key is the Merchant Provided by CyberCash';
+	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_MERCHAND_KEY_EXPLAIN = 'CyberCash Merchant Key je kljuè koji ste dobili od CyberCash-a';
 	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_URL = 'CyberCash URL za PLAÆANJE';
-	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_URL_EXPLAIN = 'CyberCash PAYMENT URL is the URL provided by Cybercash for secure payment';
+	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_URL_EXPLAIN = 'CyberCash PAYMENT URL je URL koji vam je Cybercash dodjelio za sigurno plaæanje';
 	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_AUTENTICATIONTYPE = 'CyberCash VRSTA AUTORIZACIJE';
 	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_AUTENTICATIONTYPE_EXPLAIN = 'CyberCash VRSTA AUTORIZACIJE je Cbercash vrsta autorizacije omoguæena od Cybercasea';
 	var $_PHPSHOP_ADVANCED_SEARCH = 'Napredno Pretraživanje';
@@ -1022,16 +1023,16 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CAST_VOTE = 'Glasajte';
 	var $_PHPSHOP_RATE_BUTTON = 'Ocijenite';
 	var $_PHPSHOP_RATE_NOM = 'Ocjena';
-	var $_PHPSHOP_REVIEWS = 'Komentari kupaca';
+	var $_PHPSHOP_REVIEWS = 'Komentari';
 	var $_PHPSHOP_NO_REVIEWS = 'Još nema komentara o ovom proizvodu.';
 	var $_PHPSHOP_WRITE_FIRST_REVIEW = 'Napišite prvi svoj komentar...';
 	var $_PHPSHOP_REVIEW_LOGIN = 'Pisanje komentara je dostupno samo registriranim korisnicima.';
 	var $_PHPSHOP_REVIEW_ERR_RATE = 'Ocijenite proizvod da bi dovršili vaš komentar!';
-	var $_PHPSHOP_REVIEW_ERR_COMMENT1 = 'Vaš komentar je prekratak. Minimalni broj znakova je: 100';
-	var $_PHPSHOP_REVIEW_ERR_COMMENT2 = 'Vaš komentar je predugaèak. Maksimalni broj znakova je: 2000';
+	var $_PHPSHOP_REVIEW_ERR_COMMENT1 = 'Vaš komentar je prekratak. Minimalni broj znakova je: %s';
+	var $_PHPSHOP_REVIEW_ERR_COMMENT2 = 'Vaš komentar je predugaèak. Maksimalni broj znakova je: %s';
 	var $_PHPSHOP_WRITE_REVIEW = 'Komentirajte proizvod!';
 	var $_PHPSHOP_REVIEW_RATE = 'Prvo: Ocijenite proizvod. Odaberite ocjenu izmeðu 0 (najlošije) i 5 zvjezdica (najbolje).';
-	var $_PHPSHOP_REVIEW_COMMENT = 'Ovdje možete napisati svoje mišljenje o ovom proizvodu....(min. 100, max. 2000 znakova) ';
+	var $_PHPSHOP_REVIEW_COMMENT = 'Ovdje možete napisati svoje mišljenje o ovom proizvodu....(min. %s, max. %s znakova) ';
 	var $_PHPSHOP_REVIEW_COUNT = 'Uneseno znakova: ';
 	var $_PHPSHOP_REVIEW_SUBMIT = 'Pošalji komentar';
 	var $_PHPSHOP_REVIEW_ALREADYDONE = 'Veæ ste napisali komentar o ovom proizvodu. Hvala.';
@@ -1042,7 +1043,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CREDITCARD_CODE = 'Kreditna kartica - Kratki kod';
 	var $_PHPSHOP_CREDITCARD_TYPE = 'Vrsta kreditne kartice';
 	var $_PHPSHOP_CREDITCARD_LIST_LBL = 'Popis kreditnih kartica';
-	var $_PHPSHOP_UDATE_ADDRESS = 'Izmijeni adresu';
+	var $_PHPSHOP_UDATE_ADDRESS = 'Ureðivanje adrese';
 	var $_PHPSHOP_CONTINUE_SHOPPING = 'Nastavi Kupnju';
 	var $_PHPSHOP_THANKYOU_SUCCESS = 'Vaša narudžba je uspješno primljena!';
 	var $_PHPSHOP_ORDER_LINK = 'Slijedite link za više detalja.';
@@ -1053,7 +1054,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ORDER_LIST_NOTIFY = 'Obavijestiti kupca?';
 	var $_PHPSHOP_ORDER_LIST_NOTIFY_ERR = 'Prvo promijenite status narudžbe!';
 	var $_PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT = 'Popust za primarnu grupu kupaca (u %)';
-	var $_PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP = 'Pozitivni iznos X zna&#269;i: Ako OVOJ grupi kupaca nije dodijeljena posebna cijena, osnovna cijena se snižava za X%. Negativni iznos ima suprotni u&#269;inak';
+	var $_PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP = 'Pozitivni iznos X znaèi: Ako OVOJ grupi kupaca nije dodijeljena posebna cijena, osnovna cijena se snižava za X%. Negativni iznos ima suprotni uèinak';
 	var $_PHPSHOP_PRODUCT_DISCOUNT_LBL = 'Popusti';
 	var $_PHPSHOP_PRODUCT_DISCOUNT_LIST_LBL = 'Lista Popusta';
 	var $_PHPSHOP_PRODUCT_DISCOUNT_ADDEDIT = 'Novi Popust';
@@ -1069,22 +1070,22 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_DISCOUNT_ENDDATE_TIP = 'Odreðuje kada popust završava';
 	var $_PHPSHOP_PRODUCT_DISCOUNT_ADDDISCOUNT_TIP = 'Možete upotrebljavati obrazac za dodavanje popusta.';
 	var $_PHPSHOP_PRODUCT_DISCOUNT_SAVE = 'Ušteda';
-	var $_PHPSHOP_FLYPAGE_ENLARGE_IMAGE = 'Pogledajte sliku u punoj velièini';
+	var $_PHPSHOP_FLYPAGE_ENLARGE_IMAGE = 'veæa slika';
 	var $_PHPSHOP_CURRENCY_DISPLAY = 'Naèin prikaza valute';
 	var $_PHPSHOP_CURRENCY_SYMBOL = 'Simbol valute';
 	var $_PHPSHOP_CURRENCY_SYMBOL_TOOLTIP = 'Možete upotrebljavati i HTML entitete (npr. €,&#163;,&#165;,...)';
 	var $_PHPSHOP_CURRENCY_DECIMALS = 'Decimale';
-	var $_PHPSHOP_CURRENCY_DECIMALS_TOOLTIP = 'Broj prikazanih decimala (može biti 0)<br><b>Automatski zaokružuje ako vrijednost ima ve&#269;i broj decimala</b>';
+	var $_PHPSHOP_CURRENCY_DECIMALS_TOOLTIP = 'Broj prikazanih decimala (može biti 0)<br><b>Automatski zaokružuje ako vrijednost ima veèi broj decimala</b>';
 	var $_PHPSHOP_CURRENCY_DECIMALSYMBOL = 'Simbol decimale';
 	var $_PHPSHOP_CURRENCY_DECIMALSYMBOL_TOOLTIP = 'Znak za oznaku decimale';
 	var $_PHPSHOP_CURRENCY_THOUSANDS = 'Odjeljivaè tisuæa';
-	var $_PHPSHOP_CURRENCY_THOUSANDS_TOOLTIP = 'Znak za odijeljivanje tisu&#263;a (može biti prazno)';
+	var $_PHPSHOP_CURRENCY_THOUSANDS_TOOLTIP = 'Znak za odijeljivanje tisuæa (može biti prazno)';
 	var $_PHPSHOP_CURRENCY_POSITIVE_DISPLAY = 'Pozitivni oblik';
 	var $_PHPSHOP_CURRENCY_POSITIVE_DISPLAY_TOOLTIP = 'Format prikaza pozitivnih vrijednosti.<br>(Simb je kratica za simbol valute)';
 	var $_PHPSHOP_CURRENCY_NEGATIVE_DISPLAY = 'Negativni oblik';
 	var $_PHPSHOP_CURRENCY_NEGATIVE_DISPLAY_TOOLTIP = 'Format prikaza negativnih vrijednosti. Npr. popusta<br>(Simb je kratica za simbol valute)';
 	var $_PHPSHOP_OTHER_LISTS = 'Ostale Liste Proizvoda';
-	var $_PHPSHOP_MORE_IMAGES = 'Pogledajte još slika';
+	var $_PHPSHOP_MORE_IMAGES = 'više slika';
 	var $_PHPSHOP_AVAILABLE_IMAGES = 'Dostupne slike za';
 	var $_PHPSHOP_BACK_TO_DETAILS = 'Nazad na detalje o proizvodima';
 	var $_PHPSHOP_FILEMANAGER = 'Upravljanje datotekama';
@@ -1139,7 +1140,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_COUPON_CODE_HEADER = 'Kod';
 	var $_PHPSHOP_COUPON_PERCENT_TOTAL = 'Postotak ili Fiksno';
 	var $_PHPSHOP_COUPON_TYPE = 'Tip Kupona';
-	var $_PHPSHOP_COUPON_TYPE_TOOLTIP = 'Poklon Kupon se briše nakon što je iskorišten dok se stalni kupon može koristiti neograni&#269;eno';
+	var $_PHPSHOP_COUPON_TYPE_TOOLTIP = 'Poklon Kupon se briše nakon što je iskorišten dok se stalni kupon može koristiti neogranièeno';
 	var $_PHPSHOP_COUPON_TYPE_GIFT = 'Poklon Kupon';
 	var $_PHPSHOP_COUPON_TYPE_PERMANENT = 'Trajni Kupon';
 	var $_PHPSHOP_COUPON_VALUE_HEADER = 'Vrijednost';
@@ -1161,7 +1162,9 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_FREE_SHIPPING = 'Besplatna Dostava';
 	var $_PHPSHOP_FREE_SHIPPING_CUSTOMER_TEXT = 'Dostava za ovu narudžbu je besplatna!';
 	var $_PHPSHOP_FREE_SHIPPING_AMOUNT = 'Minimalni iznos za besplatnu dostavu';
-	var $_PHPSHOP_FREE_SHIPPING_AMOUNT_TOOLTIP = 'Iznos (SA POREZOM!) koji je minimum za besplatnu dostavu.';
+	var $_PHPSHOP_FREE_SHIPPING_AMOUNT_TOOLTIP = 'Iznos (SA POREZOM!) koji je minimum za besplatnu dostavu.
+                                                (primjer: <strong>50</strong> znaèi Besplatnu Dostavu ako je iznos narudžbe
+                                                50 kuna (ukljuèujuæi porez) ili više.';
 	var $_PHPSHOP_YOUR_STORE = 'Vaš Duæan';
 	var $_PHPSHOP_CONTROL_PANEL = 'Kontrolna Ploèa';
 	var $_PHPSHOP_ADMIN_CFG_PDF_BUTTON = 'PDF - Dugme';
@@ -1171,53 +1174,52 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE = 'Vrsta Bankovnog Raèuna';
 	var $_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE_CHECKING = 'Èekovni Raèun';
 	var $_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE_BUSINESSCHECKING = 'Poslovni Èekovni Raèun';
-	var $_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE_SAVINGS = 'Štednja';
-	var $_PHPSHOP_PAYMENT_AN_RECURRING = 'Recurring Billings?';
-	var $_PHPSHOP_PAYMENT_AN_RECURRING_TOOLTIP = 'Define wether you want recurring billings.';
+	var $_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE_SAVINGS = 'Ušteda';
+	var $_PHPSHOP_PAYMENT_AN_RECURRING = 'Obnavljajuæa Naplata?';
+	var $_PHPSHOP_PAYMENT_AN_RECURRING_TOOLTIP = 'Želite li koristiti obnavljajuæu (recurring) naplatu.';
 	var $_PHPSHOP_INTERNAL_ERROR = 'Interna greška prilikom obrade zahtjeva za';
 	var $_PHPSHOP_PAYMENT_ERROR = 'Greška prilikom procesuiranja plaæanja.';
 	var $_PHPSHOP_PAYMENT_TRANSACTION_SUCCESS = 'Plaæanje uspješno izvršeno';
-	var $_PHPSHOP_UPS_RESPONSE_ERROR = 'UPS nije uspio obraditi izraèunavanje transportne pristojbom.';
+	var $_PHPSHOP_UPS_RESPONSE_ERROR = 'UPS nije uspio izraèunati transportnu pristojbu.';
 	var $_PHPSHOP_UPS_SHIPPING_GUARANTEED_DAYS = 'Jamèeni datum dostave';
 	var $_PHPSHOP_UPS_PICKUP_METHOD = 'UPS naèin preuzimanja.';
 	var $_PHPSHOP_UPS_PICKUP_METHOD_TOOLTIP = 'Kako preuzimate UPS pakete?';
 	var $_PHPSHOP_UPS_PACKAGE_TYPE = 'UPS Pakiranje?';
-	var $_PHPSHOP_UPS_PACKAGE_TYPE_TOOLTIP = 'Odabir primarnoga na&#269;ina pakiranja.';
+	var $_PHPSHOP_UPS_PACKAGE_TYPE_TOOLTIP = 'Odabir primarnoga naèina pakiranja.';
 	var $_PHPSHOP_UPS_TYPE_RESIDENTIAL = 'Dostava na kuænu adresu?';
 	var $_PHPSHOP_UPS_RESIDENTIAL = 'Kuæna adresa (RES)';
 	var $_PHPSHOP_UPS_COMMERCIAL = 'Poslovna dostava (COM)';
-	var $_PHPSHOP_UPS_RESIDENTIAL_TOOLTIP = 'Kvota za ku&#263;nu ili poslovnu dostavu.';
+	var $_PHPSHOP_UPS_RESIDENTIAL_TOOLTIP = 'Kvota za kuænu ili poslovnu dostavu.';
 	var $_PHPSHOP_UPS_HANDLING_FEE = 'Manipulativni troškovi';
-	var $_PHPSHOP_UPS_HANDLING_FEE_TOOLTIP = 'Vaši manipulativni troškovi za ovaj na&#269;in slanja.';
+	var $_PHPSHOP_UPS_HANDLING_FEE_TOOLTIP = 'Vaši manipulativni troškovi za ovaj naèin dostave.';
 	var $_PHPSHOP_UPS_TAX_CLASS = 'Porezna stopa';
-	var $_PHPSHOP_UPS_TAX_CLASS_TOOLTIP = 'Upotrijebi sljede&#263;u poreznu stopu za ovaj na&#269;in dostave.';
+	var $_PHPSHOP_UPS_TAX_CLASS_TOOLTIP = 'Koristiti sljedeæu poreznu stopu za ovaj naèin dostave.';
 	var $_PHPSHOP_ERROR_CODE = 'Kod greške';
 	var $_PHPSHOP_ERROR_DESC = 'Opis greške';
-	var $_PHPSHOP_CHANGE_TRANSACTION_KEY = 'Prikaži/Promjeni šifru transakcije';
-	var $_PHPSHOP_CHANGE_PASSKEY_FORM = 'Prikaži/Promjeni šifru transakcije';
+	var $_PHPSHOP_CHANGE_TRANSACTION_KEY = 'Prikaži / Promjeni šifru transakcije';
+	var $_PHPSHOP_CHANGE_PASSKEY_FORM = 'Prikaži / Promjeni šifru transakcije';
 	var $_PHPSHOP_TYPE_PASSWORD = 'Upišite vašu šifru';
 	var $_PHPSHOP_CURRENT_PASSWORD = 'Trenutna šifra';
 	var $_PHPSHOP_CURRENT_TRANSACTION_KEY = 'Trenutni šifra transakcije';
 	var $_PHPSHOP_CHANGE_PASSKEY_SUCCESS = 'Šifra transakcije je uspješno promijenjena.';
 	var $_PHPSHOP_PAYMENT_CVV2 = 'Zatraži kod kreditne kartice (CVV2/CVC2/CID)';
 	var $_PHPSHOP_PAYMENT_CVV2_TOOLTIP = 'provjeri valjanost CVV2/CVC2/CID koda?';
-	var $_PHPSHOP_CUSTOMER_CVV2_TOOLTIP = 'Unesite troznamenkasti ili &#269;etveroznamenkasti broj sa pole&#273;ine vaše kreditne kartice (Na prednjoj strani kod
- American Express kartica )';
-	var $_PHPSHOP_CUSTOMER_CVV2_ERROR = 'Morate unijeti kod vaše kreditne kartice kako bi nastavili.';
+	var $_PHPSHOP_CUSTOMER_CVV2_TOOLTIP = 'Unesite troznamenkasti ili èetveroznamenkasti broj s poleðine vaše kreditne kartice (Na prednjoj strani kod American Express kartica )';
+	var $_PHPSHOP_CUSTOMER_CVV2_ERROR = 'Morate unijeti kod vaše kreditne kartice kako bi mogli nastaviti.';
 	var $_PHPSHOP_PRODUCT_FORM_FILENAME = 'ILI unesite ime datoteke';
-	var $_PHPSHOP_PRODUCT_FORM_FILENAME_TOOLTIP = 'Objašnjenje: Ovdje možete upisati ime datoteke. <strong>Datoteke ne&#263;e biti automatski uploadane!!! Morat &#263;ete ih uploadati ru&#269;no preko FTP-a!</strong>.';
+	var $_PHPSHOP_PRODUCT_FORM_FILENAME_TOOLTIP = 'Objašnjenje: Ovdje možete upisati ime datoteke. <strong>Datoteke neæe biti automatski uploadane!!! Morat æete ih uploadati ruèno preko FTP-a!</strong>.';
 	var $_PHPSHOP_PRODUCT_FORM_UPLOAD = 'ILI dodajte novu datoteku';
-	var $_PHPSHOP_PRODUCT_FORM_UPLOAD_TOOLTIP = 'Možete uploadati lokalnu datoteku. Ta datoteka &#263;e biti proizvod koji prodajete. Postoje&#263;a datoteka &#263;e biti zamijenjena.';
-	var $_PHPSHOP_PRODUCT_FORM_AVAILABILITY_TOOLTIP1 = 'Upišite tekst kojim &#263;e se kupcu prikazati vrijeme dostupnost proizvoda.<br />npr.: 24h, 48 sati, 3 - 5 dana, Po narudžbi.....';
+	var $_PHPSHOP_PRODUCT_FORM_UPLOAD_TOOLTIP = 'Možete uploadati lokalnu datoteku. Ta datoteka æe biti proizvod koji prodajete. Postojeæa datoteka æe biti zamijenjena.';
+	var $_PHPSHOP_PRODUCT_FORM_AVAILABILITY_TOOLTIP1 = 'Upišite tekst kojim æe se kupcu prikazati vrijeme dostupnost proizvoda.<br />npr.: 24h, 48 sati, 3 - 5 dana, Po narudžbi.....';
 	var $_PHPSHOP_PRODUCT_FORM_AVAILABILITY_TOOLTIP2 = 'ILI odaberite sliku za prikazati na stranici sa detaljima o proizvodu (flypage).<br />Slike su u direktoriju <i>/components/com_phpshop/shop_image/availability</i><br />';
 	var $_PHPSHOP_PRODUCT_FORM_ATTRIBUTE_LIST = 'Popis atributa';
 	var $_PHPSHOP_PRODUCT_FORM_ATTRIBUTE_LIST_EXAMPLES = '<h4>Primjeri za format popisa atributa:</h4>
-        <pre>Size,XL[+1.99],M,S[-2.99];Colour,Red,Green,Yellow,ExpensiveColor[=24.00];AndSoOn,..,..</pre>
-        <h4>Inline price adjustments for using the Advanced Attributes modification:</h4>
+        <pre>Velièina,XL[+1.99],M,S[-2.99];Boja,Crvena,Zelena,Žuta,SkupaBoja[=24.00];iTakoDalje,..,..</pre>
+        <h4>Prilagoðavanje cijena uz pomoæ Naprednih Atributa:</h4>
         <pre>
-        + == Add this amount to the configured price.<br />
-        - == Subtract this amount from the configured price.<br />
-        = == Set the product\'s price to this amount.
+        + == Dodaje ovaj iznos konfiguriranoj cijeni.<br />
+        - == Oduzima ovaj iznos od konfigurirane cijene.<br />
+        = == Pretvara cijenu proizvoda u ovaj iznos.
       </pre>';
 	var $_PHPSHOP_PRODUCT_FORM_CUSTOM_ATTRIBUTE_LIST = 'Dodatni atributi';
 	var $_PHPSHOP_PRODUCT_FORM_CUSTOM_ATTRIBUTE_LIST_EXAMPLES = '<h4>Primjer formata dodatnih atributa:</h4>
@@ -1225,7 +1227,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_MULTISELECT = 'Višestruki odabir: CTRL+klik';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN = 'eProcessingNetwork plaæanje';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN_EXPLAIN = 'Omoguæiti korištenje eProcessingNetwork.com procesora za plaæanje u vašem duæanu.';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN_TESTMODE = 'Test mod ?';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN_TESTMODE = 'Test mod?';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_EPN_TESTMODE_EXPLAIN = 'Odaberi \'Da\' prilikom testiranja . Izaberi \'Ne\' za omoguæavanje live transakcija.';
 	var $_PHPSHOP_ADMIN_CFG_EPN_USERNAME = 'eProcessingNetwork.com Login ID';
 	var $_PHPSHOP_ADMIN_CFG_EPN_USERNAME_EXPLAIN = 'Ovo je vaš eProcessingNetwork.com Login ID';
@@ -1234,8 +1236,8 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_EPN_AUTENTICATIONTYPE = 'Vrsta autorizacije';
 	var $_PHPSHOP_ADMIN_CFG_EPN_AUTENTICATIONTYPE_EXPLAIN = 'Ovo je eProcessingNetwork.com vrsta autorizacije.';
 	var $_PHPSHOP_RELATED_PRODUCTS = 'Slièni proizvodi';
-	var $_PHPSHOP_RELATED_PRODUCTS_TIP = 'Ovdje možete povezati druge proizvode sa ovim proizvodom. Odaberite jedan ili više proizvoda koji &#263;e se prikazivati kao <strong>Sli&#269;ni proizvodi</strong>.';
-	var $_PHPSHOP_RELATED_PRODUCTS_HEADING = 'Možda ste zainteresirani za ove proizvode?';
+	var $_PHPSHOP_RELATED_PRODUCTS_TIP = 'Ovdje možete povezati druge proizvode sa ovim proizvodom. Odaberite jedan ili više proizvoda koji æe se prikazivati kao <strong>Slièni proizvodi</strong>.';
+	var $_PHPSHOP_RELATED_PRODUCTS_HEADING = 'Možda ste zainteresirani i za ove proizvode?';
 	var $_PHPSHOP_IMAGE_ACTION = 'Rad sa slikama';
 	var $_PHPSHOP_NONE = 'ništa';
 	var $_PHPSHOP_ORDER_HISTORY = 'Povijest narudžbi';
@@ -1245,25 +1247,25 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ORDER_HISTORY_DATE_ADDED = 'Dodano datuma';
 	var $_PHPSHOP_ORDER_HISTORY_CUSTOMER_NOTIFIED = 'Kupac obaviješten?';
 	var $_PHPSHOP_ORDER_STATUS_CHANGE = 'Promjena statusa narudžbe';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_USERNAME = 'USPS shipping username';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_USERNAME_TOOLTIP = 'Username that you received from registering at USPS.com.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PASSWORD = 'USPS shipping password';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PASSWORD_TOOLTIP = 'Password that you received from registering at USPS.com.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SERVER = 'USPS shipping server';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SERVER_TOOLTIP = 'USPS shipping server, currently only works on live server!  Should be production.shippingapis.com';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PATH = 'USPS shipping path';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PATH_TOOLTIP = 'USPS shipping path, should be /ShippingAPI.dll';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGESIZE = 'USPS Package Size';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGESIZE_TOOLTIP = 'Choices are Regular, Large, and Oversize.  This should be set to what you mostly mail and is based on the dimensions of the package.  Normally just Regular.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_USERNAME = 'USPS korisnièko ime za dostavu';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_USERNAME_TOOLTIP = 'Korisnièko ime za dostavu koje ste dobili registracijom na USPS.com.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PASSWORD = 'USPS šifra za dostavu';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PASSWORD_TOOLTIP = 'Šifra za dostavu koju ste dobili registracijom na USPS.com.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SERVER = 'USPS server za dostavu';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SERVER_TOOLTIP = 'USPS server za dostavu';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PATH = 'USPS putanja za dostavu';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PATH_TOOLTIP = 'USPS putanja za dostavu, trebala bi biti /ShippingAPI.dll';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGESIZE = 'USPS Velièina paketa';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGESIZE_TOOLTIP = 'Moguænosti su: Regular, Large, i Oversize.  Treba korisitit najèešæe korištenu velièinu koju šaljete i bazira se na dimenzijama paketa.  Najèešæe se koristi Regular.';
 	var $_PHPSHOP_USPS_PADDING = 'Percent to pad weight for shipping package. (Include %)';
 	var $_PHPSHOP_USPS_PADDING_TOOLTIP = 'Pad the shipping weight to allow additional weight for shipping box and packing. Using this allows you to put actual weight in your items weight settings.  Requires you to have the % sign included.  Example 15%';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_HANDLING_FEE = 'Handling Fee';
-	var $_PHPSHOP_USPS_HANDLING_FEE = 'Your Handling fee for this shipping method.';
-	var $_PHPSHOP_USPS_HANDLING_FEE_TOOLTIP = 'Do you want to charge extra for users to ship USPS?  In dollar format, example 2.00';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLHANDLINGFEE = 'Your International Handling fee for USPS shipments.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLHANDLINGFEE_TOOLTIP = 'Do you want to charge extra for users to ship Internationally with USPS.  This is on top of the normal Handling Fee.  Example 2.00';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLLBRATE = 'Your International per pound rate for USPS shipments.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLLBRATE_TOOLTIP = 'Your International per pound rate for USPS shipments.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_HANDLING_FEE = 'Manipulativni troškovi';
+	var $_PHPSHOP_USPS_HANDLING_FEE = 'Troškovi za ovaj naèin dostave.';
+	var $_PHPSHOP_USPS_HANDLING_FEE_TOOLTIP = 'Želite li dodatno naplatiti za moguænost UPS dostave?  U dolarskom formatu, primjer 2.00';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLHANDLINGFEE = 'Internacionalni manipulativni troškovi za USPS pošiljke.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLHANDLINGFEE_TOOLTIP = 'Želite li dodatno naplatiti Internacionalnu USPS dostavu. Dodaje se normalnim manipulativnim troškovima. Npr. 2.00';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLLBRATE = 'Internacionalni manipulativni troškovi za USPS pošiljke po kilogramu';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLLBRATE_TOOLTIP = 'Internacionalni manipulativni troškovi za USPS pošiljke po kilogramu';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_MACHINABLE = 'If Parcel Post is used and package is under 6oz & over 35lbs.';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_MACHINABLE_TOOLTIP = 'Is this package able to be handled by a machine.  Default should be No.';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP = 'USPS Domestic Mail';
@@ -1353,9 +1355,9 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DEFAULT = 'Primarna Vrijednost';
 	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DEFAULT_HELP_TEXT = 'Za Parametar Primarna Vrijednost koristite ovaj format:<ul><li>Datum: YYYY-MM-DD</li><li>Vrijeme: HH:MM:SS</li><li>Datum & Vrijeme: YYYY-MM-DD HH:MM:SS</li></ul>';
 	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_UNIT = 'Jedinica';
-	var $_PHPSHOP_PARAMETER_SEARCH = 'Napredno pretraživanje prema parametrima';
+	var $_PHPSHOP_PARAMETER_SEARCH = 'Pretraživanje po parametrima';
 	var $_PHPSHOP_ADVANCED_PARAMETER_SEARCH = 'Parametri pretraživanja';
-	var $_PHPSHOP_PARAMETER_SEARCH_TEXT1 = 'Želite li pretraživati proizvode prema tehnièkim parametrima?<BR>Možete koristiti bilo koji pripremljeni obrazac:';
+	var $_PHPSHOP_PARAMETER_SEARCH_TEXT1 = 'Želite li pretraživati proizvode po tehnièkim parametrima?<BR>Možete koristiti bilo koji pripremljeni obrazac:';
 	var $_PHPSHOP_PARAMETER_SEARCH_NO_PRODUCT_TYPE = 'Nažalost, nema kategorije za pretraživanje.';
 	var $_PHPSHOP_PARAMETER_SEARCH_BAD_PRODUCT_TYPE = 'Nažalost, nije objavljen nijedan proizvod ovoga imena.';
 	var $_PHPSHOP_PARAMETER_SEARCH_IS_LIKE = 'Je kao';
@@ -1370,7 +1372,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PARAMETER_SEARCH_ASCENDING_ORDER = 'Uzlazni poredak';
 	var $_PHPSHOP_PRODUCT_TYPE_PARAMETERS_IN_CATEGORY = 'Parametri kategorije';
 	var $_PHPSHOP_FEE = 'Naknada';
-	var $_PHPSHOP_PRODUCT_CLONE = 'Kloniraj proizvod';
+	var $_PHPSHOP_PRODUCT_CLONE = 'Kloniraj';
 	var $_PHPSHOP_CSV_SETTINGS = 'Postavke';
 	var $_PHPSHOP_CSV_DELIMITER = 'Delimiter';
 	var $_PHPSHOP_CSV_ENCLOSURE = 'Field Enclosure Char';
@@ -1379,10 +1381,10 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CSV_FROM_DIRECTORY = 'Uèitaj iz direktorija';
 	var $_PHPSHOP_CSV_FROM_SERVER = 'Uèitaj CSV datoteku sa servera';
 	var $_PHPSHOP_CSV_EXPORT_TO_FILE = 'Izvezi u CSV datoteku';
-	var $_PHPSHOP_CSV_SELECT_FIELD_ORDERING = 'Izaberi vrstu sortiranja polja';
+	var $_PHPSHOP_CSV_SELECT_FIELD_ORDERING = 'Naèin sortiranja polja';
 	var $_PHPSHOP_CSV_DEFAULT_ORDERING = 'Primarno sortiranje';
 	var $_PHPSHOP_CSV_CUSTOMIZED_ORDERING = 'Prilagoðeno sortiranje';
-	var $_PHPSHOP_CSV_SUBMIT_EXPORT = 'Izvezi sve proizvode iz CSV datoteke';
+	var $_PHPSHOP_CSV_SUBMIT_EXPORT = 'Izvezi sve proizvode u CSV datoteku';
 	var $_PHPSHOP_CSV_CONFIGURATION_HEADER = 'Konfiguracija CSV Uvoza/Izvoza';
 	var $_PHPSHOP_CSV_SAVE_CHANGES = 'Spremi promjene';
 	var $_PHPSHOP_CSV_FIELD_NAME = 'Ime polja';
@@ -1404,7 +1406,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_BACK_TO_FILEMANAGER = 'Natrag';
 	var $_PHPSHOP_ADD_STATE = 'Nova Regija';
 	var $_PHPSHOP_LIST_STATES = 'Regije';
-	var $_PHPSHOP_SHOW_FEATURED_AND_DISCOUNTED = 'istaknuto AND sniženo';
+	var $_PHPSHOP_SHOW_FEATURED_AND_DISCOUNTED = 'istaknuto i sniženo';
 	var $_PHPSHOP_SHOW_FEATURED = 'istaknuti proizvodi';
 	var $_PHPSHOP_SHOW_DISCOUNTED = 'proizvodi na sniženju';
 	var $_PHPSHOP_FILTER = 'Filter';
@@ -1412,10 +1414,11 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_EXPAND_TREE = 'Otvori Sve';
 	var $_PHPSHOP_COLLAPSE_TREE = 'Zatvori Sve';
 	var $_PHPSHOP_PRODUCT_FORM_DISCOUNTED_PRICE = 'Snižena Cijena';
-	var $_PHPSHOP_PRODUCT_FORM_DISCOUNTED_PRICE_TIP = 'Ovdje možete unijeti posebnu sniženu cijenu za ovaj proizvod i tako premostiti postavke popusta.<br/>Du&#263;an &#263;e stvoriti novi popust iz snižene cijene.';
+	var $_PHPSHOP_PRODUCT_FORM_DISCOUNTED_PRICE_TIP = 'Ovdje možete unijeti posebnu sniženu cijenu za ovaj proizvod i tako premostiti postavke popusta.<br/>
+Duæan æe stvoriti novi popust iz snižene cijene.';
 	var $_PHPSHOP_CART_PRICE_PER_UNIT = 'Cijena po Jedinici';
 	var $_PHPSHOP_ADMIN_CFG_SHOP_OFFLINE = 'Duæan je Neaktivan';
-	var $_PHPSHOP_ADMIN_CFG_SHOP_OFFLINE_TIP = 'Ako je ovo uklju&#269;eno, Du&#263;an &#263;e prikazivati poruku o neaktivnosti';
+	var $_PHPSHOP_ADMIN_CFG_SHOP_OFFLINE_TIP = 'Ako je ovo ukljuèeno, Duæan æe prikazivati poruku o neaktivnosti';
 	var $_PHPSHOP_ADMIN_CFG_SHOP_OFFLINE_MSG = 'Poruka o neaktivnosti';
 	var $_PHPSHOP_ADMIN_CFG_TABLEPREFIX = 'Prefiks mysql tablica ove komponente';
 	var $_PHPSHOP_ADMIN_CFG_TABLEPREFIX_TIP = 'Primarni je <strong>vm</strong> ';
@@ -1439,26 +1442,23 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_PRICE_SHOW_INCLUDINGTAX = 'Prikazati (ukljuèujuæi XX% poreza)';
 	var $_PHPSHOP_ADMIN_CFG_PRICE_SHOW_INCLUDINGTAX_TIP = 'Kada je ovo ukljuèeno, kupci æe vidjeti tekst "(ukljuèujuæi XX% poreza)" uz cijene koje su prikazane s ukljuèenim porezom.';
 	var $_PHPSHOP_ADMIN_CFG_PRICE_SHOW_PACKAGING_PRICELABEL = 'Prikazati cijenu Pakovanja';
-	var $_PHPSHOP_ADMIN_CFG_PRICE_SHOW_PACKAGING_PRICELABEL_TIP = 'Ako je ovo uklju&#269;eno cijena &#263;e biti izra&#269;unata iz vrijednosti jedinice proizvoda i komada u Pakovanju:<br/>
+	var $_PHPSHOP_ADMIN_CFG_PRICE_SHOW_PACKAGING_PRICELABEL_TIP = 'Ako je ovo ukljuèeno cijena æe biti izraèunata iz vrijednosti jedinice proizvoda i komada u Pakovanju:<br/>
 <strong>Cijena po jedinici (10 komada)</strong><br/>
-Ako je ovo isklju&#269;eno cijene se prikazuju normalno: <strong>Cijena: $xx.xx</strong>';
+Ako je ovo iskljuèeno cijene se prikazuju normalno: <strong>Cijena: $xx.xx</strong>';
 	var $_PHPSHOP_ADMIN_CFG_MORE_CORE_SETTINGS = 'Dodatne Postavke';
 	var $_PHPSHOP_ADMIN_CFG_CORE_SETTINGS = 'Dodatne Postavke';
 	var $_PHPSHOP_ADMIN_CFG_FRONTEND_FEATURES = 'Frontend Postavke';
 	var $_PHPSHOP_ADMIN_CFG_TAX_CONFIGURATION = 'Konfiguracija Poreza';
-	var $_PHPSHOP_PRODUCT_LIST_QUANTITY_START = 'Quantity Start';
-	var $_PHPSHOP_PRODUCT_LIST_QUANTITY_END = 'Quantity End';
+	var $_PHPSHOP_PRODUCT_LIST_QUANTITY_START = 'Poèetna kolièina';
+	var $_PHPSHOP_PRODUCT_LIST_QUANTITY_END = 'Završna kolièina';
 	var $_PHPSHOP_ADMIN_CFG_USER_REGISTRATION_SETTINGS = 'Postavke Registracije Korisnika';
 	var $_PHPSHOP_ADMIN_CFG_ALLOW_REGISTRATION = 'Dozvoliti registraciju novih korisnika?';
 	var $_PHPSHOP_ADMIN_CFG_ACCOUNT_ACTIVATION = 'Potrebna aktivacija novih korisnika?';
 	var $_PHPSHOP_ADMIN_CFG_SILENT_REGISTRATION = 'Tiha (skrivena) registracija korisnika';
-	var $_PHPSHOP_ADMIN_CFG_SILENT_REGISTRATION_TIP = 'Kada je ovo uklju&#269;eno, posjetitelji ne trebaju unositi korisni&#269;ko ime i šifru za novi korisni&#269;ki raèun. Umjesto toga koristi se email adresa kao korisni&#269;ko ime i automatski se generira šifra. Tako dobiveni registracijski detalji se potom šalju kupcu.';
+	var $_PHPSHOP_ADMIN_CFG_SILENT_REGISTRATION_TIP = 'Kada je ovo ukljuèeno, posjetitelji ne trebaju unositi korisnièko ime i šifru za novi korisnièki raèun. Umjesto toga koristi se email adresa kao korisnièko ime i automatski se generira šifra. Tako dobiveni registracijski detalji se potom šalju kupcu.';
 	var $_PHPSHOP_USER_SEND_REGISTRATION_DETAILS = 'Poštovanje %s,
-
-Hvala što ste se registrirali na %s.
-Vaš korisnièki raèun je aktiviran.
+Hvala što ste se registrirali na %s. Vaš korisnièki raèun je aktiviran.
 Sada se možete prijaviti na %s koristeæi slijedeæe korisnièko ime i šifru:
-
 Korisnièko Ime - %s
 Šifra - %s
 ';
@@ -1473,54 +1473,53 @@ Korisnièko Ime - %s
 	var $_PEAR_LOG_DEBUG = 'Debug';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_PFP = 'Omoguæiti plaæanje kroz PayFlow Pro?';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_PFP_EXPLAIN = 'Omoguæiti korištenje VeriSign PayFlow Pro-a sa VirtueMart komponentom.';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_PFP_TESTMODE = 'Test mode ?';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_PFP_TESTMODE = 'Testiranje?';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_PFP_TESTMODE_EXPLAIN = 'Odaberite \'Da\' dok testirate i pripremate duæan. Odaberite \'Ne\' za omoguæavanje aktivnih transakcija.';
 	var $_PHPSHOP_ADMIN_CFG_PFP_PARTNER = 'VeriSign processing Partner ID';
 	var $_PHPSHOP_ADMIN_CFG_PFP_PARTNET_EXPLAIN = 'Partner ID koju ste dobili kao autorizirani VeriSign Reseller i kojom ste registrirani kao korisnik PayFlow Pro usluge';
 	var $_PHPSHOP_ADMIN_CFG_PFP_USERNAME = 'PayFlow Pro Login ID';
 	var $_PHPSHOP_ADMIN_CFG_PFP_USERNAME_EXPLAIN = 'Ovdje unesite svoje PayFlow Pro korisnièko ime.';
-	var $_VM_TAXDETAILS_LABEL = 'Tax Total contains';
-	var $_VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL = 'Default product sort order';
-	var $_VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL_TIP = 'Defines by which field products are ordered by default on the browse pages';
-	var $_VM_BROWSE_ORDERBY_FIELDS_LBL = 'Available "Sort-by" fields';
-	var $_VM_BROWSE_ORDERBY_FIELDS_LBL_TIP = 'Choose the "Sort-by" fields for the browse page. Each one defines a sort method for the product browse page. If you deselect all, the Order-By-Form will not be shown.';
-	var $_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO = 'Show a short note about your "Returns Policy" on the order confirmation page?';
-	var $_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO_TIP = 'In most european countries store owners are required by law to inform their customers about return and order cancellation policies. So this should be enabled in most cases.';
-	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT = 'Legal information text (short version).';
-	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT_TIP = 'This text instructs your customers in short about your return and order cancellation policy. It is shown on the last page of checkout, just above the "Confirm Order" button.';
-	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK = 'Long version of the return policy (link to a content item).';
-	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK_TIP = 'Please add a new content item about the details of your return and order cancellation policy.
-Afterwards you can select it here.';
-	var $_VM_LEGALINFO_SHORTTEXT = '<h5>Returns Policy</h5>
-
-You can cancel this order within two weeks after we have received it.
-You can return new, unopened items from a cancelled order within 2 weeks after they have been 
-delivered to you. Items should be returned in their original packaging.
-For more information on cancelling orders and returning items, see the <a href="%s" onclick="%s" target="_blank">Our Returns Policy</a> page.';
-	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_EU = 'European Union mode';
-	var $_VM_SESSION_SAVEPATH_UNWRITABLE = 'The directory to store session data is not writable. Please correct this or contact your provider.';
-	var $_VM_SESSION_SAVEPATH_UNWRITABLE_TMPFIX = 'The Session Save Path %s is not writable. Please correct this! The shop is temporarily trying to use the %s instead.\'';
-	var $_VM_SESSION_COOKIES_NOT_ACCEPTED_TIP = 'Your browser does not accept cookies. If you want to put products into your cart and purchase them you need to enable cookies.';
-	var $_PHPSHOP_CSV_SKIP_FIRST_LINE = 'Skip first line';
-	var $_PHPSHOP_CSV_SKIP_DEFAULT_VALUE = 'Skip default value';
-	var $_PHPSHOP_CSV_OVERWRITE_EXISTING_DATA = 'Overwrite existing data';
-	var $_PHPSHOP_CSV_INCLUDE_COLUMN_HEADERS = 'Include column headers';
-	var $_PHPSHOP_CSV_UPLOAD_SETTINGS = 'Upload Settings';
-	var $_PHPSHOP_CSV_AVAILABLE_FIELDS = 'Available Fields';
-	var $_PHPSHOP_CSV_OUTPUT_CSV_UPLOAD_MESSAGES = 'CSV upload messages:';
-	var $_PHPSHOP_CSV_OUTPUT_COUNT = 'Count';
-	var $_PHPSHOP_CSV_OUTPUT_TOTAL = 'Total';
-	var $_PHPSHOP_CSV_OUTPUT_FILE_IMPORTED = 'CSV File Imported';
-	var $_PHPSHOP_CSV_OUTPUT_UPDATED = 'Updated';
-	var $_PHPSHOP_CSV_OUTPUT_DELETED = 'Deleted';
-	var $_PHPSHOP_CSV_OUTPUT_ADDED = 'Added';
-	var $_PHPSHOP_CSV_OUTPUT_SKIPPED = 'Skipped';
-	var $_PHPSHOP_CSV_OUTPUT_INCORRECT = 'Incorrect';
+	var $_VM_TAXDETAILS_LABEL = 'Ukupni porez iznosi';
+	var $_VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL = 'Primarni naèin sortiranja proizvoda';
+	var $_VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL_TIP = 'Definira po kojemu se polju primarno sortiraju proizvodi';
+	var $_VM_BROWSE_ORDERBY_FIELDS_LBL = 'Dostupni naèini sortiranja';
+	var $_VM_BROWSE_ORDERBY_FIELDS_LBL_TIP = 'Odaberite polja po kojima želite omoguæiti sortiranje. Ako ne odaberete niti jedno polje, opcija sortiranja se neæe koristiti.';
+	var $_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO = 'Prikazati kratka "Pravila povrata robe" na stranici za potvrdu narudžbe?';
+	var $_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO_TIP = 'U veæini europskih zemalja vlasnici web duæana moraju po zakonu obavijestiti kupca o pravilima povrata i poništenja narudžbe. Dakle, ovo bi veæinom trebalo biti ukljuèeno.';
+	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT = 'Tekst Pravnih informacija (kratki).';
+	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT_TIP = 'Ovaj tekst ukratko informira kupce o pravilima povrata i poništenja narudžbe. Prikazuje se na posljednjoj stranici postupka naplate, odmah iznad dugmeta "Potvrdi narudžbu".';
+	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK = 'Duža verzija pravila povrata (link na stavku sadržaja).';
+	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK_TIP = 'Molimo dodajte novu stavku sadržaja o detaljima pravila povrata i poništenja narudžbe.
+Nakon toga možete je ovdje odabrati.';
+	var $_VM_LEGALINFO_SHORTTEXT = '<h5>Pravila povrata robe</h5>
+Možete poništiti ovu narudžbu u roku od dva tjedna nakon što je zaprimimo.
+Možete vratiti nove, neotvorene proizvode iz poništene narudžbe u roku 2 dva tjedna nakon što su
+Vam isporuèene. Proizvodi se moraju vratiti u originalnom pakiranju.
+Za više informacija o poništenju narudžbi i povratu proizvoda pogledajte <a href="%s" onclick="%s" target="_blank">Pravila Povrata Robe</a>.';
+	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_EU = 'Metoda Europske Unije';
+	var $_VM_SESSION_SAVEPATH_UNWRITABLE = 'Direktorij (mapa) za spremanje session informacija nije otvorena za zapisivanje. Molimo ispravite to ili kontaktirajte pružatelje hosting usluge.';
+	var $_VM_SESSION_SAVEPATH_UNWRITABLE_TMPFIX = 'Putanja za spremanje session informacija %s ne dozvoljava zapisivanje. Molimo ispravite to! Shop pokušava koristiti %s kao zamjenu.';
+	var $_VM_SESSION_COOKIES_NOT_ACCEPTED_TIP = 'Vaš internet preglednik ne prihvaæa cookije. Da bi ste bili u moguænosti ubaciti proizvode u košaricu i kupiti ih, morate ukljuèiti podršku za cookije.';
+	var $_PHPSHOP_CSV_SKIP_FIRST_LINE = 'Preskoèi prvu liniju';
+	var $_PHPSHOP_CSV_SKIP_DEFAULT_VALUE = 'Preskoèi primarnu vrijednost';
+	var $_PHPSHOP_CSV_OVERWRITE_EXISTING_DATA = 'Prebriši postojeæe podatke';
+	var $_PHPSHOP_CSV_INCLUDE_COLUMN_HEADERS = 'Ukljuèujuæi zaglavlja stupaca';
+	var $_PHPSHOP_CSV_UPLOAD_SETTINGS = 'Upload Postavke';
+	var $_PHPSHOP_CSV_AVAILABLE_FIELDS = 'Dostupna polja';
+	var $_PHPSHOP_CSV_OUTPUT_CSV_UPLOAD_MESSAGES = 'CSV upload poruke:';
+	var $_PHPSHOP_CSV_OUTPUT_COUNT = 'Broj';
+	var $_PHPSHOP_CSV_OUTPUT_TOTAL = 'Ukupno';
+	var $_PHPSHOP_CSV_OUTPUT_FILE_IMPORTED = 'CSV datoteka je uvezena';
+	var $_PHPSHOP_CSV_OUTPUT_UPDATED = 'Ažurirano';
+	var $_PHPSHOP_CSV_OUTPUT_DELETED = 'Izbrisano';
+	var $_PHPSHOP_CSV_OUTPUT_ADDED = 'Dodano';
+	var $_PHPSHOP_CSV_OUTPUT_SKIPPED = 'Preskoèeno';
+	var $_PHPSHOP_CSV_OUTPUT_INCORRECT = 'Neispravno';
 	var $_PHPSHOP_CSV_AVAILABLE_FIELDS_USE = 'The following fields are available for your use to import or export.';
 	var $_PHPSHOP_CSV_MINIMAL_FIELDS = 'The minimal required fields are product_sku, product_name and category_path. Except for the product_sku, the other two fields are not unique.';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_SKU = 'The unique identifier for a product.<br /.>Values:<ul><li>Number</li><li>Letters</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_NAME = 'The name of the product.Values:<ul><li>Text: No HTML code allowed.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DELETE = 'The product_delete field is a special field. This field is used to determine if a product should be deleted or not.<br />Usage:<ol><li>Add the the name "product_delete" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the value Y. If the field contains any other value, the product will not be deleted.</li></ol><br /.>Values:<ul><li>Y: Yes, the product is to be deleted</li><li>N: No, the product is not to be deleted</li><li>Empty: Empty value, the product is not to be deleted</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DELETE = 'The product_delete field is a special field. This field is used to determine if a product should be deleted or not.<br />Usage:<ol><li>Add the name "product_delete" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the value Y. If the field contains any other value, the product will not be deleted.</li></ol><br /.>Values:<ul><li>Y: Yes, the product is to be deleted</li><li>N: No, the product is not to be deleted</li><li>Empty: Empty value, the product is not to be deleted</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DESC = 'Long description for the product.<br />Values:<ul><li>Text: HTML code allowed.</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_S_DESC = 'Short description for the product.<br />Values:<ul><li>Text: No HTML code allowed.</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PUBLISH = 'The status if a product is published or not.<br />Values:<ul><li>Y: Yes, the product is published</li><li>N: No, the product is not published</li><li>Empty: Empty value, the product is published.</li></ul>';
@@ -1536,141 +1535,117 @@ For more information on cancelling orders and returning items, see the <a href="
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PACKAGING = 'Specify the number of items in the package.<br />Usage:<ol><li>Add the the name "product_packaging" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the number of items in the package.</li></ol><br /.>Values:<ul><li>Number</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_BOX = 'Specify the number of items in the box.<br />Usage:<ol><li>Add the the name "product_box" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the number of items in the box.</li></ol><br /.>Values:<ul><li>Number</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT = 'Specify the amount or percentage of discount the product has. The values entered are exact values, no calculation is made. This is the same as if you are filling in a discount via the Product Discount List. If the discount already exists, it will not be added to the database but the product will be linked to the existing discount. The criteria for determining if a discount already exists the following values have to be exactly the same:<ol><li>Amount, be it a total or percentage</li><li>Start date</li><li>End date</li></ol>This prevents from filling the database with a huge number of the same discounts.<br /><br />Usage:<ol><li>Add the the name "product_discount" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Optional: Add the the name "product_discount_date_start" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Optional: Add the the name "product_discount_date_end" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add the chosen columns to your CSV file with the corresponding values.</li></ol><br /.>Values:<ul><li>product_discount</li><ul><li>Number<br />e.g. 10</li><li>Percentage: Must include the % sign<br />e.g. 10%</li></ul><li>product_discount_date_start</li><ul><li>Date: day/month/year or day-month-year<br />Day and month can be a 1 or 2 digit notation.<br />Year can be a 2 or 4 digit notation.</li></ul><li>product_discount_date_end</li><ul><li>Date: day/month/year or day-month-year<br />Day and month can be a 1 or 2 digit notation.<br />Year can be a 2 or 4 digit notation.</li></ul></ul>';
-	var $_ITEM_PREVIOUS = 'previous';
-	var $_ITEM_NEXT = 'next';
-	var $_CMN_OK = 'Ok';
-	var $_CMN_CONTINUE = 'Continue';
-	var $_CMN_CANCEL = 'Cancel';
-	var $_BUTTON_SEND_REG = 'Send Registration';
-	var $_CONTACT_FORM_NC = 'Please make sure the form is complete and valid.';
-	var $_CMN_REQUIRED = 'Required';
-	var $_CMN_NEW = 'New';
-	var $_CMN_SAVE = 'Save';
-	var $_CMN_NEW_ITEM_LAST = 'New items default to the last place. Ordering can be changed after this item is saved.';
-	var $_CMN_OPTIONAL = 'Optional';
-	var $_E_APPLY = 'Apply';
-	var $_E_IMAGES = 'Images';
+	var $_ITEM_PREVIOUS = 'prethodna';
+	var $_ITEM_NEXT = 'sljedeæa';
+	var $_CMN_OK = 'OK';
+	var $_CMN_CONTINUE = 'Nastavak';
+	var $_CMN_CANCEL = 'Odustani';
+	var $_BUTTON_SEND_REG = 'Pošalji Registraciju';
+	var $_CONTACT_FORM_NC = 'Provjerite još jednom da li je obrazac ispunjen potpuno i ispravno.';
+	var $_CMN_REQUIRED = 'Obavezno';
+	var $_CMN_NEW = 'Novo';
+	var $_CMN_SAVE = 'Spremi';
+	var $_CMN_NEW_ITEM_LAST = 'Novi objekti se stavljaju na zadnje mjesto. Redoslijed se može mijenjati nakon spremanja.';
+	var $_CMN_OPTIONAL = 'Opcionalno';
+	var $_E_APPLY = 'Primjeni';
+	var $_E_IMAGES = 'Slike';
 	var $_URL = 'URL:';
-	var $_SEL_CATEGORY = 'Select a category';
-	var $_E_REMOVE = 'Remove';
+	var $_SEL_CATEGORY = 'Odabir kategorije';
+	var $_E_REMOVE = 'Ukloni';
 	var $_PN_LT = '<';
 	var $_PN_RT = '>';
-	var $_PN_PAGE = 'Page';
-	var $_PN_OF = 'of';
-	var $_PN_START = 'Start';
-	var $_PN_PREVIOUS = 'Prev';
-	var $_PN_NEXT = 'Next';
-	var $_PN_END = 'End';
-	var $_PN_DISPLAY_NR = 'Display #';
-	var $_PN_RESULTS = 'Results';
-	var $_CMN_PRINT = 'Print';
+	var $_PN_PAGE = 'Stranica';
+	var $_PN_OF = 'od';
+	var $_PN_START = 'Poèetak';
+	var $_PN_PREVIOUS = 'Prethodno';
+	var $_PN_NEXT = 'Sljedeæe';
+	var $_PN_END = 'Kraj';
+	var $_PN_DISPLAY_NR = 'Prikazati #';
+	var $_PN_RESULTS = 'Resultati';
+	var $_CMN_PRINT = 'Ispis';
 	var $_CMN_PDF = 'PDF';
 	var $_CMN_EMAIL = 'E-mail';
-	var $_BACK = 'Back';
-	var $_USERNAME = 'Username';
-	var $_PASSWORD = 'Password';
-	var $_BUTTON_LOGIN = 'Login';
-	var $_REGISTER_UNAME = 'Username';
-	var $_REGISTER_EMAIL = 'Email';
-	var $_REGWARN_NAME = 'Please enter your name.';
-	var $_REGWARN_UNAME = 'Please enter a user name.';
-	var $_REGWARN_MAIL = 'Please enter a valid e-mail address.';
-	var $_SEND_SUB = 'Account details for %s at %s';
-	var $_ASEND_MSG = 'Hello %s,
-	
-	A new user has registered at %s.
-	This email contains their details:
-	
-	Name - %s
-	e-mail - %s
-	Username - %s
-	
-	Please do not respond to this message as it is automatically generated and is for information purposes only';
-	var $_REG_COMPLETE = '<div class="componentheading">Registration Complete!</div><br />You may now login.';
-	var $_REG_COMPLETE_ACTIVATE = '<div class="componentheading">Registration Complete!</div><br />Your account has been created and activation link has been sent to the e-mail address you entered. Note that you must activate the account by clicking on the activation link when you get the e-mail before you can login.';
+	var $_BACK = 'Natrag';
+	var $_USERNAME = 'Korisnièko Ime';
+	var $_PASSWORD = 'Šifra';
+	var $_BUTTON_LOGIN = 'Prijava';
+	var $_REGISTER_UNAME = 'Korisnièko Ime';
+	var $_REGISTER_EMAIL = 'E-mail';
+	var $_REGWARN_NAME = 'Molimo, unesite svoje ime.';
+	var $_REGWARN_UNAME = 'Molimo unesite korisnièko ime.';
+	var $_REGWARN_MAIL = 'Molimo unesite valjanu e-mail adresu.';
+	var $_SEND_SUB = 'Korisnièki detalji za %s na %s';
+	var $_ASEND_MSG = 'Poštovanje %s,
+
+	Nova registracija na %s.
+	Ovdje su korisnièki detalji:
+
+	Ime - %s
+	E-mail - %s
+	Korisnièko Ime - %s
+
+	Molimo ne odgovarajte na ovu poruku jer je automatski generirana i služi samo kao informacija';
+	var $_REG_COMPLETE = '<div class="componentheading">Registracija je dovršena!</div><br />Sada se možete prijaviti.';
+	var $_REG_COMPLETE_ACTIVATE = '<div class="componentheading">Registracija je dovršena!</div><br />Vaš korisnièki raèun je kreiran i aktivacijski link je poslan na adresu koju ste unijeli. Klikom na aktivacijski link, vaš æe korisnièki raèun postati funkcionalan.';
 	var $_DATE_FORMAT_LC = '%A, %d %B %Y';
-	var $_LAST_UPDATED = 'Last Updated';
-	var $_NOT_AUTH = 'You are not authorized to view this resource.';
-	var $_DO_LOGIN = 'You need to login.';
-	var $_VALID_AZ09 = 'Please enter a valid %s.  No spaces, more than %d characters and contain 0-9,a-z,A-Z';
-	var $_CMN_PUBLISHED = 'Published';
-	var $_CMN_UNPUBLISHED = 'Unpublished';
-	var $_MORE = 'More...';
-	var $_EMPTY_CATEGORY = 'This Category is currently empty.';
-	var $_BUTTON_LOGOUT = 'Logout';
-	var $_NO_ACCOUNT = 'No account yet?';
-	var $_CREATE_ACCOUNT = 'Register';
-	var $_REGWARN_PASS = 'Please enter a valid password.  No spaces, more than 6 characters and contain 0-9,a-z,A-Z';
-	var $_REGWARN_VPASS1 = 'Please verify the password.';
-	var $_REGWARN_VPASS2 = 'Password and verification do not match, please try again.';
-	var $_USEND_MSG_ACTIVATE = 'Hello %s,
+	var $_LAST_UPDATED = 'Zadnja izmjena';
+	var $_NOT_AUTH = 'Nemate dopuštenje za pregled.';
+	var $_DO_LOGIN = 'Morate se prijaviti na stranicu.';
+	var $_VALID_AZ09 = 'Molimo unesite valjano %s.  Bez razmaka, više od %d znakova i bez posebnih znakova - samo 0-9,a-z,A-Z';
+	var $_CMN_PUBLISHED = 'Objavljeno';
+	var $_CMN_UNPUBLISHED = 'Neobjavljeno';
+	var $_MORE = 'Više...';
+	var $_EMPTY_CATEGORY = 'Ova kategorija je trenutno prazna.';
+	var $_BUTTON_LOGOUT = 'Odjava';
+	var $_NO_ACCOUNT = '';
+	var $_CREATE_ACCOUNT = 'Registracija';
+	var $_REGWARN_PASS = 'Molimo unesite valjanu šifru.  Više od 6 znakova, bez razmaka i posebnih znakova - samo 0-9,a-z,A-Z';
+	var $_REGWARN_VPASS1 = 'Molimo potvrdite šifru.';
+	var $_REGWARN_VPASS2 = 'Šifra i potvrda šifre se ne podudaraju, molimo pokušajte ponovo.';
+	var $_USEND_MSG_ACTIVATE = 'Poštovanje %s,
 
-
-
-Thank you for registering at %s. Your account is created and must be activated before you can use it.
-
-To activate the account click on the following link or copy-paste it in your browser:
-
+Hvala što ste se registrirali na %s. Vaš korisnièki raèun je kreiran i mora biti aktiviran da bi ste ga mogli koristiti.
+Aktivaciju možete izvršiti klikom na sljedeæi link:
 %s
 
+Nakon aktivacije se možete prijaviti na %s koristeæi sljedeæe korisnièko ime i šifru:
+
+Korisnièko Ime - %s
+Šifra - %s';
+	var $_USEND_MSG = 'Poštovanje %s,
+
+Hvala što ste se registrirali na %s.
+
+Sada se možete prijaviti na %s koristeæi korisnièko ime i šifru koje ste odabrali pri registraciji.';
+	var $_PROMPT_PASSWORD = 'Zaboravili ste šifru?';
+	var $_HI = 'Pozdrav';
+	var $_NEW_USER_MESSAGE_SUBJECT = 'Detalji nove registracije';
+	var $_NEW_USER_MESSAGE = 'Poštovanje %s,
 
 
-After activation you may login to %s using the following username and password:
+Otvoren vam je korisnièki raèun na %s
+
+Ovaj email sadrži vaše Korisnièko ime i šifru za prijavu na %s
+
+Korisnièko Ime - %s
+Šifra - %s
 
 
-
-Username - %s
-
-Password - %s';
-	var $_USEND_MSG = 'Hello %s,
-
-
-
-Thank you for registering at %s.
-
-
-
-You may now login to %s using the username and password you registered with.';
-	var $_PROMPT_PASSWORD = 'Lost your Password?';
-	var $_HI = 'Hi';
-	var $_NEW_USER_MESSAGE_SUBJECT = 'New User Details';
-	var $_NEW_USER_MESSAGE = 'Hello %s,
-
-
-
-
-
-You have been added as a user to %s by an Administrator.
-
-
-
-This email contains your username and password to log into the %s
-
-
-
-Username - %s
-
-Password - %s
-
-
-
-
-
-Please do not respond to this message as it is automatically generated and is for information purposes only';
-	var $_REMEMBER_ME = 'Remember me';
-	var $_REGISTER_TITLE = 'Registration';
-	var $_JAN = 'January';
-	var $_FEB = 'February';
-	var $_MAR = 'March';
-	var $_APR = 'April';
-	var $_MAY = 'May';
-	var $_JUN = 'June';
-	var $_JUL = 'July';
-	var $_AUG = 'August';
-	var $_SEP = 'September';
-	var $_OCT = 'October';
-	var $_NOV = 'November';
-	var $_DEC = 'December';
+Molimo, ne odgovarajte na ovu poruku jer je automatski generirana i služi samo kao informacija';
+	var $_REMEMBER_ME = 'Zapamti me';
+	var $_REGISTER_TITLE = 'Registracija';
+	var $_JAN = 'Sijeèanj';
+	var $_FEB = 'Veljaèa';
+	var $_MAR = 'Ožujak';
+	var $_APR = 'Travanj';
+	var $_MAY = 'Svibanj';
+	var $_JUN = 'Lipanj';
+	var $_JUL = 'Srpanj';
+	var $_AUG = 'Kolovoz';
+	var $_SEP = 'Rujan';
+	var $_OCT = 'Listopad';
+	var $_NOV = 'Studeni';
+	var $_DEC = 'Prosinac';
 	var $_PHPSHOP_CSV_VERSION = '0.7';
 	var $_PHPSHOP_CSV_ABOUT = 'About';
 	var $_PHPSHOP_CSV_PRICE_LIST_ONLY = 'Price list upload only';
@@ -1687,310 +1662,159 @@ Please do not respond to this message as it is automatically generated and is fo
 	var $_PHPSHOP_CSV_CONTINUE_UPLOAD = 'Continue upload';
 	var $_PHPSHOP_CSV_CANCEL_UPLOAD = 'Cancel upload';
 	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION = '<span style="color: #FF0000; font-size: 1.2em;">Steps to upload a CSV file</span>
-
 										<ol>
-
 										<li>Create a product list as a CSV file either with or without column headers.
-
 										<br />Recommended is to use the text delimiter ~ (tilde) and the field delimiter ^ (caret).
-
 										<br /><span style="font-weight: bold;">Example File:</span><br />
-
 										<div class="quote" style="width:600px;overflow:scroll;"><pre>~G01~^~Hand Shovel~^~Hand Tools~^~4.99000~^~<p>Nice hand shovel to dig with in the yard.</p>~^~<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5\~ Diameter<br>  Tungsten handle tip with 5 point loft<br>~^~8d886c5855770cc01a3b8a2db57f6600.jpg~^~cca3cd5db813ee6badf6a3598832f2fc.jpg~^~10.0000~^~pounds~^~0.0000~^~0.0000~^~0.0000~^~inches~^~10~^~1072911600~^~1~^~1~^~2~^~0~^~G01~^~~^~~^~Color::1|Size::2~^~~
-
 ~G02~^~Ladder~^~Garden Tools~^~49.99000~^~A really long ladder to reach high places.~^~<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5\~ Diameter<br>  Tungsten handle tip with 5 point loft<br>~^~ffd5d5ace2840232c8c32de59553cd8d.jpg~^~8cb8d644ef299639b7eab25829d13dbc.jpg~^~10.0000~^~pounds~^~0.0000~^~0.0000~^~0.0000~^~inches~^~76~^~1072911600~^~0~^~1~^~2~^~0~^~G02~^~~^~~^~Material::1~^~~
-
 ~G03~^~Shovel~^~Garden Tools~^~24.99000~^~Nice shovel.  You can dig your way to China with this one.~^~<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5\~ Diameter<br>  Tungsten handle tip with 5 point loft<br>~^~8147a3a9666aec0296525dbd81f9705e.jpg~^~520efefd6d7977f91b16fac1149c7438.jpg~^~10.0000~^~pounds~^~0.0000~^~0.0000~^~0.0000~^~inches~^~32~^~1072911600~^~0~^~1~^~2~^~0~^~G03~^~Size,XL[+1.99],M,S[-2.99];Colour,Red,Green,Yellow,ExpensiveColor[=24.00]~^~~^~~^~~</pre></div></li>
-
 										<li>Setup the fields on the "Configuration" tab in the same order as the CSV file. The fields must match the exact place in the CSV file.
-
 										<br />E.g. product_sku, product_desc, product_price, category_path<br />
-
 										<br /><span style="font-weight: bold;">Minimum required information to add a product is:</span><br />
-
 										product_sku<br />
-
 										product_name<br />
-
 										category_path<br />
-
 										<br /><span style="font-weight: bold;">category_path</span> is a slash delimited string which begins
-
 										with a top-level category and follows with sub-categories, e.g. <br />
-
 										<div class="quote">category/sub-category_1/sub_category_2</div>
-
 										<br />
-
 										When the product has to be assigned to more than one category, you can
-
 										provide all categories,<br />
-
 										delimited by a <span style="font-weight: bold;">|</span>
-
 										<div class="quote">Category/Sub-category_1/Sub_category_2|Category2/Subcategory22|Category3/Subcategory33</div>
-
 										</li>
-
 										<li>Choose the delimiters on the "Import/Export" tab.</li>
-
 										<li>Choose the upload settings on the "Import/Export" tab.</li>
-
 										<li>Choose either to upload the file from your local computer (Submit CSV File) or to use a local file (Load CSV File from Server).</li>
-
 										<li>The import starts.</li>
-
 										</ol>';
 	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_PRODUCT_TYPES = '<span style="color: #FF0000; font-size: 1.2em;">Product Types</span><br /><br />
-
 													To add product types, you need 4 CSV files. Each CSV file represents a part of the product type.
-
 													<ul>
-
 													<li><span style="font-weight: bold;">Product types</span><br />
-
 													This CSV file contains the main product types and should look like this:
-
 													<table border="1">
-
 													<tr style="border: 1px solid #000000;"><td>product_type_name</td><td>product_type_description</td><td>product_type_publish</td><td>product_type_browsepage</td><td>product_type_flypage</td></tr>
-
 													<tr><td>Music track</td><td>Track</td><td>Y</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-
 													<tr><td>Music album</td><td>Album</td><td>Y</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-
 													<tr><td>Music artist</td><td>Artist</td><td>Y</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-
 													</table>
-
 													</li><br />
-
 													<li><span style="font-weight: bold;">Product type parameters</span><br />
-
 													This CSV file contains the parameters per product type and should look like this:
-
 													<div style="width: 50%; overflow: auto; height: 100px;">
-
 													<table border="1">
-
 													<tr><td>product_type_name</td><td>product_type_parameter_name</td><td>product_type_parameter_label</td><td>product_type_parameter_description</td><td>product_type_parameter_list_order</td><td>product_type_parameter_type</td><td>product_type_parameter_values</td><td>product_type_parameter_multiselect</td><td>product_type_parameter_default</td><td>product_type_parameter_unit</td></tr>
-
 													<tr><td>Music artist</td><td>Name</td><td>Name</td><td>Artist Name</td><td>1</td><td>I</td><td>&nbsp;</td><td>N</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-
 													<tr><td>Music artist</td><td>Birth</td><td>Birth</td><td>Artist Birth</td><td>2</td><td>D</td><td>&nbsp;</td><td>N</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-
 													<tr><td>Music album</td><td>Duration</td><td>Duration</td><td>Duration of album</td><td>3</td><td>M</td><td>00:01:00;00:02:00;00:03:00</td><td>Y</td><td>00:02:00</td><td>minutes</td></tr>
-
 													</table>
-
 													</div>
-
 													<br />
-
 													The product type parameter type can have several values, they are:
-
 													<ul>
-
 													<li>I: Integer</li>
-
 													<li>T: Text</li>
-
 													<li>S: Short Text</li>
-
 													<li>F: Float</li>
-
 													<li>C: Char</li>
-
 													<li>D: Date & Time</li>
-
 													<li>M: Time</li>
-
 													<li>V: Multiple Values</li>
-
 													<li>B: Break Line</li>
-
 													</ul>
-
 													</li><br />
-
 													<li><span style="font-weight: bold;">Items per product type name</span><br />
-
 													This CSV file contains the details per product type parameter name and should look like this:
-
 													<table border="1">
-
 													<tr><td>product_sku</td><td>product_type_name</td><td>product_type_parameter_namex</td><td>product_type_parameter_namex</td></tr>
-
 													<tr><td>1234</td><td>Music artist</td><td>Singing Star</td><td>1975</td></tr>
-
 													<tr><td>5678</td><td>Music artist</td><td>Rocking Band</td><td>1980</td></tr>
-
 													</table><br />
-
 													Per product type name you need a seperate CSV file. The reason for this is that the column names for each CSV file is different because of the set of product type parameters.
-
 													</li><br />
-
 													<li><span style="font-weight: bold;">Product type cross reference to product SKU</span><br />
-
 													This CSV file contains the link between a product type and a product SKU and should look like this:
-
 													<table border="1">
-
 													<tr><td>product_sku</td><td>product_type_name</td></tr>
-
 													<tr><td>1234</td><td>Music artist</td></tr>
-
 													<tr><td>5678</td><td>Music artist</td></tr>
-
 													</table>
-
 													</li>
-
 													</ul><br />
-
 													Procedure:<br />
-
 													<ol>
-
 													<li>Upload Product Types CSV file</li>
-
 													<li>Upload Product Type Parameters CSV file</li>
-
 													<li>Upload Product Type Items CSV file</li>
-
 													<li>Upload Product Type Cross Reference CSV file</li>
-
 													</ol>';
 	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_EMPTY_DATABASE = '<span style="color: #FF0000; font-size: 1.2em;">Empty Database</span><br /><br />
-
 													 <span style="color: #FF0000; font-size: 2em;">USE WITH CAUTION !!! NO RESTORE !!!</span><br /><br />
-
 													 Emptying the database will remove ALL data in your database from the following tables:
-
 													 <ul>
-
 													 <li>products</li>
-
 													 <li>products</li>
-
 													 <li>product_price</li>
-
 													 <li>product_mf_xref</li>
-
 													 <li>product_attribute</li>
-
 													 <li>category</li>
-
 													 <li>category_xref</li>
-
 													 <li>product_attribute_sku</li>
-
 													 <li>product_category_xref</li>
-
 													 <li>product_discount</li>
-
 													 <li>product_type</li>
-
 													 <li>product_type_parameter</li>
-
 													 <li>product_product_type_xref</li>
-
 													 </ul>
-
 													 All but the first manufacturer is removed:
-
 													 <ul>
-
 													 <li>manufacturer</li>
-
 													 </ul>
-
 													 The following tables are completely deleted:
-
 													 <ul>
-
 													 <li>product_type_x</li>
-
 													 </ul>
-
 													 The x represents the number of the table. This number relates to the product types that are in the system. Since the product types table is completely emptied, these tables are removed. Uploading new product types will recreate the tables.<br /><br />
-
 													 Procedure:
-
 													 <ol>
-
 													 <li>Choose "Empty Database" from the dropdown on the Upload Settings</li>
-
 													 <li>Check "Collect debug information" if you want additional result information</li>
-
 													 <li>Click "Submit CSV File" or "Load CSV File from Server". No need to enter a filename.</li>
-
 													 <li>You are asked if you are sure you want to empty your database. Click OK if you are sure otherwise click Cancel</li>
-
 													 <li>The database is now emptied or you are returned to the main screen depending on your previous choice</li>
-
 													 </ol>';
 	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_MULTIPLE_PRICES_UPLOAD = '<span style="color: #FF0000; font-size: 1.2em;">Multiple prices upload</span><br /><br />
-
 														    Procedure:
-
 														    <ol>
-
 														    <li>Create a CSV file that contains the following fields:
-
 														    	<ul>
-
 															<li>product_sku</li>
-
 															<li>product_price</li>
-
 															<li>product_currency</li>
-
 															<li>price_quantity_start</li>
-
 															<li>price_quantity_end</li>
-
 															<li>price_delete</li>
-
 															</ul>
-
 														    See the Available Fields tab for what information each field contains. If you want to use the column headers as configuration, fill the first line with the column headers name.
-
 														    </li>
-
 														    <li>Either set the configuration fields, as mentioned in point 1 on the Configuration tab or if you added column headers to your CSV file, select "Use column headers as configuration" at the Upload Settings.
-
 														    </li>
-
 														    <li>Select "Multiple Prices Upload" at the Upload Settings</li>
-
 														    <li>Optionally, choose "Show preview" and/or "Collect debug information"</li>
-
 														    <li>Select a file to upload or to load from directory</li>
-
 														    <li>Select "Submit CSV File" or "Load CSV File from Server" depending if you are uploading a file or loading a file from a directory</li>
-
 														    <li>The prices will now be imported</li>
-
 														    </ol><br /><br />
-
 														    <span style="font-weight: bold;">Price delete</span><br />
-
 														    Using the multiple prices import it is also possible to delete prices. A price is deleted when the following fields in the CSV file match the data in the database:
-
 														    <ul>
-
 														    <li>product_sku</li>
-
 														    <li>product_price</li>
-
 														    <li>product_currency</li>
-
 														    <li>price_quantity_start</li>
-
 														    <li>price_quantity_end</li>
-
 														    </ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PRICE = 'The price for a product without currency denominator.<br /><br />Usage:<ol><li>Select the name "product_price" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a price value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_LENGTH = 'The length of the product.<br /><br />Usage:<ol><li>Select the name "product_length" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
@@ -2001,9 +1825,9 @@ Please do not respond to this message as it is automatically generated and is fo
 	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTE_VALUES = 'Attribute values are the values of child products that are linked to the attributes of the parent product.<br />Usage:<ol><li>Select the name "custom_attribute" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the attribute value text.</li></ol><br />Values:<ul><li>Text: No HTML code allowed.<br />The values must be seperated by a pipe symbol (|). E.g.: attribute_name::attribute_value|attribute_name::attribute_value</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT_DATE_START = 'The day the discount for a product starts. For more information see "product_discount".<br /><br />Usage:<ol><li>Select the name "product_discount_date_start" from the dropdown menu on the configuration screen.</li><li>Add the chosen columns to your CSV file with the date value.</li></ol><br />Values:<ul><li>product_discount_date_start</li><ul><li>Date: day/month/year or day-month-year<br />Day and month can be a 1 or 2 digit notation.<br />Year can be a 2 or 4 digit notation.</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT_DATE_END = 'The day the discount for a product ends. For more information see "product_discount".<br /><br />Usage:<ol><li>Select the name "product_discount_date_end" from the dropdown menu on the configuration screen.</li><li>Add the chosen columns to your CSV file with the date value.</li></ol><br />Values:<ul><li>product_discount_date_end</li><ul><li>Date: day/month/year or day-month-year<br />Day and month can be a 1 or 2 digit notation.<br />Year can be a 2 or 4 digit notation.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_UPLOAD_SETTINGS = '<ul><li><span style="font-weight: bold;">Skip first line</span><br />If the CSV file has a header line at the beginning, choose this option to skip that line. This prevents the header from being added to your database.</li><li><span style="font-weight: bold;">Overwrite existing data</span><br />When adding new products to your database, unchecking this option prevents any existing data to be replaced for products that already exist in your database. Default is to update product data.</li><li><span style="font-weight: bold;">Skip default value</span><br />On the configuration page, a default value can be specified in case the field is empty in the CSV file. Enabling this option, the import will not include the field for updating if there is no value in the CSV file.</li><li><span style="font-weight: bold;">Price list upload only</span><br />The Price list upload only is to be used if you are updating the prices of your products. The layout of the CSV is expected to be 2 columns:<ol><li>product_sku</span></li><li>product_price</li></ol></li>Please note that it does NOT take into account the settings on the configuration page.<li><span style="font-weight: bold;">Use column headers as configuration</span><br />If the CSV file has column headers on the first line, this option can be used to use the column headers as the current configuration. The column headers should match one of the column names defined on the Available Tabs page. This configuration is on a per use basis, nothing is saved. Default values cannot be used with this option.</li><li><span style="font-weight: bold;">Show preview</span><br />Shows a 5 line preview of the file to be imported. The import can then be either cancelled or continued.</li><li><span style="font-weight: bold;">Collect debug information</span><br />In case of problems, use this option to see what happens during the import. At the end of the import a report will be generated with the steps and queries done during the import.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_MANUFACTURER_NAME = 'The name of the manufacturer that is related to the product. This is used in combination with the manufacturer ID. If no manufacturer ID is specified, only the name is checked. New manufacturers will be created wiht incremental IDs. The process of adding/updating manufacturers follows the following guidelines:<ol><li>Name exists, ID exists --> ID is updated if different</li><li>Name exists, ID does not exist --> New manufacturer created with increment ID</li><li>Name does not exist, ID exists --> Generic name added with existing ID</li><li>Name does not exist, ID does not exist --> Do nothing</li></ol>Usage:<ol><li>Select the name "manufacturer_name" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the manufacturer name.</li></ol><br />Values:<ul><li>Text: No HTML code allowed.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_MANUFACTURER_ID = 'The ID of the manufacturer that is related to the product and must be unique. This is used in combination with the manufacturer name. If no manufacturer name is specified only, the product manufacturer link will be added/updated. Adding/updating manufacturers follows the following process:<ol><li>Name exists, ID exists --> ID is updated if different</li><li>Name exists, ID does not exist --> New manufacturer created with increment ID</li><li>Name does not exist, ID exists --> Generic name added with existing ID</li><li>Name does not exist, ID does not exist --> Do nothing</li></ol>When no name or ID exists nothing is done to prevent numerous generic name manufacturers from being added.<br /><br />Usage:<ol><li>Select the name "manufacturer_id" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the manufacturer ID.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_UPLOAD_SETTINGS = '<ul><li><span style="font-weight: bold;">Skip first line</span><br />If the CSV file has a header line at the beginning, choose this option to skip that line. This prevents the header from being added to your database.</li><li><span style="font-weight: bold;">Overwrite existing data</span><br />When adding new products to your database, unchecking this option prevents any existing data to be replaced for products that already exist in your database. Default is to update product data.</li><li><span style="font-weight: bold;">Skip default value</span><br />On the configuration page, a default value can be specified in case the field is empty in the CSV file. Enabling this option, the import will not include the field for updating if there is no value in the CSV file.</li><li><span style="font-weight: bold;">Price list upload only</span><br />The Price list upload only is to be used if you are updating the prices of your products. The layout of the CSV is expected to be 2 columns:<ol><li>product_sku</span></li><li>product_price</li></ol></li>Please note that it does NOT take into account the settings on the configuration page.<li><span style="font-weight: bold;">Use column headers as configuration</span><br />If the CSV file has column headers on the first line, this option can be used to use the column headers as the current configuration. The column headers should match one of the column names defined on the Available Fields Tab. This configuration is on a per use basis, nothing is saved. Default values cannot be used with this option.</li><li><span style="font-weight: bold;">Show preview</span><br />Shows a 5 line preview of the file to be imported. The import can then be either cancelled or continued.</li><li><span style="font-weight: bold;">Collect debug information</span><br />In case of problems, use this option to see what happens during the import. At the end of the import a report will be generated with the steps and queries done during the import.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_MANUFACTURER_NAME = 'The name of the manufacturer that is related to the product. This is used in combination with the manufacturer ID. If no manufacturer ID is specified, only the name is checked. New manufacturers will be created with incremental IDs. The process of adding/updating manufacturers follows the following guidelines:<ol><li>Name exists, ID exists --> ID is updated if different</li><li>Name exists, ID does not exist --> New manufacturer created with increment ID</li><li>Name does not exist, ID exists --> Generic name added with existing ID</li><li>Name does not exist, ID does not exist --> Do nothing</li></ol>Usage:<ol><li>Select the name "manufacturer_name" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the manufacturer name.</li></ol><br />Values:<ul><li>Text: No HTML code allowed.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_MANUFACTURER_ID = 'The ID of the manufacturer that is related to the product and must be unique. This is used in combination with the manufacturer name. If no manufacturer name is specified, only the product manufacturer link will be added/updated. Adding/updating manufacturers follows the following process:<ol><li>Name exists, ID exists --> ID is updated if different</li><li>Name exists, ID does not exist --> New manufacturer created with increment ID</li><li>Name does not exist, ID exists --> Generic name added with existing ID</li><li>Name does not exist, ID does not exist --> Do nothing</li></ol>When no name or ID exists nothing is done to prevent numerous generic name manufacturers from being added.<br /><br />Usage:<ol><li>Select the name "manufacturer_id" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the manufacturer ID.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_URL = 'A URL to either a picture or webpage of the product. When linked to a picture, the picture will be shown on the product details page.<br /><br />Usage:<ol><li>Select the name "product_url" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML allowed</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_SALES = 'The number of products that have been sold.<br /><br />Usage:<ol><li>Select the name "product_sales" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_SPECIAL = 'When a product is set to be "On Special" it will be featured in the Featured Products block.<br />Usage:<ol><li>Select the name "product_special" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value Y.</li></ol><br />Values:<ul><li>Y: Yes, the product is on special</li><li>N: No, the product is not on special</li><li>Empty: Empty value, the product is not on special</li></ul>';
@@ -2019,29 +1843,19 @@ Please do not respond to this message as it is automatically generated and is fo
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_DEFAULT = 'A default value to show when there is nothing else filled in for the parameter.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_default" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_DESCRIPTION = 'A description for your product type parameter.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_description" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: HTML code allowed</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_LABEL = 'A label for your product type parameter.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_label" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_LIST_ORDER = 'Specify in which order the product parameter is to be displayed.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_list_order" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_LIST_ORDER = 'Specify in which order the product parameter is to be displayed.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_list_order" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_MULTISELECT = 'Set to yes to show possible parameter values as multiple select items<br /><br />Usage:<ol><li>Select the name "product_type_parameter_list_multiselect" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value Y or N.</li></ol><br />Values:<ul><li>Y: Yes, the values are multi select</li><li>N: No, the values are not multi select</li><li>Empty: Empty value, the values are not multi select</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_NAME = 'The name of the product type parameter. This name must be unique and without spaces as it will be the column name for the parameter details.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_type" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_TYPE = 'This sets the type of parameter that will be used. There are a number of different values that can be used.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_type" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value.</li></ol><br />Values:<ul><li>Text:<ul>
-
 													<li>I: Integer</li>
-
 													<li>T: Text</li>
-
 													<li>S: Short Text</li>
-
 													<li>F: Float</li>
-
 													<li>C: Char</li>
-
 													<li>D: Date & Time</li>
-
 													<li>M: Time</li>
-
 													<li>V: Multiple Values</li>
-
 													<li>B: Break Line</li>
-
 													</ul></li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_UNIT = 'The unit the product type parameter refers to.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_unit" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_VALUES = 'These are the values for the parameter and have to meet the requirement set by the parameter type.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_values" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>This depends on the type set in the product_type_parameter_type field. All values have to be semi-colon (;) seperated.</li></ul>';
@@ -2049,7 +1863,7 @@ Please do not respond to this message as it is automatically generated and is fo
 	var $_PHPSHOP_CSV_EXPLANATION_PRICE_DELETE = 'The price_delete field is a special field. This field is used to determine if a price for a product should be deleted or not. This field is used when doing a multiple price upload. Before a price is deleted it needs to match the following fields:<ul><li>product_sku</li><li>product_price</li><li>product_currency</li><li>price_quantity_start</li><li>price_quantity_end</li></ul><br />Usage:<ol><li>Select the name "price_delete" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value Y. If the field contains any other value, the product will not be deleted.</li></ol><br />Values:<ul><li>Y: Yes, the price is to be deleted</li><li>N: No, the price is not to be deleted</li><li>Empty: Empty value, the price is not to be deleted</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRICE_QUANTITY_START = 'The quantity at which the mentioned price is available.<br /><br />Usage:<ol><li>Select the name "price_quantity_start" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values: Numeric</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRICE_QUANTITY_END = 'The quantity at which the mentioned price is no longer available.<br /><br />Usage:<ol><li>Select the name "price_quantity_end" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values: Numeric</li></ul>';
-        
+
 }
 class phpShopLanguage extends vmLanguage { }
 

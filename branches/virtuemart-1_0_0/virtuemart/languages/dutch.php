@@ -1,4 +1,4 @@
-<?php
+ï»¿<?php
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
@@ -8,8 +8,8 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
-* to the GNu General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNu General Public License or
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
 * other free or open source software licenses.
 * See /administrator/components/com_virtuemart/COPYRIGHT.php for copyright notices and details.
 *
@@ -18,7 +18,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_MENU = 'Menu';
 	var $_PHPSHOP_CATEGORY = 'Categorie';
-	var $_PHPSHOP_CATEGORIES = 'Categorieën';
+	var $_PHPSHOP_CATEGORIES = 'CategorieÃ«n';
 	var $_PHPSHOP_SELECT_CATEGORY = 'Selecteer een categorie:';
 	var $_PHPSHOP_ADMIN = 'Administratie';
 	var $_PHPSHOP_PRODUCT = 'Product';
@@ -27,7 +27,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_LIST_ALL_PRODUCTS = 'Toon alle producten';
 	var $_PHPSHOP_VIEW = 'Bekijk';
 	var $_PHPSHOP_SHOW = 'Toon';
-	var $_PHPSHOP_ADD = 'Toevoegen';
+	var $_PHPSHOP_ADD = 'Bestellen';
 	var $_PHPSHOP_UPDATE = 'Update';
 	var $_PHPSHOP_DELETE = 'Verwijder';
 	var $_PHPSHOP_SELECT = 'Selecteer';
@@ -55,7 +55,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_CATEGORY_TITLE = 'Product Categorie';
 	var $_PHPSHOP_PRODUCT_DESC_TITLE = 'Omschrijving';
 	var $_PHPSHOP_CART_SHOW = 'Bekijk Mandje';
-	var $_PHPSHOP_CART_ADD_TO = 'Toevoegen';
+	var $_PHPSHOP_CART_ADD_TO = 'Bestellen';
 	var $_PHPSHOP_CART_NAME = 'Naam';
 	var $_PHPSHOP_CART_SKU = 'Art.Nr.';
 	var $_PHPSHOP_CART_PRICE = 'Prijs';
@@ -65,12 +65,13 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADD_SHIPTO_2 = 'Afleveradres';
 	var $_PHPSHOP_NO_SEARCH_RESULT = 'uw zoekopdracht heeft geen resultaten opgeleverd.<br />';
 	var $_PHPSHOP_PRICE_LABEL = 'Prijs: ';
-	var $_PHPSHOP_ORDER_BUTTON_LABEL = 'Toevoegen';
+	var $_PHPSHOP_ORDER_BUTTON_LABEL = 'Bestellen';
 	var $_PHPSHOP_NO_CUSTOMER = 'Sorry, maar u bent geen geregistreerde klant. Registreert u zich eerst voordat u verder winkelt.';
 	var $_PHPSHOP_DELETE_MSG = 'Weet u zeker dat u dit wenst te verwijderen?';
 	var $_PHPSHOP_THANKYOU = 'Bedankt voor uw bestelling.';
 	var $_PHPSHOP_NOT_SHIPPED = 'Nog niet verzonden.';
 	var $_PHPSHOP_EMAIL_SENDTO = 'Een bevestigingsemail is verzonden naar';
+	var $_PHPSHOP_NO_USER_TO_SELECT = 'Sorry, there\'s no user that you could add to the com_virtuemart userlist';
 	var $_PHPSHOP_ERROR = 'ERROR';
 	var $_PHPSHOP_MOD_NOT_REG = 'Module niet geregistreerd.';
 	var $_PHPSHOP_MOD_ISNO_REG = 'is geen geldige VirtueMart module.';
@@ -89,7 +90,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_USER_LIST_GROUP = 'Groep';
 	var $_PHPSHOP_USER_FORM_MNU = 'Gebruiker Toevoegen';
 	var $_PHPSHOP_USER_FORM_LBL = 'Toevoegen/Update Gebruiker Informatie';
-	var $_PHPSHOP_USER_FORM_BILLTO_LBL = 'Facturatiegegevens';
+	var $_PHPSHOP_USER_FORM_BILLTO_LBL = 'Factuurgegevens';
 	var $_PHPSHOP_USER_FORM_SHIPTO_LBL = 'Afleveradressen';
 	var $_PHPSHOP_USER_FORM_ADD_SHIPTO_LBL = 'Adres Toevoegen';
 	var $_PHPSHOP_USER_FORM_NO_SHIPPING_ADDRESSES = 'Geen afleveradressen';
@@ -97,7 +98,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_USER_FORM_FIRST_NAME = 'Voornaam';
 	var $_PHPSHOP_USER_FORM_LAST_NAME = 'Achternaam';
 	var $_PHPSHOP_USER_FORM_MIDDLE_NAME = 'Tussenvoegsel';
-	var $_PHPSHOP_USER_FORM_TITLE = 'Titel';
+	var $_PHPSHOP_USER_FORM_TITLE = 'Aanhef';
 	var $_PHPSHOP_USER_FORM_USERNAME = 'Gebruikersnaam';
 	var $_PHPSHOP_USER_FORM_PASSWORD_1 = 'Wachtwoord';
 	var $_PHPSHOP_USER_FORM_PASSWORD_2 = 'Bevestig wachtwoord';
@@ -115,7 +116,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_USER_FORM_FAX = 'Fax';
 	var $_PHPSHOP_USER_FORM_EMAIL = 'E-mail';
 	var $_PHPSHOP_MODULE_LIST_MNU = 'Toon Modules';
-	var $_PHPSHOP_MODULE_LIST_LBL = 'Module Ljist';
+	var $_PHPSHOP_MODULE_LIST_LBL = 'Module Lijst';
 	var $_PHPSHOP_MODULE_LIST_NAME = 'Module Naam';
 	var $_PHPSHOP_MODULE_LIST_PERMS = 'Module Permisies';
 	var $_PHPSHOP_MODULE_LIST_FUNCTIONS = 'Functies';
@@ -153,7 +154,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_COUNTRY_LIST_MNU = 'Laat Landen Zien';
 	var $_PHPSHOP_COUNTRY_LIST_LBL = 'Landen Lijst';
 	var $_PHPSHOP_COUNTRY_LIST_ADD = 'Land Toevoegen';
-	var $_PHPSHOP_COUNTRY_LIST_NAME = 'Land Naam';
+	var $_PHPSHOP_COUNTRY_LIST_NAME = 'Landnaam';
 	var $_PHPSHOP_COUNTRY_LIST_3_CODE = 'Land Code (3)';
 	var $_PHPSHOP_COUNTRY_LIST_2_CODE = 'Land Code (2)';
 	var $_PHPSHOP_STATE_LIST_MNU = 'Provincie Lijst';
@@ -208,7 +209,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ORDER_LIST_STATUS = 'Status';
 	var $_PHPSHOP_ORDER_LIST_TOTAL = 'SubTotaal';
 	var $_PHPSHOP_ORDER_ITEM = 'Order Items';
-	var $_PHPSHOP_ORDER_PRINT_PO_LBL = 'Koop Order';
+	var $_PHPSHOP_ORDER_PRINT_PO_LBL = 'Bestelling';
 	var $_PHPSHOP_ORDER_PRINT_PO_NUMBER = 'Ordernummer';
 	var $_PHPSHOP_ORDER_PRINT_PO_DATE = 'Orderdatum';
 	var $_PHPSHOP_ORDER_PRINT_PO_STATUS = 'Orderstatus';
@@ -237,11 +238,11 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ORDER_PRINT_SUBTOTAL = 'SubTotaal';
 	var $_PHPSHOP_ORDER_PRINT_TOTAL_TAX = 'BTW';
 	var $_PHPSHOP_ORDER_PRINT_SHIPPING = 'Verzending- en afhandelingskosten';
-	var $_PHPSHOP_ORDER_PRINT_SHIPPING_TAX = 'Verzendingsbelasting';
+	var $_PHPSHOP_ORDER_PRINT_SHIPPING_TAX = 'Verzendbelasting';
 	var $_PHPSHOP_ORDER_PRINT_PAYMENT_LBL = 'Betalingsmethode';
 	var $_PHPSHOP_ORDER_PRINT_ACCOUNT_NAME = 'Account Naam';
 	var $_PHPSHOP_ORDER_PRINT_ACCOUNT_NUMBER = 'Account Nummer';
-	var $_PHPSHOP_ORDER_PRINT_EXPIRE_DATE = 'Verloop Datum';
+	var $_PHPSHOP_ORDER_PRINT_EXPIRE_DATE = 'Verloopdatum';
 	var $_PHPSHOP_ORDER_PRINT_PAYMENT_LOG_LBL = 'Betalingslog';
 	var $_PHPSHOP_ORDER_PRINT_SHIPPING_LBL = 'Verzend Informatie';
 	var $_PHPSHOP_ORDER_PRINT_PAYINFO_LBL = 'Betalingsinformatie';
@@ -249,13 +250,13 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ORDER_PRINT_SHIPPING_MODE_LBL = 'Verzendingsmethode';
 	var $_PHPSHOP_ORDER_PRINT_SHIPPING_DATE_LBL = 'Verzendingsdatum';
 	var $_PHPSHOP_ORDER_PRINT_SHIPPING_PRICE_LBL = 'Verzendingsprijs';
-	var $_PHPSHOP_ORDER_STATUS_LIST_MNU = 'Bekijk Order Status Types';
-	var $_PHPSHOP_ORDER_STATUS_FORM_MNU = 'Order Status Type Toevoegen';
-	var $_PHPSHOP_ORDER_STATUS_LIST_CODE = 'Order Status Code';
-	var $_PHPSHOP_ORDER_STATUS_LIST_NAME = 'Order Status Naam';
-	var $_PHPSHOP_ORDER_STATUS_FORM_LBL = 'Order Status';
-	var $_PHPSHOP_ORDER_STATUS_FORM_CODE = 'Order Status Code';
-	var $_PHPSHOP_ORDER_STATUS_FORM_NAME = 'Order Status Naam';
+	var $_PHPSHOP_ORDER_STATUS_LIST_MNU = 'Bekijk Orderstatus Types';
+	var $_PHPSHOP_ORDER_STATUS_FORM_MNU = 'Orderstatus Type Toevoegen';
+	var $_PHPSHOP_ORDER_STATUS_LIST_CODE = 'Orderstatus Code';
+	var $_PHPSHOP_ORDER_STATUS_LIST_NAME = 'Orderstatus Naam';
+	var $_PHPSHOP_ORDER_STATUS_FORM_LBL = 'Orderstatus';
+	var $_PHPSHOP_ORDER_STATUS_FORM_CODE = 'Orderstatus Code';
+	var $_PHPSHOP_ORDER_STATUS_FORM_NAME = 'Orderstatus Naam';
 	var $_PHPSHOP_ORDER_STATUS_FORM_LIST_ORDER = 'Bekijk Order';
 	var $_PHPSHOP_PRODUCT_MOD = 'Producten';
 	var $_PHPSHOP_CURRENT_PRODUCT = 'Huidig Product';
@@ -283,22 +284,22 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_FORM_ADD_ANOTHER_ITEM_MNU = 'Voeg een ander Item Toe';
 	var $_PHPSHOP_PRODUCT_FORM_NEW_PRODUCT_LBL = 'Nieuw Product';
 	var $_PHPSHOP_PRODUCT_FORM_UPDATE_PRODUCT_LBL = 'Product Wijzigen';
-	var $_PHPSHOP_PRODUCT_FORM_PRODUCT_INFO_LBL = 'Product Informatie';
-	var $_PHPSHOP_PRODUCT_FORM_PRODUCT_STATUS_LBL = 'Product Status';
+	var $_PHPSHOP_PRODUCT_FORM_PRODUCT_INFO_LBL = 'Productinformatie';
+	var $_PHPSHOP_PRODUCT_FORM_PRODUCT_STATUS_LBL = 'Productstatus';
 	var $_PHPSHOP_PRODUCT_FORM_PRODUCT_DIM_WEIGHT_LBL = 'Product Afmetingen en Gewicht';
 	var $_PHPSHOP_PRODUCT_FORM_PRODUCT_IMAGES_LBL = 'Product Afbeeldingen';
 	var $_PHPSHOP_PRODUCT_FORM_NEW_ITEM_LBL = 'Nieuw Item';
 	var $_PHPSHOP_PRODUCT_FORM_UPDATE_ITEM_LBL = 'Item Wijzigen';
 	var $_PHPSHOP_PRODUCT_FORM_ITEM_INFO_LBL = 'Item Informatie';
 	var $_PHPSHOP_PRODUCT_FORM_ITEM_STATUS_LBL = 'Item Status';
-	var $_PHPSHOP_PRODUCT_FORM_ITEM_DIM_WEIGHT_LBL = 'Item Afmetingen en Gawicht';
+	var $_PHPSHOP_PRODUCT_FORM_ITEM_DIM_WEIGHT_LBL = 'Item Afmetingen en Gewicht';
 	var $_PHPSHOP_PRODUCT_FORM_ITEM_IMAGES_LBL = 'Item Afbeeldingen';
 	var $_PHPSHOP_PRODUCT_FORM_RETURN_LBL = 'Terug naar het Hoofd Product';
-	var $_PHPSHOP_PRODUCT_FORM_IMAGE_UPDATE_LBL = 'Om huidige afbeelding te veranderen, type het pad naar nieuwe afbeelding.';
-	var $_PHPSHOP_PRODUCT_FORM_IMAGE_DELETE_LBL = 'Verwijder huidige afbeelding';
+	var $_PHPSHOP_PRODUCT_FORM_IMAGE_UPDATE_LBL = 'Om huidige afbeelding te veranderen, type het pad naar de nieuwe afbeelding.';
+	var $_PHPSHOP_PRODUCT_FORM_IMAGE_DELETE_LBL = 'Verwijder de huidige afbeelding';
 	var $_PHPSHOP_PRODUCT_FORM_PRODUCT_ITEMS_LBL = 'Product Items';
 	var $_PHPSHOP_PRODUCT_FORM_ITEM_ATTRIBUTES_LBL = 'Item Attributen';
-	var $_PHPSHOP_PRODUCT_FORM_DELETE_PRODUCT_MSG = 'Weet u zeker dat u het product wilt verwijderen\\\\en de Items die er bij horen?';
+	var $_PHPSHOP_PRODUCT_FORM_DELETE_PRODUCT_MSG = 'Weet u zeker dat u het product wilt verwijderen\\\\en de items die er bij horen?';
 	var $_PHPSHOP_PRODUCT_FORM_DELETE_ITEM_MSG = 'Weet u zeker dat u het item wilt verwijderen?';
 	var $_PHPSHOP_PRODUCT_FORM_VENDOR = 'Verkoper';
 	var $_PHPSHOP_PRODUCT_FORM_MANUFACTURER = 'Fabrikant';
@@ -308,11 +309,11 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_FORM_CATEGORY = 'Categorie';
 	var $_PHPSHOP_PRODUCT_FORM_PRICE_GROSS = 'Product Prijs (incl.)';
 	var $_PHPSHOP_PRODUCT_FORM_PRICE_NET = 'Product Prijs (excl.)';
-	var $_PHPSHOP_PRODUCT_FORM_DESCRIPTION = 'Product Omschrijving';
+	var $_PHPSHOP_PRODUCT_FORM_DESCRIPTION = 'Productomschrijving';
 	var $_PHPSHOP_PRODUCT_FORM_S_DESC = 'Korte Omschrijving';
 	var $_PHPSHOP_PRODUCT_FORM_IN_STOCK = 'In Voorraad';
 	var $_PHPSHOP_PRODUCT_FORM_ON_ORDER = 'Op Bestelling';
-	var $_PHPSHOP_PRODUCT_FORM_AVAILABLE_DATE = 'Beschikbaarheids Datum';
+	var $_PHPSHOP_PRODUCT_FORM_AVAILABLE_DATE = 'Beschikbaarheidsdatum';
 	var $_PHPSHOP_PRODUCT_FORM_SPECIAL = 'Speciaal aan';
 	var $_PHPSHOP_PRODUCT_FORM_DISCOUNT_TYPE = 'Kortingstype';
 	var $_PHPSHOP_PRODUCT_FORM_PUBLISH = 'Tonen?';
@@ -323,22 +324,22 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_FORM_WEIGHT = 'Gewicht';
 	var $_PHPSHOP_PRODUCT_FORM_WEIGHT_UOM = 'Maateenheid';
 	var $_PHPSHOP_PRODUCT_FORM_THUMB_IMAGE = 'Kleine afbeelding';
-	var $_PHPSHOP_PRODUCT_FORM_FULL_IMAGE = 'Grote Afbeelding';
+	var $_PHPSHOP_PRODUCT_FORM_FULL_IMAGE = 'Grote afbeelding';
 	var $_PHPSHOP_PRODUCT_FORM_WEIGHT_UOM_DEFAULT = 'kilogram';
 	var $_PHPSHOP_PRODUCT_FORM_DIMENSION_UOM_DEFAULT = 'centimeter';
 	var $_PHPSHOP_PRODUCT_FORM_UNIT = 'Eenheid';
 	var $_PHPSHOP_PRODUCT_FORM_UNIT_DEFAULT = 'stuk';
-	var $_PHPSHOP_PRODUCT_FORM_PACKAGING = 'Aantal in de Verpakking';
-	var $_PHPSHOP_PRODUCT_FORM_PACKAGING_DESCRIPTION = 'Hier kan u het aantal eenheden in de verpakking invullen. (max. 65535)';
+	var $_PHPSHOP_PRODUCT_FORM_PACKAGING = 'Verpakkingseenheid';
+	var $_PHPSHOP_PRODUCT_FORM_PACKAGING_DESCRIPTION = 'Hier kunt u het aantal eenheden in de verpakking invullen (max. 65535).';
 	var $_PHPSHOP_PRODUCT_FORM_BOX = 'Eenheden in Doos';
-	var $_PHPSHOP_PRODUCT_FORM_BOX_DESCRIPTION = 'Hier kan u het aantal eenheden in een doos invullen. (max. 65535)';
+	var $_PHPSHOP_PRODUCT_FORM_BOX_DESCRIPTION = 'Hier kunt u het aantal eenheden in een doos invullen (max. 65535).';
 	var $_PHPSHOP_PRODUCT_DISPLAY_ADD_PRODUCT_LBL = 'Product Toevoeging Resultaat';
-	var $_PHPSHOP_PRODUCT_DISPLAY_UPDATE_PRODUCT_LBL = 'Product Update Resultaat';
+	var $_PHPSHOP_PRODUCT_DISPLAY_UPDATE_PRODUCT_LBL = 'Product Wijziging Resultaat';
 	var $_PHPSHOP_PRODUCT_DISPLAY_ADD_ITEM_LBL = 'Item Toevoeging Resultaat';
 	var $_PHPSHOP_PRODUCT_DISPLAY_UPDATE_ITEM_LBL = 'Item Update Resultaat';
 	var $_PHPSHOP_PRODUCT_CSV_UPLOAD = 'Gebruik CSV upload';
 	var $_PHPSHOP_PRODUCT_FOLDERS = 'Product Mappen';
-	var $_PHPSHOP_CATEGORY_LIST_MNU = 'Bekijk Categorieën';
+	var $_PHPSHOP_CATEGORY_LIST_MNU = 'Bekijk CategorieÃ«n';
 	var $_PHPSHOP_CATEGORY_LIST_LBL = 'Categorie Overzicht';
 	var $_PHPSHOP_CATEGORY_FORM_MNU = 'Categorie Toevoegen';
 	var $_PHPSHOP_CATEGORY_FORM_LBL = 'Categorie Informatie';
@@ -414,16 +415,16 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_SHOPPER_FORM_ADDRESS_INFO_LBL = 'Informatie';
 	var $_PHPSHOP_SHOPPER_FORM_SHIPTO_LBL = 'Verzendingsgegevens';
 	var $_PHPSHOP_SHOPPER_FORM_ADD_SHIPTO_LBL = 'Adres Toevoegen';
-	var $_PHPSHOP_SHOPPER_FORM_ADDRESS_LABEL = 'Nickname Adres';
+	var $_PHPSHOP_SHOPPER_FORM_ADDRESS_LABEL = 'Adreslabel';
 	var $_PHPSHOP_SHOPPER_FORM_USERNAME = 'Gebruikersnaam';
 	var $_PHPSHOP_SHOPPER_FORM_FIRST_NAME = 'Voornaam';
 	var $_PHPSHOP_SHOPPER_FORM_LAST_NAME = 'Achternaam';
 	var $_PHPSHOP_SHOPPER_FORM_MIDDLE_NAME = 'Tussenvoegsel';
-	var $_PHPSHOP_SHOPPER_FORM_TITLE = 'Titel';
+	var $_PHPSHOP_SHOPPER_FORM_TITLE = 'Aanhef';
 	var $_PHPSHOP_SHOPPER_FORM_SHOPPERNAME = 'Klantnaam';
 	var $_PHPSHOP_SHOPPER_FORM_PASSWORD_1 = 'Wachtwoord';
 	var $_PHPSHOP_SHOPPER_FORM_PASSWORD_2 = 'Bevestig wachtwoord';
-	var $_PHPSHOP_SHOPPER_FORM_GROUP = 'Klant Groep';
+	var $_PHPSHOP_SHOPPER_FORM_GROUP = 'Klantgroep';
 	var $_PHPSHOP_SHOPPER_FORM_COMPANY_NAME = 'Bedrijfsnaam';
 	var $_PHPSHOP_SHOPPER_FORM_ADDRESS_1 = 'Adres 1';
 	var $_PHPSHOP_SHOPPER_FORM_ADDRESS_2 = 'Adres 2';
@@ -447,33 +448,33 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_5_3 = 'CCC';
 	var $_PHPSHOP_SHOPPER_GROUP_LIST_MNU = 'Bekijk Klantgroepen';
 	var $_PHPSHOP_SHOPPER_GROUP_LIST_LBL = 'Klantgroep Lijst';
-	var $_PHPSHOP_SHOPPER_GROUP_LIST_NAME = 'Groep Naam';
+	var $_PHPSHOP_SHOPPER_GROUP_LIST_NAME = 'Groep naam';
 	var $_PHPSHOP_SHOPPER_GROUP_LIST_DESCRIPTION = 'Groep Omschrijving';
 	var $_PHPSHOP_SHOPPER_GROUP_FORM_LBL = 'Klantengroep Formulier';
 	var $_PHPSHOP_SHOPPER_GROUP_FORM_MNU = 'Klantgroep Toevoegen';
-	var $_PHPSHOP_SHOPPER_GROUP_FORM_NAME = 'Groep Naam';
-	var $_PHPSHOP_SHOPPER_GROUP_FORM_DESC = 'Groep Omschrijving';
+	var $_PHPSHOP_SHOPPER_GROUP_FORM_NAME = 'Groepnaam';
+	var $_PHPSHOP_SHOPPER_GROUP_FORM_DESC = 'Groepomschrijving';
 	var $_PHPSHOP_STORE_MOD = 'Winkel';
 	var $_PHPSHOP_STORE_FORM_MNU = 'Bewerk Winkel';
 	var $_PHPSHOP_STORE_FORM_LBL = 'Winkel Informatie';
 	var $_PHPSHOP_STORE_FORM_CONTACT_LBL = 'Contact Informatie';
 	var $_PHPSHOP_STORE_FORM_FULL_IMAGE = 'Grote Afbeelding';
 	var $_PHPSHOP_STORE_FORM_UPLOAD = 'Afbeelding uploaden';
-	var $_PHPSHOP_STORE_FORM_STORE_NAME = 'Winkel Naam';
+	var $_PHPSHOP_STORE_FORM_STORE_NAME = 'Winkelnaam';
 	var $_PHPSHOP_STORE_FORM_COMPANY_NAME = 'Bedrijfsnaam';
 	var $_PHPSHOP_STORE_FORM_ADDRESS_1 = 'Adres 1';
 	var $_PHPSHOP_STORE_FORM_ADDRESS_2 = 'Adres 2';
-	var $_PHPSHOP_STORE_FORM_CITY = 'Stad';
+	var $_PHPSHOP_STORE_FORM_CITY = 'Woonplaats';
 	var $_PHPSHOP_STORE_FORM_STATE = 'Provincie';
 	var $_PHPSHOP_STORE_FORM_COUNTRY = 'Land';
 	var $_PHPSHOP_STORE_FORM_ZIP = 'Postcode';
 	var $_PHPSHOP_STORE_FORM_PHONE = 'Telefoon';
 	var $_PHPSHOP_STORE_FORM_CURRENCY = 'Valuta';
-	var $_PHPSHOP_STORE_FORM_CATEGORY = 'Winkel Categorie';
+	var $_PHPSHOP_STORE_FORM_CATEGORY = 'Winkelcategorie';
 	var $_PHPSHOP_STORE_FORM_LAST_NAME = 'Achternaam';
 	var $_PHPSHOP_STORE_FORM_FIRST_NAME = 'Voornaam';
 	var $_PHPSHOP_STORE_FORM_MIDDLE_NAME = 'Tussenvoegsel';
-	var $_PHPSHOP_STORE_FORM_TITLE = 'Titel';
+	var $_PHPSHOP_STORE_FORM_TITLE = 'Aanhef';
 	var $_PHPSHOP_STORE_FORM_PHONE_1 = 'Telefoon 1';
 	var $_PHPSHOP_STORE_FORM_PHONE_2 = 'Telefoon 2';
 	var $_PHPSHOP_STORE_FORM_FAX = 'Fax';
@@ -495,15 +496,15 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_DISCOUNT = 'Korting';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_CODE = 'Code';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_LIST_ORDER = 'Volgorde';
-	var $_PHPSHOP_PAYMENT_METHOD_FORM_ENABLE_PROCESSOR = 'Payment methode type';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_ENABLE_PROCESSOR = 'Betalingsmethode Type';
 	var $_PHPSHOP_TAX_MOD = 'Belasting';
-	var $_PHPSHOP_TAX_RATE = 'Belasting Tarieven';
+	var $_PHPSHOP_TAX_RATE = 'Belastingstarieven';
 	var $_PHPSHOP_TAX_LIST_MNU = 'Bekijk Belastingstarieven';
 	var $_PHPSHOP_TAX_LIST_LBL = 'Belastingstarieven Lijst';
 	var $_PHPSHOP_TAX_LIST_STATE = 'Belastingsregio';
-	var $_PHPSHOP_TAX_LIST_COUNTRY = 'Belasting Land';
+	var $_PHPSHOP_TAX_LIST_COUNTRY = 'Belastingsland';
 	var $_PHPSHOP_TAX_LIST_RATE = 'Belastingstarief';
-	var $_PHPSHOP_TAX_FORM_MNU = 'Belastingstarief toevoegen';
+	var $_PHPSHOP_TAX_FORM_MNU = 'Belastingstarief Toevoegen';
 	var $_PHPSHOP_TAX_FORM_LBL = 'Belastingsinformatie Toevoegen';
 	var $_PHPSHOP_TAX_FORM_STATE = 'Belastingsregio';
 	var $_PHPSHOP_TAX_FORM_COUNTRY = 'Belastingsland';
@@ -534,14 +535,14 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_VENDOR_FORM_LAST_NAME = 'Achternaam';
 	var $_PHPSHOP_VENDOR_FORM_FIRST_NAME = 'Voornaam';
 	var $_PHPSHOP_VENDOR_FORM_MIDDLE_NAME = 'Tussenvoegsel';
-	var $_PHPSHOP_VENDOR_FORM_TITLE = 'Titel';
+	var $_PHPSHOP_VENDOR_FORM_TITLE = 'Aanhef';
 	var $_PHPSHOP_VENDOR_FORM_PHONE_1 = 'Telefoon 1';
 	var $_PHPSHOP_VENDOR_FORM_PHONE_2 = 'Telefoon 2';
 	var $_PHPSHOP_VENDOR_FORM_FAX = 'Fax';
 	var $_PHPSHOP_VENDOR_FORM_EMAIL = 'E-mail';
 	var $_PHPSHOP_VENDOR_FORM_IMAGE_PATH = 'Afbeelding Pad';
 	var $_PHPSHOP_VENDOR_FORM_DESCRIPTION = 'Omschrijving';
-	var $_PHPSHOP_VENDOR_CAT_LIST_MNU = 'Bekijk Verkoper Categorieën';
+	var $_PHPSHOP_VENDOR_CAT_LIST_MNU = 'Bekijk Verkoper categorieÃ«n';
 	var $_PHPSHOP_VENDOR_CAT_LIST_LBL = 'Verkoper Categorie Lijst';
 	var $_PHPSHOP_VENDOR_CAT_NAME = 'Categorie Naam';
 	var $_PHPSHOP_VENDOR_CAT_DESCRIPTION = 'Categorie Omschrijving';
@@ -565,7 +566,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_MANUFACTURER_FORM_EMAIL = 'E-mail';
 	var $_PHPSHOP_MANUFACTURER_FORM_URL = 'URL naar website Fabrikant';
 	var $_PHPSHOP_MANUFACTURER_FORM_DESCRIPTION = 'Omschrijving';
-	var $_PHPSHOP_MANUFACTURER_CAT_LIST_MNU = 'Bekijk Fabrikant Categorieën';
+	var $_PHPSHOP_MANUFACTURER_CAT_LIST_MNU = 'Bekijk Fabrikant categorieÃ«n';
 	var $_PHPSHOP_MANUFACTURER_CAT_LIST_LBL = 'Fabrikanten Categorie Lijst';
 	var $_PHPSHOP_MANUFACTURER_CAT_NAME = 'Categorie Naam';
 	var $_PHPSHOP_MANUFACTURER_CAT_DESCRIPTION = 'Categorie Omschrijving';
@@ -578,7 +579,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_HELP_MOD = 'Help';
 	var $_PHPSHOP_CART_ACTION = 'Vernieuwen';
 	var $_PHPSHOP_CART_UPDATE = 'Vernieuw de hoeveelheid in het mandje';
-	var $_PHPSHOP_CART_DELETE = 'Verwijder Product uit Mandje';
+	var $_PHPSHOP_CART_DELETE = 'Verwijder Product uit uw mandje';
 	var $_PHPSHOP_PRODUCT_PRICETAG = 'Prijs';
 	var $_PHPSHOP_PRODUCT_CALL = 'Contacteer ons voor een prijsopgave';
 	var $_PHPSHOP_PRODUCT_PREVIOUS = 'Terug';
@@ -626,22 +627,22 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ZONE_LIST_DESC_LBL = 'Zone Omschrijving';
 	var $_PHPSHOP_ZONE_LIST_COST_PER_LBL = 'Zone kosten per item';
 	var $_PHPSHOP_ZONE_LIST_COST_LIMIT_LBL = 'Zone kost limiet';
-	var $_PHPSHOP_LOGIN_FIRST = 'Log in of registreer tot deze site eerst, a.u.b. Bedankt!';
+	var $_PHPSHOP_LOGIN_FIRST = 'Gelieve eerst in te loggen of te registreren.';
 	var $_PHPSHOP_STORE_FORM_TOS = 'Leveringsvoorwaarden';
 	var $_PHPSHOP_AGREE_TO_TOS = 'Ga a.u.b. eerst akkoord met onze leveringsvoorwaarden.';
 	var $_PHPSHOP_I_AGREE_TO_TOS = 'Ik ga akkoord met de leveringsvoorwaarden';
 	var $_PHPSHOP_LEAVE_BLANK = '(Laat leeg wanneer u hier geen eigen <br />php-file voor heeft!)';
-	var $_PHPSHOP_RETURN_LOGIN = 'Terugkerende Klanten: Log In a.u.b.';
+	var $_PHPSHOP_RETURN_LOGIN = 'Als terugkerende klant kunt u hier inloggen.';
 	var $_PHPSHOP_NEW_CUSTOMER = 'Nieuw hier? Vul hier a.u.b. eerst uw gegevens in';
 	var $_PHPSHOP_ACC_CUSTOMER_ACCOUNT = 'Klant Account:';
 	var $_PHPSHOP_ACC_ORDER_INFO = 'Order Informatie';
-	var $_PHPSHOP_ACC_UPD_BILL = 'Hier kan u uw facturatie gegevens aanpassen.';
-	var $_PHPSHOP_ACC_UPD_SHIP = 'Hier kan u uw verzendgegevens aanpassen.';
+	var $_PHPSHOP_ACC_UPD_BILL = 'Hier kunt u uw factuurgegevens aanpassen.';
+	var $_PHPSHOP_ACC_UPD_SHIP = 'Hier kunt u uw verzendgegevens aanpassen.';
 	var $_PHPSHOP_ACC_ACCOUNT_INFO = 'Account Informatie';
 	var $_PHPSHOP_ACC_SHIP_INFO = 'Verzend Informatie';
 	var $_PHPSHOP_ACC_NO_ORDERS = 'Geen Orders Aanwezig';
 	var $_PHPSHOP_ACC_BILL_DEF = '- Standaard (zelfde als facturatiegegevens)';
-	var $_PHPSHOP_SHIPTO_TEXT = 'u kan verzend adressen toevoegen aan uw account. Bedenk een geschikte code of sleutelwoord (nicknaam) voor uw verzend adres.';
+	var $_PHPSHOP_SHIPTO_TEXT = 'u kunt verzend adressen toevoegen aan uw account. Bedenk een geschiktr code of sleutelwoord (adreslabel) voor uw verzend adres.';
 	var $_PHPSHOP_CONFIG = 'Configuratie';
 	var $_PHPSHOP_USERS = 'Klanten';
 	var $_PHPSHOP_IS_CC_PAYMENT = 'is creditcard betaling?';
@@ -677,7 +678,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CARRIER_FORM_LIST_ORDER = 'Volgorde';
 	var $_PHPSHOP_ERR_MSG_CARRIER_EXIST = 'ERROR: Vervoerders ID bestaat reeds.';
 	var $_PHPSHOP_ERR_MSG_CARRIER_ID_REQ = 'ERROR: Kies een vervoerder.';
-	var $_PHPSHOP_ERR_MSG_CARRIER_INUSE = 'ERROR: Tenminste een verzendtarief bestaat, verwijder deze voor het verwijderen van de vervoerder.';
+	var $_PHPSHOP_ERR_MSG_CARRIER_INUSE = 'ERROR: Tenminste Ã©Ã©n verzendtarief bestaat, verwijder deze voor het verwijderen van de vervoerder.';
 	var $_PHPSHOP_ERR_MSG_CARRIER_NOTFOUND = 'ERROR: Kan geen vervoerder vinden met deze ID.';
 	var $_PHPSHOP_ERR_MSG_RATE_CARRIER_ID_REQ = 'ERROR: Kies een vervoerder.';
 	var $_PHPSHOP_ERR_MSG_RATE_CARRIER_ID_INV = 'ERROR: Kan geen vervoerder vinden met deze ID.';
@@ -712,8 +713,8 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CHECKOUT_ERR_NO_CCYEAR = 'Vul het verval jaar van uw creditcard in.';
 	var $_PHPSHOP_CHECKOUT_ERR_CCDATE_INV = 'De vervaldatum is ongeldig.';
 	var $_PHPSHOP_CHECKOUT_ERR_NO_SHIPTO = 'Selecteer het afleveradres.';
-	var $_PHPSHOP_CHECKOUT_ERR_CCNUM_INV = 'Verkeerd rekeningsnummer.';
-	var $_PHPSHOP_CHECKOUT_ERR_EMPTY_CART = 'Er is niets in uw mandje!';
+	var $_PHPSHOP_CHECKOUT_ERR_CCNUM_INV = 'Verkeerd rekeningnummer.';
+	var $_PHPSHOP_CHECKOUT_ERR_EMPTY_CART = 'Uw mandje is leeg!';
 	var $_PHPSHOP_CHECKOUT_ERR_NO_CARR = 'ERROR: Selecteer een vervoerder!';
 	var $_PHPSHOP_CHECKOUT_ERR_RATE_NOT_FOUND = 'ERROR: Het geselecteerde verzendtarief was niet gevonden!';
 	var $_PHPSHOP_CHECKOUT_ERR_SHIPTO_NOT_FOUND = 'ERROR: uw afleveradres werd niet gevonden';
@@ -780,8 +781,8 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CART_STOCK_3 = 'Klik hier om op onze wachtlijst voor dit product geplaatst te worden.';
 	var $_PHPSHOP_CART_SELECT_ITEM = 'Selecteer a.u.b. een speciaal item.';
 	var $_PHPSHOP_REGISTRATION_FORM_NONE = 'geen';
-	var $_PHPSHOP_REGISTRATION_FORM_MR = 'Meneer';
-	var $_PHPSHOP_REGISTRATION_FORM_MRS = 'Mevrouw';
+	var $_PHPSHOP_REGISTRATION_FORM_MR = 'Dhr.';
+	var $_PHPSHOP_REGISTRATION_FORM_MRS = 'Mevr.';
 	var $_PHPSHOP_REGISTRATION_FORM_DR = 'Dr.';
 	var $_PHPSHOP_REGISTRATION_FORM_PROF = 'Prof.';
 	var $_PHPSHOP_DEFAULT = 'Standaard';
@@ -804,16 +805,16 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_AFFILIATE_FORM_ACTIVE = 'Actief?';
 	var $_PHPSHOP_DELIVERY_TIME = 'Normaal verzonden na';
 	var $_PHPSHOP_DELIVERY_INFORMATION = 'Afleverinformatie';
-	var $_PHPSHOP_MORE_CATEGORIES = 'meer categorieën';
+	var $_PHPSHOP_MORE_CATEGORIES = 'meer categorieÃ«n';
 	var $_PHPSHOP_AVAILABILITY = 'Beschikbaarheid';
 	var $_PHPSHOP_CURRENTLY_NOT_AVAILABLE = 'Dit product is momenteel niet beschikbaar.';
 	var $_PHPSHOP_PRODUCT_AVAILABLE_AGAIN = 'Het is weer beschikbaar op:';
 	var $_PHPSHOP_STATISTIC_SUMMARY = 'Samenvatting';
 	var $_PHPSHOP_STATISTIC_STATISTICS = 'Statistieken';
 	var $_PHPSHOP_STATISTIC_CUSTOMERS = 'Klanten';
-	var $_PHPSHOP_STATISTIC_ACTIVE_PRODUCTS = 'actieve Producten';
-	var $_PHPSHOP_STATISTIC_INACTIVE_PRODUCTS = 'inactieve Producten';
-	var $_PHPSHOP_STATISTIC_SUM = 'Som';
+	var $_PHPSHOP_STATISTIC_ACTIVE_PRODUCTS = 'Actieve producten';
+	var $_PHPSHOP_STATISTIC_INACTIVE_PRODUCTS = 'Inactieve producten';
+	var $_PHPSHOP_STATISTIC_SUM = 'Totaal';
 	var $_PHPSHOP_STATISTIC_NEW_ORDERS = 'Nieuwe Orders';
 	var $_PHPSHOP_STATISTIC_NEW_CUSTOMERS = 'Nieuwe Klanten';
 	var $_PHPSHOP_WAITING_LIST_MESSAGE = 'Voer uw e-mail adres in om bericht te krijgen wanneer dit product weer beschikbaar is. Wij zullen niet uw e-mail adres delen, verhuren, verkopen of voor andere doeleinden gebruiken dan alleen u op de hoogte te stellen wanneer het product weer beschikbaar is.<br /><br />Hartelijk dank!';
@@ -822,7 +823,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CHECK_OUT_THANK_YOU_PRINT_VIEW = 'Print scherm';
 	var $_PHPSHOP_ADMIN_CFG_AUTORIZE_OR_CYBERCASH = 'Kies OF Authorize.net OF CyberCash';
 	var $_PHPSHOP_ADMIN_CFG_FILE_STATUS = ' Configuratie bestand status:';
-	var $_PHPSHOP_ADMIN_CFG_FILE_STATUS_WRITEABLE = 'iis schrijfbaar';
+	var $_PHPSHOP_ADMIN_CFG_FILE_STATUS_WRITEABLE = 'is schrijfbaar';
 	var $_PHPSHOP_ADMIN_CFG_FILE_STATUS_UNWRITEABLE = 'is niet schrijfbaar';
 	var $_PHPSHOP_ADMIN_CFG_GLOBAL = 'Globaal';
 	var $_PHPSHOP_ADMIN_CFG_PATHANDURL = 'Pad & URL';
@@ -833,10 +834,10 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_PAYEMENTOPTIONS = 'Betalingen';
 	var $_PHPSHOP_ADMIN_CFG_USE_ONLY_AS_CATALOGUE = 'Gebruik alleen als catalogus';
 	var $_PHPSHOP_ADMIN_CFG_USE_ONLY_AS_CATALOGUE_EXPLAIN = 'Met deze keuze schakelt u alle winkel functionaliteit uit.';
-	var $_PHPSHOP_ADMIN_CFG_SHOW_PRICES = 'Toon Prijzen';
-	var $_PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX = 'Toon Prijzen inclusief BTW';
+	var $_PHPSHOP_ADMIN_CFG_SHOW_PRICES = 'Toon prijzen';
+	var $_PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX = 'Toon prijzen inclusief BTW';
 	var $_PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX_EXPLAIN = 'Optie om de klanten prijzen te tonen met of zonder belasting.';
-	var $_PHPSHOP_ADMIN_CFG_SHOW_PRICES_EXPLAIN = 'Optie om prijzen te tonen. Als de catalogus functie wordt gebruikt, dan wil niet iedereen de prijzen laten zien.';
+	var $_PHPSHOP_ADMIN_CFG_SHOW_PRICES_EXPLAIN = 'Optie om prijzen te tonen. Als de catalogus functie wordt gebruikt, kan je hiermee de prijzen verbergen.';
 	var $_PHPSHOP_ADMIN_CFG_VIRTUAL_TAX = 'Virtuele Belasting';
 	var $_PHPSHOP_ADMIN_CFG_VIRTUAL_TAX_EXPLAIN = 'Dit bepaalt of er over artikelen met een gewicht van 0 belasting wordt geheven. Wijzig ps_checkout.php->calc_order_taxable() om dit aan te passen.';
 	var $_PHPSHOP_ADMIN_CFG_TAX_MODE = 'Belasting modus:';
@@ -856,7 +857,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_CAN_SELECT_STATE_EXPLAIN = 'Activeer als klanten hun provincie kunnen selecteren als ze zich registreren bij de winkel.';
 	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS = 'Moet akkoord gaan met de algemene voorwaarden?';
 	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS_EXPLAIN = 'Activeer als klanten akkoord moeten gaan met de algemene voorwaarden.';
-	var $_PHPSHOP_ADMIN_CFG_CHECK_STOCK = 'Voorraad controlleren?';
+	var $_PHPSHOP_ADMIN_CFG_CHECK_STOCK = 'Voorraad controleren?';
 	var $_PHPSHOP_ADMIN_CFG_CHECK_STOCK_EXPLAIN = 'Optie om de voorraad te controleren als een klant een artikel aan het mandje toevoegd. Indien geactiveerd, kan een klant niet meer produkten toevoegen aan het mandje dan er op voorraad zijn.';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE = 'Wederverkopers Activeren?';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE_EXPLAIN = 'Dit laat toe wederverkopers te gebruiken in de front-end. Activeer dit alleen als je wederverkopers hebt toegevoegd in de backend';
@@ -870,6 +871,18 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_URL_EXPLAIN = 'e URL naar uw website. Normaal gesproken identiek aan de Joomla / Mambo URL (met een slash op het einde!)';
 	var $_PHPSHOP_ADMIN_CFG_URLSECURE = 'SECUREURL';
 	var $_PHPSHOP_ADMIN_CFG_URLSECURE_EXPLAIN = 'De beveiligde URL naar uw website. (https - met een slash op het einde!)';
+	var $_PHPSHOP_ADMIN_CFG_URLCOMPONENT = 'COMPONENTURL';
+	var $_PHPSHOP_ADMIN_CFG_URLCOMPONENT_EXPLAIN = 'The URL to the VirtueMart component. (with trailing slash at the end!)';
+	var $_PHPSHOP_ADMIN_CFG_URLIMAGE = 'IMAGEURL';
+	var $_PHPSHOP_ADMIN_CFG_URLIMAGE_EXPLAIN = 'The URL to the VirtueMart component image directory.(with trailing slash at the end!)';
+	var $_PHPSHOP_ADMIN_CFG_ADMINPATH = 'ADMINPATH';
+	var $_PHPSHOP_ADMIN_CFG_ADMINPATH_EXPLAIN = 'The path to your VirtueMart component directory.';
+	var $_PHPSHOP_ADMIN_CFG_CLASSPATH = 'CLASSPATH';
+	var $_PHPSHOP_ADMIN_CFG_CLASSPATH_EXPLAIN = 'The path to your phpShop classes directory.';
+	var $_PHPSHOP_ADMIN_CFG_PAGEPATH = 'PAGEPATH';
+	var $_PHPSHOP_ADMIN_CFG_PAGEPATH_EXPLAIN = 'The path to your phpShop html directory.';
+	var $_PHPSHOP_ADMIN_CFG_IMAGEPATH = 'IMAGEPATH';
+	var $_PHPSHOP_ADMIN_CFG_IMAGEPATH_EXPLAIN = 'The path to your phpShop shop_image directory.';
 	var $_PHPSHOP_ADMIN_CFG_HOMEPAGE = 'HOMEPAGE';
 	var $_PHPSHOP_ADMIN_CFG_HOMEPAGE_EXPLAIN = 'Dit is de pagina die standaard geladen wordt.';
 	var $_PHPSHOP_ADMIN_CFG_ERRORPAGE = 'ERRORPAGE';
@@ -881,11 +894,18 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_FLYPAGE = 'FLYPAGE';
 	var $_PHPSHOP_ADMIN_CFG_FLYPAGE_EXPLAIN = 'Dit is de standaard pagina voor het weergeven van product informatie.';
 	var $_PHPSHOP_ADMIN_CFG_CATEGORY_TEMPLATE = 'Categorie Sjabloon';
-	var $_PHPSHOP_ADMIN_CFG_CATEGORY_TEMPLATE_EXPLAIN = 'Dit definieerd de standaard categorie sjabloon voor het weergeven van producten in een categorie.<br /> Nieuwe sjablonen kunnen worden gecreëerd door het wijzigen van de bestaande sjablonen.<br />(deze bevinden zich in de directorie <strong>COMPONENTPATH/html/templates/</strong> en beginnen met browse_)';
+	var $_PHPSHOP_ADMIN_CFG_CATEGORY_TEMPLATE_EXPLAIN = 'Dit definieert de standaard categorie sjabloon voor het weergeven van producten in een categorie.<br /> Nieuwe sjablonen kunnen worden gecreÃ«nerd door het wijzigen van de bestaande sjablonen.<br />(deze bevinden zich in de directorie <strong>COMPONENTPATH/html/templates/</strong> en beginnen met browse_)';
 	var $_PHPSHOP_ADMIN_CFG_PRODUCTS_PER_ROW = 'Standaard aantal producten in een rij';
-	var $_PHPSHOP_ADMIN_CFG_PRODUCTS_PER_ROW_EXPLAIN = 'Dit definieerd het standaard aantal producten in een rij. <br />Bijvoorbeeld: Als het aantal op 4 staat, dan laat het categorie sjabloon 4 producten per rij zien';
-	var $_PHPSHOP_ADMIN_CFG_NOIMAGEPAGE = '"geen afbeelding" afbeelding';
+	var $_PHPSHOP_ADMIN_CFG_PRODUCTS_PER_ROW_EXPLAIN = 'Dit definieert het standaard aantal producten in een rij. <br />Bijvoorbeeld: Als het aantal op 4 staat, dan laat het categorie sjabloon 4 producten per rij zien';
+	var $_PHPSHOP_ADMIN_CFG_NOIMAGEPAGE = 'De "geen afbeelding" afbeelding';
 	var $_PHPSHOP_ADMIN_CFG_NOIMAGEPAGE_EXPLAIN = 'Deze afbeelding wordt weergegeven als er geen product afbeelding beschikbaar is.';
+	var $_PHPSHOP_ADMIN_CFG_SEARCHROWS = 'SEARCH ROWS';
+	var $_PHPSHOP_ADMIN_CFG_SEARCHROWS_EXPLAIN = 'Determines the number of rows per page when search results are displayed in a list.';
+	var $_PHPSHOP_ADMIN_CFG_SEARCHCOLOR1 = 'SEARCH COLOR 1';
+	var $_PHPSHOP_ADMIN_CFG_SEARCHCOLOR1_EXPLAIN = 'Specifies the color of the odd numbered rows in a result list.';
+	var $_PHPSHOP_ADMIN_CFG_SEARCHCOLOR2 = 'SEARCH COLOR 2';
+	var $_PHPSHOP_ADMIN_CFG_SEARCHCOLOR2_EXPLAIN = 'Specifies the color of the even numbered rows in a result list.';
+	var $_PHPSHOP_ADMIN_CFG_MAXIMUMROWS = 'MAXIMUM ROWS';
 	var $_PHPSHOP_ADMIN_CFG_MAXIMUMROWS_EXPLAIN = 'Bepaald het aantal rijen die getoond worden in het bestellingslijst selectie scherm.';
 	var $_PHPSHOP_ADMIN_CFG_SHOWPHPSHOP_VERSION = 'Toon voettekst';
 	var $_PHPSHOP_ADMIN_CFG_SHOWPHPSHOP_VERSION_EXPLAIN = 'Toont een powered-by-VirtueMart voettekst afbeelding.';
@@ -926,28 +946,28 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_CHECKOUT_PROCESS_4 = '<strong>Procedure 4:</strong><br/>
                1. Verzoek betalingsmethode<br />
               2. Bevestig bestelling';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_DOWNLOADS = 'Downloads Toestaan';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_DOWNLOADS = 'Downloads toestaan';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_DOWNLOADS_EXPLAIN = 'Kies deze optie om de download mogelijkheden te activeren. Alleen als u artikelen verkoopt die te downloaden zijn.';
-	var $_PHPSHOP_ADMIN_CFG_ORDER_ENABLE_DOWNLOADS = 'Order Status die downloaden toelaat';
-	var $_PHPSHOP_ADMIN_CFG_ORDER_ENABLE_DOWNLOADS_EXPLAIN = 'Selecteer de order status die er voor zorgt dat de klant per e-mail verwittigt wordt over de download.';
-	var $_PHPSHOP_ADMIN_CFG_ORDER_DISABLE_DOWNLOADS = 'Order Status die downloaden uitschakelt';
-	var $_PHPSHOP_ADMIN_CFG_ORDER_DISABLE_DOWNLOADS_EXPLAIN = 'Selecteer de order status die er voor zorgt dat de download voor de klant niet toegelaten is.';
+	var $_PHPSHOP_ADMIN_CFG_ORDER_ENABLE_DOWNLOADS = 'Orderstatus die downloaden toelaat';
+	var $_PHPSHOP_ADMIN_CFG_ORDER_ENABLE_DOWNLOADS_EXPLAIN = 'Selecteer de orderstatus die er voor zorgt dat de klant per e-mail bericht wordt over de download.';
+	var $_PHPSHOP_ADMIN_CFG_ORDER_DISABLE_DOWNLOADS = 'Orderstatus die downloaden uitschakelt';
+	var $_PHPSHOP_ADMIN_CFG_ORDER_DISABLE_DOWNLOADS_EXPLAIN = 'Selecteer de orderstatus die er voor zorgt dat de download voor de klant niet toegelaten is.';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOADROOT = 'DOWNLOADROOT';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOADROOT_EXPLAIN = 'Het fysische pad naar de bestanden voor de klanten download. (gevolgd door een slash op het einde!<br>
         <span class="message">Voor de veiligheid van uw winkel: Indien mogelijk gebruik een directorie BUITEN DE ROOT VAN DE WEBSITE</span>';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_MAX = 'Maximaal aantal downloads';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_MAX_EXPLAIN = 'Dit is het aantal maal een download kan gebeuren met dezelfde Download-ID, (voor 1 bestelling)';
-	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE = 'Verlooptijd Download';
+	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE = 'Verlooptijd download';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE_EXPLAIN = 'Dit zet de tijd <strong>in seconden</strong> gedurende dewelke de download mogelijk is voor de klant. 
   Deze tijd begint te lopen na de eerste download! Wanneer de tijd is verlopen dan wordt het download-ID uitgeschakelt.<br />Opmerking : 86400 sec. = 24 uur.';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYPAL = 'Betaling via PayPal toelaten?';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYPAL_EXPLAIN = 'Aanvinken om uw klanten toe te laten te betalen via PayPal.';
 	var $_PHPSHOP_ADMIN_CFG_PAYPAL_EMAIL = 'PayPal e-mail:';
 	var $_PHPSHOP_ADMIN_CFG_PAYPAL_EMAIL_EXPLAIN = 'Het e-mail adres dat u gebruikt voor PayPal betalingen.Dit adres wordt ook gebruikt als ontvanger_email.';
-	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS = 'Order status voor succesvolle transacties';
-	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS_EXPLAIN = 'Selecteer de order status die de bestelling krijgt nar een succesvolle PayPal betaling. Indien u downloadable producten gebruikt: selecteer de status die de download toelaat (de klant wordt onmiddelijk op de hoogte gebracht via e-mail.';
-	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED = 'Order status voor mislukte PayPal transacties';
-	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED_EXPLAIN = 'Selecteer de order status voor mislukte PayPal transacties';
+	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS = 'Orderstatus voor succesvolle transacties';
+	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS_EXPLAIN = 'Selecteer de orderstatus die de bestelling krijgt na een succesvolle PayPal betaling. Indien u downloadable producten gebruikt: selecteer de status die de download toelaat (de klant wordt onmiddelijk op de hoogte gebracht via e-mail.';
+	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED = 'Orderstatus voor mislukte PayPal transacties';
+	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED_EXPLAIN = 'Selecteer de orderstatus voor mislukte PayPal transacties';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYMATE = 'Betaling via PayMate toelaten?';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYMATE_EXPLAIN = 'Aanvinken om uw klanten toe te laten te betalen via het Australische PayMate systeem.';
 	var $_PHPSHOP_ADMIN_CFG_PAYMATE_USERNAME = 'PayMate gebruikersnaam:';
@@ -975,11 +995,11 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_AUTENTICATIONTYPE = 'CyberCash AUTH TYPE';
 	var $_PHPSHOP_ADMIN_CFG_CYBERCASH_AUTENTICATIONTYPE_EXPLAIN = 'Het CyberCash AUTH TYPE is het Cybercash authentication type dat door Cybercase is voorgesteld.';
 	var $_PHPSHOP_ADVANCED_SEARCH = 'Uitgebreid Zoeken';
-	var $_PHPSHOP_SEARCH_ALL_CATEGORIES = 'Doorzoek alle categorieën';
-	var $_PHPSHOP_SEARCH_ALL_PRODINFO = 'Doorzoek alle product informatie';
-	var $_PHPSHOP_SEARCH_PRODNAME = 'Alleen product naam';
+	var $_PHPSHOP_SEARCH_ALL_CATEGORIES = 'Doorzoek alle categorieÃ«n';
+	var $_PHPSHOP_SEARCH_ALL_PRODINFO = 'Doorzoek alle productinformatie';
+	var $_PHPSHOP_SEARCH_PRODNAME = 'Alleen productnaam';
 	var $_PHPSHOP_SEARCH_MANU_VENDOR = 'Alleen Fabrikant/Verkoper';
-	var $_PHPSHOP_SEARCH_DESCRIPTION = 'Alleen product omschrijving';
+	var $_PHPSHOP_SEARCH_DESCRIPTION = 'Alleen productomschrijving';
 	var $_PHPSHOP_SEARCH_AND = 'en';
 	var $_PHPSHOP_SEARCH_NOT = 'niet';
 	var $_PHPSHOP_SEARCH_TEXT1 = 'De eerste drop-down-lijst geeft u de mogelijkheid om een categorie te selecteren waarin u wilt zoeken. 
@@ -1001,7 +1021,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_REVIEW_ERR_RATE = 'Geeft u een waardering voor dit produkt om uw recensie te voltooien!';
 	var $_PHPSHOP_REVIEW_ERR_COMMENT1 = 'Schrijf a.u.b. een langere recensie. Mininum aantal tekens vereist: 100';
 	var $_PHPSHOP_REVIEW_ERR_COMMENT2 = 'Schrijf a.u.b. een kortere recensie. Maximum aantal tekens toegestaan: 2000';
-	var $_PHPSHOP_WRITE_REVIEW = 'Schrijf een recensie voor dit produkt!';
+	var $_PHPSHOP_WRITE_REVIEW = 'Schrijf een recensie voor dit product!';
 	var $_PHPSHOP_REVIEW_RATE = 'Stap 1: Geef een waardering voor dit product. Kies een waardering tussen 0 (slechtste) en 5 sterren (beste).';
 	var $_PHPSHOP_REVIEW_COMMENT = 'Stap 2: Schrijf een (korte) recensie....(minimaal 100, maximaal 2000 tekens)';
 	var $_PHPSHOP_REVIEW_COUNT = 'Aantal geschreven tekens: ';
@@ -1035,7 +1055,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_DISCOUNT_ISPERCENT = 'Percentage';
 	var $_PHPSHOP_PRODUCT_DISCOUNT_ISTOTAL = 'Totaal';
 	var $_PHPSHOP_PRODUCT_DISCOUNT_ISPERCENT_TIP = 'Is het bedrag een percentage of een totaal?';
-	var $_PHPSHOP_PRODUCT_DISCOUNT_STARTDATE = 'Start datum van de korting';
+	var $_PHPSHOP_PRODUCT_DISCOUNT_STARTDATE = 'Startdatum van de korting';
 	var $_PHPSHOP_PRODUCT_DISCOUNT_STARTDATE_TIP = 'Geef de dag waarop de korting begint';
 	var $_PHPSHOP_PRODUCT_DISCOUNT_ENDDATE = 'Eind datum van de korting';
 	var $_PHPSHOP_PRODUCT_DISCOUNT_ENDDATE_TIP = 'Geef de dag waarop de korting eindigt';
@@ -1044,7 +1064,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_FLYPAGE_ENLARGE_IMAGE = 'Bekijk grote afbeelding';
 	var $_PHPSHOP_CURRENCY_DISPLAY = 'Valuta Weergave Stijl';
 	var $_PHPSHOP_CURRENCY_SYMBOL = 'Valuta symbool';
-	var $_PHPSHOP_CURRENCY_SYMBOL_TOOLTIP = 'u kunt ook HTML Entities gebruiken (e.g. €,£,¥,...)';
+	var $_PHPSHOP_CURRENCY_SYMBOL_TOOLTIP = 'u kunt ook HTML Entities gebruiken (e.g. ï¿½,ï¿½,ï¿½,...)';
 	var $_PHPSHOP_CURRENCY_DECIMALS = 'Decimalen';
 	var $_PHPSHOP_CURRENCY_DECIMALS_TOOLTIP = 'Aantal getoonde decimalen (mag 0 zijn)<br><b>Wordt afgerond wanneer getal is ingegeven met een ander aantal decimalen</b>';
 	var $_PHPSHOP_CURRENCY_DECIMALSYMBOL = 'Decimaal symbool';
@@ -1097,7 +1117,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_FILES_FILE_DELETE_FAILURE = 'Bestand kon niet verwijderd worden.';
 	var $_PHPSHOP_FILES_FILE_DELETE_SUCCESS = 'Bestand met succes verwijderd.';
 	var $_PHPSHOP_FILES_NOT_FOUND = 'Sorry, maar het gevraagde bestand is niet gevonden!';
-	var $_PHPSHOP_IMAGE_NOT_FOUND = 'Afbeedling niet gevonden!';
+	var $_PHPSHOP_IMAGE_NOT_FOUND = 'Afbeelding niet gevonden!';
 	var $_PHPSHOP_COUPON_MOD = 'Kortingsbon';
 	var $_PHPSHOP_COUPONS = 'Kortingsbonnen';
 	var $_PHPSHOP_COUPON_LIST = 'Kortingbon Lijst';
@@ -1110,7 +1130,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_COUPON_EDIT_HELP_TEXT = 'Klik op een kortingscode om hem te wijzigen, om een kortingscode te verwijderen, eerst selecteren en dan op Delete klikken:';
 	var $_PHPSHOP_COUPON_CODE_HEADER = 'Code';
 	var $_PHPSHOP_COUPON_PERCENT_TOTAL = 'Procent of Totaal';
-	var $_PHPSHOP_COUPON_TYPE = 'Krotings Type';
+	var $_PHPSHOP_COUPON_TYPE = 'Kortings Type';
 	var $_PHPSHOP_COUPON_TYPE_TOOLTIP = 'Een cadeau kortingsbon wordt verwijderd zodra deze is gebruikt. Een permanente kortingsbon kan onbeperkt gebruikt worden door klanten.';
 	var $_PHPSHOP_COUPON_TYPE_GIFT = 'Cadeau kortingsbon';
 	var $_PHPSHOP_COUPON_TYPE_PERMANENT = 'Permanente Kortingsbon';
@@ -1129,13 +1149,13 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_COUPON_DISCOUNT = 'Korting';
 	var $_PHPSHOP_COUPON_CODE_INVALID = 'Kortingscode niet gevonden. Probeer het nog eens.';
 	var $_PHPSHOP_COUPONS_ENABLE = 'Kortingsbon Gebruik Aanzetten';
-	var $_PHPSHOP_COUPONS_ENABLE_EXPLAIN = 'Wanneer u deze optie aan zet, mogen klanten kortingbon nummers invullen om korting op hun bestelling mogelijk te maken.';
+	var $_PHPSHOP_COUPONS_ENABLE_EXPLAIN = 'Wanneer u deze optie aan zet, mogen klanten kortingsbon nummers invullen om korting op hun bestelling mogelijk te maken.';
 	var $_PHPSHOP_FREE_SHIPPING = 'Geen verzendkosten';
 	var $_PHPSHOP_FREE_SHIPPING_CUSTOMER_TEXT = 'Er zijn geen verzendkosten bij deze bestelling!';
-	var $_PHPSHOP_FREE_SHIPPING_AMOUNT = 'Minimum Bedrag voor gratis verzending';
+	var $_PHPSHOP_FREE_SHIPPING_AMOUNT = 'Minimum bedrag voor gratis verzending';
 	var $_PHPSHOP_FREE_SHIPPING_AMOUNT_TOOLTIP = 'Het bedrag (INCL. BTW!) vanwaar geen verzendkosten worden berekend 
                                                 (bijvoorbeeld: <strong>50</strong> betekent geen verzendkosten wanneer een klant een bestelling plaatst
-                                                van € 50 (incl. BTW) of meer.';
+                                                van ï¿½ 50 (incl. BTW) of meer.';
 	var $_PHPSHOP_YOUR_STORE = 'uw winkel';
 	var $_PHPSHOP_CONTROL_PANEL = 'Controle Paneel';
 	var $_PHPSHOP_ADMIN_CFG_PDF_BUTTON = 'PDF - knop';
@@ -1152,7 +1172,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PAYMENT_ERROR = 'Fout in het verwerken van de betaling';
 	var $_PHPSHOP_PAYMENT_TRANSACTION_SUCCESS = 'Betaling succesvol verwerkt.';
 	var $_PHPSHOP_UPS_RESPONSE_ERROR = 'UPS was niet in staat de Verzending te verwerken';
-	var $_PHPSHOP_UPS_SHIPPING_GUARANTEED_DAYS = 'Gegarendeerde levering binnen (dagen)';
+	var $_PHPSHOP_UPS_SHIPPING_GUARANTEED_DAYS = 'Gegarandeerde levering binnen (dagen)';
 	var $_PHPSHOP_UPS_PICKUP_METHOD = 'UPS Pickup Methode';
 	var $_PHPSHOP_UPS_PICKUP_METHOD_TOOLTIP = 'Hoe geeft u pakjes aan UPS?';
 	var $_PHPSHOP_UPS_PACKAGE_TYPE = 'UPS Verpakking?';
@@ -1161,14 +1181,14 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_UPS_RESIDENTIAL = 'Residentieel (RES)';
 	var $_PHPSHOP_UPS_COMMERCIAL = 'Commerciele aflevering  (COM)';
 	var $_PHPSHOP_UPS_RESIDENTIAL_TOOLTIP = 'Prijsopgave voor Residentiele (RES) en commerciele (COM) aflevering .';
-	var $_PHPSHOP_UPS_HANDLING_FEE = 'Behandelings kost';
+	var $_PHPSHOP_UPS_HANDLING_FEE = 'Behandelingskosten';
 	var $_PHPSHOP_UPS_HANDLING_FEE_TOOLTIP = 'De behandelings kost voor de door u geselecteerde verzendingsmethode.';
-	var $_PHPSHOP_UPS_TAX_CLASS = 'Belastings Klasse';
+	var $_PHPSHOP_UPS_TAX_CLASS = 'Belastingsklasse';
 	var $_PHPSHOP_UPS_TAX_CLASS_TOOLTIP = 'Gebruik de volgende belastingsklasse voor de verzendigsprijs.';
 	var $_PHPSHOP_ERROR_CODE = 'Fout Code';
 	var $_PHPSHOP_ERROR_DESC = 'Fout Beschrijving';
 	var $_PHPSHOP_CHANGE_TRANSACTION_KEY = 'Toon / Wijzig de Transactie Sleutel';
-	var $_PHPSHOP_CHANGE_PASSKEY_FORM = 'Toon/ Wijzig  wachtwoord/Transacite Sleutel';
+	var $_PHPSHOP_CHANGE_PASSKEY_FORM = 'Toon/ Wijzig wachtwoord/Transactie Sleutel';
 	var $_PHPSHOP_TYPE_PASSWORD = 'Vul a.u.b. uw wachtwoord in';
 	var $_PHPSHOP_CURRENT_PASSWORD = 'Huidig wachtwoord';
 	var $_PHPSHOP_CURRENT_TRANSACTION_KEY = 'Huidige Transactie Sleutel';
@@ -1211,13 +1231,13 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_RELATED_PRODUCTS_HEADING = 'Misschien ook iets voor u';
 	var $_PHPSHOP_IMAGE_ACTION = 'Afbeelding actie';
 	var $_PHPSHOP_NONE = 'niets';
-	var $_PHPSHOP_ORDER_HISTORY = 'Bestelling Historiek';
+	var $_PHPSHOP_ORDER_HISTORY = 'Bestelling historie';
 	var $_PHPSHOP_ORDER_HISTORY_COMMENT = 'Commentaar';
 	var $_PHPSHOP_ORDER_HISTORY_COMMENT_EMAIL = 'Commentaar bij uw bestelling';
 	var $_PHPSHOP_ORDER_HISTORY_INCLUDE_COMMENT = 'Commentaar toevoegen?';
 	var $_PHPSHOP_ORDER_HISTORY_DATE_ADDED = 'Toegevoegd op Datum';
 	var $_PHPSHOP_ORDER_HISTORY_CUSTOMER_NOTIFIED = 'Klant op de hoogte gebracht?';
-	var $_PHPSHOP_ORDER_STATUS_CHANGE = 'Order Status Wijziging';
+	var $_PHPSHOP_ORDER_STATUS_CHANGE = 'Orderstatus Wijziging';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_USERNAME = 'USPS shipping username';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_USERNAME_TOOLTIP = 'Username that you received from registering at USPS.com.';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PASSWORD = 'USPS shipping password';
@@ -1287,7 +1307,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PARAMETERS_LBL = 'Parameters';
 	var $_PHPSHOP_PRODUCT_TYPE_LBL = 'Product Type';
 	var $_PHPSHOP_PRODUCT_TYPE_LIST_LBL = 'Product Type Lijst';
-	var $_PHPSHOP_PRODUCT_TYPE_ADDEDIT = 'Toevoegen/Bewerk Produkt Type';
+	var $_PHPSHOP_PRODUCT_TYPE_ADDEDIT = 'Toevoegen/Bewerk Product Type';
 	var $_PHPSHOP_PRODUCT_PRODUCT_TYPE_LIST_LBL = 'Product Type Lijst voor';
 	var $_PHPSHOP_PRODUCT_PRODUCT_TYPE_LIST_MNU = 'Bekijk Product Types';
 	var $_PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_LBL = 'Product Type Toevoegen voor';
@@ -1329,7 +1349,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PARAMETER_SEARCH = 'Geavanceerd zoeken volgens Parameters';
 	var $_PHPSHOP_ADVANCED_PARAMETER_SEARCH = 'Parameters Zoeken';
 	var $_PHPSHOP_PARAMETER_SEARCH_TEXT1 = 'u kunt producten zoeken m.b.v. van technische parameters?<BR>u kunt elk gewenst formulier gebruiken:';
-	var $_PHPSHOP_PARAMETER_SEARCH_NO_PRODUCT_TYPE = 'Er is geen resultaat wat met u zoekopdracht overeen komt.';
+	var $_PHPSHOP_PARAMETER_SEARCH_NO_PRODUCT_TYPE = 'Er zijn geen resultaten voor uw zoekopdracht.';
 	var $_PHPSHOP_PARAMETER_SEARCH_BAD_PRODUCT_TYPE = 'Er is geen gepubliseerd product type met deze naam.';
 	var $_PHPSHOP_PARAMETER_SEARCH_IS_LIKE = 'Zelfde als';
 	var $_PHPSHOP_PARAMETER_SEARCH_IS_NOT_LIKE = 'Is niet zelfde als';
@@ -1370,33 +1390,33 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_SHOW_OUT_OF_STOCK_PRODUCTS_EXPLAIN = 'Wanneer aangevinkt, zullen producten die niet op voorraad zijn getoont worden in de winkel. Anders worden deze verborgen gehouden.';
 	var $_PHPSHOP_PRODUCT_PACKAGING1 = 'Aantal (eenheden) in verpakking:';
 	var $_PHPSHOP_PRODUCT_PACKAGING2 = 'Aantal (eenheden) in doos:';
-	var $_PHPSHOP_HIDE_OUT_OF_STOCK = 'Verberg de prodcuten die niet voorradig zijn';
-	var $_PHPSHOP_FEATURED_PRODUCTS_LIST_LBL = 'Producten in aanbieding en met verminderde prijs';
+	var $_PHPSHOP_HIDE_OUT_OF_STOCK = 'Verberg de producten die niet voorradig zijn';
+	var $_PHPSHOP_FEATURED_PRODUCTS_LIST_LBL = 'Producten in de aanbieding en met verlaagde prijs';
 	var $_PHPSHOP_FEATURED = 'Aanbieding';
 	var $_PHPSHOP_BACK_TO_COUNTRY = 'Terug naar het land';
-	var $_PHPSHOP_BACK_TO_FILEMANAGER = 'Terug naar de bestands manager';
+	var $_PHPSHOP_BACK_TO_FILEMANAGER = 'Terug naar de bestandsmanager';
 	var $_PHPSHOP_ADD_STATE = 'Voeg een provincie toe';
 	var $_PHPSHOP_LIST_STATES = 'Toon Provincies';
 	var $_PHPSHOP_SHOW_FEATURED_AND_DISCOUNTED = 'aanbieding EN korting';
-	var $_PHPSHOP_SHOW_FEATURED = 'producten in aanbieding';
+	var $_PHPSHOP_SHOW_FEATURED = 'Producten in de aanbieding';
 	var $_PHPSHOP_SHOW_DISCOUNTED = 'producten met korting';
 	var $_PHPSHOP_FILTER = 'Filter';
 	var $_PHPSHOP_BACK_TO_MAIN_SITE = 'Terug naar de hoofdsite';
-	var $_PHPSHOP_EXPAND_TREE = 'Expand Tree';
-	var $_PHPSHOP_COLLAPSE_TREE = 'Collapse Tree';
+	var $_PHPSHOP_EXPAND_TREE = 'Boomstructuur uitklappen';
+	var $_PHPSHOP_COLLAPSE_TREE = 'Boomstructuur inklappen';
 	var $_PHPSHOP_PRODUCT_FORM_DISCOUNTED_PRICE = 'Verminderde Prijs';
-	var $_PHPSHOP_PRODUCT_FORM_DISCOUNTED_PRICE_TIP = 'Hier kan u een speciale korting geven aan dit product. Deze heeft voorrang over andere kortingstypen (en de laatste worden dus niet gebruikt).<br/>';
+	var $_PHPSHOP_PRODUCT_FORM_DISCOUNTED_PRICE_TIP = 'Hier kunt u een speciale korting geven aan dit product. Deze heeft voorrang over andere kortingstypen (en de laatste worden dus niet gebruikt).<br/>';
 	var $_PHPSHOP_CART_PRICE_PER_UNIT = 'Prijs per Eenheid';
 	var $_PHPSHOP_ADMIN_CFG_SHOP_OFFLINE = 'Winkel is offline?';
-	var $_PHPSHOP_ADMIN_CFG_SHOP_OFFLINE_TIP = 'Aangevinkt, zal de winkel een Offline Boodschap tonen';
-	var $_PHPSHOP_ADMIN_CFG_SHOP_OFFLINE_MSG = 'Offline Boodschap';
+	var $_PHPSHOP_ADMIN_CFG_SHOP_OFFLINE_TIP = 'Aangevinkt, zal de winkel onderstaand bericht tonen';
+	var $_PHPSHOP_ADMIN_CFG_SHOP_OFFLINE_MSG = 'Offline bericht';
 	var $_PHPSHOP_ADMIN_CFG_TABLEPREFIX = 'Table Prefix voor de Winkel Tabellen';
 	var $_PHPSHOP_ADMIN_CFG_TABLEPREFIX_TIP = 'Standaard is dit <strong>vm</strong>';
 	var $_PHPSHOP_ADMIN_CFG_NAV_AT_TOP = 'Toon Pagina Navigatie bovenaan de Product lijst?';
 	var $_PHPSHOP_ADMIN_CFG_NAV_AT_TOP_TIP = 'Schakelt het tonen van de pagina navigatie bovenaan de product lijst (aan de Frontend van de winkel) aan of uit.';
 	var $_PHPSHOP_ADMIN_CFG_SHOW_PRODUCT_COUNT = 'Toon het aantal producten?';
-	var $_PHPSHOP_ADMIN_CFG_SHOW_PRODUCT_COUNT_TIP = 'Toont het aantal prodcuten in een bepaalde categorie, bijvoorbeeld Categorie (4)';
-	var $_PHPSHOP_ADMIN_CFG_ADDTOCART_STYLE = 'Aan-winkelwagentje Button Stijl';
+	var $_PHPSHOP_ADMIN_CFG_SHOW_PRODUCT_COUNT_TIP = 'Toont het aantal producten in een bepaalde categorie, bijvoorbeeld Categorie (4)';
+	var $_PHPSHOP_ADMIN_CFG_ADDTOCART_STYLE = 'Selecteer de knop om producten toe te voegen';
 	var $_PHPSHOP_ADMIN_CFG_DYNAMIC_THUMBNAIL_RESIZING = 'Dynamic Thumbnail Resizing aan?';
 	var $_PHPSHOP_ADMIN_CFG_DYNAMIC_THUMBNAIL_RESIZING_TIP = 'Indien aangevinkt dan laat u het dynamische resizen toe van afbeeldingen. Dit betekent dat alle Thumbnail afbeeldingen geresized worden naar het formaat dat hieronder wordt ingegeven, dit door middel van de GD2 functies in PHP.         u kan nakijken of de GD2 functies beschibaar zijn op uw website door te klikken op "System" -> "System Info" -> "PHP Info" -> gd.   De kwaliteit van de Thumbnail afbeelding is veel beter dan afbeldingen die geresized worden door de browser. De aangemaakte afbeeldoingen worden geplaatst in de folder /shop_image/prduct/resized. Indien er reeds een thumbnail is aangemaakt dan wordt er geen meer aangemaakt.';
 	var $_PHPSHOP_ADMIN_CFG_THUMBNAIL_WIDTH = 'Breedte Thumbnail Afbeelding';
@@ -1415,20 +1435,18 @@ class vmLanguage extends vmAbstractLanguage {
 Wanneer niet aangevinkt dan is de prijslabel zoals gewoonlijk <strong>Prijs: $xx.xx</strong>';
 	var $_PHPSHOP_ADMIN_CFG_MORE_CORE_SETTINGS = 'meer Basis Instellingen';
 	var $_PHPSHOP_ADMIN_CFG_CORE_SETTINGS = 'Basis Instellingen';
-	var $_PHPSHOP_ADMIN_CFG_FRONTEND_FEATURES = 'Frontend Features';
+	var $_PHPSHOP_ADMIN_CFG_FRONTEND_FEATURES = 'Frontend Instellingen';
 	var $_PHPSHOP_ADMIN_CFG_TAX_CONFIGURATION = 'BTW Configuratie';
-	var $_PHPSHOP_PRODUCT_LIST_QUANTITY_START = 'Quantity Start';
-	var $_PHPSHOP_PRODUCT_LIST_QUANTITY_END = 'Quantity End';
+	var $_PHPSHOP_PRODUCT_LIST_QUANTITY_START = 'Begin Hoeveelheid';
+	var $_PHPSHOP_PRODUCT_LIST_QUANTITY_END = 'Eind Hoeveelheid';
 	var $_PHPSHOP_ADMIN_CFG_USER_REGISTRATION_SETTINGS = 'Gebruiker Registratie Settings';
 	var $_PHPSHOP_ADMIN_CFG_ALLOW_REGISTRATION = 'Gebruiker registratie toestaan?';
 	var $_PHPSHOP_ADMIN_CFG_ACCOUNT_ACTIVATION = 'Nieuwe gebruiker activatie nodig?';
 	var $_PHPSHOP_ADMIN_CFG_SILENT_REGISTRATION = 'Gebruik verborgen gebruiker registratie?';
-	var $_PHPSHOP_ADMIN_CFG_SILENT_REGISTRATION_TIP = 'Wanneer dit selecteerd dan hoeven de gebruikers geen gebruikersnaam en wachtwoord in te geven voor een nieuwe account. Het e-mail adres wordt gebruikt voor de nieuwe gebruiker en een random wachtwoord wordt gegenereerd. De registratie details worden verzonden naar de klant.';
-	var $_PHPSHOP_USER_SEND_REGISTRATION_DETAILS = 'Hallo %s,
-
-Dank u om te registeren bij %s. Uw gebruikersaccount is net gecreëerd.
-u kan zich aanmelden bij %s door gebruik te maken van de volgende gebruikersnaam en wachtwoord:
-
+	var $_PHPSHOP_ADMIN_CFG_SILENT_REGISTRATION_TIP = 'Wanneer dit geselecteerd is hoeven de gebruikers geen gebruikersnaam en wachtwoord in te geven voor een nieuwe account. Het e-mail adres wordt gebruikt voor de nieuwe gebruiker en een random wachtwoord wordt gegenereerd. De registratie details worden verzonden naar de klant.';
+	var $_PHPSHOP_USER_SEND_REGISTRATION_DETAILS = 'Geachte heer/mevrouw %s,
+Bedankt voor uw registratie bij %s. Uw gebruikersaccount is nu gecreÃ«erd.
+u kunt zich aanmelden bij %s door gebruik te maken van de volgende gebruikersnaam en wachtwoord:
 Gebruikersnaam - %s
 Wachtwoord - %s
 ';
@@ -1450,10 +1468,10 @@ Wachtwoord - %s
 	var $_PHPSHOP_ADMIN_CFG_PFP_USERNAME = 'PayFlow Pro Login ID';
 	var $_PHPSHOP_ADMIN_CFG_PFP_USERNAME_EXPLAIN = 'This is your PayFlow Pro Login ID';
 	var $_VM_TAXDETAILS_LABEL = 'Tax Total contains';
-	var $_VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL = 'Default product sort order';
-	var $_VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL_TIP = 'Defines by which field products are ordered by default on the browse pages';
-	var $_VM_BROWSE_ORDERBY_FIELDS_LBL = 'Available "Sort-by" fields';
-	var $_VM_BROWSE_ORDERBY_FIELDS_LBL_TIP = 'Choose the "Sort-by" fields for the browse page. Each one defines a sort method for the product browse page. If you deselect all, the Order-By-Form will not be shown.';
+	var $_VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL = 'Standaard sortering voor productoverzicht';
+	var $_VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL_TIP = 'Hier kan je instellen welke producteigenschap standaard gebruikt wordt voor de productoverzicht sortering';
+	var $_VM_BROWSE_ORDERBY_FIELDS_LBL = 'Beschikbare sorteermogelijkheden';
+	var $_VM_BROWSE_ORDERBY_FIELDS_LBL_TIP = 'Selecteer de sorteermogelijkheden voor de productoverzichten. Als je geen enkele sorteermogelijkheid selecteerd zal deze functie ook niet getoond worden op de productoverzichten.';
 	var $_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO = 'Show a short note about your "Returns Policy" on the order confirmation page?';
 	var $_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO_TIP = 'In most european countries store owners are required by law to inform their customers about return and order cancellation policies. So this should be enabled in most cases.';
 	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT = 'Legal information text (short version).';
@@ -1462,7 +1480,6 @@ Wachtwoord - %s
 	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK_TIP = 'Please add a new content item about the details of your return and order cancellation policy.
 Afterwards you can select it here.';
 	var $_VM_LEGALINFO_SHORTTEXT = '<h5>Returns Policy</h5>
-
 You can cancel this order within two weeks after we have received it.
 You can return new, unopened items from a cancelled order within 2 weeks after they have been 
 delivered to you. Items should be returned in their original packaging.
@@ -1470,7 +1487,7 @@ For more information on cancelling orders and returning items, see the <a href="
 	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_EU = 'European Union mode';
 	var $_VM_SESSION_SAVEPATH_UNWRITABLE = 'The directory to store session data is not writable. Please correct this or contact your provider.';
 	var $_VM_SESSION_SAVEPATH_UNWRITABLE_TMPFIX = 'The Session Save Path %s is not writable. Please correct this! The shop is temporarily trying to use the %s instead.\'';
-	var $_VM_SESSION_COOKIES_NOT_ACCEPTED_TIP = 'Your browser does not accept cookies. If you want to put products into your cart and purchase them you need to enable cookies.';
+	var $_VM_SESSION_COOKIES_NOT_ACCEPTED_TIP = 'Uw browser accepteerd geen cookies. Cookies worden gebruikt wanneer u producten in het winkelwagentje plaatst en zijn dus vereist voor een goede werking van deze site.';
 	var $_PHPSHOP_CSV_SKIP_FIRST_LINE = 'Skip first line';
 	var $_PHPSHOP_CSV_SKIP_DEFAULT_VALUE = 'Skip default value';
 	var $_PHPSHOP_CSV_OVERWRITE_EXISTING_DATA = 'Overwrite existing data';
@@ -1506,58 +1523,58 @@ For more information on cancelling orders and returning items, see the <a href="
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PACKAGING = 'Specify the number of items in the package.<br />Usage:<ol><li>Add the the name "product_packaging" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the number of items in the package.</li></ol><br /.>Values:<ul><li>Number</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_BOX = 'Specify the number of items in the box.<br />Usage:<ol><li>Add the the name "product_box" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the number of items in the box.</li></ol><br /.>Values:<ul><li>Number</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT = 'Specify the amount or percentage of discount the product has. The values entered are exact values, no calculation is made. This is the same as if you are filling in a discount via the Product Discount List. If the discount already exists, it will not be added to the database but the product will be linked to the existing discount. The criteria for determining if a discount already exists the following values have to be exactly the same:<ol><li>Amount, be it a total or percentage</li><li>Start date</li><li>End date</li></ol>This prevents from filling the database with a huge number of the same discounts.<br /><br />Usage:<ol><li>Add the the name "product_discount" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Optional: Add the the name "product_discount_date_start" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Optional: Add the the name "product_discount_date_end" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add the chosen columns to your CSV file with the corresponding values.</li></ol><br /.>Values:<ul><li>product_discount</li><ul><li>Number<br />e.g. 10</li><li>Percentage: Must include the % sign<br />e.g. 10%</li></ul><li>product_discount_date_start</li><ul><li>Date: day/month/year or day-month-year<br />Day and month can be a 1 or 2 digit notation.<br />Year can be a 2 or 4 digit notation.</li></ul><li>product_discount_date_end</li><ul><li>Date: day/month/year or day-month-year<br />Day and month can be a 1 or 2 digit notation.<br />Year can be a 2 or 4 digit notation.</li></ul></ul>';
-	var $_ITEM_PREVIOUS = 'previous';
-	var $_ITEM_NEXT = 'next';
+	var $_ITEM_PREVIOUS = 'vorige';
+	var $_ITEM_NEXT = 'volgende';
 	var $_CMN_OK = 'Ok';
-	var $_CMN_CONTINUE = 'Continue';
+	var $_CMN_CONTINUE = 'Doorgaan';
 	var $_CMN_CANCEL = 'Cancel';
-	var $_BUTTON_SEND_REG = 'Send Registration';
-	var $_CONTACT_FORM_NC = 'Please make sure the form is complete and valid.';
-	var $_CMN_REQUIRED = 'Required';
-	var $_CMN_NEW = 'New';
-	var $_CMN_SAVE = 'Save';
-	var $_CMN_NEW_ITEM_LAST = 'New items default to the last place. Ordering can be changed after this item is saved.';
-	var $_CMN_OPTIONAL = 'Optional';
-	var $_E_APPLY = 'Apply';
-	var $_E_IMAGES = 'Images';
+	var $_BUTTON_SEND_REG = 'Verstuur';
+	var $_CONTACT_FORM_NC = 'Zorg a.u.b. dat het formulier volledig is ingevuld.';
+	var $_CMN_REQUIRED = 'Verplichte velden';
+	var $_CMN_NEW = 'Nieuw';
+	var $_CMN_SAVE = 'Opslaan';
+	var $_CMN_NEW_ITEM_LAST = 'Nieuwe items staan standaard onderaan. De volgorde kan gewijzigd worden nadat het item opgeslagen is.';
+	var $_CMN_OPTIONAL = 'Optioneel';
+	var $_E_APPLY = 'Toepassen';
+	var $_E_IMAGES = 'Afbeeldingen';
 	var $_URL = 'URL:';
-	var $_SEL_CATEGORY = 'Select a category';
-	var $_E_REMOVE = 'Remove';
+	var $_SEL_CATEGORY = 'Selecteer een categorie';
+	var $_E_REMOVE = 'Verwijder';
 	var $_PN_LT = '<';
 	var $_PN_RT = '>';
-	var $_PN_PAGE = 'Page';
-	var $_PN_OF = 'of';
-	var $_PN_START = 'Start';
-	var $_PN_PREVIOUS = 'Prev';
-	var $_PN_NEXT = 'Next';
-	var $_PN_END = 'End';
-	var $_PN_DISPLAY_NR = 'Display #';
-	var $_PN_RESULTS = 'Results';
+	var $_PN_PAGE = 'Pagina';
+	var $_PN_OF = 'van';
+	var $_PN_START = 'Begin';
+	var $_PN_PREVIOUS = 'Vorige';
+	var $_PN_NEXT = 'Volgende';
+	var $_PN_END = 'Einde';
+	var $_PN_DISPLAY_NR = 'Toon #';
+	var $_PN_RESULTS = 'Resultaten';
 	var $_CMN_PRINT = 'Print';
 	var $_CMN_PDF = 'PDF';
 	var $_CMN_EMAIL = 'E-mail';
-	var $_BACK = 'Back';
+	var $_BACK = 'Terug';
 	var $_USERNAME = 'Gebruikersnaam';
-	var $_PASSWORD = 'Password';
+	var $_PASSWORD = 'Wachtwoord';
 	var $_BUTTON_LOGIN = 'Login';
 	var $_REGISTER_UNAME = 'Gebruikersnaam';
-	var $_REGISTER_EMAIL = 'Email';
-	var $_REGWARN_NAME = 'Please enter your name.';
-	var $_REGWARN_UNAME = 'Please enter a user name.';
-	var $_REGWARN_MAIL = 'Please enter a valid e-mail address.';
-	var $_SEND_SUB = 'Account details for %s at %s';
-	var $_ASEND_MSG = 'Hello %s,
-	
-	A new user has registered at %s.
-	This email contains their details:
-	
-	Naam - %s
-	E-mail - %s
-	Gebruikersnaam - %s
-	
-	Please do not respond to this message as it is automatically generated and is for information purposes only';
-	var $_REG_COMPLETE = '<div class="componentheading">Registration Complete!</div><br />You may now login.';
-	var $_REG_COMPLETE_ACTIVATE = '<div class="componentheading">Registration Complete!</div><br />Your account has been created and activation link has been sent to the e-mail address you entered. Note that you must activate the account by clicking on the activation link when you get the e-mail before you can login.';
+	var $_REGISTER_EMAIL = 'E-mail';
+	var $_REGWARN_NAME = 'Voer uw naam in.';
+	var $_REGWARN_UNAME = 'Voer een gebruikersnaam in.';
+	var $_REGWARN_MAIL = 'Voer een geldig e-mail adres in.';
+	var $_SEND_SUB = 'Gebruikersdetails van %s voor %s';
+	var $_ASEND_MSG = 'Hallo %s,
+   
+   Een nieuwe gebruiker heeft zich geregistreerd op %s.
+   Dit zijn de gegevens van de gebruiker:
+   
+   Naam - %s
+   E-mail - %s
+   Gebruikersnaam - %s
+   
+   Dit is een automatisch gegenereerde e-mail, u kunt hier niet op reageren.';
+	var $_REG_COMPLETE = '<div class="componentheading">Registratie voltooid!</div><br />U kunt nu inloggen.';
+	var $_REG_COMPLETE_ACTIVATE = '<div class="componentheading">Registratie Voltooid!</div><br />Uw account is gemaakt en een activatie link is per e-mail verstuurd naar uw e-mail adres. Nadat u deze activatie link gebruikt heeft kunt u inloggen.';
 	var $_DATE_FORMAT_LC = '%A, %d %B %Y';
 	var $_LAST_UPDATED = 'Last Updated';
 	var $_NOT_AUTH = 'You are not authorized to view this resource.';
@@ -1568,66 +1585,42 @@ For more information on cancelling orders and returning items, see the <a href="
 	var $_MORE = 'More...';
 	var $_EMPTY_CATEGORY = 'This Category is currently empty.';
 	var $_BUTTON_LOGOUT = 'Logout';
-	var $_NO_ACCOUNT = 'No account yet?';
-	var $_CREATE_ACCOUNT = 'Register';
+	var $_NO_ACCOUNT = 'Bent u een nieuwe klant? Registreer dan';
+	var $_CREATE_ACCOUNT = 'hier';
 	var $_REGWARN_PASS = 'Please enter a valid password.  No spaces, more than 6 characters and contain 0-9,a-z,A-Z';
 	var $_REGWARN_VPASS1 = 'Please verify the password.';
 	var $_REGWARN_VPASS2 = 'Password and verification do not match, please try again.';
 	var $_USEND_MSG_ACTIVATE = 'Hello %s,
 
-
-
 Thank you for registering at %s. Your account is created and must be activated before you can use it.
-
 To activate the account click on the following link or copy-paste it in your browser:
-
 %s
-
-
 
 After activation you may login to %s using the following Gebruikersnaam and password:
 
-
-
 Gebruikersnaam - %s
-
 Password - %s';
 	var $_USEND_MSG = 'Hello %s,
 
-
-
 Thank you for registering at %s.
 
-
-
 You may now login to %s using the gebruikersnaam and password you registered with.';
-	var $_PROMPT_PASSWORD = 'Lost your Password?';
-	var $_HI = 'Hi';
-	var $_NEW_USER_MESSAGE_SUBJECT = 'New User Details';
-	var $_NEW_USER_MESSAGE = 'Hello %s,
+	var $_PROMPT_PASSWORD = 'Wachtwoord vergeten?';
+	var $_HI = 'Hallo';
+	var $_NEW_USER_MESSAGE_SUBJECT = 'Nieuwe gebruikersdetails';
+	var $_NEW_USER_MESSAGE = 'Geachte heer/mevrouw %s,
 
 
+Er is voor u een gebruikersaccount aangemaakt bij %s door de website beheerder.
 
-
-
-You have been added as a user to %s by an Administrator.
-
-
-
-This email contains your gebruikersnaam and password to log into the %s
-
-
+Deze e-mail bevat uw gebruikersnaam en wachtwoord voor %s
 
 Gebruikersnaam - %s
-
-Password - %s
-
+Wachtwoord - %s
 
 
-
-
-Please do not respond to this message as it is automatically generated and is for information purposes only';
-	var $_REMEMBER_ME = 'Gegevens ounthouden';
+Deze e-mail is automatisch gegenereerd en reacties hierop worden door ons niet gelezen';
+	var $_REMEMBER_ME = 'Gegevens Onthouden';
 	var $_REGISTER_TITLE = 'Registratie';
 	var $_JAN = 'januari';
 	var $_FEB = 'februari';
@@ -1643,8 +1636,8 @@ Please do not respond to this message as it is automatically generated and is fo
 	var $_DEC = 'december';
 	var $_PHPSHOP_CSV_VERSION = '0.7';
 	var $_PHPSHOP_CSV_ABOUT = 'About';
-	var $_PHPSHOP_CSV_PRICE_LIST_ONLY = 'Alleen deze prijstlijst uploaden';
-	var $_PHPSHOP_CSV_MULTIPLE_PRICES_UPLOAD = 'Meedere prijslijsten uploaden';
+	var $_PHPSHOP_CSV_PRICE_LIST_ONLY = 'Alleen deze prijslijst uploaden';
+	var $_PHPSHOP_CSV_MULTIPLE_PRICES_UPLOAD = 'Meerdere prijslijsten uploaden';
 	var $_PHPSHOP_CSV_IMPORT_CONFIG_CSV_FILE = 'Kolomkoppen gebruiken';
 	var $_PHPSHOP_CSV_COLLECT_DEBUG_INFO = 'Collect debug information';
 	var $_PHPSHOP_CSV_SHOW_PREVIEW = 'Show preview';
@@ -1657,310 +1650,159 @@ Please do not respond to this message as it is automatically generated and is fo
 	var $_PHPSHOP_CSV_CONTINUE_UPLOAD = 'Continue upload';
 	var $_PHPSHOP_CSV_CANCEL_UPLOAD = 'Cancel upload';
 	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION = '<span style="color: #FF0000; font-size: 1.2em;">Steps to upload a CSV file</span>
-
 										<ol>
-
 										<li>Create a product list as a CSV file either with or without column headers.
-
 										<br />Recommended is to use the text delimiter ~ (tilde) and the field delimiter ^ (caret).
-
 										<br /><span style="font-weight: bold;">Example File:</span><br />
-
-										<div class="quote" style="width:600px;overflow:scroll;"><pre>~G01~^~Hand Shovel~^~Hand Tools~^~4.99000~^~<p>Nice hand shovel to dig with in the yard.</p>~^~<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5\~ Diameter<br>  Tungsten handle tip with 5 point loft<br>~^~8d886c5855770cc01a3b8a2db57f6600.jpg~^~cca3cd5db813ee6badf6a3598832f2fc.jpg~^~10.0000~^~pounds~^~0.0000~^~0.0000~^~0.0000~^~inches~^~10~^~1072911600~^~1~^~1~^~2~^~0~^~G01~^~~^~~^~Color::1|Size::2~^~~
-
-~G02~^~Ladder~^~Garden Tools~^~49.99000~^~A really long ladder to reach high places.~^~<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5\~ Diameter<br>  Tungsten handle tip with 5 point loft<br>~^~ffd5d5ace2840232c8c32de59553cd8d.jpg~^~8cb8d644ef299639b7eab25829d13dbc.jpg~^~10.0000~^~pounds~^~0.0000~^~0.0000~^~0.0000~^~inches~^~76~^~1072911600~^~0~^~1~^~2~^~0~^~G02~^~~^~~^~Material::1~^~~
-
-~G03~^~Shovel~^~Garden Tools~^~24.99000~^~Nice shovel.  You can dig your way to China with this one.~^~<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5\~ Diameter<br>  Tungsten handle tip with 5 point loft<br>~^~8147a3a9666aec0296525dbd81f9705e.jpg~^~520efefd6d7977f91b16fac1149c7438.jpg~^~10.0000~^~pounds~^~0.0000~^~0.0000~^~0.0000~^~inches~^~32~^~1072911600~^~0~^~1~^~2~^~0~^~G03~^~Size,XL[+1.99],M,S[-2.99];Colour,Red,Green,Yellow,ExpensiveColor[=24.00]~^~~^~~^~~</pre></div></li>
-
+										<div class="quote" style="width:600px;overflow:scroll;"><pre>~G01~^~Hand Shovel~^~Hand Tools~^~4.99000~^~<p>Nice hand shovel to dig with in the yard.</p>~^~<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5~ Diameter<br>  Tungsten handle tip with 5 point loft<br>~^~8d886c5855770cc01a3b8a2db57f6600.jpg~^~cca3cd5db813ee6badf6a3598832f2fc.jpg~^~10.0000~^~pounds~^~0.0000~^~0.0000~^~0.0000~^~inches~^~10~^~1072911600~^~1~^~1~^~2~^~0~^~G01~^~~^~~^~Color::1|Size::2~^~~
+~G02~^~Ladder~^~Garden Tools~^~49.99000~^~A really long ladder to reach high places.~^~<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5~ Diameter<br>  Tungsten handle tip with 5 point loft<br>~^~ffd5d5ace2840232c8c32de59553cd8d.jpg~^~8cb8d644ef299639b7eab25829d13dbc.jpg~^~10.0000~^~pounds~^~0.0000~^~0.0000~^~0.0000~^~inches~^~76~^~1072911600~^~0~^~1~^~2~^~0~^~G02~^~~^~~^~Material::1~^~~
+~G03~^~Shovel~^~Garden Tools~^~24.99000~^~Nice shovel.  You can dig your way to China with this one.~^~<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5~ Diameter<br>  Tungsten handle tip with 5 point loft<br>~^~8147a3a9666aec0296525dbd81f9705e.jpg~^~520efefd6d7977f91b16fac1149c7438.jpg~^~10.0000~^~pounds~^~0.0000~^~0.0000~^~0.0000~^~inches~^~32~^~1072911600~^~0~^~1~^~2~^~0~^~G03~^~Size,XL[+1.99],M,S[-2.99];Colour,Red,Green,Yellow,ExpensiveColor[=24.00]~^~~^~~^~~</pre></div></li>
 										<li>Setup the fields on the "Configuration" tab in the same order as the CSV file. The fields must match the exact place in the CSV file.
-
 										<br />E.g. product_sku, product_desc, product_price, category_path<br />
-
 										<br /><span style="font-weight: bold;">Minimum required information to add a product is:</span><br />
-
 										product_sku<br />
-
 										product_name<br />
-
 										category_path<br />
-
 										<br /><span style="font-weight: bold;">category_path</span> is a slash delimited string which begins
-
 										with a top-level category and follows with sub-categories, e.g. <br />
-
 										<div class="quote">category/sub-category_1/sub_category_2</div>
-
 										<br />
-
 										When the product has to be assigned to more than one category, you can
-
 										provide all categories,<br />
-
 										delimited by a <span style="font-weight: bold;">|</span>
-
 										<div class="quote">Category/Sub-category_1/Sub_category_2|Category2/Subcategory22|Category3/Subcategory33</div>
-
 										</li>
-
 										<li>Choose the delimiters on the "Import/Export" tab.</li>
-
 										<li>Choose the upload settings on the "Import/Export" tab.</li>
-
 										<li>Choose either to upload the file from your local computer (Submit CSV File) or to use a local file (Load CSV File from Server).</li>
-
 										<li>The import starts.</li>
-
 										</ol>';
 	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_PRODUCT_TYPES = '<span style="color: #FF0000; font-size: 1.2em;">Product Types</span><br /><br />
-
 													To add product types, you need 4 CSV files. Each CSV file represents a part of the product type.
-
 													<ul>
-
 													<li><span style="font-weight: bold;">Product types</span><br />
-
 													This CSV file contains the main product types and should look like this:
-
 													<table border="1">
-
 													<tr style="border: 1px solid #000000;"><td>product_type_name</td><td>product_type_description</td><td>product_type_publish</td><td>product_type_browsepage</td><td>product_type_flypage</td></tr>
-
-													<tr><td>Music track</td><td>Track</td><td>Y</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-
-													<tr><td>Music album</td><td>Album</td><td>Y</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-
-													<tr><td>Music artist</td><td>Artist</td><td>Y</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-
+													<tr><td>Music track</td><td>Track</td><td>Y</td><td>Â </td><td>Â </td></tr>
+													<tr><td>Music album</td><td>Album</td><td>Y</td><td>Â </td><td>Â </td></tr>
+													<tr><td>Music artist</td><td>Artist</td><td>Y</td><td>Â </td><td>Â </td></tr>
 													</table>
-
 													</li><br />
-
 													<li><span style="font-weight: bold;">Product type parameters</span><br />
-
 													This CSV file contains the parameters per product type and should look like this:
-
 													<div style="width: 50%; overflow: auto; height: 100px;">
-
 													<table border="1">
-
 													<tr><td>product_type_name</td><td>product_type_parameter_name</td><td>product_type_parameter_label</td><td>product_type_parameter_description</td><td>product_type_parameter_list_order</td><td>product_type_parameter_type</td><td>product_type_parameter_values</td><td>product_type_parameter_multiselect</td><td>product_type_parameter_default</td><td>product_type_parameter_unit</td></tr>
-
-													<tr><td>Music artist</td><td>Name</td><td>Name</td><td>Artist Name</td><td>1</td><td>I</td><td>&nbsp;</td><td>N</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-
-													<tr><td>Music artist</td><td>Birth</td><td>Birth</td><td>Artist Birth</td><td>2</td><td>D</td><td>&nbsp;</td><td>N</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-
+													<tr><td>Music artist</td><td>Name</td><td>Name</td><td>Artist Name</td><td>1</td><td>I</td><td>Â </td><td>N</td><td>Â </td><td>Â </td></tr>
+													<tr><td>Music artist</td><td>Birth</td><td>Birth</td><td>Artist Birth</td><td>2</td><td>D</td><td>Â </td><td>N</td><td>Â </td><td>Â </td></tr>
 													<tr><td>Music album</td><td>Duration</td><td>Duration</td><td>Duration of album</td><td>3</td><td>M</td><td>00:01:00;00:02:00;00:03:00</td><td>Y</td><td>00:02:00</td><td>minutes</td></tr>
-
 													</table>
-
 													</div>
-
 													<br />
-
 													The product type parameter type can have several values, they are:
-
 													<ul>
-
 													<li>I: Integer</li>
-
 													<li>T: Text</li>
-
 													<li>S: Short Text</li>
-
 													<li>F: Float</li>
-
 													<li>C: Char</li>
-
 													<li>D: Date & Time</li>
-
 													<li>M: Time</li>
-
 													<li>V: Multiple Values</li>
-
 													<li>B: Break Line</li>
-
 													</ul>
-
 													</li><br />
-
 													<li><span style="font-weight: bold;">Items per product type name</span><br />
-
 													This CSV file contains the details per product type parameter name and should look like this:
-
 													<table border="1">
-
 													<tr><td>product_sku</td><td>product_type_name</td><td>product_type_parameter_namex</td><td>product_type_parameter_namex</td></tr>
-
 													<tr><td>1234</td><td>Music artist</td><td>Singing Star</td><td>1975</td></tr>
-
 													<tr><td>5678</td><td>Music artist</td><td>Rocking Band</td><td>1980</td></tr>
-
 													</table><br />
-
 													Per product type name you need a seperate CSV file. The reason for this is that the column names for each CSV file is different because of the set of product type parameters.
-
 													</li><br />
-
 													<li><span style="font-weight: bold;">Product type cross reference to product SKU</span><br />
-
 													This CSV file contains the link between a product type and a product SKu and should look like this:
-
 													<table border="1">
-
 													<tr><td>product_sku</td><td>product_type_name</td></tr>
-
 													<tr><td>1234</td><td>Music artist</td></tr>
-
 													<tr><td>5678</td><td>Music artist</td></tr>
-
 													</table>
-
 													</li>
-
 													</ul><br />
-
 													Procedure:<br />
-
 													<ol>
-
 													<li>Upload Product Types CSV file</li>
-
 													<li>Upload Product Type Parameters CSV file</li>
-
 													<li>Upload Product Type Items CSV file</li>
-
 													<li>Upload Product Type Cross Reference CSV file</li>
-
 													</ol>';
 	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_EMPTY_DATABASE = '<span style="color: #FF0000; font-size: 1.2em;">Empty Database</span><br /><br />
-
 													 <span style="color: #FF0000; font-size: 2em;">USE WITH CAUTION !!! NO RESTORE !!!</span><br /><br />
-
 													 Emptying the database will remove ALL data in your database from the following tables:
-
 													 <ul>
-
 													 <li>products</li>
-
 													 <li>products</li>
-
 													 <li>product_price</li>
-
 													 <li>product_mf_xref</li>
-
 													 <li>product_attribute</li>
-
 													 <li>category</li>
-
 													 <li>category_xref</li>
-
 													 <li>product_attribute_sku</li>
-
 													 <li>product_category_xref</li>
-
 													 <li>product_discount</li>
-
 													 <li>product_type</li>
-
 													 <li>product_type_parameter</li>
-
 													 <li>product_product_type_xref</li>
-
 													 </ul>
-
 													 All but the first manufacturer is removed:
-
 													 <ul>
-
 													 <li>manufacturer</li>
-
 													 </ul>
-
 													 The following tables are completely deleted:
-
 													 <ul>
-
 													 <li>product_type_x</li>
-
 													 </ul>
-
 													 The x represents the number of the table. This number relates to the product types that are in the system. Since the product types table is completely emptied, these tables are removed. Uploading new product types will recreate the tables.<br /><br />
-
 													 Procedure:
-
 													 <ol>
-
 													 <li>Choose "Empty Database" from the dropdown on the Upload Settings</li>
-
 													 <li>Check "Collect debug information" if you want additional result information</li>
-
 													 <li>Click "Submit CSV File" or "Load CSV File from Server". No need to enter a filename.</li>
-
 													 <li>You are asked if you are sure you want to empty your database. Click OK if you are sure otherwise click Cancel</li>
-
 													 <li>The database is now emptied or you are returned to the main screen depending on your previous choice</li>
-
 													 </ol>';
 	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_MULTIPLE_PRICES_UPLOAD = '<span style="color: #FF0000; font-size: 1.2em;">Multiple prices upload</span><br /><br />
-
 														    Procedure:
-
 														    <ol>
-
 														    <li>Create a CSV file that contains the following fields:
-
 														    	<ul>
-
 															<li>product_sku</li>
-
 															<li>product_price</li>
-
 															<li>product_currency</li>
-
 															<li>price_quantity_start</li>
-
 															<li>price_quantity_end</li>
-
 															<li>price_delete</li>
-
 															</ul>
-
 														    See the Available Fields tab for what information each field contains. If you want to use the column headers as configuration, fill the first line with the column headers name.
-
 														    </li>
-
 														    <li>Either set the configuration fields, as mentioned in point 1 on the Configuration tab or if you added column headers to your CSV file, select "Use column headers as configuration" at the Upload Settings.
-
 														    </li>
-
 														    <li>Select "Multiple Prices Upload" at the Upload Settings</li>
-
 														    <li>Optionally, choose "Show preview" and/or "Collect debug information"</li>
-
 														    <li>Select a file to upload or to load from directory</li>
-
 														    <li>Select "Submit CSV File" or "Load CSV File from Server" depending if you are uploading a file or loading a file from a directory</li>
-
 														    <li>The prices will now be imported</li>
-
 														    </ol><br /><br />
-
 														    <span style="font-weight: bold;">Price delete</span><br />
-
 														    Using the multiple prices import it is also possible to delete prices. A price is deleted when the following fields in the CSV file match the data in the database:
-
 														    <ul>
-
 														    <li>product_sku</li>
-
 														    <li>product_price</li>
-
 														    <li>product_currency</li>
-
 														    <li>price_quantity_start</li>
-
 														    <li>price_quantity_end</li>
-
 														    </ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PRICE = 'The price for a product without currency denominator.<br /><br />Usage:<ol><li>Select the name "product_price" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a price value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_LENGTH = 'The length of the product.<br /><br />Usage:<ol><li>Select the name "product_length" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
@@ -1993,25 +1835,15 @@ Please do not respond to this message as it is automatically generated and is fo
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_MULTISELECT = 'Set to yes to show possible parameter values as multiple select items<br /><br />Usage:<ol><li>Select the name "product_type_parameter_list_multiselect" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value Y or N.</li></ol><br />Values:<ul><li>Y: Yes, the values are multi select</li><li>N: No, the values are not multi select</li><li>Empty: Empty value, the values are not multi select</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_NAME = 'The name of the product type parameter. This name must be unique and without spaces as it will be the column name for the parameter details.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_type" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_TYPE = 'This sets the type of parameter that will be used. There are a number of different values that can be used.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_type" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value.</li></ol><br />Values:<ul><li>Text:<ul>
-
 													<li>I: Integer</li>
-
 													<li>T: Text</li>
-
 													<li>S: Short Text</li>
-
 													<li>F: Float</li>
-
 													<li>C: Char</li>
-
 													<li>D: Date & Time</li>
-
 													<li>M: Time</li>
-
 													<li>V: Multiple Values</li>
-
 													<li>B: Break Line</li>
-
 													</ul></li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_UNIT = 'The unit the product type parameter refers to.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_unit" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_VALUES = 'These are the values for the parameter and have to meet the requirement set by the parameter type.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_values" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>This depends on the type set in the product_type_parameter_type field. All values have to be semi-colon (;) seperated.</li></ul>';
@@ -2022,7 +1854,6 @@ Please do not respond to this message as it is automatically generated and is fo
         
 }
 class phpShopLanguage extends vmLanguage { }
-
 /** @global vmLanguage $VM_LANG */
 $VM_LANG =& new vmLanguage();
 ?>

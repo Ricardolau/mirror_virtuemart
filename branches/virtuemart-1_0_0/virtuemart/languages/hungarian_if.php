@@ -1,5 +1,5 @@
 <?php
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
+defined( '_VALID_MOS' ) or die( 'A közvetlen hozzáférés ehhez a helyhez nem engedélyezett.' ); 
 /**
 *
 * @version $Id$
@@ -329,10 +329,10 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_FORM_DIMENSION_UOM_DEFAULT = 'hüvelyk';
 	var $_PHPSHOP_PRODUCT_FORM_UNIT = 'Mértékegység';
 	var $_PHPSHOP_PRODUCT_FORM_UNIT_DEFAULT = 'darab';
-	var $_PHPSHOP_PRODUCT_FORM_PACKAGING = 'Units in Packaging';
-	var $_PHPSHOP_PRODUCT_FORM_PACKAGING_DESCRIPTION = 'Here you can fill in a number unit in packaging. (max. 65535)';
-	var $_PHPSHOP_PRODUCT_FORM_BOX = 'Units in Box';
-	var $_PHPSHOP_PRODUCT_FORM_BOX_DESCRIPTION = 'Here you can fill in a number unit in box. (max. 65535)';
+	var $_PHPSHOP_PRODUCT_FORM_PACKAGING = 'A csomagolásban lévõ egységek';
+	var $_PHPSHOP_PRODUCT_FORM_PACKAGING_DESCRIPTION = 'Ide írhatod be a csomagolásban lévõ egységek számát. (max. 65535)';
+	var $_PHPSHOP_PRODUCT_FORM_BOX = 'A dobozban lévõ egységek';
+	var $_PHPSHOP_PRODUCT_FORM_BOX_DESCRIPTION = 'Ide írhatod be a dobozban lévõ egységek számát. (max. 65535)';
 	var $_PHPSHOP_PRODUCT_DISPLAY_ADD_PRODUCT_LBL = 'Termék hozzáadás eredménye';
 	var $_PHPSHOP_PRODUCT_DISPLAY_UPDATE_PRODUCT_LBL = 'Termékfrissítés eredménye';
 	var $_PHPSHOP_PRODUCT_DISPLAY_ADD_ITEM_LBL = 'Tétel hozzáadás eredménye';
@@ -847,7 +847,8 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_VENDOR = 'Az eladó címe alapján';
 	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_EXPLAIN = 'Ez adja meg, hogy melyik adókulcs lesz figyelembe véve az adószámításnál:<br />
                                                 <ul><li>az üzlettulajdonos székhelye szerint érvényes állami/területi adókulcs</li><br/>
-                                                <li>vagy a vásárló otthona szerint érvényes állami/területi adókulcs.</li></ul>';
+                                                <li>vagy a vásárló otthona szerint érvényes állami/területi adókulcs.</li>
+												<li>vagy "EU mód", ahol a termékenkénti adókulcs kerül felhasználásra, ha Európai Unió-beli a vásárló, egyéb esetben az adókulcs alapja a vásárló címe.</li></ul>';
 	var $_PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE = 'Megengeded több adókulcs használatát?';
 	var $_PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE_EXPLAIN = 'Jelöld be, ha olyan termékeid is vannak, amelyekhez különbözõ adókulcsok tartoznak (pl. 9% a könyvek, 19% az egyéb termékek számára)';
 	var $_PHPSHOP_ADMIN_CFG_SUBSTRACT_PAYEMENT_BEFORE = 'A kifizetési kedvezményeket vegye-e figyelembe az adók és a szállítási illetékek kiszámítása elõtt?';
@@ -1253,71 +1254,71 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ORDER_HISTORY_DATE_ADDED = 'Hozzáadás dátuma';
 	var $_PHPSHOP_ORDER_HISTORY_CUSTOMER_NOTIFIED = 'Kapott értesítést a vevõ?';
 	var $_PHPSHOP_ORDER_STATUS_CHANGE = 'Rendelési állapot megváltoztatása';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_USERNAME = 'USPS shipping username';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_USERNAME_TOOLTIP = 'Username that you received from registering at USPS.com.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PASSWORD = 'USPS shipping password';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PASSWORD_TOOLTIP = 'Password that you received from registering at USPS.com.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SERVER = 'USPS shipping server';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SERVER_TOOLTIP = 'USPS shipping server, currently only works on live server!  Should be production.shippingapis.com';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PATH = 'USPS shipping path';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PATH_TOOLTIP = 'USPS shipping path, should be /ShippingAPI.dll';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGESIZE = 'USPS Package Size';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGESIZE_TOOLTIP = 'Choices are Regular, Large, and Oversize.  This should be set to what you mostly mail and is based on the dimensions of the package.  Normally just Regular.';
-	var $_PHPSHOP_USPS_PADDING = 'Percent to pad weight for shipping package. (Include %)';
-	var $_PHPSHOP_USPS_PADDING_TOOLTIP = 'Pad the shipping weight to allow additional weight for shipping box and packing. Using this allows you to put actual weight in your items weight settings.  Requires you to have the % sign included.  Example 15%';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_HANDLING_FEE = 'Handling Fee';
-	var $_PHPSHOP_USPS_HANDLING_FEE = 'Your Handling fee for this shipping method.';
-	var $_PHPSHOP_USPS_HANDLING_FEE_TOOLTIP = 'Do you want to charge extra for users to ship USPS?  In dollar format, example 2.00';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLHANDLINGFEE = 'Your International Handling fee for USPS shipments.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLHANDLINGFEE_TOOLTIP = 'Do you want to charge extra for users to ship Internationally with USPS.  This is on top of the normal Handling Fee.  Example 2.00';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLLBRATE = 'Your International per pound rate for USPS shipments.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLLBRATE_TOOLTIP = 'Your International per pound rate for USPS shipments.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_MACHINABLE = 'If Parcel Post is used and package is under 6oz & over 35lbs.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_MACHINABLE_TOOLTIP = 'Is this package able to be handled by a machine.  Default should be No.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_USERNAME = 'USPS szállítási felhasználónév';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_USERNAME_TOOLTIP = 'USPS szállítási felhasználónév';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PASSWORD = 'USPS szállítási jelszó';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PASSWORD_TOOLTIP = 'USPS szállítási jelszó';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SERVER = 'USPS szállítási kiszolgáló';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SERVER_TOOLTIP = 'USPS szállítási kiszolgáló';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PATH = 'USPS szállítási útvonal';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PATH_TOOLTIP = 'USPS szállítási útvonal';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGESIZE = 'USPS csomagmérete';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGESIZE_TOOLTIP = 'USPS csomagméret';
+	var $_PHPSHOP_USPS_PADDING = 'A szállítandó csomag bélése súlyának százaléka. (% megadásával)';
+	var $_PHPSHOP_USPS_PADDING_TOOLTIP = 'A szállítási súly bélése, mely a szállítási doboz és a csomagolás kiegészítõ súlyát engedélyez. Használata lehetõvé teszi a tényleges súly megadását az árucikkek súlybeállításainál.  Kötelezõ belevenni a % jelet.  Például: 15%';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_HANDLING_FEE = 'Kezelési költség';
+	var $_PHPSHOP_USPS_HANDLING_FEE = 'Eme szállítási mód kezelési költsége.';
+	var $_PHPSHOP_USPS_HANDLING_FEE_TOOLTIP = 'Eme szállítási mód kezelési költsége.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLHANDLINGFEE = 'Az USPS-szállítások nemzetközi kezelési költsége.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLHANDLINGFEE_TOOLTIP = 'Az USPS-szállítások nemzetközi kezelési költsége.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLLBRATE = 'Az USPS-szállítások nemzetközi fontonkénti tarifája.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLLBRATE_TOOLTIP = 'Az USPS-szállítások nemzetközi fontonkénti tarifája.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_MACHINABLE = 'Csomagküldemény esetén, és a csomag 6 uncia alatti és 35 font fölötti.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_MACHINABLE_TOOLTIP = 'Fel tudja gép dolgozni ezt a csomagot?  A Nem legyen az alapértelmezett.';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP = 'USPS Domestic Mail';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP0 = 'USPS Express Mail PO to Addressee';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP0_TOOLTIP = 'Standard USPS Express Mail.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP1 = 'USPS Express Mail Flat Rate Envelope (12.5" x 9.5")';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP1_TOOLTIP = 'Select this if you allow shipping via the USPS Express Mail Flat Rate Envelope. Default should be No as it could come up cheaper than actual shipping and might not fit in the envelope.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP2 = 'USPS Priority Mail';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP2_TOOLTIP = 'Standard USPS Priority Mail.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP3 = 'USPS Priority Mail Flat Rate Envelope (12.5" x 9.5")';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP3_TOOLTIP = 'Select this if you allow shipping via the USPS Priority Mail Flat Rate Envelope.  Default should be No as it could come up cheaper than actual shipping and might not fit in the envelope.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP4 = 'USPS Priority Mail Flat Rate Box (11.25" x 8.75" x 6")';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP4_TOOLTIP = 'Select this if you allow shipping via the USPS Priority Mail Flat Rate Box.  Default should be No as it could come up cheaper than actual shipping and might not fit in the box.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP5 = 'USPS Priority Mail Flat Rate Box (14" x 12" x 3.5")';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP5_TOOLTIP = 'Select this if you allow shipping via the USPS Priority Mail Flat Rate Box.  Default should be No as it could come up cheaper than actual shipping and might not fit in the box.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP6 = 'USPS First Class (Under 14oz)';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP6_TOOLTIP = 'Select this if you allow shipping via USPS First Class Mail.  This will only be displayed if package weight is under .88 pounds.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP7 = 'USPS Parcel post';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP7_TOOLTIP = 'Standard USPS Parcel Post Mail.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP8 = 'USPS Bound Printed Matter';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP8_TOOLTIP = 'Select this if you allow shipping via USPS Bound Printed Matter.  Default should be No unless you ship bound magazines or newspapers in groups.  15 pound limit.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP9 = 'USPS Media Mail';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP9_TOOLTIP = 'Select this if you allow shipping via USPS Media Mail.  Default should be No.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP10 = 'USPS Library Mail';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP10_TOOLTIP = 'Select this if you allow shipping via USPS Library Mail.  Default should be No.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL = 'USPS International Mail';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL0 = 'USPS Global Express Gauranteed Document Service';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL0_TOOLTIP = 'Select this if you allow shipping via USPS Global Express Gauranteed Document Service.  Default should be No.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL1 = 'USPS Global Express Gauranteed Non-Document Service';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL1_TOOLTIP = 'Select this if you allow shipping via USPS Global Express Gauranteed Non-Document Service.  Default should be No.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL2 = 'USPS Global Express Mail (EMS)';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL2_TOOLTIP = 'Standard USPS Global Express Mail.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL3 = 'USPS Global Priority Mail Flat Envelope Large';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL3_TOOLTIP = 'Select this if you allow shipping via USPS Global Priority Mail Flat Envelope Large.  Default should be No as it could come up cheaper than actual shipping and might not fit in the envelope.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL4 = 'USPS Global Priority Mail Flat Envelope Small';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL4_TOOLTIP = 'Select this if you allow shipping via USPS Global Priority Mail Flat Envelope Large.  Default should be No as it could come up cheaper than actual shipping and might not fit in the envelope.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL5 = 'USPS Global Priority Mail - Variable Weight';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL5_TOOLTIP = 'Standard USPS Global Priority Mail.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL6 = 'USPS Airmail Letter Post';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL6_TOOLTIP = 'Select this if you allow shipping via USPS Airmail Letter Post.  Default should be No as it could come up cheaper than actual shipping and might not fit in the letter.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL7 = 'USPS Airmail Parcel Post';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL7_TOOLTIP = 'Standard USPS Airmail Parcel Post.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL8 = 'USPS Economy Letter Post';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL8_TOOLTIP = 'Select this if you allow shipping via USPS Economy Letter Post.  Default should be No as it could come up cheaper than actual shipping and might not fit in the letter.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL9 = 'USPS Economy Parcel Post';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL9_TOOLTIP = 'Standard Economy Parcel Post.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP0 = 'USPS expressz levél a címzett terhére';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP0_TOOLTIP = 'Szabványos USPS expressz levél.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP1 = 'USPS expressz levél lapos díjszabásos borítékban (12.5\" x 9.5\")';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP1_TOOLTIP = 'Akkor válaszd ezt, ha engedélyezni kívánod az USPS expressz levélként töténõ szállítást lapos díjszabásos borítékban. A Nem legyen az alapértelmezett, ugyanis az olcsóbb lehet a tényleges szállításnál, és lehet, hogy nem fér bele a borítékba.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP2 = 'USPS elsõbbségi levél';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP2_TOOLTIP = 'Szabványos USPS elsõbbségi levél.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP3 = 'USPS elsõbbségi levél labos díjszabásos borítékban (12.5\" x 9.5\")';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP3_TOOLTIP = 'Akkor válaszd ezt, ha engedélyezni kívánod az USPS elsõbbségi levélként történõ szállítást lapos díjszabásos borítékban.  A Nem legyen az alapértelmezett, ugyanis az olcsóbb lehet a tényleges szállításnál, és lehet, hogy nem fér bele a borítékba.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP4 = 'USPS elsõbbségi levél lapos díjszabásos dobozban (11.25\" x 8.75\" x 6\")';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP4_TOOLTIP = 'Akkor válaszd ezt, ha engedélyezni kívánod az USPS elsõbbségi levélként történõ szállítást lapos díjszabásos dobozban.  A Nem legyen az alapértelmezett, ugyanis az olcsóbb lehet a tényleges szállításnál, és lehet, hogy nem fér bele a dobozba.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP5 = 'USPS elsõbbségi levél lapos díjszabásos dobozban (14\" x 12\" x 3.5\")';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP5_TOOLTIP = 'Akkor válaszd ezt, ha engedélyezni kívánod az USPS elsõbbségi levélként történõ szállítást lapos díjszabásos dobozban.  A Nem legyen az alapértelmezett, ugyanis az olcsóbb lehet a tényleges szállításnál, és lehet, hogy nem fér bele a dobozba.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP6 = 'USPS elsõ osztályú (14 uncia alatt)';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP6_TOOLTIP = 'Akkor válaszd ezt, ha engedélyezni kívánod az USPS elsõ osztályú levélként történõ szállítást.  Csak akkor lesz ez látható, ha a csomag súlya .88 font alatti.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP7 = 'USPS csomagküldemény';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP7_TOOLTIP = 'Szabványos USPS csomagküldemény.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP8 = 'USPS fûzött nyomtatvány';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP8_TOOLTIP = 'Akkor válaszd ezt, ha engedélyezni kívánod az USPS fûzött nyomtatványként történõ szállítást.  A Nem legyen az alapértelmezett, a fûzött magazinok és újságok csoportos szállításának kivételével.  15 font a határ.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP9 = 'USPS médiaküldemény';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP9_TOOLTIP = 'Akkor válaszd ezt, ha engedélyezni kívánod az USPS médiaküldeményként történõ szállítást.  A Nem legyen az alapértelmezett.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP10 = 'USPS könyvküldemény (nonprofit szervezetek)';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP10_TOOLTIP = 'Akkor válaszd ezt, ha engedélyezni kívánod az USPS könyvküldeményként történõ szállítást.  A Nem legyen az alapértelmezett.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL = 'USPS nemzetközi levél';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL0 = 'USPS globális expressz jótállásos dokumentum szolgáltatás';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL0_TOOLTIP = 'Akkor válaszd ezt, ha engedélyezni kívánod az USPS globális expressz jótállásos dokumentum szolgáltatással történõ szállítást.  A Nem legyen az alapértelmezett.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL1 = 'USPS globális expressz jótállásos nem dokumentum szolgáltatás';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL1_TOOLTIP = 'Akkor válaszd ezt, ha engedélyezni kívánod az USPS globális expressz jótállásos nem dokumentum szolgáltatással történõ szállítást.  A Nem legyen az alapértelmezett.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL2 = 'USPS globális expressz levél (EMS)';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL2_TOOLTIP = 'Szabványos USPS globális expressz levél.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL3 = 'USPS globális elsõbbségi küldemény, nagy lapos boríték';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL3_TOOLTIP = 'Akkor válaszd ezt, ha engedélyezni kívánod az USPS globális elsõbbségi küldeményként, nagy lapos borítékban történõ szállítást.  A Nem legyen az alapértelmezett, ugyanis az olcsóbb lehet a tényleges szállításnál, és lehet, hogy nem fér bele a borítékba.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL4 = 'USPS globális elsõbbségi küldemény, kis lapos boríték';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL4_TOOLTIP = 'Akkor válaszd ezt, ha engedélyezni kívánod az USPS globális elsõbbségi küldeményként, nagy lapos borítékban történõ szállítást.  A Nem legyen az alapértelmezett, ugyanis az olcsóbb lehet a tényleges szállításnál, és lehet, hogy nem fér bele a borítékba.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL5 = 'USPS globális elsõbbségi küldemény - változó súly';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL5_TOOLTIP = 'Szabványos USPS globális elsõbbségi küldemény.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL6 = 'USPS légipostai levélküldemény';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL6_TOOLTIP = 'Akkor válaszd ezt, ha engedélyezni kívánod az USPS légipostai levélküldeményként történõ szállítást.  A Nem legyen az alapértelmezett, ugyanis az olcsóbb lehet a tényleges szállításnál, és lehet, hogy nem fér bele a levélbe.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL7 = 'USPS légipostai csomagküldemény';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL7_TOOLTIP = 'Szabványos USPS légipostai csomagküldemény.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL8 = 'USPS gazdaságos levélküldemény';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL8_TOOLTIP = 'Akkor válaszd ezt, ha engedélyezni kívánod az USPS gazdaságos levélküldeményként történõ szállítást.  A Nem legyen az alapértelmezett, ugyanis az olcsóbb lehet a tényleges szállításnál, és lehet, hogy nem fér bele a levélbe.';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL9 = 'USPS gazdaságos csomagküldemény';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTL9_TOOLTIP = 'Szabványos gazdaságos csomagküldemény.';
 	var $_PHPSHOP_USPS_RESPONSE_ERROR = 'Az USPS nem tudta feldolgozni a szállítási dátum kérést.';
 	var $_PHPSHOP_PARAMETERS_LBL = 'Paraméterek';
 	var $_PHPSHOP_PRODUCT_TYPE_LBL = 'Terméktípus';
@@ -1346,8 +1347,8 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_INTEGER = 'Egész szám';
 	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TEXT = 'Szöveg';
 	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_SHORTTEXT = 'Rövid szöveg';
-	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_FLOAT = 'Float';
-	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_CHAR = 'Char';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_FLOAT = 'Lebegõ';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_CHAR = 'Kar.';
 	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATETIME = 'Dátum és idõ';
 	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE = 'Dátum';
 	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE_FORMAT = 'YYYY-MM-DD';
@@ -1403,8 +1404,8 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_NOT_FOUND = 'Sajnos az általad kért termék nem található!';
 	var $_PHPSHOP_ADMIN_CFG_SHOW_OUT_OF_STOCK_PRODUCTS = 'A nem kapható termékek megjelenítése';
 	var $_PHPSHOP_ADMIN_CFG_SHOW_OUT_OF_STOCK_PRODUCTS_EXPLAIN = 'Ha engedélyezed, akkor láthatók lesznek a jelenleg nem kapható termékek. Egyéb esetben rejtettek maradnak az ilyen termékek.';
-	var $_PHPSHOP_PRODUCT_PACKAGING1 = 'Number {unit}s in packaging:';
-	var $_PHPSHOP_PRODUCT_PACKAGING2 = 'Number {unit}s in box:';
+	var $_PHPSHOP_PRODUCT_PACKAGING1 = 'A csomagolásban lévõ mennyiség:';
+	var $_PHPSHOP_PRODUCT_PACKAGING2 = 'A dobozban lévõ mennyiség:';
 	var $_PHPSHOP_HIDE_OUT_OF_STOCK = 'Az elfogyott termékek elrejtése';
 	var $_PHPSHOP_FEATURED_PRODUCTS_LIST_LBL = 'Ajánlott és akciós termékek';
 	var $_PHPSHOP_FEATURED = 'Ajánlat';
@@ -1463,10 +1464,8 @@ Ha nem jelöli be, akkor az árcédula úgy néz ki, ahogy szokott: <strong>Ára: xx.x
 	var $_PHPSHOP_ADMIN_CFG_SILENT_REGISTRATION = 'Csendes (rejtett) felhasználói regisztrálást használsz?';
 	var $_PHPSHOP_ADMIN_CFG_SILENT_REGISTRATION_TIP = 'Engedélyezése esetén nem kell új fiók létrehozásakor kitölteniük a felhasználóknak a felhasználónevet és a jelszót. Ehelyett az e-mail cím kerül felhasználásra az új fiók létrehozásához, és véletlenszerû jelszót generál a rendszer. A regisztrációs adatokat postázza a vásárlónak.';
 	var $_PHPSHOP_USER_SEND_REGISTRATION_DETAILS = 'Helló, %s!
-
 Köszönjük, hogy regisztráltál a(z) %s tartományon. A felhasználói fiókodat elkészítettük.
 Az alábbi felhasználónévvel és jelszóval léphetsz be a(z) %s tartományra:
-
 Felhasználónév - %s
 Jelszó - %s
 ';
@@ -1487,580 +1486,394 @@ Jelszó - %s
 	var $_PHPSHOP_ADMIN_CFG_PFP_PARTNET_EXPLAIN = 'A partnerazonosító, amit az a hivatalos VeriSign-viszonteladó adott, aki bejegyzett téged a PayFlow Pro szolgáltatásba';
 	var $_PHPSHOP_ADMIN_CFG_PFP_USERNAME = 'PayFlow Pro felhasználónév';
 	var $_PHPSHOP_ADMIN_CFG_PFP_USERNAME_EXPLAIN = 'Ez a PayFlow Pro felhasználóneved';
-	var $_VM_TAXDETAILS_LABEL = 'Tax Total contains';
-	var $_VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL = 'Default product sort order';
-	var $_VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL_TIP = 'Defines by which field products are ordered by default on the browse pages';
-	var $_VM_BROWSE_ORDERBY_FIELDS_LBL = 'Available "Sort-by" fields';
-	var $_VM_BROWSE_ORDERBY_FIELDS_LBL_TIP = 'Choose the "Sort-by" fields for the browse page. Each one defines a sort method for the product browse page. If you deselect all, the Order-By-Form will not be shown.';
-	var $_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO = 'Show a short note about your "Returns Policy" on the order confirmation page?';
-	var $_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO_TIP = 'In most european countries store owners are required by law to inform their customers about return and order cancellation policies. So this should be enabled in most cases.';
-	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT = 'Legal information text (short version).';
-	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT_TIP = 'This text instructs your customers in short about your return and order cancellation policy. It is shown on the last page of checkout, just above the "Confirm Order" button.';
-	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK = 'Long version of the return policy (link to a content item).';
-	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK_TIP = 'Please add a new content item about the details of your return and order cancellation policy.
-Afterwards you can select it here.';
-	var $_VM_LEGALINFO_SHORTTEXT = '<h5>Returns Policy</h5>
-
-You can cancel this order within two weeks after we have received it.
-You can return new, unopened items from a cancelled order within 2 weeks after they have been 
-delivered to you. Items should be returned in their original packaging.
-For more information on cancelling orders and returning items, see the <a href="%s" onclick="%s" target="_blank">Our Returns Policy</a> page.';
-	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_EU = 'European Union mode';
-	var $_VM_SESSION_SAVEPATH_UNWRITABLE = 'The directory to store session data is not writable. Please correct this or contact your provider.';
-	var $_VM_SESSION_SAVEPATH_UNWRITABLE_TMPFIX = 'The Session Save Path %s is not writable. Please correct this! The shop is temporarily trying to use the %s instead.\'';
-	var $_VM_SESSION_COOKIES_NOT_ACCEPTED_TIP = 'Your browser does not accept cookies. If you want to put products into your cart and purchase them you need to enable cookies.';
-	var $_PHPSHOP_CSV_SKIP_FIRST_LINE = 'Skip first line';
-	var $_PHPSHOP_CSV_SKIP_DEFAULT_VALUE = 'Skip default value';
-	var $_PHPSHOP_CSV_OVERWRITE_EXISTING_DATA = 'Overwrite existing data';
-	var $_PHPSHOP_CSV_INCLUDE_COLUMN_HEADERS = 'Include column headers';
-	var $_PHPSHOP_CSV_UPLOAD_SETTINGS = 'Upload Settings';
-	var $_PHPSHOP_CSV_AVAILABLE_FIELDS = 'Available Fields';
-	var $_PHPSHOP_CSV_OUTPUT_CSV_UPLOAD_MESSAGES = 'CSV upload messages:';
-	var $_PHPSHOP_CSV_OUTPUT_COUNT = 'Count';
-	var $_PHPSHOP_CSV_OUTPUT_TOTAL = 'Total';
-	var $_PHPSHOP_CSV_OUTPUT_FILE_IMPORTED = 'CSV File Imported';
-	var $_PHPSHOP_CSV_OUTPUT_UPDATED = 'Updated';
-	var $_PHPSHOP_CSV_OUTPUT_DELETED = 'Deleted';
-	var $_PHPSHOP_CSV_OUTPUT_ADDED = 'Added';
-	var $_PHPSHOP_CSV_OUTPUT_SKIPPED = 'Skipped';
-	var $_PHPSHOP_CSV_OUTPUT_INCORRECT = 'Incorrect';
-	var $_PHPSHOP_CSV_AVAILABLE_FIELDS_USE = 'The following fields are available for your use to import or export.';
-	var $_PHPSHOP_CSV_MINIMAL_FIELDS = 'The minimal required fields are product_sku, product_name and category_path. Except for the product_sku, the other two fields are not unique.';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_SKU = 'The unique identifier for a product.<br /.>Values:<ul><li>Number</li><li>Letters</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_NAME = 'The name of the product.Values:<ul><li>Text: No HTML code allowed.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DELETE = 'The product_delete field is a special field. This field is used to determine if a product should be deleted or not.<br />Usage:<ol><li>Add the the name "product_delete" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the value Y. If the field contains any other value, the product will not be deleted.</li></ol><br /.>Values:<ul><li>Y: Yes, the product is to be deleted</li><li>N: No, the product is not to be deleted</li><li>Empty: Empty value, the product is not to be deleted</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DESC = 'Long description for the product.<br />Values:<ul><li>Text: HTML code allowed.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_S_DESC = 'Short description for the product.<br />Values:<ul><li>Text: No HTML code allowed.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PUBLISH = 'The status if a product is published or not.<br />Values:<ul><li>Y: Yes, the product is published</li><li>N: No, the product is not published</li><li>Empty: Empty value, the product is published.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_WIDTH = 'The width of the product.<br />Values:<ul><li>Number</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_HEIGHT = 'The height of the product.<br />Values:<ul><li>Number</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_AVAILABLE_DATE = 'The date a product will become availabable. For import the date should be in the format of day/month/year or day-month-year. On Windows systems the date goes until 19/01/2038.<br />Usage:<ol><li>Add the the name "product_available_date" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with a date value. If the field contains any other value, the data will be ignored.</li></ol><br />Values:<ul><li>Date: day/month/year or day-month-year</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_IN_STOCK = 'The number of articles that you have in stock.<br /><br />Usage:<ol><li>Add the the name "product_in_stock" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with a numeric value. If the field contains any other value, the default value will be used.</li></ol><br />Values:<ul><li>Number</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTE = 'The different choices a product has. Use this to give a product different specifications. For example a t-shirt that comes in different sizes and colours. You can specify the sizes and colours like this: Size,XL[+1.99],M,S[-2.99];Colour,Red,Green,Yellow,ExpensiveColor[=24.00];AndSoOn,..,..<br /><br />You can adjust the prices per attribute by using the following options:<ul><li>+: Add this amount to the configured price.</li><li>-: Subtract this amount from the configured price.</li><li>=: Set the product\\\'s price to this amount.</li></ul><br />Usage:<ol><li>Add the the name "attribute" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the attribute text.</li></ol><br /.>Values:<ul><li>Text: No HTML code allowed.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_AVAILABILITY = 'This shows when the product is available. The value can be a descriptive text or the name of an image filename. Images must be placed in "shop_image/availability/".<br />Usage:<ol><li>Add the the name "product_availability" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_FULL_IMAGE = 'The filename of the image as located in the "shop_image/product/" folder. The filename can also be a URL.<br />NOTE: If you have dynamic resizing enabled, you need to fill the "product_thumb_image" field. VirtueMart resizes the image specified there.<br/><br />Usage:<ol><li>Add the the name "product_full_image" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text:<ul><li>No HTML code allowed</li><li>URL\\\'s are allowed.</li></ul></li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_THUMB_IMAGE = 'The filename of the thumbnail image as located in the "shop_image/product/" folder. The filename can also be a URL.<br />NOTE: If you have dynamic resizing enabled, there still needs to be a value in this field. VirtueMart resizes the image that is specified here.<br /><br />Usage:<ol><li>Add the the name "product_full_image" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text:<ul><li>No HTML code allowed</li><li>URL\\\'s are allowed.</li></ul></li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_CUSTOM_ATTRIBUTE = 'A custom attribute will add an input field to the product page with the description of the attribute supplied. Custom attributes are specified like this: Name;Extras;...<br />Usage:<ol><li>Add the the name "custom_attribute" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the attribute text.</li></ol><br /.>Values:<ul><li>Text: No HTML code allowed.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PACKAGING = 'Specify the number of items in the package.<br />Usage:<ol><li>Add the the name "product_packaging" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the number of items in the package.</li></ol><br /.>Values:<ul><li>Number</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_BOX = 'Specify the number of items in the box.<br />Usage:<ol><li>Add the the name "product_box" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the number of items in the box.</li></ol><br /.>Values:<ul><li>Number</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT = 'Specify the amount or percentage of discount the product has. The values entered are exact values, no calculation is made. This is the same as if you are filling in a discount via the Product Discount List. If the discount already exists, it will not be added to the database but the product will be linked to the existing discount. The criteria for determining if a discount already exists the following values have to be exactly the same:<ol><li>Amount, be it a total or percentage</li><li>Start date</li><li>End date</li></ol>This prevents from filling the database with a huge number of the same discounts.<br /><br />Usage:<ol><li>Add the the name "product_discount" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Optional: Add the the name "product_discount_date_start" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Optional: Add the the name "product_discount_date_end" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add the chosen columns to your CSV file with the corresponding values.</li></ol><br /.>Values:<ul><li>product_discount</li><ul><li>Number<br />e.g. 10</li><li>Percentage: Must include the % sign<br />e.g. 10%</li></ul><li>product_discount_date_start</li><ul><li>Date: day/month/year or day-month-year<br />Day and month can be a 1 or 2 digit notation.<br />Year can be a 2 or 4 digit notation.</li></ul><li>product_discount_date_end</li><ul><li>Date: day/month/year or day-month-year<br />Day and month can be a 1 or 2 digit notation.<br />Year can be a 2 or 4 digit notation.</li></ul></ul>';
-	var $_ITEM_PREVIOUS = 'previous';
-	var $_ITEM_NEXT = 'next';
-	var $_CMN_OK = 'Ok';
-	var $_CMN_CONTINUE = 'Continue';
-	var $_CMN_CANCEL = 'Cancel';
-	var $_BUTTON_SEND_REG = 'Send Registration';
-	var $_CONTACT_FORM_NC = 'Please make sure the form is complete and valid.';
-	var $_CMN_REQUIRED = 'Required';
-	var $_CMN_NEW = 'New';
-	var $_CMN_SAVE = 'Save';
-	var $_CMN_NEW_ITEM_LAST = 'New items default to the last place. Ordering can be changed after this item is saved.';
-	var $_CMN_OPTIONAL = 'Optional';
-	var $_E_APPLY = 'Apply';
-	var $_E_IMAGES = 'Images';
+	var $_VM_TAXDETAILS_LABEL = 'Áfa összesen';
+	var $_VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL = 'A termékek alapértelmezett rendezési módja';
+	var $_VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL_TIP = 'Meghatározza, hogy mely mezõ alapján történik a termékek alapértelmezés szerinti rendezése a tallózó oldalakon';
+	var $_VM_BROWSE_ORDERBY_FIELDS_LBL = 'Létezõ "Rendezés" mezõk';
+	var $_VM_BROWSE_ORDERBY_FIELDS_LBL_TIP = 'Válaszd ki a tallózó oldal "Rendezés" mezõit. Mindegyikük a terméktallózó oldal rendezési módját határozza meg. Ha az öszes kijelölését törlöd, akkor nem lesz látható a Rendezés ûrlap.';
+	var $_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO = 'Jelenjen meg egy rövid közlemény a "Visszavételi szabályzatról" a rendelés jóváhagyási oldalon?';
+	var $_VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO_TIP = 'A legtöbb európai ország üzlettulajdonosait jogszabályok kötelezik arra, hogy tájékoztassák a vásárlóikat a visszavételi és visszavonási szabályzatról. Tehát a legtöbb esetben ezt engedélyezni kell.';
+	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT = 'Jogi tájékoztató szöveg (rövid változat).';
+	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT_TIP = 'Ezzel a szöveggel tájékoztatod röviden a vásárlókat a visszavételi és stornírozási szabályokról. A pénztár utolsó oldalán lesz látható, a "Rendelés jóváhagyása" fölött.';
+	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK = 'A visszavételi szabályzat hosszú változata (egy tartalmi elemre mutató hivatkozás).';
+	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK_TIP = 'Kérjük, hogy készíts egy új tartalmi elemet a visszavételi és visszatérítési szabályzatról.
+Ezt követõen itt tudod kijelölni.';
+	var $_VM_LEGALINFO_SHORTTEXT = '<h5>Vsszavételi szabályzat</h5>
+Rendelését az áltaslunk történõ átvételtõl számított 14 napon belül vonhatja vissza.
+A visszavont rendelésbõl az új, felbontatlan árucikkeket az átvételtõl számított 2 héten belül 
+küldheti vissza. A cikkeket eredeti csomagolásban kell visszajuttatnia.
+A visszavonással és a visszatérítéssel kapcsolatos további tájékoztató a <a href="%s" onclick="%s" target="_blank">Visszavételi szabályzat</a> oldalon.';
+	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_EU = 'Európai Unió mód';
+	var $_VM_SESSION_SAVEPATH_UNWRITABLE = 'A munkamenetek adatait tároló könyvtár nem írható. Kérjük, hogy javítsd, vagy lépj kapcsolatba a szolgáltatóddal.';
+	var $_VM_SESSION_SAVEPATH_UNWRITABLE_TMPFIX = 'A munkamenet mentési útvonala nem írható. Kérjük, hogy javítsd ezt! Az üzlet megpróbálja addig ideiglenesen a(z) %s útvonalat használni.';
+	var $_VM_SESSION_COOKIES_NOT_ACCEPTED_TIP = 'A böngészõd nem támogatja a cookie-k fogadását. Ha szeretnél termékeket tenni a kosaradba, és meg is vásárolni õket, akkor engedélyezd a cookie-k fogadását.';
+	var $_PHPSHOP_CSV_SKIP_FIRST_LINE = 'Az elsõ sor kihagyása';
+	var $_PHPSHOP_CSV_SKIP_DEFAULT_VALUE = 'Az alapértelmezett érték kihagyása';
+	var $_PHPSHOP_CSV_OVERWRITE_EXISTING_DATA = 'A létezõ adatok felülírása';
+	var $_PHPSHOP_CSV_INCLUDE_COLUMN_HEADERS = 'Tartalmazza az oszlopfejléceket';
+	var $_PHPSHOP_CSV_UPLOAD_SETTINGS = 'Feltöltés beállításai';
+	var $_PHPSHOP_CSV_AVAILABLE_FIELDS = 'Választható mezõk';
+	var $_PHPSHOP_CSV_OUTPUT_CSV_UPLOAD_MESSAGES = 'CSV feltöltés üzenetei:';
+	var $_PHPSHOP_CSV_OUTPUT_COUNT = 'Mennyiség';
+	var $_PHPSHOP_CSV_OUTPUT_TOTAL = 'Összesen';
+	var $_PHPSHOP_CSV_OUTPUT_FILE_IMPORTED = 'A CSV fájl importálása kész';
+	var $_PHPSHOP_CSV_OUTPUT_UPDATED = 'Frissítve';
+	var $_PHPSHOP_CSV_OUTPUT_DELETED = 'Törölve';
+	var $_PHPSHOP_CSV_OUTPUT_ADDED = 'Hozzáadva';
+	var $_PHPSHOP_CSV_OUTPUT_SKIPPED = 'Kihagyva';
+	var $_PHPSHOP_CSV_OUTPUT_INCORRECT = 'Hibás';
+	var $_PHPSHOP_CSV_AVAILABLE_FIELDS_USE = 'A következõ mezõk használhatók az importáláshoz vagy az exportáláshoz.';
+	var $_PHPSHOP_CSV_MINIMAL_FIELDS = 'A minimum kötelezõ mezõk a product_sku, a product_name és a kategória útvonal. A product_sku kivételével a másik két mezõ nem egyedi.';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_SKU = 'A termék egyedi azonosítója.<br />Értékek:<ul><li>Szám</li><li>Betûk</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_NAME = 'A termék neve.Értékek:<ul><li>Szöveg: HTML-kód használata nem engedélyezett.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DELETE = 'A product_delete mezõ egy speciális mezõ. Ez kerül felhasználásra annak megállapítására, hogy kell-e törölni egy terméket.<br />Használata:<ol><li>A  Beállítások fülön add hozzá a "product_delete" elemet. A névben a kis- és a nagybetûk különbözõek, kisbetûs legyen.</li><li>Add hozzá az Y értékkel az oszlopot a CSV fájlhoz. Ha a mezõ másik értéket tartalmaz, akkor a termék nem kerül törlésre.</li></ol><br />Értékek:<ul><li>Y: Igen, a termék törlendõ</li><li>N: Nem, a termék nem törlendõ</li><li>Empty: Üres érték, a termék nem törlendõ</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DESC = 'A termék hosszú leírása.<br />Értékek:<ul><li>Szöveg: HTML-kód használata engedélyezett.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_S_DESC = 'A termék rövid leírása.<br />Értékek:<ul><li>Szöveg: HTML-kód használata nem engedélyezett.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PUBLISH = 'A termék közzétételének állapota.<br />Értékek:<ul><li>Y: Igen, a termék közzé van téve</li><li>N: Nem, a termék nincs közzétéve</li><li>Empty: Üres érték, A termék közzé van téve.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_WIDTH = 'A termék szélessége.<br />Értékek:<ul><li>Szám</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_HEIGHT = 'A termék magassága.<br />Értékek:<ul><li>Szám</li></ul>';
+	var $PHPSHOP_CSV_EXPLANATION_PRODUCT_LENGTH = 'A termék hossza.<br />Értékek:<ul><li>Szám</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_AVAILABLE_DATE = 'A dátum, mikortól a termék kapható. Az importáláshoz a dátum nap/hónap/év vagy nap-hónap-év formátumú legyen. Windows rendszereken a dátum 19/01/2038-ig megy.<br />Használata:<ol><li>A Beállítások fülön add hozzá a "product_available_date" elemet. A névben a kis- és a nagybetûk különbözõek, kisbetûs legyen.</li><li>Add hozzá dátum értékkel az oszlopot a CSV fájlhoz. Ha a mezõ másik értéket tartalmaz, akkor az adatok kihagyásra kerülnek.</li></ol><br />Értékek:<ul><li>Dátum: nap/hónap/év vagy nap-hónap-év</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_IN_STOCK = 'A készleten lévõ árucikkek száma.<br /><br />Használata:<ol><li>A Beállítások fülön add hozzá a "product_in_stock" elemet. A névben a kis- és a nagybetûk különbözõek, kisbetûs legyen.</li><li>Add hozzá numerikus értékkel az oszlopot a CSV fájlhoz. Ha másik értéket tartalmaz a mezõ, akkor az alapértelmezett érték kerül felhasználásra.</li></ol><br />Értékek:<ul><li>Szám</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTE = 'A választék, amivel a termék rendelkezik. A termék különféle jellemzõit adhatod meg vele. Egy pólóinget például különféle méretben és színben hoznak forgalomba. A következõképpen adhatod meg a méreteket és a színeket: Méret,XL[+1.99],M,S[-2.99];Szín,Piros,Zöld,Sárga,KifejezõSzín[=24.00];ÉsÍgyTovább,..,..<br /><br />Az attribútumonkénti árakat a következõ lehetõségekkel adhatod meg:<ul><li>+: Hozzáadja ezt az összeget a megadott árhoz.</li><li>-: Levonja ezt az összeget a megadott árból.</li><li>=: Erre az összegre állítja be a termék árát.</li></ul><br />Használata:<ol><li>A Beállítások lapon add hozzá az "attribute" nevet. A névben a kis- és nagybetûk különbözõek, kisbetûs legyen.</li><li>Add hozzá az attribútum szövegével az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Szöveg: HTML-kód használata nem engedélyezett.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_AVAILABILITY = 'Ez mutatja, hogy mikortól lesz kapható egy termék. Az érték leíró szöveg vagy egy képfájl neve lehet. A képeket a "shop_image/availability/" könyvtárba töltsd fel.<br />Használata:<ol><li>A Beállítások fülön add hozzá a "product_availability" elemet. A névben a kis- és a nagybetûk különbözõek, kisbetûs legyen.</li><li>Add hozzá szöveg értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Szöveg: HTML-kód használata nem engedélyezett.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_FULL_IMAGE = 'A "shop_image/product/" könyvtárban lévõ képfájl neve. A fájlnév URL is lehet.<br />MEGJEGYZÉS: Ha engedélyezve van a dinamikus átméretezés, akkor töltsd ki a "product_thumb_image" mezõt. A VirtueMart átméretezi az ott megadott képet.<br/><br />Használata:<ol><li>A  Beállítások fülön add hozzá a "product_full_image" elemet. A névben a kis- és a nagybetûk különbözõek, kisbetûs legyen.</li><li>Add hozzá szöveg értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Szöveg:<ul><li>HTML-kód használata nem engedélyezett</li><li>URL-ek használhatók.</li></ul></li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_THUMB_IMAGE = 'A "shop_image/product/" könyvtárban lévõ bélyegkép neve. A fájlnév URL is lehet.<br />MEGJEGYZÉS: Ha engedélyezve van a dinamikus átméretezés, akkor még kell lennie értéknek ebben a mezõben. A VirtueMart átméretezi az itt megadott képet.<br /><br />Használata:<ol><li>A  Beállítások fülön add hozzá a "product_full_image" elemet. A névben a kis- és a nagybetûk különbözõek, kisbetûs legyen.</li><li>Add hozzá szöveg értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Szöveg:<ul><li>HTML-kód használata nem engedélyezett</li><li>URL-ek használhatók.</li></ul></li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_CUSTOM_ATTRIBUTE = 'Az egyedi attribútum beviteli mezõt helyez el a terméklapon a megadott attribútum leírásával. Az egyedi attribútumok megadása ehhez hasonló: Név;Extrák;...<br />Használata:<ol><li>A Beállítások fülön add hozzá a "custom_attribute" elemet. A névben a kis- és a nagybetûk különbözõek, kisbetûs legyen.</li><li>Add hozzá az attribútum szövegével az oszlopot a CSV fájlhoz.</li></ol><br /.>Értékek:<ul><li>Szöveg: HTML-kód használata nem engedélyezett.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PACKAGING = 'Add meg a csomagban lévõ cikkek számát.<br />Használata:<ol><li>A Beállítások fülön add hozzá a "product_packaging" elemet. A névben a kis- és a nagybetûk különbözõek, kisbetûs legyen.</li><li>Add hozzá a csomagban lévõ cikkek számával az oszlopot a CSV fájlhoz.</li></ol><br /.>Értékek:<ul><li>Szám</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_BOX = 'A dobozban lévõ cikkek számát határozza meg.<br />Használata:<ol><li>A Beállítások fülön add hozzá a "product_box" elemet. A névben a kis- és a nagybetûk különbözõk, lehet kisbetûs.</li><li>Add hozzá a dobozban lévõ cikkek számával az oszlopot a CSV fájlhoz.</li></ol><br /.>Értékek:<ul><li>Szám</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT = 'Add meg a termék árengedményének összegét vagy százalékát. A beírt értékek tényleges értékek, nem történik számítás. Ez ugyanolyan, mint a Termék árengedmény listában kitöltött kedvezmény. Ha az árengedmény már létezik, akkor nem kerül be az adatbázisba, viszont a termék hozzácsatolásra kerül a létezõ árengedményhez. Egy már létezõ kedvezmény megállíapításának a feltétele, hogy a következõ értékek pontosan ugyanazok legyenek:<ol><li>Összeg, lehet összes vagy százalék</li><li>Kezdõ dátum</li><li>Záró dátum</li></ol>Ez akadályozza meg, hogy ne kerüljön be nagyon sokszor ugyanaz a kedvezmény az adatbázisba.<br /><br />Használata:<ol><li>A Beállítások fülön add hozzá a "product_discount" elemet. A névben a kis- és a nagybetûk különbözõek, és kisbetûs legyen.</li><li>Elhagyható: A Beállítások fülön add hozzá a "product_discount_date_start" elemet. A névben a kis- és a nagybetûk különbözõek, és kisbetûs legyen.</li><li>Elhagyható: A Beállítások fülön add hozzá a "product_discount_date_end" elemet. A névben a kis- és a nagybetûk különbözõek, és kisbetûs legyen.</li><li>Add hozzá a megfelelõ értékekkel a kiválasztott oszlopot a CSV fájlhoz.</li></ol><br /.>Értékek:<ul><li>product_discount</li><ul><li>Szám<br />pl. 10</li><li>Százalék: Tartalmaznia kell a % jelet<br />pl. 10%</li></ul><li>product_discount_date_start</li><ul><li>Dátum: nap/hónap/év vagy nap-hónap-év<br />A nap vagy a hónap 1 vagy 2 számjeggyel jelölhetõ.<br />Az év 2 vagy 4 számjeggyel jelölhetõ.</li></ul><li>product_discount_date_end</li><ul><li>Dátum: nap/hónap/év vagy nap-hónap-év<br />A nap és a hónap 1 vagy 2 számjeggyel jelölhetõ.<br />Az év 2 vagy 4 számjeggyel jelölhetõ.</li></ul></ul>';
+	var $_ITEM_PREVIOUS = 'elõzõ';
+	var $_ITEM_NEXT = 'következõ';
+	var $_CMN_OK = 'OK';
+	var $_CMN_CONTINUE = 'Folytatés';
+	var $_CMN_CANCEL = 'Mégse';
+	var $_BUTTON_SEND_REG = 'Regisztráció küldése';
+	var $_CONTACT_FORM_NC = 'Kérjük, gyõzõdj meg róla, hogy kitöltöttél-e minden adatot, és azok pontosak-e.';
+	var $_CMN_REQUIRED = 'Kötelezõ';
+	var $_CMN_NEW = 'Új';
+	var $_CMN_SAVE = 'Mentés';
+	var $_CMN_NEW_ITEM_LAST = 'Az új elemek alapértelmezésként az utolsó helyre kerülnek. A sorrendet e tétel mentése után megváltoztathatod.';
+	var $_CMN_OPTIONAL = 'Elhagyható';
+	var $_E_APPLY = 'Alkalmaz';
+	var $_E_IMAGES = 'Képek';
 	var $_URL = 'URL:';
-	var $_SEL_CATEGORY = 'Select a category';
-	var $_E_REMOVE = 'Remove';
+	var $_SEL_CATEGORY = 'Válassz kategóriát';
+	var $_E_REMOVE = 'Eltávolítás';
 	var $_PN_LT = '<';
 	var $_PN_RT = '>';
-	var $_PN_PAGE = 'Page';
-	var $_PN_OF = 'of';
-	var $_PN_START = 'Start';
-	var $_PN_PREVIOUS = 'Prev';
-	var $_PN_NEXT = 'Next';
-	var $_PN_END = 'End';
-	var $_PN_DISPLAY_NR = 'Display #';
-	var $_PN_RESULTS = 'Results';
-	var $_CMN_PRINT = 'Print';
+	var $_PN_PAGE = 'Oldal';
+	var $_PN_OF = '/';
+	var $_PN_START = 'Elsõ';
+	var $_PN_PREVIOUS = 'Elõzõ';
+	var $_PN_NEXT = 'Következõ';
+	var $_PN_END = 'Utolsó';
+	var $_PN_DISPLAY_NR = 'Tételek #';
+	var $_PN_RESULTS = 'Eredmények';
+	var $_CMN_PRINT = 'Nyomtatás';
 	var $_CMN_PDF = 'PDF';
-	var $_CMN_EMAIL = 'E-mail';
-	var $_BACK = 'Back';
-	var $_USERNAME = 'Username';
-	var $_PASSWORD = 'Password';
-	var $_BUTTON_LOGIN = 'Login';
-	var $_REGISTER_UNAME = 'Username';
+	var $_CMN_EMAIL = 'Email';
+	var $_BACK = 'Vissza';
+	var $_USERNAME = 'Felhasználónév';
+	var $_PASSWORD = 'Jelszó';
+	var $_BUTTON_LOGIN = 'Bejelentkezés';
+	var $_REGISTER_UNAME = 'Felhasználónév';
 	var $_REGISTER_EMAIL = 'Email';
-	var $_REGWARN_NAME = 'Please enter your name.';
-	var $_REGWARN_UNAME = 'Please enter a user name.';
-	var $_REGWARN_MAIL = 'Please enter a valid e-mail address.';
-	var $_SEND_SUB = 'Account details for %s at %s';
-	var $_ASEND_MSG = 'Hello %s,
+	var $_REGWARN_NAME = 'Kérjük, hogy írd be a nevedet.';
+	var $_REGWARN_UNAME = 'Kérjük, hogy írd be a felhasználónevedet.';
+	var $_REGWARN_MAIL = 'Kérjük, hogy írj be egy mûködõ email címet.';
+	var $_SEND_SUB = '%s fiókadatai a(z) %s weblapon';
+	var $_ASEND_MSG = 'Helló, %s!
 	
-	A new user has registered at %s.
-	This email contains their details:
+	Egy új felhasználó regisztrált a(z) %s weblapon.
+	Ebben az emailben megtekintheted az adatait:
 	
-	Name - %s
-	e-mail - %s
-	Username - %s
+	Név: %s
+	Email: %s
+	Felhasználónév: %s
 	
-	Please do not respond to this message as it is automatically generated and is for information purposes only';
-	var $_REG_COMPLETE = '<div class="componentheading">Registration Complete!</div><br />You may now login.';
-	var $_REG_COMPLETE_ACTIVATE = '<div class="componentheading">Registration Complete!</div><br />Your account has been created and activation link has been sent to the e-mail address you entered. Note that you must activate the account by clicking on the activation link when you get the e-mail before you can login.';
-	var $_DATE_FORMAT_LC = '%A, %d %B %Y';
-	var $_LAST_UPDATED = 'Last Updated';
-	var $_NOT_AUTH = 'You are not authorized to view this resource.';
-	var $_DO_LOGIN = 'You need to login.';
-	var $_VALID_AZ09 = 'Please enter a valid %s.  No spaces, more than %d characters and contain 0-9,a-z,A-Z';
-	var $_CMN_PUBLISHED = 'Published';
-	var $_CMN_UNPUBLISHED = 'Unpublished';
-	var $_MORE = 'More...';
-	var $_EMPTY_CATEGORY = 'This Category is currently empty.';
-	var $_BUTTON_LOGOUT = 'Logout';
-	var $_NO_ACCOUNT = 'No account yet?';
-	var $_CREATE_ACCOUNT = 'Register';
-	var $_REGWARN_PASS = 'Please enter a valid password.  No spaces, more than 6 characters and contain 0-9,a-z,A-Z';
-	var $_REGWARN_VPASS1 = 'Please verify the password.';
-	var $_REGWARN_VPASS2 = 'Password and verification do not match, please try again.';
-	var $_USEND_MSG_ACTIVATE = 'Hello %s,
+	Kérjük, hogy ne válaszolj erre az üzenetre, mivel automatikusan készült, és csak tájékoztatásul küldtük';
+	var $_REG_COMPLETE = '<div class="componentheading">A regisztrálás befejezõdött!</div><br />Most már be tudsz jelentkezni.';
+	var $_REG_COMPLETE_ACTIVATE = '<div class="componentheading">A regisztrálás befejezõdött!</div><br />A fiókod elkészült, és az aktiváló hivatkozást elküldtük a megadott email címre. Miután megkaptad az emailt, a fiókot az aktiváló hivatkozásra kattintással kell aktiválnod, hogy be tudj aztán jelentkezni.';
+	var $_DATE_FORMAT_LC = '%Y. %B. %d., %A';
+	var $_LAST_UPDATED = 'Frissítve';
+	var $_NOT_AUTH = 'Az erõforrás megtekintése a számodra nem engedélyezett.';
+	var $_DO_LOGIN = 'Be kell jelentkezned.';
+	var $_VALID_AZ09 = 'Kérjük, hogy érvényes %s-t írj be.  Ne legyen benne szóköz, több legyen %d karakternél, és 0-9,a-z,A-Z közti karaktereket tartalmazzon.';
+	var $_CMN_PUBLISHED = 'Közzétéve';
+	var $_CMN_UNPUBLISHED = 'Visszavonva';
+	var $_MORE = 'Folytatás...';
+	var $_EMPTY_CATEGORY = 'Ez a kategória jelenleg üres.';
+	var $_BUTTON_LOGOUT = 'Kijelentkezés';
+	var $_NO_ACCOUNT = 'Még nincs fiókod?';
+	var $_CREATE_ACCOUNT = 'Regisztrálj';
+	var $_REGWARN_PASS = 'Kérjük, hogy érvényes jelszót írj be.  Ne legyen benne szóköz, több legyen 6 karakternél, és 0-9,a-z,A-Z közti karaktereket tartalmazzon';
+	var $_REGWARN_VPASS1 = 'Kérjük, hogy erõsítsd meg a jelszavadat.';
+	var $_REGWARN_VPASS2 = 'Nem egyezik a jelszó és a megerõsítése, kérjük, hogy próbáld újra.';
+	var $_USEND_MSG_ACTIVATE = 'Helló, %s!
 
-
-
-Thank you for registering at %s. Your account is created and must be activated before you can use it.
-
-To activate the account click on the following link or copy-paste it in your browser:
-
+Köszönjük, hogy regisztráltál a(z) %s weblapon. A fiókodat elkészítettük, azonban a használatba vétel elõtt aktiválnod kell.
+A fiók aktiválásához kattints az alábbi hivatkozásra, vagy másold ki a vágólapra, és illeszd be a böngészõdbe:
 %s
 
+Az aktiválás után jelentkezhetsz majd be a(z) %s közösségi oldalaira az alábbi felhasználónévvel és jelszóval:
+
+Felhasználónév: %s
+Jelszó: %s';
+	var $_USEND_MSG = 'Helló, %s!
+
+Köszönjük, hogy regisztráltál a(z) %s weblapon.
+
+Most már bejelentkezhetsz a(z) %s közösségébe a regisztrált felhasználónévvel és jelszóval.';
+	var $_PROMPT_PASSWORD = 'Elfelejtetted a jelszavadat?';
+	var $_HI = 'Üdv,';
+	var $_NEW_USER_MESSAGE_SUBJECT = 'Új felhasználó adatai';
+	var $_NEW_USER_MESSAGE = 'Helló, %s!
 
 
-After activation you may login to %s using the following username and password:
+Egyik munkatársunk felhasználóként nyilvántartásba vett Téged a(z) %s weblapon.
+
+Ebben az emailben találod a felhasználónevedet és a jelszavadat, amivel be tudsz a(z) %s weblapon jelentkezni.
+
+Felhasználnév: %s
+Jelszó: %s
 
 
-
-Username - %s
-
-Password - %s';
-	var $_USEND_MSG = 'Hello %s,
-
-
-
-Thank you for registering at %s.
-
-
-
-You may now login to %s using the username and password you registered with.';
-	var $_PROMPT_PASSWORD = 'Lost your Password?';
-	var $_HI = 'Hi';
-	var $_NEW_USER_MESSAGE_SUBJECT = 'New User Details';
-	var $_NEW_USER_MESSAGE = 'Hello %s,
-
-
-
-
-
-You have been added as a user to %s by an Administrator.
-
-
-
-This email contains your username and password to log into the %s
-
-
-
-Username - %s
-
-Password - %s
-
-
-
-
-
-Please do not respond to this message as it is automatically generated and is for information purposes only';
-	var $_REMEMBER_ME = 'Remember me';
-	var $_REGISTER_TITLE = 'Registration';
-	var $_JAN = 'January';
-	var $_FEB = 'February';
-	var $_MAR = 'March';
-	var $_APR = 'April';
-	var $_MAY = 'May';
-	var $_JUN = 'June';
-	var $_JUL = 'July';
-	var $_AUG = 'August';
-	var $_SEP = 'September';
-	var $_OCT = 'October';
+Kérjük, hogy ne válaszolj erre az üzenetre, mivel automatikusan készült, és csak tájékoztásul küldtük.';
+	var $_REMEMBER_ME = 'Emlékezzen rám';
+	var $_REGISTER_TITLE = 'Regisztráció';
+	var $_JAN = 'Január';
+	var $_FEB = 'Február';
+	var $_MAR = 'Március';
+	var $_APR = 'Április';
+	var $_MAY = 'Május';
+	var $_JUN = 'Június';
+	var $_JUL = 'Július';
+	var $_AUG = 'Augusztus';
+	var $_SEP = 'Szeptember';
+	var $_OCT = 'Október';
 	var $_NOV = 'November';
 	var $_DEC = 'December';
 	var $_PHPSHOP_CSV_VERSION = '0.7';
-	var $_PHPSHOP_CSV_ABOUT = 'About';
-	var $_PHPSHOP_CSV_PRICE_LIST_ONLY = 'Price list upload only';
-	var $_PHPSHOP_CSV_MULTIPLE_PRICES_UPLOAD = 'Multiple prices upload';
-	var $_PHPSHOP_CSV_IMPORT_CONFIG_CSV_FILE = 'Use column headers as configuration';
-	var $_PHPSHOP_CSV_COLLECT_DEBUG_INFO = 'Collect debug information';
-	var $_PHPSHOP_CSV_SHOW_PREVIEW = 'Show preview';
-	var $_PHPSHOP_CSV_REGULAR_UPLOAD = 'Regular upload';
-	var $_PHPSHOP_CSV_PRODUCT_TYPE_UPLOAD = 'Product type upload';
-	var $_PHPSHOP_CSV_PRODUCT_TYPE_PARAMETERS_UPLOAD = 'Product type parameters upload';
-	var $_PHPSHOP_CSV_PRODUCT_TYPE_XREF_UPLOAD = 'Product type cross reference upload';
-	var $_PHPSHOP_CSV_PRODUCT_TYPE_DETAIL_UPLOAD = 'Product type detail upload';
-	var $_PHPSHOP_CSV_EMPTY_DATABASE = 'Empty database';
-	var $_PHPSHOP_CSV_CONTINUE_UPLOAD = 'Continue upload';
-	var $_PHPSHOP_CSV_CANCEL_UPLOAD = 'Cancel upload';
-	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION = '<span style="color: #FF0000; font-size: 1.2em;">Steps to upload a CSV file</span>
-
+	var $_PHPSHOP_CSV_ABOUT = 'Névjegy';
+	var $_PHPSHOP_CSV_PRICE_LIST_ONLY = 'Csak árlista feltöltés';
+	var $_PHPSHOP_CSV_MULTIPLE_PRICES_UPLOAD = 'Több ár feltöltése';
+	var $_PHPSHOP_CSV_IMPORT_CONFIG_CSV_FILE = 'Az oszlopfejlécek használata, mint a beállításokban';
+	var $_PHPSHOP_CSV_COLLECT_DEBUG_INFO = 'Hibakeresõ információ gyûjtése';
+	var $_PHPSHOP_CSV_SHOW_PREVIEW = 'Elõnézet megjelenítése';
+	var $_PHPSHOP_CSV_REGULAR_UPLOAD = 'Hagyományos feltöltés';
+	var $_PHPSHOP_CSV_PRODUCT_TYPE_UPLOAD = 'Terméktípus feltöltése';
+	var $_PHPSHOP_CSV_PRODUCT_TYPE_PARAMETERS_UPLOAD = 'terméktípus paraméterek feltöltése';
+	var $_PHPSHOP_CSV_PRODUCT_TYPE_XREF_UPLOAD = 'Terméktípus kereszthivatkozás feltöltése';
+	var $_PHPSHOP_CSV_PRODUCT_TYPE_DETAIL_UPLOAD = 'Terméktípus részl feltöltése';
+	var $_PHPSHOP_CSV_EMPTY_DATABASE = 'Adatbázis kiürítése';
+	var $_PHPSHOP_CSV_CONTINUE_UPLOAD = 'Feltöltés folytatása';
+	var $_PHPSHOP_CSV_CANCEL_UPLOAD = 'Feltöltés megszakítása';
+	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION = '<span style="color: #FF0000; font-size: 1.2em;">A CSV fájl feltöltésének lépései</span>
 										<ol>
-
-										<li>Create a product list as a CSV file either with or without column headers.
-
-										<br />Recommended is to use the text delimiter ~ (tilde) and the field delimiter ^ (caret).
-
-										<br /><span style="font-weight: bold;">Example File:</span><br />
-
-										<div class="quote" style="width:600px;overflow:scroll;"><pre>~G01~^~Hand Shovel~^~Hand Tools~^~4.99000~^~<p>Nice hand shovel to dig with in the yard.</p>~^~<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5\~ Diameter<br>  Tungsten handle tip with 5 point loft<br>~^~8d886c5855770cc01a3b8a2db57f6600.jpg~^~cca3cd5db813ee6badf6a3598832f2fc.jpg~^~10.0000~^~pounds~^~0.0000~^~0.0000~^~0.0000~^~inches~^~10~^~1072911600~^~1~^~1~^~2~^~0~^~G01~^~~^~~^~Color::1|Size::2~^~~
-
-~G02~^~Ladder~^~Garden Tools~^~49.99000~^~A really long ladder to reach high places.~^~<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5\~ Diameter<br>  Tungsten handle tip with 5 point loft<br>~^~ffd5d5ace2840232c8c32de59553cd8d.jpg~^~8cb8d644ef299639b7eab25829d13dbc.jpg~^~10.0000~^~pounds~^~0.0000~^~0.0000~^~0.0000~^~inches~^~76~^~1072911600~^~0~^~1~^~2~^~0~^~G02~^~~^~~^~Material::1~^~~
-
-~G03~^~Shovel~^~Garden Tools~^~24.99000~^~Nice shovel.  You can dig your way to China with this one.~^~<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5\~ Diameter<br>  Tungsten handle tip with 5 point loft<br>~^~8147a3a9666aec0296525dbd81f9705e.jpg~^~520efefd6d7977f91b16fac1149c7438.jpg~^~10.0000~^~pounds~^~0.0000~^~0.0000~^~0.0000~^~inches~^~32~^~1072911600~^~0~^~1~^~2~^~0~^~G03~^~Size,XL[+1.99],M,S[-2.99];Colour,Red,Green,Yellow,ExpensiveColor[=24.00]~^~~^~~^~~</pre></div></li>
-
-										<li>Setup the fields on the "Configuration" tab in the same order as the CSV file. The fields must match the exact place in the CSV file.
-
-										<br />E.g. product_sku, product_desc, product_price, category_path<br />
-
-										<br /><span style="font-weight: bold;">Minimum required information to add a product is:</span><br />
-
+										<li>Készítsd el az oszlopfejléces vagy anélküli CSV formátumú terméklistát.
+										<br />A ~ (hullámvonal) szövegelválasztó, és a ^ (kalapjel) mezõelválasztó használatát javasoljuk.
+										<br /><span style="font-weight: bold;">Példafájl:</span><br />
+										<div class="quote" style="width:600px;overflow:scroll;"><pre>~G01~^~Lapát~^~Kézi szerszámok~^~4.99000~^~<p>Kézreálló lapát, mellyel feláshatod a kertet.</p>~^~<ul>  <li>Könnyen markolható, kézzel faragott nyél  </li><li>Titán hegyû lapát  </li><li>Fél foknyi hajtás a problémák elkerülésére  </li><li>Videó útmutatóval, narrátor: Bob Costas  </li></ul>    <b>Mûszaki jellemzõk</b><br>  5\~ Átmérõ<br>  Volfrám nyélhegy<br>~^~8d886c5855770cc01a3b8a2db57f6600.jpg~^~cca3cd5db813ee6badf6a3598832f2fc.jpg~^~10.0000~^~font~^~0.0000~^~0.0000~^~0.0000~^~hüvelyk~^~10~^~1072911600~^~1~^~1~^~2~^~0~^~G01~^~~^~~^~Szín::1|Méret::2~^~~
+~G02~^~Létra~^~Kerti szerszámok~^~49.99000~^~Jó hosszú létre, mellyel magasra mászhatsz.~^~<ul>  <li>Könnyen markolható, kézzel faragott nyél  </li><li>Titán hegyû lapát  </li><li>Fél foknyi hajtás a problémák elkerülésére  </li><li>Videó útmutatóval, narrátor: Bob Costas  </li></ul>    <b>Mûszaki jellemzõk</b><br>  5\~ Átmérõ<br>  Volfrám nyélhegy<br>~^~ffd5d5ace2840232c8c32de59553cd8d.jpg~^~8cb8d644ef299639b7eab25829d13dbc.jpg~^~10.0000~^~font~^~0.0000~^~0.0000~^~0.0000~^~hüvelyk~^~76~^~1072911600~^~0~^~1~^~2~^~0~^~G02~^~~^~~^~Anyaga::1~^~~
+~G03~^~Lapát~^~Kerti szerszámok~^~24.99000~^~Ügyes kis lapát.  Ezzel az eggyel Kínáig is eláshatsz.~^~<ul>  <li>Könnyen markolható, kézzel faragott nyél  </li><li>Titán hegyû lapát  </li><li>Fél foknyi hajtás a problémák elkerülésére  </li><li>Videó útmutatóval, narrátor: Bob Costas  </li></ul>    <b>Mûszaki jellemzõk</b><br>  5\~ Átmérõ<br>  Volfrám nyélhegy<br>~^~8147a3a9666aec0296525dbd81f9705e.jpg~^~520efefd6d7977f91b16fac1149c7438.jpg~^~10.0000~^~font~^~0.0000~^~0.0000~^~0.0000~^~hüvelyk~^~32~^~1072911600~^~0~^~1~^~2~^~0~^~G03~^~Méret,XL[+1.99],M,S[-2.99];Szín,Piros,Zöld,Sárga,KülönlegesSzín[=24.00]~^~~^~~^~~</pre></div></li>
+										<li>A "Beállítások" fülön ugyanabban a sorrendben állítsd be a mezõket, mint a CSV fájlban. A mezõknek pont ugyanott kell lenniük, mint a CSV fájlban.
+										<br />Pl. product_sku, product_desc, product_price, category_path<br />
+										<br /><span style="font-weight: bold;">Egy termék hozzáadásához legalább szükséges információ:</span><br />
 										product_sku<br />
-
 										product_name<br />
-
 										category_path<br />
-
-										<br /><span style="font-weight: bold;">category_path</span> is a slash delimited string which begins
-
-										with a top-level category and follows with sub-categories, e.g. <br />
-
+										<br /><span style="font-weight: bold;">category_path</span> perjellel elválasztott karakterlánc,
+										mely felsõ szintû kategóriával kezdõdik, és alkategóriák követik, pl. <br />
 										<div class="quote">category/sub-category_1/sub_category_2</div>
-
 										<br />
-
-										When the product has to be assigned to more than one category, you can
-
-										provide all categories,<br />
-
-										delimited by a <span style="font-weight: bold;">|</span>
-
-										<div class="quote">Category/Sub-category_1/Sub_category_2|Category2/Subcategory22|Category3/Subcategory33</div>
-
+										Amikor a terméket több kategóriába kell besorolni, akkor
+										<span style="font-weight: bold;">|</span> jellel elválasztva
+										megadhatod az összes kategóriát.<br />
+										<div class="quote">Kategória/Alkategória1/Alkategória2|Kategória2/Alkategória22|Kategória3/Alkategória33</div>
 										</li>
-
-										<li>Choose the delimiters on the "Import/Export" tab.</li>
-
-										<li>Choose the upload settings on the "Import/Export" tab.</li>
-
-										<li>Choose either to upload the file from your local computer (Submit CSV File) or to use a local file (Load CSV File from Server).</li>
-
-										<li>The import starts.</li>
-
+										<li>Az "Importálás/Exportálás" fülön válaszd ki az elválasztókat.</li>
+										<li>Az "Importálás/Exportálás" fülön végezd el a feltöltés tulajdonságainak beállítását.</li>
+										<li>Válaszd ki, hogy a helyi számítógépedrõl töltöd fel a fájlt (CSV fájl feltöltése), vagy helyi fájlt használsz (CSV fájl betöltése a kiszolgálóról).</li>
+										<li>Az importálás megkezdõdik.</li>
 										</ol>';
-	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_PRODUCT_TYPES = '<span style="color: #FF0000; font-size: 1.2em;">Product Types</span><br /><br />
-
-													To add product types, you need 4 CSV files. Each CSV file represents a part of the product type.
-
+	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_PRODUCT_TYPES = '<span style="color: #FF0000; font-size: 1.2em;">Terméktípusok</span><br /><br />
+													A terméktípusok hozzáadásához 4 CSV fájlra van szükség. Mindegyik CSV fájl a terméktípus egy-egy részét jelenti.
 													<ul>
-
-													<li><span style="font-weight: bold;">Product types</span><br />
-
-													This CSV file contains the main product types and should look like this:
-
+													<li><span style="font-weight: bold;">Terméktípusok</span><br />
+													Ez a CSV fájl tartalmazza a fõ terméktípusokat, és így kell kinéznie:
 													<table border="1">
-
 													<tr style="border: 1px solid #000000;"><td>product_type_name</td><td>product_type_description</td><td>product_type_publish</td><td>product_type_browsepage</td><td>product_type_flypage</td></tr>
-
-													<tr><td>Music track</td><td>Track</td><td>Y</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-
-													<tr><td>Music album</td><td>Album</td><td>Y</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-
-													<tr><td>Music artist</td><td>Artist</td><td>Y</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-
+													<tr><td>Zeneszám</td><td>Szám</td><td>Y</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+													<tr><td>Zenei album</td><td>Album</td><td>Y</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+													<tr><td>Zenei elõadó</td><td>Elõadó</td><td>Y</td><td>&nbsp;</td><td>&nbsp;</td></tr>
 													</table>
-
 													</li><br />
-
-													<li><span style="font-weight: bold;">Product type parameters</span><br />
-
-													This CSV file contains the parameters per product type and should look like this:
-
+													<li><span style="font-weight: bold;">Terméktípus paraméterei</span><br />
+													Ez a CSV fájl tartalmazza a terméktípusonkénti paramétereket, és így kell kinéznie:
 													<div style="width: 50%; overflow: auto; height: 100px;">
-
 													<table border="1">
-
 													<tr><td>product_type_name</td><td>product_type_parameter_name</td><td>product_type_parameter_label</td><td>product_type_parameter_description</td><td>product_type_parameter_list_order</td><td>product_type_parameter_type</td><td>product_type_parameter_values</td><td>product_type_parameter_multiselect</td><td>product_type_parameter_default</td><td>product_type_parameter_unit</td></tr>
-
-													<tr><td>Music artist</td><td>Name</td><td>Name</td><td>Artist Name</td><td>1</td><td>I</td><td>&nbsp;</td><td>N</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-
-													<tr><td>Music artist</td><td>Birth</td><td>Birth</td><td>Artist Birth</td><td>2</td><td>D</td><td>&nbsp;</td><td>N</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-
-													<tr><td>Music album</td><td>Duration</td><td>Duration</td><td>Duration of album</td><td>3</td><td>M</td><td>00:01:00;00:02:00;00:03:00</td><td>Y</td><td>00:02:00</td><td>minutes</td></tr>
-
+													<tr><td>Zenei elõadó</td><td>Név</td><td>Név</td><td>Artist Name</td><td>1</td><td>I</td><td>&nbsp;</td><td>N</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+													<tr><td>Zenei elõadó</td><td>Születésnap</td><td>Születésnap</td><td>Elõadó születésnapja</td><td>2</td><td>D</td><td>&nbsp;</td><td>N</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+													<tr><td>Zenei album</td><td>Játékidõ</td><td>Játékidõ</td><td>Az album játékideje</td><td>3</td><td>M</td><td>00:01:00;00:02:00;00:03:00</td><td>Y</td><td>00:02:00</td><td>perc</td></tr>
 													</table>
-
 													</div>
-
 													<br />
-
-													The product type parameter type can have several values, they are:
-
+													A terméktípus paramétertípusának több értéke lehet, ezek a következõk:
 													<ul>
-
-													<li>I: Integer</li>
-
-													<li>T: Text</li>
-
-													<li>S: Short Text</li>
-
-													<li>F: Float</li>
-
-													<li>C: Char</li>
-
-													<li>D: Date & Time</li>
-
-													<li>M: Time</li>
-
-													<li>V: Multiple Values</li>
-
-													<li>B: Break Line</li>
-
+													<li>I: Egész szám</li>
+													<li>T: Szöveg</li>
+													<li>S: Rövid szöveg</li>
+													<li>F: Lebegõ</li>
+													<li>C: Karakter</li>
+													<li>D: Dátum és idõpont</li>
+													<li>M: Idõ</li>
+													<li>V: Több érték</li>
+													<li>B: Sortörés</li>
 													</ul>
-
 													</li><br />
-
-													<li><span style="font-weight: bold;">Items per product type name</span><br />
-
-													This CSV file contains the details per product type parameter name and should look like this:
-
+													<li><span style="font-weight: bold;">Terméktípus nevekénti áricukkek</span><br />
+													Ez a CSV fájl tartalmazza a terméktípus paraméternevenkénti részleteit, és így kell kinéznie:
 													<table border="1">
-
 													<tr><td>product_sku</td><td>product_type_name</td><td>product_type_parameter_namex</td><td>product_type_parameter_namex</td></tr>
-
-													<tr><td>1234</td><td>Music artist</td><td>Singing Star</td><td>1975</td></tr>
-
-													<tr><td>5678</td><td>Music artist</td><td>Rocking Band</td><td>1980</td></tr>
-
+													<tr><td>1234</td><td>Zenei elõadó</td><td>Szóló énekes</td><td>1975</td></tr>
+													<tr><td>5678</td><td>Zenei elõadó</td><td>Rockzenekar</td><td>1980</td></tr>
 													</table><br />
-
-													Per product type name you need a seperate CSV file. The reason for this is that the column names for each CSV file is different because of the set of product type parameters.
-
+													Terméktípus nevenként külön CSV fájlra van szükség. Ennek az az oka, hogy mindegyik CSV fájlhoz eltérõek az oszlopnevek a terméktípus paramétereinek megadása miatt.
 													</li><br />
-
-													<li><span style="font-weight: bold;">Product type cross reference to product SKU</span><br />
-
-													This CSV file contains the link between a product type and a product SKU and should look like this:
-
+													<li><span style="font-weight: bold;">Terméktípus kereszthivatkozás a termék cikkszámához</span><br />
+													Ez a CSV fájl tartalmazza egy terméktípus és egy termék cikkszám közti hivatkozást, és így kell kinéznie:
 													<table border="1">
-
 													<tr><td>product_sku</td><td>product_type_name</td></tr>
-
-													<tr><td>1234</td><td>Music artist</td></tr>
-
-													<tr><td>5678</td><td>Music artist</td></tr>
-
+													<tr><td>1234</td><td>Zenei elõadó</td></tr>
+													<tr><td>5678</td><td>Zenei elõadó</td></tr>
 													</table>
-
 													</li>
-
 													</ul><br />
-
-													Procedure:<br />
-
+													Eljárás:<br />
 													<ol>
-
-													<li>Upload Product Types CSV file</li>
-
-													<li>Upload Product Type Parameters CSV file</li>
-
-													<li>Upload Product Type Items CSV file</li>
-
-													<li>Upload Product Type Cross Reference CSV file</li>
-
+													<li>Töltsd fel a terméktípusok CSV fájlját</li>
+													<li>Töltsd fel a terméktípus paraméterek CSV fájlt</li>
+													<li>Töltsd fel a terméktípus árucikkei CSV fájlz</li>
+													<li>Töltsd fel a terméktípus kereszthivatkozás CSV fájlt</li>
 													</ol>';
-	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_EMPTY_DATABASE = '<span style="color: #FF0000; font-size: 1.2em;">Empty Database</span><br /><br />
-
-													 <span style="color: #FF0000; font-size: 2em;">USE WITH CAUTION !!! NO RESTORE !!!</span><br /><br />
-
-													 Emptying the database will remove ALL data in your database from the following tables:
-
+	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_EMPTY_DATABASE = '<span style="color: #FF0000; font-size: 1.2em;">Adatbázis kiürítése</span><br /><br />
+													 <span style="color: #FF0000; font-size: 2em;">LEGYEN ÓVATOS !!! NEM ÁLLÍTHATÓ VISSZA !!!</span><br /><br />
+													 Az adatbázis kiürítése során az ÖSSZES adat eltávolításra kerül a következõ táblákból:
 													 <ul>
-
 													 <li>products</li>
-
 													 <li>products</li>
-
 													 <li>product_price</li>
-
 													 <li>product_mf_xref</li>
-
 													 <li>product_attribute</li>
-
 													 <li>category</li>
-
 													 <li>category_xref</li>
-
 													 <li>product_attribute_sku</li>
-
 													 <li>product_category_xref</li>
-
 													 <li>product_discount</li>
-
 													 <li>product_type</li>
-
 													 <li>product_type_parameter</li>
-
 													 <li>product_product_type_xref</li>
-
 													 </ul>
-
-													 All but the first manufacturer is removed:
-
+													 Mind, de csak az elsõ gyártó kerül eltávolításra:
 													 <ul>
-
 													 <li>manufacturer</li>
-
 													 </ul>
-
-													 The following tables are completely deleted:
-
+													 A következõ táblák teljesen törlésre kerülnek:
 													 <ul>
-
 													 <li>product_type_x</li>
-
 													 </ul>
-
-													 The x represents the number of the table. This number relates to the product types that are in the system. Since the product types table is completely emptied, these tables are removed. Uploading new product types will recreate the tables.<br /><br />
-
-													 Procedure:
-
+													 Az x jelenti a tábla számát. Ez a szám vonatkozik a rendszerben lévõ terméktípusokra. Mivel a terméktípusok táblája teljesen kiürítésre kerül, ezek a táblák eltávolításra kerülnek. Új terméktípusok feltöltésekor megtörténik a táblák ismételt létrehozása.<br /><br />
+													 Eljárás:
 													 <ol>
-
-													 <li>Choose "Empty Database" from the dropdown on the Upload Settings</li>
-
-													 <li>Check "Collect debug information" if you want additional result information</li>
-
-													 <li>Click "Submit CSV File" or "Load CSV File from Server". No need to enter a filename.</li>
-
-													 <li>You are asked if you are sure you want to empty your database. Click OK if you are sure otherwise click Cancel</li>
-
-													 <li>The database is now emptied or you are returned to the main screen depending on your previous choice</li>
-
+													 <li>A Feltöltés beállításai fülön válaszd az "Adatbázis kiürítése" elemet a legördülõ listában</li>
+													 <li>Jelöld be a "Hibakeresési információ gyûjtése" jelölõnégyzetet, ha további információra van szükséged</li>
+													 <li>Kattints a "CSV fájl feltöltése" vagy a "CSV fájl  betöltése a kiszolgálóról" gombra. Fájlnevet nem kell beírnod.</li>
+													 <li>Azt kérdezzük meg, hogy biztosan ki akarod-e üríteni az adatbázist. Nyomd meg az OK gombot, ha biztos vagy benne, egyéb esetben a Mégse gombra kattints</li>
+													 <li>Az adatbázis kiürítése most már megtörtént, ill. az elõzõ választástól függõen visszairányítunk a fõképernyõre</li>
 													 </ol>';
-	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_MULTIPLE_PRICES_UPLOAD = '<span style="color: #FF0000; font-size: 1.2em;">Multiple prices upload</span><br /><br />
-
-														    Procedure:
-
+	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_MULTIPLE_PRICES_UPLOAD = '<span style="color: #FF0000; font-size: 1.2em;">Többféle ár feltöltése</span><br /><br />
+														    Eljárás:
 														    <ol>
-
-														    <li>Create a CSV file that contains the following fields:
-
+														    <li>Hozz létre egy CSV fájlt, mely a következõ mezõket tartalmazza:
 														    	<ul>
-
 															<li>product_sku</li>
-
 															<li>product_price</li>
-
 															<li>product_currency</li>
-
 															<li>price_quantity_start</li>
-
 															<li>price_quantity_end</li>
-
 															<li>price_delete</li>
-
 															</ul>
-
-														    See the Available Fields tab for what information each field contains. If you want to use the column headers as configuration, fill the first line with the column headers name.
-
+														    Lásd a Választható mezõk fülön, hogy az egyes mezõk milyen információkat tartalmaznak. Ha beállításként kívánod használni az oszlopfejléceket, akkor az elsõ sorban az oszlopfejlécek neveit add meg.
 														    </li>
-
-														    <li>Either set the configuration fields, as mentioned in point 1 on the Configuration tab or if you added column headers to your CSV file, select "Use column headers as configuration" at the Upload Settings.
-
+														    <li>Vagy add meg a konfigurációs mezõket, ahogy a Beállítások fül 1. pontjában említettük, vagy ha hozzáadtad az oszlopfejléceket a CSV fájlhoz, akkor válaszd az "Oszlopfejlécek használata beállításként" lehetõséget a Feltöltés beállításaiban.
 														    </li>
-
-														    <li>Select "Multiple Prices Upload" at the Upload Settings</li>
-
-														    <li>Optionally, choose "Show preview" and/or "Collect debug information"</li>
-
-														    <li>Select a file to upload or to load from directory</li>
-
-														    <li>Select "Submit CSV File" or "Load CSV File from Server" depending if you are uploading a file or loading a file from a directory</li>
-
-														    <li>The prices will now be imported</li>
-
+														    <li>Válaszd a "Többféle ár feltöltése" lehetõséget a Feltöltés beállításaiban</li>
+														    <li>Tetszés szerint válaszd az "Elõnézet megjelenítése" és/vagy a "Hibakeresési információ gyûjtése" lehetõséget</li>
+														    <li>Válaszd ki a feltöltendõ, vagy a könyvtárból betöltendõ fájlt</li>
+														    <li>Válaszd a "CSV fájl feltöltése" vagy a "CSV fájl betöltése a kiszolgálóról" lehetõséget, attól függõen, hogy feltöltöd-e a fájlt, vagy betöltöd valamelyik könyvtárból</li>
+														    <li>Most kerül sor az árak importálására</li>
 														    </ol><br /><br />
-
-														    <span style="font-weight: bold;">Price delete</span><br />
-
-														    Using the multiple prices import it is also possible to delete prices. A price is deleted when the following fields in the CSV file match the data in the database:
-
+														    <span style="font-weight: bold;">Ár törlése</span><br />
+														    A többféle ár importálással árak törlésére is mód van. Az ár akkor kerül törlésre, amikor a CSV fájlban lévõ következõ mezõk egyeznek az adatbázisban lévõ adatokkal:
 														    <ul>
-
 														    <li>product_sku</li>
-
 														    <li>product_price</li>
-
 														    <li>product_currency</li>
-
 														    <li>price_quantity_start</li>
-
 														    <li>price_quantity_end</li>
-
 														    </ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PRICE = 'The price for a product without currency denominator.<br /><br />Usage:<ol><li>Select the name "product_price" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a price value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_LENGTH = 'The length of the product.<br /><br />Usage:<ol><li>Select the name "product_length" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_LWH_UOM = 'The measurement of length, width and height of the product.This can be inches, centimeters, etc.<br /><br />Usage:<ol><li>Select the name "product_lwh_uom" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_WEIGHT = 'The weight of the product.<br /><br />Usage:<ol><li>Select the name "product_weight" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_WEIGHT_UOM = 'The measurement of weight of the product.This can be pounds, kilo, etc.<br /><br />Usage:<ol><li>Select the name "product_weight_uom" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTES = 'Attributes are part of a product and are used by the child products to give them specifications.<br />Usage:<ol><li>Select the name "attributes" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the attributes text.</li></ol><br />Values:<ul><li>Text: No HTML code allowed.<br />The values must be seperated by a pipe symbol (|). E.g.: attribute_name::list_order|attribute_name::list_order</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTE_VALUES = 'Attribute values are the values of child products that are linked to the attributes of the parent product.<br />Usage:<ol><li>Select the name "custom_attribute" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the attribute value text.</li></ol><br />Values:<ul><li>Text: No HTML code allowed.<br />The values must be seperated by a pipe symbol (|). E.g.: attribute_name::attribute_value|attribute_name::attribute_value</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT_DATE_START = 'The day the discount for a product starts. For more information see "product_discount".<br /><br />Usage:<ol><li>Select the name "product_discount_date_start" from the dropdown menu on the configuration screen.</li><li>Add the chosen columns to your CSV file with the date value.</li></ol><br />Values:<ul><li>product_discount_date_start</li><ul><li>Date: day/month/year or day-month-year<br />Day and month can be a 1 or 2 digit notation.<br />Year can be a 2 or 4 digit notation.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT_DATE_END = 'The day the discount for a product ends. For more information see "product_discount".<br /><br />Usage:<ol><li>Select the name "product_discount_date_end" from the dropdown menu on the configuration screen.</li><li>Add the chosen columns to your CSV file with the date value.</li></ol><br />Values:<ul><li>product_discount_date_end</li><ul><li>Date: day/month/year or day-month-year<br />Day and month can be a 1 or 2 digit notation.<br />Year can be a 2 or 4 digit notation.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_UPLOAD_SETTINGS = '<ul><li><span style="font-weight: bold;">Skip first line</span><br />If the CSV file has a header line at the beginning, choose this option to skip that line. This prevents the header from being added to your database.</li><li><span style="font-weight: bold;">Overwrite existing data</span><br />When adding new products to your database, unchecking this option prevents any existing data to be replaced for products that already exist in your database. Default is to update product data.</li><li><span style="font-weight: bold;">Skip default value</span><br />On the configuration page, a default value can be specified in case the field is empty in the CSV file. Enabling this option, the import will not include the field for updating if there is no value in the CSV file.</li><li><span style="font-weight: bold;">Price list upload only</span><br />The Price list upload only is to be used if you are updating the prices of your products. The layout of the CSV is expected to be 2 columns:<ol><li>product_sku</span></li><li>product_price</li></ol></li>Please note that it does NOT take into account the settings on the configuration page.<li><span style="font-weight: bold;">Use column headers as configuration</span><br />If the CSV file has column headers on the first line, this option can be used to use the column headers as the current configuration. The column headers should match one of the column names defined on the Available Tabs page. This configuration is on a per use basis, nothing is saved. Default values cannot be used with this option.</li><li><span style="font-weight: bold;">Show preview</span><br />Shows a 5 line preview of the file to be imported. The import can then be either cancelled or continued.</li><li><span style="font-weight: bold;">Collect debug information</span><br />In case of problems, use this option to see what happens during the import. At the end of the import a report will be generated with the steps and queries done during the import.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_MANUFACTURER_NAME = 'The name of the manufacturer that is related to the product. This is used in combination with the manufacturer ID. If no manufacturer ID is specified, only the name is checked. New manufacturers will be created wiht incremental IDs. The process of adding/updating manufacturers follows the following guidelines:<ol><li>Name exists, ID exists --> ID is updated if different</li><li>Name exists, ID does not exist --> New manufacturer created with increment ID</li><li>Name does not exist, ID exists --> Generic name added with existing ID</li><li>Name does not exist, ID does not exist --> Do nothing</li></ol>Usage:<ol><li>Select the name "manufacturer_name" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the manufacturer name.</li></ol><br />Values:<ul><li>Text: No HTML code allowed.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_MANUFACTURER_ID = 'The ID of the manufacturer that is related to the product and must be unique. This is used in combination with the manufacturer name. If no manufacturer name is specified only, the product manufacturer link will be added/updated. Adding/updating manufacturers follows the following process:<ol><li>Name exists, ID exists --> ID is updated if different</li><li>Name exists, ID does not exist --> New manufacturer created with increment ID</li><li>Name does not exist, ID exists --> Generic name added with existing ID</li><li>Name does not exist, ID does not exist --> Do nothing</li></ol>When no name or ID exists nothing is done to prevent numerous generic name manufacturers from being added.<br /><br />Usage:<ol><li>Select the name "manufacturer_id" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the manufacturer ID.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_URL = 'A URL to either a picture or webpage of the product. When linked to a picture, the picture will be shown on the product details page.<br /><br />Usage:<ol><li>Select the name "product_url" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_SALES = 'The number of products that have been sold.<br /><br />Usage:<ol><li>Select the name "product_sales" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_SPECIAL = 'When a product is set to be "On Special" it will be featured in the Featured Products block.<br />Usage:<ol><li>Select the name "product_special" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value Y.</li></ol><br />Values:<ul><li>Y: Yes, the product is on special</li><li>N: No, the product is not on special</li><li>Empty: Empty value, the product is not on special</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_UNIT = 'The unit of the product as it is sold. I.e. box, bag, etc.<br />Usage:<ol><li>Select the name "product_unit" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value Y.</li></ol><br />Values:<ul><li>Text: No HTML allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_CATEGORY_PATH = 'Parent products are categorized according to the category path. The category path specifies in which category a product belongs. This only counts for main products not for child products since child products relate to parent products, not to categories. For child products this field must be left empty. The product_parent_sku must be empty for main products since they do not relate to any other parent product.<br /><br />Usage:<ol><li>Select the name "category_path" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the path.</li></ol><br />Values:<ul><li>Text: No HTML allowed<br />The category path must be seperated by a forward slash (/). E.g.: Furniture/Chairs/Teak</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PARENT_SKU = 'The product parent sku is needed to identify the parent of child products. Please note: the "category_path" field MUST be empty otherwise the product will be treated as a parent product.<br />Usage:<ol><li>Select the name "category_path" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the product_sku value of the parent product.</li></ol><br />Values:<ul><li>Numeric</li><li>Letters</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TAX_ID = 'The ID of the tax rate that you want to apply to the product<br />Usage:<ol><li>Select the name "product_tax_id" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the product_tax_id value of the appropiate tax.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_CURRENCY = 'A different currency can be specified on a per product basis.<br />Usage:<ol><li>Select the name "product_currency" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value of the new currency.</li></ol><br />Values:<ul><li>Text: No HTML allowed<br />E.g.: EUR, USD, IDR</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_BROWSEPAGE = 'This is a custom page to show your product types. Leave this BLANK if you have no individual php-file for it.<br /><br />Usage:<ol><li>Select the name "product_type_browsepage" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text:<ul><li>No HTML code allowed</li><li>URL\'s are allowed.</li></ul></li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_DESCRIPTION = 'A description for your product type.<br /><br />Usage:<ol><li>Select the name "product_type_description" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_FLYPAGE = 'This is a custom page to show your product types. Leave this BLANK if you have no individual php-file for it.<br /><br />Usage:<ol><li>Select the name "product_type_flypage" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text:<ul><li>No HTML code allowed</li><li>URL\'s are allowed.</li></ul></li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_NAME = 'The name of the product type. This name must be unique and without spaces.<br /><br />Usage:<ol><li>Select the name "product_type_name" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_DEFAULT = 'A default value to show when there is nothing else filled in for the parameter.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_default" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_DESCRIPTION = 'A description for your product type parameter.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_description" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_LABEL = 'A label for your product type parameter.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_label" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_LIST_ORDER = 'Specify in which order the product parameter is to be displayed.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_list_order" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_MULTISELECT = 'Set to yes to show possible parameter values as multiple select items<br /><br />Usage:<ol><li>Select the name "product_type_parameter_list_multiselect" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value Y or N.</li></ol><br />Values:<ul><li>Y: Yes, the values are multi select</li><li>N: No, the values are not multi select</li><li>Empty: Empty value, the values are not multi select</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_NAME = 'The name of the product type parameter. This name must be unique and without spaces as it will be the column name for the parameter details.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_type" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_TYPE = 'This sets the type of parameter that will be used. There are a number of different values that can be used.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_type" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value.</li></ol><br />Values:<ul><li>Text:<ul>
-
-													<li>I: Integer</li>
-
-													<li>T: Text</li>
-
-													<li>S: Short Text</li>
-
-													<li>F: Float</li>
-
-													<li>C: Char</li>
-
-													<li>D: Date & Time</li>
-
-													<li>M: Time</li>
-
-													<li>V: Multiple Values</li>
-
-													<li>B: Break Line</li>
-
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PRICE = 'Egy termék ára a pénznem megjelölése nélkül.<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_price" elemet a legördülõ listában.</li><li>Add hozzá az ár értékével az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Numerikus</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_LENGTH = 'A termék hossza.<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_length" elemet a legördülõ listában.</li><li>Add hozzá a numerikus értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Numerikus</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_LWH_UOM = 'A termék hosszának, szélességének és magasságának mérése.Ez lehet hüvelyk, centiméter, stb.<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_lwh_uom" elemet a legördülõ listában.</li><li>Add hozzá szöveg értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Szöveg: HTML-kód használata nem engedélyezett</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_WEIGHT = 'A termék súlya.<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_weight" elemet a legördülõ listában.</li><li>Add hozzá numerikus értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Numerikus</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_WEIGHT_UOM = 'A termék súlymértéke. Ez lehet font, kilogram stb.<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_weight_uom" elemet a legördülõ listában.</li><li>Add hozzá szöveg értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Szöveg: HTML-kód használata nem engedélyezett</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTES = 'Az attribútumok egy termék részei, és a sarjtermékek használják a jellemzõk megadására.<br />Használata:<ol><li>A Beállítások fülön válaszd ki az "attributes" elemet a legördülõ listában.</li><li>Add hozzá az attribútumok szövegével az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Szöveg: HTML-kód használata nem engedélyezett.<br />Az értékeket függõleges vonallal (|) kell elválasztani. Pl.: attribútum_neve::lista sorrend|attribútum_neve::lista_sorrend</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTE_VALUES = 'Az attribútumértékek olyan sarjtermékek értékei, melyek hozzá vannak kapcsolva a szülõtermék attribútumaihoz.<br />Használata:<ol><li>A Beállítások fülön válaszd ki a "custom_attribute" elemet a legördülõ listában.</li><li>Add hozzá az attribútumérték szövegével az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Szöveg: HTML-kód használata nem engedélyezett.<br />Az értékeket függõleges vonallal (|) kell elválasztani. Pl.: attribútum_neve::attribútum_értéke|attribútum_neve::attribútum_értéke</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT_DATE_START = 'A termék árengedményének kezdõ napja. További információ a "product_discount" résznél.<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_discount_date_start" elemet a legördülõ listában.</li><li>Add hozzá a dátum értékével a választott oszlopokat a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>product_discount_date_start</li><ul><li>Dátum: nap/hónap/év vagy nap-hónap-év<br />A nap és a hónap 1 vagy 2 számjegybõl állhat.<br />Az év 2 vagy 4 számjegyet tartalmazhat.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT_DATE_END = 'A termék árengedményének utolsó napja. További információ a "product_discount" résznél.<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_discount_date_end" elemet a legördülõ listában.</li><li>Add hozzá a dátum értékével a kiválasztott oszlopokat a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>product_discount_date_end</li><ul><li>Dátum: nap/hónap/év vagy nap-hónap-év<br />A nap és a hónap 1 vagy 2 számjegybõl állhat.<br />Az év 2 vagy 4 számjegyet tartalmazhat.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_UPLOAD_SETTINGS = '<ul><li><span style="font-weight: bold;">Az elsõ sor kihagyása</span><br />Ha a CSV fájl fejlécsorral kezdõdik, akkor válaszd ezt a lehetõséget annak a sornak a kihagyásához. Így megelõzheted, hogy a fejléc hozzáadásra kerüljön az adatbázishoz.</li><li><span style="font-weight: bold;">Létezõ adatok felülírása</span><br />Új termékek adatbázisba történõ hozzáadásakor, ennek a beállításnak a törlése megakadályozza, hogy a létezõ adatok lecserélésre kerüljenek olyan termékekre, melyek már megtalálhatók az adatbázisban. Az alapértelmezés a termékadatok frissítése.</li><li><span style="font-weight: bold;">Alapértelmezett érték kihagyása</span><br />A Beállítások fülön megadható egy alapértelmezés szerinti érték, ha a CSV fájlban üres a mezõ. E beállítás engedélyezésével az importálás nem fogja tartalmazni a mezõt a frissítéshez, ha nincs érték a CSV fájlban.</li><li><span style="font-weight: bold;">Csak árlista feltöltése</span><br />Az árlista feltöltése csak akkor használandó, ha módosítja a termékek árait. A CSV fájl elrendezése 2 oszlopos legyen:<ol><li>product_sku</span></li><li>product_price</li></ol></li>A konfgurációs oldalon lévõ beállítások NEM lesznek figyelembe véve.<li><span style="font-weight: bold;">Oszlopfejlécek használata beállításként</span><br />Ha a CSV fájl elsõ sorában oszlopfejlécek találhatók, akkor ez a lehetõség használható fel az oszlopfejlécek jelenlegi beállításkén történõ használatára. Az oszlopfejléceknek egyezniük kell a Létezõ fülek oldalon megadott egyik oszlopnévvel. Ez a beállítás használatonkénti alapú, semmi sem kerül mentésre. Az alapértelmezett értékek nem használhatók ezzel a lehetõséggel.</li><li><span style="font-weight: bold;">Elõnézet megjelenítése</span><br />Megmutat elõnézetben 5 sort az importálandó fájlból. Az importálást aztán vagy megszakíthatod, vagy folytathatod.</li><li><span style="font-weight: bold;">Hibakeresési információ gyûjtése</span><br />Problémák esetén használd ezt a lehetõséget, és meg tudod tekinteni, hogy mi történik az importálás során. Az importálás végén jelentés készül a végrehajtott lépésekrõl és a lekérdezésekrõl.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_MANUFACTURER_NAME = 'A termék gyártójának a neve. Ez kerül kombináltan felhasználásra a gyártó azonosítójával. Ha nincs megadva a gyártó azonosítója, akkor csak a név kerül ellenõrzésre. Az új gyártók létrehozása növekményes azonosítóval történik. A gyártók hozzáadási/módosítási folyamata a következõ útmutatás alapján történik:<ol><li>Név létezik, azonosító létezik --> Az azonosító módosításra kerül, ha eltérõ</li><li>Név létezik, azonosító nem létezik --> Az új gyártó növekményes azonosítóval kerül létrehozásra</li><li>Név nem létezik, azonosító létezik --> Eredendõ név kerül hozzáadásra létezõ azonosítóval</li><li>Név nem létezik, azonosító nem létezik --> Nincs változás</li></ol>Használata:<ol><li>A Beállítások fülön válaszd ki a "manufacturer_name" elemet a legördülõ listában.</li><li>Adj hozzá egy oszlopot a CSV fájlhoz a gyártó nevével.</li></ol><br />Értékek:<ul><li>Szöveg: HTML-kód használata nem engedélyezett.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_MANUFACTURER_ID = 'A termék gyártójának azonosítója, egyedinek kell lennie. A gyártó nevével kombinálva kerül felhasználásra. Ha csak a gyártó neve nincs megadva, akkor hozzáadásra/frissítésre kerül a termék gyártójának hivatkozása. Gyártók hozzáadása/frissítése a következõ folyamat alapján történik:<ol><li>Név létezik, azonosító létezik --> Az azonosító akkor kerül frissítésre, ha eltérõ</li><li>Név létezik, azonosító nem létezik --> Az új gyártó növekményes azonosítóval kerül létrehozásra</li><li>Név nem létezik, azonosító létezik --> Eredendõ név kerül hozzáadásra létezõ azonosítóval</li><li>Név nem létezik, azonosító nem létezik --> Nincs változás</li></ol>Ha a név vagy az azonosító nem létezik, nem történik semmi, ezáltal megelõzhetõ a nagy számú eredendõ nevû gyártó hozzáadása.<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "manufacturer_id" elemet a legördülõ listában.</li><li>Adj hozzá egy oszlopot a CSV fájlhoz a gyártó azonosítójával.</li></ol><br />Értékek:<ul><li>Numerikus</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_URL = 'A termék képének vagy weboldalának URL-je. Ha képre történik a hivatkozás, akkor a termékadatok lapon látható lesz a kép.<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_url" elemet a legördülõ listában.</li><li>Add hozzá szöveg értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Szöveg: A HTML-kd használata nem engedélyezett</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_SALES = 'Az eladott termékek száma.<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_sales" elemet a legördülõ listában.</li><li>Add hozzá numerikus értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Numerikus</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_SPECIAL = 'Ha egy terméknél bejelölte az "Akciós termék" lehetõséget, akkor kiemelésre kerül a Kiemelt termékek blokkban.<br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_special" elemet a legördülõ listában.</li><li>Add hozzá az Y értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Y: Igen, a termék akciós termék</li><li>N: Nem, a termék nem akciós termék</li><li>Empty: Üres érték, nem akciós a termék</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_UNIT = 'A termék értékesítési egysége. Pl. doboz, zacskó, stb.<br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_unit" elemet a legördülõ listában.</li><li>Add hozzá az Y értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Szöveg: HTML-kód használata nem engedélyezett</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_CATEGORY_PATH = 'A szülõtermékek kategorizálása a kategória útvonala alapján történik. A kategória útvonala határozza meg, hogy melyik kategóriába tartozik a termék. Ez csak a fõtermékek esetén számít, a sarjtermékeknél nem, ugyanis a sarjtermékek a szülõtermékekhez kapcsolódnak, nem kategóriákhoz. Sarjtermékek esetén hagyd üresen ezt a mezõt. A product_parent_sku értéke üres legyen a fõtermékek esetében, mivel nem kapcsolódnak semmilyen másik termékhez.<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "category_path" elemet a legördülõ listában.</li><li>Add hozzá az útvonallal az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Szöveg: A HTML-kód használata nem engedélyezett<br />A kategória útvonalát perjellel (/) kell elválasztani. Pl.: Bútorok/Székek/Teak</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PARENT_SKU = 'A termék szülõ cikkszámára van szükség a sarjtermékek szülõinek beazonosítására. Megjegyzés: a "category_path" mezõnek üresnek KELL lennie, mert különben a terméket szülõtermékként fogja kezelni.<br />Használata:<ol><li>A Beállítások fülön válaszd ki a "category_path" elemet a legördülõ listában.</li><li>Add hozzá a szülõtermék cikkszámának értékével az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Numerikus</li><li>Betûk</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TAX_ID = 'A termék felszámítani kívánt adókulcs azonosítója<br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_tax_id" elemet a legördülõ listában.</li><li>Add hozzá a megfelelõ adó product_tax_id értékével az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Numerikus</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_CURRENCY = 'Termékenkénti alapon eltérõ pénznem adható meg.<br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_currency" elemet a legördülõ listában.</li><li>Add hozzá az új pénzenm értékével az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Szöveg: HTML-kód használata nem engedélyezett<br />Pl.: EUR, USD, HUF</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_BROWSEPAGE = 'Ez egy egyedi oldal a terméktípusok megjelenítéséhez. Hagyd ÜRESEN, ha nincs hozzá egyedi php fájl.<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_type_browsepage" elemet a legördülõ listában.</li><li>Add hozzá szöveg értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Szöveg:<ul><li>HTML-kód használata nem engedélyezett</li><li>URL-ek használhatók.</li></ul></li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_DESCRIPTION = 'A terméktípus leírása.<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_type_description" elemet a legördülõ listában.</li><li>Add hozzá szöveg értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Szöveg: HTML-kód használata nem engedélyezett</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_FLYPAGE = 'Ez egy egyedi oldal a terméktípusok megjelenítéséhez. Hagyja ÜRESEN, ha nincs hozzá egyedi php fájl.<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_type_flypage" elemet a legördülõ listában.</li><li>Add hozzá szöveg értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Szöveg:<ul><li>HTML-kód használata nem engedélyezett</li><li>URL-ek használhatók.</li></ul></li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_NAME = 'A terméktípus neve. Ennek a névnek egyedinek kell lennie, szóközök nélkül.<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_type_name" elemet a legördülõ listában.</li><li>Add hozzá szöveg értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Szöveg: HTML-kód használata nem engedélyezett</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_DEFAULT = 'Egy megjelenítendõ alapértelmezett érték, amikor nincs semmi más kitöltve a paraméterhez.<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_type_parameter_default" elemet a legördülõ listában.</li><li>Add hozzá szöveg értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Szöveg: HTML-kód használata nem engedélyezett </li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_DESCRIPTION = 'A terméktípus paraméterének leírása.<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_type_parameter_description" elemet a legördülõ listában.</li><li>Add hozzá szöveg értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Szöveg: HTML-kód használata engedélyezett</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_LABEL = 'A terméktípus paraméterének címkéje.<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_type_parameter_label" elemet a legördülõ listában.</li><li>Add hozzá szöveg értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Szöveg: HTML-kód használata nem engedélyezett</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_LIST_ORDER = 'Határozd meg, hogy milyen sorrendben legyen látható a termék paramétere.<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_type_parameter_list_order" elemet a legördülõ listában.</li><li>Add hozzá szöveg értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Numerikus</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_MULTISELECT = 'Állítsd igenre a lehetséges paraméterértékek többszörösen választható elemekként történõ megjelenítéséhez<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_type_parameter_list_multiselect" elemet a legördülõ listában.</li><li>Add hozzá Y vagy N értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Y: Igen, az értékek többszörösen kijelölhetõk</li><li>N: Nem, az értékek nem jelölhetõk ki többszörösen</li><li>Empty: Üres érték, az értékek nem jelölhetõk ki többszörösen</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_NAME = 'A terméktípus paraméterének neve. Ennek a névnek egyedinek kell lennie, szóközök nélkül, mivel ez lesz a paraméter részleteinek oszlopneve.<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_type_parameter_type" elemet a legördülõ listában.</li><li>Add hozzá szöveg értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Szöveg: HTML-kód használata nem engedélyezett</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_TYPE = 'Ez határozza meg a felhasználandó paraméter típusát. Számos különféle használható érték van.<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_type_parameter_type" elemet a legördülõ listában.</li><li>Add hozzá az értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Szöveg:<ul>
+													<li>I: Egész szám</li>
+													<li>T: Szöveg</li>
+													<li>S: Rövid szöveg</li>
+													<li>F: Lebegõ</li>
+													<li>C: Karakter</li>
+													<li>D: Dátum és idõpont</li>
+													<li>M: Idõ</li>
+													<li>V: Többféle érték</li>
+													<li>B: Sortörés</li>
 													</ul></li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_UNIT = 'The unit the product type parameter refers to.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_unit" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_VALUES = 'These are the values for the parameter and have to meet the requirement set by the parameter type.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_values" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>This depends on the type set in the product_type_parameter_type field. All values have to be semi-colon (;) seperated.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PUBLISH = 'The status if a product type is published or not.<br /><br />Usage:<ol><li>Select the name "product_type_publish" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Y: Yes, the product type is published</li><li>N: No, the product type is not published</li><li>Empty: Empty value, the product type is published.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRICE_DELETE = 'The price_delete field is a special field. This field is used to determine if a price for a product should be deleted or not. This field is used when doing a multiple price upload. Before a price is deleted it needs to match the following fields:<ul><li>product_sku</li><li>product_price</li><li>product_currency</li><li>price_quantity_start</li><li>price_quantity_end</li></ul><br />Usage:<ol><li>Select the name "price_delete" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value Y. If the field contains any other value, the product will not be deleted.</li></ol><br />Values:<ul><li>Y: Yes, the price is to be deleted</li><li>N: No, the price is not to be deleted</li><li>Empty: Empty value, the price is not to be deleted</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRICE_QUANTITY_START = 'The quantity at which the mentioned price is available.<br /><br />Usage:<ol><li>Select the name "price_quantity_start" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values: Numeric</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRICE_QUANTITY_END = 'The quantity at which the mentioned price is no longer available.<br /><br />Usage:<ol><li>Select the name "price_quantity_end" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values: Numeric</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_UNIT = 'Az egység, amire a terméktípus paramétere hivatkozik.<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_type_parameter_unit" elemet a legördülõ listában.</li><li>Add hozzá szöveg értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Szöveg: HTML-kód használata nem engedélyezett</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_VALUES = 'Ezek a paraméter értékei, és meg kell felelniük a paramétertípus által felállított követelménynek.<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_type_parameter_values" elemet a legördülõ listában.</li><li>Add hozzá szöveg értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Ez a product_type_parameter_type mezõben megadott típustól függ. Valamennyi értéket pontosvesszõvel (;) kell elválasztani.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PUBLISH = 'A terméktípus közzétételének állapota.<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "product_type_publish" elemet a legördülõ listában.</li><li>Add hozzá szöveg értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek:<ul><li>Y: Igen, a terméktípus közzé van téve</li><li>N: Nem, a terméktípus nincs közzétéve</li><li>Empty: Üres érték, a terméktípus közzé van téve.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRICE_DELETE = 'A price_delete mezõ egy speciális mezõ. Ez a mezõ kerül felhasználásra annak megállapítására, hogy törölni kell-e egy termék árát. Ez a mezõ kerül felhasználásra többféle ár feltöltésekor. Mielõtt egy ár törlésre kerül, meg kell felelnie a következõ mezõknek:<ul><li>product_sku</li><li>product_price</li><li>product_currency</li><li>price_quantity_start</li><li>price_quantity_end</li></ul><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "price_delete" elemet a legördülõ listában.</li><li>Add hozzá az Y értékkel az oszlopot a CSV fájlhoz. Ha a mezõ másik értéket tartalmaz, akkor a termék nem kerül törlésre.</li></ol><br />Értékek:<ul><li>Y: Igen, az ár törölhetõ</li><li>N: Nem, az ár nem törölhetõ</li><li>Empty: Üres érték, az ár nem törölhetõ</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRICE_QUANTITY_START = 'A mennyiség, amelynél az említett ár elérhetõ.<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "price_quantity_start" elemet a legördülõ listában.</li><li>Add hozzá numerikus értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek: Numerikus</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRICE_QUANTITY_END = 'A mennyiség, amelynél az említett ár már nem elérhetõ.<br /><br />Használata:<ol><li>A Beállítások fülön válaszd ki a "price_quantity_end" elemet a legördülõ listában.</li><li>Add hozzá numerikus értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek: Numerikus</li></ul>';
         
 }
 class phpShopLanguage extends vmLanguage { }
-
 /** @global vmLanguage $VM_LANG */
 $VM_LANG =& new vmLanguage();
 ?>

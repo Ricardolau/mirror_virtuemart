@@ -33,11 +33,13 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+06.01.2007 soeren
+# Task #1085 - Save Order Button (product.product_category_list.php)
 
 04.01.2007 soeren
-# Task #1038 - Category search doesn't show category name
-# fixed a Login-Issue when using Shared SSL on Joomla! 1.0.12
-# fixed a time-out error in the PayPal IPN script (notify.php)
+# Task #1038 - Category search doesn't show category name (product.product_category_list.php)
+# fixed a Login-Issue when using Shared SSL on Joomla! 1.0.12 (ps_session.php)
+# Task #1086 - Paypal Payments will not be confirmed, fixed a time-out error in the PayPal IPN script (notify.php)
 # Task #1081 - Cannot delete products (virtuemart_parser.php)
 
 04.01.2007 gregdev

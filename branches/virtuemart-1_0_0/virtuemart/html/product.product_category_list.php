@@ -75,12 +75,13 @@ while(count($id_list) < $nrows) {
 	$depth_list = $depth_temp;
 	$loop_count++;
 }
-for($n = $limitstart ; $n < $nrows ; $n++) {
-	@$levelcounter[$category_tmp[$row_list[$n]]["category_parent_id"]]++;
-}
 
 // Create the Page Navigation
 $pageNav = new vmPageNav( $nrows, $limitstart, $limit );
+
+for($n = $pageNav->limitstart ; $n < $nrows ; $n++) {
+	@$levelcounter[$category_tmp[$row_list[$n]]["category_parent_id"]]++;
+}
 
 // Create the List Object with page navigation
 $listObj = new listFactory( $pageNav );
@@ -105,12 +106,12 @@ $columns = Array(  "#" => "width=\"20\"",
 $listObj->writeTableHeader( $columns );
 
 $ibg = 0;
-if( $limit < $nrows )
-	if( $limitstart+$limit < $nrows ) {
-		$nrows = $limitstart + $limit;
+if( $pageNav->limit < $nrows )
+	if( $pageNav->limitstart+$pageNav->limit < $nrows ) {
+		$nrows = $pageNav->limitstart + $pageNav->limit;
 	}
 
-for($n = $limitstart ; $n < $nrows ; $n++) {
+for($n = $pageNav->limitstart ; $n < $nrows ; $n++) {
 	$catname = shopMakeHtmlSafe( $category_tmp[$row_list[$n]]["category_name"] );
 	
 	$listObj->newRow();

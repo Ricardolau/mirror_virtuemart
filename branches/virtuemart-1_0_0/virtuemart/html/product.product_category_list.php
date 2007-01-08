@@ -99,7 +99,7 @@ $columns = Array(  "#" => "width=\"20\"",
 					$VM_LANG->_PHPSHOP_PRODUCTS_LBL => 'width="10%"',
 					$VM_LANG->_PHPSHOP_PRODUCT_LIST_PUBLISH => 'width="5%"',
 					$VM_LANG->_PHPSHOP_MODULE_LIST_ORDER => 'width="7%"',
-					vmCommonHTML::getSaveOrderButton( $nrows ) => 'width="8%"',
+					vmCommonHTML::getSaveOrderButton( min($nrows - $pageNav->limitstart, $pageNav->limit ) ) => 'width="8%"',
 					$VM_LANG->_E_REMOVE => "width=\"5%\""
 				);
 $listObj->writeTableHeader( $columns );

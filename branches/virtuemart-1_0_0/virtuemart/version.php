@@ -34,8 +34,8 @@ class vmVersion {
 	/** @var string Development Status */
 	var $DEV_STATUS = 'stable';
 	/** @var string Codename */
-	// Song by the Foo Fighters, in which John Paul Jones plays Mandolin: http://en.wikipedia.org/wiki/In_Your_Honor
-	var $CODENAME = 'Another Round';
+	// Song by Badly Drawn Boy, from the album "The Hour of Bewilderbeast": http://en.wikipedia.org/wiki/The_Hour_of_Bewilderbeast
+	var $CODENAME = 'Another Pearl';
 	/** @var string Date */
 	var $RELDATE = '08/01/2007';
 	/** @var string Time */

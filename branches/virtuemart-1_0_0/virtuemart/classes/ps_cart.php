@@ -68,7 +68,9 @@ class ps_cart {
  	*/
 	function add(&$d) {
 		global $sess, $VM_LANG, $cart, $option, $vmLogger;
-
+		
+		$d = $GLOBALS['vmInputFilter']->process( $d );
+		
 		include_class("product");
 
 		$Itemid = $sess->getShopItemid();
@@ -180,7 +182,9 @@ class ps_cart {
 	 */
 	function update(&$d) {
 		global $sess,$VM_LANG, $func, $vmLogger;
-
+		
+		$d = $GLOBALS['vmInputFilter']->process( $d );
+		
 		include_class("product");
 
 		$db = new ps_DB;

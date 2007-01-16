@@ -699,6 +699,9 @@ class ps_product_files {
 			if( $remote_fetching ) {
 				$handle = fopen( $url , "rb" );
 				$data = "";
+				if( $handle === false ) {
+					return false;
+				}
 				while( !feof( $handle )) {
 					$data .= fread( $handle, 4096 );
 				}

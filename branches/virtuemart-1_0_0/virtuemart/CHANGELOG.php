@@ -33,6 +33,14 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+16.01.2007 soeren
+# Task #1098 - invalid html in shop.index.php
+# Task #1100 - Make Manufacturers module work on "Select -> xx" rather than having to click [Search] button (mod_virtuemart_manufacturers.php)
+# fixed an XSS vulnerability (ps_cart.php)
+# Task #1084 - Memory eating loop when non-available fetching remote files (ps_product_files.php)
+
+--- VirtueMart 1.0.9 released ---
+
 06.01.2007 soeren
 # Task #1085 - Save Order Button (product.product_category_list.php)
 

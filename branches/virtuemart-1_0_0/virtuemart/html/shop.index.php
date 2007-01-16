@@ -73,7 +73,7 @@ $cellwidth = intval( 100 / $categories_per_row );
 
 	  }
       if ($col_count % $categories_per_row) 
-        echo "<tr/>";
+        echo "</tr>";
 ?>
 </table>
 <?php echo $vendor_store_desc;  ?>

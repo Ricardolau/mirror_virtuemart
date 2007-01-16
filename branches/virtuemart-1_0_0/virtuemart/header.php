@@ -18,10 +18,9 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 */
 mm_showMyFileName( __FILE__ );
 
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 global $error, $page, $ps_product, $ps_product_category;
 $product_id = mosGetParam( $_REQUEST, 'product_id' );
-$module_id = mosGetParam( $_REQUEST, 'module_id', '' );
+$module_id = mosGetParam( $_REQUEST, 'module_id', 0 );
 
 if( is_array( $product_id )) {
     $recent_product_id = "";

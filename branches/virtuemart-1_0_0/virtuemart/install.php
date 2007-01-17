@@ -32,9 +32,6 @@ function installvirtuemart( $install_type, $install_sample_data=false ){
 	$admin_dir = $mosConfig_absolute_path."/administrator/components/com_virtuemart/";
 	$admin_file = $mosConfig_absolute_path."/administrator/components/com_virtuemart/admin_files.tar.gz";
 	
-    @rename( $frontend_file.'~', $frontend_file );
-    @rename( $admin_file.'~', $admin_file );
-	
 	// Check if the Archives are there
 	if( file_exists( $frontend_file ) && file_exists( $admin_file ) ) {
 		

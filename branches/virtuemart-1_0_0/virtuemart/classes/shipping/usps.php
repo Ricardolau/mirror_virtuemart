@@ -153,9 +153,9 @@ class usps {
 			}
 
 			$os = array("Mac", "NT", "Irix", "Linux");
-			$states = array("AK","AR","AZ","CA","CO","CT","DC","DE","FL","GA","HI","IA","ID","IL","IN","KS","KY","LA","MA","MD","ME","MI","MN","MO","MS","MT","NC","ND","NE","NH","NJ","NM","NV","NY","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WI","WV","WY");
+			$states = array('AL', "AK","AR","AZ","CA","CO","CT","DC","DE","FL","GA","HI","IA","ID","IL","IN","KS","KY","LA","MA","MD","ME","MI","MN","MO","MS","MT","NC","ND","NE","NH","NJ","NM","NV","NY","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WI","WV","WY");
 
-			if( ($dest_country = "USA" || $dest_country = "US") && in_array($dest_state,$states) )
+			if( ($dest_country == "USA" || $dest_country == "US") && in_array($dest_state,$states) )
 			{
 				/******START OF DOMESTIC RATE******/
 				//the xml that will be posted to usps

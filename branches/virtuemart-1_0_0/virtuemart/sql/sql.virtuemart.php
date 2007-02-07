@@ -2157,7 +2157,7 @@ $db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (8, 1, 'NoChex', 'ps_no
 											<input type=\"image\" name=\"submit\" src=\"http://www.nochex.com/web/images/paymeanimated.gif\"> 
 											</form>', '');" );
 $db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (9, 1, 'Credit Card (PayMeNow)', 'ps_paymenow', 5, '0.00', 0, 'PN', 'Y', 0, 'N', '1,2,3,', '', '');" );
-$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (10, 1, 'eWay', 'ps_eway', 5, '0.00', 0, 'EW', 'Y', 0, 'N', '', '', '');");
+$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (10, 1, 'eWay', 'ps_eway', 5, '0.00', 0, 'EWAY', 'Y', 0, 'N', '', '', '');");
 $db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (11, 1, 'eCheck.net', 'ps_echeck', 5, '0.00', 0, 'ECK', 'B', 0, 'N', '', '', '');");
 $db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (12, 1, 'Credit Card (eProcessingNetwork)', 'ps_epn', 5, '0.00', 0, 'EPN', 'Y', 0, 'N', '1,2,3,', '', '');" );
 $db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (13, 1, 'iKobo', '', 5, '0.00', 0, 'IK', 'P', 0, 'N', '', '<form action=\"https://www.iKobo.com/store/index.php\" method=\"post\"> 

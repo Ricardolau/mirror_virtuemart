@@ -148,7 +148,7 @@ class ps_shopper {
 	*/
 	function add( &$d ) {
 		global $my, $ps_user, $mainframe, $mosConfig_absolute_path, $sess,
-		$VM_LANG, $database, $option, $mosConfig_useractivation;
+		$VM_LANG, $database, $option, $mosConfig_useractivation, $vmInputFilter;
 		
 		$ps_vendor_id = $_SESSION["ps_vendor_id"];
 		$hash_secret = "VirtueMartIsCool";
@@ -159,7 +159,7 @@ class ps_shopper {
 		  return False;
 		}
 		// Use InputFilter class to prevent SQL injection or HTML tags
-		$d = $GLOBALS['vmInputFilter']->safeSQL( $d );
+		$d =$vmInputFilter->process( $d );
 	
 		if ($VM_LANG->_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_4 and $d["extra_field_4"] == "") {
 		  $d["extra_field_4"] = "N";

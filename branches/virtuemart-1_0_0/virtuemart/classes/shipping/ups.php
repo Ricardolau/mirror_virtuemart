@@ -154,7 +154,7 @@ class ups {
 			$xmlPost .= " </Shipment>";
 			$xmlPost .= "</RatingServiceSelectionRequest>";
 
-			echo htmlentities( $xmlPost );
+			//echo htmlentities( $xmlPost );
 			$host = "www.ups.com";
 			$path = "/ups.app/xml/Rate";
 			$port = 443;

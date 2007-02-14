@@ -33,6 +33,10 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+13.02.2007 soeren
+^ changed the input field for attributes and custom attributes in the product form to a textarea
+# fixed XSS vulnerabilities globally (virtuemart_parser.php)
+
 16.01.2007 soeren
 # Task #1098 - invalid html in shop.index.php
 # Task #1100 - Make Manufacturers module work on "Select -> xx" rather than having to click [Search] button (mod_virtuemart_manufacturers.php)

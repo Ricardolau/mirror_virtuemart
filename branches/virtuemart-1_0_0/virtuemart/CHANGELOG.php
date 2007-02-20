@@ -36,6 +36,10 @@ VirtueMart 1.0.x
 19.02.2007 soeren
 # Task #1161 - Updated PS_Linkpoint should be included in future releases
 # Task #1160 - Registration - Empty state list + Fix (ps_html.php)
+# Task #1153 - email address not required at registration
+# Task #1150 - vmcchk=1 breaks SEO URL
+# Task #1147 - shop.parameter_search_form.php error with template...
+# Task #1146 - Small bug in order-change-mail (ps_order.php)
 
 13.02.2007 soeren
 ^ changed the input field for attributes and custom attributes in the product form to a textarea

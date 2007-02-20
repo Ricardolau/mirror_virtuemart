@@ -1253,9 +1253,9 @@ class ps_product extends vmAbstractObject {
 		global $mosConfig_live_site;
 
 		$border="";
-		if( !strpos( $args, "border=" ))
-		$border="border=\"0\"";
-
+		if( strpos( $args, "border=" ) === false ) {
+			$border='border="0"';
+		}
 		if ($image != "") {
 			// URL
 			if( substr( $image, 0, 4) == "http" )
@@ -1263,10 +1263,11 @@ class ps_product extends vmAbstractObject {
 
 			// local image file
 			else {
-				if(PSHOP_IMG_RESIZE_ENABLE == '1' && $resize==1)
-				$url = $mosConfig_live_site."/components/com_virtuemart/show_image_in_imgtag.php?filename=".urlencode($image)."&newxsize=".PSHOP_IMG_WIDTH."&newysize=".PSHOP_IMG_HEIGHT."&fileout=";
-				else
-				$url = IMAGEURL.$path_appendix."/".$image;
+				if(PSHOP_IMG_RESIZE_ENABLE == '1' && $resize==1) {
+					$url = $mosConfig_live_site."/components/com_virtuemart/show_image_in_imgtag.php?filename=".urlencode($image)."&newxsize=".PSHOP_IMG_WIDTH."&newysize=".PSHOP_IMG_HEIGHT."&fileout=";
+				} else {
+					$url = IMAGEURL.$path_appendix."/".$image;
+				}
 			}
 		}
 		else {
@@ -1279,17 +1280,19 @@ class ps_product extends vmAbstractObject {
 			$html_height_width = $arr[3];
 			$height_greater = $arr[0] < $arr[1];
 			if( (PSHOP_IMG_WIDTH < $arr[0] || PSHOP_IMG_HEIGHT < $arr[1]) && $resize != 0 ) {
-				if( $height_greater )
-				$html_height_width = " height=\"".PSHOP_IMG_HEIGHT."\"";
-				else
-				$html_height_width = " width=\"".PSHOP_IMG_WIDTH."\"";
+				if( $height_greater ) {
+					$html_height_width = " height=\"".PSHOP_IMG_HEIGHT."\"";
+				} else {
+					$html_height_width = " width=\"".PSHOP_IMG_WIDTH."\"";
+				}
 			}
 		}
 		if((PSHOP_IMG_RESIZE_ENABLE != '1') && ($resize==1) ) {
-			if( $height_greater )
-			$html_height_width = " height=\"".PSHOP_IMG_HEIGHT."\"";
-			else
-			$html_height_width = " width=\"".PSHOP_IMG_WIDTH."\"";
+			if( $height_greater ) {
+				$html_height_width = " height=\"".PSHOP_IMG_HEIGHT."\"";
+			} else {
+				$html_height_width = " width=\"".PSHOP_IMG_WIDTH."\"";
+			}
 		}
 
 		return "<img src=\"$url\" $html_height_width $args $border />";

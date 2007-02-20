@@ -127,7 +127,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 *
 * @package VirtueMart
 * @subpackage core
-* @copyright Copyright (C) 2004-2006 Soeren Eberhardt. All rights reserved.
+* @copyright Copyright (C) 2004-2007 Soeren Eberhardt. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -169,8 +169,15 @@ define( 'IMAGEPATH', \$mosConfig_absolute_path.'/components/com_virtuemart/shop_
                 
         // LOOP THROUGH ALL CONFIGURATION VARIABLES
             while (list($key, $value) = each($my_config_array)) {
-                
-                if( $key == "PSHOP_SHIPPING_MODULE" ) {
+                if( $key == 'ENCODE_KEY' ) {
+			$config .= "define('ENCODE_KEY', '".stripslashes(@$d[$value])."');\n";
+			if( stripslashes($d[$value]) != ENCODE_KEY ) {
+				// The ENCODE KEY has been changed! Now we need to re-encode the credit card information and transaction keys
+				$db->query( 'UPDATE #__{vm}_order_payment SET order_payment_number = ENCODE(DECODE(order_payment_number,\''.ENCODE_KEY.'\'), \''.stripslashes($d[$value]).'\')');
+				$db->query( 'UPDATE #__{vm}_payment_method SET payment_passkey = ENCODE(DECODE(payment_passkey,\''.ENCODE_KEY.'\'), \''.stripslashes($d[$value]).'\')');
+			}
+		}
+		elseif( $key == "PSHOP_SHIPPING_MODULE" ) {
                     $config .= "\n/* Shipping Methods Definition */\nglobal \$PSHOP_SHIPPING_MODULES;\n";
                     $i = 0;
 	            foreach( $d['conf_SHIPPING'] as $shipping_module) {

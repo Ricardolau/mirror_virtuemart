@@ -38,10 +38,12 @@ class ps_shopper {
 		$provided_required = true;
 		$missing = "";
 		
-		if( empty( $my->id ) && VM_SILENT_REGISTRATION != '1') {
-			if (empty($d['username'])) { $provided_required = false; $missing .= "username,"; }
-			if (empty($d['password'])) { $provided_required = false; $missing .= "password,"; }
-			if (empty($d['password2'])) { $provided_required = false; $missing .= "password2,"; }
+		if( empty( $my->id ) ) {
+			if( VM_SILENT_REGISTRATION != '1') {
+				if (empty($d['username'])) { $provided_required = false; $missing .= "username,"; }
+				if (empty($d['password'])) { $provided_required = false; $missing .= "password,"; }
+				if (empty($d['password2'])) { $provided_required = false; $missing .= "password2,"; }
+			}
 			if (empty($d['email'])) { $provided_required = false; $missing .= "email,"; }
 		}
 		
@@ -94,7 +96,7 @@ class ps_shopper {
 			*/
 		}
 		
-		$d['user_email'] = @$d['email'];
+		$d['user_email'] = mosGetParam( $d, 'email', $my->email );
 		$d['perms'] = 'shopper';
 	
 		return $provided_required;

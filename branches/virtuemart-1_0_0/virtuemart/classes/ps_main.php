@@ -817,10 +817,10 @@ function vmCreateMail( $from='', $fromname='', $subject='', $body='' ) {
 	require_once( CLASSPATH . 'phpmailer/class.phpmailer.php');
 	
 	$mail = new vmPHPMailer();
-
+	$iso = explode( '=', _ISO );
 	$mail->PluginDir = CLASSPATH .'phpmailer/';
 	$mail->SetLanguage( 'en', CLASSPATH . 'phpmailer/language/' );
-	$mail->CharSet 	= substr_replace(_ISO, '', 0, 8);
+	$mail->CharSet 	= $iso[1];
 	$mail->IsMail();
 	$mail->From 	= $from ? $from : $mosConfig_mailfrom;
 	$mail->FromName = $fromname ? $fromname : $mosConfig_fromname;

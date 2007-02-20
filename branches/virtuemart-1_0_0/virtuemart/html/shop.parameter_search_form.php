@@ -7,7 +7,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * @version $Id$
 * @package VirtueMart
 * @subpackage html
-* @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
+* @copyright Copyright (C) 2004-2007 Soeren Eberhardt. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -26,7 +26,10 @@ $q .= "AND product_type_publish='Y'";
 $db->query($q);
 
 $browsepage = $db->f("product_type_browsepage");
-	
+
+$mainframe->setPageTitle( $VM_LANG->_PHPSHOP_PARAMETER_SEARCH );
+$mainframe->appendPathWay( $VM_LANG->_PHPSHOP_PARAMETER_SEARCH );
+
 echo "<h2>".$VM_LANG->_PHPSHOP_PARAMETER_SEARCH."</h2>";
 
 	if (!$db->next_record()) { // There is no published Product Type
@@ -49,7 +52,7 @@ echo "<h2>".$VM_LANG->_PHPSHOP_PARAMETER_SEARCH."</h2>";
 <input type="hidden" name="page" value="shop.browse" />
 <input type="hidden" name="product_type_id" value="<?php echo $product_type_id ?>" />
 <input type="hidden" name="Itemid" value="<?php echo $sess->getShopItemid() ?>" />
-<BR>
+<br />
 
 <?php 
 	$q  = "SELECT * FROM #__{vm}_product_type_parameter ";
@@ -130,9 +133,9 @@ echo "<h2>".$VM_LANG->_PHPSHOP_PARAMETER_SEARCH."</h2>";
 							break;
 						}
 						$comp  = "<select class=\"inputbox\" name=\"".$item_name."_comp\">\n";
-						echo "<option value=\"like\"".(($get_item_value_comp=="like")?" selected":"").">".$VM_LANG->_PHPSHOP_PARAMETER_SEARCH_IS_LIKE."</option>\n";
-						echo "<option value=\"notlike\"".(($get_item_value_comp=="notlike")?" selected":"").">".$VM_LANG->_PHPSHOP_PARAMETER_SEARCH_IS_NOT_LIKE."</option>\n";
-						echo "<option value=\"fulltext\"".(($get_item_value_comp=="fulltext")?" selected":"").">".$VM_LANG->_PHPSHOP_PARAMETER_SEARCH_FULLTEXT."</option>\n";
+						$comp .= "<option value=\"like\"".(($get_item_value_comp=="like")?" selected":"").">".$VM_LANG->_PHPSHOP_PARAMETER_SEARCH_IS_LIKE."</option>\n";
+						$comp .= "<option value=\"notlike\"".(($get_item_value_comp=="notlike")?" selected":"").">".$VM_LANG->_PHPSHOP_PARAMETER_SEARCH_IS_NOT_LIKE."</option>\n";
+						$comp .= "<option value=\"fulltext\"".(($get_item_value_comp=="fulltext")?" selected":"").">".$VM_LANG->_PHPSHOP_PARAMETER_SEARCH_FULLTEXT."</option>\n";
 						$comp .= "</select>";
 						break;
 					case "S": // Short Text

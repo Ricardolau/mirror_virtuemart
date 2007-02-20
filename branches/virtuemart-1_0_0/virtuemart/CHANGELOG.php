@@ -33,6 +33,10 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+19.02.2007 soeren
+# Task #1161 - Updated PS_Linkpoint should be included in future releases
+# Task #1160 - Registration - Empty state list + Fix (ps_html.php)
+
 13.02.2007 soeren
 ^ changed the input field for attributes and custom attributes in the product form to a textarea
 # fixed XSS vulnerabilities globally (virtuemart_parser.php)

@@ -84,7 +84,7 @@ class ps_session {
 		}
 		else {
 			setcookie( 'VMCHECK', 'OK' );
-			mosRedirect($mm_action_url . 'index.php?' . $_SERVER['QUERY_STRING'].'&vmcchk=1');
+			mosRedirect( $this->url( $mm_action_url . 'index.php?' . mosGetParam($_SERVER,'QUERY_STRING').'&vmcchk=1' ) );
 		}
 	}
 	/**

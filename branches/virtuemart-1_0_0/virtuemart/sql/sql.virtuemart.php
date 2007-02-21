@@ -1991,50 +1991,7 @@ foreach( $row as $user) {
 $db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (1, 1, 'Purchase Order', '', 6, '0.00', 4, 'PO', 'N', 0, 'Y', '', '', '');" );
 $db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (2, 1, 'Cash On Delivery', '', 5, '-2.00', 5, 'COD', 'N', 0, 'Y', '', '', '');" );
 $db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (3, 1, 'Credit Card', 'ps_authorize', 5, '0.00', 0, 'AN', 'Y', 0, 'Y', '1,2,6,7,', '', '');" );
-$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (4, 1, 'PayPal', 'ps_paypal', 5, '0.00', 0, 'PP', 'P', 0, 'Y', '', '
-<?php
-\$url = \"https://www.paypal.com/cgi-bin/webscr\";
-\$tax_total = \$db->f(\"order_tax\") + \$db->f(\"order_shipping_tax\");
-\$discount_total = \$db->f(\"coupon_discount\") + \$db->f(\"order_discount\");
-\$post_variables = Array(
-\"cmd\" => \"_xclick\",
-\"business\" => PAYPAL_EMAIL,
-\"receiver_email\" => PAYPAL_EMAIL,
-\"item_name\" => \$VM_LANG->_PHPSHOP_ORDER_PRINT_PO_NUMBER.\": \". \$db->f(\"order_id\"),
-\"order_id\" => \$db->f(\"order_id\"),
-\"invoice\" => \$db->f(\"order_number\"),
-\"amount\" => round( \$db->f(\"order_subtotal\")+\$tax_total-\$discount_total, 2),
-\"shipping\" => sprintf(\"%.2f\", \$db->f(\"order_shipping\")),
-\"currency_code\" => \$_SESSION[\'vendor_currency\'],
-\"image_url\" => \$vendor_image_url,
-\"return\" => SECUREURL .\"index.php?option=com_virtuemart&page=checkout.result&order_id=\".\$db->f(\"order_id\"),
-\"notify_url\" => SECUREURL .\"administrator/components/com_virtuemart/notify.php\",
-\"cancel_return\" => SECUREURL .\"index.php\",
-\"undefined_quantity\" => \"0\",
-\"test_ipn\" => PAYPAL_DEBUG,
-\"pal\" => \"NRUBJXESJTY24\",
-\"no_shipping\" => \"1\",
-\"no_note\" => \"1\"
-);
-if( \$page == \"checkout.thankyou\" ) {
-\$query_string = \"?\";
-foreach( \$post_variables as \$name => \$value ) {
-\$query_string .= \$name. \"=\" . urlencode(\$value) .\"&\";
-}
-mosRedirect( \$url . \$query_string );
-} else {
-
-echo \'<form action=\"\'.\$url.\'\" method=\"post\" target=\"_blank\">\';
-echo \'<input type=\"image\" name=\"submit\" src=\"http://images.paypal.com/images/x-click-but6.gif\" border=\"0\" alt=\"Make payments with PayPal, it is fast, free, and secure!\">\';
-
-foreach( \$post_variables as \$name => \$value ) {
-echo \'<input type=\"hidden\" name=\"\'.\$name.\'\" value=\"\'.\$value.\'\" />\';
-}
-
-echo \'</form>\';
-
-}
-?>', '');" );
+$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (4, 1, 'PayPal', 'ps_paypal', 5, 0.00, 0, 'PP', 'P', 0, 'Y', '', '\n<?php\n\$url = \"https://www.paypal.com/cgi-bin/webscr\";\n\$tax_total = \$db->f(\"order_tax\") + \$db->f(\"order_shipping_tax\");\n\$discount_total = \$db->f(\"coupon_discount\") + \$db->f(\"order_discount\");\n\$post_variables = Array(\n\"cmd\" => \"_xclick\",\n\"business\" => PAYPAL_EMAIL,\n\"receiver_email\" => PAYPAL_EMAIL,\n\"item_name\" => \$VM_LANG->_PHPSHOP_ORDER_PRINT_PO_NUMBER.\": \". \$db->f(\"order_id\"),\n\"order_id\" => \$db->f(\"order_id\"),\n\"invoice\" => \$db->f(\"order_number\"),\n\"amount\" => round( \$db->f(\"order_subtotal\")+\$tax_total-\$discount_total, 2),\n\"shipping\" => sprintf(\"%.2f\", \$db->f(\"order_shipping\")),\n\"currency_code\" => \$_SESSION[''vendor_currency''],\"first_name\" => \$dbbt->f(''first_name''),\n\"last_name\" => \$dbbt->f(''last_name''),\n\"address_street\" => \$dbbt->f(''address_1''),\n\"address_zip\" => \$dbbt->f(''zip''),\n\"address_city\" => \$dbbt->f(''city''),\n\"address_state\" => \$dbbt->f(''state''),\n\"address_country\" => \$dbbt->f(''country''),\n\"image_url\" => \$vendor_image_url,\n\"return\" => SECUREURL .\"index.php?option=com_virtuemart&page=checkout.result&order_id=\".\$db->f(\"order_id\"),\n\"notify_url\" => SECUREURL .\"administrator/components/com_virtuemart/notify.php\",\n\"cancel_return\" => SECUREURL .\"index.php\",\n\"undefined_quantity\" => \"0\",\n\"test_ipn\" => PAYPAL_DEBUG,\n\"pal\" => \"NRUBJXESJTY24\",\n\"no_shipping\" => \"1\",\n\"no_note\" => \"1\"\n);\nif( \$page == \"checkout.thankyou\" ) {\n\$query_string = \"?\";\nforeach( \$post_variables as \$name => \$value ) {\n\$query_string .= \$name. \"=\" . urlencode(\$value) .\"&\";\n}\nmosRedirect( \$url . \$query_string );\n} else {\n\necho ''<form action=\"''.\$url.''\" method=\"post\" target=\"_blank\">'';\necho ''<input type=\"image\" name=\"submit\" src=\"http://images.paypal.com/images/x-click-but6.gif\" border=\"0\" alt=\"Make payments with PayPal, it is fast, free, and secure!\" />'';\n\nforeach( \$post_variables as \$name => \$value ) {\necho ''<input type=\"hidden\" name=\"''.\$name.''\" value=\"''.\$value.''\" />'';\n}\n\necho ''</form>'';\n\n}\n?>', '');" );
 $db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (5, 1, 'PayMate', 'ps_paymate', 5, '0.00', 0, 'PM', 'P', 0, 'N', '', '<script type=\"text/javascript\" language=\"javascript\">
   function openExpress(){
 	var url = \'https://www.paymate.com.au/PayMate/ExpressPayment?mid=<?php echo PAYMATE_USERNAME.

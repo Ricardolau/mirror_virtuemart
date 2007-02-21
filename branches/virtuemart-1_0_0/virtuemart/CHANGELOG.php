@@ -34,6 +34,7 @@ Legend:
 VirtueMart 1.0.x
 *************************************
 21.02.2007 soeren
+# adjusted the compat file for the latest Joomla! 1.5 SVN
 # mosproductsnap - Fatal Error (only variables should be passed by reference)
 + added "featured=y" and "discounted=y" parameters for the browse page to allow to filter by featured or discounted products
 

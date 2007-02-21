@@ -30,16 +30,16 @@ class vmVersion {
 	/** @var string Product */
 	var $PRODUCT = 'VirtueMart';
 	/** @var int Release Number */
-	var $RELEASE = '1.0.9';
+	var $RELEASE = '1.0.10';
 	/** @var string Development Status */
 	var $DEV_STATUS = 'stable';
 	/** @var string Codename */
-	// Song by Badly Drawn Boy, from the album "The Hour of Bewilderbeast": http://en.wikipedia.org/wiki/The_Hour_of_Bewilderbeast
-	var $CODENAME = 'Another Pearl';
+	// Song by Badly Drawn Boy, from the album "One Plus One Is One" (U.S. version): http://en.wikipedia.org/wiki/One_Plus_One_Is_One
+	var $CODENAME = 'Plan-B';
 	/** @var string Date */
-	var $RELDATE = '08/01/2007';
+	var $RELDATE = '21/02/2007';
 	/** @var string Time */
-	var $RELTIME = '20:00';
+	var $RELTIME = '12:00';
 	/** @var string Timezone */
 	var $RELTZ = 'GMT';
 	/** @var string Copyright Text */

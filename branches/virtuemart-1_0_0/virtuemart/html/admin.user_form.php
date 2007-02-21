@@ -49,7 +49,8 @@ $tabs->startPane("userform-pane");
 if( !class_exists('jconfig')) {
 	$tabs->startTab( 'General User Information', "userform-page");
 
-
+	$_POST = array();
+    $_REQUEST = array();
 	$_POST['cid'][0] = $_REQUEST['cid'][0] = $user_id; // Cheat Joomla!
 	$_REQUEST['task'] = $task = 'edit';
 	$GLOBALS['option'] = 'com_users'; // Cheat Joomla 1.5

@@ -40,6 +40,10 @@ function writeconfig(&$d) {
     else {
     	$d['conf_VM_PRICE_ACCESS_LEVEL'] = 0;
     }
+	if (!$fp = fopen(ADMINPATH ."virtuemart.cfg.php", "w")) {			
+		$vmLogger->err( $VM_LANG->_VM_CONFIGURATION_CHANGE_FAILURE.' ('. ADMINPATH ."virtuemart.cfg.php)" );
+		return false;
+	}
     if ($_POST['myname'] != "Jabba Binks")
         return false;
     else {
@@ -205,15 +209,11 @@ define( 'IMAGEPATH', \$mosConfig_absolute_path.'/components/com_virtuemart/shop_
             
             $config .= "?>";
         
-		if ($fp = fopen(ADMINPATH ."virtuemart.cfg.php", "w")) {
-			fputs($fp, $config, strlen($config));
-			fclose ($fp);
-        
-			mosRedirect( $_SERVER['PHP_SELF']."?page=admin.show_cfg&option=com_virtuemart", $VM_LANG->_VM_CONFIGURATION_CHANGE_SUCCESS );
-        
-		} else {
-			mosRedirect( $_SERVER['PHP_SELF']."?page=admin.show_cfg&option=com_virtuemart", sprintf( $VM_LANG->_VM_CONFIGURATION_CHANGE_FAILURE, ADMINPATH ."virtuemart.cfg.php" ) );
-		}
+		fputs($fp, $config, strlen($config));
+		fclose ($fp);
+
+		$vmLogger->info( $VM_LANG->_VM_CONFIGURATION_CHANGE_SUCCESS );
+		return true;
     }
   } // end function writeconfig
   

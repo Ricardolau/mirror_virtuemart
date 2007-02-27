@@ -34,6 +34,9 @@ Legend:
 VirtueMart 1.0.x
 *************************************
 27.01.2007 soeren
+
+^ no cookie check is done when the shop is used as catalogue only
+# fixed SSL redirection when Shared SSL is used on Joomla! 1.0.12
 ^ changed the simple attributes' price modifier handling from user-submitted prices to price modifiers retrieved from
 	the product's attribute field in the DB. So the [+3.99] price modifiers are not longer part of the
 	drop down list, but just the attribute values like "red" or "big".

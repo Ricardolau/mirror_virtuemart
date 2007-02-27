@@ -144,10 +144,11 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 
 global \$mosConfig_absolute_path,\$mosConfig_live_site;
 
-if( stristr( \$_SERVER['PHP_SELF'], 'administrator' ))
-	@include_once( '../configuration.php' );
-else
-	@include_once( 'configuration.php' );
+if( !class_exists('jconfig')) {
+	// make sure we re-read the Joomla! configuration file here to get the real mosConfig_live_site
+	if( stristr( \$_SERVER['PHP_SELF'], 'administrator' )) @include( '../configuration.php' );
+	else @include( 'configuration.php' );
+}
 
 // Check for trailing slash
 if( \$mosConfig_live_site[strlen( \$mosConfig_live_site)-1] == '/' ) {

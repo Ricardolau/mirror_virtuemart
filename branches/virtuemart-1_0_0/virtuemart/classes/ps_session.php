@@ -136,7 +136,7 @@ class ps_session {
 	}
 	/**
      * This is a solution for  the Shared SSL problem
-     * We have to copy some cookies from the Main Mambo site domain into
+     * We have to copy some cookies from the main site domain into
      * the shared SSL domain (only when necessary!)
 	 *
 	 * The function is called on each page load.
@@ -166,8 +166,9 @@ class ps_session {
 				if( !empty($my->id)) {
 					// User is already logged in
 					// We need to transfer the usercookie if present
-					if( empty( $_COOKIE['usercookie'] )) {
+					if( !empty( $my->password )) {
 						$userinfo = $my->password.'|'.$my->username;
+						
 					} else {
 						$userinfo = $_COOKIE['usercookie']['password']."|".$_COOKIE['usercookie']['username'];
 					}
@@ -215,7 +216,7 @@ class ps_session {
 					$sessioncookie = $id_array[1];
 					$usercookie["password"] = @$id_array[2];
 					$usercookie["username"] = @$id_array[3];
-	
+
 					// Log the user in with his username
 					if( !empty( $usercookie["username"]) && !empty( $usercookie["password"] )) {
 						$mainframe->login( $usercookie["username"], $usercookie["password"] );

@@ -154,6 +154,12 @@ if( !defined( '_VM_PARSER_LOADED' )) {
 	/** @global CurrencyDisplay $CURRENCY_DISPLAY */
 	$GLOBALS['CURRENCY_DISPLAY'] =& new CurrencyDisplay($currency_display["id"], $currency_display["symbol"], $currency_display["nbdecimal"], $currency_display["sdecimal"], $currency_display["thousands"], $currency_display["positive"], $currency_display["negative"]);
 
+	// Get default and this users's Shopper Group
+	$shopper_group = $ps_shopper_group->get_shoppergroup_by_id( $my->id );
+
+	// User authentication
+	$auth = $perm->doAuthentication( $shopper_group );
+	
 	if( $option == "com_virtuemart" ) {
 
 		// Get sure that we have float values with a decimal point!
@@ -211,15 +217,7 @@ if( !defined( '_VM_PARSER_LOADED' )) {
 		$_SESSION['session_userstate']['keyword'] = $keyword = substr(mosgetparam($_REQUEST, 'keyword', ''), 0, 50);
 		
 		$vars = $_REQUEST;
-	}
-
-	// Get default and this users's Shopper Group
-	$shopper_group = $ps_shopper_group->get_shoppergroup_by_id( $my->id );
-
-	// User authentication
-	$auth = $perm->doAuthentication( $shopper_group );
-
-	if( $option == "com_virtuemart" ) {
+		
 		// Check if we have to run a Shop Function
 		// and if the user is allowed to execute it
 		$funcParams = $ps_function->checkFuncPermissions( $func );

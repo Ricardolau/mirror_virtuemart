@@ -1609,7 +1609,6 @@ class ps_product extends vmAbstractObject {
 			return $GLOBALS['product_info'][$product_id]['price'];
 		}
 	}
-
 	/**
 	 * Adjusts the price from get_price for the selected attributes
 	 * @author Nathan Hyde <nhyde@bigDrift.com>
@@ -1648,99 +1647,67 @@ class ps_product extends vmAbstractObject {
 
 		// if we've been given a description to deal with, get the adjusted price
 		if ($description != '') { // description is safe to use at this point cause it's set to ''
+			require_once(CLASSPATH.'ps_product_attribute.php');
+			$product_attributes = ps_product_attribute::getAdvancedAttributes($product_id);
+			
+			$attribute_keys = explode( ";", $description );
 
-		$attribute_keys = explode( ";", $description );
-
-		foreach( $attribute_keys as $temp_desc ) {
-
-			$temp_desc = trim( $temp_desc );
-			// Get the key name (e.g. "Color" )
-			$this_key = substr( $temp_desc, 0, strpos($temp_desc, ":") );
-
-			if( in_array( $this_key, $custom_attribute_fields )) {
-				if( @$custom_attribute_fields_check[$this_key] == md5( $mosConfig_secret.$this_key )) {
-					// the passed value is valid, don't use it for calculating prices
-					continue;
-				}
-			}
-
-			$i = 0;
-
-			$start = strpos($temp_desc, "[");
-			$finish = strpos($temp_desc,"]", $start);
-
-			$o = substr_count ($temp_desc, "[");
-			$c = substr_count ($temp_desc, "]");
-			//echo "open: $o<br>close: $c<br>\n";
-
-
-			// check to see if we have a bracket
-			if (True == is_int($finish) ) {
-				$length = $finish-$start;
-
-				// We found a pair of brackets (price modifier?)
-				if ($length > 1) {
-					$my_mod=substr($temp_desc, $start+1, $length-1);
-					//echo "before: ".$my_mod."<br>\n";
-					if ($o != $c) { // skip the tests if we don't have to process the string
-						if ($o < $c ) {
-							$char = "]";
-							$offset = $start;
-						}
-						else {
-							$char = "[";
-							$offset = $finish;
-						}
-						$s = substr_count($my_mod, $char);
-						for ($r=1;$r<$s;$r++) {
-							$pos = strrpos($my_mod, $char);
-							$my_mod = substr($my_mod, $pos+1);
-						}
+			for($i=0; $i < sizeof($attribute_keys); $i++ ) {
+				$temp_desc = $attribute_keys[$i];
+				
+				$temp_desc = trim( $temp_desc );
+				// Get the key name (e.g. "Color" )
+				$this_key = substr( $temp_desc, 0, strpos($temp_desc, ":") );
+				$this_value = substr( $temp_desc, strpos($temp_desc, ":")+1 );
+				
+				if( in_array( $this_key, $custom_attribute_fields )) {
+					if( @$custom_attribute_fields_check[$this_key] == md5( $mosConfig_secret.$this_key )) {
+						// the passed value is valid, don't use it for calculating prices
+						continue;
 					}
-					$oper=substr($my_mod,0,1);
-
-					$my_mod=substr($my_mod,1);
-
+				}
+                
+				$this_value=str_replace("_"," ",$this_value);
+				if( isset( $product_attributes[$this_key]['values'][$this_value] )) {
+					$modifier = $product_attributes[$this_key]['values'][$this_value]['adjustment'];
+					$operand = $product_attributes[$this_key]['values'][$this_value]['operand'];
 
 					// if we have a number, allow the adjustment
-					if (true == is_numeric($my_mod) ) {
+					if (true == is_numeric($modifier) ) {
+                    
 						// Now add or sub the modifier on
-						if ($oper=="+") {
-							$adjustment += $my_mod;
+						if ($operand=="+") {
+							$adjustment += $modifier;
 						}
-						else if ($oper=="-") {
-							$adjustment -= $my_mod;
+						else if ($operand=="-") {
+						$adjustment -= $modifier;
 						}
-						else if ($oper=='=') {
+						else if ($operand=='=') {
 							// NOTE: the +=, so if we have 2 sets they get added
 							// this could be moded to say, if we have a set_price, then
 							// calc the diff from the base price and start from there if we encounter
 							// another set price... just a thought.
-
-							$setprice += $my_mod;
+	
+							$setprice += $modifier;
 							$set_price = true;
 						}
 					}
-					$temp_desc = substr($temp_desc, $finish+1);
-					$start = strpos($temp_desc, "[");
-					$finish = strpos($temp_desc,"]");
+				} else {
+					continue;
 				}
 			}
-			$i++; // not necessary, but perhaps interesting? ;)
-		}
 		}
 
 		// no set price was set from the attribs
 		if ($set_price == false) {
 			$price["product_price"] = $base_price + $adjustment;
 		}
-		else { 
+		else {
 			// otherwise, set the price
 			// add the base price to the price set in the attributes
 			// then subtract the adjustment amount
 			// we could also just add the set_price to the adjustment... not sure on that one.
 			if (!empty($adjustment)) {
-				
 				$setprice += $adjustment;
 			}
 			$setprice *= 1 - ($auth["shopper_group_discount"]/100);
@@ -1760,7 +1727,6 @@ class ps_product extends vmAbstractObject {
 			if( $auth["show_price_including_tax"] == 1 ) {
 				switch( $discount_info["is_percent"] ) {
 					case 0: $price["product_price"] = (($price["product_price"]*($my_taxrate+1))-$discount_info["amount"])/($my_taxrate+1); break;
-					//case 1: $price["product_price"] = ($price["product_price"]*($my_taxrate+1) - $discount_info["amount"]/100*$price["product_price"])/($my_taxrate+1); break;
 					case 1: $price["product_price"] = ($price["product_price"] - $discount_info["amount"]/100*$price["product_price"]); break;
 				}
 			}
@@ -1774,7 +1740,7 @@ class ps_product extends vmAbstractObject {
 
 		return $price;
 	}
-	
+
 	/**
 	 * This function can parse an "advanced / custom attribute"
 	 * description like
@@ -1788,107 +1754,79 @@ class ps_product extends vmAbstractObject {
 	 */
 	function getDescriptionWithTax( $description, $product_id=0 ) {
 		global $CURRENCY_DISPLAY, $mosConfig_secret;
+		require_once(CLASSPATH.'ps_product_attribute.php');
+		
 		$auth = $_SESSION['auth'];
 		$description = stripslashes($description);
+        $description = str_replace("_"," ",$description);
 		// if we've been given a description to deal with, get the adjusted price
-		if ($description != '' && stristr( $description, "[" ) && $product_id != 0 ) {
-			if( $auth["show_price_including_tax"] == 1) {
-				$my_taxrate = $this->get_product_taxrate($product_id);
-			}
-			else {
-				$my_taxrate = 0.00;
-			}
-
-			// We must care for custom attribute fields! Their value can be freely given
-			// by the customer, so we mustn't include them into the price calculation
-			// Thanks to AryGroup@ua.fm for the good advice
-			if( empty( $_REQUEST["custom_attribute_fields"] )) {
-				if( !empty( $_SESSION["custom_attribute_fields"] )) {
-					$custom_attribute_fields = mosGetParam( $_SESSION, "custom_attribute_fields", Array() );
-					$custom_attribute_fields_check = mosGetParam( $_SESSION, "custom_attribute_fields_check", Array() );
-				}
-				else {
-					$custom_attribute_fields = $custom_attribute_fields_check = Array();
-				}
-			}
-			else {
-				$custom_attribute_fields = $_SESSION["custom_attribute_fields"] = mosGetParam( $_REQUEST, "custom_attribute_fields", Array() );
-				$custom_attribute_fields_check = $_SESSION["custom_attribute_fields_check"]= mosGetParam( $_REQUEST, "custom_attribute_fields_check", Array() );
-			}
-
-			$attribute_keys = explode( ";", $description );
+		if ($description != '' && $auth["show_price_including_tax"] == 1 && $product_id != 0 ) {
+			$my_taxrate = $this->get_product_taxrate($product_id);
 			
-			foreach( $attribute_keys as $temp_desc ) {
-
-				$temp_desc = trim( $temp_desc );
-				// Get the key name (e.g. "Color" )
-				$this_key = substr( $temp_desc, 0, strpos($temp_desc, ":") );
-
-				if( in_array( $this_key, $custom_attribute_fields )) {
-					if( @$custom_attribute_fields_check[$this_key] == md5( $mosConfig_secret.$this_key )) {
-						// the passed value is valid, don't use it for calculating prices
-						continue;
-					}
-				}
-				$i = 0;
-
-				$start = strpos($temp_desc, "[");
-				$finish = strpos($temp_desc,"]", $start);
-
-				$o = substr_count ($temp_desc, "[");
-				$c = substr_count ($temp_desc, "]");
-
-				// check to see if we have a bracket
-				if (True == is_int($finish) ) {
-					$length = $finish-$start;
-
-					// We found a pair of brackets (price modifier?)
-					if ($length > 1) {
-						$my_mod=substr($temp_desc, $start+1, $length-1);
-						
-						//echo "before: ".$my_mod."<br>\n";
-						if ($o != $c) { // skip the tests if we don't have to process the string
-							if ($o < $c ) {
-								$char = "]";
-								$offset = $start;
-							}
-							else {
-								$char = "[";
-								$offset = $finish;
-							}
-							$s = substr_count($my_mod, $char);
-							for ($r=1;$r<$s;$r++) {
-								$pos = strrpos($my_mod, $char);
-								$my_mod = substr($my_mod, $pos+1);
-							}
-						}
-						
-						$value_notax = substr($my_mod,1);
-						
-						if( abs($value_notax) >0 ) {
-							$value_taxed = $value_notax * ($my_taxrate+1);
-							$temp_desc_new  = str_replace( $my_mod, $my_mod[0].' '.$CURRENCY_DISPLAY->getFullValue( $value_taxed ), $temp_desc );
-							$description = str_replace( $temp_desc, $temp_desc_new, $description);
-						}
-						elseif( $my_mod === "+0" || $my_mod === '-0') {
-							$description = str_replace( "[".$my_mod."]", '', $description);
-						}
-						$temp_desc = substr($temp_desc, $finish+1);
-						$start = strpos($temp_desc, "[");
-						$finish = strpos($temp_desc,"]");
-					}
-				}
-				$i++; // not necessary, but perhaps interesting? ;)
+		}
+		else {
+			$my_taxrate = 0.00;
+		}
+		// We must care for custom attribute fields! Their value can be freely given
+		// by the customer, so we mustn't include them into the price calculation
+		// Thanks to AryGroup@ua.fm for the good advice
+		if( empty( $_REQUEST["custom_attribute_fields"] )) {
+			if( !empty( $_SESSION["custom_attribute_fields"] )) {
+				$custom_attribute_fields = mosGetParam( $_SESSION, "custom_attribute_fields", Array() );
+				$custom_attribute_fields_check = mosGetParam( $_SESSION, "custom_attribute_fields_check", Array() );
+			}
+			else {
+				$custom_attribute_fields = $custom_attribute_fields_check = Array();
 			}
 		}
-		
+		else {
+			$custom_attribute_fields = $_SESSION["custom_attribute_fields"] = mosGetParam( $_REQUEST, "custom_attribute_fields", Array() );
+			$custom_attribute_fields_check = $_SESSION["custom_attribute_fields_check"]= mosGetParam( $_REQUEST, "custom_attribute_fields_check", Array() );
+		}
+
+		$product_attributes = ps_product_attribute::getAdvancedAttributes($product_id);
+		$attribute_keys = explode( ";", $description );
+
+		foreach( $attribute_keys as $temp_desc ) {
+			$finish = strpos($temp_desc,"]");
+			$temp_desc = trim( $temp_desc );
+			// Get the key name (e.g. "Color" )
+			$this_key = substr( $temp_desc, 0, strpos($temp_desc, ":") );
+			$this_value = substr( $temp_desc, strpos($temp_desc, ":")+1 );
+
+			if( in_array( $this_key, $custom_attribute_fields )) {
+				if( @$custom_attribute_fields_check[$this_key] == md5( $mosConfig_secret.$this_key )) {
+					// the passed value is valid, don't use it for calculating prices
+					continue;
+				}
+			}
+            $this_value = str_replace("_"," ",$this_value);
+			if( isset( $product_attributes[$this_key]['values'][$this_value] )) {
+				$modifier = $product_attributes[$this_key]['values'][$this_value]['adjustment'];
+				$operand = $product_attributes[$this_key]['values'][$this_value]['operand'];
+
+				$value_notax = $modifier;
+				if( abs($value_notax) >0 ) {
+					$value_taxed = $value_notax * ($my_taxrate+1);
+						$temp_desc_new  = str_replace( $operand.$modifier, $operand.' '.$CURRENCY_DISPLAY->getFullValue( $value_taxed ), $temp_desc );
+                        
+						$description = str_replace( $this_key.':'.$this_value, 
+													 $this_key.':'.$this_value.' ('.$operand.' '.$CURRENCY_DISPLAY->getFullValue( $value_taxed ).')',
+														$description);
+
+				}
+				$temp_desc = substr($temp_desc, $finish+1);
+			}
+			
+		}
+        $description = str_replace("_"," ",$description);
 		$description = str_replace( $CURRENCY_DISPLAY->symbol, '@saved@', $description );
 		$description = str_replace( "[", " (", $description );
 		$description = str_replace( "]", ")", $description );
 		$description = str_replace( ":", ": ", $description );
 		$description = str_replace( ";", "<br/>", $description );
 		$description = str_replace( '@saved@', $CURRENCY_DISPLAY->symbol, $description );
-		
+
 		return $description;
 	}
 	/**************************************************************************

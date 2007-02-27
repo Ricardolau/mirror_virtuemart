@@ -323,6 +323,7 @@ class ps_product_attribute {
 							$attribut_hint = "test";
 						}
 						$base_var=str_replace(" ","_",$base_value);
+						$base_var=substr($base_var,0,strrpos($base_var, '['));
 						$html.="<option value=\"$base_var\">$attribtxt";
 						if( $_SESSION['auth']['show_prices'] ) {
 							$html .= "&nbsp;(&nbsp;".$vorzeichen."&nbsp;".$CURRENCY_DISPLAY->getFullValue($price)."&nbsp;)";
@@ -380,6 +381,79 @@ class ps_product_attribute {
 		if ($custom_attr_list) {
 			return $html;
 		}
+	}
+	/**
+	 * This function returns an array with all "advanced" attributes of the product specified by
+	 * $product_id
+	 *
+	 * @param int $product_id
+	 */
+	function getAdvancedAttributes( $product_id ) {
+		global $ps_product;
+		if( is_null( $ps_product )) {
+			$ps_product = new ps_product();
+		}
+		$attributes_array = array();
+		$attributes = $ps_product->get_field( $product_id, 'attribute' );
+		// Get each of the attributes into an array
+		$product_attribute_keys = explode( ";", $attributes );
+		foreach( $product_attribute_keys as $attribute ) {
+			$attribute_name = substr( $attribute, 0, strpos($attribute, ",") );
+			$attribute_values = substr( $attribute, strpos($attribute, ",")+1 );
+			$attributes_array[$attribute_name]['name'] = $attribute_name;
+			// Read the different attribute values into an array
+			$attribute_values = explode(',', $attribute_values );
+			$operand = '';
+			$my_mod = 0;
+			foreach( $attribute_values as $value ) {
+
+				// Get the price modification for this attribute value
+				$start = strpos($value, "[");
+				$finish = strpos($value,"]", $start);
+
+				$o = substr_count ($value, "[");
+				$c = substr_count ($value, "]");	
+				// check to see if we have a bracket (means: a price modifier)
+				if (True == is_int($finish) ) {
+					$length = $finish-$start;
+
+					// We found a pair of brackets (price modifier?)
+					if ($length > 1) {
+						$my_mod=substr($value, $start+1, $length-1);
+						//echo "before: ".$my_mod."<br>\n";
+						if ($o != $c) { // skip the tests if we don't have to process the string
+							if ($o < $c ) {
+								$char = "]";
+								$offset = $start;
+							}
+							else {
+								$char = "[";
+								$offset = $finish;
+							}
+							$s = substr_count($my_mod, $char);
+							for ($r=1;$r<$s;$r++) {
+								$pos = strrpos($my_mod, $char);
+								$my_mod = substr($my_mod, $pos+1);
+							}
+						}
+						$operand=substr($my_mod,0,1);
+
+						$my_mod=substr($my_mod,1);
+
+						
+					}
+				}
+				if( $start > 0 ) {
+					$value = substr($value, 0, $start);
+				}
+				$attributes_array[$attribute_name]['values'][$value]['name'] = $value;
+				$attributes_array[$attribute_name]['values'][$value]['operand'] = $operand;
+				$attributes_array[$attribute_name]['values'][$value]['adjustment'] = $my_mod;
+			}
+			
+		}
+		return $attributes_array;
+		
 	}
 	/**
    * This checks if attributes value were chosen by the user

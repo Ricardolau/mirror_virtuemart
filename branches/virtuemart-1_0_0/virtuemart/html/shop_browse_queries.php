@@ -49,9 +49,10 @@ switch( $orderby ) {
 
 
 // Filter Products by Category
+$where_clause[] = "`#__{vm}_product_category_xref`.`product_id`=`#__{vm}_product`.`product_id`";
+$where_clause[] = "`#__{vm}_product_category_xref`.`category_id`=`#__{vm}_category`.`category_id`";
+
 if( $category_id ) {
-	$where_clause[] = "`#__{vm}_product_category_xref`.`product_id`=`#__{vm}_product`.`product_id`";
-	$where_clause[] = "`#__{vm}_product_category_xref`.`category_id`=`#__{vm}_category`.`category_id`";
 	$where_clause[] = "`#__{vm}_product_category_xref`.`category_id`=".$category_id;
 }
 if( strtoupper(mosGetParam($_REQUEST, 'featured', 'N' )) == 'Y' ) {
@@ -280,14 +281,14 @@ else {
 	$where_clause[] = "((`#__{vm}_product`.`product_id`=`#__{vm}_product_price`.`product_id` AND `#__{vm}_shopper_group`.`shopper_group_id`=`#__{vm}_product_price`.`shopper_group_id`) OR `#__{vm}_product_price`.`product_id` IS NULL) ";
 	$where_clause[] = '`#__{vm}_shopper_group`.`default` = 1';
 }
-$where_clause[] = "((`product_parent_id`='0') OR (`product_parent_id`='')) ";
+$where_clause[] = "`product_parent_id`=0";
 if( !$perm->check("admin,storeadmin") ) {
 	$where_clause[] = "`product_publish`='Y' ";
 	if( CHECK_STOCK && PSHOP_SHOW_OUT_OF_STOCK_PRODUCTS != "1") {
 		$where_clause[] = 'product_in_stock > 0';
 	}
 }
-$q = implode("\n", $join_array ).' WHERE '. implode("\n AND", $where_clause );
+$q = implode("\n", $join_array ).' WHERE '. implode("\n AND ", $where_clause );
 $count .= $q;
 
 $q .= "\n GROUP BY `#__{vm}_product`.`product_sku` ";

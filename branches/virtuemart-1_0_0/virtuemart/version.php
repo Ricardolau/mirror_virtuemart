@@ -37,11 +37,13 @@ class vmVersion {
 	// Song by Badly Drawn Boy, from the album "One Plus One Is One" (U.S. version): http://en.wikipedia.org/wiki/One_Plus_One_Is_One
 	var $CODENAME = 'Plan-B';
 	/** @var string Date */
-	var $RELDATE = '21/02/2007';
+	var $RELDATE = '27/02/2007';
 	/** @var string Time */
-	var $RELTIME = '12:00';
+	var $RELTIME = '14:00';
 	/** @var string Timezone */
-	var $RELTZ = 'GMT';
+	var $RELTZ = 'CET';
+	/** @var string Revision */
+	var $REVISION = '$Revision$';
 	/** @var string Copyright Text */
 	var $COPYRIGHT = 'Copyright (C) 2005-2007 Soeren Eberhardt. All rights reserved.'; 
 	/** @var string URL */

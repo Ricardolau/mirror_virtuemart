@@ -35,27 +35,27 @@ VirtueMart 1.0.x
 *************************************
 27.01.2007 soeren
 
-^ no cookie check is done when the shop is used as catalogue only
-# fixed SSL redirection when Shared SSL is used on Joomla! 1.0.12
+^ no cookie check is done when the shop is used as catalogue only (ps_session.php)
+# fixed SSL redirection when Shared SSL is used on Joomla! 1.0.12 (ps_session.php)
 ^ changed the simple attributes' price modifier handling from user-submitted prices to price modifiers retrieved from
 	the product's attribute field in the DB. So the [+3.99] price modifiers are not longer part of the
-	drop down list, but just the attribute values like "red" or "big".
+	drop down list, but just the attribute values like "red" or "big". (ps_product_attribute.php, ps_product.php)
 	
 21.02.2007 soeren
-# adjusted the compat file for the latest Joomla! 1.5 SVN
+# adjusted the compat file for the latest Joomla! 1.5 SVN (compat.joomla1.5.php)
 # mosproductsnap - Fatal Error (only variables should be passed by reference)
-+ added "featured=y" and "discounted=y" parameters for the browse page to allow to filter by featured or discounted products
++ added "featured=y" and "discounted=y" parameters for the browse page to allow to filter by featured or discounted products (shop_browse_queries.php)
 
 19.02.2007 soeren
 # Task #1161 - Updated PS_Linkpoint should be included in future releases
 # Task #1160 - Registration - Empty state list + Fix (ps_html.php)
-# Task #1153 - email address not required at registration
-# Task #1150 - vmcchk=1 breaks SEO URL
+# Task #1153 - email address not required at registration (ps_shopper.php)
+# Task #1150 - vmcchk=1 breaks SEO URL (ps_session.php)
 # Task #1147 - shop.parameter_search_form.php error with template...
 # Task #1146 - Small bug in order-change-mail (ps_order.php)
 
 13.02.2007 soeren
-^ changed the input field for attributes and custom attributes in the product form to a textarea
+^ changed the input field for attributes and custom attributes in the product form to a textarea (product.product_form.php)
 # fixed XSS vulnerabilities globally (virtuemart_parser.php)
 
 16.01.2007 soeren

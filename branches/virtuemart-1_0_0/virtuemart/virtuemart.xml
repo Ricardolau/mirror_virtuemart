@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <mosinstall type="component">
 	<name>VirtueMart</name>
-	<creationDate>27.02.2006</creationDate>
+	<creationDate>02.03.2007</creationDate>
 	<author>Soeren Eberhardt &amp; the VirtueMart dev team</author>
 	<copyright>released under GNU General Public License</copyright>
 	<authorEmail>soeren@virtuemart.net</authorEmail>

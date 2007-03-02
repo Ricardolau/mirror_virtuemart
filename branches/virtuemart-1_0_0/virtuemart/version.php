@@ -37,9 +37,9 @@ class vmVersion {
 	// Song by Badly Drawn Boy, from the album "One Plus One Is One" (U.S. version): http://en.wikipedia.org/wiki/One_Plus_One_Is_One
 	var $CODENAME = 'Plan-B';
 	/** @var string Date */
-	var $RELDATE = '27/02/2007';
+	var $RELDATE = '02/03/2007';
 	/** @var string Time */
-	var $RELTIME = '14:00';
+	var $RELTIME = '22:00';
 	/** @var string Timezone */
 	var $RELTZ = 'CET';
 	/** @var string Revision */

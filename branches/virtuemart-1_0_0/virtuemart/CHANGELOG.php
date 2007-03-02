@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+01.03.2007 gregdev
+^ optimized category tree creation
+ 
 27.01.2007 soeren
 
 ^ no cookie check is done when the shop is used as catalogue only (ps_session.php)

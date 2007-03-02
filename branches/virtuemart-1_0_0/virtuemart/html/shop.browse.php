@@ -104,7 +104,7 @@ if( $limitstart > 0 && $limit >= $num_rows) {
 if ($num_rows == 0 && !empty($keyword)) {
 	echo $VM_LANG->_PHPSHOP_NO_SEARCH_RESULT;
 }
-elseif( $num_rows == 0 && empty($product_type_id) ) {
+elseif( $num_rows == 0 && empty($product_type_id) && empty( $child_list )) {
 	echo $VM_LANG->_EMPTY_CATEGORY;
 }
 /*** NOW START THE PRODUCT LIST ***/
@@ -247,7 +247,7 @@ else {
                 echo "</div><br/>";
         }
     }
-	$use_tables = @$_REQUEST['output'] == "pdf" ? true : false;
+	$use_tables = mosGetParam($_REQUEST, 'output' ) == "pdf" ? true : false;
 
 	if( $use_tables ) {
 		echo '<table width="100%"><tr>';
@@ -520,6 +520,7 @@ if( $num_rows > 5 && @$_REQUEST['output'] != "pdf") {
         echo "<br/><br/><form action=\"$search_string\" method=\"post\">".$VM_LANG->_PN_DISPLAY_NR."&nbsp;&nbsp;";
 	$pagenav->writeLimitBox( $search_string );
 	echo "<noscript><input class=\"button\" type=\"submit\" value=\"".$VM_LANG->_PHPSHOP_SUBMIT."\" /></noscript></form>";
+	echo $pagenav->writePagesCounter();
 }
 ?>
 </div>

@@ -33,8 +33,14 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+02.03.2007 soeren
+# Task #1174 - Coupon discount does not change with Quantity (basket.php)
++ added Result Counter to the browse page (Results 1 - x of XX )
+# quotes are not escaped in category names in the VM module in JSCookTree mode (vm_JSCook.php)
+^ hiding text "This category is currently empty" when the category has child categories (shop.browse.php)
+
 01.03.2007 gregdev
-^ optimized category tree creation
+^ optimized category tree creation (ps_product_category.php, product.product_category_list.php)
  
 27.01.2007 soeren
 

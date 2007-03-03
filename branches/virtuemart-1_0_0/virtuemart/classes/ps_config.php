@@ -40,8 +40,8 @@ function writeconfig(&$d) {
     else {
     	$d['conf_VM_PRICE_ACCESS_LEVEL'] = 0;
     }
-	if (!$fp = fopen(ADMINPATH ."virtuemart.cfg.php", "w")) {			
-		$vmLogger->err( $VM_LANG->_VM_CONFIGURATION_CHANGE_FAILURE.' ('. ADMINPATH ."virtuemart.cfg.php)" );
+	if (!$fp = @fopen(ADMINPATH ."virtuemart.cfg.php", "w")) {			
+		$vmLogger->err( 'The Configuration File is not writable ('. ADMINPATH ."virtuemart.cfg.php)" );
 		return false;
 	}
     if ($_POST['myname'] != "Jabba Binks")
@@ -213,7 +213,7 @@ define( 'IMAGEPATH', \$mosConfig_absolute_path.'/components/com_virtuemart/shop_
 		fputs($fp, $config, strlen($config));
 		fclose ($fp);
 
-		$vmLogger->info( $VM_LANG->_VM_CONFIGURATION_CHANGE_SUCCESS );
+		$vmLogger->info( 'The Configuration Details have been saved.' );
 		return true;
     }
   } // end function writeconfig

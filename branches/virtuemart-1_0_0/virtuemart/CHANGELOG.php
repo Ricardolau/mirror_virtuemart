@@ -33,6 +33,8 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+--- VirtueMart 1.0.10 released ---
+
 03.03.2007 gregdev
 # Added global $vmLogger in ps_config.
 # Changed $page in admin.shop_cfg form (due to earlier ps_config change).

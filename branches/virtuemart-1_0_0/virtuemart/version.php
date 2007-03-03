@@ -39,7 +39,7 @@ class vmVersion {
 	/** @var string Date */
 	var $RELDATE = '03/03/2007';
 	/** @var string Time */
-	var $RELTIME = '11:00';
+	var $RELTIME = '19:00';
 	/** @var string Timezone */
 	var $RELTZ = 'CET';
 	/** @var string Revision */

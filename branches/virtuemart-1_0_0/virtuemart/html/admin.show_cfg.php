@@ -892,7 +892,7 @@ $formObj->hiddenField( 'pshop_mode', 'admin' );
 
 // Write your form with mixed tags and text fields
 // and finally close the form:
-$formObj->finishForm( 'writeConfig', $modulename.'.index', $option );
+$formObj->finishForm( 'writeConfig', $modulename.'.show_cfg', $option );
 ?>   
 
 <script type="text/javascript">

@@ -33,6 +33,10 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+03.03.2007 gregdev
+# Added global $vmLogger in ps_config.
+# Changed $page in admin.shop_cfg form (due to earlier ps_config change).
+
 02.03.2007 soeren
 # Task #1174 - Coupon discount does not change with Quantity (basket.php)
 + added Result Counter to the browse page (Results 1 - x of XX )

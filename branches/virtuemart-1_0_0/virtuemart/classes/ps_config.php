@@ -27,7 +27,7 @@ class ps_config {
  ****************************************************************************/
 
 function writeconfig(&$d) {
-    global $my, $db, $_VERSION, $VM_LANG;
+    global $my, $db, $_VERSION, $VM_LANG, $vmLogger;
     
     $group_id = intval( $d['conf_VM_PRICE_ACCESS_LEVEL'] );
     if( $group_id != 0 ) {

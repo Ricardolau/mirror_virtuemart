@@ -213,7 +213,7 @@ define( 'IMAGEPATH', \$mosConfig_absolute_path.'/components/com_virtuemart/shop_
 		fputs($fp, $config, strlen($config));
 		fclose ($fp);
 
-		$vmLogger->info( 'The Configuration Details have been saved.' );
+		mosRedirect( $_SERVER['PHP_SELF']."?page=admin.show_cfg&option=com_virtuemart", 'The Configuration Details have been saved.' );
 		return true;
     }
   } // end function writeconfig

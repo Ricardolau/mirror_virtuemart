@@ -272,10 +272,10 @@ class ps_checkout {
 		// the user has no order total he should pay
 		if( empty( $_REQUEST['order_total'])) { // Checking REQUEST array to prevent arbitrary user input
 			
-			if( isset( $d['order_total']) && $d['order_total'] <= 0.00 ) {
+			if( isset( $d['order_total']) && round( $d['order_total'], 2 ) <= 0.00 ) {
 				return true;	
 			}
-			if( isset($order_total) && $order_total <= 0.00 ) {
+			if( isset($order_total) && round( $order_total, 2 ) <= 0.00 ) {
 				return true;
 			}
 		}

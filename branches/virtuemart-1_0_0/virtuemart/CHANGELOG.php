@@ -33,6 +33,20 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+
+21.03.2007 soeren
+# Task #1226 - VM Search in admin backend has problems with text strings using # symbol
+# the variable PHP_SELF was not properly cleaned (virtuemart_parser.php)
+
+15.03.2007 soeren
+# JoomFish language setting is overwritten in virtuemart.cfg.php
+# CSV Upload not recognising correct Mime Type due to case-sensitive equality check
+
+13.03.2007 soeren
+
+# Task #1187 - Virtuemart does not redirect correctly if only 1 payment option is available. (ps_checkout.php)
+# Task #1200 - checkout.thankyou shows empty page when order_total is 0 (checkout.thankyou.php)
+
 --- VirtueMart 1.0.10 released ---
 
 03.03.2007 gregdev

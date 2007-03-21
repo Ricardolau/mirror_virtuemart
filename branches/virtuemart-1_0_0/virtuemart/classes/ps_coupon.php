@@ -173,7 +173,7 @@ class ps_coupon {
             /* we have a record */
             
             
-            /* see if we are calculating percent or dollar discount */
+              /* see if we are calculating percent or dollar discount */
             if ($coupon_db->f("percent_or_total") == "percent")
             {
                 /* percent */    
@@ -181,13 +181,24 @@ class ps_coupon {
                 
                 /* take the subtotal for calculation of the discount */
                 //$_SESSION['coupon_discount'] = round( ($subtotal * $coupon_db->f("coupon_value") / 100), 2);
-                $_SESSION['coupon_discount'] = round( ($d["total"] * $coupon_db->f("coupon_value") / 100), 2);
-                
+                 $coupon_value = round( ($d["total"] * $coupon_db->f("coupon_value") / 100), 2);
+                 if( $d["total"] < $coupon_value ) {
+                  	$coupon_value = (float)$d['total'];
+                  	$vmLogger->info( 'The Value of the Coupon is greater than the current Order Total, so the Coupon Value was temporarily set to '.$GLOBALS['CURRENCY_DISPLAY']->getFullValue( $coupon_value ) );
+                }
+                 $_SESSION['coupon_discount'] = $coupon_value;
             }
             else
             {
-                /* dollar */
-                $_SESSION['coupon_discount'] = ($coupon_db->f("coupon_value"));
+            	
+            	$coupon_value = $coupon_db->f("coupon_value");
+            	
+                /* Total Amount */
+                if( $d["total"] < $coupon_value ) {
+                  	$coupon_value = (float)$d['total'];
+                  	$vmLogger->info( 'The Value of the Coupon is greater than the current Order Total, so the Coupon Value was temporarily set to '.$GLOBALS['CURRENCY_DISPLAY']->getFullValue( $coupon_value ) );
+                }
+                $_SESSION['coupon_discount'] = $GLOBALS['CURRENCY']->convert( $coupon_value );
                 
             }
             

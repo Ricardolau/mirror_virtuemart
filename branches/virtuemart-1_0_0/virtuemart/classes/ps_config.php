@@ -144,10 +144,14 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 
 global \$mosConfig_absolute_path,\$mosConfig_live_site;
 
-if( !class_exists('jconfig')) {
-	// make sure we re-read the Joomla! configuration file here to get the real mosConfig_live_site
-	if( stristr( \$_SERVER['PHP_SELF'], 'administrator' )) @include( '../configuration.php' );
-	else @include( 'configuration.php' );
+if( !class_exists( 'jconfig' )) {
+	if( isset( \$GLOBALS['mosConfig_defaultLang'] ) && !isset( \$_REQUEST['mosConfig_defaultLang'] ) ) {
+		\$joomfish_lang = \$mosConfig_lang;
+	}
+	@include( dirname( __FILE__ ).'/../../../configuration.php' );
+	if( isset( \$GLOBALS['mosConfig_defaultLang'] ) && !isset( \$_REQUEST['mosConfig_defaultLang'] ) ) {
+		\$mosConfig_lang = \$joomfish_lang;
+	}
 }
 
 // Check for trailing slash

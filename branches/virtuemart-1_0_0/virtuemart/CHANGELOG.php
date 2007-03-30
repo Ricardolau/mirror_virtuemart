@@ -33,6 +33,8 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+30.03.2007 gregdev
+^ Changed shop_browse_queries.php to use a LEFT JOIN for #__{vm}_shopper_vendor_xref (fixes empty categories when table entry is missing).
 
 21.03.2007 soeren
 # Task #1226 - VM Search in admin backend has problems with text strings using # symbol

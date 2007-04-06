@@ -7,7 +7,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * @package VirtueMart
 * @subpackage modules
 *
-* @copyright (C) 2004 Soeren Eberhardt
+* @copyright (C) 2004-2007 Soeren Eberhardt
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 * VirtueMart is Free Software.
 * VirtueMart comes with absolute no warranty.
@@ -20,14 +20,10 @@ require_once( $mosConfig_absolute_path.'/components/com_virtuemart/virtuemart_pa
 
 global $VM_LANG, $sess, $mm_action_url;
 
-?><table width="100%">
-        <tr>
-            <td>
-                <a class="mainlevel" href="<?php echo $sess->url($mm_action_url."index.php?page=shop.cart")?>">
+$class_sfx = $params->get( 'class_sfx' );
+?><div>
+                <a class="mainlevel<?php echo $class_sfx ?>" href="<?php echo $sess->url($mm_action_url."index.php?page=shop.cart")?>">
                 <?php echo $VM_LANG->_PHPSHOP_CART_SHOW ?></a>
-            </td>
-        </tr>
-        <tr>
-            <td><?php include (PAGEPATH.'shop.basket_short.php') ?></td>
-        </tr>
-    </table>
+            <br /><?php include (PAGEPATH.'shop.basket_short.php') ?>
+	    
+</div>

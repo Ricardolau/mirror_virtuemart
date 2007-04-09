@@ -176,7 +176,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ISSHIP_PING_TIME_LBL = 'sec.';
 	var $_PHPSHOP_ISSHIP_LIST_MNU = 'Lista Metodi di Spedizione';
 	var $_PHPSHOP_ISSHIP_LIST_LBL = 'Metodi di Spedizione Attivi';
-	var $_PHPSHOP_ISSHIP_LIST_CARRIER_LBL = 'Metodi di Spedizione';
+	var $_PHPSHOP_ISSHIP_LIST_CARRIER_LBL = 'Metodo Spedizione';
 	var $_PHPSHOP_ISSHIP_LIST_PUBLISH_LBL = 'Attivo';
 	var $_PHPSHOP_ISSHIP_LIST_RATE_LBL = 'Costo di Gestione';
 	var $_PHPSHOP_ISSHIP_LIST_LEAD_LBL = 'Tempistica';
@@ -196,7 +196,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ISSHIP_FORM_CHARGE_P_LBL = 'percentuale';
 	var $_PHPSHOP_ISSHIP_FORM_DAYS_LBL = 'giorni';
 	var $_PHPSHOP_ISSHIP_FORM_HEAVY_LBL = 'Carico Pesante';
-	var $_PHPSHOP_ORDER_MOD = 'Ordina';
+	var $_PHPSHOP_ORDER_MOD = 'Ordini';
 	var $_PHPSHOP_ORDER_CONFIRM_MNU = 'Conferma Ordine';
 	var $_PHPSHOP_ORDER_CANCEL_MNU = 'Annulla Ordine';
 	var $_PHPSHOP_ORDER_PRINT_MNU = 'Stampa Ordine';
@@ -239,7 +239,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ORDER_PRINT_TOTAL_TAX = 'Totale IVA';
 	var $_PHPSHOP_ORDER_PRINT_SHIPPING = 'Spedizione';
 	var $_PHPSHOP_ORDER_PRINT_SHIPPING_TAX = 'IVA Spedizione';
-	var $_PHPSHOP_ORDER_PRINT_PAYMENT_LBL = 'Metodo di Pagamento';
+	var $_PHPSHOP_ORDER_PRINT_PAYMENT_LBL = 'Metodo Pagamento';
 	var $_PHPSHOP_ORDER_PRINT_ACCOUNT_NAME = 'Nome Account';
 	var $_PHPSHOP_ORDER_PRINT_ACCOUNT_NUMBER = 'Numero Account';
 	var $_PHPSHOP_ORDER_PRINT_EXPIRE_DATE = 'Data Scadenza';
@@ -436,8 +436,8 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_SHOPPER_FORM_PHONE2 = 'Cellulare';
 	var $_PHPSHOP_SHOPPER_FORM_FAX = 'Fax';
 	var $_PHPSHOP_SHOPPER_FORM_EMAIL = 'Email';
-	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_1 = 'Partita IVA/Codice Fiscale';
-	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_2 = '';
+	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_1 = 'Partita IVA';
+	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_2 = 'Codice Fiscale';
 	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_3 = '';
 	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_4 = '';
 	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_4_1 = 'Si';
@@ -668,7 +668,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_RATE_FORM_VALUE = 'Tariffa';
 	var $_PHPSHOP_RATE_FORM_PACKAGE_FEE = 'La vostra tariffa';
 	var $_PHPSHOP_RATE_FORM_CURRENCY = 'Valuta';
-	var $_PHPSHOP_RATE_FORM_VAT_ID = 'Partita IVA';
+	var $_PHPSHOP_RATE_FORM_VAT_ID = 'Aliquota IVA';
 	var $_PHPSHOP_RATE_FORM_LIST_ORDER = 'Ordine Lista';
 	var $_PHPSHOP_SHIPPING_RATE_LIST_CARRIER_LBL = 'Corriere';
 	var $_PHPSHOP_SHIPPING_RATE_LIST_RATE_NAME = 'Descrizione Tariffa Corriere';
@@ -766,7 +766,9 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_DOWNLOADS_SEND_MSG_6 = 'Download-Info by ';
 	var $_PHPSHOP_PRODUCT_FORM_DOWNLOADABLE = 'prodotto scaricabile?';
 	var $_PHPSHOP_PAYPAL_THANKYOU = 'Grazie per il pagamento.
+
         La transazione ha avuto successo. Riceverai una e-mail di conferma della transazione da parte di PayPal.
+
         Ora puoi continuare nella navigazione o autenticarti in <a href=http://www.paypal.com>www.paypal.com</a> per controllare i dettagli della transazione.';
 	var $_PHPSHOP_PAYPAL_ERROR = 'C´è stato un errore nell´elaborazione della transazione. Lo stato del tuo ordine non può venir aggiornato.';
 	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER1 = 'Grazie per avere visitato il nostro negozio.  Di seguito le informazioni sul vostro ordine.';
@@ -805,7 +807,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_AFFILIATE_FORM_ACTIVE = 'Attivo?';
 	var $_PHPSHOP_DELIVERY_TIME = 'Di solito viene spedito in';
 	var $_PHPSHOP_DELIVERY_INFORMATION = 'Informazioni Consegna';
-	var $_PHPSHOP_MORE_CATEGORIES = 'altre categorie';
+	var $_PHPSHOP_MORE_CATEGORIES = 'Sottocategorie:';
 	var $_PHPSHOP_AVAILABILITY = 'Disponibilità';
 	var $_PHPSHOP_CURRENTLY_NOT_AVAILABLE = 'Il prodotto al momento non è disponibile.';
 	var $_PHPSHOP_PRODUCT_AVAILABLE_AGAIN = 'Sarà nuovamente disponibile il: ';
@@ -1329,7 +1331,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_TYPE_FORM_NAME = 'Nome Tipo Prodotto';
 	var $_PHPSHOP_PRODUCT_TYPE_FORM_DESCRIPTION = 'Descrizione Tipo Prodotto';
 	var $_PHPSHOP_PRODUCT_TYPE_FORM_PARAMETERS = 'Parametri';
-	var $_PHPSHOP_PRODUCT_TYPE_FORM_LBL = 'Informazzioni Tipo Prodotto';
+	var $_PHPSHOP_PRODUCT_TYPE_FORM_LBL = 'Informazioni Tipo Prodotto';
 	var $_PHPSHOP_PRODUCT_TYPE_FORM_PUBLISH = 'Pubblica?';
 	var $_PHPSHOP_PRODUCT_TYPE_FORM_BROWSEPAGE = 'Browse Page Tipo Prodotto<BR>';
 	var $_PHPSHOP_PRODUCT_TYPE_FORM_FLYPAGE = 'Flypage Tipo Prodotto<BR>';
@@ -1381,9 +1383,9 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CSV_DELIMITER = 'Delimitatore';
 	var $_PHPSHOP_CSV_ENCLOSURE = 'Carattere Delimitazione Campo';
 	var $_PHPSHOP_CSV_UPLOAD_FILE = 'Upload CSV File';
-	var $_PHPSHOP_CSV_SUBMIT_FILE = 'Invia CSV File';
+	var $_PHPSHOP_CSV_SUBMIT_FILE = 'Invia File CSV';
 	var $_PHPSHOP_CSV_FROM_DIRECTORY = 'Carica dalla directory';
-	var $_PHPSHOP_CSV_FROM_SERVER = 'Carica CSV File dal Server';
+	var $_PHPSHOP_CSV_FROM_SERVER = 'Carica File CSV dal Server';
 	var $_PHPSHOP_CSV_EXPORT_TO_FILE = 'Esporta CSV File';
 	var $_PHPSHOP_CSV_SELECT_FIELD_ORDERING = 'Scegli tipo di ordine';
 	var $_PHPSHOP_CSV_DEFAULT_ORDERING = 'Ordine di default';
@@ -1439,7 +1441,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_THUMBNAIL_WIDTH_TIP = 'Il valore (<strong>width</strong>) in pixel delle Immagini Thumbnail ridimensionate.';
 	var $_PHPSHOP_ADMIN_CFG_THUMBNAIL_HEIGHT = 'Altezza Miniatura';
 	var $_PHPSHOP_ADMIN_CFG_THUMBNAIL_HEIGHT_TIP = 'Il valore (<strong>height</strong>) in pixel delle Immagini Thumbnail ridimensionate.';
-	var $_PHPSHOP_ADMIN_CFG_SHIPPING_NO_SELECTION = 'Seleziona almeno un\'opzione nella Configurazione Spedizioni!';
+	var $_PHPSHOP_ADMIN_CFG_SHIPPING_NO_SELECTION = 'Seleziona almeno un\\\'opzione nella Configurazione Spedizioni!';
 	var $_PHPSHOP_ADMIN_CFG_PRICE_CONFIGURATION = 'Configuratore Prezzi';
 	var $_PHPSHOP_ADMIN_CFG_PRICE_ACCESS_LEVEL = 'Gruppo Utenti che può visualizzare i prezzi';
 	var $_PHPSHOP_ADMIN_CFG_PRICE_ACCESS_LEVEL_TIP = 'Il Gruppo Utenti selezionato e tutti i gruppi con privilegi più alti, saranno abilitati a visualizzare i prezzi prodotto.';
@@ -1461,8 +1463,10 @@ Quando non è selezionato, l´etichetta prezzo è quella usuale: <strong>Prezzo: €x
 	var $_PHPSHOP_ADMIN_CFG_SILENT_REGISTRATION = 'Registrazione Utente silenziosa (nascosta)?';
 	var $_PHPSHOP_ADMIN_CFG_SILENT_REGISTRATION_TIP = 'Quando abilitato, gli utenti non dovranno fornire username e password per un nuovo account. In questo caso l´indirizzo mail verrà usato per un nuovo account e una password random verrà generata. I dettagli della registrazione verranno inviati via mail al cliente.';
 	var $_PHPSHOP_USER_SEND_REGISTRATION_DETAILS = 'Hello %s,
+
 Grazie per esserti registrato su %s. Il tuo account cliente è stato creato.
 Puoi eseguire il login su %s usando il seguente username e password:
+
 Username - %s
 Password - %s
 ';
@@ -1495,6 +1499,7 @@ Password - %s
 	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK = 'Versione dettagliata delle condizioni di restituzione (link ad un contenuto).';
 	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK_TIP = 'Aggiungi un contenuto con i dettagli delle condizioni di restituzione ed annullamento degli ordini, quindi lo potrai selezionare qui.';
 	var $_VM_LEGALINFO_SHORTTEXT = '<h5>Condizioni di restituzione</h5>
+
 Puoi annullare questo ordine entro due settimane dal ricevimento.
 Puoi restituire prodotti nuovi e non aperti entro due settimane dal momento della consegna. I prodotti devono essere restituiti nell\'imballo originale.
 Per ulteriori informazioni sull\'annullamento degli ordini e la restituzione dei prodotti, vedi le <a href="%s" onclick="%s" target="_blank">Condizioni di Restituzione</a>.';
@@ -1506,7 +1511,7 @@ Per ulteriori informazioni sull\'annullamento degli ordini e la restituzione dei
 	var $_PHPSHOP_CSV_SKIP_DEFAULT_VALUE = 'Salta il valore predefinito';
 	var $_PHPSHOP_CSV_OVERWRITE_EXISTING_DATA = 'Sovrascrivi i dati esistenti';
 	var $_PHPSHOP_CSV_INCLUDE_COLUMN_HEADERS = 'Includi le intestazioni di colonna';
-	var $_PHPSHOP_CSV_UPLOAD_SETTINGS = 'Carica Impostazioni';
+	var $_PHPSHOP_CSV_UPLOAD_SETTINGS = 'Impostazioni di Caricamento';
 	var $_PHPSHOP_CSV_AVAILABLE_FIELDS = 'Campi Disponibili';
 	var $_PHPSHOP_CSV_OUTPUT_CSV_UPLOAD_MESSAGES = 'Messaggi di caricamento CSV:';
 	var $_PHPSHOP_CSV_OUTPUT_COUNT = 'Conteggio';
@@ -1541,347 +1546,495 @@ Valori:<ul><li>Numero<li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_AVAILABLE_DATE = 'La data in cui un prodotto diventerà disponibile. Per l\'importazione la data deve essere nel formato giorno/mese/anno oppure giorno-mese-anno. Nei sistemi Windows la data va fino al 19/01/2038.<br />
 Utilizzo:<ol><li>Aggiungi il nome "product_available_date" alla schermata di configurazione. Il nome è sensibile alle maiuscole e deve essere tutto minuscolo.</li><li>Aggiungi una colonna al tuo file CSV con un valore data. Se il campo contiene qualsiasi altro valore, il dato verrà ignorato.</li></ol><br />
 Valori:<ul><li>Data: giorno/mese/anno oppure giorno-mese-anno</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_IN_STOCK = 'The number of articles that you have in stock.<br /><br />Usage:<ol><li>Add the the name "product_in_stock" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with a numeric value. If the field contains any other value, the default value will be used.</li></ol><br />Values:<ul><li>Number</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTE = 'The different choices a product has. Use this to give a product different specifications. For example a t-shirt that comes in different sizes and colours. You can specify the sizes and colours like this: Size,XL[+1.99],M,S[-2.99];Colour,Red,Green,Yellow,ExpensiveColor[=24.00];AndSoOn,..,..<br /><br />You can adjust the prices per attribute by using the following options:<ul><li>+: Add this amount to the configured price.</li><li>-: Subtract this amount from the configured price.</li><li>=: Set the product\\\'s price to this amount.</li></ul><br />Usage:<ol><li>Add the the name "attribute" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the attribute text.</li></ol><br /.>Values:<ul><li>Text: No HTML code allowed.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_AVAILABILITY = 'This shows when the product is available. The value can be a descriptive text or the name of an image filename. Images must be placed in "shop_image/availability/".<br />Usage:<ol><li>Add the the name "product_availability" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_FULL_IMAGE = 'The filename of the image as located in the "shop_image/product/" folder. The filename can also be a URL.<br />NOTE: If you have dynamic resizing enabled, you need to fill the "product_thumb_image" field. VirtueMart resizes the image specified there.<br/><br />Usage:<ol><li>Add the the name "product_full_image" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text:<ul><li>No HTML code allowed</li><li>URL\\\'s are allowed.</li></ul></li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_THUMB_IMAGE = 'The filename of the thumbnail image as located in the "shop_image/product/" folder. The filename can also be a URL.<br />NOTE: If you have dynamic resizing enabled, there still needs to be a value in this field. VirtueMart resizes the image that is specified here.<br /><br />Usage:<ol><li>Add the the name "product_full_image" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text:<ul><li>No HTML code allowed</li><li>URL\\\'s are allowed.</li></ul></li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_CUSTOM_ATTRIBUTE = 'A custom attribute will add an input field to the product page with the description of the attribute supplied. Custom attributes are specified like this: Name;Extras;...<br />Usage:<ol><li>Add the the name "custom_attribute" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the attribute text.</li></ol><br /.>Values:<ul><li>Text: No HTML code allowed.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PACKAGING = 'Specify the number of items in the package.<br />Usage:<ol><li>Add the the name "product_packaging" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the number of items in the package.</li></ol><br /.>Values:<ul><li>Number</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_BOX = 'Specify the number of items in the box.<br />Usage:<ol><li>Add the the name "product_box" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add a column to your CSV file with the number of items in the box.</li></ol><br /.>Values:<ul><li>Number</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT = 'Specify the amount or percentage of discount the product has. The values entered are exact values, no calculation is made. This is the same as if you are filling in a discount via the Product Discount List. If the discount already exists, it will not be added to the database but the product will be linked to the existing discount. The criteria for determining if a discount already exists the following values have to be exactly the same:<ol><li>Amount, be it a total or percentage</li><li>Start date</li><li>End date</li></ol>This prevents from filling the database with a huge number of the same discounts.<br /><br />Usage:<ol><li>Add the the name "product_discount" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Optional: Add the the name "product_discount_date_start" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Optional: Add the the name "product_discount_date_end" to the configuration screen. The name is case sensitive and should be lowercase.</li><li>Add the chosen columns to your CSV file with the corresponding values.</li></ol><br /.>Values:<ul><li>product_discount</li><ul><li>Number<br />e.g. 10</li><li>Percentage: Must include the % sign<br />e.g. 10%</li></ul><li>product_discount_date_start</li><ul><li>Date: day/month/year or day-month-year<br />Day and month can be a 1 or 2 digit notation.<br />Year can be a 2 or 4 digit notation.</li></ul><li>product_discount_date_end</li><ul><li>Date: day/month/year or day-month-year<br />Day and month can be a 1 or 2 digit notation.<br />Year can be a 2 or 4 digit notation.</li></ul></ul>';
-	var $_ITEM_PREVIOUS = 'previous';
-	var $_ITEM_NEXT = 'next';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_IN_STOCK = 'Il numero di articoli che hai in magazzino.<br /><br />.
+Utilizzo:<ol><li>Aggiungi il nome "product_in_stock" alla schermata di configurazione. Il nome è sensibile alle maiuscole e deve essere scritto tutto minuscolo.</li><li>Aggiungi una colonna al tuo file CSV con un valore numerico. Se il campo contiene qualsiasi altro valore, verrà utilizzato il valore predefinito.</li></ol><br />
+Valori:<ul><li>Numero</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTE = 'Le varie scelte di un singolo prodotto. Utilizza questo per dare un prodotto diverse specificazioni. Ad esempio una maglietta disponibile in più taglie e colori. Puoi specificare le taglie e i colori in questo modo:
+Dimensione,XL[+1.99],M,S[-2.99];Colore,Rosso,Verde,Giallo,ColoreCostoso[=24.00];ECosiVia,..,..<br
+/><br />
+Puoi regolare i prezzi per attributo utilizzati le seguenti opzioni:<ul><li>+: Aggiunge questo importo al prezzo configurato.</li><li>-: Sottrae questo importo dal prezzo configurato.</li><li>=: Imposta il prezzo del prodotto a questo importo.</li></ul><br />
+Utilizzo:<ol><li>Aggiungi il nome "attribute" alla schermata di configurazione. Il nome è sensibile alle maiuscole e deve essere scritto tutto minuscolo.</li><li>Aggiungi una colonna al tuo file CSV con il testo degli attributi.</li></ol><br />
+Valori:<ul><li>Testo: codice HTML non consentito.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_AVAILABILITY = 'Questo mostra quando il prodotto è disponibile. Il valore può essere un testo descrittivo oppure un nome di file immagine. Le imagini devono essere posizionate in "shop_image/availability/".<br/ >
+Utilizzo:<ol><li>Aggiungi il nome "product_availability" alla schermata di configurazione. Il nome è sensibile alle maiuscole e deve essere scritto tutto minuscolo.</li><li>Aggiungi una colonna al tuo file CSV con un valore testuale.</li></ol><br />
+Valori:<ul><li>Testo: codice HTML non consentito.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_FULL_IMAGE = 'Il nome del file dell\'immagine posizionata nella cartella "shop_image/product/", oppure l\'indirizzo (URL) dell\'immagine.<br />
+NOTA: Se hai abilitato il ridimensionamento dinamico, devi riempire il campo "product_thumb_image". VirtueMart ridimensione l\'immagine in esso specificata.<br /><br />
+Utilizzo:<ol><li>Aggiungi il nome "product_full_image" alla schermata di configurazione. Il nome è sensibile alle maiuscole e deve essere scritto tutto minuscolo.</li><li>Aggiungi una colonna al tuo file CSV con un valore testuale.</li></ol><br />
+Valori:<ul><li>Testo:<ul><li>codice HTML non consentito</li><li>Indirizzi (URL) consentiti</li></ul></li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_THUMB_IMAGE = 'Il nome del file dell\'immagine miniatura posizionata nella cartella "shop_image/product/", oppure l\'indirizzo (URL) dell\'immagine.<br />
+NOTA: Se hai abilitato il ridimensionamento dinamico, devi comunque inserire un valore in questo campo. VirtueMart ridimensione l\'immagine in esso specificata.<br /><br />
+Utilizzo:<ol><li>Aggiungi il nome "product_full_image" alla schermata di configurazione. Il nome è sensibile alle maiuscole e deve essere scritto tutto minuscolo.</li><li>Aggiungi una colonna al tuo file CSV con un valore testuale.</li></ol><br />
+Valori:<ul><li>Testo:<ul><li>codice HTML non consentito</li><li>Indirizzi (URL) consentiti</li></ul></li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_CUSTOM_ATTRIBUTE = 'Un attributo personalizzato aggiungerà un campo di imput alla pagina del prodotto con la descrizione dell\'attributo fornito. Gli attributi personalizzati sono specificati in questo modo: Nome;Extra;...<br />
+Utilizzo:<ol><li>Aggiungi il nome "custom_attribute" alla schermata di configurazione. Il nome è sensibile alle maiuscole e deve essere scritto tutto minuscolo.</li><li>Aggiungi una colonna al tuo file CSV con il testo degli attributi.</li></ol><br/>
+Valori:<ul><li>Text: codice HTML non consentito.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PACKAGING = 'Specifica il numero di oggetti nella confezione.<br />
+Utilizzo:<ol><li>Aggiungi il nome "product_packaging" alla schermata di configurazione. Il nome è sensibile alle maiuscole e deve essere scritto tutto minuscolo.</li><li>Aggiungi una colonna al tuo file CSV con il numero degli oggetti nella confezione.</li></ol><br />
+Valori:<ul><li>Numero</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_BOX = 'Specifica il numero di oggetti nella scatola.<br />
+Utilizzo:<ol><li>Aggiungi il nome "product_box" alla schermata di configurazione. Il nome è sensibile alle maiuscole e deve essere scritto tutto minuscolo.</li><li>Aggiungi una colonna al tuo file CSV con il numero degli oggetti nella scatola.</li></ol><br />
+Valori:<ul><li>Numero</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT = 'Specifica l\'importo o la percentuale di sconto per il prodotto. I valori inseriti sono valori esatti, non viene fatto nessun calcolo. Questo è lo stesso che inserisci in uno sconto tramite la Lista Sconti sul Prodotto. Se lo sconto esiste già, non verrà aggiunto al database ma il prodotto sarà collegato allo sconto esistente. Il criterio per determinare se uno sconto esiste già è se i seguenti valori sono esattamente uguali:<ol><li>Importo, che sia totale o percentuale</li><li>Data di inizio</li><li>Data di fine</li></ol>Questo evita di riempire il database con un numero enorme di sconti uguali.<br /><br />
+Utilizzo:<ol><li>Aggiungi il nome "product_discount" alla schermata di configurazione. Il nome è sensibile alle maiuscole e deve essere scritto tutto minuscolo.</li><li>Opzionale: Aggiungi il nome "product_discount_date_start" alla schermata di configurazione. Il nome è sensibile alle maiuscole e deve essere scritto tutto minuscolo.</li><li>Opzionale: Aggiungi il nome "product_discount_date_end" alla schermata di configurazione. Il nome è sensibile alle maiuscole e deve essere scritto tutto minuscolo.</li><li>Aggiungi le colonne scelte al tuo file CSV con i valori corrispondenti.</li></ol><br />
+Valori:<ul><li>product_discount</li></ul><li>Numero<br />es. 10</li><li>Percentuale: Deve includere il segno %<br />es. 10%</li></ul><li>product_discount_date_start</li><ul><li>Data: giorno/mese/anno oppure giorno-mese-anno<br />Giorno e mese possono essere a 1 o 2 cifre.<br />L\'anno può essere a 2 o 4 cifre.</li></ul><li>product_discount_date_end</li><ul><li>Data: giorno/mese/anno oppure giorno-mese-anno<br />Giorno e mese possono essere a 1 o 2 cifre.<br />L\'anno può essere a 2 o 4 cifre.</li></ul></ul>';
+	var $_ITEM_PREVIOUS = 'precedente';
+	var $_ITEM_NEXT = 'successivo';
 	var $_CMN_OK = 'Ok';
-	var $_CMN_CONTINUE = 'Continue';
-	var $_CMN_CANCEL = 'Cancel';
-	var $_BUTTON_SEND_REG = 'Send Registration';
-	var $_CONTACT_FORM_NC = 'Please make sure the form is complete and valid.';
-	var $_CMN_REQUIRED = 'Required';
-	var $_CMN_NEW = 'New';
-	var $_CMN_SAVE = 'Save';
-	var $_CMN_NEW_ITEM_LAST = 'New items default to the last place. Ordering can be changed after this item is saved.';
-	var $_CMN_OPTIONAL = 'Optional';
-	var $_E_APPLY = 'Apply';
-	var $_E_IMAGES = 'Images';
+	var $_CMN_CONTINUE = 'Continua';
+	var $_CMN_CANCEL = 'Annulla';
+	var $_BUTTON_SEND_REG = 'Invia Registrazione';
+	var $_CONTACT_FORM_NC = 'Per favore, fai attenzione che il modulo sia completo e valido.';
+	var $_CMN_REQUIRED = 'Richiesto';
+	var $_CMN_NEW = 'Nuovo';
+	var $_CMN_SAVE = 'Salva';
+	var $_CMN_NEW_ITEM_LAST = 'I nuovi oggetti assumono di default l\'ultima posizione. L\'ordinamento può essere cambiato dopo che l\'oggetto è stato salvato.';
+	var $_CMN_OPTIONAL = 'Opzionale';
+	var $_E_APPLY = 'Applica';
+	var $_E_IMAGES = 'Immagini';
 	var $_URL = 'URL:';
-	var $_SEL_CATEGORY = 'Select a category';
-	var $_E_REMOVE = 'Remove';
+	var $_SEL_CATEGORY = 'Seleziona una categoria';
+	var $_E_REMOVE = 'Elimina';
 	var $_PN_LT = '<';
 	var $_PN_RT = '>';
-	var $_PN_PAGE = 'Page';
-	var $_PN_OF = 'of';
-	var $_PN_START = 'Start';
-	var $_PN_PREVIOUS = 'Prev';
-	var $_PN_NEXT = 'Next';
-	var $_PN_END = 'End';
-	var $_PN_DISPLAY_NR = 'Display #';
-	var $_PN_RESULTS = 'Results';
-	var $_CMN_PRINT = 'Print';
+	var $_PN_PAGE = 'Pagina';
+	var $_PN_OF = 'di';
+	var $_PN_START = 'Inizio';
+	var $_PN_PREVIOUS = 'Prec';
+	var $_PN_NEXT = 'Succ';
+	var $_PN_END = 'Fine';
+	var $_PN_DISPLAY_NR = 'Mostra #';
+	var $_PN_RESULTS = 'Risultati ';
+	var $_CMN_PRINT = 'Stampa';
 	var $_CMN_PDF = 'PDF';
 	var $_CMN_EMAIL = 'E-mail';
-	var $_BACK = 'Back';
+	var $_BACK = 'Indietro';
 	var $_USERNAME = 'Username';
 	var $_PASSWORD = 'Password';
 	var $_BUTTON_LOGIN = 'Login';
 	var $_REGISTER_UNAME = 'Username';
 	var $_REGISTER_EMAIL = 'Email';
-	var $_REGWARN_NAME = 'Please enter your name.';
-	var $_REGWARN_UNAME = 'Please enter a user name.';
-	var $_REGWARN_MAIL = 'Please enter a valid e-mail address.';
-	var $_SEND_SUB = 'Account details for %s at %s';
-	var $_ASEND_MSG = 'Hello %s,
+	var $_REGWARN_NAME = 'Per favore, inserisci il tuo nome.';
+	var $_REGWARN_UNAME = 'Per favore, inserisci un nome utente.';
+	var $_REGWARN_MAIL = 'Per favore, inserisci un indirizzo e-mail valido.';
+	var $_SEND_SUB = 'Dettagli account per %s a %s';
+	var $_ASEND_MSG = 'Salve %s,
 	
-	A new user has registered at %s.
-	This email contains their details:
+	Un nuovo utente si è registrato a %s.
+	Questa email contiene i suoi dettagli:
 	
-	Name - %s
+	Nome - %s
 	e-mail - %s
 	Username - %s
 	
-	Please do not respond to this message as it is automatically generated and is for information purposes only';
-	var $_REG_COMPLETE = '<div class="componentheading">Registration Complete!</div><br />You may now login.';
-	var $_REG_COMPLETE_ACTIVATE = '<div class="componentheading">Registration Complete!</div><br />Your account has been created and activation link has been sent to the e-mail address you entered. Note that you must activate the account by clicking on the activation link when you get the e-mail before you can login.';
+	Non rispondere a questo messaggio, è stato generato automaticamente, ed è solo per finalità informative.';
+	var $_REG_COMPLETE = '<div class="componentheading">Registrazione Completata!</div><br />Ora puoi effettuare l\'accesso.';
+	var $_REG_COMPLETE_ACTIVATE = '<div class="componentheading">Registrazione Completata!</div><br />Il tuo account è stato creato e il link di attivazione è stato inviato all\'indirizzo e-mail da te inserito. Nota che devi attivare l\'account cliccando sul link di attivazione contenuto nell\'e-mail prima di poter accedere.';
 	var $_DATE_FORMAT_LC = '%A, %d %B %Y';
-	var $_LAST_UPDATED = 'Last Updated';
-	var $_NOT_AUTH = 'You are not authorized to view this resource.';
-	var $_DO_LOGIN = 'You need to login.';
-	var $_VALID_AZ09 = 'Please enter a valid %s.  No spaces, more than %d characters and contain 0-9,a-z,A-Z';
-	var $_CMN_PUBLISHED = 'Published';
-	var $_CMN_UNPUBLISHED = 'Unpublished';
-	var $_MORE = 'More...';
-	var $_EMPTY_CATEGORY = 'This Category is currently empty.';
-	var $_BUTTON_LOGOUT = 'Logout';
-	var $_NO_ACCOUNT = 'No account yet?';
-	var $_CREATE_ACCOUNT = 'Register';
-	var $_REGWARN_PASS = 'Please enter a valid password.  No spaces, more than 6 characters and contain 0-9,a-z,A-Z';
-	var $_REGWARN_VPASS1 = 'Please verify the password.';
-	var $_REGWARN_VPASS2 = 'Password and verification do not match, please try again.';
-	var $_USEND_MSG_ACTIVATE = 'Hello %s,
+	var $_LAST_UPDATED = 'Ultimo Aggiornamento';
+	var $_NOT_AUTH = 'Non sei autorizzato a visualizzare questa risorsa.';
+	var $_DO_LOGIN = 'Devi effettuare il login.';
+	var $_VALID_AZ09 = 'Per favore inserisci un %s valido. Nessuno spazio, più di %d caratteri e contenente 0-9,a-z,A-Z';
+	var $_CMN_PUBLISHED = 'Pubblicato';
+	var $_CMN_UNPUBLISHED = 'Sospeso';
+	var $_MORE = 'Altro...';
+	var $_EMPTY_CATEGORY = 'Questa Categoria è attualmente vuota.';
+	var $_BUTTON_LOGOUT = 'Esci';
+	var $_NO_ACCOUNT = 'Non ancora registrato?';
+	var $_CREATE_ACCOUNT = 'Registrati';
+	var $_REGWARN_PASS = 'Per favore inserisci una password valida. Nessuno spazio, più di 6 caratteri e contenente 0-9,a-z,A-Z';
+	var $_REGWARN_VPASS1 = 'Per favore verifica la password.';
+	var $_REGWARN_VPASS2 = 'La verifica password non coincide, prova ancora.';
+	var $_USEND_MSG_ACTIVATE = 'Salve %s,
 
-Thank you for registering at %s. Your account is created and must be activated before you can use it.
-To activate the account click on the following link or copy-paste it in your browser:
+
+Grazie per esserti registrato a %s. Il tuo account è stato creato e deve essere attivato prima dell\'accesso.
+
+Per attivare l\'account clicca sul link seguente oppure copialo nella barra degli indirizzi del tuo browser:
+
+
 %s
 
-After activation you may login to %s using the following username and password:
+
+
+Dopo l\'attivazione potrai effettuare l\'accesso a %s utilizzando i seguenti username e password:
+
+
 
 Username - %s
+
 Password - %s';
-	var $_USEND_MSG = 'Hello %s,
-
-Thank you for registering at %s.
-
-You may now login to %s using the username and password you registered with.';
-	var $_PROMPT_PASSWORD = 'Lost your Password?';
-	var $_HI = 'Hi';
-	var $_NEW_USER_MESSAGE_SUBJECT = 'New User Details';
-	var $_NEW_USER_MESSAGE = 'Hello %s,
+	var $_USEND_MSG = 'Salve %s,
 
 
-You have been added as a user to %s by an Administrator.
 
-This email contains your username and password to log into the %s
+Grazie per esserti registrato a %s.
+
+
+
+Ora puoi effettuare l\'accesso %s utilizzato username e password con cui ti sei registrato.';
+	var $_PROMPT_PASSWORD = 'Password dimenticata?';
+	var $_HI = 'Salve';
+	var $_NEW_USER_MESSAGE_SUBJECT = 'Dettagli Nuovo Utente';
+	var $_NEW_USER_MESSAGE = 'Salve %s,
+
+
+
+
+
+Sei stato aggiunto come utente a %s da un Amministratore.
+
+
+
+Questa email contiene i tuoi username e password per effettuare l\'accesso in %s
+
+
 
 Username - %s
+
 Password - %s
 
 
-Please do not respond to this message as it is automatically generated and is for information purposes only';
-	var $_REMEMBER_ME = 'Remember me';
-	var $_REGISTER_TITLE = 'Registration';
-	var $_JAN = 'January';
-	var $_FEB = 'February';
-	var $_MAR = 'March';
-	var $_APR = 'April';
-	var $_MAY = 'May';
-	var $_JUN = 'June';
-	var $_JUL = 'July';
-	var $_AUG = 'August';
-	var $_SEP = 'September';
-	var $_OCT = 'October';
-	var $_NOV = 'November';
-	var $_DEC = 'December';
+
+
+
+Non rispondere a questo messaggio, è stato generato automaticamente, ed è solo per finalità informative.';
+	var $_REMEMBER_ME = 'Ricordami';
+	var $_REGISTER_TITLE = 'Registrazione';
+	var $_JAN = 'Gennaio';
+	var $_FEB = 'Febbraio';
+	var $_MAR = 'Marzo';
+	var $_APR = 'Aprile';
+	var $_MAY = 'Maggio';
+	var $_JUN = 'Giugno';
+	var $_JUL = 'Luglio';
+	var $_AUG = 'Agosto';
+	var $_SEP = 'Settembre';
+	var $_OCT = 'Ottobre';
+	var $_NOV = 'Novembre';
+	var $_DEC = 'Dicembre';
 	var $_PHPSHOP_CSV_VERSION = '0.7';
-	var $_PHPSHOP_CSV_ABOUT = 'About';
-	var $_PHPSHOP_CSV_PRICE_LIST_ONLY = 'Price list upload only';
-	var $_PHPSHOP_CSV_MULTIPLE_PRICES_UPLOAD = 'Multiple prices upload';
-	var $_PHPSHOP_CSV_IMPORT_CONFIG_CSV_FILE = 'Use column headers as configuration';
-	var $_PHPSHOP_CSV_COLLECT_DEBUG_INFO = 'Collect debug information';
-	var $_PHPSHOP_CSV_SHOW_PREVIEW = 'Show preview';
-	var $_PHPSHOP_CSV_REGULAR_UPLOAD = 'Regular upload';
-	var $_PHPSHOP_CSV_PRODUCT_TYPE_UPLOAD = 'Product type upload';
-	var $_PHPSHOP_CSV_PRODUCT_TYPE_PARAMETERS_UPLOAD = 'Product type parameters upload';
-	var $_PHPSHOP_CSV_PRODUCT_TYPE_XREF_UPLOAD = 'Product type cross reference upload';
-	var $_PHPSHOP_CSV_PRODUCT_TYPE_DETAIL_UPLOAD = 'Product type detail upload';
-	var $_PHPSHOP_CSV_EMPTY_DATABASE = 'Empty database';
-	var $_PHPSHOP_CSV_CONTINUE_UPLOAD = 'Continue upload';
-	var $_PHPSHOP_CSV_CANCEL_UPLOAD = 'Cancel upload';
-	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION = '<span style="color: #FF0000; font-size: 1.2em;">Steps to upload a CSV file</span>
-										<ol>
-										<li>Create a product list as a CSV file either with or without column headers.
-										<br />Recommended is to use the text delimiter ~ (tilde) and the field delimiter ^ (caret).
-										<br /><span style="font-weight: bold;">Example File:</span><br />
-										<div class="quote" style="width:600px;overflow:scroll;"><pre>~G01~^~Hand Shovel~^~Hand Tools~^~4.99000~^~<p>Nice hand shovel to dig with in the yard.</p>~^~<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5~ Diameter<br>  Tungsten handle tip with 5 point loft<br>~^~8d886c5855770cc01a3b8a2db57f6600.jpg~^~cca3cd5db813ee6badf6a3598832f2fc.jpg~^~10.0000~^~pounds~^~0.0000~^~0.0000~^~0.0000~^~inches~^~10~^~1072911600~^~1~^~1~^~2~^~0~^~G01~^~~^~~^~Color::1|Size::2~^~~
+	var $_PHPSHOP_CSV_ABOUT = 'Informazioni su';
+	var $_PHPSHOP_CSV_PRICE_LIST_ONLY = 'Carica solo la lista dei prezzi';
+	var $_PHPSHOP_CSV_MULTIPLE_PRICES_UPLOAD = 'Carica prezzi multipli';
+	var $_PHPSHOP_CSV_IMPORT_CONFIG_CSV_FILE = 'Utilizza le intestazioni di colonna come configurazione';
+	var $_PHPSHOP_CSV_COLLECT_DEBUG_INFO = 'Raccogli informazioni di debug';
+	var $_PHPSHOP_CSV_SHOW_PREVIEW = 'Mostra anteprima';
+	var $_PHPSHOP_CSV_REGULAR_UPLOAD = 'Caricamento Regolare';
+	var $_PHPSHOP_CSV_PRODUCT_TYPE_UPLOAD = 'Caricamento Tipi di prodotto';
+	var $_PHPSHOP_CSV_PRODUCT_TYPE_PARAMETERS_UPLOAD = 'Caricamento Parametri tipo di prodotto';
+	var $_PHPSHOP_CSV_PRODUCT_TYPE_XREF_UPLOAD = 'Caricamento Riferimenti incrociati tipo di prodotto';
+	var $_PHPSHOP_CSV_PRODUCT_TYPE_DETAIL_UPLOAD = 'Caricamento Dettagli tipo di prodotto';
+	var $_PHPSHOP_CSV_EMPTY_DATABASE = 'Svuota il database';
+	var $_PHPSHOP_CSV_CONTINUE_UPLOAD = 'Continua caricamento';
+	var $_PHPSHOP_CSV_CANCEL_UPLOAD = 'Annulla caricamento';
+	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION = '<span style="color: #FF0000; font-size: 1.2em;">Passaggi per caricare un file CSV</span>
+<ol>
+<li>Crea una lista di prodotti come file CSV, con o senza instestazioni di colonna.
+<br />Si raccomanda di utilizzare il delimitatore di testo ~ (tilde) e il delimitatore di campo ^ (caret).
+<br /><span style="font-weight: bold;">File di esempio:</span><br />
+<div class="quote" style="width:600px;overflow:scroll;"><pre>~G01~^~Hand Shovel~^~Hand Tools~^~4.99000~^~<p>Nice hand shovel to dig with in the yard.</p>~^~<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5~ Diameter<br>  Tungsten handle tip with 5 point loft<br>~^~8d886c5855770cc01a3b8a2db57f6600.jpg~^~cca3cd5db813ee6badf6a3598832f2fc.jpg~^~10.0000~^~pounds~^~0.0000~^~0.0000~^~0.0000~^~inches~^~10~^~1072911600~^~1~^~1~^~2~^~0~^~G01~^~~^~~^~Color::1|Size::2~^~~
+
 ~G02~^~Ladder~^~Garden Tools~^~49.99000~^~A really long ladder to reach high places.~^~<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5~ Diameter<br>  Tungsten handle tip with 5 point loft<br>~^~ffd5d5ace2840232c8c32de59553cd8d.jpg~^~8cb8d644ef299639b7eab25829d13dbc.jpg~^~10.0000~^~pounds~^~0.0000~^~0.0000~^~0.0000~^~inches~^~76~^~1072911600~^~0~^~1~^~2~^~0~^~G02~^~~^~~^~Material::1~^~~
+
 ~G03~^~Shovel~^~Garden Tools~^~24.99000~^~Nice shovel.  You can dig your way to China with this one.~^~<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5~ Diameter<br>  Tungsten handle tip with 5 point loft<br>~^~8147a3a9666aec0296525dbd81f9705e.jpg~^~520efefd6d7977f91b16fac1149c7438.jpg~^~10.0000~^~pounds~^~0.0000~^~0.0000~^~0.0000~^~inches~^~32~^~1072911600~^~0~^~1~^~2~^~0~^~G03~^~Size,XL[+1.99],M,S[-2.99];Colour,Red,Green,Yellow,ExpensiveColor[=24.00]~^~~^~~^~~</pre></div></li>
-										<li>Setup the fields on the "Configuration" tab in the same order as the CSV file. The fields must match the exact place in the CSV file.
-										<br />E.g. product_sku, product_desc, product_price, category_path<br />
-										<br /><span style="font-weight: bold;">Minimum required information to add a product is:</span><br />
-										product_sku<br />
-										product_name<br />
-										category_path<br />
-										<br /><span style="font-weight: bold;">category_path</span> is a slash delimited string which begins
-										with a top-level category and follows with sub-categories, e.g. <br />
-										<div class="quote">category/sub-category_1/sub_category_2</div>
-										<br />
-										When the product has to be assigned to more than one category, you can
-										provide all categories,<br />
-										delimited by a <span style="font-weight: bold;">|</span>
-										<div class="quote">Category/Sub-category_1/Sub_category_2|Category2/Subcategory22|Category3/Subcategory33</div>
-										</li>
-										<li>Choose the delimiters on the "Import/Export" tab.</li>
-										<li>Choose the upload settings on the "Import/Export" tab.</li>
-										<li>Choose either to upload the file from your local computer (Submit CSV File) or to use a local file (Load CSV File from Server).</li>
-										<li>The import starts.</li>
-										</ol>';
-	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_PRODUCT_TYPES = '<span style="color: #FF0000; font-size: 1.2em;">Product Types</span><br /><br />
-													To add product types, you need 4 CSV files. Each CSV file represents a part of the product type.
-													<ul>
-													<li><span style="font-weight: bold;">Product types</span><br />
-													This CSV file contains the main product types and should look like this:
-													<table border="1">
-													<tr style="border: 1px solid #000000;"><td>product_type_name</td><td>product_type_description</td><td>product_type_publish</td><td>product_type_browsepage</td><td>product_type_flypage</td></tr>
-													<tr><td>Music track</td><td>Track</td><td>Y</td><td> </td><td> </td></tr>
-													<tr><td>Music album</td><td>Album</td><td>Y</td><td> </td><td> </td></tr>
-													<tr><td>Music artist</td><td>Artist</td><td>Y</td><td> </td><td> </td></tr>
-													</table>
-													</li><br />
-													<li><span style="font-weight: bold;">Product type parameters</span><br />
-													This CSV file contains the parameters per product type and should look like this:
-													<div style="width: 50%; overflow: auto; height: 100px;">
-													<table border="1">
-													<tr><td>product_type_name</td><td>product_type_parameter_name</td><td>product_type_parameter_label</td><td>product_type_parameter_description</td><td>product_type_parameter_list_order</td><td>product_type_parameter_type</td><td>product_type_parameter_values</td><td>product_type_parameter_multiselect</td><td>product_type_parameter_default</td><td>product_type_parameter_unit</td></tr>
-													<tr><td>Music artist</td><td>Name</td><td>Name</td><td>Artist Name</td><td>1</td><td>I</td><td> </td><td>N</td><td> </td><td> </td></tr>
-													<tr><td>Music artist</td><td>Birth</td><td>Birth</td><td>Artist Birth</td><td>2</td><td>D</td><td> </td><td>N</td><td> </td><td> </td></tr>
-													<tr><td>Music album</td><td>Duration</td><td>Duration</td><td>Duration of album</td><td>3</td><td>M</td><td>00:01:00;00:02:00;00:03:00</td><td>Y</td><td>00:02:00</td><td>minutes</td></tr>
-													</table>
-													</div>
-													<br />
-													The product type parameter type can have several values, they are:
-													<ul>
-													<li>I: Integer</li>
-													<li>T: Text</li>
-													<li>S: Short Text</li>
-													<li>F: Float</li>
-													<li>C: Char</li>
-													<li>D: Date & Time</li>
-													<li>M: Time</li>
-													<li>V: Multiple Values</li>
-													<li>B: Break Line</li>
-													</ul>
-													</li><br />
-													<li><span style="font-weight: bold;">Items per product type name</span><br />
-													This CSV file contains the details per product type parameter name and should look like this:
-													<table border="1">
-													<tr><td>product_sku</td><td>product_type_name</td><td>product_type_parameter_namex</td><td>product_type_parameter_namex</td></tr>
-													<tr><td>1234</td><td>Music artist</td><td>Singing Star</td><td>1975</td></tr>
-													<tr><td>5678</td><td>Music artist</td><td>Rocking Band</td><td>1980</td></tr>
-													</table><br />
-													Per product type name you need a seperate CSV file. The reason for this is that the column names for each CSV file is different because of the set of product type parameters.
-													</li><br />
-													<li><span style="font-weight: bold;">Product type cross reference to product SKU</span><br />
-													This CSV file contains the link between a product type and a product SKU and should look like this:
-													<table border="1">
-													<tr><td>product_sku</td><td>product_type_name</td></tr>
-													<tr><td>1234</td><td>Music artist</td></tr>
-													<tr><td>5678</td><td>Music artist</td></tr>
-													</table>
-													</li>
-													</ul><br />
-													Procedure:<br />
-													<ol>
-													<li>Upload Product Types CSV file</li>
-													<li>Upload Product Type Parameters CSV file</li>
-													<li>Upload Product Type Items CSV file</li>
-													<li>Upload Product Type Cross Reference CSV file</li>
-													</ol>';
-	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_EMPTY_DATABASE = '<span style="color: #FF0000; font-size: 1.2em;">Empty Database</span><br /><br />
-													 <span style="color: #FF0000; font-size: 2em;">USE WITH CAUTION !!! NO RESTORE !!!</span><br /><br />
-													 Emptying the database will remove ALL data in your database from the following tables:
-													 <ul>
-													 <li>products</li>
-													 <li>products</li>
-													 <li>product_price</li>
-													 <li>product_mf_xref</li>
-													 <li>product_attribute</li>
-													 <li>category</li>
-													 <li>category_xref</li>
-													 <li>product_attribute_sku</li>
-													 <li>product_category_xref</li>
-													 <li>product_discount</li>
-													 <li>product_type</li>
-													 <li>product_type_parameter</li>
-													 <li>product_product_type_xref</li>
-													 </ul>
-													 All but the first manufacturer is removed:
-													 <ul>
-													 <li>manufacturer</li>
-													 </ul>
-													 The following tables are completely deleted:
-													 <ul>
-													 <li>product_type_x</li>
-													 </ul>
-													 The x represents the number of the table. This number relates to the product types that are in the system. Since the product types table is completely emptied, these tables are removed. Uploading new product types will recreate the tables.<br /><br />
-													 Procedure:
-													 <ol>
-													 <li>Choose "Empty Database" from the dropdown on the Upload Settings</li>
-													 <li>Check "Collect debug information" if you want additional result information</li>
-													 <li>Click "Submit CSV File" or "Load CSV File from Server". No need to enter a filename.</li>
-													 <li>You are asked if you are sure you want to empty your database. Click OK if you are sure otherwise click Cancel</li>
-													 <li>The database is now emptied or you are returned to the main screen depending on your previous choice</li>
-													 </ol>';
-	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_MULTIPLE_PRICES_UPLOAD = '<span style="color: #FF0000; font-size: 1.2em;">Multiple prices upload</span><br /><br />
-														    Procedure:
-														    <ol>
-														    <li>Create a CSV file that contains the following fields:
-														    	<ul>
-															<li>product_sku</li>
-															<li>product_price</li>
-															<li>product_currency</li>
-															<li>price_quantity_start</li>
-															<li>price_quantity_end</li>
-															<li>price_delete</li>
-															</ul>
-														    See the Available Fields tab for what information each field contains. If you want to use the column headers as configuration, fill the first line with the column headers name.
-														    </li>
-														    <li>Either set the configuration fields, as mentioned in point 1 on the Configuration tab or if you added column headers to your CSV file, select "Use column headers as configuration" at the Upload Settings.
-														    </li>
-														    <li>Select "Multiple Prices Upload" at the Upload Settings</li>
-														    <li>Optionally, choose "Show preview" and/or "Collect debug information"</li>
-														    <li>Select a file to upload or to load from directory</li>
-														    <li>Select "Submit CSV File" or "Load CSV File from Server" depending if you are uploading a file or loading a file from a directory</li>
-														    <li>The prices will now be imported</li>
-														    </ol><br /><br />
-														    <span style="font-weight: bold;">Price delete</span><br />
-														    Using the multiple prices import it is also possible to delete prices. A price is deleted when the following fields in the CSV file match the data in the database:
-														    <ul>
-														    <li>product_sku</li>
-														    <li>product_price</li>
-														    <li>product_currency</li>
-														    <li>price_quantity_start</li>
-														    <li>price_quantity_end</li>
-														    </ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PRICE = 'The price for a product without currency denominator.<br /><br />Usage:<ol><li>Select the name "product_price" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a price value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_LENGTH = 'The length of the product.<br /><br />Usage:<ol><li>Select the name "product_length" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_LWH_UOM = 'The measurement of length, width and height of the product.This can be inches, centimeters, etc.<br /><br />Usage:<ol><li>Select the name "product_lwh_uom" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_WEIGHT = 'The weight of the product.<br /><br />Usage:<ol><li>Select the name "product_weight" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_WEIGHT_UOM = 'The measurement of weight of the product.This can be pounds, kilo, etc.<br /><br />Usage:<ol><li>Select the name "product_weight_uom" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTES = 'Attributes are part of a product and are used by the child products to give them specifications.<br />Usage:<ol><li>Select the name "attributes" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the attributes text.</li></ol><br />Values:<ul><li>Text: No HTML code allowed.<br />The values must be seperated by a pipe symbol (|). E.g.: attribute_name::list_order|attribute_name::list_order</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTE_VALUES = 'Attribute values are the values of child products that are linked to the attributes of the parent product.<br />Usage:<ol><li>Select the name "custom_attribute" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the attribute value text.</li></ol><br />Values:<ul><li>Text: No HTML code allowed.<br />The values must be seperated by a pipe symbol (|). E.g.: attribute_name::attribute_value|attribute_name::attribute_value</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT_DATE_START = 'The day the discount for a product starts. For more information see "product_discount".<br /><br />Usage:<ol><li>Select the name "product_discount_date_start" from the dropdown menu on the configuration screen.</li><li>Add the chosen columns to your CSV file with the date value.</li></ol><br />Values:<ul><li>product_discount_date_start</li><ul><li>Date: day/month/year or day-month-year<br />Day and month can be a 1 or 2 digit notation.<br />Year can be a 2 or 4 digit notation.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT_DATE_END = 'The day the discount for a product ends. For more information see "product_discount".<br /><br />Usage:<ol><li>Select the name "product_discount_date_end" from the dropdown menu on the configuration screen.</li><li>Add the chosen columns to your CSV file with the date value.</li></ol><br />Values:<ul><li>product_discount_date_end</li><ul><li>Date: day/month/year or day-month-year<br />Day and month can be a 1 or 2 digit notation.<br />Year can be a 2 or 4 digit notation.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_UPLOAD_SETTINGS = '<ul><li><span style="font-weight: bold;">Skip first line</span><br />If the CSV file has a header line at the beginning, choose this option to skip that line. This prevents the header from being added to your database.</li><li><span style="font-weight: bold;">Overwrite existing data</span><br />When adding new products to your database, unchecking this option prevents any existing data to be replaced for products that already exist in your database. Default is to update product data.</li><li><span style="font-weight: bold;">Skip default value</span><br />On the configuration page, a default value can be specified in case the field is empty in the CSV file. Enabling this option, the import will not include the field for updating if there is no value in the CSV file.</li><li><span style="font-weight: bold;">Price list upload only</span><br />The Price list upload only is to be used if you are updating the prices of your products. The layout of the CSV is expected to be 2 columns:<ol><li>product_sku</span></li><li>product_price</li></ol></li>Please note that it does NOT take into account the settings on the configuration page.<li><span style="font-weight: bold;">Use column headers as configuration</span><br />If the CSV file has column headers on the first line, this option can be used to use the column headers as the current configuration. The column headers should match one of the column names defined on the Available Tabs page. This configuration is on a per use basis, nothing is saved. Default values cannot be used with this option.</li><li><span style="font-weight: bold;">Show preview</span><br />Shows a 5 line preview of the file to be imported. The import can then be either cancelled or continued.</li><li><span style="font-weight: bold;">Collect debug information</span><br />In case of problems, use this option to see what happens during the import. At the end of the import a report will be generated with the steps and queries done during the import.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_MANUFACTURER_NAME = 'The name of the manufacturer that is related to the product. This is used in combination with the manufacturer ID. If no manufacturer ID is specified, only the name is checked. New manufacturers will be created wiht incremental IDs. The process of adding/updating manufacturers follows the following guidelines:<ol><li>Name exists, ID exists --> ID is updated if different</li><li>Name exists, ID does not exist --> New manufacturer created with increment ID</li><li>Name does not exist, ID exists --> Generic name added with existing ID</li><li>Name does not exist, ID does not exist --> Do nothing</li></ol>Usage:<ol><li>Select the name "manufacturer_name" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the manufacturer name.</li></ol><br />Values:<ul><li>Text: No HTML code allowed.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_MANUFACTURER_ID = 'The ID of the manufacturer that is related to the product and must be unique. This is used in combination with the manufacturer name. If no manufacturer name is specified only, the product manufacturer link will be added/updated. Adding/updating manufacturers follows the following process:<ol><li>Name exists, ID exists --> ID is updated if different</li><li>Name exists, ID does not exist --> New manufacturer created with increment ID</li><li>Name does not exist, ID exists --> Generic name added with existing ID</li><li>Name does not exist, ID does not exist --> Do nothing</li></ol>When no name or ID exists nothing is done to prevent numerous generic name manufacturers from being added.<br /><br />Usage:<ol><li>Select the name "manufacturer_id" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the manufacturer ID.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_URL = 'A URL to either a picture or webpage of the product. When linked to a picture, the picture will be shown on the product details page.<br /><br />Usage:<ol><li>Select the name "product_url" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_SALES = 'The number of products that have been sold.<br /><br />Usage:<ol><li>Select the name "product_sales" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_SPECIAL = 'When a product is set to be "On Special" it will be featured in the Featured Products block.<br />Usage:<ol><li>Select the name "product_special" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value Y.</li></ol><br />Values:<ul><li>Y: Yes, the product is on special</li><li>N: No, the product is not on special</li><li>Empty: Empty value, the product is not on special</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_UNIT = 'The unit of the product as it is sold. I.e. box, bag, etc.<br />Usage:<ol><li>Select the name "product_unit" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value Y.</li></ol><br />Values:<ul><li>Text: No HTML allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_CATEGORY_PATH = 'Parent products are categorized according to the category path. The category path specifies in which category a product belongs. This only counts for main products not for child products since child products relate to parent products, not to categories. For child products this field must be left empty. The product_parent_sku must be empty for main products since they do not relate to any other parent product.<br /><br />Usage:<ol><li>Select the name "category_path" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the path.</li></ol><br />Values:<ul><li>Text: No HTML allowed<br />The category path must be seperated by a forward slash (/). E.g.: Furniture/Chairs/Teak</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PARENT_SKU = 'The product parent sku is needed to identify the parent of child products. Please note: the "category_path" field MUST be empty otherwise the product will be treated as a parent product.<br />Usage:<ol><li>Select the name "category_path" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the product_sku value of the parent product.</li></ol><br />Values:<ul><li>Numeric</li><li>Letters</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TAX_ID = 'The ID of the tax rate that you want to apply to the product<br />Usage:<ol><li>Select the name "product_tax_id" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the product_tax_id value of the appropiate tax.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_CURRENCY = 'A different currency can be specified on a per product basis.<br />Usage:<ol><li>Select the name "product_currency" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value of the new currency.</li></ol><br />Values:<ul><li>Text: No HTML allowed<br />E.g.: EUR, USD, IDR</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_BROWSEPAGE = 'This is a custom page to show your product types. Leave this BLANK if you have no individual php-file for it.<br /><br />Usage:<ol><li>Select the name "product_type_browsepage" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text:<ul><li>No HTML code allowed</li><li>URL\'s are allowed.</li></ul></li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_DESCRIPTION = 'A description for your product type.<br /><br />Usage:<ol><li>Select the name "product_type_description" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_FLYPAGE = 'This is a custom page to show your product types. Leave this BLANK if you have no individual php-file for it.<br /><br />Usage:<ol><li>Select the name "product_type_flypage" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text:<ul><li>No HTML code allowed</li><li>URL\'s are allowed.</li></ul></li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_NAME = 'The name of the product type. This name must be unique and without spaces.<br /><br />Usage:<ol><li>Select the name "product_type_name" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_DEFAULT = 'A default value to show when there is nothing else filled in for the parameter.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_default" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_DESCRIPTION = 'A description for your product type parameter.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_description" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_LABEL = 'A label for your product type parameter.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_label" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_LIST_ORDER = 'Specify in which order the product parameter is to be displayed.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_list_order" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Numeric</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_MULTISELECT = 'Set to yes to show possible parameter values as multiple select items<br /><br />Usage:<ol><li>Select the name "product_type_parameter_list_multiselect" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value Y or N.</li></ol><br />Values:<ul><li>Y: Yes, the values are multi select</li><li>N: No, the values are not multi select</li><li>Empty: Empty value, the values are not multi select</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_NAME = 'The name of the product type parameter. This name must be unique and without spaces as it will be the column name for the parameter details.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_type" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_TYPE = 'This sets the type of parameter that will be used. There are a number of different values that can be used.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_type" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value.</li></ol><br />Values:<ul><li>Text:<ul>
-													<li>I: Integer</li>
-													<li>T: Text</li>
-													<li>S: Short Text</li>
-													<li>F: Float</li>
-													<li>C: Char</li>
-													<li>D: Date & Time</li>
-													<li>M: Time</li>
-													<li>V: Multiple Values</li>
-													<li>B: Break Line</li>
-													</ul></li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_UNIT = 'The unit the product type parameter refers to.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_unit" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Text: No HTML code allowed</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_VALUES = 'These are the values for the parameter and have to meet the requirement set by the parameter type.<br /><br />Usage:<ol><li>Select the name "product_type_parameter_values" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>This depends on the type set in the product_type_parameter_type field. All values have to be semi-colon (;) seperated.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PUBLISH = 'The status if a product type is published or not.<br /><br />Usage:<ol><li>Select the name "product_type_publish" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a text value.</li></ol><br />Values:<ul><li>Y: Yes, the product type is published</li><li>N: No, the product type is not published</li><li>Empty: Empty value, the product type is published.</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRICE_DELETE = 'The price_delete field is a special field. This field is used to determine if a price for a product should be deleted or not. This field is used when doing a multiple price upload. Before a price is deleted it needs to match the following fields:<ul><li>product_sku</li><li>product_price</li><li>product_currency</li><li>price_quantity_start</li><li>price_quantity_end</li></ul><br />Usage:<ol><li>Select the name "price_delete" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value Y. If the field contains any other value, the product will not be deleted.</li></ol><br />Values:<ul><li>Y: Yes, the price is to be deleted</li><li>N: No, the price is not to be deleted</li><li>Empty: Empty value, the price is not to be deleted</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRICE_QUANTITY_START = 'The quantity at which the mentioned price is available.<br /><br />Usage:<ol><li>Select the name "price_quantity_start" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values: Numeric</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRICE_QUANTITY_END = 'The quantity at which the mentioned price is no longer available.<br /><br />Usage:<ol><li>Select the name "price_quantity_end" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values: Numeric</li></ul>';
+
+<li>Imposta i campi nella scheda "Configurazione" nello stesso ordine del file CSV. I campi devono coincidere con la posizione esatta nel file CSV.
+<br />Es. product_sku, product_desc, product_price, category_path<br />
+<br /><span style="font-weight: bold;">Le informazioni minime richieste per aggiungere un prodotto sono:</span><br />
+							product_sku<br />
+product_name<br />
+category_path<br />
+
+<br /><span style="font-weight: bold;">category_path</span> è una stringa delimitata da "/" (slash) che inizia con una categoria di primo livello ed di seguito le sottocategorie	, es.<br />
+<div class="quote">Categoria/Sottocategoria_1/Sottocategoria_2</div>
+
+<br />
+Quando il prodotto deve essere assegnato a più di una categoria, puoi fornire tutte le categorie,<br />
+delimitate da un <span style="font-weight: bold;">|</span>
+<div class="quote">Categoria/Sottocategoria_1/Sottocategoria_2|Categoria2/Sottocategoria_22|Categoria3/Sottocategoria_33</div>
+</li>
+
+<li>Scegli il delimitatore nella scheda "Importa/Esporta".</li>
+
+<li>Scegli le impostazioni di caricamento nella scheda "Importa/Esporta".</li>
+
+<li>Puoi scegliere di caricare il file dal tuo computer (Invia File CSV) oppure utilizzare un file locale (Carica File CSV dal Server).</li>
+
+<li>L\'importazione inizia.</li>
+
+</ol>';
+	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_PRODUCT_TYPES = '<span style="color: #FF0000; font-size: 1.2em;">Tipi di Prodotto</span><br /><br />
+
+Per aggiungere tipi di prodotto, hai bisogno di 4 file CSV. Ogni file CSV rappresenta una parte del tipo di prodotto.
+
+<ul>
+<li><span style="font-weight: bold;">Tipi di prodotto</span><br />
+
+Questo file CSV contiene i tipi di prodotto principali e deve essere composto in questo modo:
+<table border="1">
+<tr style="border: 1px solid #000000;"><td>product_type_name</td><td>product_type_description</td><td>product_type_publish</td><td>product_type_browsepage</td><td>product_type_flypage</td></tr>
+<tr><td>Music track</td><td>Track</td><td>Y</td><td> </td><td> </td></tr>
+<tr><td>Music album</td><td>Album</td><td>Y</td><td> </td><td> </td></tr>
+<tr><td>Music artist</td><td>Artist</td><td>Y</td><td> </td><td> </td></tr>
+</table>
+
+</li><br />
+
+<li><span style="font-weight: bold;">Parametri tipo di prodotto</span><br />
+
+Questo file CSV contiene i parametri per tipo di prodotto e deve essere composto in questo modo:
+<div style="width: 50%; overflow: auto; height: 100px;">
+<table border="1">
+<tr><td>product_type_name</td><td>product_type_parameter_name</td><td>product_type_parameter_label</td><td>product_type_parameter_description</td><td>product_type_parameter_list_order</td><td>product_type_parameter_type</td><td>product_type_parameter_values</td><td>product_type_parameter_multiselect</td><td>product_type_parameter_default</td><td>product_type_parameter_unit</td></tr>
+<tr><td>Music artist</td><td>Name</td><td>Name</td><td>Artist Name</td><td>1</td><td>I</td><td> </td><td>N</td><td> </td><td> </td></tr>
+<tr><td>Music artist</td><td>Birth</td><td>Birth</td><td>Artist Birth</td><td>2</td><td>D</td><td> </td><td>N</td><td> </td><td> </td></tr>
+<tr><td>Music album</td><td>Duration</td><td>Duration</td><td>Duration of album</td><td>3</td><td>M</td><td>00:01:00;00:02:00;00:03:00</td><td>Y</td><td>00:02:00</td><td>minutes</td></tr>
+</table>
+</div>
+
+<br />
+
+I parametri dei tipi di prodotto posso avere diversi valori:
+
+<ul>
+<li>I: Numero Intero (Integer)</li>
+<li>T: Testo</li>
+<li>S: Testo Breve (Short)</li>
+<li>F: Numero Decimale (Float)</li>
+<li>C: Carattere</li>
+<li>D: Data & Orario</li>
+<li>M: Orario</li>
+<li>V: Valori Multipli</li>
+<li>B: Interruzione di Riga (Break Line)</li>
+</ul>
+</li><br />
+<li><span style="font-weight: bold;">Oggetti per nome tipo di prodotto</span><br />
+
+Questo file CSV contiene i dettagli per ogni nome parametro del tipo di prodotto e deve essere composto in questo modo:
+
+<table border="1">
+<tr><td>product_sku</td><td>product_type_name</td><td>product_type_parameter_namex</td><td>product_type_parameter_namex</td></tr>
+<tr><td>1234</td><td>Music artist</td><td>Singing Star</td><td>1975</td></tr>
+<tr><td>5678</td><td>Music artist</td><td>Rocking Band</td><td>1980</td></tr>
+</table><br />
+
+Per ogni nome del tipo di prodotto hai bisogno di un file CSV separato. La ragione di questo è che i nomi di colonna per ogni file CSV sono diversi per i set di parametri del tipo di prodotto.
+</li><br />
+
+<li><span style="font-weight: bold;">Riferimenti incrociati del tipo di prodotto allo SKU di prodotto</span><br />
+
+Questo file CSV contiene il collegamento tra un tipo di prodotto uno SKU di prodotto e deve essere composto in questo modo:
+
+<table border="1">
+<tr><td>product_sku</td><td>product_type_name</td></tr>
+<tr><td>1234</td><td>Music artist</td></tr>
+<tr><td>5678</td><td>Music artist</td></tr>
+</table>
+
+</li>
+</ul><br />
+
+Procedure:<br />
+<ol>
+<li>Carica il file CSV Tipi di Prodotto</li>
+<li>Carica il file CSV Parametri tipo di prodotto</li>
+<li>Carica il file CSV Oggetti per nome tipo di prodotto</li>
+<li>Carica il file CSV Riferimenti incrociati del tipo di prodotto allo SKU di prodotto</li>
+</ol>';
+	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_EMPTY_DATABASE = '<span style="color: #FF0000; font-size: 1.2em;">Svuota Database</span><br /><br />
+<span style="color: #FF0000; font-size: 2em;">UTILIZZARE CON CAUTELA !!! NON SI PUO\' RIPRISTINARE !!! </span><br /><br />
+
+Svuotando il database verranno eliminati TUTTI i dati nel tuo database dalle tabelle seguenti:
+
+<ul>
+<li>products</li>
+<li>product_price</li>
+<li>product_mf_xref</li>
+<li>product_attribute</li>
+<li>category</li>
+<li>category_xref</li>
+<li>product_attribute_sku</li>
+<li>product_category_xref</li>
+<li>product_discount</li>
+<li>product_type</li>
+<li>product_type_parameter</li>
+<li>product_product_type_xref</li>
+</ul>
+
+Verranno eliminati tutti i produttori tranne il primo:
+<ul>
+<li>manufacturer</li>
+</ul>
+
+Le tabelle seguenti verranno eliminate completamente:
+<ul>
+<li>product_type_x</li>
+</ul>
+
+La "x" rappresenta il numero della tabella. Questo numero è relativo ai tipi di prodotto presenti nel sistema. Visto che la tabella dei tipi di prodotto viene completamente svuotata, queste tabelle vengono eliminate. Caricando nuovi tipi di prodotto le tabelle verranno ricreate.<br /><br />
+
+Procedimento:
+<ol>
+<li>Scegli "Svuota Database" dal menu nelle Impostazioni di Caricamento</li>
+<li>Spunta "Raccogli informazioni di debug" se vuoi informazioni aggiuntive sul risultato</li>
+<li>Clicca "Invia File CSV" oppure "Carica File CSV dal Server". Non serve inserire un nome di file.</li>
+<li>Ti verrà chiesto se sei sicuro di voler svuotare il database. Clicca OK per confermare oppure clicca Annulla</li>
+<li>Il database è ora vuoto, oppure sei ritornato allo schermo principale, in base alla scelta precedente</li>
+</ol>';
+	var $_PHPSHOP_CSV_EXPLANATION_DOCUMENTATION_MULTIPLE_PRICES_UPLOAD = '<span style="color: #FF0000; font-size: 1.2em;">Caricamento di prezzi multipli</span><br /><br />
+
+Procedimento:
+<ol>
+<li>Crea un file CSV contenente i seguenti campi:
+<ul>
+<li>product_sku</li>
+<li>product_price</li>
+<li>product_currency</li>
+<li>price_quantity_start</li>
+<li>price_quantity_end</li>
+<li>price_delete</li>
+</ul>
+
+Vedi la scheda Campi Disponibili per le informazioni contenute in ciascun campo. Se vuoi utilizzare le intestazioni di colonna come configurazione, riempi la prima riga con i nomi delle intestazioni di colonna.
+</li>
+
+<li>Imposta i campi di configurazione, come accennato nel punto 1 nella scheda Configurazione, oppure se hai aggiunto le intestazioni di colonna al file CSV, seleziona "Utilizza 
+Either set the configuration fields, as mentioned in point 1 on the Configuration tab or if you added column headers to your CSV file, select "Utilizza le intestazioni di colonna come configurazione" nelle Impostazioni di Caricamento.
+</li>
+<li>Seleziona "Caricamento di Prezzi Multipli" nelle Impostazioni di Caricamento</li>
+<li>Facoltativamente, scegli "Mostra anteprima e/o "Recupera informazioni di debug"</li>
+
+<li>Seleziona un file da caricare oppure da leggere da una cartella</li>
+<li>Seleziona "Invia File CSV" oppure "Carica File CSV dal Server" a seconda che tu stia caricando un file o leggendo un file da una cartella</li>
+<li>I prezzi verrano a questo punto importati</li>
+</ol><br /><br />
+<span style="font-weight: bold;">Eliminazione prezzi</span><br />
+Utilizzando l\'importazione di prezzi multipli è anche possibile eliminare dei prezzi. Un prezzo viene eliminato quando i seguenti campi nel file CSV coincidono con i dati nel database:
+<ul>
+<li>product_sku</li>
+<li>product_price</li>
+<li>product_currency</li>
+<li>price_quantity_start</li>
+<li>price_quantity_end</li>
+</ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PRICE = 'Il prezzo per un prodotto, senza denominazione di valuta.<br /><br />Utilizzo:<ol><li>Seleziona il nome "product_price" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con un valore di prezzo.</li></ol><br />Valori:<ul><li>Numerico</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_LENGTH = 'La lunghezza del prodotto.<br /><br />Usage:<ol><li>Seleziona il nome "product_length" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con un valore numerico.</li></ol><br />Valori:<ul><li>Numerico</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_LWH_UOM = 'L\'unità di misura di lunghezza, larghezza e altezza del prodotto. Può essere pollici, centimetri, ecc.<br /><br />Utilizzo:<ol><li>Seleziona il nome "product_lwh_uom" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con un valore testuale.</li></ol><br />Valori:<ul><li>Testo: codice HTML non consentito</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_WEIGHT = 'Il peso del prodotto.<br /><br />Usage:<ol><li>Seleziona il nome "product_weight" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con un valore numerico.</li></ol><br />Valori:<ul><li>Numerico</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_WEIGHT_UOM = 'L\'unità di misura del peso del prodotto. Può essere libbre, kilogrammi, ecc.<br /><br />Utilizzo:<ol><li>Seleziona il nome "product_weight_uom" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con un valore testuale.</li></ol><br />Valori:<ul><li>Testo: codice HTML non consentito</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTES = 'Gli attributi sono parte del prodotto e vengono utilizzati dai prodotti figli per dare loro delle specifiche.<br />Utilizzo:<ol><li>Seleziona il nome "attributes" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con il testo degli attributi.</li></ol><br />Valori:<ul><li>Testo: codice HTML non consentito.<br />I valori devono essere separati da un simbolo "pipe" (|). Es.: nome_attributo::ordine_lista|nome_attributo::ordine_lista</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTE_VALUES = 'I valori degli attributi sono i valori dei prodotti figli che sono collegati agli attributi del prodotto padre.<br />Utilizzo:<ol><li>Seleziona il nome "custom_attribute" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con il testo di valore degli attributi.</li></ol><br />Valori:<ul><li>Testo: codice HTML non consentito.<br />I valori devono essere separati da un simbolo "pipe" (|). Es.: nome_attributo::valore_attributo|nome_attributo::valore_attributo</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT_DATE_START = 'Il giorno in cui inizia lo sconto per un prodotto. Per maggiori informazioni vedi "product_discount".<br /><br />Utilizzo:<ol><li>Seleziona il nome "product_discount_date_start" dal menu nella schermata di configurazione.</li><li>Aggiungi le colonne scelte al tuo file CSV con il valore data.</li></ol><br />Valori:<ul><li>product_discount_date_start</li><ul><li>Data: giorno/mese/anno oppure giorno-mese-anno<br />Giorno e mese possono essere a 1 o 2 cifre.<br />L\'anno può essere a 2 o 4 cifre.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT_DATE_END = 'Il giorno in cui termina lo sconto per un prodotto. Per maggiori informazioni vedi "product_discount".<br /><br />Utilizzo:<ol><li>Seleziona il nome "product_discount_date_end" dal menu nella schermata di configurazione.</li><li>Aggiungi le colonne scelte al tuo file CSV con il valore data.</li></ol><br />Valori:<ul><li>product_discount_date_end</li><ul><li>Data: giorno/mese/anno oppure giorno-mese-anno<br />Giorno e mese possono essere a 1 o 2 cifre.<br />L\'anno può essere a 2 o 4 cifre.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_UPLOAD_SETTINGS = '<ul><li><span style="font-weight: bold;">Salta la prima riga</span><br />Se il file CSV ha una riga di instestazione all\'inizio, scegli questa opzione per saltarla. Questo evita che l\'intestazione venga aggiunta al tuo database.</li>
+<li><span style="font-weight: bold;">Sovrascrivi i dati esistenti</span><br />Nell\'aggiungere un prodotto al tuo database, togliendo questa opzione evita che i dati esistenti vengano sostituiti, per i prodotti che già esistono nel tuo database. L\'impostazione predefinita è di aggiornare i dati dei prodotti.</li>
+<li><span style="font-weight: bold;">Salta il valore predefinito</span><br />Nella pagina di configurazione, può essere specificato un valore di configurazione nel caso in cui  il campo nel file CSV sia vuoto. Abilitando questa opzione, l\'importazione non includerà il campo per l\'aggiornamento se non c\'è valore nel file CSV.</li>
+<li><span style="font-weight: bold;">Carica solo la lista dei prezzi</span><br />L\'opzione Carica solo la lista dei prezzi deve essere utilizzata se stai aggiornando i prezzi dei tuoi prodotti. Il layout del file CSV deve essere a due colonne:<ol><li>product_sku</span></li><li>product_price</li></ol></li>
+Nota che questo NON prende in considerazione le impostazioni nella pagina di configurazione.
+<li><span style="font-weight: bold;">Utilizza le intestazioni di colonna come configurazione</span><br />
+Se il file CSV ha le intestazioni di colonna nella prima riga, questa opzione può essere utilizzata per usare le intestazioni di colonna come configurazione attuale. Ogni intestazione di colonna deve coincidere con un nome di colonna definito nella scheda Campi Disponibili. Questa configurazione è utilizzata singolarmente, non viene salvata. Con questa opzione non possono essere utilizzati valori predefiniti.</li>
+<li><span style="font-weight: bold;">Mostra anteprima</span><br />
+Mostra 5 righe di anteprima del file da importare. L\'importazione può quindi essere annullata o continuata.</li>
+<li><span style="font-weight: bold;">Recupera informazioni di debug</span><br />
+In caso di problemi, utilizza questa opzione per vedere cosa  accade durante l\'importazione. Alla fine dell\'importazione verrà generato un report con i passaggi e le query fatte durante l\'importazione.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_MANUFACTURER_NAME = 'Il nome del produttore relativo al prodotto. Può essere usato in combinazione con il nome del produttore. Se nessun ID produttore viene specificato, sarà controllato solo il nome. I nuovi produttori saranno creati con ID incrementali. Il processo di inserimento/aggiornamento dei produttori segue le seguenti linee guida:
+<ol><li>Nome esiste, ID esiste --> ID aggiornato se diverso</li><li>Nome esiste, ID non esiste --> Nuovo produttore creato con ID incrementale</li><li>Nome non esite, ID esiste --> Nome generico aggiunto con l\'ID esistente</li><li>Nome non esiste, ID non esiste --> Non fa nulla</li></ol>Utilizzo:<ol><li>Seleziona il nome "manufacturer_name" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con il nome del produttore.</li></ol><br />Valori:<ul><li>Testo: codice HTML non consentito.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_MANUFACTURER_ID = 'L\'ID del produttore relativo al prodotto, deve essere univoco. Può essere usato in combinazione con il nome del produttore. Se non viene specificato nessun nome produttore, solo il collegamento al nome del produttore sarà inserito/aggiornato. Il processo di inserimento/aggiornamento dei produttori segue le seguenti linee guida:
+<ol><li>Nome esiste, ID esiste --> ID aggiornato se diverso</li><li>Nome esiste, ID non esiste --> Nuovo produttore creato con ID incrementale</li><li>Nome non esite, ID esiste --> Nome generico aggiunto con l\'ID esistente</li><li>Nome non esiste, ID non esiste --> Non fa nulla</li></ol>
+Quando non esiste né nome né ID non viene fatto nulla per evitare di aggiungere numerosi nomi generici di produttore.<br /><br />
+Utilizzo:<ol><li>Seleziona il nome "manufacturer_id" dal menu nella schermata di configurazione.</li><li>Aggiungi una colona al tuo file CSV con l\'ID del produttore.</li></ol><br />Valori:<ul><li>Numerico</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_URL = 'Un indirizzo (URL) ad un\'immagine o una pagina web del prodotto. Quando collegato ad un\'immagine, essa verrà mostrata nella pagina dei dettagli del prodotto.<br /><br />
+Utilizzo:<ol><li>Seleziona il nome "product_url" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con un valore testuale.</li></ol><br />Valori:<ul><li>Testo: codice HTML non consentito</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_SALES = 'Il numero dei prodotti che è stato venduto.<br /><br />
+Utilizzo:<ol><li>Seleziona il nome "product_sales" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con un valore numerico.</li></ol><br />Valori:<ul><li>Numerico</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_SPECIAL = 'Quando un prodotto è impostato come "Promo" (Special) verrà inserito nel blocco Prodotti in Promozione (Featured Product).<br />
+Utilizzo:<ol><li>Seleziona il nome "product_special" dal menu nella schermata di configurazione.</li><li>Inserisci una colonna nel tuo file CSV con il valore Y.</li></ol><br />
+Valori:<ul><li>Y: Sì (Yes), il prodotto è in promozione</li><li>N: No, il prodotto non è in promozione</li><li>Vuoto: Valore vuoto, il prodotto non è in promozione</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_UNIT = 'L\'unità del prodotto come viene venduto. Ad esempio scatola, sacchetto, ecc.<br />
+Utilizzo:<ol><li>Seleziona il nome "product_unit" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con il valore Y.</li></ol><br />
+Valori:<ul><li>Testo: codice HTML non consentito</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_CATEGORY_PATH = 'I prodotti padre sono categorizzati in base al percorso di categoria. Il percorso di categoria specifica a quale categoria appartiene un prodotto. Questo ha importanza solo per i prodotti principali e non per i prodotti figli, visto che questi sono relativi ai prodotti padre, non alle categorie. Per i prodotti figli questo campo deve rimanere vuoto. Il product_parent_sku deve essere vuoto per i prodotti principali, in quanto non sono relazionati a nessun altro prodotto padre.<br /><br />
+Utilizzo:<ol><li>Seleziona il nome "category_path" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con il percorso.</li></ol><br />
+Valori:<ul><li>Testo: codice HTML non consentito<br />
+Le categorie nel percorso devono essere separate da una slash (/). Es.: Mobili/Sedie/Legno</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PARENT_SKU = 'Lo SKU del prodotto padre serve per identificare il padre di un prodotto figlio. Nota che il campo "category_path" DEVE essere vuoto, altrimenti il prodotto sarà trattato come un prodotto padre.<br />
+Utilizzo:<ol><li>Seleziona il nome "category_path" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con il valore product_sku del prodotto padre.</li></ol><br />
+Valori:<ul><li>Numerico</li><li>Lettere</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TAX_ID = 'L\'ID del tasso di imposta che vuoi applicare al prodotto.<br />
+Utilizzo:<ol><li>Seleziona il nome "product_tax_id" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con il valore product_tax_id dell\'imposta appropriata.</li></ol><br />
+Valori:<ul><li>Numerico</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_CURRENCY = 'Una diversa valuta può essere specificata per ogni prodotto.<br />
+Utilizzo:<ol><li>Seleziona il nome "product_currency" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con il codice della valuta.</li></ol><br />
+Valori:<ul><li>Testo: codice HTML non consentito<br />
+Es.: EUR, USD, IDR</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_BROWSEPAGE = 'Questa è una pagina personalizzata per mostrare i tuoi tipi di prodotto. Lascia questo campo VUOTO se non hai file php singoli per questo scopo.<br /><br />
+Utilizzo:<ol><li>Seleziona il nome "product_type_browsepage" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con un valore testuale.</li></ol><br />
+Valori:<ul><li>Testo:<ul><li>codice HTML non consentito</li><li>indirizzi (URL) sono consentiti.</li></ul></li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_DESCRIPTION = 'Una descrizione per il tipo di prodotto.<br /><br />
+Utilizzo:<ol><li>Seleziona il nome "product_type_description" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con un valore testuale.</li></ol><br />
+Valori:<ul><li>Testo: codice HTML non consentito</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_FLYPAGE = 'Questa è una pagina personalizzata per mostrare i tuoi tipi di prodotto. Lascia questo campo VUOTO se non hai file php singoli per questo scopo.<br /><br />
+Utilizzo:<ol><li>Seleziona il nome "product_type_flypage" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con un valore testuale.</li></ol><br />
+Valori:<ul><li>Testo:<ul><li>codice HTML non consentito</li><li>indirizzi (URL) sono consentiti.</li></ul></li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_NAME = 'Il nome del tipo di prodotto. Questo nome deve essere univoco e senza spazi.<br /><br />
+Utilizzo:<ol><li>Seleziona il nome "product_type_name" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con un valore testuale.</li></ol><br />
+Valori:<ul><li>Testo: codice HTML non consentito</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_DEFAULT = 'Un valore predefinito da mostrare quando non c\'è niente inserito per il parametro.<br /><br />
+Utilizzo:<ol><li>Seleziona il nome "product_type_parameter_default" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con un valore testuale.</li></ol><br />
+Valori:<ul><li>Testo: codice HTML non consentito</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_DESCRIPTION = 'Una descrizione per il parametro del tipo di prodotto.<br /><br />
+Utilizzo:<ol><li>Seleziona il nome "product_type_parameter_description" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con un valore testuale.</li></ol><br />
+Valori:<ul><li>Testo: codice HTML non consentito</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_LABEL = 'Un\'etichetta per il parametro del tipo di prodotto.<br /><br />
+Utilizzo:<ol><li>Seleziona il nome "product_type_parameter_label" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con un valore testuale.</li></ol><br />
+Valori:<ul><li>Testo: codice HTML non consentito</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_LIST_ORDER = 'Specifica in che ordine il parametro del prodotto deve essere mostrato.<br /><br />
+Utilizzo:<ol><li>Seleziona il nome "product_type_parameter_list_order" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con un valore numerico.</li></ol><br />
+Valori:<ul><li>Numerico</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_MULTISELECT = 'Impostato a sì (Y) permette di mostrare i possibili valori di parametro come oggetti di selezione multipla.<br /><br />
+Utilizzo:<ol><li>Seleziona il nome "product_type_parameter_list_multiselect" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con il valore Y o N.</li></ol><br />
+Valori:<ul><li>Y: Sì (Yes), i valori sono selezione multipla</li><li>N: No, i valori non sono selezione multipla</li><li>Vuoto: Valore vuoto, i valori non sono selezione multipla</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_NAME = 'Il nome del parametro del tipo di prodotto. Questo nome deve essere univoco e senza spazi, perchè sarà il nome di colonna per i dettagli del parametro.<br /><br />
+Utilizzo:<ol><li>Seleziona il nome "product_type_parameter_type" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con un valore testuale.</li></ol><br />
+Valori:<ul><li>Testo: codice HTML non consentito</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_TYPE = 'Questo imposta il tipo di parametro che sarà usato. Ci sono una serie di differenti valori disponibili.<br /><br />
+Utilizzi:<ol><li>Seleziona il nome "product_type_parameter_type" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con il valore.</li></ol><br />
+Valori:<ul><li>Testo:<ul>
+	<li>I: Numero Intero (Integer)</li>
+	<li>T: Testo</li>
+	<li>S: Testo Breve (Short)</li>
+	<li>F: Numero Decimale (Float)</li>
+	<li>C: Carattere</li>
+	<li>D: Data & Orario</li>
+	<li>M: Orario</li>
+	<li>V: Valori Multipli</li>
+	<li>B: Interruzione di Riga (Break Line)</li>
+	</ul></li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_UNIT = 'L\'unità a cui si riferisce il parametro del tipo di prodotto.<br /><br />
+Utilizzo:<ol><li>Seleziona il nome "product_type_parameter_unit" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con un valore testuale.</li></ol><br />
+Valori:<ul><li>Testo: codice HTML non consentito</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PARAMETER_VALUES = 'Questi sono i valori per il parametro e devono soddisfare i requisiti imposti dal tipo di parametro.<br /><br />
+Utilizzo:<ol><li>Seleziona il nome "product_type_parameter_values" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con un valore testuale.</li></ol><br />
+Valori:<ul><li>Dipende dal tipo impostato per il campo "product_type_parameter_type". Tutti i valori devono essere separati da un punto e virgola (;).</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_TYPE_PUBLISH = 'Lo stato del tipo di prodotto, indica se è pubblicato o meno.<br /><br />
+Utilizzo:<ol><li>Seleziona il nome "product_type_publish" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con il valore Y o N.</li></ol><br />
+Valori:<ul><li>Y: Sì (Yes), il tipo di prodotto è pubblicato</li><li>N: No, il tipo di prodotto non è pubblicato</li><li>Vuoto: Valore vuoto, il tipo di prodotto è pubblicato.</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRICE_DELETE = 'Il campo "price_delete" è un campo speciale. Questo campo viene utilizzato per determinare se un prezzo per un prodotto deve essere eliminato o meno. Questo campo viene utilizzato nel caricamento di prezzi multipli. Affinchè un prezzo venga eliminato è necessario che coincidano i seguenti campi:
+<ul><li>product_sku</li><li>product_price</li><li>product_currency</li><li>price_quantity_start</li><li>price_quantity_end</li></ul><br />
+Utilizzo:<ol><li>Seleziona il nome "price_delete" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con il valore Y. Se il campo contiene qualsiasi altro valore, il prodotto non verrà eliminato.</li></ol><br />
+Valori:<ul><li>Y: Sì (Yes), il prezzo deve essere eliminato</li><li>N: No, il prezzo non deve essere eliminato</li><li>Vuoto: Valore vuoto, il prezzo non deve essere eliminato</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRICE_QUANTITY_START = 'La quantità da cui viene applicato il prezzo indicato.<br /><br />
+Utilizzo:<ol><li>Seleziona il nome "price_quantity_start" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con un valore numerico.</li></ol><br />
+Valori: Numerico</li></ul>';
+	var $_PHPSHOP_CSV_EXPLANATION_PRICE_QUANTITY_END = 'La quantità a cui non viene più applicato il prezzo indicato.<br /><br />
+Utilizzo:<ol><li>Seleziona il nome "price_quantity_end" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con un valore numerico.</li></ol><br />
+Valori: Numerico</li></ul>';
 	var $_PHPSHOP_UPDATE_STATUS = 'Aggiorna Stato';
         
 }
 class phpShopLanguage extends vmLanguage { }
+
 /** @global vmLanguage $VM_LANG */
 $VM_LANG =& new vmLanguage();
 ?>

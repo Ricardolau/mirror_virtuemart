@@ -33,6 +33,10 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+27.04.2007 soeren
+# Task #1273 - Error in creation of HTML confimation Email if more than a specific amount of products was ordered
+# Task #1272 - Error in product attributes with attribute depending price modifier
+
 30.03.2007 gregdev
 ^ Changed shop_browse_queries.php to use a LEFT JOIN for #__{vm}_shopper_vendor_xref (fixes empty categories when table entry is missing).
 

@@ -449,6 +449,8 @@ class ps_product_attribute {
 				$attributes_array[$attribute_name]['values'][$value]['name'] = $value;
 				$attributes_array[$attribute_name]['values'][$value]['operand'] = $operand;
 				$attributes_array[$attribute_name]['values'][$value]['adjustment'] = $my_mod;
+				$operand = '';
+				$my_mod = 0;
 			}
 			
 		}

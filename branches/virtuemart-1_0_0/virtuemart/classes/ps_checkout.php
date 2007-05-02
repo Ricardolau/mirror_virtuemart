@@ -58,7 +58,7 @@ class ps_checkout {
 			// Create a Shipping Object and assign it to the _SHIPPING attribute
 			// We take the first Part of the Shipping Rate Id String
 			// which holds the Class Name of the Shipping Module
-			$rate_array = explode( "|", urldecode($_REQUEST['shipping_rate_id']) );
+			$rate_array = explode( "|", urldecode(mosGetParam($_REQUEST,'shipping_rate_id')) );
 			$filename = basename( $rate_array[0] );
 			include_once( CLASSPATH. "shipping/".$filename.".php" );
 			eval( "\$this->_SHIPPING =& new ".$filename."();");
@@ -1533,7 +1533,7 @@ Order Total: '.$order_total.'
 		$payment_info_details_text = str_replace( '<br />', "\n", $payment_info_details );
 		
 		// Get the Shipping Details
-		$shipping_arr = explode("|", @urldecode($_REQUEST['shipping_rate_id']) );
+		$shipping_arr = explode("|", urldecode(mosGetParam($_REQUEST,'shipping_rate_id')) );
 		
 		// Headers and Footers
 		// ******************************
@@ -2065,7 +2065,7 @@ Order Total: '.$order_total.'
 		if((CHECKOUT_STYLE=='1' || CHECKOUT_STYLE=='3')) {
 
 			echo "<strong>".$VM_LANG->_PHPSHOP_INFO_MSG_SHIPPING_METHOD . ":</strong>&nbsp;";
-			$rate_details = explode( "|", urldecode(urldecode($_REQUEST['shipping_rate_id'])) );
+			$rate_details = explode( "|", urldecode(urldecode(mosGetParam($_REQUEST,'shipping_rate_id'))) );
 			foreach( $rate_details as $k => $v ) {
 				if( $k == 3 ) {
 					echo $CURRENCY_DISPLAY->getFullValue( $v )."; ";

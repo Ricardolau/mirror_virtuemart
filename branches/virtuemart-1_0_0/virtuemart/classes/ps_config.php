@@ -56,8 +56,6 @@ function writeconfig(&$d) {
         if( $d['conf_SHIPPING'][0] == "no_shipping" )
             $d['conf_NO_SHIPPING'] = '1';
         
-        $d['conf_PSHOP_OFFLINE_MESSAGE'] = addslashes( stripslashes($d['conf_PSHOP_OFFLINE_MESSAGE']));
-        
         /** Prevent this config setting from being changed by no-backenders  **/
         if (!defined('_PHSHOP_ADMIN') && !stristr($my->usertype, "admin")) {
           $d['conf_PSHOP_ALLOW_FRONTENDADMIN_FOR_NOBACKENDERS'] = PSHOP_ALLOW_FRONTENDADMIN_FOR_NOBACKENDERS;
@@ -207,6 +205,11 @@ define( 'IMAGEPATH', \$mosConfig_absolute_path.'/components/com_virtuemart/shop_
                     }
                     $config.= " );\n";
                 }
+		elseif( $key == 'PSHOP_OFFLINE_MESSAGE' || $key == 'VM_ONCHECKOUT_LEGALINFO_SHORTTEXT'  ) {
+			$value = get_magic_quotes_gpc() ? stripslashes(@$d[$value]) : @$d[$value];
+			$value = str_replace("'","\'",$value);
+			$config .= "define('".$key."', '".$value."');\n";
+		}
                 else {
 					$config .= "define('".$key."', '".str_replace("'", "\'", stripslashes(@$d[$value]))."');\n";
                 }

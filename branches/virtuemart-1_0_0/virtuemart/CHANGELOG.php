@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+03.05.2007 gregdev
+# Task #966 - Cleared credit card info when using non-credit card payment method.
+
 03.05.2007 soeren
 # authorize.net: Test Mode didn't work. The host test.authorize.net is not used anymore. VM will use a POST var instead to indicate a test request.
 # authorize.net: Response Codes were not correctly recognized due to a wrong setting of the encapsulation character for the response string.

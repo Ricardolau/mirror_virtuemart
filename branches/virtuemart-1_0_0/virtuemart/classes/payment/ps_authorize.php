@@ -301,11 +301,7 @@ class ps_authorize {
 		else {
 			$dbst = $dbbt;
 		}
-		if(AN_TEST_REQUEST=='TRUE') {
-			$host = 'test.authorize.net';
-		} else  {
-			$host = 'secure.authorize.net';
-		}
+		$host = 'secure.authorize.net';
 		$port = 443;
 		$path = "/gateway/transact.dll";
 		// Option to send email to merchant from gateway
@@ -323,11 +319,12 @@ class ps_authorize {
 		'x_version' => '3.1',
 		'x_login' => AN_LOGIN,
 		'x_tran_key' => $transaction->passkey,
-		'x_test_request' => AN_TEST_REQUEST,
+		'x_test_request' => strtoupper( AN_TEST_REQUEST ),
 
 		// Gateway Response Configuration
 		'x_delim_data' => 'TRUE',
 		'x_delim_char' => '|',
+		'x_encap_char' => '"',
 		'x_relay_response' => 'FALSE',
 
 		// Customer Name and Billing Address
@@ -546,11 +543,7 @@ class ps_authorize {
 		/*** Get the Configuration File for authorize.net ***/
 		require_once(CLASSPATH ."payment/".$this->classname.".cfg.php");
 
-		if(AN_TEST_REQUEST=='TRUE') {
-			$host = 'test.authorize.net';
-		} else  {
-			$host = 'secure.authorize.net';
-		}
+		$host = 'secure.authorize.net';
 		$port = 443;
 		$path = "/gateway/transact.dll";
 		
@@ -601,11 +594,12 @@ class ps_authorize {
 		'x_version' => '3.1',
 		'x_login' => AN_LOGIN,
 		'x_tran_key' => $transaction->passkey,
-		'x_test_request' => AN_TEST_REQUEST,
+		'x_test_request' => strtoupper( AN_TEST_REQUEST ),
 
 		// Gateway Response Configuration
 		'x_delim_data' => 'TRUE',
 		'x_delim_char' => '|',
+		'x_encap_char' => '"',
 		'x_relay_response' => 'FALSE',
 
 		// Customer Name and Billing Address

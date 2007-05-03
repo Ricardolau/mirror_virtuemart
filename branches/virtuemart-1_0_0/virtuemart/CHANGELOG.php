@@ -33,6 +33,10 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+03.05.2007 soeren
+# authorize.net: Test Mode didn't work. The host test.authorize.net is not used anymore. VM will use a POST var instead to indicate a test request.
+# authorize.net: Response Codes were not correctly recognized due to a wrong setting of the encapsulation character for the response string.
+
 27.04.2007 soeren
 # Task #1273 - Error in creation of HTML confimation Email if more than a specific amount of products was ordered
 # Task #1272 - Error in product attributes with attribute depending price modifier

@@ -41,7 +41,7 @@ if( !defined( '_VM_PARSER_LOADED' )) {
 	global $my;
 	$_REQUEST['Itemid'] = intval( mosGetParam($_REQUEST, 'Itemid', 0) );
 	// Filter the PHP_SELF var and clean it
-	$_SERVER['PHP_SELF'] = mosGetParam( $_SERVER, 'PHP_SELF' );
+	$_SERVER['PHP_SELF'] = htmlspecialchars( $_SERVER['PHP_SELF'], ENT_QUOTES );
 	$page = mosgetparam($_REQUEST, 'page', "");
 	$func = mosgetparam($_REQUEST, 'func', "");
 	

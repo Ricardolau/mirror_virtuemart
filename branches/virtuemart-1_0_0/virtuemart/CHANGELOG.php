@@ -5,7 +5,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 * @version $Id$
 * @package VirtueMart
 * @subpackage core
-* @copyright Copyright (C) 2004-2006 Soeren Eberhardt. All rights reserved.
+* @copyright Copyright (C) 2004-2007 Soeren Eberhardt. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+
+--- VirtueMart 1.0.11 released ---
+
 03.05.2007 gregdev
 # Task #966 - Cleared credit card info when using non-credit card payment method.
 # Fixed a text size bug in the product scroller.

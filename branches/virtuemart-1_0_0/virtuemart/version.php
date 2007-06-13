@@ -30,14 +30,14 @@ class vmVersion {
 	/** @var string Product */
 	var $PRODUCT = 'VirtueMart';
 	/** @var int Release Number */
-	var $RELEASE = '1.0.10';
+	var $RELEASE = '1.0.11';
 	/** @var string Development Status */
 	var $DEV_STATUS = 'stable';
 	/** @var string Codename */
-	// Song by Badly Drawn Boy, from the album "One Plus One Is One" (U.S. version): http://en.wikipedia.org/wiki/One_Plus_One_Is_One
-	var $CODENAME = 'Plan-B';
+	// Song by Noel "Paul" Stookey: http://en.wikipedia.org/wiki/The_Wedding_Song_%28There_is_Love%29
+	var $CODENAME = 'The Wedding Song';
 	/** @var string Date */
-	var $RELDATE = '03/03/2007';
+	var $RELDATE = '14/06/2007';
 	/** @var string Time */
 	var $RELTIME = '19:00';
 	/** @var string Timezone */

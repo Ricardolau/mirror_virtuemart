@@ -4,7 +4,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * @version $Id$
 * @package VirtueMart
 * @subpackage core
-* @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
+* @copyright Copyright (C) 2004-2007 Soeren Eberhardt. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -24,7 +24,7 @@ Complete Package for Mambo >= 4.5.1 and Joomla 1.0.x
 You can't use this software on an earlier Mambo version than 4.5.1 (e.g. Mambo 4.5 1.0.9) 
 without running into serious problems.
 
-Copyright (C) 2004-2006 Soeren Eberhardt. All rights reserved.
+Copyright (C) 2004-2007 Soeren Eberhardt. All rights reserved.
 License: http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 VirtueMart is free software. This version may have been modified pursuant
 to the GNU General Public License, and as distributed it includes or
@@ -39,10 +39,10 @@ Community Home: http://virtuemart.net
 Package Contents:
 ##########################
 
- * 1 Component (com_virtuemart_1.0.7.tar.gz)
+ * 1 Component (com_virtuemart_1.0.11.tar.gz)
    INSTALLATION REQUIRED!
    
- * 1 Main module (mod_virtuemart_1.0.7.tar.gz)
+ * 1 Main module (mod_virtuemart_1.0.11.tar.gz)
    INSTALLATION REQUIRED!
    
  * 8 additional Modules

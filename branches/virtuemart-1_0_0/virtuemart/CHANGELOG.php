@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+13.06.2007 soeren
+# Task #1316 - When deleting orders, records in 'order_history' and 'order_user_info' are not deleted (ps_order.php)
+# Fixed the htmlentities bug, which caused the Admin Menu to display wrong characters or not to be displayed at all (header.php)
 
 --- VirtueMart 1.0.11 released ---
 
@@ -56,7 +59,7 @@ VirtueMart 1.0.x
 # the variable PHP_SELF was not properly cleaned (virtuemart_parser.php)
 
 15.03.2007 soeren
-# JoomFish language setting is overwritten in virtuemart.cfg.php
+# JoomFish language setting is overwritten in virtuemart.cfg.php ( Task #1282 - Virtuemart does not apply proper language switching)
 # CSV Upload not recognising correct Mime Type due to case-sensitive equality check
 
 13.03.2007 soeren

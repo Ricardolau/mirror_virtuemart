@@ -651,20 +651,21 @@ class ps_order {
 		if ($this->validate_delete($record_id)) {
 			$q = "DELETE from #__{vm}_orders where order_id='$record_id'";
 			$db->query($q);
-			$db->next_record();
 
 			$q = "DELETE from #__{vm}_order_item where order_id='$record_id'";
 			$db->query($q);
-			$db->next_record();
 
 			$q = "DELETE from #__{vm}_order_payment where order_id='$record_id'";
 			$db->query($q);
-			$db->next_record();
 
 			$q = "DELETE from #__{vm}_product_download where order_id='$record_id'";
 			$db->query($q);
-			$db->next_record();
-
+			
+			$q = "DELETE from #__{vm}_order_history where order_id='$record_id'";
+			$db->query($q);
+			
+			$q = "DELETE from #__{vm}_order_user_info where order_id='$record_id'";
+			$db->query($q);
 			return True;
 		}
 		else {

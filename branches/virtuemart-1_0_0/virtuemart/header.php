@@ -329,7 +329,7 @@ $menu_code = ob_get_contents();
 ob_end_clean();
 // convert all special chars into HTML entities
 
-$menu_code = @htmlentities( $menu_code, ENT_NOQUOTES, vmGetCharset() );
+$menu_code = htmlspecialchars( $menu_code, ENT_NOQUOTES );
 // reconvert "htmlspecialchars"
 $menu_code = str_replace( '&gt;', '>', 
                          str_replace( '&lt;', '<', 

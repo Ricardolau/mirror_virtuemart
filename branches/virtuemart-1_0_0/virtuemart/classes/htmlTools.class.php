@@ -103,8 +103,8 @@ class listFactory {
 		<script type="text/javascript"><!--
 		function MM_swapImgRestore() { //v3.0
 			var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
-		}
-		//--></script>
+		} //-->
+		</script>
 		<table class="adminlist" width="100%">
 		<?php
 	}
@@ -126,9 +126,19 @@ class listFactory {
 		}
 	}
 	
-	function newRow() {
+	function newRow( $class='', $id='', $attributes='') {
 		$this->y++;
 		$this->x = 0;
+		if( $class != '') {
+			$this->cells[$this->y]['class'];
+		}
+		if( $id != '') {
+			$this->cells[$this->y]['id'];
+		}
+		if( $attributes != '' ) {
+			$this->cells[$this->y]['attributes'];
+		}
+		
 	}
 	
 	function addCell( $data, $attributes="" ) {
@@ -152,8 +162,20 @@ class listFactory {
 		else {
 			$i = 0;
 			foreach( $this->cells as $row ) {
-				echo "<tr class=\"".$this->alternateColors[$i]."\">\n";
+				echo "<tr class=\"".$this->alternateColors[$i];
+				if( !empty($row['class'])) {
+					echo ' '.$row['class'];
+				}
+				echo '"';
+				if( !empty($row['id'])) {
+					echo ' id="'.$row['id'].'" ';
+				}
+				if( !empty($row['attributes'])) {
+					echo $row['attributes'];
+				}
+				echo ">\n";
 				foreach( $row as $cell ) {
+					if( !isset( $cell["data"] )) continue;
 					$value = $cell["data"];
 					$attributes = $cell["attributes"];
 					echo "<td  $attributes>$value</td>\n";

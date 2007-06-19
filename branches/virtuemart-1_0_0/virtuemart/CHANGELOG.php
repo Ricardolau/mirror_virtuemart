@@ -33,6 +33,10 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+18.06.2007 gregdev
+# Fixed fatal coupon error upon adding coupon to order
+# Corrected LEFT JOIN that was causing payment method code to not run
+
 13.06.2007 soeren
 # Task #1316 - When deleting orders, records in 'order_history' and 'order_user_info' are not deleted (ps_order.php)
 # Fixed the htmlentities bug, which caused the Admin Menu to display wrong characters or not to be displayed at all (header.php)

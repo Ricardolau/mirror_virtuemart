@@ -19,9 +19,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 global $mosConfig_absolute_path,$mosConfig_live_site;
 if( !class_exists( 'jconfig' )) {
 	$global_lang = $GLOBALS['mosConfig_lang'];
-	
 	@include( dirname( __FILE__ ).'/../../../configuration.php' );
-	
 	$GLOBALS['mosConfig_lang'] = $mosConfig_lang = $global_lang;
 }
 // Check for trailing slash

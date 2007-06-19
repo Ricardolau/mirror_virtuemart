@@ -33,9 +33,14 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+19.06.2007 soeren
+# Task #1297 - Coupon discount total does not adjust after removing item from cart (basket.php, ps_cart.php)
+# Task #1299 - Credit card number accepts a string as valid (ps_payment_method.php)
+# Task #1319 - Lockup issue with permissions on browse_* files. (ps_main.php)
+
 18.06.2007 gregdev
-# Fixed fatal coupon error upon adding coupon to order
-# Corrected LEFT JOIN that was causing payment method code to not run
+# Fixed fatal coupon error upon adding coupon to order (ps_coupon.php)
+# Corrected LEFT JOIN that was causing payment method code to not run (checkout.thankyou.php)
 
 13.06.2007 soeren
 # Task #1316 - When deleting orders, records in 'order_history' and 'order_user_info' are not deleted (ps_order.php)

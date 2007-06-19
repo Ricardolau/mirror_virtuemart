@@ -299,8 +299,8 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_FORM_IMAGE_DELETE_LBL = 'Usuñ';
 	var $_PHPSHOP_PRODUCT_FORM_PRODUCT_ITEMS_LBL = 'Elementy produktu';
 	var $_PHPSHOP_PRODUCT_FORM_ITEM_ATTRIBUTES_LBL = 'Atrybuty elementu';
-	var $_PHPSHOP_PRODUCT_FORM_DELETE_PRODUCT_MSG = 'Czy napewno chcesz usun±æ ten produkt\\ni powi±zane z nim elementy?';
-	var $_PHPSHOP_PRODUCT_FORM_DELETE_ITEM_MSG = 'Czy napewno chcesz usun±æ ten element?';
+	var $_PHPSHOP_PRODUCT_FORM_DELETE_PRODUCT_MSG = 'Czy na pewno chcesz usun±æ ten produkt\\ni powi±zane z nim elementy?';
+	var $_PHPSHOP_PRODUCT_FORM_DELETE_ITEM_MSG = 'Czy na pewno chcesz usun±æ ten element?';
 	var $_PHPSHOP_PRODUCT_FORM_VENDOR = 'Dostawca';
 	var $_PHPSHOP_PRODUCT_FORM_MANUFACTURER = 'Producent';
 	var $_PHPSHOP_PRODUCT_FORM_SKU = 'Symbol';
@@ -1498,141 +1498,141 @@ Has³o - %s
 	var $_VM_LEGALINFO_SHORTTEXT = '<h5>Zasady zwrotu</h5>
 
 Zgodnie z art. 7.1. Ustawy o ochronie niektórych praw konsumenckich masz prawo do anulowania zamówienia w ci±gu 10 dni od wys³ania przesy³ki. W takim wypadku musisz na w³asny koszt odes³aæ towar w oryginalnym, nienaruszonym opakowaniu. Pieni±dze zostan± zwrócone na Twoje konto natychmiast po otrzymaniu przez nas towaru. Pe³ne informacje znajdziesz na stronie naszych <a href="%s" onclick="%s" target="_blank">Warunków zakupu</a>.';
-	var $_ITEM_PREVIOUS = 'previous';
-	var $_ITEM_NEXT = 'next';
-	var $_CMN_OK = 'Ok';
-	var $_CMN_CONTINUE = 'Continue';
-	var $_CMN_CANCEL = 'Cancel';
-	var $_BUTTON_SEND_REG = 'Send Registration';
-	var $_CONTACT_FORM_NC = 'Please make sure the form is complete and valid.';
-	var $_CMN_REQUIRED = 'Required';
-	var $_CMN_NEW = 'New';
-	var $_CMN_SAVE = 'Save';
+	var $_ITEM_PREVIOUS = 'poprzedni';
+	var $_ITEM_NEXT = 'nastêpny';
+	var $_CMN_OK = 'OK';
+	var $_CMN_CONTINUE = 'Dalej';
+	var $_CMN_CANCEL = 'Anuluj';
+	var $_BUTTON_SEND_REG = 'Wy¶lij dane';
+	var $_CONTACT_FORM_NC = 'Sprawd¼, czy formularz jest wype³niony poprawnie.';
+	var $_CMN_REQUIRED = 'Wymagane';
+	var $_CMN_NEW = 'Nowy';
+	var $_CMN_SAVE = 'Zapisz';
 	var $_CMN_NEW_ITEM_LAST = 'New items default to the last place. Ordering can be changed after this item is saved.';
-	var $_CMN_OPTIONAL = 'Optional';
-	var $_E_APPLY = 'Apply';
-	var $_E_IMAGES = 'Images';
+	var $_CMN_OPTIONAL = 'Opcjonalne';
+	var $_E_APPLY = 'Zastosuj';
+	var $_E_IMAGES = 'Obrazy';
 	var $_URL = 'URL:';
-	var $_SEL_CATEGORY = 'Select a category';
-	var $_E_REMOVE = 'Remove';
+	var $_SEL_CATEGORY = 'Wybierz kategoriê';
+	var $_E_REMOVE = 'Usuñ';
 	var $_PN_LT = '<';
 	var $_PN_RT = '>';
-	var $_PN_PAGE = 'Page';
-	var $_PN_OF = 'of';
-	var $_PN_START = 'Start';
-	var $_PN_PREVIOUS = 'Prev';
-	var $_PN_NEXT = 'Next';
-	var $_PN_END = 'End';
-	var $_PN_DISPLAY_NR = 'Display #';
-	var $_PN_RESULTS = 'Results';
-	var $_CMN_PRINT = 'Print';
+	var $_PN_PAGE = 'Strona';
+	var $_PN_OF = 'z';
+	var $_PN_START = 'Pocz±tek';
+	var $_PN_PREVIOUS = 'Poprz.';
+	var $_PN_NEXT = 'Nast.';
+	var $_PN_END = 'Koniec';
+	var $_PN_DISPLAY_NR = 'Poka¿ nr';
+	var $_PN_RESULTS = 'Wyniki';
+	var $_CMN_PRINT = 'Drukuj';
 	var $_CMN_PDF = 'PDF';
 	var $_CMN_EMAIL = 'E-mail';
-	var $_BACK = 'Back';
-	var $_USERNAME = 'Username';
-	var $_PASSWORD = 'Password';
-	var $_BUTTON_LOGIN = 'Login';
-	var $_REGISTER_UNAME = 'Username';
+	var $_BACK = 'Wstecz';
+	var $_USERNAME = 'Nazwa u¿ytkownika';
+	var $_PASSWORD = 'Has³o';
+	var $_BUTTON_LOGIN = 'Zaloguj';
+	var $_REGISTER_UNAME = 'Nazwa u¿ytkownika';
 	var $_REGISTER_EMAIL = 'Email';
-	var $_REGWARN_NAME = 'Please enter your name.';
-	var $_REGWARN_UNAME = 'Please enter a user name.';
-	var $_REGWARN_MAIL = 'Please enter a valid e-mail address.';
-	var $_SEND_SUB = 'Account details for %s at %s';
-	var $_ASEND_MSG = 'Hello %s,
+	var $_REGWARN_NAME = 'Podaj swe nazwisko.';
+	var $_REGWARN_UNAME = 'Podaj nazwê u¿ytkownika.';
+	var $_REGWARN_MAIL = 'Wprowad¼ poprawny adres e-mail.';
+	var $_SEND_SUB = 'Dane konta %s w %s';
+	var $_ASEND_MSG = 'Witaj, %s!
 	
-	A new user has registered at %s.
-	This email contains their details:
+	W %s zarejestrowa³ siê nowy u¿ytkownik.
+	Niniejszy email zawiera dane o nim:
 	
-	Name - %s
+	Nazwisko - %s
 	e-mail - %s
-	Username - %s
+	Nazwa u¿ytkownika - %s
 	
-	Please do not respond to this message as it is automatically generated and is for information purposes only';
-	var $_REG_COMPLETE = '<div class="componentheading">Registration Complete!</div><br />You may now login.';
-	var $_REG_COMPLETE_ACTIVATE = '<div class="componentheading">Registration Complete!</div><br />Your account has been created and activation link has been sent to the e-mail address you entered. Note that you must activate the account by clicking on the activation link when you get the e-mail before you can login.';
+	Nie odpowiadaj na tê wiadomo¶æ, poniewa¿ jest generowana automatycznie tylko w celach informacyjnych.';
+	var $_REG_COMPLETE = 'Rejestracja zakoñczona!<br /> Mo¿esz siê teraz zalogowaæ.';
+	var $_REG_COMPLETE_ACTIVATE = 'Rejestracja zakoñczona!<br /> Uaktywnij konto, klikaj±c ³±cze zawarte w wiadomo¶ci wys³anej na Twój adres e-mail.';
 	var $_DATE_FORMAT_LC = '%A, %d %B %Y';
 	var $_LAST_UPDATED = 'Last Updated';
 	var $_NOT_AUTH = 'You are not authorized to view this resource.';
-	var $_DO_LOGIN = 'You need to login.';
-	var $_VALID_AZ09 = 'Please enter a valid %s.  No spaces, more than %d characters and contain 0-9,a-z,A-Z';
+	var $_DO_LOGIN = 'Musisz siê zalogowaæ.';
+	var $_VALID_AZ09 = 'Podaj poprawne %s. Bez spacji, ponad 6 znaków i zawieraj±ce 0-9,a-z,A-Z';
 	var $_CMN_PUBLISHED = 'Published';
 	var $_CMN_UNPUBLISHED = 'Unpublished';
-	var $_MORE = 'More...';
+	var $_MORE = 'Wiêcej...';
 	var $_EMPTY_CATEGORY = 'This Category is currently empty.';
-	var $_BUTTON_LOGOUT = 'Logout';
-	var $_NO_ACCOUNT = 'No account yet?';
-	var $_CREATE_ACCOUNT = 'Register';
-	var $_REGWARN_PASS = 'Please enter a valid password.  No spaces, more than 6 characters and contain 0-9,a-z,A-Z';
-	var $_REGWARN_VPASS1 = 'Please verify the password.';
-	var $_REGWARN_VPASS2 = 'Password and verification do not match, please try again.';
-	var $_USEND_MSG_ACTIVATE = 'Hello %s,
+	var $_BUTTON_LOGOUT = 'Wyloguj';
+	var $_NO_ACCOUNT = 'Nie masz konta?';
+	var $_CREATE_ACCOUNT = 'Zarejestruj siê';
+	var $_REGWARN_PASS = 'Podaj poprawne has³o. Bez spacji, ponad 6 znaków i zawieraj±ce 0-9,a-z,A-Z';
+	var $_REGWARN_VPASS1 = 'Powtórz has³o.';
+	var $_REGWARN_VPASS2 = 'Has³o i jego powtórzenie nie zgadzaj± siê. Spróbuj ponownie.';
+	var $_USEND_MSG_ACTIVATE = 'Witaj, %s!
 
 
 
-Thank you for registering at %s. Your account is created and must be activated before you can use it.
+Dziêkujemy za rejestracjê w %s. Twoje konto klienta zosta³o utworzone i musi byæ aktywowane przed u¿yciem.
 
-To activate the account click on the following link or copy-paste it in your browser:
+Aby je aktywowaæ, kliknij poni¿sze ³±cze albo wklej je w pasku adresu przegl±darki:
 
 %s
 
 
 
-After activation you may login to %s using the following username and password:
+Po aktywacji mo¿esz siê zalogowaæ w %s, korzystaj±c z poni¿szej nazwy i has³a:
 
 
 
-Username - %s
+Nazwa u¿ytkownika - %s
 
-Password - %s';
-	var $_USEND_MSG = 'Hello %s,
-
-
-
-Thank you for registering at %s.
+Has³o - %s';
+	var $_USEND_MSG = 'Witaj, %s!
 
 
 
-You may now login to %s using the username and password you registered with.';
-	var $_PROMPT_PASSWORD = 'Lost your Password?';
-	var $_HI = 'Hi';
-	var $_NEW_USER_MESSAGE_SUBJECT = 'New User Details';
-	var $_NEW_USER_MESSAGE = 'Hello %s,
+Dziêkujemy za rejestracjê w %s.
 
 
 
-
-
-You have been added as a user to %s by an Administrator.
-
-
-
-This email contains your username and password to log into the %s
-
-
-
-Username - %s
-
-Password - %s
+Mo¿esz siê teraz zalogowaæ w %s, u¿ywaj±c nazwy i has³a podanych podczas rejestracji.';
+	var $_PROMPT_PASSWORD = 'Zapomnia³e¶ has³a?';
+	var $_HI = 'Cze¶æ';
+	var $_NEW_USER_MESSAGE_SUBJECT = 'Dane nowego u¿ytkownika';
+	var $_NEW_USER_MESSAGE = 'Witaj, %s!
 
 
 
 
 
-Please do not respond to this message as it is automatically generated and is for information purposes only';
-	var $_REMEMBER_ME = 'Remember me';
-	var $_REGISTER_TITLE = 'Registration';
-	var $_JAN = 'January';
-	var $_FEB = 'February';
-	var $_MAR = 'March';
-	var $_APR = 'April';
-	var $_MAY = 'May';
-	var $_JUN = 'June';
-	var $_JUL = 'July';
-	var $_AUG = 'August';
-	var $_SEP = 'September';
-	var $_OCT = 'October';
-	var $_NOV = 'November';
-	var $_DEC = 'December';
+Zosta³e¶ dodany przez administratora jako u¿ytkownik %s.
+
+
+
+Niniejszy email zawiera has³o i nazwê u¿ytkownika konieczne do logowania w %s
+
+
+
+Nazwa u¿ytkownika - %s
+
+Has³o - %s
+
+
+
+
+
+Nie odpowiadaj na tê wiadomo¶æ, poniewa¿ jest generowana automatycznie tylko w celach informacyjnych';
+	var $_REMEMBER_ME = 'Zapamiêtaj mnie';
+	var $_REGISTER_TITLE = 'Rejestracja';
+	var $_JAN = 'styczeñ';
+	var $_FEB = 'luty';
+	var $_MAR = 'marzec';
+	var $_APR = 'kwiecieñ';
+	var $_MAY = 'maj';
+	var $_JUN = 'czerwiec';
+	var $_JUL = 'lipiec';
+	var $_AUG = 'sierpieñ';
+	var $_SEP = 'wrzesieñ';
+	var $_OCT = 'pa¼dziernik';
+	var $_NOV = 'listopad';
+	var $_DEC = 'grudzieñ';
 	var $_PHPSHOP_CSV_VERSION = '0.7';
 	var $_PHPSHOP_CSV_ABOUT = 'About';
 	var $_PHPSHOP_CSV_SKIP_FIRST_LINE = 'Skip first line';

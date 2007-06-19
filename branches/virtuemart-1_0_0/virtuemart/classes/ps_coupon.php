@@ -146,7 +146,7 @@ class ps_coupon {
     
     /* function to process a coupon_code entered by a user */ 
     function process_coupon_code( $d ) {
-        global $VM_LANG;
+        global $VM_LANG, $vmLogger;
         /* init the database */
         $coupon_db =& new ps_DB;
         
@@ -184,7 +184,7 @@ class ps_coupon {
                  $coupon_value = round( ($d["total"] * $coupon_db->f("coupon_value") / 100), 2);
                  if( $d["total"] < $coupon_value ) {
                   	$coupon_value = (float)$d['total'];
-                  	$vmLogger->info( 'The Value of the Coupon is greater than the current Order Total, so the Coupon Value was temporarily set to '. $coupon_value );
+                  	$vmLogger->info( 'The Value of the Coupon is greater than the current Order Total, so the Coupon Value was temporarily set to '.$GLOBALS['CURRENCY_DISPLAY']->getFullValue( $coupon_value ) );
                 }
                  $_SESSION['coupon_discount'] = $coupon_value;
             }
@@ -196,7 +196,7 @@ class ps_coupon {
                 /* Total Amount */
                 if( $d["total"] < $coupon_value ) {
                   	$coupon_value = (float)$d['total'];
-                  	$vmLogger->info( 'The Value of the Coupon is greater than the current Order Total, so the Coupon Value was temporarily set to '. $coupon_value );
+                  	$vmLogger->info( 'The Value of the Coupon is greater than the current Order Total, so the Coupon Value was temporarily set to '.$GLOBALS['CURRENCY_DISPLAY']->getFullValue( $coupon_value ) );
                 }
                 $_SESSION['coupon_discount'] = $coupon_value;
                 

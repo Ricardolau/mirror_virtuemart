@@ -97,9 +97,9 @@ class MamboMartTree {
             $ibg++;
             $Treeid = $ibg == 0 ? 1 : $ibg;
             $itemid = '&Itemid='.$sess->getShopItemid();
-            $mymenu_content.= ",\n[null,'".$db->f("category_name");
+            $mymenu_content.= ",\n[null,'".$db->f("category_name", false);
             $mymenu_content.= ps_product_category::products_in_category( $db->f("category_id") );
-            $mymenu_content.= "','".sefRelToAbs('index.php?option=com_virtuemart&page=shop.browse&category_id='.$db->f("category_id").$itemid."&TreeId=$Treeid")."','_self','".$db->f("category_name")."'\n ";
+            $mymenu_content.= "','".sefRelToAbs('index.php?option=com_virtuemart&page=shop.browse&category_id='.$db->f("category_id").$itemid."&TreeId=$Treeid")."','_self','".$db->f("category_name", false)."'\n ";
                 
 			/* recurse through the subcategories */
 			$this->traverse_tree_down($mymenu_content, $db->f("category_child_id"), $level);

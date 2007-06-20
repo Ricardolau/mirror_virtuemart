@@ -9,7 +9,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * @package VirtueMart
 * @subpackage modules
 *
-* @copyright (C) 2004-2005 Soeren Eberhardt
+* @copyright (C) 2004-2007 Soeren Eberhardt
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 * VirtueMart is Free Software.
 * VirtueMart comes with absolute no warranty.
@@ -31,6 +31,7 @@ require_once( $mosConfig_absolute_path."/components/com_virtuemart/virtuemart_pa
 if( is_null($sess)) {
 	$sess = new ps_session;
 }
+
 if ($auto == 1 && !empty( $category_id ) ) {
 	$query  = "SELECT distinct a.manufacturer_id,a.mf_name FROM #__{vm}_manufacturer AS a, ";
     $query .= "\n#__{vm}_product AS b,"
@@ -47,67 +48,52 @@ $db = new ps_DB;
 $db->query( $query );
 
 $res = $db->record;
-if( empty( $res )) {
+if( empty( $res ) && empty( $category_id )) {
 	echo 'No manufacturers defined!';
 	return;
 }
 ?>
 <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
 
-<table cellpadding="1" cellspacing="1" border="0" width="80%">
-
-<?php if( $show_linklist == 1 ) { ?>
-  <!--BEGIN manufacturer DropDown List --> 
-  <tr> 
-    <td colspan="2">
-      <table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <tr> 
-          <td><?php echo $text_before ?></td>
-        </tr>
-        <tr><td>&nbsp;</td></tr>
-        <?php foreach( $res as $manufacturer) { ?>
-            <tr>
-                <td><a href="<?php echo $sess->url( URL."index.php?option=com_virtuemart&page=shop.browse&manufacturer_id=". $manufacturer->manufacturer_id ) ?>">
-                    <?php echo $manufacturer->mf_name; ?>
-                    </a>
-                </td>
-            </tr>
-        <?php } ?>
-      </table>
-    </td>
-  </tr>
 <?php 
+if( $show_linklist == 1 ) { ?>
+ 	
+  	<?php 
+  	echo $text_before;
+  	echo '<ul>';
+  	foreach( $res as $manufacturer) { ?>
+      <li><a href="<?php echo $sess->url( URL."index.php?option=com_virtuemart&page=shop.browse&manufacturer_id=". $manufacturer->manufacturer_id ) ?>">
+        <?php echo $manufacturer->mf_name; ?>
+        </a>
+      </li>
+        <?php 
+  	} 
+    echo "</ul>\n";
+    
 }
 if( $show_dropdown == 1 ) { ?>
-  <tr> 
-    <td colspan="2"> 
-        <input type="hidden" name="option" value="com_virtuemart" />
-        <input type="hidden" name="page" value="shop.browse" />
-        <input type="hidden" name="Itemid" value="<?php echo $sess->getShopItemid() ?>" />
-        <br/>
-        <select class="inputbox" name="manufacturer_id">
-            <option value=""><?php echo _CMN_SELECT ?></option>
-        <?php  
-                        foreach ($res as $manufacturer) { 
-                                $selected = '';
-                                if( @$_REQUEST['manufacturer_id'] == $manufacturer->manufacturer_id ) {
-                                        $selected = 'selected="selected"';      
-                                }
-                                echo "<option value=\"".$manufacturer->manufacturer_id ."\" $selected>". $manufacturer->mf_name ."</option>\n";
-          
-                        } 
-        ?>
-        </select>
-    </td>
-  </tr>
-  <tr>
-      <td>
-          <input class="button" type="submit" name="manufacturerSearch" value="<?php echo _SEARCH_TITLE ?>" />
-      </td>
-  </tr>
+  	<!--BEGIN manufacturer DropDown List --> 
+    <input type="hidden" name="option" value="com_virtuemart" />
+    <input type="hidden" name="page" value="shop.browse" />
+    <input type="hidden" name="Itemid" value="<?php echo $sess->getShopItemid() ?>" />
+    <br/>
+    <select class="inputbox" name="manufacturer_id" onchange="this.form.submit();">
+        <option value=""><?php echo _CMN_SELECT ?></option>
+    <?php  
+        foreach ($res as $manufacturer) { 
+            $selected = '';
+            if( @$_REQUEST['manufacturer_id'] == $manufacturer->manufacturer_id ) {
+                    $selected = 'selected="selected"';      
+            }
+            echo "<option value=\"".$manufacturer->manufacturer_id ."\" $selected>". $manufacturer->mf_name ."</option>\n";
+        } 
+    ?>
+    </select>
+    <br />
+  	<input class="button" type="submit" name="manufacturerSearch" value="<?php echo _SEARCH_TITLE ?>" />
+      
 <?php 
 } 
 ?>
-<!-- End Manufacturer Module --> 
-</table>
 </form>
+<!-- End Manufacturer Module --> 

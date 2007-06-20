@@ -89,6 +89,13 @@ if(!defined("_CLASS_CURRENCY_DISPLAY_LOADED")) {
 	function getId(){
 		return($this->id);
 	}
+	function getRounded( $nb, $decimals='' ) {
+		if( $decimals === '') {
+			$decimals = $this->nbDecimal;
+		}
+		return round( $nb, $decimals );
+	}
+	
 	// ================
 	function getValue($nb, $decimals=''){
 		$res = "";		

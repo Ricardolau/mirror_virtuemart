@@ -242,14 +242,17 @@ function validate_image(&$d,$field_name,$table_name) {
         }
 
         /* Command to move uploaded file into destination directory */
-        $d["image_commands"][] = "\$ret = copy(\"".addslashes(realpath($temp_file))."\", \"".$path.$to_file."\");";
+        $d["image_commands"][] = "\$ret = @move_uploaded_file(\"".addslashes(realpath($temp_file))."\", \"".$path.$to_file."\");
+        						  if( \$ret === false ) {
+        							\$ret = copy(\"".addslashes(realpath($temp_file))."\", \"".$path.$to_file."\");
+        						  }";
         
         $d["image_commands"][] = "if( file_exists( realpath(\"$temp_file\") )) {
-                                                                \$ret = @unlink(\"".addslashes(realpath($temp_file))."\" );
-                                                          }
-                                                          else {
-                                                                \$ret = true;
-                                                          }";
+                                        \$ret = @unlink(\"".addslashes(realpath($temp_file))."\" );
+                                  }
+                                  else {
+                                        \$ret = true;
+                                  }";
         
 
         /* Return new image file name */

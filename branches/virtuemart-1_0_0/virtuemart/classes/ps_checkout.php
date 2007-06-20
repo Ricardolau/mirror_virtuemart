@@ -1117,7 +1117,7 @@ Order Total: '.$order_total.'
 			$price = $ps_product->get_adjusted_attribute_price($cart[$i]["product_id"], $cart[$i]["description"]);
 			$product_price = $price["product_price"];
 			if( $auth["show_price_including_tax"] == 1 ) {
-				$product_price = round( ($product_price *($my_taxrate+1)), 2 );
+				$product_price = $GLOBALS['CURRENCY_DISPLAY']->getRounded( ($product_price *($my_taxrate+1)) );
 				$product_price *= $cart[$i]["quantity"];
 				$d['order_subtotal_withtax'] += $product_price;
 				$product_price = $product_price /($my_taxrate+1);
@@ -1126,7 +1126,7 @@ Order Total: '.$order_total.'
 			else {
 				$order_subtotal += $product_price * $cart[$i]["quantity"];
 				
-				$product_price = round( ($product_price *($my_taxrate+1)), 2 );
+				$product_price = $GLOBALS['CURRENCY_DISPLAY']->getRounded( ($product_price *($my_taxrate+1)) );
 				$product_price *= $cart[$i]["quantity"];
 				$d['order_subtotal_withtax'] += $product_price;
 				$product_price = $product_price /($my_taxrate+1);

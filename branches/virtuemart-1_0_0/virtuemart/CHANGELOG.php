@@ -33,6 +33,11 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+20.06.2007 soeren
+# Task #1255 - image uploads broken when open_basedir is set (ps_main.php)
+# Task #1289 - Logged out when using Secure https in Joomla - Virtuemart Backend - Bug (ps_session.php)
+^ Manufacturer Module: Stripped off Tables, Changed manufacturer list from table rows to unordered list
+
 19.06.2007 soeren
 # Task #1297 - Coupon discount total does not adjust after removing item from cart (basket.php, ps_cart.php)
 # Task #1299 - Credit card number accepts a string as valid (ps_payment_method.php)

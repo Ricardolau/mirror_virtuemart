@@ -434,7 +434,7 @@ class ps_session {
 				if ( stristr($text, SECUREURL)) {
 					$appendix = str_replace(URL, SECUREURL, $appendix);
 				}
-				elseif( !@strstr( $page, "checkout." ) && !@strstr( $page, "account." ) ) {
+				elseif( !@strstr( $text, "checkout." ) && !@strstr( $text, "account." ) && !defined( '_PSHOP_ADMIN' )) {
 					$appendix = str_replace(SECUREURL, URL, $appendix);
 				}
 	

@@ -349,8 +349,7 @@ class ps_order {
 			$message .= "\n____________________________________________________________\n\n";
 		}
 
-		$message .= $VM_LANG->_PHPSHOP_ORDER_STATUS_CHANGE_SEND_MSG_2."\n";
-		$message .= "____________________________________________________________\n\n";
+		$message .= $VM_LANG->_PHPSHOP_ORDER_STATUS_CHANGE_SEND_MSG_2.": ";
 		$message .= $db->f("order_status_name");
 		$message .= "\n____________________________________________________________\n\n";
 		$message .= $VM_LANG->_PHPSHOP_ORDER_STATUS_CHANGE_SEND_MSG_3."\n";

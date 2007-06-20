@@ -94,7 +94,7 @@ else {
       } else {
         $product_price = $price["product_price"];
       }
-      $product_price = round( $product_price, 2 );
+      $product_price = $CURRENCY_DISPLAY->getRounded($product_price);
       $product_rows[$i]['product_price'] = $CURRENCY_DISPLAY->getFullValue($product_price);
       
   /* Quantity Box */
@@ -139,7 +139,7 @@ else {
       </form>";
   } // End of for loop through the Cart
   
-  $total = $total_undiscounted = round($total, 2);
+  $total = $total_undiscounted = $CURRENCY_DISPLAY->getRounded($total);
   $subtotal_display = $CURRENCY_DISPLAY->getFullValue($total);
 
 
@@ -181,16 +181,16 @@ else {
   if( !empty($shipping_rate_id) && (CHECKOUT_STYLE =='1' || CHECKOUT_STYLE=='3')) { 
     $shipping = true;
     $vars["weight"] = $weight_total;
-    $shipping_total = round( $ps_checkout->_SHIPPING->get_rate ( $vars ), 2 );
+    $shipping_total = $CURRENCY_DISPLAY->getRounded( $ps_checkout->_SHIPPING->get_rate ( $vars ) );
     $shipping_taxrate = $ps_checkout->_SHIPPING->get_tax_rate();
 
     // When the Shipping rate is shown including Tax
     // we have to extract the Tax from the Shipping Total
     if( $auth["show_price_including_tax"] == 1 ) {
-        $shipping_tax = round( $shipping_total- ($shipping_total / (1+$shipping_taxrate)), 2);
+        $shipping_tax = $CURRENCY_DISPLAY->getRounded( $shipping_total- ($shipping_total / (1+$shipping_taxrate)));
     }
     else {
-      $shipping_tax = round( $shipping_total * $shipping_taxrate, 2);
+      $shipping_tax = $CURRENCY_DISPLAY->getRounded( $shipping_total * $shipping_taxrate );
     }
     $shipping_display = $CURRENCY_DISPLAY->getFullValue($shipping_total);
   }
@@ -213,7 +213,7 @@ else {
 		$tax_total *= $discount_factor;
 	}
     $tax_total += $shipping_tax;
-    $tax_total = round( $tax_total, 2 );
+    $tax_total = $CURRENCY_DISPLAY->getRounded( $tax_total );
     $tax_display = $CURRENCY_DISPLAY->getFullValue($tax_total); 
     		
 	$tax_display .= ps_checkout::show_tax_details( $order_tax_details );
@@ -247,7 +247,7 @@ else {
   $total_undiscounted += $shipping_total;
   
   /* check if the minimum purchase order value has already been reached */
-  if (round($_SESSION['minimum_pov'], 2) > 0.00) {
+  if ($CURRENCY_DISPLAY->getRounded($_SESSION['minimum_pov']) > 0.00) {
       if ($total_undiscounted >= $_SESSION['minimum_pov']) {
           // OKAY!
           define ('_MIN_POV_REACHED', '1');

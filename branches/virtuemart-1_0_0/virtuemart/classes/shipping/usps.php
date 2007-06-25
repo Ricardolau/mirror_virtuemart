@@ -1,9 +1,12 @@
 <?php
 defined('_VALID_MOS') or die('Direct Access to this location is not allowed.');
 /**
-*  MODIFIED BY Corey Koltz & DENEB
+*  MODIFIED BY Corey Koltz (http://www.koltz.com)
+*  Code updated to work with multiple shipping options and
+*  updated for May 2007 changes by USPS.
 *
-* @version $Id$
+* @version $Id: usps.php,v 3.0 2007/06/21 by Corey Koltz
+* Original code by Soeren Eberhardt
 * @package VirtueMart
 * @subpackage shipping
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -51,8 +54,6 @@ class usps {
 		$order_weight = $d['weight'];
 
 		if($order_weight > 0) {
-			if( $order_weight > 70.00 )
-			$order_weight = 70.00;
 
 			//USPS Username
 			$usps_username = USPS_USERNAME;
@@ -113,7 +114,7 @@ class usps {
 			$usps_intl[6] = USPS_INTL6;
 			$usps_intl[7] = USPS_INTL7;
 			$usps_intl[8] = USPS_INTL8;
-			$usps_intl[9] = USPS_INTL9;
+			// $usps_intl[9] = USPS_INTL9;
 			foreach ($usps_intl as $key => $value){
 				if ($value == '1') $usps_intl[$key] = 'TRUE';
 				else $usps_intl[$key] = 'FALSE';
@@ -122,7 +123,7 @@ class usps {
 			$request_title = "Shipping Estimate";
 
 			//The zip that you are shipping from
-			$source_zip = $dbv->f("vendor_zip");
+			$source_zip = substr($dbv->f("vendor_zip"),0,5);
 
 			$shpService = 'All'; //"Priority";
 			
@@ -138,9 +139,13 @@ class usps {
 				$dest_country_name = $db->f("country_name");
 			}
 			$dest_state = $db->f("state");
-			$dest_zip = $db->f("zip");
+			$dest_zip = substr($db->f("zip"),0,5);
 			//$weight_measure
-			$shipping_pounds_intl = ceil ($order_weight);
+	        if ($order_weight < 1) { 
+                      $shipping_pounds_intl = 0;
+            } else {
+                      $shipping_pounds_intl = ceil ($order_weight);
+            }
 			if ($order_weight < 0.88)
 			{
 			$shipping_pounds = 0;
@@ -153,9 +158,15 @@ class usps {
 			}
 
 			$os = array("Mac", "NT", "Irix", "Linux");
-			$states = array('AL', "AK","AR","AZ","CA","CO","CT","DC","DE","FL","GA","HI","IA","ID","IL","IN","KS","KY","LA","MA","MD","ME","MI","MN","MO","MS","MT","NC","ND","NE","NH","NJ","NM","NV","NY","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WI","WV","WY");
-
-			if( ($dest_country == "USA" || $dest_country == "US") && in_array($dest_state,$states) )
+			$states = array("AL","AK","AR","AZ","CA","CO","CT","DC","DE","FL","GA","HI","IA","ID","IL","IN","KS","KY","LA","MA","MD","ME","MI","MN","MO","MS","MT","NC","ND","NE","NH","NJ","NM","NV","NY","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WI","WV","WY");
+			//If weight is over 70 pounds, round down to 70 for now.
+			//Will update in the future to be able to split the package or something?
+			if( $order_weight > 70.00 ) {
+			echo "We are unable to ship USPS as the package weight exceeds the 70 pound limit,<br>please select another shipping method.";
+			}
+			else
+			{
+			if( ( $dest_country == "US") && in_array($dest_state,$states) )
 			{
 				/******START OF DOMESTIC RATE******/
 				//the xml that will be posted to usps
@@ -169,7 +180,6 @@ class usps {
 				$xmlPost .= "<Size>".$usps_packagesize."</Size>";
 				$xmlPost .= "<Machinable>".$usps_machinable."</Machinable>";
 				$xmlPost .= "</Package></RateV2Request>";
-
 
 				// echo htmlentities( $xmlPost );
 				$host = $usps_server;
@@ -191,9 +201,9 @@ class usps {
 					curl_setopt($CR, CURLOPT_POSTFIELDS, $xmlPost);
 					curl_setopt($CR, CURLOPT_RETURNTRANSFER, 1);
 
-
 					$xmlResult = curl_exec( $CR );
-					//echo "<textarea>".$xmlResult."</textarea>";
+
+
 					$error = curl_error( $CR );
 					if( !empty( $error )) {
 						$vmLogger->err( curl_error( $CR ) );
@@ -204,8 +214,7 @@ class usps {
 						/* XML Parsing */
 						require_once( $mosConfig_absolute_path. '/includes/domit/xml_domit_lite_include.php' );
 						$xmlDoc =& new DOMIT_Lite_Document();
-						$xmlDoc->parseXML( $xmlResult, false, true );
-
+						$xmlDoc -> parseXML( $xmlResult, false, true );
 						/* Let's check wether the response from USPS is Success or Failure ! */
 						if( strstr( $xmlResult, "Error" ) ) {
 							$error = true;
@@ -221,14 +230,12 @@ class usps {
 							$html .= $VM_LANG->_PHPSHOP_ERROR_DESC.": ".$error_desc."<br/>";
 
 						}
-
 					}
 					curl_close( $CR );
-
 				}
 				else {
 					$protocol = "http";
-					$fp = fsockopen("$protocol://".$host, $port, $errno, $errstr, $timeout = 60);
+					$fp = fsockopen($protocol."://".$host, $errno, $errstr, $timeout = 60);
 					if( !$fp ) {
 						$error = true;
 						$html = $VM_LANG->_PHPSHOP_INTERNAL_ERROR.": $errstr ($errno)";
@@ -252,6 +259,7 @@ class usps {
 							$xmlDoc =& new DOMIT_Lite_Document();
 							$xmlDoc->parseXML( $xmlResult, false, true );
 							$error = false;
+							
 						}
 						else {
 							$html = "Error processing the Request to USPS.com";
@@ -262,7 +270,7 @@ class usps {
 				}
 				if (DEBUG){
 					echo "XML Post: <br>";
-					echo "<textarea cols='80'>".$protocol."://".$host.$path."?API=Rate&XML=".$xmlPost."</textarea>";
+					echo "<textarea cols='80'>".$protocol."://".$host.$path."?".$xmlPost."</textarea>";
 					echo "<br>";
 					echo "XML Result: <br>";
 					echo "<textarea cols='80' rows='10'>".$xmlResult."</textarea>";
@@ -273,15 +281,16 @@ class usps {
 					// comment out, if you don't want the Errors to be shown!!
 					//$vmLogger->err( $html );
 					// Switch to StandardShipping on Error !!!
-					require_once( CLASSPATH . 'shipping/standard_shipping.php' );
-					$shipping =& new standard_shipping();
-					$shipping->list_rates( $d );
+					//require_once( CLASSPATH . 'shipping/standard_shipping.php' );
+					//$shipping =& new standard_shipping();
+					//$shipping->list_rates( $d );
+					echo "We are unable to ship USPS as the there was an error,<br> please select another shipping method.";
 					return;
 				}
 				// Domestic shipping - add how long it might take
 				$ship_commit[0]="1 - 2 Days";
 				$ship_commit[1]="1 - 2 Days";
-				$ship_commit[2]="1 - 3 Days";
+				$ship_commit[2]="1 - 2 Days";
 				$ship_commit[3]="1 - 3 Days";
 				$ship_commit[4]="1 - 3 Days";
 				$ship_commit[5]="1 - 3 Days";
@@ -293,27 +302,41 @@ class usps {
 				
 				// retrieve the service and postage items
 				$i = 0;
-				if ($order_weight < 0.88) {
-					$count = 10;
-				}
-				else {
+				if ($order_weight > 15) {
 					$count = 8;
 					$usps_ship[6] = $usps_ship[7];
 					$usps_ship[7] = $usps_ship[9];
+					$usps_ship[8] = $usps_ship[10];	
+					}			
+				else if ($order_weight >= 0.86) {
+					$count = 9;
+					$usps_ship[6] = $usps_ship[7];
+					$usps_ship[7] = $usps_ship[8];
+					$usps_ship[8] = $usps_ship[9];
 					$usps_ship[9] = $usps_ship[10];
+				}
+				else {
+					$count = 10;
+
 				}
 				while ($i <= $count) {
 				if( isset( $xmlDoc)) {
-					$ship_service[$i] = $xmlDoc->getElementsByTagName( "MailService" );
+					$ship_service[$i] = $xmlDoc->getElementsByTagName( 'MailService' );
 					$ship_service[$i] = $ship_service[$i]->item($i);
 					$ship_service[$i] = $ship_service[$i]->getText();
 
-					$ship_postage[$i] = $xmlDoc->getElementsByTagName( "Rate" );
+					$ship_postage[$i] = $xmlDoc->getElementsByTagName( 'Rate' );
 					$ship_postage[$i] = $ship_postage[$i]->item($i);
 					$ship_postage[$i] = $ship_postage[$i]->getText();
-					$ship_postage[$i] = $ship_postage[$i] + USPS_HANDLINGFEE;
-					//echo $ship_service[$i]." <b>".$ship_postage[$i]."</b>"."<br>";
+					if (preg_match('/%$/',USPS_HANDLINGFEE)) {
+					  $ship_postage[$i] = $ship_postage[$i] * (1+substr(USPS_HANDLINGFEE,0,-1)/100);
+					} else {
+					  $ship_postage[$i] = $ship_postage[$i] + USPS_HANDLINGFEE;
+					}
+
+
 				$i++;
+
 				}
 				}
 				/******END OF DOMESTIC RATE******/
@@ -385,7 +408,7 @@ class usps {
 				}
 				else {
 					$protocol = "http";
-					$fp = fsockopen("$protocol://".$host, $port, $errno, $errstr, $timeout = 60);
+					$fp = fsockopen($protocol."://".$host, $errno, $errstr, $timeout = 60);
 					if( !$fp ) {
 						$error = true;
 						$html = $VM_LANG->_PHPSHOP_INTERNAL_ERROR.": $errstr ($errno)";
@@ -419,7 +442,7 @@ class usps {
 				}
 				if (DEBUG){
 					echo "XML Post: <br>";
-					echo "<textarea cols='80'>".$protocol."://".$host.$path."?API=Rate&XML=".$xmlPost."</textarea>";
+					echo "<textarea cols='80'>".$protocol."://".$host.$path."?".$xmlPost."</textarea>";
 					echo "<br>";
 					echo "XML Result: <br>";
 					echo "<textarea cols='80' rows='10'>".$xmlResult."</textarea>";
@@ -430,22 +453,72 @@ class usps {
 					// comment out, if you don't want the Errors to be shown!!
 					//$vmLogger->err( $html );
 					// Switch to StandardShipping on Error !!!
-					require_once( CLASSPATH . 'shipping/standard_shipping.php' );
-					$shipping =& new standard_shipping();
-					$shipping->list_rates( $d );
-					return;
+					//require_once( CLASSPATH . 'shipping/standard_shipping.php' );
+					//$shipping =& new standard_shipping();
+					//$shipping->list_rates( $d );
+					//return;
+					echo "We are unable to ship USPS as there was an error,<br> please select another shipping method.";
 				}
 				// retrieve the service and postage items
 				$i = 0;
-				if ($order_weight < 4.01) {
-					$count = 9;
+				$numChildren = 0;
+				$numChildren = $xmlDoc->documentElement->firstChild->childCount;
+				$numChildren = ($numChildren - 7);  // this line removes the preceeding 6 lines of crap not needed plus 1 to make up for the $i starting at 0
+				while ($i <= $numChildren) {
+					if( isset( $xmlDoc)) {
+						$ship_service[$i] = $xmlDoc->getElementsByTagName( "SvcDescription" );
+						$ship_service[$i] = $ship_service[$i]->item($i);
+						$ship_service[$i] = $ship_service[$i]->getText();
+						
+						$ship_weight[$i] = $xmlDoc->getElementsByTagName( "MaxWeight" );
+						$ship_weight[$i] = $ship_weight[$i]->item($i);
+						$ship_weight[$i] = $ship_weight[$i]->getText($i);
+					}
+					$i++;
 				}
-				else {
-					$count = 4;
-					$usps_intl[3] = $usps_intl[7];
-					$usps_intl[4] = $usps_intl[9];
+				// retrieve postage for countries that support all nine shipping methods and weights
+				$ship_weight[8] = ($ship_weight[8]/16);
+				if ( $order_weight <= $ship_weight[0] && $ship_weight[1] && $ship_weight[2] && $ship_weight[3] && $ship_weight[4] && $ship_weight[5] && $ship_weight [6] && $ship_weight[7] && $ship_weight[8] ) {
+						$count = 8;
+					}
+				// retrieve postage for countries that support eight of the nine shipping methods and weights
+				elseif ( $order_weight <= $ship_weight[0] && $ship_weight[1] && $ship_weight[2] && $ship_weight[3] && $ship_weight[4] && $ship_weight[5] && $ship_weight [6] && $ship_weight[7] ) {
+						$count = 7;
+						// $usps_intl[6] = $usps_intl[7];
+					}
+				// retrieve postage for countries that support seven of the nine shipping methods and weights
+				elseif ( $order_weight <= $ship_weight[0] && $ship_weight[1] && $ship_weight[2] && $ship_weight[3] && $ship_weight[4] && $ship_weight[5] && $ship_weight [6] ) {
+						$count = 6;
+					}	
+				// retrieve postage for countries that support six of the nine shipping methods and weights
+				elseif ( $order_weight <= $ship_weight[0] && $ship_weight[1] && $ship_weight[2] && $ship_weight[3] && $ship_weight[4] && $ship_weight[5] ) {
+						$count = 5;
+					}		
+				// retrieve postage for countries that support five of the nine shipping methods and weights
+				elseif ( $order_weight <= $ship_weight[0] && $ship_weight[1] && $ship_weight[2] && $ship_weight[3] && $ship_weight[4] ) {
+						$count = 4;
+					}	
+				// retrieve postage for countries that support four of the nine shipping methods and weights
+				elseif ( $order_weight <= $ship_weight[0] && $ship_weight[1] && $ship_weight[2] && $ship_weight[3] ) {
+						$count = 3;
+					}		
+				// retrieve postage for countries that support three of the nine shipping methods and weights 
+				elseif ( $order_weight <= $ship_weight[0] && $ship_weight[1] && $ship_weight[2] ) {
+						$count = 2;
+					}		
+				// retrieve postage for countries that support two of the nine shipping methods and weights 
+				elseif ( $order_weight <= $ship_weight[0] && $ship_weight[1] ) {
+						$count = 1;
+					}
+				// retrieve postage for countries that support one of the nine shipping methods and weights 
+				elseif ( $order_weight <= $ship_weight[0] ) {
+						$count = 0;
+					}
+				else { 
+					echo "We are unable to ship USPS as the package weight exceeds what your<br>country allows, please select another shipping method.";
 				}
-				while ($i <= $count) {
+				$i = 0;
+				while ($i <= $numChildren) {
 				if( isset( $xmlDoc)) {
 					$ship_service[$i] = $xmlDoc->getElementsByTagName( "SvcDescription" );
 					$ship_service[$i] = $ship_service[$i]->item($i);
@@ -459,13 +532,11 @@ class usps {
 					$ship_postage[$i] = $ship_postage[$i]->item($i);
 					$ship_postage[$i] = $ship_postage[$i]->getText($i);
 					$ship_postage[$i] = $ship_postage[$i] + USPS_INTLHANDLINGFEE;
-					//echo $ship_service[$i]." <b>".$ship_postage[$i]."</b>"."<br>";
 				$i++;
-				}
 				}
 				/******END INTERNATIONAL RATE******/
 			}
-			
+			}
 			$i = 0;
 			while ($i <= $count) {
 			$html = "";
@@ -494,6 +565,7 @@ class usps {
 			}
 			$i++;
 			}
+		}
 		}
 		return true;
 	} //end function list_rates
@@ -552,7 +624,7 @@ class usps {
     <tr>
         <td><strong><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_USERNAME ?></strong></td>
 		<td>
-            <input type="text" name="USPS_USERNAME" class="inputbox" value="<?php echo USPS_USERNAME ?>" />
+            <input type="text" name="USPS_USERNAME" class="inputbox" value="<? echo USPS_USERNAME ?>" />
 		</td>
 		<td>
           <?php echo mm_ToolTip($VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_USERNAME_TOOLTIP) ?>
@@ -562,7 +634,7 @@ class usps {
         <td><strong><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PASSWORD ?></strong>
 		</td>
 		<td>
-            <input type="text" name="USPS_PASSWORD" class="inputbox" value="<?php echo USPS_PASSWORD ?>" />
+            <input type="text" name="USPS_PASSWORD" class="inputbox" value="<? echo USPS_PASSWORD ?>" />
 		</td>
 		<td>
             <?php echo mm_ToolTip($VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PASSWORD_TOOLTIP) ?>
@@ -572,7 +644,7 @@ class usps {
         <td><strong><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SERVER ?></strong>
 		</td>
 		<td>
-            <input type="text" name="USPS_SERVER" class="inputbox" value="<?php echo USPS_SERVER ?>" />
+            <input type="text" name="USPS_SERVER" class="inputbox" value="<? echo USPS_SERVER ?>" />
 		</td>
 		<td>
             <?php echo mm_ToolTip($VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SERVER_TOOLTIP) ?>
@@ -582,7 +654,7 @@ class usps {
         <td><strong><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PATH ?></strong>
 		</td>
 		<td>
-            <input type="text" name="USPS_PATH" class="inputbox" value="<?php echo USPS_PATH ?>" />
+            <input type="text" name="USPS_PATH" class="inputbox" value="<? echo USPS_PATH ?>" />
 		</td>
 		<td>
             <?php echo mm_ToolTip($VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PATH_TOOLTIP) ?>
@@ -629,7 +701,7 @@ class usps {
         <td><strong><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLLBRATE ?></strong>
 		</td>
 		<td>
-            <input type="text" name="USPS_INTLLBRATE" class="inputbox" value="<?php echo USPS_INTLLBRATE ?>" />
+            <input type="text" name="USPS_INTLLBRATE" class="inputbox" value="<? echo USPS_INTLLBRATE ?>" />
 		</td>
 		<td>
             <?php echo mm_ToolTip($VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLLBRATE_TOOLTIP) ?>
@@ -639,7 +711,7 @@ class usps {
         <td><strong><?php echo $VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLHANDLINGFEE ?></strong>
 		</td>
 		<td>
-            <input type="text" name="USPS_INTLHANDLINGFEE" class="inputbox" value="<?php echo USPS_INTLHANDLINGFEE ?>" />
+            <input type="text" name="USPS_INTLHANDLINGFEE" class="inputbox" value="<? echo USPS_INTLHANDLINGFEE ?>" />
 		</td>
 		<td>
             <?php echo mm_ToolTip($VM_LANG->_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLHANDLINGFEE_TOOLTIP) ?>
@@ -695,7 +767,7 @@ class usps {
 		<td colspan="3"><hr><?php echo _VM_LANG_USPS_INTL; ?><hr></td>
 	</tr>
 <!-- added for new shipping rate V2 code ... International Shipping -->
-	<?php $count = 9; $i = 0; ?>
+	<?php $count = 8; $i = 0; ?>
 	<?php while ($i <= $count): 
 	$int_option = constant("USPS_INTL".$i);
 	?>
@@ -769,7 +841,7 @@ class usps {
 		"USPS_INTL6" => $d['USPS_INTL6'],
 		"USPS_INTL7" => $d['USPS_INTL7'],
 		"USPS_INTL8" => $d['USPS_INTL8'],
-		"USPS_INTL9" => $d['USPS_INTL9']
+		//"USPS_INTL9" => $d['USPS_INTL9']
 		);
 		$config = "<?php\n";
 		$config .= "defined('_VALID_MOS') or die('Direct Access to this location is not allowed.'); \n\n";
@@ -798,26 +870,26 @@ define( '_VM_LANG_USPS_QUOTE', 'Show Delivery Days Quote?' );
 define( '_VM_LANG_USPS_QUOTE_TOOLTIP', 'Show Delivery Days Quote?' );
 define( '_VM_LANG_USPS_SHIP', 'Domestic Shipping Options' );
 define( '_VM_LANG_USPS_PADDING_TOOLTIP', 'Pad the shipping weight to allow weight for shipping materials' );
-define( '_VM_LANG_USPS_SHIP0', 'USPS Express Mail PO to Addressee' );
-define( '_VM_LANG_USPS_SHIP1', 'USPS Express Mail Flat Rate Envelope (12.5" x 9.5")' );
-define( '_VM_LANG_USPS_SHIP2', 'USPS Priority Mail' );
-define( '_VM_LANG_USPS_SHIP3', 'USPS Priority Mail Flat Rate Envelope (12.5" x 9.5")' );
-define( '_VM_LANG_USPS_SHIP4', 'USPS Priority Mail Flat Rate Box (11.25" x 8.75" x 6")' );
-define( '_VM_LANG_USPS_SHIP5', 'USPS Priority Mail Flat Rate Box (14" x 12" x 3.5")' );
+define( '_VM_LANG_USPS_SHIP0', 'USPS Express Mail PO to PO' );
+define( '_VM_LANG_USPS_SHIP1', 'USPS Express Mail' );
+define( '_VM_LANG_USPS_SHIP2', 'USPS Express Mail Flat-Rate Envelope' );
+define( '_VM_LANG_USPS_SHIP3', 'USPS Priority Mail' );
+define( '_VM_LANG_USPS_SHIP4', 'USPS Priority Mail Flat Rate Envelope' );
+define( '_VM_LANG_USPS_SHIP5', 'USPS Priority Mail Flat Rate Box' );
 define( '_VM_LANG_USPS_SHIP6', 'USPS First-Class Mail' );
 define( '_VM_LANG_USPS_SHIP7', 'USPS Parcel Post' );
 define( '_VM_LANG_USPS_SHIP8', 'USPS Bound Printed Matter' );
 define( '_VM_LANG_USPS_SHIP9', 'USPS Media Mail' );
 define( '_VM_LANG_USPS_SHIP10', 'USPS Library Mail' );
 define( '_VM_LANG_USPS_INTL', 'International Shipping Options' );
-define( '_VM_LANG_USPS_INTL0', 'USPS Global Express Guaranteed Document Service' );
-define( '_VM_LANG_USPS_INTL1', 'USPS Global Express Guaranteed Non-Document Service' );
-define( '_VM_LANG_USPS_INTL2', 'USPS Global Express Mail (EMS)' );
-define( '_VM_LANG_USPS_INTL3', 'USPS Global Priority Mail - Flat-rate Envelope (Large)' );
-define( '_VM_LANG_USPS_INTL4', 'USPS Global Priority Mail - Flat-rate Envelope (Small)' );
-define( '_VM_LANG_USPS_INTL5', 'USPS Global Priority Mail - Variable Weight (Single)' );
-define( '_VM_LANG_USPS_INTL6', 'USPS Airmail Letter Post' );
-define( '_VM_LANG_USPS_INTL7', 'USPS Airmail Parcel Post' );
-define( '_VM_LANG_USPS_INTL8', 'USPS Economy (Surface) Letter Post' );
-define( '_VM_LANG_USPS_INTL9', 'USPS Economy (Surface) Parcel Post' );
+define( '_VM_LANG_USPS_INTL0', 'USPS Global Express Guaranteed' );
+define( '_VM_LANG_USPS_INTL1', 'USPS Global Express Guaranteed Non-Document Rectangular' );
+define( '_VM_LANG_USPS_INTL2', 'USPS Global Express Non-Rectangular' );
+define( '_VM_LANG_USPS_INTL3', 'USPS Express Mail International (EMS)' );
+define( '_VM_LANG_USPS_INTL4', 'USPS Express Mail International (EMS) Flat Rate Envelope' );
+define( '_VM_LANG_USPS_INTL5', 'USPS Priority Mail International' );
+define( '_VM_LANG_USPS_INTL6', 'USPS Priority Mail International Flat Rate Envelope' );
+define( '_VM_LANG_USPS_INTL7', 'USPS Priority Mail International Flat Rate Box' );
+define( '_VM_LANG_USPS_INTL8', 'USPS First-Class Mail International' );
+//define( '_VM_LANG_USPS_INTL9', 'Currently Not Used - Do Not Select' );
 ?>

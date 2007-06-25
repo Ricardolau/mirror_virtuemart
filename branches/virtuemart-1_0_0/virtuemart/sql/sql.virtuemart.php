@@ -471,7 +471,7 @@ $db->query( "INSERT INTO `#__{vm}_csv` VALUES (1, 'product_sku', '', 1, 'Y'),
 (23, 'custom_attribute', '', 23, 'N'),
 (24, 'attributes', '', 24, 'N'),
 (25, 'attribute_values', '', 25, 'N'),
-(25, 'product_discount', '', 26, 'N'); " );
+(26, 'product_discount', '', 26, 'N'); " );
 
 ## --------------------------------------------------------
 

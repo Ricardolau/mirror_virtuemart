@@ -33,6 +33,10 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+25.06.2007 soeren
+
+^ Updated the USPS Shipping module to version 3.0 (thank you Corey!!)
+
 20.06.2007 soeren
 # Task #1255 - image uploads broken when open_basedir is set (ps_main.php)
 # Task #1289 - Logged out when using Secure https in Joomla - Virtuemart Backend - Bug (ps_session.php)

@@ -30,14 +30,14 @@ class vmVersion {
 	/** @var string Product */
 	var $PRODUCT = 'VirtueMart';
 	/** @var int Release Number */
-	var $RELEASE = '1.0.11';
+	var $RELEASE = '1.0.12';
 	/** @var string Development Status */
 	var $DEV_STATUS = 'stable';
 	/** @var string Codename */
-	// Song by Noel "Paul" Stookey: http://en.wikipedia.org/wiki/The_Wedding_Song_%28There_is_Love%29
-	var $CODENAME = 'The Wedding Song';
+	// From the musical, "Jekyll and Hyde": http://en.wikipedia.org/wiki/Jekyll_%26_Hyde_%28musical%29
+	var $CODENAME = 'This is the Moment';
 	/** @var string Date */
-	var $RELDATE = '14/06/2007';
+	var $RELDATE = '27/06/2007';
 	/** @var string Time */
 	var $RELTIME = '19:00';
 	/** @var string Timezone */

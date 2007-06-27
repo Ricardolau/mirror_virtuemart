@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+
+--- VirtueMart 1.0.12 released ---
+
 26.06.2006 gregdev
 # Corrected PHP short tags in USPS shipping module
 

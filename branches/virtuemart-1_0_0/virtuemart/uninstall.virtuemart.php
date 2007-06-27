@@ -19,9 +19,12 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 function com_uninstall() {
 	global $database, $mosConfig_absolute_path, $mosConfig_live_site;
 	
-	require( $mosConfig_absolute_path.'/administrator/components/com_virtuemart/virtuemart.cfg.php' );
-	require( $mosConfig_absolute_path.'/administrator/components/com_virtuemart/classes/ps_database.php' );
+	@include( $mosConfig_absolute_path.'/administrator/components/com_virtuemart/virtuemart.cfg.php' );
+	@include( $mosConfig_absolute_path.'/administrator/components/com_virtuemart/classes/ps_database.php' );
 	
+	if( !class_exists( 'ps_db' )) {
+		return;
+	}
 	$db = &new ps_DB;
 	
 	  

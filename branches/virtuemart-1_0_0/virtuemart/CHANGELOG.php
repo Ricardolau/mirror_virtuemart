@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+16.07.2007 gregdev
+# Task #1328 - long php opening tags missing in vendor.vendor_form.php
+
 06.07.2007 gregdev
 # Check for set $_REQUEST entries before resetting values
 

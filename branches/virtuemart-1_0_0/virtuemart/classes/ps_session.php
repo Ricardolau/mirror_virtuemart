@@ -113,8 +113,8 @@ class ps_session {
 			// this is needed for joomla sites only
 			return $mainframe->_session->session_id;
 		}
-		
 	}
+	
 	function restartSession( $sid = '') {
 		
 		// Save the session data and close the session
@@ -142,7 +142,7 @@ class ps_session {
 	 * The function is called on each page load.
 	 */
 	function prepare_SSL_Session() {
-		global $mainframe, $my, $mosConfig_secret, $_VERSION;
+		global $mainframe, $user, $mosConfig_secret, $_VERSION;
 
 		$ssl_redirect = mosGetParam( $_GET, "ssl_redirect", 0 );
 		$martID = mosGetParam( $_GET, 'martID', null );
@@ -163,16 +163,25 @@ class ps_session {
 				
 				$sessionId = $this->getSessionId();
 				
-				if( !empty($my->id)) {
+				if( !empty($user->id)) {
 					// User is already logged in
 					// We need to transfer the usercookie if present
-					if( !empty( $my->password )) {
-						$userinfo = $my->password.'|'.$my->username;
+					if( !empty( $user->password )) {
+						$userinfo = $user->password.'|'.$user->username;
 						
 					} else {
 						$userinfo = $_COOKIE['usercookie']['password']."|".$_COOKIE['usercookie']['username'];
 					}
-					$martID = @base64_encode( $_COOKIE[$this->_session_name]."|".$sessionId."|".$userinfo );
+					$remCookieValue = '';
+					if( is_callable( array($mainframe, 'remCookieName_User'))) {
+						if( !empty( $GLOBALS['real_mosConfig_live_site'] ) && empty( $_REQUEST['real_mosConfig_live_site'])) {
+							$GLOBALS['mosConfig_live_site'] = $GLOBALS['real_mosConfig_live_site'];
+						}
+						$remCookieValue = mosGetParam( $_COOKIE, mosMainFrame::remCookieName_User(), '' );
+						
+					}
+					
+					$martID = @base64_encode( $_COOKIE[$this->_session_name]."|".$sessionId."|".$userinfo . '|' . $remCookieValue );
 
 				}
 				else {
@@ -204,7 +213,9 @@ class ps_session {
         */
 		if( !empty( $martID ) ) {
 			if( $this->check_Shared_SSL( $ssl_domain ) ) {
-	
+				if( !empty( $GLOBALS['real_mosConfig_live_site'] ) && empty( $_REQUEST['real_mosConfig_live_site'])) {
+					$GLOBALS['mosConfig_live_site'] = $GLOBALS['real_mosConfig_live_site'];
+				}
 				// We now need to copy the Mambo Cookies (which are only
 				// valid for the "normal" Domain) to the SSL Domain
 				if( $martID ) {
@@ -216,10 +227,23 @@ class ps_session {
 					$sessioncookie = $id_array[1];
 					$usercookie["password"] = @$id_array[2];
 					$usercookie["username"] = @$id_array[3];
+					$remCookieValue = @$id_array[4];
 
 					// Log the user in with his username
 					if( !empty( $usercookie["username"]) && !empty( $usercookie["password"] )) {
-						$mainframe->login( $usercookie["username"], $usercookie["password"] );
+						if( defined('_JEXEC') ) {
+							//TODO
+						}
+						elseif( class_exists('mambocore')) {
+							//TODO
+						}
+						elseif( $GLOBALS['_VERSION']->RELEASE == '1.0' && (int)$GLOBALS['_VERSION']->DEV_LEVEL >= 13) {
+							// Joomla! >= 1.0.13 can be cheated to log in a user who has previsously logged in and checked the "Remember me" box
+							setcookie( mosmainframe::remCookieName_User(), $remCookieValue, false, '/' );
+							// there's no need to call "$mainframe->login"
+						} else {
+							$mainframe->login($usercookie['username'], $usercookie['password'] );
+						}
 					}
 					
 					require_once( ADMINPATH.'install.copy.php');

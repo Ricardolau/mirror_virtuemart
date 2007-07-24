@@ -42,6 +42,9 @@ VirtueMart 1.0.x
 05.07.2007 gregdev
 # Corrected filename error in usps.ini
 
+23.07.2006 soeren
+# fixed the Login issues with Joomla! 1.0.13 (ps_session.php, ps_shopper.php, virtuemart_parser.php)
+
 --- VirtueMart 1.0.12 released ---
 
 26.06.2007 gregdev

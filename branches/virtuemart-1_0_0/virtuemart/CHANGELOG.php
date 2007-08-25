@@ -33,6 +33,11 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+25.08.2007 soeren
+# Task #1325 - Extra fields are not checked in the account.billing page
+# Task #1340 - [Import CSV] update product erase product_attribute (attribute_values) infos
+# Task #1357 - Performance problems creating new products
+ 
 16.07.2007 gregdev
 # Task #1328 - long php opening tags missing in vendor.vendor_form.php
 

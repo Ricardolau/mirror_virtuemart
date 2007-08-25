@@ -559,7 +559,7 @@ class ps_csv {
 									}
 									$q = "INSERT INTO #__{vm}_product_attribute (`product_id`, `attribute_name`, `attribute_value`) VALUES ('".$product_details->product_id."', '".$values[0]."', '".$values[1]."' )";
 									if ($this->debug) $this->csv_debug['message'] .= 'Insert new value: <a onclick="switchMenu(\''.$product_details->product_sku.'_add_attribute_value'.$i.'\');" title="Show/hide query">Show/hide query</a><div id="'.$product_details->product_sku.'_add_attribute_value'.$i.'" style="display: none; border: 1px solid #000000; padding: 5px;">'.htmlentities($q).'</div><br />';
-									$dbu->query( );
+									$dbu->query(  $q);
 									$i++;
 								}
 							}

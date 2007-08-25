@@ -82,7 +82,13 @@ if (LEAVE_BANK_DATA == '1') {
 	    $shopper_fields['bank_iban'] = $VM_LANG->_PHPSHOP_ACCOUNT_LBL_BANK_IBAN;
     $shopper_fields[uniqid('fieldset_end')] = "";
 } 
-
+ 	// Extra Fields when defined in the language file
+ 	for( $i=1; $i<6; $i++ ) {
+ 		$property = "_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_$i";
+ 		if( !empty($VM_LANG->$property) ) {
+ 			$shopper_fields['extra_field_'.$i] = $VM_LANG->$property;
+ 		}
+ 	}
 
 if (!empty($missing))
     echo "<script type=\"text/javascript\"> alert('".$VM_LANG->_CONTACT_FORM_NC."'); </script>\n";
@@ -189,30 +195,7 @@ vmCommonHTML::printJS_formvalidation( $required_fields, 'adminForm', 'submitshop
    		echo '</div>
 			      <br/><br/>';
    }
-   /**
-    * @deprecated 
-    * thanks to Zdenek for that. Checks for Extra Form Fields
-    */
-   for( $i=1; $i<6; $i++ ) {
-   		$property = "_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_$i";
-   		if( $VM_LANG->$property != "" ) { ?>
 
-	      <div style="float:left;width:30%;text-align:right;" >
-	        <?php echo "<label for=\"extra_field_".$i."\">".$VM_LANG->$property."</label>" ?>:</div>
-	      <div style="float:left;width:60%;"> 
-	      <?php
-	      	if( $i == 4 || $i == 5) {
-	      		eval( "\$ps_html->list_extra_field_$i(\$db->sf(\"extra_field_$i\"), \"id=\\\"extra_field_$i\\\"\");" );
-	      	}
-	      	else {
-	      		echo '<input type="text" id="extra_field_'. $i.'" name="extra_field_'. $i .'" size="40" value="'. $db->sf("extra_field_".$i).'" class="inputbox" />';
-	      	}
-	      ?>
-	      </div>
-	    <br/><br/>
-    	<?php 
-		} 
-   }
     ?>
 
   </div>

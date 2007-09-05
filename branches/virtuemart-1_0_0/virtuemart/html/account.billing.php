@@ -119,7 +119,7 @@ vmCommonHTML::printJS_formvalidation( $required_fields, 'adminForm', 'submitshop
     	<input type="image" src="images/save_f2.png" name="submit" alt="<?php echo $VM_LANG->_CMN_SAVE ?>"  onclick="return( submitshopperform());" />
     </span>
     <span style="margin-left:10px;">
-    	<a href="<?php $sess->purl( SECUREURL."index.php?page=account.index") ?>">
+    	<a href="<?php $sess->purl( SECUREURL."index.php?page=$next_page") ?>">
     		<img src="images/back_f2.png" alt="<?php echo $VM_LANG->_BACK ?>" border="0" />
     	</a>
     </span>

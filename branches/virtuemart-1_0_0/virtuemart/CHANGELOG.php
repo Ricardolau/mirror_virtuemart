@@ -33,6 +33,10 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+05.09.2007 gregdev
+#  Task #1409 - fixed back button to return to checkout page when updating address during checkout
+^ Updated Joomla! 1.5 compatibility file (for partial compatibility)
+
 25.08.2007 soeren
 # Task #1325 - Extra fields are not checked in the account.billing page
 # Task #1340 - [Import CSV] update product erase product_attribute (attribute_values) infos

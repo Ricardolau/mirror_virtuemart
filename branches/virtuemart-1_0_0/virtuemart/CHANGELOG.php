@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+06.09.2007
+# Task #1363 - Fixed Regression in attribute list parsing. Edited ps_product_attribute.php.
+
 05.09.2007 gregdev
 #  Task #1409 - fixed back button to return to checkout page when updating address during checkout
 ^ Updated Joomla! 1.5 compatibility file (for partial compatibility)

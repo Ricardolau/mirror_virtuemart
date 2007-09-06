@@ -301,7 +301,7 @@ class ps_product_attribute {
 
 				$base=explode(",",$field);
 				$title=array_shift($base);
-				$titlevar=str_replace(" ","_",$title);
+				$titlevar=str_replace(" ","_",trim($title));
 				$html .= "<div style=\"width:30%;float:left;text-align:right;margin:3px;\">";
 				$html .= "<label for=\"".$titlevar."_field\">$title</label>:</div>";
 				$html .= "<div style=\"width:60%;float:left;margin:3px;\"><select class=\"inputbox\" id=\"".$titlevar."_field\" name=\"$titlevar\">";
@@ -398,7 +398,7 @@ class ps_product_attribute {
 		// Get each of the attributes into an array
 		$product_attribute_keys = explode( ";", $attributes );
 		foreach( $product_attribute_keys as $attribute ) {
-			$attribute_name = substr( $attribute, 0, strpos($attribute, ",") );
+			$attribute_name = trim(substr( $attribute, 0, strpos($attribute, ",") ));
 			$attribute_values = substr( $attribute, strpos($attribute, ",")+1 );
 			$attributes_array[$attribute_name]['name'] = $attribute_name;
 			// Read the different attribute values into an array
@@ -488,7 +488,7 @@ class ps_product_attribute {
 		$description="";
 		$attribute_given = false;
 		foreach($attributes as $a) {
-			$pagevar=str_replace(" ","_",$a);
+			$pagevar=str_replace(" ","_",trim($a));
 			if (!empty($d[$pagevar])) {
 				$attribute_given = true;
 			}

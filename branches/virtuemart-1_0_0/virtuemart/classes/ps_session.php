@@ -5,7 +5,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2006 Soeren Eberhardt. All rights reserved.
+* @copyright Copyright (C) 2004-2007 Soeren Eberhardt. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -197,7 +197,7 @@ class ps_session {
 				file_put_contents( $sessionFile, $session_contents );
 
 				// Redirect and send the Cookie Values within the variable martID
-				mosRedirect( SECUREURL . "index.php?option=com_virtuemart&page=checkout.index&martID=$martID" );
+				mosRedirect( SECUREURL . "index.php?option=com_virtuemart&page=checkout.index&martID=$martID&Itemid=". $this->getShopItemid() );
 			}
 			// do nothing but redirect
 			else {

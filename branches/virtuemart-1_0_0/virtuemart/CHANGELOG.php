@@ -33,8 +33,12 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+26.09.2007 soeren
+# fixed "Transaction Key Change" not working under Joomla! 1.0.13
+
 14.09.2007 soeren
 # Fixed Checkout Redirection when VirtueMart is restricted to registered users (Access denied
+
 06.09.2007
 # Task #1363 - Fixed Regression in attribute list parsing. Edited ps_product_attribute.php.
 

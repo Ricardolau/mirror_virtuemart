@@ -43,7 +43,7 @@ class vmMenuBar extends mosMenuBar {
 		$image = '<img src="'.$vmIcons['new_icon'].'" alt="'.$alt.'" border="0" name="new" />';
 		$image2 = $vmIcons['new_icon2'];
 		$bar->appendButton('', '<td>
-			<a class="toolbar" href="javascript:vm_submitButton(\''.$task.'\',\''.$formName.'\',\''.$page.'\');" onmouseout="MM_swapImgRestore();"  onmouseover="MM_swapImage(\''. $task. '\',\'\',\''. $image2 .'\',1);">'
+			<a class="toolbar" href="javascript:document.adminForm.toggle.onclick();vm_submitButton(\''.$task.'\',\''.$formName.'\',\''.$page.'\');" onmouseout="MM_swapImgRestore();"  onmouseover="MM_swapImage(\''. $task. '\',\'\',\''. $image2 .'\',1);">'
 			. $image.'<br/>'
 			. $alt
 		.'</a>

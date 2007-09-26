@@ -1613,8 +1613,9 @@ Bitte nicht auf diese Nachricht antworten, da sie automatisch generiert wurde un
 	var $_BUTTON_LOGOUT = 'Abmelden';
 	var $_NO_ACCOUNT = 'Noch kein Benutzerkonto?';
 	var $_CREATE_ACCOUNT = 'Registrieren';
-	var $_REGWARN_VPASS1 = 'Bitte bestätigen Sie das Passwort.';
-	var $_REGWARN_VPASS2 = 'Die eingegebenen Passwörter stimmen nicht überein, bitte versuchen Sie es noch einmal.';
+	var $_REGWARN_PASS = 'Bitte gib ein gültiges Passwort ein. Es beinhaltet keine Leerzeichen, ist mehr als 6 Zeichen lang und besteht nur aus 0-9, a-z oder A-Z';
+	var $_REGWARN_VPASS1 = 'Bitte bestätige das Passwort.';
+	var $_REGWARN_VPASS2 = 'Die eingegebenen Passwörter stimmen nicht überein, bitte versuche es noch einmal.';
 	var $_USEND_MSG_ACTIVATE = 'Hallo %s,
 Vielen Dank für Deine Registrierung bei %s. Dein Benutzerkonto wurde erstellt und muss vor der ersten Benutzung aktiviert werden.
 Um Dein Benutzerkonto zu aktivieren, klicke auf die folgende Verknüpfung oder kopiere ihn und füge ihn in Ihren Browser ein:

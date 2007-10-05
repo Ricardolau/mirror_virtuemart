@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+05.10.2007 gregdev
+# Fixed security problem 
+
 26.09.2007 soeren
 # fixed "Transaction Key Change" not working under Joomla! 1.0.13
 

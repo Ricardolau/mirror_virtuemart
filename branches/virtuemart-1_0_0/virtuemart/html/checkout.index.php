@@ -118,7 +118,7 @@ if ($checkout) {
     <input type="hidden" name="user_id" value="<?php echo $my->id ?>" />
     <?php		
 	    $checkout_msg = '_PHPSHOP_CHECKOUT_MSG_'.(int)$checkout_this_step;
-	    $lbl = $VM_LANG->$checkout_msg;
+	    $lbl = isset( $VM_LANG->$checkout_msg ) ? $VM_LANG->$checkout_msg : '';
 		echo "<h4>".$lbl."</h4>";
 	    /* Set Dynamic Page Title when applicable */
 	    $mainframe->setPageTitle( $lbl );

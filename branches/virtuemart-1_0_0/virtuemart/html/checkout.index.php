@@ -5,7 +5,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * @version $Id$
 * @package VirtueMart
 * @subpackage html
-* @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
+* @copyright Copyright (C) 2004-2007 Soeren Eberhardt. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -118,11 +118,12 @@ if ($checkout) {
     <input type="hidden" name="user_id" value="<?php echo $my->id ?>" />
     <?php		
 	    $checkout_msg = '_PHPSHOP_CHECKOUT_MSG_'.(int)$checkout_this_step;
-	    $lbl = isset( $VM_LANG->$checkout_msg ) ? $VM_LANG->$checkout_msg : '';
-		echo "<h4>".$lbl."</h4>";
-	    /* Set Dynamic Page Title when applicable */
-	    $mainframe->setPageTitle( $lbl );
-
+	    if( isset( $VM_LANG->$checkout_msg ) ) {
+	    	$lbl = $VM_LANG->$checkout_msg;
+			echo "<h4>".$lbl."</h4>";
+		    // Set Dynamic Page Title when applicable
+		    $mainframe->setPageTitle( $lbl );
+	    }
        
         if ($checkout_this_step == CHECK_OUT_GET_SHIPPING_ADDR) {
             // CHECK_OUT_GET_SHIPPING_ADDR
@@ -169,10 +170,12 @@ if ($checkout) {
             
             foreach( $PSHOP_SHIPPING_MODULES as $shipping_module ) {
             	$vmLogger->debug( 'Starting Shipping module: '.$shipping_module );
-                include_once( CLASSPATH. "shipping/".$shipping_module.".php" );
-                eval( "\$SHIPPING =& new ".$shipping_module."();");
-                $SHIPPING->list_rates( $vars );
-                echo "<br/><hr/>";
+                @include_once( CLASSPATH. "shipping/".$shipping_module.".php" );
+                if( class_exists($shipping_module)) {
+	                $SHIPPING =& new $shipping_module();
+	                $SHIPPING->list_rates( $vars );
+	                echo "<br/><hr/>";
+                }
             }
             ?>
             <input type="hidden" name="page" value="checkout.index" />

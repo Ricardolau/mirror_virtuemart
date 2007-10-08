@@ -201,7 +201,7 @@ class ps_session {
 			}
 			// do nothing but redirect
 			else {
-				mosRedirect( $this->url(SECUREURL . "index.php?page=checkout.index") );
+				mosRedirect( str_replace( '&amp;', '&', $this->url(SECUREURL . "index.php?page=checkout.index")) );
 			}
 		}
 		/**

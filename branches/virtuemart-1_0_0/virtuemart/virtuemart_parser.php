@@ -47,6 +47,9 @@ if( !defined( '_VM_PARSER_LOADED' )) {
 	
 	if( $my->id > 0 ) {
 		// This is necessary to get the real GID
+		if( class_exists('jfactory')) {
+			$my =& JFactory::getUser();
+		} 
 		$my->load( $my->id );
 		$user = $my;
 	}
@@ -156,7 +159,7 @@ if( !defined( '_VM_PARSER_LOADED' )) {
 	require_once( CLASSPATH.'class_currency_display.php' );
 	/** @global CurrencyDisplay $CURRENCY_DISPLAY */
 	$GLOBALS['CURRENCY_DISPLAY'] =& new CurrencyDisplay($currency_display["id"], $currency_display["symbol"], $currency_display["nbdecimal"], $currency_display["sdecimal"], $currency_display["thousands"], $currency_display["positive"], $currency_display["negative"]);
-
+	$CURRENCY_DISPLAY =& $GLOBALS['CURRENCY_DISPLAY'];
 	// Get default and this users's Shopper Group
 	$shopper_group = $ps_shopper_group->get_shoppergroup_by_id( $my->id );
 
@@ -258,15 +261,16 @@ if( !defined( '_VM_PARSER_LOADED' )) {
 				// Load class definition file
 				require_once( CLASSPATH.$db->f("function_class").".php" );
 				$classname = str_replace( '.class', '', $funcParams["class"]);
-				// create an object
-				$string = "\$$classname = new $classname;";
-				eval( $string );
-
-				// RUN THE FUNCTION
-				// $ok  = $class->function( $vars );
-				$cmd = "\$ok = \$".$classname."->" . $funcParams["method"] . "(\$vars);";
-				eval( $cmd );
-
+				
+				if( class_exists( $classname )) {
+					// create an object of that class
+					$$classname = new $classname();
+	
+					// RUN THE FUNCTION
+					$ok = $$classname->$funcParams["method"]($vars);
+				} else {
+					$vmLogger->crit( 'Failed to instantiate the non-existing class '.$classname.'!');
+				}
 				if ($ok == false) {
 					$no_last = 1;
 					if( $_SESSION['last_page'] != HOMEPAGE ) {
@@ -281,7 +285,7 @@ if( !defined( '_VM_PARSER_LOADED' )) {
 				}
 			}
 			else {
-				$vmLogger->debug( "Could not include the class file $class" );
+				$vmLogger->debug( "Could not include the class file $class!" );
 			}
 			
 

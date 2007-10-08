@@ -20,18 +20,21 @@ mm_showMyFileName( __FILE__ );
 $registration_enabled = $mosConfig_allowUserRegistration;
 $query_string = mosGetParam($_SERVER, 'QUERY_STRING', '');
 $return = $mm_action_url . 'index.php?' . $query_string;
-// converts & to &amp; for xtml compliance
-$return = str_replace( '&', '&amp;', $return );
-$return = str_replace( 'option', '&amp;option', $return );
 
 if( class_exists('jconfig')) {
-	$action = 'com_login&amp;task=login';
+	$return = base64_encode( $return );
+	$action = 'com_user';
+	$task = 'login';
 } else {
+	// converts & to &amp; for xtml compliance
+	$return = str_replace( '&', '&amp;', $return );
+	$return = str_replace( 'option', '&amp;option', $return );
 	$action = 'login';
+	$task = '';
 }
 
 ?>
-<form action="index.php?option=<?php echo $action ?>" method="post" name="login">
+<form action="index.php" method="post" name="login">
   <div style="width:98%;text-align:center;">
 	<div style="float:left;width:30%;text-align:right;">
 	  <label for="username_login"><?php echo $VM_LANG->_USERNAME; ?>:</label>
@@ -55,12 +58,18 @@ if( class_exists('jconfig')) {
   </div>
   
   <input type="hidden" name="op2" value="login" />
+  <input type="hidden" name="task" value="login" />
+  <input type="hidden" name="option" value="<?php echo $action ?>" />
   
   <input type="hidden" name="lang" value="<?php echo $mosConfig_lang; ?>" />
   <input type="hidden" name="return" value="<?php echo $return ?>" />
     <?php
   	// used for spoof hardening
-	$validate = vmSpoofValue(1);
+	if( class_exists( 'jutility' )) {
+		$validate = JUtility::getToken();
+	} else {
+		$validate = vmSpoofValue(1);
+	}
 	?>
 	<input type="hidden" name="<?php echo $validate; ?>" value="1" />
 </form>

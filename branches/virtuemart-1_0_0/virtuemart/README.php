@@ -43,7 +43,7 @@ Community Home: http://virtuemart.net
 Package Contents:
 ##########################
 
- * 1 Component (com_virtuemart_1.0.13.tar.gz)
+ * 1 Component (com_virtuemart_1.0.13.zip)
    INSTALLATION REQUIRED!
    
  * 1 Main module (mod_virtuemart_1.0.13.tar.gz)
@@ -93,7 +93,7 @@ You don't need to unpack any of the archives in this complete package!
 
 1. If you have unpacked this archive (VirtueMart_x.x_COMPLETE_PACKAGE.zip), 
 	you see a lot of other archives.
-	- com_virtuemart_x.xxx.tar.gz, 
+	- com_virtuemart_x.xxx.zip, 
 	- some files beginning with mod_*.tar.gz 
 	- 2 other Packages (these are the so-called Mambots).
     

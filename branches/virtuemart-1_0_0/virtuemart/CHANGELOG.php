@@ -34,6 +34,7 @@ Legend:
 VirtueMart 1.0.x
 *************************************
 09.10.2007 soeren
+^ removed "eval"s from the image processing function, fixed using the disableToggle function in the product form
 # fixed Mambo 4.6.2 login issue (+CSV Upload Error) - thanks to Andr้s
 
 08.10.2007 soeren

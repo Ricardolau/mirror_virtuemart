@@ -30,22 +30,22 @@ class vmVersion {
 	/** @var string Product */
 	var $PRODUCT = 'VirtueMart';
 	/** @var int Release Number */
-	var $RELEASE = '1.0.12';
+	var $RELEASE = '1.0.13';
 	/** @var string Development Status */
 	var $DEV_STATUS = 'stable';
 	/** @var string Codename */
-	// From the musical, "Jekyll and Hyde": http://en.wikipedia.org/wiki/Jekyll_%26_Hyde_%28musical%29
-	var $CODENAME = 'This is the Moment';
+	// From the album "Behaviour" by the Pet Shop Boys: http://en.wikipedia.org/wiki/Behaviour_%28album%29#_ref-psb-discography.com_0
+	var $CODENAME = 'My October Symphony';
 	/** @var string Date */
-	var $RELDATE = '27/06/2007';
+	var $RELDATE = '09/10/2007';
 	/** @var string Time */
-	var $RELTIME = '19:00';
+	var $RELTIME = '20:30';
 	/** @var string Timezone */
 	var $RELTZ = 'CET';
 	/** @var string Revision */
 	var $REVISION = '$Revision$';
 	/** @var string Copyright Text */
-	var $COPYRIGHT = 'Copyright (C) 2005-2007 Soeren Eberhardt. All rights reserved.'; 
+	var $COPYRIGHT = 'Copyright (C) 2005-2007 Soeren Eberhardt-Biermann. All rights reserved.'; 
 	/** @var string URL */
 	var $URL = '<a href="http://virtuemart.net">VirtueMart</a> is a Free Component for Joomla!/Mambo released under the GNU/GPL License.';
 }

@@ -17,9 +17,13 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 <pre>
 ****************
 VirtueMart
-Version: 1.0.x
+Version: 1.0.13
 ****************
-Complete Package for Mambo >= 4.5.1 and Joomla 1.0.x
+Complete Package for Mambo >= 4.6.X and Joomla! 1.0.x
+
+Please note that you can use and install this software on Joomla! 1.5, but it only runs in the so-called "Legacy Mode"
+with the "Legacy Plugin" being published. Full compatibility can't be guaranteed as it has been found that the
+Legacy Mode provides no real backward compatibility (not even a useful bit).
 
 You can't use this software on an earlier Mambo version than 4.5.1 (e.g. Mambo 4.5 1.0.9) 
 without running into serious problems.
@@ -39,10 +43,10 @@ Community Home: http://virtuemart.net
 Package Contents:
 ##########################
 
- * 1 Component (com_virtuemart_1.0.12.tar.gz)
+ * 1 Component (com_virtuemart_1.0.13.tar.gz)
    INSTALLATION REQUIRED!
    
- * 1 Main module (mod_virtuemart_1.0.12.tar.gz)
+ * 1 Main module (mod_virtuemart_1.0.13.tar.gz)
    INSTALLATION REQUIRED!
    
  * 8 additional Modules
@@ -68,11 +72,11 @@ You can get your copy  of Joomla from http://joomla.org
 This package contains some code from the original 0.8.0 Edikon Corp. phpShop distribution available at www.phpshop.org
 
 This package was tested on 
-- Mambo 4.5.1a
 - Mambo 4.5.2.3
 - Mambo 4.5.3h
-- Mambo 4.6 beta
-- Joomla 1.0.x
+- Mambo 4.6.2
+- Joomla 1.0.x (yes, 1.0.13 too)
+- Joomla! 1.5 RC3
 
  -- IMPORTANT --
 Please note that module and component SHOULD be used together! 
@@ -192,7 +196,7 @@ For all developers and users who worked with mambo-phpShop, it's important to kn
 is the successor of mambo-phpShop. So you as a developer must know how to update your extensions, 
 modules and/or hacks to work in VirtueMart.
 
-The name change mambo-phpShop => VirtueMart requires us to rename files and tables related to the shop.
+The name change mambo-phpShop => VirtueMart forces us to rename files and tables related to the shop.
 
 Filenames cange
 ---------------------

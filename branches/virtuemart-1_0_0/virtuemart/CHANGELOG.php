@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+09.10.2007 soeren
+# fixed Mambo 4.6.2 login issue (+CSV Upload Error) - thanks to Andr้s
+
 08.10.2007 soeren
 ^ fixed some more Joomla! 1.5 compatibility issues
 

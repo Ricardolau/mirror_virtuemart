@@ -61,7 +61,7 @@ if( class_exists('jconfig')) {
   <input type="hidden" name="task" value="login" />
   <input type="hidden" name="option" value="<?php echo $action ?>" />
   
-  <input type="hidden" name="lang" value="<?php echo $mosConfig_lang; ?>" />
+  <input type="hidden" name="lang" value="<?php echo vmIsJoomla() ? $mosConfig_lang : $GLOBALS['mosConfig_locale']; ?>" />
   <input type="hidden" name="return" value="<?php echo $return ?>" />
     <?php
   	// used for spoof hardening

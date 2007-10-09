@@ -264,6 +264,7 @@ if( !defined( '_VM_PARSER_LOADED' )) {
 				
 				if( class_exists( $classname )) {
 					// create an object of that class
+					global $$classname;
 					$$classname = new $classname();
 	
 					// RUN THE FUNCTION

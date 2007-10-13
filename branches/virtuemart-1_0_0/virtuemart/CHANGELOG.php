@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+
+--- VirtueMart 1.0.13a released ---
+
 13.10.2007 soeren
 # Broken Registration on checkout (ps_shopper.php)
 # Task #1431 - Advanced Search Result page direction (shop.browse.php)

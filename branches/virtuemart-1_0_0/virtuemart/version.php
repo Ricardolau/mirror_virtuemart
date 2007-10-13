@@ -30,14 +30,14 @@ class vmVersion {
 	/** @var string Product */
 	var $PRODUCT = 'VirtueMart';
 	/** @var int Release Number */
-	var $RELEASE = '1.0.13';
+	var $RELEASE = '1.0.13a';
 	/** @var string Development Status */
 	var $DEV_STATUS = 'stable';
 	/** @var string Codename */
 	// From the album "Behaviour" by the Pet Shop Boys: http://en.wikipedia.org/wiki/Behaviour_%28album%29#_ref-psb-discography.com_0
 	var $CODENAME = 'My October Symphony';
 	/** @var string Date */
-	var $RELDATE = '09/10/2007';
+	var $RELDATE = '13/10/2007';
 	/** @var string Time */
 	var $RELTIME = '20:30';
 	/** @var string Timezone */

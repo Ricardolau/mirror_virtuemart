@@ -5,7 +5,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
+* @copyright Copyright (C) 2004-2007 Soeren Eberhardt. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -291,8 +291,10 @@ class ps_shopper {
 			mosRedirect( $url );
 		}
 		else {
-			$url = str_replace( '&amp;', '&', $sess->url( 'index.php?page='.HOMEPAGE ));
-			mosRedirect( $url, $VM_LANG->_REG_COMPLETE_ACTIVATE );
+			$GLOBALS['page'] = 'shop.cart';
+			$msg = strip_tags( $VM_LANG->_REG_COMPLETE_ACTIVATE );
+			$GLOBALS['vmLogger']->info( $msg );
+			$GLOBALS['vmLogger']->debug( 'The Account Activation Feature can be turned off in the Global Configuration' );
 		}
 		
 		return True;
@@ -410,12 +412,13 @@ class ps_shopper {
 				mosMail($adminEmail2, $adminName2, $row->email, $subject2, $message2);
 			}
 		}
-	
+	/*
 		if ( $mosConfig_useractivation == 1 ){
 			echo $VM_LANG->_REG_COMPLETE_ACTIVATE;
 		} else {
 			echo $VM_LANG->_REG_COMPLETE;
 		}
+		*/
 		return true;
 	}
 

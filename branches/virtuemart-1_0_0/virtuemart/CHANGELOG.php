@@ -33,6 +33,10 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+13.10.2007 soeren
+# Broken Registration on checkout (ps_shopper.php)
+# Task #1431 - Advanced Search Result page direction (shop.browse.php)
+
 10.10.2007 soeren
 # Task #1234 - In ps_order.php: $curr_order_status="C" (missing double equal!)
 

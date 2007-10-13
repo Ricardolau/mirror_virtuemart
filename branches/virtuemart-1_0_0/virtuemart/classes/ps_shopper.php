@@ -283,13 +283,16 @@ class ps_shopper {
 			} else {
 				$redirect_to_page = HOMEPAGE;
 			}
-			mosRedirect( str_replace( '&amp;', '&', $sess->url( 'index.php?page='.$redirect_to_page ), $VM_LANG->_REG_COMPLETE ));
+			$url = str_replace( '&amp;', '&', $sess->url( 'index.php?page='.$redirect_to_page ));
+			mosRedirect( $url, $VM_LANG->_REG_COMPLETE );
 		}
 		elseif( $my->id ) {
-			mosRedirect( str_replace( '&amp;', '&', $sess->url( 'index.php?page=checkout.index' ) ));
+			$url = str_replace( '&amp;', '&', $sess->url( 'index.php?page=checkout.index' ));
+			mosRedirect( $url );
 		}
 		else {
-			mosRedirect( str_replace( '&amp;', '&', $sess->url( 'index.php?page='.HOMEPAGE ), $VM_LANG->_REG_COMPLETE_ACTIVATE ));
+			$url = str_replace( '&amp;', '&', $sess->url( 'index.php?page='.HOMEPAGE ));
+			mosRedirect( $url, $VM_LANG->_REG_COMPLETE_ACTIVATE );
 		}
 		
 		return True;

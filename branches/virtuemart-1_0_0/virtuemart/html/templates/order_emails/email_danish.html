@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Din Ordrebekreftelse</title>
+<title>Din Ordrebekræftigelse</title>
 <style type="text/css">
 <!--
 .Stil1 {
@@ -36,19 +36,19 @@
 <table border=0 cellspacing=0 cellpadding=2 width=100%>
   <!-- begin customer information --> 
   <tr bgcolor="#CCCCCC" class="sectiontableheader"> 
-    <td colspan=2 class="Stil2"><b>Ordre Information </b></td>
+    <td colspan=2 class="Stil2"><b>Ordreinformation </b></td>
   </tr>
   <tr class="Stil1"> 
-    <td>Ordre Nummer :</td>
-    <td>{phpShopOrderNumber}</td>
+    <td>Ordrenummer :</td>
+	<td>{phpShopOrderNumber}</td>
   </tr>
    
   <tr class="Stil1"> 
-    <td>Ordre Dato :</td>
+    <td>Ordredato :</td>
     <td>{phpShopOrderDate}</td>
   </tr>
   <tr class="Stil1"> 
-    <td>Ordre Status :</td>
+    <td>Ordrestatus :</td>
     <td>{phpShopOrderStatus}
 </td>
   </tr>
@@ -58,7 +58,7 @@
     <td colspan=2>&nbsp;</td>
   </tr>
   <tr bgcolor="#CCCCCC" class="sectiontableheader"> 
-    <td colspan=2><b class="Stil2">Kunde Information </b></td>
+    <td colspan=2><b class="Stil2">Kundeinformation </b></td>
   </tr>
   <tr valign=top> 
     <td width=50%> <!-- begin billto -->  
@@ -180,7 +180,7 @@
           <th>Antal</th>
           <th>Vare</th>
           <th>Varenr</th>
-          <th>Pris</th>
+          <th>Pris incl. moms</th>
           <th align="right">Total</th>
         </tr>
 							
@@ -195,18 +195,17 @@
           <td align="right">{phpShopOrderSubtotal}</td>
         </tr><p align="right">{phpShopOrderDisc1}</p>
         <tr class="Stil1" align="right"> 
-          <td colspan=4 align=right>Fragt :</td>
+          <td colspan=4 align=right>Fragt incl. adm.gebyr :</td>
           <td align="right">{phpShopOrderShipping}</td>
         </tr>
-        <tr class="Stil1" align="right"> 
-          <td colspan=4 align=right>Moms :</td>
-          <td align="right">{phpShopOrderTax}</td>
-        </tr>
-        <p align="right">{phpShopOrderDisc2}</p>
-        <tr class="Stil1" align="right"> 
+          <tr class="Stil1" align="right"> 
           <td colspan=4 align=right><b>Total :</b></td>
           <td align="right">{phpShopOrderTotal}</td>
         </tr><p align="right">{phpShopOrderDisc3}</p>
+		<tr class="Stil1" align="right"> 
+          <td colspan=4 align=right>Heraf Moms :</td>
+          <td align="right">{phpShopOrderTax}</td>
+        </tr><p align="right">{phpShopOrderDisc2}</p>
       </table>
     </td>
   </tr>

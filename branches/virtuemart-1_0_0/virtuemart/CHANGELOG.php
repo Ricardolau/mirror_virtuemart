@@ -34,6 +34,10 @@ Legend:
 VirtueMart 1.0.x
 *************************************
 
+22.10.2007 soeren
+
+# Task #1454 - Fix for Payflow Pro (thanks to Steven!)
+
 --- VirtueMart 1.0.13a released ---
 
 13.10.2007 soeren

@@ -292,9 +292,9 @@ class payflow_pro {
 		$poststring = substr($poststring, 0, -1);
 		
 		if(PFP_TEST_REQUEST=='TRUE') {
-			$host = 'pilot-payflowpro.verisign.com';
+			$url = 'https://pilot-payflowpro.verisign.com/transaction:443/';
 		} else  {
-			$host = 'payflowpro.verisign.com';
+			$url = 'https://payflowpro.verisign.com/transaction:443/';
 		}
 		
 		$headers[] = "X-VPS-Timeout: 30";
@@ -308,7 +308,7 @@ class payflow_pro {
 		$headers[] = "X-VPS-VIT-Integration-Version: 0.01"; // Application version
 		$headers[] = "X-VPS-Request-ID: " . $request_id;
 	
-		$result = vmConnector::handleCommunication( "https://$host:443/transaction", $poststring, $headers );
+		$result = vmConnector::handleCommunication( $url, $poststring, $headers );
 		
 		if( !$result ) {
 			$vmLogger->err('The transaction could not be completed.' );
@@ -468,9 +468,9 @@ class payflow_pro {
 		$poststring = substr($poststring, 0, -1);
 		
 		if(PFP_TEST_REQUEST=='TRUE') {
-			$host = 'pilot-payflowpro.verisign.com';
+			$url = 'https://pilot-payflowpro.verisign.com/transaction:443/';
 		} else  {
-			$host = 'payflowpro.verisign.com';
+			$url = 'https://payflowpro.verisign.com/transaction:443/';
 		}
 		
 		$headers[] = "X-VPS-Timeout: 30";
@@ -484,7 +484,7 @@ class payflow_pro {
 		$headers[] = "X-VPS-VIT-Integration-Version: 0.01"; // Application version
 		$headers[] = "X-VPS-Request-ID: " . $request_id;
 	
-		$result = vmConnector::handleCommunication( "https://$host:443/transaction", $poststring, $headers );
+		$result = vmConnector::handleCommunication( $url, $poststring, $headers );
 		
 		if( !$result ) {
 			$vmLogger->err('The transaction could not be completed.' );
@@ -646,9 +646,9 @@ class payflow_pro {
 		$poststring = substr($poststring, 0, -1);
 		
 		if(PFP_TEST_REQUEST=='TRUE') {
-			$host = 'pilot-payflowpro.verisign.com';
+			$url = 'https://pilot-payflowpro.verisign.com/transaction:443/';
 		} else  {
-			$host = 'payflowpro.verisign.com';
+			$url = 'https://payflowpro.verisign.com/transaction:443/';
 		}
 		
 		$headers[] = "X-VPS-Timeout: 30";
@@ -662,7 +662,7 @@ class payflow_pro {
 		$headers[] = "X-VPS-VIT-Integration-Version: 0.01"; // Application version
 		$headers[] = "X-VPS-Request-ID: " . $request_id;
 	
-		$result = vmConnector::handleCommunication( "https://$host:443/transaction", $poststring, $headers );
+		$result = vmConnector::handleCommunication( $url, $poststring, $headers );
 		
 		if( !$result ) {
 			$vmLogger->err('The transaction could not be completed.' );
@@ -734,7 +734,7 @@ class payflow_pro {
 			case '3':
 				return 'Invalid transaction type. Transaction type is not appropriate for this transaction. For example, you cannot credit an authorization-only transaction.';
 			case '4':
-				return 'Invalid amount format. Use the format: “#####.##” Do not include currency symbols or commas.';
+				return 'Invalid amount format. Use the format: “#####.##�? Do not include currency symbols or commas.';
 			case '5': 
 				return 'Invalid merchant information. Processor does not recognize your merchant account information. Contact your bank account acquirer to resolve this problem.';
 			case '6':

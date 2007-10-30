@@ -1522,7 +1522,7 @@ Order Total: '.$order_total.'
 		$vendor_subject = $dbv->f("vendor_name") . " ".$VM_LANG->_PHPSHOP_ORDER_PRINT_PO_LBL." - " . $db->f("order_id");
 
 		$shopper_order_link = $sess->url( SECUREURL ."index.php?page=account.order_details&order_id=$order_id" );
-		$vendor_order_link = $sess->url( SECUREURL ."index.php?page=order.order_print&order_id=$order_id&pshop_mode=admin" );
+		$vendor_order_link = $sess->url( SECUREURL ."index2.php?page=order.order_print&order_id=$order_id&pshop_mode=admin" );
 
 		/**
 		 * Prepare the payment information, including Credit Card information when not empty

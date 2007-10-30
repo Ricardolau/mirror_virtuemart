@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Din Ordrebekreftelse</title>
+<title>Din ordrebekreftelse</title>
 <style type="text/css">
 <!--
 .Stil1 {
@@ -36,19 +36,19 @@
 <table border=0 cellspacing=0 cellpadding=2 width=100%>
   <!-- begin customer information --> 
   <tr bgcolor="#CCCCCC" class="sectiontableheader"> 
-    <td colspan=2 class="Stil2"><b>Ordre Informasjon </b></td>
+    <td colspan=2 class="Stil2"><b>Ordreinformasjon</b></td>
   </tr>
   <tr class="Stil1"> 
-    <td>Ordre Nummer:</td>
+    <td>Ordrenummer :</td>
     <td>{phpShopOrderNumber}</td>
   </tr>
    
   <tr class="Stil1"> 
-    <td>Ordre Dato :</td>
+    <td>Ordredato :</td>
     <td>{phpShopOrderDate}</td>
   </tr>
   <tr class="Stil1"> 
-    <td>Ordre Status:</td>
+    <td>Ordrestatus :</td>
     <td>{phpShopOrderStatus}
 </td>
   </tr>
@@ -58,20 +58,20 @@
     <td colspan=2>&nbsp;</td>
   </tr>
   <tr bgcolor="#CCCCCC" class="sectiontableheader"> 
-    <td colspan=2><b class="Stil2">Kunde Informasjon </b></td>
+    <td colspan=2><b class="Stil2">Kundeinformasjon</b></td>
   </tr>
   <tr valign=top> 
     <td width=50%> <!-- begin billto -->  
       <table width=100% cellspacing=0 cellpadding=2 border=0>
         <tr class="Stil1"> 
-          <td colspan=2><b class="Stil1">Faktura Informasjon </b></td>
+          <td colspan=2><b class="Stil1">Faktureres</b></td>
         </tr>
         <tr class="Stil1"> 
-          <td>Bedrift:</td>
+          <td>Firmanavn :</td>
           <td>{phpShopBTCompany}</td>
         </tr>
         <tr class="Stil1"> 
-          <td>Fullt Navn:</td>
+          <td>Fullt navn :</td>
           <td>{phpShopBTName}</td>
         </tr>
         <tr valign=top class="Stil1"> 
@@ -80,16 +80,12 @@
           </p>          </td>
         </tr>
         <tr class="Stil1"> 
-          <td>Sted :</td>
-          <td>{phpShopBTCity}</td>
-        </tr>
-        <tr class="Stil1"> 
-          <td>Fylke :</td>
-          <td>{phpShopBTState}</td>
-        </tr>
-        <tr class="Stil1"> 
           <td>Postnummer :</td>
           <td>{phpShopBTZip}</td>
+        </tr>
+        <tr class="Stil1"> 
+          <td>Sted :</td>
+          <td>{phpShopBTCity}</td>
         </tr>
         <tr class="Stil1"> 
           <td>Land :</td>
@@ -100,11 +96,11 @@
           <td>{phpShopBTPhone}</td>
         </tr>
         <tr class="Stil1"> 
-          <td>Fax :</td>
+          <td>Faks :</td>
           <td>{phpShopBTFax}</td>
         </tr>
         <tr class="Stil1"> 
-          <td>E-postl :</td>
+          <td>E-post :</td>
           <td>{phpShopBTEmail}</td>
         </tr>
       </table>
@@ -114,14 +110,14 @@
     <!-- begin shipto -->  
       <table width=100% border=0 cellpadding=2 cellspacing=0 class="Stil1">
         <tr> 
-          <td colspan=2><b>Mottaker Informasjon </b></td>
+          <td colspan=2><b>Leveres</b></td>
         </tr>
          <tr> 
-          <td>Bedrift:</td>
+          <td>Firmanavn :</td>
           <td>{phpShopSTCompany}</td>
         </tr>
         <tr> 
-          <td>Fullt Navn  :</td>
+          <td>Fullt navn  :</td>
           <td>{phpShopSTName}</td>
         </tr>
         <tr valign=top> 
@@ -130,16 +126,12 @@
           {phpShopSTStreet2}<br></td>
         </tr>
         <tr> 
-          <td>By :</td>
-          <td>{phpShopSTCity}</td>
-        </tr>
-        <tr> 
-          <td>Fylke :</td>
-          <td>{phpShopSTState}</td>
-        </tr>
-        <tr> 
           <td>Postnummer :</td>
           <td>{phpShopSTZip}</td>
+        </tr>
+        <tr> 
+          <td>Sted :</td>
+          <td>{phpShopSTCity}</td>
         </tr>
         <tr> 
           <td>Land :</td>
@@ -150,7 +142,7 @@
           <td>{phpShopSTPhone}</td>
         </tr>
         <tr> 
-          <td>Fax :</td>
+          <td>Faks :</td>
           <td>{phpShopSTFax}</td>
         </tr>
       </table>
@@ -172,7 +164,7 @@
   </tr>
   <!-- begin order items information --> 
   <tr bgcolor="#CCCCCC" class="Stil2"> 
-    <td colspan=2><b>Bestillte Varer </b></td>
+    <td colspan=2><b>Bestillte varer </b></td>
   </tr>
   <tr> 
     <td colspan=2> 
@@ -180,11 +172,11 @@
         <tr align=left class="Stil1"> 
           <th>Ant.</th>
           <th>Navn</th>
-          <th>Vnr</th>
+          <th>Varenr.</th>
           <th>Pris</th>
-          <th>Totalt</th>
+          <th>Sum</th>
         </tr>
-         
+         <tr class="Stil1">
         {phpShopOrderItems}
  
         <tr class="Stil1"> 
@@ -192,20 +184,20 @@
           <td>&nbsp;</td>
         </tr>
         <tr class="Stil1"> 
-          <td colspan=4 align=right>Subtotal :</td>
+          <td colspan=4 align=right>Sum :</td>
           <td>{phpShopOrderSubtotal}</td>
         </tr>{phpShopOrderDisc1}
         <tr class="Stil1"> 
-          <td colspan=4 align=right>Frakt :</td>
+          <td colspan=4 align=right>Frakt / ekspedisjon :</td>
           <td>{phpShopOrderShipping}</td>
         </tr>
         <tr class="Stil1"> 
-          <td colspan=4 align=right>Mva Total :</td>
+          <td colspan=4 align=right>Mva :</td>
           <td>{phpShopOrderTax}</td>
         </tr>
         {phpShopOrderDisc2}
         <tr class="Stil1"> 
-          <td colspan=4 align=right><b>Total:</b></td>
+          <td colspan=4 align=right><b>Totalt :</b></td>
           <td>{phpShopOrderTotal}</td>
         </tr>{phpShopOrderDisc3}
       </table>
@@ -216,7 +208,7 @@
     <td colspan=2>&nbsp;</td>
   </tr>
   <tr bgcolor="#CCCCCC" class="sectiontableheader">
-    <td colspan=2><b class="Stil2">Customer Note:</b></td>
+    <td colspan=2><b class="Stil2">Kundemerknad:</b></td>
   </tr>
   <tr>
     <td colspan=2>

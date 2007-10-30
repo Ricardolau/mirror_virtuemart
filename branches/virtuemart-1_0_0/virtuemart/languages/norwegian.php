@@ -41,11 +41,11 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_LOGOUT_TITLE = 'Logg ut';
 	var $_PHPSHOP_BROWSE_TITLE = 'Bla gjennom';
 	var $_PHPSHOP_SEARCH_TITLE = 'Søk';
-	var $_PHPSHOP_ACCOUNT_TITLE = 'Vedlikehold av konto';
+	var $_PHPSHOP_ACCOUNT_TITLE = 'Din konto';
 	var $_PHPSHOP_NAVIGATION_TITLE = 'Navigasjon';
 	var $_PHPSHOP_DEPARTMENT_TITLE = 'Avdeling';
 	var $_PHPSHOP_INFO = 'Informasjon';
-	var $_PHPSHOP_BROWSE_LBL = 'Se på';
+	var $_PHPSHOP_BROWSE_LBL = 'Oversikt';
 	var $_PHPSHOP_PRODUCTS_LBL = 'Produkter';
 	var $_PHPSHOP_PRODUCT_LBL = 'Produkt';
 	var $_PHPSHOP_SEARCH_LBL = 'Søk';
@@ -109,7 +109,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_USER_FORM_ADDRESS_2 = 'Adresse 2';
 	var $_PHPSHOP_USER_FORM_CITY = 'Poststed';
 	var $_PHPSHOP_USER_FORM_STATE = 'Fylke';
-	var $_PHPSHOP_USER_FORM_ZIP = 'Postnr.';
+	var $_PHPSHOP_USER_FORM_ZIP = 'Postnummer';
 	var $_PHPSHOP_USER_FORM_COUNTRY = 'Land';
 	var $_PHPSHOP_USER_FORM_PHONE = 'Telefon';
 	var $_PHPSHOP_USER_FORM_PHONE2 = 'Mobil';
@@ -118,12 +118,12 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_MODULE_LIST_MNU = 'Vis modulliste';
 	var $_PHPSHOP_MODULE_LIST_LBL = 'Modulliste';
 	var $_PHPSHOP_MODULE_LIST_NAME = 'Modulnavn';
-	var $_PHPSHOP_MODULE_LIST_PERMS = 'Modulrettigh.';
+	var $_PHPSHOP_MODULE_LIST_PERMS = 'Modulrettigheter';
 	var $_PHPSHOP_MODULE_LIST_FUNCTIONS = 'Funksjoner';
 	var $_PHPSHOP_MODULE_LIST_ORDER = 'Rekkefølge';
 	var $_PHPSHOP_MODULE_FORM_MNU = 'Legg til modul';
 	var $_PHPSHOP_MODULE_FORM_LBL = 'Modulinformasjon';
-	var $_PHPSHOP_MODULE_FORM_MODULE_LABEL = 'Modultittel (til Toppmenu)';
+	var $_PHPSHOP_MODULE_FORM_MODULE_LABEL = 'Modultittel (til Toppmeny)';
 	var $_PHPSHOP_MODULE_FORM_NAME = 'Modulnavn';
 	var $_PHPSHOP_MODULE_FORM_PERMS = 'Modulrettigh.';
 	var $_PHPSHOP_MODULE_FORM_HEADER = 'Moduloverskrift';
@@ -196,7 +196,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ISSHIP_FORM_CHARGE_P_LBL = 'prosent';
 	var $_PHPSHOP_ISSHIP_FORM_DAYS_LBL = 'dager';
 	var $_PHPSHOP_ISSHIP_FORM_HEAVY_LBL = 'Tung frakt';
-	var $_PHPSHOP_ORDER_MOD = 'Ordre';
+	var $_PHPSHOP_ORDER_MOD = 'Ordredetaljer';
 	var $_PHPSHOP_ORDER_CONFIRM_MNU = 'Bekreft ordre';
 	var $_PHPSHOP_ORDER_CANCEL_MNU = 'Avbryt ordre';
 	var $_PHPSHOP_ORDER_PRINT_MNU = 'Skriv ut ordre';
@@ -208,23 +208,23 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ORDER_LIST_MDATE = 'Sist endret';
 	var $_PHPSHOP_ORDER_LIST_STATUS = 'Status';
 	var $_PHPSHOP_ORDER_LIST_TOTAL = 'Sum';
-	var $_PHPSHOP_ORDER_ITEM = 'Ordreartikler';
-	var $_PHPSHOP_ORDER_PRINT_PO_LBL = 'Ordre';
+	var $_PHPSHOP_ORDER_ITEM = 'Artikler';
+	var $_PHPSHOP_ORDER_PRINT_PO_LBL = 'Ordredetaljer';
 	var $_PHPSHOP_ORDER_PRINT_PO_NUMBER = 'Ordrenummer';
 	var $_PHPSHOP_ORDER_PRINT_PO_DATE = 'Ordredato';
 	var $_PHPSHOP_ORDER_PRINT_PO_STATUS = 'Ordrestatus';
 	var $_PHPSHOP_ORDER_PRINT_CUST_INFO_LBL = 'Kundeinformasjon';
 	var $_PHPSHOP_ORDER_PRINT_CUST_BILLING_LBL = 'Betalingsinformasjon';
 	var $_PHPSHOP_ORDER_PRINT_CUST_SHIPPING_LBL = 'Leveringsinformasjon';
-	var $_PHPSHOP_ORDER_PRINT_BILL_TO_LBL = 'Fakturer til';
-	var $_PHPSHOP_ORDER_PRINT_SHIP_TO_LBL = 'Lever til';
+	var $_PHPSHOP_ORDER_PRINT_BILL_TO_LBL = 'Faktureres';
+	var $_PHPSHOP_ORDER_PRINT_SHIP_TO_LBL = 'Leveres';
 	var $_PHPSHOP_ORDER_PRINT_NAME = 'Navn';
-	var $_PHPSHOP_ORDER_PRINT_COMPANY = 'Selskap';
+	var $_PHPSHOP_ORDER_PRINT_COMPANY = 'Firmanavn';
 	var $_PHPSHOP_ORDER_PRINT_ADDRESS_1 = 'Adresse 1';
 	var $_PHPSHOP_ORDER_PRINT_ADDRESS_2 = 'Adresse 2';
 	var $_PHPSHOP_ORDER_PRINT_CITY = 'Poststed';
 	var $_PHPSHOP_ORDER_PRINT_STATE = 'Fylke';
-	var $_PHPSHOP_ORDER_PRINT_ZIP = 'Postnr.';
+	var $_PHPSHOP_ORDER_PRINT_ZIP = 'Postnummer';
 	var $_PHPSHOP_ORDER_PRINT_COUNTRY = 'Land';
 	var $_PHPSHOP_ORDER_PRINT_PHONE = 'Telefon';
 	var $_PHPSHOP_ORDER_PRINT_FAX = 'Telefaks';
@@ -308,7 +308,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_FORM_URL = 'Nettadresse';
 	var $_PHPSHOP_PRODUCT_FORM_CATEGORY = 'Kategori';
 	var $_PHPSHOP_PRODUCT_FORM_PRICE_GROSS = 'Utsalgspris';
-	var $_PHPSHOP_PRODUCT_FORM_PRICE_NET = 'Produktpris (Eks mva)';
+	var $_PHPSHOP_PRODUCT_FORM_PRICE_NET = 'Produktpris (eks. mva)';
 	var $_PHPSHOP_PRODUCT_FORM_DESCRIPTION = 'Produktbeskrivelse';
 	var $_PHPSHOP_PRODUCT_FORM_S_DESC = 'Kort beskrivelse';
 	var $_PHPSHOP_PRODUCT_FORM_IN_STOCK = 'På lager';
@@ -326,7 +326,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_FORM_THUMB_IMAGE = 'Lite bilde';
 	var $_PHPSHOP_PRODUCT_FORM_FULL_IMAGE = 'Stort bilde';
 	var $_PHPSHOP_PRODUCT_FORM_WEIGHT_UOM_DEFAULT = 'gram';
-	var $_PHPSHOP_PRODUCT_FORM_DIMENSION_UOM_DEFAULT = 'mm';
+	var $_PHPSHOP_PRODUCT_FORM_DIMENSION_UOM_DEFAULT = 'cm';
 	var $_PHPSHOP_PRODUCT_FORM_UNIT = 'Enhet';
 	var $_PHPSHOP_PRODUCT_FORM_UNIT_DEFAULT = 'stk';
 	var $_PHPSHOP_PRODUCT_FORM_PACKAGING = 'Stk per pakke';
@@ -430,7 +430,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_SHOPPER_FORM_ADDRESS_2 = 'Adresse 2';
 	var $_PHPSHOP_SHOPPER_FORM_CITY = 'Poststed';
 	var $_PHPSHOP_SHOPPER_FORM_STATE = 'Fylke';
-	var $_PHPSHOP_SHOPPER_FORM_ZIP = 'Postnr.';
+	var $_PHPSHOP_SHOPPER_FORM_ZIP = 'Postnummer';
 	var $_PHPSHOP_SHOPPER_FORM_COUNTRY = 'Land';
 	var $_PHPSHOP_SHOPPER_FORM_PHONE = 'Telefon';
 	var $_PHPSHOP_SHOPPER_FORM_PHONE2 = 'Mobil';
@@ -455,7 +455,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_SHOPPER_GROUP_FORM_NAME = 'Gruppenavn';
 	var $_PHPSHOP_SHOPPER_GROUP_FORM_DESC = 'Gruppebeskrivelse';
 	var $_PHPSHOP_STORE_MOD = 'Butikk';
-	var $_PHPSHOP_STORE_FORM_MNU = 'Endre butikk';
+	var $_PHPSHOP_STORE_FORM_MNU = 'Butikkinformasjon';
 	var $_PHPSHOP_STORE_FORM_LBL = 'Butikkinformasjon';
 	var $_PHPSHOP_STORE_FORM_CONTACT_LBL = 'Kontaktinformasjon';
 	var $_PHPSHOP_STORE_FORM_FULL_IMAGE = 'Stort bilde';
@@ -476,7 +476,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_STORE_FORM_MIDDLE_NAME = 'Mellomnavn';
 	var $_PHPSHOP_STORE_FORM_TITLE = 'Tittel';
 	var $_PHPSHOP_STORE_FORM_PHONE_1 = 'Telefon 1';
-	var $_PHPSHOP_STORE_FORM_PHONE_2 = 'Telefon2';
+	var $_PHPSHOP_STORE_FORM_PHONE_2 = 'Telefon 2';
 	var $_PHPSHOP_STORE_FORM_FAX = 'Telefaks';
 	var $_PHPSHOP_STORE_FORM_EMAIL = 'E-post';
 	var $_PHPSHOP_STORE_FORM_IMAGE_PATH = 'Sti til bilde';
@@ -528,7 +528,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_VENDOR_FORM_CITY = 'Poststed';
 	var $_PHPSHOP_VENDOR_FORM_STATE = 'Fylke';
 	var $_PHPSHOP_VENDOR_FORM_COUNTRY = 'Land';
-	var $_PHPSHOP_VENDOR_FORM_ZIP = 'Postnr.';
+	var $_PHPSHOP_VENDOR_FORM_ZIP = 'Postnummer';
 	var $_PHPSHOP_VENDOR_FORM_PHONE = 'Telefon';
 	var $_PHPSHOP_VENDOR_FORM_CURRENCY = 'Valuta';
 	var $_PHPSHOP_VENDOR_FORM_CATEGORY = 'Leverandørkategori';
@@ -610,7 +610,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO_COMPORDER = 'Fullfør ordre';
 	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO_REQINFO = 'pliktig informasjon når kredittkort er valgt';
 	var $_PHPSHOP_ZONE_MOD = 'Leveringssoner';
-	var $_PHPSHOP_ZONE_LIST_MNU = 'Vis opp soner';
+	var $_PHPSHOP_ZONE_LIST_MNU = 'Vis soner';
 	var $_PHPSHOP_ZONE_FORM_MNU = 'Legg til sone';
 	var $_PHPSHOP_ZONE_ASSIGN_MNU = 'Sjekk soner';
 	var $_PHPSHOP_ZONE_ASSIGN_COUNTRY_LBL = 'Land';
@@ -635,20 +635,20 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_RETURN_LOGIN = 'Eksisterende kunder: Vennligst logg inn';
 	var $_PHPSHOP_NEW_CUSTOMER = 'Ny kunde? Vennligst registrer fakturainformasjon';
 	var $_PHPSHOP_ACC_CUSTOMER_ACCOUNT = 'Kundekonto:';
-	var $_PHPSHOP_ACC_ORDER_INFO = 'Ordreinformasjon';
+	var $_PHPSHOP_ACC_ORDER_INFO = 'Ordreoversikt';
 	var $_PHPSHOP_ACC_UPD_BILL = 'Her kan du oppdatere din fakturainformasjon.';
 	var $_PHPSHOP_ACC_UPD_SHIP = 'Her kan du legge til og endre dine leveringsadresser.';
 	var $_PHPSHOP_ACC_ACCOUNT_INFO = 'Kontoinformasjon';
 	var $_PHPSHOP_ACC_SHIP_INFO = 'Leveringsinformasjon';
 	var $_PHPSHOP_ACC_NO_ORDERS = 'Ingen bestillinger å vise';
 	var $_PHPSHOP_ACC_BILL_DEF = '- Standard (Samme som faktura)';
-	var $_PHPSHOP_SHIPTO_TEXT = 'Du kan legge til leveringssteder til din konto. Vennligst finn på et kallenavn for leveringsstedet du velger under.';
+	var $_PHPSHOP_SHIPTO_TEXT = 'Du kan legge til flere leveringssteder til din konto. Vennligst finn på et kallenavn for leveringsstedet du velger under.';
 	var $_PHPSHOP_CONFIG = 'Konfigurasjon';
 	var $_PHPSHOP_USERS = 'Brukere';
 	var $_PHPSHOP_IS_CC_PAYMENT = 'er kredittkortbetaling?';
-	var $_PHPSHOP_SHIPPING_MOD = 'Transportøradm.';
+	var $_PHPSHOP_SHIPPING_MOD = 'Transport';
 	var $_PHPSHOP_SHIPPING_MENU_LABEL = 'Frakt';
-	var $_PHPSHOP_CARRIER_LIST_MNU = 'Transportør';
+	var $_PHPSHOP_CARRIER_LIST_MNU = 'Transportører';
 	var $_PHPSHOP_CARRIER_LIST_LBL = 'Transportørliste';
 	var $_PHPSHOP_RATE_LIST_MNU = 'Fraktsatser';
 	var $_PHPSHOP_RATE_LIST_LBL = 'Liste over fraktsatser';
@@ -682,14 +682,14 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ERR_MSG_CARRIER_NOTFOUND = 'FEIL: Finner ingen transportør med denne ID\'en.';
 	var $_PHPSHOP_ERR_MSG_RATE_CARRIER_ID_REQ = 'FEIL: Velg en transportør.';
 	var $_PHPSHOP_ERR_MSG_RATE_CARRIER_ID_INV = 'FEIL: Finner ingen transportør med denne ID\'en.';
-	var $_PHPSHOP_ERR_MSG_RATE_NAME_REQ = 'FEIL: En sats beskriver er nødvendig.';
-	var $_PHPSHOP_ERR_MSG_RATE_COUNTRY_CODE_INV = 'FEL: Kan ikke sende til dette landet. Flere enn et land kan separeres med \';\'.';
+	var $_PHPSHOP_ERR_MSG_RATE_NAME_REQ = 'FEIL: En satsbeskrivelse er nødvendig.';
+	var $_PHPSHOP_ERR_MSG_RATE_COUNTRY_CODE_INV = 'FEIL: Kan ikke sende til dette landet. Flere enn et land kan separeres med \';\'.';
 	var $_PHPSHOP_ERR_MSG_RATE_WEIGHT_START_REQ = 'FEIL: Minimumsvekt er påkrevd';
 	var $_PHPSHOP_ERR_MSG_RATE_WEIGHT_END_REQ = 'FEIL: Maksimumsvekt er påkrevd';
-	var $_PHPSHOP_ERR_MSG_RATE_WEIGHT_STARTEND_INV = 'FEIL: Minimumsvekten må være minder enn maksimumsvekten';
+	var $_PHPSHOP_ERR_MSG_RATE_WEIGHT_STARTEND_INV = 'FEIL: Minimumsvekten må være mindre enn maksimumsvekten';
 	var $_PHPSHOP_ERR_MSG_RATE_WEIGHT_VALUE_REQ = 'FEIL: Forsendelsesavgift er påkrevd';
 	var $_PHPSHOP_ERR_MSG_RATE_CURRENCY_ID_INV = 'FEIL: Velg en valuta';
-	var $_PHPSHOP_ERR_MSG_RATE_ID_REQ = 'FEIL: En forsendelses sats er påkrevd';
+	var $_PHPSHOP_ERR_MSG_RATE_ID_REQ = 'FEIL: En forsendelsessats er påkrevd';
 	var $_PHPSHOP_INFO_MSG_PLEASE_SELECT = 'Vennligst velg';
 	var $_PHPSHOP_INFO_MSG_CARRIER = 'transportør';
 	var $_PHPSHOP_INFO_MSG_SHIPPING_METHOD = 'Fraktsats';
@@ -716,7 +716,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CHECKOUT_ERR_CCNUM_INV = 'Ugyldig kortnummer.';
 	var $_PHPSHOP_CHECKOUT_ERR_EMPTY_CART = 'Handlekurven din er tom!';
 	var $_PHPSHOP_CHECKOUT_ERR_NO_CARR = 'FEIL: Vennligst velg en transportør!';
-	var $_PHPSHOP_CHECKOUT_ERR_RATE_NOT_FOUND = 'FEIL: Valget fraktrate ble ikke funnet!';
+	var $_PHPSHOP_CHECKOUT_ERR_RATE_NOT_FOUND = 'FEIL: Valgt fraktrate ble ikke funnet!';
 	var $_PHPSHOP_CHECKOUT_ERR_SHIPTO_NOT_FOUND = 'FEIL: Din leveringsadresse ble ikke funnet!';
 	var $_PHPSHOP_CHECKOUT_ERR_NO_CCDATA = 'FEIL: Det finnes ingen kredittkortdata....';
 	var $_PHPSHOP_CHECKOUT_ERR_NO_CCNR_FOUND = 'FEIL: Kredittkortnummer ble ikke funnet!';
@@ -751,15 +751,15 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_FORM_ITEM_LBL = 'Artikkel';
 	var $_PHPSHOP_DOWNLOADS_TITLE = 'Nedlastingsområde';
 	var $_PHPSHOP_DOWNLOADS_START = 'Start nedlasting';
-	var $_PHPSHOP_DOWNLOADS_INFO = 'Venligst skriv inn Nedlastings-ID\'en du fikk per e-post. Deretter trykker du \'Start Nedlasting\'.';
-	var $_PHPSHOP_DOWNLOADS_ERR_EXP = 'Beklager, Nedlastingen er ikke gyldig lenger.';
+	var $_PHPSHOP_DOWNLOADS_INFO = 'Venligst skriv inn nedlastings-ID\'en du fikk per e-post. Deretter trykker du \'Start nedlasting\'.';
+	var $_PHPSHOP_DOWNLOADS_ERR_EXP = 'Beklager, nedlastingen er ikke gyldig lenger.';
 	var $_PHPSHOP_DOWNLOADS_ERR_MAX = 'Beklager, du har nådd maks antall nedlastinger';
-	var $_PHPSHOP_DOWNLOADS_ERR_INV = 'Feil Nedlastings-ID!';
+	var $_PHPSHOP_DOWNLOADS_ERR_INV = 'Feil nedlastings-ID!';
 	var $_PHPSHOP_DOWNLOADS_ERR_SEND = 'Kunne ikke sende melding til';
 	var $_PHPSHOP_DOWNLOADS_SEND_MSG = 'Melding sendt til';
 	var $_PHPSHOP_DOWNLOADS_SEND_SUBJ = 'Nedlastingsinfo';
 	var $_PHPSHOP_DOWNLOADS_SEND_MSG_1 = 'Filen(e) du har bestilt er klare for nedlasting';
-	var $_PHPSHOP_DOWNLOADS_SEND_MSG_2 = 'Vennligst skriv inn følgende Nedlastings-ID(er) på vårt nedlastingsområde: ';
+	var $_PHPSHOP_DOWNLOADS_SEND_MSG_2 = 'Vennligst skriv inn følgende nedlastings-ID(er) på vårt nedlastingsområde: ';
 	var $_PHPSHOP_DOWNLOADS_SEND_MSG_3 = 'Maks antall nedlastinger for hver fil er: ';
 	var $_PHPSHOP_DOWNLOADS_SEND_MSG_4 = 'Nedlastbar til {expire} dager etter første nedlasting';
 	var $_PHPSHOP_DOWNLOADS_SEND_MSG_5 = 'Spørsmål? Problemer?';
@@ -770,7 +770,7 @@ class vmLanguage extends vmAbstractLanguage {
 
 	var $_PHPSHOP_PAYPAL_ERROR = 'En feil har oppstått under betalingstransaksjonen. Statusen på din ordre kan ikke oppdateres.';
 	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER1 = 'Din ordre er som følger:';
-	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER2 = 'Takk for at du handler med oss!';
+	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER2 = 'Takk for at du handler hos oss!';
 	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER3 = 'Spørsmål? Problemer?';
 	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER4 = 'Følgende ordre er mottatt.';
 	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER5 = 'Vis ordren ved å trykke på følgende lenke:';
@@ -809,7 +809,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_AVAILABILITY = 'Tilgjengelighet';
 	var $_PHPSHOP_CURRENTLY_NOT_AVAILABLE = 'Dette produktet er for tiden ikke tilgjengelig';
 	var $_PHPSHOP_PRODUCT_AVAILABLE_AGAIN = 'Vil bli tilgjengelig igjen den: ';
-	var $_PHPSHOP_STATISTIC_SUMMARY = 'Oppsummering';
+	var $_PHPSHOP_STATISTIC_SUMMARY = 'Kontrollpanel';
 	var $_PHPSHOP_STATISTIC_STATISTICS = 'Statistikk';
 	var $_PHPSHOP_STATISTIC_CUSTOMERS = 'Kunder';
 	var $_PHPSHOP_STATISTIC_ACTIVE_PRODUCTS = 'Aktive produkter';
@@ -836,11 +836,11 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_PAYEMENTOPTIONS = 'Betaling';
 	var $_PHPSHOP_ADMIN_CFG_USE_ONLY_AS_CATALOGUE = 'Bruk kun som katalog';
 	var $_PHPSHOP_ADMIN_CFG_USE_ONLY_AS_CATALOGUE_EXPLAIN = 'Om du velger denne fjernes handlefunksjonen. Produktene vises på vanlig måte.';
-	var $_PHPSHOP_ADMIN_CFG_SHOW_PRICES = 'Vis Priser';
+	var $_PHPSHOP_ADMIN_CFG_SHOW_PRICES = 'Vis priser';
 	var $_PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX = 'Vis pris inkl. mva?';
 	var $_PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX_EXPLAIN = 'Angir om kunden ser prisene med eller uten mva.';
 	var $_PHPSHOP_ADMIN_CFG_SHOW_PRICES_EXPLAIN = 'Velg for å vise priser. Når katalogvisning uten handlemulighet er valgt ønsker noen å gjøre dette uten at prisene vises.';
-	var $_PHPSHOP_ADMIN_CFG_VIRTUAL_TAX = 'Virtual MVA';
+	var $_PHPSHOP_ADMIN_CFG_VIRTUAL_TAX = 'Virtuell MVA';
 	var $_PHPSHOP_ADMIN_CFG_VIRTUAL_TAX_EXPLAIN = 'Dette bestemmer om varer med NULL vekt skal våre med i MVA-beregningen eller ikke. Endre ps_checkout.php->calc_order_taxable() for dine innstillinger.';
 	var $_PHPSHOP_ADMIN_CFG_TAX_MODE = 'MVA måte';
 	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_SHIP = 'Basert på leveringsadresse';
@@ -849,7 +849,7 @@ class vmLanguage extends vmAbstractLanguage {
                                                                                     <ul><li>Landet/Staten butikken er registrert i</li><br/>
                                                                                     <li>eller hvor kunden kommer fra.</li></ul>';
 
-	var $_PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE = 'Mulighet for flere MVA satser?';
+	var $_PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE = 'Mulighet for flere MVA-satser?';
 	var $_PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE_EXPLAIN = 'velg dette dersom du selger varer med forskjellige satser for MVA. (f.eks. 7% matmoms, 25% for annet)';
 	var $_PHPSHOP_ADMIN_CFG_SUBSTRACT_PAYEMENT_BEFORE = 'Trekk fra rabatt før beregning av MVA/fraktkostnader?';
 	var $_PHPSHOP_ADMIN_CFG_REVIEW = 'Muliggjør for kunder å gi kommentarer/rangering?';
@@ -858,19 +858,19 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_SUBSTRACT_PAYEMENT_BEFORE_EXPLAIN = 'Bestemmer om rabatt skal trekkes fra før valgt betalingsmåte eller etter MVA og sendekostnader.';
 	var $_PHPSHOP_ADMIN_CFG_ACCOUNT_CAN_BE_BLANK = 'Kunder kan legge igjen opplysninger om bankkonto?';
 	var $_PHPSHOP_ADMIN_CFG_ACCOUNT_CAN_BE_BLANK_EXPLAIN = 'Velges dersom kunder skal ha mulighet til å legge inn opplysninger som bankkonto, IBAN osv. når de registrerer sine kundeopplysninger.';
-	var $_PHPSHOP_ADMIN_CFG_CAN_SELECT_STATE = 'Kunder kan velge stat/region?';
-	var $_PHPSHOP_ADMIN_CFG_CAN_SELECT_STATE_EXPLAIN = 'Velges dersom kunder skal ha mulighet for å velge stat/fylke når de registrerer seg som kunde.';
-	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS = 'Må akseptere Salgs- og Leverings-betingelser?';
-	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS_EXPLAIN = 'Velges dersom du vil at kundene må akseptere salgs- og leverings-betingelsene før de registrerer seg som kunde.';
-	var $_PHPSHOP_ADMIN_CFG_CHECK_STOCK = 'Sjekk Varebeholdning?';
+	var $_PHPSHOP_ADMIN_CFG_CAN_SELECT_STATE = 'Kunder kan velge fylke?';
+	var $_PHPSHOP_ADMIN_CFG_CAN_SELECT_STATE_EXPLAIN = 'Velges dersom kunder skal ha mulighet for å velge fylke når de registrerer seg som kunde.';
+	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS = 'Må akseptere Salgs- og leveringsbetingelser?';
+	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS_EXPLAIN = 'Velges dersom du vil at kundene må akseptere salgs- og leveringsbetingelsene før de registrerer seg som kunde.';
+	var $_PHPSHOP_ADMIN_CFG_CHECK_STOCK = 'Sjekk varebeholdning?';
 	var $_PHPSHOP_ADMIN_CFG_CHECK_STOCK_EXPLAIN = 'Velges dersom varebeholdning skal sjekkes når en kunde legger en vare i handlekurven.';
 
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE = 'Muliggjør Statistikk?';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE_EXPLAIN = 'Dette gjør statistikk i nettbutikken mulig dersom Statistikk er mulig i Administrasjonen.';
-	var $_PHPSHOP_ADMIN_CFG_MAIL_FORMAT = 'Format på ordren per E-post :';
-	var $_PHPSHOP_ADMIN_CFG_MAIL_FORMAT_TEXT = 'Ren Tekst';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE = 'Muliggjør statistikk?';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE_EXPLAIN = 'Dette gjør statistikk i nettbutikken mulig dersom statistikk er mulig i administrasjonen.';
+	var $_PHPSHOP_ADMIN_CFG_MAIL_FORMAT = 'Format på ordren per e-post :';
+	var $_PHPSHOP_ADMIN_CFG_MAIL_FORMAT_TEXT = 'Ren tekst';
 	var $_PHPSHOP_ADMIN_CFG_MAIL_FORMAT_HTML = 'HTML';
-	var $_PHPSHOP_ADMIN_CFG_MAIL_FORMAT_EXPLAIN = 'Dette bestemmer hvordan oppsette på ordren via Epost settes opp:<br />
+	var $_PHPSHOP_ADMIN_CFG_MAIL_FORMAT_EXPLAIN = 'Dette bestemmer hvordan oppsette på ordren via e-post settes opp:<br />
                                                                                         <ul><li>som ren tekst</li>
                                                                                         <li>eller som HTML med bilder.</li></ul>';
 	var $_PHPSHOP_ADMIN_CFG_FRONTENDAMDIN = 'Tillat administrasjon av butikken for brukere uten administrasjonsrett for portalen?';
@@ -889,7 +889,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_CLASSPATH = 'CLASS STI';
 	var $_PHPSHOP_ADMIN_CFG_CLASSPATH_EXPLAIN = 'STI til nettbutikkens classes-mappe.';
 	var $_PHPSHOP_ADMIN_CFG_PAGEPATH = 'Sti til SIDE';
-	var $_PHPSHOP_ADMIN_CFG_PAGEPATH_EXPLAIN = 'STI til nettbutikkens html-mappe.';
+	var $_PHPSHOP_ADMIN_CFG_PAGEPATH_EXPLAIN = 'STI til nettbutikkens HTML-mappe.';
 	var $_PHPSHOP_ADMIN_CFG_IMAGEPATH = 'Sti til BILDE';
 	var $_PHPSHOP_ADMIN_CFG_IMAGEPATH_EXPLAIN = 'STI til nettbutikkens shop_image-mappe.';
 	var $_PHPSHOP_ADMIN_CFG_HOMEPAGE = 'NETTSIDE';
@@ -942,7 +942,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_STORE_ENCODEKEY = 'Krypteringsnøkkel';
 	var $_PHPSHOP_ADMIN_CFG_STORE_ENCODEKEY_EXPLAIN = 'Brukes til å kryptere data som er lagret i databasen. Dette betyr at denne filen er beskyttet mot visning for alltid.';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_CHECKOUTBAR = 'Vis symboler når kunden betaler';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_CHECKOUTBAR_EXPLAIN = 'Velges dersom du ønsker å vise symboler for hvor i prosessen kunden er når han betaler ( 1 - 2 - 3 - 4 med bilder).';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_CHECKOUTBAR_EXPLAIN = 'Velges dersom du ønsker å vise symboler for hvor i prosessen kunden er når han/hun betaler ( 1 - 2 - 3 - 4 med bilder).';
 	var $_PHPSHOP_ADMIN_CFG_CHECKOUT_PROCESS = 'Velg betalingsprosess for din butikk.';
 	var $_PHPSHOP_ADMIN_CFG_CHECKOUT_PROCESS_STANDARD = '<strong>Standard :</strong><br/>
               1. Leveringsadresse<br />
@@ -963,13 +963,13 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_DOWNLOADS = 'Tillat nedlasting';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_DOWNLOADS_EXPLAIN = 'Velges dersom du selger nedlastbare produkter.';
 	var $_PHPSHOP_ADMIN_CFG_ORDER_ENABLE_DOWNLOADS = 'Ordrestaus som tillater nedlasting';
-	var $_PHPSHOP_ADMIN_CFG_ORDER_ENABLE_DOWNLOADS_EXPLAIN = 'Velger ordrestatusen kunden mottar via epost angående nedlastingen.';
+	var $_PHPSHOP_ADMIN_CFG_ORDER_ENABLE_DOWNLOADS_EXPLAIN = 'Velger ordrestatusen kunden mottar via e-post angående nedlastingen.';
 	var $_PHPSHOP_ADMIN_CFG_ORDER_DISABLE_DOWNLOADS = 'Ordrestaus som hindrer nedlasting';
-	var $_PHPSHOP_ADMIN_CFG_ORDER_DISABLE_DOWNLOADS_EXPLAIN = 'Velger ordrestatusen kunden mottar via epost angående nedlastingen.';
+	var $_PHPSHOP_ADMIN_CFG_ORDER_DISABLE_DOWNLOADS_EXPLAIN = 'Velger ordrestatusen kunden mottar via e-post angående nedlastingen.';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOADROOT = 'DOWNLOADROOT';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOADROOT_EXPLAIN = 'The physical path to the files for the custumer download. (trailing slash at the end!)<br />
         <span class="message">For your own shop\'s security: If you can, please use a directory ANYWHERE OUTSIDE OF THE WEBROOT</span>';
-	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_MAX = 'Maks nedlasting';
+	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_MAX = 'Maks nedlastinger';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_MAX_EXPLAIN = 'Angir antall nedlastinger som kan foretas med en nedlastings-ID (per ordre)';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE = 'Nedlasting utgår';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE_EXPLAIN = 'Angir hvor lenge nedlastingen er tilgjengelig <strong>i sekunder</strong>';
@@ -979,12 +979,12 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_PAYPAL_EMAIL = 'PayPal payment email:';
 	var $_PHPSHOP_ADMIN_CFG_PAYPAL_EMAIL_EXPLAIN = 'Your business email address for PayPal payments. Also used as receiver_email.';
 	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS = 'Ordrestatus for velykket transaksjon';
-	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS_EXPLAIN = 'Angi ordrestatus for gjeldende ordre dersom PayPal IPN var velykket. Dersom du bruker nedlastingsmulighet: Velg statusen som muligjør nedlasting. Kunden blir da informert om nedlastingen via e-post.';
+	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS_EXPLAIN = 'Angi ordrestatus for gjeldende ordre dersom PayPal IPN var velykket. Dersom du bruker nedlastingsmulighet: Velg statusen som muliggjør nedlasting. Kunden blir da informert om nedlastingen via e-post.';
 
 	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED = 'Ordrestatus for feil under transaksjonen';
 	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED_EXPLAIN = 'Velg en ordrestatus for feil under PayPal-transaksjon.';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYMATE = 'Tillat betaling med PayMate?';
-	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYMATE_EXPLAIN = 'Velges for å la kunder betale via Australske PayMates betalingssystem.';
+	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYMATE_EXPLAIN = 'Velges for å la kunder betale via australske PayMates betalingssystem.';
 	var $_PHPSHOP_ADMIN_CFG_PAYMATE_USERNAME = 'PayMate username:';
 	var $_PHPSHOP_ADMIN_CFG_PAYMATE_USERNAME_EXPLAIN = 'Your user account for PayMate.';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET = 'Enable Authorize.net payment?';
@@ -1031,11 +1031,11 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_RATE_BUTTON = 'Ranger';
 	var $_PHPSHOP_RATE_NOM = 'Rangering';
 	var $_PHPSHOP_REVIEWS = 'Kundekommentarer';
-	var $_PHPSHOP_NO_REVIEWS = 'Det er enda ingen kommentarer for dette produktet.';
+	var $_PHPSHOP_NO_REVIEWS = 'Det er foreløpig ingen kommentarer for dette produktet.';
 	var $_PHPSHOP_WRITE_FIRST_REVIEW = 'Bli den første til å kommentere...';
 	var $_PHPSHOP_REVIEW_LOGIN = 'Vennligst logg deg inn for å legge til en kommentar.';
 	var $_PHPSHOP_REVIEW_ERR_RATE = 'Vennligst ranger produktet for å fullføre din rangering!';
-	var $_PHPSHOP_REVIEW_ERR_COMMENT1 = 'Vennligst skriv ned litt mer i din kommentar. Minste tillatte tegn er 100.';
+	var $_PHPSHOP_REVIEW_ERR_COMMENT1 = 'Vennligst skriv litt mer i din kommentar. Den må inneholde minimum 100 tegn.';
 	var $_PHPSHOP_REVIEW_ERR_COMMENT2 = 'Vennligst skriv litt kortere kommentar - Maksimum 2000 tegn er tillatt!';
 	var $_PHPSHOP_WRITE_REVIEW = 'Skriv en kommentar for dette produktet!';
 	var $_PHPSHOP_REVIEW_RATE = 'Først: Ranger produktet. Velg fra 0 (dårligst) til 5 stjerner (best).';
@@ -1045,11 +1045,11 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_REVIEW_ALREADYDONE = 'Du har allerede skrevet en kommentar for dette produktet. Takk skal du ha.';
 	var $_PHPSHOP_REVIEW_THANKYOU = 'Takk for din kommentar.';
 	var $_PHPSHOP_COMMENT = 'Kommentar';
-	var $_PHPSHOP_CREDITCARD_FORM_LBL = 'Legg til/Endre kredittkort typer';
-	var $_PHPSHOP_CREDITCARD_NAME = 'Kredittkort - navn';
-	var $_PHPSHOP_CREDITCARD_CODE = 'Kredittkort - kode';
-	var $_PHPSHOP_CREDITCARD_TYPE = 'Kredittkort - type';
-	var $_PHPSHOP_CREDITCARD_LIST_LBL = 'Kredittkort - liste';
+	var $_PHPSHOP_CREDITCARD_FORM_LBL = 'Legg til/endre kredittkorttyper';
+	var $_PHPSHOP_CREDITCARD_NAME = 'Kredittkortnavn';
+	var $_PHPSHOP_CREDITCARD_CODE = 'Kredittkortkode';
+	var $_PHPSHOP_CREDITCARD_TYPE = 'Kredittkorttype';
+	var $_PHPSHOP_CREDITCARD_LIST_LBL = 'Kredittkortliste';
 	var $_PHPSHOP_UDATE_ADDRESS = 'Oppdater adresse';
 	var $_PHPSHOP_CONTINUE_SHOPPING = 'Handle mer';
 	var $_PHPSHOP_THANKYOU_SUCCESS = 'Din ordre er sendt!';
@@ -1057,14 +1057,14 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ORDER_STATUS_CHANGE_SEND_MSG_1 = 'Status på din ordre nr.  {order_id} er endret.';
 	var $_PHPSHOP_ORDER_STATUS_CHANGE_SEND_MSG_2 = 'Ny status er:';
 	var $_PHPSHOP_ORDER_STATUS_CHANGE_SEND_MSG_3 = 'For å se ordredetaljer, vennligst klikk på følgende lenke (eller kopier/lim inn adressen i nettleseren):';
-	var $_PHPSHOP_ORDER_STATUS_CHANGE_SEND_SUBJ = 'Ordrestatus Endret: Din Ordre {order_id}';
+	var $_PHPSHOP_ORDER_STATUS_CHANGE_SEND_SUBJ = 'Ordrestatus endret: Din ordre {order_id}';
 	var $_PHPSHOP_ORDER_LIST_NOTIFY = 'Gi kunden beskjed?';
 	var $_PHPSHOP_ORDER_LIST_NOTIFY_ERR = 'Vennligst endre ordrestatus først!';
-	var $_PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT = 'Rabatt for standard kundgruppe (i %)';
+	var $_PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT = 'Rabatt for standard kundegruppe (i %)';
 	var $_PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP = 'En positiv pris X betyr: Dersom kundegruppen ikke har en pris for dette produktet vil standardpris være beregningsgrunnlaget X %. En negativ pris har motsatt effekt';
 	var $_PHPSHOP_PRODUCT_DISCOUNT_LBL = 'Produktrabatt';
 	var $_PHPSHOP_PRODUCT_DISCOUNT_LIST_LBL = 'Rabatter';
-	var $_PHPSHOP_PRODUCT_DISCOUNT_ADDEDIT = 'Legg til/Endre produktrabatt';
+	var $_PHPSHOP_PRODUCT_DISCOUNT_ADDEDIT = 'Legg til/endre produktrabatt';
 	var $_PHPSHOP_PRODUCT_DISCOUNT_AMOUNT = 'Rabattbeløp';
 	var $_PHPSHOP_PRODUCT_DISCOUNT_AMOUNT_TIP = 'Skriv rabattbeløpet';
 	var $_PHPSHOP_PRODUCT_DISCOUNT_AMOUNTTYPE = 'Rabattype';
@@ -1085,7 +1085,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CURRENCY_DECIMALS_TOOLTIP = 'Antall desimaler (kan være 0)<br /><b> Utfører avrunding dersom varen har flere desimaler</b>';
 	var $_PHPSHOP_CURRENCY_DECIMALSYMBOL = 'Desimaltegn';
 	var $_PHPSHOP_CURRENCY_DECIMALSYMBOL_TOOLTIP = 'Tegn du ønsker som desimalsymbol';
-	var $_PHPSHOP_CURRENCY_THOUSANDS = 'Tusen-tegn';
+	var $_PHPSHOP_CURRENCY_THOUSANDS = 'Tusendelstegn';
 	var $_PHPSHOP_CURRENCY_THOUSANDS_TOOLTIP = 'Tegn du ønsker som skilletegn for tusen (kan være tomt).';
 	var $_PHPSHOP_CURRENCY_POSITIVE_DISPLAY = 'Positivt format';
 	var $_PHPSHOP_CURRENCY_POSITIVE_DISPLAY_TOOLTIP = 'Viser formatet som brukes for å vise positive verdier.<br />(Symb står for kroneverdi symbol)';
@@ -1097,12 +1097,12 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_BACK_TO_DETAILS = 'Tilbake til produktdetaljer';
 	var $_PHPSHOP_FILEMANAGER = 'Filkontroll';
 	var $_PHPSHOP_FILEMANAGER_LIST = 'Filkontroll::Produktliste';
-	var $_PHPSHOP_FILEMANAGER_ADD = 'Legg til Bilde/Fil';
-	var $_PHPSHOP_FILEMANAGER_IMAGES = 'Tilknyttede Bilder';
+	var $_PHPSHOP_FILEMANAGER_ADD = 'Legg til bilde/fil';
+	var $_PHPSHOP_FILEMANAGER_IMAGES = 'Tilknyttede bilder';
 	var $_PHPSHOP_FILEMANAGER_DOWNLOADABLE = 'Er det nedlastbart?';
-	var $_PHPSHOP_FILEMANAGER_FILES = 'Tilknyttede Filer (Dataark,...)';
+	var $_PHPSHOP_FILEMANAGER_FILES = 'Tilknyttede filer (dataark,...)';
 	var $_PHPSHOP_FILEMANAGER_PUBLISHED = 'Publisert?';
-	var $_PHPSHOP_FILES_LIST = 'Filkontroll::Bilde/Fil Liste for';
+	var $_PHPSHOP_FILES_LIST = 'Filkontroll::Bilde/fil liste for';
 	var $_PHPSHOP_FILES_LIST_FILENAME = 'Filnavn';
 	var $_PHPSHOP_FILES_LIST_FILETITLE = 'Filtittel';
 	var $_PHPSHOP_FILES_LIST_FILETYPE = 'Filtype';
@@ -1132,59 +1132,59 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_FILES_THUMBIMG_DELETE_SUCCESS = 'Lite bilde ble slettet!';
 	var $_PHPSHOP_FILES_FILE_DELETE_FAILURE = 'Kunne ikke slette filen!';
 	var $_PHPSHOP_FILES_FILE_DELETE_SUCCESS = 'Filen ble slettet!';
-	var $_PHPSHOP_FILES_NOT_FOUND = 'Beklager, kan ikke finne den filen!';
+	var $_PHPSHOP_FILES_NOT_FOUND = 'Beklager, kan ikke finne filen!';
 	var $_PHPSHOP_IMAGE_NOT_FOUND = 'Kan ikke finne bildet!';
-	var $_PHPSHOP_COUPON_MOD = 'Rabatt';
-	var $_PHPSHOP_COUPONS = 'Rabatter';
-	var $_PHPSHOP_COUPON_LIST = 'Rabattliste';
-	var $_PHPSHOP_COUPON_ALREADY_REDEEMED = 'Rabatten er allerede blitt benyttet.';
-	var $_PHPSHOP_COUPON_REDEEMED = 'Rabatt benyttet, Takk skal du ha.';
-	var $_PHPSHOP_COUPON_ENTER_HERE = 'Dersom du har en rabattkode, vennligst skriv den inn under:';
+	var $_PHPSHOP_COUPON_MOD = 'Rabatt/gavekort';
+	var $_PHPSHOP_COUPONS = 'Rabatter/gavekort';
+	var $_PHPSHOP_COUPON_LIST = 'Rabatt/gavekortliste';
+	var $_PHPSHOP_COUPON_ALREADY_REDEEMED = 'Rabatten/gavekortet er allerede blitt benyttet.';
+	var $_PHPSHOP_COUPON_REDEEMED = 'Rabatt/gavekort benyttet, Takk skal du ha.';
+	var $_PHPSHOP_COUPON_ENTER_HERE = 'Dersom du har en rabatt/gavekortkode, vennligst skriv den inn under:';
 	var $_PHPSHOP_COUPON_SUBMIT_BUTTON = 'Send';
-	var $_PHPSHOP_COUPON_CODE_EXISTS = 'Rabattkoden eksisterer, vennligst prøv igjen.';
-	var $_PHPSHOP_COUPON_EDIT_HEADER = 'Oppdater rabatt';
-	var $_PHPSHOP_COUPON_EDIT_HELP_TEXT = 'Velg en rabattkode for å endre/slette den.';
+	var $_PHPSHOP_COUPON_CODE_EXISTS = 'Rabatt/gavekortkoden eksisterer, vennligst prøv igjen.';
+	var $_PHPSHOP_COUPON_EDIT_HEADER = 'Oppdater rabatt/gavekort';
+	var $_PHPSHOP_COUPON_EDIT_HELP_TEXT = 'Velg en rabatt/gavekortkode for å endre/slette den.';
 	var $_PHPSHOP_COUPON_CODE_HEADER = 'Kode';
 	var $_PHPSHOP_COUPON_PERCENT_TOTAL = 'Prosent eller totalt';
-	var $_PHPSHOP_COUPON_TYPE = 'Rabatt Type';
+	var $_PHPSHOP_COUPON_TYPE = 'Rabatt type';
 	var $_PHPSHOP_COUPON_TYPE_TOOLTIP = 'En gaverabatt slettes når den er brukt på en ordre. En permanent rabatt kan brukes flere ganger.';
-	var $_PHPSHOP_COUPON_TYPE_GIFT = 'Gave rabatt';
+	var $_PHPSHOP_COUPON_TYPE_GIFT = 'Gaverabatt';
 	var $_PHPSHOP_COUPON_TYPE_PERMANENT = 'Permanent rabatt';
 	var $_PHPSHOP_COUPON_VALUE_HEADER = 'Verdi';
 	var $_PHPSHOP_COUPON_DELETE_BUTTON = 'Slett kode';
-	var $_PHPSHOP_COUPON_CONFIRM_DELETE = 'Er du sikker på at du vil slette denne rabattkoden?';
+	var $_PHPSHOP_COUPON_CONFIRM_DELETE = 'Er du sikker på at du vil slette denne rabatt/gavekortkoden?';
 	var $_PHPSHOP_COUPON_COMPLETE_ALL_FIELDS = 'Vennligst fullfør alle felt.';
 	var $_PHPSHOP_COUPON_VALUE_NOT_NUMBER = 'Rabattverdi må være ett tall ';
-	var $_PHPSHOP_COUPON_NEW_HEADER = 'Ny rabatt';
-	var $_PHPSHOP_COUPON_COUPON_HEADER = 'Rabattkode';
+	var $_PHPSHOP_COUPON_NEW_HEADER = 'Ny rabatt/nytt gavekort';
+	var $_PHPSHOP_COUPON_COUPON_HEADER = 'Rabatt/gavekortkode';
 	var $_PHPSHOP_COUPON_PERCENT = 'Prosent';
 	var $_PHPSHOP_COUPON_TOTAL = 'Totalt';
 	var $_PHPSHOP_COUPON_VALUE = 'Verdi';
-	var $_PHPSHOP_COUPON_CODE_SAVED = 'Rabattkode er lagret';
-	var $_PHPSHOP_COUPON_SAVE_BUTTON = 'Lagre rabatt';
-	var $_PHPSHOP_COUPON_DISCOUNT = 'Rabatter';
-	var $_PHPSHOP_COUPON_CODE_INVALID = 'Finner ikke rabattkode, prøv igjen.';
-	var $_PHPSHOP_COUPONS_ENABLE = 'Tillat bruk av rabatter';
-	var $_PHPSHOP_COUPONS_ENABLE_EXPLAIN = 'Om du tillater bruk av rabatter kan kunder med ett rabattnummer bruke denne når de handler.';
+	var $_PHPSHOP_COUPON_CODE_SAVED = 'Rabatt/gavekortkode er lagret';
+	var $_PHPSHOP_COUPON_SAVE_BUTTON = 'Lagre rabatt/gavekort';
+	var $_PHPSHOP_COUPON_DISCOUNT = 'Rabatter/gavekort';
+	var $_PHPSHOP_COUPON_CODE_INVALID = 'Finner ikke rabatt/gavekortkode, prøv igjen.';
+	var $_PHPSHOP_COUPONS_ENABLE = 'Tillat bruk av rabatter/gavekort';
+	var $_PHPSHOP_COUPONS_ENABLE_EXPLAIN = 'Om du tillater bruk av rabatter/gavekort kan kunder med et rabattnummer bruke denne når de handler.';
 	var $_PHPSHOP_FREE_SHIPPING = 'Gratis frakt';
-	var $_PHPSHOP_FREE_SHIPPING_CUSTOMER_TEXT = 'Frak er gratis på denne ordren!';
+	var $_PHPSHOP_FREE_SHIPPING_CUSTOMER_TEXT = 'Frakt er gratis på denne ordren!';
 	var $_PHPSHOP_FREE_SHIPPING_AMOUNT = 'Minste beløp for gratis frakt';
-	var $_PHPSHOP_FREE_SHIPPING_AMOUNT_TOOLTIP = 'Minste Beløp (inkludert MVA!) for Gratis Frakt';
+	var $_PHPSHOP_FREE_SHIPPING_AMOUNT_TOOLTIP = 'Minste beløp (inkludert MVA!) for gratis frakt';
 
 
 	var $_PHPSHOP_YOUR_STORE = 'Din butikk';
 	var $_PHPSHOP_CONTROL_PANEL = 'Kontrollpanel';
 	var $_PHPSHOP_ADMIN_CFG_PDF_BUTTON = 'PDF-knapp';
-	var $_PHPSHOP_ADMIN_CFG_PDF_BUTTON_EXPLAIN = 'Vis/Skjul PDF-knapp i butikken';
-	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS_ONORDER = 'Må akseptere Salgs- og Leveringsbetingelser på alle ordrer?';
-	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS_ONORDER_EXPLAIN = 'Velges dersom du vil at kundene må akseptere Salgs- og Leveringsbetingelser på alle ordrer før "Fullfør ordre".';
+	var $_PHPSHOP_ADMIN_CFG_PDF_BUTTON_EXPLAIN = 'Vis/skjul PDF-knapp i butikken';
+	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS_ONORDER = 'Må akseptere salgs- og leveringsbetingelser på alle ordrer?';
+	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS_ONORDER_EXPLAIN = 'Velges dersom du vil at kundene må akseptere salgs- og leveringsbetingelser på alle ordrer før "Fullfør ordre".';
 	var $_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE = 'Bankkontotype ';
 	var $_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE_CHECKING = 'Sjekk';
 	var $_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE_BUSINESSCHECKING = 'Firmasjekk';
 	var $_PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE_SAVINGS = 'Besparelse';
 	var $_PHPSHOP_PAYMENT_AN_RECURRING = 'Krever fakturering?';
 	var $_PHPSHOP_PAYMENT_AN_RECURRING_TOOLTIP = 'Velges dersom fakturering er aktuelt.';
-	var $_PHPSHOP_INTERNAL_ERROR = 'Intern Feil processing the Request to';
+	var $_PHPSHOP_INTERNAL_ERROR = 'Intern feil under forespørsel';
 	var $_PHPSHOP_PAYMENT_ERROR = 'Feil under gjennomføring av betaling';
 	var $_PHPSHOP_PAYMENT_TRANSACTION_SUCCESS = 'Betaling ble vellykket utført';
 	var $_PHPSHOP_UPS_RESPONSE_ERROR = 'UPS was not able to process the Shipping Rate Request.';
@@ -1242,9 +1242,9 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_EPN_KEY_EXPLAIN = 'This is your eProcessingNetwork.com Transaction Key';
 	var $_PHPSHOP_ADMIN_CFG_EPN_AUTENTICATIONTYPE = 'Authentication Type';
 	var $_PHPSHOP_ADMIN_CFG_EPN_AUTENTICATIONTYPE_EXPLAIN = 'This is the eProcessingNetwork.com authentication type.';
-	var $_PHPSHOP_RELATED_PRODUCTS = 'Tilhørende produkter';
+	var $_PHPSHOP_RELATED_PRODUCTS = 'Relaterte produkter';
 	var $_PHPSHOP_RELATED_PRODUCTS_TIP = 'You can build up Product Relations using this List. Just select one or more products here and then they are <strong>Related Products</strong>.';
-	var $_PHPSHOP_RELATED_PRODUCTS_HEADING = 'Tilhørende produkter';
+	var $_PHPSHOP_RELATED_PRODUCTS_HEADING = 'Relaterte produkter';
 	var $_PHPSHOP_IMAGE_ACTION = 'Bildebehandling';
 	var $_PHPSHOP_NONE = 'Ingen';
 	var $_PHPSHOP_ORDER_HISTORY = 'Ordrehistorikk';
@@ -1323,7 +1323,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PARAMETERS_LBL = 'Parametre';
 	var $_PHPSHOP_PRODUCT_TYPE_LBL = 'Produkttype';
 	var $_PHPSHOP_PRODUCT_TYPE_LIST_LBL = 'Vis produkttyper';
-	var $_PHPSHOP_PRODUCT_TYPE_ADDEDIT = 'Legg til/endre produkt type';
+	var $_PHPSHOP_PRODUCT_TYPE_ADDEDIT = 'Legg til/endre produkttype';
 	var $_PHPSHOP_PRODUCT_PRODUCT_TYPE_LIST_LBL = 'Produkttype for';
 	var $_PHPSHOP_PRODUCT_PRODUCT_TYPE_LIST_MNU = 'Vis produkttyper';
 	var $_PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_LBL = 'Legg til produkttype for';
@@ -1351,7 +1351,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_CHAR = 'Bokstav';
 	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATETIME = 'Dato og tid';
 	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE = 'Dato';
-	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE_FORMAT = '????-MM-DD';
+	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE_FORMAT = 'ÅÅÅÅ-MM-DD';
 	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TIME = 'Tid';
 	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TIME_FORMAT = 'TT:MM:SS';
 	var $_PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_BREAK = 'Break Line';
@@ -1392,14 +1392,14 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CSV_DEFAULT_ORDERING = 'Standard sortering';
 	var $_PHPSHOP_CSV_CUSTOMIZED_ORDERING = 'Min sortering';
 	var $_PHPSHOP_CSV_SUBMIT_EXPORT = 'Eksporter alle produkter til CSV-fil';
-	var $_PHPSHOP_CSV_CONFIGURATION_HEADER = 'Innstillinger for CSV-Import / Eksport ';
+	var $_PHPSHOP_CSV_CONFIGURATION_HEADER = 'Innstillinger for CSV-import/eksport ';
 	var $_PHPSHOP_CSV_SAVE_CHANGES = 'Lagre endringer';
 	var $_PHPSHOP_CSV_FIELD_NAME = 'Feltnavn';
 	var $_PHPSHOP_CSV_DEFAULT_VALUE = 'Standardverdi';
 	var $_PHPSHOP_CSV_FIELD_ORDERING = 'Feltsortering';
 	var $_PHPSHOP_CSV_FIELD_REQUIRED = 'Nødvendig felt?';
-	var $_PHPSHOP_CSV_IMPORT_EXPORT = 'Import/Eksport';
-	var $_PHPSHOP_CSV_NEW_FIELD = 'Legg til ett nytt felt';
+	var $_PHPSHOP_CSV_IMPORT_EXPORT = 'Import/eksport';
+	var $_PHPSHOP_CSV_NEW_FIELD = 'Legg til et nytt felt';
 	var $_PHPSHOP_CSV_DOCUMENTATION = 'Dokumentasjon';
 	var $_PHPSHOP_PRODUCT_NOT_FOUND = 'Beklager, kan ikke finne produktet du søker!';
 	var $_PHPSHOP_ADMIN_CFG_SHOW_OUT_OF_STOCK_PRODUCTS = 'Vis produkter som ikke er på lager';
@@ -1407,15 +1407,15 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_PACKAGING1 = 'Antall {unit}er i pakken:';
 	var $_PHPSHOP_PRODUCT_PACKAGING2 = 'Antall {unit}er i boks:';
 	var $_PHPSHOP_HIDE_OUT_OF_STOCK = 'Skjul produkter som ikke er på lager';
-	var $_PHPSHOP_FEATURED_PRODUCTS_LIST_LBL = 'Kommende og utgåtte produkter';
-	var $_PHPSHOP_FEATURED = 'Kommende';
+	var $_PHPSHOP_FEATURED_PRODUCTS_LIST_LBL = 'Kampanjeprodukter';
+	var $_PHPSHOP_FEATURED = 'Kampanje';
 	var $_PHPSHOP_BACK_TO_COUNTRY = 'Tilbake til land';
 	var $_PHPSHOP_BACK_TO_FILEMANAGER = 'Tilbake til filkontroll';
-	var $_PHPSHOP_ADD_STATE = 'Legg til stat';
-	var $_PHPSHOP_LIST_STATES = 'Vis stater';
-	var $_PHPSHOP_SHOW_FEATURED_AND_DISCOUNTED = 'Kommende og utgåtte';
-	var $_PHPSHOP_SHOW_FEATURED = 'Kommende produkter';
-	var $_PHPSHOP_SHOW_DISCOUNTED = 'Utgåtte produkter';
+	var $_PHPSHOP_ADD_STATE = 'Legg til fylke';
+	var $_PHPSHOP_LIST_STATES = 'Vis fylker';
+	var $_PHPSHOP_SHOW_FEATURED_AND_DISCOUNTED = 'Kampanje- og rabatterte produkter';
+	var $_PHPSHOP_SHOW_FEATURED = 'Kampanjeprodukter';
+	var $_PHPSHOP_SHOW_DISCOUNTED = 'Rabatterte produkter';
 	var $_PHPSHOP_FILTER = 'Filter';
 	var $_PHPSHOP_BACK_TO_MAIN_SITE = 'Tilbake til hovedside';
 	var $_PHPSHOP_EXPAND_TREE = 'Vis tre';
@@ -1442,7 +1442,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_THUMBNAIL_WIDTH_TIP = 'Mål for <strong>bredde</strong> på lite bilde';
 	var $_PHPSHOP_ADMIN_CFG_THUMBNAIL_HEIGHT = 'Høyde på lite bilde';
 	var $_PHPSHOP_ADMIN_CFG_THUMBNAIL_HEIGHT_TIP = 'Mål for <strong>høyde</strong> på lite bilde';
-	var $_PHPSHOP_ADMIN_CFG_SHIPPING_NO_SELECTION = 'Du må velge minst en forsendelsesmåte.';
+	var $_PHPSHOP_ADMIN_CFG_SHIPPING_NO_SELECTION = 'Du må velge forsendelsesmåte.';
 	var $_PHPSHOP_ADMIN_CFG_PRICE_CONFIGURATION = 'Prisoppsett';
 	var $_PHPSHOP_ADMIN_CFG_PRICE_ACCESS_LEVEL = 'Kundegruppe å vise priser til';
 	var $_PHPSHOP_ADMIN_CFG_PRICE_ACCESS_LEVEL_TIP = 'Valgt kundegruppe og alle grupper med høyere tilgangsnivå vil kunne se produktpriser.';
@@ -1475,7 +1475,7 @@ Passord - %s
 	var $_PEAR_LOG_ERR = 'Feil';
 	var $_PEAR_LOG_WARNING = 'Advarsel';
 	var $_PEAR_LOG_INFO = 'Info';
-	var $_PEAR_LOG_TIP = 'Info';
+	var $_PEAR_LOG_TIP = 'Tips';
 	var $_PEAR_LOG_ALERT = 'Alert';
 	var $_PEAR_LOG_EMERG = 'Emergency';
 	var $_PEAR_LOG_NOTICE = 'Merk';
@@ -1550,8 +1550,8 @@ For more information on cancelling orders and returning items, see the <a href="
 	var $_CMN_CONTINUE = 'Fortsett';
 	var $_CMN_CANCEL = 'Avbryt';
 	var $_BUTTON_SEND_REG = 'Send registrering';
-	var $_CONTACT_FORM_NC = 'Please make sure the form is complete and valid.';
-	var $_CMN_REQUIRED = 'Nødvendig';
+	var $_CONTACT_FORM_NC = 'Vennligst sørg for at skjemaet er komplett utfylt, og at opplysningene er korrekte.';
+	var $_CMN_REQUIRED = 'Må fylles ut';
 	var $_CMN_NEW = 'Ny';
 	var $_CMN_SAVE = 'Lagre';
 	var $_CMN_NEW_ITEM_LAST = 'New items default to the last place. Ordering can be changed after this item is saved.';
@@ -1569,7 +1569,7 @@ For more information on cancelling orders and returning items, see the <a href="
 	var $_PN_PREVIOUS = 'Forrige';
 	var $_PN_NEXT = 'Neste';
 	var $_PN_END = 'Slutt';
-	var $_PN_DISPLAY_NR = 'Display #';
+	var $_PN_DISPLAY_NR = 'Vis antall';
 	var $_PN_RESULTS = 'Resultat';
 	var $_CMN_PRINT = 'Utskrift';
 	var $_CMN_PDF = 'PDF';
@@ -1584,44 +1584,44 @@ For more information on cancelling orders and returning items, see the <a href="
 	var $_REGWARN_UNAME = 'Vennligst velg et brukernavn.';
 	var $_REGWARN_MAIL = 'Vennligst skriv en gyldig e-postadresse.';
 	var $_SEND_SUB = 'Kontodetaljer for %s ved %s';
-	var $_ASEND_MSG = 'Hallo %s,
+	var $_ASEND_MSG = 'Hei %s,
 	
-	A new user has registered at %s.
-	This email contains their details:
+	En ny kunde har registrert seg hos %s.
+	Informasjon om kunden:
 	
-	Name - %s
-	e-mail - %s
-	Username - %s
+	Navn - %s
+	E-post - %s
+	Brukernavn - %s
 	
-	Please do not respond to this message as it is automatically generated and is for information purposes only';
-	var $_REG_COMPLETE = '<div class="componentheading">Registration Complete!</div><br />You may now login.';
-	var $_REG_COMPLETE_ACTIVATE = '<div class="componentheading">Registration Complete!</div><br />Your account has been created and activation link has been sent to the e-mail address you entered. Note that you must activate the account by clicking on the activation link when you get the e-mail before you can login.';
+	Vennligst ikke svar på denne meldingen. Den er automatisk generert, og kun til informasjon.';
+	var $_REG_COMPLETE = '<div class="componentheading">Du er nå registrert!</div><br />Nå kan du logge inn.';
+	var $_REG_COMPLETE_ACTIVATE = '<div class="componentheading">Du er nå registrert!</div><br />Din kundekonto har blitt opprettet, og en bekreftelse er sendt til deg på e-postadressen du oppga. Kontoen aktiveres ved å klikke på lenken i e-posten.';
 	var $_DATE_FORMAT_LC = '%A, %d %B %Y';
 	var $_LAST_UPDATED = 'Sist oppdatert';
-	var $_NOT_AUTH = 'You are not authorized to view this resource.';
+	var $_NOT_AUTH = 'Ingen tilgang.';
 	var $_DO_LOGIN = 'Du må logge deg inn.';
-	var $_VALID_AZ09 = 'Please enter a valid %s.  No spaces, more than %d characters and contain 0-9,a-z,A-Z';
+	var $_VALID_AZ09 = 'Vennligst skriv et gyldig %s.  Ingen mellomrom, og mer enn %d tegn (0-9,a-z,A-Z)';
 	var $_CMN_PUBLISHED = 'Publisert';
 	var $_CMN_UNPUBLISHED = 'Upublisert';
 	var $_MORE = 'Mere...';
-	var $_EMPTY_CATEGORY = 'This Category is currently empty.';
+	var $_EMPTY_CATEGORY = 'Denne kategorien er for øyeblikket tom.';
 	var $_BUTTON_LOGOUT = 'Logg ut';
 	var $_NO_ACCOUNT = 'Ingen konto ennå?';
-	var $_CREATE_ACCOUNT = 'Registrer';
-	var $_REGWARN_PASS = 'Please enter a valid password.  No spaces, more than 6 characters and contain 0-9,a-z,A-Z';
-	var $_REGWARN_VPASS1 = 'Please verify the password.';
-	var $_REGWARN_VPASS2 = 'Password and verification do not match, please try again.';
-	var $_USEND_MSG_ACTIVATE = 'Hello %s,
+	var $_CREATE_ACCOUNT = 'Opprett en';
+	var $_REGWARN_PASS = 'Vennligst skriv inn et gyldig passord.  Ingen mellomrom, og mer enn 6 tegn (0-9,a-z,A-Z)';
+	var $_REGWARN_VPASS1 = 'Vennligst bekreft passordet.';
+	var $_REGWARN_VPASS2 = 'Passord og bekreftelse er ikke lik, vennligst prøv igjen.';
+	var $_USEND_MSG_ACTIVATE = 'Hei %s,
 
-Thank you for registering at %s. Your account is created and must be activated before you can use it.
-To activate the account click on the following link or copy-paste it in your browser:
+Takk for at du registrerte deg på %s. Din konto er opprettet men må aktiveres før du kan bruke den.
+Klikk på følgende lenke for å aktivere kontoen, eller kopier og lim den inn i din nettleser:
 %s
 
-After activation you may login to %s using the following username and password:
+Etter aktivering kan du logge inn på %s med følgende brukernavn og passord:
 
-Username - %s
-Password - %s';
-	var $_USEND_MSG = 'Hallo %s,
+Brukernavn - %s
+Passord - %s';
+	var $_USEND_MSG = 'Hei %s,
 
 Takk for at du registrerte deg ved %s.
 
@@ -1640,7 +1640,7 @@ Brukernavn - %s
 Passord - %s
 
 
-Please do not respond to this message as it is automatically generated and is for information purposes only';
+Vennligst ikke svar på denne beskjeden. Den er automatisk generert, og kun til informasjon.';
 	var $_REMEMBER_ME = 'Husk meg';
 	var $_REGISTER_TITLE = 'Registrering';
 	var $_JAN = 'Januar';

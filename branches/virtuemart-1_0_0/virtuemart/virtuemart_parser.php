@@ -42,6 +42,20 @@ if( !defined( '_VM_PARSER_LOADED' )) {
 	$_REQUEST['Itemid'] = intval( mosGetParam($_REQUEST, 'Itemid', 0) );
 	// Filter the PHP_SELF var and clean it
 	$_SERVER['PHP_SELF'] = htmlspecialchars( $_SERVER['PHP_SELF'], ENT_QUOTES );
+	if( !empty($_SERVER['QUERY_STRING'])) {
+		// Make sure, that the Query String only contains urlencoded values
+		$vars = explode( '&', $_SERVER['QUERY_STRING']);
+		$new_query_string = array();
+		foreach( $vars as $val) {
+			$keyvarpair = explode('=', $val);
+			if( sizeof( $keyvarpair ) == 1 ) {
+				$keyvarpair[1] = 0;
+			}
+			$new_query_string[] = $keyvarpair[0].'='.urlencode(urldecode($keyvarpair[1]));
+			
+		}
+		$_SERVER['QUERY_STRING'] = implode('&', $new_query_string );
+	}
 	$page = mosgetparam($_REQUEST, 'page', "");
 	$func = mosgetparam($_REQUEST, 'func', "");
 	

@@ -1840,6 +1840,14 @@ Salasana - %s
 	var $_PHPSHOP_CSV_EXPLANATION_PRICE_DELETE = 'price_delete kentt‰ on erikoiskentt‰. T‰t‰ kentt‰‰ k‰ytet‰‰n m‰‰r‰‰m‰‰n pit‰isikˆ poistaa tuotteen hinta, tai ei. T‰t‰ kentt‰‰ k‰ytet‰‰n, kun tuodaan useita hintoja. Ennen kuin hinta poistetaan, se t‰ytyy liitty‰ seuraaviin kenttiin:<ul><li>product_sku</li><li>product_price</li><li>product_currency</li><li>price_quantity_start</li><li>price_quantity_end</li></ul><br />K‰yttˆ:<ol><li>Valitse "price_delete" pudotusvalikosta, asetukset v‰lilehdess‰.</li><li>Lis‰‰ sarake CSV-tiedostoon arvolla Y. Jos kent‰ss‰ on joku muu arvo, hintaa ei poisteta.</li></ol><br />Arvot:<ul><li>Y: Kyll‰, hinta poistetaan</li><li>N: hintaa ei poisteta </li><li>Tyhj‰: Tyhj‰ arvo, hintaa ei poisteta </li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRICE_QUANTITY_START = 'M‰‰r‰, jossa mainittu hinta on k‰ytett‰viss‰.<br /><br />K‰yttˆ:<ol><li>Valitse "price_quantity_start" pudotusvalikosta, asetukset v‰lilehdess‰.</li><li>Lis‰‰ sarake CSV-tiedostoon numerona.</li></ol><br />Arvot: Numeerinen</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRICE_QUANTITY_END = 'M‰‰r‰, jossa mainittu hinta ei ole en‰‰ saatavilla.<br /><br />K‰yttˆ:<ol><li>Valitse "price_quantity_end" pudotusvalikosta, asetukset v‰lilehdess‰.</li><li>Lis‰‰ sarake CSV-tiedostoon numerona.</li></ol><br />Arvot: Numeerinen</li></ul>';
+	var $_VM_UPDATE_STATUS = 'Update Status';
+	var $_PRODUCT_WAITING_LIST_EMAIL_SUBJECT = '%s Has Arrived!';
+	var $_PRODUCT_WAITING_LIST_EMAIL_TEXT = 'Thank you for your patience.
+
+Our %s  is now in stock and can be purchased by following this link:
+%s
+
+ This is a one time notice, you will not receive this e-mail again.';
 }
 class phpShopLanguage extends vmLanguage { }
 /** @global vmLanguage $VM_LANG */

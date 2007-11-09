@@ -102,7 +102,7 @@ class ps_cart {
 			}
 			if ($quantity > $product_in_stock) {
 				$msg = $VM_LANG->_PHPSHOP_CART_STOCK_1;
-				eval( "\$msg .= \"".$VM_LANG->_PHPSHOP_CART_STOCK_2."\";" );
+				eval( "\$msg .= \" ".$VM_LANG->_PHPSHOP_CART_STOCK_2."\";" );
 				
 				$vmLogger->tip( $msg );
 				$GLOBALS['page'] = 'shop.waiting_list';

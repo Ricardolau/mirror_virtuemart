@@ -33,6 +33,11 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+09.11.2007 thepisu
+# Task #1373 - Hard coded language strings in zw_waiting_list.php
+# in zw_waiting_list.php, changed PHP mail() with vmMail() function
+# added translation for 'Update Status'
+# translation strings missing in slovenian files
 
 22.10.2007 soeren
 

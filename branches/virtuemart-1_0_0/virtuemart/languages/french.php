@@ -1855,6 +1855,14 @@ Merci de ne pas répondre à ce mail car il a été envoyé automatiquement à titre d
 	var $_PHPSHOP_CSV_EXPLANATION_PRICE_DELETE = 'Le champ price_delete est particulier. Ce champ est utilisé pour déterminer si le prix d\'un produit pourra être supprimé ou pas. Ce champ est utilisé lorsqu\'on importe plusieurs prix (prix multiple). Pour que le prix puisse être effacé, les champs suivants doivent être identiques :<ul><li>product_sku</li><li>product_price</li><li>product_currency</li><li>price_quantity_start</li><li>price_quantity_end</li></ul><br />Utilisation :<ol><li>Sélectionner "price_delete" dans le menu déroulant de la page de configuration.</li><li>Ajouter une colonne dans votre fichier CSV avec la valeur Y. Si le champ contient une autre valeur, le produit ne sera pas supprimé.</li></ol><br />Valeur :<ul><li>Y : Oui, le prix pourra être supprimé</li><li>N : Non, le prix ne pourra pas être supprimé</li><li>Champ vide : Aucune valeur, le prix ne pourra pas être supprimé</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRICE_QUANTITY_START = 'La quantité est disponible au prix mentionné.<br /><br />Utilisation :<ol><li>Sélectionner "price_quantity_start" dans le menu déroulant de la page de configuration.</li><li>Ajouter une colonne dans votre fichier CSV avec une valeur numérique.</li></ol><br />Valeur : Numérique</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRICE_QUANTITY_END = 'La quantité n\'est pas disponible au prix mentionné.<br /><br />Utilisation :<ol><li>Sélectionner "price_quantity_end" dans le menu déroulant de la page de configuration.</li><li>Ajouter une colonne dans votre fichier CSV avec une valeur numérique.</li></ol><br />Valeur : Numérique</li></ul>';
+	var $_VM_UPDATE_STATUS = 'Update Status';
+	var $_PRODUCT_WAITING_LIST_EMAIL_SUBJECT = '%s Has Arrived!';
+	var $_PRODUCT_WAITING_LIST_EMAIL_TEXT = 'Thank you for your patience.
+
+Our %s  is now in stock and can be purchased by following this link:
+%s
+
+ This is a one time notice, you will not receive this e-mail again.';
         
 }
 class phpShopLanguage extends vmLanguage { }

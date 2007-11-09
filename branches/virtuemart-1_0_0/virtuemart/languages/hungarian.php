@@ -1871,6 +1871,14 @@ Kérjük, hogy ne válaszoljon erre az üzenetre, mivel automatikusan készült, és cs
 	var $_PHPSHOP_CSV_EXPLANATION_PRICE_DELETE = 'A price_delete mezõ egy speciális mezõ. Ez a mezõ kerül felhasználásra annak megállapítására, hogy törölni kell-e egy termék árát. Ez a mezõ kerül felhasználásra többféle ár feltöltésekor. Mielõtt egy ár törlésre kerül, meg kell felelnie a következõ mezõknek:<ul><li>product_sku</li><li>product_price</li><li>product_currency</li><li>price_quantity_start</li><li>price_quantity_end</li></ul><br />Használata:<ol><li>A Beállítások fülön válassza ki a "price_delete" elemet a legördülõ listában.</li><li>Adja hozzá az Y értékkel az oszlopot a CSV fájlhoz. Ha a mezõ másik értéket tartalmaz, akkor a termék nem kerül törlésre.</li></ol><br />Értékek:<ul><li>Y: Igen, az ár törölhetõ</li><li>N: Nem, az ár nem törölhetõ</li><li>Empty: Üres érték, az ár nem törölhetõ</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRICE_QUANTITY_START = 'A mennyiség, amelynél az említett ár elérhetõ.<br /><br />Használata:<ol><li>A Beállítások fülön válassza ki a "price_quantity_start" elemet a legördülõ listában.</li><li>Adja hozzá numerikus értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek: Numerikus</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRICE_QUANTITY_END = 'A mennyiség, amelynél az említett ár már nem elérhetõ.<br /><br />Használata:<ol><li>A Beállítások fülön válassza ki a "price_quantity_end" elemet a legördülõ listában.</li><li>Adja hozzá numerikus értékkel az oszlopot a CSV fájlhoz.</li></ol><br />Értékek: Numerikus</li></ul>';
+	var $_VM_UPDATE_STATUS = 'Update Status';
+	var $_PRODUCT_WAITING_LIST_EMAIL_SUBJECT = '%s Has Arrived!';
+	var $_PRODUCT_WAITING_LIST_EMAIL_TEXT = 'Thank you for your patience.
+
+Our %s  is now in stock and can be purchased by following this link:
+%s
+
+ This is a one time notice, you will not receive this e-mail again.';
         
 }
 class phpShopLanguage extends vmLanguage { }

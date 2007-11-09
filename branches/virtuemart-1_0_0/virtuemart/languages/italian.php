@@ -2030,7 +2030,14 @@ Valori: Numerico</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRICE_QUANTITY_END = 'La quantità a cui non viene più applicato il prezzo indicato.<br /><br />
 Utilizzo:<ol><li>Seleziona il nome "price_quantity_end" dal menu nella schermata di configurazione.</li><li>Aggiungi una colonna al tuo file CSV con un valore numerico.</li></ol><br />
 Valori: Numerico</li></ul>';
-	var $_PHPSHOP_UPDATE_STATUS = 'Aggiorna Stato';
+	var $_VM_UPDATE_STATUS = 'Aggiorna Stato';
+	var $_PRODUCT_WAITING_LIST_EMAIL_SUBJECT = '%s E\' Arrivato!';
+	var $_PRODUCT_WAITING_LIST_EMAIL_TEXT = 'Grazie per la tua pazienza.
+
+Il nostro prodotto %s è ora disponibile e può essere acquistato seguento questo collegamento:
+%s
+
+ Questa è un avviso unico, non riceverai nuovamente questa e-mail.';
         
 }
 class phpShopLanguage extends vmLanguage { }

@@ -78,7 +78,7 @@ else {
 			 <tr>
 			  <td colspan="3"><?php echo "<strong>".$VM_LANG->_PHPSHOP_ORDER_PRINT_PO_STATUS .": </strong>";
 				  $ps_order_status->list_order_status($db->f("order_status")); ?>
-					<input type="submit" class="button" name="Submit" value="Update Status" />
+					<input type="submit" class="button" name="Submit" value="<?php echo $VM_LANG->_VM_UPDATE_STATUS; ?>" />
 					<input type="hidden" name="page" value="order.order_print" />
 					<input type="hidden" name="func" value="orderStatusSet" />
 					<input type="hidden" name="option" value="com_virtuemart" />

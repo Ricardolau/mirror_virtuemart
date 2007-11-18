@@ -357,7 +357,7 @@ $images->images = $db->f("images");
 *   Then replace the placeholders with HTML formatted product details
 *
 * function read_file( $file, $defaultfile='') ***/
-$template = read_file( PAGEPATH."templates/product_details/$flypage.php", PAGEPATH."templates/product_details/flypage.php");
+$template = read_file( PAGEPATH.'templates/product_details/'.basename($flypage).'.php', PAGEPATH.'templates/product_details/flypage.php');
 
 /** NOW LET'S BEGIN AND FILL THE TEMPLATE **/
 $template = str_replace( "{navigation_pathway}", $navigation_pathway, $template );

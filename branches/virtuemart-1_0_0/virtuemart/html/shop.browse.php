@@ -285,8 +285,8 @@ else {
 		$templatefile = "browse_lite_pdf";
 	}
 
-	$template = read_file( PAGEPATH."templates/browse/$templatefile.php",
-	PAGEPATH."templates/browse/".CATEGORY_TEMPLATE.".php");
+	$template = read_file( PAGEPATH.'templates/browse/'.basename($templatefile).'.php',
+							PAGEPATH."templates/browse/".CATEGORY_TEMPLATE.".php");
 	$db_browse->reset();
 
 	/*** Start printing out all products (in that category) ***/

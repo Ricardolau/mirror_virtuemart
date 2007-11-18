@@ -79,7 +79,7 @@ echo "<h2>".$VM_LANG->_PHPSHOP_PARAMETER_SEARCH."</h2>";
 		*   Read the template file into a String variable.
 		*
 		* function read_file( $file, $defaultfile='') ***/
-		$template = read_file( PAGEPATH."templates/".$browsepage.".php");
+		$template = read_file( PAGEPATH.'templates/'.basename($browsepage).'.php');
 		//$template = str_replace( "{product_type_id}", $product_type_id, $template );	// If you need this, use it...
 		while ($db->next_record()) {
 			$item_name = "product_type_$product_type_id"."_".$db->f("parameter_name");

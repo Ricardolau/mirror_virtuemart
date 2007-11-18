@@ -33,6 +33,10 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+18.11.2007 soeren
++ ePay (Danish Payment Gateway) Module v. 1.2
+# fixed insecure usage of the read_file function
+
 09.11.2007 thepisu
 # Task #1373 - Hard coded language strings in zw_waiting_list.php
 # in zw_waiting_list.php, changed PHP mail() with vmMail() function
@@ -40,7 +44,6 @@ VirtueMart 1.0.x
 # translation strings missing in slovenian files
 
 22.10.2007 soeren
-
 # Task #1454 - Fix for Payflow Pro (thanks to Steven!)
 
 --- VirtueMart 1.0.13a released ---

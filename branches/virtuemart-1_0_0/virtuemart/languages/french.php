@@ -1534,12 +1534,12 @@ Pour plus d\'information sur l\'annulation d\'une commande et le retour d\'un ar
 	var $_CMN_OK = 'Ok';
 	var $_CMN_CONTINUE = 'Continuer';
 	var $_CMN_CANCEL = 'Annuler';
-	var $_BUTTON_SEND_REG = 'Send Registration';
+	var $_BUTTON_SEND_REG = 'Envoyer l\'inscription';
 	var $_CONTACT_FORM_NC = 'Merci de vérifier si le formulaire est correctement complété.';
 	var $_CMN_REQUIRED = 'Obligatoire';
 	var $_CMN_NEW = 'Nouveau';
 	var $_CMN_SAVE = 'Enregistrer';
-	var $_CMN_NEW_ITEM_LAST = 'New items default to the last place. Ordering can be changed after this item is saved.';
+	var $_CMN_NEW_ITEM_LAST = 'Les nouveaux éléments sont par défaut à la dernière place. L\'ordre pourra être changé une fois l';
 	var $_CMN_OPTIONAL = 'En option';
 	var $_E_APPLY = 'Appliquer';
 	var $_E_IMAGES = 'Images';

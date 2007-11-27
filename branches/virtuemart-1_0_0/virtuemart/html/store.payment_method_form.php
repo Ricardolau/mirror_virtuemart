@@ -74,9 +74,9 @@ $tabs->startTab( "General", "global-page");
     </tr>
     <tr>
       <td width="31%" align="right">
-          Payment class name (e.g. <strong>ps_netbanx</strong>) :<br />
-          default: ps_payment<br />
-          <i>Leave blank if you're not sure what to fill in!</i>
+           <?php echo $VM_LANG->_PHPSHOP_PAYMENT_METHOD_FORM_CLASSNAME ?>:<br />
+          <?php echo $VM_LANG->_PHPSHOP_DEFAULT ?>: ps_payment<br />
+          <i><?php echo $VM_LANG->_PHPSHOP_PAYMENT_METHOD_FORM_CLASSNAME_TIP ?></i>
       </td>
       <td width="69%"><input type="text" class="inputbox" name="payment_class" value="<?php $db->sp("payment_class") ?>" /></td>
     </tr>
@@ -138,8 +138,8 @@ $tabs->startTab( "General", "global-page");
         $_PAYMENT->show_configuration();
 ?>
 <br />
-<strong>Payment Extra Info:</strong>
-<?php echo mm_ToolTip("Is shown on the Order Confirmation Page. Can be: HTML Form Code from your Payment Service Provider, Hints to the customer etc.") ?>
+<strong><?php echo $VM_LANG->_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA ?> :</strong>
+<?php echo mm_ToolTip($VM_LANG->_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA_TIP) ?>
 <br />
 <textarea class="inputbox" name="payment_extrainfo" cols="120" rows="20"><?php echo htmlspecialchars( $db->sf("payment_extrainfo") ); ?></textarea>
 <?php

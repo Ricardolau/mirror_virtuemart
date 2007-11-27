@@ -37,8 +37,11 @@ class vmMenuBar extends mosMenuBar {
 	* @param string An override for the task
 	* @param string An override for the alt text
 	*/
-	function addNew( $task='new', $page, $alt='New', $formName="adminForm" ) {
-		global $vmIcons;
+	function addNew( $task='new', $page, $alt=null, $formName="adminForm" ) {
+		global $vmIcons, $VM_LANG;
+		if (!$alt) {
+			$alt = $VM_LANG->_CMN_NEW;
+		}
 		@$bar =& JToolBar::getInstance('toolbar');
 		$image = '<img src="'.$vmIcons['new_icon'].'" alt="'.$alt.'" border="0" name="new" />';
 		$image2 = $vmIcons['new_icon2'];
@@ -56,8 +59,11 @@ class vmMenuBar extends mosMenuBar {
 	* @param string An override for the task
 	* @param string An override for the alt text
 	*/
-	function save( $task='save', $alt='Save' ) {
-		global $vmIcons;
+	function save( $task='save', $alt=null ) {
+		global $vmIcons, $VM_LANG;
+		if (!$alt) {
+			$alt = $VM_LANG->_CMN_SAVE;
+		}
 		@$bar =& JToolBar::getInstance('toolbar');
 		$image = '<img src="'.$vmIcons['save_icon'].'" alt="'.$alt.'" border="0" name="'.$task.'" />';
 		$image2 = $vmIcons['save_icon2'];
@@ -75,8 +81,11 @@ class vmMenuBar extends mosMenuBar {
 	* @param string An override for the task
 	* @param string An override for the alt text
 	*/
-	function publishList( $func, $task='publish', $alt='Publish' ) {
-		global $vmIcons;
+	function publishList( $func, $task='publish', $alt=null ) {
+		global $vmIcons, $VM_LANG;
+		if (!$alt) {
+			$alt = $VM_LANG->_CMN_PUBLISH;
+		}
 		@$bar =& JToolBar::getInstance('toolbar');
 		$image = '<img src="'.$vmIcons['publish_icon'].'" alt="'.$alt.'" border="0" name="'.$task.'" />';
 		$image2 = $vmIcons['publish_icon2'];
@@ -94,8 +103,11 @@ class vmMenuBar extends mosMenuBar {
 	* @param string An override for the task
 	* @param string An override for the alt text
 	*/
-	function unpublishList( $func, $task='unpublish', $alt='Unpublish' ) {
-		global $vmIcons;
+	function unpublishList( $func, $task='unpublish', $alt=null ) {
+		global $vmIcons, $VM_LANG;
+		if (!$alt) {
+			$alt = $VM_LANG->_CMN_UNPUBLISH;
+		}
 		@$bar =& JToolBar::getInstance('toolbar');
 		$image = '<img src="'.$vmIcons['unpublish_icon'].'" alt="'.$alt.'" border="0" name="'.$task.'" />';
 		$image2 = $vmIcons['unpublish_icon2'];
@@ -113,8 +125,11 @@ class vmMenuBar extends mosMenuBar {
 	* @param string An override for the task
 	* @param string An override for the alt text
 	*/
-	function deleteList( $func, $task='remove', $alt='Delete' ) {
-		global $vmIcons;
+	function deleteList( $func, $task='remove', $alt=null ) {
+		global $vmIcons, $VM_LANG;
+		if (!$alt) {
+			$alt = $VM_LANG->_E_REMOVE;
+		}
 		@$bar =& JToolBar::getInstance('toolbar');
 		$image = '<img src="'.$vmIcons['delete_icon'].'" alt="'.$alt.'" border="0" name="'.$task.'" />';
 		$image2 = $vmIcons['delete_icon2'];
@@ -131,8 +146,11 @@ class vmMenuBar extends mosMenuBar {
 	* @param string An override for the task
 	* @param string An override for the alt text
 	*/
-	function cancel( $task='cancel', $alt='Cancel' ) {
-		global $page, $vmIcons;
+	function cancel( $task='cancel', $alt=null ) {
+		global $page, $vmIcons, $VM_LANG;
+		if (!$alt) {
+			$alt = $VM_LANG->_CMN_CANCEL;
+		}		
 		@$bar =& JToolBar::getInstance('toolbar');
 		if ($page == "store.store_form")
 			$my_page = "store.index";

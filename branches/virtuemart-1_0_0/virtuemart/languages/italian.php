@@ -2038,7 +2038,12 @@ Il nostro prodotto %s è ora disponibile e può essere acquistato seguento questo 
 %s
 
  Questa è un avviso unico, non riceverai nuovamente questa e-mail.';
-        
+    var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA = 'Informazioni Aggiuntive Pagamento';
+    var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA_TIP = 'Viene mostrato nella pagina di conferma ordine. Può essere: codice HTML fornito dal tuo fornitore di servizio di pagamento, suggerimenti per il cliente, ecc.';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_CLASSNAME = 'Nome classe pagamento (es. <strong>ps_netbanx</strong>)';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_CLASSNAME_TIP = 'Lascia vuoto se non sai cosa mettere!';
+	var $_CMN_PUBLISH = 'Pubblica';
+	var $_CMN_UNPUBLISH = 'Sospendi';
 }
 class phpShopLanguage extends vmLanguage { }
 

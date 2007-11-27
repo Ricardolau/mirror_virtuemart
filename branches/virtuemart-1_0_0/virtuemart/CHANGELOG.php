@@ -33,6 +33,11 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+27.11.2007 thepisu
+# Task #1110 hardcoded message in store.payment_method_form.php
+# Task #1133 Hardcoded Language strings (phone/fax)
+# translated common menubar buttons (publish....)
+
 18.11.2007 soeren
 + ePay (Danish Payment Gateway) Module v. 1.2
 # fixed insecure usage of the read_file function

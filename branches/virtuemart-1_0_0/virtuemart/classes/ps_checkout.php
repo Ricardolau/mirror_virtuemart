@@ -601,9 +601,9 @@ class ps_checkout {
 			echo ", ";
 			echo $db->f("state") . " ";
 			echo $db->f("zip") . "<br />\n";
-			echo "Phone:". $db->f("phone_1") . "\n";
+			echo $VM_LANG->_PHPSHOP_SHOPPER_FORM_PHONE . ": ". $db->f("phone_1") . "\n";
 			echo "<br />\n";
-			echo "Fax:".$db->f("fax") . "\n";
+			echo $VM_LANG->_PHPSHOP_SHOPPER_FORM_FAX . ": ".$db->f("fax") . "\n";
 			echo "</td></tr>\n";
 			echo "</table></td></tr>\n";
 			if($i == 1) $i++;
@@ -627,6 +627,7 @@ class ps_checkout {
 	** returns: Prints HTML table displaying the address information
 	***************************************************************************/
 	function display_address($user_info_id) {
+		global $VM_LANG;
 		$db = new ps_DB;
 
 		$q = "SELECT address_type_name, company, title, last_name, ";
@@ -655,8 +656,8 @@ class ps_checkout {
 				echo $db->f("address_2");
 			}
 			echo "<br />". $db->f("city"). ", ". $db->f("state") . " ". $db->f("zip"). "<br />";
-			echo "Phone:". $db->f("phone_1"). "<br />";
-			echo "Fax:". $db->f("fax"). "</td></tr></table>";
+			echo $VM_LANG->_PHPSHOP_SHOPPER_FORM_PHONE . ":". $db->f("phone_1"). "<br />";
+			echo $VM_LANG->_PHPSHOP_SHOPPER_FORM_FAX . ":". $db->f("fax"). "</td></tr></table>";
 		}
 
 		return True;

@@ -223,7 +223,7 @@ function validate_image(&$d,$field_name,$table_name) {
             $resizedfilename = $pathinfo["dirname"]."/resized/".$filehash."_".PSHOP_IMG_WIDTH."x".PSHOP_IMG_HEIGHT.".".$pathinfo["extension"];
             
             $d["image_commands"][] = array( 'command' => 'unlink',
-        								'param1' => $delete
+        								'param1' => $resizedfilename
         							);
             $vmLogger->debug( 'Preparing: delete resized thumbnail '.$resizedfilename );
                 
@@ -270,6 +270,7 @@ function process_images(&$d) {
         			} else {
         				$ret = copy( $exec['param1'], $exec['param2'] );
         			}
+					@chmod( $exec['param2'], 0666 );
         			break;
         	}
 

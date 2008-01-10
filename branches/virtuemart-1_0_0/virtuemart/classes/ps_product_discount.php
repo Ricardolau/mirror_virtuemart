@@ -50,6 +50,12 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
        $this->error = "ERROR:  You must select a Discount type.";
        return False;	
      }
+		
+	if( !empty($d['end_date']) && ( $d['end_date'] < $d['start_date'] ) ) {		
+		$this->error = 'Error: The start date must occur before the end date.';
+		return False;
+	}
+
      return True;    
    }
 
@@ -74,7 +80,13 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
       $this->error = "ERROR:  You must specifiy a discount to Update.";
       return False;	
     }
-   return true;
+
+	if( !empty($d['end_date']) && ( $d['end_date'] < $d['start_date'] ) ) {		
+		$this->error = 'Error: The start date must occur before the end date.';
+		return False;
+	}
+
+   	return true;
   }
     
   /**************************************************************************
@@ -113,11 +125,6 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 
     $db = new ps_DB;
     
-    if (!$this->validate_add($d)) {
-      $d["error"] = $this->error;
-      return False;
-    }
-	
     if (!empty($d["start_date"])) {
         $day = substr ( $d["start_date"], 8, 2);
         $month= substr ( $d["start_date"], 5, 2);
@@ -137,6 +144,11 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
       $d["end_date"] = "";
     }
     
+    if (!$this->validate_add($d)) {
+      $d["error"] = $this->error;
+      return False;
+    }
+	
     $q = "INSERT INTO #__{vm}_product_discount (amount, is_percent, start_date, end_date)";
     $q .= " VALUES ('";
     $q .= $d["amount"] . "','";
@@ -161,10 +173,6 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
     $db = new ps_DB;
 
 
-    if (!$this->validate_update($d)) {
-      $d["error"] = $this->error;
-      return False;	
-    }
     if (!empty($d["start_date"])) {
         $day = substr ( $d["start_date"], 8, 2);
         $month= substr ( $d["start_date"], 5, 2);
@@ -182,6 +190,11 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
     }
     else {
       $d["end_date"] = "";
+    }
+
+    if (!$this->validate_update($d)) {
+      $d["error"] = $this->error;
+      return False;	
     }
     
     $q = "UPDATE #__{vm}_product_discount SET ";

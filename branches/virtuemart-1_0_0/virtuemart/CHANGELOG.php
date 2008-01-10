@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+10.01.2008 gregdev
+# Task #508 System allow a end-date before the start-date for discount
+
 27.11.2007 thepisu
 # Task #1110 hardcoded message in store.payment_method_form.php
 # Task #1133 Hardcoded Language strings (phone/fax)

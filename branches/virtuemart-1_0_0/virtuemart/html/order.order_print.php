@@ -81,6 +81,7 @@ else {
 					<input type="submit" class="button" name="Submit" value="<?php echo $VM_LANG->_VM_UPDATE_STATUS; ?>" />
 					<input type="hidden" name="page" value="order.order_print" />
 					<input type="hidden" name="func" value="orderStatusSet" />
+					<input type="hidden" name="vmtoken" value="<?php echo vmSpoofValue($sess->getSessionId()) ?>" />
 					<input type="hidden" name="option" value="com_virtuemart" />
 					<input type="hidden" name="current_order_status" value="<?php $db->p("order_status") ?>" />
 					<input type="hidden" name="order_id" value="<?php echo $order_id ?>" />

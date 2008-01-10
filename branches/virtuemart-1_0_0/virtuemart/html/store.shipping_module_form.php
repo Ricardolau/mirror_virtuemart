@@ -38,6 +38,7 @@ if( $shipping_module ) {
     <input type="hidden" name="task" value="" />
     <input type="hidden" name="option" value="com_virtuemart" />
     <input type="hidden" name="func" value="shippingmethodSave" />
+    <input type="hidden" name="vmtoken" value="<?php echo vmSpoofValue($sess->getSessionId()) ?>" />
     <input type="hidden" name="page" value="store.shipping_modules" />
     <input type="hidden" name="shipping_class" value="<?php echo basename($shipping_module,".php"); ?>" />
   </form>

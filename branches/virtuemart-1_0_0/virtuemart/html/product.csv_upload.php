@@ -33,8 +33,7 @@ if (isset($vars["preview"]) && strtolower($vars["preview"]) == "cancel") {
 	if (file_exists($vars['upload_file_name'])) unlink($vars['upload_file_name']);
 }
 ?>
-<img src="
-<?php echo IMAGEURL ?>ps_image/csv.gif" alt="CSV Upload" border="0" />
+<img src="<?php echo IMAGEURL ?>ps_image/csv.gif" alt="CSV Upload" border="0" />
 <span class="sectionname"><?php echo $VM_LANG->_PHPSHOP_PRODUCT_CSV_UPLOAD ?></span>
 <br />
 <?php
@@ -42,6 +41,13 @@ $tabs = new mShopTabs(0, 1, "_csv");
 $tabs->startPane("uploadform-pane");
 $tabs->startTab( $VM_LANG->_PHPSHOP_CSV_IMPORT_EXPORT, "uploadform" );
 ?>
+<form method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>" name="adminForm" enctype="multipart/form-data"> 
+	<input type="hidden" name="func" value="product_csv" /> 
+	<input type="hidden" name="vmtoken" value="<?php echo vmSpoofValue($sess->getSessionId()) ?>" />
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="page" value="product.mycsv" />
+	<input type="hidden" name="option" value="com_virtuemart" /> 
+	<input type="hidden" name="no_html" value="0" />
 <table class="adminform" border="0">
 	<tr>
 		<td rowspan="2" width="50%">
@@ -53,12 +59,6 @@ $tabs->startTab( $VM_LANG->_PHPSHOP_CSV_IMPORT_EXPORT, "uploadform" );
 			</tr>
 			<tr>
 				<td valign="top" width="15%" align="right">
-				<form method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>" name="adminForm" enctype="multipart/form-data"> 
-					<input type="hidden" name="func" value="product_csv" /> 
-					<input type="hidden" name="task" value="" />
-					<input type="hidden" name="page" value="product.mycsv" />
-					<input type="hidden" name="option" value="com_virtuemart" /> 
-					<input type="hidden" name="no_html" value="0" />
 					<?php echo $VM_LANG->_PHPSHOP_CSV_DELIMITER ?>:
 				</td>
 				<td valign="top" width="5%"><input type="radio"
@@ -194,6 +194,16 @@ $tabs->startTab( $VM_LANG->_PHPSHOP_CONFIG, "field_list" );
 </h2>
 <div style="font-size: 1.3em; text-align: center;"><?php echo $VM_LANG->_PHPSHOP_CSV_MINIMAL_FIELDS; ?></div>
 <br />
+<form name="fieldUpdate" method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>"> 
+	<input type="hidden" name="option" value="com_virtuemart" /> 
+	<input type="hidden" name="func" value="csvFieldUpdate" /> 
+	<input type="hidden" name="vmtoken" value="<?php echo vmSpoofValue($sess->getSessionId()) ?>" />
+	<input type="hidden" name="page" value="product.csv_upload" />
+	<?php if (@$_REQUEST['pshop_mode'] == "admin") {?> 
+		<input type="hidden" name="pshop_mode" value="admin" />
+	<?php
+	}
+	?>
 <table class="adminlist">
 	<tr>
 		<th>#</th>
@@ -203,14 +213,7 @@ $tabs->startTab( $VM_LANG->_PHPSHOP_CONFIG, "field_list" );
 		<th><?php echo $VM_LANG->_PHPSHOP_CSV_FIELD_REQUIRED ?></th>
 		<th><?php echo $VM_LANG->_PHPSHOP_DELETE ?></th>
 	</tr>
-	<form name="fieldUpdate" method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>"> 
-		<input type="hidden" name="option" value="com_virtuemart" /> 
-		<input type="hidden" name="func" value="csvFieldUpdate" /> 
-		<input type="hidden" name="page" value="product.csv_upload" />
-		<?php if (@$_REQUEST['pshop_mode'] == "admin") {?> 
-			<input type="hidden" name="pshop_mode" value="admin" />
-		<?php
-		}
+	<?php
 		$db->query( "SELECT * FROM #__{vm}_csv ORDER BY field_ordering" );
 		$i = 1;
 		while( $db->next_record() ) { ?>
@@ -253,21 +256,23 @@ $tabs->startTab( $VM_LANG->_PHPSHOP_CONFIG, "field_list" );
             </a>
             <?php
 		}
-		?></td>
+		?><input type="hidden" name="field[<?php echo $i ?>][_id]" value="<?php $db->p("field_id") ?>" />
+		</td>
 	</tr>
-	<input type="hidden" name="field[<?php echo $i ?>][_id]" value="<?php $db->p("field_id") ?>" /> <?php
+	<?php
 		}
 		?>
-	</form>
 </table>
+</form>
 <br />
 <a style="cursor:pointer;" onclick="addField();" class="toolbar"
 	onmouseout="MM_swapImgRestore();" onmouseover="MM_swapImage('newField','','<?php echo $mosConfig_live_site."/administrator/images/new_f2.png" ?>',1);">
 <img src="<?php echo $mosConfig_live_site."/administrator/images/new.png" ?>" name="newField" border="0" /> &nbsp;<?php echo $VM_LANG->_PHPSHOP_CSV_NEW_FIELD ?> </a>
-<form name="fieldAdd" method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>"> <input
-	type="hidden" name="option" value="com_virtuemart" /> <input
-	type="hidden" name="func" value="csvFieldAdd" /> <input type="hidden"
-	name="page" value="product.csv_upload" />
+<form name="fieldAdd" method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>"> 
+	<input type="hidden" name="option" value="com_virtuemart" />
+	<input type="hidden" name="func" value="csvFieldAdd" />
+	<input type="hidden" name="page" value="product.csv_upload" />
+	<input type="hidden" name="vmtoken" value="<?php echo vmSpoofValue($sess->getSessionId()) ?>" />
 <div id="newfieldspace"></div>
 </form>
 <?php

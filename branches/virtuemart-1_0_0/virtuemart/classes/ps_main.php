@@ -262,7 +262,9 @@ function process_images(&$d) {
         		case 'unlink':
         			if( file_exists( $exec['param1']) ) {
         				$ret = unlink( $exec['param1'] );
-        			}
+        			} else {
+						$ret = true;
+					}
         			break;
         		case 'move_uploaded_file':
         			if( is_uploaded_file( $exec['param1']) ) {
@@ -439,13 +441,7 @@ function utime()
 	return ((float)$usec + (float)$sec);
 }
 
-/****************************************************************************
-*    function: in_list
-*  created by: pablo
-* description:
-*  parameters:
-*     returns:
-****************************************************************************/
+
 /**
  * Checks if $item is in $list
  *
@@ -1135,6 +1131,9 @@ if( !function_exists( 'moshash' )) {
 	    return md5( $GLOBALS['mosConfig_secret'] . md5( $seed ) );
 	}
 }
+function vmCreateHash( $seed='virtuemart' ) {
+    return md5( ENCODE_KEY . md5( $seed ) );
+}
 /**
  * Equivalent to Joomla's josSpoofCheck function
  * @author Joomla core team
@@ -1142,15 +1141,20 @@ if( !function_exists( 'moshash' )) {
  * @param boolean $header
  * @param unknown_type $alt
  */
-function vmSpoofCheck( $header=NULL, $alt=NULL ) {	
+function vmSpoofCheck( $header=NULL, $alt=NULL ) {
 	global $VM_LANG;
-	$validate 	= mosGetParam( $_POST, vmSpoofValue($alt), 0 );
+	if( !empty( $_GET['vmtoken']) || !empty( $_POST['vmtoken'])) {
+		$validate_hash 	= mosGetParam( $_REQUEST, 'vmtoken', 0 );
+		$validate = vmSpoofValue($alt) == $validate_hash;		
+	} else {
+		$validate 	= mosGetParam( $_REQUEST, vmSpoofValue($alt), 0 );
+	}
 	
 	// probably a spoofing attack
 	if (!$validate) {
 		header( 'HTTP/1.0 403 Forbidden' );
-		mosErrorAlert( $VM_LANG->_NOT_AUTH );
-		return;
+		mosErrorAlert( 'Sorry, but we could not verify your Security Token. Go back and try again please.' );
+		return false;
 	}
 	
 	// First, make sure the form was posted from a browser.
@@ -1158,16 +1162,8 @@ function vmSpoofCheck( $header=NULL, $alt=NULL ) {
 	// other than requests from a browser:   
 	if (!isset( $_SERVER['HTTP_USER_AGENT'] )) {
 		header( 'HTTP/1.0 403 Forbidden' );
-		mosErrorAlert( $VM_LANG->_NOT_AUTH );
-		return;
-	}
-	
-	// Make sure the form was indeed POST'ed:
-	//  (requires your html form to use: action="post")
-	if ( $_SERVER['REQUEST_METHOD'] != 'POST' ) {
-		header( 'HTTP/1.0 403 Forbidden' );
-		mosErrorAlert( $VM_LANG->_NOT_AUTH );
-		return;
+		mosErrorAlert( 'Sorry, but we could not identify your web browser, but that is necessary for using this web page.' );
+		return false;
 	}
 	
 	if ($header) {
@@ -1186,8 +1182,8 @@ function vmSpoofCheck( $header=NULL, $alt=NULL ) {
 			foreach ($badStrings as $v2) {
 				if (strpos( $v, $v2 ) !== false) {
 					header( "HTTP/1.0 403 Forbidden" );
-					mosErrorAlert( $VM_LANG->_NOT_AUTH );
-					return;
+					mosErrorAlert( 'We are sorry, but using E-Mail Headers in Fields is not allowed.' );
+					return false;
 				}
 			}
 		}   
@@ -1196,6 +1192,7 @@ function vmSpoofCheck( $header=NULL, $alt=NULL ) {
 		// and continue rest of script:   
 		unset($k, $v, $v2, $badStrings);
 	}
+	return true;
 }
 /**
  * Equivalent to Joomla's josSpoofValue function
@@ -1225,5 +1222,21 @@ function vmSpoofValue($alt=NULL) {
 	}
 	
 	return $validate;
+}
+/**
+ * Checks if VM is in Administration Mode
+ *
+ * @return boolean
+ * @since 1.0.14
+ */
+function vmIsAdminMode() {
+	global $page;
+	return ( defined( '_PSHOP_ADMIN' ) 
+	|| @$_REQUEST['pshop_mode'] == 'admin' 
+	|| stristr($page,"form")
+	|| stristr($page, "list")
+	|| stristr($page, "cfg")
+	|| stristr($page, "print")
+	|| stristr($page, "display"));
 }
 ?>

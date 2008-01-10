@@ -41,10 +41,10 @@ class ps_session {
 		global $vmLogger, $mainframe, $mosConfig_absolute_path, $VM_LANG;
 		// We only care for the session if it is not started!
 		if( empty( $_SESSION ) || session_id() == '') {
-			
-			// Check if the session_save_path is writable
-			$this->checkSessionSavePath();
-		
+			if(ini_get('session.session_save_handler') == 'files') {
+				// Check if the session_save_path is writable
+				$this->checkSessionSavePath();
+			}		
 			session_name( $this->_session_name );
 			
 			if( @$_REQUEST['option'] == 'com_virtuemart' ) {
@@ -454,7 +454,9 @@ class ps_session {
 				else {
 					$appendix = URL."administrator/index2.php".substr($text, $limiter, strlen($text)-1).$appendix;
 				}
-	
+				if( vmIsAdminMode() && strstr($text, 'func') !== false ) {
+					$appendix .= '&vmtoken='.vmSpoofValue($this->getSessionId());
+				}
 				if ( stristr($text, SECUREURL)) {
 					$appendix = str_replace(URL, SECUREURL, $appendix);
 				}

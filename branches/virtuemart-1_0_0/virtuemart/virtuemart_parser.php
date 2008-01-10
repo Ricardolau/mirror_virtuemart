@@ -160,7 +160,7 @@ if( !defined( '_VM_PARSER_LOADED' )) {
 		$database->_debug = 1;
 	}
 
-	// Set Mambo's Cookies for the SSL Domain as well
+	// Set Cookies for the SSL Domain as well
 	// This makes it possible to use Shared SSL
 	$sess->prepare_SSL_Session();
 
@@ -184,6 +184,7 @@ if( !defined( '_VM_PARSER_LOADED' )) {
 
 		// Get sure that we have float values with a decimal point!
 		@setlocale( LC_NUMERIC, 'en_US', 'en' );
+		@setlocale( LC_TIME, $mosConfig_locale );
 		
 		// some input validation for limitstart
 		if (!empty($_REQUEST['limitstart'])) {
@@ -261,6 +262,10 @@ if( !defined( '_VM_PARSER_LOADED' )) {
 		$ok = true;
 
 		if ( !empty( $funcParams["method"] ) ) {
+			// Protection against Cross-Site Request Forgery
+			if( vmIsAdminMode() && !vmSpoofCheck(null, $sess->getSessionId() ) ) {
+				return;
+			}
 			// Get the function parameters: function name and class name
 			$q = "SELECT #__{vm}_module.module_name,#__{vm}_function.function_class";
 			$q .= " FROM #__{vm}_module,#__{vm}_function WHERE ";
@@ -273,15 +278,18 @@ if( !defined( '_VM_PARSER_LOADED' )) {
 			$class = $db->f('function_class');
 			if( file_exists( CLASSPATH."$class.php" ) ) {
 				// Load class definition file
-				require_once( CLASSPATH.$db->f("function_class").".php" );
+				require_once( CLASSPATH."$class.php" );
 				$classname = str_replace( '.class', '', $funcParams["class"]);
-				
+				if( !class_exists(strtolower($classname))) {
+					$classname = 'vm'.$classname;
+				}
 				if( class_exists( $classname )) {
 					// create an object of that class
 					global $$classname;
 					$$classname = new $classname();
 	
 					// RUN THE FUNCTION
+					// $ok  = $class->function( $vars );
 					$ok = $$classname->$funcParams["method"]($vars);
 				} else {
 					$vmLogger->crit( 'Failed to instantiate the non-existing class '.$classname.'!');

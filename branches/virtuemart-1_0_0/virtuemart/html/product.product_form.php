@@ -385,6 +385,7 @@ $tabs->startTab( "<img src=\"". IMAGEURL ."ps_image/options.png\" width=\"16\" h
         <td align="right" width="21%" valign="top"><div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_PHPSHOP_PRODUCT_FORM_ATTRIBUTE_LIST ?>:</div></td> 
         <td width="79%" >
         <textarea class="inputbox" rows="3" cols="70" name="product_advanced_attribute"><?php $db->sp("attribute"); ?></textarea>
+        </td>
     </tr>
     <tr>
     <td>&nbsp;</td>

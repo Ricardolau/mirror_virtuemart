@@ -33,6 +33,14 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+10.01.2007 soeren
+# Task #1609 - IE7 support PNG. The funtions of sleight.js aren´t necessary!
+# Task #1615 - Admin: category search multiple page error (product.product_category_list.php)
+# Task #1610 - product.product_form.php missing terminating "</td>"
+# Task #1628 - When Image doesn't exist, Image update will fail (ps_main.php)
++ added CSRF Prevention (Cross-Site Request Forgery)
+# fixed PHPMailer Vulnerability (https://sourceforge.net/tracker/index.php?func=detail&aid=1734811&group_id=26031&atid=385707)
+
 10.01.2008 gregdev
 # Task #508 System allow a end-date before the start-date for discount
 
@@ -41,6 +49,7 @@ VirtueMart 1.0.x
 # Task #1133 Hardcoded Language strings (phone/fax)
 # translated common menubar buttons (publish....)
 
+>>>>>>> .r1146
 18.11.2007 soeren
 + ePay (Danish Payment Gateway) Module v. 1.2
 # fixed insecure usage of the read_file function

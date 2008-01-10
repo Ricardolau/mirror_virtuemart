@@ -216,6 +216,7 @@ class listFactory {
 					<input type=\"hidden\" name=\"page\" value=\"". $modulename . "." . $pagename . "\" />
 					<input type=\"hidden\" name=\"task\" value=\"\" />\n
 					<input type=\"hidden\" name=\"func\" value=\"\" />\n
+					<input type=\"hidden\" name=\"vmtoken\" value=\"".vmSpoofValue($sess->getSessionId())."\" />
 					<input type=\"hidden\" name=\"boxchecked\" />\n";
 		if( defined( "_PSHOP_ADMIN") || @$_REQUEST['pshop_mode'] == "admin"  )
             $header .= "<input type=\"hidden\" name=\"pshop_mode\" value=\"admin\" />\n";
@@ -319,6 +320,7 @@ class formFactory {
 	function finishForm( $func, $page, $option='com_virtuemart' ) {
 	
 		$html = '
+		<input type="hidden" name="vmtoken" value="'.vmSpoofValue($GLOBALS['sess']->getSessionId()).'" />
 		<input type="hidden" name="func" value="'.$func.'" />
         <input type="hidden" name="page" value="'.$page.'" />
         <input type="hidden" name="task" value="" />

@@ -12,7 +12,7 @@
 	
 	<target name="server" if="CB_DOCDIR">
 		<property name="dist.dir" value="${CB_DOCDIR}/Nightly-vm10" />
-		<property name="svn.dir" value="${CB_SRCDIR}/branches/virtuemart-1_0_0" />
+		<property name="svn.dir" value="${CB_SRCDIR}/branches/virtuemart-1_0_0/virtuemart" />
 		<echo message="Server properties loaded." />
 		<tstamp/>
 	</target>
@@ -170,7 +170,7 @@
 			includes="virtuemart.searchbot.php virtuemart.searchbot.xml"
 		/>
 	</target>
-	<target name="mambots" depends="mosproductsnap, virtuemart.searchbot" />
+	<target name="mambots" depends="mosproductsnap, virtuemart.searchbot">
 		
 	</target>
 	<target name="languagepack" depends="setup">
@@ -198,7 +198,7 @@
 		<checksum file="${dist.dir}/VirtueMart_${vm.version}-COMPLETE_PACKAGE.zip" property="completepack.checksum" />
 		<CBRelease file="${dist.dir}/VirtueMart_${vm.version}-COMPLETE_PACKAGE.zip" 
 						todir="Nightly-Builds/VirtueMart ${vm.minorversion}" 
-						description="VirtueMart 1.1 Nightly Build [${DSTAMP}]. MD5:${completepack.checksum}" />	
+						description="VirtueMart ${vm.builddescription} [${DSTAMP}]. MD5:${completepack.checksum}" />	
 	</target>
 	
 	<target name="init" depends="modules,mambots,component,languagepack"/>

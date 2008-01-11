@@ -23,23 +23,27 @@ Our thanks to all those people who've contributed bug reports and code fixes.
 
 Legend:
 
-# -> Bug Fix
-+ -> Addition
-^ -> Change
-- -> Removed
-! -> Note
+#	Bug Fix
++	Addition
+^	Change
+- 	Removed
+!	Note
 
 --------------------------------------------------------------------------------------------------------------
 
 VirtueMart 1.0.x
 *************************************
-10.01.2007 soeren
+11.01.2008 soeren
+- removed PDF MakeFont Package
+# Task #1658 - Module permission form error
+
+10.01.2008 soeren
 # Task #1609 - IE7 support PNG. The funtions of sleight.js aren´t necessary!
 # Task #1615 - Admin: category search multiple page error (product.product_category_list.php)
-# Task #1610 - product.product_form.php missing terminating "</td>"
+# Task #1610 - product.product_form.php missing terminating "&lt;/td&gt;"
 # Task #1628 - When Image doesn't exist, Image update will fail (ps_main.php)
-+ added CSRF Prevention (Cross-Site Request Forgery)
-# fixed PHPMailer Vulnerability (https://sourceforge.net/tracker/index.php?func=detail&aid=1734811&group_id=26031&atid=385707)
++ added CSRF Protection (Cross-Site Request Forgery)
+# fixed PHPMailer Vulnerability (https://sourceforge.net/tracker/index.php?func=detail&amp;aid=1734811&amp;group_id=26031&atid=385707)
 
 10.01.2008 gregdev
 # Task #508 System allow a end-date before the start-date for discount
@@ -49,7 +53,6 @@ VirtueMart 1.0.x
 # Task #1133 Hardcoded Language strings (phone/fax)
 # translated common menubar buttons (publish....)
 
->>>>>>> .r1146
 18.11.2007 soeren
 + ePay (Danish Payment Gateway) Module v. 1.2
 # fixed insecure usage of the read_file function
@@ -1225,7 +1228,7 @@ ALTER TABLE `mos_vm_order_item` CHANGE `product_item_price` `product_item_price`
 ^ upated the CSV documentation
 ^ product form: moved the discount drop-down list to product information tab
 	added a check to test if the IMAGEPATH is writable (see Tab "product images")
-# Custom Attribute Values would allow the customer to alter the product price (thanks to "Ary Group" <AryGroup@ua.fm> for reporting that)
+# Custom Attribute Values would allow the customer to alter the product price (thanks to "Ary Group", AryGroup@ua.fm for reporting that)
 
 =======
 26-08-2005 Zdenek Dvorak
@@ -1255,7 +1258,7 @@ ALTER TABLE `mos_vm_order_item` CHANGE `product_item_price` `product_item_price`
   - modified date of product (You can search products which are very old and need update or which are new and need be checked)
   - modified date of product's price (Very usefull if you use price synchronizing with other system - e.g. company accountancy)
   - products with no price
-+ New features: unit & packaging ## REQUIRES a DATABASE UPDATE! ##
++ New features: unit and packaging ## REQUIRES a DATABASE UPDATE! ##
   You can set unit of product, number units in packaging and number units in box. For showing packaging in product_details is
   needed use in flypage {product_packaging} - see html/templates/product_details/flypage.php
 ^ ## Database structure changed ##

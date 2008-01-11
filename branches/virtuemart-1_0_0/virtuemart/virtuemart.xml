@@ -1,12 +1,12 @@
 <?xml version="1.0" ?>
 <mosinstall type="component">
 	<name>VirtueMart</name>
-	<creationDate>October, 9th 2007</creationDate>
+	<creationDate>January, 11th 2007</creationDate>
 	<author>Soeren Eberhardt-Biermann &amp; the VirtueMart dev team</author>
 	<copyright>released under GNU General Public License</copyright>
 	<authorEmail>soeren|at|virtuemart.net</authorEmail>
 	<authorUrl>www.virtuemart.net</authorUrl>
-	<version>1.0.13</version>
+	<version>1.0.14</version>
 	<description>Online-Shop / E-Commerce Component</description>
   <files>
       <filename>frontend_files.tar.gz</filename>
@@ -34,7 +34,7 @@
         <filename>CHANGELOG.php</filename>
         <filename>compat.joomla1.5.php</filename>
         <filename>COPYRIGHT.php</filename>
-        <filename>favicon.ico</filename>
+        <filename>menu_icon.png</filename>
         <filename>global.php</filename>
         <filename>header.php</filename>
         <filename>index.html</filename>

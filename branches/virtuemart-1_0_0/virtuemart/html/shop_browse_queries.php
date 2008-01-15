@@ -91,7 +91,7 @@ if( !empty($keyword) ) {
 }	
 // This is the "advanced" search, filter by Keyword1 and Keyword2
 elseif( !empty($keyword1) ) {
-	$sq .= "(";
+	$sq = "(";
 	if ($search_limiter=="name") {
 		$sq .= "\n `#__{vm}_product`.`product_name` LIKE '%$keyword1%' ";
 	}

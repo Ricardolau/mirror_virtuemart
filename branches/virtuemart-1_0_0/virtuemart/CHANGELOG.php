@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+15.01.2008 soeren
+^ optimized query in dynamic_state_list function (not running a query for each country, but just one now, ps_html.php)
+
 11.01.2008 soeren
 - removed PDF MakeFont Package
 # Task #1658 - Module permission form error

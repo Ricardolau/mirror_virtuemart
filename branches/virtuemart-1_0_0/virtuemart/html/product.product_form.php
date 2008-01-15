@@ -19,7 +19,7 @@ mm_showMyFileName( __FILE__ );
 
 require_once( CLASSPATH.'ps_product_discount.php' );
 
-$product_id = mosGetParam( $_REQUEST, 'product_id');
+$product_id = mosGetParam( $_REQUEST, 'product_id', 0 );
 if( is_array( $product_id )) {
 	$product_id = (int)$product_id[0];
 }

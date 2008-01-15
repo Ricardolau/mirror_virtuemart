@@ -19,9 +19,6 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 */
 
 class ps_html {
-	var $classname = "ps_html";
-
-
 	/**
 	 * Prints an HTML dropdown box named $name using $arr to
 	 * load the drop down.  If $value is in $arr, then $value
@@ -140,6 +137,10 @@ class ps_html {
 	}
 
 
+	function list_country($list_name, $value="", $extra="") {
+		echo ps_html::getCountryList($list_name, $value, $extra);
+	}
+
 	/**
 	 * Creates a drop-down list for all countries
 	 *
@@ -147,25 +148,21 @@ class ps_html {
 	 * @param string $value The value of the pre-selected option
 	 * @param string $extra More attributes for the select element when needed
 	 * @return string The HTML code for the select list
-	 */
-	function list_country($list_name, $value="", $extra="") {
+	 */	
+	function getCountryList($list_name, $value="", $extra="") {
 		global $VM_LANG;
 
 		$db = new ps_DB;
 
-		$q = "SELECT * from #__{vm}_country ORDER BY country_name ASC";
+		$q = "SELECT country_id, country_name, country_3_code from #__{vm}_country ORDER BY country_name ASC";
 		$db->query($q);
-		echo "<select class=\"inputbox\" name=\"$list_name\" $extra>\n";
-		echo "<option value=\"\">".$VM_LANG->_PHPSHOP_SELECT."</option>\n";
+		$countries[''] = $VM_LANG->_PHPSHOP_SELECT;
+		
 		while ($db->next_record()) {
-			echo "<option value=\"" . $db->f("country_3_code")."\"";
-			if ($value == $db->f("country_3_code")) {
-				echo " selected=\"selected\"";
-			}
-			echo ">" . $db->f("country_name") . "</option>\n";
+			$countries[$db->f("country_3_code")] = $db->f("country_name");
 		}
-		echo "</select>\n";
-		return True;
+		
+		return ps_html::selectList( $list_name, $value, $countries, 1, '', $extra );
 	}
 	
 	/**
@@ -218,19 +215,25 @@ class ps_html {
 	function dynamic_state_lists( $country_list_name, $state_list_name, $selected_country_code="", $selected_state_code="" ) {
 		global $vendor_country_3_code, $VM_LANG;
 		$db = new ps_DB;
-		if( empty( $selected_country_code ))
-		$selected_country_code = $vendor_country_3_code;
-
-		if( empty( $selected_state_code ))
-		$selected_state_code = "originalPos";
-		else
-		$selected_state_code = "'".$selected_state_code."'";
-
-		$db->query( "SELECT #__{vm}_country.country_id,country_3_code
-								  FROM #__{vm}_country" );
+		if( empty( $selected_country_code )) {
+			$selected_country_code = $vendor_country_3_code;
+		}
+		if( empty( $selected_state_code )) {
+			$selected_state_code = "originalPos";
+		} else {
+			$selected_state_code = "'".$selected_state_code."'";
+		}
+		$db->query( "SELECT c.country_id, c.country_3_code, s.state_name, s.state_2_code
+						FROM #__{vm}_country c
+						LEFT JOIN #__{vm}_state s 
+						ON c.country_id=s.country_id OR s.country_id IS NULL" );
 
 		if( $db->num_rows() > 0 ) {
 			$dbs = new ps_DB;
+			if( !vmIsAdminMode() ) {
+				$mainframe->addCustomHeadTag( '<script type="text/javascript" src="includes/js/mambojavascript.js"></script>');
+				$mainframe->addCustomHeadTag( '<script type="text/javascript" src="includes/js/joomla.javascript.js"></script>');
+			}
 			// Build the State lists for each Country
 			$script = "<script language=\"javascript\" type=\"text/javascript\">//<![CDATA[\n";
 			$script .= "<!--\n";
@@ -241,18 +244,13 @@ class ps_html {
 
 			while( $db->next_record() ) {
 
-				$dbs->query( "SELECT state_name, state_2_code FROM #__{vm}_state WHERE country_id='".$db->f("country_id")."'" );
-
-				if( $dbs->num_rows() > 0 ) {
-					while( $dbs->next_record() ) {
-						// array in the format [key,value,text]
-						$script .= "states[".$i++."] = new Array( '".$db->f("country_3_code")."','".$dbs->f("state_2_code")."','".htmlentities($dbs->f("state_name"), ENT_QUOTES)."' );\n";
-					}
+				if( $db->f('state_name') ) {
+					// array in the format [key,value,text]
+					$script .= "states[".$i++."] = new Array( '".$db->f("country_3_code")."','".$db->f("state_2_code")."','".addslashes($db->f("state_name"))."' );\n";
 				}
 				else {
 					$script .= "states[".$i++."] = new Array( '".$db->f("country_3_code")."',' - ','".$VM_LANG->_PHPSHOP_NONE."' );\n";
 				}
-
 
 			}
 			$script .= "

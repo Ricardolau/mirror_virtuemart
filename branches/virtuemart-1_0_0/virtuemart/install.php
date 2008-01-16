@@ -71,9 +71,6 @@ function installvirtuemart( $install_type, $install_sample_data=false ){
 					$messages[] = "Backend Archive File successfully deleted.";
 			}
 		}
-		if( !$frontend || !$backend ) {
-			die( "<span class=\"message\">Something went wrong with Unpacking the Archive Files</span>" );
-		}
 	/** END UNPACKING ARCHIVES */
 	}
 	// Check if the directories are there

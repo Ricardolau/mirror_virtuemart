@@ -5,7 +5,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * @version $Id$
 * @package VirtueMart
 * @subpackage core
-* @copyright Copyright (C) 2004-2007 Soeren Eberhardt. All rights reserved.
+* @copyright Copyright (C) 2004-2008 Soeren Eberhardt. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -30,14 +30,14 @@ class vmVersion {
 	/** @var string Product */
 	var $PRODUCT = 'VirtueMart';
 	/** @var int Release Number */
-	var $RELEASE = '1.0.13a';
+	var $RELEASE = '1.0.14';
 	/** @var string Development Status */
 	var $DEV_STATUS = 'stable';
 	/** @var string Codename */
-	// From the album "Behaviour" by the Pet Shop Boys: http://en.wikipedia.org/wiki/Behaviour_%28album%29#_ref-psb-discography.com_0
-	var $CODENAME = 'My October Symphony';
+	// From the album "Fundamental by the Pet Shop Boys: http://en.wikipedia.org/wiki/Fundamental_%28Pet_Shop_Boys_album%29#Track_listing
+	var $CODENAME = 'Luna Park';
 	/** @var string Date */
-	var $RELDATE = '13/10/2007';
+	var $RELDATE = 'Jan, 16th 2007';
 	/** @var string Time */
 	var $RELTIME = '20:30';
 	/** @var string Timezone */
@@ -45,7 +45,7 @@ class vmVersion {
 	/** @var string Revision */
 	var $REVISION = '$Revision$';
 	/** @var string Copyright Text */
-	var $COPYRIGHT = 'Copyright (C) 2005-2007 Soeren Eberhardt-Biermann. All rights reserved.'; 
+	var $COPYRIGHT = 'Copyright (C) 2005-2008 Soeren Eberhardt-Biermann. All rights reserved.'; 
 	/** @var string URL */
 	var $URL = '<a href="http://virtuemart.net">VirtueMart</a> is a Free Component for Joomla!/Mambo released under the GNU/GPL License.';
 }

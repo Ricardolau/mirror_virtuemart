@@ -17,7 +17,6 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 */
 
 class ps_tax {
-	var $classname = "ps_tax";
 
 	/**
 	 * Validates the input values before adding an item
@@ -212,32 +211,24 @@ class ps_tax {
 	***************************************************************************/
 	function list_tax_value($select_name, $selected_value_id, $on_change='') {
 		global $VM_LANG;
-                $db = new ps_DB;
+		$db = new ps_DB;
 
-                // Get list of Values
-                $q = "SELECT `tax_rate_id`, `tax_rate`  FROM `#__{vm}_tax_rate` ORDER BY `tax_rate` DESC, `tax_rate_id` ASC";
-                $db->query($q);
+		//Get list of Values
+		$q = "SELECT `tax_rate_id`, `tax_rate`  FROM `#__{vm}_tax_rate` ORDER BY `tax_rate` DESC, `tax_rate_id` ASC";
+		$db->query($q);
 
-                $html = "<select class=\"inputbox\" name=\"$select_name\"";
-                if ($on_change!='') {
-                        $html .= " onchange=\"$on_change\"";
-                }
-                $html .= ">\n";
-                if ($select_name == "shipping_rate_vat_id" || stristr($select_name, "tax_class") || $select_name == "zone_tax_rate") {
-                        $html .= "<option value=\"0\">" . $VM_LANG->_PHPSHOP_INFO_MSG_VAT_ZERO_LBL . "</option>\n";
-                }
-                $tax_rates = Array();
-                while ($db->next_record()) {
-                        $tax_rates[$db->f("tax_rate_id")] = $db->f("tax_rate");
-			$html .= "<option value=\"";
-			$html .= $db->f("tax_rate_id")."\"";
-			if ($db->f("tax_rate_id")==$selected_value_id) {
-				$html .= " selected=\"selected\" ";
-			}
-			$html .= ">";
-			$html .= $db->f("tax_rate_id") . " (" . $db->f("tax_rate")*100 . "%)";
-			$html .= "</option>\n";
-
+		$extra = '';
+		if ($on_change!='') {
+			$extra = ' onchange="'.$on_change.'"';
+		}
+		$fields = array();
+		if ($select_name == "shipping_rate_vat_id" || stristr($select_name, "tax_class") || $select_name == "zone_tax_rate") {
+			$fields[0] = $VM_LANG->_PHPSHOP_INFO_MSG_VAT_ZERO_LBL;
+		}
+		$tax_rates = Array();
+		while ($db->next_record()) {
+ 			$fields[$db->f("tax_rate_id")] = $db->f("tax_rate_id") . " (" . $db->f("tax_rate")*100 . "%)";
+			$tax_rates[$db->f("tax_rate_id")] = $db->f("tax_rate");
 		}
 		/* This makes you able to select "no tax" for a product - so if you need it, uncomment it.
 		Then you must edit get_taxrate in ps_product too.
@@ -245,8 +236,7 @@ class ps_tax {
 				$html .= "<option value=\"0\">" . _PHPSHOP_INFO_MSG_VAT_ZERO_LBL . "</option>\n";
 		}
 		*/
-		$html .= "</select>\n";
-		echo $html;
+		ps_html::dropdown_display($select_name, $selected_value_id, $fields, 1, '', $extra );
 
 		return $tax_rates;
 	}

@@ -65,10 +65,11 @@ if( class_exists('jconfig')) {
   <input type="hidden" name="return" value="<?php echo $return ?>" />
     <?php
   	// used for spoof hardening
+  	$validate = 'token';
 	if( class_exists( 'jutility' )) {
 		$validate = JUtility::getToken();
-	} else {
-		$validate = vmSpoofValue(1);
+	} elseif( function_exists('josspoofvalue')) {
+		$validate = josSpoofValue(1);
 	}
 	?>
 	<input type="hidden" name="<?php echo $validate; ?>" value="1" />

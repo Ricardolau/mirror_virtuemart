@@ -19,8 +19,13 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 */
 
 class ps_html {
+	
+	function dropdown_display($name, $value, &$arr, $size=1, $multiple="", $extra="") {
+		echo ps_html::selectList($name, $value, $arr, $size, $multiple, $extra );
+	}
+
 	/**
-	 * Prints an HTML dropdown box named $name using $arr to
+	 * Creates an HTML dropdown box named $name using $arr to
 	 * load the drop down.  If $value is in $arr, then $value
 	 * will be the selected option in the dropdown.
 	 * @author gday
@@ -33,31 +38,33 @@ class ps_html {
 	 * @param string $multiple use "multiple=\"multiple\" to have a multiple choice select list
 	 * @param string $extra More attributes when needed
 	 * @return string HTML drop-down list
-	 */
-	function dropdown_display($name, $value, &$arr, $size=1, $multiple="", $extra="") {
-
-		if( !empty( $arr ) ) {
-			echo "<select class=\"inputbox\" name=\"$name\" size=\"$size\" $multiple $extra>\n";
-
-			while (list($key, $val) = each($arr)) {
-				$selected = "";
-				if( is_array( $value )) {
-					if( in_array( $key, $value )) {
-						$selected = "selected=\"selected\"";
-					}
-				}
-				else {
-					if(strcmp($value, $key) == 0) {
-						$selected = "selected=\"selected\"";
-					}
-				}
-				echo "<option value=\"$key\" $selected>$val";
-				echo "</option>\n";
-			}
-
-			echo "</select>\n";
+	 */	
+	function selectList($name, $value, &$arr, $size=1, $multiple="", $extra="") {
+		$html = '';
+		if( empty( $arr ) ) {
+			$arr = array();
 		}
-		return True;
+		$html = "<select class=\"inputbox\" name=\"$name\" size=\"$size\" $multiple $extra>\n";
+
+		while (list($key, $val) = each($arr)) {
+			$selected = "";
+			if( is_array( $value )) {
+				if( in_array( $key, $value )) {
+					$selected = "selected=\"selected\"";
+				}
+			}
+			else {
+				if(strtolower($value) == strtolower($key) ) {
+					$selected = "selected=\"selected\"";
+				}
+			}
+			$html .= "<option value=\"$key\" $selected>$val";
+			$html .= "</option>\n";
+		}
+
+		$html .= "</select>\n";
+		
+		return $html;
 	}
 
 
@@ -213,7 +220,7 @@ class ps_html {
 	 * @return string HTML code containing the dynamic state list
 	 */
 	function dynamic_state_lists( $country_list_name, $state_list_name, $selected_country_code="", $selected_state_code="" ) {
-		global $vendor_country_3_code, $VM_LANG;
+		global $vendor_country_3_code, $VM_LANG, $mainframe;
 		$db = new ps_DB;
 		if( empty( $selected_country_code )) {
 			$selected_country_code = $vendor_country_3_code;

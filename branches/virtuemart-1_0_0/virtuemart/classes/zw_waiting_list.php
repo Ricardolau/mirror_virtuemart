@@ -5,7 +5,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -22,7 +22,6 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * @license MPL
 */
 class zw_waiting_list {
-	var $classname = "ps_waiting_list";
 
 	/*
 	** VALIDATION FUNCTIONS
@@ -30,6 +29,7 @@ class zw_waiting_list {
 	*/
 
 	function validate_add(&$d) {
+		global $vmLogger;
 		$db = new ps_DB;
 		
 		$q = "SELECT waiting_list_id from #__{vm}_waiting_list WHERE ";
@@ -37,36 +37,36 @@ class zw_waiting_list {
 		$q .= "product_id='" . $d["product_id"] . "' AND notified='0'";
 		$db->query($q);
 		if ($db->next_record()) {
-			$d["error"] .= "You are already being notified of this product.";
+			$vmLogger->err( 'You are already being notified of this product.' );
 			return False;
 		}
 		if (!$d["notify_email"]) {
-			$d["error"] .= "You must enter an e-mail address to be on the waiting list.";
+			$vmLogger->err( 'You must enter an e-mail address to be on the waiting list.' );
 			return False;
 		}
 		if (!mShop_validateEmail($d["notify_email"])) {
-			$d["error"] .= "Please provide a valid email address.";
+			$vmLogger->err( 'Please provide a valid email address.' );
 			return False;
 		}
 		if (!$d["product_id"]) {
-			$d["error"] .= "You must enter a product to be on the waiting list.";
+			$vmLogger->err( 'You must enter a product to be on the waiting list.' );
 			return False;
 		}
 		return True;
 	}
 
 	function validate_delete($d) {
-
+		global $vmLogger;
 		if (!$d["notify_email"]) {
-			$d["error"] = "ERROR:  Please select a waiting list id to delete.";
+			$vmLogger->err( 'Please select a waiting list id to delete.' );
 			return False;
 		}
 		if (!mShop_validateEmail($d["notify_email"])) {
-			$d["error"] .= "Please provide a valid email address.";
+			$vmLogger->err( 'Please provide a valid email address.' );
 			return False;
 		}
 		if (!$d["product_id"]) {
-			$d["error"] .= "You must enter a product id!";
+			$vmLogger->err( 'You must enter a product id!' );
 			return False;
 		}
 		return True;

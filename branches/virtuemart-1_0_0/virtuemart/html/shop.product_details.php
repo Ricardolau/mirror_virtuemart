@@ -162,7 +162,7 @@ $images->images = $db->f("images");
 
 /** Show an "Edit PRODUCT"-Link ***/
   if ($perm->check("admin,storeadmin")) {
-    $edit_link = "<a href=\"". sefRelToAbs($mosConfig_live_site."/index.php?page=product.product_form&next_page=shop.product_details&product_id=$product_id&option=com_virtuemart&Itemid=$Itemid")."\">
+    $edit_link = "<a href=\"". sefRelToAbs($mosConfig_live_site."/index2.php?page=product.product_form&next_page=shop.product_details&product_id=$product_id&option=com_virtuemart&Itemid=$Itemid")."\">
       <img src=\"images/M_images/edit.png\" width=\"16\" height=\"16\" alt=\"". $VM_LANG->_PHPSHOP_PRODUCT_FORM_EDIT_PRODUCT ."\" border=\"0\" /></a>";
   }
   else {

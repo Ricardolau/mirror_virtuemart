@@ -5,7 +5,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 * @version $Id$
 * @package VirtueMart
 * @subpackage core
-* @copyright Copyright (C) 2004-2007 Soeren Eberhardt. All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -33,6 +33,11 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+25.01.2008 soeren
+# Task #1374 - Stock notification message is shown twice.
+# Task #1615 - Admin: category search multiple page error (thanks to Michael Miller for finding, reporting and fixing this)
+^ Edit Product Link in the frontend pointing to "index2.php" now
+
 18.01.2008 soeren
 # Task #1686 - Call to undefined method ps_html::selectlist when accessing Account Information (ps_html.php)
 15.01.2008 soeren

@@ -7,7 +7,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * @version $Id$
 * @package VirtueMart
 * @subpackage core
-* @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -45,7 +45,11 @@ if (!defined('_PSHOP_ADMIN')) {
 	<a href="index.php" title="Back"><h3>&nbsp;&nbsp;&gt;&gt; '.$VM_LANG->_PHPSHOP_BACK_TO_MAIN_SITE.' &lt;&lt;</h3></a>';
   }
   // We need the admin template css now, but which one? - so check here
-  $adminTemplate = $_VERSION->PRODUCT == 'Joomla!' ? 'joomla_admin' : 'mambo_admin_blue';
+  if( !empty( $cur_template )) {
+  		$adminTemplate = basename(htmlspecialchars($cur_template, ENT_QUOTES ));
+  } else {
+  		$adminTemplate = $_VERSION->PRODUCT == 'Joomla!' ? 'joomla_admin' : 'mambo_admin_blue';
+  }
 ?>
 <link rel="stylesheet" href="administrator/templates/<?php echo $adminTemplate; ?>/css/template_css.css" type="text/css" />
         <?php 

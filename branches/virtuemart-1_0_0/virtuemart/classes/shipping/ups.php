@@ -611,6 +611,7 @@ class ups {
 	  </td>
 	  <td><?php echo mm_ToolTip($VM_LANG->_PHPSHOP_UPS_PICKUP_METHOD_TOOLTIP) ?></td>
 	</tr>
+	<tr>
 	  <td><strong><?php echo $VM_LANG->_PHPSHOP_UPS_PACKAGE_TYPE ?></strong></td>
 	  <td>
 		<select class="inputbox" name="package_type">

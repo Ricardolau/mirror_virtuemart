@@ -1,5 +1,5 @@
 <?php
-defined( '_VALID_MOS' ) or die( 'A közvetlen hozzáférés ehhez a helyhez nem engedélyezett.' ); 
+defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
 * @version $Id$
@@ -1278,15 +1278,15 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP = 'USPS Domestic Mail';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP0 = 'USPS expressz levél a címzett terhére';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP0_TOOLTIP = 'Szabványos USPS expressz levél.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP1 = 'USPS expressz levél lapos díjszabásos borítékban (12.5\" x 9.5\")';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP1 = 'USPS expressz levél lapos díjszabásos borítékban (12.5" x 9.5")';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP1_TOOLTIP = 'Akkor válaszd ezt, ha engedélyezni kívánod az USPS expressz levélként töténõ szállítást lapos díjszabásos borítékban. A Nem legyen az alapértelmezett, ugyanis az olcsóbb lehet a tényleges szállításnál, és lehet, hogy nem fér bele a borítékba.';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP2 = 'USPS elsõbbségi levél';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP2_TOOLTIP = 'Szabványos USPS elsõbbségi levél.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP3 = 'USPS elsõbbségi levél labos díjszabásos borítékban (12.5\" x 9.5\")';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP3 = 'USPS elsõbbségi levél labos díjszabásos borítékban (12.5" x 9.5")';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP3_TOOLTIP = 'Akkor válaszd ezt, ha engedélyezni kívánod az USPS elsõbbségi levélként történõ szállítást lapos díjszabásos borítékban.  A Nem legyen az alapértelmezett, ugyanis az olcsóbb lehet a tényleges szállításnál, és lehet, hogy nem fér bele a borítékba.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP4 = 'USPS elsõbbségi levél lapos díjszabásos dobozban (11.25\" x 8.75\" x 6\")';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP4 = 'USPS elsõbbségi levél lapos díjszabásos dobozban (11.25" x 8.75" x 6")';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP4_TOOLTIP = 'Akkor válaszd ezt, ha engedélyezni kívánod az USPS elsõbbségi levélként történõ szállítást lapos díjszabásos dobozban.  A Nem legyen az alapértelmezett, ugyanis az olcsóbb lehet a tényleges szállításnál, és lehet, hogy nem fér bele a dobozba.';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP5 = 'USPS elsõbbségi levél lapos díjszabásos dobozban (14\" x 12\" x 3.5\")';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP5 = 'USPS elsõbbségi levél lapos díjszabásos dobozban (14" x 12" x 3.5")';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP5_TOOLTIP = 'Akkor válaszd ezt, ha engedélyezni kívánod az USPS elsõbbségi levélként történõ szállítást lapos díjszabásos dobozban.  A Nem legyen az alapértelmezett, ugyanis az olcsóbb lehet a tényleges szállításnál, és lehet, hogy nem fér bele a dobozba.';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP6 = 'USPS elsõ osztályú (14 uncia alatt)';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP6_TOOLTIP = 'Akkor válaszd ezt, ha engedélyezni kívánod az USPS elsõ osztályú levélként történõ szállítást.  Csak akkor lesz ez látható, ha a csomag súlya .88 font alatti.';
@@ -1879,14 +1879,21 @@ Our %s  is now in stock and can be purchased by following this link:
 %s
 
  This is a one time notice, you will not receive this e-mail again.';
-    var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA = 'Payment Extra Info';
-    var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA_TIP = 'Is shown on the Order Confirmation Page. Can be: HTML Form Code from your Payment Service Provider, Hints to the customer etc.';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA = 'Payment Extra Info';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA_TIP = 'Is shown on the Order Confirmation Page. Can be: HTML Form Code from your Payment Service Provider, Hints to the customer etc.';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_CLASSNAME = 'Payment class name (e.g. <strong>ps_netbanx</strong>)';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_CLASSNAME_TIP = 'Leave blank if you\'re not sure what to fill in!';
 	var $_CMN_PUBLISH = 'Publish';
 	var $_CMN_UNPUBLISH = 'Unpublish';
+	var $_VM_MENUBAR_PLEASESELECT_PUBLISH = 'Please make a selection from the list to publish';
+	var $_VM_MENUBAR_PLEASESELECT_UNPUBLISH = 'Please make a selection from the list to unpublish';
+	var $_VM_MENUBAR_PLEASESELECT_DELETE = 'Please make a selection from the list to delete';
+	var $_VM_MENUBAR_CONFIRM_DELETE = 'Are you sure you want to delete selected items?';
+	var $_VM_MENUBAR_PLEASESELECT_TO = 'Please make a selection from the list to';
+        
 }
 class phpShopLanguage extends vmLanguage { }
+
 /** @global vmLanguage $VM_LANG */
 $VM_LANG =& new vmLanguage();
 ?>

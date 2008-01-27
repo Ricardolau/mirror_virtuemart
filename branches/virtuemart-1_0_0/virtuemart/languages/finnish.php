@@ -3,7 +3,6 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 /**
 *
 * @version $Id$
-* @ 2006/12/22 05:37:12 updated to VM 1.0.8 by Mauri & shrike
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -1535,8 +1534,8 @@ Lis‰tietoa palautusoikeudesta,  <a href="%s" onclick="%s" target="_blank">Palaut
 	var $_URL = 'URL:';
 	var $_SEL_CATEGORY = 'Valitse kategoria';
 	var $_E_REMOVE = 'Poista';
-	var $_PN_LT = '&lt;';
-	var $_PN_RT = '&gt;';
+	var $_PN_LT = '<';
+	var $_PN_RT = '>';
 	var $_PN_PAGE = 'Sivu';
 	var $_PN_OF = '/';
 	var $_PN_START = 'Alkuun';
@@ -1797,9 +1796,9 @@ Salasana - %s
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_LENGTH = 'Tuotteen pituus.<br /><br />K‰yttˆ:<ol><li>Valitse "product_length" pudotusvalikosta, asetukset v‰lilehdess‰.</li><li>Lis‰‰ sarake CSV-tiedostoon numeerisena.</li></ol><br />Arvot:<ul><li>Numero</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_LWH_UOM = 'Tuotteen mitat (pituus, leveys ja korkeus). Voi olla tuumaa, senttej‰, millimetrej‰, jne.<br /><br />K‰yttˆ:<ol><li>Valitse "product_lwh_uom" pudotusvalikosta, asetukset v‰lilehdess‰.</li><li>Lis‰‰ sarake CSV-tiedostoon tekstin‰.</li></ol><br />Arvot:<ul><li>Teksti: HTML-koodit ei sallittuja.</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_WEIGHT = 'Tuotteen paino.<br /><br />K‰yttˆ:<ol><li>Valitse "product_weight" pudotusvalikosta, asetukset v‰lilehdess‰.</li><li>Lis‰‰ sarake CSV-tiedostoon numeerisena.</li></ol><br />Arvot:<ul><li>Numero</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_WEIGHT_UOM = 'Tuotteen painoyksikkˆ. Voi olla g, kg, jne.<br /><br />K‰yttˆ:<ol><li>Valitse "product_weight_uom" pudotusvalikosta, asetukset v‰lilehdess‰.</li><li>Lis‰‰ sarake CSV-tiedostoon tekstin‰.</li></ol><br />Arvot:<ul><li>Teksti: HTML-koodit ei sallittuja.</li></ul>';	
+	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_WEIGHT_UOM = 'Tuotteen painoyksikkˆ. Voi olla g, kg, jne.<br /><br />K‰yttˆ:<ol><li>Valitse "product_weight_uom" pudotusvalikosta, asetukset v‰lilehdess‰.</li><li>Lis‰‰ sarake CSV-tiedostoon tekstin‰.</li></ol><br />Arvot:<ul><li>Teksti: HTML-koodit ei sallittuja.</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTES = 'Ominaisuudet ovat osia tuotetta ja niit‰ k‰ytet‰‰n alatuotteilla antamaan niille spesifikaatioita.<br />K‰yttˆ:<ol><li>Valitse "attributes" pudotusvalikosta, asetukset v‰lilehdess‰.</li><li>Lis‰‰ sarake CSV-tiedostoon ominaisuus tekstin‰.</li></ol><br />Arvot:<ul><li>Teksti: HTML-koodit ei sallittuja.<br />Arvot on erotettava toisistaan pystyviiva(|) merkill‰. Esim.: attribute_name::list_order|attribute_name::list_order</li></ul>';
-	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTE_VALUES = 'Ominaisuus arvot, on alatuotteiden arvoja, jotka liittyv‰t p‰‰tuotteen ominaisuuksiin..<br />K‰yttˆ:<ol><li>Valitse "custom_attribute" pudotusvalikosta, asetukset v‰lilehdess‰.</li><li>Lis‰‰ sarake CSV-tiedostoon ominaisuusarvo tekstin‰.</li></ol><br />Arvot:<ul><li>Teksti: HTML-koodit ei sallittuja.<br />Arvot on erotettava toisistaan pystyviiva(|) merkill‰. Esim.: attribute_name::attribute_value|attribute_name::attribute_value</li></ul>';                                                                                                                                  
+	var $_PHPSHOP_CSV_EXPLANATION_ATTRIBUTE_VALUES = 'Ominaisuus arvot, on alatuotteiden arvoja, jotka liittyv‰t p‰‰tuotteen ominaisuuksiin..<br />K‰yttˆ:<ol><li>Valitse "custom_attribute" pudotusvalikosta, asetukset v‰lilehdess‰.</li><li>Lis‰‰ sarake CSV-tiedostoon ominaisuusarvo tekstin‰.</li></ol><br />Arvot:<ul><li>Teksti: HTML-koodit ei sallittuja.<br />Arvot on erotettava toisistaan pystyviiva(|) merkill‰. Esim.: attribute_name::attribute_value|attribute_name::attribute_value</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT_DATE_START = 'P‰iv‰ jolloin tuotteen alennus alkaa. Lis‰‰ tietoa, katso "product_discount".<br /><br />K‰yttˆ:<ol><li>Valitse "product_discount_date_start" pudotusvalikosta, asetukset v‰lilehdess‰.</li><li>Lis‰‰ sarake CSV-tiedostoon p‰iv‰m‰‰r‰n‰.</li></ol><br />Arvot:<ul><li>product_discount_date_start</li><ul><li>P‰iv‰m‰‰r‰: p‰iv‰/kuukausi/vuosi tai p‰iv‰-kuukausi-vuosi<br />P‰iv‰ ja kuukausi voi olla 1 tai 2 numeroinen.<br />Vuosi voi olla 2 tai 4 numeroinen.</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT_DATE_END = 'P‰iv‰ jolloin tuotteen alennus loppuu. Lis‰‰ tietoa, katso "product_discount".<br /><br />K‰yttˆ:<ol><li>Valitse "product_discount_date_end" pudotusvalikosta, asetukset v‰lilehdess‰.</li><li>Lis‰‰ sarake CSV-tiedostoon p‰iv‰m‰‰r‰n‰.</li></ol><br />Arvot:<ul><li>product_discount_date_end</li><ul><li>P‰iv‰m‰‰r‰: p‰iv‰/kuukausi/vuosi tai p‰iv‰-kuukausi-vuosi<br />P‰iv‰ ja kuukausi voi olla 1 tai 2 numeroinen.<br />Vuosi voi olla 2 tai 4 numeroinen.</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_UPLOAD_SETTINGS = '<ul><li><span style="font-weight: bold;">Ohita ensimm‰inen rivi</span><br />Jos CSV tiedoston alussa on otsikkorivi, t‰ll‰ valinnalla ohitat sen. T‰m‰ est‰‰ otsikoiden lis‰‰mist‰ tietokantaan (tuotetietoina).</li><li><span style="font-weight: bold;">Ylikirjoita tiedot</span><br />Lis‰tt‰ess‰ uusia tuotteita tietokantaan, rastin poistaminen t‰st‰ kohdasta est‰‰ korvaamasta jo olemassa olevat tuotetiedot tietokannassa. Oletuksena p‰ivitt‰‰ tuotetiedot.</li><li><span style="font-weight: bold;">Ohita oletusarvo</span><br />Asetukset sivulla, oletusarvo voidaan m‰‰ritell‰, jos kentt‰ on tyhj‰ CSV-tiedostossa. Valitsemalla t‰m‰n, tietojen tuonti ei p‰ivit‰ kentt‰‰, jos CSV-tiedostossa ei ole mit‰‰n arvoa.</li><li><span style="font-weight: bold;">Vain hinnaston tuonti</span><br />Hinnaston tuontia k‰ytet‰‰n, kun p‰ivit‰t tuotteiden hintoja. CSV:n ulkoasun odotetaan olevan 2 saraketta:<ol><li>product_sku</span></li><li>product_price</li></ol></li>Huomaa ett‰ t‰m‰ ei vaikuta asetuksiin, -Asetukset- sivulla.<li><span style="font-weight: bold;">Sarakkeiden otsikot, asetuksena</span><br />Jos CSV-tiedostolla on sarakenimet ensimm‰isell‰ rivill‰, t‰ll‰ voidaan ottaa k‰yttˆˆn sarakenimet, nykyisen‰ rakenteena. Sarakenimet pit‰‰ myˆs olla samoja kuin -K‰ytett‰viss‰ olevat kent‰t- v‰lilehdess‰. Asetusta k‰ytet‰‰n vain siirron aikana, asetusta ei tallenneta. Oletusarvoja ei voida k‰ytt‰‰ t‰ll‰ optiolla.</li><li><span style="font-weight: bold;">N‰yt‰ esikatselu</span><br />N‰ytt‰‰ viidell‰ rivill‰ tuotavan tiedoston tiedot. Siirron voi perua tai jatkaa.</li><li><span style="font-weight: bold;">Ker‰‰ -debug- tiedot</span><br />Ongelmatilanteissa, k‰yt‰ t‰t‰ n‰hd‰ksesi mit‰ siirron aikana tapahtuu. Siirron loputtua, luodaan raportti tapahtumista.</li></ul>';
@@ -1848,14 +1847,21 @@ Our %s  is now in stock and can be purchased by following this link:
 %s
 
  This is a one time notice, you will not receive this e-mail again.';
-    var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA = 'Payment Extra Info';
-    var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA_TIP = 'Is shown on the Order Confirmation Page. Can be: HTML Form Code from your Payment Service Provider, Hints to the customer etc.';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA = 'Payment Extra Info';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA_TIP = 'Is shown on the Order Confirmation Page. Can be: HTML Form Code from your Payment Service Provider, Hints to the customer etc.';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_CLASSNAME = 'Payment class name (e.g. <strong>ps_netbanx</strong>)';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_CLASSNAME_TIP = 'Leave blank if you\'re not sure what to fill in!';
 	var $_CMN_PUBLISH = 'Publish';
 	var $_CMN_UNPUBLISH = 'Unpublish';
+	var $_VM_MENUBAR_PLEASESELECT_PUBLISH = 'Please make a selection from the list to publish';
+	var $_VM_MENUBAR_PLEASESELECT_UNPUBLISH = 'Please make a selection from the list to unpublish';
+	var $_VM_MENUBAR_PLEASESELECT_DELETE = 'Please make a selection from the list to delete';
+	var $_VM_MENUBAR_CONFIRM_DELETE = 'Are you sure you want to delete selected items?';
+	var $_VM_MENUBAR_PLEASESELECT_TO = 'Please make a selection from the list to';
+        
 }
 class phpShopLanguage extends vmLanguage { }
+
 /** @global vmLanguage $VM_LANG */
 $VM_LANG =& new vmLanguage();
 ?>

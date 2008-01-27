@@ -91,7 +91,7 @@ class vmMenuBar extends mosMenuBar {
 		$image2 = $vmIcons['publish_icon2'];
 		
      	$bar->appendButton( 'Custom', '<td>
-		<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert(\'Please make a selection from the list to publish\'); } else {vm_submitListFunc(\''. $task. '\', \'adminForm\', \''. $func .'\');}" onmouseout="MM_swapImgRestore();"  onmouseover="MM_swapImage(\''. $task .'\',\'\',\''. $image2 .'\',1);">
+		<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert(\'' . addslashes($VM_LANG->_VM_MENUBAR_PLEASESELECT_PUBLISH) . '\'); } else {vm_submitListFunc(\''. $task. '\', \'adminForm\', \''. $func .'\');}" onmouseout="MM_swapImgRestore();"  onmouseover="MM_swapImage(\''. $task .'\',\'\',\''. $image2 .'\',1);">
 		'. $image.'<br/>'
 		 . $alt .'
 		</a>
@@ -113,7 +113,7 @@ class vmMenuBar extends mosMenuBar {
 		$image2 = $vmIcons['unpublish_icon2'];
 		
      	$bar->appendButton( 'Custom', '<td>
-		<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert(\'Please make a selection from the list to unpublish\'); } else {vm_submitListFunc(\''. $task. '\', \'adminForm\', \''. $func .'\');}" onmouseout="MM_swapImgRestore();"  onmouseover="MM_swapImage(\''. $task .'\',\'\',\''. $image2 .'\',1);">
+		<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert(\'' . addslashes($VM_LANG->_VM_MENUBAR_PLEASESELECT_UNPUBLISH) . '\'); } else {vm_submitListFunc(\''. $task. '\', \'adminForm\', \''. $func .'\');}" onmouseout="MM_swapImgRestore();"  onmouseover="MM_swapImage(\''. $task .'\',\'\',\''. $image2 .'\',1);">
 		'. $image.'<br/>'
 		 . $alt .'
 		</a>
@@ -134,7 +134,7 @@ class vmMenuBar extends mosMenuBar {
 		$image = '<img src="'.$vmIcons['delete_icon'].'" alt="'.$alt.'" border="0" name="'.$task.'" />';
 		$image2 = $vmIcons['delete_icon2'];
 		
-		$bar->appendButton( 'Custom', '<td><a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert(\'Please make a selection from the list to delete\'); } else if (confirm(\'Are you sure you want to delete selected items?\')){ vm_submitListFunc(\''. $task.'\', \'adminForm\', \''. $func.'\' );}" onmouseout="MM_swapImgRestore();"  onmouseover="MM_swapImage(\''. $task.'\',\'\',\''. $image2 .'\',1);">
+		$bar->appendButton( 'Custom', '<td><a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert(\'' . addslashes($VM_LANG->_VM_MENUBAR_PLEASESELECT_DELETE) . '\'); } else if (confirm(\'' . addslashes($VM_LANG->_VM_MENUBAR_CONFIRM_DELETE) . '\')){ vm_submitListFunc(\''. $task.'\', \'adminForm\', \''. $func.'\' );}" onmouseout="MM_swapImgRestore();"  onmouseover="MM_swapImage(\''. $task.'\',\'\',\''. $image2 .'\',1);">
 			'. $image .'<br/>'
 			. $alt .'
 		</a></td>' );
@@ -184,9 +184,9 @@ class vmMenuBar extends mosMenuBar {
 		@$bar =& JToolBar::getInstance('toolbar');
 		if ($listSelect) {
 			if( empty( $func ))
-				$href = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please make a selection from the list to $alt');}else{vm_submitButton('$task','$formName', '$page')}";
+				$href = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('" . addslashes($VM_LANG->_VM_MENUBAR_PLEASESELECT_TO) . " $alt');}else{vm_submitButton('$task','$formName', '$page')}";
 			else
-				$href = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please make a selection from the list to $alt');}else{vm_submitListFunc('$task','$formName', '$func')}";
+				$href = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('" . addslashes($VM_LANG->_VM_MENUBAR_PLEASESELECT_TO) . " $alt');}else{vm_submitListFunc('$task','$formName', '$func')}";
                 } else {
                         $href = "javascript:vm_submitButton('$task','$formName', '$page')";
                 }

@@ -1,5 +1,5 @@
 <?php
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
 * @version $Id$
@@ -1597,7 +1597,7 @@ Za više informacija o poništenju narudžbi i povratu proizvoda pogledajte <a href
 	var $_MORE = 'Više...';
 	var $_EMPTY_CATEGORY = 'Ova kategorija je trenutno prazna.';
 	var $_BUTTON_LOGOUT = 'Odjava';
-	var $_NO_ACCOUNT = '';
+	var $_NO_ACCOUNT = 'No account yet?';
 	var $_CREATE_ACCOUNT = 'Registracija';
 	var $_REGWARN_PASS = 'Molimo unesite valjanu šifru.  Više od 6 znakova, bez razmaka i posebnih znakova - samo 0-9,a-z,A-Z';
 	var $_REGWARN_VPASS1 = 'Molimo potvrdite šifru.';
@@ -1871,12 +1871,18 @@ Our %s  is now in stock and can be purchased by following this link:
 %s
 
  This is a one time notice, you will not receive this e-mail again.';
-    var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA = 'Payment Extra Info';
-    var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA_TIP = 'Is shown on the Order Confirmation Page. Can be: HTML Form Code from your Payment Service Provider, Hints to the customer etc.';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA = 'Payment Extra Info';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA_TIP = 'Is shown on the Order Confirmation Page. Can be: HTML Form Code from your Payment Service Provider, Hints to the customer etc.';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_CLASSNAME = 'Payment class name (e.g. <strong>ps_netbanx</strong>)';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_CLASSNAME_TIP = 'Leave blank if you\'re not sure what to fill in!';
 	var $_CMN_PUBLISH = 'Publish';
 	var $_CMN_UNPUBLISH = 'Unpublish';
+	var $_VM_MENUBAR_PLEASESELECT_PUBLISH = 'Please make a selection from the list to publish';
+	var $_VM_MENUBAR_PLEASESELECT_UNPUBLISH = 'Please make a selection from the list to unpublish';
+	var $_VM_MENUBAR_PLEASESELECT_DELETE = 'Please make a selection from the list to delete';
+	var $_VM_MENUBAR_CONFIRM_DELETE = 'Are you sure you want to delete selected items?';
+	var $_VM_MENUBAR_PLEASESELECT_TO = 'Please make a selection from the list to';
+        
 }
 class phpShopLanguage extends vmLanguage { }
 

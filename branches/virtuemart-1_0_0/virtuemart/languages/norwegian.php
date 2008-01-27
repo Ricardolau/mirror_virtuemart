@@ -766,8 +766,6 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_DOWNLOADS_SEND_MSG_6 = 'Nedlastingsinfo av';
 	var $_PHPSHOP_PRODUCT_FORM_DOWNLOADABLE = 'Nedlastbart produkt?';
 	var $_PHPSHOP_PAYPAL_THANKYOU = 'Takk for din betaling.';
-	
-
 	var $_PHPSHOP_PAYPAL_ERROR = 'En feil har oppstått under betalingstransaksjonen. Statusen på din ordre kan ikke oppdateres.';
 	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER1 = 'Din ordre er som følger:';
 	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER2 = 'Takk for at du handler hos oss!';
@@ -818,8 +816,6 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_STATISTIC_NEW_ORDERS = 'Nye ordre';
 	var $_PHPSHOP_STATISTIC_NEW_CUSTOMERS = 'Nye kunder';
 	var $_PHPSHOP_WAITING_LIST_MESSAGE = 'Venligst skriv inn din e-postadresse for å få beskjed når dette produktet er på lager igjen.';
-
-
 	var $_PHPSHOP_WAITING_LIST_THANKS = 'Takk for at du venter! <br />Vi vil gi deg beskjed så snart vi får ny vare på lager.';
 	var $_PHPSHOP_WAITING_LIST_NOTIFY_ME = 'Gi meg melding!';
 	var $_PHPSHOP_CHECK_OUT_THANK_YOU_PRINT_VIEW = 'Utskriftsvennlig visning';
@@ -848,7 +844,6 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_TAX_MODE_EXPLAIN = 'Dette bestemmer om MVA-satsen kalkuleres:<br />
                                                                                     <ul><li>Landet/Staten butikken er registrert i</li><br/>
                                                                                     <li>eller hvor kunden kommer fra.</li></ul>';
-
 	var $_PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE = 'Mulighet for flere MVA-satser?';
 	var $_PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE_EXPLAIN = 'velg dette dersom du selger varer med forskjellige satser for MVA. (f.eks. 7% matmoms, 25% for annet)';
 	var $_PHPSHOP_ADMIN_CFG_SUBSTRACT_PAYEMENT_BEFORE = 'Trekk fra rabatt før beregning av MVA/fraktkostnader?';
@@ -864,7 +859,6 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_AGREE_TERMS_EXPLAIN = 'Velges dersom du vil at kundene må akseptere salgs- og leveringsbetingelsene før de registrerer seg som kunde.';
 	var $_PHPSHOP_ADMIN_CFG_CHECK_STOCK = 'Sjekk varebeholdning?';
 	var $_PHPSHOP_ADMIN_CFG_CHECK_STOCK_EXPLAIN = 'Velges dersom varebeholdning skal sjekkes når en kunde legger en vare i handlekurven.';
-
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE = 'Muliggjør statistikk?';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE_EXPLAIN = 'Dette gjør statistikk i nettbutikken mulig dersom statistikk er mulig i administrasjonen.';
 	var $_PHPSHOP_ADMIN_CFG_MAIL_FORMAT = 'Format på ordren per e-post :';
@@ -875,7 +869,6 @@ class vmLanguage extends vmAbstractLanguage {
                                                                                         <li>eller som HTML med bilder.</li></ul>';
 	var $_PHPSHOP_ADMIN_CFG_FRONTENDAMDIN = 'Tillat administrasjon av butikken for brukere uten administrasjonsrett for portalen?';
 	var $_PHPSHOP_ADMIN_CFG_FRONTENDAMDIN_EXPLAIN = 'Med dette valget kan du gi tilgang til administrasjon av butikken uten at brukeren har tilgang til administrasjon av nettstedet.';
-
 	var $_PHPSHOP_ADMIN_CFG_URL = 'URL';
 	var $_PHPSHOP_ADMIN_CFG_URL_EXPLAIN = 'URL til nettbutikken. Normalt lik URL til nettsidene (med "/" til slutt!)';
 	var $_PHPSHOP_ADMIN_CFG_URLSECURE = 'Sikker URL';
@@ -973,14 +966,12 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_MAX_EXPLAIN = 'Angir antall nedlastinger som kan foretas med en nedlastings-ID (per ordre)';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE = 'Nedlasting utgår';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE_EXPLAIN = 'Angir hvor lenge nedlastingen er tilgjengelig <strong>i sekunder</strong>';
-
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYPAL = 'Enable IPN Payment via PayPal?';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYPAL_EXPLAIN = 'Check to let your customers use the PayPal payment system.';
 	var $_PHPSHOP_ADMIN_CFG_PAYPAL_EMAIL = 'PayPal payment email:';
 	var $_PHPSHOP_ADMIN_CFG_PAYPAL_EMAIL_EXPLAIN = 'Your business email address for PayPal payments. Also used as receiver_email.';
 	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS = 'Ordrestatus for velykket transaksjon';
 	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS_EXPLAIN = 'Angi ordrestatus for gjeldende ordre dersom PayPal IPN var velykket. Dersom du bruker nedlastingsmulighet: Velg statusen som muliggjør nedlasting. Kunden blir da informert om nedlastingen via e-post.';
-
 	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED = 'Ordrestatus for feil under transaksjonen';
 	var $_PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED_EXPLAIN = 'Velg en ordrestatus for feil under PayPal-transaksjon.';
 	var $_PHPSHOP_ADMIN_CFG_ENABLE_PAYMATE = 'Tillat betaling med PayMate?';
@@ -1018,12 +1009,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_SEARCH_AND = 'og';
 	var $_PHPSHOP_SEARCH_NOT = 'ikke';
 	var $_PHPSHOP_SEARCH_TEXT1 = 'Første drop-down-liste lar deg begrense søket til en kategori.';
-
-
 	var $_PHPSHOP_SEARCH_TEXT2 = 'Du kan videre legge til et nøkkelord  og velg deretter OG eller IKKE.';
-
-
-
 	var $_PHPSHOP_ORDERBY = 'Sorter etter';
 	var $_PHPSHOP_CUSTOMER_RATING = 'Kunderangering';
 	var $_PHPSHOP_TOTAL_VOTES = 'Totale stemmer';
@@ -1170,8 +1156,6 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_FREE_SHIPPING_CUSTOMER_TEXT = 'Frakt er gratis på denne ordren!';
 	var $_PHPSHOP_FREE_SHIPPING_AMOUNT = 'Minste beløp for gratis frakt';
 	var $_PHPSHOP_FREE_SHIPPING_AMOUNT_TOOLTIP = 'Minste beløp (inkludert MVA!) for gratis frakt';
-
-
 	var $_PHPSHOP_YOUR_STORE = 'Din butikk';
 	var $_PHPSHOP_CONTROL_PANEL = 'Kontrollpanel';
 	var $_PHPSHOP_ADMIN_CFG_PDF_BUTTON = 'PDF-knapp';
@@ -1432,12 +1416,10 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_NAV_AT_TOP = 'Vis sidenavigasjon over produktlisten?';
 	var $_PHPSHOP_ADMIN_CFG_NAV_AT_TOP_TIP = 'Slår av eller på sidenavigasjon over listen med produkter.';
 	var $_PHPSHOP_ADMIN_CFG_SHOW_PRODUCT_COUNT = 'Vis antall produkter?';
-	var $_PHPSHOP_ADMIN_CFG_SHOW_PRODUCT_COUNT_TIP = 'Vis antall produkter i en kategori som \"Kategori (4)\"?';
-	var $_PHPSHOP_ADMIN_CFG_ADDTOCART_STYLE = 'Stil på knappen: \"Legg i kurven\"';
+	var $_PHPSHOP_ADMIN_CFG_SHOW_PRODUCT_COUNT_TIP = 'Vis antall produkter i en kategori som "Kategori (4)"?';
+	var $_PHPSHOP_ADMIN_CFG_ADDTOCART_STYLE = 'Stil på knappen: "Legg i kurven"';
 	var $_PHPSHOP_ADMIN_CFG_DYNAMIC_THUMBNAIL_RESIZING = 'Tillat dynamisk generering av lite bilde?';
 	var $_PHPSHOP_ADMIN_CFG_DYNAMIC_THUMBNAIL_RESIZING_TIP = 'Om valgt lages det automatisk et lite bilde for visning i produktlisten. Dette bildet endres til å passe inn i den størrelsen du angir under.';
-
-
 	var $_PHPSHOP_ADMIN_CFG_THUMBNAIL_WIDTH = 'Bredde på lite bilde';
 	var $_PHPSHOP_ADMIN_CFG_THUMBNAIL_WIDTH_TIP = 'Mål for <strong>bredde</strong> på lite bilde';
 	var $_PHPSHOP_ADMIN_CFG_THUMBNAIL_HEIGHT = 'Høyde på lite bilde';
@@ -1446,12 +1428,10 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_PRICE_CONFIGURATION = 'Prisoppsett';
 	var $_PHPSHOP_ADMIN_CFG_PRICE_ACCESS_LEVEL = 'Kundegruppe å vise priser til';
 	var $_PHPSHOP_ADMIN_CFG_PRICE_ACCESS_LEVEL_TIP = 'Valgt kundegruppe og alle grupper med høyere tilgangsnivå vil kunne se produktpriser.';
-	var $_PHPSHOP_ADMIN_CFG_PRICE_SHOW_INCLUDINGTAX = 'Vis \"inkl. mva\" når valgt?';
-	var $_PHPSHOP_ADMIN_CFG_PRICE_SHOW_INCLUDINGTAX_TIP = 'Om valgt vil kunden se \"inkl. mva\" Når priser er vist inkl. mva.';
+	var $_PHPSHOP_ADMIN_CFG_PRICE_SHOW_INCLUDINGTAX = 'Vis "inkl. mva" når valgt?';
+	var $_PHPSHOP_ADMIN_CFG_PRICE_SHOW_INCLUDINGTAX_TIP = 'Om valgt vil kunden se "inkl. mva" Når priser er vist inkl. mva.';
 	var $_PHPSHOP_ADMIN_CFG_PRICE_SHOW_PACKAGING_PRICELABEL = 'Vis pris for pakking?';
 	var $_PHPSHOP_ADMIN_CFG_PRICE_SHOW_PACKAGING_PRICELABEL_TIP = 'Om valgt vil prisen hentes fra produktets enhets- og pakke-verdi. Om ikke valgt vil prisen vises som normalt: <strong>Pris: kr xxxx.xx</strong>';
-
-
 	var $_PHPSHOP_ADMIN_CFG_MORE_CORE_SETTINGS = 'Flere kjerneinnstillinger';
 	var $_PHPSHOP_ADMIN_CFG_CORE_SETTINGS = 'Kjerneinnstillinger';
 	var $_PHPSHOP_ADMIN_CFG_FRONTEND_FEATURES = 'Andre innstillinger';
@@ -1880,12 +1860,18 @@ Our %s  is now in stock and can be purchased by following this link:
 %s
 
  This is a one time notice, you will not receive this e-mail again.';
-    var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA = 'Payment Extra Info';
-    var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA_TIP = 'Is shown on the Order Confirmation Page. Can be: HTML Form Code from your Payment Service Provider, Hints to the customer etc.';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA = 'Payment Extra Info';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA_TIP = 'Is shown on the Order Confirmation Page. Can be: HTML Form Code from your Payment Service Provider, Hints to the customer etc.';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_CLASSNAME = 'Payment class name (e.g. <strong>ps_netbanx</strong>)';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_CLASSNAME_TIP = 'Leave blank if you\'re not sure what to fill in!';
 	var $_CMN_PUBLISH = 'Publish';
 	var $_CMN_UNPUBLISH = 'Unpublish';
+	var $_VM_MENUBAR_PLEASESELECT_PUBLISH = 'Please make a selection from the list to publish';
+	var $_VM_MENUBAR_PLEASESELECT_UNPUBLISH = 'Please make a selection from the list to unpublish';
+	var $_VM_MENUBAR_PLEASESELECT_DELETE = 'Please make a selection from the list to delete';
+	var $_VM_MENUBAR_CONFIRM_DELETE = 'Are you sure you want to delete selected items?';
+	var $_VM_MENUBAR_PLEASESELECT_TO = 'Please make a selection from the list to';
+        
 }
 class phpShopLanguage extends vmLanguage { }
 

@@ -1408,15 +1408,15 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_HIDE_OUT_OF_STOCK = 'Nascondi i prodotti fuori stock';
 	var $_PHPSHOP_FEATURED_PRODUCTS_LIST_LBL = 'Prodotti in Promozione & Scontati';
 	var $_PHPSHOP_FEATURED = 'In Promozione';
-	var $_PHPSHOP_BACK_TO_COUNTRY = 'Ritorno allo stato';
-	var $_PHPSHOP_BACK_TO_FILEMANAGER = 'Ritorno al file manager';
-	var $_PHPSHOP_ADD_STATE = 'Aggiungi uno Stato';
-	var $_PHPSHOP_LIST_STATES = 'Lista Stati';
+	var $_PHPSHOP_BACK_TO_COUNTRY = 'Torna alla Nazione';
+	var $_PHPSHOP_BACK_TO_FILEMANAGER = 'Torna al File Manager';
+	var $_PHPSHOP_ADD_STATE = 'Aggiungi Provincia';
+	var $_PHPSHOP_LIST_STATES = 'Lista Province';
 	var $_PHPSHOP_SHOW_FEATURED_AND_DISCOUNTED = 'in promozione AND scontati';
 	var $_PHPSHOP_SHOW_FEATURED = 'prodotti in promozione';
 	var $_PHPSHOP_SHOW_DISCOUNTED = 'prodotti scontati';
 	var $_PHPSHOP_FILTER = 'Filtro';
-	var $_PHPSHOP_BACK_TO_MAIN_SITE = 'Ritorno al sito principale';
+	var $_PHPSHOP_BACK_TO_MAIN_SITE = 'Torna al sito principale';
 	var $_PHPSHOP_EXPAND_TREE = 'Espandi Albero';
 	var $_PHPSHOP_COLLAPSE_TREE = 'Compatta Albero';
 	var $_PHPSHOP_PRODUCT_FORM_DISCOUNTED_PRICE = 'Prezzo Scontato';
@@ -2038,12 +2038,18 @@ Il nostro prodotto %s è ora disponibile e può essere acquistato seguento questo 
 %s
 
  Questa è un avviso unico, non riceverai nuovamente questa e-mail.';
-    var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA = 'Informazioni Aggiuntive Pagamento';
-    var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA_TIP = 'Viene mostrato nella pagina di conferma ordine. Può essere: codice HTML fornito dal tuo fornitore di servizio di pagamento, suggerimenti per il cliente, ecc.';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA = 'Informazioni Aggiuntive Pagamento';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA_TIP = 'Viene mostrato nella pagina di conferma ordine. Può essere: codice HTML fornito dal tuo fornitore di servizio di pagamento, suggerimenti per il cliente, ecc.';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_CLASSNAME = 'Nome classe pagamento (es. <strong>ps_netbanx</strong>)';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_CLASSNAME_TIP = 'Lascia vuoto se non sai cosa mettere!';
 	var $_CMN_PUBLISH = 'Pubblica';
 	var $_CMN_UNPUBLISH = 'Sospendi';
+	var $_VM_MENUBAR_PLEASESELECT_PUBLISH = 'Seleziona dalla lista un oggetto da pubblicare';
+	var $_VM_MENUBAR_PLEASESELECT_UNPUBLISH = 'Seleziona dalla lista un oggetto da sospendere';
+	var $_VM_MENUBAR_PLEASESELECT_DELETE = 'Seleziona dalla lista un oggetto da eliminare';
+	var $_VM_MENUBAR_CONFIRM_DELETE = 'Sei sicuro di voler eliminare gli oggetti selezionati?';
+	var $_VM_MENUBAR_PLEASESELECT_TO = 'Seleziona dalla lista un oggetto per';
+        
 }
 class phpShopLanguage extends vmLanguage { }
 

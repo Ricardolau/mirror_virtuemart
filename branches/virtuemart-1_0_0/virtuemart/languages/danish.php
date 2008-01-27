@@ -1,10 +1,10 @@
 <?php
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
 * @version $Id$
 * @package VirtueMart
-* @Danish Language file.                  Updated 04-04-2007 to ver. 1.0.10
+* @subpackage languages
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -1498,7 +1498,7 @@ Password - %s
 	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK = 'Lang version af Forretningspolitikken (link til et content item).';
 	var $_VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK_TIP = 'Venligst tilføj et nyt content item om dine forretningsbetingelser.
 Herefter kan du vælge den her.';
-     var $_VM_LEGALINFO_SHORTTEXT = '<h5>Afbestillings- og fortrydelsespolitik</h5>
+	var $_VM_LEGALINFO_SHORTTEXT = '<h5>Afbestillings- og fortrydelsespolitik</h5>
 Du kan afbestille denne ordre indenfor to uger efter vi har modtaget den.
 Du kan returnere nye, uåbnede varer fra en afbestilt ordre indenfor 2 uger efter du har modtaget dem. Varer skal returneres i deres originale indpakning.
 For mere information om afbestilling og fortrydelse af ordrer, se venligst<a href="%s" onclick="%s" target="_blank">Vore forretningsbetingelser</a>. ';
@@ -1877,16 +1877,21 @@ Our %s  is now in stock and can be purchased by following this link:
 %s
 
  This is a one time notice, you will not receive this e-mail again.';
-    var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA = 'Payment Extra Info';
-    var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA_TIP = 'Is shown on the Order Confirmation Page. Can be: HTML Form Code from your Payment Service Provider, Hints to the customer etc.';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA = 'Payment Extra Info';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA_TIP = 'Is shown on the Order Confirmation Page. Can be: HTML Form Code from your Payment Service Provider, Hints to the customer etc.';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_CLASSNAME = 'Payment class name (e.g. <strong>ps_netbanx</strong>)';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_CLASSNAME_TIP = 'Leave blank if you\'re not sure what to fill in!';
 	var $_CMN_PUBLISH = 'Publish';
 	var $_CMN_UNPUBLISH = 'Unpublish';
+	var $_VM_MENUBAR_PLEASESELECT_PUBLISH = 'Please make a selection from the list to publish';
+	var $_VM_MENUBAR_PLEASESELECT_UNPUBLISH = 'Please make a selection from the list to unpublish';
+	var $_VM_MENUBAR_PLEASESELECT_DELETE = 'Please make a selection from the list to delete';
+	var $_VM_MENUBAR_CONFIRM_DELETE = 'Are you sure you want to delete selected items?';
+	var $_VM_MENUBAR_PLEASESELECT_TO = 'Please make a selection from the list to';
+        
 }
 class phpShopLanguage extends vmLanguage { }
 
 /** @global vmLanguage $VM_LANG */
 $VM_LANG =& new vmLanguage();
-
 ?>

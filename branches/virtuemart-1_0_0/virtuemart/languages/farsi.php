@@ -1,18 +1,19 @@
-﻿<?php
-defined( '_VALID_MOS' ) or die( 'http://joomfa.org امكان دسترسي مستقيم به اين مكان وجود ندارد.' ); 
+<?php
+defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
 * @version $Id$
 * @package VirtueMart
 * @subpackage languages
+* @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
 * other free or open source software licenses.
 * See /administrator/components/com_virtuemart/COPYRIGHT.php for copyright notices and details.
-* Translation By Amin Talebi(Cyberviva.com) And Developer By Joomfa.org
-* http://virtuemart.net  http://joomfa.org  http://cyberviva.com
+*
+* http://virtuemart.net
 */
 class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_MENU = 'منو';
@@ -576,7 +577,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_MANUFACTURER_CAT_FORM_NAME = 'نام مجموعه';
 	var $_PHPSHOP_MANUFACTURER_CAT_FORM_DESCRIPTION = 'شرح مجموعه';
 	var $_PHPSHOP_HELP_MOD = 'راهنما';
-	var $_PHPSHOP_CART_ACTION = 'بروز رساني'; 
+	var $_PHPSHOP_CART_ACTION = 'بروز رساني';
 	var $_PHPSHOP_CART_UPDATE = 'بروز رساني مقدار در سبد خريد';
 	var $_PHPSHOP_CART_DELETE = 'حذف كالا از سبد خريد';
 	var $_PHPSHOP_PRODUCT_PRICETAG = 'قيمت';
@@ -924,7 +925,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_USER_ID_EXPLAIN = 'كد كاربري كه از UPS دريافت نموده ايد';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_PASSWORD = 'رمز عبور UPS';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_PASSWORD_EXPLAIN = 'رمز عبور براي اكانت UPS شما';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER = '';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER = 'InterShipper Module. Check only if you have an <a href="http://www.intershipper.com" target="_blank">Intershipper.com</a> account';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_DISABLE = 'غير فعال نمودن روش حمل. اگر كالاي فروشي شما قابل داونلود بوده و نيازي به حمل و نقل نداشته باشد ، اين گزينه را انتخاب نماييد.';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_PASSWORD = 'رمز عبور InterShipper';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_PASSWORD_EXPLAIN = 'رمز عبور شما براي اكانت intershipper.';
@@ -1203,8 +1204,8 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_FORM_FILENAME_TOOLTIP = 'توجه : نام فايل را مي توانيد اينجا وارد نماييد. <strong>اگر نام فايلي اينجا وارد نماييد ، هيچ فايلي انتشار نخواهد يافت !!! در اين حالت بايد آن را از طريق طريق FTP بصورت دستي انتشار نماييد!</strong>.';
 	var $_PHPSHOP_PRODUCT_FORM_UPLOAD = 'يا فايل جديدي انتشار نماييد';
 	var $_PHPSHOP_PRODUCT_FORM_UPLOAD_TOOLTIP = 'مي توانيد فايل لوكالي انتشار نماييد. اين فايل كالاي فروشي شما خواهد بود و جايگزين فايل موجود خواهد شد.';
-  	var $_PHPSHOP_PRODUCT_FORM_AVAILABILITY_TOOLTIP1 = 'هر متني را كه مايليد در صفحه جزئيات كالا به مشتري نمايش داده شود در اينجا وارد نماييد.<br />بعنوان مثال : 24 ساعت ، 48 ساعت ، 3-5 روز ، و غيره...';
-	var $_PHPSHOP_PRODUCT_FORM_AVAILABILITY_TOOLTIP2 = 'يا تصويري براي نمايش در صفحه جزئيات انتخاب نماييد.<br />تصاوير در دايركتوري <i>/components/com_virtuemart/shop_image/availability</i>جاي مي گيرند.<br />'; 
+	var $_PHPSHOP_PRODUCT_FORM_AVAILABILITY_TOOLTIP1 = 'هر متني را كه مايليد در صفحه جزئيات كالا به مشتري نمايش داده شود در اينجا وارد نماييد.<br />بعنوان مثال : 24 ساعت ، 48 ساعت ، 3-5 روز ، و غيره...';
+	var $_PHPSHOP_PRODUCT_FORM_AVAILABILITY_TOOLTIP2 = 'يا تصويري براي نمايش در صفحه جزئيات انتخاب نماييد.<br />تصاوير در دايركتوري <i>/components/com_virtuemart/shop_image/availability</i>جاي مي گيرند.<br />';
 	var $_PHPSHOP_PRODUCT_FORM_ATTRIBUTE_LIST = 'ليست ويژگيها';
 	var $_PHPSHOP_PRODUCT_FORM_ATTRIBUTE_LIST_EXAMPLES = '<h4>مثالهايي براي فرمت ليست ويژگيها :</h4>
         <pre>سايز, XL[+1.99],M,S[-2.99];رنگ ,قرمز, سبز ,زرد ,رنگ تيره[=24.00];و غيره,..,..</pre>
@@ -1821,12 +1822,18 @@ Our %s  is now in stock and can be purchased by following this link:
 %s
 
  This is a one time notice, you will not receive this e-mail again.';
-    var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA = 'Payment Extra Info';
-    var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA_TIP = 'Is shown on the Order Confirmation Page. Can be: HTML Form Code from your Payment Service Provider, Hints to the customer etc.';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA = 'Payment Extra Info';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA_TIP = 'Is shown on the Order Confirmation Page. Can be: HTML Form Code from your Payment Service Provider, Hints to the customer etc.';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_CLASSNAME = 'Payment class name (e.g. <strong>ps_netbanx</strong>)';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_CLASSNAME_TIP = 'Leave blank if you\'re not sure what to fill in!';
 	var $_CMN_PUBLISH = 'Publish';
 	var $_CMN_UNPUBLISH = 'Unpublish';
+	var $_VM_MENUBAR_PLEASESELECT_PUBLISH = 'Please make a selection from the list to publish';
+	var $_VM_MENUBAR_PLEASESELECT_UNPUBLISH = 'Please make a selection from the list to unpublish';
+	var $_VM_MENUBAR_PLEASESELECT_DELETE = 'Please make a selection from the list to delete';
+	var $_VM_MENUBAR_CONFIRM_DELETE = 'Are you sure you want to delete selected items?';
+	var $_VM_MENUBAR_PLEASESELECT_TO = 'Please make a selection from the list to';
+        
 }
 class phpShopLanguage extends vmLanguage { }
 

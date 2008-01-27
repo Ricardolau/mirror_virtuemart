@@ -1528,7 +1528,6 @@ Pour plus d\'information sur l\'annulation d\'une commande et le retour d\'un ar
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_PACKAGING = 'Spécifie le nombre d\'article dans l\'emballage.<br />Utilisation :<ol><li>Ajouter "product_packaging" dans la page de configuration. IMPORTANT : respecter bien l\'orthographe et la casse (minuscule).</li><li>Ajouter une colonne dans votre fichier CSV avec le nombre d\'article dans l\'emballage.</li></ol><br /.>Valeur :<ul><li>Nombre</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_BOX = 'Spécifie le nombre d\'article dans le lot.<br />Utilisation :<ol><li>Ajouter "product_box" dans la page de configuration. IMPORTANT : respecter bien l\'orthographe et la casse (minuscule).</li><li>Ajouter une colonne dans votre fichier CSV avec le nombre d\'article dans le lot.</li></ol><br /.>Valeur :<ul><li>Nombre</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRODUCT_DISCOUNT = 'Spécifie le montant ou le pourcentage de réduction qu\'a le produit. Aucun calcul n\'est effectué, la valeur entrée doit être exacte. C\'est la même chose que si vous créez une réduction depuis la liste de réduction de produit. Si la réduction existe déjà, elle ne sera pas ajoutée à la base de données mais le produit sera liée à la réduction existante. Pour déterminer si la réduction existe déjà, les valeurs suivantes doivent être exactement les mêmes :<ol><li>Montant (peut-être un total ou un pourcentage)</li><li>Date de début</li><li>Date de fin</li></ol>Ceci évite de remplir inutilement la base de donnée avec une quantité de chiffres concernant la même réduction.<br /><br />Utilisation :<ol><li>Ajouter "product_discount" dans la page de configuration. IMPORTANT : respecter bien l\'orthographe et la casse (minuscule).</li><li>En option : Ajouter "product_discount_date_start" dans la page de configuration. IMPORTANT : respecter bien l\'orthographe et la casse (minuscule).</li><li>En option : Ajouter "product_discount_date_end" dans la page de configuration. IMPORTANT : respecter bien l\'orthographe et la casse (minuscule).</li><li>Ajouter les colonnes choisis à votre fichier CSV avec les valeurs correspondantes.</li></ol><br /.>Valeur :<ul><li>product_discount</li><ul><li>Nombre<br />exemple : 10</li><li>Pourcentage : doit inclure le symbôle % <br />exemple : 10%</li></ul><li>product_discount_date_start</li><ul><li>Date : jour/mois/années ou jour-mois-année<br />Les jours et les mois peuvent être sous forme de 1 ou 2 chiffres.<br />Les années peuvent être sous forme de 2 ou 4 chiffres.</li></ul><li>product_discount_date_end</li><ul><li>Date : jour/mois/années ou jour-mois-année<br />Les jours et les mois peuvent être sous forme de 1 ou 2 chiffres.<br />Les années peuvent être sous forme de 2 ou 4 chiffres.</li></ul></ul>';
-	
 	var $_ITEM_PREVIOUS = 'précédent';
 	var $_ITEM_NEXT = 'suivant';
 	var $_CMN_OK = 'Ok';
@@ -1863,14 +1862,21 @@ Our %s  is now in stock and can be purchased by following this link:
 %s
 
  This is a one time notice, you will not receive this e-mail again.';
-    var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA = 'Payment Extra Info';
-    var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA_TIP = 'Is shown on the Order Confirmation Page. Can be: HTML Form Code from your Payment Service Provider, Hints to the customer etc.';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA = 'Payment Extra Info';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA_TIP = 'Is shown on the Order Confirmation Page. Can be: HTML Form Code from your Payment Service Provider, Hints to the customer etc.';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_CLASSNAME = 'Payment class name (e.g. <strong>ps_netbanx</strong>)';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_CLASSNAME_TIP = 'Leave blank if you\'re not sure what to fill in!';
 	var $_CMN_PUBLISH = 'Publish';
 	var $_CMN_UNPUBLISH = 'Unpublish';
+	var $_VM_MENUBAR_PLEASESELECT_PUBLISH = 'Please make a selection from the list to publish';
+	var $_VM_MENUBAR_PLEASESELECT_UNPUBLISH = 'Please make a selection from the list to unpublish';
+	var $_VM_MENUBAR_PLEASESELECT_DELETE = 'Please make a selection from the list to delete';
+	var $_VM_MENUBAR_CONFIRM_DELETE = 'Are you sure you want to delete selected items?';
+	var $_VM_MENUBAR_PLEASESELECT_TO = 'Please make a selection from the list to';
+        
 }
 class phpShopLanguage extends vmLanguage { }
+
 /** @global vmLanguage $VM_LANG */
 $VM_LANG =& new vmLanguage();
 ?>

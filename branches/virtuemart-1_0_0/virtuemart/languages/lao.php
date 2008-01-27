@@ -2,7 +2,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
 /**
 *
-* @version $Id: lao.php 1058 2007-11-27 15:49:10Z joomlacorner $
+* @version $Id: admin.martlanguages.php,v 1.6 2006/01/15 19:42:45 soeren_nb Exp $
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -14,10 +14,6 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * See /administrator/components/com_virtuemart/COPYRIGHT.php for copyright notices and details.
 *
 * http://virtuemart.net
-*
-* VirtueMart Lai Language File
-* Update By: Mambo Lao Lao  Project Group http://www.joomlacorner.com
-* Translated by Viengsakhone PHANTHANOUSY ວຽງສາຄອນ ພັນທະນູສີ 
 */
 class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_MENU = 'ເມນູ';
@@ -912,15 +908,15 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_SHOWPHPSHOP_VERSION_EXPLAIN = 'ສະແດງພາບ powered-by-VirtueMart ທີ່ດ້ານລ່າງ';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD = 'ເລືອກວິທີການຂົນສົ່ງ';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_STANDARD = 'ໂມດູນຂົນສົ່ງມາດຕະຖານ ຕາມຜູ້ຂົນສົ່ງ ແລະອັດຕາຄ່າຂົນສົ່ງຂອງແຕ່ລະລາຍການ <strong> ແນະນຳ! </strong> ';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_ZONE = '  	Zone Shipping Module Country Version 1.0<br /> ເບິ່ງລາຍລະອຽດເພິ່ມເຕິມ <a href=\"http: //ZephWare. com\"> http: //ZephWare. com </a> <br /> ຫຼືຕ້ອງການຕິດຕໍ່ <a href=\"mailto: zephware@devcompany. com\"> ZephWare. com </a> <br /> ເລືອກໃຊ້ໂມດູນ Zone Shipping';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS = '<a href=\"http://www.ups.com\" target=\"_blank\">UPS Online(R) Tools</a> ຄຳນວນຄ່າຂົນສົ່ງອອນໄລນະ [໌] ';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_ZONE = '  	Zone Shipping Module Country Version 1.0<br /> ເບິ່ງລາຍລະອຽດເພິ່ມເຕິມ <a href="http: //ZephWare. com"> http: //ZephWare. com </a> <br /> ຫຼືຕ້ອງການຕິດຕໍ່ <a href="mailto: zephware@devcompany. com"> ZephWare. com </a> <br /> ເລືອກໃຊ້ໂມດູນ Zone Shipping';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS = '<a href="http://www.ups.com" target="_blank">UPS Online(R) Tools</a> ຄຳນວນຄ່າຂົນສົ່ງອອນໄລນະ [໌] ';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_ACCESS_CODE = 'ລະຫັດປະມວນຜົນຂອງ UPS';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_ACCESS_CODE_EXPLAIN = 'ລະຫັດປະມວນຜົນຂອງ UPS ຂອງທ່ານ';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_USER_ID = 'ຊື່ຜູ້ໃຊ້ງານ UPS';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_USER_ID_EXPLAIN = 'ຊື່ຜູ້ໃຊ້ງານທີ່ທ່ານໄດ້ຮັບຈາກ UPS';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_PASSWORD = 'ລະຫັດຜ່ານ UPS';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_PASSWORD_EXPLAIN = 'ລະຫັດຜ່ານສຳລັບບັນຊີຜູ້ໃຊ້ງານ UPS ';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER = 'ເລືອກໂມດູນ InterShipper ຖ້າທ່ານມີບັນຊີຂອງ <a href=\"http: //www. intershipper. com\" target=\"_blank\"> Intershipper. com </a> ';
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER = 'ເລືອກໂມດູນ InterShipper ຖ້າທ່ານມີບັນຊີຂອງ <a href="http: //www. intershipper. com" target="_blank"> Intershipper. com </a> ';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_DISABLE = 'ບໍ່ຕ້ອງເລືອກວິທີການຂົນສົ່ງ ກໍລະນີທີ່ລູກຄ້າຊື້ສິນຄ້າທີ່ໃຊ້ວິທີດາວນ໌ໂຫລດ';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_PASSWORD = 'ລະຫັດຜ່ານເຂົ້າ InterShipper';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_PASSWORD_EXPLAIN = 'ລະຫັດຜ່ານຂອງທ່ານທີ່ໃຊ້ກັບບັນຊີຂອງ InterShipper';
@@ -942,7 +938,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_ORDER_DISABLE_DOWNLOADS = 'ສະຖານະການສັ່ງຊື້ກໍລະນີບໍ່ອະນຸຍາດໃຫ້ມີການດາວນ໌ໂຫລດ';
 	var $_PHPSHOP_ADMIN_CFG_ORDER_DISABLE_DOWNLOADS_EXPLAIN = 'ກຳຫົນດົດຖານະການສັ່ງຊື້ ໃນກໍລະນີທີ່ບໍ່ອະນຸຍາດໃຫ້ລູກຄ້າດາວນ໌ໂຫລດ';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOADROOT = 'ພາດທີ່ໃຊ້ເກັບໄຟລ໌ດາວນ໌ໂຫລດ';
-	var $_PHPSHOP_ADMIN_CFG_DOWNLOADROOT_EXPLAIN = 'ພາດທີ່ຢູ່ທີ່ໃຊ້ເກັບໄຟລ໌ສຳລັບໃຫ້ລູກຄ້າດາວນ໌ໂຫລດ (ໃສ່ເຄື່ອງໝາຍ / ຕອນທ້າຍດ້ວຍ!) <br> <span class=\"message\"> ເພື່ອຄວາມປອດໄພ: ກະລຸນາຢ່າໃຊ້ພາດທີ່ເປັນ WEBROOT </span> ';
+	var $_PHPSHOP_ADMIN_CFG_DOWNLOADROOT_EXPLAIN = 'ພາດທີ່ຢູ່ທີ່ໃຊ້ເກັບໄຟລ໌ສຳລັບໃຫ້ລູກຄ້າດາວນ໌ໂຫລດ (ໃສ່ເຄື່ອງໝາຍ / ຕອນທ້າຍດ້ວຍ!) <br> <span class="message"> ເພື່ອຄວາມປອດໄພ: ກະລຸນາຢ່າໃຊ້ພາດທີ່ເປັນ WEBROOT </span> ';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_MAX = 'ຈຳນວນເທື່ອດາວນ໌ໂຫລດສູງສຸດ';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_MAX_EXPLAIN = 'ກຳນົດຈຳນວນເທື່ອທີ່ສາມາດດາວນ໌ໂຫລດໄດ້ຕໍ່ໜຶ່ງລະຫັດ Download-ID  (ຕໍ່ການສັ່ງຊື້ໜຶ່ງລາຍການ) ';
 	var $_PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE = 'ຄົບກຳນົດດາວນ໌ໂຫລດ';
@@ -1185,7 +1181,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_FORM_AVAILABILITY_TOOLTIP1 = 'ໃສ່ຂໍ້ຄວາມທີ່ຕ້ອງການສະແດງໃຫ້ລູກຄ້າ ໃນໜ້າສະແດງສິນຄະ [້] [າ] <br / > ເຊັ່ນ: 24ຊົມ., 48 ຊົ່ວໂມງ, 3 - 5 ວັນ, ຢູ່ລະຫວ່າງການຈັດຫາ.... ';
 	var $_PHPSHOP_PRODUCT_FORM_AVAILABILITY_TOOLTIP2 = 'ຫລືເລືອກຮູບພາບທີ່ຕ້ອງການໃຫ້ສະແດງໃນໜ້າລາຍລະອຽດສິນຄະ [້] [າ] <br / > ຮູບພາບຈະຢູ່ໃນໄດເລກທໍລີ່ <i> /components/com_virtuemart/shop_image/availability </i> <br /> ';
 	var $_PHPSHOP_PRODUCT_FORM_ATTRIBUTE_LIST = 'ຄຸນລັກສະນາ ';
-	var $_PHPSHOP_PRODUCT_FORM_ATTRIBUTE_LIST_EXAMPLES = '<h4> ຕົວຢ່າງຮູບແບບການກຳນົດຄຸນລັກສະນະ: </h4> <span class=\"sectionname\"> <strong > ຂະໜາດ </strong>, XL [+1.99], M, S [-2.99] <strong>;ສີ </strong>, ແດງ, ຂຽວ, ເຫລືອງ, ສີພິເສດ [=24.00] <strong>; ອື່ນ ໆ </strong>,..,.. </span> <h4 > ວິທີຕັ້ງຄ່າລາຄາສຳລັບສິນຄ້າທີ່ມີເຈົ້າລັກສະນະເພິ່ມເຕິມ: </h4> <pre> + == ເພີ່ມລາຄາຈາກລາຄາສິນຄ້າທີ່ຕັ້ງໄວ້<br /> - == ລຸດລາຄາລົງຈາກລາຄາສິນຄ້າທີ່ຕັ້ງໄວ້  <br /> = == ໃຫ້ລາຄາສິນຄ້າເທົ່າກັບລາຄາທີ່ກຳຫົນດ </pre> ';
+	var $_PHPSHOP_PRODUCT_FORM_ATTRIBUTE_LIST_EXAMPLES = '<h4> ຕົວຢ່າງຮູບແບບການກຳນົດຄຸນລັກສະນະ: </h4> <span class="sectionname"> <strong > ຂະໜາດ </strong>, XL [+1.99], M, S [-2.99] <strong>;ສີ </strong>, ແດງ, ຂຽວ, ເຫລືອງ, ສີພິເສດ [=24.00] <strong>; ອື່ນ ໆ </strong>,..,.. </span> <h4 > ວິທີຕັ້ງຄ່າລາຄາສຳລັບສິນຄ້າທີ່ມີເຈົ້າລັກສະນະເພິ່ມເຕິມ: </h4> <pre> + == ເພີ່ມລາຄາຈາກລາຄາສິນຄ້າທີ່ຕັ້ງໄວ້<br /> - == ລຸດລາຄາລົງຈາກລາຄາສິນຄ້າທີ່ຕັ້ງໄວ້  <br /> = == ໃຫ້ລາຄາສິນຄ້າເທົ່າກັບລາຄາທີ່ກຳຫົນດ </pre> ';
 	var $_PHPSHOP_PRODUCT_FORM_CUSTOM_ATTRIBUTE_LIST = 'ກຳນົດຄຸນລັກສະນະອື່ນ ໆ';
 	var $_PHPSHOP_PRODUCT_FORM_CUSTOM_ATTRIBUTE_LIST_EXAMPLES = '<h4> ຕົວຢ່າງຮູບແບບການກຳນົດເຈົ້າລັກສະນະອື່ນ ໆ: </h4> <pre> Name; Extras; </strong>... </pre> ';
 	var $_PHPSHOP_MULTISELECT = 'ເລືອກຫລາຍລາຍການ: ກົດປຸ່ມ CTRL ແລະຄິ໊ກເມົ້າ';
@@ -1236,7 +1232,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP0 = 'USPS Express Mail PO to Addressee';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP0_TOOLTIP = 'Standard USPS Express Mail.';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP1 = 'USPS Express Mail Flat Rate Envelope (12.5" x 9.5")';
-	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP1_TOOLTIP = 'Select this if you allow shipping via the USPS Express Mail Flat Rate Envelope. Default should be No as it could come up cheaper than actual shipping and might not fit in the envelope.'; 
+	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP1_TOOLTIP = 'Select this if you allow shipping via the USPS Express Mail Flat Rate Envelope. Default should be No as it could come up cheaper than actual shipping and might not fit in the envelope.';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP2 = 'USPS Priority Mail';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP2_TOOLTIP = 'Standard USPS Priority Mail.';
 	var $_PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SHIP3 = 'USPS Priority Mail Flat Rate Envelope (12.5" x 9.5")';
@@ -1343,7 +1339,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CSV_UPLOAD_FILE = 'ອັບໂຫລດໄຟລ໌ CSV';
 	var $_PHPSHOP_CSV_SUBMIT_FILE = 'ອັບໂຫລດ';
 	var $_PHPSHOP_CSV_FROM_DIRECTORY = 'ໂຫລດຈາກໄດເລກທໍລີ';
-	var $_PHPSHOP_CSV_FROM_SERVER = 'ໂຫລດໄຟລ໌ CSV ຈາກ ເຊິລ໌ຟະເວີລ '; 
+	var $_PHPSHOP_CSV_FROM_SERVER = 'ໂຫລດໄຟລ໌ CSV ຈາກ ເຊິລ໌ຟະເວີລ ';
 	var $_PHPSHOP_CSV_EXPORT_TO_FILE = 'ສົ່ງອອກເປັນໄຟລ໌ CSV';
 	var $_PHPSHOP_CSV_SELECT_FIELD_ORDERING = 'ເລືອກການລຽງລຳດັບຟິວ ';
 	var $_PHPSHOP_CSV_DEFAULT_ORDERING = 'ລຽງລຳດັບຕາມປົກຕິ';
@@ -1825,12 +1821,18 @@ Our %s  is now in stock and can be purchased by following this link:
 %s
         
  This is a one time notice, you will not receive this e-mail again.';
-    var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA = 'Payment Extra Info';
-    var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA_TIP = 'Is shown on the Order Confirmation Page. Can be: HTML Form Code from your Payment Service Provider, Hints to the customer etc.';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA = 'Payment Extra Info';
+	var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA_TIP = 'Is shown on the Order Confirmation Page. Can be: HTML Form Code from your Payment Service Provider, Hints to the customer etc.';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_CLASSNAME = 'Payment class name (e.g. <strong>ps_netbanx</strong>)';
 	var $_PHPSHOP_PAYMENT_METHOD_FORM_CLASSNAME_TIP = 'Leave blank if you\'re not sure what to fill in!';
 	var $_CMN_PUBLISH = 'Publish';
 	var $_CMN_UNPUBLISH = 'Unpublish';
+	var $_VM_MENUBAR_PLEASESELECT_PUBLISH = 'Please make a selection from the list to publish';
+	var $_VM_MENUBAR_PLEASESELECT_UNPUBLISH = 'Please make a selection from the list to unpublish';
+	var $_VM_MENUBAR_PLEASESELECT_DELETE = 'Please make a selection from the list to delete';
+	var $_VM_MENUBAR_CONFIRM_DELETE = 'Are you sure you want to delete selected items?';
+	var $_VM_MENUBAR_PLEASESELECT_TO = 'Please make a selection from the list to';
+        
 }
 class phpShopLanguage extends vmLanguage { }
 

@@ -33,6 +33,10 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+27.01.2008 thepisu
+# States list now ordered by state name (was in DB order)
+# Added translations for some hardcoded strings
+
 25.01.2008 soeren
 # Task #1374 - Stock notification message is shown twice.
 # Task #1615 - Admin: category search multiple page error (thanks to Michael Miller for finding, reporting and fixing this)

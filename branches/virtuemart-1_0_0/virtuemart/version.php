@@ -37,7 +37,7 @@ class vmVersion {
 	// From the album "Fundamental by the Pet Shop Boys: http://en.wikipedia.org/wiki/Fundamental_%28Pet_Shop_Boys_album%29#Track_listing
 	var $CODENAME = 'Luna Park';
 	/** @var string Date */
-	var $RELDATE = 'Jan, 16th 2007';
+	var $RELDATE = 'Jan, 30th 2007';
 	/** @var string Time */
 	var $RELTIME = '20:30';
 	/** @var string Timezone */

@@ -17,18 +17,16 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 <pre>
 ****************
 VirtueMart
-Version: 1.0.13
+Version: 1.0.14
 ****************
 Complete Package for Mambo >= 4.6.X and Joomla! 1.0.x
 
-Please note that you can use and install this software on Joomla! 1.5, but it only runs in the so-called "Legacy Mode"
-with the "Legacy Plugin" being published. Full compatibility can't be guaranteed as it has been found that the
-Legacy Mode provides no real backward compatibility (not even a useful bit).
+Please note that VirtueMart 1.0.14 is not intended to be compatible with Joomla! 1.5.
 
 You can't use this software on an earlier Mambo version than 4.5.1 (e.g. Mambo 4.5 1.0.9) 
 without running into serious problems.
 
-Copyright (C) 2004-2007 Soeren Eberhardt. All rights reserved.
+Copyright (C) 2004-2008 Soeren Eberhardt. All rights reserved.
 License: http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 VirtueMart is free software. This version may have been modified pursuant
 to the GNU General Public License, and as distributed it includes or
@@ -43,10 +41,10 @@ Community Home: http://virtuemart.net
 Package Contents:
 ##########################
 
- * 1 Component (com_virtuemart_1.0.13.zip)
+ * 1 Component (com_virtuemart_1.0.14.zip)
    INSTALLATION REQUIRED!
    
- * 1 Main module (mod_virtuemart_1.0.13.tar.gz)
+ * 1 Main module (mod_virtuemart_1.0.14.tar.gz)
    INSTALLATION REQUIRED!
    
  * 8 additional Modules
@@ -75,14 +73,12 @@ This package was tested on
 - Mambo 4.5.2.3
 - Mambo 4.5.3h
 - Mambo 4.6.2
-- Joomla 1.0.x (yes, 1.0.13 too)
-- Joomla! 1.5 RC3
+- Joomla 1.0.x
 
  -- IMPORTANT --
-Please note that module and component SHOULD be used together! 
-The thing is that you can only access all areas of the component via the VirtueMart Main Module links.
-
-You can surely create a new Menu Item linking to VirtueMart, but you must also publish the VirtueMart module.
+Please note that the VirtueMart module and component SHOULD be used together! 
+You can only access all areas of the component via the VirtueMart Main Module links.
+You can create a new Menu Item linking to VirtueMart, but you must also publish the VirtueMart module.
 
 ##########################
    INSTALLATION

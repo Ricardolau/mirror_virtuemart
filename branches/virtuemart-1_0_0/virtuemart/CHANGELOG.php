@@ -33,6 +33,8 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+--- VirtueMart 1.0.14 released ---
+
 27.01.2008 thepisu
 # States list now ordered by state name (was in DB order)
 # Added translations for some hardcoded strings

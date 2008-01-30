@@ -594,7 +594,7 @@ $db->query( "INSERT INTO `#__{vm}_currency` VALUES (1, 'Andorran Peseta', 'ADP')
 (114, 'Polish Zloty', 'PLZ'),
 (116, 'Paraguay Guarani', 'PYG'),
 (117, 'Qatari Rial', 'QAR'),
-(118, 'Romanian Leu', 'ROL'),
+(118, 'Romanian Leu', 'RON'),
 (119, 'Rwanda Franc', 'RWF'),
 (120, 'Saudi Arabian Riyal', 'SAR'),
 (121, 'Solomon Islands Dollar', 'SBD'),
@@ -1882,7 +1882,7 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_vendor` (
 ## Dumping data for table `#__{vm}_vendor`
 ## 
 
-$db->query( "INSERT INTO `#__{vm}_vendor` VALUES (1, 'Washupito''s Tiendita', 'Owner', 'Demo', 'Store', 'Mr.', '555-555-1212', '555-555-1212', '555-555-1212', '$mosConfig_mailfrom', '555-555-1212', '100 Washupito Avenue, N.W.', '', 'Lake Forest', 'CA', 'USA', '92630', 'Washupito''s Tiendita', '<p>We have the best tools for do-it-yourselfers.  Check us out! </p>\r\n		<p>We were established in 1969 in a time when getting good tools was expensive, but the quality was good.  Now that only a select few of those authentic tools survive, we have dedicated this store to bringing the experience alive for collectors and master mechanics everywhere.</p>\r\n		<p>You can easily find products selecting the category you would like to browse above.</p>', 0, '', 'c19970d6f2970cb0d1b13bea3af3144a.gif', 'USD', 950302468, 968309845, 'shop_image/', '<h5>You haven''t configured any terms of service yet. Click <a href=administrator/index2.php?page=store.store_form&option=com_virtuemart>here</a> to change this text.</h5>', '$mosConfig_live_site', 0.00, 0.00, '1|$|2|.| |2|1'); " );
+$db->query( "INSERT INTO `#__{vm}_vendor` VALUES (1, 'Washupito''s Tiendita', 'Owner', 'Demo', 'Store', 'Mr.', '555-555-1212', '555-555-1212', '555-555-1212', '$mosConfig_mailfrom', '555-555-1212', '100 Washupito Avenue, N.W.', '', 'Lake Forest', 'CA', 'USA', '92630', 'Washupito''s Tiendita', '<p>We have the best tools for do-it-yourselfers.  Check us out! </p>\r\n		<p>We were established in 1969 in a time when getting good tools was expensive, but the quality was good.  Now that only a select few of those authentic tools survive, we have dedicated this store to bringing the experience alive for collectors and master mechanics everywhere.</p>\r\n		<p>You can easily find products selecting the category you would like to browse above.</p>', 0, '', 'c19970d6f2970cb0d1b13bea3af3144a.png', 'USD', 950302468, 968309845, 'shop_image/', '<h5>You haven''t configured any terms of service yet. Click <a href=administrator/index2.php?page=store.store_form&option=com_virtuemart>here</a> to change this text.</h5>', '$mosConfig_live_site', 0.00, 0.00, '1|$|2|.| |2|1'); " );
 
 ## --------------------------------------------------------
 

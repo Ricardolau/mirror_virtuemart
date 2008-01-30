@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+30.01.2008 soeren
+# Task #1479 - Backend - Cancel shipping address takes user back to user list
+
 --- VirtueMart 1.0.14 released ---
 
 27.01.2008 thepisu

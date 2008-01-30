@@ -33,10 +33,13 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+--- VirtueMart 1.0.14 released ---
+
+30.01.2008 gregdev
+# Fixed missing global $VM_LANG.
+
 30.01.2008 soeren
 # Task #1479 - Backend - Cancel shipping address takes user back to user list
-
---- VirtueMart 1.0.14 released ---
 
 27.01.2008 thepisu
 # States list now ordered by state name (was in DB order)

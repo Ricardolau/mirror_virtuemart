@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+31.01.2008 soeren
+# VirtueMart Module not calculating correct "validate" value for Joomla! 1.0.14 login
+
 --- VirtueMart 1.0.14 released ---
 
 30.01.2008 gregdev

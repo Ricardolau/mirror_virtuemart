@@ -8,7 +8,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * @package VirtueMart
 * @subpackage modules
 * 
-* @copyright (C) 2004-2005 Soeren Eberhardt
+* @copyright (C) 2004-2008 soeren
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 *
 * VirtueMart is Free Software.
@@ -134,8 +134,8 @@ if ($perm->check("admin,storeadmin")
       )
     ) { ?>
     <tr> 
-      <td colspan="2"><a class="<?php echo $class_mainlevel ?>" href="<?php $sess->purl(SECUREURL . "index2.php?page=store.index&pshop_mode=admin");
-      echo "\">".$VM_LANG->_PHPSHOP_ADMIN_MOD; ?></a></td>
+      <td colspan="2"><a class="<?php echo $class_mainlevel ?>" href="<?php $sess->purl(SECUREURL . "index2.php?page=store.index&pshop_mode=admin") ?>">
+      <?php echo $VM_LANG->_PHPSHOP_ADMIN_MOD; ?></a></td>
     </tr>
   <?php }
    if ($perm->is_registered_customer($auth["user_id"])) {
@@ -187,7 +187,11 @@ if ( $show_login_form == "yes" ) {
 			
 			<?php
 		  	// used for spoof hardening
-			$validate = vmSpoofValue(1);
+			if( function_exists( 'josspoofvalue' )) {
+				$validate = josSpoofValue(1);
+			} else {
+				$validate = vmSpoofValue(1);
+			}
 			?>
 			<input type="hidden" name="<?php echo $validate; ?>" value="1" />
 			</form>

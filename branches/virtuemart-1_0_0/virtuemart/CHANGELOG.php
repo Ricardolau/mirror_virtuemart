@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+05.02.2008 soeren
+# Task #1769 - Users, Shopper Groups not functioning as expected in front-end and admin (also: # Task #1752 - Bug in adding a user to a shopper group)
+
 31.01.2008 soeren
 # VirtueMart Module not calculating correct "validate" value for Joomla! 1.0.14 login
 

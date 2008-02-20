@@ -33,13 +33,15 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+20.02.2008 soeren
+ # Task #1473 -  ps_product_category.php timeout
 05.02.2008 soeren
 # Task #1769 - Users, Shopper Groups not functioning as expected in front-end and admin (also: # Task #1752 - Bug in adding a user to a shopper group)
 
 31.01.2008 soeren
 # VirtueMart Module not calculating correct "validate" value for Joomla! 1.0.14 login
 
---- VirtueMart 1.0.14 released ---
+--- VirtueMart 1.0.14 released (30.01.2008) ---
 
 30.01.2008 gregdev
 # Fixed missing global $VM_LANG.

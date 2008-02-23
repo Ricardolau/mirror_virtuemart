@@ -33,8 +33,12 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+23.02.2008 gregdev
+# german.php should just point to germanf.php.
+
 20.02.2008 soeren
  # Task #1473 -  ps_product_category.php timeout
+ 
 05.02.2008 soeren
 # Task #1769 - Users, Shopper Groups not functioning as expected in front-end and admin (also: # Task #1752 - Bug in adding a user to a shopper group)
 

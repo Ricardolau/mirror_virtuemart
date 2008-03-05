@@ -112,7 +112,7 @@ class ps_reviews {
 				$db->next_record();
 				$html .= "<strong>". $db->f("name")."&nbsp;&nbsp;(". strftime ( $VM_LANG->_DATE_FORMAT_LC, $dbc->f("time")).")</strong><br />";
 				$html .= $VM_LANG->_PHPSHOP_RATE_NOM.": <img src=\"".IMAGEURL."stars/".$dbc->f("user_rating").".gif\" border=\"0\" alt=\"".$dbc->f("user_rating")."\" />";
-				$html .= "<br />".$dbc->f("comment")."<br /><br />";
+				$html .= "<br />".wordwrap($dbc->f("comment"), 150, "<br/>\n", true )."<br /><br />";
           }
           if( $num_rows < 1 ) {
               $html .= $VM_LANG->_PHPSHOP_NO_REVIEWS." <br />";

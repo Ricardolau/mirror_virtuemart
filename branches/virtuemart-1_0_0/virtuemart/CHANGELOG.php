@@ -33,6 +33,11 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+04.03.2008 soeren
+# too long words in reviews break the site layout (ps_reviews.php)
+# Random Products Module: removed one useless "tr" tag being printed out (mod_virtuemart_randomprod.php)
+# Fixed "Security Token not found" Message on Joomla! 1.0.15 when magic_quotes_gpc = Off	(ps_main.php)
+
 23.02.2008 gregdev
 # german.php should just point to germanf.php.
 

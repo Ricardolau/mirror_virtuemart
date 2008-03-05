@@ -6,7 +6,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2007 Soeren Eberhardt. All rights reserved.
+* @copyright Copyright (C) 2004-2008 Soeren Eberhardt. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -1144,7 +1144,7 @@ function vmCreateHash( $seed='virtuemart' ) {
 function vmSpoofCheck( $header=NULL, $alt=NULL ) {
 	global $VM_LANG;
 	if( !empty( $_GET['vmtoken']) || !empty( $_POST['vmtoken'])) {
-		$validate_hash 	= mosGetParam( $_REQUEST, 'vmtoken', 0 );
+		$validate_hash 	= mosGetParam( $_REQUEST, 'vmtoken', null );
 		$validate = vmSpoofValue($alt) == $validate_hash;		
 	} else {
 		$validate 	= mosGetParam( $_REQUEST, vmSpoofValue($alt), 0 );

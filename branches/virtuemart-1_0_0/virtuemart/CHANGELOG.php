@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+06.03.2008 thepisu
+# Task #1466 - Canada Post shipping module missing language strings
+
 04.03.2008 soeren
 # too long words in reviews break the site layout (ps_reviews.php)
 # Random Products Module: removed one useless "tr" tag being printed out (mod_virtuemart_randomprod.php)

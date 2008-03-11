@@ -1,12 +1,12 @@
 <?xml version="1.0" ?>
 <mosinstall type="component">
 	<name>VirtueMart</name>
-	<creationDate>January, 30th 2008</creationDate>
+	<creationDate>March, 11th 2008</creationDate>
 	<author>Soeren Eberhardt-Biermann &amp; the VirtueMart Dev Team</author>
 	<copyright>released under GNU General Public License</copyright>
 	<authorEmail>soeren|at|virtuemart.net</authorEmail>
 	<authorUrl>www.virtuemart.net</authorUrl>
-	<version>1.0.14</version>
+	<version>1.0.15</version>
 	<description>Online-Shop / E-Commerce Component</description>
   <files>
       <filename>frontend_files.tar.gz</filename>

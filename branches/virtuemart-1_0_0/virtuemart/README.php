@@ -4,7 +4,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 * @version $Id$
 * @package VirtueMart
 * @subpackage core
-* @copyright Copyright (C) 2004-2007 Soeren Eberhardt. All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -17,16 +17,16 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 <pre>
 ****************
 VirtueMart
-Version: 1.0.14
+Version: 1.0.15
 ****************
 Complete Package for Mambo >= 4.6.X and Joomla! 1.0.x
 
-Please note that VirtueMart 1.0.14 is not intended to be compatible with Joomla! 1.5.
+Please note that VirtueMart 1.0.15 is not intended to be compatible with Joomla! 1.5.
 
 You can't use this software on an earlier Mambo version than 4.5.1 (e.g. Mambo 4.5 1.0.9) 
 without running into serious problems.
 
-Copyright (C) 2004-2008 Soeren Eberhardt. All rights reserved.
+Copyright (C) 2004-2008 soeren - All rights reserved.
 License: http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 VirtueMart is free software. This version may have been modified pursuant
 to the GNU General Public License, and as distributed it includes or
@@ -41,10 +41,10 @@ Community Home: http://virtuemart.net
 Package Contents:
 ##########################
 
- * 1 Component (com_virtuemart_1.0.14.zip)
+ * 1 Component (com_virtuemart_1.0.15.zip)
    INSTALLATION REQUIRED!
    
- * 1 Main module (mod_virtuemart_1.0.14.tar.gz)
+ * 1 Main module (mod_virtuemart_1.0.15.tar.gz)
    INSTALLATION REQUIRED!
    
  * 8 additional Modules
@@ -254,7 +254,7 @@ based on mambo-phpShop 1.2 stable (patch level 3)
 
 
 Developers, Documentation Writers, Helpers and Coders are welcome to help us. 
-Please contact me: soeren@virtuemart.net
+Please contact me: soeren| at |virtuemart.net
 
 This VirtueMart component can be developed much further...
 </pre>

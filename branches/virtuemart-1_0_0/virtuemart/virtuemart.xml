@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <mosinstall type="component">
 	<name>VirtueMart</name>
-	<creationDate>March, 11th 2008</creationDate>
+	<creationDate>March, 12th 2008</creationDate>
 	<author>Soeren Eberhardt-Biermann &amp; the VirtueMart Dev Team</author>
 	<copyright>released under GNU General Public License</copyright>
 	<authorEmail>soeren|at|virtuemart.net</authorEmail>
@@ -48,7 +48,6 @@
         <filename>README.php</filename>
         <filename>virtuemart.cfg-dist.php</filename>
         <filename>Tar.php</filename>
-        <filename>TODO.php</filename>
         <filename>toolbar.virtuemart.html.php</filename>
         <filename>toolbar.virtuemart.php</filename>
         <filename>version.php</filename>

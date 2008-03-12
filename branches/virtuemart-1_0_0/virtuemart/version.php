@@ -34,10 +34,10 @@ class vmVersion {
 	/** @var string Development Status */
 	var $DEV_STATUS = 'stable';
 	/** @var string Codename */
-	// From the album "Fundamental by the Pet Shop Boys: http://en.wikipedia.org/wiki/Fundamental_%28Pet_Shop_Boys_album%29#Track_listing
-	var $CODENAME = 'Luna Park';
+	// Type of Keelboat: http://en.wikipedia.org/wiki/Flying_Fifteen_%28keelboat%29
+	var $CODENAME = 'Flying Fifteen';
 	/** @var string Date */
-	var $RELDATE = 'Mar, 11th 2008';
+	var $RELDATE = 'Mar, 12th 2008';
 	/** @var string Time */
 	var $RELTIME = '20:30';
 	/** @var string Timezone */

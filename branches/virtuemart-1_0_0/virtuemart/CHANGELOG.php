@@ -34,6 +34,9 @@ Legend:
 VirtueMart 1.0.x
 *************************************
 
+30.03.2008 thepisu
+^ updated translations: portuguese, slovenian_utf
+
 --- VirtueMart 1.0.15 released (11.03.2008) ---
 
 06.03.2008 thepisu

@@ -54,14 +54,14 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_PRODUCT_NAME_TITLE = 'Nome do Produto';
 	var $_PHPSHOP_PRODUCT_CATEGORY_TITLE = 'Categoria';
 	var $_PHPSHOP_PRODUCT_DESC_TITLE = 'Descrição';
-	var $_PHPSHOP_CART_SHOW = 'Mostrar Pedido';
+	var $_PHPSHOP_CART_SHOW = 'Ver total';
 	var $_PHPSHOP_CART_ADD_TO = 'Adicionar';
 	var $_PHPSHOP_CART_NAME = 'Nome';
 	var $_PHPSHOP_CART_SKU = 'Ref.';
 	var $_PHPSHOP_CART_PRICE = 'Preço';
 	var $_PHPSHOP_CART_QUANTITY = 'Quantidade';
 	var $_PHPSHOP_CART_SUBTOTAL = 'Sub total';
-	var $_PHPSHOP_ADD_SHIPTO_1 = 'Adicionar um novo';
+	var $_PHPSHOP_ADD_SHIPTO_1 = 'Adicionar ';
 	var $_PHPSHOP_ADD_SHIPTO_2 = 'Morada para envio';
 	var $_PHPSHOP_NO_SEARCH_RESULT = 'A sua pesquisa não obteve resultados.<BR>';
 	var $_PHPSHOP_PRICE_LABEL = 'Preço: ';
@@ -113,7 +113,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_USER_FORM_COUNTRY = 'País';
 	var $_PHPSHOP_USER_FORM_PHONE = 'Telefone';
 	var $_PHPSHOP_USER_FORM_PHONE2 = 'Telemóvel';
-	var $_PHPSHOP_USER_FORM_FAX = 'Fax';
+	var $_PHPSHOP_USER_FORM_FAX = 'NIF';
 	var $_PHPSHOP_USER_FORM_EMAIL = 'Correio electrónico';
 	var $_PHPSHOP_MODULE_LIST_MNU = 'Listar Módulos';
 	var $_PHPSHOP_MODULE_LIST_LBL = 'Lista de Módulos';
@@ -165,7 +165,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_STATE_LIST_2_CODE = 'Código do Distrito (2)';
 	var $_PHPSHOP_ADDRESS = 'Morada';
 	var $_PHPSHOP_CONTINUE = 'Continuar';
-	var $_PHPSHOP_EMPTY_CART = 'O seu carrinho de compras encontra-se, de momento, vazio.';
+	var $_PHPSHOP_EMPTY_CART = 'Carrinho de compras vazio.';
 	var $_PHPSHOP_ISSHIPPING_MOD = 'InterShipper';
 	var $_PHPSHOP_ISSHIP_PING_MNU = 'Ping Servidor InterShipper';
 	var $_PHPSHOP_ISSHIP_PING_LBL = 'Servidor-InterShipper Ping ';
@@ -197,7 +197,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ISSHIP_FORM_DAYS_LBL = 'dias';
 	var $_PHPSHOP_ISSHIP_FORM_HEAVY_LBL = 'Cargas Pesadas';
 	var $_PHPSHOP_ORDER_MOD = 'Encomendas';
-	var $_PHPSHOP_ORDER_CONFIRM_MNU = 'Confirmar Encomenda';
+	var $_PHPSHOP_ORDER_CONFIRM_MNU = 'Confirmar';
 	var $_PHPSHOP_ORDER_CANCEL_MNU = 'Cancelar Encomenda';
 	var $_PHPSHOP_ORDER_PRINT_MNU = 'Imprimir Encomenda';
 	var $_PHPSHOP_ORDER_DELETE_MNU = 'Apagar Encomenda';
@@ -227,7 +227,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ORDER_PRINT_ZIP = 'Código Postal';
 	var $_PHPSHOP_ORDER_PRINT_COUNTRY = 'País';
 	var $_PHPSHOP_ORDER_PRINT_PHONE = 'Telefone';
-	var $_PHPSHOP_ORDER_PRINT_FAX = 'Fax';
+	var $_PHPSHOP_ORDER_PRINT_FAX = 'NIF';
 	var $_PHPSHOP_ORDER_PRINT_EMAIL = 'E-mail';
 	var $_PHPSHOP_ORDER_PRINT_ITEMS_LBL = 'Impressão de Artigos';
 	var $_PHPSHOP_ORDER_PRINT_QUANTITY = 'Quantidade';
@@ -434,7 +434,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_SHOPPER_FORM_COUNTRY = 'País';
 	var $_PHPSHOP_SHOPPER_FORM_PHONE = 'Telefone';
 	var $_PHPSHOP_SHOPPER_FORM_PHONE2 = 'Telemóvel';
-	var $_PHPSHOP_SHOPPER_FORM_FAX = 'Fax';
+	var $_PHPSHOP_SHOPPER_FORM_FAX = 'NIF';
 	var $_PHPSHOP_SHOPPER_FORM_EMAIL = 'E-mail';
 	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_1 = '';
 	var $_PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_2 = '';
@@ -477,7 +477,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_STORE_FORM_TITLE = 'Título';
 	var $_PHPSHOP_STORE_FORM_PHONE_1 = 'Telefone 1';
 	var $_PHPSHOP_STORE_FORM_PHONE_2 = 'Telefone 2';
-	var $_PHPSHOP_STORE_FORM_FAX = 'Fax';
+	var $_PHPSHOP_STORE_FORM_FAX = 'NIF';
 	var $_PHPSHOP_STORE_FORM_EMAIL = 'E-mail';
 	var $_PHPSHOP_STORE_FORM_IMAGE_PATH = 'Caminho para a Imagem';
 	var $_PHPSHOP_STORE_FORM_DESCRIPTION = 'Descrição';
@@ -538,7 +538,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_VENDOR_FORM_TITLE = 'Título';
 	var $_PHPSHOP_VENDOR_FORM_PHONE_1 = 'Telefone 1';
 	var $_PHPSHOP_VENDOR_FORM_PHONE_2 = 'Telefone 2';
-	var $_PHPSHOP_VENDOR_FORM_FAX = 'Fax';
+	var $_PHPSHOP_VENDOR_FORM_FAX = 'NIF';
 	var $_PHPSHOP_VENDOR_FORM_EMAIL = 'E-mail';
 	var $_PHPSHOP_VENDOR_FORM_IMAGE_PATH = 'Caminho para Imagens';
 	var $_PHPSHOP_VENDOR_FORM_DESCRIPTION = 'Descrição';
@@ -594,14 +594,14 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_CHECKOUT_CONF_NAME = 'Nome';
 	var $_PHPSHOP_CHECKOUT_CONF_ADDRESS = 'Morada';
 	var $_PHPSHOP_CHECKOUT_CONF_PHONE = 'Telefone';
-	var $_PHPSHOP_CHECKOUT_CONF_FAX = 'Fax';
+	var $_PHPSHOP_CHECKOUT_CONF_FAX = 'NIF';
 	var $_PHPSHOP_CHECKOUT_CONF_EMAIL = 'E-mail';
 	var $_PHPSHOP_CHECKOUT_CONF_SHIPINFO = 'Informação de Envio';
 	var $_PHPSHOP_CHECKOUT_CONF_SHIPINFO_COMPANY = 'Empresa';
 	var $_PHPSHOP_CHECKOUT_CONF_SHIPINFO_NAME = 'Nome';
 	var $_PHPSHOP_CHECKOUT_CONF_SHIPINFO_ADDRESS = 'Morada';
 	var $_PHPSHOP_CHECKOUT_CONF_SHIPINFO_PHONE = 'Telefone';
-	var $_PHPSHOP_CHECKOUT_CONF_SHIPINFO_FAX = 'Fax';
+	var $_PHPSHOP_CHECKOUT_CONF_SHIPINFO_FAX = 'NIF';
 	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO = 'Informação de Pagamento';
 	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO_NAMECARD = 'Nome no cartão';
 	var $_PHPSHOP_CHECKOUT_CONF_PAYINFO_METHOD = 'Método de Pagamento';
@@ -641,8 +641,8 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_ACC_ACCOUNT_INFO = 'Informação de Conta';
 	var $_PHPSHOP_ACC_SHIP_INFO = 'Informação de Envio';
 	var $_PHPSHOP_ACC_NO_ORDERS = 'Não há encomendas para exibir';
-	var $_PHPSHOP_ACC_BILL_DEF = '- Por padrã (igual ao de facturação)';
-	var $_PHPSHOP_SHIPTO_TEXT = 'Você pode adicionar moradas de envio à sua conta. Por favor pense num apelido ou código para a morada que seleccionar em baixo.';
+	var $_PHPSHOP_ACC_BILL_DEF = '- Por defeito igual à morada de facturação';
+	var $_PHPSHOP_SHIPTO_TEXT = 'Poderá adicionar moradas de envio à sua conta. Por favor pense num apelido ou código para a morada que seleccionar em baixo.';
 	var $_PHPSHOP_CONFIG = 'Configuração';
 	var $_PHPSHOP_USERS = 'Utilizadores';
 	var $_PHPSHOP_IS_CC_PAYMENT = 'Pagamento com cartão de crédito?';
@@ -770,7 +770,7 @@ class vmLanguage extends vmAbstractLanguage {
         Pode continuar ou efectuar a autenticação <a href=http://www.paypal.com target="_blank">www.paypal.com</a> para ver os detalhes da transacção.';
 	var $_PHPSHOP_PAYPAL_ERROR = 'Um erro ocorreu durante a sua transacção. O estado da sua encomenda não pode ser actualizada.';
 	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER1 = 'Obrigado pela sua encomenda. Informação de encomenda foi enviada.';
-	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER2 = 'Obrigado pelo seu Patrocínio.';
+	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER2 = 'Obrigado pela sua preferencia.';
 	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER3 = 'Questões? Problemas?';
 	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER4 = 'A encomenda foi recebida.';
 	var $_PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER5 = 'Para Ver a encomenda seleccione a hiperligação.';
@@ -1138,7 +1138,7 @@ class vmLanguage extends vmAbstractLanguage {
 	var $_PHPSHOP_COUPON_LIST = 'Lista de Cupões';
 	var $_PHPSHOP_COUPON_ALREADY_REDEEMED = 'Cupão já foi descontado.';
 	var $_PHPSHOP_COUPON_REDEEMED = 'Cupão descontado! Muito Obrigado.';
-	var $_PHPSHOP_COUPON_ENTER_HERE = 'Se possui um código de cupão, por favor mencione-o em baixo:';
+	var $_PHPSHOP_COUPON_ENTER_HERE = 'Se possui um código de cupão de desconto, por favor insira-o em baixo:';
 	var $_PHPSHOP_COUPON_SUBMIT_BUTTON = 'Submeter';
 	var $_PHPSHOP_COUPON_CODE_EXISTS = 'Este código de cupão já existe. Por favor tente novamente.';
 	var $_PHPSHOP_COUPON_EDIT_HEADER = 'Actualização de Cupão';
@@ -1549,9 +1549,9 @@ Para mais informações sobre cancelamento de encomendas e devolução de produtos, 
 	var $_CMN_OK = 'Ok';
 	var $_CMN_CONTINUE = 'Continue';
 	var $_CMN_CANCEL = 'Cancel';
-	var $_BUTTON_SEND_REG = 'Send Registration';
+	var $_BUTTON_SEND_REG = 'Submeter Registo';
 	var $_CONTACT_FORM_NC = 'Please make sure the form is complete and valid.';
-	var $_CMN_REQUIRED = 'Required';
+	var $_CMN_REQUIRED = 'Obrigatório';
 	var $_CMN_NEW = 'New';
 	var $_CMN_SAVE = 'Save';
 	var $_CMN_NEW_ITEM_LAST = 'New items default to the last place. Ordering can be changed after this item is saved.';
@@ -1575,39 +1575,39 @@ Para mais informações sobre cancelamento de encomendas e devolução de produtos, 
 	var $_CMN_PDF = 'PDF';
 	var $_CMN_EMAIL = 'E-mail';
 	var $_BACK = 'Back';
-	var $_USERNAME = 'Username';
-	var $_PASSWORD = 'Password';
-	var $_BUTTON_LOGIN = 'Login';
-	var $_REGISTER_UNAME = 'Username';
+	var $_USERNAME = 'Utilizador';
+	var $_PASSWORD = 'Palavra passe';
+	var $_BUTTON_LOGIN = 'Entrar';
+	var $_REGISTER_UNAME = 'Utilizador';
 	var $_REGISTER_EMAIL = 'Email';
-	var $_REGWARN_NAME = 'Please enter your name.';
-	var $_REGWARN_UNAME = 'Please enter a user name.';
-	var $_REGWARN_MAIL = 'Please enter a valid e-mail address.';
-	var $_SEND_SUB = 'Account details for %s at %s';
-	var $_ASEND_MSG = 'Hello %s,
+	var $_REGWARN_NAME = 'Por favor insira o seu nome.';
+	var $_REGWARN_UNAME = 'Por favor insira o utilizador.';
+	var $_REGWARN_MAIL = 'Por favor insira um e-mail válido.';
+	var $_SEND_SUB = 'Detalhes da conta %s em %s';
+	var $_ASEND_MSG = 'Olá %s,
 	
-	A new user has registered at %s.
-	This email contains their details:
+	Um novo utilizador foi registado em %s.
+	Este email contem os seus dados:
 	
-	Name - %s
+	Nome - %s
 	e-mail - %s
-	Username - %s
+	Utilizador - %s
 	
 	Please do not respond to this message as it is automatically generated and is for information purposes only';
-	var $_REG_COMPLETE = '<div class="componentheading">Registration Complete!</div><br />You may now login.';
+	var $_REG_COMPLETE = '<div class="componentheading">Registo Completo!</div><br />Pode agora autenticar-se.';
 	var $_REG_COMPLETE_ACTIVATE = '<div class="componentheading">Registration Complete!</div><br />Your account has been created and activation link has been sent to the e-mail address you entered. Note that you must activate the account by clicking on the activation link when you get the e-mail before you can login.';
 	var $_DATE_FORMAT_LC = '%A, %d %B %Y';
 	var $_LAST_UPDATED = 'Last Updated';
 	var $_NOT_AUTH = 'You are not authorized to view this resource.';
-	var $_DO_LOGIN = 'You need to login.';
+	var $_DO_LOGIN = 'Necessita de autenticar-se.';
 	var $_VALID_AZ09 = 'Please enter a valid %s.  No spaces, more than %d characters and contain 0-9,a-z,A-Z';
 	var $_CMN_PUBLISHED = 'Published';
 	var $_CMN_UNPUBLISHED = 'Unpublished';
 	var $_MORE = 'More...';
 	var $_EMPTY_CATEGORY = 'This Category is currently empty.';
-	var $_BUTTON_LOGOUT = 'Logout';
-	var $_NO_ACCOUNT = 'No account yet?';
-	var $_CREATE_ACCOUNT = 'Register';
+	var $_BUTTON_LOGOUT = 'Terminar';
+	var $_NO_ACCOUNT = 'Não tem conta?';
+	var $_CREATE_ACCOUNT = 'Registe-se';
 	var $_REGWARN_PASS = 'Please enter a valid password.  No spaces, more than 6 characters and contain 0-9,a-z,A-Z';
 	var $_REGWARN_VPASS1 = 'Please verify the password.';
 	var $_REGWARN_VPASS2 = 'Password and verification do not match, please try again.';
@@ -1639,20 +1639,20 @@ Thank you for registering at %s.
 
 
 You may now login to %s using the username and password you registered with.';
-	var $_PROMPT_PASSWORD = 'Lost your Password?';
-	var $_HI = 'Hi';
-	var $_NEW_USER_MESSAGE_SUBJECT = 'New User Details';
-	var $_NEW_USER_MESSAGE = 'Hello %s,
+	var $_PROMPT_PASSWORD = 'Perdeu a palavra passe?';
+	var $_HI = 'Caro(a)';
+	var $_NEW_USER_MESSAGE_SUBJECT = 'Detalhes de novo utilizador';
+	var $_NEW_USER_MESSAGE = 'Olá %s,
 
 
 
 
 
-You have been added as a user to %s by an Administrator.
+foi adicionado como novo utilizador %s pelo Administrador.
 
 
 
-This email contains your username and password to log into the %s
+Este email contém o seu Utlilizador e password ligar se autenticar em %s
 
 
 
@@ -1664,7 +1664,7 @@ Password - %s
 
 
 
-Please do not respond to this message as it is automatically generated and is for information purposes only';
+Por favor não responda a esta mensagem pois foi gerada automáticamente e destina-se exclusivamente a si';
 	var $_REMEMBER_ME = 'Remember me';
 	var $_REGISTER_TITLE = 'Registration';
 	var $_JAN = 'January';
@@ -2057,42 +2057,6 @@ Please do not respond to this message as it is automatically generated and is fo
 	var $_PHPSHOP_CSV_EXPLANATION_PRICE_DELETE = 'The price_delete field is a special field. This field is used to determine if a price for a product should be deleted or not. This field is used when doing a multiple price upload. Before a price is deleted it needs to match the following fields:<ul><li>product_sku</li><li>product_price</li><li>product_currency</li><li>price_quantity_start</li><li>price_quantity_end</li></ul><br />Usage:<ol><li>Select the name "price_delete" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with the value Y. If the field contains any other value, the product will not be deleted.</li></ol><br />Values:<ul><li>Y: Yes, the price is to be deleted</li><li>N: No, the price is not to be deleted</li><li>Empty: Empty value, the price is not to be deleted</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRICE_QUANTITY_START = 'The quantity at which the mentioned price is available.<br /><br />Usage:<ol><li>Select the name "price_quantity_start" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values: Numeric</li></ul>';
 	var $_PHPSHOP_CSV_EXPLANATION_PRICE_QUANTITY_END = 'The quantity at which the mentioned price is no longer available.<br /><br />Usage:<ol><li>Select the name "price_quantity_end" from the dropdown menu on the configuration screen.</li><li>Add a column to your CSV file with a numeric value.</li></ol><br />Values: Numeric</li></ul>';
-	var $_VM_UPDATE_STATUS = 'Update Status';
-	var $_PRODUCT_WAITING_LIST_EMAIL_SUBJECT = '%s Has Arrived!';
-	var $_PRODUCT_WAITING_LIST_EMAIL_TEXT = 'Thank you for your patience.
-
-Our %s  is now in stock and can be purchased by following this link:
-%s
-
- This is a one time notice, you will not receive this e-mail again.';
-	var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA = 'Payment Extra Info';
-	var $_PHPSHOP_PAYMENT_METHOD_FORM_EXTRA_TIP = 'Is shown on the Order Confirmation Page. Can be: HTML Form Code from your Payment Service Provider, Hints to the customer etc.';
-	var $_PHPSHOP_PAYMENT_METHOD_FORM_CLASSNAME = 'Payment class name (e.g. <strong>ps_netbanx</strong>)';
-	var $_PHPSHOP_PAYMENT_METHOD_FORM_CLASSNAME_TIP = 'Leave blank if you\'re not sure what to fill in!';
-	var $_CMN_PUBLISH = 'Publish';
-	var $_CMN_UNPUBLISH = 'Unpublish';
-	var $_VM_MENUBAR_PLEASESELECT_PUBLISH = 'Please make a selection from the list to publish';
-	var $_VM_MENUBAR_PLEASESELECT_UNPUBLISH = 'Please make a selection from the list to unpublish';
-	var $_VM_MENUBAR_PLEASESELECT_DELETE = 'Please make a selection from the list to delete';
-	var $_VM_MENUBAR_CONFIRM_DELETE = 'Are you sure you want to delete selected items?';
-	var $_VM_MENUBAR_PLEASESELECT_TO = 'Please make a selection from the list to';
-	var $_VM_CANADAPOST_SEND_LANGUAGE_CODE = 'EN';
-	var $_VM_CANADAPOST_FORM_HANDLING_DATE = 'Expected Date of Arrival';
-	var $_VM_CANADAPOST_FORM_HANDLING_LBL = 'Handling Charge';
-	var $_VM_SHIPPING_METHOD_CANADAPOST_MERCHANT_CPCID = 'Canada Post Merchant ID';
-	var $_VM_SHIPPING_METHOD_CANADAPOST_MERCHANT_CPCID_EXPLAIN = 'Your Canada Post Merchant ID';
-	var $_VM_SHIPPING_METHOD_CANADAPOST_CP_SERVER = 'Canada Post Server IP';
-	var $_VM_SHIPPING_METHOD_CANADAPOST_CP_SERVER_EXPLAIN = 'This is the Canada Post Server IP Address - default is 206.191.4.228';
-	var $_VM_SHIPPING_METHOD_CANADAPOST_CP_PORT = 'Canada Post Server Port';
-	var $_VM_SHIPPING_METHOD_CANADAPOST_CP_PORT_EXPLAIN = 'This is the Canada Post Server Port<br /> The server port must be 30000<br /> If you cannot use this port, you will not be able to use this module<br /> check with your hosting company to see if you can access this port first';
-	var $_VM_SHIPPING_METHOD_CANADAPOST_CP_FEDERAL_TAX = 'Canada Post Federal Tax Amount';
-	var $_VM_SHIPPING_METHOD_CANADAPOST_CP_FEDERAL_TAX_EXPLAIN = 'Federal Tax Amount goes here';
-	var $_VM_SHIPPING_METHOD_CANADAPOST_CP_PROVINCIAL_TAX = 'Canada Post Provincal Tax Amount';
-	var $_VM_SHIPPING_METHOD_CANADAPOST_CP_PROVINCIAL_TAX_EXPLAIN = 'Provincal Tax Amount goes here';
-	var $_VM_SHIPPING_METHOD_CANADAPOST_ARRIVAL_DATE_EXPLAIN = 'Arrival Date Description';
-	var $_VM_SHIPPING_METHOD_CANADAPOST_ARRIVAL_DATE_EXPLAIN_I = 'Description for Arrival Dates';
-	var $_VM_SHIPPING_METHOD_CANADAPOST_HANDLING_CHARGE_EXPLAIN = 'Handling Charge Description';
-	var $_VM_SHIPPING_METHOD_CANADAPOST_HANDLING_CHARGE_EXPLAIN_I = 'Description for Handling Carges';
         
 }
 class phpShopLanguage extends vmLanguage { }

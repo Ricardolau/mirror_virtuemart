@@ -33,6 +33,8 @@ Legend:
 
 VirtueMart 1.0.x
 *************************************
+02.04.2008 gregdev
+# german.php should just point to germanf.php.
 
 30.03.2008 thepisu
 ^ updated translations: portuguese, slovenian_utf

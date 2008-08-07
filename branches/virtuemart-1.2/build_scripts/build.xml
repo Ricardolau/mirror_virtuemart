@@ -12,7 +12,7 @@
 	
 	<target name="server" if="CB_DOCDIR">
 		<property name="dist.dir" value="${CB_DOCDIR}/Nightly-test" />
-		<property name="svn.dir" value="${CB_SRCDIR}/trunk/virtuemart" />
+		<property name="svn.dir" value="${CB_SRCDIR}/branches/virtuemart-1.2" />
 		<echo message="Server properties loaded." />
 		<tstamp/>
 	</target>

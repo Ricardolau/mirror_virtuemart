@@ -82,7 +82,6 @@ switch( $task ) {
 		break;
 		
 	case 'getproducts':
-	if(!defined('SERVICES_JSON_SLICE'))
 		require_once(CLASSPATH . 'JSON.php');
 		$db =& new ps_DB;
 		$keyword = $db->getEscaped(vmGet( $_REQUEST, 'query' ));

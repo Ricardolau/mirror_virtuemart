@@ -852,6 +852,8 @@ CREATE TABLE IF NOT EXISTS `mos_vm_manufacturer` (
   `mf_desc` text,
   `mf_category_id` int(11) default NULL,
   `mf_url` varchar(255) NOT NULL default '',
+  `mf_thumb_image` varchar(255) default NULL,
+  `mf_full_image` varchar(255) default NULL,
   PRIMARY KEY  (`manufacturer_id`)
 ) TYPE=MyISAM COMMENT='Manufacturers are those who create products';
 

@@ -35,6 +35,14 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+16.08.2008 gregdev
++ Added the ability to add manufacturer images. (Task #2316 - Ability to add manufacturer images)
+	###
+	# Added the ability to add manufacturer images
+	ALTER TABLE `jos_vm_manufacturer` ADD `mf_thumb_image` VARCHAR( 255 ) default NULL ,
+	ADD `mf_full_image` VARCHAR( 255 ) default NULL ;
+	###
+
 13.08.2008 aravot
 Corrected few spelling mistakes in English language (http://forum.virtuemart.net/index.php?topic=44169.0 - thank you Phil)
 

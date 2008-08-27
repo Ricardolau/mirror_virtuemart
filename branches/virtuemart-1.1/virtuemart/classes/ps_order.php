@@ -554,7 +554,6 @@ class ps_order {
 		require_once( CLASSPATH .'htmlTools.class.php');
 		require_once( CLASSPATH .'pageNavigation.class.php');
 		$db = new ps_DB;
-		$dbs = new ps_DB;
 		
 		$listfields = 'cdate,order_total,order_status,order_id,order_currency';
 		$countfields = 'count(*) as num_rows';

@@ -123,7 +123,7 @@ if(!defined("_CLASS_CURRENCY_DISPLAY_LOADED")) {
 	function getFullValue($nb, $decimals='', $symbol = '') {
 		global $vendor_currency;
 		$res = "";
-		if( $symbol != '' && $symbol != $vendor_currency ) {
+		if( $symbol != ''  ) {
 			$old_symbol = $this->symbol;
 			$this->symbol = $symbol;
 		}
@@ -221,7 +221,7 @@ if(!defined("_CLASS_CURRENCY_DISPLAY_LOADED")) {
 					break;
 			}
 		}
-		if( $symbol != '' && $symbol != $vendor_currency) {
+		if( $symbol != '' ) {
 			$this->symbol = $old_symbol;
 		}
 		return($res);

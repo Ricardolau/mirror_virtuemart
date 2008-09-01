@@ -231,7 +231,7 @@ class ps_cart {
 				$_SESSION['cart'][$k]["quantity"] = $quantity;
 				$_SESSION['cart'][$k]["product_id"] = $product_id;
 				$_SESSION['cart'][$k]["parent_id"] = $e["product_id"];
-                $_SESSION['cart'][$k]["category_id"] = $e["category_id"];
+                $_SESSION['cart'][$k]["category_id"] = vmGet($e, 'category_id', 0 );
 				// added for the advanced attribute modification
 				$_SESSION['cart'][$k]["description"] = $e["description"];
 				$_SESSION['cart']["idx"]++;
@@ -268,7 +268,7 @@ class ps_cart {
         else if (@$request_stock && vmIsXHR() ) {
             $vmLogger->tip( $VM_LANG->_('PHPSHOP_CART_GOTO_WAITING_LIST',false) );
 		} else {
-            $vmLogger->tip( $VM_LANG->_('PHPSHOP_CART_SELECT_ITEM',false) );
+            $vmLogger->tip( $VM_LANG->_('The selected quantity exceeds quantity available in stock.',false) );
         }
 		// end cart update message */
 

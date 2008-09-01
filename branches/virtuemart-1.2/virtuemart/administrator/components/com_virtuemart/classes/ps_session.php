@@ -95,7 +95,10 @@ class ps_session {
 		}
 		elseif( empty( $isOK )) {
 			$_SESSION['VMCHECK'] = 'OK';
-			vmRedirect( $this->url( $mm_action_url . 'index.php?' . vmGet($_SERVER,'QUERY_STRING').'&vmcchk=1', true, false ));
+			$query_string = vmGet($_SERVER,'QUERY_STRING');
+			if( !empty($query_string) && empty( $_POST )) {
+				vmRedirect( $this->url( $mm_action_url . 'index.php?' .$query_string .'&vmcchk=1', true, false ));
+			}
 		}
 	}
 		

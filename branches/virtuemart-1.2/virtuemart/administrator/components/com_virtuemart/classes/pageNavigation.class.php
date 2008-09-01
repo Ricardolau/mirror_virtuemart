@@ -126,8 +126,8 @@ class vmPageNav {
     if ($this_page > 1) {
       $page = ($this_page - 2) * $this->limit;
       if( $link != '') {
-        $html .= "\n<li><a href=\"".vmRoute($link.'&limitstart=0')."\" class=\"pagenav\" title=\"".$VM_LANG->_('PN_START')."\">&laquo;&laquo; ".$VM_LANG->_('PN_START')."</a></li>";
-        $html .= "\n<li><a href=\"".vmRoute($link.'&limitstart='.$page)."\" class=\"pagenav\" title=\"".$VM_LANG->_('PN_PREVIOUS')."\">&laquo; ".$VM_LANG->_('PN_PREVIOUS')."</a></li>";
+        $html .= "\n<li><a href=\"".vmRoute($link.'&limit='.$this->limit.'&limitstart=0')."\" class=\"pagenav\" title=\"".$VM_LANG->_('PN_START')."\">&laquo;&laquo; ".$VM_LANG->_('PN_START')."</a></li>";
+        $html .= "\n<li><a href=\"".vmRoute($link.'&limit='.$this->limit.'&limitstart='.$page)."\" class=\"pagenav\" title=\"".$VM_LANG->_('PN_PREVIOUS')."\">&laquo; ".$VM_LANG->_('PN_PREVIOUS')."</a></li>";
       } else {
         $html .= "\n<li><a href=\"#beg\" class=\"pagenav\" title=\"".$VM_LANG->_('PN_START')."\" onclick=\"javascript: document.adminForm.limitstart.value=0; document.adminForm.submit();return false;\">&laquo;&laquo; ".$VM_LANG->_('PN_START')."</a></li>";
         $html .= "\n<li><a href=\"#prev\" class=\"pagenav\" title=\"".$VM_LANG->_('PN_PREVIOUS')."\" onclick=\"javascript: document.adminForm.limitstart.value=$page; document.adminForm.submit();return false;\">&laquo; ".$VM_LANG->_('PN_PREVIOUS')."</a></li>";
@@ -143,7 +143,7 @@ class vmPageNav {
         $html .= "\n<li><span class=\"pagenav\"> $i </span></li>";
       } else {
         if( $link != '') {
-          $html .= "\n<li><a href=\"".vmRoute($link.'&limitstart='.$page)."\" class=\"pagenav\"><strong>$i</strong></a></li>";
+          $html .= "\n<li><a href=\"".vmRoute($link.'&limit='.$this->limit.'&limitstart='.$page)."\" class=\"pagenav\"><strong>$i</strong></a></li>";
         } else {
           $html .= "\n<li><a href=\"#$i\" class=\"pagenav\" onclick=\"javascript: document.adminForm.limitstart.value=$page; document.adminForm.submit();return false;\"><strong>$i</strong></a></li>";
         }
@@ -154,8 +154,8 @@ class vmPageNav {
       $page = $this_page * $this->limit;
       $end_page = ($total_pages-1) * $this->limit;
       if( $link != '') {
-        $html .= "\n<li><a href=\"".vmRoute($link.'&limitstart='.$page)."\" class=\"pagenav\" title=\"".$VM_LANG->_('PN_NEXT')."\"> ".$VM_LANG->_('PN_NEXT')." &raquo;</a></li>";
-        $html .= "\n<li><a href=\"".vmRoute($link.'&limitstart='.$end_page)."\" class=\"pagenav\" title=\"".$VM_LANG->_('PN_END')."\"> ".$VM_LANG->_('PN_END')." &raquo;&raquo;</a></li>";
+        $html .= "\n<li><a href=\"".vmRoute($link.'&limit='.$this->limit.'&limitstart='.$page)."\" class=\"pagenav\" title=\"".$VM_LANG->_('PN_NEXT')."\"> ".$VM_LANG->_('PN_NEXT')." &raquo;</a></li>";
+        $html .= "\n<li><a href=\"".vmRoute($link.'&limit='.$this->limit.'&limitstart='.$end_page)."\" class=\"pagenav\" title=\"".$VM_LANG->_('PN_END')."\"> ".$VM_LANG->_('PN_END')." &raquo;&raquo;</a></li>";
       } else {
         $html .= "\n<li><a href=\"#next\" class=\"pagenav\" title=\"".$VM_LANG->_('PN_NEXT')."\" onclick=\"javascript: document.adminForm.limitstart.value=$page; document.adminForm.submit();return false;\"> ".$VM_LANG->_('PN_NEXT')." &raquo;</a></li>";
         $html .= "\n<li><a href=\"#end\" class=\"pagenav\" title=\"".$VM_LANG->_('PN_END')."\" onclick=\"javascript: document.adminForm.limitstart.value=$end_page; document.adminForm.submit();return false;\"> ".$VM_LANG->_('PN_END')." &raquo;&raquo;</a></li>";

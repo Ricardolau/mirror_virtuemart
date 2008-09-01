@@ -35,6 +35,16 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+01.09.2008 soeren
+# Task #2323 - VM Latests Products cannot add products
+# small fix to page navigation (http://forum.virtuemart.net/index.php?topic=36746.0)
+
+28.08.2008 soeren
+# Task #2314 - Add Item MISSING in 1.1.2 
+# Task #2319 - Missing Language Strings in Enquiry_email.tpl.php 
+# Task #2322 - VM Latests Products lose styling 
+# Task #2324 - Last product in stock and added to cart (saved cart) same time blocks the add to cart button 
+
 16.08.2008 gregdev
 + Added the ability to add manufacturer images. (Task #2316 - Ability to add manufacturer images)
 	###

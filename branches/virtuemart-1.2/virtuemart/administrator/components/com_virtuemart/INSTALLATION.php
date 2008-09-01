@@ -20,7 +20,7 @@ You shouldn't use these instructions, when you have downloaded the
 COMPLETE PACKAGE.
 
 You should only use this file, when you have 
-	* VirtueMart 1.0.x and want to upgrade to VirtueMart 1.1.x
+	* VirtueMart 1.1.x and want to upgrade to VirtueMart 1.2.x
 	* safe mode problems, so you can't use the component installer (Safe Mode = On ? Manual Installation is your saviour)
 	* problems installing the Component by uploading the contents of the component installer archive and installing from directory
 	

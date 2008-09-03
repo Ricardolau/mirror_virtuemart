@@ -47,21 +47,21 @@
 
 	<target name="admin_files" depends="setup">
 		<tar destfile="${dist.dir}/admin_files.tar.gz" longfile="gnu"
-			basedir="${svn.dir}" compression="gzip"
+			basedir="${svn.dir}/admin" compression="gzip"
 			includes="classes/** html/** languages/**/english.php sql/**"
 		/>
 	</target>
 
 	<target name="frontend_files" depends="setup">
 		<tar destfile="${dist.dir}/frontend_files.tar.gz" longfile="gnu"
-			basedir="${svn.dir}" compression="gzip"
-			includes="js/** css/** shop_image/** themes/** fetchscript.php virtuemart.php virtuemart_parser.php show_image_in_imgtag.php"
+			basedir="${svn.dir}/frontend" compression="gzip"
+			includes="**/*"
 			excludes="**/*.db"
 		/>
 	</target>
 
 	<target name="component" depends="admin_files,frontend_files">
-		<!-- Build the component for Joomla! 1.0.x and Mambo 4.x -->
+		<!-- Build the component for Joomla! 1.0.x -->
 		<zip destfile="${dist.dir}/component/com_virtuemart_${vm.version}.zip" comment="VirtueMart ${vm.version} Component Installation Package ${line.separator}for Joomla! 1.0.x and Mambo">
 			<fileset dir="${dist.dir}">
 				<include name="admin_files.tar.gz"/>
@@ -302,7 +302,7 @@
 	<!-- Language pack -->
 	<target name="languagepack" depends="setup">
 		<zip destfile="${dist.dir}/languagepack/Language_Pack_for_VirtueMart_${vm.version}.zip"
-			basedir="${svn.dir}"
+			basedir="${svn.dir}/admin"
 			includes="languages/**"
 			excludes="languages/**/english.php"
 		/>

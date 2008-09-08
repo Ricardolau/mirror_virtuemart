@@ -35,6 +35,24 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+07.09.2008 soeren
+# Task #2335 - mod_virtuemart_login.php contains unescaped ampersand characters
+# Task #2337 - Labels for the user fields 'title' and 'state' do not match the ids used on the select tags.
+# Task #2338 - Option values for dropdown lists allow unescaped HTML entities leading to XHTML validation errors.
+# Task #2339 - The vendor image requies the alt attribute for XHTML validation
+# Task #2340 - pageNavigation.class.php specifies nowrap="true" causing XHTML validation errors.
+# Task #2341 - writeSearchHeader function in htmlTools.class.php generates invalid HTML
+# Task #2342 - The dropdown list of downloadable filenames for a product should exclude system files such as .htaccess and index.html etc.
+# Task #2345 - Rogue double quote in basket_b2c.html.php
+# Task #2336 - HTML entities in product name are not always escaped leading to XHTML validation errors.
+# Task #2344 - XHTML validation errors in basket  
+# Task #2346 - Username and password login boxes require unique ids for XHTML validation
+# Task #2347 - XHTML validation errors in shop.downloads.php
+# Task #2348 - XHTML validation error with PayPal image
+
+02.09.2008 soeren
+# Task #2331 - search_date hidden field doesn't get a value in admin product listing on backend after date submit
+
 01.09.2008 soeren
 # Task #2323 - VM Latests Products cannot add products
 # small fix to page navigation (http://forum.virtuemart.net/index.php?topic=36746.0)

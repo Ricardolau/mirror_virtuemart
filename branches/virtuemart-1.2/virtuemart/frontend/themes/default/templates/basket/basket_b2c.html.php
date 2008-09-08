@@ -72,7 +72,7 @@ if($discount_after) { ?>
 <?php if ( $show_tax ) { ?>
   <tr class="sectiontableentry1">
         <td colspan="4" align="right" valign="top"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_TOTAL_TAX') ?>: </td> 
-        <td colspan="3" align="right""><?php echo $tax_display ?></td>
+        <td colspan="3" align="right"><?php echo $tax_display ?></td>
   </tr>
 <?php } ?>
   <tr>

@@ -22,7 +22,7 @@ $mainframe->setPageTitle( $VM_LANG->_('PHPSHOP_DOWNLOADS_TITLE') );
 if ($ps_function->userCanExecuteFunc('downloadRequest')) { ?>
 
 	<h3><?php echo $VM_LANG->_('PHPSHOP_DOWNLOADS_TITLE') ?></h3>
-    <img src="<?php echo VM_THEMEURL ?>images/downloads.gif" alt="downloads" border="0" align="center" />
+    <img src="<?php echo VM_THEMEURL ?>images/downloads.gif" alt="downloads" border="0" align="middle" />
     <br/>
     <br/>
     <?php
@@ -33,7 +33,7 @@ if ($ps_function->userCanExecuteFunc('downloadRequest')) { ?>
 		  	<div align="center">
 			    <input type="text" class="inputbox" value="<?php echo @$_GET['download_id'] ?>" size="32" name="download_id" />
 			    <br /><br />
-			    <input type="submit" onclick="if( document.downloadForm.download_id.value < 12) { alert('<?php echo $VM_LANG->_('CONTACT_FORM_NC',false) ?>');return false;} else return true;" class="button" value="<?php echo $VM_LANG->_('PHPSHOP_DOWNLOADS_START') ?>" />
+			    <input type="submit" onclick="if( document.downloadForm.download_id.value &lt; 12) { alert('<?php echo $VM_LANG->_('CONTACT_FORM_NC',false) ?>');return false;} else return true;" class="button" value="<?php echo $VM_LANG->_('PHPSHOP_DOWNLOADS_START') ?>" />
 			 </div>
 		    <input type="hidden" name="func" value="downloadRequest" />
 		    <input type="hidden" name="option" value="<?php echo VM_COMPONENT_NAME ?>" />

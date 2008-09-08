@@ -230,20 +230,22 @@ class listFactory {
 		if( defined( "_VM_IS_BACKEND") || @$_REQUEST['pshop_mode'] == "admin"  ) {
 			$header .= "<input type=\"hidden\" name=\"pshop_mode\" value=\"admin\" />\n";
 		}
-		$header .= '<table><tr><td>';
-        if( $title != "" ) {
-        	$style = ($image != '') ? 'style="background:url('.$image.') no-repeat;text-indent: 30px;line-height: 50px;"' : '';
-        	$header .= '<div class="header" '.$style.'><h2 style="margin: 0px;">'.$title.'</h2></div></td>'."\n";
-        	$GLOBALS['vm_mainframe']->setPageTitle( $title );
-        }
-        
-		if( !empty( $pagename )) 
-			$header .= '<td width="20%">
-			<input class="inputbox" type="text" size="25" name="keyword" value="'.shopMakeHtmlSafe($keyword).'" />
-			<input class="button" type="submit" name="search" value="'.$VM_LANG->_('PHPSHOP_SEARCH_TITLE').'" />
-			</td>';
+        if(( $title != "" ) || !empty( $pagename )) {
+			$header .= '<table><tr>';
+			if( $title != "" ) {
+				$style = ($image != '') ? 'style="background:url('.$image.') no-repeat;text-indent: 30px;line-height: 50px;"' : '';
+				$header .= '<td><div class="header" '.$style.'><h2 style="margin: 0px;">'.$title.'</h2></div></td>'."\n";
+				$GLOBALS['vm_mainframe']->setPageTitle( $title );
+			}
+		
+			if( !empty( $pagename ))
+				$header .= '<td width="20%">
+				<input class="inputbox" type="text" size="25" name="keyword" value="'.shopMakeHtmlSafe($keyword).'" />
+				<input class="button" type="submit" name="search" value="'.$VM_LANG->_('PHPSHOP_SEARCH_TITLE').'" />
+				</td>';
 			
-		$header .= "\n</tr></table><br style=\"clear:both;\" />\n";
+			$header .= "\n</tr></table><br style=\"clear:both;\" />\n";
+		}
 		
 		if ( !empty($search_date) ) // Changed search by date
 			$header .= '<input type="hidden" name="search_date" value="'.$search_date.'" />';

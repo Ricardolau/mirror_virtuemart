@@ -213,7 +213,7 @@ class ps_session {
 	 * The function is called on each page load.
 	 */
 	function prepare_SSL_Session() {
-		global $mainframe, $my, $database, $mosConfig_secret, $_VERSION, $page, $VM_MODULES_FORCE_HTTPS;
+		global $mainframe, $my, $database, $mosConfig_secret, $page, $VM_MODULES_FORCE_HTTPS;
 		if( vmIsAdminMode() && vmIsJoomla('1.0')) {
 			return;
 		}
@@ -250,7 +250,10 @@ class ps_session {
 				if( $this->check_Shared_SSL($ssl_domain)) {
 					$this->saveSessionAndRedirect( false );
 				}
-				vmRedirect( $this->url( URL.basename( $_SERVER['PHP_SELF']).'?'.vmGet($_SERVER,'QUERY_STRING').'&redirected=1', true, false, true ));
+				$query_string = vmGet($_SERVER,'QUERY_STRING');
+				if( !empty($query_string) && empty( $_POST )) {
+					vmRedirect( $this->url( URL.basename( $_SERVER['PHP_SELF']).'?'.vmGet($_SERVER,'QUERY_STRING').'&redirected=1', true, false, true ));
+				}
 			}
 		}
 		

@@ -394,6 +394,7 @@ $productArray = get_object_vars( $productData );
 $productArray["product_id"] = $product_id;
 $productArray["product_full_image"] = $product_full_image; // to display the full image on flypage
 $productArray["product_thumb_image"] = $product_thumb_image;
+$productArray["product_name"] = shopMakeHtmlSafe($productArray["product_name"]);
 
 $tpl->set( 'productArray', $productArray );
 foreach( $productArray as $property => $value ) {

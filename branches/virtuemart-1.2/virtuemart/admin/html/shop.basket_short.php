@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage html
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -96,7 +96,7 @@ else {
 			}
 		}
 		$minicart[$ci]['url'] = $url;
-		$minicart[$ci]['product_name'] = $ps_product->get_field($_SESSION['cart'][$i]["product_id"], "product_name");
+		$minicart[$ci]['product_name'] = shopMakeHtmlSafe($ps_product->get_field($_SESSION['cart'][$i]["product_id"], "product_name"));
 		$minicart[$ci]['quantity'] = $cart[$i]["quantity"];
 		$minicart[$ci]['price'] = $CURRENCY_DISPLAY->getFullValue( $subtotal );
 		$minicart[$ci]['attributes'] = $html;

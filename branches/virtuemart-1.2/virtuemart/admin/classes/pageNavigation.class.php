@@ -177,9 +177,9 @@ class vmPageNav {
       $html .= $this->getPagesLinks();
       $html .= '</th></tr>';
     }
-    $html .= '<tr><td nowrap="true" width="48%" align="right">'.$GLOBALS['VM_LANG']->_('PN_DISPLAY_NR').'</td>';
+    $html .= '<tr><td nowrap="nowrap" width="48%" align="right">'.$GLOBALS['VM_LANG']->_('PN_DISPLAY_NR').'</td>';
     $html .= '<td>' .$this->getLimitBox() . '</td>';
-    $html .= '<td nowrap="true" width="48%" align="left">' . $this->getPagesCounter() . '</td>';
+    $html .= '<td nowrap="nowrap" width="48%" align="left">' . $this->getPagesCounter() . '</td>';
     $html .= '</tr></table>';
   		return $html;
   }

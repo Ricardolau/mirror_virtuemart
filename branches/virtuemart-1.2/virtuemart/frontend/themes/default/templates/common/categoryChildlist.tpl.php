@@ -47,7 +47,7 @@ foreach( $categories as $category ) {
 	}
 }
 // Do we need a final closing row tag?
-if (sizeof( $categories ) < $categories_per_row) {
+if ($iCol != 1) {
 	echo "</tr>\n";
 }
 ?>

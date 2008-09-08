@@ -2720,6 +2720,7 @@ class ps_product extends vmAbstractObject {
                 if($recent[$k]['product_name']=="" && !empty($prod_id_p)) {
                     $recent[$k]['product_name'] = $dbp->f("product_name");
                 }
+                $recent[$k]['product_name'] = shopMakeHtmlSafe($recent[$k]['product_name']);
 				$recent[$k]['category_name'] = $db->f("category_name");
                 if($recent[$k]['category_name']=="" && !empty($prod_id_p)) {
                     $recent[$k]['category_name'] = $dbp->f("category_name");

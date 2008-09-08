@@ -169,17 +169,17 @@ else {
 
 	$search_string = '';
 	if ( $num_rows > 1 && @$_REQUEST['output'] != "pdf") {
-		if ( $num_rows > $limit  || $num_rows > 5 ) {
-			$search_string = $mm_action_url."index.php?option=com_virtuemart&amp;page=$modulename.browse&amp;category_id=$category_id&amp;keyword=".urlencode( $keyword )."&amp;manufacturer_id=$manufacturer_id&amp;Itemid=$Itemid";
-			$search_string .= !empty($orderby) ? "&amp;orderby=".urlencode($orderby) : "";
-
+		if ( $num_rows > 5 ) { // simplified logic
+			$search_string = $mm_action_url."index.php?option=com_virtuemart&amp;Itemid=$Itemid&amp;category_id=$category_id&amp;page=$modulename.browse";
+			$search_string .= empty($manufacturer_id) ? '' : "&amp;manufacturer_id=$manufacturer_id";
+			$search_string .= empty($keyword) ? '' : '&amp;keyword='.urlencode( $keyword );
 			if (!empty($keyword1)) {
 				$search_string.="&amp;keyword1=".urlencode($keyword1);
-				$search_string.="&amp;search_category=$search_category";
+				$search_string.="&amp;search_category=".urlencode($search_category);
 				$search_string.="&amp;search_limiter=$search_limiter";
 				if (!empty($keyword2)) {
 					$search_string.="&amp;keyword2=".urlencode($keyword2);
-					$search_string.="&amp;search_op=$search_op";
+					$search_string.="&amp;search_op=".urlencode($search_op);
 				}
 			}
 

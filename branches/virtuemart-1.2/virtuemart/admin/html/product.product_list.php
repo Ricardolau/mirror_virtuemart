@@ -405,7 +405,7 @@ $listObj->writeTable();
 
 $listObj->endTable();
 
-$listObj->writeFooter( $keyword,  "&product_parent_id=$product_parent_id&category_id=$category_id&product_type_id=$product_type_id&search_date$search_date");
+$listObj->writeFooter( $keyword,  "&product_parent_id=$product_parent_id&category_id=$category_id&product_type_id=$product_type_id&search_date=$search_date");
 
 $path = defined('_VM_IS_BACKEND' ) ? '/administrator/' : '/';
 ?>

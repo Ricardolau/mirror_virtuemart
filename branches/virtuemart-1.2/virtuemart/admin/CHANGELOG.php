@@ -35,6 +35,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+09.09.2008 soeren
+# Task #2352 - Delete cart button not correctly set or passed to short basket
+
 07.09.2008 soeren
 # Task #2335 - mod_virtuemart_login.php contains unescaped ampersand characters
 # Task #2337 - Labels for the user fields 'title' and 'state' do not match the ids used on the select tags.

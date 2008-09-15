@@ -3,7 +3,7 @@ if( ! defined( '_VALID_MOS' ) && ! defined( '_JEXEC' ) )
 	die( 'Direct Access to ' . basename( __FILE__ ) . ' is not allowed.' ) ;
 /**
  *
- * @version $Id$
+ * @version $Id: $
  * @author nfischer & kaltokri
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  *
@@ -565,51 +565,48 @@ class ps_order_change {
 			$order_status = $db->f( "order_status" ) ;
 			
 			$timestamp = time() + ($mosConfig_offset * 60 * 60) ;
-			
-			$q = "INSERT INTO #__{vm}_order_item " ;
-			$q .= "(order_id, user_info_id, vendor_id, product_id, order_item_sku, order_item_name, " ;
-			$q .= "product_quantity, product_item_price, product_final_price, " ;
-			$q .= "order_item_currency, order_status, product_attribute, cdate, mdate) " ;
-			$q .= "VALUES ('" ;
-			$q .= $this->order_id . "', '" ;
-			$q .= $user_info_id . "', '" ;
-			$q .= $vendor_id . "', '" ;
-			$q .= $product_id . "', '" ;
-			$q .= $product_sku . "', '" ;
-			$q .= $product_name . "', '" ;
-			$q .= $quantity . "', '" ;
-			$q .= $product_price . "', '" ;
-			$q .= $product_final_price . "', '" ;
-			$q .= $product_currency . "', '" ;
-			$q .= $order_status . "', '" ;
-			// added for advanced attribute storage
-			$q .= addslashes( $description ) . "', '" ;
-			// END advanced attribute modifications
-			$q .= $timestamp . "','" ;
-			$q .= $timestamp . "'" ;
-			$q .= ")" ;
-			
-			$db->query( $q ) ;
-			$db->next_record() ;
-			
-			$q = "SELECT product_id " ;
+			$q = "SELECT order_item_id, product_quantity " ;
 			$q .= "FROM #__{vm}_order_item WHERE order_id = '" . $this->order_id . "' " ;
-			$q .= "AND order_item_id = '" . addslashes( $order_item_id ) . "'" ;
+			$q .= "AND product_id = '" . $product_id . "' " ;
+			$q .= "AND product_attribute = '" . addslashes( $description) . "'" ;
 			$db->query( $q ) ;
-			$db->next_record() ;
+		
+			if ($db->next_record()) {
+				$this->change_item_quantity( $this->order_id, $db->f('order_item_id'), ($quantity + (int)$db->f('product_quantity')) );
+			} else {
 			
+				$q = "INSERT INTO #__{vm}_order_item " ;
+				$q .= "(order_id, user_info_id, vendor_id, product_id, order_item_sku, order_item_name, " ;
+				$q .= "product_quantity, product_item_price, product_final_price, " ;
+				$q .= "order_item_currency, order_status, product_attribute, cdate, mdate) " ;
+				$q .= "VALUES ('" ;
+				$q .= $this->order_id . "', '" ;
+				$q .= $user_info_id . "', '" ;
+				$q .= $vendor_id . "', '" ;
+				$q .= $product_id . "', '" ;
+				$q .= $product_sku . "', '" ;
+				$q .= $product_name . "', '" ;
+				$q .= $quantity . "', '" ;
+				$q .= $product_price . "', '" ;
+				$q .= $product_final_price . "', '" ;
+				$q .= $product_currency . "', '" ;
+				$q .= $order_status . "', '" ;
+				// added for advanced attribute storage
+				$q .= addslashes( $description ) . "', '" ;
+				// END advanced attribute modifications
+				$q .= $timestamp . "','" ;
+				$q .= $timestamp . "'" ;
+				$q .= ")" ;
+				
+				$db->query( $q ) ;
+				$db->next_record() ;
+			}
 			// Update Stock Level and Product Sales
 			$q = "UPDATE #__{vm}_product " ;
-			$q .= "SET product_in_stock = product_in_stock - " . $quantity ;
-			$q .= " WHERE product_id = '" . $product_id . "'" ;
-			$db->query( $q ) ;
-			$db->next_record() ;
-			
-			$q = "UPDATE #__{vm}_product " ;
-			$q .= "SET product_sales= product_sales + " . $quantity ;
+			$q .= "SET product_in_stock = product_in_stock - " . $quantity.",
+							product_sales= product_sales + " . $quantity ;
 			$q .= " WHERE product_id='" . $product_id . "'" ;
-			$db->query( $q ) ;
-			$db->next_record() ;
+			$db->query( $q );
 			
 			$this->recalc_order( $this->order_id ) ;
 			$this->reload_from_db = 1 ;

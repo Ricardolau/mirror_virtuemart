@@ -172,7 +172,7 @@ if ( $show_login_form == "yes" ) {
     if ($my->id) {
 		if( vmIsJoomla('1.5') ) {
 			// Logout URL
-			$action =  $mm_action_url . 'index.php?option=com_user&amp;task=logout';
+			$action =  $mm_action_url . 'index.php?option=com_user&task=logout';
 
 			// Logout return URL
 			$uri = JFactory::getURI();
@@ -213,10 +213,10 @@ if ( $show_login_form == "yes" ) {
 			$return = base64_encode( $url );
 			
 			// Lost password
-			$reset = JRoute::_( 'index.php?option=com_user&view=reset' );
+			$reset = JRoute::_( 'index.php?option=com_user&amp;view=reset' );
 
 			// User name reminder (Joomla 1.5 only)
-			$remind_url = JRoute::_( 'index.php?option=com_user&view=remind' );
+			$remind_url = JRoute::_( 'index.php?option=com_user&amp;view=remind' );
 		} else {
 			// Login URL
 			$action = $mm_action_url . 'index.php?option=login';
@@ -234,15 +234,15 @@ if ( $show_login_form == "yes" ) {
 		<tr>
 		  <td colspan="2" align="left" valign="top" style="margin: 0px; padding: 0px;">
 			<form action="<?php echo $action ?>" method="post" name="login" id="login">
-			<label for="username_field"><?php echo $VM_LANG->_('USERNAME') ?></label><br/>
-			<input class="inputbox" type="text" id="username_field" size="12" name="username" />
+			<label for="username_vm_login"><?php echo $VM_LANG->_('USERNAME') ?></label><br/>
+			<input class="inputbox" type="text" id="username_vm_login" size="12" name="username" />
 		  <br/>
-			<label for="password_field"><?php echo $VM_LANG->_('PASSWORD') ?></label><br/>
-			<input type="password" class="inputbox" id="password_field" size="12" name="passwd" />
+			<label for="password_vm_login"><?php echo $VM_LANG->_('PASSWORD') ?></label><br/>
+			<input type="password" class="inputbox" id="password_vm_login" size="12" name="passwd" />
 			<?php if( @VM_SHOW_REMEMBER_ME_BOX == '1' ) : ?>
 			<br />
-			<label for="remember_login"><?php echo $VM_LANG->_('REMEMBER_ME') ?></label>
-			<input type="checkbox" name="remember" id="remember_login" value="yes" checked="checked" />
+			<label for="remember_vm_login"><?php echo $VM_LANG->_('REMEMBER_ME') ?></label>
+			<input type="checkbox" name="remember" id="remember_vm_login" value="yes" checked="checked" />
 			<?php else : ?>
 			<br />
 			<input type="hidden" name="remember" value="yes" />

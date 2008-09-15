@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage html
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -34,7 +34,8 @@ $mainframe->appendPathWay( $VM_LANG->_('PHPSHOP_ADVANCED_SEARCH') );
 <!-- body starts here -->
 <br />
 
-	<form action="<?php echo URL ?>index.php" method="post" name="adv_search">
+	<form action="<?php echo URL ?>index.php" method="get" name="adv_search" onsubmit="var p=new RegExp('(.*?),',['i']);var m=p.exec(this.search_category.value);if(m.length>0){this.category_id.value=m[1];}return true;">
+	<input type="hidden" name="category_id" value="" />
 	<input type="hidden" name="page" value="shop.browse" />
 	<input type="hidden" name="option" value="com_virtuemart" />
 	<input type="hidden" name="Itemid" value="<?php echo $sess->getShopItemid() ?>" />

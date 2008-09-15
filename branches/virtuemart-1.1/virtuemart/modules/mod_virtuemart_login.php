@@ -45,10 +45,10 @@ if( vmIsJoomla('1.5') ) {
 		$redirect = $params->get('login');
 		
 		// Lost password
-		$reset_url = JRoute::_( 'index.php?option=com_user&view=reset' );
+		$reset_url = JRoute::_( 'index.php?option=com_user&amp;view=reset' );
 		
 		// User name reminder (Joomla 1.5 only)
-		$remind_url = JRoute::_( 'index.php?option=com_user&view=remind' );
+		$remind_url = JRoute::_( 'index.php?option=com_user&amp;view=remind' );
 		
 		// Set the validation value
 		$validate = JUtility::getToken();
@@ -78,7 +78,7 @@ if( vmIsJoomla('1.5') ) {
 		$url = $uri->toString();
 	} elseif( $redirect == 'vmhome' ) {
 		// The VirtueMart home page
-		$url = JRoute::_( 'index.php?option=com_virtuemart&page='.HOMEPAGE.'&Itemid='.$sess->getShopItemid(), false );
+		$url = JRoute::_( 'index.php?option=com_virtuemart&amp;page='.HOMEPAGE.'&amp;Itemid='.$sess->getShopItemid(), false );
 	} else {
 		// The same page
 		$uri = JFactory::getURI();
@@ -167,15 +167,15 @@ $registration_url = $sess->url( SECUREURL.'index.php?option=com_virtuemart&amp;p
 		<?php echo $params->get('pretext'); ?>
 		<br />
 		<?php endif; ?>
-		<label for="username_field"><?php echo $VM_LANG->_('USERNAME') ?></label><br/>
-		<input class="inputbox" type="text" id="username_field" size="12" name="username" />
+		<label for="username_vmlogin"><?php echo $VM_LANG->_('USERNAME') ?></label><br/>
+		<input class="inputbox" type="text" id="username_vmlogin" size="12" name="username" />
 		<br />
-		<label for="password_field"><?php echo $VM_LANG->_('PASSWORD') ?></label><br/>
-		<input type="password" class="inputbox" id="password_field" size="12" name="passwd" />
+		<label for="password_vmlogin"><?php echo $VM_LANG->_('PASSWORD') ?></label><br/>
+		<input type="password" class="inputbox" id="password_vmlogin" size="12" name="passwd" />
 		<?php if( @VM_SHOW_REMEMBER_ME_BOX == '1' ) : ?>
 		<br />
-		<label for="remember_login"><?php echo $VM_LANG->_('REMEMBER_ME') ?></label>
-		<input type="checkbox" name="remember" id="remember_login" value="yes" checked="checked" />
+		<label for="remember_vmlogin"><?php echo $VM_LANG->_('REMEMBER_ME') ?></label>
+		<input type="checkbox" name="remember" id="remember_vmlogin" value="yes" checked="checked" />
 		<?php else : ?>
 		<br />
 		<input type="hidden" name="remember" value="yes" />

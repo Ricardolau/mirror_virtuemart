@@ -310,10 +310,10 @@ class ps_module {
 	 */
 	function list_classes( $name, $preselected ) {
 		global $mosConfig_absolute_path;
-		$classes = vmReadDirectory( CLASSPATH, '.', false, true );
+		$classes = vmReadDirectory( CLASSPATH, '\.php$', false, true );
 		$array = array();
 		foreach ($classes as $class ) {
-			if( is_dir( $class ) ) continue;
+			if( is_dir( $class ) || $class[0] == '.' ) continue;
 			$classname = basename( $class, '.php' );
 			if( $classname != 'ps_main' && $classname != 'ps_ini' ) {
 				$array[$classname] = $classname;

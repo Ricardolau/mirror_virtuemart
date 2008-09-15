@@ -365,7 +365,7 @@ class ps_userfield extends vmAbstractObject {
 	      	 */
 	   		switch( $field->name ) {
 	   			case 'title':
-	   				$ps_html->list_user_title($db->sf('title'), "id=\"user_title\"");
+	   				$ps_html->list_user_title($db->sf('title'), "id=\"title_field\"");
 	   				break;
 	   			
 	   			case 'country':
@@ -381,7 +381,7 @@ class ps_userfield extends vmAbstractObject {
 	   			case 'state':
 	   				echo $ps_html->dynamic_state_lists( "country", "state", $db->sf('country'), $db->sf('state') );
 				    echo "<noscript>\n";
-				    $ps_html->list_states("state", $db->sf('state'), "", "id=\"state\"");
+				    $ps_html->list_states("state", $db->sf('state'), "", "id=\"state_field\"");
 				    echo "</noscript>\n";
 	   				break;
 				case 'agreed':

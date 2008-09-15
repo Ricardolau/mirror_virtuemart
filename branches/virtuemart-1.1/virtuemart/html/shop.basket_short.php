@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage html
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -96,7 +96,7 @@ else {
 			}
 		}
 		$minicart[$ci]['url'] = $url;
-		$minicart[$ci]['product_name'] = $ps_product->get_field($_SESSION['cart'][$i]["product_id"], "product_name");
+		$minicart[$ci]['product_name'] = shopMakeHtmlSafe($ps_product->get_field($_SESSION['cart'][$i]["product_id"], "product_name"));
 		$minicart[$ci]['quantity'] = $cart[$i]["quantity"];
 		$minicart[$ci]['price'] = $CURRENCY_DISPLAY->getFullValue( $subtotal );
 		$minicart[$ci]['attributes'] = $html;
@@ -128,17 +128,17 @@ if(!$empty_cart) {
 	$total_price = $CURRENCY_DISPLAY->getFullValue( $total );
 }
 // Display clear cart
+$delete_cart = '';
 if(@$_SESSION['vmEnableEmptyCart'] && !@$_SESSION['vmMiniCart']) {
 	// Output the empty cart button
 	//echo vmCommonHTML::scriptTag( $mosConfig_live_site.'/components/'.$option.'/js/wz_tooltip.js' );
-	$delete_cart = "<a href=\"".$_SERVER['PHP_SELF'] . "?page=shop.cart_reset&option=com_virtuemart&option2=$option&product_id=$prodid&category_id=$catid&return=$page&flypage=$flypage&Itemid=$Itemid\" title=\"". $VM_LANG->_('PHPSHOP_EMPTY_YOUR_CART') ." \">
-					<img src=\"". $mosConfig_live_site ."/images/cancel_f2.png\" width=\"12\"border=\"0\" style=\"float: right;vertical-align: middle;\"   alt=\"". $VM_LANG->_('PHPSHOP_EMPTY_YOUR_CART') ." \" />
+	$delete_cart = "<a href=\"".$_SERVER['SCRIPT_NAME'] . "?page=shop.cart_reset&amp;option=com_virtuemart&amp;option2=$option&amp;product_id=$prodid&amp;category_id=$catid&amp;return=$page&amp;flypage=$flypage&amp;Itemid=$Itemid\" title=\"". $VM_LANG->_('PHPSHOP_EMPTY_YOUR_CART') ." \">
+					<img src=\"". $mosConfig_live_site ."/images/cancel_f2.png\" width=\"12\" border=\"0\" style=\"float: right;vertical-align: middle;\" alt=\"". $VM_LANG->_('PHPSHOP_EMPTY_YOUR_CART') ." \" />
       </a>"; 
-	$html1 = vmToolTip($VM_LANG->_('VM_EMPTY_YOUR_CART_TIP'), $VM_LANG->_('PHPSHOP_EMPTY_YOUR_CART'),'','',$empty_cart,true);
+	$html1 = vmToolTip($VM_LANG->_('VM_EMPTY_YOUR_CART_TIP'), $VM_LANG->_('PHPSHOP_EMPTY_YOUR_CART'),'','',$delete_cart,true);
 	$delete_cart = $html1;
-	//echo $empty_cart;
-}
 
+}
 
 $href = $sess->url($mm_action_url."index.php?page=shop.cart");
 $href2 = $sess->url($mm_action_url."index2.php?page=shop.cart", true);
@@ -152,6 +152,7 @@ else {
 
 $tpl->set('minicart',$minicart);
 $tpl->set('empty_cart', $empty_cart);
+$tpl->set('delete_cart', $delete_cart);
 $tpl->set('vmMinicart', @$_SESSION['vmMiniCart']);
 $tpl->set('total_products', @$total_products);
 $tpl->set('total_price', @$total_price);

@@ -10,7 +10,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id: basket.php 774 2007-03-16 12:09:11 +0000 (Fri, 16 Mar 2007) soeren_nb $
 * @package VirtueMart
 * @subpackage html
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -76,7 +76,7 @@ else {
 		}
 
 		$product_rows[$i]['product_name'] = "<a href=\"$url\"><strong>"
-		. $ps_product->get_field($cart[$i]["product_id"], "product_name")
+		. shopMakeHtmlSafe($ps_product->get_field($cart[$i]["product_id"], "product_name"))
 		. "</strong></a><br />"
 		. $ps_product->getDescriptionWithTax( $cart[$i]["description"], $cart[$i]["product_id"] );
 
@@ -129,7 +129,7 @@ else {
 			}
 		}
 
-		/* UPDATE SAVED CART / DELETE FROM SAVED CART */
+		// UPDATE SAVED CART / DELETE FROM SAVED CART
 		$action_url = $mm_action_url.basename($_SERVER['PHP_SELF']);
 		$product_rows[$i]['update_form'] = '<form action="'. $action_url .'" method="post" style="display: inline;">
 		<input type="hidden" name="option" value="com_virtuemart" />
@@ -140,7 +140,7 @@ else {
     <input type="hidden" name="prod_id" value="'. $cart[$i]["product_id"] .'" />
     <input type="hidden" name="Itemid" value="'. $sess->getShopItemid() .'" />
     <input type="hidden" name="description" value="'. stripslashes($cart[$i]["description"]).'" />
-    <input type="image" name="update" title="'. $VM_LANG->_('PHPSHOP_CART_UPDATE') .'" src="'. VM_THEMEURL .'images/update_quantity_cart.png" border="0"  alt="'. $VM_LANG->_('PHPSHOP_UPDATE') .'" align="absmiddle" />
+    <input type="image" name="update" title="'. $VM_LANG->_('PHPSHOP_CART_UPDATE') .'" src="'. VM_THEMEURL .'images/update_quantity_cart.png" alt="'. $VM_LANG->_('PHPSHOP_UPDATE') .'" align="middle" />
   </form>';
 		$product_rows[$i]['delete_form'] = '<form action="'.$action_url.'" method="post" name="delete" style="display: inline;">
     <input type="hidden" name="option" value="com_virtuemart" />
@@ -149,7 +149,7 @@ else {
     <input type="hidden" name="func" value="savedCartDelete" />
     <input type="hidden" name="product_id" value="'. $cart[$i]["product_id"] .'" />
     <input type="hidden" name="description" value="'. $cart[$i]["description"].'" />
-  	<input type="image" name="delete" title="'. $VM_LANG->_('PHPSHOP_CART_DELETE') .'" src="'. VM_THEMEURL .'images/remove_from_cart.png" border="0" alt="'. $VM_LANG->_('PHPSHOP_CART_DELETE') .'" align="absmiddle" />
+  	<input type="image" name="delete" title="'. $VM_LANG->_('PHPSHOP_CART_DELETE') .'" src="'. VM_THEMEURL .'images/remove_from_cart.png" alt="'. $VM_LANG->_('PHPSHOP_CART_DELETE') .'" align="middle" />
   </form>';
 	} // End of for loop through the Cart
 

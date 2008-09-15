@@ -140,54 +140,6 @@ else {
 	** END: FRONTEND ADMIN - MOD
 	*****************************/
 
-	/*****************************
-	** BEGIN affiliate additions
-	** by nhyde <nhyde@bigDrift.com> for phpShop v0.6.1
-	*/
-	if (AFFILIATE_ENABLE == '1') {
-		$unset_affiliate = false;
-		if (!isset($ps_affiliate)) {
-			global $ps_affiliate;
-			include_class ( 'affiliate' );
-			$unset_affiliate = true;
-		}
-
-		//keep tracking the affiliate
-		if(isset($_SESSION['afid'])){
-			$ps_affiliate->visit_update();
-		}
-
-		//register the affiliated visit but only if the
-		// aid is in our database and it is active.
-		else{
-			//set the affiliate_id = 0 to log any visitors that are not affiliate visitors
-			$aff_details = $ps_affiliate->get_affiliate_details($auth['user_id']);
-			$affiliate_id = $aff_details['id'];
-
-
-			//the logout function may have wiped out the session so search the database
-			//and re-register it.
-			$q = "SELECT visit_id FROM #__{vm}_visit WHERE visit_id = '".session_id()."'";
-			$db->query($q);
-
-			if($db->next_record()){
-				$ps_affiliate->visit_update();
-			}
-
-			else {
-
-				$ps_affiliate->visit_register();
-			}
-		}
-		if (isset($affiliate_id)) {
-			$_SESSION['afid'] = $affiliate_id;
-			$GLOBALS['afid'] = $affiliate_id;
-		}
-	}
-	/**
-      *    END added for affiliate module
-      ****************************/
-
 	// Here is the most important part of the whole Shop:
 	// LOADING the requested page for displaying it to the customer.
         // I have wrapped it with a function, because it becomes

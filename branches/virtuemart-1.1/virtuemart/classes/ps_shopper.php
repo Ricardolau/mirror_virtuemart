@@ -319,8 +319,9 @@ class ps_shopper {
 						return false;
 					}
 				}
-				$database->setQuery( "SELECT id FROM #__users WHERE username='".$d['username']."'" );
-				$uid = $database->loadResult();
+				$db->query("SELECT id FROM #__users WHERE username='".$d['username']."'");
+				$db->next_record();
+				$uid = $db->f('id');
  			}
 			
 			

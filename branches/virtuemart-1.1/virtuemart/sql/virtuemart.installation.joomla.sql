@@ -8,37 +8,6 @@
 
 ## --------------------------------------------------------
 
-## 
-## Table structure for table `jos_vm_affiliate`
-## 
-
-CREATE TABLE IF NOT EXISTS `jos_vm_affiliate` (
-  `affiliate_id` int(11) NOT NULL auto_increment,
-  `user_id` int(11) NOT NULL default '0',
-  `active` char(1) NOT NULL default 'N',
-  `rate` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`affiliate_id`)
-) TYPE=MyISAM COMMENT='Used to store affiliate user entries';
-
-## 
-## Dumping data for table `jos_vm_affiliate`
-## 
-
-
-## --------------------------------------------------------
-
-## 
-## Table structure for table `jos_vm_affiliate_sale`
-## 
-
-CREATE TABLE IF NOT EXISTS `jos_vm_affiliate_sale` (
-  `order_id` int(11) NOT NULL default '0',
-  `visit_id` varchar(32) NOT NULL default '',
-  `affiliate_id` int(11) NOT NULL default '0',
-  `rate` int(2) NOT NULL default '0',
-  PRIMARY KEY  (`order_id`)
-) TYPE=MyISAM COMMENT='Stores orders that affiliates have placed';
-
 # 08.11.2006 Allowing new user groups
 CREATE TABLE `jos_vm_auth_group` (
 	  `group_id` int(11) NOT NULL auto_increment,
@@ -763,10 +732,6 @@ INSERT INTO `jos_vm_function` VALUES (1, 1, 'userAdd', 'ps_user', 'add', '', 'ad
 (121, 12839, 'rateDelete', 'ps_shipping', 'rate_delete', '', 'admin,storeadmin'),
 (122, 10, 'checkoutProcess', 'ps_checkout', 'process', '', 'none'),
 (123, 5, 'downloadRequest', 'ps_order', 'download_request', 'This checks if the download request is valid and sends the file to the browser as file download if the request was successful, otherwise echoes an error', 'none'),
-(124, 98, 'affiliateAdd', 'ps_affiliate', 'add', '', 'admin,storeadmin'),
-(125, 98, 'affiliateUpdate', 'ps_affiliate', 'update', '', 'admin,storeadmin'),
-(126, 98, 'affiliateDelete', 'ps_affiliate', 'delete', '', 'admin,storeadmin'),
-(127, 98, 'affiliateEmail', 'ps_affiliate', 'email', '', 'admin,storeadmin'),
 (128, 99, 'manufacturerAdd', 'ps_manufacturer', 'add', '', 'admin,storeadmin'),
 (129, 99, 'manufacturerUpdate', 'ps_manufacturer', 'update', '', 'admin,storeadmin'),
 (130, 99, 'manufacturerDelete', 'ps_manufacturer', 'delete', '', 'admin,storeadmin'),
@@ -911,7 +876,6 @@ INSERT INTO `jos_vm_module` VALUES (1, 'admin', '<h4>ADMINISTRATIVE USERS ONLY</
 (12, 'reportbasic', 'The report basic module allows you to do queries on all orders.', 'admin,storeadmin', 'Y', 7),
 (13, 'zone', 'This is the zone-shipping module. Here you can manage your shipping costs according to Zones.', 'admin,storeadmin', 'N', 9),
 (12839, 'shipping', '<h4>Shipping</h4><p>Let this module calculate the shipping fees for your customers.<br>Create carriers for shipping areas and weight groups.</p>', 'admin,storeadmin', 'Y', 10),
-(98, 'affiliate', 'administrate the affiliates on your store.', 'storeadmin,admin', 'N', 99),
 (99, 'manufacturer', 'Manage the manufacturers of products in your store.', 'storeadmin,admin', 'Y', 12),
 (12842, 'help', 'Help Module', 'admin,storeadmin', 'Y', 13),
 (12843, 'coupon', 'Coupon Management', 'admin,storeadmin', 'Y', 11);
@@ -2332,28 +2296,6 @@ CREATE TABLE IF NOT EXISTS `jos_vm_vendor_category` (
 ## 
 
 INSERT INTO `jos_vm_vendor_category` VALUES (6, '-default-', 'Default');
-
-## --------------------------------------------------------
-
-## 
-## Table structure for table `jos_vm_visit`
-## 
-
-CREATE TABLE IF NOT EXISTS `jos_vm_visit` (
-  `visit_id` varchar(255) NOT NULL default '',
-  `affiliate_id` int(11) NOT NULL default '0',
-  `pages` int(11) NOT NULL default '0',
-  `entry_page` varchar(255) NOT NULL default '',
-  `exit_page` varchar(255) NOT NULL default '',
-  `sdate` int(11) NOT NULL default '0',
-  `edate` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`visit_id`)
-) TYPE=MyISAM COMMENT='Records the visit of an affiliate';
-
-## 
-## Dumping data for table `jos_vm_visit`
-## 
-
 
 ## --------------------------------------------------------
 

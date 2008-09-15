@@ -59,7 +59,7 @@ class ps_html {
 					$selected = "selected=\"selected\"";
 				}
 			}
-			$html .= "<option value=\"$key\" $selected>$val";
+			$html .= "<option value=\"$key\" $selected>".shopMakeHtmlSafe($val);
 			$html .= "</option>\n";
 		}
 

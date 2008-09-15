@@ -76,7 +76,7 @@ else {
 		}
 
 		$product_rows[$i]['product_name'] = "<a href=\"$url\"><strong>"
-		. $ps_product->get_field($_SESSION['cart'][$i]["product_id"], "product_name")
+		. shopMakeHtmlSafe($ps_product->get_field($_SESSION['cart'][$i]["product_id"], "product_name"))
 		. "</strong></a><br />"
 		. $ps_product->getDescriptionWithTax( $_SESSION['cart'][$i]["description"], $_SESSION['cart'][$i]["product_id"] );
 
@@ -129,7 +129,7 @@ else {
 			}
 		}
 
-		/* UPDATE CART / DELETE FROM CART */
+		// UPDATE CART / DELETE FROM CART 
 		$action_url = $mm_action_url.basename($_SERVER['PHP_SELF']);
 		$product_rows[$i]['update_form'] = '<form action="'. $action_url .'" method="post" style="display: inline;">
 		<input type="hidden" name="option" value="com_virtuemart" />
@@ -140,7 +140,7 @@ else {
     <input type="hidden" name="prod_id" value="'. $_SESSION['cart'][$i]["product_id"] .'" />
     <input type="hidden" name="Itemid" value="'. $sess->getShopItemid() .'" />
     <input type="hidden" name="description" value="'. stripslashes($cart[$i]["description"]).'" />
-    <input type="image" name="update" title="'. $VM_LANG->_('PHPSHOP_CART_UPDATE') .'" src="'. VM_THEMEURL .'images/update_quantity_cart.png" border="0"  alt="'. $VM_LANG->_('PHPSHOP_UPDATE') .'" align="absmiddle" />
+    <input type="image" name="update" title="'. $VM_LANG->_('PHPSHOP_CART_UPDATE') .'" src="'. VM_THEMEURL .'images/update_quantity_cart.png" alt="'. $VM_LANG->_('PHPSHOP_UPDATE') .'" align="middle" />
   </form>';
 		$product_rows[$i]['delete_form'] = '<form action="'.$action_url.'" method="post" name="delete" style="display: inline;">
     <input type="hidden" name="option" value="com_virtuemart" />
@@ -149,7 +149,7 @@ else {
     <input type="hidden" name="func" value="cartDelete" />
     <input type="hidden" name="product_id" value="'. $_SESSION['cart'][$i]["product_id"] .'" />
     <input type="hidden" name="description" value="'. $cart[$i]["description"].'" />
-  	<input type="image" name="delete" title="'. $VM_LANG->_('PHPSHOP_CART_DELETE') .'" src="'. VM_THEMEURL .'images/remove_from_cart.png" border="0" alt="'. $VM_LANG->_('PHPSHOP_CART_DELETE') .'" align="absmiddle" />
+  	<input type="image" name="delete" title="'. $VM_LANG->_('PHPSHOP_CART_DELETE') .'" src="'. VM_THEMEURL .'images/remove_from_cart.png" alt="'. $VM_LANG->_('PHPSHOP_CART_DELETE') .'" align="middle" />
   </form>';
 	} // End of for loop through the Cart
 	

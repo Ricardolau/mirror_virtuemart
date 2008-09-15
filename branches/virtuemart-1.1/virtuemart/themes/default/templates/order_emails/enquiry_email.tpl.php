@@ -39,8 +39,8 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
         </tr>
         <tr>
             <td colspan="2">
-                <?php echo $contact_name . " " . $VM_LANG->_('VM_ENQUIRY_MAIL_HAS_REQUESTED'); ?> 
-                <a href="<?php echo $product_url ?>" title="<?php echo $product_name ?>"><?php echo $product_name ?></a>&nbsp;<?php echo $VM_LANG->_('VM_ENQUIRY_MAIL_PRODUCT_SKU');?>&nbsp;<?php echo $product_sku ?>
+                <?php echo $contact_name . " " . $VM_LANG->_('VM_ENQUIRY_MAIL_HAS_REQUESTED') ?>
+                <a href="<?php echo $product_url ?>" title="<?php echo $product_name ?>"><?php echo $product_name ?></a>&nbsp;(<?php echo $VM_LANG->_('VM_ENQUIRY_MAIL_PRODUCT_SKU') ?>:&nbsp;<?php echo $product_sku ?>)
             </td>
         </tr>
         <tr>
@@ -51,7 +51,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
                 <?php echo $product_s_description ?>  
             </td>
         </tr>
-        
+        <tr><td>&nbsp;</td></tr>
         <tr align="left" bgcolor="#CCCCCC">
             <td class="Stil2" colspan="2">
                 <b><?php echo $VM_LANG->_('VM_ENQUIRY_MAIL_QUESTION');?></b>
@@ -65,7 +65,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
         </tr>
         <tr>
             <td colspan="2">
-                <a href="mailto:<?php echo $contact_email ?>"><?php echo $contact_email ?></a>
+                <?php echo $contact_name ?>, <a href="mailto:<?php echo $contact_email ?> "><?php echo $contact_email ?></a>
             </td>
         </tr>
     </table>

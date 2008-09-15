@@ -35,6 +35,12 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+12.09.2008 soeren
+# Task #2357 - handleAddToCart doesn't always update all mini carts or always close notification popup 
+# Task #2364 - Adding new function shows VM menu
+# Task #2365 - Missing br close tag in shop.savedcart.tpl.php prevents XHTML validation
+# Tasks #2327 and #2358 -  Failed to retrieve valid user id on regististration page.
+ 
 09.09.2008 soeren
 # Task #2352 - Delete cart button not correctly set or passed to short basket
 

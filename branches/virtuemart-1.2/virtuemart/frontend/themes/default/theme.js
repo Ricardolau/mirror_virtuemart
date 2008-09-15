@@ -29,6 +29,12 @@ function handleAddToCart( formId, parameters ) {
 	
 	var callback = function(responseText) {
 		updateMiniCarts();
+		// close an existing mooPrompt box first, before attempting to create a new one (thanks wellsie!)
+		if (document.boxB) {
+			document.boxB.close();
+			clearTimeout(timeoutID);
+		}
+
 		document.boxB = new MooPrompt(notice_lbl, responseText, {
 				buttons: 2,
 				width:400,
@@ -63,36 +69,39 @@ function updateMiniCarts() {
 	var callbackCart = function(responseText) {
 		carts = $$( '.vmCartModule' );
 		if( carts ) {
-			try { 
+			try {
 				for (var i=0; i<carts.length; i++){
 					carts[i].innerHTML = responseText;
-					color = carts[i].getStyle( 'color' );
-					bgcolor = carts[i].getStyle( 'background-color' );
-					if( bgcolor == 'transparent' ) {
-						// If the current element has no background color, it is transparent.
-						// We can't make a highlight without knowing about the real background color,
-						// so let's loop up to the next parent that has a BG Color
-						parent = carts[i].getParent();
-						while( parent && bgcolor == 'transparent' ) {
-							bgcolor = parent.getStyle( 'background-color' );
-							parent = parent.getParent();
+		
+					try {
+						color = carts[i].getStyle( 'color' );
+						bgcolor = carts[i].getStyle( 'background-color' );
+						if( bgcolor == 'transparent' ) {
+							// If the current element has no background color, it is transparent.
+							// We can't make a highlight without knowing about the real background color,
+							// so let's loop up to the next parent that has a BG Color
+							parent = carts[i].getParent();
+							while( parent && bgcolor == 'transparent' ) {
+								bgcolor = parent.getStyle( 'background-color' );
+								parent = parent.getParent();
+							}
 						}
-					}
-					var fxc = new Fx.Style(carts[i], 'color', {duration: 1000});
-					var fxbgc = new Fx.Style(carts[i], 'background-color', {duration: 1000});
+						var fxc = new Fx.Style(carts[i], 'color', {duration: 1000});
+						var fxbgc = new Fx.Style(carts[i], 'background-color', {duration: 1000});
 
-					fxc.start( '#222', color );							
-					fxbgc.start( '#fff68f', bgcolor );
-					if( parent ) {
-						setTimeout( "carts[" + i + "].setStyle( 'background-color', 'transparent' )", 1000 );
-					}
+						fxc.start( '#222', color );				
+						fxbgc.start( '#fff68f', bgcolor );
+						if( parent ) {
+							setTimeout( "carts[" + i + "].setStyle( 'background-color', 'transparent' )", 1000 );
+						}
+					} catch(e) {}
 				}
 			} catch(e) {}
 		}
 	}
 	option = { method: 'post', onComplete: callbackCart, data: { only_page:1,page: "shop.basket_short", option: "com_virtuemart" } }
 	new Ajax( live_site + '/index2.php', option).request();
-}
+} 
 /**
 * This function allows you to present contents of a URL in a really nice stylish dhtml Window
 * It uses the WindowJS, so make sure you have called

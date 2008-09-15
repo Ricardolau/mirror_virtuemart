@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -25,7 +25,7 @@ switch( $task ) {
 		$class = vmGet( $_REQUEST, 'class', 'ps_product' );
 		$classfile = basename( $class ).'.php';
 		$function = vmGet( $_REQUEST, 'function' );
-		
+		$method_array = array();
 		if( file_exists(CLASSPATH. $classfile )) {
 			require_once( CLASSPATH.$classfile);
 			$class = str_replace( '.class', '', $class );
@@ -34,14 +34,13 @@ switch( $task ) {
 			if( empty( $methods )) {
 				$methods = get_class_methods( 'vm'.$class );	
 			}
-			$method_array = array();
 			foreach( $methods as $method ) {
 				if( $method == $class ) continue;
 				$method_array[$method] = $method;
 			}
-			vmConnector::sendHeaderAndContent( 200, ps_html::selectList( 'function_method', $function, $method_array ) );
 			
 		}
+		vmConnector::sendHeaderAndContent( 200, ps_html::selectList( 'function_method', $function, $method_array ) );
 		break;
 	case 'checkforupdate':
 		require_once( CLASSPATH.'update.class.php');

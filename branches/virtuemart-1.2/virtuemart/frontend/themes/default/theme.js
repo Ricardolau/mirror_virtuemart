@@ -45,7 +45,7 @@ function handleAddToCart( formId, parameters ) {
 				onButton2: 	handleGoToCart
 			});
 			
-		setTimeout( 'document.boxB.close()', 3000 );
+		timeoutID = setTimeout( 'document.boxB.close()', 3000 );
 	}
 	
 	var opt = {

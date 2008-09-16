@@ -286,22 +286,18 @@ if ($num_rows > 0) {
 		
 		$link = $_SERVER['PHP_SELF'] . "?page=$modulename.product_form&limitstart=$limitstart&keyword=".urlencode($keyword) . 
 						"&product_id=" . $db->f("product_id")."&product_parent_id=".$product_parent_id;
-		if( $vmLayout != 'standard' ) {
-			$link .= "&no_menu=1&tmpl=component";
-			$link = defined('_VM_IS_BACKEND') 
-							? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link )) 
-							: str_replace('index.php', 'index2.php', $link );
-		}
+		
+		$link .= "&no_menu=1&tmpl=component";
+		$link = defined('_VM_IS_BACKEND') 
+						? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link )) 
+						: str_replace('index.php', 'index2.php', $link );
+		
 		$link = $sess->url( $link );
 		$text = shopMakeHtmlSafe($db->f("product_name"));
 
 		// The link to the product form / to the child products
-		if( $vmLayout == 'standard') {
-			$tmpcell = vmCommonHTML::hyperLink( $link, $text, '', 'Edit: '.$text );
-		} else {
-			$tmpcell = vmCommonHTML::hyperLink($link, $text, '', 'Edit: '.$text, 'onclick="parent.addSimplePanel( \''.$db->getEscaped($db->f("product_name")).'\', \''.$link.'\' );return false;"');
-		}
-		
+		$tmpcell = vmCommonHTML::hyperLink($link, $text, '', 'Edit: '.$text, 'onclick="parent.addSimplePanel( \''.$db->getEscaped($db->f("product_name")).'\', \''.$link.'\' );return false;"');
+				
 		if( $ps_product->parent_has_children( $db->f("product_id") ) ) {
 			$tmpcell .= "&nbsp;&nbsp;&nbsp;<a href=\"";
 			$tmpcell .= $sess->url($_SERVER['PHP_SELF'] . "?page=$modulename.product_list&product_parent_id=" . $db->f("product_id"));

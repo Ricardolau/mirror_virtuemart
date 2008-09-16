@@ -2,7 +2,7 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 /**
 *
-* @version $Id
+* @version $Id$
 * @package VirtueMart
 * @subpackage core
 * @copyright	Copyright (C) 2008 Greg Perkins. All rights reserved.
@@ -18,6 +18,9 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 
 // Added the ability to add manufacturer images
-$db->query( "ALTER TABLE `jos_vm_manufacturer` ADD `mf_thumb_image` VARCHAR( 255 ) default NULL ,
-ADD `mf_full_image` VARCHAR( 255 ) default NULL ;");
+$db->query( "ALTER TABLE `#__{vm}_manufacturer` ADD `mf_thumb_image` VARCHAR( 255 ) default NULL ,
+ADD `mf_full_image` VARCHAR( 255 ) default NULL");
+
+# define modules as administrator-relevant or not
+$db->query( "ALTER TABLE `#__{vm}_module` ADD `is_admin` ENUM( '0', '1' ) NOT NULL AFTER `module_publish`");
 

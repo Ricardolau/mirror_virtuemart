@@ -57,9 +57,7 @@ ps_userfield::listUserFields( $fields, array(), $db, false );
 <?php else : ?>
 	<input type="hidden" name="func" value="userAddressAdd" />
 <?php endif; ?>
-<?php if( $vmLayout == 'extended' ) : ?>
 	<input type="hidden" name="ajax_request" value="1" />
-<?php endif; ?>
 
 	<input type="hidden" name="vmtoken" value="<?php echo vmSpoofValue($GLOBALS['sess']->getSessionId() ) ?>" />
 	<input type="hidden" name="user_id" value="<?php echo $auth["user_id"] ?>" />

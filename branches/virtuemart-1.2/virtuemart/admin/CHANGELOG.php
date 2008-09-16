@@ -35,6 +35,11 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+16.09.2008 soeren
+- removed old "standard" layout
+^ changed administrator menu to be database-driven
+! Database structure changed! - new table "jos_vm_menu_admin"; see sql/UPDATE-SCRIPT_VM_1.1.x_to_1.2.0.sql
+
 12.09.2008 soeren
 # Task #2357 - handleAddToCart doesn't always update all mini carts or always close notification popup 
 # Task #2364 - Adding new function shows VM menu

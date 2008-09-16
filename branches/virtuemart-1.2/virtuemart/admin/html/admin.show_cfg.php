@@ -855,15 +855,9 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_ADMIN_CFG_SITE'), "site-page");
         <?php 
         echo ps_html::list_themes( 'conf_THEME', basename(VM_THEMEURL) );
 
-        if( $vmLayout == 'standard') {
-	        $link = $sess->url( $_SERVER['PHP_SELF'].'?page=admin.theme_config_form&amp;theme='.basename(VM_THEMEURL) );
-	        $text = $VM_LANG->_('PHPSHOP_CONFIG');
-			echo vmCommonHTML::hyperlink($link, $VM_LANG->_('PHPSHOP_CONFIG') );
-		} else {
-	        $link = $sess->url( $_SERVER['PHP_SELF'].'?page=admin.theme_config_form&amp;theme='.basename(VM_THEMEURL).'&amp;no_menu=1' );
-	        $text = $VM_LANG->_('PHPSHOP_CONFIG');
-			echo vmCommonHTML::hyperLink($link, $text, '', 'Edit: '.$text, 'onclick="parent.addSimplePanel( \''.$db->getEscaped($text).'\', \''.$link.'\' );return false;"');
-		}
+        $link = $sess->url( $_SERVER['PHP_SELF'].'?page=admin.theme_config_form&amp;theme='.basename(VM_THEMEURL).'&amp;no_menu=1' );
+	    $text = $VM_LANG->_('PHPSHOP_CONFIG');
+		echo vmCommonHTML::hyperLink($link, $text, '', 'Edit: '.$text, 'onclick="parent.addSimplePanel( \''.$db->getEscaped($text).'\', \''.$link.'\' );return false;"');
         
         ?>
         </td>

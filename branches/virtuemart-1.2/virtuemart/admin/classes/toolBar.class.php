@@ -35,7 +35,7 @@ if( !class_exists('JToolbar')) {
  * @author soeren
  * 
  */
-class vmMenuBar extends mosMenuBar {
+class vmToolBar extends mosMenuBar {
 
 	/**
 	* Writes the common 'new' icon for the button bar
@@ -283,7 +283,8 @@ class vmMenuBar extends mosMenuBar {
  * @since 1.1
  *
  */
-class vmToolBar {
+class vmExtToolBar {
+
 	var $buttons = '';
 	/**
 	 * Returns a reference to a global vmToolBar object, only creating it if it
@@ -305,7 +306,7 @@ class vmToolBar {
 		}
 
 		if (empty ($instances[$name])) {
-			$instances[$name] = new vmToolBar();
+			$instances[$name] = new vmExtToolBar();
 		}
 
 		return $instances[$name];

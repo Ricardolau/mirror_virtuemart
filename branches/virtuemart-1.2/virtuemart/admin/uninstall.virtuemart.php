@@ -42,8 +42,6 @@ function com_uninstall() {
 		}
 	}
 	
-	$db->query( 'DROP TABLE `#__{vm}_affiliate`;' );
-	$db->query( 'DROP TABLE `#__{vm}_affiliate_sale`;' );
 	$db->query( 'DROP TABLE `#__{vm}_auth_group`;' );
 	$db->query( 'DROP TABLE `#__{vm}_auth_user_group`;' );
 	$db->query( 'DROP TABLE `#__{vm}_auth_user_vendor`;' );
@@ -59,6 +57,7 @@ function com_uninstall() {
 	$db->query( 'DROP TABLE `#__{vm}_function`;' );
 	$db->query( 'DROP TABLE `#__{vm}_manufacturer`;' );
 	$db->query( 'DROP TABLE `#__{vm}_manufacturer_category`;' );
+	$db->query( 'DROP TABLE `#__{vm}_menu_admin`;' );
 	$db->query( 'DROP TABLE `#__{vm}_module`;' );
 	$db->query( 'DROP TABLE `#__{vm}_order_history`;' );
 	$db->query( 'DROP TABLE `#__{vm}_order_item`;' );
@@ -94,7 +93,6 @@ function com_uninstall() {
     $db->query( 'DROP TABLE `#__{vm}_userfield_values`;' );
 	$db->query( 'DROP TABLE `#__{vm}_vendor`;' );
 	$db->query( 'DROP TABLE `#__{vm}_vendor_category`;' );
-	$db->query( 'DROP TABLE `#__{vm}_visit`;' );
 	$db->query( 'DROP TABLE `#__{vm}_waiting_list`;' );
 	$db->query( 'DROP TABLE `#__{vm}_zone_shipping`;' );
         

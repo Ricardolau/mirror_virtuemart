@@ -55,7 +55,7 @@ $pageNav = new vmPageNav( $num_rows, $limitstart, $limit );
 $listObj = new listFactory( $pageNav );
 
 // print out the search field and a list heading
-$listObj->writeSearchHeader($VM_LANG->_('PHPSHOP_SHOPPER_GROUP_LIST_LBL'), IMAGEURL."ps_image/shoppers.png", $modulename, "shopper_group_list");
+$listObj->writeSearchHeader($VM_LANG->_('PHPSHOP_SHOPPER_GROUP_LIST_LBL'), VM_THEMEURL."images/administration/dashboard/shop_users.png", $modulename, "shopper_group_list");
 
 // start the list table
 $listObj->startTable();

@@ -973,7 +973,7 @@ function vmIsHttpsMode() {
  */
 function vmIsXHR() {
 	return strtolower(vmGet($_SERVER,'HTTP_X_REQUESTED_WITH')) == 'xmlhttprequest'
-		|| vmGet($_POST,'ajax_request') == '1';
+		|| vmGet($_REQUEST,'ajax_request') == '1';
 }
 /**
 * Utility function redirect the browser location to another url

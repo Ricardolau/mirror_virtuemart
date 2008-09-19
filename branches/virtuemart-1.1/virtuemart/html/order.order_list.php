@@ -217,9 +217,9 @@ while ($db->next_record()) {
     $details_link .= "<img src=\"$mosConfig_live_site/images/M_images/printButton.png\" align=\"center\" height=\"16\" width=\"16\" border=\"0\" /></a>"; 
     $listObj->addCell( $details_link );
 	// Creation Date
-	$listObj->addCell( strftime("%d-%b-%y %H:%M", $db->f("cdate")));
+	$listObj->addCell( vmFormatDate($db->f("cdate"), "%d-%b-%y %H:%M"));
 	// Last Modified Date
-    $listObj->addCell( strftime("%d-%b-%y %H:%M", $db->f("mdate")));
+    $listObj->addCell( vmFormatDate($db->f("mdate"), "%d-%b-%y %H:%M"));
 	
     // Order Status Drop Down List
 	$listObj->addCell( $ps_order_status->getOrderStatusList($db->f("order_status"), "onchange=\"document.adminForm$i.order_status.selectedIndex = this.selectedIndex;document.adminForm$i.changed.value='1'\""));

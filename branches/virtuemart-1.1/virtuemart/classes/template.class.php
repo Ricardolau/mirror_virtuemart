@@ -53,10 +53,10 @@ class vmTemplate {
     * @return void
     */
 	function vmTemplate($path='', $expire = 0 ) {
-		global $mosConfig_live_site, $mosConfig_cachepath, $mosConfig_cachetime;
+		global $mosConfig_absolute_path, $mosConfig_cachepath, $mosConfig_cachetime;
 			
 		$this->path = empty($path) ?  VM_THEMEPATH.'templates/' : $path;
-		$this->default_path = $mosConfig_live_site.'/components/'.VM_COMPONENT_NAME.'/themes/default/templates/';
+		$this->default_path = $mosConfig_absolute_path.'/components/'.VM_COMPONENT_NAME.'/themes/default/templates/';
 		
 		$globalsArray = vmGetGlobalsArray();
 		foreach( $globalsArray as $global ) {

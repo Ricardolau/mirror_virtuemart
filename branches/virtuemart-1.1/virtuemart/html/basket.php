@@ -190,7 +190,8 @@ else {
 		$shipping_display = "";
 	}
 
-	/* COUPON DISCOUNT */
+	// COUPON DISCOUNT
+	$coupon_display = '';
 	if( PSHOP_COUPONS_ENABLE=='1' && @$_SESSION['coupon_redeemed']=="1" && PAYMENT_DISCOUNT_BEFORE=='1') {
 
 		$total -= $_SESSION['coupon_discount'];
@@ -250,24 +251,35 @@ else {
 	}
 	
 	$order_total_display = $GLOBALS['CURRENCY_DISPLAY']->getFullValue($order_total);
+	
+	$tpl = new $GLOBALS['VM_THEMECLASS']();
+	$tpl->set_vars( Array(
+								'product_rows' => $product_rows,
+								'subtotal_display' => $subtotal_display,
+								'discount_before' => $discount_before,
+								'discount_after' => $discount_after,
+								'coupon_display' => $coupon_display,
+								'shipping' => $shipping,
+								'shipping_display' => $shipping_display,
+								'show_tax' => $show_tax,
+								'tax_display' => $tax_display,
+								'order_total_display' => $order_total_display,
+				));
 	$basket_html = '';
 	if( $show_basket ) {
-		ob_start();
+		
 		if( $auth["show_price_including_tax"] == 1) {
-			include (VM_THEMEPATH."templates/basket/basket_b2c.html.php");			
+			$basket_html = $tpl->fetch( 'basket/basket_b2c.html.php');			
 		}
 		else {
-			include (VM_THEMEPATH."templates/basket/basket_b2b.html.php");
+			$basket_html = $tpl->fetch( 'basket/basket_b2b.html.php');
 		}
-		$basket_html = ob_get_contents();
-		ob_end_clean();
 	}
 	/* Input Field for the Coupon Code */
 	if( PSHOP_COUPONS_ENABLE=='1'
 		&& !@$_SESSION['coupon_redeemed']
 		//&& ($page == "shop.cart" )
 	) {
-		$tpl = new $GLOBALS['VM_THEMECLASS']();
 		$basket_html .= $tpl->fetch( 'common/couponField.tpl.php' );
 	}
 }

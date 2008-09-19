@@ -16,7 +16,7 @@ foreach( $reviews as $review ) { // Loop through all reviews
 	 * $review['comment'] => The comment text
 	 * 
 	 */
-	$date = strftime ($VM_LANG->_('DATE_FORMAT_LC'), $review["time"]);
+	$date = vmFormatDate( $review["time"], $VM_LANG->_('DATE_FORMAT_LC') );
 	?>
 	<strong><?php echo $review["username"]."&nbsp;&nbsp;($date)" ?></strong>
 	<br />

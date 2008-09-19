@@ -17,6 +17,10 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 mm_showMyFileName( __FILE__ );
 
+$vm_mainframe->setpagetitle($VM_LANG->_('REGISTER_TITLE'));
+$pathway[] = $vm_mainframe->vmPathwayItem($VM_LANG->_('REGISTER_TITLE'));
+$vm_mainframe->vmAppendPathway( $pathway );
+
 if( empty($auth['user_id']) ) {
 	include( PAGEPATH . 'checkout_register_form.php' );
 } else {

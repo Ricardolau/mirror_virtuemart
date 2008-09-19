@@ -973,7 +973,7 @@ function vmIsHttpsMode() {
  */
 function vmIsXHR() {
 	return strtolower(vmGet($_SERVER,'HTTP_X_REQUESTED_WITH')) == 'xmlhttprequest'
-		|| vmGet($_POST,'ajax_request') == '1';
+		|| vmGet($_REQUEST,'ajax_request') == '1';
 }
 /**
 * Utility function redirect the browser location to another url
@@ -1062,11 +1062,19 @@ function vmFormatDate( $time=0, $dateformat='' ) {
 	global $vendor_date_format;
 	if( empty($time)) $time = time();
 	
-	if( empty( $dateformat )) {
-		return strftime( $vendor_date_format, $time );
-	} else {
-		return strftime( $dateformat, $time );
-	}
+    if( vmIsJoomla('1.5') ) {
+        if( empty( $dateformat )) {
+            return JHTML::_('date',  $time, $vendor_date_format);
+        } else {
+            return JHTML::_('date',  $time, $dateformat);
+        }
+    } else {
+        if( empty( $dateformat )) {
+            return strftime( $vendor_date_format, $time );
+        } else {
+            return strftime( $dateformat, $time );
+        }
+    } 
 }
 /**
 * Function to strip additional / or \ in a path name

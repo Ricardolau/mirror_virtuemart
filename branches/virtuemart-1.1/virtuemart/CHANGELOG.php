@@ -35,6 +35,12 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+19.09.2008 soeren
+# Task #2371 - Moving up/down doesn't work in admin lists
+# Task #2368 - order date not local language 
++ added pathway + page title to registration page
+^ changed basket + ro_basket to read the basket templates using the vmtemplateClass::fetch method
+
 13.08.2008 aravot
 Corrected few spelling mistakes in English language (http://forum.virtuemart.net/index.php?topic=44169.0 - thank you Phil)
 

@@ -1,12 +1,12 @@
 <?xml version="1.0" ?>
-<mosinstall version="1.1.0" type="jceplugin" plugin="productsnap">
+<install version="1.5.0" type="plugin" plugin="productsnap">
 	<name>Product Snapshot Manager</name>
-	<version>1.1.2</version>
-	<creationDate>29. August 2007</creationDate>
-	<author>Soeren Eberhardt</author>
-	<authorEmail>soeren|at|virtuemart.net</authorEmail>
+	<version>1.5.0</version>
+	<creationDate>15. September 2008</creationDate>
+	<author>soeren</author>
+	<authorEmail>soeren|-at|virtuemart.net</authorEmail>
 	<authorUrl>http://virtuemart.net/</authorUrl>
-	<copyright>Soeren Eberhardt 2007, All rights reserved</copyright>
+	<copyright>soeren 2007-2008, All rights reserved</copyright>
 	<license>GPL</license>
 	<description><![CDATA[ 
 		<style type="text/css">dt { font-style: oblique; font-weight: bold; } </style>
@@ -22,7 +22,7 @@
 		</dl>		
 	]]></description>
 	<icon>virtuemart</icon>
-	<layout_icon>virtuemart</layout_icon>
+	<layout>virtuemart</layout>
 	<elements></elements>
 	<files>
 		<filename plugin="productsnap">editor_plugin.js</filename>
@@ -63,4 +63,4 @@
                 <option value="right">Right</option>
         </param>
     </params>
-</mosinstall>
+</install>

@@ -40,6 +40,24 @@ else {
 	$selected[1] = "";
 	$title = $VM_LANG->_('PHPSHOP_COUPON_NEW_HEADER');
 }
+
+$coupon_code_eon = $db->sf("coupon_code");
+if ($coupon_code_eon == "") {
+	$coupon_code_eon = mosMakePassword(10);
+	}
+	
+$coupon_start_date = $db->f("coupon_start_date");
+if ($coupon_start_date =="") {
+	$coupon_start_date = date("Y-m-d G:i:s");
+	}
+	
+$coupon_expiry_date = $db->f("coupon_expiry_date");
+if ($coupon_expiry_date =="") {
+	$coupon_expiry_date = mktime  (date("G"), date("i"), date("s"), date("m"), date("d"), date("Y")+1 );
+	$coupon_expiry_date = date("Y-m-d G:i:s",$coupon_expiry_date);
+	}
+	
+	
 //First create the object and let it print a form heading
 $formObj = &new formFactory( $title );
 //Then Start the form
@@ -87,6 +105,23 @@ $formObj->startForm();
         <input type="text" class="inputbox" name="coupon_value" value="<?php $db->sp("coupon_value"); ?>" />
       </td>
     </tr>
+    
+     <!-- AG add cooupon start and expiry dates -->
+    <tr> 
+      <td width="24%"><div align="right"><?php echo $VM_LANG->_('PHPSHOP_COUPON_START') ?>:</div></td>
+      <td width="76%"> 
+        <input type="text" class="inputbox" name="coupon_start_date" value="<?php echo $coupon_start_date; ?>" />
+      </td>
+    </tr>
+    <tr> 
+      <td width="24%"><div align="right"><?php echo $VM_LANG->_('PHPSHOP_COUPON_EXPIRY') ?>:</div></td>
+      <td width="76%"> 
+        <input type="text" class="inputbox" name="coupon_expiry_date" value="<?php echo $coupon_expiry_date; ?>" />
+      </td>
+    </tr>
+    <!-- End AG add coupon start and expiry dates -->
+    
+    
     <tr> 
       <td valign="top" colspan="2" align="right">&nbsp; </td>
     </tr>   

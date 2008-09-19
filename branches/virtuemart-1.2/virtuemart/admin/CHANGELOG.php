@@ -35,6 +35,17 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+19.09.2008 soeren
+# Task #2371 - Moving up/down doesn't work in admin lists
+# Task #2368 - order date not local language 
++ added pathway + page title to registration page
+^ changed basket + ro_basket to read the basket templates using the vmtemplateClass::fetch method
+
+17.09.2008 soeren
+! Database structure changed!
++ Coupon start and expiry dates, thank you willowtree (http://forum.virtuemart.net/index.php?topic=41066.0)
+- removed references to "eliteweaver.co.uk" IPN Testing Script (which is offline).
+
 16.09.2008 soeren
 - removed old "standard" layout
 ^ changed administrator menu to be database-driven

@@ -594,7 +594,7 @@ Password - %s
 	'VM_MANAGE_USER_FIELDS' => 'Manage User Fields',
 	'VM_FIELDMANAGER_REORDER' => 'Reorder',
 	'VM_PRODUCTS_MOVE_TOOLBAR' => 'Move Products',
-	'VM_ADMIN_CFG_PAYPAL_NOTIFYSCRIPT_TIP' => 'When enabled, let\'s you test your Notify Script File %s through this Testing Form: <a href="http://www.eliteweaver.co.uk/testing/ipntest.php" target="_blank">www.eliteweaver.co.uk/testing/ipntest.php</a>',
+	'VM_ADMIN_CFG_PAYPAL_NOTIFYSCRIPT_TIP' => 'When enabled, let\'s you test your Notify Script File %s through the PayPal IPN Simulator: <a href="https://developer.paypal.com/cgi-bin/devscr?cmd=_ipn-link-session" target="_blank">https://developer.paypal.com</a>',
 	'VM_ADMIN_CFG_PAYPAL_STATUS_PENDING_EXPLAIN' => 'The order Status to which Orders are set, which have no completed Payment Transaction. 
 		The transaction was not cancelled in this case, but it is just pending and waiting for completion.',
 	'VM_ADMIN_CFG_PAYPAL_STATUS_PENDING' => 'Order Status for Pending Payments',

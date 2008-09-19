@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -73,6 +73,15 @@ class ps_coupon {
             $vmLogger->err( $VM_LANG->_('PHPSHOP_COUPON_VALUE_NOT_NUMBER',false) );
             $valid = false;
         }
+         if (!$d["coupon_start_date"]) {
+			$vmLogger->err( "You must provide a start date." );
+			$valid = false;
+		}
+		
+		if (!$d["coupon_expiry_date"]) {
+			$vmLogger->err( "You must provide an expiry date." );
+			$valid = false;
+		}
         return $valid;
         
     }
@@ -88,7 +97,7 @@ class ps_coupon {
 					        'coupon_code' => vmGet($d,'coupon_code'),
 					        'percent_or_total' => strtolower($d['percent_or_total']) == 'percent' ? 'percent' : 'total',
 					        'coupon_type' => strtolower($d['coupon_type']) == 'gift' ? 'gift' : 'permanent',
-					        'coupon_value' => (float)$d['coupon_value']
+					        'coupon_value' => (float)$d['coupon_value'],
 				        );
         $coupon_db->buildQuery( 'INSERT', '#__{vm}_coupons', $fields );
         if( $coupon_db->query() ) {
@@ -116,7 +125,9 @@ class ps_coupon {
 					        'coupon_code' => vmGet($d,'coupon_code'),
 					        'percent_or_total' => strtolower($d['percent_or_total']) == 'percent' ? 'percent' : 'total',
 					        'coupon_type' => strtolower($d['coupon_type']) == 'gift' ? 'gift' : 'permanent',
-					        'coupon_value' => (float)$d['coupon_value']
+					        'coupon_value' => (float)$d['coupon_value'],
+					         'coupon_start_date' => vmGet($d,'coupon_start_date'),
+					        'coupon_expiry_date' => vmGet($d,'coupon_expiry_date')
 				        );
         $coupon_db->buildQuery( 'UPDATE', '#__{vm}_coupons', $fields, 'WHERE coupon_id = '.(int)$d['coupon_id'] );
         if( $coupon_db->query() ) {
@@ -173,7 +184,7 @@ class ps_coupon {
         $d['coupon_code'] = trim(vmGet( $_REQUEST, 'coupon_code' ));
         $coupon_id = vmGet( $_SESSION, 'coupon_id', null );
         
-        $q = 'SELECT coupon_id, coupon_code, percent_or_total, coupon_value, coupon_type FROM #__{vm}_coupons WHERE ';
+        $q = 'SELECT coupon_id, coupon_code, percent_or_total, coupon_value, coupon_type, coupon_start_date, coupon_expiry_date FROM #__{vm}_coupons WHERE ';
         if( $coupon_id ) {
             /* the query to select the coupon coupon_code */
             $q .= 'coupon_id = '.intval($coupon_id);
@@ -186,9 +197,37 @@ class ps_coupon {
         $coupon_db->query($q);
         
         /* see if we have any fields returned */
-        if ($coupon_db->num_rows() > 0)
+        if ($coupon_db->num_rows() < 1)
         {
+        
+        /* no record, so coupon_code entered was not valid */
+            $GLOBALS['coupon_error'] = $VM_LANG->_('PHPSHOP_COUPON_CODE_INVALID');
+            return false;
+         }
+         
+         else{        
+        
             /* we have a record */
+            
+             /* AG check coupon start and expiry dates */
+            $todays_date = date("Y-m-d"); 
+            $today = strtotime($todays_date);
+            /* Assume validity */
+            $valid = "yes";
+            
+            /* For a valid coupon, start_date < today and expiry_date > today */
+            
+            $start_date = strtotime ($coupon_db->f("coupon_start_date"));
+            $expiration_date = strtotime($coupon_db->f("coupon_expiry_date"));
+            
+            /*only run coupon processing if coupon valid */
+            if ($start_date < $today and $expiration_date > $today) { $valid = "yes"; } 
+            else { $valid = "no"; }
+            
+             /* Ony run coupon processing if coupon is vallid */
+            if ($valid =="yes") {
+                      
+            /* end AG check coupon start and expiry dates */
             
             /* see if we are calculating percent or dollar discount */
             if ($coupon_db->f("percent_or_total") == "percent")
@@ -228,15 +267,20 @@ class ps_coupon {
                 
             
         }
-        else
-        {
-            /* no record, so coupon_code entered was not valid */
+        
+        else {
+            /*Coupon not valid */
             $GLOBALS['coupon_error'] = $VM_LANG->_('PHPSHOP_COUPON_CODE_INVALID');
+            echo $start_date;
+            echo "-";
+            echo $expiration_date;
+            echo "-";
+            echo $today;
             return false;
+            }
             
-        }
-     
+   
     }    
 }
-  
+}  
 ?>

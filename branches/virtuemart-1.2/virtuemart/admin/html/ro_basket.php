@@ -235,7 +235,8 @@ else {
 			$total -= $payment_discount;
 			$payment_discount_display = $GLOBALS['CURRENCY_DISPLAY']->getFullValue($payment_discount-($payment_discount*2));
 		}
-		/* COUPON DISCOUNT */
+		// COUPON DISCOUNT
+		$coupon_display = '';
 		if( PSHOP_COUPONS_ENABLE=='1' && @$_SESSION['coupon_redeemed']==true ) {
 			$total -= $_SESSION['coupon_discount'];
 			$coupon_discount_after = true;
@@ -262,14 +263,31 @@ else {
 	define ('_MIN_POV_REACHED', '1');
 
 	$order_total_display = $GLOBALS['CURRENCY_DISPLAY']->getFullValue($order_total);
-	ob_start();
+	
+	$tpl = new $GLOBALS['VM_THEMECLASS']();
+	$tpl->set_vars( Array(
+								'product_rows' => $product_rows,
+								'subtotal_display' => $subtotal_display,
+								'discount_word' => $discount_word,
+								'payment_discount_before' => $payment_discount_before,
+								'payment_discount_after' => $payment_discount_after,
+								'payment_discount_display' => $payment_discount_display,
+								'coupon_discount_before' => $coupon_discount_before,
+								'coupon_discount_after' => $coupon_discount_after,
+								'coupon_display' => $coupon_display,
+								'shipping' => $shipping,
+								'shipping_display' => $shipping_display,
+								'tax' => $tax,
+								'tax_display' => $tax_display,
+								'order_total_display' => $order_total_display,
+				));
+				
 	if( $auth["show_price_including_tax"] == 1) {
-		include (VM_THEMEPATH."templates/basket/ro_basket_b2c.html.php");
+		$basket_html = $tpl->fetch( 'basket/ro_basket_b2c.html.php');
 	}
 	else {
-		include (VM_THEMEPATH."templates/basket/ro_basket_b2b.html.php");
+		$basket_html = $tpl->fetch( 'basket/ro_basket_b2b.html.php');
 	}
-	$basket_html = ob_get_contents();
-	ob_end_clean();
+	
 }
 ?>

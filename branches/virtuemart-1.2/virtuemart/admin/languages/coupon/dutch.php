@@ -27,6 +27,10 @@ $langvars = array (
 	'PHPSHOP_COUPON_TYPE_PERMANENT' => 'Permanente kortingsbon',
 	'PHPSHOP_COUPON_VALUE_HEADER' => 'Waarde',
 	'PHPSHOP_COUPON_PERCENT' => 'Procent',
-	'PHPSHOP_COUPON_TOTAL' => 'Totaal'
+	'PHPSHOP_COUPON_TOTAL' => 'Totaal',
+	'PHPSHOP_COUPON_START' => 'Coupon Start Date',
+	'PHPSHOP_COUPON_EXPIRY' => 'Coupon Expiry Date',
+	'PHPSHOP_COUPON_CODE_INVALID' => 'Coupon code out of date. Please try an alternative.',
+	'PHPSHOP_COUPON_CODE_NOT FOUND' => 'Coupon code not found. Please try again.'
 ); $VM_LANG->initModule( 'coupon', $langvars );
 ?>

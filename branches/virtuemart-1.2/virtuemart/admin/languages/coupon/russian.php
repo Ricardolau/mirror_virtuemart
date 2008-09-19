@@ -2,10 +2,9 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
-* @version $Id: russian.php 1071 2008-02-03 08:42:28Z alex_rus $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @translator soeren
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -15,11 +14,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * See /administrator/components/com_virtuemart/COPYRIGHT.php for copyright notices and details.
 *
 * http://virtuemart.net
-* http://www.alex-rus.com
-* http://www.virtuemart.ru
-* http://www.joomlaforum.ru
 */
-
 global $VM_LANG;
 $langvars = array (
 	'CHARSET' => 'utf-8',
@@ -32,6 +27,10 @@ $langvars = array (
 	'PHPSHOP_COUPON_TYPE_PERMANENT' => 'Постоянный купон',
 	'PHPSHOP_COUPON_VALUE_HEADER' => 'Значение',
 	'PHPSHOP_COUPON_PERCENT' => 'Процент',
-	'PHPSHOP_COUPON_TOTAL' => 'Сумма'
+	'PHPSHOP_COUPON_TOTAL' => 'Сумма',
+	'PHPSHOP_COUPON_START' => 'Coupon Start Date',
+	'PHPSHOP_COUPON_EXPIRY' => 'Coupon Expiry Date',
+	'PHPSHOP_COUPON_CODE_INVALID' => 'Coupon code out of date. Please try an alternative.',
+	'PHPSHOP_COUPON_CODE_NOT FOUND' => 'Coupon code not found. Please try again.'
 ); $VM_LANG->initModule( 'coupon', $langvars );
 ?>

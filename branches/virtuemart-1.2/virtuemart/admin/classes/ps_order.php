@@ -607,7 +607,7 @@ class ps_order {
 			$tmp_cell .= "<img src=\"".IMAGEURL."ps_image/goto.png\" height=\"32\" width=\"32\" align=\"middle\" border=\"0\" alt=\"".$VM_LANG->_('PHPSHOP_ORDER_LINK')."\" />&nbsp;".$VM_LANG->_('PHPSHOP_VIEW')."</a><br />";
 			$listObj->addCell( $tmp_cell );
 
-			$tmp_cell = "<strong>".$VM_LANG->_('PHPSHOP_ORDER_PRINT_PO_DATE').":</strong> " . strftime("%d. %B %Y", $db->f("cdate"));
+			$tmp_cell = "<strong>".$VM_LANG->_('PHPSHOP_ORDER_PRINT_PO_DATE').":</strong> " . vmFormatDate($db->f("cdate"), "%d. %B %Y");
 			$tmp_cell .= "<br /><strong>".$VM_LANG->_('PHPSHOP_ORDER_PRINT_TOTAL').":</strong> " . $CURRENCY_DISPLAY->getFullValue($db->f("order_total"), '', $db->f('order_currency'));
 			$listObj->addCell( $tmp_cell );
 

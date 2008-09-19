@@ -243,14 +243,15 @@ class vmAbstractObject {
 				$sql .= "\n LIMIT 1";
 			}
 	
-			$db->setQuery( $sql );
+			$db->query( $sql );
 	//echo 'A: ' . $db->_database->_sql;
 	
-	
-			$row = null;
-			if ($db->loadObject( $row )) {
+			if ($db->next_record()) {
+				$field_value = $db->f($name);
+				$field_key_value = $db->f($k);
+				
 				$query = "UPDATE `$table`"
-				. "\n SET `$name` = '".$row->$name."'"
+				. "\n SET `$name` = '".$field_value."'"
 				. "\n WHERE `$k` = '". $this->$k ."'"
 				;
 				$db->setQuery( $query );
@@ -263,7 +264,7 @@ class vmAbstractObject {
 	
 				$query = "UPDATE `$table`"
 				. "\n SET `$name` = '".$this->$name."'"
-				. "\n WHERE `$k` = '". $row->$k. "'"
+				. "\n WHERE `$k` = '". $field_key_value. "'"
 				;
 				$db->setQuery( $query );
 	//echo 'C: ' . $db->getQuery();
@@ -273,15 +274,15 @@ class vmAbstractObject {
 					//die( $err );
 				}
 	
-				$this->name = $row->$name;
-			} else {
+				$this->$name = $field_value;
+			} 
+			else {
 				$query = "UPDATE `$table`"
 				. "\n SET `$name` = '".$this->$name."'"
 				. "\n WHERE `$k`= '". $this->$k ."'"
 				;
 				$db->setQuery( $query );
-	//echo 'D: ' . $db->getQuery();
-	
+	//echo 'D: ' . $db->getQuery();	
 	
 				if (!$db->query()) {
 					$err = $db->getErrorMsg();
@@ -291,8 +292,17 @@ class vmAbstractObject {
 		}
 		return true;
 	}
+	/**
+	 * This function compacts and fixes the current ordering
+	 *
+	 * @param string $table
+	 * @param string $name
+	 * @param string $k
+	 * @param string $where
+	 * @return boolean
+	 */
 	function fixOrdering( $table, $name, $k, $where ) {
-		global $db, $database;
+		global $db, $vmLogger;
 		
 		$sql = "SELECT `$k`, `$name` ";
 		$sql .= "FROM `$table` "; 
@@ -362,6 +372,7 @@ class vmAbstractObject {
 			;
 			$db->query( $query );
 		}
+		return true;
 	}
 	/**
 	 * Prepare the change of the pulish state of an item
@@ -477,3 +488,4 @@ class vmAbstractObject {
 		return true;
 	}
 }
+?>

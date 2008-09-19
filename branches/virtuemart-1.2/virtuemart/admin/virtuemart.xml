@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <mosinstall type="component">
 	<name>VirtueMart</name>
-	<creationDate>31.07.2008</creationDate>
+	<creationDate>19.09.2008</creationDate>
 	<author>The VirtueMart Development Team</author>
 	<authorEmail>soeren|at|virtuemart.net</authorEmail>
 	<authorUrl>http://www.virtuemart.net</authorUrl>
@@ -10,7 +10,7 @@
 		reserved.
 	</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<version>1.1.2</version>
+	<version>1.2.0 alpha</version>
 	<description>Online-Shop / E-Commerce Component</description>
 	<files>
 		<filename>frontend_files.tar.gz</filename>
@@ -35,7 +35,6 @@
 			<filename>compat.joomla1.5.php</filename>
 			<filename>COPYRIGHT.php</filename>
 			<filename>global.php</filename>
-			<filename>header.php</filename>
 			<filename>index.html</filename>
 			<filename>install.css</filename>
 			<filename>install.copy.php</filename>
@@ -55,7 +54,6 @@
 			<filename>version.php</filename>
 			<filename>worldpay_notify.php</filename>
 			<filename>x-click-but21.gif</filename>
-			<filename>export.php</filename>
 		</files>
 	</administration>
 	<params>

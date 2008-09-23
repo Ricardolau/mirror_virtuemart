@@ -96,7 +96,7 @@
 				<exclude name="virtuemart_parser.php"/>
 				<exclude name="show_image_in_imgtag.php"/>
 			</fileset>
-			<zipfileset dir="${svn.dir}" includes="virtuemart.j15.xml" fullpath="virtuemart.xml"/>
+			<zipfileset dir="${svn.dir}/admin" includes="virtuemart.j15.xml" fullpath="virtuemart.xml"/>
 		</zip>
 
 		<!-- Now delete the admin and frontend archives -->

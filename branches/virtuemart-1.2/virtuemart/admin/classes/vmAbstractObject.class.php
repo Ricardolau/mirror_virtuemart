@@ -393,6 +393,12 @@ class vmAbstractObject {
 			$publish_field_name = 'category_publish';
 			$field_name = 'category_id';
 		}
+		elseif( !empty($d['category_child_id'])) {
+			$table_name = "#__{vm}_category_xref";
+			$publish_field_name = 'category_shared';
+			$field_name = 'category_child_id';
+			$has_vendor = false;
+		}
 		elseif( !empty( $d['payment_method_id'])) {
 			$table_name = "#__{vm}_payment_method";
 			$publish_field_name = 'payment_enabled';
@@ -463,7 +469,6 @@ class vmAbstractObject {
 		if( $has_vendor ) {
 			$q .= " AND `vendor_id`=".$_SESSION['ps_vendor_id'];
 		}
-		
 		$db->query( $q );
 		
 		switch ($task) {

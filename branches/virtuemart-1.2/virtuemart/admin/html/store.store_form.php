@@ -27,7 +27,24 @@ $currency_style_positive = array('00Symb', '00 Symb', 'Symb00', 'Symb 00' );
 $currency_style_negative = array('(Symb00)', '-Symb00', 'Symb-00', 'Symb00-', '(00Symb)', '-00Symb', '00-Symb', 
 														'00Symb-', '-00 Symb', '-Symb 00', '00 Symb-', 'Symb 00-', 'Symb -00', '00- Symb', 
 														'(Symb 00)',	'(00 Symb)');
-				   	
+
+   	
+
+
+	$q = "SELECT vendor_id FROM #__{vm}_auth_user_vendor WHERE user_id='".$auth['user_id']."'";
+	$db->query( $q );
+	$db->next_record();
+	$vendor = $db->f("vendor_id");
+	if($vendor==0){
+		if ($perm->check("admin")) {
+			$vendor = 1;
+		}
+	}
+	$ps_vendor_id = $vendor;
+	$schrott = $auth['user_id'];
+	$GLOBALS['vmLogger']->info("The vendor ID: '.$ps_vendor_id .' und auth['user_id']'.$schrott.'");
+
+
 $q = "SELECT * FROM #__{vm}_vendor WHERE vendor_id='$ps_vendor_id'"; 
 $db->query($q);  
 $db->next_record();

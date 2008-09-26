@@ -20,7 +20,10 @@ mm_showMyFileName( __FILE__ );
 require_once( CLASSPATH . "pageNavigation.class.php" );
 require_once( CLASSPATH . "htmlTools.class.php" );
 
- if (!empty($keyword)) {
+global $ps_vendor_id;
+$vendor = $ps_vendor_id;
+
+if (!empty($keyword)) {
 	$list  = "SELECT * FROM #__{vm}_product_discount WHERE ";
 	$count = "SELECT count(*) as num_rows FROM #__{vm}_product_discount WHERE ";
 	$q  = "(start_date LIKE '%$keyword%' OR ";
@@ -40,7 +43,7 @@ else {
 $db->query($count);
 $db->next_record();
 $num_rows = $db->f("num_rows");
-
+$GLOBALS['vmLogger']->debug('The query in product.product_discount_list: '.$count);
 // Create the Page Navigation
 $pageNav = new vmPageNav( $num_rows, $limitstart, $limit );
 

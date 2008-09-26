@@ -21,6 +21,7 @@ $langvars = array (
 	'PHPSHOP_USER_LIST_LBL' => 'User List',
 	'PHPSHOP_USER_LIST_USERNAME' => 'Username',
 	'PHPSHOP_USER_LIST_FULL_NAME' => 'Full Name',
+	'PHPSHOP_USER_LIST_VENDOR' => 'User is Vendor',
 	'PHPSHOP_USER_LIST_GROUP' => 'Group',
 	'PHPSHOP_USER_FORM_LBL' => 'Add/Update User Information',
 	'PHPSHOP_USER_FORM_PERMS' => 'Permissions',

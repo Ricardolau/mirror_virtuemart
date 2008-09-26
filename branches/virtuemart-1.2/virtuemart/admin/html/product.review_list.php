@@ -20,10 +20,13 @@ mm_showMyFileName( __FILE__ );
 require_once( CLASSPATH . "pageNavigation.class.php" );
 require_once( CLASSPATH . "htmlTools.class.php" );
 
+global $ps_vendor_id;
+$vendor = $ps_vendor_id;
+
 $q = "";
 $where = array();
 $count = "SELECT COUNT(*) AS num_rows ";
-$list = "SELECT product_name, p.product_id, review_id, comment, user_rating,userid,username,time,r.published ";
+$list = "SELECT product_name, p.product_id, p.vendor_id, review_id, comment, user_rating,userid,username,time,r.published ";
 $q .= "FROM #__{vm}_product p, #__{vm}_product_reviews r LEFT JOIN #__users ON #__users.id=r.userid ";
 if( !empty( $product_id )) {
 	$where[] = "r.product_id = $product_id";
@@ -36,10 +39,17 @@ if( !empty( $keyword )) {
 if( !empty( $where )) {
 	$q .= ' WHERE ' . implode(' AND ', $where );
 }
+
+if (!$perm->check("admin")) {
+	$q  .= " AND p.vendor_id = '$vendor' ";
+}
+
+
 $q .= ' ORDER BY time DESC'; 
 $list .= $q ." LIMIT $limitstart, $limit";
 $count .= $q;
 $db->query($count);
+$GLOBALS['vmLogger']->debug('The query in product.review_list: '.$count);
 $num_rows = $db->f('num_rows');
 
 // Create the Page Navigation

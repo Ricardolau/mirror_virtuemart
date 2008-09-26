@@ -16,11 +16,11 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * http://virtuemart.net
 */
 
+
 class ps_vendor {
 	var $_key = 'vendor_id';
 	var $_table_name = '#__{vm}_vendor';
-
-
+	
 	/**
 	 * Validates the Input Parameters onBeforeVendorAdd
 	 *
@@ -40,9 +40,36 @@ class ps_vendor {
 			return false;
 		}
 		if (!$d["vendor_name"]) {
-			$vmLogger->err( 'You must enter a name for the vendor.' );
+			$vmLogger->err( 'You must enter a Name for the vendor.' );
 			return False;
 		}
+		if (!$d["vendor_nick"]) {
+			$vmLogger->err( 'You must enter a nickname for the vendor.' );
+			return False;
+		}else{
+			$q  = "SELECT id FROM  #__users ";
+			$q .= "WHERE username = '".$d["vendor_nick"]."'";
+			$db->query($q);
+			$userid = $db->f('id');
+			if(empty($userid)|| $userid==0 ){
+				$vmLogger->err( 'You must enter a validate nickname for the vendor.' );
+				return False;			
+			}else {
+				
+				$q  = "SELECT vendor_id FROM  #__{vm}_auth_user_vendor ";
+				$q .= "WHERE user_id = ".$userid."";
+				$db->query($q);
+				$vendor_id = $db->f('vendor_id');
+				$vmLogger->info( ' vendorAdd  vendor_id '.$vendor_id.' $userid '.$userid);
+				if($vendor_id!=0){
+					$vmLogger->err( 'The nickname is already a vendor.' );
+				return False;
+				}
+			}
+		}
+        if (mysql_errno()) {
+        	$GLOBALS['vmLogger']->info('The Vendor has been added.');
+        }
 		if (!$d["contact_email"]) {
 			$vmLogger->err( 'You must enter an email address for the vendor contact.');
 			return False;
@@ -61,7 +88,7 @@ class ps_vendor {
 	 * @param array $d
 	 * @return boolean
 	 */
-	function validate_update(&$d) {
+	function validate_update(&$d,&$db) {
 		global $vmLogger;
 		require_once(CLASSPATH . 'imageTools.class.php' );
 		if (!vmImageTools::validate_image($d,"vendor_thumb_image","vendor")) {
@@ -77,9 +104,16 @@ class ps_vendor {
 		}
 
 		if (!$d["vendor_name"]) {
-			$vmLogger->err( 'You must enter a name for the vendor.' );
+			$vmLogger->err( 'You must enter a username for the vendor.' );
 			return False;
 		}
+		
+		$vendor_id = $this->get_user_vendor_id($d,$db);
+		if (!$d["vendor_nick"] && !$vendor_id) {
+			$vmLogger->err( 'You must enter a validate nickname for the vendor.' );
+			return False;
+		}
+		
 		if (!$d["contact_email"]) {
 			$vmLogger->err( 'You must enter an email address for the vendor contact.');
 			return False;
@@ -148,7 +182,7 @@ class ps_vendor {
 	 * @return boolean
 	 */
 	function add(&$d) {
-		global $vendor_currency;
+		global $vendor_currency,$vmLogger;
 		$db = new ps_DB;
 		$timestamp = time();
 
@@ -166,7 +200,8 @@ class ps_vendor {
 		if( empty( $d['vendor_accepted_currencies'] )) {
 			$d['vendor_accepted_currencies'] = array( $vendor_currency );
 		}
-		$fields = array( 'vendor_name' => $d["vendor_name"],
+		$fields = array('vendor_name' => $d["vendor_name"],
+						'vendor_nick' => $d["vendor_nick"],
 						'contact_last_name' => $d["contact_last_name"],
 						'contact_first_name' => $d["contact_first_name"],
 						'contact_middle_name' => $d["contact_middle_name"],
@@ -200,16 +235,43 @@ class ps_vendor {
 						'vendor_address_format' => $d['vendor_address_format'],
 						'vendor_date_format' => $d['vendor_date_format']
 						);
-						
+		
+		/* Insert vendor_Id in _auth_user_vendor and set user_is_vendor in  _user_info to 1*/
+			
 		$db->buildQuery('INSERT', '#__{vm}_vendor', $fields );
-		$db->query();
-
+		if( $db->query() === false ) {
+			$vmLogger->err( $VM_LANG->_('VM_VENDOR_ADDING_FAILED',false) );
+			return false;
+		}else{
+			$GLOBALS['vmLogger']->info('The Vendor has been added.');
+		}
+		
 		// Get the assigned vendor_id //
 		$_REQUEST['vendor_id'] = $db->last_insert_id();
-		
-		$GLOBALS['vmLogger']->info('The Vendor has been added.');
+		$q  = "SELECT id FROM  #__users ";
+		$q .= "WHERE username = '".$d["vendor_nick"]."'";
+		$db->query($q);
+		$userid = $db->f('id');
+		$GLOBALS['vmLogger']->info("vendor_id='".$_REQUEST['vendor_id']."' user_id='".$userid."'");
+		if ($userid!=0) {
+			$user_update = "UPDATE #__{vm}_auth_user_vendor SET vendor_id='".$_REQUEST['vendor_id']."' WHERE user_id='".$userid."'";
+			$db->query($user_update);
+			$user_update = "UPDATE #__{vm}_user_info SET user_is_vendor = 1 WHERE user_id='".$userid."'";
+			$db->query($user_update);		
+		}else {
+			$vmLogger->err( 'No matching Virtuemart shopper found' );
+		}
 		
 		/* Insert default- shopper group */
+		/* What is the sense behind it? Every shopper is related to one vendor,
+		 * but what happens if one user is buying from different vendors? In which group is the user than?
+		 * If every vendors has its own products and his own customers the shop could be realized with many 
+		 * parallel installations. The trick with multivendor is that the customers dont have any extra effort 
+		 * if they buy from different vendors.
+		 * That a vendor has the possibilty to get a list of his customers makes a bit sense, but is very
+		 * unimportant, very important is a list that the vendor can see all his products, orders, the money he should
+		 * get by the shop and the commission he has to pay.   by Max Milbers
+		 * 		 */
 		$q = "INSERT INTO #__{vm}_shopper_group (";
 		$q .= "`vendor_id`,";
 		$q .= "`shopper_group_name`,";
@@ -228,11 +290,12 @@ class ps_vendor {
 	 * @return boolean
 	 */
 	function update(&$d) {
+		
 		global $vendor_currency, $VM_LANG;
 		$db = new ps_DB;
 		$timestamp = time();
 
-		if (!$this->validate_update($d)) {
+		if (!$this->validate_update($d,$db)) {
 			return False;
 		}
 
@@ -251,6 +314,7 @@ class ps_vendor {
 			$d['vendor_accepted_currencies'] = array( $vendor_currency );
 		}
 		$fields = array( 'vendor_name' => $d["vendor_name"],
+						'vendor_nick' => $d["vendor_nick"],
 						'contact_last_name' => $d["contact_last_name"],
 						'contact_first_name' => $d["contact_first_name"],
 						'contact_middle_name' => $d["contact_middle_name"],
@@ -287,9 +351,15 @@ class ps_vendor {
 		if (!empty($d["vendor_image_path"])) {
 			$fields['vendor_image_path'] = $d["vendor_image_path"];
 		}
-		
+		if (empty($fields["vendor_nick"])) {
+			$vendor_id = $this->get_user_vendor_id($d,$db);
+			$dbs = $this->get_vendor_details($vendor_id);
+			$fields['vendor_nick'] = $dbs->f('vendor_nick');
+		}
+
 		$db->buildQuery( 'UPDATE', '#__{vm}_vendor', $fields, 'WHERE vendor_id = '.$d["vendor_id"] );
 		$db->query();
+		
 		if( $d['vendor_id'] == 1 ) {
 			$GLOBALS['vmLogger']->info($VM_LANG->_('VM_STORE_UPDATED'));
 		} else {
@@ -301,7 +371,7 @@ class ps_vendor {
 
 	/**************************************************************************
 	* name: delete()
-	* created by:
+	* created by: unknown changed by Max Milbers
 	* description:
 	* parameters:
 	* returns:
@@ -310,32 +380,37 @@ class ps_vendor {
 	* Controller for Deleting Records.
 	*/
 	function delete(&$d) {
+		global $vars;
+		$record_id = $vars["vendor_id"];
+//		global $vmLogger, $vars;
 
-		$record_id = $d["_id"];
-
-		if( is_array( $record_id)) {
-			foreach( $record_id as $record) {
-				if( !$this->delete_record( $record, $d ))
-				return false;
-			}
-			return true;
-		}
-		else {
+		//This was not working and there is no possibilty in the gui to delete more than one vendor at once
+//		if( is_array( $record_id)) {
+//			foreach( $record_id as $record) {
+//				if( !$this->delete_record( $record, $d ))
+//				return false;
+//			}
+//			return true;
+//		}
+//		else {
 			return $this->delete_record( $record_id, $d );
-		}
+//		}
 	}
 	/**
 	* Deletes one Record.
+	* created by: unknown changed by Max Milbers
 	*/
 	function delete_record( $record_id, &$d ) {
-		global $db;
-
+		global $vmLogger,$db;
+		$vmLogger->info( "'delete_record record_id'.$record_id" );
 		if (!$this->validate_delete( $record_id, $d)) {
+			$vmLogger->err( 'Deleting of the vendor couldnt be done' );
 			return False;
-		}
+		} 
 
 		/* Delete Image files */
 		if (!vmImageTools::process_images($d)) {
+			$vmLogger->err( 'Deleting of the vendor couldnt be done' );
 			return false;
 		}
 
@@ -343,9 +418,54 @@ class ps_vendor {
 		$db->query($q);
 
 
+	   	$q = "UPDATE #__{vm}_auth_user_vendor SET vendor_id = 0 WHERE vendor_id='".$d["vendor_id"]."'";
+		$db->query($q);
+		$user_update = "UPDATE #__{vm}_user_info SET user_is_vendor = 0 WHERE user_id='".$userid."'";
+		$db->query($user_update);
+
 		return True;
 	}
 	
+		/**************************************************************************
+	** name: get_user_vendor_id
+	** created by: jep completly changed by Max Milbers
+	** description:
+	** parameters:
+	** returns:
+	***************************************************************************/
+	function get_user_vendor_id(&$d,&$db) {		
+		$auth = $_SESSION['auth'];
+		/* Test if user has a vendor_Id*/
+		$q  = "SELECT vendor_id FROM  #__{vm}_auth_user_vendor ";
+		$q .= "WHERE user_id='" . $auth["user_id"] . "'";
+		$db->query($q);
+		$vendor_id = $db->f('vendor_id');
+		return $vendor_id;
+		
+	}
+
+	/**
+	 * Retrieves a DB object with the recordset of the specified vendor
+	 * and the country it is assigned to    vendor_nick added by Max Milbers
+	 * @static 
+	 * @param int $vendor_id
+	 * @return ps_DB
+	 */
+	function get_vendor_details($vendor_id) {
+		$db = new ps_DB();
+		$q = "SELECT vendor_id, vendor_nick, vendor_min_pov,vendor_name,vendor_store_name,contact_email,vendor_full_image, vendor_freeshipping,
+					vendor_address_1,vendor_address_2, vendor_url, vendor_city, vendor_state, vendor_country, country_2_code, country_3_code,
+					vendor_zip, vendor_phone, vendor_store_desc, vendor_currency, vendor_currency_display_style,
+					vendor_accepted_currencies, vendor_address_format, vendor_date_format, state_name
+				FROM (`#__{vm}_vendor` v, `#__{vm}_country` c)
+				LEFT JOIN #__{vm}_state s ON (v.vendor_state=s.state_2_code AND s.country_id=c.country_id)
+				WHERE `v`.`vendor_id`=".(int)$vendor_id."
+				AND (`v`.`vendor_country`=`c`.`country_2_code` OR `v`.`vendor_country`=`c`.`country_3_code`);";
+		
+		$db->query($q);
+		$db->next_record();
+		return $db;
+	}
 	/**
 	 * Checks a currency symbol wether it is a HTML entity.
 	 * When not and $convertToEntity is true, it converts the symbol
@@ -379,25 +499,7 @@ class ps_vendor {
 		
 		return $symbol;
 	}
-	/**************************************************************************
-	** name: get_user_vendor_id
-	** created by: jep
-	** description:
-	** parameters:
-	** returns:
-	***************************************************************************/
-	function get_user_vendor_id() {
-		$auth = $_SESSION['auth'];
-
-		$db = new ps_DB;
-
-		$q  = "SELECT vendor_id FROM #__{vm}_auth_user_vendor ";
-		$q .= "WHERE user_id='" . $auth["user_id"] . "'";
-		$db->query($q);
-		$db->next_record();
-		return $db->f("vendor_id");
-	}
-
+	
 	/**
 	 * Retrieves the name of a vendor specified by $vendor_id
 	 *
@@ -427,28 +529,7 @@ class ps_vendor {
 	}
 
 
-	/**
-	 * Retrieves a DB object with the recordset of the specified vendor
-	 * and the country it is assigned to
-	 * @static 
-	 * @param int $vendor_id
-	 * @return ps_DB
-	 */
-	function get_vendor_details($vendor_id) {
-		$db = new ps_DB();
-		$q = "SELECT vendor_id, vendor_min_pov,vendor_name,vendor_store_name,contact_email,vendor_full_image, vendor_freeshipping,
-					vendor_address_1,vendor_address_2, vendor_url, vendor_city, vendor_state, vendor_country, country_2_code, country_3_code,
-					vendor_zip, vendor_phone, vendor_store_desc, vendor_currency, vendor_currency_display_style,
-					vendor_accepted_currencies, vendor_address_format, vendor_date_format, state_name
-				FROM (`#__{vm}_vendor` v, `#__{vm}_country` c)
-				LEFT JOIN #__{vm}_state s ON (v.vendor_state=s.state_2_code AND s.country_id=c.country_id)
-				WHERE `v`.`vendor_id`=".(int)$vendor_id."
-				AND (`v`.`vendor_country`=`c`.`country_2_code` OR `v`.`vendor_country`=`c`.`country_3_code`);";
-		
-		$db->query($q);
-		$db->next_record();
-		return $db;
-	}
+
 
 	/**
 	 * Prints a drop-down list of vendor names and their ids.
@@ -478,6 +559,44 @@ class ps_vendor {
 		}
 	}
 
+	/**
+	 * Prints a drop-down list of vendor names and their ids.
+	 * But not if the user is only a normal vendor
+	 * @param int $vendor_id the vendorID of the logged in user
+	 */
+	function list_ornot_vendor($vendor_id='1', $users_vendor_id) {
+
+		$db = new ps_DB;
+		global $perm;
+		// If mainvendor or adminrights show whole list
+		if($users_vendor_id==1 || $perm->check( 'admin' )){
+			$q = "SELECT vendor_id,vendor_name FROM #__{vm}_vendor ORDER BY vendor_name";
+			$db->query($q);
+			$db->next_record();
+			if ($db->num_rows() == 1) {
+				echo '<input type="hidden" name="vendor_id" value="'.$db->f("vendor_id").'" />';
+				echo $db->f("vendor_name");
+			}
+			elseif($db->num_rows() > 1) {
+				$db->reset();
+				$array = array();
+				while ($db->next_record()) {
+					$array[$db->f("vendor_id")] = $db->f("vendor_name");
+				}
+				echo ps_html::selectList('vendor_id', $vendor_id, $array );
+			}
+		}else{
+			$q  = "SELECT vendor_id,vendor_name FROM #__{vm}_vendor ";
+			$q .= "WHERE vendor_id = '".$users_vendor_id."'";
+			$db->query($q);
+			echo '<input type="hidden" name="vendor_id" value="'.$db->f("vendor_id").'" />';
+			echo $db->f("vendor_name");
+//			$GLOBALS['vmLogger']->info("list_ornot_vendor: '".$db->f("vendor_id")."'");
+			
+		}
+
+	}
+	
 	/**
 	 * Print the name of vendor $vend_id
 	 *

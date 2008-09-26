@@ -20,6 +20,9 @@ mm_showMyFileName( __FILE__ );
 require_once( CLASSPATH . "pageNavigation.class.php" );
 require_once( CLASSPATH . "htmlTools.class.php" );
 
+//require_once( CLASSPATH . "ps_vendor_activation.php" );
+
+	
 $list  = "SELECT * FROM #__users AS u LEFT JOIN #__{vm}_user_info AS ui ON u.id=ui.user_id";
 $count = "SELECT COUNT(id) as num_rows FROM #__users AS u LEFT JOIN #__{vm}_user_info AS ui ON u.id=ui.user_id";
 $q = " WHERE ";
@@ -63,6 +66,7 @@ $columns = Array(  "#" => 'width="20"',
 					'<input type="checkbox" name="toggle" value="" onclick="checkAll('.$num_rows.')" />' => 'width="20"',
 					$VM_LANG->_('PHPSHOP_USER_LIST_USERNAME') => "",
 					$VM_LANG->_('PHPSHOP_USER_LIST_FULL_NAME') => "",
+					$VM_LANG->_('PHPSHOP_USER_LIST_VENDOR') => 'width="8%"',
 					$VM_LANG->_('PHPSHOP_USER_LIST_GROUP') => "",
 					$VM_LANG->_('PHPSHOP_SHOPPER_FORM_GROUP') => "",
 					$VM_LANG->_('E_REMOVE') => 'width="5%"'
@@ -86,15 +90,31 @@ while( $db->next_record() ) {
 	// The Checkbox
 	$listObj->addCell( vmCommonHTML::idBox( $i, $user_id, !$condition, "user_id" ) );
 	
+	
+	
 	$url = $_SERVER['PHP_SELF'] . "?page=$modulename.user_form&user_id=$user_id";
 	$tmp_cell = '<a href="' . $sess->url($url) . '">'. $db->f("username") . "</a>"; 
 
 	$listObj->addCell( $tmp_cell );
 	
 	$listObj->addCell( $db->f("first_name") . " ". $db->f("middle_name") . " ". $db->f("last_name") );
-	
+
+	$q  = "SELECT * FROM #__{vm}_user_info ";
+	$q .= "WHERE user_id = '".$db->f("user_id")."'";
+	$dbs->query($q);
+
+	//It would be nice to manage it that the addvendor function and deletevendor function would be accesible here
+	//Or a Activate/Deactivate function (ah deactivated vendor cant change shop information, add products, sell products and so on)
+//	$tmp_cell = "<a href=\"". $sess->url( $_SERVER['PHP_SELF']."?page=admin.user_list&user_id=".$dbs->f('user_id')."&func=changeVendorState&user_is_vendor=".$dbs->f('user_is_vendor') );
+//	$tmp_cell .= $dbs->f('user_is_vendor') ? "&task=unpublish\">" : $tmp_cell .= "&task=publish\">";
+//	$tmp_cell .= vmCommonHTML::getYesNoIcon( $dbs->f('user_is_vendor') );
+//	$tmp_cell .= "</a>";
+	$tmp_cell = vmCommonHTML::getYesNoIcon( $dbs->f('user_is_vendor') );
+	$listObj->addCell( $tmp_cell );
+
+
 	$listObj->addCell( $db->f("perms") . ' / ('.$db->f("usertype").')');
-	
+
 	if( $db->f("user_id") ) {
 		$q = "SELECT shopper_group_name FROM #__{vm}_shopper_group, #__{vm}_shopper_vendor_xref WHERE ";
 		$q .= "#__{vm}_shopper_vendor_xref.user_id=$user_id AND #__{vm}_shopper_vendor_xref.shopper_group_id=#__{vm}_shopper_group.shopper_group_id";
@@ -103,7 +123,7 @@ while( $db->next_record() ) {
 		$tmp_cell = $dbs->f("shopper_group_name");
 	}
 	else
-		$tmp_cell = "";
+	$tmp_cell = "";
 	$listObj->addCell( $tmp_cell );
 	
 	if( $condition )
@@ -119,4 +139,5 @@ $listObj->writeTable();
 $listObj->endTable();
 
 $listObj->writeFooter( $keyword );
+
 ?>

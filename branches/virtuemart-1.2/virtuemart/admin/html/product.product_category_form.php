@@ -35,6 +35,7 @@ if ($category_id) {
 } 
 elseif (empty($vars["error"])) {
     $default["category_publish"] = "Y";
+    $default["category_shared"] = "Y";
     $default["category_flypage"] = FLYPAGE;
     $default["category_browsepage"] = CATEGORY_TEMPLATE;
     $default["products_per_row"] = PRODUCTS_PER_ROW; 
@@ -53,6 +54,18 @@ $tabs->startTab( "<img src='". IMAGEURL ."ps_image/edit.png' align='absmiddle' w
         } 
         else {
           echo "<input type=\"checkbox\" name=\"category_publish\" value=\"Y\" />";
+        }
+      ?> 
+      </td>
+    </tr>
+        <tr> 
+      <td width="21%" nowrap><div align="right"><?php echo $VM_LANG->_('PHPSHOP_CATEGORY_FORM_SHARED') ?>:</div></td>
+      <td width="79%"><?php 
+        if ($db->sf("category_shared")=="Y") { 
+          echo "<input type=\"checkbox\" name=\"category_shared\" value=\"Y\" checked=\"checked\" />";
+        } 
+        else {
+          echo "<input type=\"checkbox\" name=\"category_shared\" value=\"Y\" />";
         }
       ?> 
       </td>

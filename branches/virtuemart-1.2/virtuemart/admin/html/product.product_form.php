@@ -15,6 +15,14 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 *
 * http://virtuemart.net
 */
+
+/* Gets the $vendor_id 
+*/
+$q  = "SELECT vendor_id from `#__{vm}_auth_user_vendor` WHERE ";
+$q .= "user_id='" . $_SESSION['auth']["user_id"] . "' ";
+$db->query($q);
+$vendor_id = $db->f('vendor_id');
+
 mm_showMyFileName( __FILE__ );
 global $ps_product, $ps_product_category;
 require_once( CLASSPATH.'ps_product_discount.php' );
@@ -63,6 +71,7 @@ if( !empty($_REQUEST['product_categories']) && is_array($_REQUEST['product_categ
 } else {
 	$my_categories = array();
 }
+$GLOBALS['vmLogger']->debug("catid='".$catid."' product_id='".$product_id."'");
 $related_products = Array();
 
 if ($product_parent_id > 0) {
@@ -124,6 +133,7 @@ if (!empty($product_id)) {
 		$max_order = array_shift($order_levels);
 	}
 
+	
 	// Get category IDs
 	$db2 = new ps_DB;
 	$q = "SELECT category_id FROM #__{vm}_product_category_xref WHERE product_id='$product_id'";
@@ -185,6 +195,9 @@ elseif(!empty($product_parent_id)) {
 	$parent_product_name = $ps_product->get_field($product_parent_id, 'product_name');
 	$title .= ' :: <a href="' .$sess->url( $_SERVER['PHP_SELF'].'?page=product.product_form&product_id='.$product_parent_id).'">'.$parent_product_name.'</a>';
 }
+
+
+
 //First create the object and let it print a form heading
 $formObj = &new formFactory( $title );
 //Then Start the form
@@ -240,7 +253,9 @@ $tabs->startTab( $info_label, "info-page");
       <td width="21%"><div style="text-align:right;font-weight:bold;">
         <?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_VENDOR') ?>:</div>
       </td>
-      <td width="79%" ><?php ps_vendor::list_vendor($db->sf("vendor_id"));  ?></td>
+      <td width="79%" ><?php
+ 		ps_vendor::list_ornot_vendor($db->sf("vendor_id"),$vendor_id);
+      ?></td>
     </tr>
     <tr class="row1"> 
       <td width="21%" ><div style="text-align:right;font-weight:bold;">
@@ -261,7 +276,8 @@ $tabs->startTab( $info_label, "info-page");
 			</td>
 			<td>
 			<input style="vertical-align: top;" type="button" name="remove_category" onclick="removeSelectedOptions(relatedCatSelection, 'category_ids' )" value="&nbsp; &lt; &nbsp;" />
-			<?php			
+			<?php
+			
 			foreach( array_keys($my_categories) as $cat_id ) {
 				$categoriesArr[$cat_id] = ps_product_category::get_name_by_catid( $cat_id );
 			}

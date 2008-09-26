@@ -23,6 +23,16 @@ $allproducts = vmGet($_REQUEST, 'allproducts', 0 );
 require_once( CLASSPATH . "pageNavigation.class.php" );
 require_once( CLASSPATH . "htmlTools.class.php" );
 
+if (!$perm->check("admin")) {
+	$q = "SELECT vendor_id FROM #__{vm}_auth_user_vendor WHERE user_id='".$auth['user_id']."'";
+	$db->query( $q );
+	$db->next_record();
+	$vendor = $db->f("vendor_id");
+	$ps_vendor_id = $vendor;
+
+	$GLOBALS['vmLogger']->info("product_list: '".$ps_vendor_id ."' and user_id '".$auth['user_id']."'");
+}
+
 // Check to see if this is a search or a browse by category
 // Default is to show all products
 if( !empty($category_id)) {

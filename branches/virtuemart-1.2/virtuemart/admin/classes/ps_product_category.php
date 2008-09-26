@@ -33,6 +33,7 @@ class ps_product_category extends vmAbstractObject {
 		global $vmLogger, $VM_LANG;
 		require_once(CLASSPATH . 'imageTools.class.php' );
 		$valid = true;
+		
 		if (empty($d["category_name"])) {
 			$vmLogger->err( $VM_LANG->_('VM_PRODUCT_CATEGORY_ERR_NAME') );
 			$valid = False;
@@ -84,9 +85,26 @@ class ps_product_category extends vmAbstractObject {
 	 * @return boolean True when validation successful, false when not
 	 */
 	function validate_update(&$d) {
-		global $vmLogger, $VM_LANG;
+		global $vmLogger, $VM_LANG, $perm;
 		$valid = true;
 		require_once(CLASSPATH . 'imageTools.class.php' );
+		
+		$db = new ps_DB;
+		
+		//Has the User the right to update this category?
+		if (!$perm->check("admin")) {
+			$ps_vendor_id = $_SESSION["ps_vendor_id"];
+			$q = 'SELECT vendor_id FROM #__{vm}_category WHERE category_id='. $d["category_id"];
+			$db->query( $q );
+			$db->next_record();
+			$vendor = $db->f("vendor_id");
+			if($ps_vendor_id != $vendor){
+				$vmLogger->err( $VM_LANG->_('VM_PRODUCT_CATEGORY_ERR_NOT_OWNER') );
+				$valid = False;
+				return false;
+			}
+		}
+		
 		if (!$d["category_name"]) {
 			$vmLogger->err( $VM_LANG->_('VM_PRODUCT_CATEGORY_ERR_NAME') );
 			$valid = False;
@@ -95,7 +113,7 @@ class ps_product_category extends vmAbstractObject {
 			$vmLogger->err( $VM_LANG->_('VM_PRODUCT_CATEGORY_ERR_PARENT') );
 			$valid = False;
 		}
-		$db = new ps_DB;
+		
 		$q = 'SELECT category_thumb_image,category_full_image FROM #__{vm}_category WHERE category_id='. $d["category_id"];
 		$db->query( $q );
 		$db->next_record();
@@ -163,7 +181,7 @@ class ps_product_category extends vmAbstractObject {
 	 * @return boolean True when validation successful, false when not
 	 */
 	function validate_delete( $category_id, &$d) {
-		global $vmLogger, $VM_LANG;
+		global $vmLogger, $VM_LANG,$perm;
 		$db = new ps_DB;
 		require_once(CLASSPATH . 'imageTools.class.php' );
 		if (empty( $category_id )) {
@@ -171,6 +189,20 @@ class ps_product_category extends vmAbstractObject {
 			return False;
 		}
 
+		//Has the User the right to delete this category?
+		if (!$perm->check("admin")) {
+			$ps_vendor_id = $_SESSION["ps_vendor_id"];
+			$q = 'SELECT vendor_id FROM #__{vm}_category WHERE category_id='. $d["category_id"];
+			$db->query( $q );
+			$db->next_record();
+			$vendor = $db->f("vendor_id");
+			if($ps_vendor_id != $vendor){
+				$vmLogger->err( $VM_LANG->_('VM_PRODUCT_CATEGORY_ERR_NOT_OWNER') );
+				$valid = False;
+				return false;
+			}
+		}
+		
 		// Check for children
 		$q  = "SELECT * FROM #__{vm}_category_xref where category_parent_id='$category_id'";
 		$db->setQuery($q);   $db->query();
@@ -495,23 +527,30 @@ class ps_product_category extends vmAbstractObject {
 	* @param string the keyword to filter categories
 	*/
 	function getCategoryTreeArray( $only_published=true, $keyword = "" ) {
-
+		global $perm;
 		$db = new ps_DB;
+		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		
 		if( empty( $GLOBALS['category_info']['category_tree'])) {
 
 			// Get only published categories
-			$query  = "SELECT category_id, category_description, category_name,category_child_id as cid, category_parent_id as pid,list_order, category_publish
+			$query  = "SELECT category_id, category_description, category_name,category_child_id as cid, category_parent_id as pid,list_order, category_publish, category_shared
 						FROM #__{vm}_category, #__{vm}_category_xref WHERE ";
 			if( $only_published ) {
 				$query .= "#__{vm}_category.category_publish='Y' AND ";
 			}
+			
 			$query .= "#__{vm}_category.category_id=#__{vm}_category_xref.category_child_id ";
 			if( !empty( $keyword )) {
 				$query .= "AND ( category_name LIKE '%$keyword%' ";
 				$query .= "OR category_description LIKE '%$keyword%' ";
 				$query .= ") ";
 			}
+			if (!$perm->check("admin")) {
+				$query .= "AND (#__{vm}_category.vendor_id = '$ps_vendor_id' OR #__{vm}_category_xref.category_shared = 'Y') ";
+			}
 			$query .= "ORDER BY #__{vm}_category.list_order ASC, #__{vm}_category.category_name ASC";
+			
 
 			// initialise the query in the $database connector
 			// this translates the '#__' prefix into the real database prefix
@@ -527,6 +566,7 @@ class ps_product_category extends vmAbstractObject {
 				$categories[$db->f("cid")]["category_description"] = $db->f("category_description");
 				$categories[$db->f("cid")]["list_order"] = $db->f("list_order");
 				$categories[$db->f("cid")]["category_publish"] = $db->f("category_publish");
+				$categories[$db->f("cid")]["category_shared"] = $db->f("category_shared");
 			}
 
 			$GLOBALS['category_info']['category_tree'] = $categories;
@@ -1020,13 +1060,14 @@ class ps_product_category extends vmAbstractObject {
 	 * @param array The category IDs which are to be disabled in the select list
 	 */
 	function list_all($name, $category_id, $selected_categories=Array(), $size=1, $toplevel=true, $multiple=false, $disabledFields=array() ) {
-		global $VM_LANG;
+		global $VM_LANG,$perm;
 		
 		$db = new ps_DB;
 
 		$q  = "SELECT category_parent_id FROM #__{vm}_category_xref ";
 		if( $category_id ) {
-			$q .= "WHERE category_child_id='$category_id'";
+//			//This here is the reason that I put the category_shared field into the table {vm}_category_xref it would fit better in {vm}_category
+			$q .= "WHERE category_child_id='$category_id' AND category_shared = 'Y'";		
 		}
 		$db->query( $q );
 		$db->next_record();
@@ -1089,7 +1130,7 @@ class ps_product_category extends vmAbstractObject {
 	 * @param array $selected_categories All category IDs that will be pre-selected
 	 */
 	function list_tree($category_id="", $cid='0', $level='0', $selected_categories=Array(), $disabledFields=Array() ) {
-
+		global $perm;
 		$ps_vendor_id = $_SESSION["ps_vendor_id"];
 		$db = new ps_DB;
 
@@ -1098,7 +1139,14 @@ class ps_product_category extends vmAbstractObject {
 		$q = "SELECT category_id, category_child_id,category_name FROM #__{vm}_category,#__{vm}_category_xref ";
 		$q .= "WHERE #__{vm}_category_xref.category_parent_id='$cid' ";
 		$q .= "AND #__{vm}_category.category_id=#__{vm}_category_xref.category_child_id ";
-		$q .= "AND #__{vm}_category.vendor_id ='$ps_vendor_id' ";
+		if (!$perm->check("admin")) {
+			//This shows for the admin everything, but for normal vendors only their own AND shared categories by Max Milbers
+//			$q .= "AND #__{vm}_category.vendor_id ='$ps_vendor_id' ";
+			$q .= "AND (#__{vm}_category.vendor_id = '$ps_vendor_id' OR #__{vm}_category_xref.category_shared = 'Y') ";
+			
+		}
+		$GLOBALS['vmLogger']->debug('$ps_vendor_id='.$ps_vendor_id);
+		
 		$q .= "ORDER BY #__{vm}_category.list_order, #__{vm}_category.category_name ASC";
 		$db->setQuery($q);   $db->query();
 

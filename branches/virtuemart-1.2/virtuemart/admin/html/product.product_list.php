@@ -17,13 +17,19 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 mm_showMyFileName( __FILE__ );
 require_once( CLASSPATH .'ps_product_files.php');
-global $ps_product, $ps_product_category;
+global $ps_product, $ps_product_category, $ps_vendor_id;
 
 $keyword = vmGet($_REQUEST, 'keyword' );
-$vendor = vmGet($_REQUEST, 'vendor', '');
+
+//The vmGet didnt worked for this purpose by Max Milbers
+$vendor = $ps_vendor_id;
+
 $product_parent_id = vmGet($_REQUEST, 'product_parent_id', null);
+
 $product_type_id = vmGet($_REQUEST, 'product_type_id', null); // Changed Product Type
+
 $search_date = vmGet($_REQUEST, 'search_date', null); // Changed search by date
+
 
 $now = getdate();
 $nowstring = $now["hours"].":".$now["minutes"]." ".$now["mday"].".".$now["mon"].".".$now["year"];
@@ -35,8 +41,6 @@ else {
 }
 $search_type = vmGet($_REQUEST, 'search_type', 'product');
 
-require_once( CLASSPATH . "pageNavigation.class.php" );
-require_once( CLASSPATH . "htmlTools.class.php" );
 
 // uuuh, we're using modern methods.
 vmCommonHTML::loadExtjs(); // Having a modal window is good
@@ -62,12 +66,7 @@ vmCommonHTML::loadExtjs(); // Having a modal window is good
 </div>
 <?php
 
-if (!$perm->check("admin")) {
-	$q = "SELECT vendor_id FROM #__{vm}_auth_user_vendor WHERE user_id='".$auth['user_id']."'";
-	$db->query( $q );
-	$db->next_record();
-	$vendor = $db->f("vendor_id");
-}
+
 
 $search_sql = " (#__{vm}_product.product_name LIKE '%$keyword%' OR \n";
 $search_sql .= "#__{vm}_product.product_sku LIKE '%$keyword%' OR \n";
@@ -87,11 +86,9 @@ if (!empty($category_id) && empty( $product_parent_id)) {
 	$q .= "AND #__{vm}_product.product_id=#__{vm}_product_category_xref.product_id ";
 	$q .= "AND #__{vm}_product.product_parent_id='' ";
 	if (!$perm->check("admin")) {
-		$q  .= "AND #__{vm}_product.vendor_id = '$ps_vendor_id' ";
+		$q  .= "AND #__{vm}_product.vendor_id = '$vendor' ";
 	}
-	elseif( !empty($vendor) ) {
-		$q .=  "AND #__{vm}_product.vendor_id='$vendor' ";
-	}
+
 	if( !empty( $keyword)) {
 		$q .= " AND $search_sql";
 	}
@@ -104,11 +101,9 @@ elseif (!empty($keyword)) {
 	$q = $search_sql;
 	$q .= "AND #__{vm}_product.product_parent_id='' ";
 	if (!$perm->check("admin")) {
-		$q  .= "AND #__{vm}_product.vendor_id = '$ps_vendor_id' ";
+		$q  .= "AND #__{vm}_product.vendor_id = '$vendor' ";
 	}
-	elseif( !empty($vendor) ) {
-		$q .=  "AND #__{vm}_product.vendor_id='$vendor' ";
-	}
+
 	$count .= $q;
 	$q .= " ORDER BY product_publish DESC,product_name ";
 }
@@ -132,11 +127,9 @@ elseif (!empty($product_type_id)) {
 	$q = "#__{vm}_product.product_id=#__{vm}_product_product_type_xref.product_id ";
 	$q .= "AND product_type_id='$product_type_id' ";
 	if (!$perm->check("admin")) {
-		$q  .= "AND #__{vm}_product.vendor_id = '$ps_vendor_id' ";
+		$q  .= "AND #__{vm}_product.vendor_id = '$vendor' ";
 	}
-	elseif( !empty($vendor) ) {
-		$q .=  "AND #__{vm}_product.vendor_id='$vendor' ";
-	}
+
 	if( !empty( $keyword)) {
 		$q .= " AND $search_sql";
 	}
@@ -168,11 +161,9 @@ elseif (!empty($search_date)) {
 		$where = array();
 		//         $where[] = "#__{vm}_product.product_parent_id='0' ";
 		if (!$perm->check("admin")) {
-			$where[] = " #__{vm}_product.vendor_id = '$ps_vendor_id' ";
+			$where[] = " #__{vm}_product.vendor_id = '$vendor' ";
 		}
-		elseif( !empty($vendor) ) {
-			$where[] =  " #__{vm}_product.vendor_id='$vendor' ";
-		}
+
 		$q = "";
 		switch( $search_type ) {
 			case "product" :
@@ -201,16 +192,15 @@ else {
 	$count = "SELECT COUNT(*) as num_rows FROM #__{vm}_product WHERE ";
 	$q = "product_parent_id='0' ";
 	if (!$perm->check("admin")) {
-		$q  .= "AND #__{vm}_product.vendor_id = '$ps_vendor_id' ";
+		$q  .= "AND #__{vm}_product.vendor_id = '$vendor' ";
 	}
-	elseif( !empty($vendor) ) {
-		$q .=  "AND #__{vm}_product.vendor_id='$vendor' ";
-	}
+
 	//$q .= "AND #__{vm}_product.product_id=#__{vm}_product_reviews.product_id ";
 	//$q .= "AND #__{vm}_category.category_id=#__{vm}_product_category_xref.category_id ";
 	$count .= $q;
 	$q .= " ORDER BY product_publish DESC,product_name ";
 }
+$GLOBALS['vmLogger']->debug('The query in product.product_list: '.$q);
 $db->query($count);
 $db->next_record();
 $num_rows = $db->f("num_rows");

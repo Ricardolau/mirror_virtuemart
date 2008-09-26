@@ -30,8 +30,8 @@ $option = empty($option)?vmGet( $_REQUEST, 'option', 'com_virtuemart'):$option;
 $vendor_id = vmGet( $_REQUEST, 'vendor_id');
 
 if (!empty($vendor_id)) {
-  $q = "SELECT * FROM #__{vm}_vendor WHERE vendor_id='$vendor_id'"; 
-  $db->query($q);  
+  $qven = "SELECT * FROM #__{vm}_vendor WHERE vendor_id='$vendor_id'"; 
+  $db->query($qven);  
   $db->next_record();
 } elseif (!isset($vars["error"])) {
   $default["vendor_currency"] = $_SESSION['vendor_currency'];
@@ -39,6 +39,97 @@ if (!empty($vendor_id)) {
 /* Build up the Tabs */
 $tabs = new vmTabPanel(0, 1, "vendorform");
 $tabs->startPane("content-pane");
+
+  $tabs->startTab( $VM_LANG->_('PHPSHOP_STORE_FORM_CONTACT_LBL'), "contact-page");
+  ?>
+  <table class="adminform">
+    <tr> 
+      <td colspan="2"><strong><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_CONTACT_LBL') ?></strong></td>
+    </tr>
+    <tr> 
+      <td align="right" ><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_JOOMLA_NICK') ?>:</td>
+      <td >
+       	<input type="text" class="inputbox" name="vendor_nick" value="<?php $db->sp("vendor_nick") ?>" size="16" />
+      </td>
+    </tr>
+    <tr> 
+      <td align="right" ><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_LAST_NAME') ?>:</td>
+      <td > 
+        <input type="text" class="inputbox" name="contact_last_name" value="<?php $db->sp("contact_last_name") ?>" size="16" />
+      </td>
+    </tr>
+    <tr> 
+      <td align="right"><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_FIRST_NAME') ?>:</td>
+      <td > 
+        <input type="text" class="inputbox" name="contact_first_name" value="<?php $db->sp("contact_first_name") ?>" size="16" />
+      </td>
+    </tr>
+    <tr> 
+      <td align="right" ><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_MIDDLE_NAME') ?>:</td>
+      <td> 
+        <input type="text" class="inputbox" name="contact_middle_name" value="<?php $db->sp("contact_middle_name") ?>" size="16" />
+      </td>
+    </tr>
+    <tr> 
+      <td align="right" ><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_TITLE') ?>:</td>
+      <td> 
+        <input type="text" class="inputbox" name="contact_title" value="<?php $db->sp("contact_title") ?>" size="8" />
+      </td>
+    </tr>
+    <tr> 
+      <td align="right" ><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_PHONE_1') ?>:</td>
+      <td> 
+        <input type="text" class="inputbox" name="contact_phone_1" value="<?php $db->sp("contact_phone_1") ?>" size="10" />
+      </td>
+    </tr>
+    <tr> 
+      <td align="right" ><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_PHONE_2') ?>:</td>
+      <td> 
+        <input type="text" class="inputbox" name="contact_phone_2" value="<?php $db->sp("contact_phone_2") ?>" size="10" />
+      </td>
+    </tr>
+    <tr> 
+      <td align="right"><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_FAX') ?>:</td>
+      <td>
+        <input type="text" class="inputbox" name="contact_fax" value="<?php $db->sp("contact_fax") ?>" size="10" />
+      </td>
+    </tr>
+    <tr> 
+      <td align="right" ><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_EMAIL') ?>:</td>
+      <td>
+        <input type="text" class="inputbox" name="contact_email" value="<?php $db->sp("contact_email") ?>" size="18" />
+      </td>
+    </tr>
+    <tr> 
+      <td align="right"><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_IMAGE_PATH') ?>:</td>
+      <td> 
+        <input type="text" class="inputbox" name="vendor_image_path" value="<?php $db->sp("vendor_image_path") ?>" size="16" />
+      </td>
+    </tr>
+    <tr> 
+      <td align="right" >&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+      <td width="22%" align="right"  valign="top"><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_DESCRIPTION') ?>:</td>
+      <td width="78%" ><?php
+	  	 editorArea( 'editor1', $db->f("vendor_store_desc"), 'vendor_store_desc', '400', '200', '70', '15' );
+			?>
+      </td>
+    </tr>
+            <tr> 
+      <td width="22%" align="right"  valign="top"><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_TOS') ?>:</td>
+      <td width="78%" ><?php
+	  	  editorArea( 'editor2', $db->f("vendor_terms_of_service"), 'vendor_terms_of_service', '400', '200', '70', '15' );
+		?>
+      </td>
+    </tr>
+    <tr align="center"> 
+      <td colspan="2" >&nbsp;</td>
+    </tr> 
+  </table>
+<?php
+$tabs->endTab();
 $tabs->startTab( $VM_LANG->_('PHPSHOP_STORE_MOD'), "info-page");
 ?>
 
@@ -225,90 +316,7 @@ $currency_display =& ps_vendor::get_currency_display_style( $db->f("vendor_curre
   </table>
   <?php
   $tabs->endTab();
-  $tabs->startTab( $VM_LANG->_('PHPSHOP_STORE_FORM_CONTACT_LBL'), "contact-page");
-  ?>
-  <table class="adminform">
-    <tr> 
-      <td colspan="2"><strong><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_CONTACT_LBL') ?></strong></td>
-    </tr>
-    <tr> 
-      <td align="right" ><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_LAST_NAME') ?>:</td>
-      <td > 
-        <input type="text" class="inputbox" name="contact_last_name" value="<?php $db->sp("contact_last_name") ?>" size="16" />
-      </td>
-    </tr>
-    <tr> 
-      <td align="right"><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_FIRST_NAME') ?>:</td>
-      <td > 
-        <input type="text" class="inputbox" name="contact_first_name" value="<?php $db->sp("contact_first_name") ?>" size="16" />
-      </td>
-    </tr>
-    <tr> 
-      <td align="right" ><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_MIDDLE_NAME') ?>:</td>
-      <td> 
-        <input type="text" class="inputbox" name="contact_middle_name" value="<?php $db->sp("contact_middle_name") ?>" size="16" />
-      </td>
-    </tr>
-    <tr> 
-      <td align="right" ><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_TITLE') ?>:</td>
-      <td> 
-        <input type="text" class="inputbox" name="contact_title" value="<?php $db->sp("contact_title") ?>" size="8" />
-      </td>
-    </tr>
-    <tr> 
-      <td align="right" ><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_PHONE_1') ?>:</td>
-      <td> 
-        <input type="text" class="inputbox" name="contact_phone_1" value="<?php $db->sp("contact_phone_1") ?>" size="10" />
-      </td>
-    </tr>
-    <tr> 
-      <td align="right" ><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_PHONE_2') ?>:</td>
-      <td> 
-        <input type="text" class="inputbox" name="contact_phone_2" value="<?php $db->sp("contact_phone_2") ?>" size="10" />
-      </td>
-    </tr>
-    <tr> 
-      <td align="right"><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_FAX') ?>:</td>
-      <td>
-        <input type="text" class="inputbox" name="contact_fax" value="<?php $db->sp("contact_fax") ?>" size="10" />
-      </td>
-    </tr>
-    <tr> 
-      <td align="right" ><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_EMAIL') ?>:</td>
-      <td>
-        <input type="text" class="inputbox" name="contact_email" value="<?php $db->sp("contact_email") ?>" size="18" />
-      </td>
-    </tr>
-    <tr> 
-      <td align="right"><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_IMAGE_PATH') ?>:</td>
-      <td> 
-        <input type="text" class="inputbox" name="vendor_image_path" value="<?php $db->sp("vendor_image_path") ?>" size="16" />
-      </td>
-    </tr>
-    <tr> 
-      <td align="right" >&nbsp;</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr> 
-      <td width="22%" align="right"  valign="top"><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_DESCRIPTION') ?>:</td>
-      <td width="78%" ><?php
-	  	 editorArea( 'editor1', $db->f("vendor_store_desc"), 'vendor_store_desc', '400', '200', '70', '15' );
-			?>
-      </td>
-    </tr>
-            <tr> 
-      <td width="22%" align="right"  valign="top"><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_TOS') ?>:</td>
-      <td width="78%" ><?php
-	  	  editorArea( 'editor2', $db->f("vendor_terms_of_service"), 'vendor_terms_of_service', '400', '200', '70', '15' );
-		?>
-      </td>
-    </tr>
-    <tr align="center"> 
-      <td colspan="2" >&nbsp;</td>
-    </tr> 
-  </table>
-<?php
-$tabs->endTab();
+
 $tabs->endPane();
 
 // Add necessary hidden fields

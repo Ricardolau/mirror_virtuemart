@@ -31,10 +31,15 @@ mm_showMyFileName( __FILE__ );
 require_once( CLASSPATH . "pageNavigation.class.php" );
 require_once( CLASSPATH . "htmlTools.class.php" );
 
+global $ps_vendor_id;
+$vendor = $ps_vendor_id;
+
 $category_id = vmGet( $_REQUEST, 'category_id' );
 $filter = vmGet($_REQUEST, 'filter', "featured_and_discounted" );
 
 $qfilter = " AND (product_special='Y' OR product_discount_id > 0) ";
+
+$GLOBALS['vmLogger']->debug('The Vendor '.$ps_vendor_id);
 
 switch( $filter ) {
 	case "all":
@@ -56,7 +61,11 @@ if (!empty( $category_id )) {
 	$list  = "SELECT * FROM #__{vm}_product, #__{vm}_product_category_xref WHERE ";
 	$count  = "SELECT count(*) as num_rows FROM #__{vm}_product,
                 product_category_xref, category WHERE ";
-	//$q  = "product.vendor_id = '$ps_vendor_id' ";
+	if (!$perm->check("admin")) {
+		$q = "#__{vm}_product.vendor_id = '$vendor' AND";
+	}else{
+		$q = '';
+	}
 	$q = "#__{vm}_product_category_xref.category_id='$category_id' ";
 	$q .= "AND #__{vm}_product.product_id=#__{vm}_product_category_xref.product_id ";
 	$q .= $qfilter;
@@ -67,8 +76,13 @@ if (!empty( $category_id )) {
 elseif (!empty($keyword)) {
 	$list  = "SELECT * FROM #__{vm}_product WHERE ";
 	$count = "SELECT count(*) as num_rows FROM #__{vm}_product WHERE ";
+	if (!$perm->check("admin")) {
+		$q = "#__{vm}_product.vendor_id = '$vendor' AND";
+	}else{
+		$q = '';
+	}
 	//$q  = "product.vendor_id = '$ps_vendor_id' ";
-	$q = "(#__{vm}_product.product_name LIKE '%$keyword%' OR ";
+	$q .= "(#__{vm}_product.product_name LIKE '%$keyword%' OR ";
 	$q .= "#__{vm}_product.product_sku LIKE '%$keyword%' OR ";
 	$q .= "#__{vm}_product.product_s_desc LIKE '%$keyword%' OR ";
 	$q .= "#__{vm}_product.product_desc LIKE '%$keyword%'";
@@ -82,11 +96,15 @@ else {
 	$list  = "SELECT * FROM #__{vm}_product ";
 	$count = "SELECT count(*) as num_rows FROM #__{vm}_product ";
 	$q = "WHERE 1=1 ";
+	if (!$perm->check("admin")) {
+		$q  .= "AND #__{vm}_product.vendor_id = '$vendor' ";
+	}
 	$q .= $qfilter;
 	$q .= "ORDER BY product_name ";
 	$list .= $q . " LIMIT $limitstart, $limit";
 	$count .= $q;
 }
+$GLOBALS['vmLogger']->debug('The query in product.product_list: '.$count);
 $db->query($count);
 
 $db->next_record();

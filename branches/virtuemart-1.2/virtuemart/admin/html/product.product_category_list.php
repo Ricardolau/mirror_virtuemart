@@ -18,8 +18,8 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 mm_showMyFileName( __FILE__ );
 global $ps_product_category;
 
-require_once( CLASSPATH . "pageNavigation.class.php" );
-require_once( CLASSPATH . "htmlTools.class.php" );
+require_once( CLASSPATH . 'pageNavigation.class.php' );
+require_once( CLASSPATH . 'htmlTools.class.php' );
 
 $categories = ps_product_category::getCategoryTreeArray(false, $keyword ); // Get array of category objects
 $result = ps_product_category::sortCategoryTreeArray( $categories );
@@ -54,6 +54,7 @@ $columns = Array(  "#" => "width=\"20\"",
 					$VM_LANG->_('PHPSHOP_CATEGORY_FORM_DESCRIPTION') => 'width="30%"',
 					$VM_LANG->_('PHPSHOP_PRODUCTS_LBL') => 'width="10%"',
 					$VM_LANG->_('PHPSHOP_PRODUCT_LIST_PUBLISH') => 'width="5%"',
+					$VM_LANG->_('PHPSHOP_PRODUCT_LIST_SHARED') => 'width="5%"',
 					$VM_LANG->_('PHPSHOP_MODULE_LIST_ORDER') => 'width="7%"',
 					vmCommonHTML::getSaveOrderButton( min($nrows - $pageNav->limitstart, $pageNav->limit ) ) => 'width="8%"',
 					$VM_LANG->_('E_REMOVE') => "width=\"5%\"",
@@ -66,6 +67,9 @@ if( $pageNav->limit < $nrows )
 	if( $pageNav->limitstart+$pageNav->limit < $nrows ) {
 		$nrows = $pageNav->limitstart + $pageNav->limit;
 	}
+	
+
+$dbs = new ps_DB;
 
 for($n = $pageNav->limitstart ; $n < $nrows ; $n++) {
 
@@ -98,6 +102,7 @@ for($n = $pageNav->limitstart ; $n < $nrows ; $n++) {
 						."&nbsp;<a href=\"". $_SERVER['PHP_SELF'] . "?page=product.product_list&category_id=" . $categories[$row_list[$n]]["category_child_id"]."&option=com_virtuemart"
 						. "\">[ ".$VM_LANG->_('PHPSHOP_SHOW')." ]</a>"
 					);
+					
 	// Publish / Unpublish
 	$tmp_cell = "<a href=\"". $sess->url( $_SERVER['PHP_SELF']."?page=product.product_category_list&category_id=".$categories[$row_list[$n]]["category_child_id"]."&func=changePublishState" );
 	if ($categories[$row_list[$n]]["category_publish"]=='N') {
@@ -110,6 +115,18 @@ for($n = $pageNav->limitstart ; $n < $nrows ; $n++) {
 	$tmp_cell .= "</a>";
 	$listObj->addCell( $tmp_cell );
 
+	// Shared / notShared Category with other vendors. 
+	$tmp_cell = "<a href=\"". $sess->url( $_SERVER['PHP_SELF']."?page=product.product_category_list&category_child_id=".$categories[$row_list[$n]]["category_child_id"]."&func=changePublishState" );
+	if ($categories[$row_list[$n]]["category_shared"]=='N') {
+		$tmp_cell .= "&task=publish\">";
+	} 
+	else { 
+		$tmp_cell .= "&task=unpublish\">";
+	}
+	$tmp_cell .= vmCommonHTML::getYesNoIcon ( $categories[$row_list[$n]]["category_shared"] );
+	$tmp_cell .= "</a>";
+	$listObj->addCell( $tmp_cell );
+	
 	// Order Up and Down Icons
 	if( $keyword == '' ) {
 		// This must be a big cheat, because we're working on sorted arrays,

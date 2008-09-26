@@ -39,6 +39,15 @@ class ps_product extends vmAbstractObject {
 		$valid = true;
 		$db = new ps_DB;
 
+ 		/*Only the vendor itself or the admin is allowed to change the product by Max Milbers*/
+		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		if( !$perm->check( 'admin' )) {
+			if($ps_vendor_id!=$d['vendor_id']){
+				$vmLogger->err( $VM_LANG->_('VM_PRODUCT_NOT_ALLOWED_TO_CHANGE',false) );
+				$valid = false;
+			}		
+		}
+		
 		$q = "SELECT product_id,product_thumb_image,product_full_image FROM #__{vm}_product WHERE product_sku='";
 		$q .= $d["product_sku"] . "'";
 		$db->setQuery($q); $db->query();
@@ -262,13 +271,8 @@ class ps_product extends vmAbstractObject {
 		$timestamp = time();
 		$db = new ps_DB;
 
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
-		if( $perm->check( 'admin' )) {
-			$vendor_id = $d['vendor_id'];
-		}
-		else {
-			$vendor_id = $ps_vendor_id;
-		}
+		$vendor_id = $d['vendor_id'];
+
         // Insert into DB
 		$fields = array ( 'vendor_id' => $vendor_id,
 						'product_parent_id' => vmRequest::getInt('product_parent_id'),
@@ -461,15 +465,9 @@ class ps_product extends vmAbstractObject {
 
 		$timestamp = time();
 		$db = new ps_DB;
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
-		if( $perm->check( 'admin' )) {
-			$vendor_id = $d['vendor_id'];
-		}
-		else {
-			$vendor_id = $ps_vendor_id;
-		}
-		$old_vendor_id = $this->get_field($d['product_id'], 'vendor_id');
-		
+			 
+		$vendor_id = $d['vendor_id'];
+
         // Insert into DB
 		$fields = array ( 'vendor_id' => $vendor_id,
 						'product_sku' => vmGet($d,'product_sku'),
@@ -502,7 +500,9 @@ class ps_product extends vmAbstractObject {
 						'child_option_ids' => vmGet($d,'included_product_id'),
 						'product_order_levels' => $d['order_levels'] );
 						
-		$db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  'WHERE product_id='. (int)$d["product_id"] . ' AND vendor_id=' . (int)$old_vendor_id );
+		//this line didnt worked correct. Sometimes the category was changed but not the description, updating vendor didnt worked at all by Max Milbers
+//		$db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  'WHERE product_id='. (int)$d["product_id"] . ' AND vendor_id=' . (int)$d['vendor_id'] );
+$db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (int)$d["product_id"] ."'" );
 		$db->query();
 
 		/* notify the shoppers that the product is here */

@@ -99,6 +99,7 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_category_xref` (
   `category_parent_id` int(11) NOT NULL default '0',
   `category_child_id` int(11) NOT NULL default '0',
   `category_list` int(11) default NULL,
+  `category_shared` VARCHAR( 1 ) NOT NULL DEFAULT '1', 
   PRIMARY KEY (`category_child_id`),
   KEY `category_xref_category_parent_id` (`category_parent_id`),
   KEY `idx_category_xref_category_list` (`category_list`)
@@ -1084,6 +1085,7 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_order_user_info` (
   `order_info_id` int(11) NOT NULL auto_increment,
   `order_id` int(11) NOT NULL default '0',
   `user_id` int(11) NOT NULL default '0',
+  `user_is_vendor` TINYINT( 1 ) NOT NULL default '0',
   `address_type` char(2) default NULL,
   `address_type_name` varchar(32) default NULL,
   `company` varchar(64) default NULL,
@@ -2325,6 +2327,7 @@ $db->query( "INSERT INTO `#__{vm}_userfield_values` VALUES (3, 25, 'PHPSHOP_ACCO
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_vendor` (
   `vendor_id` int(11) NOT NULL auto_increment,
   `vendor_name` varchar(64) default NULL,
+  `vendor_nick` VARCHAR( 150 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL default '',
   `contact_last_name` varchar(32) NOT NULL default '',
   `contact_first_name` varchar(32) NOT NULL default '',
   `contact_middle_name` varchar(32) default NULL,

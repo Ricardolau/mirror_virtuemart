@@ -42,6 +42,7 @@ class ps_cart {
 				$contents = $db->f('cart_content');
                 $_SESSION['savedcart'] = array();
 				$_SESSION['savedcart'] = unserialize( $contents );
+				
 				// Now check if all products are still published and existant
 				$products_in_cart = array();
 				for ($i=0;$i<$_SESSION['savedcart']["idx"];$i++) {
@@ -70,6 +71,8 @@ class ps_cart {
 		if (empty($_SESSION['cart'])) {
 			$cart = array();
 			$cart['idx'] = 0;
+			$cart['cart_vendor_id'] = 0;	
+			
 			$_SESSION['cart'] = $cart;
 			return $cart;
 		}
@@ -93,6 +96,35 @@ class ps_cart {
  	*/
 	function add(&$d) {
 		global $sess, $VM_LANG, $cart, $vmLogger,$func;
+
+		$cart = $_SESSION['cart'];
+		$cart_vendor_id = $cart['cart_vendor_id'];
+//		$GLOBALS['vmLogger']->debug( 'MAX_VENDOR_PRO_CART '.MAX_VENDOR_PRO_CART);
+		
+		if(MAX_VENDOR_PRO_CART>0){
+			if( !empty( $d['product_id'])){
+				$db = new ps_DB;
+				$q = 'SELECT vendor_id FROM #__{vm}_product WHERE product_id = '.$d['product_id'];
+				$db->setQuery($q); $db->query();
+	//			$GLOBALS['vmLogger']->debug( 'add to cart [vendor_id] '.$db->f('vendor_id'));
+				$vendor_id = $db->f('vendor_id');
+				if( $vendor_id ) {
+					if($cart_vendor_id==0){
+						$GLOBALS['vmLogger']->debug( 'Set cart[cart_vendor_id] to '.$vendor_id);
+						$cart['cart_vendor_id'] = $vendor_id;
+					}else{
+						if($cart_vendor_id!=$vendor_id){
+							$GLOBALS['vmLogger']->info( 'Please finish your previous order first');
+							return false;
+						}else{
+	//						$GLOBALS['vmLogger']->debug( 'Adding product to cart is all well done');
+						}
+					}	
+				}			
+			}
+			$_SESSION['cart'] = $cart;
+		}
+
 		
 		$d = $GLOBALS['vmInputFilter']->process( $d );
 		
@@ -105,6 +137,8 @@ class ps_cart {
 		$total_updated = 0;
 		$total_deleted = 0;
 		$_SESSION['last_page'] = "shop.product_details";
+		
+
 		if( !empty( $d['product_id']) && !isset($d["prod_id"])) {
 			if( empty( $d['prod_id'] )) $d['prod_id'] = array();
 			if( is_array($d['product_id'])) {
@@ -229,6 +263,7 @@ class ps_cart {
 				$k = $_SESSION['cart']["idx"];
 
 				$_SESSION['cart'][$k]["quantity"] = $quantity;
+//				$_SESSION['cart'][$k]["cart_vendor_id"] = $cart_vendor_id;
 				$_SESSION['cart'][$k]["product_id"] = $product_id;
 				$_SESSION['cart'][$k]["parent_id"] = $e["product_id"];
                 $_SESSION['cart'][$k]["category_id"] = vmGet($e, 'category_id', 0 );

@@ -17,6 +17,8 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 mm_showMyFileName( __FILE__ );
 require_once( CLASSPATH .'ps_product_files.php');
+require_once( CLASSPATH .'pageNavigation.class.php' );
+
 global $ps_product, $ps_product_category, $ps_vendor_id;
 
 $keyword = vmGet($_REQUEST, 'keyword' );

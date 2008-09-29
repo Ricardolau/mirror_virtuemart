@@ -855,9 +855,15 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_ADMIN_CFG_SITE'), "site-page");
         <?php 
         echo ps_html::list_themes( 'conf_THEME', basename(VM_THEMEURL) );
 
-        $link = $sess->url( $_SERVER['PHP_SELF'].'?page=admin.theme_config_form&amp;theme='.basename(VM_THEMEURL).'&amp;no_menu=1' );
-	    $text = $VM_LANG->_('PHPSHOP_CONFIG');
-		echo vmCommonHTML::hyperLink($link, $text, '', 'Edit: '.$text, 'onclick="parent.addSimplePanel( \''.$db->getEscaped($text).'\', \''.$link.'\' );return false;"');
+        if( $vmLayout == 'standard') {
+	        $link = $sess->url( $_SERVER['PHP_SELF'].'?page=admin.theme_config_form&amp;theme='.basename(VM_THEMEURL) );
+	        $text = $VM_LANG->_('PHPSHOP_CONFIG');
+			echo vmCommonHTML::hyperlink($link, $VM_LANG->_('PHPSHOP_CONFIG') );
+		} else {
+	        $link = $sess->url( $_SERVER['PHP_SELF'].'?page=admin.theme_config_form&amp;theme='.basename(VM_THEMEURL).'&amp;no_menu=1' );
+	        $text = $VM_LANG->_('PHPSHOP_CONFIG');
+			echo vmCommonHTML::hyperLink($link, $text, '', 'Edit: '.$text, 'onclick="parent.addSimplePanel( \''.$db->getEscaped($text).'\', \''.$link.'\' );return false;"');
+		}
         
         ?>
         </td>
@@ -1022,12 +1028,20 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_ADMIN_CFG_CHECKOUT'), "checkout-page");
 ?>
 
 <table class="adminform">
-   <tr>
+   	<tr>
         <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_ENABLE_CHECKOUTBAR') ?></td>
         <td>
             <input type="checkbox" name="conf_SHOW_CHECKOUT_BAR" class="inputbox" <?php if (SHOW_CHECKOUT_BAR == 1) echo "checked=\"checked\""; ?> value="1" />
         </td>
         <td width="30%"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_ENABLE_CHECKOUTBAR_EXPLAIN') ?>
+        </td>
+    </tr>
+       	<tr>
+        <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_MAX_VENDOR_PRO_CART') ?></td>
+        <td>
+            <input type="text" name="conf_MAX_VENDOR_PRO_CART" class="inputbox" value=<?php echo MAX_VENDOR_PRO_CART; ?> />
+        </td>
+        <td width="30%"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_MAX_VENDOR_PRO_CART_EXPLAIN') ?>
         </td>
     </tr>
     <tr>

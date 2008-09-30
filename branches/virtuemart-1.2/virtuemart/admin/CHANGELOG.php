@@ -35,6 +35,16 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+19.09.2008 soeren
+# Task #2378 - Errors in JSCook menu
+^ moved Toolbar into TopToolbar Section of the Panel, so it's now "fixed" if one scrolls through the page
+^ minor Javascript tweaking for better stability
+# Task #2296 - Error: Cookie Missing. You are not authorized to view this resource when trying to recommend a product. 
+^ re-arranged many parts of the product form 
+	- added new Tab "Product Variants" for Child Attribute Values + other Attributes
+	- integrated related products selection into Status Tab
+	- added new Product Type Selector into separate Tab (useful for (new) Products, which have no type yet)
+	
 23.09.2008 aravot
 Removed toolbar.html.php and toolbar.php reference from virtuemart.xml file
 

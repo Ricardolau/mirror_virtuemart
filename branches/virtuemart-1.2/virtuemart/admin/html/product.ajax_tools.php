@@ -18,6 +18,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 global $ps_product;
 $task = strtolower( vmGet( $_REQUEST, 'task' ));
 $option = strtolower( vmGet( $_REQUEST, 'option' ));
+$product_id = intval( vmGet( $_REQUEST, 'product_id' ));
 require_once( CLASSPATH.'connectionTools.class.php');
 
 switch( $task ) {
@@ -30,7 +31,7 @@ switch( $task ) {
 	case 'getpriceforshoppergroup':
 		include_class('product');
 		$shopper_group_id = intval( vmGet( $_REQUEST, 'shopper_group_id', 5 ));
-		$product_id = intval( vmGet( $_REQUEST, 'product_id' ));
+		
 		$price = $ps_product->getPriceByShopperGroup( $product_id, $shopper_group_id );
 		$formatPrice = vmGet( $_REQUEST, 'formatPrice', 0 );
 		if( $formatPrice ) {
@@ -58,7 +59,6 @@ switch( $task ) {
 		include_class('shopper');
 		include_class('product');
 		$shopper_group_id = intval( vmGet( $_REQUEST, 'shopper_group_id', 5 ));
-		$product_id = intval( vmGet( $_REQUEST, 'product_id' ));
 		$currency_code = vmGet( $_REQUEST, 'product_currency', $vendor_currency );
 		$price = $ps_product->getPriceByShopperGroup( $product_id, $shopper_group_id );
 		if( isset( $price['product_currency'] )) {
@@ -153,6 +153,11 @@ switch( $task ) {
 		$vm_mainframe->close(true);
 		
 		break;
+	case 'getproducttypeform':
+		require_once( CLASSPATH.'ps_product_type.php');
+		$ps_product_type = new ps_product_type();
+		$product_type_id = vmRequest::getInt('product_type_id');
+		echo $ps_product_type->get_product_type_form($product_type_id, $product_id);
 	default:
 		exit;
 }

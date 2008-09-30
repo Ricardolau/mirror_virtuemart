@@ -63,49 +63,49 @@ $formObj->startForm( 'adminForm', 'enctype="multipart/form-data"' );
 		  <fieldset>
 		  <legend><?php echo $VM_LANG->_('PHPSHOP_STORE_MOD') ?></legend>
 	 		<table class="adminform">
-			    <tr> 
+			    <tr class="row0"> 
 			      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_STORE_NAME') ?>:</td>
 			      <td width="78%" > 
 			        <input type="text" class="inputbox" name="vendor_store_name" value="<?php $db->sp("vendor_store_name") ?>" size="32" />
 			      </td>
 			    </tr>
-			    <tr> 
+			    <tr class="row1"> 
 			      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_COMPANY_NAME') ?>:</td>
 			      <td width="78%" > 
 			        <input type="text" class="inputbox" name="vendor_name" value="<?php $db->sp("vendor_name") ?>" size="32" />
 			      </td>
 			    </tr>
-			    <tr> 
+			    <tr class="row0"> 
 			      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_URL') ?>:</td>
 			      <td width="78%" > 
 			        <input type="text" class="inputbox" name="vendor_url" value="<?php $db->sp("vendor_url") ?>" size="32" />
 			      </td>
 			    </tr>
-			    <tr> 
+			    <tr class="row1"> 
 			      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_ADDRESS_1') ?>:</td>
 			      <td width="78%" > 
 			        <input type="text" class="inputbox" name="vendor_address_1" value="<?php $db->sp("vendor_address_1") ?>" size="32" />
 			      </td>
 			    </tr>
-			    <tr> 
+			    <tr class="row0"> 
 			      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_ADDRESS_2') ?>:</td>
 			      <td width="78%" > 
 			        <input type="text" class="inputbox" name="vendor_address_2" value="<?php $db->sp("vendor_address_2") ?>" size="32" />
 			      </td>
 			    </tr>
-			    <tr> 
+			    <tr class="row1"> 
 			      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_CITY') ?>:</td>
 			      <td width="78%" > 
 			        <input type="text" class="inputbox" name="vendor_city" value="<?php $db->sp("vendor_city") ?>" size="16" />
 			      </td>
 			    </tr>
-			    <tr> 
+			    <tr class="row0"> 
 			      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_COUNTRY') ?>:</td>
 			      <td width="78%" > 
 			        <?php $ps_html->list_country("vendor_country", $db->sf("vendor_country"), "onchange=\"changeStateList();\"") ?>
 			      </td>
 			    </tr>
-			    <tr> 
+			    <tr class="row1"> 
 			      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_STATE') ?>:</td>
 			      <td width="78%" ><?php 
 			        //$ps_html->list_states("vendor_state", $db->sf("vendor_state"));
@@ -113,19 +113,19 @@ $formObj->startForm( 'adminForm', 'enctype="multipart/form-data"' );
 			        ?>
 			      </td>
 			    </tr>
-			    <tr> 
+			    <tr class="row0"> 
 			      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_ZIP') ?>:</td>
 			      <td width="78%" > 
 			        <input type="text" class="inputbox" name="vendor_zip" value="<?php $db->sp("vendor_zip") ?>" size="10" />
 			      </td>
 			    </tr>
-			    <tr> 
+			    <tr class="row1"> 
 			      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_PHONE') ?>:</td>
 			      <td width="78%" > 
 			        <input type="text" class="inputbox" name="vendor_phone" value="<?php $db->sp("vendor_phone") ?>" size="16" />
 			      </td>
 			    </tr>
-			    <tr> 
+			    <tr class="row0"> 
 			      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_STORE_ADDRESS_FORMAT') ?>:<br />
 					<?php
 					echo vmToolTip($VM_LANG->_('PHPSHOP_STORE_ADDRESS_FORMAT_TIP') . ':<br />
@@ -149,7 +149,7 @@ $formObj->startForm( 'adminForm', 'enctype="multipart/form-data"' );
 			        
 			      </td>
 			    </tr>
-			    <tr> 
+			    <tr class="row1"> 
 			      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_STORE_DATE_FORMAT') ?>:
 				  </td>
 			      <td width="78%" > 
@@ -157,7 +157,7 @@ $formObj->startForm( 'adminForm', 'enctype="multipart/form-data"' );
 					<a href="http://www.php.net/manual/function.strftime.php" target="_blank">(info)</a>
 			      </td>
 			    </tr>
-			    <tr> 
+			    <tr class="row1"> 
 			      <td class="labelcell">&nbsp;</td>
 			      <td width="78%" > &nbsp;</td>
 			    </tr>
@@ -167,7 +167,7 @@ $formObj->startForm( 'adminForm', 'enctype="multipart/form-data"' );
 			<fieldset>
 		  <legend><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_LBL') ?></legend>
 	    	  <table class="adminform">
-	    		<tr> 
+	    		<tr class="row0"> 
 			      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_FULL_IMAGE') ?>:</td>
 			      <td width="78%" ><?php  
 			        $ps_vendor->show_image($db->f("vendor_full_image")); 
@@ -175,19 +175,19 @@ $formObj->startForm( 'adminForm', 'enctype="multipart/form-data"' );
 			        <input type="hidden" name="vendor_full_image_curr" value="<?php $db->p("vendor_full_image"); ?>" />
 			      </td>
 			    </tr>
-			    <tr> 
+			    <tr class="row1"> 
 			      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_UPLOAD') ?>:</td>
 			      <td width="78%" > 
 			        <input type="file" name="vendor_full_image" size="16" />
 			      </td>
 			    </tr>
-			    <tr> 
+			    <tr class="row0"> 
 			      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_MPOV') ?>: </td>
 			      <td width="78%" > 
 			        <input type="text" class="inputbox" name="vendor_min_pov" value="<?php $db->sp("vendor_min_pov") ?>" size="6" />
 			      </td>
 			    </tr>
-			    <tr> 
+			    <tr class="row1"> 
 			      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_FREE_SHIPPING_AMOUNT') ?>: </td>
 			      <td width="78%" > 
 			        <input type="text" class="inputbox" name="vendor_freeshipping" value="<?php $db->sp("vendor_freeshipping") ?>" size="6" />
@@ -202,55 +202,55 @@ $formObj->startForm( 'adminForm', 'enctype="multipart/form-data"' );
 		  			  <fieldset>
 			  <legend><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_CONTACT_LBL') ?></legend>
 			  <table class="adminform">
-			    <tr>
+			    <tr class="row0">
 			      <td class="labelcell"> <?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_LAST_NAME') ?>:</td>
 			      <td width="78%" > 
 			        <input type="text" class="inputbox" name="contact_last_name" value="<?php $db->sp("contact_last_name") ?>" size="16" />
 			      </td>
 			    </tr>
-			    <tr> 
+			    <tr class="row1"> 
 			      <td class="labelcell"> <?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_FIRST_NAME') ?>:</td>
 			      <td width="78%" > 
 			        <input type="text" class="inputbox" name="contact_first_name" value="<?php $db->sp("contact_first_name") ?>" size="16" />
 			      </td>
 			    </tr>
-			    <tr> 
+			    <tr class="row0"> 
 			      <td class="labelcell"> <?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_MIDDLE_NAME') ?>:</td>
 			      <td width="78%" > 
 			        <input type="text" class="inputbox" name="contact_middle_name" value="<?php $db->sp("contact_middle_name") ?>" size="16">
 			      </td>
 			    </tr>
-			    <tr> 
+			    <tr class="row1"> 
 			      <td class="labelcell"> <?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_TITLE') ?>:</td>
 			      <td width="78%" > 
 			        <input type="text" class="inputbox" name="contact_title" value="<?php $db->sp("contact_title") ?>" size="16" />
 			      </td>
 			    </tr>
-			    <tr> 
+			    <tr class="row0"> 
 			      <td class="labelcell"> <?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_PHONE_1') ?>:</td>
 			      <td width="78%" > 
 			        <input type="text" class="inputbox" name="contact_phone_1" value="<?php $db->sp("contact_phone_1") ?>" size="16" />
 			      </td>
 			    </tr>
-			    <tr> 
+			    <tr class="row1"> 
 			      <td class="labelcell"> <?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_PHONE_2') ?>:</td>
 			      <td width="78%" > 
 			        <input type="text" class="inputbox" name="contact_phone_2" value="<?php $db->sp("contact_phone_2") ?>" size="16" />
 			      </td>
 			    </tr>
-			    <tr> 
+			    <tr class="row0"> 
 			      <td class="labelcell"> <?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_FAX') ?>:</td>
 			      <td width="78%" > 
 			        <input type="text" class="inputbox" name="contact_fax" value="<?php $db->sp("contact_fax") ?>" size="16" />
 			      </td>
 			    </tr>
-			    <tr> 
+			    <tr class="row1"> 
 			      <td class="labelcell"> <?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_EMAIL') ?>:</td>
 			      <td width="78%" > 
 			        <input type="text" class="inputbox" name="contact_email" value="<?php $db->sp("contact_email") ?>" size="32" />
 			      </td>
 			    </tr>
-			    <tr> 
+			    <tr class="row1"> 
 			      <td colspan="2" align="center" >&nbsp;</td>
 			    </tr>
 			  </table>
@@ -261,13 +261,13 @@ $formObj->startForm( 'adminForm', 'enctype="multipart/form-data"' );
 				/* Decode vendor_currency_display_style */
 				$currency_display = ps_vendor::get_currency_display_style( $db->f("vendor_currency_display_style") );
 				?>
-		    <tr> 
+		    <tr class="row0"> 
 		      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_CURRENCY') ?>: </td>
 		      <td width="78%" > 
 		        <?php $ps_html->list_currency("vendor_currency", $db->sf("vendor_currency")) ?>
 		      </td>
 		    </tr>
-		    <tr>
+		    <tr class="row1">
 		      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_CURRENCY_SYMBOL') ?>: </td>
 		      <td>
 		        <input type="hidden" name="display_style[0]" value="<?php echo $ps_vendor_id; ?>" />
@@ -275,23 +275,23 @@ $formObj->startForm( 'adminForm', 'enctype="multipart/form-data"' );
 		        <?php echo vmToolTip( $VM_LANG->_('PHPSHOP_CURRENCY_SYMBOL_TOOLTIP')) ?>
 		      </td>
 		    </tr>
-		    <tr>
+		    <tr class="row0">
 		      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_CURRENCY_DECIMALS') ?>: </td>
 		      <td><input type="text" name="display_style[2]" value="<?php echo $currency_display['nbdecimal']; ?>" size="1" />
 		      <?php echo vmToolTip( $VM_LANG->_('PHPSHOP_CURRENCY_DECIMALS_TOOLTIP') ) ?>
 		      </td>
 		    </tr>
-		    <tr>
+		    <tr class="row1">
 		      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_CURRENCY_DECIMALSYMBOL') ?>: </td>
 		      <td><input type="text" name="display_style[3]" value="<?php echo $currency_display['sdecimal']; ?>" size="1" />
 		      <?php echo vmToolTip( $VM_LANG->_('PHPSHOP_CURRENCY_DECIMALSYMBOL_TOOLTIP') ) ?></td>
 		    </tr>
-		    <tr>
+		    <tr class="row0">
 		      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_CURRENCY_THOUSANDS') ?>: </td>
 		      <td><input type="text" name="display_style[4]" value="<?php echo $currency_display['thousands']; ?>" size="1" />
 		      <?php echo vmToolTip( $VM_LANG->_('PHPSHOP_CURRENCY_THOUSANDS_TOOLTIP') )?></td>
 		    </tr>
-		    <tr>
+		    <tr class="row1">
 		      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_CURRENCY_POSITIVE_DISPLAY') ?>: </td>
 		      <td>
 		        <?php 
@@ -299,7 +299,7 @@ $formObj->startForm( 'adminForm', 'enctype="multipart/form-data"' );
 				echo vmToolTip( $VM_LANG->_('PHPSHOP_CURRENCY_POSITIVE_DISPLAY_TOOLTIP') ) ?>
 		      </td>
 		    </tr>
-		    <tr>
+		    <tr class="row0">
 		      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_CURRENCY_NEGATIVE_DISPLAY') ?>: </td>
 		      <td>
 		        <?php
@@ -308,7 +308,7 @@ $formObj->startForm( 'adminForm', 'enctype="multipart/form-data"' );
 				?>
 		      </td>
 		    </tr>
-		    <tr>
+		    <tr class="row1">
 			    <td class="labelcell"><?php echo $VM_LANG->_('VM_STORE_FORM_ACCEPTED_CURRENCIES') ?>:</td>
 			    <td><?php 
 			    	$currencies = $db->f('vendor_accepted_currencies') ? $db->f('vendor_accepted_currencies') : $vendor_currency;

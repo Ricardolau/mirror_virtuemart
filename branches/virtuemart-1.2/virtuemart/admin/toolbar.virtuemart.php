@@ -132,6 +132,8 @@ if (!file_exists( $mosConfig_absolute_path.'/administrator/components/com_virtue
          
      }
      
-     $bar->render();
+     if( $only_page == 1 ) {
+     	$bar->render();
+     }
 }
 ?>

@@ -316,16 +316,24 @@ class vmExtToolBar {
 		$text = '<div style="float:left;background: url('.VM_THEMEURL.'images/administration/menu/icon-16-'.$action_name.'.png) 50% 0 no-repeat;height:17px;width:17px;" border="0" alt="'.$action_name.'">&nbsp;</div>&nbsp;' . $text;
 		$this->buttons .=  "vmTb.addButton({text: '$text', handler: new Function('".addslashes($click_action)."')});\n";
 	}
+	/**
+	 * This function assembles the Buttons into a Script, so an Ext.Toolbar can be created
+	 *
+	 */
 	function render() {
 		vmCommonHTML::loadExtjs();
+		// Get the Top Toolbar Object of the currently active Tab in the Panel and clear it
+		$toolbar_script = "var vmTb = parent.Ext.getCmp('center-panel').getActiveTab().getTopToolbar();
+								vmTb.items.each(function(item) { item.destroy() });\n";
 		if( $this->buttons != '' ) {
-			$this->buttons = "var vmTb = new Ext.Toolbar('vm-toolbar');\n"
-							. $this->buttons
+			// Now the buttons are added to the Toolbar plus a "Reload" Button
+			$toolbar_script .= $this->buttons
 							//. "\nif( self.history.length > 1 ) { vmTb.addSeparator(); vmTb.addButton({text: '<div style=\"float:left;background: url(".VM_THEMEURL."images/administration/menu/icon-16-back.png) 50% 0 no-repeat;height:17px;width:17px;\" border=\"0\" alt=\"{$GLOBALS['VM_LANG']->_BACK}\">&nbsp;</div>{$GLOBALS['VM_LANG']->_BACK}', handler: new Function('history.back();') }); }"
 							. "\nvmTb.addSeparator();\n vmTb.addButton({text: '<div style=\"float:left;background: url(".VM_THEMEURL."images/administration/menu/icon-16-reload.png) 50% 0 no-repeat;height:17px;width:17px;\" border=\"0\" alt=\"".$GLOBALS['VM_LANG']->_('RELOAD')."\">&nbsp;</div>".$GLOBALS['VM_LANG']->_('RELOAD')."', handler: new Function('location.reload();') });"
 							;
 		}
-		echo vmCommonHTML::scriptTag('', $this->buttons );
+		// Print the Script into the page
+		echo vmCommonHTML::scriptTag('', $toolbar_script );
 	}
 
 	/**

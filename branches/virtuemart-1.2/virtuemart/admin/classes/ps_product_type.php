@@ -303,8 +303,8 @@ class ps_product_type {
 	/**
 	 * Returns the Product Type name.
 	 *
-	 * @param unknown_type $product_type_id
-	 * @return unknown
+	 * @param int $product_type_id
+	 * @return string
 	 */
 	function get_name($product_type_id) {
 		$db = new ps_DB;
@@ -436,7 +436,162 @@ class ps_product_type {
 		}
 
 	}
-
+	function get_product_type_form($product_type_id, $product_id=0) {
+		global $ps_html, $VM_LANG, $keyword, $limitstart, $product_parent_id, $next_page;
+		$product_type_id = (int)$product_type_id;
+		if( empty($product_type_id)) return;
+		
+		$dbpt = new ps_DB;
+		$dbp = new ps_DB;
+		
+		$product_type_name = $this->get_name($product_type_id);
+		
+		$q  = "SELECT * FROM #__{vm}_product_type_parameter WHERE ";
+		$q .= "product_type_id='$product_type_id' ";
+		$q .= "ORDER BY parameter_list_order";
+		$dbpt->query($q);
+	
+		$q  = "SELECT * FROM #__{vm}_product_type_$product_type_id WHERE ";
+		$q .= "product_id=$product_id";
+		$dbp->query($q);
+		
+		$html = '		
+		  <table class="adminform">
+		    <tr class="row0"> 
+		      <td colspan="2"><h2>'. $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_LBL').': '.$product_type_name.'</h2>';
+		
+		      if( $product_id > 0 ) {
+		      	$html .= '<h3>'.$VM_LANG->_('E_REMOVE').' =&gt; '.$ps_html->deleteButton( "product_type_id", $product_type_id, "productProductTypeDelete", $keyword, $limitstart, "&product_id=$product_id&product_parent_id=$product_parent_id&next_page=$next_page" ) . '</h3>';
+		      }
+		      $html .= '
+		      </td>
+		    </tr>';
+		    
+	    $i = 0;
+	    while ($dbpt->next_record()) {
+	    	if ($dbpt->f("parameter_type")!="B") {
+	    		$html .= "<tr class=\"row".$i++ % 2 . "\">\n  <td width=\"21%\" height=\"2\" valign=\"top\"><div style=\"text-align:right;font-weight:bold;\">";
+	    		$html .= $dbpt->f("parameter_label");
+	    		$html .= ":</div>\n  </td>\n  <td width=\"79%\" valign=\"top\" >";
+	
+	    		$parameter_values=$dbpt->f("parameter_values");
+	    		if (!empty($parameter_values)) { // List of values
+	    			$fields=explode(";",$parameter_values);
+	    			$html .= "<select class=\"inputbox\" name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name");
+	
+	    			if ($dbpt->f("parameter_type")=="V") { //  Type: Multiple Values
+	    				$size = min(count($fields),6);
+	    				$html .= "[]\" multiple size=\"$size\">\n";
+	    				$selected_value = array();
+	    				$get_item_value = $dbp->f($dbpt->f("parameter_name"));
+	    				$get_item_value = explode(";",$get_item_value);
+	    				foreach($get_item_value as $value) {
+	    					$selected_value[$value] = 1;
+	    				}
+	    				foreach($fields as $field) {
+	    					$html .= "<option value=\"$field\"".(($selected_value[$field]==1) ? " selected>" : ">"). $field."</option>\n";
+	    				}
+	    			}
+	    			else {  // Other Parameter type
+	    				$html .= "\">\n";
+	    				foreach($fields as $field) {
+	    					$html .= "<option value=\"$field\" ";
+	    					if ($dbp->f($dbpt->f("parameter_name")) == $field) $html .= "selected=\"selected\"";
+	    					$html .= " >".$field."</option>\n";
+	    				}
+	    			}
+	    			echo "</select>\n";
+	    		}
+	    		else { // Input field
+	    			switch( $dbpt->f("parameter_type") ) {
+	    				case "I": // Integer
+	    				case "F": // Float
+	    				case "D": // Date & Time
+	    				case "A": // Date
+	    				case "M": // Time
+	    					$html .= "    <input type=\"text\" class=\"inputbox\"  name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name")."\" value=\"".$dbp->f($dbpt->f("parameter_name"))."\" size=\"20\" />";
+	    				break;
+	    				case "T": // Text
+	    				case "S": // Short Text
+	    					$html .= "<textarea class=\"inputbox\" name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name")."\" cols=\"35\" rows=\"6\" >";
+	    					$html .= $dbp->sf($dbpt->f("parameter_name"))."</textarea>";
+	    				break;
+	    				case "C": // Char
+	    					$html .= "    <input type=\"text\" class=\"inputbox\"  name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name")."\" value=\"".$dbp->f($dbpt->f("parameter_name"))."\" size=\"5\" />";
+	    				break;
+	    				case "V": // Multiple Values
+	    					$html .= "    <input type=\"text\" class=\"inputbox\"  name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name")."\" value=\"".$dbp->f($dbpt->f("parameter_name"))."\" size=\"20\" />";
+	
+	    				// 						$fields=explode(";",$parameter_values);
+	    				// 						echo "<select class=\"inputbox\" name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name");
+	    				// 						if ($db->f("parameter_multiselect")=="Y") {
+	    				// 							$size = min(count($fields),6);
+	    				// 							echo "[]\" multiple size=\"$size\">\n";
+	    				// 							$selected_value = array();
+	    				// 							$get_item_value = explode(",",$dbp->sf($dbpt->f("parameter_name")));
+	    				// 							foreach($get_item_value as $value) {
+	    				// 								$selected_value[$value] = 1;
+	    				// 							}
+	    				// 							foreach($fields as $field) {
+	    				// 								echo "<option value=\"$field\"".(($selected_value[$field]==1) ? " selected>" : ">"). $field."</option>\n";
+	    				// 							}
+	    				// 						}
+	    				// 						else {
+	    				// 							echo "\">\n";
+	    				// 							$get_item_value = $dbp->sf($dbpt->f("parameter_name"));
+	    				// 							foreach($fields as $field) {
+	    				// 								echo "<option value=\"$field\"".(($get_item_value==$field) ? " selected>" : ">"). $field."</option>\n";
+	    				// 							}
+	    				// 						}
+	    				// 						echo "</select>";
+	    				break;
+	    					default: // Default type Short Text
+	    						$html .= "    <input type=\"text\" class=\"inputbox\" name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name")."\" value=\"".$dbp->f($dbpt->f("parameter_name"))."\" size=\"20\" />";
+	    				}
+	    		}
+	
+	    		if ($dbpt->f("parameter_description")) {
+    				$html .= "&nbsp;";
+    				$html .= vmToolTip($dbpt->f("parameter_description"));
+	    		}
+	    		$html .= " ".$dbpt->f("parameter_unit");
+	    		if ($dbpt->f("parameter_default")) {
+	    			$html .= " (".$VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DEFAULT').": ";
+	    			$html .= $dbpt->f("parameter_default").")";
+	    		}
+	    		$html .= " [ ".$VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE').": ";
+	    		switch( $dbpt->f("parameter_type") ) {
+	    			case "I": $html .= $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_INTEGER'); break;	// Integer
+	    			case "T": $html .= $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TEXT'); break; 	// Text
+	    			case "S": $html .= $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_SHORTTEXT'); break; // Short Text
+	    			case "F": $html .= $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_FLOAT'); break; 	// Float
+	    			case "C": $html .= $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_CHAR'); break; 	// Char
+	    			case "D": 
+	    				$html .= $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATETIME')." ";	// Date & Time
+	    				$html .= $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE_FORMAT')." ";
+	    				$html .= $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TIME_FORMAT');
+	    			break;
+	    			case "A": 
+    					$html .= $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE')." ";		// Date
+	    				$html .= $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE_FORMAT');
+	    			break;
+	    			case "M": 
+    					$html .= $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TIME')." ";		// Time
+	    				$html .= $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TIME_FORMAT');
+	    			break;
+	    			case "V": 
+	    				$html .= $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_MULTIVALUE'); break; 	// Multiple Value
+	    		}
+	    		$html .= " ] ";
+	    	}
+	    	else {
+	    		$html .= "<tr>\n  <td colspan=\"2\" height=\"2\" ><hr/>";
+	    	}
+	    	$html .= "  </td>\n</tr>";
+	    }
+	    $html .= '</table>';
+    	return $html;
+	}
 	/**
 	 * Returns the parameter list for form (hiden items)
 	 * @author Zdenek Dvorak

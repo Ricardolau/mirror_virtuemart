@@ -89,7 +89,7 @@ class ps_communication {
 
 		// Get Session Cookie `value`
 		$sessioncookie 		= vmGet( $_COOKIE, 'virtuemart', null );
-
+print_r( $_COOKIE );
 		if ( strlen($sessioncookie) < 16 || $sessioncookie == '-') {
 			$vmLogger->err( $VM_LANG->_('VM_COOKIE_MISSING').'. '.$VM_LANG->_('NOT_AUTH',false) );
 			return false;

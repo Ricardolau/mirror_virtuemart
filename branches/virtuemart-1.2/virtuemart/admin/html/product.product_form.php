@@ -47,6 +47,7 @@ $product_parent_id = vmGet( $_REQUEST, 'product_parent_id');
 $next_page = vmGet( $_REQUEST, 'next_page', "product.product_display" );
 $option = empty($option)?vmGet( $_REQUEST, 'option', 'com_virtuemart'):$option;
 $clone_product = vmGet( $_REQUEST, 'clone_product', 0 );
+$product_type_id = vmGet($_REQUEST, 'product_type_id', 0);
 $extra_ids = '';
 $display_use_parent="";
 $product_list="";
@@ -174,6 +175,27 @@ if ($shopper_db->num_rows()<1) {  // when there is no "default", take the first 
 $shopper_db->next_record();
 $my_shopper_group_id = $shopper_db->f("shopper_group_id");
 
+// Get Product Types
+$db_ptypes = new ps_DB;
+
+if ($product_type_id > 0) {
+	$q = "SELECT * FROM #__{vm}_product_type WHERE product_type_id=$product_type_id";
+	$db_ptypes->query($q);
+	echo "<input type=\"hidden\" name=\"product_type_id\" value=\"$product_type_id\" />";
+} else {
+	// Get Product Types
+	$q  = "SELECT * FROM #__{vm}_product_product_type_xref,#__{vm}_product_type WHERE ";
+	$q .= "#__{vm}_product_product_type_xref.product_type_id=#__{vm}_product_type.product_type_id ";
+	$q .= 'AND product_id='.(int)$product_id;
+	/*  if (!$product_parent_id) {
+			$q .= "AND product_id='$product_id' ";
+	}	else {
+			$q .= "AND product_id='$product_parent_id' ";
+	}*/
+	$q .= ' ORDER BY product_type_list_order';
+	$db_ptypes->query($q);
+}
+
 // For cloning a product, we just need to empty the variable product_id
 if( $clone_product == "1" ) {
 	$product_id = "";
@@ -268,7 +290,7 @@ $tabs->startTab( $info_label, "info-page");
     	?><tr class="row0"> 
     	<?php
     	$number_of_categories = ps_product_category::count_categories();
-    	if( $number_of_categories > 200 ) {
+    	if( $number_of_categories > 75 ) {
     		?>
 			<td style="vertical-align:top;">
 			<?php echo $VM_LANG->_('PHPSHOP_CATEGORIES') ?>:<br/>
@@ -394,6 +416,354 @@ $tabs->startTab( $info_label, "info-page");
   
 <?php
 $tabs->endTab();
+
+$tabs->startTab( $status_label, "status-page");
+?>
+<table width="100%">
+    <tr> 
+      <td width="50%">
+	  <table class="adminform">
+	    <tr class="row1"> 
+	      <td align="left" colspan="2"><?php echo "<h2>$status_label</h2>"; ?></td>
+	    </tr>
+	    <tr class="row0"> 
+	      <td width="21%"><div style="text-align:right;font-weight:bold;">
+	      <?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_IN_STOCK') ?>:</div>
+	      </td>
+	      <td width="79%"> 
+	        <input type="text" class="inputbox"  name="product_in_stock" value="<?php $db->sp("product_in_stock"); ?>" size="10" />
+	      </td>
+	    </tr>
+	    <tr class="row1"> 
+	      <td width="21%"><div style="text-align:right;font-weight:bold;">
+	      <?php echo $VM_LANG->_('VM_PRODUCT_FORM_MIN_ORDER') ?>:</div>
+	      </td>
+	      <td width="79%"> 
+	        <input type="text" class="inputbox"  name="min_order_level" value="<?php echo $min_order; ?>" size="10" />
+	      </td>
+	    </tr>
+	    <tr class="row0"> 
+	      <td width="21%"><div style="text-align:right;font-weight:bold;">
+	      <?php echo $VM_LANG->_('VM_PRODUCT_FORM_MAX_ORDER') ?>:</div>
+	      </td>
+	      <td width="79%"> 
+	        <input type="text" class="inputbox"  name="max_order_level" value="<?php echo $max_order; ?>" size="10" />
+	      </td>
+	    </tr>
+	    <tr class="row1"> 
+	      <td width="21%" ><div style="text-align:right;font-weight:bold;">
+	        <?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_AVAILABLE_DATE') ?>:</div>
+	      </td>
+	      <td width="79%" >
+	          <input class="inputbox" type="text" name="product_available_date" id="product_available_date" size="20" maxlength="19" value="<?php echo date('Y-m-d', $db->sf("product_available_date") ); ?>" />
+	          <input name="reset" type="reset" class="button" onClick="return showCalendar('product_available_date', 'y-mm-dd');" value="..." />
+	     </td>
+	    </tr>
+	    <tr class="row0"><td colspan="2">&nbsp;</td></tr>
+	    <tr>
+	      <td valign="top" width="21%" ><div style="text-align:right;font-weight:bold;">
+	          <?php echo $VM_LANG->_('PHPSHOP_AVAILABILITY') ?>:</div>
+	      </td>
+	      <td width="79%" >
+	        <input type="text" class="inputbox" name="product_availability" value="<?php $db->sp("product_availability"); ?>" />
+	      <?php
+	      echo vmToolTip($VM_LANG->_('PHPSHOP_PRODUCT_FORM_AVAILABILITY_TOOLTIP1')); ?>
+	      <br /><br />
+	        <select class="inputbox" name="image" onchange="javascript:if (document.adminForm.image.options[selectedIndex].value!='') {document.imagelib.src='<?php echo VM_THEMEURL ?>images/availability/' + document.adminForm.image.options[selectedIndex].value; document.adminForm.product_availability.value=document.adminForm.image.options[selectedIndex].value;} else {document.imagelib.src='<?php echo VM_THEMEURL.'images/'.NO_IMAGE;?>'; document.adminForm.product_availability.value=''}">
+	          <option value=""><?php echo $VM_LANG->_('VM_PRODUCT_FORM_AVAILABILITY_SELECT_IMAGE'); ?></option><?php
+	          $path = VM_THEMEPATH."images/availability";
+	          $files = vmReadDirectory( "$path", ".", true, true);
+	          foreach ($files as $file) {
+	          	$file_info = pathinfo($file);
+	          	$filename = $file_info['basename'];
+	                if ($filename != "index.html") {?>
+	                <option <?php echo ($db->f("product_availability")==$filename) ? "selected=\"selected\"" : "" ?> value="<?php echo $filename ?>">
+	                <?php echo $filename ?>
+	                </option><?php 
+	                }
+	            }  ?>
+	        </select>&nbsp;
+	        <?php
+			$pathrelative = str_replace($mosConfig_live_site,'',VM_THEMEURL."images/availability/");
+			echo vmToolTip(sprintf($VM_LANG->_('PHPSHOP_PRODUCT_FORM_AVAILABILITY_TOOLTIP2'),$pathrelative));
+			?>
+	        &nbsp;&nbsp;&nbsp;
+	        <img src="<?php echo $db->f("product_availability") ? VM_THEMEURL."images/availability/".$db->sf("product_availability") : VM_THEMEURL.'images/'.NO_IMAGE; ?>" name="imagelib" border="0" alt="Preview" />
+	      </td>
+	    </tr>
+	    <tr class="row1"> 
+	      <td width="21%" ><div style="text-align:right;font-weight:bold;">
+	      <?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_SPECIAL') ?>:</div>
+	      </td>
+	      <td width="79%" ><?php if ($db->sf("product_special")=="Y") { ?>
+	        <input type="checkbox" name="product_special" value="Y" checked="checked" />
+	    <?php    } 
+	       else { ?>
+	        <input type="checkbox" name="product_special" value="Y" />
+	    <?php }
+	    ?> </td>
+	    </tr>
+	    <tr class="row0">
+	    <td colspan="2">&nbsp;</td>
+	    </tr>
+	  </table>
+	</td>
+	<td width="50%" valign="top">
+        <table class="adminform">
+			<tr class="row1"> 
+		      <td colspan="3"><h2><?php echo $VM_LANG->_('PHPSHOP_RELATED_PRODUCTS'); ?></h2></td>
+		    </tr>
+	          <tr class="row0">
+				<td style="vertical-align:top;"><br />
+				<?php echo $VM_LANG->_('VM_PRODUCT_RELATED_SEARCH'); ?>
+				<input type="text" size="40" name="search" id="relatedProductSearch" value="" />
+				</td>
+				<td><input type="button" name="remove_related" onclick="removeSelectedOptions(relatedSelection, 'related_products');" value="&nbsp; &lt; &nbsp;" /></td>
+				<td>
+				<?php
+				$relProducts = array();
+				foreach( $related_products as $relProd ) {
+					$relProducts[$relProd] = $ps_product->get_field( $relProd, 'product_name');
+				}
+				echo ps_html::selectList('relProds', '', $relProducts, 10, 'multiple="multiple"', 'id="relatedSelection" ondblclick="removeSelectedOptions(relatedSelection, \'related_products\');"');
+				?>
+				<input type="hidden" name="related_products" value="<?php echo implode('|', $related_products ) ?>" />
+				</td>			
+			</tr>
+		</table>
+	</td>
+</tr>
+</table>
+<?php
+
+$tabs->endTab();
+
+
+$tabs->startTab( 'Product Variants', 'variants-tab');
+
+if( !empty( $product_id )) {
+	$db_items = $ps_product->items_sql($product_id);
+} else {
+	$db_items = new ps_DB();
+}
+if (!$product_parent_id and $product_id and $db_items->num_rows() > 0) {
+	$db_heading = $ps_product->attribute_sql("",$product_id);
+	$colspan=3+$db_heading->num_rows();
+?> 
+  <table class="adminlist">
+    <tr class="row0"> 
+      <td colspan="<?php echo $colspan ?>">&nbsp;</td>
+    </tr>
+    <tr class="row1"> 
+      <td colspan="<?php echo $colspan ?>"><h2>
+          <?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_PRODUCT_ITEMS_LBL') ?></h2>
+      </td>
+    </tr>
+    <tr class="row0"> 
+      <th class="title"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_NAME') ?></th>
+      <th class="title"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_SKU') ?></th>
+      <th class="title"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_PRICE_NET') ?></th>
+      <?php
+      while ($db_heading->next_record()) {
+		?> 
+      	<th class="title"><?php echo $db_heading->sf("attribute_name"); ?></th>
+      	<?php
+      }
+?> </tr>
+    <?php
+    while ($db_items->next_record()) {
+?> 
+    <tr  class="row0"> 
+      <td><?php
+	      $url = $_SERVER['PHP_SELF'] . "?page=$modulename.product_form&product_id=" . $db_items->f("product_id") . "&product_parent_id=$product_id";
+	      echo "<a href=\"" . $sess->url($url) . "\">". $db_items->f("product_name"). '</a>'; ?>
+      </td>
+      <td><?php $db_items->p("product_sku"); ?> </td>
+      <td><?php
+      $price = $ps_product->get_price($db_items->f("product_id"));
+      $url  = $_SERVER['PHP_SELF'] . "?page=$modulename.product_price_list&product_id=" . $db_items->f("product_id") . "&product_parent_id=$product_parent_id";
+      $url .= "&return_args=" . urlencode("page=$page&product_id=$product_id");
+      echo "<a href=\"" . $sess->url($url) . "\">";
+      if ($price) {
+      	if (!empty($price["item"])) {
+      		echo $price["product_price"];
+      	} else {
+      		echo "none";
+      	}
+      } else {
+      	echo "none";
+      }
+      echo "</a>";
+?> </td>
+      	<?php
+      	$db_detail = $ps_product->attribute_sql($db_items->f("product_id"),$product_id);
+		while ($db_detail->next_record()) {
+			echo '<td>'. $db_detail->f("attribute_value").'</td>';
+      	}
+      ?>
+        </tr>
+    <?php
+    }
+?> 
+  </table>
+  <?php
+} elseif ($product_parent_id) {
+?> 
+  <table class="adminform">
+    <tr class="row0"> 
+      <td colspan="2">&nbsp;</td>
+    </tr>
+    <tr class="row1"> 
+      <td colspan="2"><strong><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_ITEM_ATTRIBUTES_LBL') ?></strong></td>
+    </tr>
+    <?php
+    if (!empty($_REQUEST['product_id'])) {
+    	$db_attribute = $ps_product->attribute_sql($product_id,$product_parent_id);
+    } else {
+    	$db_attribute = $ps_product->attribute_sql("",$product_parent_id);
+    }
+    $num = 0;
+    while ($db_attribute->next_record()) {
+    $num++; ?> 
+    <tr  class="row<?php echo $num%2 ?>"> 
+      <td width="21%" height="22" > 
+        <div style="text-align:right;font-weight:bold;"><?php
+        echo $db_attribute->sf("attribute_name") . ":";
+          $field_name = "attribute_$num"; ?></div>
+      </td>
+      <td width="79%" > 
+        <input type="text" class="inputbox"  name="<?php echo $field_name; ?>" size="32" maxlength="255" value="<?php $db_attribute->sp("attribute_value"); ?>" />
+      </td>
+    </tr>
+    <?php
+  } ?> 
+  </table>
+  <?php
+}
+?><table class="adminform">
+		<tr class="row0">
+	        <td align="right" width="21%" valign="top"><div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_ATTRIBUTE_LIST') ?>:</div></td> 
+			<td width="79%" id="attribute_container">
+				<?php 
+				// ATTRIBUTE EXTENSION by Tobias (eaxs)
+				ps_product_attribute::loadAttributeExtension($db->sf("attribute"));
+				?>
+	    </tr>
+	    <tr class="row0">
+	    <td>&nbsp;</td>
+	        <td><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_ATTRIBUTE_LIST_EXAMPLES') ?></td>
+	    </tr>
+	    <tr class="row0">
+	    <td colspan="2">&nbsp;</td>
+	    </tr>
+	    <tr class="row1">
+	        <td align="right" width="21%" valign="top"><div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_CUSTOM_ATTRIBUTE_LIST') ?>:</div></td> 
+	        <td width="79%" >
+	        <input class="inputbox" type="text" name="product_custom_attribute" value="<?php $db->sp("custom_attribute"); ?>" size="64" />
+	    </tr>
+	    <tr class="row1">
+	     <td>&nbsp;</td>
+	     <td><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_CUSTOM_ATTRIBUTE_LIST_EXAMPLES') ?></td>
+        </tr>
+	</table>
+	<?php
+$tabs->endTab();
+
+
+$tabs->startTab( $dim_weight_label, "about-page");
+
+echo "<h2>$dim_weight_label</h2>";
+?>      
+   <table class="adminform">
+    <tr class="row1"> 
+      <td width="21%" valign="top" > 
+        <div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_LENGTH') ?>:</div>
+      </td>
+      <td width="79%" > 
+        <input type="text" class="inputbox"  name="product_length" value="<?php $db->sp("product_length"); ?>" size="15" maxlength="15" />
+      </td>
+    </tr>
+    <tr class="row0"> 
+      <td width="21%" valign="top" > 
+        <div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_WIDTH') ?>:</div>
+      </td>
+      <td width="79%" > 
+        <input type="text" class="inputbox"  name="product_width" value="<?php $db->sp("product_width"); ?>" size="15" maxlength="15" />
+      </td>
+    </tr>
+    <tr class="row1"> 
+      <td width="21%" valign="top" > 
+        <div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_HEIGHT') ?>:</div>
+      </td>
+      <td width="79%" > 
+        <input type="text" class="inputbox"  name="product_height" value="<?php $db->sp("product_height"); ?>" size="15" maxlength="15" />
+      </td>
+    </tr>
+    <tr class="row0"> 
+      <td width="21%" valign="top" > 
+        <div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_DIMENSION_UOM') ?>:</div>
+      </td>
+      <td width="79%" > 
+        <input type="text" class="inputbox"  name="product_lwh_uom" value="<?php $db->sp("product_lwh_uom"); ?>" size="8" maxlength="32" />
+      </td>
+    </tr>
+    <tr class="row1"> 
+      <td width="21%" valign="top" >&nbsp;</td>
+      <td width="79%" >&nbsp;</td>
+    </tr>
+    <tr class="row0"> 
+      <td width="21%" valign="top" > 
+        <div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_WEIGHT') ?>:</div>
+      </td>
+      <td width="79%" > 
+        <input type="text" class="inputbox"  name="product_weight" size="15" maxlength="15" value="<?php $db->sp("product_weight"); ?>" />
+      </td>
+    </tr>
+    <tr class="row1"> 
+      <td width="21%" valign="top" > 
+        <div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_WEIGHT_UOM') ?>:</div>
+      </td>
+      <td width="79%" > 
+        <input type="text" class="inputbox"  name="product_weight_uom" value="<?php $db->sp("product_weight_uom"); ?>" size="8" maxlength="32" />
+      </td>
+    </tr>
+    <!-- Changed Packaging - Begin -->
+    <tr class="row0"> 
+      <td width="21%" valign="top" >&nbsp;</td>
+      <td width="21%" >&nbsp;</td>
+    </tr>
+    <tr class="row1"> 
+      <td width="21%" valign="top" > 
+        <div align="right"><strong><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_UNIT') ?>:</strong></div>
+      </td>
+      <td width="21%" > 
+        <input type="text" class="inputbox"  name="product_unit" size="15" maxlength="15" value="<?php $db->sp("product_unit"); ?>" />
+      </td>
+    </tr>
+    <tr class="row0">
+      <td width="21%" valign="top" > 
+        <div align="right"><strong><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_PACKAGING') ?>:</strong></div>
+      </td>
+      <td width="21%" > 
+        <input type="text" class="inputbox"  name="product_packaging" value="<?php echo $db->f("product_packaging") & 0xFFFF; ?>" size="8" maxlength="32" />&nbsp;<?php
+        echo vmToolTip($VM_LANG->_('PHPSHOP_PRODUCT_FORM_PACKAGING_DESCRIPTION')); ?>
+      </td>
+    </tr>
+    <tr class="row1">
+      <td width="21%" valign="top" > 
+        <div align="right"><strong><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_BOX') ?>:</strong></div>
+      </td>
+      <td width="21%" > 
+        <input type="text" class="inputbox"  name="product_box" value="<?php echo ($db->f("product_packaging")>>16)&0xFFFF; ?>" size="8" maxlength="32" />&nbsp;<?php
+        echo vmToolTip($VM_LANG->_('PHPSHOP_PRODUCT_FORM_BOX_DESCRIPTION')); ?>
+      </td>
+    </tr>
+    <!-- Changed Packaging - End -->
+  
+</table>
+<?php
+$tabs->endTab();
+
 $tabs->startTab( $display_label, "display-page");
 ?>
   <table class="adminform">
@@ -568,324 +938,6 @@ $tabs->startTab( $display_label, "display-page");
   </table>
 <?php
 $tabs->endTab();
-$tabs->startTab( $status_label, "status-page");
-?>
-
-  <table class="adminform">
-    <tr> 
-      <td align="left" colspan="2"><?php echo "<h2>$status_label</h2>"; ?></td>
-    </tr>
-    <tr class="row0"> 
-      <td width="21%" height="2" ><div style="text-align:right;font-weight:bold;">
-      <?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_IN_STOCK') ?>:</div>
-      </td>
-      <td width="79%" height="2" > 
-        <input type="text" class="inputbox"  name="product_in_stock" value="<?php $db->sp("product_in_stock"); ?>" size="10" />
-      </td>
-    </tr>
-    <tr class="row1"> 
-      <td width="21%" height="2" ><div style="text-align:right;font-weight:bold;">
-      <?php echo $VM_LANG->_('VM_PRODUCT_FORM_MIN_ORDER') ?>:</div>
-      </td>
-      <td width="79%" height="2" > 
-        <input type="text" class="inputbox"  name="min_order_level" value="<?php echo $min_order; ?>" size="10" />
-      </td>
-    </tr>
-    <tr class="row0"> 
-      <td width="21%" height="2" ><div style="text-align:right;font-weight:bold;">
-      <?php echo $VM_LANG->_('VM_PRODUCT_FORM_MAX_ORDER') ?>:</div>
-      </td>
-      <td width="79%" height="2" > 
-        <input type="text" class="inputbox"  name="max_order_level" value="<?php echo $max_order; ?>" size="10" />
-      </td>
-    </tr>
-    <tr class="row1"> 
-      <td width="21%" ><div style="text-align:right;font-weight:bold;">
-        <?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_AVAILABLE_DATE') ?>:</div>
-      </td>
-      <td width="79%" >
-          <input class="inputbox" type="text" name="product_available_date" id="product_available_date" size="20" maxlength="19" value="<?php echo date('Y-m-d', $db->sf("product_available_date") ); ?>" />
-          <input name="reset" type="reset" class="button" onClick="return showCalendar('product_available_date', 'y-mm-dd');" value="..." />
-     </td>
-    </tr>
-    <tr class="row0"><td colspan="2">&nbsp;</td></tr>
-    <tr>
-      <td valign="top" width="21%" ><div style="text-align:right;font-weight:bold;">
-          <?php echo $VM_LANG->_('PHPSHOP_AVAILABILITY') ?>:</div>
-      </td>
-      <td width="79%" >
-        <input type="text" class="inputbox" name="product_availability" value="<?php $db->sp("product_availability"); ?>" />
-      <?php
-      echo vmToolTip($VM_LANG->_('PHPSHOP_PRODUCT_FORM_AVAILABILITY_TOOLTIP1')); ?>
-      <br /><br />
-        <select class="inputbox" name="image" onchange="javascript:if (document.adminForm.image.options[selectedIndex].value!='') {document.imagelib.src='<?php echo VM_THEMEURL ?>images/availability/' + document.adminForm.image.options[selectedIndex].value; document.adminForm.product_availability.value=document.adminForm.image.options[selectedIndex].value;} else {document.imagelib.src='<?php echo VM_THEMEURL.'images/'.NO_IMAGE;?>'; document.adminForm.product_availability.value=''}">
-          <option value=""><?php echo $VM_LANG->_('VM_PRODUCT_FORM_AVAILABILITY_SELECT_IMAGE'); ?></option><?php
-          $path = VM_THEMEPATH."images/availability";
-          $files = vmReadDirectory( "$path", ".", true, true);
-          foreach ($files as $file) {
-          	$file_info = pathinfo($file);
-          	$filename = $file_info['basename'];
-                if ($filename != "index.html") {?>
-                <option <?php echo ($db->f("product_availability")==$filename) ? "selected=\"selected\"" : "" ?> value="<?php echo $filename ?>">
-                <?php echo $filename ?>
-                </option><?php 
-                }
-            }  ?>
-        </select>&nbsp;
-        <?php
-		$pathrelative = str_replace($mosConfig_live_site,'',VM_THEMEURL."images/availability/");
-		echo vmToolTip(sprintf($VM_LANG->_('PHPSHOP_PRODUCT_FORM_AVAILABILITY_TOOLTIP2'),$pathrelative));
-		?>
-        &nbsp;&nbsp;&nbsp;
-        <img src="<?php echo $db->f("product_availability") ? VM_THEMEURL."images/availability/".$db->sf("product_availability") : VM_THEMEURL.'images/'.NO_IMAGE; ?>" name="imagelib" border="0" alt="Preview" />
-      </td>
-    </tr>
-    <tr class="row1"> 
-      <td width="21%" ><div style="text-align:right;font-weight:bold;">
-      <?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_SPECIAL') ?>:</div>
-      </td>
-      <td width="79%" ><?php if ($db->sf("product_special")=="Y") { ?>
-        <input type="checkbox" name="product_special" value="Y" checked="checked" />
-    <?php    } 
-       else { ?>
-        <input type="checkbox" name="product_special" value="Y" />
-    <?php }
-    ?> </td>
-    </tr>
-    <tr class="row0">
-    <td colspan="2">&nbsp;</td>
-    </tr>
-    <tr class="row0">
-        <td align="right" width="21%" valign="top"><div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_ATTRIBUTE_LIST') ?>:</div></td> 
-		<td width="79%" id="attribute_container">
-			<?php 
-			// ATTRIBUTE EXTENSION by Tobias (eaxs)
-			ps_product_attribute::loadAttributeExtension($db->sf("attribute"));
-			?>
-    </tr>
-    <tr class="row0">
-    <td>&nbsp;</td>
-        <td><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_ATTRIBUTE_LIST_EXAMPLES') ?></td>
-    </tr>
-    <tr class="row0">
-    <td colspan="2">&nbsp;</td>
-    </tr>
-    <tr class="row1">
-        <td align="right" width="21%" valign="top"><div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_CUSTOM_ATTRIBUTE_LIST') ?>:</div></td> 
-        <td width="79%" >
-        <input class="inputbox" type="text" name="product_custom_attribute" value="<?php $db->sp("custom_attribute"); ?>" size="64" />
-    </tr>
-    <tr class="row1">
-     <td>&nbsp;</td>
-     <td><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_CUSTOM_ATTRIBUTE_LIST_EXAMPLES') ?></td>
-        </tr>
-  </table>
-
-<?php
-if( !empty( $product_id )) {
-	$db_items = $ps_product->items_sql($product_id);
-} else {
-	$db_items = new ps_DB();
-}
-if (!$product_parent_id and $product_id and $db_items->num_rows() > 0) {
-?> 
-  <table class="adminform">
-    <tr class="row0"> 
-      <td colspan="4">&nbsp;</td>
-    </tr>
-    <tr class="row1"> 
-      <td colspan="4"><div style="text-align:right;font-weight:bold;">
-          <?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_PRODUCT_ITEMS_LBL') ?></div>
-      </td>
-    </tr>
-    <tr class="row0"> 
-      <td><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_NAME') ?></td>
-      <td><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_SKU') ?></td>
-      <td><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_PRICE_NET') ?></td>
-      <?php
-      $db_heading = $ps_product->attribute_sql("",$product_id);
-      while ($db_heading->next_record()) {
-?> 
-      <td><?php echo $db_heading->sf("attribute_name"); ?></td>
-      <?php
-      }
-?> </tr>
-    <tr class="row1"> 
-      <td colspan="<?php echo $db_heading->num_rows() + 3 ?>"> 
-        <hr size="1" />
-      </td>
-    </tr>
-    <?php
-    while ($db_items->next_record()) {
-?> 
-    <tr  class="row0"> 
-      <td> <?php
-      $url = $_SERVER['PHP_SELF'] . "?page=$modulename.product_form&product_id=" . $db_items->f("product_id") . "&product_parent_id=$product_id";
-      echo "<a href=\"" . $sess->url($url) . "\">";
-      echo $db_items->f("product_name");
-                    echo "</a>"; ?>
-                </td>
-      <td><?php $db_items->sp("product_sku"); ?> </td>
-      <td> <?php
-      $price = $ps_product->get_price($db_items->f("product_id"));
-      $url  = $_SERVER['PHP_SELF'] . "?page=$modulename.product_price_list&product_id=" . $db_items->f("product_id") . "&product_parent_id=$product_parent_id";
-      $url .= "&return_args=" . urlencode("page=$page&product_id=$product_id");
-      echo "<a href=\"" . $sess->url($url) . "\">";
-      if ($price) {
-      	if (!empty($price["item"])) {
-      		echo $price["product_price"];
-      	} else {
-      		echo "none";
-      	}
-      } else {
-      	echo "none";
-      }
-      echo "</a>";
-?> </td>
-      <?php
-      $db_detail = $ps_product->attribute_sql($db_items->f("product_id"),$product_id);
-      while ($db_detail->next_record()) {
-      	echo '<td>'. $db_detail->f("attribute_value").'</td>';
-
-      }
-            ?>
-        </tr>
-    <?php
-    }
-?> 
-  </table>
-  <?php
-} elseif ($product_parent_id) {
-?> 
-  <table class="adminform">
-    <tr class="row0"> 
-      <td colspan="2">&nbsp;</td>
-    </tr>
-    <tr class="row1"> 
-      <td colspan="2"><strong><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_ITEM_ATTRIBUTES_LBL') ?></strong></td>
-    </tr>
-    <?php
-    if (!empty($_REQUEST['product_id'])) {
-    	$db_attribute = $ps_product->attribute_sql($product_id,$product_parent_id);
-    } else {
-    	$db_attribute = $ps_product->attribute_sql("",$product_parent_id);
-    }
-    $num = 0;
-    while ($db_attribute->next_record()) {
-    $num++; ?> 
-    <tr  class="row<?php echo $num%2 ?>"> 
-      <td width="21%" height="22" > 
-        <div style="text-align:right;font-weight:bold;"><?php
-        echo $db_attribute->sf("attribute_name") . ":";
-          $field_name = "attribute_$num"; ?></div>
-      </td>
-      <td width="79%" > 
-        <input type="text" class="inputbox"  name="<?php echo $field_name; ?>" size="32" maxlength="255" value="<?php $db_attribute->sp("attribute_value"); ?>" />
-      </td>
-    </tr>
-    <?php
-  } ?> 
-  </table>
-  <?php
-}
-
-$tabs->endTab();
-$tabs->startTab( $dim_weight_label, "about-page");
-
-?>
-
-<?php
-echo "<h2>$dim_weight_label</h2>";
-?>      
-   <table class="adminform">
-    <tr class="row1"> 
-      <td width="21%" valign="top" > 
-        <div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_LENGTH') ?>:</div>
-      </td>
-      <td width="79%" > 
-        <input type="text" class="inputbox"  name="product_length" value="<?php $db->sp("product_length"); ?>" size="15" maxlength="15" />
-      </td>
-    </tr>
-    <tr class="row0"> 
-      <td width="21%" valign="top" > 
-        <div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_WIDTH') ?>:</div>
-      </td>
-      <td width="79%" > 
-        <input type="text" class="inputbox"  name="product_width" value="<?php $db->sp("product_width"); ?>" size="15" maxlength="15" />
-      </td>
-    </tr>
-    <tr class="row1"> 
-      <td width="21%" valign="top" > 
-        <div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_HEIGHT') ?>:</div>
-      </td>
-      <td width="79%" > 
-        <input type="text" class="inputbox"  name="product_height" value="<?php $db->sp("product_height"); ?>" size="15" maxlength="15" />
-      </td>
-    </tr>
-    <tr class="row0"> 
-      <td width="21%" valign="top" > 
-        <div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_DIMENSION_UOM') ?>:</div>
-      </td>
-      <td width="79%" > 
-        <input type="text" class="inputbox"  name="product_lwh_uom" value="<?php $db->sp("product_lwh_uom"); ?>" size="8" maxlength="32" />
-      </td>
-    </tr>
-    <tr class="row1"> 
-      <td width="21%" valign="top" >&nbsp;</td>
-      <td width="79%" >&nbsp;</td>
-    </tr>
-    <tr class="row0"> 
-      <td width="21%" valign="top" > 
-        <div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_WEIGHT') ?>:</div>
-      </td>
-      <td width="79%" > 
-        <input type="text" class="inputbox"  name="product_weight" size="15" maxlength="15" value="<?php $db->sp("product_weight"); ?>" />
-      </td>
-    </tr>
-    <tr class="row1"> 
-      <td width="21%" valign="top" > 
-        <div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_WEIGHT_UOM') ?>:</div>
-      </td>
-      <td width="79%" > 
-        <input type="text" class="inputbox"  name="product_weight_uom" value="<?php $db->sp("product_weight_uom"); ?>" size="8" maxlength="32" />
-      </td>
-    </tr>
-    <!-- Changed Packaging - Begin -->
-    <tr class="row0"> 
-      <td width="21%" valign="top" >&nbsp;</td>
-      <td width="21%" >&nbsp;</td>
-    </tr>
-    <tr class="row1"> 
-      <td width="21%" valign="top" > 
-        <div align="right"><strong><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_UNIT') ?>:</strong></div>
-      </td>
-      <td width="21%" > 
-        <input type="text" class="inputbox"  name="product_unit" size="15" maxlength="15" value="<?php $db->sp("product_unit"); ?>" />
-      </td>
-    </tr>
-    <tr class="row0">
-      <td width="21%" valign="top" > 
-        <div align="right"><strong><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_PACKAGING') ?>:</strong></div>
-      </td>
-      <td width="21%" > 
-        <input type="text" class="inputbox"  name="product_packaging" value="<?php echo $db->f("product_packaging") & 0xFFFF; ?>" size="8" maxlength="32" />&nbsp;<?php
-        echo vmToolTip($VM_LANG->_('PHPSHOP_PRODUCT_FORM_PACKAGING_DESCRIPTION')); ?>
-      </td>
-    </tr>
-    <tr class="row1">
-      <td width="21%" valign="top" > 
-        <div align="right"><strong><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_BOX') ?>:</strong></div>
-      </td>
-      <td width="21%" > 
-        <input type="text" class="inputbox"  name="product_box" value="<?php echo ($db->f("product_packaging")>>16)&0xFFFF; ?>" size="8" maxlength="32" />&nbsp;<?php
-        echo vmToolTip($VM_LANG->_('PHPSHOP_PRODUCT_FORM_BOX_DESCRIPTION')); ?>
-      </td>
-    </tr>
-    <!-- Changed Packaging - End -->
-  
-</table>
-<?php
-$tabs->endTab();
 
 $tabs->startTab( $images_label, "images-page");
 
@@ -1005,221 +1057,42 @@ $ps_html->writableIndicator( array( IMAGEPATH."product", IMAGEPATH."product/resi
 <?php
 $tabs->endTab();
 
-$tabs->startTab( $VM_LANG->_('PHPSHOP_RELATED_PRODUCTS'), "related-page");
+while ($db_ptypes->next_record()) {
 
-?><br />
-<h2><?php echo $VM_LANG->_('PHPSHOP_RELATED_PRODUCTS') ?></h2>
-<br />
-        <table class="adminform">
-          <tr class="row1">
-			<td style="vertical-align:top;"><br />
-			<?php echo $VM_LANG->_('VM_PRODUCT_RELATED_SEARCH'); ?>
-			<input type="text" size="40" name="search" id="relatedProductSearch" value="" />
-			</td>
-			<td><input type="button" name="remove_related" onclick="removeSelectedOptions(relatedSelection, 'related_products');" value="&nbsp; &lt; &nbsp;" /></td>
-			<td>
-			<?php
-			$relProducts = array();
-			foreach( $related_products as $relProd ) {
-				$relProducts[$relProd] = $ps_product->get_field( $relProd, 'product_name');
-			}
-			echo ps_html::selectList('relProds', '', $relProducts, 10, 'multiple="multiple"', 'id="relatedSelection" ondblclick="removeSelectedOptions(relatedSelection, \'related_products\');"');
-			?>
-			<input type="hidden" name="related_products" value="<?php echo implode('|', $related_products ) ?>" />
-			</td>			
-		</tr>
-	</table>
-<!-- Changed Product Type - Begin -->
-<?php
-$tabs->endTab();
+	$product_type_id = $db_ptypes->f("product_type_id");
 
-// Get Product Types
-$dba = new ps_DB;
+	$tabs->startTab( $db_ptypes->f('product_type_name'), "parameter-page-$product_type_id");
+	$ps_product_type = new ps_product_type;
+	echo $ps_product_type->get_product_type_form($product_type_id, $product_id);
 
-################################
-# Alatis Mod
-#
-# New Product based on specified Product Type
-################################
-$product_type_id = vmGet($_REQUEST, 'product_type_id', 0);
-if ($product_type_id > 0) {
-	$q = "SELECT * FROM #__{vm}_product_type WHERE product_type_id=$product_type_id";
-	$dba->query($q);
-	echo "<input type=\"hidden\" name=\"product_type_id\" value=\"$product_type_id\" />";
-} else {
-	// Get Product Types
-	$q  = "SELECT * FROM #__{vm}_product_product_type_xref,#__{vm}_product_type WHERE ";
-	$q .= "#__{vm}_product_product_type_xref.product_type_id=#__{vm}_product_type.product_type_id ";
-	$q .= 'AND product_id='.(int)$product_id;
-	/*  if (!$product_parent_id) {
-	$q .= "AND product_id='$product_id' ";
-	}
-	else {
-	$q .= "AND product_id='$product_parent_id' ";
-	}*/
-	$q .= ' ORDER BY product_type_list_order';
-	$dba->query($q);
+	$tabs->endTab();
+  //
 }
-#################################
-# / Alatis Mod
-#################################
-
-$dbpt = new ps_DB;
-$dbp = new ps_DB;
-
-while ($dba->next_record()) {
-
-	$product_type_id = $dba->f("product_type_id");
-
-	$tabs->startTab( $dba->f('product_type_name'), "parameter-page-$product_type_id");
-
-	$q  = "SELECT * FROM #__{vm}_product_type_parameter WHERE ";
-	$q .= "product_type_id='$product_type_id' ";
-	$q .= "ORDER BY parameter_list_order";
-	$dbpt->query($q);
-
-	$q  = "SELECT * FROM #__{vm}_product_type_$product_type_id WHERE ";
-	$q .= "product_id='$product_id'";
-	$dbp->query($q);
-?>
-
-  <table class="adminform">
-    <tr class="row0"> 
-      <td colspan="2"><h2><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_LBL').': '.$dba->f("product_type_name") ?></h2>
-      
-      <?php
-      echo '<h3>'.$VM_LANG->_('E_REMOVE').' =&gt; '.$ps_html->deleteButton( "product_type_id", $product_type_id, "productProductTypeDelete", $keyword, $limitstart, "&product_id=$product_id&product_parent_id=$product_parent_id&next_page=$next_page" ) . '</h3>';
-      ?>
-      </td>
-    </tr>
-
-    <?php 
-    $i = 0;
-    while ($dbpt->next_record()) {
-    	if ($dbpt->f("parameter_type")!="B") {
-    		echo "<tr class=\"row".$i++ % 2 . "\">\n  <td width=\"21%\" height=\"2\" valign=\"top\"><div style=\"text-align:right;font-weight:bold;\">";
-    		echo $dbpt->f("parameter_label");
-    		echo ":</div>\n  </td>\n  <td width=\"79%\" valign=\"top\" >";
-
-    		$parameter_values=$dbpt->f("parameter_values");
-    		if (!empty($parameter_values)) { // List of values
-    			$fields=explode(";",$parameter_values);
-    			echo "<select class=\"inputbox\" name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name");
-
-    			if ($dbpt->f("parameter_type")=="V") { //  Type: Multiple Values
-    				$size = min(count($fields),6);
-    				echo "[]\" multiple size=\"$size\">\n";
-    				$selected_value = array();
-    				$get_item_value = $dbp->f($dbpt->f("parameter_name"));
-    				$get_item_value = explode(";",$get_item_value);
-    				foreach($get_item_value as $value) {
-    					$selected_value[$value] = 1;
-    				}
-    				foreach($fields as $field) {
-    					echo "<option value=\"$field\"".(($selected_value[$field]==1) ? " selected>" : ">"). $field."</option>\n";
-    				}
-    			}
-    			else {  // Other Parameter type
-    				echo "\">\n";
-    				foreach($fields as $field) {
-    					echo "<option value=\"$field\" ";
-    					if ($dbp->f($dbpt->f("parameter_name")) == $field) echo "selected=\"selected\"";
-    					echo " >".$field."</option>\n";
-    				}
-    			}
-    			echo "</select>\n";
-    		}
-    		else { // Input field
-    			switch( $dbpt->f("parameter_type") ) {
-    				case "I": // Integer
-    				case "F": // Float
-    				case "D": // Date & Time
-    				case "A": // Date
-    				case "M": // Time
-    				echo "    <input type=\"text\" class=\"inputbox\"  name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name")."\" value=\"".$dbp->f($dbpt->f("parameter_name"))."\" size=\"20\" />";
-    				break;
-    				case "T": // Text
-    				case "S": // Short Text
-    				echo "<textarea class=\"inputbox\" name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name")."\" cols=\"35\" rows=\"6\" >";
-    				echo $dbp->sf($dbpt->f("parameter_name"))."</textarea>";
-    				break;
-    				case "C": // Char
-    				echo "    <input type=\"text\" class=\"inputbox\"  name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name")."\" value=\"".$dbp->f($dbpt->f("parameter_name"))."\" size=\"5\" />";
-    				break;
-    				case "V": // Multiple Values
-    				echo "    <input type=\"text\" class=\"inputbox\"  name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name")."\" value=\"".$dbp->f($dbpt->f("parameter_name"))."\" size=\"20\" />";
-
-    				// 						$fields=explode(";",$parameter_values);
-    				// 						echo "<select class=\"inputbox\" name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name");
-    				// 						if ($db->f("parameter_multiselect")=="Y") {
-    				// 							$size = min(count($fields),6);
-    				// 							echo "[]\" multiple size=\"$size\">\n";
-    				// 							$selected_value = array();
-    				// 							$get_item_value = explode(",",$dbp->sf($dbpt->f("parameter_name")));
-    				// 							foreach($get_item_value as $value) {
-    				// 								$selected_value[$value] = 1;
-    				// 							}
-    				// 							foreach($fields as $field) {
-    				// 								echo "<option value=\"$field\"".(($selected_value[$field]==1) ? " selected>" : ">"). $field."</option>\n";
-    				// 							}
-    				// 						}
-    				// 						else {
-    				// 							echo "\">\n";
-    				// 							$get_item_value = $dbp->sf($dbpt->f("parameter_name"));
-    				// 							foreach($fields as $field) {
-    				// 								echo "<option value=\"$field\"".(($get_item_value==$field) ? " selected>" : ">"). $field."</option>\n";
-    				// 							}
-    				// 						}
-    				// 						echo "</select>";
-    				break;
-    					default: // Default type Short Text
-    					echo "    <input type=\"text\" class=\"inputbox\" name=\"product_type_".$product_type_id."_".$dbpt->f("parameter_name")."\" value=\"".$dbp->f($dbpt->f("parameter_name"))."\" size=\"20\" />";
-    				}
-    		}
-
-    		if ($dbpt->f("parameter_description")) {
-    			echo "&nbsp;";
-    			echo vmToolTip($dbpt->f("parameter_description"));
-    		}
-    		echo " ".$dbpt->f("parameter_unit");
-    		if ($dbpt->f("parameter_default")) {
-    			echo " (".$VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DEFAULT').": ";
-    			echo $dbpt->f("parameter_default").")";
-    		}
-    		echo " [ ".$VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE').": ";
-    		switch( $dbpt->f("parameter_type") ) {
-    			case "I": echo $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_INTEGER'); break;	// Integer
-    			case "T": echo $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TEXT'); break; 	// Text
-    			case "S": echo $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_SHORTTEXT'); break; // Short Text
-    			case "F": echo $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_FLOAT'); break; 	// Float
-    			case "C": echo $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_CHAR'); break; 	// Char
-    			case "D": echo $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATETIME')." ";	// Date & Time
-    			echo $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE_FORMAT')." ";
-    			echo $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TIME_FORMAT');
-    			break;
-    			case "A": echo $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE')." ";		// Date
-    			echo $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE_FORMAT');
-    			break;
-    			case "M": echo $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TIME')." ";		// Time
-    			echo $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TIME_FORMAT');
-    			break;
-    			case "V": echo $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_MULTIVALUE'); break; 	// Multiple Value
-    		}
-    		echo " ] ";
-    	}
-    	else {
-    		echo "<tr>\n  <td colspan=\"2\" height=\"2\" ><hr/>";
-    	}
-    	echo "  </td>\n</tr>";
-    }
-?>
-
-  </table>
-  
-  <?php 
-
-  $tabs->endTab();
-  //<!-- Changed Product Type - End -->
+// if there are currently no product types, this product is assigned to (e.g. if it's a new product) we offer a drop down list
+// with all available Product Types
+if( $db_ptypes->num_rows() < 1 ) {
+	$q = 'SELECT product_type_id,product_type_name FROM #__{vm}_product_type ORDER BY product_type_name';
+	$db_ptypes->query( $q );
+	
+	if( $db_ptypes->num_rows() > 0 ) {
+		$tabs->startTab('Product Types', 'product-types' );
+		echo '<br />
+		<div style="padding-left: 20px;">
+		<h2>Product Types</h2>
+		<br />
+		';
+		 
+		$types = array(''=> $VM_LANG->_('PHPSHOP_SELECT'));
+		while( $db_ptypes->next_record() ) {
+			$types[$db_ptypes->f('product_type_id')] = $db_ptypes->f('product_type_name');
+		}
+		echo ps_html::selectList('product_type_id', 0, $types, 1, '', 'onchange="loadProductTypeForm(this.options[this.selectedIndex].value)"' );
+		echo '<br />
+		<br />
+		<div id="ProductTypeFormContainer"></div>';
+		echo '</div>';
+		$tabs->endTab();
+	}
 }
 if( $clone_product == "1" ) {
 	
@@ -1298,267 +1171,7 @@ $funcname = !empty($product_id) ? "productUpdate" : "productAdd";
 $formObj->finishForm( $funcname, $next_page, $option );
 
 ?>
-
-<script type="text/javascript">
-//<!--
-function toggleDisable( elementOnChecked, elementDisable, disableOnChecked ) {
-	try {
-		if( !disableOnChecked ) {
-			if(elementOnChecked.checked==true) {
-				elementDisable.disabled=false;
-			}
-			else {
-				elementDisable.disabled=true;
-			}
-		}
-		else {
-			if(elementOnChecked.checked==true) {
-				elementDisable.disabled=true;
-			}
-			else {
-				elementDisable.disabled=false;
-			}
-		}
-	}
-	catch( e ) {}
-}
-// borrowed from OSCommerce with small modifications.
-// All rights reserved.
-var tax_rates = new Array();
-<?php
-foreach( $tax_rates as $tax_rate_id => $tax_rate ) {
-	echo "tax_rates[\"$tax_rate_id\"] = $tax_rate;\n";
-}
-?>
-function doRound(x, places) {
-	return Math.round(x * Math.pow(10, places)) / Math.pow(10, places);
-}
-
-function getTaxRate() {
-	var selected_value = document.adminForm.product_tax_id.selectedIndex;
-	var parameterVal = document.adminForm.product_tax_id[selected_value].value;
-
-	if ( (parameterVal > 0) && (tax_rates[parameterVal] > 0) ) {
-		return tax_rates[parameterVal];
-	} else {
-		return 0;
-	}
-}
-
-function updateGross() {
-	if( document.adminForm.product_price.value != '' ) {
-		var taxRate = getTaxRate();
-
-		var r = new RegExp("\,", "i");
-		document.adminForm.product_price.value = document.adminForm.product_price.value.replace( r, "." );
-
-		var grossValue = document.adminForm.product_price.value;
-
-		if (taxRate > 0) {
-			grossValue = grossValue * (taxRate + 1);
-		}
-
-		document.adminForm.product_price_incl_tax.value = doRound(grossValue, 5);
-	}
-}
-
-function updateNet() {
-	if( document.adminForm.product_price_incl_tax.value != '' ) {
-		var taxRate = getTaxRate();
-
-		var r = new RegExp("\,", "i");
-		document.adminForm.product_price_incl_tax.value = document.adminForm.product_price_incl_tax.value.replace( r, "." );
-
-		var netValue = document.adminForm.product_price_incl_tax.value;
-
-		if (taxRate > 0) {
-			netValue = netValue / (taxRate + 1);
-		}
-
-		document.adminForm.product_price.value = doRound(netValue, 5);
-	}
-}
-
-function updateDiscountedPrice() {
-	if( document.adminForm.product_price.value != '' ) {
-		try {
-			var selected_discount = document.adminForm.product_discount_id.selectedIndex;
-			var discountCalc = document.adminForm.product_discount_id[selected_discount].id;
-			<?php if( PAYMENT_DISCOUNT_BEFORE == '1' ) : ?>
-			var origPrice = document.adminForm.product_price.value;
-			<?php else : ?>
-			var origPrice = document.adminForm.product_price_incl_tax.value;
-			<?php endif; ?>
-
-			if( discountCalc ) {
-				eval( 'var discPrice = ' + origPrice + discountCalc );
-				if( discPrice != origPrice ) {
-					document.adminForm.discounted_price_override.value = discPrice.toFixed( 2 );
-				} else {
-					document.adminForm.discounted_price_override.value = '';
-				}
-			}
-		}
-		catch( e ) { }
-	}
-}
-function toggleProductList( enable ) {
-	if(enable) {		
-    	document.getElementById('list_style0').disabled = false;
-       document.getElementById('list_style0').checked = true;
-    	document.getElementById('list_style1').disabled = false;
-       document.getElementById('display_headers').disabled = false;
-    	document.getElementById('product_list_child').disabled = false;
-       document.getElementById('product_list_type').disabled = false;
-	}
-    else {
-    	document.getElementById('list_style0').disabled = true;
-    	document.getElementById('list_style1').disabled = true;
-       document.getElementById('display_headers').disabled = true;
-    	document.getElementById('product_list_child').disabled = true;
-       document.getElementById('product_list_type').disabled = true;
-       document.getElementById('display_headers').checked = false;
-    	document.getElementById('product_list_child').checked = false;
-       document.getElementById('product_list_type').checked = false;
-	}
-}
-updateGross();
-updateDiscountedPrice();
-<?php
-if( @$_REQUEST['no_menu'] != '1') {
-	?>
-	toggleDisable( document.adminForm.product_full_image_action[1], document.adminForm.product_thumb_image, true );
-	<?php
-}
-?>
-var productSearchField = function(){
-
-    var relds = new Ext.data.Store({
-        proxy: new Ext.data.HttpProxy({
-            url: 'index2.php?option=com_virtuemart&page=product.ajax_tools&task=getproducts&ajax_request=1&func=&no_menu=1&only_page=1&no_html=1&product_id=<?php echo $product_id ?>',
-            method: 'GET' }),
-        reader: new Ext.data.JsonReader({
-            root: 'products',
-            totalProperty: 'totalCount',
-            id: 'product_id'
-	        }, [
-	            {name: 'product'},
-	            {name: 'category'},
-	            {name: 'product_id'}
-	        ])
-    });   
-    // Custom rendering Template
-    var resultTpl = new Ext.XTemplate( '<tpl for="."><div class="x-combo-list-item">{category} / {product}</div></tpl>' );
-    relatedSelection = document.getElementById('relatedSelection');
-    related_products = document.adminForm.related_products;
-    var relProdSearch = new Ext.form.ComboBox({
-    	applyTo: 'relatedProductSearch',
-        store: relds,
-        title: '<?php echo addslashes($VM_LANG->_('VM_PRODUCT_SELECT_ONE_OR_MORE')); ?>',
-        displayField:'product',
-        typeAhead: false,
-        loadingText: '<?php echo addslashes($VM_LANG->_('VM_PRODUCT_SEARCHING')); ?>',
-        width: 270,
-        minListWidth: 270,
-        pageSize:15,
-        emptyText: "<?php  echo addslashes($VM_LANG->_('PHPSHOP_SEARCH_TITLE')); ?>",
-        tpl: resultTpl,
-        onSelect: function(record) {
-        	for(var i=0;i<relatedSelection.options.length;i++) {
-        		if(relatedSelection.options[i].value==record.id) {
-        			return;
-        		}
-        	}
-        	o = new Option( record.data.product, record.id );
-        	relatedSelection.options[relatedSelection.options.length] = o;
-        	if( related_products.value != '') {
-        		related_products.value += '|' + record.id;
-        	} else {
-        		related_products.value += record.id;
-        	}
-        }
-    });
-	
-};
-var categorySearchField = function(){
-
-    var relds = new Ext.data.Store({
-        proxy: new Ext.data.HttpProxy({
-            url: 'index2.php?option=com_virtuemart&page=product.ajax_tools&task=getcategories&ajax_request=1&func=&no_menu=1&only_page=1&no_html=1',
-            method: 'GET'            
-        }),
-        reader: new Ext.data.JsonReader({
-            root: 'categories',
-            totalProperty: 'totalCount',
-            id: 'category_id'
-	        }, [
-	            {name: 'category'},
-	            {name: 'category_id'}
-	        ])
-    });
-   
-    // Custom rendering Template
-    var resultTpl = new Ext.XTemplate(
-    	'<tpl for="."><div class="x-combo-list-item">{category} (ID: {category_id})</div></tpl>'
-    );
-    relatedCatSelection = document.getElementById('relatedCatSelection');
-    category_ids = document.adminForm.category_ids;
-    var relProdSearch = new Ext.form.ComboBox({
-    	applyTo: "categorySearch",
-        store: relds,
-        title: '<?php echo addslashes($VM_LANG->_('VM_PRODUCT_SELECT_ONE_OR_MORE')); ?>',
-        displayField:'category',
-        typeAhead: false,
-        loadingText: '<?php echo addslashes($VM_LANG->_('VM_PRODUCT_SEARCHING')); ?>',
-        width: 170,
-        minListWidth: 170,
-        pageSize:15,
-        emptyText: "<?php  echo addslashes($VM_LANG->_('PHPSHOP_SEARCH_TITLE')); ?>",
-        tpl: resultTpl,
-        onSelect: function(record) {
-        	for(var i=0;i<relatedCatSelection.options.length;i++) {
-        		if(relatedCatSelection.options[i].value==record.id) {
-        			return;
-        		}
-        	}
-        	o = new Option( record.data.category, record.id );
-        	
-        	relatedCatSelection.options[relatedCatSelection.options.length] = o;
-        	if( category_ids.value != '') {
-        		category_ids.value += '|' + record.id;
-        	} else {
-        		category_ids.value += record.id;
-        	}
-        }
-    });
-	
-};
-if( Ext.isIE ) {
-	Ext.EventManager.addListener( window, 'load', productSearchField );
-	if( Ext.get("categorySearch") ) {
-		Ext.EventManager.addListener( window, 'load', categorySearchField );
-	}
-}
-else {
-	Ext.onReady( productSearchField );
-	if( Ext.get("categorySearch") ) {
-		Ext.onReady( categorySearchField );
-	}
-}
-function removeSelectedOptions(from, hiddenField ) {
-	field = eval( "document.adminForm." + hiddenField );
-	// Delete them from original
-	var newOptions = [];
-	for (var i=(from.options.length-1); i>=0; i--) {
-		var o = from.options[i];
-		if (o.selected) {
-			from.options[i] = null;
-		} else {
-			newOptions.push(o.value);
-		}
-	}
-	field.value = newOptions.join('|');
-	
-}
+<script type="text/javascript">//<!--
+<?php include($mosConfig_absolute_path.'/components/com_virtuemart/js/product_form.js.php' ) ?>
 //-->
 </script>

@@ -135,7 +135,12 @@ function getURLParam( strParamName, myWindow){
   }
   return strReturn;
 }
-
+/**
+ * Function to add a new Tab to the Administrator Panel
+ * @param title
+ * @param link
+ * @return boolean
+ */
 function addSimplePanel( title, link ) {
 	if( Ext.getCmp('center-panel')) {
 		myId = title.replace( /\W/, '' );
@@ -144,7 +149,14 @@ function addSimplePanel( title, link ) {
 			return false;
 		}
 
-		var panel = new Ext.BoxComponent( { id: myId, autoEl: {tag: "iframe", frameBorder: 0, height: "100%", src: link+"&panelId="+myId }, title: title, fitToFrame:true, closable:true });	
+		var panel = new Ext.Panel( { id: myId, 
+													html: {tag: "iframe", frameBorder: 0, width: "100%", height: "100%", src: link+"&panelId="+myId }, 
+													title: title, 
+													fitToFrame: true, 
+													closable:true ,
+													tbar: [{xtype:"tbspacer"}]
+													}
+												);	
 		Ext.getCmp('center-panel').add( panel );		
 		
 		Ext.getCmp('center-panel').activate(panel);
@@ -152,11 +164,19 @@ function addSimplePanel( title, link ) {
 	}
 	return true;
 }
+/**
+ * Function to remove a Tab from the Administrator Panel
+ * @param id
+ * @return boolean
+ */
 function closePanel( id ) {
 
 	if( Ext.getCmp('center-panel')) {
 		if( Ext.getCmp('center-panel').items.getCount() > 1 ) {
-			Ext.getCmp('center-panel').remove( Ext.getCmp('center-panel').getActiveTab() );
+			tabToClose = Ext.getCmp('center-panel').getActiveTab();
+			if( tabToClose.getId() != "vmpage-panel" ) {
+					Ext.getCmp('center-panel').remove( tabToClose );
+			}
 			return true;
 		}
 		return false;

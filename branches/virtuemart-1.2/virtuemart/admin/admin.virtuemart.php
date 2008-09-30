@@ -143,18 +143,17 @@ if( $only_page != 1 ) {
 	
 	echo '</div>';
 	if( stristr($page, '_list') && $page != 'product.file_list' ) {
-		echo vmCommonHTML::scriptTag('', 'var listItemClicked = function(e){
-        // find the <a> element that was clicked
-        var a = e.getTarget("a");
-       try {
-	        if(a && !a.onclick && a.href.indexOf("javascript:") == -1 && a.href.indexOf("func=") == -1 ) {
-	            e.preventDefault();
-	            parent.addSimplePanel( a.title != "" ? a.title : a.innerHTML, a.href );
-	   		}  
-	    } catch(e) {}
-	};
-	
-	Ext.get("vmPage").mon("click", listItemClicked );');
+		echo vmCommonHTML::scriptTag('', 'function listItemClicked(e){
+       // find the <a> element that was clicked
+       var a = e.getTarget("a");
+      try {
+        if(a && !a.onclick && a.href.indexOf("javascript:") == -1 && a.href.indexOf("func=") == -1 ) {
+            e.preventDefault();
+            parent.addSimplePanel( a.title != "" ? a.title : a.innerHTML, a.href );
+   		}  
+    } catch(e) {}
+}
+Ext.get("vmPage").mon("click", listItemClicked );');
 	}
 }
 // Render the script and style resources into the document head

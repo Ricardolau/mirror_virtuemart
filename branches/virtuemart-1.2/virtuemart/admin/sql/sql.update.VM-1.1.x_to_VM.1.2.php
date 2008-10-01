@@ -122,3 +122,21 @@ $db->query( "INSERT INTO `#__{vm}_menu_admin` (`id`, `module_id`, `parent_id`, `
 # Coupon start and expiry dates, thank you willowtree (http://forum.virtuemart.net/index.php?topic=41066.0)
 $db->query( "ALTER TABLE `#__{vm}_coupons` ADD `coupon_start_date` DATETIME NULL ,
 ADD `coupon_expiry_date` DATETIME NULL");
+
+//Added for multivendoring 
+//shows in Userlist if user is vendor
+$db->query("ALTER TABLE `jos_vm_user_info` ADD `user_is_vendor` TINYINT( 1 ) NOT NULL DEFAULT '0' AFTER `user_id ;`");
+//Possibility for the admin to connect a added vendor to a user
+$db->query("ALTER TABLE `jos_vm_vendor` ADD `vendor_nick` `vendor_nick` VARCHAR( 150 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;");
+//Sharing of Categories
+$db->query("ALTER TABLE `jos_vm_category_xref ` ADD `category_shared` VARCHAR( 1 ) NOT NULL DEFAULT '1' ;");
+
+//Not implemented yet
+//Sharing of Discounts
+//$db->query("ALTER TABLE `jos_vm_product_discount` ADD `vendor_id` INT( 11 ) NOT NULL DEFAULT '0' AFTER `discount_id` ,
+//ADD `discount_shared` CHAR( 1 ) NOT NULL DEFAULT 'N' AFTER `vendor_id` ;");
+
+//Sharing of Producttypes
+//$db->query("ALTER TABLE `jos_vm_product_type` ADD `vendor_id` INT( 11 ) NOT NULL DEFAULT '0' AFTER `product_type_list_order` ,
+//ADD `product_type_shared` CHAR( 1 ) NOT NULL DEFAULT 'N' AFTER `vendor_id` ;");
+

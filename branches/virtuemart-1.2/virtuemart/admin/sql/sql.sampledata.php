@@ -23,11 +23,11 @@ $db->query( "INSERT INTO `#__{vm}_category` VALUES (4, 1, 'Outdoor Tools', 'Outd
 $db->query( "INSERT INTO `#__{vm}_category` VALUES (5, 1, 'Indoor Tools', 'Indoor Tools', NULL, NULL, 'Y', 958892894, 958892894, 'browse_1', '1', NULL, '5');");
 
 
-$db->query( "INSERT INTO `#__{vm}_category_xref` VALUES (0, 1, NULL);");
-$db->query( "INSERT INTO `#__{vm}_category_xref` VALUES (0, 2, NULL);");
-$db->query( "INSERT INTO `#__{vm}_category_xref` VALUES (0, 3, NULL);");
-$db->query( "INSERT INTO `#__{vm}_category_xref` VALUES (2, 4, NULL);");
-$db->query( "INSERT INTO `#__{vm}_category_xref` VALUES (2, 5, NULL);");
+$db->query( "INSERT INTO `#__{vm}_category_xref` VALUES (0, 1, NULL,1);");
+$db->query( "INSERT INTO `#__{vm}_category_xref` VALUES (0, 2, NULL,1);");
+$db->query( "INSERT INTO `#__{vm}_category_xref` VALUES (0, 3, NULL,1);");
+$db->query( "INSERT INTO `#__{vm}_category_xref` VALUES (2, 4, NULL,1);");
+$db->query( "INSERT INTO `#__{vm}_category_xref` VALUES (2, 5, NULL,1);");
 
 $db->query( "INSERT INTO `#__{vm}_coupons` VALUES (1, 'test1', 'total', 'gift', 6.00);");
 $db->query( "INSERT INTO `#__{vm}_coupons` VALUES (2, 'test2', 'percent', 'permanent', 15.00);");

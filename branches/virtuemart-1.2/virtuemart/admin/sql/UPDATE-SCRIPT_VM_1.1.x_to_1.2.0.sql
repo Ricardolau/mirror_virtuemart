@@ -109,3 +109,12 @@ INSERT INTO `jos_vm_menu_admin` (`id`, `module_id`, `parent_id`, `name`, `link`,
 # Coupon start and expiry dates, thank you willowtree (http://forum.virtuemart.net/index.php?topic=41066.0)
 ALTER TABLE `jos_vm_coupons` ADD `coupon_start_date` DATETIME NULL ,
 ADD `coupon_expiry_date` DATETIME NULL ;
+
+#Added for multivendoring 
+#shows in Userlist if user is vendor
+ALTER TABLE `jos_vm_user_info` ADD `user_is_vendor` TINYINT( 1 ) NOT NULL DEFAULT '0' AFTER `user_id ;
+
+#Possibility for the admin to connect a added vendor to a user
+ALTER TABLE `jos_vm_vendor` ADD `vendor_nick` `vendor_nick` VARCHAR( 150 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
+#Sharing of Categories
+ALTER TABLE `jos_vm_category_xref ` ADD `category_shared` VARCHAR( 1 ) NOT NULL DEFAULT '1' ;

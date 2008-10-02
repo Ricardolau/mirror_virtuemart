@@ -127,9 +127,9 @@ ADD `coupon_expiry_date` DATETIME NULL");
 //shows in Userlist if user is vendor
 $db->query("ALTER TABLE `jos_vm_user_info` ADD `user_is_vendor` TINYINT( 1 ) NOT NULL DEFAULT '0' AFTER `user_id ;`");
 //Possibility for the admin to connect a added vendor to a user
-$db->query("ALTER TABLE `jos_vm_vendor` ADD `vendor_nick` `vendor_nick` VARCHAR( 150 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;");
+$db->query("ALTER TABLE `jos_vm_vendor` ADD `vendor_nick` VARCHAR( 150 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;");
 //Sharing of Categories
-$db->query("ALTER TABLE `jos_vm_category_xref ` ADD `category_shared` VARCHAR( 1 ) NOT NULL DEFAULT '1' ;");
+$db->query("ALTER TABLE `jos_vm_category_xref ` ADD `category_shared` VARCHAR( 1 ) NOT NULL DEFAULT 'Y' ;");
 
 //Not implemented yet
 //Sharing of Discounts

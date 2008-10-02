@@ -40,11 +40,11 @@ INSERT INTO `jos_vm_category` VALUES (3, 1, 'Garden Tools', 'Garden Tools', '702
 INSERT INTO `jos_vm_category` VALUES (4, 1, 'Outdoor Tools', 'Outdoor Tools', NULL, NULL, 'Y', 955626629, 958889528, 'browse_1', '1', NULL, '4');
 INSERT INTO `jos_vm_category` VALUES (5, 1, 'Indoor Tools', 'Indoor Tools', NULL, NULL, 'Y', 958892894, 958892894, 'browse_1', '1', NULL, '5');
 		
-INSERT INTO `jos_vm_category_xref` VALUES ('0', 1, NULL,1);
-INSERT INTO `jos_vm_category_xref` VALUES ('0', 2, NULL,1);
-INSERT INTO `jos_vm_category_xref` VALUES ('0', 3, NULL,1);
-INSERT INTO `jos_vm_category_xref` VALUES (2, 4, NULL,1);
-INSERT INTO `jos_vm_category_xref` VALUES (2, 5, NULL,1);
+INSERT INTO `jos_vm_category_xref` VALUES ('0', 1, NULL,'Y');
+INSERT INTO `jos_vm_category_xref` VALUES ('0', 2, NULL,'Y');
+INSERT INTO `jos_vm_category_xref` VALUES ('0', 3, NULL,'Y');
+INSERT INTO `jos_vm_category_xref` VALUES (2, 4, NULL,'Y');
+INSERT INTO `jos_vm_category_xref` VALUES (2, 5, NULL,'Y');
 			
 INSERT INTO `jos_vm_product` VALUES (1, 1, 0, 'G01', '<p>Nice hand shovel to dig with in the yard.</p>\r\n', '\r\n<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5" Diameter<br>  Tungsten handle tip with 5 point loft<br>\r\n', '8d886c5855770cc01a3b8a2db57f6600.jpg', 'cca3cd5db813ee6badf6a3598832f2fc.jpg', 'Y', '10.0000', 'pounds', '0.0000', '0.0000', '0.0000', 'inches', '', 10, 1072911600, '48h.gif', 'Y', 1, NULL, 950320117, 1084907592, 'Hand Shovel', 0, '', '', 2, '', 0, NULL, NULL, NULL, NULL);
 INSERT INTO `jos_vm_product` VALUES (2, 1, 0, 'G02', 'A really long ladder to reach high places.', '\r\n<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br>  5" Diameter<br>  Tungsten handle tip with 5 point loft<br>\r\n', 'ffd5d5ace2840232c8c32de59553cd8d.jpg', '8cb8d644ef299639b7eab25829d13dbc.jpg', 'Y', '10.0000', 'pounds', '0.0000', '0.0000', '0.0000', 'inches', '', 76, 1072911600, '3-5d.gif', 'N', 0, NULL, 950320180, 1084907618, 'Ladder', 0, '', '', 2, '', 0, NULL, NULL, NULL, NULL);

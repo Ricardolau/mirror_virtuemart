@@ -117,4 +117,4 @@ ALTER TABLE `jos_vm_user_info` ADD `user_is_vendor` TINYINT( 1 ) NOT NULL DEFAUL
 #Possibility for the admin to connect a added vendor to a user
 ALTER TABLE `jos_vm_vendor` ADD `vendor_nick` `vendor_nick` VARCHAR( 150 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
 #Sharing of Categories
-ALTER TABLE `jos_vm_category_xref ` ADD `category_shared` VARCHAR( 1 ) NOT NULL DEFAULT '1' ;
+ALTER TABLE `jos_vm_category_xref ` ADD `category_shared` VARCHAR( 1 ) NOT NULL DEFAULT 'Y' ;

@@ -50,6 +50,7 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_auth_user_vendor` (
 ## 
 ## Dumping data for table `#__{vm}_auth_user_vendor`
 ## 
+$db->query( "INSERT INTO `#__{vm}_auth_user_vendor` (`user_id`, `vendor_id`) VALUES 62, 1;" );
 
 
 ## --------------------------------------------------------
@@ -99,7 +100,7 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_category_xref` (
   `category_parent_id` int(11) NOT NULL default '0',
   `category_child_id` int(11) NOT NULL default '0',
   `category_list` int(11) default NULL,
-  `category_shared` VARCHAR( 1 ) NOT NULL DEFAULT '1', 
+  `category_shared` VARCHAR( 1 ) NOT NULL DEFAULT 'Y', 
   PRIMARY KEY (`category_child_id`),
   KEY `category_xref_category_parent_id` (`category_parent_id`),
   KEY `idx_category_xref_category_list` (`category_list`)
@@ -1103,7 +1104,6 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_order_user_info` (
   `order_info_id` int(11) NOT NULL auto_increment,
   `order_id` int(11) NOT NULL default '0',
   `user_id` int(11) NOT NULL default '0',
-  `user_is_vendor` TINYINT( 1 ) NOT NULL default '0',
   `address_type` char(2) default NULL,
   `address_type_name` varchar(32) default NULL,
   `company` varchar(64) default NULL,
@@ -2216,6 +2216,7 @@ $db->query( "INSERT INTO `#__{vm}_tax_rate` VALUES (2, 1, 'CA', 'USA', 964565926
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_user_info` (
   `user_info_id` varchar(32) NOT NULL default '',
   `user_id` int(11) NOT NULL default '0',
+  `user_is_vendor` TINYINT( 1 ) NOT NULL default '0',
   `address_type` char(2) default NULL,
   `address_type_name` varchar(32) default NULL,
   `company` varchar(64) default NULL,
@@ -2387,7 +2388,7 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_vendor` (
 ## Dumping data for table `#__{vm}_vendor`
 ## 
 
-$db->query( "INSERT INTO `#__{vm}_vendor` VALUES (1, 'Washupito''s Tiendita', 'Owner', 'Demo', 'Store', 'Mr.', '555-555-1212', '555-555-1212', '555-555-1212', '$mosConfig_mailfrom', '555-555-1212', '100 Washupito Avenue, N.W.', '', 'Lake Forest', 'CA', 'USA', '92630', 'Washupito''s Tiendita', '<p>We have the best tools for do-it-yourselfers.  Check us out! </p>\r\n		<p>We were established in 1969 in a time when getting good tools was expensive, but the quality was good.  Now that only a select few of those authentic tools survive, we have dedicated this store to bringing the experience alive for collectors and master mechanics everywhere.</p>\r\n		<p>You can easily find products selecting the category you would like to browse above.</p>', 0, '', 'c19970d6f2970cb0d1b13bea3af3144a.gif', 'USD', 950302468, 968309845, 'shop_image/', '<h5>You haven''t configured any terms of service yet. Click <a href=administrator/index2.php?page=store.store_form&option=com_virtuemart>here</a> to change this text.</h5>', '$mosConfig_live_site', 0.00, 0.00, '1|$|2|.| |2|1', 'USD', '{storename}\n{address_1}\n{address_2}\n{city}, {zip}', '%A, %d %B %Y %H:%M'); " );
+$db->query( "INSERT INTO `#__{vm}_vendor` VALUES (1, 'Washupito''s Tiendita','admin', 'Owner', 'Demo', 'Store', 'Mr.', '555-555-1212', '555-555-1212', '555-555-1212', '$mosConfig_mailfrom', '555-555-1212', '100 Washupito Avenue, N.W.', '', 'Lake Forest', 'CA', 'USA', '92630', 'Washupito''s Tiendita', '<p>We have the best tools for do-it-yourselfers.  Check us out! </p>\r\n		<p>We were established in 1969 in a time when getting good tools was expensive, but the quality was good.  Now that only a select few of those authentic tools survive, we have dedicated this store to bringing the experience alive for collectors and master mechanics everywhere.</p>\r\n		<p>You can easily find products selecting the category you would like to browse above.</p>', 0, '', 'c19970d6f2970cb0d1b13bea3af3144a.gif', 'USD', 950302468, 968309845, 'shop_image/', '<h5>You haven''t configured any terms of service yet. Click <a href=administrator/index2.php?page=store.store_form&option=com_virtuemart>here</a> to change this text.</h5>', '$mosConfig_live_site', 0.00, 0.00, '1|$|2|.| |2|1', 'USD', '{storename}\n{address_1}\n{address_2}\n{city}, {zip}', '%A, %d %B %Y %H:%M'); " );
 
 ## --------------------------------------------------------
 

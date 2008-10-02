@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `jos_vm_auth_user_vendor` (
 ## 
 ## Dumping data for table `jos_vm_auth_user_vendor`
 ## 
-
+INSERT INTO `#__{vm}_auth_user_vendor` (`user_id`, `vendor_id`) VALUES 62, 1;
 
 ## --------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `jos_vm_cart` (
@@ -86,6 +86,7 @@ CREATE TABLE IF NOT EXISTS `jos_vm_category_xref` (
   `category_parent_id` int(11) NOT NULL default '0',
   `category_child_id` int(11) NOT NULL default '0',
   `category_list` int(11) default NULL,
+  `category_shared` VARCHAR( 1 ) NOT NULL DEFAULT 'Y',
   PRIMARY KEY (`category_child_id`),
   KEY `category_xref_category_parent_id` (`category_parent_id`),
   KEY `idx_category_xref_category_list` (`category_list`)
@@ -2201,6 +2202,7 @@ INSERT INTO `jos_vm_tax_rate` VALUES (2, 1, 'CA', 'USA', 964565926, 0.0825);
 CREATE TABLE IF NOT EXISTS `jos_vm_user_info` (
   `user_info_id` varchar(32) NOT NULL default '',
   `user_id` int(11) NOT NULL default '0',
+  `user_is_vendor` TINYINT( 1 ) NOT NULL default '0',
   `address_type` char(2) default NULL,
   `address_type_name` varchar(32) default NULL,
   `company` varchar(64) default NULL,
@@ -2328,6 +2330,7 @@ INSERT INTO `jos_vm_userfield_values` VALUES (3, 25, 'PHPSHOP_ACCOUNT_LBL_ACCOUN
 
 CREATE TABLE IF NOT EXISTS `jos_vm_vendor` (
   `vendor_id` int(11) NOT NULL auto_increment,
+  `vendor_nick` VARCHAR( 150 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `vendor_name` varchar(64) default NULL,
   `contact_last_name` varchar(32) NOT NULL default '',
   `contact_first_name` varchar(32) NOT NULL default '',

@@ -60,16 +60,13 @@ class ps_vendor {
 				$q .= "WHERE user_id = ".$userid."";
 				$db->query($q);
 				$vendor_id = $db->f('vendor_id');
-				$vmLogger->info( ' vendorAdd  vendor_id '.$vendor_id.' $userid '.$userid);
+				$vmLogger->debug( ' vendorAdd  vendor_id '.$vendor_id.' $userid '.$userid);
 				if($vendor_id!=0){
 					$vmLogger->err( 'The nickname is already a vendor.' );
 				return False;
 				}
 			}
 		}
-        if (mysql_errno()) {
-        	$GLOBALS['vmLogger']->info('The Vendor has been added.');
-        }
 		if (!$d["contact_email"]) {
 			$vmLogger->err( 'You must enter an email address for the vendor contact.');
 			return False;
@@ -252,7 +249,7 @@ class ps_vendor {
 		$q .= "WHERE username = '".$d["vendor_nick"]."'";
 		$db->query($q);
 		$userid = $db->f('id');
-		$GLOBALS['vmLogger']->info("vendor_id='".$_REQUEST['vendor_id']."' user_id='".$userid."'");
+		$GLOBALS['vmLogger']->debug("vendor_id='".$_REQUEST['vendor_id']."' user_id='".$userid."'");
 		if ($userid!=0) {
 			$user_update = "UPDATE #__{vm}_auth_user_vendor SET vendor_id='".$_REQUEST['vendor_id']."' WHERE user_id='".$userid."'";
 			$db->query($user_update);
@@ -591,7 +588,6 @@ class ps_vendor {
 			$db->query($q);
 			echo '<input type="hidden" name="vendor_id" value="'.$db->f("vendor_id").'" />';
 			echo $db->f("vendor_name");
-//			$GLOBALS['vmLogger']->info("list_ornot_vendor: '".$db->f("vendor_id")."'");
 			
 		}
 

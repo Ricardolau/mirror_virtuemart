@@ -138,6 +138,7 @@ $langvars = array (
 	'PHPSHOP_PRODUCT_LIST_MNU' => 'List Products',
 	'PHPSHOP_PRODUCT_LIST_LBL' => 'Product List',
 	'PHPSHOP_PRODUCT_LIST_NAME' => 'Product Name',
+	'PHPSHOP_PRODUCT_LIST_VENDOR_NAME' => 'Vendor Nick',
 	'PHPSHOP_PRODUCT_LIST_SKU' => 'SKU',
 	'PHPSHOP_PRODUCT_FORM_MNU' => 'Add Product',
 	'PHPSHOP_PRODUCT_FORM_ADD_ITEM_MNU' => 'Add Item',

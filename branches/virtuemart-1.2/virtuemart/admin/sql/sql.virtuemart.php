@@ -50,7 +50,7 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_auth_user_vendor` (
 ## 
 ## Dumping data for table `#__{vm}_auth_user_vendor`
 ## 
-$db->query( "INSERT INTO `#__{vm}_auth_user_vendor` (`user_id`, `vendor_id`) VALUES 62, 1;" );
+$db->query( "REPLACE `#__{vm}_auth_user_vendor` (`user_id`, `vendor_id`) VALUES (62, 1);" );
 
 
 ## --------------------------------------------------------

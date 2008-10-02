@@ -131,6 +131,8 @@ $db->query("ALTER TABLE `jos_vm_vendor` ADD `vendor_nick` VARCHAR( 150 ) CHARACT
 //Sharing of Categories
 $db->query("ALTER TABLE `jos_vm_category_xref ` ADD `category_shared` VARCHAR( 1 ) NOT NULL DEFAULT 'Y' ;");
 
+//Set admin to mainshopper
+$db->query("REPLACE `#__{vm}_auth_user_vendor` (`user_id`, `vendor_id`) VALUES (62, 1);");
 //Not implemented yet
 //Sharing of Discounts
 //$db->query("ALTER TABLE `jos_vm_product_discount` ADD `vendor_id` INT( 11 ) NOT NULL DEFAULT '0' AFTER `discount_id` ,

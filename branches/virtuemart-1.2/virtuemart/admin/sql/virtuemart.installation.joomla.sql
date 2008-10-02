@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `jos_vm_auth_user_vendor` (
 ## 
 ## Dumping data for table `jos_vm_auth_user_vendor`
 ## 
-INSERT INTO `#__{vm}_auth_user_vendor` (`user_id`, `vendor_id`) VALUES 62, 1;
+REPLACE `#__{vm}_auth_user_vendor` (`user_id`, `vendor_id`) VALUES (62, 1);
 
 ## --------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `jos_vm_cart` (

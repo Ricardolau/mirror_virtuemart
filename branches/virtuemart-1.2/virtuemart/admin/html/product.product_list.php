@@ -71,6 +71,7 @@ vmCommonHTML::loadExtjs(); // Having a modal window is good
 
 
 $search_sql = " (#__{vm}_product.product_name LIKE '%$keyword%' OR \n";
+$search_sql .= "#__{vm}_product.vendor_id LIKE '%$keyword%' OR \n";
 $search_sql .= "#__{vm}_product.product_sku LIKE '%$keyword%' OR \n";
 $search_sql .= "#__{vm}_product.product_s_desc LIKE '%$keyword%' OR \n";
 $search_sql .= "#__{vm}_product.product_desc LIKE '%$keyword%'";
@@ -79,7 +80,7 @@ $search_sql .= ") \n";
 // Check to see if this is a search or a browse by category
 // Default is to show all products
 if (!empty($category_id) && empty( $product_parent_id)) {
-	$list  = "SELECT #__{vm}_category.category_name,#__{vm}_product.product_id,#__{vm}_product.product_name,#__{vm}_product.product_sku,#__{vm}_product.vendor_id,product_publish, product_list, product_full_image, product_thumb_image";
+	$list  = "SELECT #__{vm}_category.category_name,#__{vm}_product.product_id,#__{vm}_product.vendor_id,#__{vm}_product.product_name,#__{vm}_product.product_sku,#__{vm}_product.vendor_id,product_publish, product_list, product_full_image, product_thumb_image";
 	$list .= " FROM #__{vm}_product, #__{vm}_product_category_xref, #__{vm}_category WHERE ";
 	$count  = "SELECT count(*) as num_rows FROM #__{vm}_product, #__{vm}_product_category_xref, #__{vm}_category WHERE ";
 
@@ -241,6 +242,7 @@ $listObj->startTable();
 $columns = Array(  '#' => '',
 				"<input type=\"checkbox\" name=\"toggle\" value=\"\" onclick=\"checkAll(".$num_rows.")\" />" => "",
 				$VM_LANG->_('PHPSHOP_PRODUCT_LIST_NAME') => "width=\"30%\"",
+				$VM_LANG->_('PHPSHOP_PRODUCT_LIST_VENDOR_NAME') => "width=\"30%\"",
 				$VM_LANG->_('VM_PRODUCT_LIST_MEDIA') => 'width="5%"',
 				$VM_LANG->_('PHPSHOP_PRODUCT_LIST_SKU') => "width=\"15%\"",
 				$VM_LANG->_('PHPSHOP_PRODUCT_PRICE_TITLE') => "width=\"10%\"",
@@ -264,6 +266,8 @@ if ($num_rows > 0) {
 
 	$i = 0;
 	$db_cat = new ps_DB;
+	$dbtmp = new ps_DB;
+	
 	$tmpcell = "";
 
 	while ($db->next_record()) {
@@ -296,6 +300,23 @@ if ($num_rows > 0) {
 			$tmpcell .=  "\">[ ".$VM_LANG->_('PHPSHOP_PRODUCT_FORM_ITEM_INFO_LBL'). " ]</a>";
 		}
 		$listObj->addCell( $tmpcell );
+		
+		//Product Vendor nick
+		$product_vendor_id = $db->f("vendor_id");
+		if($product_vendor_id==0){
+			$product_vendor_id = 1;
+		}
+
+		$o  = "SELECT user_id FROM #__{vm}_auth_user_vendor ";
+		$o .= "WHERE vendor_id = '".$product_vendor_id."'";
+		$dbtmp->query($o);
+		$dbtmp->next_record();
+		
+		$o  = "SELECT username FROM #__users ";
+		$o .= "WHERE id = '".$dbtmp->f("user_id")."'";
+		$dbtmp->query($o);
+		$dbtmp->next_record();
+		$listObj->addCell( $dbtmp->f("username") );
 		
 		// Product Media Link
 		$numFiles = ps_product_files::countFilesForProduct($db->f('product_id'));

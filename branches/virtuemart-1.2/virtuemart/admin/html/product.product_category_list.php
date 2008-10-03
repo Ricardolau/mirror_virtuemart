@@ -115,7 +115,7 @@ for($n = $pageNav->limitstart ; $n < $nrows ; $n++) {
 	$tmp_cell .= "</a>";
 	$listObj->addCell( $tmp_cell );
 
-	// Shared / notShared Category with other vendors. 
+	// Shared / notShared Category with other vendors.
 	$tmp_cell = "<a href=\"". $sess->url( $_SERVER['PHP_SELF']."?page=product.product_category_list&category_child_id=".$categories[$row_list[$n]]["category_child_id"]."&func=changePublishState" );
 	if ($categories[$row_list[$n]]["category_shared"]=='N') {
 		$tmp_cell .= "&task=publish\">";
@@ -125,6 +125,8 @@ for($n = $pageNav->limitstart ; $n < $nrows ; $n++) {
 	}
 	$tmp_cell .= vmCommonHTML::getYesNoIcon ( $categories[$row_list[$n]]["category_shared"] );
 	$tmp_cell .= "</a>";
+
+
 	$listObj->addCell( $tmp_cell );
 	
 	// Order Up and Down Icons

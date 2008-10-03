@@ -956,7 +956,7 @@ class ps_product_category extends vmAbstractObject {
 		$q = "SELECT category_id, category_thumb_image, category_child_id,category_name FROM #__{vm}_category,#__{vm}_category_xref ";
 		$q .= "WHERE #__{vm}_category_xref.category_parent_id='$category_id' ";
 		$q .= "AND #__{vm}_category.category_id=#__{vm}_category_xref.category_child_id ";
-		$q .= "AND #__{vm}_category.vendor_id='$ps_vendor_id' ";
+//		$q .= "AND #__{vm}_category.vendor_id='$ps_vendor_id' ";
 		$q .= "AND #__{vm}_category.category_publish='Y' ";
 		$q .= "ORDER BY #__{vm}_category.list_order, #__{vm}_category.category_name ASC";
 		$db->setQuery($q);

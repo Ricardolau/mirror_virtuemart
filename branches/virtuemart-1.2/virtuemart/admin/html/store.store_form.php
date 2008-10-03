@@ -42,7 +42,7 @@ $currency_style_negative = array('(Symb00)', '-Symb00', 'Symb-00', 'Symb00-', '(
 	}
 	$ps_vendor_id = $vendor;
 	$schrott = $auth['user_id'];
-	$GLOBALS['vmLogger']->info("The vendor ID: '.$ps_vendor_id .' und auth['user_id']'.$schrott.'");
+	$GLOBALS['vmLogger']->debug("The vendor ID: '.$ps_vendor_id .' und auth['user_id']'.$schrott.'");
 
 
 $q = "SELECT * FROM #__{vm}_vendor WHERE vendor_id='$ps_vendor_id'"; 

@@ -352,6 +352,8 @@ class ps_order {
 		}
 		else {
 			$vmLogger->warning( $VM_LANG->_('PHPSHOP_DOWNLOADS_ERR_SEND',false).' '. $db->f("first_name") . " " . $db->f("last_name") . ", ".$db->f("user_email")." (". $result->ErrorInfo.")" );
+			$GLOBALS['vmLogger']->debug('From: '.$dbv->f("contact_email"));
+			$GLOBALS['vmLogger']->debug('To: '.$db->f("user_email"));
 		}
 	}
 	/**
@@ -560,7 +562,10 @@ class ps_order {
 		$countfields = 'count(*) as num_rows';
 		$count = "SELECT $countfields FROM #__{vm}_orders ";
 		$list = "SELECT $listfields FROM #__{vm}_orders ";
-		$q = "WHERE vendor_id='$ps_vendor_id' ";
+		if (!$perm->check("admin")) {
+			$q = "WHERE vendor_id='$ps_vendor_id' ";
+		}
+		
 		if ($order_status != "A") {
 			$q .= "AND order_status='$order_status' ";
 		}

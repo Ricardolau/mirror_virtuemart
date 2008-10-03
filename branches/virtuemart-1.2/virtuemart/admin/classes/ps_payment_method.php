@@ -188,7 +188,7 @@ class ps_payment_method extends vmAbstractObject {
 		if (!$d["shopper_group_id"]) {
 			$q =  "SELECT shopper_group_id FROM #__{vm}_shopper_group WHERE ";
 			$q .= "`default`='1' ";
-			$q .= "AND vendor_id='$ps_vendor_id'";
+//			$q .= "AND vendor_id='$ps_vendor_id'";
 			$db->query($q);
 			$db->next_record();
 			$d["shopper_group_id"] = $db->f("shopper_group_id");
@@ -346,7 +346,7 @@ class ps_payment_method extends vmAbstractObject {
 
 
 		$q = "SELECT * from #__{vm}_payment_method WHERE ";
-		$q .= "vendor_id='$ps_vendor_id' AND ";
+//		$q .= "vendor_id='$ps_vendor_id' AND "; //paymentmethods are not vendorrelated yet by Max Milbers
 		$q .= "shopper_group_id='$default_shopper_group_id' ";
 		if ($ps_shopper_group->get_id() != $default_shopper_group_id)
 		$q .= "OR shopper_group_id='".$ps_shopper_group->get_id()."' ";
@@ -373,7 +373,9 @@ class ps_payment_method extends vmAbstractObject {
 	 */
 	function list_payment_radio($selector, $payment_method_id, $horiz) {
 		global $CURRENCY_DISPLAY, $ps_checkout;
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		//This is the id of the mainvendor because the payment mehthods are not vendorrelated yet
+//		$ps_vendor_id = $_SESSION['ps_vendor_id'];
+		$ps_vendor_id = 1; 
 		$auth = $_SESSION["auth"];
 		$db = new ps_DB;
 		if( !isset( $ps_checkout )) { $ps_checkout = new ps_checkout(); }

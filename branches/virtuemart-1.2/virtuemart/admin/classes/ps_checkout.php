@@ -791,7 +791,10 @@ class ps_checkout {
 	 */
 	function list_payment_methods( $payment_method_id=0 ) {
 		global $order_total, $sess, $VM_CHECKOUT_MODULES;
-		$ps_vendor_id = $_SESSION['ps_vendor_id'];
+		
+		//This is the id of the mainvendor because the payment mehthods are not vendorrelated yet
+//		$ps_vendor_id = $_SESSION['ps_vendor_id'];
+		$ps_vendor_id = 1; 
 		$auth = $_SESSION['auth'];
 		
 		$ship_to_info_id = vmGet( $_REQUEST, 'ship_to_info_id' );
@@ -877,9 +880,8 @@ class ps_checkout {
 		global $order_tax_details, $afid, $VM_LANG, $auth, $my, $mosConfig_offset,
 		$vmLogger, $vmInputFilter, $discount_factor;
 
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
-		
 		$cart = $_SESSION['cart'];
+		$ps_vendor_id = $cart['cart_vendor_id'];
 
 		require_once(CLASSPATH. 'ps_payment_method.php' );
 		$ps_payment_method = new ps_payment_method;
@@ -1100,12 +1102,10 @@ Order Total: '.$order_total.'
 			$description .= $ps_product->getDescriptionWithTax($_SESSION['cart'][$i]["description"], $dboi->f('product_id'));
 			
 			$product_final_price = round( ($product_price *($my_taxrate+1)), 2 );
-
-			$vendor_id = $ps_vendor_id;
 			
 			$fields = array('order_id' => $order_id, 
 									'user_info_id' => $d["ship_to_info_id"],
-									'vendor_id' => $vendor_id, 
+									'vendor_id' => $ps_vendor_id, 
 									'product_id' => $cart[$i]["product_id"], 
 									'order_item_sku' => $dboi->f("product_sku"), 
 									'order_item_name' => $dboi->f("product_name"), 
@@ -1456,7 +1456,10 @@ Order Total: '.$order_total.'
 	function calc_order_tax($order_taxable, $d) {
 		global $order_tax_details, $discount_factor;
 		$auth = $_SESSION['auth'];
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		
+		$cart = $_SESSION['cart'];
+		$ps_vendor_id = $cart['cart_vendor_id'];
+		
 		$db = new ps_DB;
 		$ship_to_info_id = vmGet( $_REQUEST, 'ship_to_info_id');
 		
@@ -1716,6 +1719,7 @@ Order Total: '.$order_total.'
 
 	}
 
+	
 	/**
     * Create a receipt for the current order and email it to
     * the customer and the vendor.
@@ -1728,7 +1732,10 @@ Order Total: '.$order_total.'
 		global $sess, $ps_product, $VM_LANG, $CURRENCY_DISPLAY, $vmLogger,
 		$mosConfig_fromname, $mosConfig_lang, $database;
 
-		$ps_vendor_id = vmGet( $_SESSION, 'ps_vendor_id', 1 );
+		//by Max Milbers takes the vendor of the cart
+		$cart = $_SESSION['cart'];
+		$ps_vendor_id = $cart['cart_vendor_id'];
+
 		$auth = $_SESSION["auth"];
 
 		require_once( CLASSPATH.'ps_order_status.php');
@@ -1799,10 +1806,11 @@ Order Total: '.$order_total.'
 		$shopper_name = $dbbt->f("first_name")." ".$dbbt->f("last_name");
 
 		$from_email = $dbv->f("contact_email");
-
 		$shopper_subject = $dbv->f("vendor_name") . " ".$VM_LANG->_('PHPSHOP_ORDER_PRINT_PO_LBL',false)." - " . $db->f("order_id");
 		$vendor_subject = $dbv->f("vendor_name") . " ".$VM_LANG->_('PHPSHOP_ORDER_PRINT_PO_LBL',false)." - " . $db->f("order_id");
 
+		$GLOBALS['vmLogger']->debug('$vendor_subject '.$vendor_subject);
+		$GLOBALS['vmLogger']->debug('$from_email '.$from_email);
 		$shopper_order_link = $sess->url( SECUREURL ."index.php?page=account.order_details&order_id=$order_id", true, false );
 		$vendor_order_link = $sess->url( SECUREURL ."index2.php?page=order.order_print&order_id=$order_id&pshop_mode=admin", true, false );
 

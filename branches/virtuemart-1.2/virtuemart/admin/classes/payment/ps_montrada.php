@@ -176,8 +176,9 @@ class ps_montrada {
         
         global $vendor_mail, $vendor_currency, $VM_LANG, $vmLogger;
         
-        $ps_vendor_id = $_SESSION["ps_vendor_id"];
-        $auth = $_SESSION['auth'];
+		//This is the id of the mainvendor because the payment mehthods are not vendorrelated yet
+//		$ps_vendor_id = $_SESSION['ps_vendor_id'];
+		$ps_vendor_id = 1;         $auth = $_SESSION['auth'];
         $ps_checkout = new ps_checkout;
       
         /*** Get the Configuration File for authorize.net ***/

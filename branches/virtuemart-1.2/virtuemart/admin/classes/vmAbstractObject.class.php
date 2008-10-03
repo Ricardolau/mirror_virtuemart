@@ -381,7 +381,7 @@ class vmAbstractObject {
 	 * @return boolean True on success, false on failure
 	 */
 	function handlePublishState( $d ) {
-		global $vmLogger, $VM_LANG;
+		global $vmLogger, $VM_LANG,$perm;
 		$has_vendor = true;
 		if( !empty($d['product_id']) && empty( $d['review_id'] ) && empty( $d['file_id'] ) ) {
 			$table_name = "#__{vm}_product";
@@ -397,7 +397,21 @@ class vmAbstractObject {
 			$table_name = "#__{vm}_category_xref";
 			$publish_field_name = 'category_shared';
 			$field_name = 'category_child_id';
-			$has_vendor = false;
+			//Has the User the right to share/unshare this category?
+			if (!$perm->check("admin")) {
+				$ps_vendor_id = $_SESSION["ps_vendor_id"];
+				$db = new ps_DB();
+				$q = 'SELECT vendor_id FROM #__{vm}_category WHERE category_id='. $d["category_child_id"];
+				$db->query( $q );
+				$db->next_record();
+				$vendor = $db->f("vendor_id");
+				if($ps_vendor_id == $vendor){
+					$has_vendor = false;
+				}
+			}else{
+				$has_vendor = false;
+			}
+			
 		}
 		elseif( !empty( $d['payment_method_id'])) {
 			$table_name = "#__{vm}_payment_method";

@@ -39,7 +39,10 @@ if (!empty($show)) {
 	$q .= "order_status = '$show' AND ";
 }
 $q .= "(#__{vm}_orders.order_id=#__{vm}_order_user_info.order_id) ";
-$q .= "AND #__{vm}_orders.vendor_id='".$_SESSION['ps_vendor_id']."' ";
+if (!$perm->check("admin")) {
+	$q .= "AND #__{vm}_orders.vendor_id='".$_SESSION['ps_vendor_id']."' ";
+}
+
 $q .= "ORDER BY #__{vm}_orders.cdate DESC ";
 $list .= $q . " LIMIT $limitstart, " . $limit;
 $count .= $q;   

@@ -35,6 +35,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+10.02.2008 aravot
+Added missing product navigation link parameters to theme.xml file
+
 19.09.2008 soeren
 # Task #2371 - Moving up/down doesn't work in admin lists
 # Task #2368 - order date not local language 

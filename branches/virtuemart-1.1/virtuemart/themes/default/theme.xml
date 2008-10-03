@@ -50,7 +50,11 @@
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		
+		<param name="product_navigation" type="radio" default="1" label="Show Prev/Next Product Link?" description="Show Prev/Next product link on product detail/flypage">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+      
 		<param name="@spacer" type="spacer" default="" label="" description="" />		
 		
 		<param name="useLightBoxImages" type="radio" default="1" label="Open Product Images in a LightBox?" description="Lightbox is an images showing widget. It opens the image in a centered position and hides the other part of the website under a gray overlay.">

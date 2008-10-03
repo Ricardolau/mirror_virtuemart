@@ -35,6 +35,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+10.02.2008 aravot
+Added missing product navigation link parameters to theme.xml file
+
 19.09.2008 soeren
 # Task #2378 - Errors in JSCook menu
 ^ moved Toolbar into TopToolbar Section of the Panel, so it's now "fixed" if one scrolls through the page

@@ -64,6 +64,7 @@ foreach( $products as $product ) {
 				}
 				?> 
                 <span class="productPrice"><?php echo $product['actual_price'] ?></span>
+				</span> <!-- close the vmChildDetail -->
             <?php } ?>
 
         </div>

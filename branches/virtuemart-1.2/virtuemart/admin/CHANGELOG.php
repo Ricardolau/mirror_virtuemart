@@ -35,6 +35,47 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+
+
+10.4.2008 by RolandD committed by Max Milbers
+fix for displaying child products in a list. In IE7 and IE6 the page collapses because of a missing span tag. IE then places all subsequent child products in the previous span. This works fine unless you have more than let's say 15 child products. 
+
+10.3.2008   this is a summary for the last committs by Max Milbers
+Multivendoring
++ An Order is now sent to the vendor!
+# The Orderlist shows only orders of the vendor except the admin can see all (a new column with the nickname of the vendor will follow)
+# The function share/unshare of categories was usable without appropriate rights ... fixed
+# A shopper who is vendor wasnt able to see categories, he wasnt able to choose payment and shippment methods and so on .... fixed
++ The vendor of a product is now visible in the product list
+
+# Added the sql-structure to sql.virtuemart.php for a fresh install
+# Some minor fixes. Just fixing of sampladata and update scripts
+
+Topic "Admin":     
++ The Userlist shows which user is vendor (Possibility to expand it to activating and deactivating a vendor)
+
+Topic "Store":   
++ Every vendor has its own store information. If an admin wants to see this data of other vendors he need to look in the topic "Vendor".
+
+Topic "Products":
++"List Products" shows the only the products of the logged in vendor exzept he is an admin.
+
+"Add/Edit Product"
++ The admin can change the owner(vendor) of a product.
++ If a normal vendor is logged in, he is automatically set as vendor. He can only use his or shared categories (see categories for mor information)
+
+"View Inventory"
++ As in list products,... it lists only the products that belong to the vendor, except the admin.
+
+"Special Products"
++ Seems to work, vendors see only their products, except the admin
+
+"Customer Reviews"
++ The vendors see only reviews of there own products, except the admin.
+
+Categories:
++ The categories are full working. Some people want that a vendor can make his own categories. Other people want that all vendors use the categories together. So I made the categories shareable. it is all working very nice.
+
 10.02.2008 aravot
 Added missing product navigation link parameters to theme.xml file
 

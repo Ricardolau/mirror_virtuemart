@@ -43,13 +43,13 @@ else {
 
 $coupon_code_eon = $db->sf("coupon_code");
 if ($coupon_code_eon == "") {
-	$coupon_code_eon = mosMakePassword(10);
-	}
+	$coupon_code_eon = vmGenRandomPassword(10);
+}
 	
 $coupon_start_date = $db->f("coupon_start_date");
 if ($coupon_start_date =="") {
 	$coupon_start_date = date("Y-m-d G:i:s");
-	}
+}
 	
 $coupon_expiry_date = $db->f("coupon_expiry_date");
 if ($coupon_expiry_date =="") {

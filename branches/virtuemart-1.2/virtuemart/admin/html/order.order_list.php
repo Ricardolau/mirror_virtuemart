@@ -83,8 +83,9 @@ while ($navi_db->next_record()) {  ?>
 $listObj->startTable();
 
 // these are the columns in the table
+$checklimit = ($num_rows < $limit) ? $num_rows : $limit;
 $columns = Array(  "#" => "width=\"20\"", 
-					"<input type=\"checkbox\" name=\"toggle\" value=\"\" onclick=\"checkAll(".$num_rows.")\" />" => "width=\"20\"",
+					"<input type=\"checkbox\" name=\"toggle\" value=\"\" onclick=\"checkAll(".$checklimit.")\" />" => "width=\"20\"",
 					$VM_LANG->_('PHPSHOP_ORDER_LIST_ID') => '',
 					$VM_LANG->_('PHPSHOP_ORDER_PRINT_NAME') => '',
 					$VM_LANG->_('PHPSHOP_ORDER_LIST_PRINT_LABEL') => '',

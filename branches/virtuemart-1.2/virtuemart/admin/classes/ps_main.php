@@ -768,6 +768,8 @@ function vmIsAdminMode() {
 	return ( (defined( '_VM_IS_BACKEND' ) 
 	|| @$_REQUEST['pshop_mode'] == 'admin' 
 	|| strstr($page,'_list') 
+	|| strstr($page,'_print')
+	|| strstr($page,'_cfg')
 	|| strstr($page,'_form')) 
 	&& ( strncmp('account.',$page, 8) !== 0
 		&& strncmp('checkout.',$page, 9) !== 0

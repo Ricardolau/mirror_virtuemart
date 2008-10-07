@@ -36,11 +36,17 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 
+06.10.2008 soeren
+# Task #2392 - Call to undefined function when trying to create a new coupon
+# Task #2393 - Many child products cause IE6 & IE7 to crash
+# Task #2305 - VM1.1.2 frontend order layout broken 
+# Task #2394 - Selecting orders in the back-end causes a major slow-down with large number of orders
+ 
 
-10.4.2008 by RolandD committed by Max Milbers
+04.10.2008 by RolandD committed by Max Milbers
 fix for displaying child products in a list. In IE7 and IE6 the page collapses because of a missing span tag. IE then places all subsequent child products in the previous span. This works fine unless you have more than let's say 15 child products. 
 
-10.3.2008   this is a summary for the last committs by Max Milbers
+03.10.2008   this is a summary for the last committs by Max Milbers
 Multivendoring
 + An Order is now sent to the vendor!
 # The Orderlist shows only orders of the vendor except the admin can see all (a new column with the nickname of the vendor will follow)
@@ -76,8 +82,9 @@ Topic "Products":
 Categories:
 + The categories are full working. Some people want that a vendor can make his own categories. Other people want that all vendors use the categories together. So I made the categories shareable. it is all working very nice.
 
-10.02.2008 aravot
+02.10.2008 aravot
 Added missing product navigation link parameters to theme.xml file
+
 
 19.09.2008 soeren
 # Task #2378 - Errors in JSCook menu

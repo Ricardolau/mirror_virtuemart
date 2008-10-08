@@ -125,20 +125,20 @@ ADD `coupon_expiry_date` DATETIME NULL");
 
 //Added for multivendoring 
 //shows in Userlist if user is vendor
-$db->query("ALTER TABLE `jos_vm_user_info` ADD `user_is_vendor` TINYINT( 1 ) NOT NULL DEFAULT '0' AFTER `user_id ;`");
+$db->query("ALTER TABLE `#__{vm}_user_info` ADD `user_is_vendor` TINYINT( 1 ) NOT NULL DEFAULT '0' AFTER `user_id ;`");
 //Possibility for the admin to connect a added vendor to a user
-$db->query("ALTER TABLE `jos_vm_vendor` ADD `vendor_nick` VARCHAR( 150 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;");
+$db->query("ALTER TABLE `#__{vm}_vendor` ADD `vendor_nick` VARCHAR( 150 ) NOT NULL ;");
 //Sharing of Categories
-$db->query("ALTER TABLE `jos_vm_category_xref ` ADD `category_shared` VARCHAR( 1 ) NOT NULL DEFAULT 'Y' ;");
+$db->query("ALTER TABLE `#__{vm}_category_xref` ADD `category_shared` VARCHAR( 1 ) NOT NULL DEFAULT 'Y' ;");
 
 //Set admin to mainshopper
 $db->query("REPLACE `#__{vm}_auth_user_vendor` (`user_id`, `vendor_id`) VALUES (62, 1);");
 //Not implemented yet
 //Sharing of Discounts
-//$db->query("ALTER TABLE `jos_vm_product_discount` ADD `vendor_id` INT( 11 ) NOT NULL DEFAULT '0' AFTER `discount_id` ,
+//$db->query("ALTER TABLE `#__{vm}_product_discount` ADD `vendor_id` INT( 11 ) NOT NULL DEFAULT '0' AFTER `discount_id` ,
 //ADD `discount_shared` CHAR( 1 ) NOT NULL DEFAULT 'N' AFTER `vendor_id` ;");
 
 //Sharing of Producttypes
-//$db->query("ALTER TABLE `jos_vm_product_type` ADD `vendor_id` INT( 11 ) NOT NULL DEFAULT '0' AFTER `product_type_list_order` ,
+//$db->query("ALTER TABLE `j#__{vm}_product_type` ADD `vendor_id` INT( 11 ) NOT NULL DEFAULT '0' AFTER `product_type_list_order` ,
 //ADD `product_type_shared` CHAR( 1 ) NOT NULL DEFAULT 'N' AFTER `vendor_id` ;");
 

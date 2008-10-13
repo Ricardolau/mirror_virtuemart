@@ -36,9 +36,13 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 
-10.4.2008 by RolandD committed by Max Milbers
+13.10.2008 aravot
+# Task #2305 - VM1.1.2 frontend order layout broken
+
+04.10.2008 by RolandD committed by Max Milbers
 fix for displaying child products in a list. In IE7 and IE6 the page collapses because of a missing span tag. IE then places all subsequent child products in the previous span. This works fine unless you have more than let's say 15 child products. 
-10.02.2008 aravot
+
+02.10.2008 aravot
 Added missing product navigation link parameters to theme.xml file
 
 19.09.2008 soeren

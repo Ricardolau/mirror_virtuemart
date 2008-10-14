@@ -54,38 +54,32 @@ function vmLayoutInit() {
     // initialize state manager, we will use cookies
 	Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 	';
-	$html = 'var toolbarItems = [';
+	
+	$admin_menu = 'var adminMenuItems = [';
 	$i = 0;
 	$itemCount = count( $menu_items );
 	foreach( $menu_items as $item ) {
-		$html .= '{ xtype:"tbbutton",
-		                //listeners: {"mouseover": { fn: showButtonMenu }},
-	                    text:"'.$item['title'].'",
-			           menu: new Ext.menu.Menu({
-			            	items: [';
+		$admin_menu .= '{ 
+	                    title:"<span style=\"font-weight: bold;\">'.$item['title'].'</span>",
+			           html: "<ul>';
 		$j = 0;
 		$linkCount = count( $item['items'] );
 		foreach( $item['items'] as $link ) {
 			if( $link['name'] == '-' ) {
-				$html .= "'-'";
+				$admin_menu .= "<li>&nbsp;</li>";
 			} else {
 				$url = strncmp($link['link'], 'http', 4 ) === 0 ? $link['link'] : $sess->url('index2.php?pshop_mode=admin&'.$link['link'], false, false );
 				$title = isset( $link['title'] ) ? ' title="'.$link['title'].'"' : '';
-				$html .= '{ text: "'.$VM_LANG->_($link['name']).'",
-								itemCls: "'.$link['icon_class'].'",
-								style: "padding-left: 0px;font-weight: bold;background-repeat: no-repeat;",
-								handler: new Function("loadPage( \''.$url.'\' )")
-							}';
+				$admin_menu .= '<li><a href=\"'.$url.'\" class=\"'.$link['icon_class'].'\" style=\"font-weight: bold;background-repeat: no-repeat;\" onclick=\"loadPage( \''.$url.'\' );return false;\""
+									+ ">'.($VM_LANG->_($link['name']) ? $VM_LANG->_($link['name']) : $link['name']) .'</a></li>';
 			}
-			if( ++$j < $linkCount ) $html .= ',';
 		}
-		$html .= ']
-					})
+		$admin_menu .= '</ul>"
 					}';
-		if( ++$i < $itemCount ) $html .= ',"-",';
+		if( ++$i < $itemCount ) $admin_menu .= ',';
 	}
-	$html .= '];';
-	echo $html;
+	$admin_menu .= '];';
+	echo $admin_menu;
 	
 	echo '
     var viewport = new Ext.Viewport({
@@ -118,25 +112,43 @@ function vmLayoutInit() {
 			              
 			          }]
 			      }]
-			  },{
-	        	xtype: "panel",
-	        	bbar: toolbarItems,
-			    region:"north",
-			    height: 105,
-			    html:"<div style=\"background: url('.VM_THEMEURL.'images/administration/header_bg.png) repeat-x;\">" +
-			    		 "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + 
-			    		 "<a href=\"http://virtuemart.net\" target=\"_blank\"><img src=\"'.VM_THEMEURL.'images/administration/header_logo.png\" alt=\"VirtueMart Logo\" /></a>" +
-						"<a href=\"index2.php\" title=\"'.$VM_LANG->_('VM_ADMIN_BACKTOJOOMLA').'\" class=\"vmicon vmicon-16-back\" style=\"vertical-align: middle;font-weight:bold;\">'.$VM_LANG->_('VM_ADMIN_BACKTOJOOMLA').'</a>" +
-						"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+			  },
+			  {
+				region: "west",
+				autoScroll: true,
+				width: 220,
+				layout: "fit",
+				items: [{
+					xtype: "panel",
+					autoHeight: true,
+					html:"<div style=\"margin-bottom: 5px;\">" +
+			    		 "<img src=\"'.VM_THEMEURL.'images/administration/header_logo.png\" alt=\"VirtueMart Logo\" /> " +
+						"<a href=\"index2.php\" title=\"'.$VM_LANG->_('VM_ADMIN_BACKTOJOOMLA').'\" class=\"vmicon vmicon-16-back\" style=\"vertical-align: middle;font-weight:bold;margin-top: 3px;\">'.$VM_LANG->_('VM_ADMIN_BACKTOJOOMLA').'</a>" +
 						"</div>"
-			  }]
+					},
+					{
+					xtype: "panel",
+		        	layout:"accordion",
+					layoutConfig:{animate:true},
+					
+					defaults: {
+						stateEvents: ["collapse","expand"],
+						getState:function() { return {collapsed:this.collapsed}; },
+						bodyStyle:"padding:8px",
+						border:false,
+						autoScroll: true,
+						autoHeight: true
+					},
+					items: adminMenuItems
+					}]
+			}]
 			}
     );
  }';
 			
 echo '
 function loadPage(page){
-
+	
 	if( !page || page == "" ) {
         defaultpage = "index3.php?option=com_virtuemart&page=store.index";
         page = Ext.state.Manager.get( "vmlastpage", defaultpage );

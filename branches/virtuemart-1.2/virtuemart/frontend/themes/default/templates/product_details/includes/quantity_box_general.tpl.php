@@ -3,7 +3,9 @@ mm_showMyFileName(__FILE__);
 /** This template is used for the quantity box arrangement of products, within the add-to-cart form */ 
 
 extract( $quantity_options );
-
+if( !empty($quantity_box)) {
+	$display_type = $quantity_box; 
+}
 $html = '';
 if(!$child && $display_type != 'hide') {
 	$html = '<label for="quantity'.$prod_id.'" class="quantity_box">'.$VM_LANG->_('PHPSHOP_CART_QUANTITY').':&nbsp;</label>';
@@ -22,7 +24,7 @@ switch($display_type) {
 		break;
 	case "check" :
 		$html .= '<input type="hidden" id="quantity'.$prod_id.'" name="quantity[]" value="'.$quantity.'" style="vertical-align: middle;"/>
-		<input type="checkbox" class="quantitycheckbox" id ="selItem'.$id.'" name="check[]" ';
+		<input type="checkbox" class="quantitycheckbox" id ="selItem'.$prod_id.'" name="check[]" ';
 		if ($quantity > 0 ) {
 			$html .= 'checked="checked"';
 		}

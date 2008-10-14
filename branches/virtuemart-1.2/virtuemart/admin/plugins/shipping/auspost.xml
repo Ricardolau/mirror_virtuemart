@@ -1,0 +1,26 @@
+<install type="shipping" version="1.2.0">	
+	<!-- $Id$-->
+	<name>auspost Shipping Module</name>
+	<author><![CDATA[Ben Wilson]]></author>
+	<creationdate>January 2006</creationdate>
+	<copyright><![CDATA[diversionware]]></copyright>
+	<license>LGPL</license>
+	<authoremail>ben@diversionware.com.au</authoremail>
+	<authorurl>http://diversionware.com.au/</authorurl>
+	<version>1.0.4</version>
+	<description>Australia Post Shipping Module</description>
+	
+  	<install>	
+		<files>
+			<filename>auspost.cfg.php</filename>
+			<filename>auspost.php</filename>
+		</files>
+		<!--<queries>
+			<query></query>
+			<query></query>
+			<query></query>
+		</queries>-->
+	</install>	
+	
+</install>
+

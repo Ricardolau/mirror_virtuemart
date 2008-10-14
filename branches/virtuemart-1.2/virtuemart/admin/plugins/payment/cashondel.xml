@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<install type="payment" version="1.2.0">	
+	<name>cashondel</name>
+	<author><![CDATA[Sören Eberhardt-Biermann]]></author>
+	<creationdate>2007</creationdate>
+	<copyright><![CDATA[Sören Eberhardt-Biermann]]></copyright>
+	<license>GNU/GPL</license>
+	<authoremail></authoremail>
+	<authorurl>http://virtuemart.net</authorurl>
+	<version>1.0</version>
+	<description>A special type of &quot;cash on delivey&quot;: its fee depends on the order total sum</description>
+	
+  	<install>	
+		<files>
+			<filename>cashondel.cfg.php</filename>
+			<filename>cashondel.php</filename>
+		</files>
+		<!--<queries>
+			<query></query>
+			<query></query>
+			<query></query>
+		</queries>-->
+	</install>	
+	
+</install>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<install type="payment" version="1.2.0">	
+	<name>eway</name>
+	<author><![CDATA[Sören Eberhardt-Biermann]]></author>
+	<creationdate>2007</creationdate>
+	<copyright><![CDATA[Sören Eberhardt-Biermann]]></copyright>
+	<license>GNU/GPL</license>
+	<authoremail></authoremail>
+	<authorurl>http://eway.com.au</authorurl>
+	<version>1.0</version>
+	<description>Payment processing module to process transactions with eWay.com.au</description>
+	
+  	<install>	
+		<files>
+			<filename>eway.cfg.php</filename>
+			<filename>eway.php</filename>
+		</files>
+		<!--<queries>
+			<query></query>
+			<query></query>
+			<query></query>
+		</queries>-->
+	</install>	
+	
+</install>

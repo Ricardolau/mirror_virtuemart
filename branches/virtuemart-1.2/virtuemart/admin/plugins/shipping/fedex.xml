@@ -1,0 +1,25 @@
+<install type="shipping" version="1.2.0">	
+	<!-- $Id$-->
+	<name>FedEX Shipping Module</name>
+	<author><![CDATA[Jay Powers / Soeren Eberhardt / Greg Perkins]]></author>
+	<creationdate>2004 Vermonster LLC</creationdate>
+	<copyright><![CDATA[Shade Tree Software]]></copyright>
+	<license>GNU/GPL</license>
+	<authoremail>jay@vermonster.com</authoremail>
+	<authorurl>http://www.vermonster.com/</authorurl>
+	<version>1.02</version>
+	<description>The FedEx shipping module.</description>
+	
+  	<install>	
+		<files>
+			<filename>fedex.cfg.php</filename>
+			<filename>fedex.php</filename>
+		</files>
+		<!--<queries>
+			<query></query>
+			<query></query>
+			<query></query>
+		</queries>-->
+	</install>	
+	
+</install>

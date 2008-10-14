@@ -1,0 +1,25 @@
+<install type="payment" version="1.2.0">	
+	<name>paymenow</name>
+	<author><![CDATA[VirtueMart Project]]></author>
+	<creationdate>2005</creationdate>
+	<copyright><![CDATA[2005 VirtueMart Project]]></copyright>
+	<license>GNU/GPL</license>
+	<authoremail></authoremail>
+	<authorurl>http://paymenow.com</authorurl>
+	<version>1.0</version>
+	<description><![CDATA[<a href="http://paymenow.com" target="_blank">Paymenow</a> software is a leading provider of internet-based transactions 
+	with the ability to process major credit cards and online checks. ]]></description>
+	
+  	<install>	
+		<files>
+			<filename>paymenow.cfg.php</filename>
+			<filename>paymenow.php</filename>
+		</files>
+		<!--<queries>
+			<query></query>
+			<query></query>
+			<query></query>
+		</queries>-->
+	</install>	
+	
+</install>

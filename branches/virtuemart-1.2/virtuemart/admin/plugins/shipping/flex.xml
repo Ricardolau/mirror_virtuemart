@@ -1,0 +1,25 @@
+<install type="shipping" version="1.2.0">	
+	<!-- $Id$ -->
+	<name>Flex Shipping Module</name>
+	<author><![CDATA[Micah Shawn]]></author>
+	<creationdate>October 2004</creationdate>
+	<copyright><![CDATA[2005 Micah Shawn]]></copyright>
+	<license>GNU/GPL</license>
+	<authoremail>micah@ridgebackdogs.com</authoremail>
+	<authorurl>n/a</authorurl>
+	<version>0.9</version>
+	<description>Flex Shipping. Fixed shipping cost to set base value of order with percentage of total sale above base value</description>
+	
+  	<install>	
+		<files>
+			<filename>flex.cfg.php</filename>
+			<filename>flex.php</filename>
+		</files>
+		<!--<queries>
+			<query></query>
+			<query></query>
+			<query></query>
+		</queries>-->
+	</install>	
+	
+</install>

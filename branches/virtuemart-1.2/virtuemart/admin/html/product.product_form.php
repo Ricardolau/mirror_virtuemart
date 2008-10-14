@@ -72,7 +72,7 @@ if( !empty($_REQUEST['product_categories']) && is_array($_REQUEST['product_categ
 } else {
 	$my_categories = array();
 }
-$GLOBALS['vmLogger']->debug("catid='".$catid."' product_id='".$product_id."'");
+
 $related_products = Array();
 
 if ($product_parent_id > 0) {
@@ -765,22 +765,27 @@ echo "<h2>$dim_weight_label</h2>";
 $tabs->endTab();
 
 $tabs->startTab( $display_label, "display-page");
+
+$child_options_visbility = '';
+if( !$ps_product->product_has_attributes($product_id)) {
+	$child_options_visbility = 'style="display:none;"';
+}
 ?>
-  <table class="adminform">
+<h2><?php echo $display_label ?></h2>
+
+  <table class="adminform" <?php echo $child_options_visbility ?>>
     <tr> 
-      <td align="left" colspan="2"><?php echo "<h2>$display_label</h2>"; ?></td>
+      <td align="left" colspan="2"></td>
     </tr>
     <tr class="row1"> 
       <td width="21%"  style="vertical-align: middle;"><div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_('VM_DISPLAY_USE_PARENT_LABEL'); ?></div>
       </td>
-      <td width="79%" style="vertical-align: middle;" colspan="2"><input type="checkbox" class="checkbox"  id="display_use_parent" name="display_use_parent" value="Y"
-      <?php 
+      <td width="79%" style="vertical-align: middle;" colspan="2">
+      	<input type="checkbox" class="checkbox"  id="display_use_parent" name="display_use_parent" value="Y" <?php 
       if (@$display_use_parent == "Y" && !$display_use_parent_disabled) echo "checked=\"checked\"";
         else if($display_use_parent_disabled) {
         	echo ' disabled="disabled" ';
-        }   ?> 
-
-      />
+        }   ?>  />
       <label for="display_use_parent" ><?php echo $VM_LANG->_('PHPSHOP_DISPLAY_USE_PARENT'); ?></label><br/>
       </td>
     </tr>
@@ -896,11 +901,12 @@ $tabs->startTab( $display_label, "display-page");
       <label for="included_product_id" style="vertical-align: middle;"><?php echo $VM_LANG->_('VM_INCLUDED_PRODUCT_ID'); ?></label><br/>
       </td>
     </tr>
-
+</table>
+<table class="adminform">
     <tr class="row0">
-        <td width="21%" style="vertical-align: top;"><div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_('VM_DISPLAY_QUANTITY_LABEL'); ?></div>
-        </td>
-        <td width="20%" style="vertical-align: top;">
+        <td width="21%" style="vertical-align: top;">
+        <fieldset>
+                <legend><?php echo $VM_LANG->_('VM_DISPLAY_QUANTITY_LABEL') ?></legend>
         
             <input type="radio" class="radio" style="vertical-align: middle;" id="quantity_box0" name="quantity_box" value="none" <?php 
             	if ($display_type == "none") echo "checked=\"checked\""; ?>  />

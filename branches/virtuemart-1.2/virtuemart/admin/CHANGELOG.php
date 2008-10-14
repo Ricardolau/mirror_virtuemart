@@ -35,6 +35,8 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+09.10.2008 soeren
+# Task #2293 - Product display options
 
 06.10.2008 soeren
 # Task #2392 - Call to undefined function when trying to create a new coupon

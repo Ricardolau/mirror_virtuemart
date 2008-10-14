@@ -1,0 +1,25 @@
+<install type="payment" version="1.2.0">	
+	<name>worldpay</name>
+	<author><![CDATA[VirtueMart Project]]></author>
+	<creationdate>2005</creationdate>
+	<copyright><![CDATA[2005 VirtueMart Project]]></copyright>
+	<license>GNU/GPL</license>
+	<authoremail></authoremail>
+	<authorurl>http://worldpay.com</authorurl>
+	<version>1.0</version>
+	<description><![CDATA[<a href="http://www.worldpay.com" target="_blank">Worldpay</a> is a popular 
+	payment provider and available in many countries. ]]></description>
+	
+  	<install>	
+		<files>
+			<filename>worldpay.cfg.php</filename>
+			<filename>worldpay.php</filename>
+		</files>
+		<!--<queries>
+			<query></query>
+			<query></query>
+			<query></query>
+		</queries>-->
+	</install>	
+	
+</install>

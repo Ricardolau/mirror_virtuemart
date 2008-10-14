@@ -104,7 +104,8 @@ INSERT INTO `jos_vm_menu_admin` (`id`, `module_id`, `parent_id`, `name`, `link`,
 (69, 8, 0, '-', '', '', '', 15, '1', ''),
 (70, 8, 0, '-', '', '', '', 5, '1', ''),
 (71, 2, 0, '-', '', '', '', 19, '1', ''),
-(72, 2, 0, '-', '', '', '', 23, '1', '');
+(72, 2, 0, '-', '', '', '', 23, '1', ''),
+(73, 1, 0, 'Manage Extensions', 'page=admin.extension_list', '', 'vmicon vmicon-16-content', 15, '1', '');
 
 # Coupon start and expiry dates, thank you willowtree (http://forum.virtuemart.net/index.php?topic=41066.0)
 ALTER TABLE `jos_vm_coupons` ADD `coupon_start_date` DATETIME NULL ,

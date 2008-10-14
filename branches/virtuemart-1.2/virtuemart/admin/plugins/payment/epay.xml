@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<install type="payment" version="1.2.0">	
+	<name>epay</name>
+	<author><![CDATA[Thomas Knudsen]]></author>
+	<creationdate>2007</creationdate>
+	<copyright><![CDATA[Thomas Knudsen]]></copyright>
+	<license>GNU/GPL</license>
+	<authoremail></authoremail>
+	<authorurl>http://epay.dk</authorurl>
+	<version>1.0</version>
+	<description>Payment processing module for transactions with PBS, Nordea, Danske Bank, eWire etc supported by the ePay Payment Gateway (www.epay.dk)</description>
+	
+  	<install>	
+		<files>
+			<filename>epay.cfg.php</filename>
+			<filename>epay.php</filename>
+		</files>
+		<!--<queries>
+			<query></query>
+			<query></query>
+			<query></query>
+		</queries>-->
+	</install>	
+	
+</install>

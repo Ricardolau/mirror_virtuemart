@@ -1,0 +1,25 @@
+<install type="shipping" version="1.2.0">	
+	<!-- $Id$-->
+	<name>InterShipper Shipping Module</name>
+	<author><![CDATA[intershipper.com]]></author>
+	<creationdate>October 2004</creationdate>
+	<copyright><![CDATA[InterShipper / Soeren]]></copyright>
+	<license>GNU/GPL</license>
+	<authoremail>n/a</authoremail>
+	<authorurl>http://www.intershipper.com</authorurl>
+	<version>0.9</version>
+	<description>The InterShipper Shipping module.</description>
+	
+  	<install>	
+		<files>
+			<filename>intershipper.cfg.php</filename>
+			<filename>intershipper.php</filename>
+		</files>
+		<!--<queries>
+			<query></query>
+			<query></query>
+			<query></query>
+		</queries>-->
+	</install>	
+	
+</install>

@@ -1,0 +1,25 @@
+<install type="shipping" version="1.2.0">	
+	<!-- $Id$-->
+	<name>Canada Post Shipping Module</name>
+	<author><![CDATA[Pierre-Yves Sinou]]></author>
+	<creationdate>Mars 2005</creationdate>
+	<copyright><![CDATA[diversionware]]></copyright>
+	<license>GPL</license>
+	<authoremail>sinou_py@yahoo.ca</authoremail>
+	<authorurl>N/A</authorurl>
+	<version>1.0</version>
+	<description><![CDATA[<a href="http://www.canadapost.ca/business/prodserv/so/default-e.asp" target="_blank">Sell Online&trade;</a> Shipping Module from Canada Post]]></description>
+	
+  	<install>	
+		<files>
+			<filename>canadapost.cfg.php</filename>
+			<filename>canadapost.php</filename>
+		</files>
+		<!--<queries>
+			<query></query>
+			<query></query>
+			<query></query>
+		</queries>-->
+	</install>	
+	
+</install>

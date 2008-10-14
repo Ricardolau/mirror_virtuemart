@@ -1,0 +1,26 @@
+<install type="shipping" version="1.2.0">	
+	<!-- $Id$-->
+	<name>DHL Shipping Module</name>
+	<author><![CDATA[Mike Durian]]></author>
+	<creationdate>January 2006</creationdate>
+	<copyright><![CDATA[Shade Tree Software]]></copyright>
+	<license>GNU/GPL</license>
+	<authoremail>durian@shadetreesoftware.com</authoremail>
+	<authorurl>http://prodiag-hd.com/</authorurl>
+	<version>1.0</version>
+	<description>The DHL Shipping module.</description>
+	
+  	<install>	
+		<files>
+			<filename>dhl.cfg.php</filename>
+			<filename>dhl.php</filename>
+		</files>
+		<!--<queries>
+			<query></query>
+			<query></query>
+			<query></query>
+		</queries>-->
+	</install>	
+	
+</install>
+

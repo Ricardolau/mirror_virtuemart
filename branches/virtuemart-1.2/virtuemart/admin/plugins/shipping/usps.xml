@@ -1,0 +1,25 @@
+<install type="shipping" version="1.2.0">	
+	<!-- $Id$ -->
+	<name>USPS Shipping Module</name>
+	<author><![CDATA[Corey Koltz]]></author>
+	<creationdate>June 2007</creationdate>
+	<copyright><![CDATA[VirtueMart Project]]></copyright>
+	<license>GNU/GPL</license>
+	<authoremail>n/a</authoremail>
+	<authorurl>http://www.usps.com/</authorurl>
+	<version>3.0 (2007/06/21)</version>
+	<description>The USPS&#174; Shipping module.</description>
+	
+  	<install>	
+		<files>
+			<filename>usps.cfg.php</filename>
+			<filename>usps.php</filename>
+		</files>
+		<!--<queries>
+			<query></query>
+			<query></query>
+			<query></query>
+		</queries>-->
+	</install>	
+	
+</install>

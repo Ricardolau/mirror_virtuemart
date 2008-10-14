@@ -37,15 +37,15 @@ if( !defined('VM_COMPONENT_NAME')) {
 require_once( CLASSPATH."mainframe.class.php" );
 $vm_mainframe = new vmMainFrame();
 
-if (file_exists( CLASSPATH.'currency/'.@VM_CURRENCY_CONVERTER_MODULE.'.php' )) {
+if (file_exists( ADMINPATH.'plugins/currency_converter/'.@VM_CURRENCY_CONVERTER_MODULE.'.php' )) {
 	$module_filename = VM_CURRENCY_CONVERTER_MODULE;
-	require_once(CLASSPATH.'currency/'.VM_CURRENCY_CONVERTER_MODULE.'.php');
+	require_once(ADMINPATH.'plugins/currency_converter/'.VM_CURRENCY_CONVERTER_MODULE.'.php');
 	if( class_exists( $module_filename )) {
 		$GLOBALS['CURRENCY'] = $CURRENCY = new $module_filename();
 	}
 }
 else {
-	require_once(CLASSPATH.'currency/convertECB.php');
+	require_once(ADMINPATH.'plugins/currency_converter/convertECB.php');
 	/**
 	 * @global convertECB $GLOBALS['CURRENCY']
 	 */
@@ -201,7 +201,7 @@ if( $GLOBALS['product_currency'] != $vendor_currency ) {
 	$currency_display["symbol"] = $GLOBALS['product_currency'];
 }
 /** load Currency Display Class **/
-require_once( CLASSPATH.'currency/class_currency_display.php' );
+require_once( CLASSPATH.'class_currency_display.php' );
 /**
  *  @global CurrencyDisplay $GLOBALS['CURRENCY_DISPLAY']
  *  @global CurrencyDisplay $CURRENCY_DISPLAY

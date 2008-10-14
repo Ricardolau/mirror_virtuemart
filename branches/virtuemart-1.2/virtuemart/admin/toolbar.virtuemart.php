@@ -58,6 +58,7 @@ if (!file_exists( $mosConfig_absolute_path.'/administrator/components/com_virtue
 								'admin.country_list' => 'countryDelete',
 								'admin.country_state_list' => 'stateDelete',
 								'admin.curr_list' => 'currencyDelete',
+								'admin.extension_list' => 'uninstallExtension',
 								'admin.function_list' => 'functionDelete',
 								'admin.module_list' => 'moduleDelete',
 								'admin.user_list' => 'userDelete',

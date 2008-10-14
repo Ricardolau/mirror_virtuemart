@@ -1,0 +1,25 @@
+<install type="shipping" version="1.2.0">	
+	<!-- $Id$ -->
+	<name>UPS Shipping Module</name>
+	<author><![CDATA[Soeren Eberhardt-Biermann & others]]></author>
+	<creationdate>October 2004</creationdate>
+	<copyright><![CDATA[VirtueMart Project]]></copyright>
+	<license>GNU/GPL</license>
+	<authoremail>n/a</authoremail>
+	<authorurl>http://virtuemart.net</authorurl>
+	<version>1.1</version>
+	<description>The UPS&#174; Shipping module.</description>
+	
+  	<install>	
+		<files>
+			<filename>ups.cfg.php</filename>
+			<filename>ups.php</filename>
+		</files>
+		<!--<queries>
+			<query></query>
+			<query></query>
+			<query></query>
+		</queries>-->
+	</install>	
+	
+</install>

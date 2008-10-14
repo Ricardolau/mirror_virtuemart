@@ -1,0 +1,26 @@
+<install type="payment" version="1.2.0">	
+	<name>nochex</name>
+	<author><![CDATA[VirtueMart Project]]></author>
+	<creationdate>2005</creationdate>
+	<copyright><![CDATA[2005 VirtueMart Project]]></copyright>
+	<license>GNU/GPL</license>
+	<authoremail></authoremail>
+	<authorurl>http://nochex.com</authorurl>
+	<version>1.0</version>
+	<description><![CDATA[<a href="http://nochex.com" target="_blank">Nochex</a> is a leading, independent UK based online payment company, 
+	specialising in providing smaller online businesses with simple, 
+	accessible, easy to use, online payment services.]]></description>
+	
+  	<install>	
+		<files>
+			<filename>nochex.cfg.php</filename>
+			<filename>nochex.php</filename>
+		</files>
+		<!--<queries>
+			<query></query>
+			<query></query>
+			<query></query>
+		</queries>-->
+	</install>	
+	
+</install>

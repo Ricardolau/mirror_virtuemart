@@ -182,7 +182,7 @@ class vmSimpleXML {
 	 */
 	function loadFile( $path, $classname = null ) {
 		//Check to see of the path exists
-		if( ! file_exists( $path ) ) {
+		if( ! file_exists( $path ) || is_dir( $path ) ) {
 			return false ;
 		}
 		

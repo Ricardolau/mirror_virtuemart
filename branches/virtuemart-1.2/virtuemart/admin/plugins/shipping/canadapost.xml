@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <install type="shipping" version="1.2.0">	
 	<!-- $Id$-->
-	<name>Canada Post Shipping Module</name>
+	<name>canadapost</name>
 	<author><![CDATA[Pierre-Yves Sinou]]></author>
 	<creationdate>Mars 2005</creationdate>
 	<copyright><![CDATA[diversionware]]></copyright>

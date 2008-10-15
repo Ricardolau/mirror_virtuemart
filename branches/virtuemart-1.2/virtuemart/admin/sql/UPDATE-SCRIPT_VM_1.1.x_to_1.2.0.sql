@@ -119,3 +119,6 @@ ALTER TABLE `jos_vm_user_info` ADD `user_is_vendor` TINYINT( 1 ) NOT NULL DEFAUL
 ALTER TABLE `jos_vm_vendor` ADD `vendor_nick` VARCHAR( 150 ) NOT NULL ;
 #Sharing of Categories
 ALTER TABLE `jos_vm_category_xref` ADD `category_shared` VARCHAR( 1 ) NOT NULL DEFAULT 'Y' ;
+
+# 15.10.2008 - moved and renamed payment class files
+UPDATE `jos_vm_payment_method` SET `payment_class` = REPLACE( `payment_class` , 'ps_', '' ) ;

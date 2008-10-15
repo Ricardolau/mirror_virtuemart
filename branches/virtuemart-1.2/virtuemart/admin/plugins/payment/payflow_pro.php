@@ -22,7 +22,6 @@ define ('PFP_CLIENT_CERTIFICATION_ID', 'bea46ef28cd8693d8b191d2d011b7fd1');
 class payflow_pro {
 
 	var $payment_code = "PFP";
-	var $classname = "payflow_pro";
 
 	/**
     * Show all configuration parameters for this payment method
@@ -34,7 +33,7 @@ class payflow_pro {
 		$db =& new ps_DB;
 		$payment_method_id = vmGet( $_REQUEST, 'payment_method_id', null );
 		/** Read current Configuration ***/
-		require_once(CLASSPATH ."payment/".$this->classname.".cfg.php");
+		require_once(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php");
     ?>
       <table>
         <tr>
@@ -149,7 +148,7 @@ class payflow_pro {
 	* @returns boolean True when the configuration file is writeable, false when not
 	*/
 	function configfile_writeable() {
-		return is_writeable( CLASSPATH."payment/".$this->classname.".cfg.php" );
+		return is_writeable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
 	}
 
 	/**
@@ -158,7 +157,7 @@ class payflow_pro {
 	* @returns boolean True when the configuration file is writeable, false when not
 	*/
 	function configfile_readable() {
-		return is_readable( CLASSPATH."payment/".$this->classname.".cfg.php" );
+		return is_readable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
 	}
 	/**
 	* Writes the configuration file for this payment method
@@ -183,7 +182,7 @@ class payflow_pro {
 
 		$config .= "?>";
 
-		if ($fp = fopen(CLASSPATH ."payment/".$this->classname.".cfg.php", "w")) {
+		if ($fp = fopen(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php", "w")) {
 			fputs($fp, $config, strlen($config));
 			fclose ($fp);
 			return true;
@@ -211,12 +210,12 @@ class payflow_pro {
 		$ps_checkout = new ps_checkout;
 
 		// Get the Configuration File for authorize.net
-		require_once(CLASSPATH ."payment/".$this->classname.".cfg.php");
+		require_once(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php");
 		// connector class
-		require_once(CLASSPATH ."connectionTools.class.php");
+		require_once(ADMINPATH."plugins/connectionTools.class.php");
 
 		// Get the Password securely from the database
-		$database->query( "SELECT ".VM_DECRYPT_FUNCTION."(payment_passkey,'".ENCODE_KEY."') as passkey FROM #__{vm}_payment_method WHERE payment_class='".$this->classname."' AND shopper_group_id='".$auth['shopper_group_id']."'" );
+		$database->query( "SELECT ".VM_DECRYPT_FUNCTION."(payment_passkey,'".ENCODE_KEY."') as passkey FROM #__{vm}_payment_method WHERE payment_class='".__CLASS__."' AND shopper_group_id='".$auth['shopper_group_id']."'" );
 		$transaction = $database->record[0];
 		if( empty($transaction->passkey)) {
 			$vmLogger->err( $VM_LANG->_('PHPSHOP_PAYMENT_ERROR',false).'. Technical Note: The required passwird is empty! The payment method settings must be reviewed.' );
@@ -365,17 +364,17 @@ class payflow_pro {
 		global $vendor_mail, $vendor_currency, $VM_LANG, $vmLogger;
 		$database = new ps_DB();
 
-		require_once(CLASSPATH ."connectionTools.class.php");
+		require_once(ADMINPATH."plugins/connectionTools.class.php");
 		
 		if( empty($d['order_number'])) {
 			$vmLogger->err("Error: No Order Number provided.");
 			return false;
 		}
 		/*** Get the Configuration File for authorize.net ***/
-		require_once(CLASSPATH ."payment/".$this->classname.".cfg.php");
+		require_once(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php");
 
 		// Get the Account Password securely from the database
-		$database->query( "SELECT ".VM_DECRYPT_FUNCTION."(payment_passkey,'".ENCODE_KEY."') as passkey FROM #__{vm}_payment_method WHERE payment_class='".$this->classname."'" );
+		$database->query( "SELECT ".VM_DECRYPT_FUNCTION."(payment_passkey,'".ENCODE_KEY."') as passkey FROM #__{vm}_payment_method WHERE payment_class='".__CLASS__."'" );
 		$transaction = $database->record[0];
 		if( empty($transaction->passkey)) {
 			$vmLogger->err($VM_LANG->_('PHPSHOP_PAYMENT_ERROR'),false);
@@ -543,17 +542,17 @@ class payflow_pro {
 		global $vendor_mail, $vendor_currency, $VM_LANG, $vmLogger;
 		$database = new ps_DB();
 
-		require_once(CLASSPATH ."connectionTools.class.php");
+		require_once(ADMINPATH."plugins/connectionTools.class.php");
 		
 		if( empty($d['order_number'])) {
 			$vmLogger->err("Error: No Order Number provided.");
 			return false;
 		}
 		/*** Get the Configuration File for authorize.net ***/
-		require_once(CLASSPATH ."payment/".$this->classname.".cfg.php");
+		require_once(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php");
 
 		// Get the Account Password securely from the database
-		$database->query( "SELECT ".VM_DECRYPT_FUNCTION."(payment_passkey,'".ENCODE_KEY."') as passkey FROM #__{vm}_payment_method WHERE payment_class='".$this->classname."'" );
+		$database->query( "SELECT ".VM_DECRYPT_FUNCTION."(payment_passkey,'".ENCODE_KEY."') as passkey FROM #__{vm}_payment_method WHERE payment_class='".__CLASS__."'" );
 		$transaction = $database->record[0];
 		if( empty($transaction->passkey)) {
 			$vmLogger->err($VM_LANG->_('PHPSHOP_PAYMENT_ERROR'),false);

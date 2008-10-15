@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage payment
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -19,13 +19,11 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 
 /**
 *
-* The ps_payment class, containing the default payment processing code
+* The vmPayment class, containing the default payment processing code
 * for payment methods that have no own class
 *
 */
-class ps_payment {
-
-    var $classname = "ps_payment";
+class vmPayment {
   
     /**
     * Show all configuration parameters for this payment method
@@ -46,7 +44,7 @@ class ps_payment {
 	* @returns boolean True when the configuration file is writeable, false when not
 	*/
    function configfile_writeable() {
-      return is_writeable( CLASSPATH."payment/".$this->classname.".cfg.php" );
+      return is_writeable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
    }
    
   /**
@@ -55,7 +53,7 @@ class ps_payment {
 	* @returns boolean True when the configuration file is writeable, false when not
 	*/
    function configfile_readable() {
-      return is_readable( CLASSPATH."payment/".$this->classname.".cfg.php" );
+      return is_readable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
    }
    
   /**

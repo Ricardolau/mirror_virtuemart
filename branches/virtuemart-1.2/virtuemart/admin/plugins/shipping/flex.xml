@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <install type="shipping" version="1.2.0">	
 	<!-- $Id$ -->
-	<name>Flex Shipping Module</name>
+	<name>flex</name>
 	<author><![CDATA[Micah Shawn]]></author>
 	<creationdate>October 2004</creationdate>
 	<copyright><![CDATA[2005 Micah Shawn]]></copyright>

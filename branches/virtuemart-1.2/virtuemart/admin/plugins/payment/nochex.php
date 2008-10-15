@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage payment
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -28,7 +28,7 @@ class nochex {
         $db = new ps_DB();
         
         /** Read current Configuration ***/
-        include_once(CLASSPATH ."payment/".__CLASS__.".cfg.php");
+        include_once(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php");
     ?>
     <table>
         <tr>
@@ -53,7 +53,7 @@ class nochex {
 	* @returns boolean True when the configuration file is writeable, false when not
 	*/
    function configfile_writeable() {
-      return is_writeable( CLASSPATH."payment/".__CLASS__.".cfg.php" );
+      return is_writeable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
    }
    
   /**
@@ -62,7 +62,7 @@ class nochex {
 	* @returns boolean True when the configuration file is writeable, false when not
 	*/
    function configfile_readable() {
-      return is_readable( CLASSPATH."payment/".__CLASS__.".cfg.php" );
+      return is_readable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
    }
    
   /**
@@ -81,7 +81,7 @@ class nochex {
       
       $config .= "?>";
   
-      if ($fp = fopen(CLASSPATH ."payment/".__CLASS__.".cfg.php", "w")) {
+      if ($fp = fopen(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php", "w")) {
           fputs($fp, $config, strlen($config));
           fclose ($fp);
           return true;

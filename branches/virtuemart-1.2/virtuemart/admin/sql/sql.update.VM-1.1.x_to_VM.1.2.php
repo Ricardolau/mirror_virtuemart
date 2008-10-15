@@ -143,3 +143,4 @@ $db->query("REPLACE `#__{vm}_auth_user_vendor` (`user_id`, `vendor_id`) VALUES (
 //$db->query("ALTER TABLE `j#__{vm}_product_type` ADD `vendor_id` INT( 11 ) NOT NULL DEFAULT '0' AFTER `product_type_list_order` ,
 //ADD `product_type_shared` CHAR( 1 ) NOT NULL DEFAULT 'N' AFTER `vendor_id` ;");
 
+$db->query("UPDATE `#__{vm}_payment_method` SET `payment_class` = REPLACE( `payment_class` , 'ps_', '' )");

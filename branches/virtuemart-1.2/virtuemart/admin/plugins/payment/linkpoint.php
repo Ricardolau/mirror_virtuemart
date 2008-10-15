@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage payment
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -59,7 +59,7 @@ class linkpoint {
       global $VM_LANG, $sess;
       $payment_method_id = vmGet( $_REQUEST, 'payment_method_id', null );
       /** Read current Configuration ***/
-      require_once(CLASSPATH ."payment/".__CLASS__.".cfg.php");
+      require_once(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php");
     ?>
       <table>
         <tr>
@@ -134,7 +134,7 @@ class linkpoint {
     * @returns boolean True when the configuration file is writeable, false when not
     */
    function configfile_writeable() {
-      return is_writeable( CLASSPATH."payment/".__CLASS__.".cfg.php" );
+      return is_writeable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
    }
 
   /**
@@ -143,7 +143,7 @@ class linkpoint {
     * @returns boolean True when the configuration file is writeable, false when not
     */
    function configfile_readable() {
-      return is_readable( CLASSPATH."payment/".__CLASS__.".cfg.php" );
+      return is_readable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
    }
   /**
     * Writes the configuration file for this payment method
@@ -168,7 +168,7 @@ class linkpoint {
 
       $config .= "?>";
 
-      if ($fp = fopen(CLASSPATH ."payment/".__CLASS__.".cfg.php", "w")) {
+      if ($fp = fopen(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php", "w")) {
           fputs($fp, $config, strlen($config));
           fclose ($fp);
           return true;
@@ -189,7 +189,7 @@ class linkpoint {
       global $vmLogger;
 
 	  // We must include the yourpay/linkpoint api file. 
-	  require( CLASSPATH ."payment/lphp.php" );
+	  require( ADMINPATH."plugins/payment/lphp.php" );
 
 	  // Declare new linkpoint php class
 	  $mylphp =& new lphp();
@@ -202,7 +202,7 @@ class linkpoint {
         
         $ps_checkout = new ps_checkout;
 
-        require_once(CLASSPATH ."payment/".__CLASS__.".cfg.php");
+        require_once(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php");
 
 
         // Get user billing information

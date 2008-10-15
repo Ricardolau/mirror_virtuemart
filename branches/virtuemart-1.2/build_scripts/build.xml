@@ -49,7 +49,7 @@
 	<target name="admin_files" depends="setup">
 		<tar destfile="${dist.dir}/admin_files.tar.gz" longfile="gnu"
 			basedir="${svn.dir}/admin" compression="gzip"
-			includes="classes/** html/** languages/**/english.php sql/**"
+			includes="classes/** html/** languages/**/english.php plugins/** sql/**"
 		/>
 	</target>
 

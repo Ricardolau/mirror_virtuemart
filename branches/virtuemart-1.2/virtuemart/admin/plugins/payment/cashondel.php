@@ -9,7 +9,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage payment
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -32,7 +32,7 @@ class cashondel {
         global $VM_LANG;
         
         /** Read current Configuration ***/
-        require_once(CLASSPATH ."payment/".__CLASS__.".cfg.php");
+        require_once(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php");
 		echo $VM_LANG->_('PHPSHOP_SPEC_CASH_ON_DELIVER_RATES');
         ?>
         <table>
@@ -98,7 +98,7 @@ class cashondel {
 	* @returns boolean True when the configuration file is writeable, false when not
 	*/
    function configfile_writeable() {
-      return is_writeable( CLASSPATH."payment/".__CLASS__.".cfg.php" );
+      return is_writeable(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
    }
    
   /**
@@ -107,7 +107,7 @@ class cashondel {
 	* @returns boolean True when the configuration file is writeable, false when not
 	*/
    function configfile_readable() {
-      return is_readable( CLASSPATH."payment/".__CLASS__.".cfg.php" );
+      return is_readable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
    }
    
   /**
@@ -133,7 +133,7 @@ class cashondel {
       
       $config .= "?>";
   
-      if ($fp = fopen(CLASSPATH ."payment/".__CLASS__.".cfg.php", "w")) {
+      if ($fp = fopen(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php", "w")) {
           fputs($fp, $config, strlen($config));
           fclose ($fp);
           return true;
@@ -145,7 +145,7 @@ class cashondel {
 function get_payment_rate($sum)
 {
   /*** Get the Configuration File  ***/
-  require_once(CLASSPATH ."payment/".__CLASS__.".cfg.php");
+  require_once(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php");
 
   if ($sum < 5000)
     return -(CASH_ON_DEL_5000);

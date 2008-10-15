@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage shipping
-* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -20,13 +20,12 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
  *
  */
 class intershipper {
-	var $classname = "intershipper";
 	
 	function list_rates( &$d ) {	
 	  global $weight_total, $CURRENCY_DISPLAY, $vmLogger;
 	  $d["ship_to_info_id"] = vmGet( $_REQUEST, "ship_to_info_id" );
       /** Read current Configuration ***/
-      require_once(CLASSPATH ."shipping/".$this->classname.".cfg.php");
+      require_once(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php");
 	  
 	  $dbv = new ps_DB;
 	  $q  = "SELECT * from #__{vm}_vendor, #__{vm}_country WHERE vendor_id='" . $_SESSION["ps_vendor_id"] . "' AND (vendor_country=country_2_code OR vendor_country=country_3_code)";
@@ -319,11 +318,11 @@ class intershipper {
 			  echo ($carrier==$boxID[$key]['carrier_name']) ? "" : $carrier;
 			  $boxID[$key]['amount'] = ($boxID[$key]['amount'] / 100) * $taxrate;
 			  $boxID[$key]['amount']= number_format($boxID[$key]['amount'], 2, '.', ' ');
-			  $value = urlencode($this->classname."|".$key."|".$boxID[$key]['service_name']."|".$boxID[$key]['amount']);
+			  $value = urlencode(ADMINPATH."plugins/shipping/".__CLASS__."|".$key."|".$boxID[$key]['service_name']."|".$boxID[$key]['amount']);
 			  $checked = ($shipping_rate_id == $value) ? "checked=\"checked\"" : "";
 			  print "\n<input type=\"radio\" name=\"shipping_rate_id\" $checked value=\"$value\" />\n";
 			  
-			  $_SESSION[urlencode($this->classname."|".$key."|".$boxID[$key]['service_name']."|".$boxID[$key]['amount'])] = 1;
+			  $_SESSION[urlencode(ADMINPATH."plugins/shipping/".__CLASS__."|".$key."|".$boxID[$key]['service_name']."|".$boxID[$key]['amount'])] = 1;
 			  
 			  print $boxID[$key]['service_name']." ";
 			  print "<strong>".$CURRENCY_DISPLAY->getFullValue($boxID[$key]['amount'])."</strong>";
@@ -334,7 +333,7 @@ class intershipper {
 	  else {
 		// Switch to StandardShipping on Error !!!
 		$vmLogger->err( $html );
-		require_once( CLASSPATH . 'shipping/standard_shipping.php' );
+		require_once( ADMINPATH . 'plugins/shipping/standard_shipping.php' );
 		$shipping =& new standard_shipping();
 		$shipping->list_rates( $d );
 		return;
@@ -353,7 +352,7 @@ class intershipper {
   function get_tax_rate() {
 	
     /** Read current Configuration ***/
-	require_once(CLASSPATH ."shipping/".$this->classname.".cfg.php");
+	require_once(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php");
 	
 	if( intval(IS_TAX_CLASS)== 0 )
 	  return( 0 );
@@ -385,7 +384,7 @@ class intershipper {
     
       global $VM_LANG;
       /** Read current Configuration ***/
-      require_once(CLASSPATH ."shipping/".$this->classname.".cfg.php");
+      require_once(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php");
 	  
     ?>
       <table border="0" cellspacing="0" cellpadding="0" width="100%">
@@ -393,7 +392,7 @@ class intershipper {
 		  <td width="20%"><strong>Intershipper Username</strong>:</td>
 		  <td colspan="3" width="80%">
 			  <input type="text" name="IS_USERNAME" class="inputbox" value="<? echo IS_USERNAME ?>" />
-			<?php echo mm_ToolTip('The InterShipper Username') ?>
+			<?php echo vmToolTip('The InterShipper Username') ?>
 		  </td>
 		</tr>
 		<tr>
@@ -401,7 +400,7 @@ class intershipper {
 			</td>
 			<td colspan="3">
 				<input type="text" name="IS_PASSWORD" class="inputbox" value="<? echo IS_PASSWORD ?>" />
-			  <?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_PASSWORD_EXPLAIN')) ?>
+			  <?php echo vmToolTip($VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_PASSWORD_EXPLAIN')) ?>
 			</td>
 		</tr>
 		<tr>
@@ -409,7 +408,7 @@ class intershipper {
 			</td>
 			<td colspan="3">
 				<input type="text" name="IS_EMAIL" class="inputbox" value="<? echo IS_EMAIL ?>" />
-				<?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_EMAIL_EXPLAIN')) ?>
+				<?php echo vmToolTip($VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER_EMAIL_EXPLAIN')) ?>
 			</td>
 		</tr>
 	  <tr>
@@ -419,7 +418,7 @@ class intershipper {
 		  require_once(CLASSPATH.'ps_tax.php');
 		  ps_tax::list_tax_value("IS_TAX_CLASS", IS_TAX_CLASS) ?>
 		</td>
-		<td><?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_UPS_TAX_CLASS_TOOLTIP')) ?><td>
+		<td><?php echo vmToolTip($VM_LANG->_('PHPSHOP_UPS_TAX_CLASS_TOOLTIP')) ?><td>
 	  </tr>	
 		<tr>
 		  <td colspan="4"><hr /></td>
@@ -427,11 +426,11 @@ class intershipper {
 		<tr>
 		  <td>&nbsp;</td>
 		  <td style="text-indent:20px;font-weight:bold;">Name
-		  <?php echo mm_ToolTip("Specify the carriers which shall return their shipping rates."); ?></td>
+		  <?php echo vmToolTip("Specify the carriers which shall return their shipping rates."); ?></td>
 		  <td style="text-indent:20px;font-weight:bold;">Invoice
-		  <?php echo mm_ToolTip("Specifies whether or not you are invoiced directly from the carrier"); ?></td>
+		  <?php echo vmToolTip("Specifies whether or not you are invoiced directly from the carrier"); ?></td>
 		  <td style="text-indent:20px;font-weight:bold;">Account No. (optional)
-		  <?php echo mm_ToolTip("Your carrier account number -> to take advantage of any special discounts or offers"); ?></td>
+		  <?php echo vmToolTip("Your carrier account number -> to take advantage of any special discounts or offers"); ?></td>
 		</tr>
 		<tr>
 		  <td style="float:right;">Carrier 1:</td>
@@ -553,7 +552,7 @@ class intershipper {
   * @returns boolean True when the configuration file is writeable, false when not
   */
    function configfile_writeable() {
-      return is_writeable( CLASSPATH."shipping/".$this->classname.".cfg.php" );
+      return is_writeable( ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php" );
    }
    
 	/**
@@ -597,7 +596,7 @@ class intershipper {
       
       $config .= "?>";
   
-      if ($fp = fopen(CLASSPATH ."shipping/".$this->classname.".cfg.php", "w")) {
+      if ($fp = fopen(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php", "w")) {
           fputs($fp, $config, strlen($config));
           fclose ($fp);
           return true;

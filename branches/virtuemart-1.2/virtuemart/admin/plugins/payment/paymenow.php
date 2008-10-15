@@ -29,7 +29,7 @@ class paymenow {
       global $VM_LANG;
       $db =& new ps_DB;
       /** Read current Configuration ***/
-      require_once(CLASSPATH ."payment/".__CLASS__.".cfg.php");
+      require_once(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php");
     ?>
       <table>
         <tr>
@@ -111,7 +111,7 @@ class paymenow {
 	* @returns boolean True when the configuration file is writeable, false when not
 	*/
    function configfile_writeable() {
-      return is_writeable( CLASSPATH."payment/".__CLASS__.".cfg.php" );
+      return is_writeable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
    }
    
   /**
@@ -120,7 +120,7 @@ class paymenow {
 	* @returns boolean True when the configuration file is writeable, false when not
 	*/
    function configfile_readable() {
-      return is_readable( CLASSPATH."payment/".__CLASS__.".cfg.php" );
+      return is_readable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
    }   
   /**
 	* Writes the configuration file for this payment method
@@ -142,7 +142,7 @@ class paymenow {
       
       $config .= "?>";
   
-      if ($fp = fopen(CLASSPATH ."payment/".__CLASS__.".cfg.php", "w")) {
+      if ($fp = fopen(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php", "w")) {
           fputs($fp, $config, strlen($config));
           fclose ($fp);
           return true;

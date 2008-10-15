@@ -63,7 +63,7 @@ class vmInstaller {
 	 *
 	 * @static
 	 * @param string $xml_path dir Path to xml file
-	 * @return information about the install file
+	 * @return array information about the install file
 	 * @since 1.2.0
 	 */
 	function getInfo($xml_path) {

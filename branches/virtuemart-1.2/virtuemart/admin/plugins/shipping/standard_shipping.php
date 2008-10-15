@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
  * @version $Id$
  * @package VirtueMart
  * @subpackage shipping
- * @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+ * @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -333,7 +333,7 @@ class standard_shipping {
 	 * @returns boolean True when the configuration file is writeable, false when not
 	 */
 	function configfile_writeable() {
-		return is_writeable( CLASSPATH . "shipping/" . __CLASS__ . ".cfg.php" ) ;
+		return is_writeable( __CLASS__ . ".cfg.php" ) ;
 	}
 	
 	/**

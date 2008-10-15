@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage shipping
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -23,7 +23,6 @@ define('FEDEX_IMG_DIR', '/tmp/');
 
 class fedex {
 
-    var $classname = 'fedex';
 
 	// $config_array contains all variable names for the configuration page
     var $config_array = array (
@@ -52,10 +51,10 @@ class fedex {
 		$cart = $_SESSION['cart'];
 		
 		// Read the fedex configuration file
-		require_once(CLASSPATH ."shipping/".$this->classname.".cfg.php");
+		require_once( ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php");
 		
 		// Include the main FedEx class
-		require_once( CLASSPATH . 'shipping/fedex/fedexdc.php' );
+		require_once( ADMINPATH.'plugins/shipping/fedex/fedexdc.php' );
 		
 		// Get the meter number
 		if( FEDEX_METER_NUMBER=='') {
@@ -137,7 +136,7 @@ class fedex {
 		    $vmLogger->err( $error );
 
 		   	// Switch to StandardShipping on Error !!!
-			require_once( CLASSPATH . 'shipping/standard_shipping.php' );
+			require_once( ADMINPATH . 'plugins/shipping/standard_shipping.php' );
 			$shipping =& new standard_shipping();
 			$shipping->list_rates( $d );
 			return;
@@ -208,7 +207,7 @@ class fedex {
 				$charge *= $taxrate;
 				$charge_display = $CURRENCY_DISPLAY->getFullValue($charge);
 				
-				$shipping_rate_id = urlencode($this->classname."|FedEx|".$fed->service_type($rate_Ret['1274-'.$i], $domestic_delivery)."|".$charge);
+				$shipping_rate_id = urlencode(ADMINPATH."plugins/shipping/".__CLASS__."|FedEx|".$fed->service_type($rate_Ret['1274-'.$i], $domestic_delivery)."|".$charge);
 				
 				$checked = (@$d["shipping_rate_id"] == $shipping_rate_id) ? "checked=\"checked\"" : "";
 				
@@ -258,7 +257,7 @@ class fedex {
 	function get_tax_rate() {
 
 		/** Read current Configuration ***/
-		require_once(CLASSPATH ."shipping/".$this->classname.".cfg.php");
+		require_once(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php");
 
 		if( intval(FEDEX_TAX_CLASS)== 0 )
 		return( 0 );
@@ -294,11 +293,11 @@ class fedex {
 		global $VM_LANG;
 		
 		// Include the FedExTags class
-		require_once( CLASSPATH . 'shipping/fedex/fedex-tags.php' );
+		require_once( ADMINPATH.'plugins/shipping/fedex/fedex-tags.php' );
 		$fedextags = new FedExTags();
 
 		// Read the fedex configuration file
-		require_once(CLASSPATH ."shipping/".$this->classname.".cfg.php");
+		require_once( ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php");
 
 	    ?>
 <div style="width:80%;padding:0 10px;">
@@ -312,12 +311,12 @@ class fedex {
 		<tr>
 			<td class="labelcell"><?php echo $VM_LANG->_('VM_FEDEX_METER_NUMBER') ?></td>
 			<td><input type="text" name="FEDEX_METER_NUMBER" class="inputbox" value="<?php echo FEDEX_METER_NUMBER ?>" /></td>
-			<td style="width:5%;text-align:right;"><?php echo mm_ToolTip($VM_LANG->_('VM_FEDEX_METER_NUMBER_TIP')) ?></td>
+			<td style="width:5%;text-align:right;"><?php echo vmToolTip($VM_LANG->_('VM_FEDEX_METER_NUMBER_TIP')) ?></td>
 		</tr>
 		<tr>
 			<td class="labelcell"><?php echo $VM_LANG->_('VM_FEDEX_URI') ?></td>
 			<td><input type="text" name="FEDEX_URI" class="inputbox" value="<?php echo FEDEX_URI ?>" size="60" /></td>
-			<td style="width:5%;text-align:right;"><?php echo mm_ToolTip( $VM_LANG->_('VM_FEDEX_URI_TIP') ) ?></td>
+			<td style="width:5%;text-align:right;"><?php echo vmToolTip( $VM_LANG->_('VM_FEDEX_URI_TIP') ) ?></td>
 		</tr>
 	</table>
 	
@@ -332,12 +331,12 @@ class fedex {
 			 require_once(CLASSPATH.'ps_tax.php');
 			ps_tax::list_tax_value("FEDEX_TAX_CLASS", FEDEX_TAX_CLASS) ?>
 			</td>
-			<td style="width:5%;text-align:right;"><?php echo mm_ToolTip($VM_LANG->_('VM_FEDEX_TAX_CLASS_TOOLTIP')) ?></td>
+			<td style="width:5%;text-align:right;"><?php echo vmToolTip($VM_LANG->_('VM_FEDEX_TAX_CLASS_TOOLTIP')) ?></td>
 		</tr>	
 		<tr>
 			<td class="labelcell"><?php echo $VM_LANG->_('VM_FEDEX_HANDLING_FEE') ?></td>
 			<td><input class="inputbox" type="text" name="FEDEX_HANDLINGFEE" value="<?php echo FEDEX_HANDLINGFEE ?>" /></td>
-			<td style="width:5%;text-align:right;"><?php echo mm_ToolTip($VM_LANG->_('VM_FEDEX_HANDLING_FEE_TOOLTIP')) ?></td>
+			<td style="width:5%;text-align:right;"><?php echo vmToolTip($VM_LANG->_('VM_FEDEX_HANDLING_FEE_TOOLTIP')) ?></td>
 		</tr>
 	</table>
 	
@@ -399,7 +398,7 @@ class fedex {
   * @returns boolean True when the configuration file is writeable, false when not
   */
 	function configfile_writeable() {
-		return is_writeable( CLASSPATH."shipping/".$this->classname.".cfg.php" );
+		return is_writeable( ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php" );
 	} //end function configfile_writable
 
 	/**
@@ -427,7 +426,7 @@ class fedex {
 
 		$config .= "?>";
 
-		if ($fp = fopen(CLASSPATH ."shipping/".$this->classname.".cfg.php", "w")) {
+		if ($fp = fopen( ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php", "w")) {
 			fputs($fp, $config, strlen($config));
 			fclose ($fp);
 			return true;

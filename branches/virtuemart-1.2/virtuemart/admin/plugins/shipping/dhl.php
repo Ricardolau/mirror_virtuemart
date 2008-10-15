@@ -19,8 +19,7 @@ class dhl {
 
 
 		/* Read current Configuration */
-		require_once(CLASSPATH . "shipping/" . __CLASS__ .
-		    ".cfg.php");
+		require_once( ADMINPATH."plugins/shipping/".__CLASS__ . ".cfg.php");
 
 		/*
 		 * Check the current day and time to determine if it is too late to
@@ -506,7 +505,7 @@ class dhl {
 				 * generate a shipping label for this rate will be
 				 * stored one off the end.
 				 */
-				$id_string = __CLASS__;
+				$id_string = ADMINPATH."plugins/shipping/".__CLASS__;
 				$id_string .= "|DHL";
 				$id_string .= "|" . $method['service_desc'];
 				$id_string .= "|" . $total_rate;
@@ -598,7 +597,7 @@ class dhl {
 		$q .= "label_is_generated) ";
 		$q .= "VALUES (";
 		$q .= "'" . $d['order_id'] . "', ";
-		$q .= "'" . __CLASS__ . "', ";
+		$q .= "'" . ADMINPATH."plugins/shipping/".__CLASS__ . "', ";
 		$q .= "'" . $ship_date . "', ";
 		$q .= "'" . $service_code . "', ";
 		$q .= "'" . $special_service . "', ";
@@ -673,8 +672,7 @@ class dhl {
 		$dest_state = $db->f("state");
 
 		/* Read current Configuration */
-		require_once(CLASSPATH . "shipping/" . __CLASS__ .
-		    ".cfg.php");
+		require_once( ADMINPATH."plugins/shipping/".__CLASS__ .    ".cfg.php");
 
 		$dhl_url = "https://eCommerce.airborne.com/";
 		if (DHL_TEST_MODE == 'TRUE')
@@ -1124,8 +1122,7 @@ class dhl {
 			return ("couldn't find label info for order #" .  $order_id);
 
 
-		require_once(CLASSPATH . "shipping/" . __CLASS__ .
-		    ".cfg.php");
+		require_once( ADMINPATH."plugins/shipping/".__CLASS__ .  ".cfg.php");
 
 		$dhl_url = "https://eCommerce.airborne.com/";
 		if (DHL_TEST_MODE == 'TRUE')
@@ -1290,8 +1287,7 @@ class dhl {
 
 		$tracking_number = $dbl->f('tracking_number');
 
-		require_once(CLASSPATH . "shipping/" . __CLASS__ .
-		    ".cfg.php");
+		require_once( ADMINPATH."plugins/shipping/".__CLASS__ .  ".cfg.php");
 
 		$dhl_url = "https://eCommerce.airborne.com/";
 		if (DHL_TEST_MODE == 'TRUE')
@@ -2030,8 +2026,7 @@ class dhl {
 
 		$tracking_number = $dbl->f('tracking_number');
 
-		require_once(CLASSPATH . "shipping/" . __CLASS__ .
-		    ".cfg.php");
+		require_once( ADMINPATH."plugins/shipping/".__CLASS__ .  ".cfg.php");
 
 		$dhl_url = "https://eCommerce.airborne.com/";
 		if (DHL_TEST_MODE == 'TRUE')
@@ -2213,7 +2208,7 @@ class dhl {
 	function get_tax_rate() {
 
 		/** Read current Configuration ***/
-		require_once(CLASSPATH . "shipping/" . __CLASS__ . ".cfg.php");
+		require_once( ADMINPATH."plugins/shipping/".__CLASS__ . ".cfg.php");
 
 		if (intval(DHL_TAX_CLASS) == 0)
 			return (0);
@@ -2246,7 +2241,7 @@ class dhl {
 		global $VM_LANG;
 
 		/** Read current Configuration ***/
-		require_once(CLASSPATH . "shipping/" . __CLASS__ . ".cfg.php");
+		require_once( ADMINPATH."plugins/shipping/".__CLASS__ . ".cfg.php");
     ?>
 	<table>
 	<tr>
@@ -2258,7 +2253,7 @@ class dhl {
 				value="<? echo DHL_ID ?>" />
 		</td>
 		<td>
-			<?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_ID_TOOLTIP')) ?>
+			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_ID_TOOLTIP')) ?>
 		</td>
 	</tr>
 	<tr>
@@ -2270,7 +2265,7 @@ class dhl {
 			    value="<? echo DHL_PASSWORD ?>" />
 		</td>
 		<td>
-			<?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_PASSWORD_TOOLTIP')) ?>
+			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_PASSWORD_TOOLTIP')) ?>
 		</td>
 	</tr>
 	<tr>
@@ -2282,7 +2277,7 @@ class dhl {
 			    value="<? echo DHL_DOMESTIC_SHIPPING_KEY ?>" />
 		</td>
 		<td>
-			<?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_DOMESTIC_SHIPPING_KEY_TOOLTIP')) ?>
+			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_DOMESTIC_SHIPPING_KEY_TOOLTIP')) ?>
 		</td>
 	</tr>
 	<tr>
@@ -2294,7 +2289,7 @@ class dhl {
 			    value="<? echo DHL_INTERNATIONAL_SHIPPING_KEY ?>" />
 		</td>
 		<td>
-			<?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INTERNATIONAL_SHIPPING_KEY_TOOLTIP')) ?>
+			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INTERNATIONAL_SHIPPING_KEY_TOOLTIP')) ?>
 		</td>
 	</tr>
 	<tr>
@@ -2306,7 +2301,7 @@ class dhl {
 			    value="<? echo DHL_ACCOUNT_NUMBER ?>" />
 		</td>
 		<td>
-			<?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_ACCOUNT_NUMBER_TOOLTIP')) ?>
+			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_ACCOUNT_NUMBER_TOOLTIP')) ?>
 		</td>
 	</tr>
 	<tr>
@@ -2318,7 +2313,7 @@ class dhl {
 			    value="<? echo DHL_TOO_LATE ?>" />
 		</td>
 		<td>
-			<?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TOO_LATE_TOOLTIP')) ?>
+			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TOO_LATE_TOOLTIP')) ?>
 		</td>
 	</tr>
 	<tr>
@@ -2346,7 +2341,7 @@ class dhl {
 			</select>
 		</td>
 		<td>
-			<?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TEST_MODE_TOOLTIP')) ?>
+			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TEST_MODE_TOOLTIP')) ?>
 		</td>
 	</tr>
 	<tr>
@@ -2374,7 +2369,7 @@ class dhl {
 			</select>
 		</td>
 		<td>
-			<?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_EXPRESS_ENABLED_TOOLTIP')) ?>
+			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_EXPRESS_ENABLED_TOOLTIP')) ?>
 		</td>
 	</tr>
 	<tr>
@@ -2402,7 +2397,7 @@ class dhl {
 			</select>
 		</td>
 		<td>
-			<?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_NEXT_AFTERNOON_ENABLED_TOOLTIP')) ?>
+			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_NEXT_AFTERNOON_ENABLED_TOOLTIP')) ?>
 		</td>
 	</tr>
 	<tr>
@@ -2430,7 +2425,7 @@ class dhl {
 			</select>
 		</td>
 		<td>
-			<?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_SECOND_DAY_ENABLED_TOOLTIP')) ?>
+			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_SECOND_DAY_ENABLED_TOOLTIP')) ?>
 		</td>
 	</tr>
 	<tr>
@@ -2458,7 +2453,7 @@ class dhl {
 			</select>
 		</td>
 		<td>
-			<?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_GROUND_ENABLED_TOOLTIP')) ?>
+			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_GROUND_ENABLED_TOOLTIP')) ?>
 		</td>
 	</tr>
 	<tr>
@@ -2486,7 +2481,7 @@ class dhl {
 			</select>
 		</td>
 		<td>
-			<?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_1030_ENABLED_TOOLTIP')) ?>
+			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_1030_ENABLED_TOOLTIP')) ?>
 		</td>
 	</tr>
 	<tr>
@@ -2514,7 +2509,7 @@ class dhl {
 			</select>
 		</td>
 		<td>
-			<?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_SATURDAY_ENABLED_TOOLTIP')) ?>
+			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_SATURDAY_ENABLED_TOOLTIP')) ?>
 		</td>
 	</tr>
 	<tr>
@@ -2542,7 +2537,7 @@ class dhl {
 			</select>
 		</td>
 		<td>
-			<?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INTERNATIONAL_ENABLED_TOOLTIP')) ?>
+			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INTERNATIONAL_ENABLED_TOOLTIP')) ?>
 		</td>
 	</tr>
 	<tr>
@@ -2570,7 +2565,7 @@ class dhl {
 			</select>
 		</td>
 		<td>
-			<?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_DOMESTIC_PACKAGE_TOOLTIP')) ?>
+			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_DOMESTIC_PACKAGE_TOOLTIP')) ?>
 		</td>
 	</tr>
 	<tr>
@@ -2606,7 +2601,7 @@ class dhl {
 			</select>
 		</td>
 		<td>
-			<?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INTERNATIONAL_PACKAGE_TOOLTIP')) ?>
+			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INTERNATIONAL_PACKAGE_TOOLTIP')) ?>
 		</td>
 	</tr>
 	<tr>
@@ -2616,7 +2611,7 @@ class dhl {
             <input type="text" name="DHL_CONTENT_DESC" class="inputbox" value="<? echo DHL_CONTENT_DESC ?>" />
 		</td>
 		<td>
-            <?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_CONTENT_DESC_TOOLTIP')) ?>
+            <?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_CONTENT_DESC_TOOLTIP')) ?>
         </td>
     </tr>
 	<tr>
@@ -2626,7 +2621,7 @@ class dhl {
             <input type="text" name="DHL_PACKAGE_WEIGHT" class="inputbox" value="<? echo DHL_PACKAGE_WEIGHT ?>" />
 		</td>
 		<td>
-            <?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_PACKAGE_WEIGHT_TOOLTIP')) ?>
+            <?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_PACKAGE_WEIGHT_TOOLTIP')) ?>
         </td>
     </tr>
 	<tr>
@@ -2636,7 +2631,7 @@ class dhl {
             <input type="text" name="DHL_DUTY_SHOPPER_GROUP" class="inputbox" value="<? echo DHL_DUTY_SHOPPER_GROUP ?>" />
 		</td>
 		<td>
-            <?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_DUTY_SHOPPER_GROUP_TOOLTIP')) ?>
+            <?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_DUTY_SHOPPER_GROUP_TOOLTIP')) ?>
         </td>
     </tr>
 	<tr>
@@ -2663,7 +2658,7 @@ class dhl {
 			</select>
 		</td>
 		<td>
-            <?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_ADDITIONAL_PROTECTION_TOOLTIP')) ?>
+            <?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_ADDITIONAL_PROTECTION_TOOLTIP')) ?>
         </td>
     </tr>
 	<tr>
@@ -2673,7 +2668,7 @@ class dhl {
             <input type="text" name="DHL_INSURANCE_SHOPPER_GROUP" class="inputbox" value="<? echo DHL_INSURANCE_SHOPPER_GROUP ?>" />
 		</td>
 		<td>
-            <?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INSURANCE_SHOPPER_GROUP_TOOLTIP')) ?>
+            <?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INSURANCE_SHOPPER_GROUP_TOOLTIP')) ?>
         </td>
     </tr>
 	<tr>
@@ -2683,7 +2678,7 @@ class dhl {
             <input type="text" name="DHL_INSURANCE_RATE_DOMESTIC_FLAT" class="inputbox" value="<? echo DHL_INSURANCE_RATE_DOMESTIC_FLAT ?>" />
 		</td>
 		<td>
-            <?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_DOMESTIC_INSURANCE_TOOLTIP')) ?>
+            <?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_DOMESTIC_INSURANCE_TOOLTIP')) ?>
         </td>
     </tr>
 	<tr>
@@ -2693,7 +2688,7 @@ class dhl {
             <input type="text" name="DHL_INSURANCE_RATE_INTERNATIONAL" class="inputbox" value="<? echo DHL_INSURANCE_RATE_INTERNATIONAL ?>" />
 		</td>
 		<td>
-            <?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INTERNATIONAL_INSURANCE_TOOLTIP')) ?>
+            <?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INTERNATIONAL_INSURANCE_TOOLTIP')) ?>
         </td>
     </tr>
 	<tr>
@@ -2707,7 +2702,7 @@ class dhl {
 			?>
 		</td>
 		<td>
-			<?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_UPS_TAX_CLASS_TOOLTIP')) ?>
+			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_UPS_TAX_CLASS_TOOLTIP')) ?>
 		</td>
 	</tr>
 	<tr>
@@ -2722,7 +2717,7 @@ class dhl {
 			    value="<?php echo DHL_HANDLING_FEE ?>" />
 		</td>
 		<td>
-			<?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_HANDLING_FEE_TOOLTIP')) ?>
+			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_HANDLING_FEE_TOOLTIP')) ?>
 		</td>
 	</tr>
 	</table>
@@ -2738,8 +2733,7 @@ class dhl {
 	 * false when not
 	 */
 	function configfile_writeable() {
-		return (is_writeable(CLASSPATH . "shipping/" .
-		    __CLASS__ . ".cfg.php"));
+		return (is_writeable( ADMINPATH."plugins/shipping/".__CLASS__ . ".cfg.php"));
 	}
 
 	/*
@@ -2785,7 +2779,7 @@ class dhl {
 			$config .= "define ('$key', '$value');\n";
 		$config .= "?>";
 
-		if ($fp = fopen(CLASSPATH . "shipping/" . __CLASS__ . ".cfg.php", "w")) {
+		if ($fp = fopen( ADMINPATH."plugins/shipping/".__CLASS__ . ".cfg.php", "w")) {
 			fputs($fp, $config, strlen($config));
 			fclose ($fp);
 			return (true);
@@ -2818,8 +2812,7 @@ class dhl {
 	function get_duty_value($pid) {
 
 		/* Read current Configuration */
-		require_once(CLASSPATH . "shipping/" . __CLASS__ .
-		    ".cfg.php");
+		require_once( ADMINPATH."plugins/shipping/".__CLASS__ .  ".cfg.php");
 
 		$db = new ps_DB;
 
@@ -2875,7 +2868,7 @@ class dhl {
 		 */
 
 		/* Read current Configuration */
-		require_once(CLASSPATH . "shipping/" . __CLASS__ .   ".cfg.php");
+		require_once(ADMINPATH."plugins/shipping/".__CLASS__ .   ".cfg.php");
 
 		if (!$is_international) {
 			$default_insurance_value = floatval(
@@ -2900,7 +2893,7 @@ class dhl {
 	function get_insurance_value($pid) {
 
 		/* Read current Configuration */
-		require_once(CLASSPATH . "shipping/" . __CLASS__ .   ".cfg.php");
+		require_once( ADMINPATH."plugins/shipping/".__CLASS__ .   ".cfg.php");
 
 		$db = new ps_DB;
 

@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <install type="shipping" version="1.2.0">	
 	<!-- $Id$-->
-	<name>InterShipper Shipping Module</name>
+	<name>intershipper</name>
 	<author><![CDATA[intershipper.com]]></author>
 	<creationdate>October 2004</creationdate>
 	<copyright><![CDATA[InterShipper / Soeren]]></copyright>

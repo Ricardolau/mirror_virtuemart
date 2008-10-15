@@ -31,7 +31,7 @@ class echeck {
       global $VM_LANG, $sess;
       $payment_method_id = vmGet( $_REQUEST, 'payment_method_id', null );
       /** Read current Configuration ***/
-      require_once(CLASSPATH ."payment/".__CLASS__.".cfg.php");    ?>
+      require_once(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php");    ?>
       <table>
         <tr>
             <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_TESTMODE') ?></strong></td>
@@ -114,7 +114,7 @@ class echeck {
 	* @returns boolean True when the configuration file is writeable, false when not
 	*/
    function configfile_writeable() {
-      return is_writeable( CLASSPATH."payment/".__CLASS__.".cfg.php" );
+      return is_writeable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
    }
    
   /**
@@ -123,7 +123,7 @@ class echeck {
 	* @returns boolean True when the configuration file is writeable, false when not
 	*/
    function configfile_readable() {
-      return is_readable( CLASSPATH."payment/".__CLASS__.".cfg.php" );
+      return is_readable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
    }   
   /**
 	* Writes the configuration file for this payment method
@@ -146,7 +146,7 @@ class echeck {
       
       $config .= "?>";
   
-      if ($fp = fopen(CLASSPATH ."payment/".__CLASS__.".cfg.php", "w")) {
+      if ($fp = fopen(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php", "w")) {
           fputs($fp, $config, strlen($config));
           fclose ($fp);
           return true;
@@ -174,7 +174,7 @@ class echeck {
         $ps_checkout = new ps_checkout;
       
         /*** Get the Configuration File for authorize.net ***/
-        require_once(CLASSPATH ."payment/".__CLASS__.".cfg.php");
+        require_once(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php");
 
         // Get the Transaction Key securely from the database
         $database->query( "SELECT ".VM_DECRYPT_FUNCTION."(payment_passkey,'".ENCODE_KEY."') as passkey FROM #__{vm}_payment_method WHERE payment_class='".__CLASS__."'" );

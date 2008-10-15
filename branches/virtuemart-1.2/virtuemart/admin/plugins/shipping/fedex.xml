@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <install type="shipping" version="1.2.0">	
 	<!-- $Id$-->
-	<name>FedEX Shipping Module</name>
+	<name>fedex</name>
 	<author><![CDATA[Jay Powers / Soeren Eberhardt / Greg Perkins]]></author>
 	<creationdate>2004 Vermonster LLC</creationdate>
 	<copyright><![CDATA[Shade Tree Software]]></copyright>

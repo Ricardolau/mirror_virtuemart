@@ -1,7 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <install type="shipping" version="1.2.0">	
 	<!-- $Id$ -->
 	<name>UPS Shipping Module</name>
-	<author><![CDATA[Soeren Eberhardt-Biermann & others]]></author>
+	<author><![CDATA[Sören Eberhardt-Biermann & others]]></author>
 	<creationdate>October 2004</creationdate>
 	<copyright><![CDATA[VirtueMart Project]]></copyright>
 	<license>GNU/GPL</license>

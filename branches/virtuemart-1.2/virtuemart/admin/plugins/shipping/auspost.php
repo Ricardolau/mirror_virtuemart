@@ -34,7 +34,7 @@ class auspost {
 		$cart = $_SESSION['cart'];
 
 		/** Read current Configuration ***/
-		require_once(CLASSPATH ."shipping/".$this->classname.".cfg.php");
+		require_once(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php");
 
 		if ( $_SESSION['auth']['show_price_including_tax'] != 1 ) {
 			$taxrate = 1;
@@ -165,7 +165,7 @@ class auspost {
 	function get_tax_rate() {
 
 		/** Read current Configuration ***/
-		require_once(CLASSPATH ."shipping/".$this->classname.".cfg.php");
+		require_once(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php");
 
 		if( intval(AUSPOST_TAX_CLASS)== 0 )
 		return( 0 );
@@ -198,7 +198,7 @@ class auspost {
 	function show_configuration() {
 		global $VM_LANG;
 		/** Read current Configuration ***/
-		require_once(CLASSPATH ."shipping/".$this->classname.".cfg.php");
+		require_once(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php");
     ?>
       <table>
     <tr>
@@ -211,7 +211,7 @@ class auspost {
             <input type="text" name="Handling_Fee" class="inputbox" value="<?php echo Handling_Fee ?>" />
 		</td>
 		<td>
-            <?php echo mm_ToolTip("This is your fee for packaging and handling, and is added to the delivery costs returned by auspost") ?>
+            <?php echo vmToolTip("This is your fee for packaging and handling, and is added to the delivery costs returned by auspost") ?>
         </td>
     </tr>
 	  <tr>
@@ -221,7 +221,7 @@ class auspost {
 		  require_once(CLASSPATH.'ps_tax.php');
 		  ps_tax::list_tax_value("AUSPOST_TAX_CLASS", AUSPOST_TAX_CLASS) ?>
 		</td>
-		<td><?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_UPS_TAX_CLASS_TOOLTIP')) ?><td>
+		<td><?php echo vmToolTip($VM_LANG->_('PHPSHOP_UPS_TAX_CLASS_TOOLTIP')) ?><td>
 	  </tr>	
 	</table>
    <?php
@@ -234,7 +234,7 @@ class auspost {
   * @returns boolean True when the configuration file is writeable, false when not
   */
 	function configfile_writeable() {
-		return is_writeable( CLASSPATH."shipping/".$this->classname.".cfg.php" );
+		return is_writeable( ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php" );
 	}
 
 	/**
@@ -256,7 +256,7 @@ class auspost {
 
 		$config .= "?>";
 
-		if ($fp = fopen(CLASSPATH ."shipping/".$this->classname.".cfg.php", "w")) {
+		if ($fp = fopen(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php", "w")) {
 			fputs($fp, $config, strlen($config));
 			fclose ($fp);
 			return true;
@@ -267,6 +267,5 @@ class auspost {
 		}
 	}
 }
-
 
 ?>

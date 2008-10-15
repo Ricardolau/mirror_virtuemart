@@ -165,21 +165,21 @@ class ps_payment_method extends vmAbstractObject {
 		if ( !empty($d["payment_class"]) ) {
 			// Here we have a custom payment class
 			$payment_class = basename($d["payment_class"]);
-			if( file_exists( CLASSPATH."payment/".$payment_class.".php" ) ) {
+			if( file_exists( ADMINPATH . "plugins/payment/".$payment_class.".php" ) ) {
 				// Include the class code and create an instance of this class
-				include( CLASSPATH."payment/".$payment_class.".php" );
+				include( ADMINPATH . "plugins/payment/".$payment_class.".php" );
 				if( class_exists($payment_class)) {
 					$_PAYMENT = new $payment_class();
 				} else {
-					$GLOBALS['vmLogger']->err($VM_LANG->_('VM_PAYMENTMETHOD_CLASS_NOT_EXIST'));
+					$GLOBALS['vmLogger']->err($VM_LANG->_('VM_PAYMENTMETHOD_CLASS_NOT_EXIST').' ('.$payment_class.')');
 					return false;
 				}
 			}
 		}
 		else {
-			// ps_payment is the default payment method handler
-			include( CLASSPATH."payment/ps_payment.php" );
-			$_PAYMENT = new ps_payment();
+			// payment is the default payment method handler
+			include( ADMINPATH . "plugins/payment/payment.php" );
+			$_PAYMENT = new vmPayment();
 		}
         if( is_callable( array( $_PAYMENT, 'write_configuration'))) {
     	    $_PAYMENT->write_configuration( $d );
@@ -239,24 +239,24 @@ class ps_payment_method extends vmAbstractObject {
 
 		if ( !empty($d["payment_class"]) ) {
 			$payment_class = basename($d["payment_class"]);
-			@include( CLASSPATH."payment/".$payment_class.".php" );
+			@include( ADMINPATH."plugins/payment/".$payment_class.".php" );
 			if( class_exists($payment_class)) {
 				$_PAYMENT = new $payment_class();
 			} else {
-				$GLOBALS['vmLogger']->err($VM_LANG->_('VM_PAYMENTMETHOD_CLASS_NOT_EXIST'));
+				$GLOBALS['vmLogger']->err($VM_LANG->_('VM_PAYMENTMETHOD_CLASS_NOT_EXIST').' ('.$payment_class.')');
 				return false;
 			}
 		}
 		else {
-			include( CLASSPATH."payment/ps_payment.php" );
-			$_PAYMENT = new ps_payment();
+			include( ADMINPATH . "plugins/payment/payment.php" );
+			$_PAYMENT = new vmPayment();
 		}
-		if( $_PAYMENT->configfile_writeable() || $_PAYMENT->classname == 'ps_payment' ) {
+		if( $_PAYMENT->configfile_writeable() || strtolower(get_class($_PAYMENT)) == 'vmpayment' ) {
 			$_PAYMENT->write_configuration( $d );
 			$vmLogger->info( $VM_LANG->_('VM_CONFIGURATION_CHANGE_SUCCESS',false) );
 		}
 		else {
-			$vmLogger->err( sprintf($VM_LANG->_('VM_CONFIGURATION_CHANGE_FAILURE',false) , CLASSPATH."payment/".$_PAYMENT->classname.".cfg.php" ) );
+			$vmLogger->err( sprintf($VM_LANG->_('VM_CONFIGURATION_CHANGE_FAILURE',false) , ADMINPATH."plugins/payment/".strtolower(get_class($_PAYMENT)).".cfg.php" ) );
 			return false;
 		}
 
@@ -816,9 +816,9 @@ class ps_payment_method extends vmAbstractObject {
 	 * @param string $preselected
 	 * @return string
 	 */
-	function list_available_classes( $name, $preselected='ps_payment' ) {
+	function list_available_classes( $name, $preselected='payment' ) {
 		
-		$files = vmReadDirectory( CLASSPATH."payment/", ".php", true, true);
+		$files = vmReadDirectory( ADMINPATH . "plugins/payment/", ".php$", true, true);
 		$array = array();
         foreach ($files as $file) { 
             $file_info = pathinfo($file);

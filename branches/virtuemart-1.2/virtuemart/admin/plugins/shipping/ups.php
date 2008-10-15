@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage shipping
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -35,7 +35,7 @@ class ups {
 		$cart = $_SESSION['cart'];
 
 		/** Read current Configuration ***/
-		require_once(CLASSPATH ."shipping/".__CLASS__.".cfg.php");
+		require_once(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php");
 
 		$q  = "SELECT * FROM #__{vm}_user_info, #__{vm}_country WHERE user_info_id='" . $d["ship_to_info_id"]."' AND ( country=country_2_code OR country=country_3_code)";
 		$db->query($q);
@@ -184,7 +184,7 @@ class ups {
 
 			if( $error ) {
 				// Switch to StandardShipping on Error !!!
-				require_once( CLASSPATH . 'shipping/standard_shipping.php' );
+				require_once( ADMINPATH . 'plugins/shipping/standard_shipping.php' );
 				$shipping =& new standard_shipping();
 				$shipping->list_rates( $d );
 				return;
@@ -283,7 +283,7 @@ class ups {
 				Please make sure you have entered a valid shipping address.
 				Or choose a rate below." );
 				// Switch to StandardShipping on Error !!!
-				require_once( CLASSPATH . 'shipping/standard_shipping.php' );
+				require_once(ADMINPATH . 'plugins/shipping/standard_shipping.php' );
 				$shipping =& new standard_shipping();
 				$shipping->list_rates( $d );*/
 				return;
@@ -353,7 +353,7 @@ class ups {
 					$charge *= $taxrate;
 					$value['TransportationCharges'] = $CURRENCY_DISPLAY->getFullValue($charge);
 				}
-				$shipping_rate_id = urlencode(__CLASS__."|UPS|".$value['ServiceName']."|".$charge);
+				$shipping_rate_id = urlencode(ADMINPATH."plugins/shipping/".__CLASS__."|UPS|".$value['ServiceName']."|".$charge);
 				$checked = (@$d["shipping_rate_id"] == $value) ? "checked=\"checked\"" : "";
 				if (count($shipment) == 1 ) {
 					$checked = "checked=\"checked\"";
@@ -416,7 +416,7 @@ class ups {
 	function get_tax_rate() {
 
 		/** Read current Configuration ***/
-		require_once(CLASSPATH ."shipping/".__CLASS__.".cfg.php");
+		require_once(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php");
 
 		if( intval(UPS_TAX_CLASS)== 0 ) {
 			return( 0 );
@@ -452,7 +452,7 @@ class ups {
 
 		global $VM_LANG;
 		/** Read current Configuration ***/
-		require_once(CLASSPATH ."shipping/".__CLASS__.".cfg.php");
+		require_once(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php");
     ?>
       <table class="adminform">
     <tr class="row0">
@@ -703,7 +703,7 @@ class ups {
   * @returns boolean True when the configuration file is writeable, false when not
   */
 	function configfile_writeable() {
-		return is_writeable( CLASSPATH."shipping/".__CLASS__.".cfg.php" );
+		return is_writeable( ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php" );
 	}
 
 	/**
@@ -764,7 +764,7 @@ class ups {
 
 		$config .= "?>";
 
-		if ($fp = fopen(CLASSPATH ."shipping/".__CLASS__.".cfg.php", "w")) {
+		if ($fp = fopen(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php", "w")) {
 			fputs($fp, $config, strlen($config));
 			fclose ($fp);
 			$vmLogger->info( 'The configuration has been updated.' );

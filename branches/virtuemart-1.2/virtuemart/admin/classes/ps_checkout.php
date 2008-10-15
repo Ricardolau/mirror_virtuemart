@@ -57,7 +57,7 @@ class ps_checkout {
 		
 		if( $vendor_freeshipping > 0 && $vars['order_subtotal_withtax'] >= $vendor_freeshipping) {
 			$PSHOP_SHIPPING_MODULES = Array( "free_shipping" );
-			include_once( CLASSPATH. "shipping/free_shipping.php" );
+			include_once( ADMINPATH . "plugins/shipping/free_shipping.php" );
 			$this->_SHIPPING = new free_shipping();
 		}
 		elseif( !empty( $_REQUEST['shipping_rate_id'] )) {
@@ -67,8 +67,8 @@ class ps_checkout {
 			// which holds the Class Name of the Shipping Module
 			$rate_array = explode( "|", urldecode(vmGet($_REQUEST,"shipping_rate_id")) );
 			$filename = basename( $rate_array[0] );
-			if( $filename != '' && file_exists(CLASSPATH. "shipping/".$filename.".php")) {
-				include_once( CLASSPATH. "shipping/".$filename.".php" );
+			if( $filename != '' && file_exists(ADMINPATH . "plugins/shipping/".$filename.".php")) {
+				include_once( ADMINPATH . "plugins/shipping/".$filename.".php" );
 				if( class_exists($filename) ) {
 					$this->_SHIPPING =& new $filename();
 				}
@@ -937,9 +937,9 @@ Order Total: '.$order_total.'
 		$payment_class = $ps_payment_method->get_field($d["payment_method_id"], "payment_class");
 		$enable_processor = $ps_payment_method->get_field($d["payment_method_id"], "enable_processor");
 
-		if (file_exists(CLASSPATH . "payment/$payment_class.php") ) {
+		if (file_exists(ADMINPATH . "plugins/payment/$payment_class.php") ) {
 			if( !class_exists( $payment_class )) {
-				include( CLASSPATH. "payment/$payment_class.php" );
+				include( ADMINPATH . "plugins/payment/$payment_class.php" );
 			}
 
 			$_PAYMENT = new $payment_class();
@@ -1668,10 +1668,10 @@ Order Total: '.$order_total.'
 		$payment_class = $ps_payment_method->get_field($payment_method_id, "payment_class");
 
 		// Check to see if Payment Class File exists
-		if (file_exists(CLASSPATH . "payment/$payment_class.php") ) {
+		if (file_exists(ADMINPATH . "plugins/$payment_class.php") ) {
 
-			require_once( CLASSPATH. "payment/$payment_class.php" );
-			eval( "\$_PAYMENT = new $payment_class();" );
+			require_once( ADMINPATH . "plugins/$payment_class.php" );
+			$_PAYMENT = new $payment_class();
 
 			if(is_callable(array($payment_class, 'get_payment_rate'))) {
 				return $_PAYMENT->get_payment_rate($subtotal);

@@ -65,11 +65,11 @@ class ps_order {
 				$db->query( $q );
 				$db->next_record();
 				$payment_class = $db->f("payment_class");
-				if( $payment_class=="ps_authorize" ) {
-					require_once( CLASSPATH."payment/ps_authorize.cfg.php");
+				if( $payment_class=="authorize" ) {
+					require_once( ADMINPATH . "plugins/payment/authorize.cfg.php");
 					if( AN_TYPE == 'AUTH_ONLY' ) {
-						require_once( CLASSPATH."payment/ps_authorize.php");
-						$authorize = new ps_authorize();
+						require_once( ADMINPATH . "plugins/payment/authorize.php");
+						$authorize = new authorize();
 						$d["order_number"] = $db->f("order_number");
 						if( !$authorize->capture_payment( $d )) {
 							return false;
@@ -98,11 +98,11 @@ class ps_order {
 				$db->query( $q );
 				$db->next_record();
 				$payment_class = $db->f("payment_class");
-				if( $payment_class=="ps_pfp" ) {
-					require_once( CLASSPATH."payment/ps_pfp.cfg.php");
+				if( $payment_class=="payflow_pro" ) {
+					require_once( ADMINPATH . "plugins/payment/payflow_pro.cfg.php");
 					if( PFP_TYPE == 'A' ) {
-						require_once( CLASSPATH."payment/ps_pfp.php");
-						$pfp = new ps_pfp();
+						require_once( ADMINPATH . "plugins/payment/payflow_pro.php");
+						$pfp = new payflow_pro();
 						$d["order_number"] = $db->f("order_number");
 						if( !$pfp->capture_payment( $d )) {
 							return false;
@@ -127,11 +127,11 @@ class ps_order {
 				$db->query( $q );
 				$db->next_record();
 				$payment_class = $db->f("payment_class");
-				if( $payment_class=="ps_pfp" ) {
-					require_once( CLASSPATH."payment/ps_pfp.cfg.php");
+				if( $payment_class=="payflow_pro" ) {
+					require_once(ADMINPATH . "plugins/payment/payflow_pro.cfg.php");
 					if( PFP_TYPE == 'A' ) {
-						require_once( CLASSPATH."payment/ps_pfp.php");
-						$pfp = new ps_pfp();
+						require_once( ADMINPATH . "plugins/payment/payflow_pro.php");
+						$pfp = new payflow_pro();
 						$d["order_number"] = $db->f("order_number");
 						if( !$pfp->void_authorization( $d )) {
 							return false;

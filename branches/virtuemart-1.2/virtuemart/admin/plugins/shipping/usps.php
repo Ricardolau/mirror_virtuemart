@@ -5,11 +5,12 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 *  Code updated to work with multiple shipping options and
 *  updated for May 2007 changes by USPS.
 *
-* @version $Id: usps.php,v 3.0 2007/06/21 by Corey Koltz
-* Original code by Soeren Eberhardt
+* @version $Id$ 
+* @author Corey Koltz
+* @author  Soeren Eberhardt-Biermann
 * @package VirtueMart
 * @subpackage shipping
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -36,7 +37,7 @@ class usps {
 		$dbc = new ps_DB;
 
 		/** Read current Configuration ***/
-		require_once(CLASSPATH ."shipping/".__CLASS__.".cfg.php");
+		require_once(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php");
 
 		$q  = "SELECT * FROM `#__{vm}_user_info`, `#__{vm}_country` WHERE user_info_id='" . $db->getEscaped($d["ship_to_info_id"])."' AND ( country=country_2_code OR country=country_3_code)";
 		$db->query($q);
@@ -272,7 +273,7 @@ class usps {
 					// comment out, if you don't want the Errors to be shown!!
 					//$vmLogger->err( $html );
 					// Switch to StandardShipping on Error !!!
-					//require_once( CLASSPATH . 'shipping/standard_shipping.php' );
+					//require_once( ADMINPATH . 'plugins/shipping/standard_shipping.php' );
 					//$shipping =& new standard_shipping();
 					//$shipping->list_rates( $d );
 					echo "We are unable to ship USPS as the there was an error,<br> please select another shipping method.";
@@ -443,7 +444,7 @@ class usps {
 					// comment out, if you don't want the Errors to be shown!!
 					//$vmLogger->err( $html );
 					// Switch to StandardShipping on Error !!!
-					//require_once( CLASSPATH . 'shipping/standard_shipping.php' );
+					//require_once( ADMINPATH . 'plugins/shipping/standard_shipping.php' );
 					//$shipping =& new standard_shipping();
 					//$shipping->list_rates( $d );
 					//return;
@@ -534,7 +535,7 @@ class usps {
 			$charge[$i] = $ship_postage[$i];
 			$ship_postage[$i] = $CURRENCY_DISPLAY->getFullValue($charge[$i]);
 
-			$shipping_rate_id = urlencode(__CLASS__."|USPS|".$ship_service[$i]."|".$charge[$i]);
+			$shipping_rate_id = urlencode(ADMINPATH."plugins/shipping/".__CLASS__."|USPS|".$ship_service[$i]."|".$charge[$i]);
 			//$checked = (@$d["shipping_rate_id"] == $value) ? "checked=\"checked\"" : "";
 			$html .= "\n<input type=\"radio\" name=\"shipping_rate_id\" checked=\"checked\" value=\"$shipping_rate_id\" id=\"$shipping_rate_id\" />\n";
 
@@ -577,7 +578,7 @@ class usps {
 	function get_tax_rate() {
 
 		/** Read current Configuration ***/
-		require_once(CLASSPATH ."shipping/".__CLASS__.".cfg.php");
+		require_once(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php");
 
 		if( intval(USPS_TAX_CLASS)== 0 )
 		return( 0 );
@@ -612,7 +613,7 @@ class usps {
 
 		global $VM_LANG;
 		/** Read current Configuration ***/
-		require_once(CLASSPATH ."shipping/".__CLASS__.".cfg.php");
+		require_once(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php");
     ?>
 <table>
 	<tr>
@@ -620,7 +621,7 @@ class usps {
 		<td><input type="text" name="USPS_USERNAME" class="inputbox"
 			value="<?php echo USPS_USERNAME ?>" /></td>
 		<td>
-          <?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_USERNAME_TOOLTIP')) ?>
+          <?php echo vmToolTip($VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_USERNAME_TOOLTIP')) ?>
         </td>
 	</tr>
 	<tr>
@@ -629,7 +630,7 @@ class usps {
 		<td><input type="text" name="USPS_PASSWORD" class="inputbox"
 			value="<?php echo USPS_PASSWORD ?>" /></td>
 		<td>
-            <?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PASSWORD_TOOLTIP')) ?>
+            <?php echo vmToolTip($VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PASSWORD_TOOLTIP')) ?>
         </td>
 	</tr>
 	<tr>
@@ -638,7 +639,7 @@ class usps {
 		<td><input type="text" name="USPS_SERVER" class="inputbox"
 			value="<?php echo USPS_SERVER ?>" /></td>
 		<td>
-            <?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SERVER_TOOLTIP')) ?>
+            <?php echo vmToolTip($VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SERVER_TOOLTIP')) ?>
         </td>
 	</tr>
 	<tr>
@@ -647,7 +648,7 @@ class usps {
 		<td><input type="text" name="USPS_PATH" class="inputbox"
 			value="<?php echo USPS_PATH ?>" /></td>
 		<td>
-            <?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PATH_TOOLTIP')) ?>
+            <?php echo vmToolTip($VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PATH_TOOLTIP')) ?>
         </td>
 	</tr>
 	<tr>
@@ -662,7 +663,7 @@ class usps {
 				<?php if (USPS_PACKAGESIZE == 'OVERSIZE') echo "selected=\"selected\""; ?>>Oversize</option>
 		</select></td>
 		<td>
-            <?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGESIZE_TOOLTIP')) ?>
+            <?php echo vmToolTip($VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGESIZE_TOOLTIP')) ?>
         </td>
 	</tr>
 	<tr>
@@ -672,7 +673,7 @@ class usps {
 		  require_once(CLASSPATH.'ps_tax.php');
 		  ps_tax::list_tax_value("USPS_TAX_CLASS", USPS_TAX_CLASS) ?>
 		</td>
-		<td><?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_UPS_TAX_CLASS_TOOLTIP')) ?>
+		<td><?php echo vmToolTip($VM_LANG->_('PHPSHOP_UPS_TAX_CLASS_TOOLTIP')) ?>
 		
 		
 		
@@ -690,13 +691,13 @@ class usps {
 		<td><strong><?php echo $VM_LANG->_('PHPSHOP_USPS_HANDLING_FEE') ?></strong></td>
 		<td><input class="inputbox" TYPE="text" name="USPS_HANDLINGFEE"
 			value="<?php echo USPS_HANDLINGFEE ?>" /></td>
-		<td><?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_USPS_HANDLING_FEE_TOOLTIP')) ?></td>
+		<td><?php echo vmToolTip($VM_LANG->_('PHPSHOP_USPS_HANDLING_FEE_TOOLTIP')) ?></td>
 	</tr>
 	<tr>
 		<td><strong><?php echo $VM_LANG->_('PHPSHOP_USPS_PADDING') ?></strong></td>
 		<td><input class="inputbox" TYPE="text" name="USPS_PADDING"
 			value="<?php echo USPS_PADDING ?>" /></td>
-		<td><?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_USPS_PADDING_TOOLTIP')) ?></td>
+		<td><?php echo vmToolTip($VM_LANG->_('PHPSHOP_USPS_PADDING_TOOLTIP')) ?></td>
 	</tr>
 	<tr>
 		<td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLLBRATE') ?></strong>
@@ -704,7 +705,7 @@ class usps {
 		<td><input type="text" name="USPS_INTLLBRATE" class="inputbox"
 			value="<?php echo USPS_INTLLBRATE ?>" /></td>
 		<td>
-            <?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLLBRATE_TOOLTIP')) ?>
+            <?php echo vmToolTip($VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLLBRATE_TOOLTIP')) ?>
         </td>
 	</tr>
 	<tr>
@@ -713,7 +714,7 @@ class usps {
 		<td><input type="text" name="USPS_INTLHANDLINGFEE" class="inputbox"
 			value="<?php echo USPS_INTLHANDLINGFEE ?>" /></td>
 		<td>
-            <?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLHANDLINGFEE_TOOLTIP')) ?>
+            <?php echo vmToolTip($VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLHANDLINGFEE_TOOLTIP')) ?>
         </td>
 	</tr>
 	<tr>
@@ -724,7 +725,7 @@ class usps {
 			type="radio"
 			<?php if (USPS_MACHINABLE == 0) echo "checked=\"checked\""; ?>
 			value="0" /> No</label></td>
-		<td><?php echo mm_ToolTip(_VM_LANG_USPS_MACHINABLE_TOOLTIP) ?></td>
+		<td><?php echo vmToolTip(_VM_LANG_USPS_MACHINABLE_TOOLTIP) ?></td>
 	</tr>
 	<tr>
 		<td><strong><?php echo _VM_LANG_USPS_QUOTE ?></strong></td>
@@ -734,7 +735,7 @@ class usps {
 			name="USPS_SHOW_DELIVERY_QUOTE" type="radio"
 			<?php if (USPS_SHOW_DELIVERY_QUOTE == 0) echo "checked=\"checked\""; ?>
 			value="0" /> No</label></td>
-		<td><?php echo mm_ToolTip(_VM_LANG_USPS_QUOTE_TOOLTIP) ?></td>
+		<td><?php echo vmToolTip(_VM_LANG_USPS_QUOTE_TOOLTIP) ?></td>
 	</tr>
 	<tr>
 		<td colspan="3">
@@ -754,7 +755,7 @@ class usps {
 			name="USPS_SHIP<?php echo $i; ?>" type="radio"
 			<?php $var_name = "\$dom_option"; eval("\$var = $var_name;"); if ($var  == 0) echo "checked=\"checked\""; ?>
 			value="0" /> No</label></td>
-		<td><?php $var_name = "_VM_LANG_USPS_SHIP".$i; eval("\$var = $var_name;"); echo mm_ToolTip($var) ?></td>
+		<td><?php $var_name = "_VM_LANG_USPS_SHIP".$i; eval("\$var = $var_name;"); echo vmToolTip($var) ?></td>
 	</tr>
 	<?php $i++; ?>
 	<?php endwhile; ?> 
@@ -776,7 +777,7 @@ class usps {
 			name="USPS_INTL<?php echo $i; ?>" type="radio"
 			<?php $var_name = "\$int_option"; eval("\$var = $var_name;"); if ($var  == 0) echo "checked=\"checked\""; ?>
 			value="0" /> No</label></td>
-		<td><?php $var_name = "_VM_LANG_USPS_INTL".$i; eval("\$var = $var_name;"); echo mm_ToolTip($var) ?></td>
+		<td><?php $var_name = "_VM_LANG_USPS_INTL".$i; eval("\$var = $var_name;"); echo vmToolTip($var) ?></td>
 	</tr>
 	<?php $i++; ?>
 	<?php endwhile; ?>	
@@ -793,7 +794,7 @@ class usps {
   * @returns boolean True when the configuration file is writeable, false when not
   */
 	function configfile_writeable() {
-		return is_writeable( CLASSPATH."shipping/".__CLASS__.".cfg.php" );
+		return is_writeable( ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php" );
 	} //end function configfile_writable
 
 	/**
@@ -847,7 +848,7 @@ class usps {
 
 		$config .= "?>";
 
-		if ($fp = fopen(CLASSPATH ."shipping/".__CLASS__.".cfg.php", "w")) {
+		if ($fp = fopen(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php", "w")) {
 			fputs($fp, $config, strlen($config));
 			fclose ($fp);
 			return true;

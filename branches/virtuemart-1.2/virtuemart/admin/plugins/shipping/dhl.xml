@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <install type="shipping" version="1.2.0">	
 	<!-- $Id$-->
-	<name>DHL Shipping Module</name>
+	<name>dhl</name>
 	<author><![CDATA[Mike Durian]]></author>
 	<creationdate>January 2006</creationdate>
 	<copyright><![CDATA[Shade Tree Software]]></copyright>

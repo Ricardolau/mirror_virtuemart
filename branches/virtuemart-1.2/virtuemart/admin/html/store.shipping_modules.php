@@ -59,27 +59,27 @@ else {
       <tr class="row<?php echo $i%2 ?>"> 
         <td><?php echo( $i ); ?></td>
         <td><?php 
-          if( in_array(str_replace('.php', '', $row['filename']), $PSHOP_SHIPPING_MODULES ) )
+          if( in_array($row['name'], $PSHOP_SHIPPING_MODULES ) )
             echo "<img src=\"$mosConfig_live_site/administrator/images/tick.png\" border=\"0\" alt=\"" . $VM_LANG->_('PHPSHOP_ISSHIP_LIST_PUBLISH_LBL') . "\"  align=\"center\"/>";
         ?></td>
         <td width="19%"><?php
         echo $row["name"];
         echo "<br/>"; 
         
-        if( $row['filename'] == "zone_shipping.php" ) {
+        if( $row['name'] == "zone_shipping" ) {
         	echo "<a href=\"".$sess->url( $_SERVER['PHP_SELF']."?page=zone.zone_list" )."\">";
         }
-        elseif( $row['filename'] == "standard_shipping.php" ) {
+        elseif( $row['name'] == "standard_shipping" ) {
         	echo "<a href=\"".$sess->url( $_SERVER['PHP_SELF']."?page=shipping.rate_list.php" )."\">";
         }
-        elseif( $row['filename'] == "no_shipping.php" ) {
+        elseif( $row['name'] == "no_shipping" ) {
         	//
         }	
         else {
-              echo "<a href=\"".$sess->url( $_SERVER['PHP_SELF']."?page=store.shipping_module_form&shipping_module=".$row['filename'] )."\">";
+              echo "<a href=\"".$sess->url( $_SERVER['PHP_SELF']."?page=store.shipping_module_form&shipping_module=".$row['name'] )."\">";
         }
         
-        if( $row['filename'] != 'no_shipping.php' ) {
+        if( $row['name'] != 'no_shipping' ) {
         	echo $VM_LANG->_('PHPSHOP_ISSHIP_FORM_UPDATE_LBL')."</a>";
         }
         
@@ -87,8 +87,8 @@ else {
         </td>
         <td width="7%"><?php echo $row["version"]; ?></td>
         <td width="24%"><?php echo $row["author"]; ?></td>
-        <td width="10%"><?php echo "<a target=\"_blank\" href=\"http://".$row["authorUrl"]."\">".$row["authorUrl"]."</a>"; ?>&nbsp;</td>
-        <td width="10%"><?php echo $row["authorEmail"]; ?>&nbsp;</td>
+        <td width="10%"><?php echo "<a target=\"_blank\" href=\"http://".$row["authorurl"]."\">".$row["authorurl"]."</a>"; ?>&nbsp;</td>
+        <td width="10%"><?php echo $row["authoremail"]; ?>&nbsp;</td>
         <td width="50%"><?php echo $row["description"]; ?>&nbsp;</td>
       </tr>
   <?php 

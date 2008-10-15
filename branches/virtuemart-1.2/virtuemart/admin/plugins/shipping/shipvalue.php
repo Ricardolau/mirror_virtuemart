@@ -20,8 +20,6 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 class shipvalue {
 
-	var $classname = "shipvalue";
-
 	function list_rates( &$d ) {
 		global $total, $tax_total, $CURRENCY_DISPLAY;
 		$db =& new ps_DB;
@@ -30,7 +28,7 @@ class shipvalue {
 		$cart = $_SESSION['cart'];
 
 		/** Read current Configuration ***/
-		require_once(CLASSPATH ."shipping/".$this->classname.".cfg.php");
+		require_once(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php");
 
 		if ( $_SESSION['auth']['show_price_including_tax'] != 1 ) {
 			$taxrate = 1;
@@ -68,7 +66,7 @@ class shipvalue {
 
 		if($order_total < $base_ship1) {
 			$flat_charge1 *= $taxrate;
-			$shipping_rate_id = urlencode($this->classname."|STD|Standard Shipping under ".$base_ship1."|".$flat_charge1);
+			$shipping_rate_id = urlencode(ADMINPATH."plugins/shipping/".__CLASS__."|STD|Standard Shipping under ".$base_ship1."|".$flat_charge1);
 			$html = "";
 			$html .= "\n<input type=\"radio\" name=\"shipping_rate_id\" checked=\"checked\" value=\"$shipping_rate_id\" id=\"$shipping_rate_id\" />\n";
 			$html .= "<label for=\"$shipping_rate_id\">Standard Shipping: ".$CURRENCY_DISPLAY->getFullValue($flat_charge1).'</label>';
@@ -76,7 +74,7 @@ class shipvalue {
 		}
 		else if($order_total < $base_ship2) {
 			$flat_charge2 *= $taxrate;
-			$shipping_rate_id = urlencode($this->classname."|STD|Standard Shipping under ".$base_ship2."|".$flat_charge2);
+			$shipping_rate_id = urlencode(ADMINPATH."plugins/shipping/".__CLASS__."|STD|Standard Shipping under ".$base_ship2."|".$flat_charge2);
 			$html = "";
 			$html .= "\n<input type=\"radio\" name=\"shipping_rate_id\" checked=\"checked\" value=\"$shipping_rate_id\" id=\"$shipping_rate_id\" />\n";
 			$html .= "<label for=\"$shipping_rate_id\">Standard Shipping: ".$CURRENCY_DISPLAY->getFullValue($flat_charge2).'</label>';
@@ -84,7 +82,7 @@ class shipvalue {
 		}
 		else if($order_total < $base_ship3) {
 			$flat_charge3 *= $taxrate;
-			$shipping_rate_id = urlencode($this->classname."|STD|Standard Shipping under ".$base_ship3."|".$flat_charge3);
+			$shipping_rate_id = urlencode(ADMINPATH."plugins/shipping/".__CLASS__."|STD|Standard Shipping under ".$base_ship3."|".$flat_charge3);
 			$html = "";
 			$html .= "\n<input type=\"radio\" name=\"shipping_rate_id\" checked=\"checked\" value=\"$shipping_rate_id\" id=\"$shipping_rate_id\" />\n";
 			$html .= "<label for=\"$shipping_rate_id\">Standard Shipping: ".$CURRENCY_DISPLAY->getFullValue($flat_charge3).'</label>';
@@ -92,7 +90,7 @@ class shipvalue {
 		}
 		else if($order_total < $base_ship4) {
 			$flat_charge4 *= $taxrate;
-			$shipping_rate_id = urlencode($this->classname."|STD|Standard Shipping under ".$base_ship4."|".$flat_charge4);
+			$shipping_rate_id = urlencode(ADMINPATH."plugins/shipping/".__CLASS__."|STD|Standard Shipping under ".$base_ship4."|".$flat_charge4);
 			$html = "";
 			$html .= "\n<input type=\"radio\" name=\"shipping_rate_id\" checked=\"checked\" value=\"$shipping_rate_id\" id=\"$shipping_rate_id\" />\n";
 			$html .= "<label for=\"$shipping_rate_id\">Standard Shipping: ".$CURRENCY_DISPLAY->getFullValue($flat_charge4).'</label>';
@@ -100,7 +98,7 @@ class shipvalue {
 		}
 		else if($order_total < $base_ship5) {
 			$flat_charge5 *= $taxrate;
-			$shipping_rate_id = urlencode($this->classname."|STD|Standard Shipping under ".$base_ship5."|".$flat_charge5);
+			$shipping_rate_id = urlencode(ADMINPATH."plugins/shipping/".__CLASS__."|STD|Standard Shipping under ".$base_ship5."|".$flat_charge5);
 			$html = "";
 			$html .= "\n<input type=\"radio\" name=\"shipping_rate_id\" checked=\"checked\" value=\"$shipping_rate_id\" id=\"$shipping_rate_id\" />\n";
 			$html .= "<label for=\"$shipping_rate_id\">Standard Shipping: ".$CURRENCY_DISPLAY->getFullValue($flat_charge5).'</label>';
@@ -108,7 +106,7 @@ class shipvalue {
 		}
 		else if($order_total < $base_ship6) {
 			$flat_charge6 *= $taxrate;
-			$shipping_rate_id = urlencode($this->classname."|STD|Standard Shipping under ".$base_ship6."|".$flat_charge6);
+			$shipping_rate_id = urlencode(ADMINPATH."plugins/shipping/".__CLASS__."|STD|Standard Shipping under ".$base_ship6."|".$flat_charge6);
 			$html = "";
 			$html .= "\n<input type=\"radio\" name=\"shipping_rate_id\" checked=\"checked\" value=\"$shipping_rate_id\" id=\"$shipping_rate_id\" />\n";
 			$html .= "<label for=\"$shipping_rate_id\">Standard Shipping: ".$CURRENCY_DISPLAY->getFullValue($flat_charge6).'</label>';
@@ -116,7 +114,7 @@ class shipvalue {
 		}
 		else if($order_total < $base_ship7) {
 			$flat_charge7 *= $taxrate;
-			$shipping_rate_id = urlencode($this->classname."|STD|Standard Shipping under ".$base_ship7."|".$flat_charge7);
+			$shipping_rate_id = urlencode(ADMINPATH."plugins/shipping/".__CLASS__."|STD|Standard Shipping under ".$base_ship7."|".$flat_charge7);
 			$html = "";
 			$html .= "\n<input type=\"radio\" name=\"shipping_rate_id\" checked=\"checked\" value=\"$shipping_rate_id\" id=\"$shipping_rate_id\" />\n";
 			$html .= "<label for=\"$shipping_rate_id\">Standard Shipping: ".$CURRENCY_DISPLAY->getFullValue($flat_charge7).'</label>';
@@ -124,7 +122,7 @@ class shipvalue {
 		}
 		else if($order_total < $base_ship8) {
 			$flat_charge8 *= $taxrate;
-			$shipping_rate_id = urlencode($this->classname."|STD|Standard Shipping under ".$base_ship8."|".$flat_charge8);
+			$shipping_rate_id = urlencode(ADMINPATH."plugins/shipping/".__CLASS__."|STD|Standard Shipping under ".$base_ship8."|".$flat_charge8);
 			$html = "";
 			$html .= "\n<input type=\"radio\" name=\"shipping_rate_id\" checked=\"checked\" value=\"$shipping_rate_id\" id=\"$shipping_rate_id\" />\n";
 			$html .= "<label for=\"$shipping_rate_id\">Standard Shipping: ".$CURRENCY_DISPLAY->getFullValue($flat_charge8).'</label>';
@@ -132,7 +130,7 @@ class shipvalue {
 		}
 		else if($order_total < $base_ship9) {
 			$flat_charge9 *= $taxrate;
-			$shipping_rate_id = urlencode($this->classname."|STD|Standard Shipping under ".$base_ship9."|".$flat_charge9);
+			$shipping_rate_id = urlencode(ADMINPATH."plugins/shipping/".__CLASS__."|STD|Standard Shipping under ".$base_ship9."|".$flat_charge9);
 			$html = "";
 			$html .= "\n<input type=\"radio\" name=\"shipping_rate_id\" checked=\"checked\" value=\"$shipping_rate_id\" id=\"$shipping_rate_id\" />\n";
 			$html .= "<label for=\"$shipping_rate_id\">Standard Shipping: ".$CURRENCY_DISPLAY->getFullValue($flat_charge9).'</label>';
@@ -140,7 +138,7 @@ class shipvalue {
 		}
 		else if($order_total < $base_ship10) {
 			$flat_charge10 *= $taxrate;
-			$shipping_rate_id = urlencode($this->classname."|STD|Standard Shipping under ".$base_ship10."|".$flat_charge10);
+			$shipping_rate_id = urlencode(ADMINPATH."plugins/shipping/".__CLASS__."|STD|Standard Shipping under ".$base_ship10."|".$flat_charge10);
 			$html = "";
 			$html .= "\n<input type=\"radio\" name=\"shipping_rate_id\" checked=\"checked\" value=\"$shipping_rate_id\" id=\"$shipping_rate_id\" />\n";
 			$html .= "<label for=\"$shipping_rate_id\">Standard Shipping: ".$CURRENCY_DISPLAY->getFullValue($flat_charge10).'</label>';
@@ -167,7 +165,7 @@ class shipvalue {
 	function get_tax_rate() {
 
 		/** Read current Configuration ***/
-		require_once(CLASSPATH ."shipping/".$this->classname.".cfg.php");
+		require_once(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php");
 
 		if( intval(SHIPVALUE_TAX_CLASS)== 0 )
 		return( 0 );
@@ -197,7 +195,7 @@ class shipvalue {
 	function show_configuration() {
 		global $VM_LANG;
 		/** Read current Configuration ***/
-		require_once(CLASSPATH ."shipping/".__CLASS__.".cfg.php");
+		require_once(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php");
     ?>
       <table>
     <tr>
@@ -352,7 +350,7 @@ class shipvalue {
   * @returns boolean True when the configuration file is writeable, false when not
   */
 	function configfile_writeable() {
-		return is_writeable( CLASSPATH."shipping/".$this->classname.".cfg.php" );
+		return is_writeable( ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php" );
 	}
 
 	/**
@@ -392,7 +390,7 @@ class shipvalue {
 
 		$config .= "?>";
 
-		if ($fp = fopen(CLASSPATH ."shipping/".$this->classname.".cfg.php", "w")) {
+		if ($fp = fopen(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php", "w")) {
 			fputs($fp, $config, strlen($config));
 			fclose ($fp);
 			return true;

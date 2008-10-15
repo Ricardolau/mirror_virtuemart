@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -17,7 +17,6 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 
 class ps_shipping {
-	var $classname = "ps_shipping";
 
 	/**
 	 * Validate onCarrierAdd
@@ -330,13 +329,12 @@ class ps_shipping {
 		return True;
 	}
 
-	/**************************************************************************
-	* name: rate_add()
-	* created by: Ekkehard Domning
-	* description: creates a new rate entry
-	* parameters:
-	* returns:
-	**************************************************************************/
+	/**
+	 * Creates a new rate record
+	 *
+	 * @param array $d
+	 * @return boolean
+	 */
 	function rate_add(&$d) {
 		$db = new ps_DB;
 		$timestamp = time();
@@ -378,13 +376,12 @@ class ps_shipping {
 		return True;
 	}
 
-	/**************************************************************************
-	* name: rate_update()
-	* created by: Ekkehard Domning
-	* description: updates a rate entry
-	* parameters:
-	* returns:
-	**************************************************************************/
+	/**
+	 * Updates a rate entry
+	 *
+	 * @param array $d
+	 * @return boolean
+	 */
 	function rate_update(&$d) {
 		$db = new ps_DB;
 

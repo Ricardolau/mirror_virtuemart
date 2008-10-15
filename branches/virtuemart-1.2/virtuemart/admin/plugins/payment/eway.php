@@ -33,7 +33,7 @@ class eway {
         $db = new ps_DB();
         
         /** Read current Configuration ***/
-        include_once(CLASSPATH ."payment/".__CLASS__.".cfg.php");
+        include_once(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php");
     ?>
     <table>
         <tr>
@@ -124,7 +124,7 @@ class eway {
 	* @returns boolean True when the configuration file is writeable, false when not
 	*/
    function configfile_writeable() {
-      return is_writeable( CLASSPATH."payment/".__CLASS__.".cfg.php" );
+      return is_writeable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
    }
    
   /**
@@ -133,7 +133,7 @@ class eway {
 	* @returns boolean True when the configuration file is writeable, false when not
 	*/
    function configfile_readable() {
-      return is_readable( CLASSPATH."payment/".__CLASS__.".cfg.php" );
+      return is_readable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
    }
    
   /**
@@ -157,7 +157,7 @@ class eway {
       
       $config .= "?>";
   
-      if ($fp = fopen(CLASSPATH ."payment/".__CLASS__.".cfg.php", "w")) {
+      if ($fp = fopen(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php", "w")) {
           fputs($fp, $config, strlen($config));
           fclose ($fp);
           return true;
@@ -175,7 +175,7 @@ class eway {
         $auth = $_SESSION['auth'];
         
         /*** Get the Configuration File for eway ***/
-        require_once(CLASSPATH ."payment/".__CLASS__.".cfg.php");
+        require_once(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php");
         
         /* eWAY Gateway Location (URI) */
         if( EWAY_TEST_REQUEST == "FALSE" )

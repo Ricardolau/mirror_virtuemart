@@ -45,9 +45,9 @@ if ($cc_payments==true) {
 		            $db_cc->reset();
 		            $payment_class = $db_cc->f("payment_class");
 		            $require_cvv_code = "YES";
-		            if(file_exists(CLASSPATH."payment/$payment_class.php") && file_exists(CLASSPATH."payment/$payment_class.cfg.php")) {
-		                require_once(CLASSPATH."payment/$payment_class.php");
-		                require_once(CLASSPATH."payment/$payment_class.cfg.php");
+		            if(file_exists(ADMINPATH. "plugins/payment/$payment_class.php") && file_exists(ADMINPATH. "plugins/payment/$payment_class.cfg.php")) {
+		                require_once(ADMINPATH. "plugins/payment/$payment_class.php");
+		                require_once(ADMINPATH. "plugins/payment/$payment_class.cfg.php");
 		                $_PAYMENT = new $payment_class();
 		                if( defined( $_PAYMENT->payment_code.'_CHECK_CARD_CODE' ) ) {
 		                	$require_cvv_code = strtoupper( constant($_PAYMENT->payment_code.'_CHECK_CARD_CODE') );

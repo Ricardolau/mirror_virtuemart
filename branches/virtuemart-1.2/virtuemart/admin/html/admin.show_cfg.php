@@ -855,16 +855,10 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_ADMIN_CFG_SITE'), "site-page");
         <?php 
         echo ps_html::list_themes( 'conf_THEME', basename(VM_THEMEURL) );
 
-        if( $vmLayout == 'standard') {
-	        $link = $sess->url( $_SERVER['PHP_SELF'].'?page=admin.theme_config_form&amp;theme='.basename(VM_THEMEURL) );
-	        $text = $VM_LANG->_('PHPSHOP_CONFIG');
-			echo vmCommonHTML::hyperlink($link, $VM_LANG->_('PHPSHOP_CONFIG') );
-		} else {
-	        $link = $sess->url( $_SERVER['PHP_SELF'].'?page=admin.theme_config_form&amp;theme='.basename(VM_THEMEURL).'&amp;no_menu=1' );
-	        $text = $VM_LANG->_('PHPSHOP_CONFIG');
-			echo vmCommonHTML::hyperLink($link, $text, '', 'Edit: '.$text, 'onclick="parent.addSimplePanel( \''.$db->getEscaped($text).'\', \''.$link.'\' );return false;"');
-		}
-        
+        $link = $sess->url( $_SERVER['PHP_SELF'].'?page=admin.theme_config_form&amp;theme='.basename(VM_THEMEURL).'&amp;no_menu=1' );
+        $text = $VM_LANG->_('PHPSHOP_CONFIG');
+		echo vmCommonHTML::hyperLink($link, $text, '', 'Edit: '.$text, 'onclick="parent.addSimplePanel( \''.$db->getEscaped($text).'\', \''.$link.'\' );return false;"');
+	       
         ?>
         </td>
         <td><?php echo vmToolTip( $VM_LANG->_('VM_SELECT_THEME_TIP') ) ?></td>
@@ -926,10 +920,11 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_ADMIN_CFG_SITE'), "site-page");
 	    <?php
     }
     else {
-    	echo '<strong>Dynamic Image Resizing is not available. The GD library seems to be missing.</strong>';
+    	echo '<tr>
+	        <td colspan="3"><strong>Dynamic Image Resizing is not available. The GD library seems to be missing.</strong>';
     	echo '<input type="hidden" name="conf_PSHOP_IMG_RESIZE_ENABLE" value="0" />';
     	echo '<input type="hidden" name="conf_PSHOP_IMG_WIDTH" value="'. PSHOP_IMG_WIDTH .'" />';
-    	echo '<input type="hidden" name="conf_PSHOP_IMG_HEIGHT" value="'. PSHOP_IMG_HEIGHT .'" />';
+    	echo '<input type="hidden" name="conf_PSHOP_IMG_HEIGHT" value="'. PSHOP_IMG_HEIGHT .'" /></td></tr>';
     }
     ?>
     
@@ -954,7 +949,10 @@ echo '<input type="hidden" name="shippingMethodCount" value="'.(count($rows)-1 )
 	<table class="adminform" onclick="validateForm();">
 <?php
 foreach( $rows as $row ) {
-    if( $row['filename'] == "standard_shipping.php" ) { ?>
+	if( empty($row )) continue;
+    switch( strtolower($row['name']) ) {
+    	case 'standard_shipping' : ?>
+    
                 <tr>
                     <td>
                         <input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" <?php if (array_search('standard_shipping', $PSHOP_SHIPPING_MODULES) !== false) echo "checked=\"checked\""; ?> value="standard_shipping" />
@@ -962,8 +960,9 @@ foreach( $rows as $row ) {
                     <td><label for="sh<?php echo $i ?>"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_STANDARD') ?></label>
                     </td>
                 </tr><?php  
-    }
-		elseif( $row['filename'] == "zone_shipping.php" ) { ?>
+    		break;
+    		
+		case 'zone_shipping': ?>
 				<tr>
                     <td valign="top">
                         <input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" <?php if (array_search('zone_shipping', $PSHOP_SHIPPING_MODULES) !== false) echo "checked=\"checked\""; ?> value="zone_shipping" />
@@ -971,8 +970,9 @@ foreach( $rows as $row ) {
                     <td><label for="sh<?php echo $i ?>"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_ZONE') ?></label>
                     </td>
                 </tr><?php  
-		}
-		elseif( $row['filename'] == "ups.php" ) { ?>
+			break;
+			
+		case 'ups': ?>
 				<tr>
                     <td>
                         <input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" <?php if (array_search('ups', $PSHOP_SHIPPING_MODULES) !== false) echo "checked=\"checked\""; ?> value="ups" />
@@ -980,8 +980,9 @@ foreach( $rows as $row ) {
                     <td><label for="sh<?php echo $i ?>"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS') ?></label>
                     </td>
                 </tr><?php  
-		}
-		elseif( $row['filename'] == "intershipper.php" ) { ?>
+			break;
+			
+		case 'intershipper': ?>
 			<tr>
                     <td>
                         <input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" <?php if (array_search('intershipper', $PSHOP_SHIPPING_MODULES) !== false) echo "checked=\"checked\""; ?> value="intershipper" />
@@ -989,8 +990,9 @@ foreach( $rows as $row ) {
                     <td><label for="sh<?php echo $i ?>"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER') ?></label>
                     </td>
                 </tr><?php  
-		}		
-		elseif( $row['filename'] == "flex.php" ) { ?>
+			break;
+			
+		case 'flex': ?>
 			<tr>
                     <td>
                         <input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" <?php if (array_search('flex', $PSHOP_SHIPPING_MODULES) !== false) echo "checked=\"checked\""; ?> value="<?php echo basename($row['filename'], ".php") ?>" />
@@ -998,8 +1000,9 @@ foreach( $rows as $row ) {
                     <td><label for="sh<?php echo $i ?>"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_FLEX') ?></label>
                     </td>
                 </tr><?php  
-		}		
-		elseif( $row['filename'] == "shipvalue.php" ) { ?>
+					break;
+			
+		case 'shipvalue': ?>
 			<tr>
                     <td>
                         <input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" <?php if (array_search('shipvalue', $PSHOP_SHIPPING_MODULES) !== false) echo "checked=\"checked\""; ?> value="<?php echo basename($row['filename'], ".php") ?>" />
@@ -1007,14 +1010,16 @@ foreach( $rows as $row ) {
                     <td><label for="sh<?php echo $i ?>"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_SHIPVALUE') ?></label>
                     </td>
                 </tr><?php  
-		}
-		elseif( $row['filename'] != "no_shipping.php" ) { ?>
+					break;
+			
+		default: ?>
 			<tr>
                 <td>
-                    <input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" <?php if (array_search(basename($row['filename'], ".php"), $PSHOP_SHIPPING_MODULES) !== false) echo "checked=\"checked\""; ?> value="<?php echo basename($row['filename'], ".php") ?>" />
+                    <input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" <?php if (array_search($row['name'], $PSHOP_SHIPPING_MODULES) !== false) echo "checked=\"checked\""; ?> value="<?php echo $row['name'] ?>" />
                 </td>
                 <td><label for="sh<?php echo $i ?>"><?php echo $row["description"]; ?></label></td>
                 </tr><?php    
+                break;
 		}
 		$i++;
 }

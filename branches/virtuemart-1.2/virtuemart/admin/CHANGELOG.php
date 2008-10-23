@@ -35,6 +35,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+23.10.2008 aravot
+Added missing forum icon
+
 23.10.2008 soeren
 
 ^ updated all Shipping and Payment Modules to have their configuration parameters in XML files

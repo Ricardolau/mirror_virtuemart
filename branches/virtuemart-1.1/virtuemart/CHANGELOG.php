@@ -35,6 +35,8 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+23.10.2008 aravot
+Added missing forum icon
 
 13.10.2008 aravot
 # Task #2305 - VM1.1.2 frontend order layout broken

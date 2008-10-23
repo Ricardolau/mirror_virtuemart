@@ -28,16 +28,27 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 *
 * @copyright (C) 2005 E-Z E
 */
-class usps {
+class plgShippingUsps extends vmShippingPlugin {
+	/**
+	 * Constructor
+	 *
+	 * For php4 compatability we must not use the __constructor as a constructor for plugins
+	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
+	 * This causes problems with cross-referencing necessary for the observer design pattern.
+	 *
+	 * @param object $subject The object to observe
+	 * @param array  $config  An array that holds the plugin configuration
+	 * @since 1.2.0
+	 */
+	function plgShippingUsps( & $subject, $config ) {
+		parent::__construct( $subject, $config ) ;
+	}
 
-	function list_rates( &$d ) {
+	function get_shipping_rate_list( &$d ) {
 		global $VM_LANG, $CURRENCY_DISPLAY, $mosConfig_absolute_path;
 		$db = new ps_DB;
 		$dbv = new ps_DB;
 		$dbc = new ps_DB;
-
-		/** Read current Configuration ***/
-		require_once(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php");
 
 		$q  = "SELECT * FROM `#__{vm}_user_info`, `#__{vm}_country` WHERE user_info_id='" . $db->getEscaped($d["ship_to_info_id"])."' AND ( country=country_2_code OR country=country_3_code)";
 		$db->query($q);
@@ -52,28 +63,28 @@ class usps {
 		if($order_weight > 0) {
 
 			//USPS Username
-			$usps_username = USPS_USERNAME;
+			$usps_username = $this->params->get('USPS_USERNAME');
 
 			//USPS Password
-			$usps_password = USPS_PASSWORD;
+			$usps_password = $this->params->get('USPS_PASSWORD');
 
 			//USPS Server
-			$usps_server = USPS_SERVER;
+			$usps_server = $this->params->get('USPS_SERVER');
 
 			//USPS Path
-			$usps_path = USPS_PATH;
+			$usps_path = $this->params->get('USPS_PATH');
 
 			//USPS package size
-			$usps_packagesize = USPS_PACKAGESIZE;
+			$usps_packagesize = $this->params->get('USPS_PACKAGESIZE');
 
 			//USPS Package ID
 			$usps_packageid = 0;
 
 			//USPS International Per Pound Rate
-			$usps_intllbrate = USPS_INTLLBRATE;
+			$usps_intllbrate = $this->params->get('USPS_INTLLBRATE');
 
 			//USPS International handling fee
-			$usps_intlhandlingfee = USPS_INTLHANDLINGFEE;
+			$usps_intlhandlingfee = $this->params->get('USPS_INTLHANDLINGFEE');
 
 			//Pad the shipping weight to allow weight for shipping materials
 			$usps_padding = USPS_PADDING;
@@ -81,39 +92,18 @@ class usps {
 			$order_weight = ($order_weight * $usps_padding) + $order_weight;
 			
 			//USPS Machinable for Parcel Post
-			$usps_machinable = USPS_MACHINABLE;
+			$usps_machinable = $this->params->get('USPS_MACHINABLE');
 			if ($usps_machinable == '1') $usps_machinable = 'TRUE';
 			else $usps_machinable = 'FALSE';
 			
 			//USPS Shipping Options to display
-			$usps_ship[0] = USPS_SHIP0;
-			$usps_ship[1] = USPS_SHIP1;
-			$usps_ship[2] = USPS_SHIP2;
-			$usps_ship[3] = USPS_SHIP3;
-			$usps_ship[4] = USPS_SHIP4;
-			$usps_ship[5] = USPS_SHIP5;
-			$usps_ship[6] = USPS_SHIP6;
-			$usps_ship[7] = USPS_SHIP7;
-			$usps_ship[8] = USPS_SHIP8;
-			$usps_ship[9] = USPS_SHIP9;
-			$usps_ship[10] = USPS_SHIP10;
-			foreach ($usps_ship as $key => $value){
-				if ($value == '1') $usps_ship[$key] = 'TRUE';
-				else $usps_ship[$key] = 'FALSE';
+			for( $i=0; $i <= 10; $i++ ) {
+				if ($this->params->get('USPS_SHIP'.$i) == '1') $usps_ship[$i] = 'TRUE';
+				else $usps_ship[$i] = 'FALSE';
 			}
-			$usps_intl[0] = USPS_INTL0;
-			$usps_intl[1] = USPS_INTL1;
-			$usps_intl[2] = USPS_INTL2;
-			$usps_intl[3] = USPS_INTL3;
-			$usps_intl[4] = USPS_INTL4;
-			$usps_intl[5] = USPS_INTL5;
-			$usps_intl[6] = USPS_INTL6;
-			$usps_intl[7] = USPS_INTL7;
-			$usps_intl[8] = USPS_INTL8;
-			// $usps_intl[9] = USPS_INTL9;
-			foreach ($usps_intl as $key => $value){
-				if ($value == '1') $usps_intl[$key] = 'TRUE';
-				else $usps_intl[$key] = 'FALSE';
+			for( $i=0; $i <= 8; $i++ ) {
+				if ($this->params->get('USPS_INTL'.$i) == '1') $usps_intl[$i] = 'TRUE';
+				else $usps_intl[$i] = 'FALSE';
 			}
 			//Title for your request
 			$request_title = "Shipping Estimate";
@@ -199,7 +189,7 @@ class usps {
 					$error = curl_error( $CR );
 					if( !empty( $error )) {
 						$vmLogger->err( curl_error( $CR ) );
-						$html = "<br/><span class=\"message\">".$VM_LANG->_('PHPSHOP_INTERNAL_ERROR')." USPS.com</span>";
+						$vmLogger->info( $VM_LANG->_('PHPSHOP_INTERNAL_ERROR')." USPS.com" );
 						$error = true;
 					}
 					else {
@@ -210,17 +200,17 @@ class usps {
 						/* Let's check wether the response from USPS is Success or Failure ! */
 						if( strstr( $xmlResult, "Error" ) ) {
 							$error = true;
-							$html = "<span class=\"message\">".$VM_LANG->_('PHPSHOP_USPS_RESPONSE_ERROR')."</span><br/>";
+							
 							$error_code = $xmlDoc->getElementsByTagName( "Number" );
 							$error_code = $error_code->item(0);
 							$error_code = $error_code->getText();
-							$html .= $VM_LANG->_('PHPSHOP_ERROR_CODE').": ".$error_code."<br/>";
+							$message = $VM_LANG->_('PHPSHOP_ERROR_CODE').": ".$error_code.". ";
 
 							$error_desc = $xmlDoc->getElementsByTagName( "Description" );
 							$error_desc = $error_desc->item(0);
 							$error_desc = $error_desc->getText();
-							$html .= $VM_LANG->_('PHPSHOP_ERROR_DESC').": ".$error_desc."<br/>";
-
+							$message .= $VM_LANG->_('PHPSHOP_ERROR_DESC').": ".$error_desc;
+							$vmLogger->err( $message );
 						}
 					}
 					curl_close( $CR );
@@ -230,7 +220,7 @@ class usps {
 					$fp = fsockopen($protocol."://".$host, $errno, $errstr, $timeout = 60);
 					if( !$fp ) {
 						$error = true;
-						$html = $VM_LANG->_('PHPSHOP_INTERNAL_ERROR').": $errstr ($errno)";
+						$vmLogger->debug( $VM_LANG->_('PHPSHOP_INTERNAL_ERROR').": $errstr ($errno)");
 					}
 					else {
 						//send the server request
@@ -254,21 +244,12 @@ class usps {
 							
 						}
 						else {
-							$html = "Error processing the Request to USPS.com";
+							$vmLogger->err("Error processing the Request to USPS.com");
 							$error = true;
 						}
 					}
 
 				}
-				if (DEBUG){
-					echo "XML Post: <br>";
-					echo "<textarea cols='80'>".$protocol."://".$host.$path."?".$xmlPost."</textarea>";
-					echo "<br>";
-					echo "XML Result: <br>";
-					echo "<textarea cols='80' rows='10'>".$xmlResult."</textarea>";
-					echo "<br>";
-					echo "Cart Contents: ".$order_weight. " ".$weight_measure."<br><br>\n";
-	  			}
 				if( $error ) {
 					// comment out, if you don't want the Errors to be shown!!
 					//$vmLogger->err( $html );
@@ -276,8 +257,8 @@ class usps {
 					//require_once( ADMINPATH . 'plugins/shipping/standard_shipping.php' );
 					//$shipping =& new standard_shipping();
 					//$shipping->list_rates( $d );
-					echo "We are unable to ship USPS as the there was an error,<br> please select another shipping method.";
-					return;
+					$vmLogger->debug("We are unable to ship USPS as the there was an error,<br> please select another shipping method.");
+					return false;
 				}
 				// Domestic shipping - add how long it might take
 				$ship_commit[0]="1 - 2 Days";
@@ -320,10 +301,10 @@ class usps {
 					$ship_postage[$i] = $xmlDoc->getElementsByTagName( 'Rate' );
 					$ship_postage[$i] = $ship_postage[$i]->item($i);
 					$ship_postage[$i] = $ship_postage[$i]->getText();
-					if (preg_match('/%$/',USPS_HANDLINGFEE)) {
-					  $ship_postage[$i] = $ship_postage[$i] * (1+substr(USPS_HANDLINGFEE,0,-1)/100);
+					if (preg_match('/%$/',$this->params->get('USPS_HANDLINGFEE'))) {
+					  $ship_postage[$i] = $ship_postage[$i] * (1+substr($this->params->get('USPS_HANDLINGFEE'),0,-1)/100);
 					} else {
-					  $ship_postage[$i] = $ship_postage[$i] + USPS_HANDLINGFEE;
+					  $ship_postage[$i] = $ship_postage[$i] + $this->params->get('USPS_HANDLINGFEE');
 					}
 
 
@@ -368,7 +349,7 @@ class usps {
 					$error = curl_error( $CR );
 					if( !empty( $error )) {
 						$vmLogger->err( curl_error( $CR ) );
-						$html = "<br/><span class=\"message\">".$VM_LANG->_('PHPSHOP_INTERNAL_ERROR')." USPS.com</span>";
+						$vmLogger->info($VM_LANG->_('PHPSHOP_INTERNAL_ERROR')." USPS.com" );
 						$error = true;
 					}
 					else {
@@ -380,16 +361,16 @@ class usps {
 						/* Let's check wether the response from USPS is Success or Failure ! */
 						if( strstr( $xmlResult, "Error" ) ) {
 							$error = true;
-							$html = "<span class=\"message\">".$VM_LANG->_('PHPSHOP_USPS_RESPONSE_ERROR')."</span><br/>";
 							$error_code = $xmlDoc->getElementsByTagName( "Number" );
 							$error_code = $error_code->item(0);
 							$error_code = $error_code->getText();
-							$html .= $VM_LANG->_('PHPSHOP_ERROR_CODE').": ".$error_code."<br/>";
+							$message = $VM_LANG->_('PHPSHOP_ERROR_CODE').": ".$error_code.". ";
 
 							$error_desc = $xmlDoc->getElementsByTagName( "Description" );
 							$error_desc = $error_desc->item(0);
 							$error_desc = $error_desc->getText();
-							$html .= $VM_LANG->_('PHPSHOP_ERROR_DESC').": ".$error_desc."<br/>";
+							$message .= $VM_LANG->_('PHPSHOP_ERROR_DESC').": ".$error_desc.".";
+							$vmLogger->debug ($message );
 
 						}
 
@@ -402,7 +383,7 @@ class usps {
 					$fp = fsockopen($protocol."://".$host, $errno, $errstr, $timeout = 60);
 					if( !$fp ) {
 						$error = true;
-						$html = $VM_LANG->_('PHPSHOP_INTERNAL_ERROR').": $errstr ($errno)";
+						$vmLogger->debug( $VM_LANG->_('PHPSHOP_INTERNAL_ERROR').": $errstr ($errno)");
 					}
 					else {
 						//send the server request
@@ -425,30 +406,17 @@ class usps {
 							$error = false;
 						}
 						else {
-							$html = "Error processing the Request to USPS.com";
+							$vmLogger->info("Error processing the Request to USPS.com");
 							$error = true;
 						}
 					}
 
 				}
-				if (DEBUG){
-					echo "XML Post: <br>";
-					echo "<textarea cols='80'>".$protocol."://".$host.$path."?".$xmlPost."</textarea>";
-					echo "<br>";
-					echo "XML Result: <br>";
-					echo "<textarea cols='80' rows='10'>".$xmlResult."</textarea>";
-					echo "<br>";
-					echo "Cart Contents: ".$order_weight. " ".$weight_measure."<br><br>\n";
-	  			}
+
 				if( $error ) {
-					// comment out, if you don't want the Errors to be shown!!
-					//$vmLogger->err( $html );
-					// Switch to StandardShipping on Error !!!
-					//require_once( ADMINPATH . 'plugins/shipping/standard_shipping.php' );
-					//$shipping =& new standard_shipping();
-					//$shipping->list_rates( $d );
-					//return;
-					echo "We are unable to ship USPS as there was an error,<br> please select another shipping method.";
+
+					$vmLogger->info( "We are unable to ship USPS as there was an error,<br> please select another shipping method.");
+					return false;
 				}
 				// retrieve the service and postage items
 				$i = 0;
@@ -506,7 +474,7 @@ class usps {
 						$count = 0;
 					}
 				else { 
-					echo "We are unable to ship USPS as the package weight exceeds what your<br>country allows, please select another shipping method.";
+					$vmLogger->info("We are unable to ship USPS as the package weight exceeds what your country allows, please select another shipping method.");
 				}
 				$i = 0;
 				while ($i <= $numChildren) {
@@ -530,33 +498,28 @@ class usps {
 			}
 			$i = 0;
 			while ($i <= $count) {
-			$html = "";
-			// USPS returns Charges in USD.
-			$charge[$i] = $ship_postage[$i];
-			$ship_postage[$i] = $CURRENCY_DISPLAY->getFullValue($charge[$i]);
+				$returnArr = array();
+				// USPS returns Charges in USD.
+				$charge[$i] = $ship_postage[$i];
+	
+				$shipping_rate_id = urlencode($this->_name."|USPS|".$ship_service[$i]."|".$charge[$i]);	
+				$_SESSION[$shipping_rate_id] = 1;
 
-			$shipping_rate_id = urlencode(ADMINPATH."plugins/shipping/".__CLASS__."|USPS|".$ship_service[$i]."|".$charge[$i]);
-			//$checked = (@$d["shipping_rate_id"] == $value) ? "checked=\"checked\"" : "";
-			$html .= "\n<input type=\"radio\" name=\"shipping_rate_id\" checked=\"checked\" value=\"$shipping_rate_id\" id=\"$shipping_rate_id\" />\n";
+				$delivery_date = '';
+				if ($this->params->get('USPS_SHOW_DELIVERY_QUOTE') == 1) {
+					$delivery_date = $ship_commit[$i];
+				}
+				if( ($dest_country_name == "United States" && $usps_ship[$i] == "TRUE")
+					|| ($dest_country_name != "United States" && $usps_intl[$i] == "TRUE")) {
+					$returnArr[] = array('shipping_rate_id' => $shipping_rate_id,
+													'carrier' => 'USPS',
+													'rate_name' => $ship_service[$i],
+													'rate' => $charge[$i],
+													'delivery_date' => $delivery_date
+												);
+				}
+				$i++;
 
-			$_SESSION[$shipping_rate_id] = 1;
-
-			$html .= "<label for=\"$shipping_rate_id\">";
-			$html .= "USPS ".$ship_service[$i]." ";
-			
-			$html .= "<strong>(".$ship_postage[$i].")</strong>";
-			if (USPS_SHOW_DELIVERY_QUOTE == 1) {
-				$html .= "&nbsp;&nbsp;-&nbsp;&nbsp;".$ship_commit[$i];
-			}
-			$html .= "</label>";
-			$html .= "<br />";
-			if ($dest_country_name == "United States" && $usps_ship[$i] == "TRUE") {
-				echo $html;
-			}
-			else if ($dest_country_name != "United States" && $usps_intl[$i] == "TRUE") {
-				echo $html;
-			}
-			$i++;
 			}
 		}
 		}
@@ -564,7 +527,7 @@ class usps {
 	} //end function list_rates
 
 
-	function get_rate( &$d ) {
+	function get_shipping_rate( &$d ) {
 
 		$shipping_rate_id = $d["shipping_rate_id"];
 		$is_arr = explode("|", urldecode(urldecode($shipping_rate_id)) );
@@ -572,321 +535,19 @@ class usps {
 
 		return $order_shipping;
 
-	} //end function get_rate
+	} //end function get_shipping_rate
 
 
-	function get_tax_rate() {
+	function get_shippingtax_rate() {
 
-		/** Read current Configuration ***/
-		require_once(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php");
-
-		if( intval(USPS_TAX_CLASS)== 0 )
+		if( intval($this->params->get('USPS_TAX_CLASS'))== 0 )
 		return( 0 );
 		else {
 			require_once( CLASSPATH. "ps_tax.php" );
-			$tax_rate = ps_tax::get_taxrate_by_id( intval(USPS_TAX_CLASS) );
+			$tax_rate = ps_tax::get_taxrate_by_id( intval($this->params->get('USPS_TAX_CLASS')) );
 			return $tax_rate;
 		}
 	}
 
-	/**
-    * Validate this Shipping method by checking if the SESSION contains the key
-    * @returns boolean False when the Shipping method is not in the SESSION
-    */
-	function validate( $d ) {
-
-		$shipping_rate_id = $d["shipping_rate_id"];
-
-		if( array_key_exists( $shipping_rate_id, $_SESSION )) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	} //end function validate
-
-	/**
-    * Show all configuration parameters for this Shipping method
-    * @returns boolean False when the Shipping method has no configration
-    */
-	function show_configuration() {
-
-		global $VM_LANG;
-		/** Read current Configuration ***/
-		require_once(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php");
-    ?>
-<table>
-	<tr>
-		<td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_USERNAME') ?></strong></td>
-		<td><input type="text" name="USPS_USERNAME" class="inputbox"
-			value="<?php echo USPS_USERNAME ?>" /></td>
-		<td>
-          <?php echo vmToolTip($VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_USERNAME_TOOLTIP')) ?>
-        </td>
-	</tr>
-	<tr>
-		<td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PASSWORD') ?></strong>
-		</td>
-		<td><input type="text" name="USPS_PASSWORD" class="inputbox"
-			value="<?php echo USPS_PASSWORD ?>" /></td>
-		<td>
-            <?php echo vmToolTip($VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PASSWORD_TOOLTIP')) ?>
-        </td>
-	</tr>
-	<tr>
-		<td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SERVER') ?></strong>
-		</td>
-		<td><input type="text" name="USPS_SERVER" class="inputbox"
-			value="<?php echo USPS_SERVER ?>" /></td>
-		<td>
-            <?php echo vmToolTip($VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_SERVER_TOOLTIP')) ?>
-        </td>
-	</tr>
-	<tr>
-		<td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PATH') ?></strong>
-		</td>
-		<td><input type="text" name="USPS_PATH" class="inputbox"
-			value="<?php echo USPS_PATH ?>" /></td>
-		<td>
-            <?php echo vmToolTip($VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PATH_TOOLTIP')) ?>
-        </td>
-	</tr>
-	<tr>
-		<td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGESIZE') ?></strong>
-		</td>
-		<td><select name="USPS_PACKAGESIZE">
-			<option value="REGULAR"
-				<?php if (USPS_PACKAGESIZE == 'REGULAR') echo "selected=\"selected\""; ?>>Regular</option>
-			<option value="LARGE"
-				<?php if (USPS_PACKAGESIZE == 'LARGE') echo "selected=\"selected\""; ?>>Large</option>
-			<option value="OVERSIZE"
-				<?php if (USPS_PACKAGESIZE == 'OVERSIZE') echo "selected=\"selected\""; ?>>Oversize</option>
-		</select></td>
-		<td>
-            <?php echo vmToolTip($VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_PACKAGESIZE_TOOLTIP')) ?>
-        </td>
-	</tr>
-	<tr>
-		<td><strong><?php echo $VM_LANG->_('PHPSHOP_UPS_TAX_CLASS') ?></strong></td>
-		<td>
-		  <?php
-		  require_once(CLASSPATH.'ps_tax.php');
-		  ps_tax::list_tax_value("USPS_TAX_CLASS", USPS_TAX_CLASS) ?>
-		</td>
-		<td><?php echo vmToolTip($VM_LANG->_('PHPSHOP_UPS_TAX_CLASS_TOOLTIP')) ?>
-		
-		
-		
-		
-		
-		<td>
-	
-	</tr>
-	<tr>
-		<TD colspan="3">
-		<HR />
-		</td>
-	</tr>
-	<tr>
-		<td><strong><?php echo $VM_LANG->_('PHPSHOP_USPS_HANDLING_FEE') ?></strong></td>
-		<td><input class="inputbox" TYPE="text" name="USPS_HANDLINGFEE"
-			value="<?php echo USPS_HANDLINGFEE ?>" /></td>
-		<td><?php echo vmToolTip($VM_LANG->_('PHPSHOP_USPS_HANDLING_FEE_TOOLTIP')) ?></td>
-	</tr>
-	<tr>
-		<td><strong><?php echo $VM_LANG->_('PHPSHOP_USPS_PADDING') ?></strong></td>
-		<td><input class="inputbox" TYPE="text" name="USPS_PADDING"
-			value="<?php echo USPS_PADDING ?>" /></td>
-		<td><?php echo vmToolTip($VM_LANG->_('PHPSHOP_USPS_PADDING_TOOLTIP')) ?></td>
-	</tr>
-	<tr>
-		<td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLLBRATE') ?></strong>
-		</td>
-		<td><input type="text" name="USPS_INTLLBRATE" class="inputbox"
-			value="<?php echo USPS_INTLLBRATE ?>" /></td>
-		<td>
-            <?php echo vmToolTip($VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLLBRATE_TOOLTIP')) ?>
-        </td>
-	</tr>
-	<tr>
-		<td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLHANDLINGFEE') ?></strong>
-		</td>
-		<td><input type="text" name="USPS_INTLHANDLINGFEE" class="inputbox"
-			value="<?php echo USPS_INTLHANDLINGFEE ?>" /></td>
-		<td>
-            <?php echo vmToolTip($VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_USPS_INTLHANDLINGFEE_TOOLTIP')) ?>
-        </td>
-	</tr>
-	<tr>
-		<td><strong><?php echo _VM_LANG_USPS_MACHINABLE ?></strong></td>
-		<td><label> <input name="USPS_MACHINABLE" type="radio"
-			<?php if (USPS_MACHINABLE == 1) echo "checked=\"checked\""; ?>
-			value="1" /> Yes</label> <label> <input name="USPS_MACHINABLE"
-			type="radio"
-			<?php if (USPS_MACHINABLE == 0) echo "checked=\"checked\""; ?>
-			value="0" /> No</label></td>
-		<td><?php echo vmToolTip(_VM_LANG_USPS_MACHINABLE_TOOLTIP) ?></td>
-	</tr>
-	<tr>
-		<td><strong><?php echo _VM_LANG_USPS_QUOTE ?></strong></td>
-		<td><label> <input name="USPS_SHOW_DELIVERY_QUOTE" type="radio"
-			<?php if (USPS_SHOW_DELIVERY_QUOTE == 1) echo "checked=\"checked\""; ?>
-			value="1" /> Yes</label> <label> <input
-			name="USPS_SHOW_DELIVERY_QUOTE" type="radio"
-			<?php if (USPS_SHOW_DELIVERY_QUOTE == 0) echo "checked=\"checked\""; ?>
-			value="0" /> No</label></td>
-		<td><?php echo vmToolTip(_VM_LANG_USPS_QUOTE_TOOLTIP) ?></td>
-	</tr>
-	<tr>
-		<td colspan="3">
-		<hr><?php echo _VM_LANG_USPS_SHIP; ?><hr>
-		</td>
-	</tr>
-	<!-- added for new shipping rate V2 code ... Domestic Shipping-->
-	<?php $count = 10; $i = 0; ?> 
-	<?php while ($i <= $count): 
-	$dom_option = constant("USPS_SHIP".$i);
-	?>
-	<tr>
-		<td><strong><?php $var_name = "_VM_LANG_USPS_SHIP$i"; eval("\$var = $var_name;"); echo $var; ?></strong></td>
-		<td><label> <input name="USPS_SHIP<?php echo $i; ?>" type="radio"
-			<?php $var_name = "\$dom_option"; eval("\$var = $var_name;"); if ($var  == 1) echo "checked=\"checked\""; ?>
-			value="1" /> Yes</label> <label> <input
-			name="USPS_SHIP<?php echo $i; ?>" type="radio"
-			<?php $var_name = "\$dom_option"; eval("\$var = $var_name;"); if ($var  == 0) echo "checked=\"checked\""; ?>
-			value="0" /> No</label></td>
-		<td><?php $var_name = "_VM_LANG_USPS_SHIP".$i; eval("\$var = $var_name;"); echo vmToolTip($var) ?></td>
-	</tr>
-	<?php $i++; ?>
-	<?php endwhile; ?> 
-	<tr>
-		<td colspan="3">
-		<hr><?php echo _VM_LANG_USPS_INTL; ?><hr>
-		</td>
-	</tr>
-	<!-- added for new shipping rate V2 code ... International Shipping -->
-	<?php $count = 8; $i = 0; ?>
-	<?php while ($i <= $count): 
-	$int_option = constant("USPS_INTL".$i);
-	?>
-	<tr>
-		<td><strong><?php $var_name = "_VM_LANG_USPS_INTL$i"; eval("\$var = $var_name;"); echo $var; ?></strong></td>
-		<td><label> <input name="USPS_INTL<?php echo $i; ?>" type="radio"
-			<?php $var_name = "\$int_option"; eval("\$var = $var_name;"); if ($var  == 1) echo "checked=\"checked\""; ?>
-			value="1" /> Yes</label> <label> <input
-			name="USPS_INTL<?php echo $i; ?>" type="radio"
-			<?php $var_name = "\$int_option"; eval("\$var = $var_name;"); if ($var  == 0) echo "checked=\"checked\""; ?>
-			value="0" /> No</label></td>
-		<td><?php $var_name = "_VM_LANG_USPS_INTL".$i; eval("\$var = $var_name;"); echo vmToolTip($var) ?></td>
-	</tr>
-	<?php $i++; ?>
-	<?php endwhile; ?>	
-	
-	</table>
-<?php
-   // return false if there's no configuration
-   return true;
-	} //end function show_configuration
-
-	/**
-  * Returns the "is_writeable" status of the configuration file
-  * @param void
-  * @returns boolean True when the configuration file is writeable, false when not
-  */
-	function configfile_writeable() {
-		return is_writeable( ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php" );
-	} //end function configfile_writable
-
-	/**
-	* Writes the configuration file for this shipping method
-	* @param array An array of objects
-	* @returns boolean True when writing was successful
-	*/
-	function write_configuration( &$d ) {
-	    global $vmLogger;
-		
-		$my_config_array = array("USPS_USERNAME" => vmGet( $d, 'USPS_USERNAME' ),
-		"USPS_PASSWORD" => vmGet( $d, 'USPS_PASSWORD' ),
-		"USPS_SERVER" => vmGet( $d, 'USPS_SERVER' ),
-		"USPS_PATH" => vmGet( $d, 'USPS_PATH' ),
-		"USPS_PACKAGESIZE" => vmGet( $d, 'USPS_PACKAGESIZE' ),
-		"USPS_TAX_CLASS" => vmGet( $d, 'USPS_TAX_CLASS' ),
-		"USPS_HANDLINGFEE" => vmGet( $d, 'USPS_HANDLINGFEE' ),
-		"USPS_PADDING" => vmGet( $d, 'USPS_PADDING' ),
-		"USPS_INTLLBRATE" => vmGet( $d, 'USPS_INTLLBRATE' ),
-		"USPS_INTLHANDLINGFEE" => vmGet( $d, 'USPS_INTLHANDLINGFEE' ),
-		"USPS_MACHINABLE" => vmGet( $d, 'USPS_MACHINABLE' ),
-		"USPS_SHOW_DELIVERY_QUOTE" => vmGet( $d, 'USPS_SHOW_DELIVERY_QUOTE' ),
-		"USPS_SHIP0" => vmGet( $d, 'USPS_SHIP0' ),
-		"USPS_SHIP1" => vmGet( $d, 'USPS_SHIP1' ),
-		"USPS_SHIP2" => vmGet( $d, 'USPS_SHIP2' ),
-		"USPS_SHIP3" => vmGet( $d, 'USPS_SHIP3' ),
-		"USPS_SHIP4" => vmGet( $d, 'USPS_SHIP4' ),
-		"USPS_SHIP5" => vmGet( $d, 'USPS_SHIP5' ),
-		"USPS_SHIP6" => vmGet( $d, 'USPS_SHIP6' ),
-		"USPS_SHIP7" => vmGet( $d, 'USPS_SHIP7' ),
-		"USPS_SHIP8" => vmGet( $d, 'USPS_SHIP8' ),
-		"USPS_SHIP9" => vmGet( $d, 'USPS_SHIP9' ),
-		"USPS_SHIP10" => vmGet( $d, 'USPS_SHIP10' ),
-		"USPS_INTL0" => vmGet( $d, 'USPS_INTL0' ),
-		"USPS_INTL1" => vmGet( $d, 'USPS_INTL1' ),
-		"USPS_INTL2" => vmGet( $d, 'USPS_INTL2' ),
-		"USPS_INTL3" => vmGet( $d, 'USPS_INTL3' ),
-		"USPS_INTL4" => vmGet( $d, 'USPS_INTL4' ),
-		"USPS_INTL5" => vmGet( $d, 'USPS_INTL5' ),
-		"USPS_INTL6" => vmGet( $d, 'USPS_INTL6' ),
-		"USPS_INTL7" => vmGet( $d, 'USPS_INTL7' ),
-		"USPS_INTL8" => vmGet( $d, 'USPS_INTL8' ),
-		//"USPS_INTL9" => vmGet( $d, 'USPS_INTL9']
-		);
-		$config = "<?php\n";
-		$config .= "if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); \n\n";
-		foreach( $my_config_array as $key => $value ) {
-			$value = str_replace("'", "\'", $value );
-			$config .= "define ('$key', '$value');\n";
-		}
-
-		$config .= "?>";
-
-		if ($fp = fopen(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php", "w")) {
-			fputs($fp, $config, strlen($config));
-			fclose ($fp);
-			return true;
-		}
-		else {
-			$vmLogger->err( "Error writing to configuration file" );
-			return false;
-		}
-	} //end function write_configuration
-
 }
-
-define( '_VM_LANG_USPS_MACHINABLE', 'Machinable Packages?' );
-define( '_VM_LANG_USPS_MACHINABLE_TOOLTIP', 'Can packages be processed on the machine?' );
-define( '_VM_LANG_USPS_QUOTE', 'Show Delivery Days Quote?' );
-define( '_VM_LANG_USPS_QUOTE_TOOLTIP', 'Show Delivery Days Quote?' );
-define( '_VM_LANG_USPS_SHIP', 'Domestic Shipping Options' );
-define( '_VM_LANG_USPS_PADDING_TOOLTIP', 'Pad the shipping weight to allow weight for shipping materials' );
-define( '_VM_LANG_USPS_SHIP0', 'USPS Express Mail PO to PO' );
-define( '_VM_LANG_USPS_SHIP1', 'USPS Express Mail' );
-define( '_VM_LANG_USPS_SHIP2', 'USPS Express Mail Flat-Rate Envelope' );
-define( '_VM_LANG_USPS_SHIP3', 'USPS Priority Mail' );
-define( '_VM_LANG_USPS_SHIP4', 'USPS Priority Mail Flat Rate Envelope' );
-define( '_VM_LANG_USPS_SHIP5', 'USPS Priority Mail Flat Rate Box' );
-define( '_VM_LANG_USPS_SHIP6', 'USPS First-Class Mail' );
-define( '_VM_LANG_USPS_SHIP7', 'USPS Parcel Post' );
-define( '_VM_LANG_USPS_SHIP8', 'USPS Bound Printed Matter' );
-define( '_VM_LANG_USPS_SHIP9', 'USPS Media Mail' );
-define( '_VM_LANG_USPS_SHIP10', 'USPS Library Mail' );
-define( '_VM_LANG_USPS_INTL', 'International Shipping Options' );
-define( '_VM_LANG_USPS_INTL0', 'USPS Global Express Guaranteed' );
-define( '_VM_LANG_USPS_INTL1', 'USPS Global Express Guaranteed Non-Document Rectangular' );
-define( '_VM_LANG_USPS_INTL2', 'USPS Global Express Non-Rectangular' );
-define( '_VM_LANG_USPS_INTL3', 'USPS Express Mail International (EMS)' );
-define( '_VM_LANG_USPS_INTL4', 'USPS Express Mail International (EMS) Flat Rate Envelope' );
-define( '_VM_LANG_USPS_INTL5', 'USPS Priority Mail International' );
-define( '_VM_LANG_USPS_INTL6', 'USPS Priority Mail International Flat Rate Envelope' );
-define( '_VM_LANG_USPS_INTL7', 'USPS Priority Mail International Flat Rate Box' );
-define( '_VM_LANG_USPS_INTL8', 'USPS First-Class Mail International' );
-//define( '_VM_LANG_USPS_INTL9', 'Currently Not Used - Do Not Select' );
 ?>

@@ -52,6 +52,7 @@ if (!file_exists( $mosConfig_absolute_path.'/administrator/components/com_virtue
                             'admin.user_field_list',
 							'store.payment_method_list',
                             'store.export_list',
+                            'admin.plugin_list'
 						);
 	// The list of pages with their functions that allow batch deletion
 	$allowsListDeletion = Array(
@@ -94,7 +95,7 @@ if (!file_exists( $mosConfig_absolute_path.'/administrator/components/com_virtue
 	
 	// Pages which don't allow new items to be created
 	$noNewItem = array( 'order.order_list', 
-										'store.shipping_module_list' );
+										'admin.plugin_list' );
 	//  Forms Toolbar
 	if ( stristr($page, 'form') || $page == 'admin.show_cfg' || $page == 'affiliate.affiliate_add' ) {
 			

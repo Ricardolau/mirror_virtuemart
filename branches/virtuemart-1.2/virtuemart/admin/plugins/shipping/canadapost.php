@@ -48,7 +48,7 @@ function fetchValue( &$xmldoc, $path ) {
 	return is_object( $e ) ? $e->getValue() : "" ;
 }
 
-class canadapost {
+class plgShippingCanadapost extends vmShippingPlugin {
 	
 	var $debug = false ;
 	
@@ -73,15 +73,23 @@ class canadapost {
 	var $to_country = "" ;
 	var $to_postal_code = "" ;
 	
-	function CanadaPost() {
-		require_once (ADMINPATH."plugins/shipping/".__CLASS__ . ".cfg.php") ;
+	/**
+	 * Constructor
+	 *
+	 * For php4 compatibility we must not use the __constructor as a constructor for plugins
+	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
+	 * This causes problems with cross-referencing necessary for the observer design pattern.
+	 *
+	 * @param object $subject The object to observe
+	 * @param array  $config  An array that holds the plugin configuration
+	 * @since 1.2.0
+	 */
+	function plgShippingCanadapost( & $subject, $config ) {
+		parent::__construct( $subject, $config ) ;
 		
-		if( defined( 'CP_SERVER' ) )
-			$this->server = CP_SERVER ;
-		if( defined( 'CP_PORT' ) )
-			$this->port = CP_PORT ;
-		if( defined( 'MERCHANT_CPCID' ) )
-			$this->merchant_cpcid = MERCHANT_CPCID ;
+		$this->server = $this->params->get('CP_SERVER') ;
+		$this->port = $this->params->get('CP_PORT') ;
+		$this->merchant_cpcid = $this->params->get('MERCHANT_CPCID') ;
 		$this->_initRequestXML() ;
 	}
 	
@@ -167,12 +175,10 @@ class canadapost {
 		}
 	}
 	
-	function list_rates( &$d ) {
+	function get_shipping_rate_list( &$d ) {
 		global $VM_LANG, $CURRENCY_DISPLAY ;
 		
 		$d["ship_to_info_id"] = vmGet( $_REQUEST, "ship_to_info_id" ) ;
-		/** Read current Configuration ***/
-		require_once (ADMINPATH."plugins/shipping/".__CLASS__ . ".cfg.php") ;
 		
 		$dbst = new ps_DB( ) ;
 		$q = "SELECT * from #__{vm}_user_info, #__{vm}_country WHERE user_info_id='" . $d["ship_to_info_id"] . "' AND ( country=country_2_code OR country=country_3_code)" ;
@@ -194,7 +200,6 @@ class canadapost {
 		
 		$this->getQuote( urlencode( $dbst->f( "city" ) ), urlencode( $dbst->f( "country_2_code" ) == "US" ? $dbst->f( "state" ) : "" ), $dbst->f( "country_2_code" ), $dbst->f( "zip" ) ) ;
 		
-		$shipping_rate_id = urlencode( vmGet( $_REQUEST, "shipping_rate_id" ) ) ;
 		$i = 0 ;
 		if( ! $this->error ) {
 			?>
@@ -209,91 +214,56 @@ class canadapost {
 			echo $VM_LANG->_( 'VM_CANADAPOST_FORM_HANDLING_LBL' ) ?><sup>2</sup></th>
 	</tr>
       <?php
+      		$returnArr = array();
 			foreach( $this->shipping_methods as $m ) {
 				
-				$value = urlencode( $this->classname . "|" . $m["name"] . "|" . $m["deliveryDate"] . "|" . $m["rate"] ) ;
-				$_SESSION[urlencode( $this->classname . "|" . $m["name"] . "|" . $m["deliveryDate"] . "|" . $m["rate"] )] = 1 ;
-				
-				if( $i ++ % 2 )
-					$class = "sectiontableentry1" ;
-				else
-					$class = "sectiontableentry2" ;
-				
-				$checked = ($shipping_rate_id == $value) ? "checked=\"checked\"" : "" ;
+				$shipping_rate_id = urlencode( $this->_name . "|" . $m["name"] . "|" . $m["deliveryDate"] . "|" . $m["rate"] ) ;
+				$_SESSION[$shipping_rate_id] = 1 ;
 				
 				// formatting of the shipping date returned by Canada Post
-				$str = $m["deliveryDate"] ;
-				if( ($timestamp = strtotime( $str )) === - 1 ) {
-					$str = html_entity_decode( $m["deliveryDate"] ) ;
+				$delivery_date = $m["deliveryDate"] ;
+				if( ($timestamp = strtotime( $delivery_date )) === - 1 ) {
+					$delivery_date = html_entity_decode( $m["deliveryDate"] ) ;
 				} else {
 					if( $VM_LANG->_( 'VM_CANADAPOST_SEND_LANGUAGE_CODE' ) == "FR" ) {
-						setlocale( LC_ALL, 'fr' ) ;
-						$str = strftime( '%A %d %B %Y', $timestamp ) ;
-					} else {
-						setlocale( LC_ALL, 'en' ) ;
-						$str = strftime( '%A, %B %d %Y', $timestamp ) ;
+						setlocale( LC_TIME, 'fr' ) ;
+						$delivery_date = strftime( '%A %d %B %Y', $timestamp ) ;
+					} else {						
+						$delivery_date = vmFormatDate( $timestamp ) ;
 					}
 				}
-				
+
 				// Adding taxes to the rates returned by Canada Post
 				// First : add the federal tax (FT) to the shipping rate -> R * (1+FT%) = R1
 				// Second : add the provincial tax (PT) to the rate R1 -> R1 * (1+PT%) = R2
-				$R1 = $m["rate"] * (1 + (CP_FEDERAL_TAX / 100)) ;
-				$R2 = $R1 * (1 + (CP_PROVINCIAL_TAX / 100)) ;
-				?>
-			<tr class=<?php
-				echo $class ;
-				?>>
-		<td><?php
-				print "<input type=\"radio\" name=\"shipping_rate_id\" $checked value=\"$value\" />\n" ;
-				?></td>
-		<td><?php
-				print html_entity_decode( $m["name"] ) ;
-				?></td>
-		<td align="center"><?php
-				print $str ;
-				?></td>
-		<td align="right"><?php
-				echo $CURRENCY_DISPLAY->getFullValue( $R2 ) ;
-				?></td>
-	</tr>
-	<tr>
-		<td colspan="4" bgcolor="#cccccc"><img src="/pics/blank.gif" width="1"
-			height="1" border="0"></td>
-	</tr>
-<?php
-			} // foreach
-			
+				$R1 = $m["rate"] * (1 + ($this->params->get('CP_FEDERAL_TAX') / 100)) ;
+				$R2 = $R1 * (1 + ($this->params->get('CP_PROVINCIAL_TAX') / 100)) ;
+				
+				$returnArr[] = array('shipping_rate_id' => $shipping_rate_id,
+									'carrier' => 'Canada Post',
+									'rate_name' =>  html_entity_decode( $m["name"] ),
+									'rate' => $R2,
+									'rate_tip' => 'Les frais d�exp�dition sont calcul�s en ajoutant les services de Postes Canada aux co�ts de manutention. Taxes incluses.',
+									'delivery_date' => $delivery_date,
+									'delivery_date_tip' => 'La date de livraison est calcul�e en ajoutant les normes de livraison de Postes Canada au d�lai d�ex�cution des commandes.',
+								);
+				
+			} // foreach			
 
 			// print "<hr>\n\n\n" ;
 			// print "Request XML:<br><form action='http://" . CP_SERVER . ":" . CP_PORT . "' method='post' target='_blank' ><textarea name='XMLRequest' style='width:100%;height:400px;background-color:#f2f2f2'>\n" . $this->xml_request . "\n\n</textarea><br><input type='submit' value='Send to Canada Post'></form>";
 			// print "<br><br>Return XML:<br><form><textarea style='width:100%;height:400px;background-color:#f2f2f2'>\n" . $this->xml_response . "\n\n</textarea></form>";
-			?>
-		<td colspan="4">
-		<?php
-			echo "<SUP>1</SUP>La date de livraison est calcul�e en ajoutant les normes de livraison de Postes Canada au d�lai d�ex�cution des commandes.<BR>" ;
-			?>
-		<?php
-			echo "<SUP>2</SUP>Les frais d�exp�dition sont calcul�s en ajoutant les services de Postes Canada aux co�ts de manutention. Taxes incluses.<BR>" ;
-			?>
-		</td>
-<?php
-			return True ;
+
+			return $returnArr ;
 		
 		} else {
-			// Switch to StandardShipping on Error !!!
-			echo html_entity_decode( $this->error_msg ) . "<br><br>" ;
-			// print "<hr>\n\n\n" ;
-			// print "Request XML:<br><form action='http://" . CP_SERVER . ":" . CP_PORT . "' method='post' target='_blank' ><textarea name='XMLRequest' style='width:100%;height:400px;background-color:#f2f2f2'>\n" . $this->xml_request . "\n\n</textarea><br><input type='submit' value='Send to Canada Post'></form>";
-			// print "<br><br>Return XML:<br><form><textarea style='width:100%;height:400px;background-color:#f2f2f2'>\n" . $this->xml_response . "\n\n</textarea></form>";
-			require_once (ADMINPATH . 'plugins/shipping/standard_shipping.php') ;
-			$shipping = & new standard_shipping( ) ;
-			$shipping->list_rates( $d ) ;
-			return ;
+			// Post the Error !!!
+			$GLOBALS['vmLogger']->err( $this->error_msg );
+			return false;
 		}
 	}
 	
-	function get_rate( &$d ) {
+	function get_shipping_rate( &$d ) {
 		$shipping_rate_id = vmGet( $_REQUEST, "shipping_rate_id" ) ;
 		$is_arr = explode( "|", urldecode( urldecode( $shipping_rate_id ) ) ) ;
 		$order_shipping = $is_arr[3] ;
@@ -301,165 +271,19 @@ class canadapost {
 		return $order_shipping ;
 	}
 	
-	function get_tax_rate() {
+	function get_shippingtax_rate() {
 		global $vars ;
 		// We have to do a trick here, because there are two tax rates
 		$total_amount = $this->get_rate( $vars ) ;
-		$R2 = $total_amount / (1 + (CP_PROVINCIAL_TAX / 100)) ;
-		$R1 = $R2 / (1 + (CP_FEDERAL_TAX / 100)) ;
+		$R2 = $total_amount / (1 + ($this->params->get('CP_PROVINCIAL_TAX') / 100)) ;
+		$R1 = $R2 / (1 + ($this->params->get('CP_FEDERAL_TAX') / 100)) ;
 		$tax_amount = $total_amount - $R1 ;
 		$tax_rate = $tax_amount / $total_amount ;
 		
 		return $tax_rate ;
 	}
+
 	
-	/**
-	 * Validate this Shipping method by checking if the SESSION contains the key
-	 * @returns boolean False when the Shipping method is not in the SESSION
-	 */
-	function validate( $d ) {
-		$shipping_rate_id = vmGet( $_REQUEST, "shipping_rate_id" ) ;
-		
-		if( array_key_exists( $shipping_rate_id, $_SESSION ) )
-			return true ;
-		else
-			return false ;
-	}
-	
-	/**
-	 * Show all configuration parameters for this Shipping method
-	 * @returns boolean False when the Shipping method has no configration
-	 */
-	function show_configuration() {
-		
-		global $VM_LANG ;
-		/** Read current Configuration ***/
-		require_once (ADMINPATH."plugins/shipping/".__CLASS__ . ".cfg.php") ;
-		
-		?>
-      <table border="0" cellspacing="0" cellpadding="0" width="100%">
-		<tr>
-			<td width="20%"><strong><?php
-		echo $VM_LANG->_( 'VM_SHIPPING_METHOD_CANADAPOST_MERCHANT_CPCID' ) ?></strong>:</td>
-			<td colspan="3" width="80%"><input type="text" name="MERCHANT_CPCID"
-				class="inputbox" value="<?php
-		echo MERCHANT_CPCID ?>" />
-			  <?php
-		echo vmToolTip( $VM_LANG->_( 'VM_SHIPPING_METHOD_CANADAPOST_MERCHANT_CPCID_EXPLAIN' ) ) ?>
-		  </td>
-		</tr>
-		<tr>
-			<td><strong><?php
-		echo $VM_LANG->_( 'VM_SHIPPING_METHOD_CANADAPOST_CP_SERVER' ) ?></strong>:
-			</td>
-			<td colspan="3"><input type="text" name="CP_SERVER" class="inputbox"
-				value="<?php
-		echo CP_SERVER ?>" />
-			  <?php
-		echo vmToolTip( $VM_LANG->_( 'VM_SHIPPING_METHOD_CANADAPOST_CP_SERVER_EXPLAIN' ) ) ?>
-			</td>
-		</tr>
-		<tr>
-			<td><strong><?php
-		echo $VM_LANG->_( 'VM_SHIPPING_METHOD_CANADAPOST_CP_PORT' ) ?></strong>:
-			</td>
-			<td colspan="3"><input type="text" name="CP_PORT" class="inputbox"
-				value="<?php
-		echo CP_PORT ?>" />
-				<?php
-		echo vmToolTip( $VM_LANG->_( 'VM_SHIPPING_METHOD_CANADAPOST_CP_PORT_EXPLAIN' ) ) ?>
-			</td>
-		</tr>
-		<tr>
-			<td><strong><?php
-		echo $VM_LANG->_( 'VM_SHIPPING_METHOD_CANADAPOST_CP_FEDERAL_TAX' ) ?></strong>:
-			</td>
-			<td colspan="3"><input type="text" name="CP_FEDERAL_TAX"
-				class="inputbox" value="<?php
-		echo CP_FEDERAL_TAX ?>" />
-				<?php
-		echo vmToolTip( $VM_LANG->_( 'VM_SHIPPING_METHOD_CANADAPOST_CP_FEDERAL_TAX_EXPLAIN' ) ) ?>
-			</td>
-		</tr>
-		<tr>
-			<td><strong><?php
-		echo $VM_LANG->_( 'VM_SHIPPING_METHOD_CANADAPOST_CP_PROVINCIAL_TAX' ) ?></strong>:
-			</td>
-			<td colspan="3"><input type="text" name="CP_PROVINCIAL_TAX"
-				class="inputbox" value="<?php
-		echo CP_PROVINCIAL_TAX ?>" />
-				<?php
-		echo vmToolTip( $VM_LANG->_( 'VM_SHIPPING_METHOD_CANADAPOST_CP_PROVINCIAL_TAX_EXPLAIN' ) ) ?>
-			</td>
-		</tr>
-		<tr>
-			<td><strong><?php
-		echo $VM_LANG->_( 'VM_SHIPPING_METHOD_CANADAPOST_ARRIVAL_DATE_EXPLAIN' ) ?></strong>:
-			</td>
-			<td colspan="3"><textarea name="CP_ARRIVAL_DATE_EXPLAIN"
-				class="inputbox" cols="50" rows="5"><?php
-		echo CP_ARRIVAL_DATE_EXPLAIN ?></textarea>
-				<?php
-		echo vmToolTip( $VM_LANG->_( 'VM_SHIPPING_METHOD_CANADAPOST_ARRIVAL_DATE_EXPLAIN_I' ) ) ?>
-			</td>
-		</tr>
-		<tr>
-			<td><strong><?php
-		echo $VM_LANG->_( 'VM_SHIPPING_METHOD_CANADAPOST_HANDLING_CHARGE_EXPLAIN' ) ?></strong>:
-			</td>
-			<td colspan="3"><textarea name="CP_HANDLING_CHARGE_EXPLAIN"
-				class="inputbox" cols="50" rows="5"><?php
-		echo CP_HANDLING_CHARGE_EXPLAIN ?></textarea>
-				<?php
-		echo vmToolTip( $VM_LANG->_( 'VM_SHIPPING_METHOD_CANADAPOST_HANDLING_CHARGE_EXPLAIN_I' ) ) ?>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="4">
-			<hr />
-			</td>
-		</tr>
-	</table>
-   <?php
-		// return false if there's no configuration
-		return true ;
-	}
-	/**
-	 * Returns the "is_writeable" status of the configuration file
-	 * @param void
-	 * @returns boolean True when the configuration file is writeable, false when not
-	 */
-	function configfile_writeable() {
-		return is_writeable( ADMINPATH."plugins/shipping/".__CLASS__ . ".cfg.php" ) ;
-	}
-	
-	/**
-	 * Writes the configuration file for this shipping method
-	 * @param array An array of objects
-	 * @returns boolean True when writing was successful
-	 */
-	function write_configuration( &$d ) {
-		
-		global $vmLogger ;
-		
-		$my_config_array = array( "MERCHANT_CPCID" => $d['MERCHANT_CPCID'] , "CP_SERVER" => $d['CP_SERVER'] , "CP_PORT" => $d['CP_PORT'] , "CP_FEDERAL_TAX" => $d['CP_FEDERAL_TAX'] , "CP_PROVINCIAL_TAX" => $d['CP_PROVINCIAL_TAX'] , "CP_ARRIVAL_DATE_EXPLAIN" => $d['CP_ARRIVAL_DATE_EXPLAIN'] , "CP_HANDLING_CHARGE_EXPLAIN" => $d['CP_HANDLING_CHARGE_EXPLAIN'] ) ;
-		$config = "<?php\n" ;
-		$config .= "if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); \n\n" ;
-		foreach( $my_config_array as $key => $value ) {
-			$config .= "define ('$key', '$value');\n" ;
-		}
-		
-		$config .= "?>" ;
-		
-		if( $fp = fopen( ADMINPATH."plugins/shipping/".__CLASS__ . ".cfg.php", "w" ) ) {
-			fputs( $fp, $config, strlen( $config ) ) ;
-			fclose( $fp ) ;
-			return true ;
-		} else {
-			$vmLogger->err( "Error writing to configuration file" ) ;
-			return false ;
-		}
-	}
 }
 
 ?>

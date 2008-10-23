@@ -106,6 +106,32 @@ class vmMainFrame {
 
 		return $new_state;
 	}
+	/**
+	 * Registers a handler to a particular event group.
+	 *
+	 * @static
+	 * @param	string	The event name.
+	 * @param	mixed	The handler, a function or an instance of a event object.
+	 * @return	void
+	 * @since 1.2.0
+	 */
+	function registerEvent($event, $handler) {
+		$dispatcher =& vmDispatcher::getInstance();
+		$dispatcher->register($event, $handler);
+	}
+	/**
+	 * Calls all handlers associated with an event group.
+	 *
+	 * @static
+	 * @param	string	The event name.
+	 * @param	array		An array of arguments.
+	 * @return	array		An array of results from each function call.
+	 * @since		1.2.0
+	 */
+	function triggerEvent($event, $args=null) {
+		$dispatcher =& vmDispatcher::getInstance();
+		return $dispatcher->trigger($event, $args);
+	}
 	 /**
 	 * Adds a linked script to the page
 	 *

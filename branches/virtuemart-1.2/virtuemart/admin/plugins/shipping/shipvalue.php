@@ -18,17 +18,28 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 *
 *******************************************************************************
 */
-class shipvalue {
+class plgShippingShipvalue extends vmShippingPlugin {
+	/**
+	 * Constructor
+	 *
+	 * For php4 compatability we must not use the __constructor as a constructor for plugins
+	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
+	 * This causes problems with cross-referencing necessary for the observer design pattern.
+	 *
+	 * @param object $subject The object to observe
+	 * @param array  $config  An array that holds the plugin configuration
+	 * @since 1.2.0
+	 */
+	function plgShippingShipvalue( & $subject, $config ) {
+		parent::__construct( $subject, $config ) ;
+	}
 
-	function list_rates( &$d ) {
+	function get_shipping_rate_list( &$d ) {
 		global $total, $tax_total, $CURRENCY_DISPLAY;
 		$db =& new ps_DB;
 		$dbv =& new ps_DB;
 
 		$cart = $_SESSION['cart'];
-
-		/** Read current Configuration ***/
-		require_once(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php");
 
 		if ( $_SESSION['auth']['show_price_including_tax'] != 1 ) {
 			$taxrate = 1;
@@ -40,118 +51,52 @@ class shipvalue {
 		}
 
 		//Define shipping value breaks
-		$base_ship1 = BASE_SHIP1;
-		$base_ship2 = BASE_SHIP2;
-		$base_ship3 = BASE_SHIP3;
-		$base_ship4 = BASE_SHIP4;
-		$base_ship5 = BASE_SHIP5;
-		$base_ship6 = BASE_SHIP6;
-		$base_ship7 = BASE_SHIP7;
-		$base_ship8 = BASE_SHIP8;
-		$base_ship9 = BASE_SHIP9;
-		$base_ship10 = BASE_SHIP10;
+		$base_ship1 = $this->params->get('BASE_SHIP1');
+		$base_ship2 = $this->params->get('BASE_SHIP2');
+		$base_ship3 = $this->params->get('BASE_SHIP3');
+		$base_ship4 = $this->params->get('BASE_SHIP4');
+		$base_ship5 = $this->params->get('BASE_SHIP5');
+		$base_ship6 = $this->params->get('BASE_SHIP6');
+		$base_ship7 = $this->params->get('BASE_SHIP7');
+		$base_ship8 = $this->params->get('BASE_SHIP8');
+		$base_ship9 = $this->params->get('BASE_SHIP9');
+		$base_ship10 = $this->params->get('BASE_SHIP10');
 
 		//Flat rate shipping charge up to minimum value
-		$flat_charge1 = BASE_CHARGE1;
-		$flat_charge2 = BASE_CHARGE2;
-		$flat_charge3 = BASE_CHARGE3;
-		$flat_charge4 = BASE_CHARGE4;
-		$flat_charge5 = BASE_CHARGE5;
-		$flat_charge6 = BASE_CHARGE6;
-		$flat_charge7 = BASE_CHARGE7;
-		$flat_charge8 = BASE_CHARGE8;
-		$flat_charge9 = BASE_CHARGE9;
-		$flat_charge10 = BASE_CHARGE10;
-
-
-		if($order_total < $base_ship1) {
-			$flat_charge1 *= $taxrate;
-			$shipping_rate_id = urlencode(ADMINPATH."plugins/shipping/".__CLASS__."|STD|Standard Shipping under ".$base_ship1."|".$flat_charge1);
-			$html = "";
-			$html .= "\n<input type=\"radio\" name=\"shipping_rate_id\" checked=\"checked\" value=\"$shipping_rate_id\" id=\"$shipping_rate_id\" />\n";
-			$html .= "<label for=\"$shipping_rate_id\">Standard Shipping: ".$CURRENCY_DISPLAY->getFullValue($flat_charge1).'</label>';
-			$_SESSION[$shipping_rate_id] = 1;
+		$flat_charge1 = $this->params->get('BASE_CHARGE1');
+		$flat_charge2 = $this->params->get('BASE_CHARGE2');
+		$flat_charge3 = $this->params->get('BASE_CHARGE3');
+		$flat_charge4 = $this->params->get('BASE_CHARGE4');
+		$flat_charge5 = $this->params->get('BASE_CHARGE5');
+		$flat_charge6 = $this->params->get('BASE_CHARGE6');
+		$flat_charge7 = $this->params->get('BASE_CHARGE7');
+		$flat_charge8 = $this->params->get('BASE_CHARGE8');
+		$flat_charge9 = $this->params->get('BASE_CHARGE9');
+		$flat_charge10 = $this->params->get('BASE_CHARGE10');
+		
+		$returnArr = array();
+		
+		for($i=1;$i <= 10;$i++) {
+			$flat_charge_varname = 'flat_charge'.$i;
+			$base_ship_varname = 'base_ship'.$i;
+			if($order_total < $$base_ship_varname) {
+				$$flat_charge_varname *= $taxrate;
+				$shipping_rate_id = urlencode($this->_name."|STD|Standard Shipping under ".$$base_ship_varname."|".$$flat_charge_varname);
+				
+				$returnArr[] = array('shipping_rate_id' => $shipping_rate_id,
+													'carrier' => 'Standard Shipping',
+													'rate_name' => "Standard Shipping under ".$$base_ship_varname,
+													'rate' => $$flat_charge_varname
+												);
+				return $returnArr;
+			}
 		}
-		else if($order_total < $base_ship2) {
-			$flat_charge2 *= $taxrate;
-			$shipping_rate_id = urlencode(ADMINPATH."plugins/shipping/".__CLASS__."|STD|Standard Shipping under ".$base_ship2."|".$flat_charge2);
-			$html = "";
-			$html .= "\n<input type=\"radio\" name=\"shipping_rate_id\" checked=\"checked\" value=\"$shipping_rate_id\" id=\"$shipping_rate_id\" />\n";
-			$html .= "<label for=\"$shipping_rate_id\">Standard Shipping: ".$CURRENCY_DISPLAY->getFullValue($flat_charge2).'</label>';
-			$_SESSION[$shipping_rate_id] = 1;
-		}
-		else if($order_total < $base_ship3) {
-			$flat_charge3 *= $taxrate;
-			$shipping_rate_id = urlencode(ADMINPATH."plugins/shipping/".__CLASS__."|STD|Standard Shipping under ".$base_ship3."|".$flat_charge3);
-			$html = "";
-			$html .= "\n<input type=\"radio\" name=\"shipping_rate_id\" checked=\"checked\" value=\"$shipping_rate_id\" id=\"$shipping_rate_id\" />\n";
-			$html .= "<label for=\"$shipping_rate_id\">Standard Shipping: ".$CURRENCY_DISPLAY->getFullValue($flat_charge3).'</label>';
-			$_SESSION[$shipping_rate_id] = 1;
-		}
-		else if($order_total < $base_ship4) {
-			$flat_charge4 *= $taxrate;
-			$shipping_rate_id = urlencode(ADMINPATH."plugins/shipping/".__CLASS__."|STD|Standard Shipping under ".$base_ship4."|".$flat_charge4);
-			$html = "";
-			$html .= "\n<input type=\"radio\" name=\"shipping_rate_id\" checked=\"checked\" value=\"$shipping_rate_id\" id=\"$shipping_rate_id\" />\n";
-			$html .= "<label for=\"$shipping_rate_id\">Standard Shipping: ".$CURRENCY_DISPLAY->getFullValue($flat_charge4).'</label>';
-			$_SESSION[$shipping_rate_id] = 1;
-		}
-		else if($order_total < $base_ship5) {
-			$flat_charge5 *= $taxrate;
-			$shipping_rate_id = urlencode(ADMINPATH."plugins/shipping/".__CLASS__."|STD|Standard Shipping under ".$base_ship5."|".$flat_charge5);
-			$html = "";
-			$html .= "\n<input type=\"radio\" name=\"shipping_rate_id\" checked=\"checked\" value=\"$shipping_rate_id\" id=\"$shipping_rate_id\" />\n";
-			$html .= "<label for=\"$shipping_rate_id\">Standard Shipping: ".$CURRENCY_DISPLAY->getFullValue($flat_charge5).'</label>';
-			$_SESSION[$shipping_rate_id] = 1;
-		}
-		else if($order_total < $base_ship6) {
-			$flat_charge6 *= $taxrate;
-			$shipping_rate_id = urlencode(ADMINPATH."plugins/shipping/".__CLASS__."|STD|Standard Shipping under ".$base_ship6."|".$flat_charge6);
-			$html = "";
-			$html .= "\n<input type=\"radio\" name=\"shipping_rate_id\" checked=\"checked\" value=\"$shipping_rate_id\" id=\"$shipping_rate_id\" />\n";
-			$html .= "<label for=\"$shipping_rate_id\">Standard Shipping: ".$CURRENCY_DISPLAY->getFullValue($flat_charge6).'</label>';
-			$_SESSION[$shipping_rate_id] = 1;
-		}
-		else if($order_total < $base_ship7) {
-			$flat_charge7 *= $taxrate;
-			$shipping_rate_id = urlencode(ADMINPATH."plugins/shipping/".__CLASS__."|STD|Standard Shipping under ".$base_ship7."|".$flat_charge7);
-			$html = "";
-			$html .= "\n<input type=\"radio\" name=\"shipping_rate_id\" checked=\"checked\" value=\"$shipping_rate_id\" id=\"$shipping_rate_id\" />\n";
-			$html .= "<label for=\"$shipping_rate_id\">Standard Shipping: ".$CURRENCY_DISPLAY->getFullValue($flat_charge7).'</label>';
-			$_SESSION[$shipping_rate_id] = 1;
-		}
-		else if($order_total < $base_ship8) {
-			$flat_charge8 *= $taxrate;
-			$shipping_rate_id = urlencode(ADMINPATH."plugins/shipping/".__CLASS__."|STD|Standard Shipping under ".$base_ship8."|".$flat_charge8);
-			$html = "";
-			$html .= "\n<input type=\"radio\" name=\"shipping_rate_id\" checked=\"checked\" value=\"$shipping_rate_id\" id=\"$shipping_rate_id\" />\n";
-			$html .= "<label for=\"$shipping_rate_id\">Standard Shipping: ".$CURRENCY_DISPLAY->getFullValue($flat_charge8).'</label>';
-			$_SESSION[$shipping_rate_id] = 1;
-		}
-		else if($order_total < $base_ship9) {
-			$flat_charge9 *= $taxrate;
-			$shipping_rate_id = urlencode(ADMINPATH."plugins/shipping/".__CLASS__."|STD|Standard Shipping under ".$base_ship9."|".$flat_charge9);
-			$html = "";
-			$html .= "\n<input type=\"radio\" name=\"shipping_rate_id\" checked=\"checked\" value=\"$shipping_rate_id\" id=\"$shipping_rate_id\" />\n";
-			$html .= "<label for=\"$shipping_rate_id\">Standard Shipping: ".$CURRENCY_DISPLAY->getFullValue($flat_charge9).'</label>';
-			$_SESSION[$shipping_rate_id] = 1;
-		}
-		else if($order_total < $base_ship10) {
-			$flat_charge10 *= $taxrate;
-			$shipping_rate_id = urlencode(ADMINPATH."plugins/shipping/".__CLASS__."|STD|Standard Shipping under ".$base_ship10."|".$flat_charge10);
-			$html = "";
-			$html .= "\n<input type=\"radio\" name=\"shipping_rate_id\" checked=\"checked\" value=\"$shipping_rate_id\" id=\"$shipping_rate_id\" />\n";
-			$html .= "<label for=\"$shipping_rate_id\">Standard Shipping: ".$CURRENCY_DISPLAY->getFullValue($flat_charge10).'</label>';
-			$_SESSION[$shipping_rate_id] = 1;
-		}
-
-		echo $html;
-		return true;
-
+		
+		return false;
 
 	}
 
-	function get_rate( &$d ) {
+	function get_shipping_rate( &$d ) {
 
 		$shipping_rate_id = $d["shipping_rate_id"];
 		$is_arr = explode("|", urldecode(urldecode($shipping_rate_id)) );
@@ -162,16 +107,13 @@ class shipvalue {
 	}
 
 
-	function get_tax_rate() {
+	function get_shippingtax_rate() {
 
-		/** Read current Configuration ***/
-		require_once(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php");
-
-		if( intval(SHIPVALUE_TAX_CLASS)== 0 )
+		if( intval($this->params->get('SHIPVALUE_TAX_CLASS'))== 0 )
 		return( 0 );
 		else {
 			require_once( CLASSPATH. "ps_tax.php" );
-			$tax_rate = ps_tax::get_taxrate_by_id( intval(SHIPVALUE_TAX_CLASS) );
+			$tax_rate = ps_tax::get_taxrate_by_id( intval($this->params->get('SHIPVALUE_TAX_CLASS')) );
 			return $tax_rate;
 		}
 	}
@@ -183,223 +125,14 @@ class shipvalue {
 
 		$shipping_rate_id = $d["shipping_rate_id"];
 
-		if( array_key_exists( $shipping_rate_id, $_SESSION ))
-		return true;
-		else
-		return false;
-	}
-	/**
-    * Show all configuration parameters for this Shipping method
-    * @returns boolean False when the Shipping method has no configration
-    */
-	function show_configuration() {
-		global $VM_LANG;
-		/** Read current Configuration ***/
-		require_once(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php");
-    ?>
-      <table>
-    <tr>
-        <td><strong>Order total value 1:</strong></td>
-		<td>
-            <input type="text" name="BASE_SHIP1" class="inputbox" value="<?php echo BASE_SHIP1 ?>" />
-		</td>
-        <td><strong>Shipping charge 1:</strong></td>
-		<td>
-            <input type="text" name="BASE_CHARGE1" class="inputbox" value="<?php echo BASE_CHARGE1 ?>" />
-		</td>
-		<td>
-        <?php echo vmToolTip("Shipping charge 1 will apply to order values less than Order total value 1.") ?>
-        </td>
-    </tr>
-    <tr>
-        <td><strong>Order total value 2:</strong></td>
-		<td>
-            <input type="text" name="BASE_SHIP2" class="inputbox" value="<?php echo BASE_SHIP2 ?>" />
-		</td>
-        <td><strong>Shipping charge 2:</strong></td>
-		<td>
-            <input type="text" name="BASE_CHARGE2" class="inputbox" value="<?php echo BASE_CHARGE2 ?>" />
-		</td>
-		<td>
-        <?php echo vmToolTip("Shipping charge 2 will apply to order values less than Order total value 2.") ?>
-        </td>
-    </tr>
-    <tr>
-        <td><strong>Order total value 3:</strong></td>
-		<td>
-            <input type="text" name="BASE_SHIP3" class="inputbox" value="<?php echo BASE_SHIP3 ?>" />
-		</td>
-        <td><strong>Shipping charge 3:</strong></td>
-		<td>
-            <input type="text" name="BASE_CHARGE3" class="inputbox" value="<?php echo BASE_CHARGE3 ?>" />
-		</td>
-		<td>
-        <?php echo vmToolTip("Shipping charge 3 will apply to order values less than Order total value 3.") ?>
-        </td>
-    </tr>
-    <tr>
-        <td><strong>Order total value 4:</strong></td>
-		<td>
-            <input type="text" name="BASE_SHIP4" class="inputbox" value="<?php echo BASE_SHIP4 ?>" />
-		</td>
-        <td><strong>Shipping charge 4:</strong></td>
-		<td>
-            <input type="text" name="BASE_CHARGE4" class="inputbox" value="<?php echo BASE_CHARGE4 ?>" />
-		</td>
-		<td>
-        <?php echo vmToolTip("Shipping charge 4 will apply to order values less than Order total value 4.") ?>
-        </td>
-    </tr>
-    <tr>
-        <td><strong>Order total value 5:</strong></td>
-		<td>
-            <input type="text" name="BASE_SHIP5" class="inputbox" value="<?php echo BASE_SHIP5 ?>" />
-		</td>
-        <td><strong>Shipping charge 5:</strong></td>
-		<td>
-            <input type="text" name="BASE_CHARGE5" class="inputbox" value="<?php echo BASE_CHARGE5 ?>" />
-		</td>
-		<td>
-        <?php echo vmToolTip("Shipping charge 5 will apply to order values less than Order total value 5.") ?>
-        </td>
-    </tr>
-    <tr>
-        <td><strong>Order total value 6:</strong></td>
-		<td>
-            <input type="text" name="BASE_SHIP6" class="inputbox" value="<?php echo BASE_SHIP6 ?>" />
-		</td>
-        <td><strong>Shipping charge 6:</strong></td>
-		<td>
-            <input type="text" name="BASE_CHARGE6" class="inputbox" value="<?php echo BASE_CHARGE6 ?>" />
-		</td>
-		<td>
-        <?php echo vmToolTip("Shipping charge 6 will apply to order values less than Order total value 6.") ?>
-        </td>
-    </tr>
-    <tr>
-        <td><strong>Order total value 7:</strong></td>
-		<td>
-            <input type="text" name="BASE_SHIP7" class="inputbox" value="<?php echo BASE_SHIP7 ?>" />
-		</td>
-        <td><strong>Shipping charge 7:</strong></td>
-		<td>
-            <input type="text" name="BASE_CHARGE7" class="inputbox" value="<?php echo BASE_CHARGE7 ?>" />
-		</td>
-		<td>
-        <?php echo vmToolTip("Shipping charge 7 will apply to order values less than Order total value 7.") ?>
-        </td>
-    </tr>
-    <tr>
-        <td><strong>Order total value 8:</strong></td>
-		<td>
-            <input type="text" name="BASE_SHIP8" class="inputbox" value="<?php echo BASE_SHIP8 ?>" />
-		</td>
-        <td><strong>Shipping charge 8:</strong></td>
-		<td>
-            <input type="text" name="BASE_CHARGE8" class="inputbox" value="<?php echo BASE_CHARGE8 ?>" />
-		</td>
-		<td>
-        <?php echo vmToolTip("Shipping charge 8 will apply to order values less than Order total value 8.") ?>
-        </td>
-    </tr>
-    <tr>
-        <td><strong>Order total value 9:</strong></td>
-		<td>
-            <input type="text" name="BASE_SHIP9" class="inputbox" value="<?php echo BASE_SHIP9 ?>" />
-		</td>
-        <td><strong>Shipping charge 9:</strong></td>
-		<td>
-            <input type="text" name="BASE_CHARGE9" class="inputbox" value="<?php echo BASE_CHARGE9 ?>" />
-		</td>
-		<td>
-        <?php echo vmToolTip("Shipping charge 9 will apply to order values less than Order total value 9.") ?>
-        </td>
-    </tr>
-    <tr>
-        <td><strong>Order total value 10:</strong></td>
-		<td>
-            <input type="text" name="BASE_SHIP10" class="inputbox" value="<?php echo BASE_SHIP10 ?>" />
-		</td>
-        <td><strong>Shipping charge 10:</strong></td>
-		<td>
-            <input type="text" name="BASE_CHARGE10" class="inputbox" value="<?php echo BASE_CHARGE10 ?>" />
-		</td>
-		<td>
-        <?php echo vmToolTip("Shipping charge 10 will apply to order values less than Order total value 10.") ?>
-        </td>
-    </tr>
-
-	  <tr>
-		<td><strong><?php echo $VM_LANG->_('PHPSHOP_UPS_TAX_CLASS') ?></strong></td>
-		<td>
-		  <?php
-		  require_once(CLASSPATH.'ps_tax.php');
-		  ps_tax::list_tax_value("SHIPVALUE_TAX_CLASS", SHIPVALUE_TAX_CLASS) ?>
-		</td>
-		<td colspan="3"><?php echo vmToolTip("Use the following tax class on the shipping charge.  The shipping charge values above will then be inclusive of this tax rate.") ?><td>
-	  </tr>	
-
-	</table>
-   <?php
-   // return false if there's no configuration
-   return true;
-	}
-	/**
-  * Returns the "is_writeable" status of the configuration file
-  * @param void
-  * @returns boolean True when the configuration file is writeable, false when not
-  */
-	function configfile_writeable() {
-		return is_writeable( ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php" );
-	}
-
-	/**
-	* Writes the configuration file for this shipping method
-	* @param array An array of objects
-	* @returns boolean True when writing was successful
-	*/
-	function write_configuration( &$d ) {
-
-		$my_config_array = array("BASE_SHIP1" => $d['BASE_SHIP1'],
-		"BASE_SHIP2" => $d['BASE_SHIP2'],
-		"BASE_SHIP3" => $d['BASE_SHIP3'],
-		"BASE_SHIP4" => $d['BASE_SHIP4'],
-		"BASE_SHIP5" => $d['BASE_SHIP5'],
-		"BASE_SHIP6" => $d['BASE_SHIP6'],
-		"BASE_SHIP7" => $d['BASE_SHIP7'],
-		"BASE_SHIP8" => $d['BASE_SHIP8'],
-		"BASE_SHIP9" => $d['BASE_SHIP9'],
-		"BASE_SHIP10" => $d['BASE_SHIP10'],
-		"BASE_CHARGE1" => $d['BASE_CHARGE1'],
-		"BASE_CHARGE2" => $d['BASE_CHARGE2'],
-		"BASE_CHARGE3" => $d['BASE_CHARGE3'],
-		"BASE_CHARGE4" => $d['BASE_CHARGE4'],
-		"BASE_CHARGE5" => $d['BASE_CHARGE5'],
-		"BASE_CHARGE6" => $d['BASE_CHARGE6'],
-		"BASE_CHARGE7" => $d['BASE_CHARGE7'],
-		"BASE_CHARGE8" => $d['BASE_CHARGE8'],
-		"BASE_CHARGE9" => $d['BASE_CHARGE9'],
-		"BASE_CHARGE10" => $d['BASE_SHIP10'],
-		"SHIPVALUE_TAX_CLASS" => $d['SHIPVALUE_TAX_CLASS']
-		);
-		$config = "<?php\n";
-		$config .= "if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); \n\n";
-		foreach( $my_config_array as $key => $value ) {
-			$config .= "define ('$key', '$value');\n";
-		}
-
-		$config .= "?>";
-
-		if ($fp = fopen(ADMINPATH."plugins/shipping/".__CLASS__.".cfg.php", "w")) {
-			fputs($fp, $config, strlen($config));
-			fclose ($fp);
+		if( array_key_exists( $shipping_rate_id, $_SESSION )) {
 			return true;
 		}
 		else {
-			$vmLogger->err( "Error writing to configuration file" );
 			return false;
 		}
 	}
+	
 }
 
 

@@ -89,7 +89,7 @@ echo vmCommonHTML::PrintIcon();
     $q  = "SELECT * FROM #__{vm}_order_user_info WHERE user_id='" . $db->f("user_id") . "'  AND order_id='$order_id' ORDER BY address_type ASC"; 
     $dbbt->query($q);
     $dbbt->next_record(); 
-    $user = $dbbt->record;
+    $user = $dbbt->get_row();
   ?> 
       <table width="100%" cellspacing="0" cellpadding="2" border="0">
         <tr> 
@@ -369,21 +369,21 @@ echo vmCommonHTML::PrintIcon();
           $dbpm = new ps_DB;
           $q  = "SELECT * FROM #__{vm}_payment_method, #__{vm}_order_payment, #__{vm}_orders ";
           $q .= "WHERE #__{vm}_order_payment.order_id='$order_id' ";
-          $q .= "AND #__{vm}_payment_method.payment_method_id=#__{vm}_order_payment.payment_method_id ";
+          $q .= "AND #__{vm}_payment_method.id=#__{vm}_order_payment.payment_method_id ";
           $q .= "AND #__{vm}_orders.user_id='" . $db->f("user_id") . "' ";
           $q .= "AND #__{vm}_orders.order_id='$order_id' ";
           $dbpm->query($q);
           $dbpm->next_record(); ?> 
       <tr> 
         <td width="20%"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_PAYMENT_LBL') ?> :</td>
-        <td><?php $dbpm->p("payment_method_name"); ?> </td>
+        <td><?php $dbpm->p("name"); ?> </td>
       </tr>
 	  <?php
-          require_once(CLASSPATH.'ps_payment_method.php');
-          $ps_payment_method = new ps_payment_method;
-          $payment = $dbpm->f("payment_method_id");
+          require_once(CLASSPATH.'paymentMethod.class.php');
+          $vmPaymentMethod = new vmPaymentMethod();
+          $payment = $dbpm->f("id");
           
-          if ($ps_payment_method->is_creditcard($payment)) { 
+          if ($vmPaymentMethod->is_creditcard($payment)) { 
           
             // DECODE Account Number
             $dbaccount = new ps_DB;

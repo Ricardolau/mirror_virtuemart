@@ -227,7 +227,7 @@ class ps_creditcard {
 		}
 		/*** Get only accepted credit cards records ***/
 		else {
-			$q = 'SELECT accepted_creditcards FROM #__{vm}_payment_method WHERE payment_method_id='.(int)$payment_method_id;
+			$q = 'SELECT accepted_creditcards FROM #__{vm}_payment_method WHERE id='.(int)$payment_method_id;
 			$db->query( $q );
 			$db->next_record();
 			$cc_array = explode( ",", $db->f("accepted_creditcards"));

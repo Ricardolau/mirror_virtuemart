@@ -110,13 +110,14 @@ if ($_POST) {
         require_once(CLASSPATH."Log/LogInit.php");
               
         /* Load the PayPal Configuration File */ 
-        require_once( CLASSPATH. 'payment/ps_paypal.cfg.php' );
+        require_once( CLASSPATH. 'paymentMethod.class.php' );
+        $paypal = vmPaymentMethod::getPaymentPlugin('paypal');
         
-		if( PAYPAL_DEBUG == "1" ) {
+		if( $paypal->params->get('DEBUG') == "1" ) {
 			$debug_email_address = $mosConfig_mailfrom;
 		}
 		else {
-			$debug_email_address = PAYPAL_EMAIL;
+			$debug_email_address = $paypal->params->get('PAYPAL_EMAIL');
 		}
 	    // restart session
 	    // Constructor initializes the session!
@@ -160,7 +161,7 @@ if ($_POST) {
     } // Notify string
     
     
-    $paypal_receiver_email = PAYPAL_EMAIL;
+    $paypal_receiver_email = $paypal->params->get('PAYPAL_EMAIL');
     $business = trim(stripslashes($_POST['business'])); 
     $item_name = trim(stripslashes($_POST['item_name']));
     $item_number = trim(stripslashes(@$_POST['item_number']));
@@ -211,7 +212,7 @@ if ($_POST) {
         $error++;
     }  
     */
-    if( PAYPAL_DEBUG != "1" ) {
+    if( $paypal->params->get('DEBUG') != "1" ) {
     	// Get the list of IP addresses for www.paypal.com and notify.paypal.com
         $paypal_iplist = gethostbynamel('www.paypal.com');
 		$paypal_iplist2 = gethostbynamel('notify.paypal.com');
@@ -261,7 +262,7 @@ if ($_POST) {
     * Open a socket to the PayPal server...
     *--------------------------------------------*/
     // To Debug this script, just visit http://developer.paypal.com
-    if(@PAYPAL_DEBUG=="1") {
+    if($paypal->params->get('DEBUG')=="1") {
         $uri = "/cgi-bin/webscr";
         $hostname = "developer.paypal.com";
         
@@ -350,7 +351,7 @@ if ($_POST) {
       // ...read the results of the verification...
       // If VERIFIED = continue to process the TX...
       //-------------------------------------------
-        if (eregi ( "VERIFIED", $res) || @PAYPAL_VERIFIED_ONLY == '0' ) {
+        if (eregi ( "VERIFIED", $res) || $paypal->params->get('PAYPAL_VERIFIED_ONLY') == '0' ) {
             //----------------------------------------------------------------------
             // If the payment_status is Completed... Get the password for the product
             // from the DB and email it to the customer.
@@ -383,11 +384,11 @@ if ($_POST) {
                 
                 // UPDATE THE ORDER STATUS to 'Completed'
                 if(eregi ("Completed", $payment_status)) {
-                    $d['order_status'] = PAYPAL_VERIFIED_STATUS;                    
+                    $d['order_status'] = $paypal->params->get('PAYMENT_VERIFIED_STATUS');
                 }
                 // UPDATE THE ORDER STATUS to 'Pending'
                 elseif(eregi ("Pending", $payment_status)) {
-                    $d['order_status'] = PAYPAL_PENDING_STATUS;
+                    $d['order_status'] = $paypal->params->get('PAYMENT_PENDING_STATUS');
                 }
                 require_once ( CLASSPATH . 'ps_order.php' );
                 $ps_order= new ps_order;
@@ -408,7 +409,7 @@ if ($_POST) {
                 // If the payment_status is not Completed... do nothing but mail
                 //----------------------------------------------------------------------
                 // UPDATE THE ORDER STATUS to 'INVALID'
-                $d['order_status'] = PAYPAL_INVALID_STATUS;
+                $d['order_status'] = $paypal->params->get('PAYMENT_INVALID_STATUS');
                 
                 require_once ( CLASSPATH . 'ps_order.php' );
                 $ps_order= new ps_order;

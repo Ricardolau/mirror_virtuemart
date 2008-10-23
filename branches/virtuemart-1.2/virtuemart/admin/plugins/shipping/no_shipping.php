@@ -19,28 +19,42 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 /**
 * Just a dummy class for "NO SHIPPING"
 */
-class no_shipping {
+class plgShippingNo_Shipping extends vmShippingPlugin {
+	/**
+	 * Constructor
+	 *
+	 * For php4 compatability we must not use the __constructor as a constructor for plugins
+	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
+	 * This causes problems with cross-referencing necessary for the observer design pattern.
+	 *
+	 * @param object $subject The object to observe
+	 * @param array  $config  An array that holds the plugin configuration
+	 * @since 1.2.0
+	 */
+	function plgShippingNo_Shipping( & $subject, $config ) {
+		parent::__construct( $subject, $config ) ;
+	}
   
   /**************************************************************************
   ** name: list_rates( $d )
   ** created by: soeren
   ***************************************************************************/  
-  function list_rates( &$d ) {
-      return "";
+  function get_shipping_rate_list( &$d ) {
+      return array();
     }
     
   /**************************************************************************
   ** name: get_rate( $d )
   ** created by: soeren
   ***************************************************************************/
-   function get_rate( &$d ) {
+   function get_shipping_rate( &$d ) {
       return 0;
    }
   /**************************************************************************
   ** name: get_tax_rate()
   ** created by: soeren
   ***************************************************************************/
-   function get_tax_rate() {
+   function get_shippingtax_rate() {
       return 0;
    }
 

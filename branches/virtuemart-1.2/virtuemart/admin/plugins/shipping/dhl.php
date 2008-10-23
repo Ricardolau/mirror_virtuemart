@@ -11,15 +11,25 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 /*
  * This is the Shipping class for DHL ShipIT and RateIT tools.
  */
-class dhl {
+class plgShippingDhl extends vmShippingPlugin {
+	/**
+	 * Constructor
+	 *
+	 * For php4 compatability we must not use the __constructor as a constructor for plugins
+	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
+	 * This causes problems with cross-referencing necessary for the observer design pattern.
+	 *
+	 * @param object $subject The object to observe
+	 * @param array  $config  An array that holds the plugin configuration
+	 * @since 1.2.0
+	 */
+	function plgShippingDhl( & $subject, $config ) {
+		parent::__construct( $subject, $config ) ;
+	}
 
-	function list_rates(&$d) {
+	function get_shipping_rate_list(&$d) {
 		global $vmLogger;
 		global $VM_LANG, $CURRENCY_DISPLAY, $mosConfig_absolute_path;
-
-
-		/* Read current Configuration */
-		require_once( ADMINPATH."plugins/shipping/".__CLASS__ . ".cfg.php");
 
 		/*
 		 * Check the current day and time to determine if it is too late to
@@ -125,49 +135,49 @@ class dhl {
 		$is_international = $this->is_international($dest_country,
 		    $dest_state);
 		if (!$is_international) {
-			if (DHL_EXPRESS_ENABLED == 'TRUE') {
+			if ($this->params->get('DHL_EXPRESS_ENABLED') == 'TRUE') {
 				$methods[] = array(
 					'service_desc' =>
 					    $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_EXPRESS'),
 					'service_code' => 'E',
 					'special_service' => '',
-					'package_type' => DHL_DOMESTIC_PACKAGE,
+					'package_type' => $this->params->get('DHL_DOMESTIC_PACKAGE'),
 					'international' => false);
 			}
-			if (DHL_NEXT_AFTERNOON_ENABLED == 'TRUE') {
+			if ($this->params->get('DHL_NEXT_AFTERNOON_ENABLED') == 'TRUE') {
 				$methods[] = array(
 					'service_desc' =>
 					    $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_NEXT_AFTERNOON'),
 					'service_code' => 'N',
 					'special_service' => '',
-					'package_type' => DHL_DOMESTIC_PACKAGE,
+					'package_type' => $this->params->get('DHL_DOMESTIC_PACKAGE'),
 					'international' => false);
 			}
-			if (DHL_SECOND_DAY_ENABLED == 'TRUE') {
+			if ($this->params->get('DHL_SECOND_DAY_ENABLED') == 'TRUE') {
 				$methods[] = array(
 					'service_desc' =>
 					    $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_SECOND_DAY'),
 					'service_code' => 'S',
 					'special_service' => '',
-					'package_type' => DHL_DOMESTIC_PACKAGE,
+					'package_type' => $this->params->get('DHL_DOMESTIC_PACKAGE'),
 					'international' => false);
 			}
-			if (DHL_GROUND_ENABLED == 'TRUE') {
+			if ($this->params->get('DHL_GROUND_ENABLED') == 'TRUE') {
 				$methods[] = array(
 					'service_desc' =>
 					    $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_GROUND'),
 					'service_code' => 'G',
 					'special_service' => '',
-					'package_type' => DHL_DOMESTIC_PACKAGE,
+					'package_type' => $this->params->get('DHL_DOMESTIC_PACKAGE'),
 					'international' => false);
 			}
-			if (DHL_1030_ENABLED == 'TRUE') {
+			if ($this->params->get('DHL_1030_ENABLED') == 'TRUE') {
 				$methods[] = array(
 					'service_desc' =>
 					    $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_1030'),
 					'service_code' => 'E',
 					'special_service' => '1030',
-					'package_type' => DHL_DOMESTIC_PACKAGE,
+					'package_type' => $this->params->get('DHL_DOMESTIC_PACKAGE'),
 					'international' => false);
 			}
 			// Saturday delivery is only an option on Fridays
@@ -177,24 +187,24 @@ class dhl {
 					    $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_SATURDAY'),
 					'service_code' => 'E',
 					'special_service' => 'SAT',
-					'package_type' => DHL_DOMESTIC_PACKAGE,
+					'package_type' => $this->params->get('DHL_DOMESTIC_PACKAGE'),
 					'international' => false);
 			}
-			$shipping_key = DHL_DOMESTIC_SHIPPING_KEY;
+			$shipping_key = $this->params->get('DHL_DOMESTIC_SHIPPING_KEY');
 
 			if (DHL_DOMESTIC_PACKAGE != 'E')
-				$order_weight = $d['weight'] + floatval(DHL_PACKAGE_WEIGHT);
+				$order_weight = $d['weight'] + floatval($this->params->get('DHL_PACKAGE_WEIGHT'));
 
 			$content_desc = '';
 			$duty_value = 0;
 		} else {
-			if (DHL_INTERNATIONAL_ENABLED == 'TRUE') {
+			if ($this->params->get('DHL_INTERNATIONAL_ENABLED') == 'TRUE') {
 				$methods[] = array(
 					'service_desc' =>
 					    $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INTERNATIONAL'),
 					'service_code' => 'IE',
 					'special_service' => '',
-					'package_type' => DHL_INTERNATIONAL_PACKAGE,
+					'package_type' => $this->params->get('DHL_INTERNATIONAL_PACKAGE'),
 					'international' => true);
 			}
 
@@ -204,17 +214,17 @@ class dhl {
 			 * the order and check for special "harmonizing descriptions"
 			 * to build our $content_desc variables.
 			 */
-			$content_desc = DHL_CONTENT_DESC;
+			$content_desc = $this->params->get('DHL_CONTENT_DESC');
 
 			$duty_value = $this->calc_duty_value($d);
-			$shipping_key = DHL_INTERNATIONAL_SHIPPING_KEY;
+			$shipping_key = $this->params->get('DHL_INTERNATIONAL_SHIPPING_KEY');
 
 			/* DHL country codes are non-standard, remap them */
 			$dest_country = $this->remap_country_code($dest_country,
 			    $dest_state);
 
-			if (DHL_INTERNATIONAL_PACKAGE != 'E')
-				$order_weight = $d['weight'] + floatval(DHL_PACKAGE_WEIGHT);
+			if ($this->params->get('DHL_INTERNATIONAL_PACKAGE') != 'E')
+				$order_weight = $d['weight'] + floatval($this->params->get('DHL_PACKAGE_WEIGHT'));
 		}
 		/* if we're not on an exact integer pound, round */
 		if (floatval(intval($order_weight)) != $order_weight) {
@@ -234,6 +244,7 @@ class dhl {
 			$html .= $ship_delay_msg;
 			$html .= '</strong></span><br />';
 		}
+		$returnArr = array();
 		foreach ($methods as $method) {
 			$xmlReq =& new DOMIT_Lite_Document();
 
@@ -245,10 +256,10 @@ class dhl {
 
 			$requestor =& $xmlReq->createElement('Requestor'); 
 			$id =& $xmlReq->createElement('ID');
-			$id->setText(DHL_ID);
+			$id->setText($this->params->get('DHL_ID'));
 			$requestor->appendChild($id);
 			$password =& $xmlReq->createElement('Password');
-			$password->setText(DHL_PASSWORD);
+			$password->setText($this->params->get('DHL_PASSWORD'));
 			$requestor->appendChild($password);
 			$root->appendChild($requestor);
 
@@ -265,7 +276,7 @@ class dhl {
 			$ship_key->setText($shipping_key);
 			$creds->appendChild($ship_key);
 			$an =& $xmlReq->createElement('AccountNbr');
-			$an->setText(DHL_ACCOUNT_NUMBER);
+			$an->setText($this->params->get('DHL_ACCOUNT_NUMBER'));
 			$creds->appendChild($an);
 			$shipment->appendChild($creds);
 
@@ -283,11 +294,11 @@ class dhl {
 			$code->setText($method['package_type']);
 			$stype->appendChild($code);
 
-			if ($insurance > 0 && DHL_ADDITIONAL_PROTECTION != 'NR') {
+			if ($insurance > 0 && $this->params->get('DHL_ADDITIONAL_PROTECTION') != 'NR') {
 				/* include additional value protection */
 				$addl_prot =& $xmlReq->createElement('AdditionalProtection');
 				$code =& $xmlReq->createElement('Code');
-				$code->setText(DHL_ADDITIONAL_PROTECTION);
+				$code->setText($this->params->get('DHL_ADDITIONAL_PROTECTION'));
 				$addl_prot->appendChild($code);
 				$value =& $xmlReq->createElement('Value');
 				$value->setText(round($insurance, 0));
@@ -427,9 +438,7 @@ class dhl {
 				$vmLogger->err(
 				    $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INVALID_XML') .
 				    $xmlResult);
-				$html .= '<br /><span class="message">' .
-					$VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INVALID_XML') .
-				    '</span>';
+			
 				continue;
 			}
 //			$vmLogger->err($xmlResp->toNormalizedString());
@@ -440,8 +449,6 @@ class dhl {
 			$result_desc_list =& $xmlResp->getElementsByPath('//Result/Desc');
 			$result_desc =& $result_desc_list->item(0);
 			if ($result_code == NULL) {
-				$html .= $VM_LANG->_('PHPSHOP_ERROR_DESC') . ': ' .
-				    $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_MISSING_RESULT');
 				$vmLogger->debug(
 				    $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_MISSING_RESULT') .
 				    "\n" . $xmlResp->toNormalizedString());
@@ -450,17 +457,15 @@ class dhl {
 
 			// '203' is the code for success (at least with domestic)
 			if ($result_code->getText() != '203') {
-				$html .= '<br /><span class="message">' .
+				$vmLogger->debug(
 					$method['service_desc'] . ': ' .
 					$result_desc->getText() . ' [code ' .
-					$result_code->getText() . ']' .
-					'</span>';
+					$result_code->getText() . ']' );
 
 				// display an error line for each fault
 				$fault_node_list =& $xmlResp->getElementsByPath(
 				    '//Faults/Fault');
-				if ($fault_node_list->getLength() > 0)
-					$html .= '<ul>';
+				
 				for ($i = 0; $i < $fault_node_list->getLength(); $i++) {
 					$fault_node =& $fault_node_list->item($i);
 					$fault_code_node_list =& $fault_node->getElementsByTagName(
@@ -470,11 +475,9 @@ class dhl {
 					$fault_code_node =& $fault_code_node_list->item(0);
 					$fault_desc_node =& $fault_desc_node_list->item(0);
 
-					$html .= '<li>' . $fault_desc_node->getText() . ' [code ' .
-					    $fault_code_node->getText() . ']</li>';
+					$vmLogger->debug( $fault_desc_node->getText() . ' [code ' .
+					    $fault_code_node->getText() . ']' );
 				}
-				if ($fault_node_list->getLength() > 0)
-					$html .= '</ul>';
 
 				continue;
 			} else {
@@ -495,9 +498,8 @@ class dhl {
 				if ($ship_rate == 0.00)
 					continue;
 
-				$total_rate = $ship_rate + floatval(DHL_HANDLING_FEE);
-				$ship_postage = $CURRENCY_DISPLAY->getFullValue(
-					$total_rate);
+				$total_rate = $ship_rate + floatval($this->params->get('DHL_HANDLING_FEE'));
+				
 
 				/*
 				 * Leave the shipping class field empty
@@ -505,7 +507,7 @@ class dhl {
 				 * generate a shipping label for this rate will be
 				 * stored one off the end.
 				 */
-				$id_string = ADMINPATH."plugins/shipping/".__CLASS__;
+				$id_string = $this->_name;
 				$id_string .= "|DHL";
 				$id_string .= "|" . $method['service_desc'];
 				$id_string .= "|" . $total_rate;
@@ -518,7 +520,7 @@ class dhl {
 					$id_string .= ";T";
 				else
 					$id_string .= ";F";
-				$id_string .= ";" . DHL_ADDITIONAL_PROTECTION;
+				$id_string .= ";" . $this->params->get('DHL_ADDITIONAL_PROTECTION');
 				$id_string .= ";" . $order_weight;
 				$id_string .= ";" . $duty_value;
 				$id_string .= ";" . $insurance;
@@ -526,24 +528,22 @@ class dhl {
 
 				$shipping_rate_id = urlencode($id_string);
 
-				$html .= "\n<input type=\"radio\" " .
-					"name=\"shipping_rate_id\"" .
-					" value=\"$shipping_rate_id\" />\n";
-
 				$_SESSION[$shipping_rate_id] = 1;
-
-				$html .= "DHL " . $method['service_desc'];
-				$html .= " <strong>(" . $ship_postage . ")</strong>";
-				$html .= " - " . $deliver_date;
-				$html .= "<br />";
+				
+				$returnArr[] = array('shipping_rate_id' => $shipping_rate_id,
+													'carrier' => 'DHL',
+													'rate_name' => $method['service_desc'],
+													'delivery_date' => $deliver_date,
+													'rate' => $total_rate
+												);
 			}
 		}
-		echo $html;
-		return (true);
+		
+		return $returnArr;
 	}
 
 
-	function get_rate(&$d) {
+	function get_shipping_rate(&$d) {
 
 		$shipping_rate_id = $d["shipping_rate_id"];
 		$is_arr = explode("|", urldecode(urldecode($shipping_rate_id)));
@@ -597,7 +597,7 @@ class dhl {
 		$q .= "label_is_generated) ";
 		$q .= "VALUES (";
 		$q .= "'" . $d['order_id'] . "', ";
-		$q .= "'" . ADMINPATH."plugins/shipping/".__CLASS__ . "', ";
+		$q .= "'" . $this->_name. "', ";
 		$q .= "'" . $ship_date . "', ";
 		$q .= "'" . $service_code . "', ";
 		$q .= "'" . $special_service . "', ";
@@ -671,9 +671,6 @@ class dhl {
 		$dest_country = $db->f("country_2_code");
 		$dest_state = $db->f("state");
 
-		/* Read current Configuration */
-		require_once( ADMINPATH."plugins/shipping/".__CLASS__ .    ".cfg.php");
-
 		$dhl_url = "https://eCommerce.airborne.com/";
 		if (DHL_TEST_MODE == 'TRUE')
 			$dhl_url .= "ApiLandingTest.asp";
@@ -681,7 +678,7 @@ class dhl {
 			$dhl_url .= "ApiLanding.asp";
 
 		if (!$dbl->f('is_international')) {
-			$shipping_key = DHL_DOMESTIC_SHIPPING_KEY;
+			$shipping_key = $this->params->get('DHL_DOMESTIC_SHIPPING_KEY');
 		} else {
 			/*
 			 * XXX
@@ -689,9 +686,9 @@ class dhl {
 			 * the order and check for special "harmonizing descriptions"
 			 * to build our $content_desc variables.
 			 */
-			$content_desc = DHL_CONTENT_DESC;
+			$content_desc = $this->params->get('DHL_CONTENT_DESC');
 
-			$shipping_key = DHL_INTERNATIONAL_SHIPPING_KEY;
+			$shipping_key = $this->params->get('DHL_INTERNATIONAL_SHIPPING_KEY');
 
 			/* DHL country codes are non-standard, remap them */
 			$dest_country = $this->remap_country_code($dest_country,
@@ -718,10 +715,10 @@ class dhl {
 
 		$requestor =& $xmlReq->createElement('Requestor'); 
 		$id =& $xmlReq->createElement('ID');
-		$id->setText(DHL_ID);
+		$id->setText($this->params->get('DHL_ID'));
 		$requestor->appendChild($id);
 		$password =& $xmlReq->createElement('Password');
-		$password->setText(DHL_PASSWORD);
+		$password->setText($this->params->get('DHL_PASSWORD'));
 		$requestor->appendChild($password);
 		$root->appendChild($requestor);
 
@@ -738,7 +735,7 @@ class dhl {
 		$ship_key->setText($shipping_key);
 		$creds->appendChild($ship_key);
 		$an =& $xmlReq->createElement('AccountNbr');
-		$an->setText(DHL_ACCOUNT_NUMBER);
+		$an->setText($this->params->get('DHL_ACCOUNT_NUMBER'));
 		$creds->appendChild($an);
 		$shipment->appendChild($creds);
 
@@ -1121,19 +1118,16 @@ class dhl {
 		if (!$dbl->next_record() || !$dbl->f("label_is_generated"))
 			return ("couldn't find label info for order #" .  $order_id);
 
-
-		require_once( ADMINPATH."plugins/shipping/".__CLASS__ .  ".cfg.php");
-
 		$dhl_url = "https://eCommerce.airborne.com/";
-		if (DHL_TEST_MODE == 'TRUE')
+		if ($this->params->get('DEBUG'))
 			$dhl_url .= "ApiLandingTest.asp";
 		else
 			$dhl_url .= "ApiLanding.asp";
 
 		if (!$dbl->f('is_international'))
-			$shipping_key = DHL_DOMESTIC_SHIPPING_KEY;
+			$shipping_key = $this->params->get('DHL_DOMESTIC_SHIPPING_KEY');
 		else
-			$shipping_key = DHL_INTERNATIONAL_SHIPPING_KEY;
+			$shipping_key = $this->params->get('DHL_INTERNATIONAL_SHIPPING_KEY');
 
 		require_once($mosConfig_absolute_path .
 			'/includes/domit/xml_domit_lite_include.php');
@@ -1148,10 +1142,10 @@ class dhl {
 
 		$requestor =& $xmlReq->createElement('Requestor'); 
 		$id =& $xmlReq->createElement('ID');
-		$id->setText(DHL_ID);
+		$id->setText($this->params->get('DHL_ID'));
 		$requestor->appendChild($id);
 		$password =& $xmlReq->createElement('Password');
-		$password->setText(DHL_PASSWORD);
+		$password->setText($this->params->get('DHL_PASSWORD'));
 		$requestor->appendChild($password);
 		$root->appendChild($requestor);
 
@@ -1168,7 +1162,7 @@ class dhl {
 		$ship_key->setText($shipping_key);
 		$creds->appendChild($ship_key);
 		$an =& $xmlReq->createElement('AccountNbr');
-		$an->setText(DHL_ACCOUNT_NUMBER);
+		$an->setText($this->params->get('DHL_ACCOUNT_NUMBER'));
 		$creds->appendChild($an);
 		$shipment->appendChild($creds);
 
@@ -1287,10 +1281,8 @@ class dhl {
 
 		$tracking_number = $dbl->f('tracking_number');
 
-		require_once( ADMINPATH."plugins/shipping/".__CLASS__ .  ".cfg.php");
-
 		$dhl_url = "https://eCommerce.airborne.com/";
-		if (DHL_TEST_MODE == 'TRUE')
+		if ($this->params->get('DEBUG'))
 			$dhl_url .= "ApiLandingTest.asp";
 		else
 			$dhl_url .= "ApiLanding.asp";
@@ -1308,10 +1300,10 @@ class dhl {
 
 		$requestor =& $xmlReq->createElement('Requestor'); 
 		$id =& $xmlReq->createElement('ID');
-		$id->setText(DHL_ID);
+		$id->setText($this->params->get('DHL_ID'));
 		$requestor->appendChild($id);
 		$password =& $xmlReq->createElement('Password');
-		$password->setText(DHL_PASSWORD);
+		$password->setText($this->params->get('DHL_PASSWORD'));
 		$requestor->appendChild($password);
 		$root->appendChild($requestor);
 
@@ -2026,10 +2018,8 @@ class dhl {
 
 		$tracking_number = $dbl->f('tracking_number');
 
-		require_once( ADMINPATH."plugins/shipping/".__CLASS__ .  ".cfg.php");
-
 		$dhl_url = "https://eCommerce.airborne.com/";
-		if (DHL_TEST_MODE == 'TRUE')
+		if ($this->params->get('DEBUG'))
 			$dhl_url .= "ApiLandingTest.asp";
 		else
 			$dhl_url .= "ApiLanding.asp";
@@ -2047,10 +2037,10 @@ class dhl {
 
 		$requestor =& $xmlReq->createElement('Requestor'); 
 		$id =& $xmlReq->createElement('ID');
-		$id->setText(DHL_ID);
+		$id->setText($this->params->get('DHL_ID'));
 		$requestor->appendChild($id);
 		$password =& $xmlReq->createElement('Password');
-		$password->setText(DHL_PASSWORD);
+		$password->setText($this->params->get('DHL_PASSWORD'));
 		$requestor->appendChild($password);
 		$root->appendChild($requestor);
 
@@ -2205,589 +2195,17 @@ class dhl {
 	}
 
 
-	function get_tax_rate() {
+	function get_shippingtax_rate() {
 
-		/** Read current Configuration ***/
-		require_once( ADMINPATH."plugins/shipping/".__CLASS__ . ".cfg.php");
-
-		if (intval(DHL_TAX_CLASS) == 0)
+		if (intval($this->params->get('DHL_TAX_CLASS')) == 0)
 			return (0);
 		else {
 			require_once(CLASSPATH . "ps_tax.php");
-			$tax_rate = ps_tax::get_taxrate_by_id(intval(DHL_TAX_CLASS));
+			$tax_rate = ps_tax::get_taxrate_by_id(intval($this->params->get('DHL_TAX_CLASS')));
 			return ($tax_rate);
 		}
 	}
 
-	/*
-     * Validate this Shipping method by checking if the SESSION contains the key
-     * @returns boolean False when the Shipping method is not in the SESSION
-     */
-	function validate($d) {
-
-		$shipping_rate_id = $d["shipping_rate_id"];
-
-		if (array_key_exists($shipping_rate_id, $_SESSION))
-			return (true);
-		else
-			return (false);
-	}
-
-	/*
-     * Show all configuration parameters for this Shipping method
-     * @returns boolean False when the Shipping method has no configration
-     */
-	function show_configuration() {
-		global $VM_LANG;
-
-		/** Read current Configuration ***/
-		require_once( ADMINPATH."plugins/shipping/".__CLASS__ . ".cfg.php");
-    ?>
-	<table>
-	<tr>
-		<td><strong>
-			<?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_ID') ?>
-		</strong></td>
-		<td>
-            <input type="text" name="DHL_ID" class="inputbox"
-				value="<? echo DHL_ID ?>" />
-		</td>
-		<td>
-			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_ID_TOOLTIP')) ?>
-		</td>
-	</tr>
-	<tr>
-		<td><strong>
-			<?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_PASSWORD') ?>
-		</strong></td>
-		<td>
-			<input type="text" name="DHL_PASSWORD" class="inputbox"
-			    value="<? echo DHL_PASSWORD ?>" />
-		</td>
-		<td>
-			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_PASSWORD_TOOLTIP')) ?>
-		</td>
-	</tr>
-	<tr>
-		<td><strong>
-			<?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_DOMESTIC_SHIPPING_KEY') ?>
-		</strong></td>
-		<td>
-			<input type="text" name="DHL_DOMESTIC_SHIPPING_KEY" class="inputbox"
-			    value="<? echo DHL_DOMESTIC_SHIPPING_KEY ?>" />
-		</td>
-		<td>
-			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_DOMESTIC_SHIPPING_KEY_TOOLTIP')) ?>
-		</td>
-	</tr>
-	<tr>
-		<td><strong>
-			<?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INTERNATIONAL_SHIPPING_KEY') ?>
-		</strong></td>
-		<td>
-			<input type="text" name="DHL_INTERNATIONAL_SHIPPING_KEY" class="inputbox"
-			    value="<? echo DHL_INTERNATIONAL_SHIPPING_KEY ?>" />
-		</td>
-		<td>
-			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INTERNATIONAL_SHIPPING_KEY_TOOLTIP')) ?>
-		</td>
-	</tr>
-	<tr>
-		<td><strong>
-			<?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_ACCOUNT_NUMBER') ?>
-		</strong></td>
-		<td>
-            <input type="text" name="DHL_ACCOUNT_NUMBER" class="inputbox"
-			    value="<? echo DHL_ACCOUNT_NUMBER ?>" />
-		</td>
-		<td>
-			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_ACCOUNT_NUMBER_TOOLTIP')) ?>
-		</td>
-	</tr>
-	<tr>
-		<td><strong>
-			<?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TOO_LATE') ?>
-		</strong></td>
-		<td>
-            <input type="text" name="DHL_TOO_LATE" class="inputbox"
-			    value="<? echo DHL_TOO_LATE ?>" />
-		</td>
-		<td>
-			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TOO_LATE_TOOLTIP')) ?>
-		</td>
-	</tr>
-	<tr>
-		<td><strong>
-			<?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TEST_MODE') ?>
-		</strong></td>
-		<td>
-			<select name="DHL_TEST_MODE" class="inputbox">
-				<option
-					<?php
-						if (DHL_TEST_MODE == 'TRUE')
-							echo "selected=\"selected\"";
-					?>
-					value="TRUE">
-					<?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES') ?>
-				</option>
-				<option
-					<?php
-						if (DHL_TEST_MODE == 'FALSE')
-							echo "selected=\"selected\"";
-					?>
-					value="FALSE">
-					<?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO') ?>
-				</option>
-			</select>
-		</td>
-		<td>
-			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TEST_MODE_TOOLTIP')) ?>
-		</td>
-	</tr>
-	<tr>
-		<td><strong>
-			<?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_EXPRESS_ENABLED') ?>
-		</strong></td>
-		<td>
-			<select name="DHL_EXPRESS_ENABLED" class="inputbox">
-				<option
-					<?php
-						if (DHL_EXPRESS_ENABLED == 'TRUE')
-							echo "selected=\"selected\"";
-					?>
-					value="TRUE">
-					<?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES') ?>
-				</option>
-				<option
-					<?php
-						if (DHL_EXPRESS_ENABLED == 'FALSE')
-							echo "selected=\"selected\"";
-					?>
-					value="FALSE">
-					<?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO') ?>
-				</option>
-			</select>
-		</td>
-		<td>
-			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_EXPRESS_ENABLED_TOOLTIP')) ?>
-		</td>
-	</tr>
-	<tr>
-		<td><strong>
-			<?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_NEXT_AFTERNOON_ENABLED') ?>
-		</strong></td>
-		<td>
-			<select name="DHL_NEXT_AFTERNOON_ENABLED" class="inputbox">
-				<option
-					<?php
-						if (DHL_NEXT_AFTERNOON_ENABLED == 'TRUE')
-							echo "selected=\"selected\"";
-					?>
-					value="TRUE">
-					<?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES') ?>
-				</option>
-				<option
-					<?php
-						if (DHL_NEXT_AFTERNOON_ENABLED == 'FALSE')
-							echo "selected=\"selected\"";
-					?>
-					value="FALSE">
-					<?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO') ?>
-				</option>
-			</select>
-		</td>
-		<td>
-			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_NEXT_AFTERNOON_ENABLED_TOOLTIP')) ?>
-		</td>
-	</tr>
-	<tr>
-		<td><strong>
-			<?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_SECOND_DAY_ENABLED') ?>
-		</strong></td>
-		<td>
-			<select name="DHL_SECOND_DAY_ENABLED" class="inputbox">
-				<option
-					<?php
-						if (DHL_SECOND_DAY_ENABLED == 'TRUE')
-							echo "selected=\"selected\"";
-					?>
-					value="TRUE">
-					<?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES') ?>
-				</option>
-				<option
-					<?php
-						if (DHL_SECOND_DAY_ENABLED == 'FALSE')
-							echo "selected=\"selected\"";
-					?>
-					value="FALSE">
-					<?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO') ?>
-				</option>
-			</select>
-		</td>
-		<td>
-			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_SECOND_DAY_ENABLED_TOOLTIP')) ?>
-		</td>
-	</tr>
-	<tr>
-		<td><strong>
-			<?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_GROUND_ENABLED') ?>
-		</strong></td>
-		<td>
-			<select name="DHL_GROUND_ENABLED" class="inputbox">
-				<option
-					<?php
-						if (DHL_GROUND_ENABLED == 'TRUE')
-							echo "selected=\"selected\"";
-					?>
-					value="TRUE">
-					<?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES') ?>
-				</option>
-				<option
-					<?php
-						if (DHL_GROUND_ENABLED == 'FALSE')
-							echo "selected=\"selected\"";
-					?>
-					value="FALSE">
-					<?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO') ?>
-				</option>
-			</select>
-		</td>
-		<td>
-			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_GROUND_ENABLED_TOOLTIP')) ?>
-		</td>
-	</tr>
-	<tr>
-		<td><strong>
-			<?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_1030_ENABLED') ?>
-		</strong></td>
-		<td>
-			<select name="DHL_1030_ENABLED" class="inputbox">
-				<option
-					<?php
-						if (DHL_1030_ENABLED == 'TRUE')
-							echo "selected=\"selected\"";
-					?>
-					value="TRUE">
-					<?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES') ?>
-				</option>
-				<option
-					<?php
-						if (DHL_1030_ENABLED == 'FALSE')
-							echo "selected=\"selected\"";
-					?>
-					value="FALSE">
-					<?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO') ?>
-				</option>
-			</select>
-		</td>
-		<td>
-			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_1030_ENABLED_TOOLTIP')) ?>
-		</td>
-	</tr>
-	<tr>
-		<td><strong>
-			<?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_SATURDAY_ENABLED') ?>
-		</strong></td>
-		<td>
-			<select name="DHL_SATURDAY_ENABLED" class="inputbox">
-				<option
-					<?php
-						if (DHL_SATURDAY_ENABLED == 'TRUE')
-							echo "selected=\"selected\"";
-					?>
-					value="TRUE">
-					<?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES') ?>
-				</option>
-				<option
-					<?php
-						if (DHL_SATURDAY_ENABLED == 'FALSE')
-							echo "selected=\"selected\"";
-					?>
-					value="FALSE">
-					<?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO') ?>
-				</option>
-			</select>
-		</td>
-		<td>
-			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_SATURDAY_ENABLED_TOOLTIP')) ?>
-		</td>
-	</tr>
-	<tr>
-		<td><strong>
-			<?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INTERNATIONAL_ENABLED') ?>
-		</strong></td>
-		<td>
-			<select name="DHL_INTERNATIONAL_ENABLED" class="inputbox">
-				<option
-					<?php
-						if (DHL_INTERNATIONAL_ENABLED == 'TRUE')
-							echo "selected=\"selected\"";
-					?>
-					value="TRUE">
-					<?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES') ?>
-				</option>
-				<option
-					<?php
-						if (DHL_INTERNATIONAL_ENABLED == 'FALSE')
-							echo "selected=\"selected\"";
-					?>
-					value="FALSE">
-					<?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO') ?>
-				</option>
-			</select>
-		</td>
-		<td>
-			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INTERNATIONAL_ENABLED_TOOLTIP')) ?>
-		</td>
-	</tr>
-	<tr>
-		<td><strong>
-			<?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_DOMESTIC_PACKAGE') ?>
-		</strong></td>
-		<td>
-			<select name="DHL_DOMESTIC_PACKAGE" class="inputbox">
-				<option
-					<?php
-						if (DHL_DOMESTIC_PACKAGE == 'L')
-							echo "selected=\"selected\"";
-					?>
-					value="L">
-					<?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_PACKAGE_LETTER') ?>
-				</option>
-				<option
-					<?php
-						if (DHL_DOMESTIC_PACKAGE == 'P')
-							echo "selected=\"selected\"";
-					?>
-					value="P">
-					<?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_PACKAGE_PACKAGE') ?>
-				</option>
-			</select>
-		</td>
-		<td>
-			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_DOMESTIC_PACKAGE_TOOLTIP')) ?>
-		</td>
-	</tr>
-	<tr>
-		<td><strong>
-			<?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INTERNATIONAL_PACKAGE') ?>
-		</strong></td>
-		<td>
-			<select name="DHL_INTERNATIONAL_PACKAGE" class="inputbox">
-				<option
-					<?php
-						if (DHL_INTERNATIONAL_PACKAGE == 'L')
-							echo "selected=\"selected\"";
-					?>
-					value="L">
-					<?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_PACKAGE_LETTER') ?>
-				</option>
-				<option
-					<?php
-						if (DHL_INTERNATIONAL_PACKAGE == 'P')
-							echo "selected=\"selected\"";
-					?>
-					value="P">
-					<?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_PACKAGE_DHL_PACKAGE') ?>
-				</option>
-				<option
-					<?php
-						if (DHL_INTERNATIONAL_PACKAGE == 'O')
-							echo "selected=\"selected\"";
-					?>
-					value="O">
-					<?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_PACKAGE_OTHER') ?>
-				</option>
-			</select>
-		</td>
-		<td>
-			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INTERNATIONAL_PACKAGE_TOOLTIP')) ?>
-		</td>
-	</tr>
-	<tr>
-        <td><strong><?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_CONTENT_DESC') ?></strong>
-		</td>
-		<td>
-            <input type="text" name="DHL_CONTENT_DESC" class="inputbox" value="<? echo DHL_CONTENT_DESC ?>" />
-		</td>
-		<td>
-            <?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_CONTENT_DESC_TOOLTIP')) ?>
-        </td>
-    </tr>
-	<tr>
-        <td><strong><?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_PACKAGE_WEIGHT') ?></strong>
-		</td>
-		<td>
-            <input type="text" name="DHL_PACKAGE_WEIGHT" class="inputbox" value="<? echo DHL_PACKAGE_WEIGHT ?>" />
-		</td>
-		<td>
-            <?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_PACKAGE_WEIGHT_TOOLTIP')) ?>
-        </td>
-    </tr>
-	<tr>
-        <td><strong><?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_DUTY_SHOPPER_GROUP') ?></strong>
-		</td>
-		<td>
-            <input type="text" name="DHL_DUTY_SHOPPER_GROUP" class="inputbox" value="<? echo DHL_DUTY_SHOPPER_GROUP ?>" />
-		</td>
-		<td>
-            <?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_DUTY_SHOPPER_GROUP_TOOLTIP')) ?>
-        </td>
-    </tr>
-	<tr>
-        <td><strong><?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_ADDITIONAL_PROTECTION') ?></strong>
-		</td>
-		<td>
-			<select name="DHL_ADDITIONAL_PROTECTION" class="inputbox">
-				<option
-					<?php
-						if (DHL_ADDITIONAL_PROTECTION == 'AP')
-							echo "selected=\"selected\"";
-					?>
-					value="AP">
-					<?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_ASSET_PROTECTION') ?>
-				</option>
-				<option
-					<?php
-						if (DHL_ADDITIONAL_PROTECTION == 'NR')
-							echo "selected=\"selected\"";
-					?>
-					value="NR">
-					<?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_NOT_REQUIRED') ?>
-				</option>
-			</select>
-		</td>
-		<td>
-            <?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_ADDITIONAL_PROTECTION_TOOLTIP')) ?>
-        </td>
-    </tr>
-	<tr>
-        <td><strong><?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INSURANCE_SHOPPER_GROUP') ?></strong>
-		</td>
-		<td>
-            <input type="text" name="DHL_INSURANCE_SHOPPER_GROUP" class="inputbox" value="<? echo DHL_INSURANCE_SHOPPER_GROUP ?>" />
-		</td>
-		<td>
-            <?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INSURANCE_SHOPPER_GROUP_TOOLTIP')) ?>
-        </td>
-    </tr>
-	<tr>
-        <td><strong><?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_DOMESTIC_INSURANCE') ?></strong>
-		</td>
-		<td>
-            <input type="text" name="DHL_INSURANCE_RATE_DOMESTIC_FLAT" class="inputbox" value="<? echo DHL_INSURANCE_RATE_DOMESTIC_FLAT ?>" />
-		</td>
-		<td>
-            <?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_DOMESTIC_INSURANCE_TOOLTIP')) ?>
-        </td>
-    </tr>
-	<tr>
-        <td><strong><?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INTERNATIONAL_INSURANCE') ?></strong>
-		</td>
-		<td>
-            <input type="text" name="DHL_INSURANCE_RATE_INTERNATIONAL" class="inputbox" value="<? echo DHL_INSURANCE_RATE_INTERNATIONAL ?>" />
-		</td>
-		<td>
-            <?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INTERNATIONAL_INSURANCE_TOOLTIP')) ?>
-        </td>
-    </tr>
-	<tr>
-		<td><strong>
-			<?php echo $VM_LANG->_('PHPSHOP_UPS_TAX_CLASS') ?>
-		</strong></td>
-		<td>
-			<?php
-				require_once(CLASSPATH.'ps_tax.php');
-				ps_tax::list_tax_value("DHL_TAX_CLASS", DHL_TAX_CLASS)
-			?>
-		</td>
-		<td>
-			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_UPS_TAX_CLASS_TOOLTIP')) ?>
-		</td>
-	</tr>
-	<tr>
-		<td colspan="3"><hr /></td>
-	</tr>
-	<tr>
-		<td><strong>
-			<?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_HANDLING_FEE') ?>
-		</strong></td>
-		<td>
-			<input class="inputbox" type="text" name="DHL_HANDLING_FEE"
-			    value="<?php echo DHL_HANDLING_FEE ?>" />
-		</td>
-		<td>
-			<?php echo vmToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_HANDLING_FEE_TOOLTIP')) ?>
-		</td>
-	</tr>
-	</table>
-	<?php
-		// return false if there's no configuration
-		return (true);
-	}
-
-	/*
-	 * Returns the "is_writeable" status of the configuration file
-	 * @param void
-	 * @returns boolean True when the configuration file is writeable,
-	 * false when not
-	 */
-	function configfile_writeable() {
-		return (is_writeable( ADMINPATH."plugins/shipping/".__CLASS__ . ".cfg.php"));
-	}
-
-	/*
-	 * Writes the configuration file for this shipping method
-	 * @param array An array of objects
-	 * @returns boolean True when writing was successful
-	 */
-	function write_configuration(&$d) {
-	    global $vmLogger;
-
-		$my_config_array = array(
-			"DHL_ID" => $d['DHL_ID'],
-			"DHL_PASSWORD" => $d['DHL_PASSWORD'],
-			"DHL_DOMESTIC_SHIPPING_KEY" => $d['DHL_DOMESTIC_SHIPPING_KEY'],
-			"DHL_INTERNATIONAL_SHIPPING_KEY" => $d['DHL_INTERNATIONAL_SHIPPING_KEY'],
-			"DHL_ACCOUNT_NUMBER" => $d['DHL_ACCOUNT_NUMBER'],
-			"DHL_TOO_LATE" => $d['DHL_TOO_LATE'],
-			"DHL_TEST_MODE" => $d['DHL_TEST_MODE'],
-			"DHL_EXPRESS_ENABLED" => $d['DHL_EXPRESS_ENABLED'],
-			"DHL_NEXT_AFTERNOON_ENABLED" => $d['DHL_NEXT_AFTERNOON_ENABLED'],
-			"DHL_SECOND_DAY_ENABLED" => $d['DHL_SECOND_DAY_ENABLED'],
-			"DHL_GROUND_ENABLED" => $d['DHL_GROUND_ENABLED'],
-			"DHL_1030_ENABLED" => $d['DHL_1030_ENABLED'],
-			"DHL_SATURDAY_ENABLED" => $d['DHL_SATURDAY_ENABLED'],
-			"DHL_INTERNATIONAL_ENABLED" => $d['DHL_INTERNATIONAL_ENABLED'],
-			"DHL_DOMESTIC_PACKAGE" => $d['DHL_DOMESTIC_PACKAGE'],
-			"DHL_INTERNATIONAL_PACKAGE" => $d['DHL_INTERNATIONAL_PACKAGE'],
-			"DHL_CONTENT_DESC" => $d['DHL_CONTENT_DESC'],
-			"DHL_PACKAGE_WEIGHT" => $d['DHL_PACKAGE_WEIGHT'],
-			"DHL_DUTY_SHOPPER_GROUP" => $d['DHL_DUTY_SHOPPER_GROUP'],
-			"DHL_ADDITIONAL_PROTECTION" => $d['DHL_ADDITIONAL_PROTECTION'],
-			"DHL_INSURANCE_SHOPPER_GROUP" => $d['DHL_INSURANCE_SHOPPER_GROUP'],
-			"DHL_INSURANCE_RATE_DOMESTIC_FLAT" =>
-			    $d['DHL_INSURANCE_RATE_DOMESTIC_FLAT'],
-			"DHL_INSURANCE_RATE_INTERNATIONAL" =>
-			    $d['DHL_INSURANCE_RATE_INTERNATIONAL'],
-			"DHL_TAX_CLASS" => $d['DHL_TAX_CLASS'],
-			"DHL_HANDLING_FEE" => $d['DHL_HANDLING_FEE'],
-			);
-		$config = "<?php\n";
-		$config .= "if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); \n\n";
-		foreach ($my_config_array as $key => $value)
-			$config .= "define ('$key', '$value');\n";
-		$config .= "?>";
-
-		if ($fp = fopen( ADMINPATH."plugins/shipping/".__CLASS__ . ".cfg.php", "w")) {
-			fputs($fp, $config, strlen($config));
-			fclose ($fp);
-			return (true);
-		} else {
-			$vmLogger->err("Error writing to configuration file");
-			return (false);
-		}
-	}
 
 	function calc_duty_value(&$d) {
 
@@ -2811,22 +2229,15 @@ class dhl {
 	 */
 	function get_duty_value($pid) {
 
-		/* Read current Configuration */
-		require_once( ADMINPATH."plugins/shipping/".__CLASS__ .  ".cfg.php");
-
 		$db = new ps_DB;
 
-		/* XXX map shopper group 'DUTY' to sgid (shopper group id) */
-		$q = "SELECT shopper_group_id FROM #__{vm}_shopper_group ";
-		$q .= "WHERE shopper_group_name='" . DHL_DUTY_SHOPPER_GROUP . "'";
-		$db->query($q);
-		if (!$db->next_record()) {
-			/* no group was specific for duty prices, use normal price */
+		if ( $this->params->get('DHL_DUTY_SHOPPER_GROUP')<5 ) {
+			// no valid group was specific for duty prices, use normal price
 			$ps_product = new ps_product;
 			$p_array = $ps_product->get_price($pid);
 			$duty_value = $p_array['product_price'];
 		} else {
-			$sgid = $db->f("shopper_group_id");
+			$sgid = (int)$this->params->get('DHL_DUTY_SHOPPER_GROUP');
 
 			$q = "SELECT product_price FROM #__{vm}_product_price ";
 			$q .= "WHERE product_id='" . $pid . "' ";
@@ -2867,15 +2278,12 @@ class dhl {
 		 * insurance value of 0.
 		 */
 
-		/* Read current Configuration */
-		require_once(ADMINPATH."plugins/shipping/".__CLASS__ .   ".cfg.php");
-
 		if (!$is_international) {
 			$default_insurance_value = floatval(
-			    DHL_INSURANCE_RATE_DOMESTIC_FLAT);
+			    $this->params->get('DHL_INSURANCE_RATE_DOMESTIC_FLAT'));
 		} else {
 			$default_insurance_value = $weight *
-			    floatval(DHL_INSURANCE_RATE_INTERNATIONAL);
+			    floatval($this->params->get('DHL_INSURANCE_RATE_INTERNATIONAL'));
 		}
 		$default_insurance_value = round($default_insurance_value, 2);
 		if ($default_insurance_value > $ivalue)
@@ -2892,22 +2300,15 @@ class dhl {
 	 */
 	function get_insurance_value($pid) {
 
-		/* Read current Configuration */
-		require_once( ADMINPATH."plugins/shipping/".__CLASS__ .   ".cfg.php");
-
 		$db = new ps_DB;
 
-		/* XXX map shopper group 'DUTY' to sgid (shopper group id) */
-		$q = "SELECT shopper_group_id FROM #__{vm}_shopper_group ";
-		$q .= "WHERE shopper_group_name='" . DHL_INSURANCE_SHOPPER_GROUP . "'";
-		$db->query($q);
-		if (!$db->next_record()) {
+		if ( $this->params->get('DHL_INSURANCE_SHOPPER_GROUP')<5 ) {
 			/* no group was specific for insurnace value, use normal price */
 			$ps_product = new ps_product;
 			$p_array = $ps_product->get_price($pid);
 			$duty_value = $p_array['product_price'];
 		} else {
-			$sgid = $db->f("shopper_group_id");
+			$sgid = (int)$this->params->get('DHL_INSURANCE_SHOPPER_GROUP');
 
 			$q = "SELECT product_price FROM #__{vm}_product_price ";
 			$q .= "WHERE product_id='" . $pid . "' ";

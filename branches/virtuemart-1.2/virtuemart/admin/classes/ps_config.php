@@ -57,7 +57,7 @@ class ps_config {
 			else {
 				$d['conf_NO_SHIPTO'] = '';
 			}
-			if( empty( $d['conf_SHIPPING'] ) || empty($d['VM_CHECKOUT_MODULES']['CHECK_OUT_GET_SHIPPING_METHOD']['enabled']) ) {
+			if( empty($d['VM_CHECKOUT_MODULES']['CHECK_OUT_GET_SHIPPING_METHOD']['enabled']) ) {
 				$d['VM_CHECKOUT_MODULES']['CHECK_OUT_GET_SHIPPING_METHOD']['enabled'] = '';
 				$d['conf_NO_SHIPPING'] = '1';
 			}
@@ -122,7 +122,6 @@ class ps_config {
 			"ENCODE_KEY"	=>	"conf_ENCODE_KEY",
 			"NO_SHIPPING"    	=>      "conf_NO_SHIPPING",
 			"NO_SHIPTO"    	=>      "conf_NO_SHIPTO",
-			"AFFILIATE_ENABLE"    	=>      "conf_AFFILIATE_ENABLE",
 			"PSHOP_ALLOW_FRONTENDADMIN_FOR_NOBACKENDERS" => "conf_PSHOP_ALLOW_FRONTENDADMIN_FOR_NOBACKENDERS",
 			"PSHOP_IMG_RESIZE_ENABLE" => "conf_PSHOP_IMG_RESIZE_ENABLE",
 			"PSHOP_IMG_WIDTH" => "conf_PSHOP_IMG_WIDTH",
@@ -158,8 +157,7 @@ class ps_config {
 			// Begin Arrays
 			"VM_BROWSE_ORDERBY_FIELDS"          =>      "conf_VM_BROWSE_ORDERBY_FIELDS",
 			"VM_MODULES_FORCE_HTTPS"          =>      "conf_VM_MODULES_FORCE_HTTPS",
-			"VM_CHECKOUT_MODULES"	=>	"VM_CHECKOUT_MODULES",
-			"PSHOP_SHIPPING_MODULE"     =>      "conf_SHIPPING"
+			"VM_CHECKOUT_MODULES"	=>	"VM_CHECKOUT_MODULES"
 			);
 			if( !vmisJoomla('1.5')) {
 				$url = '$mosConfig_live_site.$app';
@@ -246,15 +244,6 @@ define( 'IMAGEPATH', \$mosConfig_absolute_path.'/components/com_virtuemart/shop_
 					}
 					$config .= "define('$key', '".$d[$value]."');\n";
 				}
-				elseif( $key == "PSHOP_SHIPPING_MODULE" ) {
-					$config .= "\n/* Shipping Methods Definition */\nglobal \$PSHOP_SHIPPING_MODULES;\n";
-					$i = 0;
-					if( empty( $d['conf_SHIPPING'] )) $d['conf_SHIPPING'] = array('no_shipping');
-					foreach( $d['conf_SHIPPING'] as $shipping_module) {
-						$config.= "\$PSHOP_SHIPPING_MODULES[$i] = \"$shipping_module\";\n";
-						$i++;
-					}
-				}
 				elseif( $key == "VM_BROWSE_ORDERBY_FIELDS" ) {
 					$config .= "\n/* OrderByFields */\nglobal \$VM_BROWSE_ORDERBY_FIELDS;\n";
 					$config .= "\$VM_BROWSE_ORDERBY_FIELDS = array( ";
@@ -305,7 +294,7 @@ define( 'IMAGEPATH', \$mosConfig_absolute_path.'/components/com_virtuemart/shop_
 					$config.= " );\n";
 				}
 				elseif( $key == 'PSHOP_OFFLINE_MESSAGE' || $key == 'VM_ONCHECKOUT_LEGALINFO_SHORTTEXT'  ) {
-					$config_val = str_replace("'","\'",vmGet( $d, $value) );
+					$config_val = str_replace("'","\'",vmGet( $d, $value, '', VMREQUEST_ALLOWHTML ) );
 					$config .= "define('".$key."', '".$config_val."');\n";
 				}
 				else {

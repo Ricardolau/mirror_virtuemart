@@ -41,7 +41,7 @@ class free_shipping {
 	 ** name: get_rate( $d )
 	 ** created by: soeren
 	 ***************************************************************************/
-	function get_rate( &$d ) {
+	function get_shipping_rate( &$d ) {
 		
 		return 0 ;
 	
@@ -51,7 +51,7 @@ class free_shipping {
 	 ** name:  get_tax_rate() {( $d )
 	 ** created by: soeren
 	 ***************************************************************************/
-	function get_tax_rate() {
+	function get_shippingtax_rate() {
 		
 		return 0 ;
 	

@@ -6,7 +6,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id: convertECB.php 1510 2008-08-08 19:11:42Z soeren_nb $
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -26,7 +26,7 @@ class convertECB {
 	var $archive = true;
 	var $last_updated = '';
 	
-	var $document_address = 'http://www.ecb.int/stats/eurofxref/eurofxref-daily.xml';
+	var $document_address = 'http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml';
 	
 	var $info_address = 'http://www.ecb.int/stats/eurofxref/';
 	var $supplier = 'European Central Bank';

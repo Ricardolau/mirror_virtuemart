@@ -19,7 +19,6 @@ mm_showMyFileName( __FILE__ );
 
 require_once(CLASSPATH. 'ps_product.php' );
 $ps_product =& new ps_product;
-require_once(CLASSPATH. 'ps_shipping_method.php' );
 require_once(CLASSPATH. 'ps_checkout.php' );
 $ps_checkout =& new ps_checkout;
 

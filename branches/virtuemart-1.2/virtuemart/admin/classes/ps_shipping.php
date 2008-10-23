@@ -15,7 +15,10 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 *
 * http://virtuemart.net
 */
-
+/**
+ * This class handles the rates and carriers of the standard shipping module!
+ *
+ */
 class ps_shipping {
 
 	/**

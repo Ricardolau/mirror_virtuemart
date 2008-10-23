@@ -533,7 +533,7 @@ else {
   			  <?php
   			    $dbpm =& new ps_DB;
   				$q  = "SELECT * FROM #__{vm}_payment_method, #__{vm}_order_payment WHERE #__{vm}_order_payment.order_id='$order_id' ";
-  				$q .= "AND #__{vm}_payment_method.payment_method_id=#__{vm}_order_payment.payment_method_id";
+  				$q .= "AND #__{vm}_payment_method.id=#__{vm}_order_payment.payment_method_id";
   				$dbpm->query($q);
   				$dbpm->next_record();
   			   
@@ -556,7 +556,7 @@ else {
     				  </tr>
     				  <tr> 
       					<td width="13%">
-                  <?php $ps_order_change_html->html_change_payment($dbpm->f("payment_method_id")) ?>
+                  <?php $ps_order_change_html->html_change_payment($dbpm->f("id")) ?>
                 </td>
       					<td width="40%"><?php $dbpm->p("order_payment_name");?></td>
       					<td width="30%"><?php 

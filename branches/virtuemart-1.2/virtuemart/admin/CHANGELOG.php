@@ -35,6 +35,11 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+23.10.2008 soeren
+
+^ updated all Shipping and Payment Modules to have their configuration parameters in XML files
++ added new Plugin System
+
 09.10.2008 soeren
 # Task #2293 - Product display options
 

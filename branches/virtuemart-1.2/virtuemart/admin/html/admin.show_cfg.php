@@ -212,17 +212,7 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_ADMIN_CFG_GLOBAL'), "global-page");
 			<td><?php echo vmToolTip( $VM_LANG->_('VM_ADMIN_CFG_REVIEW_MAXIMUM_COMMENT_LENGTH_TIP') ) ?>
 			</td>
 		</tr>
-		
-		<tr>
-			<td class="labelcell">
-				<label for="conf_AFFILIATE_ENABLE"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE') ?></label>
-			</td>
-			<td>
-				<input type="checkbox" id="conf_AFFILIATE_ENABLE" name="conf_AFFILIATE_ENABLE" class="inputbox" <?php if (AFFILIATE_ENABLE == '1') echo "checked=\"checked\""; ?> value="1" />
-			</td>
-			<td class="iconcell"><?php echo vmToolTip( $VM_LANG->_('PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE_EXPLAIN') ) ?>
-			</td>
-		</tr>
+
 	</table>
 </fieldset>
 
@@ -934,101 +924,7 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_ADMIN_CFG_SITE'), "site-page");
 <?php
 $tabs->endTab();
 
-$tabs->startTab( $VM_LANG->_('PHPSHOP_ADMIN_CFG_SHIPPING'), "shipping-page");
-?>
 
-<?php
-require_once( CLASSPATH. "ps_shipping_method.php" );
-$ps_shipping_method = new ps_shipping_method;
-$rows = $ps_shipping_method->method_list();
-$i = 0;
-echo '<input type="hidden" name="shippingMethodCount" value="'.(count($rows)-1 ). '" />';
-?>
-<fieldset>
-	<legend><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD') ?></legend>
-	<table class="adminform" onclick="validateForm();">
-<?php
-foreach( $rows as $row ) {
-	if( empty($row )) continue;
-    switch( strtolower($row['name']) ) {
-    	case 'standard_shipping' : ?>
-    
-                <tr>
-                    <td>
-                        <input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" <?php if (array_search('standard_shipping', $PSHOP_SHIPPING_MODULES) !== false) echo "checked=\"checked\""; ?> value="standard_shipping" />
-                    </td>
-                    <td><label for="sh<?php echo $i ?>"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_STANDARD') ?></label>
-                    </td>
-                </tr><?php  
-    		break;
-    		
-		case 'zone_shipping': ?>
-				<tr>
-                    <td valign="top">
-                        <input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" <?php if (array_search('zone_shipping', $PSHOP_SHIPPING_MODULES) !== false) echo "checked=\"checked\""; ?> value="zone_shipping" />
-                    </td>
-                    <td><label for="sh<?php echo $i ?>"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_ZONE') ?></label>
-                    </td>
-                </tr><?php  
-			break;
-			
-		case 'ups': ?>
-				<tr>
-                    <td>
-                        <input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" <?php if (array_search('ups', $PSHOP_SHIPPING_MODULES) !== false) echo "checked=\"checked\""; ?> value="ups" />
-                    </td>
-                    <td><label for="sh<?php echo $i ?>"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS') ?></label>
-                    </td>
-                </tr><?php  
-			break;
-			
-		case 'intershipper': ?>
-			<tr>
-                    <td>
-                        <input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" <?php if (array_search('intershipper', $PSHOP_SHIPPING_MODULES) !== false) echo "checked=\"checked\""; ?> value="intershipper" />
-                    </td>
-                    <td><label for="sh<?php echo $i ?>"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_INTERSHIPPER') ?></label>
-                    </td>
-                </tr><?php  
-			break;
-			
-		case 'flex': ?>
-			<tr>
-                    <td>
-                        <input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" <?php if (array_search('flex', $PSHOP_SHIPPING_MODULES) !== false) echo "checked=\"checked\""; ?> value="<?php echo basename($row['filename'], ".php") ?>" />
-                    </td>
-                    <td><label for="sh<?php echo $i ?>"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_FLEX') ?></label>
-                    </td>
-                </tr><?php  
-					break;
-			
-		case 'shipvalue': ?>
-			<tr>
-                    <td>
-                        <input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" <?php if (array_search('shipvalue', $PSHOP_SHIPPING_MODULES) !== false) echo "checked=\"checked\""; ?> value="<?php echo basename($row['filename'], ".php") ?>" />
-                    </td>
-                    <td><label for="sh<?php echo $i ?>"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_SHIPVALUE') ?></label>
-                    </td>
-                </tr><?php  
-					break;
-			
-		default: ?>
-			<tr>
-                <td>
-                    <input type="checkbox" id="sh<?php echo $i ?>" name="conf_SHIPPING[]" <?php if (array_search($row['name'], $PSHOP_SHIPPING_MODULES) !== false) echo "checked=\"checked\""; ?> value="<?php echo $row['name'] ?>" />
-                </td>
-                <td><label for="sh<?php echo $i ?>"><?php echo $row["description"]; ?></label></td>
-                </tr><?php    
-                break;
-		}
-		$i++;
-}
-
-		?>
-        </table>
-</fieldset>
-<?php
-$tabs->endTab();
 $tabs->startTab( $VM_LANG->_('PHPSHOP_ADMIN_CFG_CHECKOUT'), "checkout-page");
 ?>
 
@@ -1287,22 +1183,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_FEED_CONFIGURATION'), "feed-page");
 function validateForm(pressbutton) {
 	var form = document.adminForm;
 
-	/* Shipping Configuration */
-	var correct = false;
-	var n = document.adminForm.shippingMethodCount.value;
-	var fldName = 'sh';
-	var f = document.adminForm;
-	var n2 = 0;
-	for (i=0; i <= n; i++) {
-		cb = eval( 'f.' + fldName + '' + i );
-		if (cb) {
-			if(cb.checked)
-			correct = true;
-		}
-	}
-	if(!correct) {
-		alert('<?php echo addslashes($VM_LANG->_('PHPSHOP_ADMIN_CFG_SHIPPING_NO_SELECTION')) ?>');
-	}
+	return true;
 
 }
 function toggleVisibility( makeVisible, ID ) {
@@ -1317,8 +1198,7 @@ function toggleVisibility( makeVisible, ID ) {
 		element.style.display='none';
 	}
 }
-var count = document.adminForm.shippingMethodCount.value;
-var elem = eval( 'document.adminForm.sh' + count );
+
 var checkStock = document.adminForm.conf_CHECK_STOCK.checked;
 toggleVisibility( checkStock, 'cs1' );toggleVisibility( checkStock, 'cs2' );toggleVisibility( checkStock, 'cs3' );
 <?php

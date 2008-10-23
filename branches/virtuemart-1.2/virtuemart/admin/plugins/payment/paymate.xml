@@ -11,7 +11,6 @@
 	
   	<install>	
 		<files>
-			<filename>paymate.cfg.php</filename>
 			<filename>paymate.php</filename>
 		</files>
 		<!--<queries>
@@ -20,5 +19,8 @@
 			<query></query>
 		</queries>-->
 	</install>	
-	
+	<params>
+		<param type="text" name="PAYMATE_USERNAME" label="PHPSHOP_ADMIN_CFG_PAYMATE_USERNAME"
+             default="username" description="PHPSHOP_ADMIN_CFG_PAYMATE_USERNAME_EXPLAIN" />
+	</params>
 </install>

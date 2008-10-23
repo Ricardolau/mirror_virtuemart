@@ -33,7 +33,7 @@ class ps_order {
      * @return boolean
     */
 	function order_status_update(&$d) {
-		global $mosConfig_offset;
+		global $mosConfig_offset, $vm_mainframe;
 		
 		$db = new ps_DB;
 		$timestamp = time() + ($mosConfig_offset*60*60);
@@ -56,60 +56,24 @@ class ps_order {
 		$d['order_comment'] = empty($d['order_comment']) ? "" : $d['order_comment'];
 		if( empty($d['order_item_id']) ) {
 			// When the order is set to "confirmed", we can capture
-			// the Payment with authorize.net
-			if( $curr_order_status=="P" && $d["order_status"]=="C") {
-				$q = "SELECT order_number,payment_class,order_payment_trans_id FROM #__{vm}_payment_method,#__{vm}_order_payment,#__{vm}_orders WHERE ";
-				$q .= "#__{vm}_order_payment.order_id='".$db->getEscaped($d['order_id'])."' ";
-				$q .= "AND #__{vm}_orders.order_id='".$db->getEscaped($d['order_id'])."' ";
-				$q .= "AND #__{vm}_order_payment.payment_method_id=#__{vm}_payment_method.payment_method_id";
-				$db->query( $q );
-				$db->next_record();
-				$payment_class = $db->f("payment_class");
-				if( $payment_class=="authorize" ) {
-					require_once( ADMINPATH . "plugins/payment/authorize.cfg.php");
-					if( AN_TYPE == 'AUTH_ONLY' ) {
-						require_once( ADMINPATH . "plugins/payment/authorize.php");
-						$authorize = new authorize();
-						$d["order_number"] = $db->f("order_number");
-						if( !$authorize->capture_payment( $d )) {
-							return false;
-						}
-					}
-				}
-			}
-			/*
-			 * This is like the test above for delayed capture only
-			 * we (well, I - durian) don't think the credit card
-			 * should be captured until the item(s) are shipped.
-			 * In fact, VeriSign says not to capture the cards until
-			 * the item ships.  Maybe this behavior should be a
-			 * configurable item?
-			 *
-			 * When the order changes from Confirmed or Pending to
-			 * Shipped, perform the delayed capture.
-			 *
-			 * Restricted to PayFlow Pro for now.
-			 */
+			// the Payment
 			if( ($curr_order_status=="P" || $curr_order_status=="C") && $d["order_status"]=="S") {
-				$q = "SELECT order_number,payment_class,order_payment_trans_id FROM #__{vm}_payment_method,#__{vm}_order_payment,#__{vm}_orders WHERE ";
+				$q = "SELECT order_number,element,order_payment_trans_id FROM #__{vm}_order_payment,#__{vm}_orders WHERE ";
 				$q .= "#__{vm}_order_payment.order_id='".$db->getEscaped($d['order_id'])."' ";
 				$q .= "AND #__{vm}_orders.order_id='".$db->getEscaped($d['order_id'])."' ";
-				$q .= "AND #__{vm}_order_payment.payment_method_id=#__{vm}_payment_method.payment_method_id";
 				$db->query( $q );
 				$db->next_record();
-				$payment_class = $db->f("payment_class");
-				if( $payment_class=="payflow_pro" ) {
-					require_once( ADMINPATH . "plugins/payment/payflow_pro.cfg.php");
-					if( PFP_TYPE == 'A' ) {
-						require_once( ADMINPATH . "plugins/payment/payflow_pro.php");
-						$pfp = new payflow_pro();
-						$d["order_number"] = $db->f("order_number");
-						if( !$pfp->capture_payment( $d )) {
-							return false;
-						}
+				require_once( CLASSPATH.'paymentMethod.class.php');
+				vmPaymentMethod::importPaymentPluginById($db->f('payment_method_id'));
+				$d["order_number"] = $db->f("order_number");
+				$result = $vm_mainframe->triggerEvent('capture_payment', array( $d ));
+				if( $result !== false ) {
+					if( $result[0] === false ) {
+						return false;
 					}
 				}
 			}
+
 	
 			/*
 			 * If a pending order gets cancelled, void the authorization.
@@ -117,25 +81,20 @@ class ps_order {
 			 * It might work on captured cards too, if we want to
 			 * void shipped orders.
 			 *
-			 * Restricted to PayFlow Pro for now.
 			 */
 			if( $curr_order_status=="P" && $d["order_status"]=="X") {
-				$q = "SELECT order_number,payment_class,order_payment_trans_id FROM #__{vm}_payment_method,#__{vm}_order_payment,#__{vm}_orders WHERE ";
+				$q = "SELECT order_number,element,order_payment_trans_id FROM #__{vm}_order_payment,#__{vm}_orders WHERE ";
 				$q .= "#__{vm}_order_payment.order_id='".$db->getEscaped($d['order_id'])."' ";
 				$q .= "AND #__{vm}_orders.order_id='".$db->getEscaped($d['order_id'])."' ";
-				$q .= "AND #__{vm}_order_payment.payment_method_id=#__{vm}_payment_method.payment_method_id";
 				$db->query( $q );
 				$db->next_record();
-				$payment_class = $db->f("payment_class");
-				if( $payment_class=="payflow_pro" ) {
-					require_once(ADMINPATH . "plugins/payment/payflow_pro.cfg.php");
-					if( PFP_TYPE == 'A' ) {
-						require_once( ADMINPATH . "plugins/payment/payflow_pro.php");
-						$pfp = new payflow_pro();
-						$d["order_number"] = $db->f("order_number");
-						if( !$pfp->void_authorization( $d )) {
-							return false;
-						}
+				require_once( CLASSPATH.'paymentMethod.class.php');
+				vmPaymentMethod::importPaymentPluginById($db->f('payment_method_id'));
+				$d["order_number"] = $db->f("order_number");
+				$result = $vm_mainframe->triggerEvent('void_authorization', array( $d ));
+				if( $result !== false ) {
+					if( $result[0] === false ) {
+						return false;
 					}
 				}
 			}
@@ -562,22 +521,24 @@ class ps_order {
 		$countfields = 'count(*) as num_rows';
 		$count = "SELECT $countfields FROM #__{vm}_orders ";
 		$list = "SELECT $listfields FROM #__{vm}_orders ";
-		if (!$perm->check("admin")) {
-			$q = "WHERE vendor_id='$ps_vendor_id' ";
+		$q = 'WHERE';
+		$where = array();
+		if (!$GLOBALS['perm']->check("admin")) {
+			$where[] = "vendor_id='$ps_vendor_id' ";
 		}
 		
 		if ($order_status != "A") {
-			$q .= "AND order_status='$order_status' ";
+			$where[] = " order_status='$order_status' ";
 		}
 		if ($secure) {
-			$q .= "AND user_id='" . $auth["user_id"] . "' ";
+			$where[] = " user_id='" . $auth["user_id"] . "' ";
 		}
 		if( !empty( $keyword )) {
-			$q .= "AND (order_id LIKE '%".$keyword."%' ";
-			$q .= "OR order_number LIKE '%".$keyword."%' ";
-			$q .= "OR order_total LIKE '%".$keyword."%') ";
+			$where[] =  "(order_id LIKE '%".$keyword."%' "
+								. "OR order_number LIKE '%".$keyword."%' "
+								. "OR order_total LIKE '%".$keyword."%') ";
 		}
-		$q .= "ORDER BY cdate DESC";
+		$q .= implode(' AND ', $where ). " ORDER BY cdate DESC";
 		$count .= $q;
 
 		$db->query($count);

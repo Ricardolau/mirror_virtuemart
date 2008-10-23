@@ -16,7 +16,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * http://virtuemart.net
 */
 
-class ps_shipping_method {
+class vmShippingMethod {
 
 	/**
 	 * Saves the configuration of a Shipping Module
@@ -62,11 +62,10 @@ class ps_shipping_method {
 	/**
 	 *  list all available shipping methods.
 	 *
-	 * @param int $payment_method_id
+	 * @param int $shipping_method_id
 	 * @return mixed
 	 */
-	function method_list( $payment_method_id="" ) {
-		global $mosConfig_absolute_path;
+	function method_list( $shipping_method_id="" ) {
 
 		$ps_vendor_id = $_SESSION["ps_vendor_id"];
 		$db = new ps_DB;
@@ -96,13 +95,13 @@ class ps_shipping_method {
 			|| $vendor_country_2_code=="DO"
 			) {
 				defined( 'WEIGHT_UOM' ) or define('WEIGHT_UOM', "LB" );
-				$GLOBALS['product_info'][$pid]['weight'] = ps_shipping_method::get_weight_LB( $pid );
+				$GLOBALS['product_info'][$pid]['weight'] = vmShippingMethod::get_weight_LB( $pid );
 				return $GLOBALS['product_info'][$pid]['weight'];
 			}
 
 			else {
 				defined( 'WEIGHT_UOM' ) or define('WEIGHT_UOM', "KG" );
-				$GLOBALS['product_info'][$pid]['weight'] = ps_shipping_method::get_weight_KG( $pid );
+				$GLOBALS['product_info'][$pid]['weight'] = vmShippingMethod::get_weight_KG( $pid );
 				return $GLOBALS['product_info'][$pid]['weight'];
 			}
 		}
@@ -269,4 +268,71 @@ class ps_shipping_method {
 		}
 	}
 }
+
+/**
+*
+* @abstract 
+*/
+class vmShippingPlugin extends vmPlugin {
+
+	/**
+	 * Constructor
+	 *
+	 * For php4 compatability we must not use the __constructor as a constructor for plugins
+	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
+	 * This causes problems with cross-referencing necessary for the observer design pattern.
+	 *
+	 * @param object $subject The object to observe
+	 * @param array  $config  An array that holds the plugin configuration
+	 * @since 1.2.0
+	 */
+	function vmPaymentPlugin(& $subject, $config) {
+		parent::__construct($subject, $config);
+	}
+
+	/**
+	 * Retrieve a list of available Shipping Rates
+	 *
+	 * @param string $order_number
+	 * @param double $order_total
+	 * @param array $d
+	 * @return mixed - false if retrieving the rate list failed, an array if success
+	 */
+   function get_rate_list(&$d) {
+        return array();
+    }
+    /**
+     * Get the rate for a specific Shipping Rate ID ($d['shipping_rate_id'])
+     *
+     * @param array $d
+     * @return double
+     */
+    function get_rate( &$d ) {
+    	return 0.00;
+    }
+    /**
+     * Should display some HTML, example: a Form to redirect the customer to the payment gateway
+     *
+	 * @return double
+     */
+    function get_tax_rate() {
+    	return 0.00;
+    }
+    /**
+     * Validates the Shipping Method
+     *
+     * @return boolean
+     */
+	function validate( &$d ) {
+		  $shipping_rate_id = vmGet($_REQUEST,"shipping_rate_id");
+	  
+		  if( array_key_exists( $shipping_rate_id, $_SESSION )) {
+		  	return true;
+		  }
+		  else {
+		  	return false;
+		  }
+	}
+}
+
 ?>

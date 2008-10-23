@@ -28,4 +28,33 @@ In the administrator console of VirtueMart -&gt; Payment Method List -&gt; Credi
 		</queries>-->
 	</install>	
 	
+	<params>
+		<param type="text" name="LP_LOGIN" label="Linkpoint Store ID"
+             default="xxxxxx" description="This is your Link Point Store Name" />
+		<param type="text" name="LP_KEYFILE" label="Location Of Public Keyfile"
+             default="xxxxxx" description="This is the full path of your LinkPoint Keyfile.  Example: /etc/linkpoint/mykey.pem" />			 
+			 
+		<param name="CHECK_CARD_CODE" label="PHPSHOP_PAYMENT_CVV2" type="radio" default="1" description="PHPSHOP_PAYMENT_CVV2_TOOLTIP">
+            <option value="1">PHPSHOP_ADMIN_CFG_YES</option>
+			<option value="0">PHPSHOP_ADMIN_CFG_NO</option>
+          </param>
+        <param name="PAYMENT_VERIFIED_STATUS" label="PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_SUCC" description="PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_SUCC_EXPLAIN"
+			type="table_data_list" table="#__{vm}_order_status" valuefield="order_status_code" textfield="order_status_name" orderfield="list_order" default="C"
+			/>
+        <param name="PAYMENT_PENDING_STATUS" label="VM_ADMIN_CFG_PAYPAL_STATUS_PENDING" description="VM_ADMIN_CFG_PAYPAL_STATUS_PENDING_EXPLAIN"
+			type="table_data_list" table="#__{vm}_order_status" valuefield="order_status_code" textfield="order_status_name" orderfield="list_order" default="P"
+			/>
+        <param name="PAYMENT_INVALID_STATUS" label="PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_FAIL" description="PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_FAIL_EXPLAIN"
+			type="table_data_list" table="#__{vm}_order_status" valuefield="order_status_code" textfield="order_status_name" orderfield="list_order" default="X"
+			/>
+		<param name="LP_RECURRING" type="radio" default="NO" label="PHPSHOP_PAYMENT_AN_RECURRING" description="PHPSHOP_PAYMENT_AN_RECURRING_TOOLTIP">
+			<option value="NO">PHPSHOP_ADMIN_CFG_NO</option>
+			<option value="YES">PHPSHOP_ADMIN_CFG_YES</option>
+		</param>
+		<param name="LP_PREAUTH" type="radio" default="NO" label="Pre Auth for Recurring Billing?" description="Select yes, is billing is not processed immediately.  (ie; Free Trials)">
+			<option value="NO">PHPSHOP_ADMIN_CFG_NO</option>
+			<option value="YES">PHPSHOP_ADMIN_CFG_YES</option>
+		</param>
+	</params>
+	  
 </install>

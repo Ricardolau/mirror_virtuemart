@@ -13,7 +13,6 @@
 	
   	<install>	
 		<files>
-			<filename>nochex.cfg.php</filename>
 			<filename>nochex.php</filename>
 		</files>
 		<!--<queries>
@@ -22,5 +21,8 @@
 			<query></query>
 		</queries>-->
 	</install>	
-	
+	<params>
+		<param type="text" name="NOCHEX_EMAIL" label="PHPSHOP_ADMIN_CFG_NOCHEX_EMAIL"
+             default="username@email.com" description="PHPSHOP_ADMIN_CFG_NOCHEX_EMAIL_EXPLAIN" />
+	</params>
 </install>

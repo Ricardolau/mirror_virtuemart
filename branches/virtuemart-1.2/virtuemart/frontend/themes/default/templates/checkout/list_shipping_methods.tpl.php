@@ -15,13 +15,22 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 *
 * http://virtuemart.net
 */
-
-foreach( $PSHOP_SHIPPING_MODULES as $shipping_module ) {
-    $vmLogger->debug( 'Starting Shipping module: '.$shipping_module );
-    include_once( ADMINPATH. "plugins/shipping/".$shipping_module.".php" );
-    $SHIPPING =& new $shipping_module();
-    $SHIPPING->list_rates( $vars );
-    echo "<br /><br />";
+vmPluginHelper::importPlugin('shipping');
+$result = $vm_mainframe->triggerEvent('get_shipping_rate_list', array( $vars ));
+if( is_array( $result )) {
+	foreach( $result as $shipping_module ) {
+		if( !empty($shipping_module[0])) {
+			echo '<fieldset><legend>'.$shipping_module[0]['carrier'].'</legend>';
+		}
+		foreach( $shipping_module as $rate ) {
+			$id = uniqid($shipping_module[0]['carrier']);
+			echo '<input type="radio" name="shipping_rate_id" value="'.$rate['shipping_rate_id'].'" id="'.$id.'" />';
+			echo '<label for="'.$id.'">'.$rate['rate_name']. ' - '.$CURRENCY_DISPLAY->getfullvalue($rate['rate']).'</label><br />';
+		}
+		if( !empty($shipping_module[0])) {
+			echo '</fieldset>';
+		}
+	}
 }
 
 ?>

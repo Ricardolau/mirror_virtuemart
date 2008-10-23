@@ -26,7 +26,7 @@ if ($cc_payments==true) {
 		<table border="0" cellspacing="0" cellpadding="2" width="100%">
 		    <tr>
 		        <td colspan="2">
-		        	<?php $ps_payment_method->list_cc($payment_method_id, false) ?>
+		        	<?php $vmPaymentMethod->list_cc($payment_method_id, false) ?>
 		        </td>
 		    </tr>
 		    <tr>
@@ -43,14 +43,12 @@ if ($cc_payments==true) {
 				</script>
 		<?php 
 		            $db_cc->reset();
-		            $payment_class = $db_cc->f("payment_class");
+		            $element = $db_cc->f("element");
 		            $require_cvv_code = "YES";
-		            if(file_exists(ADMINPATH. "plugins/payment/$payment_class.php") && file_exists(ADMINPATH. "plugins/payment/$payment_class.cfg.php")) {
-		                require_once(ADMINPATH. "plugins/payment/$payment_class.php");
-		                require_once(ADMINPATH. "plugins/payment/$payment_class.cfg.php");
-		                $_PAYMENT = new $payment_class();
-		                if( defined( $_PAYMENT->payment_code.'_CHECK_CARD_CODE' ) ) {
-		                	$require_cvv_code = strtoupper( constant($_PAYMENT->payment_code.'_CHECK_CARD_CODE') );
+		            $_PAYMENT = vmPaymentMethod::getPaymentPlugin($element);
+		            if(is_object($_PAYMENT) && is_a($_PAYMENT->params, 'vmparameters')) {
+		                if( $_PAYMENT->params->get('CHECK_CARD_CODE' ) ) {
+		                	$require_cvv_code = $_PAYMENT->params->get('CHECK_CARD_CODE' );
 		                }
 		            }
 		?>      </td>
@@ -116,9 +114,9 @@ if ($nocc_payments==true) {
 		<table border="0" cellspacing="0" cellpadding="2" width="100%">
 		    <tr>
 		        <td colspan="2"><?php 
-		            $ps_payment_method->list_nocheck($payment_method_id,  false); 
-		            $ps_payment_method->list_bank($payment_method_id,  false);
-		            $ps_payment_method->list_paypalrelated($payment_method_id,  false); ?>
+		            $vmPaymentMethod->list_nocheck($payment_method_id,  false); 
+		            $vmPaymentMethod->list_bank($payment_method_id,  false);
+		            $vmPaymentMethod->list_paypalrelated($payment_method_id,  false); ?>
 		        </td>
 		    </tr>
 		 </table>

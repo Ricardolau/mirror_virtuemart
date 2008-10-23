@@ -27,18 +27,29 @@ if( ! defined( '_VALID_MOS' ) && ! defined( '_JEXEC' ) )
  * 
  *******************************************************************************
  */
-class flex {
+class plgShippingFlex extends vmShippingPlugin {
+	/**
+	 * Constructor
+	 *
+	 * For php4 compatability we must not use the __constructor as a constructor for plugins
+	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
+	 * This causes problems with cross-referencing necessary for the observer design pattern.
+	 *
+	 * @param object $subject The object to observe
+	 * @param array  $config  An array that holds the plugin configuration
+	 * @since 1.2.0
+	 */
+	function plgShippingFlex( & $subject, $config ) {
+		parent::__construct( $subject, $config ) ;
+	}
 	/**
 	 * Lists all available shipping rates
 	 *
 	 * @param array $d
 	 * @return boolean
 	 */
-	function list_rates( &$d ) {
+	function get_shipping_rate_list( &$d ) {
 		global $total, $tax_total, $CURRENCY_DISPLAY ;
-		
-		/** Read current Configuration ***/
-		require_once (__CLASS__ . ".cfg.php") ;
 		
 		if( $_SESSION['auth']['show_price_including_tax'] != 1 ) {
 			$taxrate = 1 ;
@@ -49,41 +60,38 @@ class flex {
 		}
 		
 		//Charge minimum up to this value in cart
-		$base_ship = $GLOBALS['CURRENCY']->convert( FLEX_BASE_AMOUNT ) ;
+		$base_ship = $GLOBALS['CURRENCY']->convert( $this->params->get('FLEX_BASE_AMOUNT') ) ;
 		
 		//Flat rate shipping charge up to minimum value
-		$flat_charge = $GLOBALS['CURRENCY']->convert( FLEX_MIN_CHG ) ;
+		$flat_charge = $GLOBALS['CURRENCY']->convert( $this->params->get('FLEX_MIN_CHG') ) ;
 		
 		//Charge this percentage if cart value is greater than base amount
-		$ship_rate_perc = (FLEX_SHIP_PERC / 100) ;
+		$ship_rate_perc = ($this->params->get('FLEX_SHIP_PERC') / 100) ;
 		
 		//Flat rate handling fee
-		$handling_fee = $GLOBALS['CURRENCY']->convert( FLEX_HAND_FEE ) ;
+		$handling_fee = $GLOBALS['CURRENCY']->convert( $this->params->get('FLEX_HAND_FEE') ) ;
 		
 		if( $order_total < $base_ship ) {
 			$flat_charge += $handling_fee ;
-			$flat_charge *= $taxrate ;
-			$shipping_rate_id = urlencode( __CLASS__ . "|STD|Standard Shipping under " . $base_ship . "|" . $flat_charge ) ;
-			$html = "" ;
-			$html .= "\n<input type=\"radio\" name=\"shipping_rate_id\" checked=\"checked\" id=\"flex_shipping_rate\" value=\"$shipping_rate_id\" />\n" ;
-			$html .= "<label for=\"flex_shipping_rate\">Standard Shipping: " . $CURRENCY_DISPLAY->getFullValue( $flat_charge ) ;
-			$html .= "</label>" ;
-			
+			$rate = $flat_charge * $taxrate ;
+			$shipping_rate_id = urlencode( $this->_name . "|STD|Standard Shipping under " . $base_ship . "|" . $rate ) ;
 			$_SESSION[$shipping_rate_id] = 1 ;
+			$rate_name = 'Standard Shipping under ' . $CURRENCY_DISPLAY->getFullValue($base_ship);
+			
 		} else {
 			
 			$shipping_temp1 = ($order_total * $ship_rate_perc) ;
-			$shipping_temp1 += ($handling_fee * $taxrate) ;
-			$shipping_rate_id = urlencode( __CLASS__ . "|STD|Standard Shipping over " . $base_ship . "|" . $shipping_temp1 ) ;
-			$html = "" ;
-			$html .= "\n<input type=\"radio\" name=\"shipping_rate_id\" id=\"flex_shipping_rate\" checked=\"checked\" value=\"$shipping_rate_id\" />\n" ;
-			$html .= "<label for=\"flex_shipping_rate\">Standard Shipping: " ;
-			$html .= $CURRENCY_DISPLAY->getFullValue( $shipping_temp1 ) ;
-			$html .= "</label>" ;
+			$rate = $shipping_temp1 + ($handling_fee * $taxrate) ;
+			$shipping_rate_id = urlencode( $this->_name . "|STD|Standard Shipping over " . $base_ship . "|" . $rate ) ;
 			$_SESSION[$shipping_rate_id] = 1 ;
+			$rate_name = 'Standard Shipping over  ' . $CURRENCY_DISPLAY->getFullValue($base_ship);
 		}
-		echo $html ;
-		return true ;
+		$returnArr[] = array('shipping_rate_id' => $shipping_rate_id,
+									'carrier' => 'Standard Shipping',
+									'rate_name' => $rate_name,
+									'rate' => $rate
+								);
+		return $returnArr ;
 	
 	}
 	/**
@@ -92,152 +100,28 @@ class flex {
 	 * @param array $d
 	 * @return float
 	 */
-	function get_rate( &$d ) {
+	function get_shipping_rate( &$d ) {
 		
 		$shipping_rate_id = $d["shipping_rate_id"] ;
 		$is_arr = explode( "|", urldecode( urldecode( $shipping_rate_id ) ) ) ;
+		
 		$order_shipping = (float)$is_arr[3] ;
 		
 		return $order_shipping ;
 	
 	}
 	
-	function get_tax_rate() {
+	function get_shippingtax_rate() {
 		
-		/** Read current Configuration ***/
-		require_once (__CLASS__ . ".cfg.php") ;
-		
-		if( intval( FLEX_TAX_CLASS ) == 0 ) {
+		if( intval( $this->params->get('FLEX_TAX_CLASS') ) == 0 ) {
 			return (0) ;
 		} else {
 			require_once (CLASSPATH . "ps_tax.php") ;
-			$tax_rate = ps_tax::get_taxrate_by_id( intval( FLEX_TAX_CLASS ) ) ;
+			$tax_rate = ps_tax::get_taxrate_by_id( intval( $this->params->get('FLEX_TAX_CLASS') ) ) ;
 			return $tax_rate ;
 		}
 	}
 	
-	/**
-	 *  Validate this Shipping method by checking if the SESSION contains the key
-	 * @returns boolean False when the Shipping method is not in the SESSION
-	 */
-	function validate( $d ) {
-		
-		$shipping_rate_id = $d["shipping_rate_id"] ;
-		
-		if( array_key_exists( $shipping_rate_id, $_SESSION ) ) {
-			
-			return true ;
-		} else {
-			return false ;
-		}
-	}
-	/**
-	 * Show all configuration parameters for this Shipping method
-	 * @returns boolean False when the Shipping method has no configration
-	 */
-	function show_configuration() {
-		global $VM_LANG ;
-		/** Read current Configuration ***/
-		require_once (__CLASS__ . ".cfg.php") ;
-		?>
-<table>
-	<tr>
-		<td><strong>Charge flat shipping rate to this amount:</strong></td>
-		<td><input type="text" name="FLEX_BASE_AMOUNT" class="inputbox"
-			value="<?php
-		echo FLEX_BASE_AMOUNT ?>" /></td>
-		<td>
-        <?php
-		echo vmToolTip( "A flat fee will be charged if the total value of the cart is less than this amount. If the value of the cart is greater than this amount, a percentage will be charged" ) ?> 
-        </td>
-	</tr>
-	<tr>
-		<td><strong>Minimum Shipping Charge:</strong></td>
-		<td><input type="text" name="FLEX_MIN_CHG" class="inputbox"
-			value="<?php
-		echo FLEX_MIN_CHG ?>" /></td>
-		<td>
-        <?php
-		echo vmToolTip( "This is the flat fee to be charged if the value in the cart is less than the amount entered above." ) ?>
-        </td>
-	</tr>
-	<tr>
-		<td><strong>Percentage to charge if total sale is over base:</strong>
-		</td>
-		<td><input type="text" name="FLEX_SHIP_PERC" class="inputbox"
-			value="<?php
-		echo FLEX_SHIP_PERC ?>" /></td>
-		<td>
-            <?php
-		echo vmToolTip( "This is the percentage (of the total purchase) to be charged if the amount in the cart is greater than the amount entered above." ) ?>
-        </td>
-	</tr>
-	<tr>
-		<td><strong>Fixed Handling Charge:</strong></td>
-		<td><input type="text" name="FLEX_HAND_FEE" class="inputbox"
-			value="<?php
-		echo FLEX_HAND_FEE ?>" /></td>
-		<td>
-            <?php
-		echo vmToolTip( "If you want to use a flat fee in addition to the conditional rate, add it here, If not, set to Zero." ) ?>
-        </td>
-	</tr>
-	<tr>
-		<td><strong><?php
-		echo $VM_LANG->_( 'PHPSHOP_UPS_TAX_CLASS' ) ?></strong></td>
-		<td>
-		  <?php
-		require_once (CLASSPATH . 'ps_tax.php') ;
-		ps_tax::list_tax_value( "FLEX_TAX_CLASS", FLEX_TAX_CLASS ) ?>
-		</td>
-		<td><?php
-		echo vmToolTip( $VM_LANG->_( 'PHPSHOP_UPS_TAX_CLASS_TOOLTIP' ) ) ?>
-		
-		
-		<td>
-	
-	</tr>
-</table>
-<?php
-		// return false if there's no configuration
-		return true ;
-	}
-	/**
-	 * Returns the "is_writeable" status of the configuration file
-	 * @param void
-	 * @returns boolean True when the configuration file is writeable, false when not
-	 */
-	function configfile_writeable() {
-		return is_writeable( __CLASS__ . ".cfg.php" ) ;
-	}
-	
-	/**
-	 * Writes the configuration file for this shipping method
-	 * @param array An array of objects
-	 * @returns boolean True when writing was successful
-	 */
-	function write_configuration( &$d ) {
-		global $vmLogger ;
-		
-		$my_config_array = array( "FLEX_BASE_AMOUNT" => $d['FLEX_BASE_AMOUNT'] , "FLEX_MIN_CHG" => $d['FLEX_MIN_CHG'] , "FLEX_SHIP_PERC" => $d['FLEX_SHIP_PERC'] , "FLEX_TAX_CLASS" => $d['FLEX_TAX_CLASS'] , "FLEX_HAND_FEE" => $d['FLEX_HAND_FEE'] ) ;
-		$config = "<?php\n" ;
-		$config .= "if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); \n\n" ;
-		foreach( $my_config_array as $key => $value ) {
-			$value = str_replace( '\'', '\\\'', $value ) ;
-			$config .= "define ('$key', '$value');\n" ;
-		}
-		
-		$config .= "?>" ;
-		
-		if( $fp = fopen( __CLASS__ . ".cfg.php", "w" ) ) {
-			fputs( $fp, $config, strlen( $config ) ) ;
-			fclose( $fp ) ;
-			return true ;
-		} else {
-			$vmLogger->err( "Error writing to configuration file" ) ;
-			return false ;
-		}
-	}
 }
 
 ?>

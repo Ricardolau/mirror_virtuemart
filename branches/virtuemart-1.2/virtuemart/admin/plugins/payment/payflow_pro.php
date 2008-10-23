@@ -19,178 +19,25 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 define ('PFP_CLIENT_CERTIFICATION_ID', 'bea46ef28cd8693d8b191d2d011b7fd1');
 
-class payflow_pro {
-
+class plgPaymentPayflow_Pro extends vmPaymentPlugin {
+	
 	var $payment_code = "PFP";
-
+	
 	/**
-    * Show all configuration parameters for this payment method
-    * @returns boolean False when the Payment method has no configration
-    */
-	function show_configuration() {
-
-		global $VM_LANG, $sess;
-		$db =& new ps_DB;
-		$payment_method_id = vmGet( $_REQUEST, 'payment_method_id', null );
-		/** Read current Configuration ***/
-		require_once(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php");
-    ?>
-      <table>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_ENABLE_PFP_TESTMODE') ?></strong></td>
-            <td>
-                <select name="PFP_TEST_REQUEST" class="inputbox" >
-                <option <?php if (PFP_TEST_REQUEST == 'TRUE') echo "selected=\"selected\""; ?> value="TRUE"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES') ?></option>
-                <option <?php if (PFP_TEST_REQUEST == 'FALSE') echo "selected=\"selected\""; ?> value="FALSE"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO') ?></option>
-                </select>
-            </td>
-            <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_ENABLE_PFP_TESTMODE_EXPLAIN') ?></td>
-        </tr>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PFP_PARTNER') ?></strong></td>
-            <td>
-                <input type="text" name="PFP_PARTNER" class="inputbox" value="<?php echo PFP_PARTNER ?>" />
-            </td>
-            <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PFP_PARTNET_EXPLAIN') ?></td>
-        </tr>
-      <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PFP_VENDOR') ?></strong></td>
-            <td>
-                <input type="text" name="PFP_VENDOR" class="inputbox" value="<?php echo PFP_VENDOR ?>" />
-            </td>
-            <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PFP_VENDOR_EXPLAIN') ?></td>
-        </tr>
-      <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PFP_USER') ?></strong></td>
-            <td>
-                <input type="text" name="PFP_USER" class="inputbox" value="<?php echo PFP_USER ?>" />
-            </td>
-            <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PFP_USER_EXPLAIN') ?></td>
-        </tr>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PFP_PASSWORD') ?></strong></td>
-            <td>
-                <a id="changekey" href="<?php $sess->purl($_SERVER['PHP_SELF']."?page=store.payment_method_keychange&pshop_mode=admin&payment_method_id=$payment_method_id") ?>" >
-                <input onclick="document.location=document.getElementById('changekey').href" type="button" name="" value="<?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PFP_PASSWORD_SETCHANGE') ?>" class="button" /><a/>
-            </td>
-            <td>&nbsp;</td>
-        </tr>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_CVV2') ?></strong></td>
-            <td>
-                <select name="PFP_CHECK_CARD_CODE" class="inputbox">
-                <option <?php if (PFP_CHECK_CARD_CODE == 'YES') echo "selected=\"selected\""; ?> value="YES">
-                <?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES') ?></option>
-                <option <?php if (PFP_CHECK_CARD_CODE == 'NO') echo "selected=\"selected\""; ?> value="NO">
-                <?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO') ?></option>
-                </select>
-            </td>
-            <td><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_CVV2_TOOLTIP') ?></td>
-        </tr>
-        <tr><td colspan="3"><hr/></td></tr>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_SUCC') ?></strong></td>
-            <td>
-                <select name="PFP_VERIFIED_STATUS" class="inputbox" >
-                <?php
-                $q = "SELECT order_status_name,order_status_code FROM #__{vm}_order_status ORDER BY list_order";
-                $db->query($q);
-                $order_status_code = Array();
-                $order_status_name = Array();
-
-                while ($db->next_record()) {
-                	$order_status_code[] = $db->f("order_status_code");
-                	$order_status_name[] =  $db->f("order_status_name");
-                }
-                for ($i = 0; $i < sizeof($order_status_code); $i++) {
-                	echo "<option value=\"" . $order_status_code[$i];
-                	if (PFP_VERIFIED_STATUS == $order_status_code[$i])
-                	echo "\" selected=\"selected\">";
-                	else
-                	echo "\">";
-                	echo $order_status_name[$i] . "</option>\n";
-                    }?>
-                    </select>
-            </td>
-            <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_SUCC_EXPLAIN') ?></td>
-        </tr>
-            <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_FAIL') ?></strong></td>
-            <td>
-                <select name="PFP_INVALID_STATUS" class="inputbox" >
-                <?php
-                for ($i = 0; $i < sizeof($order_status_code); $i++) {
-                	echo "<option value=\"" . $order_status_code[$i];
-                	if (PFP_INVALID_STATUS == $order_status_code[$i])
-                	echo "\" selected=\"selected\">";
-                	else
-                	echo "\">";
-                	echo $order_status_name[$i] . "</option>\n";
-                    } ?>
-                    </select>
-            </td>
-            <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_FAIL_EXPLAIN') ?></td>
-        </tr>
-      </table>
-   <?php
-   // return false if there's no configuration
-   return true;
+	 * Constructor
+	 *
+	 * For php4 compatability we must not use the __constructor as a constructor for plugins
+	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
+	 * This causes problems with cross-referencing necessary for the observer design pattern.
+	 *
+	 * @param object $subject The object to observe
+	 * @param array  $config  An array that holds the plugin configuration
+	 * @since 1.2.0
+	 */
+	function plgPaymentPayflow_Pro( & $subject, $config ) {
+		parent::__construct( $subject, $config ) ;
 	}
 
-	function has_configuration() {
-		// return false if there's no configuration
-		return true;
-	}
-
-	/**
-	* Returns the "is_writeable" status of the configuration file
-	* @param void
-	* @returns boolean True when the configuration file is writeable, false when not
-	*/
-	function configfile_writeable() {
-		return is_writeable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
-	}
-
-	/**
-	* Returns the "is_readable" status of the configuration file
-	* @param void
-	* @returns boolean True when the configuration file is writeable, false when not
-	*/
-	function configfile_readable() {
-		return is_readable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
-	}
-	/**
-	* Writes the configuration file for this payment method
-	* @param array An array of objects
-	* @returns boolean True when writing was successful
-	*/
-	function write_configuration( &$d ) {
-
-		$my_config_array = array("PFP_TEST_REQUEST" => $d['PFP_TEST_REQUEST'],
-		"PFP_PARTNER" => $d['PFP_PARTNER'],
-		"PFP_VENDOR" => $d['PFP_VENDOR'],
-		"PFP_USER" => $d['PFP_USER'],
-		"PFP_CHECK_CARD_CODE" => $d['PFP_CHECK_CARD_CODE'],
-		"PFP_VERIFIED_STATUS" => $d['PFP_VERIFIED_STATUS'],
-		"PFP_INVALID_STATUS" => $d['PFP_INVALID_STATUS']
-		);
-		$config = "<?php\n";
-		$config .= "if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); \n\n";
-		foreach( $my_config_array as $key => $value ) {
-			$config .= "define ('$key', '$value');\n";
-		}
-
-		$config .= "?>";
-
-		if ($fp = fopen(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php", "w")) {
-			fputs($fp, $config, strlen($config));
-			fclose ($fp);
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
 
 	/**
 	 * process transaction with Payflow Pro
@@ -209,15 +56,12 @@ class payflow_pro {
 		$auth = $_SESSION['auth'];
 		$ps_checkout = new ps_checkout;
 
-		// Get the Configuration File for authorize.net
-		require_once(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php");
 		// connector class
-		require_once(ADMINPATH."plugins/connectionTools.class.php");
+		require_once(CLASSPATH."connectionTools.class.php");
 
 		// Get the Password securely from the database
-		$database->query( "SELECT ".VM_DECRYPT_FUNCTION."(payment_passkey,'".ENCODE_KEY."') as passkey FROM #__{vm}_payment_method WHERE payment_class='".__CLASS__."' AND shopper_group_id='".$auth['shopper_group_id']."'" );
-		$transaction = $database->record[0];
-		if( empty($transaction->passkey)) {
+		$transactionkey = $this->get_passkey();
+		if( empty($transactionkey)) {
 			$vmLogger->err( $VM_LANG->_('PHPSHOP_PAYMENT_ERROR',false).'. Technical Note: The required passwird is empty! The payment method settings must be reviewed.' );
 			return false;
 		}
@@ -247,11 +91,11 @@ class payflow_pro {
 		//Authnet vars to send
 		$formdata = array (
 		
-		'PARTNER' => PFP_PARTNER,
-		'VENDOR' => PFP_VENDOR,
-		'USER' => PFP_USER,
-		'PWD' => $transaction->passkey,
-		'TEST' => PFP_TEST_REQUEST,
+		'PARTNER' =>$this->params->get('PFP_PARTNER'),
+		'VENDOR' => $this->params->get('PFP_VENDOR'),
+		'USER' => $this->params->get('PFP_USER'),
+		'PWD' => $transactionkey,
+		'TEST' => ($this->params->get('DEBUG') ? 'TRUE' : 'FALSE'),
 
 		// Transaction Data
 		'AMT' => $order_total, // amount
@@ -284,7 +128,7 @@ class payflow_pro {
 		// strip off trailing ampersand
 		$poststring = substr($poststring, 0, -1);
 		
-		if(PFP_TEST_REQUEST=='TRUE') {
+		if($this->params->get('DEBUG')) {
 			$host = 'pilot-payflowpro.verisign.com';
 		} else  {
 			$host = 'payflowpro.verisign.com';
@@ -296,7 +140,7 @@ class payflow_pro {
 		$headers[] = "X-VPS-VIT-Client-Type: PHP/cURL";  // What you are using
 		$headers[] = "X-VPS-VIT-Client-Version: 0.01";  // For your info
 		$headers[] = "X-VPS-VIT-Client-Architecture: x86";  // For your info
-		$headers[] = "X-VPS-VIT-Client-Certification-Id: ".PFP_CLIENT_CERTIFICATION_ID; // get this from Todd @ payflowintegrator@paypal.com
+		$headers[] = "X-VPS-VIT-Client-Certification-Id: ".$this->params->get('PFP_CLIENT_CERTIFICATION_ID'); // get this from Todd @ payflowintegrator@paypal.com
 		$headers[] = "X-VPS-VIT-Integration-Product: ".phpversion()."::cURL";  // For your info, would populate with application name
 		$headers[] = "X-VPS-VIT-Integration-Version: 0.01"; // Application version
 		$headers[] = "X-VPS-Request-ID: " . $request_id;
@@ -336,7 +180,7 @@ class payflow_pro {
 				break;
 				
 			default:
-				$d["order_payment_log"] = payflow_pro::getResponseMsg( $RESULT_CODE );
+				$d["order_payment_log"] = $this->getResponseMsg( $RESULT_CODE );
 				if( !empty( $d["order_payment_log"] )) {
 					$vmLogger->err( $d["order_payment_log"] );
 				} else {
@@ -364,19 +208,16 @@ class payflow_pro {
 		global $vendor_mail, $vendor_currency, $VM_LANG, $vmLogger;
 		$database = new ps_DB();
 
-		require_once(ADMINPATH."plugins/connectionTools.class.php");
+		require_once(CLASSPATH."connectionTools.class.php");
 		
 		if( empty($d['order_number'])) {
 			$vmLogger->err("Error: No Order Number provided.");
 			return false;
 		}
-		/*** Get the Configuration File for authorize.net ***/
-		require_once(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php");
 
 		// Get the Account Password securely from the database
-		$database->query( "SELECT ".VM_DECRYPT_FUNCTION."(payment_passkey,'".ENCODE_KEY."') as passkey FROM #__{vm}_payment_method WHERE payment_class='".__CLASS__."'" );
-		$transaction = $database->record[0];
-		if( empty($transaction->passkey)) {
+		$transactionkey = $this->get_passkey();
+		if( empty($transactionkey)) {
 			$vmLogger->err($VM_LANG->_('PHPSHOP_PAYMENT_ERROR'),false);
 			return false;
 		}
@@ -422,11 +263,11 @@ class payflow_pro {
 		//Authnet vars to send
 		$formdata = array (
 		
-		'PARTNER' => PFP_PARTNER,
-		'VENDOR' => PFP_VENDOR,
-		'USER' => PFP_USER,
-		'PWD' => $transaction->passkey,
-		'TEST' => PFP_TEST_REQUEST,
+		'PARTNER' => $this->params->get('PFP_PARTNER'),
+		'VENDOR' => $this->params->get('PFP_VENDOR'),
+		'USER' => $this->params->get('PFP_USER'),
+		'PWD' => $transactionkey,
+		'TEST' => ($this->params->get('DEBUG') ? 'TRUE' : 'FALSE'),
 
 		// Transaction Data
 		'AMT' => $db->f('order_total'), // amount
@@ -460,7 +301,7 @@ class payflow_pro {
 		// strip off trailing ampersand
 		$poststring = substr($poststring, 0, -1);
 		
-		if(PFP_TEST_REQUEST=='TRUE') {
+		if($this->params->get('DEBUG')) {
 			$host = 'pilot-payflowpro.verisign.com';
 		} else  {
 			$host = 'payflowpro.verisign.com';
@@ -472,7 +313,7 @@ class payflow_pro {
 		$headers[] = "X-VPS-VIT-Client-Type: PHP/cURL";  // What you are using
 		$headers[] = "X-VPS-VIT-Client-Version: 0.01";  // For your info
 		$headers[] = "X-VPS-VIT-Client-Architecture: x86";  // For your info
-		$headers[] = "X-VPS-VIT-Client-Certification-Id: ".PFP_CLIENT_CERTIFICATION_ID; // get this from Todd @ payflowintegrator@paypal.com
+		$headers[] = "X-VPS-VIT-Client-Certification-Id: ".$this->params->get('PFP_CLIENT_CERTIFICATION_ID'); // get this from Todd @ payflowintegrator@paypal.com
 		$headers[] = "X-VPS-VIT-Integration-Product: ".phpversion()."::cURL";  // For your info, would populate with application name
 		$headers[] = "X-VPS-VIT-Integration-Version: 0.01"; // Application version
 		$headers[] = "X-VPS-Request-ID: " . $request_id;
@@ -548,13 +389,10 @@ class payflow_pro {
 			$vmLogger->err("Error: No Order Number provided.");
 			return false;
 		}
-		/*** Get the Configuration File for authorize.net ***/
-		require_once(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php");
 
 		// Get the Account Password securely from the database
-		$database->query( "SELECT ".VM_DECRYPT_FUNCTION."(payment_passkey,'".ENCODE_KEY."') as passkey FROM #__{vm}_payment_method WHERE payment_class='".__CLASS__."'" );
-		$transaction = $database->record[0];
-		if( empty($transaction->passkey)) {
+		$transactionkey = $this->get_passkey();
+		if( empty($transactionkey)) {
 			$vmLogger->err($VM_LANG->_('PHPSHOP_PAYMENT_ERROR'),false);
 			return false;
 		}
@@ -600,11 +438,11 @@ class payflow_pro {
 		//Authnet vars to send
 		$formdata = array (
 		
-		'PARTNER' => PFP_PARTNER,
-		'VENDOR' => PFP_VENDOR,
-		'USER' => PFP_USER,
-		'PWD' => $transaction->passkey,
-		'TEST' => PFP_TEST_REQUEST,
+		'PARTNER' => $this->params->get('PFP_PARTNER'),
+		'VENDOR' => $this->params->get('PFP_VENDOR'),
+		'USER' => $this->params->get('PFP_USER'),
+		'PWD' => $transactionkey,
+		'TEST' => ($this->params->get('DEBUG') ? 'TRUE' : 'FALSE'),
 
 		// Transaction Data
 		'AMT' => $db->f('order_total'), // amount
@@ -638,7 +476,7 @@ class payflow_pro {
 		// strip off trailing ampersand
 		$poststring = substr($poststring, 0, -1);
 		
-		if(PFP_TEST_REQUEST=='TRUE') {
+		if($this->params->get('DEBUG')) {
 			$host = 'pilot-payflowpro.verisign.com';
 		} else  {
 			$host = 'payflowpro.verisign.com';
@@ -650,7 +488,7 @@ class payflow_pro {
 		$headers[] = "X-VPS-VIT-Client-Type: PHP/cURL";  // What you are using
 		$headers[] = "X-VPS-VIT-Client-Version: 0.01";  // For your info
 		$headers[] = "X-VPS-VIT-Client-Architecture: x86";  // For your info
-		$headers[] = "X-VPS-VIT-Client-Certification-Id: ".PFP_CLIENT_CERTIFICATION_ID; // get this from Todd @ payflowintegrator@paypal.com
+		$headers[] = "X-VPS-VIT-Client-Certification-Id: ".$this->params->get('PFP_CLIENT_CERTIFICATION_ID'); // get this from Todd @ payflowintegrator@paypal.com
 		$headers[] = "X-VPS-VIT-Integration-Product: ".phpversion()."::cURL";  // For your info, would populate with application name
 		$headers[] = "X-VPS-VIT-Integration-Version: 0.01"; // Application version
 		$headers[] = "X-VPS-Request-ID: " . $request_id;
@@ -696,7 +534,7 @@ class payflow_pro {
 				break;
 				
 			default:
-				$d["order_payment_log"] = payflow_pro::getResponseMsg( $RESULT_CODE );
+				$d["order_payment_log"] = $this->getResponseMsg( $RESULT_CODE );
 				if( !empty( $d["order_payment_log"] )) {
 					$vmLogger->err( $d["order_payment_log"] );
 				} else {

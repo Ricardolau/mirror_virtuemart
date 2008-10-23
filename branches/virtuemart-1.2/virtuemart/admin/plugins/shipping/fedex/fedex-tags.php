@@ -642,6 +642,16 @@ class FedExTags {
             }
         }
     }
+    
+    function get_services() {
+    	foreach($this->FE_ST as $tag => $name) {
+			$returnArr["d$tag"] = $name;
+		}
+		foreach($this->FE_ST_INTL as $tag => $name) {
+			$returnArr["i$tag"] = $name;
+		}
+		return $returnArr;
+    }
 
 }
 ?>

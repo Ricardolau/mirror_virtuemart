@@ -16,86 +16,43 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * http://virtuemart.net
 */
 
-class nochex {
-    var $payment_code = "NOCHEX";
+class plgPaymentNochex extends vmPaymentPlugin {
+	
+	var $payment_code = "NOCHEX" ;
+	/**
+	 * Constructor
+	 *
+	 * For php4 compatability we must not use the __constructor as a constructor for plugins
+	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
+	 * This causes problems with cross-referencing necessary for the observer design pattern.
+	 *
+	 * @param object $subject The object to observe
+	 * @param array  $config  An array that holds the plugin configuration
+	 * @since 1.2.0
+	 */
+	function plgPaymentNochex( & $subject, $config ) {
+		parent::__construct( $subject, $config ) ;
+	}
     
-    /**
-    * Show all configuration parameters for this payment method
-    * @returns boolean False when the Payment method has no configration
-    */
-    function show_configuration() {
-        global $VM_LANG;
-        $db = new ps_DB();
-        
-        /** Read current Configuration ***/
-        include_once(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php");
-    ?>
-    <table>
-        <tr>
-        <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NOCHEX_EMAIL')?></strong></td>
-            <td>
-                <input type="text" name="NOCHEX_EMAIL" class="inputbox" value="<?  echo NOCHEX_EMAIL ?>" />
-            </td>
-            <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NOCHEX_EMAIL_EXPLAIN')?></td>
-        </tr>
-      </table>
-    <?php
-    }
-    
-    function has_configuration() {
-      // return false if there's no configuration
-      return true;
-   }
-   
-  /**
-	* Returns the "is_writeable" status of the configuration file
-	* @param void
-	* @returns boolean True when the configuration file is writeable, false when not
-	*/
-   function configfile_writeable() {
-      return is_writeable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
-   }
-   
-  /**
-	* Returns the "is_readable" status of the configuration file
-	* @param void
-	* @returns boolean True when the configuration file is writeable, false when not
-	*/
-   function configfile_readable() {
-      return is_readable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
-   }
-   
-  /**
-	* Writes the configuration file for this payment method
-	* @param array An array of objects
-	* @returns boolean True when writing was successful
-	*/
-   function write_configuration( &$d ) {
-      
-      $my_config_array = array("NOCHEX_EMAIL" => $d['NOCHEX_EMAIL']);
-      $config = "<?php\n";
-      $config .= "if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); \n\n";
-      foreach( $my_config_array as $key => $value ) {
-        $config .= "define ('$key', '$value');\n";
-      }
-      
-      $config .= "?>";
-  
-      if ($fp = fopen(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php", "w")) {
-          fputs($fp, $config, strlen($config));
-          fclose ($fp);
-          return true;
-     }
-     else
-        return false;
-   }
-   
-  /**************************************************************************
-  ** name: process_payment()
-  ** returns: 
-  ***************************************************************************/
-   function process_payment($order_number, $order_total, &$d) {
-        return true;
+	/**
+	 * Shows the HTML Form Code to redirect the customer to Nochex
+	 *
+	 * @param ps_DB $db
+	 * @param stdCls $user
+	 * @param ps_DB $dbbt
+	 */
+	function showPaymentForm( &$db, $user, $dbbt ) {
+		global $vendor_image_url;
+        ?>
+        <form action="https://www.nochex.com/nochex.dll/checkout" method=post target="_blank"> 
+                   <input type="hidden" name="email" value="<?php echo $this->params->get('NOCHEX_EMAIL') ?>" />
+                   <input type="hidden" name="amount" value="<?php printf("%.2f", $db->f("order_total"))?>" />
+               <input type="hidden" name="ordernumber" value="<?php $db->p("order_id") ?>" />
+                    <input type="hidden" name="logo" value="<?php echo $vendor_image_url ?>" />
+               <input type="hidden" name="returnurl" value="<?php echo SECUREURL ."index.php?option=com_virtuemart&amp;page=checkout.result&amp;order_id=".$db->f("order_id") ?>" />
+             <input type="image" name="submit" src="http://www.nochex.com/web/images/paymeanimated.gif" /> 
+              </form>
+              <?php
     }
    
 }

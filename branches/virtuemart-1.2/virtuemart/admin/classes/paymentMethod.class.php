@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -15,6 +15,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 *
 * http://virtuemart.net
 */
+
 define('UNKNOWN', 0);
 define('MASTERCARD', 1);
 define('VISA', 2);
@@ -39,13 +40,22 @@ define('CC_ENUMBER', 4);
 define('CC_EFORMAT', 5);
 define('CC_ECANTYPE', 6);
 
-class ps_payment_method extends vmAbstractObject {
+class vmPaymentMethod extends vmAbstractObject {
 
 	// CreditCard Validation vars
 	var $number = 0;
 	var $type = UNKNOWN;
 	var $errno = CC_OK;
-
+	/** @var string The key which is used to identify this object (example: product_id) */
+	var $_key = 'id';
+	/** @var array An array holding the names of all required fields */
+	var $_required_fields = array('name', 'short_code', );
+	
+	/** @var array An array holding the names of fields that are UNIQUE => means those must be checked onAdd and onUpdate for occurences of entities with the same value */
+	var $_unique_fields = array();
+	/** @var string The name of the databaser table for this entity */
+	var $_table_name = '#__{vm}_payment_method';
+	
 	/**
 	 * Validates the Input Parameters on Payment Add
 	 *
@@ -55,23 +65,23 @@ class ps_payment_method extends vmAbstractObject {
 	function validate_add(&$d) {
 		global $VM_LANG;
 
-		if (empty($d["payment_method_name"])) {
+		if (empty($d["name"])) {
 			$GLOBALS['vmLogger']->err( $VM_LANG->_('VM_PAYMENTMETHOD_ERR_NAME') );
 			return False;
 		}
-		if (empty($d["payment_method_code"])) {
+		if (empty($d["short_code"])) {
 			$GLOBALS['vmLogger']->err( $VM_LANG->_('VM_PAYMENTMETHOD_ERR_CODE') );
 			return False;
 		}
 
 		$d['is_creditcard'] = !empty( $d['creditcard']) ? '1' : '0';
 
-		if (empty($d['payment_class'])) {
-			$d['payment_class'] = "";
+		if (empty($d['element'])) {
+			$d['element'] = "payment";
 		}
 
-		if (empty($d["payment_enabled"])) {
-			$d["payment_enabled"] = "N";
+		if (empty($d["published"])) {
+			$d["published"] = "N";
 		}
 		if (empty($d["creditcard"])) {
 			$d["accepted_creditcards"] = "";
@@ -83,6 +93,19 @@ class ps_payment_method extends vmAbstractObject {
 			}
 		}
 		
+		if ( !empty($d["element"]) ) {
+			// Here we have a custom payment class
+			$element = basename(vmGet($d,'element'));
+			if( file_exists( ADMINPATH . "plugins/payment/".$element.".php" ) ) {
+				// Include the class code and create an instance of this class
+				include( ADMINPATH . "plugins/payment/".$element.".php" );
+				$class = 'plgpayment'.$element;
+				if( !class_exists($class)) {
+					$GLOBALS['vmLogger']->err($VM_LANG->_('VM_PAYMENTMETHOD_CLASS_NOT_EXIST').' ('.$element.')');
+					return false;
+				}
+			}
+		}
 		return true;
 	}
 
@@ -95,31 +118,8 @@ class ps_payment_method extends vmAbstractObject {
 	function validate_update(&$d) {
 		global $VM_LANG;
 
-		if (!$d["payment_method_code"]) {
-			$GLOBALS['vmLogger']->err( $VM_LANG->_('VM_PAYMENTMETHOD_ERR_CODE') );
-			return False;
-		}
-		$d['is_creditcard'] = !empty( $d['creditcard']) ? '1' : '0';
-
-		if (empty($d['payment_class']))
-		$d['payment_class'] = "";
-
-		if (empty($d["payment_enabled"])) {
-			$d["payment_enabled"] = "N";
-		}
-		if (empty($d["creditcard"])) {
-			$d["accepted_creditcards"] = "";
-		}
-		else {
-			$d["accepted_creditcards"] = "";
-			foreach($d['creditcard'] as $num => $creditcard_id) {
-				$d["accepted_creditcards"] .= $creditcard_id . ",";
-			}
-		}
-
-		if (empty($d["payment_method_name"])) {
-			$GLOBALS['vmLogger']->err( $VM_LANG->_('VM_PAYMENTMETHOD_ERR_NAME') );
-			return False;
+		if( !$this->validate_add($d)) {
+			return false;
 		}
 
 		if (empty($d["payment_method_id"])) {
@@ -139,7 +139,7 @@ class ps_payment_method extends vmAbstractObject {
 	function validate_delete(&$d) {
 		global $VM_LANG;
 
-		if (!$d["payment_method_id"]) {
+		if (empty($d["payment_method_id"])) {
 			$GLOBALS['vmLogger']->err( $VM_LANG->_('VM_PAYMENTMETHOD_DELETE_SELECT') );
 			return False;
 		}
@@ -162,28 +162,6 @@ class ps_payment_method extends vmAbstractObject {
 		if (!$this->validate_add($d)) {
 			return False;
 		}
-		if ( !empty($d["payment_class"]) ) {
-			// Here we have a custom payment class
-			$payment_class = basename($d["payment_class"]);
-			if( file_exists( ADMINPATH . "plugins/payment/".$payment_class.".php" ) ) {
-				// Include the class code and create an instance of this class
-				include( ADMINPATH . "plugins/payment/".$payment_class.".php" );
-				if( class_exists($payment_class)) {
-					$_PAYMENT = new $payment_class();
-				} else {
-					$GLOBALS['vmLogger']->err($VM_LANG->_('VM_PAYMENTMETHOD_CLASS_NOT_EXIST').' ('.$payment_class.')');
-					return false;
-				}
-			}
-		}
-		else {
-			// payment is the default payment method handler
-			include( ADMINPATH . "plugins/payment/payment.php" );
-			$_PAYMENT = new vmPayment();
-		}
-        if( is_callable( array( $_PAYMENT, 'write_configuration'))) {
-    	    $_PAYMENT->write_configuration( $d );
-        }
     
 		if (!$d["shopper_group_id"]) {
 			$q =  "SELECT shopper_group_id FROM #__{vm}_shopper_group WHERE ";
@@ -193,22 +171,36 @@ class ps_payment_method extends vmAbstractObject {
 			$db->next_record();
 			$d["shopper_group_id"] = $db->f("shopper_group_id");
 		}
+		$params		= vmRequest::getVar( 'params', null, 'post', 'array' );
 
+		// Build parameter INI string
+		if (is_array($params))
+		{
+			$txt = array ();
+			foreach ($params as $k => $v) {
+				if( is_array($v)) {
+					$v = implode(',', $v );
+				}
+				$txt[] = "$k=$v";
+			}
+			$params = implode("\n", $txt);
+		}
 		$fields = array( 'vendor_id' => $ps_vendor_id, 
-						'payment_method_name' => vmGet($d, 'payment_method_name' ), 
-						'payment_class' => vmGet($d, 'payment_class' ),
+						'name' => vmGet($d, 'name' ), 
+						'element' => vmGet($d, 'element' ),
 						'shopper_group_id' => vmRequest::getInt('shopper_group_id'),
-						'payment_method_discount' => vmRequest::getFloat('payment_method_discount'),
-						'payment_method_discount_is_percent' => vmGet($d, 'payment_method_discount_is_percent'),
-						'payment_method_discount_max_amount' => (float)str_replace(',', '.', $d["payment_method_discount_max_amount"]),						
-						'payment_method_discount_min_amount' => (float)str_replace(',', '.', $d["payment_method_discount_min_amount"]),
-						'payment_method_code' => vmGet($d, 'payment_method_code'),
-						'enable_processor' => vmGet($d, 'enable_processor'), 
-						'list_order' => vmRequest::getInt('list_order'), 
+						'discount' => vmRequest::getFloat('discount'),
+						'discount_is_percentage' => vmGet($d, 'discount_is_percentage'),
+						'discount_max_amount' => (float)str_replace(',', '.', $d["discount_max_amount"]),						
+						'discount_min_amount' => (float)str_replace(',', '.', $d["discount_min_amount"]),
+						'short_code' => vmGet($d, 'short_code'),
+						'type' => vmGet($d, 'type'), 
+						'ordering' => vmRequest::getInt('ordering'), 
 						'is_creditcard' => vmGet($d, 'is_creditcard'),
-						'payment_enabled' => vmGet($d, 'payment_enabled'),
+						'published' => vmGet($d, 'published'),
 						'accepted_creditcards' => vmGet($d, 'accepted_creditcards'), 
-						'payment_extrainfo' => vmGet( $_POST, 'payment_extrainfo', null, VMREQUEST_ALLOWRAW )
+						'extra_info' => vmGet( $_POST, 'extra_info', null, VMREQUEST_ALLOWRAW ),
+						'params' => $params
 				);
 		$db->buildQuery( 'INSERT', '#__{vm}_payment_method', $fields );
 		$db->query();
@@ -236,49 +228,45 @@ class ps_payment_method extends vmAbstractObject {
 		if (!$this->validate_update($d)) {
 			return False;
 		}
+		
+		$params		= vmRequest::getVar( 'params', null, 'post', 'array' );
 
-		if ( !empty($d["payment_class"]) ) {
-			$payment_class = basename($d["payment_class"]);
-			@include( ADMINPATH."plugins/payment/".$payment_class.".php" );
-			if( class_exists($payment_class)) {
-				$_PAYMENT = new $payment_class();
-			} else {
-				$GLOBALS['vmLogger']->err($VM_LANG->_('VM_PAYMENTMETHOD_CLASS_NOT_EXIST').' ('.$payment_class.')');
-				return false;
+		// Build parameter INI string
+		if (is_array($params))
+		{
+			$txt = array ();
+			foreach ($params as $k => $v) {
+				if( is_array($v)) {
+					$v = implode(',', $v );
+				}
+				$txt[] = "$k=$v";
 			}
+			$params = implode("\n", $txt);
 		}
-		else {
-			include( ADMINPATH . "plugins/payment/payment.php" );
-			$_PAYMENT = new vmPayment();
-		}
-		if( $_PAYMENT->configfile_writeable() || strtolower(get_class($_PAYMENT)) == 'vmpayment' ) {
-			$_PAYMENT->write_configuration( $d );
-			$vmLogger->info( $VM_LANG->_('VM_CONFIGURATION_CHANGE_SUCCESS',false) );
-		}
-		else {
-			$vmLogger->err( sprintf($VM_LANG->_('VM_CONFIGURATION_CHANGE_FAILURE',false) , ADMINPATH."plugins/payment/".strtolower(get_class($_PAYMENT)).".cfg.php" ) );
+		$fields = array( 'name' => vmGet($d, 'name' ), 
+						'element' => vmGet($d, 'element' ),
+						'shopper_group_id' => vmRequest::getInt('shopper_group_id'),
+						'discount' => vmRequest::getFloat('discount'),
+						'discount_is_percentage' => vmGet($d, 'discount_is_percentage'),
+						'discount_max_amount' => (float)str_replace(',', '.', $d["discount_max_amount"]),						
+						'discount_min_amount' => (float)str_replace(',', '.', $d["discount_min_amount"]),
+						'short_code' => vmGet($d, 'short_code'),
+						'type' => vmGet($d, 'type'), 
+						'ordering' => vmRequest::getInt('ordering'), 
+						'is_creditcard' => vmGet($d, 'is_creditcard'),
+						'published' => vmGet($d, 'published'),
+						'accepted_creditcards' => vmGet($d, 'accepted_creditcards'), 
+						'extra_info' => vmGet( $_POST, 'extra_info', null, VMREQUEST_ALLOWRAW ),
+						'params' => $params
+				);
+		$db->buildQuery( 'UPDATE', '#__{vm}_payment_method', $fields, 'WHERE id='.(int)$d["payment_method_id"].' AND vendor_id='.$ps_vendor_id );
+		if( $db->query() === false ) {
+			$vmLogger->err('Failed to update the Payment Method!');
 			return false;
 		}
-
-		$fields = array( 'payment_method_name' => vmGet($d, 'payment_method_name' ), 
-						'payment_class' => vmGet($d, 'payment_class' ),
-						'shopper_group_id' => vmRequest::getInt('shopper_group_id'),
-						'payment_method_discount' => vmRequest::getFloat('payment_method_discount'),
-						'payment_method_discount_is_percent' => vmGet($d, 'payment_method_discount_is_percent'),
-						'payment_method_discount_max_amount' => (float)str_replace(',', '.', $d["payment_method_discount_max_amount"]),						
-						'payment_method_discount_min_amount' => (float)str_replace(',', '.', $d["payment_method_discount_min_amount"]),
-						'payment_method_code' => vmGet($d, 'payment_method_code'),
-						'enable_processor' => vmGet($d, 'enable_processor'), 
-						'list_order' => vmRequest::getInt('list_order'), 
-						'is_creditcard' => vmGet($d, 'is_creditcard'),
-						'payment_enabled' => vmGet($d, 'payment_enabled'),
-						'accepted_creditcards' => vmGet($d, 'accepted_creditcards'), 
-						'payment_extrainfo' => vmGet( $_POST, 'payment_extrainfo', null, VMREQUEST_ALLOWRAW )
-				);
-		$db->buildQuery( 'UPDATE', '#__{vm}_payment_method', $fields, 'WHERE payment_method_id='.(int)$d["payment_method_id"].' AND vendor_id='.$ps_vendor_id );
-		$db->query();
-	
+		$vmLogger->info('The Payment Method has been updated.');
 		return True;
+		
 	}
 
 	/**
@@ -316,7 +304,36 @@ class ps_payment_method extends vmAbstractObject {
 
 		return True;
 	}
-
+	/**
+	 * Retrieves a Payment Plugin. You can specify the element name by $plugin
+	 *
+	 * @param string $plugin
+	 * @return mixed
+	 */
+	function getPaymentPlugin($plugin=null) {
+		require_once( ADMINPATH.'plugins/payment/payment.php' );
+		return vmPluginHelper::getPlugin('payment', $plugin );
+	}
+	/**
+	 * Allows to retrieve an object of the desired payment method, specified by $id 
+	 *
+	 * @param int $id
+	 * @return vmpaymentplugin
+	 */
+	function &getPaymentPluginById( $id ) {
+		require_once( ADMINPATH.'plugins/payment/payment.php' );
+		return vmPluginHelper::getPluginById('payment', $id );
+	}
+	/**
+	 * Import the vmpaymentplugin instance of the desired payment method, specified by $id 
+	 *
+	 * @param int $id
+	 * @return vmpaymentplugin
+	 */
+	function &importPaymentPluginById( $id ) {
+		require_once( ADMINPATH.'plugins/payment/payment.php' );
+		return vmPluginHelper::importPluginById('payment', $id );
+	}
 	/**
 	 * Prints a drop-down list with all available payment methods
 	 *
@@ -332,7 +349,7 @@ class ps_payment_method extends vmAbstractObject {
 		$ps_shopper_group = new ps_shopper_group;
 
 
-		$q =  "SELECT * from #__{vm}_shopper_group WHERE ";
+		$q =  "SELECT * FROM #__{vm}_shopper_group WHERE ";
 		$q .= "`default`='1' ";
 		$q .= "AND vendor_id='$ps_vendor_id'";
 		$db->query($q);
@@ -345,19 +362,19 @@ class ps_payment_method extends vmAbstractObject {
 		$default_shopper_group_id = $db->f("shopper_group_id");
 
 
-		$q = "SELECT * from #__{vm}_payment_method WHERE ";
+		$q = "SELECT * FROM #__{vm}_payment_method WHERE ";
 //		$q .= "vendor_id='$ps_vendor_id' AND "; //paymentmethods are not vendorrelated yet by Max Milbers
 		$q .= "shopper_group_id='$default_shopper_group_id' ";
 		if ($ps_shopper_group->get_id() != $default_shopper_group_id)
 		$q .= "OR shopper_group_id='".$ps_shopper_group->get_id()."' ";
-		$q .= "ORDER BY list_order";
+		$q .= "ORDER BY ordering";
 		$db->query($q);
 
 		// Start drop down list
 	
 		$array[0] = $VM_LANG->_('PHPSHOP_SELECT');
 		while ($db->next_record()) {
-			$array[$db->f("payment_method_id")] = $db->f("payment_method_name");
+			$array[$db->f("payment_method_id")] = $db->f("name");
 		}
 		ps_html::dropdown_display('payment_method_id', $payment_method_id, $array );
 
@@ -393,9 +410,9 @@ class ps_payment_method extends vmAbstractObject {
 		$db->next_record();
 		$default_shopper_group_id = $db->f("shopper_group_id");
 
-		$q = "SELECT payment_method_id,payment_method_discount, payment_method_discount_is_percent, payment_method_name from #__{vm}_payment_method WHERE ";
-		$q .= "(enable_processor='$selector') AND ";
-		$q .= "payment_enabled='Y' AND ";
+		$q = "SELECT id,discount, discount_is_percentage, name from #__{vm}_payment_method WHERE ";
+		$q .= "(type='$selector') AND ";
+		$q .= "published='Y' AND ";
 		$q .= "vendor_id='$ps_vendor_id' AND ";
 
 		if ($auth["shopper_group_id"] == $default_shopper_group_id) {
@@ -405,24 +422,24 @@ class ps_payment_method extends vmAbstractObject {
 			$q .= "OR shopper_group_id='".$auth["shopper_group_id"]."') ";
 		}
 
-		$q .= "ORDER BY list_order";
+		$q .= "ORDER BY ordering";
 		$db->query($q);
 		$has_result = false;
 		// Start radio list
 		while ($db->next_record()) {
 			$has_result = true;
-			echo "<input type=\"radio\" name=\"payment_method_id\" id=\"".$db->f("payment_method_name")."\" value=\"".$db->f("payment_method_id")."\" ";
-			if( $selector == "' OR enable_processor='Y" ) {
+			echo "<input type=\"radio\" name=\"payment_method_id\" id=\"".$db->f("name")."\" value=\"".$db->f("id")."\" ";
+			if( $selector == "' OR type='Y" ) {
 				echo "onchange=\"javascript: changeCreditCardList();\" ";
 			}
-			if ((($db->f("payment_method_id") == $payment_method_id) || $db->num_rows() < 2) && !@$GLOBALS['payment_selected']) {
+			if ((($db->f("id") == $payment_method_id) || $db->num_rows() < 2) && !@$GLOBALS['payment_selected']) {
 				echo "checked=\"checked\" />\n";
 				$GLOBALS['payment_selected'] = true;
 			}
 			else
 			echo ">\n";
-			$discount  = $ps_checkout->get_payment_discount( $db->f("payment_method_id") );
-			echo "<label for=\"".$db->f("payment_method_name")."\">".$db->f("payment_method_name");
+			$discount  = $ps_checkout->get_payment_discount( $db->f("id") );
+			echo "<label for=\"".$db->f("name")."\">".$db->f("name");
 			if ($discount > 0.00) {
 				echo " (- ".$CURRENCY_DISPLAY->getFullValue(abs($discount)).") \n";
 			}
@@ -447,7 +464,7 @@ class ps_payment_method extends vmAbstractObject {
 	 */
 	function payment_sql($payment_method_id) {
 		$db = new ps_DB;
-		$q = 'SELECT * FROM #__{vm}_payment_method WHERE payment_method_id='.(int)$payment_method_id;
+		$q = 'SELECT * FROM #__{vm}_payment_method WHERE id='.(int)$payment_method_id;
 		$db->query($q);
 		return $db;
 	}
@@ -459,7 +476,7 @@ class ps_payment_method extends vmAbstractObject {
 	 * @param boolean $horiz
 	 */
 	function list_cc($payment_method_id, $horiz) {
-		$this->list_payment_radio("' OR enable_processor='Y",$payment_method_id, $horiz); //A bit strange :-)
+		$this->list_payment_radio("' OR type='Y",$payment_method_id, $horiz); //A bit strange :-)
 	}
 
 	/**
@@ -509,7 +526,7 @@ class ps_payment_method extends vmAbstractObject {
 
 		$db = new ps_DB;
 		
-		$q = 'SELECT `'.$field_name.'` FROM `#__{vm}_payment_method` WHERE `payment_method_id`='.(int)$payment_method_id;
+		$q = 'SELECT `'.$field_name.'` FROM `#__{vm}_payment_method` WHERE `id`='.(int)$payment_method_id;
 		$db->query($q);
 		$db->next_record();
 		return $db->f($field_name);
@@ -525,7 +542,7 @@ class ps_payment_method extends vmAbstractObject {
 
 		$db = new ps_DB;
 		$q = "SELECT is_creditcard,accepted_creditcards FROM #__{vm}_payment_method\n";
-		$q .= 'WHERE payment_method_id='.(int)$payment_id;
+		$q .= 'WHERE id='.(int)$payment_id;
 		$db->query($q);
 		$db->next_record();
 		$details = $db->f('accepted_creditcards');
@@ -830,4 +847,83 @@ class ps_payment_method extends vmAbstractObject {
 	}
 }
 
+
+/**
+*
+* The vmPayment class, containing the default payment processing code
+* for payment methods that have no own class
+* @abstract 
+*/
+class vmPaymentPlugin extends vmPlugin {
+
+	/**
+	 * Constructor
+	 *
+	 * For php4 compatability we must not use the __constructor as a constructor for plugins
+	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
+	 * This causes problems with cross-referencing necessary for the observer design pattern.
+	 *
+	 * @param object $subject The object to observe
+	 * @param array  $config  An array that holds the plugin configuration
+	 * @since 1.5
+	 */
+	function vmPaymentPlugin(& $subject, $config) {
+		parent::__construct($subject, $config);
+	}
+
+	/**
+	 * Processes the actual payment (transaction)
+	 *
+	 * @param string $order_number
+	 * @param double $order_total
+	 * @param array $d
+	 * @return boolean
+	 */
+   function process_payment($order_number, $order_total, &$d) {
+        return true;
+    }
+    /**
+     * Captures the payment after the order has been paid and the goods are shipped
+     *
+     * @param string $order_number
+     * @param double $order_total
+     * @param array $d
+     */
+    function capture_payment($order_number, $order_total, &$d) {
+    	
+    }
+    /**
+     * Should display some HTML, example: a Form to redirect the customer to the payment gateway
+     *
+     * @param ps_DB $db
+     * @param stdClass $user
+     * @param ps_DB $dbbt
+     */
+    function showPaymentForm( &$db, $user, $dbbt ) {
+    	if( !empty($this->_id )) {
+    		$db = new ps_DB();
+    		$db->query('SELECT extra_info FROM #__{vm}_payment_method WHERE id='.(int)$this->_id);
+    		if( $db->next_record() && $db->f('extra_info')) {
+    			@eval('?>'.$db->f('extra_info').'<?php');
+    		}
+    	}
+    }
+    /**
+     * Retrieves the secret transaction key
+     *
+     * @return mixed
+     */
+	function get_passkey() {
+		$auth = $_SESSION['auth'];
+		$db = new ps_DB();
+		// Get the Transaction Key securely from the database
+		$db->query( "SELECT ".VM_DECRYPT_FUNCTION."(secret_key,'".ENCODE_KEY."') as passkey FROM #__{vm}_payment_method WHERE element='".$this->_name."' AND shopper_group_id='".$auth['shopper_group_id']."'" );
+		$db->next_record();
+		if( !$db->f('passkey')) {
+			$vmLogger->err( $VM_LANG->_('PHPSHOP_PAYMENT_ERROR',false).'. Technical Note: The required transaction key is empty! The payment method settings must be reviewed.' );
+			return false;
+		}
+		return $db->f('passkey');
+	}
+}
 ?>

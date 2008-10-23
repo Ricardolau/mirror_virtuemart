@@ -13,7 +13,6 @@
 	
   	<install>	
 		<files>
-			<filename>auspost.cfg.php</filename>
 			<filename>auspost.php</filename>
 		</files>
 		<!--<queries>
@@ -22,6 +21,11 @@
 			<query></query>
 		</queries>-->
 	</install>	
-	
+	<params description="&lt;img src=&quot;http://drc.edeliver.com.au/bt_aphome.gif&quot; alt=&quot;AusPost Logo&quot; /&gt;">
+		<param type="text" name="Handling_Fee" label="Packing and Handling Fee" description="This is your fee for packaging and handling, and is added to the delivery costs returned by auspost"
+			default="0.00" />
+		<param name="AUSPOST_TAX_CLASS" label="PHPSHOP_UPS_TAX_CLASS" description="PHPSHOP_UPS_TAX_CLASS_TOOLTIP"
+		type="table_data_list" table="#__{vm}_tax_rate" valuefield="tax_rate_id" textfield="tax_rate" orderfield="tax_rate" />
+	</params>
 </install>
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <install type="payment" version="1.2.0">	
 	<name>cashondel</name>
 	<author><![CDATA[Sören Eberhardt-Biermann]]></author>
@@ -12,7 +12,6 @@
 	
   	<install>	
 		<files>
-			<filename>cashondel.cfg.php</filename>
 			<filename>cashondel.php</filename>
 		</files>
 		<!--<queries>
@@ -21,5 +20,20 @@
 			<query></query>
 		</queries>-->
 	</install>	
-	
+	<params description="PHPSHOP_SPEC_CASH_ON_DELIVER_RATES">
+		<param type="text" name="CASH_ON_DEL_5000" label="5000 =&gt;"
+             default="230" description="PHPSHOP_PAYMENT_METHOD_LIST_FEE" />
+		<param type="text" name="CASH_ON_DEL_10000" label="10000 =&gt;"
+             default="340" description="PHPSHOP_PAYMENT_METHOD_LIST_FEE" />
+		<param type="text" name="CASH_ON_DEL_20000" label="20000 =&gt;"
+             default="560" description="PHPSHOP_PAYMENT_METHOD_LIST_FEE" />
+		<param type="text" name="CASH_ON_DEL_30000" label="30000 =&gt;"
+             default="640" description="PHPSHOP_PAYMENT_METHOD_LIST_FEE" />
+		<param type="text" name="CASH_ON_DEL_40000" label="40000 =&gt;"
+             default="750" description="PHPSHOP_PAYMENT_METHOD_LIST_FEE" />
+		<param type="text" name="CASH_ON_DEL_50000" label="50000 =&gt;"
+             default="860" description="PHPSHOP_PAYMENT_METHOD_LIST_FEE" />
+		<param type="text" name="CASH_ON_DEL_100000" label="100000 =&gt;"
+             default="1130" description="PHPSHOP_PAYMENT_METHOD_LIST_FEE" />
+	</params>
 </install>

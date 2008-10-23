@@ -1,5 +1,6 @@
 <?php
-if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
+if( ! defined( '_VALID_MOS' ) && ! defined( '_JEXEC' ) )
+	die( 'Direct Access to ' . basename( __FILE__ ) . ' is not allowed.' ) ;
 /**
 *
 * @version $Id$
@@ -19,170 +20,107 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 /**
 * The twocheckout class for transactions with 2Checkout 
  */
-class twocheckout {
-
-    var $payment_code = "TWOCO";  
-    /**
-    * Show all configuration parameters for this payment method
-    * @returns boolean False when the Payment method has no configration
-    */
-    function show_configuration() { 
+class plgPaymentTwoCheckout extends vmPaymentPlugin {
+	
+	var $payment_code = "TWOCO";
+	
+	/**
+	 * Constructor
+	 *
+	 * For php4 compatability we must not use the __constructor as a constructor for plugins
+	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
+	 * This causes problems with cross-referencing necessary for the observer design pattern.
+	 *
+	 * @param object $subject The object to observe
+	 * @param array  $config  An array that holds the plugin configuration
+	 * @since 1.2.0
+	 */
+	function plgPaymentTwoCheckout( & $subject, $config ) {
+		parent::__construct( $subject, $config ) ;
+	}
+		/**
+	 * Shows the HTML Form Code to redirect the customer to PayPal
+	 *
+	 * @param ps_DB $db
+	 * @param stdCls $user
+	 * @param ps_DB $dbbt
+	 */
+	function showPaymentForm( &$db, $user, $dbbt ) {
+	
+    	$q  = "SELECT * FROM #__users WHERE user_info_id='".$db->f("user_info_id")."'"; 
+    	$dbbt = new ps_DB;
+    	$dbbt->setQuery($q);
+  		$dbbt->query();
+       	$dbbt->next_record(); 
+        // Get ship_to information
+    	if( $db->f("user_info_id") != $dbbt->f("user_info_id")) {
+       		$q2  = "SELECT * FROM #__vm_user_info WHERE user_info_id='".$db->f("user_info_id")."'"; 
+    		$dbst = new ps_DB;
+    		$dbst->setQuery($q2);
+         	$dbst->query();
+       		$dbst->next_record();
+       	}
+     	else  {
+        	$dbst = $dbbt;
+      	}
+                     
+      	// vars to send
+        $formdata = array (
+    		'x_login' => $this->params->get('TWOCO_LOGIN'),
+   			'x_email_merchant' => (($this->params->get('TWOCO_MERCHANT_EMAIL')) ? 'TRUE' : 'FALSE'),
+                  
+      		// Customer Name and Billing Address
+  			'x_first_name' => $dbbt->f("first_name"),
+   			'x_last_name' => $dbbt->f("last_name"),
+     		'x_company' => $dbbt->f("company"),
+         	'x_address' => $dbbt->f("address_1"),
+       		'x_city' => $dbbt->f("city"),
+       		'x_state' => $dbbt->f("state"),
+     		'x_zip' => $dbbt->f("zip"),
+         	'x_country' => $dbbt->f("country"),
+         	'x_phone' => $dbbt->f("phone_1"),
+   			'x_fax' => $dbbt->f("fax"),
+         	'x_email' => $dbbt->f("email"),
     
-      global $VM_LANG;
-      $database = new ps_DB();
-      /** Read current Configuration ***/
-      require_once(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php");
-    ?>
-      <table>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_2CHECKOUT_LOGIN') ?></strong></td>
-            <td>
-                <input type="text" name="TWOCO_LOGIN" class="inputbox" value="<? echo TWOCO_LOGIN ?>" />
-            </td>
-            <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_2CHECKOUT_LOGIN_EXPLAIN') ?></td>
-        </tr>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_2CHECKOUT_SECRETWORD') ?></strong></td>
-            <td>
-                <input type="text" name="TWOCO_SECRETWORD" class="inputbox" value="<? echo TWOCO_SECRETWORD ?>" />
-            </td>
-            <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_2CHECKOUT_SECRETWORD_EXPLAIN') ?></td>
-        </tr>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_SUCC') ?></strong></td>
-            <td>
-                <select name="TWOCO_VERIFIED_STATUS" class="inputbox" >
-                <?php
-                    $q = "SELECT order_status_name,order_status_code FROM #__{vm}_order_status ORDER BY list_order";
-                    $database->query($q);
-                    $rows = $database->record;
-                    $order_status_code = Array();
-                    $order_status_name = Array();
-                    
-                    foreach( $rows as $row ) {
-                      $order_status_code[] = $row->order_status_code;
-                      $order_status_name[] =  $row->order_status_name;
-                    }
-                    for ($i = 0; $i < sizeof($order_status_code); $i++) {
-                      echo "<option value=\"" . $order_status_code[$i];
-                      if (TWOCO_VERIFIED_STATUS == $order_status_code[$i]) 
-                         echo "\" selected=\"selected\">";
-                      else
-                         echo "\">";
-                      echo $order_status_name[$i] . "</option>\n";
-                    }?>
-                    </select>
-            </td>
-            <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_SUCC_EXPLAIN') ?>
-            </td>
-        </tr>
-            <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_FAIL') ?></strong></td>
-            <td>
-                <select name="TWOCO_INVALID_STATUS" class="inputbox" >
-                <?php
-                    for ($i = 0; $i < sizeof($order_status_code); $i++) {
-                      echo "<option value=\"" . $order_status_code[$i];
-                      if (TWOCO_INVALID_STATUS == $order_status_code[$i]) 
-                         echo "\" selected=\"selected\">";
-                      else
-                         echo "\">";
-                      echo $order_status_name[$i] . "</option>\n";
-                    } ?>
-                    </select>
-            </td>
-            <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_FAIL_EXPLAIN') ?>
-            </td>
-        </tr>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_2CHECKOUT_MERCHANT_NOTIF') ?></strong></td>
-            <td>
-                <select name="TWOCO_MERCHANT_EMAIL" class="inputbox" >
-                  <option <? if (TWOCO_MERCHANT_EMAIL == 'True') echo "selected=\"selected\""; ?> value="True"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES') ?></option>
-                  <option <? if (TWOCO_MERCHANT_EMAIL == 'False') echo "selected=\"selected\""; ?> value="False"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO') ?></option>
-                </select>
-            </td>
-            <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_2CHECKOUT_MERCHANT_NOTIF_EXPLAIN') ?></td>
-        </tr>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_TESTMODE') ?></strong></td>
-            <td>
-                <select name="TWOCO_TESTMODE" class="inputbox" >
-                  <option <? if (TWOCO_TESTMODE == 'Y') echo "selected=\"selected\""; ?> value="Y"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES') ?></option>
-                  <option <? if (TWOCO_TESTMODE == 'N') echo "selected=\"selected\""; ?> value="N"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO') ?></option>
-                </select>
-            </td>
-            <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_TESTMODE_EXPLAIN') ?></td>
-        </tr>
-      </table>
-   <?php
-      // return false if there's no configuration
-      return true;
-   }
-   
-    function has_configuration() {
-      // return false if there's no configuration
-      return true;
-   }
-   
-  /**
-	* Returns the "is_writeable" status of the configuration file
-	* @param void
-	* @returns boolean True when the configuration file is writeable, false when not
-	*/
-   function configfile_writeable() {
-      return is_writeable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
-   }
-   
-  /**
-	* Returns the "is_readable" status of the configuration file
-	* @param void
-	* @returns boolean True when the configuration file is writeable, false when not
-	*/
-   function configfile_readable() {
-      return is_readable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
-   }   
-  /**
-	* Writes the configuration file for this payment method
-	* @param array An array of objects
-	* @returns boolean True when writing was successful
-	*/
-   function write_configuration( &$d ) {
-      
-      $my_config_array = array("TWOCO_LOGIN" => $d['TWOCO_LOGIN'],
-                                "TWOCO_SECRETWORD" => $d['TWOCO_SECRETWORD'],
-                                "TWOCO_VERIFIED_STATUS" => $d['TWOCO_VERIFIED_STATUS'],
-                                "TWOCO_INVALID_STATUS" => $d['TWOCO_INVALID_STATUS'],
-                                "TWOCO_TESTMODE" => $d['TWOCO_TESTMODE'],
-                               "TWOCO_MERCHANT_EMAIL" => $d['TWOCO_MERCHANT_EMAIL']
-                          );
-      $config = "<?php\n";
-      $config .= "if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); \n\n";
-      foreach( $my_config_array as $key => $value ) {
-        $config .= "define ('$key', '$value');\n";
-      }
-      
-      $config .= "?>";
-  
-      if ($fp = fopen(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php", "w")) {
-          fputs($fp, $config, strlen($config));
-          fclose ($fp);
-          return true;
+	       // Customer Shipping Address
+  			'x_ship_to_first_name' => $dbst->f("first_name"),
+   			'x_ship_to_last_name' => $dbst->f("last_name"),
+     		'x_ship_to_company' => $dbst->f("company"),
+         	'x_ship_to_address' => $dbst->f("address_1"),
+       		'x_ship_to_city' => $dbst->f("city"),
+       		'x_ship_to_state' => $dbst->f("state"),
+     		'x_ship_to_zip' => $dbst->f("zip"),
+         	'x_ship_to_country' => $dbst->f("country"),
+        
+       		'x_invoice_num' => $db->f("order_number"),
+  			'x_receipt_link_url' => SECUREURL."2checkout_notify.php"
+    );
+    
+     if( $this->params->get('DEBUG')) {
+     	$formdata['demo'] = "Y";
      }
-     else
-        return false;
-   }
-   
-  /**************************************************************************
-  ** name: process_payment()
-  ** created by: soeren
-  ** description: 
-  ** parameters: $order_number, the number of the order, we're processing here
-  **            $order_total, the total $ of the order
-  ** returns: 
-  ***************************************************************************/
-   function process_payment($order_number, $order_total, &$d) {
-      return true;
-   }
+  
+       $version = "2";
+       $url = "https://www2.2checkout.com/2co/buyer/purchase";
+       $formdata['x_amount'] = number_format($db->f("order_total"), 2, '.', '');
+     
+       //build the post string
+       $poststring = '';
+   		foreach($formdata AS $key => $val){
+     		$poststring .= "<input type='hidden' name='$key' value='$val' />
+     	";
+     	}
+    
+      ?>
+	<form action="<?php echo $url ?>" method="post" target="_blank">
+	      <?php echo $poststring ?>
+	     <p>Click on the Image below to pay...</p>
+	<input type="image" name="submit"
+		src="https://www.2checkout.com/images/buy_logo.gif" border="0"
+		alt="Make payments with 2Checkout, it's fast and secure!"
+		title="Pay your Order with 2Checkout, it's fast and secure!" />
+		</form>
+	<?php
+	}
 }
 ?>

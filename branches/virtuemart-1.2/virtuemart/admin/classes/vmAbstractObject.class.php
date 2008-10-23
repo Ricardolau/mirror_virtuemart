@@ -87,8 +87,8 @@ class vmAbstractObject {
 	/**
 	 * This function validates the input values against the _key and all required fields
 	 * @abstract 
-	 * @param unknown_type $d
-	 * @return unknown
+	 * @param array $d
+	 * @return boolean
 	 */
 	function validate( &$d ) {
 		global $vmLogger, $db, $VM_LANG;
@@ -175,6 +175,12 @@ class vmAbstractObject {
 				$order_field_name = 'ordering';
 				$entity_name = 'name';
 				$field_name = 'fieldid';
+		}
+		elseif( $page == 'admin.plugin_list') {
+				$table_name = "#__{vm}_plugins";
+				$order_field_name = 'ordering';
+				$entity_name = 'name';
+				$field_name = 'id';
 		}
 		else {
 			$vmLogger->err( $VM_LANG->_('VM_ABSTRACTOBJECT_REORDER_ERR_TYPE') );
@@ -381,7 +387,8 @@ class vmAbstractObject {
 	 * @return boolean True on success, false on failure
 	 */
 	function handlePublishState( $d ) {
-		global $vmLogger, $VM_LANG,$perm;
+		global $vmLogger, $VM_LANG,$perm, $page;
+		
 		$has_vendor = true;
 		if( !empty($d['product_id']) && empty( $d['review_id'] ) && empty( $d['file_id'] ) ) {
 			$table_name = "#__{vm}_product";
@@ -416,12 +423,12 @@ class vmAbstractObject {
 		elseif( !empty( $d['payment_method_id'])) {
 			$table_name = "#__{vm}_payment_method";
 			$publish_field_name = 'payment_enabled';
-			$field_name = 'payment_method_id';
+			$field_name = 'id';
 		}	
-		elseif( !empty( $d['order_export_id'])) {
-			$table_name = "#__{vm}_order_export";
-			$publish_field_name = 'export_enabled';
-			$field_name = 'order_export_id';
+		elseif( $page == 'admin.plugin_list' ) {
+			$table_name = "#__{vm}_plugins";
+			$publish_field_name = 'published';
+			$field_name = 'id';
 		}
 		elseif( !empty( $d['review_id'])) {
 			$table_name = "#__{vm}_product_reviews";
@@ -444,7 +451,6 @@ class vmAbstractObject {
 			$vmLogger->err( $VM_LANG->_('VM_ABSTRACTOBJECT_PUBLISH_ERR_TYPE') );
 			return false;
 		}
-		
 		return $this->changePublishState( $d[$field_name], $d['task'], $table_name, $publish_field_name, $field_name, $has_vendor );
 		
 	}
@@ -463,7 +469,7 @@ class vmAbstractObject {
 		global $vmLogger, $VM_LANG;
 		
 		$db = new ps_DB();
-		if( $field_name == 'fieldid' || $field_name == 'file_id' ) {
+		if( $field_name == 'id' || $field_name == 'fieldid' || $field_name == 'file_id' ) {
 			$value = ($task == 'unpublish') ? '0' : '1';
 		}
 		else {

@@ -1060,7 +1060,7 @@ class ps_product_category extends vmAbstractObject {
 	 * @param array The category IDs which are to be disabled in the select list
 	 */
 	function list_all($name, $category_id, $selected_categories=Array(), $size=1, $toplevel=true, $multiple=false, $disabledFields=array() ) {
-		global $VM_LANG,$perm;
+		global $VM_LANG;
 		
 		$db = new ps_DB;
 

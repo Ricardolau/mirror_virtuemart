@@ -16,140 +16,24 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * http://virtuemart.net
 */
 
-class paymenow {
-
-    var $payment_code = "PN";
-  
-    /**
-    * Show all configuration parameters for this payment method
-    * @returns boolean False when the Payment method has no configration
-    */
-    function show_configuration() { 
-    
-      global $VM_LANG;
-      $db =& new ps_DB;
-      /** Read current Configuration ***/
-      require_once(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php");
-    ?>
-      <table>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PN_LOGIN') ?></strong></td>
-            <td>
-                <input type="text" name="PN_LOGIN" class="inputbox" value="<? echo PN_LOGIN ?>" />
-            </td>
-            <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PN_LOGIN_EXPLAIN') ?></td>
-        </tr>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_CVV2') ?></strong></td>
-            <td>
-                <select name="PN_CHECK_CARD_CODE" class="inputbox">
-                <option <?php if (PN_CHECK_CARD_CODE == 'YES') echo "selected=\"selected\""; ?> value="YES">
-                <?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES') ?></option>
-                <option <?php if (PN_CHECK_CARD_CODE == 'NO') echo "selected=\"selected\""; ?> value="NO">
-                <?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO') ?></option>
-                </select>
-            </td>
-            <td><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_CVV2_TOOLTIP') ?></td>
-        </tr>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_SUCC') ?></strong></td>
-            <td>
-                <select name="PN_VERIFIED_STATUS" class="inputbox" >
-                <?php
-                    $q = "SELECT order_status_name,order_status_code FROM #__{vm}_order_status ORDER BY list_order";
-                    $db->query($q);
-                    $order_status_code = Array();
-                    $order_status_name = Array();
-                    
-                    while ($db->next_record()) {
-                      $order_status_code[] = $db->f("order_status_code");
-                      $order_status_name[] =  $db->f("order_status_name");
-                    }
-                    for ($i = 0; $i < sizeof($order_status_code); $i++) {
-                      echo "<option value=\"" . $order_status_code[$i];
-                      if (PN_VERIFIED_STATUS == $order_status_code[$i]) 
-                         echo "\" selected=\"selected\">";
-                      else
-                         echo "\">";
-                      echo $order_status_name[$i] . "</option>\n";
-                    }?>
-                    </select>
-            </td>
-            <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_SUCC_EXPLAIN') ?></td>
-        </tr>
-            <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_FAIL') ?></strong></td>
-            <td>
-                <select name="PN_INVALID_STATUS" class="inputbox" >
-                <?php
-                    for ($i = 0; $i < sizeof($order_status_code); $i++) {
-                      echo "<option value=\"" . $order_status_code[$i];
-                      if (PN_INVALID_STATUS == $order_status_code[$i]) 
-                         echo "\" selected=\"selected\">";
-                      else
-                         echo "\">";
-                      echo $order_status_name[$i] . "</option>\n";
-                    } ?>
-                    </select>
-            </td>
-            <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_FAIL_EXPLAIN') ?></td>
-        </tr>
-      </table>
-   <?php
-      // return false if there's no configuration
-      return true;
-   }
-   
-    function has_configuration() {
-      // return false if there's no configuration
-      return true;
-   }
-   
-  /**
-	* Returns the "is_writeable" status of the configuration file
-	* @param void
-	* @returns boolean True when the configuration file is writeable, false when not
-	*/
-   function configfile_writeable() {
-      return is_writeable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
-   }
-   
-  /**
-	* Returns the "is_readable" status of the configuration file
-	* @param void
-	* @returns boolean True when the configuration file is writeable, false when not
-	*/
-   function configfile_readable() {
-      return is_readable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
-   }   
-  /**
-	* Writes the configuration file for this payment method
-	* @param array An array of objects
-	* @returns boolean True when writing was successful
-	*/
-   function write_configuration( &$d ) {
-      
-      $my_config_array = array("PN_LOGIN" => $d['PN_LOGIN'],
-                                "PN_CHECK_CARD_CODE" => $d['PN_CHECK_CARD_CODE'],
-                                "PN_VERIFIED_STATUS" => $d['PN_VERIFIED_STATUS'],
-                                "PN_INVALID_STATUS" => $d['PN_INVALID_STATUS']
-                        );
-      $config = "<?php\n";
-      $config .= "if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); \n\n";
-      foreach( $my_config_array as $key => $value ) {
-        $config .= "define ('$key', '$value');\n";
-      }
-      
-      $config .= "?>";
-  
-      if ($fp = fopen(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php", "w")) {
-          fputs($fp, $config, strlen($config));
-          fclose ($fp);
-          return true;
-     }
-     else
-        return false;
-   }
+class plgPaymentPaymenow extends vmPaymentPlugin {
+	
+	var $payment_code = "PN";
+	
+	/**
+	 * Constructor
+	 *
+	 * For php4 compatability we must not use the __constructor as a constructor for plugins
+	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
+	 * This causes problems with cross-referencing necessary for the observer design pattern.
+	 *
+	 * @param object $subject The object to observe
+	 * @param array  $config  An array that holds the plugin configuration
+	 * @since 1.2.0
+	 */
+	function plgPaymentPaymenow( & $subject, $config ) {
+		parent::__construct( $subject, $config ) ;
+	}
    
   /**************************************************************************
   ** name: process_payment()
@@ -162,16 +46,25 @@ class paymenow {
    function process_payment($order_number, $order_total, &$d) {
         global $vmLogger;
         
+        require_once( CLASSPATH.'connectionTools.class.php');
         $vars = array(
              "action" => "ns_quicksale_cc",
-             "ecxid"  => PN_LOGIN,
+             "ecxid"  => $this->params->get('PN_LOGIN'),
              "amount" => "$order_total",
              "ccname" => $_SESSION['ccdata']['order_payment_name'],
              "ccnum"  => $_SESSION['ccdata']['order_payment_number'],
              "expmon" => $_SESSION['ccdata']['order_payment_expire_month'],
              "expyear"=> $_SESSION['ccdata']['order_payment_expire_year']
         );
-        $results = http_post("trans.atsbank.com", 443, "/cgi-bin/trans.cgi",$vars);
+		//build the post string
+		$poststring = '';
+		foreach($vars AS $key => $val){
+			$poststring .= urlencode($key) . "=" . urlencode($val) . "&";
+		}
+		// strip off trailing ampersand
+		$poststring = substr($poststring, 0, -1);
+		
+        $results = vmConnector::handleCommunication("https://trans.atsbank.com/cgi-bin/trans.cgi", $poststring);
         
         if (stristr($results, "Accepted")) {
             #Clean up the cart, send out the emails, and display thankyyou page.
@@ -194,51 +87,4 @@ class paymenow {
    }
    
 }
-
-function http_post($server, $port, $url, $vars) {
-    // example:
-    //  http_post(
-    //	"www.fat.com",
-    //	80, 
-    //	"/weightloss.pl", 
-    //	array("name" => "obese bob", "age" => "20")
-    //	);
-	$user_agent = "Mozilla/4.0 (compatible; MSIE 5.5; Windows 98)";
-
-
-	$urlencoded = "";
-	while (list($key,$value) = each($vars))
-		$urlencoded.= urlencode($key) . "=" . urlencode($value) . "&";
-	$urlencoded = substr($urlencoded,0,-1);	
-
-	$content_length = strlen($urlencoded);
-
-	$headers = "POST $url HTTP/1.1
-        Accept: */*
-        Accept-Language: en-au
-        Content-Type: application/x-www-form-urlencoded
-        User-Agent: $user_agent
-        Host: $server
-        Connection: Keep-Alive
-        Cache-Control: no-cache
-        Content-Length: $content_length
-        
-        ";
-    #$fp = fsockopen($host, $port, $errno, $errstr, $timeout = 60);	
-	$fp = fsockopen("ssl://".$server, $port, $errno, $errstr);
-	if (!$fp) {
-	#	return false;
-	}
-	fputs($fp, $headers);
-	fputs($fp, $urlencoded);
-	
-	$ret = "";
-    error_reporting(0);
-	while (!feof($fp)) {
-		$ret.= fgets($fp, 4096);
-    }
-    error_reporting(E_ALL ^ E_NOTICE);
-	fclose($fp);
-    #$ret = stristr($ret, 'html');	
-	return $ret;
-}
+?>

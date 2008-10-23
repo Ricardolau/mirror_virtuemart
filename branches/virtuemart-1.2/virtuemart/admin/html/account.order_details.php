@@ -57,19 +57,20 @@ if ($db->next_record()) {
 	$dbbt = new ps_DB;
 	$q  = "SELECT * FROM `#__{vm}_order_user_info` WHERE order_id='" . $db->f("order_id") . "' ORDER BY address_type ASC";
 	$dbbt->query($q);
+	
 	$dbbt->next_record();
 	$old_user = '';
 	if( !empty( $user ) && is_object($user)) {
 		$old_user = $user;
 	}
 	
-	$user = $dbbt->record;
+	$user = $dbbt->get_row();
 	/** Retrieve Payment Info **/
 	$dbpm = new ps_DB;
 	
 	$q  = "SELECT * FROM `#__{vm}_payment_method` p, `#__{vm}_order_payment` op, `#__{vm}_orders` o ";
 	$q .= "WHERE op.order_id='$order_id' ";
-	$q .= "AND p.payment_method_id=op.payment_method_id ";
+	$q .= "AND p.id=op.payment_method_id ";
 	$q .= "AND o.user_id='" . $auth["user_id"] . "' ";
 	$q .= "AND o.order_id='$order_id' ";
 	$dbpm->query($q);

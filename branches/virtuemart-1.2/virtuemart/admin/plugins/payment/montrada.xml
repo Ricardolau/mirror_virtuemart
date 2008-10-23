@@ -11,7 +11,6 @@
 	
   	<install>	
 		<files>
-			<filename>montrada.cfg.php</filename>
 			<filename>montrada.php</filename>
 		</files>
 		<!--<queries>
@@ -20,5 +19,22 @@
 			<query></query>
 		</queries>-->
 	</install>	
-	
+		<param name="DEBUG" type="radio" default="0" label="PHPSHOP_ADMIN_CFG_ENABLE_AN_TESTMODE" description="PHPSHOP_ADMIN_CFG_ENABLE_AN_TESTMODE_EXPLAIN">
+			<option value="1">PHPSHOP_ADMIN_CFG_YES</option>
+			<option value="0">PHPSHOP_ADMIN_CFG_NO</option>
+		</param>
+		<param type="text" name="MO_USERNAME" label="PHPSHOP_ADMIN_CFG_MONTRADA_USERNAME" default="username"  />
+		<param type="password" name="MO_PASSWORD" label="PHPSHOP_ADMIN_CFG_MONTRADA_PASSWORD"  />
+			 
+		<param name="CHECK_CARD_CODE" label="PHPSHOP_PAYMENT_CVV2" type="radio" default="1" description="PHPSHOP_PAYMENT_CVV2_TOOLTIP">
+            <option value="1">PHPSHOP_ADMIN_CFG_YES</option>
+			<option value="0">PHPSHOP_ADMIN_CFG_NO</option>
+          </param>
+        <param name="PAYMENT_VERIFIED_STATUS" label="PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_SUCC" description="PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_SUCC_EXPLAIN"
+			type="table_data_list" table="#__{vm}_order_status" valuefield="order_status_code" textfield="order_status_name" orderfield="list_order" 
+			/>
+        <param name="PAYMENT_INVALID_STATUS" label="PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_FAIL" description="PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_FAIL_EXPLAIN"
+			type="table_data_list" table="#__{vm}_order_status" valuefield="order_status_code" textfield="order_status_name" orderfield="list_order" 
+			/>
+      
 </install>

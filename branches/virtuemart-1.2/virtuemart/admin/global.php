@@ -34,8 +34,22 @@ if( !defined('VM_COMPONENT_NAME')) {
 	defined('VM_THEMEURL') or define('VM_THEMEURL', $mosConfig_live_site. '/components/com_virtuemart/themes/default/');
 }
 // Instantiate the MainFrame class for VirtueMart
+require_once(CLASSPATH."ps_database.php");
 require_once( CLASSPATH."mainframe.class.php" );
+require_once( CLASSPATH."plugin.class.php" );
+require_once( CLASSPATH."dispatcher.class.php" );
+
+/* @MWM1: Load debug utility functions (currently just vmShouldDebug())
+   Replaces test (DEBUG == '1') and also checks if DEBUG_IP_ADDRESS is
+   enabled. */
+require_once(CLASSPATH."DebugUtil.php");
+
+/* @MWM1: Initialize Logging */
+$vmLogIdentifier = 'VirtueMart';
+require_once(CLASSPATH."Log/LogInit.php");
 $vm_mainframe = new vmMainFrame();
+
+vmPluginHelper::importPlugin('system');
 
 if (file_exists( ADMINPATH.'plugins/currency_converter/'.@VM_CURRENCY_CONVERTER_MODULE.'.php' )) {
 	$module_filename = VM_CURRENCY_CONVERTER_MODULE;
@@ -66,18 +80,9 @@ $GLOBALS['vendor_info'] = Array();
 
 // load the MAIN CLASSES
 // CLASSPATH is defined in the config file
-require_once(CLASSPATH."ps_database.php");
 require_once(CLASSPATH."ps_main.php");
 require_once(CLASSPATH."request.class.php");
 
-/* @MWM1: Load debug utility functions (currently just vmShouldDebug())
-   Replaces test (DEBUG == '1') and also checks if DEBUG_IP_ADDRESS is
-   enabled. */
-require_once(CLASSPATH."DebugUtil.php");
-
-/* @MWM1: Initialize Logging */
-$vmLogIdentifier = 'VirtueMart';
-require_once(CLASSPATH."Log/LogInit.php");
 
 // The abstract language class
 require_once( CLASSPATH."language.class.php" );
@@ -102,6 +107,8 @@ require_once(CLASSPATH."ps_vendor.php");
 require_once(CLASSPATH.'template.class.php' );
 require_once(CLASSPATH."htmlTools.class.php");
 require_once(CLASSPATH."phpInputFilter/class.inputfilter.php");
+
+$vm_mainframe->triggerEvent('onAfterInitialise');
 
 // Instantiate the DB class
 $db = new ps_DB();
@@ -229,12 +236,12 @@ $GLOBALS['VM_THEMECLASS'] = 'vmTheme';
 function vmGetGlobalsArray() {
 	static $vm_globals = array(  'perm', 'page', 'sess', 'func', 'cart', 'VM_LANG', 'PSHOP_SHIPPING_MODULES', 'VM_BROWSE_ORDERBY_FIELDS', 
 					'VM_MODULES_FORCE_HTTPS', 'vmLogger', 'CURRENCY_DISPLAY', 'CURRENCY', 'ps_html', 
-					'ps_vendor_id', 'keyword', 'ps_payment_method', 'pagename', 'modulename', 
+					'ps_vendor_id', 'keyword', 'vmPaymentMethod', 'pagename', 'modulename', 
 					'vars', 'auth', 'ps_checkout', 'vendor_image','vendor_country_2_code','vendor_country_3_code', 'vendor_state_name',
 					'vendor_image_url', 'vendor_name', 'vendor_address', 'vendor_address_2', 'vendor_city','vendor_country','vendor_mail',
 					'vendor_store_name', 'vendor_state', 'vendor_zip', 'vendor_phone', 'vendor_currency', 'vendor_store_desc', 
 					'vendor_freeshipping', 'vendor_currency_display_style', 'vendor_freeshipping', 'vendor_date_format', 'vendor_address_format',
-					'mm_action_url', 'limit', 'limitstart', 'vmInputFilter', 'mainframe', 'mosConfig_lang',
+					'mm_action_url', 'limit', 'limitstart', 'vmInputFilter', 'vm_mainframe', 'mainframe', 'mosConfig_lang',
 					'option', 'my', 'Itemid', 'mosConfig_live_site', 'mosConfig_absolute_path' );
 	return $vm_globals;
 }

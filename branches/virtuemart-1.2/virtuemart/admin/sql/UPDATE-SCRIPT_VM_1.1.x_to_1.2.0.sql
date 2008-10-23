@@ -122,3 +122,58 @@ ALTER TABLE `jos_vm_category_xref` ADD `category_shared` VARCHAR( 1 ) NOT NULL D
 
 # 15.10.2008 - moved and renamed payment class files
 UPDATE `jos_vm_payment_method` SET `payment_class` = REPLACE( `payment_class` , 'ps_', '' ) ;
+UPDATE `jos_vm_function` SET `function_class` = 'paymentMethod.class' WHERE `function_class` = 'ps_payment_method';
+UPDATE `jos_vm_function` SET `function_class` = 'shippingMethod.class' WHERE `function_class` = 'ps_shipping_method';
+
+ALTER TABLE `jos_vm_payment_method` CHANGE `payment_method_id` `id` INT( 11 ) NOT NULL AUTO_INCREMENT  ;
+ALTER TABLE `jos_vm_payment_method` CHANGE `payment_method_name` `name` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL  ;
+ALTER TABLE `jos_vm_payment_method` CHANGE `payment_class` `element` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL  ;
+ALTER TABLE `jos_vm_payment_method` CHANGE `payment_method_discount` `discount` DECIMAL( 12, 2 ) NULL DEFAULT NULL  ;
+ALTER TABLE `jos_vm_payment_method` CHANGE `payment_method_discount_is_percent` `discount_is_percentage` TINYINT( 1 ) NOT NULL  ;
+ALTER TABLE `jos_vm_payment_method` CHANGE `payment_method_discount_max_amount` `discount_max_amount` DECIMAL( 10, 2 ) NOT NULL  ;
+ALTER TABLE `jos_vm_payment_method` CHANGE `payment_method_discount_min_amount` `discount_min_amount` DECIMAL( 10, 2 ) NOT NULL  ;
+ALTER TABLE `jos_vm_payment_method` CHANGE `payment_method_code` `short_code` VARCHAR( 8 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL  ;
+ALTER TABLE `jos_vm_payment_method` CHANGE `enable_processor` `type` CHAR( 1 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL  ;
+ALTER TABLE `jos_vm_payment_method` CHANGE `payment_enabled` `published` CHAR( 1 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'N' ;
+ALTER TABLE `jos_vm_payment_method` CHANGE `payment_extrainfo` `extra_info` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL  ;
+ALTER TABLE `jos_vm_payment_method` CHANGE `payment_passkey` `secret_key` BLOB NOT NULL  ;
+ALTER TABLE `jos_vm_payment_method` ADD `params` TEXT NOT NULL ;
+UPDATE `jos_vm_payment_method` SET `element`='payment' WHERE `element`='';
+
+CREATE TABLE `jos_vm_plugins` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(100) NOT NULL default '',
+  `element` varchar(100) NOT NULL default '',
+  `folder` varchar(100) NOT NULL default '',
+  `ordering` int(11) NOT NULL default '0',
+  `published` tinyint(3) NOT NULL default '0',
+  `iscore` tinyint(3) NOT NULL default '0',
+  `vendor_id` tinyint(3) NOT NULL default '0',
+  `shopper_group_id` int(10) unsigned NOT NULL,
+  `checked_out` int(11) unsigned NOT NULL default '0',
+  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `params` text NOT NULL,
+  `secrets` blob NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `idx_folder` (`published`,`vendor_id`,`folder`)
+) TYPE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12;
+
+# Data for `jos_vm_plugins`
+INSERT INTO `jos_vm_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(1, 'auspost', 'auspost', 'shipping', 11, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '');
+INSERT INTO `jos_vm_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(2, 'canadapost', 'canadapost', 'shipping', 9, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '');
+INSERT INTO `jos_vm_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(3, 'dhl', 'dhl', 'shipping', 4, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '');
+INSERT INTO `jos_vm_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(4, 'fedex', 'fedex', 'shipping', 3, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '');
+INSERT INTO `jos_vm_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(5, 'flex', 'flex', 'shipping', 2, 1, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '');
+INSERT INTO `jos_vm_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(6, 'intershipper', 'intershipper', 'shipping', 5, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '');
+INSERT INTO `jos_vm_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(7, 'shipvalue', 'shipvalue', 'shipping', 8, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '');
+INSERT INTO `jos_vm_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(8, 'standard_shipping', 'standard_shipping', 'shipping', 1, 1, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '');
+INSERT INTO `jos_vm_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(9, 'UPS Shipping Module', 'ups', 'shipping', 6, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '');
+INSERT INTO `jos_vm_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(10, 'USPS Shipping Module', 'usps', 'shipping', 7, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '');
+INSERT INTO `jos_vm_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(11, 'Zone Shipping Module', 'zone_shipping', 'shipping', 10, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '');
+
+INSERT INTO `jos_vm_function` (`function_id`, `module_id`, `function_name`, `function_class`, `function_method`, `function_description`, `function_perms`) 
+	VALUES(195, 1, 'uninstallExtension', 'installer.class', 'uninstall', 'Uninstalls an Extension', 'admin');
+INSERT INTO `jos_vm_function` (`function_id`, `module_id`, `function_name`, `function_class`, `function_method`, `function_description`, `function_perms`) 
+	VALUES(196, 1, 'installExtension', 'installer.class', 'install', 'Installs an Extension', 'admin');
+INSERT INTO `jos_vm_function` (`function_id`, `module_id`, `function_name`, `function_class`, `function_method`, `function_description`, `function_perms`) 
+	VALUES(197, 1, 'pluginUpdate', 'pluginEntity.class', 'update', 'Updates a VM Plugin and saves all new parameter settings.', 'storeadmin,admin');

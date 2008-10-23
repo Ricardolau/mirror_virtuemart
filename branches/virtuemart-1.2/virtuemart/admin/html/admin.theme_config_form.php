@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage html
-* @copyright Copyright (C) 2006-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2006-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -67,7 +67,7 @@ vmCommonHTML::loadExtjs();
 	
 <?php
 // Add necessary hidden fields
-$formObj->hiddenField( 'ajax_request', $only_page );
+$formObj->hiddenField( 'ajax_request', 1 );
 
 // Close the form 
 $formObj->finishForm( 'writeThemeConfig', 'store.index', $option );

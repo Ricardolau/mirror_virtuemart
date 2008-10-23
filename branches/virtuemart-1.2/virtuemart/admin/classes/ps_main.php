@@ -186,7 +186,7 @@ function include_class($module) {
 	$ps_product_type, // Changed Product Type
 	$ps_product_type_parameter, // Changed Product Type
 	$ps_product_product_type, // Changed Product Type
-	$ps_product_price,	$nh_report,	$ps_payment_method,	$ps_shopper,	$ps_shopper_group,
+	$ps_product_price,	$nh_report,	$ps_shopper,	$ps_shopper_group,
 	$ps_cart,	$ps_zone,$ps_tax, $zw_waiting_list;
 	
 	$VM_LANG->load($module);
@@ -216,13 +216,6 @@ function include_class($module) {
 			$ps_user_address = new ps_user_address;
 			$ps_session = new ps_session;
 	
-			break;
-
-		case "affiliate" :
-			// Load class file
-			require_once(CLASSPATH. 'ps_affiliate.php' );
-			//Instantiate Class
-			$ps_affiliate = new ps_affiliate;
 			break;
 
 		case "checkout" :
@@ -298,9 +291,9 @@ function include_class($module) {
 
 		case "store" :
 			// Load Classes
-			require_once( CLASSPATH . 'ps_payment_method.php' );
+			require_once( CLASSPATH . 'paymentMethod.class.php' );
 			// Instantiate Classes
-			$ps_payment_method = new ps_payment_method;
+			$vmPaymentMethod = new vmPaymentMethod();
 			break;
 
 		case "tax" :
@@ -1319,6 +1312,37 @@ function vmArrayToInts( &$array, $default=null ) {
 			return array( $default ); // Kept for backwards compatibility
 		}
 	}
+}	
+/**
+ * Utility function to map an object to an array
+ *
+ * @param	object	The source object
+ * @param	boolean	True to recurve through multi-level objects
+ * @param	string	An optional regular expression to match on field names
+ * @return	array	The array mapped from the given object
+ * @since	1.2.0
+ */
+function vmObjectToArray( $p_obj, $recurse = true, $regex = null ) {
+	$result = null;
+	if (is_object( $p_obj )) 	{
+		$result = array();
+		foreach (get_object_vars($p_obj) as $k => $v) 	{
+			if ($regex) {
+				if (!preg_match( $regex, $k )) {
+					continue;
+				}
+			}
+			if (is_object( $v )) {
+				if ($recurse) {
+					$result[$k] =vmObjectToArray( $v, $recurse, $regex );
+				}
+			}
+			else {
+				$result[$k] = $v;
+			}
+		}
+	}
+	return $result;
 }
 function vmRoute( $nonSefUrl) {
 	if (class_exists('JApplication')) {  // J 1.5

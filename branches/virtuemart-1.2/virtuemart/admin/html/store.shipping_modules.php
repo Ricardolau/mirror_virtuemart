@@ -19,8 +19,8 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 mm_showMyFileName( __FILE__ );
 
-require_once( CLASSPATH. "ps_shipping_method.php" );
-$ps_shipping_method = new ps_shipping_method;
+require_once( CLASSPATH. "shippingMethod.class.php" );
+$ps_shipping_method = new vmshippingMethod;
 
  ?>
  <table width="100%" cellspacing="0" cellpadding="4" border="0">
@@ -54,6 +54,8 @@ else {
 <?php
     $i = 0;
     foreach( $rows as $row ) {
+    	$db->query("INSERT INTO #__{vm}_plugins (`name`, `element`, `folder`, `ordering`, `published`, `shopper_group_id`, `vendor_id`)
+    	VALUES('".$row['name']."', '".$row['name']."','shipping', '$i', 0,5,1)");
       	$i++;
          ?> 
       <tr class="row<?php echo $i%2 ?>"> 

@@ -26,7 +26,7 @@ require_once(CLASSPATH. 'ps_product.php' );
 $ps_product = new ps_product;
 require_once(CLASSPATH. 'ps_checkout.php' );
 $ps_checkout = new ps_checkout;
-require_once(CLASSPATH . 'ps_shipping_method.php' );
+require_once(CLASSPATH . 'shippingMethod.class.php' );
 
 global $weight_total, $total, $tax_total, $order_tax_details, $discount_factor, $order_total;
 
@@ -92,7 +92,7 @@ else {
 		$product_rows[$i]['product_sku'] = $ps_product->get_field($cart[$i]["product_id"], "product_sku");
 
 		/* WEIGHT CALCULATION */
-		$weight_subtotal = ps_shipping_method::get_weight($cart[$i]["product_id"]) * $cart[$i]['quantity'];
+		$weight_subtotal = vmShippingMethod::get_weight($cart[$i]["product_id"]) * $cart[$i]['quantity'];
 		$weight_total += $weight_subtotal;
 
 		/* Product PRICE */
@@ -171,8 +171,11 @@ else {
 	if( !empty($shipping_rate_id) && !ps_checkout::noShippingMethodNecessary() ) {
 		$shipping = true;
 		$vars["weight"] = $weight_total;
-		$shipping_total = round( $ps_checkout->_SHIPPING->get_rate ( $vars ), 5 );
-		$shipping_taxrate = $ps_checkout->_SHIPPING->get_tax_rate();
+		$result = $vm_mainframe->triggerEvent('get_shipping_rate', array( $vars ));		
+		$shipping_total = is_array($result) ? round($result[0],5) : 0.00;
+		
+		$result = $vm_mainframe->triggerEvent('get_shippingtax_rate');
+		$shipping_taxrate = is_array($result) ? $result[0] : 0.00;
 
 		// When the Shipping rate is shown including Tax
 		// we have to extract the Tax from the Shipping Total

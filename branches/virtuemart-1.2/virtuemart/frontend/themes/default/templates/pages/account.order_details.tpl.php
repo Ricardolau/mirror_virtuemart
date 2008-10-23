@@ -16,7 +16,10 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * http://virtuemart.net
 */
 mm_showMyFileName( __FILE__ );
-
+global $vm_mainframe;
+ require_once(CLASSPATH.'paymentMethod.class.php');
+ $vmPaymentMethod = new vmPaymentMethod();
+ 
 if( $db->f('order_number')) {
 ?>	
 
@@ -41,21 +44,17 @@ if( $db->f('order_number')) {
 	if ( $db->f("order_status") == "P" ) {
 		// Copy the db object to prevent it gets altered
 		$db_temp = ps_DB::_clone( $db );
-	 /** Start printing out HTML Form code (Payment Extra Info) **/ ?>
+	 	// Start printing out HTML Form code (Payment Extra Info
+	 	?>
 	<table width="100%">
 	  <tr>
 	    <td width="100%" align="center">
 	    <?php 
-	    @include( CLASSPATH. "payment/".$dbpm->f("payment_class").".cfg.php" );
-	
-	    echo DEBUG ? vmCommonHTML::getInfoField('Beginning to parse the payment extra info code...' ) : '';
-	
-	    // Here's the place where the Payment Extra Form Code is included
-	    // Thanks to Steve for this solution (why make it complicated...?)
-	    if( eval('?>' . $dbpm->f("payment_extrainfo") . '<?php ') === false ) {
-	    	echo vmCommonHTML::getErrorField( "Error: The code of the payment method ".$dbpm->f( 'payment_method_name').' ('.$dbpm->f('payment_method_code').') '
-	    	.'contains a Parse Error!<br />Please correct that first' );
-	    }
+	    
+	    vmPaymentMethod::importPaymentPluginById($dbpm->f('id'));
+	    
+		$vm_mainframe->triggerEvent('showPaymentForm', array($db, $user, $dbbt) );
+	    	
 	      ?>
 	    </td>
 	  </tr>
@@ -488,14 +487,12 @@ if( $db->f('order_number')) {
 	      </tr>
 	      <tr> 
 	        <td width="20%"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_PAYMENT_LBL') ?> :</td>
-	        <td><?php $dbpm->p("payment_method_name"); ?> </td>
+	        <td><?php $dbpm->p("name"); ?> </td>
 	      </tr>
 		  <?php
-		  require_once(CLASSPATH.'ps_payment_method.php');
-		  $ps_payment_method = new ps_payment_method;
-		  $payment = $dbpm->f("payment_method_id");
+		  $payment = $dbpm->f("id");
 	
-		  if ($ps_payment_method->is_creditcard($payment)) {
+		  if ($vmPaymentMethod->is_creditcard($payment)) {
 	
 		  	// DECODE Account Number
 		  	$dbaccount = new ps_DB;

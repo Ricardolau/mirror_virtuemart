@@ -21,6 +21,8 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 
 mm_showMyFileName( __FILE__ );
 
+ require_once(CLASSPATH.'paymentMethod.class.php');
+ $vmPaymentMethod = new vmPaymentMethod();
 global $VM_LANG;
 ?>
 
@@ -48,24 +50,12 @@ if ($db->f("order_status") == "P" ) {
   <tr>
     <td width="100%" align="center">
     	<?php 
-	    /**
-	     * PLEASE DON'T CHANGE THIS SECTION UNLESS YOU KNOW WHAT YOU'RE DOING
-	     */
-	    // Try to get PayPal/PayMate/Worldpay/whatever Configuration File
-	    @include( CLASSPATH."payment/".$db->f("payment_class").".cfg.php" );
 	    
 		$vmLogger->debug('Beginning to parse the payment extra info code...' );
 		
-	    // Here's the place where the Payment Extra Form Code is included
-	    // Thanks to Steve for this solution (why make it complicated...?)
-	    if( eval('?>' . $db->f("payment_extrainfo") . '<?php ') === false ) {
-	    	$vmLogger->debug( "Error: The code of the payment method ".$db->f( 'payment_method_name').' ('.$db->f('payment_method_code').') '
-	    	.'contains a Parse Error!<br />Please correct that first' );
-	    }
-	    else {
-	    	$vmLogger->debug('Successfully parsed the payment extra info code.' );
-	    }
-	    // END printing out HTML Form code (Payment Extra Info)
+	    vmPaymentMethod::importPaymentPluginById($db->f('id'));
+	    
+		$vm_mainframe->triggerEvent('showPaymentForm', array($db, $user, $dbbt) );
 
       	?>
     </td>

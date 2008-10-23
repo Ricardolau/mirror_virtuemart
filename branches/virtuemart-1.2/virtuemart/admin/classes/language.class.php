@@ -98,7 +98,7 @@ class vmAbstractLanguage {
 		} elseif( $this->_debug ) {
 			$GLOBALS['vmLogger']->debug( "$var is missing in language file.");
 		} 
-		return '';
+		return $var;
 		
 	} 
 	/**

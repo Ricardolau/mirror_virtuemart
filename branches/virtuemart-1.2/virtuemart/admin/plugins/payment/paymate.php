@@ -16,89 +16,60 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * http://virtuemart.net
 */
 
-class paymate {
 
-    var $payment_code = "PAYMATE";
-    
-    /**
-    * Show all configuration parameters for this payment method
-    * @returns boolean False when the Payment method has no configration
-    */
-    function show_configuration() {
-        global $VM_LANG;
-        $db = new ps_DB();
-        
-        /** Read current Configuration ***/
-        require_once(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php");
-        ?>
-        <table>
-          <tr>
-          <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PAYMATE_USERNAME') ?></strong></td>
-              <td>
-                  <input type="text" name="PAYMATE_USERNAME" class="inputbox" value="<?  echo PAYMATE_USERNAME ?>" />
-              </td>
-              <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PAYMATE_USERNAME_EXPLAIN') ?>
-              </td>
-          </tr> 
-        </table>
-        <?php
-    }
-    
-    function has_configuration() {
-      // return false if there's no configuration
-      return true;
-   }
-   
-  /**
-	* Returns the "is_writeable" status of the configuration file
-	* @param void
-	* @returns boolean True when the configuration file is writeable, false when not
-	*/
-   function configfile_writeable() {
-      return is_writeable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
-   }
-   
-  /**
-	* Returns the "is_readable" status of the configuration file
-	* @param void
-	* @returns boolean True when the configuration file is writeable, false when not
-	*/
-   function configfile_readable() {
-      return is_readable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
-   }
-   
-  /**
-	* Writes the configuration file for this payment method
-	* @param array An array of objects
-	* @returns boolean True when writing was successful
-	*/
-   function write_configuration( &$d ) {
-      
-      $my_config_array = array("PAYMATE_USERNAME" => $d['PAYMATE_USERNAME']
-                                      );
-      $config = "<?php\n";
-      $config .= "if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); \n\n";
-      foreach( $my_config_array as $key => $value ) {
-        $config .= "define ('$key', '$value');\n";
-      }
-      
-      $config .= "?>";
-  
-      if ($fp = fopen(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php", "w")) {
-          fputs($fp, $config, strlen($config));
-          fclose ($fp);
-          return true;
-     }
-     else
-        return false;
-   }
-   
-  /**************************************************************************
-  ** name: process_payment()
-  ** returns: 
-  ***************************************************************************/
-   function process_payment($order_number, $order_total, &$d) {
-        return true;
-    }
-   
+class plgPaymentPaymate extends vmPaymentPlugin {
+	
+	var $payment_code = "PAYMATE";
+	
+	/**
+	 * Constructor
+	 *
+	 * For php4 compatability we must not use the __constructor as a constructor for plugins
+	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
+	 * This causes problems with cross-referencing necessary for the observer design pattern.
+	 *
+	 * @param object $subject The object to observe
+	 * @param array  $config  An array that holds the plugin configuration
+	 * @since 1.2.0
+	 */
+	function plgPaymentPaymate( & $subject, $config ) {
+		parent::__construct( $subject, $config ) ;
+	}
+	/**
+	 * Shows the HTML Form Code to redirect the customer to PayPal
+	 *
+	 * @param ps_DB $db
+	 * @param stdCls $user
+	 * @param ps_DB $dbbt
+	 */
+	function showPaymentForm( &$db, $user, $dbbt ) {
+	?>
+		<script type="text/javascript">
+	  function openExpress(){
+	        var url = 'https://www.paymate.com.au/PayMate/ExpressPayment?mid=<?php echo $this->params->get('PAYMATE_USERNAME').
+	          "&amt=".$db->f("order_total").
+	        "&currency=".$_SESSION['vendor_currency'].
+	          "&ref=".$db->f("order_id").
+	   "&pmt_sender_email=".$user->email.
+	    "&pmt_contact_firstname=".$user->first_name.
+	          "&pmt_contact_surname=".$user->last_name.
+	     "&regindi_address1=".$user->address_1.
+	        "&regindi_address2=".$user->address_2.
+	        "&regindi_sub=".$user->city.
+	          "&regindi_pcode=".$user->zip;?>'
+	   var newWin = window.open(url, 'wizard', 'height=640,width=500,scrollbars=0,toolbar=no');
+	  self.name = 'parent';
+	       newWin.focus();
+	  }
+	  </script>
+	  <div align="center">
+	  <p>
+	  <a href="javascript:openExpress();">
+	  <img src="https://www.paymate.com.au/homepage/images/butt_PayNow.gif" border="0" alt="Pay with Paymate Express">
+	  <br />Click here to pay your account</a>
+	  </p>
+	  </div>
+	  <?php
+	}
 }
+?>

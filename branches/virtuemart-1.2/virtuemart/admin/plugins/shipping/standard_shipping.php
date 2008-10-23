@@ -15,30 +15,34 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
  *
  * http://virtuemart.net
  */
-class standard_shipping {
-	
+class plgShippingStandard_Shipping extends vmShippingPlugin {
+	/**
+	 * Constructor
+	 *
+	 * For php4 compatability we must not use the __constructor as a constructor for plugins
+	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
+	 * This causes problems with cross-referencing necessary for the observer design pattern.
+	 *
+	 * @param object $subject The object to observe
+	 * @param array  $config  An array that holds the plugin configuration
+	 * @since 1.2.0
+	 */
+	function plgShippingStandard_Shipping( & $subject, $config ) {
+		parent::__construct( $subject, $config ) ;
+	}
 	/**
 	 * returns a html list with selectable rates
 	 * $d[]: Array with search criteria
 	 *             "country", "zip", "weight"
 	 * @param array $d
-	 * @return string
+	 * @return mixed
 	 */
-	function list_rates( &$d ) {
+	function get_shipping_rate_list( &$d ) {
 		global $VM_LANG, $CURRENCY_DISPLAY, $vmLogger ;
 		$auth = $_SESSION["auth"] ;
 		
-		if( defined( __CLASS__ . '_list_rates_called' ) ) {
-			return ;
-		}
-		// Prevent that list_rates is called more than once
-		// as this is a fallback method when other classes fail to
-		// list their rates
-		define( __CLASS__ . '_list_rates_called', 1 ) ;
-		
 		$dbc = new ps_DB( ) ; // Carriers
-		$dbr = new ps_DB( ) ; // Rates
-		
+		$dbr = new ps_DB( ) ; // Rates		
 
 		$selected = False ;
 		$d['ship_to_info_id'] = vmGet( $_REQUEST, 'ship_to_info_id' ) ;
@@ -52,7 +56,7 @@ class standard_shipping {
 		$q = "SELECT shipping_carrier_id,shipping_carrier_name FROM #__{vm}_shipping_carrier ORDER BY shipping_carrier_list_order ASC" ;
 		$dbc->query( $q ) ;
 		$i = 0 ;
-		$html = "" ;
+		$returnArr = array();
 		while( $dbc->next_record() ) {
 			$q = "SELECT shipping_rate_id,shipping_rate_name,shipping_rate_value,shipping_rate_package_fee FROM #__{vm}_shipping_rate WHERE " ;
 			$q .= "shipping_rate_carrier_id='" . $dbc->f( "shipping_carrier_id" ) . "' AND " ;
@@ -86,43 +90,30 @@ class standard_shipping {
 				$total_shipping_handling = $dbr->f( "shipping_rate_value" ) + $dbr->f( "shipping_rate_package_fee" ) ;
 				$total_shipping_handling = $GLOBALS['CURRENCY']->convert( $total_shipping_handling ) ;
 				$total_shipping_handling *= $taxrate ;
-				$show_shipping_handling = $CURRENCY_DISPLAY->getFullValue( $total_shipping_handling ) ;
 				
 				// THE ORDER OF THOSE VALUES IS IMPORTANT:
 				// ShippingClassName|carrier_name|rate_name|totalshippingcosts|rate_id
-				$shipping_rate_id = urlencode( __CLASS__ . "|" . $dbc->f( "shipping_carrier_name" ) . "|" . $dbr->f( "shipping_rate_name" ) . "|" . number_format( $total_shipping_handling, 2, '.', '' ) . "|" . $dbr->f( "shipping_rate_id" ) ) ;
+				$shipping_rate_id = urlencode( $this->_name . "|" . $dbc->f( "shipping_carrier_name" ) . "|" . $dbr->f( "shipping_rate_name" ) . "|" . number_format( $total_shipping_handling, 2, '.', '' ) . "|" . $dbr->f( "shipping_rate_id" ) ) ;
 				
 				$_SESSION[$shipping_rate_id] = 1 ;
 				
-				$html .= "<tr class=\"$class\">" ;
-				$html .= "<td width=\"10\">
-          				<input type=\"radio\" id=\"shipping_rate_id_ss_" . $dbr->f( "shipping_rate_id" ) . "\" name=\"shipping_rate_id\" value=\"" . $shipping_rate_id . "\" " ;
-				
-				if( ! $selected ) {
-					$selected = True ;
-					$html .= "checked=\"checked\"" ;
-				}
-				$html .= " /></td>" ;
-				$html .= "<td><label for=\"shipping_rate_id_ss_" . $dbr->f( "shipping_rate_id" ) . "\">" . $dbc->f( "shipping_carrier_name" ) . "</label></td>" ;
-				$html .= "<td><label for=\"shipping_rate_id_ss_" . $dbr->f( "shipping_rate_id" ) . "\">" . $dbr->f( "shipping_rate_name" ) . "</label></td>" ;
-				
-				$html .= "<td>" . $show_shipping_handling . "</td></tr>\n" ;
+				$returnArr[] = array('shipping_rate_id' => $shipping_rate_id,
+													'carrier' => $dbc->f( "shipping_carrier_name" ),
+													'rate_name' => $dbr->f( "shipping_rate_name" ),
+													'rate' => $total_shipping_handling
+												);
 			}
 		}
-		if( defined( "_SHIPPING_RATE_TABLE_HEADER" ) ) {
-			$html .= "</table>\n" ;
-		}
-		if( ! empty( $html ) ) {
-			echo $html ;
+		if( ! empty( $returnArr ) ) {
+			return $returnArr;
 		} else {
 			$vmLogger->debug( "The Shipping Module '" . __CLASS__ . "' couldn't 
 				find a Shipping Rate that matches the current Checkout configuration:
 				Weight: " . $d['weight'] . "
 				Country: $country
 				ZIP: $zip" ) ;
+			return false;
 		}
-		
-		return True ;
 	}
 	/**************************************************************************
 	 * name: get_rate()
@@ -131,7 +122,7 @@ class standard_shipping {
 	 * parameters: $rate_id : The id of therate
 	 * returns: a decimal value
 	 **************************************************************************/
-	function get_rate( &$d ) {
+	function get_shipping_rate( &$d ) {
 		
 		$shipping_rate_id = $d["shipping_rate_id"] ;
 		$is_arr = explode( "|", urldecode( urldecode( $shipping_rate_id ) ) ) ;
@@ -146,7 +137,7 @@ class standard_shipping {
 	 * @param int $shipping_rate_id
 	 * @return float
 	 */
-	function get_tax_rate( $shipping_rate_id = 0 ) {
+	function get_shippingtax_rate( $shipping_rate_id = 0 ) {
 		$database = new ps_DB( ) ;
 		
 		if( $shipping_rate_id == 0 ) {
@@ -169,7 +160,7 @@ class standard_shipping {
 	 * @param array $d
 	 * @return array
 	 */
-	function get_rate_details( &$d ) {
+	function get_shipping_rate_details( &$d ) {
 		
 		$rvalue["pure_rate"] = 0 ;
 		$rvalue["pack_rate"] = 0 ;
@@ -237,9 +228,9 @@ class standard_shipping {
 		$rate_id = intval( $details[4] ) ;
 		
 		$totalweight = 0 ;
-		require_once (CLASSPATH . 'ps_shipping_method.php') ;
+		require_once (CLASSPATH . 'shippingMethod.class.php') ;
 		for( $i = 0 ; $i < $cart["idx"] ; $i ++ ) {
-			$weight_subtotal = ps_shipping_method::get_weight( $cart[$i]["product_id"] ) * $cart[$i]['quantity'] ;
+			$weight_subtotal = vmShippingMethod::get_weight( $cart[$i]["product_id"] ) * $cart[$i]['quantity'] ;
 			$totalweight += $weight_subtotal ;
 		}
 		
@@ -318,33 +309,7 @@ class standard_shipping {
 			return false ;
 		}
 	}
-	
-	/**
-	 * Show all configuration parameters for this Shipping method
-	 * @returns boolean False when the Shipping method has no configration
-	 */
-	function show_configuration() {
-		
-		return true ;
-	}
-	/**
-	 * Returns the "is_writeable" status of the configuration file
-	 * @param void
-	 * @returns boolean True when the configuration file is writeable, false when not
-	 */
-	function configfile_writeable() {
-		return is_writeable( __CLASS__ . ".cfg.php" ) ;
-	}
-	
-	/**
-	 * Writes the configuration file for this shipping method
-	 * @param array An array of objects
-	 * @returns boolean True when writing was successful
-	 */
-	function write_configuration( &$d ) {
-		
-		return true ;
-	}
+
 }
 
 ?>

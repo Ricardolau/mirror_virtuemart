@@ -12,7 +12,6 @@
 	
   	<install>	
 		<files>
-			<filename>worldpay.cfg.php</filename>
 			<filename>worldpay.php</filename>
 		</files>
 		<!--<queries>
@@ -21,5 +20,8 @@
 			<query></query>
 		</queries>-->
 	</install>	
-	
+	<params>
+		<param type="text" name="WORLDPAY_INST_ID" label="PHPSHOP_ADMIN_CFG_WORLDPAY_INSTID"
+             default="xxxxxx" description="PHPSHOP_ADMIN_CFG_WORLDPAY_INSTID_EXPLAIN" />
+	</params>
 </install>

@@ -15,152 +15,23 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * The montrada class, containing the payment processing code
 *  for transactions with montrada.de
  */
-
-class montrada {
-
-    var $debug = false;
-    var $payment_code = "MO";
-  
-    /**
-    * Show all configuration parameters for this payment method
-    * @returns boolean False when the Payment method has no configration
-    */
-    function show_configuration() { 
-    
-      global $VM_LANG, $sess;
-      $db =& new ps_DB;
-      $payment_method_id = vmGet( $_REQUEST, 'payment_method_id', null );
-      /** Read current Configuration ***/
-      require_once(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php");
-    ?>
-      <table>
-        <tr><td colspan="3"><hr/></td></tr>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_CVV2') ?></strong></td>
-            <td>
-                <select name="MO_CHECK_CARD_CODE" class="inputbox">
-                <option <?php if (MO_CHECK_CARD_CODE == 'YES') echo "selected=\"selected\""; ?> value="YES">
-                <?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES') ?></option>
-                <option <?php if (MO_CHECK_CARD_CODE == 'NO') echo "selected=\"selected\""; ?> value="NO">
-                <?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO') ?></option>
-                </select>
-            </td>
-            <td><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_CVV2_TOOLTIP') ?></td>
-        </tr>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_MONTRADA_USERNAME') ?></strong></td>
-            <td>
-                <input type="text" name="MO_USERNAME" class="inputbox" value="<?php echo MO_USERNAME ?>" />
-            </td>
-        </tr>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_MONTRADA_PASSWORD') ?></strong></td>
-            <td>
-                <input type="text" name="MO_PASSWORD" class="inputbox" value="<?php echo MO_PASSWORD ?>" />
-            </td>
-        </tr>        
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_SUCC') ?></strong></td>
-            <td>
-                <select name="MO_VERIFIED_STATUS" class="inputbox" >
-                <?php
-                    $q = "SELECT order_status_name,order_status_code FROM #__{vm}_order_status ORDER BY list_order";
-                    $db->query($q);
-                    $order_status_code = Array();
-                    $order_status_name = Array();
-                    
-                    while ($db->next_record()) {
-                      $order_status_code[] = $db->f("order_status_code");
-                      $order_status_name[] =  $db->f("order_status_name");
-                    }
-                    for ($i = 0; $i < sizeof($order_status_code); $i++) {
-                      echo "<option value=\"" . $order_status_code[$i];
-                      if (MO_VERIFIED_STATUS == $order_status_code[$i]) 
-                         echo "\" selected=\"selected\">";
-                      else
-                         echo "\">";
-                      echo $order_status_name[$i] . "</option>\n";
-                    }?>
-                    </select>
-            </td>
-            <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_SUCC_EXPLAIN') ?></td>
-        </tr>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_FAIL') ?></strong></td>
-            <td>
-                <select name="MO_INVALID_STATUS" class="inputbox" >
-                <?php
-                    for ($i = 0; $i < sizeof($order_status_code); $i++) {
-                      echo "<option value=\"" . $order_status_code[$i];
-                      if (MO_INVALID_STATUS == $order_status_code[$i]) 
-                         echo "\" selected=\"selected\">";
-                      else
-                         echo "\">";
-                      echo $order_status_name[$i] . "</option>\n";
-                    } ?>
-                    </select>
-            </td>
-            <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_FAIL_EXPLAIN') ?></td>
-        </tr>
-      </table>
-   <?php
-      // return false if there's no configuration
-      return true;
-   }
-   
-    function has_configuration() {
-      // return false if there's no configuration
-      return true;
-   }
-   
-  /**
-	* Returns the "is_writeable" status of the configuration file
-	* @param void
-	* @returns boolean True when the configuration file is writeable, false when not
-	*/
-   function configfile_writeable() {
-      return is_writeable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
-   }
-   
-  /**
-	* Returns the "is_readable" status of the configuration file
-	* @param void
-	* @returns boolean True when the configuration file is writeable, false when not
-	*/
-   function configfile_readable() {
-      return is_readable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
-   }   
-  /**
-	* Writes the configuration file for this payment method
-	* @param array An array of objects
-	* @returns boolean True when writing was successful
-	*/
-   function write_configuration( &$d ) {
-      
-      $my_config_array = array(
-                              "MO_CHECK_CARD_CODE" => $d['MO_CHECK_CARD_CODE'],
-                              "MO_VERIFIED_STATUS" => $d['MO_VERIFIED_STATUS'],
-                              "MO_INVALID_STATUS" => $d['MO_INVALID_STATUS'],
-                              "MO_USERNAME" => $d['MO_USERNAME'],
-                              "MO_PASSWORD" => $d['MO_PASSWORD']
-                                                           
-                            );
-      $config = "<?php\n";
-      $config .= "if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); \n\n";
-      foreach( $my_config_array as $key => $value ) {
-        $config .= "define ('$key', '$value');\n";
-      }
-      
-      $config .= "?".">";
-  
-      if ($fp = fopen(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php", "w")) {
-          fputs($fp, $config, strlen($config));
-          fclose ($fp);
-          return true;
-     }
-     else
-        return false;
-   }
+class plgPaymentMontrada extends vmPaymentPlugin {
+	
+	var $payment_code = "MO" ;
+	/**
+	 * Constructor
+	 *
+	 * For php4 compatability we must not use the __constructor as a constructor for plugins
+	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
+	 * This causes problems with cross-referencing necessary for the observer design pattern.
+	 *
+	 * @param object $subject The object to observe
+	 * @param array  $config  An array that holds the plugin configuration
+	 * @since 1.2.0
+	 */
+	function plgPaymentMontrada( & $subject, $config ) {
+		parent::__construct( $subject, $config ) ;
+	}
    
   /**************************************************************************
   ** name: process_payment()
@@ -178,9 +49,6 @@ class montrada {
 //		$ps_vendor_id = $_SESSION['ps_vendor_id'];
 		$ps_vendor_id = 1;         $auth = $_SESSION['auth'];
         $ps_checkout = new ps_checkout;
-      
-        /*** Get the Configuration File for authorize.net ***/
-        require_once(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php");
         
         // Get user billing information
         $dbbt = new ps_DB;
@@ -223,8 +91,7 @@ class montrada {
         $poststring = substr($poststring, 0, -1);
         
         /* DEBUG Message */
-        if ($this->debug)
-        {
+        if ($this->params('DEBUG')) {
             $vmLogger->debug( wordwrap($poststring, 60, "<br/>", 1) );
         }
         
@@ -235,7 +102,7 @@ class montrada {
             curl_setopt($CR, CURLOPT_POST, 1);
             curl_setopt($CR, CURLOPT_FAILONERROR, true); 
             curl_setopt($CR, CURLOPT_POSTFIELDS, $poststring);
-            curl_setopt($CR, CURLOPT_USERPWD, MO_USERNAME.":".MO_PASSWORD);
+            curl_setopt($CR, CURLOPT_USERPWD, $this->params('MO_USERNAME').":".$this->params('MO_PASSWORD'));
             curl_setopt($CR, CURLOPT_RETURNTRANSFER, 1);
              
             // No PEER certificate validation...as we don't have 
@@ -248,7 +115,7 @@ class montrada {
             $error = curl_error( $CR );
             if( !empty( $error )) {
               $vmLogger->err( curl_error( $CR )
-                              ."<br/><span class=\"message\">".$VM_LANG->_('PHPSHOP_PAYMENT_INTERNAL_ERROR')." authorize.net</span>" );
+                              ."<br/><span class=\"message\">".$VM_LANG->_('PHPSHOP_PAYMENT_INTERNAL_ERROR')." montrada.de</span>" );
               return false;
             }
             else {
@@ -270,7 +137,7 @@ class montrada {
                 fputs($fp, "Host: $host\r\n");
                 fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");
                 fputs($fp, "Content-length: ".strlen($poststring)."\r\n");
-                fputs($fp, "Authorization: Basic ".base64_encode(MO_USERNAME.":".MO_PASSWORD)."\r\n");                
+                fputs($fp, "Authorization: Basic ".base64_encode($this->params('MO_USERNAME').":".$this->params('MO_PASSWORD'))."\r\n");                
                 fputs($fp, "Connection: close\r\n\r\n");
                 fputs($fp, $poststring . "\r\n\r\n");
                 
@@ -287,7 +154,7 @@ class montrada {
         }
 
         /* DEBUG Message */
-        if ($this->debug)
+        if ($this->params('DEBUG'))
             $vmLogger->debug( wordwrap( urldecode($result), 60, "<br/>", 1) );
         
         // Split Response-Data

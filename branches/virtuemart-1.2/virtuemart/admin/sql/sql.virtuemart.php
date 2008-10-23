@@ -422,50 +422,6 @@ $db->query( "INSERT INTO `#__{vm}_creditcard` VALUES (1, 1, 'Visa', 'VISA'),
 (6, 1, 'JCB', 'jcb'),
 (7, 1, 'Australian Bankcard', 'australian_bc'); " );
 
-## --------------------------------------------------------
-
-## 
-## Table structure for table `#__{vm}_csv`
-## 
-
-$db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_csv` (
-  `field_id` int(11) NOT NULL auto_increment,
-  `field_name` varchar(128) NOT NULL default '',
-  `field_default_value` text,
-  `field_ordering` int(3) NOT NULL default '0',
-  `field_required` char(1) default 'N',
-  PRIMARY KEY  (`field_id`)
-) TYPE=MyISAM COMMENT='Holds all fields which are used on CVS Ex-/Import'; ");
-
-## 
-## Dumping data for table `#__{vm}_csv`
-## 
-
-$db->query( "INSERT INTO `#__{vm}_csv` VALUES (1, 'product_sku', '', 1, 'Y'),
-(2, 'product_s_desc', '', 5, 'N'),
-(3, 'product_desc', '', 6, 'N'),
-(4, 'product_thumb_image', '', 7, 'N'),
-(5, 'product_full_image', '', 8, 'N'),
-(6, 'product_weight', '', 9, 'N'),
-(7, 'product_weight_uom', 'KG', 10, 'N'),
-(8, 'product_length', '', 11, 'N'),
-(9, 'product_width', '', 12, 'N'),
-(10, 'product_height', '', 13, 'N'),
-(11, 'product_lwh_uom', '', 14, 'N'),
-(12, 'product_in_stock', '0', 15, 'N'),
-(13, 'product_available_date', '', 16, 'N'),
-(14, 'product_discount_id', '', 17, 'N'),
-(15, 'product_name', '', 2, 'Y'),
-(16, 'product_price', '', 4, 'N'),
-(17, 'category_path', '', 3, 'Y'),
-(18, 'manufacturer_id', '', 18, 'N'),
-(19, 'product_tax_id', '', 19, 'N'),
-(20, 'product_sales', '', 20, 'N'),
-(21, 'product_parent_id', '0', 21, 'N'),
-(22, 'attribute', '', 22, 'N'),
-(23, 'custom_attribute', '', 23, 'N'),
-(24, 'attributes', '', 24, 'N'),
-(25, 'attribute_values', '', 25, 'N'); " );
 
 ## --------------------------------------------------------
 
@@ -812,7 +768,10 @@ $db->query( "INSERT INTO `#__{vm}_function` VALUES (1, 1, 'userAdd', 'ps_user', 
 (191, 7, 'savedCartUpdate', 'ps_cart', 'updateSaved', 'Update saved cart items', 'none'),
 ( NULL , '1', 'getupdatepackage', 'update.class', 'getPatchPackage', 'Retrieves the Patch Package from the virtuemart.net Servers.', 'admin'), 
 (NULL , '1', 'applypatchpackage', 'update.class', 'applyPatch', 'Applies the Patch using the instructions from the update.xml file in the downloaded patch.', 'admin'),
-(NULL, 1, 'removePatchPackage', 'update.class', 'removePackageFile', 'Removes  a Patch Package File and its extracted contents.', 'admin')" );
+(NULL, 1, 'removePatchPackage', 'update.class', 'removePackageFile', 'Removes  a Patch Package File and its extracted contents.', 'admin'),
+(NULL, 1, 'uninstallExtension', 'installer.class', 'uninstall', 'Uninstalls an Extension', 'admin'),
+(NULL, 1, 'installExtension', 'installer.class', 'install', 'Installs an Extension', 'admin'),
+(NULL, 1, 'pluginUpdate', 'pluginEntity.class', 'update', 'Updates a VM Plugin and saves all new parameter settings.', 'storeadmin,admin')" );
 ## --------------------------------------------------------
 
 ## 
@@ -850,7 +809,7 @@ $db->query( "CREATE TABLE `#__{vm}_menu_admin` (
 ) TYPE=MyISAM  COMMENT='Administration Menu Items' AUTO_INCREMENT=56") ;
 
 ##
-## Dumping data for table `jos_vm_menu_admin`
+## Dumping data for table `#__{vm}_menu_admin`
 ##
 
 $db->query( "INSERT INTO `#__{vm}_menu_admin` (`id`, `module_id`, `parent_id`, `name`, `link`, `depends`, `icon_class`, `ordering`, `published`, `tooltip`) VALUES
@@ -926,7 +885,8 @@ $db->query( "INSERT INTO `#__{vm}_menu_admin` (`id`, `module_id`, `parent_id`, `
 (70, 8, 0, '-', '', '', '', 5, '1', ''),
 (71, 2, 0, '-', '', '', '', 19, '1', ''),
 (72, 2, 0, '-', '', '', '', 23, '1', ''),
-(73, 1, 0, 'Manage Extensions', 'page=admin.extension_list', '', 'vmicon vmicon-16-content', 15, '1', '')");
+(73, 1, 0, 'Extension Manager', 'page=admin.extension_list', '', 'vmicon vmicon-16-content', 15, '1', ''),
+(74, 1, 0, 'Plugin List', 'page=admin.plugin_list', '', 'vmicon vmicon-16-content', 16, '1', '')");
 
 ## --------------------------------------------------------
 
@@ -1237,6 +1197,36 @@ $db->query( 'INSERT INTO `#__{vm}_payment_method` VALUES(16, 1, \'Dankort/PBS vi
 
 
 ## --------------------------------------------------------
+$db->query( "CREATE TABLE `#__{vm}_plugins` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(100) NOT NULL default '',
+  `element` varchar(100) NOT NULL default '',
+  `folder` varchar(100) NOT NULL default '',
+  `ordering` int(11) NOT NULL default '0',
+  `published` tinyint(3) NOT NULL default '0',
+  `iscore` tinyint(3) NOT NULL default '0',
+  `vendor_id` tinyint(3) NOT NULL default '0',
+  `shopper_group_id` int(10) unsigned NOT NULL,
+  `checked_out` int(11) unsigned NOT NULL default '0',
+  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `params` text NOT NULL,
+  `secrets` blob NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `idx_folder` (`published`,`vendor_id`,`folder`)
+) TYPE=MyISAM  CHARSET=utf8 AUTO_INCREMENT=12");
+
+# Data for `#__{vm}_plugins`
+$db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(1, 'auspost', 'auspost', 'shipping', 11, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '')");
+$db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(2, 'canadapost', 'canadapost', 'shipping', 9, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '')");
+$db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(3, 'dhl', 'dhl', 'shipping', 4, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '')");
+$db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(4, 'fedex', 'fedex', 'shipping', 3, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '')");
+$db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(5, 'flex', 'flex', 'shipping', 2, 1, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '')");
+$db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(6, 'intershipper', 'intershipper', 'shipping', 5, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '')");
+$db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(7, 'shipvalue', 'shipvalue', 'shipping', 8, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '')");
+$db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(8, 'standard_shipping', 'standard_shipping', 'shipping', 1, 1, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '')");
+$db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(9, 'UPS Shipping Module', 'ups', 'shipping', 6, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '')");
+$db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(10, 'USPS Shipping Module', 'usps', 'shipping', 7, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '')");
+$db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(11, 'Zone Shipping Module', 'zone_shipping', 'shipping', 10, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '')");
 
 ## 
 ## Table structure for table `#__{vm}_product`

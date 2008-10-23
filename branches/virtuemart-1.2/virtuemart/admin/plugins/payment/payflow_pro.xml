@@ -11,7 +11,6 @@
 	<description>Payflow Pro Payment Module</description>
   	<install>	
 		<files>
-			<filename>payflow_pro.cfg.php</filename>
 			<filename>payflow_pro.php</filename>
 		</files>
 		<!--<queries>
@@ -20,5 +19,35 @@
 			<query></query>
 		</queries>-->
 	</install>	
-	
+	<params>
+
+		<param type="text" name="PFP_PARTNER" label="PHPSHOP_ADMIN_CFG_PFP_PARTNER"
+             default="Partner ID" description="PHPSHOP_ADMIN_CFG_PFP_PARTNET_EXPLAIN" />
+			 
+		<param type="text" name="PFP_VENDOR" label="PHPSHOP_ADMIN_CFG_PFP_VENDOR"
+             default="Vendor ID" description="PHPSHOP_ADMIN_CFG_PFP_VENDOR_EXPLAIN" />
+			 
+		<param type="text" name="PFP_USER" label="PHPSHOP_ADMIN_CFG_PFP_USER"
+             default="User ID" description="PHPSHOP_ADMIN_CFG_PFP_USER_EXPLAIN" />		
+			 
+		<param name="transaction_key" type="secret_key" label="PHPSHOP_ADMIN_CFG_PFP_PASSWORD" />
+		
+		<param name="CHECK_CARD_CODE" label="PHPSHOP_PAYMENT_CVV2" type="radio" default="1" description="PHPSHOP_PAYMENT_CVV2_TOOLTIP">
+            <option value="1">PHPSHOP_ADMIN_CFG_YES</option>
+			<option value="0">PHPSHOP_ADMIN_CFG_NO</option>
+          </param>
+
+		<param name="@spacer" type="spacer" />
+        <param name="PAYMENT_VERIFIED_STATUS" label="PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_SUCC" description="PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_SUCC_EXPLAIN"
+			type="table_data_list" table="#__{vm}_order_status" valuefield="order_status_code" textfield="order_status_name" orderfield="list_order" 
+			/>
+        <param name="PAYMENT_INVALID_STATUS" label="PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_FAIL" description="PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_FAIL_EXPLAIN"
+			type="table_data_list" table="#__{vm}_order_status" valuefield="order_status_code" textfield="order_status_name" orderfield="list_order" 
+			/>
+		<param name="DEBUG" type="radio" default="0" label="PHPSHOP_ADMIN_CFG_ENABLE_PFP_TESTMODE" description="PHPSHOP_ADMIN_CFG_ENABLE_PFP_TESTMODE_EXPLAIN">
+			<option value="1">PHPSHOP_ADMIN_CFG_YES</option>
+			<option value="0">PHPSHOP_ADMIN_CFG_NO</option>
+		</param>
+	</params>
+		
 </install>

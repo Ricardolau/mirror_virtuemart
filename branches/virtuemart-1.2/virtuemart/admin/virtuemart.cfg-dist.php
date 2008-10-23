@@ -153,9 +153,5 @@ $VM_CHECKOUT_MODULES = array('CHECK_OUT_GET_SHIPPING_ADDR' => array('order' => 1
 		'CHECK_OUT_GET_PAYMENT_METHOD' => array('order' => 3,'enabled'=>1),
 		'CHECK_OUT_GET_FINAL_CONFIRMATION' => array('order' => 4,'enabled'=>1)
 	);
-							
-/* Shipping Methods Definition */
-global $PSHOP_SHIPPING_MODULES;
-$PSHOP_SHIPPING_MODULES[0] = "flex";
-$PSHOP_SHIPPING_MODULES[1] = "standard_shipping";
+
 ?>

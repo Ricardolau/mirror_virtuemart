@@ -28,7 +28,6 @@ define("CHECK_OUT_GET_FINAL_CONFIRMATION", 99);
  *
  */
 class ps_checkout {
-	var $_SHIPPING = null;
 
 	var $_subtotal = null;
 	var $_shipping = null;
@@ -43,7 +42,7 @@ class ps_checkout {
 	 * Initiate Shipping Modules
 	 */
 	function ps_checkout() {
-		global $vendor_freeshipping, $vars, $PSHOP_SHIPPING_MODULES;
+		global $vendor_freeshipping, $vars;
 
 		// Make a snapshot of the current checkout configuration
 		$this->generate_cart_hash();
@@ -54,11 +53,9 @@ class ps_checkout {
 		*/
 
 		$this->_subtotal = $this->get_order_subtotal($vars);
-		
+		require_once(CLASSPATH.'shippingMethod.class.php');
 		if( $vendor_freeshipping > 0 && $vars['order_subtotal_withtax'] >= $vendor_freeshipping) {
-			$PSHOP_SHIPPING_MODULES = Array( "free_shipping" );
-			include_once( ADMINPATH . "plugins/shipping/free_shipping.php" );
-			$this->_SHIPPING = new free_shipping();
+			vmPluginHelper::importPlugin('shipping', 'free_shipping');
 		}
 		elseif( !empty( $_REQUEST['shipping_rate_id'] )) {
 
@@ -68,10 +65,7 @@ class ps_checkout {
 			$rate_array = explode( "|", urldecode(vmGet($_REQUEST,"shipping_rate_id")) );
 			$filename = basename( $rate_array[0] );
 			if( $filename != '' && file_exists(ADMINPATH . "plugins/shipping/".$filename.".php")) {
-				include_once( ADMINPATH . "plugins/shipping/".$filename.".php" );
-				if( class_exists($filename) ) {
-					$this->_SHIPPING =& new $filename();
-				}
+				vmPluginHelper::importPlugin('shipping', $filename);
 			}
 		}
 		//$steps = ps_checkout::get_checkout_steps();
@@ -287,7 +281,7 @@ class ps_checkout {
 	 * @return boolean
 	 */
 	function validate_form(&$d) {
-		global $VM_LANG, $PSHOP_SHIPPING_MODULES, $vmLogger;
+		global $VM_LANG, $vmLogger;
 
 		$db = new ps_DB;
 
@@ -346,8 +340,8 @@ class ps_checkout {
 	function validate_add(&$d) {
 		global $auth, $VM_LANG, $vmLogger;
 
-		require_once(CLASSPATH.'ps_payment_method.php');
-		$ps_payment_method = new ps_payment_method;
+		require_once(CLASSPATH.'paymentMethod.class.php');
+		$vmPaymentMethod = new vmPaymentMethod;
 		
 		if( empty( $auth['user_id'] ) ) {
 			$vmLogger->err('Sorry, but it is not possible to order without a User ID. 
@@ -365,14 +359,14 @@ class ps_checkout {
 			$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_MSG_4',false) );
 			return False;
 		}*/
-		if ($ps_payment_method->is_creditcard(@$d["payment_method_id"])) {
+		if ($vmPaymentMethod->is_creditcard(@$d["payment_method_id"])) {
 
 			if (empty($_SESSION["ccdata"]["order_payment_number"])) {
 				$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_CCNR',false) );
 				return False;
 			}
 
-			if(!$ps_payment_method->validate_payment($d["payment_method_id"],
+			if(!$vmPaymentMethod->validate_payment($d["payment_method_id"],
 					$_SESSION["ccdata"]["order_payment_number"])) {
 				$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_CCNUM_INV',false) );
 				return False;
@@ -397,20 +391,19 @@ class ps_checkout {
 	 * @return boolean
 	 */
 	function validate_shipping_method(&$d) {
-		global $VM_LANG, $PSHOP_SHIPPING_MODULES, $vmLogger;
+		global $VM_LANG, $vm_mainframe, $vmLogger;
 		
 		if( empty($d['shipping_rate_id']) ) {
 			$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_SHIP',false) );
 			return false;
 		}
 		
-		if( is_callable( array($this->_SHIPPING, 'validate') )) {
-			
-			if(!$this->_SHIPPING->validate( $d )) {
-				$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_OTHER_SHIP',false) );
-				return false;
-			}
+		$result = $vm_mainframe->triggerEvent('validate', array( $d ));
+		if( is_array($result) && $result[0] === false ) {
+			$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_OTHER_SHIP',false) );
+			return false;
 		}
+		
 		return true;
 	}
 
@@ -447,20 +440,20 @@ class ps_checkout {
 			$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_PAYM',false) );
 			return false;
 		}
-		require_once(CLASSPATH.'ps_payment_method.php');
-		$ps_payment_method = new ps_payment_method;
+		require_once(CLASSPATH.'paymentMethod.class.php');
+		$vmPaymentMethod = new vmPaymentMethod;
 
 		$dbp = new ps_DB; //DB Payment_method
 
 		// Now Check if all needed Payment Information are entered
 		// Bank Information is found in the User_Info
-		$w  = "SELECT `enable_processor` FROM `#__{vm}_payment_method` WHERE ";
-		$w .= "payment_method_id=" .  (int)$d["payment_method_id"];
+		$w  = "SELECT `type` FROM `#__{vm}_payment_method` WHERE ";
+		$w .= "id=" .  (int)$d["payment_method_id"];
 		$dbp->query($w);
 		$dbp->next_record();
 		
-		if (($dbp->f("enable_processor") == "Y") 
-			|| ($dbp->f("enable_processor") == "")) {
+		if (($dbp->f("type") == "Y") 
+			|| ($dbp->f("type") == "")) {
 
 			// Creditcard
 			if (empty( $_SESSION['ccdata']['creditcard_code']) ) {
@@ -482,7 +475,7 @@ class ps_checkout {
 
 			// CREDIT CARD NUMBER CHECK
 			// USING THE CREDIT CARD CLASS in ps_payment
-			if(!$ps_payment_method->validate_payment( $_SESSION['ccdata']['creditcard_code'], $_SESSION['ccdata']['order_payment_number'])) {
+			if(!$vmPaymentMethod->validate_payment( $_SESSION['ccdata']['creditcard_code'], $_SESSION['ccdata']['order_payment_number'])) {
 				$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_CCDATE',false) );
 				return False;
 			}
@@ -515,7 +508,7 @@ class ps_checkout {
 			}
 			return True;
 		}
-		elseif ($dbp->f("enable_processor") == "B") {
+		elseif ($dbp->f("type") == "B") {
 			$_SESSION['ccdata']['creditcard_code'] = "";
 			$_SESSION['ccdata']['order_payment_name']  = "";
 			$_SESSION['ccdata']['order_payment_number']  = "";
@@ -760,7 +753,7 @@ class ps_checkout {
 	 * @param string $shipping_method_id
 	 */
 	function list_shipping_methods( $ship_to_info_id=null, $shipping_method_id=null ) {
-		global $PSHOP_SHIPPING_MODULES, $vmLogger, $auth, $weight_total;
+		global $vmLogger, $auth, $weight_total;
 		
 		if( empty( $ship_to_info_id )) {
 		    // Get the Bill to user_info_id
@@ -775,11 +768,8 @@ class ps_checkout {
 		$vars['zone_qty'] = vmRequest::getInt( 'zone_qty', 0 );
 		$i = 0;
 
-		$theme = new $GLOBALS['VM_THEMECLASS']();
-		$theme->set_vars(array('vars' => $vars,
-								'PSHOP_SHIPPING_MODULES' => $PSHOP_SHIPPING_MODULES
-						 	)
-						 );
+		$theme = vmTemplate::getInstance();
+		$theme->set_vars(array('vars' => $vars));
 
 		echo $theme->fetch( 'checkout/list_shipping_methods.tpl.php');
 		
@@ -800,21 +790,21 @@ class ps_checkout {
 		$ship_to_info_id = vmGet( $_REQUEST, 'ship_to_info_id' );
 		$shipping_rate_id = vmGet( $_REQUEST, 'shipping_rate_id' );
 		
-        require_once(CLASSPATH . 'ps_payment_method.php');
-        $ps_payment_method = new ps_payment_method;
+        require_once(CLASSPATH . 'paymentMethod.class.php');
+        $vmPaymentMethod = new vmPaymentMethod;
 		require_once( CLASSPATH. 'ps_creditcard.php' );
 	    $ps_creditcard = new ps_creditcard();
 	    
 		// Do we have Credit Card Payments?
 		$db_cc  = new ps_DB;
-		$q = "SELECT * from #__{vm}_payment_method,#__{vm}_shopper_group WHERE ";
+		$q = "SELECT * FROM #__{vm}_payment_method,#__{vm}_shopper_group WHERE ";
 		$q .= "#__{vm}_payment_method.shopper_group_id=#__{vm}_shopper_group.shopper_group_id ";
 		$q .= "AND (#__{vm}_payment_method.shopper_group_id='".$auth['shopper_group_id']."' ";
 		$q .= "OR #__{vm}_shopper_group.default='1') ";
-		$q .= "AND (enable_processor='' OR enable_processor='Y') ";
-		$q .= "AND payment_enabled='Y' ";
+		$q .= "AND (type='' OR type='Y') ";
+		$q .= "AND published='Y' ";
 		$q .= "AND #__{vm}_payment_method.vendor_id='$ps_vendor_id' ";
-		$q .= " ORDER BY list_order";
+		$q .= " ORDER BY ordering";
 		$db_cc->query($q);
 		
 		if ($db_cc->num_rows()) {
@@ -829,14 +819,14 @@ class ps_checkout {
 		$q .= "#__{vm}_payment_method.shopper_group_id=#__{vm}_shopper_group.shopper_group_id ";
 		$q .= "AND (#__{vm}_payment_method.shopper_group_id='".$auth['shopper_group_id']."' ";
 		$q .= "OR #__{vm}_shopper_group.default='1') ";
-		$q .= "AND (enable_processor='B' OR enable_processor='N' OR enable_processor='P') ";
-		$q .= "AND payment_enabled='Y' ";
+		$q .= "AND (type='B' OR type='N' OR type='P') ";
+		$q .= "AND published='Y' ";
 		$q .= "AND #__{vm}_payment_method.vendor_id='$ps_vendor_id' ";
-		$q .= " ORDER BY list_order";
+		$q .= " ORDER BY ordering";
 		$db_nocc->query($q);
 		if ($db_nocc->next_record()) {
 		    $nocc_payments=true;
-		    $first_payment_method_id = $db_nocc->f("payment_method_id");
+		    $first_payment_method_id = $db_nocc->f("id");
 		    $count = $db_nocc->num_rows();
 		    $db_nocc->reset();
 		}
@@ -862,7 +852,7 @@ class ps_checkout {
 								'count' => $count,
 								'cc_payments' => $cc_payments,
 								'ps_creditcard' => $ps_creditcard,
-								'ps_payment_method' => $ps_payment_method
+								'vmPaymentMethod' => $vmPaymentMethod
 						 	)
 						 );
 
@@ -877,23 +867,18 @@ class ps_checkout {
 	 * @return boolean
 	 */
 	function add( &$d ) {
-		global $order_tax_details, $afid, $VM_LANG, $auth, $my, $mosConfig_offset,
+		global $order_tax_details, $vm_mainframe, $VM_LANG, $auth, $my, $mosConfig_offset,
 		$vmLogger, $vmInputFilter, $discount_factor;
 
 		$cart = $_SESSION['cart'];
 		$ps_vendor_id = $cart['cart_vendor_id'];
 
-		require_once(CLASSPATH. 'ps_payment_method.php' );
-		$ps_payment_method = new ps_payment_method;
+		require_once(CLASSPATH. 'paymentMethod.class.php' );
+		$vmPaymentMethod = new vmPaymentMethod;
 		require_once(CLASSPATH. 'ps_product.php' );
 		$ps_product= new ps_product;
 		require_once(CLASSPATH.'ps_cart.php');
 		$ps_cart = new ps_cart;
-
-		if (AFFILIATE_ENABLE == '1') {
-			require_once(CLASSPATH.'ps_affiliate.php');
-			$ps_affiliate = new ps_affiliate;
-		}
 
 		$db = new ps_DB;
 
@@ -933,24 +918,17 @@ Order Total: '.$order_total.'
 ----------------------------' 
 		);
 
-		// Check to see if Payment Class File exists
-		$payment_class = $ps_payment_method->get_field($d["payment_method_id"], "payment_class");
-		$enable_processor = $ps_payment_method->get_field($d["payment_method_id"], "enable_processor");
-
-		if (file_exists(ADMINPATH . "plugins/payment/$payment_class.php") ) {
-			if( !class_exists( $payment_class )) {
-				include( ADMINPATH . "plugins/payment/$payment_class.php" );
-			}
-
-			$_PAYMENT = new $payment_class();
-			if (!$_PAYMENT->process_payment($order_number,$order_total, $d)) {
-				$vmLogger->err( $VM_LANG->_('PHPSHOP_PAYMENT_ERROR',false)." ($payment_class)" );
-				$_SESSION['last_page'] = "checkout.index";
-				$_REQUEST["checkout_next_step"] = CHECK_OUT_GET_PAYMENT_METHOD;
-				return False;
-			}
+		vmPaymentMethod::importPaymentPluginById($d["payment_method_id"]);
+	    
+		$process_payment_result = $vm_mainframe->triggerEvent('process_payment', array($order_number,$order_total, $d) );
+		
+		
+		if (is_array($process_payment_result) && @$process_payment_result[0] === false ) {
+			$vmLogger->err( $VM_LANG->_('PHPSHOP_PAYMENT_ERROR',false));
+			$_SESSION['last_page'] = "checkout.index";
+			$_REQUEST["checkout_next_step"] = CHECK_OUT_GET_PAYMENT_METHOD;
+			return False;
 		}
-
 		else {
 			$d["order_payment_log"] = $VM_LANG->_('PHPSHOP_CHECKOUT_MSG_LOG');
 		}
@@ -1002,6 +980,8 @@ Order Total: '.$order_total.'
 			$vmLogger->crit( 'Adding the Order into the Database failed! User ID: '.$auth["user_id"] );
 			return false;
 		}
+		
+		$vm_mainframe->triggerEvent('onAfterOrderAdd',array($order_id, $d));
 
 	    // Insert the initial Order History.	    
 		$mysqlDatetime = date("Y-m-d G:i:s", $timestamp);
@@ -1153,9 +1133,6 @@ Order Total: '.$order_total.'
 		}
 		################## END DOWNLOAD MOD ###########
 
-		if (AFFILIATE_ENABLE == '1') {
-			$ps_affiliate->register_sale($order_id);
-		}
 		// Export the order_id so the checkout complete page can get it
 		$d["order_id"] = $order_id;
 
@@ -1164,9 +1141,7 @@ Order Total: '.$order_total.'
 		 * was selected.  This way it can save any information
 		 * it might need later to print a shipping label.
 		 */
-		if( is_callable( array($this->_SHIPPING, 'save_rate_info') )) {
-			$this->_SHIPPING->save_rate_info($d);
-		}
+		$vm_mainframe->triggerEvent('save_rate_info', array($d));
 
 		// Now as everything else has been done, we can update
 		// the Order Status if the Payment Method is
@@ -1174,11 +1149,16 @@ Order Total: '.$order_total.'
 		// Payment Processors return false on any error
 		// Only completed payments return true!
 		$update_order = false;
-		if( $enable_processor == "Y" ) {
-			if( defined($_PAYMENT->payment_code.'_VERIFIED_STATUS')) {
-              	$d['order_status'] = constant($_PAYMENT->payment_code.'_VERIFIED_STATUS');
-              	$update_order = true;
-            }
+		$vmPaymentMethod = new vmPaymentMethod();
+		$payment_plg = $vmPaymentMethod->get($d['payment_method_id']);
+		if( is_object($payment_plg) ) {
+			if( $payment_plg->f('type') == "Y" ) {
+				$params = new vmParameters($payment_plg->f('params'),ADMINPATH.'plugins/payment/'.$payment_plg->f('element').'.xml', 'payment');
+				if( $params->get('PAYMENT_VERIFIED_STATUS')) {
+	              	$d['order_status'] = $params->get('PAYMENT_VERIFIED_STATUS');
+	              	$update_order = true;
+	            }
+			}
         } elseif( $order_total == 0.00 ) {
         	// If the Order Total is zero, we can confirm the order to automatically enable the download
         	$d['order_status'] = ENABLE_DOWNLOAD_STATUS;
@@ -1297,18 +1277,14 @@ Order Total: '.$order_total.'
 		// from now on we have $order_tax_details
 		$d['order_tax'] = $totals['order_tax'] = round( $this->calc_order_tax($totals['order_taxable'], $d), 2 );
 		
-		if( is_object($this->_SHIPPING) ) {
-			/* sets _shipping */
-			$d['order_shipping'] = $totals['order_shipping'] = round( $this->calc_order_shipping( $d ), 2 );
+		
+		// Get the Shipping Total
+		$d['order_shipping'] = $totals['order_shipping'] = round( $this->calc_order_shipping( $d ), 2 );
 
-			/* sets _shipping_tax
-			* btw: This is WEIRD! To get an exactly rounded value we have to convert
-			* the amount to a String and call "round" with the string. */
-			$d['order_shipping_tax'] = $totals['order_shipping_tax'] = round( strval($this->calc_order_shipping_tax($d)), 2 );
-		}
-		else {
-			$d['order_shipping'] = $totals['order_shipping'] = $totals['order_shipping_tax'] = $d['order_shipping_tax'] = 0.00;
-		}
+		/* sets _shipping_tax
+		* btw: This is WEIRD! To get an exactly rounded value we have to convert
+		* the amount to a String and call "round" with the string. */
+		$d['order_shipping_tax'] = $totals['order_shipping_tax'] = round( strval($this->calc_order_shipping_tax($d)), 2 );
 
 		$d['order_total'] = $totals['order_total'] = 	$tmp_subtotal 
 											+ $totals['order_tax']
@@ -1426,14 +1402,14 @@ Order Total: '.$order_total.'
 		
 		require_once(CLASSPATH.'ps_product.php');
 		$ps_product= new ps_product;
-		require_once(CLASSPATH.'ps_shipping_method.php');
+		require_once(CLASSPATH.'shippingMethod.class.php');
 
 		$db = new ps_DB;
 
 		for($i = 0; $i < $cart["idx"]; $i++) {
 			$price = $ps_product->get_adjusted_attribute_price($cart[$i]["product_id"], $cart[$i]["description"]);
 			$product_price = $GLOBALS['CURRENCY']->convert( $price["product_price"], $price['product_currency'] );
-			$item_weight = ps_shipping_method::get_weight($cart[$i]["product_id"]) * $cart[$i]['quantity'];
+			$item_weight = vmShippingMethod::get_weight($cart[$i]["product_id"]) * $cart[$i]['quantity'];
 
 			if ($item_weight != 0 or TAX_VIRTUAL=='1') {
 				$subtotal += $product_price * $cart[$i]["quantity"];
@@ -1454,7 +1430,7 @@ Order Total: '.$order_total.'
 	 * @return float
 	 */
 	function calc_order_tax($order_taxable, $d) {
-		global $order_tax_details, $discount_factor;
+		global $vm_mainframe, $order_tax_details, $discount_factor;
 		$auth = $_SESSION['auth'];
 		
 		$cart = $_SESSION['cart'];
@@ -1511,10 +1487,10 @@ Order Total: '.$order_total.'
 				}
 				require_once(CLASSPATH.'ps_product.php');
 				$ps_product= new ps_product;
-				require_once(CLASSPATH.'ps_shipping_method.php');
+				require_once(CLASSPATH.'shippingMethod.class.php');
 
 				for($i = 0; $i < $cart["idx"]; $i++) {
-					$item_weight = ps_shipping_method::get_weight($cart[$i]["product_id"]) * $cart[$i]['quantity'];
+					$item_weight = vmShippingMethod::get_weight($cart[$i]["product_id"]) * $cart[$i]['quantity'];
 
 					if ($item_weight !=0 or TAX_VIRTUAL) {
 						$price = $ps_product->get_adjusted_attribute_price($cart[$i]["product_id"], $cart[$i]["description"]);
@@ -1555,19 +1531,19 @@ Order Total: '.$order_total.'
 					}
 					
 				}
-				if( is_object($this->_SHIPPING) ) {
-					$taxrate = $this->_SHIPPING->get_tax_rate();
-					if( $taxrate ) {
-						$rate = $this->_SHIPPING->get_rate( $d );
-						if( $auth["show_price_including_tax"] == 1 ) {
-							@$order_tax_details[$taxrate] += $rate - ($rate / ($taxrate+1));
-						}
-						else {
-							@$order_tax_details[$taxrate] += $rate * $taxrate;
-						}
+				$result = $vm_mainframe->triggerEvent('get_shippingtax_rate');
+				
+				$taxrate = is_array($result) ? @$result[0] : '';
+				if( $taxrate ) {
+					$result = $vm_mainframe->triggerEvent('get_shipping_rate', array($d));
+					$rate = is_array($result) ? $result[0] : '';
+					if( $auth["show_price_including_tax"] == 1 ) {
+						@$order_tax_details[$taxrate] += $rate - ($rate / ($taxrate+1));
+					}
+					else {
+						@$order_tax_details[$taxrate] += $rate * $taxrate;
 					}
 				}
-
 
 		}
 		return( round( $order_tax, 2 ) );
@@ -1581,12 +1557,14 @@ Order Total: '.$order_total.'
 	** returns: a decimal number, excluding taxes
 	***************************************************************************/
 	function calc_order_shipping( &$d ) {
-
+		global $vm_mainframe;
 		$auth = $_SESSION['auth'];
 
-		$shipping_total = $this->_SHIPPING->get_rate( $d );
-		$shipping_taxrate = $this->_SHIPPING->get_tax_rate();
-
+		$result = $vm_mainframe->triggerEvent('get_shipping_rate', array( $d ));		
+		$shipping_total = is_array($result) ? $result[0] : 0.00;
+		
+		$result = $vm_mainframe->triggerEvent('get_shippingtax_rate');
+		$shipping_taxrate = is_array($result) ? $result[0] : 0.00;
 		// When the Shipping rate is shown including Tax
 		// we have to extract the Tax from the Shipping Total
 		// before returning the value
@@ -1651,7 +1629,7 @@ Order Total: '.$order_total.'
 	**          0 if nothing is found
 	***************************************************************************/
 	function get_payment_discount( $payment_method_id, $subtotal = '' ) {
-		
+		global $vm_mainframe;
 		if( empty( $payment_method_id )) {
 			return 0;
 		}
@@ -1662,31 +1640,22 @@ Order Total: '.$order_total.'
 		// comment soeren: Payment methods can implement their own method
 		// how to calculate the discount: the function "get_payment_rate"
 		// should return a float value from the payment class
-		require_once(CLASSPATH.'ps_payment_method.php');
-		$ps_payment_method = new ps_payment_method;
-
-		$payment_class = $ps_payment_method->get_field($payment_method_id, "payment_class");
-
-		// Check to see if Payment Class File exists
-		if (file_exists(ADMINPATH . "plugins/$payment_class.php") ) {
-
-			require_once( ADMINPATH . "plugins/$payment_class.php" );
-			$_PAYMENT = new $payment_class();
-
-			if(is_callable(array($payment_class, 'get_payment_rate'))) {
-				return $_PAYMENT->get_payment_rate($subtotal);
+		require_once(CLASSPATH.'paymentMethod.class.php');
+		if( vmPaymentMethod::importPaymentPluginById($payment_method_id) ) {
+			$result = $vm_mainframe->triggerEvent('get_payment_rate', array($subtotal));
+			if( !empty($result) && $result[0] !== false ) {
+				return (double)$result[0];
 			}
 		}
-		//End of MOD ei
 
 		// If a payment method has no special way of calculating a discount,
 		// let's do this on our own from the payment_method_discount settings
-		$q = 'SELECT `payment_method_discount`,`payment_method_discount_is_percent`,`payment_method_discount_max_amount`, `payment_method_discount_min_amount`
-                                FROM `#__{vm}_payment_method` WHERE payment_method_id='.$payment_method_id;
+		$q = 'SELECT `discount`,`discount_is_percentage`,`discount_max_amount`, `discount_min_amount`
+                                FROM `#__{vm}_payment_method` WHERE id='.$payment_method_id;
 		$db->query($q);$db->next_record();
 
-		$discount = $db->f('payment_method_discount');
-		$is_percent = $db->f('payment_method_discount_is_percent');
+		$discount = $db->f('discount');
+		$is_percent = $db->f('discount_is_percentage');
 
 		if( !$is_percent ) {
 			// Standard method: absolute amount
@@ -1704,8 +1673,8 @@ Order Total: '.$order_total.'
 			}
 
 			// New: percentage of the subtotal, limited by minimum and maximum
-			$max = $db->f('payment_method_discount_max_amount');
-			$min = $db->f('payment_method_discount_min_amount');
+			$max = $db->f('discount_max_amount');
+			$min = $db->f('discount_min_amount');
 			$value = (float) ($discount/100) * $subtotal;
 
 			if( abs($value) > $max && $max > 0 ) {
@@ -1730,7 +1699,7 @@ Order Total: '.$order_total.'
     */
 	function email_receipt($order_id) {
 		global $sess, $ps_product, $VM_LANG, $CURRENCY_DISPLAY, $vmLogger,
-		$mosConfig_fromname, $mosConfig_lang, $database;
+		$mosConfig_fromname;
 
 		//by Max Milbers takes the vendor of the cart
 		$cart = $_SESSION['cart'];
@@ -1778,8 +1747,8 @@ Order Total: '.$order_total.'
 		$dboi->query($q_oi);
 
 		$db_payment = new ps_DB;
-		$q  = "SELECT op.payment_method_id, pm.payment_method_name FROM #__{vm}_order_payment as op, #__{vm}_payment_method as pm
-              WHERE order_id='$order_id' AND op.payment_method_id=pm.payment_method_id";
+		$q  = "SELECT op.payment_method_id, pm.name FROM #__{vm}_order_payment as op, #__{vm}_payment_method as pm
+              WHERE order_id='$order_id' AND op.payment_method_id=pm.id";
 		$db_payment->query($q);
 		$db_payment->next_record();
 
@@ -1817,7 +1786,7 @@ Order Total: '.$order_total.'
 		/**
 		 * Prepare the payment information, including Credit Card information when not empty
 		 */
-		$payment_info_details = $db_payment->f("payment_method_name");
+		$payment_info_details = $db_payment->f("name");
 		if( !empty( $_SESSION['ccdata']['order_payment_name'] )
 			&& !empty($_SESSION['ccdata']['order_payment_number'])) {
 	  		$payment_info_details .= '<br />'.$VM_LANG->_('PHPSHOP_CHECKOUT_CONF_PAYINFO_NAMECARD',false).': '.$_SESSION['ccdata']['order_payment_name'].'<br />';
@@ -2020,7 +1989,7 @@ Order Total: '.$order_total.'
 		$shopper_message .= $payment_info_details_text;
 		
 		// Shipping Details
-		if( is_object($this->_SHIPPING) ) {
+		if( !empty($shipping_arr[1]) && !empty($shipping_arr[2]) ) {
 			$shopper_message .= "\n\n------------------------------------------------------------------------\n";
 			$shopper_message .= $VM_LANG->_('PHPSHOP_ORDER_PRINT_SHIPPING_LBL',false).":\n";
 			$shopper_message .= $shipping_arr[1]." (".$shipping_arr[2].")";
@@ -2088,7 +2057,7 @@ Order Total: '.$order_total.'
 				$coupon_discount_plusminus = '+';
 			}
 
-			if( is_object($this->_SHIPPING) ) {
+			if( !empty($shipping_arr[1]) && !empty($shipping_arr[2]) ) {
 				$shipping_info_details = stripslashes($shipping_arr[1])." (".stripslashes($shipping_arr[2]).")";
 			}
 			else {

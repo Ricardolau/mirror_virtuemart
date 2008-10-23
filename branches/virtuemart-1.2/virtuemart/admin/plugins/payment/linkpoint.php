@@ -45,137 +45,24 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 
 define ('LP_VERIFIED_STATUS', 'C');
 
-class linkpoint {
+class plgPaymentLinkpoint extends vmPaymentPlugin {
+	
+	var $payment_code = "LP" ;
+	/**
+	 * Constructor
+	 *
+	 * For php4 compatability we must not use the __constructor as a constructor for plugins
+	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
+	 * This causes problems with cross-referencing necessary for the observer design pattern.
+	 *
+	 * @param object $subject The object to observe
+	 * @param array  $config  An array that holds the plugin configuration
+	 * @since 1.2.0
+	 */
+	function plgPaymentLinkpoint( & $subject, $config ) {
+		parent::__construct( $subject, $config ) ;
+	}
 
-    var $payment_code = "LP";
-
-    /**
-	* Most of this top configuration code was stripped and hacked from the authorize.net payment class
-    * Show all configuration parameters for this payment method
-    * @returns boolean False when the Payment method has no configration
-    */
-    function show_configuration() {
-
-      global $VM_LANG, $sess;
-      $payment_method_id = vmGet( $_REQUEST, 'payment_method_id', null );
-      /** Read current Configuration ***/
-      require_once(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php");
-    ?>
-      <table>
-        <tr>
-            <td><strong><?php echo "Linkpoint Store ID" ?></strong></td>
-            <td>
-                <input type="text" name="LP_LOGIN" class="inputbox" value="<? echo LP_LOGIN ?>" />
-            </td>
-            <td><?php echo "This is your Link Point Store Name" ?>
-            </td>
-        </tr>
-        <tr>
-            <td><strong><?php echo "Location Of Public Keyfile" ?></strong></td>
-            <td>
-                <input type="text" name="LP_KEYFILE" class="inputbox" value="<? echo LP_KEYFILE ?>" />
-            </td>
-            <td><?php echo "This is the full path of your LinkPoint Keyfile.  Example: /etc/linkpoint/mykey.pem" ?>
-            </td>
-        </tr>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_CVV2') ?></strong></td>
-            <td>
-                <select name="LP_CHECK_CARD_CODE" class="inputbox">
-                <option <?php if (LP_CHECK_CARD_CODE == 'YES') echo "selected=\"selected\""; ?> value="YES">
-                <?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES') ?></option>
-                <option <?php if (LP_CHECK_CARD_CODE == 'NO') echo "selected=\"selected\""; ?> value="NO">
-                <?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO') ?></option>
-                </select>
-            </td>
-            <td><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_CVV2_TOOLTIP') ?></td>
-        </tr>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_AN_RECURRING') ?></strong></td>
-            <td>
-                <select name="LP_RECURRING" class="inputbox">
-                <option <?php if (LP_RECURRING == 'YES') echo "selected=\"selected\""; ?> value="YES">
-                <?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES') ?></option>
-                <option <?php if (LP_RECURRING == 'NO') echo "selected=\"selected\""; ?> value="NO">
-                <?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO') ?></option>
-                </select>
-            </td>
-            <td><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_AN_RECURRING_TOOLTIP') ?>
-            </td>
-        </tr>
-        <tr>
-            <td><strong><?php echo "Pre Auth for Recurring Billing?" ?></strong></td>
-            <td>
-                <select name="LP_PREAUTH" class="inputbox">
-                <option <?php if (LP_PREAUTH == 'YES') echo "selected=\"selected\""; ?> value="YES">
-                <?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES') ?></option>
-                <option <?php if (LP_PREAUTH == 'NO') echo "selected=\"selected\""; ?> value="NO">
-                <?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO') ?></option>
-                </select>
-            </td>
-            <td><?php echo "Select yes, is billing is not processed immediately.  (ie; Free Trials)" ?>
-            </td>
-        </tr>
-
-      </table>
-   <?php
-      // return false if there's no configuration
-      return true;
-   }
-
-    function has_configuration() {
-      // return false if there's no configuration
-      return true;
-   }
-
-  /**
-    * Returns the "is_writeable" status of the configuration file
-    * @param void
-    * @returns boolean True when the configuration file is writeable, false when not
-    */
-   function configfile_writeable() {
-      return is_writeable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
-   }
-
-  /**
-    * Returns the "is_readable" status of the configuration file
-    * @param void
-    * @returns boolean True when the configuration file is writeable, false when not
-    */
-   function configfile_readable() {
-      return is_readable( ADMINPATH."plugins/payment/".__CLASS__.".cfg.php" );
-   }
-  /**
-    * Writes the configuration file for this payment method
-    * @param array An array of objects
-    * @returns boolean True when writing was successful
-    */
-   function write_configuration( &$d ) {
-
-      $my_config_array = array("LP_TEST_REQUEST" => $d['LP_TEST_REQUEST'],
-                              "LP_LOGIN" => $d['LP_LOGIN'],
-                              "LP_TYPE" => $d['LP_TYPE'],
-                              "LP_KEYFILE" => $d['LP_KEYFILE'],
-                              "LP_CHECK_CARD_CODE" => $d['LP_CHECK_CARD_CODE'],
-                              "LP_RECURRING" => $d['LP_RECURRING'],
-                              "LP_PREAUTH" => $d['LP_PREAUTH']
-                            );
-      $config = "<?php\n";
-      $config .= "if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); \n\n";
-      foreach( $my_config_array as $key => $value ) {
-        $config .= "define ('$key', '$value');\n";
-      }
-
-      $config .= "?>";
-
-      if ($fp = fopen(ADMINPATH."plugins/payment/".__CLASS__.".cfg.php", "w")) {
-          fputs($fp, $config, strlen($config));
-          fclose ($fp);
-          return true;
-     }
-     else
-        return false;
-   }
 
   /**************************************************************************
   ** name: process_payment()
@@ -229,8 +116,8 @@ class linkpoint {
         // The following should be static for linkpoint, if not, change to the specified host (secure/staging.linkpt.net)
         $myorder["host"]       = "secure.linkpt.net";
         $myorder["port"]       = "1129";
-        $myorder["keyfile"]    = LP_KEYFILE;
-        $myorder["configfile"] = LP_LOGIN; 
+        $myorder["keyfile"]    = $this->params->get('LP_KEYFILE');
+        $myorder["configfile"] = $this->params->get('LP_LOGIN'); 
 
 //Atlanticom Mod - Adding substitution for ampersand sign to correct
 //XML rejection of linkpoint transactions including same (usually in company name).
@@ -311,12 +198,12 @@ class linkpoint {
 //			return False;
 
 
-	  if (LP_RECURRING == "YES") {
+	  if ($this->params->get('LP_RECURRING') == "YES") {
 
 	//if we are doing recurring billing, and the payments are not processed imedeately, we should run a Pre-Auth
 	// This is mostly if you are offering a customer x ammount of free days for a service, if you are charging the card
 	// at this time, you can uncomment the following 2 lines Pre-Auth part .
-		if (LP_PREAUTH == "YES") {
+		if ($this->params->get('LP_PREAUTH') == "YES") {
   
 		  $myorder["ordertype"]     = "PREAUTH";
 		  // Process the PREAUTH
@@ -333,7 +220,7 @@ class linkpoint {
   
 		$myorder["action"] = "SUBMIT";
 		$myorder["installments"] = -1;
-		$myorder["periodicity"] = monthly;
+		$myorder["periodicity"] = 'monthly';
 		// We will give them 30 days free.
 		$myorder["startdate"] =  date(Ymd,time()+2592000);
 		$myorder["threshold"] =  3;

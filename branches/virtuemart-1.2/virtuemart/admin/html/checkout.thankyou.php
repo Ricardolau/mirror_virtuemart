@@ -37,7 +37,7 @@ $old_user = '';
 if( !empty( $user ) && is_object($user)) {
 	$old_user = $user;
 }
-$user = $db->record[0];
+$user = $db->get_row();
 $dbbt = $db->_clone( $db );
 
 $user->email = $db->f("user_email");
@@ -45,7 +45,7 @@ $user->email = $db->f("user_email");
 /** Retrieve Order & Payment Info **/
 $db = new ps_DB;
 $q  = "SELECT * FROM (`#__{vm}_order_payment` LEFT JOIN `#__{vm}_payment_method` ";
-$q .= "ON `#__{vm}_payment_method`.`payment_method_id`  = `#__{vm}_order_payment`.`payment_method_id`), `#__{vm}_orders` ";
+$q .= "ON `#__{vm}_payment_method`.`id`  = `#__{vm}_order_payment`.`payment_method_id`), `#__{vm}_orders` ";
 $q .= "WHERE `#__{vm}_order_payment`.`order_id`='$order_id' ";
 $q .= "AND `#__{vm}_orders`.`user_id`=" . $auth["user_id"] . " ";
 $q .= "AND `#__{vm}_orders`.`order_id`='$order_id' ";

@@ -27,7 +27,7 @@ if ( $payment_method_id ) {
 	echo "<h2>".$VM_LANG->_('PHPSHOP_CHANGE_PASSKEY_FORM')."</h2></th>";
 	echo '</tr><tr><td>';
 	// Get the Transaction Key securely from the database
-	$db->query( "SELECT ".VM_DECRYPT_FUNCTION."(payment_passkey,'".ENCODE_KEY."') AS `passkey` FROM #__{vm}_payment_method WHERE payment_method_id='$payment_method_id'" );
+	$db->query( "SELECT ".VM_DECRYPT_FUNCTION."(secret_key,'".ENCODE_KEY."') AS `passkey` FROM #__{vm}_payment_method WHERE payment_method_id='$payment_method_id'" );
 	$db->next_record();
 	
 	if( !empty( $_POST['submit'] )) {
@@ -60,7 +60,7 @@ if ( $payment_method_id ) {
 	elseif ( $auth_result && !empty($passkey) && $task == "changekey") {
 
 		$q = "UPDATE #__{vm}_payment_method ";
-		$q .= "SET payment_passkey = ".VM_ENCRYPT_FUNCTION."('$passkey','" . ENCODE_KEY . "')\n";
+		$q .= "SET secret_key = ".VM_ENCRYPT_FUNCTION."('$passkey','" . ENCODE_KEY . "')\n";
 		$q .= "WHERE payment_method_id='$payment_method_id';";
 		$db->query( $q );
 		vmRedirect( $sess->url($_SERVER['PHP_SELF']."?page=store.payment_method_form&payment_method_id=$payment_method_id", false, false), $VM_LANG->_('PHPSHOP_CHANGE_PASSKEY_SUCCESS'));

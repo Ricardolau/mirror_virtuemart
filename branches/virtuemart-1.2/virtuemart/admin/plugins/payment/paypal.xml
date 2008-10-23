@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <install type="payment" version="1.2.0">	
 	<name>paypal</name>
 	<author><![CDATA[VirtueMart Project]]></author>
@@ -12,7 +13,6 @@
 	
   	<install>	
 		<files>
-			<filename>paypal.cfg.php</filename>
 			<filename>paypal.php</filename>
 		</files>
 		<!--<queries>
@@ -21,5 +21,29 @@
 			<query></query>
 		</queries>-->
 	</install>	
-	
+	<params>
+		<param type="text" name="PAYPAL_EMAIL" label="PHPSHOP_ADMIN_CFG_PAYPAL_EMAIL"
+             default="username@email.com" description="PHPSHOP_ADMIN_CFG_PAYPAL_EMAIL_EXPLAIN" />
+        <param name="PAYMENT_VERIFIED_STATUS" label="PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS" description="PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS_EXPLAIN"
+			type="table_data_list" table="#__{vm}_order_status" valuefield="order_status_code" textfield="order_status_name" orderfield="list_order" default="C"
+			/>
+        <param name="PAYMENT_PENDING_STATUS" label="VM_ADMIN_CFG_PAYPAL_STATUS_PENDING" description="VM_ADMIN_CFG_PAYPAL_STATUS_PENDING_EXPLAIN"
+			type="table_data_list" table="#__{vm}_order_status" valuefield="order_status_code" textfield="order_status_name" orderfield="list_order" default="P"
+			/>
+        <param name="PAYMENT_INVALID_STATUS" label="PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED" description="PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED_EXPLAIN"
+			type="table_data_list" table="#__{vm}_order_status" valuefield="order_status_code" textfield="order_status_name" orderfield="list_order" default="X"
+			/>
+		<param name="PAYPAL_VERIFIED_ONLY" type="radio" default="0" label="PHPSHOP_ADMIN_CFG_PAYPAL_ONLYVERIFIED" description="PHPSHOP_ADMIN_CFG_PAYPAL_ONLYVERIFIED_EXPLAIN">
+			<option value="0">PHPSHOP_ADMIN_CFG_NO</option>
+			<option value="1">PHPSHOP_ADMIN_CFG_YES</option>
+		</param>
+		<param name="DEBUG" type="radio" default="0" label="PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_TESTMODE" description="PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_TESTMODE_EXPLAIN">
+			<option value="0">PHPSHOP_ADMIN_CFG_NO</option>
+			<option value="1">PHPSHOP_ADMIN_CFG_YES</option>
+		</param>
+		<param name="SANDBOX" type="radio" default="0" label="Use PayPal Sandbox?" description="The PayPal Sandbox allows to simulate transactions in a secure environment.">
+			<option value="0">PHPSHOP_ADMIN_CFG_NO</option>
+			<option value="1">PHPSHOP_ADMIN_CFG_YES</option>
+		</param>
+	</params>
 </install>

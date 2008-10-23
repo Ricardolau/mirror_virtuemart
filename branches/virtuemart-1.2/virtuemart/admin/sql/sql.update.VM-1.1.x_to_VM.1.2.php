@@ -118,7 +118,8 @@ $db->query( "INSERT INTO `#__{vm}_menu_admin` (`id`, `module_id`, `parent_id`, `
 (70, 8, 0, '-', '', '', '', 5, '1', ''),
 (71, 2, 0, '-', '', '', '', 19, '1', ''),
 (72, 2, 0, '-', '', '', '', 23, '1', ''),
-(73, 1, 0, 'Manage Extensions', 'page=admin.extension_list', '', 'vmicon vmicon-16-content', 15, '1', '')");
+(73, 1, 0, 'Extension Manager', 'page=admin.extension_list', '', 'vmicon vmicon-16-content', 15, '1', ''),
+(74, 1, 0, 'Plugin List', 'page=admin.plugin_list', '', 'vmicon vmicon-16-content', 16, '1', '')");
 
 # Coupon start and expiry dates, thank you willowtree (http://forum.virtuemart.net/index.php?topic=41066.0)
 $db->query( "ALTER TABLE `#__{vm}_coupons` ADD `coupon_start_date` DATETIME NULL ,
@@ -144,3 +145,54 @@ $db->query("REPLACE `#__{vm}_auth_user_vendor` (`user_id`, `vendor_id`) VALUES (
 //ADD `product_type_shared` CHAR( 1 ) NOT NULL DEFAULT 'N' AFTER `vendor_id` ;");
 
 $db->query("UPDATE `#__{vm}_payment_method` SET `payment_class` = REPLACE( `payment_class` , 'ps_', '' )");
+$db->query("UPDATE `#__{vm}_function` SET `function_class` = 'paymentMethod.class' WHERE `function_class` = 'ps_payment_method'");
+$db->query("UPDATE `#__{vm}_function` SET `function_class` = 'shippingMethod.class' WHERE `function_class` = 'ps_shipping_method'");
+$db->query("INSERT INTO `#__{vm}_function` VALUES(195, 1, 'uninstallExtension', 'installer.class', 'uninstall', 'Uninstalls an Extension', 'admin')");
+$db->query("INSERT INTO `#__{vm}_function` VALUES(196, 1, 'installExtension', 'installer.class', 'install', 'Installs an Extension', 'admin')");
+$db->query("INSERT INTO `#__{vm}_function` VALUES(197, 1, 'pluginUpdate', 'pluginEntity.class', 'update', 'Updates a VM Plugin and saves all new parameter settings.', 'storeadmin,admin')");
+	
+$db->query("ALTER TABLE `#__{vm}_payment_method` CHANGE `payment_method_id` `id` INT( 11 ) NOT NULL AUTO_INCREMENT ");
+$db->query("ALTER TABLE `#__{vm}_payment_method` CHANGE `payment_method_name` `name` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ");
+$db->query("ALTER TABLE `#__{vm}_payment_method` CHANGE `payment_class` `element` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ");
+$db->query("ALTER TABLE `#__{vm}_payment_method` CHANGE `payment_method_discount` `discount` DECIMAL( 12, 2 ) NULL DEFAULT NULL ");
+$db->query("ALTER TABLE `#__{vm}_payment_method` CHANGE `payment_method_discount_is_percent` `discount_is_percentage` TINYINT( 1 ) NOT NULL ");
+$db->query("ALTER TABLE `#__{vm}_payment_method` CHANGE `payment_method_discount_max_amount` `discount_max_amount` DECIMAL( 10, 2 ) NOT NULL ");
+$db->query("ALTER TABLE `#__{vm}_payment_method` CHANGE `payment_method_discount_min_amount` `discount_min_amount` DECIMAL( 10, 2 ) NOT NULL ");
+$db->query("ALTER TABLE `#__{vm}_payment_method` CHANGE `payment_method_code` `short_code` VARCHAR( 8 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ");
+$db->query("ALTER TABLE `#__{vm}_payment_method` CHANGE `enable_processor` `type` CHAR( 1 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ");
+$db->query("ALTER TABLE `#__{vm}_payment_method` CHANGE `payment_enabled` `published` CHAR( 1 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'N'");
+$db->query("ALTER TABLE `#__{vm}_payment_method` CHANGE `payment_extrainfo` `extra_info` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
+$db->query("ALTER TABLE `#__{vm}_payment_method` CHANGE `payment_passkey` `secret_key` BLOB NOT NULL");
+$db->query("ALTER TABLE `#__{vm}_payment_method` ADD `params` TEXT NOT NULL");
+$db->query("UPDATE `#__{vm}_payment_method` SET `element`='payment' WHERE `element`=''");
+
+$db->query( "CREATE TABLE `#__{vm}_plugins` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(100) NOT NULL default '',
+  `element` varchar(100) NOT NULL default '',
+  `folder` varchar(100) NOT NULL default '',
+  `ordering` int(11) NOT NULL default '0',
+  `published` tinyint(3) NOT NULL default '0',
+  `iscore` tinyint(3) NOT NULL default '0',
+  `vendor_id` tinyint(3) NOT NULL default '0',
+  `shopper_group_id` int(10) unsigned NOT NULL,
+  `checked_out` int(11) unsigned NOT NULL default '0',
+  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `params` text NOT NULL,
+  `secrets` blob NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `idx_folder` (`published`,`vendor_id`,`folder`)
+) TYPE=MyISAM  CHARSET=utf8 AUTO_INCREMENT=12");
+
+# Data for `#__{vm}_plugins`
+$db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(1, 'auspost', 'auspost', 'shipping', 11, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '')");
+$db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(2, 'canadapost', 'canadapost', 'shipping', 9, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '')");
+$db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(3, 'dhl', 'dhl', 'shipping', 4, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '')");
+$db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(4, 'fedex', 'fedex', 'shipping', 3, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '')");
+$db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(5, 'flex', 'flex', 'shipping', 2, 1, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '')");
+$db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(6, 'intershipper', 'intershipper', 'shipping', 5, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '')");
+$db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(7, 'shipvalue', 'shipvalue', 'shipping', 8, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '')");
+$db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(8, 'standard_shipping', 'standard_shipping', 'shipping', 1, 1, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '')");
+$db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(9, 'UPS Shipping Module', 'ups', 'shipping', 6, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '')");
+$db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(10, 'USPS Shipping Module', 'usps', 'shipping', 7, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '')");
+$db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(11, 'Zone Shipping Module', 'zone_shipping', 'shipping', 10, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '')");

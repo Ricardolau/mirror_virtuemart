@@ -311,7 +311,6 @@ class vmPaymentMethod extends vmAbstractObject {
 	 * @return mixed
 	 */
 	function getPaymentPlugin($plugin=null) {
-		require_once( ADMINPATH.'plugins/payment/payment.php' );
 		return vmPluginHelper::getPlugin('payment', $plugin );
 	}
 	/**
@@ -321,7 +320,6 @@ class vmPaymentMethod extends vmAbstractObject {
 	 * @return vmpaymentplugin
 	 */
 	function &getPaymentPluginById( $id ) {
-		require_once( ADMINPATH.'plugins/payment/payment.php' );
 		return vmPluginHelper::getPluginById('payment', $id );
 	}
 	/**
@@ -331,7 +329,6 @@ class vmPaymentMethod extends vmAbstractObject {
 	 * @return vmpaymentplugin
 	 */
 	function &importPaymentPluginById( $id ) {
-		require_once( ADMINPATH.'plugins/payment/payment.php' );
 		return vmPluginHelper::importPluginById('payment', $id );
 	}
 	/**

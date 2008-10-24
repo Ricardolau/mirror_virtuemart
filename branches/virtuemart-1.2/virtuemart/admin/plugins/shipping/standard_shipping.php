@@ -85,7 +85,7 @@ class plgShippingStandard_Shipping extends vmShippingPlugin {
 				if( $_SESSION['auth']['show_price_including_tax'] != 1 ) {
 					$taxrate = 1 ;
 				} else {
-					$taxrate = $this->get_tax_rate( $dbr->f( "shipping_rate_id" ) ) + 1 ;
+					$taxrate = $this->get_shippingtax_rate( $dbr->f( "shipping_rate_id" ) ) + 1 ;
 				}
 				$total_shipping_handling = $dbr->f( "shipping_rate_value" ) + $dbr->f( "shipping_rate_package_fee" ) ;
 				$total_shipping_handling = $GLOBALS['CURRENCY']->convert( $total_shipping_handling ) ;

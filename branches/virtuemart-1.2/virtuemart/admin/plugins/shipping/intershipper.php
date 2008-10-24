@@ -266,7 +266,7 @@ class plgShippingIntershipper extends vmShippingPlugin {
 			if( $_SESSION['auth']['show_price_including_tax'] != 1 ) {
 				$taxrate = 1 ;
 			} else {
-				$taxrate = $this->get_tax_rate() + 1 ;
+				$taxrate = $this->get_shippingtax_rate() + 1 ;
 			}
 			$returnArr = array() ;
 			while( list ( $quotedata, $boxID ) = each( $quotes ) ) {

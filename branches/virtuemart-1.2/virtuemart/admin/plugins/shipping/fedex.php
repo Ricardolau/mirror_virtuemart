@@ -160,7 +160,7 @@ class plgShippingFedex extends vmShippingPlugin {
 			$taxrate = 1;
 		}
 		else {
-			$taxrate = $this->get_tax_rate() + 1;
+			$taxrate = $this->get_shippingtax_rate() + 1;
 		}
 		
 		// Get a sort order array (by cost)

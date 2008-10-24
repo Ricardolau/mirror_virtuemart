@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <install type="payment" version="1.2.0">	
 	<name>twocheckout</name>
 	<author><![CDATA[VirtueMart Project]]></author>
@@ -12,7 +13,6 @@
 	
   	<install>	
 		<files>
-			<filename>twocheckout.cfg.php</filename>
 			<filename>twocheckout.php</filename>
 		</files>
 		<!--<queries>
@@ -44,5 +44,5 @@
 			<option value="0">PHPSHOP_ADMIN_CFG_NO</option>
 			<option value="1">PHPSHOP_ADMIN_CFG_YES</option>
 		</param>
-	<params>
+	</params>
 </install>

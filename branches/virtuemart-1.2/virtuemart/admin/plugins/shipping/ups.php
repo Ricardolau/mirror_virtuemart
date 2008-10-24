@@ -311,7 +311,7 @@ class plgShippingUps extends vmShippingPlugin {
 				$taxrate = 1;
 			}
 			else {
-				$taxrate = $this->get_tax_rate() + 1;
+				$taxrate = $this->get_shippingtax_rate() + 1;
 			}
 
 			foreach( $shipment as $key => $value ) {

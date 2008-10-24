@@ -22,6 +22,9 @@ $id = vmRequest::getInt('id');
 $description = '';
 if ($id > 0 ) {
     $q = 'SELECT * FROM #__{vm}_plugins WHERE id='.$id;
+    if( !$perm->check('admin')) {
+    	$q.= ' AND vendor_id='.$ps_vendor_id;
+    }
     $db->query($q);
     if( $db->next_record() ) {
     	
@@ -145,5 +148,5 @@ $formObj->hiddenField( 'id', $id );
 
 // Write your form with mixed tags and text fields
 // and finally close the form:
-$formObj->finishForm( 'pluginUpdate', $modulename.'.plugin_list', $option );
+$formObj->finishForm( 'pluginUpdate', $modulename, str_replace('_form', '_list', $pagename), $option );
 ?>

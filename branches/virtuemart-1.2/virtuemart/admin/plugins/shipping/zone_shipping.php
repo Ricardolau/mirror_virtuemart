@@ -57,7 +57,7 @@ class plgShippingZone_Shipping extends vmShippingPlugin {
 		if( $_SESSION['auth']['show_price_including_tax'] != 1 ) {
 			$taxrate = 1 ;
 		} else {
-			$taxrate = $this->get_tax_rate( $the_zone ) + 1 ;
+			$taxrate = $this->get_shippingtax_rate( $the_zone ) + 1 ;
 		}
 		
 		$q3 = "SELECT * FROM #__{vm}_zone_shipping WHERE zone_id ='$the_zone' " ;

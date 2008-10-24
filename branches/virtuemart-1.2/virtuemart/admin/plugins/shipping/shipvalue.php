@@ -46,7 +46,7 @@ class plgShippingShipvalue extends vmShippingPlugin {
 			$order_total = $total + $tax_total;
 		}
 		else {
-			$taxrate = $this->get_tax_rate() + 1;
+			$taxrate = $this->get_shippingtax_rate() + 1;
 			$order_total = $total;
 		}
 

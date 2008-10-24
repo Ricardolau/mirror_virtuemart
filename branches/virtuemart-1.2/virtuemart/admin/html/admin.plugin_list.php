@@ -22,7 +22,7 @@ require_once( CLASSPATH . "htmlTools.class.php" );
 require_once( CLASSPATH . "pluginEntity.class.php" );
 $folder = vmget( $_REQUEST, 'folder');
 $folderSel = vmget( $_REQUEST, 'folderSel');
-if( !empty( $folderSel)) {
+if( !empty( $folderSel) && strstr(__FILE__, $page )) {
 	$folder = $folderSel;
 }
 if (!empty($keyword)) {
@@ -33,20 +33,26 @@ if (!empty($keyword)) {
 	$q .= "element LIKE '%$keyword%'";
 	$q .= ") ";
 	if( $folder != '') {
-		$q .= 'AND folder=\''.$db->getEscaped($folder).'\' ';
+		$q .= 'AND folder=\''.$db->getEscaped($folder).'\'';
 	}
-	$q .= "ORDER BY ordering ASC ";
+    if( !$perm->check('admin')) {
+    	$q.= ' AND vendor_id='.$ps_vendor_id;
+    }
+	$q .= " ORDER BY ordering ASC ";
 	$list .= $q . " LIMIT $limitstart, " . $limit;
 	$count .= $q;
 }
 else {
-	$q = "";
+	$q = "WHERE 1=1";
 	if( $folder != '') {
-		$q .= 'WHERE folder=\''.$db->getEscaped($folder).'\' ';
+		$q .= ' AND folder=\''.$db->getEscaped($folder).'\' ';
 	}
+    if( !$perm->check('admin')) {
+    	$q.= ' AND vendor_id='.$ps_vendor_id;
+    }
 	$list  = "SELECT * FROM #__{vm}_plugins ";
 	$count = "SELECT COUNT(*) as num_rows FROM #__{vm}_plugins ";
-	$list .= $q . "ORDER BY ordering LIMIT $limitstart, " . $limit;
+	$list .= $q . " ORDER BY ordering LIMIT $limitstart, " . $limit;
 	$count .= $q;
 }
 $db->query($count);
@@ -64,7 +70,9 @@ $listObj = new listFactory( $pageNav );
 // print out the search field and a list heading
 $listObj->writeSearchHeader($VM_LANG->_('Plugin List'), VM_THEMEURL.'images/administration/dashboard/modules.png', "admin", "plugin_list");
 
-echo '<div align="right">Filter by Plugin Type: '.vmPluginEntity::get_folder_dropdown('folderSel', $folder ).'</div>';
+if( strstr(__FILE__, $page ) ) {
+	echo '<div align="right">Filter by Plugin Type: '.vmPluginEntity::get_folder_dropdown('folderSel', $folder ).'</div>';
+}
 
 // start the list table
 $listObj->startTable();
@@ -91,7 +99,7 @@ while ($db->next_record()) {
 	// The Checkbox
 	$listObj->addCell( vmCommonHTML::idBox( $i, $db->f("id"), false, "id" ) );
 
-	$tmp_cell = "<a href=\"". $sess->url( $_SERVER['SCRIPT_NAME'] . "?id=".$db->f('id')."&page=$modulename.plugin_form&limitstart=$limitstart")."\">";
+	$tmp_cell = "<a href=\"". $sess->url( $_SERVER['SCRIPT_NAME'] . "?id=".$db->f('id')."&page=$modulename.".str_replace('_list', '_form', $pagename)."&limitstart=$limitstart")."\">";
 	$tmp_cell .= $db->f("name")."</a>";
 	$listObj->addCell( $tmp_cell );
 	

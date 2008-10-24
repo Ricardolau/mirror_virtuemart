@@ -21,6 +21,7 @@ class vmPluginEntity extends vmAbstractObject {
 	var $_required_fields = array('element');
 
 	function update( &$d ) {
+		global $perm;
 		if( !$this->validate_update($d)) {
 			return false;
 		}
@@ -43,7 +44,7 @@ class vmPluginEntity extends vmAbstractObject {
 								'params' => $params
 					);
 		$db = new ps_DB();
-		$db->buildQuery('UPDATE', $this->table_name, $fields, 'WHERE id='.$id );
+		$db->buildQuery('UPDATE', $this->table_name, $fields, 'WHERE id='.$id .($perm->check('admin')?' AND vendor_id='.$_SESSION['ps_vendor_id']:''));
 		if( $db->query() === false ) {
 			$GLOBALS['vmLogger']->err('Failed to update the Plugin');
 			return false;
@@ -53,12 +54,17 @@ class vmPluginEntity extends vmAbstractObject {
 	}
 
 	function get_plugin_list($folder='') {
+		global $perm;
+		
 		$dbp = new ps_DB();
-		$q = 'SELECT * FROM #__{vm}_plugins';
+		$q = 'SELECT * FROM #__{vm}_plugins WHERE 1=1';
 		if( $folder != '') {
-			$q .= ' WHERE folder=\''.$dbp->getEscaped($folder).'\'';
+			$q .= ' AND folder=\''.$dbp->getEscaped($folder).'\'';
 		}
-		$q .= 'ORDER BY folder, ordering';
+	    if( !$perm->check('admin')) {
+	    	$q.= ' AND vendor_id='.$_SESSION['ps_vendor_id'];
+	    }
+		$q .= ' ORDER BY folder, ordering';
 		$dbp->query( $q );
 		
 		$plugins = array();

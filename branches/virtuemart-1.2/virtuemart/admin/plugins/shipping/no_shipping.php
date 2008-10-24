@@ -51,7 +51,7 @@ class plgShippingNo_Shipping extends vmShippingPlugin {
       return 0;
    }
   /**************************************************************************
-  ** name: get_tax_rate()
+  ** name: get_shippingtax_rate()
   ** created by: soeren
   ***************************************************************************/
    function get_shippingtax_rate() {

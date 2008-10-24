@@ -286,7 +286,7 @@ class vmShippingPlugin extends vmPlugin {
 	 * @param array  $config  An array that holds the plugin configuration
 	 * @since 1.2.0
 	 */
-	function vmPaymentPlugin(& $subject, $config) {
+	function vmShippingPlugin(& $subject, $config) {
 		parent::__construct($subject, $config);
 	}
 
@@ -298,7 +298,7 @@ class vmShippingPlugin extends vmPlugin {
 	 * @param array $d
 	 * @return mixed - false if retrieving the rate list failed, an array if success
 	 */
-   function get_rate_list(&$d) {
+   function get_shipping_rate_list(&$d) {
         return array();
     }
     /**
@@ -307,7 +307,7 @@ class vmShippingPlugin extends vmPlugin {
      * @param array $d
      * @return double
      */
-    function get_rate( &$d ) {
+    function get_shipping_rate( &$d ) {
     	return 0.00;
     }
     /**
@@ -315,7 +315,7 @@ class vmShippingPlugin extends vmPlugin {
      *
 	 * @return double
      */
-    function get_tax_rate() {
+    function get_shippingtax_rate() {
     	return 0.00;
     }
     /**

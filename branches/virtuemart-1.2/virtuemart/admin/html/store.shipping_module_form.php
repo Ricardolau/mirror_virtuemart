@@ -17,42 +17,5 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 mm_showMyFileName( __FILE__ );
 
-$shipping_module = basename(vmGet($_REQUEST, 'shipping_module', null));
-
-if( $shipping_module ) {
-	if( !include( ADMINPATH."plugins/shipping/$shipping_module.php" )) {
-		vmRedirect( $_SERVER['PHP_SELF']."?option=com_virtuemart&page=store.shipping_modules", str_replace('{shipping_module}',$shipping_module,$VM_LANG->_('VM_SHIPPING_MODULE_CLASSERROR')));
-	}
-	else {
-		$_SHIPPING = new $shipping_module();
-	}
-	$ps_html->writableIndicator(ADMINPATH."plugins/shipping/".$shipping_module.'.cfg.php');
-	
-  ?>
-	<table class="adminform">
-	<tr>
-	<td>
-  
-  <?php
-	// Create the Form Control Object
-	$formObj =& new formFactory( $VM_LANG->_('VM_SHIPPING_MODULE_CONFIG_LBL') . ': '. $shipping_module );
-	
-	// Start the the Form
-	$formObj->startForm();
-
-  	$_SHIPPING->show_configuration();
-  
-  	// Write common hidden input fields
-  	$formObj->hiddenField('shipping_class', basename($shipping_module,".php") );
-	// and close the form
-	$formObj->finishForm( 'shippingmethodSave', 'store.shipping_modules', $option );
-	?>
-	</td>
-	</tr>
-	</table>
-	<?php
-}
-else {
-	//TODO: Form for new shipping modules
-}
+include( PAGEPATH.'admin.plugin_form.php');
 ?>

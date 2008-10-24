@@ -48,7 +48,7 @@ class free_shipping {
 	}
 	
 	/**************************************************************************
-	 ** name:  get_tax_rate() {( $d )
+	 ** name:  get_shippingtax_rate() {( $d )
 	 ** created by: soeren
 	 ***************************************************************************/
 	function get_shippingtax_rate() {

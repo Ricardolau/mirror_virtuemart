@@ -41,6 +41,7 @@ class vmPluginEntity extends vmAbstractObject {
 		}
 		$fields = array( 'name' => vmGet($d,'name'),
 								'element' => vmGet($d, 'element'),
+								'published' => vmRequest::getInt('published'),
 								'params' => $params
 					);
 		$db = new ps_DB();

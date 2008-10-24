@@ -15,22 +15,44 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 *
 * http://virtuemart.net
 */
+
+// Import all published Shipping Plugins
 vmPluginHelper::importPlugin('shipping');
+// Then call the method "get_shipping_rate_list" on all shipping plugins
 $result = $vm_mainframe->triggerEvent('get_shipping_rate_list', array( $vars ));
-if( is_array( $result )) {
+if( !empty( $result )) {
+	$i = 0;
+	// Loop through each plugin's rate list
 	foreach( $result as $shipping_module ) {
-		if( !empty($shipping_module[0])) {
-			echo '<fieldset><legend>'.$shipping_module[0]['carrier'].'</legend>';
+		$carrier = '';
+		if( !empty( $shipping_module[$i]['carrier'])) {
+			$carrier = $shipping_module[$i++]['carrier'];
+			echo '<fieldset><legend>'.$carrier."</legend>\n";
 		}
+		// Loop through each rate of this shipping plugin
 		foreach( $shipping_module as $rate ) {
-			$id = uniqid($shipping_module[0]['carrier']);
-			echo '<input type="radio" name="shipping_rate_id" value="'.$rate['shipping_rate_id'].'" id="'.$id.'" />';
-			echo '<label for="'.$id.'">'.$rate['rate_name']. ' - '.$CURRENCY_DISPLAY->getfullvalue($rate['rate']).'</label><br />';
+			if( $rate['carrier'] != $carrier ) {
+				$carrier = $rate['carrier'];
+				echo "\n</fieldset>";
+				echo '<fieldset><legend>'.$carrier."</legend>\n";
+				$fieldSetOpened = true;
+			}
+			$id = uniqid($carrier);
+			$rate_name_display = $rate['rate_name'];
+			if(!empty($rate['delivery_date'])) {
+				$rate_name_display .= ', Delivery: '.$rate['delivery_date'];
+			}
+			$rate_name_display .= ' - <strong>'.$CURRENCY_DISPLAY->getfullvalue($rate['rate']).'</strong>';
+			if( !empty($rate['rate_tip'])) {
+				$rate_name_display .= vmToolTip($rate['rate_tip'] );
+			}
+			$checked = $rate['shipping_rate_id'] == urlencode($vars['shipping_rate_id']) ? ' checked="checked"' : '';
+			echo '<input type="radio" name="shipping_rate_id" value="'.$rate['shipping_rate_id'].'"'.$checked.' id="'.$id.'" />';
+			echo '<label for="'.$id.'">'.$rate_name_display."</label><br />\n";
 		}
-		if( !empty($shipping_module[0])) {
-			echo '</fieldset>';
-		}
+	
 	}
+	echo "\n</fieldset>";
 }
 
 ?>

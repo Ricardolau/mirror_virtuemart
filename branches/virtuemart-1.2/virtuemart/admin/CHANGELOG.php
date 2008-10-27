@@ -35,8 +35,12 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+26.10.2008 soeren
+
+# Task #2406 - Too many escape characters are added when writing virtuemart.cfg.php
+ 
 23.10.2008 aravot
-Added missing forum icon
++ Added missing forum icon
 
 23.10.2008 soeren
 

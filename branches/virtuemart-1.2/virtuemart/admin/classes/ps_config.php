@@ -224,7 +224,7 @@ define( 'IMAGEPATH', \$mosConfig_absolute_path.'/components/com_virtuemart/shop_
 					if( $encode_key != ENCODE_KEY ) {
 						// The ENCODE KEY has been changed! Now we need to re-encode the credit card information and transaction keys
 						$db->query( 'UPDATE #__{vm}_order_payment SET order_payment_number = '.VM_ENCRYPT_FUNCTION.'('.VM_DECRYPT_FUNCTION.'(order_payment_number,\''.$db->getEscaped(ENCODE_KEY).'\'), \''.$db->getEscaped($encode_key).'\')');
-						$db->query( 'UPDATE #__{vm}_payment_method SET payment_passkey = '.VM_ENCRYPT_FUNCTION.'('.VM_DECRYPT_FUNCTION.'(payment_passkey,\''.$db->getEscaped(ENCODE_KEY).'\'), \''.$db->getEscaped($encode_key).'\')');
+						$db->query( 'UPDATE #__{vm}_payment_method SET secret_key = '.VM_ENCRYPT_FUNCTION.'('.VM_DECRYPT_FUNCTION.'(secret_key,\''.$db->getEscaped(ENCODE_KEY).'\'), \''.$db->getEscaped($encode_key).'\')');
 					}
 				}
 				elseif( $key == 'VM_ENCRYPT_FUNCTION') {
@@ -240,7 +240,7 @@ define( 'IMAGEPATH', \$mosConfig_absolute_path.'/components/com_virtuemart/shop_
 						else $d[$value] = VM_ENCRYPT_FUNCTION;
 						// The Encryption Function has been changed. We need to decode and re-encrypt now!
 						$db->query( "UPDATE #__{vm}_order_payment SET order_payment_number = ".$d[$value].'('.VM_DECRYPT_FUNCTION."(order_payment_number,'".$db->getEscaped($reencode_key)."'), '".$db->getEscaped($reencode_key)."')");
-						$db->query( 'UPDATE #__{vm}_payment_method SET payment_passkey = '.$d[$value].'('.VM_DECRYPT_FUNCTION.'(payment_passkey,\''.$db->getEscaped($reencode_key).'\'), \''.$db->getEscaped($reencode_key).'\')');
+						$db->query( 'UPDATE #__{vm}_payment_method SET secret_key = '.$d[$value].'('.VM_DECRYPT_FUNCTION.'(secret_key,\''.$db->getEscaped($reencode_key).'\'), \''.$db->getEscaped($reencode_key).'\')');
 					}
 					$config .= "define('$key', '".$d[$value]."');\n";
 				}
@@ -300,7 +300,7 @@ define( 'IMAGEPATH', \$mosConfig_absolute_path.'/components/com_virtuemart/shop_
 				else {
 					$config_val = vmGet( $d, $value);
 					$config_val = str_replace("'","\'", $config_val );
-					$config_val = str_replace("\\","\\\\", $config_val );
+					$config_val = str_replace("\\\\","\\\\\\\\", $config_val );
 					$config .= "define('".$key."', '".$config_val."');\n";
 				}
 			}

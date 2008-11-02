@@ -128,7 +128,7 @@ else {
 			$vmLayout = 'standard';
 			echo '<td valign="top" width="15%">';
 			// The admin header with dropdown menu
-			include( ADMINPATH."header.php" );
+			
 			echo '</td>';
 		}
 		echo '<td width="80%" valign="top" style="border: 1px solid silver;padding:4px;">';

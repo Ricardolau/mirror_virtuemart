@@ -35,15 +35,16 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
-26.10.2008 soeren
+06.11.2008 aravot
+Added missing User Group List icon
 
+26.10.2008 soeren
 # Task #2406 - Too many escape characters are added when writing virtuemart.cfg.php
  
 23.10.2008 aravot
 + Added missing forum icon
 
 23.10.2008 soeren
-
 ^ updated all Shipping and Payment Modules to have their configuration parameters in XML files
 + added new Plugin System
 

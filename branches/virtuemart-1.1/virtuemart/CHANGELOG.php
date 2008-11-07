@@ -35,6 +35,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+06.11.2008 aravot
+Added missing User Group List icon
+
 23.10.2008 aravot
 Added missing forum icon
 

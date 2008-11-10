@@ -35,6 +35,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+
+10.11.08 mainly Danny with help by Max Milbers and committed by Max Milbers
++ showing state name instead of state-2-code in order details
+
 06.11.2008 aravot
 Added missing User Group List icon
 

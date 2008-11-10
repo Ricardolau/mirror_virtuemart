@@ -17,6 +17,15 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 mm_showMyFileName( __FILE__ );
 
+echo vmCommonHTML::scriptTag( $mosConfig_live_site .'/includes/js/calendar/calendar.js');
+if( vmisjoomla('1.5') ) {
+	// in Joomla 1.5, the name of calendar lang file is changed...
+	echo vmCommonHTML::scriptTag( $mosConfig_live_site .'/includes/js/calendar/lang/calendar-en-GB.js');
+} else {
+	echo vmCommonHTML::scriptTag( $mosConfig_live_site .'/includes/js/calendar/lang/calendar-en.js');
+}
+echo vmCommonHTML::linkTag( $mosConfig_live_site .'/includes/js/calendar/calendar-mos.css');
+
 $coupon_id = vmGet( $_REQUEST, 'coupon_id', null );
 $option = empty($option)?vmGet( $_REQUEST, 'option', 'com_virtuemart'):$option;
 
@@ -110,13 +119,15 @@ $formObj->startForm();
     <tr> 
       <td width="24%"><div align="right"><?php echo $VM_LANG->_('PHPSHOP_COUPON_START') ?>:</div></td>
       <td width="76%"> 
-        <input type="text" class="inputbox" name="coupon_start_date" value="<?php echo $coupon_start_date; ?>" />
+        <input type="text" class="inputbox" id="coupon_start_date" name="coupon_start_date" value="<?php echo $coupon_start_date; ?>" />
+        <input name="reset" type="reset" class="button" onclick="return showCalendar('coupon_start_date', 'y-mm-dd');" value="..." />
       </td>
     </tr>
     <tr> 
       <td width="24%"><div align="right"><?php echo $VM_LANG->_('PHPSHOP_COUPON_EXPIRY') ?>:</div></td>
       <td width="76%"> 
-        <input type="text" class="inputbox" name="coupon_expiry_date" value="<?php echo $coupon_expiry_date; ?>" />
+        <input type="text" class="inputbox" name="coupon_expiry_date" id="coupon_expiry_date" value="<?php echo $coupon_expiry_date; ?>" />
+        <input name="reset" type="reset" class="button" onclick="return showCalendar('coupon_start_date', 'y-mm-dd');" value="..." />
       </td>
     </tr>
     <!-- End AG add coupon start and expiry dates -->

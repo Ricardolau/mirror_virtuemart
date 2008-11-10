@@ -1187,7 +1187,7 @@ CREATE TABLE IF NOT EXISTS `jos_vm_payment_method` (
   `discount_is_percentage` tinyint(1) NOT NULL,
   `discount_max_amount` decimal(10,2) NOT NULL,
   `discount_min_amount` decimal(10,2) NOT NULL,
-  `list_order` int(11) default NULL,
+  `ordering` int(11) default NULL,
   `short_code` varchar(8) default NULL,
   `type` char(1) default NULL,
   `is_creditcard` tinyint(1) NOT NULL default '0',

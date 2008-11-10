@@ -123,7 +123,7 @@ function vmLayoutInit() {
 					autoHeight: true,
 					html:"<div style=\"margin-bottom: 5px;\">" +
 			    		 "<img src=\"'.VM_THEMEURL.'images/administration/header_logo.png\" alt=\"VirtueMart Logo\" /> " +
-						"<a href=\"index2.php\" title=\"'.$VM_LANG->_('VM_ADMIN_BACKTOJOOMLA').'\" class=\"vmicon vmicon-16-back\" style=\"vertical-align: middle;font-weight:bold;margin-top: 3px;\">'.$VM_LANG->_('VM_ADMIN_BACKTOJOOMLA').'</a>" +
+						"<a href=\"'.(!empty($_REQUEST['frontend'])&&vmisjoomla('1.5')?'index.php':'index2.php').'\" title=\"'.$VM_LANG->_('VM_ADMIN_BACKTOJOOMLA').'\" class=\"vmicon vmicon-16-back\" style=\"vertical-align: middle;font-weight:bold;margin-top: 3px;\">'.$VM_LANG->_('VM_ADMIN_BACKTOJOOMLA').'</a>" +
 						"</div>"
 					},
 					{
@@ -145,19 +145,25 @@ function vmLayoutInit() {
 			}
     );
  }';
-			
+if( vmisjoomla('1.0') && empty( $_REQUEST['frontend'])) {
+	$script = 'index3.php';
+} elseif( vmisjoomla('1.0') ) {
+	$script = 'index2.php';
+} else {
+	$script = 'index.php';
+}
 echo '
 function loadPage(page){
 	
 	if( !page || page == "" ) {
-        defaultpage = "index3.php?option=com_virtuemart&page=store.index";
+        defaultpage = "'.$script.'&option=com_virtuemart&page=store.index";
         page = Ext.state.Manager.get( "vmlastpage", defaultpage );
 	}
 	if( page.indexOf( "virtuemart.net" ) == -1 ) {
-        php_self = page.replace(/index2.php/, "index3.php");
-        php_self = php_self.replace(/index.php/, "index3.php");
+        php_self = page.replace(/index2.php/, "'.$script.'");
+        php_self = php_self.replace(/index.php/, "'.$script.'");
         if( Ext.get("vmPage") ) {
-            Ext.get("vmPage").dom.src = php_self + "&only_page=1&no_menu=1";
+            Ext.get("vmPage").dom.src = php_self + "&only_page=1&no_menu=1&tmpl=component";
         }
 	} else {
 		if( Ext.get("vmPage") ) {

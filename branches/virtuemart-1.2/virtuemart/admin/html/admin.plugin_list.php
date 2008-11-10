@@ -70,6 +70,7 @@ $listObj = new listFactory( $pageNav );
 // print out the search field and a list heading
 $listObj->writeSearchHeader($VM_LANG->_('Plugin List'), VM_THEMEURL.'images/administration/dashboard/modules.png', "admin", "plugin_list");
 
+// Hide the drop-down list of plugin types if this page was included by another page
 if( strstr(__FILE__, $page ) ) {
 	echo '<div align="right">Filter by Plugin Type: '.vmPluginEntity::get_folder_dropdown('folderSel', $folder ).'</div>';
 }

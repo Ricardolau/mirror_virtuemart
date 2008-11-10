@@ -31,10 +31,14 @@ class vmInstaller {
 			if( file_exists(CLASSPATH.'installer/'.basename($package ['type']).'.vmextension.php')) {
 				require_once(CLASSPATH.'installer/'.basename($package ['type']).'.vmextension.php');
 				$classname = 'vmInstaller'.basename($package ['type']);
-				
+				if( !class_exists($classname)){
+					$vmLogger->err('Failed to to install this package: Installation Handler not found!');
+					return false;
+				}
 				$vminstaller_instance = new $classname();
 				
 				if( $vminstaller_instance->install($package) ) {
+					$vminstaller_instance->insert_plugin($package);
 					return true;
 				}
 		
@@ -44,6 +48,21 @@ class vmInstaller {
 		$vmLogger->err('Failed to to install this package: Installation Handler not found!');
 		return false;
 		
+	}
+	function insert_plugin($package) {
+		if( !empty($package['type'])) {
+			$db = new ps_db;
+			$fields = array('name' => $package['name'],
+									'element' => $package['name'],
+									'folder' => $package['type'],
+									'ordering' => '1',
+									'published' => '0',
+									'iscore' => '0',
+									'vendor_id' => $_SESSION['ps_vendor_id'],
+									'shopper_group_id' => $_SESSION['auth']['default_shopper_group']			
+			);
+			$db->buildQuery('INSERT', '#__{vm}_plugins', $fields );
+		}
 	}
 	/**
 	 * Retrieves a list of all available extension types/handlers
@@ -282,19 +301,19 @@ class vmInstaller {
 		}
 		
 		/*
-					 * Lets set the extraction directory and package file in the result array so we can
-					 * cleanup everything properly later on.
-					 */
+		 * Lets set the extraction directory and package file in the result array so we can
+		 * cleanup everything properly later on.
+		 */
 		$retval ['extractdir'] = $extractdir;
 		$retval ['packagefile'] = $archivename;
 		
 		/*
-					 * Try to find the correct install directory.  In case the package is inside a
-					 * subdirectory detect this and set the install directory to the correct path.
-					 *
-					 * List all the items in the installation directory.  If there is only one, and
-					 * it is a folder, then we will set that folder to be the installation folder.
-					 */
+		 * Try to find the correct install directory.  In case the package is inside a
+		 * subdirectory detect this and set the install directory to the correct path.
+		 *
+		 * List all the items in the installation directory.  If there is only one, and
+		 * it is a folder, then we will set that folder to be the installation folder.
+		 */
 		$dirList = array_merge ( JFolder::files ( $extractdir, '' ), JFolder::folders ( $extractdir, '' ) );
 		
 		if (count ( $dirList ) == 1) {
@@ -375,11 +394,9 @@ class vmInstaller {
 		
 		$db_insert = new ps_DB ( );
 		if ($queries != '') {
-			foreach ( $queries as $querie ) {
-				if ($querie != '') {
-					$db_insert->setQuery ( $querie );
-					$db_insert->query ();
-					if ($db_insert->_database->_errorNum != 0) {
+			foreach ( $queries as $query ) {
+				if ($query != '') {
+					if($db_insert->query($query) === false ) {
 						$vmLogger->err ( 'QUERY_ERROR' );
 						return false;
 					}

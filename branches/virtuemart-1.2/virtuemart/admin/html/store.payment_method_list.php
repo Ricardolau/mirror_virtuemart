@@ -27,7 +27,7 @@ if (!empty($keyword)) {
 	$q  = "(#__{vm}_payment_method.name LIKE '%$keyword%' ";
 	$q .= "AND #__{vm}_payment_method.vendor_id='$ps_vendor_id' ";
 	$q .= ") ";
-	$q .= "ORDER BY #__{vm}_payment_method.list_order,#__{vm}_payment_method.name ";
+	$q .= "ORDER BY #__{vm}_payment_method.ordering,#__{vm}_payment_method.name ";
 	$list .= $q . " LIMIT $limitstart, " . $limit;
 	$count .= $q;   
 }
@@ -39,7 +39,7 @@ else {
 	$count .= "ON #__{vm}_payment_method.shopper_group_id=#__{vm}_shopper_group.shopper_group_id WHERE ";
 	$q .= "#__{vm}_payment_method.vendor_id='$ps_vendor_id' ";
 	$list .= $q;
-	$list .= "ORDER BY #__{vm}_payment_method.list_order,#__{vm}_payment_method.name ";
+	$list .= "ORDER BY #__{vm}_payment_method.ordering,#__{vm}_payment_method.name ";
 	$list .= "LIMIT $limitstart, " . $limit;
 	$count .= $q;
 }

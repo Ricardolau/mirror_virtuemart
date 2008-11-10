@@ -101,9 +101,18 @@ else {
 		&& !stristr($page, "shop.")
 	) {
 		
+		$task = vmGet( $_GET, 'task', null);
+		switch( $task ) {
+			case 'extlayout':
+				include( $mosConfig_absolute_path.'/components/'.$option.'/js/extlayout.js.php');
+				exit;
+		}
+		$only_page_default = strstr( $_SERVER['PHP_SELF'], 'index3.php') ? 1 : 0;
+		$only_page = $_REQUEST['only_page'] = vmGet( $_REQUEST, 'only_page', $only_page_default );
+
 		define( '_FRONTEND_ADMIN_LOADED', '1' );
 		
-		if( vmIsJoomla(1.5) ) {
+		if( vmIsJoomla('1.5') ) {
 			$editor =& JFactory::getEditor();
 			echo $editor->initialise();
 		} else {
@@ -123,18 +132,73 @@ else {
 		$vm_mainframe->addStyleSheet( VM_THEMEURL .'admin.css' );
 		$vm_mainframe->addStyleSheet( VM_THEMEURL .'admin.styles.css' );
 		$vm_mainframe->addScript( "$mosConfig_live_site/components/$option/js/functions.js" );
-		echo '<table style="width:100%;table-layout:fixed;"><tr>';
-		if( $no_menu != "1" ) {
-			$vmLayout = 'standard';
-			echo '<td valign="top" width="15%">';
-			// The admin header with dropdown menu
-			
-			echo '</td>';
-		}
-		echo '<td width="80%" valign="top" style="border: 1px solid silver;padding:4px;">';
-		include( ADMINPATH."toolbar.virtuemart.php" );
-		echo '<br style="clear:both;" />';
 
+		if( $only_page != 1 ) {
+		
+			vmCommonHTML::loadExtjs();
+			
+			$vm_mainframe->addScript( $_SERVER['SCRIPT_NAME'].'?option='.$option.'&pshop_mode=admin&task=extlayout&frontend=1' );
+			$phpscript_url = str_replace( 'index.php', 'index2.php', $_SERVER['SCRIPT_NAME']);
+		
+			echo '<iframe id="vmPage" src="'.$phpscript_url.'?option=com_virtuemart&amp;page='.$_SESSION['last_page'].'&amp;only_page=1&amp;no_menu=1&amp;pshop_mode=admin" style="width:100%; height: 100%; overflow:auto; border: none;padding-left:4px;" name="vmPage"></iframe>';
+		
+		} else {
+		
+			
+			echo '<div id="vm-toolbar"></div>';
+		
+			include( ADMINPATH.'toolbar.virtuemart.php');
+			
+			echo '<div id="vmPage">';
+			
+			// Load PAGE
+			if( !$pagePermissionsOK ) {
+				$error = $VM_LANG->_('PHPSHOP_MOD_NO_AUTH');
+				include( PAGEPATH. ERRORPAGE .'.php');
+				return;
+			}
+			
+			if(file_exists(PAGEPATH.$modulename.".".$pagename.".php")) {
+				
+				if( $only_page ) {
+					if( @$_REQUEST['format'] == 'raw' ) while( @ob_end_clean());
+					if( $func ) echo vmCommonHTML::getSuccessIndicator( $ok, $vmDisplayLogger );
+		
+					include( PAGEPATH.$modulename.".".$pagename.".php" );
+					if( @$_REQUEST['format'] == 'raw' ) {
+						$vm_mainframe->close(true);
+					}
+				} else {
+					include( PAGEPATH.$modulename.".".$pagename.".php" );
+				}
+			}
+			else {
+				include( PAGEPATH.'store.index.php' );
+			}
+			
+			if( DEBUG == '1' && $no_menu != 1 ) {
+			        // Load PAGE
+				include( PAGEPATH."shop.debug.php" );
+			}
+			
+			echo '</div>';
+			if( stristr($page, '_list') && $page != 'product.file_list' ) {
+				echo vmCommonHTML::scriptTag('', 'function listItemClicked(e){
+		       // find the <a> element that was clicked
+		       var a = e.getTarget("a");
+		      try {
+		        if(a && !a.onclick && a.href.indexOf("javascript:") == -1 && a.href.indexOf("func=") == -1 ) {
+		            e.preventDefault();
+		            parent.addSimplePanel( a.title != "" ? a.title : a.innerHTML, a.href + "&tmpl=component&pshop_mode=admin&only_page=1&no_menu=1" );
+		   		}  
+		    } catch(e) {}
+		}
+		Ext.get("vmPage").mon("click", listItemClicked );');
+			}
+		}
+		// Render the script and style resources into the document head
+		$vm_mainframe->close();
+		return;
 	}
 	/**
 	** END: FRONTEND ADMIN - MOD

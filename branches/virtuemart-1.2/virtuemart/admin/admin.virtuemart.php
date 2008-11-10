@@ -149,7 +149,7 @@ if( $only_page != 1 ) {
       try {
         if(a && !a.onclick && a.href.indexOf("javascript:") == -1 && a.href.indexOf("func=") == -1 ) {
             e.preventDefault();
-            parent.addSimplePanel( a.title != "" ? a.title : a.innerHTML, a.href );
+            parent.addSimplePanel( a.title != "" ? a.title : a.innerHTML, a.href + "&only_page=1&no_menu=1&tmpl=component" );
    		}  
     } catch(e) {}
 }

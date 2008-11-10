@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage core
-* @copyright Copyright (C) 2004-2007 - soeren. All rights reserved.
+* @copyright Copyright (C) 2004-2008 - soeren. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -35,19 +35,19 @@ else {
 define( 'URL', $mosConfig_live_site.$app );
 define( 'SECUREURL', $mosConfig_live_site.$app);
 
-if ( @$_SERVER['HTTPS'] == 'on' ) {
+if ( (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == '443' ) {
 	define( 'IMAGEURL', SECUREURL .'components/com_virtuemart/shop_image/' );
+	define( 'VM_THEMEURL', SECUREURL.'components/com_virtuemart/themes/default/' );
 } else {
 	define( 'IMAGEURL', URL .'components/com_virtuemart/shop_image/' );
+	define( 'VM_THEMEURL', URL.'components/com_virtuemart/themes/default/' );
 }
 define( 'COMPONENTURL', URL .'administrator/components/com_virtuemart/' );
 define( 'ADMINPATH', $mosConfig_absolute_path.'/administrator/components/com_virtuemart/' );
 define( 'CLASSPATH', ADMINPATH.'classes/' );
 define( 'PAGEPATH', ADMINPATH.'html/' );
 define( 'IMAGEPATH', $mosConfig_absolute_path.'/components/com_virtuemart/shop_image/' );
-
 define( 'VM_THEMEPATH', $mosConfig_absolute_path.'/components/com_virtuemart/themes/default/' );
-define( 'VM_THEMEURL', $mosConfig_live_site.'/components/com_virtuemart/themes/default/' );
 
 @define('VM_TABLEPREFIX', 'vm' );
 define('VM_PRICE_SHOW_PACKAGING_PRICELABEL', '1' );

@@ -49,7 +49,7 @@ echo vmCommonHTML::linkTag( $mosConfig_live_site .'/includes/js/calendar/calenda
       <td width="24%"><div align="right"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_DISCOUNT_AMOUNT') ?>:</div></td>
       <td width="76%"> 
         <input type="text" class="inputbox" name="amount" value="<?php $db->sp("amount") ?>" />
-        <?php echo mm_ToolTip( $VM_LANG->_('PHPSHOP_PRODUCT_DISCOUNT_AMOUNT_TIP') ); ?>
+        <?php echo vmToolTip( $VM_LANG->_('PHPSHOP_PRODUCT_DISCOUNT_AMOUNT_TIP') ); ?>
       </td>
     </tr>
     <tr> 
@@ -57,7 +57,7 @@ echo vmCommonHTML::linkTag( $mosConfig_live_site .'/includes/js/calendar/calenda
       <td width="76%"> 
         <input type="radio" class="inputbox" name="is_percent" value="1" <?php if($db->sf("is_percent")==1) echo "checked=\"checked\""; ?> />
         <?php echo $VM_LANG->_('PHPSHOP_PRODUCT_DISCOUNT_ISPERCENT') ?>&nbsp;&nbsp;&nbsp;
-        <?php echo mm_ToolTip( $VM_LANG->_('PHPSHOP_PRODUCT_DISCOUNT_ISPERCENT_TIP') ); ?><br />
+        <?php echo vmToolTip( $VM_LANG->_('PHPSHOP_PRODUCT_DISCOUNT_ISPERCENT_TIP') ); ?><br />
         <input type="radio" class="inputbox" name="is_percent" value="0" <?php if($db->sf("is_percent")==0) echo "checked=\"checked\""; ?> />
         <?php echo $VM_LANG->_('PHPSHOP_PRODUCT_DISCOUNT_ISTOTAL') ?>
       </td>
@@ -67,7 +67,7 @@ echo vmCommonHTML::linkTag( $mosConfig_live_site .'/includes/js/calendar/calenda
       <td width="76%"> 
         <input type="text" class="inputbox" name="start_date" id="start_date" value="<?php if($db->sf("start_date")) echo strftime("%Y-%m-%d", $db->sf("start_date")); ?>" />
         <input name="reset" type="reset" class="button" onclick="return showCalendar('start_date', 'y-mm-dd');" value="..." />&nbsp;&nbsp;&nbsp;
-        <?php echo mm_ToolTip( $VM_LANG->_('PHPSHOP_PRODUCT_DISCOUNT_STARTDATE_TIP') ); ?>
+        <?php echo vmToolTip( $VM_LANG->_('PHPSHOP_PRODUCT_DISCOUNT_STARTDATE_TIP') ); ?>
       </td>
     </tr>
     <tr> 
@@ -75,7 +75,7 @@ echo vmCommonHTML::linkTag( $mosConfig_live_site .'/includes/js/calendar/calenda
       <td width="76%"> 
         <input type="text" class="inputbox" name="end_date" id="end_date" value="<?php if($db->sf("end_date")) echo strftime("%Y-%m-%d", $db->sf("end_date")); ?>" />
         <input name="reset" type="reset" class="button" onclick="return showCalendar('end_date', 'y-mm-dd');" value="..." />&nbsp;&nbsp;&nbsp;
-        <?php echo mm_ToolTip( $VM_LANG->_('PHPSHOP_PRODUCT_DISCOUNT_ENDDATE_TIP') ); ?>
+        <?php echo vmToolTip( $VM_LANG->_('PHPSHOP_PRODUCT_DISCOUNT_ENDDATE_TIP') ); ?>
       </td>
     </tr>
     <tr> 

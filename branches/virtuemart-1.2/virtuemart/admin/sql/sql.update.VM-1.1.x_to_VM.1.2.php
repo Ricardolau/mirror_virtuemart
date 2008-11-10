@@ -158,6 +158,7 @@ $db->query("ALTER TABLE `#__{vm}_payment_method` CHANGE `payment_method_discount
 $db->query("ALTER TABLE `#__{vm}_payment_method` CHANGE `payment_method_discount_is_percent` `discount_is_percentage` TINYINT( 1 ) NOT NULL ");
 $db->query("ALTER TABLE `#__{vm}_payment_method` CHANGE `payment_method_discount_max_amount` `discount_max_amount` DECIMAL( 10, 2 ) NOT NULL ");
 $db->query("ALTER TABLE `#__{vm}_payment_method` CHANGE `payment_method_discount_min_amount` `discount_min_amount` DECIMAL( 10, 2 ) NOT NULL ");
+$db->query("ALTER TABLE `#__{vm}_payment_method` CHANGE `list_order` `ordering` INT( 11 ) NULL DEFAULT NULL ");
 $db->query("ALTER TABLE `#__{vm}_payment_method` CHANGE `payment_method_code` `short_code` VARCHAR( 8 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ");
 $db->query("ALTER TABLE `#__{vm}_payment_method` CHANGE `enable_processor` `type` CHAR( 1 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ");
 $db->query("ALTER TABLE `#__{vm}_payment_method` CHANGE `payment_enabled` `published` CHAR( 1 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'N'");

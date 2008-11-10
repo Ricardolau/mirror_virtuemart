@@ -35,6 +35,17 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+
+10.11.2008 soeren
+# Task #2414 - Shipping zone display error 
+# Task #2415 - Default to non SSL during checkout due to $_SERVER['HTTPS'] assumption 
++ added date selectors to the coupon form (thanks Peter!)
+# fixed frontend administration
+
+
+06.11.2008 soeren
+# Task #2412 - Child Products do not Display in IE7 AJAX Cart
+
 06.11.2008 aravot
 Added missing User Group List icon
 

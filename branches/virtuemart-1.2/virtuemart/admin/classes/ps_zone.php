@@ -18,13 +18,11 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 
 
 class ps_zone {
-  var $classname = "ps_zone";
   
   /*
   ** VALIDATION FUNCTIONS
   **
   */
-
   function validate_add(&$d) {
     
     $db = new ps_DB;
@@ -284,7 +282,22 @@ class ps_zone {
       return $db->f("zone_cost");
         
    }
+   /**
+    * Returns the Name of a Shipping Zone
+    * @static 
+    * @param int $zone_id
+    * @return string
+    */
+   function zone_name($zone_id) {
+       $db = new ps_DB;
 
+     	$q = "SELECT zone_name FROM #__{vm}_zone_shipping WHERE zone_id =".(int)$zone_id;
+      	$db->query($q);
+      	$db->next_record(); 
+        return $db->f("zone_name");
+        
+   }
+   
   /**************************************************************************
   ** name: zone_limit($zone_id)
   ** created by: mwattier <geek@devcompany.com>

@@ -115,7 +115,7 @@ $formObj->startForm();
       </td>
     </tr>
     
-     <!-- AG add cooupon start and expiry dates -->
+     <!-- AG add coupon start and expiry dates -->
     <tr> 
       <td width="24%"><div align="right"><?php echo $VM_LANG->_('PHPSHOP_COUPON_START') ?>:</div></td>
       <td width="76%"> 
@@ -127,7 +127,7 @@ $formObj->startForm();
       <td width="24%"><div align="right"><?php echo $VM_LANG->_('PHPSHOP_COUPON_EXPIRY') ?>:</div></td>
       <td width="76%"> 
         <input type="text" class="inputbox" name="coupon_expiry_date" id="coupon_expiry_date" value="<?php echo $coupon_expiry_date; ?>" />
-        <input name="reset" type="reset" class="button" onclick="return showCalendar('coupon_start_date', 'y-mm-dd');" value="..." />
+        <input name="reset" type="reset" class="button" onclick="return showCalendar('coupon_expiry_date', 'y-mm-dd');" value="..." />
       </td>
     </tr>
     <!-- End AG add coupon start and expiry dates -->

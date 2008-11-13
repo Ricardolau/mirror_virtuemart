@@ -35,6 +35,8 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+13.11.2008 aravot
+# fixed coupon expiration date
 
 10.11.2008 soeren
 # Task #2414 - Shipping zone display error 

@@ -231,8 +231,8 @@ Név = Szín, Tulajdonság = Vörös ; Kattintson az Új Tulajdonságra az új s
 	'VM_REVIEW_LIST_NAMEDATE' => 'Név/Dátum',
 	'VM_PRODUCT_SELECT_ONE_OR_MORE' => 'Termékek kiválasztása',
 	'VM_PRODUCT_SEARCHING' => 'Keresés...',
-	'VM_FILES_FORM_PRODUCT_IMAGE' => 'Product Image (full and thumb)',
-	'VM_FILES_FORM_DOWNLOADABLE' => 'Downloadable Product File (to be sold!)',
-	'VM_FILES_FORM_RESIZE_IMAGE' => 'Resize Full Image File?'
+	'VM_FILES_FORM_PRODUCT_IMAGE' => 'Termék képe (teljes és bélyegkép)',
+	'VM_FILES_FORM_DOWNLOADABLE' => 'Letölthető termék fájl (eladásra!)',
+	'VM_FILES_FORM_RESIZE_IMAGE' => 'Teljes kép átméretezése?'
 ); $VM_LANG->initModule( 'product', $langvars );
 ?>

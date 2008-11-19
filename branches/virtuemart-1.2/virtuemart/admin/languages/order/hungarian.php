@@ -2,11 +2,10 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
-* @version : hungarian.php 1247 2008-02-13 08:42:28Z pedrohsi $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
-* @translator soeren, pedrohsi
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @translator soeren
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -52,25 +51,25 @@ $langvars = array (
 	'VM_ORDER_LABEL_SIGNATURENEVER' => 'Az aláírás hiányzik.',
 	'VM_ORDER_LABEL_TRACK_TITLE' => 'Követés',
 	'VM_ORDER_LABEL_VOID_TITLE' => 'Void',
-	'VM_ORDER_LABEL_VOIDED_MSG' => 'Label for waybill {tracking_number} has been voided.',
+	'VM_ORDER_LABEL_VOIDED_MSG' => 'A(z) {tracking_number} számú számla fejléce VOID.',
 	'VM_ORDER_PRINT_PO_IPADDRESS' => 'IP-cím',
 	'VM_ORDER_STATUS_ICON_ALT' => 'Státusz ikon',
 	'VM_ORDER_PAYMENT_CCV_CODE' => 'CVV-kód',
 	'VM_ORDER_NOTFOUND' => 'Megrendelés nem található - törölték?',
-	'PHPSHOP_ORDER_EDIT_ACTIONS' => 'Actions',
-	'PHPSHOP_ORDER_EDIT' => 'Change Order Details',
-	'PHPSHOP_ORDER_EDIT_ADD' => 'Add',
-	'PHPSHOP_ORDER_EDIT_ADD_PRODUCT' => 'Add Product',
-	'PHPSHOP_ORDER_EDIT_EDIT_ORDER' => 'Change Order',
-	'PHPSHOP_ORDER_EDIT_ERROR_QUANTITY_MUST_BE_HIGHER_THAN_0' => 'Quantity must be greater than 0.',
-	'PHPSHOP_ORDER_EDIT_PRODUCT_ADDED' => 'The Product was added to the Order',
-	'PHPSHOP_ORDER_EDIT_PRODUCT_DELETED' => 'The Product was removed from this Order',
-	'PHPSHOP_ORDER_EDIT_QUANTITY_UPDATED' => 'Quantity has been updated',
-	'PHPSHOP_ORDER_EDIT_RETURN_PARENTS' => 'back to Parent Product',
-	'PHPSHOP_ORDER_EDIT_CHOOSE_PRODUCT' => 'Select a Product',
-	'PHPSHOP_ORDER_CHANGE_UPD_BILL' => 'Change Billto Address',
-	'PHPSHOP_ORDER_CHANGE_UPD_SHIP' => 'Change Shipto Address',
-	'PHPSHOP_ORDER_EDIT_SOMETHING_HAS_CHANGED' => ' has been changed',
-	'PHPSHOP_ORDER_EDIT_CHOOSE_PRODUCT_BY_SKU' => 'Select SKU'
+	'PHPSHOP_ORDER_EDIT_ACTIONS' => 'Opciók',
+	'PHPSHOP_ORDER_EDIT' => 'Megrendelés részleteinek módosítása',
+	'PHPSHOP_ORDER_EDIT_ADD' => 'Hozzáad',
+	'PHPSHOP_ORDER_EDIT_ADD_PRODUCT' => 'Termék hozzáadása',
+	'PHPSHOP_ORDER_EDIT_EDIT_ORDER' => 'Rendelés módosítása',
+	'PHPSHOP_ORDER_EDIT_ERROR_QUANTITY_MUST_BE_HIGHER_THAN_0' => 'Nullánál nagyobb érték szükséges.',
+	'PHPSHOP_ORDER_EDIT_PRODUCT_ADDED' => 'Termék hozzáadva',
+	'PHPSHOP_ORDER_EDIT_PRODUCT_DELETED' => 'Termék eltávolítva',
+	'PHPSHOP_ORDER_EDIT_QUANTITY_UPDATED' => 'Mennyiség frissítve',
+	'PHPSHOP_ORDER_EDIT_RETURN_PARENTS' => 'vissza a szülő termékhez',
+	'PHPSHOP_ORDER_EDIT_CHOOSE_PRODUCT' => 'Termék kiválasztása',
+	'PHPSHOP_ORDER_CHANGE_UPD_BILL' => 'Számlázási cím módosítása',
+	'PHPSHOP_ORDER_CHANGE_UPD_SHIP' => 'Szállítási cím módosítása',
+	'PHPSHOP_ORDER_EDIT_SOMETHING_HAS_CHANGED' => 'módosítva',
+	'PHPSHOP_ORDER_EDIT_CHOOSE_PRODUCT_BY_SKU' => 'SKU kiválasztása'
 ); $VM_LANG->initModule( 'order', $langvars );
 ?>

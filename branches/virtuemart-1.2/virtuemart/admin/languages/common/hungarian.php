@@ -567,7 +567,14 @@ $langvars = array (
 	'PHPSHOP_ADD_STATE' => 'Új ország',
 	'PHPSHOP_LIST_STATES' => 'Országok',
 	'PHPSHOP_SHOW_FEATURED' => 'kiemelt termékek',
-	'PHPSHOP_USER_SEND_REGISTRATION_DETAILS' => 'Tisztelt %s! <br />Köszönjük, hogy regisztrálta magát. Az Ön ügyfélszámláját létrehoztuk.<br />Bejelentkezhet a %s honlapra a következő felhasználónévvel és jelszóval:<br>Felhasználónév - %s<br />Jelszó - %s',
+	'PHPSHOP_USER_SEND_REGISTRATION_DETAILS' => 'Tisztelt %s,
+
+Köszönjük, hogy regisztrálta magát a(z) %s oldalon. Ügyfélszámláját létrehoztuk.
+Bejelentkezhet a %s honlapra a következő felhasználónévvel és jelszóval:
+
+Felhasználónév - %s
+Jelszó - %s
+',
 	'PEAR_LOG_CRIT' => 'Kritikus',
 	'PEAR_LOG_ERR' => 'Hiba',
 	'PEAR_LOG_WARNING' => 'Figyelmeztetés',
@@ -979,9 +986,11 @@ További részletek az <a href="http://www.authorize.net/support/AIM_guide.pdf">
 	'PHPSHOP_EPAY_PAYMENT_DECLINE' => 'A tranzakciót az ePay / PBS elutasította az alábbi hibakóddal: ',
 	'PHPSHOP_EPAY_PAYMENT_LOG_TID' => 'A kifizetés az alábbi azonosítót kapta: ',
 	'PHPSHOP_EPAY_PAYMENT_EPAY_LINK' => '. A kifizetés az alábbi címen kezdeményezhető: <a href="https://ssl.ditonlinebetalingssystem.dk/admin" target="_new">www.epay.dk</a>',
-	'PHPSHOP_EPAY_PAYMENT_CHECKOUT_HEADER' => 'A rendelést megerősítettük, kérjük válasszon kifizetési módot. .A kifizetésre az ePay (<a href="http://www.epay.dk" target="_new">www.epay.dk</a>) oldalán, biztonságos SSL-folyamatban kerül sor.<br><br>',
-	'PHPSHOP_EPAY_PAYMENT_CHECKOUT_FOOTER' => 'Amennyiben a Standard Payment gomb nem jelenik meg, kattintson rá. <br><br> Figyelem! Amennyiben letiltotta a felugró ablakokat a böngészőben, engedélyezze azok megjelenítését!',
-	'PHPSHOP_EPAY_BUTTON_OPEN_WINDOW' => 'KIFIZETÉSI ABLAK MEGNYITÁSA',
+	'VM_CHECKOUT_EPAY_PAYMENT_CHECKOUT_HEADER' => 'A megrendelés megerősítve, kérjük adja meg a fizetési módot. Klikkeljen a kívánt opcióra. A fizetés biztonságos SSL ablakon keresztül történik az ePay rendszerében (<a
+href="http://www.epay.dk"
+target="_new">www.epay.dk</a>).<br><br>',
+	'VM_CHECKOUT_EPAY_PAYMENT_CHECKOUT_FOOTER' => 'Amennyiben az alapértelmezett fizetési ablak nem jelenik meg automatikusan, kattintson a gombra az aktiváláshoz. Felugró ablakok tiltása esetén tartsa lenyomva a CTRL gombot, majd kattintson újra a gombon. ',
+	'VM_CHECKOUT_EPAY_BUTTON_OPEN_WINDOW' => 'FIZETÉSI ABLAK',
 	'PHPSHOP_ADMIN_CFG_EPAY_MERCHANTNUMBER' => 'PBS Merchant ID',
 	'PHPSHOP_ADMIN_CFG_EPAY_MERCHANTNUMBER_EXPLAIN' => 'A PBS által elküldött azonosító. Tesztelési célokra külön azonosító kérhető az ePay részéről (sales@epay.dk)',
 	'PHPSHOP_ADMIN_CFG_EPAY_CARDTYPES' => 'Kártyatípus',
@@ -1295,13 +1304,13 @@ lépjen kapcsolatba szolgáltatójával a megoldásért.',
 	'PHPSHOP_ADMIN_CFG_EPAY_EXTRAINFO_RESET_EXPLAIN' => 'HA AZ EXTRA INFO MEZŐ ÜRES, KATTINTSON AZ ALÁBBI GOMBRA!',
 	'PHPSHOP_ADMIN_CFG_EPAY_EXTRAINFO_RESET' => 'Fizetés extra info törlése',
 	'PHPSHOP_ADMIN_CFG_EPAY_ERR_CONFIGFILE' => 'A konfigurációs fájl frissítése sikertelen',
-	'VM_CHECKOUT_ERR_CCTYPE' => 'Credit Card Type not found.',
-	'VM_ENQUIRY_MAIL_CUSTOMER_QUESTION' => 'Customer Question',
-	'VM_ENQUIRY_MAIL_HAS_REQUESTED' => 'has requested more information on',
-	'VM_ENQUIRY_MAIL_PRODUCT_SKU' => 'Product-SKU',
-	'VM_ENQUIRY_MAIL_QUESTION' => 'Question',
-	'OFFLINE_MODE' => 'OFFLINE MODE',
-	'VM_STORE_UPDATED' => 'Your Store has been updated.',
-	'VM_VENDOR_UPDATED' => 'The Vendor has been updated.'
+	'VM_CHECKOUT_ERR_CCTYPE' => 'Hitelkártya típusa nem található',
+	'VM_ENQUIRY_MAIL_CUSTOMER_QUESTION' => 'Vásárlói kérdés',
+	'VM_ENQUIRY_MAIL_HAS_REQUESTED' => 'további információt kért erről:',
+	'VM_ENQUIRY_MAIL_PRODUCT_SKU' => 'Termék-SKU',
+	'VM_ENQUIRY_MAIL_QUESTION' => 'Kérdés',
+	'OFFLINE_MODE' => 'OFFLINE MÓD',
+	'VM_STORE_UPDATED' => 'Üzlet frissítve',
+	'VM_VENDOR_UPDATED' => 'Forgalmazó frissítve'
 ); $VM_LANG->initModule( 'common', $langvars );
 ?>

@@ -28,9 +28,9 @@ $langvars = array (
 	'PHPSHOP_COUPON_VALUE_HEADER' => 'Valore',
 	'PHPSHOP_COUPON_PERCENT' => 'Percentuale',
 	'PHPSHOP_COUPON_TOTAL' => 'Assoluto',
-	'PHPSHOP_COUPON_START' => 'Coupon Start Date',
-	'PHPSHOP_COUPON_EXPIRY' => 'Coupon Expiry Date',
-	'PHPSHOP_COUPON_CODE_INVALID' => 'Coupon code out of date. Please try an alternative.',
-	'PHPSHOP_COUPON_CODE_NOT FOUND' => 'Coupon code not found. Please try again.'
+	'PHPSHOP_COUPON_START' => 'Data Inizio Coupon',
+	'PHPSHOP_COUPON_EXPIRY' => 'Data Scadenza Coupon',
+	'PHPSHOP_COUPON_CODE_INVALID' => 'Codice coupon non valido.',
+	'PHPSHOP_COUPON_CODE_NOT FOUND' => 'Codice coupon non trovato.'
 ); $VM_LANG->initModule( 'coupon', $langvars );
 ?>

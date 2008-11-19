@@ -2,10 +2,9 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
-* @version : spanish.php 1071 2007-12-03 08:42:28Z thepisu $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @translator soeren
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -19,12 +18,12 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 global $VM_LANG;
 $langvars = array (
 	'CHARSET' => 'ISO-8859-1',
-	'PHPSHOP_ACC_CUSTOMER_ACCOUNT' => 'Cuenta de Cliente:',
-	'PHPSHOP_ACC_UPD_BILL' => 'Aquí se puede actualizar sus datos de facturación.',
-	'PHPSHOP_ACC_UPD_SHIP' => 'Aca se puede añadir y mantener las direcciones de envío.',
-	'PHPSHOP_ACC_ACCOUNT_INFO' => 'Información de Cuenta',
-	'PHPSHOP_ACC_SHIP_INFO' => 'Información de Envío',
-	'PHPSHOP_DOWNLOADS_CLICK' => 'Click on Product Name to Download File(s).',
-	'PHPSHOP_DOWNLOADS_EXPIRED' => 'You have already downloaded the file(s) the maximum number of times, or the download period has expired.'
+	'PHPSHOP_ACC_CUSTOMER_ACCOUNT' => 'Cuenta de cliente:',
+	'PHPSHOP_ACC_UPD_BILL' => 'Aquí puedes actualizar tus datos de facturación.',
+	'PHPSHOP_ACC_UPD_SHIP' => 'Aquí puedes añadir y mantener las direcciones de envío.',
+	'PHPSHOP_ACC_ACCOUNT_INFO' => 'Información de la cuenta',
+	'PHPSHOP_ACC_SHIP_INFO' => 'Información de envío',
+	'PHPSHOP_DOWNLOADS_CLICK' => 'Haz clic en el nombre del producto para descagar el/los archivo(s).',
+	'PHPSHOP_DOWNLOADS_EXPIRED' => 'Ya has descargado el/los archivo(s) el número máximo de veces permitido, o el período de descarga ha expirado.'
 ); $VM_LANG->initModule( 'account', $langvars );
 ?>

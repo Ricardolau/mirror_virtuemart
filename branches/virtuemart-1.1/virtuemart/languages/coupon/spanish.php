@@ -2,10 +2,9 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
-* @version : spanish.php 1071 2007-12-03 08:42:28Z thepisu $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @translator soeren
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -19,15 +18,15 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 global $VM_LANG;
 $langvars = array (
 	'CHARSET' => 'ISO-8859-1',
-	'PHPSHOP_COUPON_EDIT_HEADER' => 'Actualizar Cupón',
+	'PHPSHOP_COUPON_EDIT_HEADER' => 'Actualizar cupón',
 	'PHPSHOP_COUPON_CODE_HEADER' => 'Código',
-	'PHPSHOP_COUPON_PERCENT_TOTAL' => 'Porcento o Total',
-	'PHPSHOP_COUPON_TYPE' => 'Tipo de Cupón',
-	'PHPSHOP_COUPON_TYPE_TOOLTIP' => 'El cupón del regalo se borra después de que fue utilisado para descontar un pedido. El cupón permanente se puede utilizar tan a menudo como el cliente desea.',
-	'PHPSHOP_COUPON_TYPE_GIFT' => 'Cupón del regalo',
+	'PHPSHOP_COUPON_PERCENT_TOTAL' => 'Porcentaje o Total',
+	'PHPSHOP_COUPON_TYPE' => 'Tipo de cupón',
+	'PHPSHOP_COUPON_TYPE_TOOLTIP' => 'El cupón regalo es borrado una vez ha sido utilizado para aplicar descuento en un pedido.<br /> El cupón permanente se puede utilizar tantas veces como el cliente desee.',
+	'PHPSHOP_COUPON_TYPE_GIFT' => 'Cupón regalo',
 	'PHPSHOP_COUPON_TYPE_PERMANENT' => 'Cupón permamente',
 	'PHPSHOP_COUPON_VALUE_HEADER' => 'Valor',
-	'PHPSHOP_COUPON_PERCENT' => 'Porcento',
+	'PHPSHOP_COUPON_PERCENT' => 'Porcentaje',
 	'PHPSHOP_COUPON_TOTAL' => 'Total'
 ); $VM_LANG->initModule( 'coupon', $langvars );
 ?>

@@ -2,11 +2,10 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
-* @version : hungarian.php 1247 2008-02-13 08:42:28Z pedrohsi $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
-* @translator soeren, pedrohsi
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @translator soeren
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -69,7 +68,7 @@ $langvars = array (
 	'VM_RECOVER_CART_MERGE' => 'Elmentett Kosár hozzáadása',
 	'VM_RECOVER_CART_DELETE' => 'Mentett Kosár törlése',
 	'VM_EMPTY_YOUR_CART_TIP' => 'Kosár teljes ürítése',
-	'VM_SAVED_CART_TITLE' => 'Saved Cart',
-	'VM_SAVED_CART_RETURN' => 'Return'
+	'VM_SAVED_CART_TITLE' => 'Elmentett kosár',
+	'VM_SAVED_CART_RETURN' => 'Vissza'
 ); $VM_LANG->initModule( 'shop', $langvars );
 ?>

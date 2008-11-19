@@ -17,7 +17,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-15',
+	'CHARSET' => 'ISO-8859-1',
 	'PHPSHOP_ZONE_ASSIGN_COUNTRY_LBL' => 'Maa',
 	'PHPSHOP_ZONE_ASSIGN_ASSIGN_LBL' => 'Määrää vyöhykkeeseen',
 	'PHPSHOP_ASSIGN_ZONE_PG_LBL' => 'Määritä vyöhykkeet',

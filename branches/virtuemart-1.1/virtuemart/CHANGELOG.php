@@ -36,6 +36,13 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 
+19.11.08 thepisu
+^ updated Hungarian language (by pedrohsi)
+^ updated Finnish language (by mauri)
+^ updated Dutch language (by Tonslag)
+^ updated Spanish language (by adancer)
+^ fix in Italian language
+
 10.11.08 mainly Danny with help by Max Milbers and committed by Max Milbers
 + showing state name instead of state-2-code in order details
 

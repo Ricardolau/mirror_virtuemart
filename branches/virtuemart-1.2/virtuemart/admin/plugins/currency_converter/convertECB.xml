@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <install type="currency_converter" version="1.2.0">	
-	<name>convert_ecb</name>
+	<name>ECB Currency Converter</name>
 	<author><![CDATA[Sören Eberhardt-Biermann]]></author>
 	<creationdate>28. January 2008</creationdate>
 	<copyright><![CDATA[Sören Eberhardt-Biermann]]></copyright>
@@ -9,7 +9,7 @@
 	<authorurl>http://virtuemart.net</authorurl>
 	<version>1.0</version>
 	<description>Currency Converter Plugin, based on Rates from the European Central Bank</description>
-	
+	<element>convertECB</element>
   	<install>	
 		<files>
 			<filename>convertECB.php</filename>

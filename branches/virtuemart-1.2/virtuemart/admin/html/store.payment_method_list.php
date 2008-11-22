@@ -63,7 +63,7 @@ $listObj->startTable();
 $columns = Array(  "#" => "width=\"20\"", 
 					"<input type=\"checkbox\" name=\"toggle\" value=\"\" onclick=\"checkAll(".$num_rows.")\" />" => "width=\"20\"",
 					$VM_LANG->_('PHPSHOP_PAYMENT_METHOD_LIST_NAME') => '',
-					$VM_LANG->_('PHPSHOP_PAYMENT_METHOD_LIST_CODE') => '',
+					'Element' => '',
 					$VM_LANG->_('PHPSHOP_PAYMENT_METHOD_LIST_DISCOUNT') => '',
 					$VM_LANG->_('PHPSHOP_PAYMENT_METHOD_LIST_SHOPPER_GROUP') => '',
 					$VM_LANG->_('PHPSHOP_PAYMENT_METHOD_LIST_ENABLE_PROCESSOR') => '',
@@ -88,7 +88,7 @@ while ($db->next_record()) {
 	$tmp_cell = "<a href=\"" . $sess->url($url) . "\">". $db->f("name")."</a>";
 	$listObj->addCell( $tmp_cell );
 	
-	$listObj->addCell(  $db->f("short_code") );
+	$listObj->addCell(  $db->f("element") );
 	if( $db->f('discount_is_percentage')) {
 		$tmp_cell = $db->f("discount").'%';
 	}

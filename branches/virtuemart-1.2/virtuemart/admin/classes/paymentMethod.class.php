@@ -49,7 +49,7 @@ class vmPaymentMethod extends vmAbstractObject {
 	/** @var string The key which is used to identify this object (example: product_id) */
 	var $_key = 'id';
 	/** @var array An array holding the names of all required fields */
-	var $_required_fields = array('name', 'short_code', );
+	var $_required_fields = array('name' );
 	
 	/** @var array An array holding the names of fields that are UNIQUE => means those must be checked onAdd and onUpdate for occurences of entities with the same value */
 	var $_unique_fields = array();
@@ -67,10 +67,6 @@ class vmPaymentMethod extends vmAbstractObject {
 
 		if (empty($d["name"])) {
 			$GLOBALS['vmLogger']->err( $VM_LANG->_('VM_PAYMENTMETHOD_ERR_NAME') );
-			return False;
-		}
-		if (empty($d["short_code"])) {
-			$GLOBALS['vmLogger']->err( $VM_LANG->_('VM_PAYMENTMETHOD_ERR_CODE') );
 			return False;
 		}
 
@@ -193,7 +189,6 @@ class vmPaymentMethod extends vmAbstractObject {
 						'discount_is_percentage' => vmGet($d, 'discount_is_percentage'),
 						'discount_max_amount' => (float)str_replace(',', '.', $d["discount_max_amount"]),						
 						'discount_min_amount' => (float)str_replace(',', '.', $d["discount_min_amount"]),
-						'short_code' => vmGet($d, 'short_code'),
 						'type' => vmGet($d, 'type'), 
 						'ordering' => vmRequest::getInt('ordering'), 
 						'is_creditcard' => vmGet($d, 'is_creditcard'),
@@ -250,7 +245,6 @@ class vmPaymentMethod extends vmAbstractObject {
 						'discount_is_percentage' => vmGet($d, 'discount_is_percentage'),
 						'discount_max_amount' => (float)str_replace(',', '.', $d["discount_max_amount"]),						
 						'discount_min_amount' => (float)str_replace(',', '.', $d["discount_min_amount"]),
-						'short_code' => vmGet($d, 'short_code'),
 						'type' => vmGet($d, 'type'), 
 						'ordering' => vmRequest::getInt('ordering'), 
 						'is_creditcard' => vmGet($d, 'is_creditcard'),

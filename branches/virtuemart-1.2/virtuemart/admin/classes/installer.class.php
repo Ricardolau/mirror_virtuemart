@@ -38,7 +38,6 @@ class vmInstaller {
 				$vminstaller_instance = new $classname();
 				
 				if( $vminstaller_instance->install($package) ) {
-					$vminstaller_instance->insert_plugin($package);
 					return true;
 				}
 		
@@ -49,12 +48,53 @@ class vmInstaller {
 		return false;
 		
 	}
-	function insert_plugin($package) {
-		if( !empty($package['type'])) {
+	/**
+	 * Method to validate the installation package of an extension
+	 *
+	 * @static
+	 * @param $infos the infomation of method $files list of file need to install
+	 * @return 
+	 * @since 1.2.0
+	 */
+	function is_valid_installpackage($infos, $files, $xml) {
+		global $VM_LANG, $vmLogger;
+		
+		$element = $infos ['element'];
+		if ($element == '') {
+			$vmLogger->err ( "The name of the Extension was not found in the package!" );
+			return false;
+		}
+		$xml_name = $element . ".xml";
+		$file_name = $element . ".php";
+		if (JFile::getName ( $xml ) != $xml_name) {
+			$vmLogger->err ( "The file $element.xml was not found!!" );
+			return false;
+		}
+		
+		foreach ( $files as $file ) {
+			if (JFile::getName ( $file ) == $file_name) {
+				$name = true;
+			}
+		}
+		if ($name == true) {
+			return true;
+		} else {
+			$vmLogger->err ( "The file $file_name was not found!!" );
+			return false;
+		}
+	}
+	/**
+	 * Inserts a new plugin record
+	 *
+	 * @param array $info
+	 * @param string $type
+	 */
+	function insert_plugin($info, $type) {
+		if( !empty($type)) {
 			$db = new ps_db;
-			$fields = array('name' => $package['name'],
-									'element' => $package['name'],
-									'folder' => $package['type'],
+			$fields = array('name' => $info['name'],
+									'element' => $info['element'],
+									'folder' => $type,
 									'ordering' => '1',
 									'published' => '0',
 									'iscore' => '0',
@@ -63,6 +103,21 @@ class vmInstaller {
 			);
 			$db->buildQuery('INSERT', '#__{vm}_plugins', $fields );
 		}
+	}
+	/**
+	 * Deletes a plugin record
+	 *
+	 * @param string $plugin
+	 * @param string $type
+	 */
+	function delete_plugin( $plugin, $type ) {
+		$db = new ps_db;
+		$query = 'DELETE FROM `#__{vm}_plugins` 
+						WHERE element=\''.$db->getEscaped($plugin).'\' 
+							AND folder=\''.$db->getEscaped($type).'\' 
+						LIMIT 1';
+		return $db->query( $query ) !== false;
+		
 	}
 	/**
 	 * Retrieves a list of all available extension types/handlers
@@ -117,6 +172,12 @@ class vmInstaller {
 				$info ["version"] = $xml->document->_children [$i]->_data; break;
 			case  "description":
 				$info ["description"] = $xml->document->_children [$i]->_data; break;
+			case  "element":
+				$info ["element"] = $xml->document->_children [$i]->_data; break;
+			case  "is_creditcard":
+				$info ["is_creditcard"] = $xml->document->_children [$i]->_data; break;
+			case  "type": // used for: payment method type
+				$info ["type"] = $xml->document->_children [$i]->_data; break;
 			}
 		}
 		return $info;
@@ -541,14 +602,14 @@ class vmInstaller {
 			if( is_array($extension_name)) {
 				$result = true;
 				foreach( $extension_name as $extension) {
-					if( !$vminstaller_instance->uninstall($extension)) {
+					if( !$vminstaller_instance->remove($extension, $extension_type)) {
 						$result = false;
 						$vmLogger->err( 'Failed to uninstall the Extension '.$extension);
 					}
 				}
 				return $result;
 			} else {
-				if( !$vminstaller_instance->uninstall($extension_name)) {
+				if( !$vminstaller_instance->remove($extension_name, $extension_type)) {
 					$vmLogger->err( 'Failed to uninstall the Extension '.$extension);
 					return false;
 				}
@@ -561,6 +622,28 @@ class vmInstaller {
 		}
 		
 	}
-	
+	function remove($plugin_name, $folder) {
+		global $vmLogger;
+		
+		$plugin_name = $GLOBALS['vmInputFilter']->clean($plugin_name, 'WORD');
+		$folder = $GLOBALS['vmInputFilter']->clean($folder, 'WORD');
+		
+		$xml_path = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_virtuemart' . DS . 'plugins' . DS . $folder .  DS . $plugin_name . '.xml';
+		jimport ( 'joomla.filesystem.file' );
+		$path = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_virtuemart'. DS . 'plugins' . DS . $folder;
+		if (JFile::exists ( $xml_path )) {
+			$file_install = vmInstaller::getFile ( $xml_path );
+			vmInstaller::rollback ( $file_install ['file'], $file_install ['query'], $path );
+			
+			$vmLogger->info('Uninstall successful!');
+			JFile::delete ( $xml_path );
+			$this->delete_plugin($plugin_name, $folder );
+			return true;
+		} else {
+			
+			$vmLogger->err( 'Can not uninstall this extension ('.$folder.')! The XML file was not found!');
+		}
+		return false;
+	}
 }
 ?>

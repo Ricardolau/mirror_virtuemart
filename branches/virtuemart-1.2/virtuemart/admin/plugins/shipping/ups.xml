@@ -10,7 +10,8 @@
 	<authorurl>http://virtuemart.net</authorurl>
 	<version>1.1</version>
 	<description>The UPS&#174; Shipping module.</description>
-	
+
+	<element>ups</element>
   	<install>	
 		<files>
 			<filename>ups.php</filename>

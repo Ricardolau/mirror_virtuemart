@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <install type="shipping" version="1.2.0">	
 	<!-- $Id$-->
-	<name>fedex</name>
+	<name>FedEx Shipping</name>
 	<author><![CDATA[Jay Powers / Soeren Eberhardt / Greg Perkins]]></author>
 	<creationdate>2004 Vermonster LLC</creationdate>
 	<copyright><![CDATA[Shade Tree Software]]></copyright>
@@ -10,7 +10,8 @@
 	<authorurl>http://www.vermonster.com/</authorurl>
 	<version>1.02</version>
 	<description>The FedEx shipping module.</description>
-	
+
+	<element>fedex</element>
   	<install>	
 		<files>
 			<filename>fedex.php</filename>

@@ -22,41 +22,7 @@ class vmInstallerPayment {
 	function getTitle() {
 		return 'Payment Modules';
 	}
-	/**
-	 * Method to valid the paymentMehod install
-	 *
-	 * @static
-	 * @param $infos the infomation of method $files list of file need to install
-	 * @return 
-	 * @since 1.2.0
-	 */
-	function valid_payment($infos, $files, $xml) {
-		global $VM_LANG, $vmLogger;
-		
-		$name = $infos ['name'];
-		if ($name == '') {
-			$vmLogger->err ( "The name of Payment Module was not found in the package!" );
-			return false;
-		}
-		$xml_name = $name . ".xml";
-		$file_name = $name . ".php";
-		if (JFile::getName ( $xml ) != $xml_name) {
-			$vmLogger->err ( "The file $name.xml was not found!!" );
-			return false;
-		}
-		
-		foreach ( $files as $file ) {
-			if (JFile::getName ( $file ) == $file_name) {
-				$name = true;
-			}
-		}
-		if ($name == true) {
-			return true;
-		} else {
-			$vmLogger->err ( "The file $file_name was not found!!" );
-			return false;
-		}
-	}
+
 	
 	/**
 	 * Method to detect the extension type from a package directory
@@ -79,13 +45,13 @@ class vmInstallerPayment {
 			$file_install = vmInstaller::getFile ( $file );
 			
 			//valid the Payment method
-			$valid = vmInstallerPayment::valid_payment ( $info, $file_install ['file'], $file );
+			$valid = $this->is_valid_installpackage( $info, $file_install ['file'], $file );
 			
 			if (! $valid) {
 				return false;
 			}
 			if( !empty($file_install ['languages'])) {
-				$lang_path = JPATH_ADMINISTRATOR . DS . "components" . DS . "com_virtuemart". DS . 'languages' . DS . 'plg_payment_'.$info ['name'];
+				$lang_path = JPATH_ADMINISTRATOR . DS . "components" . DS . "com_virtuemart". DS . 'languages' . DS . 'plg_payment_'.$info ['element'];
 				$check_file = vmInstaller::install_file ( $package ['dir'], $file_install ['languages'], $lang_path );
 			}
 			$path = JPATH_ADMINISTRATOR . DS . "components" . DS . "com_virtuemart" . DS . 'plugins'. DS . 'payment';
@@ -104,7 +70,7 @@ class vmInstallerPayment {
 					JFile::copy ( $src, $path );
 
 					$vmLogger->info( $VM_LANG->_('SUCCESSFUL_INSTALL'));
-					
+					$this->insert_plugin($info, 'payment');
 				} else {
 					vmInstaller::rollback ( $file_install ['file'], $file_install ['query'], $path );
 					JFile::delete($package['packagefile']);
@@ -114,35 +80,34 @@ class vmInstallerPayment {
 		}
 		return true;
 	}
-
 	
-
-	/**
-	 * Method uninstaller Payment method
-	 *
-	 * @static
-	 * @param string $paymentname The Name of the Payment Module you want to remove
-	 * @return 
-	 * @since 1.2.0
-	 */
-	function uninstall($paymentname) {
-		global $vmLogger;
+	function insert_plugin($info, $type='payment') {
 		
-		$xml_path = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_virtuemart' . DS . 'plugins' . DS . 'payment' .  DS . $paymentname . '.xml';
-		jimport ( 'joomla.filesystem.file' );
-		$path = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_virtuemart'. DS . 'plugins' . DS . 'payment';
-		if (JFile::exists ( $xml_path )) {
-			$file_install = vmInstaller::getFile ( $xml_path );
-			vmInstaller::rollback ( $file_install ['file'], $file_install ['query'], $path );
-			
-			$vmLogger->info('Uninstall successful!');
-			JFile::delete ( $xml_path );
-			return true;
-		} else {
-			
-			$vmLogger->err( 'Can not uninstall this paymentmethod! The XML file not found!');
-		}
-		return false;
+		$db = new ps_db;
+		$fields = array('name' => $info['name'],
+								'element' => $info['element'],
+								'folder' => $type,
+								'ordering' => '1',
+								'published' => 'N',
+								'type' => $info['payment_type'],
+								'is_creditcard' => ($info['payment_type']=='C' || $info['payment_type']=='A') ? '1' : '0',
+								'vendor_id' => $_SESSION['ps_vendor_id'],
+								'shopper_group_id' => $_SESSION['auth']['default_shopper_group']			
+		);
+		$db->buildQuery('INSERT', '#__{vm}_payment_method', $fields );
+	}
+	/**
+	 * Deletes a plugin record
+	 *
+	 * @param string $plugin
+	 * @param string $type
+	 */
+	function delete_plugin( $plugin, $type='' ) {
+		$db = new ps_db;
+		$query = 'DELETE FROM `#__{vm}_payment_method` 
+						WHERE element=\''.$db->getEscaped($plugin).'\'';
+		return $db->query( $query ) !== false;
+		
 	}
 	/**
 	 * Method show payment method

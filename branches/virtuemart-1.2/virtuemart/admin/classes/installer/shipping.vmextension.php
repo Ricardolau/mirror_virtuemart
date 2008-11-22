@@ -22,43 +22,7 @@ class vmInstallerShipping {
 	function getTitle() {
 		return 'Shipping Modules';
 	}
-	/**
-	 * Method to valid the Shipping method install
-	 *
-	 * @static
-	 * @param $infos the infomation of method $files list of file need to install
-	 * @return 
-	 * @since 1.2.0
-	 */
-	function valid_shipping($infos, $files, $xml) {
-		global $VM_LANG, $vmLogger;
-		
-		$name = $infos ['name'];
-		if ($name == '') {
-			$vmLogger->err ( "The name of Shipping Module not found!" );
-			return false;
-		}
-		
-		$xml_name = $name . ".xml";
-		$file_name = $name . ".php";
-		
-		if (JFile::getName ( $xml ) != $xml_name) {
-			$vmLogger->err ( "The file $name.xml was not found!!" );
-			return false;
-		}
-		
-		foreach ( $files as $file ) {
-			if (JFile::getName ( $file ) == $file_name) {
-				$name = true;
-			}
-		}
-		if ($name == true ) {
-			return true;
-		} else {
-			$vmLogger->err ( "The file $file_name was not found!!" );
-			return false;
-		}
-	}
+
 	
 	/**
 	 * Method to detect the extension type from a package directory
@@ -82,14 +46,14 @@ class vmInstallerShipping {
 			if( empty($file_install)) {
 				return false;
 			}
-			//valid the Shipping method
-			$valid = vmInstallerShipping::valid_shipping($info, $file_install ['file'], $file );
+			//validate the Shipping method
+			$valid = $this->is_valid_installpackage( $info, $file_install ['file'], $file );
 			
 			if (! $valid) {
 				return false;
 			}
 			if( !empty($file_install ['languages'])) {
-				$lang_path = JPATH_ADMINISTRATOR . DS . "components" . DS . "com_virtuemart". DS . 'languages' . DS . 'plg_shipping_'.$info ['name'];
+				$lang_path = JPATH_ADMINISTRATOR . DS . "components" . DS . "com_virtuemart". DS . 'languages' . DS . 'plg_shipping_'.$info ['element'];
 				$check_file = vmInstaller::install_file ( $package ['dir'], $file_install ['languages'], $lang_path );
 			}
 			$path = JPATH_ADMINISTRATOR . DS . "components" . DS . "com_virtuemart". DS . 'plugins' . DS . 'shipping';
@@ -101,10 +65,13 @@ class vmInstallerShipping {
 				$check_query = vmInstaller::install_query ( $file_install ['query'] );
 				if ($check_file && $check_query) {
 					$src = $package ['dir'] . DS . JFile::getName ( $file );
-					$path = JPATH_ADMINISTRATOR . DS . "components" . DS . "com_virtuemart" . DS . "plugins" . DS . "shipping" . DS . $info ['name'] . ".xml";
+					$path = JPATH_ADMINISTRATOR . DS . "components" . DS . "com_virtuemart" . DS . "plugins" . DS . "shipping" . DS . $info ['element'] . ".xml";
 					
 					JFile::copy ( $src, $path );
 					$vmLogger->info( $VM_LANG->_('SUCCESSFUL_INSTALLATION'));
+					
+					$this->insert_plugin($info, 'shipping');
+					
 				} else {
 					$vmLogger->info( $VM_LANG->_('FAILED_INSTALLATION'));
 					vmInstaller::rollback ( $file_install ['file'], $file_install ['query'], $path );
@@ -112,31 +79,6 @@ class vmInstallerShipping {
 			}
 		}
 		return true;
-	}
-	
-	/**
-	 * Method uninstaller Shipping method
-	 *
-	 * @static
-	 * @param $paymentname is shipping name want to remove
-	 * @return 
-	 * @since 1.2.0
-	 */
-	function uninstall($shippingname) {
-		$xml_path = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_virtuemart' . DS . 'plugins' . DS . 'shipping' . DS . $shippingname . '.xml';
-		jimport ( 'joomla.filesystem.file' );
-		$path = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_virtuemart'. DS . 'plugins' . DS . 'shipping';
-		if (JFile::exists ( $xml_path )) {
-			$file_install = vminstaller::getFile ( $xml_path );
-			vminstaller::rollback ( $file_install ['file'], $file_install ['query'], $path );
-			$url = 'index.php?pshop_mode=admin&page=installer.extension_list&option=com_virtuemart';
-			$msg = 'Uninstall successfully!';
-			JFile::delete ( $xml_path );
-		} else {
-			$url = 'index.php?pshop_mode=admin&page=installer.extension_list&option=com_virtuemart';
-			$msg = 'Can not uninstall this Shipping! The XML file not found!';
-		}
-		vmRedirect($url, $msg);
 	}
 	
 	/**

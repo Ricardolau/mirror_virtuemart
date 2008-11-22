@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <install type="payment" version="1.2.0">	
-	<name>cashondel</name>
+	<name>Cash on delivery</name>
 	<author><![CDATA[Sören Eberhardt-Biermann]]></author>
 	<creationdate>2007</creationdate>
 	<copyright><![CDATA[Sören Eberhardt-Biermann]]></copyright>
@@ -10,6 +10,15 @@
 	<version>1.0</version>
 	<description>A special type of &quot;cash on delivey&quot;: its fee depends on the order total sum</description>
 	
+	<!-- Payment Method Type Codes:
+	N: no processing (=manual processing like "purchase order" or "Cash on Delivery")
+	P: PayPal-like (Shows HTML Code to the customer - you may use a <form> to redirect the customer to the Payment Gateway (used for PayPal, Worldpay, 2Checkout etc))
+	C: Credit Card (only collect the CC data, manual processing)
+	Y: Automatic Credit Card Processor (authorize.net, eWay)
+	-->
+	<type>N</type>
+	<is_creditcard>0</is_creditcard>
+	<element>cashondel</element>
   	<install>	
 		<files>
 			<filename>cashondel.php</filename>

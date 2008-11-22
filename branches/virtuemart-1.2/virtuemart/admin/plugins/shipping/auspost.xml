@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <install type="shipping" version="1.2.0">	
 	<!-- $Id$-->
-	<name>auspost</name>
+	<name>Australia Post</name>
 	<author><![CDATA[Ben Wilson]]></author>
 	<creationdate>January 2006</creationdate>
 	<copyright><![CDATA[diversionware]]></copyright>
@@ -10,7 +10,7 @@
 	<authorurl>http://diversionware.com.au/</authorurl>
 	<version>1.0.4</version>
 	<description>Australia Post Shipping Module</description>
-	
+	<element>auspost</element>
   	<install>	
 		<files>
 			<filename>auspost.php</filename>

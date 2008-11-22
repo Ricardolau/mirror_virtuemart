@@ -3,7 +3,7 @@
 "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 <!-- $Id$ -->
 <book lang="en">
-  <title>VirtueMart 1.1 User Manual</title>
+  <title>VirtueMart 1.2 User Manual</title>
 
   <bookinfo>
     <publisher>
@@ -53,6 +53,16 @@
     </copyright>
 
     <revhistory>
+      <revision>
+        <revnumber>1.2</revnumber>
+
+        <date>November 2008</date>
+
+        <authorinitials>soeren_nb</authorinitials>
+
+        <revremark>Updated for VirtueMart 1.2</revremark>
+      </revision>
+
       <revision>
         <revnumber>1.1.1</revnumber>
 
@@ -4767,28 +4777,23 @@
               Parameters</firstterm>.</para>
             </tip>
 
-            <section>
-               
+            <figure>
+              <title><citetitle>VirtueMart Administration: Product Type
+              Management - Product Type Information</citetitle></title>
 
-              <figure>
-                <title>
-                  <citetitle>VirtueMart Administration: Product Type
-                  Management - Product Type Information</citetitle>
-                </title>
+              <screenshot>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata contentdepth="100%"
+                               fileref="figure/Product_types_editing.png"
+                               scalefit="1" width="100%" />
+                  </imageobject>
+                </mediaobject>
+              </screenshot>
+            </figure>
 
-                <screenshot>
-                  <mediaobject>
-                    <imageobject>
-                      <imagedata contentdepth="100%"
-                                 fileref="figure/Product_types_editing.png"
-                                 scalefit="1" width="100%" />
-                    </imageobject>
-                  </mediaobject>
-                </screenshot>
-              </figure>
-
-               After you finished filling in the information, click "Save" Now you will see the Product Type List. 
-            </section>
+            <para> After you finished filling in the information, click "Save"
+            Now you will see the Product Type List. </para>
           </section>
 
           <section>
@@ -5128,19 +5133,22 @@
             different parameters and different parameter values.</para>
 
             <example>
-              <para><firstterm>Example</firstterm>: you have "Displays"
-              category, and here you would create 2 more child categories:
-              "LCD Displays" and "Plasma Displays". The 2 categories of
-              products perform same functions (showing you multimedia
-              information), but have different parameters, and you cannot
-              assign a single Product Type to describe all LCD and Plasma
-              displays, because lets say Plasma pixel size is very different
-              than LCD pixel size. So in this particular case you have to
-              create 2 Product Types for "Displays" Category: "LCD Displays"
-              Product Type and "Plasma Displays" Product Type. This is actualy
-              the best thing to do, because Plasma is a very different
-              technology than LCD.</para>
+              <title>Example: Display Types</title>
+
+              <para>you have "Displays" category, and here you would create 2
+              more child categories: "LCD Displays" and "Plasma Displays". The
+              2 categories of products perform same functions (showing you
+              multimedia information), but have different parameters, and you
+              cannot assign a single Product Type to describe all LCD and
+              Plasma displays, because lets say Plasma pixel size is very
+              different than LCD pixel size. So in this particular case you
+              have to create 2 Product Types for "Displays" Category: "LCD
+              Displays" Product Type and "Plasma Displays" Product Type. This
+              is actualy the best thing to do, because Plasma is a very
+              different technology than LCD.</para>
             </example>
+
+            <para></para>
           </important>
 
           <important>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <install type="shipping" version="1.2.0">	
 	<!-- $Id$ -->
-	<name>standard_shipping</name>
+	<name>Standard Shipping</name>
 	<author><![CDATA[Ekkehard Domning, Sören Eberhardt-Biermann]]></author>
 	<creationdate>August 2002</creationdate>
 	<copyright><![CDATA[VirtueMart Project]]></copyright>
@@ -10,7 +10,8 @@
 	<authorurl>http://virtuemart.net</authorurl>
 	<version>1.1</version>
 	<description>The Standard Shipping module. Configure and maintain your own Carriers and Rates.</description>
-	
+
+	<element>standard_shipping</element>
   	<install>	
 		<files>
 			<filename>standard_shipping.php</filename>

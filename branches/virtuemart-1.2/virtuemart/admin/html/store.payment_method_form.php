@@ -58,12 +58,6 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_PAYMENT_METHOD_FORM_LBL'), "global-page");
         <input type="text" class="inputbox" name="name" value="<?php $db->sp("name") ?>" size="32" />
       </td>
     </tr>
-    <tr class="row0"> 
-      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_METHOD_FORM_CODE') ?>:</td>
-      <td width="69%" > 
-        <input type="text" class="inputbox" name="short_code" value="<?php $db->sp("short_code") ?>" size="4" maxlength="8" />
-      </td>
-    </tr>
     <tr class="row1">
       <td class="labelcell"><?php
           echo $VM_LANG->_('VM_PAYMENT_CLASS_NAME');

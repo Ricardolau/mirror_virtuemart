@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <install type="shipping" version="1.2.0">	
 	<!-- $Id$-->
-	<name>dhl</name>
+	<name>DHL Shipping</name>
 	<author><![CDATA[Mike Durian]]></author>
 	<creationdate>January 2006</creationdate>
 	<copyright><![CDATA[Shade Tree Software]]></copyright>
@@ -10,7 +10,8 @@
 	<authorurl>http://prodiag-hd.com/</authorurl>
 	<version>1.0</version>
 	<description>The DHL Shipping module.</description>
-	
+
+	<element>dhl</element>	
   	<install>	
 		<files>
 			<filename>dhl.php</filename>

@@ -35,6 +35,7 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+
 19.11.2008 thepisu
 ^ updated Hungarian language (by pedrohsi)
 ^ updated Finnish language (by mauri)
@@ -44,6 +45,9 @@ VirtueMart 1.1.x
 
 13.11.2008 aravot
 # fixed coupon expiration date
+
+11.11.2008 soeren
+- removed short_code column from payment_methods table
 
 10.11.2008 soeren
 # Task #2414 - Shipping zone display error 

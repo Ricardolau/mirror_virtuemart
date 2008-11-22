@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <install type="shipping" version="1.2.0">	
 	<!-- $Id$ -->
-	<name>flex</name>
+	<name>Flex - Fixed Shipping Rates</name>
 	<author><![CDATA[Micah Shawn]]></author>
 	<creationdate>October 2004</creationdate>
 	<copyright><![CDATA[2005 Micah Shawn]]></copyright>
@@ -10,7 +10,8 @@
 	<authorurl>n/a</authorurl>
 	<version>0.9</version>
 	<description>Flex Shipping. Fixed shipping cost to set base value of order with percentage of total sale above base value</description>
-	
+
+	<element>flex</element>
   	<install>	
 		<files>
 			<filename>flex.php</filename>

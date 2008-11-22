@@ -1160,7 +1160,6 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_payment_method` (
   `discount_max_amount` decimal(10,2) NOT NULL,
   `discount_min_amount` decimal(10,2) NOT NULL,
   `ordering` int(11) default NULL,
-  `short_code` varchar(8) default NULL,
   `type` char(1) default NULL,
   `is_creditcard` tinyint(1) NOT NULL default '0',
   `published` char(1) NOT NULL default 'N',

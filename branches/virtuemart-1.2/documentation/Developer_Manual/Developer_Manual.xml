@@ -3,7 +3,7 @@
 "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 <!-- $Id$ -->
 <book lang="en">
-  <title>VirtueMart 1.1 Developer Manual</title>
+  <title>VirtueMart 1.2 Developer Manual</title>
 
   <bookinfo>
     <publisher>
@@ -42,6 +42,17 @@
     </copyright>
 
     <revhistory>
+      <revision>
+        <revnumber>1.4</revnumber>
+
+        <date>November 2008</date>
+
+        <authorinitials>soeren_nb</authorinitials>
+
+        <revremark>Updated for VirtueMart 1.2 (Plugins, Installer
+        etc.)</revremark>
+      </revision>
+
       <revision>
         <revnumber>1.3</revnumber>
 
@@ -107,9 +118,8 @@
     Eberhardt-Biermann</para>
 
     <para><emphasis role="strong">The Software 'VirtueMart' is intended
-    </emphasis><emphasis role="strong">for use in Joomla! (1.0.x - 1.5.x) and
-    Mambo (4.5.2.3 - 4.6.3). Joomla! or Mambo are required for running
-    VirtueMart.</emphasis></para>
+    </emphasis><emphasis role="strong">for use in Joomla! (1.0.x - 1.5.x).
+    Joomla! is required to use VirtueMart.</emphasis></para>
 
     <para>(Joomla / Mambo is free Software, licensed under GNU/GPL)</para>
 
@@ -136,149 +146,6 @@
       VirtueMart.</para>
     </section>
 
-    <section id="Differences_to_phpShop">
-      <title>Differences to phpShop</title>
-
-      <para>VM still contains some code parts from phpShop, but experienced
-      phpShop coders will find similarities.</para>
-
-      <para>So when you have experience with phpShop or you are to integrate
-      an existing Add-On for phpShop into VM, you will have to know what is
-      the difference between both scripts.</para>
-
-      <orderedlist>
-        <listitem>
-          <para><emphasis role="bold">Parameter
-          Renames/Changes</emphasis></para>
-
-          <para>VM has introduced several new parameters and parameter name
-          changes. <variablelist>
-              <varlistentry>
-                <term>page</term>
-
-                <listitem>
-                  <para>Syntax Change Most important is the change of the page
-                  parameter syntax from a pattern like "shop/index" to
-                  "shop.index" just to provide support for Search Engine
-                  Friendly (SEF) links in your Joomla site. All references to
-                  the paramter page that contain a slash instead of a dot will
-                  not be recognized and VM will print out "module not found"
-                  error.</para>
-                </listitem>
-              </varlistentry>
-
-              <varlistentry>
-                <term>offset</term>
-
-                <listitem>
-                  <para>Outdated/removed The offset parameter was completely
-                  replaced by the parameter "limitstart", which is Joomla
-                  standard for page navigation. Although there's a global
-                  workaround to fill $offset with the value of $limitstart
-                  it's not recommended to work with offset.</para>
-                </listitem>
-              </varlistentry>
-
-              <varlistentry>
-                <term>limitstart</term>
-
-                <listitem>
-                  <para>The limitstart parameter is the replacement for offset
-                  and can be used just like this.</para>
-                </listitem>
-              </varlistentry>
-
-              <varlistentry>
-                <term>Itemid</term>
-
-                <listitem>
-                  <para>This parameter is new and not VM-specific. It's a
-                  mandatory parameter that tells Joomla, which Menu Item is
-                  selected and active, so the pathway can be written correctly
-                  (Home -&gt; Online-Shop) and modules which shall only be
-                  shown on specific pages are hidden/shown.</para>
-                </listitem>
-              </varlistentry>
-            </variablelist></para>
-        </listitem>
-
-        <listitem>
-          <para><emphasis role="bold">Database Interface</emphasis></para>
-
-          <para>VirtueMart has its own database class:
-          <classname>ps_DB</classname>. This database class has been
-          completely modified to be a wrapper class for the Joomla Standard
-          Database Class 'database'. The new filename is
-          <filename>ps_database.php</filename>.</para>
-
-          <para>VM doesn't connect to the database, but it uses the connection
-          Joomla! has built up. This is for optimal performance since only one
-          open DB connection is needed at runtime.</para>
-
-          <para></para>
-        </listitem>
-
-        <listitem>
-          <para><emphasis role="bold">Database Structure</emphasis></para>
-
-          <para>Table names have changed and got a prefix!! Use
-          <literal>#__{vm}_tablename</literal> instead of tablename. The
-          <literal>#__</literal> stands for the dynamic Joomla table name
-          prefix. The <literal>{vm} </literal>stands for the dynamic table
-          name prefix of VM which allows to have more than one shop in one
-          database.</para>
-
-          <para>The database structure of phpShop had to be changed, because
-          Joomla provides an excellent framework with session handling and
-          user management. The following tables have been
-          removed:<itemizedlist>
-              <listitem>
-                <para>auth_user_md5 (jos_users stores passwords)</para>
-              </listitem>
-
-              <listitem>
-                <para>intershipper</para>
-              </listitem>
-
-              <listitem>
-                <para>language</para>
-              </listitem>
-
-              <listitem>
-                <para>sessions</para>
-              </listitem>
-            </itemizedlist>There have been added several tables:
-          jos_pshop_affiliate, jos_vm_affiliate_sale, jos_vm_creditcard,
-          jos_vm_manufacturer, jos_vm_manufacturer_category,
-          jos_vm_product_download, jos_vm_product_mf_xref,
-          jos_vm_product_reviews, jos_vm_product_votes,
-          jos_vm_shipping_carrier, jos_vm_shipping_rate, jos_vm_visit,
-          jos_vm_waiting_list, jos_vm_zone_shipping - just to name
-          some.</para>
-        </listitem>
-
-        <listitem>
-          <para><emphasis role="bold">Separation into "Component" and
-          "Modules"</emphasis></para>
-
-          <para>A Joomla! site consists of various elements like components,
-          modules, templates and mambots (called plugins since Joomla! 1.5) -
-          most likely you will know components, modules and templates. A
-          <emphasis>Component</emphasis> is the Main Part of the Page in the
-          "Mainbody". It can have its own configuration/interface.</para>
-
-          <para><emphasis>Modules</emphasis> are "Side Blocks" surrounding the
-          Mainbody. There are Modules for the Frontend and the Backend.</para>
-
-          <para>The Main application "VirtueMart" is run in the component
-          part. The Component contains all core files. The module
-          "mod_virtuemart" was written to provide all important links so the
-          component can be controlled: Category links, Mini-Cart, Product
-          Search Form, Account Maintenance, Admin.</para>
-        </listitem>
-      </orderedlist>
-    </section>
-
     <section id="Joomla_Integration">
       <title>Joomla! Integration</title>
 
@@ -288,12 +155,8 @@
       listings.</para>
 
       <para>This way it's possible to gain a little bit of independency: VM
-      can be used on various versions of Joomla! (1.0.x series and 1.5 series)
-      and Mambo, although the underlying architecture is different.</para>
-
-      <para>Also by using old code from phpShop, this little bit of
-      compatiblity can be maintained (so one can integrate extensions written
-      for phpShop).</para>
+      1.2 can be used on Joomla! 1.0.x and 1.5.x, although the underlying
+      architecture is different.</para>
 
       <para></para>
     </section>
@@ -308,10 +171,11 @@
       <title>Directory and File Structure</title>
 
       <para>VM holds most of its files in the
-      <filename>/administrator</filename> part of Joomla. The only files
+      <filename>/administrator</filename> part of Joomla!. The only files
       stored in the <filename>/components</filename> part of a Joomla site are
-      those, which must be accessible from the Frontend of a Joomla site, even
-      when the Administrator part is secured by htaccess files.</para>
+      images, Javascript and CSS files, which must be accessible from the
+      Frontend of a Joomla site, even when the Administrator part is secured
+      by htaccess files.</para>
 
       <para><variablelist>
           <varlistentry>
@@ -325,8 +189,8 @@
               frontend, those files are not restricted to the Joomla! Coding
               Standards. Important files:<itemizedlist>
                   <listitem>
-                    <para><filename>header.php</filename> (Code for the
-                    Drop-Down Menu of the administration)</para>
+                    <para><filename>admin.virtuemart.php</filename> (the main
+                    entrance file for the administration part)</para>
                   </listitem>
 
                   <listitem>
@@ -337,11 +201,6 @@
                   <listitem>
                     <para><filename>toolbar.virtuemart.html.php</filename>
                     (Standard Toolbar - Joomla! style)</para>
-                  </listitem>
-
-                  <listitem>
-                    <para><filename>toolbar.html.php</filename> (Toolbar for
-                    ExtJS in extended Layout)</para>
                   </listitem>
                 </itemizedlist></para>
             </listitem>
@@ -381,22 +240,6 @@
           </varlistentry>
 
           <varlistentry>
-            <term>/administrator/components/com_virtuemart/classes/currency/</term>
-
-            <listitem>
-              <para>Directory for the Currency Converter Modules</para>
-            </listitem>
-          </varlistentry>
-
-          <varlistentry>
-            <term>/administrator/components/com_virtuemart/classes/export/</term>
-
-            <listitem>
-              <para>Export Modules (currently unused and deprecated)</para>
-            </listitem>
-          </varlistentry>
-
-          <varlistentry>
             <term>/administrator/components/com_virtuemart/classes/Log/</term>
 
             <listitem>
@@ -411,24 +254,6 @@
             <listitem>
               <para>Contains the "NuSOAP" classes for SOAP support in PHP
               versions &lt; 5</para>
-            </listitem>
-          </varlistentry>
-
-          <varlistentry>
-            <term>/administrator/components/com_virtuemart/classes/shipping/</term>
-
-            <listitem>
-              <para>Contains Shipping Modules &amp; their informational
-              Files</para>
-            </listitem>
-          </varlistentry>
-
-          <varlistentry>
-            <term>/administrator/components/com_virtuemart/classes/payment/</term>
-
-            <listitem>
-              <para>Contains Payment Modules &amp; their informational
-              Files</para>
             </listitem>
           </varlistentry>
 
@@ -508,6 +333,41 @@
           </varlistentry>
 
           <varlistentry>
+            <term>/administrator/components/com_virtuemart/plugins/</term>
+
+            <listitem>
+              <para>Contains different Plugin Types, one directory for each
+              type</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>/administrator/components/com_virtuemart/plugins/currency_converter/</term>
+
+            <listitem>
+              <para>Directory for the Currency Converter Modules</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>/administrator/components/com_virtuemart/plugins/payment/</term>
+
+            <listitem>
+              <para>Contains Payment Modules &amp; their informational
+              Files</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>/administrator/components/com_virtuemart/plugins/shipping/</term>
+
+            <listitem>
+              <para>Contains Shipping Modules &amp; their informational
+              Files</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
             <term>/administrator/components/com_virtuemart/sql/</term>
 
             <listitem>
@@ -548,6 +408,11 @@
                     to display dynamically resized images - using the
                     <emphasis>class.img2thumb.php</emphasis>)</para>
                   </listitem>
+
+                  <listitem>
+                    <para><filename>fetchscript.php</filename> (used to bundle
+                    and serve CSS + JS files in compressed format)</para>
+                  </listitem>
                 </itemizedlist></para>
             </listitem>
           </varlistentry>
@@ -570,7 +435,7 @@
             <listitem>
               <para></para>
 
-              <para>Contains Javascripts</para>
+              <para>Contains Javascript Files + Libraries</para>
             </listitem>
           </varlistentry>
 
@@ -578,30 +443,22 @@
             <term>/components/com_virtuemart/shop_image/</term>
 
             <listitem>
-              <para>Images for the Shop</para>
+              <para>Images for the Store</para>
 
               <para><variablelist>
-                  <varlistentry>
-                    <term>/availability</term>
-
-                    <listitem>
-                      <para>Contains images for displaying the availability of
-                      a product.</para>
-
-                      <para><tip>
-                          <para>All images in this folder are automatically
-                          parsed and displayed in the product form for
-                          selection as the availability image for a product -
-                          so just copy them here.</para>
-                        </tip></para>
-                    </listitem>
-                  </varlistentry>
-
                   <varlistentry>
                     <term>/category</term>
 
                     <listitem>
                       <para>Contains images for categories</para>
+                    </listitem>
+                  </varlistentry>
+
+                  <varlistentry>
+                    <term>/manufacturer</term>
+
+                    <listitem>
+                      <para>Contains Manufacturer Images</para>
                     </listitem>
                   </varlistentry>
 
@@ -2221,36 +2078,180 @@ echo $contents;</programlisting></para>
   </chapter>
 
   <chapter id="Extensions">
-    <title>Creating or modifying Extensions</title>
+    <title>Extending VirtueMart: Plugins</title>
 
-    <para>Besides core modules, you can also add shipping and payment modules
-    into VM. The concept of both - shipping and payment modules is to provide
-    an API with a defined specification (similar to an interface), where the
-    modules can plug themselves in. The modules implement the required
-    functions and thus can communicate with the Shop and give their
-    services.</para>
+    <para>Besides core modules, you can also add plugins like shipping and
+    payment modules into VM. The concept of both - shipping and payment
+    modules is to provide an API with a defined specification (similar to an
+    interface), where the modules can plug themselves in. The modules
+    implement the required functions and thus can communicate with the Shop
+    and give their services.</para>
+
+    <section>
+      <title>Plugin Specifications</title>
+
+      <para></para>
+
+      <section>
+        <title>Plugin Installation Adapters</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Plugin Manifest Files (XML)</title>
+
+        <para>This example of a plugin manifest file shows you a possible way
+        to describe a shipping plugin.</para>
+
+        <programlisting>&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;install type="shipping" version="1.2.0"&gt;
+    &lt;name&gt;Name of my new Plugin&lt;/name&gt;
+    &lt;author&gt;&lt;![CDATA[Author Name]]&gt;&lt;/author&gt;
+    &lt;creationdate&gt;November 2008&lt;/creationdate&gt;
+    &lt;copyright&gt;&lt;![CDATA[VirtueMart Project]]&gt;&lt;/copyright&gt;
+    &lt;license&gt;GNU/GPL&lt;/license&gt;
+    &lt;authoremail&gt;author@email.com&lt;/authoremail&gt;
+    &lt;authorurl&gt;http://www.tld.com/&lt;/authorurl&gt;
+    &lt;version&gt;x.x&lt;/version&gt;
+    &lt;description&gt;&lt;![CDATA[My Description...can contain &lt;a href="http://www.link.com"&gt;Links (html)&lt;/a&gt;.]]&gt;&lt;/description&gt;
+    &lt;element&gt;myplugin&lt;/element&gt;
+      &lt;install&gt;    
+        &lt;files&gt;
+            &lt;filename&gt;myplugin&lt;/filename&gt;
+        &lt;/files&gt;
+        &lt;languages&gt;
+            &lt;language&gt;english.php&lt;/language&gt;
+            &lt;language&gt;french.php&lt;/language&gt;
+        &lt;/languages&gt;
+        &lt;!--&lt;queries&gt;
+            &lt;query&gt;&lt;/query&gt;
+            &lt;query&gt;&lt;/query&gt;
+            &lt;query&gt;&lt;/query&gt;
+        &lt;/queries&gt;--&gt;
+    &lt;/install&gt;    
+    &lt;params&gt;
+        &lt;param type="text" name="PARAMNAME" label="Label of the Parameter" description="Nice Description" default="Xxxxx" /&gt;
+        &lt;param type="password" name="PW_PARAM" label="Label of the Parameter" description="Nice Description" /&gt;
+
+        &lt;!-- Note that you can have lists with multiple selection! --&gt;
+        &lt;param type="list" name="PARAMNAME" label="Label of the Parameter" 
+                description="Nice Description" default="XX" multiselect="1"&gt;
+            &lt;option value="X"&gt;Regular&lt;/option&gt;
+            &lt;option value="XX"&gt;Large&lt;/option&gt;
+            &lt;option value="XXX"&gt;Oversize&lt;/option&gt;
+          &lt;/param&gt;
+        &lt;param type="table_data_list" name="PARAM_DATA_LIST" label="Label of the Parameter" description="Nice Description"
+             table="#__{vm}_tablename" valuefield="column_id" textfield="column_name" orderfield="ordering" /&gt;
+
+        &lt;param name="@spacer" type="spacer" default="This Text is shown as bridge head of the subsection" /&gt;
+
+        &lt;param type="radio" name="PARAMNAME" label="Label of the Parameter" description="Nice Description" default="1"&gt;
+            &lt;!-- You can use Tokens from VirtueMart and your own Language File here! --&gt;
+            &lt;option value="1"&gt;PHPSHOP_ADMIN_CFG_YES&lt;/option&gt;
+            &lt;option value="0"&gt;PHPSHOP_ADMIN_CFG_NO&lt;/option&gt;
+        &lt;/param&gt;
+        &lt;param type="checkbox" name="PARAMNAME" value="XXX" label="Label of the Parameter" /&gt;
+
+        &lt;!-- This parameter types lists all product categories; multi-selection is possible --&gt;
+        &lt;param type="vm_category" name="PARAMNAME" label="Label of the Parameter" multiselect="1" /&gt;
+
+    &lt;/params&gt;
+&lt;/install&gt;
+</programlisting>
+      </section>
+
+      <section>
+        <title>additional Language Files</title>
+
+        <para>You can include additional language files with your plugin. the
+        naming conventions are the same as for the VirtueMart language
+        files.</para>
+
+        <para>Example: english.php</para>
+
+        <para></para>
+
+        <programlisting>&lt;?php
+if( !defined( '_VALID_MOS' ) &amp;&amp; !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
+
+global $VM_LANG;
+
+$langvars = array ( 'MYPLUGIN_EXAMPLE' =&gt; 'Example Label',
+ 'MYPLUGIN_EXAMPLE_TOOLTIP' =&gt; 'Example Description'
+ );
+$VM_LANG-&gt;initModule( $module, $langvars );
+
+?&gt;</programlisting>
+      </section>
+
+      <section>
+        <title>Create installable Plugin Packages</title>
+
+        <para>Plugin Packages must at least meet two conditions:</para>
+
+        <para></para>
+
+        <variablelist>
+          <varlistentry>
+            <term>Plugin File (element) + Manifest (.xml)</term>
+
+            <listitem>
+              <para>Each Plugin Package must at least contain two files:
+              </para>
+
+              <itemizedlist>
+                <listitem>
+                  <para>the plugin itself (the file name must be exactly the
+                  same as the value of the "element" tag in the XML manifest
+                  file.</para>
+                </listitem>
+
+                <listitem>
+                  <para>a valid XML manifest file</para>
+                </listitem>
+              </itemizedlist>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Compressed as ZIP or tar/gz</term>
+
+            <listitem>
+              <para>A Plugin Package must be a ZIP or tar/gz archive.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+
+        <para>You can also ship language files with your plugin package. Put
+        the language files into the same root level directory in the archive
+        as the other files.</para>
+
+        <para></para>
+      </section>
+    </section>
 
     <section id="Payment_Modules">
-      <title>Payment Modules</title>
+      <title>Payment Plugins</title>
 
       <para>VirtueMart has a lot of predefined payment methods. Some of these
-      payment methods are controlled by special "payment modules", which are
+      payment methods are controlled by special "payment plugins", which are
       class files.</para>
 
       <para>Example:</para>
 
       <itemizedlist>
         <listitem>
-          <para>Payment Method: “Credit Card”, Payment Module: ps_authorize
-          (Class File: ps_authorize.php)</para>
+          <para>Payment Method: “Credit Card”, Payment Plugin: authorize
+          (Class File: authorize.php)</para>
 
-          <para>Handles credit card authentication with the authrize.net
+          <para>Handles credit card authentication with the authorize.net
           server.</para>
         </listitem>
 
         <listitem>
-          <para>Payment Method “Cash on delivery”, Payment Module: ps_payment
-          (ps_payment is an empty payment module)</para>
+          <para>Payment Method “Cash on delivery”, Payment Plugin: payment
+          ("payment" is an empty payment module)</para>
 
           <para>No business logic needed for this kind of payment.</para>
         </listitem>
@@ -2266,7 +2267,7 @@ echo $contents;</programlisting></para>
 
         <variablelist>
           <varlistentry>
-            <term>Payment Processor</term>
+            <term>Payment Processor (Type Code "Y")</term>
 
             <listitem>
               <para>Asks the Customer for Credit Card Details and processes
@@ -2277,7 +2278,7 @@ echo $contents;</programlisting></para>
           </varlistentry>
 
           <varlistentry>
-            <term>Credit Card</term>
+            <term>Credit Card (Type Code "C")</term>
 
             <listitem>
               <para>Just asks the customer for the credit card details. The
@@ -2287,7 +2288,7 @@ echo $contents;</programlisting></para>
           </varlistentry>
 
           <varlistentry>
-            <term>Bank Debit</term>
+            <term>Bank Debit Type Code "B")</term>
 
             <listitem>
               <para>Asks the customer for his/her bank account details, so you
@@ -2297,7 +2298,7 @@ echo $contents;</programlisting></para>
           </varlistentry>
 
           <varlistentry>
-            <term>Address only/Cash on delivery</term>
+            <term>Address only/Cash on delivery (Type Code "N")</term>
 
             <listitem>
               <para>No payment processing by the module.</para>
@@ -2305,7 +2306,7 @@ echo $contents;</programlisting></para>
           </varlistentry>
 
           <varlistentry>
-            <term>HTML form-based</term>
+            <term>HTML form-based (Type Code "P")</term>
 
             <listitem>
               <para>Transfers the customer to another server where he/she can
@@ -2405,11 +2406,11 @@ echo $contents;</programlisting></para>
 
         <para></para>
 
-        <para>All payment modules are located in the directory</para>
+        <para>All payment plugins are located in the directory</para>
 
-        <para><filename>/administrator/components/com_virtuemart/classes/payment/</filename></para>
+        <para><filename>/administrator/components/com_virtuemart/plugins/payment/</filename></para>
 
-        <para>and provide two files: the class file and the configuration
+        <para>and provide two files: the class file and the XML manifest
         file.</para>
 
         <para>Example: <emphasis role="bold">Module
@@ -2417,96 +2418,73 @@ echo $contents;</programlisting></para>
 
         <para>You must have two files called<itemizedlist>
             <listitem>
-              <para><filename>ps_mynewpayment.php</filename> (including the
-              class ps_mynewpayment)</para>
+              <para><filename>mynewpayment.php</filename> (including the class
+              ps_mynewpayment)</para>
             </listitem>
 
             <listitem>
-              <para><filename>ps_mynewpayment.cfg.php</filename> (containing
-              all necessary configuration constant definitions)</para>
+              <para><filename>mynewpayment.xml</filename> (contains all
+              necessary information and configuration parameters)</para>
             </listitem>
           </itemizedlist>If the user has chosen to pay using a payment method,
-        which has this class as its processor (entry under <emphasis>Class
-        Name</emphasis>), the file <filename>ps_mynewpayment.php</filename>
-        will be included on checkout and its functions will be used to process
-        the payment details, regardless of the implementation.</para>
+        which has this class as its element (entry under <emphasis>Class
+        Name</emphasis>), the file <filename>mynewpayment.php</filename> will
+        be included on checkout and its functions will be used to process the
+        payment details, regardless of the implementation.</para>
       </section>
 
       <section id="Payment_Module_API">
         <title>The API specification</title>
 
-        <para>The following is a list of all methods that must be implemented
-        in a payment module's class file.</para>
+        <para>All Payment Plugins must be subclasses of the pseudo-abstract
+        class "<classname>vmPaymentPlugin</classname>".</para>
+
+        <programlisting>class plgPaymentMyPaymentMethod extends vmPaymentPlugin {
+
+
+    /**
+     * Constructor
+     *
+     * For php4 compatability we must not use the __constructor as a constructor for plugins
+     * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
+     * This causes problems with cross-referencing necessary for the observer design pattern.
+     *
+     * @param object $subject The object to observe
+     * @param array  $config  An array that holds the plugin configuration
+     * @since 1.2.0
+     */
+    function plgPaymentMyPaymentMethod( &amp; $subject, $config ) {
+        parent::__construct( $subject, $config ) ;
+    }</programlisting>
+
+        <important>
+          <para>The class name must start with "plgPayment", then add the
+          element's name (which must be the same as the file name), example:
+          mypaymentmethod. Result: <emphasis role="bold">class
+          plgPaymentMyPaymentMethod</emphasis>.</para>
+
+          <para>Remember to rename the <emphasis>constructor</emphasis>! It
+          must have the same name as the class.</para>
+        </important>
+
+        <para>The following is a list of all methods that <emphasis
+        role="bold">can</emphasis> be implemented in a payment module's class
+        file.</para>
 
         <para><variablelist>
             <varlistentry>
-              <term><emphasis>string</emphasis> <emphasis
-              role="bold">show_configuration</emphasis>( void )</term>
+              <term><varname>boolean</varname> capture_payment(Array
+              &amp;$d)</term>
 
               <listitem>
-                <para></para>
-
-                <para>Shows the configuration form for this payment module in
-                the payment method form.</para>
+                <para>This function allows to capture the payment. It is
+                invoked when the order status is updated to code "S", which
+                means that the order items have been shipped.</para>
               </listitem>
             </varlistentry>
 
             <varlistentry>
-              <term><emphasis>boolean</emphasis> <emphasis
-              role="bold">has_configuration</emphasis>( void )</term>
-
-              <listitem>
-                <para></para>
-
-                <para>returns true if the payment module can be
-                configured,</para>
-
-                <para>false if not</para>
-              </listitem>
-            </varlistentry>
-
-            <varlistentry>
-              <term><emphasis>boolean</emphasis> <emphasis
-              role="bold">configfile_writeable</emphasis>( void )</term>
-
-              <listitem>
-                <para></para>
-
-                <para>returns true if the configuration file for that payment
-                module is writeable,</para>
-
-                <para>false if not</para>
-              </listitem>
-            </varlistentry>
-
-            <varlistentry>
-              <term><emphasis>boolean</emphasis> <emphasis
-              role="bold">configfile_readable</emphasis>( void )</term>
-
-              <listitem>
-                <para></para>
-
-                <para>returns true if the configuration file for that payment
-                module is readable,</para>
-
-                <para>false if not</para>
-              </listitem>
-            </varlistentry>
-
-            <varlistentry>
-              <term><emphasis>void</emphasis> <emphasis
-              role="bold">write_configuration</emphasis>( Array )</term>
-
-              <listitem>
-                <para></para>
-
-                <para>Stores all configuration values for this payment module
-                in the configuration file.</para>
-              </listitem>
-            </varlistentry>
-
-            <varlistentry>
-              <term><emphasis>boolean</emphasis> <emphasis
+              <term><emphasis><varname>boolean</varname></emphasis> <emphasis
               role="bold">process_payment</emphasis>(String $order_number,
               Float $order_total, Array &amp;$d)</term>
 
@@ -2518,12 +2496,32 @@ echo $contents;</programlisting></para>
                 authorize.net or eWay XML). This is the place, where the
                 payment details are validated and captured on success.</para>
 
-                <para>Returns true on sucess, false on failure.</para>
+                <para>If left unimplemented, nothing is processed - instead a
+                boolean value of "true" is returned.</para>
               </listitem>
             </varlistentry>
 
             <varlistentry>
-              <term><emphasis>float</emphasis> <emphasis
+              <term><varname>void</varname> showPaymentForm( ps_DB &amp;$db,
+              stdCls $user, ps_DB $dbbt ) {</term>
+
+              <listitem>
+                <para>This function allows to show HTML code to the customer
+                (e.g. a form or an image to redirect the customer to the
+                payment gateway, where he/she can send the money to pay the
+                order). </para>
+
+                <para>It is invoked each time an unpaid order is viewed
+                (directly after the order has been placed -
+                page=checkout.thankyou; in the account order details -
+                page=account.order_details).</para>
+
+                <para>If left unimplemented, nothing is shown.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term><emphasis><varname>float</varname></emphasis> <emphasis
               role="bold">get_payment_rate</emphasis>(Float $subtotal)</term>
 
               <listitem>
@@ -2535,30 +2533,98 @@ echo $contents;</programlisting></para>
               </listitem>
             </varlistentry>
           </variablelist></para>
+      </section>
 
-        <para><note>
-            <para><emphasis role="bold">IF</emphasis> you are about to change
-            configuration variables: do this in both functions:
-            show_configuration and write_configuration!</para>
-          </note></para>
+      <section>
+        <title>Payment Plugin XML Manifest File</title>
+
+        <para>The XML Manifest Files of Payment Plugins must have two
+        additional elements, which specify the type of the payment
+        method:</para>
+
+        <para></para>
+
+        <variablelist>
+          <varlistentry>
+            <term>type</term>
+
+            <listitem>
+              <para>Specifies the Type of the Payment Method. Available
+              Types:</para>
+
+              <variablelist>
+                <varlistentry>
+                  <term>B</term>
+
+                  <listitem>
+                    <para>(Bank Debit) Methods that require bank account
+                    information</para>
+                  </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                  <term>C</term>
+
+                  <listitem>
+                    <para>(Credit Card) Methods that require Credit Card
+                    Information, which is processed manually afterwards</para>
+                  </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                  <term>Y</term>
+
+                  <listitem>
+                    <para>(automatic Processing) Methods that require Credit
+                    Card Information, which is processed automatically during
+                    checkout</para>
+                  </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                  <term>P</term>
+
+                  <listitem>
+                    <para>(PayPal-like) Methods that show a "Payment Form" to
+                    redirect the customer to the Payment Gateway</para>
+                  </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                  <term>N</term>
+
+                  <listitem>
+                    <para>(No Processing) All other methods which neither
+                    require Credit Card nor Bank Account Information (Cash on
+                    Delivery or Purchase Order/Invoice)</para>
+                  </listitem>
+                </varlistentry>
+              </variablelist>
+
+              <para></para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>is_creditcard</term>
+
+            <listitem>
+              <para>Set to 1 for types "C" and "Y", set to 0 in all other
+              cases</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
       </section>
 
       <section id="Installing_Payment_Modules">
-        <title>Installing a Payment Module</title>
+        <title>Installing a Payment Plugin</title>
 
-        <para>Since there's no real installer for payment modules, you must
-        copy the two files <filename>ps_mynewpayment.php </filename>and
-        <filename>ps_mynewpayment.cfg.php</filename> into the directory
-        <filename>/administrator/components/com_virtuemart/classes/payment/
-        </filename>first.</para>
+        <para>Payment Plugins can be installed using the VirtueMart Extension
+        Installer. All you need is a standards-compliant Payment Plugin
+        Package. This section teaches you how to prepare your package and what
+        </para>
 
-        <para>After you have done that, you can add a new payment method
-        ("Store" ⇒ "Add Payment Method"). It's important to fill in the
-        correct name for Payment Class Name (in this case: <emphasis
-        role="bold">ps_mynewpayment</emphasis>) - here's the reason why you
-        must give the class file the same name as the class inside the file:
-        the Shop now tries to include a file called "ps_mynewpayment.php" on
-        Saving the payment method.</para>
+        <para></para>
 
         <para>When you now re-open the newly created payment method, you have
         access to the configuration form.</para>
@@ -2566,7 +2632,7 @@ echo $contents;</programlisting></para>
     </section>
 
     <section id="Shipping_Modules">
-      <title>Shipping Modules</title>
+      <title>Shipping Plugins</title>
 
       <para></para>
 
@@ -2575,32 +2641,27 @@ echo $contents;</programlisting></para>
 
         <para>Shipping modules are located in the directory</para>
 
-        <para><filename>/administrator/components/com_virtuemart/classes/shipping/</filename></para>
+        <para><filename>/administrator/components/com_virtuemart/plugins/shipping/</filename></para>
 
         <para>and have three files: the class file, the information file and
         the configuration file.</para>
 
         <para>Example: <emphasis role="bold">Module
-        "myShipping"</emphasis></para>
+        "myShippingMethod"</emphasis></para>
 
         <para>You must have three files, called<itemizedlist>
             <listitem>
-              <para><filename>myShipping.php</filename> (including the class
-              myShipping)</para>
+              <para><filename>myshippingmethod.php</filename> (including the
+              class myShippingMethod)</para>
             </listitem>
 
             <listitem>
-              <para><filename>myShipping.ini</filename> (containing the Name
-              of the Module &amp; the Author and the File Version..)</para>
+              <para><filename>myShippingmethod.xml</filename> (the XML
+              Manifest File for this plugin)</para>
             </listitem>
-
-            <listitem>
-              <para><filename>myShipping.cfg.php</filename> (containing all
-              necessary configuration constant definitions)</para>
-            </listitem>
-          </itemizedlist>When activated in the Shop configuration, this
-        payment module will be loaded on the shipping method selection screen,
-        beside all other activated shipping modules.</para>
+          </itemizedlist>When published in the Plugin List, this shipping
+        plugin will be loaded on the shipping method selection screen, beside
+        all other published shipping plugins.</para>
 
         <para>The shipping rate, a user has selected during checkout is passed
         from step to step by the parameter <emphasis
@@ -2625,18 +2686,52 @@ echo $contents;</programlisting></para>
       <section id="Shipping_Module_API">
         <title>The Shipping API specification</title>
 
-        <para>The following is a list of all methods that must be implemented
-        by a shipping module's class file.</para>
+        <para>All Payment Plugins must be subclasses of the pseudo-abstract
+        class "<classname>vmShippingPlugin</classname>".</para>
+
+        <programlisting>class plgShippingMyShippingMethod extends vmShippingPlugin {
+
+
+    /**
+     * Constructor
+     *
+     * For php4 compatability we must not use the __constructor as a constructor for plugins
+     * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
+     * This causes problems with cross-referencing necessary for the observer design pattern.
+     *
+     * @param object $subject The object to observe
+     * @param array  $config  An array that holds the plugin configuration
+     * @since 1.2.0
+     */
+    function plgShippingMyShippingMethod( &amp; $subject, $config ) {
+        parent::__construct( $subject, $config ) ;
+    }</programlisting>
+
+        <important>
+          <para>The class name must start with "plgShipping", then add the
+          element's name (which must be the same as the file name), example:
+          mypaymentmethod. Result: <emphasis role="bold">class
+          plgShippingMyShippingMethod</emphasis>.</para>
+
+          <para>Remember to rename the <emphasis>constructor</emphasis>! It
+          must have the same name as the class.</para>
+        </important>
+
+        <para>The following is a list of all methods that <emphasis
+        role="bold">can</emphasis> be implemented in a payment module's class
+        file.</para>
 
         <para><variablelist>
             <varlistentry>
-              <term><emphasis>string</emphasis> <emphasis
-              role="bold">list_rates</emphasis>( Array $d )</term>
+              <term><emphasis><type>array</type></emphasis> <emphasis
+              role="bold"><function>get_shipping_rate_list</function></emphasis>(
+              Array $d )</term>
 
               <listitem>
                 <para></para>
 
-                <para>Lists all available shipping rates.</para>
+                <para>Generates a list of the all available shipping rates for
+                this plugin.</para>
 
                 <tip>
                   <para>The array <varname>$d</varname> contains the values
@@ -2651,8 +2746,8 @@ echo $contents;</programlisting></para>
             </varlistentry>
 
             <varlistentry>
-              <term><emphasis>float</emphasis> <emphasis
-              role="bold">get_rate</emphasis>( Array $d )</term>
+              <term><emphasis><type>double</type></emphasis>
+              <function>get_shipping_rate</function>( Array $d )</term>
 
               <listitem>
                 <para></para>
@@ -2663,8 +2758,9 @@ echo $contents;</programlisting></para>
             </varlistentry>
 
             <varlistentry>
-              <term><emphasis>float</emphasis> <emphasis
-              role="bold">get_tax_rate</emphasis>( Array $d )</term>
+              <term><emphasis><type>double</type></emphasis> <emphasis
+              role="bold"><function>get_shippingtax_rate</function></emphasis>(
+              Array $d )</term>
 
               <listitem>
                 <para></para>
@@ -2675,8 +2771,9 @@ echo $contents;</programlisting></para>
             </varlistentry>
 
             <varlistentry>
-              <term><emphasis>boolean</emphasis> <emphasis
-              role="bold">validate</emphasis>( Array $d )</term>
+              <term><emphasis><type>boolean</type></emphasis> <emphasis
+              role="bold"><function>validate</function></emphasis>( Array $d
+              )</term>
 
               <listitem>
                 <para></para>
@@ -2689,46 +2786,7 @@ echo $contents;</programlisting></para>
                 list_rates for each returned shipping rate.</para>
               </listitem>
             </varlistentry>
-
-            <varlistentry>
-              <term><emphasis>void</emphasis> <emphasis
-              role="bold">write_configuration</emphasis>( Array )</term>
-
-              <listitem>
-                <para></para>
-
-                <para>Stores all configuration values for this shipping module
-                in the configuration file.</para>
-              </listitem>
-            </varlistentry>
-
-            <varlistentry>
-              <term><emphasis>string</emphasis> <emphasis
-              role="bold">show_configuration</emphasis>( void )</term>
-
-              <listitem>
-                <para></para>
-
-                <para>Shows the configuration form for this shipping module in
-                the shipping module form.</para>
-              </listitem>
-            </varlistentry>
-
-            <varlistentry>
-              <term><emphasis>boolean</emphasis> <emphasis
-              role="bold">configfile_writeable</emphasis>( void )</term>
-
-              <listitem>
-                <para></para>
-
-                <para>returns true if the configuration file for that module
-                is writeable, false if not</para>
-              </listitem>
-            </varlistentry>
-          </variablelist><note>
-            <para>Please always change configuration variables in both
-            functions: show_configuration and write_configuration!</para>
-          </note></para>
+          </variablelist></para>
       </section>
 
       <section id="Shipping_Module_Installation">
@@ -2830,9 +2888,7 @@ echo $contents;</programlisting></para>
         <section>
           <title>Joomla! version compatibility</title>
 
-          <para>Joomla! is the CMS of choice for VirtueMart. While VirtueMart
-          1.0.x isn't compatible to Joomla! 1.5.x (but only Joomla! 1.0.x),
-          VirtueMart 1.1.x is compatible to both - Joomla! 1.0.x and Joomla!
+          <para>VirtueMart 1.2.x is compatible to Joomla! 1.0.x and Joomla!
           1.5.x (native mode, legacy mode not required).</para>
 
           <para>Future Versions of VirtueMart will only support Joomla!
@@ -2842,18 +2898,7 @@ echo $contents;</programlisting></para>
         <section id="Mambo_Version_Compatbility">
           <title>Mambo version compatibility</title>
 
-          <para>VirtueMart 1.0.x/1.1.x supports Mambo versions from 4.5.1a
-          until 4.6.3. Mambo versions &lt; 4.5.1 are not supported.</para>
-
-          <para>Mambo and Joomla will be developed in two different
-          directions. This process will someday lead to the effect that
-          components written for Joomla!, won't work on Mambo 4.6.x (or
-          higher).</para>
-
-          <note>
-            <para>VirtueMart will keep track with the Joomla!
-            development</para>
-          </note>
+          <para>VirtueMart 1.2 doesn't support Mambo.</para>
         </section>
       </section>
 
@@ -3446,9 +3491,9 @@ class foo {
         <title>SQL Update File</title>
 
         <para>All changes to the database scheme are collected in an SQL file.
-        There's a file for each minor version jump, e.g.</para>
+        There's a file for each minor version step, e.g.</para>
 
-        <programlisting>UPDATE-SCRIPT_com_virtuemart_1.0.x-to-1.1.0.sql</programlisting>
+        <programlisting>UPDATE-SCRIPT_com_virtuemart_1.1.x-to-1.2.0.sql</programlisting>
 
         <para></para>
 
@@ -3460,8 +3505,8 @@ class foo {
         <para>In this case the SQL file would update a db scheme from
         version</para>
 
-        <para><emphasis role="strong">VirtueMart 1.0.x</emphasis> to <emphasis
-        role="strong">1.1.0</emphasis></para>
+        <para><emphasis role="strong">VirtueMart 1.1.x</emphasis> to <emphasis
+        role="strong">1.2.0</emphasis></para>
 
         <para></para>
 

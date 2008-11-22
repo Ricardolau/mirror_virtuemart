@@ -9,7 +9,16 @@
 	<authorurl>http://epay.dk</authorurl>
 	<version>1.0</version>
 	<description>Payment processing module for transactions with PBS, Nordea, Danske Bank, eWire etc supported by the ePay Payment Gateway (www.epay.dk)</description>
-	
+
+	<!-- Payment Method Type Codes:
+	N: no processing (=manual processing like "purchase order" or "Cash on Delivery")
+	P: PayPal-like (Shows HTML Code to the customer - you may use a <form> to redirect the customer to the Payment Gateway (used for PayPal, Worldpay, 2Checkout etc))
+	C: Credit Card (only collect the CC data, manual processing)
+	Y: Automatic Credit Card Processor (authorize.net, eWay)
+	-->
+	<type>P</type>
+	<is_creditcard>0</is_creditcard>
+	<element>epay</element>
   	<install>	
 		<files>
 			<filename>epay.php</filename>

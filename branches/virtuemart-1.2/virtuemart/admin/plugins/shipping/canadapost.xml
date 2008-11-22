@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <install type="shipping" version="1.2.0">	
 	<!-- $Id$-->
-	<name>canadapost</name>
+	<name>Canada Post</name>
 	<author><![CDATA[Pierre-Yves Sinou]]></author>
 	<creationdate>Mars 2005</creationdate>
 	<copyright><![CDATA[diversionware]]></copyright>
@@ -10,7 +10,8 @@
 	<authorurl>N/A</authorurl>
 	<version>1.0</version>
 	<description><![CDATA[<a href="http://www.canadapost.ca/business/prodserv/so/default-e.asp" target="_blank">Sell Online&trade;</a> Shipping Module from Canada Post]]></description>
-	
+
+	<element>canadapost</element>	
   	<install>	
 		<files>
 			<filename>canadapost.php</filename>

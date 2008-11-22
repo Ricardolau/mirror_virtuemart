@@ -10,12 +10,15 @@
 	<authorurl>http://www.usps.com/</authorurl>
 	<version>3.0 (2007/06/21)</version>
 	<description>The USPS&#174; Shipping module.</description>
-	
+
+	<element>usps</element>
   	<install>	
 		<files>
-			<filename>usps.cfg.php</filename>
 			<filename>usps.php</filename>
 		</files>
+		<languages>
+			<language>english.php</language>
+		</languages>
 		<!--<queries>
 			<query></query>
 			<query></query>

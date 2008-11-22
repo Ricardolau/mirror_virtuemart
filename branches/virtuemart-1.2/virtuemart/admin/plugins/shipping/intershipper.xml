@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <install type="shipping" version="1.2.0">	
 	<!-- $Id$-->
-	<name>intershipper</name>
+	<name>Intershipper</name>
 	<author><![CDATA[intershipper.com]]></author>
 	<creationdate>October 2004</creationdate>
 	<copyright><![CDATA[InterShipper / Soeren]]></copyright>
@@ -10,7 +10,8 @@
 	<authorurl>http://www.intershipper.com</authorurl>
 	<version>0.9</version>
 	<description>The InterShipper Shipping module.</description>
-	
+
+	<element>intershipper</element>
   	<install>	
 		<files>
 			<filename>intershipper.php</filename>

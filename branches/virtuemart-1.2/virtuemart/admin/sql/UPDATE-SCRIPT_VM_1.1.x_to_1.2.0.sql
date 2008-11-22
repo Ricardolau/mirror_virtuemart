@@ -132,7 +132,7 @@ ALTER TABLE `jos_vm_payment_method` CHANGE `payment_method_discount` `discount` 
 ALTER TABLE `jos_vm_payment_method` CHANGE `payment_method_discount_is_percent` `discount_is_percentage` TINYINT( 1 ) NOT NULL  ;
 ALTER TABLE `jos_vm_payment_method` CHANGE `payment_method_discount_max_amount` `discount_max_amount` DECIMAL( 10, 2 ) NOT NULL  ;
 ALTER TABLE `jos_vm_payment_method` CHANGE `payment_method_discount_min_amount` `discount_min_amount` DECIMAL( 10, 2 ) NOT NULL  ;
-ALTER TABLE `jos_vm_payment_method` CHANGE `payment_method_code` `short_code` VARCHAR( 8 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL  ;
+ALTER TABLE `jos_vm_payment_method` DROP `short_code`;
 ALTER TABLE `jos_vm_payment_method` CHANGE `enable_processor` `type` CHAR( 1 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL  ;
 ALTER TABLE `jos_vm_payment_method` CHANGE `payment_enabled` `published` CHAR( 1 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'N' ;
 ALTER TABLE `jos_vm_payment_method` CHANGE `payment_extrainfo` `extra_info` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL  ;

@@ -1357,7 +1357,7 @@
             <para><filename>/administrator/components/com_virtuemart/sql/virtuemart.installation.addons.joomla.sql</filename></para>
 
             <para>Use the file
-            <filename>virtuemart.installation.addons.joomla15.sql</filename>
+            <filename>virtuemart.installation.addons.joomla1.5.sql</filename>
             when you're on <emphasis role="bold">Joomla! 1.5</emphasis> and
             <filename>virtuemart.installation.addons.mambo.sql</filename> when
             you're on <emphasis role="bold">Mambo</emphasis>.</para>

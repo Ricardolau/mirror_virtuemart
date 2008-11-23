@@ -5,7 +5,8 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
-* @translator soeren
+* @translator Miguel Pan Fidalgo
+* @mail panfidalgo@gmail.com
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -18,12 +19,12 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 global $VM_LANG;
 $langvars = array (
 	'CHARSET' => 'ISO-8859-1',
-	'PHPSHOP_ACC_CUSTOMER_ACCOUNT' => 'Cuenta de Cliente:',
-	'PHPSHOP_ACC_UPD_BILL' => 'Aquí se puede actualizar sus datos de facturación.',
-	'PHPSHOP_ACC_UPD_SHIP' => 'Aquí se puede añadir y mantener las direcciones de envío.',
-	'PHPSHOP_ACC_ACCOUNT_INFO' => 'Información de Cuenta',
-	'PHPSHOP_ACC_SHIP_INFO' => 'Información de Envío',
-	'PHPSHOP_DOWNLOADS_CLICK' => 'Pulsar en el Nomber del Producto para Descargar Archivo(s)',
-	'PHPSHOP_DOWNLOADS_EXPIRED' => 'Ya has descargado el archivo(s) el número máximo de veces, o el período para realizar la descarga ha finalizado. '
-); $VM_LANG->initModule( 'account', $langvars );
+	'PHPSHOP_TAX_LIST_LBL' => 'Lista Tarifas de Imposto',
+	'PHPSHOP_TAX_LIST_STATE' => 'Impostos Provinciais ou Rexionais',
+	'PHPSHOP_TAX_LIST_COUNTRY' => 'Impostos Estatais',
+	'PHPSHOP_TAX_FORM_LBL' => 'Engadir Imposto de Información',
+	'PHPSHOP_TAX_FORM_STATE' => 'Impostos Provinciais ou Rexionais',
+	'PHPSHOP_TAX_FORM_COUNTRY' => 'Impostos Estatais',
+	'PHPSHOP_TAX_FORM_RATE' => 'Tarifas de Imposto'
+); $VM_LANG->initModule( 'tax', $langvars );
 ?>

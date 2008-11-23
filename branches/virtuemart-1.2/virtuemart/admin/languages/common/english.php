@@ -132,6 +132,7 @@ $langvars = array (
 	'PHPSHOP_ORDER_PRINT_SHIPPING_MODE_LBL' => 'Shipping Mode',
 	'PHPSHOP_ORDER_STATUS_LIST_MNU' => 'List Order Status Types',
 	'PHPSHOP_ORDER_STATUS_FORM_MNU' => 'Add Order Status Type',
+	'PHPSHOP_PRODUCT_DETAILS_VENDOR_LBL' => 'From ',
 	'PHPSHOP_PRODUCT_MOD' => 'Products',
 	'PHPSHOP_PRODUCT_INVENTORY_MNU' => 'View Inventory',
 	'PHPSHOP_PRODUCT_INVENTORY_PRICE' => 'Price',

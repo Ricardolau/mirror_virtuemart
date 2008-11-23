@@ -27,6 +27,11 @@ if( $this->get_cfg( 'showPathway' )) {
 	  <h1><?php echo $product_name ?> <?php echo $edit_link ?></h1>
 	  </td>
 	</tr>
+	<tr>
+	  <td rowspan="1" colspan="2" style="padding: 0px 0px 10px 0px">
+	  <?php echo $product_vendor_lbl ?>
+	  </td>
+	</tr>
 	<?php if( $this->get_cfg('showManufacturerLink')) { ?>
 		<tr>
 		  <td rowspan="1" colspan="2"><?php echo $manufacturer_link ?><br /></td>

@@ -24,6 +24,10 @@ if( $this->get_cfg( 'product_navigation', 1 )) {
 	        <div style="text-align: center;">
                 <h1><?php echo $product_name; echo ' ' . $edit_link; ?></h1>
             </div>
+            <div style="text-align: center; padding: 0px 0px 10px 0px">
+                <?php echo $product_vendor_lbl ?>
+            </div>
+
         </td>
         <td>
         </td>

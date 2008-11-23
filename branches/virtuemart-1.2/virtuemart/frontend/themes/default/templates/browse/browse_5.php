@@ -8,6 +8,11 @@ mm_showMyFileName(__FILE__);
     </td>
   </tr>
   <tr>
+  	<td >
+        <p style="font-size: 12px; font-weight: normal;"><?php echo $product_vendor ?></p>
+    </td>
+  </tr>
+  <tr>
     <td align="left" nowrap ><?php echo $product_price ?></td>
   </tr>
   <tr>

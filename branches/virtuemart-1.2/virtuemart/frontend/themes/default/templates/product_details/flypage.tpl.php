@@ -21,12 +21,15 @@ if( $this->get_cfg( 'product_navigation', 1 )) {
 <table border="0" style="width: 100%;">
   <tbody>
 	<tr>
-<?php  if( $this->get_cfg('showManufacturerLink') ) { $rowspan = 5; } else { $rowspan = 4; } ?>
+<?php  if( $this->get_cfg('showManufacturerLink') ) { $rowspan = 6; } else { $rowspan = 5; } ?>
 	  <td width="33%" rowspan="<?php echo $rowspan; ?>" valign="top"><br/>
 	  	<?php echo $product_image ?><br/><br/><?php echo $this->vmlistAdditionalImages( $product_id, $images ) ?></td>
 	  <td rowspan="1" colspan="2">
 	  <h1><?php echo $product_name ?> <?php echo $edit_link ?></h1>
 	  </td>
+	</tr>
+	<tr>
+	  <td colspan="2"><?php echo $product_vendor_lbl ?></td>
 	</tr>
 	<?php if( $this->get_cfg('showManufacturerLink')) { ?>
 		<tr>

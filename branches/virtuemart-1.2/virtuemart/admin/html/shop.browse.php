@@ -394,7 +394,7 @@ else {
 			$product_s_desc = $dbp->f("product_s_desc"); // Use product_s_desc from Parent Product
 		}
 		$product_details = $VM_LANG->_('PHPSHOP_FLYPAGE_LBL');
-
+		$product_vendor = $VM_LANG->_('PHPSHOP_BROWSE_VENDOR_LBL') . $ps_product->get_vendorname($db_browse->f("product_id"));
 		if (PSHOP_ALLOW_REVIEWS == '1' && @$_REQUEST['output'] != "pdf") {
 			// Average customer rating: xxxxx
 	        // Total votes: x
@@ -435,6 +435,7 @@ else {
 		$products[$i]['product_name'] = shopMakeHtmlSafe( $product_name );
 		$products[$i]['product_s_desc'] = $product_s_desc;
 		$products[$i]['product_details'] = $product_details;
+		$products[$i]['product_vendor'] = $product_vendor;
 		$products[$i]['product_rating'] = $product_rating;
 		$products[$i]['product_price'] = $product_price;
 		$products[$i]['product_price_raw'] = $product_price_raw;

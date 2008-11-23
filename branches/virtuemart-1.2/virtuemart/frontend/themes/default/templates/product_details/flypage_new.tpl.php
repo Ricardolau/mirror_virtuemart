@@ -16,6 +16,11 @@ if( $this->get_cfg( 'showPathway' )) {
   </td>
 </tr>
 <tr>
+  <td rowspan="1" colspan="2">
+  <?php echo $product_vendor_lbl ?>
+  </td>
+</tr>
+<tr>
   <td rowspan="1" colspan="2"> <?php echo $manufacturer_link ?><br /></td>
 </tr>
 <tr>

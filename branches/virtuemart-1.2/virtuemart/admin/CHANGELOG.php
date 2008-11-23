@@ -36,6 +36,10 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 
+23.11.2008 Randall and Milbo
++ Added Vendorinformation in ProductBrowse
++ Added Frontendadministration for products for vendors (couldnt be corretly tested due the bug with the administration)
+
 19.11.2008 thepisu
 ^ updated Hungarian language (by pedrohsi)
 ^ updated Finnish language (by mauri)

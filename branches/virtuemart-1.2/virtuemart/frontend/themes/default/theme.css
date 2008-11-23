@@ -160,6 +160,14 @@ div.buttons_heading {
 	margin: 5px;
 	width:20%;
 }
+.browseProductVendor {
+	font-size: 12px; 
+	font-weight: normal;
+	padding: 3px;
+	margin-top: 3px;
+	width: 25%;
+	float: left;
+}
 .browseAddToCartContainer {
 	width:30%;
 	text-align:center

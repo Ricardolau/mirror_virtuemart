@@ -24,7 +24,10 @@ mm_showMyFileName(__FILE__);
 	            </a>
 	        </noscript>
         </div>
-        
+        <div class="browseProductVendor">
+            <?php echo $product_vendor ?>
+        </div>
+
         <div class="browseRatingContainer">
         <?php echo $product_rating ?>
         </div>

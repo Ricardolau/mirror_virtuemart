@@ -19,6 +19,7 @@ global $VM_LANG;
 $langvars = array (
 	'CHARSET' => 'ISO-8859-1',
 	'PHPSHOP_BROWSE_LBL' => 'Browse',
+	'PHPSHOP_BROWSE_VENDOR_LBL' => 'From ',
 	'PHPSHOP_FLYPAGE_LBL' => 'Product Details',
 	'PHPSHOP_PRODUCT_FORM_EDIT_PRODUCT' => 'Edit this product',
 	'PHPSHOP_DOWNLOADS_START' => 'Start Download',

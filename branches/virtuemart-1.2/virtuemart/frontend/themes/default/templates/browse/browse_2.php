@@ -5,6 +5,7 @@ mm_showMyFileName(__FILE__);
   <h2>
   <a style="font-size:16px; font-weight:bold;" href="<?php echo $product_flypage ?>"><?php echo $product_name ?></a>
   </h2>
+  <p><?php echo $product_vendor ?></p>
     <div style="float:left;width:32%" >
     	<a href="<?php echo $product_flypage ?>">
           <?php echo ps_product::image_tag( $product_thumb_image, 'class="browseProductImage" border="0" title="'.$product_name.'" alt="'.$product_name .'"' ) ?>

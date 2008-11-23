@@ -39,6 +39,7 @@ $pop = (int)vmGet($_REQUEST, "pop", 0);
 $manufacturer_id = vmGet($_REQUEST, "manufacturer_id", null);
 $Itemid = $sess->getShopItemid();
 $db_product = new ps_DB;
+$dbv = new ps_DB;
 
 // Get the product info from the database
 $q = "SELECT * FROM `#__{vm}_product` WHERE ";
@@ -273,6 +274,16 @@ else {
 	$product_price_lbl = "";
 	$product_price = "";
 }
+
+// Product vendor label and store name
+$product_vendor_id2 = $db_product->f('vendor_id');
+$dbv->query("SELECT `vendor_store_name` FROM #__{vm}_vendor WHERE vendor_id=$product_vendor_id2" );
+$dbv->next_record();
+$product_vendor_store_name = $dbv->f("vendor_store_name");
+$product_vendor_lbl = "<strong>". $VM_LANG->_('PHPSHOP_PRODUCT_DETAILS_VENDOR_LBL'). " </strong>";
+$product_vendor_lbl = $product_vendor_lbl. $product_vendor_store_name;
+
+
 // @var array $product_price_raw The raw unformatted Product Price in Float Format
 $product_price_raw = $ps_product->get_adjusted_attribute_price($product_id);
 		
@@ -417,6 +428,8 @@ $tpl->set( "product_price", $product_price );
 $tpl->set( "product_price_lbl", $product_price_lbl );
 $tpl->set( 'product_price_raw', $product_price_raw );
 $tpl->set( "product_description", $product_description );
+$tpl->set( "product_vendor_lbl", $product_vendor_lbl );
+$tpl->set( "product_vendor_store_name", $product_vendor_store_name );
 
 /* ADD-TO-CART */
 $tpl->set( 'manufacturer_id', $manufacturer_id );

@@ -5,6 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 
 <br><br>
 <h1><?php echo $product_name ?></h1>
+<?php echo $product_vendor_lbl ?>
 <br><br>
 
 <table width=100%>

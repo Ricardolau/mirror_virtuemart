@@ -108,6 +108,12 @@ if( $db->f('order_number')) {
 		          		$dbc = $country->get_country_by_code($dbbt->f($field->name));
 	          			if( $dbc !== false ) echo $dbc->f('country_name');
 		          		break;
+	          		case 'state':
+									require_once(CLASSPATH.'ps_state.php');
+									$state = new ps_state();
+									$dbc = $state->get_state_by_code($dbbt->f($field->name));
+									if( $dbc !== false ) echo $dbc->f('state_name');
+    	  					break;
 		          	default: 
 		          		echo $dbbt->f($field->name);
 		          		break;
@@ -144,6 +150,12 @@ if( $db->f('order_number')) {
 		          		$dbc = $country->get_country_by_code($dbst->f($field->name));
 		          		if( $dbc !== false ) echo $dbc->f('country_name');
 		          		break;
+	          		case 'state':
+									require_once(CLASSPATH.'ps_state.php');
+									$state = new ps_state();
+									$dbc = $state->get_state_by_code($dbbt->f($field->name));
+									if( $dbc !== false ) echo $dbc->f('state_name');
+            	 		break;
 		          	default: 
 		          		echo $dbst->f($field->name);
 		          		break;

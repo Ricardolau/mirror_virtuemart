@@ -63,7 +63,7 @@ $db->query( "INSERT INTO `#__{vm}_menu_admin` (`id`, `module_id`, `parent_id`, `
 (15, 8, 0, 'PHPSHOP_CREDITCARD_FORM_LBL', 'page=store.creditcard_form', '', 'vmicon vmicon-16-editadd', 14, '1', ''),
 (16, 8, 0, 'VM_ORDER_EXPORT_MODULE_LIST_MNU', 'page=store.export_list', '', 'vmicon vmicon-16-content', 16, '1', ''),
 (17, 8, 0, 'VM_ORDER_EXPORT_MODULE_FORM_MNU', 'page=store.export_form', '', 'vmicon vmicon-16-editadd', 18, '1', ''),
-(18, 2, 0, 'CSVIMPROVED_TITLE', 'http://www.csvimproved.com/index.php?option=com_ionfiles&Itemid=2', '', 'vmicon vmicon-16-import', 2, '1', 'CSVIMPROVED_NEEDINSTALL'),
+(18, 2, 0, 'CSVIMPROVED_TITLE', 'http://www.csvimproved.com/', '', 'vmicon vmicon-16-import', 2, '1', 'CSVIMPROVED_NEEDINSTALL'),
 (19, 2, 0, 'PHPSHOP_PRODUCT_LIST_MNU', 'page=product.product_list', '', 'vmicon vmicon-16-content', 4, '1', ''),
 (20, 2, 0, 'PHPSHOP_PRODUCT_FORM_MNU', 'page=product.product_form', '', 'vmicon vmicon-16-editadd', 6, '1', ''),
 (21, 2, 0, 'PHPSHOP_PRODUCT_INVENTORY_MNU', 'page=product.product_inventory', '', 'vmicon vmicon-16-install', 8, '1', ''),
@@ -143,6 +143,11 @@ $db->query("REPLACE `#__{vm}_auth_user_vendor` (`user_id`, `vendor_id`) VALUES (
 //Sharing of Producttypes
 //$db->query("ALTER TABLE `j#__{vm}_product_type` ADD `vendor_id` INT( 11 ) NOT NULL DEFAULT '0' AFTER `product_type_list_order` ,
 //ADD `product_type_shared` CHAR( 1 ) NOT NULL DEFAULT 'N' AFTER `vendor_id` ;");
+
+// Added Internal notes hack (http://forum.virtuemart.net/index.php?topic=45431.0)
+$db->query("ALTER TABLE `#__{vm}_product` ADD `intnotes` TEXT DEFAULT NULL;");
+// Added Product price margin (http://forum.virtuemart.net/index.php?topic=42607.0)
+$db->query("ALTER TABLE `#__{vm}_product_price` ADD `product_margin` DECIMAL( 12,5 ) DEFAULT NULL AFTER `product_price`;");
 
 $db->query("UPDATE `#__{vm}_payment_method` SET `payment_class` = REPLACE( `payment_class` , 'ps_', '' )");
 $db->query("UPDATE `#__{vm}_function` SET `function_class` = 'paymentMethod.class' WHERE `function_class` = 'ps_payment_method'");

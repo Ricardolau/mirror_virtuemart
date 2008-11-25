@@ -279,6 +279,7 @@ else {
 				<th class="title" width="50"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_PRICE_NET') ?></th>
 				<th class="title" width="50"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_PRICE_GROSS') ?></th>
 				<th class="title" width="5%"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_TOTAL') ?></th>
+				<th class="title" width="22%"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_INTNOTES') ?></th>
 			  </tr>
 			  <?php
 			  $dbt = new ps_DB;
@@ -287,15 +288,22 @@ else {
 						WHERE #__{vm}_order_item.order_id='$order_id' ";
 			  $dbt->query($qt);
 			  $i = 0;
-			  $dbd = new ps_DB();
 			  while ($dbt->next_record()){
+				$dbp = new ps_DB;
+				
+				$qr  = "SELECT intnotes FROM `#__{vm}_product` WHERE product_id='".$dbt->f("product_id")."'";
+				$dbp->query($qr);
+				
+				$dbd = new ps_DB();
+				
 				if ($i++ % 2) {
 				   $bgcolor='row0';
 				} else {
 				  $bgcolor='row1';
 				}
-				$t = $dbt->f("product_quantity") * $dbt->f("product_final_price");
-				// Check if it's a downloadable product
+			}
+			$t = $dbt->f("product_quantity") * $dbt->f("product_final_price");
+			// Check if it's a downloadable product
   			$downloadable = false;
   			$files = array();
   			$dbd->query('SELECT product_id, attribute_name
@@ -382,6 +390,7 @@ else {
           <?php $ps_order_change_html->html_change_product_final_price($dbt->f("order_item_id"), $dbt->f("product_final_price")) ?>
         </td>
 				<td width="5%" align="right" style="padding-right: 5px;"><?php echo $GLOBALS['CURRENCY_DISPLAY']->getFullValue($t, '', $db->f('order_currency')); ?></td>
+				<td width="22%"><div align="right"><?php $dbp->p("intnotes") ?></div></td>
 			  </tr>
 			  <?php 
 			  } 

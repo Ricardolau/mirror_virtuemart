@@ -64,16 +64,21 @@ function getTaxRate() {
 function updateGross() {
 	if( document.adminForm.product_price.value != '' ) {
 		var taxRate = getTaxRate();
-
+		
 		var r = new RegExp("\,", "i");
 		document.adminForm.product_price.value = document.adminForm.product_price.value.replace( r, "." );
-
+		  
 		var grossValue = document.adminForm.product_price.value;
-
+		var profitValue = document.adminForm.product_profit_margin.value;
+		
+		  
 		if (taxRate > 0) {
-			grossValue = grossValue * (taxRate + 1);
+			grossValue = grossValue * (taxRate + 1) * (profitValue/100 + 1);
 		}
-
+		else {
+			grossValue = grossValue * (profitValue/100 + 1);		
+		}
+		
 		document.adminForm.product_price_incl_tax.value = doRound(grossValue, 5);
 	}
 }
@@ -88,7 +93,10 @@ function updateNet() {
 		var netValue = document.adminForm.product_price_incl_tax.value;
 
 		if (taxRate > 0) {
-			netValue = netValue / (taxRate + 1);
+			netValue = netValue / (taxRate + 1) * (profitValue/100 + 1);
+		}
+		else {
+			netValue = netValue / (profitValue/100 + 1);	
 		}
 
 		document.adminForm.product_price.value = doRound(netValue, 5);

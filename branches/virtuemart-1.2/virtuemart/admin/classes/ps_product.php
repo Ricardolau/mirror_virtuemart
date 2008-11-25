@@ -280,6 +280,7 @@ class ps_product extends vmAbstractObject {
 						'product_name' => vmGet($d,'product_name'),
 						'product_desc' => vmRequest::getVar('product_desc', '', 'default', '', VMREQUEST_ALLOWHTML),
 						'product_s_desc' => vmRequest::getVar('product_s_desc', '', 'default', '', VMREQUEST_ALLOWHTML),
+						'intnotes' => vmRequest::getVar('intnotes', '', 'default', '', VMREQUEST_ALLOWHTML),
 						'product_thumb_image' => vmGet($d,'product_thumb_image'),
 						'product_full_image' => vmGet($d,'product_full_image'),
 						'product_publish' => $d['product_publish'],
@@ -472,6 +473,7 @@ class ps_product extends vmAbstractObject {
 		$fields = array ( 'vendor_id' => $vendor_id,
 						'product_sku' => vmGet($d,'product_sku'),
 						'product_name' => vmGet($d,'product_name'),
+						'intnotes' => vmRequest::getVar('intnotes', '', 'default', '', VMREQUEST_ALLOWHTML),
 						'product_desc' => vmRequest::getVar('product_desc', '', 'default', '', VMREQUEST_ALLOWHTML),
 						'product_s_desc' => vmRequest::getVar('product_s_desc', '', 'default', '', VMREQUEST_ALLOWHTML),
 						'product_thumb_image' => vmGet($d,'product_thumb_image'),
@@ -1553,8 +1555,8 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		$db->setQuery($q); $db->query();
 		$db->next_record();
 		$default_shopper_group_id = $db->f("shopper_group_id");
-
-		$q = "SELECT product_price,product_currency,price_quantity_start,price_quantity_end 
+		
+		$q = "SELECT product_price,product_margin,product_currency,price_quantity_start,price_quantity_end 
 				FROM #__{vm}_product_price 
 				WHERE product_id='$product_id' AND 
 							shopper_group_id='$default_shopper_group_id'";
@@ -1564,13 +1566,16 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 			$price_info["product_currency"]=$db->f("product_currency");
 			$price_info["price_quantity_start"]=$db->f("price_quantity_start"); // added alatak
 			$price_info["price_quantity_end"]=$db->f("price_quantity_end");// added alatak
+			$price_info["product_margin"]=$db->f("product_margin");			
 		}
 		else {
 			$price_info["product_price"]= "";
 			$price_info["product_currency"] = $_SESSION['vendor_currency'];
 			$price_info["price_quantity_start"]=$db->f("price_quantity_start"); // added alatak
 			$price_info["price_quantity_end"]=$db->f("price_quantity_end");// added alatak
+			$price_info["product_margin"]=$db->f("product_margin");			
 		}
+						
 		return $price_info;
 	}
 
@@ -1690,7 +1695,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		$whereClause='WHERE product_id=%s AND shopper_group_id=%s ';
 		$whereClause = sprintf( $whereClause, intval($product_id), intval($shopper_group_id) );
 
-		$q = "SELECT `product_price`, `product_price_id`, `product_currency` FROM `#__{vm}_product_price` $whereClause $additionalSQL";
+		$q = "SELECT `product_price`, `product_margin`, `product_price_id`, `product_currency` FROM `#__{vm}_product_price` $whereClause $additionalSQL";
 		
 		$sig = sprintf("%u\n", crc32($q));
 

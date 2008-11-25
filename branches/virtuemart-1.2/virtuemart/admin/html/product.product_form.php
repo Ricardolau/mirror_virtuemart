@@ -357,6 +357,13 @@ $tabs->startTab( $info_label, "info-page");
     </tr>
     <tr class="row1"> 
       <td width="29%" ><div style="text-align:right;font-weight:bold;">
+        <?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_PRICE_MARGIN') ?>:</div>
+      </td>
+      <td width="71%" ><input type="text" class="inputbox" onkeyup="updateGross();" name="product_profit_margin" size="10" value="<?php echo @$price['product_margin'] ?>"/></td>
+    </tr>	
+		
+    <tr class="row1"> 
+      <td width="29%" ><div style="text-align:right;font-weight:bold;">
         <?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_PRICE_GROSS') ?>:</div>
       </td>
       <td width="71%" ><input type="text" class="inputbox" onkeyup="updateNet();" name="product_price_incl_tax" size="10" /></td>
@@ -387,6 +394,8 @@ $tabs->startTab( $info_label, "info-page");
                 <?php echo vmToolTip( $VM_LANG->_('PHPSHOP_PRODUCT_FORM_DISCOUNTED_PRICE_TIP') ) ?>
         </td>
     </tr>
+    <tr><td width="29%" valign="top"><div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_INTNOTES'); ?>:</div></td>
+    <td width="71%" valign="top"><textarea class="inputbox" name="intnotes" id="intnotes" cols="35" rows="6" ><?php echo $db->sf("intnotes"); ?></textarea></td></tr>
     <tr class="row1"><td colspan="2">&nbsp;</td></tr>
     <tr class="row1"> 
       <td width="29%" valign="top"><div style="text-align:right;font-weight:bold;">

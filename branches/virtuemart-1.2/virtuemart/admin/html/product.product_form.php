@@ -336,7 +336,7 @@ $tabs->startTab( $info_label, "info-page");
         <table border="0" cellspacing="0" cellpadding="0">
             <tr>
             <td>
-                <input type="text" value="<?php echo @$price["product_price"]; ?>" class="inputbox" name="product_price" onkeyup="updateGross();" size="10" maxlength="10" />
+                <input type="text" value="<?php echo @$price["product_price"]; ?>" class="inputbox" name="product_price" onkeyup="updatePrice('gross');" size="10" maxlength="10" />
                 <input type="hidden" name="product_price_id" value="<?php echo @$price["product_price_id"] ?>" />                
                 <input type="hidden" name="price_quantity_start" value="<?php echo @intval($price["price_quantity_start"]) ?>" />
                 <input type="hidden" name="price_quantity_end" value="<?php echo @intval($price["price_quantity_end"]) ?>" />
@@ -359,24 +359,38 @@ $tabs->startTab( $info_label, "info-page");
       <td width="29%" ><div style="text-align:right;font-weight:bold;">
         <?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_PRICE_MARGIN') ?>:</div>
       </td>
-      <td width="71%" ><input type="text" class="inputbox" onkeyup="updateGross();" name="product_profit_margin" size="10" value="<?php echo @$price['product_margin'] ?>"/></td>
+      <td width="71%" >
+	  	<table border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>
+					<input type="text" class="inputbox" onkeyup="updatePrice('gross');" name="product_profit_margin" size="10" value="<?php echo @$price['product_margin'] ?>"/>
+				</td>
+				<td>
+					<span style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_PRICE_RETAIL'); ?>:</span> <span id="retailprice"></span>
+					<?php echo vmToolTip( $VM_LANG->_('PHPSHOP_PRODUCT_FORM_PRICE_MARGIN_TIP') ) ?>
+				</td>
+			</tr>
+		</table>
+		</td>
     </tr>	
 		
-    <tr class="row1"> 
-      <td width="29%" ><div style="text-align:right;font-weight:bold;">
-        <?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_PRICE_GROSS') ?>:</div>
-      </td>
-      <td width="71%" ><input type="text" class="inputbox" onkeyup="updateNet();" name="product_price_incl_tax" size="10" /></td>
-    </tr>
     <tr class="row0">
       <td width="29%" ><div style="text-align:right;font-weight:bold;">
         <?php echo $VM_LANG->_('PHPSHOP_RATE_FORM_VAT_ID') ?>:</div></td>
       <td width="71%" >
         <?php
         require_once(CLASSPATH.'ps_tax.php');
-        $tax_rates = ps_tax::list_tax_value("product_tax_id",$db->sf("product_tax_id"),"updateGross();") ?>
+        $tax_rates = ps_tax::list_tax_value("product_tax_id",$db->sf("product_tax_id"),"updatePrice('gross');") ?>
       </td>
     </tr>
+	
+	<tr class="row1"> 
+      <td width="29%" ><div style="text-align:right;font-weight:bold;">
+        <?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_PRICE_GROSS') ?>:</div>
+      </td>
+      <td width="71%" ><input type="text" class="inputbox" onkeyup="updatePrice('net');" name="product_price_incl_tax" size="10" /></td>
+    </tr>
+	
     <tr class="row1"> 
       <td width="21%" ><div style="text-align:right;font-weight:bold;">
         <?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_DISCOUNT_TYPE') ?>:</div>

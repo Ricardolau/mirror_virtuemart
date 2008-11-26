@@ -35,6 +35,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+26.11.2008 RolandD
++ Added Internal notes (Idea from: http://forum.virtuemart.net/index.php?topic=45431.0)
++ Added Profit margin (Idea from: http://forum.virtuemart.net/index.php?topic=42607.0 and http://forum.virtuemart.net/index.php?topic=17636#msg43135)
 
 23.11.2008 Randall and Milbo
 + Added Vendorinformation in ProductBrowse

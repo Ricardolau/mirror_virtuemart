@@ -28,7 +28,7 @@ foreach ($steps_to_do as $step ) {
 	}
 	$i++;
 }
-echo '<table style="background: url( '. VM_THEMEURL .'images/checkout/checkout'. $step_count.'_'.$current_step .'.png ) top right; background-repeat: no-repeat; height:115px;text-align:center;" border="0" cellspacing="0" cellpadding="0" align="center">
+echo '<table style="background: url( \''. VM_THEMEURL .'images/checkout/checkout'. $step_count.'_'.$current_step .'.png\' ) top right; background-repeat: no-repeat; height:115px;text-align:center;" border="0" cellspacing="0" cellpadding="0" align="center">
   <tr>';
 
 foreach ($steps_to_do as $step ) {

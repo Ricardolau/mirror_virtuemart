@@ -33,6 +33,8 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+26.11.08 aravot
+Fixed missing Checkout Bar image using Joomla 1.5.8
 
 19.11.08 thepisu
 ^ updated Hungarian language (by pedrohsi)

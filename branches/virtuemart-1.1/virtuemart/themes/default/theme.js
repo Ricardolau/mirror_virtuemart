@@ -99,7 +99,7 @@ function updateMiniCarts() {
 			} catch(e) {}
 		}
 	}
-	option = { method: 'post', onComplete: callbackCart, data: { only_page:1,page: "shop.basket_short", option: "com_virtuemart" } }
+	var option = { method: 'post', onComplete: callbackCart, data: { only_page:1,page: "shop.basket_short", option: "com_virtuemart" } }
 	new Ajax( live_site + '/index2.php', option).request();
 } 
 /**

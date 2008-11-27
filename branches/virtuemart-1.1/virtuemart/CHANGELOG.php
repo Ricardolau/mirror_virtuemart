@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+27.11.08 aravot
+# Task #2406 - Too many escape characters are added when writing virtuemart.cfg.php
+
 26.11.08 aravot
 Fixed missing Checkout Bar image using Joomla 1.5.8
 

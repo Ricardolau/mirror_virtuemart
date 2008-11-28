@@ -35,6 +35,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+28.11.08 aravot
+# Task #2366 - Missing info message "The selected quantity exceeds quantity available in stock." with EASY FIX (Thank you Danny)
+
 26.11.2008 RolandD
 + Added Internal notes (Idea from: http://forum.virtuemart.net/index.php?topic=45431.0)
 + Added Profit margin (Idea from: http://forum.virtuemart.net/index.php?topic=42607.0 and http://forum.virtuemart.net/index.php?topic=17636#msg43135)

@@ -50,6 +50,7 @@ $langvars = array (
 	'PHPSHOP_CART_SKU' => 'SKU',
 	'PHPSHOP_CART_PRICE' => 'Price',
 	'PHPSHOP_CART_QUANTITY' => 'Quantity',
+	'PHPSHOP_CART_QUANTITY_EXCEEDED' => 'The selected quantity exceeds quantity available in stock.',
 	'PHPSHOP_CART_SUBTOTAL' => 'Subtotal',
 	'PHPSHOP_ADD_SHIPTO_1' => 'Add a new',
 	'PHPSHOP_ADD_SHIPTO_2' => 'Shipping Address',

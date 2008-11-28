@@ -33,6 +33,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+28.11.08 aravot
+# Task #2366 - Missing info message "The selected quantity exceeds quantity available in stock." with EASY FIX (Thank you Danny)
+# Task #2394 - Selecting orders in the back-end causes a major slow-down with large number of orders
+
 27.11.08 aravot
 # Task #2412 - Child Products do not Display in IE7 AJAX Cart
 # Task #2406 - Too many escape characters are added when writing virtuemart.cfg.php

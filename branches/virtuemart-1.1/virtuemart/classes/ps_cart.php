@@ -268,7 +268,7 @@ class ps_cart {
         else if (@$request_stock && vmIsXHR() ) {
             $vmLogger->tip( $VM_LANG->_('PHPSHOP_CART_GOTO_WAITING_LIST',false) );
 		} else {
-            $vmLogger->tip( $VM_LANG->_('The selected quantity exceeds quantity available in stock.',false) );
+            $vmLogger->tip( $VM_LANG->_('PHPSHOP_CART_QUANTITY_EXCEEDED',false) );
         }
 		// end cart update message */
 

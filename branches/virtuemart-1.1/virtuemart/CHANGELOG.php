@@ -33,8 +33,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
-29.11.2008 soeren
+29.11.08 aravot
+#2314 - Add Item MISSING in 1.1.2
 
+29.11.2008 soeren
 # fixed some security-related issues.
 
 28.11.2008 soeren

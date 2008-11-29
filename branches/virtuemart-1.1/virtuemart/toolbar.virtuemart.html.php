@@ -47,7 +47,8 @@ class MENU_virtuemart {
         		$product_id, $page, $limitstart,	$mosConfig_editor, $vmIcons;
 
 		$bar = & JToolBar::getInstance('toolbar');
-		
+
+        $product_id = vmGet( $_REQUEST, 'product_id', 0 );
         $no_menu = vmGet( $_REQUEST, 'no_menu', 0 );
         $is_iframe = vmGet( $_REQUEST, 'is_iframe', 0 );
         $product_parent_id = vmGet( $_REQUEST, 'product_parent_id', 0 );

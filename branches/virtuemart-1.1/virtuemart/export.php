@@ -16,8 +16,10 @@ elseif( file_exists($my_path."/../../configuration.php")){
 elseif( file_exists($my_path."/configuration.php")){
 	require_once( $my_path."/configuration.php" );
 }
-else
-die( "Joomla Configuration File not found!" );
+else {
+	die( "Joomla Configuration File not found!" );
+}
+if( isset($_REQUEST['mosConfig_absolute_path'])) die();
 
 require_once( $mosConfig_absolute_path . '/includes/joomla.php' );
 require_once($mosConfig_absolute_path . '/includes/database.php');

@@ -888,11 +888,6 @@ class ps_checkout {
 		require_once(CLASSPATH.'ps_cart.php');
 		$ps_cart = new ps_cart;
 
-		if (AFFILIATE_ENABLE == '1') {
-			require_once(CLASSPATH.'ps_affiliate.php');
-			$ps_affiliate = new ps_affiliate;
-		}
-
 		$db = new ps_DB;
 
 		/* Set the order number */
@@ -1153,9 +1148,6 @@ Order Total: '.$order_total.'
 		}
 		################## END DOWNLOAD MOD ###########
 
-		if (AFFILIATE_ENABLE == '1') {
-			$ps_affiliate->register_sale($order_id);
-		}
 		// Export the order_id so the checkout complete page can get it
 		$d["order_id"] = $order_id;
 

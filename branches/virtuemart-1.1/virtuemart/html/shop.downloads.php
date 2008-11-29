@@ -31,7 +31,7 @@ if ($ps_function->userCanExecuteFunc('downloadRequest')) { ?>
 	  	<form method="get" action="<?php echo $mm_action_url ?>index.php" name="downloadForm">
 		  	<p><?php echo $VM_LANG->_('PHPSHOP_DOWNLOADS_INFO') ?></p>
 		  	<div align="center">
-			    <input type="text" class="inputbox" value="<?php echo @$_GET['download_id'] ?>" size="32" name="download_id" />
+			    <input type="text" class="inputbox" value="<?php echo htmlspecialchars(vmGet($_GET,'download_id'), ENT_QUOTES) ?>" size="32" name="download_id" />
 			    <br /><br />
 			    <input type="submit" onclick="if( document.downloadForm.download_id.value &lt; 12) { alert('<?php echo $VM_LANG->_('CONTACT_FORM_NC',false) ?>');return false;} else return true;" class="button" value="<?php echo $VM_LANG->_('PHPSHOP_DOWNLOADS_START') ?>" />
 			 </div>

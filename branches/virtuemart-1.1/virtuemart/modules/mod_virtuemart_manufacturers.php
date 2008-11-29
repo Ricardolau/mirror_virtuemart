@@ -29,8 +29,6 @@ $show_dropdown = $params->get( 'show_dropdown', 1);
 $show_linklist = $params->get( 'show_linklist', 1);
 $auto = $params->get( 'auto', 0);
 
-$category_id = vmGet( $_REQUEST, 'category_id', '' );
-
 $sess = new ps_session;
 
 
@@ -39,7 +37,7 @@ $query  = "SELECT DISTINCT m.manufacturer_id, m.mf_name
 					LEFT JOIN #__{vm}_product_mf_xref mx ON mx.manufacturer_id = m.manufacturer_id
 					LEFT JOIN #__{vm}_product p ON p.product_id = mx.product_id
 					LEFT JOIN #__{vm}_product_category_xref cx ON cx.product_id = p.product_id
-					WHERE cx.category_id = '$category_id' ";
+					WHERE cx.category_id =".(int)$category_id;
 $query .= "ORDER BY m.mf_name ASC";
 
 $query_all  = "SELECT m.manufacturer_id,m.mf_name FROM #__{vm}_manufacturer m ";
@@ -64,8 +62,7 @@ if( empty( $res )) {
 ?>
 <?php if( $show_linklist == 1 ) { ?>
   <!--BEGIN manufacturer DropDown List --> 
-	<?php echo $text_before ?><br />
-     
+	<?php echo $text_before ?><br />     
         <?php foreach( $res as $manufacturer) { ?>
             <div><a href="<?php echo $sess->url( URL."index.php?option=com_virtuemart&page=shop.browse&manufacturer_id=". $manufacturer->manufacturer_id ) ?>">
                     <?php echo $manufacturer->mf_name; ?>
@@ -101,5 +98,4 @@ if( $show_dropdown == 1 ) { ?>
   </div>
 <?php 
 } 
-?>
-<!-- End Manufacturer Module --> 
+?><!-- End Manufacturer Module -->

@@ -24,6 +24,8 @@ define('_VALID_MOS', 1);
 $config_file = '../../configuration.php';
 include_once( $config_file );
 
+if( isset($_REQUEST['mosConfig_absolute_path'])) die();
+
 if( !isset( $mosConfig_absolute_path ) ) {
 // We are in J! 1.5
 	define( '_JEXEC', 1 );

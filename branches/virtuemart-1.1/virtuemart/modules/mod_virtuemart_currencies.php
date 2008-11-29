@@ -54,6 +54,7 @@ $sess = new ps_session;
 	if( !empty( $_POST )) {
 		foreach( $_POST as $key => $val ) {
 			if( $key == 'product_currency' || is_array($val) ) continue;
+			$key = htmlspecialchars($key, ENT_QUOTES);
 			$val = htmlspecialchars($val, ENT_QUOTES);
 			echo "<input type=\"hidden\" name=\"$key\" value=\"$val\" />\n";
 		}
@@ -61,6 +62,7 @@ $sess = new ps_session;
 	elseif( !empty( $_GET )) {
 		foreach( $_GET as $key => $val ) {
 			if( $key == 'product_currency' || is_array($val) ) continue;
+			$key = htmlspecialchars($key, ENT_QUOTES);
 			echo "<input type=\"hidden\" name=\"$key\" value=\"".htmlspecialchars($val, ENT_QUOTES)."\" />\n";
 		}
 	}

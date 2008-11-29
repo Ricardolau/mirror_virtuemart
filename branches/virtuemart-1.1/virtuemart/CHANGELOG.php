@@ -33,6 +33,14 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+29.11.2008 soeren
+
+# fixed some security-related issues.
+
+28.11.2008 soeren
+# Task #2429 - Undefined variable: tax_display
+# fix for removed affiliate module
+
 28.11.08 aravot
 # Task #2366 - Missing info message "The selected quantity exceeds quantity available in stock." with EASY FIX (Thank you Danny)
 # Task #2394 - Selecting orders in the back-end causes a major slow-down with large number of orders

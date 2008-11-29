@@ -199,7 +199,8 @@ else {
 		$discount_before=true;
 	}
 
-	/* SHOW TAX */
+	// SHOW TAX
+	$tax_display = '';
 	if (!empty($_REQUEST['ship_to_info_id']) || ps_checkout::tax_based_on_vendor_address() ) {
 
 		$show_tax = true;

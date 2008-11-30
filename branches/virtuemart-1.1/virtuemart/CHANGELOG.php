@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+30.11.08 aravot
+# Task #2414 - Shipping zone display error
+
 29.11.08 aravot
 #2314 - Add Item MISSING in 1.1.2
 

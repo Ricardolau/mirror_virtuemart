@@ -65,6 +65,7 @@ $listObj->writeTableHeader( $columns );
 
 $db->query($list);
 $i = 0;
+require_once( CLASSPATH . 'ps_zone.php');
 
 while ($db->next_record()) {
 	
@@ -82,7 +83,7 @@ while ($db->next_record()) {
 	$tmp_cell .= "<a href=\"". $sess->url($_SERVER['PHP_SELF'] ."?page=admin.country_state_list&country_id=".$db->f("country_id")) ."\">[ ". $VM_LANG->_('PHPSHOP_STATE_LIST_MNU') ." ]</a>";
 	$listObj->addCell( $tmp_cell );
 	
-	$listObj->addCell( $db->f("zone_id") );
+	$listObj->addCell( ps_zone::zone_name($db->f("zone_id")) );
 	$listObj->addCell( $db->f("country_3_code") );
 	$listObj->addCell( $db->f("country_2_code") );
 	

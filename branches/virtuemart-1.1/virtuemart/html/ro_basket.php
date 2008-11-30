@@ -174,7 +174,8 @@ else {
 			$total -= $payment_discount;
 			$payment_discount_display = $GLOBALS['CURRENCY_DISPLAY']->getFullValue($payment_discount-($payment_discount*2));
 		}
-		/* COUPON DISCOUNT */
+		// COUPON DISCOUNT
+		$coupon_display = '';
 		if( PSHOP_COUPONS_ENABLE=='1' && @$_SESSION['coupon_redeemed']==true ) {
 			$total -= $_SESSION['coupon_discount'];
 			$coupon_discount_before = true;

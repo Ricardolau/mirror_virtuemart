@@ -33,6 +33,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+30.11.08 soeren
+#Task #2437 - Undefined variable: coupon_display;
+#Task #2436 - Error when trying to view order in Account Maintenance
+
 30.11.08 aravot
 # Task #2414 - Shipping zone display error
 
@@ -87,6 +91,22 @@ Added missing product navigation link parameters to theme.xml file
 # Task #2368 - order date not local language 
 + added pathway + page title to registration page
 ^ changed basket + ro_basket to read the basket templates using the vmtemplateClass::fetch method
+
+15.09.2008 soeren
+# Task #2331 - search_date hidden field doesn't get a value in admin product listing on backend after
+# Task #2335 - mod_virtuemart_login.php contains unescaped ampersand characters
+# Task #2336 - HTML entities in product name are not always escaped leading to XHTML validation errors.
+# Task #2337 - Labels for the user fields 'title' and 'state' do not match the ids used on the select tags.
+# Task #2338 - Option values for dropdown lists allow unescaped HTML entities leading to XHTML validation errors.
+# Task #2339 - The vendor image requires the alt attribute for XHTML validation
+# Task #2340 - pageNavigation.class.php specifies nowrap="true" causing XHTML validation errors.
+# Task #2341 - writeSearchHeader function in htmlTools.class.php generates invalid HTML
+# Task #2342 - The dropdown list of downloadable filenames for a product should exclude system files such as .htaccess and index.html etc.
+# Task #2345 - Rogue double quote in basket_b2c.html.php
+# Task #2344 - XHTML validation errors in basket
+# Task #2346 - Username and password login boxes require unique ids for XHTML validation
+# Task #2347 - XHTML validation errors in shop.downloads.php
+# Task #2348 - XHTML validation error with PayPal image
 
 13.08.2008 aravot
 Corrected few spelling mistakes in English language (http://forum.virtuemart.net/index.php?topic=44169.0 - thank you Phil)

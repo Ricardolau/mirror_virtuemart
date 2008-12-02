@@ -171,7 +171,7 @@ $vendor_store_name = $db->f("vendor_store_name");
 $vendor_mail = $db->f("contact_email");
 $vendor_url = $db->f("vendor_url");
 $vendor_freeshipping = $db->f("vendor_freeshipping");
-$vendor_image = "<img border=\"0\" src=\"" .IMAGEURL ."vendor/" . $db->f("vendor_full_image") . "\" />";
+$vendor_image = "<img border=\"0\" src=\"" .IMAGEURL ."vendor/" . $db->f("vendor_full_image") . "\" alt=\"" . shopMakeHtmlSafe($vendor_name) . "\" />";
 $vendor_full_image = $db->f("vendor_full_image");
 $vendor_image_url = IMAGEURL."vendor/".$db->f("vendor_full_image");
 $vendor_address = $db->f("vendor_address_1");

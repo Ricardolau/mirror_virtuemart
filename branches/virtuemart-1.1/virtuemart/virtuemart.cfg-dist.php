@@ -37,8 +37,10 @@ define( 'SECUREURL', $mosConfig_live_site.$app);
 
 if ( (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == '443' ) {
 	define( 'IMAGEURL', SECUREURL .'components/com_virtuemart/shop_image/' );
+	define( 'VM_THEMEURL', SECUREURL.'components/com_virtuemart/themes/default/' );
 } else {
 	define( 'IMAGEURL', URL .'components/com_virtuemart/shop_image/' );
+	define( 'VM_THEMEURL', URL.'components/com_virtuemart/themes/default/' );
 }
 define( 'COMPONENTURL', URL .'administrator/components/com_virtuemart/' );
 define( 'ADMINPATH', $mosConfig_absolute_path.'/administrator/components/com_virtuemart/' );
@@ -47,7 +49,6 @@ define( 'PAGEPATH', ADMINPATH.'html/' );
 define( 'IMAGEPATH', $mosConfig_absolute_path.'/components/com_virtuemart/shop_image/' );
 
 define( 'VM_THEMEPATH', $mosConfig_absolute_path.'/components/com_virtuemart/themes/default/' );
-define( 'VM_THEMEURL', $mosConfig_live_site.'/components/com_virtuemart/themes/default/' );
 
 @define('VM_TABLEPREFIX', 'vm' );
 define('VM_PRICE_SHOW_PACKAGING_PRICELABEL', '1' );

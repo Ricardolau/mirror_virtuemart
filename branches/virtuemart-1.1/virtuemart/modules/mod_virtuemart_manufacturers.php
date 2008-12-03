@@ -24,6 +24,7 @@ if( file_exists(dirname(__FILE__).'/../../components/com_virtuemart/virtuemart_p
 } else {
 	require_once( dirname(__FILE__).'/../components/com_virtuemart/virtuemart_parser.php' );
 }
+$category_id = vmRequest::getInt('category_id');
 $text_before = $params->get( 'text_before', '');
 $show_dropdown = $params->get( 'show_dropdown', 1);
 $show_linklist = $params->get( 'show_linklist', 1);

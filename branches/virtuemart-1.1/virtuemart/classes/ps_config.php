@@ -202,7 +202,7 @@ else {
 define( 'URL', $url );
 define( 'SECUREURL', '".$db->getEscaped($d['conf_SECUREURL'])."' );
 
-if ( @\$_SERVER['HTTPS'] == 'on' ) {
+if ( (!empty(\$_SERVER['HTTPS']) && \$_SERVER['HTTPS'] != 'off') || \$_SERVER['SERVER_PORT'] == '443' ) {
 	define( 'IMAGEURL', SECUREURL .'components/com_virtuemart/shop_image/' );
 	define( 'VM_THEMEURL', SECUREURL.'components/com_virtuemart/themes/".$db->getEscaped($d['conf_THEME'])."/' );
 } else {

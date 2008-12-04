@@ -213,16 +213,6 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_ADMIN_CFG_GLOBAL'), "global-page");
 			</td>
 		</tr>
 		
-		<tr>
-			<td class="labelcell">
-				<label for="conf_AFFILIATE_ENABLE"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE') ?></label>
-			</td>
-			<td>
-				<input type="checkbox" id="conf_AFFILIATE_ENABLE" name="conf_AFFILIATE_ENABLE" class="inputbox" <?php if (AFFILIATE_ENABLE == '1') echo "checked=\"checked\""; ?> value="1" />
-			</td>
-			<td class="iconcell"><?php echo vmToolTip( $VM_LANG->_('PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE_EXPLAIN') ) ?>
-			</td>
-		</tr>
 	</table>
 </fieldset>
 

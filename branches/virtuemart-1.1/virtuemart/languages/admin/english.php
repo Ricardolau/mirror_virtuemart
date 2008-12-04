@@ -94,8 +94,6 @@ $langvars = array (
 	'PHPSHOP_ADMIN_CFG_CHECK_STOCK' => 'Check Stock?',
 	'PHPSHOP_ADMIN_CFG_CHECK_STOCK_EXPLAIN' => 'Sets whether to check the stock level when a user adds an item to the shopping cart. 
 		If set, this will not allow a user to add more items to the cart than are available in stock.',
-	'PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE' => 'Enable Affiliate Program?',
-	'PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE_EXPLAIN' => 'This enables the affiliate tracking in the shop-frontend. Enable if you have added affiliates in the backend.',
 	'PHPSHOP_ADMIN_CFG_MAIL_FORMAT' => 'Order-mail format:',
 	'PHPSHOP_ADMIN_CFG_MAIL_FORMAT_TEXT' => 'Text mail',
 	'PHPSHOP_ADMIN_CFG_MAIL_FORMAT_HTML' => 'HTML mail',

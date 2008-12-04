@@ -8,7 +8,7 @@
 * @version $Id$
 * @package VirtueMart
 * @subpackage core
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -34,9 +34,21 @@ if( !isset( $mosConfig_absolute_path ) ) {
 
 include_once("../../administrator/components/com_virtuemart/virtuemart.cfg.php");
 
-//	Image2Thumbnail - Klasse einbinden 
+$resize_image = true;
+// check if dynamic thumbnails are disabled or the GD Library is not available
+if( PSHOP_IMG_RESIZE_ENABLE == '') {
+	$resize_image = false;
+}
+elseif (!extension_loaded('gd') && !dl('gd.so')) {
+	$resize_image = false;
+}
+ 
 include( CLASSPATH . "ps_main.php");
-include( CLASSPATH . "class.img2thumb.php");
+	
+if( $resize_image ) {
+	//	Image2Thumbnail will resize your images
+	include( CLASSPATH . "class.img2thumb.php");
+}
 
 $basefilename = @basename(urldecode($_REQUEST['filename']));
 $filenames[] = IMAGEPATH."product/".$basefilename;
@@ -45,10 +57,23 @@ $filenames[] = IMAGEPATH."category/".$basefilename;
 $resized_filenames[] = IMAGEPATH."category/resized/".$basefilename;
 $newxsize = (int)@$_REQUEST['newxsize'] == 0 ? PSHOP_IMG_WIDTH : (int)@$_REQUEST['newxsize'];
 $newysize = (int)@$_REQUEST['newysize'] == 0 ? PSHOP_IMG_WIDTH : (int)@$_REQUEST['newysize'];
-// Don't allow sizes beyond 2000 pixels
-$newxsize = min( $newxsize, 2000 );
-$newysize = min( $newysize, 2000 );
 
+// Don't allow sizes beyond 600 pixels
+$newxsize = min( $newxsize, 600 );
+$newysize = min( $newysize, 600 );
+
+//Don't allow sizes under 40 pixels
+$newxsize = max( $newxsize, 40 );
+$newysize = max( $newysize, 40 );
+
+if( $newxsize < $newysize ) {
+	// Don't let $newxsize be smaller than 55% of $newysize
+	$newxsize = max( $newxsize, 0.55 * $newysize );
+}
+elseif( $newysize < $newxsize ) {
+	// Don't let $newysize be smaller than 55% of $newxsize
+	$newysize = max( $newysize, 0.55 * $newxsize );
+}
 $maxsize = false;
 $bgred = 255;
 $bggreen = 255;
@@ -101,12 +126,15 @@ else {
   $noimgif="";
 }
 
-if( file_exists($filename2)) { 
-	$fileout = $filename2;
+if( $resize_image ) {
+	if( file_exists($filename2)) { 
+		$fileout = $filename2;
+	} else {
+		$fileout = dirname( $filename2 ) .'/'.$file."_".$newxsize."x".$newysize.$noimgif.$ext;
+	}
 } else {
-	$fileout = dirname( $filename2 ) .'/'.$file."_".$newxsize."x".$newysize.$noimgif.$ext;
+	$fileout = $filename;
 }
-
 // Tell the user agent to cache this script/stylesheet for an hour
 $age = 3600;
 header( 'Expires: '.gmdate( 'D, d M Y H:i:s', time()+ $age ) . ' GMT' );

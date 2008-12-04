@@ -18,7 +18,6 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 
 class ps_shipping_method {
 
-	var $classname = "ps_shipping_method";
 
 	/**************************************************************************
 	* name: save()
@@ -32,10 +31,10 @@ class ps_shipping_method {
 		
 		$ps_vendor_id = $_SESSION["ps_vendor_id"];
 		$db = new ps_DB;
-		
-		if( file_exists( CLASSPATH."shipping/".$d["shipping_class"].".php" )) {
-			include( CLASSPATH."shipping/".$d["shipping_class"].".php" );
-			eval( "\$_SHIPPING = new ".$d["shipping_class"]."();");
+		$shipping_class = basename(vmGet($d,"shipping_class"));
+		if( file_exists( CLASSPATH."shipping/".$shipping_class.".php" )) {
+			include( CLASSPATH."shipping/".$shipping_class.".php" );
+			$_SHIPPING = new $shipping_class();
 			
 			if( $_SHIPPING->configfile_writeable() ) {
 				$_SHIPPING->write_configuration( $d );

@@ -197,7 +197,7 @@ class usps {
 
 					$error = curl_error( $CR );
 					if( !empty( $error )) {
-						$vmLogger->err( curl_error( $CR ) );
+						$GLOBALS['vmLogger']->err( curl_error( $CR ) );
 						$html = "<br/><span class=\"message\">".$VM_LANG->_('PHPSHOP_INTERNAL_ERROR')." USPS.com</span>";
 						$error = true;
 					}
@@ -366,7 +366,7 @@ class usps {
 					//echo "<textarea>".$xmlResult."</textarea>";
 					$error = curl_error( $CR );
 					if( !empty( $error )) {
-						$vmLogger->err( curl_error( $CR ) );
+						$GLOBALS['vmLogger']->err( curl_error( $CR ) );
 						$html = "<br/><span class=\"message\">".$VM_LANG->_('PHPSHOP_INTERNAL_ERROR')." USPS.com</span>";
 						$error = true;
 					}

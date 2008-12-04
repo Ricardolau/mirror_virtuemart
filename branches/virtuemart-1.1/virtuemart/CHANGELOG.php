@@ -33,6 +33,15 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+
+04.12.2008 soeren
+
+# usps.php - fatal error on curl_error
+# shop.feed.php - fatal error when JoomFish is enabled
+# Task #2439 - Dynamic Image Resizing ( PSHOP_IMG_RESIZE_ENABLE ) can not be switched off casuing broken thumb images on Category display
+^ show_image_in_imgtag.php: changed max height+width to 600px and min to 40px;
+# no resized images will be created when "Enable Dynamic Thumbnail Resizing?" is disabled; added a check for the existance of the GD library
+
 30.11.08 soeren
 #Task #2437 - Undefined variable: coupon_display;
 #Task #2436 - Error when trying to view order in Account Maintenance

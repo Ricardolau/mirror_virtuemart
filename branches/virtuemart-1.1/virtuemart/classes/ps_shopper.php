@@ -371,7 +371,8 @@ class ps_shopper {
 				// Catch a newsletter registration!
 				if( stristr( $userField->params, 'newsletter' )) {
 					if( !empty($d[$userField->name])) {
-						$subscribeTo = new mosParameters( $userField->params );
+						require_once( CLASSPATH.'parameters.class.php');
+						$subscribeTo = new vmParameters( $userField->params );
 						$vmLogger->debug( 'Adding the user to the Newsletter.');
 					}
 				}
@@ -425,7 +426,7 @@ class ps_shopper {
 		$db->query($q);
 		
 		// Process the Newsletter subscription		
-		if( !empty( $subscribeTo ) && strtolower(get_class($subscribeTo))=='mosparameters') {
+		if( !empty( $subscribeTo ) && strtolower(get_class($subscribeTo))=='vmparameters') {
 			switch( $subscribeTo->get('newsletter', 'letterman')) {
 				// TODO:
 				case 'ccnewsletter':

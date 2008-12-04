@@ -100,7 +100,10 @@ $info['year'] = date( 'Y' );
 $info['link'] = $mosConfig_live_site;
 
 $info['encoding'] = $iso;
-$info['language'] = $lang[0];
+$info['language'] = 'en';
+if( is_array($lang)) {
+	$info['language'] = $lang[0];
+}
 
 $info['cache'] = VM_FEED_CACHE;
 $info['cache_time'] = VM_FEED_CACHETIME;

@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage html
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -20,17 +20,20 @@ mm_showMyFileName( __FILE__ );
 $shipping_module = vmGet($_REQUEST, 'shipping_module', null);
 
 if( $shipping_module ) {
-	if( !include( CLASSPATH."shipping/$shipping_module" )) {
+	if( !include( CLASSPATH.'shipping/'.basename($shipping_module) )) {
 		vmRedirect( $_SERVER['PHP_SELF']."?option=com_virtuemart&page=store.shipping_modules", str_replace('{shipping_module}',$shipping_module,$VM_LANG->_('VM_SHIPPING_MODULE_CLASSERROR')));
 	}
 	else {
-		eval( "\$_SHIPPING = new ".basename($shipping_module,".php")."();");
+		$classname = basename($shipping_module,".php"); 
+		if( class_exists($classname)) {
+			$_SHIPPING = new $classname();
+		}
 	}
 	$ps_html->writableIndicator(CLASSPATH."shipping/".basename($shipping_module,".php").'.cfg.php');
 	
   ?>
   <div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
-  <script language="Javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/overlib_mini.js"></script>
+  <script type="text/javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/overlib_mini.js"></script>
 	<table class="adminform">
 	<tr>
 	<td>

@@ -1447,7 +1447,7 @@ class ps_product extends vmAbstractObject {
 
 				}
 				else {
-					if( empty( $_SESSION['taxrate'][$ps_vendor_id] )) {
+					if( !isset( $_SESSION['taxrate'][$ps_vendor_id] )) {
 						// let's get the store's tax rate
 						$q = "SELECT `tax_rate` FROM #__{vm}_vendor, #__{vm}_tax_rate ";
 						$q .= "WHERE tax_country=vendor_country AND #__{vm}_vendor.vendor_id=1 ";

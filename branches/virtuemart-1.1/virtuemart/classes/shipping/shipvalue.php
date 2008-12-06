@@ -381,7 +381,7 @@ class shipvalue {
 		"BASE_CHARGE7" => $d['BASE_CHARGE7'],
 		"BASE_CHARGE8" => $d['BASE_CHARGE8'],
 		"BASE_CHARGE9" => $d['BASE_CHARGE9'],
-		"BASE_CHARGE10" => $d['BASE_SHIP10'],
+		"BASE_CHARGE10" => $d['BASE_CHARGE10'],
 		"SHIPVALUE_TAX_CLASS" => $d['SHIPVALUE_TAX_CLASS']
 		);
 		$config = "<?php\n";

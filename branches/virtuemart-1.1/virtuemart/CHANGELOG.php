@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+05.12.2008 aravot
+# Fixed shipvalue (http://forum.virtuemart.net/index.php?topic=39883.0 Thank you chaliet)
+
 04.12.2008 aravot
 # Removed affiliate reference from configuration and language file
 

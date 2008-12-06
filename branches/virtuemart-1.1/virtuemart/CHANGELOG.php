@@ -40,6 +40,7 @@ VirtueMart 1.1.x
 # Removed affiliate reference from configuration and language file
 
 04.12.2008 soeren
+^ Task #2441 - Updated Slimbox to latest version (1.54)
 # usps.php - fatal error on curl_error
 # shop.feed.php - fatal error when JoomFish is enabled
 # Task #2439 - Dynamic Image Resizing ( PSHOP_IMG_RESIZE_ENABLE ) can not be switched off casuing broken thumb images on Category display

@@ -205,7 +205,6 @@ function include_class($module) {
 			require_once(CLASSPATH. 'ps_perm.php' );
 			require_once(CLASSPATH. 'ps_user.php' );
 			require_once(CLASSPATH. 'ps_user_address.php' );
-			require_once(CLASSPATH. 'ps_session.php' );
 	
 			//Instantiate Classes
 			$ps_html = new ps_html;
@@ -214,15 +213,7 @@ function include_class($module) {
 			$ps_perm= new ps_perm;
 			$ps_user= new ps_user;
 			$ps_user_address = new ps_user_address;
-			$ps_session = new ps_session;
 	
-			break;
-
-		case "affiliate" :
-			// Load class file
-			require_once(CLASSPATH. 'ps_affiliate.php' );
-			//Instantiate Class
-			$ps_affiliate = new ps_affiliate;
 			break;
 
 		case "checkout" :

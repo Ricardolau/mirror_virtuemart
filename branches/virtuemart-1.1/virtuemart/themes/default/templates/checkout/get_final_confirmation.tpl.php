@@ -53,10 +53,11 @@ if(!ps_checkout::noShippingMethodNecessary()) {
 	$rate_details = explode( "|", urldecode(urldecode(vmGet($_REQUEST,'shipping_rate_id'))) );
 	echo '<td>';
 	foreach( $rate_details as $k => $v ) {
+		$v = shopMakeHtmlSafe($v);
 		if( $k == 3 ) {
 			echo $CURRENCY_DISPLAY->getFullValue( $v )."; ";
 		} elseif( $k > 0 && $k < 4) {
-			echo "$v; ";
+			echo shopMakeHtmlSafe($v).'; ';
 		}
 	}
 	echo "</td></tr>";

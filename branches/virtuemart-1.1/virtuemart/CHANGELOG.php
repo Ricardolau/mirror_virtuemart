@@ -33,6 +33,16 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+
+08.12.2008
+# Task #2440 - Zone Shipping on checkout page shows zone value rather than zone name. 
+# Task #2443 - Save button for additional file/images not working in IE (missing ajax_request var) 
+# Task #2197 - Parent price shown for Child items when user is member of a shopper group other than default 
+# Task #2445 - hidden user_id present 2 times in a form 
+# removed additional user_id parameter from admin.user_address_form
+^updated Turkish Lira to "New Turkish Lira" in installation sql
+# undefined variables in ro_basket.php
+
 08.12.2088 aravot
 # Compliance issue in classes/htmlTools.class.php (Thank you Phil)
 

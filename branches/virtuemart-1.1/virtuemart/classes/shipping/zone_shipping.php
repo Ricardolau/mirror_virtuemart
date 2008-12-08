@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage shipping
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -60,7 +60,7 @@ class zone_shipping {
           $taxrate = $this->get_tax_rate( $the_zone ) + 1;
       }
       
-      $q3 = "SELECT * FROM #__{vm}_zone_shipping WHERE zone_id ='$the_zone' ";
+      $q3 = 'SELECT * FROM #__{vm}_zone_shipping WHERE zone_id ='.(int)$the_zone;
       $db->query($q3);
       $db->next_record(); 
 
@@ -76,7 +76,7 @@ class zone_shipping {
       $rate = $GLOBALS['CURRENCY']->convert( $rate );
       // THE ORDER OF THOSE VALUES IS IMPORTANT:
       // carrier_name|rate_name|totalshippingcosts|rate_id
-      $value = urlencode($this->classname."|".$the_zone."|".$country."|".$rate."|".$the_zone);
+      $value = urlencode(__CLASS__."|Zone Shipping $country_name|".$country."|".$rate."|".$the_zone);
       
       $_SESSION[$value] = "1";
       $string = "<input type=\"radio\" checked=\"checked\" name=\"shipping_rate_id\" value=\"$value\" />";

@@ -1,7 +1,7 @@
 /* This notice must be untouched at all times.
 Copyright (c) 2002-2008 Walter Zorn. All rights reserved.
 
-wz_tooltip.js	 v. 5.11
+wz_tooltip.js	 v. 5.31
 
 The latest version is available at
 http://www.walterzorn.com
@@ -9,12 +9,13 @@ or http://www.devira.com
 or http://www.walterzorn.de
 
 Created 1.12.2002 by Walter Zorn (Web: http://www.walterzorn.com )
-Last modified: 22.5.2008
+Last modified: 7.11.2008
 
 Easy-to-use cross-browser tooltips.
 Just include the script at the beginning of the <body> section, and invoke
-Tip('Tooltip text') from the desired HTML onmouseover eventhandlers,
-and UnTip(), usually from the onmouseout eventhandlers, to hide the tip.
+Tip('Tooltip text') to show and UnTip() to hide the tooltip, from the desired
+HTML eventhandlers. Example:
+<a onmouseover="Tip('Some text')" onmouseout="UnTip()" href="index.htm">My home page</a>
 No container DIV required.
 By default, width and height of tooltips are automatically adapted to content.
 Is even capable of dynamically converting arbitrary HTML elements to tooltips
@@ -42,7 +43,7 @@ see http://www.gnu.org/copyleft/lesser.html
 var config = new Object();
 
 
-//===================  GLOBAL TOOPTIP CONFIGURATION  =========================//
+//===================  GLOBAL TOOLTIP CONFIGURATION  =========================//
 var tt_Debug	= true		// false or true - recommended: false once you release your page to the public
 var tt_Enabled	= true		// Allows to (temporarily) suppress tooltips, e.g. by providing the user with a button that sets this global variable to false
 var TagsToTip	= true		// false or true - if true, HTML elements to be converted to tooltips via TagToTip() are automatically hidden;
@@ -54,42 +55,43 @@ var TagsToTip	= true		// false or true - if true, HTML elements to be converted 
 // configuration. Order of commands is arbitrary.
 // Example: onmouseover="Tip('Tooltip text', LEFT, true, BGCOLOR, '#FF9900', FADEIN, 400)"
 
-config. Above			= false 	// false or true - tooltip above mousepointer
-config. BgColor 		= '#E2E7FF' // Background colour (HTML colour value, in quotes)
+config. Above			= false		// false or true - tooltip above mousepointer
+config. BgColor			= '#E2E7FF'	// Background colour (HTML colour value, in quotes)
 config. BgImg			= ''		// Path to background image, none if empty string ''
 config. BorderColor		= '#003099'
 config. BorderStyle		= 'solid'	// Any permitted CSS value, but I recommend 'solid', 'dotted' or 'dashed'
 config. BorderWidth		= 1
-config. CenterMouse		= false 	// false or true - center the tip horizontally below (or above) the mousepointer
-config. ClickClose		= false 	// false or true - close tooltip if the user clicks somewhere
+config. CenterMouse		= false		// false or true - center the tip horizontally below (or above) the mousepointer
+config. ClickClose		= false		// false or true - close tooltip if the user clicks somewhere
 config. ClickSticky		= false		// false or true - make tooltip sticky if user left-clicks on the hovered element while the tooltip is active
-config. CloseBtn		= false 	// false or true - closebutton in titlebar
-config. CloseBtnColors	= ['#990000', '#FFFFFF', '#DD3333', '#FFFFFF']	  // [Background, text, hovered background, hovered text] - use empty strings '' to inherit title colours
+config. CloseBtn		= false		// false or true - closebutton in titlebar
+config. CloseBtnColors	= ['#990000', '#FFFFFF', '#DD3333', '#FFFFFF']	// [Background, text, hovered background, hovered text] - use empty strings '' to inherit title colours
 config. CloseBtnText	= '&nbsp;X&nbsp;'	// Close button text (may also be an image tag)
 config. CopyContent		= true		// When converting a HTML element to a tooltip, copy only the element's content, rather than converting the element by its own
 config. Delay			= 400		// Time span in ms until tooltip shows up
-config. Duration		= 0 		// Time span in ms after which the tooltip disappears; 0 for infinite duration, < 0 for delay in ms _after_ the onmouseout until the tooltip disappears
-config. FadeIn			= 0 		// Fade-in duration in ms, e.g. 400; 0 for no animation
-config. FadeOut			= 0
+config. Duration		= 0			// Time span in ms after which the tooltip disappears; 0 for infinite duration, < 0 for delay in ms _after_ the onmouseout until the tooltip disappears
+config. Exclusive		= false		// false or true - no other tooltip can appear until the current one has actively been closed
+config. FadeIn			= 100		// Fade-in duration in ms, e.g. 400; 0 for no animation
+config. FadeOut			= 100
 config. FadeInterval	= 30		// Duration of each fade step in ms (recommended: 30) - shorter is smoother but causes more CPU-load
-config. Fix				= null		// Fixated position - x- an y-oordinates in brackets, e.g. [210, 480], or null for no fixation
+config. Fix				= null		// Fixated position, two modes. Mode 1: x- an y-coordinates in brackets, e.g. [210, 480]. Mode 2: Show tooltip at a position related to an HTML element: [ID of HTML element, x-offset, y-offset from HTML element], e.g. ['SomeID', 10, 30]. Value null (default) for no fixated positioning.
 config. FollowMouse		= true		// false or true - tooltip follows the mouse
 config. FontColor		= '#000044'
 config. FontFace		= 'Verdana,Geneva,sans-serif'
-config. FontSize		= '8pt' 	// E.g. '9pt' or '12px' - unit is mandatory
+config. FontSize		= '8pt'		// E.g. '9pt' or '12px' - unit is mandatory
 config. FontWeight		= 'normal'	// 'normal' or 'bold';
-config. Height			= 0 		// Tooltip height; 0 for automatic adaption to tooltip content, < 0 (e.g. -100) for a maximum for automatic adaption
+config. Height			= 0			// Tooltip height; 0 for automatic adaption to tooltip content, < 0 (e.g. -100) for a maximum for automatic adaption
 config. JumpHorz		= false		// false or true - jump horizontally to other side of mouse if tooltip would extend past clientarea boundary
 config. JumpVert		= true		// false or true - jump vertically		"
-config. Left			= false 	// false or true - tooltip on the left of the mouse
+config. Left			= false		// false or true - tooltip on the left of the mouse
 config. OffsetX			= 14		// Horizontal offset of left-top corner from mousepointer
-config. OffsetY			= 8 		// Vertical offset
+config. OffsetY			= 8			// Vertical offset
 config. Opacity			= 100		// Integer between 0 and 100 - opacity of tooltip in percent
-config. Padding			= 3 		// Spacing between border and content
-config. Shadow			= false 	// false or true
+config. Padding			= 3			// Spacing between border and content
+config. Shadow			= false		// false or true
 config. ShadowColor		= '#C0C0C0'
 config. ShadowWidth		= 5
-config. Sticky			= false 	// false or true - fixate tip, ie. don't follow the mouse and don't hide on mouseout
+config. Sticky			= false		// false or true - fixate tip, ie. don't follow the mouse and don't hide on mouseout
 config. TextAlign		= 'left'	// 'left', 'right' or 'justify'
 config. Title			= ''		// Default title text applied to all tips (no default title: empty string '')
 config. TitleAlign		= 'left'	// 'left' or 'right' - text alignment inside the title bar
@@ -98,7 +100,7 @@ config. TitleFontColor	= '#FFFFFF'	// Color of title text - if '', BgColor (of t
 config. TitleFontFace	= ''		// If '' use FontFace (boldified)
 config. TitleFontSize	= ''		// If '' use FontSize
 config. TitlePadding	= 2
-config. Width			= 0 		// Tooltip width; 0 for automatic adaption to tooltip content; < -1 (e.g. -240) for a maximum width for that automatic adaption;
+config. Width			= 0			// Tooltip width; 0 for automatic adaption to tooltip content; < -1 (e.g. -240) for a maximum width for that automatic adaption;
 									// -1: tooltip width confined to the width required for the titlebar
 //=======  END OF TOOLTIP CONFIG, DO NOT CHANGE ANYTHING BELOW  ==============//
 
@@ -133,7 +135,7 @@ function UnTip()
 var tt_aElt = new Array(10), // Container DIV, outer title & body DIVs, inner title & body TDs, closebutton SPAN, shadow DIVs, and IFRAME to cover windowed elements in IE
 tt_aV = new Array(),	// Caches and enumerates config data for currently active tooltip
 tt_sContent,			// Inner tooltip text or HTML
-tt_scrlX = 0, tt_scrlY = 0,
+tt_t2t, tt_t2tDad,		// Tag converted to tip, and its DOM parent element
 tt_musX, tt_musY,
 tt_over,
 tt_x, tt_y, tt_w, tt_h; // Position, width and height of currently displayed tooltip
@@ -167,7 +169,7 @@ function tt_HideInit()
 	if(tt_iState)
 	{
 		tt_ExtCallFncs(0, "HideInit");
-		tt_iState &= ~0x4;
+		tt_iState &= ~(0x4 | 0x8);
 		if(tt_flagOpa && tt_aV[FADEOUT])
 		{
 			tt_tFade.EndTimer();
@@ -203,13 +205,10 @@ function tt_Hide()
 		if(tt_aV[CLICKCLOSE] || tt_aV[CLICKSTICKY])
 			tt_RemEvtFnc(document, "mouseup", tt_OnLClick);
 		tt_ExtCallFncs(0, "Kill");
-		// In case of a TagToTip tooltip, hide converted DOM node and
-		// re-insert it into document
+		// In case of a TagToTip tip, hide converted DOM node and
+		// re-insert it into DOM
 		if(tt_t2t && !tt_aV[COPYCONTENT])
-		{
-			tt_t2t.style.display = "none";
-			tt_MovDomNode(tt_t2t, tt_aElt[6], tt_t2tDad);
-		}
+			tt_UnEl2Tip();
 		tt_iState = 0;
 		tt_over = null;
 		tt_ResetMainDiv();
@@ -241,26 +240,19 @@ function tt_GetScrollY()
 }
 function tt_GetClientW()
 {
-	return(document.body && (typeof(document.body.clientWidth) != tt_u) ? document.body.clientWidth
-			: (typeof(window.innerWidth) != tt_u) ? window.innerWidth
-			: tt_db ? (tt_db.clientWidth || 0)
-			: 0);
+	return tt_GetWndCliSiz("Width");
 }
 function tt_GetClientH()
 {
-	// Exactly this order seems to yield correct values in all major browsers
-	return(document.body && (typeof(document.body.clientHeight) != tt_u) ? document.body.clientHeight
-			: (typeof(window.innerHeight) != tt_u) ? window.innerHeight
-			: tt_db ? (tt_db.clientHeight || 0)
-			: 0);
+	return tt_GetWndCliSiz("Height");
 }
 function tt_GetEvtX(e)
 {
-	return (e ? ((typeof(e.pageX) != tt_u) ? e.pageX : (e.clientX + tt_scrlX)) : 0);
+	return (e ? ((typeof(e.pageX) != tt_u) ? e.pageX : (e.clientX + tt_GetScrollX())) : 0);
 }
 function tt_GetEvtY(e)
 {
-	return (e ? ((typeof(e.pageY) != tt_u) ? e.pageY : (e.clientY + tt_scrlY)) : 0);
+	return (e ? ((typeof(e.pageY) != tt_u) ? e.pageY : (e.clientY + tt_GetScrollY())) : 0);
 }
 function tt_AddEvtFnc(el, sEvt, PFnc)
 {
@@ -282,6 +274,17 @@ function tt_RemEvtFnc(el, sEvt, PFnc)
 			el.detachEvent("on" + sEvt, PFnc);
 	}
 }
+function tt_GetDad(el)
+{
+	return(el.parentNode || el.parentElement || el.offsetParent);
+}
+function tt_MovDomNode(el, dadFrom, dadTo)
+{
+	if(dadFrom)
+		dadFrom.removeChild(el);
+	if(dadTo)
+		dadTo.appendChild(el);
+}
 
 //======================  PRIVATE  ===========================================//
 var tt_aExt = new Array(),	// Array of extension objects
@@ -289,12 +292,11 @@ var tt_aExt = new Array(),	// Array of extension objects
 tt_db, tt_op, tt_ie, tt_ie56, tt_bBoxOld,	// Browser flags
 tt_body,
 tt_ovr_,				// HTML element the mouse is currently over
-tt_flagOpa, 			// Opacity support: 1=IE, 2=Khtml, 3=KHTML, 4=Moz, 5=W3C
+tt_flagOpa,				// Opacity support: 1=IE, 2=Khtml, 3=KHTML, 4=Moz, 5=W3C
 tt_maxPosX, tt_maxPosY,
-tt_iState = 0,			// Tooltip active |= 1, shown |= 2, move with mouse |= 4
-tt_opa, 				// Currently applied opacity
+tt_iState = 0,			// Tooltip active |= 1, shown |= 2, move with mouse |= 4, exclusive |= 8
+tt_opa,					// Currently applied opacity
 tt_bJmpVert, tt_bJmpHorz,// Tip temporarily on other side of mouse
-tt_t2t, tt_t2tDad,		// Tag converted to tip, and its parent element in the document
 tt_elDeHref,			// The tag from which we've removed the href attribute
 // Timer
 tt_tShow = new Number(0), tt_tHide = new Number(0), tt_tDurt = new Number(0),
@@ -311,10 +313,6 @@ function tt_Init()
 		return;
 	tt_IsW3cBox();
 	tt_OpaSupport();
-	tt_AddEvtFnc(window, "scroll", tt_OnScrl);
-	// IE doesn't fire onscroll event when switching to fullscreen;
-	// fix suggested by Yoav Karpeles 14.2.2008
-	tt_AddEvtFnc(window, "resize", tt_OnScrl);
 	tt_AddEvtFnc(document, "mousemove", tt_Move);
 	// In Debug mode we search for TagToTip() calls in order to notify
 	// the user if they've forgotten to set the TagsToTip config flag
@@ -388,9 +386,11 @@ function tt_MkMainDiv()
 }
 function tt_MkMainDivHtm()
 {
-	return('<div id="WzTtDiV"></div>' +
-			(tt_ie56 ? ('<iframe id="WzTtIfRm" src="javascript:false" scrolling="no" frameborder="0" style="filter:Alpha(opacity=0);position:absolute;top:0px;left:0px;display:none;"></iframe>')
-			: ''));
+	return(
+		'<div id="WzTtDiV"></div>' +
+		(tt_ie56 ? ('<iframe id="WzTtIfRm" src="javascript:false" scrolling="no" frameborder="0" style="filter:Alpha(opacity=0);position:absolute;top:0px;left:0px;display:none;"></iframe>')
+		: '')
+	);
 }
 function tt_MkMainDivDom()
 {
@@ -421,11 +421,9 @@ function tt_GetMainDivRefs()
 }
 function tt_ResetMainDiv()
 {
-	var w = (window.screen && screen.width) ? screen.width : 10000;
-
-	tt_SetTipPos(-w, 0);
+	tt_SetTipPos(0, 0);
 	tt_aElt[0].innerHTML = "";
-	tt_aElt[0].style.width = (w - 1) + "px";
+	tt_aElt[0].style.width = "0px";
 	tt_h = 0;
 }
 function tt_IsW3cBox()
@@ -442,11 +440,11 @@ function tt_OpaSupport()
 {
 	var css = tt_body.style;
 
-	tt_flagOpa = (typeof(css.filter) != tt_u) ? 1
-				: (typeof(css.KhtmlOpacity) != tt_u) ? 2
+	tt_flagOpa = (typeof(css.KhtmlOpacity) != tt_u) ? 2
 				: (typeof(css.KHTMLOpacity) != tt_u) ? 3
 				: (typeof(css.MozOpacity) != tt_u) ? 4
 				: (typeof(css.opacity) != tt_u) ? 5
+				: (typeof(css.filter) != tt_u) ? 1
 				: 0;
 }
 // Ported from http://dean.edwards.name/weblog/2006/06/again/
@@ -532,7 +530,7 @@ function tt_HideSrcTag(sT2t)
 }
 function tt_Tip(arg, t2t)
 {
-	if(!tt_db)
+	if(!tt_db || (tt_iState & 0x8))
 		return;
 	if(tt_iState)
 		tt_Hide();
@@ -548,8 +546,8 @@ function tt_Tip(arg, t2t)
 	tt_FormatTip();
 	tt_bJmpVert = false;
 	tt_bJmpHorz = false;
-	tt_maxPosX = tt_GetClientW() + tt_scrlX - tt_w - 1;
-	tt_maxPosY = tt_GetClientH() + tt_scrlY - tt_h - 1;
+	tt_maxPosX = tt_GetClientW() + tt_GetScrollX() - tt_w - 1;
+	tt_maxPosY = tt_GetClientH() + tt_GetScrollY() - tt_h - 1;
 	tt_AdaptConfig2();
 	// Ensure the tip be shown and positioned before the first onmousemove
 	tt_OverInit();
@@ -637,6 +635,7 @@ function tt_MkTipSubDivs()
 	var sCss = 'position:relative;margin:0px;padding:0px;border-width:0px;left:0px;top:0px;line-height:normal;width:auto;',
 	sTbTrTd = ' cellspacing="0" cellpadding="0" border="0" style="' + sCss + '"><tbody style="' + sCss + '"><tr><td ';
 
+	tt_aElt[0].style.width = tt_GetClientW() + "px";
 	tt_aElt[0].innerHTML =
 		(''
 		+ (tt_aV[TITLE].length ?
@@ -667,16 +666,7 @@ function tt_MkTipSubDivs()
 	tt_GetSubDivRefs();
 	// Convert DOM node to tip
 	if(tt_t2t && !tt_aV[COPYCONTENT])
-	{
-		// Store the tag's parent element so we can restore that DOM branch
-		// once the tooltip is hidden
-		tt_t2tDad = tt_t2t.parentNode || tt_t2t.parentElement || tt_t2t.offsetParent || null;
-		if(tt_t2tDad)
-		{
-			tt_MovDomNode(tt_t2t, tt_t2tDad, tt_aElt[6]);
-			tt_t2t.style.display = "block";
-		}
-	}
+		tt_El2Tip();
 	tt_ExtCallFncs(0, "SubDivsCreated");
 }
 function tt_GetSubDivRefs()
@@ -690,7 +680,7 @@ function tt_FormatTip()
 {
 	var css, w, h, pad = tt_aV[PADDING], padT, wBrd = tt_aV[BORDERWIDTH],
 	iOffY, iOffSh, iAdd = (pad + wBrd) << 1;
-	
+
 	//--------- Title DIV ----------
 	if(tt_aV[TITLE].length)
 	{
@@ -767,7 +757,6 @@ function tt_FormatTip()
 	css.fontFamily = tt_aV[FONTFACE];
 	css.fontSize = tt_aV[FONTSIZE];
 	css.fontWeight = tt_aV[FONTWEIGHT];
-	css.background = "";
 	css.textAlign = tt_aV[TEXTALIGN];
 	if(tt_aV[WIDTH] > 0)
 		w = tt_aV[WIDTH];
@@ -884,7 +873,7 @@ function tt_OpDeHref(el)
 		tt_OpReHref();
 	while(el)
 	{
-		if(el.hasAttribute("href"))
+		if(el.hasAttribute && el.hasAttribute("href"))
 		{
 			el.t_href = el.getAttribute("href");
 			el.t_stats = window.status;
@@ -895,7 +884,7 @@ function tt_OpDeHref(el)
 			tt_elDeHref = el;
 			break;
 		}
-		el = el.parentElement;
+		el = tt_GetDad(el);
 	}
 }
 function tt_OpReHref()
@@ -907,6 +896,35 @@ function tt_OpReHref()
 		window.status = tt_elDeHref.t_stats;
 		tt_elDeHref = null;
 	}
+}
+function tt_El2Tip()
+{
+	var css = tt_t2t.style;
+
+	// Store previous positioning
+	tt_t2t.t_cp = css.position;
+	tt_t2t.t_cl = css.left;
+	tt_t2t.t_ct = css.top;
+	tt_t2t.t_cd = css.display;
+	// Store the tag's parent element so we can restore that DOM branch
+	// when the tooltip is being hidden
+	tt_t2tDad = tt_GetDad(tt_t2t);
+	tt_MovDomNode(tt_t2t, tt_t2tDad, tt_aElt[6]);
+	css.display = "block";
+	css.position = "static";
+	css.left = css.top = css.marginLeft = css.marginTop = "0px";
+}
+function tt_UnEl2Tip()
+{
+	// Restore positioning and display
+	var css = tt_t2t.style;
+
+	css.display = tt_t2t.t_cd;
+	tt_MovDomNode(tt_t2t, tt_GetDad(tt_t2t), tt_t2tDad);
+	css.position = tt_t2t.t_cp;
+	css.left = tt_t2t.t_cl;
+	css.top = tt_t2t.t_ct;
+	tt_t2tDad = null;
 }
 function tt_OverInit()
 {
@@ -931,6 +949,8 @@ function tt_Show()
 	css.zIndex = Math.max((window.dd && dd.z) ? (dd.z + 2) : 0, 1010);
 	if(tt_aV[STICKY] || !tt_aV[FOLLOWMOUSE])
 		tt_iState &= ~0x4;
+	if(tt_aV[EXCLUSIVE])
+		tt_iState |= 0x8;
 	if(tt_aV[DURATION] > 0)
 		tt_tDurt.Timer("tt_HideInit()", tt_aV[DURATION], true);
 	tt_ExtCallFncs(0, "Show")
@@ -963,7 +983,7 @@ function tt_Move(e)
 		tt_musX = tt_GetEvtX(e);
 		tt_musY = tt_GetEvtY(e);
 	}
-	if(tt_iState & 0x04)
+	if(tt_iState & 0x4)
 	{
 		// Prevent jam of mousemove events
 		if(!tt_op && !tt_ie)
@@ -975,14 +995,8 @@ function tt_Move(e)
 		}
 		if(tt_aV[FIX])
 		{
-			var iY = tt_aV[FIX][1];
-			// For a fixed tip to be positioned above the mouse, use the
-			// bottom edge as anchor
-			// (recommended by Christophe Rebeschini, 31.1.2008)
-			if(tt_aV[ABOVE])
-				iY -= tt_h;
 			tt_iState &= ~0x4;
-			tt_SetTipPos(tt_aV[FIX][0], tt_aV[FIX][1]);
+			tt_PosFix();
 		}
 		else if(!tt_ExtCallFncs(e, "MoveBefore"))
 			tt_SetTipPos(tt_Pos(0), tt_Pos(1));
@@ -991,32 +1005,32 @@ function tt_Move(e)
 }
 function tt_Pos(iDim)
 {
-	var iX, bJmpMode, cmdAlt, cmdOff, cx, iMax, iScrl, iMus, bJmp;
+	var iX, bJmpMod, cmdAlt, cmdOff, cx, iMax, iScrl, iMus, bJmp;
 
 	// Map values according to dimension to calculate
 	if(iDim)
 	{
-		bJmpMode = tt_aV[JUMPVERT];
+		bJmpMod = tt_aV[JUMPVERT];
 		cmdAlt = ABOVE;
 		cmdOff = OFFSETY;
 		cx = tt_h;
 		iMax = tt_maxPosY;
-		iScrl = tt_scrlY;
+		iScrl = tt_GetScrollY();
 		iMus = tt_musY;
 		bJmp = tt_bJmpVert;
 	}
 	else
 	{
-		bJmpMode = tt_aV[JUMPHORZ];
+		bJmpMod = tt_aV[JUMPHORZ];
 		cmdAlt = LEFT;
 		cmdOff = OFFSETX;
 		cx = tt_w;
 		iMax = tt_maxPosX;
-		iScrl = tt_scrlX;
+		iScrl = tt_GetScrollX();
 		iMus = tt_musX;
 		bJmp = tt_bJmpHorz;
 	}
-	if(bJmpMode)
+	if(bJmpMod)
 	{
 		if(tt_aV[cmdAlt] && (!bJmp || tt_CalcPosAlt(iDim) >= iScrl + 16))
 			iX = tt_PosAlt(iDim);
@@ -1035,11 +1049,11 @@ function tt_Pos(iDim)
 	}
 	// Prevent tip from extending past clientarea boundary
 	if(iX > iMax)
-		iX = bJmpMode ? tt_PosAlt(iDim) : iMax;
+		iX = bJmpMod ? tt_PosAlt(iDim) : iMax;
 	// In case of insufficient space on both sides, ensure the left/upper part
 	// of the tip be visible
 	if(iX < iScrl)
-		iX = bJmpMode ? tt_PosDef(iDim) : iScrl;
+		iX = bJmpMod ? tt_PosDef(iDim) : iScrl;
 	return iX;
 }
 function tt_PosDef(iDim)
@@ -1070,6 +1084,39 @@ function tt_CalcPosAlt(iDim)
 		dx = 1;
 	return((iDim ? (tt_musY - tt_h) : (tt_musX - tt_w)) - dx);
 }
+function tt_PosFix()
+{
+	var iX, iY;
+
+	if(typeof(tt_aV[FIX][0]) == "number")
+	{
+		iX = tt_aV[FIX][0];
+		iY = tt_aV[FIX][1];
+	}
+	else
+	{
+		if(typeof(tt_aV[FIX][0]) == "string")
+			el = tt_GetElt(tt_aV[FIX][0]);
+		// First slot in array is direct reference to HTML element
+		else
+			el = tt_aV[FIX][0];
+		iX = tt_aV[FIX][1];
+		iY = tt_aV[FIX][2];
+		// By default, vert pos is related to bottom edge of HTML element
+		if(!tt_aV[ABOVE] && el)
+			iY += tt_GetDivH(el);
+		for(; el; el = el.offsetParent)
+		{
+			iX += el.offsetLeft || 0;
+			iY += el.offsetTop || 0;
+		}
+	}
+	// For a fixed tip positioned above the mouse, use the bottom edge as anchor
+	// (recommended by Christophe Rebeschini, 31.1.2008)
+	if(tt_aV[ABOVE])
+		iY -= tt_h;
+	tt_SetTipPos(iX, iY);
+}
 function tt_Fade(a, now, z, n)
 {
 	if(n)
@@ -1078,11 +1125,13 @@ function tt_Fade(a, now, z, n)
 		if((z > a) ? (now >= z) : (now <= z))
 			now = z;
 		else
-			tt_tFade.Timer("tt_Fade("
-							+ a + "," + now + "," + z + "," + (n - 1)
-							+ ")",
-							tt_aV[FADEINTERVAL],
-							true);
+			tt_tFade.Timer(
+				"tt_Fade("
+				+ a + "," + now + "," + z + "," + (n - 1)
+				+ ")",
+				tt_aV[FADEINTERVAL],
+				true
+			);
 	}
 	now ? tt_SetTipOpa(now) : tt_Hide();
 }
@@ -1099,11 +1148,6 @@ function tt_SetTipOpa(opa)
 		tt_SetOpa(tt_aElt[7], opa);
 		tt_SetOpa(tt_aElt[8], opa);
 	}
-}
-function tt_OnScrl()
-{
-	tt_scrlX = tt_GetScrollX();
-	tt_scrlY = tt_GetScrollY();
 }
 function tt_OnCloseBtnOver(iOver)
 {
@@ -1146,6 +1190,31 @@ Number.prototype.EndTimer = function()
 		window.clearTimeout(this.value);
 		this.value = 0;
 	}
+}
+function tt_GetWndCliSiz(s)
+{
+	var db, y = window["inner" + s], sC = "client" + s, sN = "number";
+	if(typeof y == sN)
+	{
+		var y2;
+		return(
+			// Gecko or Opera with scrollbar
+			// ... quirks mode
+			((db = document.body) && typeof(y2 = db[sC]) == sN && y2 &&  y2 <= y) ? y2 
+			// ... strict mode
+			: ((db = document.documentElement) && typeof(y2 = db[sC]) == sN && y2 && y2 <= y) ? y2
+			// No scrollbar, or clientarea size == 0, or other browser (KHTML etc.)
+			: y
+		);
+	}
+	// IE
+	return(
+		// document.documentElement.client+s functional, returns > 0
+		((db = document.documentElement) && (y = db[sC])) ? y
+		// ... not functional, in which case document.body.client+s 
+		// is the clientarea size, fortunately
+		: document.body[sC]
+	);
 }
 function tt_SetOpa(el, opa)
 {
@@ -1194,13 +1263,6 @@ function tt_SetOpa(el, opa)
 		}
 	}
 }
-function tt_MovDomNode(el, dadFrom, dadTo)
-{
-	if(dadFrom)
-		dadFrom.removeChild(el);
-	if(dadTo)
-		dadTo.appendChild(el);
-}
 function tt_Err(sErr, bIfDebug)
 {
 	if(tt_Debug || !bIfDebug)
@@ -1235,10 +1297,5 @@ function tt_ExtCallFncs(arg, sFnc)
 	}
 	return b;
 }
-if (window.addEventListener) {
-	window.addEventListener("load", tt_Init, false);
-} else if (window.attachEvent) {
-	window.attachEvent("onload", tt_Init);
-} else if (document.getElementById) {
-	window.onload=tt_Init;
-}
+
+tt_Init();

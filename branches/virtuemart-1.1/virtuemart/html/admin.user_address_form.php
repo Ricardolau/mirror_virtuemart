@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage html
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -21,7 +21,7 @@ $mainframe->setPageTitle( $VM_LANG->_('PHPSHOP_USER_FORM_ADD_SHIPTO_LBL') );
 
 require_once( CLASSPATH . "ps_userfield.php" );
 
-$user_id = vmGet( $_REQUEST, 'user_id' );
+$user_id = vmrequest::getint( 'user_id' );
 $user_info_id = vmGet( $_REQUEST, 'user_info_id' );
 $missing = vmGet( $vars, 'missing' );
 $missing_style = "color: Red; font-weight: Bold;";
@@ -62,7 +62,6 @@ ps_userfield::listUserFields( $fields, array(), $db, false );
 <?php endif; ?>
 
 	<input type="hidden" name="vmtoken" value="<?php echo vmSpoofValue($GLOBALS['sess']->getSessionId() ) ?>" />
-	<input type="hidden" name="user_id" value="<?php echo $auth["user_id"] ?>" />
 	<input type="hidden" name="address_type" value="ST">
 	<input type="hidden" name="page" value="<?php echo $modulename ?>.user_form"  />
 	<input type="hidden" name="cache" value="0" />

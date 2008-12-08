@@ -346,6 +346,8 @@ class formFactory {
         <input type="hidden" name="option" value="'.VM_COMPONENT_NAME.'" />';
 		if( $no_menu ) {
 			$html .= '<input type="hidden" name="ajax_request" value="1" />';
+		} else {
+			$html .= '<input type="hidden" name="ajax_request" value="0" />';
 		}
 		$html .= '<input type="hidden" name="no_menu" value="'.$no_menu.'" />';
 		$html .= '<input type="hidden" name="no_toolbar" value="'.vmGet($_REQUEST,'no_toolbar',0).'" />';

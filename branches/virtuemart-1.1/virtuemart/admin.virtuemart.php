@@ -27,7 +27,7 @@ include( $mosConfig_absolute_path.'/administrator/components/com_virtuemart/inst
 // * END INSTALLER SECTION *
 
 // Load the virtuemart main parse code
-require( $mosConfig_absolute_path.'/components/'.$option.'/virtuemart_parser.php' );
+require_once( $mosConfig_absolute_path.'/components/'.$option.'/virtuemart_parser.php' );
 
 $task = vmGet( $_GET, 'task', null);
 if( $task == 'extlayout') {

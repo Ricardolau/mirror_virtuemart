@@ -159,7 +159,9 @@ else {
 		}
 	}
 
-	/* DISCOUNT */
+	// DISCOUNT
+	$discount_word = ' ';
+	$payment_discount_display = '0';
 	$payment_discount = $ps_checkout->get_payment_discount($payment_method_id, $total);
 	if ( PAYMENT_DISCOUNT_BEFORE == '1') {
 		if( $payment_discount != 0.00 ) {

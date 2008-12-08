@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage html
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -137,8 +137,9 @@ $tabs->startTab( "Global Variables", "global-variables");
         <tr class="sectiontableentry1"> 
           <td align="right" valign="top"><b>$_POST:</b></td>
           <td colspan="3" valign="top"><?php   
-            while (list($val,$key) = each($_POST)) {
-              echo "$val=>$key<br/>";
+        	while (list($key, $val) = each($_POST)) {
+              	if( is_array($val)) continue;
+              	echo shopMakeHtmlSafe($key).'=&gt;'. shopMakeHtmlSafe($val).'<br/>';
             }
             ?>
           </td>
@@ -148,8 +149,9 @@ $tabs->startTab( "Global Variables", "global-variables");
         <tr class="sectiontableentry1"> 
           <td align="right" valign="top"><b>$_GET:</b> </td>
           <td colspan="3" valign="top"><?php   
-            while (list($val,$key) = each($_GET)) {
-              echo "$val=>$key<br/>";
+          	while (list($key, $val) = each($_GET)) {
+              	if( is_array($val)) continue;
+              	echo shopMakeHtmlSafe($key).'=&gt;'. shopMakeHtmlSafe($val).'<br/>';
             }
             ?>
           </td>
@@ -161,7 +163,11 @@ $tabs->startTab( "Global Variables", "global-variables");
         if ($_COOKIE) { ?>
         <tr class="sectiontableentry2"> 
           <td align="right" valign="top"><b>$_COOKIE:</b></td>
-          <td colspan="3" valign="top"><?php   echo "<pre>".print_r( $_COOKIE, true )."</pre>";  ?>
+          <td colspan="3" valign="top"><?php   
+        while (list($key, $val) = each($_COOKIE)) {
+              	if( is_array($val)) continue;
+              	echo shopMakeHtmlSafe($key).'=&gt;'. shopMakeHtmlSafe($val).'<br/>';
+            }  ?>
           </td>
          </tr>
           <?php 
@@ -172,7 +178,17 @@ $tabs->startTab( "Global Variables", "global-variables");
         <?php
         if ($_SESSION) { ?>
           <td align="right" valign="top"><b>$_SESSION:</b></td>
-          <td colspan="3" valign="top"><?php   echo "<pre>".print_r( $_SESSION, true )."</pre>";  ?>
+          <td colspan="3" valign="top"><?php   
+        	while (list($key, $val) = each($_SESSION)) {
+              	if( is_object($val) ) {
+              		echo shopMakeHtmlSafe($key).'=&gt; {Object}<br/>';
+              	} elseif( is_array($val)) { 
+              		echo shopMakeHtmlSafe($key).'=&gt; {Array}<br/>';
+              	} else {
+              		echo shopMakeHtmlSafe($key).'=&gt;'. shopMakeHtmlSafe($val).'<br/>';
+              	}
+            }
+              ?>
           </td>
           <?php 
         }

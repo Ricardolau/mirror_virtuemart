@@ -25,13 +25,14 @@ if( $old_category_id ) {
 $products = vmGet( $_POST, 'product_id' );
 $count= count( $products );
 
-echo '<form action="'.$_SERVER['PHP_SELF'].'" method="post" name="adminForm">';
+echo '<form action="'.$_SERVER['SCRIPT_NAME'].'" method="post" name="adminForm">';
 
+$clean_products = array();
 for( $i=0; $i < $count; $i++ ) {
-	$products[$i] = intval($products[$i]);
-	echo '<input type="hidden" name="product_id[]" value="'.$products[$i].'" />';
+	$clean_products[$i] = intval($products[$i]);
+	echo '<input type="hidden" name="product_id[]" value="'.$clean_products[$i].'" />';
 }
-
+$products = $clean_products;
 $db->query( 'SELECT `product_name` FROM `#__{vm}_product` WHERE `product_id` IN('.implode(',', $products).') ORDER BY `product_name`');
 
 echo "\n<h1 class=\"header\">".$VM_LANG->_('VM_PRODUCTS_MOVE_LBL')."</h1>\n";

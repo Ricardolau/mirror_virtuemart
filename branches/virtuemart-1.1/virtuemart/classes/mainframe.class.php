@@ -115,7 +115,7 @@ class vmMainFrame {
 	 */
 	function addScript($url, $type="text/javascript") {
 		static $included_scripts = array();
-		if( vmIsJoomla('1.0') && strstr($_SERVER['PHP_SELF'],'index3.php') || 
+		if( vmIsJoomla('1.0') && (strstr($_SERVER['PHP_SELF'],'index3.php') || strstr($_SERVER['PHP_SELF'],'index2.php')) || 
 			!vmIsJoomla() && defined('_VM_IS_BACKEND')) {
 			echo vmCommonHTML::scriptTag($url);
 			return;

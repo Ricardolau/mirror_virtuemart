@@ -1652,13 +1652,19 @@ class ps_product extends vmAbstractObject {
 			// Get the price array
 			$price = $this->getPriceByShopperGroup( $product_id, $shopper_group_id, $check_multiple_prices, $volume_quantity_sql );
 			if( !$price && $product_parent_id ) {
-				// If this is a child product and it has not price, get the price of the parent product
-				$price = $this->getPriceByShopperGroup( $product_parent_id, $shopper_group_id, $check_multiple_prices, $volume_quantity_sql );
+				// If this is a child product and it has not a price for the requested shopper group, get the price for the default shopper group
+				$price = $this->getPriceByShopperGroup( $product_parent_id, $GLOBALS['vendor_info'][$vendor_id]['default_shopper_group_id'], $check_multiple_prices, $volume_quantity_sql );
 				if( !$price ) {
-					$price = $this->getPriceByShopperGroup( $product_parent_id, $GLOBALS['vendor_info'][$vendor_id]['default_shopper_group_id'], $check_multiple_prices, $volume_quantity_sql );
+					// if the child product has no priceat all, get the price of the parent product for that shopper group
+					$price = $this->getPriceByShopperGroup( $product_parent_id, $shopper_group_id, $check_multiple_prices, $volume_quantity_sql );					
+				}
+				if( !$price ) {
+					// if the parent product has no price for the requested shopper group, get the price of the default shopper group
+					$price = $this->getPriceByShopperGroup( $product_parent_id, $shopper_group_id, $check_multiple_prices, $volume_quantity_sql );					
 				}
 			}
 			elseif( !$price ) {
+				// if the product has no price for the requested shopper group, get the price of the default shopper group
 				$price = $this->getPriceByShopperGroup( $product_id, $GLOBALS['vendor_info'][$vendor_id]['default_shopper_group_id'], $check_multiple_prices, $volume_quantity_sql );
 			}
 			return $price;

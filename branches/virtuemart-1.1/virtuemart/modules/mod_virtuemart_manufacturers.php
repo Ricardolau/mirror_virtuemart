@@ -39,7 +39,7 @@ $query  = "SELECT DISTINCT m.manufacturer_id, m.mf_name
 					LEFT JOIN #__{vm}_product p ON p.product_id = mx.product_id
 					LEFT JOIN #__{vm}_product_category_xref cx ON cx.product_id = p.product_id
 					WHERE cx.category_id =".(int)$category_id;
-$query .= "ORDER BY m.mf_name ASC";
+$query .= " ORDER BY m.mf_name ASC";
 
 $query_all  = "SELECT m.manufacturer_id,m.mf_name FROM #__{vm}_manufacturer m ";
 $query_all .= "ORDER BY m.mf_name ASC";

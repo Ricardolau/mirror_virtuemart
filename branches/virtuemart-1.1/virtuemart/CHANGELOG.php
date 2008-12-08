@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+08.12.2088 aravot
+# Compliance issue in classes/htmlTools.class.php (Thank you Phil)
+
 05.12.2008 aravot
 # Fixed shipvalue (http://forum.virtuemart.net/index.php?topic=39883.0 Thank you chaliet)
 

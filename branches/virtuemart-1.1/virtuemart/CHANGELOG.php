@@ -33,8 +33,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+10.12.2008 aravot
+# Cant disable Keep Product Stock Level on Purchase (http://forum.virtuemart.net/index.php?topic=42901 - thank you patjun)
 
-08.12.2008
+08.12.2008 soeren
 # Task #2440 - Zone Shipping on checkout page shows zone value rather than zone name. 
 # Task #2443 - Save button for additional file/images not working in IE (missing ajax_request var) 
 # Task #2197 - Parent price shown for Child items when user is member of a shopper group other than default 

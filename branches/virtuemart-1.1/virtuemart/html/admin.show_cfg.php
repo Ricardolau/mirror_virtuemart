@@ -1147,7 +1147,7 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_ADMIN_CFG_DOWNLOADABLEGOODS'), "download-p
     <tr>
       <td class="labelcell"><?php echo $VM_LANG->_('VM_ADMIN_CFG_DOWNLOAD_KEEP_STOCKLEVEL') ?></td>
         <td>
-            <input name="conf_VM_DOWNLOADABLE_PRODUCTS_KEEP_STOCKLEVEL" type="checkbox" value="1" <?php if( @conf_VM_DOWNLOADABLE_PRODUCTS_KEEP_STOCKLEVEL ) echo 'checked="checked"' ?> />
+            <input name="conf_VM_DOWNLOADABLE_PRODUCTS_KEEP_STOCKLEVEL" type="checkbox" <?php if (VM_DOWNLOADABLE_PRODUCTS_KEEP_STOCKLEVEL == 1) echo "checked=\"checked\""; ?> value="1" />
         </td>
         <td><?php echo $VM_LANG->_('VM_ADMIN_CFG_DOWNLOAD_KEEP_STOCKLEVEL_TIP') ?>
         </td>

@@ -246,9 +246,9 @@ class ps_communication {
   function showRecommendForm( $product_id ) {
     global $VM_LANG, $vendor_store_name, $sess,$my;
     
-    $sender_name = vmGet( $_REQUEST, 'sender_name', null);
-    $sender_mail = vmGet( $_REQUEST, 'sender_mail', null);
-    $recipient_mail = vmGet( $_REQUEST, 'recipient_mail', null);
+    $sender_name = shopMakeHtmlSafe(vmGet( $_REQUEST, 'sender_name', null));
+    $sender_mail = shopMakeHtmlSafe(vmGet( $_REQUEST, 'sender_mail', null));
+    $recipient_mail = shopMakeHtmlSafe(vmGet( $_REQUEST, 'recipient_mail', null));
     $message = shopMakeHtmlSafe( vmGet( $_REQUEST, 'recommend_message'));
     
     echo '

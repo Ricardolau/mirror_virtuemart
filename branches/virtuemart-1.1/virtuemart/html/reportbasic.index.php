@@ -47,7 +47,7 @@ $i=0;
           <td><?php echo $VM_LANG->_('PHPSHOP_VIEW') ?></td>
           <td><input type="checkbox" name="show_products" id="show_products" value="show_products"<?php
           if (!empty($show_products)) { echo ' checked="checked"'; } ?> />
-          <label for="show_products"><?php echo $VM_LANG->_('PHPSHOP_RB_INDIVIDUAL') ?></label> &nbsp; &nbsp; 
+          <label for="show_products"><?php echo $VM_LANG->_('PHPSHOP_RB_INDIVIDUAL') ?></label> &nbsp; &nbsp;
           </td>
         </tr>
 
@@ -60,7 +60,7 @@ $i=0;
           <td><?php echo $VM_LANG->_('PHPSHOP_RB_INTERVAL_TITLE'); ?></td>
 
           <td><input type="radio" id="byMonth" name="interval" value="byMonth" <?php if($interval=="byMonth") echo "checked='checked'" ?> />
-          <label for="byMonth"><?php echo $VM_LANG->_('PHPSHOP_RB_INTERVAL_MONTHLY_TITLE') ?></label> &nbsp; &nbsp; 
+          <label for="byMonth"><?php echo $VM_LANG->_('PHPSHOP_RB_INTERVAL_MONTHLY_TITLE') ?></label> &nbsp; &nbsp;
           <input type="radio" name="interval" id="byWeek" value="byWeek" <?php if($interval=="byWeek") echo "checked='checked'" ?> />
           <label for="byWeek"><?php echo $VM_LANG->_('PHPSHOP_RB_INTERVAL_WEEKLY_TITLE'); ?></label> &nbsp; &nbsp;
           <input type="radio" name="interval" id="byDay" value="byDay" <?php if($interval=="byDay") echo "checked='checked'" ?> />
@@ -77,8 +77,8 @@ $i=0;
           <td><?php echo $VM_LANG->_('PHPSHOP_SHOW') ?></td>
 
           <td>
-          <input type="submit" class="button" name="thisMonth" value="<?php echo $VM_LANG->_('PHPSHOP_RB_THISMONTH_BUTTON'); ?>" /> &nbsp; 
-          <input type="submit" class="button" name="lastMonth" value="<?php echo $VM_LANG->_('PHPSHOP_RB_LASTMONTH_BUTTON'); ?>" /> &nbsp; 
+          <input type="submit" class="button" name="thisMonth" value="<?php echo $VM_LANG->_('PHPSHOP_RB_THISMONTH_BUTTON'); ?>" /> &nbsp;
+          <input type="submit" class="button" name="lastMonth" value="<?php echo $VM_LANG->_('PHPSHOP_RB_LASTMONTH_BUTTON'); ?>" /> &nbsp;
           <input type="submit" class="button" name="last60" value="<?php echo $VM_LANG->_('PHPSHOP_RB_LAST60_BUTTON'); ?>" /> &nbsp;
           <input type="submit" class="button" name="last90" value="<?php echo $VM_LANG->_('PHPSHOP_RB_LAST90_BUTTON'); ?>" />
           </td>
@@ -112,7 +112,7 @@ $i=0;
       </table>
     </form>
 <!-- begin output of report -->
-<?php 
+<?php
  /* assemble start date */
  if (isset($thisMonth)) {
    $start_date = mktime(0,0,0,date("n"),1,date("Y"));
@@ -229,9 +229,9 @@ if (!empty($show_products)) {
   $db->query($q);
   $dbis->query($r);
  ?>
-    <h4><?php 
+    <h4><?php
     echo $VM_LANG->_('PHPSHOP_RB_REPORT_FOR') ." ";
-    echo date("M j, Y", $start_date)." --&gt; ". date("M j, Y", $end_date); 
+    echo date("M j, Y", $start_date)." --&gt; ". date("M j, Y", $end_date);
     ?></h4>
 
     <table class="adminlist">
@@ -254,14 +254,15 @@ if (!empty($show_products)) {
     else {
       $bgcolor='row1';
     }
-        ?> 
-    <tr class="<?php echo $bgcolor ?>"> 
+?>
+    <tr class="<?php echo $bgcolor ?>">
       <td><?php $db->p("order_date"); ?></td>
       <td><?php $db->p("number_of_orders"); ?></td>
       <td><?php $dbis->p("items_sold"); ?></td>
       <td><?php $db->p("revenue"); ?>&nbsp;</td>
     </tr>
   <?php
+    $weekNum = 0;//CT.need this for weekly viewing of products
     // BEGIN product listing
     if (!empty($show_products)) {
     ?>
@@ -278,9 +279,20 @@ if (!empty($show_products)) {
       <?php
         $i = 1;
         $has_next = $dbpl->next_record();
-        
+
         while ( $has_next) {
-        	if( $dbpl->f("order_date") == $db->f("order_date")) {
+
+		//CT
+		$showLine = 0;
+		if ($interval == "byWeek"){
+	        	if( $dbpl->f("order_date") == $db->f("order_date") ) { $weekNum = $dbpl->f("week_number");}
+			if ( $dbpl->f("week_number") == $weekNum ){	$showLine = 1;}
+			//echo $dbpl->f("week_number")."-".$weekNum."<br/>";
+		}else{
+	        	if( $dbpl->f("order_date") == $db->f("order_date")) { $showLine = 1;}
+		}
+		if ($showLine == 1){
+		//end CT
 	          echo "<tr bgcolor=\"#ffffff\">\n";
 	          echo "<td>".$i++."</td>\n";
 	          echo '<td align="left">' . $dbpl->f("product_name") . " (" . $dbpl->f("product_sku") . ")</td>\n";

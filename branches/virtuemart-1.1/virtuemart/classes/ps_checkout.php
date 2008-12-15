@@ -1044,9 +1044,10 @@ Order Total: '.$order_total.'
 		require_once( CLASSPATH . 'ps_userfield.php' );
 		$userfields = ps_userfield::getUserFields('', false, '', true, true );
 		foreach ( $userfields as $field ) {
-			$fields[] = $field->name;
+    		if ($field->name=='email') $fields[] = 'user_email'; 
+    		else $fields[] = $field->name;			
 		}
-		$fieldstr = str_replace( 'email', 'user_email', implode( ',', $fields ));
+		$fieldstr = implode( ',', $fields );
 		// Save current Bill To Address
 		$q = "INSERT INTO `#__{vm}_order_user_info` 
 			(`order_info_id`,`order_id`,`user_id`,address_type, ".$fieldstr.") ";
@@ -1133,16 +1134,18 @@ Order Total: '.$order_total.'
 		if( ENABLE_DOWNLOADS == "1" ) {
 			require_once( CLASSPATH.'ps_order.php');
 			for($i = 0; $i < $cart["idx"]; $i++) {
-				
-				$params = array('product_id' => $cart[$i]["product_id"], 'order_id' => $order_id, 'user_id' => $auth["user_id"] );
-				ps_order::insert_downloads_for_product( $params );
-				
-				if( @VM_DOWNLOADABLE_PRODUCTS_KEEP_STOCKLEVEL == '1' ) {
-					// Update the product stock level back to where it was.
-					$q = "UPDATE #__{vm}_product ";
-					$q .= "SET product_in_stock = product_in_stock + ".(int)$cart[$i]["quantity"];
-					$q .= " WHERE product_id = '" .(int)$cart[$i]["product_id"]. "'";
-					$db->query($q);
+				// only handle downloadable products here
+				if( ps_product::is_downloadable($cart[$i]["product_id"])) {
+					$params = array('product_id' => $cart[$i]["product_id"], 'order_id' => $order_id, 'user_id' => $auth["user_id"] );
+					ps_order::insert_downloads_for_product( $params );
+					
+					if( @VM_DOWNLOADABLE_PRODUCTS_KEEP_STOCKLEVEL == '1' ) {
+						// Update the product stock level back to where it was.
+						$q = "UPDATE #__{vm}_product ";
+						$q .= "SET product_in_stock = product_in_stock + ".(int)$cart[$i]["quantity"];
+						$q .= " WHERE product_id = '" .(int)$cart[$i]["product_id"]. "'";
+						$db->query($q);
+					}
 				}
 			}
 		}

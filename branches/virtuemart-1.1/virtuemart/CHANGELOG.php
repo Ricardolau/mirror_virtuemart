@@ -33,6 +33,11 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+15.12.2008 soeren
+# Task #2448 - stock levels not reduced when order confirmed
+# Task #2446 - adding custom user fields causes inability to see orders in order list 
+# Task #2450 - Weekly Sales report only lists products sold on first day of week
+ 
 10.12.2008 aravot
 # Cant disable Keep Product Stock Level on Purchase (http://forum.virtuemart.net/index.php?topic=42901 - thank you patjun)
 

@@ -17,7 +17,6 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 mm_showMyFileName( __FILE__ );
 global $ok;
-$product_id = vmGet( $_REQUEST, 'product_id', null);
 
 include_once(CLASSPATH.'ps_communication.php');
 
@@ -31,7 +30,7 @@ if( empty( $_POST['submit'] ) || !$ok ) {
 }
 else {
 	$mainframe->setPageTitle( $VM_LANG->_('VM_RECOMMEND_FORM_LBL') );
-	echo '<span class="contentheading">'. $VM_LANG->_('VM_RECOMMEND_DONE').' '. vmGet($_POST,'recipient_mail').'</span> <br />
+	echo '<span class="contentheading">'. $VM_LANG->_('VM_RECOMMEND_DONE').' '. shopMakeHtmlSafe(vmGet($_POST,'recipient_mail')).'</span> <br />
 		<br />
 		<br />
 		<a href="javascript:window.close();">

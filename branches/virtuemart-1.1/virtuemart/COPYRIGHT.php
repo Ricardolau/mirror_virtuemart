@@ -123,8 +123,8 @@ License:	GNU Lesser General Public License (LGPL)
 
 Administrator Icons
 ----
-Copyright:	2008 Simon
-thank you Simon!
+Copyright:	2008 Simon Josephson (http://www.artatwork.com.au)
+Thank you Simon!
 
 If you have contributed a vital part of VirtueMart that is not mentioned and missing here,
 and you feel that your copyright note should be mentioned here,

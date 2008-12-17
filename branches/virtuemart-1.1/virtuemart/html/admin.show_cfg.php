@@ -75,7 +75,7 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_ADMIN_CFG_GLOBAL'), "global-page");
 		<tr>
 			<td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_SHOP_OFFLINE_MSG') ?>:</td>
 			<td colspan="2">
-				<textarea rows="6" cols="40" name="conf_PSHOP_OFFLINE_MESSAGE"><?php echo shopMakeHtmlSafe(stripslashes(PSHOP_OFFLINE_MESSAGE)); ?></textarea>
+				<textarea rows="8" cols="35" name="conf_PSHOP_OFFLINE_MESSAGE"><?php echo shopMakeHtmlSafe(stripslashes(PSHOP_OFFLINE_MESSAGE)); ?></textarea>
 			</td>
 		</tr>  
 		<tr>

@@ -33,6 +33,11 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+17.12.2008 soeren
+
+# Task #2451 - Additional downloadable files missing in account maintenance
+
+ 
 15.12.2008 soeren
 # Task #2448 - stock levels not reduced when order confirmed
 # Task #2446 - adding custom user fields causes inability to see orders in order list 

@@ -264,8 +264,6 @@ if( $db->f('order_number')) {
 	        $dbi = new ps_DB;
 	        while ($dbcart->next_record()) {
 	
-	        	/* BEGIN HACK EUGENE */
-	        	/*HACK SCOTT had to retest order status else unpaid were able to download*/
 	        	if ($db->f("order_status") == ENABLE_DOWNLOAD_STATUS && ENABLE_DOWNLOADS) {
 	        		/* search for download record that corresponds to this order item */
 	        		$q = "SELECT `download_id` FROM #__{vm}_product_download WHERE";
@@ -274,25 +272,21 @@ if( $db->f('order_number')) {
 	        		$dbdl->query($q);
 	
 	        	}
-	        	/* END HACK EUGENE */
 	
-	        	$product_id = null;
-	        	$dbi->query( "SELECT product_id FROM #__{vm}_product WHERE product_sku='".$dbcart->f("order_item_sku")."'");
-	        	$dbi->next_record();
-	        	$product_id = $dbi->f("product_id" );
+	        	$product_id = $dbcart->f("product_id" );
 	?> 
 	        <tr align="left"> 
-	          <td><?php $dbcart->p("product_quantity"); ?></td>
-	          <td><?php 
-	              if ($dbdl->next_record()) {
+	          <td valign="top"><?php $dbcart->p("product_quantity"); ?></td>
+	          <td valign="top"><?php 
+	              while($dbdl->next_record()) {
 	        			// hyperlink the downloadable order item	
 	        			$url = $mosConfig_live_site."/index.php?option=com_virtuemart&page=shop.downloads";
-	        			echo '<a href="'."$url&download_id=".$dbdl->f("download_id").'">'
+	        			echo '<a href="'."$url&amp;download_id=".$dbdl->f("download_id").'">'
 	        					. '<img src="'.VM_THEMEURL.'images/download.png" alt="'.$VM_LANG->_('PHPSHOP_DOWNLOADS_CLICK').'" align="left" border="0" />&nbsp;'
 	        					. $dbcart->f("order_item_name")
-	        					. '</a>';
+	        					. '</a><br class="clr" />';
 					}
-	        		else {
+	        		if( !$dbdl->num_rows() > 0 ) {
 			        	if( !empty( $product_id )) {
 			          		echo '<a href="'.$sess->url( $mm_action_url."index.php?page=shop.product_details&product_id=$product_id") .'" title="'.$dbcart->f("order_item_name").'">';
 			          	}
@@ -304,8 +298,8 @@ if( $db->f('order_number')) {
 	        		}
 			?>
 	          </td>
-	          <td><?php $dbcart->p("order_item_sku"); ?></td>
-	          <td><?php /*
+	          <td valign="top"><?php $dbcart->p("order_item_sku"); ?></td>
+	          <td valign="top"><?php /*
 			$price = $ps_product->get_price($dbcart->f("product_id"));
 			$item_price = $price["product_price"]; */
 			if( $auth["show_price_including_tax"] ){
@@ -317,7 +311,7 @@ if( $db->f('order_number')) {
 			echo $CURRENCY_DISPLAY->getFullValue($item_price, '', $db->f('order_currency'));
 	
 	           ?></td>
-	          <td align="right"><?php $total = $dbcart->f("product_quantity") * $item_price; 
+	          <td valign="top" align="right"><?php $total = $dbcart->f("product_quantity") * $item_price; 
 	          $subtotal += $total;
 	          echo $CURRENCY_DISPLAY->getFullValue($total, '', $db->f('order_currency'));
 	           ?>&nbsp;&nbsp;&nbsp;</td>

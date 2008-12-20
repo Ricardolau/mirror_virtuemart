@@ -6,7 +6,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
-* @translator soeren
+* @translators Mia Steen, First Solutions & Stefan Gagner, Mei Ya Service, http://www.mei-ya.se
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -24,7 +24,7 @@ $langvars = array (
 	'PHPSHOP_ACC_UPD_SHIP' => 'Här kan du lägga till och ändra adresser.',
 	'PHPSHOP_ACC_ACCOUNT_INFO' => 'Faktureringsinformation',
 	'PHPSHOP_ACC_SHIP_INFO' => 'Leveransinformation',
-	'PHPSHOP_DOWNLOADS_CLICK' => 'Click on Product Name to Download File(s).',
-	'PHPSHOP_DOWNLOADS_EXPIRED' => 'You have already downloaded the file(s) the maximum number of times, or the download period has expired.'
+	'PHPSHOP_DOWNLOADS_CLICK' => 'Klicka på en produktnamn för att ladda ned.',
+	'PHPSHOP_DOWNLOADS_EXPIRED' => 'Du har redan laddat ned filen eller filerna, maximalt antal gånger eller så har din nedladdningstid förfallit.'
 ); $VM_LANG->initModule( 'account', $langvars );
 ?>

@@ -6,7 +6,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
-* @translator soeren
+* @translators Mia Steen, First Solutions & Stefan Gagner, Mei Ya Service, http://www.mei-ya.se
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -28,6 +28,6 @@ $langvars = array (
 	'PHPSHOP_COUPON_TYPE_PERMANENT' => 'Permanent kupong',
 	'PHPSHOP_COUPON_VALUE_HEADER' => 'Värde',
 	'PHPSHOP_COUPON_PERCENT' => 'Procent',
-	'PHPSHOP_COUPON_TOTAL' => 'Total'
+	'PHPSHOP_COUPON_TOTAL' => 'Summa'
 ); $VM_LANG->initModule( 'coupon', $langvars );
 ?>

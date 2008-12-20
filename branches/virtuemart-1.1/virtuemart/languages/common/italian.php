@@ -598,7 +598,7 @@ Password - %s
 	'VM_ENABLED' => 'abilitato',
 	'VM_DISABLED' => 'disabilitato',
 	'VM_ABOUT' => 'Informazioni su',
-	'VM_HELP_TOPICS' => 'Mauale d\'uso',
+	'VM_HELP_TOPICS' => 'Manuale d\'uso',
 	'VM_COMMUNITY_FORUM' => 'Forum',
 	'VM_CONFIGURATION_CHANGE_SUCCESS' => 'I dettagli di configurazione sono stati aggiornati!',
 	'VM_CONFIGURATION_CHANGE_FAILURE' => 'Impossibile scrivere nel file di configurazione %s!',

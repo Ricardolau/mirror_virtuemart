@@ -224,6 +224,7 @@ global \$VM_LANG;
 						$englishLanguageArr = getTokenFile( $tokenFile );
 					}
 					$value = $englishLanguageArr[$token];
+					$value = str_replace( '\'', '\\\'', $value );
 				}
 				
 				$contents .= ",

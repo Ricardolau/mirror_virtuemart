@@ -33,10 +33,14 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+
+20.12.08 thepisu
+# fix in Language Manager
+^ updated Swedish language (by sgagner)
+^ fix in Italian language
+
 17.12.2008 soeren
-
 # Task #2451 - Additional downloadable files missing in account maintenance
-
  
 15.12.2008 soeren
 # Task #2448 - stock levels not reduced when order confirmed

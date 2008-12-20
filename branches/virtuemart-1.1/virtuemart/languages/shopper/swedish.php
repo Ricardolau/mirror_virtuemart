@@ -6,7 +6,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
-* @translator soeren
+* @translators:Stefan Gagner, Mei Ya Service, http://www.mei-ya.se & Mia Steen, 1st Solution http://www.1stsolution.se
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -19,16 +19,16 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 global $VM_LANG;
 $langvars = array (
 	'CHARSET' => 'ISO-8859-1',
-	'PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX' => 'Visa priser inkl. moms.',
-	'PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX_EXPLAIN' => 'Ställer in huruvida kunden ser priset inkl. eller exkl. moms.',
-	'PHPSHOP_SHOPPER_FORM_ADDRESS_LABEL' => 'Egen Adressbenämning',
+	'PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX' => 'Visa priser inklusive moms?',
+	'PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX_EXPLAIN' => 'S Anger om en kund skall se priser inklusive eller exklusive moms.',
+	'PHPSHOP_SHOPPER_FORM_ADDRESS_LABEL' => 'Adress-namn',
 	'PHPSHOP_SHOPPER_GROUP_LIST_LBL' => 'Kundgrupper',
-	'PHPSHOP_SHOPPER_GROUP_LIST_NAME' => 'Gruppnamn',
+	'PHPSHOP_SHOPPER_GROUP_LIST_NAME' => 'Grupnamn',
 	'PHPSHOP_SHOPPER_GROUP_LIST_DESCRIPTION' => 'Gruppbeskrivning',
-	'PHPSHOP_SHOPPER_GROUP_FORM_LBL' => 'Ny kundgrupp',
-	'PHPSHOP_SHOPPER_GROUP_FORM_NAME' => 'Gruppname',
+	'PHPSHOP_SHOPPER_GROUP_FORM_LBL' => 'Kundgruppsuppgifter',
+	'PHPSHOP_SHOPPER_GROUP_FORM_NAME' => 'Gruppnamn',
 	'PHPSHOP_SHOPPER_GROUP_FORM_DESC' => 'Gruppbeskrivning',
-	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT' => 'Rabatt på produktens standardpris (%)',
-	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP' => 'Positivt värde: Om produkten saknar ett angivet pris för denna kundkategori minskas priset med X %. Ett negativt värde har motsatt effekt.'
+	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT' => 'Standardrabatt för Kundgrupp (i %)',
+	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP' => 'Ett positivt värde X innebär: Om produkten inte har ett pris tilldelat till denna grupp så kommer priset att sjunka med  X %. Ett negativt värde har motsatt effekt'
 ); $VM_LANG->initModule( 'shopper', $langvars );
 ?>

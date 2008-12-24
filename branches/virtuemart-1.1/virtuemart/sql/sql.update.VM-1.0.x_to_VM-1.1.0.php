@@ -107,6 +107,7 @@ $db->query( "INSERT INTO `#__{vm}_function` VALUES ('', 2, 'moveProduct', 'ps_pr
 
 # http://virtuemart.net/index.php?option=com_smf&Itemid=71&topic=17143.0
 $db->query( "INSERT INTO `#__{vm}_function` VALUES ('', 7, 'productAsk', 'ps_communication', 'mail_question', 'Lets the customer send a question about a specific product.', 'none');" );
+$db->query( "INSERT INTO `#__{vm}_function` VALUES ('', 2, 'reviewUpdate', 'ps_reviews', 'update', 'Modify a review about a specific product.', 'admin');" );
 $db->query( "INSERT INTO `#__{vm}_function` VALUES ('', 7, 'recommendProduct', 'ps_communication', 'sendRecommendation', 'Lets the customer send a recommendation about a specific product to a friend.', 'none');" );
 
 $db->query( "INSERT INTO `#__{vm}_function` VALUES ('', 8, 'ExportUpdate', 'ps_export', 'update', '', 'admin,storeadmin');" );
@@ -270,50 +271,50 @@ $db->query( "INSERT INTO `#__{vm}_state` VALUES (1, 223, 'Alabama', 'ALA', 'AL')
 (88, 138, 'Guerrero', 'GRO', 'GU'),
 (89, 138, 'Hidalgo', 'HGO', 'HI'),
 (90, 138, 'Jalisco', 'JAL', 'JA'),
-(91, 138, 'M�xico (Estado de)', 'EDM', 'EM'),
-(92, 138, 'Michoac�n', 'MCN', 'MI'),
+(91, 138, 'México (Estado de)', 'EDM', 'EM'),
+(92, 138, 'Michoacán', 'MCN', 'MI'),
 (93, 138, 'Morelos', 'MOR', 'MO'),
 (94, 138, 'Nayarit', 'NAY', 'NY'),
-(95, 138, 'Nuevo Le�n', 'NUL', 'NL'),
+(95, 138, 'Nuevo León', 'NUL', 'NL'),
 (96, 138, 'Oaxaca', 'OAX', 'OA'),
 (97, 138, 'Puebla', 'PUE', 'PU'),
-(98, 138, 'Quer�taro', 'QRO', 'QU'),
+(98, 138, 'Querétaro', 'QRO', 'QU'),
 (99, 138, 'Quintana Roo', 'QUR', 'QR'),
-(100, 138, 'San Luis Potos�', 'SLP', 'SP'),
+(100, 138, 'San Luis Potosí', 'SLP', 'SP'),
 (101, 138, 'Sinaloa', 'SIN', 'SI'),
 (102, 138, 'Sonora', 'SON', 'SO'),
 (103, 138, 'Tabasco', 'TAB', 'TA'),
 (104, 138, 'Tamaulipas', 'TAM', 'TM'),
 (105, 138, 'Tlaxcala', 'TLX', 'TX'),
 (106, 138, 'Veracruz', 'VER', 'VZ'),
-(107, 138, 'Yucat�n', 'YUC', 'YU'),
+(107, 138, 'Yucatán', 'YUC', 'YU'),
 (108, 138, 'Zacatecas', 'ZAC', 'ZA'),
 (109, 30, 'Acre', 'ACR', 'AC'),
 (110, 30, 'Alagoas', 'ALG', 'AL'),
-(111, 30, 'Amap�', 'AMP', 'AP'),
+(111, 30, 'Amapá', 'AMP', 'AP'),
 (112, 30, 'Amazonas', 'AMZ', 'AM'),
-(113, 30, 'Bah�a', 'BAH', 'BA'),
-(114, 30, 'Cear�', 'CEA', 'CE'),
+(113, 30, 'Bahía', 'BAH', 'BA'),
+(114, 30, 'Ceará', 'CEA', 'CE'),
 (115, 30, 'Distrito Federal', 'DFB', 'DF'),
 (116, 30, 'Espirito Santo', 'ESS', 'ES'),
-(117, 30, 'Goi�s', 'GOI', 'GO'),
-(118, 30, 'Maranh�o', 'MAR', 'MA'),
+(117, 30, 'Goiás', 'GOI', 'GO'),
+(118, 30, 'Maranhão', 'MAR', 'MA'),
 (119, 30, 'Mato Grosso', 'MAT', 'MT'),
 (120, 30, 'Mato Grosso do Sul', 'MGS', 'MS'),
-(121, 30, 'Minas Gera�s', 'MIG', 'MG'),
-(122, 30, 'Paran�', 'PAR', 'PR'),
-(123, 30, 'Para�ba', 'PRB', 'PB'),
-(124, 30, 'Par�', 'PAB', 'PA'),
+(121, 30, 'Minas Geraís', 'MIG', 'MG'),
+(122, 30, 'Paraná', 'PAR', 'PR'),
+(123, 30, 'Paraíba', 'PRB', 'PB'),
+(124, 30, 'Pará', 'PAB', 'PA'),
 (125, 30, 'Pernambuco', 'PER', 'PE'),
-(126, 30, 'Piau�', 'PIA', 'PI'),
+(126, 30, 'Piauí', 'PIA', 'PI'),
 (127, 30, 'Rio Grande do Norte', 'RGN', 'RN'),
 (128, 30, 'Rio Grande do Sul', 'RGS', 'RS'),
 (129, 30, 'Rio de Janeiro', 'RDJ', 'RJ'),
-(130, 30, 'Rond�nia', 'RON', 'RO'),
+(130, 30, 'Rondônia', 'RON', 'RO'),
 (131, 30, 'Roraima', 'ROR', 'RR'),
 (132, 30, 'Santa Catarina', 'SAC', 'SC'),
 (133, 30, 'Sergipe', 'SER', 'SE'),
-(134, 30, 'S�o Paulo', 'SAP', 'SP'),
+(134, 30, 'São Paulo', 'SAP', 'SP'),
 (135, 30, 'Tocantins', 'TOC', 'TO'),
 (NULL, 44, 'Anhui', 'ANH', '34'),
 (NULL, 44, 'Beijing', 'BEI', '11'),
@@ -434,7 +435,7 @@ $db->query( "INSERT INTO `#__{vm}_state` VALUES (1, 223, 'Alabama', 'ALA', 'AL')
 (NULL, 105, 'Grosseto', 'GRO', 'GR'),
 (NULL, 105, 'Imperia', 'IMP', 'IM'),
 (NULL, 105, 'Isernia', 'ISE', 'IS'),
-(NULL, 105, 'L\'Aquila', 'AQU', 'AQ'),
+(NULL, 105, 'L''Aquila', 'AQU', 'AQ'),
 (NULL, 105, 'La Spezia', 'LAS', 'SP'),
 (NULL, 105, 'Latina', 'LAT', 'LT'),
 (NULL, 105, 'Lecce', 'LEC', 'LE'),
@@ -500,7 +501,7 @@ $db->query( "INSERT INTO `#__{vm}_state` VALUES (1, 223, 'Alabama', 'ALA', 'AL')
 (NULL, 105, 'Vibo Valenzia', 'VIV', 'VV'),
 (NULL, 105, 'Vicenza', 'VII', 'VI'),
 (NULL, 105, 'Viterbo', 'VIT', 'VT'),
-(NULL, 195, 'A Coru�a', 'ACOR', '15'),
+(NULL, 195, 'A Coruña', 'ACOR', '15'),
 (NULL, 195, 'Alava', 'ALA', '01'),
 (NULL, 195, 'Albacete', 'ALB', '02'),
 (NULL, 195, 'Alicante', 'ALI', '03'),
@@ -715,6 +716,15 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_cart` (
 PRIMARY KEY ( `user_id` )
 ) TYPE = MYISAM COMMENT = 'Stores the cart contents of a user'" );
 
+# Cart Storage functions
+$db->query( "INSERT INTO `#__{vm}_function` (`function_id`, `module_id`, `function_name`, `function_class`, `function_method`, `function_description`, `function_perms`) 
+VALUES (NULL, 7, 'replaceSavedCart', 'ps_cart', 'replaceCart', 'Replace cart with saved cart', 'none'),
+(NULL, 7, 'mergeSavedCart', 'ps_cart', 'mergeSaved', 'Merge saved cart with cart', 'none'),
+(NULL, 7, 'deleteSavedCart', 'ps_cart', 'deleteCart', 'Delete saved cart', 'none'),
+(NULL, 7, 'savedCartDelete', 'ps_cart', 'deleteSaved', 'Delete items from saved cart', 'none'),
+(NULL, 7, 'savedCartUpdate', 'ps_cart', 'updateSaved', 'Update saved cart items', 'none')");
+
+
 $db->query( "ALTER TABLE `#__{vm}_product_reviews` CHANGE `product_id` `product_id` INT( 11 ) NOT NULL ");
 
 # 25.07.2007: Allow to set address and date format
@@ -744,6 +754,6 @@ while( $db->next_record()) {
 							SET `'.$db->f('parameter_name', false).'`= REPLACE(`'.$db->f('parameter_name', false).'`, \',\', \';\');' );
 }
 
-$db->query( "UPDATE `#__components` SET `params` = 'RELEASE=1.1.0\nDEV_STATUS=RC3' WHERE `name` = 'virtuemart_version'");
+$db->query( "UPDATE `#__components` SET `params` = 'RELEASE=1.1.2\nDEV_STATUS=stable' WHERE `name` = 'virtuemart_version'");
 
 ?>

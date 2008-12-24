@@ -34,10 +34,18 @@ if(!ps_checkout::noShipToNecessary()) {
 
 	echo '<tr><td valign="top"><strong>'.$VM_LANG->_('PHPSHOP_ADD_SHIPTO_2') . ":</strong></td>";
 	echo '<td>';
+	$dbs = new ps_DB();
+	$q = "SELECT * FROM #__{vm}_country WHERE country_3_code='".$db->f("country")."'";
+	$dbs->query($q);
+	$country_id = $dbs->f("country_id");
+	$q = "SELECT * FROM #__{vm}_state WHERE country_id=".$country_id." AND state_2_code='".$db->f("state")."'";
+	$dbs->query($q);
+	$state_name = $dbs->f("state_name");
 	echo vmFormatAddress( array('name' => $db->f("first_name")." ".$db->f("last_name"),
         								'address_1' => $db->f("address_1"),
         								'address_2' => $db->f("address_2"),
         								'state' => $db->f("state"),
+        								'state_name' => $state_name,
         								'zip' => $db->f("zip"),
         								'city' => $db->f("city"),
         								'country' => $db->f('country')
@@ -53,11 +61,15 @@ if(!ps_checkout::noShippingMethodNecessary()) {
 	$rate_details = explode( "|", urldecode(urldecode(vmGet($_REQUEST,'shipping_rate_id'))) );
 	echo '<td>';
 	foreach( $rate_details as $k => $v ) {
-		$v = shopMakeHtmlSafe($v);
+		// thepisu: old sample data cointaned "&gt;" instead of ">"... 
+		// so we don't have to make safe if "&gt;" is found
+		if (strpos($v,"&gt;")===false) {
+			$v = shopMakeHtmlSafe($v);
+		}
 		if( $k == 3 ) {
 			echo $CURRENCY_DISPLAY->getFullValue( $v )."; ";
 		} elseif( $k > 0 && $k < 4) {
-			echo shopMakeHtmlSafe($v).'; ';
+			echo $v.'; ';
 		}
 	}
 	echo "</td></tr>";

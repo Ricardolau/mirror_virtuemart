@@ -115,8 +115,8 @@ $formObj->startForm( 'adminForm', 'enctype="multipart/form-data"' );
 			        		<strong>{storename}</strong>: '.$VM_LANG->_('PHPSHOP_STORE_FORM_STORE_NAME').'<br />
 			        		<strong>{address_1}</strong>: '.$VM_LANG->_('PHPSHOP_STORE_FORM_ADDRESS_1').'<br />
 			        		<strong>{address_2}</strong>: '.$VM_LANG->_('PHPSHOP_STORE_FORM_ADDRESS_2').'<br />
-			        		<strong>{state}</strong>: '.$VM_LANG->_('PHPSHOP_STORE_FORM_STATE').'<br />
-			        		<strong>{statename}</strong>: '.$VM_LANG->_('PHPSHOP_STATE_LIST_2_CODE').'<br />
+			        		<strong>{statename}</strong>: '.$VM_LANG->_('PHPSHOP_STORE_FORM_STATE').'<br />
+			        		<strong>{state}</strong>: '.$VM_LANG->_('PHPSHOP_STATE_LIST_2_CODE').'<br />
 			        		<strong>{city}</strong>: '.$VM_LANG->_('PHPSHOP_STORE_FORM_CITY').'<br />
 			        		<strong>{zip}</strong>: '.$VM_LANG->_('PHPSHOP_STORE_FORM_ZIP').'<br />
 			        		<strong>{country}</strong>: '.$VM_LANG->_('PHPSHOP_STORE_FORM_COUNTRY').'<br />

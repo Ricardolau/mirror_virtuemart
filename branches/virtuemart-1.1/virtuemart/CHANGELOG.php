@@ -33,6 +33,11 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+24.12.08 thepisu
+# address formatting:  {statename} not converted; config tip wrong
+# sql update script from 1.0.x: some chars wrongly encoded; updated version info to 1.1.2 stable; missing function records
+# sql sample data: removed HTML entities from shipping rates
+# checkout confirmation tpl: not "make safe" old shipping sample data (cointaining "&gt;"); that was "maked safe" twice
 
 20.12.08 thepisu
 # fix in Language Manager

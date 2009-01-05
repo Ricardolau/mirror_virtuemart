@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id:shop.ask.php 431 2006-10-17 21:55:46 +0200 (Di, 17 Okt 2006) soeren_nb $
 * @package VirtueMart
 * @subpackage html
-* @copyright Copyright (C) 2006-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2006-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -18,8 +18,8 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 mm_showMyFileName( __FILE__ );
 
 $product_id = intval( vmGet($_REQUEST, "product_id", null) );
-$product_sku = $db->getEscaped( vmGet($_REQUEST, "sku", '' ) );
-$category_id = vmGet($_REQUEST, "category_id", null);
+$product_sku = $db->getEscaped( vmGet($_REQUEST, 'product_sku', '' ) );
+$category_id = vmRequest::getInt('category_id');
 $set = vmGet($_REQUEST, "set", 0 );
 $Itemid = $sess->getShopItemid();
 $flypage = vmGet($_REQUEST, "flypage", '' );

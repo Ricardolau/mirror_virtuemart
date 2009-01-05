@@ -801,7 +801,7 @@ class ps_checkout {
         $ps_payment_method = new ps_payment_method;
 		require_once( CLASSPATH. 'ps_creditcard.php' );
 	    $ps_creditcard = new ps_creditcard();
-	    
+	    $count = 0;
 		// Do we have Credit Card Payments?
 		$db_cc  = new ps_DB;
 		$q = "SELECT * from #__{vm}_payment_method,#__{vm}_shopper_group WHERE ";
@@ -815,12 +815,14 @@ class ps_checkout {
 		$db_cc->query($q);
 		
 		if ($db_cc->num_rows()) {
+			$first_payment_method_id = $db_cc->f("payment_method_id");
+			$count += $db_cc->num_rows();
 		    $cc_payments=true;
 		}
 		else {
 		    $cc_payments=false;
 		}
-		$count = 0;
+		
 		$db_nocc  = new ps_DB;
 		$q = "SELECT * from #__{vm}_payment_method,#__{vm}_shopper_group WHERE ";
 		$q .= "#__{vm}_payment_method.shopper_group_id=#__{vm}_shopper_group.shopper_group_id ";
@@ -834,7 +836,7 @@ class ps_checkout {
 		if ($db_nocc->next_record()) {
 		    $nocc_payments=true;
 		    $first_payment_method_id = $db_nocc->f("payment_method_id");
-		    $count = $db_nocc->num_rows();
+		    $count += $db_nocc->num_rows();
 		    $db_nocc->reset();
 		}
 		else {

@@ -37,7 +37,7 @@ if( $show_top_navigation ) {
 	?>
 	&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $VM_LANG->_('PN_DISPLAY_NR') ?>&nbsp;&nbsp;
 
-	<?php $pagenav->writeLimitBox( $search_string ); ?>
+	<?php $pagenav->writeLimitBox(); ?>
 	<noscript><input type="submit" value="<?php echo $VM_LANG->_('PHPSHOP_SUBMIT') ?>" /></noscript>
 	
     <!-- PAGE NAVIGATION AT THE TOP -->

@@ -25,12 +25,15 @@ $category_id = vmGet( $_REQUEST, 'category_id');
 /* Who cares for Safe Mode ? Not me! */
 if (@file_exists( "/usr/bin/htmldoc" )) {
 	
-	$load_page = $mosConfig_live_site . "/index2.php?option=com_virtuemart&page=$showpage&flypage=$flypage&product_id=$product_id&category_id=$category_id&pop=1&hide_js=1&output=pdf";
+	$allowed_pdf_pages = array('shop.product_details', 'shop.browse');
+	if( in_array( $showpage, $allowed_pdf_pages )) exit;
+	
+	$load_page = escapeshellarg($mosConfig_live_site . "/index2.php?option=com_virtuemart&page=$showpage&flypage=$flypage&product_id=$product_id&category_id=$category_id&pop=1&hide_js=1&output=pdf");
 	header( "Content-Type: application/pdf" );
-	header( "Content-Disposition: inline; filename=\"pdf-mambo.pdf\"" );
+	header( "Content-Disposition: inline; filename=\"pdf-store.pdf\"" );
 	flush();
 	//following line for Linux only - windows may need the path as well...
-	passthru( "/usr/bin/htmldoc --no-localfiles --quiet -t pdf14 --jpeg --webpage --header t.D --footer ./. --size letter --left 0.5in '$load_page'" );
+	passthru( "/usr/bin/htmldoc --no-localfiles --quiet -t pdf14 --jpeg --webpage --header t.D --footer ./. --size letter --left 0.5in $load_page" );
 	exit;
 } 
 else {

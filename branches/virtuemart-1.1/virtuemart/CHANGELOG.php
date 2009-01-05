@@ -33,6 +33,11 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+
+05.01.2009 soeren
+# Task #2463 - pageNavigation problem
+# Task #2317 - Submit button on shop ask page is not working
+
 24.12.08 thepisu
 # address formatting:  {statename} not converted; config tip wrong
 # sql update script from 1.0.x: some chars wrongly encoded; updated version info to 1.1.2 stable; missing function records
@@ -43,6 +48,9 @@ VirtueMart 1.1.x
 # fix in Language Manager
 ^ updated Swedish language (by sgagner)
 ^ fix in Italian language
+
+19.12.2008 soeren
+# Task #2453 - Problem with Tax State
 
 17.12.2008 soeren
 # Task #2451 - Additional downloadable files missing in account maintenance

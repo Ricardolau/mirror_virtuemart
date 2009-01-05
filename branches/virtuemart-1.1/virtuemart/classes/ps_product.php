@@ -1429,9 +1429,9 @@ class ps_product extends vmAbstractObject {
 						$state = $db->f("state");
 						$country = $db->f("country");
 
-						$q = "SELECT tax_rate FROM #__{vm}_tax_rate WHERE tax_country='$country' ";
+						$q = "SELECT tax_rate FROM #__{vm}_tax_rate WHERE tax_country='$country'\n";
 						if( !empty($state)) {
-							$q .= "AND tax_state='$state'";
+							$q .= "AND (tax_state='$state' OR tax_state=' $state ')";
 						}
 						$db->query($q);
 						if ($db->next_record()) {
@@ -1857,7 +1857,7 @@ class ps_product extends vmAbstractObject {
 
 					$q = "SELECT tax_rate FROM #__{vm}_tax_rate WHERE tax_country='$country' ";
 					if( !empty($state)) {
-						$q .= "AND tax_state='$state'";
+						$q .= "AND (tax_state='$state' OR tax_state=' $state ')";
 					}
 					$db->query($q);
 					if ($db->next_record()) {

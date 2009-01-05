@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage themes
-* @copyright Copyright (C) 2007 Soeren Eberhardt. All rights reserved.
+* @copyright Copyright (C) 2007-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -36,7 +36,7 @@ if ( $set == 0 ) { // This is the enquiry form!
 	<input type="button" name="send" value="<?php echo $VM_LANG->_('SEND_BUTTON') ?>" class="button" onclick="validateEnquiryForm()" />	
 	
 	<input type="hidden" name="product_id" value="<?php echo  $db_product->f("product_id")  ?>" />
-	<input type="hidden" name="product_sku" value="<?php echo  $db_product->f("product_sku")  ?>" />
+	<input type="hidden" name="product_sku" value="<?php echo  shopMakeHtmlSafe($db_product->f("product_sku"))  ?>" />
 	<input type="hidden" name="set" value="1" />	
 	<input type="hidden" name="func" value="productAsk" />
 	<input type="hidden" name="page" value="shop.ask" />

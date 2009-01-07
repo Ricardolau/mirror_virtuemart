@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage html
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -248,51 +248,124 @@ if( $db->f('order_number')) {
 	  <tr> 
 	    <td colspan="2"> 
 	      <table width="100%" cellspacing="0" cellpadding="2" border="0">
-	        <tr align="left"> 
+	        <tr align="left">
 	          <th><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_QTY') ?></th>
 	          <th><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_NAME') ?></th>
 	          <th><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_SKU') ?></th>
 	          <th><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_PRICE') ?></th>
 	          <th align="right"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_TOTAL') ?>&nbsp;&nbsp;&nbsp;</th>
 	        </tr>
-	        <?php 
+	        <?php
 	        $dbcart = new ps_DB;
 	        $q  = "SELECT * FROM #__{vm}_order_item ";
 	        $q .= "WHERE #__{vm}_order_item.order_id='$order_id' ";
 	        $dbcart->query($q);
 	        $subtotal = 0;
 	        $dbi = new ps_DB;
+			$dbdel = new ps_DB;
+
 	        while ($dbcart->next_record()) {
 	
 	        	if ($db->f("order_status") == ENABLE_DOWNLOAD_STATUS && ENABLE_DOWNLOADS) {
 	        		/* search for download record that corresponds to this order item */
-	        		$q = "SELECT `download_id` FROM #__{vm}_product_download WHERE";
+	        		$q = "SELECT `download_id`, `file_name`, `download_max`, `end_date` FROM #__{vm}_product_download WHERE";
 	        		$q .= " `order_id`=" . intval($vars["order_id"]);
 	        		$q .= " AND `product_id`=". intval($dbcart->f("product_id"));
 	        		$dbdl->query($q);
 	
 	        	}
-	
-	        	$product_id = $dbcart->f("product_id" );
-	?> 
-	        <tr align="left"> 
+	        	/* END HACK EUGENE */
+
+	        	$product_id = null;
+
+// ***** Add product_publish to SELECT statement.
+
+	        	$dbi->query( "SELECT product_id, product_publish FROM #__{vm}_product WHERE product_sku='".$dbcart->f("order_item_sku")."'");
+	        	$dbi->next_record();
+	        	$product_id = $dbi->f("product_id" );
+
+// ***** Set new flag to guard against the output of the product link by checking existance of product and its published status.
+
+				$link_to_product = (!empty( $product_id ) && ($dbi->f('product_publish') == 'Y'));
+	?>
+	        <tr align="left">
 	          <td valign="top"><?php $dbcart->p("product_quantity"); ?></td>
-	          <td valign="top"><?php 
-	              while($dbdl->next_record()) {
-	        			// hyperlink the downloadable order item	
-	        			$url = $mosConfig_live_site."/index.php?option=com_virtuemart&page=shop.downloads";
-	        			echo '<a href="'."$url&amp;download_id=".$dbdl->f("download_id").'">'
-	        					. '<img src="'.VM_THEMEURL.'images/download.png" alt="'.$VM_LANG->_('PHPSHOP_DOWNLOADS_CLICK').'" align="left" border="0" />&nbsp;'
-	        					. $dbcart->f("order_item_name")
-	        					. '</a><br class="clr" />';
+	          <td valign="top"><?php
+	              if ($dbdl->next_record()) {
+
+					// First output a link to the product or just the product name if the product has been removed.
+
+					if( $link_to_product) {
+						echo '<a href="'.$sess->url( $mm_action_url."index.php?page=shop.product_details&product_id=$product_id") .'" title="'.$dbcart->f("order_item_name").'">';
 					}
-	        		if( !$dbdl->num_rows() > 0 ) {
-			        	if( !empty( $product_id )) {
+
+				  	echo $dbcart->f("order_item_name");
+
+					if( $link_to_product) {
+						echo "</a>";
+					}
+
+// ***** This is all new code to output multiple links and download expiration details.
+
+					// Now loop through each download and output links to each filename.
+
+					do {
+
+						$download_id = $dbdl->f('download_id');
+						$download_max = (int)$dbdl->f('download_max');
+						$end_date = (int)$dbdl->f('end_date');
+						$time = time();
+					
+						// If the download has maxed out or expired then delete it from the database and don't display it.
+					
+						if (($download_max < 1) || (($end_date != 0) && ($time > $end_date))) {
+							$q ="DELETE FROM #__{vm}_product_download";
+							$q .=" WHERE download_id = '" . $download_id . "'";
+							$dbdel->query($q);
+							$dbdel->next_record();
+						} else {
+					
+							// Hyperlink the downloadable order item direct to the downloadFunction.
+
+// ***** NOTE: URL changed to directly access download file.
+// ***** NOTE: May wish to consider adding classname to <p> for easier control of layout and maybe change <p> to <div>.
+						
+							$url = $sess->url( $mm_action_url."/index.php?option=com_virtuemart&page=shop.downloads&func=downloadRequest");
+							echo '<p><a href="'."$url&download_id=".$download_id.'" title="'.$VM_LANG->_('PHPSHOP_DOWNLOADS_LINK').'">'
+									. '<img src="'.VM_THEMEURL.'images/download.png" alt="'.$VM_LANG->_('PHPSHOP_DOWNLOADS_LINK').'" align="left" border="0" />'
+									. $dbdl->f('file_name')
+									. '</a><br/>(';
+						
+							// Output downloads remaining and expiration date.						
+
+// ***** NOTE: May wish to set this up as a configuration option or leave it to the developer as it is in a theme template.
+						
+							if ($download_max > 1)
+								echo str_replace("{count}", $download_max, $VM_LANG->_('PHPSHOP_DOWNLOADS_REMAINING'));
+							else
+								echo str_replace("{count}", $download_max, $VM_LANG->_('PHPSHOP_DOWNLOAD_REMAINING'));
+						
+							if ($end_date > 0)
+								echo str_replace("{date}", date('d/m/y', $end_date), $VM_LANG->_('PHPSHOP_DOWNLOAD_VALID_UNTIL'));
+
+						
+							echo ')<p>';
+						}
+				  	} while ($dbdl->next_record());
+				  }
+	        		else {
+
+// ***** Change guard to use new flag $link_to_product instead of !empty( $product_id )
+
+			        	if( $link_to_product) {
 			          		echo '<a href="'.$sess->url( $mm_action_url."index.php?page=shop.product_details&product_id=$product_id") .'" title="'.$dbcart->f("order_item_name").'">';
 			          	}
 			          	$dbcart->p("order_item_name");
 			          	echo " <div style=\"font-size:smaller;\">" . $dbcart->f("product_attribute") . "</div>";
-			          	if( !empty( $product_id )) {
+
+// ***** Change guard to use new flag $link_to_product instead of !empty( $product_id )
+
+			          	if( $link_to_product) {
 			          		echo "</a>";
 			          	}
 	        		}

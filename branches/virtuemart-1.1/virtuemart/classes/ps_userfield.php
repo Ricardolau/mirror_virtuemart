@@ -444,11 +444,20 @@ class ps_userfield extends vmAbstractObject {
 						case 'captcha':
 							if (file_exists($mosConfig_absolute_path.'/administrator/components/com_securityimages/client.php')) {
 								include ($mosConfig_absolute_path.'/administrator/components/com_securityimages/client.php');
-								// Note that this package name must be used on the validation site too! If both are not equal, validation will fail
+								// Note that this package name must be used on the validation side too! If both are not equal, validation will fail
 								$packageName = 'securityVMRegistrationCheck';
 								echo insertSecurityImage($packageName);
 								echo getSecurityImageText($packageName);
 							}
+							else if (file_exists($mosConfig_absolute_path.'/plugins/system/securityimages.php')) {
+								echo "<script type=\"text/javascript\" src=\"".JURI :: root()."/components/com_securityimages/js/securityImages.js\"></script>";
+								echo "<img id='captchaSecurityImages' name='captchaSecurityImages' src=\"".JURI :: root()."/index.php?option=com_securityimages&task=displayCaptcha\" />";
+								echo "<a href=\"javascript:askNewSecurityImages('captchaSecurityImages');\">";
+								echo "<img src=\"".JURI :: root()."/components/com_securityimages/buttons/reload.gif\" id=\"securityImagesContactCaptchaReload\" name=\"securityImagesContactCaptchaReload\" border=\"0\">";
+								echo "</a>";
+								echo "<input type=\"text\" name=\"securityVMRegistrationCheck_try\" />";
+							}
+							
 							break;
 						// Begin of a fallthrough
 						case 'multicheckbox':

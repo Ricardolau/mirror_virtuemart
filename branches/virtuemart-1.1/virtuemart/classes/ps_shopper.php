@@ -93,19 +93,7 @@ class ps_shopper {
 						}
 						break;
 					case 'captcha':
-						if( file_exists($mosConfig_absolute_path.'/administrator/components/com_securityimages/server.php')) {
-							include_once( $mosConfig_absolute_path.'/administrator/components/com_securityimages/server.php');
-							$packageName = 'securityVMRegistrationCheck';
-							$security_refid = vmGet($_POST, $packageName.'_refid');
-							$security_try = vmGet($_POST, $packageName.'_try');
-							$security_reload = vmGet($_POST, $packageName.'_reload');
-							$checkSecurity = checkSecurityImage($security_refid, $security_try );
-							
-							if( !$checkSecurity ) {
-								$provided_required = false;
-								$missing .= $field->name . ",";
-							}
-						}
+						$this->checkCaptcha(&$provided_required, &$missing);
 						break;
 						
 					default:
@@ -129,6 +117,31 @@ class ps_shopper {
 		return true;
 	}
 
+	function checkCaptcha(&$provided_required, &$missing) {
+		global $mosConfig_absolute_path;
+		$securityimages4 = $mosConfig_absolute_path.'/administrator/components/com_securityimages/server.php';
+		$securityimages5 = $mosConfig_absolute_path.'/plugins/system/securityimages.php';
+		
+		$checkSecurity = true;
+		$packageName = 'securityVMRegistrationCheck';
+		if( file_exists($securityimages4)) {
+			include_once($securityimages4);
+			$security_refid = vmGet($_POST, $packageName.'_refid');
+			$security_try = vmGet($_POST, $packageName.'_try');
+			$security_reload = vmGet($_POST, $packageName.'_reload');
+			$checkSecurity = checkSecurityImage($security_refid, $security_try );
+		} else  if( file_exists($securityimages5)) {
+			global $mainframe;
+			$security_try = vmGet($_POST, $packageName.'_try');
+     		$mainframe->triggerEvent('onSecurityImagesCheck', array($security_try ,&$checkSecurity)); 
+		}
+		if( !$checkSecurity ) {
+			$provided_required = false;
+			$missing .= $field->name . ",";
+		}
+	}
+	
+	
 	/**************************************************************************
 	** name: validate_update()
 	** created by:
@@ -187,19 +200,7 @@ class ps_shopper {
 					}
 					break;
 				case 'captcha':
-					if( file_exists($mosConfig_absolute_path.'/administrator/components/com_securityimages/server.php')) {
-						include_once( $mosConfig_absolute_path.'/administrator/components/com_securityimages/server.php');
-						$packageName = 'securityVMRegistrationCheck';
-						$security_refid = vmGet($_POST, $packageName.'_refid');
-						$security_try = vmGet($_POST, $packageName.'_try');
-						$security_reload = vmGet($_POST, $packageName.'_reload');
-						$checkSecurity = checkSecurityImage($security_refid, $security_try );
-						
-						if( !$checkSecurity ) {
-							$provided_required = false;
-							$missing .= $field->name . ",";
-						}
-					}
+					$this->checkCaptcha(&$provided_required, &$missing);
 					break;
 					
 				case 'euvatid':

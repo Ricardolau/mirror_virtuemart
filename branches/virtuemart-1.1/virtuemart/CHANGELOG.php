@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+06.01.2009 soeren
+# Task #2250 - Products that contain more than one download file only have one download link listed on invoice
+# merged patches for compatibility with SecurityImages 5 (http://www.waltercedric.com/joomla-mainmenu-247/304-securityimages/1364-virtuemart-112-and-securityimages-5.html), thanks Cedric for providing these!
 
 05.01.2009 soeren
 # Task #2463 - pageNavigation problem

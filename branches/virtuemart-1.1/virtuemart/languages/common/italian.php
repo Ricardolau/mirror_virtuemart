@@ -1311,6 +1311,10 @@ check with your hosting company to see if you can access this port first',
 	'VM_ENQUIRY_MAIL_QUESTION' => 'Domanda',
 	'OFFLINE_MODE' => 'MODALITA\' OFFLINE',
 	'VM_STORE_UPDATED' => 'Il tuo Negozio è stato aggiornato.',
-	'VM_VENDOR_UPDATED' => 'Il Venditore è stato aggiornato.'
+	'VM_VENDOR_UPDATED' => 'Il Venditore è stato aggiornato.',
+	'PHPSHOP_DOWNLOADS_LINK' => 'Click on this link to download your file',
+	'PHPSHOP_DOWNLOAD_REMAINING' => '{count} download remaining',
+	'PHPSHOP_DOWNLOADS_REMAINING' => '{count} downloads remaining',
+	'PHPSHOP_DOWNLOAD_VALID_UNTIL' => ' until {date}'
 ); $VM_LANG->initModule( 'common', $langvars );
 ?>

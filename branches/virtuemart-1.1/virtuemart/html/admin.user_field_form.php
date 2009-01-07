@@ -78,7 +78,8 @@ else {
 	$types['radio'] = $VM_LANG->_('VM_FIELDS_RADIOBUTTON');
 	$types['webaddress'] = $VM_LANG->_('VM_FIELDS_WEBADDRESS');
 	
-	if( file_exists($mosConfig_absolute_path.'/administrator/components/com_securityimages/client.php')) {	
+	if( file_exists($mosConfig_absolute_path.'/administrator/components/com_securityimages/client.php') ||
+		file_exists($mosConfig_absolute_path.'/plugins/system/securityimages.php')) {	
 		$types['captcha'] = $VM_LANG->_('VM_FIELDS_CAPTCHA');
 	}
 	if( file_exists($mosConfig_absolute_path.'/components/com_yanc/yanc.php')) {

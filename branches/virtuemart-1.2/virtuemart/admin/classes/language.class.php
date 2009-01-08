@@ -122,8 +122,11 @@ class vmAbstractLanguage {
 	/**
 	* Set the debug mode
 	*/
-	function setDebug() {
-		if( function_exists('vmshoulddebug')) {
+	function setDebug($value=null) {
+		if( !is_null($value) ) {
+			$this->_debug = $value;
+		}
+		elseif( function_exists('vmshoulddebug')) {
 			$this->_debug = vmShouldDebug() || $GLOBALS['mosConfig_debug'] == '1';
 		} else {
 			$this->_debug = DEBUG || $GLOBALS['mosConfig_debug'] == '1';

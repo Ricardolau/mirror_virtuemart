@@ -1454,8 +1454,8 @@ Order Total: '.$order_total.'
 			$state = $db->f("state");
 			$country = $db->f("country");
 			$q = "SELECT * FROM #__{vm}_tax_rate WHERE tax_country='$country' ";
-			if( $state ) {
-				$q .= "AND tax_state='$state'";
+			if( !empty($state)) {
+				$q .= "AND (tax_state='$state' OR tax_state=' $state ')";
 			}
 			$db->query($q);
 			if ($db->next_record()) {

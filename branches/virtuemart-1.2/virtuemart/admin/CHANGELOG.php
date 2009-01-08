@@ -35,6 +35,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+08.01.2009 soeren
+# Task #2469 - tax_rate problem in checkout
+# fixed broken admin panel in DEBUG mode
+
 28.11.08 aravot
 # Task #2366 - Missing info message "The selected quantity exceeds quantity available in stock." with EASY FIX (Thank you Danny)
 

@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -323,8 +323,10 @@ class vmExtToolBar {
 	function render() {
 		vmCommonHTML::loadExtjs();
 		// Get the Top Toolbar Object of the currently active Tab in the Panel and clear it
-		$toolbar_script = "var vmTb = parent.Ext.getCmp('center-panel').getActiveTab().getTopToolbar();
-								vmTb.items.each(function(item) { item.destroy() });\n";
+		$toolbar_script = "var cp = parent.Ext.getCmp('center-panel');
+		if( typeof cp != \"undefined\") {
+			vmTb = cp.getActiveTab().getTopToolbar();
+			vmTb.items.each(function(item) { item.destroy() });\n";
 		if( $this->buttons != '' ) {
 			// Now the buttons are added to the Toolbar plus a "Reload" Button
 			$toolbar_script .= $this->buttons
@@ -332,6 +334,7 @@ class vmExtToolBar {
 							. "\nvmTb.addSeparator();\n vmTb.addButton({text: '<div style=\"float:left;background: url(".VM_THEMEURL."images/administration/menu/icon-16-reload.png) 50% 0 no-repeat;height:17px;width:17px;\" border=\"0\" alt=\"".$GLOBALS['VM_LANG']->_('RELOAD')."\">&nbsp;</div>".$GLOBALS['VM_LANG']->_('RELOAD')."', handler: new Function('location.reload();') });"
 							;
 		}
+		$toolbar_script .= "\n}\n";
 		// Print the Script into the page
 		echo vmCommonHTML::scriptTag('', $toolbar_script );
 	}

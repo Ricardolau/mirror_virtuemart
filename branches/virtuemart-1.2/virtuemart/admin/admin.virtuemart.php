@@ -34,9 +34,6 @@ switch( $task ) {
 	case 'extlayout':
 		include( $mosConfig_absolute_path.'/components/'.$option.'/js/extlayout.js.php');
 		exit;
-	case 'toolbar':
-		include( ADMINPATH.'toolbar.php');
-		exit;
 }
 // Include The Version File
 include_once( ADMINPATH. 'version.php' );

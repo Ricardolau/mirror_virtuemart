@@ -22,6 +22,9 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 while(@ob_end_clean());
 
 header( 'Content-Type: application/x-javascript');
+
+$VM_LANG->setDebug(0);
+
 $module_id = vmGet($_REQUEST, 'module_id');
 
 require_once( CLASSPATH.'menu.class.php' );

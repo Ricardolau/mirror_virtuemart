@@ -33,7 +33,13 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+08.01.2009 soeren
+# Task #2469 - tax_rate problem in checkout
+# Task #2434 - Modules need a statment if to check if the product has items so not to show add to cart. 
+# Task #2457 - Error: CheckOut needs a valid Step!
+ 
 06.01.2009 soeren
+# Task #2455 -  Problems with sort function "Order by"
 # Task #2250 - Products that contain more than one download file only have one download link listed on invoice
 # merged patches for compatibility with SecurityImages 5 (http://www.waltercedric.com/joomla-mainmenu-247/304-securityimages/1364-virtuemart-112-and-securityimages-5.html), thanks Cedric for providing these!
 

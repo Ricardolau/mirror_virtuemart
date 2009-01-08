@@ -9,7 +9,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @package VirtueMart
 * @subpackage modules
 *
-* @copyright (C) 2006-2007 soeren - All rights reserved.
+* @copyright (C) 2007-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 * VirtueMart is Free Software.
 * VirtueMart comes with absolute no warranty.
@@ -48,20 +48,41 @@ $sess = new ps_session;
 ?>
 <!-- Currency Selector Module -->
 <?php echo $text_before ?>
-<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+<form action="<?php echo $_SERVER['SCRIPT_NAME'] ?>" method="post">
 	<br />
 	<?php
 	if( !empty( $_POST )) {
+		
 		foreach( $_POST as $key => $val ) {
-			if( $key == 'product_currency' || is_array($val) ) continue;
+			if( $key == 'product_currency' ) continue;
+			if( is_array($val) ) {
+				if( $key == 'checkout_this_step' ) {
+					foreach( $val as $value ) {
+						echo '<input type="hidden" name="'.$key.'[]" value="'.htmlspecialchars($value, ENT_QUOTES)."\" />\n";
+					}
+				} 
+				continue;
+
+			} 
 			$key = htmlspecialchars($key, ENT_QUOTES);
 			$val = htmlspecialchars($val, ENT_QUOTES);
 			echo "<input type=\"hidden\" name=\"$key\" value=\"$val\" />\n";
 		}
 	}
 	elseif( !empty( $_GET )) {
+		
 		foreach( $_GET as $key => $val ) {
-			if( $key == 'product_currency' || is_array($val) ) continue;
+			if( $key == 'product_currency' ) continue;
+			if( is_array($val) ) {
+				if( $key == 'checkout_this_step' ) {
+					foreach( $val as $value ) {
+						echo '<input type="hidden" name="'.$key.'[]" value="'.htmlspecialchars($value, ENT_QUOTES)."\" />\n";
+					}
+				} 
+				continue;
+
+			}
+			
 			$key = htmlspecialchars($key, ENT_QUOTES);
 			echo "<input type=\"hidden\" name=\"$key\" value=\"".htmlspecialchars($val, ENT_QUOTES)."\" />\n";
 		}

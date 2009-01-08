@@ -2351,7 +2351,10 @@ class ps_product extends vmAbstractObject {
 				$price = $this->show_price( $db->f("product_id"), true );
 				$tpl->set( 'price', $price );
 			}
-			if (USE_AS_CATALOGUE != 1 && $show_addtocart && isset( $GLOBALS['product_info'][$product_id]['price']['product_price_id'] )) {
+			if (USE_AS_CATALOGUE != 1 && $show_addtocart 
+					&& isset( $GLOBALS['product_info'][$product_id]['price']['product_price_id'] ) // Product must have a price to add it to cart
+					&& !$this->product_has_attributes($product_id, true)  // Parent Products and Products with attributes can't be added to cart this way
+					) {
 				$url = "?page=shop.cart&func=cartAdd&product_id=" .  $db->f("product_id");
 				$addtocart_link = $sess->url($mm_action_url. "index.php" . $url);
 				$tpl->set( 'addtocart_link', $addtocart_link );

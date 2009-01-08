@@ -556,11 +556,11 @@ class ps_order {
 		$db = new ps_DB;
 		$dbs = new ps_DB;
 		
-		$listfields = 'cdate,order_total,order_status,order_id,order_currency';
+		$listfields = 'o.order_id,o.cdate,order_total,o.order_status,order_currency';
 		$countfields = 'count(*) as num_rows';
-		$count = "SELECT $countfields FROM #__{vm}_orders ";
-		$list = "SELECT $listfields FROM #__{vm}_orders ";
-		$q = "WHERE vendor_id='$ps_vendor_id' ";
+		$count = "SELECT $countfields FROM #__{vm}_orders o ";
+		$list = "SELECT DISTINCT $listfields FROM #__{vm}_orders o ";
+		$q = "WHERE o.vendor_id='$ps_vendor_id' ";
 		if ($order_status != "A") {
 			$q .= "AND order_status='$order_status' ";
 		}
@@ -568,11 +568,15 @@ class ps_order {
 			$q .= "AND user_id='" . $auth["user_id"] . "' ";
 		}
 		if( !empty( $keyword )) {
-			$q .= "AND (order_id LIKE '%".$keyword."%' ";
+			$count .= ', #__{vm}_order_item oi ';
+			$list .= ', #__{vm}_order_item oi ';
+			$q .= "AND (order_item_sku LIKE '%".$keyword."%' ";
 			$q .= "OR order_number LIKE '%".$keyword."%' ";
-			$q .= "OR order_total LIKE '%".$keyword."%') ";
+			$q .= "OR o.order_id=".(int)$keyword.' ';
+			$q .= "OR order_item_name LIKE '%".$keyword."%') ";
+			$q .= "AND oi.order_id=o.order_id ";
 		}
-		$q .= "ORDER BY cdate DESC";
+		$q .= "ORDER BY o.cdate DESC";
 		$count .= $q;
 
 		$db->query($count);
@@ -586,6 +590,7 @@ class ps_order {
 
 		$list .= $q .= " LIMIT ".$pageNav->limitstart.", $limit ";
 		$db->query( $list );
+		
 		$listObj = new listFactory( $pageNav );
 
 		if( $num_rows > 0 ) {

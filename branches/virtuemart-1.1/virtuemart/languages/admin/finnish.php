@@ -6,6 +6,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @subpackage languages
 * @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @translator soeren
+* @ 2009/01/07 updated by Mauri
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -76,11 +77,11 @@ $langvars = array (
 	'PHPSHOP_ADMIN_CFG_VIRTUAL_TAX' => 'Virtuaalivero',
 	'PHPSHOP_ADMIN_CFG_VIRTUAL_TAX_EXPLAIN' => 'M‰‰rittelee verotetaanko nollapainoiset tuotteet vai ei. Muokkaa ps_checkout.php->calc_order_taxable() sopivaksi.',
 	'PHPSHOP_ADMIN_CFG_TAX_MODE' => 'Veron peruste:',
-	'PHPSHOP_ADMIN_CFG_TAX_MODE_SHIP' => 'Toimitusosoite',
-	'PHPSHOP_ADMIN_CFG_TAX_MODE_VENDOR' => 'Saapumisosoite',
+	'PHPSHOP_ADMIN_CFG_TAX_MODE_SHIP' => 'Toimitusosoitteen mukaan',
+	'PHPSHOP_ADMIN_CFG_TAX_MODE_VENDOR' => 'Kaupan maan mukaan',
 	'PHPSHOP_ADMIN_CFG_TAX_MODE_EXPLAIN' => 'M‰‰rittelee veroprosentin laskettaessa veroa:<br />
-	                                           <ul><li>l‰hett‰j‰n osavaltion / maan mukaan</li>
-	                                           <li>tai vastaanottajan sijainnin mukaan.</li>
+	                                           <ul><li>vastaanottajan sijainnin mukaan.</li>
+	                                           <li>tai l‰hett‰j‰n(kaupan) osavaltion / maan mukaan</li>
 	                                           <li>tai "EU mode", miss‰ tuotteen veroa k‰ytet‰‰n, jos asiakas on Euroopan Unionin alueelta, muuten vero on asiakkaan osoitteen mukaan.</li></ul>',
 	'PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE' => 'Mahdollista useampi veroprosentti?',
 	'PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE_EXPLAIN' => 'Valitse t‰m‰ jos teill‰ on tuotteita johon sovelletaan eri veroprosentti (esim. 16% kirjoille ja 22% muille)',

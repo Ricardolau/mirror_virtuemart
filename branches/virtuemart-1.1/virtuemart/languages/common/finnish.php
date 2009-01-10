@@ -6,6 +6,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @subpackage languages
 * @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @translator soeren
+* @ 2009/01/07 updated by Mauri
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -724,10 +725,10 @@ Lisätietoa palautusoikeudesta,  <a href="%s" onclick="%s" target="_blank">Palaut
 	'VM_ORDER_EDIT_QUANTITY_UPDATED' => 'Kappalemäärä päivitetty',
 	'VM_ORDER_EDIT_RETURN_PARENTS' => 'Takaisin päätuotteeseen',
 	'VM_ORDER_EDIT_CHOOSE_PRODUCT' => 'Valitse tuote',
-	'PHPSHOP_PRODUCT_FORM_ATTRIBUTE_NEW' => 'Uusi Artikkeli',
+	'PHPSHOP_PRODUCT_FORM_ATTRIBUTE_NEW' => 'Uusi Piirre',
 	'PHPSHOP_PRODUCT_FORM_PROPERTY_NEW' => 'Uusi ominaisuus',
 	'PHPSHOP_PRODUCT_FORM_PROPERTY' => 'Ominaisuudet',
-	'PHPSHOP_PRODUCT_FORM_ATTRIBUTE_DELETE' => 'Poista artikkeli',
+	'PHPSHOP_PRODUCT_FORM_ATTRIBUTE_DELETE' => 'Poista Piirre',
 	'LAST_UPDATED' => 'Viimeksi päivitetty',
 	'NOT_AUTH' => 'Teillä ei ole tarvittavia oikeuksia sivun katsomiseen.',
 	'DO_LOGIN' => 'Teidän tulee kirjautua.',
@@ -1319,9 +1320,9 @@ check with your hosting company to see if you can access this port first',
 	'OFFLINE_MODE' => 'OFFLINE MODE',
 	'VM_STORE_UPDATED' => 'Kauppa on päivitetty.',
 	'VM_VENDOR_UPDATED' => 'Kauppias on päivitetty.',
-	'PHPSHOP_DOWNLOADS_LINK' => 'Click on this link to download your file',
-	'PHPSHOP_DOWNLOAD_REMAINING' => '{count} download remaining',
-	'PHPSHOP_DOWNLOADS_REMAINING' => '{count} downloads remaining',
-	'PHPSHOP_DOWNLOAD_VALID_UNTIL' => ' until {date}'
+	'PHPSHOP_DOWNLOADS_LINK' => 'Lataa tästä linkistä tiedostosi',
+	'PHPSHOP_DOWNLOAD_REMAINING' => '{count} lataus jäljellä',
+	'PHPSHOP_DOWNLOADS_REMAINING' => '{count} latausta jäljellä',
+	'PHPSHOP_DOWNLOAD_VALID_UNTIL' => '{date} saakka'
 ); $VM_LANG->initModule( 'common', $langvars );
 ?>

@@ -33,6 +33,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+10.01.2009 thepisu
+^ updated Finnish language (by Mauri)
+^ updated Italian language
+
 08.01.2009 soeren
 # Task #2458 - order search function in account maintenance now searches for order item names/sku and order number
 # Task #2469 - tax_rate problem in checkout

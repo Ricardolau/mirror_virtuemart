@@ -1312,9 +1312,9 @@ check with your hosting company to see if you can access this port first',
 	'OFFLINE_MODE' => 'MODALITA\' OFFLINE',
 	'VM_STORE_UPDATED' => 'Il tuo Negozio è stato aggiornato.',
 	'VM_VENDOR_UPDATED' => 'Il Venditore è stato aggiornato.',
-	'PHPSHOP_DOWNLOADS_LINK' => 'Click on this link to download your file',
-	'PHPSHOP_DOWNLOAD_REMAINING' => '{count} download remaining',
-	'PHPSHOP_DOWNLOADS_REMAINING' => '{count} downloads remaining',
-	'PHPSHOP_DOWNLOAD_VALID_UNTIL' => ' until {date}'
+	'PHPSHOP_DOWNLOADS_LINK' => 'Clicca qui per scaricare il tuo file',
+	'PHPSHOP_DOWNLOAD_REMAINING' => '{count} download rimasto',
+	'PHPSHOP_DOWNLOADS_REMAINING' => '{count} download rimasti',
+	'PHPSHOP_DOWNLOAD_VALID_UNTIL' => ' fino al {date}'
 ); $VM_LANG->initModule( 'common', $langvars );
 ?>

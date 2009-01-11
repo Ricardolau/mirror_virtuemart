@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+10.01.2009 aravot
+# Fixed PHP5 Call-time pass-by-reference message
+
 10.01.2009 thepisu
 ^ updated Finnish language (by Mauri)
 ^ updated Italian language

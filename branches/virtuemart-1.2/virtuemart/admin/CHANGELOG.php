@@ -35,6 +35,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+10.01.09 aravot
+# Cant disable Keep Product Stock Level on Purchase (http://forum.virtuemart.net/index.php?topic=42901 - thank you patjun)
+# Changed Offline Message text-area size to avoid overlap
+
 08.01.2009 soeren
 # Task #2469 - tax_rate problem in checkout
 # fixed broken admin panel in DEBUG mode

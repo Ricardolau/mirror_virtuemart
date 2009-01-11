@@ -93,7 +93,7 @@ class ps_shopper {
 						}
 						break;
 					case 'captcha':
-						$this->checkCaptcha(&$provided_required, &$missing);
+						$this->checkCaptcha($provided_required, $missing);
 						break;
 						
 					default:
@@ -200,7 +200,7 @@ class ps_shopper {
 					}
 					break;
 				case 'captcha':
-					$this->checkCaptcha(&$provided_required, &$missing);
+					$this->checkCaptcha($provided_required, $missing);
 					break;
 					
 				case 'euvatid':

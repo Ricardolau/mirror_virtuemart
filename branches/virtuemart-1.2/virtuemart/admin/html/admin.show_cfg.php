@@ -75,7 +75,7 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_ADMIN_CFG_GLOBAL'), "global-page");
 		<tr>
 			<td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_SHOP_OFFLINE_MSG') ?>:</td>
 			<td colspan="2">
-				<textarea rows="6" cols="40" name="conf_PSHOP_OFFLINE_MESSAGE"><?php echo shopMakeHtmlSafe(stripslashes(PSHOP_OFFLINE_MESSAGE)); ?></textarea>
+				<textarea rows="8" cols="35" name="conf_PSHOP_OFFLINE_MESSAGE"><?php echo shopMakeHtmlSafe(stripslashes(PSHOP_OFFLINE_MESSAGE)); ?></textarea>
 			</td>
 		</tr>  
 		<tr>
@@ -1066,7 +1066,7 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_ADMIN_CFG_DOWNLOADABLEGOODS'), "download-p
     <tr>
       <td class="labelcell"><?php echo $VM_LANG->_('VM_ADMIN_CFG_DOWNLOAD_KEEP_STOCKLEVEL') ?></td>
         <td>
-            <input name="conf_VM_DOWNLOADABLE_PRODUCTS_KEEP_STOCKLEVEL" type="checkbox" value="1" <?php if( @conf_VM_DOWNLOADABLE_PRODUCTS_KEEP_STOCKLEVEL ) echo 'checked="checked"' ?> />
+            <input name="conf_VM_DOWNLOADABLE_PRODUCTS_KEEP_STOCKLEVEL" type="checkbox" <?php if (VM_DOWNLOADABLE_PRODUCTS_KEEP_STOCKLEVEL == 1) echo "checked=\"checked\""; ?> value="1" />
         </td>
         <td><?php echo $VM_LANG->_('VM_ADMIN_CFG_DOWNLOAD_KEEP_STOCKLEVEL_TIP') ?>
         </td>

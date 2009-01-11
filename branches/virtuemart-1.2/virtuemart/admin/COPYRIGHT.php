@@ -126,11 +126,10 @@ wz-tooltip
 Copyright:	2002-2004 Walter Zorn
 License:	GNU Lesser General Public License (LGPL)
 
-FOOOD Icons (Administrator Toolbar)
+Administrator Icons
 ----
-Copyright:	2004 FOOOD's Icons
-License:	http://www.foood.net/joomla.htm
-Notes:		Please note these icons are NOT OPEN SOURCE but used with permission
+Copyright:	2008 Simon Josephson (http://www.artatwork.com.au)
+Thank you Simon!
 
 If you have contributed a vital part of VirtueMart that is not mentioned and missing here,
 and you feel that your copyright note should be mentioned here,

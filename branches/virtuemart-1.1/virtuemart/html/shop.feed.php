@@ -1,4 +1,5 @@
 <?php
+if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 /**
 * This file is used to send a product feed to the client
 * Get the latest Products directly to your Desktop!
@@ -6,7 +7,7 @@
 * @version $Id$
 * @package VirtueMart
 * @subpackage html
-* @copyright Copyright (C) 2007-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2007-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or

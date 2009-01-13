@@ -33,6 +33,11 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+
+12.01.2009 soeren
+# Task #2470 - Quantity Box JavaScript validation code fails XHTML validation 
+# fixed paymenow module (login information was missing on payment processing) 
+
 10.01.2009 aravot
 # Fixed PHP5 Call-time pass-by-reference message
 
@@ -44,7 +49,7 @@ VirtueMart 1.1.x
 # Task #2458 - order search function in account maintenance now searches for order item names/sku and order number
 # Task #2469 - tax_rate problem in checkout
 # Task #2434 - Modules need a statment if to check if the product has items so not to show add to cart. 
-# Task #2457 - Error: CheckOut needs a valid Step!
+# Task #2457 - Error: CheckOut needs a valid Step! (currency switcher module)
  
 06.01.2009 soeren
 # Task #2455 -  Problems with sort function "Order by"

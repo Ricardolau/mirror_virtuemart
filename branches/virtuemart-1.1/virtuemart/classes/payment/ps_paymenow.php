@@ -162,7 +162,7 @@ class ps_paymenow {
   ***************************************************************************/
    function process_payment($order_number, $order_total, &$d) {
         global $vmLogger;
-        
+        require_once(CLASSPATH ."payment/".__CLASS__.".cfg.php");
         $vars = array(
              "action" => "ns_quicksale_cc",
              "ecxid"  => PN_LOGIN,

@@ -18,7 +18,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-1',
+	'CHARSET' => 'UTF-8',
 	'PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX' => 'Mostra Prezzi IVA inclusa?',
 	'PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX_EXPLAIN' => 'Imposta l\'opzione se i clienti vedono i prezzi IVA inclusa od esclusa.',
 	'PHPSHOP_SHOPPER_FORM_ADDRESS_LABEL' => 'Codice Indirizzo',
@@ -29,6 +29,6 @@ $langvars = array (
 	'PHPSHOP_SHOPPER_GROUP_FORM_NAME' => 'Nome Gruppo',
 	'PHPSHOP_SHOPPER_GROUP_FORM_DESC' => 'Descrizione Gruppo',
 	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT' => 'Sconto per Gruppo Clienti di default (in %)',
-	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP' => 'Il valore positivo X indica: Se il Prodotto non ha un Prezzo assegnato a QUESTO Gruppo Clienti, il Prezzo di default è decrementato di X %. Un valore negativo avrà l\'effetto opposto'
+	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP' => 'Il valore positivo X indica: Se il Prodotto non ha un Prezzo assegnato a QUESTO Gruppo Clienti, il Prezzo di default Ã¨ decrementato di X %. Un valore negativo avrÃ  l\'effetto opposto'
 ); $VM_LANG->initModule( 'shopper', $langvars );
 ?>

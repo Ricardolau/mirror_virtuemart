@@ -18,19 +18,19 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-15',
+	'CHARSET' => 'UTF-8',
 	'PHPSHOP_MANUFACTURER_LIST_LBL' => 'Liste des fabricants',
 	'PHPSHOP_MANUFACTURER_LIST_MANUFACTURER_NAME' => 'Nom du fabricant',
 	'PHPSHOP_MANUFACTURER_FORM_LBL' => 'Ajouter une information',
-	'PHPSHOP_MANUFACTURER_FORM_CATEGORY' => 'Catégorie de fabricant',
+	'PHPSHOP_MANUFACTURER_FORM_CATEGORY' => 'CatÃ©gorie de fabricant',
 	'PHPSHOP_MANUFACTURER_FORM_EMAIL' => 'Email',
-	'PHPSHOP_MANUFACTURER_CAT_LIST_LBL' => 'Liste des catégories de fabricants',
-	'PHPSHOP_MANUFACTURER_CAT_NAME' => 'Nom de la catégorie',
-	'PHPSHOP_MANUFACTURER_CAT_DESCRIPTION' => 'Description catégorie',
+	'PHPSHOP_MANUFACTURER_CAT_LIST_LBL' => 'Liste des catÃ©gories de fabricants',
+	'PHPSHOP_MANUFACTURER_CAT_NAME' => 'Nom de la catÃ©gorie',
+	'PHPSHOP_MANUFACTURER_CAT_DESCRIPTION' => 'Description catÃ©gorie',
 	'PHPSHOP_MANUFACTURER_CAT_MANUFACTURERS' => 'Fabricants',
-	'PHPSHOP_MANUFACTURER_CAT_FORM_LBL' => 'Formulaire catégorie fabricant',
-	'PHPSHOP_MANUFACTURER_CAT_FORM_INFO_LBL' => 'Information de la catégorie',
-	'PHPSHOP_MANUFACTURER_CAT_FORM_NAME' => 'Nom de la catégorie',
-	'PHPSHOP_MANUFACTURER_CAT_FORM_DESCRIPTION' => 'Description de la catégorie'
+	'PHPSHOP_MANUFACTURER_CAT_FORM_LBL' => 'Formulaire catÃ©gorie fabricant',
+	'PHPSHOP_MANUFACTURER_CAT_FORM_INFO_LBL' => 'Information de la catÃ©gorie',
+	'PHPSHOP_MANUFACTURER_CAT_FORM_NAME' => 'Nom de la catÃ©gorie',
+	'PHPSHOP_MANUFACTURER_CAT_FORM_DESCRIPTION' => 'Description de la catÃ©gorie'
 ); $VM_LANG->initModule( 'manufacturer', $langvars );
 ?>

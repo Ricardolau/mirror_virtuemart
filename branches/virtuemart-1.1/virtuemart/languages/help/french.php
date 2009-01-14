@@ -18,17 +18,17 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-15',
+	'CHARSET' => 'UTF-8',
 	'VM_HELP_YOURVERSION' => 'Votre version du  {produit} ',
 	'VM_HELP_ABOUT' => '<span Style="font-weight: bold;">
 VirtueMart </ span> est une solution de E-Commerce Open Source pour Mambo et Joomla!.
-C\'est une application composée  d\'un composant, et de 8 Modules et Mambots / Plugins.
+C\'est une application composÃ©e  d\'un composant, et de 8 Modules et Mambots / Plugins.
 L\'origine de ces scripts est PhpShop (Auteurs: Edikon Corp & le <a href="http://www.virtuemart.org/" target="_blank"> phpShop </ a>) .',
 	'VM_HELP_LICENSE_DESC' => 'VirtueMart est sous licens <a href="{licenseurl}" target="_blank">License {licensename} </a>.',
-	'VM_HELP_TEAM' => 'Une petite équipe de développeurs nous aident à faire évoluer le script.',
+	'VM_HELP_TEAM' => 'Une petite Ã©quipe de dÃ©veloppeurs nous aident Ã  faire Ã©voluer le script.',
 	'VM_HELP_PROJECTLEADER' => 'Chef de projet',
 	'VM_HELP_HOMEPAGE' => 'Site Web',
-	'VM_HELP_DONATION_DESC' => 'S\'il vous plait, envisagez un don au projet VirtueMart pour nous aider à poursuivre les travaux sur ce composant et à créer de nouvelles fonctionnalités.',
-	'VM_HELP_DONATION_BUTTON_ALT' => 'Paiement avec PayPal - c\'est rapide, gratuit et sécurisé!'
+	'VM_HELP_DONATION_DESC' => 'S\'il vous plait, envisagez un don au projet VirtueMart pour nous aider Ã  poursuivre les travaux sur ce composant et Ã  crÃ©er de nouvelles fonctionnalitÃ©s.',
+	'VM_HELP_DONATION_BUTTON_ALT' => 'Paiement avec PayPal - c\'est rapide, gratuit et sÃ©curisÃ©!'
 ); $VM_LANG->initModule( 'help', $langvars );
 ?>

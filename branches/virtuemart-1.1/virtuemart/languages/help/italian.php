@@ -18,17 +18,17 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-1',
+	'CHARSET' => 'UTF-8',
 	'VM_HELP_YOURVERSION' => 'La tua versione di {product}',
 	'VM_HELP_ABOUT' => '<span style="font-weight: bold;">
-		VirtueMart</span> è la soluzione open source E-Commerce completa per Mambo e Joomla!. 
-		E\' una Applicazione, composta da un Componente, più di 8 Moduli e Mambot/Plugin.
+		VirtueMart</span> Ã¨ la soluzione open source E-Commerce completa per Mambo e Joomla!. 
+		E\' una Applicazione, composta da un Componente, piÃ¹ di 8 Moduli e Mambot/Plugin.
 		Ha le sue radici in uno script per il carrello virtuale chiamato "phpShop" (Autori: Edikon Corp. & la community <a href="http://www.virtuemart.org/" target="_blank">phpShop</a>).',
-	'VM_HELP_LICENSE_DESC' => 'VirtueMart è rilasciato sotto la licenza <a href="{licenseurl}" target="_blank">{licensename}</a>.',
-	'VM_HELP_TEAM' => 'C\'è un piccolo team di sviluppatori che aiuta questo script di carrello virtuale ad evolversi.',
+	'VM_HELP_LICENSE_DESC' => 'VirtueMart Ã¨ rilasciato sotto la licenza <a href="{licenseurl}" target="_blank">{licensename}</a>.',
+	'VM_HELP_TEAM' => 'C\'Ã¨ un piccolo team di sviluppatori che aiuta questo script di carrello virtuale ad evolversi.',
 	'VM_HELP_PROJECTLEADER' => 'Capo Progetto',
 	'VM_HELP_HOMEPAGE' => 'Homepage',
-	'VM_HELP_DONATION_DESC' => 'Per favore considera una piccola donazione al Progetto VirtueMart per aiutarci a mantenere il lavoro su questo componente e creare nuove funzionalità.',
-	'VM_HELP_DONATION_BUTTON_ALT' => 'Paga con PayPal - è veloce, gratuito e sicuro!'
+	'VM_HELP_DONATION_DESC' => 'Per favore considera una piccola donazione al Progetto VirtueMart per aiutarci a mantenere il lavoro su questo componente e creare nuove funzionalitÃ .',
+	'VM_HELP_DONATION_BUTTON_ALT' => 'Paga con PayPal - Ã¨ veloce, gratuito e sicuro!'
 ); $VM_LANG->initModule( 'help', $langvars );
 ?>

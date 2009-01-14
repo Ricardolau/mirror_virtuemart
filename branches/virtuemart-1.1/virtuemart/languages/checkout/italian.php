@@ -17,10 +17,10 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-1',
+	'CHARSET' => 'UTF-8',
 	'PHPSHOP_NO_CUSTOMER' => 'Non hai mai acquistato. Inserisci le informazioni per la fatturazione.',
 	'PHPSHOP_THANKYOU' => 'Grazie per l\'ordine.',
-	'PHPSHOP_EMAIL_SENDTO' => 'Una email di conferma è stata spedita a',
+	'PHPSHOP_EMAIL_SENDTO' => 'Una email di conferma Ã¨ stata spedita a',
 	'PHPSHOP_CHECKOUT_NEXT' => 'Succ',
 	'PHPSHOP_CHECKOUT_CONF_BILLINFO' => 'Dati Fattura',
 	'PHPSHOP_CHECKOUT_CONF_COMPANY' => 'Azienda',
@@ -38,16 +38,16 @@ $langvars = array (
 	'PHPSHOP_PAYPAL_THANKYOU' => 'Grazie per il pagamento.
         La transazione ha avuto successo. Riceverai una e-mail di conferma della transazione da parte di PayPal.
         Ora puoi continuare nella navigazione o autenticarti in <a href=http://www.paypal.com>www.paypal.com</a> per controllare i dettagli della transazione.',
-	'PHPSHOP_PAYPAL_ERROR' => 'C\'è stato un errore nell\'elaborazione della transazione. Lo stato del tuo ordine non può essere aggiornato.',
-	'PHPSHOP_THANKYOU_SUCCESS' => 'Il tuo ordine è stato inviato con successo!',
+	'PHPSHOP_PAYPAL_ERROR' => 'C\'Ã¨ stato un errore nell\'elaborazione della transazione. Lo stato del tuo ordine non puÃ² essere aggiornato.',
+	'PHPSHOP_THANKYOU_SUCCESS' => 'Il tuo ordine Ã¨ stato inviato con successo!',
 	'VM_CHECKOUT_TITLE_TAG' => 'Cassa: Passaggio %s di %s',
 	'VM_CHECKOUT_ORDERIDNOTSET' => 'ID Ordine non impostato o vuoto!',
 	'VM_CHECKOUT_FAILURE' => 'Fallimento',
 	'VM_CHECKOUT_SUCCESS' => 'Successo',
-	'VM_CHECKOUT_PAGE_GATEWAY_EXPLAIN_1' => 'Questa pagina è posizionata nel sito web del negozio.',
+	'VM_CHECKOUT_PAGE_GATEWAY_EXPLAIN_1' => 'Questa pagina Ã¨ posizionata nel sito web del negozio.',
 	'VM_CHECKOUT_PAGE_GATEWAY_EXPLAIN_2' => 'Il gateway esegue la pagina sul sito web, e mostra il risultato crittografato SSL.',
 	'VM_CHECKOUT_CCV_CODE' => 'Codice di Verifica Carta di Credito',
-	'VM_CHECKOUT_CCV_CODE_TIPTITLE' => 'Cosa è il Codice di Verifica Carta di Credito?',
+	'VM_CHECKOUT_CCV_CODE_TIPTITLE' => 'Cosa Ã¨ il Codice di Verifica Carta di Credito?',
 	'VM_CHECKOUT_MD5_FAILED' => 'Controllo MD5 fallito',
 	'VM_CHECKOUT_ORDERNOTFOUND' => 'Ordine non trovato',
 	'PHPSHOP_EPAY_PAYMENT_CARDTYPE' => 'The payment is

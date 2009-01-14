@@ -18,14 +18,14 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-15',
-	'PHPSHOP_COUPON_EDIT_HEADER' => 'Mise à jour chèque boutique',
+	'CHARSET' => 'UTF-8',
+	'PHPSHOP_COUPON_EDIT_HEADER' => 'Mise Ã  jour chÃ¨que boutique',
 	'PHPSHOP_COUPON_CODE_HEADER' => 'Code',
 	'PHPSHOP_COUPON_PERCENT_TOTAL' => 'Pourcentage ou total',
-	'PHPSHOP_COUPON_TYPE' => 'Type chèque boutique',
-	'PHPSHOP_COUPON_TYPE_TOOLTIP' => 'Un chèque boutique cadeau est effacé après avoir été utilisé comme remise sur une commande. Un chèque boutique permanent peut être utilisé à loisir par le client.',
-	'PHPSHOP_COUPON_TYPE_GIFT' => 'Chèque boutique cadeau',
-	'PHPSHOP_COUPON_TYPE_PERMANENT' => 'Chèque boutique permanent',
+	'PHPSHOP_COUPON_TYPE' => 'Type chÃ¨que boutique',
+	'PHPSHOP_COUPON_TYPE_TOOLTIP' => 'Un chÃ¨que boutique cadeau est effacÃ© aprÃ¨s avoir Ã©tÃ© utilisÃ© comme remise sur une commande. Un chÃ¨que boutique permanent peut Ãªtre utilisÃ© Ã  loisir par le client.',
+	'PHPSHOP_COUPON_TYPE_GIFT' => 'ChÃ¨que boutique cadeau',
+	'PHPSHOP_COUPON_TYPE_PERMANENT' => 'ChÃ¨que boutique permanent',
 	'PHPSHOP_COUPON_VALUE_HEADER' => 'Valeur',
 	'PHPSHOP_COUPON_PERCENT' => 'Pourcentage',
 	'PHPSHOP_COUPON_TOTAL' => 'Total'

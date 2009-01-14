@@ -18,12 +18,12 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-1',
+	'CHARSET' => 'UTF-8',
 	'PHPSHOP_COUPON_EDIT_HEADER' => 'Aggiorna Coupon',
 	'PHPSHOP_COUPON_CODE_HEADER' => 'Codice',
 	'PHPSHOP_COUPON_PERCENT_TOTAL' => 'Valore Percentuale o Assoluto',
 	'PHPSHOP_COUPON_TYPE' => 'Tipo di Coupon',
-	'PHPSHOP_COUPON_TYPE_TOOLTIP' => 'Un Buono Regalo viene eliminato dopo che è stato utilizzato come sconto su un ordine. Un Coupon Permanente può venire utilizzato ogni volta che lo si desidera.',
+	'PHPSHOP_COUPON_TYPE_TOOLTIP' => 'Un Buono Regalo viene eliminato dopo che Ã¨ stato utilizzato come sconto su un ordine. Un Coupon Permanente puÃ² venire utilizzato ogni volta che lo si desidera.',
 	'PHPSHOP_COUPON_TYPE_GIFT' => 'Buono Regalo',
 	'PHPSHOP_COUPON_TYPE_PERMANENT' => 'Coupon Permanente',
 	'PHPSHOP_COUPON_VALUE_HEADER' => 'Valore',

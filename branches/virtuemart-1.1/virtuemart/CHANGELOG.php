@@ -34,6 +34,10 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 
+14.01.2009 thepisu
+^ converted Italian language to UTF-8
+^ fixed French language encoding - converted to UTF-8
+
 12.01.2009 soeren
 # Task #2470 - Quantity Box JavaScript validation code fails XHTML validation 
 # fixed paymenow module (login information was missing on payment processing) 

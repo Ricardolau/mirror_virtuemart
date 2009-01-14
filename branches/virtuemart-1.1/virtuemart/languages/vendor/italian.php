@@ -18,7 +18,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-1',
+	'CHARSET' => 'UTF-8',
 	'PHPSHOP_VENDOR_LIST_LBL' => 'Lista Venditori',
 	'PHPSHOP_VENDOR_LIST_ADMIN' => 'Amministratore',
 	'PHPSHOP_VENDOR_FORM_LBL' => 'Aggiungi Informazioni',
@@ -29,7 +29,7 @@ $langvars = array (
 	'PHPSHOP_VENDOR_FORM_COMPANY_NAME' => 'Ragione Sociale Venditore',
 	'PHPSHOP_VENDOR_FORM_ADDRESS_1' => 'Indirizzo 1',
 	'PHPSHOP_VENDOR_FORM_ADDRESS_2' => 'Indirizzo 2',
-	'PHPSHOP_VENDOR_FORM_CITY' => 'Città',
+	'PHPSHOP_VENDOR_FORM_CITY' => 'CittÃ ',
 	'PHPSHOP_VENDOR_FORM_STATE' => 'Provincia',
 	'PHPSHOP_VENDOR_FORM_COUNTRY' => 'Nazione',
 	'PHPSHOP_VENDOR_FORM_ZIP' => 'CAP',

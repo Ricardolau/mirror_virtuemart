@@ -33,6 +33,8 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+15.0.12009 aravot
+^updated Turkish Lira from "New Turkish Lira" to "Turkish Lira" in installation sql
 
 14.01.2009 thepisu
 ^ converted Italian language to UTF-8

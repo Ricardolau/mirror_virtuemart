@@ -565,7 +565,7 @@ $db->query( "INSERT INTO `#__{vm}_currency` VALUES (1, 'Andorran Peseta', 'ADP')
 (136, 'Tunisian Dinar', 'TND'),
 (137, 'Tongan Pa''anga', 'TOP'),
 (138, 'East Timor Escudo', 'TPE'),
-(139, 'Turkish Lira', 'TRL'),
+(139, 'Turkish Lira', 'TRY'),
 (140, 'Trinidad and Tobago Dollar', 'TTD'),
 (141, 'Taiwan Dollar', 'TWD'),
 (142, 'Tanzanian Schilling', 'TZS'),

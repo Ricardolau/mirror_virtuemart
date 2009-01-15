@@ -35,6 +35,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+15.01.09 aravot
+^updated Turkish Lira from "TRL" to "TRY in installation sql
+
 10.01.09 aravot
 # Cant disable Keep Product Stock Level on Purchase (http://forum.virtuemart.net/index.php?topic=42901 - thank you patjun)
 # Changed Offline Message text-area size to avoid overlap

@@ -33,8 +33,11 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
-15.0.12009 aravot
-^updated Turkish Lira from "New Turkish Lira" to "Turkish Lira" in installation sql
+17.01.2009 thepisu
++ added Serbian Latin translation (serbian_lat, UTF-8); by Vlada_bgd; not yet fully translated
+
+15.01.2009 aravot
+^ updated Turkish Lira from "New Turkish Lira" to "Turkish Lira" in installation sql
 
 14.01.2009 thepisu
 ^ converted Italian language to UTF-8

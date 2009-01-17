@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage core
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -30,14 +30,14 @@ class vmVersion {
 	/** @var string Product */
 	var $PRODUCT = 'VirtueMart';
 	/** @var int Release Number */
-	var $RELEASE = '1.1.2';
+	var $RELEASE = '1.1.3';
 	/** @var string Development Status */
 	var $DEV_STATUS = 'stable';
 	/** @var string Codename */
-	// Song by James Taylor
-	var $CODENAME = 'Another Day';
+	// Song by Enya
+	var $CODENAME = 'On My Way Home';
 	/** @var string Date */
-	var $RELDATE = '31/07/2008';
+	var $RELDATE = '17/01/2009';
 	/** @var string Time */
 	var $RELTIME = '20:00';
 	/** @var string Timezone */
@@ -45,7 +45,7 @@ class vmVersion {
 	/** @var string Revision */
 	var $REVISION = '$Revision$';
 	/** @var string Copyright Text */
-	var $COPYRIGHT = 'Copyright (C) 2005-2008 VirtueMart Development Team - All rights reserved.'; 
+	var $COPYRIGHT = 'Copyright (C) 2005-2009 VirtueMart Development Team - All rights reserved.'; 
 	/** @var string URL */
 	var $URL = '<a href="http://virtuemart.net">VirtueMart</a> is a Free Component for Joomla!/Mambo released under the GNU/GPL License.';
 }

@@ -25,7 +25,7 @@ Complete Package for Joomla! 1.0.x, Joomla! 1.5.x and Mambo >= 4.5.1
 You can't use this software on an earlier Mambo version than 4.5.2 (e.g. Mambo 4.5 1.0.9) 
 without running into serious problems.
 
-Copyright (C) 2004-2008 soeren - All rights reserved.
+Copyright (C) 2004-2009 soeren - All rights reserved.
 License: http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 VirtueMart is free software. This version may have been modified pursuant
 to the GNU General Public License, and as distributed it includes or
@@ -82,7 +82,7 @@ This package was tested on
 - Mambo 4.5.3h
 - Mambo 4.6.2
 - Joomla 1.0.x
-- Joomla 1.5.4
+- Joomla 1.5.9
 
  -- IMPORTANT --
 Please note that module and component SHOULD be used together! 
@@ -196,7 +196,7 @@ You don't need to unpack any of the archives in this complete package!
 
 
 ############################
-   WHAT'S NEW IN VM 1.1.2?
+   WHAT'S NEW IN VM 1.1.3?
 ###########################
 
 //TODO

@@ -308,7 +308,7 @@ Con questo tipo di registrazione, i clienti non devono e non possono registrare 
 	'VM_FIELDS_CHECKBOX_SINGLE' => 'Casella di controllo (singola)',
 	'VM_FIELDS_CHECKBOX_MULTIPLE' => 'Casella di controllo (multipla)',
 	'VM_FIELDS_DATE' => 'Data',
-	'VM_FIELDS_DROPDOWN_SINGLE' => 'Menu a discesa (selezione sigola)',
+	'VM_FIELDS_DROPDOWN_SINGLE' => 'Menu a discesa (selezione singola)',
 	'VM_FIELDS_DROPDOWN_MULTIPLE' => 'Menu a discesa (selezione multipla)',
 	'VM_FIELDS_EMAIL' => 'Indirizzo Email',
 	'VM_FIELDS_EUVATID' => 'Partita IVA europea (EU VAT ID)',

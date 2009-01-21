@@ -361,8 +361,8 @@ class ps_perm {
 			. "\nORDER BY g1.lft"
 		);
 
-		//echo $database->getQuery();
-		return $database->loadObjectList();
+		$result = $database->loadObjectList();
+		return is_array($result) ? $result : array();
 	}
 	
 	/**

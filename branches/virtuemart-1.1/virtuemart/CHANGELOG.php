@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+19.01.2009 soeren
+# Task #2471 - Wrong bill_to address in email confirmation Text mail.
+
 17.01.2009 thepisu
 + added Serbian Latin translation (serbian_lat, UTF-8); by Vlada_bgd; not yet fully translated
 

@@ -7,7 +7,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage html
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -306,7 +306,7 @@ else {
 	$where_clause[] = "((`#__{vm}_product`.`product_id`=`#__{vm}_product_price`.`product_id` AND `#__{vm}_shopper_group`.`shopper_group_id`=`#__{vm}_product_price`.`shopper_group_id`) OR `#__{vm}_product_price`.`product_id` IS NULL) ";
 	$where_clause[] = '`#__{vm}_shopper_group`.`default` = 1';
 }
-$where_clause[] = "((`product_parent_id`='0') OR (`product_parent_id`='')) ";
+$where_clause[] = "`product_parent_id`=0 ";
 if( !$perm->check("admin,storeadmin") ) {
 	$where_clause[] = "`product_publish`='Y' ";
 	$where_clause[] = "`category_publish`='Y' ";

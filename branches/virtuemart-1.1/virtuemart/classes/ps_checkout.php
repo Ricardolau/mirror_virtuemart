@@ -1894,7 +1894,7 @@ Order Total: '.$order_total.'
 				$shopper_message .= "--------------------\n\n";
 			} else {
 				$shopper_message .= ($VM_LANG->_($field->title) != '' ? $VM_LANG->_($field->title) : $field->title).':    ';
-				$shopper_message .= $dbst->f($field->name) . "\n";
+				$shopper_message .= $dbbt->f($field->name) . "\n";
 			}
 		}
 		

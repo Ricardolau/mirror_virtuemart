@@ -33,6 +33,8 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+--- VirtueMart 1.1.3 released (Rev. 1611 2009-01-22) ---
+
 19.01.2009 soeren
 # Task #2471 - Wrong bill_to address in email confirmation Text mail.
 

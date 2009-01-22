@@ -37,7 +37,7 @@ class vmVersion {
 	// Song by Enya
 	var $CODENAME = 'On My Way Home';
 	/** @var string Date */
-	var $RELDATE = '17/01/2009';
+	var $RELDATE = '22/01/2009';
 	/** @var string Time */
 	var $RELTIME = '20:00';
 	/** @var string Timezone */

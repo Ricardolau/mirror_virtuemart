@@ -2,10 +2,9 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
-* @version : italian.php 1071 2007-12-03 08:42:28Z thepisu $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @translator soeren
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -29,6 +28,16 @@ $langvars = array (
 	'PHPSHOP_SHOPPER_GROUP_FORM_NAME' => 'Nome Gruppo',
 	'PHPSHOP_SHOPPER_GROUP_FORM_DESC' => 'Descrizione Gruppo',
 	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT' => 'Sconto per Gruppo Clienti di default (in %)',
-	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP' => 'Il valore positivo X indica: Se il Prodotto non ha un Prezzo assegnato a QUESTO Gruppo Clienti, il Prezzo di default è decrementato di X %. Un valore negativo avrà l\'effetto opposto'
+	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP' => 'Il valore positivo X indica: Se il Prodotto non ha un Prezzo assegnato a QUESTO Gruppo Clienti, il Prezzo di default è decrementato di X %. Un valore negativo avrà l\'effetto opposto',
+	'SHOPPER_GROUP_MISSING_NAME' => 'Devi inserire un nome per il gruppo clienti.',
+	'SHOPPER_GROUP_ALREADY_EXISTS' => 'Il gruppo clienti esiste già per questo venditore.',
+	'SHOPPER_GROUP_DELETE_SELECT' => 'Seleziona un gruppo clienti da eliminare.',
+	'SHOPPER_GROUP_DELETE_PAYMENT_METHODS_ASS' => 'Il gruppo clienti (Id: {id}) ha ancora dei Moduli di Pagamento assegnati.',
+	'SHOPPER_GROUP_DELETE_USERS_ASS' => 'Il gruppo clienti (Id: {id}) ha ancora utenti assegnati.',
+	'SHOPPER_GROUP_DELETE_DEFAULT' => 'Impossibile eliminare il gruppo clienti predefinito.',
+	'SHOPPER_GROUP_ADDED' => 'Il nuovo gruppo clienti è stato inserito.',
+	'SHOPPER_GROUP_ADD_FAILED' => 'Inserimento del gruppo clienti fallito.',
+	'SHOPPER_GROUP_UPDATED' => 'Il gruppo clienti è stato aggiornato.',
+	'SHOPPER_GROUP_UPDATE_FAILED' => 'Aggiornamento del gruppo clienti fallito.'
 ); $VM_LANG->initModule( 'shopper', $langvars );
 ?>

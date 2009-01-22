@@ -1223,6 +1223,7 @@ _____________________',
 	'VM_ENQUIRY_MAIL_QUESTION' => 'Pregunta',
 	'OFFLINE_MODE' => 'Módulo Off-Line',
 	'VM_STORE_UPDATED' => 'A súa Tenda foi Actualizada.',
-	'VM_VENDOR_UPDATED' => 'O Vendedor foi Actualizado.'
+	'VM_VENDOR_UPDATED' => 'O Vendedor foi Actualizado.',
+	'USER_REGISTRATION_DISABLED' => 'User registration is disabled, it must be enabled in order to proceed.'
 ); $VM_LANG->initModule( 'common', $langvars );
 ?>

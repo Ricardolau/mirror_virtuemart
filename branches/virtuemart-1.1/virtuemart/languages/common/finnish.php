@@ -6,7 +6,6 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @subpackage languages
 * @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @translator soeren
-* @ 2009/01/07 updated by Mauri
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -1323,6 +1322,7 @@ check with your hosting company to see if you can access this port first',
 	'PHPSHOP_DOWNLOADS_LINK' => 'Lataa tästä linkistä tiedostosi',
 	'PHPSHOP_DOWNLOAD_REMAINING' => '{count} lataus jäljellä',
 	'PHPSHOP_DOWNLOADS_REMAINING' => '{count} latausta jäljellä',
-	'PHPSHOP_DOWNLOAD_VALID_UNTIL' => '{date} saakka'
+	'PHPSHOP_DOWNLOAD_VALID_UNTIL' => '{date} saakka',
+	'USER_REGISTRATION_DISABLED' => 'User registration is disabled, it must be enabled in order to proceed.'
 ); $VM_LANG->initModule( 'common', $langvars );
 ?>

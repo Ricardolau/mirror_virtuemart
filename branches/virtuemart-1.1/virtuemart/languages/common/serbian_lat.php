@@ -1,11 +1,11 @@
 <?php
-if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
+if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
-* @translator evil@serbianunderground.com
+* @translator soeren
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -738,7 +738,7 @@ For more information on cancelling orders and returning items, see the <a href="
 	'CMN_UNPUBLISHED' => 'Neobjavljeno',
 	'MORE' => 'Više...',
 	'BUTTON_LOGOUT' => 'Odjava',
-	'NO_ACCOUNT' => '',
+	'NO_ACCOUNT' => 'No account yet?',
 	'CREATE_ACCOUNT' => 'Registracija',
 	'REGWARN_PASS' => 'Molimo unesite valjanu šifru.  Više od 6 znakova, bez razmaka i posebnih znakova - samo 0-9,a-z,A-Z',
 	'REGWARN_VPASS1' => 'Molimo potvrdite lozinku.',
@@ -1323,6 +1323,7 @@ check with your hosting company to see if you can access this port first',
 	'PHPSHOP_DOWNLOADS_LINK' => 'Click on this link to download your file',
 	'PHPSHOP_DOWNLOAD_REMAINING' => '{count} download remaining',
 	'PHPSHOP_DOWNLOADS_REMAINING' => '{count} downloads remaining',
-	'PHPSHOP_DOWNLOAD_VALID_UNTIL' => ' until {date}'
+	'PHPSHOP_DOWNLOAD_VALID_UNTIL' => ' until {date}',
+	'USER_REGISTRATION_DISABLED' => 'User registration is disabled, it must be enabled in order to proceed.'
 ); $VM_LANG->initModule( 'common', $langvars );
 ?>

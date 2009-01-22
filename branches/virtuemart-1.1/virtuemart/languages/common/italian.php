@@ -50,6 +50,7 @@ $langvars = array (
 	'PHPSHOP_CART_SKU' => 'Codice',
 	'PHPSHOP_CART_PRICE' => 'Prezzo',
 	'PHPSHOP_CART_QUANTITY' => 'Quantità',
+	'PHPSHOP_CART_QUANTITY_EXCEEDED' => 'La quantità selezionata eccede la quantità disponibile a magazzino.',
 	'PHPSHOP_CART_SUBTOTAL' => 'Subtotale',
 	'PHPSHOP_ADD_SHIPTO_1' => 'Aggiungi un nuovo',
 	'PHPSHOP_ADD_SHIPTO_2' => 'Indirizzo spedizione',
@@ -1315,6 +1316,7 @@ check with your hosting company to see if you can access this port first',
 	'PHPSHOP_DOWNLOADS_LINK' => 'Clicca qui per scaricare il tuo file',
 	'PHPSHOP_DOWNLOAD_REMAINING' => '{count} download rimasto',
 	'PHPSHOP_DOWNLOADS_REMAINING' => '{count} download rimasti',
-	'PHPSHOP_DOWNLOAD_VALID_UNTIL' => ' fino al {date}'
+	'PHPSHOP_DOWNLOAD_VALID_UNTIL' => ' fino al {date}',
+	'USER_REGISTRATION_DISABLED' => 'La registrazione utente è disabilitata, deve essere abilitata per procedere.'
 ); $VM_LANG->initModule( 'common', $langvars );
 ?>

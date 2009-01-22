@@ -28,6 +28,16 @@ $langvars = array (
 	'PHPSHOP_SHOPPER_GROUP_FORM_NAME' => 'Groepsnaam',
 	'PHPSHOP_SHOPPER_GROUP_FORM_DESC' => 'Groepsomschrijving',
 	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT' => 'Prijs korting op standaard klantengroep (in %)',
-	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP' => 'Een positief getal X betekent: Als het product geen prijs heeft toegewezen gekregen aan DEZE klant groep, de standaard prijs wordt verminderd met X %. Een negatief getal heeft het tegenovergestelde effect.'
+	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP' => 'Een positief getal X betekent: Als het product geen prijs heeft toegewezen gekregen aan DEZE klant groep, de standaard prijs wordt verminderd met X %. Een negatief getal heeft het tegenovergestelde effect.',
+	'SHOPPER_GROUP_MISSING_NAME' => 'You must enter a shopper group name.',
+	'SHOPPER_GROUP_ALREADY_EXISTS' => 'Shopper group already exists for this vendor.',
+	'SHOPPER_GROUP_DELETE_SELECT' => 'Please select a shopper group to delete.',
+	'SHOPPER_GROUP_DELETE_PAYMENT_METHODS_ASS' => 'This Shopper Group (Id: {id}) still has Payment Methods assigned to it.',
+	'SHOPPER_GROUP_DELETE_USERS_ASS' => 'There are still Users assigned to this Shopper Group (Id: {id})',
+	'SHOPPER_GROUP_DELETE_DEFAULT' => 'Cannot delete the default shopper group.',
+	'SHOPPER_GROUP_ADDED' => 'The Shopper Group has been added.',
+	'SHOPPER_GROUP_ADD_FAILED' => 'Failed to add the Shopper Group',
+	'SHOPPER_GROUP_UPDATED' => 'The Shopper Group has been updated.',
+	'SHOPPER_GROUP_UPDATE_FAILED' => 'Failed to update the Shopper Group'
 ); $VM_LANG->initModule( 'shopper', $langvars );
 ?>

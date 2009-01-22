@@ -2,10 +2,9 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
-* @version : vietnamese.php 1071 2007-12-03 08:42:28Z thepisu $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @translator soeren
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -29,6 +28,16 @@ $langvars = array (
 	'PHPSHOP_SHOPPER_GROUP_FORM_NAME' => 'Tên nhóm',
 	'PHPSHOP_SHOPPER_GROUP_FORM_DESC' => 'Mô tả nhóm',
 	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT' => 'Bớt tiền cho nhóm shopper mặc  định (in %)',
-	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP' => 'A positive amount X means: If the Sản phẩm has no Giá assigned to THIS Shopper Nhóm, the default Giá is decreased by X %. A negative amount has the opposite effect'
+	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP' => 'A positive amount X means: If the Sản phẩm has no Giá assigned to THIS Shopper Nhóm, the default Giá is decreased by X %. A negative amount has the opposite effect',
+	'SHOPPER_GROUP_MISSING_NAME' => 'You must enter a shopper group name.',
+	'SHOPPER_GROUP_ALREADY_EXISTS' => 'Shopper group already exists for this vendor.',
+	'SHOPPER_GROUP_DELETE_SELECT' => 'Please select a shopper group to delete.',
+	'SHOPPER_GROUP_DELETE_PAYMENT_METHODS_ASS' => 'This Shopper Group (Id: {id}) still has Payment Methods assigned to it.',
+	'SHOPPER_GROUP_DELETE_USERS_ASS' => 'There are still Users assigned to this Shopper Group (Id: {id})',
+	'SHOPPER_GROUP_DELETE_DEFAULT' => 'Cannot delete the default shopper group.',
+	'SHOPPER_GROUP_ADDED' => 'The Shopper Group has been added.',
+	'SHOPPER_GROUP_ADD_FAILED' => 'Failed to add the Shopper Group',
+	'SHOPPER_GROUP_UPDATED' => 'The Shopper Group has been updated.',
+	'SHOPPER_GROUP_UPDATE_FAILED' => 'Failed to update the Shopper Group'
 ); $VM_LANG->initModule( 'shopper', $langvars );
 ?>

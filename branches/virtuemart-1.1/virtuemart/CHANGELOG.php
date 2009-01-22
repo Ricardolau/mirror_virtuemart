@@ -35,6 +35,10 @@ VirtueMart 1.1.x
 *************************************
 --- VirtueMart 1.1.3 released (Rev. 1611 2009-01-22) ---
 
+22.01.2009 thepisu
+# Task #2473 - Untranslated language string in checkout_register_form.php 
+# added translation for strings in ps_shopper_group
+
 19.01.2009 soeren
 # Task #2471 - Wrong bill_to address in email confirmation Text mail.
 

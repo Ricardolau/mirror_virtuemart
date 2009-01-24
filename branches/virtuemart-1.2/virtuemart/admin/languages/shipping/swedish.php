@@ -6,7 +6,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
-* @translator soeren
+* @translators:Stefan Gagner, Mei Ya Service, http://www.mei-ya.se & Mia Steen, 1st Solution http://www.1stsolution.se
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -19,27 +19,27 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 global $VM_LANG;
 $langvars = array (
 	'CHARSET' => 'ISO-8859-1',
-	'PHPSHOP_CARRIER_LIST_LBL' => 'Transportfirma',
-	'PHPSHOP_RATE_LIST_LBL' => 'Leveransmetod',
+	'PHPSHOP_CARRIER_LIST_LBL' => 'Fraktare',
+	'PHPSHOP_RATE_LIST_LBL' => 'Fraktmetoder',
 	'PHPSHOP_CARRIER_LIST_NAME_LBL' => 'Namn',
-	'PHPSHOP_CARRIER_LIST_ORDER_LBL' => 'Listordning',
-	'PHPSHOP_CARRIER_FORM_LBL' => 'Lägg till/ändra transportfirma',
-	'PHPSHOP_RATE_FORM_LBL' => 'Lägg till/ändra en leveransmetod',
-	'PHPSHOP_RATE_FORM_NAME' => 'Leveransmetodsbeskrivning',
-	'PHPSHOP_RATE_FORM_CARRIER' => 'Transportfirma',
+	'PHPSHOP_CARRIER_LIST_ORDER_LBL' => 'Sortering',
+	'PHPSHOP_CARRIER_FORM_LBL' => 'Ny/Ändra Fraktare',
+	'PHPSHOP_RATE_FORM_LBL' => 'Ny/Ändra leveranskostnad',
+	'PHPSHOP_RATE_FORM_NAME' => 'Beskrivning',
+	'PHPSHOP_RATE_FORM_CARRIER' => 'Fraktare',
 	'PHPSHOP_RATE_FORM_COUNTRY' => 'Land',
-	'PHPSHOP_RATE_FORM_ZIP_START' => 'Postnummer från',
-	'PHPSHOP_RATE_FORM_ZIP_END' => 'ZIP range end',
-	'PHPSHOP_RATE_FORM_WEIGHT_START' => 'Lowest Weight',
-	'PHPSHOP_RATE_FORM_WEIGHT_END' => 'Highest Weight',
-	'PHPSHOP_RATE_FORM_PACKAGE_FEE' => 'Your package fee',
-	'PHPSHOP_RATE_FORM_CURRENCY' => 'Currency',
-	'PHPSHOP_RATE_FORM_LIST_ORDER' => 'List Order',
-	'PHPSHOP_SHIPPING_RATE_LIST_CARRIER_LBL' => 'Shipper',
-	'PHPSHOP_SHIPPING_RATE_LIST_RATE_NAME' => 'Shipping Rate description',
-	'PHPSHOP_SHIPPING_RATE_LIST_RATE_WSTART' => 'Weight from ...',
-	'PHPSHOP_SHIPPING_RATE_LIST_RATE_WEND' => '... to',
-	'PHPSHOP_CARRIER_FORM_NAME' => 'Shipper Company',
-	'PHPSHOP_CARRIER_FORM_LIST_ORDER' => 'Listorder'
+	'PHPSHOP_RATE_FORM_ZIP_START' => 'Postnummer börjar med',
+	'PHPSHOP_RATE_FORM_ZIP_END' => 'Postnummer slutar med',
+	'PHPSHOP_RATE_FORM_WEIGHT_START' => 'Lägsta vikt',
+	'PHPSHOP_RATE_FORM_WEIGHT_END' => 'Högsta vikt',
+	'PHPSHOP_RATE_FORM_PACKAGE_FEE' => 'Din förpackningsavgift',
+	'PHPSHOP_RATE_FORM_CURRENCY' => 'Valuta',
+	'PHPSHOP_RATE_FORM_LIST_ORDER' => 'Sortering',
+	'PHPSHOP_SHIPPING_RATE_LIST_CARRIER_LBL' => 'Fraktare',
+	'PHPSHOP_SHIPPING_RATE_LIST_RATE_NAME' => 'Fraktbeskrivning',
+	'PHPSHOP_SHIPPING_RATE_LIST_RATE_WSTART' => 'Vikt från ...',
+	'PHPSHOP_SHIPPING_RATE_LIST_RATE_WEND' => '... upp till',
+	'PHPSHOP_CARRIER_FORM_NAME' => 'Fraktföretag',
+	'PHPSHOP_CARRIER_FORM_LIST_ORDER' => 'Sortering'
 ); $VM_LANG->initModule( 'shipping', $langvars );
 ?>

@@ -18,19 +18,19 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-15',
+	'CHARSET' => 'UTF-8',
 	'PHPSHOP_ZONE_ASSIGN_COUNTRY_LBL' => 'Pays',
-	'PHPSHOP_ZONE_ASSIGN_ASSIGN_LBL' => 'Assigner à la zone',
+	'PHPSHOP_ZONE_ASSIGN_ASSIGN_LBL' => 'Assigner Ã  la zone',
 	'PHPSHOP_ASSIGN_ZONE_PG_LBL' => 'Assigner zones',
 	'PHPSHOP_ZONE_FORM_NAME_LBL' => 'Nom de la zone',
 	'PHPSHOP_ZONE_FORM_DESC_LBL' => 'Description de la zone',
-	'PHPSHOP_ZONE_FORM_COST_PER_LBL' => 'Coût zone par article',
-	'PHPSHOP_ZONE_FORM_COST_LIMIT_LBL' => 'Coût limite zone',
+	'PHPSHOP_ZONE_FORM_COST_PER_LBL' => 'CoÃ»t zone par article',
+	'PHPSHOP_ZONE_FORM_COST_LIMIT_LBL' => 'CoÃ»t limite zone',
 	'PHPSHOP_ZONE_LIST_LBL' => 'Liste zone',
 	'PHPSHOP_ZONE_LIST_NAME_LBL' => 'Nom zone',
 	'PHPSHOP_ZONE_LIST_DESC_LBL' => 'Description de la zone',
-	'PHPSHOP_ZONE_LIST_COST_PER_LBL' => 'Coût zone par article',
-	'PHPSHOP_ZONE_LIST_COST_LIMIT_LBL' => 'Coût limite zone',
+	'PHPSHOP_ZONE_LIST_COST_PER_LBL' => 'CoÃ»t zone par article',
+	'PHPSHOP_ZONE_LIST_COST_LIMIT_LBL' => 'CoÃ»t limite zone',
 	'VM_ZONE_ASSIGN_PERITEM' => 'Par item',
 	'VM_ZONE_ASSIGN_LIMIT' => 'Llimite',
 	'VM_ZONE_EDITZONE' => 'Editer cette zone'

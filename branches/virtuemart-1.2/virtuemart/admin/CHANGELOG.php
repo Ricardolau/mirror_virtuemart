@@ -35,6 +35,11 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+24.01.2009 thepisu
+# Task #2473 - Untranslated language string in checkout_register_form.php 
+# added translation for strings in ps_shopper_group
+# updated various languages (from VM 1.1 branch)
+
 15.01.09 aravot
 ^updated Turkish Lira from "TRL" to "TRY in installation sql
 

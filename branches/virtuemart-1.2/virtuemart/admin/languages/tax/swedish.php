@@ -6,7 +6,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
-* @translator soeren
+* @translators:Stefan Gagner, Mei Ya Service, http://www.mei-ya.se & Mia Steen, 1st Solution http://www.1stsolution.se
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -20,11 +20,11 @@ global $VM_LANG;
 $langvars = array (
 	'CHARSET' => 'ISO-8859-1',
 	'PHPSHOP_TAX_LIST_LBL' => 'Momssatser',
-	'PHPSHOP_TAX_LIST_STATE' => 'Regional moms',
-	'PHPSHOP_TAX_LIST_COUNTRY' => 'Statlig moms',
-	'PHPSHOP_TAX_FORM_LBL' => 'Lägg till information om momssats',
-	'PHPSHOP_TAX_FORM_STATE' => 'Regional moms',
-	'PHPSHOP_TAX_FORM_COUNTRY' => 'Statlig moms',
+	'PHPSHOP_TAX_LIST_STATE' => 'Stat eller Region',
+	'PHPSHOP_TAX_LIST_COUNTRY' => 'Land',
+	'PHPSHOP_TAX_FORM_LBL' => 'Ny Momsinformation',
+	'PHPSHOP_TAX_FORM_STATE' => 'Stat eller Region',
+	'PHPSHOP_TAX_FORM_COUNTRY' => 'Land',
 	'PHPSHOP_TAX_FORM_RATE' => 'Momssats (för 25% => fyll i 0.25)'
 ); $VM_LANG->initModule( 'tax', $langvars );
 ?>

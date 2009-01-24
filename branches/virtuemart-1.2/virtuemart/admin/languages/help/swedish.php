@@ -6,7 +6,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
-* @translator soeren
+* @translators Mia Steen, First Solutions & Stefan Gagner, Mei Ya Service, http://www.mei-ya.se
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -19,16 +19,16 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 global $VM_LANG;
 $langvars = array (
 	'CHARSET' => 'ISO-8859-1',
-	'VM_HELP_YOURVERSION' => 'Your {product} version',
+	'VM_HELP_YOURVERSION' => 'Din {produkt} version',
 	'VM_HELP_ABOUT' => '<span style="font-weight: bold;">
-		VirtueMart</span> is the complete Open Source E-Commerce solution for Mambo and Joomla!. 
-		It is an Application, which comes with a Component, more than 8 Modules and Mambots/Plugins.
-		It has its roots in a Shopping Cart Script called "phpShop" (Authors: Edikon Corp. & the <a href="http://www.virtuemart.org/" target="_blank">phpShop</a> community).',
-	'VM_HELP_LICENSE_DESC' => 'VirtueMart is licensed under the <a href="{licenseurl}" target="_blank">{licensename} License</a>.',
-	'VM_HELP_TEAM' => 'There\'s a small team of Developers who help in evolving this Shopping Cart Script.',
-	'VM_HELP_PROJECTLEADER' => 'Project Leader',
-	'VM_HELP_HOMEPAGE' => 'Homepage',
-	'VM_HELP_DONATION_DESC' => 'Please consider a small donation to the VirtueMart Project to help us keep up the work on this Component and create new Features.',
-	'VM_HELP_DONATION_BUTTON_ALT' => 'Make payments with PayPal - it\'s fast, free and secure!'
+		VirtueMart</span> är en fullständig Open Source E-Commerce lösning för Mambo och Joomla!. 
+		Det är en applikation som består av en Komponent, mer än 8 Moduler och Mambots/Plugin:er.
+		Den har sitt ursprung i ett Kundvagnsskript kallat "phpShop" (Förf: Edikon Corp. & <a href="http://www.virtuemart.org/" target="_blank">phpShop</a> community).',
+	'VM_HELP_LICENSE_DESC' => 'VirtueMart är licensierad under <a href="{licenseurl}" target="_blank">{licensename} Licens</a>.',
+	'VM_HELP_TEAM' => 'Det är ett litet team utvecklare som hjälps åt att utveckla detta Kundvagsnsskript.',
+	'VM_HELP_PROJECTLEADER' => 'Projektledare',
+	'VM_HELP_HOMEPAGE' => 'Hemsida',
+	'VM_HELP_DONATION_DESC' => 'Gör gärna en donation till VirtueMart-projektet för att hjälpa oss fortsätta arbetet med denna komponent och att skapa nya funktioner.',
+	'VM_HELP_DONATION_BUTTON_ALT' => 'Betala med PayPal - det är snabbt, gratis och säkert!'
 ); $VM_LANG->initModule( 'help', $langvars );
 ?>

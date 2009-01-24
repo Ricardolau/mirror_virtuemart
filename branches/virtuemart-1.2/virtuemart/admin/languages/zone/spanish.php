@@ -2,10 +2,9 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
-* @version : spanish.php 1071 2007-12-03 08:42:28Z thepisu $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @translator soeren
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -26,13 +25,13 @@ $langvars = array (
 	'PHPSHOP_ZONE_FORM_DESC_LBL' => 'Descripción de Zona',
 	'PHPSHOP_ZONE_FORM_COST_PER_LBL' => 'Costo por Zona por Artículo',
 	'PHPSHOP_ZONE_FORM_COST_LIMIT_LBL' => 'Limite de Costo de Zona',
-	'PHPSHOP_ZONE_LIST_LBL' => 'Lista de Zones',
+	'PHPSHOP_ZONE_LIST_LBL' => 'Lista de Zonas',
 	'PHPSHOP_ZONE_LIST_NAME_LBL' => 'Nombre de Zona',
 	'PHPSHOP_ZONE_LIST_DESC_LBL' => 'Descripción de Zona',
-	'PHPSHOP_ZONE_LIST_COST_PER_LBL' => 'Costo por Zona Por Artículo',
+	'PHPSHOP_ZONE_LIST_COST_PER_LBL' => 'Costo por Zona y Por Artículo',
 	'PHPSHOP_ZONE_LIST_COST_LIMIT_LBL' => 'Límite de Costo de Zona',
-	'VM_ZONE_ASSIGN_PERITEM' => 'Per Item',
-	'VM_ZONE_ASSIGN_LIMIT' => 'Limit',
-	'VM_ZONE_EDITZONE' => 'Edit This Zone'
+	'VM_ZONE_ASSIGN_PERITEM' => 'Por Artículo',
+	'VM_ZONE_ASSIGN_LIMIT' => 'Límite',
+	'VM_ZONE_EDITZONE' => 'Editar esta Zona'
 ); $VM_LANG->initModule( 'zone', $langvars );
 ?>

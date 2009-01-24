@@ -1311,6 +1311,11 @@ lépjen kapcsolatba szolgáltatójával a megoldásért.',
 	'VM_ENQUIRY_MAIL_QUESTION' => 'Kérdés',
 	'OFFLINE_MODE' => 'OFFLINE MÓD',
 	'VM_STORE_UPDATED' => 'Üzlet frissítve',
-	'VM_VENDOR_UPDATED' => 'Forgalmazó frissítve'
+	'VM_VENDOR_UPDATED' => 'Forgalmazó frissítve',
+	'PHPSHOP_DOWNLOADS_LINK' => 'Click on this link to download your file',
+	'PHPSHOP_DOWNLOAD_REMAINING' => '{count} download remaining',
+	'PHPSHOP_DOWNLOADS_REMAINING' => '{count} downloads remaining',
+	'PHPSHOP_DOWNLOAD_VALID_UNTIL' => ' until {date}',
+	'USER_REGISTRATION_DISABLED' => 'User registration is disabled, it must be enabled in order to proceed.'
 ); $VM_LANG->initModule( 'common', $langvars );
 ?>

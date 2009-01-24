@@ -18,11 +18,11 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-15',
+	'CHARSET' => 'UTF-8',
 	'PHPSHOP_RB_INDIVIDUAL' => 'Listes de produits individuels',
 	'PHPSHOP_RB_SALE_TITLE' => 'Rapport des ventes',
-	'PHPSHOP_RB_SALES_PAGE_TITLE' => 'Vue d\'ensemble des activités de vente',
-	'PHPSHOP_RB_INTERVAL_TITLE' => 'Régler l\'interval',
+	'PHPSHOP_RB_SALES_PAGE_TITLE' => 'Vue d\'ensemble des activitÃ©s de vente',
+	'PHPSHOP_RB_INTERVAL_TITLE' => 'RÃ©gler l\'interval',
 	'PHPSHOP_RB_INTERVAL_MONTHLY_TITLE' => 'Mensuel',
 	'PHPSHOP_RB_INTERVAL_WEEKLY_TITLE' => 'Hebdomadaire',
 	'PHPSHOP_RB_INTERVAL_DAILY_TITLE' => 'Quotidien',
@@ -30,9 +30,9 @@ $langvars = array (
 	'PHPSHOP_RB_LASTMONTH_BUTTON' => 'Mois dernier',
 	'PHPSHOP_RB_LAST60_BUTTON' => '60 derniers jours',
 	'PHPSHOP_RB_LAST90_BUTTON' => '90 derniers jours',
-	'PHPSHOP_RB_START_DATE_TITLE' => 'Débute le',
+	'PHPSHOP_RB_START_DATE_TITLE' => 'DÃ©bute le',
 	'PHPSHOP_RB_END_DATE_TITLE' => 'Termine le',
-	'PHPSHOP_RB_SHOW_SEL_RANGE' => 'Voir cette sélection',
+	'PHPSHOP_RB_SHOW_SEL_RANGE' => 'Voir cette sÃ©lection',
 	'PHPSHOP_RB_REPORT_FOR' => 'Rapport pour ',
 	'PHPSHOP_RB_DATE' => 'Date',
 	'PHPSHOP_RB_ORDERS' => 'Commandes',

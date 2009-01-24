@@ -28,6 +28,16 @@ $langvars = array (
 	'PHPSHOP_SHOPPER_GROUP_FORM_NAME' => 'Ryhmän nimi',
 	'PHPSHOP_SHOPPER_GROUP_FORM_DESC' => 'Ryhmän kuvaus',
 	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT' => 'Perusasiakasryhmän alennusprosentti (%)',
-	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP' => 'Positiivinen luku X tarkoittaa: (Jos tuotteella ei ole mitään erikoishintaa tälle ostajaryhmälle) perushintaa lasketaan X %:lla. Negatiivinen luku tarkoittaa päinvastaista'
+	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP' => 'Positiivinen luku X tarkoittaa: (Jos tuotteella ei ole mitään erikoishintaa tälle ostajaryhmälle) perushintaa lasketaan X %:lla. Negatiivinen luku tarkoittaa päinvastaista',
+	'SHOPPER_GROUP_MISSING_NAME' => 'You must enter a shopper group name.',
+	'SHOPPER_GROUP_ALREADY_EXISTS' => 'Shopper group already exists for this vendor.',
+	'SHOPPER_GROUP_DELETE_SELECT' => 'Please select a shopper group to delete.',
+	'SHOPPER_GROUP_DELETE_PAYMENT_METHODS_ASS' => 'This Shopper Group (Id: {id}) still has Payment Methods assigned to it.',
+	'SHOPPER_GROUP_DELETE_USERS_ASS' => 'There are still Users assigned to this Shopper Group (Id: {id})',
+	'SHOPPER_GROUP_DELETE_DEFAULT' => 'Cannot delete the default shopper group.',
+	'SHOPPER_GROUP_ADDED' => 'The Shopper Group has been added.',
+	'SHOPPER_GROUP_ADD_FAILED' => 'Failed to add the Shopper Group',
+	'SHOPPER_GROUP_UPDATED' => 'The Shopper Group has been updated.',
+	'SHOPPER_GROUP_UPDATE_FAILED' => 'Failed to update the Shopper Group'
 ); $VM_LANG->initModule( 'shopper', $langvars );
 ?>

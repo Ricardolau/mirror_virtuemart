@@ -28,7 +28,7 @@ if (!empty( $missing )) {
 
 // If not using NO_REGISTRATION, redirect with a warning when Joomla doesn't allow user registration
 if ($mosConfig_allowUserRegistration == "0" && VM_REGISTRATION_TYPE != 'NO_REGISTRATION' ) {
-	$msg = 'User registration is disabled, it must be enabled in order to proceed.';
+	$msg = $VM_LANG->_('USER_REGISTRATION_DISABLED');
 	vmRedirect( $sess->url( 'index.php?page='.HOMEPAGE, true, false ), $msg );
 	return;
 }

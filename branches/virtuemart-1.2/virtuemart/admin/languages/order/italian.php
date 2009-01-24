@@ -18,7 +18,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-1',
+	'CHARSET' => 'UTF-8',
 	'PHPSHOP_ORDER_PRINT_PAYMENT_LOG_LBL' => 'Registro dei Pagamenti',
 	'PHPSHOP_ORDER_PRINT_SHIPPING_PRICE_LBL' => 'Prezzo Spedizione',
 	'PHPSHOP_ORDER_STATUS_LIST_CODE' => 'Codice Stato Ordine',
@@ -46,13 +46,13 @@ $langvars = array (
 	'VM_UPDATE_STATUS' => 'Aggiorna Stato',
 	'VM_ORDER_LABEL_ORDERID_NOTVALID' => 'Per favore fornisci un ID Ordine valido e numerico, non "{order_id}"',
 	'VM_ORDER_LABEL_NOTFOUND' => 'Ordine non trovato nel database delle etichette spedizione.',
-	'VM_ORDER_LABEL_NEVERGENERATED' => 'L\'etichetta non è stata ancora generata',
-	'VM_ORDER_LABEL_CLASSCANNOT' => 'La classe {ship_class} non può ottenere immagini di etichette',
+	'VM_ORDER_LABEL_NEVERGENERATED' => 'L\'etichetta non Ã¨ stata ancora generata',
+	'VM_ORDER_LABEL_CLASSCANNOT' => 'La classe {ship_class} non puÃ² ottenere immagini di etichette',
 	'VM_ORDER_LABEL_SHIPPINGLABEL_LBL' => 'Etichetta Spedizione',
-	'VM_ORDER_LABEL_SIGNATURENEVER' => 'La firma non è mai stata riportata',
+	'VM_ORDER_LABEL_SIGNATURENEVER' => 'La firma non Ã¨ mai stata riportata',
 	'VM_ORDER_LABEL_TRACK_TITLE' => 'Traccia',
 	'VM_ORDER_LABEL_VOID_TITLE' => 'Annulla Etichetta',
-	'VM_ORDER_LABEL_VOIDED_MSG' => 'L\'etichetta per la bolla {tracking_number} è stata annullata.',
+	'VM_ORDER_LABEL_VOIDED_MSG' => 'L\'etichetta per la bolla {tracking_number} Ã¨ stata annullata.',
 	'VM_ORDER_PRINT_PO_IPADDRESS' => 'Indirizzo IP',
 	'VM_ORDER_STATUS_ICON_ALT' => 'Icona Stato',
 	'VM_ORDER_PAYMENT_CCV_CODE' => 'Codice CVV',
@@ -62,15 +62,15 @@ $langvars = array (
 	'PHPSHOP_ORDER_EDIT_ADD' => 'Aggiungi',
 	'PHPSHOP_ORDER_EDIT_ADD_PRODUCT' => 'Aggiungi Prodotto',
 	'PHPSHOP_ORDER_EDIT_EDIT_ORDER' => 'Modifica Ordine',
-	'PHPSHOP_ORDER_EDIT_ERROR_QUANTITY_MUST_BE_HIGHER_THAN_0' => 'La quantità deve essere maggiore di 0.',
-	'PHPSHOP_ORDER_EDIT_PRODUCT_ADDED' => 'Il Prodotto è stato aggiunto all\'Ordine',
-	'PHPSHOP_ORDER_EDIT_PRODUCT_DELETED' => 'Il Prodotto è stato eliminato dall\'Ordine',
-	'PHPSHOP_ORDER_EDIT_QUANTITY_UPDATED' => 'La quantità è stata aggiornata',
+	'PHPSHOP_ORDER_EDIT_ERROR_QUANTITY_MUST_BE_HIGHER_THAN_0' => 'La quantitÃ  deve essere maggiore di 0.',
+	'PHPSHOP_ORDER_EDIT_PRODUCT_ADDED' => 'Il Prodotto Ã¨ stato aggiunto all\'Ordine',
+	'PHPSHOP_ORDER_EDIT_PRODUCT_DELETED' => 'Il Prodotto Ã¨ stato eliminato dall\'Ordine',
+	'PHPSHOP_ORDER_EDIT_QUANTITY_UPDATED' => 'La quantitÃ  Ã¨ stata aggiornata',
 	'PHPSHOP_ORDER_EDIT_RETURN_PARENTS' => 'torna al Prodotto Padre',
 	'PHPSHOP_ORDER_EDIT_CHOOSE_PRODUCT' => 'Scegli un Prodotto',
 	'PHPSHOP_ORDER_CHANGE_UPD_BILL' => 'Cambia Indirizzo Fatturazione',
 	'PHPSHOP_ORDER_CHANGE_UPD_SHIP' => 'Cambia Indirizzo Spedizione',
-	'PHPSHOP_ORDER_EDIT_SOMETHING_HAS_CHANGED' => ' è stato modificato',
+	'PHPSHOP_ORDER_EDIT_SOMETHING_HAS_CHANGED' => ' Ã¨ stato modificato',
 	'PHPSHOP_ORDER_EDIT_CHOOSE_PRODUCT_BY_SKU' => 'Seleziona SKU'
 ); $VM_LANG->initModule( 'order', $langvars );
 ?>

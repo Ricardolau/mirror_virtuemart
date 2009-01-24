@@ -18,14 +18,14 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-1',
+	'CHARSET' => 'UTF-8',
 	'PHPSHOP_USER_FORM_FIRST_NAME' => 'Nome',
 	'PHPSHOP_USER_FORM_LAST_NAME' => 'Cognome',
 	'PHPSHOP_USER_FORM_MIDDLE_NAME' => 'Secondo Nome',
 	'PHPSHOP_USER_FORM_COMPANY_NAME' => 'Ragione Sociale',
 	'PHPSHOP_USER_FORM_ADDRESS_1' => 'Indirizzo 1',
 	'PHPSHOP_USER_FORM_ADDRESS_2' => 'Indirizzo 2',
-	'PHPSHOP_USER_FORM_CITY' => 'Città',
+	'PHPSHOP_USER_FORM_CITY' => 'CittÃ ',
 	'PHPSHOP_USER_FORM_STATE' => 'Provincia',
 	'PHPSHOP_USER_FORM_ZIP' => 'CAP',
 	'PHPSHOP_USER_FORM_COUNTRY' => 'Nazione',
@@ -40,7 +40,7 @@ $langvars = array (
 	'PHPSHOP_STORE_FORM_COMPANY_NAME' => 'Ragione Sociale Negozio',
 	'PHPSHOP_STORE_FORM_ADDRESS_1' => 'Indirizzo 1',
 	'PHPSHOP_STORE_FORM_ADDRESS_2' => 'Indirizzo 2',
-	'PHPSHOP_STORE_FORM_CITY' => 'Città',
+	'PHPSHOP_STORE_FORM_CITY' => 'CittÃ ',
 	'PHPSHOP_STORE_FORM_STATE' => 'Provincia',
 	'PHPSHOP_STORE_FORM_COUNTRY' => 'Nazione',
 	'PHPSHOP_STORE_FORM_ZIP' => 'CAP',
@@ -87,7 +87,7 @@ $langvars = array (
         predefinito: ps_payment<br />
         <em>Scegli ps_payment se non sei sicuro!</em>',
 	'VM_PAYMENT_EXTRAINFO' => 'Informazioni Aggiuntive Pagamento',
-	'VM_PAYMENT_EXTRAINFO_TIP' => 'Viene mostrato nella pagina di conferma dell\'ordine. Può essere: codice HTML dal tuo fornitore di servizi di pagamento, suggerimenti per il cliente, ecc.',
+	'VM_PAYMENT_EXTRAINFO_TIP' => 'Viene mostrato nella pagina di conferma dell\'ordine. PuÃ² essere: codice HTML dal tuo fornitore di servizi di pagamento, suggerimenti per il cliente, ecc.',
 	'VM_PAYMENT_ACCEPTED_CREDITCARDS' => 'Tipi di carte di credito accettate',
 	'VM_PAYMENT_METHOD_DISCOUNT_TIP' => 'Per trasformare lo sconto in una tassa, utilizza un valore negativo(esempio: <strong>-2.00</strong>).',
 	'VM_PAYMENT_METHOD_DISCOUNT_MAX_AMOUNT' => 'Importo massimo sconto',
@@ -111,7 +111,7 @@ $langvars = array (
 	'PHPSHOP_STORE_ADDRESS_FORMAT' => 'Formato Indirizzo Negozio',
 	'PHPSHOP_STORE_ADDRESS_FORMAT_TIP' => 'Puoi usare i seguenti tag',
 	'PHPSHOP_STORE_DATE_FORMAT' => 'Formato Data Negozio',
-	'VM_PAYMENT_METHOD_ID_NOT_PROVIDED' => 'Errore: non è stato fornito l\'ID Metodo di Pagamento.',
+	'VM_PAYMENT_METHOD_ID_NOT_PROVIDED' => 'Errore: non Ã¨ stato fornito l\'ID Metodo di Pagamento.',
 	'VM_SHIPPING_MODULE_CONFIG_LBL' => 'Configurazione Modulo Spedizione',
 	'VM_SHIPPING_MODULE_CLASSERROR' => 'Impossibile istanziare la Classe {shipping_module}'
 ); $VM_LANG->initModule( 'store', $langvars );

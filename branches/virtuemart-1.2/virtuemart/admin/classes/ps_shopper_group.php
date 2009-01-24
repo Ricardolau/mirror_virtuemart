@@ -32,11 +32,13 @@ class ps_shopper_group extends vmAbstractObject  {
 	 * @return boolean
 	 */
 	function validate_add(&$d) {
+		global $VM_LANG;
+		
 		$db = new ps_DB;
 		$ps_vendor_id = $_SESSION["ps_vendor_id"];
 
 		if (empty($d["shopper_group_name"])) {
-			$GLOBALS['vmLogger']->err('You must enter a shopper group name.' );
+			$GLOBALS['vmLogger']->err($VM_LANG->_('SHOPPER_GROUP_MISSING_NAME'));
 			return False;
 		}
 		else {
@@ -47,7 +49,7 @@ class ps_shopper_group extends vmAbstractObject  {
 			$db->query($q);
 			$db->next_record();
 			if ($db->f("num_rows") > 0) {
-				$GLOBALS['vmLogger']->err('Shopper group already exists for this vendor.' );
+				$GLOBALS['vmLogger']->err($VM_LANG->_('SHOPPER_GROUP_ALREADY_EXISTS'));
 				return False;
 			}
 		}
@@ -68,9 +70,10 @@ class ps_shopper_group extends vmAbstractObject  {
 	 * @return boolean
 	 */
 	function validate_update(&$d) {
-
+		global $VM_LANG;
+		
 		if (!$d["shopper_group_name"]) {
-			$GLOBALS['vmLogger']->err('You must enter a shopper group name.' );
+			$GLOBALS['vmLogger']->err($VM_LANG->_('SHOPPER_GROUP_MISSING_NAME'));
 			return False;
 		}
 		if (empty($d["shopper_group_discount"])) {
@@ -89,23 +92,24 @@ class ps_shopper_group extends vmAbstractObject  {
 	 * @return boolean
 	 */
 	function validate_delete( $shopper_group_id, &$d) {
-
+		global $VM_LANG;
+		
 		$db = new ps_DB;
 		$shopper_group_id = intval( $shopper_group_id );
 		if (empty($shopper_group_id)) {
-			$GLOBALS['vmLogger']->err('Please select a shopper group to delete.' );
+			$GLOBALS['vmLogger']->err($VM_LANG->_('SHOPPER_GROUP_DELETE_SELECT'));
 			return False;
 		}
 		// Check if the Shopper Group still has Payment Methods assigned to it
 		$db->query( 'SELECT id FROM #__{vm}_payment_method WHERE shopper_group_id='.$shopper_group_id);
 		if( $db->next_record()) {			
-			$GLOBALS['vmLogger']->err('This Shopper Group (Id: '.$shopper_group_id.') still has Payment Methods assigned to it.' );
+			$GLOBALS['vmLogger']->err(str_replace('{id}',$shopper_group_id,$VM_LANG->_('SHOPPER_GROUP_DELETE_PAYMENT_METHODS_ASS')));
 			return False;
 		}
 		// Check if there are Users in this Shopper Group
 		$db->query( 'SELECT user_id FROM #__{vm}_shopper_vendor_xref WHERE shopper_group_id='.$shopper_group_id);
 		if( $db->next_record()) {			
-			$GLOBALS['vmLogger']->err('There are still Users assigned to this Shopper Group (Id: '.$shopper_group_id.').' );
+			$GLOBALS['vmLogger']->err(str_replace('{id}',$shopper_group_id,$VM_LANG->_('SHOPPER_GROUP_DELETE_USERS_ASS')));
 			return False;
 		}
 		
@@ -113,7 +117,7 @@ class ps_shopper_group extends vmAbstractObject  {
 					. " AND `default`='1'";
 		$db->query($q);
 		if ($db->next_record()) {
-			$GLOBALS['vmLogger']->err('Cannot delete the default shopper group.' );
+			$GLOBALS['vmLogger']->err($VM_LANG->_('SHOPPER_GROUP_DELETE_DEFAULT'));
 			return False;
 		}
 
@@ -127,7 +131,8 @@ class ps_shopper_group extends vmAbstractObject  {
 	 * @return boolean
 	 */
 	function add(&$d) {
-		global $perm, $vmLogger;
+		global $perm, $vmLogger, $VM_LANG;
+		
 		$hash_secret = "virtuemart";
 		if( $perm->check( "admin" ) ) {
 			$vendor_id = $d["vendor_id"];
@@ -155,7 +160,7 @@ class ps_shopper_group extends vmAbstractObject  {
 		if( $db->query() !== false ) {
 			$shopper_group_id = $db->last_insert_id();
 			vmRequest::setVar( 'shopper_group_id', $shopper_group_id );
-			$vmLogger->info('The Shopper Group has been added.');
+			$vmLogger->info($VM_LANG->_('SHOPPER_GROUP_ADDED'));
 			// Set all other shopper groups to be non-default, if this new shopper group shall be "default"	
 			if ($default == "1") {
 				$q = "UPDATE #__{vm}_shopper_group ";
@@ -167,7 +172,7 @@ class ps_shopper_group extends vmAbstractObject  {
 			}
 			return $_REQUEST['shopper_group_id'];
 		}
-		$vmLogger->err('Failed to add the Shopper Group');
+		$vmLogger->err($VM_LANG->_('SHOPPER_GROUP_ADD_FAILED'));
 		return false;
 	}
 
@@ -178,7 +183,7 @@ class ps_shopper_group extends vmAbstractObject  {
 	 * @return boolean
 	 */
 	function update($d) {
-		global $perm;
+		global $perm, $VM_LANG;
 
 		if( $perm->check( "admin" ) ) {
 			$vendor_id = $d["vendor_id"];
@@ -202,7 +207,7 @@ class ps_shopper_group extends vmAbstractObject  {
 					);
 		$db->buildQuery( 'UPDATE', '#__{vm}_shopper_group', $fields, 'WHERE shopper_group_id=' . (int)$d["shopper_group_id"] );
 		if( $db->query() ) {
-			$GLOBALS['vmLogger']->info('The Shopper Group has been updated.');
+			$GLOBALS['vmLogger']->info($VM_LANG->_('SHOPPER_GROUP_UPDATED'));
 			
 			if ($default == "1") {
 				$q = "UPDATE #__{vm}_shopper_group ";
@@ -214,7 +219,7 @@ class ps_shopper_group extends vmAbstractObject  {
 			}
 			return true;
 		}
-		$GLOBALS['vmLogger']->err( 'Failed to update the Shopper Group' );
+		$GLOBALS['vmLogger']->err($VM_LANG->_('SHOPPER_GROUP_UPDATE_FAILED'));
 		return false;
 	}
 

@@ -6,6 +6,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @subpackage languages
 * @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @translator soeren
+* @ 2009/01/07 updated by Mauri
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -41,7 +42,7 @@ $langvars = array (
 	'PHPSHOP_PRODUCT_FORM_ITEM_DIM_WEIGHT_LBL' => 'Artikkelin mitat ja paino',
 	'PHPSHOP_PRODUCT_FORM_ITEM_IMAGES_LBL' => 'Artikkelin kuvat',
 	'PHPSHOP_PRODUCT_FORM_IMAGE_UPDATE_LBL' => 'P‰ivitt‰‰ksesi varsinaista kuvaa, syˆt‰ polku uuteen kuvaan.',
-	'PHPSHOP_PRODUCT_FORM_IMAGE_DELETE_LBL' => 'Syˆt‰ "none" poistaaksesi nykyisen kuvan.',
+	'PHPSHOP_PRODUCT_FORM_IMAGE_DELETE_LBL' => 'Poista nykyinen kuva.',
 	'PHPSHOP_PRODUCT_FORM_PRODUCT_ITEMS_LBL' => 'Tuoteartikkelit',
 	'PHPSHOP_PRODUCT_FORM_ITEM_ATTRIBUTES_LBL' => 'Artikkelin ominaisuudet',
 	'PHPSHOP_PRODUCT_FORM_DELETE_PRODUCT_MSG' => 'Oletko varma ett‰ haluat poistaa t‰m‰n tuotteen ja siihen liittyv‰t artikkelit?',
@@ -125,14 +126,6 @@ $langvars = array (
 	'PHPSHOP_FILES_FORM_FILE_URL' => 'Tiedoston URL (valinnainen)',
 	'PHPSHOP_PRODUCT_FORM_AVAILABILITY_TOOLTIP1' => 'Kirjoita t‰h‰n teksti, joka n‰kyy tuotetiedoissa toimitusaikana.<br />esim.: 24h, 48 tuntia, 3 - 5 p‰iv‰‰',
 	'PHPSHOP_PRODUCT_FORM_AVAILABILITY_TOOLTIP2' => 'TAI valitse kuva, joka n‰kyy tuotetiedossa toimitusaikana.<br />Kuvat ovat hakemistossa <i>/components/com_virtuemart/shop_image/availability</i><br />',
-	'PHPSHOP_PRODUCT_FORM_ATTRIBUTE_LIST_EXAMPLES' => '<h4>Esimerkkej‰ piirrelistan nimikkeist‰ (Attribute List Format):</h4>
-        <pre>Koko,S[-2.99],M,XL[+1.99];V‰ri,Punainen,Vihre‰,Keltainen,Erikoisv‰ri[=24.00];jne,..,..</pre>
-        <h4>Hintam‰‰ritykset:</h4>
-        <pre>
-        &#43; == Lis‰‰ t‰m‰ m‰‰r‰ asetettuun hintaan.<br />
-        &#45; == V‰henn‰ t‰m‰ m‰‰r‰ asetetusta hinnasta.<br />
-        &#61; == Aseta tuotteelle t‰m‰ hinta.
-      </pre>',
 	'PHPSHOP_PRODUCT_FORM_CUSTOM_ATTRIBUTE_LIST_EXAMPLES' => '<h4>Esimerkkej‰ erityispiirrelistan sis‰llˆst‰:</h4>
         <pre>Nimi;Ekstra;...</pre>',
 	'PHPSHOP_IMAGE_ACTION' => 'Kuvan toiminta',
@@ -235,6 +228,10 @@ $langvars = array (
 	'VM_REVIEW_LIST_NAMEDATE' => 'Nimi/p‰iv‰ys',
 	'VM_PRODUCT_SELECT_ONE_OR_MORE' => 'Valitse yksi tai useampi tuote',
 	'VM_PRODUCT_SEARCHING' => 'Etsit‰‰n...',
+	'PHPSHOP_PRODUCT_FORM_ATTRIBUTE_LIST_EXAMPLES' => '<h4>Esimerkkej‰ piirrelistan nimikkeist‰ (Attribute List Format):</h4>
+	Nimike = V‰ri, Ominaisuus = Punainen ; Klikkaa uusi ominaisuus, lis‰teksesi uuden v‰rin: Vihre‰ ; Klikkaa uusi Piirre, lis‰teksesi uuden piirteen, jne.
+        <h4>Hintam‰‰ritykset(verottomina):</h4>
+	Hinta +10, Lis‰‰ t‰m‰n summan asetettuun hintaan.<br />  Hinta -10, V‰hent‰‰ t‰m‰n summan asetetusta hinnasta.<br />  Hinta =10, Asettaa tuotteelle t‰m‰n hinnan.',
 	'VM_FILES_FORM_PRODUCT_IMAGE' => 'Tuotekuva (iso ja n‰ytekuva)',
 	'VM_FILES_FORM_DOWNLOADABLE' => 'Ladattava tuotetiedosto (myyt‰v‰ tiedosto!)',
 	'VM_FILES_FORM_RESIZE_IMAGE' => 'Muuta ison tuotekuvatiedoston koko?'

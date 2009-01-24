@@ -18,12 +18,12 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-15',
+	'CHARSET' => 'UTF-8',
 	'PHPSHOP_TAX_LIST_LBL' => 'Liste des taux de TVA',
-	'PHPSHOP_TAX_LIST_STATE' => 'TVA état / région',
+	'PHPSHOP_TAX_LIST_STATE' => 'TVA Ã©tat / rÃ©gion',
 	'PHPSHOP_TAX_LIST_COUNTRY' => 'TVA  pays',
 	'PHPSHOP_TAX_FORM_LBL' => 'Ajouter des informations sur la TVA',
-	'PHPSHOP_TAX_FORM_STATE' => 'TVA pour l état ou la région',
+	'PHPSHOP_TAX_FORM_STATE' => 'TVA pour l Ã©tat ou la rÃ©gion',
 	'PHPSHOP_TAX_FORM_COUNTRY' => 'TVA pour le pays',
 	'PHPSHOP_TAX_FORM_RATE' => 'Taux de TVA (pour 19.6% => remplissez 0.196)'
 ); $VM_LANG->initModule( 'tax', $langvars );

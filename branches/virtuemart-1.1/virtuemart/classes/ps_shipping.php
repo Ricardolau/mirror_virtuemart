@@ -110,7 +110,7 @@ class ps_shipping {
 			return False;
 		}
 		
-		$fields = array( 'shipping_carrier_name' => vmGet($d["shipping_carrier_name"]),
+		$fields = array( 'shipping_carrier_name' => vmGet($d, 'shipping_carrier_name'),
 									'shipping_carrier_list_order' => (int)$d['shipping_carrier_list_order']);
 		$db->buildQuery('INSERT', '#__{vm}_shipping_carrier', $fields );
 		

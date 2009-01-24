@@ -35,6 +35,9 @@ VirtueMart 1.1.x
 *************************************
 --- VirtueMart 1.1.3 released (Rev. 1611 2009-01-22) ---
 
+24.01.2009 thepisu
+# fix in ps_shipping - adding a new carrier
+
 22.01.2009 thepisu
 # Task #2473 - Untranslated language string in checkout_register_form.php 
 # added translation for strings in ps_shopper_group

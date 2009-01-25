@@ -135,7 +135,7 @@ class ps_shipping {
 		if (!$this->validate_update($d)) {
 			return False;
 		}
-		$fields = array( 'shipping_carrier_name' => vmGet($d["shipping_carrier_name"]),
+		$fields = array( 'shipping_carrier_name' => vmGet($d,'shipping_carrier_name'),
 									'shipping_carrier_list_order' => (int)$d['shipping_carrier_list_order']);
 		$db->buildQuery('UPDATE', '#__{vm}_shipping_carrier', $fields, 'WHERE shipping_carrier_id=' . (int)$d["shipping_carrier_id"] );
 		$db->query();

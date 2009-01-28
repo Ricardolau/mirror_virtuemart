@@ -1442,7 +1442,6 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_price` (
   `product_price_id` int(11) NOT NULL auto_increment,
   `product_id` int(11) NOT NULL default '0',
   `product_price` decimal(12,5) default NULL,
-  `product_margin` decimal(12,5) default NULL,
   `product_currency` char(16) default NULL,
   `product_price_vdate` int(11) default NULL,
   `product_price_edate` int(11) default NULL,

@@ -146,8 +146,6 @@ $db->query("REPLACE `#__{vm}_auth_user_vendor` (`user_id`, `vendor_id`) VALUES (
 
 // Added Internal notes hack (http://forum.virtuemart.net/index.php?topic=45431.0)
 $db->query("ALTER TABLE `#__{vm}_product` ADD `intnotes` TEXT DEFAULT NULL;");
-// Added Product price margin (http://forum.virtuemart.net/index.php?topic=42607.0)
-$db->query("ALTER TABLE `#__{vm}_product_price` ADD `product_margin` DECIMAL( 12,5 ) DEFAULT NULL AFTER `product_price`;");
 
 $db->query("UPDATE `#__{vm}_payment_method` SET `payment_class` = REPLACE( `payment_class` , 'ps_', '' )");
 $db->query("UPDATE `#__{vm}_function` SET `function_class` = 'paymentMethod.class' WHERE `function_class` = 'ps_payment_method'");

@@ -1556,7 +1556,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		$db->next_record();
 		$default_shopper_group_id = $db->f("shopper_group_id");
 		
-		$q = "SELECT product_price,product_margin,product_currency,price_quantity_start,price_quantity_end 
+		$q = "SELECT product_price,product_currency,price_quantity_start,price_quantity_end 
 				FROM #__{vm}_product_price 
 				WHERE product_id='$product_id' AND 
 							shopper_group_id='$default_shopper_group_id'";
@@ -1566,14 +1566,12 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 			$price_info["product_currency"]=$db->f("product_currency");
 			$price_info["price_quantity_start"]=$db->f("price_quantity_start"); // added alatak
 			$price_info["price_quantity_end"]=$db->f("price_quantity_end");// added alatak
-			$price_info["product_margin"]=$db->f("product_margin");			
 		}
 		else {
 			$price_info["product_price"]= "";
 			$price_info["product_currency"] = $_SESSION['vendor_currency'];
 			$price_info["price_quantity_start"]=$db->f("price_quantity_start"); // added alatak
 			$price_info["price_quantity_end"]=$db->f("price_quantity_end");// added alatak
-			$price_info["product_margin"]=$db->f("product_margin");			
 		}
 						
 		return $price_info;
@@ -1695,7 +1693,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		$whereClause='WHERE product_id=%s AND shopper_group_id=%s ';
 		$whereClause = sprintf( $whereClause, intval($product_id), intval($shopper_group_id) );
 
-		$q = "SELECT `product_price`, `product_margin`, `product_price_id`, `product_currency` FROM `#__{vm}_product_price` $whereClause $additionalSQL";
+		$q = "SELECT `product_price`, `product_price_id`, `product_currency` FROM `#__{vm}_product_price` $whereClause $additionalSQL";
 		
 		$sig = sprintf("%u\n", crc32($q));
 

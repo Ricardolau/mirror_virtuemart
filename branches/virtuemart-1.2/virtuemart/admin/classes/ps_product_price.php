@@ -42,10 +42,7 @@ class ps_product_price extends vmAbstractObject  {
 			$vmLogger->err(  $VM_LANG->_('VM_PRODUCT_ID_MISSING',false) );
 			$valid = false;
 		}
-		else if (!is_numeric($d["product_profit_margin"])) {
-			$vmLogger->err(  "ERROR: A margin of profit is not a number." );
-			$valid = false;		
-		}			
+		
 		// convert all "," in prices to decimal points.
 		if (stristr($d["product_price"],",")) {
 			$d['product_price'] = floatval(str_replace(',', '.', $d["product_price"]));
@@ -103,7 +100,6 @@ class ps_product_price extends vmAbstractObject  {
 		$fields = array('product_id' => $d["product_id"],
 								'shopper_group_id' => vmRequest::getInt('shopper_group_id'),
 								'product_price' => vmRequest::getFloat('product_price'),
-								'product_margin' => vmRequest::getFloat('product_profit_margin'),								
 								'product_currency' => vmGet($d, 'product_currency' ),
 								'product_price_vdate' => vmGet($d, 'product_price_vdate'),
 								'product_price_edate' => vmGet($d, 'product_price_edate'),
@@ -146,7 +142,6 @@ class ps_product_price extends vmAbstractObject  {
 		$fields = array(
 								'shopper_group_id' => vmRequest::getInt('shopper_group_id'),
 								'product_price' => vmRequest::getFloat('product_price'),
-								'product_margin' => vmRequest::getFloat('product_profit_margin'),								
 								'product_currency' => vmGet($d, 'product_currency' ),
 								'product_price_vdate' => vmGet($d, 'product_price_vdate'),
 								'product_price_edate' => vmGet($d, 'product_price_edate'),

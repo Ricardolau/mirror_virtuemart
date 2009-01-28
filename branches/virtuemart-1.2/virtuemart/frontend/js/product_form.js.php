@@ -61,68 +61,38 @@ function getTaxRate() {
 	}
 }
 
-function getProfitMargin() {
-	var profitMargin=new Array()
-	var profitValue = document.adminForm.product_profit_margin.value;
-	if (profitValue.charAt(profitValue.length-1) == '%') {
-		profitMargin[0] = parseFloat(profitValue.substr(0, profitValue.length-1));
-		profitMargin[1] = true;
+function updateGross() {
+	if( document.adminForm.product_price.value != '' ) {
+		var taxRate = getTaxRate();
+
+		var r = new RegExp("\,", "i");
+		document.adminForm.product_price.value = document.adminForm.product_price.value.replace( r, "." );
+
+		var grossValue = document.adminForm.product_price.value;
+
+		if (taxRate > 0) {
+			grossValue = grossValue * (taxRate + 1);
+		}
+
+		document.adminForm.product_price_incl_tax.value = doRound(grossValue, 5);
 	}
-	else {
-		profitMargin[0] = parseFloat(profitValue);
-		profitMargin[1] = false;
-	}
-	return profitMargin;
 }
 
-function updatePrice(from) {
-	/* Get the net value */
-	var productPrice = parseFloat(document.adminForm.product_price.value.replace( r, "." ));
-	
-	/* Get the margins */
-	var profitMargin = getProfitMargin();
-	
-	/* Get the taxrate */
-	var taxRate = getTaxRate();
-	
-	switch (from) {
-		case 'net':
-			if( document.adminForm.product_price_incl_tax.value != '' ) {
-				
-				var r = new RegExp("\,", "i");
-				var netValue = parseFloat(document.adminForm.product_price_incl_tax.value.replace( r, "." ));
-				
-				/* Calculate net price */
-				if (taxRate > 0) {
-					if (profitMargin[1] == true) netValue = netValue / ((taxRate + 1) * (profitMargin[0]/100 + 1));
-					else netValue = (netValue / (taxRate + 1)) - profitMargin[0];
-				}
-				else {
-					if (profitMargin[1] == true)	netValue = netValue / (profitMargin/100 + 1);
-					else netValue = netValue - profitMargin[0];
-				}
-				document.adminForm.product_price.value = doRound(netValue, 5);
-			}
-			break;
-		case 'gross':
-			if( document.adminForm.product_price.value != '' ) {
-				/* Calculate gross price */
-				if (taxRate > 0) {
-					if (profitMargin[1] == true) grossValue = productPrice * (taxRate + 1) * (profitMargin[0]/100 + 1);
-					else grossValue = (productPrice + profitMargin[0]) * (taxRate + 1);
-				}
-				else {
-					if (profitMargin[1] == true)	grossValue = productPrice * (profitMargin[0]/100 + 1);
-					else grossValue = (productPrice + profitMargin[0]);
-				}
-				document.adminForm.product_price_incl_tax.value = doRound(grossValue, 5);
-			}
-			break;
+function updateNet() {
+	if( document.adminForm.product_price_incl_tax.value != '' ) {
+		var taxRate = getTaxRate();
+
+		var r = new RegExp("\,", "i");
+		document.adminForm.product_price_incl_tax.value = document.adminForm.product_price_incl_tax.value.replace( r, "." );
+
+		var netValue = document.adminForm.product_price_incl_tax.value;
+
+		if (taxRate > 0) {
+			netValue = netValue / (taxRate + 1);
+		}
+
+		document.adminForm.product_price.value = doRound(netValue, 5);
 	}
-	/* Calculate retail price excluding tax */
-	if (profitMargin[1] == true) retailValue = productPrice * (profitMargin[0]/100 + 1);
-	else retailValue = productPrice + profitMargin[0];
-	document.getElementById('retailprice').innerHTML = doRound(retailValue, 5);
 }
 
 function updateDiscountedPrice() {
@@ -168,7 +138,7 @@ function toggleProductList( enable ) {
        document.getElementById('product_list_type').checked = false;
 	}
 }
-updatePrice('gross');
+updateGross();
 updateDiscountedPrice();
 <?php
 if( @$_REQUEST['no_menu'] != '1') {

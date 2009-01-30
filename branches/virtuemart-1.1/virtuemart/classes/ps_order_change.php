@@ -223,9 +223,20 @@ class ps_order_change {
 		$db->next_record() ;
 		
 		if( $db->f( 'address_type' ) == 'ST' ) {
+			// Find the required fields - 
+			require_once (CLASSPATH . 'ps_userfield.php');
+			$shippingFields = ps_userfield::getUserFields( '', false, '', true, true );
+			$fieldlist='';
+			// Skip the fields in the array
+			$skipfields=array("email");
+			foreach($shippingFields as $shippingField) {
+				// Build the list of fields
+				if(!in_array($shippingField->name,$skipfields)) $fieldlist.=','.$shippingField->name;
+			}
 			// Ship to Address if applicable (copied from ps_checkout.php and changed)
-			$q = "INSERT INTO `#__{vm}_order_user_info` " ;
-			$q .= "SELECT '', '$this->order_id', '" . $db->f( 'user_id' ) . "', address_type, address_type_name, company, title, last_name, first_name, middle_name, phone_1, phone_2, fax, address_1, address_2, city, state, country, zip, user_email, extra_field_1, extra_field_2, extra_field_3, extra_field_4, extra_field_5,bank_account_nr,bank_name,bank_sort_code,bank_iban,bank_account_holder,bank_account_type FROM #__{vm}_user_info WHERE user_id='" . $db->f( 'user_id' ) . "' AND user_info_id='" . $ship_to . "' AND address_type='ST'" ;
+			$q = "INSERT INTO `#__{vm}_order_user_info` (order_info_id,order_id,user_id $fieldlist) " ;
+			$q .= "SELECT '', '".$this->order_id."', '" . $db->f( 'user_id' ) . "' ".$fieldlist." FROM #__{vm}_user_info WHERE user_id='" . $db->f( 'user_id' ) . "' AND user_info_id='" . $ship_to . "' AND address_type='ST'" ;
+
 			$db->query( $q ) ;
 			$db->next_record() ;
 		}

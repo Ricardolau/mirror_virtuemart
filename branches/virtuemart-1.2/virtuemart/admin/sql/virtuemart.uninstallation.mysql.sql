@@ -6,9 +6,6 @@
 # DELETE TABLES FOR VirtueMart Component
 ############################################################
 
-DROP TABLE IF EXISTS `jos_vm_affiliate_sale`;
-DROP TABLE IF EXISTS `jos_vm_affiliate`;
-
 DROP TABLE IF EXISTS `jos_vm_auth_group`;
 DROP TABLE IF EXISTS `jos_vm_auth_user_group`;
 DROP TABLE IF EXISTS `jos_vm_auth_user_vendor`;
@@ -20,8 +17,6 @@ DROP TABLE IF EXISTS  `jos_vm_category_xref`;
 DROP TABLE IF EXISTS  `jos_vm_country`;
 
 DROP TABLE IF EXISTS  `jos_vm_creditcard`;
-
-DROP TABLE IF EXISTS  `jos_vm_csv`;
 
 DROP TABLE IF EXISTS  `jos_vm_currency`;
 
@@ -76,6 +71,7 @@ DROP TABLE IF EXISTS  `jos_vm_shipping_label`;
 DROP TABLE IF EXISTS  `jos_vm_shipping_rate`;
 
 DROP TABLE IF EXISTS  `jos_vm_state`;
+DROP TABLE IF EXISTS  `jos_vm_plugins`;
 
 DROP TABLE IF EXISTS  `jos_vm_product_download`;
 

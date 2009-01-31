@@ -35,6 +35,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+30.01.2009 soeren
+# Task #2483 - No payment plugin is available in VirtueMart 1.2
+# Task #2482 - Using top menu bar results in parameters opening with Joomla menu bar 
+
 24.01.2009 thepisu
 # Task #2473 - Untranslated language string in checkout_register_form.php 
 # added translation for strings in ps_shopper_group

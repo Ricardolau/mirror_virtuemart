@@ -1,3 +1,4 @@
+# $Id$
 
 INSERT INTO `jos_vm_coupons` VALUES (1, 'test1', 'total', 'gift', 6.00);
 INSERT INTO `jos_vm_coupons` VALUES (2, 'test2', 'percent', 'permanent', 15.00);

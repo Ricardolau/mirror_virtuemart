@@ -1,4 +1,4 @@
-# $Id:virtuemart.installation.joomla.sql 431 2006-10-17 21:55:46 +0200 (Di, 17 Okt 2006) soeren_nb $
+# $Id$
 #
 # To undo the changes done by this script, run uninstall.phpshop.sql
 #
@@ -408,50 +408,6 @@ INSERT INTO `jos_vm_creditcard` VALUES (1, 1, 'Visa', 'VISA'),
 (6, 1, 'JCB', 'jcb'),
 (7, 1, 'Australian Bankcard', 'australian_bc');
 
-## --------------------------------------------------------
-
-## 
-## Table structure for table `jos_vm_csv`
-## 
-
-CREATE TABLE IF NOT EXISTS `jos_vm_csv` (
-  `field_id` int(11) NOT NULL auto_increment,
-  `field_name` varchar(128) NOT NULL default '',
-  `field_default_value` text,
-  `field_ordering` int(3) NOT NULL default '0',
-  `field_required` char(1) default 'N',
-  PRIMARY KEY  (`field_id`)
-) TYPE=MyISAM COMMENT='Holds all fields which are used on CVS Ex-/Import';
-
-## 
-## Dumping data for table `jos_vm_csv`
-## 
-
-INSERT INTO `jos_vm_csv` VALUES (1, 'product_sku', '', 1, 'Y'),
-(2, 'product_s_desc', '', 5, 'N'),
-(3, 'product_desc', '', 6, 'N'),
-(4, 'product_thumb_image', '', 7, 'N'),
-(5, 'product_full_image', '', 8, 'N'),
-(6, 'product_weight', '', 9, 'N'),
-(7, 'product_weight_uom', 'KG', 10, 'N'),
-(8, 'product_length', '', 11, 'N'),
-(9, 'product_width', '', 12, 'N'),
-(10, 'product_height', '', 13, 'N'),
-(11, 'product_lwh_uom', '', 14, 'N'),
-(12, 'product_in_stock', '0', 15, 'N'),
-(13, 'product_available_date', '', 16, 'N'),
-(14, 'product_discount_id', '', 17, 'N'),
-(15, 'product_name', '', 2, 'Y'),
-(16, 'product_price', '', 4, 'N'),
-(17, 'category_path', '', 3, 'Y'),
-(18, 'manufacturer_id', '', 18, 'N'),
-(19, 'product_tax_id', '', 19, 'N'),
-(20, 'product_sales', '', 20, 'N'),
-(21, 'product_parent_id', '0', 21, 'N'),
-(22, 'attribute', '', 22, 'N'),
-(23, 'custom_attribute', '', 23, 'N'),
-(24, 'attributes', '', 24, 'N'),
-(25, 'attribute_values', '', 25, 'N');
 
 ## --------------------------------------------------------
 
@@ -1206,22 +1162,54 @@ CREATE TABLE IF NOT EXISTS `jos_vm_payment_method` (
 ## Dumping data for table `jos_vm_payment_method`
 ## 
 
-INSERT INTO `jos_vm_payment_method` VALUES (1, 1, 'Purchase Order', 'payment', 6, 0.00, 0, 0.00, 0.00, 4, 'PO', 'N', 0, 'Y', '', '', '', '');
-INSERT INTO `jos_vm_payment_method` VALUES (2, 1, 'Cash On Delivery', 'payment', 5, -2.00, 0, 0.00, 0.00, 5, 'COD', 'N', 0, 'Y', '', '', '', '');
-INSERT INTO `jos_vm_payment_method` VALUES (3, 1, 'Credit Card', 'authorize', 5, 0.00, 0, 0.00, 0.00, 0, 'AN', 'Y', 0, 'Y', '1,2,6,7,', '', '', '');
-INSERT INTO `jos_vm_payment_method` VALUES (4, 1, 'PayPal', 'paypal', 5, 0.00, 0, 0.00, 0.00, 0, 'PP', 'P', 0, 'Y', '', '', '', '');
-INSERT INTO `jos_vm_payment_method` VALUES (5, 1, 'PayMate', 'paymate', 5, 0.00, 0, 0.00, 0.00, 0, 'PM', 'P', 0, 'N', '', '', '', '');
-INSERT INTO `jos_vm_payment_method` VALUES (6, 1, 'WorldPay', 'worldpay', 5, 0.00, 0, 0.00, 0.00, 0, 'WP', 'P', 0, 'N', '', '', '', '');
-INSERT INTO `jos_vm_payment_method` VALUES (7, 1, '2Checkout', 'twocheckout', 5, 0.00, 0, 0.00, 0.00, 0, '2CO', 'P', 0, 'N', '', '', '', '');
-INSERT INTO `jos_vm_payment_method` VALUES (8, 1, 'NoChex', 'nochex', 5, 0.00, 0, 0.00, 0.00, 0, 'NOCHEX', 'P', 0, 'N', '', '', '', '');
-INSERT INTO `jos_vm_payment_method` VALUES (9, 1, 'Credit Card (PayMeNow)', 'paymenow', 5, 0.00, 0, 0.00, 0.00, 0, 'PN', 'Y', 0, 'N', '1,2,3,', '', '', '');
-INSERT INTO `jos_vm_payment_method` VALUES (10, 1, 'eWay', 'eway', 5, 0.00, 0, 0.00, 0.00, 0, 'EWAY', 'Y', 0, 'N', '', '', '', '');
-INSERT INTO `jos_vm_payment_method` VALUES (11, 1, 'eCheck.net', 'echeck', 5, 0.00, 0, 0.00, 0.00, 0, 'ECK', 'B', 0, 'N', '', '', '', '');
-INSERT INTO `jos_vm_payment_method` VALUES (12, 1, 'Credit Card (eProcessingNetwork)', 'epn', 5, 0.00, 0, 0.00, 0.00, 0, 'EPN', 'Y', 0, 'N', '1,2,3,', '', '', '');
-INSERT INTO `jos_vm_payment_method` VALUES (13, 1, 'iKobo', '', 5, 0.00, 0, 0.00, 0.00, 0, 'IK', 'P', 0, 'N', '', '<form action="https://www.iKobo.com/store/index.php" method="post"> \n  <input type="hidden" name="cmd" value="cart" />Click on the image below to Pay with iKobo\n  <input type="image" src="https://www.ikobo.com/merchant/buttons/ikobo_pay1.gif" name="submit" alt="Pay with iKobo" /> \n  <input type="hidden" name="poid" value="USER_ID" /> \n  <input type="hidden" name="item" value="Order: <?php $db->p("order_id") ?>" /> \n  <input type="hidden" name="price" value="<?php printf("%.2f", $db->f("order_total"))?>" /> \n  <input type="hidden" name="firstname" value="<?php echo $user->first_name?>" /> \n  <input type="hidden" name="lastname" value="<?php echo $user->last_name?>" /> \n  <input type="hidden" name="address" value="<?php echo $user->address_1?>&#10<?php echo $user->address_2?>" /> \n  <input type="hidden" name="city" value="<?php echo $user->city?>" /> \n  <input type="hidden" name="state" value="<?php echo $user->state?>" /> \n  <input type="hidden" name="zip" value="<?php echo $user->zip?>" /> \n  <input type="hidden" name="phone" value="<?php echo $user->phone_1?>" /> \n  <input type="hidden" name="email" value="<?php echo $user->email?>" /> \n  </form> >', '', '');
-INSERT INTO `jos_vm_payment_method` VALUES (14, 1, 'iTransact', '', 5, 0.00, 0, 0.00, 0.00, 0, 'ITR', 'P', 0, 'N', '', '<?php\n  //your iTransact account details\n  $vendorID = "XXXXX";\n  global $vendor_name;\n  $mername = $vendor_name;\n  \n  //order details\n  $total = $db->f("order_total");$first_name = $user->first_name;$last_name = $user->last_name;$address = $user->address_1;$city = $user->city;$state = $user->state;$zip = $user->zip;$country = $user->country;$email = $user->email;$phone = $user->phone_1;$home_page = $mosConfig_live_site."/index.php";$ret_addr = $mosConfig_live_site."/index.php";$cc_payment_image = $mosConfig_live_site."/components/com_virtuemart/shop_image/ps_image/cc_payment.jpg";\n  ?>\n  <form action="https://secure.paymentclearing.com/cgi-bin/mas/split.cgi" method="POST"> \n          <input type="hidden" name="vendor_id" value="<?php echo $vendorID; ?>" />\n             <input type="hidden" name="home_page" value="<?php echo $home_page; ?>" />\n            <input type="hidden" name="ret_addr" value="<?php echo $ret_addr; ?>" />\n              <input type="hidden" name="mername" value="<?php echo $mername; ?>" />\n                <!--Enter text in the next value that should appear on the bottom of the order form.-->\n               <INPUT type="hidden" name="mertext" value="" />\n               <!--If you are accepting checks, enter the number 1 in the next value.  Enter the number 0 if you are not accepting checks.-->\n                <INPUT type="hidden" name="acceptchecks" value="0" />\n         <!--Enter the number 1 in the next value if you want to allow pre-registered customers to pay with a check.  Enter the number 0 if not.-->\n            <INPUT type="hidden" name="allowreg" value="0" />\n             <!--If you are set up with Check Guarantee, enter the number 1 in the next value.  Enter the number 0 if not.-->\n              <INPUT type="hidden" name="checkguar" value="0" />\n            <!--Enter the number 1 in the next value if you are accepting credit card payments.  Enter the number zero if not.-->\n         <INPUT type="hidden" name="acceptcards" value="1">\n            <!--Enter the number 1 in the next value if you want to allow a separate mailing address for credit card orders.  Enter the number 0 if not.-->\n               <INPUT type="hidden" name="altaddr" value="0" />\n              <!--Enter the number 1 in the next value if you want the customer to enter the CVV number for card orders.  Enter the number 0 if not.-->\n             <INPUT type="hidden" name="showcvv" value="1" />\n              \n              <input type="hidden" name="1-desc" value="Order Total" />\n             <input type="hidden" name="1-cost" value="<?php echo $total; ?>" />\n           <input type="hidden" name="1-qty" value="1" />\n                <input type="hidden" name="total" value="<?php echo $total; ?>" />\n            <input type="hidden" name="first_name" value="<?php echo $first_name; ?>" />\n          <input type="hidden" name="last_name" value="<?php echo $last_name; ?>" />\n            <input type="hidden" name="address" value="<?php echo $address; ?>" />\n                <input type="hidden" name="city" value="<?php echo $city; ?>" />\n              <input type="hidden" name="state" value="<?php echo $state; ?>" />\n            <input type="hidden" name="zip" value="<?php echo $zip; ?>" />\n                <input type="hidden" name="country" value="<?php echo $country; ?>" />\n                <input type="hidden" name="phone" value="<?php echo $phone; ?>" />\n            <input type="hidden" name="email" value="<?php echo $email; ?>" />\n            <p><input type="image" alt="Process Secure Credit Card Transaction using iTransact" border="0" height="60" width="210" src="<?php echo $cc_payment_image; ?>" /> </p>\n         </form>', '', '');
-INSERT INTO `jos_vm_payment_method` VALUES (15, 1, 'Verisign PayFlow Pro', 'payflow_pro', 5, 0.00, 0, 0.00, 0.00, 0, 'PFP', 'Y', 0, 'Y', '1,2,6,7,', '', '', '');
-INSERT INTO `jos_vm_payment_method` VALUES(16, 1, 'Dankort/PBS via ePay', 'epay', 5, 0.00, 0, 0.00, 0.00, 0, 'EPAY', 'P', 0, 'Y', '', '', '', '');
+INSERT INTO `jos_vm_payment_method` VALUES (1, 1, 'Purchase Order', 'payment', 6, 0.00, 0, 0.00, 0.00, 4, 'N', 0, 'Y', '', '', '', '');
+INSERT INTO `jos_vm_payment_method` VALUES (2, 1, 'Cash On Delivery', 'payment', 5, -2.00, 0, 0.00, 0.00, 5, 'N', 0, 'Y', '', '', '', '');
+INSERT INTO `jos_vm_payment_method` VALUES (3, 1, 'Credit Card', 'authorize', 5, 0.00, 0, 0.00, 0.00, 0, 'Y', 0, 'Y', '1,2,6,7,', '', '', '');
+INSERT INTO `jos_vm_payment_method` VALUES (4, 1, 'PayPal', 'paypal', 5, 0.00, 0, 0.00, 0.00, 0,'P', 0, 'Y', '', '', '', '');
+INSERT INTO `jos_vm_payment_method` VALUES (5, 1, 'PayMate', 'paymate', 5, 0.00, 0, 0.00, 0.00, 0, 'P', 0, 'N', '', '', '', '');
+INSERT INTO `jos_vm_payment_method` VALUES (6, 1, 'WorldPay', 'worldpay', 5, 0.00, 0, 0.00, 0.00, 0, 'P', 0, 'N', '', '', '', '');
+INSERT INTO `jos_vm_payment_method` VALUES (7, 1, '2Checkout', 'twocheckout', 5, 0.00, 0, 0.00, 0.00, 0,  'P', 0, 'N', '', '', '', '');
+INSERT INTO `jos_vm_payment_method` VALUES (8, 1, 'NoChex', 'nochex', 5, 0.00, 0, 0.00, 0.00, 0, 'P', 0, 'N', '', '', '', '');
+INSERT INTO `jos_vm_payment_method` VALUES (9, 1, 'Credit Card (PayMeNow)', 'paymenow', 5, 0.00, 0, 0.00, 0.00, 0, 'Y', 0, 'N', '1,2,3,', '', '', '');
+INSERT INTO `jos_vm_payment_method` VALUES (10, 1, 'eWay', 'eway', 5, 0.00, 0, 0.00, 0.00, 0, 'Y', 0, 'N', '', '', '', '');
+INSERT INTO `jos_vm_payment_method` VALUES (11, 1, 'eCheck.net', 'echeck', 5, 0.00, 0, 0.00, 0.00, 0,  'B', 0, 'N', '', '', '', '');
+INSERT INTO `jos_vm_payment_method` VALUES (12, 1, 'Credit Card (eProcessingNetwork)', 'epn', 5, 0.00, 0, 0.00, 0.00, 0, 'Y', 0, 'N', '1,2,3,', '', '', '');
+INSERT INTO `jos_vm_payment_method` VALUES (13, 1, 'iKobo', '', 5, 0.00, 0, 0.00, 0.00, 0,  'P', 0, 'N', '', '<form action="https://www.iKobo.com/store/index.php" method="post"> \n  <input type="hidden" name="cmd" value="cart" />Click on the image below to Pay with iKobo\n  <input type="image" src="https://www.ikobo.com/merchant/buttons/ikobo_pay1.gif" name="submit" alt="Pay with iKobo" /> \n  <input type="hidden" name="poid" value="USER_ID" /> \n  <input type="hidden" name="item" value="Order: <?php $db->p("order_id") ?>" /> \n  <input type="hidden" name="price" value="<?php printf("%.2f", $db->f("order_total"))?>" /> \n  <input type="hidden" name="firstname" value="<?php echo $user->first_name?>" /> \n  <input type="hidden" name="lastname" value="<?php echo $user->last_name?>" /> \n  <input type="hidden" name="address" value="<?php echo $user->address_1?>&#10<?php echo $user->address_2?>" /> \n  <input type="hidden" name="city" value="<?php echo $user->city?>" /> \n  <input type="hidden" name="state" value="<?php echo $user->state?>" /> \n  <input type="hidden" name="zip" value="<?php echo $user->zip?>" /> \n  <input type="hidden" name="phone" value="<?php echo $user->phone_1?>" /> \n  <input type="hidden" name="email" value="<?php echo $user->email?>" /> \n  </form> >', '', '');
+INSERT INTO `jos_vm_payment_method` VALUES (14, 1, 'iTransact', '', 5, 0.00, 0, 0.00, 0.00, 0,  'P', 0, 'N', '', '<?php\n  //your iTransact account details\n  $vendorID = "XXXXX";\n  global $vendor_name;\n  $mername = $vendor_name;\n  \n  //order details\n  $total = $db->f("order_total");$first_name = $user->first_name;$last_name = $user->last_name;$address = $user->address_1;$city = $user->city;$state = $user->state;$zip = $user->zip;$country = $user->country;$email = $user->email;$phone = $user->phone_1;$home_page = $mosConfig_live_site."/index.php";$ret_addr = $mosConfig_live_site."/index.php";$cc_payment_image = $mosConfig_live_site."/components/com_virtuemart/shop_image/ps_image/cc_payment.jpg";\n  ?>\n  <form action="https://secure.paymentclearing.com/cgi-bin/mas/split.cgi" method="POST"> \n          <input type="hidden" name="vendor_id" value="<?php echo $vendorID; ?>" />\n             <input type="hidden" name="home_page" value="<?php echo $home_page; ?>" />\n            <input type="hidden" name="ret_addr" value="<?php echo $ret_addr; ?>" />\n              <input type="hidden" name="mername" value="<?php echo $mername; ?>" />\n                <!--Enter text in the next value that should appear on the bottom of the order form.-->\n               <INPUT type="hidden" name="mertext" value="" />\n               <!--If you are accepting checks, enter the number 1 in the next value.  Enter the number 0 if you are not accepting checks.-->\n                <INPUT type="hidden" name="acceptchecks" value="0" />\n         <!--Enter the number 1 in the next value if you want to allow pre-registered customers to pay with a check.  Enter the number 0 if not.-->\n            <INPUT type="hidden" name="allowreg" value="0" />\n             <!--If you are set up with Check Guarantee, enter the number 1 in the next value.  Enter the number 0 if not.-->\n              <INPUT type="hidden" name="checkguar" value="0" />\n            <!--Enter the number 1 in the next value if you are accepting credit card payments.  Enter the number zero if not.-->\n         <INPUT type="hidden" name="acceptcards" value="1">\n            <!--Enter the number 1 in the next value if you want to allow a separate mailing address for credit card orders.  Enter the number 0 if not.-->\n               <INPUT type="hidden" name="altaddr" value="0" />\n              <!--Enter the number 1 in the next value if you want the customer to enter the CVV number for card orders.  Enter the number 0 if not.-->\n             <INPUT type="hidden" name="showcvv" value="1" />\n              \n              <input type="hidden" name="1-desc" value="Order Total" />\n             <input type="hidden" name="1-cost" value="<?php echo $total; ?>" />\n           <input type="hidden" name="1-qty" value="1" />\n                <input type="hidden" name="total" value="<?php echo $total; ?>" />\n            <input type="hidden" name="first_name" value="<?php echo $first_name; ?>" />\n          <input type="hidden" name="last_name" value="<?php echo $last_name; ?>" />\n            <input type="hidden" name="address" value="<?php echo $address; ?>" />\n                <input type="hidden" name="city" value="<?php echo $city; ?>" />\n              <input type="hidden" name="state" value="<?php echo $state; ?>" />\n            <input type="hidden" name="zip" value="<?php echo $zip; ?>" />\n                <input type="hidden" name="country" value="<?php echo $country; ?>" />\n                <input type="hidden" name="phone" value="<?php echo $phone; ?>" />\n            <input type="hidden" name="email" value="<?php echo $email; ?>" />\n            <p><input type="image" alt="Process Secure Credit Card Transaction using iTransact" border="0" height="60" width="210" src="<?php echo $cc_payment_image; ?>" /> </p>\n         </form>', '', '');
+INSERT INTO `jos_vm_payment_method` VALUES (15, 1, 'Verisign PayFlow Pro', 'payflow_pro', 5, 0.00, 0, 0.00, 0.00, 0, 'Y', 0, 'Y', '1,2,6,7,', '', '', '');
+INSERT INTO `jos_vm_payment_method` VALUES(16, 1, 'Dankort/PBS via ePay', 'epay', 5, 0.00, 0, 0.00, 0.00, 0, 'P', 0, 'Y', '', '', '', '');
+
+
+CREATE TABLE `jos_vm_plugins` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(100) NOT NULL default '',
+  `element` varchar(100) NOT NULL default '',
+  `folder` varchar(100) NOT NULL default '',
+  `ordering` int(11) NOT NULL default '0',
+  `published` tinyint(3) NOT NULL default '0',
+  `iscore` tinyint(3) NOT NULL default '0',
+  `vendor_id` tinyint(3) NOT NULL default '1',
+  `shopper_group_id` int(10) unsigned NOT NULL,
+  `checked_out` int(11) unsigned NOT NULL default '0',
+  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `params` text NOT NULL,
+  `secrets` blob NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `idx_folder` (`published`,`vendor_id`,`folder`)
+) TYPE=MyISAM  CHARSET=utf8 AUTO_INCREMENT=12;
+
+INSERT INTO `jos_vm_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(1, 'auspost', 'auspost', 'shipping', 11, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '');
+INSERT INTO `jos_vm_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(2, 'canadapost', 'canadapost', 'shipping', 9, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '');
+INSERT INTO `jos_vm_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(3, 'dhl', 'dhl', 'shipping', 4, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '');
+INSERT INTO `jos_vm_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(4, 'fedex', 'fedex', 'shipping', 3, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '');
+INSERT INTO `jos_vm_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(5, 'flex', 'flex', 'shipping', 2, 1, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '');
+INSERT INTO `jos_vm_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(6, 'intershipper', 'intershipper', 'shipping', 5, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '');
+INSERT INTO `jos_vm_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(7, 'shipvalue', 'shipvalue', 'shipping', 8, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '');
+INSERT INTO `jos_vm_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(8, 'standard_shipping', 'standard_shipping', 'shipping', 1, 1, 1, 1, 5, 0, '0000-00-00 00:00:00', '', '');
+INSERT INTO `jos_vm_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(9, 'UPS Shipping Module', 'ups', 'shipping', 6, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '');
+INSERT INTO `jos_vm_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(10, 'USPS Shipping Module', 'usps', 'shipping', 7, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '');
+INSERT INTO `jos_vm_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(11, 'Zone Shipping Module', 'zone_shipping', 'shipping', 10, 0, 1, 1, 5, 0, '0000-00-00 00:00:00', '', '');
+
 
 ## --------------------------------------------------------
 

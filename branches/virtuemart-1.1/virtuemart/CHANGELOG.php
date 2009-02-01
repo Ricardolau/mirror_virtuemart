@@ -34,6 +34,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+01.02.2009 soeren
+# Task #2486 - Loading Edit Store and other administrative pages under MSIE <= 7.0 results in Operation Aborted error and unable to view.
+
+
 24.01.2009 aravot
 # - Extended Layout view, menu icons are shown twice
   

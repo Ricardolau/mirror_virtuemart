@@ -52,14 +52,14 @@ ob_get_level() or ob_start();
 setcookie('vmLayout', $vmLayout, time()+604800);
 
 // pages, which are called through index3.php are PopUps, they should not need a menu (but it can be overridden by $_REQUEST['no_menu'])
-$no_menu_default = strstr( $_SERVER['PHP_SELF'], 'index3.php') ? 1 : 0;
+$no_menu_default = strstr( $_SERVER['SCRIPT_NAME'], 'index3.php') ? 1 : 0;
 $no_menu = $_REQUEST['no_menu'] = vmGet( $_REQUEST, 'no_menu', $no_menu_default );
 
 // Display the toolbar?
 $no_toolbar = vmGet( $_REQUEST, 'no_toolbar', 0 );
 
 // Display just the naked page without toolbar, menu and footer?
-$only_page_default = strstr( $_SERVER['PHP_SELF'], 'index3.php') ? 1 : 0;
+$only_page_default = strstr( $_SERVER['SCRIPT_NAME'], 'index3.php') ? 1 : 0;
 $only_page = $_REQUEST['only_page'] = vmGet( $_REQUEST, 'only_page', $only_page_default );
 
 if( empty( $page ) || empty( $_REQUEST['page'])) {
@@ -91,7 +91,7 @@ if( $pagePermissionsOK ) {
 	$pagename = $my_page[1];
 }
 if( !defined('_VM_TOOLBAR_LOADED') && $no_toolbar != 1 ) {
-	if( $vmLayout == 'standard' && strstr($_SERVER['PHP_SELF'], 'index3.php')) {
+	if( $vmLayout == 'standard' && strstr($_SERVER['SCRIPT_NAME'], 'index3.php')) {
 		echo '<div align="right" class="menudottedline">';
 		include_once( ADMINPATH.'toolbar.virtuemart.php');
 		echo '</div>';
@@ -114,8 +114,8 @@ if( $no_menu != 1 && $vmLayout != 'extended' ) {
 if( $only_page != 1 && $vmLayout == 'extended') {
 	
 	vmCommonHTML::loadExtjs();
-	$vm_mainframe->addScript( $_SERVER['PHP_SELF'].'?option='.$option.'&task=extlayout' );
-	$phpscript_url = str_replace( 'index2.php', 'index3.php', str_replace('index.php', 'index3.php', $_SERVER['PHP_SELF']));
+	$vm_mainframe->addScript( $_SERVER['SCRIPT_NAME'].'?option='.$option.'&amp;task=extlayout' );
+	$phpscript_url = str_replace( 'index2.php', 'index3.php', str_replace('index.php', 'index3.php', $_SERVER['SCRIPT_NAME']));
 
 	echo '<iframe id="vmPage" src="'.$phpscript_url.'?option=com_virtuemart&amp;page='.$_SESSION['last_page'].'&amp;only_page=1&amp;no_menu=1" style="width:100%; height: 100%; overflow:auto; border: none;padding-left:4px;" name="vmPage"></iframe>';
 

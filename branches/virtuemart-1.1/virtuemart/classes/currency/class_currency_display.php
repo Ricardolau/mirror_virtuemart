@@ -123,10 +123,21 @@ if(!defined("_CLASS_CURRENCY_DISPLAY_LOADED")) {
 	function getFullValue($nb, $decimals='', $symbol = '') {
 		global $vendor_currency;
 		$res = "";
-		if( $symbol != ''  ) {
+		if( $symbol != '' ) {
 			$old_symbol = $this->symbol;
 			$this->symbol = $symbol;
-		}
+		} 
+	    switch($this->symbol) {
+			case 'USD': $this->symbol='$';break;
+			case 'EUR': $this->symbol='€';break;
+			case 'GBP': $this->symbol='£';break;
+			case 'JPY': $this->symbol='¥';break;
+			case 'AUD': $this->symbol='AUD $';break;
+			case 'CAD': $this->symbol='CAD $';break;
+			case 'HKD': $this->symbol='HKD $';break;
+			case 'NZD': $this->symbol='NZD $';break;
+			case 'SGD': $this->symbol='SGD $';break;
+	    }
 		// Currency symbol position
 		if ($nb == abs($nb)){
 			$res=$this->getValue($nb, $decimals);

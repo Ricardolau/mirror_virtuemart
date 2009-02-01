@@ -115,7 +115,7 @@ class vmMainFrame {
 	 */
 	function addScript($url, $type="text/javascript") {
 		static $included_scripts = array();
-		if( vmIsJoomla('1.0') && (strstr($_SERVER['PHP_SELF'],'index3.php') || strstr($_SERVER['PHP_SELF'],'index2.php')) || 
+		if( vmIsJoomla('1.0') && (strstr($_SERVER['SCRIPT_NAME'],'index3.php') || strstr($_SERVER['SCRIPT_NAME'],'index2.php')) || 
 			!vmIsJoomla() && defined('_VM_IS_BACKEND')) {
 			echo vmCommonHTML::scriptTag($url);
 			return;
@@ -136,7 +136,7 @@ class vmMainFrame {
 	 * @return   void
 	 */
 	function addScriptDeclaration($content, $type = 'text/javascript') {
-		if( vmIsJoomla('1.0') && strstr($_SERVER['PHP_SELF'],'index3.php') || 
+		if( vmIsJoomla('1.0') && strstr($_SERVER['SCRIPT_NAME'],'index3.php') || 
 			!vmIsJoomla() && defined('_VM_IS_BACKEND')) {
 			echo vmCommonHTML::scriptTag('', $content);
 			return;
@@ -156,7 +156,7 @@ class vmMainFrame {
 	 */
 	function addStyleSheet($url, $type = 'text/css', $media = null, $attribs = array())
 	{
-		if( vmIsJoomla('1.0') && (strstr($_SERVER['PHP_SELF'],'index3.php') || strstr($_SERVER['PHP_SELF'],'index2.php')) || 
+		if( vmIsJoomla('1.0') && (strstr($_SERVER['SCRIPT_NAME'],'index3.php') || strstr($_SERVER['SCRIPT_NAME'],'index2.php')) || 
 			!vmIsJoomla() && defined('_VM_IS_BACKEND') ) {
 			echo vmCommonHTML::linkTag($url, $type, 'stylesheet', $media );
 			return;
@@ -177,7 +177,7 @@ class vmMainFrame {
 	 * @return   void
 	 */
 	function addStyleDeclaration($content, $type = 'text/css') {
-		if( vmIsJoomla('1.0') && strstr($_SERVER['PHP_SELF'],'index3.php') || 
+		if( vmIsJoomla('1.0') && strstr($_SERVER['SCRIPT_NAME'],'index3.php') || 
 			!vmIsJoomla() && defined('_VM_IS_BACKEND')) {
 			echo '<style type="'.$type.'">'.$content.'</style>';
 			return;

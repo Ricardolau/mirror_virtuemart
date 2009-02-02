@@ -228,15 +228,16 @@ class ps_order_change {
 			$shippingFields = ps_userfield::getUserFields( '', false, '', true, true );
 			$fieldlist='';
 			// Skip the fields in the array
-			$skipfields=array("email");
+			// filter address_type just in case it will be in the Userfields some time
+			$skipfields=array("email", "address_type");
 			foreach($shippingFields as $shippingField) {
 				// Build the list of fields
 				if(!in_array($shippingField->name,$skipfields)) $fieldlist.=','.$shippingField->name;
 			}
+			
 			// Ship to Address if applicable (copied from ps_checkout.php and changed)
-			$q = "INSERT INTO `#__{vm}_order_user_info` (order_info_id,order_id,user_id $fieldlist) " ;
-			$q .= "SELECT '', '".$this->order_id."', '" . $db->f( 'user_id' ) . "' ".$fieldlist." FROM #__{vm}_user_info WHERE user_id='" . $db->f( 'user_id' ) . "' AND user_info_id='" . $ship_to . "' AND address_type='ST'" ;
-
+			$q = "INSERT INTO `#__{vm}_order_user_info` (order_info_id,order_id,user_id, address_type $fieldlist) " ;
+			$q .= "SELECT '', '".$this->order_id."', '" . $db->f( 'user_id' ) . "', 'ST' ".$fieldlist." FROM #__{vm}_user_info WHERE user_id='" . $db->f( 'user_id' ) . "' AND user_info_id='" . $ship_to . "' AND address_type='ST'" ;
 			$db->query( $q ) ;
 			$db->next_record() ;
 		}

@@ -35,6 +35,11 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+02.02.2009 aravot
+# Task #2491 - Broken links on pathway
+^ Fixed Configuration table alignment in admin.show_cfg.php
+^ Corrected langauge files (thank you Phil)
+
 30.01.2009 soeren
 # Task #2483 - No payment plugin is available in VirtueMart 1.2
 # Task #2482 - Using top menu bar results in parameters opening with Joomla menu bar 

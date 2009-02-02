@@ -212,7 +212,7 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_ADMIN_CFG_GLOBAL'), "global-page");
 			<td><?php echo vmToolTip( $VM_LANG->_('VM_ADMIN_CFG_REVIEW_MAXIMUM_COMMENT_LENGTH_TIP') ) ?>
 			</td>
 		</tr>
-		
+
 	</table>
 </fieldset>
 
@@ -696,7 +696,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_SECURITY'), "security-page");
 	</table>
 </fieldset>
 <br />
-<fieldset style="width:48%;float:left;">
+<fieldset style="width:48%;float:right;">
 	<legend><?php echo $VM_LANG->_('VM_ADMIN_CFG_PROXY_SETTINGS') ?></legend>
 	<table class="adminform">
 		<tr>

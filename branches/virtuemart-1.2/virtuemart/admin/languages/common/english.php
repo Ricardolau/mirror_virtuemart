@@ -404,7 +404,7 @@ $langvars = array (
 	'PHPSHOP_ADMIN_CFG_AUTORIZENET_AUTENTICATIONTYPE' => 'Authentication Type',
 	'PHPSHOP_ADMIN_CFG_AUTORIZENET_AUTENTICATIONTYPE_EXPLAIN' => 'This is the Authorize.Net authentication type.',
 	'PHPSHOP_ADVANCED_SEARCH' => 'Advanced Search',
-	'PHPSHOP_ORDERBY' => 'Order by',
+	'PHPSHOP_ORDERBY' => 'Sort by',
 	'PHPSHOP_CUSTOMER_RATING' => 'Average customer rating',
 	'PHPSHOP_TOTAL_VOTES' => 'Total votes',
 	'PHPSHOP_CAST_VOTE' => 'Please cast your vote',
@@ -708,7 +708,7 @@ For more information on cancelling orders and returning items, see the <a href="
 	
 	Please do not respond to this message as it is automatically generated and is for information purposes only',
 	'REG_COMPLETE' => '<div class="componentheading">Registration Complete!</div>',
-	'REG_COMPLETE_ACTIVATE' => '<div class="componentheading">Registration Completed!</div><br />Your account has been created and activation link has been sent to the e-mail address you entered. Note that you must activate the account by clicking on the activation link when you get the e-mail before you can login.',
+	'REG_COMPLETE_ACTIVATE' => '<div class="componentheading">Registration Completed!</div> <br />Your account has been created and an activation link has been sent to the e-mail address you entered. Note that you must activate the account by clicking on the activation link when you get the e-mail before you can login.',
 	'DATE_FORMAT_LC' => '%A, %d %B %Y',
 	'VM_CART_PRODUCT_ADDED' => 'The product was added to your cart.',
 	'VM_CART_PRODUCT_UPDATED' => 'The product quantity has been updated.',

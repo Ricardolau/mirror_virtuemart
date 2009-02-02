@@ -283,7 +283,7 @@ class ps_product_attribute {
 			if( VM_CONTENT_PLUGINS_ENABLE == '1' ) {
 				$html .= "<select class=\"inputbox\" onchange=\"var id = $('product_id_field')[selectedIndex].value; if(id != '') { document.location = '" . $mm_action_url . "index.php?option=com_virtuemart&amp;page=shop.product_details&amp;flypage=$flypage&amp;Itemid=$Itemid&amp;category_id=$category_id&amp;product_id=' + id; }\" id=\"product_id_field\" name=\"prod_id[]\">\n" ;
 			} else {
-				$html .= "<select class=\"inputbox\" onchange=\"var id = $('product_id_field')[selectedIndex].value; if(id != '') { loadNewPage( 'vmMainPage', '" . $mm_action_url . "index2.php?option=com_virtuemart&amp;page=shop.product_details&amp;flypage=$flypage&amp;Itemid=$Itemid&amp;category_id=$category_id&amp;product_id=' + id ); }\" id=\"product_id_field\" name=\"prod_id[]\">\n" ;
+				$html .= "<select class=\"inputbox\" onchange=\"var id = $('product_id_field')[selectedIndex].value; if(id != '') { loadNewPage( 'vmMainPage', '" . $mm_action_url . "index.php?option=com_virtuemart&amp;page=shop.product_details&amp;flypage=$flypage&amp;Itemid=$Itemid&amp;category_id=$category_id&amp;product_id=' + id ); }\" id=\"product_id_field\" name=\"prod_id[]\">\n" ;
 			}
 			
 			$html .= "<option value=\"$product_id\">" . $VM_LANG->_( 'PHPSHOP_SELECT' ) . "</option>" ;
@@ -391,7 +391,7 @@ class ps_product_attribute {
 			if( VM_CONTENT_PLUGINS_ENABLE == '1' ) {
 				$html .= "<select class=\"inputbox\" onchange=\"var id = $('product_id_field')[selectedIndex].value; if(id != '') { document.location = '" . $mm_action_url . "index.php?option=com_virtuemart&amp;page=shop.product_details&amp;flypage=$flypage&amp;Itemid=$Itemid&amp;category_id=$category_id&amp;product_id=' + id; }\" id=\"product_id_field\" name=\"prod_id[]\">\n" ;
 			} else {
-				$html .= "<select class=\"inputbox\" onchange=\"var id = $('product_id_field')[selectedIndex].value; if(id != '') { loadNewPage( 'vmMainPage', '" . $mm_action_url . "index2.php?option=com_virtuemart&amp;page=shop.product_details&amp;flypage=$flypage&amp;Itemid=$Itemid&amp;category_id=$category_id&amp;product_id=' + id ); }\" id=\"product_id_field\" name=\"prod_id[]\">\n" ;
+				$html .= "<select class=\"inputbox\" onchange=\"var id = $('product_id_field')[selectedIndex].value; if(id != '') { loadNewPage( 'vmMainPage', '" . $mm_action_url . "index.php?option=com_virtuemart&amp;page=shop.product_details&amp;flypage=$flypage&amp;Itemid=$Itemid&amp;category_id=$category_id&amp;product_id=' + id ); }\" id=\"product_id_field\" name=\"prod_id[]\">\n" ;
 			}
 
 			$html .= "<option value=\"$product_id\">" . $VM_LANG->_( 'PHPSHOP_SELECT' ) . "</option>" ;

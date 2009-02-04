@@ -122,7 +122,7 @@ class ps_communication {
 	}
 
 	/**
-	 
+	 Is this used?
  	*/    
 	function mail_question(&$d) {
 		global $vmLogger,  $Itemid, $_SESSION, $VM_LANG,$mosConfig_live_site,$mosConfig_lang, $sess;
@@ -145,12 +145,12 @@ class ps_communication {
 		// product url
 		$product_url = $mosConfig_live_site."/index.php?option=com_virtuemart&page=shop.product_details&flypage=".urlencode($flypage)."&product_id=$product_id&Itemid=$Itemid";
 		
-		$dbv = new ps_DB;
-		$qt = "SELECT * from #__{vm}_vendor ";
-		$qt .= "WHERE vendor_id = '".$_SESSION['ps_vendor_id']."'";
-		$dbv->query($qt);
-		$dbv->next_record();
-		$vendor_email = $dbv->f("contact_email");
+		//by Max Milbers, this need to be changed
+		$vendor_id =1;
+//		$vendor_id = $_SESSION["ps_vendor_id"];
+		$dbv = ps_vendor::get_vendor_fields($vendor_id,array("user_email","vendor_name"));
+
+		$vendor_email = $dbv->f("user_email");
 		$shopper_email = $d["email"];
 		$shopper_name = $d["name"];
 		$subject_msg = vmRequest::getVar( 'text', '', 'post' );

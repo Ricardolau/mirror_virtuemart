@@ -22,24 +22,31 @@ $db->query('SELECT count(*) as num_rows FROM #__{vm}_user_info WHERE address_typ
 $db->next_record();
 $customers = $db->f('num_rows') ? $db->f('num_rows') : 0;
 
+//changed by Max Milbers
+//The use of $ps_vendor_id is now another. Not Global anymore. Not storewide,.. for Multistore store_id could be useful
+//but so long it is not used it is commented
 // Number of active products
-$db->query('SELECT count(*) as num_rows FROM #__{vm}_product WHERE vendor_id='.$ps_vendor_id.' AND product_publish="Y"');
+//$db->query('SELECT count(*) as num_rows FROM #__{vm}_product WHERE vendor_id='.$ps_vendor_id.' AND product_publish="Y"');
+$db->query('SELECT count(*) as num_rows FROM #__{vm}_product WHERE product_publish="Y"');
 $db->next_record();
 $active_products = $db->f('num_rows') ? $db->f('num_rows') : 0;
 
 // Number of inactive products
-$db->query('SELECT count(*) as num_rows FROM #__{vm}_product WHERE vendor_id='.$ps_vendor_id.' AND product_publish="N"');
+//$db->query('SELECT count(*) as num_rows FROM #__{vm}_product WHERE vendor_id='.$ps_vendor_id.' AND product_publish="N"');
+$db->query('SELECT count(*) as num_rows FROM #__{vm}_product WHERE  product_publish="N"');
 $db->next_record();
 $inactive_products = $db->f('num_rows') ? $db->f('num_rows') : 0;
 
 // Number of featured products
-$db->query('SELECT count(*) as num_rows FROM #__{vm}_product WHERE vendor_id='.$ps_vendor_id.' AND product_special="Y"');
+//$db->query('SELECT count(*) as num_rows FROM #__{vm}_product WHERE vendor_id='.$ps_vendor_id.' AND product_special="Y"');
+$db->query('SELECT count(*) as num_rows FROM #__{vm}_product WHERE product_special="Y"');
 $db->next_record();
 $special_products = $db->f('num_rows') ? $db->f('num_rows') : 0;
 
 // 5 last orders
 $new_orders= Array();
-$db->query('SELECT order_id,order_total FROM #__{vm}_orders WHERE vendor_id='.$ps_vendor_id.' ORDER BY cdate desc limit 5');
+//$db->query('SELECT order_id,order_total FROM #__{vm}_orders WHERE vendor_id='.$ps_vendor_id.' ORDER BY cdate desc limit 5');
+$db->query('SELECT order_id,order_total FROM #__{vm}_orders ORDER BY cdate desc limit 5');
 while($db->next_record()) {
   $new_orders[$db->f('order_id')] = $db->f('order_total');
 }

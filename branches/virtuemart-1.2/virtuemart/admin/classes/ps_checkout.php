@@ -1607,13 +1607,9 @@ Order Total: '.$order_total.'
 	** returns: Currency type for this vendor
 	***************************************************************************/
 	function get_vendor_currency($vendor_id) {
-		$db = new ps_DB;
-
-		$q = "SELECT vendor_currency FROM #__{vm}_vendor WHERE vendor_id='$vendor_id'";
-
-		$db->query($q);
-		$db->next_record();
-
+	
+		//by Max Milbers
+		$db = ps_vendor::get_vendor_fields($vendor_id,array("vendor_currency"));
 		$currency = $db->f("vendor_currency");
 
 		return($currency);
@@ -1732,12 +1728,7 @@ Order Total: '.$order_total.'
 		$dbst->query($qt);
 		$dbst->next_record();
 
-		$dbv = new ps_DB;
-		$qt = "SELECT * from #__{vm}_vendor ";
-		/* Need to decide on vendor_id <=> order relationship */
-		$qt .= "WHERE vendor_id = '".$ps_vendor_id."'";
-		$dbv->query($qt);
-		$dbv->next_record();
+		$dbv = ps_vendor::get_vendor_details($ps_vendor_id);
 
 		$dboi = new ps_DB;
 		$q_oi = "SELECT * FROM #__{vm}_product, #__{vm}_order_item, #__{vm}_orders ";
@@ -1774,7 +1765,7 @@ Order Total: '.$order_total.'
 		$shopper_email = $dbbt->f("user_email");
 		$shopper_name = $dbbt->f("first_name")." ".$dbbt->f("last_name");
 
-		$from_email = $dbv->f("contact_email");
+		$from_email = $dbv->f("user_email");
 		$shopper_subject = $dbv->f("vendor_name") . " ".$VM_LANG->_('PHPSHOP_ORDER_PRINT_PO_LBL',false)." - " . $db->f("order_id");
 		$vendor_subject = $dbv->f("vendor_name") . " ".$VM_LANG->_('PHPSHOP_ORDER_PRINT_PO_LBL',false)." - " . $db->f("order_id");
 

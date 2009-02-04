@@ -43,7 +43,7 @@ echo vmCommonHTML::PrintIcon();
   <tr>
     <td valign="top">
      <h2><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_PO_LBL') ?></h2>
-     <p><?php echo ps_vendor::formatted_store_address(true) ?></p>
+     <p><?php echo ps_vendor::formatted_store_address(true,$ps_vendor_id) ?></p>
     </td>
     <td valign="top" width="10%" align="right"><?php echo $vendor_image; ?></td>
   </tr>

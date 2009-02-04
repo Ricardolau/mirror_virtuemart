@@ -35,6 +35,16 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+
+3.02.2009 Milbo
+- Deleted redundant datafields of vendor in the vendor table
++ rewritten ps_vendor class, fixed get_vendor_details so that it gives the correct resultset based on 4 tables.
++ Most calls of vendordata are rewritten (more OOP)
++ adding of subfunctions for ps_vendor like get_vendor_id_by_user_id, get_user_id_by_vendor_id, get_user_id_by_nickname, 
+	get_vendor_email_by_nickname, get_vendor_email_by_vendor_id
++ new catching of vendor nickname, vendor_email is tried to get by joomla user table,...
+# To complete all tasks, the orders function must be reconstructed, it works now only for the store not vendors.
+
 02.02.2009 aravot
 # Task #2491 - Broken links on pathway
 ^ Fixed Configuration table alignment in admin.show_cfg.php

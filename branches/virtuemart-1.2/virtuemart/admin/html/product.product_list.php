@@ -19,12 +19,14 @@ mm_showMyFileName( __FILE__ );
 require_once( CLASSPATH .'ps_product_files.php');
 require_once( CLASSPATH .'pageNavigation.class.php' );
 
-global $ps_product, $ps_product_category, $ps_vendor_id;
+global $ps_product, $ps_product_category;
 
 $keyword = vmGet($_REQUEST, 'keyword' );
 
-//The vmGet didnt worked for this purpose by Max Milbers
-$vendor = $ps_vendor_id;
+//The vmGet didnt worked for this purpose by Max Milbers 
+$userid = $GLOBALS['auth']['user_id'];
+$vendor = ps_vendor::get_vendor_id_by_user_id(new ps_DB(),$userid);
+//$vendor = $ps_vendor_id;
 
 $product_parent_id = vmGet($_REQUEST, 'product_parent_id', null);
 
@@ -91,12 +93,13 @@ if (!empty($category_id) && empty( $product_parent_id)) {
 	if (!$perm->check("admin")) {
 		$q  .= "AND #__{vm}_product.vendor_id = '$vendor' ";
 	}
-
+	
 	if( !empty( $keyword)) {
 		$q .= " AND $search_sql";
 	}
 	$count .= $q;
 	$q .= "ORDER BY product_list, product_publish DESC,product_name ";
+	
 }
 elseif (!empty($keyword)) {
 	$list  = "SELECT * FROM #__{vm}_product WHERE ";
@@ -304,19 +307,11 @@ if ($num_rows > 0) {
 		//Product Vendor nick
 		$product_vendor_id = $db->f("vendor_id");
 		if($product_vendor_id==0){
-			$product_vendor_id = 1;
+			$listObj->addCell( "Set a nick for this vendor!" );
+		}else{
+			$dbtmp = ps_vendor::get_vendor_fields($product_vendor_id, array("vendor_name"));
+			$listObj->addCell( $dbtmp->f("vendor_name") );
 		}
-
-		$o  = "SELECT user_id FROM #__{vm}_auth_user_vendor ";
-		$o .= "WHERE vendor_id = '".$product_vendor_id."'";
-		$dbtmp->query($o);
-		$dbtmp->next_record();
-		
-		$o  = "SELECT username FROM #__users ";
-		$o .= "WHERE id = '".$dbtmp->f("user_id")."'";
-		$dbtmp->query($o);
-		$dbtmp->next_record();
-		$listObj->addCell( $dbtmp->f("username") );
 		
 		// Product Media Link
 		$numFiles = ps_product_files::countFilesForProduct($db->f('product_id'));

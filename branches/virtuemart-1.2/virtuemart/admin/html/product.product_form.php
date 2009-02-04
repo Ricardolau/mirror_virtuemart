@@ -16,12 +16,9 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * http://virtuemart.net
 */
 
-/* Gets the $vendor_id 
+/* Gets the $vendor_id by Max Milbers
 */
-$q  = "SELECT vendor_id from `#__{vm}_auth_user_vendor` WHERE ";
-$q .= "user_id='" . $_SESSION['auth']["user_id"] . "' ";
-$db->query($q);
-$vendor_id = $db->f('vendor_id');
+$vendor_id = ps_vendor::get_vendor_id_by_user_id($db, $_SESSION['auth']["user_id"]);
 
 mm_showMyFileName( __FILE__ );
 global $ps_product, $ps_product_category;

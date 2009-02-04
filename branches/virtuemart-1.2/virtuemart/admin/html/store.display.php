@@ -28,9 +28,8 @@ mm_showMyFileName( __FILE__ );
     <td colspan="2" align="right"> 
       <div align="left"><b><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_LBL') ?> </B>
 
-<?php   $q = "SELECT * from #__{vm}_vendor WHERE vendor_id='$ps_vendor_id'";
-        $db->query($q);
-        $db->next_record();
+<?php 
+		$db = ps_vendor::get_vendor_details($vendor_id);   
 ?></div>
     </td>
   </tr>
@@ -44,15 +43,15 @@ mm_showMyFileName( __FILE__ );
   </tr>
   <tr> 
     <td width="22%" align="right" >&nbsp;</td>
-    <td width="78%" > <?php $db->sp("vendor_address_1") ?><?php 
-if ($db->sf("vendor_address_2"))
-$db->sp("vendor_address_2") 
+    <td width="78%" > <?php $db->sp("address_1") ?><?php 
+if ($db->sf("address_2"))
+$db->sp("address_2") 
 ?></td>
   </tr>
   <tr> 
     <td width="22%" align="right" >&nbsp;</td>
-    <td width="78%" > <?php $db->sp("vendor_city") ?>, <?php $db->sp("vendor_state") ?> 
-      <?php $db->sp("vendor_zip") ?> <?php $db->sp("vendor_country") ?></td>
+    <td width="78%" > <?php $db->sp("city") ?>, <?php $db->sp("state") ?> 
+      <?php $db->sp("vzip") ?> <?php $db->sp("country") ?></td>
   </tr>
   <tr> 
     <td width="22%" align="right" ><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_PHONE') ?> :</td>
@@ -63,24 +62,24 @@ $db->sp("vendor_address_2")
   </tr>
   <tr> 
     <td width="22%" align="right" ><?php echo $VM_LANG->_('PHPSHOP_CART_NAME') ?> :</td>
-    <td width="78%" > <?php $db->sp("contact_title") ?> <?php $db->sp("contact_first_name") ?> 
-      <?php $db->sp("contact_middle_name") ?> <?php $db->sp("contact_last_name") ?></td>
+    <td width="78%" > <?php $db->sp("title") ?> <?php $db->sp("first_name") ?> 
+      <?php $db->sp("middle_name") ?> <?php $db->sp("last_name") ?></td>
   </tr>
   <tr> 
     <td width="22%" align="right" ><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_PHONE_1') ?> :</TD>
-    <TD WIDTH="78%" > <?php $db->sp("contact_phone_1") ?></TD>
+    <TD WIDTH="78%" > <?php $db->sp("phone_1") ?></TD>
   </TR>
   <TR> 
     <TD WIDTH="22%" ALIGN="right" ><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_PHONE_2') ?> :</TD>
-    <TD WIDTH="78%" > <?php $db->sp("contact_phone_2") ?></TD>
+    <TD WIDTH="78%" > <?php $db->sp("phone_2") ?></TD>
   </TR>
   <TR> 
     <TD WIDTH="22%" ALIGN="right" ><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_FAX') ?> :</TD>
-    <TD WIDTH="78%" > <?php $db->sp("contact_fax") ?></TD>
+    <TD WIDTH="78%" > <?php $db->sp("fax") ?></TD>
   </TR>
   <TR> 
     <TD WIDTH="22%" ALIGN="right" ><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_EMAIL') ?> :</TD>
-    <TD WIDTH="78%" > <?php $db->sp("contact_email") ?></TD>
+    <TD WIDTH="78%" > <?php $db->sp("user_email") ?></TD>
   </TR>
   <TR> 
     <TD COLSPAN="2" ALIGN="center" >&nbsp; </TD>

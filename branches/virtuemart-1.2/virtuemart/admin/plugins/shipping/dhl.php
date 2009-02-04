@@ -696,12 +696,16 @@ class plgShippingDhl extends vmShippingPlugin {
 		}
 
 		/* Get our sending address information */
-		$vq  = "SELECT * FROM #__{vm}_vendor ";
-		$vq .= "WHERE vendor_id='" . $_SESSION['ps_vendor_id'] . "'";
-		$dbv =& new ps_DB;
-		$dbv->query($vq);
-		$dbv->next_record();
-
+//		$vq  = "SELECT * FROM #__{vm}_vendor ";
+//		$vq .= "WHERE vendor_id='" . $_SESSION['ps_vendor_id'] . "'";
+//		$dbv =& new ps_DB;
+//		$dbv->query($vq);
+//		$dbv->next_record();
+		//This must be changed, the vendor must be taken from the order
+//		$vendor_id = intval($_SESSION['ps_vendor_id']);
+		$vendor_id = ps_order::get_vendor_id_by_order_id($db,$order_id);
+		$dbv = ps_vendor::get_vendor_details($db,$vendor_id);
+		
 		require_once($mosConfig_absolute_path .
 			'/includes/domit/xml_domit_lite_include.php');
 
@@ -845,21 +849,21 @@ class plgShippingDhl extends vmShippingPlugin {
 			$addr =& $xmlReq->createElement('Address');
 			$name =& $xmlReq->createElement('CompanyName');
 			$name_cdata =& $xmlReq->createCDATASection(
-				$dbv->f('vendor_name'));
+				$dbv->f('name'));
 			$name->appendChild($name_cdata);
 			$addr->appendChild($name);
 			$street =& $xmlReq->createElement('Street');
 			$street_addr =& $xmlReq->createCDATASection(
-			    $dbv->f('vendor_address_1') . "\n" .
-			    $dbv->f('vendor_address_2'));
+			    $dbv->f('address_1') . "\n" .
+			    $dbv->f('address_2'));
 			$street->appendChild($street_addr);
 			$addr->appendChild($street);
 			$city =& $xmlReq->createElement('City');
-			$city_name =& $xmlReq->createCDATASection($dbv->f('vendor_city'));
+			$city_name =& $xmlReq->createCDATASection($dbv->f('city'));
 			$city->appendChild($city_name);
 			$addr->appendChild($city);
 			$state =& $xmlReq->createElement('State');
-			$state->setText($dbv->f('vendor_state'));
+			$state->setText($dbv->f('state'));
 			$addr->appendChild($state);
 			/*
 			 * DHL's XML API currently only supports international
@@ -869,23 +873,23 @@ class plgShippingDhl extends vmShippingPlugin {
 			$country->setText('US');
 			$addr->appendChild($country);
 			$pc =& $xmlReq->createElement('PostalCode');
-			$pc->setText($dbv->f('vendor_zip'));
+			$pc->setText($dbv->f('zip'));
 			$addr->appendChild($pc);
 			$send->appendChild($addr);		
 
 			$email =& $xmlReq->createElement('Email');
 			$email_cdata =& $xmlReq->createCDATASection(
-			    $dbv->f('contact_email'));
+			    $dbv->f('user_email'));
 			$email->appendChild($email_cdata);
 			$send->appendChild($email);
 		}
 		$sent_by =& $xmlReq->createElement('SentBy');
 		$sent_by_cdata =& $xmlReq->createCDATASection(
-		    $dbv->f('contact_first_name') . " " . $dbv->f('contact_last_name'));
+		    $dbv->f('first_name') . " " . $dbv->f('last_name'));
 		$sent_by->appendChild($sent_by_cdata);
 		$send->appendChild($sent_by);
 		$pn =& $xmlReq->createElement('PhoneNbr');
-		$pn->setText($dbv->f('contact_phone_1'));
+		$pn->setText($dbv->f('phone_1'));
 		$send->appendChild($pn);
 		$shipment->appendChild($send);
 

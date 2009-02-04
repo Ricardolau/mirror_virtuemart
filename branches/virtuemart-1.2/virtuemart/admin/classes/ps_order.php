@@ -22,6 +22,15 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
  */
 class ps_order {
 
+	function get_vendor_id_by_order_id(&$db,&$order_id){
+		
+		$q = 'SELECT vendor_id FROM #__{vm}_order_item WHERE order_id='.$order_id;
+		$db->query($q);
+		$db->next_record();
+		$vendor_id = $db->f('vendor_id');
+		return $vendor_id;
+	}
+
 	/**
      * Changes the status of an order
      * @author pablo
@@ -194,10 +203,9 @@ class ps_order {
 
 			if ($download_id) {
 
-				$dbv = new ps_DB;
-				$q = "SELECT * FROM #__{vm}_vendor WHERE vendor_id='1'";
-				$dbv->query($q);
-				$dbv->next_record();
+				// really 1?
+				$vendor_id = 1;
+				$dbv = ps_vendor::get_vendor_fields($vendor_id,array("user_email","vendor_name"));
 
 				$db = new ps_DB;
 				$q="SELECT first_name,last_name, user_email FROM #__{vm}_user_info WHERE user_id = '$userid' AND address_type='BT'";
@@ -218,7 +226,7 @@ class ps_order {
 				$message .= str_replace("{expire}", $expire, $VM_LANG->_('PHPSHOP_DOWNLOADS_SEND_MSG_4',false));
 				$message .= "\n\n____________________________________________________________\n";
 				$message .= $VM_LANG->_('PHPSHOP_DOWNLOADS_SEND_MSG_5',false)."\n";
-				$message .= $dbv->f("vendor_name") . " \n" . URL."\n\n".$dbv->f("contact_email") . "\n";
+				$message .= $dbv->f("vendor_name") . " \n" . URL."\n\n".$dbv->f("user_email") . "\n";
 				$message .= "____________________________________________________________\n";
 				$message .= $VM_LANG->_('PHPSHOP_DOWNLOADS_SEND_MSG_6',false) . $dbv->f("vendor_name");
 
@@ -226,7 +234,7 @@ class ps_order {
 				$mail_Body = $message;
 				$mail_Subject = $VM_LANG->_('PHPSHOP_DOWNLOADS_SEND_SUBJ',false);
 
-				$result = vmMail( $dbv->f("contact_email"), $dbv->f("vendor_name"), 
+				$result = vmMail( $dbv->f("user_email"), $dbv->f("vendor_name"), 
 						$db->f("user_email"), $mail_Subject, $mail_Body, '' );
 
 				if ($result) {
@@ -258,11 +266,10 @@ class ps_order {
 		$url = SECUREURL."index.php?option=com_virtuemart&page=account.order_details&order_id=".urlencode($d["order_id"]).'&Itemid='.$sess->getShopItemid();
 
 		$db = new ps_DB;
-		$dbv = new ps_DB;
-		$q = "SELECT vendor_name,contact_email FROM #__{vm}_vendor ";
-		$q .= "WHERE vendor_id='".$_SESSION['ps_vendor_id']."'";
-		$dbv->query($q);
-		$dbv->next_record();
+		
+		//MUST Do vendor_id from order 
+		$vendor_id = $_SESSION["ps_vendor_id"];
+		$dbv = ps_vendor::get_vendor_fields($vendor_id,array("user_email","vendor_name"));
 
 		$q = "SELECT first_name,last_name,user_email,order_status_name FROM #__{vm}_order_user_info,#__{vm}_orders,#__{vm}_order_status ";
 		$q .= "WHERE #__{vm}_orders.order_id = '".$db->getEscaped($d["order_id"])."' ";
@@ -294,7 +301,7 @@ class ps_order {
 		$message .= "\n\n____________________________________________________________\n";
 		$message .= $dbv->f("vendor_name") . " \n";
 		$message .= URL."\n";
-		$message .= $dbv->f("contact_email");
+		$message .= $dbv->f("user_email");
 
 		$message = str_replace( "{order_id}", $d["order_id"], $message );
 
@@ -302,7 +309,7 @@ class ps_order {
 		$mail_Subject = str_replace( "{order_id}", $d["order_id"], $VM_LANG->_('PHPSHOP_ORDER_STATUS_CHANGE_SEND_SUBJ',false));
 		
 		
-		$result = vmMail( $dbv->f("contact_email"),  $dbv->f("vendor_name"), 
+		$result = vmMail( $dbv->f("user_email"),  $dbv->f("vendor_name"), 
 					$db->f("user_email"), $mail_Subject, $mail_Body, '' );
 		
 		/* Send the email */
@@ -311,7 +318,7 @@ class ps_order {
 		}
 		else {
 			$vmLogger->warning( $VM_LANG->_('PHPSHOP_DOWNLOADS_ERR_SEND',false).' '. $db->f("first_name") . " " . $db->f("last_name") . ", ".$db->f("user_email")." (". $result->ErrorInfo.")" );
-			$GLOBALS['vmLogger']->debug('From: '.$dbv->f("contact_email"));
+			$GLOBALS['vmLogger']->debug('From: '.$dbv->f("user_email"));
 			$GLOBALS['vmLogger']->debug('To: '.$db->f("user_email"));
 		}
 	}

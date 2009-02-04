@@ -200,3 +200,21 @@ $db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `
 $db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(9, 'UPS Shipping Module', 'ups', 'shipping', 6, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '')");
 $db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(10, 'USPS Shipping Module', 'usps', 'shipping', 7, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '')");
 $db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(11, 'Zone Shipping Module', 'zone_shipping', 'shipping', 10, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '')");
+
+//Merging of Contactdata with Userdatas (There wont exist any vendor who is not User)
+$db->query("
+ALTER TABLE `jos_vm_vendor`
+  DROP `contact_last_name`,
+  DROP `contact_first_name`,
+  DROP `contact_middle_name`,
+  DROP `contact_title`,
+  DROP `contact_phone_1`,
+  DROP `contact_phone_2`,
+  DROP `contact_fax`,
+  DROP `contact_email`,
+  DROP `vendor_address_1`,
+  DROP `vendor_address_2`,
+  DROP `vendor_city`,
+  DROP `vendor_state`,
+  DROP `vendor_country`,
+  DROP `vendor_zip` ");

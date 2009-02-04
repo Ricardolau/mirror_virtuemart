@@ -246,23 +246,33 @@ class plgShippingFedex extends vmShippingPlugin {
 	}
    
 	function update_meter_number() {
-		global $vendor_name,$vendor_address,$vendor_city,$vendor_state,$vendor_zip,
-			$vendor_country_2_code, $vendor_phone, $vmLogger;
-			
+//		global $vendor_name,$vendor_address,$vendor_city,$vendor_state,$vendor_zip,
+//			$vendor_country_2_code, $vendor_phone, $vmLogger;
+		global $vmLogger;
+		
 		$fed = new FedExDC( $this->params->get('FEDEX_ACCOUNT_NUMBER') );
 		$db = new ps_DB();
-		$db->query( ('SELECT `contact_first_name`, `contact_last_name` FROM `#__{vm}_vendor` WHERE `vendor_id` ='.intval($_SESSION['ps_vendor_id'])));
-		$db->next_record();
+//		$db->query( ('SELECT `contact_first_name`, `contact_last_name` FROM `#__{vm}_vendor` WHERE `vendor_id` ='.intval($_SESSION['ps_vendor_id'])));
+//		$db->next_record();
+		//adjusted by Max Milbers
+		$db = ps_vendor::get_vendor_details($db,intval($_SESSION['ps_vendor_id']));
 	    $aRet = $fed->subscribe(
 		    array(
 		        1 => uniqid( 'vmFed_' ), // Don't really need this but can be used for ref
-		        4003 => $db->f('contact_first_name').' '.$db->f('contact_last_name'),
-		        4008 => $vendor_address,
-		        4011 => $vendor_city,
-		        4012 => $vendor_state,
-		        4013 => $vendor_zip,
-		        4014 => $vendor_country_2_code,
-		        4015 => $vendor_phone
+		        4003 => $db->f('first_name').' '.$db->f('last_name'),
+		        4008 => $db->f('adress_1'),
+		        4011 => $db->f('city'),
+		        4012 => $db->f('state'),
+		        4013 => $db->f('zip'),
+		        4014 => $db->f('country_2_code'),
+		        4015 => $db->f('vendor_phone')
+		        
+//		        4008 => $vendor_address,
+//		        4011 => $vendor_city,
+//		        4012 => $vendor_state,
+//		        4013 => $vendor_zip,
+//		        4014 => $vendor_country_2_code,
+//		        4015 => $vendor_phone
 		    )
 		);
 	    if ($error = $fed->getError() ) {

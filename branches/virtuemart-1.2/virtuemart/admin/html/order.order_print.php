@@ -28,9 +28,10 @@ $ps_product =& new ps_product;
 $order_id = vmRequest::getInt('order_id');
 $ps_order_change_html =& new ps_order_change_html($order_id);
 
-if (!is_numeric($order_id))
+if (!is_numeric($order_id)){
     echo "<h2>The Order ID $order_id is not valid.</h2>";
-else {
+    echo $VM_LANG->_('VM_ORDER_NOTFOUND');
+}else {
     $dbc = new ps_DB;
 	$q = "SELECT * FROM #__{vm}_orders WHERE order_id='$order_id'";
 	$db->query($q);
@@ -610,10 +611,6 @@ else {
   			  </td>
 			  </tr>
 	  </table>
-	<?php
-	}
-	else {
-	  echo $VM_LANG->_('VM_ORDER_NOTFOUND');
-	}
+<?php
 }
 ?>

@@ -20,7 +20,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 
 <table width="100%" align="center" border="0" cellspacing="0" cellpadding="10">
   <tr valign="top"> 
-    <td width=53% align="left" class="Stil1"><?php echo ps_vendor::formatted_store_address(true) ?></td>
+    <td width=53% align="left" class="Stil1"><?php echo ps_vendor::formatted_store_address(true,1) ?></td>
     <td width="47%" align="right"><img src="cid:vendor_image" alt="vendor_image" border="0" /></td>
   </tr>
   <tr>

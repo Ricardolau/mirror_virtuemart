@@ -34,14 +34,14 @@ require_once( CLASSPATH . 'ps_vendor.php');
         </tr>
         <tr valign="top">
 	<td align="center" colspan="2"><br />
-        <?php echo ps_vendor::formatted_store_address( true ); ?>
+        <?php echo ps_vendor::formatted_store_address( true, 1 ); ?>
         <br /><br /></td>
   </tr>
 
         <tr>
       <td valign="top" align="center" colspan="2">
           <br /><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_CONTACT_LBL') ?>:&nbsp;<?php echo $v_title ." " . $v_first_name . " " . $v_last_name ?>
-          <br /><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_PHONE') ?>:&nbsp;<?php $db->p("contact_phone_1");?>
+          <br /><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_PHONE') ?>:&nbsp;<?php $db->p("phone_1");?>
           <br /><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_FAX') ?>:&nbsp;<?php echo $v_fax ?>
           <br /><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_EMAIL') ?>:&nbsp;<?php echo $v_email; ?><br />
           <br /><a href="<?php $db->p("vendor_url") ?>" target="_blank"><?php $db->p("vendor_url") ?></a><br />

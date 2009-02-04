@@ -41,9 +41,10 @@ class plgShippingIntershipper extends vmShippingPlugin {
 		$d["ship_to_info_id"] = vmGet( $_REQUEST, "ship_to_info_id" ) ;
 		
 		$dbv = new ps_DB( ) ;
-		$q = "SELECT * from #__{vm}_vendor, #__{vm}_country WHERE vendor_id='" . $_SESSION["ps_vendor_id"] . "' AND (vendor_country=country_2_code OR vendor_country=country_3_code)" ;
-		$dbv->query( $q ) ;
-		$dbv->next_record() ;
+//		$q = "SELECT * from #__{vm}_vendor, #__{vm}_country WHERE vendor_id='" . $_SESSION["ps_vendor_id"] . "' AND (vendor_country=country_2_code OR vendor_country=country_3_code)" ;
+//		$dbv->query( $q ) ;
+//		$dbv->next_record() ;
+		$dbv = ps_vendor::get_vendor_details($_SESSION["ps_vendor_id"]); 
 		
 		$dbst = new ps_DB( ) ;
 		$q = "SELECT * from #__{vm}_user_info, #__{vm}_country WHERE user_info_id='" . $d["ship_to_info_id"] . "' AND ( country=country_2_code OR country=country_3_code)" ;
@@ -123,7 +124,7 @@ class plgShippingIntershipper extends vmShippingPlugin {
 			$uri .= "&ClassCode$i=" . $v ;
 			$i ++ ;
 		}
-		$uri .= '&DeliveryType=' . 'COM' . '&ShipMethod=' . 'DRP' . '&OriginationName=' . urlencode( $dbv->f( "contact_first_name" ) . '%20' . $dbv->f( "contact_last_name" ) ) . '&OriginationAddress1=' . urlencode( $dbv->f( "vendor_address_1" ) ) . '&OriginationCity=' . urlencode( $dbv->f( "vendor_city" ) ) . '&OriginationState=' . urlencode( $dbv->f( "vendor_state" ) ) . '&OriginationPostal=' . $dbv->f( "vendor_zip" ) . '&OriginationCountry=' . $dbv->f( "country_2_code" ) . '&DestinationName=' . urlencode( $dbst->f( "first_name" ) . '%20' . $dbst->f( "last_name" ) ) . '&DestinationAddress1=' . urlencode( $dbst->f( "address_1" ) ) . '&DestinationCity=' . urlencode( $dbst->f( "city" ) ) . '&DestinationState=' . urlencode( $dbst->f( "state" ) ) . '&DestinationPostal=' . $dbst->f( "zip" ) . '&DestinationCountry=' . $dbst->f( "country_2_code" ) . '&Currency=' . $_SESSION['vendor_currency'] . '&TotalPackages=' . '1' . '&BoxID1=' . '1' . '&Weight1=' . $weight_total . '&WeightUnit1=' . WEIGHT_UOM . '&Length1=' . '10' . '&Width1=' . '10' . '&Height1=' . '10' . '&DimensionalUnit1=' . 'IN' . '&Packaging1=' . 'BOX' . '&Contents1=' . 'OTR' . '&Cod1=' . '0' . '&Insurance1=' . '0' . '&TotalOptions=' . '1' . '&OptionCode1=' . 'SDD' ;
+		$uri .= '&DeliveryType=' . 'COM' . '&ShipMethod=' . 'DRP' . '&OriginationName=' . urlencode( $dbv->f( "first_name" ) . '%20' . $dbv->f( "last_name" ) ) . '&OriginationAddress1=' . urlencode( $dbv->f( "address_1" ) ) . '&OriginationCity=' . urlencode( $dbv->f( "city" ) ) . '&OriginationState=' . urlencode( $dbv->f( "state" ) ) . '&OriginationPostal=' . $dbv->f( "zip" ) . '&OriginationCountry=' . $dbv->f( "country_2_code" ) . '&DestinationName=' . urlencode( $dbst->f( "first_name" ) . '%20' . $dbst->f( "last_name" ) ) . '&DestinationAddress1=' . urlencode( $dbst->f( "address_1" ) ) . '&DestinationCity=' . urlencode( $dbst->f( "city" ) ) . '&DestinationState=' . urlencode( $dbst->f( "state" ) ) . '&DestinationPostal=' . $dbst->f( "zip" ) . '&DestinationCountry=' . $dbst->f( "country_2_code" ) . '&Currency=' . $_SESSION['vendor_currency'] . '&TotalPackages=' . '1' . '&BoxID1=' . '1' . '&Weight1=' . $weight_total . '&WeightUnit1=' . WEIGHT_UOM . '&Length1=' . '10' . '&Width1=' . '10' . '&Height1=' . '10' . '&DimensionalUnit1=' . 'IN' . '&Packaging1=' . 'BOX' . '&Contents1=' . 'OTR' . '&Cod1=' . '0' . '&Insurance1=' . '0' . '&TotalOptions=' . '1' . '&OptionCode1=' . 'SDD' ;
 		
 		//Define some global vars for later use
 		

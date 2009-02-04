@@ -158,47 +158,48 @@ if( vmShouldDebug() ) {   /*@MWM1: Log/Debug enhancements */
 # Some database values we will need throughout
 # Get Vendor Information
 // Benjamin: change this using a dynamic global variable...
-$default_vendor = 1;
 
-if( $auth['user_id'] > 0 ) {
-	$db->query( 'SELECT `vendor_id` FROM `#__{vm}_auth_user_vendor` WHERE `user_id` ='.$auth['user_id'] );
-	$db->next_record();
-	if( $db->f( 'vendor_id' ) ) {
-		$default_vendor = $db->f( 'vendor_id' );
-	}
-}
+//$default_vendor = 1;
+//
+//if( $auth['user_id'] > 0 ) {
+//	$db->query( 'SELECT `vendor_id` FROM `#__{vm}_auth_user_vendor` WHERE `user_id` ='.$auth['user_id'] );
+//	$db->next_record();
+//	if( $db->f( 'vendor_id' ) ) {
+//		$default_vendor = $db->f( 'vendor_id' );
+//	}
+//}
 	
-$_SESSION["ps_vendor_id"] = $ps_vendor_id = $default_vendor;
+//$_SESSION["ps_vendor_id"] = $ps_vendor_id = $default_vendor;
 
-$db = ps_vendor::get_vendor_details($ps_vendor_id);
-
-$_SESSION['minimum_pov'] = $db->f("vendor_min_pov"); 
-$vendor_name = $db->f("vendor_name");
-$vendor_store_name = $db->f("vendor_store_name");
-$vendor_mail = $db->f("contact_email");
-$vendor_url = $db->f("vendor_url");
-$vendor_freeshipping = $db->f("vendor_freeshipping");
-$vendor_image = "<img border=\"0\" src=\"" .IMAGEURL ."vendor/" . $db->f("vendor_full_image") . "\" alt=\"" . shopMakeHtmlSafe($vendor_name) . "\" />";
-$vendor_full_image = $db->f("vendor_full_image");
-$vendor_image_url = IMAGEURL."vendor/".$db->f("vendor_full_image");
-$vendor_address = $db->f("vendor_address_1");
-$vendor_address_2 = $db->f("vendor_address_2");
-$vendor_city = $db->f("vendor_city");
-$vendor_state = $db->f("vendor_state");
-$vendor_state_name = $db->f("state_name");
-$vendor_state = empty($vendor_state) ? "" : $db->f("vendor_state");
-$vendor_country = $db->f("vendor_country");
-$vendor_country_2_code = $db->f("country_2_code");
-$vendor_country_3_code = $db->f("country_3_code");
-$vendor_zip = $db->f("vendor_zip");
-$vendor_phone = $db->f("vendor_phone");
-$vendor_store_desc = $db->f("vendor_store_desc");
-$vendor_currency = $db->f("vendor_currency");
-$vendor_currency_display_style = $db->f("vendor_currency_display_style");
-$vendor_accepted_currencies = $db->f("vendor_accepted_currencies");
-$vendor_address_format = $db->f('vendor_address_format');
-$vendor_date_format = $db->f('vendor_date_format');
-$_SESSION["vendor_currency"] = $vendor_currency;
+//$db = ps_vendor::get_vendor_details($ps_vendor_id);
+//
+//$_SESSION['minimum_pov'] = $db->f("vendor_min_pov"); 
+//$vendor_name = $db->f("vendor_name");
+//$vendor_store_name = $db->f("vendor_store_name");
+//$vendor_mail = $db->f("contact_email");
+//$vendor_url = $db->f("vendor_url");
+//$vendor_freeshipping = $db->f("vendor_freeshipping");
+//$vendor_image = "<img border=\"0\" src=\"" .IMAGEURL ."vendor/" . $db->f("vendor_full_image") . "\" alt=\"" . shopMakeHtmlSafe($vendor_name) . "\" />";
+//$vendor_full_image = $db->f("vendor_full_image");
+//$vendor_image_url = IMAGEURL."vendor/".$db->f("vendor_full_image");
+//$vendor_address = $db->f("vendor_address_1");
+//$vendor_address_2 = $db->f("vendor_address_2");
+//$vendor_city = $db->f("vendor_city");
+//$vendor_state = $db->f("vendor_state");
+//$vendor_state_name = $db->f("state_name");
+//$vendor_state = empty($vendor_state) ? "" : $db->f("vendor_state");
+//$vendor_country = $db->f("vendor_country");
+//$vendor_country_2_code = $db->f("country_2_code");
+//$vendor_country_3_code = $db->f("country_3_code");
+//$vendor_zip = $db->f("vendor_zip");
+//$vendor_phone = $db->f("vendor_phone");
+//$vendor_store_desc = $db->f("vendor_store_desc");
+//$vendor_currency = $db->f("vendor_currency");
+//$vendor_currency_display_style = $db->f("vendor_currency_display_style");
+//$vendor_accepted_currencies = $db->f("vendor_accepted_currencies");
+//$vendor_address_format = $db->f('vendor_address_format');
+//$vendor_date_format = $db->f('vendor_date_format');
+//$_SESSION["vendor_currency"] = $vendor_currency;
 
 // see /classes/currency_convert.php
 vmSetGlobalCurrency();

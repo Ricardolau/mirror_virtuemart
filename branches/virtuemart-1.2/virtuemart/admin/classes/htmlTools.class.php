@@ -405,7 +405,7 @@ class vmTabPanel {
 	function endPane() {
 		echo "</div>";
 		$scripttag = "
-Ext.onReady( function() {
+	tabinit_{$this->panel_id} = function() {
 	Ext.QuickTips.init();
 	var state = Ext.state.Manager;
 	var tabs_{$this->panel_id} = new Ext.TabPanel({
@@ -445,7 +445,15 @@ Ext.onReady( function() {
 			
 		}
 		
-		$scripttag .= "});";
+		$scripttag .= "};
+	if( Ext.isIE ) {
+	Ext.EventManager.addListener( window, 'load', tabinit_{$this->panel_id} );
+}
+else {
+	Ext.onReady( tabinit_{$this->panel_id} );
+}
+	
+		";
 		
 		echo vmCommonHTML::scriptTag('', $scripttag );
 
@@ -620,14 +628,15 @@ class vmCommonHTML {
 			} else {
 				$use_fetchscript = vmRequest::getBool( 'usefetchscript', 1, 'session' );
 			}
-			$urlpos = strpos( $src, '?' );			
+						
 			$url_params = '';
 			
-			if( $urlpos ) {
-				$url_params = '&amp;'.substr( $src, $urlpos );
-				$src = substr( $src, 0, $urlpos);
-			}
 			if( stristr( $src, 'com_virtuemart' ) && !stristr( $src, '.php' ) && $use_fetchscript ) {
+				$urlpos = strpos( $src, '?' );
+				if( $urlpos ) {
+					$url_params = '&amp;'.substr( $src, $urlpos );
+					$src = substr( $src, 0, $urlpos);
+				}
 				$base_source = str_replace( URL, '', $src );
 				$base_source = str_replace( SECUREURL, '', $base_source );
 				$base_source = str_replace( '/components/com_virtuemart', '', $base_source);

@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+05.02.2009 aravot
+# Task #2486 - Loading Edit Store and other administrative pages under MSIE <= 7.0 results in Operation Aborted error and unable to view.
+
 02.02.2009 aravot
 # Task #2491 - Broken links on pathway
 ^ Fixed Configuration table alignment in admin.show_cfg.php

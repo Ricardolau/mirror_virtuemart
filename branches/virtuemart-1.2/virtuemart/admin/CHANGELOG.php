@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) {
 	die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 }
@@ -35,6 +35,8 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+05.02.2009 aravot
+# Task #2486 - Loading Edit Store and other administrative pages under MSIE <= 7.0 results in Operation Aborted error and unable to view.
 
 3.02.2009 Milbo
 - Deleted redundant datafields of vendor in the vendor table

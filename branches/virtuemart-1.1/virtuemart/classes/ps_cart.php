@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -137,20 +137,31 @@ class ps_cart {
 			}
 			$e['product_id'] = $d['product_id'];
 			$e['Itemid'] = $d['Itemid'];
-			// Standard ps_cart.php with $d changed to $e
-			$product_id = $e["prod_id"];
-			$quantity = (int)@$e['quantity'];
-
+			if( is_array($d["prod_id"])) {
+				$product_id = $d["prod_id"][$ikey];
+			} else {
+				$product_id = $e["prod_id"];
+			}
+			
+			if( is_array($d["quantity"])) {
+				$quantity = @$d['quantity'][$ikey];
+			} else {
+				$quantity = @$e['quantity'];
+			}
+			
 			// Check for negative quantity
 			if ($quantity < 0) {
+				vmRequest::setVar('product_id', $product_id );
 				$vmLogger->warning( $VM_LANG->_('PHPSHOP_CART_ERROR_NO_NEGATIVE',false) );
 				return False;
 			}
 
 			if (!ereg("^[0-9]*$", $quantity)) {
+				vmRequest::setVar('product_id', $product_id );
 				$vmLogger->warning( $VM_LANG->_('PHPSHOP_CART_ERROR_NO_VALID_QUANTITY',false) );
 				return False;
 			}
+			$quantity = intval($quantity);
 			// Check to see if checking stock quantity
 			if (CHECK_STOCK) {
 				$product_in_stock = ps_product::get_field( $product_id, 'product_in_stock');
@@ -177,6 +188,7 @@ class ps_cart {
 			$db->query ( $q );
 
 			if ( $db->num_rows()) {
+				vmRequest::setVar('product_id', $product_id );
 				$vmLogger->tip( $VM_LANG->_('PHPSHOP_CART_SELECT_ITEM',false) );
 				return false;
 			}
@@ -267,6 +279,10 @@ class ps_cart {
 		}
         else if (@$request_stock && vmIsXHR() ) {
             $vmLogger->tip( $VM_LANG->_('PHPSHOP_CART_GOTO_WAITING_LIST',false) );
+		} elseif( $total_quantity == 0 ) {
+			vmRequest::setVar('product_id', $product_id );
+			$GLOBALS['last_page'] = 'shop.product_details';
+			return false;
 		} else {
             $vmLogger->tip( $VM_LANG->_('PHPSHOP_CART_QUANTITY_EXCEEDED',false) );
         }

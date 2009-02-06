@@ -21,7 +21,7 @@ mm_showMyFileName( __FILE__ );
 
 // Descending or Ascending Order? possible values: [ASC|DESC]
 $DescOrderBy = strtoupper($vm_mainframe->getUserStateFromRequest( "browse{$keyword}{$category_id}{$manufacturer_id}DescOrderBy", 'DescOrderBy', "ASC" ));
-$DescOrderBy == 'ASC' ? 'ASC' : 'DESC';
+$DescOrderBy = $DescOrderBy == 'ASC' ? 'ASC' : 'DESC';
 
 // Sort by which factor? possible values: 
 // product_list, product_name, product_price, product_sku, product_cdate (=latest additions)

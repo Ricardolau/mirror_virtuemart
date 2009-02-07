@@ -273,7 +273,8 @@ $tabs->startTab( $info_label, "info-page");
         <?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_VENDOR') ?>:</div>
       </td>
       <td width="79%" ><?php
- 		ps_vendor::list_ornot_vendor($db->sf("vendor_id"),$vendor_id);
+// 		ps_vendor::list_ornot_vendor($db->sf("vendor_id"),$vendor_id);
+ 		ps_vendor::list_ornot_vendor($vendor_id,$db->sf("vendor_id"));
       ?></td>
     </tr>
     <tr class="row1"> 

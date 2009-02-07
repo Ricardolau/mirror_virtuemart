@@ -25,9 +25,10 @@ require_once( CLASSPATH . "htmlTools.class.php" );
 
 if (!$perm->check("admin")) {
 	$vendor_id = ps_vendor::get_vendor_id_by_user_id($db, $auth['user_id']);
-	$ps_vendor_id = $vendor;
-
-	$GLOBALS['vmLogger']->info("product_list: '".$ps_vendor_id ."' and user_id '".$auth['user_id']."'");
+	echo("product_list: '".$vendor_id ."' and user_id '".$auth['user_id']."'");
+	$GLOBALS['vmLogger']->info("product_list: '".$vendor_id ."' and user_id '".$auth['user_id']."'");
+}else{
+	$vendor_id = 1;	
 }
 
 // Check to see if this is a search or a browse by category
@@ -36,7 +37,7 @@ if( !empty($category_id)) {
 	$list  = "SELECT * FROM #__{vm}_product, #__{vm}_product_category_xref WHERE ";
 	$count  = "SELECT count(*) as num_rows FROM #__{vm}_product, 
 		#__{vm}_product_category_xref WHERE ";
-	$q  = "#__{vm}_product.vendor_id = '$ps_vendor_id' ";
+	$q  = "#__{vm}_product.vendor_id = '$vendor_id' ";
 	$q .= "AND #__{vm}_product_category_xref.category_id='$category_id' "; 
 	$q .= "AND #__{vm}_product.product_id=#__{vm}_product_category_xref.product_id ";
 	$q .= "AND product_in_stock > 0 ";
@@ -47,7 +48,7 @@ if( !empty($category_id)) {
 elseif( !empty($keyword)) {
 	$list  = "SELECT * FROM #__{vm}_product WHERE ";
 	$count = "SELECT count(*) as num_rows FROM #__{vm}_product WHERE ";
-	$q  = "#__{vm}_product.vendor_id = '$ps_vendor_id' ";
+	$q  = "#__{vm}_product.vendor_id = '$vendor_id' ";
 	$q .= "AND (#__{vm}_product.product_name LIKE '%$keyword%' OR ";
 	$q .= "#__{vm}_product.product_sku LIKE '%$keyword%' OR ";
 	$q .= "#__{vm}_product.product_s_desc LIKE '%$keyword%' OR ";
@@ -61,7 +62,7 @@ elseif( !empty($keyword)) {
 else {
 	$list  = "SELECT * FROM #__{vm}_product WHERE ";
 	$count = "SELECT count(*) as num_rows FROM #__{vm}_product WHERE ";
-	$q  = "#__{vm}_product.vendor_id = '$ps_vendor_id' ";
+	$q  = "#__{vm}_product.vendor_id = '$vendor_id' ";
 	if ($allproducts != 1) 
 		$q .= "AND product_in_stock > 0 ";
 	$q .= "ORDER BY product_name ";

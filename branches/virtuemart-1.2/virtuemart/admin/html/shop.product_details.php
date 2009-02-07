@@ -365,7 +365,7 @@ if (PSHOP_ALLOW_REVIEWS == '1') {
 }
 
 /* LINK TO VENDOR-INFO POP-UP **/
-$vend_id = $ps_product->get_vendor_id($product_id);
+$vend_id = $ps_product->get_vendor_id_ofproduct($product_id);
 $vend_name = $ps_product->get_vendorname($product_id);
 
 $link = "$mosConfig_live_site/index2.php?page=shop.infopage&amp;vendor_id=$vend_id&amp;output=lite&amp;option=com_virtuemart&amp;Itemid=".$Itemid;

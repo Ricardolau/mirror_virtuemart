@@ -1189,34 +1189,12 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 	}
 
 	/**
-	 * Function to get the name of a vendor by its id
-	 * @author pablo
-	 * @param int $vendor_id
-	 * @return string The name of the vendor
-	 */
-	function get_vend_idname($vendor_id) {
-		$db = new ps_DB;
-
-		$q = "SELECT vendor_name,vendor_id FROM #__{vm}_vendor ";
-		$q .= "WHERE vendor_id='$vendor_id'";
-
-		$db->query($q);
-		$db->next_record();
-		if ($db->f("vendor_name")) {
-			return $db->f("vendor_name");
-		}
-		else {
-			return "";
-		}
-	}
-
-	/**
 	 * Function to get the vendor_id of a product
 	 * @author pablo
 	 * @param int $product_id
 	 * @return int The vendor id
 	 */
-	function get_vendor_id($product_id) {
+	function get_vendor_id_ofproduct($product_id) {
 		$db = new ps_DB;
 		if( empty( $_SESSION['product_sess'][$product_id]['vendor_id'] )) {
 			$q = "SELECT vendor_id FROM #__{vm}_product ";
@@ -1595,7 +1573,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		|| $check_multiple_prices) {
 			$db = new ps_DB;
 
-			$vendor_id = $this->get_vendor_id($product_id);
+			$vendor_id = $this->get_vendor_id_ofproduct($product_id);
 			
 			if( $overrideShopperGroup === '') {
 				$shopper_group_id = $auth["shopper_group_id"];

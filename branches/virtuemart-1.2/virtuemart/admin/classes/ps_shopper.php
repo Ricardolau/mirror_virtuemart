@@ -123,7 +123,10 @@ class ps_shopper {
 			return false;
 		}
 		
-		$d['user_email'] = vmGet( $d, 'email', $my->email );
+		//unsure must be tested
+//		$d['user_email'] = vmGet( $d, 'email', $my->email );
+
+		$d['email'] = vmGet( $d, 'email', $my->email );
 		$d['perms'] = 'shopper';
 
 		return true;
@@ -225,7 +228,9 @@ class ps_shopper {
 			return false;
 		}
 	
-		$d['user_email'] = vmGet( $d, 'email', $my->email );
+//		$d['user_email'] = vmGet( $d, 'email', $my->email );
+		$d['email'] = vmGet( $d, 'email', $my->email );
+		
 		$d['perms'] = 'shopper';
 
 		return true;
@@ -378,14 +383,18 @@ class ps_shopper {
 				
 			}
 		}
-		$fields['user_email'] = $fields['email'];
-		unset($fields['email']);
+		//  ???? by Max Milbers user_email does only exist in order_user_info
+//		$fields['user_email'] = $fields['email'];
+//		unset($fields['email']);
 
-		$db->buildQuery('INSERT', '#__{vm}_user_info', $fields );
+//		$db->buildQuery('INSERT', '#__{vm}_user_info', $fields );
+//		
+//		// Run the query now!
+//		$db->query();
+		//New function do the same with email of juser
+		ps_user::setUserInfoWithEmail($fields);
 		
-		// Run the query now!
-		$db->query();
-
+		
 		// Insert vendor relationship
 		$q = "INSERT INTO #__{vm}_auth_user_vendor (user_id,vendor_id)";
 		$q .= " VALUES ";
@@ -690,14 +699,14 @@ class ps_shopper {
 			}
 		}
 		
-		$fields['user_email'] = $fields['email'];
-		unset($fields['email']);
-
-		$db->buildQuery('UPDATE', '#__{vm}_user_info', $fields, " WHERE user_id=".$user_id." AND address_type='BT'" );
-
-		// Run the query!
-		$db->query();
-
+//		$fields['user_email'] = $fields['email'];
+//		unset($fields['email']);
+//		$db->buildQuery('UPDATE', '#__{vm}_user_info', $fields, " WHERE user_id=".$user_id." AND address_type='BT'" );
+//		// Run the query!
+//		$db->query();
+		ps_user::setUserInfoWithEmail($fields,$user_id);
+		
+		
 		// UPDATE #__{vm}_shopper group relationship
 		$q = "SELECT shopper_group_id FROM #__{vm}_shopper_vendor_xref ";
 		$q .= "WHERE user_id = '".$user_id."'";

@@ -45,16 +45,20 @@ if ($checkout) {
           <tr class="sectiontableheader"> 
             <td colspan="2"><b><?php
 
-$q  = "SELECT * from #__users WHERE ";
-$q .= "id='" . $auth["user_id"] . "' ";
-$q .= "AND address_type='BT'";
-$db->query($q);
-if(!$db->num_rows()) {
-    $q  = "SELECT * from #__{vm}_user_info WHERE ";
-    $q .= "user_id='" . $auth["user_id"] . "' ";
-    $q .= "AND address_type='BT'";
-    $db->query($q);
-}
+//$q  = "SELECT * from #__users WHERE ";
+//$q .= "id='" . $auth["user_id"] . "' ";
+//$q .= "AND address_type='BT'";
+//$db->query($q);
+//if(!$db->num_rows()) {
+//    $q  = "SELECT * from #__{vm}_user_info WHERE ";
+//    $q .= "user_id='" . $auth["user_id"] . "' ";
+//    $q .= "AND address_type='BT'";
+//    $db->query($q);
+//}
+
+require_once(CLASSPATH. "ps_user.php");
+$db = ps_user::get_user_details($auth["user_id"],array("*"),"", "AND `u`.`address_type`='ST'" );
+
 $db->next_record();
 ?><?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_BILLINFO') ?></b></td>
           </tr>

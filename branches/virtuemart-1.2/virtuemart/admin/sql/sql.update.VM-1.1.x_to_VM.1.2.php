@@ -218,3 +218,8 @@ ALTER TABLE `jos_vm_vendor`
   DROP `vendor_state`,
   DROP `vendor_country`,
   DROP `vendor_zip` ");
+  
+ //Merging emails  TODO What happen with the old emails?
+ $db->query("
+ ALTER TABLE `jos_vm_user_info`
+  DROP `user_email` ");

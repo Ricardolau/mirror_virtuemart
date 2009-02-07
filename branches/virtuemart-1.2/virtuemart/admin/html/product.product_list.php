@@ -309,7 +309,10 @@ if ($num_rows > 0) {
 		if($product_vendor_id==0){
 			$listObj->addCell( "Set a nick for this vendor!" );
 		}else{
-			$dbtmp = ps_vendor::get_vendor_fields($product_vendor_id, array("vendor_name"));
+			$dbtmp = ps_vendor::get_vendor_fields($product_vendor_id, array("vendor_name"),"");
+			if(empty($dbtmp)){
+				echo("product.product_list ps_vendor::get_vendor_fields for vendor_name failed ");
+			}
 			$listObj->addCell( $dbtmp->f("vendor_name") );
 		}
 		

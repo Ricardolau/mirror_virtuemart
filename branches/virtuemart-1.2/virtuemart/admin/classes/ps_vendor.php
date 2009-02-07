@@ -92,22 +92,6 @@ class ps_vendor {
 	}
 	
 	/**
-	* name: get_vendor_email_by_vendor_id
-	* created by: Max Milbers
-	* @param int 
-	* returns String $email
-	*/
-	function get_juser_email_by_vendor_id(&$db, &$vendor_id){
-		if(empty ($vendor_id))return;
-		$user_id = ps_vendor::get_user_id_by_vendor_id($db, $vendor_id);
-		$q  = "SELECT email FROM  #__users ";
-		$q .= "WHERE id = '".$user_id."'";
-		$db->query($q);
-		$email = $db->f('email');
-		return $email;
-	}
-	
-	/**
 	 * Retrieves a DB object with the recordset of the specified vendor
 	 * and the country it is assigned to    
 	 * completly rewritten by Max Milbers
@@ -128,11 +112,12 @@ class ps_vendor {
 		}
 		//Importantlist could be used later plz dont delete
 //		$q = "SELECT vendor_id, vendor_nick, vendor_min_pov,vendor_name,vendor_store_name,vendor_full_image, vendor_freeshipping, ";
-//		$q .= "	address_1,address_2, vendor_url, city, state, country, title, last_name, first_name, middle_name, phone_1, phone_2, fax, user_email, ";
+//		$q .= "	address_1,address_2, vendor_url, city, state, country, title, last_name, first_name, middle_name, phone_1, phone_2, fax, email, ";
 //		$q .= "zip, vendor_phone, vendor_store_desc, vendor_currency, vendor_currency_display_style,
 //					vendor_accepted_currencies, vendor_address_format, vendor_date_format ";
 		$q = "SELECT * ";
-		$q .= "FROM (`#__{vm}_vendor` v, `#__{vm}_user_info` u) ";		
+		$q .= "FROM (`#__{vm}_vendor` v, `#__{vm}_user_info` u) ";
+		$q .= "LEFT JOIN #__users ju ON (ju.id = u.user_id) ";
 		$q .= "LEFT JOIN #__{vm}_country c ON (u.country=c.country_2_code OR u.country=c.country_3_code) ";		
 		$q .= "LEFT JOIN #__{vm}_state s ON (u.state=s.state_2_code AND s.country_id=c.country_id) ";
 		$q .= "WHERE `v`.`vendor_id`=".(int)$vendor_id." AND `u`.`user_id`=".$user_id." ";
@@ -145,53 +130,78 @@ class ps_vendor {
 	
 		/**
 	 * Retrieves a DB object with the recordset of the specified fields (as array)
-	 * of vendor_id and 
+	 * of vendor_id and ordered by lastparam 
+	 * If no orderby is need just set "" 
 	 * the country the vendor is assigned to    
 	 * 
 	 * @author Max Milbers
 	 * @static 
-	 * @param int $vendor_id
+	 * @param int $vendor_id, array $fields, String $orderby
 	 * @return ps_DB
 	 */
 	 
-	function get_vendor_fields(&$vendor_id, $fields) {
-		$db = new ps_DB();	
-		$allowedStrings = array("vendor_id", "vendor_nick", "vendor_min_pov","vendor_name","vendor_store_name",
-		"vendor_full_image", "vendor_freeshipping","address_1","address_2","vendor_url","city","state", 
-		"country", "title", "last_name", "first_name", "middle_name", "phone_1",
-		"phone_2", "fax", "user_email","zip", "vendor_phone", "vendor_store_desc", "vendor_currency", 
-		"vendor_currency_display_style","vendor_accepted_currencies","vendor_address_format",
-		"vendor_date_format");
-
-		foreach($fields as $field){
-			if(!array_search($field, $allowedStrings)){
-				$GLOBALS['vmLogger']->fatal( "get_vendor_fields: field not known: ".$field );
-				return;
-			}
+	function get_vendor_fields($vendor_id, $fields=array(), $oderby) {
+		$db = new ps_DB();
+		$usertable= false;
+		if( empty( $fields )) {
+			$fieldstring = '*';
+			$usertable = true;
 		}
-		
-		$user_id = ps_vendor::get_user_id_by_vendor_id($db, $vendor_id);
-		if (empty($user_id)) {
+		else {
+			$allowedStrings = array("vendor_id", "vendor_nick", "vendor_min_pov","vendor_name","vendor_store_name",
+			"vendor_full_image", "vendor_freeshipping","address_1","address_2","vendor_url","city","state", 
+			"country", "title", "last_name", "first_name", "middle_name", "phone_1",
+			"phone_2", "fax", "email","zip", "vendor_phone", "vendor_store_desc", "vendor_currency", 
+			"vendor_currency_display_style","vendor_accepted_currencies","vendor_address_format",
+			"vendor_date_format");
+	
+			foreach($fields as $field){
+
+				if(!in_array($field, $allowedStrings)){
+					echo( "get_vendor_fields: field not known: ".$field );
+					$GLOBALS['vmLogger']->err( "get_vendor_fields: field not known: ".$field );	
+					return;
+				}
+			}
+			
+			$user_id = ps_vendor::get_user_id_by_vendor_id($db, $vendor_id);
+			if (empty($user_id)) {
+				echo( "get_vendor_fields: Failure in Database no user_id found for vendor_id: ".$vendor_id );
 				$GLOBALS['vmLogger']->err( "Failure in Database no user_id for vendor_id found" );
 				return;
-		}else{
-			$GLOBALS['vmLogger']->debug( "get_vendor_details user_id for vendor_id found" );
-		}
-		
-		$fieldstring= implode(",",$fields);;
-		if(empty($fieldstring))	return;
+			}else{
+	//			$GLOBALS['vmLogger']->debug( "get_vendor_details user_id for vendor_id found" );
+			}
+			
+	//		$fieldstring= implode(",",$fields);
+			$fieldstring = '`'. implode( '`,`', $fields ) . '`';
+			if(empty($fieldstring)){
+				echo( "get_vendor_fields implode returns empty String: ".$fields[0] );
+				return;
+			}	
+		}    
 
-		
 		$q = "SELECT $fieldstring ";
-		$q .= "FROM (`#__{vm}_vendor` v, `#__{vm}_user_info` u) ";		
+		$q .= "FROM (#__{vm}_vendor v, #__{vm}_user_info u) ";
+		if($usertable){
+			$q .= "LEFT JOIN #__users ju ON (ju.id = u.user_id) ";
+		}	
+		//Probably better, faster with INNER JOIN ps_checkout.php Line 705
+//		$q .= "INNER JOIN #__{vm}_country c ON (u.country=c.country_3_code OR u.country=c.country_2_code) ";
 		$q .= "LEFT JOIN #__{vm}_country c ON (u.country=c.country_2_code OR u.country=c.country_3_code) ";		
 		$q .= "LEFT JOIN #__{vm}_state s ON (u.state=s.state_2_code AND s.country_id=c.country_id) ";
-		$q .= "WHERE `v`.`vendor_id`=".(int)$vendor_id." AND `u`.`user_id`=".$user_id." ";
-						
+		$q .= "WHERE v.vendor_id = ".(int)$vendor_id." AND u.user_id = ".(int)$user_id." ";
+		if(!empty($orderby)){
+			$q .= "ORDER BY ".$orderby." ";
+		}				
 		$db->query($q);
-		$db->next_record();
-
-		return $db;
+		
+		if( ! $db->next_record() ) {
+			print "<h1>Invalid query vendor_id: $vendor_id</h1>" ;
+			return ;
+		}else{
+			return $db;
+		}
 	}
 	
 	/**
@@ -236,17 +246,17 @@ class ps_vendor {
 				$vmLogger->debug( ' vendorAdd  vendor_id '.$vendor_id);
 			}		
 		}
-		if (!$d["user_email"]) {
+		if (!$d["email"]) {
 			$email = ps_vendor::get_vendor_email_by_nickname($d["vendor_nick"]);
 			
 			if(empty($email)|| $email==0 ){
 				$vmLogger->err( 'You must enter an email address for the vendor contact.');
 				return false;			
 			}else {
-				$d["user_email"] = $email;
+				$d["email"] = $email;
 			}
 		}
-		if (!vmValidateEmail($d["user_email"])) {
+		if (!vmValidateEmail($d["email"])) {
 			$vmLogger->err( 'Please provide a valide email address for the vendor contact.' );
 			return False;
 		}
@@ -284,9 +294,12 @@ class ps_vendor {
 			if($perm->check( 'admin' )){
 				$vendor_id = 1;
 				$d["vendor_id"] = $vendor_id;
-				$email = ps_vendor::get_juser_email_by_vendor_id($db, $vendor_id);
-				$d["user_email"] = $email;
-				if (!vmValidateEmail($d["user_email"])) {
+				$user_id = ps_vendor::get_user_id_by_vendor_id($db, $vendor_id);
+				
+				require_once(CLASSPATH. "ps_user.php");
+				$email = ps_user::get_juser_email_by_user_id($db, $user_id);
+				$d["email"] = $email;
+				if (!vmValidateEmail($d["email"])) {
 					$vmLogger->err( 'Please provide a valide email address for the vendor contact.' );
 					return false;
 				}else{
@@ -320,18 +333,18 @@ class ps_vendor {
 			}		
 		}
 			
-		if (!$d["user_email"]) {		
+		if (!$d["email"]) {		
 			$email = ps_vendor::get_vendor_email_by_nickname($db, $d["vendor_nick"]);
 //			$vmLogger->err( 'get_vendor_email_by_nickname '.$email );
 			if(empty($email)){
 				$vmLogger->err( 'You must enter an email address for the vendor contact.');
 				return false;			
 			}else {
-				$d["user_email"] = $email;
+				$d["email"] = $email;
 			}
 		}
 		
-		if (!vmValidateEmail($d["user_email"])) {
+		if (!vmValidateEmail($d["email"])) {
 			$vmLogger->err( 'Please provide a valide email address for the vendor contact.' );
 			return False;
 		}
@@ -441,7 +454,7 @@ class ps_vendor {
 						'phone_1' => $d["phone_1"],
 						'phone_2' => $d["phone_2"],
 						'fax' => $d["fax"],
-						'user_email' => $d["user_email"],
+						'email' => $d["email"],
 						'vendor_phone' => $d["vendor_phone"],
 						'address_1' => $d["address_1"],
 						'address_2' => $d["address_2"],
@@ -462,7 +475,9 @@ class ps_vendor {
 		}else{
 			
 			$dbU = new ps_DB;
-			$dbU->buildQuery('UPDATE', '#__{vm}_user_info', $fieldsU );
+			require_once(CLASSPATH. "ps_user.php");
+			ps_user::setUserInfoWithEmail($fieldsU);
+//			$dbU->buildQuery('UPDATE', '#__{vm}_user_info', $fieldsU );
 			if( $db->query() === false ) {
 				$vmLogger->err( $VM_LANG->_('VM_VENDOR_ADDING_FAILED',false) );
 				return false;
@@ -566,7 +581,7 @@ class ps_vendor {
 						'phone_1' => $d["phone_1"],
 						'phone_2' => $d["phone_2"],
 						'fax' => $d["fax"],
-						'user_email' => $d["user_email"],
+						'email' => $d["email"],
 						'address_1' => $d["address_1"],
 						'address_2' => $d["address_2"],
 						'city' => $d["city"],
@@ -589,9 +604,12 @@ class ps_vendor {
 		$db->query();
 
 //		$user_id = $this->get_user_id_by_vendor_id($db, $d["vendor_id"]);
+		
 		$user_id = ps_vendor::get_user_id_by_vendor_id($db, $d["vendor_id"]);
-		$db->buildQuery( 'UPDATE', '#__{vm}_user_info', $fieldsU, 'WHERE user_id = '.$user_id );
-		$db->query();
+		require_once(CLASSPATH. "ps_user.php");
+		ps_user::setUserInfoWithEmail($fieldsU,$user_id);
+//		$db->buildQuery( 'UPDATE', '#__{vm}_user_info', $fieldsU, 'WHERE user_id = '.$user_id );
+//		$db->query();
 				
 		if( $d['vendor_id'] == 1 ) {
 			$GLOBALS['vmLogger']->info($VM_LANG->_('VM_STORE_UPDATED'));
@@ -765,15 +783,19 @@ class ps_vendor {
 
 	/**
 	 * Prints a drop-down list of vendor names and their ids.
-	 * But not if the user is only a normal vendor
+	 * But not if the user is only a normal vendor. 
+	 * This is used in product.product_form.php
+	 * @author Max Milbers
 	 * @param int $vendor_id the vendorID of the logged in user
 	 */
-	function list_ornot_vendor($vendor_id='1', $users_vendor_id) {
+//	function list_ornot_vendor($vendor_id='1', $p_vendor_id) {
+	function list_ornot_vendor($vendor_id='1', $product_vendor_id) {
 
 		$db = new ps_DB;
 		global $perm;
+		
 		// If mainvendor or adminrights show whole list
-		if($users_vendor_id==1 || $perm->check( 'admin' )){
+		if($vendor_id==1 || $perm->check( 'admin' )){
 			$q = "SELECT vendor_id,vendor_name FROM #__{vm}_vendor ORDER BY vendor_name";
 			$db->query($q);
 			$db->next_record();
@@ -787,12 +809,13 @@ class ps_vendor {
 				while ($db->next_record()) {
 					$array[$db->f("vendor_id")] = $db->f("vendor_name");
 				}
-				echo ps_html::selectList('vendor_id', $vendor_id, $array );
+				echo ps_html::selectList('vendor_id', $product_vendor_id, $array );
 			}
 		}else{
-			$q  = "SELECT vendor_id,vendor_name FROM #__{vm}_vendor ";
-			$q .= "WHERE vendor_id = '".$users_vendor_id."'";
-			$db->query($q);
+			$db = ps_vendor::get_vendor_fields($product_vendor_id, array("vendor_id","vendor_name"),"");
+//			$q  = "SELECT vendor_id,vendor_name FROM #__{vm}_vendor ";
+//			$q .= "WHERE vendor_id = '".$vendor_id."'";
+//			$db->query($q);
 			echo '<input type="hidden" name="vendor_id" value="'.$db->f("vendor_id").'" />';
 			echo $db->f("vendor_name");
 			

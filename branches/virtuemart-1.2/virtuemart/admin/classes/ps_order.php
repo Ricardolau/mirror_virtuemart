@@ -205,13 +205,16 @@ class ps_order {
 
 				// really 1?
 				$vendor_id = 1;
-				$dbv = ps_vendor::get_vendor_fields($vendor_id,array("user_email","vendor_name"));
+				$dbv = ps_vendor::get_vendor_fields($vendor_id,array("email","vendor_name"),"");
 
 				$db = new ps_DB;
-				$q="SELECT first_name,last_name, user_email FROM #__{vm}_user_info WHERE user_id = '$userid' AND address_type='BT'";
+				//Changed by Max Milbers merging #__{vm}_user_info.user_email to #__users.email
+				$q="SELECT first_name,last_name, email FROM #__{vm}_user_info ";
+				$q .= "LEFT JOIN #__users ju ON (ju.id = u.user_id) WHERE user_id = '$userid' AND address_type='BT'";
+
 				$db->query($q);
 				$db->next_record();
-
+				
 				$message = $VM_LANG->_('HI',false) .' '. $db->f("first_name") .($db->f("middle_name")?' '.$db->f("middle_name") : '' ). ' ' . $db->f("last_name") . ",\n\n";
 				$message .= $VM_LANG->_('PHPSHOP_DOWNLOADS_SEND_MSG_1',false).".\n";
 				$message .= $VM_LANG->_('PHPSHOP_DOWNLOADS_SEND_MSG_2',false)."\n\n";
@@ -226,7 +229,7 @@ class ps_order {
 				$message .= str_replace("{expire}", $expire, $VM_LANG->_('PHPSHOP_DOWNLOADS_SEND_MSG_4',false));
 				$message .= "\n\n____________________________________________________________\n";
 				$message .= $VM_LANG->_('PHPSHOP_DOWNLOADS_SEND_MSG_5',false)."\n";
-				$message .= $dbv->f("vendor_name") . " \n" . URL."\n\n".$dbv->f("user_email") . "\n";
+				$message .= $dbv->f("vendor_name") . " \n" . URL."\n\n".$dbv->f("email") . "\n";
 				$message .= "____________________________________________________________\n";
 				$message .= $VM_LANG->_('PHPSHOP_DOWNLOADS_SEND_MSG_6',false) . $dbv->f("vendor_name");
 
@@ -234,14 +237,14 @@ class ps_order {
 				$mail_Body = $message;
 				$mail_Subject = $VM_LANG->_('PHPSHOP_DOWNLOADS_SEND_SUBJ',false);
 
-				$result = vmMail( $dbv->f("user_email"), $dbv->f("vendor_name"), 
-						$db->f("user_email"), $mail_Subject, $mail_Body, '' );
+				$result = vmMail( $dbv->f("email"), $dbv->f("vendor_name"), 
+						$db->f("email"), $mail_Subject, $mail_Body, '' );
 
 				if ($result) {
-					$vmLogger->info( $VM_LANG->_('PHPSHOP_DOWNLOADS_SEND_MSG',false). " ". $db->f("first_name") . " " . $db->f("last_name") . " ".$db->f("user_email") );
+					$vmLogger->info( $VM_LANG->_('PHPSHOP_DOWNLOADS_SEND_MSG',false). " ". $db->f("first_name") . " " . $db->f("last_name") . " ".$db->f("email") );
 				}
 				else {
-					$vmLogger->warning( $VM_LANG->_('PHPSHOP_DOWNLOADS_ERR_SEND',false)." ". $db->f("first_name") . " " . $db->f("last_name") . ", ".$db->f("user_email") );
+					$vmLogger->warning( $VM_LANG->_('PHPSHOP_DOWNLOADS_ERR_SEND',false)." ". $db->f("first_name") . " " . $db->f("last_name") . ", ".$db->f("email") );
 				}
 			} 
 		}
@@ -269,7 +272,7 @@ class ps_order {
 		
 		//MUST Do vendor_id from order 
 		$vendor_id = $_SESSION["ps_vendor_id"];
-		$dbv = ps_vendor::get_vendor_fields($vendor_id,array("user_email","vendor_name"));
+		$dbv = ps_vendor::get_vendor_fields($vendor_id,array("email","vendor_name"),"");
 
 		$q = "SELECT first_name,last_name,user_email,order_status_name FROM #__{vm}_order_user_info,#__{vm}_orders,#__{vm}_order_status ";
 		$q .= "WHERE #__{vm}_orders.order_id = '".$db->getEscaped($d["order_id"])."' ";
@@ -301,7 +304,7 @@ class ps_order {
 		$message .= "\n\n____________________________________________________________\n";
 		$message .= $dbv->f("vendor_name") . " \n";
 		$message .= URL."\n";
-		$message .= $dbv->f("user_email");
+		$message .= $dbv->f("email");
 
 		$message = str_replace( "{order_id}", $d["order_id"], $message );
 
@@ -309,7 +312,7 @@ class ps_order {
 		$mail_Subject = str_replace( "{order_id}", $d["order_id"], $VM_LANG->_('PHPSHOP_ORDER_STATUS_CHANGE_SEND_SUBJ',false));
 		
 		
-		$result = vmMail( $dbv->f("user_email"),  $dbv->f("vendor_name"), 
+		$result = vmMail( $dbv->f("email"),  $dbv->f("vendor_name"), 
 					$db->f("user_email"), $mail_Subject, $mail_Body, '' );
 		
 		/* Send the email */
@@ -318,7 +321,7 @@ class ps_order {
 		}
 		else {
 			$vmLogger->warning( $VM_LANG->_('PHPSHOP_DOWNLOADS_ERR_SEND',false).' '. $db->f("first_name") . " " . $db->f("last_name") . ", ".$db->f("user_email")." (". $result->ErrorInfo.")" );
-			$GLOBALS['vmLogger']->debug('From: '.$dbv->f("user_email"));
+			$GLOBALS['vmLogger']->debug('From: '.$dbv->f("email"));
 			$GLOBALS['vmLogger']->debug('To: '.$db->f("user_email"));
 		}
 	}

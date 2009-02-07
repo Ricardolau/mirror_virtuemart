@@ -153,7 +153,7 @@ class zw_waiting_list {
 		}
 		
 		//by Max Milbers
-		$from_email = ps_vendor::get_vendor_fields(1,array("user_email"));
+		$from_email = ps_vendor::get_vendor_fields(1,array("user_email"),"");
 
 		$db = new ps_DB;
 		$q = "SELECT * FROM #__{vm}_waiting_list WHERE ";

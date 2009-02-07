@@ -527,7 +527,7 @@ class ps_checkout {
 							'bank_name' => $d['bank_name'],
 							'bank_iban' => $d['bank_iban']
 							);
-					ps_user::setUserInfo( $fields, $auth["user_id"] );
+					ps_user::setUserInfoWithEmail( $fields, $auth["user_id"] );
 
 					$dbu =& ps_user::getUserInfo( $auth["user_id"], array( 'bank_account_holder','bank_iban','bank_account_nr','bank_sort_code','bank_name' ) ); 
 				}
@@ -693,21 +693,23 @@ class ps_checkout {
 		/* Select all the ship to information for this user id and
 		* order by modification date; most recently changed to oldest
 		*/
-		$q  = "SELECT * from #__{vm}_user_info WHERE ";
+		$q  = "SELECT 'user_info_id','address_type_name' from #__{vm}_user_info WHERE ";
 		$q .= "user_id=" . (int)$user_id . ' ';
 		$q .= "AND address_type='BT'";
 		$db->query($q);
 		$db->next_record();
 
-		$bt_user_info_id = $db->f("user_info_id");
+		$bt_user_info_id = $db->f("user_info_id","address_type_name");
 
-		$q  = "SELECT * FROM #__{vm}_user_info i ";
-		$q .= "INNER JOIN #__{vm}_country c ON (i.country=c.country_3_code) ";
-		$q .= "LEFT JOIN #__{vm}_state s ON (i.state=s.state_2_code AND s.country_id=c.country_id) ";
+		//This is unsure and must be tested by Max Milbers
+//		$db = ps_user::get_user_details((int)$user_id ,array("*"),"address_type_name, mdate DESC","AND address_type = 'ST'");
+		$q  = "SELECT * FROM (#__{vm}_user_info u , #__users ju) ";
+		$q .= "INNER JOIN #__{vm}_country c ON (u.country=c.country_3_code) ";
+		$q .= "LEFT JOIN #__{vm}_state s ON (u.state=s.state_2_code AND s.country_id=c.country_id) ";	
 		$q .= "WHERE user_id =" . (int)$user_id . ' ';
 		$q .= "AND address_type = 'ST' ";
 		$q .= "ORDER by address_type_name, mdate DESC";
-
+//		echo("Was geht denn hier? ".$q);
 		$db->query($q);
 		
 		$theme = vmTemplate::getInstance();
@@ -732,14 +734,16 @@ class ps_checkout {
 		
 		$address_type = $address_type == 'BT' ? $address_type : 'ST';
 		
-		$db = new ps_DB;
-		$q  = "SELECT * FROM #__{vm}_user_info i ";
-		$q .= "INNER JOIN #__{vm}_country c ON (i.country=c.country_3_code OR i.country=c.country_2_code) ";
-		$q .= "LEFT JOIN #__{vm}_state s ON (i.state=s.state_2_code AND s.country_id=c.country_id) ";
-		$q .= "WHERE user_id='" . $auth["user_id"] . "' ";
-		$q .= "AND address_type='BT'";
-		$db->query($q);
-		$db->next_record();
+		require_once(CLASSPATH. "ps_user.php");
+		$db = ps_user::get_user_details($auth["user_id"],array("*"),"","AND `u`.`address_type`='BT'");
+//		$db = new ps_DB;
+//		$q  = "SELECT * FROM #__{vm}_user_info i ";
+//		$q .= "INNER JOIN #__{vm}_country c ON (i.country=c.country_3_code OR i.country=c.country_2_code) ";
+//		$q .= "LEFT JOIN #__{vm}_state s ON (i.state=s.state_2_code AND s.country_id=c.country_id) ";
+//		$q .= "WHERE user_id='" . $auth["user_id"] . "' ";
+//		$q .= "AND address_type='BT'";
+//		$db->query($q);
+//		$db->next_record();
 		$theme = new $GLOBALS['VM_THEMECLASS']();
 		$theme->set('db', $db );
 		
@@ -794,7 +798,7 @@ class ps_checkout {
         $vmPaymentMethod = new vmPaymentMethod;
 		require_once( CLASSPATH. 'ps_creditcard.php' );
 	    $ps_creditcard = new ps_creditcard();
-	    
+//	    ps_checkout::spezialFunktion();
 		// Do we have Credit Card Payments?
 		$db_cc  = new ps_DB;
 		$q = "SELECT * FROM #__{vm}_payment_method,#__{vm}_shopper_group WHERE ";
@@ -858,6 +862,55 @@ class ps_checkout {
 
 		echo $theme->fetch( 'checkout/list_payment_methods.tpl.php');
 		
+	}
+	function spezialFunktion(){
+		$db = new ps_DB();
+		$db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_payment_method` (
+  `id` int(11) NOT NULL auto_increment,
+  `vendor_id` int(11) default NULL,
+  `name` varchar(255) default NULL,
+  `element` varchar(50) NOT NULL default '',
+  `shopper_group_id` int(11) default NULL,
+  `discount` decimal(12,2) default NULL,
+  `discount_is_percentage` tinyint(1) NOT NULL,
+  `discount_max_amount` decimal(10,2) NOT NULL,
+  `discount_min_amount` decimal(10,2) NOT NULL,
+  `ordering` int(11) default NULL,
+  `type` char(1) default NULL,
+  `is_creditcard` tinyint(1) NOT NULL default '0',
+  `published` char(1) NOT NULL default 'N',
+  `accepted_creditcards` varchar(128) NOT NULL default '',
+  `extra_info` text NOT NULL,
+  `secret_key` blob NOT NULL,
+  `params` TEXT NOT NULL,
+  PRIMARY KEY  (`payment_method_id`),
+  KEY `idx_payment_method_vendor_id` (`vendor_id`),
+  KEY `idx_payment_method_name` (`name`),
+  KEY `idx_payment_method_list_order` (`list_order`),
+  KEY `idx_payment_method_shopper_group_id` (`shopper_group_id`)
+) TYPE=MyISAM COMMENT='The payment methods of your store'; ");
+
+## 
+## Data for table `#__{vm}_payment_method`
+## 
+
+$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (1, 1, 'Purchase Order', 'payment', 6, 0.00, 0, 0.00, 0.00, 4, 'N', 0, 'Y', '', '', '', '')" );
+$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (2, 1, 'Cash On Delivery', 'payment', 5, -2.00, 0, 0.00, 0.00, 5, 'N', 0, 'Y', '', '', '', '')" );
+$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (3, 1, 'Credit Card', 'authorize', 5, 0.00, 0, 0.00, 0.00, 0, 'Y', 0, 'Y', '1,2,6,7,', '', '', '')" );
+$db->query( 'INSERT INTO `#__{vm}_payment_method` VALUES (4, 1, \'PayPal\', \'paypal\', 5, 0.00, 0, 0.00, 0.00, 0, \'P\', 0, \'Y\', \'\', \'\', \'\', \'\')' );
+$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (5, 1, 'PayMate', 'paymate', 5, 0.00, 0, 0.00, 0.00, 0, 'P', 0, 'N', '', '', '', '')" );
+$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (6, 1, 'WorldPay', 'worldpay', 5, 0.00, 0, 0.00, 0.00, 0, 'P', 0, 'N', '', '', '', '')" );
+$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (7, 1, '2Checkout', 'twocheckout', 5, 0.00, 0, 0.00, 0.00, 0, 'P', 0, 'N', '', '', '', '')" );
+$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (8, 1, 'NoChex', 'nochex', 5, 0.00, 0, 0.00, 0.00, 0, 'P', 0, 'N', '', '', '', '')" );
+$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (9, 1, 'Credit Card (PayMeNow)', 'paymenow', 5, 0.00, 0, 0.00, 0.00, 0, 'Y', 0, 'N', '1,2,3,', '', '', '')" );
+$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (10, 1, 'eWay', 'eway', 5, 0.00, 0, 0.00, 0.00, 0, 'Y', 0, 'N', '', '', '', '')" );
+$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (11, 1, 'eCheck.net', 'echeck', 5, 0.00, 0, 0.00, 0.00, 0, 'B', 0, 'N', '', '', '', '')" );
+$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (12, 1, 'Credit Card (eProcessingNetwork)', 'epn', 5, 0.00, 0, 0.00, 0.00, 0, 'Y', 0, 'N', '1,2,3,', '', '', '')" );
+$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (13, 1, 'iKobo', 'payment', 5, 0.00, 0, 0.00, 0.00, 0, 'P', 0, 'N', '', '<form action=\"https://www.iKobo.com/store/index.php\" method=\"post\"> \n  <input type=\"hidden\" name=\"cmd\" value=\"cart\" />Click on the image below to Pay with iKobo\n  <input type=\"image\" src=\"https://www.ikobo.com/merchant/buttons/ikobo_pay1.gif\" name=\"submit\" alt=\"Pay with iKobo\" /> \n  <input type=\"hidden\" name=\"poid\" value=\"USER_ID\" /> \n  <input type=\"hidden\" name=\"item\" value=\"Order: <?php \$db->p(\"order_id\") ?>\" /> \n  <input type=\"hidden\" name=\"price\" value=\"<?php printf(\"%.2f\", \$db->f(\"order_total\"))?>\" /> \n  <input type=\"hidden\" name=\"firstname\" value=\"<?php echo \$user->first_name?>\" /> \n  <input type=\"hidden\" name=\"lastname\" value=\"<?php echo \$user->last_name?>\" /> \n  <input type=\"hidden\" name=\"address\" value=\"<?php echo \$user->address_1?>&#10<?php echo \$user->address_2?>\" /> \n  <input type=\"hidden\" name=\"city\" value=\"<?php echo \$user->city?>\" /> \n  <input type=\"hidden\" name=\"state\" value=\"<?php echo \$user->state?>\" /> \n  <input type=\"hidden\" name=\"zip\" value=\"<?php echo \$user->zip?>\" /> \n  <input type=\"hidden\" name=\"phone\" value=\"<?php echo \$user->phone_1?>\" /> \n  <input type=\"hidden\" name=\"email\" value=\"<?php echo \$user->email?>\" /> \n  </form> >', '', '')" );
+$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (14, 1, 'iTransact', 'payment', 5, 0.00, 0, 0.00, 0.00, 0, 'P', 0, 'N', '', '<?php\n  //your iTransact account details\n  \$vendorID = \"XXXXX\";\n  global \$vendor_name;\n  \$mername = \$vendor_name;\n  \n  //order details\n  \$total = \$db->f(\"order_total\");\$first_name = \$user->first_name;\$last_name = \$user->last_name;\$address = \$user->address_1;\$city = \$user->city;\$state = \$user->state;\$zip = \$user->zip;\$country = \$user->country;\$email = \$user->email;\$phone = \$user->phone_1;\$home_page = \$mosConfig_live_site.\"/index.php\";\$ret_addr = \$mosConfig_live_site.\"/index.php\";\$cc_payment_image = \$mosConfig_live_site.\"/components/com_virtuemart/shop_image/ps_image/cc_payment.jpg\";\n  ?>\n  <form action=\"https://secure.paymentclearing.com/cgi-bin/mas/split.cgi\" method=\"POST\"> \n                <input type=\"hidden\" name=\"vendor_id\" value=\"<?php echo \$vendorID; ?>\" />\n              <input type=\"hidden\" name=\"home_page\" value=\"<?php echo \$home_page; ?>\" />\n             <input type=\"hidden\" name=\"ret_addr\" value=\"<?php echo \$ret_addr; ?>\" />\n               <input type=\"hidden\" name=\"mername\" value=\"<?php echo \$mername; ?>\" />\n         <!--Enter text in the next value that should appear on the bottom of the order form.-->\n               <INPUT type=\"hidden\" name=\"mertext\" value=\"\" />\n         <!--If you are accepting checks, enter the number 1 in the next value.  Enter the number 0 if you are not accepting checks.-->\n                <INPUT type=\"hidden\" name=\"acceptchecks\" value=\"0\" />\n           <!--Enter the number 1 in the next value if you want to allow pre-registered customers to pay with a check.  Enter the number 0 if not.-->\n            <INPUT type=\"hidden\" name=\"allowreg\" value=\"0\" />\n               <!--If you are set up with Check Guarantee, enter the number 1 in the next value.  Enter the number 0 if not.-->\n              <INPUT type=\"hidden\" name=\"checkguar\" value=\"0\" />\n              <!--Enter the number 1 in the next value if you are accepting credit card payments.  Enter the number zero if not.-->\n         <INPUT type=\"hidden\" name=\"acceptcards\" value=\"1\">\n              <!--Enter the number 1 in the next value if you want to allow a separate mailing address for credit card orders.  Enter the number 0 if not.-->\n               <INPUT type=\"hidden\" name=\"altaddr\" value=\"0\" />\n                <!--Enter the number 1 in the next value if you want the customer to enter the CVV number for card orders.  Enter the number 0 if not.-->\n             <INPUT type=\"hidden\" name=\"showcvv\" value=\"1\" />\n                \n              <input type=\"hidden\" name=\"1-desc\" value=\"Order Total\" />\n               <input type=\"hidden\" name=\"1-cost\" value=\"<?php echo \$total; ?>\" />\n            <input type=\"hidden\" name=\"1-qty\" value=\"1\" />\n          <input type=\"hidden\" name=\"total\" value=\"<?php echo \$total; ?>\" />\n             <input type=\"hidden\" name=\"first_name\" value=\"<?php echo \$first_name; ?>\" />\n           <input type=\"hidden\" name=\"last_name\" value=\"<?php echo \$last_name; ?>\" />\n             <input type=\"hidden\" name=\"address\" value=\"<?php echo \$address; ?>\" />\n         <input type=\"hidden\" name=\"city\" value=\"<?php echo \$city; ?>\" />\n               <input type=\"hidden\" name=\"state\" value=\"<?php echo \$state; ?>\" />\n             <input type=\"hidden\" name=\"zip\" value=\"<?php echo \$zip; ?>\" />\n         <input type=\"hidden\" name=\"country\" value=\"<?php echo \$country; ?>\" />\n         <input type=\"hidden\" name=\"phone\" value=\"<?php echo \$phone; ?>\" />\n             <input type=\"hidden\" name=\"email\" value=\"<?php echo \$email; ?>\" />\n             <p><input type=\"image\" alt=\"Process Secure Credit Card Transaction using iTransact\" border=\"0\" height=\"60\" width=\"210\" src=\"<?php echo \$cc_payment_image; ?>\" /> </p>\n            </form>', '', '')" );
+$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (15, 1, 'Verisign PayFlow Pro', 'payflow_pro', 5, 0.00, 0, 0.00, 0.00, 0, 'Y', 0, 'Y', '1,2,6,7,', '', '', '')" );
+$db->query( 'INSERT INTO `#__{vm}_payment_method` VALUES(16, 1, \'Dankort/PBS via ePay\', \'epay\', 5, 0.00, 0, 0.00, 0.00, 0, \'P\', 0, \'Y\', \'\', \'\', \'\', \'\')' );
+			
 	}
 	/**
 	 * This is the main function which stores the order information in the database
@@ -1033,7 +1086,10 @@ Order Total: '.$order_total.'
 		foreach ( $userfields as $field ) {
 			$fields[] = $field->name;
 		}
+		
+		//a Bit strange
 		$fieldstr = str_replace( 'email', 'user_email', implode( ',', $fields ));
+//		$fieldstr = implode( ',', $fields );
 		// Save current Bill To Address
 		$q = "INSERT INTO `#__{vm}_order_user_info` 
 			(`order_info_id`,`order_id`,`user_id`,address_type, ".$fieldstr.") ";
@@ -1609,7 +1665,7 @@ Order Total: '.$order_total.'
 	function get_vendor_currency($vendor_id) {
 	
 		//by Max Milbers
-		$db = ps_vendor::get_vendor_fields($vendor_id,array("vendor_currency"));
+		$db = ps_vendor::get_vendor_fields($vendor_id,array("vendor_currency"),"");
 		$currency = $db->f("vendor_currency");
 
 		return($currency);
@@ -1720,14 +1776,22 @@ Order Total: '.$order_total.'
 		$dbbt = new ps_DB;
 		$dbst = new ps_DB;
 
-		$qt = "SELECT * FROM #__{vm}_user_info WHERE user_id='".$user_id."' AND address_type='BT'";
-		$dbbt->query($qt);
-		$dbbt->next_record();
-
+		//Changed by Max Milbers merging #__{vm}_user_info.user_email to #__users.email
+//		$qt = "SELECT * FROM #__{vm}_user_info WHERE user_id='".$user_id."' AND address_type='BT' ";
+//		$qt = "SELECT * FROM #__{vm}_user_info u ";
+//		$qt .= "LEFT JOIN #__users ju ON (ju.id = u.user_id) ";
+//		$qt .= "WHERE user_id='".$user_id."' AND address_type='BT' ";
+//		$dbbt->query($qt);
+//		$dbbt->next_record();
+		$dbbt = ps_user::get_user_details($user_id,"","","AND `u`.`address_type`='BT'");
+		
+//		$dbst = ps_user::get_user_details($db->f("user_info_id"),"","");
+		
 		$qt = "SELECT * FROM #__{vm}_user_info WHERE user_info_id='". $db->f("user_info_id") . "'";
 		$dbst->query($qt);
 		$dbst->next_record();
-
+//		$dbst = ps_user::get_user_details($db->f("user_info_id"));
+		
 		$dbv = ps_vendor::get_vendor_details($ps_vendor_id);
 
 		$dboi = new ps_DB;
@@ -1762,10 +1826,10 @@ Order Total: '.$order_total.'
 
 		// Email Addresses for shopper and vendor
 		// **************************************
-		$shopper_email = $dbbt->f("user_email");
+		$shopper_email = $dbbt->f("email");
 		$shopper_name = $dbbt->f("first_name")." ".$dbbt->f("last_name");
 
-		$from_email = $dbv->f("user_email");
+		$from_email = $dbv->f("email");
 		$shopper_subject = $dbv->f("vendor_name") . " ".$VM_LANG->_('PHPSHOP_ORDER_PRINT_PO_LBL',false)." - " . $db->f("order_id");
 		$vendor_subject = $dbv->f("vendor_name") . " ".$VM_LANG->_('PHPSHOP_ORDER_PRINT_PO_LBL',false)." - " . $db->f("order_id");
 
@@ -1857,7 +1921,7 @@ Order Total: '.$order_total.'
 		// BillTo Fields		
 		$registrationfields = ps_userfield::getUserFields('registration', false, '', false, true );
 		foreach( $registrationfields as $field ) {
-			if( $field->name == 'email') $field->name = 'user_email';
+			if( $field->name == 'email') $field->name = 'email';
 			if( $field->name == 'delimiter_sendregistration' || $field->type == 'captcha') continue;
 			
 			if( $field->type == 'delimiter') {

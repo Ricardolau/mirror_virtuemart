@@ -19,6 +19,9 @@ mm_showMyFileName( __FILE__ );
 
 require_once( CLASSPATH . "pageNavigation.class.php" );
 require_once( CLASSPATH . "htmlTools.class.php" );
+require_once( CLASSPATH . "ps_vendor.php" );
+
+(int)$vendor_id = ps_vendor::get_vendor_id_by_user_id($db, $auth['user_id']);
 
 if (!empty($keyword)) {
 	$list  = "SELECT * FROM #__{vm}_order_status WHERE ";
@@ -26,8 +29,9 @@ if (!empty($keyword)) {
 	$q  = "(order_status_code LIKE '%$keyword%' ";
 	$q .= "OR order_status_name LIKE '%$keyword%' ";
 	$q .= ") ";
-	if( !$perm->check( "admin" ))
-		$q .= "AND vendor_id='$ps_vendor_id' ";
+	if( !$perm->check( "admin" )){
+		$q .= "AND (vendor_id='$vendor_id' OR vendor_id='1') ";
+	}
 	$q .= "ORDER BY list_order ASC";
 	$list .= $q . " LIMIT $limitstart, " . $limit;
 	$count .= $q;   
@@ -36,7 +40,7 @@ else {
 	$q = "";
 	$list  = "SELECT * FROM #__{vm}_order_status WHERE ";
 	$count = "SELECT count(*) as num_rows FROM #__{vm}_order_status WHERE ";
-	$q .= "vendor_id='$ps_vendor_id' ";
+	$q .= " (vendor_id='$vendor_id' OR vendor_id='1') ";
 	$q .= "ORDER BY list_order ASC";
 	$list .= $q . " LIMIT $limitstart, " . $limit;
 	$count .= $q;   
@@ -80,12 +84,27 @@ while ($db->next_record()) {
 	// The Checkbox
 	$listObj->addCell( vmCommonHTML::idBox( $i, $db->f("order_status_id"), false, "order_status_id" ) );
 
-	$tmp_cell = "<a href=\"".$sess->url($_SERVER['PHP_SELF'] . "?page=$modulename.order_status_form&limitstart=$limitstart&keyword=".urlencode($keyword)."&order_status_id=".$db->f("order_status_id"))."\">".$db->f("order_status_name")."</a>";
-	$listObj->addCell( $tmp_cell );
+	if($db->f("vendor_id")==1){
+		if( $perm->check( "admin" ) || $vendor_id==1 ){
+			$tmp_cell = "<a href=\"".$sess->url($_SERVER['PHP_SELF'] . "?page=$modulename.order_status_form&limitstart=$limitstart&keyword=".urlencode($keyword)."&order_status_id=".$db->f("order_status_id"))."\">".$db->f("order_status_name")."</a>";
+			$listObj->addCell( $tmp_cell );
 	
-    $listObj->addCell( $db->f("order_status_code"));
+    		$listObj->addCell( $db->f("order_status_code"));
 	
-	$listObj->addCell( $ps_html->deleteButton( "order_status_id", $db->f("order_status_id"), "OrderStatusDelete", $keyword, $limitstart ) );
+			$listObj->addCell( $ps_html->deleteButton( "order_status_id", $db->f("order_status_id"), "OrderStatusDelete", $keyword, $limitstart ) );		
+			
+		}else{
+			$tmp_cell = $db->f("order_status_name");
+			$listObj->addCell( $tmp_cell );	
+    		$listObj->addCell( $db->f("order_status_code"));	
+			
+		}
+	}else{
+		$tmp_cell = "<a href=\"".$sess->url($_SERVER['PHP_SELF'] . "?page=$modulename.order_status_form&limitstart=$limitstart&keyword=".urlencode($keyword)."&order_status_id=".$db->f("order_status_id"))."\">".$db->f("order_status_name")."</a>";
+		$listObj->addCell( $tmp_cell );	
+    	$listObj->addCell( $db->f("order_status_code"));
+		$listObj->addCell( $ps_html->deleteButton( "order_status_id", $db->f("order_status_id"), "OrderStatusDelete", $keyword, $limitstart ) );	
+	}
 
 	$i++;
 

@@ -138,12 +138,11 @@ class ps_order_change {
 		$db2 = new ps_DB( ) ;
 		$bill_to = trim( vmGet( $_REQUEST, 'bill_to' ) ) ;
 		
-		$q = "SELECT * FROM #__{vm}_user_info WHERE user_id = '" . $bill_to . "'" ;
-		$db->query( $q ) ;
-		if( ! $db->next_record() ) {
-			print "<h1>Invalid user id: $bill_to</h1>" ;
-			return ;
-		}
+//		$q = "SELECT * FROM #__{vm}_user_info WHERE user_id = '" . $bill_to . "'" ;
+//		$db->query( $q ) ;
+
+		$db = ps_user::get_user_details($bill_to);
+		echo('Hmmm '.$db->f( 'user_id' ));
 		
 		// Update order
 		$q = "UPDATE #__{vm}_orders " ;
@@ -171,7 +170,7 @@ class ps_order_change {
 		$q .= "state = '" . $db->f( 'state' ) . "', " ;
 		$q .= "country = '" . $db->f( 'country' ) . "', " ;
 		$q .= "zip = '" . $db->f( 'zip' ) . "', " ;
-		$q .= "user_email = '" . $db->f( 'user_email' ) . "', " ;
+		$q .= "email = '" . $db->f( 'user_email' ) . "', " ;
 		$q .= "extra_field_1 = '" . $db->f( 'extra_field_1' ) . "', " ;
 		$q .= "extra_field_2 = '" . $db->f( 'extra_field_2' ) . "', " ;
 		$q .= "extra_field_3 = '" . $db->f( 'extra_field_3' ) . "', " ;

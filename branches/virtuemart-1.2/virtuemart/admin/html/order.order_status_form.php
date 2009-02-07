@@ -30,8 +30,11 @@ $formObj->startForm();
 
 $readonly = '';
 
+(int)$vendor_id = ps_vendor::get_vendor_id_by_user_id($db, $auth['user_id']);
 if (!empty($order_status_id)) {
-  	$q = "SELECT * FROM #__{vm}_order_status WHERE order_status_id='$order_status_id'"; 
+  	$q = "SELECT * FROM #__{vm}_order_status WHERE order_status_id='$order_status_id'";
+  	if( !$perm->check( "admin" ))
+		$q .= "AND vendor_id='$vendor_id' "; 
   	$db->query($q);  
   	$db->next_record();
   	if( in_array( $db->f('order_status_code'), $ps_order_status->_protected_status_codes ) ) {

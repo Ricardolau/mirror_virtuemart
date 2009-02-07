@@ -33,8 +33,20 @@ Legend:
 
 --------------------------------------------------------------------------------------------------------------
 
-VirtueMart 1.1.x
+VirtueMart 1.2.x
 *************************************
+
+07.02.2009 Milbo
+- Deleted redundant user_email in user_info table
++ Created functions to get userinformation/vendorinformation from all tables look in ps_user and ps_vendor
+  Adjusted Inventory, Ordertypes and many other files to the new datastructure.
+  
+  I am sorry was not able to test checkout with payment methods didnt had any sample data, see  Task #2483 .
+  Todo: update scripts from 1.x to 1.2. (which email should be taken?)
+  
++ small fix for better SEO in browse1.php (Thank you Urs Bruelhart)
++ email validation in validate_add User. 
+
 05.02.2009 aravot
 # Task #2486 - Loading Edit Store and other administrative pages under MSIE <= 7.0 results in Operation Aborted error and unable to view.
 

@@ -96,7 +96,7 @@ $tabs->startPane("content-pane");
     <tr> 
       <td align="right" ><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_EMAIL') ?>:</td>
       <td>
-        <input type="text" class="inputbox" name="user_email" value="<?php $db->sp("user_email") ?>" size="18" />
+        <input type="text" class="inputbox" name="email" value="<?php $db->sp("email") ?>" size="18" />
       </td>
     </tr>
     <tr> 

@@ -148,9 +148,9 @@ class ps_communication {
 		//by Max Milbers, this need to be changed
 		$vendor_id =1;
 //		$vendor_id = $_SESSION["ps_vendor_id"];
-		$dbv = ps_vendor::get_vendor_fields($vendor_id,array("user_email","vendor_name"));
+		$dbv = ps_vendor::get_vendor_fields($vendor_id,array("email","vendor_name"),"");
 
-		$vendor_email = $dbv->f("user_email");
+		$vendor_email = $dbv->f("email");
 		$shopper_email = $d["email"];
 		$shopper_name = $d["name"];
 		$subject_msg = vmRequest::getVar( 'text', '', 'post' );

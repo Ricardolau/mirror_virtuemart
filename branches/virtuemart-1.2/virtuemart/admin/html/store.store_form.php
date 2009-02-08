@@ -236,7 +236,7 @@ $formObj->startForm( 'adminForm', 'enctype="multipart/form-data"' );
 			    <tr class="row1"> 
 			      <td class="labelcell"> <?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_EMAIL') ?>:</td>
 			      <td width="78%" > 
-			        <input type="text" class="inputbox" name="user_email" value="<?php $db->sp("user_email") ?>" size="32" />
+			        <input type="text" class="inputbox" name="email" value="<?php $db->sp("email") ?>" size="32" />
 			      </td>
 			    </tr>
 			    <tr class="row1"> 

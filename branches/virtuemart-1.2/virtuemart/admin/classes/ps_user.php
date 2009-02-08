@@ -33,13 +33,9 @@ class ps_user {
 
 		require_once( CLASSPATH . 'ps_userfield.php' );
 		$requiredFields = ps_userfield::getUserFields( 'registration', true );
-
+		
 		$skipFields = array( 'username', 'password', 'password2', 'email', 'agreed');
-
-		if (!vmValidateEmail($requiredFields["email"])) {
-			$vmLogger->err( 'Please provide a valide email address for the registration.' );
-			return False;
-		}
+		
 		foreach( $requiredFields as $field )  {
 			if( in_array( $field->name, $skipFields )) {
 				continue;
@@ -65,7 +61,10 @@ class ps_user {
 					break;
 			}
 		}
-
+		if (!vmValidateEmail($d["email"])) {
+			$vmLogger->err( 'Please provide a valide email address for the registration.' );
+			return False;
+		}
 		//Hmm for what was this? Must be changed but to what? To nothing!
 //		unset ($d['user_email']);
 //		$d['user_email'] = @$d['email'];
@@ -183,7 +182,7 @@ class ps_user {
 				$fields[$userField->name] = ps_userfield::prepareFieldDataSave( $userField->type, $userField->name, @$d[$userField->name]);
 			}
 		}
-		unset ($fields['user_email']);
+//		unset ($fields['email']);
 
 //		$fields['user_email'] = $fields['email'];
 //		unset($fields['email']);
@@ -268,18 +267,24 @@ class ps_user {
 					$fields[] = "`".$userField->name."`='".$d[$userField->name]."'";
 				}
 			}
+//			for ($x = 0; $x < sizeof($fields); ++$x){
+//     			echo "key: ".key($fields)."<br>value: ".current($fields)."<br>";
+//    			next($fields);
+//			}
 			//Necessary email is in joomla table now
-			unset ($fields['user_email']);
-//			$q .= str_replace( '`email`', '`user_email`', implode( ",\n", $fields ));
+			unset ($fields["`email`"]);
+
 			$q .= implode( ",\n", $fields );
-	
 			$q .= " WHERE user_id=".$user_id." AND address_type='BT'";
-	
+			echo('Die User_id ist hier: '.$user_id);
 			// Run the query now!
-			$db->query($q);
-
+			if($db->query($q)){
+				$q = "UPDATE #__users SET email='".$d['email']."' WHERE id='" .$user_id. "'";
+				$db->query($q);
+			}
 		}
-
+		
+		//TODO for Max Milbers by Max Milbers
 		if( $perm->check("admin")) {
 			$vendor_id = $d['vendor_id'];
 		}
@@ -653,36 +658,13 @@ class ps_user {
 		}
 	}
 	
-//	/**
-//	 * Returns the information from the user_info table for a specific user
-//	 *
-//	 * @param int $user_id
-//	 * @param array $fields
-//	 * @return ps_DB
-//	 */
-//	function getUserInfo( $user_id, $fields=array() ) {
-//		$user_id = intval( $user_id );
-//		if( empty( $fields )) {
-//			$selector = '*';
-//		}
-//		else {
-//			$selector = '`'. implode( '`,`', $fields ) . '`';
-//		}
-//		$db = new ps_DB();
-//		$q = 'SELECT '.$selector.' FROM `#__{vm}_user_info` WHERE `user_id`='.$user_id;
-//		$db->query( $q );
-//		$db->next_record();
-//		
-//		return $db;
-//	}
-	
 	/**
 	 * 
 	 * @author Max Milbers
 	 */
 	 
 	function get_juser_email_by_user_id(&$db, &$user_id){
-		if(empty ($vendor_id))return;
+		if(empty ($user_id))return;
 		$q  = "SELECT email FROM  #__users ";
 		$q .= "WHERE id = '".$user_id."'";
 		$db->query($q);
@@ -710,8 +692,6 @@ class ps_user {
 			$selector = implode(",",$fields);
 		}
 		$q = "SELECT ".$selector." FROM (#__{vm}_user_info u , #__users ju) " .
-		//Probably better, faster with INNER JOIN ps_checkout.php Line 705
-//		"INNER JOIN #__{vm}_country c ON (u.country=c.country_3_code OR u.country=c.country_2_code) ".		
 		"LEFT JOIN #__{vm}_country c ON (u.country = c.country_2_code OR u.country = c.country_3_code) ".		
 		"LEFT JOIN #__{vm}_state s ON (u.state = s.state_2_code AND s.country_id = c.country_id) ".
 		"WHERE u.user_id = ".(int)$user_id." ";
@@ -736,7 +716,7 @@ class ps_user {
 	
 	/**
 	 * Inserts or Updates the user information
-	 * Attention without Validation 
+	 * Attention without Validation, should only be used
 	 * Important use validate add oder validate_update
 	 * @param array $user_info
 	 * @param int $user_id
@@ -761,7 +741,7 @@ class ps_user {
 				$emailvalue = $user_info['email'];
 				$mail = array("email" => $emailvalue);
 				unset ($user_info['email']);
-				$db->buildQuery( 'INSERT', '#__users', $mail );
+				$db->buildQuery( 'UPDATE', '#__users', $mail, 'WHERE `id`='.$user_id);
 				$db->query();
 //			}
 			$db->buildQuery( 'UPDATE', '#__{vm}_user_info', $user_info, 'WHERE `user_id`='.$user_id );
@@ -769,26 +749,6 @@ class ps_user {
 		}
 	}
 	
-	/**
-	 * Updates Userinformation and email adress
-	 */
-	 
-//	function setUserInfoWithEmail($user_info, $values, $user_id=0){
-//	//INSERT INTO #_vm_user_info (	$fields) VALUES ($values)
-//		$db = new ps_DB;
-//		if( empty( $user_id ) ) { // INSERT NEW USER
-//			$q = "INSERT INTO #_vm_user_info, #__users ( ".implode(',',$user_info)." ) VALUES (".implode(',',$values).")";
-////			$db->buildQuery( 'INSERT', '#__{vm}_user_info', $user_info );
-//			// Run the query now!
-//			$db->query();
-//		}
-//		else { // UPDATE EXISTING USER
-//			$q = "UPDATE INTO #_vm_user_info, #__users ( ".implode(',',$user_info)." ) VALUES (".implode(',',$values).")";
-////			$db->buildQuery( 'UPDATE', '#__{vm}_user_info', $user_info, 'WHERE `user_id`='.$user_id );
-//			// Run the query now!
-//			$db->query();
-//		}
-//	}
 	/**
 	 * Logs in a customer
 	 *

@@ -24,18 +24,13 @@ mm_showMyFileName(__FILE__);
 	            </a>
 	        </noscript>
         </div>
-        <div class="browseProductVendor">
-            <?php echo $product_vendor ?>
-        </div>
-
+        
         <div class="browseRatingContainer">
         <?php echo $product_rating ?>
         </div>
         <div class="browseProductDescription">
             <?php echo $product_s_desc ?>&nbsp;
-            <a href="<?php echo $product_flypage ?>" title="<?php echo $product_name ?>"><br />
-			<?php echo $product_details ?>&nbsp;<?php echo $product_name ?></a>
-        </div>
+			<a href="<?php echo $product_flypage ?>" title="<?php echo $product_name ?>"><?php echo $product_details ?>&nbsp;<strong><?php echo $product_name ?></strong></a>        </div>
         <br />
         <span class="browseAddToCartContainer">
         <?php echo $form_addtocart ?>

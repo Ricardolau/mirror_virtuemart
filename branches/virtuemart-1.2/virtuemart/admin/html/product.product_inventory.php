@@ -15,21 +15,62 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 *
 * http://virtuemart.net
 */
+/**
+* @20090204 Hack from toivo.talikka@totaldata.biz  stock on hand listing for VM 1.0
+* 			stock on hand listing sorted by stock quantity, parent products excluded
+*			For VM 1.1.X: _fD_ u.bruelhart@frefeldigital.com
+*/
+
 mm_showMyFileName( __FILE__ );
 
 $category_id = vmGet($_REQUEST, 'category_id', null );
 $allproducts = vmGet($_REQUEST, 'allproducts', 0 );
+// 20090204
+$stockonhand = vmGet($_REQUEST, 'stockonhand', 0 );
 
 require_once( CLASSPATH . "pageNavigation.class.php" );
 require_once( CLASSPATH . "htmlTools.class.php" );
 
+//by Max Milbers
 if (!$perm->check("admin")) {
 	$vendor_id = ps_vendor::get_vendor_id_by_user_id($db, $auth['user_id']);
 	echo("product_list: '".$vendor_id ."' and user_id '".$auth['user_id']."'");
-	$GLOBALS['vmLogger']->info("product_list: '".$vendor_id ."' and user_id '".$auth['user_id']."'");
+	$GLOBALS['vmLogger']->debug("product_list: '".$vendor_id ."' and user_id '".$auth['user_id']."'");
 }else{
 	$vendor_id = 1;	
 }
+
+$order = " ORDER BY product_name ";
+$q_no_parents = "";
+if ($allproducts == 2) {
+// stock on hand in starting from lowest stock
+    $order = "ORDER BY product_in_stock, product_name ";
+// stock on hand listing needs to exclude parent products
+// get parent products
+    $q = "SELECT DISTINCT product_parent_id ";
+	$q .= "FROM `jos_vm_product` ";
+	$q .= "WHERE product_parent_id <> 0 ";
+	$q .= "ORDER BY product_parent_id";
+
+	$db->query($q);
+
+// create a list of parent products
+	$parent_list = "";
+	$list_count = 0;
+	while ($db->next_record()) {
+   	    $parent_id = $db->f("product_parent_id");
+   		if ($list_count > 0) {
+       		$parent_list .= ", ";
+   		}
+		$parent_list .= "'".$parent_id."'";
+		$list_count++;
+	}
+
+	if ($list_count) {
+		$q_no_parents = " AND #__{vm}_product.product_id NOT IN ($parent_list)";
+	}
+}
+// 20090204 end
 
 // Check to see if this is a search or a browse by category
 // Default is to show all products
@@ -41,7 +82,12 @@ if( !empty($category_id)) {
 	$q .= "AND #__{vm}_product_category_xref.category_id='$category_id' "; 
 	$q .= "AND #__{vm}_product.product_id=#__{vm}_product_category_xref.product_id ";
 	$q .= "AND product_in_stock > 0 ";
-	$q .= "ORDER BY product_name ";
+	// 20090204
+//	$q .= "ORDER BY product_name ";
+    if ($allproducts == 2) {
+    	$q .= $q_no_parents;
+    }
+    $q .= $order;
 	$list .= $q . " LIMIT $limitstart, " . $limit;
 	$count .= $q;
 }
@@ -55,7 +101,13 @@ elseif( !empty($keyword)) {
 	$q .= "#__{vm}_product.product_desc LIKE '%$keyword%'";
 	$q .= ") ";
 	$q .= "AND product_in_stock > 0 ";
-	$q .= "ORDER BY product_name ";
+	// 20090204
+//	$q .= "ORDER BY product_name ";
+    if ($allproducts == 2) {
+    	$q .= $q_no_parents;
+    }
+    $q .= $order;
+// 20090204
 	$list .= $q . " LIMIT $limitstart, " . $limit;
 	$count .= $q;   
 }
@@ -63,9 +115,19 @@ else {
 	$list  = "SELECT * FROM #__{vm}_product WHERE ";
 	$count = "SELECT count(*) as num_rows FROM #__{vm}_product WHERE ";
 	$q  = "#__{vm}_product.vendor_id = '$vendor_id' ";
-	if ($allproducts != 1) 
+// 20090204
+//	if ($allproducts != 1)
+//		$q .= "AND product_in_stock > 0 ";
+
+    if ($allproducts == 0) {
 		$q .= "AND product_in_stock > 0 ";
-	$q .= "ORDER BY product_name ";
+    }
+    if ($allproducts == 2) {
+    	$q .= $q_no_parents;
+    }
+//	$q .= "ORDER BY product_name ";
+    $q .= $order;
+// 20090204
 	$list .= $q . " LIMIT $limitstart, " . $limit;
 	$count .= $q;   
 }
@@ -84,15 +146,28 @@ $listObj = new listFactory( $pageNav );
 $listObj->writeSearchHeader($VM_LANG->_('PHPSHOP_PRODUCT_INVENTORY_LBL'), IMAGEURL."ps_image/inventory.gif", $modulename, "product_inventory");
 
 echo '&nbsp;&nbsp;';
-if($allproducts != 1) echo '<a href="'.$sess->url($_SERVER['PHP_SELF']."?pshop_mode=admin&page=$page&allproducts=1").'" title="'.$VM_LANG->_('PHPSHOP_LIST_ALL_PRODUCTS').'">';
-echo $VM_LANG->_('PHPSHOP_LIST_ALL_PRODUCTS');
-if ($allproducts != 1) echo '</a>';
+if($allproducts != 1){
+	echo '<a href="'.$sess->url($_SERVER['PHP_SELF']."?pshop_mode=admin&page=$page&allproducts=1").'" title="'.$VM_LANG->_('PHPSHOP_LIST_ALL_PRODUCTS').'">';
+	echo $VM_LANG->_('PHPSHOP_LIST_ALL_PRODUCTS');
+	echo '</a>';
+} else{
+	echo $VM_LANG->_('PHPSHOP_LIST_ALL_PRODUCTS');
+}
+
 
 echo '&nbsp;&nbsp;|&nbsp;&nbsp;';
-if ($allproducts == 1) echo '<a href="'.$sess->url($_SERVER['PHP_SELF']."?pshop_mode=admin&page=$page&allproducts=0").'" title="'.$VM_LANG->_('PHPSHOP_HIDE_OUT_OF_STOCK').'">';
-echo $VM_LANG->_('PHPSHOP_HIDE_OUT_OF_STOCK');
-if ($allproducts == 1) '</a>';
-echo '<br /><br />';
+//if ($allproducts == 1) echo '<a href="'.$sess->url($_SERVER['PHP_SELF']."?pshop_mode=admin&page=$page&allproducts=0").'" title="'.$VM_LANG->_('PHPSHOP_HIDE_OUT_OF_STOCK').'">';
+//echo $VM_LANG->_('PHPSHOP_HIDE_OUT_OF_STOCK');
+//if ($allproducts == 1) '</a>';
+//echo '<br /><br />';
+if ($allproducts != 0) {
+	echo "<a href=\"".$sess->url($_SERVER['PHP_SELF']."?pshop_mode=admin&page=$page&allproducts=0").'" title="'.$VM_LANG->_('PHPSHOP_HIDE_OUT_OF_STOCK'). "\">";
+	echo $VM_LANG->_('PHPSHOP_HIDE_OUT_OF_STOCK');
+	echo "</a>";
+}else{
+	echo $VM_LANG->_('PHPSHOP_HIDE_OUT_OF_STOCK');
+}
+echo '&nbsp;&nbsp;|&nbsp;&nbsp;';
 
 // start the list table
 $listObj->startTable();

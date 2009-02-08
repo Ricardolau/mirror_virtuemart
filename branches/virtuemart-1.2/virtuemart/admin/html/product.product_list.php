@@ -304,7 +304,7 @@ if ($num_rows > 0) {
 		}
 		$listObj->addCell( $tmpcell );
 		
-		//Product Vendor nick
+		//Product Vendor nick by Max Milbers
 		$product_vendor_id = $db->f("vendor_id");
 		if($product_vendor_id==0){
 			$listObj->addCell( "Set a nick for this vendor!" );

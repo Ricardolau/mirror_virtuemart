@@ -521,13 +521,17 @@ class ps_checkout {
 			if ( $dbu->f("bank_account_holder") == "" || $dbu->f("bank_account_nr") =="" ) {
 				if( !empty($d['bank_account_holder']) && !empty($d['bank_account_nr'])) {
 					// Insert the given data
-					$fields = array( 'bank_account_holder' => $d['bank_account_holder'],
+					$fields = array('id' => $auth["user_id"],
+							'bank_account_holder' => $d['bank_account_holder'],
 							'bank_account_nr' => $d['bank_account_nr'],
 							'bank_sort_code' => $d['bank_sort_code'],
 							'bank_name' => $d['bank_name'],
 							'bank_iban' => $d['bank_iban']
 							);
-					ps_user::setUserInfoWithEmail( $fields, $auth["user_id"] );
+					
+					ps_user::update($fields);
+					//The function below dont use a validations and is only for private use in ps_user
+//					ps_user::setUserInfoWithEmail( $fields, $auth["user_id"] );
 
 					$dbu =& ps_user::getUserInfo( $auth["user_id"], array( 'bank_account_holder','bank_iban','bank_account_nr','bank_sort_code','bank_name' ) ); 
 				}

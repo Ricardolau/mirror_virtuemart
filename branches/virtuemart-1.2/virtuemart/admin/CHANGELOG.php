@@ -35,8 +35,15 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+
+08.02.2009 Milbo
+# Bug Fix email should work for shop, user, shopper and vendor
++ small fix for better SEO in browseX.php (Thank you Urs Bruelhart)
+# Fixed sql table of payment methods (look #2483)
+^ more Changes that had to be done due the merging of user data
+
 07.02.2009 Milbo
-^ adjusted sq.virtuemart
+^ adjusted sql.virtuemart
 ! email validation in validate_add User works for add but not for Update,
 	going to fix  it today
 

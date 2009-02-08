@@ -1428,11 +1428,32 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 				}
 				else {
 					if( empty( $_SESSION['taxrate'][$ps_vendor_id] )) {
+						
+						//adjusted by Max Milbers
+						$vendorid= 1;
+						$user_id = ps_vendor::get_user_id_by_vendor_id($db, $vendorid);
+						$q = "SELECT state, country FROM #__{vm}_user_info WHERE user_id='". $user_id . "'";
+						$db->query($q);
+						$db->next_record();
+						$country = $db->f("country");
+						$state = $db->f("state");
+						
 						// let's get the store's tax rate
-						$q = "SELECT `tax_rate` FROM #__{vm}_vendor, #__{vm}_tax_rate ";
-						$q .= "WHERE tax_country=vendor_country AND #__{vm}_vendor.vendor_id=1 ";
-						// !! Important !! take the highest available tax rate for the store's country
+						$q = "SELECT `tax_rate` FROM #__{vm}_tax_rate ";
+						$q .= "WHERE vendor_id=1 ";
+						if( !empty($state)) {
+							$q .= "AND tax_state='$state'";
+						}else{
+							$q .= "AND tax_country='$country'";
+						}
 						$q .= "ORDER BY `tax_rate` DESC";
+						
+						
+//						// let's get the store's tax rate
+//						$q = "SELECT `tax_rate` FROM #__{vm}_vendor, #__{vm}_tax_rate ";
+//						$q .= "WHERE tax_country=vendor_country AND #__{vm}_vendor.vendor_id=1 ";
+//						// !! Important !! take the highest available tax rate for the store's country
+//						$q .= "ORDER BY `tax_rate` DESC";
 						$db->query($q);
 						if ($db->next_record()) {
 							$_SESSION['taxrate'][$ps_vendor_id] = $db->f("tax_rate");
@@ -1662,7 +1683,12 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		global $auth;
 		static $resultcache = array();
 		$db = new ps_DB;
-		$vendor_id = $_SESSION['ps_vendor_id'];
+		
+		//$vendor_id = $_SESSION['ps_vendor_id'];
+		$q = "Select vendor_id FROM #__{vm}_product WHERE product_id = ".$product_id;
+		$db->query($q);	
+		$vendor_id = $db->f('vendor_id');
+
 		if( empty( $shopper_group_id )) {
 			ps_shopper_group::makeDefaultShopperGroupInfo();
 			$shopper_group_id = $GLOBALS['vendor_info'][$vendor_id]['default_shopper_group_id'];

@@ -8,6 +8,6 @@ mm_showMyFileName(__FILE__);
        </td>
 	<td><h2><?php echo $product_name ?></h2><br><?php echo $product_price ?></td>
   </tr>
-  <tr><td colspan="2"><?php echo $product_s_desc ?> <a href="<?php echo $product_flypage ?>">[<?php echo $product_details ?>...]</a></td>
+  <tr><td colspan="2"><?php echo $product_s_desc ?> <a href="<?php echo $product_flypage ?>" title="<?php echo $product_name ?>"><?php echo $product_details ?>&nbsp;<strong><?php echo $product_name ?></strong></a></td>
   </tr>
 </table>

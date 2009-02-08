@@ -8,11 +8,6 @@ mm_showMyFileName(__FILE__);
     </td>
   </tr>
   <tr>
-  	<td >
-        <p style="font-size: 12px; font-weight: normal;"><?php echo $product_vendor ?></p>
-    </td>
-  </tr>
-  <tr>
     <td align="left" nowrap ><?php echo $product_price ?></td>
   </tr>
   <tr>
@@ -23,7 +18,7 @@ mm_showMyFileName(__FILE__);
   </tr>
   <tr>
     <td height="80" valign="top"><?php echo $product_s_desc ?><br />
-      <a style="font-size: 9px; font-weight: bold;" href="<?php echo $product_flypage ?>">[<?php echo $product_details ?>...]</a>
+      <a href="<?php echo $product_flypage ?>" title="<?php echo $product_name ?>"><?php echo $product_details ?>&nbsp;<strong><?php echo $product_name ?></strong></a>
     </td>
   </tr>
   <tr>

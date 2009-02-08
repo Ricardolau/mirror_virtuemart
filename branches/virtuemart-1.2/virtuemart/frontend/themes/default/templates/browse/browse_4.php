@@ -5,7 +5,7 @@ mm_showMyFileName(__FILE__);
   <h2>
         <a style="font-size: 16px; font-weight: bold;" href="<?php echo $product_flypage ?>"><?php echo $product_name ?></a>
   </h2>
-  <p><?php echo $product_vendor ?></p>
+  
   <p><?php echo $product_price ?></p>
   <div style="float:left;width:90%" >
   		<a href="<?php echo $product_flypage ?>" title="<?php echo $product_name ?>">
@@ -16,7 +16,7 @@ mm_showMyFileName(__FILE__);
   <br style="clear:both;" />
   
   <p><?php echo $product_s_desc ?><br />
-      <a style="font-size: 9px; font-weight: bold;" href="<?php echo $product_flypage ?>">[<?php echo $product_details ?>...]</a>
+      <a href="<?php echo $product_flypage ?>" title="<?php echo $product_name ?>"><?php echo $product_details ?>&nbsp;<strong><?php echo $product_name ?></strong></a>
   </p>
    <p><?php echo $product_rating ?></p>
   <p><?php echo $form_addtocart ?></p>

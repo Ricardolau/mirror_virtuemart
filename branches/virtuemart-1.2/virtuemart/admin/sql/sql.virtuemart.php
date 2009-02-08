@@ -1150,10 +1150,11 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_orders` (
 ## 
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_payment_method` (
-  `id` int(11) NOT NULL auto_increment,
+  `payment_method_id` int(11) NOT NULL auto_increment,
   `vendor_id` int(11) default NULL,
   `name` varchar(255) default NULL,
   `element` varchar(50) NOT NULL default '',
+  `list_order`  int(11) default NULL,
   `shopper_group_id` int(11) default NULL,
   `discount` decimal(12,2) default NULL,
   `discount_is_percentage` tinyint(1) NOT NULL,
@@ -1172,7 +1173,33 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_payment_method` (
   KEY `idx_payment_method_name` (`name`),
   KEY `idx_payment_method_list_order` (`list_order`),
   KEY `idx_payment_method_shopper_group_id` (`shopper_group_id`)
-) TYPE=MyISAM COMMENT='The payment methods of your store'; ");
+) TYPE=MyISAM COMMENT='The payment methods of your store';");
+
+//Just for developing... this table request produced failures,... I tried to fix it see above Max Milbers
+#$db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_payment_method` (
+#  `id` int(11) NOT NULL auto_increment,
+#  `vendor_id` int(11) default NULL,
+#  `name` varchar(255) default NULL,
+#  `element` varchar(50) NOT NULL default '',
+#  `shopper_group_id` int(11) default NULL,
+#  `discount` decimal(12,2) default NULL,
+#  `discount_is_percentage` tinyint(1) NOT NULL,
+#  `discount_max_amount` decimal(10,2) NOT NULL,
+#  `discount_min_amount` decimal(10,2) NOT NULL,
+#  `ordering` int(11) default NULL,
+#  `type` char(1) default NULL,
+#  `is_creditcard` tinyint(1) NOT NULL default '0',
+#  `published` char(1) NOT NULL default 'N',
+#  `accepted_creditcards` varchar(128) NOT NULL default '',
+#  `extra_info` text NOT NULL,
+#  `secret_key` blob NOT NULL,
+#  `params` TEXT NOT NULL,
+#  PRIMARY KEY  (`payment_method_id`),
+#  KEY `idx_payment_method_vendor_id` (`vendor_id`),
+#  KEY `idx_payment_method_name` (`name`),
+#  KEY `idx_payment_method_list_order` (`list_order`),
+ # KEY `idx_payment_method_shopper_group_id` (`shopper_group_id`)
+#) TYPE=MyISAM COMMENT='The payment methods of your store'; ");
 
 ## 
 ## Data for table `#__{vm}_payment_method`
@@ -2336,7 +2363,7 @@ $db->query( "INSERT INTO `#__{vm}_userfield_values` VALUES (3, 25, 'PHPSHOP_ACCO
 ## Table structure for table `#__{vm}_vendor`
 ## 
 
-$db->query( "CREATE TABLE IF NOT EXISTS `jos_vm_vendor` (
+$db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_vendor` (
   `vendor_id` int(11) NOT NULL auto_increment,
   `vendor_name` varchar(64) default NULL,
   `vendor_nick` varchar(150) NOT NULL default '',
@@ -2367,7 +2394,7 @@ $db->query( "CREATE TABLE IF NOT EXISTS `jos_vm_vendor` (
 ## Dumping data for table `#__{vm}_vendor`
 ## 
 
-$db->query( "INSERT INTO `jos_vm_vendor` (`vendor_id`, `vendor_name`, `vendor_nick`, `vendor_phone`, `vendor_store_name`, `vendor_store_desc`, `vendor_category_id`, `vendor_thumb_image`, `vendor_full_image`, `vendor_currency`, `cdate`, `mdate`, `vendor_image_path`, `vendor_terms_of_service`, `vendor_url`, `vendor_min_pov`, `vendor_freeshipping`, `vendor_currency_display_style`, `vendor_accepted_currencies`, `vendor_address_format`, `vendor_date_format`) VALUES
+$db->query( "INSERT INTO `#__{vm}_vendor` (`vendor_id`, `vendor_name`, `vendor_nick`, `vendor_phone`, `vendor_store_name`, `vendor_store_desc`, `vendor_category_id`, `vendor_thumb_image`, `vendor_full_image`, `vendor_currency`, `cdate`, `mdate`, `vendor_image_path`, `vendor_terms_of_service`, `vendor_url`, `vendor_min_pov`, `vendor_freeshipping`, `vendor_currency_display_style`, `vendor_accepted_currencies`, `vendor_address_format`, `vendor_date_format`) VALUES
 (1, 'Washupito\\''s Tiendita', '', '555-555-1212', 'Washupito\\''s Tiendita', '<p>We have the best tools for do-it-yourselfers.  Check us out! </p> 		<p>We were established in 1969 in a time when getting good tools was expensive, but the quality was good.  Now that only a select few of those authentic tools survive, we have dedicated this store to bringing the experience alive for collectors and master mechanics everywhere.</p> 		<p>You can easily find products selecting the category you would like to browse above.</p>', 0, '', 'c19970d6f2970cb0d1b13bea3af3144a.gif', 'USD', 950302468, 1233519671, '', '', '', 0.00, 0.00, '1|$|2|.| |2|1', 'USD', '{storename}\r\n{address_1}\r\n{address_2}\r\n{city}, {zip}', '%A, %d %B %Y %H:%M'); " );
 
 ## --------------------------------------------------------

@@ -257,7 +257,7 @@ class ps_vendor {
 			}
 		}
 		if (!vmValidateEmail($d["email"])) {
-			$vmLogger->err( 'Please provide a valide email address for the vendor contact.' );
+			$vmLogger->err( 'Please provide a valide email address for adding the vendor contact. '.$d["email"] );
 			return False;
 		}
 		
@@ -300,7 +300,7 @@ class ps_vendor {
 				$email = ps_user::get_juser_email_by_user_id($db, $user_id);
 				$d["email"] = $email;
 				if (!vmValidateEmail($d["email"])) {
-					$vmLogger->err( 'Please provide a valide email address for the vendor contact.' );
+					$vmLogger->err( 'Please provide a valide email address for updating the vendor contact.'.$d["email"] );
 					return false;
 				}else{
 					return true;
@@ -345,7 +345,7 @@ class ps_vendor {
 		}
 		
 		if (!vmValidateEmail($d["email"])) {
-			$vmLogger->err( 'Please provide a valide email address for the vendor contact.' );
+			$vmLogger->err( 'Please provide a valide email address for the vendor contact.'.$d["email"] );
 			return False;
 		}
 		
@@ -476,6 +476,7 @@ class ps_vendor {
 			
 			$dbU = new ps_DB;
 			require_once(CLASSPATH. "ps_user.php");
+			//Validation was already done before
 			ps_user::setUserInfoWithEmail($fieldsU);
 //			$dbU->buildQuery('UPDATE', '#__{vm}_user_info', $fieldsU );
 			if( $db->query() === false ) {
@@ -607,6 +608,8 @@ class ps_vendor {
 		
 		$user_id = ps_vendor::get_user_id_by_vendor_id($db, $d["vendor_id"]);
 		require_once(CLASSPATH. "ps_user.php");
+	
+		//Validation was already done before
 		ps_user::setUserInfoWithEmail($fieldsU,$user_id);
 //		$db->buildQuery( 'UPDATE', '#__{vm}_user_info', $fieldsU, 'WHERE user_id = '.$user_id );
 //		$db->query();

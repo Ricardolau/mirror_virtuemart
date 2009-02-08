@@ -124,7 +124,6 @@ class ps_shopper {
 		}
 		
 		//unsure must be tested
-//		$d['user_email'] = vmGet( $d, 'email', $my->email );
 
 		$d['email'] = vmGet( $d, 'email', $my->email );
 		$d['perms'] = 'shopper';
@@ -230,7 +229,10 @@ class ps_shopper {
 	
 //		$d['user_email'] = vmGet( $d, 'email', $my->email );
 		$d['email'] = vmGet( $d, 'email', $my->email );
-		
+		if (!vmValidateEmail($d["email"])) {
+			$vmLogger->err( 'Please provide a valide email address for the registration.' );
+			return false;
+		}
 		$d['perms'] = 'shopper';
 
 		return true;
@@ -383,7 +385,9 @@ class ps_shopper {
 				
 			}
 		}
+		
 		//  ???? by Max Milbers user_email does only exist in order_user_info
+		//	Why does exist the same function in two different classes?
 //		$fields['user_email'] = $fields['email'];
 //		unset($fields['email']);
 
@@ -392,6 +396,7 @@ class ps_shopper {
 //		// Run the query now!
 //		$db->query();
 		//New function do the same with email of juser
+		//Can be used here, because a validation was already done
 		ps_user::setUserInfoWithEmail($fields);
 		
 		
@@ -692,10 +697,8 @@ class ps_shopper {
 						);
 		
 		foreach( $userFields as $userField ) {
-			if( !in_array($userField->name, $skip_fields )) {
-				
-				$fields[$userField->name] = ps_userfield::prepareFieldDataSave( $userField->type, $userField->name, vmGet( $d, $userField->name, strtoupper($userField->name) ));
-				
+			if( !in_array($userField->name, $skip_fields )) {		
+				$fields[$userField->name] = ps_userfield::prepareFieldDataSave( $userField->type, $userField->name, vmGet( $d, $userField->name, strtoupper($userField->name) ));		
 			}
 		}
 		
@@ -704,6 +707,7 @@ class ps_shopper {
 //		$db->buildQuery('UPDATE', '#__{vm}_user_info', $fields, " WHERE user_id=".$user_id." AND address_type='BT'" );
 //		// Run the query!
 //		$db->query();
+		//Can be used here, because a validation was already done
 		ps_user::setUserInfoWithEmail($fields,$user_id);
 		
 		

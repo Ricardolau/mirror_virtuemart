@@ -13,7 +13,7 @@ if( CHECK_STOCK == '1' && !$product_in_stock ) {
 ?>
 
 <form action="<?php echo $mm_action_url ?>index.php" method="post" name="addtocart" id="addtocart<?php echo $i ?>" class="addtocart_form" <?php if( $this->get_cfg( 'useAjaxCartActions', 1 ) && !$notify ) { echo 'onsubmit="handleAddToCart( this.id );return false;"'; } ?>>
-    <?php echo $ps_product_attribute->show_quantity_box($product_id,$product_id); ?><br />
+    <?php echo $ps_product_attribute->show_quantity_box($product_id,$product_id); ?>
 	<input type="submit" class="<?php echo $button_cls ?>" value="<?php echo $button_lbl	?>" title="<?php echo $button_lbl ?>" />
     <input type="hidden" name="category_id" value="<?php echo  @$_REQUEST['category_id'] ?>" />
     <input type="hidden" name="product_id" value="<?php echo $product_id ?>" />

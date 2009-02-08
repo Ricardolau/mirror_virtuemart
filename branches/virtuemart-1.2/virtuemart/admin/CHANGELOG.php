@@ -1,4 +1,4 @@
-ï»¿<?php
+<?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) {
 	die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 }
@@ -35,6 +35,8 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+08.02.2009 aravot
++ Sort by Best Selling option (thank you Danny)
 
 08.02.2009 Milbo
 # Bug Fix email should work for shop, user, shopper and vendor
@@ -1059,7 +1061,7 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 # Task #1675 - Currency module give fatal error
 # Task #1674 - When no sort order is selected in Available "Sort-by" fields configuration, error is given
 # additional File Upload not working correctly on Windows Systems
-# Task #1659 - ÃŸ as attribute value
+# Task #1659 - ß as attribute value
 # Task #1669 - Browsing categorys end in redirect error
 15.01.2007 thepisu
 # Task #1667 Categorylist, OderList icon names
@@ -1117,7 +1119,7 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 
 07.01.2008 soeren
 # Toolbar not visible in Product Form Popup under Joomla! 1.5
-# Task #1634 - Attribute name with Ã¤Ã¶Ã¼ÃŸ not work
+# Task #1634 - Attribute name with äöüß not work
 # Task #1638 - Layout Tabs not working in Internet Explorer
 # Task #1640 - require_once virtuemart_parser.php in virtuemart.php
 # Task #1643 - Error message in "Parameters of Product Type"
@@ -1401,7 +1403,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 
 09.10.2007 soeren
 ^ removed "eval"s from the image processing function, fixed using the disableToggle function in the product form
-# fixed Mambo 4.6.2 login issue (+CSV Upload Error) - thanks to Andrï¿½ Â¹Â‰s
+# fixed Mambo 4.6.2 login issue (+CSV Upload Error) - thanks to Andr  ¹?s
 
 06.10.2007 gregdev
 # Joomla! 1.5 compatibility: Set $my->gid
@@ -1980,12 +1982,12 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 
 18-10-2006 gregdev
 
-#  Task #959 â€” Virtuemart search bot not working properly
+#  Task #959 — Virtuemart search bot not working properly
 
 17-10-2006 gregdev
 
-#  Task #969 â€” order_id error in Dutch language file VM vs. 1.0.7
-#  Task #973 â€” Error in mod_product_categories
+#  Task #969 — order_id error in Dutch language file VM vs. 1.0.7
+#  Task #973 — Error in mod_product_categories
 !# fixed various non-critical XSS vulnerabilities
 
 13-10-2006 gregdev
@@ -1994,8 +1996,8 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 
 04-10-2006 gregdev
 
-#  Task #962 â€” skip_fields not initialized in checkout_register_form.php
-#  Task #978 â€” PHP Short-Tag used in ps_paypal.php
+#  Task #962 — skip_fields not initialized in checkout_register_form.php
+#  Task #978 — PHP Short-Tag used in ps_paypal.php
 !# fixed various non-critical XSS vulnerabilities QUERY_STRING and shopItemid
 
 02-10-2006 soeren

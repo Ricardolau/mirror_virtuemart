@@ -34,6 +34,7 @@ $langvars = array (
 	'PHPSHOP_SELECT' => 'Select',
 	'PHPSHOP_SUBMIT' => 'Submit',
 	'PHPSHOP_LATEST' => 'Latest Products',
+	'PHPSHOP_SALES' => 'Best Selling',
 	'PHPSHOP_CART_TITLE' => 'Cart',
 	'PHPSHOP_CHECKOUT_TITLE' => 'Checkout',
 	'PHPSHOP_SEARCH_TITLE' => 'Search',

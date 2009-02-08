@@ -779,6 +779,7 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_ADMIN_CFG_SITE'), "site-page");
                         <option value="product_price" <?php if (@VM_BROWSE_ORDERBY_FIELD == 'product_price') echo "selected=\"selected\""; ?>><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_PRICE_TITLE') ?></option>
                         <option value="product_sku" <?php if (@VM_BROWSE_ORDERBY_FIELD == 'product_sku') echo "selected=\"selected\""; ?>><?php echo $VM_LANG->_('PHPSHOP_CART_SKU') ?></option>
                         <option value="product_cdate" <?php if (@VM_BROWSE_ORDERBY_FIELD == 'product_cdate') echo "selected=\"selected\""; ?>><?php echo $VM_LANG->_('PHPSHOP_LATEST') ?></option>
+                        <option value="product_sales" <?php if (@VM_BROWSE_ORDERBY_FIELD == 'product_sales') echo "selected=\"selected\""; ?>><?php echo $VM_LANG->_('PHPSHOP_SALES') ?></option>
             </select>
         </td>
         <td><?php echo vmToolTip( $VM_LANG->_('VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL_TIP') ) ?></td>
@@ -795,11 +796,14 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_ADMIN_CFG_SITE'), "site-page");
                         <input name="conf_VM_BROWSE_ORDERBY_FIELDS[]" type="checkbox" value="product_price" <?php if (in_array( 'product_price', $VM_BROWSE_ORDERBY_FIELDS )) echo "checked=\"checked\""; ?> id="conf_VM_BROWSE_ORDERBY_FIELDS2" />
                         <label for="conf_VM_BROWSE_ORDERBY_FIELDS2"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_PRICE_TITLE') ?></label><br />
 
+                        <input name="conf_VM_BROWSE_ORDERBY_FIELDS[]" type="checkbox" value="product_sku" <?php if (in_array( 'product_sku', $VM_BROWSE_ORDERBY_FIELDS )) echo "checked=\"checked\""; ?> id="conf_VM_BROWSE_ORDERBY_FIELDS4" />
+                        <label for="conf_VM_BROWSE_ORDERBY_FIELDS4"><?php echo $VM_LANG->_('PHPSHOP_CART_SKU') ?></label><br />
+
                         <input name="conf_VM_BROWSE_ORDERBY_FIELDS[]" type="checkbox" value="product_cdate" <?php if (in_array( 'product_cdate', $VM_BROWSE_ORDERBY_FIELDS )) echo "checked=\"checked\""; ?> id="conf_VM_BROWSE_ORDERBY_FIELDS3" />
                         <label for="conf_VM_BROWSE_ORDERBY_FIELDS3"><?php echo $VM_LANG->_('PHPSHOP_LATEST') ?></label><br />
 
-                        <input name="conf_VM_BROWSE_ORDERBY_FIELDS[]" type="checkbox" value="product_sku" <?php if (in_array( 'product_sku', $VM_BROWSE_ORDERBY_FIELDS )) echo "checked=\"checked\""; ?> id="conf_VM_BROWSE_ORDERBY_FIELDS4" />
-                        <label for="conf_VM_BROWSE_ORDERBY_FIELDS4"><?php echo $VM_LANG->_('PHPSHOP_CART_SKU') ?></label>
+                        <input name="conf_VM_BROWSE_ORDERBY_FIELDS[]" type="checkbox" value="product_sales" <?php if (in_array( 'product_sales', $VM_BROWSE_ORDERBY_FIELDS )) echo "checked=\"checked\""; ?> id="conf_VM_BROWSE_ORDERBY_FIELDS5" />
+                        <label for="conf_VM_BROWSE_ORDERBY_FIELDS5"><?php echo $VM_LANG->_('PHPSHOP_SALES') ?></label>
                         
         </td>
         <td><?php echo vmToolTip( $VM_LANG->_('VM_BROWSE_ORDERBY_FIELDS_LBL_TIP') ) ?></td>

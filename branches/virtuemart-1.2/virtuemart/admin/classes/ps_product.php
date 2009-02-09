@@ -40,11 +40,16 @@ class ps_product extends vmAbstractObject {
 		$db = new ps_DB;
 
  		/*Only the vendor itself or the admin is allowed to change the product by Max Milbers*/
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		$auth = $_SESSION['auth'];
+		$user_id = $auth["user_id"];
+
+		$ps_vendor_id = ps_vendor::get_vendor_id_by_user_id($db,$user_id );
 		if( !$perm->check( 'admin' )) {
 			if($ps_vendor_id!=$d['vendor_id']){
-				$vmLogger->err( $VM_LANG->_('VM_PRODUCT_NOT_ALLOWED_TO_CHANGE',false) );
-				$valid = false;
+				$vmLogger->err( $VM_LANG->_('VM_PRODUCT_NOT_ALLOWED_TO_CHANGE ',false) );
+				$vmLogger->err( 'ps_vendor_id aa: '.$ps_vendor_id );
+				return false;
+//				$valid = false;
 			}		
 		}
 		
@@ -1605,7 +1610,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 				$shopper_group_discount = 0;
 			}
 			
-			ps_shopper_group::makeDefaultShopperGroupInfo();
+			ps_shopper_group::makeDefaultShopperGroupInfo($vendor_id);
 			
 			// Get the product_parent_id for this product/item
 			$product_parent_id = $this->get_field($product_id, "product_parent_id");
@@ -1685,13 +1690,15 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		$db = new ps_DB;
 		
 		//$vendor_id = $_SESSION['ps_vendor_id'];
-		$q = "Select vendor_id FROM #__{vm}_product WHERE product_id = ".$product_id;
-		$db->query($q);	
-		$vendor_id = $db->f('vendor_id');
+		$vendor_id = $this->get_vendor_id_ofproduct($product_id);
+//		$q = "Select vendor_id FROM #__{vm}_product WHERE product_id = ".$product_id;
+//		$db->query($q);	
+//		$vendor_id = $db->f('vendor_id');
 
 		if( empty( $shopper_group_id )) {
-			ps_shopper_group::makeDefaultShopperGroupInfo();
+			ps_shopper_group::makeDefaultShopperGroupInfo($vendor_id);
 			$shopper_group_id = $GLOBALS['vendor_info'][$vendor_id]['default_shopper_group_id'];
+			
 		}
 	
 		$whereClause='WHERE product_id=%s AND shopper_group_id=%s ';

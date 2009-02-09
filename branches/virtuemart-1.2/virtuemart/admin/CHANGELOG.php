@@ -35,6 +35,12 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+09.02.2009
+# Fixed swedish language file
+# Fixed not shown prices
+^ Product neednt to have a choosen currency,.. the vendor default ist automatically taken
+^ Vendors can now change the their own products without adminrights
+
 08.02.2009 aravot
 + Sort by Best Selling option (thank you Danny)
 

@@ -48,10 +48,22 @@ class ps_product_price extends vmAbstractObject  {
 			$d['product_price'] = floatval(str_replace(',', '.', $d["product_price"]));
 		}
 
+		//This is not needed because ps_product takes then the main currency from the store
 		if (!$d["product_currency"]) {
-			$vmLogger->err( $VM_LANG->_('VM_PRODUCT_PRICE_CURRENCY_MISSING',false) );
-			$valid = false;
+			
+			$vendor_id = ps_product::get_vendor_id_ofproduct($d["product_id"]);
+			$db = ps_vendor::get_vendor_fields($vendor_id,array('vendor_currency'));
+			if(empty($db)){
+				$vmLogger->err( $VM_LANG->_('VM_PRODUCT_PRICE_CURRENCY_MISSING',false) );
+				$valid = false;
+			}
+			$vendor_currency = $db->f("vendor_currency");		
+			$d["product_currency"] = $vendor_currency;
+	
+			$vmLogger->err( 'Ja was geht: '.$d["product_currency"] );			
+
 		}
+
 		$d["price_quantity_start"] = intval(@$d["price_quantity_start"]);
 		$d["price_quantity_end"] = intval(@$d["price_quantity_end"]);
 

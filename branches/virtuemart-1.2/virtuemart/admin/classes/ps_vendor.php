@@ -140,7 +140,7 @@ class ps_vendor {
 	 * @return ps_DB
 	 */
 	 
-	function get_vendor_fields($vendor_id, $fields=array(), $oderby) {
+	function get_vendor_fields($vendor_id, $fields=array(), $oderby="") {
 		$db = new ps_DB();
 		$usertable= false;
 		if( empty( $fields )) {

@@ -363,9 +363,9 @@ class ps_shopper_group extends vmAbstractObject  {
   	 * Creates superglobals with the information regarding the default shopper group
   	 *
   	 */
-  	function makeDefaultShopperGroupInfo($product_id ) {
+  	function makeDefaultShopperGroupInfo($vendor_id ) {
   		
-		$vendor_id = ps_product::get_vendor_id_ofproduct($product_id);
+//		$vendor_id = ps_product::get_vendor_id_ofproduct($product_id);
   		
 		if( empty($GLOBALS['vendor_info'][$vendor_id]['default_shopper_group_id']) ) {
 			$db = new ps_DB;

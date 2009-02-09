@@ -1689,11 +1689,8 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		static $resultcache = array();
 		$db = new ps_DB;
 		
-		//$vendor_id = $_SESSION['ps_vendor_id'];
+		//changed by Max Milbers
 		$vendor_id = $this->get_vendor_id_ofproduct($product_id);
-//		$q = "Select vendor_id FROM #__{vm}_product WHERE product_id = ".$product_id;
-//		$db->query($q);	
-//		$vendor_id = $db->f('vendor_id');
 
 		if( empty( $shopper_group_id )) {
 			ps_shopper_group::makeDefaultShopperGroupInfo($vendor_id);

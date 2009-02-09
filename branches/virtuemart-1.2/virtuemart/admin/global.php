@@ -199,7 +199,12 @@ if( vmShouldDebug() ) {   /*@MWM1: Log/Debug enhancements */
 //$vendor_accepted_currencies = $db->f("vendor_accepted_currencies");
 //$vendor_address_format = $db->f('vendor_address_format');
 //$vendor_date_format = $db->f('vendor_date_format');
-//$_SESSION["vendor_currency"] = $vendor_currency;
+
+//Hmmm global or not?
+$mainvendor = 1;
+$db = ps_vendor::get_vendor_fields($mainvendor,array('vendor_currency'));
+$vendor_currency = $db->f("vendor_currency");
+$_SESSION["vendor_currency"] = $vendor_currency;
 
 // see /classes/currency_convert.php
 vmSetGlobalCurrency();

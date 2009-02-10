@@ -203,8 +203,11 @@ if( vmShouldDebug() ) {   /*@MWM1: Log/Debug enhancements */
 //Hmmm global or not?
 $mainvendor = 1;
 $db = ps_vendor::get_vendor_fields($mainvendor,array('vendor_currency'));
-$vendor_currency = $db->f("vendor_currency");
-$_SESSION["vendor_currency"] = $vendor_currency;
+if(!empty($db)){
+	$vendor_currency = $db->f("vendor_currency");
+	$_SESSION["vendor_currency"] = $vendor_currency;
+}
+
 
 // see /classes/currency_convert.php
 vmSetGlobalCurrency();

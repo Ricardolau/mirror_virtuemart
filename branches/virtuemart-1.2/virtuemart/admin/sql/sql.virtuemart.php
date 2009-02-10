@@ -2390,6 +2390,9 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_vendor` (
   KEY `idx_vendor_category_id` (`vendor_category_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Vendors manage their products in your store' AUTO_INCREMENT=3 ; ");
 
+$db->query( "INSERT INTO `#__{vm}_vendor` (`vendor_id`, `vendor_name`, `vendor_nick`, `vendor_phone`, `vendor_store_name`, `vendor_store_desc`, `vendor_category_id`, `vendor_thumb_image`, `vendor_full_image`, `vendor_currency`, `cdate`, `mdate`, `vendor_image_path`, `vendor_terms_of_service`, `vendor_url`, `vendor_min_pov`, `vendor_freeshipping`, `vendor_currency_display_style`, `vendor_accepted_currencies`, `vendor_address_format`, `vendor_date_format`) VALUES
+(1, '', '', '', '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '', ''); " );
+
 ## 
 ## Dumping data for table `#__{vm}_vendor`
 ## 

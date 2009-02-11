@@ -844,7 +844,7 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_manufacturer_category` (
   `mf_category_desc` text,
   PRIMARY KEY  (`mf_category_id`),
   KEY `idx_manufacturer_category_category_name` (`mf_category_name`)
-) TYPE=MyISAM COMMENT='Manufactorers are assigned to these categories'; ");
+) TYPE=MyISAM COMMENT='Manufacturers are assigned to these categories'");
 
 ## 
 ## Dumping data for table `#__{vm}_manufacturer_category`
@@ -1114,7 +1114,7 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_payment_method` (
   KEY `idx_payment_method_name` (`payment_method_name`),
   KEY `idx_payment_method_list_order` (`list_order`),
   KEY `idx_payment_method_shopper_group_id` (`shopper_group_id`)
-) TYPE=MyISAM COMMENT='The payment methods of your store'; ");
+) TYPE=MyISAM COMMENT='The payment methods of your store';");
 
 ## 
 ## Data for table `#__{vm}_payment_method`
@@ -1892,7 +1892,7 @@ $db->query( "INSERT INTO `#__{vm}_state` VALUES (1, 223, 'Alabama', 'ALA', 'AL')
 (NULL, 105, 'Grosseto', 'GRO', 'GR'),
 (NULL, 105, 'Imperia', 'IMP', 'IM'),
 (NULL, 105, 'Isernia', 'ISE', 'IS'),
-(NULL, 105, 'L''Aquila', 'AQU', 'AQ'),
+(NULL, 105, 'L\'Aquila', 'AQU', 'AQ'),
 (NULL, 105, 'La Spezia', 'LAS', 'SP'),
 (NULL, 105, 'Latina', 'LAT', 'LT'),
 (NULL, 105, 'Lecce', 'LEC', 'LE'),
@@ -2277,9 +2277,9 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_vendor` (
   `vendor_min_pov` decimal(10,2) default NULL,
   `vendor_freeshipping` decimal(10,2) NOT NULL default '0.00',
   `vendor_currency_display_style` varchar(64) NOT NULL default '',
-  `vendor_accepted_currencies` TEXT NOT NULL,
-  `vendor_address_format` TEXT NOT NULL,
-  `vendor_date_format` VARCHAR( 255 ) NOT NULL,
+  `vendor_accepted_currencies` text NOT NULL,
+  `vendor_address_format` text NOT NULL,
+  `vendor_date_format` varchar(255) NOT NULL,
   PRIMARY KEY  (`vendor_id`),
   KEY `idx_vendor_name` (`vendor_name`),
   KEY `idx_vendor_category_id` (`vendor_category_id`)

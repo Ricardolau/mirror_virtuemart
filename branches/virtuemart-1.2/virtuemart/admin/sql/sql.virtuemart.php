@@ -693,7 +693,7 @@ $db->query( "INSERT INTO `#__{vm}_function` VALUES (1, 1, 'userAdd', 'ps_user', 
 (112, 13, 'updatezone', 'ps_zone', 'update', 'This will update a zone', 'admin,storeadmin'),
 (113, 13, 'deletezone', 'ps_zone', 'delete', 'This will delete a zone', 'admin,storeadmin'),
 (114, 13, 'zoneassign', 'ps_zone', 'assign', 'This will assign a country to a zone', 'admin,storeadmin'),
-(115, 1, 'writeConfig', 'ps_config', 'writeconfig', 'This will write the configuration details to phpshop.cfg.php', 'admin'),
+(115, 1, 'writeConfig', 'ps_config', 'writeconfig', 'This will write the configuration details to virtuemart.cfg.php', 'admin'),
 (116, 12839, 'carrierAdd', 'ps_shipping', 'add', '', 'admin,storeadmin'),
 (117, 12839, 'carrierDelete', 'ps_shipping', 'delete', '', 'admin,storeadmin'),
 (118, 12839, 'carrierUpdate', 'ps_shipping', 'update', '', 'admin,storeadmin'),
@@ -900,7 +900,7 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_manufacturer_category` (
   `mf_category_desc` text,
   PRIMARY KEY  (`mf_category_id`),
   KEY `idx_manufacturer_category_category_name` (`mf_category_name`)
-) TYPE=MyISAM COMMENT='Manufactorers are assigned to these categories'");
+) TYPE=MyISAM COMMENT='Manufacturers are assigned to these categories'");
 
 ## 
 ## Dumping data for table `#__{vm}_manufacturer_category`
@@ -1469,7 +1469,6 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_price` (
   `product_price_id` int(11) NOT NULL auto_increment,
   `product_id` int(11) NOT NULL default '0',
   `product_price` decimal(12,5) default NULL,
-  `product_margin` decimal(12,5) default NULL,
   `product_currency` char(16) default NULL,
   `product_price_vdate` int(11) default NULL,
   `product_price_edate` int(11) default NULL,
@@ -2419,7 +2418,6 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_vendor_category` (
 ## 
 
 $db->query( "INSERT INTO `#__{vm}_vendor_category` VALUES (6, '-default-', 'Default'); " );
-
 
 ## --------------------------------------------------------
 

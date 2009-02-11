@@ -35,6 +35,9 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+11.02.2009 aravot
+^ Fixed comment typo in SQL file
+
 09.02.2009
 # Fixed swedish language file
 # Fixed not shown prices

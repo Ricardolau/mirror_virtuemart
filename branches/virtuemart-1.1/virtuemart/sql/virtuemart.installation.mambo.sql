@@ -837,7 +837,7 @@ CREATE TABLE IF NOT EXISTS `mos_vm_manufacturer_category` (
   `mf_category_desc` text,
   PRIMARY KEY  (`mf_category_id`),
   KEY `idx_manufacturer_category_category_name` (`mf_category_name`)
-) TYPE=MyISAM COMMENT='Manufactorers are assigned to these categories';
+) TYPE=MyISAM COMMENT='Manufacturers are assigned to these categories';
 
 ## 
 ## Dumping data for table `mos_vm_manufacturer_category`
@@ -1056,7 +1056,7 @@ CREATE TABLE IF NOT EXISTS `mos_vm_orders` (
   `order_shipping` decimal(10,2) default NULL,
   `order_shipping_tax` decimal(10,2) default NULL,
   `coupon_discount` decimal(12,2) NOT NULL default '0.00',
-  `coupon_code` VARCHAR( 32 ) NULL,
+  `coupon_code` varchar( 32 ) NULL,
   `order_discount` decimal(12,2) NOT NULL default '0.00',
   `order_currency` varchar(16) default NULL,
   `order_status` char(1) default NULL,
@@ -2267,9 +2267,9 @@ CREATE TABLE IF NOT EXISTS `mos_vm_vendor` (
   `vendor_min_pov` decimal(10,2) default NULL,
   `vendor_freeshipping` decimal(10,2) NOT NULL default '0.00',
   `vendor_currency_display_style` varchar(64) NOT NULL default '',
-  `vendor_accepted_currencies` TEXT NOT NULL,
-  `vendor_address_format` TEXT NOT NULL,
-  `vendor_date_format` VARCHAR( 255 ) NOT NULL,
+  `vendor_accepted_currencies` text NOT NULL,
+  `vendor_address_format` text NOT NULL,
+  `vendor_date_format` varchar( 255 ) NOT NULL,
   PRIMARY KEY  (`vendor_id`),
   KEY `idx_vendor_name` (`vendor_name`),
   KEY `idx_vendor_category_id` (`vendor_category_id`)

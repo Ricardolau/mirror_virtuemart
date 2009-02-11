@@ -683,7 +683,7 @@ INSERT INTO `mos_vm_function` VALUES (1, 1, 'userAdd', 'ps_user', 'add', '', 'ad
 (112, 13, 'updatezone', 'ps_zone', 'update', 'This will update a zone', 'admin,storeadmin'),
 (113, 13, 'deletezone', 'ps_zone', 'delete', 'This will delete a zone', 'admin,storeadmin'),
 (114, 13, 'zoneassign', 'ps_zone', 'assign', 'This will assign a country to a zone', 'admin,storeadmin'),
-(115, 1, 'writeConfig', 'ps_config', 'writeconfig', 'This will write the configuration details to phpshop.cfg.php', 'admin'),
+(115, 1, 'writeConfig', 'ps_config', 'writeconfig', 'This will write the configuration details to virtuemart.cfg.php', 'admin'),
 (116, 12839, 'carrierAdd', 'ps_shipping', 'add', '', 'admin,storeadmin'),
 (117, 12839, 'carrierDelete', 'ps_shipping', 'delete', '', 'admin,storeadmin'),
 (118, 12839, 'carrierUpdate', 'ps_shipping', 'update', '', 'admin,storeadmin'),
@@ -795,7 +795,7 @@ CREATE TABLE IF NOT EXISTS `mos_vm_manufacturer_category` (
   `mf_category_desc` text,
   PRIMARY KEY  (`mf_category_id`),
   KEY `idx_manufacturer_category_category_name` (`mf_category_name`)
-) TYPE=MyISAM COMMENT='Manufactorers are assigned to these categories';
+) TYPE=MyISAM COMMENT='Manufacturers are assigned to these categories';
 
 ## 
 ## Dumping data for table `mos_vm_manufacturer_category`

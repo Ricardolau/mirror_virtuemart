@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 /**
 *
@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+11.02.2009 aravot
+^ Fixed comment typo in SQL file
+
 05.02.2009 soeren
 # Task #2490 - Add to cart issues when javascript disabled 
 # fixed: no value assigned to $DescOrderBy

@@ -93,12 +93,14 @@ class ps_product_category extends vmAbstractObject {
 		
 		//Has the User the right to update this category?
 		if (!$perm->check("admin")) {
-			$ps_vendor_id = $_SESSION["ps_vendor_id"];
+			require_once( CLASSPATH . "ps_vendor.php");
+			$vendor_id = ps_vendor::get_logged_vendor();
+
 			$q = 'SELECT vendor_id FROM #__{vm}_category WHERE category_id='. $d["category_id"];
 			$db->query( $q );
 			$db->next_record();
 			$vendor = $db->f("vendor_id");
-			if($ps_vendor_id != $vendor){
+			if($vendor_id != $vendor){
 				$vmLogger->err( $VM_LANG->_('VM_PRODUCT_CATEGORY_ERR_NOT_OWNER') );
 				$valid = False;
 				return false;
@@ -191,12 +193,13 @@ class ps_product_category extends vmAbstractObject {
 
 		//Has the User the right to delete this category?
 		if (!$perm->check("admin")) {
-			$ps_vendor_id = $_SESSION["ps_vendor_id"];
+			require_once( CLASSPATH . "ps_vendor.php");
+			$vendor_id = ps_vendor::get_logged_vendor();
 			$q = 'SELECT vendor_id FROM #__{vm}_category WHERE category_id='. $d["category_id"];
 			$db->query( $q );
 			$db->next_record();
 			$vendor = $db->f("vendor_id");
-			if($ps_vendor_id != $vendor){
+			if($vendor_id != $vendor){
 				$vmLogger->err( $VM_LANG->_('VM_PRODUCT_CATEGORY_ERR_NOT_OWNER') );
 				$valid = False;
 				return false;
@@ -245,7 +248,9 @@ class ps_product_category extends vmAbstractObject {
 	 */
 	function add( &$d ) {
 		global $vmLogger, $VM_LANG;
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		
+		require_once( CLASSPATH . "ps_vendor.php");
+		$vendor_id = ps_vendor::get_logged_vendor();
 
 		$db = new ps_DB;
 		$timestamp = time();
@@ -273,7 +278,7 @@ class ps_product_category extends vmAbstractObject {
 			if (empty($d["category_publish"])) {
 				$d["category_publish"] = "N";
 			}
-			$fields = array('vendor_id' => $ps_vendor_id,
+			$fields = array('vendor_id' => $vendor_id,
 										'category_name' => vmGet( $d, 'category_name' ),
 										'category_publish' => vmGet( $d, 'category_publish' ),
 										'category_description' => vmGet( $d, 'category_description', '', VMREQUEST_ALLOWHTML ),
@@ -318,7 +323,9 @@ class ps_product_category extends vmAbstractObject {
 	 */
 	function update(&$d) {
 		global $vmLogger, $VM_LANG;
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		
+		require_once( CLASSPATH . "ps_vendor.php");
+		$vendor_id = ps_vendor::get_logged_vendor();
 
 		$db = new ps_DB;
 
@@ -347,7 +354,7 @@ class ps_product_category extends vmAbstractObject {
 										'mdate' => $timestamp,
 										'list_order' => vmRequest::getInt('list_order'),
 									);
-			$db->buildQuery('UPDATE', '#__{vm}_category', $fields, 'WHERE category_id=' .(int)$d["category_id"].' AND vendor_id='.$ps_vendor_id );		
+			$db->buildQuery('UPDATE', '#__{vm}_category', $fields, 'WHERE category_id=' .(int)$d["category_id"].' AND vendor_id='.$vendor_id );		
 			$db->query();
 
 			/*

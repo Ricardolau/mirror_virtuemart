@@ -267,12 +267,14 @@ class ps_product_type {
 	 * @return int
 	 */
 	function product_count($product_type_id) {
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		
+//		require_once( CLASSPATH . "ps_vendor.php");
+//		$vendor_id = ps_vendor::get_logged_vendor();
 
 		$db = new ps_DB;
 
 		$count  = "SELECT count(*) as num_rows from #__{vm}_product,#__{vm}_product_product_type_xref WHERE ";
-		$q  = "#__{vm}_product.vendor_id = '$ps_vendor_id' ";
+//		$q  = "#__{vm}_product.vendor_id = '$vendor_id' ";  // I think this is not senseful by Max Milbers
 		$q .= "AND #__{vm}_product_product_type_xref.product_type_id='$product_type_id' ";
 		$q .= "AND #__{vm}_product.product_id=#__{vm}_product_product_type_xref.product_id ";
 		$q .= "AND #__{vm}_product.product_parent_id='' ";

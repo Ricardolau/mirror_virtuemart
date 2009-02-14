@@ -884,7 +884,6 @@ class ps_vendor {
 	***************************************************************************/
 	function show_image($image, $args="") {
 
-//		$ps_vendor_id = $_SESSION["ps_vendor_id"];
 		$ps_vendor_id = $args;
 		
 		$url = IMAGEURL;

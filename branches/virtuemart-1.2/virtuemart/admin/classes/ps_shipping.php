@@ -105,8 +105,6 @@ class ps_shipping {
 	 */
 	function add(&$d) {
 
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
-
 		$db = new ps_DB;
 
 		$timestamp = time();
@@ -132,7 +130,6 @@ class ps_shipping {
 	 * @return boolean
 	 */
 	function update(&$d) {
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
 
 		$db = new ps_DB;
 		$timestamp = time();
@@ -180,7 +177,6 @@ class ps_shipping {
 	 * @return boolean
 	 */
 	function delete_record( $record_id, &$d ) {
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
 		global $db;
 
 		if (!$this->validate_delete( $record_id, $d)) {

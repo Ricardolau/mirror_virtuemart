@@ -123,9 +123,14 @@ class ps_shopper {
 			return false;
 		}
 		
-		//unsure must be tested
-
 		$d['email'] = vmGet( $d, 'email', $my->email );
+		if(isset($d['email'])){
+			if (!vmValidateEmail($d["email"])) {
+			$vmLogger->err( 'Please provide a valide email address for the registration.' );
+			return false;
+		}
+		}
+		
 		$d['perms'] = 'shopper';
 
 		return true;
@@ -272,7 +277,7 @@ class ps_shopper {
 		$VM_LANG, $vmLogger, $database, $mosConfig_useractivation;
 
 		//TODO must depend on vendor of bill,.. or on vendorS of the bill 
-		$ps_vendor_id =  1; //$_SESSION["ps_vendor_id"];
+		$vendor_id =  1; //$_SESSION["ps_vendor_id"];
 		$hash_secret = "VirtueMartIsCool";
 		$db = new ps_DB;
 		$timestamp = time();
@@ -405,7 +410,7 @@ class ps_shopper {
 		$q = "INSERT INTO #__{vm}_auth_user_vendor (user_id,vendor_id)";
 		$q .= " VALUES ";
 		$q .= "('" . $uid . "','";
-		$q .= $ps_vendor_id . "') ";
+		$q .= $vendor_id . "') ";
 		$db->query($q);
 		
 		$d['shopper_group_id'] = '';
@@ -436,7 +441,7 @@ class ps_shopper {
 		// Insert Shopper -ShopperGroup - Relationship
 		$q  = "INSERT INTO #__{vm}_shopper_vendor_xref ";
 		$q .= "(user_id,vendor_id,shopper_group_id,customer_number) ";
-		$q .= "VALUES ('$uid', '$ps_vendor_id','".$d['shopper_group_id']."', '$customer_nr')";
+		$q .= "VALUES ('$uid', '$vendor_id','".$d['shopper_group_id']."', '$customer_nr')";
 		$db->query($q);
 		
 		// Process the Newsletter subscription		
@@ -654,6 +659,8 @@ class ps_shopper {
 		global $my, $perm, $sess, $vmLogger, $page;
 
 		$auth = $_SESSION['auth'];
+		
+		$vendor_id = 1;
 		$db = new ps_DB;
 
 		if ( @$d["user_id"] != $my->id && @$d["user_id"] != $auth['user_id'] && $auth["perms"] != "admin") {
@@ -735,7 +742,7 @@ class ps_shopper {
 			$q .= "(user_id,vendor_id,shopper_group_id) ";
 			$q .= "VALUES ('";
 			$q .= $_SESSION['auth']['user_id'] . "','";
-			$q .= $_SESSION['ps_vendor_id'] . "','";
+			$q .= $vendor_id. "','";
 			$q .= $my_shopper_group_id. "')";
 			$db->query($q);
 		}

@@ -136,13 +136,15 @@ class ps_tax extends vmAbstractObject  {
 	function add( &$d ) {
 		global $VM_LANG;
 		$db = new ps_DB( ) ;
-		$ps_vendor_id = $_SESSION["ps_vendor_id"] ;
+		require_once( CLASSPATH . "ps_vendor.php");
+		$vendor_id = ps_vendor::get_logged_vendor();
+
 		$timestamp = time() ;
 		
 		if( ! $this->validate_add( $d ) ) {
 			return False ;
 		}
-		$fields = array('vendor_id' => $ps_vendor_id, 
+		$fields = array('vendor_id' => $vendor_id, 
 								'tax_state' => vmget( $d, 'tax_state' ), 
 								'tax_country' => vmget( $d, 'tax_country' ),
 								'tax_rate' => $d["tax_rate"], 
@@ -168,13 +170,15 @@ class ps_tax extends vmAbstractObject  {
 	function update( &$d ) {
 		global $VM_LANG;
 		$db = new ps_DB( ) ;
-		$ps_vendor_id = $_SESSION["ps_vendor_id"] ;
+		require_once( CLASSPATH . "ps_vendor.php");
+		$vendor_id = ps_vendor::get_logged_vendor();
+
 		$timestamp = time() ;
 		
 		if( ! $this->validate_update( $d ) ) {
 			return False ;
 		}
-		$fields = array('vendor_id' => $ps_vendor_id, 
+		$fields = array('vendor_id' => $vendor_id, 
 								'tax_state' => vmget( $d, 'tax_state' ), 
 								'tax_country' => vmget( $d, 'tax_country' ),
 								'tax_rate' => $d["tax_rate"], 

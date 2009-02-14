@@ -138,7 +138,10 @@ class ps_user {
 	 */
 	function add(&$d) {
 		global $my, $VM_LANG, $perm, $vmLogger;
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		
+		//Should be extended to a relation of the vendor_id in the order
+		$vendor_id = 1;
+
 		$hash_secret = "VirtueMartIsCool";
 		$db = new ps_DB;
 		$timestamp = time();
@@ -182,13 +185,7 @@ class ps_user {
 				$fields[$userField->name] = ps_userfield::prepareFieldDataSave( $userField->type, $userField->name, @$d[$userField->name]);
 			}
 		}
-//		unset ($fields['email']);
 
-//		$fields['user_email'] = $fields['email'];
-//		unset($fields['email']);
-//		
-//		$db->buildQuery( 'INSERT', '#__{vm}_user_info', $fields );
-//		$db->query();
 		ps_user::setUserInfoWithEmail($fields);
 		
 		if( $perm->check("admin")) {
@@ -226,7 +223,10 @@ class ps_user {
 	 */
 	function update(&$d) {
 		global $my, $VM_LANG, $perm, $vmLogger;
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		
+		//Should be extended to a relation of the vendor_id in the order
+		$vendor_id = 1;
+
 		$db = new ps_DB;
 		$timestamp = time();
 
@@ -335,7 +335,7 @@ class ps_user {
 	**************************************************************************/
 	function delete(&$d) {
 		$db = new ps_DB;
-		$ps_vendor_id = (int) $_SESSION['ps_vendor_id'];
+		$ps_vendor_id = 1;
 
 		if( !is_array( $d['user_id'] )) {
 			$d['user_id'] = array( $d['user_id'] );
@@ -624,6 +624,7 @@ class ps_user {
 			$cid = array( $cid );
 		}
 
+		//TODO vendorrelationships are not deleted
 		if ( count( $cid ) ) {
 			$obj = new mosUser( $database );
 			foreach ($cid as $id) {

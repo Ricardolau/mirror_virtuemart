@@ -35,6 +35,10 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+15.02.2009
+^ mail request concerning a product depends now on the vendor of the product
+^ changed a lot of vendor senseless $ps_vendor relations sometimes it is just set to 1 (store) 
+
 14.02.2009 Milbo
 # Fixed paymentmethods as possible,.. rewriting of payment isnt done yet
 # Due restructuring checkout process wasnt working, fixed it, but be beware of bugs plz send them to me
@@ -43,7 +47,7 @@ VirtueMart 1.2.x
 11.02.2009 aravot
 ^ Fixed comment typo in SQL file
 
-09.02.2009
+09.02.2009 Milbo
 # Fixed swedish language file
 # Fixed not shown prices
 ^ Product neednt to have a choosen currency,.. the vendor default ist automatically taken

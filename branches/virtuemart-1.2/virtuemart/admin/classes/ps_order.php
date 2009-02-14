@@ -278,8 +278,6 @@ class ps_order {
 		$db = new ps_DB;
 		$order_id = $db->getEscaped($d["order_id"]);
 		
-		
-//		$vendor_id = $_SESSION["ps_vendor_id"];
 		$vendor_id = ps_order::get_vendor_id_by_order_id($db,$order_id);
 		
 		$dbv = ps_vendor::get_vendor_fields($vendor_id,array("email","vendor_name"));

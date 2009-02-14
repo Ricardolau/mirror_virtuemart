@@ -35,7 +35,9 @@ class ps_shopper_group extends vmAbstractObject  {
 		global $VM_LANG;
 		
 		$db = new ps_DB;
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		
+		//of product or order
+//		$vendor_id = $_SESSION["ps_vendor_id"];
 
 		if (empty($d["shopper_group_name"])) {
 			$GLOBALS['vmLogger']->err($VM_LANG->_('SHOPPER_GROUP_MISSING_NAME'));
@@ -44,7 +46,7 @@ class ps_shopper_group extends vmAbstractObject  {
 		else {
 			$q = "SELECT COUNT(*) as num_rows FROM #__{vm}_shopper_group";
 			$q .= " WHERE shopper_group_name='" .$db->getEscaped(vmGet($d,'shopper_group_name')) . "'";
-			$q .= " AND vendor_id='" . $ps_vendor_id . "'";
+//			$q .= " AND vendor_id='" . $vendor_id . "'";
 
 			$db->query($q);
 			$db->next_record();
@@ -185,12 +187,15 @@ class ps_shopper_group extends vmAbstractObject  {
 	function update($d) {
 		global $perm, $VM_LANG;
 
-		if( $perm->check( "admin" ) ) {
-			$vendor_id = $d["vendor_id"];
-		}
-		else {
-			$vendor_id = $_SESSION["ps_vendor_id"];
-		}
+		//Not clear how to relate it to a vendor
+//		if( $perm->check( "admin" ) ) {
+//			$vendor_id = $d["vendor_id"];
+//		}
+//		else {
+//			$vendor_id = $_SESSION["ps_vendor_id"];
+//		}
+		$vendor_id = 1;
+		
 		$db = new ps_DB;
 		
 		$default = @$d["default"]=="1" ? "1" : "0";
@@ -213,7 +218,7 @@ class ps_shopper_group extends vmAbstractObject  {
 				$q = "UPDATE #__{vm}_shopper_group ";
 				$q .= "SET `default`=0 ";
 				$q .= "WHERE shopper_group_id !=" . $d["shopper_group_id"];
-				$q .= " AND vendor_id =$vendor_id";
+//				$q .= " AND vendor_id =$vendor_id";
 				$db->query($q);
 				$db->next_record();
 			}
@@ -275,13 +280,15 @@ class ps_shopper_group extends vmAbstractObject  {
 	 * @return string
 	 */
 	function list_shopper_groups($name,$shopper_group_id='0', $extra='') {
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
 		global $perm;
 		$db = new ps_DB;
 
 		if( !$perm->check("admin")) {
+			require_once( CLASSPATH . "ps_vendor.php");
+			$vendor_id = ps_vendor::get_logged_vendor();
+			
 			$q  = "SELECT shopper_group_id,shopper_group_name,vendor_id,'' AS vendor_name FROM #__{vm}_shopper_group ";
-			$q .= "WHERE vendor_id = '$ps_vendor_id' ";
+			$q .= "WHERE vendor_id = '$vendor_id' ";
 		}
 		else {
 			$q  = "SELECT shopper_group_id,shopper_group_name,#__{vm}_shopper_group.vendor_id,vendor_name FROM #__{vm}_shopper_group ";
@@ -325,6 +332,7 @@ class ps_shopper_group extends vmAbstractObject  {
 	 */
   	function get_shoppergroup_by_id($id, $default_group = false) {
     	
+    	//TODO
     	$ps_vendor_id = vmGet($_SESSION, 'ps_vendor_id', 1 );
     	$db = new ps_DB;
 

@@ -147,7 +147,10 @@ class ps_communication {
 		
 		//by Max Milbers, this need to be changed
 		$vendor_id =1;
-//		$vendor_id = $_SESSION["ps_vendor_id"];
+		//or
+		require_once(CLASSPATH. "ps_product.php");
+		$vendor_id = ps_product::get_vendor_id_ofproduct($product_id);
+
 		$dbv = ps_vendor::get_vendor_fields($vendor_id,array("email","vendor_name"),"");
 
 		$vendor_email = $dbv->f("email");

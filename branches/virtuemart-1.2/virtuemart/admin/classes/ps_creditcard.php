@@ -108,6 +108,9 @@ class ps_creditcard {
 		if (!$this->validate_add($d)) {
 			return False;
 		}
+		
+		//vendor_id of order is needed
+		
 		$fields = array( 'vendor_id' => $_SESSION["ps_vendor_id"],
 					'creditcard_name' => vmGet($d,'creditcard_name'),
 					'creditcard_code' => vmGet($d,'creditcard_code'),

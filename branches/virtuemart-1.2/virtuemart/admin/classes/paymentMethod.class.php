@@ -226,12 +226,9 @@ class vmPaymentMethod extends vmAbstractObject {
 		
 		$db = new ps_DB;
 		
-//		$ps_vendor_id = $_SESSION["ps_vendor_id"];
-		$auth = $_SESSION['auth'];
-		$user_id = $auth["user_id"];
-		require_once( CLASSPATH . 'ps_vendor.php' );
-		$vendor_id = ps_vendor::get_vendor_id_by_user_id($db,$user_id);
-		
+		require_once( CLASSPATH . "ps_vendor.php");
+		$vendor_id = ps_vendor::get_logged_vendor();
+			
 		if( !$perm->check( 'admin' )) {
 			if($vendor_id!=$d['vendor_id']){
 				$vmLogger->err( $VM_LANG->_('VM_PAYMENTMETHOD_NOT_ALLOWED_TO_UPDATE ',false) );
@@ -315,11 +312,9 @@ class vmPaymentMethod extends vmAbstractObject {
 		global $db;
 		
 		//Gets the user_id of logged user and ref vendor_id
-//		$ps_vendor_id = $_SESSION["ps_vendor_id"];
-		$auth = $_SESSION['auth'];
-		$user_id = $auth["user_id"];
-		require_once( CLASSPATH . 'ps_vendor.php' );
-		$vendor_id = ps_vendor::get_vendor_id_by_user_id($db,$user_id);
+		require_once( CLASSPATH . "ps_vendor.php");
+		$vendor_id = ps_vendor::get_logged_vendor();
+
 
 		$q = 'DELETE from #__{vm}_payment_method WHERE payment_method_id='.(int)$record_id.' AND ';
 		if( !$perm->check( 'admin' )) {

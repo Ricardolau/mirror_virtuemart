@@ -120,8 +120,8 @@ class ps_zone {
    * returns:
    **************************************************************************/
   function add(&$d) {
-    $db = new ps_DB; 
-    $ps_vendor_id = $_SESSION["ps_vendor_id"];
+    $db = new ps_DB;
+    
     $timestamp = time();
     
     if (!$this->validate_add($d)) {
@@ -154,7 +154,7 @@ class ps_zone {
    **************************************************************************/
   function update(&$d) {
     $db = new ps_DB; 
-    $ps_vendor_id = $_SESSION["ps_vendor_id"];
+
     $timestamp = time();
 
     if (!$this->validate_update($d)) {
@@ -204,7 +204,6 @@ class ps_zone {
 	*/
 	function delete_record( $record_id, &$d ) {
 		global $db;
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
 		
 		$q = "DELETE FROM #__{vm}_zone_shipping WHERE zone_id='$record_id'";
 		$db->query($q);

@@ -59,22 +59,6 @@ class ps_vendor {
 	}
 	
 	/**
-	* name: get_user_id_by_nickname
-	* created by: Max Milbers
-	* @param 
-	* returns int $user_id
-	*/
-	
-	function get_user_id_by_nickname(&$db, &$nickname){
-		if(empty ($nickname))return;
-		$q  = "SELECT id FROM  #__users ";
-		$q .= "WHERE username = '".$nickname."'";
-		$db->query($q);
-		$userid = $db->f('id');
-		return $userid;
-	}
-	
-	/**
 	* name: get_vendor_email_by_nickname
 	* created by: Max Milbers
 	* @param int 
@@ -91,6 +75,19 @@ class ps_vendor {
 		return $email;
 	}
 	
+	function get_logged_vendor(){
+		global $_SESSION;
+		$db = new ps_DB();
+		$user_id = $_SESSION['auth']["user_id"];
+		if(isset($user_id)){
+			$vendor_id = ps_vendor::get_vendor_id_by_user_id($db, $user_id);
+		}else{
+			echo('$user_id empty, no logged User');
+			$GLOBALS['vmLogger']->err('$user_id empty, no logged User');
+		}	
+		return $vendor_id;
+	}
+	
 	/**
 	 * Retrieves a DB object with the recordset of the specified vendor
 	 * and the country it is assigned to    
@@ -105,7 +102,7 @@ class ps_vendor {
 		$db = new ps_DB();		
 		$user_id = ps_vendor::get_user_id_by_vendor_id($db, $vendor_id);
 		if (empty($user_id)) {
-				$GLOBALS['vmLogger']->err( "Failure in Database no user_id for vendor_id found" );
+				$GLOBALS['vmLogger']->err( "Failure in Database no user_id for vendor_id ".$vendor_id." found" );
 				return;
 		}else{
 			$GLOBALS['vmLogger']->debug( "get_vendor_details user_id for vendor_id found" );
@@ -230,7 +227,8 @@ class ps_vendor {
 			$vmLogger->err( 'You must enter a nickname for the vendor.' );
 			return False;
 		}else{
-			$userid = ps_vendor::get_user_id_by_nickname($db, $d["vendor_nick"]);
+			require_once(CLASSPATH. "ps_user.php");
+			$userid = ps_user::get_user_id_by_nickname($db, $d["vendor_nick"]);
 			if(empty($userid)|| $userid==0 ){
 				$vmLogger->err( 'You must enter a validate nickname for the vendor.' );
 				return false;			
@@ -310,7 +308,8 @@ class ps_vendor {
 				return False;
 			}		
 		}else{
-			$userid = ps_vendor::get_user_id_by_nickname($db, $d["vendor_nick"]);
+			require_once(CLASSPATH. "ps_user.php");
+			$userid = ps_user::get_user_id_by_nickname($db, $d["vendor_nick"]);
 			if(empty($userid)|| $userid==0 ){
 				$vmLogger->err( 'You must enter a validate nickname for the vendor.' );
 				return false;			
@@ -967,7 +966,7 @@ class ps_vendor {
 		$address_details['zip'] = $db->f("zip");
 		$address_details['country'] = $db->f("country");
 		$address_details['phone'] = $db->f("vendor_phone");
-		$address_details['email'] = $db->f("user_email");
+		$address_details['email'] = $db->f("email");
 		$address_details['fax'] = $db->f("fax");
 		$address_details['url'] = $db->f("url");
 		

@@ -170,7 +170,7 @@ class ps_order_change {
 		$q .= "state = '" . $db->f( 'state' ) . "', " ;
 		$q .= "country = '" . $db->f( 'country' ) . "', " ;
 		$q .= "zip = '" . $db->f( 'zip' ) . "', " ;
-		$q .= "email = '" . $db->f( 'user_email' ) . "', " ;
+		$q .= "email = '" . $db->f( 'email' ) . "', " ;
 		$q .= "extra_field_1 = '" . $db->f( 'extra_field_1' ) . "', " ;
 		$q .= "extra_field_2 = '" . $db->f( 'extra_field_2' ) . "', " ;
 		$q .= "extra_field_3 = '" . $db->f( 'extra_field_3' ) . "', " ;
@@ -1023,13 +1023,13 @@ class ps_order_change {
 		$q = "SELECT * FROM #__{vm}_payment_method" ;
 		$q .= " WHERE payment_method_id = '" . $old_payment_method_id . "'" ;
 		$db->query( $q ) ;
-		$old_payment_discount = $db->f( 'payment_method_discount' ) ;
+		$old_payment_discount = $db->f( 'discount' ) ;
 		
 		// Get the new payment_dicount
 		$q = "SELECT * FROM #__{vm}_payment_method" ;
 		$q .= " WHERE payment_method_id = '" . $new_payment_method_id . "'" ;
 		$db->query( $q ) ;
-		$new_payment_discount = $db->f( 'payment_method_discount' ) ;
+		$new_payment_discount = $db->f( 'discount' ) ;
 		
 		// Update order_payment
 		$q = "UPDATE #__{vm}_order_payment " ;

@@ -79,7 +79,7 @@ $db->sp("address_2")
   </TR>
   <TR> 
     <TD WIDTH="22%" ALIGN="right" ><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_EMAIL') ?> :</TD>
-    <TD WIDTH="78%" > <?php $db->sp("user_email") ?></TD>
+    <TD WIDTH="78%" > <?php $db->sp("email") ?></TD>
   </TR>
   <TR> 
     <TD COLSPAN="2" ALIGN="center" >&nbsp; </TD>

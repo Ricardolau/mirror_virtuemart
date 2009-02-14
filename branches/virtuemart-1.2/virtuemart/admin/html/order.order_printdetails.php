@@ -97,7 +97,7 @@ echo vmCommonHTML::PrintIcon();
         </tr>
 	        <?php 
 		foreach( $registrationfields as $field ) {
-			if( $field->name == 'email') $field->name = 'user_email';
+			if( $field->name == 'email') $field->name = 'email';
 			if($field->type == 'captcha') continue;
 			?>
 		  <tr> 
@@ -133,7 +133,7 @@ echo vmCommonHTML::PrintIcon();
         </tr>
         <?php 
 		foreach( $shippingfields as $field ) {
-			if( $field->name == 'email') $field->name = 'user_email';
+			if( $field->name == 'email') $field->name = 'email';
 			?>
 		  <tr> 
 			<td width="35%" align="right">&nbsp;<?php echo $VM_LANG->_($field->title) ? $VM_LANG->_($field->title) : $field->title ?>:</td>
@@ -369,7 +369,7 @@ echo vmCommonHTML::PrintIcon();
           $dbpm = new ps_DB;
           $q  = "SELECT * FROM #__{vm}_payment_method, #__{vm}_order_payment, #__{vm}_orders ";
           $q .= "WHERE #__{vm}_order_payment.order_id='$order_id' ";
-          $q .= "AND #__{vm}_payment_method.id=#__{vm}_order_payment.payment_method_id ";
+          $q .= "AND #__{vm}_payment_method.payment_method_id=#__{vm}_order_payment.payment_method_id ";
           $q .= "AND #__{vm}_orders.user_id='" . $db->f("user_id") . "' ";
           $q .= "AND #__{vm}_orders.order_id='$order_id' ";
           $dbpm->query($q);

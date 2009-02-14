@@ -646,7 +646,7 @@ class plgShippingDhl extends vmShippingPlugin {
 		/* get customer shipping information */
 		$db =& new ps_DB;
 		$q = "SELECT first_name,last_name,address_1,address_2,";
-		$q .= "city,state,country,zip,phone_1,user_email,country_2_code ";
+		$q .= "city,state,country,zip,phone_1,email,country_2_code ";
 		$q .= "FROM #__{vm}_order_user_info, #__{vm}_country ";
 		$q .= "WHERE order_id = '" . $order_id . "' ";
 		$q .= "AND (country=country_2_code OR country=country_3_code)";
@@ -655,7 +655,7 @@ class plgShippingDhl extends vmShippingPlugin {
 		if (!$db->next_record()) {
 			/* If we can't find a ship-to address use bill-to */
 			$q = "SELECT first_name,last_name,address_1,address_2,";
-			$q .= "city,state,country,zip,phone_1,user_email,country_2_code ";
+			$q .= "city,state,country,zip,phone_1,email,country_2_code ";
 			$q .= "FROM #__{vm}_order_user_info, #__{vm}_country ";
 			$q .= "WHERE order_id = '" . $order_id . "' ";
 			$q .= "AND (country=country_2_code OR country=country_3_code)";
@@ -879,7 +879,7 @@ class plgShippingDhl extends vmShippingPlugin {
 
 			$email =& $xmlReq->createElement('Email');
 			$email_cdata =& $xmlReq->createCDATASection(
-			    $dbv->f('user_email'));
+			    $dbv->f('email'));
 			$email->appendChild($email_cdata);
 			$send->appendChild($email);
 		}
@@ -953,7 +953,7 @@ class plgShippingDhl extends vmShippingPlugin {
 		$notification =& $xmlReq->createElement('Notification');
 		$notify =& $xmlReq->createElement('Notify');
 		$email =& $xmlReq->createElement('EmailAddress');
-		$email->setText($db->f('user_email'));
+		$email->setText($db->f('email'));
 		$notify->appendChild($email);
 		$notification->appendChild($notify);
 		$shipment->appendChild($notification);

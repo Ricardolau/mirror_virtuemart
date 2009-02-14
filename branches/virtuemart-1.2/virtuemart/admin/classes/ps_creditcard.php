@@ -227,7 +227,7 @@ class ps_creditcard {
 		}
 		/*** Get only accepted credit cards records ***/
 		else {
-			$q = 'SELECT accepted_creditcards FROM #__{vm}_payment_method WHERE id='.(int)$payment_method_id;
+			$q = 'SELECT accepted_creditcards FROM #__{vm}_payment_method WHERE payment_method_id='.(int)$payment_method_id;
 			$db->query( $q );
 			$db->next_record();
 			$cc_array = explode( ",", $db->f("accepted_creditcards"));
@@ -261,7 +261,7 @@ class ps_creditcard {
 		$script = "<script language=\"javascript\" type=\"text/javascript\">\n";
 		$script .= "<!--\n";
 		$script .= "var originalOrder = '1';\n";
-		$script .= "var originalPos = '".$db_cc->f("payment_method_name")."';\n";
+		$script .= "var originalPos = '".$db_cc->f("name")."';\n";
 		$script .= "var orders = new Array();	// array in the format [key,value,text]\n";
 		$i = 0;
 		$db_cc->reset();
@@ -279,7 +279,7 @@ class ps_creditcard {
 				}
 			}
 			foreach( $cards as $code => $name ) {
-				$script .= "orders[".$i++."] = new Array( '".addslashes($db_cc->f("payment_method_name"))."','$code','$name' );\n";
+				$script .= "orders[".$i++."] = new Array( '".addslashes($db_cc->f("name"))."','$code','$name' );\n";
 			}
 
 			}

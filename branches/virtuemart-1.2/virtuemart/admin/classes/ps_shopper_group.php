@@ -101,7 +101,7 @@ class ps_shopper_group extends vmAbstractObject  {
 			return False;
 		}
 		// Check if the Shopper Group still has Payment Methods assigned to it
-		$db->query( 'SELECT id FROM #__{vm}_payment_method WHERE shopper_group_id='.$shopper_group_id);
+		$db->query( 'SELECT payment_method_id FROM #__{vm}_payment_method WHERE shopper_group_id='.$shopper_group_id);
 		if( $db->next_record()) {			
 			$GLOBALS['vmLogger']->err(str_replace('{id}',$shopper_group_id,$VM_LANG->_('SHOPPER_GROUP_DELETE_PAYMENT_METHODS_ASS')));
 			return False;

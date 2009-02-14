@@ -434,16 +434,19 @@ require_once( CLASSPATH . "htmlTools.class.php" );
 require_once(CLASSPATH.'ps_order_status.php');
 $ps_order_status = new ps_order_status;
 
-$q = "";
-$list  = "SELECT * FROM #__{vm}_orders ";
-$count = "SELECT count(*) as num_rows FROM #__{vm}_orders ";
-$q .= "WHERE  #__{vm}_orders.vendor_id='".$_SESSION['ps_vendor_id']."' AND #__{vm}_orders.user_id=".$user_id." ";
-$q .= "ORDER BY #__{vm}_orders.cdate DESC ";
-$count .= $q;
-$list .= $q;
+//$q = "";
+//$list  = "SELECT * FROM #__{vm}_orders ";
+//$count = "SELECT count(*) as num_rows FROM #__{vm}_orders ";
+//$q .= "WHERE  #__{vm}_orders.vendor_id='".$_SESSION['ps_vendor_id']."' AND #__{vm}_orders.user_id=".$user_id." ";
+//$q .= "ORDER BY #__{vm}_orders.cdate DESC ";
+//$count .= $q;
+//$list .= $q;
 
-$db->query($count);
-$db->next_record();
+//$db->query($count);
+//$db->next_record();
+
+require_once(CLASSPATH.'ps_order.php');
+$db = ps_order::list_order_resultSet($order_status);
 $num_rows = $db->f("num_rows");
 if( $num_rows ) {
 	$tabs->startTab( $VM_LANG->_('PHPSHOP_ORDER_LIST_LBL') . ' ('.$num_rows.')', "order-list");

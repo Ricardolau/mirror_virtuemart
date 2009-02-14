@@ -35,6 +35,11 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+14.02.2009 Milbo
+# Fixed paymentmethods as possible,.. rewriting of payment isnt done yet
+# Due restructuring checkout process wasnt working, fixed it, but be beware of bugs plz send them to me
+
+=======
 11.02.2009 aravot
 ^ Fixed comment typo in SQL file
 

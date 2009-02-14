@@ -97,7 +97,7 @@ function printCard(cardId) {
 		echo $this->params->get('EPAY_AUTH_SMS') ?>" />
 <input type="hidden" name="authmail"
 	value="<?php
-		echo $this->params->get('EPAY_AUTH_MAIL') . (strlen( $this->params->get('EPAY_AUTH_MAIL') ) > 0 && $this->params->get('EPAY_AUTHEMAILCUSTOMER') == 1 ? ";" : "") . ($this->params->get('EPAY_AUTHEMAILCUSTOMER') == 1 ? $user->user_email : "") ;
+		echo $this->params->get('EPAY_AUTH_MAIL') . (strlen( $this->params->get('EPAY_AUTH_MAIL') ) > 0 && $this->params->get('EPAY_AUTHEMAILCUSTOMER') == 1 ? ";" : "") . ($this->params->get('EPAY_AUTHEMAILCUSTOMER') == 1 ? $user->email : "") ;
 		?>" />
 <input type="hidden" name="windowstate"
 	value="<?php

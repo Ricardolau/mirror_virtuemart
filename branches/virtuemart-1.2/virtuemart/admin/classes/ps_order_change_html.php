@@ -708,15 +708,15 @@ class ps_order_change_html {
   	<select name="new_payment_id">
   		<?php
   		$dbs = new ps_DB;
-      $q  = "SELECT payment_method_id, payment_method_name, payment_method_discount FROM #__{vm}_payment_method WHERE payment_enabled = 'Y' ORDER BY payment_method_name ASC"; 
+      $q  = "SELECT payment_method_id, name, discount FROM #__{vm}_payment_method WHERE payment_enabled = 'Y' ORDER BY name ASC"; 
   		$dbs->query($q);
   		while ($dbs->next_record()){
   		  if (!is_null( $dbs->f('payment_method_id') )) {
     			print '<option value="'.$dbs->f('payment_method_id').'"';
     			if($dbs->f('payment_method_id') == $payment_id) print " selected ";
   			  print '>';
-    			print $dbs->f('payment_method_name');
-    			print "-> ". $CURRENCY_DISPLAY->getFullValue(($dbs->f('payment_method_discount') * -1));
+    			print $dbs->f('name');
+    			print "-> ". $CURRENCY_DISPLAY->getFullValue(($dbs->f('discount') * -1));
     			print '</option>';
   			}
   		}

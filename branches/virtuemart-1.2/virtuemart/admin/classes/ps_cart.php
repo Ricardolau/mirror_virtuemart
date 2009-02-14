@@ -99,17 +99,14 @@ class ps_cart {
 
 		$cart = $_SESSION['cart'];
 		$cart_vendor_id = $cart['cart_vendor_id'];
-//		$GLOBALS['vmLogger']->debug( 'MAX_VENDOR_PRO_CART '.MAX_VENDOR_PRO_CART);
 		
 		if(MAX_VENDOR_PRO_CART>0){
 			if( !empty( $d['product_id'])){
-				$db = new ps_DB;
-				$q = 'SELECT vendor_id FROM #__{vm}_product WHERE product_id = '.$d['product_id'];
-				$db->setQuery($q); $db->query();
-	//			$GLOBALS['vmLogger']->debug( 'add to cart [vendor_id] '.$db->f('vendor_id'));
-				$vendor_id = $db->f('vendor_id');
-				if( $vendor_id ) {
-					if($cart_vendor_id==0){
+				require_once(CLASSPATH.'ps_product.php');
+				$vendor_id = ps_product::get_vendor_id_ofproduct($d['product_id']);
+				$GLOBALS['vmLogger']->info( '$cart_vendor_id should be set to '.$vendor_id);
+				if(isset($vendor_id )) {
+					if(empty($cart_vendor_id)){
 						$GLOBALS['vmLogger']->debug( 'Set cart[cart_vendor_id] to '.$vendor_id);
 						$cart['cart_vendor_id'] = $vendor_id;
 					}else{
@@ -120,10 +117,15 @@ class ps_cart {
 	//						$GLOBALS['vmLogger']->debug( 'Adding product to cart is all well done');
 						}
 					}	
-				}			
+				}else{
+					$GLOBALS['vmLogger']->error( 'add to cart [vendor_id] '.$vendor_id.' failed no vendor_id foundt');
+				}
+			}else{
+				$GLOBALS['vmLogger']->error( 'add to cart [product_id] empty');
 			}
 			$_SESSION['cart'] = $cart;
 		}
+//		$GLOBALS['vmLogger']->info( 'add '.$d["product_id"].'$cart_vendor_id '.$cart_vendor_id);
 
 		
 		$d = $GLOBALS['vmInputFilter']->process( $d );
@@ -287,6 +289,7 @@ class ps_cart {
 			}
 		} // End Iteration through Prod id's
 		$cart = $_SESSION['cart'];
+//		$_SESSION['cart'] = $cart;
 		ps_cart::saveCart();
 
 		// Ouput info message with cart update details /*

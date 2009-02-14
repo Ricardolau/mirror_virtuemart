@@ -33,7 +33,7 @@ global $VM_LANG;
    	<?php echo $VM_LANG->_('PHPSHOP_THANKYOU_SUCCESS')?>
   
 	<br /><br />
-	<?php echo $VM_LANG->_('PHPSHOP_EMAIL_SENDTO') .": <strong>". $user->user_email . '</strong>'; ?><br />
+	<?php echo $VM_LANG->_('PHPSHOP_EMAIL_SENDTO') .": <strong>". $user->email . '</strong>'; ?><br />
 </p>
   
 <!-- Begin Payment Information -->

@@ -30,18 +30,11 @@ if (!empty($missing)) {
 	echo "<script type=\"text/javascript\"> alert('".$VM_LANG->_('CONTACT_FORM_NC')."'); </script>\n";
 }
 
-if ( VM_REGISTRATION_TYPE == 'NO_REGISTRATION' ) {
-	$q =  "SELECT * FROM #__{vm}_user_info 
-			WHERE user_id='" . $auth["user_id"] . "' 
-			AND address_type='BT' ";
-} else {
-	$q =  "SELECT * FROM #__users, #__{vm}_user_info 
-			WHERE user_id='" . $auth["user_id"] . "' 
-			AND user_id = id
-			AND address_type='BT' ";
+require_once( CLASSPATH . "ps_user.php" );
+$db = ps_user::get_user_details($auth["user_id"],"",""," AND address_type='BT'");
+if(empty($db)){
+	$GLOBALS['vmLogger']->err('account.billing $db empty ');	
 }
-$db->query($q);
-$db->next_record();
 
 // Set the CMS pathway
 $pathway = array();
@@ -66,7 +59,7 @@ $tpl->set( 'vmPathway', $vmPathway );
 $skip_fields = array();
 if ( VM_REGISTRATION_TYPE == 'NO_REGISTRATION' ) {
 	global $default;
-	$default['email'] = $db->f('user_email');
+	$default['email'] = $db->f('email');
 	$skip_fields = array( 'username', 'password', 'password2' );
 }
 

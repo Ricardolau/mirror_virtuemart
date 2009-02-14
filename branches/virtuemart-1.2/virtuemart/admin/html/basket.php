@@ -16,7 +16,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
 * other free or open source software licenses.
-* See /administrator/components/com_virtuemart/COPYRIGHT.php for copyright notices and details.
+* See /administrator/components/com_virtuemarqt/COPYRIGHT.php for copyright notices and details.
 *
 * http://virtuemart.net
 */

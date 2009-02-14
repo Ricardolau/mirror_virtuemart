@@ -391,7 +391,7 @@ class ps_order_edit {
   		
   		// Ship to Address if applicable (copied from ps_checkout.php and changed)
   		$q = "INSERT INTO `#__{vm}_order_user_info` ";
-  		$q .= "SELECT '', '$this->order_id', '".$db->f('user_id')."', address_type, address_type_name, company, title, last_name, first_name, middle_name, phone_1, phone_2, fax, address_1, address_2, city, state, country, zip, user_email, extra_field_1, extra_field_2, extra_field_3, extra_field_4, extra_field_5,bank_account_nr,bank_name,bank_sort_code,bank_iban,bank_account_holder,bank_account_type FROM #__{vm}_user_info WHERE user_id='".$db->f('user_id')."' AND user_info_id='".$ship_to."' AND address_type='ST'";
+  		$q .= "SELECT '', '$this->order_id', '".$db->f('user_id')."', address_type, address_type_name, company, title, last_name, first_name, middle_name, phone_1, phone_2, fax, address_1, address_2, city, state, country, zip, email, extra_field_1, extra_field_2, extra_field_3, extra_field_4, extra_field_5,bank_account_nr,bank_name,bank_sort_code,bank_iban,bank_account_holder,bank_account_type FROM #__{vm}_user_info WHERE user_id='".$db->f('user_id')."' AND user_info_id='".$ship_to."' AND address_type='ST'";
   		$db->query($q);
   		$db->next_record();
 		}
@@ -444,7 +444,7 @@ class ps_order_edit {
 		$q .= "state = '" .$db->f('state')."', ";
 		$q .= "country = '" .$db->f('country')."', ";
 		$q .= "zip = '" .$db->f('zip')."', ";
-		$q .= "user_email = '" .$db->f('user_email')."', ";
+		$q .= "email = '" .$db->f('email')."', ";
 		$q .= "extra_field_1 = '" .$db->f('extra_field_1')."', ";
 		$q .= "extra_field_2 = '" .$db->f('extra_field_2')."', ";
 		$q .= "extra_field_3 = '" .$db->f('extra_field_3')."', ";

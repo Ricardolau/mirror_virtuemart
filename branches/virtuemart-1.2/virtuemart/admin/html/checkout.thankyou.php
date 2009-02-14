@@ -29,25 +29,36 @@ $order_id = $db->getEscaped(vmGet($vars, 'order_id' ) );
 
 $print = vmRequest::getInt('print', 0);
 
-/** Retrieve User Email **/
-$q  = "SELECT * FROM `#__{vm}_order_user_info` WHERE `order_id`='$order_id' AND `address_type`='BT'";
-$db->query( $q );
-$db->next_record();
+/** Retrieve User Email due Order_id**/
+
+//$email = ps_user::get_UserEmailbyOrder_id($order_id);
+
+//$q  = "SELECT * FROM `#__{vm}_order_user_info` WHERE `order_id`='$order_id' AND `address_type`='BT'";
+//$db->query( $q );
+//$db->next_record();
+echo('checkout.thankyou: $order_id  '.$order_id);
+require_once(CLASSPATH.'ps_user.php');
+
+//TODO Seems not to work, probably the orders isnt inserted yet
+$userid = ps_user::get_User_id_by_order_id($db,$order_id);
+//quickndirty 
+$userid = $auth["user_id"];
+$db = ps_user::get_user_details($userid,"","","AND `u`.`address_type`='BT'");
+
 $old_user = '';
 if( !empty( $user ) && is_object($user)) {
 	$old_user = $user;
 }
-$user = $db->get_row();
 $dbbt = $db->_clone( $db );
 
-$user->email = $db->f("user_email");
+$user = $db->get_row();
 
 /** Retrieve Order & Payment Info **/
 $db = new ps_DB;
 $q  = "SELECT * FROM (`#__{vm}_order_payment` LEFT JOIN `#__{vm}_payment_method` ";
-$q .= "ON `#__{vm}_payment_method`.`id`  = `#__{vm}_order_payment`.`payment_method_id`), `#__{vm}_orders` ";
+$q .= "ON `#__{vm}_payment_method`.`payment_method_id`  = `#__{vm}_order_payment`.`payment_method_id`), `#__{vm}_orders` ";
 $q .= "WHERE `#__{vm}_order_payment`.`order_id`='$order_id' ";
-$q .= "AND `#__{vm}_orders`.`user_id`=" . $auth["user_id"] . " ";
+$q .= "AND `#__{vm}_orders`.`user_id`=" . $userid . " ";
 $q .= "AND `#__{vm}_orders`.`order_id`='$order_id' ";
 $db->query($q);
 	

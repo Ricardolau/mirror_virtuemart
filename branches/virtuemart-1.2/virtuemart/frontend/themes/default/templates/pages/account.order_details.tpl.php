@@ -96,7 +96,7 @@ if( $db->f('order_number')) {
 	        <?php 
 		foreach( $registrationfields as $field ) {
 			if( $field->type == 'captcha') continue;
-			if( $field->name == 'email') $field->name = 'user_email';
+			if( $field->name == 'email') $field->name = 'email';
 			?>
 		  <tr> 
 			<td align="right"><?php echo $VM_LANG->_($field->title) ? $VM_LANG->_($field->title) : $field->title ?>:</td>
@@ -138,7 +138,7 @@ if( $db->f('order_number')) {
 	        </tr>
 	        <?php 
 		foreach( $shippingfields as $field ) {
-			if( $field->name == 'email') $field->name = 'user_email';
+			if( $field->name == 'email') $field->name = 'email';
 			?>
 		  <tr> 
 			<td width="35%" align="right">&nbsp;<?php echo $VM_LANG->_($field->title) ? $VM_LANG->_($field->title) : $field->title ?>:</td>

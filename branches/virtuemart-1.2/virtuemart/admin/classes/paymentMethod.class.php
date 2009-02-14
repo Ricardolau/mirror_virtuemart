@@ -47,7 +47,7 @@ class vmPaymentMethod extends vmAbstractObject {
 	var $type = UNKNOWN;
 	var $errno = CC_OK;
 	/** @var string The key which is used to identify this object (example: product_id) */
-	var $_key = 'id';
+	var $_key = 'payment_method_id';
 	/** @var array An array holding the names of all required fields */
 	var $_required_fields = array('name' );
 	
@@ -151,9 +151,16 @@ class vmPaymentMethod extends vmAbstractObject {
 	 */
 	function add(&$d) {
 		global $VM_LANG;
-		
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
 		$db = new ps_DB;
+		require_once( CLASSPATH . "ps_vendor.php");
+		$vendor_id = ps_vendor::get_logged_vendor();
+
+		//Todo make it available for admins, but need a menu to select user
+		$auth = $_SESSION['auth'];
+		$user_id = $auth["user_id"];
+		require_once( CLASSPATH . 'ps_vendor.php' );
+		$vendor_id = ps_vendor::get_vendor_id_by_user_id($db,$user_id);
+		
 
 		if (!$this->validate_add($d)) {
 			return False;
@@ -162,7 +169,7 @@ class vmPaymentMethod extends vmAbstractObject {
 		if (!$d["shopper_group_id"]) {
 			$q =  "SELECT shopper_group_id FROM #__{vm}_shopper_group WHERE ";
 			$q .= "`default`='1' ";
-//			$q .= "AND vendor_id='$ps_vendor_id'";
+			$q .= "AND vendor_id='$vendor_id'";
 			$db->query($q);
 			$db->next_record();
 			$d["shopper_group_id"] = $db->f("shopper_group_id");
@@ -181,7 +188,7 @@ class vmPaymentMethod extends vmAbstractObject {
 			}
 			$params = implode("\n", $txt);
 		}
-		$fields = array( 'vendor_id' => $ps_vendor_id, 
+		$fields = array( 'vendor_id' => $vendor_id, 
 						'name' => vmGet($d, 'name' ), 
 						'element' => vmGet($d, 'element' ),
 						'shopper_group_id' => vmRequest::getInt('shopper_group_id'),
@@ -216,9 +223,25 @@ class vmPaymentMethod extends vmAbstractObject {
 		global $VM_LANG;
 		
 		global $vmLogger, $VM_LANG;
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
-
+		
 		$db = new ps_DB;
+		
+//		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		$auth = $_SESSION['auth'];
+		$user_id = $auth["user_id"];
+		require_once( CLASSPATH . 'ps_vendor.php' );
+		$vendor_id = ps_vendor::get_vendor_id_by_user_id($db,$user_id);
+		
+		if( !$perm->check( 'admin' )) {
+			if($vendor_id!=$d['vendor_id']){
+				$vmLogger->err( $VM_LANG->_('VM_PAYMENTMETHOD_NOT_ALLOWED_TO_UPDATE ',false) );
+				return false;
+			}
+		}else{
+			if($vendor_id!=$d['vendor_id']){
+				$vendor_id = $d['vendor_id'];
+			}
+		}
 
 		if (!$this->validate_update($d)) {
 			return False;
@@ -253,7 +276,7 @@ class vmPaymentMethod extends vmAbstractObject {
 						'extra_info' => vmGet( $_POST, 'extra_info', null, VMREQUEST_ALLOWRAW ),
 						'params' => $params
 				);
-		$db->buildQuery( 'UPDATE', '#__{vm}_payment_method', $fields, 'WHERE id='.(int)$d["payment_method_id"].' AND vendor_id='.$ps_vendor_id );
+		$db->buildQuery( 'UPDATE', '#__{vm}_payment_method', $fields, 'WHERE payment_method_id='.(int)$d["payment_method_id"].' AND vendor_id='.$vendor_id );
 		if( $db->query() === false ) {
 			$vmLogger->err('Failed to update the Payment Method!');
 			return false;
@@ -290,10 +313,23 @@ class vmPaymentMethod extends vmAbstractObject {
 	function delete_record( $record_id, &$d ) {
 
 		global $db;
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		
+		//Gets the user_id of logged user and ref vendor_id
+//		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		$auth = $_SESSION['auth'];
+		$user_id = $auth["user_id"];
+		require_once( CLASSPATH . 'ps_vendor.php' );
+		$vendor_id = ps_vendor::get_vendor_id_by_user_id($db,$user_id);
 
 		$q = 'DELETE from #__{vm}_payment_method WHERE payment_method_id='.(int)$record_id.' AND ';
-		$q .= "\nvendor_id='$ps_vendor_id'";
+		if( !$perm->check( 'admin' )) {
+			if($vendor_id!=$d['vendor_id']){
+				$vmLogger->err( $VM_LANG->_('VM_PAYMENTMETHOD_NOT_ALLOWED_TO_DELETE ',false) );
+			}else{
+				$q .= " vendor_id = '$vendor_id'";	
+			}
+		}
+		
 		$db->query($q);
 
 		return True;
@@ -331,9 +367,14 @@ class vmPaymentMethod extends vmAbstractObject {
 	 * @param int $payment_method_id
 	 */
 	function list_method($payment_method_id) {
-		global $VM_LANG;
 		
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		global $VM_LANG;
+		require_once( CLASSPATH . "ps_vendor.php");
+		$vendor_id = ps_vendor::get_logged_vendor();
+
+		//Paymentmethods are not vendorrelated yet we use the store by Max Milbers
+		$vendor_id = 1;
+		
 		$db = new ps_DB;
 
 		require_once(CLASSPATH.'ps_shopper_group.php');
@@ -342,11 +383,11 @@ class vmPaymentMethod extends vmAbstractObject {
 
 		$q =  "SELECT * FROM #__{vm}_shopper_group WHERE ";
 		$q .= "`default`='1' ";
-		$q .= "AND vendor_id='$ps_vendor_id'";
+//		$q .= "AND vendor_id='$vendor_id'";
 		$db->query($q);
 		if (!$db->num_rows()) {
 			$q =  "SELECT * from #__{vm}_shopper_group WHERE ";
-			$q .= "vendor_id='$ps_vendor_id'";
+//			$q .= "vendor_id='$vendor_id'";
 			$db->query($q);
 		}
 		$db->next_record();
@@ -383,7 +424,7 @@ class vmPaymentMethod extends vmAbstractObject {
 		global $CURRENCY_DISPLAY, $ps_checkout;
 		//This is the id of the mainvendor because the payment mehthods are not vendorrelated yet
 //		$ps_vendor_id = $_SESSION['ps_vendor_id'];
-		$ps_vendor_id = 1; 
+		$vendor_id = 1; 
 		$auth = $_SESSION["auth"];
 		$db = new ps_DB;
 		if( !isset( $ps_checkout )) { $ps_checkout = new ps_checkout(); }
@@ -401,10 +442,10 @@ class vmPaymentMethod extends vmAbstractObject {
 		$db->next_record();
 		$default_shopper_group_id = $db->f("shopper_group_id");
 
-		$q = "SELECT id,discount, discount_is_percentage, name from #__{vm}_payment_method WHERE ";
+		$q = "SELECT payment_method_id,discount, discount_is_percentage, name from #__{vm}_payment_method WHERE ";
 		$q .= "(type='$selector') AND ";
 		$q .= "published='Y' AND ";
-		$q .= "vendor_id='$ps_vendor_id' AND ";
+//		$q .= "vendor_id='$vendor_id' AND ";
 
 		if ($auth["shopper_group_id"] == $default_shopper_group_id) {
 			$q .= "shopper_group_id='$default_shopper_group_id' ";
@@ -419,7 +460,8 @@ class vmPaymentMethod extends vmAbstractObject {
 		// Start radio list
 		while ($db->next_record()) {
 			$has_result = true;
-			echo "<input type=\"radio\" name=\"payment_method_id\" id=\"".$db->f("name")."\" value=\"".$db->f("id")."\" ";
+//			echo "<input type=\"radio\" name=\"payment_method_id\" id=\"".$db->f("name")."\" value=\"".$db->f("id")."\" ";
+			echo "<input type=\"radio\" name=\"payment_method_id\" id=\"".$db->f("name")."\" value=\"".$db->f("payment_method_id")."\" ";
 			if( $selector == "' OR type='Y" ) {
 				echo "onchange=\"javascript: changeCreditCardList();\" ";
 			}
@@ -429,7 +471,7 @@ class vmPaymentMethod extends vmAbstractObject {
 			}
 			else
 			echo ">\n";
-			$discount  = $ps_checkout->get_payment_discount( $db->f("id") );
+			$discount  = $ps_checkout->get_payment_discount( $db->f("payment_method_id") );
 			echo "<label for=\"".$db->f("name")."\">".$db->f("name");
 			if ($discount > 0.00) {
 				echo " (- ".$CURRENCY_DISPLAY->getFullValue(abs($discount)).") \n";
@@ -455,7 +497,7 @@ class vmPaymentMethod extends vmAbstractObject {
 	 */
 	function payment_sql($payment_method_id) {
 		$db = new ps_DB;
-		$q = 'SELECT * FROM #__{vm}_payment_method WHERE id='.(int)$payment_method_id;
+		$q = 'SELECT * FROM #__{vm}_payment_method WHERE payment_method_id='.(int)$payment_method_id;
 		$db->query($q);
 		return $db;
 	}
@@ -517,7 +559,7 @@ class vmPaymentMethod extends vmAbstractObject {
 
 		$db = new ps_DB;
 		
-		$q = 'SELECT `'.$field_name.'` FROM `#__{vm}_payment_method` WHERE `id`='.(int)$payment_method_id;
+		$q = 'SELECT `'.$field_name.'` FROM `#__{vm}_payment_method` WHERE `payment_method_id`='.(int)$payment_method_id;
 		$db->query($q);
 		$db->next_record();
 		return $db->f($field_name);
@@ -533,7 +575,7 @@ class vmPaymentMethod extends vmAbstractObject {
 
 		$db = new ps_DB;
 		$q = "SELECT is_creditcard,accepted_creditcards FROM #__{vm}_payment_method\n";
-		$q .= 'WHERE id='.(int)$payment_id;
+		$q .= 'WHERE payment_method_id='.(int)$payment_id;
 		$db->query($q);
 		$db->next_record();
 		$details = $db->f('accepted_creditcards');
@@ -893,7 +935,7 @@ class vmPaymentPlugin extends vmPlugin {
     function showPaymentForm( &$db, $user, $dbbt ) {
     	if( !empty($this->_id )) {
     		$db = new ps_DB();
-    		$db->query('SELECT extra_info FROM #__{vm}_payment_method WHERE id='.(int)$this->_id);
+    		$db->query('SELECT extra_info FROM #__{vm}_payment_method WHERE payment_method_id='.(int)$this->_id);
     		if( $db->next_record() && $db->f('extra_info')) {
     			@eval('?>'.$db->f('extra_info').'<?php');
     		}

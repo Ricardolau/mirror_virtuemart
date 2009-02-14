@@ -68,7 +68,7 @@ class ps_checkout {
 				vmPluginHelper::importPlugin('shipping', $filename);
 			}
 		}
-		//$steps = ps_checkout::get_checkout_steps();
+		$steps = ps_checkout::get_checkout_steps();
 		if(empty($_REQUEST['ship_to_info_id']) && ps_checkout::noShipToNecessary()) {
 
 			$db = new ps_DB();
@@ -149,6 +149,7 @@ class ps_checkout {
 		foreach( $VM_CHECKOUT_MODULES as $step ) {
 			// Get the stepname from the array key
 			$stepname = current($stepnames);
+//			$GLOBALS['vmLogger']->info('$stepname '.$stepname);
 			next($stepnames);
 			
 			switch( $stepname ) {
@@ -167,7 +168,7 @@ class ps_checkout {
 			
 		}
 		ksort( $steps );
-		
+
 		return $steps;
 	}
 	/**
@@ -183,11 +184,14 @@ class ps_checkout {
 			// Make sure we have an integer (max 4)
 			$checkout_step = abs( min( $_REQUEST['checkout_last_step'], 4 ) );
 			if( isset( $steps[$checkout_step] )) {
+//				$GLOBALS['vmLogger']->info('ps_checkout get_current_stage über Request '.$checkout_step);
 				return $checkout_step; // it's a valid step
 			}
 		}
 		$checkout_step = (int)vmGet( $_REQUEST, 'checkout_stage' );
+		
 		if( isset( $steps[$checkout_step] )) {
+//			$GLOBALS['vmLogger']->info('ps_checkout get_current_stage über vmGet '.$checkout_step.' '.$steps[$checkout_step]);
 			return $checkout_step; // it's a valid step
 		}
 		// Else: we have no alternative steps given by REQUEST
@@ -201,7 +205,7 @@ class ps_checkout {
 							// We are beyond the last index of the array and need to go "back" to the last index
 							end( $steps );
 						}
-						//echo "Stage: ".key( $steps );
+//						$GLOBALS['vmLogger']->info('ps_checkout get_current_stage WhileReturn  '.key( $steps ));
 						return key($steps);
 						
 					}
@@ -209,6 +213,7 @@ class ps_checkout {
 			}
 			next($steps);
 		}
+//		$GLOBALS['vmLogger']->info('ps_checkout get_current_stage  '.$stage);
 		return $stage;
 	}
 	/**
@@ -308,6 +313,7 @@ class ps_checkout {
 				return False;
 			}
 		}
+		
 		if ( !$this->validate_payment_method( $d, false )) {
 			return false;
 		}
@@ -356,7 +362,7 @@ class ps_checkout {
 		}
 		/*
 		if (!$d["payment_method_id"]) {
-			$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_MSG_4',false) );
+			$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_PAYM',false) );
 			return False;
 		}*/
 		if ($vmPaymentMethod->is_creditcard(@$d["payment_method_id"])) {
@@ -436,7 +442,9 @@ class ps_checkout {
 				return true;
 			}
 		}
-		if (!isset($d["payment_method_id"]) || $d["payment_method_id"]==0 ) {
+		
+//		if (!isset($d["payment_method_id"]) || $d["payment_method_id"]==0 ) {
+		if (empty($d["payment_method_id"])){
 			$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_PAYM',false) );
 			return false;
 		}
@@ -448,7 +456,7 @@ class ps_checkout {
 		// Now Check if all needed Payment Information are entered
 		// Bank Information is found in the User_Info
 		$w  = "SELECT `type` FROM `#__{vm}_payment_method` WHERE ";
-		$w .= "id=" .  (int)$d["payment_method_id"];
+		$w .= "payment_method_id=" .  (int)$d["payment_method_id"];
 		$dbp->query($w);
 		$dbp->next_record();
 		
@@ -650,7 +658,7 @@ class ps_checkout {
 					$_SESSION['ccdata']['order_payment_expire_year'] = @$d['order_payment_expire_year'];
 					// 3-digit Security Code (CVV)
 					$_SESSION['ccdata']['credit_card_code'] = @$d['credit_card_code'];
-		
+					$GLOBALS['vmLogger']->info('process '.$d["payment_method_id"]);
 					if (!$this->validate_payment_method($d, false)) { //Change false to true to Let the user play with the VISA Testnumber
 						unset( $_POST['checkout_this_step']);
 						return false;
@@ -659,9 +667,10 @@ class ps_checkout {
 					break;
 	
 				case 'CHECK_OUT_GET_FINAL_CONFIRMATION':
-	
+					
+				
 					// The User wants to order now, validate everything, if OK than Add immeditialtly
-					return( $this->add( $d ) );
+					return( $this->storeOrderInformationToDB( $d ) );
 	
 				default:
 					$vmLogger->crit( "CheckOut step ($checkout_this_step) is undefined!" );
@@ -690,41 +699,43 @@ class ps_checkout {
 	 * @param string $value
 	 */
 	function list_addresses( $user_id, $name, $value ) {
-		global $sess,$VM_LANG;
+		global $sess,$VM_LANG,$vmLogger;
 
+		
 		$db = new ps_DB;
 
 		/* Select all the ship to information for this user id and
 		* order by modification date; most recently changed to oldest
 		*/
-		$q  = "SELECT 'user_info_id','address_type_name' from #__{vm}_user_info WHERE ";
-		$q .= "user_id=" . (int)$user_id . ' ';
-		$q .= "AND address_type='BT'";
-		$db->query($q);
-		$db->next_record();
-
-		$bt_user_info_id = $db->f("user_info_id","address_type_name");
+//		$q  = "SELECT 'user_info_id','address_type_name' from #__{vm}_user_info WHERE ";
+//		$q .= "user_id=" . (int)$user_id . ' ';
+//		$q .= "AND address_type='BT'";
+//		$db->query($q);
+//		$db->next_record();
+//
+//		$bt_user_info_id = $db->f("user_info_id","address_type_name");
 
 		//This is unsure and must be tested by Max Milbers
-//		$db = ps_user::get_user_details((int)$user_id ,array("*"),"address_type_name, mdate DESC","AND address_type = 'ST'");
-		$q  = "SELECT * FROM (#__{vm}_user_info u , #__users ju) ";
-		$q .= "INNER JOIN #__{vm}_country c ON (u.country=c.country_3_code) ";
-		$q .= "LEFT JOIN #__{vm}_state s ON (u.state=s.state_2_code AND s.country_id=c.country_id) ";	
-		$q .= "WHERE user_id =" . (int)$user_id . ' ';
-		$q .= "AND address_type = 'ST' ";
-		$q .= "ORDER by address_type_name, mdate DESC";
-//		echo("Was geht denn hier? ".$q);
-		$db->query($q);
-		
+//		$q  = "SELECT * FROM (#__{vm}_user_info u , #__users ju) ";
+//		$q .= "INNER JOIN #__{vm}_country c ON (u.country=c.country_3_code) ";
+//		$q .= "LEFT JOIN #__{vm}_state s ON (u.state=s.state_2_code AND s.country_id=c.country_id) ";	
+//		$q .= "WHERE u.user_id =". (int)$user_id ." AND ju.id = ".(int)$user_id;
+//		$q .= " AND address_type = 'ST' ";
+//		$q .= " ORDER by address_type_name, mdate DESC";
+//		$db->query($q);
+//		$db->next_record();
+
+		require_once(CLASSPATH. "ps_user.php");
+		$db = ps_user::get_user_details((int)$user_id ,array("*"),"address_type_name, mdate DESC","AND address_type = 'ST'", false);
+
 		$theme = vmTemplate::getInstance();
 		$theme->set_vars(array('db' => $db,
 								'user_id' => $user_id,
 								'name' => $name,
 								'value' => $value,
-								'bt_user_info_id' => $bt_user_info_id,
+								'bt_user_info_id' => $db->f("user_info_id"),
 						 	)
 						 );
-
 		echo $theme->fetch( 'checkout/list_shipto_addresses.tpl.php');
 	}
 
@@ -734,20 +745,13 @@ class ps_checkout {
 	 * @param string $address_type Can be BT (Bill To) or ST (Shipto address)
 	 */
 	function display_address($address_type='BT') {
+		global $vmLogger;
 		$auth = $_SESSION['auth'];
-		
 		$address_type = $address_type == 'BT' ? $address_type : 'ST';
 		
 		require_once(CLASSPATH. "ps_user.php");
-		$db = ps_user::get_user_details($auth["user_id"],array("*"),"","AND `u`.`address_type`='BT'");
-//		$db = new ps_DB;
-//		$q  = "SELECT * FROM #__{vm}_user_info i ";
-//		$q .= "INNER JOIN #__{vm}_country c ON (i.country=c.country_3_code OR i.country=c.country_2_code) ";
-//		$q .= "LEFT JOIN #__{vm}_state s ON (i.state=s.state_2_code AND s.country_id=c.country_id) ";
-//		$q .= "WHERE user_id='" . $auth["user_id"] . "' ";
-//		$q .= "AND address_type='BT'";
-//		$db->query($q);
-//		$db->next_record();
+		//by Max Milbers seems  to work
+		$db = ps_user::get_user_details($auth["user_id"],array("*"),"","AND `u`.`address_type`='$address_type'");
 		$theme = new $GLOBALS['VM_THEMECLASS']();
 		$theme->set('db', $db );
 		
@@ -802,7 +806,7 @@ class ps_checkout {
         $vmPaymentMethod = new vmPaymentMethod;
 		require_once( CLASSPATH. 'ps_creditcard.php' );
 	    $ps_creditcard = new ps_creditcard();
-//	    ps_checkout::spezialFunktion();
+
 		// Do we have Credit Card Payments?
 		$db_cc  = new ps_DB;
 		$q = "SELECT * FROM #__{vm}_payment_method,#__{vm}_shopper_group WHERE ";
@@ -811,10 +815,10 @@ class ps_checkout {
 		$q .= "OR #__{vm}_shopper_group.default='1') ";
 		$q .= "AND (type='' OR type='Y') ";
 		$q .= "AND published='Y' ";
-		$q .= "AND #__{vm}_payment_method.vendor_id='$ps_vendor_id' ";
+//		$q .= "AND #__{vm}_payment_method.vendor_id='$ps_vendor_id' ";
 		$q .= " ORDER BY ordering";
 		$db_cc->query($q);
-		
+//		$GLOBALS['vmLogger']->info('list_payment_methods '.$q);
 		if ($db_cc->num_rows()) {
 		    $cc_payments=true;
 		}
@@ -829,7 +833,7 @@ class ps_checkout {
 		$q .= "OR #__{vm}_shopper_group.default='1') ";
 		$q .= "AND (type='B' OR type='N' OR type='P') ";
 		$q .= "AND published='Y' ";
-		$q .= "AND #__{vm}_payment_method.vendor_id='$ps_vendor_id' ";
+//		$q .= "AND #__{vm}_payment_method.vendor_id='$vendor_id' ";
 		$q .= " ORDER BY ordering";
 		$db_nocc->query($q);
 		if ($db_nocc->next_record()) {
@@ -841,16 +845,20 @@ class ps_checkout {
 		else {
 		    $nocc_payments=false;
 		}
+		
+		//this is not really sensefull, because the paymentmethod is not saved automatically
+		//AND how should the customer give his data for the transfer?
         // Redirect to the last step when there's only one payment method
-		if( $VM_CHECKOUT_MODULES['CHECK_OUT_GET_PAYMENT_METHOD']['order'] != $VM_CHECKOUT_MODULES['CHECK_OUT_GET_FINAL_CONFIRMATION']['order'] ) {
-			if ($count <= 1 && $cc_payments==false) {
-				vmRedirect($sess->url(SECUREURL.basename($_SERVER['PHP_SELF'])."?page=checkout.index&payment_method_id=$first_payment_method_id&ship_to_info_id=$ship_to_info_id&shipping_rate_id=".urlencode($shipping_rate_id)."&checkout_stage=".$VM_CHECKOUT_MODULES['CHECK_OUT_GET_FINAL_CONFIRMATION']['order'], false, false ),"");
-			}
-			elseif( isset($order_total) && $order_total <= 0.00 ) {
-				// In case the order total is less than or equal zero, we don't need a payment method
-				vmRedirect($sess->url(SECUREURL.basename($_SERVER['PHP_SELF'])."?page=checkout.index&ship_to_info_id=$ship_to_info_id&shipping_rate_id=".urlencode($shipping_rate_id)."&checkout_stage=".$VM_CHECKOUT_MODULES['CHECK_OUT_GET_FINAL_CONFIRMATION']['order'], false, false),"");
-			}
+//		if( $VM_CHECKOUT_MODULES['CHECK_OUT_GET_PAYMENT_METHOD']['order'] != $VM_CHECKOUT_MODULES['CHECK_OUT_GET_FINAL_CONFIRMATION']['order'] ) {
+//			if ($count <= 1 && $cc_payments==false) {
+//				vmRedirect($sess->url(SECUREURL.basename($_SERVER['PHP_SELF'])."?page=checkout.index&payment_method_id=$first_payment_method_id&ship_to_info_id=$ship_to_info_id&shipping_rate_id=".urlencode($shipping_rate_id)."&checkout_stage=".$VM_CHECKOUT_MODULES['CHECK_OUT_GET_FINAL_CONFIRMATION']['order'], false, false ),"");
+//			}
+//			elseif( isset($order_total) && $order_total <= 0.00 ) {
+		if( isset($order_total) && $order_total <= 0.00 ) {
+			// In case the order total is less than or equal zero, we don't need a payment method
+			vmRedirect($sess->url(SECUREURL.basename($_SERVER['PHP_SELF'])."?page=checkout.index&ship_to_info_id=$ship_to_info_id&shipping_rate_id=".urlencode($shipping_rate_id)."&checkout_stage=".$VM_CHECKOUT_MODULES['CHECK_OUT_GET_FINAL_CONFIRMATION']['order'], false, false),"");
 		}
+//		}
 		$theme = new $GLOBALS['VM_THEMECLASS']();
 		$theme->set_vars(array('db_nocc' => $db_nocc,
 								'db_cc' => $db_cc,
@@ -867,55 +875,7 @@ class ps_checkout {
 		echo $theme->fetch( 'checkout/list_payment_methods.tpl.php');
 		
 	}
-	function spezialFunktion(){
-		$db = new ps_DB();
-		$db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_payment_method` (
-  `id` int(11) NOT NULL auto_increment,
-  `vendor_id` int(11) default NULL,
-  `name` varchar(255) default NULL,
-  `element` varchar(50) NOT NULL default '',
-  `shopper_group_id` int(11) default NULL,
-  `discount` decimal(12,2) default NULL,
-  `discount_is_percentage` tinyint(1) NOT NULL,
-  `discount_max_amount` decimal(10,2) NOT NULL,
-  `discount_min_amount` decimal(10,2) NOT NULL,
-  `ordering` int(11) default NULL,
-  `type` char(1) default NULL,
-  `is_creditcard` tinyint(1) NOT NULL default '0',
-  `published` char(1) NOT NULL default 'N',
-  `accepted_creditcards` varchar(128) NOT NULL default '',
-  `extra_info` text NOT NULL,
-  `secret_key` blob NOT NULL,
-  `params` TEXT NOT NULL,
-  PRIMARY KEY  (`payment_method_id`),
-  KEY `idx_payment_method_vendor_id` (`vendor_id`),
-  KEY `idx_payment_method_name` (`name`),
-  KEY `idx_payment_method_list_order` (`list_order`),
-  KEY `idx_payment_method_shopper_group_id` (`shopper_group_id`)
-) TYPE=MyISAM COMMENT='The payment methods of your store'; ");
 
-## 
-## Data for table `#__{vm}_payment_method`
-## 
-
-$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (1, 1, 'Purchase Order', 'payment', 6, 0.00, 0, 0.00, 0.00, 4, 'N', 0, 'Y', '', '', '', '')" );
-$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (2, 1, 'Cash On Delivery', 'payment', 5, -2.00, 0, 0.00, 0.00, 5, 'N', 0, 'Y', '', '', '', '')" );
-$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (3, 1, 'Credit Card', 'authorize', 5, 0.00, 0, 0.00, 0.00, 0, 'Y', 0, 'Y', '1,2,6,7,', '', '', '')" );
-$db->query( 'INSERT INTO `#__{vm}_payment_method` VALUES (4, 1, \'PayPal\', \'paypal\', 5, 0.00, 0, 0.00, 0.00, 0, \'P\', 0, \'Y\', \'\', \'\', \'\', \'\')' );
-$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (5, 1, 'PayMate', 'paymate', 5, 0.00, 0, 0.00, 0.00, 0, 'P', 0, 'N', '', '', '', '')" );
-$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (6, 1, 'WorldPay', 'worldpay', 5, 0.00, 0, 0.00, 0.00, 0, 'P', 0, 'N', '', '', '', '')" );
-$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (7, 1, '2Checkout', 'twocheckout', 5, 0.00, 0, 0.00, 0.00, 0, 'P', 0, 'N', '', '', '', '')" );
-$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (8, 1, 'NoChex', 'nochex', 5, 0.00, 0, 0.00, 0.00, 0, 'P', 0, 'N', '', '', '', '')" );
-$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (9, 1, 'Credit Card (PayMeNow)', 'paymenow', 5, 0.00, 0, 0.00, 0.00, 0, 'Y', 0, 'N', '1,2,3,', '', '', '')" );
-$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (10, 1, 'eWay', 'eway', 5, 0.00, 0, 0.00, 0.00, 0, 'Y', 0, 'N', '', '', '', '')" );
-$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (11, 1, 'eCheck.net', 'echeck', 5, 0.00, 0, 0.00, 0.00, 0, 'B', 0, 'N', '', '', '', '')" );
-$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (12, 1, 'Credit Card (eProcessingNetwork)', 'epn', 5, 0.00, 0, 0.00, 0.00, 0, 'Y', 0, 'N', '1,2,3,', '', '', '')" );
-$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (13, 1, 'iKobo', 'payment', 5, 0.00, 0, 0.00, 0.00, 0, 'P', 0, 'N', '', '<form action=\"https://www.iKobo.com/store/index.php\" method=\"post\"> \n  <input type=\"hidden\" name=\"cmd\" value=\"cart\" />Click on the image below to Pay with iKobo\n  <input type=\"image\" src=\"https://www.ikobo.com/merchant/buttons/ikobo_pay1.gif\" name=\"submit\" alt=\"Pay with iKobo\" /> \n  <input type=\"hidden\" name=\"poid\" value=\"USER_ID\" /> \n  <input type=\"hidden\" name=\"item\" value=\"Order: <?php \$db->p(\"order_id\") ?>\" /> \n  <input type=\"hidden\" name=\"price\" value=\"<?php printf(\"%.2f\", \$db->f(\"order_total\"))?>\" /> \n  <input type=\"hidden\" name=\"firstname\" value=\"<?php echo \$user->first_name?>\" /> \n  <input type=\"hidden\" name=\"lastname\" value=\"<?php echo \$user->last_name?>\" /> \n  <input type=\"hidden\" name=\"address\" value=\"<?php echo \$user->address_1?>&#10<?php echo \$user->address_2?>\" /> \n  <input type=\"hidden\" name=\"city\" value=\"<?php echo \$user->city?>\" /> \n  <input type=\"hidden\" name=\"state\" value=\"<?php echo \$user->state?>\" /> \n  <input type=\"hidden\" name=\"zip\" value=\"<?php echo \$user->zip?>\" /> \n  <input type=\"hidden\" name=\"phone\" value=\"<?php echo \$user->phone_1?>\" /> \n  <input type=\"hidden\" name=\"email\" value=\"<?php echo \$user->email?>\" /> \n  </form> >', '', '')" );
-$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (14, 1, 'iTransact', 'payment', 5, 0.00, 0, 0.00, 0.00, 0, 'P', 0, 'N', '', '<?php\n  //your iTransact account details\n  \$vendorID = \"XXXXX\";\n  global \$vendor_name;\n  \$mername = \$vendor_name;\n  \n  //order details\n  \$total = \$db->f(\"order_total\");\$first_name = \$user->first_name;\$last_name = \$user->last_name;\$address = \$user->address_1;\$city = \$user->city;\$state = \$user->state;\$zip = \$user->zip;\$country = \$user->country;\$email = \$user->email;\$phone = \$user->phone_1;\$home_page = \$mosConfig_live_site.\"/index.php\";\$ret_addr = \$mosConfig_live_site.\"/index.php\";\$cc_payment_image = \$mosConfig_live_site.\"/components/com_virtuemart/shop_image/ps_image/cc_payment.jpg\";\n  ?>\n  <form action=\"https://secure.paymentclearing.com/cgi-bin/mas/split.cgi\" method=\"POST\"> \n                <input type=\"hidden\" name=\"vendor_id\" value=\"<?php echo \$vendorID; ?>\" />\n              <input type=\"hidden\" name=\"home_page\" value=\"<?php echo \$home_page; ?>\" />\n             <input type=\"hidden\" name=\"ret_addr\" value=\"<?php echo \$ret_addr; ?>\" />\n               <input type=\"hidden\" name=\"mername\" value=\"<?php echo \$mername; ?>\" />\n         <!--Enter text in the next value that should appear on the bottom of the order form.-->\n               <INPUT type=\"hidden\" name=\"mertext\" value=\"\" />\n         <!--If you are accepting checks, enter the number 1 in the next value.  Enter the number 0 if you are not accepting checks.-->\n                <INPUT type=\"hidden\" name=\"acceptchecks\" value=\"0\" />\n           <!--Enter the number 1 in the next value if you want to allow pre-registered customers to pay with a check.  Enter the number 0 if not.-->\n            <INPUT type=\"hidden\" name=\"allowreg\" value=\"0\" />\n               <!--If you are set up with Check Guarantee, enter the number 1 in the next value.  Enter the number 0 if not.-->\n              <INPUT type=\"hidden\" name=\"checkguar\" value=\"0\" />\n              <!--Enter the number 1 in the next value if you are accepting credit card payments.  Enter the number zero if not.-->\n         <INPUT type=\"hidden\" name=\"acceptcards\" value=\"1\">\n              <!--Enter the number 1 in the next value if you want to allow a separate mailing address for credit card orders.  Enter the number 0 if not.-->\n               <INPUT type=\"hidden\" name=\"altaddr\" value=\"0\" />\n                <!--Enter the number 1 in the next value if you want the customer to enter the CVV number for card orders.  Enter the number 0 if not.-->\n             <INPUT type=\"hidden\" name=\"showcvv\" value=\"1\" />\n                \n              <input type=\"hidden\" name=\"1-desc\" value=\"Order Total\" />\n               <input type=\"hidden\" name=\"1-cost\" value=\"<?php echo \$total; ?>\" />\n            <input type=\"hidden\" name=\"1-qty\" value=\"1\" />\n          <input type=\"hidden\" name=\"total\" value=\"<?php echo \$total; ?>\" />\n             <input type=\"hidden\" name=\"first_name\" value=\"<?php echo \$first_name; ?>\" />\n           <input type=\"hidden\" name=\"last_name\" value=\"<?php echo \$last_name; ?>\" />\n             <input type=\"hidden\" name=\"address\" value=\"<?php echo \$address; ?>\" />\n         <input type=\"hidden\" name=\"city\" value=\"<?php echo \$city; ?>\" />\n               <input type=\"hidden\" name=\"state\" value=\"<?php echo \$state; ?>\" />\n             <input type=\"hidden\" name=\"zip\" value=\"<?php echo \$zip; ?>\" />\n         <input type=\"hidden\" name=\"country\" value=\"<?php echo \$country; ?>\" />\n         <input type=\"hidden\" name=\"phone\" value=\"<?php echo \$phone; ?>\" />\n             <input type=\"hidden\" name=\"email\" value=\"<?php echo \$email; ?>\" />\n             <p><input type=\"image\" alt=\"Process Secure Credit Card Transaction using iTransact\" border=\"0\" height=\"60\" width=\"210\" src=\"<?php echo \$cc_payment_image; ?>\" /> </p>\n            </form>', '', '')" );
-$db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (15, 1, 'Verisign PayFlow Pro', 'payflow_pro', 5, 0.00, 0, 0.00, 0.00, 0, 'Y', 0, 'Y', '1,2,6,7,', '', '', '')" );
-$db->query( 'INSERT INTO `#__{vm}_payment_method` VALUES(16, 1, \'Dankort/PBS via ePay\', \'epay\', 5, 0.00, 0, 0.00, 0.00, 0, \'P\', 0, \'Y\', \'\', \'\', \'\', \'\')' );
-			
-	}
 	/**
 	 * This is the main function which stores the order information in the database
 	 * 
@@ -923,12 +883,13 @@ $db->query( 'INSERT INTO `#__{vm}_payment_method` VALUES(16, 1, \'Dankort/PBS vi
 	 * @param array $d The REQUEST/$vars array
 	 * @return boolean
 	 */
-	function add( &$d ) {
+	function storeOrderInformationToDB( &$d ) {
+//	function add( &$d ) {
 		global $order_tax_details, $vm_mainframe, $VM_LANG, $auth, $my, $mosConfig_offset,
 		$vmLogger, $vmInputFilter, $discount_factor;
 
 		$cart = $_SESSION['cart'];
-		$ps_vendor_id = $cart['cart_vendor_id'];
+		$vendor_id = $cart['cart_vendor_id'];
 
 		require_once(CLASSPATH. 'paymentMethod.class.php' );
 		$vmPaymentMethod = new vmPaymentMethod;
@@ -961,18 +922,17 @@ $db->query( 'INSERT INTO `#__{vm}_payment_method` VALUES(16, 1, \'Dankort/PBS vi
 		$order_total = round( $order_total, 2);
 
 
-		$vmLogger->debug( '-- Checkout Debug--
-		
-Subtotal: '.$order_subtotal.'
-Taxable: '.$order_taxable.'
-Payment Discount: '.$payment_discount.'
-Coupon Discount: '.$coupon_discount.'
-Shipping: '.$order_shipping.'
-Shipping Tax : '.$order_shipping_tax.'
-Tax : '.$order_tax.'
-------------------------
-Order Total: '.$order_total.'
-----------------------------' 
+		$vmLogger->debug( '-- Checkout Debug--	
+			Subtotal: '.$order_subtotal.'
+			Taxable: '.$order_taxable.'
+			Payment Discount: '.$payment_discount.'
+			Coupon Discount: '.$coupon_discount.'
+			Shipping: '.$order_shipping.'
+			Shipping Tax : '.$order_shipping_tax.'
+			Tax : '.$order_tax.'
+			------------------------
+			Order Total: '.$order_total.'
+			----------------------------' 
 		);
 
 		vmPaymentMethod::importPaymentPluginById($d["payment_method_id"]);
@@ -1007,7 +967,7 @@ Order Total: '.$order_total.'
 		// Collect all fields and values to store them!
 		$fields = array(
 			'user_id' => $auth["user_id"], 
-			'vendor_id' => $ps_vendor_id, 
+			'vendor_id' => $vendor_id, 
 			'order_number' => $order_number, 
 			'user_info_id' =>  $d["ship_to_info_id"], 
 			'ship_method_id' => @urldecode($d["shipping_rate_id"]),
@@ -1082,6 +1042,9 @@ Order Total: '.$order_total.'
 
 		/**
 		* Insert the User Billto & Shipto Info
+		* This here, the complete thing up to "Insert all Products from Cart" is redundant data shit
+		* The Bill To Adress is saved in _order_user_info this is redundant shit and makes it worse to programm
+		* I have to remove this,.. will be stay here commented for history reasons (to understand what happened)
 		*/
 		// First: get all the fields from the user field list to copy them from user_info into the order_user_info
 		$fields = array();
@@ -1090,22 +1053,43 @@ Order Total: '.$order_total.'
 		foreach ( $userfields as $field ) {
 			$fields[] = $field->name;
 		}
-		
+
+		//This must be used in the functions that try to get the data
 		//a Bit strange
-		$fieldstr = str_replace( 'email', 'user_email', implode( ',', $fields ));
-//		$fieldstr = implode( ',', $fields );
+//		$fieldstr = str_replace( 'email', 'user_email', implode( ',', $fields ));
+		
+		$fieldstr = implode( ',', $fields );
 		// Save current Bill To Address
 		$q = "INSERT INTO `#__{vm}_order_user_info` 
 			(`order_info_id`,`order_id`,`user_id`,address_type, ".$fieldstr.") ";
-		$q .= "SELECT NULL, '$order_id', '".$auth['user_id']."', address_type, ".$fieldstr." FROM #__{vm}_user_info WHERE user_id='".$auth['user_id']."' AND address_type='BT'";
+//			
+		
+//		unset($fields[0]);
+//		$fieldstr = implode( ',', $fields );
+		$q .= "SELECT NULL, '$order_id', '".$auth['user_id']."', address_type, email, ".$fieldstr." FROM #__{vm}_user_info WHERE user_id='".$auth['user_id']."' AND address_type='BT'";
 		$db->query( $q );
-
-		// Save current Ship to Address if applicable
+		
+//		// Save current Ship to Address if applicable
 		$q = "INSERT INTO `#__{vm}_order_user_info` 
 			(`order_info_id`,`order_id`,`user_id`,address_type, ".$fieldstr.") ";
-		$q .= "SELECT NULL, '$order_id', '".$auth['user_id']."', address_type, ".$fieldstr." FROM #__{vm}_user_info WHERE user_id='".$auth['user_id']."' AND user_info_id='".$d['ship_to_info_id']."' AND address_type='ST'";
+		$q .= "SELECT NULL, '$order_id', '".$auth['user_id']."', address_type,  ".$fieldstr." FROM #__{vm}_user_info WHERE user_id='".$auth['user_id']."' AND user_info_id='".$d['ship_to_info_id']."' AND address_type='ST'";
 		$db->query( $q );
 
+
+//		for ($x = 0; $x < sizeof($d); ++$x){
+//			echo "key: ".key($d)."<br>value: ".current($d)."<br>";
+//			next($d);
+//		}
+		
+		//TODO only Adresstype BT works now,... we will find a solution
+		$user_info = array(	'order_info_id' => $order_number, 
+							'order_id' => $d["ship_to_info_id"],
+							'user_id' => $auth['user_id'],
+							'address_type' => "BT");
+		$db->buildQuery( 'INSERT', '_order_user_info', $user_info );
+		
+//		$q = "INSERT INTO `#__{vm}_order_user_info` " .
+//				"(`order_info_id`,`order_id`,`user_id`,address_type)
 		/**
     	* Insert all Products from the Cart into order line items; 
     	* one row per product in the cart 
@@ -1145,7 +1129,7 @@ Order Total: '.$order_total.'
 			
 			$fields = array('order_id' => $order_id, 
 									'user_info_id' => $d["ship_to_info_id"],
-									'vendor_id' => $ps_vendor_id, 
+									'vendor_id' => $vendor_id, 
 									'product_id' => $cart[$i]["product_id"], 
 									'order_item_sku' => $dboi->f("product_sku"), 
 									'order_item_name' => $dboi->f("product_name"), 
@@ -1209,6 +1193,7 @@ Order Total: '.$order_total.'
 		// Payment Processors return false on any error
 		// Only completed payments return true!
 		$update_order = false;
+		
 		$vmPaymentMethod = new vmPaymentMethod();
 		$payment_plg = $vmPaymentMethod->get($d['payment_method_id']);
 		if( is_object($payment_plg) ) {
@@ -1229,7 +1214,6 @@ Order Total: '.$order_total.'
 			$ps_order =& new ps_order();
 			$ps_order->order_status_update($d);
 		}
-		
 
 		// Send the e-mail confirmation messages
 		$this->email_receipt($order_id);
@@ -1259,12 +1243,14 @@ Order Total: '.$order_total.'
 		$_POST["order_payment_number"] = "";
 		$_POST["order_payment_expire"] = "";
 		$_POST["order_payment_name"] = "";
+		
 		/*
 		if( empty($my->id) && !empty( $auth['user_id'])) {
 			require_once(CLASSPATH.'ps_user.php');
 			ps_user::logout();
 		}
 		*/
+
 		return True;
 	}
 
@@ -1707,7 +1693,7 @@ Order Total: '.$order_total.'
 		// If a payment method has no special way of calculating a discount,
 		// let's do this on our own from the payment_method_discount settings
 		$q = 'SELECT `discount`,`discount_is_percentage`,`discount_max_amount`, `discount_min_amount`
-                                FROM `#__{vm}_payment_method` WHERE id='.$payment_method_id;
+                                FROM `#__{vm}_payment_method` WHERE payment_method_id='.$payment_method_id;
 		$db->query($q);$db->next_record();
 
 		$discount = $db->f('discount');
@@ -1759,8 +1745,8 @@ Order Total: '.$order_total.'
 
 		//by Max Milbers takes the vendor of the cart
 		$cart = $_SESSION['cart'];
-		$ps_vendor_id = $cart['cart_vendor_id'];
 
+		$vendor_id = $cart['cart_vendor_id'];
 		$auth = $_SESSION["auth"];
 
 		require_once( CLASSPATH.'ps_order_status.php');
@@ -1787,7 +1773,8 @@ Order Total: '.$order_total.'
 //		$qt .= "WHERE user_id='".$user_id."' AND address_type='BT' ";
 //		$dbbt->query($qt);
 //		$dbbt->next_record();
-		$dbbt = ps_user::get_user_details($user_id,"","","AND `u`.`address_type`='BT'");
+		require_once( CLASSPATH . 'ps_user.php' );
+		$dbbt = ps_user::get_user_details($user_id,"","","AND u.address_type='BT' ");
 		
 //		$dbst = ps_user::get_user_details($db->f("user_info_id"),"","");
 		
@@ -1795,9 +1782,13 @@ Order Total: '.$order_total.'
 		$dbst->query($qt);
 		$dbst->next_record();
 //		$dbst = ps_user::get_user_details($db->f("user_info_id"));
-		
-		$dbv = ps_vendor::get_vendor_details($ps_vendor_id);
 
+		require_once( CLASSPATH . 'ps_vendor.php' );
+		$dbv = ps_vendor::get_vendor_details($vendor_id);
+		if(empty($dbv)){
+			$GLOBALS['vmLogger']->err( "Sending Confirmation email: Failure in Database no user_id for vendor_id ".$vendor_id." found" );
+			return false;
+		}
 		$dboi = new ps_DB;
 		$q_oi = "SELECT * FROM #__{vm}_product, #__{vm}_order_item, #__{vm}_orders ";
 		$q_oi .= "WHERE #__{vm}_product.product_id=#__{vm}_order_item.product_id ";
@@ -1807,7 +1798,7 @@ Order Total: '.$order_total.'
 
 		$db_payment = new ps_DB;
 		$q  = "SELECT op.payment_method_id, pm.name FROM #__{vm}_order_payment as op, #__{vm}_payment_method as pm
-              WHERE order_id='$order_id' AND op.payment_method_id=pm.id";
+              WHERE order_id='$order_id' AND op.payment_method_id=pm.payment_method_id";
 		$db_payment->query($q);
 		$db_payment->next_record();
 

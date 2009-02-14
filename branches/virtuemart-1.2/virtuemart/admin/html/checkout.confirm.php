@@ -112,7 +112,7 @@ $db->next_record();
           </tr>
           <tr> 
             <td width="10%" align="right"><b><?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_EMAIL') ?>: </b></td>
-            <td width="90%" nowrap="nowrap"> <?php if (!$db->f("user_email")) { $db->p("email"); } else $db->f("user_email"); ?>
+            <td width="90%" nowrap="nowrap"> <?php if (!$db->f("email")) { $db->p("email"); } else $db->f("email"); ?>
             </td>
           </tr>
         </table>
@@ -121,17 +121,18 @@ $db->next_record();
         <table border="0" cellspacing="0" cellpadding="2" width="100%">
           <tr class="sectiontableheader"> 
             <td colspan="2"><b><?php
-            
-    $q  = "SELECT * from #__users WHERE ";
-    $q .= "user_info_id='$ship_to_info_id' ";
-    $db->query($q);
-    
-    if (!$db->num_rows()) {
-        $q  = "SELECT * from #__{vm}_user_info WHERE ";
-        $q .= "user_info_id='$ship_to_info_id'";
-        $db->query($q);
-    }
-    $db->next_record();
+        
+		//This seems not necessary anymore    
+//    $q  = "SELECT * from #__users WHERE ";
+//    $q .= "user_info_id='$ship_to_info_id' ";
+//    $db->query($q);
+//    
+//    if (!$db->num_rows()) {
+//        $q  = "SELECT * from #__{vm}_user_info WHERE ";
+//        $q .= "user_info_id='$ship_to_info_id'";
+//        $db->query($q);
+//    }
+//    $db->next_record();
     
 ?><?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_SHIPINFO') ?></b></td>
           </tr>

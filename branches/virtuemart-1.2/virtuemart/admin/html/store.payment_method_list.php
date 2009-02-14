@@ -25,7 +25,7 @@ if (!empty($keyword)) {
 	$count = "SELECT count(*) as num_rows FROM #__{vm}_payment_method LEFT JOIN #__{vm}_shopper_group ";
 	$count .= "ON #__{vm}_payment_method.shopper_group_id=#__{vm}_shopper_group.shopper_group_id WHERE ";
 	$q  = "(#__{vm}_payment_method.name LIKE '%$keyword%' ";
-	$q .= "AND #__{vm}_payment_method.vendor_id='$ps_vendor_id' ";
+//	$q .= "AND #__{vm}_payment_method.vendor_id='$ps_vendor_id' ";   //Not vendorrelated yet TODO Max Milbers
 	$q .= ") ";
 	$q .= "ORDER BY #__{vm}_payment_method.ordering,#__{vm}_payment_method.name ";
 	$list .= $q . " LIMIT $limitstart, " . $limit;
@@ -37,7 +37,7 @@ else {
 	$list .= "ON #__{vm}_payment_method.shopper_group_id=#__{vm}_shopper_group.shopper_group_id WHERE ";
 	$count = "SELECT count(*) as num_rows FROM #__{vm}_payment_method LEFT JOIN #__{vm}_shopper_group ";
 	$count .= "ON #__{vm}_payment_method.shopper_group_id=#__{vm}_shopper_group.shopper_group_id WHERE ";
-	$q .= "#__{vm}_payment_method.vendor_id='$ps_vendor_id' ";
+	$q .= "#__{vm}_payment_method.vendor_id='1' ";  //Not vendorrelated yet TODO Max Milbers
 	$list .= $q;
 	$list .= "ORDER BY #__{vm}_payment_method.ordering,#__{vm}_payment_method.name ";
 	$list .= "LIMIT $limitstart, " . $limit;

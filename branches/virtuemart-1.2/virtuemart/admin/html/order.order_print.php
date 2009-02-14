@@ -195,7 +195,7 @@ if (!is_numeric($order_id)){
 		<table width="100%" border="0" cellspacing="0" cellpadding="1">
 		<?php 
 		foreach( $userfields as $field ) {
-			if( $field->name == 'email') $field->name = 'user_email';
+			if( $field->name == 'email') $field->name = 'email';
 			if($field->type == 'captcha') continue;
 			?>
 		  <tr> 
@@ -234,7 +234,7 @@ if (!is_numeric($order_id)){
 		<table width="100%" border="0" cellspacing="0" cellpadding="1">
 		<?php 
 		foreach( $shippingfields as $field ) {
-			if( $field->name == 'email') $field->name = 'user_email';
+			if( $field->name == 'email') $field->name = 'email';
 			?>
 		  <tr> 
 			<td width="35%" align="right">&nbsp;<?php echo $VM_LANG->_($field->title) ? $VM_LANG->_($field->title) : $field->title ?>:</td>
@@ -543,7 +543,7 @@ if (!is_numeric($order_id)){
   			  <?php
   			    $dbpm =& new ps_DB;
   				$q  = "SELECT * FROM #__{vm}_payment_method, #__{vm}_order_payment WHERE #__{vm}_order_payment.order_id='$order_id' ";
-  				$q .= "AND #__{vm}_payment_method.id=#__{vm}_order_payment.payment_method_id";
+  				$q .= "AND #__{vm}_payment_method.payment_method_id=#__{vm}_order_payment.payment_method_id";
   				$dbpm->query($q);
   				$dbpm->next_record();
   			   

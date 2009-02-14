@@ -608,8 +608,7 @@ class ps_userfield extends vmAbstractObject {
 	 * @return array Field names which are to be skipped by VirtueMart db functions
 	 */
 	function getSkipFields() {
-//		return array( 'username', 'password', 'password2', 'agreed' );
-		return array( 'username', 'password', 'password2', 'agreed','email' );
+		return array( 'username', 'password', 'password2', 'agreed' );
 	}
 	/**
 	 * Prints a JS function to validate all fields

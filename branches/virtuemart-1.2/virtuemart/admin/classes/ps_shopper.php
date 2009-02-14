@@ -226,8 +226,7 @@ class ps_shopper {
 			$_REQUEST['missing'] = $missing;
 			return false;
 		}
-	
-//		$d['user_email'] = vmGet( $d, 'email', $my->email );
+
 		$d['email'] = vmGet( $d, 'email', $my->email );
 		if (!vmValidateEmail($d["email"])) {
 			$vmLogger->err( 'Please provide a valide email address for the registration.' );
@@ -272,7 +271,8 @@ class ps_shopper {
 		global $my, $auth, $mainframe, $mosConfig_absolute_path, $sess,
 		$VM_LANG, $vmLogger, $database, $mosConfig_useractivation;
 
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		//TODO must depend on vendor of bill,.. or on vendorS of the bill 
+		$ps_vendor_id =  1; //$_SESSION["ps_vendor_id"];
 		$hash_secret = "VirtueMartIsCool";
 		$db = new ps_DB;
 		$timestamp = time();
@@ -397,6 +397,7 @@ class ps_shopper {
 //		$db->query();
 		//New function do the same with email of juser
 		//Can be used here, because a validation was already done
+		require_once( CLASSPATH . 'ps_user.php' );
 		ps_user::setUserInfoWithEmail($fields);
 		
 		
@@ -670,14 +671,16 @@ class ps_shopper {
 		$_POST['name'] = $d['first_name']." ". $d['last_name'];
 		$_POST['id'] = $auth["user_id"];
 		$_POST['gid'] = $my->gid;
-		$d['error'] = "";
+		
+		
+//		$d['error'] = "";
 
-		if ( VM_REGISTRATION_TYPE != 'NO_REGISTRATION' ) {
-			ps_user::saveUser( $d );
-		}
+		//I think this is now useless by Max Milbers
+//		if ( VM_REGISTRATION_TYPE != 'NO_REGISTRATION' ) {
+//			ps_user::saveUser( $d );
+//		}
 		
 		if( !empty( $d['error']) ) {
-
 			return false;
 		}
 		
@@ -695,20 +698,13 @@ class ps_shopper {
 		$fields = array( 
 						'mdate' => time()
 						);
-		
 		foreach( $userFields as $userField ) {
 			if( !in_array($userField->name, $skip_fields )) {		
 				$fields[$userField->name] = ps_userfield::prepareFieldDataSave( $userField->type, $userField->name, vmGet( $d, $userField->name, strtoupper($userField->name) ));		
 			}
 		}
-		
-//		$fields['user_email'] = $fields['email'];
-//		unset($fields['email']);
-//		$db->buildQuery('UPDATE', '#__{vm}_user_info', $fields, " WHERE user_id=".$user_id." AND address_type='BT'" );
-//		// Run the query!
-//		$db->query();
-		//Can be used here, because a validation was already done
-		ps_user::setUserInfoWithEmail($fields,$user_id);
+		//Can be used here, because a validation was already done by Max Milbers
+		ps_user::setUserInfoWithEmail($fields,$user_id, " AND address_type='BT'");
 		
 		
 		// UPDATE #__{vm}_shopper group relationship

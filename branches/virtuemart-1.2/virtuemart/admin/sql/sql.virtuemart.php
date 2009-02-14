@@ -1081,7 +1081,7 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_order_user_info` (
   `state` varchar(32) NOT NULL default '',
   `country` varchar(32) NOT NULL default 'US',
   `zip` varchar(32) NOT NULL default '',
-  `user_email` varchar(255) default NULL,
+  `email` varchar(255) default NULL,
   `extra_field_1` varchar(255) default NULL,
   `extra_field_2` varchar(255) default NULL,
   `extra_field_3` varchar(255) default NULL,
@@ -1148,7 +1148,8 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_orders` (
 ## 
 ## Table structure for table `#__{vm}_payment_method`
 ## 
-
+//Someone removed payment_enabled, sorry I didnt understand the plan with it, 
+//so I put it back that the code is working again
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_payment_method` (
   `payment_method_id` int(11) NOT NULL auto_increment,
   `vendor_id` int(11) default NULL,
@@ -1163,6 +1164,7 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_payment_method` (
   `ordering` int(11) default NULL,
   `type` char(1) default NULL,
   `is_creditcard` tinyint(1) NOT NULL default '0',
+  `payment_enabled` char(1) NOT NULL default 'N',
   `published` char(1) NOT NULL default 'N',
   `accepted_creditcards` varchar(128) NOT NULL default '',
   `extra_info` text NOT NULL,
@@ -1173,7 +1175,7 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_payment_method` (
   KEY `idx_payment_method_name` (`name`),
   KEY `idx_payment_method_list_order` (`list_order`),
   KEY `idx_payment_method_shopper_group_id` (`shopper_group_id`)
-) TYPE=MyISAM COMMENT='The payment methods of your store';");
+) TYPE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='The payment methods of your store'");
 
 //Just for developing... this table request produced failures,... I tried to fix it see above Max Milbers
 #$db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_payment_method` (
@@ -2252,7 +2254,6 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_user_info` (
   `state` varchar(32) NOT NULL default '',
   `country` varchar(32) NOT NULL default 'US',
   `zip` varchar(32) NOT NULL default '',
-  `user_email` varchar(255) default NULL,
   `extra_field_1` varchar(255) default NULL,
   `extra_field_2` varchar(255) default NULL,
   `extra_field_3` varchar(255) default NULL,
@@ -2476,8 +2477,8 @@ $row = $db->loadObjectList();
 foreach( $row as $user) {
 	$db->query( "INSERT INTO `#__{vm}_auth_user_vendor` VALUES ('".$user->id."', '0');" );
 	$db->query( "INSERT INTO `#__{vm}_shopper_vendor_xref` VALUES ('".$user->id."', '1', '5', '');" );
-	$db->query( "INSERT INTO `#__{vm}_user_info` (`user_info_id`,`user_id`, `address_type`,`cdate`,`mdate`,`user_email` )
-					VALUES( '".md5(uniqid('virtuemart'))."','".$user->id."','BT', UNIX_TIMESTAMP('".$user->registerDate."'),UNIX_TIMESTAMP('".$user->lastvisitDate."'),'".$user->email."');" );
+	$db->query( "INSERT INTO `#__{vm}_user_info` (`user_info_id`,`user_id`, `address_type`,`cdate`,`mdate` )
+					VALUES( '".md5(uniqid('virtuemart'))."','".$user->id."','BT', UNIX_TIMESTAMP('".$user->registerDate."'),UNIX_TIMESTAMP('".$user->lastvisitDate."'));" );
 }
 
 # insert the user <=> group relationship

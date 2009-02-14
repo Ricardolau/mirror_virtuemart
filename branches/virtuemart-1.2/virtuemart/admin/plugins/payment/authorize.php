@@ -62,19 +62,22 @@ class plgPaymentAuthorize extends vmPaymentPlugin {
 		require_once(CLASSPATH ."connectionTools.class.php");
 
 		// Get user billing information
-		$dbbt = new ps_DB;
-
-		$qt = "SELECT * FROM #__{vm}_user_info WHERE user_id=".$auth["user_id"]." AND address_type='BT'";
-
-		$dbbt->query($qt);
-		$dbbt->next_record();
+		require_once(CLASSPATH ."ps_user.php");
+		$dbbt = ps_user::get_user_details($auth["user_id"],"",""," AND address_type='BT'");
+		
+//		$dbbt = new ps_DB;
+//		$qt = "SELECT * FROM #__{vm}_user_info WHERE user_id=".$auth["user_id"]." AND address_type='BT'";
+//
+//		$dbbt->query($qt);
+//		$dbbt->next_record();
 		$user_info_id = $dbbt->f("user_info_id");
 		if( $user_info_id != $d["ship_to_info_id"]) {
 			// Get user billing information
 			$dbst =& new ps_DB;
-			$qt = "SELECT * FROM #__{vm}_user_info WHERE user_info_id='".$d["ship_to_info_id"]."' AND address_type='ST'";
+			$qt = "SELECT * FROM #__{vm}_user_info u,#__{vm}_users ju WHERE u.user_info_id='".$d["ship_to_info_id"]."' AND address_type='ST' AND ju.id = '".$auth["user_id"]."'";
 			$dbst->query($qt);
 			$dbst->next_record();
+
 		}
 		else {
 			$dbst = $dbbt;
@@ -131,7 +134,7 @@ class plgPaymentAuthorize extends vmPaymentPlugin {
 		'x_customer_tax_id' => $dbbt->f("tax_id"),
 
 		// Email Settings
-		'x_email' => $dbbt->f("user_email"),
+		'x_email' => $dbbt->f("email"),
 		'x_email_customer' => $email_customer,
 		'x_merchant_email' => $vendor_mail,
 

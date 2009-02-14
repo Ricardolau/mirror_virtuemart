@@ -66,7 +66,7 @@ unset( $row );
 if( !isset($order_total) || $order_total > 0.00 ) {
 	$payment_method_id = vmRequest::getInt( 'payment_method_id' );
 	
-	$db->query('SELECT id, name FROM #__{vm}_payment_method WHERE id='.$payment_method_id);
+	$db->query('SELECT payment_method_id, name FROM #__{vm}_payment_method WHERE payment_method_id='.$payment_method_id);
 	$db->next_record();
 	echo '<tr><td valign="top"><strong>'.$VM_LANG->_('PHPSHOP_ORDER_PRINT_PAYMENT_LBL') . ":</strong></td>";
 	echo '<td>';

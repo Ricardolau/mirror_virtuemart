@@ -23,6 +23,9 @@ $form_code = "";
 require_once( CLASSPATH . "pageNavigation.class.php" );
 require_once( CLASSPATH . "htmlTools.class.php" );
 
+require_once( CLASSPATH . "ps_vendor.php");
+$vendor_id = ps_vendor::get_logged_vendor();
+
 $list  = "SELECT #__{vm}_orders.order_id,order_status, #__{vm}_orders.cdate,#__{vm}_orders.mdate,order_total,order_currency,#__{vm}_orders.user_id,";
 $list .= "first_name, last_name FROM #__{vm}_orders, #__{vm}_order_user_info WHERE ";
 $count = "SELECT count(*) as num_rows FROM #__{vm}_orders, #__{vm}_order_user_info WHERE ";
@@ -40,7 +43,7 @@ if (!empty($show)) {
 }
 $q .= "(#__{vm}_orders.order_id=#__{vm}_order_user_info.order_id) ";
 if (!$perm->check("admin")) {
-	$q .= "AND #__{vm}_orders.vendor_id='".$_SESSION['ps_vendor_id']."' ";
+	$q .= "AND #__{vm}_orders.vendor_id='".$vendor_id."' ";
 }
 
 $q .= "ORDER BY #__{vm}_orders.cdate DESC ";
@@ -49,8 +52,22 @@ $count .= $q;
 
 $db->query($count);
 $db->next_record();
+
+//SELECT count(*) as num_rows FROM #__{vm}_orders, #__{vm}_order_user_info WHERE (#__{vm}_orders.order_id=#__{vm}_order_user_info.order_id) ORDER BY #__{vm}_orders.cdate DESC
+//$q = 'SELECT count(*) as num_rows FROM #__{vm}_orders AS o, #__{vm}_order_user_info AS oui WHERE ';
+//$list  = "SELECT o.order_id, order_status, \n cdate, mdate, order_total, order_currency, \n o.user_id, ";
+//$list .= "first_name, last_name \n FROM #__{vm}_orders o, #__{vm}_order_user_info oui \n WHERE ";
+//$q = $list;
+//$q .= " o.order_id = oui.order_id ";
+//$q .= 'ORDER BY o.cdate DESC ';
+//$db->query($q);
+	// or reusing of this function would be more OOP
+//	require_once( CLASSPATH .'ps_order.php');
+//	$db = ps_order::list_order_resultSet();
+
+
 $num_rows = $db->f("num_rows");
-  
+
 // Create the Page Navigation
 $pageNav = new vmPageNav( $num_rows, $limitstart, $limit );
 
@@ -65,7 +82,11 @@ $listObj->writeSearchHeader($VM_LANG->_('PHPSHOP_ORDER_LIST_LBL'), VM_THEMEURL.'
 <?php
 $navi_db = new ps_DB;
 $q = "SELECT order_status_code, order_status_name ";
-$q .= "FROM #__{vm}_order_status WHERE vendor_id = '$ps_vendor_id'";
+$q .= "FROM #__{vm}_order_status ";
+if (!$perm->check("admin")) {
+	$q .= "WHERE vendor_id = '$vendor_id'";
+}
+
 $navi_db->query($q);
 while ($navi_db->next_record()) {  ?> 
   <a href="<?php $sess->purl($_SERVER['PHP_SELF']."?page=$modulename.order_list&show=".$navi_db->f("order_status_code")) ?>">

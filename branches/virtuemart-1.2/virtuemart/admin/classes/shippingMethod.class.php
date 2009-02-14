@@ -27,7 +27,6 @@ class vmShippingMethod {
 	function save(&$d) {
 		global $VM_LANG, $vmLogger;
 		
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
 		$db = new ps_DB;
 		$shipping_class = basename(vmGet($d,'shipping_class'));
 		
@@ -67,7 +66,6 @@ class vmShippingMethod {
 	 */
 	function method_list( $shipping_method_id="" ) {
 
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
 		$db = new ps_DB;
 
 		$rows = Array();
@@ -118,7 +116,6 @@ class vmShippingMethod {
 	 */
 	function get_weight_OZ($pid) {
 		global $vars, $vmLogger;
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
 		$db = new ps_DB;
 
 		$q  = "SELECT product_sku,product_parent_id,product_weight,product_weight_uom FROM #__{vm}_product ";
@@ -171,7 +168,6 @@ class vmShippingMethod {
 	 */
 	function get_weight_KG( $pid ) {
 		global $vars, $vmLogger;
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
 		$db = new ps_DB;
 
 		$q  = "SELECT product_sku,product_parent_id,product_weight,product_weight_uom FROM #__{vm}_product ";
@@ -224,7 +220,6 @@ class vmShippingMethod {
 	 */
 	function get_weight_LB( $pid ) {
 		global $vars, $vmLogger;
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
 		$db = new ps_DB;
 
 		$q  = "SELECT product_sku,product_parent_id,product_weight,product_weight_uom FROM #__{vm}_product ";

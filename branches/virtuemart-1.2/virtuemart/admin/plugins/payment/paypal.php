@@ -74,7 +74,7 @@ class plgPaymentPaypal extends vmPaymentPlugin {
 			"city" => $dbbt->f( 'city' ) , 
 			"state" => $dbbt->f( 'state' ) , 
 			"country" => $db1->f( 'country_2_code' ) , 
-			"email" => $dbbt->f( 'user_email' ) , 
+			"email" => $dbbt->f( 'email' ) , 
 			"night_phone_b" => $dbbt->f( 'phone_1' ) , 
 			"cpp_header_image" => $vendor_image_url , 
 

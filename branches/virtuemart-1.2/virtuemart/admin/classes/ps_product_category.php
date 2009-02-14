@@ -529,7 +529,8 @@ class ps_product_category extends vmAbstractObject {
 	function getCategoryTreeArray( $only_published=true, $keyword = "" ) {
 		global $perm;
 		$db = new ps_DB;
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		require_once( CLASSPATH . "ps_vendor.php");
+		$vendor_id = ps_vendor::get_logged_vendor();
 		
 		if( empty( $GLOBALS['category_info']['category_tree'])) {
 
@@ -547,7 +548,7 @@ class ps_product_category extends vmAbstractObject {
 				$query .= ") ";
 			}
 			if (!$perm->check("admin")) {
-				$query .= "AND (#__{vm}_category.vendor_id = '$ps_vendor_id' OR #__{vm}_category_xref.category_shared = 'Y') ";
+				$query .= "AND (#__{vm}_category.vendor_id = '$vendor_id' OR #__{vm}_category_xref.category_shared = 'Y') ";
 			}
 			$query .= "ORDER BY #__{vm}_category.list_order ASC, #__{vm}_category.category_name ASC";
 			
@@ -777,7 +778,9 @@ class ps_product_category extends vmAbstractObject {
 		static $ibg = 0;
 		global $sess, $mosConfig_live_site, $VM_LANG;
 		$page = vmGet($_REQUEST, 'page');
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		require_once( CLASSPATH . "ps_vendor.php");
+		$vendor_id = ps_vendor::get_logged_vendor();
+
 		$db = new ps_DB;
 		$class = "maintext";
 
@@ -787,7 +790,7 @@ class ps_product_category extends vmAbstractObject {
 		$q .= "WHERE #__{vm}_category_xref.category_parent_id='";
 		$q .= $category_id . "' AND ";
 		$q .= "#__{vm}_category.category_id=#__{vm}_category_xref.category_child_id ";
-		$q .= "AND #__{vm}_category.vendor_id='$ps_vendor_id' ";
+		$q .= "AND #__{vm}_category.vendor_id='$vendor_id' ";
 		$q .= "ORDER BY list_order asc ";
 		$db->setQuery($q);
 		$db->query();
@@ -844,7 +847,9 @@ class ps_product_category extends vmAbstractObject {
 	 */
 	function product_count($category_id) {
 		global $perm;
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		require_once( CLASSPATH . "ps_vendor.php");
+		$vendor_id = ps_vendor::get_logged_vendor();
+
 
 		$db = new ps_DB;
 		if( !isset($GLOBALS['category_info'][$category_id]['product_count'] )) {
@@ -853,7 +858,7 @@ class ps_product_category extends vmAbstractObject {
 			$q = "";
 			if (defined('_VM_IS_BACKEND' )) {
 				if (!$perm->check( "admin,storeadmin")) {
-					$q .= "#__{vm}_product.vendor_id = '$ps_vendor_id' AND ";
+					$q .= "#__{vm}_product.vendor_id = '$vendor_id' AND ";
 				}
 			}
 			$q .= "#__{vm}_product_category_xref.category_id='$category_id' ";
@@ -881,15 +886,17 @@ class ps_product_category extends vmAbstractObject {
 	 * @param int $level
 	 */
 	function traverse_tree_up($category_id, $level=0) {
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		
 		$db = new ps_DB;
+		require_once( CLASSPATH . "ps_vendor.php");
+		$vendor_id = ps_vendor::get_logged_vendor();
 
 		$level++;
 		$q = "SELECT #__{vm}_category.category_name,category_child_id,category_parent_id FROM #__{vm}_category, #__{vm}_category_xref ";
 		$q .= "WHERE #__{vm}_category_xref.category_child_id=' ";
 		$q .= "$category_id' AND ";
 		$q .= "#__{vm}_category.category_id=#__{vm}_category_xref.category_parent_id ";
-		$q .= "AND #__{vm}_category.vendor_id = $ps_vendor_id ";
+		$q .= "AND #__{vm}_category.vendor_id = $vendor_id ";
 		$db->setQuery($q);   $db->query();
 		while ($db->next_record()) {
 			if ($level == 1) {
@@ -949,14 +956,16 @@ class ps_product_category extends vmAbstractObject {
 	 */
 	function get_child_list($category_id) {
 		global $sess, $ps_product, $VM_LANG;
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+//		require_once( CLASSPATH . "ps_vendor.php");
+//		$vendor_id = ps_vendor::get_logged_vendor();
+
 		$db = new ps_DB;
 		$childs = array();
 		
 		$q = "SELECT category_id, category_thumb_image, category_child_id,category_name FROM #__{vm}_category,#__{vm}_category_xref ";
 		$q .= "WHERE #__{vm}_category_xref.category_parent_id='$category_id' ";
 		$q .= "AND #__{vm}_category.category_id=#__{vm}_category_xref.category_child_id ";
-//		$q .= "AND #__{vm}_category.vendor_id='$ps_vendor_id' ";
+//		$q .= "AND #__{vm}_category.vendor_id='$vendor_id' ";
 		$q .= "AND #__{vm}_category.category_publish='Y' ";
 		$q .= "ORDER BY #__{vm}_category.list_order, #__{vm}_category.category_name ASC";
 		$db->setQuery($q);
@@ -991,7 +1000,9 @@ class ps_product_category extends vmAbstractObject {
 	 */
 	function get_subcategory( $category_id, $css_class = "" ) {
 		global $sess;
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		
+		require_once( CLASSPATH . "ps_vendor.php");
+		$vendor_id = ps_vendor::get_logged_vendor();
 
 		if( $css_class != "" ) {
 			$class= "class=\"$css_class\"";
@@ -1004,7 +1015,7 @@ class ps_product_category extends vmAbstractObject {
 		$q = "SELECT category_id, category_child_id,category_name FROM #__{vm}_category,#__{vm}_category_xref ";
 		$q .= "WHERE #__{vm}_category_xref.category_parent_id='$category_id' ";
 		$q .= "AND #__{vm}_category.category_id=#__{vm}_category_xref.category_child_id ";
-		//$q .= "AND #__{vm}_category.vendor_id='$ps_vendor_id' ";
+//		$q .= "AND #__{vm}_category.vendor_id='$ps_vendor_id' ";
 		$q .= "AND #__{vm}_category.category_publish='Y' ";
 		$q .= "ORDER BY #__{vm}_category.list_order, #__{vm}_category.category_name ASC";
 		$db->setQuery($q);
@@ -1131,7 +1142,10 @@ class ps_product_category extends vmAbstractObject {
 	 */
 	function list_tree($category_id="", $cid='0', $level='0', $selected_categories=Array(), $disabledFields=Array() ) {
 		global $perm;
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		
+		require_once( CLASSPATH . "ps_vendor.php");
+		$vendor_id = ps_vendor::get_logged_vendor();
+
 		$db = new ps_DB;
 
 		$level++;
@@ -1141,11 +1155,10 @@ class ps_product_category extends vmAbstractObject {
 		$q .= "AND #__{vm}_category.category_id=#__{vm}_category_xref.category_child_id ";
 		if (!$perm->check("admin")) {
 			//This shows for the admin everything, but for normal vendors only their own AND shared categories by Max Milbers
-//			$q .= "AND #__{vm}_category.vendor_id ='$ps_vendor_id' ";
-			$q .= "AND (#__{vm}_category.vendor_id = '$ps_vendor_id' OR #__{vm}_category_xref.category_shared = 'Y') ";
+			$q .= "AND (#__{vm}_category.vendor_id = '$vendor_id' OR #__{vm}_category_xref.category_shared = 'Y') ";
 			
 		}
-		$GLOBALS['vmLogger']->debug('$ps_vendor_id='.$ps_vendor_id);
+		$GLOBALS['vmLogger']->debug('$ps_vendor_id='.$vendor_id);
 		
 		$q .= "ORDER BY #__{vm}_category.list_order, #__{vm}_category.category_name ASC";
 		$db->setQuery($q);   $db->query();
@@ -1446,7 +1459,9 @@ class ps_product_category extends vmAbstractObject {
 	 */
 	function sort_alphabetically( $category_id=0, $level=0 ) {
 		static $ibg = 0;
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		require_once( CLASSPATH . "ps_vendor.php");
+		$vendor_id = ps_vendor::get_logged_vendor();
+
 		$db = new ps_DB;
 
 		$level++;
@@ -1454,7 +1469,7 @@ class ps_product_category extends vmAbstractObject {
 		$q = "SELECT `c`.`category_id`, `cx`.`category_child_id`, `cx`.`category_parent_id` as cpid 
 				FROM `#__{vm}_category` as `c`,`#__{vm}_category_xref` as `cx` ";
 		$q .= "WHERE `c`.`category_id`=`cx`.`category_child_id` AND `cx`.`category_parent_id`=$category_id ";
-		$q .= "AND `c`.`vendor_id`=$ps_vendor_id ";
+		$q .= "AND `c`.`vendor_id`=$vendor_id ";
 		$q .= "ORDER BY `category_name` ASC ";
 		$db->query($q);
 		$i = 1;

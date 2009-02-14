@@ -70,7 +70,7 @@ if ($db->next_record()) {
 	
 	$q  = "SELECT * FROM `#__{vm}_payment_method` p, `#__{vm}_order_payment` op, `#__{vm}_orders` o ";
 	$q .= "WHERE op.order_id='$order_id' ";
-	$q .= "AND p.id=op.payment_method_id ";
+	$q .= "AND p.payment_method_id=op.payment_method_id ";
 	$q .= "AND o.user_id='" . $auth["user_id"] . "' ";
 	$q .= "AND o.order_id='$order_id' ";
 	$dbpm->query($q);

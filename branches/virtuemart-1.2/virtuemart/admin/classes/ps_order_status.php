@@ -106,12 +106,13 @@ class ps_order_status extends vmAbstractObject {
 		global $VM_LANG;
 		
 		$db = new ps_DB;
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		require_once( CLASSPATH . "ps_vendor.php");
+		$vendor_id = ps_vendor::get_logged_vendor();
 
 		if (!$this->validate_add($d)) {
 			return False;
 		}
-		$fields = array( 'vendor_id' => $ps_vendor_id,
+		$fields = array( 'vendor_id' => $vendor_id,
 						'order_status_code' => vmGet($d, 'order_status_code' ),
 						'order_status_name' => vmGet($d, 'order_status_name' ),
 						'order_status_description' => vmGet($d, 'order_status_description' ),
@@ -141,7 +142,8 @@ class ps_order_status extends vmAbstractObject {
 		global $VM_LANG;
 		
 		$db = new ps_DB;
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		require_once( CLASSPATH . "ps_vendor.php");
+		$vendor_id = ps_vendor::get_logged_vendor();
 
 		if (!$this->validate_update($d)) {
 			return False;
@@ -151,7 +153,7 @@ class ps_order_status extends vmAbstractObject {
 						'order_status_description' => vmGet($d, 'order_status_description' ),
 						'list_order' => vmRequest::getInt('list_order' )
 					);
-		$db->buildQuery( 'UPDATE', $this->_table_name, $fields, "WHERE order_status_id=".(int)$d["order_status_id"]." AND vendor_id=$ps_vendor_id" );
+		$db->buildQuery( 'UPDATE', $this->_table_name, $fields, "WHERE order_status_id=".(int)$d["order_status_id"]." AND vendor_id=$vendor_id" );
 		
 		if( $db->query() !== false ) {
 			$GLOBALS['vmLogger']->info($VM_LANG->_('VM_ORDERSTATUS_UPDATED'));
@@ -186,10 +188,11 @@ class ps_order_status extends vmAbstractObject {
 	*/
 	function delete_record( $record_id, &$d ) {
 		global $db;
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		require_once( CLASSPATH . "ps_vendor.php");
+		$vendor_id = ps_vendor::get_logged_vendor();
 
 		$q = 'DELETE FROM `'.$this->_table_name.'` WHERE order_status_id='.(int)$record_id;
-		$q .= " AND vendor_id='$ps_vendor_id'";
+		$q .= " AND vendor_id='$vendor_id'";
 		
 		return $db->query($q);
 	}

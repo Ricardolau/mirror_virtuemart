@@ -47,7 +47,7 @@ class ps_product extends vmAbstractObject {
 		if( !$perm->check( 'admin' )) {
 			if($ps_vendor_id!=$d['vendor_id']){
 				$vmLogger->err( $VM_LANG->_('VM_PRODUCT_NOT_ALLOWED_TO_CHANGE ',false) );
-				$vmLogger->err( 'ps_vendor_id aa: '.$ps_vendor_id );
+				$vmLogger->err( 'ps_vendor_id: '.$ps_vendor_id );
 				return false;
 //				$valid = false;
 			}		

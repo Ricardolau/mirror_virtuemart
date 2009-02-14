@@ -24,6 +24,12 @@ $shipping_rate_id = urldecode(vmGet( $_REQUEST, "shipping_rate_id", null ));
 $payment_method_id = vmGet( $_REQUEST, 'payment_method_id');
 $Itemid = $sess->getShopItemid();
 
+//echo('$ship_to_info_id: '.$ship_to_info_id);
+//echo('<br />');
+//echo('$shipping_rate_id: '.$shipping_rate_id);echo('<br />');
+//echo('$payment_method_id: '.$payment_method_id);echo('<br />');
+//echo('$Itemid: '.$Itemid);echo('<br />');
+
 /* Decide, which Checkout Step is the next one 
 * $checkout_this_step controls the step thru the checkout process
 * we have the following steps
@@ -46,8 +52,9 @@ if( $auth['user_id'] > 0 ) {
 	$show_basket = false;
 }
 $current_stage = ps_checkout::get_current_stage();
-
 $checkout_steps = ps_checkout::get_checkout_steps();
+
+
 
 if( in_array('CHECK_OUT_GET_FINAL_CONFIRMATION', $checkout_steps[$current_stage]) ) {
     $next_page = 'checkout.thankyou';
@@ -67,7 +74,7 @@ $zone_qty = vmGet( $_REQUEST, 'zone_qty');
 $theme = new $GLOBALS['VM_THEMECLASS']();
 
 $theme->set_vars( // Import these values into the template files
-	array( 'zone_qty' => $zone_qty,
+	array(	'zone_qty' => $zone_qty,
 			'ship_to_info_id' => $ship_to_info_id,
 			'shipping_rate_id' => $shipping_rate_id,
 			'payment_method_id' => $payment_method_id,
@@ -92,16 +99,16 @@ if ($cart["idx"] > 0) {
     }
     
     // We have something in the Card so move on
-    if ($perm->is_registered_customer($auth['user_id'])) { // user is logged in and a registered customer
+	if ($perm->is_registered_customer($auth['user_id'])) { // user is logged in and a registered customer
 		$basket_html .= '<form action="'. SECUREURL.basename($_SERVER['PHP_SELF']) .'" method="post" name="adminForm">
 		
-	<input type="hidden" name="option" value="com_virtuemart" />
-	<input type="hidden" name="Itemid" value="'. $Itemid .'" />
-	<input type="hidden" name="user_id" value="'. $auth['user_id'] .'" />
-	<input type="hidden" name="page" value="'. $next_page .'" />
-	<input type="hidden" name="func" value="checkoutProcess" />
-		
-	<input type="hidden" name="zone_qty" value="'. $zone_qty .'" />
+		<input type="hidden" name="option" value="com_virtuemart" />
+		<input type="hidden" name="Itemid" value="'. $Itemid .'" />
+		<input type="hidden" name="user_id" value="'. $auth['user_id'] .'" />
+		<input type="hidden" name="page" value="'. $next_page .'" />
+		<input type="hidden" name="func" value="checkoutProcess" />
+			
+		<input type="hidden" name="zone_qty" value="'. $zone_qty .'" />
         <input type="hidden" name="ship_to_info_id" value="'. $ship_to_info_id .'" />
         <input type="hidden" name="shipping_rate_id" value="'. urlencode($shipping_rate_id) .'" />
         <input type="hidden" name="payment_method_id" value="'. $payment_method_id .'" />
@@ -111,7 +118,7 @@ if ($cart["idx"] > 0) {
 		
 	    // Set Dynamic Page Title: "Checkout: Step x of x"
 	    $mainframe->setPageTitle( sprintf( $VM_LANG->_('VM_CHECKOUT_TITLE_TAG'), $current_stage, count($checkout_steps) ));
-	    
+
 	    // CHECK_OUT_GET_SHIPPING_ADDR
 	    // Lets the user pick or add an alternative Shipping Address
 	    if( in_array('CHECK_OUT_GET_SHIPPING_ADDR', $checkout_steps[$current_stage]) ) {
@@ -128,8 +135,8 @@ if ($cart["idx"] > 0) {
         }
         
         // -CHECK_OUT_GET_PAYMENT_METHOD
-        // let the user choose a payment method
-        if( in_array('CHECK_OUT_GET_PAYMENT_METHOD', $checkout_steps[$current_stage]) ) {   
+//         let the user choose a payment method
+        if( in_array('CHECK_OUT_GET_PAYMENT_METHOD', $checkout_steps[$current_stage]) ) {  
         	echo '<a name="CHECK_OUT_GET_PAYMENT_METHOD"></a>';
         	echo $theme->fetch( 'checkout/get_payment_method.tpl.php');
 			$theme->set('basket_html', '');
@@ -143,9 +150,10 @@ if ($cart["idx"] > 0) {
 			$theme->set('basket_html', '');
         }
         ?>
-    <br /><?php 
+    	<br /><?php 
 		foreach( $checkout_steps[$current_stage] as $this_step ) {	
 			echo '<input type="hidden" name="checkout_this_step[]" value="'.$this_step.'" />';
+//			echo('$checkout_steps[$current_stage] : '.$this_step);
 		}
             
         if( !in_array('CHECK_OUT_GET_FINAL_CONFIRMATION', $checkout_steps[$current_stage]) ) {
@@ -158,28 +166,24 @@ if ($cart["idx"] > 0) {
 		// Close the Checkout Form, which was opened in the first checkout template using the variable $basket_html
 		echo '</form>';
 
-         if( !in_array('CHECK_OUT_GET_FINAL_CONFIRMATION', $checkout_steps[$current_stage]) ) {
-                echo "<script type=\"text/javascript\"><!--
+		if( !in_array('CHECK_OUT_GET_FINAL_CONFIRMATION', $checkout_steps[$current_stage]) ) {
+        	echo "<script type=\"text/javascript\"><!--
                     function submit_order( form ) { return true; }
                     --></script>";
-            }
         }
-        
-        else {
-			
-          if (!empty($auth['user_id'])) {
-            // USER IS LOGGED IN, BUT NO REGISTERED CUSTOMER
-            // WE NEED SOME ADDITIONAL INFORMATION HERE,
-            // SO REDIRECT HIM TO shop/shopper_add
-      		$vmLogger->info( $VM_LANG->_('PHPSHOP_NO_CUSTOMER',false) );
-      
-            include(PAGEPATH. 'checkout_register_form.php');
-          }
-      
-          else { 
-          	// user is not logged in
+	} else {			
+		if (!empty($auth['user_id'])) {
+			// USER IS LOGGED IN, BUT NO REGISTERED CUSTOMER
+			// WE NEED SOME ADDITIONAL INFORMATION HERE,
+			// SO REDIRECT HIM TO shop/shopper_add
+			$vmLogger->info( $VM_LANG->_('PHPSHOP_NO_CUSTOMER',false) );
+	      
+			include(PAGEPATH. 'checkout_register_form.php');
+	            
+		} else { 
+			// user is not logged in
 			echo $theme->fetch( 'checkout/login_registration.tpl.php' );
-          }
+		}
     }
 }
 else {

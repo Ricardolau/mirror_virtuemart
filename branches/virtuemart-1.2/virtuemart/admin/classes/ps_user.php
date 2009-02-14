@@ -217,6 +217,7 @@ class ps_user {
 
 	}
 
+
 	/**
 	 * Updates a User Record
 	 *
@@ -267,10 +268,7 @@ class ps_user {
 					$fields[] = "`".$userField->name."`='".$d[$userField->name]."'";
 				}
 			}
-//			for ($x = 0; $x < sizeof($fields); ++$x){
-//     			echo "key: ".key($fields)."<br>value: ".current($fields)."<br>";
-//    			next($fields);
-//			}
+
 			//Necessary email is in joomla table now
 			unset ($fields["`email`"]);
 
@@ -672,6 +670,46 @@ class ps_user {
 		return $email;
 	}
 	
+		/**
+	* name: get_user_id_by_nickname
+	* created by: Max Milbers
+	* @param 
+	* returns int $user_id
+	*/
+	
+	function get_user_id_by_nickname(&$db, &$nickname){
+		if(empty ($nickname))return;
+		$q  = "SELECT id FROM  #__users ";
+		$q .= "WHERE username = '".$nickname."'";
+		$db->query($q);
+		$userid = $db->f('id');
+		return $userid;
+	}
+	
+	function get_UserEmail_by_order_id(&$db, &$order_id){
+		if(empty ($order_id))return;
+		$q  = "SELECT user_id FROM `#__{vm}_order_user_info` WHERE `order_id`='$order_id'";
+		$db->query( $q );
+		$db->next_record();
+		$user_id = $db->f('user_id');
+		$email = ps_user::get_juser_email_by_user_id($db, $user_id);
+		return $email;
+	}
+	
+	function get_User_id_by_order_id(&$db, &$order_id){
+		if(empty ($order_id))return;
+		$q  = "SELECT user_id FROM `#__{vm}_orders` WHERE `order_id`='$order_id'";
+		$db->query( $q );
+		if($db->next_record()){
+					$user_id = $db->f('user_id');
+			return $user_id;
+		}else{
+			$GLOBALS['vmLogger']->err('Error in DB $order_id '.$order_id.' dont have a user_id');
+			return 0;
+		}
+
+	}
+	
 	/**
 	 * Gets the user details, it joins 
 	 * #__users ju, #__{vm}_user_info u, #__{vm}_country c and #__{vm}_state s
@@ -680,11 +718,12 @@ class ps_user {
 	 * @param array $fields Columns to get
 	 * @param String $orderby should be ordered by $field
 	 * @param String $and this is for an additional AND condition
+	 * @param Boolean $nextRecord if the nextRecord should give back or only the queryResult
 	 */
 	 
-	function get_user_details( $user_id, $fields=array(), $orderby="", $and="" ) {
+	function get_user_details( $user_id, $fields=array(), $orderby="", $and="", $nextRecord=true ) {
 		//Funktion?
-		$user_id = intval( $user_id );
+//		$user_id = intval( $user_id );
 		$db = new ps_DB();		
 		if( empty( $fields )) {
 			$selector = '*';
@@ -694,23 +733,26 @@ class ps_user {
 		$q = "SELECT ".$selector." FROM (#__{vm}_user_info u , #__users ju) " .
 		"LEFT JOIN #__{vm}_country c ON (u.country = c.country_2_code OR u.country = c.country_3_code) ".		
 		"LEFT JOIN #__{vm}_state s ON (u.state = s.state_2_code AND s.country_id = c.country_id) ".
-		"WHERE u.user_id = ".(int)$user_id." ";
+		"WHERE u.user_id = ".(int)$user_id." AND ju.id = ".(int)$user_id." ";
 		if(!empty($and)){
 			$q .= $and." ";
 		}
 		if(!empty($orderby)){
 			$q .= "ORDER BY ".$orderby." ";
-		}				
+		}
+//		$GLOBALS['vmLogger']->err('get_user_details '.$q);				
 		$db->query($q);
-//		$db->next_record();
-		if( ! $db->next_record() ) {
-			print "<h1>Invalid query user id: $user_id</h1>" ;
-			print "<h2>Query user id: $q</h2>" ;
+		if($nextRecord){
+			if( ! $db->next_record() ) {
+				print "<h1>Invalid query user id: $user_id</h1>" ;
+				print "<h2>Query user id: $q</h2>" ;
 			return ;
+			}else{
+				return $db;
+			}
 		}else{
 			return $db;
 		}
-
 	}
 	
 	
@@ -721,7 +763,7 @@ class ps_user {
 	 * @param array $user_info
 	 * @param int $user_id
 	 */
-	function setUserInfoWithEmail( $user_info, $user_id=0 ) {
+	function setUserInfoWithEmail( $user_info, $user_id=0, $and="" ) {
 		$db = new ps_DB;
 		
 		if( empty( $user_id ) ) { // INSERT NEW USER
@@ -737,14 +779,17 @@ class ps_user {
 			
 		}
 		else { // UPDATE EXISTING USER
-//			if(array_key_exists("email",$user_info)){
+			if(array_key_exists("email",$user_info)){
 				$emailvalue = $user_info['email'];
 				$mail = array("email" => $emailvalue);
 				unset ($user_info['email']);
 				$db->buildQuery( 'UPDATE', '#__users', $mail, 'WHERE `id`='.$user_id);
 				$db->query();
-//			}
-			$db->buildQuery( 'UPDATE', '#__{vm}_user_info', $user_info, 'WHERE `user_id`='.$user_id );
+				$GLOBALS['vmLogger']->err('$mail'.$emailvalue.' $user_id '.$user_id);
+			} else{
+				$GLOBALS['vmLogger']->err('setUserInfoWithEmail email empty ');
+			}
+			$db->buildQuery( 'UPDATE', '#__{vm}_user_info', $user_info, 'WHERE `user_id`='.$user_id.' '.$and );
 			$db->query();
 		}
 	}

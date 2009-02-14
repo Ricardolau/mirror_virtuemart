@@ -22,6 +22,13 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
  */
 class ps_order {
 
+
+	/**
+	 * Gets the vendorid saved by the orderitem. Could be moved to ps_vendor.php
+	 * @author Max Milbers
+	 * @param db
+	 * @param
+	 */
 	function get_vendor_id_by_order_id(&$db,&$order_id){
 		
 		$q = 'SELECT vendor_id FROM #__{vm}_order_item WHERE order_id='.$order_id;
@@ -269,13 +276,16 @@ class ps_order {
 		$url = SECUREURL."index.php?option=com_virtuemart&page=account.order_details&order_id=".urlencode($d["order_id"]).'&Itemid='.$sess->getShopItemid();
 
 		$db = new ps_DB;
+		$order_id = $db->getEscaped($d["order_id"]);
 		
-		//MUST Do vendor_id from order 
-		$vendor_id = $_SESSION["ps_vendor_id"];
-		$dbv = ps_vendor::get_vendor_fields($vendor_id,array("email","vendor_name"),"");
+		
+//		$vendor_id = $_SESSION["ps_vendor_id"];
+		$vendor_id = ps_order::get_vendor_id_by_order_id($db,$order_id);
+		
+		$dbv = ps_vendor::get_vendor_fields($vendor_id,array("email","vendor_name"));
 
-		$q = "SELECT first_name,last_name,user_email,order_status_name FROM #__{vm}_order_user_info,#__{vm}_orders,#__{vm}_order_status ";
-		$q .= "WHERE #__{vm}_orders.order_id = '".$db->getEscaped($d["order_id"])."' ";
+		$q = "SELECT first_name,last_name,email,order_status_name FROM #__{vm}_order_user_info,#__{vm}_orders,#__{vm}_order_status ";
+		$q .= "WHERE #__{vm}_orders.order_id = '".$order_id."' ";
 		$q .= "AND #__{vm}_orders.user_id = #__{vm}_order_user_info.user_id ";
 		$q .= "AND #__{vm}_orders.order_id = #__{vm}_order_user_info.order_id ";
 		$q .= "AND order_status = order_status_code ";
@@ -313,16 +323,16 @@ class ps_order {
 		
 		
 		$result = vmMail( $dbv->f("email"),  $dbv->f("vendor_name"), 
-					$db->f("user_email"), $mail_Subject, $mail_Body, '' );
+					$db->f("email"), $mail_Subject, $mail_Body, '' );
 		
 		/* Send the email */
 		if ($result) {
-			$vmLogger->info( $VM_LANG->_('PHPSHOP_DOWNLOADS_SEND_MSG',false). " ". $db->f("first_name") . " " . $db->f("last_name") . ", ".$db->f("user_email") );
+			$vmLogger->info( $VM_LANG->_('PHPSHOP_DOWNLOADS_SEND_MSG',false). " ". $db->f("first_name") . " " . $db->f("last_name") . ", ".$db->f("email") );
 		}
 		else {
-			$vmLogger->warning( $VM_LANG->_('PHPSHOP_DOWNLOADS_ERR_SEND',false).' '. $db->f("first_name") . " " . $db->f("last_name") . ", ".$db->f("user_email")." (". $result->ErrorInfo.")" );
+			$vmLogger->warning( $VM_LANG->_('PHPSHOP_DOWNLOADS_ERR_SEND',false).' '. $db->f("first_name") . " " . $db->f("last_name") . ", ".$db->f("email")." (". $result->ErrorInfo.")" );
 			$GLOBALS['vmLogger']->debug('From: '.$dbv->f("email"));
-			$GLOBALS['vmLogger']->debug('To: '.$db->f("user_email"));
+			$GLOBALS['vmLogger']->debug('To: '.$db->f("email"));
 		}
 	}
 	/**
@@ -511,6 +521,48 @@ class ps_order {
 	}
 
 	/**
+	 * Makes a $db query for Orderlisting
+	 * Just for seperation, reusing and so on
+	 * 
+	 */
+	function list_order_resultSet($order_status='A', $secure=0 ){
+		global $keyword;
+		$db = new ps_DB;		
+		$listfields = 'cdate,order_total,order_status,order_id,order_currency';
+		$countfields = 'count(*) as num_rows';
+		$count = "SELECT $countfields FROM #__{vm}_orders ";
+		$list = "SELECT $listfields FROM #__{vm}_orders ";
+		
+		$where = array();
+		if (!$GLOBALS['perm']->check("admin")) {
+			$where[] = "vendor_id='$vendor_id' ";
+		}
+		
+		if ($order_status != "A") {
+			$where[] = " order_status='$order_status' ";
+		}
+		if ($secure) {
+			$where[] = " user_id='" . $_SESSION['auth']["user_id"] . "' ";
+		}
+		if( !empty( $keyword )) {
+			$where[] =  "(order_id LIKE '%".$keyword."%' "
+								. "OR order_number LIKE '%".$keyword."%' "
+								. "OR order_total LIKE '%".$keyword."%') ";
+		}
+		
+		$q ="";
+		if(!empty ($where[0])){
+			$q .= 'WHERE';
+			$q .= implode(' AND ', $where ). " ORDER BY cdate DESC";
+		}
+		
+		$count .= $q;
+
+		$db->query($count);
+		$db->next_record();	
+		return $db;
+	}
+	/**
 	 * Shows the list of the orders of a user in the account mainenance section
 	 *
 	 * @param string $order_status Filter by order status (A=all, C=confirmed, P=pending,...)
@@ -519,40 +571,16 @@ class ps_order {
 	function list_order($order_status='A', $secure=0 ) {
 		global $VM_LANG, $CURRENCY_DISPLAY, $sess, $limit, $limitstart, $keyword, $mm_action_url;
 
-		$ps_vendor_id = $_SESSION["ps_vendor_id"];
+		require_once( CLASSPATH .'ps_vendor.php');
+		$vendor_id = ps_vendor::get_logged_vendor();
+
 		$auth = $_SESSION['auth'];
 		require_once( CLASSPATH .'ps_order_status.php');
 		require_once( CLASSPATH .'htmlTools.class.php');
 		require_once( CLASSPATH .'pageNavigation.class.php');
-		$db = new ps_DB;
-		$dbs = new ps_DB;
+		$dbs = new ps_DB;		
+		$db = list_order_resultSet($order_status, $secure);
 		
-		$listfields = 'cdate,order_total,order_status,order_id,order_currency';
-		$countfields = 'count(*) as num_rows';
-		$count = "SELECT $countfields FROM #__{vm}_orders ";
-		$list = "SELECT $listfields FROM #__{vm}_orders ";
-		$q = 'WHERE';
-		$where = array();
-		if (!$GLOBALS['perm']->check("admin")) {
-			$where[] = "vendor_id='$ps_vendor_id' ";
-		}
-		
-		if ($order_status != "A") {
-			$where[] = " order_status='$order_status' ";
-		}
-		if ($secure) {
-			$where[] = " user_id='" . $auth["user_id"] . "' ";
-		}
-		if( !empty( $keyword )) {
-			$where[] =  "(order_id LIKE '%".$keyword."%' "
-								. "OR order_number LIKE '%".$keyword."%' "
-								. "OR order_total LIKE '%".$keyword."%') ";
-		}
-		$q .= implode(' AND ', $where ). " ORDER BY cdate DESC";
-		$count .= $q;
-
-		$db->query($count);
-		$db->next_record();
 		$num_rows = $db->f('num_rows');
 		if( $num_rows == 0 ) {
 			echo "<span style=\"font-style:italic;\">".$VM_LANG->_('PHPSHOP_ACC_NO_ORDERS')."</span>\n";

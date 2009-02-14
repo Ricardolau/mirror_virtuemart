@@ -81,7 +81,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
            <td nowrap="nowrap" width="10%" align="right"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_EMAIL') ?>: </td>
            <td width="90%">
            <?php
-             $db->p("user_email");
+             $db->p("email");
            ?>
            </td>
         </tr>

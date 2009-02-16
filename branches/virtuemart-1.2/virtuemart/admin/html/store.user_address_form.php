@@ -22,7 +22,8 @@ mm_showMyFileName( __FILE__ );
    $q = "SELECT * from #__users, #__{vm}_user_info ";
    $q .= "where (#__{vm}_user_info.user_info_id='$user_info_id' OR";
    $q .= " (#__users.user_info_id='$user_info_id') ";
-    $q .= "AND #__{vm}_auth_user_vendor.vendor_id='$ps_vendor_id'";
+   //Old use
+//   $q .= "AND #__{vm}_auth_user_vendor.vendor_id='$ps_vendor_id'";
    $db->query($q);
    $db->next_record();
 }

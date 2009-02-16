@@ -35,7 +35,29 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
-15.02.2009
+16.02.2009 Max Milbers alias Milbo
+! I merged the vendor and user functions  Add/update and such it is not fully completed but the functions look like this
+
+	SetXinfo() set the data in the table the validation and sucht things should work before
+	addInsert() new functions the add and insert functions shouldnt be separated
+	simular to the add_validate and update_validate
+
+	renamed a function in ps_checkout to storeOrderInformationToDB
+	
+	There are some known bugs
+		- I made a dirty fix for my problem that the BT adress is not automatically taken if no other adress is listed
+		it works with the list so the adress is listed again and the user can choose (from some point of view just a radio buton to much).
+		- The checkout didnt work at the last step. there query is known I work on it at first next days.
+	
+	the functions in ps_shopper of adding a user, updating validating and such should merged with the functions in ps_user
+	ps_shopper should only handle the shopper groups related things, discounts whatever, but not registering and userdata.
+	
+	Concept of static and dynamic use of classes will follow
+
+	Made a step forward to just enable the vendors instead of adding them.
+	
+
+15.02.2009 Max Milbers alias Milbo
 ^ mail request concerning a product depends now on the vendor of the product
 ^ changed a lot of vendor senseless $ps_vendor relations sometimes it is just set to 1 (store) 
 

@@ -486,9 +486,9 @@ class vmAbstractObject {
 		
 		$q = "UPDATE `$table_name` SET `$publish_field_name` = '$value' ";
 		$q .= "WHERE FIND_IN_SET( `$field_name`, '$set' )";
-		if( $has_vendor ) {
-			$q .= " AND `vendor_id`=".$_SESSION['ps_vendor_id'];
-		}
+//		if( $has_vendor ) {
+//			$q .= " AND `vendor_id`=".$_SESSION['ps_vendor_id'];
+//		}
 		$db->query( $q );
 		
 		switch ($task) {

@@ -102,6 +102,7 @@ define('PAYMENT_DISCOUNT_BEFORE', '');
 define('PSHOP_ALLOW_REVIEWS', '1');
 define('PSHOP_AGREE_TO_TOS_ONORDER', '');
 define('SHOW_CHECKOUT_BAR', '1');
+define('MAX_VENDOR_PRO_CART', '1');
 define('CHECK_STOCK', '');
 define('ENCODE_KEY', md5( $mosConfig_secret ) );
 define('NO_SHIPPING', '');

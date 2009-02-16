@@ -34,6 +34,7 @@ if (!empty($vendor_id)) {
 	$readonly = "readonly";
 } elseif (!isset($vars["error"])) {
   	$default["vendor_currency"] = $_SESSION['vendor_currency'];
+  	$db = new ps_DB();
 }
 /* Build up the Tabs */
 $tabs = new vmTabPanel(0, 1, "vendorform");

@@ -356,7 +356,7 @@ class ps_checkout {
 		}
 		if (!ps_checkout::noShipToNecessary()) {
 			if (empty($d["ship_to_info_id"])) {
-				$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_SHIPTO',false) );
+				$vmLogger->err( 'validate add'.$VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_SHIPTO',false) );
 				return False;
 			}
 		}
@@ -633,7 +633,7 @@ class ps_checkout {
 				case 'CHECK_OUT_GET_SHIPPING_ADDR' :		
 					// The User has choosen a Shipping address
 					if (empty($d["ship_to_info_id"])) {
-						$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_SHIPTO',false) );
+						$vmLogger->err('I am in  process '.$VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_SHIPTO',false) );
 						unset( $_POST['checkout_this_step']);
 						return False;
 					}
@@ -726,7 +726,8 @@ class ps_checkout {
 //		$db->next_record();
 
 		require_once(CLASSPATH. "ps_user.php");
-		$db = ps_user::get_user_details((int)$user_id ,array("*"),"address_type_name, mdate DESC","AND address_type = 'ST'", false);
+//		$db = ps_user::get_user_details((int)$user_id ,array("*"),"address_type_name, mdate DESC","AND address_type = 'ST'", false);
+		$db = ps_user::get_user_details((int)$user_id ,array("*"),"address_type_name, mdate DESC","", false);
 
 		$theme = vmTemplate::getInstance();
 		$theme->set_vars(array('db' => $db,
@@ -744,17 +745,25 @@ class ps_checkout {
 	 *
 	 * @param string $address_type Can be BT (Bill To) or ST (Shipto address)
 	 */
-	function display_address($address_type='BT') {
+	function display_address($address_type='BT') { 
+//	function display_address($user_id, $name, $value ) {
 		global $vmLogger;
 		$auth = $_SESSION['auth'];
 		$address_type = $address_type == 'BT' ? $address_type : 'ST';
 		
 		require_once(CLASSPATH. "ps_user.php");
 		//by Max Milbers seems  to work
-		$db = ps_user::get_user_details($auth["user_id"],array("*"),"","AND `u`.`address_type`='$address_type'");
+		$db = ps_user::get_user_details($auth['user_id'],array('*'),'','AND `u`.`address_type`= "'.$address_type.'"');
+		
 		$theme = new $GLOBALS['VM_THEMECLASS']();
 		$theme->set('db', $db );
-		
+//		$theme->set_vars(array('db' => $db,
+//						'user_id' => $user_id,
+//						'name' => $name,
+//						'value' => $value,
+//						'bt_user_info_id' => $db->f("user_info_id"),
+//				 	)
+//				 );
 		return $theme->fetch('checkout/customer_info.tpl.php');
 		
 	}
@@ -1058,21 +1067,19 @@ class ps_checkout {
 		//a Bit strange
 //		$fieldstr = str_replace( 'email', 'user_email', implode( ',', $fields ));
 		
-		$fieldstr = implode( ',', $fields );
+		$fieldstr = '`'. implode( '`,`', $fields ) . '`';
 		// Save current Bill To Address
-		$q = "INSERT INTO `#__{vm}_order_user_info` 
-			(`order_info_id`,`order_id`,`user_id`,address_type, ".$fieldstr.") ";
-//			
-		
-//		unset($fields[0]);
-//		$fieldstr = implode( ',', $fields );
-		$q .= "SELECT NULL, '$order_id', '".$auth['user_id']."', address_type, email, ".$fieldstr." FROM #__{vm}_user_info WHERE user_id='".$auth['user_id']."' AND address_type='BT'";
+		$q = 'INSERT INTO `#__{vm}_order_user_info` AS `oui` ' .
+			' `order_info_id`,`order_id`,`user_id`,`address_type`, '.$fieldstr.'  ' .
+			' SELECT NULL, `'.$order_id.'`, `'.$auth['user_id'].'`, `address_type`, '.$fieldstr.' ' .
+			' FROM `#__{vm}_user_info` ju, `#__(vm)_users` u WHERE `ju`.`user_id`="'.$auth['user_id'].'" AND `ju`.address_type="'.BT.'" AND `u`.`id`="'.$auth['user_id'].'"';
 		$db->query( $q );
 		
 //		// Save current Ship to Address if applicable
 		$q = "INSERT INTO `#__{vm}_order_user_info` 
 			(`order_info_id`,`order_id`,`user_id`,address_type, ".$fieldstr.") ";
-		$q .= "SELECT NULL, '$order_id', '".$auth['user_id']."', address_type,  ".$fieldstr." FROM #__{vm}_user_info WHERE user_id='".$auth['user_id']."' AND user_info_id='".$d['ship_to_info_id']."' AND address_type='ST'";
+		$q .= "SELECT NULL, '$order_id', '".$auth['user_id']."', address_type,  ".$fieldstr." 
+			FROM #__{vm}_user_info ju, #__(vm)_users u WHERE ju.user_id='".$auth['user_id']."' AND ju.user_info_id='".$d['ship_to_info_id']."' AND ju.address_type='ST' AND u.id='".$auth['user_id']."'";
 		$db->query( $q );
 
 

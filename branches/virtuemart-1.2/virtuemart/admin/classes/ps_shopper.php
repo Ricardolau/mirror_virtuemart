@@ -390,29 +390,13 @@ class ps_shopper {
 				
 			}
 		}
-		
-		//  ???? by Max Milbers user_email does only exist in order_user_info
-		//	Why does exist the same function in two different classes?
-//		$fields['user_email'] = $fields['email'];
-//		unset($fields['email']);
 
-//		$db->buildQuery('INSERT', '#__{vm}_user_info', $fields );
-//		
-//		// Run the query now!
-//		$db->query();
 		//New function do the same with email of juser
 		//Can be used here, because a validation was already done
 		require_once( CLASSPATH . 'ps_user.php' );
 		ps_user::setUserInfoWithEmail($fields);
 		
-		
-		// Insert vendor relationship
-		$q = "INSERT INTO #__{vm}_auth_user_vendor (user_id,vendor_id)";
-		$q .= " VALUES ";
-		$q .= "('" . $uid . "','";
-		$q .= $vendor_id . "') ";
-		$db->query($q);
-		
+
 		$d['shopper_group_id'] = '';
 		
 		// Get the ID of the shopper group for this customer
@@ -746,17 +730,19 @@ class ps_shopper {
 			$q .= $my_shopper_group_id. "')";
 			$db->query($q);
 		}
-		$q = "SELECT user_id FROM #__{vm}_auth_user_vendor ";
-		$q .= "WHERE user_id = '".$_SESSION['auth']['user_id']."'";
-		$db->query($q);
-		if (!$db->num_rows()) {
-			// Insert vendor relationship
-			$q = "INSERT INTO #__{vm}_auth_user_vendor (user_id,vendor_id)";
-			$q .= " VALUES ";
-			$q .= "('" . $_SESSION['auth']['user_id'] . "','";
-			$q .= $_SESSION['ps_vendor_id'] . "') ";
-			$db->query($q);
-		}
+		//TODO In this table is stored the information of the userid of the vendor
+		//so this must be worked out in a completly other way by Max Milbers
+//		$q = "SELECT user_id FROM #__{vm}_auth_user_vendor ";
+//		$q .= "WHERE user_id = '".$_SESSION['auth']['user_id']."'";
+//		$db->query($q);
+//		if (!$db->num_rows()) {
+//			// Insert vendor relationship
+//			$q = "INSERT INTO #__{vm}_auth_user_vendor (user_id,vendor_id)";
+//			$q .= " VALUES ";
+//			$q .= "('" . $_SESSION['auth']['user_id'] . "','";
+//			$q .= $_SESSION['ps_vendor_id'] . "') ";
+//			$db->query($q);
+//		}
 
 		return True;
 	}
@@ -782,8 +768,10 @@ class ps_shopper {
 		$q = "DELETE FROM #__{vm}_shopper_vendor_xref where user_id='" . $d["user_id"] . "'";
 		$db->query($q);
 
-		$q = "DELETE FROM #__{vm}_auth_user_vendor where user_id='" . $d["user_id"] . "'";
-		$db->query($q);
+		//TODO In this table is stored the information of the userid of the vendor
+		//so this must be worked out in a completly other way by Max Milbers
+//		$q = "DELETE FROM #__{vm}_auth_user_vendor where user_id='" . $d["user_id"] . "'";
+//		$db->query($q);
 		return True;
 	}
 	

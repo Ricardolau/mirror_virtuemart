@@ -2591,7 +2591,9 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
         }
         else {
 	        $q  = "SELECT DISTINCT product_sku,product_id,product_name,product_s_desc,product_thumb_image, product_full_image, product_in_stock, product_url FROM #__{vm}_product WHERE ";
-	        $q .= "(#__{vm}_product.product_parent_id='' OR #__{vm}_product.product_parent_id='0') AND vendor_id='".$_SESSION['ps_vendor_id']."' ";
+			//TODO thinking about vendorrelation ship in this conetext by Max Milbers
+//	        $q .= "(#__{vm}_product.product_parent_id='' OR #__{vm}_product.product_parent_id='0') AND vendor_id='".$_SESSION['ps_vendor_id']."' ";
+	        $q .= "(#__{vm}_product.product_parent_id='' OR #__{vm}_product.product_parent_id='0')  ";
 	        $q .= "AND #__{vm}_product.product_publish='Y' ";
 	        $q .= "AND #__{vm}_product.product_special='Y' ";
 	        if( CHECK_STOCK && PSHOP_SHOW_OUT_OF_STOCK_PRODUCTS != "1") {

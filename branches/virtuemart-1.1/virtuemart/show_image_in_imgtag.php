@@ -141,9 +141,13 @@ header( 'Expires: '.gmdate( 'D, d M Y H:i:s', time()+ $age ) . ' GMT' );
 header( 'Cache-Control: max-age='.$age.', must-revalidate' );
 
 if( file_exists( $fileout ) ) {
+	// Try to delete the resized image if the original file is newer
+	if (filemtime($fileout) < filemtime($filename)) @unlink($fileout);
+}
+
+if( file_exists( $fileout ) ) {
   /* We already have a resized image
   * So send the file to the browser */
-
   	switch(strtolower($ext))
 		{
 			case ".gif":

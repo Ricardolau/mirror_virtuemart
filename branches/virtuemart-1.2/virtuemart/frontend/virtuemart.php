@@ -48,8 +48,9 @@ else {
 		echo vmCommonHTML::PrintIcon('', true, ' '.$VM_LANG->_('CMN_PRINT') );
 	}
 	
-	// The Vendor ID is important
-	$ps_vendor_id = $_SESSION['ps_vendor_id'];
+	// The Vendor ID is important senseless to set the vendor this way.
+	// The vendor must be set by visited page or product by Max Milbers
+//	$ps_vendor_id = $_SESSION['ps_vendor_id'];
 
 	// The authentication array
 	$auth = $_SESSION['auth'];

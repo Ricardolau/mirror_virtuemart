@@ -27,6 +27,7 @@ echo '<br />';
 	<?php
 // CHECK_OUT_GET_SHIPPING_ADDR
 // let the user choose a shipto address
+//echo ps_checkout::display_address($auth["user_id"], "ship_to_info_id", $ship_to_info_id);
 echo ps_checkout::display_address();
 	?>
 <br />

@@ -35,7 +35,7 @@ if( $db->f('order_number')) {
 	  <tr>
 	    <td valign="top">
 	     <h2><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_PO_LBL') ?></h2>
-	     <p><?php echo ps_vendor::formatted_store_address(true) ?></p>
+	     <p><?php echo ps_vendor::formatted_store_address(true,$vendor_id) ?></p>
 	    </td>
 	    <td valign="top" width="10%" align="right"><?php echo $vendor_image; ?></td>
 	  </tr>
@@ -109,11 +109,14 @@ if( $db->f('order_number')) {
 	          			if( $dbc !== false ) echo $dbc->f('country_name');
 		          		break;
 	          		case 'state':
-									require_once(CLASSPATH.'ps_state.php');
-									$state = new ps_state();
-									$dbc = $state->get_state_by_code($dbbt->f($field->name));
-									if( $dbc !== false ) echo $dbc->f('state_name');
-    	  					break;
+	          			$state = $dbbt->f($field->name);
+	          			if(isset($state) && $state!='-'){
+	          				require_once(CLASSPATH.'ps_state.php');
+							$state = new ps_state();
+							$dbc = $state->get_state_by_code($dbbt->f($field->name));
+							if( $dbc !== false ) echo $dbc->f('state_name');
+	          			}
+    	  				break;
 		          	default: 
 		          		echo $dbbt->f($field->name);
 		          		break;
@@ -151,10 +154,13 @@ if( $db->f('order_number')) {
 		          		if( $dbc !== false ) echo $dbc->f('country_name');
 		          		break;
 	          		case 'state':
-									require_once(CLASSPATH.'ps_state.php');
-									$state = new ps_state();
-									$dbc = $state->get_state_by_code($dbbt->f($field->name));
-									if( $dbc !== false ) echo $dbc->f('state_name');
+						$state = $dbbt->f($field->name);
+	          			if(isset($state) && $state!='-'){	
+	          				require_once(CLASSPATH.'ps_state.php');
+							$state = new ps_state();
+							$dbc = $state->get_state_by_code($dbbt->f($field->name));
+							if( $dbc !== false ) echo $dbc->f('state_name');
+	          			}
             	 		break;
 		          	default: 
 		          		echo $dbst->f($field->name);

@@ -172,7 +172,6 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 *
 * @package VirtueMart
 * @subpackage core
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -319,7 +318,7 @@ define( 'IMAGEPATH', \$mosConfig_absolute_path.'/components/com_virtuemart/shop_
 
 			fputs($fp, $config, strlen($config));
 			fclose ($fp);
-			if( !empty($_REQUEST['ajax_request'])) {
+			if( !empty($_REQUEST['ajax_request'] )) {
 				$vmLogger->info( $VM_LANG->_('VM_CONFIGURATION_CHANGE_SUCCESS',false) );
 			} else {
 				vmRedirect( $_SERVER['PHP_SELF']."?page=admin.show_cfg&option=com_virtuemart", $VM_LANG->_('VM_CONFIGURATION_CHANGE_SUCCESS') );
@@ -345,7 +344,6 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 *
 * @package VirtueMart
 * @subpackage themes
-* @copyright Copyright (C) 2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -395,7 +393,12 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 					$page = 'admin.show_cfg';
 					$theme = '';
 				}
-				vmRedirect( $_SERVER['PHP_SELF']."?page=$page$theme&option=com_virtuemart", $VM_LANG->_('VM_CONFIGURATION_CHANGE_SUCCESS') );
+				if( !empty($_REQUEST['ajax_request']) ) {
+					$vmLogger->info( $VM_LANG->_('VM_CONFIGURATION_CHANGE_SUCCESS',false) );
+				} else {
+					vmRedirect( $_SERVER['PHP_SELF']."?page=$page$theme&option=com_virtuemart", $VM_LANG->_('VM_CONFIGURATION_CHANGE_SUCCESS') );
+				}
+				
 			}
 			return true;
 		} else {

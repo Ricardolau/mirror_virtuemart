@@ -448,7 +448,7 @@ class vmTabPanel {
 		}
 		
 		$scripttag .= "};
-	if( Ext.isIE ) {
+	if( Ext.isIE6 || Ext.isIE7 ) {
 	Ext.EventManager.addListener( window, 'load', tabinit_{$this->panel_id} );
 }
 else {

@@ -315,16 +315,31 @@ class vmToolBar {
 		$text = '<div style="float:left;background: url('.VM_THEMEURL.'images/administration/menu/icon-16-'.$action_name.'.png) 50% 0 no-repeat;height:17px;width:17px;" border="0" alt="'.$action_name.'">&nbsp;</div>&nbsp;' . $text;
 		$this->buttons .=  "vmTb.addButton({text: '$text', handler: new Function('".addslashes($click_action)."')});\n";
 	}
+	/**
+	 * Renders the Ext Toolbar for VirtueMart
+	 * means: it assembles the javascript to add the buttons/separators/links to the toolbar
+	 *
+	 */
 	function render() {
-		vmCommonHTML::loadExtjs();
+		
 		if( $this->buttons != '' ) {
-			$this->buttons = "var vmTb = new Ext.Toolbar('vm-toolbar');\n"
-							. $this->buttons
-							//. "\nif( self.history.length > 1 ) { vmTb.addSeparator(); vmTb.addButton({text: '<div style=\"float:left;background: url(".VM_THEMEURL."images/administration/menu/icon-16-back.png) 50% 0 no-repeat;height:17px;width:17px;\" border=\"0\" alt=\"{$GLOBALS['VM_LANG']->_BACK}\">&nbsp;</div>{$GLOBALS['VM_LANG']->_BACK}', handler: new Function('history.back();') }); }"
-							. "\nvmTb.addSeparator();\n vmTb.addButton({text: '<div style=\"float:left;background: url(".VM_THEMEURL."images/administration/menu/icon-16-reload.png) 50% 0 no-repeat;height:17px;width:17px;\" border=\"0\" alt=\"".$GLOBALS['VM_LANG']->_('RELOAD')."\">&nbsp;</div>".$GLOBALS['VM_LANG']->_('RELOAD')."', handler: new Function('location.reload();') });"
-							;
+			vmCommonHTML::loadExtjs();
+			$toolbarscript = "var renderVMTb = function() {
+				var vmTb = new Ext.Toolbar({renderTo: \"vm-toolbar\"});\n"
+				. $this->buttons
+				//. "\nif( self.history.length > 1 ) { vmTb.addSeparator(); vmTb.addButton({text: '<div style=\"float:left;background: url(".VM_THEMEURL."images/administration/menu/icon-16-back.png) 50% 0 no-repeat;height:17px;width:17px;\" border=\"0\" alt=\"{$GLOBALS['VM_LANG']->_BACK}\">&nbsp;</div>{$GLOBALS['VM_LANG']->_BACK}', handler: new Function('history.back();') }); }"
+				. "\nvmTb.addSeparator();\n vmTb.addButton({text: '<div style=\"float:left;background: url(".VM_THEMEURL."images/administration/menu/icon-16-reload.png) 50% 0 no-repeat;height:17px;width:17px;\" border=\"0\" alt=\"".$GLOBALS['VM_LANG']->_('RELOAD')."\">&nbsp;</div>".$GLOBALS['VM_LANG']->_('RELOAD')."', handler: new Function('location.reload();') });
+				};
+				if( Ext.isIE6 || Ext.isIE7 ) {
+					Ext.EventManager.addListener( window, 'load', renderVMTb );
+				}
+				else {
+					Ext.onReady( renderVMTb );
+				}";	
+			
+			echo vmCommonHTML::scriptTag('', $toolbarscript );
 		}
-		echo vmCommonHTML::scriptTag('', $this->buttons );
+		//
 	}
 
 	/**

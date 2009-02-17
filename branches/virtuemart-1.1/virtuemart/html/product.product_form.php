@@ -1517,7 +1517,7 @@ var categorySearchField = function(){
     });
 	
 };
-if( Ext.isIE ) {
+if( Ext.isIE6 || Ext.isIE7 ) {
 	Ext.EventManager.addListener( window, 'load', productSearchField );
 	if( Ext.get("categorySearch") ) {
 		Ext.EventManager.addListener( window, 'load', categorySearchField );

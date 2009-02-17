@@ -34,6 +34,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+17.02.2009 soeren
+# fixed the IE "Operation Aborted" error in the frontend, when "Open Product Images in a LightBox?" is enabled (which is the default)
+# fixed the IE "Operation Aborted" error in Extended Layout in the backend's product form
+ 
 11.02.2009 aravot
 ^ Fixed comment typo in SQL file
 
@@ -54,10 +58,10 @@ VirtueMart 1.1.x
 
 
 24.01.2009 aravot
-# - Extended Layout view, menu icons are shown twice
+# in Extended Layout view, menu icons are shown twice
   
 24.01.2009 thepisu
-# fix in ps_shipping - adding a new carrier
+# Task #2496 - Standard Shipping Module saving problem in DB (fix in ps_shipping - adding a new carrier)
 
 22.01.2009 thepisu
 # Task #2473 - Untranslated language string in checkout_register_form.php 

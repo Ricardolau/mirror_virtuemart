@@ -26,7 +26,7 @@ class TOOLBAR_virtuemart {
 	* not responsible for lists!
 	*/
     function FORMS_MENU_SAVE_CANCEL() {     
-        global $mosConfig_absolute_path,$mosConfig_live_site, $mosConfig_lang, $VM_LANG, 
+        global $vm_mainframe, $mosConfig_live_site, $mosConfig_lang, $VM_LANG, 
         		$page, $limitstart,	$vmIcons;
 		$no_menu = (int)$_REQUEST['no_menu'];
 		$bar = & vmToolBar::getInstance('virtuemart');		
@@ -147,7 +147,7 @@ var submitbutton = function(pressbutton){
 		
 		$script .= "\t\t}\n";
 		
-        $bar->buttons .= $script;
+        $vm_mainframe->addScriptDeclaration($script);
 		
 		if ($page == "product.product_form" && !empty($product_id)) {
 			if( empty($product_parent_id) ) { 
@@ -342,4 +342,3 @@ var submitbutton = function(pressbutton){
 	}
   
 }
-?>

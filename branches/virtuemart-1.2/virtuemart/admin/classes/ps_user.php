@@ -18,12 +18,13 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 
 class ps_user {
 	/**
-	 * Validates the input parameters onBeforeUserAdd
+	 * Validates the input parameters onBeforeUserAddUpdate
 	 *
+	 * @author sources by many other rewritten by Max Milbers
 	 * @param array $d
 	 * @return boolean
 	 */
-	function validate_add(&$d) {
+	function validate_addUpdateUser(&$d) {
 		global $my, $perm, $vmLogger, $VM_LANG;
 
 		$db = new ps_DB;
@@ -81,13 +82,24 @@ class ps_user {
 	}
 
 	/**
+	 * Validates the Input Parameters onBeforeUserAdd
+	 * Only for legecy Use directly validate_add( $d )
+	 * @param array $d
+	 * @return boolean
+	 */
+	 
+	function validate_add(&$d) {
+		return $this->validate_addUpdateUser( $d );
+	}
+	
+	/**
 	 * Validates the Input Parameters onBeforeUserUpdate
-	 *
+	 * Only for legecy Use directly validate_add( $d )
 	 * @param array $d
 	 * @return boolean
 	 */
 	function validate_update(&$d) {
-		return $this->validate_add( $d );
+		return $this->validate_addUpdateUser( $d );
 	}
 
 	/**
@@ -143,15 +155,15 @@ class ps_user {
 		$db = new ps_DB;
 		$timestamp = time();
 
-		if (!$this->validate_add($d)) {
+		if (!ps_user::validate_add($d)) {
 			return false;
 		}
 		
 				// Joomla User Information stuff
 		if( vmIsJoomla( '1.5' ) ) {
-			$uid = $this->save();
+			$uid = ps_user::save();
 		} else {
-			$uid = $this->saveUser( $d );
+			$uid = ps_user::saveUser( $d );
 		}
 		if( empty( $uid ) && empty( $d['id'] ) ) {
 			$vmLogger->err( $VM_LANG->_('VM_USER_ADD_FAILED') );
@@ -220,242 +232,26 @@ class ps_user {
 	}
 	/**
 	 * Adds a new User to the CMS and VirtueMart
-	 *
+	 * Only for legecy Use directly addUpdateUser
+	 * 
 	 * @param array $d
 	 * @return boolean
 	 */
 	function add(&$d) {
 		return $this->addUpdateUser( $d );
 	}
-//		global $my, $VM_LANG, $perm, $vmLogger;
-//		
-//		//Should be extended to a relation of the vendor_id in the order
-//		$vendor_id = 1;
-//
-//		$hash_secret = "VirtueMartIsCool";
-//		$db = new ps_DB;
-//		$timestamp = time();
-//
-//		if (!$this->validate_add($d)) {
-//			return False;
-//		}
-//
-//		// Joomla User Information stuff
-//		if( vmIsJoomla( '1.5' ) ) {
-//			$uid = $this->save();
-//		} else {
-//			$uid = $this->saveUser( $d );
-//		}
-//		if( empty( $uid ) && empty( $d['id'] ) ) {
-//			$vmLogger->err( $VM_LANG->_('VM_USER_ADD_FAILED') );
-//			return false;
-//		}
-//		elseif( !empty( $d['id'])) {
-//			$uid = $d['id'];
-//		}
-//		
-//		// Get all fields which where shown to the user
-//		$userFields = ps_userfield::getUserFields('account', false, '', true);
-//		$skipFields = ps_userfield::getSkipFields();
-//		
-//		// Insert billto;
-//		$fields = array();
-//		
-//		$fields['user_info_id'] = md5(uniqid( $hash_secret));
-//		$fields['user_id'] =  $uid;
-//		$fields['address_type'] =  'BT';
-//		$fields['address_type_name'] =  '-default-';
-//		$fields['cdate'] =  $timestamp;
-//		$fields['mdate'] =  $timestamp;
-//		$fields['perms'] =  $d['perms'];
-//
-//		$values = array();
-//		foreach( $userFields as $userField ) {
-//			if( !in_array($userField->name, $skipFields )) {
-//				$fields[$userField->name] = ps_userfield::prepareFieldDataSave( $userField->type, $userField->name, @$d[$userField->name]);
-//			}
-//		}
-//
-//		ps_user::setUserInfoWithEmail($fields);
-		
-
-
-		//TODO In this table is stored the information of the userid of the vendor
-		//so this must be worked out in a completly other way by Max Milbers
-		// Insert vendor relationship
-//		$q = "INSERT INTO #__{vm}_auth_user_vendor (user_id,vendor_id)";
-//		$q .= " VALUES ";
-//		$q .= "('" . $uid . "','$vendor_id') ";
-//		$db->query($q);
-
-//		if( $perm->check("admin")) {
-//			$vendor_id = $d['vendor_id'];
-//		}
-//		else {
-//			$vendor_id = $ps_vendor_id;
-//		}
-		//TODO not clear which vendor_id should be taken
-		// Insert Shopper -ShopperGroup - Relationship
-		//not useful here,... this relationship must be based on the bought products.
-//		$q  = "INSERT INTO #__{vm}_shopper_vendor_xref ";
-//		$q .= "(user_id,vendor_id,shopper_group_id,customer_number) ";
-//		$q .= "VALUES ('$uid', '$vendor_id','".$d['shopper_group_id']."', '".$d['customer_number']."')";
-//		$db->query($q);
-//		
-//		$_REQUEST['id'] = $_REQUEST['user_id'] = $uid;
-//		$vmLogger->info( $VM_LANG->_('VM_USER_ADDED') );
-//		
-//		return True;
-//
-//	}
-
 
 	/**
 	 * Updates a User Record
-	 *
+	 * Only for legecy Use directly addUpdateUser
+	 * 
 	 * @param array $d
 	 * @return boolean
 	 */
 	function update(&$d) {
 		
 		return $this->addUpdateUser( $d );
-	}	
-//		global $my, $VM_LANG, $perm, $vmLogger;
-//		
-//		//Should be extended to a relation of the vendor_id in the order
-//		$vendor_id = 1;
-//
-//		$db = new ps_DB;
-//		$timestamp = time();
-//
-//		if (!$this->validate_update($d)) {
-//			return False;
-//		}
-//
-//		// Joomla User Information stuff
-//		if( vmIsJoomla( '1.5', '>=' ) ) {
-//			$this->save();
-//		} else {
-//			$this->saveUser( $d );
-//		}
-//
-//		// Update Bill To
-//
-//		// Get all fields which where shown to the user
-//		$userFields = ps_userfield::getUserFields('account', false, '', true);
-//
-//		$user_id = intval( $d['id'] );
-//
-//		// Building the query: PART ONE
-//		// The first 7 fields are FIX and not built dynamically
-//		$db->query( "SELECT COUNT(user_info_id) AS num_rows 
-//					FROM #__{vm}_user_info WHERE user_id='" . $user_id . "'" );
-//		if( $db->f('num_rows') < 1 ) {
-//			// The user is registered in Joomla, but not in VirtueMart; so, insert the bill to information
-//			return $this->add($d);
-//		}
-//		else {
-//			
-//			$fields['mdate'] = time();
-//			$fields['perms'] = $d['perms'];
-//			
-//			$skip_fields = ps_userfield::getSkipFields();
-//			foreach( $userFields as $userField ) {
-//				if( !in_array($userField->name,$skip_fields)) {
-//					$d[$userField->name] = ps_userfield::prepareFieldDataSave( $userField->type, $userField->name, @$d[$userField->name]);
-////					$fields[] = "`".$userField->name."`='".$d[$userField->name]."'";
-//					$fields[$userField->name]=$d[$userField->name];
-//				}
-//			}
-//			for ($x = 0; $x < sizeof($fields); ++$x){
-//				$GLOBALS['vmLogger']->info("key: ".key($fields)."  value: ".current($fields));
-//				next($fields);
-//			}
-//			
-//			ps_user::setUserInfoWithEmail($fields, $user_id);
-//		}	
-//		
-//		
-//		//The whole rest is just for history, will be deleted within the next committs by Max Milbers
-////			$qu = 'UPDATE `#__users` SET `email`="'.$d['email'].'" WHERE `id`="' .$user_id. '"';
-////			$db->query($qu);
-////			unset ($fields['email']);
-//			
-//			
-////			$q = "UPDATE #__{vm}_user_info SET
-////	                                `mdate` = '".time()."',
-////	                                `perms` = '".$d['perms']."', ";
-////			$fields = array();
-////			$skip_fields = ps_userfield::getSkipFields();
-////			foreach( $userFields as $userField ) {
-////				if( !in_array($userField->name,$skip_fields)) {
-////					$d[$userField->name] = ps_userfield::prepareFieldDataSave( $userField->type, $userField->name, @$d[$userField->name]);
-////					$fields[] = "`".$userField->name."`='".$d[$userField->name]."'";
-////				}
-////			}
-////
-////
-////			$qu = 'UPDATE `#__users` SET `email`="'.$d['email'].'" WHERE `id`="' .$user_id. '"';
-////			$db->query($qu);
-////
-////			//Necessary email is in joomla table now
-////			unset ($fields['email']);
-////			
-////			$q .= implode( ",\n", $fields );
-////			$q .= " WHERE user_id=".$user_id." AND address_type='BT'";
-////			$db->query($q);
-////			echo('Die User_id ist hier: '.$user_id);
-////			// Run the query now!
-//
-//
-////		}
-//		
-//		//TODO In this table is stored the information of the userid of the vendor
-//		//so this must be worked out in a completly other way by Max Milbers
-////		if( $perm->check("admin")) {
-////			$vendor_id = $d['vendor_id'];
-////		}
-////		else {
-////			$vendor_id = $ps_vendor_id;
-////		}
-////
-////		$db->query( "SELECT COUNT(user_id) as num_rows FROM #__{vm}_auth_user_vendor WHERE vendor_id='".$vendor_id."' AND user_id='" . $d["user_id"] . "'" );
-////		if( $db->f('num_rows') < 1 ) {
-////			// Insert vendor relationship
-////			$q = "INSERT INTO #__{vm}_auth_user_vendor (user_id,vendor_id)";
-////			$q .= " VALUES ";
-////			$q .= "('" . $d['user_id'] . "','$vendor_id') ";
-////			$db->query($q);
-////		}
-////		else {
-////			// Update the User- Vendor  relationship
-////			$q = "UPDATE #__{vm}_auth_user_vendor set ";
-////			$q .= "vendor_id='".$d['vendor_id']."' ";
-////			$q .= "WHERE user_id='" . $d["user_id"] . "'";
-////			$db->query($q);
-////		}
-//
-//		//not useful here,... this relationship must be based on the bought products.
-////		$db->query( "SELECT COUNT(user_id) as num_rows FROM #__{vm}_shopper_vendor_xref WHERE vendor_id='".$vendor_id."' AND user_id='" . $d["user_id"] . "'" );
-////		if( $db->f('num_rows') < 1 ) {
-////			// Insert Shopper -ShopperGroup - Relationship
-////			$q  = "INSERT INTO #__{vm}_shopper_vendor_xref ";
-////			$q .= "(user_id,vendor_id,shopper_group_id,customer_number) ";
-////			$q .= "VALUES ('".$d['user_id']."', '$vendor_id','".$d['shopper_group_id']."', '".$d['customer_number']."')";
-////		}
-////		else {
-////			// Update the Shopper Group Entry for this user
-////			$q = "UPDATE #__{vm}_shopper_vendor_xref SET ";
-////			$q .= "shopper_group_id='".$d['shopper_group_id']."' ";
-////			$q.= ",vendor_id ='".$vendor_id."' ";
-////			$q .= "WHERE user_id='" . $d["user_id"] . "' ";
-////		}
-////		$db->query($q);
-//		
-//		$vmLogger->info( $VM_LANG->_('VM_USER_UPDATED') );
-//		
-//		return True;
-//	}
+	}
 
 	/**************************************************************************
 	* name: delete()
@@ -787,11 +583,15 @@ class ps_user {
 	
 	/**
 	 * 
+	 *  
 	 * @author Max Milbers
+	 * @param int $user_id
+	 * returns joomla user email
 	 */
 	 
-	function get_juser_email_by_user_id(&$db, &$user_id){
+	function get_juser_email_by_user_id(&$user_id){
 		if(empty ($user_id))return;
+		global $db;
 		$q  = "SELECT email FROM  #__users ";
 		$q .= "WHERE id = '".$user_id."'";
 		$db->query($q);
@@ -801,31 +601,35 @@ class ps_user {
 	
 		/**
 	* name: get_user_id_by_nickname
-	* created by: Max Milbers
-	* @param 
+	* 
+	* @author Max Milbers
+	* @param String $nickname
 	* returns int $user_id
 	*/
 	
-	function get_user_id_by_nickname(&$db, &$nickname){
+	function get_user_id_by_nickname(&$nickname){
 		if(empty ($nickname))return;
+		global $db;
 		$q  = 'SELECT `id` FROM `#__users` WHERE `username` = "'.$nickname.'"';
 		$db->query($q);
 		$userid = $db->f('id');
 		return $userid;
 	}
 	
-	function get_UserEmail_by_order_id(&$db, &$order_id){
+	function get_UserEmail_by_order_id(&$order_id){
 		if(empty ($order_id))return;
+		global $db;
 		$q  = 'SELECT `user_id` FROM `#__{vm}_order_user_info` WHERE `order_id`="'.$order_id.'"';
 		$db->query( $q );
 		$db->next_record();
 		$user_id = $db->f('user_id');
-		$email = ps_user::get_juser_email_by_user_id($db, $user_id);
+		$email = ps_user::get_juser_email_by_user_id($user_id);
 		return $email;
 	}
 	
-	function get_User_id_by_order_id(&$db, &$order_id){
+	function get_User_id_by_order_id( &$order_id){
 		if(empty ($order_id))return;
+		global $db;
 		$q  = "SELECT user_id FROM `#__{vm}_orders` WHERE `order_id`='$order_id'";
 		$db->query( $q );
 		if($db->next_record()){
@@ -849,7 +653,7 @@ class ps_user {
 	 * @param Boolean $nextRecord if the nextRecord should give back or only the queryResult
 	 */
 	 
-	function get_user_details( $user_id, $fields=array(), $orderby="", $and="", $nextRecord=true ) {
+	function get_user_details( $user_id=0, $fields=array(), $orderby="", $and="", $nextRecord=true ) {
 
 		$db = new ps_DB();		
 		if( empty( $fields )) {
@@ -859,8 +663,11 @@ class ps_user {
 		}
 		$q = "SELECT ".$selector." FROM (#__{vm}_user_info u , #__users ju) " .
 		"LEFT JOIN #__{vm}_country c ON (u.country = c.country_2_code OR u.country = c.country_3_code) ".		
-		"LEFT JOIN #__{vm}_state s ON (u.state = s.state_2_code AND s.country_id = c.country_id) ".
-		"WHERE u.user_id = ".(int)$user_id." AND ju.id = ".(int)$user_id." ";
+		"LEFT JOIN #__{vm}_state s ON (u.state = s.state_2_code AND s.country_id = c.country_id) ";
+		
+		if(!empty($user_id)){
+			$q .= "WHERE u.user_id = ".(int)$user_id." AND ju.id = ".(int)$user_id." ";
+		}
 		if(!empty($and)){
 			$q .= $and." ";
 		}
@@ -917,17 +724,17 @@ class ps_user {
 				}else{		//No joomla user exists					
 					$GLOBALS['vmLogger']->err('setUserInfoWithEmail THIS IS NOT SUPPOSED TO HAPPEN no joomla user found for user_id '.$user_id);
 					if( vmIsJoomla( '1.5', '>=' ) ) {
-						$user_id = $this->save();
+						$user_id = ps_user::save();
 					} else {
-						$user_id = $this->saveUser( $user_info );
+						$user_id = ps_user::saveUser( $user_info );
 					}
 					$GLOBALS['vmLogger']->err('setUserInfoWithEmail THIS IS NOT SUPPOSED TO HAPPEN no joomla user found NEW user_id '.$user_id);
 				}
 			}else{ // INSERT NEW USER
 				if( vmIsJoomla( '1.5', '>=' ) ) {
-					$user_id = $this->save();
+					$user_id = ps_user::save();
 				} else {
-					$user_id = $this->saveUser( $user_info );
+					$user_id = ps_user::saveUser( $user_info );
 				}
 				$GLOBALS['vmLogger']->err('setUserInfoWithEmail THIS IS NOT SUPPOSED TO HAPPEN no joomla user found NEW user_id '.$user_id);
 				
@@ -950,80 +757,6 @@ class ps_user {
 			return true;
 		}
 	}
-	
-//	/**
-//	 * Inserts or Updates the user information
-//	 * Attention without Validation, should only be used
-//	 * Important use validate add oder validate_update
-//	 * @param array $user_info
-//	 * @param int $user_id
-//	 */
-//	function setUserInfoWithEmail( $user_info, $user_id=0, $and="" ) {
-//
-//		$db = new ps_DB;
-//		
-//		$action ="";
-//		$where ="";
-//		if( empty( $user_id ) ) { // INSERT NEW USER
-//			$action = 'INSERT';
-//			$where = "";
-//		}else{
-//			$action = 'UPDATE';
-//			$where = 'WHERE `id`='.$user_id;
-//		}
-//		if(array_key_exists("email",$user_info)){
-//			$emailvalue = $user_info['email'];
-//			$mail = array('email' => $emailvalue);
-//			unset ($user_info['email']);
-//			$db->buildQuery( 'UPDATE', '#__users', $mail, $where);
-//			if( $db->query() === false ) {
-//				$GLOBALS['vmLogger']->err('setUserInfoWithEmail '.$action.' email failed ');
-//				return false;
-//			}else{
-//				$db->buildQuery( $action, '#__{vm}_user_info', $user_info, ' '.$where.' '.$and );
-//				if( $db->query() === false ) {
-//					$GLOBALS['vmLogger']->err('setUserInfoWithEmail '.$action.' set user_info failed');
-//					return false;
-//				}else{
-//					return true;
-//				}
-//			}		
-//		}else{
-//			$GLOBALS['vmLogger']->err('setUserInfoWithEmail email empty ');
-//			return false;
-//		}
-		
-//		if( empty( $user_id ) ) { // INSERT NEW USER
-////			if(array_key_exists("email",$user_info)){
-//				$emailvalue = $user_info['email'];
-//				$mail = array("email" => $emailvalue);
-//				unset ($user_info['email']);
-//				$db->buildQuery( 'INSERT', '#__users', $mail );
-//				$db->query();
-////			}
-//			$db->buildQuery( 'INSERT', '#__{vm}_user_info', $user_info );
-//			$db->query();
-//			
-//		}
-//		else { // UPDATE EXISTING USER
-//			if(array_key_exists("email",$user_info)){
-//				$emailvalue = $user_info['email'];
-//				$mail = array("email" => $emailvalue);
-//				unset ($user_info['email']);
-//				$db->buildQuery( 'UPDATE', '#__users', $mail, 'WHERE `id`='.$user_id);
-//				$db->query();
-//				$GLOBALS['vmLogger']->err('$mail'.$emailvalue.' $user_id '.$user_id);
-//			} else{
-//				$GLOBALS['vmLogger']->err('setUserInfoWithEmail email empty ');
-//			}
-//			$db->buildQuery( 'UPDATE', '#__{vm}_user_info', $user_info, 'WHERE `user_id`='.$user_id.' '.$and );
-//			if( $db->query() === false ) {
-//				return false;
-//			}else{
-//				return true;
-//			}
-//		}
-//	}
 	
 	/**
 	 * Logs in a customer

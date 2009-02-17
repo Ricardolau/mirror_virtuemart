@@ -159,7 +159,7 @@ class vmPaymentMethod extends vmAbstractObject {
 		$auth = $_SESSION['auth'];
 		$user_id = $auth["user_id"];
 		require_once( CLASSPATH . 'ps_vendor.php' );
-		$vendor_id = ps_vendor::get_vendor_id_by_user_id($db,$user_id);
+		$vendor_id = ps_vendor::get_vendor_id_by_user_id($user_id);
 		
 
 		if (!$this->validate_add($d)) {

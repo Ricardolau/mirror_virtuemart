@@ -24,13 +24,13 @@ class ps_order {
 
 
 	/**
-	 * Gets the vendorid saved by the orderitem. Could be moved to ps_vendor.php
+	 * Gets the vendorid saved by the orderitem.
 	 * @author Max Milbers
 	 * @param db
-	 * @param
+	 * @param int $order_id
 	 */
-	function get_vendor_id_by_order_id(&$db,&$order_id){
-		
+	function get_vendor_id_by_order_id(&$order_id){
+		global $db;
 		$q = 'SELECT vendor_id FROM #__{vm}_order_item WHERE order_id='.$order_id;
 		$db->query($q);
 		$db->next_record();
@@ -278,7 +278,7 @@ class ps_order {
 		$db = new ps_DB;
 		$order_id = $db->getEscaped($d["order_id"]);
 		
-		$vendor_id = ps_order::get_vendor_id_by_order_id($db,$order_id);
+		$vendor_id = ps_order::get_vendor_id_by_order_id($order_id);
 		
 		$dbv = ps_vendor::get_vendor_fields($vendor_id,array("email","vendor_name"));
 

@@ -696,14 +696,8 @@ class plgShippingDhl extends vmShippingPlugin {
 		}
 
 		/* Get our sending address information */
-//		$vq  = "SELECT * FROM #__{vm}_vendor ";
-//		$vq .= "WHERE vendor_id='" . $_SESSION['ps_vendor_id'] . "'";
-//		$dbv =& new ps_DB;
-//		$dbv->query($vq);
-//		$dbv->next_record();
-		//This must be changed, the vendor must be taken from the order
-//		$vendor_id = intval($_SESSION['ps_vendor_id']);
-		$vendor_id = ps_order::get_vendor_id_by_order_id($db,$order_id);
+		// the vendor must be taken from the order
+		$vendor_id = ps_order::get_vendor_id_by_order_id($order_id);
 		$dbv = ps_vendor::get_vendor_details($db,$vendor_id);
 		
 		require_once($mosConfig_absolute_path .

@@ -30,7 +30,7 @@ $formObj->startForm();
 
 $readonly = '';
 
-(int)$vendor_id = ps_vendor::get_vendor_id_by_user_id($db, $auth['user_id']);
+(int)$vendor_id = ps_vendor::get_vendor_id_by_user_id($auth['user_id']);
 if (!empty($order_status_id)) {
   	$q = "SELECT * FROM #__{vm}_order_status WHERE order_status_id='$order_status_id'";
   	if( !$perm->check( "admin" ))

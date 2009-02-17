@@ -43,7 +43,7 @@ class ps_product extends vmAbstractObject {
 		$auth = $_SESSION['auth'];
 		$user_id = $auth["user_id"];
 
-		$ps_vendor_id = ps_vendor::get_vendor_id_by_user_id($db,$user_id );
+		$ps_vendor_id = ps_vendor::get_vendor_id_by_user_id($user_id );
 		if( !$perm->check( 'admin' )) {
 			if($ps_vendor_id!=$d['vendor_id']){
 				$vmLogger->err( $VM_LANG->_('VM_PRODUCT_NOT_ALLOWED_TO_CHANGE ',false) );
@@ -1436,7 +1436,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 						
 						//adjusted by Max Milbers
 						$vendorid= 1;
-						$user_id = ps_vendor::get_user_id_by_vendor_id($db, $vendorid);
+						$user_id = ps_vendor::get_user_id_by_vendor_id($vendorid);
 						$q = "SELECT state, country FROM #__{vm}_user_info WHERE user_id='". $user_id . "'";
 						$db->query($q);
 						$db->next_record();

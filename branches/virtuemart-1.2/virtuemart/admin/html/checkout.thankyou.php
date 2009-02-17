@@ -40,7 +40,7 @@ echo('checkout.thankyou: $order_id  '.$order_id);
 require_once(CLASSPATH.'ps_user.php');
 
 //TODO Seems not to work, probably the orders isnt inserted yet
-$userid = ps_user::get_User_id_by_order_id($db,$order_id);
+$userid = ps_user::get_User_id_by_order_id($order_id);
 //quickndirty 
 $userid = $auth["user_id"];
 $db = ps_user::get_user_details($userid,"","","AND `u`.`address_type`='BT'");

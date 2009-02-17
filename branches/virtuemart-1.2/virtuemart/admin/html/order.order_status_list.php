@@ -21,7 +21,7 @@ require_once( CLASSPATH . "pageNavigation.class.php" );
 require_once( CLASSPATH . "htmlTools.class.php" );
 require_once( CLASSPATH . "ps_vendor.php" );
 
-(int)$vendor_id = ps_vendor::get_vendor_id_by_user_id($db, $auth['user_id']);
+(int)$vendor_id = ps_vendor::get_vendor_id_by_user_id($auth['user_id']);
 
 if (!empty($keyword)) {
 	$list  = "SELECT * FROM #__{vm}_order_status WHERE ";

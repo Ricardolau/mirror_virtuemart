@@ -28,10 +28,10 @@ class ps_vendor {
 	** parameters:
 	** returns:
 	***************************************************************************/
-	function get_vendor_id_by_user_id(&$db, &$user_id) {				
-		if(empty ($user_id)){
-			return ;
-		}
+	function get_vendor_id_by_user_id(&$user_id) {				
+		if(empty ($user_id)) return ;
+
+		global $db;
 		/* Test if user has a vendor_Id*/
 		$q  = 'SELECT vendor_id FROM  #__{vm}_auth_user_vendor WHERE user_id=' . $user_id .' ';
 		$db->query($q);
@@ -46,8 +46,9 @@ class ps_vendor {
 	* @param ps_DB $db, int $vendor_id
 	* returns int $user_id
 	*/
-	function get_user_id_by_vendor_id(&$db, &$vendor_id) {
-		if(empty ($vendor_id))return;	
+	function get_user_id_by_vendor_id(&$vendor_id) {
+		if(empty ($vendor_id)) return ;
+		global $db;	
 		$q = 'SELECT user_id FROM #__{vm}_auth_user_vendor WHERE vendor_id='.$vendor_id.' ';
 		$db->query( $q );
 		$db->next_record();
@@ -62,8 +63,9 @@ class ps_vendor {
 	* returns String $email
 	*/
 	
-	function get_vendor_email_by_nickname(&$db, &$nickname){
-		if(empty ($nickname))return;
+	function get_vendor_email_by_nickname(&$nickname){
+		if(empty ($nickname)) return ;
+		global $db;
 		$q  = 'SELECT `#__users`.`email` FROM  `#__users` WHERE `#__users`.`username`= "'.$nickname.'" ';
 				
 		$db->query($q);
@@ -102,7 +104,7 @@ class ps_vendor {
 		$db = new ps_DB();
 		$user_id = $_SESSION['auth']["user_id"];
 		if(isset($user_id)){
-			$vendor_id = ps_vendor::get_vendor_id_by_user_id($db, $user_id);
+			$vendor_id = ps_vendor::get_vendor_id_by_user_id($user_id);
 		}else{
 			echo('$user_id empty, no logged User');
 			$GLOBALS['vmLogger']->err('$user_id empty, no logged User');
@@ -120,9 +122,9 @@ class ps_vendor {
 	 * @return ps_DB
 	 */
 
-	function get_vendor_details(&$vendor_id) {
+	function get_vendor_details($vendor_id) {
 		$db = new ps_DB();		
-		$user_id = ps_vendor::get_user_id_by_vendor_id($db, $vendor_id);
+		$user_id = ps_vendor::get_user_id_by_vendor_id($vendor_id);
 		if (empty($user_id)) {
 				$GLOBALS['vmLogger']->err( 'Failure in Database no user_id for vendor_id '.$vendor_id.' found' );
 				return;
@@ -155,13 +157,23 @@ class ps_vendor {
 	 * 
 	 * @author Max Milbers
 	 * @static 
-	 * @param int $vendor_id, array $fields, String $orderby
+	 * @param int $vendor_id
+	 * @param array $fields  "" = Select *
+	 * @param String $orderby to order by, just the columnname Without 'ORDER BY '
 	 * @return ps_DB
 	 */
 	 
 	function get_vendor_fields($vendor_id, $fields=array(), $oderby="") {
-		$db = new ps_DB();
+		
+		global $db;
 		$usertable= false;
+		$user_id = ps_vendor::get_user_id_by_vendor_id($vendor_id);
+		if (empty($user_id)) {
+				$GLOBALS['vmLogger']->err( 'Failure in Database no user_id for vendor_id '.$vendor_id.' found' );
+				return;
+		}else{
+			$GLOBALS['vmLogger']->debug( 'get_vendor_details user_id for vendor_id found' );
+		}
 		if( empty( $fields )) {
 			$fieldstring = '*';
 			$usertable = true;
@@ -181,15 +193,6 @@ class ps_vendor {
 					$GLOBALS['vmLogger']->err( 'get_vendor_fields: field not known: '.$field );	
 					return;
 				}
-			}
-			
-			$user_id = ps_vendor::get_user_id_by_vendor_id($db, $vendor_id);
-			if (empty($user_id)) {
-				echo( 'get_vendor_fields: Failure in Database no user_id found for vendor_id: '.$vendor_id );
-				$GLOBALS['vmLogger']->err( 'Failure in Database no user_id for vendor_id found' );
-				return;
-			}else{
-	//			$GLOBALS['vmLogger']->debug( 'get_vendor_details user_id for vendor_id found' );
 			}
 			
 			$fieldstring = '`'. implode( '`,`', $fields ) . '`';
@@ -212,125 +215,57 @@ class ps_vendor {
 		$db->query($q);
 		
 		if( ! $db->next_record() ) {
-			print "<h1>Invalid query vendor_id: $vendor_id</h1>" ;
+			print "<h1>Invalid query vendor_id: $vendor_id und user_id: $user_id</h1>" ;
 			return ;
 		}else{
 			return $db;
 		}
 	}
 	
-	/**
-	 * Validates the Input Parameters onBeforeVendorAdd
+		/**
+	 * Validates the Input Parameters onBeforeVendorAddUpdate
 	 *
 	 * @param array $d
 	 * @return boolean
 	 */
-	function validate_add(&$d) {
-		global $vmLogger;
-		
-		$db = new ps_DB;
-		require_once(CLASSPATH . 'imageTools.class.php' );
-		
-		if (!vmImageTools::validate_image($d,"vendor_thumb_image","vendor")) {
-			return false;
-		}
-		if (!vmImageTools::validate_image($d,"vendor_full_image","vendor")) {
-			return false;
-		}
-		if (!$d["vendor_nick"]) {
-			$vmLogger->err( 'You must enter a nickname for the vendor.' );
-			return False;
-		}else{
-			require_once(CLASSPATH. "ps_user.php");
-			$userid = ps_user::get_user_id_by_nickname($db, $d["vendor_nick"]);
-			if(empty($userid) ){
-				$vmLogger->err( 'You must enter a validate nickname for the vendor.' );
-				return false;			
-			}
-			
-			$vendor_id = ps_vendor::get_vendor_id_by_user_id($db,$userid);
-			$vmLogger->info( 'ps_vendor validate_add $userid '.$userid.'  '.$vendor_id);
-			if($vendor_id!=0){
-				$vmLogger->err( 'The nickname is already a vendor.' );
-				return False;
-			}else{
-				$d["vendor_id"] = $vendor_id;
-				$vmLogger->debug( ' vendorAdd  vendor_id '.$vendor_id);
-			}		
-		}
-		
-		if (!$d["email"]) {
-			$email = ps_vendor::get_vendor_email_by_nickname($db,$d["vendor_nick"]);	
-			if(empty($email)){
-				$vmLogger->err( 'You must enter an email address for the vendor contact.');
-				return false;			
-			}else {
-				$d["email"] = $email;
-			}
-		}
-		if (!vmValidateEmail($d["email"])) {
-			$vmLogger->err( 'Please provide a valide email address for adding the vendor contact. '.$d["email"] );
-			return False;
-		}
-		
-		if (!$d["vendor_name"]) {
-			$d["vendor_name"] = $d["vendor_nick"];
-//			$vmLogger->err( 'You must enter a Name for the vendor.' );
-//			return False;
-		}
-		
-		return True;
-
-	}
-	/**
-	 * Validates the Input Parameters onBeforeVendorUpdate
-	 *
-	 * @param array $d
-	 * @return boolean
-	 */
-	function validate_update(&$d,&$db) {
+	function validate_addUpdateVendor(&$d) {
 		global $vmLogger, $perm;
+		
 		require_once(CLASSPATH . 'imageTools.class.php' );
-		if (!vmImageTools::validate_image($d,"vendor_thumb_image","vendor")) {
+		if (!vmImageTools::validate_image($d,'vendor_thumb_image','vendor')) {
 			return false;
 		}
-		if (!vmImageTools::validate_image($d,"vendor_full_image","vendor")) {
+		if (!vmImageTools::validate_image($d,'vendor_full_image','vendor')) {
 			return false;
 		}
 
 		// convert all "," in prices to decimal points.
-		if (stristr($d["vendor_min_pov"],",")) {
-			$d["vendor_min_pov"] = str_replace(',', '.', $d["vendor_min_pov"]);
+		if (stristr($d['vendor_min_pov'],',')) {
+			$d['vendor_min_pov'] = str_replace(',', '.', $d['vendor_min_pov']);
 		}
 		
-		if (empty($d["vendor_nick"])) {
+		if (empty($d['vendor_nick'])) {
 			if($perm->check( 'admin' )){
 				$vendor_id = 1;
-				$d["vendor_id"] = $vendor_id;
-				$user_id = ps_vendor::get_user_id_by_vendor_id($db, $vendor_id);
+				$d['vendor_id'] = $vendor_id;
+				$user_id = ps_vendor::get_user_id_by_vendor_id($vendor_id);
 				
-				require_once(CLASSPATH. "ps_user.php");
-				$email = ps_user::get_juser_email_by_user_id($db, $user_id);
-				$d["email"] = $email;
-				if (!vmValidateEmail($d["email"])) {
-					$vmLogger->err( 'Please provide a valide email address for updating the vendor contact.'.$d["email"] );
-					return false;
-				}else{
-					return true;
-				}
+				require_once(CLASSPATH. 'ps_user.php');
+				$email = ps_user::get_juser_email_by_user_id($user_id);
+				$d['email'] = $email;
 			}else{
 				$vmLogger->err( 'You must enter a nickname for the vendor.' );
 				return False;
 			}		
 		}else{
-			require_once(CLASSPATH. "ps_user.php");
-			$userid = ps_user::get_user_id_by_nickname($db, $d["vendor_nick"]);
-			if(empty($userid)|| $userid==0 ){
+			require_once(CLASSPATH. 'ps_user.php');
+			$userid = ps_user::get_user_id_by_nickname($d['vendor_nick']);
+			if(empty($userid)){
 				$vmLogger->err( 'You must enter a validate nickname for the vendor.' );
 				return false;			
 			}
 			
-			$vendor_id = ps_vendor::get_vendor_id_by_user_id($db,$userid);
+			$vendor_id = ps_vendor::get_vendor_id_by_user_id($userid);
 			if(empty($vendor_id)){
 				$vmLogger->fatal( 'The vendor_id couldnt be found serious Database problem' );
 				return False;
@@ -341,35 +276,190 @@ class ps_vendor {
 						return false;
 					}	
 				}else{
-					$d["vendor_id"] = $vendor_id;
+					$d['vendor_id'] = $vendor_id;
 					$vmLogger->debug( ' vendorAdd  vendor_id '.$vendor_id);
 				}		
 			}		
 		}
-			
-		if (!$d["email"]) {		
-			$email = ps_vendor::get_vendor_email_by_nickname($db, $d["vendor_nick"]);
-//			$vmLogger->err( 'get_vendor_email_by_nickname '.$email );
+		
+		if (!$d['email']) {
+			$email = ps_vendor::get_vendor_email_by_nickname($d['vendor_nick']);
 			if(empty($email)){
 				$vmLogger->err( 'You must enter an email address for the vendor contact.');
 				return false;			
 			}else {
-				$d["email"] = $email;
+				$d['email'] = $email;
 			}
 		}
 		
-		if (!vmValidateEmail($d["email"])) {
-			$vmLogger->err( 'Please provide a valide email address for the vendor contact.'.$d["email"] );
+		if (!vmValidateEmail($d['email'])) {
+			$vmLogger->err( 'Please provide a valide email address for the vendor contact. '.$d['email'] );
 			return False;
 		}
 		
-		if (!$d["vendor_name"]) {
-			$d["vendor_name"] = $d["vendor_nick"];
-//			$vmLogger->err( 'You must enter a username for the vendor.' );
-//			return False;
+		if (!$d['vendor_name']) {
+			$d['vendor_name'] = $d['vendor_nick'];
 		}
 		return True;
+
+	}
+	
+	/**
+	 * Validates the Input Parameters onBeforeVendorAdd
+	 *
+	 * @param array $d
+	 * @return boolean
+	 */
+	function validate_add(&$d) {
 		
+		return ps_user::validate_addUpdateVendor($d);
+		
+//		global $vmLogger;
+//		
+//		$db = new ps_DB;
+//		require_once(CLASSPATH . 'imageTools.class.php' );
+//		
+//		if (!vmImageTools::validate_image($d,"vendor_thumb_image","vendor")) {
+//			return false;
+//		}
+//		if (!vmImageTools::validate_image($d,"vendor_full_image","vendor")) {
+//			return false;
+//		}
+//		if (!$d["vendor_nick"]) {
+//			$vmLogger->err( 'You must enter a nickname for the vendor.' );
+//			return False;
+//		}else{
+//			require_once(CLASSPATH. "ps_user.php");
+//			$userid = ps_user::get_user_id_by_nickname($d["vendor_nick"]);
+//			if(empty($userid) ){
+//				$vmLogger->err( 'You must enter a validate nickname for the vendor.' );
+//				return false;			
+//			}
+//			
+//			$vendor_id = ps_vendor::get_vendor_id_by_user_id($userid);
+//			$vmLogger->info( 'ps_vendor validate_add $userid '.$userid.'  '.$vendor_id);
+//			if($vendor_id!=0){
+//				$vmLogger->err( 'The nickname is already a vendor.' );
+//				return False;
+//			}else{
+//				$d["vendor_id"] = $vendor_id;
+//				$vmLogger->debug( ' vendorAdd  vendor_id '.$vendor_id);
+//			}		
+//		}
+//		
+//		if (!$d["email"]) {
+//			$email = ps_vendor::get_vendor_email_by_nickname($d["vendor_nick"]);	
+//			if(empty($email)){
+//				$vmLogger->err( 'You must enter an email address for the vendor contact.');
+//				return false;			
+//			}else {
+//				$d["email"] = $email;
+//			}
+//		}
+//		if (!vmValidateEmail($d["email"])) {
+//			$vmLogger->err( 'Please provide a valide email address for adding the vendor contact. '.$d["email"] );
+//			return False;
+//		}
+//		
+//		if (!$d["vendor_name"]) {
+//			$d["vendor_name"] = $d["vendor_nick"];
+////			$vmLogger->err( 'You must enter a Name for the vendor.' );
+////			return False;
+//		}
+//		
+//		return True;
+
+	}
+	/**
+	 * Validates the Input Parameters onBeforeVendorUpdate
+	 *
+	 * @param array $d
+	 * @return boolean
+	 */
+	function validate_update(&$d,&$db) {
+		
+		return ps_user::validate_addUpdateVendor($d);
+		
+//		global $vmLogger, $perm;
+//		require_once(CLASSPATH . 'imageTools.class.php' );
+//		if (!vmImageTools::validate_image($d,"vendor_thumb_image","vendor")) {
+//			return false;
+//		}
+//		if (!vmImageTools::validate_image($d,"vendor_full_image","vendor")) {
+//			return false;
+//		}
+//
+//		// convert all "," in prices to decimal points.
+//		if (stristr($d["vendor_min_pov"],",")) {
+//			$d["vendor_min_pov"] = str_replace(',', '.', $d["vendor_min_pov"]);
+//		}
+//		
+//		if (empty($d["vendor_nick"])) {
+//			if($perm->check( 'admin' )){
+//				$vendor_id = 1;
+//				$d["vendor_id"] = $vendor_id;
+//				$user_id = ps_vendor::get_user_id_by_vendor_id($vendor_id);
+//				
+//				require_once(CLASSPATH. "ps_user.php");
+//				$email = ps_user::get_juser_email_by_user_id($user_id);
+//				$d["email"] = $email;
+//				if (!vmValidateEmail($d["email"])) {
+//					$vmLogger->err( 'Please provide a valide email address for updating the vendor contact.'.$d["email"] );
+//					return false;
+//				}else{
+//					return true;
+//				}
+//			}else{
+//				$vmLogger->err( 'You must enter a nickname for the vendor.' );
+//				return False;
+//			}		
+//		}else{
+//			require_once(CLASSPATH. "ps_user.php");
+//			$userid = ps_user::get_user_id_by_nickname( $d["vendor_nick"]);
+//			if(empty($userid)|| $userid==0 ){
+//				$vmLogger->err( 'You must enter a validate nickname for the vendor.' );
+//				return false;			
+//			}
+//			
+//			$vendor_id = ps_vendor::get_vendor_id_by_user_id($userid);
+//			if(empty($vendor_id)){
+//				$vmLogger->fatal( 'The vendor_id couldnt be found serious Database problem' );
+//				return False;
+//			}else{
+//				if($vendor_id == 1){
+//					if(!$perm->check( 'admin' )){
+//						$vmLogger->error( 'You are not allowed to update the store');				
+//						return false;
+//					}	
+//				}else{
+//					$d["vendor_id"] = $vendor_id;
+//					$vmLogger->debug( ' vendorAdd  vendor_id '.$vendor_id);
+//				}		
+//			}		
+//		}
+//			
+//		if (!$d["email"]) {		
+//			$email = ps_vendor::get_vendor_email_by_nickname($d["vendor_nick"]);
+////			$vmLogger->err( 'get_vendor_email_by_nickname '.$email );
+//			if(empty($email)){
+//				$vmLogger->err( 'You must enter an email address for the vendor contact.');
+//				return false;			
+//			}else {
+//				$d["email"] = $email;
+//			}
+//		}
+//		
+//		if (!vmValidateEmail($d["email"])) {
+//			$vmLogger->err( 'Please provide a valide email address for the vendor contact.'.$d["email"] );
+//			return False;
+//		}
+//		
+//		if (!$d["vendor_name"]) {
+//			$d["vendor_name"] = $d["vendor_nick"];
+////			$vmLogger->err( 'You must enter a username for the vendor.' );
+////			return False;
+//		}
+//		return True;
 	}
 	
 
@@ -518,10 +608,10 @@ class ps_vendor {
 				// Get the assigned vendor_id //
 				$_REQUEST['vendor_id'] = $db->last_insert_id();
 				require_once(CLASSPATH. "ps_user.php");		
-				$userid = ps_user::get_user_id_by_nickname($db, $d["vendor_nick"]);
+				$userid = ps_user::get_user_id_by_nickname($d["vendor_nick"]);
 
 			} else {
-				$user_id = ps_vendor::get_user_id_by_vendor_id($db, $d["vendor_id"]);
+				$user_id = ps_vendor::get_user_id_by_vendor_id($d["vendor_id"]);
 			}
 			if(!empty($userset)){
 				//Validation was already done before
@@ -574,8 +664,8 @@ class ps_vendor {
 
 		
 		//Decide if Update or Add
-		$userid = ps_user::get_user_id_by_nickname($db, $d["vendor_nick"]);
-		$vendor_id = $this -> get_vendor_id_by_user_id($db, $userid);
+		$userid = ps_user::get_user_id_by_nickname($d["vendor_nick"]);
+		$vendor_id = $this -> get_vendor_id_by_user_id($userid);
 	
 		if($this -> setVendorInfo($d, $vendor_id)){
 			$vmLogger->err( 'setVendorInfo failed' );
@@ -628,225 +718,27 @@ class ps_vendor {
 
 		return True;	
 	}
+	
 	/**
 	 * Adds a Vendor Record
-	 *
+	 * Only for Legacy, use direct addUpdateVendor($d)
+	 * 
 	 * @param array $d
 	 * @return boolean
 	 */
-	function add(&$d) {
-		
+	function add(&$d) {		
 		return $this -> addUpdateVendor($d);
-//		global $vendor_currency,$vmLogger,$VM_LANG;
-//		$db = new ps_DB;
-//		$timestamp = time();
-//
-//		if (!$this->validate_add($d)) {
-//			return False;
-//		}
-//		
-//		if (!vmImageTools::process_images($d)) {
-//			return false;
-//		}
-//		$d['display_style'][1] = ps_vendor::checkCurrencySymbol( $d['display_style'][1] );
-//		
-//		$d['display_style'] = implode("|", $d['display_style'] );
-//		
-//		if( empty( $d['vendor_accepted_currencies'] )) {
-//			$d['vendor_accepted_currencies'] = array( $vendor_currency );
-//		}
-//		$fields = array('vendor_name' => $d["vendor_name"],
-//						'vendor_nick' => $d["vendor_nick"],
-//						'vendor_phone' => $d["vendor_phone"],
-//						'vendor_store_name' => $d["vendor_store_name"],
-//						'vendor_store_desc' => $d["vendor_store_desc"],
-//						'vendor_category_id' => $d["vendor_category_id"],
-//						'vendor_image_path' => $d["vendor_image_path"],
-//						'vendor_thumb_image' => $d["vendor_thumb_image"],
-//						'vendor_full_image' => $d["vendor_full_image"],
-//						'vendor_currency' => $d["vendor_currency"],
-//						'vendor_url' => $d["vendor_url"],
-//						'vendor_terms_of_service' => $d["vendor_terms_of_service"],
-//						'vendor_min_pov' => $d["vendor_min_pov"],
-//						'vendor_currency_display_style' => $d["display_style"],
-//						'vendor_freeshipping' => $d["vendor_freeshipping"],
-//						'vendor_accepted_currencies' => implode( ',', $d["vendor_accepted_currencies"] ),
-//						'vendor_address_format' => $d["vendor_address_format"],
-//						'vendor_date_format' => $d["vendor_date_format"]
-//						);
-//		
-//		$fieldsU = array(
-//						'last_name' => $d["last_name"],
-//						'first_name' => $d["first_name"],
-//						'middle_name' => $d["middle_name"],
-//						'title' => $d["title"],
-//						'phone_1' => $d["phone_1"],
-//						'phone_2' => $d["phone_2"],
-//						'fax' => $d["fax"],
-//						'email' => $d["email"],
-//						'address_1' => $d["address_1"],
-//						'address_2' => $d["address_2"],
-//						'city' => $d["city"],
-//						'state' => $d["state"],
-//						'country' => $d["country"],
-//						'zip' => $d["zip"],
-//						'cdate' => $timestamp,
-//						'mdate' => $timestamp
-//
-//						);
-//		/* Insert vendor_Id in _auth_user_vendor and set user_is_vendor in  _user_info to 1*/
-//					
-//		$db->buildQuery('INSERT', '#__{vm}_vendor', $fields );
-//		
-//		if( $db->query() === false ) {
-//			$vmLogger->err( $VM_LANG->_('VM_VENDOR_ADDING_FAILED',false) );
-//			return false;
-//		}else{
-//			// Get the assigned vendor_id //
-//			$_REQUEST['vendor_id'] = $db->last_insert_id();
-//			$dbU = new ps_DB;
-//			require_once(CLASSPATH. "ps_user.php");
-//			
-//			$userid = ps_user::get_user_id_by_nickname($db, $d["vendor_nick"]);
-//			//Validation was already done before
-//			$userset = ps_user::setUserInfoWithEmail($fieldsU,$userid);
-//			if($userset==0){
-//				$vmLogger->err( $VM_LANG->_('VM_VENDOR_ADDING_FAILED',false) );
-//				ps_vendor::delete_vendor_record( $_REQUEST['vendor_id'], $d ); 
-//				return false;
-//			}
-//			
-//		}
-//		
-//
-//		$q  = "SELECT id FROM  #__users WHERE username = '".$d["vendor_nick"]."'";
-//		$db->query($q);
-//		$userid = $db->f('id');
-//		$GLOBALS['vmLogger']->debug("ps_vendor Add vendor_id='".$_REQUEST['vendor_id']."' user_id='".$userid."'");
-//		if ($userid!=0) {
-//			$user_update = "UPDATE #__{vm}_auth_user_vendor SET vendor_id='".$_REQUEST['vendor_id']."' WHERE user_id='".$userid."'";
-//			$db->query($user_update);
-//			$user_update = "UPDATE #__{vm}_user_info SET user_is_vendor = 1 WHERE user_id='".$userid."'";
-//			$db->query($user_update);		
-//		}else {
-//			$vmLogger->err( 'No matching Virtuemart shopper found' );
-//		}
-//		
-//		/* Insert default- shopper group */
-//		/* What is the sense behind it? Every shopper is related to one vendor,
-//		 * but what happens if one user is buying from different vendors? In which group is the user than?
-//		 * If every vendors has its own products and his own customers the shop could be realized with many 
-//		 * parallel installations. The trick with multivendor is that the customers dont have any extra effort 
-//		 * if they buy from different vendors.
-//		 * That a vendor has the possibilty to get a list of his customers makes a bit sense, but is very
-//		 * unimportant, very important is a list that the vendor can see all his products, orders, the money he should
-//		 * get by the shop and the commission he has to pay.   by Max Milbers
-//		 * 		 */
-//		$q = "INSERT INTO #__{vm}_shopper_group (";
-//		$q .= "`vendor_id`,";
-//		$q .= "`shopper_group_name`,";
-//		$q .= "`shopper_group_desc`,`default`) VALUES ('";
-//		$q .= $d["vendor_id"] . "',";
-//		$q .= "'-default-',";
-//		$q .= "'Default shopper group for ".$d["vendor_name"]."','1')";
-//		$db->query($q);
-//		
-//		return True;
 	}
+	
 	/**
 	 * Updates a Vendor (and the Store) Record
-	 *
+	 * Only for Legacy, use direct addUpdateVendor($d)
+	 * 
 	 * @param array $d
 	 * @return boolean
 	 */
-	function update(&$d) {
-		
+	function update(&$d) {	
 		return $this -> addUpdateVendor($d);
-//		global $vendor_currency, $VM_LANG;
-//		$db = new ps_DB;
-//		$timestamp = time();
-//
-//		if (!$this->validate_update($d,$db)) {
-//			return False;
-//		}
-//
-//		if (!vmImageTools::process_images($d)) {
-//			return false;
-//		}
-//		foreach ($d as $key => $value) {
-//			if (!is_array($value))
-//			$d[$key] = addslashes($value);
-//		}
-//		
-//		$d['display_style'][1] = ps_vendor::checkCurrencySymbol( $d['display_style'][1] );
-//		$d['display_style'] = implode("|", $d['display_style'] );
-//		
-//		if( empty( $d['vendor_accepted_currencies'] )) {
-//			$d['vendor_accepted_currencies'] = array( $vendor_currency );
-//		}
-//		$fields = array('vendor_name' => $d["vendor_name"],
-//						'vendor_nick' => $d["vendor_nick"],
-//						'vendor_phone' => $d["vendor_phone"],
-//						'vendor_store_name' => $d["vendor_store_name"],
-//						'vendor_store_desc' => $d["vendor_store_desc"],
-//						'vendor_category_id' => $d["vendor_category_id"],
-//						'vendor_image_path' => $d["vendor_image_path"],
-//						'vendor_thumb_image' => $d["vendor_thumb_image"],
-//						'vendor_full_image' => $d["vendor_full_image"],
-//						'vendor_currency' => $d["vendor_currency"],
-//						'vendor_url' => $d["vendor_url"],
-//						'vendor_terms_of_service' => $d["vendor_terms_of_service"],
-//						'vendor_min_pov' => $d["vendor_min_pov"],
-//						'vendor_currency_display_style' => $d["display_style"],
-//						'vendor_freeshipping' => $d['vendor_freeshipping'],
-//						'vendor_accepted_currencies' => implode( ',', $d['vendor_accepted_currencies'] ),
-//						'vendor_address_format' => $d['vendor_address_format'],
-//						'vendor_date_format' => $d['vendor_date_format']
-//						);
-//		
-//		$fieldsU = array(
-//						'last_name' => $d["last_name"],
-//						'first_name' => $d["first_name"],
-//						'middle_name' => $d["middle_name"],
-//						'title' => $d["title"],
-//						'phone_1' => $d["phone_1"],
-//						'phone_2' => $d["phone_2"],
-//						'fax' => $d["fax"],
-//						'email' => $d["email"],
-//						'address_1' => $d["address_1"],
-//						'address_2' => $d["address_2"],
-//						'city' => $d["city"],
-//						'state' => $d["state"],
-//						'country' => $d["country"],
-//						'zip' => $d["zip"],
-//						'cdate' => $timestamp,
-//						'mdate' => $timestamp,
-//
-//						);
-//						
-//		if (!empty($d["vendor_category_id"])) {
-//			$fields['vendor_category_id'] = $d["vendor_category_id"];
-//		}
-//		if (!empty($d["vendor_image_path"])) {
-//			$fields['vendor_image_path'] = $d["vendor_image_path"];
-//		}
-//
-//		$db->buildQuery( 'UPDATE', '#__{vm}_vendor', $fields, 'WHERE vendor_id = '.$d["vendor_id"] );
-//		$db->query();
-//		
-//		$user_id = ps_vendor::get_user_id_by_vendor_id($db, $d["vendor_id"]);
-//		require_once(CLASSPATH. "ps_user.php");
-//	
-//		//Validation was already done before
-//		ps_user::setUserInfoWithEmail($fieldsU,$user_id);
-//				
-//		if( $d['vendor_id'] == 1 ) {
-//			$GLOBALS['vmLogger']->info($VM_LANG->_('VM_STORE_UPDATED'));
-//		} else {
-//			$GLOBALS['vmLogger']->info($VM_LANG->_('VM_VENDOR_UPDATED'));
-//		}
-//		
-//		return True;
 	}
 
 	/**************************************************************************
@@ -856,6 +748,7 @@ class ps_vendor {
 	* parameters:
 	* returns:
 	**************************************************************************/
+	
 	/**
 	* Controller for Deleting Records.
 	*/
@@ -878,7 +771,7 @@ class ps_vendor {
 	}
 	/**
 	* Deletes one Record.
-	* created by: unknown changed by Max Milbers
+	* @author unknown changed by Max Milbers
 	*/
 	function delete_vendor_record( $vendor_id, &$d ) {
 		global $vmLogger,$db;
@@ -894,7 +787,7 @@ class ps_vendor {
 			return false;
 		}
 
-		$userid = ps_vendor::get_user_id_by_vendor_id($db,$vendor_id);
+		$userid = ps_vendor::get_user_id_by_vendor_id($vendor_id);
 		
 		$user_update = 'UPDATE `#__{vm}_user_info` SET `user_is_vendor` = "0" WHERE `user_id`="'.$userid.'"';
 		$db->query($user_update);
@@ -987,6 +880,8 @@ class ps_vendor {
 	/**
 	 * Prints a drop-down list of vendor names and their ids.
 	 *
+	 * @author unknown changed by Max Milbers
+	 * 
 	 * @param int $vendor_id
 	 */
 	function list_vendor($vendor_id='1') {
@@ -1019,7 +914,6 @@ class ps_vendor {
 	 * @author Max Milbers
 	 * @param int $vendor_id the vendorID of the logged in user
 	 */
-//	function list_ornot_vendor($vendor_id='1', $p_vendor_id) {
 	function list_ornot_vendor($vendor_id='1', $product_vendor_id) {
 
 		$db = new ps_DB;
@@ -1044,9 +938,6 @@ class ps_vendor {
 			}
 		}else{
 			$db = ps_vendor::get_vendor_fields($product_vendor_id, array("vendor_id","vendor_name"),"");
-//			$q  = "SELECT vendor_id,vendor_name FROM #__{vm}_vendor ";
-//			$q .= "WHERE vendor_id = '".$vendor_id."'";
-//			$db->query($q);
 			echo '<input type="hidden" name="vendor_id" value="'.$db->f("vendor_id").'" />';
 			echo $db->f("vendor_name");
 			
@@ -1167,6 +1058,11 @@ class ps_vendor {
 	 * @return String
 	 */
 	function formatted_store_address( $use_html=false, $vendor_id ) {
+		
+		if(empty($vendor_id)){
+			$GLOBALS['vmLogger']->err( 'formatted_store_address no vendor_id given' );
+			return;
+		}
 		
 		$db = ps_vendor::get_vendor_details($vendor_id);
 		

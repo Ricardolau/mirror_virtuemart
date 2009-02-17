@@ -20,6 +20,7 @@ global $ps_order_status;
 require_once(CLASSPATH.'ps_checkout.php');
 require_once(CLASSPATH.'ps_userfield.php');
 require_once(CLASSPATH.'ps_product.php');
+require_once(CLASSPATH.'ps_order.php');
 $ps_product= new ps_product;
 
 $registrationfields = ps_userfield::getUserFields('registration', false, '', true, true );
@@ -28,7 +29,10 @@ $shippingfields = ps_userfield::getUserFields('shipping', false, '', true, true 
 $order_id = vmRequest::getInt('order_id', 0);
 $dbc = new ps_DB;
 
-$q = "SELECT * FROM #__{vm}_orders WHERE order_id=$order_id and vendor_id = $ps_vendor_id"; 
+//Vendor is based on order_id by Max Milbers
+$vendor_id = ps_order::get_vendor_id_by_order_id($order_id);
+
+$q = "SELECT * FROM #__{vm}_orders WHERE order_id=$order_id and vendor_id = $vendor_id"; 
 $db->query($q);
 $db->next_record();
 
@@ -43,7 +47,7 @@ echo vmCommonHTML::PrintIcon();
   <tr>
     <td valign="top">
      <h2><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_PO_LBL') ?></h2>
-     <p><?php echo ps_vendor::formatted_store_address(true,$ps_vendor_id) ?></p>
+     <p><?php echo ps_vendor::formatted_store_address(true,$vendor_id) ?></p>
     </td>
     <td valign="top" width="10%" align="right"><?php echo $vendor_image; ?></td>
   </tr>

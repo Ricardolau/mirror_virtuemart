@@ -23,9 +23,10 @@ global $ps_product, $ps_product_category;
 
 $keyword = vmGet($_REQUEST, 'keyword' );
 
-//The vmGet didnt worked for this purpose by Max Milbers 
+//TODO The vmGet didnt worked for this purpose by Max Milbers 
+// need to think about which vendor_id is needed here,.. by order, product or logged user
 $userid = $GLOBALS['auth']['user_id'];
-$vendor = ps_vendor::get_vendor_id_by_user_id(new ps_DB(),$userid);
+$vendor = ps_vendor::get_vendor_id_by_user_id($userid);
 //$vendor = $ps_vendor_id;
 
 $product_parent_id = vmGet($_REQUEST, 'product_parent_id', null);

@@ -33,7 +33,7 @@ require_once( CLASSPATH . "htmlTools.class.php" );
 
 //by Max Milbers
 if (!$perm->check("admin")) {
-	$vendor_id = ps_vendor::get_vendor_id_by_user_id($db, $auth['user_id']);
+	$vendor_id = ps_vendor::get_vendor_id_by_user_id($auth['user_id']);
 	echo("product_list: '".$vendor_id ."' and user_id '".$auth['user_id']."'");
 	$GLOBALS['vmLogger']->debug("product_list: '".$vendor_id ."' and user_id '".$auth['user_id']."'");
 }else{

@@ -79,11 +79,16 @@ if ($db->next_record()) {
 	$registrationfields = ps_userfield::getUserFields('registration', false, '', true, true );
 	$shippingfields = ps_userfield::getUserFields('shipping', false, '', true, true );
 	
+	//Vendor is based on order_id by Max Milbers
+	require_once(CLASSPATH.'ps_order.php');
+	$vendor_id = ps_order::get_vendor_id_by_order_id($order_id);
+
 	$tpl->set( 'db', $db );
 	$tpl->set( 'dbbt', $dbbt );
 	$tpl->set( 'dbpm', $dbpm );
 	$tpl->set( 'user', $user );
 	$tpl->set( 'order_id', $order_id );
+	$tpl->set( 'vendor_id', $vendor_id );
 	$tpl->set( 'registrationfields', $registrationfields );
 	$tpl->set( 'shippingfields', $shippingfields );
 	$tpl->set( 'time_offset', $mosConfig_offset );

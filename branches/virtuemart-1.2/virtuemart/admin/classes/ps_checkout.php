@@ -746,7 +746,6 @@ class ps_checkout {
 	 * @param string $address_type Can be BT (Bill To) or ST (Shipto address)
 	 */
 	function display_address($address_type='BT') { 
-//	function display_address($user_id, $name, $value ) {
 		global $vmLogger;
 		$auth = $_SESSION['auth'];
 		$address_type = $address_type == 'BT' ? $address_type : 'ST';

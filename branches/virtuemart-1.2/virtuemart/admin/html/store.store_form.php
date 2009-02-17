@@ -29,7 +29,7 @@ $currency_style_negative = array('(Symb00)', '-Symb00', 'Symb-00', 'Symb00-', '(
 
 //by Max Milbers
 $user_id = $auth['user_id'];
-$vendor_id = ps_vendor::get_vendor_id_by_user_id($db,$user_id);
+$vendor_id = ps_vendor::get_vendor_id_by_user_id($user_id);
 if($vendor_id==0){
 	if ($perm->check("admin")) {
 		$vendor_id = 1;

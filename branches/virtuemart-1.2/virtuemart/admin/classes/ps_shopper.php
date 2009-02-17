@@ -128,7 +128,7 @@ class ps_shopper {
 			if (!vmValidateEmail($d["email"])) {
 			$vmLogger->err( 'Please provide a valide email address for the registration.' );
 			return false;
-		}
+			}
 		}
 		
 		$d['perms'] = 'shopper';

@@ -97,8 +97,12 @@ class ps_cart {
 	function add(&$d) {
 		global $sess, $VM_LANG, $cart, $vmLogger,$func;
 
-		$cart = $_SESSION['cart'];
-		$cart_vendor_id = $cart['cart_vendor_id'];
+		if(isset($_SESSION['cart'])){
+			$cart = $_SESSION['cart'];
+			if(isset($cart['cart_vendor_id'])){
+				$cart_vendor_id = $cart['cart_vendor_id'];
+			}		
+		}
 		
 		if(MAX_VENDOR_PRO_CART>0){
 			if( !empty( $d['product_id'])){

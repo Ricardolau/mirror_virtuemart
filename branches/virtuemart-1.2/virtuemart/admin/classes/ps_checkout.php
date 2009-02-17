@@ -1052,8 +1052,7 @@ class ps_checkout {
 		/**
 		* Insert the User Billto & Shipto Info
 		* This here, the complete thing up to "Insert all Products from Cart" is redundant data shit
-		* The Bill To Adress is saved in _order_user_info this is redundant shit and makes it worse to programm
-		* I have to remove this,.. will be stay here commented for history reasons (to understand what happened)
+		* But for legal reasons the order must be saved completly.
 		*/
 		// First: get all the fields from the user field list to copy them from user_info into the order_user_info
 		$fields = array();
@@ -1062,41 +1061,57 @@ class ps_checkout {
 		foreach ( $userfields as $field ) {
 			$fields[] = $field->name;
 		}
-
-		//This must be used in the functions that try to get the data
-		//a Bit strange
-//		$fieldstr = str_replace( 'email', 'user_email', implode( ',', $fields ));
 		
-		$fieldstr = '`'. implode( '`,`', $fields ) . '`';
-		// Save current Bill To Address
-		$q = 'INSERT INTO `#__{vm}_order_user_info` AS `oui` ' .
-			' `order_info_id`,`order_id`,`user_id`,`address_type`, '.$fieldstr.'  ' .
-			' SELECT NULL, `'.$order_id.'`, `'.$auth['user_id'].'`, `address_type`, '.$fieldstr.' ' .
-			' FROM `#__{vm}_user_info` ju, `#__(vm)_users` u WHERE `ju`.`user_id`="'.$auth['user_id'].'" AND `ju`.address_type="'.BT.'" AND `u`.`id`="'.$auth['user_id'].'"';
-		$db->query( $q );
+		//Solution
+		$fields['address_type'] =  'address_type';
+
+//		$fieldstr = '`'. implode( '`,`', $fields ) . '`,`address_type`';
+		require_once( CLASSPATH . 'ps_user.php' );
+		$dbU = ps_user::get_user_details($auth['user_id'],$fields);
 		
-//		// Save current Ship to Address if applicable
-		$q = "INSERT INTO `#__{vm}_order_user_info` 
-			(`order_info_id`,`order_id`,`user_id`,address_type, ".$fieldstr.") ";
-		$q .= "SELECT NULL, '$order_id', '".$auth['user_id']."', address_type,  ".$fieldstr." 
-			FROM #__{vm}_user_info ju, #__(vm)_users u WHERE ju.user_id='".$auth['user_id']."' AND ju.user_info_id='".$d['ship_to_info_id']."' AND ju.address_type='ST' AND u.id='".$auth['user_id']."'";
-		$db->query( $q );
-
-
-//		for ($x = 0; $x < sizeof($d); ++$x){
-//			echo "key: ".key($d)."<br>value: ".current($d)."<br>";
-//			next($d);
+		$userInfo = array();
+		//Probably there exists a nicer function to do that	
+		foreach ( $fields as $field ) {
+			$userInfo[$field] = $dbU -> f($field);
+		}
+		$userInfo['order_id'] =  $d['order_id'];
+		$userInfo['user_id'] =  $auth['user_id'];
+		
+		$db->buildQuery( 'INSERT', '#__{vm}_order_user_info', $userInfo);
+		if( $db->query() === false ) {
+			$GLOBALS['vmLogger']->err('setShopper BT adress failed for user_id '.$auth['user_id']);
+			return false;
+		}
+		//Here it would be good to have the choosen index
+//		$selectedST=2;
+		if( $db->next_record() ) {
+			$db->buildQuery( 'INSERT', '#__{vm}_order_user_info', $userInfo);
+			if( $db->query() === false ) {
+				$GLOBALS['vmLogger']->err('setShopper ST adress failed for user_id '.$auth['user_id']);
+				return false;
+			}
+		}
+//		$keyValues = $dbU->loadResultArray( $selectedST );
+//		if(!empty($keyValues)){
+//			$db->buildQuery( 'INSERT', '#__{vm}_order_user_info', $keyValues);
 //		}
-		
-		//TODO only Adresstype BT works now,... we will find a solution
-		$user_info = array(	'order_info_id' => $order_number, 
-							'order_id' => $d["ship_to_info_id"],
-							'user_id' => $auth['user_id'],
-							'address_type' => "BT");
-		$db->buildQuery( 'INSERT', '_order_user_info', $user_info );
-		
-//		$q = "INSERT INTO `#__{vm}_order_user_info` " .
-//				"(`order_info_id`,`order_id`,`user_id`,address_type)
+
+		//The problem with the old construction is the email adress which is stored in the joomla user table
+//		unset($fields['email']);
+//		$fieldstr = '`'. implode( '`,`', $fields );
+//		// Save current Bill To Address
+//		$q = "INSERT INTO `#__{vm}_order_user_info` 
+//			(`order_info_id`,`order_id`,`user_id`,address_type, ".$fieldstr.") ";
+//		$q .= "SELECT NULL, '$order_id', '".$auth['user_id']."', address_type, ".$fieldstr." FROM #__{vm}_user_info WHERE user_id='".$auth['user_id']."' AND address_type='BT'";
+//		$db->query( $q );
+//
+//		// Save current Ship to Address if applicable
+//		$q = "INSERT INTO `#__{vm}_order_user_info` 
+//			(`order_info_id`,`order_id`,`user_id`,address_type, ".$fieldstr.") ";
+//		$q .= "SELECT NULL, '$order_id', '".$auth['user_id']."', address_type, ".$fieldstr." FROM #__{vm}_user_info WHERE user_id='".$auth['user_id']."' AND user_info_id='".$d['ship_to_info_id']."' AND address_type='ST'";
+//		$db->query( $q );
+
+
 		/**
     	* Insert all Products from the Cart into order line items; 
     	* one row per product in the cart 

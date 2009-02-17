@@ -35,6 +35,9 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+17.02.2009 Max Milbers alias Milbo
+# Fixed last step of Checkout but need more testing of the adresses
+
 16.02.2009 Max Milbers alias Milbo
 ! I merged the vendor and user functions  Add/update and such it is not fully completed but the functions look like this
 

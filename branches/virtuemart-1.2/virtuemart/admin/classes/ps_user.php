@@ -867,7 +867,7 @@ class ps_user {
 		if(!empty($orderby)){
 			$q .= "ORDER BY ".$orderby." ";
 		}
-		$GLOBALS['vmLogger']->info('get_user_details query '.$q);				
+//		$GLOBALS['vmLogger']->info('get_user_details query '.$q);				
 		$db->query($q);
 		if($nextRecord){
 			if( ! $db->next_record() ) {

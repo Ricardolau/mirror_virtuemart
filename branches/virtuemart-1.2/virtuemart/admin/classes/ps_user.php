@@ -17,6 +17,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 
 class ps_user {
+	
 	/**
 	 * Validates the input parameters onBeforeUserAddUpdate
 	 *
@@ -26,9 +27,7 @@ class ps_user {
 	 */
 	function validate_addUpdateUser(&$d) {
 		global $my, $perm, $vmLogger, $VM_LANG;
-
-		$db = new ps_DB;
-
+		$db = new ps_DB();
 		$valid = true;
 		$missing = "";
 
@@ -291,6 +290,118 @@ class ps_user {
 		return True;
 	}
 
+	function saveJoomlaUser(&$d = array()){
+		if( vmIsJoomla( '1.5', '>=' ) ) {
+				$user_id = ps_user::savej15();
+		} else {
+			$user_id = ps_user::saveUser( $d );
+		}
+	}
+	
+	function savej15(){
+		save();
+	}
+	
+	function savej15newNotready(){
+		global $mainframe,$mosConfig_live_site;
+		
+		//psuser
+		$option = JRequest::getCmd( 'option');
+		
+		//psshopper
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
+		
+		// Get required system objects
+		$user 		= clone(JFactory::getUser());
+		$pathway 	=& $mainframe->getPathway();
+		$config		=& JFactory::getConfig();
+		$authorize	=& JFactory::getACL();
+		$document   =& JFactory::getDocument();
+		
+//		//psuser
+//		// Initialize some variables
+//		$db			= & JFactory::getDBO();
+//		$me			= & JFactory::getUser();
+//		$MailFrom	= $mainframe->getCfg('mailfrom');
+//		$FromName	= $mainframe->getCfg('fromname');
+//		$SiteName	= $mainframe->getCfg('sitename');
+		
+		//psshopper
+		// If user registration is not allowed, show 403 not authorized.
+		$usersConfig = &JComponentHelper::getParams( 'com_users' );
+		if ($usersConfig->get('allowUserRegistration') == '0') {
+			JError::raiseError( 403, JText::_( 'Access Forbidden' ));
+			return false;
+		}
+
+		// Initialize new usertype setting
+		$newUsertype = $usersConfig->get( 'new_usertype' );
+		if (!$newUsertype) {
+			$newUsertype = 'Registered';
+		}
+
+		// Bind the post array to the user object
+		$_post_ =& vmRequest::get('post');
+		if (!$user->bind( $_post_, 'usertype' )) {
+			JError::raiseError( 500, $user->getError());
+		}
+
+		// Set some initial user values
+		$user->set('id', 0);
+		$user->set( 'usertype', $newUsertype );
+		$user->set('gid', $authorize->get_group_id( '', $newUsertype, 'ARO' ));
+		
+		// TODO: Should this be JDate?
+		$user->set('registerDate', date('Y-m-d H:i:s'));
+
+		// If user activation is turned on, we need to set the activation information
+		$useractivation = $usersConfig->get( 'useractivation' );
+		if ($useractivation == '1') 
+		{
+			jimport('joomla.user.helper');
+			$user->set('activation', md5( JUserHelper::genRandomPassword()) );
+			$user->set('block', '1');
+		}
+
+		// If there was an error with registration, set the message and display form
+		if ( !$user->save() ) 
+		{ 
+			JError::raiseWarning('', JText::_( $user->getError()));
+			return false;
+		}
+
+		
+		// Send registration confirmation mail
+		$password = JRequest::getString('password', '', 'post', JREQUEST_ALLOWRAW);
+		$password = preg_replace('/[\x00-\x1F\x7F]/', '', $password); //Disallow control chars in the email
+
+		$name = $user->get('name');
+		$email = $user->get('email');
+		$username = $user->get('username');
+		$component = 'com_user';
+		
+		$activation_link = $mosConfig_live_site."/index.php?option=$component&task=activate&activation=".$user->get('activation');
+		// Send the registration email
+		$this->_sendMail( $name, $email, $username, $password, $activation_link );
+
+		// Are we dealing with a new user which we need to create?
+		$isNew 	= ($user->get('id') < 1);
+
+		// Capture the new user id
+		if( $isNew ) {
+			$newUserId = $user->get('id');
+		} else {
+			$newUserId = false;
+		}
+		
+		return $newUserId;
+	}
+	
+	function savej10(&$d){
+		return saveUser( $d );
+	}
+	
 	/**
         * Function to save User Information
         * into Joomla
@@ -414,6 +525,8 @@ class ps_user {
 	 *
 	 * @return int An integer user_id if the user was saved successfully, false if not
 	 */
+
+	 
 	function save()
 	{
 		global $mainframe, $vmLogger, $VM_LANG;
@@ -591,7 +704,7 @@ class ps_user {
 	 
 	function get_juser_email_by_user_id(&$user_id){
 		if(empty ($user_id))return;
-		global $db;
+		$db = new ps_DB();
 		$q  = "SELECT email FROM  #__users ";
 		$q .= "WHERE id = '".$user_id."'";
 		$db->query($q);
@@ -609,7 +722,7 @@ class ps_user {
 	
 	function get_user_id_by_nickname(&$nickname){
 		if(empty ($nickname))return;
-		global $db;
+		$db = new ps_DB();
 		$q  = 'SELECT `id` FROM `#__users` WHERE `username` = "'.$nickname.'"';
 		$db->query($q);
 		$userid = $db->f('id');
@@ -618,7 +731,7 @@ class ps_user {
 	
 	function get_UserEmail_by_order_id(&$order_id){
 		if(empty ($order_id))return;
-		global $db;
+		$db = new ps_DB();
 		$q  = 'SELECT `user_id` FROM `#__{vm}_order_user_info` WHERE `order_id`="'.$order_id.'"';
 		$db->query( $q );
 		$db->next_record();
@@ -629,7 +742,7 @@ class ps_user {
 	
 	function get_User_id_by_order_id( &$order_id){
 		if(empty ($order_id))return;
-		global $db;
+		$db = new ps_DB();
 		$q  = "SELECT user_id FROM `#__{vm}_orders` WHERE `order_id`='$order_id'";
 		$db->query( $q );
 		if($db->next_record()){
@@ -722,13 +835,12 @@ class ps_user {
 						return false;
 					}
 				}else{		//No joomla user exists					
-					$GLOBALS['vmLogger']->err('setUserInfoWithEmail THIS IS NOT SUPPOSED TO HAPPEN no joomla user found for user_id '.$user_id);
 					if( vmIsJoomla( '1.5', '>=' ) ) {
 						$user_id = ps_user::save();
 					} else {
 						$user_id = ps_user::saveUser( $user_info );
 					}
-					$GLOBALS['vmLogger']->err('setUserInfoWithEmail THIS IS NOT SUPPOSED TO HAPPEN no joomla user found NEW user_id '.$user_id);
+					$GLOBALS['vmLogger']->err('setUserInfoWithEmail VirtuemartUser exist but not Joomla; THIS IS NOT SUPPOSED TO HAPPEN no joomla user found NEW user_id '.$user_id);
 				}
 			}else{ // INSERT NEW USER
 				if( vmIsJoomla( '1.5', '>=' ) ) {
@@ -736,7 +848,7 @@ class ps_user {
 				} else {
 					$user_id = ps_user::saveUser( $user_info );
 				}
-				$GLOBALS['vmLogger']->err('setUserInfoWithEmail THIS IS NOT SUPPOSED TO HAPPEN no joomla user found NEW user_id '.$user_id);
+				$GLOBALS['vmLogger']->err('setUserInfoWithEmail no Joomla/VM user exists; THIS IS NOT SUPPOSED TO HAPPEN no joomla user found NEW user_id '.$user_id);
 				
 			}				
 		}

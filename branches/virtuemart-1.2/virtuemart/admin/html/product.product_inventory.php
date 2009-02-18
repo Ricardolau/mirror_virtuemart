@@ -193,7 +193,8 @@ while ($db->next_record()) {
 	
 	// The product name and link
 	$link = $_SERVER['PHP_SELF'] . "?page=$modulename.product_form&limitstart=$limitstart&keyword=".urlencode($keyword) . 
-					"&product_id=" . $db->f("product_id")."&product_parent_id=".$product_parent_id;
+//					"&product_id=" . $db->f("product_id")."&product_parent_id=".$product_parent_id;
+					"&product_id=" . $db->f("product_id")."&product_parent_id=".$db->f("product_parent_id");
 	
 	$link .= "&no_menu=1&tmpl=component";
 	$link = defined('_VM_IS_BACKEND') 

@@ -30,12 +30,14 @@ class ps_vendor {
 	***************************************************************************/
 	function get_vendor_id_by_user_id(&$user_id) {				
 		if(empty ($user_id)) return ;
-
-		global $db;
+//		global $db;
+		$db = new ps_DB();
 		/* Test if user has a vendor_Id*/
-		$q  = 'SELECT vendor_id FROM  #__{vm}_auth_user_vendor WHERE user_id=' . $user_id .' ';
+		$q  = 'SELECT `vendor_id` FROM  `#__{vm}_auth_user_vendor` WHERE `user_id`="' . $user_id .'" ';
 		$db->query($q);
 		$vendor_id = $db->f('vendor_id');
+		unset($db);
+		
 		return $vendor_id;
 		
 	}
@@ -48,11 +50,13 @@ class ps_vendor {
 	*/
 	function get_user_id_by_vendor_id(&$vendor_id) {
 		if(empty ($vendor_id)) return ;
-		global $db;	
-		$q = 'SELECT user_id FROM #__{vm}_auth_user_vendor WHERE vendor_id='.$vendor_id.' ';
+//		global $db;	
+		$db = new ps_DB();
+		$q = 'SELECT `user_id` FROM `#__{vm}_auth_user_vendor` WHERE `vendor_id`="'.$vendor_id.'" ';
 		$db->query( $q );
 		$db->next_record();
 		$user_id = $db->f("user_id");
+		unset($db);
 		return $user_id;
 	}
 	
@@ -65,13 +69,14 @@ class ps_vendor {
 	
 	function get_vendor_email_by_nickname(&$nickname){
 		if(empty ($nickname)) return ;
-		global $db;
+//		global $db;
+		$db = new ps_DB();
 		$q  = 'SELECT `#__users`.`email` FROM  `#__users` WHERE `#__users`.`username`= "'.$nickname.'" ';
 				
 		$db->query($q);
 		$email = $db->f("email");
 		$GLOBALS['vmLogger']->info('get_vendor_email_by_nickname '.$email.' und $nickname: '.$nickname);
-		
+		unset($db);
 		return $email;
 	}
 	
@@ -84,10 +89,10 @@ class ps_vendor {
 	function getVendorName( $id ) {
 
 		$db = new ps_DB;
-
 		$q = 'SELECT vendor_name FROM #__{vm}_vendor WHERE vendor_id=`'.(int)$id.'`';
 		$db->query($q);
 		$db->next_record();
+		unset($db);
 		return $db->f("vendor_name");
 
 	}
@@ -101,14 +106,13 @@ class ps_vendor {
 	*/	
 	function get_logged_vendor(){
 		global $_SESSION;
-		$db = new ps_DB();
 		$user_id = $_SESSION['auth']["user_id"];
 		if(isset($user_id)){
 			$vendor_id = ps_vendor::get_vendor_id_by_user_id($user_id);
 		}else{
 			echo('$user_id empty, no logged User');
 			$GLOBALS['vmLogger']->err('$user_id empty, no logged User');
-		}	
+		}
 		return $vendor_id;
 	}
 	
@@ -165,7 +169,7 @@ class ps_vendor {
 	 
 	function get_vendor_fields($vendor_id, $fields=array(), $oderby="") {
 		
-		global $db;
+		$db = new ps_DB();
 		$usertable= false;
 		$user_id = ps_vendor::get_user_id_by_vendor_id($vendor_id);
 		if (empty($user_id)) {
@@ -508,7 +512,7 @@ class ps_vendor {
 		if (!vmImageTools::validate_image($d,"vendor_full_image","vendor")) {
 			return false;
 		}
-		
+		unset($db);
 		return True;
 	}
 
@@ -715,7 +719,7 @@ class ps_vendor {
 			$GLOBALS['vmLogger']->info($VM_LANG->_('VM_VENDOR_UPDATED'));
 			}
 		}	
-
+		unset($db);
 		return True;	
 	}
 	
@@ -774,7 +778,8 @@ class ps_vendor {
 	* @author unknown changed by Max Milbers
 	*/
 	function delete_vendor_record( $vendor_id, &$d ) {
-		global $vmLogger,$db;
+		global $vmLogger;
+		$db = new ps_DB();
 		$vmLogger->info( "'delete_record $vendor_id '.$vendor_id" );
 		if (!$this->validate_delete( $vendor_id, $d)) {
 			$vmLogger->err( 'Deleting of the vendor couldnt be done' );
@@ -797,7 +802,7 @@ class ps_vendor {
 		
 		$q = 'DELETE FROM `#__{vm}_vendor` where `vendor_id`="'.$vendor_id.'"';
 		$db->query($q);
-
+		unset($db);
 		return True;
 	}
 	
@@ -905,6 +910,7 @@ class ps_vendor {
 			}
 			echo ps_html::selectList('vendor_id', $vendor_id, $array );
 		}
+		unset($db);
 	}
 
 	/**

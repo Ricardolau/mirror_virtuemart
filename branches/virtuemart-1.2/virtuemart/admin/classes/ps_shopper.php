@@ -22,6 +22,28 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 class ps_shopper {
 
+	function validate_addUpdateShopper(&$d) {
+		global $my, $mosConfig_absolute_path;
+
+
+
+
+		if (!$provided_required) {
+			$_REQUEST['missing'] = $missing;
+			return false;
+		}
+		
+		$d['email'] = vmGet( $d, 'email', $my->email );
+		if(isset($d['email'])){
+			if (!vmValidateEmail($d["email"])) {
+			$vmLogger->err( 'Please provide a valide email address for the registration.' );
+			return false;
+			}
+		}
+		
+		$d['perms'] = 'shopper';
+	}
+	
 	/**
 	 * Validates the input parameters onBeforeShopperAdd
 	 *
@@ -29,7 +51,8 @@ class ps_shopper {
 	 * @return boolean
 	 */
 	function validate_add(&$d) {
-		global $my, $mosConfig_absolute_path;
+		
+		global $my, $perm, $vmLogger, $mosConfig_absolute_path, $auth;
 
 		$provided_required = true;
 		$missing = "";
@@ -145,7 +168,7 @@ class ps_shopper {
 	***************************************************************************/
 	function validate_update(&$d) {
 		global $my, $perm, $vmLogger, $mosConfig_absolute_path, $auth;
-
+		$vmLogger->err( 'Jetz sinma in validate_update shopper ' );
 		if ( $my->id == 0 && $auth['user_id'] == 0 ){
 			$vmLogger->err( "Please Login first." );
 
@@ -323,16 +346,22 @@ class ps_shopper {
 				// Process the CMS registration
 				
 				if( vmIsJoomla( '1.5' ) ) {
-					if( !$this->register_save() ) {
+					$uid = ps_user::savej15();
+//					$uid = $this->register_save();
+					if( empty($uid) ) {
 						return false;
 					}
 				} else {
-					if( !$this->saveRegistration() ) {
+					$uid = ps_user::savej10($d);
+//					$uid = $this->saveRegistration();
+					if( empty($uid) ) {
 						return false;
 					}
 				}
-				$db->query("SELECT id FROM #__users WHERE username='".$d['username']."'");
+				$db->query('SELECT `id` FROM `#__users` WHERE `username`="'.$d['username'].'"');
 				$db->next_record();
+				$GLOBALS['vmLogger']->info('$uid '.$uid.' und username: '.$d['username'].' $db->f("id"): '.$db->f('id'));
+				
 				$uid = $db->f('id');
  			}
 			

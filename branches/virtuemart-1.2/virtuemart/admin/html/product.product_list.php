@@ -21,13 +21,11 @@ require_once( CLASSPATH .'pageNavigation.class.php' );
 
 global $ps_product, $ps_product_category;
 
+$ps_product = new ps_product();
 $keyword = vmGet($_REQUEST, 'keyword' );
 
-//TODO The vmGet didnt worked for this purpose by Max Milbers 
-// need to think about which vendor_id is needed here,.. by order, product or logged user
-$userid = $GLOBALS['auth']['user_id'];
-$vendor = ps_vendor::get_vendor_id_by_user_id($userid);
-//$vendor = $ps_vendor_id;
+//The vmGet didnt worked for this purpose by Max Milbers 
+$vendor = ps_vendor::get_logged_vendor();
 
 $product_parent_id = vmGet($_REQUEST, 'product_parent_id', null);
 
@@ -207,7 +205,8 @@ else {
 	$count .= $q;
 	$q .= " ORDER BY product_publish DESC,product_name ";
 }
-$GLOBALS['vmLogger']->debug('The query in product.product_list: '.$q);
+$GLOBALS['vmLogger']->debug('The query in product.product_list: '.$count);
+$db = new ps_DB();
 $db->query($count);
 $db->next_record();
 $num_rows = $db->f("num_rows");
@@ -272,8 +271,6 @@ if ($num_rows > 0) {
 	$db_cat = new ps_DB;
 	$dbtmp = new ps_DB;
 	
-	$tmpcell = "";
-
 	while ($db->next_record()) {
 
 		$listObj->newRow();
@@ -293,8 +290,9 @@ if ($num_rows > 0) {
 						: str_replace('index.php', 'index2.php', $link );
 		
 		$link = $sess->url( $link );
+		
 		$text = shopMakeHtmlSafe($db->f("product_name"));
-
+		
 		// The link to the product form / to the child products
 		$tmpcell = vmCommonHTML::hyperLink($link, $text, '', 'Edit: '.$text, 'onclick="parent.addSimplePanel( \''.$db->getEscaped($db->f("product_name")).'\', \''.$link.'\' );return false;"');
 				
@@ -406,7 +404,9 @@ if ($num_rows > 0) {
 
 		$listObj->addCell( $db->f('product_id') );
 		$i++;
+		
 	}
+	
 }
 
 $listObj->writeTable();

@@ -2467,7 +2467,7 @@ class ps_product extends vmAbstractObject {
 										.vmrequest::getYesOrNo('display_desc').","
 										.vmrequest::getVar('desc_width').","
 										.vmrequest::getVar('attrib_width').","
-										.vmrequest::getWord('child_class_sfx');
+										.vmrequest::getVar('child_class_sfx');
         }
         return $child_options;
     }

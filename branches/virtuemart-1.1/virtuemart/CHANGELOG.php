@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+19.02.2009 macallf
+# Task #2510 Altered ps_product.php to allow aplhanumeric chars in the child_class_suffix field
+
 17.02.2009 soeren
 # fixed the IE "Operation Aborted" error in the frontend, when "Open Product Images in a LightBox?" is enabled (which is the default)
 # fixed the IE "Operation Aborted" error in Extended Layout in the backend's product form

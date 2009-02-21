@@ -1,23 +1,35 @@
 <?php if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); ?>
- 
- <?php if( $show_product_name ) : ?>
-<span style="font-weight:bold;"><?php echo $product_name ?></span>
-<br />
-<?php endif; ?>
 
+//Divs added by Danny alias Korb
+<!-- The product name DIV. -->
+ <?php if( $show_product_name ) : ?>
+<div style="height:77px; float:left; width: 100%;line-height:14px;">
+<a title="<?php echo $product_name ?>" href="<?php echo $product_link ?>"><?php echo $product_name; ?></a>
+<?php endif;?>
+<br />
+</div>
+
+<!-- The product image DIV. -->
+<div style="height:90px;width: 100%;float:left;margin-top:-15px;">
 <a title="<?php echo $product_name ?>" href="<?php echo $product_link ?>">
 	<?php
 		// Print the product image or the "no image available" image
 		echo ps_product::image_tag( $product_thumb_image, "alt=\"".$product_name."\"");
 	?>
 </a>
-<br />
+</div>
 
+<!-- The product price DIV. -->
+<div style="width: 100%;float:left;text-align:center;">
 <?php
 if( !empty($price) ) {
 	echo $price;
 }
 ?>
+</div>
+
+<!-- The add to cart DIV. -->
+<div style="float:left;text-align:center;width: 100%;">
 <?php
 if( !empty($addtocart_link) ) {
 	?>
@@ -39,3 +51,5 @@ if( !empty($addtocart_link) ) {
 	<?php
 }
 ?>
+
+</div>

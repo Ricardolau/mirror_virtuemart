@@ -1,6 +1,6 @@
 <?php if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); ?>
 
-//Divs added by Danny alias Korb
+<!-- //Divs added by Danny alias Korb -->
 <!-- The product name DIV. -->
  <?php if( $show_product_name ) : ?>
 <div style="height:77px; float:left; width: 100%;line-height:14px;">

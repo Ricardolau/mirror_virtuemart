@@ -511,27 +511,35 @@ class ps_session {
 			$db = new ps_DB;
 			
 			// Check if the is a menuitem for a product_id (highest priority)
-			if ($ii_product_id=intval($ii_arr['product_id'])) {
-				$db->query( "SELECT id FROM #__menu WHERE link='index.php?option=com_virtuemart' AND params like '%product_id=$ii_product_id%' AND published=1");
-				if( $db->next_record() ) $tmp_Itemid = $db->f("id");
-			} 
+			if (!empty($ii_arr['product_id'])) {
+				if ($ii_product_id=intval($ii_arr['product_id'])) {
+					$db->query( "SELECT id FROM #__menu WHERE link='index.php?option=com_virtuemart' AND params like '%product_id=$ii_product_id%' AND published=1");
+					if( $db->next_record() ) $tmp_Itemid = $db->f("id");
+				} 
+			}
 			// Check if the is a menuitem for a category_id
-			$ii_cat_id=intval($ii_arr['category_id']);
-			if ( $ii_cat_id && $tmp_Itemid=='') {
-				$db->query( "SELECT id FROM #__menu WHERE link='index.php?option=com_virtuemart' AND params like '%category_id=$ii_cat_id%' AND published=1");
-				if( $db->next_record() ) $tmp_Itemid = $db->f("id");
+			if (!empty($ii_arr['category_id'])) {
+				$ii_cat_id=intval($ii_arr['category_id']);
+				if ( $ii_cat_id && $tmp_Itemid=='') {
+					$db->query( "SELECT id FROM #__menu WHERE link='index.php?option=com_virtuemart' AND params like '%category_id=$ii_cat_id%' AND published=1");
+					if( $db->next_record() ) $tmp_Itemid = $db->f("id");
+				}
 			}
 			// Check if the is a menuitem for a flypage
-			$ii_flypage=$ii_arr['flypage'];
-			if ($ii_flypage && $tmp_Itemid=='') {
-				$db->query( "SELECT id FROM #__menu WHERE link='index.php?option=com_virtuemart' AND params like '%flypage=$ii_flypage%' AND published=1");
-				if( $db->next_record() ) $tmp_Itemid = $db->f("id");
+			if (!empty($ii_arr['flypage'])) {
+				$ii_flypage=$ii_arr['flypage'];
+				if ($ii_flypage && $tmp_Itemid=='') {
+					$db->query( "SELECT id FROM #__menu WHERE link='index.php?option=com_virtuemart' AND params like '%flypage=$ii_flypage%' AND published=1");
+					if( $db->next_record() ) $tmp_Itemid = $db->f("id");
+				}
 			}
 			// Check if the is a menuitem for a page
-			$ii_page=$ii_arr['page'];
-			if ($ii_page && $tmp_Itemid=='') {
-				$db->query( "SELECT id FROM #__menu WHERE link='index.php?option=com_virtuemart' AND params like '%page=$ii_page%' AND published=1");
-				if( $db->next_record() ) $tmp_Itemid = $db->f("id");
+			if (!empty($ii_arr['page'])) {
+				$ii_page=$ii_arr['page'];
+				if ($ii_page && $tmp_Itemid=='') {
+					$db->query( "SELECT id FROM #__menu WHERE link='index.php?option=com_virtuemart' AND params like '%page=$ii_page%' AND published=1");
+					if( $db->next_record() ) $tmp_Itemid = $db->f("id");
+				}
 			}
 			// If we haven't found an Itemid, use the standard VM-Itemid
 			$Itemid = "&Itemid=" . ($tmp_Itemid ? $tmp_Itemid : $this->getShopItemid()); 

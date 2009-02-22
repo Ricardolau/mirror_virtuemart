@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+22.02.2009 macallf
+# Task #2511 Extra ID's doesn't work for all products, it only works for child products. Edited logic in ps_product_attribute.php
+
 19.02.2009 macallf
 # Task #2510 Altered ps_product.php to allow aplhanumeric chars in the child_class_suffix field
 

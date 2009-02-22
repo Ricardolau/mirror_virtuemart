@@ -196,25 +196,22 @@ class ps_product_attribute {
 		// The default listing method
 		$product_list = "N" ;
 		$display_use_parent = 'N';
-		if( ps_product::parent_has_children( $product_id ) ) {
-			$product_list = 'N' ;
-			$child_options = ps_product::get_child_options( $product_id ) ;
-			if( ! empty( $child_options ) ) {
-				extract( $child_options ) ;
-			}
+		$child_options = ps_product::get_child_options( $product_id ) ;
+		if( ! empty( $child_options ) ) {
+			extract( $child_options ) ;
+		}
 			
-			$quantity_options = ps_product::get_quantity_options( $product_id ) ;
-			if( ! empty( $quantity_options['quantity_box'] ) ) {
-				$display_type = $quantity_options['quantity_box'] ;
-			}
-			$child_option_ids = ps_product::get_field( $product_id, 'child_option_ids' ) ;
-			if( $child_option_ids != '' && $product_list == "N" ) {
-				$product_list = "Y" ;
-			}
+		$quantity_options = ps_product::get_quantity_options( $product_id ) ;
+		if( ! empty( $quantity_options['quantity_box'] ) ) {
+			$display_type = $quantity_options['quantity_box'] ;
+		}
+		$child_option_ids = ps_product::get_field( $product_id, 'child_option_ids' ) ;
+		if( $child_option_ids != '' && $product_list == "N" ) {
+			$product_list = "Y" ;
+		}
 			
-			if( $extra_ids ) {
-				$child_option_ids .= $child_option_ids ? "," . $extra_ids : $extra_ids ;
-			}
+		if( $extra_ids ) {
+			$child_option_ids .= $child_option_ids ? "," . $extra_ids : $extra_ids ;
 		}
 		
 		if( empty( $class_suffix ) ) {

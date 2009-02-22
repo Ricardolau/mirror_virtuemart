@@ -2469,7 +2469,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 										.vmrequest::getYesOrNo('display_desc').","
 										.vmrequest::getVar('desc_width').","
 										.vmrequest::getVar('attrib_width').","
-										.vmrequest::getWord('child_class_sfx');
+										.vmrequest::getVar('child_class_sfx');
         }
         return $child_options;
     }

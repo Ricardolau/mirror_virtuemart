@@ -22,7 +22,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
  * and the re-init of a session after redirection to a Shared SSL domain
  *
  */
-class ps_session {
+class vm_ps_session {
 
 	var $component_name;
 	var $_session_name = 'virtuemart';
@@ -510,14 +510,15 @@ class ps_session {
 
 			$db = new ps_DB;
 			
-			// Check if the is a menuitem for a product_id (highest priority)
+			// Check if there is a menuitem for a product_id (highest priority)
 			if (!empty($ii_arr['product_id'])) {
 				if ($ii_product_id=intval($ii_arr['product_id'])) {
 					$db->query( "SELECT id FROM #__menu WHERE link='index.php?option=com_virtuemart' AND params like '%product_id=$ii_product_id%' AND published=1");
 					if( $db->next_record() ) $tmp_Itemid = $db->f("id");
 				} 
 			}
-			// Check if the is a menuitem for a category_id
+			// Check if there is a menuitem for a category_id
+			// This only checks for the exact category ID, it might be good to check for parents also. But at the moment, this would produce a lot of queries
 			if (!empty($ii_arr['category_id'])) {
 				$ii_cat_id=intval($ii_arr['category_id']);
 				if ( $ii_cat_id && $tmp_Itemid=='') {
@@ -525,7 +526,7 @@ class ps_session {
 					if( $db->next_record() ) $tmp_Itemid = $db->f("id");
 				}
 			}
-			// Check if the is a menuitem for a flypage
+			// Check if there is a menuitem for a flypage
 			if (!empty($ii_arr['flypage'])) {
 				$ii_flypage=$ii_arr['flypage'];
 				if ($ii_flypage && $tmp_Itemid=='') {
@@ -533,7 +534,7 @@ class ps_session {
 					if( $db->next_record() ) $tmp_Itemid = $db->f("id");
 				}
 			}
-			// Check if the is a menuitem for a page
+			// Check if there is a menuitem for a page
 			if (!empty($ii_arr['page'])) {
 				$ii_page=$ii_arr['page'];
 				if ($ii_page && $tmp_Itemid=='') {
@@ -647,4 +648,20 @@ class ps_session {
 	}
 
 } // end of class session
+
+
+// Check if there is an extended class in the Themes and if it is allowed to use them
+// If the class is called outside Virtuemart, we have to make sure to load the settings
+// Thomas Kahl - Feb. 2009
+if (!defined('VM_ALLOW_EXTENDED_CLASSES') && file_exists(dirname(__FILE__).'/../virtuemart.cfg.php')) {
+	include_once(dirname(__FILE__).'/../virtuemart.cfg.php');
+}
+// If settings are loaded, extended Classes are allowed and the class exisits...
+if (defined('VM_ALLOW_EXTENDED_CLASSES') && defined('VM_THEMEPATH') && VM_ALLOW_EXTENDED_CLASSES && file_exists(VM_THEMEPATH.'user_class/'.basename(__FILE__))) {
+	// Load the theme-user_class as extended
+	include_once(VM_THEMEPATH.'user_class/'.basename(__FILE__));
+} else {
+	// Otherwise we have to use the original classname to extend the core-class
+	class ps_session extends vm_ps_session {}
+}
 ?>

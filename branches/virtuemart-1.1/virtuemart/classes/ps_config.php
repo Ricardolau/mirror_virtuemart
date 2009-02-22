@@ -20,7 +20,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
  * The configuration file handler class
  *
  */
-class ps_config {
+class vm_ps_config {
 
 	/**
 	 * writes the virtuemart.cfg.php
@@ -79,6 +79,7 @@ class ps_config {
 			"VM_REGISTRATION_TYPE"  =>      "conf_VM_REGISTRATION_TYPE",
 			"VM_BROWSE_ORDERBY_FIELD"  =>      "conf_VM_BROWSE_ORDERBY_FIELD",
 			"VM_GENERALLY_PREVENT_HTTPS"  =>      "conf_VM_GENERALLY_PREVENT_HTTPS",
+			"VM_ALLOW_EXTENDED_CLASSES"  =>      "conf_VM_ALLOW_EXTENDED_CLASSES",
 			"VM_SHOW_REMEMBER_ME_BOX"  =>      "conf_VM_SHOW_REMEMBER_ME_BOX",
 			"VM_REVIEWS_MINIMUM_COMMENT_LENGTH"  =>      "conf_VM_REVIEWS_MINIMUM_COMMENT_LENGTH",
 			"VM_REVIEWS_MAXIMUM_COMMENT_LENGTH"  =>      "conf_VM_REVIEWS_MAXIMUM_COMMENT_LENGTH",
@@ -408,4 +409,19 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 	}
 	
 } // end class ps_config
+
+// Check if there is an extended class in the Themes and if it is allowed to use them
+// If the class is called outside Virtuemart, we have to make sure to load the settings
+// Thomas Kahl - Feb. 2009
+if (!defined('VM_ALLOW_EXTENDED_CLASSES') && file_exists(dirname(__FILE__).'/../virtuemart.cfg.php')) {
+	include_once(dirname(__FILE__).'/../virtuemart.cfg.php');
+}
+// If settings are loaded, extended Classes are allowed and the class exisits...
+if (defined('VM_ALLOW_EXTENDED_CLASSES') && defined('VM_THEMEPATH') && VM_ALLOW_EXTENDED_CLASSES && file_exists(VM_THEMEPATH.'user_class/'.basename(__FILE__))) {
+	// Load the theme-user_class as extended
+	include_once(VM_THEMEPATH.'user_class/'.basename(__FILE__));
+} else {
+	// Otherwise we have to use the original classname to extend the core-class
+	class ps_config extends vm_ps_config {}
+}
 ?>

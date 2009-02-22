@@ -604,6 +604,16 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_SECURITY'), "security-page");
 			</td>
 		</tr>
 		<tr>
+			<td class="labelcell">
+				<input type="checkbox" id="conf_VM_ALLOW_EXTENDED_CLASSES" name="conf_VM_ALLOW_EXTENDED_CLASSES" class="inputbox" <?php if (@VM_ALLOW_EXTENDED_CLASSES == '1') echo "checked=\"checked\""; ?> value="1" />				
+			</td>
+			<td>
+				<label for="conf_VM_ALLOW_EXTENDED_CLASSES"><?php echo $VM_LANG->_('VM_ALLOW_EXTENDED_CLASSES') ?></label>
+			</td>
+			<td><?php echo vmToolTip( $VM_LANG->_('VM_ALLOW_EXTENDED_CLASSES_TIP') ) ?>
+			</td>
+		</tr>
+		<tr>
 			<td colspan="3"><hr />&nbsp;</td>
 		</tr>
 		<?php

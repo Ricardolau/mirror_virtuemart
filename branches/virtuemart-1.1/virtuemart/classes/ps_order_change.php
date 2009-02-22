@@ -13,7 +13,7 @@ if( ! defined( '_VALID_MOS' ) && ! defined( '_JEXEC' ) )
  * ps_order_edit
  * The class  acts as a plugin for the order_print page.
  *************************************************************************/
-class ps_order_change {
+class vm_ps_order_change {
 	
 	var $order_id ;
 	var $reload_from_db ;
@@ -1120,5 +1120,21 @@ if( vmGet( $_REQUEST, 'page' ) == 'order.order_print' ) {
 		$db->query( $q ) ;
 		$db->next_record() ;
 	}
+}
+
+
+// Check if there is an extended class in the Themes and if it is allowed to use them
+// If the class is called outside Virtuemart, we have to make sure to load the settings
+// Thomas Kahl - Feb. 2009
+if (!defined('VM_ALLOW_EXTENDED_CLASSES') && file_exists(dirname(__FILE__).'/../virtuemart.cfg.php')) {
+	include_once(dirname(__FILE__).'/../virtuemart.cfg.php');
+}
+// If settings are loaded, extended Classes are allowed and the class exisits...
+if (defined('VM_ALLOW_EXTENDED_CLASSES') && defined('VM_THEMEPATH') && VM_ALLOW_EXTENDED_CLASSES && file_exists(VM_THEMEPATH.'user_class/'.basename(__FILE__))) {
+	// Load the theme-user_class as extended
+	include_once(VM_THEMEPATH.'user_class/'.basename(__FILE__));
+} else {
+	// Otherwise we have to use the original classname to extend the core-class
+	class ps_order_change extends vm_ps_order_change {}
 }
 ?>

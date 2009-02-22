@@ -203,6 +203,8 @@ $langvars = array (
 	'VM_BROWSE_ORDERBY_FIELDS_LBL_TIP' => 'Choose the "Sort-by" fields for the browse page. Each one defines a sort method for the product browse page. If you deselect all, the Order-By-Form will not be shown.',
 	'VM_GENERALLY_PREVENT_HTTPS' => 'Generally prevent https connections?',
 	'VM_GENERALLY_PREVENT_HTTPS_TIP' => 'When checked, the shopper is redirected to the <strong>http</strong> URL when not browsing in those shop areas, which are forced to use https.',
+	'VM_ALLOW_EXTENDED_CLASSES' => 'Allow the inclusion of extended classes from the theme-directory?',
+	'VM_ALLOW_EXTENDED_CLASSES_TIP' => 'When checked, virtuemart executes extended programm code. The original virtuemart code can be replaced or extended. If you don\'t know what this is or you don\'t need it, uncheck this',
 	'VM_MODULES_FORCE_HTTPS' => 'Shop areas which must use https',
 	'VM_MODULES_FORCE_HTTPS_TIP' => 'Here you can use a comma-separated list of shop core modules (See "Admin" => "List Modules"), which will be using https connections.',
 	'VM_SHOW_REMEMBER_ME_BOX' => 'Show the "Remember me" checkbox on login?',

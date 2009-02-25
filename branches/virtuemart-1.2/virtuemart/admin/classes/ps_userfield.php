@@ -148,7 +148,7 @@ class ps_userfield extends vmAbstractObject {
 		$j=1;
 		if( !empty( $d['fieldid'] )) {
 			$db->query( "DELETE FROM #__{vm}_userfield_values"
-			. " WHERE fieldid=".(int)$d['fieldid'].' LIMIT 1' );
+			. " WHERE fieldid=".(int)$d['fieldid'] );
 		} else {
 			$db->query( "SELECT MAX(fieldid) as max FROM `#__{vm}_userfield`" );
 			$maxID=$db->loadResult();

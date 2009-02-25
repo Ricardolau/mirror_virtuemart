@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -232,11 +232,11 @@ class ps_reviews {
 		if (PSHOP_ALLOW_REVIEWS == "1" && !empty($auth['user_id']) ) {
 			$d["comment"] = trim($d["comment"]);
 			if( strlen( $d["comment"] ) < VM_REVIEWS_MINIMUM_COMMENT_LENGTH ) {
-				$vmLogger->err($VM_LANG->_('PHPSHOP_REVIEW_ERR_COMMENT1',false));
+				$vmLogger->err( sprintf( $VM_LANG->_('PHPSHOP_REVIEW_ERR_COMMENT1',false), VM_REVIEWS_MINIMUM_COMMENT_LENGTH ));
 				return true;
 			}
 			if( strlen ( $d["comment"] ) > VM_REVIEWS_MAXIMUM_COMMENT_LENGTH ) {
-				$vmLogger->err($VM_LANG->_('PHPSHOP_REVIEW_ERR_COMMENT2',false));
+				$vmLogger->err( sprintf( $VM_LANG->_('PHPSHOP_REVIEW_ERR_COMMENT2',false), VM_REVIEWS_MAXIMUM_COMMENT_LENGTH ));
 				return true;
 			}
 			if( !isset( $d["user_rating"] ) || intval( $d["user_rating"] ) < 0 || intval( $d["user_rating"] ) > 5) {

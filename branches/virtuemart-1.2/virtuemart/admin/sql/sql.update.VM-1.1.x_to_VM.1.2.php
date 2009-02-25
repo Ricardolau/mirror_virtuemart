@@ -222,4 +222,6 @@ ALTER TABLE `jos_vm_vendor`
  //Merging emails  TODO What happen with the old emails?
 $db->query("ALTER TABLE `jos_vm_user_info` DROP `user_email` ");
 
-$db->query(" ALTER TABLE `jos_vm_order_user_info` CHANGE `user_email` `email` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ");
+$db->query("ALTER TABLE `jos_vm_order_user_info` CHANGE `user_email` `email` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ");
+
+$db->query("ALTER TABLE `jos_vm_product` MODIFY COLUMN product_tax_id int");

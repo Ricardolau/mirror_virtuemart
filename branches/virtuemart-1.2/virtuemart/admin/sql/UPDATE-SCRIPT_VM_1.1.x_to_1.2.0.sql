@@ -178,4 +178,6 @@ INSERT INTO `jos_vm_function` (`function_id`, `module_id`, `function_name`, `fun
 INSERT INTO `jos_vm_function` (`function_id`, `module_id`, `function_name`, `function_class`, `function_method`, `function_description`, `function_perms`) 
 	VALUES(197, 1, 'pluginUpdate', 'pluginEntity.class', 'update', 'Updates a VM Plugin and saves all new parameter settings.', 'storeadmin,admin');
 
-ALTER TABLE `jos_vm_payment_method` CHANGE `list_order` `ordering` INT( 11 ) NULL DEFAULT NULL
+ALTER TABLE `jos_vm_payment_method` CHANGE `list_order` `ordering` INT( 11 ) NULL DEFAULT NULL;
+
+ALTER TABLE `jos_vm_product` MODIFY COLUMN product_tax_id int;

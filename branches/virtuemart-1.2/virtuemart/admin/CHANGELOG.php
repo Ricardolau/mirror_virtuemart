@@ -7,7 +7,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) {
 * @version $Id$
 * @package VirtueMart
 * @subpackage core
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -35,6 +35,13 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+25.02.2009 soeren
+# Task #2489 - Customer review comment length error message
+# Task #2509 - Saving exisintg custom user field multiplies values - with fix
+24.02.2009 soeren
+# Task #2513 - Taxes ids higher than 127 cannot be used on products
+
+
 17.02.2009 Max Milbers alias Milbo
 # Fixed last step of Checkout but need more testing of the adresses
 
@@ -1104,7 +1111,7 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 # Task #1675 - Currency module give fatal error
 # Task #1674 - When no sort order is selected in Available "Sort-by" fields configuration, error is given
 # additional File Upload not working correctly on Windows Systems
-# Task #1659 - ß as attribute value
+# Task #1659 - ï¿½ as attribute value
 # Task #1669 - Browsing categorys end in redirect error
 15.01.2007 thepisu
 # Task #1667 Categorylist, OderList icon names
@@ -1162,7 +1169,7 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 
 07.01.2008 soeren
 # Toolbar not visible in Product Form Popup under Joomla! 1.5
-# Task #1634 - Attribute name with äöüß not work
+# Task #1634 - Attribute name with ï¿½ï¿½ï¿½ï¿½ not work
 # Task #1638 - Layout Tabs not working in Internet Explorer
 # Task #1640 - require_once virtuemart_parser.php in virtuemart.php
 # Task #1643 - Error message in "Parameters of Product Type"
@@ -1446,7 +1453,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 
 09.10.2007 soeren
 ^ removed "eval"s from the image processing function, fixed using the disableToggle function in the product form
-# fixed Mambo 4.6.2 login issue (+CSV Upload Error) - thanks to Andr  ¹?s
+# fixed Mambo 4.6.2 login issue (+CSV Upload Error) - thanks to Andr  ï¿½?s
 
 06.10.2007 gregdev
 # Joomla! 1.5 compatibility: Set $my->gid
@@ -2025,12 +2032,12 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 
 18-10-2006 gregdev
 
-#  Task #959 — Virtuemart search bot not working properly
+#  Task #959 ï¿½ Virtuemart search bot not working properly
 
 17-10-2006 gregdev
 
-#  Task #969 — order_id error in Dutch language file VM vs. 1.0.7
-#  Task #973 — Error in mod_product_categories
+#  Task #969 ï¿½ order_id error in Dutch language file VM vs. 1.0.7
+#  Task #973 ï¿½ Error in mod_product_categories
 !# fixed various non-critical XSS vulnerabilities
 
 13-10-2006 gregdev
@@ -2039,8 +2046,8 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 
 04-10-2006 gregdev
 
-#  Task #962 — skip_fields not initialized in checkout_register_form.php
-#  Task #978 — PHP Short-Tag used in ps_paypal.php
+#  Task #962 ï¿½ skip_fields not initialized in checkout_register_form.php
+#  Task #978 ï¿½ PHP Short-Tag used in ps_paypal.php
 !# fixed various non-critical XSS vulnerabilities QUERY_STRING and shopItemid
 
 02-10-2006 soeren

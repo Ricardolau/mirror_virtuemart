@@ -34,6 +34,13 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+
+25.02.2009 soeren
+# Task #2489 - Customer review comment length error message
+# Task #2509 - Saving exisintg custom user field multiplies values - with fix
+24.02.2009 soeren
+# Task #2513 - Taxes ids higher than 127 cannot be used on products
+
 22.02.2009 macallf
 # Task #2511 Extra ID's doesn't work for all products, it only works for child products. Edited logic in ps_product_attribute.php
 
@@ -41,6 +48,7 @@ VirtueMart 1.1.x
 # Task #2510 Altered ps_product.php to allow aplhanumeric chars in the child_class_suffix field
 
 17.02.2009 soeren
+# Task #2506 - Subtotal rounding error in savebasket
 # fixed the IE "Operation Aborted" error in the frontend, when "Open Product Images in a LightBox?" is enabled (which is the default)
 # fixed the IE "Operation Aborted" error in Extended Layout in the backend's product form
  

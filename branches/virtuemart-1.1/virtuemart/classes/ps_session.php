@@ -528,7 +528,7 @@ class vm_ps_session {
 			}
 			// Check if there is a menuitem for a flypage
 			if (!empty($ii_arr['flypage'])) {
-				$ii_flypage=$ii_arr['flypage'];
+				$ii_flypage=$db->getEscaped(vmget($ii_arr,'flypage'));
 				if ($ii_flypage && $tmp_Itemid=='') {
 					$db->query( "SELECT id FROM #__menu WHERE link='index.php?option=com_virtuemart' AND params like '%flypage=$ii_flypage%' AND published=1");
 					if( $db->next_record() ) $tmp_Itemid = $db->f("id");
@@ -536,7 +536,7 @@ class vm_ps_session {
 			}
 			// Check if there is a menuitem for a page
 			if (!empty($ii_arr['page'])) {
-				$ii_page=$ii_arr['page'];
+				$ii_page=$db->getEscaped(vmget($ii_arr,'page' ));
 				if ($ii_page && $tmp_Itemid=='') {
 					$db->query( "SELECT id FROM #__menu WHERE link='index.php?option=com_virtuemart' AND params like '%page=$ii_page%' AND published=1");
 					if( $db->next_record() ) $tmp_Itemid = $db->f("id");

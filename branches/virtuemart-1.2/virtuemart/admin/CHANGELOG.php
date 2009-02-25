@@ -35,12 +35,16 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+25.02.2009 aravot
+# Fix failed to open stream error when product image is missing (http://forum.virtuemart.net/index.php?topic=52081.0)
+# Fix Bug in Product Type Parameter processing (http://forum.virtuemart.net/index.php?topic=44445.0)
+
 25.02.2009 soeren
 # Task #2489 - Customer review comment length error message
 # Task #2509 - Saving exisintg custom user field multiplies values - with fix
+
 24.02.2009 soeren
 # Task #2513 - Taxes ids higher than 127 cannot be used on products
-
 
 17.02.2009 Max Milbers alias Milbo
 # Fixed last step of Checkout but need more testing of the adresses

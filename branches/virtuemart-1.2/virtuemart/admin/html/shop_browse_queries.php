@@ -226,7 +226,7 @@ if (!empty($product_type_id)) {
 					$get_item_value = "('".$get_item_value."')";
 					break;
 				case "find_in_set":
-					$comp = "FIND_IN_SET('$get_item_value',`$parameter_name`)";
+					$comp = "FIND_IN_SET('$get_item_value',REPLACE(`$parameter_name`,';',','))";
 					$parameter_name = "";
 					$get_item_value = "";
 					break;
@@ -234,7 +234,7 @@ if (!empty($product_type_id)) {
 				case "find_in_set_any":
 					$comp = array();
 					foreach($get_item_value as $value) {
-						array_push($comp,"FIND_IN_SET('$value',`$parameter_name`)");
+						array_push($comp,"FIND_IN_SET('$value',REPLACE(`$parameter_name`,';',','))");
 					}
 					$comp = "(" . join($get_item_value_comp == "find_in_set_all"?" AND ":" OR ", $comp) . ")";
 					$parameter_name = "";

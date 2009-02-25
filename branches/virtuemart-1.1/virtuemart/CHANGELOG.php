@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+25.02.2009 aravot
+# Fix failed to open stream error when product image is missing (http://forum.virtuemart.net/index.php?topic=52081.0)
+# Fix Bug in Product Type Parameter processing (http://forum.virtuemart.net/index.php?topic=44445.0)
 
 25.02.2009 soeren
 # Task #2489 - Customer review comment length error message

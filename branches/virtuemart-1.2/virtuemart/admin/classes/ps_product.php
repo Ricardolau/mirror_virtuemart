@@ -1362,7 +1362,13 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 					}
 					
 					if( !strpos( $args, "height=" ) ) {
-						$arr = getimagesize( str_replace( IMAGEURL, IMAGEPATH, $url ) );
+						$f = str_replace( IMAGEURL, IMAGEPATH, $url );
+						  if ( file_exists($f) ) {
+						    $arr = getimagesize( $f );
+						    $width = $arr[0]; $height = $arr[1];
+						  } else {
+						    $width = 100; $height = 100;
+						  }
 						$width = $arr[0]; $height = $arr[1];
 						
 					}
@@ -1559,7 +1565,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		$db->setQuery($q); $db->query();
 		$db->next_record();
 		$default_shopper_group_id = $db->f("shopper_group_id");
-		
+
 		$q = "SELECT product_price,product_currency,price_quantity_start,price_quantity_end 
 				FROM #__{vm}_product_price 
 				WHERE product_id='$product_id' AND 
@@ -1577,7 +1583,6 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 			$price_info["price_quantity_start"]=$db->f("price_quantity_start"); // added alatak
 			$price_info["price_quantity_end"]=$db->f("price_quantity_end");// added alatak
 		}
-						
 		return $price_info;
 	}
 
@@ -1695,7 +1700,6 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		if( empty( $shopper_group_id )) {
 			ps_shopper_group::makeDefaultShopperGroupInfo($vendor_id);
 			$shopper_group_id = $GLOBALS['vendor_info'][$vendor_id]['default_shopper_group_id'];
-			
 		}
 	
 		$whereClause='WHERE product_id=%s AND shopper_group_id=%s ';

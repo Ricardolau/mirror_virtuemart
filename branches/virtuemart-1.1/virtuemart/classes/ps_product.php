@@ -1377,7 +1377,13 @@ class vm_ps_product extends vmAbstractObject {
 					}
 					
 					if( !strpos( $args, "height=" ) ) {
-						$arr = getimagesize( str_replace( IMAGEURL, IMAGEPATH, $url ) );
+						$f = str_replace( IMAGEURL, IMAGEPATH, $url );
+						  if ( file_exists($f) ) {
+						    $arr = getimagesize( $f );
+						    $width = $arr[0]; $height = $arr[1];
+						  } else {
+						    $width = 100; $height = 100;
+						  }
 						$width = $arr[0]; $height = $arr[1];
 						
 					}

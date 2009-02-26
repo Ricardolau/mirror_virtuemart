@@ -18,7 +18,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 @ini_set( "max_execution_time", "120" );
 
 # 08.11.2006 Allowing new user groups
-$db->query( "CREATE TABLE `#__{vm}_auth_group` (
+$db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_auth_group` (
 	  `group_id` int(11) NOT NULL auto_increment,
 	  `group_name` varchar(128) default NULL,
 	  `group_level` int(11) default NULL,
@@ -28,7 +28,7 @@ $db->query( "CREATE TABLE `#__{vm}_auth_group` (
 # these are the default user groups
 $db->query( "INSERT INTO `#__{vm}_auth_group` (`group_id`, `group_name`, `group_level`) VALUES (1, 'admin', 0),(2, 'storeadmin', 250),(3, 'shopper', 500),(4, 'demo', 750);" );
 		
-$db->query( "CREATE TABLE `#__{vm}_auth_user_group` (
+$db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_auth_user_group` (
 	  `user_id` int(11) NOT NULL default '0',
 	  `group_id` int(11) default NULL,
 	  PRIMARY KEY  (`user_id`)
@@ -793,6 +793,27 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_manufacturer` (
 ## 
 ## Dumping data for table `#__{vm}_manufacturer`
 ## 
+$db->query( "INSERT INTO `#__{vm}_manufacturer` VALUES ('1', 'Manufacturer', 'info@manufacturer.com', 'An example for a manufacturer', '1', 'http://www.a-url.com','','');" );
+
+## --------------------------------------------------------
+
+## 
+## Table structure for table `#__{vm}_manufacturer_category`
+## 
+
+$db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_manufacturer_category` (
+  `mf_category_id` int(11) NOT NULL auto_increment,
+  `mf_category_name` varchar(64) default NULL,
+  `mf_category_desc` text,
+  PRIMARY KEY  (`mf_category_id`),
+  KEY `idx_manufacturer_category_category_name` (`mf_category_name`)
+) TYPE=MyISAM COMMENT='Manufacturers are assigned to these categories'");
+
+## 
+## Dumping data for table `#__{vm}_manufacturer_category`
+## 
+$db->query( "INSERT INTO `#__{vm}_manufacturer_category` VALUES ('1', '-default-', 'This is the default manufacturer category');" );
+
 
 $db->query( "CREATE TABLE `#__{vm}_menu_admin` (
   `id` int(10) unsigned NOT NULL auto_increment,
@@ -887,25 +908,6 @@ $db->query( "INSERT INTO `#__{vm}_menu_admin` (`id`, `module_id`, `parent_id`, `
 (72, 2, 0, '-', '', '', '', 23, '1', ''),
 (73, 1, 0, 'Extension Manager', 'page=admin.extension_list', '', 'vmicon vmicon-16-content', 15, '1', ''),
 (74, 1, 0, 'Plugin List', 'page=admin.plugin_list', '', 'vmicon vmicon-16-content', 16, '1', '')");
-
-## --------------------------------------------------------
-
-## 
-## Table structure for table `#__{vm}_manufacturer_category`
-## 
-
-$db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_manufacturer_category` (
-  `mf_category_id` int(11) NOT NULL auto_increment,
-  `mf_category_name` varchar(64) default NULL,
-  `mf_category_desc` text,
-  PRIMARY KEY  (`mf_category_id`),
-  KEY `idx_manufacturer_category_category_name` (`mf_category_name`)
-) TYPE=MyISAM COMMENT='Manufacturers are assigned to these categories'");
-
-## 
-## Dumping data for table `#__{vm}_manufacturer_category`
-## 
-
 
 ## --------------------------------------------------------
 
@@ -1148,14 +1150,12 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_orders` (
 ## 
 ## Table structure for table `#__{vm}_payment_method`
 ## 
-//Someone removed payment_enabled, sorry I didnt understand the plan with it, 
-//so I put it back that the code is working again
+
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_payment_method` (
-  `payment_method_id` int(11) NOT NULL auto_increment,
+  `id` int(11) NOT NULL auto_increment,
   `vendor_id` int(11) default NULL,
   `name` varchar(255) default NULL,
   `element` varchar(50) NOT NULL default '',
-  `list_order`  int(11) default NULL,
   `shopper_group_id` int(11) default NULL,
   `discount` decimal(12,2) default NULL,
   `discount_is_percentage` tinyint(1) NOT NULL,
@@ -1164,44 +1164,17 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_payment_method` (
   `ordering` int(11) default NULL,
   `type` char(1) default NULL,
   `is_creditcard` tinyint(1) NOT NULL default '0',
-  `payment_enabled` char(1) NOT NULL default 'N',
   `published` char(1) NOT NULL default 'N',
   `accepted_creditcards` varchar(128) NOT NULL default '',
   `extra_info` text NOT NULL,
   `secret_key` blob NOT NULL,
   `params` TEXT NOT NULL,
-  PRIMARY KEY  (`payment_method_id`),
+  PRIMARY KEY  (`id`),
   KEY `idx_payment_method_vendor_id` (`vendor_id`),
   KEY `idx_payment_method_name` (`name`),
-  KEY `idx_payment_method_list_order` (`list_order`),
+  KEY `idx_payment_method_list_order` (`ordering`),
   KEY `idx_payment_method_shopper_group_id` (`shopper_group_id`)
-) TYPE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='The payment methods of your store'");
-
-//Just for developing... this table request produced failures,... I tried to fix it see above Max Milbers
-#$db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_payment_method` (
-#  `id` int(11) NOT NULL auto_increment,
-#  `vendor_id` int(11) default NULL,
-#  `name` varchar(255) default NULL,
-#  `element` varchar(50) NOT NULL default '',
-#  `shopper_group_id` int(11) default NULL,
-#  `discount` decimal(12,2) default NULL,
-#  `discount_is_percentage` tinyint(1) NOT NULL,
-#  `discount_max_amount` decimal(10,2) NOT NULL,
-#  `discount_min_amount` decimal(10,2) NOT NULL,
-#  `ordering` int(11) default NULL,
-#  `type` char(1) default NULL,
-#  `is_creditcard` tinyint(1) NOT NULL default '0',
-#  `published` char(1) NOT NULL default 'N',
-#  `accepted_creditcards` varchar(128) NOT NULL default '',
-#  `extra_info` text NOT NULL,
-#  `secret_key` blob NOT NULL,
-#  `params` TEXT NOT NULL,
-#  PRIMARY KEY  (`payment_method_id`),
-#  KEY `idx_payment_method_vendor_id` (`vendor_id`),
-#  KEY `idx_payment_method_name` (`name`),
-#  KEY `idx_payment_method_list_order` (`list_order`),
- # KEY `idx_payment_method_shopper_group_id` (`shopper_group_id`)
-#) TYPE=MyISAM COMMENT='The payment methods of your store'; ");
+) TYPE=MyISAM COMMENT='The payment methods of your store'; ");
 
 ## 
 ## Data for table `#__{vm}_payment_method`
@@ -2390,15 +2363,13 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_vendor` (
   KEY `idx_vendor_category_id` (`vendor_category_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Vendors manage their products in your store' AUTO_INCREMENT=3 ; ");
 
-$db->query( "INSERT INTO `#__{vm}_vendor` (`vendor_id`, `vendor_name`, `vendor_nick`, `vendor_phone`, `vendor_store_name`, `vendor_store_desc`, `vendor_category_id`, `vendor_thumb_image`, `vendor_full_image`, `vendor_currency`, `cdate`, `mdate`, `vendor_image_path`, `vendor_terms_of_service`, `vendor_url`, `vendor_min_pov`, `vendor_freeshipping`, `vendor_currency_display_style`, `vendor_accepted_currencies`, `vendor_address_format`, `vendor_date_format`) VALUES
-(1, '', '', '', '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '', ''); " );
 
 ## 
 ## Dumping data for table `#__{vm}_vendor`
 ## 
 
 $db->query( "INSERT INTO `#__{vm}_vendor` (`vendor_id`, `vendor_name`, `vendor_nick`, `vendor_phone`, `vendor_store_name`, `vendor_store_desc`, `vendor_category_id`, `vendor_thumb_image`, `vendor_full_image`, `vendor_currency`, `cdate`, `mdate`, `vendor_image_path`, `vendor_terms_of_service`, `vendor_url`, `vendor_min_pov`, `vendor_freeshipping`, `vendor_currency_display_style`, `vendor_accepted_currencies`, `vendor_address_format`, `vendor_date_format`) VALUES
-(1, 'Washupito\\''s Tiendita', '', '555-555-1212', 'Washupito\\''s Tiendita', '<p>We have the best tools for do-it-yourselfers.  Check us out! </p> 		<p>We were established in 1969 in a time when getting good tools was expensive, but the quality was good.  Now that only a select few of those authentic tools survive, we have dedicated this store to bringing the experience alive for collectors and master mechanics everywhere.</p> 		<p>You can easily find products selecting the category you would like to browse above.</p>', 0, '', 'c19970d6f2970cb0d1b13bea3af3144a.gif', 'USD', 950302468, 1233519671, '', '', '', 0.00, 0.00, '1|$|2|.| |2|1', 'USD', '{storename}\r\n{address_1}\r\n{address_2}\r\n{city}, {zip}', '%A, %d %B %Y %H:%M'); " );
+(1, 'Washupito''s Tiendita', '', '555-555-1212', 'Washupito''s Tiendita', '<p>We have the best tools for do-it-yourselfers.  Check us out! </p> 		<p>We were established in 1969 in a time when getting good tools was expensive, but the quality was good.  Now that only a select few of those authentic tools survive, we have dedicated this store to bringing the experience alive for collectors and master mechanics everywhere.</p> 		<p>You can easily find products selecting the category you would like to browse above.</p>', 0, '', 'c19970d6f2970cb0d1b13bea3af3144a.gif', 'USD', 950302468, 1233519671, '', '', '', 0.00, 0.00, '1|$|2|.| |2|1', 'USD', '{storename}\r\n{address_1}\r\n{address_2}\r\n{city}, {zip}', '%A, %d %B %Y %H:%M'); " );
 
 ## --------------------------------------------------------
 
@@ -2493,8 +2464,3 @@ $db->query( "INSERT INTO `#__{vm}_auth_user_group`
 					END
 				FROM #__{vm}_user_info
 				WHERE address_type='BT';");
-
-$db->query( "INSERT INTO `#__{vm}_manufacturer` VALUES ('1', 'Manufacturer', 'info@manufacturer.com', 'An example for a manufacturer', '1', 'http://www.a-url.com');" );
-$db->query( "INSERT INTO `#__{vm}_manufacturer_category` VALUES ('1', '-default-', 'This is the default manufacturer category');" );
-
-?>

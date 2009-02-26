@@ -708,7 +708,7 @@ class ps_order_change_html {
   	<select name="new_payment_id">
   		<?php
   		$dbs = new ps_DB;
-      $q  = "SELECT payment_method_id, name, discount FROM #__{vm}_payment_method WHERE payment_enabled = 'Y' ORDER BY name ASC"; 
+      $q  = "SELECT payment_method_id, name, discount FROM #__{vm}_payment_method WHERE published = 'Y' ORDER BY name ASC"; 
   		$dbs->query($q);
   		while ($dbs->next_record()){
   		  if (!is_null( $dbs->f('payment_method_id') )) {

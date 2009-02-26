@@ -35,6 +35,9 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+26.02.2009 soeren
+# fixed various installation problems (SQL syntax errors)
+
 25.02.2009 aravot
 # Fix failed to open stream error when product image is missing (http://forum.virtuemart.net/index.php?topic=52081.0)
 # Fix Bug in Product Type Parameter processing (http://forum.virtuemart.net/index.php?topic=44445.0)

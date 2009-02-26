@@ -422,7 +422,7 @@ class vmAbstractObject {
 		}
 		elseif( !empty( $d['payment_method_id'])) {
 			$table_name = "#__{vm}_payment_method";
-			$publish_field_name = 'payment_enabled';
+			$publish_field_name = 'published';
 			$field_name = 'id';
 		}	
 		elseif( $page == 'admin.plugin_list' ) {

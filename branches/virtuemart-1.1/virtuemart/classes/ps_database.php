@@ -39,7 +39,7 @@ class vm_ps_DB {
 	/** @var database The core database object */
 	var $_database = null;
 	
-	function ps_DB() {
+	function vm_ps_DB() {
 		if( is_callable(array('jfactory', 'getdbo'))) {
 			$this->_database =& jfactory::getDBO();
 		} else {

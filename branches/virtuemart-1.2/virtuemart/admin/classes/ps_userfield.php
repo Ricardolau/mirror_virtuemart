@@ -503,6 +503,7 @@ class ps_userfield extends vmAbstractObject {
 	   echo '</div>';
 	   if( VM_REGISTRATION_TYPE == 'OPTIONAL_REGISTRATION') {
 		   	echo '<script type="text/javascript">
+		   	//<![CDATA[
 		   function showFields( show, fields ) {
 		   	if( fields ) {
 		   		for (i=0; i<fields.length;i++) {
@@ -519,6 +520,7 @@ class ps_userfield extends vmAbstractObject {
 		   try {
 		   	showFields( document.getElementById( \'register_account\').checked, new Array(\'username\', \'password\', \'password2\') );
 		   } catch(e){}
+		   //]]>
 		   </script>';
 	   }
 	}

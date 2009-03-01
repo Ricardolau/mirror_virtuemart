@@ -108,7 +108,7 @@ else {
 			$product_price = $price["product_price"];
 		}
 
-		$product_price = round( $product_price, 5 );
+		$product_price = round( $product_price, 2 );
 		$product_rows[$i]['product_price'] = $GLOBALS['CURRENCY_DISPLAY']->getFullValue($product_price);
 
 		/* SUBTOTAL CALCULATION */

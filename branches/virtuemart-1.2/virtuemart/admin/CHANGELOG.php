@@ -35,6 +35,11 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+28.02.2009 aravot
+# Task #2374 - Bug in product type flypage path for Joomla 1.5 / VM 1.1.2
+^ Compliance issue in classes/ps_userfield.php (http://forum.virtuemart.net/index.php?topic=44940.0)
+# Task #2506 - Subtotal rounding error in savebasket
+
 26.02.2009 soeren
 # fixed various installation problems (SQL syntax errors)
 

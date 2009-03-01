@@ -701,7 +701,7 @@ class ps_product_type {
 		$q .= "WHERE product_type_id=";
 		while ($dbag->next_record()) { // Show all Product Type
 			if ($dbag->f("product_type_flypage")) {
-				$flypage_file = PAGEPATH."templates/".$dbag->f("product_type_flypage").".php";
+				$flypage_file = VM_THEMEPATH."templates/".$dbag->f("product_type_flypage").".php";
 				if (file_exists($flypage_file)) {
 					$html .= include($flypage_file);
 					continue;

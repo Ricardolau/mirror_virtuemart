@@ -34,6 +34,13 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+28.02.2009 aravot
+# Task #2374 - Bug in product type flypage path for Joomla 1.5 / VM 1.1.2
+^ Compliance issue in classes/ps_userfield.php (http://forum.virtuemart.net/index.php?topic=44940.0)
+
+28.02.2009 tkahl
+# Task #2517 - VirtueMart installation fails 
+
 25.02.2009 aravot
 # Fix failed to open stream error when product image is missing (http://forum.virtuemart.net/index.php?topic=52081.0)
 # Fix Bug in Product Type Parameter processing (http://forum.virtuemart.net/index.php?topic=44445.0)

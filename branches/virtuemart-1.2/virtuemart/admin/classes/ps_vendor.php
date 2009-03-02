@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 VirtueMart Dev Team - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -295,7 +295,10 @@ class ps_vendor {
 				$d['email'] = $email;
 			}
 		}
-		
+		if( empty( $d['country'])) {
+			$vmLogger->err('You must specify a country for this vendor/store');
+			return false;
+		}
 		if (!vmValidateEmail($d['email'])) {
 			$vmLogger->err( 'Please provide a valide email address for the vendor contact. '.$d['email'] );
 			return False;
@@ -316,7 +319,7 @@ class ps_vendor {
 	 */
 	function validate_add(&$d) {
 		
-		return ps_user::validate_addUpdateVendor($d);
+		return $this->validate_addUpdateVendor($d);
 		
 //		global $vmLogger;
 //		
@@ -617,6 +620,7 @@ class ps_vendor {
 			} else {
 				$user_id = ps_vendor::get_user_id_by_vendor_id($d["vendor_id"]);
 			}
+			
 			if(!empty($userset)){
 				//Validation was already done before
 				$userset = ps_user::setUserInfoWithEmail($fieldsU,$userid);
@@ -628,6 +632,7 @@ class ps_vendor {
 			}else{
 				return false;
 			}
+			$GLOBALS['vmLogger']->info('The Vendor has been '.($action=='INSERT'?'added':'updated'));
 		}
 		
 	}

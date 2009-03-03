@@ -155,7 +155,7 @@ class vm_ps_userfield extends vmAbstractObject {
 			$d['fieldid']=$maxID;
 		}
 		$n=count( $fieldNames );
-		for($i=0; $i < $n; $i++) {
+		for($i=0; $i <= $n; $i++) {
 			if(trim($fieldNames[$i])!=null || trim($fieldNames[$i])!='') {
 				$fields = array('fieldid' => (int)$d['fieldid'],
 										'fieldtitle' => htmlspecialchars($fieldNames[$i]),

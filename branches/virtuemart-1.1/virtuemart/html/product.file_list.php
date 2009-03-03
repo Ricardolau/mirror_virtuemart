@@ -227,8 +227,8 @@ $listObj->writeFooter( $keyword,"&product_id=$product_id" );
 
 ?>
 <br /><br />
-<a name="file_form" href="#listheader">
 <div id="file_form_container">
+<a name="file_form" href="#listheader">
 	<img align="middle" src="<?php echo $mosConfig_live_site ?>/administrator/images/restore_f2.png" border="0" alt="<?php echo $VM_LANG->_('VM_FILES_LIST_GO_UP'); ?>" /><?php echo $VM_LANG->_('VM_FILES_LIST_UP'); ?></a>
 	<iframe id="file_form_iframe" src="" style="height: 1000px;" frameborder="0" width="100%"></iframe>
 </div>

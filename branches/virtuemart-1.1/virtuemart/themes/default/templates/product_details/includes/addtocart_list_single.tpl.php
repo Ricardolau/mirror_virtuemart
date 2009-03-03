@@ -34,7 +34,7 @@ foreach( $products as $product ) {
             <?php if( $child_link ) : ?>
             <label for="selItem<?php echo $product['product_id'] ?>">
             <?php endif; ?>
-            <span class="vmChildDetail<?php echo $cls_suffix ?>" style="width :20%;" />
+            <span class="vmChildDetail<?php echo $cls_suffix ?>" style="width :<?php echo $desc_width ?>" />
                 <?php echo $product['product_title'] ?></span>
             <?php // Ouput Each Attribute
 			if( !empty( $product['attrib_value'] )) {

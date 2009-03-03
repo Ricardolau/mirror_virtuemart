@@ -43,7 +43,7 @@ foreach( $products as $product ) {
             <div class="vmCartChildElement<?php echo $cls_suffix ?>">
                 <input type="hidden" name="prod_id[]" value="<?php echo $product['product_id'] ?>" />
                 <input type="hidden" name="product_id" value="<?php echo $product['parent_id'] ?>" />
-                <span class="vmChildDetail<?php echo $cls_suffix ?>" style="float: left;width :20%;" />
+                <span class="vmChildDetail<?php echo $cls_suffix ?>" style="float: left;width: <?php echo $desc_width ?>;" />
                 <?php echo $product['product_title'] ?></span>
                 <?php // Ouput Each Attribute
                 if( !empty( $product['attrib_value'] )) {

@@ -135,16 +135,24 @@ function getURLParam( strParamName, myWindow){
   }
   return strReturn;
 }
-
+/**
+ * Adds a Tab to a TabPanel
+ * @param title
+ * @param link
+ * @return boolean
+ */
 function addSimplePanel( title, link ) {
+
 	if( Ext.getCmp('center-panel')) {
-		myId = title.replace( /\W/, '' );
+		myId = escape(title)
+		myId = myId.replace( /\W+/g, '' );
 		if( Ext.getCmp('center-panel').getComponent( myId )) {
-			Ext.getCmp('center-panel').activate( panelArr[myId] );
+			Ext.getCmp('center-panel').activate( Ext.getCmp('center-panel').getComponent( myId ) );
 			return false;
 		}
-
-		var panel = new Ext.BoxComponent( { id: myId, autoEl: {tag: "iframe", frameBorder: 0, height: "100%", src: link+"&panelId="+myId }, title: title, fitToFrame:true, closable:true });	
+		
+		var panel = new Ext.BoxComponent( { id: myId, autoEl: {tag: "iframe", frameBorder: 0, height: "100%", src: link+"&panelId="+myId }, title: title, fitToFrame:true, closable:true });
+		
 		Ext.getCmp('center-panel').add( panel );		
 		
 		Ext.getCmp('center-panel').activate(panel);

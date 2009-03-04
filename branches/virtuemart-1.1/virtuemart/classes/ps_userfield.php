@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -156,7 +156,7 @@ class vm_ps_userfield extends vmAbstractObject {
 		}
 		$n=count( $fieldNames );
 		for($i=0; $i <= $n; $i++) {
-			if(trim($fieldNames[$i])!=null || trim($fieldNames[$i])!='') {
+			if(!empty($fieldNames[$i])) {
 				$fields = array('fieldid' => (int)$d['fieldid'],
 										'fieldtitle' => htmlspecialchars($fieldNames[$i]),
 				 						'fieldvalue' => htmlspecialchars($fieldValues[$i]),

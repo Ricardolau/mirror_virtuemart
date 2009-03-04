@@ -34,8 +34,12 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+
+04.03.2009 soeren
+# Task #1921 - Shipper notice is empty
+
 03.03.2009 macallf
-# 2509 Current fix saves fields correctly but does not allow for adding new fields.
+# Task #2509 Current fix saves fields correctly but does not allow for adding new fields.
 
 28.02.2009 aravot
 # Task #2374 - Bug in product type flypage path for Joomla 1.5 / VM 1.1.2

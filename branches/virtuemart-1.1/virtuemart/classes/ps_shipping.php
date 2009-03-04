@@ -28,7 +28,7 @@ class vm_ps_shipping {
 		global $error_msg, $VM_LANG;
 		$db = new ps_DB;
 
-		$q = "SELECT * FROM #__{vm}_shipping_carrier WHERE shipping_carrier_id='" . (int)vmGet($d,'shipping_carrier_id') . "'";
+		$q = "SELECT shipping_carrier_id FROM #__{vm}_shipping_carrier WHERE shipping_carrier_id='" . (int)vmGet($d,'shipping_carrier_id') . "'";
 		$db->query($q);
 		if ($db->next_record()) {
 			$d["error"] = $VM_LANG->_('PHPSHOP_ERR_MSG_CARRIER_EXIST');
@@ -114,9 +114,12 @@ class vm_ps_shipping {
 									'shipping_carrier_list_order' => (int)$d['shipping_carrier_list_order']);
 		$db->buildQuery('INSERT', '#__{vm}_shipping_carrier', $fields );
 		
-		$db->query();
+		if( $db->query() === false ) {
+			$GLOBALS['vmLogger']->err( 'Failed to add the Shipping Carrier.');
+			return false;
+		}
 		$_REQUEST['shipping_carrier_id'] = $db->last_insert_id();
-		
+		$GLOBALS['vmLogger']->info('The Shipping Carrier has been added.');
 		return True;
 
 	}
@@ -138,7 +141,12 @@ class vm_ps_shipping {
 		$fields = array( 'shipping_carrier_name' => vmGet($d,'shipping_carrier_name'),
 									'shipping_carrier_list_order' => (int)$d['shipping_carrier_list_order']);
 		$db->buildQuery('UPDATE', '#__{vm}_shipping_carrier', $fields, 'WHERE shipping_carrier_id=' . (int)$d["shipping_carrier_id"] );
-		$db->query();
+		if( $db->query() === false ) {
+			$GLOBALS['vmLogger']->err( 'Failed to update the Shipping Carrier.');
+			return false;
+		}
+		
+		$GLOBALS['vmLogger']->info('The Shipping Carrier has been updated.');
 		return True;
 	}
 
@@ -332,13 +340,12 @@ class vm_ps_shipping {
 		return True;
 	}
 
-	/**************************************************************************
-	* name: rate_add()
-	* created by: Ekkehard Domning
-	* description: creates a new rate entry
-	* parameters:
-	* returns:
-	**************************************************************************/
+	/**
+	 * Creates a new rate record
+	 *
+	 * @param array $d
+	 * @return boolean
+	 */
 	function rate_add(&$d) {
 		$db = new ps_DB;
 		$timestamp = time();
@@ -370,18 +377,23 @@ class vm_ps_shipping {
 									'shipping_rate_list_order' => (int)vmGet($d, 'shipping_rate_list_order'));
 							
 		$db->buildQuery('INSERT', '#__{vm}_shipping_rate', $fields );
-		$db->query();
+		if( $db->query() === false ) {
+			$GLOBALS['vmLogger']->err( 'Failed to add the shipping rate.');
+			return false;
+		}
 		$_REQUEST['shipping_rate_id'] = $db->last_insert_id();
+		$GLOBALS['vmLogger']->info('The shipping rate has been added.');
+		
+		
 		return True;
 	}
 
-	/**************************************************************************
-	* name: rate_update()
-	* created by: Ekkehard Domning
-	* description: updates a rate entry
-	* parameters:
-	* returns:
-	**************************************************************************/
+	/**
+	 * Updates a rate entry
+	 *
+	 * @param array $d
+	 * @return boolean
+	 */
 	function rate_update(&$d) {
 		$db = new ps_DB;
 		
@@ -410,7 +422,12 @@ class vm_ps_shipping {
 									'shipping_rate_list_order' => (int)vmGet($d, 'shipping_rate_list_order'));
 							
 		$db->buildQuery('UPDATE', '#__{vm}_shipping_rate', $fields, ' WHERE shipping_rate_id=' .(int)$d["shipping_rate_id"] );
-		$db->query();
+		if( $db->query() === false ) {
+			$GLOBALS['vmLogger']->err( 'Failed to update the shipping rate.');
+			return false;
+		}
+		
+		$GLOBALS['vmLogger']->info('The shipping rate has been updated.');
 		
 		return True;
 	}

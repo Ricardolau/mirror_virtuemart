@@ -31,7 +31,7 @@ class ps_shipping {
 		global $error_msg, $VM_LANG;
 		$db = new ps_DB;
 
-		$q = "SELECT * FROM #__{vm}_shipping_carrier WHERE shipping_carrier_id='" . $d["shipping_carrier_id"] . "'";
+		$q = "SELECT shipping_carrier_id FROM #__{vm}_shipping_carrier WHERE shipping_carrier_id='" . (int)vmGet($d,'shipping_carrier_id') . "'";
 		$db->query($q);
 		if ($db->next_record()) {
 			$d["error"] = $VM_LANG->_('PHPSHOP_ERR_MSG_CARRIER_EXIST');
@@ -87,7 +87,7 @@ class ps_shipping {
 		}
 
 		$db = new ps_DB;
-		$q = "SELECT * FROM #__{vm}_shipping_carrier WHERE shipping_carrier_id='" . $d["shipping_carrier_id"] . "'";
+		$q = "SELECT * FROM #__{vm}_shipping_carrier WHERE shipping_carrier_id=" .(int)$d["shipping_carrier_id"];
 		$db->query($q);
 		if (!$db->next_record()) {
 			$d["error"] = $VM_LANG->_('PHPSHOP_ERR_MSG_CARRIER_NOTFOUND');
@@ -106,20 +106,22 @@ class ps_shipping {
 	function add(&$d) {
 
 		$db = new ps_DB;
-
 		$timestamp = time();
 
 		if (!$this->validate_add($d)) {
 			return False;
 		}
-
-		$q = "INSERT INTO #__{vm}_shipping_carrier (shipping_carrier_name, shipping_carrier_list_order) VALUES ('";
-		$q .= $d["shipping_carrier_name"] . "','";
-		$q .= $d["shipping_carrier_list_order"] . "')";
-
-		$db->query($q);
-		$db->next_record();
+		
+		$fields = array( 'shipping_carrier_name' => vmGet($d, 'shipping_carrier_name'),
+									'shipping_carrier_list_order' => (int)$d['shipping_carrier_list_order']);
+		$db->buildQuery('INSERT', '#__{vm}_shipping_carrier', $fields );
+		
+		if( $db->query() === false ) {
+			$GLOBALS['vmLogger']->err( 'Failed to add the Shipping Carrier.');
+			return false;
+		}
 		$_REQUEST['shipping_carrier_id'] = $db->last_insert_id();
+		$GLOBALS['vmLogger']->info('The Shipping Carrier has been added.');
 		return True;
 
 	}
@@ -137,13 +139,15 @@ class ps_shipping {
 		if (!$this->validate_update($d)) {
 			return False;
 		}
-
-		$q = "UPDATE #__{vm}_shipping_carrier SET ";
-		$q .= "shipping_carrier_name='" . $d["shipping_carrier_name"];
-		$q .= "',shipping_carrier_list_order='" . $d["shipping_carrier_list_order"];
-		$q .= "' WHERE shipping_carrier_id='" . $d["shipping_carrier_id"]."'";
-		$db->query($q);
-		$db->next_record();
+		$fields = array( 'shipping_carrier_name' => vmGet($d,'shipping_carrier_name'),
+									'shipping_carrier_list_order' => (int)$d['shipping_carrier_list_order']);
+		$db->buildQuery('UPDATE', '#__{vm}_shipping_carrier', $fields, 'WHERE shipping_carrier_id=' . (int)$d["shipping_carrier_id"] );
+		if( $db->query() === false ) {
+			$GLOBALS['vmLogger']->err( 'Failed to update the Shipping Carrier.');
+			return false;
+		}
+		
+		$GLOBALS['vmLogger']->info('The Shipping Carrier has been updated.');
 		return True;
 	}
 
@@ -155,17 +159,17 @@ class ps_shipping {
 	 */
 	function delete(&$d) {
 
-		$record_id = $d["shipping_carrier_id"];
+		$record_id = vmGet($d,"shipping_carrier_id");
 
 		if( is_array( $record_id)) {
 			foreach( $record_id as $record) {
-				if( !$this->delete_record( $record, $d ))
+				if( !$this->delete_record( (int)$record, $d ))
 				return false;
 			}
 			return true;
 		}
 		else {
-			return $this->delete_record( $record_id, $d );
+			return $this->delete_record( (int)$record_id, $d );
 		}
 	}
 
@@ -183,9 +187,9 @@ class ps_shipping {
 			return False;
 		}
 
-		$q = "DELETE FROM #__{vm}_shipping_carrier WHERE shipping_carrier_id='$record_id'";
+		$q = 'DELETE FROM #__{vm}_shipping_carrier WHERE shipping_carrier_id='.$record_id;
 		$db->query($q);
-		$db->next_record();
+		
 		return True;
 	}
 
@@ -246,11 +250,14 @@ class ps_shipping {
 		return True;
 	}
 
-
-	// Validate Rates
-
+	/**
+	 * Validates input parameters onBeforeShippingrateAdd
+	 *
+	 * @param array $d
+	 * @return boolean
+	 */
 	function validate_rate_add(&$d) {
-		global $error_msg, $VM_LANG;;
+		global $VM_LANG;
 		$db = new ps_DB;
 
 		if (!$d["shipping_rate_carrier_id"]) {
@@ -258,7 +265,7 @@ class ps_shipping {
 			return False;
 		}
 
-		$q = "SELECT shipping_carrier_id FROM #__{vm}_shipping_carrier WHERE shipping_carrier_id='" . $d["shipping_rate_carrier_id"] . "'";
+		$q = "SELECT shipping_carrier_id FROM #__{vm}_shipping_carrier WHERE shipping_carrier_id=" .(int)$d["shipping_rate_carrier_id"];
 		$db->query($q);
 		if (!$db->next_record()) {
 			$d["error"] = $VM_LANG->_('PHPSHOP_ERR_MSG_RATE_CARRIER_ID_INV');
@@ -306,7 +313,7 @@ class ps_shipping {
 		if ($d["shipping_rate_package_fee"] == "") {
 			$d["shipping_rate_package_fee"] = '0';
 		}
-		$q = "SELECT currency_id FROM #__{vm}_currency WHERE currency_id='" . $d["shipping_rate_currency_id"] . "'";
+		$q = 'SELECT currency_id FROM #__{vm}_currency WHERE currency_id=' .(int)$d['shipping_rate_currency_id'];
 		$db->query($q);
 		if (!$db->next_record()) {
 			$d["error"] = $VM_LANG->_('PHPSHOP_ERR_MSG_RATE_CURRENCY_ID_INV');
@@ -318,7 +325,12 @@ class ps_shipping {
 		}
 		return True;
 	}
-
+	/**
+	 * Validates input parameters onBeforeShippingrateDelete
+	 *
+	 * @param array $d
+	 * @return boolean
+	 */
 	function validate_rate_delete(&$d) {
 		global $VM_LANG;
 		if (!$d["shipping_rate_id"]) {
@@ -341,37 +353,38 @@ class ps_shipping {
 		if (!$this->validate_rate_add($d)) {
 			return False;
 		}
-
-		$q = "INSERT INTO #__{vm}_shipping_rate ";
-		$q .= "(shipping_rate_name,shipping_rate_carrier_id,shipping_rate_country,";
-		$q .= "shipping_rate_zip_start,shipping_rate_zip_end,shipping_rate_weight_start,";
-		$q .= "shipping_rate_weight_end,shipping_rate_value,shipping_rate_package_fee,";
-		$q .= "shipping_rate_currency_id,shipping_rate_vat_id,shipping_rate_list_order) ";
-		$q .= "VALUES ('";
-		$q .= $d["shipping_rate_name"] . "','";
-		$q .= $d["shipping_rate_carrier_id"] . "','";
-		$src_str = "";
+		
+		$country_str = "";
 		if(!empty($d["shipping_rate_country"])) {
 			for($i=0;$i<count($d["shipping_rate_country"]);$i++){
 				if ($d["shipping_rate_country"][$i] != "") {
-					$src_str .= $d["shipping_rate_country"][$i] . ";";
+					$country_str .= $d["shipping_rate_country"][$i] . ";";
 				}
 			}
-			chop($src_str,";");
+			chop($country_str,";");
 		}
-		$q .= "$src_str','";
-		$q .= $d["shipping_rate_zip_start"] . "','";
-		$q .= $d["shipping_rate_zip_end"] . "','";
-		$q .= $d["shipping_rate_weight_start"] . "','";
-		$q .= $d["shipping_rate_weight_end"] . "','";
-		$q .= $d["shipping_rate_value"] . "','";
-		$q .= $d["shipping_rate_package_fee"] . "','";
-		$q .= $d["shipping_rate_currency_id"] . "','";
-		$q .= $d["shipping_rate_vat_id"] . "','";
-		$q .= $d["shipping_rate_list_order"] . "')";
-		$db->query($q);
-		$db->next_record();
+		$fields = array('shipping_rate_name' => vmGet($d, 'shipping_rate_name'),
+									'shipping_rate_carrier_id' => (int)vmGet($d, 'shipping_rate_carrier_id'),
+									'shipping_rate_country' => $country_str,
+									'shipping_rate_zip_start' => vmGet($d, 'shipping_rate_zip_start'),
+									'shipping_rate_zip_end' => vmGet($d, 'shipping_rate_zip_end'),
+									'shipping_rate_weight_start' => vmGet($d, 'shipping_rate_weight_start'),
+									'shipping_rate_weight_end' => vmGet($d, 'shipping_rate_weight_end'),
+									'shipping_rate_value' => vmGet($d, 'shipping_rate_value'),
+									'shipping_rate_package_fee' => vmGet($d, 'shipping_rate_package_fee'),
+									'shipping_rate_currency_id' => vmGet($d, 'shipping_rate_currency_id'),
+									'shipping_rate_vat_id' => vmGet($d, 'shipping_rate_vat_id'),
+									'shipping_rate_list_order' => (int)vmGet($d, 'shipping_rate_list_order'));
+							
+		$db->buildQuery('INSERT', '#__{vm}_shipping_rate', $fields );
+		if( $db->query() === false ) {
+			$GLOBALS['vmLogger']->err( 'Failed to add the shipping rate.');
+			return false;
+		}
 		$_REQUEST['shipping_rate_id'] = $db->last_insert_id();
+		$GLOBALS['vmLogger']->info('The shipping rate has been added.');
+		
+		
 		return True;
 	}
 
@@ -383,50 +396,42 @@ class ps_shipping {
 	 */
 	function rate_update(&$d) {
 		$db = new ps_DB;
-
-		$q = "UPDATE #__{vm}_shipping_rate SET ";
-		$q .= "shipping_rate_name='" . $d["shipping_rate_name"] . "',";
-		$q .= "shipping_rate_carrier_id='" . $d["shipping_rate_carrier_id"] . "',";
-		$src_str = "";
+		
+		if( !$this->validate_rate_add($d)) return false;
+		
+		$country_str = "";
 		if(!empty($d["shipping_rate_country"])) {
 			for($i=0;$i<count($d["shipping_rate_country"]);$i++){
 				if ($d["shipping_rate_country"][$i] != "") {
-					$src_str .= $d["shipping_rate_country"][$i] . ";";
+					$country_str .= $d["shipping_rate_country"][$i] . ";";
 				}
 			}
-			chop($src_str);
+			chop($country_str,";");
+		}
+		$fields = array('shipping_rate_name' => vmGet($d, 'shipping_rate_name'),
+									'shipping_rate_carrier_id' => (int)vmGet($d, 'shipping_rate_carrier_id'),
+									'shipping_rate_country' => $country_str,
+									'shipping_rate_zip_start' => vmGet($d, 'shipping_rate_zip_start'),
+									'shipping_rate_zip_end' => vmGet($d, 'shipping_rate_zip_end'),
+									'shipping_rate_weight_start' => vmGet($d, 'shipping_rate_weight_start'),
+									'shipping_rate_weight_end' => vmGet($d, 'shipping_rate_weight_end'),
+									'shipping_rate_value' => vmGet($d, 'shipping_rate_value'),
+									'shipping_rate_package_fee' => vmGet($d, 'shipping_rate_package_fee'),
+									'shipping_rate_currency_id' => vmGet($d, 'shipping_rate_currency_id'),
+									'shipping_rate_vat_id' => vmGet($d, 'shipping_rate_vat_id'),
+									'shipping_rate_list_order' => (int)vmGet($d, 'shipping_rate_list_order'));
+							
+		$db->buildQuery('UPDATE', '#__{vm}_shipping_rate', $fields, ' WHERE shipping_rate_id=' .(int)$d["shipping_rate_id"] );
+		if( $db->query() === false ) {
+			$GLOBALS['vmLogger']->err( 'Failed to update the shipping rate.');
+			return false;
 		}
 		
-		if( $d["shipping_rate_zip_start"] == "") {
-			$d["shipping_rate_zip_start"] = '00000';
-		}
-		if ($d["shipping_rate_zip_end"] == "") {
-			$d["shipping_rate_zip_end"] = '99999';
-		}
+		$GLOBALS['vmLogger']->info('The shipping rate has been updated.');
 		
-		$q .= "shipping_rate_country='$src_str',";
-		$q .= "shipping_rate_zip_start='" . $d["shipping_rate_zip_start"] . "',";
-		$q .= "shipping_rate_zip_end='" . $d["shipping_rate_zip_end"] . "',";
-		$q .= "shipping_rate_weight_start='" . $d["shipping_rate_weight_start"] . "',";
-		$q .= "shipping_rate_weight_end='" . $d["shipping_rate_weight_end"] . "',";
-		$q .= "shipping_rate_value='" . $d["shipping_rate_value"] . "',";
-		$q .= "shipping_rate_package_fee='" . $d["shipping_rate_package_fee"] . "',";
-		$q .= "shipping_rate_currency_id='" . $d["shipping_rate_currency_id"] . "',";
-		$q .= "shipping_rate_vat_id='" . $d["shipping_rate_vat_id"] . "',";
-		$q .= "shipping_rate_list_order='" . $d["shipping_rate_list_order"] . "'";
-		$q .= " WHERE shipping_rate_id='" . $d["shipping_rate_id"]."'";
-		$db->query($q);
-		$db->next_record();
 		return True;
 	}
 
-	/**************************************************************************
-	* name: rate_delete()
-	* created by: Ekkehard Domning
-	* description: removes a shipping rate
-	* parameters:
-	* returns:
-	**************************************************************************/
 	/**
 	* Controller for Deleting Shipping Rates.
 	*/
@@ -454,10 +459,10 @@ class ps_shipping {
 	function delete_rate_record( $record_id, &$d ) {
 		global $db;
 
-		$q = "DELETE FROM #__{vm}_shipping_rate WHERE ";
-		$q .= "shipping_rate_id = '$record_id'";
+		$q = 'DELETE FROM #__{vm}_shipping_rate WHERE ';
+		$q .= 'shipping_rate_id = '.(int)$record_id.' LIMIT 1';
 		$db->query($q);
-		$db->next_record();
+		
 		return True;
 	}
 

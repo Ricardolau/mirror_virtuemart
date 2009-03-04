@@ -26,7 +26,7 @@ class vm_ps_function extends vmAbstractObject {
 	var $_table_name = "#__{vm}_function";
 	var $_key = 'function_id';
 
-	function ps_function() {
+	function vm_ps_function() {
 		$this->addRequiredField( array('function_name', 'module_id', 'function_class', 'function_method', 'function_perms') );
 		$this->addUniqueField( 'function_name' );
 	}

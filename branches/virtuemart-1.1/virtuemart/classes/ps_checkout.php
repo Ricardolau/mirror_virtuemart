@@ -42,7 +42,7 @@ class vm_ps_checkout {
 	/**
 	 * Initiate Shipping Modules
 	 */
-	function ps_checkout() {
+	function vm_ps_checkout() {
 		global $vendor_freeshipping, $vars, $PSHOP_SHIPPING_MODULES;
 
 		// Make a snapshot of the current checkout configuration

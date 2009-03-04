@@ -30,7 +30,7 @@ class vm_ps_session {
      * Initialize the Session environment for VirtueMart
      *
      */
-	function ps_session() {
+	function vm_ps_session() {
 		
 		$this->component_name = 'option='.VM_COMPONENT_NAME;
 		

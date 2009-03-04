@@ -27,7 +27,7 @@ class vm_vmUserGroup extends vmAbstractObject {
 	var $_key = 'group_id';
 	var $_protected_groups = array('admin','storeadmin','shopper');
 
-	function vmUserGroup() {
+	function vm_vmUserGroup() {
 		$this->addRequiredField( array('group_name', 'group_level') );
 		$this->addUniqueField( 'group_name' );
 	}

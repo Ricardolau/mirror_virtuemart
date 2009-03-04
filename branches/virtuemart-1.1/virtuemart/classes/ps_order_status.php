@@ -27,7 +27,7 @@ class vm_ps_order_status extends vmAbstractObject {
 	
 	var $_protected_status_codes = array( 'P', 'C', 'X' );
 	
-	function ps_order_status() {
+	function vm_ps_order_status() {
 		$this->addRequiredField( array( 'order_status_code', 'order_status_name') );
 		$this->addUniqueField( 'order_status_code');
 	}

@@ -34,7 +34,7 @@ class vm_ps_order_edit {
 	* parameters: Order Id
 	* returns:
 	**************************************************************************/
-	function ps_order_edit($order_id) {
+	function vm_ps_order_edit($order_id) {
 		$this->order_id = $order_id;
 	}
 

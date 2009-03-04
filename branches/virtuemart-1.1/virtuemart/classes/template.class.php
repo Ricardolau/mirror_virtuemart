@@ -52,7 +52,7 @@ class vm_vmTemplate {
     *
     * @return void
     */
-	function vmTemplate($path='', $expire = 0 ) {
+	function vm_vmTemplate($path='', $expire = 0 ) {
 		global $mosConfig_absolute_path, $mosConfig_cachepath, $mosConfig_cachetime;
 			
 		$this->path = empty($path) ?  VM_THEMEPATH.'templates/' : $path;

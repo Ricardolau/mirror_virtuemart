@@ -24,7 +24,7 @@ class vm_ps_perm {
 
 	var $user_groups;	
 	
-	function ps_perm() {
+	function vm_ps_perm() {
 		$this->getUserGroups();
 	}
 	

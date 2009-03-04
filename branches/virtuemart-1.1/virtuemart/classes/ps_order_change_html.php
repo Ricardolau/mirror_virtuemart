@@ -25,7 +25,7 @@ class vm_ps_order_change_html {
 	* parameters: Order Id
 	* returns: none
 	**************************************************************************/
-	function ps_order_change_html($order_id) {
+	function vm_ps_order_change_html($order_id) {
 		$this->order_id = $order_id;
 	}
 

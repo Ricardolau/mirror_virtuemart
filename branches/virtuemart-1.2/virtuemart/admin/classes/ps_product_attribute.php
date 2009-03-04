@@ -709,11 +709,17 @@ class ps_product_attribute {
 		$db = new ps_DB( ) ;
 		$auth = $_SESSION['auth'] ;
 		$tpl = new $GLOBALS['VM_THEMECLASS']( ) ;
-		if( $product_id == 0 )
-			$product_id = $prod_id ;
-		$q = "SELECT product_id, attribute FROM #__{vm}_product WHERE product_id='$product_id'" ;
-		$db->query( $q ) ;
-		$db->next_record() ;
+		if($product_id == 0)
+			$product_id = $prod_id;	
+		$q = "SELECT product_id, attribute, product_parent_id FROM #__{vm}_product WHERE product_id='$product_id'";
+		$db->query($q);
+		$db->next_record();
+		if(!$db->f("attribute")) {
+			$parent_id = $db->f( "product_parent_id" ) ? $db->f( "product_parent_id" ) : $product_id ;
+			$q = "SELECT product_id, attribute FROM #__{vm}_product WHERE product_id='$parent_id'";
+			$db->query($q);
+			$db->next_record();
+		}
 		$productPrice = $ps_product->get_price( $product_id ) ;
 		
 		$advanced_attribute_list = $db->f( "attribute" ) ;
@@ -792,12 +798,17 @@ class ps_product_attribute {
 		global $mosConfig_secret ;
 		$db = new ps_DB( ) ;
 		$tpl = new $GLOBALS['VM_THEMECLASS']( ) ;
-		if( $product_id == 0 )
-			$product_id = $prod_id ;
-		
-		$q = "SELECT product_id, custom_attribute from #__{vm}_product WHERE product_id='$product_id'" ;
-		$db->query( $q ) ;
-		$db->next_record() ;
+		if($product_id == 0)
+			$product_id = $prod_id;	
+		$q = "SELECT product_id, custom_attribute, product_parent_id FROM #__{vm}_product WHERE product_id='$product_id'";
+		$db->query($q);
+		$db->next_record();
+		if(!$db->f("custom_attribute")) {
+			$parent_id = $db->f( "product_parent_id" ) ? $db->f( "product_parent_id" ) : $product_id ;
+			$q = "SELECT product_id, custom_attribute FROM #__{vm}_product WHERE product_id='$parent_id'";
+			$db->query($q);
+			$db->next_record();
+		}
 		
 		$custom_attr_list = $db->f( "custom_attribute" ) ;
 		if( $custom_attr_list ) {

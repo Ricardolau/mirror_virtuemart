@@ -35,6 +35,9 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+04.05.2009 aravot
+# Fixed - Open Checkout in Greybox
+
 28.02.2009 aravot
 # Task #2374 - Bug in product type flypage path for Joomla 1.5 / VM 1.1.2
 ^ Compliance issue in classes/ps_userfield.php (http://forum.virtuemart.net/index.php?topic=44940.0)

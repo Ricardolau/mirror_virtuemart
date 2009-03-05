@@ -35,6 +35,9 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 
+04.05.2009 aravot
+# Fixed - Open Checkout in Greybox
+
 04.03.2009 soeren
 # Task #1921 - Shipper notice is empty
 
@@ -49,8 +52,8 @@ VirtueMart 1.1.x
 # Task #2517 - VirtueMart installation fails 
 
 25.02.2009 aravot
-# Fix failed to open stream error when product image is missing (http://forum.virtuemart.net/index.php?topic=52081.0)
-# Fix Bug in Product Type Parameter processing (http://forum.virtuemart.net/index.php?topic=44445.0)
+# Fixed Failed to open stream error when product image is missing (http://forum.virtuemart.net/index.php?topic=52081.0)
+# Fixed Bug in Product Type Parameter processing (http://forum.virtuemart.net/index.php?topic=44445.0)
 
 25.02.2009 soeren
 # Task #2489 - Customer review comment length error message

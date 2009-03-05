@@ -284,22 +284,22 @@ class vmMainFrame {
 				$otherscripts[] = array('type'=>$type, 'src'=>$src, 'content' => $content);
 			}
 		}
-		if( $i> 0 ) {
-			$src = $mosConfig_live_site.'/components/'.VM_COMPONENT_NAME.'/fetchscript.php?gzip='.$mosConfig_gzip;
-			$src .= $appendix;
-			$tag = '<script src="'.$src.@$url_params.'" type="text/javascript"></script>';
-			if( $print ) {
-				echo $tag;
-			} else {
-				$mainframe->addCustomHeadTag( $tag );
-			}
-		}
 		foreach( $otherscripts as $otherscript ) {
 			if( !empty($otherscript['src'])) {
 				$tag = '<script type="'.$otherscript['type'].'" src="'.$otherscript['src'].'"></script>';
 			} else {
 				$tag = '<script type="'.$otherscript['type'].'">'.$otherscript['content'].'</script>';
 			}
+			if( $print ) {
+				echo $tag;
+			} else {
+				$mainframe->addCustomHeadTag( $tag );
+			}
+		}
+		if( $i> 0 ) {
+			$src = $mosConfig_live_site.'/components/'.VM_COMPONENT_NAME.'/fetchscript.php?gzip='.$mosConfig_gzip;
+			$src .= $appendix;
+			$tag = '<script src="'.$src.@$url_params.'" type="text/javascript"></script>';
 			if( $print ) {
 				echo $tag;
 			} else {

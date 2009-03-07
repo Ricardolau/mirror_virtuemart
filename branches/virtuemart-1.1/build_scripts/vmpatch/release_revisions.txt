@@ -1,0 +1,21 @@
+﻿1.1.0	1389
+1.1.1	1435, but really 1389
+1.1.2	1495
+1.1.3	1611
+1.1.4
+
+Create a 1.1.1 manual install package by applying the 1.1.0->1.1.1 patch to the 1.1.0 manual install package.
+
+Build patches against VM 1.1.1
+1. Diff the two manual installs to get the patch files.
+2. Configure and run the Python script vmpatch1.1.1.xml.py. This creates the xml update file.
+3. Zip up the files from 1 and 2.
+
+Patches for 1.1.3
+1.1.1->1.1.3	Build by hand
+1.1.2->1.1.3	1496-1611
+
+Patches for 1.1.4
+1.1.1->1.1.4	Build by hand
+1.1.2->1.1.4	1496-16xx
+1.1.3->1.1.4	1612-16xx

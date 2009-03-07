@@ -30,7 +30,6 @@ class ps_vendor {
 	***************************************************************************/
 	function get_vendor_id_by_user_id(&$user_id) {				
 		if(empty ($user_id)) return ;
-//		global $db;
 		$db = new ps_DB();
 		/* Test if user has a vendor_Id*/
 		$q  = 'SELECT `vendor_id` FROM  `#__{vm}_auth_user_vendor` WHERE `user_id`="' . $user_id .'" ';

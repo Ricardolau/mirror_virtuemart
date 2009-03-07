@@ -1369,7 +1369,8 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 						  } else {
 						    $width = 100; $height = 100;
 						  }
-						$width = $arr[0]; $height = $arr[1];
+						  //This makes no sense to set $width in an if else statement and to overwrite it later
+//						$width = $arr[0]; $height = $arr[1];
 						
 					}
 					if( $resize ) {

@@ -158,12 +158,13 @@ class ps_user {
 			return false;
 		}
 		
-				// Joomla User Information stuff
-		if( vmIsJoomla( '1.5' ) ) {
-			$uid = ps_user::save();
-		} else {
-			$uid = ps_user::saveUser( $d );
-		}
+		// Joomla User Information stuff
+		$uid = ps_user::saveJoomlaUser($d);
+//		if( vmIsJoomla( '1.5' ) ) {
+//			$uid = ps_user::save();
+//		} else {
+//			$uid = ps_user::saveUser( $d );
+//		}
 		if( empty( $uid ) && empty( $d['id'] ) ) {
 			$vmLogger->err( $VM_LANG->_('VM_USER_ADD_FAILED') );
 			return false;
@@ -178,20 +179,15 @@ class ps_user {
 		
 		$user_id = intval( $d['id'] );
 		
-		$add = false;
+		$add = true;
 		if(isset($user_id)){
-			$db->query( "SELECT COUNT(user_info_id) AS num_rows 
-					FROM #__{vm}_user_info WHERE user_id='" . $user_id . "'" );
-			if( $db->f('num_rows') < 1 ) {
-				$add = true;
-			}
-		}else{
-			$add = true;
-		}
+			$db->query( 'SELECT `user_id` FROM `#__{vm}_user_info` WHERE user_id=`' . $user_id . '`' );
+	    	$add = (bool)$db->num_rows();
+	  	}
 		
 		$fields = array();
 		
-		if($add>0){
+		if($add){
 			// Insert billto;		
 			$hash_secret = "VirtueMartIsCool";
 			
@@ -220,7 +216,7 @@ class ps_user {
 		
 		ps_user::setUserInfoWithEmail($fields,$user_id);
 		
-		if($add>0){
+		if($add){
 			$_REQUEST['id'] = $_REQUEST['user_id'] = $uid;
 			$vmLogger->info( $VM_LANG->_('VM_USER_ADDED') );
 			
@@ -291,116 +287,31 @@ class ps_user {
 	}
 
 	function saveJoomlaUser(&$d = array()){
+		global $vmLogger;
 		if( vmIsJoomla( '1.5', '>=' ) ) {
-				$user_id = ps_user::savej15();
+			$vmLogger->info( 'ps_user savej15' );
+			$user_id = ps_user::save();
+			if( empty($user_id) ) {
+				return false;
+			}
 		} else {
+			$vmLogger->info( 'ps_user savej1' );
 			$user_id = ps_user::saveUser( $d );
+			if( empty($user_id) ) {
+				return false;
+			}
 		}
+		return $user_id;
 	}
 	
-	function savej15(){
-		save();
-	}
-	
-	function savej15newNotready(){
-		global $mainframe,$mosConfig_live_site;
-		
-		//psuser
-		$option = JRequest::getCmd( 'option');
-		
-		//psshopper
-		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
-		
-		// Get required system objects
-		$user 		= clone(JFactory::getUser());
-		$pathway 	=& $mainframe->getPathway();
-		$config		=& JFactory::getConfig();
-		$authorize	=& JFactory::getACL();
-		$document   =& JFactory::getDocument();
-		
-//		//psuser
-//		// Initialize some variables
-//		$db			= & JFactory::getDBO();
-//		$me			= & JFactory::getUser();
-//		$MailFrom	= $mainframe->getCfg('mailfrom');
-//		$FromName	= $mainframe->getCfg('fromname');
-//		$SiteName	= $mainframe->getCfg('sitename');
-		
-		//psshopper
-		// If user registration is not allowed, show 403 not authorized.
-		$usersConfig = &JComponentHelper::getParams( 'com_users' );
-		if ($usersConfig->get('allowUserRegistration') == '0') {
-			JError::raiseError( 403, JText::_( 'Access Forbidden' ));
-			return false;
-		}
-
-		// Initialize new usertype setting
-		$newUsertype = $usersConfig->get( 'new_usertype' );
-		if (!$newUsertype) {
-			$newUsertype = 'Registered';
-		}
-
-		// Bind the post array to the user object
-		$_post_ =& vmRequest::get('post');
-		if (!$user->bind( $_post_, 'usertype' )) {
-			JError::raiseError( 500, $user->getError());
-		}
-
-		// Set some initial user values
-		$user->set('id', 0);
-		$user->set( 'usertype', $newUsertype );
-		$user->set('gid', $authorize->get_group_id( '', $newUsertype, 'ARO' ));
-		
-		// TODO: Should this be JDate?
-		$user->set('registerDate', date('Y-m-d H:i:s'));
-
-		// If user activation is turned on, we need to set the activation information
-		$useractivation = $usersConfig->get( 'useractivation' );
-		if ($useractivation == '1') 
-		{
-			jimport('joomla.user.helper');
-			$user->set('activation', md5( JUserHelper::genRandomPassword()) );
-			$user->set('block', '1');
-		}
-
-		// If there was an error with registration, set the message and display form
-		if ( !$user->save() ) 
-		{ 
-			JError::raiseWarning('', JText::_( $user->getError()));
-			return false;
-		}
-
-		
-		// Send registration confirmation mail
-		$password = JRequest::getString('password', '', 'post', JREQUEST_ALLOWRAW);
-		$password = preg_replace('/[\x00-\x1F\x7F]/', '', $password); //Disallow control chars in the email
-
-		$name = $user->get('name');
-		$email = $user->get('email');
-		$username = $user->get('username');
-		$component = 'com_user';
-		
-		$activation_link = $mosConfig_live_site."/index.php?option=$component&task=activate&activation=".$user->get('activation');
-		// Send the registration email
-		$this->_sendMail( $name, $email, $username, $password, $activation_link );
-
-		// Are we dealing with a new user which we need to create?
-		$isNew 	= ($user->get('id') < 1);
-
-		// Capture the new user id
-		if( $isNew ) {
-			$newUserId = $user->get('id');
-		} else {
-			$newUserId = false;
-		}
-		
-		return $newUserId;
-	}
-	
-	function savej10(&$d){
-		return saveUser( $d );
-	}
+//	function savej15(){
+//		
+//		ps_user::save();
+//	}
+//	
+//	function savej10(&$d){
+//		return saveUser( $d );
+//	}
 	
 	/**
         * Function to save User Information

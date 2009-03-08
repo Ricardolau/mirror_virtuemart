@@ -587,7 +587,7 @@ class ps_vendor {
 						'mdate' => $timestamp
 						);
 		if (!empty($d["state"])) {
-			$fields['state'] = $d["state"];
+			$fieldsU['state'] = $d["state"];
 		}
 
 		
@@ -657,11 +657,6 @@ class ps_vendor {
 			return false;
 		}
 		
-		// Update to insert is it important that it is only in the update func? by Max Milbers
-		foreach ($d as $key => $value) {
-			if (!is_array($value))
-			$d[$key] = addslashes($value);
-		}
 		// Update end
 		$d['display_style'][1] = ps_vendor::checkCurrencySymbol( $d['display_style'][1] );		
 		$d['display_style'] = implode("|", $d['display_style'] );
@@ -682,7 +677,7 @@ class ps_vendor {
 		
 		//Perform an ADD
 		if( empty( $vendor_id ) ){
-			$q  = "SELECT id FROM  #__users WHERE username = '".$d["vendor_nick"]."'";
+			$q  = "SELECT id FROM  #__users WHERE username = '".$db->getEscaped(vmRequest::getVar('vendor_nick'))."'";
 			$db->query($q);
 			$userid = $db->f('id');
 			$vendor_id = $_REQUEST['vendor_id'];

@@ -1367,10 +1367,8 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 						    $arr = getimagesize( $f );
 						    $width = $arr[0]; $height = $arr[1];
 						  } else {
-						    $width = 100; $height = 100;
+						    $width = PSHOP_IMG_WIDTH; $height = PSHOP_IMG_HEIGHT;
 						  }
-						  //This makes no sense to set $width in an if else statement and to overwrite it later
-//						$width = $arr[0]; $height = $arr[1];
 						
 					}
 					if( $resize ) {
@@ -1699,7 +1697,8 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		$vendor_id = $this->get_vendor_id_ofproduct($product_id);
 
 		if( empty( $shopper_group_id )) {
-			ps_shopper_group::makeDefaultShopperGroupInfo($vendor_id);
+			$ps_shopper_group = new ps_shopper_group();
+			$ps_shopper_group->makeDefaultShopperGroupInfo($vendor_id);
 			$shopper_group_id = $GLOBALS['vendor_info'][$vendor_id]['default_shopper_group_id'];
 		}
 	

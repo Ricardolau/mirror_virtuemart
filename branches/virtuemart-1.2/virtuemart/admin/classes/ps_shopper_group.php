@@ -174,7 +174,7 @@ class ps_shopper_group extends vmAbstractObject  {
 		// ADD LATER.
 		/*if (!$this->validate_addUpdateShopperGroup($d)) {
 		 *	return False;
-		 */}
+		 }*/
 
 
 		$fields = array('vendor_id' => $vendor_id,
@@ -209,7 +209,7 @@ class ps_shopper_group extends vmAbstractObject  {
 			if($answer) {
 				if ($default == "1") {
 					$q = "UPDATE `#__{vm}_shopper_group` "
-						."SET `default`=0 ";
+						."SET `default`=0 "
 						."WHERE `shopper_group_id` !=" . $shopper_group_id." "
 						."AND `vendor_id` =". $vendor_id;
 					$db->query($q);
@@ -332,7 +332,7 @@ class ps_shopper_group extends vmAbstractObject  {
     	$db = new ps_DB;
 
     	$q =  "SELECT #__{vm}_shopper_group.shopper_group_id, show_price_including_tax, `default`, shopper_group_discount
-    		FROM `".$_table_name."`";
+    		FROM `".$this->_table_name."`";
     	if( !empty( $id ) && !$default_group) {
       		$q .= ",`#__{vm}_shopper_vendor_xref`";
       		$q .= " WHERE #__{vm}_shopper_vendor_xref.user_id='" . $id . "' AND ";
@@ -343,7 +343,7 @@ class ps_shopper_group extends vmAbstractObject  {
     	$db->query($q);
     	if (!$db->next_record()){ //not sure that is is filled in database (Steve)
 			$q = "SELECT `shopper_group_id`, `show_price_including_tax`, `default`, `shopper_group_discount`
-    				FROM `".$_table_name."`
+    				FROM `".$this->_table_name."`
     				WHERE `vendor_id`='$ps_vendor_id' AND `default`='1'";
 			$db->query($q);
 			$db->next_record();
@@ -367,7 +367,7 @@ class ps_shopper_group extends vmAbstractObject  {
 		if( empty($GLOBALS['vendor_info'][$vendor_id]['default_shopper_group_id']) ) {
 			$db = new ps_DB;
 			// Get the default shopper group id for this vendor
-			$q = "SELECT `shopper_group_id`, `shopper_group_discount` FROM `".$_table_name."` WHERE ";
+			$q = "SELECT `shopper_group_id`, `shopper_group_discount` FROM `".$this->_table_name."` WHERE ";
 			$q .= "`vendor_id`='$vendor_id' AND `default`='1'";
 //			$q .= " `default`='1'";
 			$db->query( $q );

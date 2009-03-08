@@ -35,8 +35,12 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+
 08.03.2009 aravot
 ^ Changed Parameters of Category to Parameters of Product
+
+04.03.2009 soeren
+# Task #1921 - Shipper notice is empty
 
 04.03.2009 aravot
 # Fixed - Open Checkout in Greybox

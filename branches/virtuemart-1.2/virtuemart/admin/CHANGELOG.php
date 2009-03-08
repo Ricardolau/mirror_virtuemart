@@ -35,7 +35,10 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
-04.05.2009 aravot
+08.03.2009 aravot
+^ Changed Parameters of Category to Parameters of Product
+
+04.03.2009 aravot
 # Fixed - Open Checkout in Greybox
 
 28.02.2009 aravot

@@ -311,7 +311,7 @@ if( !empty($files['images']) ) {
 	$more_images = $tpl->vmMoreImagesLink( $files['images'] );
 }
 // Does the Product have files?
-$file_list = ps_product_files::get_file_list( $product_id );
+$file_list = ps_product_files::get_file_list( $files['product_id'] );
 
 $product_availability = '';
 

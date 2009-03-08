@@ -640,25 +640,43 @@ class vm_ps_product_files extends vmAbstractObject {
 	 * Returns an array holding all the files and images of the specified product
 	 * $files['files'] holds all files as objects
 	 * $files['images'] holds all images as objects
-	 *
+	 * $files['product_id] holds the product_id of the child or parent that holds files as objects
+	 * Query has to be done twice, because parent could old either/or files/images. Must allow inheritance of both
 	 * @param unknown_type $pid
 	 * @return unknown
 	 */
+
 	function getFilesForProduct( $pid ) {
 		$db= new ps_DB();
 		$files['images'] = array();
 		$files['files'] = array();
-		$db->query( "SELECT * FROM `#__{vm}_product_files` WHERE `file_product_id`=".intval($pid)." AND `file_published`=1" );
-		while( $db->next_record() ) {
-			switch( $db->f('file_is_image') ) {
-				case 0: $files['files'][] = $db->get_row(); break;
-				case 1: $files['images'][] = $db->get_row(); break;
-			}
+		// Query for images if child doesn't have them check for parents
+		$db->query( "SELECT * FROM `#__{vm}_product_files` WHERE `file_product_id`=".intval($pid)." AND `file_is_image=1` AND `file_published`=1" );
+		if(!$db->next_record()) {
+			$db->query("SELECT product_parent_id FROM #__{vm}_product WHERE product_id='$pid'");
+			$db->query( "SELECT * FROM `#__{vm}_product_files` WHERE `file_product_id`=".$db->f("product_parent_id")." AND `file_is_image=1` AND `file_published`=1" );
 		}
-		
+		$db->reset();
+		while( $db->next_record() ) {
+			$files['images'][] = $db->get_row();
+		}
+		// Query for files if child doesn't have them check for parent
+		$files['product_id'] = intval($pid);
+		$db->query( "SELECT * FROM `#__{vm}_product_files` WHERE `file_product_id`=".intval($pid)." AND `file_is_image=0` AND `file_published`=1" );
+		if(!$db->next_record()) {
+			$db->query("SELECT product_parent_id FROM #__{vm}_product WHERE product_id='$pid'");
+			// Parent has files so set files['product_id'] to parent id
+			$files['product_id'] = intavl($db->f("product_parent_id"));
+			$db->query( "SELECT * FROM `#__{vm}_product_files` WHERE `file_product_id`=".$db->f("product_parent_id")." AND `file_is_image=0` AND `file_published`=1" );
+		}
+		$db->reset();
+		while( $db->next_record() ) {
+			$files['files'][] = $db->get_row();
+		}		
 		return $files;
 		
 	}
+	
 	/**
 	 * Checks if a file is a restricted downloadable product file
 	 * a user must pay for

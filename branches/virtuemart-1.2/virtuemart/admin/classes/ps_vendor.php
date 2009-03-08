@@ -534,22 +534,22 @@ class ps_vendor {
 		$timestamp = time();
 		
 		//Split the array $d in two, because tha data is on two different tables
-		$fields = array('vendor_name' => $d["vendor_name"],
-				'vendor_nick' => $d["vendor_nick"],
-				'vendor_phone' => $d["vendor_phone"],
-				'vendor_store_name' => $d["vendor_store_name"],
-				'vendor_store_desc' => $d["vendor_store_desc"],
+		$fields = array('vendor_name' => vmRequest::getVar('vendor_name'),
+				'vendor_nick' => vmRequest::getVar('vendor_nick'),
+				'vendor_phone' => vmRequest::getVar('vendor_phone'),
+				'vendor_store_name' => vmRequest::getVar('vendor_store_name'),
+				'vendor_store_desc' => vmRequest::getVar('vendor_store_desc',null, 'default', 'none', VMREQUEST_ALLOWHTML),
 //				'vendor_category_id' => $d["vendor_category_id"],
 //				'vendor_image_path' => $d["vendor_image_path"],
-				'vendor_thumb_image' => $d["vendor_thumb_image"],
-				'vendor_full_image' => $d["vendor_full_image"],
-				'vendor_currency' => $d["vendor_currency"],
-				'vendor_url' => $d["vendor_url"],
-				'vendor_terms_of_service' => $d["vendor_terms_of_service"],
-				'vendor_min_pov' => $d["vendor_min_pov"],
-				'vendor_currency_display_style' => $d["display_style"],
-				'vendor_freeshipping' => $d["vendor_freeshipping"],
-				'vendor_accepted_currencies' => implode( ',', $d["vendor_accepted_currencies"] ),
+				'vendor_thumb_image' => vmRequest::getVar('vendor_thumb_image'),
+				'vendor_full_image' => vmRequest::getVar('vendor_full_image'),
+				'vendor_currency' => vmRequest::getVar('vendor_currency'),
+				'vendor_url' => vmRequest::getVar('vendor_url'),
+				'vendor_terms_of_service' => vmRequest::getVar('vendor_terms_of_service',null, 'default', 'none', VMREQUEST_ALLOWHTML),
+				'vendor_min_pov' => vmRequest::getFloat('vendor_min_pov'),
+				'vendor_currency_display_style' => vmRequest::getVar('display_style'),
+				'vendor_freeshipping' => vmRequest::getFloat('vendor_freeshipping'),
+				'vendor_accepted_currencies' => implode( ',', vmRequest::getVar('vendor_accepted_currencies') ),
 //				'vendor_address_format' => $d["vendor_address_format"],
 //				'vendor_date_format' => $d["vendor_date_format"]
 				);
@@ -557,37 +557,37 @@ class ps_vendor {
 		//I think this should stay for Add and Update and deleted in the array init above
 		//there are more variables to handle like this to prevent notices
 		if (!empty($d["vendor_category_id"])) {
-			$fields['vendor_category_id'] = $d["vendor_category_id"];
+			$fields['vendor_category_id'] = vmRequest::getInt('vendor_category_id');
 		}
 		if (!empty($d["vendor_image_path"])) {
-			$fields['vendor_image_path'] = $d["vendor_image_path"];
+			$fields['vendor_image_path'] = vmRequest::getVar('vendor_image_path');
 		}
 		if (!empty($d["vendor_address_format"])) {
-			$fields['vendor_address_format'] = $d["vendor_address_format"];
+			$fields['vendor_address_format'] = vmRequest::getVar('vendor_address_format');
 		}
 		if (!empty($d["vendor_date_format"])) {
-			$fields['vendor_date_format'] = $d["vendor_date_format"];
+			$fields['vendor_date_format'] = vmRequest::getVar('vendor_date_format');
 		}
 		
 		$fieldsU = array(
-						'last_name' => $d["last_name"],
-						'first_name' => $d["first_name"],
-						'middle_name' => $d["middle_name"],
-						'title' => $d["title"],
-						'phone_1' => $d["phone_1"],
-						'phone_2' => $d["phone_2"],
-						'fax' => $d["fax"],
-						'email' => $d["email"],
-						'address_1' => $d["address_1"],
-						'address_2' => $d["address_2"],
-						'city' => $d["city"],
-						'country' => $d["country"],
-						'zip' => $d["zip"],
+						'last_name' => vmRequest::getVar('last_name'),
+						'first_name' => vmRequest::getVar('first_name'),
+						'middle_name' => vmRequest::getVar('middle_name'),
+						'title' => vmRequest::getVar('title'),
+						'phone_1' => vmRequest::getVar('phone_1'),
+						'phone_2' => vmRequest::getVar('phone_2'),
+						'fax' => vmRequest::getVar('fax'),
+						'email' => vmRequest::getVar('email'),
+						'address_1' => vmRequest::getVar('address_1'),
+						'address_2' => vmRequest::getVar('"address_2'),
+						'city' => vmRequest::getVar('city'),
+						'country' => vmRequest::getVar('country'),
+						'zip' => vmRequest::getVar('zip'),
 						'cdate' => $timestamp,
 						'mdate' => $timestamp
 						);
 		if (!empty($d["state"])) {
-			$fieldsU['state'] = $d["state"];
+			$fieldsU['state'] = vmRequest::getVar('state');
 		}
 
 		
@@ -601,7 +601,7 @@ class ps_vendor {
 			$add = true;
 		}else{
 			$action = 'UPDATE';
-			$whereAnd = 'WHERE `vendor_id`="'.$vendor_id.'"'.$and;
+			$whereAnd = 'WHERE `vendor_id`='.(int)$vendor_id . $and;
 			$add = false;
 		}
 		
@@ -625,7 +625,7 @@ class ps_vendor {
 				$userset = ps_user::setUserInfoWithEmail($fieldsU,$userid);
 				if($userset==0){
 					$vmLogger->err( $VM_LANG->_('VM_VENDOR_ADDING_FAILED',false) );
-					ps_vendor::delete_vendor_record( $_REQUEST['vendor_id'], $d ); 
+					ps_vendor::delete_vendor_record( vmrequest::getInt('vendor_id'), $d ); 
 					return false;
 				}
 			}else{

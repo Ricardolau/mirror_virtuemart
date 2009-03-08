@@ -20,8 +20,6 @@ DROP TABLE IF EXISTS  `jos_vm_creditcard`;
 
 DROP TABLE IF EXISTS  `jos_vm_currency`;
 
-DROP TABLE IF EXISTS  `jos_vm_export`;
-
 DROP TABLE IF EXISTS  `jos_vm_function`;
 
 DROP TABLE IF EXISTS `jos_vm_manufacturer`;
@@ -43,6 +41,8 @@ DROP TABLE IF EXISTS  `jos_vm_order_user_info`;
 DROP TABLE IF EXISTS  `jos_vm_orders`;
 
 DROP TABLE IF EXISTS  `jos_vm_payment_method`;
+
+DROP TABLE IF EXISTS  `jos_vm_plugins`;
 
 DROP TABLE IF EXISTS  `jos_vm_product`;
 

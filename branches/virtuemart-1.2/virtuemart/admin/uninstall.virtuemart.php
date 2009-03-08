@@ -7,7 +7,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) {
 * @version $Id$
 * @package VirtueMart
 * @subpackage core
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -52,7 +52,6 @@ function com_uninstall() {
 	$db->query( 'DROP TABLE IF EXISTS `#__{vm}_coupons`;' );
 	$db->query( 'DROP TABLE IF EXISTS `#__{vm}_creditcard`;' );
 	$db->query( 'DROP TABLE IF EXISTS `#__{vm}_currency`;' );
-    $db->query( 'DROP TABLE IF EXISTS `#__{vm}_export`;' );
 	$db->query( 'DROP TABLE IF EXISTS `#__{vm}_function`;' );
 	$db->query( 'DROP TABLE IF EXISTS `#__{vm}_manufacturer`;' );
 	$db->query( 'DROP TABLE IF EXISTS `#__{vm}_manufacturer_category`;' );

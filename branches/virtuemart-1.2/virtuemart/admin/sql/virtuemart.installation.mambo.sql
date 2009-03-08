@@ -574,24 +574,6 @@ INSERT INTO `mos_vm_currency` VALUES (1, 'Andorran Peseta', 'ADP'),
 (156, 'Zimbabwe Dollar', 'ZWD'),
 (157, 'Slovak Koruna', 'SKK');
 
-## --------------------------------------------------------
-
-
-## 
-## Tabellenstruktur für Tabelle `mos_vm_export`
-## 
-
-CREATE TABLE `mos_vm_export` (
-  `export_id` int(11) NOT NULL auto_increment,
-  `vendor_id` int(11) default NULL,
-  `export_name` varchar(255) default NULL,
-  `export_desc` text NOT NULL,
-  `export_class` varchar(50) NOT NULL,
-  `export_enabled` char(1) NOT NULL default 'N',
-  `export_config` text NOT NULL,
-  `iscore` tinyint(3) NOT NULL default '0',
-  PRIMARY KEY  (`export_id`)
-) TYPE=MyISAM COMMENT='Export Modules';
 
 ## --------------------------------------------------------
 
@@ -704,7 +686,6 @@ INSERT INTO `mos_vm_function` VALUES (1, 1, 'userAdd', 'ps_user', 'add', '', 'ad
 (137, 8, 'creditcardUpdate', 'ps_creditcard', 'update', 'Updates a Credit Card entry.', 'admin,storeadmin'),
 (138, 8, 'creditcardDelete', 'ps_creditcard', 'delete', 'Deletes a Credit Card entry.', 'admin,storeadmin'),
 (139, 2, 'changePublishState', 'vmAbstractObject.class', 'handlePublishState', 'Changes the publish field of an item, so that it can be published or unpublished easily.', 'admin,storeadmin'),
-(140, 2, 'export_csv', 'ps_csv', 'export_csv', 'This function exports all relevant product data to CSV.', 'admin,storeadmin'),
 (141, 2, 'reorder', 'ps_product_category', 'reorder', 'Changes the list order of a category.', 'admin,storeadmin'),
 (142, 2, 'discountAdd', 'ps_product_discount', 'add', 'Adds a discount.', 'admin,storeadmin'),
 (143, 2, 'discountUpdate', 'ps_product_discount', 'update', 'Updates a discount.', 'admin,storeadmin'),
@@ -740,9 +721,6 @@ INSERT INTO `mos_vm_function` VALUES (1, 1, 'userAdd', 'ps_user', 'add', '', 'ad
 (173, 7, 'productAsk', 'ps_communication', 'mail_question', 'Lets the customer send a question about a specific product.', 'none'),
 (174, 7, 'recommendProduct', 'ps_communication', 'sendRecommendation', 'Lets the customer send a recommendation about a specific product to a friend.', 'none'),
 (175, 2, 'reviewUpdate', 'ps_reviews', 'update', 'Modify a review about a specific product.', 'admin'),
-(176, 8, 'ExportUpdate', 'ps_export', 'update', '', 'admin,storeadmin'),
-(177, 8, 'ExportAdd', 'ps_export', 'add', '', 'admin,storeadmin'),
-(178, 8, 'ExportDelete', 'ps_export', 'delete', '', 'admin,storeadmin'),
 (179, 1, 'writeThemeConfig', 'ps_config', 'writeThemeConfig', 'Writes a theme configuration file.', 'admin'),
 (180, 1, 'usergroupAdd', 'usergroup.class', 'add', 'Add a new user group', 'admin'),
 (181, 1, 'usergroupUpdate', 'usergroup.class', 'update', 'Update an user group', 'admin'),
@@ -835,8 +813,6 @@ INSERT INTO `mos_vm_menu_admin` (`id`, `module_id`, `parent_id`, `name`, `link`,
 (13, 8, 0, 'VM_SHIPPING_MODULE_LIST_LBL', 'page=store.shipping_module_list', '', 'vmicon vmicon-16-content', 10, '1', ''),
 (14, 8, 0, 'PHPSHOP_CREDITCARD_LIST_LBL', 'page=store.creditcard_list', '', 'vmicon vmicon-16-content', 12, '1', ''),
 (15, 8, 0, 'PHPSHOP_CREDITCARD_FORM_LBL', 'page=store.creditcard_form', '', 'vmicon vmicon-16-editadd', 14, '1', ''),
-(16, 8, 0, 'VM_ORDER_EXPORT_MODULE_LIST_MNU', 'page=store.export_list', '', 'vmicon vmicon-16-content', 16, '1', ''),
-(17, 8, 0, 'VM_ORDER_EXPORT_MODULE_FORM_MNU', 'page=store.export_form', '', 'vmicon vmicon-16-editadd', 18, '1', ''),
 (18, 2, 0, 'CSVIMPROVED_TITLE', 'http://www.csvimproved.com/', '', 'vmicon vmicon-16-import', 2, '1', 'CSVIMPROVED_NEEDINSTALL'),
 (19, 2, 0, 'PHPSHOP_PRODUCT_LIST_MNU', 'page=product.product_list', '', 'vmicon vmicon-16-content', 4, '1', ''),
 (20, 2, 0, 'PHPSHOP_PRODUCT_FORM_MNU', 'page=product.product_form', '', 'vmicon vmicon-16-editadd', 6, '1', ''),

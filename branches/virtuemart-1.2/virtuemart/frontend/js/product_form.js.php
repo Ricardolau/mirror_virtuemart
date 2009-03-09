@@ -119,7 +119,7 @@ function updateDiscountedPrice() {
 	}
 }
 function toggleProductList( enable ) {
-	if(enable) {		
+	if(enable) {
     	document.getElementById('list_style0').disabled = false;
        document.getElementById('list_style0').checked = true;
     	document.getElementById('list_style1').disabled = false;
@@ -160,11 +160,12 @@ var productSearchField = function(){
 	        }, [
 	            {name: 'product'},
 	            {name: 'category'},
-	            {name: 'product_id'}
+	            {name: 'product_id'},
+				{name: 'product_sku'}
 	        ])
-    });   
+    });
     // Custom rendering Template
-    var resultTpl = new Ext.XTemplate( '<tpl for="."><div class="x-combo-list-item">{category} / {product}</div></tpl>' );
+    var resultTpl = new Ext.XTemplate( '<tpl for="."><div class="x-combo-list-item">{product_sku}, {product} / {category}</div></tpl>' );
     relatedSelection = document.getElementById('relatedSelection');
     related_products = document.adminForm.related_products;
     var relProdSearch = new Ext.form.ComboBox({
@@ -194,14 +195,14 @@ var productSearchField = function(){
         	}
         }
     });
-	
+
 };
 var categorySearchField = function(){
 
     var relds = new Ext.data.Store({
         proxy: new Ext.data.HttpProxy({
             url: 'index2.php?option=com_virtuemart&page=product.ajax_tools&task=getcategories&ajax_request=1&func=&no_menu=1&only_page=1&no_html=1',
-            method: 'GET'            
+            method: 'GET'
         }),
         reader: new Ext.data.JsonReader({
             root: 'categories',
@@ -212,7 +213,7 @@ var categorySearchField = function(){
 	            {name: 'category_id'}
 	        ])
     });
-   
+
     // Custom rendering Template
     var resultTpl = new Ext.XTemplate(
     	'<tpl for="."><div class="x-combo-list-item">{category} (ID: {category_id})</div></tpl>'
@@ -238,7 +239,7 @@ var categorySearchField = function(){
         		}
         	}
         	o = new Option( record.data.category, record.id );
-        	
+
         	relatedCatSelection.options[relatedCatSelection.options.length] = o;
         	if( category_ids.value != '') {
         		category_ids.value += '|' + record.id;
@@ -247,7 +248,7 @@ var categorySearchField = function(){
         	}
         }
     });
-	
+
 };
 if( Ext.isIE ) {
 	Ext.EventManager.addListener( window, 'load', productSearchField );
@@ -278,11 +279,11 @@ function removeSelectedOptions(from, hiddenField ) {
 function loadProductTypeForm(ptype_id) {
 	Ext.get("ProductTypeFormContainer").load( {
 		url: "index.php",
-	    params: {option: "com_virtuemart", 
-	    				product_type_id: ptype_id, 
-	    				page: "product.ajax_tools", 
+	    params: {option: "com_virtuemart",
+	    				product_type_id: ptype_id,
+	    				page: "product.ajax_tools",
 	    				task: "getProductTypeForm",
-	    				no_html: 1, only_page: 1, no_menu: 1, format: "raw" 
+	    				no_html: 1, only_page: 1, no_menu: 1, format: "raw"
 	    				}
 	})
 }

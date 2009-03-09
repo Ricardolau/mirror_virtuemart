@@ -32,7 +32,7 @@ class ps_shopper {
 			$_REQUEST['missing'] = $missing;
 			return false;
 		}
-		
+
 		$d['email'] = vmGet( $d, 'email', $my->email );
 		if(isset($d['email'])){
 			if (!vmValidateEmail($d["email"])) {
@@ -40,10 +40,10 @@ class ps_shopper {
 			return false;
 			}
 		}
-		
+
 		$d['perms'] = 'shopper';
 	}
-	
+
 	/**
 	 * Validates the input parameters onBeforeShopperAdd
 	 *
@@ -51,7 +51,7 @@ class ps_shopper {
 	 * @return boolean
 	 */
 	function validate_add(&$d) {
-		
+
 		global $my, $perm, $vmLogger, $mosConfig_absolute_path, $auth;
 		$vmLogger->err( 'ps_shopper validate_add' );
 
@@ -60,7 +60,7 @@ class ps_shopper {
 
 		require_once( CLASSPATH . 'ps_userfield.php' );
 		$registrationFields = ps_userfield::getUserFields( 'registration', false, '', true );
-		
+
 		$skipFields = array();
 		if( VM_REGISTRATION_TYPE == 'SILENT_REGISTRATION' || VM_REGISTRATION_TYPE == 'NO_REGISTRATION'
 			|| (VM_REGISTRATION_TYPE == 'OPTIONAL_REGISTRATION' && empty($d['register_account']))) {
@@ -109,7 +109,7 @@ class ps_shopper {
 						$params = new vmParameters( $field->params );
 						$min_age = $params->get('minimum_age', 18 );
 						$min_date = (date('Y') - $min_age).'-'.date('n').'-'.date('j');
-						
+
 						if( $d[$field->name] > $min_date ) {
 							// User too young!
 							$provided_required = false;
@@ -124,14 +124,14 @@ class ps_shopper {
 							$security_try = vmGet($_POST, $packageName.'_try');
 							$security_reload = vmGet($_POST, $packageName.'_reload');
 							$checkSecurity = checkSecurityImage($security_refid, $security_try );
-							
+
 							if( !$checkSecurity ) {
 								$provided_required = false;
 								$missing .= $field->name . ",";
 							}
 						}
 						break;
-						
+
 					default:
 						if ( empty( $d[$field->name])) {
 							$provided_required = false;
@@ -146,7 +146,7 @@ class ps_shopper {
 			$_REQUEST['missing'] = $missing;
 			return false;
 		}
-		
+
 		$d['email'] = vmGet( $d, 'email', $my->email );
 		if(isset($d['email'])){
 			if (!vmValidateEmail($d["email"])) {
@@ -154,7 +154,7 @@ class ps_shopper {
 			return false;
 			}
 		}
-		
+
 		$d['perms'] = 'shopper';
 
 		return true;
@@ -210,7 +210,7 @@ class ps_shopper {
 					$params = new vmParameters( $field->params );
 					$min_age = $params->get('minimum_age', 18 );
 					$min_date = (date('Y') - $min_age).'-'.date('n').'-'.date('j');
-					
+
 					if( $d[$field->name] > $min_date ) {
 						// User too young!
 						$provided_required = false;
@@ -225,23 +225,23 @@ class ps_shopper {
 						$security_try = vmGet($_POST, $packageName.'_try');
 						$security_reload = vmGet($_POST, $packageName.'_reload');
 						$checkSecurity = checkSecurityImage($security_refid, $security_try );
-						
+
 						if( !$checkSecurity ) {
 							$provided_required = false;
 							$missing .= $field->name . ",";
 						}
 					}
 					break;
-					
+
 				case 'euvatid':
 					if( empty( $d[$field->name])) break; // Do nothing when the EU VAT ID field was left empty
-					
+
 					// Check the VAT ID against the validation server of the European Union
 					$d['isValidVATID'] = vmValidateEUVat( $d[$field->name] );
 					$d['__euvatid_field'] = $field;
-					
+
 					break; // We don't need to go further in the loop
-				
+
 				default:
 					if ( empty( $d[$field->name])) {
 						$provided_required = false;
@@ -302,7 +302,7 @@ class ps_shopper {
 
 		$vmLogger->err( 'ps_shopper add' );
 
-		//TODO must depend on vendor of bill,.. or on vendorS of the bill 
+		//TODO must depend on vendor of bill,.. or on vendorS of the bill
 		$vendor_id =  1; //$_SESSION["ps_vendor_id"];
 		$hash_secret = "VirtueMartIsCool";
 		$db = new ps_DB;
@@ -335,7 +335,7 @@ class ps_shopper {
 				$_POST['password'] = $d['password'] = vmGenRandomPassword();
 				$_POST['password2'] = $_POST['password'];
 			}
-			
+
 			if( VM_REGISTRATION_TYPE == 'NO_REGISTRATION' || (VM_REGISTRATION_TYPE == 'OPTIONAL_REGISTRATION' && empty($d['register_account'] ) ) ) {
 				// If no user shall be registered into the global user table, we just add the registration info into the vm_user_info table
 				// Make sure that "dummy" entries for non-existing Joomla! users won't ever have the same user_id as a future Joomla! user
@@ -344,7 +344,7 @@ class ps_shopper {
 
 				// Don't allow a user id of zero
 				$uid = ( $db->f('uid') == 0 ) ? -1 : $db->f('uid');
-				
+
  			} else {
 				// Process the CMS registration
 				require_once( CLASSPATH . 'ps_user.php' );
@@ -364,10 +364,10 @@ class ps_shopper {
 				}
 				$db->query('SELECT `id` FROM `#__users` WHERE `username`="'.$d['username'].'"');
 				$db->next_record();
-				
+
 				$GLOBALS['vmLogger']->info('$uid '.$uid.' und username: '.$d['username'].' $db->f("id"): '.$db->f('id'));
 				$uid = $db->f('id');
- 			}				
+ 			}
 		}
 		else {
 			$uid = $my->id;
@@ -375,17 +375,17 @@ class ps_shopper {
 			$d['username'] = $_POST['username'] = $my->username;
 
 		}
-		
+
 		// Prevent empty USER ID
 		if( empty( $uid )) {
 			$vmLogger->crit("Failed to retrieve a valid USER ID when attempting to add a new user");
 			return false;
 		}
-		
+
 		if( !empty($auth['user_id'])) {
 			$db->query( 'SELECT user_id FROM #__{vm}_user_info WHERE user_id='.$auth['user_id'] );
 			$db->next_record();
-	
+
 			if( $db->f('user_id')) {
 				return $this->update( $d );
 			}
@@ -393,24 +393,24 @@ class ps_shopper {
 		// Get all fields which where shown to the user
 		$userFields = ps_userfield::getUserFields('registration', false, '', true );
 		$skipFields = ps_userfield::getSkipFields();
-		
+
 		// Insert billto;
 
 		// The first 7 fields are FIX and not built dynamically
-		$fields = array( 'user_info_id' => md5(uniqid( $hash_secret)), 
-						'user_id' => $uid, 
-						'address_type' => 'BT', 
-						'address_type_name' => '-default-', 
-						'cdate' => $timestamp, 
-						'mdate' => $timestamp, 
+		$fields = array( 'user_info_id' => md5(uniqid( $hash_secret)),
+						'user_id' => $uid,
+						'address_type' => 'BT',
+						'address_type_name' => '-default-',
+						'cdate' => $timestamp,
+						'mdate' => $timestamp,
 						'perms' => 'shopper'
 						);
-		
+
 		foreach( $userFields as $userField ) {
 			if( !in_array($userField->name, $skipFields )) {
-				
+
 				$fields[$userField->name] = ps_userfield::prepareFieldDataSave( $userField->type, $userField->name, vmGet($d, $userField->name, strtoupper($userField->name) ) );
-				
+
 				// Catch a newsletter registration!
 				if( stristr( $userField->params, 'newsletter' )) {
 					if( !empty($d[$userField->name])) {
@@ -418,7 +418,7 @@ class ps_shopper {
 						$vmLogger->debug( 'Adding the user to the Newsletter.');
 					}
 				}
-				
+
 			}
 		}
 
@@ -426,13 +426,13 @@ class ps_shopper {
 		//Can be used here, because a validation was already done
 		require_once( CLASSPATH . 'ps_user.php' );
 		ps_user::setUserInfoWithEmail($fields);
-		
+
 
 		$d['shopper_group_id'] = '';
-		
+
 		// Get the ID of the shopper group for this customer
 		if( $d['isValidVATID'] ) {
-			
+
 			if( trim($d['__euvatid_field']->params) != '' ) {
 				$shopper_group = new vmParameters( $d['__euvatid_field']->params );
 				$d['shopper_group_id'] = $shopper_group->get('shopper_group_id');
@@ -444,27 +444,27 @@ class ps_shopper {
 
 			$db->query($q);
 			if (!$db->num_rows()) {  // take the first in the table
-	
+
 				$q =  "SELECT shopper_group_id from #__{vm}_shopper_group";
 				$db->query($q);
 			}
 			$db->next_record();
 			$d['shopper_group_id'] = $db->f("shopper_group_id");
 		}
-		
+
 		$customer_nr = uniqid( rand() );
 		// Insert Shopper -ShopperGroup - Relationship
 		$q  = "INSERT INTO #__{vm}_shopper_vendor_xref ";
 		$q .= "(user_id,vendor_id,shopper_group_id,customer_number) ";
 		$q .= "VALUES ('$uid', '$vendor_id','".$d['shopper_group_id']."', '$customer_nr')";
 		$db->query($q);
-		
-		// Process the Newsletter subscription		
+
+		// Process the Newsletter subscription
 		if( !empty( $subscribeTo ) && strtolower(get_class($subscribeTo))=='mosparameters') {
 			switch( $subscribeTo->get('newsletter', 'letterman')) {
 				// TODO:
 				case 'ccnewsletter':
-					$db->query( "INSERT INTO `#__ccnewsletter_subscribers` ( `name`, `email`, `plainText`, `enabled`, `sdate`) 
+					$db->query( "INSERT INTO `#__ccnewsletter_subscribers` ( `name`, `email`, `plainText`, `enabled`, `sdate`)
 							VALUES('".$d['first_name']." ". $d['last_name']."','".$d['email']."', '0', '1', NOW())" );
 				// case 'anjel':
 				case 'letterman':
@@ -488,11 +488,11 @@ class ps_shopper {
 													'password' => vmGet($d,'password')
 											);
 				$mainframe->login( $credentials );
-			} 
+			}
 			elseif( class_exists('mambocore') || ( vmIsJoomla('1.0.13', '>=', false ) ) ) {
-				// Login for Mambo 4.6.x and Joomla >= 1.0.13 
+				// Login for Mambo 4.6.x and Joomla >= 1.0.13
 				$mainframe->login($d['username'], $d['password'] );
-			} 
+			}
 			else {
 				// Login for Joomla < 1.0.13 (and Mambo 4.5.2.3)
 				$mainframe->login($d['username'], md5( $d['password'] ));
@@ -505,7 +505,7 @@ class ps_shopper {
 			}
 			vmRedirect( $sess->url( 'index.php?page='.$redirect_to_page, false, false ), $VM_LANG->_('REG_COMPLETE') );
 		}
-		
+
 		if( !empty($my->id) || !empty($auth['user_id']) ) {
 			vmRedirect( $sess->url( 'index.php?page=checkout.index', false, false ) );
 		}
@@ -526,11 +526,11 @@ class ps_shopper {
 	 * @return boolean True when the registration process was successful, False when not
 	 */
 	function saveRegistration() {
-		global $database, $acl, $vmLogger, $mosConfig_useractivation, 
+		global $database, $acl, $vmLogger, $mosConfig_useractivation,
 		$mosConfig_allowUserRegistration, $mosConfig_live_site;
 
 		$vmLogger->err( 'ps_shopper saveRegistration j 1.0' );
-		
+
 		if ($mosConfig_allowUserRegistration=='0') {
 			mosNotAuth();
 			return false;
@@ -580,9 +580,9 @@ class ps_shopper {
 		$email 		= $row->email;
 		$username 	= $row->username;
 		$component = vmIsJoomla(1.5) ? 'com_user' : 'com_registration';
-		
+
 		$activation_link = $mosConfig_live_site."/index.php?option=$component&task=activate&activation=".$row->activation;
-		
+
 		// Send the registration email
 		$this->_sendMail( $name, $email, $username, $pwd, $activation_link );
 
@@ -597,7 +597,7 @@ class ps_shopper {
 	function register_save()
 	{
 		global $mainframe,$mosConfig_live_site;
-		
+
 		// Check for request forgeries
 		JRequest::checkToken() or die( 'Invalid Token' );
 
@@ -631,13 +631,13 @@ class ps_shopper {
 		$user->set('id', 0);
 		$user->set( 'usertype', $newUsertype );
 		$user->set('gid', $authorize->get_group_id( '', $newUsertype, 'ARO' ));
-		
+
 		// TODO: Should this be JDate?
 		$user->set('registerDate', date('Y-m-d H:i:s'));
 
 		// If user activation is turned on, we need to set the activation information
 		$useractivation = $usersConfig->get( 'useractivation' );
-		if ($useractivation == '1') 
+		if ($useractivation == '1')
 		{
 			jimport('joomla.user.helper');
 			$user->set('activation', md5( JUserHelper::genRandomPassword()) );
@@ -645,8 +645,8 @@ class ps_shopper {
 		}
 
 		// If there was an error with registration, set the message and display form
-		if ( !$user->save() ) 
-		{ 
+		if ( !$user->save() )
+		{
 			JError::raiseWarning('', JText::_( $user->getError()));
 			return false;
 		}
@@ -659,7 +659,7 @@ class ps_shopper {
 		$email = $user->get('email');
 		$username = $user->get('username');
 		$component = 'com_user';
-		
+
 		$activation_link = $mosConfig_live_site."/index.php?option=$component&task=activate&activation=".$user->get('activation');
 		// Send the registration email
 		$this->_sendMail( $name, $email, $username, $password, $activation_link );
@@ -676,7 +676,7 @@ class ps_shopper {
 		global $my, $perm, $sess, $vmLogger, $page;
 $vmLogger->err( 'ps_shopper update' );
 		$auth = $_SESSION['auth'];
-		
+
 		$vendor_id = 1;
 		$db = new ps_DB;
 
@@ -695,19 +695,19 @@ $vmLogger->err( 'ps_shopper update' );
 		$_POST['name'] = $d['first_name']." ". $d['last_name'];
 		$_POST['id'] = $auth["user_id"];
 		$_POST['gid'] = $my->gid;
-		
-		
+
+
 //		$d['error'] = "";
 
 		//I think this is now useless by Max Milbers
 //		if ( VM_REGISTRATION_TYPE != 'NO_REGISTRATION' ) {
 //			ps_user::saveUser( $d );
 //		}
-		
+
 		if( !empty( $d['error']) ) {
 			return false;
 		}
-		
+
 		if (!$this->validate_update($d)) {
 			return false;
 		}
@@ -718,19 +718,19 @@ $vmLogger->err( 'ps_shopper update' );
 		// Get all fields which where shown to the user
 		$userFields = ps_userfield::getUserFields( 'account', false, '', true );
 		$skip_fields = ps_userfield::getSkipFields();
-		
-		$fields = array( 
+
+		$fields = array(
 						'mdate' => time()
 						);
 		foreach( $userFields as $userField ) {
-			if( !in_array($userField->name, $skip_fields )) {		
-				$fields[$userField->name] = ps_userfield::prepareFieldDataSave( $userField->type, $userField->name, vmGet( $d, $userField->name, strtoupper($userField->name) ));		
+			if( !in_array($userField->name, $skip_fields )) {
+				$fields[$userField->name] = ps_userfield::prepareFieldDataSave( $userField->type, $userField->name, vmGet( $d, $userField->name, strtoupper($userField->name) ));
 			}
 		}
 		//Can be used here, because a validation was already done by Max Milbers
 		ps_user::setUserInfoWithEmail($fields,$user_id, " AND address_type='BT'");
-		
-		
+
+
 		// UPDATE #__{vm}_shopper group relationship
 		$q = "SELECT shopper_group_id FROM #__{vm}_shopper_vendor_xref ";
 		$q .= "WHERE user_id = '".$user_id."'";
@@ -807,9 +807,9 @@ $vmLogger->err( 'ps_shopper update' );
 //		$db->query($q);
 		return True;
 	}
-	
+
 	/**
-	 * Sends new/updated user notification emails 
+	 * Sends new/updated user notification emails
 	 *
 	 * @param string $name - The name of the newly created/updated user
 	 * @param string $email - The email address of the newly created/updated user
@@ -820,7 +820,7 @@ $vmLogger->err( 'ps_shopper update' );
 		global $database, $acl, $VM_LANG;
 		global $mosConfig_sitename, $mosConfig_live_site, $mosConfig_useractivation;
 		global $mosConfig_mailfrom, $mosConfig_fromname;
-		
+
 		$subject 	= sprintf ($VM_LANG->_('SEND_SUB',false), $name, $mosConfig_sitename);
 		$subject 	= vmHtmlEntityDecode($subject, ENT_QUOTES);
 		if ($mosConfig_useractivation=="1"){
@@ -876,6 +876,25 @@ $vmLogger->err( 'ps_shopper update' );
 			}
 		}
 
+	}
+
+	/**
+	 * Retrieves the Customer Number of the user specified by ID
+	 *
+	 * @internal moved from ps_shopper_group::get_customer_num($id)
+	 * @since 1.2.0
+	 * @param int $id
+	 * @return string
+	 */
+	function get_customer_num($id) {
+		$db = new ps_DB;
+
+		$q = "SELECT `customer_number` FROM `#__{vm}_shopper_vendor_xref` "
+			."WHERE `user_id`='". $id ."'";
+		$db->query($q);
+		$db->next_record();
+
+		return $db->f("customer_number");
 	}
 }
 $ps_shopper = new ps_shopper;

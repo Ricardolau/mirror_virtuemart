@@ -389,6 +389,7 @@ class ps_shopper_group extends vmAbstractObject  {
 			unset( $db );
 		}
   	}
+
 	/**
 	 * Retrieves the Customer Number of the user specified by ID
 	 *
@@ -398,19 +399,8 @@ class ps_shopper_group extends vmAbstractObject  {
 	 * @return string
 	 */
 	function get_customer_num($id) {
-// START Move to shopper.
-		$db = new ps_DB;
-
-		$q =  "SELECT `customer_number` FROM `#__{vm}_shopper_vendor_xref` ";
-		$q .= "WHERE `user_id`='" . $id . "' ";
-		$db->query($q);
-		$db->next_record();
-
-		return $db->f("customer_number");
-// END Move
-//		require_once( CLASSPATH . "ps_shopper.php");
-//		return ps_shopper::get_customer_num($id);
-
+		require_once( CLASSPATH . "ps_shopper.php");
+		return ps_shopper::get_customer_num($id);
 	}
 
 

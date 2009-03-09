@@ -35,6 +35,9 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+9.03.2009 Daniel jonsson
+^ Moved function from ps_shopper_group to ps_shopper where it should be.
+
 7. - 9.03.2009 Max Milbers
 # Editing Store information should now be ready for testing
 ! Users can be assigned to vendors todo administrative tasks,... they can NOT change the shopinformation, is for handling orders/products will be worked out later
@@ -83,23 +86,23 @@ VirtueMart 1.2.x
 	simular to the add_validate and update_validate
 
 	renamed a function in ps_checkout to storeOrderInformationToDB
-	
+
 	There are some known bugs
 		- I made a dirty fix for my problem that the BT adress is not automatically taken if no other adress is listed
 		it works with the list so the adress is listed again and the user can choose (from some point of view just a radio buton to much).
 		- The checkout didnt work at the last step. there query is known I work on it at first next days.
-	
+
 	the functions in ps_shopper of adding a user, updating validating and such should merged with the functions in ps_user
 	ps_shopper should only handle the shopper groups related things, discounts whatever, but not registering and userdata.
-	
+
 	Concept of static and dynamic use of classes will follow
 
 	Made a step forward to just enable the vendors instead of adding them.
-	
+
 
 15.02.2009 Max Milbers alias Milbo
 ^ mail request concerning a product depends now on the vendor of the product
-^ changed a lot of vendor senseless $ps_vendor relations sometimes it is just set to 1 (store) 
+^ changed a lot of vendor senseless $ps_vendor relations sometimes it is just set to 1 (store)
 
 14.02.2009 Milbo
 # Fixed paymentmethods as possible,.. rewriting of payment isnt done yet
@@ -133,13 +136,13 @@ VirtueMart 1.2.x
 - Deleted redundant user_email in user_info table
 + Created functions to get userinformation/vendorinformation from all tables look in ps_user and ps_vendor
   Adjusted Inventory, Ordertypes and many other files to the new datastructure.
-  
+
 !  Remember! There exist user_email only in the tables for orders not in user_info or vendor anymore!
   I am sorry was not able to test checkout with payment methods didnt had any sample data, see  Task #2483 .
   Todo: update scripts from 1.x to 1.2. (which email should be taken?)
-  
+
 + small fix for better SEO in browse1.php (Thank you Urs Bruelhart)
-+ email validation in validate_add User. 
++ email validation in validate_add User.
 
 05.02.2009 aravot
 # Task #2486 - Loading Edit Store and other administrative pages under MSIE <= 7.0 results in Operation Aborted error and unable to view.
@@ -148,7 +151,7 @@ VirtueMart 1.2.x
 - Deleted redundant datafields of vendor in the vendor table
 + rewritten ps_vendor class, fixed get_vendor_details so that it gives the correct resultset based on 4 tables.
 + Most calls of vendordata are rewritten (more OOP)
-+ adding of subfunctions for ps_vendor like get_vendor_id_by_user_id, get_user_id_by_vendor_id, get_user_id_by_nickname, 
++ adding of subfunctions for ps_vendor like get_vendor_id_by_user_id, get_user_id_by_vendor_id, get_user_id_by_nickname,
 	get_vendor_email_by_nickname, get_vendor_email_by_vendor_id
 + new catching of vendor nickname, vendor_email is tried to get by joomla user table,...
 # To complete all tasks, the orders function must be reconstructed, it works now only for the store not vendors.
@@ -160,10 +163,10 @@ VirtueMart 1.2.x
 
 30.01.2009 soeren
 # Task #2483 - No payment plugin is available in VirtueMart 1.2
-# Task #2482 - Using top menu bar results in parameters opening with Joomla menu bar 
+# Task #2482 - Using top menu bar results in parameters opening with Joomla menu bar
 
 24.01.2009 thepisu
-# Task #2473 - Untranslated language string in checkout_register_form.php 
+# Task #2473 - Untranslated language string in checkout_register_form.php
 # added translation for strings in ps_shopper_group
 # updated various languages (from VM 1.1 branch)
 
@@ -203,8 +206,8 @@ VirtueMart 1.2.x
 - removed short_code column from payment_methods table
 
 10.11.2008 soeren
-# Task #2414 - Shipping zone display error 
-# Task #2415 - Default to non SSL during checkout due to $_SERVER['HTTPS'] assumption 
+# Task #2414 - Shipping zone display error
+# Task #2415 - Default to non SSL during checkout due to $_SERVER['HTTPS'] assumption
 + added date selectors to the coupon form (thanks Peter!)
 # fixed frontend administration
 
@@ -217,7 +220,7 @@ Added missing User Group List icon
 
 26.10.2008 soeren
 # Task #2406 - Too many escape characters are added when writing virtuemart.cfg.php
- 
+
 23.10.2008 aravot
 + Added missing forum icon
 
@@ -231,12 +234,12 @@ Added missing User Group List icon
 06.10.2008 soeren
 # Task #2392 - Call to undefined function when trying to create a new coupon
 # Task #2393 - Many child products cause IE6 & IE7 to crash
-# Task #2305 - VM1.1.2 frontend order layout broken 
+# Task #2305 - VM1.1.2 frontend order layout broken
 # Task #2394 - Selecting orders in the back-end causes a major slow-down with large number of orders
- 
+
 
 04.10.2008 by RolandD committed by Max Milbers
-fix for displaying child products in a list. In IE7 and IE6 the page collapses because of a missing span tag. IE then places all subsequent child products in the previous span. This works fine unless you have more than let's say 15 child products. 
+fix for displaying child products in a list. In IE7 and IE6 the page collapses because of a missing span tag. IE then places all subsequent child products in the previous span. This works fine unless you have more than let's say 15 child products.
 
 03.10.2008   this is a summary for the last committs by Max Milbers
 Multivendoring
@@ -249,10 +252,10 @@ Multivendoring
 # Added the sql-structure to sql.virtuemart.php for a fresh install
 # Some minor fixes. Just fixing of sampladata and update scripts
 
-Topic "Admin":     
+Topic "Admin":
 + The Userlist shows which user is vendor (Possibility to expand it to activating and deactivating a vendor)
 
-Topic "Store":   
+Topic "Store":
 + Every vendor has its own store information. If an admin wants to see this data of other vendors he need to look in the topic "Vendor".
 
 Topic "Products":
@@ -282,18 +285,18 @@ Added missing product navigation link parameters to theme.xml file
 # Task #2378 - Errors in JSCook menu
 ^ moved Toolbar into TopToolbar Section of the Panel, so it's now "fixed" if one scrolls through the page
 ^ minor Javascript tweaking for better stability
-# Task #2296 - Error: Cookie Missing. You are not authorized to view this resource when trying to recommend a product. 
-^ re-arranged many parts of the product form 
+# Task #2296 - Error: Cookie Missing. You are not authorized to view this resource when trying to recommend a product.
+^ re-arranged many parts of the product form
 	- added new Tab "Product Variants" for Child Attribute Values + other Attributes
 	- integrated related products selection into Status Tab
 	- added new Product Type Selector into separate Tab (useful for (new) Products, which have no type yet)
-	
+
 23.09.2008 aravot
 Removed toolbar.html.php and toolbar.php reference from virtuemart.xml file
 
 19.09.2008 soeren
 # Task #2371 - Moving up/down doesn't work in admin lists
-# Task #2368 - order date not local language 
+# Task #2368 - order date not local language
 + added pathway + page title to registration page
 ^ changed basket + ro_basket to read the basket templates using the vmtemplateClass::fetch method
 
@@ -308,11 +311,11 @@ Removed toolbar.html.php and toolbar.php reference from virtuemart.xml file
 ! Database structure changed! - new table "jos_vm_menu_admin"; see sql/UPDATE-SCRIPT_VM_1.1.x_to_1.2.0.sql
 
 12.09.2008 soeren
-# Task #2357 - handleAddToCart doesn't always update all mini carts or always close notification popup 
+# Task #2357 - handleAddToCart doesn't always update all mini carts or always close notification popup
 # Task #2364 - Adding new function shows VM menu
 # Task #2365 - Missing br close tag in shop.savedcart.tpl.php prevents XHTML validation
 # Tasks #2327 and #2358 -  Failed to retrieve valid user id on regististration page.
- 
+
 09.09.2008 soeren
 # Task #2352 - Delete cart button not correctly set or passed to short basket
 
@@ -326,7 +329,7 @@ Removed toolbar.html.php and toolbar.php reference from virtuemart.xml file
 # Task #2342 - The dropdown list of downloadable filenames for a product should exclude system files such as .htaccess and index.html etc.
 # Task #2345 - Rogue double quote in basket_b2c.html.php
 # Task #2336 - HTML entities in product name are not always escaped leading to XHTML validation errors.
-# Task #2344 - XHTML validation errors in basket  
+# Task #2344 - XHTML validation errors in basket
 # Task #2346 - Username and password login boxes require unique ids for XHTML validation
 # Task #2347 - XHTML validation errors in shop.downloads.php
 # Task #2348 - XHTML validation error with PayPal image
@@ -339,10 +342,10 @@ Removed toolbar.html.php and toolbar.php reference from virtuemart.xml file
 # small fix to page navigation (http://forum.virtuemart.net/index.php?topic=36746.0)
 
 28.08.2008 soeren
-# Task #2314 - Add Item MISSING in 1.1.2 
-# Task #2319 - Missing Language Strings in Enquiry_email.tpl.php 
-# Task #2322 - VM Latests Products lose styling 
-# Task #2324 - Last product in stock and added to cart (saved cart) same time blocks the add to cart button 
+# Task #2314 - Add Item MISSING in 1.1.2
+# Task #2319 - Missing Language Strings in Enquiry_email.tpl.php
+# Task #2322 - VM Latests Products lose styling
+# Task #2324 - Last product in stock and added to cart (saved cart) same time blocks the add to cart button
 
 16.08.2008 gregdev
 + Added the ability to add manufacturer images. (Task #2316 - Ability to add manufacturer images)
@@ -396,7 +399,7 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 # Task #2081 - add product page tabs empty
 
 18.07.2008 gregdev
-# Task #2260 - DHL shipping error when address 2 is present 
+# Task #2260 - DHL shipping error when address 2 is present
 
 17.07.2008 gregdev
 # Task #2256 - When Joomla Allow User Registration is set to No, VM template breaks.
@@ -417,9 +420,9 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 # Task #2245 - Shipping Address Selection - switching back to default address
 
 14.07.2008 soeren
-^ Task #2240 - mf description also in shop.browse.php and browse_header_manufacturer.tpl.php 
-# Task #2227 - When Joomla cache is enabled Product list with table doesn't work 
-# Task #2232 -  Wrong currency code value for Polish Zloty  
+^ Task #2240 - mf description also in shop.browse.php and browse_header_manufacturer.tpl.php
+# Task #2227 - When Joomla cache is enabled Product list with table doesn't work
+# Task #2232 -  Wrong currency code value for Polish Zloty
 ^ Task #2234 - added "statename" to the list of placeholders which can be used in the vendor address format. It holds the actual state name.
 
 14.07.2008 gregdev
@@ -440,7 +443,7 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 
 08.07.2008 gregdev
 # Task #2168 - Fixed bank account information not saved in backend user form
-# Task #2210 - product_availability_date typo in shop.browse.php 
+# Task #2210 - product_availability_date typo in shop.browse.php
 # Task #2211 - product_url missing in shop.browse.php
 # Task #2093 - Show Pagination only when needed
 # Task #2220 - Add to Cart for each child is not saving
@@ -471,28 +474,28 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 # Fixed vmproductsnapshot to use parameters in Joomla! 1.5.x
 
 01.07.2008 soeren
-# Task #2198 - 0 rating doesn't work for review system. 
+# Task #2198 - 0 rating doesn't work for review system.
 + added Roland's massively improved SOAP-based EU VAT ID validitation code (thank you!)
 # Task #2196 - Protected property accessed directly in class.inputfilter.php
-  
+
 30.06.2008 soeren
 + implemented "Shipping Bypass" for downloadable products
-^ re-enabled Payment Bypass for checking out with zero-priced products 
+^ re-enabled Payment Bypass for checking out with zero-priced products
 
 26.06.2008 soeren
 # Task #2189 - Tigra Tree not SEF compatible with fix
 # Task #2185 - Advanced Search according to Parameters bug and fix
- 
+
 26.06.2008 gregdev
 # Task #2184 - Missing 'Yes' in show in shipping form in user filed.
 # Task #2188 - curl_exec() has been disabled fix
 # Task #2187 - Missing url in connectionTools.class.php
 # Task #2181 - Membergroup to show prices to not working without legacy plugin
-^ Remove "Select" from Joomla! user groups list on user form 
+^ Remove "Select" from Joomla! user groups list on user form
 
 24.06-2008 soeren
 # Task #2175 - Minimum Purchase Order Value not updated according to new currency set in Currency Selector
-# Task #2178 - Missing back button on adding additional image 
+# Task #2178 - Missing back button on adding additional image
 # Task #2179 - changed varname in virtuemart_parser.php
 # Task #2129 - Billing address is not shown on checkout page
 # Task #2182 - Please add - Select State - to beginning of State drop down list.
@@ -519,7 +522,7 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 ^ Added ability to publish/unpublish products from the inventory page; also changed product link to match product list
 
 16.06.2008 soeren
-# no space between additional Images in Internet Explorer 7 
+# no space between additional Images in Internet Explorer 7
 # fix for EU VAT ID check
 
 14.06.2008 gregdev
@@ -535,7 +538,7 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 ^ Clean up the order details (VM admin) page.
 
 12.06.2008 soeren
-# Task #2104 - Add to Cart 'Up' and 'Down' buttons don't display correctly in IE6 
+# Task #2104 - Add to Cart 'Up' and 'Down' buttons don't display correctly in IE6
 + added Filename-Display to all important template files (shows file names in DEBUG mode then!)
 # Item Dropdown List didn't reflect actual discounted prices, but normal prices
 # Task #2165 - e-mail address of customer as from in vendor_mail
@@ -549,15 +552,15 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 11.06.2008 soeren
 ^ changed product form to display a "category search form" instead of a select-list with all categories when more than 200 categories are present in the store
 # Task #2069 - Wrong URL in Order Status Change email when using PayPal
-# Task #2166 - Add to cart broken in SVN 1408 
- 
+# Task #2166 - Add to cart broken in SVN 1408
+
 09.06.2008 soeren
 # Task #1840 - Ajax call does not work with full SEF URL
 # Task #2120 - Cookie check not showing warning when cookies are disabled
 # Task #2119 - Product descriptions are truncated at the first instance of "&nbsp;"
 # Task #2116 - Search in Country, State list not working
 # Task #2109 - Captcha is shown on invoice (attempt #2)
-# Task #2108 - Spaces removed form alt and title of images inserted in product descriptions 
+# Task #2108 - Spaces removed form alt and title of images inserted in product descriptions
 # Task #2107 - Feature Product on shop page shows 'Notify Me' button even when product is in stock
 
 26.05.2008 soeren
@@ -568,15 +571,15 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 
 24.05.2008 soeren
 ^ updated "Order Edit" feature, thanks to kaltokri!
-# Task #2109 - Captcha is shown on invoice 
-# Task #2111 - Payflow Pro - Call to undefined function mosgetparam error 
+# Task #2109 - Captcha is shown on invoice
+# Task #2111 - Payflow Pro - Call to undefined function mosgetparam error
 ^ updated wz_tooltip to version 5.0
 
 24.05.2008 thepisu
 # addslashed javascript-driven text in order.order_list
 + added "default" ordering option for frontend (using the already working product_list field)
 # Task #2047 Missing conversion from utf-8 to cp1251
-# Task #1893 Strings hard coded 
+# Task #1893 Strings hard coded
 - removed language strings related to old PBS (danish) payment module
 # Updated Dutch translation (by Tonslag)
 # Romanian state Vreancea corrected to Vrancea
@@ -681,7 +684,7 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 # Corrected syntax errors (%s) in common/french.php.
 
 10.04.2008 soeren
-^ switched from ExtJS 1.1.1 to ExtJS 2.0.2 
+^ switched from ExtJS 1.1.1 to ExtJS 2.0.2
 # product list doesn't filter by parent ID when a category was selected
 # dropdown list of child products had no pre-selection after selecting a child product
 
@@ -690,12 +693,12 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 
 09.04.2008 soeren
 # Task #2007 - Account Maintenance alway visible after first login
-- checkbox for "Disable Shipping ..." in the configuration form, tab "shipping". 
+- checkbox for "Disable Shipping ..." in the configuration form, tab "shipping".
 # Task #1933 - Security Token Error when submitting form after a while
 # Task #2002 - Related products shows only 10 products
 # Task #1981 - please make sure the form is complete and valid - error (removed the configuration parameter MUST_AGREE_TO_TOS, handled by the userfield manager!)
 ^ it's possible to place an order without having a Joomla! user account now (registration type: NO_REGISTRATION and OPTIONAL_REGISTRATION)
-	the user will be logged out after having placed the order 
+	the user will be logged out after having placed the order
 # Task #1998 -  Unable to save Joomla registration update in extended layout.
 ^ removed the requirement of being logged in to make downloads (the function downloadRequest has permissions set to "none" by default now)
 
@@ -781,7 +784,7 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 # Task #1928 - Display# is not changing
 
 24.03.2008 soeren
-^ removed eval function from list_payment_methods template, moved tooltip for "Credit Card Validation Value" to the associated label 
+^ removed eval function from list_payment_methods template, moved tooltip for "Credit Card Validation Value" to the associated label
 # Task #1924 - After account creation a warning message is shown.
 
 23.03.2008 thepisu
@@ -797,7 +800,7 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 # Mambo didn't show correct CSS and loading JS didn't work
 # Task #1910 - A closing div braking templates in checkout_register_form.php
 ^ non-existing or unpublished products are removed from cart on Cart Update
-# Quantity Steps are checked for when updating the cart (say you have a product which can only be ordered at quantity steps of 5 - like 10 or 25) 
+# Quantity Steps are checked for when updating the cart (say you have a product which can only be ordered at quantity steps of 5 - like 10 or 25)
 + added the variable "product_price_raw" to product details page, so the "raw" product price array can be used inside the flypage templates
 # Task #1907 - Cart Module not updating after first product added (IE only)
 
@@ -872,7 +875,7 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 # added various translation strings (module "common")
 # Task #1524 - During checkout state is cut offed and county uses ISO code.
 # added translations strings for update check feature (modules "common" / "admin")
-# "Back to Joomla! Administration" was not translated on Joomla 1.5 
+# "Back to Joomla! Administration" was not translated on Joomla 1.5
   (can't initialize correctly mosConfig_lang, passed to JS throug "lang" parameter)
 ! added ability to pass GET parameter to JS files, if not using fetchscript (was ignored)
 # vmAbstractObject validate function was considering "0" as empty
@@ -890,14 +893,14 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 ^ Order Details pages show all custom user fields now
 - removed email_*.html (localized email templates)
 ^ changed Order Confirmation Email to use a php-based template (/order_emails/confirmation_email.tpl.php)
-+ custom registration/user fields are sent with confirmation email now 
++ custom registration/user fields are sent with confirmation email now
 
 29.02.2008 gregdev
 # Task #1415 - no account creation bug
 # Fixed missing global variable when adding custom attributes.
 # Task #1832 - Flypage not change on product browsing...
 29.02.2008 soeren
-# Task #1815 - Cancelling user field it creates a blank / empty user field 
+# Task #1815 - Cancelling user field it creates a blank / empty user field
 # Task #1816 - User fields, value section sometime is shows sometime it doesn't
 # Task #1833 - quantity ,drop down list, add to cart
 # Task #1834 - list of prices, thanks Valerie!
@@ -916,7 +919,7 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 + added basic VirtueMart Version Updater Functionality. It requires two new functions:
 	###
 	INSERT INTO `jos_vm_function` ( `function_id` ,`module_id` ,`function_name` ,`function_class` ,`function_method` ,`function_description` ,`function_perms`)
-	VALUES ( NULL , '1', 'getupdatepackage', 'update.class', 'getPatchPackage', 'Retrieves the Patch Package from the virtuemart.net Servers.', 'admin'), 
+	VALUES ( NULL , '1', 'getupdatepackage', 'update.class', 'getPatchPackage', 'Retrieves the Patch Package from the virtuemart.net Servers.', 'admin'),
 	(NULL , '1', 'applypatchpackage', 'update.class', 'applyPatch', 'Applies the Patch using the instructions from the update.xml file in the downloaded patch.', 'admin');
 	###
 # Task #1844 - Moving product to another category gives error
@@ -934,7 +937,7 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 # Task #1811 - first query doesn't execute in ps_product_product_type::delete_record()
 20.02.2008 soeren
  # Task #1473 -  ps_product_category.php timeout
- 
+
 18.02.2008 gregdev
 # Fixed - clicking save button on account.billing incorrectly returns to store.index with J! 1.5.1 SEF enabled
 # Fixed - Call to a member function on a non-object ($vm_mainframe) in checkout_register_form
@@ -1015,7 +1018,7 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 	UPDATE `jos_vm_userfield` SET `shipping`=1 WHERE `name`='phone_2';
 	UPDATE `jos_vm_userfield` SET `shipping`=1 WHERE `name`='fax';
 	###
-	
+
 08.02.2008 soeren
 ^ Added getUserStateFromRequest Handler to vmMainframe
 # preventing empty Orders (throws a critical error)
@@ -1056,7 +1059,7 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 04.02.2008 soeren
 + added new registration field types for "Captcha" and Age Verification (using simple date drop-down lists)
 	Captcha uses Walter Cedric's com_securityimages (http://www.waltercedric.com) and is only available if that component is installed!
-	
+
 04.02.2008 gregdev
 # Task #1745 - mod_virtuemart_allinone error
 + Restored the special.png image for the all-in-one module
@@ -1178,7 +1181,7 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 ^ optimized query in dynamic_state_list function (not running a query for each country, but just one now)
 - removed CSV Upload from VirtueMart Core (CSVImproved handles CSV Import/Export much better: http://csvimproved.com)
 ^ last called page is correctly remembered now (important for Administration) and loaded when returning to VM ADMIN
- 
+
 08.01.2008 gregdev
 ^ Set usertype in Joomla! 1.5 shopper registration (ps_shopper)
 ^ Native Joomla! 1.5 compatibility changes for mod_virtuemart
@@ -1204,7 +1207,7 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 # Task #1640 - require_once virtuemart_parser.php in virtuemart.php
 # Task #1643 - Error message in "Parameters of Product Type"
 # Category won't save when no WYSIWYG Editor is enabled [http://forum.virtuemart.net/index.php?topic=35170.0]
-- removed some Javascripts for a smaller component archive 
+- removed some Javascripts for a smaller component archive
 	removed: Scriptaculous, Behaviour, Lightbox(2 + "gone wild"), LiteBox, WindowJS
 
 05.01.2008 soeren
@@ -1218,8 +1221,8 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 02.01.2008 soeren
 # Task #1611 - Search with Keywords that contain quotes/apostrophes doesn't work
 # fixed Email Receipt not being sent by Email Server because of violation of sender policy framework (thanks to Jens Kirk Foged from Sunburst WebConsult for reporting)
-+ added protection against CSRF (using the parameter "vmtoken" to verify the 
-	validity of a request that will execute a function through the parameter "func" in admin mode). 
++ added protection against CSRF (using the parameter "vmtoken" to verify the
+	validity of a request that will execute a function through the parameter "func" in admin mode).
 
 02.01.2008 thepisu
 ^ Task #1268 Language strings modularization; a lot of strings moved + cleaning
@@ -1280,12 +1283,12 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 
 12.12.2007 soeren
 ^ Task #1582 - ps_session.php - checkSessionSavePath fails on custom session handlers
-# Task #1594 - Apostrophe search word returns 0 results. 
+# Task #1594 - Apostrophe search word returns 0 results.
 	(search for products with a single or double quote is possible now)
 ^ the advanced search now can handle multiple keywords (separated by a space)
 ^ when the Product Search returns 1 product, the customer is redirected to the details page of that product instead
 	of the search result overview
-	 
+
 07.12.2007
 # Task #1589 - User registration error when Affiliate is enabled / can not browse shop
 # Task #1320 Adding a "Print" button in order.order_printdetails (hiding print button from print output)
@@ -1298,8 +1301,8 @@ Minor CSS fix lightblue to #ADD8E6 (thank you Phil)
 03.12.2007 soeren
 # Task #1579 - Shipping Module Form "Cancel" shows second side menu
 # Task #1578 - Read Only setting in manage user fields not working.
-# Task #1577 - Child/sub category; when updated it becomes top-level category 
-# Task #1576 - Search Function doesn't work anymore 
+# Task #1577 - Child/sub category; when updated it becomes top-level category
+# Task #1576 - Search Function doesn't work anymore
 
 03.12.2007 thepisu
 # tax % not displayed correctly
@@ -1412,7 +1415,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 # fixed typo
 
 02.11.2007 soeren
-# changing the ENCODE_KEY could lead to configuration file errors + wrong re-encryption of encrypted data 
+# changing the ENCODE_KEY could lead to configuration file errors + wrong re-encryption of encrypted data
 # implemented changes to prevent saving a configuration file with wrong PHP syntax (escaping single quotes and stuff)
 # Task #1522 - Lost every html-tag in store description!
 ^ implemented a workaround for problems with the "fetchscript.php" script, which loads javascripts and stylesheets. If it
@@ -1420,7 +1423,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 	stylesheet references
 
 31.10.2007 soeren
-# fixed a logout problem under J! 1.5 after checkout and on viewing order details 
+# fixed a logout problem under J! 1.5 after checkout and on viewing order details
 
 31.10.2007 gregdev
 # Fixed task #1443 - When in product list a product is selected and New product button in clicked error is given (on simple layout)
@@ -1442,12 +1445,12 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 ^ Adjusted registration complete message to reflect being automatically logged in.
 
 26.10.2007 soeren
-+ added new request class (from Joomla! 1.5 with small modifications) to have a CMS-independent request filter and 
++ added new request class (from Joomla! 1.5 with small modifications) to have a CMS-independent request filter and
 	handler class
 
 25.10.2007 gregdev
 # Fixed task #1479 - Backend - Cancel shipping address takes user back to user list
-+ Added "Remember me" to mod_virtuemart and mod_virtuemart_login. Uses VM_SHOW_REMEMBER_ME_BOX configuration setting. 
++ Added "Remember me" to mod_virtuemart and mod_virtuemart_login. Uses VM_SHOW_REMEMBER_ME_BOX configuration setting.
 
 24.10.2007 gregdev
 # Task #1415 - no account creation bug (prompt to enter user name with No Account registration option)
@@ -1467,11 +1470,11 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 
 13.10.2007 soeren
 # Task #1468 - Can not send 'Recommend this product to a friend' email
- 
+
 11.10.2007 soeren
 # Task #1431 - Advanced Search Result page direction
 # Task #1465 - Quantity text still shown when box set to hide
-# another fix to Task #1471 - Recommend this product to a friend formating lost if form not complete 
+# another fix to Task #1471 - Recommend this product to a friend formating lost if form not complete
 ^ moved module-accompanying javascripts from /modules to components/com_virtuemart/js
 # suppressed html_entity_decode error notices, because of unsupported charsets
 
@@ -1526,7 +1529,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 ^ now a HTTPS redirect is done in the admin section if the module is forced to use https (Joomla! 1.5 only)
 + added a new configuration key that allows to change the encryption function for encrypting sensible data in the database
 	You now can switch to the much safer "AES_ENCRYPT" if your MySQL Server Version is >= 4.0.2
-!	This means an important change for all payment modules, which rely on transaction keys from the 
+!	This means an important change for all payment modules, which rely on transaction keys from the
 	payment_method table (payment_passkey). Instead of using "ENCODE" or "DECODE" in the queries,
 	from now on you must use the constants "VM_ENCRYPT_FUNCTION" and "VM_DECRYPT_FUNCTION".
 	Example: $database->query( "SELECT ".VM_DECRYPT_FUNCTION."(payment_passkey,'".ENCODE_KEY."') as passkey FROM #__{vm}_payment_method ..." );
@@ -1560,7 +1563,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 
 06.09.2007 macallf
 + Added autofill of user name and email address for logged in user when using email to a friend.
-^ Added index2.php to the available pages for adding a stylesheet in function addStyleSheet - mainframe.class.php 
+^ Added index2.php to the available pages for adding a stylesheet in function addStyleSheet - mainframe.class.php
 
 06.09.2007 gregdev
 # Joomla! 1.5 compatibility: Task #1419 - adjusted mosConfig_cachepath
@@ -1607,7 +1610,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 
 01.08.2007 gregdev
 + Added a cleared <br /> element so that the floated divs fill the container
- 
+
 30.07.2007 gregdev
 ^ Joomla! 1.5 compatibility: TigraTree product category module
 ^ Adjustments to Joomla! 1.5 compatibility file
@@ -1626,7 +1629,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 !!! DATABASE: TABLE STRUCTURE CHANGE
 		###
 		# 25.07.2007: Allow to set address and date format
-		ALTER TABLE `jos_vm_vendor` 
+		ALTER TABLE `jos_vm_vendor`
 				ADD `vendor_address_format` TEXT NOT NULL ,
 				ADD `vendor_date_format` VARCHAR( 255 ) NOT NULL;
 		UPDATE `jos_vm_vendor` SET
@@ -1637,14 +1640,14 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 + Global Address Format can be set in the Store Form now - as well as the global date format
 # Task #1356 - problems with "implemented page navigation at product level"
 
-24.07.2007 soeren 
+24.07.2007 soeren
 
 # Task #1344 - related product list too long, memory exausted
 ^ improved the related products selection screen - it features an auto-completing search field now
 + added new JSON class to send JSON encoded responses
 # fixes for Joomla! 1.0.13 compatibility
-^ changed Product Review List to show reviews from all products - ordered by posting time,  
-	not only filtered by one product; TODO: Notification of 
+^ changed Product Review List to show reviews from all products - ordered by posting time,
+	not only filtered by one product; TODO: Notification of
 
 16.07.2007 gregdev
 # Task #1328 - long php opening tags missing in vendor.vendor_form.php
@@ -1678,7 +1681,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 05.05.2007 gregdev
 # Fixed DEFAULT value for product_id (#__{vm}_product_reviews) in sql installation files.
 ^ Use _PN_DISPLAY_NR from VirtueMart language strings.
-  
+
 03.05.2007 gregdev
 # Task #966 - Cleared credit card info when using non-credit card payment method.
 # Fixed a text size bug in the product scroller.
@@ -1706,7 +1709,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 + Recently viewed products
 + Featured products on shop.index
 ^ shop.index.php changed to template system
-+ added new functions 
++ added new functions
 !!! Database Table - New Entries
     Database table jos_vm_functions
     (187, 7, 'replaceSavedCart', 'ps_cart', 'replaceCart', 'Replace cart with saved cart', 'none'),
@@ -1735,7 +1738,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 	) TYPE = MYISAM COMMENT = 'Stores the cart contents of a user';
 	###
 
-	
+
 11.04.2007 soeren
 ^ updated ExtJS from 1.0 alpha3 to 1.0 beta2
 
@@ -1748,7 +1751,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 ^ changed "related products" form in product form to use Option Tansfer from one select list to another
 	for better overview what was selected as related (using OptionTransfer.js by Matt Kruse - mattkruse.com/javascript/optiontransfer )
 	You can even use double click to move products from one list to the other
-	
+
 03.04.2007 soeren
 
 + added page navigation on product level, so customers can go directly from one product to the next in that category/manufacturer/search result
@@ -1791,11 +1794,11 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 
 01.03.2007 gregdev
 ^ optimized category tree creation
- 
+
 26.02.2007 gregdev
 
 ^ moved account.billing, account.orders, and account.shipping into templates
-# changed ps_shopper->update to return to $page on error, rather than just checkout.index 
+# changed ps_shopper->update to return to $page on error, rather than just checkout.index
 
 23.02.2007 soeren
 
@@ -1827,7 +1830,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 + created a new "vmMainFrame" class to handle stylesheets and scripts and bundle them for "fetchscript.php"
 	This way we can remarkably reduce the number of GET Requests for linked scripts and stylesheets
 	An instance of the vmMainFrame class is available globally: $vm_mainframe.
-	
+
 ^ changed the simple attributes' price modifier handling from user-submitted prices to price modifiers retrieved from
 	the product's attribute field in the DB. So the [+3.99] price modifiers are not longer part of the
 	drop down list, but just the attribute values like "red" or "big".
@@ -1837,7 +1840,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 # several fixes for making VirtueMart work with the latest Joomla! 1.5 SVN version
 + implemented new User Registration Types: "Normal Account Creation", "Silent Account Creation", "Optional Account Creation" and "No Account Creation"
 	This allows a customer to check out without the need to create an account
-	
+
 # fixed the vmcheck redirection not being SEF issue (ps_session.php)
 # fixed the user field form and made it compliant to MooTools v1.00
 
@@ -1861,17 +1864,17 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 		that use templates from the "/templates/checkout" folder
 	* fixed the cartUpdate forms in the basket (works now and is standards compliant)
 	* jumping between "checkout stages" is possible by using the parameter "checkout_stage".
-	
+
 ^ added FXX, ROM and BUL to the list of European Countries (function country_in_eu_common_vat_zone, ps_checkout.php)
 # fixed some issues with the new mootools and the cart highlighting function
 ^ Updated Mootools to release v1.00
 ^ Updated SlimBox to version 1.3
 
 31.01.2007 soeren
-# various XHTML standards compliance fixes 
+# various XHTML standards compliance fixes
 	* added ampReplace function to URL functions in ps_session.php, plus new parameter: encodeAmpersands (default:true) )
 	* fixed various wrong tags, missing closing tags and unencoded ampersands
-	
+
 30.01.2007 soeren
 + added a new PayFlow Pro class that doesn't need the Payflow Pro SDK installed on the server
 # fixed an error that prevented correct storage of the CC number
@@ -1879,11 +1882,11 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 28.01.2007 soeren
 + added new functions to resend the Download ID and re-enable expired or max-downloaded downloads
 ! two new function have been added to the function list: insertDownloadsForProduct and mailDownloadId
-	####		
+	####
 	INSERT INTO `jos_vm_function` (`function_id`, `module_id`, `function_name`, `function_class`, `function_method`, `function_description`, `function_perms`) VALUES (185, 2, 'insertDownloadsForProduct', 'ps_order', 'insert_downloads_for_product', '', 'admin'),
 	(186, 5, 'mailDownloadId', 'ps_order', 'mail_download_id', '', 'storeadmin,admin');
 	####
-	
+
 26.01.2007 soeren
 # UPS: renamed "UPS Express Saver" to "UPS Saver"
 # UPS: merged Deneb's improvements for the UPS module to the trunk
@@ -1897,11 +1900,11 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 19.01.2007 soeren
 ! two new function have been added to the function list: setModulePermissions and setFunctionPermissions
 	####
-	INSERT INTO `jos_vm_function` (`function_id`, `module_id`, `function_name`, `function_class`, `function_method`, `function_description`, `function_perms`) 
+	INSERT INTO `jos_vm_function` (`function_id`, `module_id`, `function_name`, `function_class`, `function_method`, `function_description`, `function_perms`)
 	VALUES (null, 1, 'setModulePermissions', 'ps_module', 'update_permissions', '', 'admin'),
-	(null, 1, 'setFunctionPermissions', 'ps_function', 'update_permissions', '', 'admin');	
+	(null, 1, 'setFunctionPermissions', 'ps_function', 'update_permissions', '', 'admin');
 	####
-	
+
 + added a function <=> user group matrix to the function list, so access restrictions can quickly be changed
 + added a module <=> user group matrix to the module list, so access restrictions can quickly be changed
 ^ changed the input field "Force HTTPS on which modules?" in the configuration to a multi-select list with all module listed
@@ -1930,7 +1933,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 
 + added the order edit extension by nfischer, nico and rolf: http://virtuemart.net/index.php?option=com_flyspray&Itemid=91&do=details&task_id=27
 	It allows to modify orders and order items after the order has been placed.
-	
+
 09.12.2006 soeren
 # Task #1045 - ps_product_category::get_navigation_list cannot be called twice! (ps_product_category.php)
 # Task #1040 - Redirect after registration (ps_shopper.php)
@@ -2010,19 +2013,19 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 	) TYPE=MyISAM AUTO_INCREMENT=5 COMMENT='Holds all the user groups' ;
 	# these are the default user groups
 	INSERT INTO `jos_vm_auth_group` (`group_id`, `group_name`, `group_level`) VALUES (1, 'admin', 0),(2, 'storeadmin', 250),(3, 'shopper', 500),(4, 'demo', 750);
-		
+
 	CREATE TABLE `jos_vm_auth_user_group` (
 	  `user_id` int(11) NOT NULL default '0',
 	  `group_id` int(11) default NULL,
 	  PRIMARY KEY  (`user_id`)
 	) TYPE=MyISAM COMMENT='Maps the user to user groups';
-	INSERT INTO `jos_vm_function` VALUES 
+	INSERT INTO `jos_vm_function` VALUES
 		(NULL, 1, 'usergroupAdd', 'usergroup.class', 'add', 'Add a new user group', 'admin'),
 		(NULL, 1, 'usergroupUpdate', 'usergroup.class', 'update', 'Update an user group', 'admin'),
 		(NULL, 1, 'usergroupDelete', 'usergroup.class', 'delete', 'Delete an user group', 'admin');
-		
+
 + new user group management (admin.usergroup_form.php, admin.usergroup_list.php)
-	
+
 06.11.2006 soeren
 
 # fixed the function form to work with the prototype ajax object
@@ -2030,7 +2033,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 !! DATABASE STRUCTURE CHANGED !!
 	# adding coupon code tracking for orders
 	ALTER TABLE `jos_vm_orders` ADD `coupon_code` VARCHAR( 32 ) NULL AFTER `coupon_discount` ;
-	
+
 # fixed a bug which prevented ordering in product list
 ^ coloured the editable price fields in the product list: added a CSS class "editable" to the admin.styles.css
 ^ merged the CSV improvements by RolandH into the CSV files
@@ -2049,7 +2052,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 
 ^ moved the deprecated Mambo 4.5.x/Joomla 1.0.x language constants to the language files
 + cart action notices are put into the language files now
-# added a header "Content-type: " to the connectiontools class to allow correct character encoding 
+# added a header "Content-type: " to the connectiontools class to allow correct character encoding
 	when sending ajaxed content
 ^ changed the "lightbox" message-windows to these new prototype Windows
 ^ changed most Ajax-based functions to use Prototype
@@ -2097,8 +2100,8 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 	# 13.09.2006 Allow Order Status Descriptions
 	ALTER TABLE `jos_vm_order_status` ADD `order_status_description` TEXT NOT NULL AFTER `order_status_name`;
 	######
-	
-	
+
+
 12-09-2006 soeren
 
 !! Small Database Change: Changed an "INDEX" Key to a "PRIMARY" Key in the table jos_vm_category_xref
@@ -2106,14 +2109,14 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 	# 12.09.2006 improve category listing performance
 	ALTER TABLE `jos_vm_category_xref` DROP INDEX `category_xref_category_child_id` ;
 	ALTER TABLE `jos_vm_category_xref` ADD PRIMARY KEY ( `category_child_id` ) ;
-		
+
 
 
 05-09-2006 soeren
 
 # state list not updating when country selection changed
 ^ user permission groups are listed in a multi-select box now (function_form and module_form)
-^ core function form enhancements: 
+^ core function form enhancements:
 	* all available class are listed in a drop-down list
 	* function method list is fetched dynamically using ajax, so all available methods of the selected class are listed
 
@@ -2137,7 +2140,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 		(it is much much much smaller by filesize!!)
 + made the usage of the Lightbox for product images optional (see theme configuration!)
 + made the Greybox checkout optional (see theme configuration!)
-+ added the LiteBox script to the available Javascripts. 
++ added the LiteBox script to the available Javascripts.
 	Litebox is a lightweight Lightbox derivate using just moo.fx and prototype.lite (see http://www.doknowevil.net/litebox/)
 
 # Task #887 - Minimum Amount for Free Shipping (ps_main.php)
@@ -2151,9 +2154,9 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 # Task #901 - FileManager's pics > Commas in Tittle bug.
 # Task #735 - attributes errors (ps_product.php) - (double currency symbols and price modifiers not adding up when one "price setter" is selected in the attributes)
 # Task #839 - "Add to Cart" twice for same product removes product (ps_cart.php)
-+ added cache-control / expire / last-modified headers in fetchscript.php and show_image_in_imgtag.php to 
++ added cache-control / expire / last-modified headers in fetchscript.php and show_image_in_imgtag.php to
 	increase performance by using client caching capabilities
-	
+
 ^ updated the vmnValidateEmail function to check for correct email addresses (ps_main.php)
 + added name & subject checks for email sending (J! 1.0.11) (ps_main.php)
 ^ changed the vmSpoofValue function to work with J! 1.0.11 (ps_main.php)
@@ -2193,7 +2196,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 
 ^ moved the functions "validate_image" and "process_images" from the ps_main.php to the new
 	class file "imageTools.class.php", class "vmImageTools"
-	
+
 25-07-2006 soeren
 
 ^ started working on Theming support for VirtueMart. the first steps were
@@ -2207,23 +2210,23 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 	* all the "template files" have been moved from "administrator/components/com_virtuemart/html/templates" to "components/com_virtuemart/themes/default/templates" where they have the same dir structure as before
 	* references from the old image URLs to the new theme-based image URLs have be updated
 
-+ Content Mambots can be used now to parse product and category descriptions 
++ Content Mambots can be used now to parse product and category descriptions
 	=> new configuration constant "VM_CONTENT_PLUGINS_ENABLE"; default: disabled
-	
+
 ^ Bank account information is only requested now at the "payment method selection" step
 	Removed the global configuration switch
 ^ changed all text input fields for template names (like "shop.flypage") to dropdown lists
 	where you can select the right template file.
-^ changed the "payment class" input field to a dropdown list where you can select one of the 
+^ changed the "payment class" input field to a dropdown list where you can select one of the
 	available payment method classes
-	
+
 + added a new directory "currency" for holding different currency converter modules
 	the globally used converter is controlled by the constant "VM_CURRENCY_CONVERTER_MODULE"
 	the default setting is "convertECB"
 
 22-07-2006 soeren
 
-+ added a workaround for installations where the "Session Save Path" is not writable. 
++ added a workaround for installations where the "Session Save Path" is not writable.
 	VM will try using the global cache path for storing session files instead.
 
 18-07-2006 soeren
@@ -2240,7 +2243,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 # Task #816 - missing "alt" attribute in category images on shop.index.php
 ^ adjusted login procedure to comply with Joomla 1.0.10 (ps_main.php, checkout.login_form, mod_virtuemart.php)
 	+ added new functions called "vmSpoofValue" and "vmSpoofCheck" as used in Joomla 1.0.10
-	
+
 22-06-2006 soeren
 
 ^ Product Scroller now scrolls left and right with all the products in 1 row
@@ -2260,11 +2263,11 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 ! DATABASE STRUCTURE CHANGED: table 'jos_vm_vendor' gets a new field !
 	# 02.05.2006 Multi-Currency Feature
 	ALTER TABLE `jos_vm_vendor` ADD `vendor_accepted_currencies` TEXT NOT NULL ;
-	
-	
+
+
 29-04-2006 soeren
 
-^ changed the tree script to TigraTree for the "Product Folders" list. 
+^ changed the tree script to TigraTree for the "Product Folders" list.
 	It builds the tree much faster than the JSCookTree and dTree script and even works with 10.000+ items.
 + Tigra Tree Menu Javacript
 # Task #73 - Order Confirm E-Mail - Plain text & html text of Message differ (ps_checkout.php)
@@ -2300,7 +2303,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 ^ admin product list now showing the prices of the default shopper group
 
 18-04-2006 soeren
-+ new vmConnector class (vmConnector.class.php). It can be used to retrieve remote URLs and documents. It tries to 
++ new vmConnector class (vmConnector.class.php). It can be used to retrieve remote URLs and documents. It tries to
 	use cURL to do the communication when available. When a proxy has been set, the proxy is
 	used for all outgoing calls.
 	The new function vmconnector::handleCommunication( $url, $postData='' ) is to be used by
@@ -2313,29 +2316,29 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 	converted using an XML file with the latest rates from the European Central Bank (ECB, function convertECB).
 	The XML file is cached and refreshed regularly. See /classes/currency_convert.php.
 	You can change the displayed currency in the frontend by adding the parameter "product_currency" to the URL:
-	
+
 	index.php?option=com_virtuemart&page=shop.browse&category_id=3&product_currency=EUR
-	
+
 	A module to allow changing the displayed currency by selecting one from a list will follow.
-	
+
 # Task #705 - Product Type Pagelinks are not working due to wrong $num_rows (product.product_type_list.php)
 
 12-04-2006 soeren
 
 + "recommend this product to a friend" mod by Benjamin (codename-matrix)
-+ new configuration parameters for the review system (minium/maximum comment length...) 
++ new configuration parameters for the review system (minium/maximum comment length...)
 ! DATABASE STRUCTURE CHANGED
 	^ JoomFish compatibility requires the field "attribute_id" for the table jos_vm_product_attribute, so here it is:
 		Thanks, Steven and spookstaz http://virtuemart.net/index.php?option=com_smf&Itemid=71&topic=16124.msg38407#msg38407
 	########
-	ALTER TABLE `jos_vm_product_attribute` ADD `attribute_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST ;	
+	ALTER TABLE `jos_vm_product_attribute` ADD `attribute_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST ;
 	# Ask a question!
-	INSERT INTO `jos_vm_function` VALUES ('', 7, 'productAsk', 'ps_communication', 'mail_question', 'Lets the customer send a question about a specific product.', 'admin,storeadmin,shopper,demo');	
+	INSERT INTO `jos_vm_function` VALUES ('', 7, 'productAsk', 'ps_communication', 'mail_question', 'Lets the customer send a question about a specific product.', 'admin,storeadmin,shopper,demo');
 	# Prevent auto-publishing of product reviews
 	ALTER TABLE `jos_vm_product_reviews` ADD `review_id` INT( 11 ) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST ;
 	ALTER TABLE `jos_vm_product_reviews` ADD `published` CHAR( 1 ) NOT NULL DEFAULT 'Y';
 	#########
-	
+
 + "ask a question" - enquiry mod by macallf (http://virtuemart.net/index.php?option=com_smf&Itemid=71&topic=17143.0)
 + new Lightbox javascript added to have a cool modal window during an Ajax request! => http://blog.feedmarker.com/2006/02/12/how-to-make-better-modal-windows-with-lightbox/
 + added Moo.Ajax javascript to provide XMLHttpRequest services (aka Ajax)
@@ -2347,10 +2350,10 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 # user form not working on Mambo 4.6.0
 ! DATABASE STRUCTURE CHANGED !
 	- some non-critical INDEX corrections
-	
+
 04-04-2006 soeren
 
-+ added "Newsletter subscription" to field type list. You can now allow users to subscribe to your newsletter 
++ added "Newsletter subscription" to field type list. You can now allow users to subscribe to your newsletter
 	at the time of registration. Currently possible: Letterman subscription (YaNC, ANJEL - who knows how to hook in there?)
 ^ uploaded images get "real" file names now using product_name,category_name or vendor_name (before it was a random md5 hash)
 
@@ -2374,7 +2377,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 
 !!! DATABASE STRUCTURE CHANGED !!!
 	NEW TABLE "jos_vm_shipping_label"
-	
+
 + customer name on oder list
 
 28-03-2006 soeren
@@ -2400,10 +2403,10 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 23-03-2006 soeren
 
 # Order "Print View" link lead to a 404 error
-+ ProductScroller module: added the category_id parameter to the XML file, so you can now specify a category_id (or a comma-separated list of more than one category_id) 
++ ProductScroller module: added the category_id parameter to the XML file, so you can now specify a category_id (or a comma-separated list of more than one category_id)
 	to filter the products by (multiple) category/ies
 # Product Reviews are not added to the database, although the vote is added
-	
+
 20-03-2006 soeren
 ^ Payment method preselecection: the first displayed payment method is always pre-selected now
 # "delete from cart" fails when the custom attribute value contains quotes
@@ -2430,17 +2433,17 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 
 15-03-2006 soeren
 
-+ direct link to global configuration from shop configuration (where the Joomla registration settings are shown) 
++ direct link to global configuration from shop configuration (where the Joomla registration settings are shown)
 + new configuration variable: VM_SHOW_REMEMBER_ME_BOX (you can now choose whether the "Remember me" box is shown
 	on login or the usercookie is forced with a hidden field.)
 + new configuration variables for better being able to switch between http and https:
 	VM_GENERALLY_PREVENT_HTTPS - allows to get back from https to http in areas, where https is not necessary (as it only slows down the connection)
 	VM_MODULES_FORCE_HTTPS - allows you to specify a list of shop areas (= shop core modules, e.g. account,checkout,...) where https connections are forced
 # Session class fixes ( session_id( ... ) is no longer used, from now on we just don't care about the Joomla/Mambo session ID)
-	
+
 12-03-2006 soeren
 
-# users, who are logged in, but not yet registered as customer/shopper 
+# users, who are logged in, but not yet registered as customer/shopper
         can't directly continue their "checkout" after registration as shopper
 # users who are logged in, but have an empty "usertype" field don't see prices
 # added $manufacturer_id support for caching pages
@@ -2502,11 +2505,11 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 ^ using the same "Add-to-cart" image as in product_details in browse page now
 # tax rates were stored with 0.0000 value
 
-! DATABASE STRUCTURE CHANGED 
+! DATABASE STRUCTURE CHANGED
 ---
         # http://virtuemart.net/index.php?option=com_flyspray&Itemid=83&do=details&id=521
-        ALTER TABLE `jos_vm_product_mf_xref` CHANGE `product_id` `product_id` INT( 11 ) NULL DEFAULT NULL 
-        
+        ALTER TABLE `jos_vm_product_mf_xref` CHANGE `product_id` `product_id` INT( 11 ) NULL DEFAULT NULL
+
         # Store multiple-tax-rates details for each order when applicable
         ALTER TABLE `jos_vm_orders` ADD `order_tax_details` TEXT NOT NULL AFTER `order_tax` ;
 ---
@@ -2516,14 +2519,14 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 
 # Task #525 - USPS shipping module: User details SQL query
 # order email: text part had ugly HTML entities in it (e.g. &euro; )
-^ file downloads (paid downloads): reading and sending the file is now handled by a new function 
+^ file downloads (paid downloads): reading and sending the file is now handled by a new function
         (previously: readfile, now: vmReadFileChunked )
 # fixes for compatibility with Joomla 1.1.x, still maintaining backwards compatibility with Mambo
         - added $vmInputFilter to global declaration list in virtuemart.php
         - virtuemart module dealing with wrong module paths
         - ps_perm needed its own ACL manipulation methods
         - ps_session doesn't need to append "&Itemid=" in the backend
-        
+
 17-02-2006 soeren
 
 # When price field left empty and product had no price, a price record (0) was added.
@@ -2534,14 +2537,14 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 # Task #519 - Fatal error when adding a manufacturer
 # linkpoint class using wrong user information query (ps_linkpoint.php)
 # order list query error
-+ order and user list can be filtered by full name now 
++ order and user list can be filtered by full name now
         (before it was possible to search for the first name OR the last name, not both at the same time)
-        
+
 14-02-2006 soeren
 # Task #480 - Various Errors (one fatal) in vm_dtree.php
 # Task #514 - add to cart URL does not always work
 # Task #509 - Deleting manufacturer bug
-# Task #495 - Related products list doesn't update with new products: 
+# Task #495 - Related products list doesn't update with new products:
         now displaying 2000 related products instead of 1000.
 # Task #455 - Silent user registration not working ($mosConfig_useractivation issue)
 # Task #474 - Changing default flypage is broken
@@ -2565,7 +2568,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 + order list at user form! (Thanks to Qazazz! http://virtuemart.net/index.php?option=com_smf&Itemid=71&topic=14001.msg26715#msg26715)
 ^ FedEx: basic implementation of FedEx' service "Rate available Services" finished
         You can now use FedEx to fetch and list available shipping rates
-        
+
 [---- VirtueMart 1.0.2 released ----]
 
 19-01-2006 soeren
@@ -2599,7 +2602,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 # Task #432 - missing ST address in order_user_info when using default address
 # Task #431 - Pricelist doesn't show prices
 
- 
+
 09-01-2006 soeren
 ^ Payment method discounts/fees: Implemented a percentage discount...
         You can now charge the customer a certain percentage of the order total
@@ -2620,7 +2623,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 
 22-12-2005 soeren
 + new HelpTip from WebFx (http://webfx.eae.net/dhtml/helptip/helptip.html)
-        this javascript allows displaying details of products in a box that 
+        this javascript allows displaying details of products in a box that
         can be shown and hidden and doesnt vanish on mouse scrolling (used on CSV Upload)
         Usage: echo vmHelpToolTip( "My tip in the box", "The link text" );
 + step-by-step import on CSV Upload
@@ -2697,7 +2700,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 # wrong featured products links on storeadmin homepage
 # PDF output not working
 # calling html_entity_decode with an empty string crashed Apache and VM (class.phpinputfilter.php)
- 
+
 24-11-2005 soeren
 # setlocale( LC_NUMERIC, 'en' ) is used globally for ensuring that numbers are handled with decimal points
 # fixed a parser error in the random products module
@@ -2733,7 +2736,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 	into "/sql/virtuemart.installation.joomla.sql"
 	and "/sql/virtuemart.installation.mambo.sql"
 	for those users WHO DON'T EVEN LOOK INTO THE FILE THEY ARE UPLOADING IN PHPMYADMIN.
-	
+
 ^ updated the INSTALLATION.php to be able to distribute a "Manual Installation" package,
 	where it is added to as "README.txt"
 # authorize.net not getting the correct billto address
@@ -2770,7 +2773,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 # ps_checkout typos
 # "Empty Cart" - fixed a bug where the session id would have been changed on each page load
 	what made keeping items in the cart impossible
-	
+
 07-11-2005 soeren
 
 # task #252 (Japanese Yen Currency symbol affects attribute list line break)
@@ -2809,11 +2812,11 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 # wrong rounding of the subtotal field
 ! table structure changed!
 	#####
-	ALTER TABLE `jos_vm_orders` 
+	ALTER TABLE `jos_vm_orders`
 	CHANGE `order_subtotal` `order_subtotal` DECIMAL( 10, 5 ) NULL DEFAULT NULL;
 	#####
 ^ refreshed paypal code (removed tax field, charging amount=subtotal+tax and shipping now).
-	
+
 01-11-2005 soeren
 # category_flypage was 'flypage' regardless of the category setting (changed ps_DB::sf() )
 ^ changed coupon field to be displayed only on the payment method selection screen
@@ -2841,7 +2844,7 @@ because Joomla! 1.5 doesn't know a $mainframe->getCfg('live_site') value other t
 + added new class vmAbstractObject
 + added new handlePublishState function (class vmAbstractObject)
 ^ changed productPublish function to handlePublishState
-! Database table entry changed: 
+! Database table entry changed:
 ##############
 UPDATE `jos_vm_function` SET `function_name` = 'changePublishState',
 `function_class` = 'vmAbstractObject.class',
@@ -2872,7 +2875,7 @@ UPDATE `jos_vm_function` SET `function_name` = 'changePublishState',
 	The class and its child classes can be found in /classes/Log. VM uses a modified version
 	of the display class. Support for buffering and formatting depending on priority was added.
 
-	
+
 22-20-2005 soeren
 + added ability to change username + password through shop's billing form
 # waiting list extension printing errors...
@@ -2888,7 +2891,7 @@ UPDATE `jos_vm_function` SET `function_name` = 'changePublishState',
 	* renamed mShop_Mailer to vmMailer
 	* added the functions vmMail (similar to mosMail) and vmCreateMail( similar to mosCreateMail)
 	* line-ending fix for Mac & Win problems sending mail (Could not instatiate mail function)
-	
+
 # made labels for payment methods clickable
 # fixed Task #137 'unpublished products can become related products'
 
@@ -2916,24 +2919,24 @@ ALTER TABLE `mos_vm_order_item` CHANGE `product_item_price` `product_item_price`
 ^ added Credit Card details to order confirmation email
 ^ last 4 digits of a Credit Card number are masked by asterisks now (security!) in administration
 # fixed the PDF function (a file was missing php code), updated HTML2FPDF to version 3.02beta
-# prices from advanced attribute field didn't include shopper group discount, 
+# prices from advanced attribute field didn't include shopper group discount,
   when the price was set to a fixed price ( Color,blue,green[=45.00]; )
 # dtree module crashed - missing global $db declaration
 
 14-10-2005 soeren
 # On registration an error from the Joomla registration function would empty all fields
 + added new Version check link to admin section
-# keyword length is restricted to 50 from now on (security), prevents 10000 characters long keyword via URL 
+# keyword length is restricted to 50 from now on (security), prevents 10000 characters long keyword via URL
 
 12-10-2005 soeren
 # wz_tooltip.js is included now whenever mm_ToolTip was called
 ^ The registration & billto form have been completely rewritten
-	The are built out of a loop now, that runs through an array with all fields and 
-	marks required fields. This prepares the integration of	a form & field management 
+	The are built out of a loop now, that runs through an array with all fields and
+	marks required fields. This prepares the integration of	a form & field management
 	component! You can already now easily re-arrange the fields by changing their order.
 + Added complete JS validation to the registration / billto forms
 	Uses ps_userfield::printJS_formvalidation() to print a JS form validation function
-	
+
 11-10-2005 soeren
 # fixed a bug in the shopper-registration of a registered user
 + added SwitchCard support to CC numbers validation
@@ -3005,7 +3008,7 @@ ALTER TABLE `mos_vm_order_item` CHANGE `product_item_price` `product_item_price`
 - Removed many fields from the table jos_vm_modules which are not longer necessary (and were actually never needed)
 ! Updated all SQL files and the Installation script
 ! Beginning to change the code to not to use mos_users table for customer information
-! ### Database Structure Changes ### ! 
+! ### Database Structure Changes ### !
 	Details: /sql/UPDATE-SCRIPT_mambo-phpshop_1.2_stable-pl3_to_VirtueMart_1.0.sql
 
 ^ Changed all tooltips to use wz_tooltip, this gives always working tooltips - even on tabbed forms
@@ -3089,11 +3092,11 @@ ALTER TABLE `mos_vm_order_item` CHANGE `product_item_price` `product_item_price`
 =======
 26-08-2005 Zdenek Dvorak
 + Now is possible use EXTRA FIELDS in user_info. Just set variable _PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_X (where X is from 1 to 5)
-  in language file and new input field will be shown in user's billing and shipping address form and in order details. Size of 
+  in language file and new input field will be shown in user's billing and shipping address form and in order details. Size of
   extra field 1, 2 and 3 is 255 chars. Size of extra field 4 and 5 is one char and they are shown as input select field.
-  For reasonable using extra field 4 and 5 is needed change items of input select in functions list_extra_field_4 
+  For reasonable using extra field 4 and 5 is needed change items of input select in functions list_extra_field_4
   and list_extra_field_5 in file classes/ps_html.php.
-  You can change position of this fields in form in files: account.shipto.php account.billing.php account.order_details.php 
+  You can change position of this fields in form in files: account.shipto.php account.billing.php account.order_details.php
   admin.users.html.php admin.user_address_form.php
 + User info in order includes EXTRA FIELDS. ## REQUIRES a DATABASE UPDATE! ##
 ^ ## Database structure changed ##
@@ -3138,7 +3141,7 @@ ALTER TABLE `mos_vm_order_item` CHANGE `product_item_price` `product_item_price`
 ^ moved the SQL Queries out of the file shop.browse.php into shop_browse_queries.php
 
 01-08-2005 Zdenek Dvorak
-# Product Type: File mod_virtuemart.php, variable _PHPSHOP_PARAMETER_SEARCH was changed to _PHPSHOP_ADVANCED_PARAMETER_SEARCH 
+# Product Type: File mod_virtuemart.php, variable _PHPSHOP_PARAMETER_SEARCH was changed to _PHPSHOP_ADVANCED_PARAMETER_SEARCH
 
 26-07-2005
 # Tax Total wasn't calculated correctly when MULTIPLE_TAXRATES_ENABLE was set to 1 and a disount was applied
@@ -3160,7 +3163,7 @@ ALTER TABLE `mos_vm_order_item` CHANGE `product_item_price` `product_item_price`
 ! changed ToolTip in files ps_product_type.php, shop.parameter_search_form.php, product.product_form.php and
   product.product_type_parameter_form.php
   Now is used function mm_ToolTip.
-  
+
 ^ changed the PNG Fix to this solution: http://www.skyzyx.com/scripts/sleight.php
   (this doesn't let images disappear)
 

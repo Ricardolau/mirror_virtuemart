@@ -37,6 +37,7 @@ VirtueMart 1.2.x
 *************************************
 9.03.2009 Daniel jonsson
 ^ Moved function from ps_shopper_group to ps_shopper where it should be.
++ SKU hack in the related product field in ps_product. Added SKU search also.
 
 7. - 9.03.2009 Max Milbers
 # Editing Store information should now be ready for testing

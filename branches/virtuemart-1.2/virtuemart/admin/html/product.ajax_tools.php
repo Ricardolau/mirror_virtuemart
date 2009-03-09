@@ -1,4 +1,4 @@
-<?php 
+<?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 /**
 *
@@ -27,11 +27,11 @@ switch( $task ) {
 		$shopper_group_id = intval( vmGet( $_REQUEST, 'shopper_group_id', 5 ));
 		vmConnector::sendHeaderAndContent( 200, $ps_shopper_group->list_shopper_groups('shopper_group_id', $shopper_group_id) );
 		break;
-		
+
 	case 'getpriceforshoppergroup':
 		include_class('product');
 		$shopper_group_id = intval( vmGet( $_REQUEST, 'shopper_group_id', 5 ));
-		
+
 		$price = $ps_product->getPriceByShopperGroup( $product_id, $shopper_group_id );
 		$formatPrice = vmGet( $_REQUEST, 'formatPrice', 0 );
 		if( $formatPrice ) {
@@ -39,7 +39,7 @@ switch( $task ) {
 		}
 		vmConnector::sendHeaderAndContent( 200, @$price['product_price'] );
 		break;
-		
+
 	case 'getcurrencylist':
 		$currency_code = vmGet( $_REQUEST, 'product_currency', $vendor_currency );
 		if( strstr($currency_code, ',')) {
@@ -54,7 +54,7 @@ switch( $task ) {
 		if( $multiple ) { $multiple = 'multiple="multiple"'; } else { $multiple = ''; }
 		vmConnector::sendHeaderAndContent( 200, ps_html::getCurrencyList( $elementName, $currency_code, 'currency_code', '', $selectSize, $multiple ) );
 		break;
-	
+
 	case 'getpriceform':
 		include_class('shopper');
 		include_class('product');
@@ -80,39 +80,41 @@ switch( $task ) {
 		$content .= '</form>';
 		vmConnector::sendHeaderAndContent( 200, $content );
 		break;
-		
+
 	case 'getproducts':
 	if(!defined('SERVICES_JSON_SLICE'))
 		require_once(CLASSPATH . 'JSON.php');
 		$db =& new ps_DB;
 		$keyword = $db->getEscaped(vmGet( $_REQUEST, 'query' ));
-		$q = "SELECT SQL_CALC_FOUND_ROWS #__{vm}_product.product_id,category_name,product_name
-			FROM #__{vm}_product,#__{vm}_product_category_xref,#__{vm}_category ";
+		$q = "SELECT SQL_CALC_FOUND_ROWS #__{vm}_product.product_id, category_name, product_name, product_sku
+			FROM #__{vm}_product, #__{vm}_product_category_xref, #__{vm}_category ";
 		if( empty($_REQUEST['show_items']) ) {
 			$q .= "WHERE product_parent_id='0'
-					AND #__{vm}_product.product_id <> '$product_id' 
+					AND #__{vm}_product.product_id <> '$product_id'
 					AND #__{vm}_product.product_id=#__{vm}_product_category_xref.product_id
 					AND #__{vm}_product_category_xref.category_id=#__{vm}_category.category_id";
 		}
 		else {
-			$q .= "WHERE #__{vm}_product.product_id <> '$product_id' 
-					AND  #__{vm}_product.product_id=#__{vm}_product_category_xref.product_id 
+			$q .= "WHERE #__{vm}_product.product_id <> '$product_id'
+					AND  #__{vm}_product.product_id=#__{vm}_product_category_xref.product_id
 					AND #__{vm}_product_category_xref.category_id=#__{vm}_category.category_id";
 		}
 		if( $keyword ) {
 			$q .= ' AND (product_name LIKE \'%'.$keyword.'%\'';
-			$q .= ' OR category_name LIKE \'%'.$keyword.'%\')';
+			$q .= ' OR category_name LIKE \'%'.$keyword.'%\'';
+			$q .= ' OR product_sku LIKE \'%'.$keyword.'%\')';
 		}
 		$q .= ' ORDER BY category_name,#__{vm}_category.category_id,product_name';
 		$q .= ' LIMIT '.(int)$_REQUEST['start'].', '.(int)$_REQUEST['limit'];
 		$db->query( $q );
-		
+
 		while( $db->next_record() ) {
 			$response['products'][] = array( 'product_id' => $db->f("product_id"),
 									'category' => htmlspecialchars($db->f("category_name")),
-									'product' => htmlspecialchars($db->f("product_name"))
+									'product' => htmlspecialchars($db->f("product_name")),
+									'product_sku' => htmlspecialchars($db->f("product_sku"))
 									);
-			
+
 		}
 		$db->query('SELECT FOUND_ROWS() as num_rows');
 		$db->next_record();
@@ -122,7 +124,7 @@ switch( $task ) {
 		$json = new Services_JSON();
 		echo $json->encode( $response );
 		$vm_mainframe->close(true);
-		
+
 		break;
 	case 'getcategories':
 		require_once(CLASSPATH . 'JSON.php');
@@ -136,12 +138,12 @@ switch( $task ) {
 		$q .= ' ORDER BY category_name,#__{vm}_category.category_id';
 		$q .= ' LIMIT '.(int)$_REQUEST['start'].', '.(int)$_REQUEST['limit'];
 		$db->query( $q );
-		
+
 		while( $db->next_record() ) {
 			$response['categories'][] = array( 'category_id' => $db->f("category_id"),
 									'category' => htmlspecialchars($db->f("category_name"))
 									);
-			
+
 		}
 		$db->query('SELECT FOUND_ROWS() as num_rows');
 		$db->next_record();
@@ -151,7 +153,7 @@ switch( $task ) {
 		$json = new Services_JSON();
 		echo $json->encode( $response );
 		$vm_mainframe->close(true);
-		
+
 		break;
 	case 'getproducttypeform':
 		require_once( CLASSPATH.'ps_product_type.php');

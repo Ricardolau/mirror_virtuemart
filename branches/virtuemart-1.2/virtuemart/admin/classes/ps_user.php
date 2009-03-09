@@ -148,40 +148,33 @@ class ps_user {
 	function addUpdateUser(&$d) {
 		global $VM_LANG, $perm, $vmLogger;
 		
-		//Should be extended to a relation of the vendor_id in the order
-		$vendor_id = 1;
-
 		$db = new ps_DB;
 		$timestamp = time();
 
 		if (!ps_user::validate_add($d)) {
-			return false;
+			return 0;
 		}
 		
 		// Joomla User Information stuff
-		$uid = ps_user::saveJoomlaUser($d);
-//		if( vmIsJoomla( '1.5' ) ) {
-//			$uid = ps_user::save();
-//		} else {
-//			$uid = ps_user::saveUser( $d );
-//		}
-		if( empty( $uid ) && empty( $d['id'] ) ) {
+		(int)$uid = ps_user::saveJoomlaUser($d);
+		(int)$ruid = vmRequest::getInt('id');
+		if( empty( $uid ) && empty( $ruid ) ) {
 			$vmLogger->err( $VM_LANG->_('VM_USER_ADD_FAILED') );
-			return false;
+			return 0;
 		}
-		elseif( !empty( $d['id'])) {
-			$uid = $d['id'];
+		elseif( !empty( $ruid)) {
+			$uid = $ruid;
 		}
 		
 		// Get all fields which where shown to the user
 		$userFields = ps_userfield::getUserFields('account', false, '', true);
 		$skipFields = ps_userfield::getSkipFields();
 		
-		$user_id = intval( $d['id'] );
+//		$user_id = intval( $d['id'] );
 		
 		$add = true;
-		if(isset($user_id)){
-			$db->query( 'SELECT `user_id` FROM `#__{vm}_user_info` WHERE user_id=`' . $user_id . '`' );
+		if(isset($uid)){
+			$db->query( 'SELECT `user_id` FROM `#__{vm}_user_info` WHERE user_id="' . $uid . '"' );
 	    	$add = (bool)$db->num_rows();
 	  	}
 		
@@ -209,12 +202,12 @@ class ps_user {
 				$fields[$userField->name] = ps_userfield::prepareFieldDataSave( $userField->type, $userField->name, @$d[$userField->name]);
 			}
 		}
-		for ($x = 0; $x < sizeof($fields); ++$x){
-			$vmLogger->info("key: ".key($fields)."  value: ".current($fields));
-			next($fields);
-		}
-		
-		ps_user::setUserInfoWithEmail($fields,$user_id);
+//		for ($x = 0; $x < sizeof($d); ++$x){
+//			$vmLogger->info("key: ".key($d)."  value: ".current($d));
+//			next($d);
+//		}
+
+		ps_user::setUserInfoWithEmail($fields,$uid);
 		
 		if($add){
 			$_REQUEST['id'] = $_REQUEST['user_id'] = $uid;
@@ -223,7 +216,38 @@ class ps_user {
 		}else{
 			$vmLogger->info( $VM_LANG->_('VM_USER_UPDATED') );
 		}
-		return true;
+		
+		$vendor_id = vmRequest::getInt('vendor_id');
+		//If vendor is choosen assign the user to the vendor
+		if(isset($vendor_id)){
+			if($vendor_id === 0){
+				$q = 'DELETE FROM `#__{vm}_auth_user_vendor` where `user_id` = '.$uid;
+				if( $db->query($q) === false ) {
+					$GLOBALS['vmLogger']->err('addUpdateUser failed to delete vendor user relafor user_id '.$uid);
+//				}else{
+//					$GLOBALS['vmLogger']->err('User '.$uid.' is not longer assigned to vendor');	
+				}
+			}else{
+				$q = 'SELECT `user_id` FROM `#__{vm}_auth_user_vendor` WHERE `user_id` = '.$uid;
+				$add = (bool)$db->num_rows();
+				if( $add ) {
+					$action = 'INSERT';
+					$where = '';
+				}else{
+					$action = 'UPDATE';
+					$where = 'WHERE `user_id`='.$uid;
+				}
+				$vendorUser = array('user_id' => $uid, 'vendor_id' => $vendor_id);
+				
+				$GLOBALS['vmLogger']->err('User '.$uid.' $action '.$action.' $vendor_id '.$vendor_id);
+				$db->buildQuery( $action, '#__{vm}_auth_user_vendor', $vendorUser, $where );
+				if( $db->query() === false ) {
+					$GLOBALS['vmLogger']->err('addUpdateUser '.$action.' set user vendor relation failed for user_id '.$uid);
+					return 0;
+				}
+			}
+		}
+		return $uid;
 	}
 	/**
 	 * Adds a new User to the CMS and VirtueMart
@@ -303,15 +327,6 @@ class ps_user {
 		}
 		return $user_id;
 	}
-	
-//	function savej15(){
-//		
-//		ps_user::save();
-//	}
-//	
-//	function savej10(&$d){
-//		return saveUser( $d );
-//	}
 	
 	/**
         * Function to save User Information
@@ -726,12 +741,12 @@ class ps_user {
 	
 		$db = new ps_DB;
 		
-		//will probably removed later prevents form to overwrite existing data
+		//will probably removed later prevents form to overwrite existing data with NULL
 		//Unsetting a user information is not allowed, users should write in this case a dummy
 		$user_info = array_filter($user_info); 
 
 		//Insert/Update mail
-		if(array_key_exists('email',$user_info)){					
+		if(array_key_exists('email',$user_info)){
 			if(!empty($user_id)){ // UPDATES EXISTING USER
 				//Test if user exists in Joomla table
 				$where =  'WHERE `id`="'.$user_id.'"';
@@ -745,22 +760,13 @@ class ps_user {
 						$GLOBALS['vmLogger']->err('setUserInfoWithEmail UPDATE email failed for user_id '.$user_id);
 						return false;
 					}
-				}else{		//No joomla user exists					
-					if( vmIsJoomla( '1.5', '>=' ) ) {
-						$user_id = ps_user::save();
-					} else {
-						$user_id = ps_user::saveUser( $user_info );
-					}
+				}else{		//No joomla user exists			
+					$user_id = ps_user::saveJoomlaUser( $user_info );
 					$GLOBALS['vmLogger']->err('setUserInfoWithEmail VirtuemartUser exist but not Joomla; THIS IS NOT SUPPOSED TO HAPPEN no joomla user found NEW user_id '.$user_id);
 				}
 			}else{ // INSERT NEW USER
-				if( vmIsJoomla( '1.5', '>=' ) ) {
-					$user_id = ps_user::save();
-				} else {
-					$user_id = ps_user::saveUser( $user_info );
-				}
+				$user_id = ps_user::saveJoomlaUser( $user_info );
 				$GLOBALS['vmLogger']->err('setUserInfoWithEmail no Joomla/VM user exists; THIS IS NOT SUPPOSED TO HAPPEN no joomla user found NEW user_id '.$user_id);
-				
 			}				
 		}
 		unset ($user_info['email']);
@@ -769,7 +775,8 @@ class ps_user {
 			$whereAnd = "";
 		}else{
 			$action = 'UPDATE';
-			$whereAnd = 'WHERE `user_id`="'.$user_id.'"'.$and;
+			$whereAnd = 'WHERE `user_id`='.(int)$user_id . $and;
+//			$whereAnd = 'WHERE `user_id`="'.$user_id.'"'.$and;
 		}
 		
 		$db->buildQuery( $action, '#__{vm}_user_info', $user_info, $whereAnd );

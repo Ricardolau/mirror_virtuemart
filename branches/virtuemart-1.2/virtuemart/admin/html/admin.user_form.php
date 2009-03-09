@@ -30,12 +30,14 @@ $user_id = intval( vmGet( $_REQUEST, 'user_id' ) );
 $cid		= vmRequest::getVar( 'cid', array(0), '', 'array' );
 
 if( !empty($user_id) ) {
-    $q = "SELECT * FROM #__users AS u LEFT JOIN #__{vm}_user_info AS ui ON id=user_id ";
+    $q = "SELECT * FROM `#__users` AS `u` LEFT JOIN `#__{vm}_user_info` AS `ui`  ON `u`.`id`=`ui`.`user_id` ";
+    $q .= "LEFT JOIN `#__{vm}_auth_user_vendor` AS `au` ON `u`.`id`= `au`.`user_id` ";
     $q .= "WHERE id=$user_id ";
     $q .= "AND (address_type='BT' OR address_type IS NULL ) ";
     $q .= "AND gid <= ".$my->gid;
     $db->query($q);
 	$db->next_record();
+
 }
 
 // Set up the CMS General User Information
@@ -354,11 +356,12 @@ $tabs->endTab();
 $tabs->startTab( $VM_LANG->_('PHPSHOP_SHOPPER_FORM_LBL'), "third-page");
 
 ?>
+
 <fieldset style="width:48%;"><legend><?php echo $VM_LANG->_('PHPSHOP_SHOPPER_FORM_LBL') ?></legend>
 <table class="adminform">  
     <tr> 
         <td style="text-align:right;"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_VENDOR') ?>:</td>
-        <td><?php ps_vendor::list_vendor($db->f("vendor_id"));  ?></td>
+        <td><?php ps_vendor::list_vendor($db->f("vendor_id"),true);  ?></td>
     </tr>
 	<tr> 
         <td nowrap="nowrap" style="text-align:right;" width="38%" ><?php echo $VM_LANG->_('PHPSHOP_USER_FORM_PERMS') ?>:</td> 

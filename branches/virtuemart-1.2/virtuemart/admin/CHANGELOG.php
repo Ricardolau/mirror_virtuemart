@@ -35,6 +35,14 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+7. - 9.03.2009 Max Milbers
+# Editing Store information should now be ready for testing
+! Users can be assigned to vendors todo administrative tasks,... they can NOT change the shopinformation, is for handling orders/products will be worked out later
++ This users can be assigned due the useradministration in the adminlayout.
+# small fix in ps_product.
+^ Daniel Jonsson enhanced/cleaned up the ps_shopper_group
+^ small enhancemend in ps_user thanks to Daniel for the ideas
+1 Daniel enhanced/cleaned the htmlTools.class.php
 
 08.03.2009 aravot
 ^ Changed Parameters of Category to Parameters of Product

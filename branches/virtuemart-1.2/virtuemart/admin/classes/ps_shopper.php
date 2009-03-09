@@ -53,6 +53,7 @@ class ps_shopper {
 	function validate_add(&$d) {
 		
 		global $my, $perm, $vmLogger, $mosConfig_absolute_path, $auth;
+		$vmLogger->err( 'ps_shopper validate_add' );
 
 		$provided_required = true;
 		$missing = "";
@@ -299,6 +300,8 @@ class ps_shopper {
 		global $my, $auth, $mainframe, $mosConfig_absolute_path, $sess,
 		$VM_LANG, $vmLogger, $database, $mosConfig_useractivation;
 
+		$vmLogger->err( 'ps_shopper add' );
+
 		//TODO must depend on vendor of bill,.. or on vendorS of the bill 
 		$vendor_id =  1; //$_SESSION["ps_vendor_id"];
 		$hash_secret = "VirtueMartIsCool";
@@ -344,28 +347,27 @@ class ps_shopper {
 				
  			} else {
 				// Process the CMS registration
-				
+				require_once( CLASSPATH . 'ps_user.php' );
+//				$uid = ps_user::saveJoomlaUser($d);
 				if( vmIsJoomla( '1.5' ) ) {
-					$uid = ps_user::savej15();
-//					$uid = $this->register_save();
+//					$uid = ps_user::savej15();
+					$uid = $this->register_save();
 					if( empty($uid) ) {
 						return false;
 					}
 				} else {
-					$uid = ps_user::savej10($d);
-//					$uid = $this->saveRegistration();
+//					$uid = ps_user::savej10($d);
+					$uid = $this->saveRegistration();
 					if( empty($uid) ) {
 						return false;
 					}
 				}
 				$db->query('SELECT `id` FROM `#__users` WHERE `username`="'.$d['username'].'"');
 				$db->next_record();
-				$GLOBALS['vmLogger']->info('$uid '.$uid.' und username: '.$d['username'].' $db->f("id"): '.$db->f('id'));
 				
+				$GLOBALS['vmLogger']->info('$uid '.$uid.' und username: '.$d['username'].' $db->f("id"): '.$db->f('id'));
 				$uid = $db->f('id');
- 			}
-			
-			
+ 			}				
 		}
 		else {
 			$uid = $my->id;
@@ -527,6 +529,8 @@ class ps_shopper {
 		global $database, $acl, $vmLogger, $mosConfig_useractivation, 
 		$mosConfig_allowUserRegistration, $mosConfig_live_site;
 
+		$vmLogger->err( 'ps_shopper saveRegistration j 1.0' );
+		
 		if ($mosConfig_allowUserRegistration=='0') {
 			mosNotAuth();
 			return false;
@@ -670,7 +674,7 @@ class ps_shopper {
 	*/
 	function update(&$d) {
 		global $my, $perm, $sess, $vmLogger, $page;
-
+$vmLogger->err( 'ps_shopper update' );
 		$auth = $_SESSION['auth'];
 		
 		$vendor_id = 1;

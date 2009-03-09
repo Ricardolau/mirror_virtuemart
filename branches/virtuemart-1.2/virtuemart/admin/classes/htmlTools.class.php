@@ -25,40 +25,40 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * require_once( CLASSPATH . "htmlTools.class.php" );
 * // Create the Page Navigation
 * $pageNav = new vmPageNav( $num_rows, $limitstart, $limit );
-* 
+*
 * // Create the List Object with page navigation
 * $listObj = new listFactory( $pageNav );
-* 
+*
 * // print out the search field and a list heading
 * $listObj->writeSearchHeader($VM_LANG->_('PHPSHOP_PRODUCT_LIST_LBL'), IMAGEURL."ps_image/product_code.png", $modulename, "product_list");
-* 
+*
 * // start the list table
 * $listObj->startTable();
-* 
+*
 * // these are the columns in the table
-* $columns = Array(  "#" => "width=\"20\"", 
-* 					"<input type=\"checkbox\" name=\"toggle\" value=\"\" onclick=\"checkAll(".$num_rows.")\" />" => "width=\"20\"",* 
+* $columns = Array(  "#" => "width=\"20\"",
+* 					"<input type=\"checkbox\" name=\"toggle\" value=\"\" onclick=\"checkAll(".$num_rows.")\" />" => "width=\"20\"",*
 * 					$VM_LANG->_('PHPSHOP_PRODUCT_LIST_NAME') => '',
 * 					$VM_LANG->_('PHPSHOP_PRODUCT_LIST_SKU') => '',
 * 					_E_REMOVE => "width=\"5%\""
 * 				);
 * $listObj->writeTableHeader( $columns );
-* 	
+*
 * 	###BEGIN LOOPING THROUGH RECORDS ##########
-* 	
+*
 * 	$listObj->newRow();
-* 	
+*
 * 	// The row number
 * 	$listObj->addCell( $pageNav->rowNumber( $i ) );
-* 	
+*
 * 	// The Checkbox
 * 	$listObj->addCell( mosHTML::idBox( $i, $db->f("product_id"), false, "product_id" ) );
 * 	...
 * 	###FINISH THE RECENT LOOP########
 * 	$listObj->addCell( $ps_html->deleteButton( "product_id", $db->f("product_id"), "productDelete", $keyword, $limitstart ) );
-* 
+*
 * 	$i++;
-* 			
+*
 * 	####
 * $listObj->writeTable();
 * $listObj->endTable();
@@ -84,7 +84,7 @@ class listFactory {
 	var $pageNav;
 	/** @var int The smallest number of results that shows the page navigation */
 	var $_resultsToShowPageNav = 6;
-	
+
 	function listFactory( $pageNav=null ) {
 		if( defined('_VM_IS_BACKEND')) {
 			$this->alternateColors = array( 0 => 'row0', 1 => 'row1' );
@@ -94,7 +94,7 @@ class listFactory {
 		}
 		$this->pageNav = $pageNav;
 	}
-	
+
 	/**
 	* Writes the start of the button bar table
 	*/
@@ -143,27 +143,27 @@ class listFactory {
 		if( $attributes != '' ) {
 			$this->cells[$this->y]['attributes'] = $attributes;
 		}
-		
+
 	}
-	
+
 	function addCell( $data, $attributes="" ) {
-	
+
 		$this->cells[$this->y][$this->x]["data"] = $data;
 		$this->cells[$this->y][$this->x]["attributes"] = $attributes;
-		
+
 		$this->x++;
 	}
-	
-	/** 
+
+	/**
 	* Writes a table row with data
-	* Array 
+	* Array
 	* $row[0]["data"] = "Cell Value";
 	* $row[0]["attributes"] = "align=\"center\"";
 	*/
 	function writeTable() {
 		if( !is_array( $this->cells ))
 			return false;
-		
+
 		else {
 			$i = 0;
 			foreach( $this->cells as $row ) {
@@ -190,11 +190,11 @@ class listFactory {
 			}
 		}
 	}
-	
+
 	function endTable() {
 		echo "</table>\n";
 	}
-	
+
 	/**
 	* This creates a header above the list table, containing a search box
 	* @param The Label for the list (will be used as list heading!)
@@ -203,9 +203,9 @@ class listFactory {
 	* @param Additional varaibles to include as hidden input fields
 	*/
 	function writeSearchHeader( $title, $image="", $modulename, $pagename) {
-	
+
 		global $sess, $keyword, $VM_LANG;
-	  
+
 		if( !empty( $keyword )) {
 			$keyword = urldecode( $keyword );
 		}
@@ -214,10 +214,10 @@ class listFactory {
 		}
 		$search_date = vmGet( $_REQUEST, 'search_date', null);
 		$show = vmGet( $_REQUEST, "show", "" );
-		
+
 		$header = '<a name="listheader"></a>';
 		$header .= '<form name="adminForm" action="'.$_SERVER['PHP_SELF'].'" method="post">
-					
+
 					<input type="hidden" name="option" value="'.VM_COMPONENT_NAME.'" />
 					<input type="hidden" name="page" value="'. $modulename . '.' . $pagename . '" />
 					<input type="hidden" name="task" value="" />
@@ -237,23 +237,23 @@ class listFactory {
 				$header .= '<td><div class="header" '.$style.'><h2 style="margin: 0px;">'.$title.'</h2></div></td>'."\n";
 				$GLOBALS['vm_mainframe']->setPageTitle( $title );
 			}
-		
+
 			if( !empty( $pagename ))
 				$header .= '<td width="20%">
 				<input class="inputbox" type="text" size="25" name="keyword" value="'.shopMakeHtmlSafe($keyword).'" />
 				<input class="button" type="submit" name="search" value="'.$VM_LANG->_('PHPSHOP_SEARCH_TITLE').'" />
 				</td>';
-			
+
 			$header .= "\n</tr></table><br style=\"clear:both;\" />\n";
 		}
-		
+
 		if ( !empty($search_date) ) // Changed search by date
 			$header .= '<input type="hidden" name="search_date" value="'.$search_date.'" />';
-		
+
 		if( !empty($show) ) {
 			$header .= "<input type=\"hidden\" name=\"show\" value=\"$show\" />\n";
 		}
-		
+
 		echo $header;
 	}
 
@@ -268,14 +268,14 @@ class listFactory {
 		$footer= "";
 		if( $this->pageNav !== null ) {
 			if( $this->_resultsToShowPageNav <= $this->pageNav->total ) {
-		
+
 				$footer = $this->pageNav->getListFooter();
 			}
 		}
 		else {
 			$footer = "";
 		}
-			
+
 		if(!empty( $extra )) {
 			$extrafields = explode("&", $extra);
 			array_shift($extrafields);
@@ -285,21 +285,21 @@ class listFactory {
 			}
 		}
 		$footer .= '</form>';
-		
+
 		echo $footer;
 	}
 }
 /**
 * This is the class for creating regular forms used in VirtueMart
 *
-* Usage: 
+* Usage:
 * //First create the object and let it print a form heading
 * $formObj = &new formFactory( "My Form" );
 * //Then Start the form
 * $formObj->startForm();
 * // Add necessary hidden fields
 * $formObj->hiddenField( 'country_id', $country_id );
-* 
+*
 * // Write your form with mixed tags and text fields
 * // and finally close the form:
 * $formObj->finishForm( $funcname, $modulename.'.country_list' );
@@ -310,7 +310,7 @@ class listFactory {
 */
 class formFactory {
 	/**
-	* Constructor 
+	* Constructor
 	* Prints  the Form Heading if provided
 	*/
 	function formFactory( $title = '' ) {
@@ -319,14 +319,14 @@ class formFactory {
 			$GLOBALS['vm_mainframe']->setPageTitle( $title );
 		}
 	}
-	/** 
+	/**
 	* Writes the form start tag
 	*/
 	function startForm( $formname = 'adminForm', $extra = "" ) {
 		$action = (!defined('_VM_IS_BACKEND' ) && !empty($_REQUEST['next_page'])) ? 'index.php' : $_SERVER['PHP_SELF'];
 		echo '<form method="post" action="'. $action .'" name="'.$formname.'" '.$extra.' target="_self">';
 	}
-	
+
 	function hiddenField( $name, $value ) {
 		echo ' <input type="hidden" name="'.$name.'" value="'.shopMakeHtmlSafe($value).'" />
 		';
@@ -337,7 +337,7 @@ class formFactory {
 	*/
 	function finishForm( $func, $page='' ) {
 		$no_menu = vmRequest::getInt('no_menu');
-		
+
 		$html = '
 		<input type="hidden" name="vmtoken" value="'.vmSpoofValue($GLOBALS['sess']->getSessionId()).'" />
 		<input type="hidden" name="func" value="'.$func.'" />
@@ -350,14 +350,14 @@ class formFactory {
 		$html .= '<input type="hidden" name="no_menu" value="'.$no_menu.'" />';
 		$html .= '<input type="hidden" name="no_toolbar" value="'.vmGet($_REQUEST,'no_toolbar',0).'" />';
 		$html .= '<input type="hidden" name="only_page" value="'.vmGet($_REQUEST,'only_page',0).'" />';
-		
+
         if( defined( "_VM_IS_BACKEND") || @$_REQUEST['pshop_mode'] == "admin"  ) {
         	$html .= '<input type="hidden" name="pshop_admin" value="admin" />';
         }
         $html .= '
 		</form>
 		';
-		
+
 		echo $html;
 	}
 }
@@ -372,18 +372,18 @@ class formFactory {
 class vmTabPanel {
 	/** @var int Use cookies */
 	var $useCookies = 0;
-    
+
     /** @var string Panel ID */
     var $panel_id;
     var $tabs;
-    
+
 	/**
 	* Constructor
 	* Includes files needed for displaying tabs and sets cookie options
 	* @param int useCookies, if set to 1 cookie will hold last used tab between page refreshes
 	* @param int show_js, if set to 1 the Javascript Link and Stylesheet will not be printed
 	*/
-	function vmTabPanel($useCookies, $show_js, $panel_id) {		
+	function vmTabPanel($useCookies, $show_js, $panel_id) {
 		vmCommonHTML::loadExtjs();
         $this->useCookies = $useCookies;
         $this->panel_id = $panel_id;
@@ -394,7 +394,7 @@ class vmTabPanel {
 	* creates a tab pane and creates JS obj
 	* @param string The Tab Pane Name
 	*/
-	function startPane($id) {		
+	function startPane($id) {
 		echo '<div class="tab-page" id="'.$id.'">';
 		$this->pane_id = $id;
 	}
@@ -416,7 +416,7 @@ class vmTabPanel {
 		autoScroll: true,
 		autoWidth: true,
 		items: [";
-		
+
 		$num = 0;
 		$numTabs = count( $this->tabs );
 		foreach ( $this->tabs as $id => $title ) {
@@ -430,21 +430,21 @@ class vmTabPanel {
 		});";
 		reset($this->tabs);
 		if( $this->useCookies ) {
-			$scripttag .= "tabs_{$this->panel_id}.activate(state.get('{$this->panel_id}-active', '".key($this->tabs)."'));"; 
+			$scripttag .= "tabs_{$this->panel_id}.activate(state.get('{$this->panel_id}-active', '".key($this->tabs)."'));";
 		} else {
 			$scripttag .= "tabs_{$this->panel_id}.activate( '".key($this->tabs)."'); ";
 		}
-		
+
 		if( $this->useCookies ) {
 			$scripttag .= "
-	Ext.state.Manager.setProvider(new Ext.state.CookieProvider());	
+	Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 	tabs_{$this->panel_id}.on('tabchange', function(tp, tab){
      state.set('{$this->panel_id}-active', tab.id);
      });
 	";
-			
+
 		}
-		
+
 		$scripttag .= "};
 	if( Ext.isIE ) {
 	Ext.EventManager.addListener( window, 'load', tabinit_{$this->panel_id} );
@@ -452,9 +452,9 @@ class vmTabPanel {
 else {
 	Ext.onReady( tabinit_{$this->panel_id} );
 }
-	
+
 		";
-		
+
 		echo vmCommonHTML::scriptTag('', $scripttag );
 
 	}
@@ -477,7 +477,7 @@ else {
 	}
 }
 class mShopTabs extends vmTabPanel { }
-	
+
 class vmMooAjax {
 
 	/**
@@ -492,12 +492,12 @@ class vmMooAjax {
 	function writeAjaxUpdater( $url, $updateId, $onComplete, $method='post', $vmDirs=array(), $varName='' ) {
 		echo vmMooAjax::getAjaxUpdater($url, $updateId, $onComplete, $methods, $vmDirs, $varName);
 	}
-	
+
 	function getAjaxUpdater( $url, $updateId, $onComplete, $method='post', $vmDirs=array(), $varName='' ) {
 		global $mosConfig_live_site;
-		
+
 		vmCommonHTML::loadMooTools();
-		
+
 		$path = defined('_VM_IS_BACKEND' ) ? '/administrator/' : '/';
 		$vmDirs['method'] = $method;
 		$html = '';
@@ -525,7 +525,7 @@ class vmMooAjax {
 		}
 		$html .= '
 		});';
-		
+
 		return $html;
 	}
 }
@@ -547,7 +547,7 @@ class vmCommonHTML {
 	 * @return string
 	 */
 	function hyperLink( $link, $text, $target='', $title='', $attributes='' ) {
-	
+
 		if( $target ) {
 			$target = ' target="'.$target.'"';
 		}
@@ -572,20 +572,20 @@ class vmCommonHTML {
 	 * @return string
 	 */
 	function imageTag( $src, $alt='', $align='', $height='', $width='', $title='', $border='0', $attributes='' ) {
-		
+
 		if( $align ) { $align = ' align="'.$align.'"'; }
 		if( $height ) { $height = ' height="'.$height.'"'; }
 		if( $width ) { $width = ' width="'.$width.'"'; }
 		if( $title ) { $title = ' title="'.$title.'"'; }
 		if( $attributes ) {	$attributes = ' ' . $attributes; }
-		
+
 		if( strpos($attributes, 'border=')===false) {
 			$border = ' border="'.$border.'"';
 		} // Prevent doubled attributes
 		if( strpos($attributes, 'alt=')===false) {
 			$alt = ' alt="'.$alt.'"';
 		}
-		
+
 		return '<img src="'.$src.'"'.$alt.$align.$title.$height.$width.$border.$attributes.' />';
 	}
 	/**
@@ -605,11 +605,11 @@ class vmCommonHTML {
 			$html .= '<li>' . $item . "</li>\n";
 		}
 		$html  .= '</' . $type .">\n";
-		
+
 		return $html;
 	}
 	/**
-	 * Returns a script tag. The referenced script will be fetched by a 
+	 * Returns a script tag. The referenced script will be fetched by a
 	 * PHP script called "fetchscript.php"
 	 * That allows use gzip compression, so bigger Javascripts don't steal our bandwith
 	 *
@@ -620,7 +620,7 @@ class vmCommonHTML {
 	function scriptTag( $src='', $content = '' ) {
 		global $mosConfig_gzip, $mosConfig_live_site;
 		if( $src == '' && $content == '' ) return;
-		
+
 		if( $src ) {
 			if( isset( $_REQUEST['usefetchscript'])) {
 				$use_fetchscript = vmRequest::getBool( 'usefetchscript', 1 );
@@ -628,9 +628,9 @@ class vmCommonHTML {
 			} else {
 				$use_fetchscript = vmRequest::getBool( 'usefetchscript', 1, 'session' );
 			}
-						
+
 			$url_params = '';
-			
+
 			if( stristr( $src, 'com_virtuemart' ) && !stristr( $src, '.php' ) && $use_fetchscript ) {
 				$urlpos = strpos( $src, '?' );
 				if( $urlpos ) {
@@ -643,14 +643,14 @@ class vmCommonHTML {
 				$base_source = str_replace( 'components/com_virtuemart', '', $base_source);
 				$src = $mosConfig_live_site.'/components/com_virtuemart/fetchscript.php?gzip='.$mosConfig_gzip.'&amp;subdir[0]='.dirname( $base_source ) . '&amp;file[0]=' . basename( $src );
 			}
-			
+
 			return '<script src="'.$src.@$url_params.'" type="text/javascript"></script>'."\n";
 		}
-		
+
 		if( $content ) {
 			return "<script type=\"text/javascript\">\n".$content."\n</script>\n";
 		}
-		
+
 	}
 	/**
 	 * Returns a link tag
@@ -675,7 +675,7 @@ class vmCommonHTML {
 			$href = $mosConfig_live_site.'/components/com_virtuemart/fetchscript.php?gzip='.$mosConfig_gzip.'&amp;subdir[0]='.dirname( $base_href ) . '&amp;file[0]=' . basename( $href );
 		}
 		return '<link type="'.$type.'" href="'.$href.'" rel="'.$rel.'"'.(empty($media)?'':' media="'.$media.'"').' />'."\n";
-		
+
 	}
 	/**
 	* Writes a "Save Ordering" Button
@@ -688,7 +688,7 @@ class vmCommonHTML {
 				<img src="'.$mosConfig_live_site.'/administrator/images/filesave.png" border="0" width="16" height="16" alt="'.$VM_LANG->_('VM_SORT_SAVE_ORDER').'" /></a>';
 		$html .= '<a href="javascript: if( confirm( \''.addslashes($VM_LANG->_('VM_SORT_ALPHA_CONFIRM')).'\')) { document.adminForm.func.value = \''.$funcname.'\'; document.adminForm.task.value=\'sort_alphabetically\'; document.adminForm.submit(); }">
 				<img src="'.IMAGEURL.'/ps_image/sort_a-z.gif" border="0" width="16" height="16" alt="'.$VM_LANG->_('VM_SORT_ALPHA').'" /></a>';
-		
+
 		return $html;
 	}
 	function getOrderingField( $ordering ) {
@@ -696,7 +696,7 @@ class vmCommonHTML {
 		return '<input type="text" name="order[]" size="5" value="'. $ordering .'" class="text_area" style="text-align: center" />';
 
 	}
-	
+
 	function getYesNoIcon( $condition, $pos_alt = "Published", $neg_alt = "Unpublished" ) {
 		global $mosConfig_live_site;
 		if( $condition===true || strtoupper( $condition ) == "Y" || $condition == '1' ) {
@@ -720,6 +720,7 @@ class vmCommonHTML {
 			return '<input type="checkbox" id="cb'.$rowNum.'" name="'.$name.'[]" value="'.$recId.'" onclick="isChecked(this.checked);" />';
 		}
 	}
+
 	/**
 	 * Manipulates an array and fills the $index with selected="selected"
 	 * Indexes within $disableArr will be filled with disabled="disabled"
@@ -743,11 +744,11 @@ class vmCommonHTML {
 			}
 		}
 	}
-	
+
 	/**
 	 * tests for template/default pathway arrow separator
 	 * @author FTW Stroker
-	 * @static 
+	 * @static
 	 * @return string The separator for the pathway breadcrumbs
 	 */
 	function pathway_separator() {
@@ -769,7 +770,7 @@ class vmCommonHTML {
 	/**
 	 * Function to include the MooTools JS scripts in the HTML document
 	 * http://mootools.net
-	 * @static 
+	 * @static
 	 * @since VirtueMart 1.1.0
 	 *
 	 */
@@ -786,7 +787,7 @@ class vmCommonHTML {
 
 			define ( "_MOOTOOLS_LOADED", "1" );
 		}
-		
+
 	}
 	/**
 	 * Function to load the javascript and stylsheet files for Slimbox,
@@ -798,15 +799,15 @@ class vmCommonHTML {
 	function loadSlimBox( ) {
 		global $mosConfig_live_site, $vm_mainframe;
 		if( !defined( '_SLIMBOX_LOADED' )) {
-			
+
 			vmCommonHTML::loadMooTools();
-			
+
 			$vm_mainframe->addScriptDeclaration( 'var slimboxurl = \''.$mosConfig_live_site.'/components/'. VM_COMPONENT_NAME .'/js/slimbox/\';');
 			$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/slimbox/js/slimbox.js' );
 			$vm_mainframe->addStyleSheet( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/slimbox/css/slimbox.css' );
-					
+
 			define ( '_SLIMBOX_LOADED', '1' );
-		}	
+		}
 	}
 
 	/**
@@ -844,7 +845,7 @@ class vmCommonHTML {
 
 	/**
 	* Loads all necessary script files for Tigra Tree Menu
-	* @static 
+	* @static
 	* @since VirtueMart 1.1.0
 	*/
 	function loadTigraTree( ) {
@@ -873,7 +874,7 @@ class vmCommonHTML {
 		global $mosConfig_live_site, $vm_mainframe;
 		vmCommonHTML::loadYUI();
 		if( !defined( "_EXTJS_LOADED" )) {
-			
+
 			$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/extjs2/ext-yui-adapter.js' );
 			$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/extjs2/ext-all.js' );
 			$vm_mainframe->addScriptDeclaration( 'Ext.BLANK_IMAGE_URL = "'.$mosConfig_live_site.'/components/'. VM_COMPONENT_NAME .'/js/extjs2/images/default/s.gif";' );
@@ -893,35 +894,35 @@ class vmCommonHTML {
 	 * @return string
 	 */
 	function getLightboxImageLink( $image_link, $text, $title='', $image_group='' ) {
-		
-		vmCommonHTML::loadSlimBox();		
-		
+
+		vmCommonHTML::loadSlimBox();
+
 		if( $image_group ) {
 			$image_group = '['.$image_group.']';
 		}
 		$link = vmCommonHTML::hyperLink( $image_link, $text, '', $title, 'rel="lightbox'.$image_group.'"' );
-		
+
 		return $link;
 	}
-	
+
 	function getGreyboxPopUpLink( $url, $text, $target='_blank', $title='', $attributes='', $height=500, $width=600, $no_js_url='' ) {
 		vmCommonHTML::loadGreybox();
 		if( $no_js_url == '') {
 			$no_js_url = $url;
 		}
 		$link = vmCommonHTML::hyperLink( $no_js_url, $text, $target, $title, $attributes.' onclick="try{ if( !parent.GB ) return GB_showCenter(\''.$title.'\', \''.$url.'\', '.$height.', '.$width.');} catch(e) { }"' );
-		
+
 		return $link;
 	}
 	/**
-	 * Returns a div element of the class "shop_error" 
+	 * Returns a div element of the class "shop_error"
 	 * containing $msg to print out an error
 	 *
 	 * @param string $msg
 	 * @return string HTML code
 	 */
 	function getInfoField( $msg ) {
-		
+
 		$html = '<div class="shop_info">'.$msg.'</div>';
 		return $html;
 	}
@@ -935,8 +936,8 @@ class vmCommonHTML {
 	function getSuccessIndicator( $success, $vmDisplayLogger ) { /*@MWM1*/
 
 		echo '<div id="successIndicator" style="display:none;">';
-		if( $success) { 
-			echo 'Success'; 
+		if( $success) {
+			echo 'Success';
 		}
 		else {
 			echo 'Failure';
@@ -945,17 +946,17 @@ class vmCommonHTML {
 		echo '<div id="vmLogResult">';
 		$vmDisplayLogger->printLog(); /*@MWM1: Log/Debug enhancements*/
 		echo '</div>';
-		
+
 	}
 	/**
-	 * Returns a div element of the class "shop_error" 
+	 * Returns a div element of the class "shop_error"
 	 * containing $msg to print out an error
 	 *
 	 * @param string $msg
 	 * @return string HTML code
 	 */
 	function getErrorField( $msg ) {
-		
+
 		$html = '<div class="shop_error">'.$msg.'</div>';
 		return $html;
 	}
@@ -996,7 +997,7 @@ class vmCommonHTML {
 			return vmPopupLink($link, $text, 640, 480, '_blank', $VM_LANG->_('CMN_EMAIL'), 'screenX=100,screenY=200');
 		}
 	}
-	
+
 	function PrintIcon( $link='', $use_icon=true, $add_text='' ) {
 		global $VM_LANG, $mosConfig_live_site, $mosConfig_absolute_path, $cur_template, $Itemid;
 		if ( @VM_SHOW_PRINTICON == '1' ) {
@@ -1024,7 +1025,7 @@ class vmCommonHTML {
 				return vmPopupLink($link, $text, 640, 480, '_blank', $VM_LANG->_('CMN_PRINT'));
 			}
 		}
-		
+
 	}
 	/**
 	* Checks to see if an image exists in the current templates image directory
@@ -1086,10 +1087,10 @@ class vmCommonHTML {
 				$row = new stdClass();
 				$row->text = $text;
 				$params = new mosParameters('');
-				
+
 				$_MAMBOTS->trigger( 'onPrepareContent', array( &$row, &$params, 0 ), true );
 				$text = $row->text;
-				
+
 			} elseif( vmIsJoomla('1.5')) {
 				$params 	   =& $GLOBALS['mainframe']->getParams('com_content');
 				$dispatcher	   =& JDispatcher::getInstance();
@@ -1101,7 +1102,7 @@ class vmCommonHTML {
 			}
 		}
 		return $text;
-		
+
 	}
 
         /**
@@ -1168,17 +1169,17 @@ class vmCommonHTML {
 				vmCommonHTML::makeOption( '0', $no ),
 				vmCommonHTML::makeOption( '1', $yes )
 			);
-	
+
 			return vmCommonHTML::radioList( $arr, $tag_name, $tag_attribs, $key, $text, $selected );
 		}
-		
+
 		function makeOption( $value, $text='', $value_name='value', $text_name='text' ) {
 			$obj = new stdClass;
 			$obj->$value_name = $value;
 			$obj->$text_name = trim( $text ) ? $text : $value;
 			return $obj;
 		}
-		
+
         function selectList( $arr, $tag_name, $tag_attribs, $key, $text, $selected, $required=0 ) {
                 global $VM_LANG;
                 reset( $arr );
@@ -1289,7 +1290,7 @@ class vmCommonHTML {
                 }
                 return $return;
 	}
-	
+
 
 	// end class vmCommonHTML, thanks folks!
 }
@@ -1308,13 +1309,13 @@ class vmCommonHTML {
  */
 function vmToolTip( $tooltip, $title='Tip!', $image = "{mosConfig_live_site}/images/M_images/con_info.png", $width='350', $text='', $href='#', $link=false ) {
 	global $mosConfig_live_site, $database;
-	
+
 	defined( 'vmToolTipCalled') or define('vmToolTipCalled', 1);
-	
+
 	$tooltip = str_replace('"','&quot;',$tooltip);
 	$tooltip = $database->getEscaped($tooltip);
 	$tooltip = str_replace("&#039;","\&#039;",$tooltip);
-	
+
 	if ( !empty($width) ) {
 		$width = ',WIDTH, -'.$width;
 	}
@@ -1325,7 +1326,7 @@ function vmToolTip( $tooltip, $title='Tip!', $image = "{mosConfig_live_site}/ima
 	if( $image != '' ) {
 		$text 	= vmCommonHTML::imageTag( $image, '', 'top' ). '&nbsp;'.$text;
 	}
-	
+
 	$style = 'style="text-decoration: none; color: #333;"';
 	if ( $href ) {
 		$style = '';
@@ -1339,7 +1340,7 @@ function vmToolTip( $tooltip, $title='Tip!', $image = "{mosConfig_live_site}/ima
 	return $tip;
 }
 /**
- * @deprecated 
+ * @deprecated
  */
 function mm_ToolTip( $tooltip, $title='Tip!', $image = "{mosConfig_live_site}/images/M_images/con_info.png", $width='', $text='', $href='#', $link=false ) { return vmToolTip( $tooltip, $title, $image, $width, $text, $href, $link ); }
 
@@ -1357,10 +1358,10 @@ function vmHelpToolTip( $tip, $linktext = ' [?] ' ) {
                         <link type="text/css" rel="stylesheet" href="'.$mosConfig_live_site.'/components/com_virtuemart/js/helptip/helptip.css" />';
                 define('vmHelpToolTipCalled', 1);
         }
-        $tip = str_replace( "\n", "", 
-                        str_replace( "&lt;", "<", 
-                        str_replace( "&gt;", ">", 
-                        str_replace( "&amp;", "&", 
+        $tip = str_replace( "\n", "",
+                        str_replace( "&lt;", "<",
+                        str_replace( "&gt;", ">",
+                        str_replace( "&amp;", "&",
                         @htmlentities( $tip, ENT_QUOTES )))));
         $varname = 'a'.md5( $tip );
         echo '<script type="text/javascript">//<![CDATA[
@@ -1392,7 +1393,7 @@ function shopMakeHtmlSafe( $string, $quote_style='ENT_QUOTES', $use_entities=fal
 }
 
 function mm_showMyFileName( $filename ) {
-    
+
     if (vmShouldDebug()) { /*@MWM1: Logging/Debugging Enhancements */
         echo vmToolTip( '<div class=\'inputbox\'>Begin of File: '. wordwrap( $filename, 70, '<br />', true ).'</div>');
     }
@@ -1433,16 +1434,28 @@ function vmPopupLink( $link, $text, $popupWidth=640, $popupHeight=480, $target='
 		$windowAttributes = ','.$windowAttributes;
 	}
 	return vmCommonHTML::hyperLink( $link, $text, '', $title, "onclick=\"void window.open('$link', '$target', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=$popupWidth,height=$popupHeight,directories=no,location=no".$windowAttributes."');return false;\"" );
-	
+
 }
+
+/**
+ * Removes the empty lines from a address_detail string.
+ *
+ * @param string $string
+ * @return string
+ */
+function vmRemoveEmptyLines( $string ) {
+	return preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $string);
+}
+
 /**
  * Creates a formatted address using the store address format
  *
  * @param array $address_details
+ * @return string
  */
-function vmFormatAddress( $address_details, $use_html=false ) {
+function vmFormatAddress( $address_details, $use_html=false, $removeEmptyLines=false ) {
 	global $vendor_address_format;
-	
+
 	$store_address = str_replace( '{storename}', @$address_details['name'], $vendor_address_format );
 	$store_address = str_replace( '{address_1}', @$address_details['address_1'], $store_address );
 	$store_address = str_replace( '{address_2}', @$address_details['address_2'], $store_address );
@@ -1455,7 +1468,11 @@ function vmFormatAddress( $address_details, $use_html=false ) {
 	$store_address = str_replace( '{email}', @$address_details['email'], $store_address );
 	$store_address = str_replace( '{fax}', @$address_details['fax'], $store_address );
 	$store_address = str_replace( '{url}', @$address_details['url'], $store_address );
-	
+
+	if( $removeEmptyLines ) {
+		$store_address = vmRemoveEmptyLines( $store_address );
+	}
+
 	if( $use_html ) {
 		$store_address = nl2br( $store_address );
 	} else {
@@ -1463,4 +1480,5 @@ function vmFormatAddress( $address_details, $use_html=false ) {
 	}
 	return $store_address;
 }
+
 ?>

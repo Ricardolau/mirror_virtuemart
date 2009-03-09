@@ -1613,8 +1613,8 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 				$shopper_group_id = $overrideShopperGroup;
 				$shopper_group_discount = 0;
 			}
-			
-			ps_shopper_group::makeDefaultShopperGroupInfo($vendor_id);
+			$shopper_group = new ps_shopper_group;
+			$shopper_group->makeDefaultShopperGroupInfo($vendor_id);
 			
 			// Get the product_parent_id for this product/item
 			$product_parent_id = $this->get_field($product_id, "product_parent_id");

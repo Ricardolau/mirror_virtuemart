@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+08.03.2009 macallf
+^ Changed product_types to template control. Template file product_types.tpl.php added to /common
+
 08.03.2009 aravot
 ^ Changed Parameters of Category to Parameters of Product
 

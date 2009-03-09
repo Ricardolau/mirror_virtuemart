@@ -666,7 +666,7 @@ class vm_ps_product_files extends vmAbstractObject {
 		if(!$db->next_record()) {
 			$db->query("SELECT product_parent_id FROM #__{vm}_product WHERE product_id='$pid'");
 			// Parent has files so set files['product_id'] to parent id
-			$files['product_id'] = intavl($db->f("product_parent_id"));
+			$files['product_id'] = intval($db->f("product_parent_id"));
 			$db->query( "SELECT * FROM `#__{vm}_product_files` WHERE `file_product_id`=".$db->f("product_parent_id")." AND `file_is_image=0` AND `file_published`=1" );
 		}
 		$db->reset();

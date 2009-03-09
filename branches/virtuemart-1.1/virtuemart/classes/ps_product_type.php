@@ -525,16 +525,17 @@ class vm_ps_product_type {
 	 */
 	function list_product_type($product_id) {
 		global $VM_LANG;
-
+		$tpl = vmTemplate::getInstance();
 		if (!$this->product_in_product_type($product_id)) {
 			return "";
 		}
-
+		// $dbag = product_types;
 		$dbag = new ps_DB;
+		// $dba = Attributes of product_type param, holds product_id and values assign to each param;
 		$dba = new ps_DB;
+		// $dbp = Parameters of product_type, holds definitions of each parameter, but not value ;
 		$dbp = new ps_DB;
-		$html = "";
-
+		$html ="";
 		$q  = "SELECT * FROM #__{vm}_product_product_type_xref ";
 		$q .= "LEFT JOIN #__{vm}_product_type USING (product_type_id) ";
 		$q .= "WHERE product_id='$product_id' AND product_type_publish='Y' ";
@@ -542,6 +543,7 @@ class vm_ps_product_type {
 		$dbag->query( $q );
 		$q  = "SELECT * FROM #__{vm}_product_type_parameter ";
 		$q .= "WHERE product_type_id=";
+		$pt = 0; //product_type counter;
 		while ($dbag->next_record()) { // Show all Product Type
 			if ($dbag->f("product_type_flypage")) {
 				$flypage_file = VM_THEMEPATH."templates/".$dbag->f("product_type_flypage").".php";
@@ -550,37 +552,34 @@ class vm_ps_product_type {
 					continue;
 				}
 			}
-			$html .= "<br />\n<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n";
-			$html .= "<tr><td colspan=\"2\"><strong>".$VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETERS_IN_CATEGORY'). ": ".$dbag->f("product_type_name")."</strong></td></tr>\n";
+			$product_types[$pt]["product_type_name"] = $dbag->f("product_type_name");
 			// SELECT parameter value of product
 			$q2  = "SELECT * FROM #__{vm}_product_type_".$dbag->f("product_type_id");
 			$q2 .= " WHERE product_id='$product_id'";
 			$dbp->query($q2);
 			// SELECT parameter of Product Type
 			$dba->query($q.$dbag->f("product_type_id")." ORDER BY parameter_list_order");
-			$i=0;
+			$i=0; // parameter counter;
 			while ($dba->next_record()) {
-				if ($i++ % 2) {
-					$bgcolor='row0';
-				} else {
-					$bgcolor='row1';
-				}
-				$html .= "<tr class=\"$bgcolor\" height=\"18\">\n";
-				$html .= "<td width=\"30%\">".$dba->f("parameter_label");
+				$product_type_param[$i]["parameter_label"] = $dba->f("parameter_label");
 				$parameter_description = $dba->f("parameter_description");
+				$product_type_param[$i]["parameter_description"] = $parameter_description;
 				if (!empty($parameter_description)) {
-					$html .= "&nbsp;";
-					$html .= vmToolTip($parameter_description, $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DESCRIPTION'));
+					$product_type_param[$i]["tooltip"] = vmToolTip($parameter_description, $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DESCRIPTION'));
 				}
-				$html .= "</td>\n<td>";
-				$html .= $dbp->f($dba->f("parameter_name"))." ".$dba->f("parameter_unit")."</td></tr>\n";
+				$product_type_param[$i]["parameter_value"] = $dbp->f($dba->f("parameter_name"));
+				$product_type_param[$i]["parameter_unit"] = $dba->f("parameter_unit");
+				$i++;
 			}
-			$html .= "</table>\n";
+			$product_types[$pt]["parameters"] = $product_type_param;
+			$pt++;
 		}
-		return $html;
-	}
+		
+		$tpl->set( 'product_types', $product_types );
+		$html .= $tpl->fetch( 'common/product_type.tpl.php' ) ;
+			return $html;
 }
-
+}
 
 // Check if there is an extended class in the Themes and if it is allowed to use them
 // If the class is called outside Virtuemart, we have to make sure to load the settings

@@ -35,7 +35,10 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
-9.03.2009 Daniel jonsson
+11.03.2009 Daniel Jonsson (XCLUDE)
+^ Changed order.order_printdetails to support multiple order print.
+
+9.03.2009 Daniel Jonsson (XCLUDE)
 ^ Moved function from ps_shopper_group to ps_shopper where it should be.
 + SKU hack in the related product field in ps_product. Added SKU search also.
 

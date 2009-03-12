@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+12.03.2009 aravot
+# Fixed - Fatal error: Class 'ps_order_change' not found in ps_order_change.php
+
 08.03.2009 macallf
 ^ Changed product_types to template control. Template file product_types.tpl.php added to /common
 

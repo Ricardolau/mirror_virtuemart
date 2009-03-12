@@ -1059,7 +1059,7 @@ class vm_ps_order_change {
 }
 
 if( vmGet( $_REQUEST, 'page' ) == 'order.order_print' ) {
-	$ps_order_change = new ps_order_change( $order_id ) ;
+	$ps_order_change = new vm_ps_order_change( $order_id ) ;
 	if( vmGet( $_REQUEST, 'change_bill_to' ) != '' )
 		$ps_order_change->change_bill_to() ;
 	elseif( vmGet( $_REQUEST, 'change_ship_to' ) != '' )

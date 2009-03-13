@@ -36,7 +36,6 @@ $langvars = array (
 	'PHPSHOP_VENDOR_FORM_PHONE' => 'Phone',
 	'PHPSHOP_VENDOR_FORM_CURRENCY' => 'Currency',
 	'PHPSHOP_VENDOR_FORM_CATEGORY' => 'Vendor Category',
-	'PHPSHOP_VENDOR_FORM_JOOMLA_NICK' => 'Nickname',
 	'PHPSHOP_VENDOR_FORM_LAST_NAME' => 'Last Name',
 	'PHPSHOP_VENDOR_FORM_FIRST_NAME' => 'First Name',
 	'PHPSHOP_VENDOR_FORM_MIDDLE_NAME' => 'Middle Name',

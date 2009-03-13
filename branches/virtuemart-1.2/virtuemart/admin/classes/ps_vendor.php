@@ -41,10 +41,11 @@ class ps_vendor {
 		$q  = 'SELECT `vendor_id`, `user_is_vendor` FROM `#__{vm}_auth_user_vendor` `au` 
 				LEFT JOIN `#__{vm}_user_info` `u` ON (au.user_id = u.user_id) WHERE `u`.`user_id`="' . $user_id .'"';
 		}else{
-		$q  = 'SELECT `vendor_id` FROM  `#__{vm}_auth_user_vendor` WHERE `user_id`="' . $user_id .'"';						
+		$q  = 'SELECT `vendor_id` FROM  `#__{vm}_auth_user_vendor` WHERE `user_id`=' . (int)$user_id .' ';						
 		}
 		$db->query($q);
 		$vendor_id = $db->f('vendor_id');
+		$GLOBALS['vmLogger']->debug( 'get_vendor_id_by_user_id '.$vendor_id );
 		unset($db);
 		
 		return $vendor_id;	
@@ -68,24 +69,6 @@ class ps_vendor {
 	}
 	
 	/**
-	* name: get_vendor_email_by_nickname
-	* @author Max Milbers
-	* @param int 
-	* returns String $email
-	*/
-	
-	function get_vendor_email_by_nickname(&$nickname){
-		if(empty ($nickname)) return ;
-		$db = new ps_DB();
-		$q  = 'SELECT `#__users`.`email` FROM  `#__users` WHERE `#__users`.`username`= "'.$nickname.'" ';		
-		$db->query($q);
-		$email = $db->f("email");
-		$GLOBALS['vmLogger']->info('get_vendor_email_by_nickname '.$email.' und $nickname: '.$nickname);
-		unset($db);
-		return $email;
-	}
-	
-	/**
 	 * Return the name of vendor $id
 	 *
 	 * @param int $id
@@ -97,7 +80,6 @@ class ps_vendor {
 		$q = 'SELECT vendor_name FROM #__{vm}_vendor WHERE vendor_id=`'.(int)$id.'`';
 		$db->query($q);
 		$db->next_record();
-		unset($db);
 		return $db->f("vendor_name");
 
 	}
@@ -231,6 +213,25 @@ class ps_vendor {
 		}
 	}
 	
+	/**
+	 * Validates the Input Parameters onBeforeVendorAdd
+	 *
+	 * @param array $d
+	 * @return boolean
+	 */
+	function validate_add(&$d) {		
+		return $this->validate_addUpdateVendor($d);
+	}
+	/**
+	 * Validates the Input Parameters onBeforeVendorUpdate
+	 *
+	 * @param array $d
+	 * @return boolean
+	 */
+	function validate_update(&$d,&$db) {		
+		return ps_user::validate_addUpdateVendor($d);
+	}
+	
 		/**
 	 * Validates the Input Parameters onBeforeVendorAddUpdate
 	 *
@@ -252,88 +253,240 @@ class ps_vendor {
 		if (stristr($d['vendor_min_pov'],',')) {
 			$d['vendor_min_pov'] = str_replace(',', '.', $d['vendor_min_pov']);
 		}
-		
-		if (empty($d['vendor_nick'])) {
-			$d['vendor_id'] = ps_vendor::get_logged_vendor();	
-			if(empty($d['vendor_id'])){
-				if($perm->check( 'admin' )){
-					$d['vendor_id'] = 1;
-				}
-			}
-			$user_id = ps_vendor::get_user_id_by_vendor_id($d['vendor_id']);					
-			require_once(CLASSPATH. 'ps_user.php');
-			$email = ps_user::get_juser_email_by_user_id($user_id);
-			$d['email'] = $email;
-		}else{
-			require_once(CLASSPATH. 'ps_user.php');
-			$user_id = ps_user::get_user_id_by_nickname($d['vendor_nick']);
-			if(empty($user_id)){
-				$vmLogger->err( 'You must enter a validate nickname for the vendor.' );
-				return false;			
-			}
-			
-			$vendor_id = ps_vendor::get_vendor_id_by_user_id($user_id);
-			if(empty($vendor_id)){
-				$vmLogger->fatal( 'The vendor_id couldnt be found serious Database problem' );
-				return False;
-			}else{
-				if($vendor_id == 1){
-					if(!$perm->check( 'admin' )){
-						$vmLogger->error( 'You are not allowed to update the store');				
-						return false;
-					}	
-				}else{
-					$d['vendor_id'] = $vendor_id;
-					$vmLogger->debug( ' vendorAdd  vendor_id '.$vendor_id);
-				}		
-			}		
-		}
-		
-		if (!$d['email']) {
-			$email = ps_vendor::get_vendor_email_by_nickname($d['vendor_nick']);
-			if(empty($email)){
-				$vmLogger->err( 'You must enter an email address for the vendor contact.');
-				return false;			
-			}else {
-				$d['email'] = $email;
-			}
-		}
-		if( empty( $d['country'])) {
-			$vmLogger->err('You must specify a country for this vendor/store');
-			return false;
-		}
-		if (!vmValidateEmail($d['email'])) {
-			$vmLogger->err( 'Please provide a valide email address for the vendor contact. '.$d['email'] );
-			return False;
-		}
+
 		
 		if (!$d['vendor_name']) {
 			$d['vendor_name'] = $d['vendor_nick'];
+		} 
+		
+		if (!$d['vendor_store_name']) {
+			$d['vendor_store_name'] = $d['vendor_nick'];
 		}
+		
+//		for ($x = 0; $x < sizeof($d); ++$x){
+//			$vmLogger->info('key: '.key($d).'   value: '.current($d).'');
+//			next($d);
+//		}
 		return True;
 
 	}
 	
-	/**
-	 * Validates the Input Parameters onBeforeVendorAdd
-	 *
+		/**
+	 * Adds a Vendor Record
+	 * Only for Legacy, use direct addUpdateVendor($d)
+	 * 
 	 * @param array $d
 	 * @return boolean
 	 */
-	function validate_add(&$d) {		
-		return $this->validate_addUpdateVendor($d);
-	}
-	/**
-	 * Validates the Input Parameters onBeforeVendorUpdate
-	 *
-	 * @param array $d
-	 * @return boolean
-	 */
-	function validate_update(&$d,&$db) {		
-		return ps_user::validate_addUpdateVendor($d);
+	function add(&$d) {		
+		return $this -> addUpdateVendor($d);
 	}
 	
+	/**
+	 * Updates a Vendor (and the Store) Record
+	 * Only for Legacy, use direct addUpdateVendor($d)
+	 * 
+	 * @param array $d
+	 * @return boolean
+	 */
+	function update(&$d) {	
+		return $this -> addUpdateVendor($d);
+	}
+	
+	/**
+	 * Add/Update a User, user information of shopper or vendor
+	 * 
+	 * @author Max Milbers
+	 * @param array $d
+	 * @return boolean
+	 */
+	function addUpdateVendor(&$d , $user_id) {
+	
+		global $vendor_currency,$vmLogger,$VM_LANG,$perm;
+		$db = new ps_DB;
+		
+		if (!ps_vendor::validate_addUpdateVendor($d)) {
+			return False;
+		}
+		
+		if (!vmImageTools::process_images($d)) {
+			return false;
+		}
+		
+		$d['display_style'][1] = ps_vendor::checkCurrencySymbol( $d['display_style'][1] );		
+		$d['display_style'] = implode("|", $d['display_style'] );
+		
+		if( empty( $d['vendor_accepted_currencies'] )) {
+			$d['vendor_accepted_currencies'] = array( $vendor_currency );
+		}
 
+//		for ($x = 0; $x < sizeof($d); ++$x){
+//			$vmLogger->info('key: '.key($d).'   value: '.current($d).'');
+//			next($d);
+//		}
+
+		$vendor_id = ps_vendor::get_vendor_id_by_user_id($user_id, false);
+		
+		$vmLogger->debug( 'addUpdateVendor vendor_id '.$vendor_id );
+		$vendor_idnew = ps_vendor::setVendorInfo($d, $vendor_id, $user_id);
+		if(empty($vendor_idnew)){
+			$vmLogger->err( 'setVendorInfo failed' );
+			return false;
+		}
+		if($vendor_id===$vendor_idnew){
+			if( $d['vendor_id'] == 1 ) {
+				$GLOBALS['vmLogger']->info($VM_LANG->_('VM_STORE_UPDATED'));
+			} else {
+				$GLOBALS['vmLogger']->info($VM_LANG->_('VM_VENDOR_UPDATED'));
+			}			
+		}else{
+			/* Insert default- shopper group */
+			/* What is the sense behind it? Every shopper is related to one vendor,
+			 * but what happens if one user is buying from different vendors? In which group is the user than?
+			 * If every vendors has its own products and his own customers the shop could be realized with many 
+			 * parallel installations. The trick with multivendor is that the customers dont have any extra effort 
+			 * if they buy from different vendors.
+			 * That a vendor has the possibilty to get a list of his customers makes a bit sense, but is very
+			 * unimportant, very important is a list that the vendor can see all his products, orders, the money he should
+			 * get by the shop and the commission he has to pay.   by Max Milbers
+			 * 		 */
+//			$q = "INSERT INTO #__{vm}_shopper_group (";
+//			$q .= "`vendor_id`,";
+//			$q .= "`shopper_group_name`,";
+//			$q .= "`shopper_group_desc`,`default`) VALUES ('";
+//			$q .= $d["vendor_id"] . "',";
+//			$q .= "'-default-',";
+//			$q .= "'Default shopper group for ".$d["vendor_name"]."','1')";
+//			$db->query($q);
+			$GLOBALS['vmLogger']->info($VM_LANG->_('VM_VENDOR_ADDED'));
+		}
+
+		unset($db);
+		return True;	
+	}
+
+	/**
+	 * Inserts or Updates the vendor information
+	 * Attention without Validation.
+	 * Important use validate_addUpdateVendor.
+	 * @author Max Milbers
+	 * @param $d array like $keyValues = array('email' => $emailvalue, 'last_name' => $lastname);
+	 * @param int $vendor_id
+	 * @param $and An 'AND' condition like 'AND column = value'
+	 * return $vendor_id
+	 */
+	function setVendorInfo(&$d, $vendor_id=0, $user_id,$and=""){
+		
+		global $vmLogger,$VM_LANG;
+		
+		$db = new ps_DB;
+		
+		$timestamp = time();
+		
+		//Split the array $d in two, because tha data is on two different tables
+		$fields = array(
+				'vendor_name' => $d['vendor_name'],
+//				'vendor_phone' => $d['vendor_phone'],
+				'vendor_store_name' => $d['vendor_store_name'],
+				'vendor_store_desc' => $d['vendor_store_desc'], //',null, 'default', 'none', VMREQUEST_ALLOWHTML],
+//				'vendor_category_id' => $d["vendor_category_id"],
+//				'vendor_image_path' => $d["vendor_image_path"],
+				'vendor_thumb_image' => $d['vendor_thumb_image'],
+				'vendor_full_image' => $d['vendor_full_image'],
+				'vendor_currency' => $d['vendor_currency'],
+				'vendor_url' => $d['vendor_url'],
+				'vendor_terms_of_service' => $d['vendor_terms_of_service'], //null, 'default', 'none', VMREQUEST_ALLOWHTML],
+				'vendor_min_pov' => $d['vendor_min_pov'],
+				'vendor_currency_display_style' => $d['display_style'],
+				'vendor_freeshipping' => $d['vendor_freeshipping'],
+				
+				'cdate' => $timestamp,
+				'mdate' => $timestamp,
+				//The other line would be better, but it rises a warning
+//				'vendor_accepted_currencies' => implode( ',', vmRequest::getVar('vendor_accepted_currencies') ),
+				'vendor_accepted_currencies' => implode( ',', $d["vendor_accepted_currencies"] )
+
+				);
+				
+		//I think this should stay for Add and Update and deleted in the array init above
+		//there are more variables to handle like this to prevent notices
+		if (!empty($d['vendor_category_id'])) {
+			$fields['vendor_category_id'] = vmRequest::getInt('vendor_category_id');
+		}
+		if (!empty($d['vendor_image_path'])) {
+			$fields['vendor_image_path'] = vmRequest::getVar('vendor_image_path');
+		}
+		if (!empty($d['vendor_address_format'])) {
+			$fields['vendor_address_format'] = vmRequest::getVar('vendor_address_format');
+		}
+		if (!empty($d['vendor_date_format'])) {
+			$fields['vendor_date_format'] = vmRequest::getVar('vendor_date_format');
+		}
+
+		//Setting fields empty is senseless people should use a dummy (-),... makes the life for devs a lot easier
+		$fields = array_filter($fields);
+			
+		if( empty( $vendor_id ) ) { // INSERT NEW USER/SHOPPER
+			$action = 'INSERT';
+			$whereAnd = "";
+			$add = true;
+			$vmLogger->debug('setVendorInfo ADD');
+		}else{
+			$action = 'UPDATE';
+			$whereAnd = 'WHERE `vendor_id`='.(int)$vendor_id . $and;
+			$add = false;
+			$vmLogger->debug('setVendorInfo UPDATE');
+		}
+		
+			
+		$db->buildQuery( $action, '#__{vm}_vendor', $fields, $whereAnd );
+		if( $db->query() === false ) {
+			$GLOBALS['vmLogger']->err('setVendorInfo '.$action.' set user_info failed for $vendor_id '.$vendor_id);
+			return false;
+		}else{
+
+			if($add){
+				// Get the assigned vendor_id //
+				$_REQUEST['vendor_id'] = $vendor_id = $db->last_insert_id();
+			}
+//			$user_id = ps_vendor::get_user_id_by_vendor_id($vendor_id);
+			
+			$vmLogger->debug( ' setVendorInfo $user_id'. $user_id);
+			require_once(CLASSPATH. 'ps_user.php');
+
+			if (isset($user_id)) {
+				
+				$auth_user_vendor = array('user_id' => $user_id, 'vendor_id' => $vendor_id);
+				if(!$add){
+					$whereAnd = 'WHERE `user_id`= "'.$user_id.'"';
+				}
+				$db->buildQuery( $action, '#__{vm}_auth_user_vendor', $auth_user_vendor, $whereAnd );
+				if( $db->query() === false ) {
+					$vmLogger->err( $VM_LANG->_('Failed to associate the vendor to a user') );
+				}
+
+				$user_is_vendor = array('user_is_vendor' => 1);
+
+				$whereAnd = 'WHERE `user_id`= "'.$user_id.'"';
+
+				$db->buildQuery( 'UPDATE', '#__{vm}_user_info', $user_is_vendor, $whereAnd );
+				if( $db->query() === false ) {
+					$vmLogger->err( $VM_LANG->_('Failed to set the user as vendor') );
+				}
+				
+				$GLOBALS['vmLogger']->debug('setVendorInfo vendor_id= "'.$vendor_id.'" user_id="'.$user_id.'"');		
+								
+
+			}else {
+//				if(!$perm->check( 'admin' )){
+					$vmLogger->err( 'No matching Virtuemart shopper found; This is not supposed to happen' );
+					return false;
+//				}		
+			}
+		}
+		return $vendor_id;
+	}
+	
 	/**
 	 * Validates the Input Parameters onBeforeVendorDelete
 	 *
@@ -382,246 +535,7 @@ class ps_vendor {
 		unset($db);
 		return True;
 	}
-
-	/**
-	 * Inserts or Updates the vendor information
-	 * Attention without Validation.
-	 * Important use validate_addUpdateVendor.
-	 * @author Max Milbers
-	 * @param $d array like $keyValues = array('email' => $emailvalue, 'last_name' => $lastname);
-	 * @param int $vendor_id
-	 * @param $and An 'AND' condition like 'AND column = value'
-	 */
-	function setVendorInfo(&$d, $vendor_id=0, $and=""){
-		
-		global $vmLogger;
-		
-		$db = new ps_DB;
-		
-		$timestamp = time();
-		
-		//Split the array $d in two, because tha data is on two different tables
-		$fields = array('vendor_name' => vmRequest::getVar('vendor_name'),
-				'vendor_nick' => vmRequest::getVar('vendor_nick'),
-				'vendor_phone' => vmRequest::getVar('vendor_phone'),
-				'vendor_store_name' => vmRequest::getVar('vendor_store_name'),
-				'vendor_store_desc' => vmRequest::getVar('vendor_store_desc',null, 'default', 'none', VMREQUEST_ALLOWHTML),
-//				'vendor_category_id' => $d["vendor_category_id"],
-//				'vendor_image_path' => $d["vendor_image_path"],
-				'vendor_thumb_image' => vmRequest::getVar('vendor_thumb_image'),
-				'vendor_full_image' => vmRequest::getVar('vendor_full_image'),
-				'vendor_currency' => vmRequest::getVar('vendor_currency'),
-				'vendor_url' => vmRequest::getVar('vendor_url'),
-				'vendor_terms_of_service' => vmRequest::getVar('vendor_terms_of_service',null, 'default', 'none', VMREQUEST_ALLOWHTML),
-				'vendor_min_pov' => vmRequest::getFloat('vendor_min_pov'),
-				'vendor_currency_display_style' => vmRequest::getVar('display_style'),
-				'vendor_freeshipping' => vmRequest::getFloat('vendor_freeshipping'),
-				
-				//The other line would be better, but it rises a warning
-//				'vendor_accepted_currencies' => implode( ',', vmRequest::getVar('vendor_accepted_currencies') ),
-				'vendor_accepted_currencies' => implode( ',', $d["vendor_accepted_currencies"] ),
-
-//				'vendor_address_format' => $d["vendor_address_format"],
-//				'vendor_date_format' => $d["vendor_date_format"]
-				);
-				
-		//I think this should stay for Add and Update and deleted in the array init above
-		//there are more variables to handle like this to prevent notices
-		if (!empty($d["vendor_category_id"])) {
-			$fields['vendor_category_id'] = vmRequest::getInt('vendor_category_id');
-		}
-		if (!empty($d["vendor_image_path"])) {
-			$fields['vendor_image_path'] = vmRequest::getVar('vendor_image_path');
-		}
-		if (!empty($d["vendor_address_format"])) {
-			$fields['vendor_address_format'] = vmRequest::getVar('vendor_address_format');
-		}
-		if (!empty($d["vendor_date_format"])) {
-			$fields['vendor_date_format'] = vmRequest::getVar('vendor_date_format');
-		}
-
-		
-		$fieldsU = array(
-						'last_name' => vmRequest::getVar('last_name'),
-						'first_name' => vmRequest::getVar('first_name'),
-						'middle_name' => vmRequest::getVar('middle_name'),
-						'title' => vmRequest::getVar('title'),
-						'phone_1' => vmRequest::getVar('phone_1'),
-						'phone_2' => vmRequest::getVar('phone_2'),
-						'fax' => vmRequest::getVar('fax'),
-						'email' => vmRequest::getVar('email'),
-						'address_1' => vmRequest::getVar('address_1'),
-						'address_2' => vmRequest::getVar('"address_2'),
-						'city' => vmRequest::getVar('city'),
-						'country' => vmRequest::getVar('country'),
-						'zip' => vmRequest::getVar('zip'),
-						'cdate' => $timestamp,
-						'mdate' => $timestamp
-						);
-		if (!empty($d["state"])) {
-			$fieldsU['state'] = vmRequest::getVar('state');
-		}
-
-
-		
-		//Setting fields empty is senseless people should use a dummy (-),... makes the life for devs a lot easier
-		$fields = array_filter($fields);
-		$fieldsU = array_filter($fieldsU);
-			
-		if( empty( $vendor_id ) ) { // INSERT NEW USER/SHOPPER
-			$action = 'INSERT';
-			$whereAnd = "";
-			$add = true;
-		}else{
-			$action = 'UPDATE';
-			$whereAnd = 'WHERE `vendor_id`='.(int)$vendor_id . $and;
-			$add = false;
-		}
-		
-		$db->buildQuery( $action, '#__{vm}_vendor', $fields, $whereAnd );
-		if( $db->query() === false ) {
-			$GLOBALS['vmLogger']->err('setVendorInfo '.$action.' set user_info failed for user_id '.$vendor_id);
-			return false;
-		}else{
-			if($add){
-				// Get the assigned vendor_id //
-				$_REQUEST['vendor_id'] = $db->last_insert_id();
-				require_once(CLASSPATH. "ps_user.php");		
-				$user_id = ps_user::get_user_id_by_nickname($d["vendor_nick"]);
-			} 
-			else {
-				$user_id = ps_vendor::get_user_id_by_vendor_id($vendor_id);
-			}
-			if(!empty($user_id)){
-				//Validation was already done before
-				$user_id = ps_user::setUserInfoWithEmail($fieldsU,$user_id);
-				if($user_id==0){
-					$vmLogger->err( $VM_LANG->_('VM_VENDOR_ADDING_FAILED',false) );
-					ps_vendor::delete_vendor_record( vmrequest::getInt('vendor_id'), $d ); 
-					return false;
-				}
-			}else{
-				return false;
-			}
-		}
-		
-	}
 	
-	/**
-	 * Add/Update a User, user information of shopper or vendor
-	 * 
-	 * @author Max Milbers
-	 * @param array $d
-	 * @return boolean
-	 */
-	function addUpdateVendor(&$d) {
-	
-		global $vendor_currency,$vmLogger,$VM_LANG,$perm;
-		$db = new ps_DB;
-		
-
-		if (!$this->validate_addUpdateVendor($d)) {
-			return False;
-		}
-		
-		if (!vmImageTools::process_images($d)) {
-			return false;
-		}
-		
-		// Update end
-		$d['display_style'][1] = ps_vendor::checkCurrencySymbol( $d['display_style'][1] );		
-		$d['display_style'] = implode("|", $d['display_style'] );
-		
-		if( empty( $d['vendor_accepted_currencies'] )) {
-			$d['vendor_accepted_currencies'] = array( $vendor_currency );
-		}
-
-		//Decide if Update or Add
-		if( empty( $d["vendor_nick"] ) ){
-			$vendor_id = $d['vendor_id'];
-		}else{
-			$user_id = ps_user::get_user_id_by_nickname($d["vendor_nick"]);		
-			$vendor_id = $this -> get_vendor_id_by_user_id($user_id);
-		}
-
-	
-		if($this -> setVendorInfo($d, $vendor_id)){
-			$vmLogger->err( 'setVendorInfo failed' );
-			return false;
-		}
-
-		//Perform an ADD
-		if( empty( $vendor_id ) ){
-//			$q  = "SELECT id FROM  #__users WHERE username = '".$db->getEscaped(vmRequest::getVar('vendor_nick'))."'";
-			$q  = "SELECT id FROM  #__users WHERE username = '".$d['vendor_nick']."'";
-			$db->query($q);
-			$user_id = $db->f('id');
-			$vendor_id = $_REQUEST['vendor_id'];
-			$GLOBALS['vmLogger']->debug("ps_vendor Add vendor_id= '".$vendor_id."' user_id='".$user_id."'");
-			if (isset($user_id)) {
-
-				$user_update = 'INSERT INTO `#__{vm}_auth_user_vendor` (`vendor_id`,`user_id`) VALUE ("'.$vendor_id.'", "'.$user_id.'")';
-				$db->query($user_update);
-				$user_update = 'UPDATE `#__{vm}_user_info` SET `user_is_vendor` = "1" WHERE `user_id`="'.$user_id.'"';
-				$db->query($user_update);
-			}else {
-				if(!$perm->check( 'admin' )){
-					$vmLogger->err( 'No matching Virtuemart shopper found; This is not supposed to happen' );
-				}		
-			}
-			
-			/* Insert default- shopper group */
-			/* What is the sense behind it? Every shopper is related to one vendor,
-			 * but what happens if one user is buying from different vendors? In which group is the user than?
-			 * If every vendors has its own products and his own customers the shop could be realized with many 
-			 * parallel installations. The trick with multivendor is that the customers dont have any extra effort 
-			 * if they buy from different vendors.
-			 * That a vendor has the possibilty to get a list of his customers makes a bit sense, but is very
-			 * unimportant, very important is a list that the vendor can see all his products, orders, the money he should
-			 * get by the shop and the commission he has to pay.   by Max Milbers
-			 * 		 */
-//			$q = "INSERT INTO #__{vm}_shopper_group (";
-//			$q .= "`vendor_id`,";
-//			$q .= "`shopper_group_name`,";
-//			$q .= "`shopper_group_desc`,`default`) VALUES ('";
-//			$q .= $d["vendor_id"] . "',";
-//			$q .= "'-default-',";
-//			$q .= "'Default shopper group for ".$d["vendor_name"]."','1')";
-//			$db->query($q);
-			$GLOBALS['vmLogger']->info($VM_LANG->_('VM_VENDOR_ADDED'));
-		}else{  //UPDATE
-			if( $d['vendor_id'] == 1 ) {
-				$GLOBALS['vmLogger']->info($VM_LANG->_('VM_STORE_UPDATED'));
-			} else {
-				$GLOBALS['vmLogger']->info($VM_LANG->_('VM_VENDOR_UPDATED'));
-			}
-		}	
-		unset($db);
-		return True;	
-	}
-	
-	/**
-	 * Adds a Vendor Record
-	 * Only for Legacy, use direct addUpdateVendor($d)
-	 * 
-	 * @param array $d
-	 * @return boolean
-	 */
-	function add(&$d) {		
-		return $this -> addUpdateVendor($d);
-	}
-	
-	/**
-	 * Updates a Vendor (and the Store) Record
-	 * Only for Legacy, use direct addUpdateVendor($d)
-	 * 
-	 * @param array $d
-	 * @return boolean
-	 */
-	function update(&$d) {	
-		return $this -> addUpdateVendor($d);
-	}
-
 	/**************************************************************************
 	* name: delete()
 	* created by: unknown changed by Max Milbers

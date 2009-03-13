@@ -171,7 +171,7 @@ if( vmShouldDebug() ) {   /*@MWM1: Log/Debug enhancements */
 	
 //$_SESSION["ps_vendor_id"] = $ps_vendor_id = $default_vendor;
 
-//$db = ps_vendor::get_vendor_details($ps_vendor_id);
+
 //
 //$_SESSION['minimum_pov'] = $db->f("vendor_min_pov"); 
 //$vendor_name = $db->f("vendor_name");
@@ -194,18 +194,21 @@ if( vmShouldDebug() ) {   /*@MWM1: Log/Debug enhancements */
 //$vendor_zip = $db->f("vendor_zip");
 //$vendor_phone = $db->f("vendor_phone");
 //$vendor_store_desc = $db->f("vendor_store_desc");
-//$vendor_currency = $db->f("vendor_currency");
-//$vendor_currency_display_style = $db->f("vendor_currency_display_style");
-//$vendor_accepted_currencies = $db->f("vendor_accepted_currencies");
+
 //$vendor_address_format = $db->f('vendor_address_format');
 //$vendor_date_format = $db->f('vendor_date_format');
 
-//Hmmm global or not?
+//Lets life make easy, To be exact this value shouldnt be global but we leave it for now as a quckfix
+//In the most cases a shop with vendors will use a standard currency anyway.
+
 $mainvendor = 1;
-$db = ps_vendor::get_vendor_fields($mainvendor,array('vendor_currency'));
+$db = ps_vendor::get_vendor_fields($mainvendor,array('vendor_currency', 'vendor_currency_display_style','vendor_accepted_currencies'));
 if(!empty($db)){
 	$vendor_currency = $db->f("vendor_currency");
 	$_SESSION["vendor_currency"] = $vendor_currency;
+
+	$vendor_currency_display_style = $db->f("vendor_currency_display_style");
+	$vendor_accepted_currencies = $db->f("vendor_accepted_currencies");
 }
 
 

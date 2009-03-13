@@ -391,7 +391,7 @@ class vmAbstractObject {
 		
 		$has_vendor = true;
 		if( !empty($d['product_id']) && empty( $d['review_id'] ) && empty( $d['file_id'] ) ) {
-			$table_name = "#__{vm}_product";
+			$table_name = '#__{vm}_product';
 			$publish_field_name = 'product_publish';
 			$field_name = 'product_id';
 		}
@@ -401,18 +401,20 @@ class vmAbstractObject {
 			$field_name = 'category_id';
 		}
 		elseif( !empty($d['category_child_id'])) {
-			$table_name = "#__{vm}_category_xref";
+			$table_name = '#__{vm}_category_xref';
 			$publish_field_name = 'category_shared';
 			$field_name = 'category_child_id';
 			//Has the User the right to share/unshare this category?
 			if (!$perm->check("admin")) {
-				$ps_vendor_id = $_SESSION["ps_vendor_id"];
+//				$ps_vendor_id = $_SESSION["ps_vendor_id"];
+				require_once(CLASSPATH. 'ps_user.php');
+				$vendor_id = PS_vendor::get_logged_vendor(false);
 				$db = new ps_DB();
 				$q = 'SELECT vendor_id FROM #__{vm}_category WHERE category_id='. $d["category_child_id"];
 				$db->query( $q );
 				$db->next_record();
 				$vendor = $db->f("vendor_id");
-				if($ps_vendor_id == $vendor){
+				if($vendor_id == $vendor){
 					$has_vendor = false;
 				}
 			}else{
@@ -421,36 +423,46 @@ class vmAbstractObject {
 			
 		}
 		elseif( !empty( $d['payment_method_id'])) {
-			$table_name = "#__{vm}_payment_method";
+			$table_name = '#__{vm}_payment_method';
 			$publish_field_name = 'published';
 			$field_name = 'id';
 		}	
 		elseif( $page == 'admin.plugin_list' ) {
-			$table_name = "#__{vm}_plugins";
+			$table_name = '#__{vm}_plugins';
 			$publish_field_name = 'published';
 			$field_name = 'id';
 		}
 		elseif( !empty( $d['review_id'])) {
-			$table_name = "#__{vm}_product_reviews";
+			$table_name = '#__{vm}_product_reviews';
 			$publish_field_name = 'published';
 			$field_name = 'review_id';
 			$has_vendor = false;
 		}		
 		elseif( !empty( $d['fieldid'])) {
-			$table_name = "#__{vm}_userfield";
+			$table_name = '#__{vm}_userfield';
 			$publish_field_name = empty($d['item']) ? 'published' : vmget( $d, 'item' );
 			$field_name = 'fieldid';
 		}
 		elseif( !empty( $d['file_id'] ) ) {
-			$table_name = "#__{vm}_product_files";
+			$table_name = '#__{vm}_product_files';
 			$publish_field_name = 'file_published';
 			$field_name = 'file_id';
+			$has_vendor = false;
+		}
+		elseif( !empty( $d['user_id'] ) ) {
+			echo('user_is_vendor');
+			$table_name = '#__{vm}_user_info';
+//			$publish_field_name = 'user_id';
+//			$field_name = 'user_is_vendor';
+			$publish_field_name = 'user_is_vendor';
+			$field_name = 'user_id';
 			$has_vendor = false;
 		}
 		else {
 			$vmLogger->err( $VM_LANG->_('VM_ABSTRACTOBJECT_PUBLISH_ERR_TYPE') );
 			return false;
 		}
+		
 		return $this->changePublishState( $d[$field_name], $d['task'], $table_name, $publish_field_name, $field_name, $has_vendor );
 		
 	}
@@ -469,7 +481,7 @@ class vmAbstractObject {
 		global $vmLogger, $VM_LANG;
 		
 		$db = new ps_DB();
-		if( $field_name == 'id' || $field_name == 'fieldid' || $field_name == 'file_id' ) {
+		if( $field_name == 'id' || $field_name == 'fieldid' || $field_name == 'file_id' || $field_name == 'user_id') {
 			$value = ($task == 'unpublish') ? '0' : '1';
 		}
 		else {
@@ -486,10 +498,9 @@ class vmAbstractObject {
 		
 		$q = "UPDATE `$table_name` SET `$publish_field_name` = '$value' ";
 		$q .= "WHERE FIND_IN_SET( `$field_name`, '$set' )";
-//		if( $has_vendor ) {
-//			$q .= " AND `vendor_id`=".$_SESSION['ps_vendor_id'];
-//		}
+
 		$db->query( $q );
+		$vmLogger->info('changePublishState '.  $q);
 		
 		switch ($task) {
 			case 'publish':

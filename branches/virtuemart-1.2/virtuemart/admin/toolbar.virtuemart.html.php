@@ -105,15 +105,17 @@ var submitbutton = function(pressbutton){
             		title: '" . $VM_LANG->_('PEAR_LOG_NOTICE') . "',
             		msg: content,
             		autoCreate: true,
-                    width:400,
-                    height:180,
+                    width:1000,
+                    height:800,
                     modal: false,
-                    resizable: false,
+                    resizable: true,
                     buttons: Ext.Msg.OK,
                     shadow:true,
                     animEl:Ext.get( 'vm-toolbar' )
             });
-        ".(DEBUG ? "" : "setTimeout('Ext.Msg.hide()', 3000);")."
+        ".
+//        (DEBUG ? "" : "setTimeout('Ext.Msg.hide()', 3000);")
+        "
     };
     
     // return a public interface
@@ -283,6 +285,7 @@ var submitbutton = function(pressbutton){
 				$bar->custom( 'new', "product.product_product_type_form", 'new', $alt );			
 		
 				/*** Adding an item is only pssible, if the product has attributes ***/
+				require_once( CLASSPATH . 'ps_product.php' );
 				if (ps_product::product_has_attributes( $product_id ) ) { 
 					// Add Item
 					$alt =  $VM_LANG->_('PHPSHOP_PRODUCT_FORM_NEW_ITEM_LBL');

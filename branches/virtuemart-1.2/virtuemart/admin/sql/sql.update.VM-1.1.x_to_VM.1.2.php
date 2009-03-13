@@ -128,8 +128,8 @@ ADD `coupon_expiry_date` DATETIME NULL");
 //Added for multivendoring 
 //shows in Userlist if user is vendor
 $db->query("ALTER TABLE `#__{vm}_user_info` ADD `user_is_vendor` TINYINT( 1 ) NOT NULL DEFAULT '0' AFTER `user_id ;`");
-//Possibility for the admin to connect a added vendor to a user
-$db->query("ALTER TABLE `#__{vm}_vendor` ADD `vendor_nick` VARCHAR( 150 ) NOT NULL ;");
+//Possibility for the admin to connect a added vendor to a user; Not needed anymore Max Milbers
+//$db->query("ALTER TABLE `#__{vm}_vendor` ADD `vendor_nick` VARCHAR( 150 ) NOT NULL ;");
 //Sharing of Categories
 $db->query("ALTER TABLE `#__{vm}_category_xref` ADD `category_shared` VARCHAR( 1 ) NOT NULL DEFAULT 'Y' ;");
 
@@ -203,7 +203,7 @@ $db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `
 
 //Merging of Contactdata with Userdatas (There wont exist any vendor who is not User)
 $db->query("
-ALTER TABLE `jos_vm_vendor`
+ALTER TABLE `#__{vm}_vendor`
   DROP `contact_last_name`,
   DROP `contact_first_name`,
   DROP `contact_middle_name`,
@@ -220,8 +220,34 @@ ALTER TABLE `jos_vm_vendor`
   DROP `vendor_zip` ");
   
  //Merging emails  TODO What happen with the old emails?
-$db->query("ALTER TABLE `jos_vm_user_info` DROP `user_email` ");
+$db->query("ALTER TABLE `#__{vm}_user_info` DROP `user_email` ");
 
-$db->query("ALTER TABLE `jos_vm_order_user_info` CHANGE `user_email` `email` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ");
+$db->query("ALTER TABLE `#__{vm}_order_user_info` CHANGE `user_email` `email` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ");
 
-$db->query("ALTER TABLE `jos_vm_product` MODIFY COLUMN product_tax_id int");
+$db->query("ALTER TABLE `#__{vm}_product` MODIFY COLUMN product_tax_id int");
+
+//Changing functionlist
+// The function addUpdateVendor is only called in the addUpdateUser,...
+// so all 4 functions can point now to one function
+$db->query("
+	UPDATE `#__{vm}_function` SET `function_class` = 'ps_user',
+	`function_method` = 'addUpdateUser' WHERE `#__{vm}_function`.`function_id` =1 LIMIT 1 ;
+");
+
+$db->query("
+	UPDATE `#__{vm}_function` SET `function_class` = 'ps_user',
+	`function_method` = 'addUpdateUser' WHERE `#__{vm}_unction`.`function_id` =3 LIMIT 1 ;
+");
+
+$db->query("
+	UPDATE `#__{vm}_function` SET `function_class` = 'ps_user',
+	`function_method` = 'addUpdateUser' WHERE `#__{vm}_unction`.`function_id` =17 LIMIT 1 ;
+");
+
+$db->query("
+	UPDATE `#__{vm}_function` SET `function_class` = 'ps_user',
+	`function_method` = 'addUpdateUser' WHERE `#__{vm}_unction`.`function_id` =18 LIMIT 1 ;
+");
+
+
+

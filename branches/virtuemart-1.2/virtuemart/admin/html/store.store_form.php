@@ -28,17 +28,10 @@ $currency_style_negative = array('(Symb00)', '-Symb00', 'Symb-00', 'Symb00-', '(
 														'(Symb 00)',	'(00 Symb)');
 
 //by Max Milbers
-$user_id = $auth['user_id'];
-$vendor_id = ps_vendor::get_vendor_id_by_user_id($user_id);
-if($vendor_id==0){
-	if ($perm->check("admin")) {
-		$vendor_id = 1;
-	}
-}
-$GLOBALS['vmLogger']->debug("The vendor ID: '.$vendor_id .' und auth['user_id']'.$user_id.'");
-
+$vendor_id = ps_vendor::get_logged_vendor();
 $db = ps_vendor::get_vendor_details($vendor_id);
-	
+$GLOBALS['vmLogger']->debug('Store.store_form The vendor ID: '.$vendor_id);
+
 $title = '<img src="'. VM_THEMEURL.'images/administration/dashboard/store.png" align="absmiddle" border="0" alt="Store" />'.'&nbsp;&nbsp;&nbsp;'. $VM_LANG->_('PHPSHOP_STORE_FORM_LBL');
 
 //First create the object and let it print a form heading

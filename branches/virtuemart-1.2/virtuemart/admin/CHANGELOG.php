@@ -35,6 +35,22 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+
+13.03.2009 Max Milbers (Zoyami)
+! Changed completly the way how to add a vendor.
+	The vendor is now an attribute of a user. Create a user and make him to a vendor
+	with the "publish" button in the admin.user_list, if you click then on a user, a new tab for the vendor information is shown
+! A mainvendor needs to have set the user_is_vendor to 1 AND he must be assigned to himself....
+	Users who are not vendors but assigned to a vendor should be able todo small adminstrative tasks
+	like handling orders, products, categories and so on, but this must be worked out (in fact only the call
+	of ps_vendor::get_vendor_id_by_user_id() must be reviewed and ownerOnly boolean set. they can NOT change the shopinformation
+
+! Btw,... the function to assign many users to one vendor is implement,... This is NOT the list of the shoppers 
+	who bought from a vendor. this will be implemented later (TODO)
+! TODO the labels in the additional vendor tab are not working with the language file
+! TODO The currency display does not work properly. It shouldnt be global like now. Daniel want to make them as pointers.
+! TODO A new user is not assigned to a shoppergroup. I want to discuss the matter with Daniel.
+
 11.03.2009 Daniel Jonsson (XCLUDE)
 ^ Changed order.order_printdetails to support multiple order print.
 

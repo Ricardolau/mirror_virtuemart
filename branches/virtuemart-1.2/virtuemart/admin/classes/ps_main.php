@@ -215,7 +215,12 @@ function include_class($module) {
 			$ps_user= new ps_user;
 			$ps_user_address = new ps_user_address;
 			$ps_session = new ps_session;
-	
+			
+			//Unsure
+			require_once (CLASSPATH . 'ps_vendor_category.php' );
+			$ps_vendor = new ps_vendor;
+			$ps_vendor_category = new ps_vendor_category;
+			
 			break;
 
 		case "checkout" :

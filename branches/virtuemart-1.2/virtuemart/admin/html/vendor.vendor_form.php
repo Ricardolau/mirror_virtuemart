@@ -18,7 +18,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 global $ps_vendor_category;
 mm_showMyFileName( __FILE__ );
 ?>
-<div class="shop_warning">This feature is still in an early ALPHA stadium. Don't use it if you're not sure how to debug it.
+<div class="shop_warning">DONT USE THE ADD VENDOR! USE activate vendor in user panel instead! This feature is still in an early ALPHA stadium. Don't use it if you're not sure how to debug it.
 VirtueMart currently doesn't support managing multiple vendors</div>
 <?php 
 //First create the object and let it print a form heading
@@ -28,14 +28,54 @@ $formObj->startForm( 'adminForm', 'enctype="multipart/form-data"');
 
 $option = empty($option)?vmGet( $_REQUEST, 'option', 'com_virtuemart'):$option;
 $vendor_id = vmGet( $_REQUEST, 'vendor_id');
-$readonly ="";
+
+
 if (!empty($vendor_id)) {
 	$db = ps_vendor::get_vendor_details($vendor_id);
-	$readonly = "readonly";
+
 } elseif (!isset($vars["error"])) {
   	$default["vendor_currency"] = $_SESSION['vendor_currency'];
   	$db = new ps_DB();
+} else {
+	$db = new ps_DB();
 }
+
+global $acl, $database;
+$user_id = intval( vmGet( $_REQUEST, 'user_id' ) );
+// Set up the CMS General User Information
+$row = new mosUser( $database );
+$row->load( (int) $user_id );
+$my_group = strtolower( $acl->get_group_name( $row->gid, 'ARO' ) );
+if ( $my_group == 'super administrator' && $my->gid != 25 ) {
+	$lists['gid'] = '<input type="hidden" name="gid" value="'. $my->gid .'" /><strong>Super Administrator</strong>';
+} else if ( $my->gid == 24 && $row->gid == 24 ) {
+	$lists['gid'] = '<input type="hidden" name="gid" value="'. $my->gid .'" /><strong>Administrator</strong>';
+} else {
+	// ensure user can't add group higher than themselves
+	$my_groups = $acl->get_object_groups( 'users', $my->id, 'ARO' );
+	if (is_array( $my_groups ) && count( $my_groups ) > 0) {
+		$ex_groups = $acl->get_group_children( $my_groups[0], 'ARO', 'RECURSE' );
+		if (!$ex_groups) $ex_groups = array();
+	} else {
+		$ex_groups = array();
+	}
+
+	$gtree = $acl->get_group_children_tree( null, 'USERS', false );
+
+	// remove users 'above' me
+	$i = 0;
+	while ($i < count( $gtree )) {
+		if (in_array( $gtree[$i]->value, $ex_groups )) {
+			array_splice( $gtree, $i, 1 );
+		} else {
+			$i++;
+		}
+	}
+
+	$lists['gid'] 		= vmCommonHTML::selectList( $gtree, 'gid', 'size="10"', 'value', 'text', $row->gid, true );
+}
+
+
 /* Build up the Tabs */
 $tabs = new vmTabPanel(0, 1, "vendorform");
 $tabs->startPane("content-pane");
@@ -49,7 +89,7 @@ $tabs->startPane("content-pane");
     <tr> 
       <td align="right" ><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_JOOMLA_NICK') ?>:</td>
       <td >
-       	<input type="text" class="inputbox" name="vendor_nick" value="<?php $db->sp("vendor_nick") ?>"  size="16" <?php echo("$readonly") ?>/>
+       	<input type="text" class="inputbox" name="vendor_nick" value="<?php $db->sp("vendor_nick") ?>"  size="16" />
       </td>
     </tr>
     <tr> 
@@ -106,6 +146,17 @@ $tabs->startPane("content-pane");
         <input type="text" class="inputbox" name="vendor_image_path" value="<?php $db->sp("vendor_image_path") ?>" size="16" />
       </td>
     </tr>
+	<tr>
+		<td valign="top" class="key">
+			<label for="gid">
+				<?php echo $VM_LANG->_('VM_USER_FORM_GROUP'); ?>
+			</label>
+		</td>
+		<td>
+			<?php echo $lists['gid']; 
+			?>
+		</td>
+		</tr>
     <tr> 
       <td align="right" >&nbsp;</td>
       <td>&nbsp;</td>

@@ -610,9 +610,9 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_function` (
 ## Dumping data for table `#__{vm}_function`
 ## 
 
-$db->query( "INSERT INTO `#__{vm}_function` VALUES (1, 1, 'userAdd', 'ps_user', 'add', '', 'admin,storeadmin'),
+$db->query( "INSERT INTO `#__{vm}_function` VALUES (1, 1, 'userAdd', 'ps_user', 'addUpdateUser', '', 'admin,storeadmin'),
 (2, 1, 'userDelete', 'ps_user', 'delete', '', 'admin,storeadmin'),
-(3, 1, 'userUpdate', 'ps_user', 'update', '', 'admin,storeadmin'),
+(3, 1, 'userUpdate', 'ps_user', 'addUpdateUser', '', 'admin,storeadmin'),
 (31, 2, 'productAdd', 'ps_product', 'add', '', 'admin,storeadmin'),
 (6, 1, 'functionAdd', 'ps_function', 'add', '', 'admin'),
 (7, 1, 'functionUpdate', 'ps_function', 'update', '', 'admin'),
@@ -625,8 +625,8 @@ $db->query( "INSERT INTO `#__{vm}_function` VALUES (1, 1, 'userAdd', 'ps_user', 
 (14, 1, 'moduleUpdate', 'ps_module', 'update', '', 'admin'),
 (15, 1, 'moduleDelete', 'ps_module', 'delete', '', 'admin'),
 (16, 1, 'userLogin', 'ps_user', 'login', '', 'none'),
-(17, 3, 'vendorAdd', 'ps_vendor', 'add', '', 'admin'),
-(18, 3, 'vendorUpdate', 'ps_vendor', 'update', '', 'admin,storeadmin'),
+(17, 3, 'vendorAdd', 'ps_user', 'addUpdateUser', '', 'admin'),
+(18, 3, 'vendorUpdate', 'ps_user', 'addUpdateUser', '', 'admin,storeadmin'),
 (19, 3, 'vendorDelete', 'ps_vendor', 'delete', '', 'admin'),
 (20, 3, 'vendorCategoryAdd', 'ps_vendor_category', 'add', '', 'admin'),
 (21, 3, 'vendorCategoryUpdate', 'ps_vendor_category', 'update', '', 'admin'),

@@ -105,11 +105,11 @@ while( $db->next_record() ) {
 
 	//It would be nice to manage it that the addvendor function and deletevendor function would be accesible here
 	//Or a Activate/Deactivate function (ah deactivated vendor cant change shop information, add products, sell products and so on)
-//	$tmp_cell = "<a href=\"". $sess->url( $_SERVER['PHP_SELF']."?page=admin.user_list&user_id=".$dbs->f('user_id')."&func=changeVendorState&user_is_vendor=".$dbs->f('user_is_vendor') );
-//	$tmp_cell .= $dbs->f('user_is_vendor') ? "&task=unpublish\">" : $tmp_cell .= "&task=publish\">";
-//	$tmp_cell .= vmCommonHTML::getYesNoIcon( $dbs->f('user_is_vendor') );
-//	$tmp_cell .= "</a>";
-	$tmp_cell = vmCommonHTML::getYesNoIcon( $dbs->f('user_is_vendor') );
+	//With the changed datamanagment an activation and deactivation should be possible.
+	$tmp_cell = "<a href=\"". $sess->url( $_SERVER['PHP_SELF']."?page=admin.user_list&user_id=".$dbs->f('user_id')."&user_is_vendor=".$dbs->f('user_is_vendor')."&func=changePublishState" );
+	$tmp_cell .= $dbs->f('user_is_vendor') ? "&task=unpublish\">" : $tmp_cell .= "&task=publish\">";
+	$tmp_cell .= vmCommonHTML::getYesNoIcon( $dbs->f('user_is_vendor') );
+	$tmp_cell .= "</a>";
 	$listObj->addCell( $tmp_cell );
 
 

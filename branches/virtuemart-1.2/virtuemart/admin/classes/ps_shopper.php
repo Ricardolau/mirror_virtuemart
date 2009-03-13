@@ -22,27 +22,6 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 class ps_shopper {
 
-	function validate_addUpdateShopper(&$d) {
-		global $my, $mosConfig_absolute_path;
-
-
-
-
-		if (!$provided_required) {
-			$_REQUEST['missing'] = $missing;
-			return false;
-		}
-
-		$d['email'] = vmGet( $d, 'email', $my->email );
-		if(isset($d['email'])){
-			if (!vmValidateEmail($d["email"])) {
-			$vmLogger->err( 'Please provide a valide email address for the registration.' );
-			return false;
-			}
-		}
-
-		$d['perms'] = 'shopper';
-	}
 
 	/**
 	 * Validates the input parameters onBeforeShopperAdd
@@ -53,7 +32,7 @@ class ps_shopper {
 	function validate_add(&$d) {
 
 		global $my, $perm, $vmLogger, $mosConfig_absolute_path, $auth;
-		$vmLogger->err( 'ps_shopper validate_add' );
+		$vmLogger->debug( 'ps_shopper validate_add' );
 
 		$provided_required = true;
 		$missing = "";
@@ -300,7 +279,7 @@ class ps_shopper {
 		global $my, $auth, $mainframe, $mosConfig_absolute_path, $sess,
 		$VM_LANG, $vmLogger, $database, $mosConfig_useractivation;
 
-		$vmLogger->err( 'ps_shopper add' );
+		$vmLogger->debug( 'ps_shopper add' );
 
 		//TODO must depend on vendor of bill,.. or on vendorS of the bill
 		$vendor_id =  1; //$_SESSION["ps_vendor_id"];
@@ -425,7 +404,7 @@ class ps_shopper {
 		//New function do the same with email of juser
 		//Can be used here, because a validation was already done
 		require_once( CLASSPATH . 'ps_user.php' );
-		ps_user::setUserInfoWithEmail($fields);
+		ps_user::setUserInfoWithEmail($fields,$uid);
 
 
 		$d['shopper_group_id'] = '';

@@ -26,7 +26,7 @@ require_once(CLASSPATH. 'ps_product.php' );
 $ps_product = new ps_product;
 require_once(CLASSPATH. 'ps_checkout.php' );
 $ps_checkout = new ps_checkout;
-require_once(CLASSPATH . 'ps_shipping_method.php' );
+require_once(CLASSPATH . 'shippingMethod.class.php' );
 
 global $weight_total, $total, $tax_total, $order_tax_details, $discount_factor;
 
@@ -92,7 +92,7 @@ else {
 		$product_rows[$i]['product_sku'] = $ps_product->get_field($cart[$i]["product_id"], "product_sku");
 
 		/* WEIGHT CALCULATION */
-		$weight_subtotal = ps_shipping_method::get_weight($cart[$i]["product_id"]) * $cart[$i]['quantity'];
+		$weight_subtotal = vmShippingMethod::get_weight($cart[$i]["product_id"]) * $cart[$i]['quantity'];
 		$weight_total += $weight_subtotal;
 
 		/* Product PRICE */

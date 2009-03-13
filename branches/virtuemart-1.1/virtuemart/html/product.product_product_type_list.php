@@ -23,9 +23,14 @@ global $ps_product_type;
 require_once( CLASSPATH . "pageNavigation.class.php" );
 require_once( CLASSPATH . "htmlTools.class.php" );
 
-$q  = "SELECT * FROM #__{vm}_product_type,#__{vm}_product_product_type_xref ";
+if(is_array($product_id)) {
+	$product_id=$product_id[0];
+	$title2 = $VM_LANG->_('VM_PRODUCT_PRODUCT_TYPE_ADD_MULTIPLE_PRODUCTS');
+}
+
+$q  = "SELECT  * FROM #__{vm}_product_type,#__{vm}_product_product_type_xref ";
 $q .= "WHERE #__{vm}_product_type.product_type_id=#__{vm}_product_product_type_xref.product_type_id ";
-$q .= "AND product_id='".$product_id."' ";
+$q .= "AND product_id = ('".$product_id."') ";
 $q .= "ORDER BY product_type_list_order asc ";
 $db->setQuery($q);   
 $db->query();
@@ -41,7 +46,9 @@ if (!empty($product_parent_id)) {
 }
 $url = $_SERVER['PHP_SELF'] . "?page=$modulename.product_form&product_id=$product_id&product_parent_id=$product_parent_id";
 $title .= "<a href=\"" . $sess->url($url) . "\">". $ps_product->get_field($product_id,"product_name")."</a>";
-
+if($title2) {
+	$title=$ttile2;
+}
 // print out the search field and a list heading
 $listObj->writeSearchHeader( $title, IMAGEURL."ps_image/product_code.png", $modulename, "product_list");
 

@@ -19,21 +19,23 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 $product_id = vmGet($_REQUEST, 'product_id', 0);
 $return_args = vmGet($_REQUEST, 'return_args');
 $option = empty($option)?vmGet( $_REQUEST, 'option', 'com_virtuemart'):$option;
-
-if( is_array( $product_id ))
-	$product_id = (int)$product_id[0];
-
-$product_parent_id = vmGet($_REQUEST, 'product_parent_id', 0);
-
 $title = '<img src="'. IMAGEURL .'ps_image/categories.gif" border="0" />'.$VM_LANG->_('PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_LBL');
-if (!empty($product_parent_id)) {
-  $title .= " " . $VM_LANG->_('PHPSHOP_PRODUCT_FORM_ITEM_LBL') . ": ";
-} else {
-  $title .= " " . $VM_LANG->_('PHPSHOP_PRODUCT') . ": ";
-}
-$url = $_SERVER['PHP_SELF'] . "?page=$modulename.product_form&product_id=$product_id&product_parent_id=$product_parent_id";
-$title .= "<a href=\"" . $sess->url($url) . "\">". $ps_product->get_field($product_id,"product_name"). "</a>";
 
+if( sizeof( $product_id ) == 1) {
+	//$product_id = (int)$product_id[0];
+
+	$product_parent_id = vmGet($_REQUEST, 'product_parent_id', 0);
+
+	if (!empty($product_parent_id)) {
+  		$title .= " " . $VM_LANG->_('PHPSHOP_PRODUCT_FORM_ITEM_LBL') . ": ";
+	} else {
+  		$title .= " " . $VM_LANG->_('PHPSHOP_PRODUCT') . ": ";
+	}
+	$url = $_SERVER['PHP_SELF'] . "?page=$modulename.product_form&product_id=$product_id&product_parent_id=$product_parent_id";
+	$title .= "<a href=\"" . $sess->url($url) . "\">". $ps_product->get_field($product_id[0],"product_name"). "</a>";
+} else {
+	$title .= $VM_LANG->_('VM_PRODUCT_PRODUCT_TYPE_ADD_MULTIPLE_PRODUCTS');
+}
 //First create the object and let it print a form heading
 $formObj = &new formFactory( $title );
 //Then Start the form
@@ -55,9 +57,10 @@ $formObj->startForm();
         <select class="inputbox" name="product_type_id">
           <?php 
 	$q  = "SELECT * FROM #__{vm}_product_product_type_xref ";
-	$q .= "WHERE product_id='".$product_id."'";
+	$q .= "WHERE product_id IN (".implode(",",$product_id).")";
+
 	$db->query( $q );
-              
+
 	$q  = "SELECT product_type_id, product_type_name, product_type_list_order ";
 	$q .= "FROM `#__{vm}_product_type` ";
 	$first = true;
@@ -68,7 +71,6 @@ $formObj->startForm();
 	}
 	$q .= "ORDER BY product_type_list_order ASC";
 	$db->query( $q );
-    
 	while( $db->next_record() ) {
 		echo "<option value=\"".$db->f("product_type_id")."\">".$db->f("product_type_name")."</option>";
 	}
@@ -80,7 +82,9 @@ $formObj->startForm();
 
 <?php
 // Add necessary hidden fields
-$formObj->hiddenField( 'product_id', $product_id );
+foreach($product_id as $prod_id) {
+	$formObj->hiddenField( 'product_id[]', $prod_id );
+}
 $formObj->hiddenField( 'product_parent_id', $product_parent_id );
 $formObj->hiddenField( 'return_args', $return_args );
 //

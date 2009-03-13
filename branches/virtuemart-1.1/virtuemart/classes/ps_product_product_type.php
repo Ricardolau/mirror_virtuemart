@@ -40,15 +40,35 @@ class vm_ps_product_product_type {
       return false;
     }
     $db = new ps_DB;
-    $q  = "SELECT COUNT(*) AS count FROM #__{vm}_product_product_type_xref ";
-    $q .= "WHERE product_id='".$d["product_id"]."' AND product_type_id='".$d["product_type_id"]."'";
+    $q  = "SELECT product_id,COUNT(*) AS count FROM #__{vm}_product_product_type_xref ";
+    if(is_array($d["product_id"])) {
+    	$product_ids = implode(",",$d["product_id"]);
+    	$q .= "WHERE product_id IN (".$product_ids.") AND product_type_id='".$d["product_type_id"]."' GROUP BY product_id";
+    } else {
+    	$q .= "WHERE product_id='".$d["product_id"]."' AND product_type_id='".$d["product_type_id"]."'";
+    }
     $db->query($q);
-    if ($db->f("count") != 0) {
+    if ($db->f("count") != 0 && sizeof($d["product_id"]) == 1) {
       $GLOBALS['vmLogger']->err( $VM_LANG->_('VM_PRODUCT_TYPE_ERR_ALREADY') );
       return false;
     }
     else {
-      return True;    
+    	$container = $d["product_id"];
+    	while($db->next_record()) {
+    		foreach($d["product_id"] as $prod_id) {
+    			if($prod_id != $db->f("product_id")) {
+    				$temp[] = $prod_id;
+    			}
+    		}
+    		$d["product_id"] = $temp;
+    		unset($temp);
+    	}
+    	if(empty($d["product_id"])) {
+    		$GLOBALS['vmLogger']->err( $VM_LANG->_('VM_PRODUCT_TYPE_ERR_ALREADY') );
+    		$d["product_id"] = $container;
+       		return false;
+    	}
+      	return True;    
     }
   }
 
@@ -84,21 +104,31 @@ class vm_ps_product_product_type {
   	global $VM_LANG;
   	
     $db = new ps_DB;
-	    
     if ($this->validate_add($d)) {
-
+    	if(is_array($d["product_id"])) {
+  			$q2 = "VALUES ";
+  			$q3 = "VALUES ";  		
+   			foreach($d["product_id"] as $product_id) {
+				$q2 .= "('".$product_id."','".$d["product_type_id"]."'),";
+				$q3 .= "('".$product_id."'),";
+			}
+			$q2 = substr($q2,0,-1);
+			$q3 = substr($q3,0,-1);
+    	} else {
+      			$q2 .= "VALUES ('".$d["product_id"]."','".$d["product_type_id"]."')";
+    		    $q3 .= "VALUES ('".$d["product_id"]."')";
+    	} 
       $q  = "INSERT INTO #__{vm}_product_product_type_xref (product_id, product_type_id) ";
-      $q .= "VALUES ('".$d["product_id"]."','".$d["product_type_id"]."')";
+      $q .= $q2;
       $db->query($q);
-      
       $q  = "INSERT INTO #__{vm}_product_type_".$d["product_type_id"]." (product_id) ";
-      $q .= "VALUES ('".$d["product_id"]."')";
+      $q .= $q3;
       $db->query($q);
       $GLOBALS['vmLogger']->info( $VM_LANG->_('VM_PRODUCT_PRODUCT_TYPE_ASSIGNED') );
       return true;
     }
     else {
-      return False;
+    	return False;
     }
 
   }

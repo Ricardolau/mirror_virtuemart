@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+13.03.2009 macallf
+# Task #2532 Fixed adding multiple products to product_type
+
 12.03.2009 aravot
 # Fixed - Fatal error: Class 'ps_order_change' not found in ps_order_change.php
 

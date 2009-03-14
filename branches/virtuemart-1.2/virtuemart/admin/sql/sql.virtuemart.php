@@ -47,10 +47,6 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_auth_user_vendor` (
   KEY `idx_auth_user_vendor_vendor_id` (`vendor_id`)
 ) TYPE=MyISAM COMMENT='Maps a user to a vendor'; ");
 
-## 
-## Dumping data for table `#__{vm}_auth_user_vendor`
-## 
-$db->query( "REPLACE `#__{vm}_auth_user_vendor` (`user_id`, `vendor_id`) VALUES (62, 1);" );
 
 
 ## --------------------------------------------------------
@@ -2316,7 +2312,6 @@ $db->query( "INSERT INTO `#__{vm}_userfield_values` VALUES (3, 25, 'PHPSHOP_ACCO
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_vendor` (
   `vendor_id` int(11) NOT NULL auto_increment,
   `vendor_name` varchar(64) default NULL,
-  `vendor_nick` varchar(150) NOT NULL default '',
   `vendor_phone` varchar(32) default NULL,
   `vendor_store_name` varchar(128) NOT NULL default '',
   `vendor_store_desc` text,
@@ -2344,11 +2339,8 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_vendor` (
 ## 
 ## Dumping data for table `#__{vm}_vendor`
 ## 
-
-$db->query( "INSERT INTO `#__{vm}_vendor` (`vendor_id`, `vendor_name`, `vendor_nick`, `vendor_phone`, `vendor_store_name`, `vendor_store_desc`, `vendor_category_id`, `vendor_thumb_image`, `vendor_full_image`, `vendor_currency`, `cdate`, `mdate`, `vendor_image_path`, `vendor_terms_of_service`, `vendor_url`, `vendor_min_pov`, `vendor_freeshipping`, `vendor_currency_display_style`, `vendor_accepted_currencies`, `vendor_address_format`, `vendor_date_format`) VALUES
-(1, '', '', '', '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '')" );
-//$db->query( "INSERT INTO `#__{vm}_vendor` (`vendor_id`, `vendor_name`, `vendor_nick`, `vendor_phone`, `vendor_store_name`, `vendor_store_desc`, `vendor_category_id`, `vendor_thumb_image`, `vendor_full_image`, `vendor_currency`, `cdate`, `mdate`, `vendor_image_path`, `vendor_terms_of_service`, `vendor_url`, `vendor_min_pov`, `vendor_freeshipping`, `vendor_currency_display_style`, `vendor_accepted_currencies`, `vendor_address_format`, `vendor_date_format`) VALUES
-//(1, 'Washupito''s Tiendita', '', '555-555-1212', 'Washupito''s Tiendita', '<p>We have the best tools for do-it-yourselfers.  Check us out! </p> 		<p>We were established in 1969 in a time when getting good tools was expensive, but the quality was good.  Now that only a select few of those authentic tools survive, we have dedicated this store to bringing the experience alive for collectors and master mechanics everywhere.</p> 		<p>You can easily find products selecting the category you would like to browse above.</p>', 0, '', 'c19970d6f2970cb0d1b13bea3af3144a.gif', 'USD', 950302468, 1233519671, '', '<h5>You haven''t configured any terms of service yet. Click <a href=administrator/index2.php?page=store.store_form&option=com_virtuemart>here</a> to change this text.</h5>', '$mosConfig_live_site', 0.00, 0.00, '1|$|2|.| |2|1', 'USD', '{storename}\r\n{address_1}\r\n{address_2}\r\n{city}, {zip}', '%A, %d %B %Y %H:%M'); " );
+$db->query( "INSERT INTO `#__{vm}_vendor` (`vendor_id`, `vendor_name`, `vendor_phone`, `vendor_store_name`, `vendor_store_desc`, `vendor_category_id`, `vendor_thumb_image`, `vendor_full_image`, `vendor_currency`, `cdate`, `mdate`, `vendor_image_path`, `vendor_terms_of_service`, `vendor_url`, `vendor_min_pov`, `vendor_freeshipping`, `vendor_currency_display_style`, `vendor_accepted_currencies`, `vendor_address_format`, `vendor_date_format`) VALUES
+(1, 'Washupito''s Tiendita', '', '555-555-1212', 'Washupito''s Tiendita', '<p>We have the best tools for do-it-yourselfers.  Check us out! </p> 		<p>We were established in 1969 in a time when getting good tools was expensive, but the quality was good.  Now that only a select few of those authentic tools survive, we have dedicated this store to bringing the experience alive for collectors and master mechanics everywhere.</p> 		<p>You can easily find products selecting the category you would like to browse above.</p>', 0, '', 'c19970d6f2970cb0d1b13bea3af3144a.gif', 'USD', 950302468, 1233519671, '', '<h5>You haven''t configured any terms of service yet. Click <a href=administrator/index2.php?page=store.store_form&option=com_virtuemart>here</a> to change this text.</h5>', '$mosConfig_live_site', 0.00, 0.00, '1|$|2|.| |2|1', 'USD', '{storename}\r\n{address_1}\r\n{address_2}\r\n{city}, {zip}', '%A, %d %B %Y %H:%M'); " );
 
 ## --------------------------------------------------------
 
@@ -2425,11 +2417,22 @@ $db->query( "INSERT INTO `#__{vm}_zone_shipping` VALUES (1, 'Default', 6.00, 35.
 $db->query( "SELECT `id`, `email`, `registerDate`, `lastvisitDate` FROM `#__users`"); 
 $row = $db->loadObjectList();
 foreach( $row as $user) {
-	$db->query( "INSERT INTO `#__{vm}_auth_user_vendor` VALUES ('".$user->id."', '0');" );
+//	$db->query( "INSERT INTO `#__{vm}_auth_user_vendor` VALUES ('".$user->id."', '0');" );
 	$db->query( "INSERT INTO `#__{vm}_shopper_vendor_xref` VALUES ('".$user->id."', '1', '5', '');" );
 	$db->query( "INSERT INTO `#__{vm}_user_info` (`user_info_id`,`user_id`, `address_type`,`cdate`,`mdate` )
 					VALUES( '".md5(uniqid('virtuemart'))."','".$user->id."','BT', UNIX_TIMESTAMP('".$user->registerDate."'),UNIX_TIMESTAMP('".$user->lastvisitDate."'));" );
 }
+# Admin is storeowner
+#$db->query( "REPLACE `#__{vm}_user_info` (`user_is_vendor`) VALUES (1) WHERE `user_id` = 62;" );
+#$db->query( "UPDATE `#__{vm}_user_info` SET `user_is_vendor` = '1' WHERE FIND_IN_SET( `user_id`, '62' )  );
+
+# Set Admin Xref to vendor_id = 1
+$db->query( "INSERT `#__{vm}_auth_user_vendor` (`user_id`, `vendor_id`) VALUES (62, 1);" );
+
+# Set of Mainvendor
+$db->query( "INSERT INTO `#__{vm}_vendor` (`vendor_id`, `vendor_name`, `vendor_phone`, `vendor_store_name`, `vendor_store_desc`, `vendor_category_id`, `vendor_thumb_image`, `vendor_full_image`, `vendor_currency`, `cdate`, `mdate`, `vendor_image_path`, `vendor_terms_of_service`, `vendor_url`, `vendor_min_pov`, `vendor_freeshipping`, `vendor_currency_display_style`, `vendor_accepted_currencies`, `vendor_address_format`, `vendor_date_format`) VALUES
+(1, '', '', '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '')" );
+
 
 # insert the user <=> group relationship
 $db->query( "INSERT INTO `#__{vm}_auth_user_group` 

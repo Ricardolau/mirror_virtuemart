@@ -36,6 +36,11 @@ Legend:
 VirtueMart 1.2.x
 *************************************
 
+14.03.2009 Max Milbers (Zoyami)
+# Fixed installation;
+	Important there must exist the data for the mainvendor in the sql file. Installing of Sampledata could be damaged
+
+
 13.03.2009 Max Milbers (Zoyami)
 ! Changed completly the way how to add a vendor.
 	The vendor is now an attribute of a user. Create a user and make him to a vendor
@@ -45,7 +50,7 @@ VirtueMart 1.2.x
 	like handling orders, products, categories and so on, but this must be worked out (in fact only the call
 	of ps_vendor::get_vendor_id_by_user_id() must be reviewed and ownerOnly boolean set. they can NOT change the shopinformation
 
-! Btw,... the function to assign many users to one vendor is implement,... This is NOT the list of the shoppers 
+! Btw,... the function to assign many users to one vendor is implemented,... This is NOT the list of the shoppers 
 	who bought from a vendor. this will be implemented later (TODO)
 ! TODO the labels in the additional vendor tab are not working with the language file
 ! TODO The currency display does not work properly. It shouldnt be global like now. Daniel want to make them as pointers.

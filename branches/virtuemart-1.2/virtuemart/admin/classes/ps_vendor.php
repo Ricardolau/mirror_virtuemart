@@ -178,14 +178,16 @@ class ps_vendor {
 			'vendor_date_format');
 	
 			foreach($fields as $field){
-
 				if(!in_array($field, $allowedStrings)){
 					echo( 'get_vendor_fields: field not known: '.$field );
 					$GLOBALS['vmLogger']->err( 'get_vendor_fields: field not known: '.$field );	
 					return;
 				}
 			}
-			
+			//Probably faster in the foreach
+			if(in_array($field, array('email'))){
+				$usertable = true;
+			}
 			$fieldstring = '`'. implode( '`,`', $fields ) . '`';
 			if(empty($fieldstring)){
 				echo( 'get_vendor_fields implode returns empty String: '.$fields[0] );
@@ -206,7 +208,9 @@ class ps_vendor {
 		$db->query($q);
 		
 		if( ! $db->next_record() ) {
-			print "<h1>Invalid query vendor_id: $vendor_id und user_id: $user_id</h1>" ;
+			print '<h1>Invalid query in get_vendor_fields <br />';
+			print 'vendor_id: '.$vendor_id.' and user_id: '.$user_id.' <br />' ;
+			print '$orderby: '.$orderby.' and $usertable: '.$usertable.'</h1>' ;
 			return ;
 		}else{
 			return $db;
@@ -685,15 +689,15 @@ class ps_vendor {
 
 		$db = new ps_DB;
 
-		$q = "SELECT vendor_id,vendor_name FROM #__{vm}_vendor ORDER BY vendor_name";
+		$q = 'SELECT `vendor_id`,`vendor_name` FROM `#__{vm}_vendor` ORDER BY `vendor_name`';
 		$db->query($q);
 		$db->next_record();
 
 		// If only one vendor do not show list
-		if ($db->num_rows() == 1) {
+		if ($db->num_rows() == 1 && !$withZero) {
 			echo '<input type="hidden" name="vendor_id" value="'.$db->f("vendor_id").'" />';
 			echo $db->f("vendor_name");
-		}
+		}	
 		elseif($db->num_rows() > 1) {
 			$db->reset();
 			$array = array();
@@ -702,6 +706,12 @@ class ps_vendor {
 			}
 			while ($db->next_record()) {
 				$array[$db->f("vendor_id")] = $db->f("vendor_name");
+			}
+			echo ps_html::selectList('vendor_id', $vendor_id, $array );
+		}
+		else{
+			if($withZero){
+				$array[0] = "-";
 			}
 			echo ps_html::selectList('vendor_id', $vendor_id, $array );
 		}
@@ -722,7 +732,7 @@ class ps_vendor {
 		
 		// If mainvendor or adminrights show whole list
 		if($vendor_id==1 || $perm->check( 'admin' )){
-			$q = "SELECT vendor_id,vendor_name FROM #__{vm}_vendor ORDER BY vendor_name";
+			$q = 'SELECT `vendor_id`,`vendor_name` FROM `#__{vm}_vendor` ORDER BY `vendor_name` ';
 			$db->query($q);
 			$db->next_record();
 			if ($db->num_rows() == 1) {

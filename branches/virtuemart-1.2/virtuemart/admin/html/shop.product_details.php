@@ -382,7 +382,11 @@ if ($product_parent_id!=0 && !$ps_product_type->product_in_product_type($product
 else {
 	$product_type = $ps_product_type->list_product_type($product_id);
 }
-
+if(is_array($product_type) && !empty($product_type)) {
+	foreach( $product_type as $property => $value ) {
+		$tpl->set( $property, $value);
+	}
+}
 
 $recent_products = $ps_product->recentProducts($product_id,$tpl->get_cfg('showRecent', 5));
 /**
@@ -448,7 +452,6 @@ $tpl->set( "product_availability_data", $product_availability_data );
 
 $tpl->set( "related_products", $related_products );
 $tpl->set( "vendor_link", $vendor_link );
-$tpl->set( "product_type", $product_type ); // Changed Product Type
 $tpl->set( "product_packaging", $product_packaging ); // Changed Packaging
 $tpl->set( "ask_seller_href", $ask_seller_href ); // Product Enquiry!
 $tpl->set( "ask_seller_text", $ask_seller_text ); // Product Enquiry!

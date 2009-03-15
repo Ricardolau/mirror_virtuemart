@@ -34,6 +34,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+15.03.2009 rolandd
+# Bug #2539 missing in conditional expression in mod_virtuemart TigraTree
+# CSV Improved not correctly detected
+
 13.03.2009 macallf
 # Task #2532 Fixed adding multiple products to product_type
 

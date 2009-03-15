@@ -35,6 +35,8 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+15.03.2009 rolandd
+# Bug #2539 missing in conditional expression in mod_virtuemart TigraTree
 
 14.03.2009 Max Milbers (Zoyami)
 # Fixed installation;

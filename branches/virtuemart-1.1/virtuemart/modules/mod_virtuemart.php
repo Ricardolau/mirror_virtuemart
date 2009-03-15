@@ -161,8 +161,21 @@ if ($perm->check("admin,storeadmin")
 if ($perm->is_registered_customer($auth["user_id"]) && $show_accountlink == 'yes') {
   ?> 
     <tr> 
-      <td colspan="2"><a class="<?php echo $class_mainlevel ?>" href="<?php $sess->purl(SECUREURL . "index.php?page=account.index");?>">
-      <?php echo $VM_LANG->_('PHPSHOP_ACCOUNT_TITLE') ?></a></td>
+		<td colspan="2">
+			<?php
+			$class_att = 'class="'. $class_mainlevel .'"';
+			$href = $sess->url(SECUREURL."index.php?page=account.index", true);
+			$href2 = $sess->url(SECUREURL."index2.php?page=account.index", true);
+			
+			$text = $VM_LANG->_('PHPSHOP_ACCOUNT_TITLE');
+			if( $useGreyBox_accountlink ) {
+				echo vmCommonHTML::getGreyboxPopUpLink( $href2, $text, '', $text, $class_att, 500, 600, $href );
+			}
+			else {
+				echo vmCommonHTML::hyperlink( $href, $text, '', $text, $class_att );
+			}
+			?>
+		</td>
     </tr><?php 
 }
 
@@ -337,7 +350,8 @@ if (USE_AS_CATALOGUE != '1' && $show_minicart == 'yes'  && !$db->f("published") 
         	<?php
 	        $class_att = 'class="'. $class_mainlevel .'"';
 	        $href = $sess->url($mm_action_url."index.php?page=shop.cart");
-	        $href2 = $sess->url($mm_action_url."index2.php?page=shop.cart");
+	        $href2 = $sess->url($mm_action_url."index2.php?page=shop.cart", true);
+			
 	        $text = $VM_LANG->_('PHPSHOP_CART_SHOW');
 	        if( $useGreyBox_cartlink ) {
 	        	echo vmCommonHTML::getGreyboxPopUpLink( $href2, $text, '', $text, $class_att, 500, 600, $href );

@@ -113,7 +113,7 @@ class vm_vmMainFrame {
 	 * @param	string  $type		Type of script. Defaults to 'text/javascript'
 	 * @access   public
 	 */
-	function addScript($url, $type="text/javascript") {
+	function addScript($url, $position = 'middle', $type="text/javascript") {
 		static $included_scripts = array();
 		if( vmIsJoomla('1.0') && (strstr($_SERVER['SCRIPT_NAME'],'index3.php') || strstr($_SERVER['SCRIPT_NAME'],'index2.php')) || 
 			!vmIsJoomla() && defined('_VM_IS_BACKEND')) {
@@ -124,7 +124,8 @@ class vm_vmMainFrame {
 		else $included_scripts[$url] = 1;
 		$this->_scripts[] = array( 'url' => $url,
 												'content' => '',
-												'type' => $type);
+												'type' => $type,
+												'position' => strtolower($position));
 	}
 
 	/**
@@ -133,9 +134,10 @@ class vm_vmMainFrame {
 	 * @access   public
 	 * @param	string  $content   Script
 	 * @param	string  $type		Scripting mime (defaults to 'text/javascript')
+	 * @param	string  $position	Set to when the script should be loaded. Positions are top, middle, bottom
 	 * @return   void
 	 */
-	function addScriptDeclaration($content, $type = 'text/javascript') {
+	function addScriptDeclaration($content, $position = 'middle', $type = 'text/javascript') {
 		if( vmIsJoomla('1.0') && strstr($_SERVER['SCRIPT_NAME'],'index3.php') || 
 			!vmIsJoomla() && defined('_VM_IS_BACKEND')) {
 			echo vmCommonHTML::scriptTag('', $content);
@@ -143,7 +145,8 @@ class vm_vmMainFrame {
 		}
 		$this->_scripts[] = array( 'url' => '',
 												'content' => $content,
-												'type' => strtolower($type));
+												'type' => strtolower($type),
+												'position' => strtolower($position));
 	}
 
 	/**
@@ -235,52 +238,85 @@ class vm_vmMainFrame {
 		// Gather all the linked Scripts into ONE link
 		$i = 0;
 		$appendix = '';
-		$otherscripts = array();
+		$loadorder = array();
+		
 		foreach( $this->_scripts as $script ) {
 			$src = $script['url'];
 			$type = $script['type'];
 			$content = $script['content'];
+			$position = $script['position'];
 			$urlpos = strpos( $src, '?' );			
 			$url_params = '';
+			$js_file = false;
+			$js_statement = false;
 			
 			if( $urlpos && (stristr( $src, VM_COMPONENT_NAME ) && !stristr( $src, '.php' ) && $use_fetchscript) ) {
 				$url_params = '&amp;'.substr( $src, $urlpos );
 				$src = substr( $src, 0, $urlpos);
 			}
+			
+			/* Group the JS files together */
 			if( stristr( $src, VM_COMPONENT_NAME ) && !stristr( $src, '.php' ) && $use_fetchscript) {
 				$base_source = str_replace( $GLOBALS['real_mosConfig_live_site'], '', $src );
 				$base_source = str_replace( $GLOBALS['mosConfig_live_site'], '', $base_source );
 				$base_source = str_replace( '/components/'.VM_COMPONENT_NAME, '', $base_source);
 				$base_source = str_replace( 'components/'.VM_COMPONENT_NAME, '', $base_source);
-				$appendix .= '&amp;subdir['.$i.']='.dirname( $base_source ) . '&amp;file['.$i.']=' . basename( $src );
+				$js_file = '&amp;subdir['.$i.']='.dirname( $base_source ) . '&amp;file['.$i.']=' . basename( $src );
 				$i++;
-			} else {
-				$otherscripts[] = array('type'=>$type, 'src'=>$src, 'content' => $content);
+			} 
+			/* Group the JS statements together */
+			else {
+				$js_statement = array('type'=>$type, 'src'=>$src, 'content' => $content);
+			}
+			
+			/* Group the statements according to their position */
+			/* JS files */
+			if ($js_file) {
+				if (!isset($loadorder[$position]['js_file']['appendix'])) $loadorder[$position]['js_file']['appendix'] = '';
+				$loadorder[$position]['js_file']['appendix'] .= $js_file;
+			}
+			$js_file = false;
+			
+			/* JS statements */
+			if ($js_statement) {
+				$loadorder[$position]['js_statement'][] = $js_statement;
+			}
+			$js_statement = false;
+		}
+		
+		/* Add the JS to the output */
+		$processorder = array('top', 'middle', 'bottom');
+		foreach ($processorder as $key => $pos) {
+			if (isset($loadorder[$pos])) {
+				if (isset($loadorder[$pos]['js_file'])) {
+					/* JS files */
+					$src = $mosConfig_live_site.'/components/'.VM_COMPONENT_NAME.'/fetchscript.php?gzip='.$mosConfig_gzip;
+					$src .= $loadorder[$pos]['js_file']['appendix'];
+					$tag = '<script src="'.$src.@$url_params.'" type="text/javascript"></script>';
+					if( $print ) {
+						echo $tag;
+					} else {
+						$mainframe->addCustomHeadTag( $tag );
+					}
+				}
+				if (isset($loadorder[$pos]['js_statement'])) {
+					/* JS statements */
+					foreach ($loadorder[$pos]['js_statement'] AS $statement_key => $otherscript) {
+						if( !empty($otherscript['src'])) {
+							$tag = '<script type="'.$otherscript['type'].'" src="'.$otherscript['src'].'"></script>';
+						} else {
+							$tag = '<script type="'.$otherscript['type'].'">'.$otherscript['content'].'</script>';
+						}
+						if( $print ) {
+							echo $tag;
+						} else {
+							$mainframe->addCustomHeadTag( $tag );
+						}
+					}
+				}
 			}
 		}
-		foreach( $otherscripts as $otherscript ) {
-			if( !empty($otherscript['src'])) {
-				$tag = '<script type="'.$otherscript['type'].'" src="'.$otherscript['src'].'"></script>';
-			} else {
-				$tag = '<script type="'.$otherscript['type'].'">'.$otherscript['content'].'</script>';
-			}
-			if( $print ) {
-				echo $tag;
-			} else {
-				$mainframe->addCustomHeadTag( $tag );
-			}
-		}
-		if( $i> 0 ) {
-			$src = $mosConfig_live_site.'/components/'.VM_COMPONENT_NAME.'/fetchscript.php?gzip='.$mosConfig_gzip;
-			$src .= $appendix;
-			$tag = '<script src="'.$src.@$url_params.'" type="text/javascript"></script>';
-			if( $print ) {
-				echo $tag;
-			} else {
-				$mainframe->addCustomHeadTag( $tag );
-			}
-		}
-
+		
 		// Gather all the linked Stylesheets into ONE link
 		$i = 0;
 		$appendix = '';			
@@ -420,3 +456,4 @@ if (defined('VM_ALLOW_EXTENDED_CLASSES') && defined('VM_THEMEPATH') && VM_ALLOW_
 	// Otherwise we have to use the original classname to extend the core-class
 	class vmMainframe extends vm_vmMainFrame {}
 }
+?>

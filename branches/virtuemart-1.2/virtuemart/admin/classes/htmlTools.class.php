@@ -833,7 +833,7 @@ class vmCommonHTML {
 		global $mosConfig_live_site, $vm_mainframe;
 		if( !defined( '_GREYBOX_LOADED' )) {
 
-			$vm_mainframe->addScriptDeclaration( 'var GB_ROOT_DIR = \''.$mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/greybox/\';' );
+			$vm_mainframe->addScriptDeclaration( 'var GB_ROOT_DIR = \''.$mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/greybox/\';', 'top' );
 			$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/greybox/AJS.js' );
 			$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/greybox/AJS_fx.js' );
 			$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/greybox/gb_scripts.js' );
@@ -877,7 +877,7 @@ class vmCommonHTML {
 
 			$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/extjs2/ext-yui-adapter.js' );
 			$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/extjs2/ext-all.js' );
-			$vm_mainframe->addScriptDeclaration( 'Ext.BLANK_IMAGE_URL = "'.$mosConfig_live_site.'/components/'. VM_COMPONENT_NAME .'/js/extjs2/images/default/s.gif";' );
+			$vm_mainframe->addScriptDeclaration( 'Ext.BLANK_IMAGE_URL = "'.$mosConfig_live_site.'/components/'. VM_COMPONENT_NAME .'/js/extjs2/images/default/s.gif";', 'bottom' );
 			$vm_mainframe->addStyleSheet( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/extjs2/css/ext-all.css' );
 			$vm_mainframe->addStyleSheet( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/extjs2/css/xtheme-gray.css' );
 			define ( "_EXTJS_LOADED", "1" );

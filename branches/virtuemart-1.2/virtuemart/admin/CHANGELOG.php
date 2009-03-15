@@ -37,6 +37,10 @@ VirtueMart 1.2.x
 *************************************
 15.03.2009 rolandd
 # Bug #2539 missing in conditional expression in mod_virtuemart TigraTree
+# Bug #2526 Open Account Maintenance in a GreyBox does not work.
+# Bug #2538 Ext is undefined
+# Fixed - Open Checkout in Greybox (revisited)
+^ Updated DTD for modules for J1.5
 
 14.03.2009 Max Milbers (Zoyami)
 # Fixed installation;

@@ -150,7 +150,8 @@ class vmMainFrame {
 		else $included_scripts[$url] = 1;
 		$this->_scripts[] = array( 'url' => $url,
 												'content' => '',
-												'type' => $type);
+												'type' => $type,
+												'position' => strtolower($position));
 	}
 
 	/**
@@ -170,7 +171,8 @@ class vmMainFrame {
 		}
 		$this->_scripts[] = array( 'url' => '',
 												'content' => $content,
-												'type' => strtolower($type));
+												'type' => strtolower($type),
+												'position' => strtolower($position));
 	}
 
 	/**

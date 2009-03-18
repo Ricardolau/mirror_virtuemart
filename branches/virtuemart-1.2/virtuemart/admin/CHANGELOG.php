@@ -35,6 +35,9 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+18.03.2009 rolandd
+# Bug #2542 Cannot proceed after installation, get Undefined index: position error 
+
 15.03.2009 rolandd
 # Bug #2539 missing in conditional expression in mod_virtuemart TigraTree
 # Bug #2526 Open Account Maintenance in a GreyBox does not work.

@@ -35,6 +35,9 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+19.03.2009 aravot
+# Fixed - Review message. 
+
 18.03.2009 rolandd
 # Bug #2542 Cannot proceed after installation, get Undefined index: position error 
 

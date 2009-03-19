@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+19.03.2009 aravot
+# Fixed - Review message. 
+
 15.03.2009 rolandd
 # Bug #2539 missing in conditional expression in mod_virtuemart TigraTree
 # CSV Improved not correctly detected

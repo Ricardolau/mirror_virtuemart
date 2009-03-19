@@ -20,7 +20,7 @@ if (!$alreadycommented) {
 	      return false;
 	    }
 	    else if (form.comment.value.length > <?php echo VM_REVIEWS_MAXIMUM_COMMENT_LENGTH ?>) {
-	      alert('<?php echo sprintf( $VM_LANG->_('PHPSHOP_REVIEW_ERR_COMMENT1',false), VM_REVIEWS_MAXIMUM_COMMENT_LENGTH )  ?>');
+	      alert('<?php echo sprintf( $VM_LANG->_('PHPSHOP_REVIEW_ERR_COMMENT2',false), VM_REVIEWS_MAXIMUM_COMMENT_LENGTH )  ?>');
 	      return false;
 	    }
 	    else {

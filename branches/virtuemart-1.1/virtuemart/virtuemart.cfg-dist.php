@@ -31,7 +31,7 @@ if( $mosConfig_live_site[strlen( $mosConfig_live_site)-1] == '/' ) {
 else {
 	$app = '/';
 }
-// these path and url definitions here are based on the mambo configuration
+// these path and url definitions here are based on the Joomla configuration
 define( 'URL', $mosConfig_live_site.$app );
 define( 'SECUREURL', $mosConfig_live_site.$app);
 

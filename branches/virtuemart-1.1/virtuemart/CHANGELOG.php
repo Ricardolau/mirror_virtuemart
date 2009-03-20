@@ -34,6 +34,8 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+20.03.2009 macallf
+# Bug 2543 Fixed
 19.03.2009 aravot
 # Fixed - Review message. 
 

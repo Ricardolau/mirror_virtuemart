@@ -651,9 +651,9 @@ class vm_ps_product_files extends vmAbstractObject {
 		$files['images'] = array();
 		$files['files'] = array();
 		// Query for images if child doesn't have them check for parents
-		$db->query( "SELECT * FROM `#__{vm}_product_files` WHERE `file_product_id`=".intval($pid)." AND `file_is_image=1` AND `file_published`=1" );
+		$db->query( "SELECT * FROM `#__{vm}_product_files` WHERE `file_product_id`=".intval($pid)." AND `file_is_image`=1 AND `file_published`=1" );
 		if(!$db->next_record()) {
-			$db->query("SELECT product_parent_id FROM #__{vm}_product WHERE product_id='$pid'");
+			$db->query("SELECT product_parent_id FROM #__{vm}_product WHERE product_id=".intval($pid) );
 			$db->query( "SELECT * FROM `#__{vm}_product_files` WHERE `file_product_id`=".$db->f("product_parent_id")." AND `file_is_image=1` AND `file_published`=1" );
 		}
 		$db->reset();
@@ -662,7 +662,7 @@ class vm_ps_product_files extends vmAbstractObject {
 		}
 		// Query for files if child doesn't have them check for parent
 		$files['product_id'] = intval($pid);
-		$db->query( "SELECT * FROM `#__{vm}_product_files` WHERE `file_product_id`=".intval($pid)." AND `file_is_image=0` AND `file_published`=1" );
+		$db->query( "SELECT * FROM `#__{vm}_product_files` WHERE `file_product_id`=".intval($pid)." AND `file_is_image`=0 AND `file_published`=1" );
 		if(!$db->next_record()) {
 			$db->query("SELECT product_parent_id FROM #__{vm}_product WHERE product_id='$pid'");
 			// Parent has files so set files['product_id'] to parent id
@@ -672,7 +672,7 @@ class vm_ps_product_files extends vmAbstractObject {
 		$db->reset();
 		while( $db->next_record() ) {
 			$files['files'][] = $db->get_row();
-		}		
+		}	
 		return $files;
 		
 	}

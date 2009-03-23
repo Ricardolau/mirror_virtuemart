@@ -263,13 +263,9 @@ class ps_user {
 			$vmLogger->info( $VM_LANG->_('VM_USER_UPDATED') );
 		}
 		
-		if(!empty($uid)){
-			//If the user is a vendor update the vendor informations too
-			$db = ps_user::get_user_details($uid, array('user_is_vendor'));	
-			$userIsVendor = $db -> f('user_is_vendor');	
-			if($userIsVendor){
-				ps_vendor::addUpdateVendor($d, $uid);	
-			}
+		// if the user is a vendor update the vendor information too
+		if(ps_user::isvendor($uid)) {
+			ps_vendor::addUpdateVendor($d, $uid);	
 		}
 
 		return $uid;
@@ -806,7 +802,26 @@ class ps_user {
 			return $db;
 		}
 	}
-	
+	/**
+	 * Function to determine if a user is
+	 *
+	 * @param int $user_id
+	 * @param int $vendor_id
+	 * @return boolean
+	 */
+	function isVendor( $user_id, $vendor_id=0 ) {
+		if(empty ($user_id))return;
+		$db = new ps_DB();
+		
+		$q = 'SELECT vendor_id FROM `#__{vm}_auth_user_vendor` WHERE user_id='.(int)$user_id;
+		if( $vendor_id > 0 ) {
+			$q.= ' AND vendor_id='.(int)$vendor_id; 
+		}
+		$db->query( $q );
+			
+		return $db->next_record();	
+		
+	}
 	
 	/**
 	 * Logs in a customer

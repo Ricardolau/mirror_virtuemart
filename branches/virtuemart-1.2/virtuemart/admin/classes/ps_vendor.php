@@ -260,11 +260,11 @@ class ps_vendor {
 
 		
 		if (!$d['vendor_name']) {
-			$d['vendor_name'] = $d['vendor_nick'];
+			$d['vendor_name'] = vmRequest::getVar('vendor_nick');
 		} 
 		
 		if (!$d['vendor_store_name']) {
-			$d['vendor_store_name'] = $d['vendor_nick'];
+			$d['vendor_store_name'] = vmRequest::getVar('vendor_nick');
 		}
 		
 //		for ($x = 0; $x < sizeof($d); ++$x){
@@ -403,8 +403,6 @@ class ps_vendor {
 				'vendor_min_pov' => $d['vendor_min_pov'],
 				'vendor_currency_display_style' => $d['display_style'],
 				'vendor_freeshipping' => $d['vendor_freeshipping'],
-				
-				'cdate' => $timestamp,
 				'mdate' => $timestamp,
 				//The other line would be better, but it rises a warning
 //				'vendor_accepted_currencies' => implode( ',', vmRequest::getVar('vendor_accepted_currencies') ),
@@ -435,6 +433,7 @@ class ps_vendor {
 			$whereAnd = "";
 			$add = true;
 			$vmLogger->debug('setVendorInfo ADD');
+			$fields['cdate'] = $timestamp; // add a creation date only if this is an INSERT
 		}else{
 			$action = 'UPDATE';
 			$whereAnd = 'WHERE `vendor_id`='.(int)$vendor_id . $and;
@@ -442,7 +441,6 @@ class ps_vendor {
 			$vmLogger->debug('setVendorInfo UPDATE');
 		}
 		
-			
 		$db->buildQuery( $action, '#__{vm}_vendor', $fields, $whereAnd );
 		if( $db->query() === false ) {
 			$GLOBALS['vmLogger']->err('setVendorInfo '.$action.' set user_info failed for $vendor_id '.$vendor_id);

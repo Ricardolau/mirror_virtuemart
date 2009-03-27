@@ -766,14 +766,10 @@ $tabs->endTab();
 
 $tabs->startTab( $display_label, "display-page");
 
-$child_options_visbility = '';
-if( !$ps_product->product_has_attributes($product_id)) {
-	$child_options_visbility = 'style="display:none;"';
-}
 ?>
 <h2><?php echo $display_label ?></h2>
 
-  <table class="adminform" <?php echo $child_options_visbility ?>>
+  <table class="adminform">
     <tr>
       <td align="left" colspan="2"></td>
     </tr>

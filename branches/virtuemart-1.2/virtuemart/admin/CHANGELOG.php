@@ -35,8 +35,11 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+30.03.2009 aravot
++ Added Continue Shopping link when cart is empty
+ 
 19.03.2009 aravot
-# Fixed - Review message. 
+# Review message fixed. 
 
 18.03.2009 rolandd
 # Bug #2542 Cannot proceed after installation, get Undefined index: position error 

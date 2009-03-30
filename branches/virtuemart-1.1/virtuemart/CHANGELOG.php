@@ -34,6 +34,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+30.03.2009 aravot
+^ Changed PayPal test account link in notify.php
++ Added Continue Shopping link when cart is empty
+ 
 20.03.2009 macallf
 # Bug #2543
 

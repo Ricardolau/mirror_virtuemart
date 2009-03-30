@@ -22,8 +22,29 @@ echo '<h2>'. $VM_LANG->_('PHPSHOP_CART_TITLE') .'</h2>
 ';
 include(PAGEPATH. 'basket.php');
 echo $basket_html;
-echo '<!-- End Cart --><br />
+echo '<!-- End Cart --><br /><br />
 ';
+// show Continue Shopping link when the cart is empty 
+if ($cart["idx"] == 0) {
+    ?>
+    <?php
+      if( $continue_link != '') {
+       ?>
+        <a href="<?php echo $continue_link ?>" class="continue_link">
+       <?php echo $VM_LANG->_('PHPSHOP_CONTINUE_SHOPPING'); ?>
+        </a>
+       <?php
+    }
+    else {
+      $continue_link=$sess->url($_SERVER['PHP_SELF'].'?option=com_virtuemart' ); 
+    ?>
+    <a href="<?php echo $continue_link ?>" class="continue_link">
+    <?php echo $VM_LANG->_('PHPSHOP_CONTINUE_SHOPPING'); ?>
+    </a>
+    <?php
+    }
+}
+// end Continue Shopping link	
 
 if ($cart["idx"]) {
     ?>

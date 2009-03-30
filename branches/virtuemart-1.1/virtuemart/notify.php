@@ -260,10 +260,10 @@ if ($_POST) {
     * Create message to post back to PayPal...
     * Open a socket to the PayPal server...
     *--------------------------------------------*/
-    // To Debug this script, just visit www.eliteweaver.co.uk/testing/ipntest.php
+    // To Debug this script, just visit www.sandbox.paypal.com/cgi-bin/webscr
     if(@PAYPAL_DEBUG=="1") {
-        $uri = "/testing/ipntest.php";
-        $hostname = "www.eliteweaver.co.uk";
+        $uri = "/cgi-bin/webscr";
+        $hostname = "www.sandbox.paypal.com";
         
     }
     // regular mode: Post to paypal.com

@@ -35,6 +35,9 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+31.03.2009 rolandd
+# BUG #2410 Making a File a "downloadable product file" resets existing downloadable product files
+
 30.03.2009 aravot
 + Added Continue Shopping link when cart is empty
  

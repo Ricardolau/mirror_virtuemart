@@ -177,6 +177,7 @@ class vm_ps_product_files extends vmAbstractObject {
 		else {
 			// erase $mosConfig_absolute_path to have a relative path
 			$filename = str_replace( $mosConfig_absolute_path, '', $filename );
+			
 			if( empty($filename) && !empty( $d['file_url'])) {
 				$filename = vmGet( $d, 'file_url' );
 			}
@@ -227,7 +228,7 @@ class vm_ps_product_files extends vmAbstractObject {
 	 * @return boolean
 	 */
 	function update( &$d ) {
-		global $VM_LANG, $vmLogger;
+		global $mosConfig_absolute_path, $VM_LANG, $vmLogger;
 		$db = new ps_DB;
 		$timestamp = time();
 
@@ -237,15 +238,15 @@ class vm_ps_product_files extends vmAbstractObject {
 		if( empty( $d["file_published"] )) {
 			$d["file_published"] = 0;
 		}
-
+		
 		$is_download_attribute = false;
-
+		
 		$q_dl = "SELECT attribute_name,attribute_value,file_id 
 						FROM #__{vm}_product_attribute,#__{vm}_product_files 
 						WHERE product_id='".$d["product_id"]."' AND attribute_name='download' 
 						AND file_id='".$d["file_id"]."' AND attribute_value=file_title";
 		$db->query($q_dl);
-
+		
 		if( $db->next_record() ) {
 			// We have found an existing downloadable file entry			
 			$old_attribute = $db->f('attribute_value', false);
@@ -262,9 +263,10 @@ class vm_ps_product_files extends vmAbstractObject {
 				$qu = "DELETE FROM #__{vm}_product_attribute ";
 				$qu .= "WHERE attribute_value = '$old_attribute' ";
 				$qu .= "AND product_id='".$d["product_id"]."' AND attribute_name='download'";
-				$db->query($qu);				
+				$db->query($qu);
 			}
 		}
+		/* A newly created downloadable file */
 		elseif( $d['file_type'] == 'downloadable_file') {
 			if( !empty($d['file_url'])) {
 				$filename = vmGet( $d, 'file_url');
@@ -278,6 +280,7 @@ class vm_ps_product_files extends vmAbstractObject {
 									);
 			$db->buildQuery('INSERT', '#__{vm}_product_attribute', $fields );
 			$db->query();
+			$d['file_title'] = $db->getEscaped($filename);
 		}
 		if( empty( $d["file_create_thumbnail"] )) {
 			$d["file_create_thumbnail"] = 0;
@@ -294,14 +297,15 @@ class vm_ps_product_files extends vmAbstractObject {
 			
 			if( !empty($d['file_url'])) {
 				$filename = '';
-			} elseif( $d['file_type'] == 'downloadable_file' && !empty($old_attribute)) {
+			} 
+			elseif( $d['file_type'] == 'downloadable_file' && !empty($old_attribute)) {
 				if( !empty($d['file_url'])) {
 					$filename = vmGet( $d, 'file_url');
 					$d["file_title"] = $db->getEscaped( vmGet($d,'file_url') );
 				} else {
 					$filename = DOWNLOADROOT.@$d['downloadable_file'];
 					$d["file_title"] = $db->getEscaped( vmGet($d,'downloadable_file') );
-				}				
+				}	
 				$qu = "UPDATE #__{vm}_product_attribute ";
 				$qu .= "SET attribute_value = '". $d["file_title"] ."' ";
 				$qu .= "WHERE product_id='".$d["product_id"]."' AND attribute_name='download' AND attribute_value='".$old_attribute."'";
@@ -318,6 +322,10 @@ class vm_ps_product_files extends vmAbstractObject {
 									'file_published' => $d["file_published"],
 							);
 		if( !empty($filename)) {
+			// erase $mosConfig_absolute_path to have a relative path
+			$filename = str_replace( $mosConfig_absolute_path, '', $filename );
+			/* File needs to start at document root */
+			if (substr($filename, 0, 1) != '/') $filename = '/'.$filename;
 			$fields['file_name'] = $db->getEscaped($filename);
 		}
 		$db->buildQuery('UPDATE', '#__{vm}_product_files', $fields, 

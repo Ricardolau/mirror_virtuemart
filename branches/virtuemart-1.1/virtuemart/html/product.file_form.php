@@ -268,6 +268,14 @@ function checkThumbnailing() {
 	    document.adminForm.upload_dir[2].checked=true;
 	    document.adminForm.file_published.disabled=true;
 	}
+	
+	/* Downloadable products should not be given file title option */
+	if( document.adminForm.file_type[3].selected == true) { // downloadable product
+		document.adminForm.file_title.disabled=true;
+	}
+	else {
+		document.adminForm.file_title.disabled=false;
+	}
   }
 }
 Ext.get('thumbsizes').enableDisplayMode();

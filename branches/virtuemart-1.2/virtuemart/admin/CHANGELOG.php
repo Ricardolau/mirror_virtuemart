@@ -36,7 +36,7 @@ Legend:
 VirtueMart 1.2.x
 *************************************
 03.04.2009 macallf
-+ Task #2562 Child Sort Order Implemented
++ Task #2562 Child Sort Order Implemented 
 
 31.03.2009 rolandd
 # BUG #2410 Making a File a "downloadable product file" resets existing downloadable product files

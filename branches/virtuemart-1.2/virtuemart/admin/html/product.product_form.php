@@ -58,7 +58,7 @@ $display_type = "none";
 $child_class_sfx ="";
 $min_order="";
 $max_order="";
-
+$child_display_order="";
 $display_use_parent_disabled = false;
 if($product_parent_id !=0) {
 	$display_use_parent_disabled = true;
@@ -891,6 +891,20 @@ $tabs->startTab( $display_label, "display-page");
         </td>
     </tr>
     <tr class="row1">
+      <td width="21%"  style="vertical-align: top;"><div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_('VM_DISPLAY_CHILD_ORDER_BY'); ?></div>
+      </td>
+      <td width="79%" colspan="2">
+      <?php 
+      $order_list =array();
+      $order_list['`#__{vm}_product`.`product_sku`'] = $VM_LANG->_('PHPSHOP_CART_SKU');
+      $order_list['`#__{vm}_product`.`product_id`'] = 'Child Product ID';
+      $order_list['`#__{vm}_product`.`product_name`'] = $VM_LANG->_('PHPSHOP_PRODUCT_NAME_TITLE');
+      echo ps_html::selectList('child_order_by', $child_order_by, $order_list, 1, '', 'id="child_order_by"'); ?>
+      
+      <label for="child_order_by" style="vertical-align: middle;"><?php echo $VM_LANG->_('VM_DISPLAY_CHILD_ORDER_DESC'); ?></label><br/>
+      </td>
+    </tr>
+    <tr class="row0">
       <td width="21%"  style="vertical-align: top;"><div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_('VM_EXTRA_PRODUCT_ID'); ?></div>
       </td>
       <td width="79%" colspan="2"><input type="inputbox" class="inputbox" size="35" id="included_product_id" name="included_product_id" value="<?php echo $db->f("child_option_ids") ?>" />

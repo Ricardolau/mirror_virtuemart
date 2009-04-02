@@ -189,7 +189,6 @@ class ps_product extends vmAbstractObject {
         $d['display_use_parent'] = vmGet($d,'display_use_parent', 'Y') =='Y' ? 'Y' : 'N';
         $d['product_list_type'] = vmGet($d,'product_list_type', 'Y') =='Y' ? 'Y' : 'N';
         $d['display_desc'] = vmGet($d,'display_desc', 'Y') =='Y' ? 'Y' : 'N';
-        
         if (@$d['product_list'] =="Y") {
             if($d['list_style'] == "one")
                 $d['product_list'] = "Y";
@@ -1329,7 +1328,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 	 * @param string $path_appendix The path to be appended to IMAGEURL / IMAGEPATH
 	 * @return The HTML code of the img tag
 	 */
-	function image_tag($image, $args="", $resize=1, $path_appendix='product', $thumb_width=0, $thumb_height=0 ) {
+	function image_tag($image, $args="", $resize=1, $path_appendix='product', $thumb_width=0, $thumb_height=0, $overide = false ) {
 		global $mosConfig_live_site, $mosConfig_absolute_path;
 		require_once( CLASSPATH . 'imageTools.class.php');
 		
@@ -1346,8 +1345,17 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 			}
 			// local image file
 			else {
+				If($overide) {
+					$new_img_width = $thumb_width;
+					$new_img_height = $thumb_height;
+				}
+				else
+				{
+					$new_img_width = PSHOP_IMG_WIDTH;
+					$new_img_HEIGHT = PSHOP_IMG_HEIGHT;
+				}
 				if(PSHOP_IMG_RESIZE_ENABLE == '1' || $resize==1) {
-					$url = $mosConfig_live_site."/components/com_virtuemart/show_image_in_imgtag.php?filename=".urlencode($image)."&amp;newxsize=".PSHOP_IMG_WIDTH."&amp;newysize=".PSHOP_IMG_HEIGHT."&amp;fileout=";
+					$url = $mosConfig_live_site."/components/com_virtuemart/show_image_in_imgtag.php?filename=".urlencode($image)."&amp;newxsize=".$new_img_width."&amp;newysize=".$new_img_height."&amp;fileout=";
 					if( !strpos( $args, "height=" )) {
 						$arr = @getimagesize( vmImageTools::getresizedfilename( $image, $path_appendix, '', $thumb_width, $thumb_height ) );
 						$width = $arr[0]; $height = $arr[1];
@@ -2473,7 +2481,8 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 										.vmrequest::getYesOrNo('display_desc').","
 										.vmrequest::getVar('desc_width').","
 										.vmrequest::getVar('attrib_width').","
-										.vmrequest::getVar('child_class_sfx');
+										.vmrequest::getVar('child_class_sfx').","
+										.vmrequest::getVar('child_order_by');
         }
         return $child_options;
     }
@@ -2496,6 +2505,8 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 			$child_options['attrib_width'] =& $child_options['aw']; 
 			$child_options['class_suffix'] =array_shift($fields);
 			$child_options['child_class_sfx'] =& $child_options['class_suffix'];
+			$child_options['order_by'] =array_shift($fields);
+			$child_options['child_order_by'] =& $child_options['order_by'];
 		}
 		return $child_options;
     }

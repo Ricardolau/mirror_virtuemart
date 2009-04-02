@@ -220,10 +220,10 @@ class ps_product_attribute {
 		
 		switch( $product_list) {
 			case "Y" :
-				return $this->list_attribute_list( $product_id, $display_use_parent, $product_list_child, $display_type, $class_suffix, $child_option_ids, $dw, $aw, $display_header, $product_list_type, $product_list ) ;
+				return $this->list_attribute_list( $product_id, $display_use_parent, $product_list_child, $display_type, $class_suffix, $child_option_ids, $dw, $aw, $display_header, $product_list_type, $product_list,$child_order_by ) ;
 			break ;
 			case "YM" :
-				return $this->list_attribute_list( $product_id, $display_use_parent, $product_list_child, $display_type, $class_suffix, $child_option_ids, $dw, $aw, $display_header, $product_list_type, $product_list ) ;
+				return $this->list_attribute_list( $product_id, $display_use_parent, $product_list_child, $display_type, $class_suffix, $child_option_ids, $dw, $aw, $display_header, $product_list_type, $product_list, $child_order_by ) ;
 			break ;
 			case "N" :
 			default :
@@ -450,7 +450,7 @@ class ps_product_attribute {
 	 * @return string HTML code with Items, attributes & price
 	 */
 	
-	function list_attribute_list( $product_id, $display_use_parent, $child_link, $display_type, $cls_sfuffix, $child_ids, $dw, $aw, $display_header, $product_list_type, $product_list ) {
+	function list_attribute_list( $product_id, $display_use_parent, $child_link, $display_type, $cls_sfuffix, $child_ids, $dw, $aw, $display_header, $product_list_type, $product_list, $child_order_by ) {
 		global $CURRENCY_DISPLAY, $mm_action_url ;
 		require_once (CLASSPATH . 'ps_product.php') ;
 		$ps_product = new ps_product( ) ;
@@ -475,10 +475,15 @@ class ps_product_attribute {
 		$html = '';
 		// Get list of children
 		$pp = $ps_product->parent_has_children( $product_id ) ;
+		//SELECT `jos_vm_product`.`product_id`,product_name,product_parent_id,product_sku,product_in_stock,product_full_image,product_thumb_image FROM jos_vm_product LEFT JOIN `jos_vm_product_price` 
+		//ON `jos_vm_product`.`product_id` = `jos_vm_product_price`.`product_id` WHERE product_publish='Y' AND product_parent_id='17' ORDER BY product_price
+		$q = "SELECT DISTINCT * FROM (";
 		if( $pp ) {
-			$q = "SELECT product_id,product_name,product_parent_id,product_sku,product_in_stock,product_full_image,product_thumb_image FROM #__{vm}_product WHERE product_publish='Y' AND product_parent_id='$product_id'  " ;
+			$q .= "(SELECT  `#__{vm}_product`.`product_id`,product_name,product_parent_id,product_sku,product_in_stock,product_full_image,product_thumb_image FROM #__{vm}_product  " ;
+			$q .= " WHERE product_publish='Y' AND product_parent_id='$product_id' ORDER BY $child_order_by )";
+			
 		} else {
-			$q = "SELECT product_id,product_name,product_parent_id,product_sku,product_in_stock,product_full_image,product_thumb_image FROM #__{vm}_product WHERE product_publish='Y' AND product_id='$product_id'  " ;
+			$q = "(SELECT product_id,product_name,product_parent_id,product_sku,product_in_stock,product_full_image,product_thumb_image FROM #__{vm}_product WHERE product_publish='Y' AND product_id='$product_id' )" ;
 		}
 		if( $child_ids ) {
 			$ids = explode( ",", $child_ids ) ;
@@ -494,12 +499,15 @@ class ps_product_attribute {
 			$parent_ids = implode( ',', $parent_array ) ;
 			$child_ids = implode( ',', $child_array ) ;
 			if( $child_ids ) {
-				$q .= "UNION ALL SELECT product_id,product_name,product_parent_id,product_sku,product_in_stock,product_full_image,product_thumb_image FROM #__{vm}_product WHERE product_publish='Y' AND  product_id IN ($child_ids) " ;
+				$q .= " UNION ALL (SELECT product_id,product_name,product_parent_id,product_sku,product_in_stock,product_full_image,product_thumb_image FROM #__{vm}_product WHERE product_publish='Y' AND  product_id IN ($child_ids) )" ;
+				//$q .= 'LEFT JOIN `#__{vm}_product_price` ON `#__{vm}_product`.`product_id` = `#__{vm}_product_price`.`product_id`';
 			}
 			if( $parent_ids ) {
-				$q .= "UNION ALL SELECT product_id,product_name,product_parent_id,product_sku,product_in_stock,product_full_image,product_thumb_image FROM #__{vm}_product WHERE product_publish='Y' AND  product_parent_id IN ($parent_ids)" ;
+				$q .= " UNION ALL (SELECT  `#__{vm}_product`.`product_id`,product_name,product_parent_id,product_sku,product_in_stock,product_full_image,product_thumb_image FROM #__{vm}_product " ;
+				$q .= " WHERE product_publish='Y' AND  product_parent_id IN ($parent_ids) ORDER BY $child_order_by )";
 			}
 		}
+		$q .=  ") AS products";
 		$db->query($q);
 		if( $pp ) {
 			$master_id = $product_id ;
@@ -660,7 +668,7 @@ class ps_product_attribute {
 				} else {
 					$id = $db->f( "product_id" );
 				}
-				$products[$ci]['product_in_stock'] = ps_product::get_field( $id, 'product_in_stock' ) ;
+				$products[$ci]['product_in_stock'] = ps_product::get_field( $db->f( "product_id" ), 'product_in_stock' ) ;
 				
 				// Output Advanced Attributes
 				$products[$ci]['advanced_attribute'] = $this->list_advanced_attribute( $db->f( "product_id" ) ) ;

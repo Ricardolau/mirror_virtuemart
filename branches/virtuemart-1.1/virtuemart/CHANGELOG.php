@@ -34,6 +34,8 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+# BUG - 0 quantity deletes product from cart on product page and browse page. Should only happen on update or single add to cart button child list
+
 31.03.2009 rolandd
 # BUG #2410 Making a File a "downloadable product file" resets existing downloadable product files 
 

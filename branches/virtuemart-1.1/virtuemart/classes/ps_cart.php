@@ -342,7 +342,7 @@ class vm_ps_cart {
 		}
 		$deleted_prod = 0;
 		$updated_prod = 0;
-		if ($quantity == 0) {
+		if ($quantity == 0 && strtolower($func) == "cartupdate") {
 			$deleted_prod = $this->delete($d);
 		}
 		else {

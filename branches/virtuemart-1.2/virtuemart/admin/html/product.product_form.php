@@ -434,7 +434,17 @@ $tabs->startTab( $status_label, "status-page");
 	        <input type="text" class="inputbox"  name="product_in_stock" value="<?php $db->sp("product_in_stock"); ?>" size="10" />
 	      </td>
 	    </tr>
-	    <tr class="row1">
+<!-- low stock notification -->
+      <tr class="row1">
+					<td width="21%"><div style="text-align:right;font-weight:bold;">
+						<?php echo $VM_LANG->_( 'VM_LOW_STOCK_NOTIFICATION' ); ?>:</div>
+					</td>
+					<td width="79%">
+						<input type="text" class="inputbox" name="low_stock_notification" value="<?php $db->sp("low_stock_notification"); ?>" size="3" />
+          </td>
+      </tr>
+<!-- end low stock notification -->
+	    <tr class="row0"> 
 	      <td width="21%"><div style="text-align:right;font-weight:bold;">
 	      <?php echo $VM_LANG->_('VM_PRODUCT_FORM_MIN_ORDER') ?>:</div>
 	      </td>
@@ -442,7 +452,7 @@ $tabs->startTab( $status_label, "status-page");
 	        <input type="text" class="inputbox"  name="min_order_level" value="<?php echo $min_order; ?>" size="10" />
 	      </td>
 	    </tr>
-	    <tr class="row0">
+	    <tr class="row1"> 
 	      <td width="21%"><div style="text-align:right;font-weight:bold;">
 	      <?php echo $VM_LANG->_('VM_PRODUCT_FORM_MAX_ORDER') ?>:</div>
 	      </td>
@@ -450,7 +460,7 @@ $tabs->startTab( $status_label, "status-page");
 	        <input type="text" class="inputbox"  name="max_order_level" value="<?php echo $max_order; ?>" size="10" />
 	      </td>
 	    </tr>
-	    <tr class="row1">
+	    <tr class="row0"> 
 	      <td width="21%" ><div style="text-align:right;font-weight:bold;">
 	        <?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_AVAILABLE_DATE') ?>:</div>
 	      </td>
@@ -459,7 +469,7 @@ $tabs->startTab( $status_label, "status-page");
 	          <input name="reset" type="reset" class="button" onClick="return showCalendar('product_available_date', 'y-mm-dd');" value="..." />
 	     </td>
 	    </tr>
-	    <tr class="row0"><td colspan="2">&nbsp;</td></tr>
+	    <tr class="row1"><td colspan="2">&nbsp;</td></tr>
 	    <tr>
 	      <td valign="top" width="21%" ><div style="text-align:right;font-weight:bold;">
 	          <?php echo $VM_LANG->_('PHPSHOP_AVAILABILITY') ?>:</div>

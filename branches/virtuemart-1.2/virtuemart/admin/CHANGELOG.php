@@ -35,6 +35,10 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+05.04.2009 aravot
+^ Update CA tax rate
++ Add Administrator/store owner low stock notification
+
 03.04.2009 macallf
 + Task #2562 Child Sort Order Implemented 
 

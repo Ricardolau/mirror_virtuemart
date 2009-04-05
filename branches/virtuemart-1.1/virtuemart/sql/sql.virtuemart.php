@@ -2108,7 +2108,7 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_tax_rate` (
 ## Dumping data for table `#__{vm}_tax_rate`
 ## 
 
-$db->query( "INSERT INTO `#__{vm}_tax_rate` VALUES (2, 1, 'CA', 'USA', 964565926, 0.0825);");
+$db->query( "INSERT INTO `#__{vm}_tax_rate` VALUES (2, 1, 'CA', 'USA', 964565926, 0.0925);");
 
 ## --------------------------------------------------------
 

@@ -34,6 +34,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+05.04.2009 aravot
+^ Update CA tax rate
+
+05.04.2009 macallf
 # BUG - 0 quantity deletes product from cart on product page and browse page. Should only happen on update or single add to cart button child list
 
 31.03.2009 rolandd

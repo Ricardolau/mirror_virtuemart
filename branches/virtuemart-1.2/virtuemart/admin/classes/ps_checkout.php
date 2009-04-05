@@ -894,7 +894,7 @@ class ps_checkout {
 	function storeOrderInformationToDB( &$d ) {
 //	function add( &$d ) {
 		global $order_tax_details, $vm_mainframe, $VM_LANG, $auth, $my, $mosConfig_offset,
-		$vmLogger, $vmInputFilter, $discount_factor;
+		$vmLogger, $vmInputFilter, $discount_factor, $mosConfig_mailfrom, $mosConfig_fromname;
 
 		$cart = $_SESSION['cart'];
 		$vendor_id = $cart['cart_vendor_id'];
@@ -1177,6 +1177,29 @@ class ps_checkout {
 			$q .= " WHERE product_id='".$cart[$i]["product_id"]."'";
 			$db->query($q);
 
+      // Sends a notification email to the administrator indicating that the minimum number of stock has been reached
+			$q = "SELECT product_sku, product_name, product_in_stock, low_stock_notification ";
+      $q .= "FROM #__{vm}_product WHERE product_id = '" . $cart[$i]["product_id"]. "'";
+      $db->query($q);
+        if ($db->f("low_stock_notification")>$db->f("product_in_stock")) {
+        
+        // The product information
+        $product_name = $db->f("product_name");
+        $product_sku = $db->f("product_sku");
+        $product_in_stock = $db->f("product_in_stock");
+        
+        // The email subject
+        $subject = sprintf( $VM_LANG->_( 'VM_LOW_STOCK_NOTIFICATION_EMAIL_SUBJECT' ), $db->f("product_name"));
+        
+        // The email body
+        $msg = str_replace( '{product_name}', $product_name, $VM_LANG->_( 'VM_LOW_STOCK_NOTIFICATION_EMAIL_MESSAGE' ) );
+        $msg = str_replace( '{product_sku}', $product_sku, $msg );
+        $msg = str_replace( '{product_in_stock}', $product_in_stock, $msg );
+        $msg = vmHtmlEntityDecode( $msg );
+        
+        // Send the email
+        vmMail($mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_mailfrom, $subject, $msg, "" );
+        }
 		}
 
 		######## BEGIN DOWNLOAD MOD ###############

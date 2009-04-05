@@ -1212,6 +1212,7 @@ CREATE TABLE IF NOT EXISTS `jos_vm_product` (
   `product_lwh_uom` varchar(32) default 'inches',
   `product_url` varchar(255) default NULL,
   `product_in_stock` int(11) NOT NULL default '0',
+  `low_stock_notification` int(11) NOT NULL default '0',
   `product_available_date` int(11) default NULL,
   `product_availability` varchar(56) NOT NULL default '',
   `product_special` char(1) default NULL,
@@ -2157,7 +2158,7 @@ CREATE TABLE IF NOT EXISTS `jos_vm_tax_rate` (
 ## Dumping data for table `jos_vm_tax_rate`
 ## 
 
-INSERT INTO `jos_vm_tax_rate` VALUES (2, 1, 'CA', 'USA', 964565926, 0.0825);
+INSERT INTO `jos_vm_tax_rate` VALUES (2, 1, 'CA', 'USA', 964565926, 0.0925);
 
 ## --------------------------------------------------------
 

@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+07.04.2009
+# Bug - Fix problems with slimbox not init after AJAX pageload & addtocart confirmation box only working once.
+
 05.04.2009 aravot
 ^ Update CA tax rate
 

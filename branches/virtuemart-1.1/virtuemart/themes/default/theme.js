@@ -10,7 +10,7 @@ function loadNewPage( el, url ) {
 	var callback = {
 		success : function(responseText) {
 			theEl.innerHTML = responseText;
-			if( Lightbox ) Lightbox.init();
+			if( Slimbox ) Slimbox.scanPage();
 		}
 	}
 	var opt = {
@@ -23,6 +23,8 @@ function loadNewPage( el, url ) {
 }
 
 function handleGoToCart() { document.location = live_site + '/index.php?option=com_virtuemart&page=shop.cart&product_id=' + formCartAdd.product_id.value + '&Itemid=' +formCartAdd.Itemid.value; }
+
+var timeoutID = 0;
 
 function handleAddToCart( formId, parameters ) {
 	formCartAdd = document.getElementById( formId );

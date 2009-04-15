@@ -35,6 +35,9 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+15.04.2009 aravot
+# Fixed Kenya, Somali and Tanzania currency
+
 05.04.2009 aravot
 ^ Update CA tax rate
 + Add Administrator/store owner low stock notification

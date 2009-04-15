@@ -2214,9 +2214,8 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 					} else {
 						// get the current shopper group discount
 						$dbsg = new ps_DB();
-						$q = "SELECT * FROM #__{vm}_shopper_group WHERE shopper_group_id=" . $auth["shopper_group_id"];
-						$dbsg->setQuery($q);
-						 $dbsg->query();
+						$q = "SELECT shopper_group_id,shopper_group_discount FROM #__{vm}_shopper_group WHERE shopper_group_id=" . $auth["shopper_group_id"];
+						$dbsg->query($q);
 						$dbsg->next_record();
 						$shopper_group_discount = $dbsg->f("shopper_group_discount");
 						while( $db->next_record() ) {

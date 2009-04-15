@@ -50,7 +50,11 @@ VirtueMart 1.2.x
 
 30.03.2009 aravot
 + Added Continue Shopping link when cart is empty
- 
+
+23.03.2009 soeren
+# Task #2536 - Incomplete php tag with a duplicated table closure'
+# Task #2537 - Default curency plugin not set! 
+
 19.03.2009 aravot
 # Review message fixed. 
 

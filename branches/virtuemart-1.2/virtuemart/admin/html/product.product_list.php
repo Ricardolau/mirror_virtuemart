@@ -283,22 +283,32 @@ if ($num_rows > 0) {
 		
 		$link = $_SERVER['PHP_SELF'] . "?page=$modulename.product_form&limitstart=$limitstart&keyword=".urlencode($keyword) . 
 						"&product_id=" . $db->f("product_id")."&product_parent_id=".$product_parent_id;
-		
+		if( $vmLayout != 'standard' ) {
 		$link .= "&no_menu=1&tmpl=component";
 		$link = defined('_VM_IS_BACKEND') 
 						? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link )) 
 						: str_replace('index.php', 'index2.php', $link );
-		
+		}
 		$link = $sess->url( $link );
 		
 		$text = shopMakeHtmlSafe($db->f("product_name"));
 		
 		// The link to the product form / to the child products
-		$tmpcell = vmCommonHTML::hyperLink($link, $text, '', 'Edit: '.$text, 'onclick="parent.addSimplePanel( \''.$db->getEscaped($db->f("product_name")).'\', \''.$link.'\' );return false;"');
-				
+		if( $vmLayout == 'standard') {
+			$tmpcell = vmCommonHTML::hyperLink( $link, $text, '', 'Edit: '.$text );
+		} else {
+			$tmpcell = vmCommonHTML::hyperLink($link, $text, '', 'Edit: '.$text, 'onclick="parent.addSimplePanel( \''.$db->getEscaped($db->f("product_name")).'\', \''.$link.'\' );return false;"');
+		}		
 		if( $ps_product->parent_has_children( $db->f("product_id") ) ) {
 			$tmpcell .= "&nbsp;&nbsp;&nbsp;<a href=\"";
-			$tmpcell .= $sess->url($_SERVER['PHP_SELF'] . "?page=$modulename.product_list&product_parent_id=" . $db->f("product_id"));
+			$link = $sess->url($_SERVER['PHP_SELF'] . "?page=$modulename.product_list&product_parent_id=" . $db->f("product_id"));
+			if( $vmLayout != 'standard' ) {
+				$link .= "&no_menu=1&tmpl=component";
+				$link = defined('_VM_IS_BACKEND') 
+							? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link )) 
+							: str_replace('index.php', 'index2.php', $link );
+			}
+			$tmpcell .= $link;
 			$tmpcell .=  "\">[ ".$VM_LANG->_('PHPSHOP_PRODUCT_FORM_ITEM_INFO_LBL'). " ]</a>";
 		}
 		$listObj->addCell( $tmpcell );
@@ -370,12 +380,25 @@ if ($num_rows > 0) {
 		$db_cat->query("SELECT count(*) as num_rows FROM #__{vm}_product_reviews WHERE product_id='".$db->f("product_id")."'");
 		$db_cat->next_record();
 		if ($db_cat->f("num_rows")) {
+			$link = $_SERVER["PHP_SELF"]."?option=com_virtuemart&page=product.review_list&product_id=".$db->f("product_id");
+			if( $vmLayout != 'standard' ) {
+				$link .= "&no_menu=1&tmpl=component";
+				$link = defined('_VM_IS_BACKEND') 
+							? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link )) 
+							: str_replace('index.php', 'index2.php', $link );
+			}
 			$tmpcell = $db_cat->f("num_rows")."&nbsp;";
-			$tmpcell .= "<a href=\"".$_SERVER["PHP_SELF"]."?option=com_virtuemart&page=product.review_list&product_id=".$db->f("product_id")."\">";
+			$tmpcell .= "<a href=\"".$link."\">";
 			$tmpcell .= "[".$VM_LANG->_('PHPSHOP_SHOW')."]</a>";
 		}
 		else {
 			$link = $sess->url( $_SERVER['PHP_SELF'].'?page=product.review_form&product_id='.$db->f('product_id'));
+			if( $vmLayout != 'standard' ) {
+				$link .= "&no_menu=1&tmpl=component";
+				$link = defined('_VM_IS_BACKEND') 
+							? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link )) 
+							: str_replace('index.php', 'index2.php', $link );
+			}
 			$text = '['.$VM_LANG->_('VM_REVIEW_FORM_LBL').']';
 			$tmpcell = " - <a href=\"$link\">$text</a>\n";
 		}

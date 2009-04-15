@@ -68,19 +68,37 @@ while ($db->next_record()) {
 	
 	// The Checkbox
 	$listObj->addCell( vmCommonHTML::idBox( $i, $db->f("product_type_id"), false, "product_type_id" ) );
-	
-	$tmp_cell = "<a href=\"". $_SERVER['PHP_SELF'] . "?option=com_virtuemart&page=product.product_type_form&product_type_id=" . $db->f("product_type_id") . "\">". $db->f("product_type_name") . "</a>";
+	$link = $_SERVER['PHP_SELF'] . "?option=com_virtuemart&page=product.product_type_form&product_type_id=" . $db->f("product_type_id") ;
+	if( $vmLayout != 'standard' ) {
+				$link .= "&no_menu=1&tmpl=component";
+				$link = defined('_VM_IS_BACKEND') 
+							? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link )) 
+							: str_replace('index.php', 'index2.php', $link );
+			}
+	$tmp_cell = "<a href=\"". $link . "\">". $db->f("product_type_name"); "</a>";
 	$listObj->addCell( $tmp_cell );
 	
 	$listObj->addCell(  $db->f("product_type_description"));
-
+	$link = $_SERVER['PHP_SELF'] . "?option=com_virtuemart&page=product.product_type_parameter_list&product_type_id="
+			. $db->f("product_type_id");
+	if( $vmLayout != 'standard' ) {
+				
+				$link = defined('_VM_IS_BACKEND') 
+							? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link )) 
+							: str_replace('index.php', 'index2.php', $link );
+			}
 	$tmp_cell = $parameter_count . " " . $VM_LANG->_('PHPSHOP_PARAMETERS_LBL') . " <a href=\""
-			. $_SERVER['PHP_SELF'] . "?option=com_virtuemart&page=product.product_type_parameter_list&product_type_id="
-			. $db->f("product_type_id") . "\">[ ".$VM_LANG->_('PHPSHOP_SHOW')." ]</a>";
+			. $link . "\">[ ".$VM_LANG->_('PHPSHOP_SHOW')." ]</a>";
 	$listObj->addCell( $tmp_cell );
-	
+	$link = $_SERVER['PHP_SELF'] . "?option=com_virtuemart&page=product.product_list&product_type_id=" . $db->f("product_type_id");
+	if( $vmLayout != 'standard' ) {
+				
+				$link = defined('_VM_IS_BACKEND') 
+							? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link )) 
+							: str_replace('index.php', 'index2.php', $link );
+			}
 	$tmp_cell = $product_count ." ". $VM_LANG->_('PHPSHOP_PRODUCTS_LBL')."&nbsp;<a href=\""
-			. $_SERVER['PHP_SELF'] . "?option=com_virtuemart&page=product.product_list&product_type_id=" . $db->f("product_type_id")
+			. $link
 			. "\">[ ".$VM_LANG->_('PHPSHOP_SHOW')." ]</a>";
 	$listObj->addCell( $tmp_cell );
       //$listObj->addCell( $db->f("list_order"));

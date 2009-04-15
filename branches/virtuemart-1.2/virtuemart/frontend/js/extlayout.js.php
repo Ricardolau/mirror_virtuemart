@@ -22,13 +22,15 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 while(@ob_end_clean());
 
 header( 'Content-Type: application/x-javascript');
-
 $VM_LANG->setDebug(0);
+
 
 $module_id = vmGet($_REQUEST, 'module_id');
 
-require_once( CLASSPATH.'menu.class.php' );
-$menu_items = vmMenu::getAdminMenu($module_id);
+
+$menu_items = getAdminMenu($module_id);
+
+//$menu_items = assembleMenuItems($mod);
 include( ADMINPATH.'version.php');
 
 echo '
@@ -127,6 +129,8 @@ function vmLayoutInit() {
 					html:"<div style=\"margin-bottom: 5px;\">" +
 			    		 "<img src=\"'.VM_THEMEURL.'images/administration/header_logo.png\" alt=\"VirtueMart Logo\" /> " +
 						"<a href=\"'.(!empty($_REQUEST['frontend'])&&vmisjoomla('1.5')?'index.php':'index2.php').'\" title=\"'.$VM_LANG->_('VM_ADMIN_BACKTOJOOMLA').'\" class=\"vmicon vmicon-16-back\" style=\"vertical-align: middle;font-weight:bold;margin-top: 3px;\">'.$VM_LANG->_('VM_ADMIN_BACKTOJOOMLA').'</a>" +
+						"<br />" +
+						"<a href=\"index2.php?option=com_virtuemart&amp;vmLayout=standard\" class=\"vmicon vmicon-16-back\" style=\"vertical-align: middle;font-weight:bold;margin-top: 3px;\">'. $VM_LANG->_('VM_ADMIN_SIMPLE_LAYOUT') .'</a>" +
 						"</div>"
 					},
 					{
@@ -182,4 +186,35 @@ else {
 	Ext.onReady( vmLayoutInit );
 }
 ';
+
+
+	function getAdminMenu($filter_by_module_id=0) {
+		global $page, $db, $auth;
+		
+		$menuArr = array();
+		        
+		$filter[] = "vmmod.module_publish='Y'";
+		$filter[] = "item.published='1'";
+		$filter[] = "vmmod.is_admin='1'";
+		$filter[] = "FIND_IN_SET('".$auth['perms']."', module_perms )>0";
+		if( !empty($filter_by_module_id)) {
+			$filter[] = 'vmmod.module_id='.(int)$filter_by_module_id; 
+		}
+		
+		$q = "SELECT vmmod.module_id,module_name,module_perms,id,name,link,depends,icon_class 
+					FROM #__{vm}_module vmmod 
+					LEFT JOIN #__{vm}_menu_admin item ON vmmod.module_id=item.module_id 
+					WHERE  ".implode(' AND ', $filter )."   
+					ORDER BY vmmod.list_order,item.ordering";
+		$db->query($q);
+		
+		while( $db->next_record() ) {
+		    $menuArr[$db->f('module_name')]['title'] = $GLOBALS['VM_LANG']->_('PHPSHOP_'.strtoupper($db->f('module_name')).'_MOD');
+			$menuArr[$db->f('module_name')]['items'][] = array('name' => $db->f('name'),
+																		'link' => $db->f('link'),
+																		'depends' => $db->f('depends'),
+																		'icon_class' => $db->f('icon_class'));
+		}
+		return $menuArr;
+	}
 ?>

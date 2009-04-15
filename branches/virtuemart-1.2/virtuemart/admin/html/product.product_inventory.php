@@ -147,7 +147,9 @@ $listObj->writeSearchHeader($VM_LANG->_('PHPSHOP_PRODUCT_INVENTORY_LBL'), IMAGEU
 
 echo '&nbsp;&nbsp;';
 if($allproducts != 1){
-	echo '<a href="'.$sess->url($_SERVER['PHP_SELF']."?pshop_mode=admin&page=$page&allproducts=1").'" title="'.$VM_LANG->_('PHPSHOP_LIST_ALL_PRODUCTS').'">';
+	$link = $sess->url($_SERVER['PHP_SELF']."?pshop_mode=admin&page=$page&allproducts=1");
+	
+	echo '<a href="'.$link.'" title="'.$VM_LANG->_('PHPSHOP_LIST_ALL_PRODUCTS').'">';
 	echo $VM_LANG->_('PHPSHOP_LIST_ALL_PRODUCTS');
 	echo '</a>';
 } else{
@@ -195,12 +197,12 @@ while ($db->next_record()) {
 	$link = $_SERVER['PHP_SELF'] . "?page=$modulename.product_form&limitstart=$limitstart&keyword=".urlencode($keyword) . 
 //					"&product_id=" . $db->f("product_id")."&product_parent_id=".$product_parent_id;
 					"&product_id=" . $db->f("product_id")."&product_parent_id=".$db->f("product_parent_id");
-	
-	$link .= "&no_menu=1&tmpl=component";
-	$link = defined('_VM_IS_BACKEND') 
+	if( $vmLayout != 'standard' ) {
+		$link .= "&no_menu=1&tmpl=component";
+		$link = defined('_VM_IS_BACKEND') 
 					? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link )) 
 					: str_replace('index.php', 'index2.php', $link );
-	
+	}
 	$link = $sess->url( $link );
 	$text = shopMakeHtmlSafe($db->f("product_name"));
 

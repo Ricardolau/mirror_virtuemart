@@ -1,7 +1,5 @@
 <?php 
-if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) {
-	die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
-}
+if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 /**
 *
 * @version $Id$
@@ -19,23 +17,44 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) {
 */
 $_REQUEST['keyword'] = urldecode(vmGet($_REQUEST, 'keyword', ''));
 $keyword = $_REQUEST['keyword'];
+$no_menu = vmGet( $_REQUEST, 'no_menu', 0 );
 
-class TOOLBAR_virtuemart {
+global $vmIcons;
+$vmIcons['back_icon'] = $mosConfig_live_site."/administrator/images/back.png";
+$vmIcons['back_icon2'] = $mosConfig_live_site."/administrator/images/back_f2.png";
+$vmIcons['cancel_icon'] = $mosConfig_live_site."/administrator/images/cancel.png";
+$vmIcons['cancel_icon2'] = $mosConfig_live_site."/administrator/images/cancel_f2.png";	
+$vmIcons['new_icon'] = $mosConfig_live_site."/administrator/images/new.png";
+$vmIcons['new_icon2'] = $mosConfig_live_site."/administrator/images/new_f2.png";
+$vmIcons['save_icon'] = $mosConfig_live_site."/administrator/images/save.png";
+$vmIcons['save_icon2'] = $mosConfig_live_site."/administrator/images/save_f2.png";
+$vmIcons['delete_icon'] = $mosConfig_live_site."/administrator/images/delete.png";
+$vmIcons['delete_icon2'] = $mosConfig_live_site."/administrator/images/delete_f2.png";
+$vmIcons['publish_icon'] = $mosConfig_live_site."/administrator/images/publish.png";
+$vmIcons['publish_icon2'] = $mosConfig_live_site."/administrator/images/publish_f2.png";	
+$vmIcons['unpublish_icon'] = $mosConfig_live_site."/administrator/images/unpublish.png";
+$vmIcons['unpublish_icon2'] = $mosConfig_live_site."/administrator/images/unpublish_f2.png";	
+$vmIcons['apply_icon'] = $mosConfig_live_site."/administrator/images/apply.png";
+$vmIcons['apply_icon2'] = $mosConfig_live_site."/administrator/images/apply_f2.png";
+
+class MENU_virtuemart {
 	/**
 	* The function to handle all default page situations
 	* not responsible for lists!
 	*/
     function FORMS_MENU_SAVE_CANCEL() {     
         global $mosConfig_absolute_path,$mosConfig_live_site, $mosConfig_lang, $VM_LANG, 
-        		$page, $limitstart,	$vmIcons;
-		$no_menu = (int)$_REQUEST['no_menu'];
-		$bar = & vmExtToolBar::getInstance('virtuemart');		
-        
+        		$product_id, $page, $limitstart,	$mosConfig_editor, $vmIcons;
+
+		$bar = & JToolBar::getInstance('toolbar');
+
+        $product_id = vmGet( $_REQUEST, 'product_id', 0 );
+        $no_menu = vmGet( $_REQUEST, 'no_menu', 0 );
         $is_iframe = vmGet( $_REQUEST, 'is_iframe', 0 );
         $product_parent_id = vmGet( $_REQUEST, 'product_parent_id', 0 );
-        $product_id = vmGet( $_REQUEST, 'product_id' );
-        $script = '';
         
+        $script = '';
+        $clone_product = vmRequest::getInt( 'clone_product', 0 );
 		if( is_array( $product_id )) {
 			$product_id = "";
 		}
@@ -54,19 +73,18 @@ class TOOLBAR_virtuemart {
 		$editor1 = isset($editor1_array[$page]) ? $editor1_array[$page] : '';
 		$editor2 = isset($editor2_array[$page]) ? $editor2_array[$page] : '';
 		if( $no_menu ) {
-			vmCommonHTML::loadExtJS();
+			vmCommonHTML::loadExtjs();
 		}
-		$script .= '
-var submitbutton = function(pressbutton){
-	
-	var form = document.adminForm;
-	if (pressbutton == \'cancel\') {
-		submitform( pressbutton );
-		return;
-	}	
-';
-        
-    	if ($editor1 != '') {
+		$script .= '<script type="text/javascript">
+        	function submitbutton(pressbutton) {
+			var form = document.adminForm;
+			if (pressbutton == \'cancel\') {
+				submitform( pressbutton );
+				return;
+			}
+			';
+              
+        if ($editor1 != '') {
 			if( vmIsJoomla(1.5) ) {
 				jimport('joomla.html.editor');
 				$editor_type = $GLOBALS['mainframe']->getCfg('editor');
@@ -97,165 +115,179 @@ var submitbutton = function(pressbutton){
 		if( $no_menu ) {
 			$admin = defined('_VM_IS_BACKEND') ? '/administrator' : '';
 			$script .= "
+			
     // define some private variables
     var dialog, showBtn;
 
+   // the second argument is true to indicate file upload.
+   YAHOO.util.Connect.setForm(form, true);
+   
     var showDialog = function( content ) {
-    	Ext.Msg.show( { 
+    	Ext.MessageBox.show( { 
             		title: '" . $VM_LANG->_('PEAR_LOG_NOTICE') . "',
             		msg: content,
             		autoCreate: true,
-                    width:1000,
-                    height:800,
+                    width:400,
+                    height:180,
                     modal: false,
-                    resizable: true,
-                    buttons: Ext.Msg.OK,
+                    resizable: false,
+                    buttons: Ext.MessageBox.OK,
                     shadow:true,
                     animEl:Ext.get( 'vm-toolbar' )
             });
-        ".
-//        (DEBUG ? "" : "setTimeout('Ext.Msg.hide()', 3000);")
-        "
+        setTimeout('Ext.MessageBox.hide()', 3000);
     };
     
     // return a public interface
-    var onSuccess = function(o,c) {
-		showDialog( o.responseText );
-	};
-    var onFailure = function(o) {
-		Ext.Msg.alert( 'Error!', 'Save action failed: ' + o.statusText );
-	};
-	var onCallback=function(o,s,r) {
-		//if( s ) alert( 'Success' );
-		//else alert( 'Failure' );
-	}
+    var callback = {
+    	success: function(o) {
+    		//Ext.DomHelper.insertHtml( document.body, o.responseText );
+    		showDialog( o.responseText );
+    	},
+    	failure: function(o) {
+    		Ext.DomHelper.append( document.body, { tag: 'div', id: 'vmLogResult', html: 'Save action failed: ' + o.statusText } );
+    		showDialog( o.responseText );
+    	},
+        upload : function(o){
+            //Ext.DomHelper.insertHtml( 'beforeEnd', document.body, o.responseText );
+    		showDialog( o.responseText );
+        }
+    };
+    
+   	var cObj = YAHOO.util.Connect.asyncRequest('POST', '{$_SERVER['PHP_SELF']}', callback);
 	
-   	Ext.Ajax.request( { method: 'POST',
-   						url: '{$_SERVER['PHP_SELF']}',
-   						success: onSuccess,
-   						failure: onFailure,
-   						callback: onCallback,
-   						isUpload: true,
-   						form: document.adminForm,
-   						params: { no_html:1 }
-   						}
-   					);
-	";
+			\n";
 
 		}
 		else {
 			$script .= "\n\t\t\tsubmitform( pressbutton );\n";
 		}
 		
-		$script .= "\t\t}\n";
+		$script .= "\t\t}
+		</script>";
 		
-        $bar->buttons .= $script;
+        $bar->appendButton( 'Custom', $script );		
 		
-		if ($page == "product.product_form" && !empty($product_id)) {
+		vmMenuBar::startTable();
+		
+		if ($page == "product.product_form" && !empty($product_id) && $clone_product!=1) {
 			if( empty($product_parent_id) ) { 
 				// add new attribute
-				$href=$_SERVER['PHP_SELF']."?option=com_virtuemart&page=product.product_attribute_form&product_id=". $product_id ."&limitstart=". $limitstart."&no_menu=1&only_page=1&tmpl=component";
-				$alt =  $VM_LANG->_('PHPSHOP_ATTRIBUTE_FORM_MNU');
-				$bar->customHref( $href, 'new', $alt );
-				
+				$href=$_SERVER['PHP_SELF']."?option=com_virtuemart&page=product.product_attribute_form&product_id=". $product_id ."&limitstart=". $limitstart."&no_menu=$no_menu";
+				$alt = "&nbsp;". $VM_LANG->_('PHPSHOP_ATTRIBUTE_FORM_MNU');
+				vmMenuBar::customHref( $href, $vmIcons['new_icon'], $vmIcons['new_icon2'], $alt );
+				vmMenuBar::spacer();
 			}
 			else {
                 // back to parent product
-				$href=$_SERVER['PHP_SELF']."?option=com_virtuemart&page=product.product_form&product_id=$product_parent_id&limitstart=".$limitstart."&no_menu=1&only_page=1&tmpl=component";
-				$alt =  $VM_LANG->_('PHPSHOP_PRODUCT_FORM_RETURN_LBL');
-				$bar->customHref( $href, $vmIcons['back_icon'], $vmIcons['back_icon2'], $alt );
-				
+				$href=$_SERVER['PHP_SELF']."?option=com_virtuemart&page=product.product_form&product_id=$product_parent_id&limitstart=".$limitstart."&no_menu=$no_menu";
+				$alt = "&nbsp;". $VM_LANG->_('PHPSHOP_PRODUCT_FORM_RETURN_LBL');
+				vmMenuBar::customHref( $href, $vmIcons['back_icon'], $vmIcons['back_icon2'], $alt );
+				vmMenuBar::spacer();
 				// new child product
-				$href=$_SERVER['PHP_SELF']."?option=com_virtuemart&page=product.product_form&product_parent_id=$product_parent_id&limitstart=". $limitstart."&no_menu=1&only_page=1&tmpl=component";
-				$alt =  $VM_LANG->_('PHPSHOP_PRODUCT_FORM_ADD_ANOTHER_ITEM_MNU');
-				$bar->customHref( $href, 'new', $alt );
-				
+				$href=$_SERVER['PHP_SELF']."?option=com_virtuemart&page=product.product_form&product_parent_id=$product_parent_id&limitstart=". $limitstart."&no_menu=$no_menu";
+				$alt = "&nbsp;". $VM_LANG->_('PHPSHOP_PRODUCT_FORM_ADD_ANOTHER_ITEM_MNU');
+				vmMenuBar::customHref( $href, $vmIcons['new_icon'], $vmIcons['new_icon2'], $alt );
+				vmMenuBar::spacer();
 			} 
 			// Go to Price list
-			$href = $_SERVER['PHP_SELF']."?page=product.product_price_list&product_id=$product_id&product_parent_id=$product_parent_id&limitstart=$limitstart&return_args=&option=com_virtuemart&no_menu=1&only_page=1&tmpl=component";
-			$alt =  $VM_LANG->_('PHPSHOP_PRICE_LIST_MNU');
-			$bar->customHref( $href, 'new', $alt );
-			
+			$href = $_SERVER['PHP_SELF']."?page=product.product_price_list&product_id=$product_id&product_parent_id=$product_parent_id&limitstart=$limitstart&return_args=&option=com_virtuemart&no_menu=$no_menu";
+			$alt = "&nbsp;". $VM_LANG->_('PHPSHOP_PRICE_LIST_MNU');
+			vmMenuBar::customHref( $href, $vmIcons['new_icon'], $vmIcons['new_icon2'], $alt );
+			vmMenuBar::spacer();
 	
 			// add product type
-			$href= $_SERVER['PHP_SELF']."?option=com_virtuemart&page=product.product_product_type_form&product_id=$product_id&product_parent_id=$product_parent_id&limitstart=$limitstart&no_menu=1&only_page=1&tmpl=component";
-			$alt =  $VM_LANG->_('PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_MNU');
-			$bar->customHref( $href, 'new', $alt );
-			
+			$href= $_SERVER['PHP_SELF']."?option=com_virtuemart&page=product.product_product_type_form&product_id=$product_id&product_parent_id=$product_parent_id&limitstart=$limitstart&no_menu=$no_menu";
+			$alt = "&nbsp;". $VM_LANG->_('PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_MNU');
+			vmMenuBar::customHref( $href, $vmIcons['new_icon'], $vmIcons['new_icon2'], $alt );
+			vmMenuBar::spacer();
 			
 			/*** Adding an item is only pssible, if the product has attributes ***/
 			if (ps_product::product_has_attributes( $product_id ) ) { 
 				// Add Item
-				$href=$_SERVER['PHP_SELF']."?option=com_virtuemart&page=product.product_form&product_parent_id=$product_id&limitstart=$limitstart&no_menu=1&only_page=1&tmpl=component";
-				$alt =  $VM_LANG->_('PHPSHOP_PRODUCT_FORM_NEW_ITEM_LBL');
-				$bar->customHref( $href, 'new', $alt );
-				
+				$href=$_SERVER['PHP_SELF']."?option=com_virtuemart&page=product.product_form&product_parent_id=$product_id&limitstart=$limitstart&no_menu=$no_menu";
+				$alt = "&nbsp;". $VM_LANG->_('PHPSHOP_PRODUCT_FORM_NEW_ITEM_LBL');
+				vmMenuBar::customHref( $href, $vmIcons['new_icon'], $vmIcons['new_icon2'], $alt );
+				vmMenuBar::spacer();
 			}
-			$bar->divider();
+			vmMenuBar::divider();
 		}
 		elseif( $page == "admin.country_form" ) {
             if( !empty( $_REQUEST['country_id'] )) {
-				$href= $_SERVER['PHP_SELF'] ."?option=com_virtuemart&page=admin.country_state_form&country_id=". intval($_REQUEST['country_id']) ."&limitstart=$limitstart&no_menu=$no_menu&only_page=1&tmpl=component";
-				$alt = $VM_LANG->_('PHPSHOP_ADD_STATE');
-				$bar->customHref( $href, 'new', $alt );
+				$href= $_SERVER['PHP_SELF'] ."?option=com_virtuemart&page=admin.country_state_form&country_id=". intval($_REQUEST['country_id']) ."&limitstart=$limitstart&no_menu=$no_menu";
+				$alt = "&nbsp;".$VM_LANG->_('PHPSHOP_ADD_STATE');
+				vmMenuBar::customHref( $href, $vmIcons['new_icon'], $vmIcons['new_icon2'], $alt );
+				vmMenuBar::spacer();
 				
+				$href = $_SERVER['PHP_SELF'] ."?option=com_virtuemart&page=admin.country_state_list&country_id=". intval($_REQUEST['country_id']) ."&limitstart=$limitstart&no_menu=$no_menu";
+				$alt = "&nbsp;".$VM_LANG->_('PHPSHOP_LIST_STATES');
+				vmMenuBar::customHref( $href, $vmIcons['new_icon'], $vmIcons['new_icon2'], $alt );
+				vmMenuBar::spacer();
 				
-				$href = $_SERVER['PHP_SELF'] ."?option=com_virtuemart&page=admin.country_state_list&country_id=". intval($_REQUEST['country_id']) ."&limitstart=$limitstart&no_menu=$no_menu&only_page=1&tmpl=component";
-				$alt = $VM_LANG->_('PHPSHOP_LIST_STATES');
-				$bar->customHref( $href, 'new', $alt );			
-				
-				$bar->divider();
+				vmMenuBar::divider();
 			}
-		}		
+		}
+		vmMenuBar::spacer();
 		
-		$bar->save( 'save', $VM_LANG->_('CMN_SAVE') );			
+		vmMenuBar::save( 'save', $VM_LANG->_('CMN_SAVE') );
+		if( $no_menu == 0 ) {
+			vmMenuBar::spacer();
 			
-		//$bar->apply( 'apply', $VM_LANG->_('E_APPLY') );
-        
-		$bar->cancel();		
-		
+			vmMenuBar::apply( 'apply', $VM_LANG->_('E_APPLY') );
+		}
+		if( (strstr( @$_SERVER['HTTP_REFERER'], $page ) || strstr( @$_SERVER['HTTP_REFERER'], $_SERVER['PHP_SELF'] )) && $no_menu && !$is_iframe ) {
+			// offer a back button
+			vmMenuBar::spacer();
+			vmMenuBar::back();
+		}
+        vmMenuBar::spacer();
+		vmMenuBar::cancel();
+
+		vmMenuBar::spacer();
+		vmMenuBar::endTable();
     }
     /**
 	* The function for all page which allow adding new items
 	* usually when page= *.*_list
 	*/
     function LISTS_MENU_NEW() {
-        global $page, $mosConfig_live_site, $VM_LANG, $limitstart;
-		$bar = & vmExtToolBar::getInstance('virtuemart');
+        global $page, $mosConfig_live_site, $VM_LANG, $limitstart, $vmIcons;
+
         $my_page = str_replace('list','form',$page);
 		
-        $bar->addNew( "new", $my_page, $VM_LANG->_('CMN_NEW') );
+        vmMenuBar::addNew( "new", $my_page, $VM_LANG->_('CMN_NEW') );
 		
-        if ($page == 'admin.country_state_list' ) {
+        if ($page == 'admin.country_state_list') {
 			// Back to the country
-			$bar->divider();
-			$href = $_SERVER['PHP_SELF']. '?option=com_virtuemart&page=admin.country_list&no_menu=1&only_page=1&tmpl=component';
-			$bar->customHref( $href, 'back', '&nbsp;'.$VM_LANG->_('PHPSHOP_BACK_TO_COUNTRY') );
+			vmMenuBar::divider();
+			$href = $_SERVER['PHP_SELF']. '?option=com_virtuemart&page=admin.country_list';
+			vmMenuBar::customHref( $href, $vmIcons['back_icon'], $vmIcons['back_icon2'], '&nbsp;'.$VM_LANG->_('PHPSHOP_BACK_TO_COUNTRY') );
         }
         elseif ($page == 'product.file_list') {
 			// Close the window
-			$bar->divider();
-			$bar->cancel();
+			vmMenuBar::divider();
+			vmMenuBar::cancel();
         }
    
-        
+        vmMenuBar::spacer();
     }
 	/**
 	* Draws a list publish button
 	*/
     function LISTS_MENU_PUBLISH( $funcName ) {
-		$bar = & vmExtToolBar::getInstance('virtuemart');
-		$bar->publishList( $funcName );
 		
-		$bar->unpublishList( $funcName );
-		
+		vmMenuBar::publishList( $funcName );
+		vmMenuBar::spacer();
+		vmMenuBar::unpublishList( $funcName );
+		vmMenuBar::spacer();
 	}
 	/**
 	* Draws a list delete button
 	*/
     function LISTS_MENU_DELETE( $funcName ) {
-		$bar = & vmExtToolBar::getInstance('virtuemart');
-		$bar->deleteList( $funcName );		
+		
+		vmMenuBar::deleteList( $funcName );
+		
 	}
 	
 	/** 
@@ -263,56 +295,60 @@ var submitbutton = function(pressbutton){
 	* like the product list
 	*/
 	function LISTS_SPECIAL_TASKS( $page ) {
-		global $mosConfig_live_site, $VM_LANG, $product_id;
-		
-		$bar = & vmExtToolBar::getInstance('virtuemart');
+		global $mosConfig_live_site, $VM_LANG, $product_id, $vmIcons;
 		switch( $page ) {
 		
 			case "product.product_list":
 			
 				if( empty($_REQUEST['product_parent_id']) ) { 
 					// add new attribute
-					$alt =  $VM_LANG->_('PHPSHOP_ATTRIBUTE_FORM_MNU');
-					$bar->custom( 'new', "product.product_attribute_form", 'new', $alt );
-					
+					$alt = "&nbsp;". $VM_LANG->_('PHPSHOP_ATTRIBUTE_FORM_MNU');
+					vmMenuBar::custom( "", "product.product_attribute_form", $vmIcons['new_icon'], $vmIcons['new_icon2'], $alt );
+					vmMenuBar::spacer();
 				}
 				// Go to Price list
-				$alt =  $VM_LANG->_('PHPSHOP_PRICE_LIST_MNU');
-				$bar->custom( 'new', "product.product_price_list", 'new', $alt );				
+				$alt = "&nbsp;". $VM_LANG->_('PHPSHOP_PRICE_LIST_MNU');
+				vmMenuBar::custom( "", "product.product_price_list", $vmIcons['new_icon'], $vmIcons['new_icon2'], $alt );
+				
+				vmMenuBar::spacer();
 		
 				// add product type
-				$alt =  $VM_LANG->_('PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_MNU');
-				$bar->custom( 'new', "product.product_product_type_form", 'new', $alt );			
+				$alt = "&nbsp;". $VM_LANG->_('PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_MNU');
+				vmMenuBar::custom( "", "product.product_product_type_form", $vmIcons['new_icon'], $vmIcons['new_icon2'], $alt );
+				
+				vmMenuBar::spacer();
 		
 				/*** Adding an item is only pssible, if the product has attributes ***/
-				require_once( CLASSPATH . 'ps_product.php' );
 				if (ps_product::product_has_attributes( $product_id ) ) { 
 					// Add Item
-					$alt =  $VM_LANG->_('PHPSHOP_PRODUCT_FORM_NEW_ITEM_LBL');
-					$bar->custom( 'new', "product.product_child_form", 'new', $alt );
+					$alt = "&nbsp;". $VM_LANG->_('PHPSHOP_PRODUCT_FORM_NEW_ITEM_LBL');
+					vmMenuBar::custom( "", "product.product_child_form", $vmIcons['new_icon'], $vmIcons['new_icon2'], $alt );
 				}
-				$bar->divider();
-				
+				vmMenuBar::divider();
+				vmMenuBar::spacer();
 				if( !empty( $_REQUEST['category_id'])) {
 					$alt = $VM_LANG->_('VM_PRODUCTS_MOVE_TOOLBAR');
-					$bar->custom( 'move', 'product.product_move', 'move', $alt );
-					
-					$bar->divider();
-					
+					vmMenuBar::custom( 'move', 'product.product_move', $mosConfig_live_site.'/administrator/images/move.png', $mosConfig_live_site.'/administrator/images/move_f2.png', $alt );
+					vmMenuBar::spacer();
+					vmMenuBar::divider();
+					vmMenuBar::spacer();
 				}
 				break;
 			
 			case "admin.country_list":
 
-					$alt = $VM_LANG->_('PHPSHOP_ADD_STATE');
-					$bar->custom( 'new', "admin.country_state_form", 'new', $alt );					
+					$alt = "&nbsp;".$VM_LANG->_('PHPSHOP_ADD_STATE');
+					vmMenuBar::custom( "", "admin.country_state_form", $vmIcons['new_icon'], $vmIcons['new_icon2'], $alt );
+					vmMenuBar::spacer();
 					
-					$alt = $VM_LANG->_('PHPSHOP_LIST_STATES');
-					$bar->custom( 'new', "admin.country_state_list", 'new', $alt );
-					
-					$bar->divider();
-					
+					$alt = "&nbsp;".$VM_LANG->_('PHPSHOP_LIST_STATES');
+					vmMenuBar::custom( "", "admin.country_state_list", $vmIcons['new_icon'], $vmIcons['new_icon2'], $alt );
+					vmMenuBar::spacer();
+					vmMenuBar::divider();
+					vmMenuBar::spacer();
 				break;
+			
+			default:
 			
 		}
 		
@@ -323,25 +359,30 @@ var submitbutton = function(pressbutton){
 	* Draws the menu for a New users
 	*/
 	function _NEW_USERS() {
-		$bar = & vmExtToolBar::getInstance('virtuemart');
-		$bar->save();
-		$bar->cancel();
+		vmMenuBar::startTable();
+		vmMenuBar::save();
+		vmMenuBar::cancel();
+		vmMenuBar::spacer();
+		vmMenuBar::endTable();
 	}
 	
 	function _EDIT_USERS() {
-		$bar = & vmExtToolBar::getInstance('virtuemart');
-		$bar->save();
-		$bar->cancel();
+		vmMenuBar::startTable();
+		vmMenuBar::save();
+		vmMenuBar::cancel();
+		vmMenuBar::spacer();
+		vmMenuBar::endTable();
 	}
 	
 	function _DEFAULT_USERS() {
-		$bar = & vmExtToolBar::getInstance('virtuemart');
-		
-		$bar->addNew();
-		$bar->editList();
-		$bar->deleteList();
-		
-		$bar->custom( 'remove_as_customer', 'admin.user_list', 'remove', 'Remove as Customer' );		
+		vmMenuBar::startTable();
+		vmMenuBar::addNew();
+		vmMenuBar::editList();
+		vmMenuBar::deleteList();
+		vmMenuBar::spacer();
+		vmMenuBar::custom( 'remove_as_customer', 'admin.user_list', IMAGEURL .'ps_image/remove_as_customer.png', IMAGEURL .'ps_image/remove_as_customer_f2.png' );
+		vmMenuBar::spacer();
+		vmMenuBar::endTable();
 	}
   
 }

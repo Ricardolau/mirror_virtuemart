@@ -27,13 +27,12 @@ include( $mosConfig_absolute_path.'/administrator/components/com_virtuemart/inst
 // * END INSTALLER SECTION *
 
 // Load the virtuemart main parse code
-require( $mosConfig_absolute_path.'/components/'.$option.'/virtuemart_parser.php' );
+require_once( $mosConfig_absolute_path.'/components/'.$option.'/virtuemart_parser.php' );
 
 $task = vmGet( $_GET, 'task', null);
-switch( $task ) {
-	case 'extlayout':
-		include( $mosConfig_absolute_path.'/components/'.$option.'/js/extlayout.js.php');
-		exit;
+if( $task == 'extlayout') {
+	include( $mosConfig_absolute_path.'/components/'.$option.'/js/extlayout.js.php');
+	exit;
 }
 // Include The Version File
 include_once( ADMINPATH. 'version.php' );
@@ -41,18 +40,26 @@ if( !isset( $VMVERSION ) || !is_object( $VMVERSION ) ) {
 	$VMVERSION =& new vmVersion();
 }
 
-// Start an output buffer if none exists
+// Get the Layout Type from the Cookie
+$vmLayout = vmGet( $_COOKIE, 'vmLayout', 'standard' );
+
+// Change the Layout Type if it is provided through GET
+if( !empty( $_GET['vmLayout'])) {
+	$vmLayout = $_GET['vmLayout'] == 'standard' ? $_GET['vmLayout'] : 'extended';
+}
+// Remember the Cookie for 1 Week
 ob_get_level() or ob_start();
+setcookie('vmLayout', $vmLayout, time()+604800);
 
 // pages, which are called through index3.php are PopUps, they should not need a menu (but it can be overridden by $_REQUEST['no_menu'])
-$no_menu_default = strstr( $_SERVER['PHP_SELF'], 'index3.php') ? 1 : 0;
+$no_menu_default = strstr( $_SERVER['SCRIPT_NAME'], 'index3.php') ? 1 : 0;
 $no_menu = $_REQUEST['no_menu'] = vmGet( $_REQUEST, 'no_menu', $no_menu_default );
 
 // Display the toolbar?
 $no_toolbar = vmGet( $_REQUEST, 'no_toolbar', 0 );
 
 // Display just the naked page without toolbar, menu and footer?
-$only_page_default = strstr( $_SERVER['PHP_SELF'], 'index3.php') ? 1 : 0;
+$only_page_default = strstr( $_SERVER['SCRIPT_NAME'], 'index3.php') ? 1 : 0;
 $only_page = $_REQUEST['only_page'] = vmGet( $_REQUEST, 'only_page', $only_page_default );
 
 if( empty( $page ) || empty( $_REQUEST['page'])) {
@@ -83,31 +90,48 @@ if( $pagePermissionsOK ) {
 	$modulename = $my_page[0];
 	$pagename = $my_page[1];
 }
-
+if( !defined('_VM_TOOLBAR_LOADED') && $no_toolbar != 1 ) {
+	if( $vmLayout == 'standard' && strstr($_SERVER['SCRIPT_NAME'], 'index3.php')) {
+		echo '<div align="right" class="menudottedline">';
+		include_once( ADMINPATH.'toolbar.virtuemart.php');
+		echo '</div>';
+	} else {
+		include( ADMINPATH.'toolbar.php');
+	}
+	
+}
 // Include the Stylesheet
 $vm_mainframe->addStyleSheet( VM_THEMEURL.'admin.styles.css' );
 $vm_mainframe->addStyleSheet( VM_THEMEURL.'theme.css' );
 $vm_mainframe->addScript( $mosConfig_live_site.'/components/'.VM_COMPONENT_NAME.'/js/functions.js' );
 
+if( $no_menu != 1 && $vmLayout != 'extended' ) {
+	echo '<table style="width:100%;table-layout:fixed;"><tr><td style="vertical-align:top;">';
+	include(ADMINPATH.'header.php');
+	echo '</td>';
+}
 
-if( $only_page != 1 ) {
+if( $only_page != 1 && $vmLayout == 'extended') {
 	
 	vmCommonHTML::loadExtjs();
-	$vm_mainframe->addScript( $_SERVER['PHP_SELF'].'?option='.$option.'&task=extlayout' );
-	$phpscript_url = str_replace( 'index2.php', 'index3.php', str_replace('index.php', 'index3.php', $_SERVER['PHP_SELF']));
+	$vm_mainframe->addScript( $_SERVER['SCRIPT_NAME'].'?option='.$option.'&amp;task=extlayout' );
+	$phpscript_url = str_replace( 'index2.php', 'index3.php', str_replace('index.php', 'index3.php', $_SERVER['SCRIPT_NAME']));
 
 	echo '<iframe id="vmPage" src="'.$phpscript_url.'?option=com_virtuemart&amp;page='.$_SESSION['last_page'].'&amp;only_page=1&amp;no_menu=1" style="width:100%; height: 100%; overflow:auto; border: none;padding-left:4px;" name="vmPage"></iframe>';
 
 } else {
 
+	if( $vmLayout == 'extended' ) {
+		echo '<div id="vm-toolbar"></div>';
 	
-	echo '<div id="vm-toolbar"></div>';
-
-	if( $no_toolbar != 1 ) {
-		include( ADMINPATH.'toolbar.virtuemart.php');
+		if( $no_toolbar != 1 ) {
+			$bar =& vmToolBar::getInstance('virtuemart');
+			$bar->render();
+		}
+		echo '<div id="vmPage">';
+	} else {
+		echo '<td id="vmPage" style="width:78%;vertical-align:top;">';
 	}
-	echo '<div id="vmPage">';
-	
 	// Load PAGE
 	if( !$pagePermissionsOK ) {
 		$error = $VM_LANG->_('PHPSHOP_MOD_NO_AUTH');
@@ -133,24 +157,33 @@ if( $only_page != 1 ) {
 		include( PAGEPATH.'store.index.php' );
 	}
 	
+	if( $vmLayout != 'extended' ) {
+		echo '<br style="clear:both;"/><div class="smallgrey" align="center">'
+	                .$VMVERSION->PRODUCT.' '.$VMVERSION->RELEASE
+	                .' (<a href="http://virtuemart.net/index2.php?option=com_versions&amp;catid=1&amp;myVersion='.@$VMVERSION->RELEASE.'" onclick="javascript:void window.open(this.href, \'win2\', \'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=580,directories=no,location=no\'); return false;" title="'.$VM_LANG->_('VM_VERSIONCHECK_TITLE').'" target="_blank">'.$VM_LANG->_('VM_VERSIONCHECK_NOW').'</a>)</div>';
+	}
 	if( DEBUG == '1' && $no_menu != 1 ) {
 	        // Load PAGE
 		include( PAGEPATH."shop.debug.php" );
 	}
+	if( $vmLayout == 'extended' ) {
+		echo '</div>';
+		if( stristr($page, '_list') && $page != 'product.file_list' ) {
+			echo vmCommonHTML::scriptTag('', 'var listItemClicked = function(e){
+        // find the <a> element that was clicked
+        var a = e.getTarget("a");
+       try {
+	        if(a && !a.onclick && a.href.indexOf("javascript:") == -1 && a.href.indexOf("func=") == -1 ) {
+	            e.preventDefault();
+	            parent.addSimplePanel( a.title != "" ? a.title : a.innerHTML, a.href );
+	   		}  
+	    } catch(e) {}
+	};
 	
-	echo '</div>';
-	if( stristr($page, '_list') && $page != 'product.file_list' ) {
-		echo vmCommonHTML::scriptTag('', 'function listItemClicked(e){
-       // find the <a> element that was clicked
-       var a = e.getTarget("a");
-      try {
-        if(a && !a.onclick && a.href.indexOf("javascript:") == -1 && a.href.indexOf("func=") == -1 ) {
-            e.preventDefault();
-            parent.addSimplePanel( a.title != "" ? a.title : a.innerHTML, a.href + "&only_page=1&no_menu=1&tmpl=component" );
-   		}  
-    } catch(e) {}
-}
-Ext.get("vmPage").mon("click", listItemClicked );');
+	Ext.get("vmPage").mon("click", listItemClicked );');
+		}
+	} else {
+		echo '</td></tr></table>';
 	}
 }
 // Render the script and style resources into the document head

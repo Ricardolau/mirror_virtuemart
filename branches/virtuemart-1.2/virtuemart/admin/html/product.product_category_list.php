@@ -88,18 +88,31 @@ for($n = $pageNav->limitstart ; $n < $nrows ; $n++) {
 	
 	// Which category depth level we are in?
 	$repeat = $depth_list[$n]+1;
+	$link = $_SERVER['PHP_SELF'] . "?option=com_virtuemart&page=product.product_category_form&category_id=" . $categories[$row_list[$n]]["category_child_id"]. "&category_parent_id=" . $categories[$row_list[$n]]["category_parent_id"];
+	if( $vmLayout != 'standard' ) {
+		$link .= "&no_menu=1&tmpl=component";
+		$link = defined('_VM_IS_BACKEND') 
+			? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link )) 
+			: str_replace('index.php', 'index2.php', $link );
+	}
 	$tmp_cell = str_repeat("&nbsp;&nbsp;&nbsp;", $repeat ) 
 				. "&#095&#095;|" . $repeat ."|&nbsp;"
-				."<a href=\"". $_SERVER['PHP_SELF'] . "?option=com_virtuemart&page=product.product_category_form&category_id=" . $categories[$row_list[$n]]["category_child_id"]. "&category_parent_id=" . $categories[$row_list[$n]]["category_parent_id"]."\">"
+				."<a href=\"".$link."\">"
 				. $catname
 				. "</a>";
 	$listObj->addCell( $tmp_cell );
 	
 	$desc = strlen( $categories[$row_list[$n]]["category_description"] ) > 255 ? mm_ToolTip( $categories[$row_list[$n]]["category_description"], $VM_LANG->_('PHPSHOP_CATEGORY_FORM_DESCRIPTION') ) :$categories[$row_list[$n]]["category_description"];
 	$listObj->addCell( "&nbsp;&nbsp;". $desc );
-	
+	$link = $_SERVER['PHP_SELF'] . "?page=product.product_list&category_id=" . $categories[$row_list[$n]]["category_child_id"]."&option=com_virtuemart";
+	if( $vmLayout != 'standard' ) {
+		$link .= "&no_menu=1&tmpl=component";
+		$link = defined('_VM_IS_BACKEND') 
+			? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link )) 
+			: str_replace('index.php', 'index2.php', $link );
+	}
 	$listObj->addCell( ps_product_category::product_count( $categories[$row_list[$n]]["category_child_id"] )
-						."&nbsp;<a href=\"". $_SERVER['PHP_SELF'] . "?page=product.product_list&category_id=" . $categories[$row_list[$n]]["category_child_id"]."&option=com_virtuemart"
+						."&nbsp;<a href=\"". $link
 						. "\">[ ".$VM_LANG->_('PHPSHOP_SHOW')." ]</a>"
 					);
 					

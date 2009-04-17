@@ -438,7 +438,7 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_ADMIN_CFG_GLOBAL'), "global-page");
 					foreach ($files as $file) {
 						$file_info = pathinfo($file);
 						$filename = $file_info['basename'];
-						$checked = ($filename == @VM_CURRENCY_CONVERTER_MODULE) ? 'selected="selected"' : "";
+						$checked = ($filename == @VM_CURRENCY_CONVERTER_MODULE.'.php') ? 'selected="selected"' : "";
 						echo "<option value=\"".basename($filename, '.php' )."\" $checked>$filename</option>\n";
 					}
 	            ?>

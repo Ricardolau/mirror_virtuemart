@@ -443,7 +443,7 @@ class vm_ps_cart {
 				$deleted = $_SESSION['cart'][$i]['quantity'];
 			}
 			if ( ($_SESSION['cart'][$i]["product_id"] != $product_id
-			|| $_SESSION['cart'][$i]["description"] != $d["description"]
+			|| $_SESSION['cart'][$i]["description"] != stripslashes($d["description"])
 			 )
 			) {
 				if( ($_SESSION['cart'][$i]["product_id"] == $product_id && $force )) {

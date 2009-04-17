@@ -35,6 +35,9 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+16.04.2009 aravot
+# Fixed delete child product from cart when child product has apostrophe in product name. 
+
 15.04.2009 aravot
 # Fixed Kenya, Somali and Tanzania currency
 
@@ -53,7 +56,7 @@ VirtueMart 1.2.x
 
 23.03.2009 soeren
 # Task #2536 - Incomplete php tag with a duplicated table closure'
-# Task #2537 - Default curency plugin not set! 
+# Task #2537 - Default currency plugin not set! 
 
 19.03.2009 aravot
 # Review message fixed. 

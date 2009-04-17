@@ -75,7 +75,5 @@ while($db->next_record()) {
 	if($i == 1) $i++;
 	elseif($i == 2) $i--;
 }
-
-echo '</td>'."\n";
-echo '</tr>'."\n";
-echo '</table>'."\n";
+?>
+</table>

@@ -1642,7 +1642,7 @@ CREATE TABLE IF NOT EXISTS `mos_vm_shopper_group` (
 ## 
 
 INSERT INTO `mos_vm_shopper_group` VALUES (5, 1, '-default-', 'This is the default shopper group.', 0.00, 1, 1),
-(6, 1, 'Gold Level', 'Gold Level phpShoppers.', 0.00, 1, 0),
+(6, 1, 'Gold Level', 'Gold Level Shoppers.', 0.00, 1, 0),
 (7, 1, 'Wholesale', 'Shoppers that can buy at wholesale.', 0.00, 0, 0);
 
 ## --------------------------------------------------------

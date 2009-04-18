@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -114,7 +114,7 @@ class vm_ps_cart {
 			}
 		}
 		//Check to see if a prod_id has been set
-		if (!isset($d["prod_id"])) {
+		if (!isset($d["prod_id"]) ) {
 			return true;
 		}
 		$multiple_products = sizeof($d["prod_id"]);
@@ -176,10 +176,10 @@ class vm_ps_cart {
 					continue;
 				}
 			}
-
 			// Check if product exists and is published
 			if ( !ps_product::product_exists($product_id)) {
 				$vmLogger->tip( $VM_LANG->_('VM_CART_PRODUCT_NOTEXIST',false) );
+				
 				return false;
 			}
 			// Quick add of item
@@ -188,11 +188,12 @@ class vm_ps_cart {
 			$db->query ( $q );
 
 			if ( $db->num_rows()) {
-				vmRequest::setVar('product_id', $product_id );
+				vmRequest::setVar('product_id', $e["product_id"] );				
 				$vmLogger->tip( $VM_LANG->_('PHPSHOP_CART_SELECT_ITEM',false) );
-				return false;
+				$_REQUEST['flypage'] = ps_product::get_flypage($e["product_id"]);
+				$GLOBALS['page'] = 'shop.product_details';
+				return true;
 			}
-
 			// Check to see if we already have it
 			$updated = 0;
 

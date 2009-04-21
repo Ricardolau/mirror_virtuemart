@@ -1659,7 +1659,7 @@ class vm_ps_product extends vmAbstractObject {
 			$price = $this->getPriceByShopperGroup( $product_id, $shopper_group_id, $check_multiple_prices, $volume_quantity_sql );
 			if( !$price && $product_parent_id ) {
 				// If this is a child product and it has not a price for the requested shopper group, get the price for the default shopper group
-				$price = $this->getPriceByShopperGroup( $product_parent_id, $GLOBALS['vendor_info'][$vendor_id]['default_shopper_group_id'], $check_multiple_prices, $volume_quantity_sql );
+				$price = $this->getPriceByShopperGroup( $product_id, $GLOBALS['vendor_info'][$vendor_id]['default_shopper_group_id'], $check_multiple_prices, $volume_quantity_sql );
 				if( !$price ) {
 					// if the child product has no priceat all, get the price of the parent product for that shopper group
 					$price = $this->getPriceByShopperGroup( $product_parent_id, $shopper_group_id, $check_multiple_prices, $volume_quantity_sql );					

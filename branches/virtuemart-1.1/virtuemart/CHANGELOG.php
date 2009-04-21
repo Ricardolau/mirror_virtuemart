@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+21.04.2009 aravot
+# BUG #2550 - Child product price is shown wrong for users other than default group
+
 16.04.2009 aravot
 # Task #2536 - Incomplete php tag with a duplicated table closure'
 # Task #2537 - Default currency plugin not set!

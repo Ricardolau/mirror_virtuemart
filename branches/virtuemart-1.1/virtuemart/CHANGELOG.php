@@ -58,6 +58,10 @@ VirtueMart 1.1.x
 ^ Changed PayPal test account link in notify.php
 + Added Continue Shopping link when cart is empty
  
+23.03.2009 soeren
+# Task #2536 - Incomplete php tag with a duplicated table closure' 
+# Task #2537 - Default curency plugin not set!
+
 20.03.2009 macallf
 # Bug #2543
 

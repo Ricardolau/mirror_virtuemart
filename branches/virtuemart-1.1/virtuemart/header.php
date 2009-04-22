@@ -51,6 +51,13 @@ $vm_mainframe->addScript($mosConfig_live_site.'/components/com_virtuemart/js/fun
 if( vmIsJoomla('1.0') && strstr( $_SERVER['PHP_SELF'], 'index3.php')) {
 	echo $mainframe->getHead();
 }
+
+
+
+
+$menu_items = getAdminMenu($module_id);
+
+
 ?>
 <div id="vmMenu">
 <div id="content-box2">
@@ -88,491 +95,26 @@ if( vmIsJoomla('1.0') && strstr( $_SERVER['PHP_SELF'], 'index3.php')) {
 		<div class="sidemenu" id="masterdiv2">
 		<?php
 		$modCount = 1;
-		foreach( $mod as $module ) { 
-			switch( $module ) {
-				case 'admin':
-			
-				?>
-					<h3 class="title-smenu" title="admin" onclick="SwitchMenu('<?php echo $modCount ?>')"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_MOD') ?></h3>
-						<div class="section-smenu">
-					<ul>
-					<li class="item-smenu vmicon vmicon-16-config">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=admin.show_cfg&amp;option=com_virtuemart") ?>"><?php echo $VM_LANG->_('PHPSHOP_CONFIG') ?></a>
-					<hr />
-					</li>
-					<?php if (defined('_VM_IS_BACKEND')) { ?>
-					<li class="item-smenu vmicon vmicon vmicon-16-user">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=admin.user_list") ?>"><?php echo $VM_LANG->_('PHPSHOP_USERS') ?></a>
-					</li>
-					<?php } ?>
-					<li class="item-smenu vmicon vmicon-16-user">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=admin.usergroup_list") ?>"><?php echo $VM_LANG->_('VM_USERGROUP_LBL') ?></a>
-					</li>
-					<li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=admin.user_field_list") ?>"><?php echo $VM_LANG->_('VM_MANAGE_USER_FIELDS') ?></a>
-					<hr />					
-					</li>
-					<li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=admin.country_list") ?>"><?php echo $VM_LANG->_('PHPSHOP_COUNTRY_LIST_MNU') ?></a>
-					</li>
-					<li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=admin.curr_list") ?>"><?php echo $VM_LANG->_('PHPSHOP_CURRENCY_LIST_MNU') ?></a>
-					
-						<hr />
-					</li>
-					
-					<li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=admin.module_list") ?>"><?php echo $VM_LANG->_('PHPSHOP_MODULE_LIST_MNU') ?></a>
-						<hr />
-					</li>
-					<?php if (!empty($module_id)) { ?>
-					<hr /> 
-					<li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=admin.function_list&amp;module_id=".$module_id) ?>"><?php echo $VM_LANG->_('PHPSHOP_FUNCTION_LIST_MNU') ?></a>
-					</li>
-					<li class="item-smenu vmicon vmicon-16-editadd">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=admin.function_form&amp;module_id=".$module_id) ?>"><?php echo $VM_LANG->_('PHPSHOP_FUNCTION_FORM_MNU') ?></a>
-						<hr />
-					</li>
-					 <?php } ?>
-					 
-					<li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=admin.update_check") ?>"><?php echo $VM_LANG->_('VM_CHECK_UPDATES_MNU') ?></a>
-					</li>
-					</ul>
-					</div>
-				<?php 
-				$modCount++;
-				break;
-				
-				
-				case 'store':
+		foreach( $menu_items as $item ) { ?> 
+			<h3 class="title-smenu" title="<?php echo $item['title']; ?>admin" onclick="SwitchMenu('<?php echo $modCount ?>')"><?php echo $item['title'] ?></h3>
+			<div class="section-smenu">
+			<ul><?php 			
+			foreach( $item['items'] as $link ) {
+				if( $link['name'] == '-' ) {?>
+					<li>
+					<hr>
+					</li><?php 
+				} else { 
+					$url = strncmp($link['link'], 'http', 4 ) === 0 ? $link['link'] : $sess->url('index2.php?pshop_mode=admin&'.$link['link'], false, false );
 					?>
-					<h3 class="title-smenu" title="store" onclick="SwitchMenu('<?php echo $modCount ?>')">
-					<?php echo $VM_LANG->_('PHPSHOP_STORE_MOD')
-					?>
-					</h3>
-					<div class="section-smenu">
-					<ul>
-					<li class="item-smenu vmicon vmicon-16-info">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=store.index") ?>"><?php echo $VM_LANG->_('PHPSHOP_STATISTIC_SUMMARY') ?></a>
-					</li>
-					<li class="item-smenu vmicon vmicon-16-config">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=store.store_form") ?>"><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_MNU') ?></a>
-					</li>
-					<?php if ($_SESSION['auth']['perms'] != "admin" && defined('_PSHOP_ADMIN')) { ?>
-					<li class="item-smenu vmicon vmicon-16-user">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=store.user_list") ?>"><?php echo $VM_LANG->_('PHPSHOP_USER_LIST_MNU') ?></a>
-					</li>
-					<?php } ?>
-					<li><hr /></li>
-					<li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=store.payment_method_list") ?>"><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_METHOD_LIST_MNU') ?></a>
-					</li>
-					<li class="item-smenu vmicon vmicon-16-editadd">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=store.payment_method_form") ?>"><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_METHOD_FORM_MNU') ?></a>
-					<hr />
-					</li>
-					<li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=store.shipping_module_list") ?>"><?php echo $VM_LANG->_('VM_SHIPPING_MODULE_LIST_LBL') ?></a>
-					<hr />
-					</li>
-					<li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=store.creditcard_list") ?>"><?php echo $VM_LANG->_('PHPSHOP_CREDITCARD_LIST_LBL') ?></a>
-					</li>
-					<li class="item-smenu vmicon vmicon-16-editadd">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=store.creditcard_form") ?>"><?php echo $VM_LANG->_('PHPSHOP_CREDITCARD_FORM_LBL') ?></a>
-					<hr />
-					</li>
-					<li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=store.export_list") ?>"><?php echo $VM_LANG->_('VM_ORDER_EXPORT_MODULE_LIST_MNU') ?></a>
-					</li>
-					<li class="item-smenu vmicon vmicon-16-editadd">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=store.export_form") ?>"><?php echo $VM_LANG->_('VM_ORDER_EXPORT_MODULE_FORM_MNU') ?></a>
-					</li>
-					</ul>
-					</div>
-				<?php 
-				$modCount++;
-				break;
-				
-				
-				case 'shopper':
-					?>
-					<h3 class="title-smenu" title="shopper" onclick="SwitchMenu('<?php echo $modCount ?>')">
-					<?php echo $VM_LANG->_('PHPSHOP_SHOPPER_MOD')
-					?>
-					</h3>
-					<div class="section-smenu">
-					<ul>
-					<li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=shopper.shopper_group_list") ?>"><?php echo $VM_LANG->_('PHPSHOP_SHOPPER_GROUP_LIST_MNU') ?></a>
-					</li>
-					<li class="item-smenu vmicon vmicon-16-editadd">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=shopper.shopper_group_form") ?>"><?php echo $VM_LANG->_('PHPSHOP_SHOPPER_GROUP_FORM_MNU') ?></a>
-					</li>
-					</ul>
-					</div>
-				<?php 
-				$modCount++;
-				break;
-				
-				
-				case 'product':
-					?>
-					<h3 class="title-smenu" title="product" onclick="SwitchMenu('<?php echo $modCount ?>')">
-					<?php echo $VM_LANG->_('PHPSHOP_PRODUCT_MOD'); ?></h3>
-					<div class="section-smenu">
-					<ul>
-					<?php include_class("product"); ?>
-		           	<li class="item-smenu vmicon vmicon-16-import">
-			           	<?php
-			           	// Check for an Installation of Roland's CSVImproved Component
-			           	if( file_exists($mosConfig_absolute_path.'/administrator/components/com_csvimproved/csvimproved.php')) {
-			           		$url = $mosConfig_live_site . '/administrator/index2.php?option=com_csvimproved';
-							$extra = 'onclick="document.location=this.href"';
-			           		$title = str_replace('"','&quot;',$VM_LANG->_('CSVIMPROVED_TITLE'));
-			           	} else {
-			           		$url = 'http://www.csvimproved.com/';
-			           		$extra = 'target="_blank"';
-			           		$title = str_replace('"','&quot;',$VM_LANG->_('CSVIMPROVED_NEEDINSTALL'));
-			           	}
-			           	?>
-						<a href="<?php echo $url  ?>" title="<?php echo $title  ?>" <?php echo $extra ?>><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_CSV_UPLOAD') ?></a>
-						<hr />
-					</li>
-					<li><strong><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_MOD') ?></strong></li>
-					<?php    
-		            if (!empty($recent_product_id) && empty($_REQUEST['product_parent_id'])) { 
-		               	if (!isset($return_args)) $return_args = ""; ?> 
-						<li><hr /></li>
-								
-						<li class="item-smenu vmicon vmicon-16-content">
-						<a href="<?php $sess->purl($_SERVER['PHP_SELF'] . "?pshop_mode=admin&page=product.product_attribute_list&product_id=$recent_product_id&return_args=" . urlencode($return_args)); ?>"><?php echo $VM_LANG->_('PHPSHOP_ATTRIBUTE_LIST_MNU') ?></a>
-						</li>
-						<li class="item-smenu vmicon vmicon-16-editadd">
-						<a href="<?php $sess->purl($_SERVER['PHP_SELF'] . "?pshop_mode=admin&page=product.product_attribute_form&product_id=$recent_product_id&return_args=" . urlencode($return_args)); ?>"><?php echo $VM_LANG->_('PHPSHOP_ATTRIBUTE_FORM_MNU') ?></a>
-						</li>
-						<li class="item-smenu vmicon vmicon-16-editadd">
-						<a href="<?php $sess->purl($_SERVER['PHP_SELF'] . "?pshop_mode=admin&page=product.product_price_list&product_id=$recent_product_id&return_args=" . urlencode($return_args)); ?>"><?php echo $VM_LANG->_('PHPSHOP_PRICE_FORM_MNU') ?></a>
-						</li>
-						<li class="item-smenu vmicon vmicon-16-content">
-						<a href="<?php $sess->purl($_SERVER['PHP_SELF'] . "?pshop_mode=admin&page=product.product_product_type_list&product_id=$recent_product_id&return_args=" . urlencode($return_args)); ?>"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_PRODUCT_TYPE_LIST_MNU') ?></a>
-						</li>
-						
-						<li class="item-smenu vmicon vmicon-16-editadd">
-						<a href="<?php $sess->purl($_SERVER['PHP_SELF'] . "?pshop_mode=admin&page=product.product_product_type_form&product_id=$recent_product_id&return_args=" . urlencode($return_args)); ?>"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_MNU') ?></a>
-						</li>
-						<?php 
-						if ($ps_product->product_has_attributes($recent_product_id)) { ?>
-							<li class="item-smenu vmicon vmicon-16-editadd">
-							<a href="<?php $sess->purl($_SERVER['PHP_SELF'] . "?pshop_mode=admin&page=product.product_form&product_parent_id=$recent_product_id"); ?>"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_ADD_ITEM_MNU') ?></a>
-							</li>
-				            <?php 
-						} ?>
-						<li><hr /></li>
-		            <?php 
-		            }
-		            elseif (!empty($product_parent_id)) { ?> 
-						<li class="item-smenu vmicon vmicon-16-editadd">
-						<a href="<?php @$sess->purl($_SERVER['PHP_SELF'] . "?pshop_mode=admin&page=product.product_price_list&product_id=$recent_product_id&product_parent_id=$product_parent_id&return_args=" . urlencode($return_args)); ?>"><?php echo $VM_LANG->_('PHPSHOP_PRICE_FORM_MNU') ?></a>
-						</li>
-						<li class="item-smenu vmicon vmicon-16-editadd">
-						<a href="<?php $sess->purl($_SERVER['PHP_SELF'] . "?pshop_mode=admin&page=product.product_form&product_parent_id=" . $product_parent_id); ?>"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_ADD_ANOTHER_ITEM_MNU') ?></a>
-						</li>
-						<li class="item-smenu vmicon vmicon-16-content">
-						<a href="<?php @$sess->purl($_SERVER['PHP_SELF'] . "?pshop_mode=admin&page=product.product_product_type_list&product_id=$recent_product_id&product_parent_id=$product_parent_id&return_args=" . urlencode($return_args)); ?>"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_PRODUCT_TYPE_LIST_MNU') ?></a>
-						</li>
-						<li class="item-smenu vmicon vmicon-16-content">
-						<a href="<?php $sess->purl($_SERVER['PHP_SELF'] . "?pshop_mode=admin&page=product.product_form&product_id=" . $product_parent_id); ?>"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_RETURN_LBL') ?></a>
-						</li>
-						<li><hr /></li>
-			            <?php 
-		            } ?>
-		            
-		            <li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&page=product.product_list") ?>"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_LIST_MNU') ?></a>
-					</li>
-		            <li class="item-smenu vmicon vmicon-16-editadd">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&page=product.product_form") ?>"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_MNU') ?></a>
-					</li>
-					<?php 
-		            if( !empty($recent_product_id) ) { ?>
-			            <li class="item-smenu vmicon vmicon-16-media">
-						<a href="<?php $sess->purl($_SERVER['PHP_SELF'] . "?pshop_mode=admin&page=product.file_form&product_id=$recent_product_id"); ?>"><?php echo $VM_LANG->_('PHPSHOP_FILEMANAGER_ADD') ?></a>
-						</li>
-			            <?php 
-		            } ?>
-		           <li class="item-smenu vmicon vmicon-16-install">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF'] . "?pshop_mode=admin&page=product.product_inventory"); ?>"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_INVENTORY_MNU') ?></a>
-					</li>
-		             <li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&page=product.specialprod") ?>"><?php echo $VM_LANG->_('PHPSHOP_SPECIAL_PRODUCTS') ?></a>
-					</li>
-		             <li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&page=product.folders") ?>"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FOLDERS')  ?></a>
-					<hr />			
-					</li>					
-		             <li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&page=product.review_list") ?>"><?php echo $VM_LANG->_('PHPSHOP_REVIEWS')  ?></a>
-					<hr />			
-					</li>
-					 <li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&page=product.product_discount_list") ?>"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_DISCOUNT_LIST_LBL') ?></a>
-					</li>
-					 <li class="item-smenu vmicon vmicon-16-editadd">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&page=product.product_discount_form") ?>"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_DISCOUNT_FORM_MNU') ?></a>
-					<hr />	
-					</li>
-				    <li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&page=product.product_type_list") ?>"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_LIST_LBL') ?></a>
-					</li>
-					<li class="item-smenu vmicon vmicon-16-editadd">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&page=product.product_type_form") ?>"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_MNU') ?></a>
-					<hr />	
-					</li>
-		     		<li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&page=product.product_category_list") ?>"><?php echo $VM_LANG->_('PHPSHOP_CATEGORY_LIST_MNU') ?></a>
-					</li>
-					 <li class="item-smenu vmicon vmicon-16-editadd">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&page=product.product_category_form") ?>"><?php echo $VM_LANG->_('PHPSHOP_CATEGORY_FORM_MNU') ?></a>
-					</li>
-					</ul>
-					</div>
-				<?php 
-				$modCount++;
-				break;
-				
-				
-				case 'order':
-					?>
-					<h3 class="title-smenu" title="order" onclick="SwitchMenu('<?php echo $modCount ?>')">
-					<?php echo $VM_LANG->_('PHPSHOP_ORDER_MOD')
-					?>
-					</h3>
-					<div class="section-smenu">
-					<ul>
-					<li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=order.order_list") ?>"><?php echo $VM_LANG->_('PHPSHOP_ORDER_LIST_MNU') ?></a>
-					<hr />
-					</li>
-					<li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=order.order_status_list") ?>"><?php echo $VM_LANG->_('PHPSHOP_ORDER_STATUS_LIST_MNU') ?></a>
-					</li>
-					<li class="item-smenu vmicon vmicon-16-editadd">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=order.order_status_form") ?>"><?php echo $VM_LANG->_('PHPSHOP_ORDER_STATUS_FORM_MNU') ?></a>
-					</li>
-				
-					</ul>
-					</div>
-				<?php 
-				$modCount++;
-				break;
-				
-				
-				case 'vendor':
-					?>
-					<h3 class="title-smenu" title="vendor" onclick="SwitchMenu('<?php echo $modCount ?>')">
-					<?php echo $VM_LANG->_('PHPSHOP_VENDOR_MOD')
-					?>
-					</h3>
-					<div class="section-smenu">
-					<ul>
-					<li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=vendor.vendor_list") ?>"><?php echo $VM_LANG->_('PHPSHOP_VENDOR_LIST_MNU') ?></a>
-					</li>
-					<li class="item-smenu vmicon vmicon-16-editadd">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=vendor.vendor_form") ?>"><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_MNU') ?></a>
-					<hr />
-					</li>
-					<li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=vendor.vendor_category_list") ?>"><?php echo $VM_LANG->_('PHPSHOP_VENDOR_CAT_LIST_MNU') ?></a>
-					</li>
-					<li class="item-smenu vmicon vmicon-16-editadd">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=vendor.vendor_category_form") ?>"><?php echo $VM_LANG->_('PHPSHOP_VENDOR_CAT_FORM_MNU') ?></a>
-					</li>
-					</ul>
-					</div>
-				<?php 
-				$modCount++;
-				break;
-				
-				
-				case 'reportbasic':
-					?>
-					<h3 class="title-smenu" title="report" onclick="SwitchMenu('<?php echo $modCount ?>')">
-					<?php echo $VM_LANG->_('PHPSHOP_REPORTBASIC_MOD')
-					?>
-					</h3>
-					<div class="section-smenu">
-					<ul>
-					<li class="item-smenu vmicon vmicon-16-info">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=reportbasic.index") ?>"><?php echo $VM_LANG->_('PHPSHOP_REPORTBASIC_MOD') ?></a>
-					</li>
-					</ul>
-					</div>
-				<?php 
-				$modCount++;
-				break;
-				
-				
-				case 'tax':
-					?>
-					<h3 class="title-smenu" title="tax" onclick="SwitchMenu('<?php echo $modCount ?>')">
-					<?php echo $VM_LANG->_('PHPSHOP_TAX_MOD')
-					?>
-					</h3>
-					<div class="section-smenu">
-					<ul>
-					<li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=tax.tax_list") ?>"><?php echo $VM_LANG->_('PHPSHOP_TAX_LIST_MNU') ?></a>
-					</li>
-					<li class="item-smenu vmicon vmicon-16-editadd">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=tax.tax_form") ?>"><?php echo $VM_LANG->_('PHPSHOP_TAX_FORM_MNU') ?></a>
-					</li>
-					</ul>
-					</div>
-				<?php 
-				$modCount++;
-				break;
-
-                case "shipping":
-                    ?>
-					<h3 class="title-smenu" title="report" onclick="SwitchMenu('<?php echo $modCount ?>')">
-					<?php echo $VM_LANG->_('PHPSHOP_SHIPPING_MOD')
-					?>
-					</h3>
-					<div class="section-smenu">
-					<ul>
-                        <li class="item-smenu vmicon vmicon-16-content">
-							<a href="<?php $sess->purl($_SERVER['PHP_SELF'] . "?pshop_mode=admin&page=shipping.carrier_list") ?>"><?php echo $VM_LANG->_('PHPSHOP_CARRIER_LIST_MNU') ?></a>
-						</li>
-                        <li class="item-smenu vmicon vmicon-16-editadd">
-							<a href="<?php $sess->purl($_SERVER['PHP_SELF'] . "?pshop_mode=admin&page=shipping.carrier_form") ?>"><?php echo $VM_LANG->_('PHPSHOP_CARRIER_FORM_MNU') ?></a>
-                    	</li>
-                        <li class="item-smenu vmicon vmicon-16-content">
-							<a href="<?php $sess->purl($_SERVER['PHP_SELF'] . "?pshop_mode=admin&page=shipping.rate_list") ?>"><?php echo $VM_LANG->_('PHPSHOP_RATE_LIST_MNU') ?></a>
-						</li>
-                        <li class="item-smenu vmicon vmicon-16-editadd">
-							<a href="<?php $sess->purl($_SERVER['PHP_SELF'] . "?pshop_mode=admin&page=shipping.rate_form") ?>"><?php echo $VM_LANG->_('PHPSHOP_RATE_FORM_MNU') ?></a>
-						</li>
-					</ul>
-				</div>
-				<?php 
-				$modCount++;
-				break;
-                        
-                case "zone":
-                    ?>
-					<h3 class="title-smenu" title="report" onclick="SwitchMenu('<?php echo $modCount ?>')">
-					<?php echo $VM_LANG->_('PHPSHOP_ZONE_MOD')
-					?>
-					</h3>
-					<div class="section-smenu">
-					<ul>
-                        <li class="item-smenu vmicon vmicon-16-content">
-                        	<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&page=zone.assign_zones") ?>"><?php echo $VM_LANG->_('PHPSHOP_ZONE_ASSIGN_MNU') ?></a>
-						</li>
-                        <li class="item-smenu vmicon vmicon-16-content">
-                        	<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&page=zone.zone_list") ?>"><?php echo $VM_LANG->_('PHPSHOP_ZONE_LIST_MNU') ?></a>
-						</li>
-                        <li class="item-smenu vmicon vmicon-16-editadd">
-							<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&page=zone.zone_form") ?>"><?php echo $VM_LANG->_('PHPSHOP_ZONE_FORM_MNU') ?></a>
-						</li>
-                    
-					</ul>
-				</div>
-				<?php 
-				$modCount++;
-				break;
-
-				case 'coupon':
-					?>
-					<h3 class="title-smenu" title="coupon" onclick="SwitchMenu('<?php echo $modCount ?>')">
-					<?php echo $VM_LANG->_('PHPSHOP_COUPON_MOD')
-					?>
-					</h3>
-					<div class="section-smenu">
-					<ul>
-					<li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=coupon.coupon_list") ?>"><?php echo $VM_LANG->_('PHPSHOP_COUPON_LIST') ?></a>
-					</li>
-					<li class="item-smenu vmicon vmicon-16-editadd">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=coupon.coupon_form") ?>"><?php echo $VM_LANG->_('PHPSHOP_COUPON_NEW_HEADER') ?></a>
-					</li>
-					</ul>
-					</div>
-				<?php 
-				$modCount++;
-				break;
-				case 'export':
-					?>
-					<h3 class="title-smenu" title="coupon" onclick="SwitchMenu('<?php echo $modCount ?>')">Export</h3>
-					<div class="section-smenu">
-					<ul>
-					<li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=export.index") ?>">Export Manager</a>
-					</li>
-					</ul>
-					</div>
-				<?php 
-				$modCount++;
-				break;
-				
-				case 'manufacturer':
-					?>
-					<h3 class="title-smenu" title="manufacturer" onclick="SwitchMenu('<?php echo $modCount ?>')">
-					<?php echo $VM_LANG->_('PHPSHOP_MANUFACTURER_MOD')
-					?>
-					</h3>
-					<div class="section-smenu">
-					<ul>
-					<li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=manufacturer.manufacturer_list") ?>"><?php echo $VM_LANG->_('PHPSHOP_MANUFACTURER_LIST_MNU') ?></a>
-					</li>
-					<li class="item-smenu vmicon vmicon-16-editadd">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=manufacturer.manufacturer_form") ?>"><?php echo $VM_LANG->_('PHPSHOP_MANUFACTURER_FORM_MNU') ?></a>
-					<hr />
-					</li>
-					<li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=manufacturer.manufacturer_category_list") ?>"><?php echo $VM_LANG->_('PHPSHOP_MANUFACTURER_CAT_LIST_MNU') ?></a>
-					</li>
-					<li class="item-smenu vmicon vmicon-16-editadd">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=manufacturer.manufacturer_category_form") ?>"><?php echo $VM_LANG->_('PHPSHOP_MANUFACTURER_CAT_FORM_MNU') ?></a>
-					</li>
-					</ul>
-					</div>
-				<?php 
-				$modCount++;
-				break;
-				
-				
-				case 'help':
-					?>
-					<h3 class="title-smenu" title="about" onclick="SwitchMenu('<?php echo $modCount ?>')">
-					<?php echo $VM_LANG->_('PHPSHOP_HELP_MOD') ?></h3>
-					<div class="section-smenu">
-					<ul>
-						<li class="item-smenu vmicon vmicon-16-info">
-						<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=help.about");?>"><?php echo $VM_LANG->_('VM_ABOUT') ?></a>
-						</li>
-						<li class="item-smenu vmicon vmicon-16-help">
-						<a href="http://virtuemart.net/documentation/User_Manual/index.html"><?php echo $VM_LANG->_('VM_HELP_TOPICS') ?></a>
-						</li>
-						<li class="item-smenu vmicon vmicon-16-language">
-						<a href="http://forum.virtuemart.net/"><?php echo $VM_LANG->_('VM_COMMUNITY_FORUM') ?></a>
-						</li>			
-					</ul>
-					<hr />
-					</div>
-					<?php
-					$modCount++;
-					break;
-			}
-			
-		}
-		?>
-	</div>
+					<li class="item-smenu vmicon <?php echo $link['icon_class']; ?>">
+					<a href="<?php echo $url; ?>"><?php echo $VM_LANG->_($link['name']) ? $VM_LANG->_($link['name']) : $link['name'] ?></a>
+					</li><?php 
+				}
+			} ?>
+			</ul></div>
+			<?php $modCount++;
+		} ?></div>
 	<div style="text-align:center;">
 	<h5><?php echo $VM_LANG->_('VM_YOUR_VERSION') ?></h5>
 	<a href="http://virtuemart.net/index2.php?option=com_versions&amp;catid=1&amp;myVersion=<?php echo @$VMVERSION->RELEASE ?>" onclick="javascript:void window.open(this.href, 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=580,directories=no,location=no'); return false;" title="<?php echo $VM_LANG->_('VM_VERSIONCHECK_TITLE') ?>" target="_blank">
@@ -604,4 +146,36 @@ if( $vmLayout == 'standard') {
 if (!empty($error) && ($page != ERRORPAGE)) {
      echo '<br /><div class="message">'. $error.'</div><br />';
 }
-$db = new ps_DB(); ?>
+$db = new ps_DB(); 
+
+function getAdminMenu($filter_by_module_id=0) {
+		global $page, $db, $auth;
+		
+		$menuArr = array();
+		        
+		$filter[] = "vmmod.module_publish='Y'";
+		$filter[] = "item.published='1'";
+		$filter[] = "vmmod.is_admin='1'";
+		$filter[] = "FIND_IN_SET('".$auth['perms']."', module_perms )>0";
+		if( !empty($filter_by_module_id)) {
+			$filter[] = 'vmmod.module_id='.(int)$filter_by_module_id; 
+		}
+		
+		$q = "SELECT vmmod.module_id,module_name,module_perms,id,name,link,depends,icon_class 
+					FROM #__{vm}_module vmmod 
+					LEFT JOIN #__{vm}_menu_admin item ON vmmod.module_id=item.module_id 
+					WHERE  ".implode(' AND ', $filter )."   
+					ORDER BY vmmod.list_order,item.ordering";
+		$db->query($q);
+		
+		while( $db->next_record() ) {
+		    $menuArr[$db->f('module_name')]['title'] = $GLOBALS['VM_LANG']->_('PHPSHOP_'.strtoupper($db->f('module_name')).'_MOD');
+			$menuArr[$db->f('module_name')]['items'][] = array('name' => $db->f('name'),
+																		'link' => $db->f('link'),
+																		'depends' => $db->f('depends'),
+																		'icon_class' => $db->f('icon_class'));
+		}
+		return $menuArr;
+	}
+	
+	?>

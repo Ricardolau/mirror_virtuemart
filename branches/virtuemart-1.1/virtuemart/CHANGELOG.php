@@ -35,7 +35,8 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 23.04.2009 rolandd
-# BUG #2356 Billing information will be overwritten if sento information is saved 
+# BUG #2356 Billing information will be overwritten if sento information is saved
+# BUG #2573 ps_cashondel.php contains a couple of short tags 
 
 22.04.2009 aravot
 # Fixed recently viewed items when a product or category is unpublished it is still shown (thank you Phil)

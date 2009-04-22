@@ -2697,7 +2697,7 @@ class vm_ps_product extends vmAbstractObject {
 				continue;
 			}
 			// If we have not reached max products add the next product
-			if($k < $maxitems+1) {
+			if($k < $maxitems) {
 				$prod_id = $recentproducts[$i]['product_id'];
 				$category_id = $recentproducts[$i]['category_id'];
 				$q = "SELECT product_name, category_name, c.category_flypage,product_s_desc,product_thumb_image ";
@@ -2705,8 +2705,14 @@ class vm_ps_product extends vmAbstractObject {
 				$q .= "WHERE p.product_id = '$prod_id' ";
 				$q .= "AND c.category_id = '$category_id' ";
 				$q .= "AND p.product_id = cx.product_id ";
-				$q .= "AND c.category_id=cx.category_id LIMIT 0,1";
+				$q .= "AND c.category_id=cx.category_id ";
+				$q .= "AND p.product_publish='Y' ";
+				$q .= "AND c.category_publish='Y' ";
+				$q .= "LIMIT 0,1";
 				$db->query( $q );
+				if( !$db->next_record() ) {
+					continue;
+				}
                 if(!$this->is_product($prod_id )) {
                     $prod_id_p = $this->get_field($prod_id,"product_parent_id");
                     $q = "SELECT product_name,category_name, c.category_flypage,product_s_desc,product_thumb_image ";

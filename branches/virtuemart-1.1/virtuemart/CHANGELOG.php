@@ -34,6 +34,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+22.04.2009 aravot
+# Fixed recently viewed items when a product or category is unpublished it is still shown (thank you Phil)
+# Fixed number of recently viewed products to display (thank you Phil)
+
 21.04.2009 aravot
 # BUG #2550 - Child product price is shown wrong for users other than default group
 

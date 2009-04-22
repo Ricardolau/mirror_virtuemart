@@ -19,6 +19,7 @@ $_REQUEST['keyword'] = urldecode(vmGet($_REQUEST, 'keyword', ''));
 $keyword = $_REQUEST['keyword'];
 $no_menu = vmGet( $_REQUEST, 'no_menu', 0 );
 
+
 global $vmIcons;
 $vmIcons['back_icon'] = $mosConfig_live_site."/administrator/images/back.png";
 $vmIcons['back_icon2'] = $mosConfig_live_site."/administrator/images/back_f2.png";

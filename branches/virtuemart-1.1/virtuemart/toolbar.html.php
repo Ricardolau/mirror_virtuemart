@@ -17,6 +17,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) {
 *
 * http://virtuemart.net
 */
+
 $_REQUEST['keyword'] = urldecode(vmGet($_REQUEST, 'keyword', ''));
 $keyword = $_REQUEST['keyword'];
 

@@ -15,7 +15,6 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 *
 * http://virtuemart.net
 */
-
 defined( '_VM_IS_BACKEND' ) or define( '_VM_IS_BACKEND', '1' );
 
 include( dirname(__FILE__).'/compat.joomla1.5.php');

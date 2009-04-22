@@ -24,6 +24,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) {
 *
 * http://virtuemart.net
 */
+
 if( stristr( $_SERVER['PHP_SELF'], 'administrator')) {
 	@define( '_VM_IS_BACKEND', '1' );
 }

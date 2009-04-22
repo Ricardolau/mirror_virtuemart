@@ -293,6 +293,7 @@ class vm_ps_userfield extends vmAbstractObject {
 		  	 
 		}
 		$delimiter = 0;
+		
 	   	foreach( $rowFields as $field) {
 	   		if( !isset( $default[$field->name] )) {
 	   			$default[$field->name] = $field->default;
@@ -363,9 +364,10 @@ class vm_ps_userfield extends vmAbstractObject {
 	      	 * This is the most important part of this file
 	      	 * Here we print the field & its contents!
 	      	 */
+			 
 	   		switch( $field->name ) {
 	   			case 'title':
-	   				$ps_html->list_user_title($db->sf('title'), "id=\"title_field\"");
+	   				$ps_html->list_user_title($db->sf('title', true, false), "id=\"title_field\"");
 	   				break;
 	   			
 	   			case 'country':
@@ -375,13 +377,13 @@ class vm_ps_userfield extends vmAbstractObject {
 	   				else {
 	   					$onchange = "";
 	   				}
-	   				$ps_html->list_country("country", $db->sf('country'), "id=\"country_field\" $onchange");
+	   				$ps_html->list_country("country", $db->sf('country', true, false), "id=\"country_field\" $onchange");
 	   				break;
 	   			
 	   			case 'state':
-	   				echo $ps_html->dynamic_state_lists( "country", "state", $db->sf('country'), $db->sf('state') );
+	   				echo $ps_html->dynamic_state_lists( "country", "state", $db->sf('country', true, false), $db->sf('state', true, false) );
 				    echo "<noscript>\n";
-				    $ps_html->list_states("state", $db->sf('state'), "", "id=\"state_field\"");
+				    $ps_html->list_states("state", $db->sf('state', true, false), "", "id=\"state_field\"");
 				    echo "</noscript>\n";
 	   				break;
 				case 'agreed':
@@ -406,27 +408,27 @@ class vm_ps_userfield extends vmAbstractObject {
 							echo vmCommonHTML::linkTag( $mosConfig_live_site .'/includes/js/calendar/calendar-mos.css');
 	   					
 	   						$maxlength = $field->maxlength ? 'maxlength="'.$field->maxlength.'"' : '';
-					        echo '<input type="text" id="'.$field->name.'_field" name="'.$field->name.'" size="'.$field->size.'" value="'. ($db->sf($field->name)?$db->sf($field->name):'') .'" class="inputbox" '.$maxlength . $readonly . ' />'."\n";
+					        echo '<input type="text" id="'.$field->name.'_field" name="'.$field->name.'" size="'.$field->size.'" value="'. ($db->sf($field->name, true, false)?$db->sf($field->name, true, false):'') .'" class="inputbox" '.$maxlength . $readonly . ' />'."\n";
 					        echo '<input name="reset" type="reset" class="button" onclick="return showCalendar(\''.$field->name.'_field\', \'y-mm-dd\');" value="..." />';
 	   						break;
 	   					case 'text':
 	   					case 'emailaddress':
 	   					case 'webaddress':
-	   					case 'euvatid':	   						
+	   					case 'euvatid':	   			
 	   						$maxlength = $field->maxlength ? 'maxlength="'.$field->maxlength.'"' : '';
-					        echo '<input type="text" id="'.$field->name.'_field" name="'.$field->name.'" size="'.$field->size.'" value="'. ($db->sf($field->name)?$db->sf($field->name):'') .'" class="inputbox" '.$maxlength . $readonly . ' />'."\n";
+					        echo '<input type="text" id="'.$field->name.'_field" name="'.$field->name.'" size="'.$field->size.'" value="'. ($db->sf($field->name, true, false)?$db->sf($field->name, true, false):'') .'" class="inputbox" '.$maxlength . $readonly . ' />'."\n";
 				   			break;
 				   			
 						case 'textarea':
-							echo '<textarea name="'.$field->name.'" id="'.$field->name.'_field" cols="'.$field->cols.'" rows="'.$field->rows.'" '.$readonly.'>'.$db->sf($field->name).'</textarea>';
+							echo '<textarea name="'.$field->name.'" id="'.$field->name.'_field" cols="'.$field->cols.'" rows="'.$field->rows.'" '.$readonly.'>'.$db->sf($field->name, true, false).'</textarea>';
 							break;
 							
 						case 'editorta':
-							editorArea( $field->name, $db->sf($field->name), $field->name, '300', '150', $field->cols, $field->rows );			
+							editorArea( $field->name, $db->sf($field->name, true, false), $field->name, '300', '150', $field->cols, $field->rows );			
 							break;
 							
 						case 'checkbox':
-							echo '<input type="checkbox" name="'.$field->name.'" id="'.$field->name.'_field" value="1" '. ($db->sf($field->name) ? 'checked="checked"' : '') .'/>';
+							echo '<input type="checkbox" name="'.$field->name.'" id="'.$field->name.'_field" value="1" '. ($db->sf($field->name, true, false) ? 'checked="checked"' : '') .'/>';
 							break;
 						case 'age_verification':
 							$year = vmRequest::getInt('birthday_selector_year', date('Y'));
@@ -510,6 +512,7 @@ class vm_ps_userfield extends vmAbstractObject {
 			echo "</fieldset>\n";
 		}
 	   echo '</div>';
+	   
 	   if( VM_REGISTRATION_TYPE == 'OPTIONAL_REGISTRATION') {
 		   	echo '<script type="text/javascript">
 		   	//<![CDATA[

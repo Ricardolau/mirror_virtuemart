@@ -196,12 +196,13 @@ class vm_ps_DB {
 	 * sf == selective fetch
 	 * @param string  The field name
 	 * @param boolean Strip slashes from the data?
+	 * @param boolean If the global $vars should be used or not
 	 * @return string the value of the field $field_name in the recent row of the record set
 	 */
-	function sf($field_name, $stripslashes=true) {
+	function sf($field_name, $stripslashes=true, $usevars=true) {
 		global $vars, $default;
-
-		if ((defined( '_VM_LOG_ERRORS' ) || isset($vars["error"])) && !empty($vars["$field_name"])) {
+		
+		if ((defined( '_VM_LOG_ERRORS' ) || isset($vars["error"])) && !empty($vars["$field_name"]) && $usevars) {
 			if($stripslashes) {
 				return  stripslashes($vars[$field_name] );
 			}

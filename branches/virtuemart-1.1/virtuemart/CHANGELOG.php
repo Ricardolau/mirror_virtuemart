@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+23.04.2009 rolandd
+# BUG #2356 Billing information will be overwritten if sento information is saved 
+
 22.04.2009 aravot
 # Fixed recently viewed items when a product or category is unpublished it is still shown (thank you Phil)
 # Fixed number of recently viewed products to display (thank you Phil)

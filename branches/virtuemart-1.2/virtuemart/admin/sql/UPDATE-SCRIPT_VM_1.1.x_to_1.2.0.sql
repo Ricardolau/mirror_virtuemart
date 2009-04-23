@@ -109,7 +109,7 @@ INSERT INTO `jos_vm_menu_admin` (`id`, `module_id`, `parent_id`, `name`, `link`,
 
 # Coupon start and expiry dates, thank you willowtree (http://forum.virtuemart.net/index.php?topic=41066.0)
 ALTER TABLE `jos_vm_coupons` ADD `coupon_start_date` DATETIME NULL ,
-ADD `coupon_expiry_date` DATETIME NULL ;
+ADD `coupon_expiry_date` DATETIME NULL, ADD coupon_value_valid decimal(12,2) NOT NULL default 0;
 
 #Added for multivendoring 
 #shows in Userlist if user is vendor

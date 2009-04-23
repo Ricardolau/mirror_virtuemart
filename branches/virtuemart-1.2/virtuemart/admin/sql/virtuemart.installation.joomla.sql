@@ -374,6 +374,9 @@ CREATE TABLE IF NOT EXISTS `jos_vm_coupons` (
   `percent_or_total` enum('percent','total') NOT NULL default 'percent',
   `coupon_type` enum('gift','permanent') NOT NULL default 'gift',
   `coupon_value` decimal(12,2) NOT NULL default '0.00',
+  `coupon_start_date` DATETIME NULL,
+  `coupon_expiry_date` DATETIME NULL, 
+  `coupon_value_valid` decimal(12,2) NOT NULL default 0  
   PRIMARY KEY  (`coupon_id`)
 ) TYPE=MyISAM COMMENT='Used to store coupon codes';
 

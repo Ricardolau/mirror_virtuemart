@@ -27,7 +27,7 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_auth_group` (
 
 # these are the default user groups
 $db->query( "INSERT INTO `#__{vm}_auth_group` (`group_id`, `group_name`, `group_level`) VALUES (1, 'admin', 0),(2, 'storeadmin', 250),(3, 'shopper', 500),(4, 'demo', 750);" );
-		
+
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_auth_user_group` (
 	  `user_id` int(11) NOT NULL default '0',
 	  `group_id` int(11) default NULL,
@@ -36,9 +36,9 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_auth_user_group` (
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_auth_user_vendor`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_auth_user_vendor` (
   `user_id` int(11) default NULL,
@@ -57,10 +57,10 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_cart` (
 `last_updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
 PRIMARY KEY ( `user_id` )
 ) TYPE = MYISAM COMMENT = 'Stores the cart contents of a user'" );
-	
-## 
+
+##
 ## Table structure for table `#__{vm}_category`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_category` (
   `category_id` int(11) NOT NULL auto_increment,
@@ -81,37 +81,37 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_category` (
   KEY `idx_category_name` (`category_name`)
 ) TYPE=MyISAM COMMENT='Product Categories are stored here'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_category`
-## 
+##
 
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_category_xref`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_category_xref` (
   `category_parent_id` int(11) NOT NULL default '0',
   `category_child_id` int(11) NOT NULL default '0',
   `category_list` int(11) default NULL,
-  `category_shared` VARCHAR( 1 ) NOT NULL DEFAULT 'Y', 
+  `category_shared` VARCHAR( 1 ) NOT NULL DEFAULT 'Y',
   PRIMARY KEY (`category_child_id`),
   KEY `category_xref_category_parent_id` (`category_parent_id`),
   KEY `idx_category_xref_category_list` (`category_list`)
 ) TYPE=MyISAM COMMENT='Category child-parent relation list'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_category_xref`
-## 
+##
 
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_country`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_country` (
   `country_id` int(11) NOT NULL auto_increment,
@@ -123,9 +123,9 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_country` (
   KEY `idx_country_name` (`country_name`)
 ) TYPE=MyISAM COMMENT='Country records'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_country`
-## 
+##
 
 $db->query( "INSERT INTO `#__{vm}_country` VALUES (1, 1, 'Afghanistan', 'AFG', 'AF'),
 (2, 1, 'Albania', 'ALB', 'AL'),
@@ -374,9 +374,9 @@ $db->query( "INSERT INTO `#__{vm}_country` VALUES (1, 1, 'Afghanistan', 'AFG', '
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_coupons`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_coupons` (
   `coupon_id` int(16) NOT NULL auto_increment,
@@ -384,19 +384,22 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_coupons` (
   `percent_or_total` enum('percent','total') NOT NULL default 'percent',
   `coupon_type` enum('gift','permanent') NOT NULL default 'gift',
   `coupon_value` decimal(12,2) NOT NULL default '0.00',
+  `coupon_start_date` DATETIME NULL,
+  `coupon_expiry_date` DATETIME NULL,
+  `coupon_value_valid` decimal(12,2) NOT NULL default 0,
   PRIMARY KEY  (`coupon_id`)
 ) TYPE=MyISAM COMMENT='Used to store coupon codes'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_coupons`
-## 
+##
 
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_creditcard`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_creditcard` (
   `creditcard_id` int(11) NOT NULL auto_increment,
@@ -406,9 +409,9 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_creditcard` (
   PRIMARY KEY  (`creditcard_id`)
 ) TYPE=MyISAM COMMENT='Used to store credit card types'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_creditcard`
-## 
+##
 
 $db->query( "INSERT INTO `#__{vm}_creditcard` VALUES (1, 1, 'Visa', 'VISA'),
 (2, 1, 'MasterCard', 'MC'),
@@ -421,9 +424,9 @@ $db->query( "INSERT INTO `#__{vm}_creditcard` VALUES (1, 1, 'Visa', 'VISA'),
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_currency`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_currency` (
   `currency_id` int(11) NOT NULL auto_increment,
@@ -433,9 +436,9 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_currency` (
   KEY `idx_currency_name` (`currency_name`)
 ) TYPE=MyISAM COMMENT='Used to store currencies'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_currency`
-## 
+##
 
 $db->query( "INSERT INTO `#__{vm}_currency` VALUES (1, 'Andorran Peseta', 'ADP'),
 (2, 'United Arab Emirates Dirham', 'AED'),
@@ -585,9 +588,9 @@ $db->query( "INSERT INTO `#__{vm}_currency` VALUES (1, 'Andorran Peseta', 'ADP')
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_function`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_function` (
   `function_id` int(11) NOT NULL auto_increment,
@@ -602,9 +605,9 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_function` (
   KEY `idx_function_name` (`function_name`)
 ) TYPE=MyISAM COMMENT='Used to map a function alias to a ''real'' class::function'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_function`
-## 
+##
 
 $db->query( "INSERT INTO `#__{vm}_function` VALUES (1, 1, 'userAdd', 'ps_user', 'addUpdateUser', '', 'admin,storeadmin'),
 (2, 1, 'userDelete', 'ps_user', 'delete', '', 'admin,storeadmin'),
@@ -735,13 +738,13 @@ $db->query( "INSERT INTO `#__{vm}_function` VALUES (1, 1, 'userAdd', 'ps_user', 
 (183, 1, 'setModulePermissions', 'ps_module', 'update_permissions', '', 'admin'),
 (184, 1, 'setFunctionPermissions', 'ps_function', 'update_permissions', '', 'admin'),
 (185, 2, 'insertDownloadsForProduct', 'ps_order', 'insert_downloads_for_product', '', 'admin'),
-(186, 5, 'mailDownloadId', 'ps_order', 'mail_download_id', '', 'storeadmin,admin'), 
+(186, 5, 'mailDownloadId', 'ps_order', 'mail_download_id', '', 'storeadmin,admin'),
 (187, 7, 'replaceSavedCart', 'ps_cart', 'replaceCart', 'Replace cart with saved cart', 'none'),
 (188, 7, 'mergeSavedCart', 'ps_cart', 'mergeSaved', 'Merge saved cart with cart', 'none'),
 (189, 7, 'deleteSavedCart', 'ps_cart', 'deleteCart', 'Delete saved cart', 'none'),
 (190, 7, 'savedCartDelete', 'ps_cart', 'deleteSaved', 'Delete items from saved cart', 'none'),
 (191, 7, 'savedCartUpdate', 'ps_cart', 'updateSaved', 'Update saved cart items', 'none'),
-( NULL , '1', 'getupdatepackage', 'update.class', 'getPatchPackage', 'Retrieves the Patch Package from the virtuemart.net Servers.', 'admin'), 
+( NULL , '1', 'getupdatepackage', 'update.class', 'getPatchPackage', 'Retrieves the Patch Package from the virtuemart.net Servers.', 'admin'),
 (NULL , '1', 'applypatchpackage', 'update.class', 'applyPatch', 'Applies the Patch using the instructions from the update.xml file in the downloaded patch.', 'admin'),
 (NULL, 1, 'removePatchPackage', 'update.class', 'removePackageFile', 'Removes  a Patch Package File and its extracted contents.', 'admin'),
 (NULL, 1, 'uninstallExtension', 'installer.class', 'uninstall', 'Uninstalls an Extension', 'admin'),
@@ -749,9 +752,9 @@ $db->query( "INSERT INTO `#__{vm}_function` VALUES (1, 1, 'userAdd', 'ps_user', 
 (NULL, 1, 'pluginUpdate', 'pluginEntity.class', 'update', 'Updates a VM Plugin and saves all new parameter settings.', 'storeadmin,admin')" );
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_manufacturer`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_manufacturer` (
   `manufacturer_id` int(11) NOT NULL auto_increment,
@@ -765,16 +768,16 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_manufacturer` (
   PRIMARY KEY  (`manufacturer_id`)
 ) TYPE=MyISAM COMMENT='Manufacturers are those who create products'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_manufacturer`
-## 
+##
 $db->query( "INSERT INTO `#__{vm}_manufacturer` VALUES ('1', 'Manufacturer', 'info@manufacturer.com', 'An example for a manufacturer', '1', 'http://www.a-url.com','','');" );
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_manufacturer_category`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_manufacturer_category` (
   `mf_category_id` int(11) NOT NULL auto_increment,
@@ -784,9 +787,9 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_manufacturer_category` (
   KEY `idx_manufacturer_category_category_name` (`mf_category_name`)
 ) TYPE=MyISAM COMMENT='Manufacturers are assigned to these categories'");
 
-## 
+##
 ## Dumping data for table `#__{vm}_manufacturer_category`
-## 
+##
 $db->query( "INSERT INTO `#__{vm}_manufacturer_category` VALUES ('1', '-default-', 'This is the default manufacturer category');" );
 
 
@@ -884,9 +887,9 @@ $db->query( "INSERT INTO `#__{vm}_menu_admin` (`id`, `module_id`, `parent_id`, `
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_module`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_module` (
   `module_id` int(11) NOT NULL auto_increment,
@@ -901,9 +904,9 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_module` (
   KEY `idx_module_list_order` (`list_order`)
 ) TYPE=MyISAM COMMENT='VirtueMart Core Modules, not: Joomla modules'");
 
-## 
+##
 ## Dumping data for table `#__{vm}_module`
-## 
+##
 
 $db->query( "INSERT INTO `#__{vm}_module` (`module_id`, `module_name`, `module_description`, `module_perms`, `module_publish`, `is_admin`, `list_order`) VALUES
 (1, 'admin', '<h4>ADMINISTRATIVE USERS ONLY</h4>\r\n\r\n<p>Only used for the following:</p>\r\n<OL>\r\n\r\n<LI>User Maintenance</LI>\r\n<LI>Module Maintenance</LI>\r\n<LI>Function Maintenance</LI>\r\n</OL>\r\n', 'admin', 'Y', '1', 1),
@@ -926,9 +929,9 @@ $db->query( "INSERT INTO `#__{vm}_module` (`module_id`, `module_name`, `module_d
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_order_history`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_order_history` (
   `order_status_history_id` int(11) NOT NULL auto_increment,
@@ -940,16 +943,16 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_order_history` (
   PRIMARY KEY  (`order_status_history_id`)
 ) TYPE=MyISAM COMMENT='Stores all actions and changes that occur to an order'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_order_history`
-## 
+##
 
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_order_item`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_order_item` (
   `order_item_id` int(11) NOT NULL auto_increment,
@@ -973,16 +976,16 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_order_item` (
   KEY `idx_order_item_vendor_id` (`vendor_id`)
 ) TYPE=MyISAM COMMENT='Stores all items (products) which are part of an order'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_order_item`
-## 
+##
 
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_order_payment`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_order_payment` (
   `order_id` int(11) NOT NULL default '0',
@@ -997,16 +1000,16 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_order_payment` (
   KEY `idx_order_payment_method_id` (`payment_method_id`)
 ) TYPE=MyISAM COMMENT='The payment method that was chosen for a specific order'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_order_payment`
-## 
+##
 
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_order_status`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_order_status` (
   `order_status_id` int(11) NOT NULL auto_increment,
@@ -1020,9 +1023,9 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_order_status` (
   KEY `idx_order_status_vendor_id` (`vendor_id`)
 ) TYPE=MyISAM COMMENT='All available order statuses'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_order_status`
-## 
+##
 
 $db->query( "INSERT INTO `#__{vm}_order_status` VALUES (1, 'P', 'Pending', '', 1, 1),
 (2, 'C', 'Confirmed', '', 2, 1),
@@ -1032,9 +1035,9 @@ $db->query( "INSERT INTO `#__{vm}_order_status` VALUES (1, 'P', 'Pending', '', 1
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_order_user_info`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_order_user_info` (
   `order_info_id` int(11) NOT NULL auto_increment,
@@ -1072,16 +1075,16 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_order_user_info` (
   KEY `idx_order_info_order_id` (`order_id`)
 ) TYPE=MyISAM COMMENT='Stores the BillTo and ShipTo Information at order time'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_order_user_info`
-## 
+##
 
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_orders`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_orders` (
   `order_id` int(11) NOT NULL auto_increment,
@@ -1113,16 +1116,16 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_orders` (
   KEY `idx_orders_ship_method_id` (`ship_method_id`)
 ) TYPE=MyISAM COMMENT='Used to store all orders'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_orders`
-## 
+##
 
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_payment_method`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_payment_method` (
   `id` int(11) NOT NULL auto_increment,
@@ -1149,9 +1152,9 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_payment_method` (
   KEY `idx_payment_method_shopper_group_id` (`shopper_group_id`)
 ) TYPE=MyISAM COMMENT='The payment methods of your store'; ");
 
-## 
+##
 ## Data for table `#__{vm}_payment_method`
-## 
+##
 
 $db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (1, 1, 'Purchase Order', 'payment', 6, 0.00, 0, 0.00, 0.00, 4, 'N', 0, 'Y', '', '', '', '')" );
 $db->query( "INSERT INTO `#__{vm}_payment_method` VALUES (2, 1, 'Cash On Delivery', 'payment', 5, -2.00, 0, 0.00, 0.00, 5, 'N', 0, 'Y', '', '', '', '')" );
@@ -1203,9 +1206,9 @@ $db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `
 $db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(10, 'USPS Shipping Module', 'usps', 'shipping', 7, 0, 0, 1, 5, 0, '0000-00-00 00:00:00', '', '')");
 $db->query( "INSERT INTO `#__{vm}_plugins` (`id`, `name`, `element`, `folder`, `ordering`, `published`, `iscore`, `vendor_id`, `shopper_group_id`, `checked_out`, `checked_out_time`, `params`, `secrets`) VALUES(11, 'Zone Shipping Module', 'zone_shipping', 'shipping', 10, 0, 1, 1, 5, 0, '0000-00-00 00:00:00', '', '')");
 
-## 
+##
 ## Table structure for table `#__{vm}_product`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product` (
   `product_id` int(11) NOT NULL auto_increment,
@@ -1253,16 +1256,16 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product` (
   KEY `idx_product_name` (`product_name`)
 ) TYPE=MyISAM COMMENT='All products are stored here.'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_product`
-## 
+##
 
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_product_attribute`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_attribute` (
   `attribute_id` INT NOT NULL auto_increment,
@@ -1274,16 +1277,16 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_attribute` (
   KEY `idx_product_attribute_name` (`attribute_name`)
 ) TYPE=MyISAM COMMENT='Stores attributes + their specific values for Child Products'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_product_attribute`
-## 
+##
 
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_product_attribute_sku`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_attribute_sku` (
   `product_id` int(11) NOT NULL default '0',
@@ -1294,16 +1297,16 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_attribute_sku` (
   KEY `idx_product_attribute_list` (`attribute_list`)
 ) TYPE=MyISAM COMMENT='Attributes for a Parent Product used by its Child Products'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_product_attribute_sku`
-## 
+##
 
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_product_category_xref`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_category_xref` (
   `category_id` int(11) NOT NULL default '0',
@@ -1314,16 +1317,16 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_category_xref` (
   KEY `idx_product_category_xref_product_list` (`product_list`)
 ) TYPE=MyISAM COMMENT='Maps Products to Categories'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_product_category_xref`
-## 
+##
 
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_product_discount`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_discount` (
   `discount_id` int(11) NOT NULL auto_increment,
@@ -1334,16 +1337,16 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_discount` (
   PRIMARY KEY  (`discount_id`)
 ) TYPE=MyISAM COMMENT='Discounts that can be assigned to products'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_product_discount`
-## 
+##
 
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_product_download`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_download` (
   `product_id` int(11) NOT NULL default '0',
@@ -1356,16 +1359,16 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_download` (
   PRIMARY KEY  (`download_id`)
 ) TYPE=MyISAM COMMENT='Active downloads for selling downloadable goods'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_product_download`
-## 
+##
 
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_product_files`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_files` (
   `file_id` int(19) NOT NULL auto_increment,
@@ -1385,16 +1388,16 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_files` (
   PRIMARY KEY  (`file_id`)
 ) TYPE=MyISAM COMMENT='Additional Images and Files which are assigned to products'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_product_files`
-## 
+##
 
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_product_mf_xref`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_mf_xref` (
   `product_id` int(11) default NULL,
@@ -1403,16 +1406,16 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_mf_xref` (
   KEY `idx_product_mf_xref_manufacturer_id` (`manufacturer_id`)
 ) TYPE=MyISAM COMMENT='Maps a product to a manufacturer'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_product_mf_xref`
-## 
+##
 
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_product_price`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_price` (
   `product_price_id` int(11) NOT NULL auto_increment,
@@ -1431,16 +1434,16 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_price` (
   KEY `idx_product_price_shopper_group_id` (`shopper_group_id`)
 ) TYPE=MyISAM COMMENT='Holds price records for a product'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_product_price`
-## 
+##
 
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_product_product_type_xref`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_product_type_xref` (
   `product_id` int(11) NOT NULL default '0',
@@ -1449,16 +1452,16 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_product_type_xref` (
   KEY `idx_product_product_type_xref_product_type_id` (`product_type_id`)
 ) TYPE=MyISAM COMMENT='Maps products to a product type'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_product_product_type_xref`
-## 
+##
 
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_product_relations`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_relations` (
   `product_id` int(11) NOT NULL default '0',
@@ -1466,16 +1469,16 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_relations` (
   PRIMARY KEY  (`product_id`)
 ) TYPE=MyISAM;");
 
-## 
+##
 ## Dumping data for table `#__{vm}_product_relations`
-## 
+##
 
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_product_reviews`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_reviews` (
   `review_id` int(11) NOT NULL auto_increment,
@@ -1491,16 +1494,16 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_reviews` (
   UNIQUE KEY `product_id` (`product_id`,`userid`)
 ) TYPE=MyISAM ;");
 
-## 
+##
 ## Dumping data for table `#__{vm}_product_reviews`
-## 
+##
 
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_product_type`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_type` (
   `product_type_id` int(11) NOT NULL auto_increment,
@@ -1513,16 +1516,16 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_type` (
   PRIMARY KEY  (`product_type_id`)
 ) TYPE=MyISAM ;");
 
-## 
+##
 ## Dumping data for table `#__{vm}_product_type`
-## 
+##
 
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_product_type_parameter`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_type_parameter` (
   `product_type_id` int(11) NOT NULL default '0',
@@ -1540,16 +1543,16 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_type_parameter` (
   KEY `idx_product_type_parameter_parameter_order` (`parameter_list_order`)
 ) TYPE=MyISAM COMMENT='Parameters which are part of a product type'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_product_type_parameter`
-## 
+##
 
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_product_votes`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_votes` (
   `product_id` int(255) NOT NULL default '0',
@@ -1560,16 +1563,16 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_product_votes` (
   PRIMARY KEY ( `product_id` )
 ) TYPE=MyISAM COMMENT='Stores all votes for a product'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_product_votes`
-## 
+##
 
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_shipping_carrier`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_shipping_carrier` (
   `shipping_carrier_id` int(11) NOT NULL auto_increment,
@@ -1578,9 +1581,9 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_shipping_carrier` (
   PRIMARY KEY  (`shipping_carrier_id`)
 ) TYPE=MyISAM COMMENT='Shipping Carriers as used by the Standard Shipping Module'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_shipping_carrier`
-## 
+##
 
 # DHL integration
 $db->query( "CREATE TABLE IF NOT EXISTS `#__vm_shipping_label` (
@@ -1607,9 +1610,9 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__vm_shipping_label` (
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_shipping_rate`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_shipping_rate` (
   `shipping_rate_id` int(11) NOT NULL auto_increment,
@@ -1628,16 +1631,16 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_shipping_rate` (
   PRIMARY KEY  (`shipping_rate_id`)
 ) TYPE=MyISAM COMMENT='Shipping Rates, used by the Standard Shipping Module'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_shipping_rate`
-## 
+##
 
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_shopper_group`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_shopper_group` (
   `shopper_group_id` int(11) NOT NULL auto_increment,
@@ -1652,9 +1655,9 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_shopper_group` (
   KEY `idx_shopper_group_name` (`shopper_group_name`)
 ) TYPE=MyISAM COMMENT='Shopper Groups that users can be assigned to'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_shopper_group`
-## 
+##
 
 $db->query( "INSERT INTO `#__{vm}_shopper_group` VALUES (5, 1, '-default-', 'This is the default shopper group.', 0.00, 1, 1),
 (6, 1, 'Gold Level', 'Gold Level Shoppers.', 0.00, 1, 0),
@@ -1662,9 +1665,9 @@ $db->query( "INSERT INTO `#__{vm}_shopper_group` VALUES (5, 1, '-default-', 'Thi
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_shopper_vendor_xref`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_shopper_vendor_xref` (
   `user_id` int(11) default NULL,
@@ -1676,16 +1679,16 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_shopper_vendor_xref` (
   KEY `idx_shopper_vendor_xref_shopper_group_id` (`shopper_group_id`)
 ) TYPE=MyISAM COMMENT='Maps a user to a Shopper Group of a Vendor'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_shopper_vendor_xref`
-## 
+##
 
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_state`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_state` (
   `state_id` int(11) NOT NULL auto_increment,
@@ -1699,9 +1702,9 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_state` (
   KEY `idx_country_id` (`country_id`)
 ) TYPE=MyISAM COMMENT='States that are assigned to a country'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_state`
-## 
+##
 
 $db->query( "INSERT INTO `#__{vm}_state` VALUES (1, 223, 'Alabama', 'ALA', 'AL'),
 (2, 223, 'Alaska', 'ALK', 'AK'),
@@ -1918,7 +1921,7 @@ $db->query( "INSERT INTO `#__{vm}_state` VALUES (1, 223, 'Alabama', 'ALA', 'AL')
 (NULL, 175, 'Vrancea', 'VRA', 'VN'),
 (NULL, 105, 'Agrigento', 'AGR', 'AG'),
 (NULL, 105, 'Alessandria', 'ALE', 'AL'),
-(NULL, 105, 'Ancona', 'ANC', 'AN'), 
+(NULL, 105, 'Ancona', 'ANC', 'AN'),
 (NULL, 105, 'Aosta', 'AOS', 'AO'),
 (NULL, 105, 'Arezzo', 'ARE', 'AR'),
 (NULL, 105, 'Ascoli Piceno', 'API', 'AP'),
@@ -2154,9 +2157,9 @@ $db->query( "INSERT INTO `#__{vm}_state` VALUES (1, 223, 'Alabama', 'ALA', 'AL')
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_tax_rate`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_tax_rate` (
   `tax_rate_id` int(11) NOT NULL auto_increment,
@@ -2169,17 +2172,17 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_tax_rate` (
   KEY `idx_tax_rate_vendor_id` (`vendor_id`)
 ) TYPE=MyISAM COMMENT='The tax rates for your store'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_tax_rate`
-## 
+##
 
 $db->query( "INSERT INTO `#__{vm}_tax_rate` VALUES (2, 1, 'CA', 'USA', 964565926, 0.0925);");
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_user_info`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_user_info` (
   `user_info_id` varchar(32) NOT NULL default '',
@@ -2246,9 +2249,9 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_userfield` (
   PRIMARY KEY  (`fieldid`)
 ) TYPE=MyISAM AUTO_INCREMENT=30 COMMENT='Holds the fields for the user information';" );
 
-## 
+##
 ## Dumping data for table `#__{vm}_userfield`
-## 
+##
 
 $db->query( "INSERT INTO `#__{vm}_userfield` VALUES (1, 'email', 'REGISTER_EMAIL', '', 'emailaddress', 100, 30, 1, 2, NULL, NULL, NULL, NULL, 1, 1, 0, 1, 0, 0, 1, 1, NULL);" );
 $db->query( "INSERT INTO `#__{vm}_userfield` VALUES (7, 'title', 'PHPSHOP_SHOPPER_FORM_TITLE', '', 'select', 0, 0, 0, 8, NULL, NULL, NULL, NULL, 1, 1, 0, 1, 0, 0, 1, 1, NULL);" );
@@ -2306,9 +2309,9 @@ $db->query( "INSERT INTO `#__{vm}_userfield_values` VALUES (3, 25, 'PHPSHOP_ACCO
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_vendor`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_vendor` (
   `vendor_id` int(11) NOT NULL auto_increment,
@@ -2337,20 +2340,20 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_vendor` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Vendors manage their products in your store' AUTO_INCREMENT=3 ; ");
 
 
-## 
+##
 ## Dumping data for table `#__{vm}_vendor`
-## 
+##
 # Creation of  theMainvendor
 $db->query( "INSERT INTO `#__{vm}_vendor` (`vendor_id`, `vendor_name`, `vendor_phone`, `vendor_store_name`, `vendor_store_desc`, `vendor_category_id`, `vendor_thumb_image`, `vendor_full_image`, `vendor_currency`, `cdate`, `mdate`, `vendor_image_path`, `vendor_terms_of_service`, `vendor_url`, `vendor_min_pov`, `vendor_freeshipping`, `vendor_currency_display_style`, `vendor_accepted_currencies`, `vendor_address_format`, `vendor_date_format`) VALUES
 (1, '', '', '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '{storename}\r\n{address_1}\r\n{address_2}\r\n{city}, {zip}', '%A, %d %B %Y %H:%M')" );
-//$db->query( "INSERT INTO `#__{vm}_vendor` (`vendor_id`, `vendor_name`, `vendor_phone`, `vendor_store_name`, `vendor_store_desc`, `vendor_category_id`, `vendor_thumb_image`, `vendor_full_image`, `vendor_currency`, `cdate`, `mdate`, `vendor_image_path`, `vendor_terms_of_service`, `vendor_url`, `vendor_min_pov`, `vendor_freeshipping`, `vendor_currency_display_style`, `vendor_accepted_currencies`, `vendor_address_format`, `vendor_date_format`) 
+//$db->query( "INSERT INTO `#__{vm}_vendor` (`vendor_id`, `vendor_name`, `vendor_phone`, `vendor_store_name`, `vendor_store_desc`, `vendor_category_id`, `vendor_thumb_image`, `vendor_full_image`, `vendor_currency`, `cdate`, `mdate`, `vendor_image_path`, `vendor_terms_of_service`, `vendor_url`, `vendor_min_pov`, `vendor_freeshipping`, `vendor_currency_display_style`, `vendor_accepted_currencies`, `vendor_address_format`, `vendor_date_format`)
 //	VALUES (1, 'Washupito''s Tiendita', '555-555-1212', 'Washupito''s Tiendita', '<p>We have the best tools for do-it-yourselfers.  Check us out! </p> 		<p>We were established in 1969 in a time when getting good tools was expensive, but the quality was good.  Now that only a select few of those authentic tools survive, we have dedicated this store to bringing the experience alive for collectors and master mechanics everywhere.</p> 		<p>You can easily find products selecting the category you would like to browse above.</p>', 0, '', 'c19970d6f2970cb0d1b13bea3af3144a.gif', 'USD', 950302468, 1233519671, '', '<h5>You haven''t configured any terms of service yet. Click <a href=administrator/index2.php?page=store.store_form&option=com_virtuemart>here</a> to change this text.</h5>', '$mosConfig_live_site', 0.00, 0.00, '1|$|2|.| |2|1', 'USD', '{storename}\r\n{address_1}\r\n{address_2}\r\n{city}, {zip}','%A, %d %B %Y %H:%M'); " );
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_vendor_category`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_vendor_category` (
   `vendor_category_id` int(11) NOT NULL auto_increment,
@@ -2360,17 +2363,17 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_vendor_category` (
   KEY `idx_vendor_category_category_name` (`vendor_category_name`)
 ) TYPE=MyISAM COMMENT='The categories that vendors are assigned to'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_vendor_category`
-## 
+##
 
 $db->query( "INSERT INTO `#__{vm}_vendor_category` VALUES (6, '-default-', 'Default'); " );
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_waiting_list`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_waiting_list` (
   `waiting_list_id` int(11) NOT NULL auto_increment,
@@ -2384,16 +2387,16 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_waiting_list` (
   KEY `notify_email` (`notify_email`)
 ) TYPE=MyISAM COMMENT='Stores notifications, users waiting f. products out of stock'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_waiting_list`
-## 
+##
 
 
 ## --------------------------------------------------------
 
-## 
+##
 ## Table structure for table `#__{vm}_zone_shipping`
-## 
+##
 
 $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_zone_shipping` (
   `zone_id` int(11) NOT NULL auto_increment,
@@ -2405,9 +2408,9 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_zone_shipping` (
   PRIMARY KEY  (`zone_id`)
 ) TYPE=MyISAM COMMENT='The Zones managed by the Zone Shipping Module'; ");
 
-## 
+##
 ## Dumping data for table `#__{vm}_zone_shipping`
-## 
+##
 
 $db->query( "INSERT INTO `#__{vm}_zone_shipping` VALUES (1, 'Default', 6.00, 35.00, 'This is the default Shipping Zone. This is the zone information that all countries will use until you assign each individual country to a Zone.', 2),
 (2, 'Zone 1', 1000.00, 10000.00, 'This is a zone example', 2),
@@ -2418,7 +2421,7 @@ $db->query( "INSERT INTO `#__{vm}_zone_shipping` VALUES (1, 'Default', 6.00, 35.
  * You wonder why users are visible in VirtueMart after installation?
  * Well, because we add them here.
  */
-$db->query( "SELECT `id`, `email`, `registerDate`, `lastvisitDate` FROM `#__users`"); 
+$db->query( "SELECT `id`, `email`, `registerDate`, `lastvisitDate` FROM `#__users`");
 $row = $db->loadObjectList();
 foreach( $row as $user) {
 //	$db->query( "INSERT INTO `#__{vm}_auth_user_vendor` VALUES ('".$user->id."', '0');" );
@@ -2434,14 +2437,14 @@ foreach( $row as $user) {
 $db->query( "INSERT `#__{vm}_auth_user_vendor` (`user_id`, `vendor_id`) VALUES (62, 1);" );
 
 # insert the user <=> group relationship
-$db->query( "INSERT INTO `#__{vm}_auth_user_group` 
-				SELECT user_id, 
-					CASE `perms` 
+$db->query( "INSERT INTO `#__{vm}_auth_user_group`
+				SELECT user_id,
+					CASE `perms`
 					    WHEN 'admin' THEN 0
 					    WHEN 'storeadmin' THEN 1
 					    WHEN 'shopper' THEN 2
 					    WHEN 'demo' THEN 3
-					    ELSE 2 
+					    ELSE 2
 					END
 				FROM #__{vm}_user_info
 				WHERE address_type='BT';");

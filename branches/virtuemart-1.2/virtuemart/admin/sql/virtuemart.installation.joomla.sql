@@ -376,7 +376,7 @@ CREATE TABLE IF NOT EXISTS `jos_vm_coupons` (
   `coupon_value` decimal(12,2) NOT NULL default '0.00',
   `coupon_start_date` DATETIME NULL,
   `coupon_expiry_date` DATETIME NULL, 
-  `coupon_value_valid` decimal(12,2) NOT NULL default 0  
+  `coupon_value_valid` decimal(12,2) NOT NULL default 0,
   PRIMARY KEY  (`coupon_id`)
 ) TYPE=MyISAM COMMENT='Used to store coupon codes';
 

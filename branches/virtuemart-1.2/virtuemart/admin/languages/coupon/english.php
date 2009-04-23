@@ -1,5 +1,5 @@
 <?php
-if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
+if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 /**
 *
 * @package VirtueMart
@@ -30,7 +30,12 @@ $langvars = array (
 	'PHPSHOP_COUPON_TOTAL' => 'Total',
 	'PHPSHOP_COUPON_START' => 'Coupon Start Date',
 	'PHPSHOP_COUPON_EXPIRY' => 'Coupon Expiry Date',
+	'PHPSHOP_COUPON_START_INVALID' => 'You must provide a Start Date',
+	'PHPSHOP_COUPON_EXPIRY_INVALID' => 'You must provide an End Date',
 	'PHPSHOP_COUPON_CODE_INVALID' => 'Coupon code out of date. Please try an alternative.',
-	'PHPSHOP_COUPON_CODE_NOT FOUND' => 'Coupon code not found. Please try again.'
+	'PHPSHOP_COUPON_CODE_NOT FOUND' => 'Coupon code not found. Please try again.',
+	'PHPSHOP_COUPON_REMOVED' => 'Coupon removed as order now less than ',
+	'PHPSHOP_COUPON_VALUE_VALID_AT' => 'Order Value to be valid',
+	'PHPSHOP_COUPON_VALUE_VALID_AT_NOT_NUMBER' => 'Invalid Value for Order Value to be valid'
 ); $VM_LANG->initModule( 'coupon', $langvars );
 ?>

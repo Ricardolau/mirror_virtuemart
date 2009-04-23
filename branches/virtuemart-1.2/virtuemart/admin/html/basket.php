@@ -3,10 +3,10 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 /**
 * This file is the CART handler. It calculates the totals and
 * uses the basket templates to show the listing to the user
-* 
+*
 * This version of the basket allows to change quantities and delete products from the cart
 * The ro_basket (=read only) doesn't allow that.
-* 
+*
 * @version $Id$
 * @package VirtueMart
 * @subpackage html
@@ -34,6 +34,17 @@ global $weight_total, $total, $tax_total, $order_tax_details, $discount_factor, 
 if ($cart["idx"] == 0) {
 	$basket_html = $VM_LANG->_('PHPSHOP_EMPTY_CART');
 	$checkout = False;
+
+	//CT. invalidate coupon if they have redeemed one.
+	if ($_SESSION['coupon_redeemed'] == 1)
+	{
+		@$_SESSION['coupon_redeemed'] = 0;
+		@$_SESSION['coupon_id'] = 0;
+		@$_SESSION['coupon_code'] = "";
+		@$_SESSION['coupon_type'] = "";
+		@$_SESSION['coupon_value_valid'] = 0;
+		@$_SESSION['coupon_discount'] = 0;
+	}
 }
 else {
 	$checkout = True;
@@ -101,7 +112,7 @@ else {
 
 		$price = $ps_product->get_adjusted_attribute_price($cart[$i]["product_id"], $cart[$i]["description"]);
 		$price["product_price"] = $GLOBALS['CURRENCY']->convert( $price["product_price"], $price["product_currency"] );
-		
+
 		if( $auth["show_price_including_tax"] == 1 ) {
 			$product_price = $price["product_price"] * ($my_taxrate+1);
 		} else {
@@ -129,7 +140,7 @@ else {
 			}
 		}
 
-		// UPDATE CART / DELETE FROM CART 
+		// UPDATE CART / DELETE FROM CART
 		$action_url = $mm_action_url.basename($_SERVER['PHP_SELF']);
 		$product_rows[$i]['update_form'] = '<form action="'. $action_url .'" method="post" style="display: inline;">
 		<input type="hidden" name="option" value="com_virtuemart" />
@@ -152,7 +163,7 @@ else {
   	<input type="image" name="delete" title="'. $VM_LANG->_('PHPSHOP_CART_DELETE') .'" src="'. VM_THEMEURL .'images/remove_from_cart.png" alt="'. $VM_LANG->_('PHPSHOP_CART_DELETE') .'" align="middle" />
   </form>';
 	} // End of for loop through the Cart
-	
+
 	vmRequest::setVar( 'zone_qty', $vars['zone_qty'] );
 
 	$total = $total_undiscounted = round($total, 5);
@@ -171,9 +182,9 @@ else {
 	if( !empty($shipping_rate_id) && !ps_checkout::noShippingMethodNecessary() ) {
 		$shipping = true;
 		$vars["weight"] = $weight_total;
-		$result = $vm_mainframe->triggerEvent('get_shipping_rate', array( $vars ));		
+		$result = $vm_mainframe->triggerEvent('get_shipping_rate', array( $vars ));
 		$shipping_total = is_array($result) ? round($result[0],5) : 0.00;
-		
+
 		$result = $vm_mainframe->triggerEvent('get_shippingtax_rate');
 		$shipping_taxrate = is_array($result) ? $result[0] : 0.00;
 
@@ -191,6 +202,22 @@ else {
 	else {
 		$shipping_total = $shipping_taxrate = 0;
 		$shipping_display = "";
+	}
+
+	//CT.COUPON VALIDITY CHECK ON ORDER
+	if (
+		($_SESSION['coupon_redeemed'] == 1) &&
+		($total+$shipping_total < @$_SESSION['coupon_value_valid'])){
+
+		echo $VM_LANG->_('PHPSHOP_COUPON_REMOVED').$_SESSION['coupon_value_valid'];
+
+		@$_SESSION['coupon_redeemed'] = 0;
+		@$_SESSION['coupon_id'] = 0;
+		@$_SESSION['coupon_code'] = "";
+		@$_SESSION['coupon_type'] = "";
+		@$_SESSION['coupon_value_valid'] = 0;
+		@$_SESSION['coupon_discount'] = 0;
+
 	}
 
 	// COUPON DISCOUNT
@@ -257,9 +284,9 @@ else {
 			define ('_MIN_POV_REACHED', '1');
 		}
 	}
-	
+
 	$order_total_display = $GLOBALS['CURRENCY_DISPLAY']->getFullValue($order_total);
-	
+
 	$tpl = new $GLOBALS['VM_THEMECLASS']();
 	$tpl->set_vars( Array(
 								'product_rows' => $product_rows,
@@ -275,9 +302,9 @@ else {
 				));
 	$basket_html = '';
 	if( $show_basket ) {
-		
+
 		if( $auth["show_price_including_tax"] == 1) {
-			$basket_html = $tpl->fetch( 'basket/basket_b2c.html.php');			
+			$basket_html = $tpl->fetch( 'basket/basket_b2c.html.php');
 		}
 		else {
 			$basket_html = $tpl->fetch( 'basket/basket_b2b.html.php');

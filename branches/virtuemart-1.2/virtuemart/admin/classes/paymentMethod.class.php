@@ -47,7 +47,7 @@ class vmPaymentMethod extends vmAbstractObject {
 	var $type = UNKNOWN;
 	var $errno = CC_OK;
 	/** @var string The key which is used to identify this object (example: product_id) */
-	var $_key = 'payment_method_id';
+	var $_key = 'id';
 	/** @var array An array holding the names of all required fields */
 	var $_required_fields = array('name' );
 	
@@ -118,7 +118,7 @@ class vmPaymentMethod extends vmAbstractObject {
 			return false;
 		}
 
-		if (empty($d["payment_method_id"])) {
+		if (empty($d["id"])) {
 			$GLOBALS['vmLogger']->err( $VM_LANG->_('VM_PAYMENTMETHOD_UPDATE_SELECT') );
 			return False;
 		}
@@ -135,7 +135,7 @@ class vmPaymentMethod extends vmAbstractObject {
 	function validate_delete(&$d) {
 		global $VM_LANG;
 
-		if (empty($d["payment_method_id"])) {
+		if (empty($d["id"])) {
 			$GLOBALS['vmLogger']->err( $VM_LANG->_('VM_PAYMENTMETHOD_DELETE_SELECT') );
 			return False;
 		}
@@ -207,7 +207,7 @@ class vmPaymentMethod extends vmAbstractObject {
 		$db->buildQuery( 'INSERT', '#__{vm}_payment_method', $fields );
 		$db->query();
 		
-		$_REQUEST['payment_method_id'] = $db->last_insert_id();
+		$_REQUEST['id'] = $db->last_insert_id();
 		
 		return True;
 
@@ -273,7 +273,7 @@ class vmPaymentMethod extends vmAbstractObject {
 						'extra_info' => vmGet( $_POST, 'extra_info', null, VMREQUEST_ALLOWRAW ),
 						'params' => $params
 				);
-		$db->buildQuery( 'UPDATE', '#__{vm}_payment_method', $fields, 'WHERE payment_method_id='.(int)$d["payment_method_id"].' AND vendor_id='.$vendor_id );
+		$db->buildQuery( 'UPDATE', '#__{vm}_payment_method', $fields, 'WHERE id='.(int)$d["id"].' AND vendor_id='.$vendor_id );
 		if( $db->query() === false ) {
 			$vmLogger->err('Failed to update the Payment Method!');
 			return false;
@@ -291,7 +291,7 @@ class vmPaymentMethod extends vmAbstractObject {
 		if (!$this->validate_delete($d)) {
 			return False;
 		}
-		$record_id = $d["payment_method_id"];
+		$record_id = $d["id"];
 
 		if( is_array( $record_id)) {
 			foreach( $record_id as $record) {
@@ -316,7 +316,7 @@ class vmPaymentMethod extends vmAbstractObject {
 		$vendor_id = ps_vendor::get_logged_vendor();
 
 
-		$q = 'DELETE from #__{vm}_payment_method WHERE payment_method_id='.(int)$record_id.' AND ';
+		$q = 'DELETE from #__{vm}_payment_method WHERE id='.(int)$record_id.' AND ';
 		if( !$perm->check( 'admin' )) {
 			if($vendor_id!=$d['vendor_id']){
 				$vmLogger->err( $VM_LANG->_('VM_PAYMENTMETHOD_NOT_ALLOWED_TO_DELETE ',false) );
@@ -401,7 +401,7 @@ class vmPaymentMethod extends vmAbstractObject {
 	
 		$array[0] = $VM_LANG->_('PHPSHOP_SELECT');
 		while ($db->next_record()) {
-			$array[$db->f("payment_method_id")] = $db->f("name");
+			$array[$db->f("id")] = $db->f("name");
 		}
 		ps_html::dropdown_display('payment_method_id', $payment_method_id, $array );
 
@@ -437,7 +437,7 @@ class vmPaymentMethod extends vmAbstractObject {
 		$db->next_record();
 		$default_shopper_group_id = $db->f("shopper_group_id");
 
-		$q = "SELECT payment_method_id,discount, discount_is_percentage, name from #__{vm}_payment_method WHERE ";
+		$q = "SELECT id,discount, discount_is_percentage, name from #__{vm}_payment_method WHERE ";
 		$q .= "(type='$selector') AND ";
 		$q .= "published='Y' AND ";
 //		$q .= "vendor_id='$vendor_id' AND ";
@@ -456,7 +456,7 @@ class vmPaymentMethod extends vmAbstractObject {
 		while ($db->next_record()) {
 			$has_result = true;
 //			echo "<input type=\"radio\" name=\"payment_method_id\" id=\"".$db->f("name")."\" value=\"".$db->f("id")."\" ";
-			echo "<input type=\"radio\" name=\"payment_method_id\" id=\"".$db->f("name")."\" value=\"".$db->f("payment_method_id")."\" ";
+			echo "<input type=\"radio\" name=\"payment_method_id\" id=\"".$db->f("name")."\" value=\"".$db->f("id")."\" ";
 			if( $selector == "' OR type='Y" ) {
 				echo "onchange=\"javascript: changeCreditCardList();\" ";
 			}
@@ -466,7 +466,7 @@ class vmPaymentMethod extends vmAbstractObject {
 			}
 			else
 			echo ">\n";
-			$discount  = $ps_checkout->get_payment_discount( $db->f("payment_method_id") );
+			$discount  = $ps_checkout->get_payment_discount( $db->f("id") );
 			echo "<label for=\"".$db->f("name")."\">".$db->f("name");
 			if ($discount > 0.00) {
 				echo " (- ".$CURRENCY_DISPLAY->getFullValue(abs($discount)).") \n";
@@ -492,7 +492,7 @@ class vmPaymentMethod extends vmAbstractObject {
 	 */
 	function payment_sql($payment_method_id) {
 		$db = new ps_DB;
-		$q = 'SELECT * FROM #__{vm}_payment_method WHERE payment_method_id='.(int)$payment_method_id;
+		$q = 'SELECT * FROM #__{vm}_payment_method WHERE id='.(int)$payment_method_id;
 		$db->query($q);
 		return $db;
 	}
@@ -554,7 +554,7 @@ class vmPaymentMethod extends vmAbstractObject {
 
 		$db = new ps_DB;
 		
-		$q = 'SELECT `'.$field_name.'` FROM `#__{vm}_payment_method` WHERE `payment_method_id`='.(int)$payment_method_id;
+		$q = 'SELECT `'.$field_name.'` FROM `#__{vm}_payment_method` WHERE `id`='.(int)$payment_method_id;
 		$db->query($q);
 		$db->next_record();
 		return $db->f($field_name);
@@ -570,7 +570,7 @@ class vmPaymentMethod extends vmAbstractObject {
 
 		$db = new ps_DB;
 		$q = "SELECT is_creditcard,accepted_creditcards FROM #__{vm}_payment_method\n";
-		$q .= 'WHERE payment_method_id='.(int)$payment_id;
+		$q .= 'WHERE id='.(int)$payment_id;
 		$db->query($q);
 		$db->next_record();
 		$details = $db->f('accepted_creditcards');
@@ -930,7 +930,7 @@ class vmPaymentPlugin extends vmPlugin {
     function showPaymentForm( &$db, $user, $dbbt ) {
     	if( !empty($this->_id )) {
     		$db = new ps_DB();
-    		$db->query('SELECT extra_info FROM #__{vm}_payment_method WHERE payment_method_id='.(int)$this->_id);
+    		$db->query('SELECT extra_info FROM #__{vm}_payment_method WHERE id='.(int)$this->_id);
     		if( $db->next_record() && $db->f('extra_info')) {
     			@eval('?>'.$db->f('extra_info').'<?php');
     		}

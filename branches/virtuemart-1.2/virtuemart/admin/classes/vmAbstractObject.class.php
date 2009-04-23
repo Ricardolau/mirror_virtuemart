@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -422,7 +422,7 @@ class vmAbstractObject {
 			}
 			
 		}
-		elseif( !empty( $d['payment_method_id'])) {
+		elseif( !empty( $d['id'])) {
 			$table_name = '#__{vm}_payment_method';
 			$publish_field_name = 'published';
 			$field_name = 'id';

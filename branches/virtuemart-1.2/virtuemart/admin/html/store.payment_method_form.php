@@ -22,7 +22,7 @@ require_once( CLASSPATH . 'ps_creditcard.php' );
 include_class( 'shopper');
 global $ps_shopper_group;
 
-$payment_method_id = vmRequest::getint('payment_method_id');
+$payment_method_id = vmRequest::getint('id');
 $option = empty($option)?vmGet( $_REQUEST, 'option', 'com_virtuemart'):$option;
 
 $vars['published'] = "Y";
@@ -31,7 +31,7 @@ $default['element'] = 'payment';
 if (!empty($payment_method_id)) {
 	//TODO vendorthing by Max Milbers
     $q = "SELECT * FROM #__{vm}_payment_method WHERE vendor_id='$ps_vendor_id' AND ";
-    $q .= "payment_method_id='$payment_method_id'"; 
+    $q .= "id='$payment_method_id'"; 
     $db->query($q);  
     $db->next_record();
 }
@@ -164,7 +164,7 @@ $tabs->endTab();
 $tabs->endPane();
 
 // Add necessary hidden fields
-$formObj->hiddenField( 'payment_method_id', $payment_method_id );
+$formObj->hiddenField( 'id', $payment_method_id );
 
 $funcname = !empty($payment_method_id) ? "paymentMethodUpdate" : "paymentMethodAdd";
 

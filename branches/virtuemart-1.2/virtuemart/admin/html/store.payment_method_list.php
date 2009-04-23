@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage html
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -82,9 +82,9 @@ while ($db->next_record()) {
 	$listObj->addCell( $pageNav->rowNumber( $i ) );
 	
 	// The Checkbox
-	$listObj->addCell( vmCommonHTML::idBox( $i, $db->f("id"), false, "payment_method_id" ) );
+	$listObj->addCell( vmCommonHTML::idBox( $i, $db->f("id"), false, "id" ) );
 
-	$url = $_SERVER['PHP_SELF'] . "?page=$modulename.payment_method_form&limitstart=$limitstart&keyword=".urlencode($keyword)."&payment_method_id=".$db->f("id");
+	$url = $_SERVER['PHP_SELF'] . "?page=$modulename.payment_method_form&limitstart=$limitstart&keyword=".urlencode($keyword)."&id=".$db->f("id");
 	$tmp_cell = "<a href=\"" . $sess->url($url) . "\">". $db->f("name")."</a>";
 	$listObj->addCell( $tmp_cell );
 	
@@ -122,7 +122,7 @@ while ($db->next_record()) {
 	$listObj->addCell( $tmp_cell );
     
 	
-	$tmpcell = "<a href=\"". $sess->url( $_SERVER['PHP_SELF']."?page=$page&payment_method_id=".$db->f("id")."&func=changePublishState" );
+	$tmpcell = "<a href=\"". $sess->url( $_SERVER['PHP_SELF']."?page=$page&id=".$db->f("id")."&func=changePublishState" );
 	if ($db->f("published")=='N') {
 		$tmpcell .= "&task=publish\">";
 	} 
@@ -133,7 +133,7 @@ while ($db->next_record()) {
 	$tmpcell .= "</a>";
 	$listObj->addCell( $tmpcell );
 	
-	$listObj->addCell( $ps_html->deleteButton( "payment_method_id", $db->f("id"), "paymentMethodDelete", $keyword, $limitstart ) );
+	$listObj->addCell( $ps_html->deleteButton( "id", $db->f("id"), "paymentMethodDelete", $keyword, $limitstart ) );
 
 	$i++;
 }

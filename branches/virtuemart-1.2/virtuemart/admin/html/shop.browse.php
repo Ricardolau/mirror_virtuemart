@@ -405,10 +405,10 @@ else {
 		}
 		
 		// Add-to-Cart Button 
-		if (USE_AS_CATALOGUE != '1' && $product_price != "" 
+		if (USE_AS_CATALOGUE != '1' && $product_price != ""
+			&& $tpl->get_cfg( 'showAddtocartButtonOnProductList' ) 
 			&& !stristr( $product_price, $VM_LANG->_('PHPSHOP_PRODUCT_CALL') )
-			&& !ps_product::product_has_attributes( $db_browse->f('product_id'), true )
-			&& $tpl->get_cfg( 'showAddtocartButtonOnProductList' ) ) {
+			&& !ps_product::product_has_attributes( $db_browse->f('product_id'), true )) {
 				
 			$tpl->set( 'i', $i );
 			$tpl->set( 'product_id', $db_browse->f('product_id') );

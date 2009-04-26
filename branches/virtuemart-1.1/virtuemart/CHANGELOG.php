@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+26.04.2009 rolandd
+^ FRQ #2582  shop.browse - optimize to lower nubmer of DB queries.
+
 23.04.2009 rolandd
 # BUG #2356 Billing information will be overwritten if sento information is saved
 # BUG #2573 ps_cashondel.php contains a couple of short tags 

@@ -15,17 +15,19 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 *
 * http://virtuemart.net
 */
-
-$product_id = vmGet($_REQUEST, 'product_id', 0);
-$product_parent_id = vmGet($_REQUEST, 'product_parent_id', 0);
-global $ps_product_type;
-
 require_once( CLASSPATH . "pageNavigation.class.php" );
 require_once( CLASSPATH . "htmlTools.class.php" );
+$temp = vmGet($_REQUEST, 'product_id', 0);
 
-if(is_array($product_id)) {
-	$product_id=$product_id[0];
+$product_parent_id = vmGet($_REQUEST, 'product_parent_id', 0);
+
+global $ps_product_type;
+
+if(sizeof($temp) > 1) {
+	$product_id=$temp;
 	$title2 = $VM_LANG->_('VM_PRODUCT_PRODUCT_TYPE_ADD_MULTIPLE_PRODUCTS');
+} else {
+	$product_id = $temp[0];
 }
 
 $q  = "SELECT  * FROM #__{vm}_product_type,#__{vm}_product_product_type_xref ";
@@ -36,21 +38,25 @@ $db->setQuery($q);
 $db->query();
 
 // Create the List Object with page navigation
+
 $listObj = new listFactory( );
 
 $title = $VM_LANG->_('PHPSHOP_PRODUCT_PRODUCT_TYPE_LIST_LBL');
-if (!empty($product_parent_id)) {
+if(isset($title2)) {
+	$title .=$title2;
+}
+elseif (!empty($product_parent_id)) {
   $title .= " ".$VM_LANG->_('PHPSHOP_ITEM').": ";
 } else {
   $title .= " ".$VM_LANG->_('PHPSHOP_PRODUCT').": ";
 }
+
 $url = $_SERVER['PHP_SELF'] . "?page=$modulename.product_form&product_id=$product_id&product_parent_id=$product_parent_id";
+
 $title .= "<a href=\"" . $sess->url($url) . "\">". $ps_product->get_field($product_id,"product_name")."</a>";
-if($title2) {
-	$title=$title2;
-}
+
 // print out the search field and a list heading
-$listObj->writeSearchHeader( $title, IMAGEURL."ps_image/product_code.png", $modulename, "product_list");
+$listObj->writeSearchHeader( $title, IMAGEURL."ps_image/categories.gif", $modulename, "product_list");
 
 // start the list table
 $listObj->startTable();
@@ -64,6 +70,7 @@ $columns = Array(  "#" => "width=\"20\"",
 					$VM_LANG->_('PHPSHOP_PRODUCTS_LBL') => 'width="15%"',
 					$VM_LANG->_('E_REMOVE') => "width=\"10%\""
 				);
+
 $listObj->writeTableHeader( $columns );
 
 $i = 0;
@@ -101,5 +108,4 @@ $listObj->writeTable();
 $listObj->endTable();
 
 $listObj->writeFooter( $keyword, "&product_id=".$product_id );
-
 ?>

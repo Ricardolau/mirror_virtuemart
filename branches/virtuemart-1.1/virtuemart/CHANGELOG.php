@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+27.04.2009 aravot
+# Fixed typo in product.product_product_type_list.php
+
 26.04.2009 rolandd
 ^ FRQ #2582  shop.browse - optimize to lower nubmer of DB queries.
 

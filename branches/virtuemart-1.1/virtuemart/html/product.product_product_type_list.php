@@ -47,7 +47,7 @@ if (!empty($product_parent_id)) {
 $url = $_SERVER['PHP_SELF'] . "?page=$modulename.product_form&product_id=$product_id&product_parent_id=$product_parent_id";
 $title .= "<a href=\"" . $sess->url($url) . "\">". $ps_product->get_field($product_id,"product_name")."</a>";
 if($title2) {
-	$title=$ttile2;
+	$title=$title2;
 }
 // print out the search field and a list heading
 $listObj->writeSearchHeader( $title, IMAGEURL."ps_image/product_code.png", $modulename, "product_list");

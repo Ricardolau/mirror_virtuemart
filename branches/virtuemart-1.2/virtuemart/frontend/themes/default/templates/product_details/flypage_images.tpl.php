@@ -2,7 +2,7 @@
 
 <?php echo $buttons_header // The PDF, Email and Print buttons ?>
 
-<?php 
+<?php
 if( $this->get_cfg( 'showPathway' )) {
 	echo "<div class=\"pathway\">$navigation_pathway</div>";
 }
@@ -17,7 +17,7 @@ if( $this->get_cfg( 'showPathway' )) {
 	  	<?php if( !empty($images)) { ?>
 		  	<div class="thumbnailListContainer">
 		  		<h5><?php echo $VM_LANG->_('PHPSHOP_MORE_IMAGES') ?></h5>
-		  		<?php 
+		  		<?php
 					echo $this->vmListAdditionalImages( $product_id, $images );
 		  		?>
 		  	</div>
@@ -40,7 +40,11 @@ if( $this->get_cfg( 'showPathway' )) {
 	<tr>
       <td width="33%" valign="top" align="left">
       	<?php echo $product_price_lbl ?>
-      	<?php echo $product_price ?><br /></td>
+      	<?php echo $product_price;
+			//ct //show the ex tax when inc
+			if ($product_price_without_tax != ""){echo "<br/>".$product_price_without_tax;}
+			if ($product_price_with_tax != ""){echo "<br/>".$product_price_with_tax;}
+		?><br /></td>
       <td valign="top"><?php echo $product_packaging ?><br /></td>
 	</tr>
 	<tr>
@@ -55,9 +59,9 @@ if( $this->get_cfg( 'showPathway' )) {
 	  </td>
 	</tr>
 	<tr>
-	  <td><?php 
+	  <td><?php
 	  		if( $this->get_cfg( 'showAvailability' )) {
-	  			echo $product_availability; 
+	  			echo $product_availability;
 	  		}
 	  		?><br />
 	  </td>

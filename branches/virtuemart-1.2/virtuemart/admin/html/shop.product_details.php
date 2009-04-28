@@ -1,4 +1,4 @@
-<?php 
+<?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 /**
 *
@@ -98,7 +98,7 @@ if( $db->num_rows() > 0 ) {
 	$related_products = $tpl->fetch( '/common/relatedProducts.tpl.php' );
 }
 
-// GET THE PRODUCT NAME 
+// GET THE PRODUCT NAME
 $product_name = shopMakeHtmlSafe(  $db_product->f("product_name") );
 if( $db_product->f("product_publish") == "N" ) {
 	$product_name .= " (".$VM_LANG->_('CMN_UNPUBLISHED').")";
@@ -109,7 +109,7 @@ if( (str_replace("<br />", "" , $product_description)=='') && ($product_parent_i
 }
 $product_description = vmCommonHTML::ParseContentByPlugins( $product_description );
 
-// Get the CATEGORY NAVIGATION 
+// Get the CATEGORY NAVIGATION
 $navigation_pathway = "";
 $navigation_childlist = "";
 $pathway_appended = false;
@@ -261,14 +261,31 @@ if( $manufacturer_id && !empty($manufacturer_name) ) {
 	$manufacturer_link = "<a href=\"$link\" target=\"_blank\" title=\"$text\">$text</a>";
 }
 // PRODUCT PRICE
-if (_SHOW_PRICES == '1') { 
+if (_SHOW_PRICES == '1') {
 	if( $db_product->f("product_unit") && VM_PRICE_SHOW_PACKAGING_PRICELABEL) {
 		$product_price_lbl = "<strong>". $VM_LANG->_('PHPSHOP_CART_PRICE_PER_UNIT').' ('.$db_product->f("product_unit")."):</strong>";
 	}
 	else {
 		$product_price_lbl = "<strong>". $VM_LANG->_('PHPSHOP_CART_PRICE'). ": </strong>";
 	}
-	$product_price = $ps_product->show_price( $product_id );
+
+	$product_price = "";
+	$product_price_with_tax = "";
+	$product_price_without_tax = "";
+
+	if ($auth["show_price_including_tax"] == 1){
+		$product_price = $ps_product->show_price_with_tax( $product_id  );
+		if (VM_PRICE_SHOW_WITHOUTTAX == 1){
+			$product_price_without_tax = $ps_product->show_price_without_tax( $product_id  );
+		}
+	}else{
+
+		$product_price = $ps_product->show_price_without_tax( $product_id  );
+		if (VM_PRICE_SHOW_WITHTAX == 1){
+			$product_price_with_tax = $ps_product->show_price_with_tax( $product_id  );
+		}
+	}
+	//$product_price = $ps_product->show_price( $product_id  );
 }
 else {
 	$product_price_lbl = "";
@@ -286,7 +303,7 @@ $product_vendor_lbl = $product_vendor_lbl. $product_vendor_store_name;
 
 // @var array $product_price_raw The raw unformatted Product Price in Float Format
 $product_price_raw = $ps_product->get_adjusted_attribute_price($product_id);
-		
+
 // Change Packaging - Begin
 // PRODUCT PACKAGING
 if (  $db_product->f("product_packaging") ) {
@@ -334,7 +351,7 @@ if( @$_REQUEST['output'] != "pdf" ) {
 	$buttons_header = $tpl->fetch( 'common/buttons.tpl.php' );
 	$tpl->set( 'buttons_header', $buttons_header );
 
-	// AVAILABILITY 
+	// AVAILABILITY
 	// This is the place where it shows: Availability: 24h, In Stock: 5 etc.
 	// You can make changes to this functionality in the file: classes/ps_product.php
 	$product_availability = $ps_product->get_availability($product_id);
@@ -390,15 +407,15 @@ if(is_array($product_type) && !empty($product_type)) {
 
 $recent_products = $ps_product->recentProducts($product_id,$tpl->get_cfg('showRecent', 5));
 /**
-* This has changed since VM 1.1.0  
-* Now we have a template object that can use all variables 
+* This has changed since VM 1.1.0
+* Now we have a template object that can use all variables
 * that we assign here.
-* 
+*
 * Example: If you run
 * $tpl->set( "product_name", $product_name );
 * The variable "product_name" will be available in the template under this name
 * with the value of $product_name
-* 
+*
 * */
 
 // This part allows us to copy ALL properties from the product table
@@ -429,6 +446,9 @@ $tpl->set( "file_list", $file_list );
 $tpl->set( "edit_link", $edit_link );
 $tpl->set( "manufacturer_link", $manufacturer_link );
 $tpl->set( "product_price", $product_price );
+$tpl->set( "product_price_with_tax", $product_price_with_tax );
+$tpl->set( "product_price_without_tax", $product_price_without_tax );
+
 $tpl->set( "product_price_lbl", $product_price_lbl );
 $tpl->set( 'product_price_raw', $product_price_raw );
 $tpl->set( "product_description", $product_description );

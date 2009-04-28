@@ -1,5 +1,5 @@
 <?php
-if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
+if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 /**
 *
 * @package VirtueMart
@@ -93,7 +93,7 @@ $langvars = array (
 	'PHPSHOP_ADMIN_CFG_AGREE_TERMS' => 'Must agree to Terms of Service?',
 	'PHPSHOP_ADMIN_CFG_AGREE_TERMS_EXPLAIN' => 'Check if you want a shopper to agree to your terms of service before registering to the shop.',
 	'PHPSHOP_ADMIN_CFG_CHECK_STOCK' => 'Check Stock?',
-	'PHPSHOP_ADMIN_CFG_CHECK_STOCK_EXPLAIN' => 'Sets whether to check the stock level when a user adds an item to the shopping cart. 
+	'PHPSHOP_ADMIN_CFG_CHECK_STOCK_EXPLAIN' => 'Sets whether to check the stock level when a user adds an item to the shopping cart.
 		If set, this will not allow a user to add more items to the cart than are available in stock.',
 	'PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE' => 'Enable Affiliate Program?',
 	'PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE_EXPLAIN' => 'This enables the affiliate tracking in the shop-frontend. Enable if you have added affiliates in the backend.',
@@ -104,7 +104,7 @@ $langvars = array (
 		<ul><li>as a simple text email</li>
 		<li>or as a html email with images.</li></ul>',
 	'PHPSHOP_ADMIN_CFG_FRONTENDAMDIN' => 'Allow Frontend-Administration for non-Backend Users?',
-	'PHPSHOP_ADMIN_CFG_FRONTENDAMDIN_EXPLAIN' => 'With this setting you can enable the Frontend Administration for users who 
+	'PHPSHOP_ADMIN_CFG_FRONTENDAMDIN_EXPLAIN' => 'With this setting you can enable the Frontend Administration for users who
 		are storeadmins, but can\'t access the Backend (e.g. Registered / Editor).',
 	'PHPSHOP_ADMIN_CFG_URLSECURE' => 'SECUREURL',
 	'PHPSHOP_ADMIN_CFG_URLSECURE_EXPLAIN' => 'The secure URL to your site. (https - with trailing slash at the end!)',
@@ -149,7 +149,7 @@ $langvars = array (
 	'PHPSHOP_ADMIN_CFG_DOWNLOAD_MAX' => 'Download Maximum',
 	'PHPSHOP_ADMIN_CFG_DOWNLOAD_MAX_EXPLAIN' => 'Sets the number of downloads which can be made with one Download-ID, (for one order)',
 	'PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE' => 'Download Expire',
-	'PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE_EXPLAIN' => 'Sets the time range <strong>in seconds</strong> in which the download is enabled for the customer. 
+	'PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE_EXPLAIN' => 'Sets the time range <strong>in seconds</strong> in which the download is enabled for the customer.
 		This range begins with the first download! When the time range has expired, the download-ID is disabled.<br />Note : 86400s=24h.',
 	'PHPSHOP_COUPONS' => 'Coupons',
 	'PHPSHOP_COUPONS_ENABLE' => 'Enable Coupon Usage',
@@ -171,7 +171,7 @@ $langvars = array (
 	'PHPSHOP_ADMIN_CFG_SHOW_PRODUCT_COUNT_TIP' => 'Show the Number of Products in a Category like Category (4)?',
 	'PHPSHOP_ADMIN_CFG_DYNAMIC_THUMBNAIL_RESIZING' => 'Enable Dynamic Thumbnail Resizing?',
 	'PHPSHOP_ADMIN_CFG_DYNAMIC_THUMBNAIL_RESIZING_TIP' => 'If checked, you enable dynamic Image Resizing. This means that all Thumbnail Images are resized to fit the Sizes you provide below,
-        using PHP\'s GD2 functions (you can check if you have GD2 support by browsing to "System" -> "System Info" -> "PHP Info" -> gd. 
+        using PHP\'s GD2 functions (you can check if you have GD2 support by browsing to "System" -> "System Info" -> "PHP Info" -> gd.
         The Thumbnail Image quality is much better than Images which were "resized" by the browser. The newly generated Images are put into the directory /shop_image/prduct/resized. If the Image has already been resized, this copy will be send to the browser, so no image is resized again and again.',
 	'PHPSHOP_ADMIN_CFG_THUMBNAIL_WIDTH' => 'Thumbnail Image Width',
 	'PHPSHOP_ADMIN_CFG_THUMBNAIL_WIDTH_TIP' => 'The target <strong>width</strong> of the resized Thumbnail Image.',
@@ -183,6 +183,12 @@ $langvars = array (
 	'PHPSHOP_ADMIN_CFG_PRICE_ACCESS_LEVEL_TIP' => 'The selected membergroup and all groups with higher permissions will be able to see the product prices.',
 	'PHPSHOP_ADMIN_CFG_PRICE_SHOW_INCLUDINGTAX' => 'Show "(including XX% tax)" when applicable?',
 	'PHPSHOP_ADMIN_CFG_PRICE_SHOW_INCLUDINGTAX_TIP' => 'When checked, users will see the text "(including xx% tax)" when prices are shown incl. tax.',
+	'PHPSHOP_ADMIN_CFG_PRICE_SHOW_WITHOUTTAX' => 'Show product prices without Tax?',
+	'PHPSHOP_ADMIN_CFG_PRICE_SHOW_WITHOUTTAX_TIP' => 'When checked, users will see the excluding tax when prices are shown incl. tax.',
+	'PHPSHOP_ADMIN_CFG_PRICE_SHOW_WITHTAX' => 'Show product prices with Tax?',
+	'PHPSHOP_ADMIN_CFG_PRICE_SHOW_WITHTAX_TIP' => 'When checked, users will see the including tax when prices are shown excl. tax.',
+	'PHPSHOP_ADMIN_CFG_PRICE_SHOW_EXCLUDINGTAX' => 'Show "(excluding tax)" ?',
+	'PHPSHOP_ADMIN_CFG_PRICE_SHOW_EXCLUDINGTAX_TIP' => 'When checked, users will see the text "(excluding tax)" when prices are shown excl. tax.',
 	'PHPSHOP_ADMIN_CFG_PRICE_SHOW_PACKAGING_PRICELABEL' => 'Show the price label for packaging?',
 	'PHPSHOP_ADMIN_CFG_PRICE_SHOW_PACKAGING_PRICELABEL_TIP' => 'When checked, the price label is derived from the product\'s unit and packaging values:<br/>
 		<strong>Price per Unit (10 pieces)</strong><br/>
@@ -399,7 +405,7 @@ $langvars = array (
 	'VM_UPDATE_NOTDOWNLOADED' => 'The Update Package could not be downloaded.',
 	'VM_UPDATE_PREVIEW_LBL' => 'VirtueMart Update Preview',
 	'VM_UPDATE_WARNING_TITLE' => 'General Warning',
-	'VM_UPDATE_WARNING_TEXT' => 'Installing an Update for VirtueMart using a Patch Package can cause damage on your site 
+	'VM_UPDATE_WARNING_TEXT' => 'Installing an Update for VirtueMart using a Patch Package can cause damage on your site
 if you have already modified some files of the VirtueMart component. The Patching Process will overwrite all the files listed below - it won\'t just apply smaller changes (diff), but replace the existing file with the new one. If you have modified VirtueMart files on your own, this can lead to inconsistent files and missing class/function dependencies.',
 	'VM_UPDATE_PATCH_DETAILS' => 'Patch Details',
 	'VM_UPDATE_PATCH_DESCRIPTION' => 'Description',

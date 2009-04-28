@@ -20,12 +20,12 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
  * The class is is used to manage product repository.
  * @package virtuemart
  * @author pablo, jep, gday, soeren
- * 
+ *
  */
 class ps_product extends vmAbstractObject {
 	var $_key = 'product_id';
 	var $_table_name = '#__{vm}_product';
-	
+
 	/**
 	 * Validates product fields and uploaded image files.
 	 *
@@ -35,7 +35,7 @@ class ps_product extends vmAbstractObject {
 	function validate(&$d) {
 		global $vmLogger, $database, $perm, $VM_LANG;
 		require_once(CLASSPATH . 'imageTools.class.php' );
-		
+
 		$valid = true;
 		$db = new ps_DB;
 
@@ -50,9 +50,9 @@ class ps_product extends vmAbstractObject {
 				$vmLogger->err( 'ps_vendor_id: '.$ps_vendor_id );
 				return false;
 //				$valid = false;
-			}		
+			}
 		}
-		
+
 		$q = "SELECT product_id,product_thumb_image,product_full_image FROM #__{vm}_product WHERE product_sku='";
 		$q .= $d["product_sku"] . "'";
 		$db->setQuery($q); $db->query();
@@ -64,7 +64,7 @@ class ps_product extends vmAbstractObject {
 			if( $d['product_discount_id'] == "override" ) {
 
 				$d['is_percent'] = "0";
-				
+
 				// If discount are applied before tax then base the discount on the untaxed price
 				if( PAYMENT_DISCOUNT_BEFORE == '1' ) {
 					$d['amount'] = (float)$d['product_price'] - (float)$d['discounted_price_override'];
@@ -73,7 +73,7 @@ class ps_product extends vmAbstractObject {
 				else {
 					$d['amount'] = (float)$d['product_price_incl_tax'] - (float)$d['discounted_price_override'];
 				}
-				
+
 				// Set the discount start date as today
 				$d['start_date'] = date( 'Y-m-d' );
 
@@ -165,7 +165,7 @@ class ps_product extends vmAbstractObject {
 				$valid = false;
 			}
 		}
-		
+
 		// added for advanced attribute modification
 		// strips the trailing semi-colon from an attribute
         if(isset($d["product_advanced_attribute"])) {
@@ -193,17 +193,17 @@ class ps_product extends vmAbstractObject {
             if($d['list_style'] == "one")
                 $d['product_list'] = "Y";
             else
-                $d['product_list'] = "YM";            
+                $d['product_list'] = "YM";
         }
         else {
             $d['product_list'] = "N";
         }
-        
+
         $d['quantity_options'] = ps_product::set_quantity_options($d);
 		$d['child_options'] = ps_product::set_child_options($d);
-		
+
         $d['order_levels'] = vmRequest::getInt('min_order_level').",".vmRequest::getInt('max_order_level');
-        
+
 		return $valid;
 	}
 
@@ -332,7 +332,7 @@ class ps_product extends vmAbstractObject {
 			$i = 0;
 			while($db->next_record()) {
 				$i++;
-                
+
 				$q = "INSERT INTO #__{vm}_product_attribute (`product_id`,`attribute_name`,`attribute_value`) VALUES ";
 				$q .= "('".$d["product_id"]."', '".$db->f("attribute_name", false)."', '".vmGet($d,'attribute_'.$i )."')";
 				$db2->query( $q );
@@ -379,22 +379,22 @@ class ps_product extends vmAbstractObject {
 			$my_price = new ps_product_price;
 			$my_price->add($d);
 		}
-		
+
 		if( !empty( $d['product_type_id'])) {
 			require_once( CLASSPATH.'ps_product_product_type.php' );
 			$ps_product_product_type = new ps_product_product_type();
 			$ps_product_product_type->add( $d );
-				
+
 			// Product Type Parameters!
 			$this->handleParameters( $d );
 		}
-		
+
 		// CLONE PRODUCT additional code
 		if( $d["clone_product"] == "Y" ) {
 
 			// Clone Parent Product's Attributes
 			$q  = "INSERT INTO #__{vm}_product_attribute_sku
-              SELECT '".$d["product_id"]."', attribute_name, attribute_list 
+              SELECT '".$d["product_id"]."', attribute_name, attribute_list
               FROM #__{vm}_product_attribute_sku WHERE product_id='" . (int)$d["old_product_id"] . "' ";
 			$db->query( $q );
 			if( !empty( $d["child_items"] )) {
@@ -460,7 +460,7 @@ class ps_product extends vmAbstractObject {
 	function update( &$d ) {
 		global $vmLogger, $perm, $VM_LANG;
 		require_once(CLASSPATH.'ps_product_attribute.php');
-		
+
 		if (!$this->validate($d)) {
 			return false;
 		}
@@ -471,7 +471,7 @@ class ps_product extends vmAbstractObject {
 
 		$timestamp = time();
 		$db = new ps_DB;
-			 
+
 		$vendor_id = $d['vendor_id'];
 
         // Insert into DB
@@ -507,7 +507,7 @@ class ps_product extends vmAbstractObject {
 						'product_tax_id' => vmRequest::getInt('product_tax_id'),
 						'child_option_ids' => vmGet($d,'included_product_id'),
 						'product_order_levels' => $d['order_levels'] );
-						
+
 		//this line didnt worked correct. Sometimes the category was changed but not the description, updating vendor didnt worked at all by Max Milbers
 //		$db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  'WHERE product_id='. (int)$d["product_id"] . ' AND vendor_id=' . (int)$d['vendor_id'] );
 $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (int)$d["product_id"] ."'" );
@@ -558,11 +558,11 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 			}
 			// NOW Insert new categories
 			$new_categories = array();
-			
+
 			if( empty( $d['product_categories']) || !is_array(@$d['product_categories'])) {
 				$d['product_categories'] = explode('|', $d['category_ids'] );
 			}
-			
+
 			foreach( $d["product_categories"] as $category_id ) {
 				if( !in_array( $category_id, $old_categories ) ) {
 					$db->query('SELECT MAX(`product_list`) as list_order FROM `#__{vm}_product_category_xref` WHERE `category_id`='.(int)$category_id );
@@ -643,11 +643,12 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 
 		// Product Type Parameters!
 		$this->handleParameters( $d );
-		 
+
 		$vmLogger->info( $VM_LANG->_('VM_PRODUCT_UPDATED',false) );
 		return true;
 	}
-	
+
+
 	/**
 	 * Handles adding or updating parameter values for a product an its product types
 	 * @since VirtueMart 1.1.0
@@ -655,7 +656,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 	 */
 	function handleParameters( &$d ) {
 		global $db;
-		
+
 		$product_id= intval( $d["product_id"] );
 
 		$q  = "SELECT `product_type_id` FROM `#__{vm}_product_product_type_xref` WHERE ";
@@ -677,7 +678,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 			$q  = "SELECT COUNT(`product_id`) as num_rows FROM `#__{vm}_product_type_$product_type_id` WHERE ";
 			$q .= "product_id='$product_id'";
 			$dbp->query($q); $dbp->next_record();
-			
+
 			if ( $dbp->f('num_rows') == 0 ) {  // Add record if not exist (Items)
 				$q  = "INSERT INTO #__{vm}_product_type_$product_type_id (product_id) ";
 				$q .= "VALUES ('$product_id')";
@@ -694,10 +695,10 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 						$value = join(';',$value);
 					}
 					if ($value=="") {
-						$value='NULL'; 
+						$value='NULL';
 					}
-					else { 
-						$value="'".$dbpt->getEscaped($value)."'"; 
+					else {
+						$value="'".$dbpt->getEscaped($value)."'";
 					}
 					$q .= ',`'.$dbpt->f('parameter_name', false).'`='.$value;
 				}
@@ -707,7 +708,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		}
 
 	}
-	
+
 	/**
 	 * Function to delete product(s) $d['product_id'] from the product table
 	 *
@@ -892,7 +893,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		$db = new ps_DB;
 		if( !empty( $product_id )) {
 			$q  = 'SELECT * FROM #__{vm}_product WHERE product_id=' . (int)$product_id;
-			$db->setQuery($q); $db->query(); 
+			$db->setQuery($q); $db->query();
 		}
 		return $db;
 	}
@@ -910,7 +911,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 			$q  = "SELECT * FROM #__{vm}_product ";
 			$q .= "WHERE product_parent_id=".(int)$product_id.' ';
 			$q .= "ORDER BY product_name";
-	
+
 			$db->setQuery($q); $db->query();
 		}
 
@@ -949,7 +950,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 	function is_downloadable($product_id) {
 		if( empty( $GLOBALS['product_info'][$product_id]['is_downloadable'] )) {
 		    $db_check = new ps_DB;
-	        $q_dl = "SELECT attribute_name,attribute_value 
+	        $q_dl = "SELECT attribute_name,attribute_value
 	        				FROM #__{vm}_product_attribute WHERE
 							product_id=".(int)$product_id." AND attribute_name='download'";
 			$db_check->query($q_dl);
@@ -1094,13 +1095,13 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 	function get_field( $product_id, $field_name, $force = false ) {
 		if( $product_id == 0 ) return '';
 		$db = new ps_DB;
-		
+
 		if( !isset($GLOBALS['product_info'][$product_id][$field_name] ) || $force ) {
 			$q = 'SELECT product_id, `#__{vm}_product`.* FROM `#__{vm}_product` WHERE `product_id`='.(int)$product_id;
 			$db->query($q);
 			if ($db->next_record()) {
 				$values = get_object_vars( $db->getCurrentRow() );
-				
+
 				foreach( $values as $key => $value ) {
 					$GLOBALS['product_info'][$product_id][$key] = $value;
 				}
@@ -1133,7 +1134,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 	}
 
 	/**
-	 * This is a very time consuming function. 
+	 * This is a very time consuming function.
 	 * It fetches the category flypage for a specific product id
 	 *
 	 * @param int $product_id
@@ -1159,7 +1160,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 				$productParentId = $db->f("product_parent_id");
 				$db->query($q);
 				$db->next_record();
-			} 
+			}
 			while( $db->f("product_parent_id") && !$db->f("category_flypage"));
 
 			if ($db->f("category_flypage")) {
@@ -1270,7 +1271,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 	 * @return array
 	 */
 	function get_neighbor_products( $product_id ) {
-		global $perm, $orderby, $my, $auth, $keyword, $DescOrderBy, $limit, $limitstart, $search_limiter, $search_op, 
+		global $perm, $orderby, $my, $auth, $keyword, $DescOrderBy, $limit, $limitstart, $search_limiter, $search_op,
 			$category_id, $manufacturer_id, $vm_mainframe, $vmInputFilter, $product_type_id, $keyword1, $keyword2;
 		$limit = 2000;
         $limitstart = 0;
@@ -1282,21 +1283,21 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		$db = new ps_DB();
 		$db_browse = new ps_DB();
 		include( PAGEPATH . 'shop_browse_queries.php' );
-		
+
 		$db->query( $list );
-		
+
 		$neighbors = array('previous'=>'',
 							'next'=>'');
-		
+
 		while( $db->next_record() ) {
 			if( $db->f( 'product_id' ) == $product_id ) {
 				$previous_row = $db->previousRow();
 				$next_row = $db->nextRow();
-				
+
 				if( !empty( $previous_row->product_id )) {
 					$neighbors['previous']['product_id'] = $previous_row->product_id;
 					$neighbors['previous']['product_name'] = $previous_row->product_name;
-				} 
+				}
 				if( !empty( $next_row->product_id )) {
 					$neighbors['next']['product_id'] = $next_row->product_id;
 					$neighbors['next']['product_name'] = $next_row->product_name;
@@ -1310,8 +1311,8 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 	 *
 	 * @param string $image The name of the imahe OR the full URL to the image
 	 * @param string $args Additional attributes for the img tag
-	 * @param int $resize 
-	 * (1 = resize the image by using height and width attributes, 
+	 * @param int $resize
+	 * (1 = resize the image by using height and width attributes,
 	 * 0 = do not resize the image)
 	 * @param string $path_appendix The path to be appended to IMAGEURL / IMAGEPATH
 	 */
@@ -1324,8 +1325,8 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 	 *
 	 * @param string $image The name of the imahe OR the full URL to the image
 	 * @param string $args Additional attributes for the img tag
-	 * @param int $resize 
-	 * (1 = resize the image by using height and width attributes, 
+	 * @param int $resize
+	 * (1 = resize the image by using height and width attributes,
 	 * 0 = do not resize the image)
 	 * @param string $path_appendix The path to be appended to IMAGEURL / IMAGEPATH
 	 * @return The HTML code of the img tag
@@ -1333,13 +1334,13 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 	function image_tag($image, $args="", $resize=1, $path_appendix='product', $thumb_width=0, $thumb_height=0, $overide = false ) {
 		global $mosConfig_live_site, $mosConfig_absolute_path;
 		require_once( CLASSPATH . 'imageTools.class.php');
-		
+
 		$border="";
 		if( strpos( $args, "border=" )===false ) {
 			$border = 'border="0"';
 		}
 		$height = $width = '';
-		
+
 		if ($image != "") {
 			// URL
 			if( substr( $image, 0, 4) == "http" ) {
@@ -1370,7 +1371,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 					} elseif( file_exists($mosConfig_absolute_path.'/'.$image)) {
 						$url = $mosConfig_live_site.'/'.$image;
 					}
-					
+
 					if( !strpos( $args, "height=" ) ) {
 						$f = str_replace( IMAGEURL, IMAGEPATH, $url );
 						  if ( file_exists($f) ) {
@@ -1379,7 +1380,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 						  } else {
 						    $width = PSHOP_IMG_WIDTH; $height = PSHOP_IMG_HEIGHT;
 						  }
-						
+
 					}
 					if( $resize ) {
 						if( $height < $width ) {
@@ -1397,7 +1398,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		else {
 			$url = VM_THEMEURL.'images/'.NO_IMAGE;
 		}
-		
+
 		return vmCommonHTML::imageTag( $url, '', '', $height, $width, '', '', $args.' '.$border );
 
 	}
@@ -1448,7 +1449,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 				}
 				else {
 					if( empty( $_SESSION['taxrate'][$ps_vendor_id] )) {
-						
+
 						//adjusted by Max Milbers
 						$vendorid= 1;
 						$user_id = ps_vendor::get_user_id_by_vendor_id($vendorid);
@@ -1457,7 +1458,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 						$db->next_record();
 						$country = $db->f("country");
 						$state = $db->f("state");
-						
+
 						// let's get the store's tax rate
 						$q = "SELECT `tax_rate` FROM #__{vm}_tax_rate ";
 						$q .= "WHERE vendor_id=1 ";
@@ -1467,8 +1468,8 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 							$q .= "AND tax_country='$country'";
 						}
 						$q .= "ORDER BY `tax_rate` DESC";
-						
-						
+
+
 //						// let's get the store's tax rate
 //						$q = "SELECT `tax_rate` FROM #__{vm}_vendor, #__{vm}_tax_rate ";
 //						$q .= "WHERE tax_country=vendor_country AND #__{vm}_vendor.vendor_id=1 ";
@@ -1554,7 +1555,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 	}
 
 	/**
-	 * Function to get the "pure" undiscounted and untaxed price 
+	 * Function to get the "pure" undiscounted and untaxed price
 	 * of product $product_id. Used by the administration section.
 	 *
 	 * @param int $product_id
@@ -1575,9 +1576,9 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		$db->next_record();
 		$default_shopper_group_id = $db->f("shopper_group_id");
 
-		$q = "SELECT product_price,product_currency,price_quantity_start,price_quantity_end 
-				FROM #__{vm}_product_price 
-				WHERE product_id='$product_id' AND 
+		$q = "SELECT product_price,product_currency,price_quantity_start,price_quantity_end
+				FROM #__{vm}_product_price
+				WHERE product_id='$product_id' AND
 							shopper_group_id='$default_shopper_group_id'";
 		$db->query($q);
 		if ($db->next_record()) {
@@ -1614,7 +1615,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 			$db = new ps_DB;
 
 			$vendor_id = $this->get_vendor_id_ofproduct($product_id);
-			
+
 			if( $overrideShopperGroup === '') {
 				$shopper_group_id = $auth["shopper_group_id"];
 				$shopper_group_discount = $auth["shopper_group_discount"];
@@ -1625,7 +1626,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 			}
 			$shopper_group = new ps_shopper_group;
 			$shopper_group->makeDefaultShopperGroupInfo($vendor_id);
-			
+
 			// Get the product_parent_id for this product/item
 			$product_parent_id = $this->get_field($product_id, "product_parent_id");
 
@@ -1640,7 +1641,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
                 	$parent = true;
                 }
                 else {
-                    $parent = false; 
+                    $parent = false;
                 }
                 for ($i=0;$i<$cart["idx"];$i++) {
                     if ($cart[$i]["product_id"] == $product_id) {
@@ -1659,7 +1660,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
                         }
                     }
                 }
-                
+
 				$volume_quantity_sql = " ORDER BY price_quantity_start";
 				if( $quantity > 0 ) {
 					$volume_quantity_sql = " AND (('$quantity' >= price_quantity_start AND '$quantity' <= price_quantity_end)
@@ -1669,7 +1670,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 			else {
 				$volume_quantity_sql = " ORDER BY price_quantity_start";
 			}
-			
+
 			// Get the price array
 			$price = $this->getPriceByShopperGroup( $product_id, $shopper_group_id, $check_multiple_prices, $volume_quantity_sql );
 			if( !$price && $product_parent_id ) {
@@ -1702,7 +1703,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		global $auth;
 		static $resultcache = array();
 		$db = new ps_DB;
-		
+
 		//changed by Max Milbers
 		$vendor_id = $this->get_vendor_id_ofproduct($product_id);
 
@@ -1711,12 +1712,12 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 			$ps_shopper_group->makeDefaultShopperGroupInfo($vendor_id);
 			$shopper_group_id = $GLOBALS['vendor_info'][$vendor_id]['default_shopper_group_id'];
 		}
-	
+
 		$whereClause='WHERE product_id=%s AND shopper_group_id=%s ';
 		$whereClause = sprintf( $whereClause, intval($product_id), intval($shopper_group_id) );
 
 		$q = "SELECT `product_price`, `product_price_id`, `product_currency` FROM `#__{vm}_product_price` $whereClause $additionalSQL";
-		
+
 		$sig = sprintf("%u\n", crc32($q));
 
 		if( !isset($resultcache[$sig])) {
@@ -1724,22 +1725,22 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 			if( !$db->next_record() ) return false;
 			$price_info["product_price"]= $db->f("product_price") * ((100 - $auth["shopper_group_discount"])/100);
 			$price_info["product_currency"] = $db->f("product_currency");
-			
+
 			$price_info["product_base_price"]= $db->f("product_price") * ((100 - $auth["shopper_group_discount"])/100);
 			$price_info["product_has_multiple_prices"] = $db->num_rows() > 1;
-			
-			$price_info["product_price_id"] = $db->f("product_price_id");					
+
+			$price_info["product_price_id"] = $db->f("product_price_id");
 			$price_info["item"]=true;
 			$GLOBALS['product_info'][$product_id]['price'] = $price_info;
 			// Store the result for later
 			$resultcache[$sig] = $price_info;
-			
+
 			return $GLOBALS['product_info'][$product_id]['price'];
-		} 
+		}
 		else {
 			return $resultcache[$sig];
 		}
-		
+
 	}
 	/**
 	 * Adjusts the price from get_price for the selected attributes
@@ -1781,24 +1782,24 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		if ($description != '') { // description is safe to use at this point cause it's set to ''
 			require_once(CLASSPATH.'ps_product_attribute.php');
 			$product_attributes = ps_product_attribute::getAdvancedAttributes($product_id, true);
-			
+
 			$attribute_keys = explode( ";", $description );
 
 			for($i=0; $i < sizeof($attribute_keys); $i++ ) {
 				$temp_desc = $attribute_keys[$i];
-				
+
 				$temp_desc = trim( $temp_desc );
 				// Get the key name (e.g. "Color" )
 				$this_key = substr( $temp_desc, 0, strpos($temp_desc, ":") );
 				$this_value = substr( $temp_desc, strpos($temp_desc, ":")+1 );
-				
+
 				if( in_array( $this_key, $custom_attribute_fields )) {
 					if( @$custom_attribute_fields_check[$this_key] == md5( $mosConfig_secret.$this_key )) {
 						// the passed value is valid, don't use it for calculating prices
 						continue;
 					}
 				}
-                
+
 				$this_value=str_replace("_"," ",$this_value);
 				if( isset( $product_attributes[$this_key]['values'][$this_value] )) {
 					$modifier = $product_attributes[$this_key]['values'][$this_value]['adjustment'];
@@ -1806,7 +1807,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 
 					// if we have a number, allow the adjustment
 					if (true == is_numeric($modifier) ) {
-                    
+
 						$modifier = $GLOBALS['CURRENCY']->convert( $modifier, $price['product_currency'], $GLOBALS['product_currency'] );
 						// Now add or sub the modifier on
 						if ($operand=="+") {
@@ -1820,7 +1821,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 							// this could be moded to say, if we have a set_price, then
 							// calc the diff from the base price and start from there if we encounter
 							// another set price... just a thought.
-	
+
 							$setprice += $modifier;
 							$set_price = true;
 						}
@@ -1855,7 +1856,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		$discount_info = $this->get_discount( $product_id );
 
 		$my_taxrate = $this->get_product_taxrate($product_id);
-		
+
 		// If discounts are applied after tax, but prices are shown without tax,
 		// AND tax is EU mode and shopper is not in the EU,
 		// then ps_product::get_product_taxrate() returns 0, so $my_taxrate = 0.
@@ -1908,7 +1909,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 				}
 			}
 		}
-		
+
 		// Apply the discount
 		if( !empty($discount_info["amount"])) {
 			$undiscounted_price = $base_price;
@@ -1940,7 +1941,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 	 * Size:big[+2.99]; Color:red[+0.99]
 	 * and return the same string with values, tax added
 	 * Size: big (+3.47), Color: red (+1.15)
-	 * 
+	 *
 	 * @param string $description
 	 * @param int $product_id
 	 * @return string The reformatted description
@@ -1948,7 +1949,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 	function getDescriptionWithTax( $description, $product_id=0 ) {
 		global $CURRENCY_DISPLAY, $mosConfig_secret;
 		require_once(CLASSPATH.'ps_product_attribute.php');
-		
+
 		$auth = $_SESSION['auth'];
 		$description = stripslashes($description);
         $description = str_replace("_"," ",$description);
@@ -2004,15 +2005,15 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 				if( abs($value_notax) >0 ) {
 					$value_taxed = $value_notax * ($my_taxrate+1);
 					$temp_desc_new  = str_replace( $operand.$modifier, $operand.' '.$CURRENCY_DISPLAY->getFullValue( $value_taxed ), $temp_desc );
-                    
-					$description = str_replace( $this_key.':'.$this_value, 
+
+					$description = str_replace( $this_key.':'.$this_value,
 												 $this_key.':'.$this_value.' ('.$operand.' '.$CURRENCY_DISPLAY->getFullValue( $value_taxed ).')',
 													$description);
 
 				}
 				$temp_desc = substr($temp_desc, $finish+1);
 			}
-			
+
 		}
         $description = str_replace("_"," ",$description);
 		$description = str_replace( $CURRENCY_DISPLAY->symbol, '@saved@', $description );
@@ -2050,7 +2051,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 			$price_info['tax_rate'] = $VM_LANG->_('PHPSHOP_TAX_LIST_RATE').': '.$tax.'%';
 			// Calculate discount
 			if( !empty($discount_info["amount"])) {
-				
+
 				switch( $discount_info["is_percent"] ) {
 					case 0:
 						$base_price -= $discount_info["amount"];
@@ -2067,6 +2068,17 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		return $price_info;
 	}
 
+	function show_price_with_tax($product_id, $hide_tax_message = false){
+
+		return $this->show_price($product_id, $hide_tax_message, 1);
+
+	}
+
+	function show_price_without_tax($product_id, $hide_tax_message = false){
+
+			return $this->show_price($product_id, $hide_tax_message, 2);
+
+	}
 	/**
          * Function to calculate the price, apply discounts from the discount table
          * and reformat the price
@@ -2075,19 +2087,19 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 	 * @param boolean $hide_tax Wether to show the text "(including X.X% tax)" or not
 	 * @return string The formatted price
 	 */
-	function show_price( $product_id, $hide_tax = false ) {
+	function show_price( $product_id, $hide_tax = false, $showwithtax = 0 ) {
 		global $VM_LANG, $CURRENCY_DISPLAY,$vendor_mail;
 		$auth = $_SESSION['auth'];
-		
+
 		$tpl = new $GLOBALS['VM_THEMECLASS']();
-		
+
 		$product_name = htmlentities( $this->get_field($product_id, 'product_name'), ENT_QUOTES );
 		$tpl->set( 'product_id', $product_id );
 		$tpl->set( 'product_name', $product_name );
 		$tpl->set( 'vendor_mail', $vendor_mail );
 		$discount_info = $base_price = array();
 		$text_including_tax = '';
-		
+
 		if( $auth['show_prices'] ) {
 			// Get the DISCOUNT AMOUNT
 			$discount_info = $this->get_discount( $product_id );
@@ -2097,7 +2109,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 			// Get the Price according to the quantity in the Cart
 			$price_info = $this->get_price( $product_id );
 			$tpl->set( 'price_info', $price_info );
-			
+
 			// Get the Base Price of the Product
 			$base_price_info = $this->get_price($product_id, true );
 			$tpl->set( 'base_price_info', $base_price_info );
@@ -2111,16 +2123,32 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 					$price = $base_price = $GLOBALS['CURRENCY']->convert( $base_price_info["product_price"], $price_info['product_currency'] );
 				} else {
 					$base_price = $GLOBALS['CURRENCY']->convert( $base_price_info["product_price"], $price_info['product_currency'] );
-					$price = $GLOBALS['CURRENCY']->convert( $price_info["product_price"], $price_info['product_currency'] );	
+					$price = $GLOBALS['CURRENCY']->convert( $price_info["product_price"], $price_info['product_currency'] );
 				}
 
-				if ($auth["show_price_including_tax"] == 1) {
+				/*if ($auth["show_price_including_tax"] == 1) {
+					$my_taxrate = $this->get_product_taxrate($product_id);
+					$base_price += ($my_taxrate * $base_price);
+				}
+				else {
+					$my_taxrate = 0;
+				}*/
+
+				//ct
+				if ($showwithtax == 0){ //backward compatibility
+					$showwithtax = $auth["show_price_including_tax"];}
+				/*elseif ($showwithtax = 2){ //2 != 1
+					$showwithtax = 0;}*/
+
+				//if ($auth["show_price_including_tax"] == 1) {
+				if ($showwithtax == 1){
 					$my_taxrate = $this->get_product_taxrate($product_id);
 					$base_price += ($my_taxrate * $base_price);
 				}
 				else {
 					$my_taxrate = 0;
 				}
+
 				// Calculate discount
 				if( !empty($discount_info["amount"])) {
 					$undiscounted_price = $base_price;
@@ -2132,10 +2160,10 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 								if( $auth["show_price_including_tax"] == 1) {
 									// then we add tax to the (untaxed) discount
 									$discount_info['amount'] += ($my_taxrate*$discount_info['amount']);
-								} 
+								}
 								// but if our prices are shown without tax
 									// we just leave the (untaxed) discount amount as it is
-								 	
+
 							}
 							// But, if we subtract discounts AFTER tax
 								// and if our prices are shown with tax
@@ -2151,8 +2179,9 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 							break;
 					}
 				}
+
 				$text_including_tax = "";
-				if (!empty($my_taxrate)) {
+				/*if (!empty($my_taxrate)) {
 					$tax = $my_taxrate * 100;
 					// only show "including x % tax" when it shall
 					// not be hidden
@@ -2160,16 +2189,33 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 						$text_including_tax = $VM_LANG->_('PHPSHOP_INCLUDING_TAX');
 						eval ("\$text_including_tax = \"$text_including_tax\";");
 					}
+				}*/
+
+				$text_including_tax = "";
+				if (!empty($my_taxrate)) {
+					$tax = $my_taxrate * 100;
+					// only show "including x % tax" when it shall
+					// not be hidden	//ct
+					if( !$hide_tax && $showwithtax == 1 && VM_PRICE_SHOW_INCLUDINGTAX) {
+						$text_including_tax = $VM_LANG->_('PHPSHOP_INCLUDING_TAX');
+						eval ("\$text_including_tax = \"$text_including_tax\";");
+					}
+				}
+
+				//ct
+				if( $showwithtax != 1 && VM_PRICE_SHOW_EXCLUDINGTAX == 1) {
+					$text_excluding_tax = $VM_LANG->_('PHPSHOP_EXCLUDING_TAX');
+					eval ("\$text_excluding_tax = \"$text_excluding_tax\";");
 				}
 
 				// Check if we need to display a Table with all Quantity <=> Price Relationships
 				if( $base_price_info["product_has_multiple_prices"] && !$hide_tax ) {
 					$db = new ps_DB;
 					// Quantity Discount Table
-					$q = "SELECT product_price, product_currency, price_quantity_start, price_quantity_end 
+					$q = "SELECT product_price, product_currency, price_quantity_start, price_quantity_end
 							FROM #__{vm}_product_price
-				  			WHERE product_id='$product_id' 
-				  			AND shopper_group_id='".$auth["shopper_group_id"]."' 
+				  			WHERE product_id='$product_id'
+				  			AND shopper_group_id='".$auth["shopper_group_id"]."'
 				  			ORDER BY price_quantity_start";
 					$db->query( $q );
 
@@ -2190,7 +2236,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 						// get the default shopper group ID
 						$q = "SELECT shopper_group_id FROM #__{vm}_shopper_group WHERE `vendor_id`='$vendor_id' AND `default`='1'";
 						$db->setQuery($q); $db->query();
-						$db->next_record();						
+						$db->next_record();
 						$default_shopper_group_id = $db->f("shopper_group_id");
 						// get the current shopper group discount
 						$q = "SELECT * FROM #__{vm}_shopper_group WHERE shopper_group_id=" . $auth["shopper_group_id"];
@@ -2243,6 +2289,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		}
 		$tpl->set( 'discount_info', $discount_info );
 		$tpl->set( 'text_including_tax', $text_including_tax );
+		$tpl->set( 'text_excluding_tax', $text_excluding_tax ); //ct
 		$tpl->set( 'undiscounted_price', @$undiscounted_price );
 		$tpl->set( 'base_price', $base_price );
         $tpl->set( 'price_table', $html);
@@ -2300,7 +2347,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 				        $discount_info["is_percent"] = $db->f("is_percent");
 			        }
                 }
-            }                
+            }
 			$discount_info['create_time'] = time();
 			$_SESSION['product_sess'][$product_id]['discount_info'] = $discount_info;
 			return $discount_info;
@@ -2346,13 +2393,13 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		if ($db->next_record()) {
 			$product_id = $db->f("product_id" );
 			$tpl = new $GLOBALS['VM_THEMECLASS']();
-			
+
 			$cid = $ps_product_category->get_cid( $product_id );
 
 			$tpl->set( 'product_id', $product_id);
 			$tpl->set( 'product_name', $db->f("product_name") );
 			$tpl->set( 'show_product_name', $show_product_name );
-			
+
 			if ($db->f("product_parent_id")) {
 				$url = "?page=shop.product_details&category_id=$cid&flypage=".$this->get_flypage($db->f("product_parent_id"));
 				$url .= "&product_id=" . $db->f("product_parent_id");
@@ -2376,9 +2423,9 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 			}
 			return $tpl->fetch( 'common/productsnapshot.tpl.php');
 		}
-		
+
 		return '';
-		
+
 	}
 
 	/**
@@ -2428,7 +2475,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 	function get_availability_data( $prod_id) {
 		$is_parent = $this->parent_has_children( $prod_id );
 		$availArr = array();
-		if( !$is_parent ) {			
+		if( !$is_parent ) {
 			$availArr['product_id'] = $prod_id;
 			$availArr['product_available_date'] = $this->get_field( $prod_id, 'product_available_date');
 			$availArr['product_availability'] = $this->get_field( $prod_id, 'product_availability');
@@ -2439,7 +2486,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 	/**
 	 * Modifies the product_publish field and toggles it from Y to N or N to Y
 	 * for product $d['product_id']
-	 * @deprecated 
+	 * @deprecated
 	 * @param int $d $d['task'] must be "publish" or "unpublish"
 	 * @return unknown
 	 */
@@ -2449,7 +2496,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 	}
 	/**
 	 * Function to check if a product exists (and is published)
-	 * @static 
+	 * @static
 	 * @param int $product_id
 	 * @param boolean $check_publishstate
 	 * @return boolean
@@ -2487,10 +2534,10 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
         }
         return $child_options;
     }
-    
+
     function &get_child_options( $product_id ) {
     	$child_options= array();
-    	$child_options_string = ps_product::get_field( $product_id, 'child_options', true ); 
+    	$child_options_string = ps_product::get_field( $product_id, 'child_options', true );
 		$fields=explode(',',$child_options_string);
 		if( !empty( $fields)) {
 			$child_options['display_use_parent'] =array_shift($fields);
@@ -2499,11 +2546,11 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 			$child_options['product_list_child'] =array_shift($fields);
 			$child_options['product_list_type'] =array_shift($fields);
 			$child_options['ddesc'] =array_shift($fields);
-			$child_options['display_desc'] =& $child_options['ddesc']; 
+			$child_options['display_desc'] =& $child_options['ddesc'];
 			$child_options['dw'] =array_shift($fields);
-			$child_options['desc_width'] =& $child_options['dw']; 
+			$child_options['desc_width'] =& $child_options['dw'];
 			$child_options['aw'] =array_shift($fields);
-			$child_options['attrib_width'] =& $child_options['aw']; 
+			$child_options['attrib_width'] =& $child_options['aw'];
 			$child_options['class_suffix'] =array_shift($fields);
 			$child_options['child_class_sfx'] =& $child_options['class_suffix'];
 			$child_options['order_by'] =array_shift($fields);
@@ -2533,7 +2580,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
     function &get_quantity_options( $product_id ) {
     	$quantity_options = array('quantity_start' => 0, 'quantity_end' => 0, 'quantity_step' => 1 );
     	$quantity_options_string = ps_product::get_field($product_id, 'quantity_options');
-    	
+
     	$fields = explode(',', $quantity_options_string );
     	if( !empty( $fields )&& sizeof($fields) > 1 ) {
     		$quantity_options['quantity_box'] = $fields[0];
@@ -2544,7 +2591,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
     	}
     	return $quantity_options;
     }
-    
+
     /**
      * Retrieves the maximum and minimum quantity for the product specified by $product_id
      *
@@ -2552,13 +2599,13 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
      * @return array
      */
     function product_order_levels($product_id) {
-        
+
         $min_order=0;
         $max_order=0;
         $product_order_levels = ps_product::get_field( $product_id, 'product_order_levels');
         $product_parent_id = ps_product::get_field( $product_id, 'product_parent_id');
-        
-        
+
+
 		if($product_order_levels != ',') {
 			$order_levels = $product_order_levels;
 			$levels = explode(",",$order_levels);
@@ -2569,7 +2616,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
             //check parent if product_parent_id != 0
         	$product_order_levels = ps_product::get_field( $product_parent_id, 'product_order_levels');
         	$product_parent_id = ps_product::get_field( $product_parent_id, 'product_parent_id');
-			
+
 			if($product_order_levels != ",") {
 				$order_levels = $product_order_levels;
 				$levels = explode(",",$order_levels);
@@ -2577,11 +2624,11 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 				$max_order = array_shift($levels);
 			}
 		}
-        
+
         return array($min_order,$max_order);
     }
-    
-    
+
+
     function featuredProducts($random, $products, $categories) {
 	    global $VM_LANG;
 	    require_once( CLASSPATH . 'ps_product_attribute.php');
@@ -2639,7 +2686,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
                 $featured_products[$i]['product_id'] = $db->f("product_id");
                 $featured_products[$i]['flypage'] = $flypage;
                 $featured_products[$i]['form_addtocart'] = "";
-                if (USE_AS_CATALOGUE != '1' && $price != "" 
+                if (USE_AS_CATALOGUE != '1' && $price != ""
 	                && !stristr( $price, $VM_LANG->_('PHPSHOP_PRODUCT_CALL') )
 	                && !$this->product_has_attributes( $db->f('product_id'), true )
 	                && $tpl->get_cfg( 'showAddtocartButtonOnProductList' ) ) {
@@ -2653,10 +2700,10 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		        $i++;
 	        }
             $tpl->set( 'featured_products', $featured_products );
-            return $tpl->fetch( 'common/featuredProducts.tpl.php'); 
+            return $tpl->fetch( 'common/featuredProducts.tpl.php');
         }
     }
-    
+
     function latestProducts($random, $products) {
     	return "";
     }
@@ -2669,7 +2716,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
     			//Check if it already exists and remove and reorder array
     			if($_SESSION['recent'][$i]['product_id']==$product_id) {
     				for($k=$i;$k<$_SESSION['recent']['idx']-1;$k++){
-    					$_SESSION['recent'][$k]=$_SESSION['recent'][$k+1];	
+    					$_SESSION['recent'][$k]=$_SESSION['recent'][$k+1];
     				}
     				array_pop($_SESSION['recent']);
     				$_SESSION['recent']['idx']--;
@@ -2683,17 +2730,17 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
     	//Check to see if we have reached are limit and remove first item
     	if($_SESSION['recent']['idx'] > $maxviewed+1) {
     		for($k=0;$k<$_SESSION['recent']['idx']-1;$k++){
-    			$_SESSION['recent'][$k]=$_SESSION['recent'][$k+1];	
+    			$_SESSION['recent'][$k]=$_SESSION['recent'][$k+1];
     		}
     		array_pop($_SESSION['recent']);
     		$_SESSION['recent']['idx']--;
     	}
     }
-    
+
     function recentProducts($product_id,$maxitems) {
     	global $db, $VM_LANG, $sess;
     	if( $maxitems == 0 ) return;
-    	
+
     	$recentproducts = $_SESSION['recent'];
     	//No recent products so return empty
 		if($recentproducts['idx'] == 0) {
@@ -2741,7 +2788,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
                 if($recent[$k]['product_s_desc']=="" && !empty($prod_id_p)) {
                     $recent[$k]['product_s_desc'] = $dbp->f("product_s_desc");
                 }
-				$flypage = $db->f("category_flypage");  
+				$flypage = $db->f("category_flypage");
                 if(empty($flypage) && !empty($prod_id_p))
                     $flypage = $dbp->sf("category_flypage");
 				if( empty( $flypage )) {
@@ -2751,7 +2798,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 				$flypage = stristr( $flypage, '.tpl') ? $flypage : $flypage . '.tpl';
 				$recent[$k]['product_url'] = $sess->url("page=shop.product_details&amp;product_id=$prod_id&amp;category_id=$category_id&amp;flypage=$flypage");
 				$recent[$k]['category_url'] = $sess->url("page=shop.browse&amp;category_id=$category_id");
-				$recent[$k]['product_name'] = $db->f("product_name"); 
+				$recent[$k]['product_name'] = $db->f("product_name");
                 if($recent[$k]['product_name']=="" && !empty($prod_id_p)) {
                     $recent[$k]['product_name'] = $dbp->f("product_name");
                 }
@@ -2773,7 +2820,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		$tpl->set("recent_products",$recent);
 		return $tpl->fetch( 'common/recent.tpl.php' );
     }
-    
+
 }  // ENd of CLASS ps_product
 
 ?>

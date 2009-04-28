@@ -12,7 +12,7 @@ if( $this->get_cfg( 'product_navigation', 1 )) {
 	if( !empty( $previous_product )) {
 		echo '<a class="previous_page" href="'.$previous_product_url.'">'.shopMakeHtmlSafe($previous_product['product_name']).'</a>';
 	}
-	if( !empty( $next_product )) {		
+	if( !empty( $next_product )) {
 		echo '<a class="next_page" href="'.$next_product_url.'">'.shopMakeHtmlSafe($next_product['product_name']).'</a>';
 	}
 }
@@ -39,7 +39,11 @@ if( $this->get_cfg( 'product_navigation', 1 )) {
 	<tr>
       <td width="33%" valign="top" align="left">
       	<?php echo $product_price_lbl ?>
-      	<?php echo $product_price ?><br /></td>
+      	<?php echo $product_price;
+			//ct //show the ex tax when inc
+			if ($product_price_without_tax != ""){echo "<br/>".$product_price_without_tax;}
+			if ($product_price_with_tax != ""){echo "<br/>".$product_price_with_tax;}
+		?><br /></td>
       <td valign="top"><?php echo $product_packaging ?><br /></td>
 	</tr>
 	<tr>
@@ -52,9 +56,9 @@ if( $this->get_cfg( 'product_navigation', 1 )) {
 	  </td>
 	</tr>
 	<tr>
-	  <td><?php 
+	  <td><?php
 	  		if( $this->get_cfg( 'showAvailability' )) {
-	  			echo $product_availability; 
+	  			echo $product_availability;
 	  		}
 	  		?><br />
 	  </td>
@@ -80,15 +84,15 @@ if( $this->get_cfg( 'product_navigation', 1 )) {
 	<?php  } ?>
   </tbody>
 </table>
-<?php 
+<?php
 if( !empty( $recent_products )) { ?>
 	<div class="vmRecent">
 	<?php echo $recent_products; ?>
 	</div>
-<?php 
+<?php
 }
 if( !empty( $navigation_childlist )) { ?>
 	<?php echo $VM_LANG->_('PHPSHOP_MORE_CATEGORIES') ?><br />
 	<?php echo $navigation_childlist ?><br style="clear:both"/>
-<?php 
+<?php
 } ?>

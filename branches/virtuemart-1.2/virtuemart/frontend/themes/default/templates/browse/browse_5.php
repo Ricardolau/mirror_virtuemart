@@ -8,7 +8,13 @@ mm_showMyFileName(__FILE__);
     </td>
   </tr>
   <tr>
-    <td align="left" nowrap ><?php echo $product_price ?></td>
+    <td align="left" nowrap >
+    	<?php echo $product_price;
+    		//ct //show the ex tax when inc
+			if ($product_price_without_tax != ""){echo "<br/>".$product_price_without_tax;}
+			if ($product_price_with_tax != ""){echo "<br/>".$product_price_with_tax;}
+    	?>
+    </td>
   </tr>
   <tr>
     <td ><a href="<?php echo $product_flypage ?>">

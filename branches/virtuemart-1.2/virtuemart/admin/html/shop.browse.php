@@ -18,7 +18,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 mm_showMyFileName( __FILE__ );
 
-// load important class files 
+// load important class files
 require_once (CLASSPATH."ps_product.php");
 $ps_product = new ps_product;
 require_once (CLASSPATH."ps_product_category.php");
@@ -51,7 +51,7 @@ $db_browse->query( $count );
 $num_rows = $db_browse->f("num_rows");
 
 if( $limitstart > 0 && $limit >= $num_rows) {
-	
+
 	$list = str_replace( 'LIMIT '.$limitstart, 'LIMIT 0', $list );
 }
 if( $category_id ) {
@@ -61,16 +61,16 @@ if( $category_id ) {
 	$db->query( "SELECT category_id, category_name FROM #__{vm}_category WHERE category_id='$category_id'");
 	$db->next_record();
 	$category_name = shopMakeHtmlSafe( $db->f('category_name') );
-	
+
 	/* Set Dynamic Page Title */
 	$mainframe->setPageTitle( $db->f("category_name") );
-	
+
 	$desc =  $ps_product_category->get_description($category_id);
-	$desc = vmCommonHTML::ParseContentByPlugins( $desc );	
-	/* Prepend Product Short Description Meta Tag "description" when applicable */	
+	$desc = vmCommonHTML::ParseContentByPlugins( $desc );
+	/* Prepend Product Short Description Meta Tag "description" when applicable */
 	$mainframe->prependMetaTag( "description", substr(strip_tags($desc ), 0, 255) );
-	
-}	
+
+}
 // when nothing has been found we tell this here and say goodbye
 if ($num_rows == 0 && (!empty($keyword)||!empty($keyword1))) {
 	echo $VM_LANG->_('PHPSHOP_NO_SEARCH_RESULT');
@@ -84,23 +84,23 @@ elseif( $num_rows == 1 && ( !empty($keyword) || !empty($keyword1) ) ) {
 	$db_browse->query( $list );
 	$db_browse->next_record();
 	$flypage = $db_browse->sf("category_flypage") ? $db_browse->sf("category_flypage") : FLYPAGE;
-	
+
 	$url_parameters = "page=shop.product_details&amp;flypage=$flypage&amp;product_id=" . $db_browse->f("product_id") . "&amp;category_id=" . $db_browse->f("category_id");
 	vmRedirect( $sess->url($url_parameters, true, false ) );
 }
 else {
 	// NOW START THE PRODUCT LIST
 	$tpl = vmTemplate::getInstance();
-	
+
 	if( $category_id ) {
 		/**
 	    * CATEGORY DESCRIPTION
-	    */		
+	    */
 		$browsepage_lbl = $category_name;
-		$tpl->set( 'browsepage_lbl', $browsepage_lbl );		
-		
+		$tpl->set( 'browsepage_lbl', $browsepage_lbl );
+
 		$tpl->set( 'desc', $desc );
-			
+
 		$category_childs = $ps_product_category->get_child_list($category_id);
 		$tpl->set( 'categories', $category_childs );
 		$navigation_childlist = $tpl->fetch( 'common/categoryChildlist.tpl.php');
@@ -113,15 +113,15 @@ else {
 
 		$tpl->set( 'category_id', $category_id );
 		$tpl->set( 'category_name', $category_name );
-		
+
 		$browsepage_header = $tpl->fetch( 'browse/includes/browse_header_category.tpl.php' );
-		
+
 	}
 	elseif( $manufacturer_id) {
 		$db->query( "SELECT manufacturer_id, mf_name, mf_desc FROM #__{vm}_manufacturer WHERE manufacturer_id='$manufacturer_id'");
 		$db->next_record();
 		$mainframe->setPageTitle( $db->f("mf_name") );
-		
+
 		$browsepage_lbl = shopMakeHtmlSafe( $db->f("mf_name") );
 		$tpl->set( 'browsepage_lbl', $browsepage_lbl );
 		$browsepage_lbltext = $db->f("mf_desc");
@@ -132,18 +132,18 @@ else {
 		$mainframe->setPageTitle( $VM_LANG->_('PHPSHOP_SEARCH_TITLE',false) );
 		$browsepage_lbl = $VM_LANG->_('PHPSHOP_SEARCH_TITLE') .': '.shopMakeHtmlSafe( $keyword );
 		$tpl->set( 'browsepage_lbl', $browsepage_lbl );
-		
+
 		$browsepage_header = $tpl->fetch( 'browse/includes/browse_header_keyword.tpl.php' );
 	}
 	else {
 		$mainframe->setPageTitle( $VM_LANG->_('PHPSHOP_BROWSE_LBL',false) );#
 		$browsepage_lbl = $VM_LANG->_('PHPSHOP_BROWSE_LBL');
 		$tpl->set( 'browsepage_lbl', $browsepage_lbl );
-		
+
 		$browsepage_header = $tpl->fetch( 'browse/includes/browse_header_all.tpl.php' );
 	}
 	$tpl->set( 'browsepage_header', $browsepage_header );
-	
+
 	if (!empty($product_type_id) && @$_REQUEST['output'] != "pdf") {
 		$tpl->set( 'ps_product_type', $ps_product_type);
 		$tpl->set( 'product_type_id', $product_type_id);
@@ -153,7 +153,7 @@ else {
 		$parameter_form = '';
 	}
 	$tpl->set( 'parameter_form', $parameter_form );
-	
+
 	// Decide whether to show the limit box
 	$show_limitbox = ( $num_rows > 5 && @$_REQUEST['output'] != "pdf" );
 	$tpl->set( 'show_limitbox', $show_limitbox );
@@ -201,7 +201,7 @@ else {
 		}
 
 		$tpl->set( 'VM_BROWSE_ORDERBY_FIELDS', $VM_BROWSE_ORDERBY_FIELDS);
-	    
+
 	    if ($DescOrderBy == "DESC") {
 	        $icon = "sort_desc.png";
 	        $selected = Array( "selected=\"selected\"", "" );
@@ -222,7 +222,7 @@ else {
 		$tpl->set( 'keyword1', urlencode( $keyword1 ) );
 		$tpl->set( 'keyword2', urlencode( $keyword2 ) );
 		$tpl->set( 'Itemid', $Itemid );
-		
+
 		if( $show_top_navigation ) {
 			$tpl->set( 'search_string', $search_string );
 		}
@@ -233,7 +233,7 @@ else {
     else {
     	$tpl->set( 'orderby_form', '' );
     }
-	
+
 	$db_browse->query( $list );
 	$db_browse->next_record();
 
@@ -248,19 +248,19 @@ else {
 	 *
 	 **/
 	if(@$_REQUEST['output'] != "pdf") {
-		
+
 		// Show the PDF, Email and Print buttons
 		$tpl->set('option', $option);
 		$tpl->set('category_id', $category_id );
 		$tpl->set('product_id', $product_id );
 		$buttons_header = $tpl->fetch( 'common/buttons.tpl.php' );
-				
+
 		$templatefile = (!empty($category_id)) ? $db_browse->f("category_browsepage") : CATEGORY_TEMPLATE;
 		if( $templatefile == 'managed' ) {
 			// automatically select the browse template with the best match for the number of products per row
-			$templatefile = file_exists(VM_THEMEPATH.'templates/browse/browse_'.$products_per_row.'.php' ) 
+			$templatefile = file_exists(VM_THEMEPATH.'templates/browse/browse_'.$products_per_row.'.php' )
 								? 'browse_'.$products_per_row
-								: 'browse_5';					
+								: 'browse_5';
 		} elseif( !file_exists(VM_THEMEPATH.'templates/browse/'.$templatefile.'.php')) {
 			$templatefile = 'browse_5';
 		}
@@ -268,14 +268,14 @@ else {
 	else {
 		$templatefile = "browse_lite_pdf";
 	}
-	
+
 	$tpl->set( 'buttons_header', $buttons_header );
-	
+
 	$tpl->set('products_per_row', $products_per_row );
 	$tpl->set('templatefile', $templatefile );
-	
+
 	$db_browse->reset();
-	
+
 	$products = array();
 	$counter = 0;
 	/*** Start printing out all products (in that category) ***/
@@ -291,7 +291,7 @@ else {
 		// Set the flypage for this product based on the category.
 		// If no flypage is set then use the default as set in virtuemart.cfg.php
 		$flypage = $db_browse->sf("category_flypage");
-		
+
 		if (empty($flypage)) {
             $flypage = FLYPAGE;
         }
@@ -306,18 +306,37 @@ else {
 
         // Price: xx.xx EUR
 		if (_SHOW_PRICES == '1' && $auth['show_prices']) {
-			$product_price = $ps_product->show_price( $db_browse->f("product_id") );
+
+			$product_price = "";
+			$product_price_with_tax = "";
+			$product_price_without_tax = "";
+
+			if ($auth["show_price_including_tax"] == 1){
+				$product_price = $ps_product->show_price_with_tax( $db_browse->f("product_id") );
+				if (VM_PRICE_SHOW_WITHOUTTAX == 1){
+					$product_price_without_tax = $ps_product->show_price_without_tax( $db_browse->f("product_id") );
+				}
+			}else{
+
+				$product_price = $ps_product->show_price_without_tax( $db_browse->f("product_id") );
+				if (VM_PRICE_SHOW_WITHTAX == 1){
+					$product_price_with_tax = $ps_product->show_price_with_tax( $db_browse->f("product_id") );
+				}
+		 	}
+			//$product_price = $ps_product->show_price( $db_browse->f("product_id") );
 		}
 		else {
 			$product_price = "";
+			$product_price_with_tax = "";
+			$product_price_without_tax = "";
 		}
 		// @var array $product_price_raw The raw unformatted Product Price in Float Format
 		$product_price_raw = $ps_product->get_adjusted_attribute_price($db_browse->f('product_id'));
-		
+
 		// i is the index for the array holding all products, we need to show. to allow sorting by discounted price,
 		// we need to use the price as first part of the index name!
 		$i = $product_price_raw['product_price'] . '_' . ++$counter;
-		
+
         if( $db_browse->f("product_thumb_image") ) {
             $product_thumb_image = $db_browse->f("product_thumb_image");
 		}
@@ -368,7 +387,7 @@ else {
 				$full_image_width = $full_image_info[0]+40;
 				$full_image_height = $full_image_info[1]+40;
 			}
-	
+
 			$product_full_image = IMAGEURL . 'product/' . $product_full_image;
 		} elseif( !isset( $full_image_width ) || !isset( $full_image_height ) ) {
 			// This is a URL image
@@ -376,11 +395,11 @@ else {
 			$full_image_width = $full_image_info[0]+40;
 			$full_image_height = $full_image_info[1]+40;
 		}
-		
+
 		$files = ps_product_files::getFilesForProduct( $db_browse->f('product_id') );
 		$products[$i]['files'] = $files['files'];
 		$products[$i]['images'] = $files['images'];
-		
+
 		$product_name = $db_browse->f("product_name");
 		if( $db_browse->f("product_publish") == "N" ) {
 			$product_name .= " (". $VM_LANG->_('CMN_UNPUBLISHED',false) .")";
@@ -403,13 +422,13 @@ else {
 		else {
 			$product_rating = "";
 		}
-		
-		// Add-to-Cart Button 
+
+		// Add-to-Cart Button
 		if (USE_AS_CATALOGUE != '1' && $product_price != ""
-			&& $tpl->get_cfg( 'showAddtocartButtonOnProductList' ) 
+			&& $tpl->get_cfg( 'showAddtocartButtonOnProductList' )
 			&& !stristr( $product_price, $VM_LANG->_('PHPSHOP_PRODUCT_CALL') )
 			&& !ps_product::product_has_attributes( $db_browse->f('product_id'), true )) {
-				
+
 			$tpl->set( 'i', $i );
 			$tpl->set( 'product_id', $db_browse->f('product_id') );
 			$tpl->set( 'product_in_stock', $db_browse->f('product_in_stock') );
@@ -427,7 +446,7 @@ else {
 		$products[$i]['product_full_image'] = $product_full_image;
 		$products[$i]['full_image_width'] = $full_image_width;
 		$products[$i]['full_image_height'] = $full_image_height;
-		
+
 		// Unset these for the next product
 		unset($full_image_width);
 		unset($full_image_height);
@@ -438,6 +457,8 @@ else {
 		$products[$i]['product_vendor'] = $product_vendor;
 		$products[$i]['product_rating'] = $product_rating;
 		$products[$i]['product_price'] = $product_price;
+		$products[$i]['product_price_with_tax'] = $product_price_with_tax;
+		$products[$i]['product_price_without_tax'] = $product_price_without_tax;
 		$products[$i]['product_price_raw'] = $product_price_raw;
 		$products[$i]['product_sku'] = $db_browse->f("product_sku");
 		$products[$i]['product_weight'] = $db_browse->f("product_weight");
@@ -454,14 +475,14 @@ else {
 		$products[$i]['product_url'] = $db_browse->f("product_url");
 
 	} // END OF while loop
-	
+
 	// Need to re-order here, because the browse query doesn't fetch discounts
 	if( $orderby == 'product_price' ) {
 		if ($DescOrderBy == "DESC") {
 			// using krsort when the Array must be sorted reverse (Descending Order)
 			krsort($products, SORT_NUMERIC);
 		} else {
-			// using ksort when the Array must be sorted in ascending order  
+			// using ksort when the Array must be sorted in ascending order
 			ksort($products, SORT_NUMERIC);
 		}
 	}
@@ -474,13 +495,13 @@ else {
 	} else {
 		$tpl->set( 'browsepage_footer', '' );
 	}
-	
-	
+
+
 	$recent_products = $ps_product->recentProducts(null,$tpl->get_cfg('showRecent', 5));
 	$tpl->set('recent_products',$recent_products);
-	
+
 	$tpl->set('ps_product',$ps_product);
-	
+
 	echo $tpl->fetch( $tpl->config->get( 'productListStyle' ) );
 }
 ?>

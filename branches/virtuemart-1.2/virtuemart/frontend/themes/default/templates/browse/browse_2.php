@@ -14,7 +14,12 @@ mm_showMyFileName(__FILE__);
       <a href="<?php echo $product_flypage ?>" title="<?php echo $product_name ?>"><?php echo $product_details ?>&nbsp;<strong><?php echo $product_name ?></strong></a>
     </div>
   <br style="clear:both;" />
-  <p><?php echo $product_price ?></p>
+  <p><?php
+  		echo $product_price;
+  		//ct //show the ex tax when inc
+		if ($product_price_without_tax != ""){echo "<br/>".$product_price_without_tax;}
+		if ($product_price_with_tax != ""){echo "<br/>".$product_price_with_tax;}
+  	?></p>
   <div style="float:left;width:60%">
       <?php echo $product_rating ?>
   </div>

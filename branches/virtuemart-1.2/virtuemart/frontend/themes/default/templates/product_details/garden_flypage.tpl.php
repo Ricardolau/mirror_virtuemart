@@ -2,7 +2,7 @@
 
 <?php echo $buttons_header // The PDF, Email and Print buttons ?>
 
-<?php 
+<?php
 if( $this->get_cfg( 'showPathway' )) {
 	echo '<p><div class="pathway"' . $navigation_pathway . '</div></p>';
 }
@@ -13,7 +13,7 @@ if( $this->get_cfg( 'product_navigation', 1 )) {
 	if( !empty( $previous_product )) {
 		echo '<a class="previous_page" href="'.$previous_product_url.'">'.shopMakeHtmlSafe($previous_product['product_name']).'</a>';
 	}
-	if( !empty( $next_product )) {		
+	if( !empty( $next_product )) {
 		echo '<a class="next_page" href="'.$next_product_url.'">'.shopMakeHtmlSafe($next_product['product_name']).'</a>';
 	}
 }
@@ -29,7 +29,14 @@ if( $this->get_cfg( 'product_navigation', 1 )) {
 <td align="center" valign="top" rowspan="4"><?php echo $product_image ?><br/><br/><?php echo $more_images ?></td>
 	</tr>
 	<tr>
-	  <td rowspan="1"><font size="2"><?php echo $product_price ?></font><br /></td>
+	  <td rowspan="1"><font size="2">
+	  <?php
+	  		echo $product_price;
+			//ct //show the ex tax when inc
+			if ($product_price_without_tax != ""){echo "<br/>".$product_price_without_tax;}
+			if ($product_price_with_tax != ""){echo "<br/>".$product_price_with_tax;}
+		?></font><br />
+	   </td>
 	</tr>
 	<tr>
 	  <td style="text-align: center;"><br /></td>

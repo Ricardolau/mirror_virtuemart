@@ -1,5 +1,5 @@
 <?php
-if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
+if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 /**
 *
 * @package VirtueMart
@@ -336,6 +336,7 @@ $langvars = array (
 	'PHPSHOP_CHECKOUT_CUSTOMER_NOTE' => 'Please leave a note to us with your order if you want to',
 	'PHPSHOP_ORDER_PRINT_CUSTOMER_NOTE' => 'Customer\'s note',
 	'PHPSHOP_INCLUDING_TAX' => '(including $tax % tax)',
+	'PHPSHOP_EXCLUDING_TAX' => '(excluding tax)',
 	'PHPSHOP_PLEASE_SEL_ITEM' => 'Please select an item',
 	'PHPSHOP_DOWNLOADS_TITLE' => 'Download Area',
 	'PHPSHOP_DOWNLOADS_ERR_EXP' => 'Sorry, but this Download has expired',
@@ -374,7 +375,7 @@ $langvars = array (
 	'PHPSHOP_STATISTIC_SUM' => 'Sum',
 	'PHPSHOP_CHECK_OUT_THANK_YOU_PRINT_VIEW' => 'Print view',
 	'PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD' => 'Choose your store\'s shipping method',
-	'PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS' => '<a href="http://www.ups.com" target="_blank">UPS Online� Tools</a> Shipping calculation',
+	'PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS' => '<a href="http://www.ups.com" target="_blank">UPS Online? Tools</a> Shipping calculation',
 	'PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_ACCESS_CODE' => 'UPS access code',
 	'PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_ACCESS_CODE_EXPLAIN' => 'Your UPS access code',
 	'PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_USER_ID' => 'UPS user id',
@@ -389,7 +390,7 @@ $langvars = array (
 	'PHPSHOP_ADMIN_CFG_PAYPAL_EMAIL' => 'PayPal payment email:',
 	'PHPSHOP_ADMIN_CFG_PAYPAL_EMAIL_EXPLAIN' => 'Your business email address for PayPal payments. Also used as receiver_email.',
 	'PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS' => 'Order Status for successful transactions',
-	'PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS_EXPLAIN' => 'Select the order status to which the actual order is set, if the PayPal IPN was successful. If using download selling options: 
+	'PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS_EXPLAIN' => 'Select the order status to which the actual order is set, if the PayPal IPN was successful. If using download selling options:
 		select the status which enables the download (then the customer is instantly notified about the download via e-mail).',
 	'PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED' => 'Order Status for failed transactions',
 	'PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED_EXPLAIN' => 'Select an order status for failed PayPal transactions.',
@@ -450,7 +451,7 @@ $langvars = array (
 	'PHPSHOP_FLYPAGE_ENLARGE_IMAGE' => 'View Full-Size Image',
 	'PHPSHOP_CURRENCY_DISPLAY' => 'Currency Display Style',
 	'PHPSHOP_CURRENCY_SYMBOL' => 'Currency symbol',
-	'PHPSHOP_CURRENCY_SYMBOL_TOOLTIP' => 'You can also use HTML Entities here (e.g. �,�,�,...)',
+	'PHPSHOP_CURRENCY_SYMBOL_TOOLTIP' => 'You can also use HTML Entities here (e.g. ?,?,?,...)',
 	'PHPSHOP_CURRENCY_DECIMALS' => 'Decimals',
 	'PHPSHOP_CURRENCY_DECIMALS_TOOLTIP' => 'Number of displayed decimals (can be 0)<br><b>Performs rounding if value has different number of decimals</b>',
 	'PHPSHOP_CURRENCY_DECIMALSYMBOL' => 'Decimal symbol',
@@ -491,7 +492,7 @@ $langvars = array (
 	'PHPSHOP_FREE_SHIPPING' => 'Free Shipping',
 	'PHPSHOP_FREE_SHIPPING_CUSTOMER_TEXT' => 'Shipping is free on this Order!',
 	'PHPSHOP_FREE_SHIPPING_AMOUNT' => 'Minimum Amount for Free Shipping',
-	'PHPSHOP_FREE_SHIPPING_AMOUNT_TOOLTIP' => 'The amount (INCLUDING TAX!) which is the Minimum for Free Shipping 
+	'PHPSHOP_FREE_SHIPPING_AMOUNT_TOOLTIP' => 'The amount (INCLUDING TAX!) which is the Minimum for Free Shipping
                                                 (example: <strong>50</strong> means Free Shipping when the customer checks out
                                                 with $50 (including tax) or more.',
 	'PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE' => 'Bank Account Type',
@@ -604,7 +605,7 @@ Password - %s
 	'VM_FIELDMANAGER_REORDER' => 'Reorder',
 	'VM_PRODUCTS_MOVE_TOOLBAR' => 'Move Products',
 	'VM_ADMIN_CFG_PAYPAL_NOTIFYSCRIPT_TIP' => 'When enabled, let\'s you test your Notify Script File %s through the PayPal IPN Simulator: <a href="https://developer.paypal.com/cgi-bin/devscr?cmd=_ipn-link-session" target="_blank">https://developer.paypal.com</a>',
-	'VM_ADMIN_CFG_PAYPAL_STATUS_PENDING_EXPLAIN' => 'The order Status to which Orders are set, which have no completed Payment Transaction. 
+	'VM_ADMIN_CFG_PAYPAL_STATUS_PENDING_EXPLAIN' => 'The order Status to which Orders are set, which have no completed Payment Transaction.
 		The transaction was not cancelled in this case, but it is just pending and waiting for completion.',
 	'VM_ADMIN_CFG_PAYPAL_STATUS_PENDING' => 'Order Status for Pending Payments',
 	'VM_SHIPPING_MODULE_LIST_LBL' => 'Shipping Module List',
@@ -648,7 +649,7 @@ Product Link: {product_url}
 
 We will contact you soon regarding your enquiry.
 (Please do not reply to this email)',
-	'VM_ENQUIRY_VENDOR_EMAIL_MESSAGE' => 'You have received a product enquiry from {shopper_name} regarding the following product: 
+	'VM_ENQUIRY_VENDOR_EMAIL_MESSAGE' => 'You have received a product enquiry from {shopper_name} regarding the following product:
 Product Name: {product_name}
 Product SKU: {product_sku}
 
@@ -663,7 +664,7 @@ Mail mailto: {shopper_email}',
 	'VM_LEGALINFO_SHORTTEXT' => '<h5>Returns Policy</h5>
 
 You can cancel this order within two weeks after we have received it.
-You can return new, unopened items from a cancelled order within 2 weeks after they have been 
+You can return new, unopened items from a cancelled order within 2 weeks after they have been
 delivered to you. Items should be returned in their original packaging.
 For more information on cancelling orders and returning items, see the <a href="%s" onclick="%s" target="_blank">Our Returns Policy</a> page.',
 	'VM_SESSION_SAVEPATH_UNWRITABLE_TMPFIX' => 'The directory to store session data is not writable. Please correct this or contact your provider.',
@@ -702,14 +703,14 @@ For more information on cancelling orders and returning items, see the <a href="
 	'REGWARN_MAIL' => 'Please enter a valid e-mail address.',
 	'SEND_SUB' => 'Account details for %s at %s',
 	'ASEND_MSG' => 'Hello %s,
-	
+
 	A new user has registered at %s.
 	This email contains their details:
-	
+
 	Name - %s
 	e-mail - %s
 	Username - %s
-	
+
 	Please do not respond to this message as it is automatically generated and is for information purposes only',
 	'REG_COMPLETE' => '<div class="componentheading">Registration Complete!</div>',
 	'REG_COMPLETE_ACTIVATE' => '<div class="componentheading">Registration Completed!</div> <br />Your account has been created and an activation link has been sent to the e-mail address you entered. Note that you must activate the account by clicking on the activation link when you get the e-mail before you can login.',
@@ -946,13 +947,13 @@ Our %s  is now in stock and can be purchased by following this link:
  This is a one time notice, you will not receive this e-mail again.',
 	'PHPSHOP_CART_GOTO_WAITING_LIST' => 'Please wait: in the next page you can submit the notify request.',
 	'PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_SUCC' => 'Order Status for successful transactions',
-	'PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_SUCC_EXPLAIN' => 'Select the order status to which the actual order is set, if the payment transaction was successful. 
+	'PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_SUCC_EXPLAIN' => 'Select the order status to which the actual order is set, if the payment transaction was successful.
 		If using download selling options: select the status which enables the download (then the customer is instantly notified about the download via e-mail).',
 	'PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_FAIL' => 'Order Status for failed transactions',
 	'PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_FAIL_EXPLAIN' => 'Select an order status for failed payment transactions.',
 	'PHPSHOP_ADMIN_CFG_AUTORIZENET_RESPCODES' => 'Show Response Codes for Failed Transactions?',
-	'PHPSHOP_ADMIN_CFG_AUTORIZENET_RESPCODES_EXPLAIN' => 'If set to YES then the customer will see the Authorize.net Transaction Response Reason Codes (Response Code - 
-		Response Subcode - Response Reason Code - AVS Result Code - Card Code (CVV2/CVC2/CID) Response Code - 
+	'PHPSHOP_ADMIN_CFG_AUTORIZENET_RESPCODES_EXPLAIN' => 'If set to YES then the customer will see the Authorize.net Transaction Response Reason Codes (Response Code -
+		Response Subcode - Response Reason Code - AVS Result Code - Card Code (CVV2/CVC2/CID) Response Code -
 		Cardholder Authentication Verification Value (CAVV) Response Code - in a format like: 2-2-65-Y-N--)
 		along with the Response Reason Text. This can be useful for troubleshooting failed or declined transactions.
 		For further details see the <a href="http://www.authorize.net/support/AIM_guide.pdf">Authorize.net Advanced Integration Method (AIM) Implementation Guide</a>',

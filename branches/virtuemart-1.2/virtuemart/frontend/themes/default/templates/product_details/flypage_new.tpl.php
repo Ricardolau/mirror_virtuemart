@@ -2,7 +2,7 @@
 
 <?php echo $buttons_header // The PDF, Email and Print buttons ?>
 
-<?php 
+<?php
 if( $this->get_cfg( 'showPathway' )) {
 	echo "<div class=\"pathway\">$navigation_pathway</div>";
 } ?>
@@ -24,7 +24,14 @@ if( $this->get_cfg( 'showPathway' )) {
   <td rowspan="1" colspan="2"> <?php echo $manufacturer_link ?><br /></td>
 </tr>
 <tr>
-      <td width="33%" valign="top" align="left"> <?php echo $product_price ?><br /></td>
+      <td width="33%" valign="top" align="left">
+      	<?php
+      		echo $product_price;
+			//ct //show the ex tax when inc
+			if ($product_price_without_tax != ""){echo "<br/>".$product_price_without_tax;}
+			if ($product_price_with_tax != ""){echo "<br/>".$product_price_with_tax;}
+		?><br />
+	  </td>
       <td valign="top"> <?php echo $product_packaging ?><br /></td>
 </tr>
 <tr>

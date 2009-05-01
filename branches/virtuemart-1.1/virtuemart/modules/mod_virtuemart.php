@@ -189,7 +189,7 @@ if ( $show_login_form == "yes" ) {
 
 			// Logout return URL
 			$uri = JFactory::getURI();
-			$url = $uri->toString();
+			$url = $uri->toString(array('path', 'query', 'fragment'));
 			$return = base64_encode( $url );
 		} else {
 			// Logout URL
@@ -222,7 +222,7 @@ if ( $show_login_form == "yes" ) {
 			
 			// Login return URL
 			$uri = JFactory::getURI();
-			$url = $uri->toString();
+			$url = $uri->toString(array('path', 'query', 'fragment'));
 			$return = base64_encode( $url );
 			
 			// Lost password

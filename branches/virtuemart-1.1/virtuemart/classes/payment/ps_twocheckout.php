@@ -39,14 +39,14 @@ class ps_twocheckout {
         <tr>
             <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_2CHECKOUT_LOGIN') ?></strong></td>
             <td>
-                <input type="text" name="TWOCO_LOGIN" class="inputbox" value="<? echo TWOCO_LOGIN ?>" />
+                <input type="text" name="TWOCO_LOGIN" class="inputbox" value="<?php echo TWOCO_LOGIN ?>" />
             </td>
             <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_2CHECKOUT_LOGIN_EXPLAIN') ?></td>
         </tr>
         <tr>
             <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_2CHECKOUT_SECRETWORD') ?></strong></td>
             <td>
-                <input type="text" name="TWOCO_SECRETWORD" class="inputbox" value="<? echo TWOCO_SECRETWORD ?>" />
+                <input type="text" name="TWOCO_SECRETWORD" class="inputbox" value="<?php echo TWOCO_SECRETWORD ?>" />
             </td>
             <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_2CHECKOUT_SECRETWORD_EXPLAIN') ?></td>
         </tr>
@@ -100,8 +100,8 @@ class ps_twocheckout {
             <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_2CHECKOUT_MERCHANT_NOTIF') ?></strong></td>
             <td>
                 <select name="TWOCO_MERCHANT_EMAIL" class="inputbox" >
-                  <option <? if (TWOCO_MERCHANT_EMAIL == 'True') echo "selected=\"selected\""; ?> value="True"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES') ?></option>
-                  <option <? if (TWOCO_MERCHANT_EMAIL == 'False') echo "selected=\"selected\""; ?> value="False"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO') ?></option>
+                  <option <?php if (TWOCO_MERCHANT_EMAIL == 'True') echo "selected=\"selected\""; ?> value="True"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES') ?></option>
+                  <option <?php if (TWOCO_MERCHANT_EMAIL == 'False') echo "selected=\"selected\""; ?> value="False"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO') ?></option>
                 </select>
             </td>
             <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_2CHECKOUT_MERCHANT_NOTIF_EXPLAIN') ?></td>
@@ -110,8 +110,8 @@ class ps_twocheckout {
             <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_TESTMODE') ?></strong></td>
             <td>
                 <select name="TWOCO_TESTMODE" class="inputbox" >
-                  <option <? if (TWOCO_TESTMODE == 'Y') echo "selected=\"selected\""; ?> value="Y"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES') ?></option>
-                  <option <? if (TWOCO_TESTMODE == 'N') echo "selected=\"selected\""; ?> value="N"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO') ?></option>
+                  <option <?php if (TWOCO_TESTMODE == 'Y') echo "selected=\"selected\""; ?> value="Y"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES') ?></option>
+                  <option <?php if (TWOCO_TESTMODE == 'N') echo "selected=\"selected\""; ?> value="N"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO') ?></option>
                 </select>
             </td>
             <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_TESTMODE_EXPLAIN') ?></td>

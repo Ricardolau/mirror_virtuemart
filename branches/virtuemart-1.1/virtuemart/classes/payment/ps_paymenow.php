@@ -36,7 +36,7 @@ class ps_paymenow {
         <tr>
             <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PN_LOGIN') ?></strong></td>
             <td>
-                <input type="text" name="PN_LOGIN" class="inputbox" value="<? echo PN_LOGIN ?>" />
+                <input type="text" name="PN_LOGIN" class="inputbox" value="<?php echo PN_LOGIN ?>" />
             </td>
             <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PN_LOGIN_EXPLAIN') ?></td>
         </tr>

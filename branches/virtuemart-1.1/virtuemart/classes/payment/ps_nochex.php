@@ -36,7 +36,7 @@ class ps_nochex {
         <tr>
         <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NOCHEX_EMAIL')?></strong></td>
             <td>
-                <input type="text" name="NOCHEX_EMAIL" class="inputbox" value="<?  echo NOCHEX_EMAIL ?>" />
+                <input type="text" name="NOCHEX_EMAIL" class="inputbox" value="<?php echo NOCHEX_EMAIL ?>" />
             </td>
             <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NOCHEX_EMAIL_EXPLAIN')?></td>
         </tr>

@@ -58,7 +58,7 @@ if( vmIsJoomla('1.5') ) {
 		
 		// Return URL
 		$uri = JFactory::getURI();
-		$url = $uri->toString();
+		$url = $uri->toString(array('path', 'query', 'fragment'));
 		$return_url = base64_encode( $url );
 	
 		// Set the greeting name
@@ -75,14 +75,14 @@ if( vmIsJoomla('1.5') ) {
 		$menu = &JSite::getMenu();
 		$default = $menu->getDefault();
 		$uri = JFactory::getURI( $default->link );
-		$url = $uri->toString();
+		$url = $uri->toString(array('path', 'query', 'fragment'));
 	} elseif( $redirect == 'vmhome' ) {
 		// The VirtueMart home page
 		$url = JRoute::_( 'index.php?option=com_virtuemart&amp;page='.HOMEPAGE.'&amp;Itemid='.$sess->getShopItemid(), false );
 	} else {
 		// The same page
 		$uri = JFactory::getURI();
-		$url = $uri->toString();
+		$url = $uri->toString(array('path', 'query', 'fragment'));
 	}
 	
 	$return_url = base64_encode( $url );

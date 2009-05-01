@@ -66,7 +66,7 @@ class ps_linkpoint {
         <tr>
             <td><strong><?php echo "Linkpoint Store ID" ?></strong></td>
             <td>
-                <input type="text" name="LP_LOGIN" class="inputbox" value="<? echo LP_LOGIN ?>" />
+                <input type="text" name="LP_LOGIN" class="inputbox" value="<?php echo LP_LOGIN ?>" />
             </td>
             <td><?php echo "This is your Link Point Store Name" ?>
             </td>
@@ -74,7 +74,7 @@ class ps_linkpoint {
         <tr>
             <td><strong><?php echo "Location Of Public Keyfile" ?></strong></td>
             <td>
-                <input type="text" name="LP_KEYFILE" class="inputbox" value="<? echo LP_KEYFILE ?>" />
+                <input type="text" name="LP_KEYFILE" class="inputbox" value="<?php echo LP_KEYFILE ?>" />
             </td>
             <td><?php echo "This is the full path of your LinkPoint Keyfile.  Example: /etc/linkpoint/mykey.pem" ?>
             </td>

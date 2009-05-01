@@ -35,7 +35,7 @@ class ps_worldpay {
           <tr>
           <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_WORLDPAY_INSTID') ?></strong></td>
               <td>
-                  <input type="text" name="WORLDPAY_INST_ID" class="inputbox" value="<?  echo WORLDPAY_INST_ID ?>" />
+                  <input type="text" name="WORLDPAY_INST_ID" class="inputbox" value="<?php echo WORLDPAY_INST_ID ?>" />
               </td>
               <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_WORLDPAY_INSTID_EXPLAIN') ?></td>
           </tr> 

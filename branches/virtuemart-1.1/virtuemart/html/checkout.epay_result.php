@@ -192,12 +192,12 @@ if(($order_ekey == md5( $order_amount . $order_id . $tid  . EPAY_MD5_KEY)) || EP
       else {
         ?>
         <img src="<?php echo VM_THEMEURL ?>images/button_cancel.png" align="middle" alt="Failure" border="0" />
-        <span class="message"><? echo $VM_LANG->_('PHPSHOP_PAYMENT_ERROR') . $VM_LANG->_('PHPSHOP_EPAY_PAYMENT_ORDER_NOT_FOUND') ?> </span><?php
+        <span class="message"><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_ERROR') . $VM_LANG->_('PHPSHOP_EPAY_PAYMENT_ORDER_NOT_FOUND') ?> </span><?php
       }
 }
 else{
         ?>
         <img src="<?php echo VM_THEMEURL ?>images/button_cancel.png" align="middle" alt="Failure" border="0" />
-        <span class="message"><? echo $VM_LANG->_('PHPSHOP_PAYMENT_ERROR') . $VM_LANG->_('PHPSHOP_EPAY_PAYMENT_MD5_CHECK_FAILURE') ?> </span><?php
+        <span class="message"><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_ERROR') . $VM_LANG->_('PHPSHOP_EPAY_PAYMENT_MD5_CHECK_FAILURE') ?> </span><?php
   }
   ?>

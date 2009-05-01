@@ -2255,7 +2255,7 @@ class dhl {
 		</strong></td>
 		<td>
             <input type="text" name="DHL_ID" class="inputbox"
-				value="<? echo DHL_ID ?>" />
+				value="<?php echo DHL_ID ?>" />
 		</td>
 		<td>
 			<?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_ID_TOOLTIP')) ?>
@@ -2267,7 +2267,7 @@ class dhl {
 		</strong></td>
 		<td>
 			<input type="text" name="DHL_PASSWORD" class="inputbox"
-			    value="<? echo DHL_PASSWORD ?>" />
+			    value="<?php echo DHL_PASSWORD ?>" />
 		</td>
 		<td>
 			<?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_PASSWORD_TOOLTIP')) ?>
@@ -2279,7 +2279,7 @@ class dhl {
 		</strong></td>
 		<td>
 			<input type="text" name="DHL_DOMESTIC_SHIPPING_KEY" class="inputbox"
-			    value="<? echo DHL_DOMESTIC_SHIPPING_KEY ?>" />
+			    value="<?php echo DHL_DOMESTIC_SHIPPING_KEY ?>" />
 		</td>
 		<td>
 			<?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_DOMESTIC_SHIPPING_KEY_TOOLTIP')) ?>
@@ -2291,7 +2291,7 @@ class dhl {
 		</strong></td>
 		<td>
 			<input type="text" name="DHL_INTERNATIONAL_SHIPPING_KEY" class="inputbox"
-			    value="<? echo DHL_INTERNATIONAL_SHIPPING_KEY ?>" />
+			    value="<?php echo DHL_INTERNATIONAL_SHIPPING_KEY ?>" />
 		</td>
 		<td>
 			<?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INTERNATIONAL_SHIPPING_KEY_TOOLTIP')) ?>
@@ -2303,7 +2303,7 @@ class dhl {
 		</strong></td>
 		<td>
             <input type="text" name="DHL_ACCOUNT_NUMBER" class="inputbox"
-			    value="<? echo DHL_ACCOUNT_NUMBER ?>" />
+			    value="<?php echo DHL_ACCOUNT_NUMBER ?>" />
 		</td>
 		<td>
 			<?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_ACCOUNT_NUMBER_TOOLTIP')) ?>
@@ -2315,7 +2315,7 @@ class dhl {
 		</strong></td>
 		<td>
             <input type="text" name="DHL_TOO_LATE" class="inputbox"
-			    value="<? echo DHL_TOO_LATE ?>" />
+			    value="<?php echo DHL_TOO_LATE ?>" />
 		</td>
 		<td>
 			<?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TOO_LATE_TOOLTIP')) ?>
@@ -2613,7 +2613,7 @@ class dhl {
         <td><strong><?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_CONTENT_DESC') ?></strong>
 		</td>
 		<td>
-            <input type="text" name="DHL_CONTENT_DESC" class="inputbox" value="<? echo DHL_CONTENT_DESC ?>" />
+            <input type="text" name="DHL_CONTENT_DESC" class="inputbox" value="<?php echo DHL_CONTENT_DESC ?>" />
 		</td>
 		<td>
             <?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_CONTENT_DESC_TOOLTIP')) ?>
@@ -2623,7 +2623,7 @@ class dhl {
         <td><strong><?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_PACKAGE_WEIGHT') ?></strong>
 		</td>
 		<td>
-            <input type="text" name="DHL_PACKAGE_WEIGHT" class="inputbox" value="<? echo DHL_PACKAGE_WEIGHT ?>" />
+            <input type="text" name="DHL_PACKAGE_WEIGHT" class="inputbox" value="<?php echo DHL_PACKAGE_WEIGHT ?>" />
 		</td>
 		<td>
             <?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_PACKAGE_WEIGHT_TOOLTIP')) ?>
@@ -2633,7 +2633,7 @@ class dhl {
         <td><strong><?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_DUTY_SHOPPER_GROUP') ?></strong>
 		</td>
 		<td>
-            <input type="text" name="DHL_DUTY_SHOPPER_GROUP" class="inputbox" value="<? echo DHL_DUTY_SHOPPER_GROUP ?>" />
+            <input type="text" name="DHL_DUTY_SHOPPER_GROUP" class="inputbox" value="<?php echo DHL_DUTY_SHOPPER_GROUP ?>" />
 		</td>
 		<td>
             <?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_DUTY_SHOPPER_GROUP_TOOLTIP')) ?>
@@ -2670,7 +2670,7 @@ class dhl {
         <td><strong><?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INSURANCE_SHOPPER_GROUP') ?></strong>
 		</td>
 		<td>
-            <input type="text" name="DHL_INSURANCE_SHOPPER_GROUP" class="inputbox" value="<? echo DHL_INSURANCE_SHOPPER_GROUP ?>" />
+            <input type="text" name="DHL_INSURANCE_SHOPPER_GROUP" class="inputbox" value="<?php echo DHL_INSURANCE_SHOPPER_GROUP ?>" />
 		</td>
 		<td>
             <?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INSURANCE_SHOPPER_GROUP_TOOLTIP')) ?>
@@ -2680,7 +2680,7 @@ class dhl {
         <td><strong><?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_DOMESTIC_INSURANCE') ?></strong>
 		</td>
 		<td>
-            <input type="text" name="DHL_INSURANCE_RATE_DOMESTIC_FLAT" class="inputbox" value="<? echo DHL_INSURANCE_RATE_DOMESTIC_FLAT ?>" />
+            <input type="text" name="DHL_INSURANCE_RATE_DOMESTIC_FLAT" class="inputbox" value="<?php echo DHL_INSURANCE_RATE_DOMESTIC_FLAT ?>" />
 		</td>
 		<td>
             <?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_DOMESTIC_INSURANCE_TOOLTIP')) ?>
@@ -2690,7 +2690,7 @@ class dhl {
         <td><strong><?php echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INTERNATIONAL_INSURANCE') ?></strong>
 		</td>
 		<td>
-            <input type="text" name="DHL_INSURANCE_RATE_INTERNATIONAL" class="inputbox" value="<? echo DHL_INSURANCE_RATE_INTERNATIONAL ?>" />
+            <input type="text" name="DHL_INSURANCE_RATE_INTERNATIONAL" class="inputbox" value="<?php echo DHL_INSURANCE_RATE_INTERNATIONAL ?>" />
 		</td>
 		<td>
             <?php echo mm_ToolTip($VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INTERNATIONAL_INSURANCE_TOOLTIP')) ?>

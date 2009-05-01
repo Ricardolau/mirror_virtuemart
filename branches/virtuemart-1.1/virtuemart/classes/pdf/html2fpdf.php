@@ -2919,7 +2919,7 @@ function _tableWrite(&$table){
 
 /*
 ----  JUNK(?)/OLD CODE: ------
-// <? <- this fixes HIGHLIGHT PSPAD bug ... 
+// <\?php<- this fixes HIGHLIGHT PSPAD bug ... 
 
 */
 

@@ -60,7 +60,7 @@ class ps_olsi {
         <tr class="row1">
         <td><strong>Shipping module mapping</strong></td>
             <td>
-                <input type="text" name="SHIPPINGMODULEMAP" class="inputbox" value="<?  echo SHIPPINGMODULEMAP ?>" />
+                <input type="text" name="SHIPPINGMODULEMAP" class="inputbox" value="<?php echo SHIPPINGMODULEMAP ?>" />
             </td>
             <td>
             </td>

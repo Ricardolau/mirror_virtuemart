@@ -96,8 +96,6 @@ if (!empty($shipping_rate_id)) {
 		<?php $ps_html->list_currency_id("shipping_rate_currency_id",$db->sf("shipping_rate_currency_id")) ?>
 		</td>
 	</tr>
-	<?php 
-if (TAX_MODE == '1') { ?>
 	<tr>
 		<td width="21%" ><div align="right"><strong><?php echo $VM_LANG->_('PHPSHOP_RATE_FORM_VAT_ID') ?>:</strong></div></td>
 		<td width="79%" >
@@ -107,9 +105,6 @@ if (TAX_MODE == '1') { ?>
 		$ps_tax->list_tax_value("shipping_rate_vat_id",$db->sf("shipping_rate_vat_id")) ?>
 		</td>
 	</tr>
-<?php 
-} //end if TAX_MODE == '1' 
-?>
 </table>
 <?php
 // Add necessary hidden fields

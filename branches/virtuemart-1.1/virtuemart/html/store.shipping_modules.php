@@ -53,6 +53,7 @@ else {
     </tr>
 <?php
     $i = 0;
+    global $PSHOP_SHIPPING_MODULES;
     foreach( $rows as $row ) {
       	$i++;
          ?> 

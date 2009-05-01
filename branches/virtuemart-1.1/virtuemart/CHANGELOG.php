@@ -35,7 +35,9 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 01.05.2009 rolandd
-#  Unknown column 'file_is_image=0'
+# Unknown column 'file_is_image=0'
+# PSHOP_SHIPPING_MODULES not defined
+# Product type not adding for a single product
 
 27.04.2009 aravot
 # Fixed typo in product.product_product_type_list.php

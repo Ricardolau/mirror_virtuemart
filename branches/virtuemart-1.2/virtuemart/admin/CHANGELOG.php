@@ -35,6 +35,10 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+01.05.2009 rolandd
+# Unknown column 'file_is_image=0'
+# PSHOP_SHIPPING_MODULES not defined
+
 26.04.2009 rolandd
 ^ FRQ #2582  shop.browse - optimize to lower nubmer of DB queries. 
 

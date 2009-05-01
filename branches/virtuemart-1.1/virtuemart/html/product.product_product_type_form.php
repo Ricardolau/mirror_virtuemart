@@ -23,7 +23,13 @@ $title = '<img src="'. IMAGEURL .'ps_image/categories.gif" border="0" />'.$VM_LA
 $product_id = array();
 if( sizeof( $temp ) == 1) {
 	//$product_id = (int)$product_id[0];
-    $product_id[] = $temp[0];
+    if (is_array($temp)) {
+    	$product_id[]= $temp[0];
+    }
+	else {
+		$product_id[] = $temp;
+	}
+    
 	$product_parent_id = vmGet($_REQUEST, 'product_parent_id', 0);
 
 	if (!empty($product_parent_id)) {

@@ -18,7 +18,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 mm_showMyFileName( __FILE__ );
 require_once(CLASSPATH.'ps_checkout.php');
 
-global $acl, $VM_BROWSE_ORDERBY_FIELDS, $VM_MODULES_FORCE_HTTPS, $database;
+global $acl, $VM_BROWSE_ORDERBY_FIELDS, $VM_MODULES_FORCE_HTTPS, $database, $PSHOP_SHIPPING_MODULES;
 if( !isset( $VM_BROWSE_ORDERBY_FIELDS )) { $VM_BROWSE_ORDERBY_FIELDS = array(); }
 if( !isset( $VM_MODULES_FORCE_HTTPS )) { $VM_MODULES_FORCE_HTTPS = array('account','checkout'); }
 if( !isset( $VM_CHECKOUT_MODULES )) {

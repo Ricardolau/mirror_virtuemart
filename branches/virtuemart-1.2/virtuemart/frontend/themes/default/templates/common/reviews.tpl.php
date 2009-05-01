@@ -1,4 +1,4 @@
-<?php if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); ?>
+<?php if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); ?>
 
 <!-- List of product reviews -->
 <h4><?php echo $VM_LANG->_('PHPSHOP_REVIEWS') ?>:</h4>

@@ -1,5 +1,5 @@
 <?php
-if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
+if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 /**
 *
 * @version $Id$
@@ -2289,7 +2289,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		}
 		$tpl->set( 'discount_info', $discount_info );
 		$tpl->set( 'text_including_tax', $text_including_tax );
-		$tpl->set( 'text_excluding_tax', $text_excluding_tax ); //ct
+		if( $showwithtax != 1 && VM_PRICE_SHOW_EXCLUDINGTAX == 1) $tpl->set( 'text_excluding_tax', $text_excluding_tax ); //ct
 		$tpl->set( 'undiscounted_price', @$undiscounted_price );
 		$tpl->set( 'base_price', $base_price );
         $tpl->set( 'price_table', $html);

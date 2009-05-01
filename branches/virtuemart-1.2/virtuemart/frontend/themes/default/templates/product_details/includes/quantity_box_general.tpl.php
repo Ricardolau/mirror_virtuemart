@@ -1,4 +1,4 @@
-<?php if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
+<?php if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 mm_showMyFileName(__FILE__);
 /** This template is used for the quantity box arrangement of products, within the add-to-cart form */ 
 

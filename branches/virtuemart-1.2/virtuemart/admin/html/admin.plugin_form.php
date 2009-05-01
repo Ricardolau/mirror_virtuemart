@@ -1,5 +1,5 @@
 <?php 
-if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
+if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 /**
 *
 * @version $Id: vmShippingMethod.php 1510 2008-08-08 19:11:42Z soeren_nb $

@@ -1,7 +1,5 @@
 <?php
-if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) {
-	die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
-}
+if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 /**
 *
 * @version $Id$
@@ -38,6 +36,7 @@ VirtueMart 1.2.x
 02.05.2009 rolandd
 # BUG #2016 &euro; is displayed in info message The Value of the Coupon is greater than the current Order Total,
 # suppres getimagesize warning if file does not exist
+- Removed some old code not needed for Joomla 1.5
 
 01.05.2009
 # Fixed to show shipping rate tax for all tax modes

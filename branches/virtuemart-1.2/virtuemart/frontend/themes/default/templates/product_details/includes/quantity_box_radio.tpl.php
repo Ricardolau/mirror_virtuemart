@@ -1,4 +1,4 @@
-<?php if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
+<?php if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /** This template is used for the quantity box of a product, which has a radio-style add to cart form */ 
 ?>
 <input type="text" class="inputboxquantity" size="4" id="quantity_adjust" name="quantity_adjust" value="1" style="vertical-align: middle;" onchange="alterQuantity(this.form)"/>

@@ -14,7 +14,7 @@
 *
 * http://virtuemart.net
 */
-if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
+if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 
 function utf8_to_cp1251($s)	{
 	for ($c=0;$c<strlen($s);$c++)

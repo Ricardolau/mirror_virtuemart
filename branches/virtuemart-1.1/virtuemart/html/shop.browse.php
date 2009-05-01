@@ -372,7 +372,7 @@ else {
 			$product_full_image = IMAGEURL . 'product/' . $product_full_image;
 		} elseif( !isset( $full_image_width ) || !isset( $full_image_height ) ) {
 			// This is a URL image
-			$full_image_info = getimagesize( $product_full_image );
+			$full_image_info = @getimagesize( $product_full_image );
 			$full_image_width = $full_image_info[0]+40;
 			$full_image_height = $full_image_info[1]+40;
 		}

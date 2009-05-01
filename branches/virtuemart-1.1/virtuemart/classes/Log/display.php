@@ -197,7 +197,7 @@ class vmLog_display extends vmLog
 				|| ( $message['priority'] === PEAR_LOG_DEBUG && DEBUG == '1')) {
 				$has_output= true;
 				$message_tmp .= '<b>' . ucfirst($this->priorityToString($message['priority'])) . '</b>: '
-								. nl2br(htmlspecialchars($message['message'])) 
+								. nl2br($message['message']) 
 			             		. $this->_linebreak;
 			    if( @$this->_messages[$i+1]['priority'] != $message['priority'] ) {
 					$output .= $this->formatOutput( $message_tmp, $message['priority'] );

@@ -34,6 +34,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+02.05.2009
+# BUG #2016 &euro; is displayed in info message The Value of the Coupon is greater than the current Order Total,
+# suppres getimagesize warning if file does not exist
+
 01.05.2009 rolandd
 # Unknown column 'file_is_image=0'
 # PSHOP_SHIPPING_MODULES not defined

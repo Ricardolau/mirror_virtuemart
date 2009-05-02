@@ -250,4 +250,28 @@ $db->query("
 ");
 
 
-
+## Dumping data for table `#__{vm}_state`
+$db->query( "INSERT INTO `#__{vm}_state` VALUES (NULL, 10, 'Buenos Aires', 'BAS', 'BA'),
+(NULL, 10, 'Ciudad Autonoma De Buenos Aires', 'CBA', 'CB'),
+(NULL, 10, 'Catamarca', 'CAT', 'CA'),
+(NULL, 10, 'Chaco', 'CHO', 'CH'),
+(NULL, 10, 'Chubut', 'CTT', 'CT'),
+(NULL, 10, 'Cordoba', 'COD', 'CO'),
+(NULL, 10, 'Corrientes', 'CRI', 'CR'),
+(NULL, 10, 'Entre Rios', 'ERS', 'ER'),
+(NULL, 10, 'Formosa', 'FRM', 'FR'),
+(NULL, 10, 'Jujuy', 'JUJ', 'JU'),
+(NULL, 10, 'La Pampa', 'LPM', 'LP'),
+(NULL, 10, 'La Rioja', 'LRI', 'LR'),
+(NULL, 10, 'Mendoza', 'MED', 'ME'),
+(NULL, 10, 'Misiones', 'MIS', 'MI'),
+(NULL, 10, 'Neuquen', 'NQU', 'NQ'),
+(NULL, 10, 'Rio Negro', 'RNG', 'RN'),
+(NULL, 10, 'Salta', 'SAL', 'SA'),
+(NULL, 10, 'San Juan', 'SJN', 'SJ'),
+(NULL, 10, 'San Luis', 'SLU', 'SL'),
+(NULL, 10, 'Santa Cruz', 'SCZ', 'SC'),
+(NULL, 10, 'Santa Fe', 'SFE', 'SF'),
+(NULL, 10, 'Santiago Del Estero', 'SEN', 'SE'),
+(NULL, 10, 'Tierra Del Fuego', 'TFE', 'TF'),
+(NULL, 10, 'Tucuman', 'TUC', 'TU'), " );

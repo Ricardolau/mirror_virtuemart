@@ -1,4 +1,4 @@
-<?php 
+<?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 /**
 *
@@ -15,13 +15,13 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 *
 * http://virtuemart.net
 */
-	
+
 global $mosConfig_absolute_path,$mosConfig_live_site, $mosConfig_secret;
 if( !class_exists( 'jconfig' )) {
 	$global_lang = $GLOBALS['mosConfig_lang'];
-	
+
 	@include( dirname( __FILE__ ).'/../../../configuration.php' );
-	
+
 	$GLOBALS['mosConfig_lang'] = $mosConfig_lang = $global_lang;
 }
 // Check for trailing slash
@@ -52,6 +52,9 @@ define( 'VM_THEMEPATH', $mosConfig_absolute_path.'/components/com_virtuemart/the
 @define('VM_TABLEPREFIX', 'vm' );
 define('VM_PRICE_SHOW_PACKAGING_PRICELABEL', '1' );
 define('VM_PRICE_SHOW_INCLUDINGTAX', '' );
+define('VM_PRICE_SHOW_EXCLUDINGTAX', '' );
+define('VM_PRICE_SHOW_WITHOUTTAX', '');
+define('VM_PRICE_SHOW_WITHTAX', '');
 define('VM_PRICE_ACCESS_LEVEL', 'Public Frontend' );
 define('VM_REGISTRATION_TYPE', 'NORMAL_REGISTRATION' );
 define('VM_BROWSE_ORDERBY_FIELD', 'product_name');

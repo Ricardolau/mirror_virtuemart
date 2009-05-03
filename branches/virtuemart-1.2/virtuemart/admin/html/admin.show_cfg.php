@@ -123,7 +123,7 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_ADMIN_CFG_GLOBAL'), "global-page");
 
 			</td>
 			<td>
-				<input type="checkbox" id="conf_VM_PRICE_SHOW_WITHOUTTAX" name="conf_VM_PRICE_SHOW_WITHOUTTAX" class="inputbox" <?php if (VM_PRICE_SHOW_WITHOUTTAX == 1) echo "checked=\"checked\""; ?> value="1" />
+				<input type="checkbox" id="conf_VM_PRICE_SHOW_WITHOUTTAX" name="conf_VM_PRICE_SHOW_WITHOUTTAX" class="inputbox" <?php if (defined('VM_PRICE_SHOW_WITHOUTTAX')) { if (VM_PRICE_SHOW_WITHOUTTAX == 1) { echo "checked=\"checked\"";}} ?> value="1" />
 			</td>
 			<td class="iconcell"><?php echo vmToolTip( $VM_LANG->_('PHPSHOP_ADMIN_CFG_PRICE_SHOW_WITHOUTTAX_TIP') ) ?></td>
 		</tr>
@@ -133,7 +133,7 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_ADMIN_CFG_GLOBAL'), "global-page");
 
 			</td>
 			<td>
-				<input type="checkbox" id="conf_VM_PRICE_SHOW_EXCLUDINGTAX" name="conf_VM_PRICE_SHOW_EXCLUDINGTAX" class="inputbox" <?php if (VM_PRICE_SHOW_EXCLUDINGTAX == 1) echo "checked=\"checked\""; ?> value="1" />
+				<input type="checkbox" id="conf_VM_PRICE_SHOW_EXCLUDINGTAX" name="conf_VM_PRICE_SHOW_EXCLUDINGTAX" class="inputbox" <?php if (defined('VM_PRICE_SHOW_EXCLUDINGTAX')) { if (VM_PRICE_SHOW_EXCLUDINGTAX == 1) { echo "checked=\"checked\""; }} ?> value="1" />
 			</td>
 			<td class="iconcell"><?php echo vmToolTip( $VM_LANG->_('PHPSHOP_ADMIN_CFG_PRICE_SHOW_EXCLUDINGTAX_TIP') ) ?></td>
 		</tr>
@@ -144,7 +144,7 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_ADMIN_CFG_GLOBAL'), "global-page");
 
 			</td>
 			<td>
-				<input type="checkbox" id="conf_VM_PRICE_SHOW_WITHTAX" name="conf_VM_PRICE_SHOW_WITHTAX" class="inputbox" <?php if (VM_PRICE_SHOW_WITHTAX == 1) echo "checked=\"checked\""; ?> value="1" />
+				<input type="checkbox" id="conf_VM_PRICE_SHOW_WITHTAX" name="conf_VM_PRICE_SHOW_WITHTAX" class="inputbox" <?php if (defined('VM_PRICE_SHOW_WITHTAX')) { if (VM_PRICE_SHOW_WITHTAX == 1) { echo "checked=\"checked\""; }} ?> value="1" />
 			</td>
 			<td class="iconcell"><?php echo vmToolTip( $VM_LANG->_('PHPSHOP_ADMIN_CFG_PRICE_SHOW_WITHTAX_TIP') ) ?></td>
 		</tr>

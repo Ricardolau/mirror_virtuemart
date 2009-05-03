@@ -19,9 +19,9 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
 ?>
 <div class="pathway"><?php echo $vmPathway; ?></div>
 <fieldset>
-   <legend class="sectiontableheader"><?php echo $VM_LANG->_('PHPSHOP_USER_FORM_SHIPTO_LBL') ?></legend>
+   <legend class="sectiontableheader"><?php echo $VM_LANG->_('VM_USER_FORM_SHIPTO_LBL') ?></legend>
    <br/><br/>
-   <div><?php echo $VM_LANG->_('PHPSHOP_ACC_BILL_DEF'); ?></div>
+   <div><?php echo $VM_LANG->_('VM_ACC_BILL_DEF'); ?></div>
    <br />
 <?php
   while( $db->next_record() ) {
@@ -36,7 +36,7 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
 ?>
    <br /><br />
    <div>
-      <a class="button" href="<?php $sess->purl(SECUREURL . "index.php?page=account.shipto&next_page=account.shipping"); ?>"><?php echo $VM_LANG->_('PHPSHOP_USER_FORM_ADD_SHIPTO_LBL') ?></a>
+      <a class="button" href="<?php $sess->purl(SECUREURL . "index.php?page=account.shipto&next_page=account.shipping"); ?>"><?php echo $VM_LANG->_('VM_USER_FORM_ADD_SHIPTO_LBL') ?></a>
    </div>
 </fieldset>
 <!-- Body ends here -->

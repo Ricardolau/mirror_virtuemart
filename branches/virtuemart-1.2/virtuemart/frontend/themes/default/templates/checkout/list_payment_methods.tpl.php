@@ -22,7 +22,7 @@ if( $nocc_payments &&  $cc_payments ) {
         
 if ($cc_payments==true) { 
   	?>
-	<fieldset><legend><strong><?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_PAYMENT_CC') ?></strong></legend>
+	<fieldset><legend><strong><?php echo $VM_LANG->_('VM_CHECKOUT_PAYMENT_CC') ?></strong></legend>
 		<table border="0" cellspacing="0" cellpadding="2" width="100%">
 		    <tr>
 		        <td colspan="2">
@@ -55,7 +55,7 @@ if ($cc_payments==true) {
 		    </tr>
 		    <tr valign="top">
 		        <td nowrap width="10%" align="right">
-		        	<label for="order_payment_name"><?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_PAYINFO_NAMECARD') ?>:</label>
+		        	<label for="order_payment_name"><?php echo $VM_LANG->_('VM_CHECKOUT_CONF_PAYINFO_NAMECARD') ?>:</label>
 		        </td>
 		        <td>
 		        <input type="text" class="inputbox" id="order_payment_name" name="order_payment_name" value="<?php if(!empty($_SESSION['ccdata']['order_payment_name'])) echo $_SESSION['ccdata']['order_payment_name'] ?>" autocomplete="off" />
@@ -63,7 +63,7 @@ if ($cc_payments==true) {
 		    </tr>
 		    <tr valign="top">
 		        <td nowrap width="10%" align="right">
-		        	<label for="order_payment_number"><?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_PAYINFO_CCNUM') ?>:</label>
+		        	<label for="order_payment_number"><?php echo $VM_LANG->_('VM_CHECKOUT_CONF_PAYINFO_CCNUM') ?>:</label>
 		        </td>
 		        <td>
 		        <input type="text" class="inputbox" id="order_payment_number" name="order_payment_number" value="<?php if(!empty($_SESSION['ccdata']['order_payment_number'])) echo $_SESSION['ccdata']['order_payment_number'] ?>" autocomplete="off" />
@@ -75,7 +75,7 @@ if ($cc_payments==true) {
 		    <tr valign="top">
 		        <td nowrap width="10%" align="right">
 		        	<label for="credit_card_code">
-		        		<?php echo vmToolTip( $VM_LANG->_('PHPSHOP_CUSTOMER_CVV2_TOOLTIP'), '', '', '', $VM_LANG->_('PHPSHOP_CUSTOMER_CVV2_TOOLTIP_TITLE') ) ?>:
+		        		<?php echo vmToolTip( $VM_LANG->_('VM_CUSTOMER_CVV2_TOOLTIP'), '', '', '', $VM_LANG->_('VM_CUSTOMER_CVV2_TOOLTIP_TITLE') ) ?>:
 		        	</label>
 		        </td>		        		
 		        <td>
@@ -85,7 +85,7 @@ if ($cc_payments==true) {
 		    </tr>
 		<?php } ?>
 		    <tr>
-		        <td nowrap width="10%" align="right"><?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_PAYINFO_EXDATE') ?>:</td>
+		        <td nowrap width="10%" align="right"><?php echo $VM_LANG->_('VM_CHECKOUT_CONF_PAYINFO_EXDATE') ?>:</td>
 		        <td><?php 
 		        $ps_html->list_month("order_payment_expire_month", @$_SESSION['ccdata']['order_payment_expire_month']);
 		        echo "/";
@@ -103,10 +103,10 @@ if( $nocc_payments &&  $cc_payments ) {
 
 if ($nocc_payments==true) {
     if ($cc_payments==true) { 
-    	$title = $VM_LANG->_('PHPSHOP_CHECKOUT_PAYMENT_OTHER');
+    	$title = $VM_LANG->_('VM_CHECKOUT_PAYMENT_OTHER');
     }
     else {
-    	$title = $VM_LANG->_('PHPSHOP_ORDER_PRINT_PAYMENT_LBL');
+    	$title = $VM_LANG->_('VM_ORDER_PRINT_PAYMENT_LBL');
     }
     	
    ?>

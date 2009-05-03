@@ -19,10 +19,10 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
 <!-- Customer Information --> 
     <table border="0" cellspacing="0" cellpadding="2" width="100%">
         <tr class="sectiontableheader">
-            <th colspan="2" align="left"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_CUST_BILLING_LBL') ?></th>
+            <th colspan="2" align="left"><?php echo $VM_LANG->_('VM_ORDER_PRINT_CUST_BILLING_LBL') ?></th>
         </tr>
         <tr>
-           <td nowrap="nowrap" width="10%" align="right"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_COMPANY') ?>: </td>
+           <td nowrap="nowrap" width="10%" align="right"><?php echo $VM_LANG->_('VM_ORDER_PRINT_COMPANY') ?>: </td>
            <td width="90%">
            <?php
              $db->p("company");
@@ -30,13 +30,13 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
            </td>
         </tr>
         <tr>
-           <td nowrap="nowrap" width="10%" align="right"><?php echo $VM_LANG->_('PHPSHOP_SHOPPER_LIST_NAME') ?>: </td>
+           <td nowrap="nowrap" width="10%" align="right"><?php echo $VM_LANG->_('VM_SHOPPER_LIST_NAME') ?>: </td>
            <td width="90%"><?php
              echo $db->f("first_name"). " " . $db->f("middle_name") ." " . $db->f("last_name"); ?>
            </td>
         </tr>
         <tr>
-           <td nowrap="nowrap" width="10%" align="right"><?php echo $VM_LANG->_('PHPSHOP_ADDRESS') ?>: </td>
+           <td nowrap="nowrap" width="10%" align="right"><?php echo $VM_LANG->_('VM_ADDRESS') ?>: </td>
            <td width="90%">
            <?php
              $db->p("address_1");
@@ -62,7 +62,7 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
            </td>
         </tr>
         <tr>
-           <td nowrap="nowrap" width="10%" align="right"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_PHONE') ?>: </td>
+           <td nowrap="nowrap" width="10%" align="right"><?php echo $VM_LANG->_('VM_ORDER_PRINT_PHONE') ?>: </td>
            <td width="90%">
            <?php
              $db->p("phone_1");
@@ -70,7 +70,7 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
            </td>
         </tr>
         <tr>
-           <td nowrap="nowrap"width="10%" align="right"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_FAX') ?>: </td>
+           <td nowrap="nowrap"width="10%" align="right"><?php echo $VM_LANG->_('VM_ORDER_PRINT_FAX') ?>: </td>
            <td width="90%">
            <?php
              $db->p("fax");
@@ -78,7 +78,7 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
            </td>
         </tr>
         <tr>
-           <td nowrap="nowrap" width="10%" align="right"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_EMAIL') ?>: </td>
+           <td nowrap="nowrap" width="10%" align="right"><?php echo $VM_LANG->_('VM_ORDER_PRINT_EMAIL') ?>: </td>
            <td width="90%">
            <?php
              $db->p("email");
@@ -86,7 +86,7 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
            </td>
         </tr>
         <tr><td align="center" colspan="2"><a href="<?php $sess->purl( SECUREURL ."index.php?page=account.billing&next_page=$page"); ?>">
-            (<?php echo $VM_LANG->_('PHPSHOP_UDATE_ADDRESS') ?>)</a>
+            (<?php echo $VM_LANG->_('VM_UDATE_ADDRESS') ?>)</a>
             </td>
         </tr>
     </table>

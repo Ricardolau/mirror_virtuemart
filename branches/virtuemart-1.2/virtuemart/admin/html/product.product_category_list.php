@@ -42,7 +42,7 @@ for($n = $pageNav->limitstart ; $n < $nrows ; $n++) {
 $listObj = new listFactory( $pageNav );
 
 // print out the search field and a list heading
-$listObj->writeSearchHeader($VM_LANG->_('PHPSHOP_CATEGORY_LIST_LBL'), VM_THEMEURL.'images/administration/dashboard/categories.png', $modulename, "product_category_list");
+$listObj->writeSearchHeader($VM_LANG->_('VM_CATEGORY_LIST_LBL'), VM_THEMEURL.'images/administration/dashboard/categories.png', $modulename, "product_category_list");
 
 // start the list table
 $listObj->startTable();
@@ -50,12 +50,12 @@ $listObj->startTable();
 // these are the columns in the table
 $columns = Array(  "#" => "width=\"20\"", 
 					"<input type=\"checkbox\" name=\"toggle\" value=\"\" onclick=\"checkAll(".$pageNav->limit.")\" />" => "width=\"20\"",
-					$VM_LANG->_('PHPSHOP_CATEGORY_FORM_NAME') => 'width="25%"',
-					$VM_LANG->_('PHPSHOP_CATEGORY_FORM_DESCRIPTION') => 'width="30%"',
-					$VM_LANG->_('PHPSHOP_PRODUCTS_LBL') => 'width="10%"',
-					$VM_LANG->_('PHPSHOP_PRODUCT_LIST_PUBLISH') => 'width="5%"',
-					$VM_LANG->_('PHPSHOP_PRODUCT_LIST_SHARED') => 'width="5%"',
-					$VM_LANG->_('PHPSHOP_MODULE_LIST_ORDER') => 'width="7%"',
+					$VM_LANG->_('VM_CATEGORY_FORM_NAME') => 'width="25%"',
+					$VM_LANG->_('VM_CATEGORY_FORM_DESCRIPTION') => 'width="30%"',
+					$VM_LANG->_('VM_PRODUCTS_LBL') => 'width="10%"',
+					$VM_LANG->_('VM_PRODUCT_LIST_PUBLISH') => 'width="5%"',
+					$VM_LANG->_('VM_PRODUCT_LIST_SHARED') => 'width="5%"',
+					$VM_LANG->_('VM_MODULE_LIST_ORDER') => 'width="7%"',
 					vmCommonHTML::getSaveOrderButton( min($nrows - $pageNav->limitstart, $pageNav->limit ) ) => 'width="8%"',
 					$VM_LANG->_('E_REMOVE') => "width=\"5%\"",
 					'Id' => ''
@@ -102,7 +102,7 @@ for($n = $pageNav->limitstart ; $n < $nrows ; $n++) {
 				. "</a>";
 	$listObj->addCell( $tmp_cell );
 	
-	$desc = strlen( $categories[$row_list[$n]]["category_description"] ) > 255 ? mm_ToolTip( $categories[$row_list[$n]]["category_description"], $VM_LANG->_('PHPSHOP_CATEGORY_FORM_DESCRIPTION') ) :$categories[$row_list[$n]]["category_description"];
+	$desc = strlen( $categories[$row_list[$n]]["category_description"] ) > 255 ? mm_ToolTip( $categories[$row_list[$n]]["category_description"], $VM_LANG->_('VM_CATEGORY_FORM_DESCRIPTION') ) :$categories[$row_list[$n]]["category_description"];
 	$listObj->addCell( "&nbsp;&nbsp;". $desc );
 	$link = $_SERVER['PHP_SELF'] . "?page=product.product_list&category_id=" . $categories[$row_list[$n]]["category_child_id"]."&option=com_virtuemart";
 	if( $vmLayout != 'standard' ) {
@@ -113,7 +113,7 @@ for($n = $pageNav->limitstart ; $n < $nrows ; $n++) {
 	}
 	$listObj->addCell( ps_product_category::product_count( $categories[$row_list[$n]]["category_child_id"] )
 						."&nbsp;<a href=\"". $link
-						. "\">[ ".$VM_LANG->_('PHPSHOP_SHOW')." ]</a>"
+						. "\">[ ".$VM_LANG->_('VM_SHOW')." ]</a>"
 					);
 					
 	// Publish / Unpublish

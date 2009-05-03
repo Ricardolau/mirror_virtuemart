@@ -20,7 +20,7 @@ mm_showMyFileName( __FILE__ ) ;
 require_once (CLASSPATH . 'ps_vendor.php') ;
 require_once (CLASSPATH . 'ps_shopper_group.php') ;
 global $ps_html, $ps_product ;
-$title = $VM_LANG->_( 'PHPSHOP_PRICE_FORM_LBL' ) . '<br/>' ;
+$title = $VM_LANG->_( 'VM_PRICE_FORM_LBL' ) . '<br/>' ;
 
 $product_id = vmGet( $_REQUEST, 'product_id', 0 ) ;
 $product_price_id = vmGet( $_REQUEST, 'product_price_id', 0 ) ;
@@ -44,15 +44,15 @@ elseif( empty( $vars["error"] ) ) {
 if( ! empty( $vars["product_price_id"] ) ) {
 	$product_price_id = $vars["product_price_id"] ;
 	if( empty( $product_parent_id ) ) {
-		$title .= $VM_LANG->_( 'PHPSHOP_PRICE_FORM_UPDATE_FOR_PRODUCT' ) . " " ;
+		$title .= $VM_LANG->_( 'VM_PRICE_FORM_UPDATE_FOR_PRODUCT' ) . " " ;
 	} else {
-		$title .= $VM_LANG->_( 'PHPSHOP_PRICE_FORM_UPDATE_FOR_ITEM' ) . " " ;
+		$title .= $VM_LANG->_( 'VM_PRICE_FORM_UPDATE_FOR_ITEM' ) . " " ;
 	}
 } else {
 	if( empty( $product_parent_id ) ) {
-		$title .= $VM_LANG->_( 'PHPSHOP_PRICE_FORM_NEW_FOR_PRODUCT' ) . " " ;
+		$title .= $VM_LANG->_( 'VM_PRICE_FORM_NEW_FOR_PRODUCT' ) . " " ;
 	} else {
-		$title .= $VM_LANG->_( 'PHPSHOP_PRICE_FORM_NEW_FOR_ITEM' ) . " " ;
+		$title .= $VM_LANG->_( 'VM_PRICE_FORM_NEW_FOR_ITEM' ) . " " ;
 	}
 }
 
@@ -72,7 +72,7 @@ $formObj->startForm() ;
 	</tr>
 	<tr>
 		<td class="labelcell"><?php
-		echo $VM_LANG->_( 'PHPSHOP_PRODUCT_FORM_PRICE_NET' ) ?>:
+		echo $VM_LANG->_( 'VM_PRODUCT_FORM_PRICE_NET' ) ?>:
       </td>
 		<td><input type="text" class="inputbox" name="product_price"
 			onkeyup="updateGross();" value="<?php
@@ -83,7 +83,7 @@ $formObj->startForm() ;
 	<tr>
 		<td class="labelcell">
         <?php
-								echo $VM_LANG->_( 'PHPSHOP_PRODUCT_FORM_PRICE_GROSS' ) ?>:
+								echo $VM_LANG->_( 'VM_PRODUCT_FORM_PRICE_GROSS' ) ?>:
       </td>
 		<td><input type="text" class="inputbox" onkeyup="updateNet();"
 			name="product_price_incl_tax" size="10" /></td>
@@ -91,7 +91,7 @@ $formObj->startForm() ;
 	<tr>
 		<td class="labelcell"> 
 			<?php
-			echo $VM_LANG->_( 'PHPSHOP_PRICE_FORM_CURRENCY' ) ?>:
+			echo $VM_LANG->_( 'VM_PRICE_FORM_CURRENCY' ) ?>:
       </td>
 		<td> 
         <?php
@@ -100,7 +100,7 @@ $formObj->startForm() ;
 	</tr>
 	<tr>
 		<td class="labelcell"> <?php
-		echo $VM_LANG->_( 'PHPSHOP_PRICE_FORM_GROUP' ) ?>:
+		echo $VM_LANG->_( 'VM_PRICE_FORM_GROUP' ) ?>:
       </td>
 		<td><?php
 		echo ps_shopper_group::list_shopper_groups( "shopper_group_id", $db->sf( "shopper_group_id" ) ) ;
@@ -112,7 +112,7 @@ $formObj->startForm() ;
 	</tr>
 	<tr>
 		<td class="labelcell"><?php
-		echo $VM_LANG->_( 'PHPSHOP_PRODUCT_LIST_QUANTITY_START' ) ;
+		echo $VM_LANG->_( 'VM_PRODUCT_LIST_QUANTITY_START' ) ;
 		?>:</td>
 		<td><input type="text"
 			value="<?php
@@ -121,7 +121,7 @@ $formObj->startForm() ;
 	</tr>
 	<tr>
 		<td class="labelcell"><?php
-		echo $VM_LANG->_( 'PHPSHOP_PRODUCT_LIST_QUANTITY_END' ) ;
+		echo $VM_LANG->_( 'VM_PRODUCT_LIST_QUANTITY_END' ) ;
 		?>:</td>
 		<td><input type="text"
 			value="<?php

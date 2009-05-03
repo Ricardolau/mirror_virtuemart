@@ -52,7 +52,7 @@ else {
   if ($compare_hash1 != $compare_hash2) {
         ?>
         <img src="<?php echo VM_THEMEURL ?>images/button_cancel.png" align="middle" alt="<?php echo $VM_LANG->_('VM_CHECKOUT_FAILURE'); ?>" border="0" />
-        <span class="message"><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_ERROR') ?></span><?php
+        <span class="message"><?php echo $VM_LANG->_('VM_PAYMENT_ERROR') ?></span><?php
   }
   else {
         $qv = "SELECT order_id, order_number FROM #__{vm}_orders ";
@@ -72,7 +72,7 @@ else {
             
     ?> 
             <img src="<?php echo VM_THEMEURL ?>images/button_ok.png" align="middle" alt="<?php echo $VM_LANG->_('VM_CHECKOUT_SUCCESS'); ?>" border="0" />
-            <h2><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_TRANSACTION_SUCCESS') ?></h2>
+            <h2><?php echo $VM_LANG->_('VM_PAYMENT_TRANSACTION_SUCCESS') ?></h2>
         <?php
         }
         else {
@@ -86,14 +86,14 @@ else {
             
     ?> 
             <img src="<?php echo VM_THEMEURL ?>images/button_cancel.png" align="middle" alt="<?php echo $VM_LANG->_('VM_CHECKOUT_FAILURE'); ?>" border="0" />
-            <h2><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_ERROR') ?></h2>
+            <h2><?php echo $VM_LANG->_('VM_PAYMENT_ERROR') ?></h2>
         <?php
         } 
   }
   ?>
 <br />
 <p><a href="<?php @$sess->purl( SECUREURL."index.php?option=com_virtuemart&page=account.order_details&order_id=".$d['order_id'] ) ?>">
-   <?php echo $VM_LANG->_('PHPSHOP_ORDER_LINK') ?></a>
+   <?php echo $VM_LANG->_('VM_ORDER_LINK') ?></a>
 </p>
 <?php
 }

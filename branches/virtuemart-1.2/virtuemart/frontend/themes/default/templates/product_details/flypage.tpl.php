@@ -92,7 +92,7 @@ if( !empty( $recent_products )) { ?>
 <?php
 }
 if( !empty( $navigation_childlist )) { ?>
-	<?php echo $VM_LANG->_('PHPSHOP_MORE_CATEGORIES') ?><br />
+	<?php echo $VM_LANG->_('VM_MORE_CATEGORIES') ?><br />
 	<?php echo $navigation_childlist ?><br style="clear:both"/>
 <?php
 } ?>

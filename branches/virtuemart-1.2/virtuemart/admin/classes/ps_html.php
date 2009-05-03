@@ -69,8 +69,8 @@ class ps_html {
 	}
 	function yesNoSelectList( $fieldname, $value, $yesValue=1, $noValue=0 ) {
 		global $VM_LANG;
-		$values = array($yesValue => $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES'),
-								$noValue => $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO'));
+		$values = array($yesValue => $VM_LANG->_('VM_ADMIN_CFG_YES'),
+								$noValue => $VM_LANG->_('VM_ADMIN_CFG_NO'));
 		return ps_html::selectList($fieldname, $value, $values );
 	}
 	/**
@@ -117,12 +117,12 @@ class ps_html {
 	function list_user_title($t, $extra="") {
 		global $VM_LANG;
 
-		$title = array($VM_LANG->_('PHPSHOP_REGISTRATION_FORM_MR'),
-						$VM_LANG->_('PHPSHOP_REGISTRATION_FORM_MRS'),
-						$VM_LANG->_('PHPSHOP_REGISTRATION_FORM_DR'),
-						$VM_LANG->_('PHPSHOP_REGISTRATION_FORM_PROF'));
+		$title = array($VM_LANG->_('VM_REGISTRATION_FORM_MR'),
+						$VM_LANG->_('VM_REGISTRATION_FORM_MRS'),
+						$VM_LANG->_('VM_REGISTRATION_FORM_DR'),
+						$VM_LANG->_('VM_REGISTRATION_FORM_PROF'));
 		echo "<select class=\"inputbox\" name=\"title\" $extra>\n";
-		echo "<option value=\"\">".$VM_LANG->_('PHPSHOP_REGISTRATION_FORM_NONE')."</option>\n";
+		echo "<option value=\"\">".$VM_LANG->_('VM_REGISTRATION_FORM_NONE')."</option>\n";
 		for ($i=0;$i<count($title);$i++) {
 			echo "<option value=\"" . $title[$i]."\"";
 			if ($title[$i] == $t)
@@ -215,7 +215,7 @@ class ps_html {
 
 		$q = "SELECT country_id, country_name, country_3_code from #__{vm}_country ORDER BY country_name ASC";
 		$db->query($q);
-		$countries[''] = $VM_LANG->_('PHPSHOP_SELECT');
+		$countries[''] = $VM_LANG->_('VM_SELECT');
 		
 		while ($db->next_record()) {
 			$countries[$db->f("country_3_code")] = $db->f("country_name");
@@ -246,7 +246,7 @@ class ps_html {
 		$q .= "\nORDER BY country_name, state_name";
 		$db->query( $q );
 		$list = Array();
-		$list["0"] = $VM_LANG->_('PHPSHOP_SELECT');
+		$list["0"] = $VM_LANG->_('VM_SELECT');
 		$list["NONE"] = "not listed";
 		$country = "";
 
@@ -308,10 +308,10 @@ class ps_html {
 				if( $db->f('state_name') ) {
 					// Add 'none' to the list of countries that have states:
 					if( $prev_country != $country_3_code  && $page == 'tax.tax_form' ) {
-						$script .= "states[".$i++."] = new Array( '".$country_3_code."',' - ','".$VM_LANG->_('PHPSHOP_NONE')."' );\n";
+						$script .= "states[".$i++."] = new Array( '".$country_3_code."',' - ','".$VM_LANG->_('VM_NONE')."' );\n";
 					}
 					elseif( $prev_country != $country_3_code ) {
-						$script .= "states[".$i++."] = new Array( '".$country_3_code."','',' -= ".$VM_LANG->_('PHPSHOP_SELECT')." =-' );\n";
+						$script .= "states[".$i++."] = new Array( '".$country_3_code."','',' -= ".$VM_LANG->_('VM_SELECT')." =-' );\n";
 					}
 					$prev_country = $country_3_code;
 
@@ -319,7 +319,7 @@ class ps_html {
 					$script .= "states[".$i++."] = new Array( '".$country_3_code."','".$db->f("state_2_code")."','".addslashes($db->f("state_name"))."' );\n";
 				}
 				else {
-					$script .= "states[".$i++."] = new Array( '".$country_3_code."',' - ','".$VM_LANG->_('PHPSHOP_NONE')."' );\n";
+					$script .= "states[".$i++."] = new Array( '".$country_3_code."',' - ','".$VM_LANG->_('VM_NONE')."' );\n";
 				}
 
 			}
@@ -350,7 +350,7 @@ class ps_html {
 	function list_weight_uom($list_name) {
 		global $VM_LANG;
 
-		$list = array($VM_LANG->_('PHPSHOP_SELECT'),
+		$list = array($VM_LANG->_('VM_SELECT'),
 		"LBS" => "Pounds",
 		"KGS" => "Kilograms",
 		"G" => "Grams");
@@ -388,7 +388,7 @@ class ps_html {
 		$db->query($q);
 		
 		if( $size == 1 ) {
-			$currencies[''] = $VM_LANG->_('PHPSHOP_SELECT');
+			$currencies[''] = $VM_LANG->_('VM_SELECT');
 		}
 		while ($db->next_record()) {
 			$currencies[$db->f($key)] = $db->f("currency_name");
@@ -460,8 +460,8 @@ class ps_html {
 
 		$vmLogger->debug( 'The function '.__CLASS__.'::'.__FUNCTION__.' is deprecated. Use the userfield manager instead please.' );
 		
-		$title = array(array('Y',$VM_LANG->_('PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_4_1')),
-		array('N',$VM_LANG->_('PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_4_2')));
+		$title = array(array('Y',$VM_LANG->_('VM_SHOPPER_FORM_EXTRA_FIELD_4_1')),
+		array('N',$VM_LANG->_('VM_SHOPPER_FORM_EXTRA_FIELD_4_2')));
 
 		echo "<select class=\"inputbox\" name=\"extra_field_4\" $extra>\n";
 		for ($i=0;$i<count($title);$i++) {
@@ -483,9 +483,9 @@ class ps_html {
 		
 		$vmLogger->debug( 'The function '.__CLASS__.'::'.__FUNCTION__.' is deprecated. Use the userfield manager instead please.' );
 		
-		$title = array(array('A',$VM_LANG->_('PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_5_1')),
-		array('B',$VM_LANG->_('PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_5_2')),
-		array('C',$VM_LANG->_('PHPSHOP_SHOPPER_FORM_EXTRA_FIELD_5_3')));
+		$title = array(array('A',$VM_LANG->_('VM_SHOPPER_FORM_EXTRA_FIELD_5_1')),
+		array('B',$VM_LANG->_('VM_SHOPPER_FORM_EXTRA_FIELD_5_2')),
+		array('C',$VM_LANG->_('VM_SHOPPER_FORM_EXTRA_FIELD_5_3')));
 
 		echo "<select class=\"inputbox\" name=\"extra_field_5\" $extra>\n";
 		for ($i=0;$i<count($title);$i++) {
@@ -578,7 +578,7 @@ class ps_html {
 		global $page, $sess, $VM_LANG;
 		$no_menu = vmRequest::getInt('no_menu');
 		$href = $sess->url($_SERVER['PHP_SELF']. "?page=$page&func=$func&$id_fieldname=$id&keyword=". urlencode($keyword)."&limitstart=$limitstart&no_menu=$no_menu" . $extra );
-		$code = "<a class=\"toolbar\" href=\"$href\" onclick=\"return confirm('".$VM_LANG->_('PHPSHOP_DELETE_MSG') ."');\" onmouseout=\"MM_swapImgRestore();\"  onmouseover=\"MM_swapImage('delete$id','','". IMAGEURL ."ps_image/delete_f2.gif',1);\">";
+		$code = "<a class=\"toolbar\" href=\"$href\" onclick=\"return confirm('".$VM_LANG->_('VM_DELETE_MSG') ."');\" onmouseout=\"MM_swapImgRestore();\"  onmouseover=\"MM_swapImage('delete$id','','". IMAGEURL ."ps_image/delete_f2.gif',1);\">";
 		$code .= "<img src=\"". IMAGEURL ."ps_image/delete.gif\" alt=\"Delete this record\" name=\"delete$id\" align=\"middle\" border=\"0\" />";
 		$code .= "</a>";
 

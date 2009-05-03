@@ -431,7 +431,7 @@ class vmParameters {
 		}
 		
 		$db->query( $query );
-		$array = array('' => $VM_LANG->_('PHPSHOP_SELECT'));
+		$array = array('' => $VM_LANG->_('VM_SELECT'));
 		while( $db->next_record() ) {
 			$array[$db->f($valuefield)] = $db->f($textfield);
 		}
@@ -555,7 +555,7 @@ class vmParameters {
 	function _form_secret_key( $name, $value, &$node, $control_name ) {
 		return '<a class="button" id="changekey" href="'
 			. $GLOBALS['sess']->url($_SERVER['SCRIPT_NAME']."?page=store.payment_method_keychange&pshop_mode=admin&element=$name") .'" >'
-			. $GLOBALS['VM_LANG']->_('PHPSHOP_CHANGE_TRANSACTION_KEY') 
+			. $GLOBALS['VM_LANG']->_('VM_CHANGE_TRANSACTION_KEY') 
 			.'<a/>';
 			
 	}

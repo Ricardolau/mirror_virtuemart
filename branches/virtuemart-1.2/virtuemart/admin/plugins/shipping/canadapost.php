@@ -207,7 +207,7 @@ class plgShippingCanadapost extends vmShippingPlugin {
 	<tr class="sectiontableheader">
 		<th>&nbsp;</th>
 		<th><?php
-			echo $VM_LANG->_( 'PHPSHOP_ISSHIP_LIST_CARRIER_LBL' ) ?></th>
+			echo $VM_LANG->_( 'VM_ISSHIP_LIST_CARRIER_LBL' ) ?></th>
 		<th><?php
 			echo $VM_LANG->_( 'VM_CANADAPOST_FORM_HANDLING_DATE' ) ?><sup>1</sup></th>
 		<th><?php

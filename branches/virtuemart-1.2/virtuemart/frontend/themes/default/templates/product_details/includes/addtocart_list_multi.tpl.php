@@ -9,15 +9,15 @@ mm_showMyFileName(__FILE__);
 <!-- Output The heading -->
 <?php if($display_header == "Y") { ?>
     <div class="vmCartChildHeading<?php echo $cls_suffix ?>">
-        <span style="float: left;width: <?php echo $desc_width ?>;"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_DESC_TITLE') ?></span >
+        <span style="float: left;width: <?php echo $desc_width ?>;"><?php echo $VM_LANG->_('VM_PRODUCT_DESC_TITLE') ?></span >
         <?php //Ouput Each Attribute Heading
         if( !empty( $headings )) {
 	        foreach($headings as $key => $value) { ?>
 	            <span style="float: left;width: <?php echo $attrib_width ?>;" ><?php echo $headings[$key] ?></span>
 	        <?php } ?>
 	        <span style="float: right;width: 15%;">&nbsp;</span>
-	        <span style="float: right;width: 10%;"><?php echo $VM_LANG->_('PHPSHOP_CART_QUANTITY') ?></span>
-	        <span style="float: right;width: 12%;"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_INVENTORY_PRICE') ?></span>
+	        <span style="float: right;width: 10%;"><?php echo $VM_LANG->_('VM_CART_QUANTITY') ?></span>
+	        <span style="float: right;width: 12%;"><?php echo $VM_LANG->_('VM_PRODUCT_INVENTORY_PRICE') ?></span>
 	    </div><br/>
 	<?php }
 		}
@@ -53,9 +53,9 @@ foreach( $products as $product ) {
 	                <?php 
 					}
 				} 
-                if (USE_AS_CATALOGUE != '1'  && $product_price != "" && !stristr( $product_price, $VM_LANG->_('PHPSHOP_PRODUCT_CALL'))) { 
+                if (USE_AS_CATALOGUE != '1'  && $product_price != "" && !stristr( $product_price, $VM_LANG->_('VM_PRODUCT_CALL'))) { 
 
-					$button_lbl = $VM_LANG->_('PHPSHOP_CART_ADD_TO');
+					$button_lbl = $VM_LANG->_('VM_CART_ADD_TO');
 					$button_cls = 'addtocart_button';
 					if( CHECK_STOCK == '1' && !$product['product_in_stock'] ) {
 						$button_lbl = $VM_LANG->_('VM_CART_NOTIFY');

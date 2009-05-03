@@ -73,7 +73,7 @@ if( $category_id ) {
 }
 // when nothing has been found we tell this here and say goodbye
 if ($num_rows == 0 && (!empty($keyword)||!empty($keyword1))) {
-	echo $VM_LANG->_('PHPSHOP_NO_SEARCH_RESULT');
+	echo $VM_LANG->_('VM_NO_SEARCH_RESULT');
 }
 elseif( $num_rows == 0 && empty($product_type_id) && !empty($child_list)) {
 	echo $VM_LANG->_('EMPTY_CATEGORY');
@@ -129,15 +129,15 @@ else {
 		$browsepage_header = $tpl->fetch( 'browse/includes/browse_header_manufacturer.tpl.php' );
 	}
 	elseif( $keyword ) {
-		$mainframe->setPageTitle( $VM_LANG->_('PHPSHOP_SEARCH_TITLE',false) );
-		$browsepage_lbl = $VM_LANG->_('PHPSHOP_SEARCH_TITLE') .': '.shopMakeHtmlSafe( $keyword );
+		$mainframe->setPageTitle( $VM_LANG->_('VM_SEARCH_TITLE',false) );
+		$browsepage_lbl = $VM_LANG->_('VM_SEARCH_TITLE') .': '.shopMakeHtmlSafe( $keyword );
 		$tpl->set( 'browsepage_lbl', $browsepage_lbl );
 
 		$browsepage_header = $tpl->fetch( 'browse/includes/browse_header_keyword.tpl.php' );
 	}
 	else {
-		$mainframe->setPageTitle( $VM_LANG->_('PHPSHOP_BROWSE_LBL',false) );#
-		$browsepage_lbl = $VM_LANG->_('PHPSHOP_BROWSE_LBL');
+		$mainframe->setPageTitle( $VM_LANG->_('VM_BROWSE_LBL',false) );#
+		$browsepage_lbl = $VM_LANG->_('VM_BROWSE_LBL');
 		$tpl->set( 'browsepage_lbl', $browsepage_lbl );
 
 		$browsepage_header = $tpl->fetch( 'browse/includes/browse_header_all.tpl.php' );
@@ -412,8 +412,8 @@ else {
 		if( empty($product_s_desc) && $product_parent_id!=0 ) {
 			$product_s_desc = $dbp->f("product_s_desc"); // Use product_s_desc from Parent Product
 		}
-		$product_details = $VM_LANG->_('PHPSHOP_FLYPAGE_LBL');
-		$product_vendor = $VM_LANG->_('PHPSHOP_BROWSE_VENDOR_LBL') . $ps_product->get_vendorname($db_browse->f("product_id"));
+		$product_details = $VM_LANG->_('VM_FLYPAGE_LBL');
+		$product_vendor = $VM_LANG->_('VM_BROWSE_VENDOR_LBL') . $ps_product->get_vendorname($db_browse->f("product_id"));
 		if (PSHOP_ALLOW_REVIEWS == '1' && @$_REQUEST['output'] != "pdf") {
 			// Average customer rating: xxxxx
 	        // Total votes: x
@@ -426,7 +426,7 @@ else {
 		// Add-to-Cart Button
 		if (USE_AS_CATALOGUE != '1' && $product_price != ""
 			&& $tpl->get_cfg( 'showAddtocartButtonOnProductList' )
-			&& !stristr( $product_price, $VM_LANG->_('PHPSHOP_PRODUCT_CALL') )
+			&& !stristr( $product_price, $VM_LANG->_('VM_PRODUCT_CALL') )
 			&& !ps_product::product_has_attributes( $db_browse->f('product_id'), true )) {
 
 			$tpl->set( 'i', $i );

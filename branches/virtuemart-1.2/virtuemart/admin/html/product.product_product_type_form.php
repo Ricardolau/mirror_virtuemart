@@ -25,11 +25,11 @@ if( is_array( $product_id ))
 
 $product_parent_id = vmGet($_REQUEST, 'product_parent_id', 0);
 
-$title = '<img src="'. IMAGEURL .'ps_image/categories.gif" border="0" />'.$VM_LANG->_('PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_LBL');
+$title = '<img src="'. IMAGEURL .'ps_image/categories.gif" border="0" />'.$VM_LANG->_('VM_PRODUCT_PRODUCT_TYPE_FORM_LBL');
 if (!empty($product_parent_id)) {
-  $title .= " " . $VM_LANG->_('PHPSHOP_PRODUCT_FORM_ITEM_LBL') . ": ";
+  $title .= " " . $VM_LANG->_('VM_PRODUCT_FORM_ITEM_LBL') . ": ";
 } else {
-  $title .= " " . $VM_LANG->_('PHPSHOP_PRODUCT') . ": ";
+  $title .= " " . $VM_LANG->_('VM_PRODUCT') . ": ";
 }
 $url = $_SERVER['PHP_SELF'] . "?page=$modulename.product_form&product_id=$product_id&product_parent_id=$product_parent_id";
 $title .= "<a href=\"" . $sess->url($url) . "\">". $ps_product->get_field($product_id,"product_name"). "</a>";
@@ -49,7 +49,7 @@ $formObj->startForm();
     </tr>
     <tr> 
       <td width="23%" height="20" valign="middle" > 
-        <div align="right"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_PRODUCT_TYPE') ?>:</div>
+        <div align="right"><?php echo $VM_LANG->_('VM_PRODUCT_PRODUCT_TYPE_FORM_PRODUCT_TYPE') ?>:</div>
       </td>
       <td width="77%" height="10" >
         <select class="inputbox" name="product_type_id">

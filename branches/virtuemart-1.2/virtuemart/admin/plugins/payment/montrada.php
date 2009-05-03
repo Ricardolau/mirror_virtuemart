@@ -115,7 +115,7 @@ class plgPaymentMontrada extends vmPaymentPlugin {
             $error = curl_error( $CR );
             if( !empty( $error )) {
               $vmLogger->err( curl_error( $CR )
-                              ."<br/><span class=\"message\">".$VM_LANG->_('PHPSHOP_PAYMENT_INTERNAL_ERROR')." montrada.de</span>" );
+                              ."<br/><span class=\"message\">".$VM_LANG->_('VM_PAYMENT_INTERNAL_ERROR')." montrada.de</span>" );
               return false;
             }
             else {
@@ -190,7 +190,7 @@ class plgPaymentMontrada extends vmPaymentPlugin {
         $rc1 = array("000", "005", "033", "091", "096");
         // Approved - Success!
         if (isset($response['posherr']) && ($response['posherr'] == 0)) {
-           $d["order_payment_log"] = $VM_LANG->_('PHPSHOP_PAYMENT_TRANSACTION_SUCCESS').": ";
+           $d["order_payment_log"] = $VM_LANG->_('VM_PAYMENT_TRANSACTION_SUCCESS').": ";
            $d["order_payment_log"] .= $response['rmsg'];
            // Catch Transaction ID
            $d["order_payment_trans_id"] = $response['trefnum'];
@@ -205,7 +205,7 @@ class plgPaymentMontrada extends vmPaymentPlugin {
         else
         {
            if ($response['posherr'] = "") $response['posherr'] = -1;
-           $vmLogger->err( $VM_LANG->_('PHPSHOP_PAYMENT_ERROR',false)." ($response[posherr])" );
+           $vmLogger->err( $VM_LANG->_('VM_PAYMENT_ERROR',false)." ($response[posherr])" );
            
            if (in_array($response['posherr'], $posherr1))
            {

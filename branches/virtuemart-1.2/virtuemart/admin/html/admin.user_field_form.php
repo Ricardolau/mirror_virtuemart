@@ -101,9 +101,9 @@ else {
 $lists['webaddresstypes'] = ps_html::selectList( 'webaddresstypes', $db->f('rows'), $webaddrtypes );
 
 if( in_array( $db->f('name'), ps_userfield::getSkipFields() )) {
-	$lists['required'] = '<input type="hidden" name="required" class="inputbox" value="'. $db->sf('required').'" />'.($db->sf('required')?$VM_LANG->_('PHPSHOP_ADMIN_CFG_YES'):$VM_LANG->_('PHPSHOP_ADMIN_CFG_NO'));
-	$lists['published'] = '<input type="hidden" name="published" class="inputbox" value="'. $db->sf('required').'" />'.($db->sf('required')?$VM_LANG->_('PHPSHOP_ADMIN_CFG_YES'):$VM_LANG->_('PHPSHOP_ADMIN_CFG_NO'));
-	$lists['registration'] = '<input type="hidden" name="registration" class="inputbox" value="'. $db->sf('required').'" />'.($db->sf('required')?$VM_LANG->_('PHPSHOP_ADMIN_CFG_YES'):$VM_LANG->_('PHPSHOP_ADMIN_CFG_NO'));
+	$lists['required'] = '<input type="hidden" name="required" class="inputbox" value="'. $db->sf('required').'" />'.($db->sf('required')?$VM_LANG->_('VM_ADMIN_CFG_YES'):$VM_LANG->_('VM_ADMIN_CFG_NO'));
+	$lists['published'] = '<input type="hidden" name="published" class="inputbox" value="'. $db->sf('required').'" />'.($db->sf('required')?$VM_LANG->_('VM_ADMIN_CFG_YES'):$VM_LANG->_('VM_ADMIN_CFG_NO'));
+	$lists['registration'] = '<input type="hidden" name="registration" class="inputbox" value="'. $db->sf('required').'" />'.($db->sf('required')?$VM_LANG->_('VM_ADMIN_CFG_YES'):$VM_LANG->_('VM_ADMIN_CFG_NO'));
 } else {
 	$lists['required'] = ps_html::yesnoSelectList( 'required', $db->sf('required')?$db->sf('required'): '0' );
 	$lists['published'] = ps_html::yesnoSelectList( 'published', $db->sf('published') );

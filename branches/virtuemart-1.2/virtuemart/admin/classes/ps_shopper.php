@@ -805,7 +805,7 @@ $vmLogger->err( 'ps_shopper update' );
 		if ($mosConfig_useractivation=="1"){
 			$message = sprintf ($VM_LANG->_('USEND_MSG_ACTIVATE',false), $name, $mosConfig_sitename, $activation_link, $mosConfig_live_site, $username, $pwd);
 		} else {
-			$message = sprintf ($VM_LANG->_('PHPSHOP_USER_SEND_REGISTRATION_DETAILS',false), $name, $mosConfig_sitename, $mosConfig_live_site, $username, $pwd);
+			$message = sprintf ($VM_LANG->_('VM_USER_SEND_REGISTRATION_DETAILS',false), $name, $mosConfig_sitename, $mosConfig_live_site, $username, $pwd);
 		}
 
 		$message = vmHtmlEntityDecode($message, ENT_QUOTES);

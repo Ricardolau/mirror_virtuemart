@@ -166,7 +166,7 @@ class plgShippingUps extends vmShippingPlugin {
 			$xmlResult = vmConnector::handleCommunication($upsURL, $xmlPost );
 
 			if( !$xmlResult) {
-				$vmLogger->err( $VM_LANG->_('PHPSHOP_INTERNAL_ERROR',false)." UPS.com" );
+				$vmLogger->err( $VM_LANG->_('VM_INTERNAL_ERROR',false)." UPS.com" );
 				$error = true;
 			}
 			else {
@@ -186,9 +186,9 @@ class plgShippingUps extends vmShippingPlugin {
 					$error_desc = $error_desc->item(0);
 					$error_desc = $error_desc->getText();
 
-					$vmLogger->err( $VM_LANG->_('PHPSHOP_UPS_RESPONSE_ERROR',false).'. '
-					. $VM_LANG->_('PHPSHOP_ERROR_CODE').": ".$error_code .', '
-					. $VM_LANG->_('PHPSHOP_ERROR_DESC').": ".$error_desc);
+					$vmLogger->err( $VM_LANG->_('VM_UPS_RESPONSE_ERROR',false).'. '
+					. $VM_LANG->_('VM_ERROR_CODE').": ".$error_code .', '
+					. $VM_LANG->_('VM_ERROR_DESC').": ".$error_desc);
 				}
 
 			}
@@ -367,8 +367,8 @@ class plgShippingUps extends vmShippingPlugin {
 				$_SESSION[$shipping_rate_id] = 1;
 				
 				if (DEBUG) {
-					$value['ServiceName'] .= " - ".$VM_LANG->_('PHPSHOP_PRODUCT_FORM_WEIGHT').": ".$order_weight." ". $weight_measure.
-					", ".$VM_LANG->_('PHPSHOP_RATE_FORM_VALUE').": [[".$charge_unrated."(".$fsc_rate.")]+".UPS_HANDLING_FEE."](".$taxrate.")]";
+					$value['ServiceName'] .= " - ".$VM_LANG->_('VM_PRODUCT_FORM_WEIGHT').": ".$order_weight." ". $weight_measure.
+					", ".$VM_LANG->_('VM_RATE_FORM_VALUE').": [[".$charge_unrated."(".$fsc_rate.")]+".UPS_HANDLING_FEE."](".$taxrate.")]";
 				}
 				
 				$rateArr = array('shipping_rate_id' => $shipping_rate_id,
@@ -381,7 +381,7 @@ class plgShippingUps extends vmShippingPlugin {
 				// DELIVERY QUOTE
 				if ($this->params->get('SHOW_DELIVERY_DAYS_QUOTE') == 1) {
 					if( !empty($value['GuaranteedDaysToDelivery'])) {
-						$rateArr['rate_name'] .= "&nbsp;&nbsp;-&nbsp;&nbsp;".$value['GuaranteedDaysToDelivery']." ".$VM_LANG->_('PHPSHOP_UPS_SHIPPING_GUARANTEED_DAYS');
+						$rateArr['rate_name'] .= "&nbsp;&nbsp;-&nbsp;&nbsp;".$value['GuaranteedDaysToDelivery']." ".$VM_LANG->_('VM_UPS_SHIPPING_GUARANTEED_DAYS');
 					}
 				}
 				if ($this->params->get('SHOW_DELIVERY_ETA_QUOTE') == 1) {

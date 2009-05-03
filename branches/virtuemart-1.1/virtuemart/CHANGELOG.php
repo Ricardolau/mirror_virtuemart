@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+03.052009 aravot
+^ Changed Authorize.net Login ID to Authorize.net API ID
+
 02.05.2009 rolandd
 # BUG #2016 &euro; is displayed in info message The Value of the Coupon is greater than the current Order Total,
 # suppres getimagesize warning if file does not exist

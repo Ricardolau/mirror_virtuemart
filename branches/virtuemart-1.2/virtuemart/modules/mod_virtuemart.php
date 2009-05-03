@@ -1,8 +1,8 @@
 <?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct access to '.basename(__FILE__).' is not allowed.' );
 /**
-* mambo-phphop Main Module
-* NOTE: THIS MODULE REQUIRES AN INSTALLED MAMBO-PHPSHOP COMPONENT!
+* VirtueMart Main Module
+* NOTE: THIS MODULE REQUIRES AN INSTALLED VIRTUEMART COMPONENT!
 *
 * @version $Id$
 * @package VirtueMart
@@ -100,7 +100,7 @@ if ( $show_listall == 'yes' ) { ?>
     <tr> 
       <td colspan="2"><br />
           <a href="<?php $sess->purl($mm_action_url."index.php?page=shop.browse&category=") ?>">
-          <?php echo $VM_LANG->_('PHPSHOP_LIST_ALL_PRODUCTS') ?>
+          <?php echo $VM_LANG->_('VM_LIST_ALL_PRODUCTS') ?>
           </a>
       </td>
     </tr>
@@ -114,22 +114,22 @@ if ( $show_productsearch == 'yes' ) { ?>
   <tr> 
     <td colspan="2">
 	  <hr />
-      <label for="shop_search_field"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_SEARCH_LBL') ?></label>
+      <label for="shop_search_field"><?php echo $VM_LANG->_('VM_PRODUCT_SEARCH_LBL') ?></label>
       <form action="<?php echo $mm_action_url."index.php" ?>" method="get">
-        <input id="shop_search_field" title="<?php echo $VM_LANG->_('PHPSHOP_SEARCH_TITLE') ?>" class="inputbox" type="text" size="12" name="keyword" />
-        <input class="button" type="submit" name="Search" value="<?php echo $VM_LANG->_('PHPSHOP_SEARCH_TITLE') ?>" />
+        <input id="shop_search_field" title="<?php echo $VM_LANG->_('VM_SEARCH_TITLE') ?>" class="inputbox" type="text" size="12" name="keyword" />
+        <input class="button" type="submit" name="Search" value="<?php echo $VM_LANG->_('VM_SEARCH_TITLE') ?>" />
 		<input type="hidden" name="Itemid" value="<?php echo intval(@$_REQUEST['Itemid']) ?>" />
 		<input type="hidden" name="option" value="com_virtuemart" />
 		<input type="hidden" name="page" value="shop.browse" />
 	  </form>
         <br />
         <a href="<?php echo $sess->url($mm_action_url."index.php?option=com_virtuemart&page=shop.search") ?>">
-            <?php echo $VM_LANG->_('PHPSHOP_ADVANCED_SEARCH') ?>
+            <?php echo $VM_LANG->_('VM_ADVANCED_SEARCH') ?>
         </a><?php /** Changed Product Type - Begin */
 	if ( $show_product_parameter_search == 'yes' ) { ?>
         <br />
-        <a href="<?php echo $sess->url($mm_action_url."index.php?option=com_virtuemart&page=shop.parameter_search") ?>" title="<?php echo $VM_LANG->_('PHPSHOP_PARAMETER_SEARCH') ?>">
-            <?php echo $VM_LANG->_('PHPSHOP_PARAMETER_SEARCH') ?>
+        <a href="<?php echo $sess->url($mm_action_url."index.php?option=com_virtuemart&page=shop.parameter_search") ?>" title="<?php echo $VM_LANG->_('VM_PARAMETER_SEARCH') ?>">
+            <?php echo $VM_LANG->_('VM_PARAMETER_SEARCH') ?>
         </a>
 <?php } /** Changed Product Type - End */ ?>
         <hr />
@@ -150,7 +150,7 @@ if ($perm->check("admin,storeadmin")
     <tr> 
       <td colspan="2">
       	<a class="<?php echo $class_mainlevel ?>" href="<?php $sess->purl(SECUREURL . "index2.php?page=store.index&pshop_mode=admin") ?>">
-      	<?php echo $VM_LANG->_('PHPSHOP_ADMIN_MOD'); ?>
+      	<?php echo $VM_LANG->_('VM_ADMIN_MOD'); ?>
       	</a>
       </td>
     </tr>
@@ -167,7 +167,7 @@ if ($perm->is_registered_customer($auth["user_id"]) && $show_accountlink == 'yes
 			$href = $sess->url(SECUREURL."index.php?page=account.index", true);
 			$href2 = $sess->url(SECUREURL."index2.php?page=account.index", true);
 			
-			$text = $VM_LANG->_('PHPSHOP_ACCOUNT_TITLE');
+			$text = $VM_LANG->_('VM_ACCOUNT_TITLE');
 			if( $useGreyBox_accountlink ) {
 				echo vmCommonHTML::getGreyboxPopUpLink( $href2, $text, '', $text, $class_att, 500, 600, $href );
 			}
@@ -331,7 +331,7 @@ if (ENABLE_DOWNLOADS == '1') { ?>
   <tr> 
     <td colspan="2">
         <a class="<?php echo $class_mainlevel ?>" href="<?php $sess->purl(SECUREURL . "index.php?page=shop.downloads");?>">
-        <?php echo $VM_LANG->_('PHPSHOP_DOWNLOADS_TITLE') ?>
+        <?php echo $VM_LANG->_('VM_DOWNLOADS_TITLE') ?>
         </a>
     </td>
   </tr><?php
@@ -352,7 +352,7 @@ if (USE_AS_CATALOGUE != '1' && $show_minicart == 'yes'  && !$db->f("published") 
 	        $href = $sess->url($mm_action_url."index.php?page=shop.cart");
 	        $href2 = $sess->url($mm_action_url."index2.php?page=shop.cart", true);
 			
-	        $text = $VM_LANG->_('PHPSHOP_CART_SHOW');
+	        $text = $VM_LANG->_('VM_CART_SHOW');
 	        if( $useGreyBox_cartlink ) {
 	        	echo vmCommonHTML::getGreyboxPopUpLink( $href2, $text, '', $text, $class_att, 500, 600, $href );
 	        }

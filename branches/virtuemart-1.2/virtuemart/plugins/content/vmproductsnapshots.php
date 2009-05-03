@@ -255,7 +255,7 @@ function return_snapshot( &$params ) {
 			}
 			if( 'y' == $params['showprice'] ) {
 				$html .= $row_sep_top ;
-				//$html .= "<td class=\"price\">".$PHPSHOP_LANG->_PHPSHOP_CART_PRICE .": ". number_format($price["product_price"],2) . " " . $price["product_currency"]."</td>\n";
+				//$html .= "<td class=\"price\">".$VM_LANG->_('VM_CART_PRICE') .": ". number_format($price["product_price"],2) . " " . $price["product_currency"]."</td>\n";
 				$html .= "<td class=\"price\">" . str_replace( "$", "\\$", $ps_product->show_price( $db->f( "product_id" ) ) ) . "</td>\n" ;
 				$html .= $row_sep_btm ;
 			}
@@ -268,7 +268,7 @@ function return_snapshot( &$params ) {
 				$html .= $row_sep_top ;
 				$html .= "<td class=\"addtocart\">" ;
 				$url = "index.php?page=shop.cart&func=cartAdd&quantity=$qty&product_id=" . $db->f( "product_id" ) ;
-				$html .= "<a href=\"" . $sess->url( URL . $url ) . "\"> " . $VM_LANG->_('PHPSHOP_CART_ADD_TO') ;
+				$html .= "<a href=\"" . $sess->url( URL . $url ) . "\"> " . $VM_LANG->_('VM_CART_ADD_TO') ;
 				if( @$params['quantity'][$i] > 1 ) {
 					$html .= " x$qty" ;
 				}

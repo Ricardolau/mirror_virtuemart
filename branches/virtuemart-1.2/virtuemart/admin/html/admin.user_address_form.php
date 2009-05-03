@@ -17,7 +17,7 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
 */
 mm_showMyFileName( __FILE__ );
 
-$mainframe->setPageTitle( $VM_LANG->_('PHPSHOP_USER_FORM_ADD_SHIPTO_LBL') );
+$mainframe->setPageTitle( $VM_LANG->_('VM_USER_FORM_ADD_SHIPTO_LBL') );
 
 require_once( CLASSPATH . "ps_userfield.php" );
 
@@ -30,7 +30,7 @@ if (!empty( $missing )) {
     echo "<script type=\"text/javascript\">alert('".$VM_LANG->_('CONTACT_FORM_NC')."'); </script>\n";
 }
 ?>
-<h2><?php echo $VM_LANG->_('PHPSHOP_USER_FORM_ADD_SHIPTO_LBL') ?></h2>
+<h2><?php echo $VM_LANG->_('VM_USER_FORM_ADD_SHIPTO_LBL') ?></h2>
 <?php if (!empty($user_info_id)) {
    $q = "SELECT * from #__{vm}_user_info ";
    $q .= "WHERE #__{vm}_user_info.user_info_id='$user_info_id' ";
@@ -40,7 +40,7 @@ if (!empty( $missing )) {
 ?>
 <div style="width:90%;" class="adminform">
 <fieldset>
-	<legend><span class="sectiontableheader"><?php echo $VM_LANG->_('PHPSHOP_SHOPPER_FORM_SHIPTO_LBL') ?></span></legend>
+	<legend><span class="sectiontableheader"><?php echo $VM_LANG->_('VM_SHOPPER_FORM_SHIPTO_LBL') ?></span></legend>
 
 	<!-- Registration form -->
 	<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" name="adminForm">

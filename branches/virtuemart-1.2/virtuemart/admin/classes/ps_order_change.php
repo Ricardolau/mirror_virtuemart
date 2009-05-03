@@ -194,7 +194,7 @@ class ps_order_change {
 		
 		$this->reload_from_db = 1 ;
 		
-		$vmLogger->info( $VM_LANG->_( 'PHPSHOP_ORDER_PRINT_BILL_TO_LBL' ) . $VM_LANG->_( 'PHPSHOP_ORDER_EDIT_SOMETHING_HAS_CHANGED' ) ) ;
+		$vmLogger->info( $VM_LANG->_( 'VM_ORDER_PRINT_BILL_TO_LBL' ) . $VM_LANG->_( 'VM_ORDER_EDIT_SOMETHING_HAS_CHANGED' ) ) ;
 	}
 	
 	/**************************************************************************
@@ -242,7 +242,7 @@ class ps_order_change {
 		}
 		$this->reload_from_db = 1 ;
 		
-		$vmLogger->info( $VM_LANG->_( 'PHPSHOP_ORDER_PRINT_SHIP_TO_LBL' ) . $VM_LANG->_( 'PHPSHOP_ORDER_EDIT_SOMETHING_HAS_CHANGED' ) ) ;
+		$vmLogger->info( $VM_LANG->_( 'VM_ORDER_PRINT_SHIP_TO_LBL' ) . $VM_LANG->_( 'VM_ORDER_EDIT_SOMETHING_HAS_CHANGED' ) ) ;
 	}
 	
 	/**************************************************************************
@@ -266,7 +266,7 @@ class ps_order_change {
 		$db->next_record() ;
 		$this->reload_from_db = 1 ;
 		
-		$vmLogger->info( $VM_LANG->_( 'PHPSHOP_ORDER_PRINT_CUSTOMER_NOTE' ) . $VM_LANG->_( 'PHPSHOP_ORDER_EDIT_SOMETHING_HAS_CHANGED' ) ) ;
+		$vmLogger->info( $VM_LANG->_( 'VM_ORDER_PRINT_CUSTOMER_NOTE' ) . $VM_LANG->_( 'VM_ORDER_EDIT_SOMETHING_HAS_CHANGED' ) ) ;
 		$this->recalc_order( $this->order_id ) ;
 	}
 	
@@ -306,7 +306,7 @@ class ps_order_change {
 		$db->next_record() ;
 		$this->reload_from_db = 1 ;
 		
-		$vmLogger->info( $VM_LANG->_( 'PHPSHOP_ORDER_PRINT_SHIPPING_MODE_LBL' ) . $VM_LANG->_( 'PHPSHOP_ORDER_EDIT_SOMETHING_HAS_CHANGED' ) ) ;
+		$vmLogger->info( $VM_LANG->_( 'VM_ORDER_PRINT_SHIPPING_MODE_LBL' ) . $VM_LANG->_( 'VM_ORDER_EDIT_SOMETHING_HAS_CHANGED' ) ) ;
 	}
 	
 	/**************************************************************************
@@ -528,7 +528,7 @@ class ps_order_change {
 		if( $add_product_validate == 1 ) {
 			$quantity = trim( vmGet( $_REQUEST, 'product_quantity' ) ) ;
 			if( ! is_numeric( $quantity ) || $quantity < 1 ) {
-				$vmLogger->err( $VM_LANG->_( 'PHPSHOP_ORDER_EDIT_ERROR_QUANTITY_MUST_BE_HIGHER_THAN_0' ) ) ;
+				$vmLogger->err( $VM_LANG->_( 'VM_ORDER_EDIT_ERROR_QUANTITY_MUST_BE_HIGHER_THAN_0' ) ) ;
 				$add_product_validate = 0 ;
 			}
 		}
@@ -622,7 +622,7 @@ class ps_order_change {
 			$this->recalc_order( $this->order_id ) ;
 			$this->reload_from_db = 1 ;
 			
-			$vmLogger->info( $VM_LANG->_( 'PHPSHOP_ORDER_EDIT_PRODUCT_ADDED' ) ) ;
+			$vmLogger->info( $VM_LANG->_( 'VM_ORDER_EDIT_PRODUCT_ADDED' ) ) ;
 		}
 	
 	}
@@ -1001,7 +1001,7 @@ class ps_order_change {
 		$this->recalc_order( $this->order_id ) ;
 		$this->reload_from_db = 1 ;
 		
-		$vmLogger->info( $VM_LANG->_( 'PHPSHOP_ORDER_PRINT_PRICE' ) . $VM_LANG->_( 'PHPSHOP_ORDER_EDIT_SOMETHING_HAS_CHANGED' ) ) ;
+		$vmLogger->info( $VM_LANG->_( 'VM_ORDER_PRINT_PRICE' ) . $VM_LANG->_( 'VM_ORDER_EDIT_SOMETHING_HAS_CHANGED' ) ) ;
 	}
 	
 	/**************************************************************************
@@ -1075,28 +1075,28 @@ if( vmGet( $_REQUEST, 'page' ) == 'order.order_print' ) {
 		if( $ps_order_change->change_discount( $order_id, trim( vmGet( $_REQUEST, 'order_discount' ) ) ) ) {
 			$vmLogger->err( "Invalid Order Item ID!" ) ;
 		} else {
-			$vmLogger->info( $VM_LANG->_( 'PHPSHOP_COUPON_DISCOUNT' ) . $VM_LANG->_( 'PHPSHOP_ORDER_EDIT_SOMETHING_HAS_CHANGED' ) ) ;
+			$vmLogger->info( $VM_LANG->_( 'VM_COUPON_DISCOUNT' ) . $VM_LANG->_( 'VM_ORDER_EDIT_SOMETHING_HAS_CHANGED' ) ) ;
 		}
 	
 	elseif( vmGet( $_REQUEST, 'change_coupon_discount' ) != '' )
 		if( $ps_order_change->change_coupon_discount( $order_id, trim( vmGet( $_REQUEST, 'coupon_discount' ) ) ) ) {
 			$vmLogger->err( "Discount is not a number!" ) ;
 		} else {
-			$vmLogger->info( $VM_LANG->_( 'PHPSHOP_COUPON_DISCOUNT' ) . $VM_LANG->_( 'PHPSHOP_ORDER_EDIT_SOMETHING_HAS_CHANGED' ) ) ;
+			$vmLogger->info( $VM_LANG->_( 'VM_COUPON_DISCOUNT' ) . $VM_LANG->_( 'VM_ORDER_EDIT_SOMETHING_HAS_CHANGED' ) ) ;
 		}
 	
 	elseif( vmGet( $_REQUEST, 'change_delete_item' ) != '' )
 		if( $ps_order_change->change_delete_item( $order_id, vmGet( $_REQUEST, 'order_item_id' ) ) ) {
 			$vmLogger->err( "Discount is not a number!" ) ;
 		} else {
-			$vmLogger->info( $VM_LANG->_( 'PHPSHOP_ORDER_EDIT_PRODUCT_DELETED' ) ) ;
+			$vmLogger->info( $VM_LANG->_( 'VM_ORDER_EDIT_PRODUCT_DELETED' ) ) ;
 		}
 	
 	elseif( vmGet( $_REQUEST, 'change_item_quantity' ) != '' )
 		if( $ps_order_change->change_item_quantity( $order_id, vmGet( $_REQUEST, 'order_item_id' ), trim( vmGet( $_REQUEST, 'product_quantity' ) ) ) ) {
-			$vmLogger->err( $VM_LANG->_( 'PHPSHOP_ORDER_EDIT_ERROR_QUANTITY_MUST_BE_HIGHER_THAN_0' ) ) ;
+			$vmLogger->err( $VM_LANG->_( 'VM_ORDER_EDIT_ERROR_QUANTITY_MUST_BE_HIGHER_THAN_0' ) ) ;
 		} else {
-			$vmLogger->info( $VM_LANG->_( 'PHPSHOP_ORDER_EDIT_QUANTITY_UPDATED' ) ) ;
+			$vmLogger->info( $VM_LANG->_( 'VM_ORDER_EDIT_QUANTITY_UPDATED' ) ) ;
 		}
 	
 	elseif( vmGet( $_REQUEST, 'add_product' ) != '' )
@@ -1111,7 +1111,7 @@ if( vmGet( $_REQUEST, 'page' ) == 'order.order_print' ) {
 		if( $ps_order_change->change_payment( $order_id, vmGet( $_REQUEST, 'new_payment_id' ) ) ) {
 		
 		} else {
-			$vmLogger->info( $VM_LANG->_( 'PHPSHOP_PAYMENT' ) . $VM_LANG->_( 'PHPSHOP_ORDER_EDIT_SOMETHING_HAS_CHANGED' ) ) ;
+			$vmLogger->info( $VM_LANG->_( 'VM_PAYMENT' ) . $VM_LANG->_( 'VM_ORDER_EDIT_SOMETHING_HAS_CHANGED' ) ) ;
 		}
 	
 	if( $ps_order_change->reload_from_db ) {

@@ -56,7 +56,7 @@ $pageNav = new vmPageNav( $num_rows, $limitstart, $limit );
 $listObj = new listFactory( $pageNav );
 
 // print out the search field and a list heading
-$listObj->writeSearchHeader($VM_LANG->_('PHPSHOP_USER_LIST_LBL'), VM_THEMEURL.'images/administration/header/icon-48-user.png', $modulename, "user_list");
+$listObj->writeSearchHeader($VM_LANG->_('VM_USER_LIST_LBL'), VM_THEMEURL.'images/administration/header/icon-48-user.png', $modulename, "user_list");
 
 // start the list table
 $listObj->startTable();
@@ -64,11 +64,11 @@ $listObj->startTable();
 // these are the columns in the table
 $columns = Array(  "#" => 'width="20"', 
 					'<input type="checkbox" name="toggle" value="" onclick="checkAll('.$num_rows.')" />' => 'width="20"',
-					$VM_LANG->_('PHPSHOP_USER_LIST_USERNAME') => "",
-					$VM_LANG->_('PHPSHOP_USER_LIST_FULL_NAME') => "",
-					$VM_LANG->_('PHPSHOP_USER_LIST_VENDOR') => 'width="8%"',
-					$VM_LANG->_('PHPSHOP_USER_LIST_GROUP') => "",
-					$VM_LANG->_('PHPSHOP_SHOPPER_FORM_GROUP') => "",
+					$VM_LANG->_('VM_USER_LIST_USERNAME') => "",
+					$VM_LANG->_('VM_USER_LIST_FULL_NAME') => "",
+					$VM_LANG->_('VM_USER_LIST_VENDOR') => 'width="8%"',
+					$VM_LANG->_('VM_USER_LIST_GROUP') => "",
+					$VM_LANG->_('VM_SHOPPER_FORM_GROUP') => "",
 					$VM_LANG->_('E_REMOVE') => 'width="5%"'
 				);
 $listObj->writeTableHeader( $columns );

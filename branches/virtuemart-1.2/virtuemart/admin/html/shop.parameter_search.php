@@ -16,17 +16,17 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
 *
 * http://virtuemart.net
 */
-$vm_mainframe->setPageTitle( $VM_LANG->_('PHPSHOP_PARAMETER_SEARCH') );
+$vm_mainframe->setPageTitle( $VM_LANG->_('VM_PARAMETER_SEARCH') );
 
-$pathway[] = $vm_mainframe->vmPathwayItem( $VM_LANG->_('PHPSHOP_ADVANCED_SEARCH'), $sess->url($mm_action_url.basename($_SERVER['PHP_SELF']).'?page=shop.parameter_search'));
-$pathway[] = $vm_mainframe->vmPathwayItem( $VM_LANG->_('PHPSHOP_PARAMETER_SEARCH'));
+$pathway[] = $vm_mainframe->vmPathwayItem( $VM_LANG->_('VM_ADVANCED_SEARCH'), $sess->url($mm_action_url.basename($_SERVER['PHP_SELF']).'?page=shop.parameter_search'));
+$pathway[] = $vm_mainframe->vmPathwayItem( $VM_LANG->_('VM_PARAMETER_SEARCH'));
 $vm_mainframe->vmAppendPathway($pathway);
 ?>
-<h2><?php echo $VM_LANG->_('PHPSHOP_PARAMETER_SEARCH') ?></h2>
+<h2><?php echo $VM_LANG->_('VM_PARAMETER_SEARCH') ?></h2>
 
 <table width="100%" border="0" cellpadding="2" cellspacing="0">
 <tr>
-	<td><?php echo $VM_LANG->_('PHPSHOP_PARAMETER_SEARCH_TEXT1') ?></td>
+	<td><?php echo $VM_LANG->_('VM_PARAMETER_SEARCH_TEXT1') ?></td>
 </tr>
 <tr>
 	<td>&nbsp;</td>
@@ -51,7 +51,7 @@ $vm_mainframe->vmAppendPathway($pathway);
 	echo "</table>\n";
 	
 	if ($db->num_rows() == 0) {
-		echo $VM_LANG->_('PHPSHOP_PARAMETER_SEARCH_NO_PRODUCT_TYPE');
+		echo $VM_LANG->_('VM_PARAMETER_SEARCH_NO_PRODUCT_TYPE');
 	}
 ?>
 	</td>

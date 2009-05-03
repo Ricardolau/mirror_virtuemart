@@ -20,12 +20,12 @@ mm_showMyFileName( __FILE__ );
 global $VM_LANG;
 
 if( $ok ) {
-	echo '<h3>'.$VM_LANG->_('PHPSHOP_WAITING_LIST_THANKS').'</h3>';
+	echo '<h3>'.$VM_LANG->_('VM_WAITING_LIST_THANKS').'</h3>';
 }
 ?>
 <br />
 <br />
 <?php 
   	echo '<a class="previous_page" href="'.$sess->url( $_SERVER['PHP_SELF']."?page=shop.product_details&product_id=$product_id" ). '">'
-      . $VM_LANG->_('PHPSHOP_BACK_TO_DETAILS').'</a>';
+      . $VM_LANG->_('VM_BACK_TO_DETAILS').'</a>';
 ?> 

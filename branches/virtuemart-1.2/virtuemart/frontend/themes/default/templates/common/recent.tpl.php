@@ -24,7 +24,7 @@ foreach( $recent_products as $recent ) { // Loop through all recent products
 	?>
 	<li>
 	<a href="<?php echo $recent["product_url"]; ?>" >
-	<?php echo $recent["product_name"]; ?></a>&nbsp;(<?php echo $VM_LANG->_('PHPSHOP_CATEGORY') ?>:&nbsp;
+	<?php echo $recent["product_name"]; ?></a>&nbsp;(<?php echo $VM_LANG->_('VM_CATEGORY') ?>:&nbsp;
 	<a href="<?php echo $recent["category_url"]; ?>" ><?php echo $recent["category_name"]; ?></a>)
 	</li>
 	<?php

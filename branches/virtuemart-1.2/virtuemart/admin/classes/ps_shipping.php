@@ -34,7 +34,7 @@ class ps_shipping {
 		$q = "SELECT shipping_carrier_id FROM #__{vm}_shipping_carrier WHERE shipping_carrier_id='" . (int)vmGet($d,'shipping_carrier_id') . "'";
 		$db->query($q);
 		if ($db->next_record()) {
-			$d["error"] = $VM_LANG->_('PHPSHOP_ERR_MSG_CARRIER_EXIST');
+			$d["error"] = $VM_LANG->_('VM_ERR_MSG_CARRIER_EXIST');
 			return False;
 		}
 
@@ -49,7 +49,7 @@ class ps_shipping {
 	function validate_delete( $shipping_carrier_id, &$d) {
 		global $VM_LANG;
 		if (!$shipping_carrier_id) {
-			$d["error"] = $VM_LANG->_('PHPSHOP_ERR_MSG_CARRIER_ID_REQ');
+			$d["error"] = $VM_LANG->_('VM_ERR_MSG_CARRIER_ID_REQ');
 			return False;
 		}
 
@@ -57,7 +57,7 @@ class ps_shipping {
 		$q = "SELECT shipping_rate_carrier_id FROM #__{vm}_shipping_rate WHERE shipping_rate_carrier_id='" . $shipping_carrier_id . "'";
 		$db->query($q);
 		if ($db->next_record()) {
-			$d["error"] = $VM_LANG->_('PHPSHOP_ERR_MSG_CARRIER_INUSE');
+			$d["error"] = $VM_LANG->_('VM_ERR_MSG_CARRIER_INUSE');
 			return False;
 		}
 
@@ -65,7 +65,7 @@ class ps_shipping {
 		$q = "SELECT shipping_carrier_id FROM #__{vm}_shipping_carrier WHERE shipping_carrier_id='" . $shipping_carrier_id . "'";
 		$db->query($q);
 		if (!$db->next_record()) {
-			$d["error"] = $VM_LANG->_('PHPSHOP_ERR_MSG_CARRIER_NOTFOUND');
+			$d["error"] = $VM_LANG->_('VM_ERR_MSG_CARRIER_NOTFOUND');
 			return False;
 		}
 
@@ -82,7 +82,7 @@ class ps_shipping {
 		$db = new ps_DB;
 
 		if (!$d["shipping_carrier_id"]) {
-			$d["error"] = $VM_LANG->_('PHPSHOP_ERR_MSG_CARRIER_ID_REQ');
+			$d["error"] = $VM_LANG->_('VM_ERR_MSG_CARRIER_ID_REQ');
 			return False;
 		}
 
@@ -90,7 +90,7 @@ class ps_shipping {
 		$q = "SELECT * FROM #__{vm}_shipping_carrier WHERE shipping_carrier_id=" .(int)$d["shipping_carrier_id"];
 		$db->query($q);
 		if (!$db->next_record()) {
-			$d["error"] = $VM_LANG->_('PHPSHOP_ERR_MSG_CARRIER_NOTFOUND');
+			$d["error"] = $VM_LANG->_('VM_ERR_MSG_CARRIER_NOTFOUND');
 			return False;
 		}
 
@@ -210,7 +210,7 @@ class ps_shipping {
 		global $VM_LANG;
 
 		$db = new ps_DB;
-		$carrier_arr[''] = $VM_LANG->_('PHPSHOP_SELECT');
+		$carrier_arr[''] = $VM_LANG->_('VM_SELECT');
 		
 		$q = "SELECT shipping_carrier_id,shipping_carrier_name FROM #__{vm}_shipping_carrier";
 		// Get list of Values
@@ -261,18 +261,18 @@ class ps_shipping {
 		$db = new ps_DB;
 
 		if (!$d["shipping_rate_carrier_id"]) {
-			$d["error"] = $VM_LANG->_('PHPSHOP_ERR_MSG_RATE_CARRIER_ID_REQ');
+			$d["error"] = $VM_LANG->_('VM_ERR_MSG_RATE_CARRIER_ID_REQ');
 			return False;
 		}
 
 		$q = "SELECT shipping_carrier_id FROM #__{vm}_shipping_carrier WHERE shipping_carrier_id=" .(int)$d["shipping_rate_carrier_id"];
 		$db->query($q);
 		if (!$db->next_record()) {
-			$d["error"] = $VM_LANG->_('PHPSHOP_ERR_MSG_RATE_CARRIER_ID_INV');
+			$d["error"] = $VM_LANG->_('VM_ERR_MSG_RATE_CARRIER_ID_INV');
 			return False;
 		}
 		if (!$d["shipping_rate_name"]) {
-			$d["error"] = $VM_LANG->_('PHPSHOP_ERR_MSG_RATE_NAME_REQ');
+			$d["error"] = $VM_LANG->_('VM_ERR_MSG_RATE_NAME_REQ');
 			return False;
 		}
 		for($i=0;$i<count($d["shipping_rate_country"]);$i++){
@@ -280,18 +280,18 @@ class ps_shipping {
 				$q = "SELECT * FROM #__{vm}_country WHERE country_3_code='" . $d["shipping_rate_country"][$i] . "'";
 				$db->query($q);
 				if (!$db->next_record()) {
-					$d["error"] = sprintf($VM_LANG->_('PHPSHOP_ERR_MSG_RATE_COUNTRY_CODE_INV'), $d["shipping_rate_country"][$i]);
+					$d["error"] = sprintf($VM_LANG->_('VM_ERR_MSG_RATE_COUNTRY_CODE_INV'), $d["shipping_rate_country"][$i]);
 					return False;
 				}
 			}
 		}
 
 		if ($d["shipping_rate_weight_start"] == "") {
-			$d["error"] = $VM_LANG->_('PHPSHOP_ERR_MSG_RATE_WEIGHT_START_REQ');
+			$d["error"] = $VM_LANG->_('VM_ERR_MSG_RATE_WEIGHT_START_REQ');
 			return False;
 		}
 		if ($d["shipping_rate_weight_end"] == "") {
-			$d["error"] = $VM_LANG->_('PHPSHOP_ERR_MSG_RATE_WEIGHT_END_REQ');
+			$d["error"] = $VM_LANG->_('VM_ERR_MSG_RATE_WEIGHT_END_REQ');
 			return False;
 		}
 
@@ -303,11 +303,11 @@ class ps_shipping {
 		}
 
 		if ($d["shipping_rate_weight_start"] >= $d["shipping_rate_weight_end"]) {
-			$d["error"] = $VM_LANG->_('PHPSHOP_ERR_MSG_RATE_WEIGHT_STARTEND_INV');
+			$d["error"] = $VM_LANG->_('VM_ERR_MSG_RATE_WEIGHT_STARTEND_INV');
 			return False;
 		}
 		if ($d["shipping_rate_value"] == "") {
-			$d["error"] = $VM_LANG->_('PHPSHOP_ERR_MSG_RATE_WEIGHT_VALUE_REQ');
+			$d["error"] = $VM_LANG->_('VM_ERR_MSG_RATE_WEIGHT_VALUE_REQ');
 			return False;
 		}
 		if ($d["shipping_rate_package_fee"] == "") {
@@ -316,7 +316,7 @@ class ps_shipping {
 		$q = 'SELECT currency_id FROM #__{vm}_currency WHERE currency_id=' .(int)$d['shipping_rate_currency_id'];
 		$db->query($q);
 		if (!$db->next_record()) {
-			$d["error"] = $VM_LANG->_('PHPSHOP_ERR_MSG_RATE_CURRENCY_ID_INV');
+			$d["error"] = $VM_LANG->_('VM_ERR_MSG_RATE_CURRENCY_ID_INV');
 			return False;
 		}
 
@@ -334,7 +334,7 @@ class ps_shipping {
 	function validate_rate_delete(&$d) {
 		global $VM_LANG;
 		if (!$d["shipping_rate_id"]) {
-			$d["error"] = $VM_LANG->_('PHPSHOP_ERR_MSG_SHIPPING_RATE_ID_REQ');
+			$d["error"] = $VM_LANG->_('VM_ERR_MSG_SHIPPING_RATE_ID_REQ');
 			return False;
 		}
 		return True;

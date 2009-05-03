@@ -2048,18 +2048,18 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 				$my_taxrate = 0;
 			}
 			$tax = $my_taxrate * 100;
-			$price_info['tax_rate'] = $VM_LANG->_('PHPSHOP_TAX_LIST_RATE').': '.$tax.'%';
+			$price_info['tax_rate'] = $VM_LANG->_('VM_TAX_LIST_RATE').': '.$tax.'%';
 			// Calculate discount
 			if( !empty($discount_info["amount"])) {
 
 				switch( $discount_info["is_percent"] ) {
 					case 0:
 						$base_price -= $discount_info["amount"];
-						$price_info['discount_info'] = $VM_LANG->_('PHPSHOP_PRODUCT_DISCOUNT_LBL').': '.$CURRENCY_DISPLAY->getFullValue($discount_info['amount']);
+						$price_info['discount_info'] = $VM_LANG->_('VM_PRODUCT_DISCOUNT_LBL').': '.$CURRENCY_DISPLAY->getFullValue($discount_info['amount']);
 						break;
 					case 1:
 						$base_price *= (100 - $discount_info["amount"])/100;
-						$price_info['discount_info'] = $VM_LANG->_('PHPSHOP_PRODUCT_DISCOUNT_LBL').': '.$discount_info['amount'].'%';
+						$price_info['discount_info'] = $VM_LANG->_('VM_PRODUCT_DISCOUNT_LBL').': '.$discount_info['amount'].'%';
 						break;
 				}
 			}
@@ -2186,7 +2186,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 					// only show "including x % tax" when it shall
 					// not be hidden
 					if( !$hide_tax && $auth["show_price_including_tax"] == 1 && VM_PRICE_SHOW_INCLUDINGTAX) {
-						$text_including_tax = $VM_LANG->_('PHPSHOP_INCLUDING_TAX');
+						$text_including_tax = $VM_LANG->_('VM_INCLUDING_TAX');
 						eval ("\$text_including_tax = \"$text_including_tax\";");
 					}
 				}*/
@@ -2197,14 +2197,14 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 					// only show "including x % tax" when it shall
 					// not be hidden	//ct
 					if( !$hide_tax && $showwithtax == 1 && VM_PRICE_SHOW_INCLUDINGTAX) {
-						$text_including_tax = $VM_LANG->_('PHPSHOP_INCLUDING_TAX');
+						$text_including_tax = $VM_LANG->_('VM_INCLUDING_TAX');
 						eval ("\$text_including_tax = \"$text_including_tax\";");
 					}
 				}
 
 				//ct
 				if( $showwithtax != 1 && VM_PRICE_SHOW_EXCLUDINGTAX == 1) {
-					$text_excluding_tax = $VM_LANG->_('PHPSHOP_EXCLUDING_TAX');
+					$text_excluding_tax = $VM_LANG->_('VM_EXCLUDING_TAX');
 					eval ("\$text_excluding_tax = \"$text_excluding_tax\";");
 				}
 
@@ -2222,8 +2222,8 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 					//         $prices_table = "<table align=\"right\">
 					$prices_table = "<table width=\"100%\">
 					  <thead><tr class=\"sectiontableheader\">
-					  <th>".$VM_LANG->_('PHPSHOP_CART_QUANTITY')."</th>
-					  <th>".$VM_LANG->_('PHPSHOP_CART_PRICE')."</th>
+					  <th>".$VM_LANG->_('VM_CART_QUANTITY')."</th>
+					  <th>".$VM_LANG->_('VM_CART_PRICE')."</th>
 					  </tr></thead>
 					  <tbody>";
 					$i = 1;
@@ -2687,7 +2687,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
                 $featured_products[$i]['flypage'] = $flypage;
                 $featured_products[$i]['form_addtocart'] = "";
                 if (USE_AS_CATALOGUE != '1' && $price != ""
-	                && !stristr( $price, $VM_LANG->_('PHPSHOP_PRODUCT_CALL') )
+	                && !stristr( $price, $VM_LANG->_('VM_PRODUCT_CALL') )
 	                && !$this->product_has_attributes( $db->f('product_id'), true )
 	                && $tpl->get_cfg( 'showAddtocartButtonOnProductList' ) ) {
 			        $tpl->set( 'i', $i );

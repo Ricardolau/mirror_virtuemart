@@ -209,7 +209,7 @@ else {
 		$db->query($q);
 		
 		while( $db->next_record() ) {
-		    $menuArr[$db->f('module_name')]['title'] = $GLOBALS['VM_LANG']->_('PHPSHOP_'.strtoupper($db->f('module_name')).'_MOD');
+		    $menuArr[$db->f('module_name')]['title'] = $GLOBALS['VM_LANG']->_('VM_'.strtoupper($db->f('module_name')).'_MOD');
 			$menuArr[$db->f('module_name')]['items'][] = array('name' => $db->f('name'),
 																		'link' => $db->f('link'),
 																		'depends' => $db->f('depends'),

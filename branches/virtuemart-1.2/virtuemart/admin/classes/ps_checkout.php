@@ -240,16 +240,16 @@ class ps_checkout {
 	    	foreach( $step as $step_name ) {
 	    		switch ( $step_name ) {
 	    			case 'CHECK_OUT_GET_SHIPPING_ADDR':
-	    				$step_msg = $VM_LANG->_('PHPSHOP_ADD_SHIPTO_2');
+	    				$step_msg = $VM_LANG->_('VM_ADD_SHIPTO_2');
 	    				break;
 	    			case 'CHECK_OUT_GET_SHIPPING_METHOD':
-	    				$step_msg = $VM_LANG->_('PHPSHOP_ISSHIP_LIST_CARRIER_LBL');
+	    				$step_msg = $VM_LANG->_('VM_ISSHIP_LIST_CARRIER_LBL');
 	    				break;
 	    			case 'CHECK_OUT_GET_PAYMENT_METHOD':
-	    				$step_msg = $VM_LANG->_('PHPSHOP_ORDER_PRINT_PAYMENT_LBL');
+	    				$step_msg = $VM_LANG->_('VM_ORDER_PRINT_PAYMENT_LBL');
 	    				break;
 	    			case 'CHECK_OUT_GET_FINAL_CONFIRMATION':
-	    				$step_msg = $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_PAYINFO_COMPORDER');
+	    				$step_msg = $VM_LANG->_('VM_CHECKOUT_CONF_PAYINFO_COMPORDER');
 	    				break;
 	    		}
 	    		$steps_to_do[$i][] = array('step_name' => $step_name,
@@ -303,7 +303,7 @@ class ps_checkout {
 		}
 		if( PSHOP_AGREE_TO_TOS_ONORDER == '1' ) {
 			if( empty( $d["agreed"] )) {
-				$vmLogger->warning( $VM_LANG->_('PHPSHOP_AGREE_TO_TOS',false) );
+				$vmLogger->warning( $VM_LANG->_('VM_AGREE_TO_TOS',false) );
 				return false;
 			}
 		}
@@ -356,30 +356,30 @@ class ps_checkout {
 		}
 		if (!ps_checkout::noShipToNecessary()) {
 			if (empty($d["ship_to_info_id"])) {
-				$vmLogger->err( 'validate add'.$VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_SHIPTO',false) );
+				$vmLogger->err( 'validate add'.$VM_LANG->_('VM_CHECKOUT_ERR_NO_SHIPTO',false) );
 				return False;
 			}
 		}
 		/*
 		if (!$d["payment_method_id"]) {
-			$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_PAYM',false) );
+			$vmLogger->err( $VM_LANG->_('VM_CHECKOUT_ERR_NO_PAYM',false) );
 			return False;
 		}*/
 		if ($vmPaymentMethod->is_creditcard(@$d["payment_method_id"])) {
 
 			if (empty($_SESSION["ccdata"]["order_payment_number"])) {
-				$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_CCNR',false) );
+				$vmLogger->err( $VM_LANG->_('VM_CHECKOUT_ERR_NO_CCNR',false) );
 				return False;
 			}
 
 			if(!$vmPaymentMethod->validate_payment($d["payment_method_id"],
 					$_SESSION["ccdata"]["order_payment_number"])) {
-				$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_CCNUM_INV',false) );
+				$vmLogger->err( $VM_LANG->_('VM_CHECKOUT_ERR_CCNUM_INV',false) );
 				return False;
 			}
 
 			if(empty( $_SESSION["ccdata"]["order_payment_expire"])) {
-				$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_CCDATE_INV',false) );
+				$vmLogger->err( $VM_LANG->_('VM_CHECKOUT_ERR_CCDATE_INV',false) );
 				return False;
 			}
 		}
@@ -400,13 +400,13 @@ class ps_checkout {
 		global $VM_LANG, $vm_mainframe, $vmLogger;
 		
 		if( empty($d['shipping_rate_id']) ) {
-			$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_SHIP',false) );
+			$vmLogger->err( $VM_LANG->_('VM_CHECKOUT_ERR_NO_SHIP',false) );
 			return false;
 		}
 		
 		$result = $vm_mainframe->triggerEvent('validate', array( $d ));
 		if( is_array($result) && $result[0] === false ) {
-			$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_OTHER_SHIP',false) );
+			$vmLogger->err( $VM_LANG->_('VM_CHECKOUT_ERR_OTHER_SHIP',false) );
 			return false;
 		}
 		
@@ -445,7 +445,7 @@ class ps_checkout {
 		
 //		if (!isset($d["payment_method_id"]) || $d["payment_method_id"]==0 ) {
 		if (empty($d["payment_method_id"])){
-			$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_PAYM',false) );
+			$vmLogger->err( $VM_LANG->_('VM_CHECKOUT_ERR_NO_PAYM',false) );
 			return false;
 		}
 		require_once(CLASSPATH.'paymentMethod.class.php');
@@ -472,46 +472,46 @@ class ps_checkout {
 			// $_SESSION['ccdata'] = $ccdata;
 			// The Data should be in the session
 			if (!isset($_SESSION['ccdata'])) { //Not? Then Error
-				$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_CCDATA',false) );
+				$vmLogger->err( $VM_LANG->_('VM_CHECKOUT_ERR_NO_CCDATA',false) );
 				return False;
 			}
 
 			if (!$_SESSION['ccdata']['order_payment_number']) {
-				$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_CCNR_FOUND',false) );
+				$vmLogger->err( $VM_LANG->_('VM_CHECKOUT_ERR_NO_CCNR_FOUND',false) );
 				return False;
 			}
 
 			// CREDIT CARD NUMBER CHECK
 			// USING THE CREDIT CARD CLASS in ps_payment
 			if(!$vmPaymentMethod->validate_payment( $_SESSION['ccdata']['creditcard_code'], $_SESSION['ccdata']['order_payment_number'])) {
-				$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_CCDATE',false) );
+				$vmLogger->err( $VM_LANG->_('VM_CHECKOUT_ERR_NO_CCDATE',false) );
 				return False;
 			}
 
 			if (!$is_test) {
 				$payment_number = ereg_replace(" |-", "", $_SESSION['ccdata']['order_payment_number']);
 				if ($payment_number == "4111111111111111") {
-					$vmLogger->warning( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_TEST',false) );
+					$vmLogger->warning( $VM_LANG->_('VM_CHECKOUT_ERR_TEST',false) );
 					return False;
 				}
 			}
 			if(!empty($_SESSION['ccdata']['need_card_code']) && empty($_SESSION['ccdata']['credit_card_code'])) {
-				$vmLogger->err( $VM_LANG->_('PHPSHOP_CUSTOMER_CVV2_ERROR',false) );
+				$vmLogger->err( $VM_LANG->_('VM_CUSTOMER_CVV2_ERROR',false) );
 				return False;
 			}
 			if(!$_SESSION['ccdata']['order_payment_expire_month']) {
-				$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_CCMON',false) );
+				$vmLogger->err( $VM_LANG->_('VM_CHECKOUT_ERR_NO_CCMON',false) );
 				return False;
 			}
 			if(!$_SESSION['ccdata']['order_payment_expire_year']) {
-				$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_CCYEAR',false) );
+				$vmLogger->err( $VM_LANG->_('VM_CHECKOUT_ERR_NO_CCYEAR',false) );
 				return False;
 			}
 			$date = getdate( time() );
 			if ($_SESSION['ccdata']['order_payment_expire_year'] < $date["year"] or
 			($_SESSION['ccdata']['order_payment_expire_year'] == $date["year"] and
 			$_SESSION['ccdata']['order_payment_expire_month'] < $date["mon"])) {
-				$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_CCDATE_INV',false) );
+				$vmLogger->err( $VM_LANG->_('VM_CHECKOUT_ERR_CCDATE_INV',false) );
 				return False;
 			}
 			return True;
@@ -544,30 +544,30 @@ class ps_checkout {
 					$dbu =& ps_user::getUserInfo( $auth["user_id"], array( 'bank_account_holder','bank_iban','bank_account_nr','bank_sort_code','bank_name' ) ); 
 				}
 				else {
-					$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_USER_DATA',false) );
+					$vmLogger->err( $VM_LANG->_('VM_CHECKOUT_ERR_NO_USER_DATA',false) );
 					return False;
 				}
 			}
 			if ($dbu->f("bank_account_holder") == ""){
-				$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_BA_HOLDER_NAME',false) );
+				$vmLogger->err( $VM_LANG->_('VM_CHECKOUT_ERR_NO_BA_HOLDER_NAME',false) );
 				return False;
 			}
 			if (($dbu->f("bank_iban") == "") and
 			($dbu->f("bank_account_nr") =="")) {
-				$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_IBAN',false) );
+				$vmLogger->err( $VM_LANG->_('VM_CHECKOUT_ERR_NO_IBAN',false) );
 				return False;
 			}
 			if ($dbu->f("bank_iban") == "") {
 				if ($dbu->f("bank_account_nr") == ""){
-					$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_BA_NUM',false) );
+					$vmLogger->err( $VM_LANG->_('VM_CHECKOUT_ERR_NO_BA_NUM',false) );
 					return False;
 				}
 				if ($dbu->f("bank_sort_code") == ""){
-					$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_BANK_SORT',false) );
+					$vmLogger->err( $VM_LANG->_('VM_CHECKOUT_ERR_NO_BANK_SORT',false) );
 					return False;
 				}
 				if ($dbu->f("bank_name") == ""){
-					$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_BANK_NAME',false) );
+					$vmLogger->err( $VM_LANG->_('VM_CHECKOUT_ERR_NO_BANK_NAME',false) );
 					return False;
 				}
 			}
@@ -619,7 +619,7 @@ class ps_checkout {
 		$ccdata = array();
 
 		if( empty($d["checkout_this_step"]) || !is_array(@$d["checkout_this_step"])) {
-			$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_VALID_STEP',false) );
+			$vmLogger->err( $VM_LANG->_('VM_CHECKOUT_ERR_NO_VALID_STEP',false) );
 			return false;
 		}
 		
@@ -633,7 +633,7 @@ class ps_checkout {
 				case 'CHECK_OUT_GET_SHIPPING_ADDR' :		
 					// The User has choosen a Shipping address
 					if (empty($d["ship_to_info_id"])) {
-						$vmLogger->err('I am in  process '.$VM_LANG->_('PHPSHOP_CHECKOUT_ERR_NO_SHIPTO',false) );
+						$vmLogger->err('I am in  process '.$VM_LANG->_('VM_CHECKOUT_ERR_NO_SHIPTO',false) );
 						unset( $_POST['checkout_this_step']);
 						return False;
 					}
@@ -949,13 +949,13 @@ class ps_checkout {
 		
 		
 		if (is_array($process_payment_result) && @$process_payment_result[0] === false ) {
-			$vmLogger->err( $VM_LANG->_('PHPSHOP_PAYMENT_ERROR',false));
+			$vmLogger->err( $VM_LANG->_('VM_PAYMENT_ERROR',false));
 			$_SESSION['last_page'] = "checkout.index";
 			$_REQUEST["checkout_next_step"] = CHECK_OUT_GET_PAYMENT_METHOD;
 			return False;
 		}
 		else {
-			$d["order_payment_log"] = $VM_LANG->_('PHPSHOP_CHECKOUT_MSG_LOG');
+			$d["order_payment_log"] = $VM_LANG->_('VM_CHECKOUT_MSG_LOG');
 		}
 
 		// Remove the Coupon, because it is a Gift Coupon and now is used!!
@@ -1869,8 +1869,8 @@ class ps_checkout {
 		$shopper_name = $dbbt->f("first_name")." ".$dbbt->f("last_name");
 
 		$from_email = $dbv->f("email");
-		$shopper_subject = $dbv->f("vendor_name") . " ".$VM_LANG->_('PHPSHOP_ORDER_PRINT_PO_LBL',false)." - " . $db->f("order_id");
-		$vendor_subject = $dbv->f("vendor_name") . " ".$VM_LANG->_('PHPSHOP_ORDER_PRINT_PO_LBL',false)." - " . $db->f("order_id");
+		$shopper_subject = $dbv->f("vendor_name") . " ".$VM_LANG->_('VM_ORDER_PRINT_PO_LBL',false)." - " . $db->f("order_id");
+		$vendor_subject = $dbv->f("vendor_name") . " ".$VM_LANG->_('VM_ORDER_PRINT_PO_LBL',false)." - " . $db->f("order_id");
 
 		$GLOBALS['vmLogger']->debug('$vendor_subject '.$vendor_subject);
 		$GLOBALS['vmLogger']->debug('$from_email '.$from_email);
@@ -1883,9 +1883,9 @@ class ps_checkout {
 		$payment_info_details = $db_payment->f("name");
 		if( !empty( $_SESSION['ccdata']['order_payment_name'] )
 			&& !empty($_SESSION['ccdata']['order_payment_number'])) {
-	  		$payment_info_details .= '<br />'.$VM_LANG->_('PHPSHOP_CHECKOUT_CONF_PAYINFO_NAMECARD',false).': '.$_SESSION['ccdata']['order_payment_name'].'<br />';
-	  		$payment_info_details .= $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_PAYINFO_CCNUM',false).': '.$this->asterisk_pad($_SESSION['ccdata']['order_payment_number'], 4 ).'<br />';
-	  		$payment_info_details .= $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_PAYINFO_EXDATE',false).': '.$_SESSION['ccdata']['order_payment_expire_month'].' / '.$_SESSION['ccdata']['order_payment_expire_year'].'<br />';
+	  		$payment_info_details .= '<br />'.$VM_LANG->_('VM_CHECKOUT_CONF_PAYINFO_NAMECARD',false).': '.$_SESSION['ccdata']['order_payment_name'].'<br />';
+	  		$payment_info_details .= $VM_LANG->_('VM_CHECKOUT_CONF_PAYINFO_CCNUM',false).': '.$this->asterisk_pad($_SESSION['ccdata']['order_payment_number'], 4 ).'<br />';
+	  		$payment_info_details .= $VM_LANG->_('VM_CHECKOUT_CONF_PAYINFO_EXDATE',false).': '.$_SESSION['ccdata']['order_payment_expire_month'].' / '.$_SESSION['ccdata']['order_payment_expire_year'].'<br />';
 	  		if( !empty($_SESSION['ccdata']['credit_card_code'])) {
 	  			$payment_info_details .= 'CVV code: '.$_SESSION['ccdata']['credit_card_code'].'<br />';
 	  		}
@@ -1899,7 +1899,7 @@ class ps_checkout {
 		// Headers and Footers
 		// ******************************
 		// Shopper Header
-		$shopper_header = $VM_LANG->_('PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER1',false)."\n";
+		$shopper_header = $VM_LANG->_('VM_CHECKOUT_EMAIL_SHOPPER_HEADER1',false)."\n";
 		
 		$legal_info_title = '';
 		$legal_info_html = '';
@@ -1919,12 +1919,12 @@ class ps_checkout {
 			}
 		}
 		//Shopper Footer
-		$shopper_footer = "\n\n".$VM_LANG->_('PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER2',false)."\n";
+		$shopper_footer = "\n\n".$VM_LANG->_('VM_CHECKOUT_EMAIL_SHOPPER_HEADER2',false)."\n";
 		if( VM_REGISTRATION_TYPE != 'NO_REGISTRATION' ) {
-			$shopper_footer .= "\n\n".$VM_LANG->_('PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER5',false)."\n";
+			$shopper_footer .= "\n\n".$VM_LANG->_('VM_CHECKOUT_EMAIL_SHOPPER_HEADER5',false)."\n";
 			$shopper_footer .= $shopper_order_link;
 		}
-		$shopper_footer .= "\n\n".$VM_LANG->_('PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER3',false)."\n";
+		$shopper_footer .= "\n\n".$VM_LANG->_('VM_CHECKOUT_EMAIL_SHOPPER_HEADER3',false)."\n";
 		$shopper_footer .= "Email: " . $from_email;
 		// New in version 1.0.5
 		if( @VM_ONCHECKOUT_SHOW_LEGALINFO == '1' && !empty( $legal_info_title )) {
@@ -1934,10 +1934,10 @@ class ps_checkout {
 		}
 		
 		// Vendor Header
-		$vendor_header = $VM_LANG->_('PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER4',false)."\n";
+		$vendor_header = $VM_LANG->_('VM_CHECKOUT_EMAIL_SHOPPER_HEADER4',false)."\n";
 
 		// Vendor Footer
-		$vendor_footer = "\n\n".$VM_LANG->_('PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER5',false)."\n";
+		$vendor_footer = "\n\n".$VM_LANG->_('VM_CHECKOUT_EMAIL_SHOPPER_HEADER5',false)."\n";
 		$vendor_footer .= $vendor_order_link;
 
 		$vendor_email = $from_email;
@@ -1948,12 +1948,12 @@ class ps_checkout {
 
 		// Main Email Message Purchase Order
 		// *********************************
-		$shopper_message  = "\n".$VM_LANG->_('PHPSHOP_ORDER_PRINT_PO_LBL',false)."\n";
+		$shopper_message  = "\n".$VM_LANG->_('VM_ORDER_PRINT_PO_LBL',false)."\n";
 		$shopper_message .= "------------------------------------------------------------------------\n";
-		$shopper_message .= $VM_LANG->_('PHPSHOP_ORDER_PRINT_PO_NUMBER',false).": " . $db->f("order_id") . "\n";
-		$shopper_message .= $VM_LANG->_('PHPSHOP_ORDER_PRINT_PO_DATE',false).":   ";
+		$shopper_message .= $VM_LANG->_('VM_ORDER_PRINT_PO_NUMBER',false).": " . $db->f("order_id") . "\n";
+		$shopper_message .= $VM_LANG->_('VM_ORDER_PRINT_PO_DATE',false).":   ";
 		$shopper_message .= strftime( $VM_LANG->_('DATE_FORMAT_LC'), $db->f("cdate") ) . "\n";
-		$shopper_message .= $VM_LANG->_('PHPSHOP_ORDER_PRINT_PO_STATUS',false).": ";
+		$shopper_message .= $VM_LANG->_('VM_ORDER_PRINT_PO_STATUS',false).": ";
 				
 		$shopper_message .= $order_status."\n\n";
 				
@@ -1974,7 +1974,7 @@ class ps_checkout {
 		
 		// Shipping Fields
 		$shopper_message .= "\n\n";
-		$shopper_message .= $VM_LANG->_('PHPSHOP_ORDER_PRINT_SHIP_TO_LBL')."\n";
+		$shopper_message .= $VM_LANG->_('VM_ORDER_PRINT_SHIP_TO_LBL')."\n";
 		$shopper_message .= "-------\n\n";
 		
 		$shippingfields = ps_userfield::getUserFields('shipping', false, '', false, true );
@@ -1991,23 +1991,23 @@ class ps_checkout {
 		
 		$shopper_message .= "\n\n";
 
-		$shopper_message .= $VM_LANG->_('PHPSHOP_ORDER_PRINT_ITEMS_LBL',false)."\n";
+		$shopper_message .= $VM_LANG->_('VM_ORDER_PRINT_ITEMS_LBL',false)."\n";
 		$shopper_message .= "-----------";
 		$sub_total = 0.00;
 		while($dboi->next_record()) {
 			$shopper_message .= "\n\n";
-			$shopper_message .= $VM_LANG->_('PHPSHOP_PRODUCT',false)."  = ";
+			$shopper_message .= $VM_LANG->_('VM_PRODUCT',false)."  = ";
 			if ($dboi->f("product_parent_id")) {
 				$shopper_message .= $dboi->f("order_item_name") . "\n";
 				$shopper_message .= "SERVICE  = ";
 			}
 			$shopper_message .= $dboi->f("product_name") . "; ".$dboi->f("product_attribute") ."\n";
-			$shopper_message .= $VM_LANG->_('PHPSHOP_ORDER_PRINT_QUANTITY',false)." = ";
+			$shopper_message .= $VM_LANG->_('VM_ORDER_PRINT_QUANTITY',false)." = ";
 			$shopper_message .= $dboi->f("product_quantity") . "\n";
-			$shopper_message .= $VM_LANG->_('PHPSHOP_ORDER_PRINT_SKU',false)."      = ";
+			$shopper_message .= $VM_LANG->_('VM_ORDER_PRINT_SKU',false)."      = ";
 			$shopper_message .= $dboi->f("order_item_sku") . "\n";
 
-			$shopper_message .= $VM_LANG->_('PHPSHOP_ORDER_PRINT_PRICE',false)."    = ";
+			$shopper_message .= $VM_LANG->_('VM_ORDER_PRINT_PRICE',false)."    = ";
 			if ($auth["show_price_including_tax"] == 1) {
 				$sub_total += ($dboi->f("product_quantity") * $dboi->f("product_final_price"));
 				$shopper_message .= $CURRENCY_DISPLAY->getFullValue($dboi->f("product_final_price"), '', $db->f('order_currency'));
@@ -2019,60 +2019,60 @@ class ps_checkout {
 
 		$shopper_message .= "\n\n";
 
-		$shopper_message .= $VM_LANG->_('PHPSHOP_ORDER_PRINT_SUBTOTAL',false)." = ";
+		$shopper_message .= $VM_LANG->_('VM_ORDER_PRINT_SUBTOTAL',false)." = ";
 		$shopper_message .= $CURRENCY_DISPLAY->getFullValue($sub_total, '', $db->f('order_currency'))."\n";
 
 		if ( PAYMENT_DISCOUNT_BEFORE == '1') {
 			if( !empty($order_discount)) {
 				if ($order_discount > 0) {
-					$shopper_message .= $VM_LANG->_('PHPSHOP_PAYMENT_METHOD_LIST_DISCOUNT',false)." = ";
+					$shopper_message .= $VM_LANG->_('VM_PAYMENT_METHOD_LIST_DISCOUNT',false)." = ";
 					$shopper_message .= "- ".$CURRENCY_DISPLAY->getFullValue(abs($order_discount), '', $db->f('order_currency')) . "\n";
 				} else {
-					$shopper_message .= $VM_LANG->_('PHPSHOP_FEE',false)." = ";
+					$shopper_message .= $VM_LANG->_('VM_FEE',false)." = ";
 					$shopper_message .= "+ ".$CURRENCY_DISPLAY->getFullValue(abs($order_discount), '', $db->f('order_currency')) . "\n";
 				}
 			}
 			if( !empty($coupon_discount)) {
 				/* following 2 lines added by Erich for coupon hack */
-				$shopper_message .= $VM_LANG->_('PHPSHOP_COUPON_DISCOUNT',false) . ": ";
+				$shopper_message .= $VM_LANG->_('VM_COUPON_DISCOUNT',false) . ": ";
 				$shopper_message .= $CURRENCY_DISPLAY->getFullValue($coupon_discount, '', $db->f('order_currency')) . "\n";
 			}
 		}
 
 		if ($auth["show_price_including_tax"] != 1) {
-			$shopper_message .= $VM_LANG->_('PHPSHOP_ORDER_PRINT_TOTAL_TAX',false)."      = ";
+			$shopper_message .= $VM_LANG->_('VM_ORDER_PRINT_TOTAL_TAX',false)."      = ";
 			$shopper_message .= $CURRENCY_DISPLAY->getFullValue($order_tax, '', $db->f('order_currency')) . "\n";
 		}
-		$shopper_message .= $VM_LANG->_('PHPSHOP_ORDER_PRINT_SHIPPING',false)." = ";
+		$shopper_message .= $VM_LANG->_('VM_ORDER_PRINT_SHIPPING',false)." = ";
 		$shopper_message .= $CURRENCY_DISPLAY->getFullValue($order_shipping, '', $db->f('order_currency')) . "\n";
 		if( !empty($order_shipping_tax)) {
-			$shopper_message .= $VM_LANG->_('PHPSHOP_ORDER_PRINT_SHIPPING_TAX',false)."   = ";
+			$shopper_message .= $VM_LANG->_('VM_ORDER_PRINT_SHIPPING_TAX',false)."   = ";
 			$shopper_message .= $CURRENCY_DISPLAY->getFullValue($order_shipping_tax, '', $db->f('order_currency'));
 		}
 		$shopper_message .= "\n\n";
 		if ( PAYMENT_DISCOUNT_BEFORE != '1') {
 			if( !empty($order_discount)) {
 				if ($order_discount > 0) {
-					$shopper_message .= $VM_LANG->_('PHPSHOP_PAYMENT_METHOD_LIST_DISCOUNT',false)." = ";
+					$shopper_message .= $VM_LANG->_('VM_PAYMENT_METHOD_LIST_DISCOUNT',false)." = ";
 					$shopper_message .= "- ".$CURRENCY_DISPLAY->getFullValue(abs($order_discount), '', $db->f('order_currency')) . "\n";
 				} else {
-					$shopper_message .= $VM_LANG->_('PHPSHOP_FEE',false)." = ";
+					$shopper_message .= $VM_LANG->_('VM_FEE',false)." = ";
 					$shopper_message .= "+ ".$CURRENCY_DISPLAY->getFullValue(abs($order_discount), '', $db->f('order_currency')) . "\n";
 				}
 			}
 			if( !empty($coupon_discount)) {
 				/* following 2 lines added by Erich for coupon hack */
-				$shopper_message .= $VM_LANG->_('PHPSHOP_COUPON_DISCOUNT',false) . ": ";
+				$shopper_message .= $VM_LANG->_('VM_COUPON_DISCOUNT',false) . ": ";
 				$shopper_message .= $CURRENCY_DISPLAY->getFullValue($coupon_discount, '', $db->f('order_currency')) . "\n";
 			}
 		}
-		$shopper_message .= $VM_LANG->_('PHPSHOP_ORDER_PRINT_TOTAL',false)."    = ";
+		$shopper_message .= $VM_LANG->_('VM_ORDER_PRINT_TOTAL',false)."    = ";
 		$shopper_message .= $CURRENCY_DISPLAY->getFullValue($order_total, '', $db->f('order_currency'));
 
 		if ($auth["show_price_including_tax"] == 1) {
 			$shopper_message .= "\n---------------";
 			$shopper_message .= "\n";
-			$shopper_message .= $VM_LANG->_('PHPSHOP_ORDER_PRINT_TOTAL_TAX',false)."      = ";
+			$shopper_message .= $VM_LANG->_('VM_ORDER_PRINT_TOTAL_TAX',false)."      = ";
 			$shopper_message .= $CURRENCY_DISPLAY->getFullValue($order_tax, '', $db->f('order_currency')) . "\n";
 		}
 		if( $db->f('order_tax_details') ) {
@@ -2085,12 +2085,12 @@ class ps_checkout {
 		// Shipping Details
 		if( !empty($shipping_arr[1]) && !empty($shipping_arr[2]) ) {
 			$shopper_message .= "\n\n------------------------------------------------------------------------\n";
-			$shopper_message .= $VM_LANG->_('PHPSHOP_ORDER_PRINT_SHIPPING_LBL',false).":\n";
+			$shopper_message .= $VM_LANG->_('VM_ORDER_PRINT_SHIPPING_LBL',false).":\n";
 			$shopper_message .= $shipping_arr[1]." (".$shipping_arr[2].")";
 		}
 		// Customer Note
 		$shopper_message .= "\n\n------------------------------------------------------------------------\n";
-		$shopper_message .= "\n".$VM_LANG->_('PHPSHOP_ORDER_PRINT_CUSTOMER_NOTE',false)."\n";
+		$shopper_message .= "\n".$VM_LANG->_('VM_ORDER_PRINT_CUSTOMER_NOTE',false)."\n";
 		$shopper_message .= "---------------";
 		$shopper_message .= "\n";
 		if( !empty( $customer_note )) {
@@ -2137,17 +2137,17 @@ class ps_checkout {
 			$template = vmTemplate::getInstance();
 			
 			if ($order_discount > 0) {
-				$order_discount_lbl = $VM_LANG->_('PHPSHOP_PAYMENT_METHOD_LIST_DISCOUNT');
+				$order_discount_lbl = $VM_LANG->_('VM_PAYMENT_METHOD_LIST_DISCOUNT');
 				$order_discount_plusminus = '-';
 			} else {
-				$order_discount_lbl = $VM_LANG->_('PHPSHOP_FEE');
+				$order_discount_lbl = $VM_LANG->_('VM_FEE');
 				$order_discount_plusminus = '+';
 			}
 			if ($coupon_discount > 0) {
-				$coupon_discount_lbl = $VM_LANG->_('PHPSHOP_PAYMENT_METHOD_LIST_DISCOUNT');
+				$coupon_discount_lbl = $VM_LANG->_('VM_PAYMENT_METHOD_LIST_DISCOUNT');
 				$coupon_discount_plusminus = '-';
 			} else {
-				$coupon_discount_lbl = $VM_LANG->_('PHPSHOP_FEE');
+				$coupon_discount_lbl = $VM_LANG->_('VM_FEE');
 				$coupon_discount_plusminus = '+';
 			}
 
@@ -2180,9 +2180,9 @@ class ps_checkout {
 														'legal_info_html' => $legal_info_html,
 														'order_link' => $shopper_order_link,
 			
-														'payment_info_lbl' => $VM_LANG->_('PHPSHOP_ORDER_PRINT_PAYINFO_LBL'),
+														'payment_info_lbl' => $VM_LANG->_('VM_ORDER_PRINT_PAYINFO_LBL'),
 														'payment_info_details' => $payment_info_details,
-														'shipping_info_lbl' => $VM_LANG->_('PHPSHOP_ORDER_PRINT_SHIPPING_LBL'),
+														'shipping_info_lbl' => $VM_LANG->_('VM_ORDER_PRINT_SHIPPING_LBL'),
 														'shipping_info_details' => $shipping_info_details,
 			
 														'from_email' => $from_email,
@@ -2308,7 +2308,7 @@ class ps_checkout {
 					$value /= $discount_factor;
 				}
 				$rate = str_replace( '-', $CURRENCY_DISPLAY->decimal, $rate )*100;
-				$html .= $CURRENCY_DISPLAY->getFullValue( $value, 5, $currency ).' ('.$rate.'% '.$VM_LANG->_('PHPSHOP_CART_TAX').')<br />';
+				$html .= $CURRENCY_DISPLAY->getFullValue( $value, 5, $currency ).' ('.$rate.'% '.$VM_LANG->_('VM_CART_TAX').')<br />';
 			}
 		}
 		return $html;

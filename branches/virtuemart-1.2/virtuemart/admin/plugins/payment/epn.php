@@ -57,7 +57,7 @@ class plgPaymentEpn extends vmPaymentPlugin {
         // Get the Transaction Key securely from the database
         $transactionkey = $this->get_passkey();
         if( empty($transactionkey)) {
-            $vmLogger->err( $VM_LANG->_('PHPSHOP_PAYMENT_ERROR'),false );
+            $vmLogger->err( $VM_LANG->_('VM_PAYMENT_ERROR'),false );
             return false;
         }
         
@@ -178,7 +178,7 @@ class plgPaymentEpn extends vmPaymentPlugin {
             $error = curl_error( $CR );
             if( !empty( $error )) {
               $vmLogger->err( curl_error( $CR ) );
-              $html = "<br/><span class=\"message\">".$VM_LANG->_('PHPSHOP_PAYMENT_INTERNAL_ERROR')." eProcessingNetwork.com</span>";
+              $html = "<br/><span class=\"message\">".$VM_LANG->_('VM_PAYMENT_INTERNAL_ERROR')." eProcessingNetwork.com</span>";
               return false;
             }
             else {
@@ -233,7 +233,7 @@ class plgPaymentEpn extends vmPaymentPlugin {
 
         // Approved - Success!
         if ($response[0] == '1') {
-           $d["order_payment_log"] = $VM_LANG->_('PHPSHOP_PAYMENT_TRANSACTION_SUCCESS').": ";
+           $d["order_payment_log"] = $VM_LANG->_('VM_PAYMENT_TRANSACTION_SUCCESS').": ";
            $d["order_payment_log"] .= $response[3];
            // Catch Transaction ID
            $d["order_payment_trans_id"] = $response[6];
@@ -291,7 +291,7 @@ Discover Test Account       5424000000000015
         // Get the Transaction Key securely from the database
         $transactionkey = $this->get_passkey();
         if( empty($transactionkey)) {
-            $vmLogger->err($VM_LANG->_('PHPSHOP_PAYMENT_ERROR'),false);
+            $vmLogger->err($VM_LANG->_('VM_PAYMENT_ERROR'),false);
             return false;
         }
         $db = new ps_DB;
@@ -426,7 +426,7 @@ Discover Test Account       5424000000000015
             $error = curl_error( $CR );
             if( !empty( $error )) {
               $vmLogger->err( curl_error( $CR ) );
-              $html = "<br/><span class=\"message\">".$VM_LANG->_('PHPSHOP_PAYMENT_INTERNAL_ERROR')." eProcessingNetork.com</span>";
+              $html = "<br/><span class=\"message\">".$VM_LANG->_('VM_PAYMENT_INTERNAL_ERROR')." eProcessingNetork.com</span>";
               return false;
             }
             else {
@@ -481,7 +481,7 @@ Discover Test Account       5424000000000015
         
         // Approved - Success!
         if ($response[0] == '1') {
-           $d["order_payment_log"] = $VM_LANG->_('PHPSHOP_PAYMENT_TRANSACTION_SUCCESS').": ";
+           $d["order_payment_log"] = $VM_LANG->_('VM_PAYMENT_TRANSACTION_SUCCESS').": ";
            $d["order_payment_log"] .= $response[3];
            // Catch Transaction ID
            $d["order_payment_trans_id"] = $response[6];

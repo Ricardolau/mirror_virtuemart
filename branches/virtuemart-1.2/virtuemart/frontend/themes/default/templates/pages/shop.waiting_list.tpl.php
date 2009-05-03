@@ -23,14 +23,14 @@ global $VM_LANG;
 <form action="<?php echo $mm_action_url ?>index.php" method="post" name="waiting">
 <input type="hidden" name="option" value="<?php echo $option ?>" />
 <input type="hidden" name="func" value="waitinglistadd" />
-<?php echo $VM_LANG->_('PHPSHOP_WAITING_LIST_MESSAGE') ?>
+<?php echo $VM_LANG->_('VM_WAITING_LIST_MESSAGE') ?>
 <br />
 <br />
 
 <input type="text" class="inputbox" name="notify_email" value="<?php echo $my->email ?>" />
 &nbsp;&nbsp;
 
-<input type="submit" class="button" name="waitinglistadd" value="<?php echo $VM_LANG->_('PHPSHOP_WAITING_LIST_NOTIFY_ME') ?>" />
+<input type="submit" class="button" name="waitinglistadd" value="<?php echo $VM_LANG->_('VM_WAITING_LIST_NOTIFY_ME') ?>" />
 
 <input type="hidden" name="product_id" value="<?php echo $product_id; ?>" />
 <input type="hidden" name="page" value="shop.waiting_thanks" />

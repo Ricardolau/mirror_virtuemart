@@ -1,7 +1,7 @@
 <?php if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 mm_showMyFileName(__FILE__);
 
-$button_lbl = $VM_LANG->_('PHPSHOP_CART_ADD_TO');
+$button_lbl = $VM_LANG->_('VM_CART_ADD_TO');
 $button_cls = 'addtocart_button';
 if( CHECK_STOCK == '1' && !$product_in_stock ) {
 	$button_lbl = $VM_LANG->_('VM_CART_NOTIFY');

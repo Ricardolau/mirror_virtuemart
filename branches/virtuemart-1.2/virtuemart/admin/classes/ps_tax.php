@@ -247,7 +247,7 @@ class ps_tax extends vmAbstractObject  {
 		if( $on_change != '' ) {
 			$on_change = " onchange=\"$on_change\"" ;
 		}
-		$ratesArr[0] = $VM_LANG->_( 'PHPSHOP_INFO_MSG_VAT_ZERO_LBL' ) ;
+		$ratesArr[0] = $VM_LANG->_( 'VM_INFO_MSG_VAT_ZERO_LBL' ) ;
 		
 		$tax_rates = Array( ) ;
 		while( $db->next_record() ) {

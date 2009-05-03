@@ -53,7 +53,7 @@ $tabs->startTab( $VM_LANG->_('VM_EXPORT_MODULE_FORM_LBL'), 'global-page');
 ?>
 <table class="adminform">
     <tr class="row0">
-      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_ISSHIP_LIST_PUBLISH_LBL') ?>?:</td>
+      <td class="labelcell"><?php echo $VM_LANG->_('VM_ISSHIP_LIST_PUBLISH_LBL') ?>?:</td>
       <td><input type="checkbox" name="export_enabled" class="inputbox" value="Y" <?php echo $db->sf('export_enabled')=="Y" ? "checked=\"checked\"" : "" ?> /></td>
     </tr>
     <tr class="row1"> 
@@ -97,7 +97,7 @@ $tabs->startTab( $VM_LANG->_('VM_EXPORT_MODULE_FORM_LBL'), 'global-page');
   </table>
 <?php
 $tabs->endTab();
-$tabs->startTab( $VM_LANG->_('PHPSHOP_CONFIG'), "config-page");
+$tabs->startTab( $VM_LANG->_('VM_CONFIG'), "config-page");
 
 if( $_EXPORT->has_configuration() ) {
 	$ps_html->writableIndicator( CLASSPATH."export/".$_EXPORT->classname.".cfg.php" );

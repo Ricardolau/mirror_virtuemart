@@ -28,7 +28,7 @@ global $sess, $mosConfig_live_site;
 $Treeid = vmRequest::getInt( 'Treeid' );
 
 // Get the root label
-$root_label = $params->get( 'root_label', $VM_LANG->_('PHPSHOP_STORE_MOD') );
+$root_label = $params->get( 'root_label', $VM_LANG->_('VM_STORE_MOD') );
 
 // Get the ps_product_category class
 require_once( CLASSPATH . 'ps_product_category.php' );

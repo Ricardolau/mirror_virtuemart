@@ -399,7 +399,7 @@ class vmPaymentMethod extends vmAbstractObject {
 
 		// Start drop down list
 	
-		$array[0] = $VM_LANG->_('PHPSHOP_SELECT');
+		$array[0] = $VM_LANG->_('VM_SELECT');
 		while ($db->next_record()) {
 			$array[$db->f("id")] = $db->f("name");
 		}
@@ -948,7 +948,7 @@ class vmPaymentPlugin extends vmPlugin {
 		$db->query( "SELECT ".VM_DECRYPT_FUNCTION."(secret_key,'".ENCODE_KEY."') as passkey FROM #__{vm}_payment_method WHERE element='".$this->_name."' AND shopper_group_id='".$auth['shopper_group_id']."'" );
 		$db->next_record();
 		if( !$db->f('passkey')) {
-			$vmLogger->err( $VM_LANG->_('PHPSHOP_PAYMENT_ERROR',false).'. Technical Note: The required transaction key is empty! The payment method settings must be reviewed.' );
+			$vmLogger->err( $VM_LANG->_('VM_PAYMENT_ERROR',false).'. Technical Note: The required transaction key is empty! The payment method settings must be reviewed.' );
 			return false;
 		}
 		return $db->f('passkey');

@@ -47,8 +47,8 @@ class plgShippingDhl extends vmShippingPlugin {
 			$ship_timestamp = mktime(0, 0, 0, $cur_month,
 			    $cur_day_of_month + 1, $cur_year);
 			$ship_delay_msg =
-			    $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_NOT_ON_WEEKENDS') . " " .
-			    $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_WILL_GO_OUT') . ": " .
+			    $VM_LANG->_('VM_SHIPPING_METHOD_DHL_NOT_ON_WEEKENDS') . " " .
+			    $VM_LANG->_('VM_SHIPPING_METHOD_DHL_WILL_GO_OUT') . ": " .
 				date('M j, Y', $ship_timestamp);
 			$ship_day = 'Mon';
 			$ship_date = date('Y-m-d', $ship_timestamp);
@@ -58,8 +58,8 @@ class plgShippingDhl extends vmShippingPlugin {
 			$ship_timestamp = mktime(0, 0, 0, $cur_month,
 			    $cur_day_of_month + 2, $cur_year);
 			$ship_delay_msg =
-			    $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_NOT_ON_WEEKENDS') . " " .
-			    $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_WILL_GO_OUT') . ": " .
+			    $VM_LANG->_('VM_SHIPPING_METHOD_DHL_NOT_ON_WEEKENDS') . " " .
+			    $VM_LANG->_('VM_SHIPPING_METHOD_DHL_WILL_GO_OUT') . ": " .
 				date('M j, Y', $ship_timestamp);
 			$ship_day = 'Mon';
 			$ship_date = date('Y-m-d', $ship_timestamp);
@@ -73,9 +73,9 @@ class plgShippingDhl extends vmShippingPlugin {
 					$ship_timestamp = mktime(0, 0, 0, $cur_month,
 						$cur_day_of_month + 3, $cur_year);
 					$ship_delay_msg =
-						$VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TOO_LATE_TO_SHIP')
+						$VM_LANG->_('VM_SHIPPING_METHOD_DHL_TOO_LATE_TO_SHIP')
 					    . " " .
-						$VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_WILL_GO_OUT')
+						$VM_LANG->_('VM_SHIPPING_METHOD_DHL_WILL_GO_OUT')
 					    . ": " .  date('M j, Y', $ship_timestamp);
 					$ship_day = 'Mon';
 					$ship_date = date('Y-m-d', $ship_timestamp);
@@ -83,9 +83,9 @@ class plgShippingDhl extends vmShippingPlugin {
 					$ship_timestamp = mktime(0, 0, 0, $cur_month,
 						$cur_day_of_month + 1, $cur_year);
 					$ship_delay_msg =
-						$VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TOO_LATE_TO_SHIP')
+						$VM_LANG->_('VM_SHIPPING_METHOD_DHL_TOO_LATE_TO_SHIP')
 					    . " " .
-						$VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_WILL_GO_OUT')
+						$VM_LANG->_('VM_SHIPPING_METHOD_DHL_WILL_GO_OUT')
 					    . ": " .  date('M j, Y', $ship_timestamp);
 					$ship_day = date('D', $ship_timestamp);
 					$ship_date = date('Y-m-d', $ship_timestamp);
@@ -138,7 +138,7 @@ class plgShippingDhl extends vmShippingPlugin {
 			if ($this->params->get('DHL_EXPRESS_ENABLED') == 'TRUE') {
 				$methods[] = array(
 					'service_desc' =>
-					    $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_EXPRESS'),
+					    $VM_LANG->_('VM_SHIPPING_METHOD_DHL_EXPRESS'),
 					'service_code' => 'E',
 					'special_service' => '',
 					'package_type' => $this->params->get('DHL_DOMESTIC_PACKAGE'),
@@ -147,7 +147,7 @@ class plgShippingDhl extends vmShippingPlugin {
 			if ($this->params->get('DHL_NEXT_AFTERNOON_ENABLED') == 'TRUE') {
 				$methods[] = array(
 					'service_desc' =>
-					    $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_NEXT_AFTERNOON'),
+					    $VM_LANG->_('VM_SHIPPING_METHOD_DHL_NEXT_AFTERNOON'),
 					'service_code' => 'N',
 					'special_service' => '',
 					'package_type' => $this->params->get('DHL_DOMESTIC_PACKAGE'),
@@ -156,7 +156,7 @@ class plgShippingDhl extends vmShippingPlugin {
 			if ($this->params->get('DHL_SECOND_DAY_ENABLED') == 'TRUE') {
 				$methods[] = array(
 					'service_desc' =>
-					    $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_SECOND_DAY'),
+					    $VM_LANG->_('VM_SHIPPING_METHOD_DHL_SECOND_DAY'),
 					'service_code' => 'S',
 					'special_service' => '',
 					'package_type' => $this->params->get('DHL_DOMESTIC_PACKAGE'),
@@ -165,7 +165,7 @@ class plgShippingDhl extends vmShippingPlugin {
 			if ($this->params->get('DHL_GROUND_ENABLED') == 'TRUE') {
 				$methods[] = array(
 					'service_desc' =>
-					    $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_GROUND'),
+					    $VM_LANG->_('VM_SHIPPING_METHOD_DHL_GROUND'),
 					'service_code' => 'G',
 					'special_service' => '',
 					'package_type' => $this->params->get('DHL_DOMESTIC_PACKAGE'),
@@ -174,7 +174,7 @@ class plgShippingDhl extends vmShippingPlugin {
 			if ($this->params->get('DHL_1030_ENABLED') == 'TRUE') {
 				$methods[] = array(
 					'service_desc' =>
-					    $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_1030'),
+					    $VM_LANG->_('VM_SHIPPING_METHOD_DHL_1030'),
 					'service_code' => 'E',
 					'special_service' => '1030',
 					'package_type' => $this->params->get('DHL_DOMESTIC_PACKAGE'),
@@ -184,7 +184,7 @@ class plgShippingDhl extends vmShippingPlugin {
 			if (DHL_SATURDAY_ENABLED == 'TRUE' && ($ship_day == 'Fri')) {
 				$methods[] = array(
 					'service_desc' =>
-					    $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_SATURDAY'),
+					    $VM_LANG->_('VM_SHIPPING_METHOD_DHL_SATURDAY'),
 					'service_code' => 'E',
 					'special_service' => 'SAT',
 					'package_type' => $this->params->get('DHL_DOMESTIC_PACKAGE'),
@@ -201,7 +201,7 @@ class plgShippingDhl extends vmShippingPlugin {
 			if ($this->params->get('DHL_INTERNATIONAL_ENABLED') == 'TRUE') {
 				$methods[] = array(
 					'service_desc' =>
-					    $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INTERNATIONAL'),
+					    $VM_LANG->_('VM_SHIPPING_METHOD_DHL_INTERNATIONAL'),
 					'service_code' => 'IE',
 					'special_service' => '',
 					'package_type' => $this->params->get('DHL_INTERNATIONAL_PACKAGE'),
@@ -425,7 +425,7 @@ class plgShippingDhl extends vmShippingPlugin {
 				if (!empty($error)) {
 					$vmLogger->err(curl_error($CR));
 					$html = '<br/><span class="message">' .
-						$VM_LANG->_('PHPSHOP_INTERNAL_ERROR') .
+						$VM_LANG->_('VM_INTERNAL_ERROR') .
 						 ' DHL</span>';
 					return (false);
 				}
@@ -436,7 +436,7 @@ class plgShippingDhl extends vmShippingPlugin {
 			$xmlResp =& new DOMIT_Lite_Document();
 			if (!$xmlResp->parseXML($xmlResult, false, true)) {
 				$vmLogger->err(
-				    $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INVALID_XML') .
+				    $VM_LANG->_('VM_SHIPPING_METHOD_DHL_INVALID_XML') .
 				    $xmlResult);
 			
 				continue;
@@ -450,7 +450,7 @@ class plgShippingDhl extends vmShippingPlugin {
 			$result_desc =& $result_desc_list->item(0);
 			if ($result_code == NULL) {
 				$vmLogger->debug(
-				    $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_MISSING_RESULT') .
+				    $VM_LANG->_('VM_SHIPPING_METHOD_DHL_MISSING_RESULT') .
 				    "\n" . $xmlResp->toNormalizedString());
 				continue;
 			}
@@ -976,7 +976,7 @@ class plgShippingDhl extends vmShippingPlugin {
 		// XML Parsing
 		$xmlResp =& new DOMIT_Lite_Document();
 		if (!$xmlResp->parseXML($xmlResult, false, true)) {
-			echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INVALID_XML') .
+			echo $VM_LANG->_('VM_SHIPPING_METHOD_DHL_INVALID_XML') .
 			    $xmlResult;
 			return (false);
 		}
@@ -989,7 +989,7 @@ class plgShippingDhl extends vmShippingPlugin {
 		$result_desc =& $result_desc_list->item(0);
 		if ($result_code == NULL) {
 			$vmLogger->debug(
-				$VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_MISSING_RESULT') .
+				$VM_LANG->_('VM_SHIPPING_METHOD_DHL_MISSING_RESULT') .
 				"\n" . $xmlResp->toNormalizedString());
 			return (false);
 		}
@@ -1186,7 +1186,7 @@ class plgShippingDhl extends vmShippingPlugin {
 			if (!empty($error)) {
 				$vmLogger->err(curl_error($CR));
 				$emsg = '<br/><span class="message">' .
-					$VM_LANG->_('PHPSHOP_INTERNAL_ERROR') .
+					$VM_LANG->_('VM_INTERNAL_ERROR') .
 					 ' DHL</span>';
 				return ($emsg);
 			}
@@ -1197,7 +1197,7 @@ class plgShippingDhl extends vmShippingPlugin {
 		$xmlResp =& new DOMIT_Lite_Document();
 		if (!$xmlResp->parseXML($xmlResult, false, true)) {
 			$emsg = '<br /><span class="message">' .
-				$VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INVALID_XML') .
+				$VM_LANG->_('VM_SHIPPING_METHOD_DHL_INVALID_XML') .
 				'</span>';
 			return ($emsg);
 		}
@@ -1209,10 +1209,10 @@ class plgShippingDhl extends vmShippingPlugin {
 		$result_desc_list =& $xmlResp->getElementsByPath('//Result/Desc');
 		$result_desc =& $result_desc_list->item(0);
 		if ($result_code == NULL) {
-			$emsg = $VM_LANG->_('PHPSHOP_ERROR_DESC') . ': ' .
-				$VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_MISSING_RESULT');
+			$emsg = $VM_LANG->_('VM_ERROR_DESC') . ': ' .
+				$VM_LANG->_('VM_SHIPPING_METHOD_DHL_MISSING_RESULT');
 			$vmLogger->debug(
-				$VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_MISSING_RESULT') .
+				$VM_LANG->_('VM_SHIPPING_METHOD_DHL_MISSING_RESULT') .
 				"\n" . $xmlResp->toNormalizedString());
 			return ($emsg);
 		}
@@ -1333,7 +1333,7 @@ class plgShippingDhl extends vmShippingPlugin {
 			if (!empty($error)) {
 				$vmLogger->err(curl_error($CR));
 				$emsg = '<br/><span class="message">' .
-					$VM_LANG->_('PHPSHOP_INTERNAL_ERROR') .
+					$VM_LANG->_('VM_INTERNAL_ERROR') .
 					 ' DHL</span>';
 				curl_close($CR);
 				return ($emsg);
@@ -1344,7 +1344,7 @@ class plgShippingDhl extends vmShippingPlugin {
 		$xmlResp =& new DOMIT_Lite_Document();
 		if (!$xmlResp->parseXML($xmlResult, false, true)) {
 			$emsg = '<br /><span class="message">' .
-				$VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INVALID_XML') .
+				$VM_LANG->_('VM_SHIPPING_METHOD_DHL_INVALID_XML') .
 				'</span>';
 			return ($emsg);
 		}
@@ -1688,12 +1688,12 @@ class plgShippingDhl extends vmShippingPlugin {
 		 * to display it's tracking data.
 		 */
 		$msg = '<p><strong>';
-		$msg .= $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_HISTORY');
+		$msg .= $VM_LANG->_('VM_SHIPPING_METHOD_DHL_TRACKING_HISTORY');
 		$msg .= '</strong><br />';
 		/* Now we've got all our data - format it into HTML */
 		if (count($tracking) == 0) {
 			$msg .= '<strong>';
-			$msg .= $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_NO_DATA');
+			$msg .= $VM_LANG->_('VM_SHIPPING_METHOD_DHL_TRACKING_NO_DATA');
 			$msg .= '</strong>';
 		} else {
 			/* sort array by steps in reverse order */
@@ -1766,35 +1766,35 @@ class plgShippingDhl extends vmShippingPlugin {
 			$msg .= "\n";
 
 			$msg .= '<p>';
-			$msg .= $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_SIGNATURE_LEGEND');
+			$msg .= $VM_LANG->_('VM_SHIPPING_METHOD_DHL_TRACKING_SIGNATURE_LEGEND');
 			$msg .= '<ul>';
 			$msg .= "\n";
 			$msg .= '<li>';
-			$msg .= $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_LEGEND_LD');
+			$msg .= $VM_LANG->_('VM_SHIPPING_METHOD_DHL_TRACKING_LEGEND_LD');
 			$msg .= '</li>';
 			$msg .= "\n";
 			$msg .= '<li>';
-			$msg .= $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_LEGEND_FD');
+			$msg .= $VM_LANG->_('VM_SHIPPING_METHOD_DHL_TRACKING_LEGEND_FD');
 			$msg .= '</li>';
 			$msg .= "\n";
 			$msg .= '<li>';
-			$msg .= $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_LEGEND_SD');
+			$msg .= $VM_LANG->_('VM_SHIPPING_METHOD_DHL_TRACKING_LEGEND_SD');
 			$msg .= '</li>';
 			$msg .= "\n";
 			$msg .= '<li>';
-			$msg .= $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_LEGEND_BD');
+			$msg .= $VM_LANG->_('VM_SHIPPING_METHOD_DHL_TRACKING_LEGEND_BD');
 			$msg .= '</li>';
 			$msg .= "\n";
 			$msg .= '<li>';
-			$msg .= $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_LEGEND_GAR');
+			$msg .= $VM_LANG->_('VM_SHIPPING_METHOD_DHL_TRACKING_LEGEND_GAR');
 			$msg .= '</li>';
 			$msg .= "\n";
 			$msg .= '<li>';
-			$msg .= $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_LEGEND_LOF');
+			$msg .= $VM_LANG->_('VM_SHIPPING_METHOD_DHL_TRACKING_LEGEND_LOF');
 			$msg .= '</li>';
 			$msg .= "\n";
 			$msg .= '<li>';
-			$msg .= $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_LEGEND_LPN');
+			$msg .= $VM_LANG->_('VM_SHIPPING_METHOD_DHL_TRACKING_LEGEND_LPN');
 			$msg .= '</li>';
 			$msg .= "\n";
 			$msg .= '</ul>';
@@ -1806,7 +1806,7 @@ class plgShippingDhl extends vmShippingPlugin {
 
 		/* shipment */
 		$msg .= '<strong>';
-		$msg .= $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_NUMBER') . ': ';
+		$msg .= $VM_LANG->_('VM_SHIPPING_METHOD_DHL_TRACKING_NUMBER') . ': ';
 		$msg .= '</strong>';
 		$msg .= ' ';
 		$msg .= $tracking_number;
@@ -1814,7 +1814,7 @@ class plgShippingDhl extends vmShippingPlugin {
 		$msg .= "\n";
 
 		$msg .= '<strong>';
-		$msg .= $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_PACKAGE') . ': ';
+		$msg .= $VM_LANG->_('VM_SHIPPING_METHOD_DHL_TRACKING_PACKAGE') . ': ';
 		$msg .= '</strong>';
 		$msg .= ' ';
 		if (array_key_exists('type', $shipment))
@@ -1823,7 +1823,7 @@ class plgShippingDhl extends vmShippingPlugin {
 		$msg .= "\n";
 
 		$msg .= '<strong>';
-		$msg .= $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_SERVICE') . ': ';
+		$msg .= $VM_LANG->_('VM_SHIPPING_METHOD_DHL_TRACKING_SERVICE') . ': ';
 		$msg .= '</strong>';
 		$msg .= ' ';
 		if (array_key_exists('service', $shipment))
@@ -1842,10 +1842,10 @@ class plgShippingDhl extends vmShippingPlugin {
 
 		$msg .= '<tr>';
 		$msg .= '<td><strong>';
-		$msg .= $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_SENDER');
+		$msg .= $VM_LANG->_('VM_SHIPPING_METHOD_DHL_TRACKING_SENDER');
 		$msg .= '</strong></td>';
 		$msg .= '<td><strong>';
-		$msg .= $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_RECEIVER');
+		$msg .= $VM_LANG->_('VM_SHIPPING_METHOD_DHL_TRACKING_RECEIVER');
 		$msg .= '</strong></td>';
 		$msg .= '</tr>';
 
@@ -1919,13 +1919,13 @@ class plgShippingDhl extends vmShippingPlugin {
 		$msg .= '<tr>';
 		$msg .= '<td>';
 		$msg .= '<strong>';
-		$msg .= $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_PICKUP');
+		$msg .= $VM_LANG->_('VM_SHIPPING_METHOD_DHL_TRACKING_PICKUP');
 		$msg .= '</strong>';
 		$msg .= '</td>';
 
 		$msg .= '<td>';
 		$msg .= '<strong>';
-		$msg .= $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_DELIVERY');
+		$msg .= $VM_LANG->_('VM_SHIPPING_METHOD_DHL_TRACKING_DELIVERY');
 		$msg .= '</strong>';
 		$msg .= '</td>';
 		$msg .= '</tr>';
@@ -1934,12 +1934,12 @@ class plgShippingDhl extends vmShippingPlugin {
 
 		$msg .= '<tr>';
 		$msg .= '<td>';
-		$msg .= $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_DATE') . ': ';
+		$msg .= $VM_LANG->_('VM_SHIPPING_METHOD_DHL_TRACKING_DATE') . ': ';
 		if (array_key_exists('date', $pickup))
 			$msg .= $pickup['date'];
 		$msg .= '</td>';
 		$msg .= '<td>';
-		$msg .= $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_DATE') . ': ';
+		$msg .= $VM_LANG->_('VM_SHIPPING_METHOD_DHL_TRACKING_DATE') . ': ';
 		if (array_key_exists('date', $delivery))
 			$msg .= $delivery['date'];
 		$msg .= '</td>';
@@ -1949,12 +1949,12 @@ class plgShippingDhl extends vmShippingPlugin {
 
 		$msg .= '<tr>';
 		$msg .= '<td>';
-		$msg .= $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_TIME') . ': ';
+		$msg .= $VM_LANG->_('VM_SHIPPING_METHOD_DHL_TRACKING_TIME') . ': ';
 		if (array_key_exists('time', $pickup))
 			$msg .= $pickup['time'];
 		$msg .= '</td>';
 		$msg .= '<td>';
-		$msg .= $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_TIME') . ': ';
+		$msg .= $VM_LANG->_('VM_SHIPPING_METHOD_DHL_TRACKING_TIME') . ': ';
 		if (array_key_exists('time', $delivery))
 			$msg .= $delivery['time'];
 		$msg .= '</td>';
@@ -1964,12 +1964,12 @@ class plgShippingDhl extends vmShippingPlugin {
 
 		$msg .= '<tr>';
 		$msg .= '<td>';
-		$msg .= $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_LOCATION') . ': ';
+		$msg .= $VM_LANG->_('VM_SHIPPING_METHOD_DHL_TRACKING_LOCATION') . ': ';
 		if (array_key_exists('location', $pickup))
 			$msg .= $pickup['location'];
 		$msg .= '</td>';
 		$msg .= '<td>';
-		$msg .= $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_LOCATION') . ': ';
+		$msg .= $VM_LANG->_('VM_SHIPPING_METHOD_DHL_TRACKING_LOCATION') . ': ';
 		if (array_key_exists('location', $delivery))
 			$msg .= $delivery['location'];
 		$msg .= '</td>';
@@ -1979,12 +1979,12 @@ class plgShippingDhl extends vmShippingPlugin {
 
 		$msg .= '<tr>';
 		$msg .= '<td>';
-		$msg .= $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_EST_DEL') . ': ';
+		$msg .= $VM_LANG->_('VM_SHIPPING_METHOD_DHL_TRACKING_EST_DEL') . ': ';
 		if (array_key_exists('est_delivery', $pickup))
 			$msg .= $pickup['est_delivery'];
 		$msg .= '</td>';
 		$msg .= '<td>';
-		$msg .= $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_SIGNATORY') . ': ';
+		$msg .= $VM_LANG->_('VM_SHIPPING_METHOD_DHL_TRACKING_SIGNATORY') . ': ';
 		if (array_key_exists('signatory', $delivery))
 			$msg .= $delivery['signatory'];
 		$msg .= '</td>';
@@ -2097,7 +2097,7 @@ class plgShippingDhl extends vmShippingPlugin {
 		$result_desc =& $result_desc_list->item(0);
 		if ($result_code == NULL) {
 			$vmLogger->debug(
-				$VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_MISSING_RESULT') .
+				$VM_LANG->_('VM_SHIPPING_METHOD_DHL_MISSING_RESULT') .
 				"\n" . $xmlResp->toNormalizedString());
 			return (false);
 		}

@@ -37,7 +37,7 @@ if (!empty($payment_method_id)) {
 }
 
 //First create the object and let it print a form heading
-$formObj = &new formFactory( $VM_LANG->_('PHPSHOP_PAYMENT_METHOD_FORM_LBL') );
+$formObj = &new formFactory( $VM_LANG->_('VM_PAYMENT_METHOD_FORM_LBL') );
 //Then Start the form
 $formObj->startForm();
 
@@ -46,15 +46,15 @@ $formObj->startForm();
 <?php
 $tabs = new vmTabPanel(0, 1, "paymentform");
 $tabs->startPane("content-pane");
-$tabs->startTab( $VM_LANG->_('PHPSHOP_PAYMENT_METHOD_FORM_LBL'), "global-page");
+$tabs->startTab( $VM_LANG->_('VM_PAYMENT_METHOD_FORM_LBL'), "global-page");
 ?>
 <table class="adminform">
     <tr class="row0">
-      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_ISSHIP_LIST_PUBLISH_LBL') ?>?:</td>
+      <td class="labelcell"><?php echo $VM_LANG->_('VM_ISSHIP_LIST_PUBLISH_LBL') ?>?:</td>
       <td><input type="checkbox" name="published" class="inputbox" value="Y" <?php echo $db->sf("published")=="Y" ? "checked=\"checked\"" : "" ?> /></td>
     </tr>
     <tr class="row1"> 
-      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_METHOD_FORM_NAME') ?>:</td>
+      <td class="labelcell"><?php echo $VM_LANG->_('VM_PAYMENT_METHOD_FORM_NAME') ?>:</td>
       <td width="69%" > 
         <input type="text" class="inputbox" name="name" value="<?php $db->sp("name") ?>" size="32" />
       </td>
@@ -71,14 +71,14 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_PAYMENT_METHOD_FORM_LBL'), "global-page");
       </td>
     </tr>
     <tr class="row0"> 
-      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_METHOD_FORM_ENABLE_PROCESSOR') ?>:</td>
+      <td class="labelcell"><?php echo $VM_LANG->_('VM_PAYMENT_METHOD_FORM_ENABLE_PROCESSOR') ?>:</td>
       <td width="69%" >
       <?php 
           $payment_process = $db->f("type"); 
-          $payment_types = array( "" => $VM_LANG->_('PHPSHOP_PAYMENT_FORM_CC'), 
-                              "Y" => $VM_LANG->_('PHPSHOP_PAYMENT_FORM_USE_PP'), 
-                              "B" => $VM_LANG->_('PHPSHOP_PAYMENT_FORM_BANK_DEBIT'), 
-                              "N" => $VM_LANG->_('PHPSHOP_PAYMENT_FORM_AO'), 
+          $payment_types = array( "" => $VM_LANG->_('VM_PAYMENT_FORM_CC'), 
+                              "Y" => $VM_LANG->_('VM_PAYMENT_FORM_USE_PP'), 
+                              "B" => $VM_LANG->_('VM_PAYMENT_FORM_BANK_DEBIT'), 
+                              "N" => $VM_LANG->_('VM_PAYMENT_FORM_AO'), 
                               "P" => $VM_LANG->_('VM_PAYMENT_FORM_FORMBASED') );
           $i = 0;
           foreach( $payment_types as $value => $description) {
@@ -102,13 +102,13 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_PAYMENT_METHOD_FORM_LBL'), "global-page");
       <td colspan="2">&nbsp;</td>
     </tr>
     <tr class="row0"> 
-      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_METHOD_FORM_SHOPPER_GROUP') ?>:</td>
+      <td class="labelcell"><?php echo $VM_LANG->_('VM_PAYMENT_METHOD_FORM_SHOPPER_GROUP') ?>:</td>
       <td width="69%" ><?php 
       		echo ps_shopper_group::list_shopper_groups("shopper_group_id", $db->sf("shopper_group_id")) ?> 
       </td>
     </tr>
     <tr class="row1"> 
-      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_METHOD_FORM_DISCOUNT') ?>:</td>
+      <td class="labelcell"><?php echo $VM_LANG->_('VM_PAYMENT_METHOD_FORM_DISCOUNT') ?>:</td>
       <td width="69%" > 
         <input type="text" class="inputbox" name="discount" size="6"  value="<?php $db->sp("discount"); ?>" />
         <?php echo vmToolTip( $VM_LANG->_('VM_PAYMENT_METHOD_DISCOUNT_TIP') ); ?>
@@ -116,13 +116,13 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_PAYMENT_METHOD_FORM_LBL'), "global-page");
     </tr>
     
     <tr class="row1"> 
-      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_DISCOUNT_AMOUNTTYPE') ?>:</td>
+      <td class="labelcell"><?php echo $VM_LANG->_('VM_PRODUCT_DISCOUNT_AMOUNTTYPE') ?>:</td>
       <td width="69%"> 
         <input type="radio" class="inputbox" id="discount_is_percent0" name="discount_is_percentage" value="1" <?php if($db->sf("discount_is_percentage")==1) echo "checked=\"checked\""; ?> />
-        <label for="discount_is_percent0"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_DISCOUNT_ISPERCENT') ?></label>&nbsp;&nbsp;&nbsp;
-        <?php echo vmToolTip( $VM_LANG->_('PHPSHOP_PRODUCT_DISCOUNT_ISPERCENT_TIP') ); ?><br />
+        <label for="discount_is_percent0"><?php echo $VM_LANG->_('VM_PRODUCT_DISCOUNT_ISPERCENT') ?></label>&nbsp;&nbsp;&nbsp;
+        <?php echo vmToolTip( $VM_LANG->_('VM_PRODUCT_DISCOUNT_ISPERCENT_TIP') ); ?><br />
         <input type="radio" class="inputbox" id="discount_is_percent1" name="discount_is_percentage" value="0" <?php if($db->sf("discount_is_percentage")==0) echo "checked=\"checked\""; ?> />
-        <label for="discount_is_percent1"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_DISCOUNT_ISTOTAL') ?></label>
+        <label for="discount_is_percent1"><?php echo $VM_LANG->_('VM_PRODUCT_DISCOUNT_ISTOTAL') ?></label>
       </td>
     </tr>
     <tr class="row1"> 
@@ -136,7 +136,7 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_PAYMENT_METHOD_FORM_LBL'), "global-page");
    	</tr>
    	
     <tr class="row0"> 
-      <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_METHOD_FORM_LIST_ORDER') ?>:</td>
+      <td class="labelcell"><?php echo $VM_LANG->_('VM_PAYMENT_METHOD_FORM_LIST_ORDER') ?>:</td>
       <td width="69%" > 
         <input type="text" class="inputbox" name="list_order" size="4" maxlength="4" value="<?php $db->sp("list_order"); ?>" />
       </td>
@@ -147,7 +147,7 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_PAYMENT_METHOD_FORM_LBL'), "global-page");
   </table>
 <?php
         $tabs->endTab();
-        $tabs->startTab( $VM_LANG->_('PHPSHOP_CONFIG'), "config-page");
+        $tabs->startTab( $VM_LANG->_('VM_CONFIG'), "config-page");
         
         if( $db->sf('element') ) {
 	        $parameters = new vmParameters($db->f('params'), ADMINPATH.'plugins/payment/'.basename($db->f('element')).'.xml', 'payment' );

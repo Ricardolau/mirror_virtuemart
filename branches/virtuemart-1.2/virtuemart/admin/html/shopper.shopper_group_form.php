@@ -21,7 +21,7 @@ global $ps_vendor;
 $shopper_group_id = vmGet( $_REQUEST, 'shopper_group_id', null );
 $option = vmGet( $_REQUEST, 'option', 'com_virtuemart' );
 //First create the object and let it print a form heading
-$formObj = &new formFactory( $VM_LANG->_('PHPSHOP_SHOPPER_GROUP_FORM_LBL') );
+$formObj = &new formFactory( $VM_LANG->_('VM_SHOPPER_GROUP_FORM_LBL') );
 //Then Start the form
 $formObj->startForm();
 
@@ -38,7 +38,7 @@ if (!empty($shopper_group_id)) {
 <table class="adminform">
     <tr>
       <td width="23%">
-        <strong><div align="right"><?php echo $VM_LANG->_('PHPSHOP_DEFAULT') ?> ?:</div></strong>
+        <strong><div align="right"><?php echo $VM_LANG->_('VM_DEFAULT') ?> ?:</div></strong>
       </td>
       <td width="77%" >
 		<?php 
@@ -56,7 +56,7 @@ if (!empty($shopper_group_id)) {
     </tr>
     <tr>
       <td width="23%">
-        <strong><div align="right"><?php echo $VM_LANG->_('PHPSHOP_SHOPPER_GROUP_FORM_NAME') ?>:</div></strong>
+        <strong><div align="right"><?php echo $VM_LANG->_('VM_SHOPPER_GROUP_FORM_NAME') ?>:</div></strong>
       </td>
       <td width="77%" > 
         <input type="text" class="inputbox" name="shopper_group_name" size="18" value="<?php $db->sp('shopper_group_name') ?>" />
@@ -64,7 +64,7 @@ if (!empty($shopper_group_id)) {
     </tr>
       <tr> 
         <td width="23%" class="labelcell">
-          <?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_VENDOR') ?>:
+          <?php echo $VM_LANG->_('VM_PRODUCT_FORM_VENDOR') ?>:
         </td>
         <td width="77%" ><?php 
 		if( $perm->check("admin")) { 
@@ -77,26 +77,26 @@ if (!empty($shopper_group_id)) {
       </tr>
     <tr>
       <td width="23%"><strong><div align="right"><?php
-      echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX').": "; ?></div></strong>
+      echo $VM_LANG->_('VM_ADMIN_CFG_PRICES_INCLUDE_TAX').": "; ?></div></strong>
       </td>
       <td width="77%" > 
         <input type="checkbox" class="inputbox" id="show_price_including_tax" name="show_price_including_tax" value="1" <?php echo $db->f('show_price_including_tax') == "1" ? "checked=\"checked\"" : ""  ?>/>
         &nbsp;
-        <?php echo vmToolTip( $VM_LANG->_('PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX_EXPLAIN') ); ?>
+        <?php echo vmToolTip( $VM_LANG->_('VM_ADMIN_CFG_PRICES_INCLUDE_TAX_EXPLAIN') ); ?>
       </td>
     </tr> 
     <tr>
       <td width="23%"><strong><div align="right"><?php
-      echo $VM_LANG->_('PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT').": "; ?></div></strong>
+      echo $VM_LANG->_('VM_SHOPPER_GROUP_FORM_DISCOUNT').": "; ?></div></strong>
       </td>
       <td width="77%" > 
         <input type="text" class="inputbox" name="shopper_group_discount" size="18" value="<?php $db->sp('shopper_group_discount') ?>" />
-        <?php echo vmToolTip( $VM_LANG->_('PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP') ); ?>
+        <?php echo vmToolTip( $VM_LANG->_('VM_SHOPPER_GROUP_FORM_DISCOUNT_TIP') ); ?>
       </td>
     </tr> 
     <tr> 
       <td width="23%" valign="top"><strong><div align="right">
-      <?php echo $VM_LANG->_('PHPSHOP_SHOPPER_GROUP_FORM_DESC') ?>:</div></strong>
+      <?php echo $VM_LANG->_('VM_SHOPPER_GROUP_FORM_DESC') ?>:</div></strong>
       </td>
       <td width="77%" valign="top" >
       <?php

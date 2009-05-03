@@ -30,7 +30,7 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
 * $listObj = new listFactory( $pageNav );
 *
 * // print out the search field and a list heading
-* $listObj->writeSearchHeader($VM_LANG->_('PHPSHOP_PRODUCT_LIST_LBL'), IMAGEURL."ps_image/product_code.png", $modulename, "product_list");
+* $listObj->writeSearchHeader($VM_LANG->_('VM_PRODUCT_LIST_LBL'), IMAGEURL."ps_image/product_code.png", $modulename, "product_list");
 *
 * // start the list table
 * $listObj->startTable();
@@ -38,8 +38,8 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
 * // these are the columns in the table
 * $columns = Array(  "#" => "width=\"20\"",
 * 					"<input type=\"checkbox\" name=\"toggle\" value=\"\" onclick=\"checkAll(".$num_rows.")\" />" => "width=\"20\"",*
-* 					$VM_LANG->_('PHPSHOP_PRODUCT_LIST_NAME') => '',
-* 					$VM_LANG->_('PHPSHOP_PRODUCT_LIST_SKU') => '',
+* 					$VM_LANG->_('VM_PRODUCT_LIST_NAME') => '',
+* 					$VM_LANG->_('VM_PRODUCT_LIST_SKU') => '',
 * 					_E_REMOVE => "width=\"5%\""
 * 				);
 * $listObj->writeTableHeader( $columns );
@@ -241,7 +241,7 @@ class listFactory {
 			if( !empty( $pagename ))
 				$header .= '<td width="20%">
 				<input class="inputbox" type="text" size="25" name="keyword" value="'.shopMakeHtmlSafe($keyword).'" />
-				<input class="button" type="submit" name="search" value="'.$VM_LANG->_('PHPSHOP_SEARCH_TITLE').'" />
+				<input class="button" type="submit" name="search" value="'.$VM_LANG->_('VM_SEARCH_TITLE').'" />
 				</td>';
 
 			$header .= "\n</tr></table><br style=\"clear:both;\" />\n";
@@ -780,7 +780,7 @@ class vmCommonHTML {
 			if( $version  == '' ) {
 				$version = 'mootools-release-1.11.js';
 			}
-			$vm_mainframe->addScriptDeclaration( 'var cart_title = "'.$VM_LANG->_('PHPSHOP_CART_TITLE').'";var ok_lbl="'.$VM_LANG->_('CMN_CONTINUE').'";var cancel_lbl="'.$VM_LANG->_('CMN_CANCEL').'";var notice_lbl="'.$VM_LANG->_('PEAR_LOG_NOTICE').'";var live_site="'.$mosConfig_live_site.'";' );
+			$vm_mainframe->addScriptDeclaration( 'var cart_title = "'.$VM_LANG->_('VM_CART_TITLE').'";var ok_lbl="'.$VM_LANG->_('CMN_CONTINUE').'";var cancel_lbl="'.$VM_LANG->_('CMN_CANCEL').'";var notice_lbl="'.$VM_LANG->_('PEAR_LOG_NOTICE').'";var live_site="'.$mosConfig_live_site.'";' );
 			$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/mootools/'.$version );
 			$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/mootools/mooPrompt.js' );
 			$vm_mainframe->addStyleSheet( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/mootools/mooPrompt.css' );
@@ -1163,8 +1163,8 @@ class vmCommonHTML {
 		*/
 		function yesnoRadioList( $tag_name, $tag_attribs, $key, $text, $selected, $yes='', $no='' ) {
 			global $VM_LANG;
-			$yes = ( $yes=='' ) ? $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES') : $yes;
-			$no = ( $no=='' ) ? $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO') : $no;
+			$yes = ( $yes=='' ) ? $VM_LANG->_('VM_ADMIN_CFG_YES') : $yes;
+			$no = ( $no=='' ) ? $VM_LANG->_('VM_ADMIN_CFG_NO') : $no;
 			$arr = array(
 				vmCommonHTML::makeOption( '0', $no ),
 				vmCommonHTML::makeOption( '1', $yes )
@@ -1184,7 +1184,7 @@ class vmCommonHTML {
                 global $VM_LANG;
                 reset( $arr );
                 $html = "\n<select name=\"$tag_name\" id=\"".str_replace('[]', '', $tag_name)."\" $tag_attribs>";
-                if(!$required) $html .= "\n\t<option value=\"\">".$VM_LANG->_('PHPSHOP_SELECT')."</option>";
+                if(!$required) $html .= "\n\t<option value=\"\">".$VM_LANG->_('VM_SELECT')."</option>";
                 $n=count( $arr );
                 for ($i=0; $i < $n; $i++ ) {
                         $k = stripslashes($arr[$i]->$key);

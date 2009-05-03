@@ -59,7 +59,7 @@ class plgPaymentPaypal extends vmPaymentPlugin {
 			"upload" => "1" , 
 			"business" => $this->params->get('PAYPAL_EMAIL') , 
 			"receiver_email" => $this->params->get('PAYPAL_EMAIL') , 
-			"item_name" => $VM_LANG->_( 'PHPSHOP_ORDER_PRINT_PO_NUMBER' ) . ": " . $db->f( "order_id" ) , 
+			"item_name" => $VM_LANG->_( 'VM_ORDER_PRINT_PO_NUMBER' ) . ": " . $db->f( "order_id" ) , 
 			"order_id" => $db->f( "order_id" ) , 
 			"invoice" => $db->f( "order_number" ) , 
 			"amount" => round( $db->f( "order_subtotal" ) + $tax_total - $discount_total, 2 ) , 

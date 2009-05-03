@@ -117,10 +117,10 @@ if( !empty($_SESSION['coupon_discount']) ) {
 }
 if(!$empty_cart) {
 	if ($amount > 1) {
-		$total_products = $amount ." ". $VM_LANG->_('PHPSHOP_PRODUCTS_LBL');
+		$total_products = $amount ." ". $VM_LANG->_('VM_PRODUCTS_LBL');
 	}
 	else {
-		$total_products = $amount ." ". $VM_LANG->_('PHPSHOP_PRODUCT_LBL');
+		$total_products = $amount ." ". $VM_LANG->_('VM_PRODUCT_LBL');
 	}
 
 
@@ -131,17 +131,17 @@ $delete_cart = '';
 if(@$_SESSION['vmEnableEmptyCart'] && !@$_SESSION['vmMiniCart']) {
 	// Output the empty cart button
 	//echo vmCommonHTML::scriptTag( $mosConfig_live_site.'/components/'.$option.'/js/wz_tooltip.js' );
-	$delete_cart = "<a href=\"".$_SERVER['SCRIPT_NAME'] . "?page=shop.cart_reset&amp;option=com_virtuemart&amp;option2=$option&amp;product_id=$prodid&amp;category_id=$catid&amp;return=$page&amp;flypage=$flypage&amp;Itemid=$Itemid\" title=\"". $VM_LANG->_('PHPSHOP_EMPTY_YOUR_CART') ." \">
-					<img src=\"". $mosConfig_live_site ."/images/cancel_f2.png\" width=\"12\" border=\"0\" style=\"float: right;vertical-align: middle;\" alt=\"". $VM_LANG->_('PHPSHOP_EMPTY_YOUR_CART') ." \" />
+	$delete_cart = "<a href=\"".$_SERVER['SCRIPT_NAME'] . "?page=shop.cart_reset&amp;option=com_virtuemart&amp;option2=$option&amp;product_id=$prodid&amp;category_id=$catid&amp;return=$page&amp;flypage=$flypage&amp;Itemid=$Itemid\" title=\"". $VM_LANG->_('VM_EMPTY_YOUR_CART') ." \">
+					<img src=\"". $mosConfig_live_site ."/images/cancel_f2.png\" width=\"12\" border=\"0\" style=\"float: right;vertical-align: middle;\" alt=\"". $VM_LANG->_('VM_EMPTY_YOUR_CART') ." \" />
       </a>"; 
-	$html1 = vmToolTip($VM_LANG->_('VM_EMPTY_YOUR_CART_TIP'), $VM_LANG->_('PHPSHOP_EMPTY_YOUR_CART'),'','',$delete_cart,true);
+	$html1 = vmToolTip($VM_LANG->_('VM_EMPTY_YOUR_CART_TIP'), $VM_LANG->_('VM_EMPTY_YOUR_CART'),'','',$delete_cart,true);
 	$delete_cart = $html1;
 
 }
 
 $href = $sess->url($mm_action_url."index.php?page=shop.cart");
 $href2 = $sess->url($mm_action_url."index2.php?page=shop.cart", true);
-$text = $VM_LANG->_('PHPSHOP_CART_SHOW');
+$text = $VM_LANG->_('VM_CART_SHOW');
 if( @$_SESSION['vmUseGreyBox'] ) {
 	$show_cart = vmCommonHTML::getGreyboxPopUpLink( $href2, $text, '', $text, '', 500, 600, $href );
 }

@@ -11,7 +11,7 @@ mm_showMyFileName(__FILE__); ?>
 			<?php echo $VM_LANG->_('PN_DISPLAY_NR') ?>&nbsp;&nbsp;
 			<?php $pagenav->writeLimitBox( $search_string ); ?>
 			
-			<noscript><input class="button" type="submit" value="<?php echo $VM_LANG->_('PHPSHOP_SUBMIT') ?>" /></noscript>
+			<noscript><input class="button" type="submit" value="<?php echo $VM_LANG->_('VM_SUBMIT') ?>" /></noscript>
 		
 		</form>
 	<?php

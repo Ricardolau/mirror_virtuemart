@@ -29,7 +29,7 @@ require_once( CLASSPATH . 'ps_vendor.php');
   <table align="center" cellspacing="0" cellpadding="0" border="0">
       <tr valign="top"> 
         <th colspan="2" align="center" class="sectiontableheader">
-          <strong><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_CONTACT_LBL') ?></strong>
+          <strong><?php echo $VM_LANG->_('VM_STORE_FORM_CONTACT_LBL') ?></strong>
         </th>
         </tr>
         <tr valign="top">
@@ -40,10 +40,10 @@ require_once( CLASSPATH . 'ps_vendor.php');
 
         <tr>
       <td valign="top" align="center" colspan="2">
-          <br /><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_CONTACT_LBL') ?>:&nbsp;<?php echo $v_title ." " . $v_first_name . " " . $v_last_name ?>
-          <br /><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_PHONE') ?>:&nbsp;<?php $db->p("phone_1");?>
-          <br /><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_FAX') ?>:&nbsp;<?php echo $v_fax ?>
-          <br /><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_EMAIL') ?>:&nbsp;<?php echo $v_email; ?><br />
+          <br /><?php echo $VM_LANG->_('VM_STORE_FORM_CONTACT_LBL') ?>:&nbsp;<?php echo $v_title ." " . $v_first_name . " " . $v_last_name ?>
+          <br /><?php echo $VM_LANG->_('VM_STORE_FORM_PHONE') ?>:&nbsp;<?php $db->p("phone_1");?>
+          <br /><?php echo $VM_LANG->_('VM_STORE_FORM_FAX') ?>:&nbsp;<?php echo $v_fax ?>
+          <br /><?php echo $VM_LANG->_('VM_STORE_FORM_EMAIL') ?>:&nbsp;<?php echo $v_email; ?><br />
           <br /><a href="<?php $db->p("vendor_url") ?>" target="_blank"><?php $db->p("vendor_url") ?></a><br />
       </td>
         </tr>

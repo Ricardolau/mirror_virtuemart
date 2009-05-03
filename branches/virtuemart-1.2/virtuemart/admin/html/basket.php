@@ -32,7 +32,7 @@ global $weight_total, $total, $tax_total, $order_tax_details, $discount_factor, 
 
 /* make sure this is the checkout screen */
 if ($cart["idx"] == 0) {
-	$basket_html = $VM_LANG->_('PHPSHOP_EMPTY_CART');
+	$basket_html = $VM_LANG->_('VM_EMPTY_CART');
 	$checkout = False;
 
 	//CT. invalidate coupon if they have redeemed one.
@@ -132,11 +132,11 @@ else {
 		if (!empty($my_taxrate) && MULTIPLE_TAXRATES_ENABLE=='1') {
 
 			if( $auth["show_price_including_tax"] == 1 ) {
-				eval( "\$message = \"".$VM_LANG->_('PHPSHOP_INCLUDING_TAX')."\";" );
+				eval( "\$message = \"".$VM_LANG->_('VM_INCLUDING_TAX')."\";" );
 				$product_rows[$i]['subtotal'] .= "&nbsp;".$message;
 			}
 			else {
-				$product_rows[$i]['subtotal'] .= "&nbsp;(+ $tax% ".$VM_LANG->_('PHPSHOP_CART_TAX').")";
+				$product_rows[$i]['subtotal'] .= "&nbsp;(+ $tax% ".$VM_LANG->_('VM_CART_TAX').")";
 			}
 		}
 
@@ -144,14 +144,14 @@ else {
 		$action_url = $mm_action_url.basename($_SERVER['PHP_SELF']);
 		$product_rows[$i]['update_form'] = '<form action="'. $action_url .'" method="post" style="display: inline;">
 		<input type="hidden" name="option" value="com_virtuemart" />
-		<input type="text" title="'. $VM_LANG->_('PHPSHOP_CART_UPDATE') .'" class="inputbox" size="4" maxlength="4" name="quantity" value="'.$cart[$i]["quantity"].'" />
+		<input type="text" title="'. $VM_LANG->_('VM_CART_UPDATE') .'" class="inputbox" size="4" maxlength="4" name="quantity" value="'.$cart[$i]["quantity"].'" />
 		<input type="hidden" name="page" value="'. $page .'" />
     <input type="hidden" name="func" value="cartUpdate" />
     <input type="hidden" name="product_id" value="'. $_SESSION['cart'][$i]["product_id"] .'" />
     <input type="hidden" name="prod_id" value="'. $_SESSION['cart'][$i]["product_id"] .'" />
     <input type="hidden" name="Itemid" value="'. $sess->getShopItemid() .'" />
     <input type="hidden" name="description" value="'. stripslashes($cart[$i]["description"]).'" />
-    <input type="image" name="update" title="'. $VM_LANG->_('PHPSHOP_CART_UPDATE') .'" src="'. VM_THEMEURL .'images/update_quantity_cart.png" alt="'. $VM_LANG->_('PHPSHOP_UPDATE') .'" align="middle" />
+    <input type="image" name="update" title="'. $VM_LANG->_('VM_CART_UPDATE') .'" src="'. VM_THEMEURL .'images/update_quantity_cart.png" alt="'. $VM_LANG->_('VM_UPDATE') .'" align="middle" />
   </form>';
 		$product_rows[$i]['delete_form'] = '<form action="'.$action_url.'" method="post" name="delete" style="display: inline;">
     <input type="hidden" name="option" value="com_virtuemart" />
@@ -160,7 +160,7 @@ else {
     <input type="hidden" name="func" value="cartDelete" />
     <input type="hidden" name="product_id" value="'. $_SESSION['cart'][$i]["product_id"] .'" />
     <input type="hidden" name="description" value="'. $cart[$i]["description"].'" />
-  	<input type="image" name="delete" title="'. $VM_LANG->_('PHPSHOP_CART_DELETE') .'" src="'. VM_THEMEURL .'images/remove_from_cart.png" alt="'. $VM_LANG->_('PHPSHOP_CART_DELETE') .'" align="middle" />
+  	<input type="image" name="delete" title="'. $VM_LANG->_('VM_CART_DELETE') .'" src="'. VM_THEMEURL .'images/remove_from_cart.png" alt="'. $VM_LANG->_('VM_CART_DELETE') .'" align="middle" />
   </form>';
 	} // End of for loop through the Cart
 
@@ -210,7 +210,7 @@ else {
 		($_SESSION['coupon_redeemed'] == 1) &&
 		($total+$shipping_total < @$_SESSION['coupon_value_valid'])){
 
-		echo $VM_LANG->_('PHPSHOP_COUPON_REMOVED').$_SESSION['coupon_value_valid'];
+		echo $VM_LANG->_('VM_COUPON_REMOVED').$_SESSION['coupon_value_valid'];
 
 		@$_SESSION['coupon_redeemed'] = 0;
 		@$_SESSION['coupon_id'] = 0;

@@ -296,7 +296,7 @@ class ps_communication {
     <input type="hidden" name="'.vmCreateHash().'" value="1" />
     <input type="hidden" name="Itemid" value="'.$sess->getShopItemid().'" />
     <input type="hidden" name="func" value="recommendProduct" />
-    <input class="button" type="submit" name="submit" value="'.$VM_LANG->_('PHPSHOP_SUBMIT').'" />
+    <input class="button" type="submit" name="submit" value="'.$VM_LANG->_('VM_SUBMIT').'" />
     <input class="button" type="button" onclick="window.close();" value="'.$VM_LANG->_('CMN_CANCEL').'" />
     </form>
     ';

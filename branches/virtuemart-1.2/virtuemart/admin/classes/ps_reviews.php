@@ -130,11 +130,11 @@ class ps_reviews {
 
 		$d["comment"] = trim($d["comment"]);
 		if( strlen( $d["comment"] ) < VM_REVIEWS_MINIMUM_COMMENT_LENGTH ) {
-			$vmLogger->err( sprintf( $VM_LANG->_('PHPSHOP_REVIEW_ERR_COMMENT1',false), VM_REVIEWS_MINIMUM_COMMENT_LENGTH ));
+			$vmLogger->err( sprintf( $VM_LANG->_('VM_REVIEW_ERR_COMMENT1',false), VM_REVIEWS_MINIMUM_COMMENT_LENGTH ));
 			return false;
 		}
 		if( strlen ( $d["comment"] ) > VM_REVIEWS_MAXIMUM_COMMENT_LENGTH ) {
-			$vmLogger->err( sprintf( $VM_LANG->_('PHPSHOP_REVIEW_ERR_COMMENT2',false), VM_REVIEWS_MAXIMUM_COMMENT_LENGTH ) );
+			$vmLogger->err( sprintf( $VM_LANG->_('VM_REVIEW_ERR_COMMENT2',false), VM_REVIEWS_MAXIMUM_COMMENT_LENGTH ) );
 			return false;
 		}
 		$time = time() + $mosConfig_offset*60*60;
@@ -149,7 +149,7 @@ class ps_reviews {
 
 		$this->process_vote( $d );
 
-		$vmLogger->info( $VM_LANG->_('PHPSHOP_REVIEW_MODIFIED',false) );
+		$vmLogger->info( $VM_LANG->_('VM_REVIEW_MODIFIED',false) );
 
 		return true;
 	}
@@ -169,7 +169,7 @@ class ps_reviews {
 		$db->next_record();
 		$alreadycommented = $db->num_rows() > 0;
 
-		$review_comment = sprintf( $VM_LANG->_('PHPSHOP_REVIEW_COMMENT'), VM_REVIEWS_MINIMUM_COMMENT_LENGTH, VM_REVIEWS_MAXIMUM_COMMENT_LENGTH );
+		$review_comment = sprintf( $VM_LANG->_('VM_REVIEW_COMMENT'), VM_REVIEWS_MINIMUM_COMMENT_LENGTH, VM_REVIEWS_MAXIMUM_COMMENT_LENGTH );
 		
 		$tpl->set( 'product_id', $product_id );
 		$tpl->set( 'alreadycommented', $alreadycommented );
@@ -232,15 +232,15 @@ class ps_reviews {
 		if (PSHOP_ALLOW_REVIEWS == "1" && !empty($auth['user_id']) ) {
 			$d["comment"] = trim($d["comment"]);
 			if( strlen( $d["comment"] ) < VM_REVIEWS_MINIMUM_COMMENT_LENGTH ) {
-				$vmLogger->err( sprintf( $VM_LANG->_('PHPSHOP_REVIEW_ERR_COMMENT1',false), VM_REVIEWS_MINIMUM_COMMENT_LENGTH ));
+				$vmLogger->err( sprintf( $VM_LANG->_('VM_REVIEW_ERR_COMMENT1',false), VM_REVIEWS_MINIMUM_COMMENT_LENGTH ));
 				return true;
 			}
 			if( strlen ( $d["comment"] ) > VM_REVIEWS_MAXIMUM_COMMENT_LENGTH ) {
-				$vmLogger->err( sprintf( $VM_LANG->_('PHPSHOP_REVIEW_ERR_COMMENT2',false), VM_REVIEWS_MAXIMUM_COMMENT_LENGTH ));
+				$vmLogger->err( sprintf( $VM_LANG->_('VM_REVIEW_ERR_COMMENT2',false), VM_REVIEWS_MAXIMUM_COMMENT_LENGTH ));
 				return true;
 			}
 			if( !isset( $d["user_rating"] ) || intval( $d["user_rating"] ) < 0 || intval( $d["user_rating"] ) > 5) {
-				$vmLogger->err($VM_LANG->_('PHPSHOP_REVIEW_ERR_RATE',false));
+				$vmLogger->err($VM_LANG->_('VM_REVIEW_ERR_RATE',false));
 				return true;
 			}
 			$commented=false;
@@ -274,10 +274,10 @@ class ps_reviews {
 				$db->query();
 				
 				$this->process_vote( $d );
-				$vmLogger->info($VM_LANG->_('PHPSHOP_REVIEW_THANKYOU',false));
+				$vmLogger->info($VM_LANG->_('VM_REVIEW_THANKYOU',false));
 			}
 			else {
-				$vmLogger->info( $VM_LANG->_('PHPSHOP_REVIEW_ALREADYDONE',false) );
+				$vmLogger->info( $VM_LANG->_('VM_REVIEW_ALREADYDONE',false) );
 			}
 		}
 		return true;

@@ -50,7 +50,7 @@ elseif( !empty($product_sku )) {
 	$q .= "`product_sku`='$product_sku'";
 }
 else {
-	vmRedirect( $sess->url( $_SERVER['PHP_SELF']."?keyword=".urlencode($keyword)."&category_id={$_SESSION['session_userstate']['category_id']}&limitstart={$_SESSION['limitstart']}&page=shop.browse", false, false ), $VM_LANG->_('PHPSHOP_PRODUCT_NOT_FOUND') );
+	vmRedirect( $sess->url( $_SERVER['PHP_SELF']."?keyword=".urlencode($keyword)."&category_id={$_SESSION['session_userstate']['category_id']}&limitstart={$_SESSION['limitstart']}&page=shop.browse", false, false ), $VM_LANG->_('VM_PRODUCT_NOT_FOUND') );
 }
 
 if( !$perm->check("admin,storeadmin") ) {
@@ -63,7 +63,7 @@ $db_product->query( $q );
 
 // Redirect back to Product Browse Page on Error
 if( !$db_product->next_record() ) {
-	$vmLogger->err( $VM_LANG->_('PHPSHOP_PRODUCT_NOT_FOUND',false) );
+	$vmLogger->err( $VM_LANG->_('VM_PRODUCT_NOT_FOUND',false) );
 	return;
 }
 if( empty($product_id)) {
@@ -241,7 +241,7 @@ if( vmIsJoomla('1.5')) {
 // Show an "Edit PRODUCT"-Link
 if ($perm->check("admin,storeadmin")) {
 	$edit_link = '<a href="'. $sess->url( 'index2.php?page=product.product_form&next_page=shop.product_details&product_id='.$product_id).'">
-      <img src="images/M_images/edit.png" width="16" height="16" alt="'. $VM_LANG->_('PHPSHOP_PRODUCT_FORM_EDIT_PRODUCT') .'" border="0" /></a>';
+      <img src="images/M_images/edit.png" width="16" height="16" alt="'. $VM_LANG->_('VM_PRODUCT_FORM_EDIT_PRODUCT') .'" border="0" /></a>';
 }
 else {
 	$edit_link = "";
@@ -263,10 +263,10 @@ if( $manufacturer_id && !empty($manufacturer_name) ) {
 // PRODUCT PRICE
 if (_SHOW_PRICES == '1') {
 	if( $db_product->f("product_unit") && VM_PRICE_SHOW_PACKAGING_PRICELABEL) {
-		$product_price_lbl = "<strong>". $VM_LANG->_('PHPSHOP_CART_PRICE_PER_UNIT').' ('.$db_product->f("product_unit")."):</strong>";
+		$product_price_lbl = "<strong>". $VM_LANG->_('VM_CART_PRICE_PER_UNIT').' ('.$db_product->f("product_unit")."):</strong>";
 	}
 	else {
-		$product_price_lbl = "<strong>". $VM_LANG->_('PHPSHOP_CART_PRICE'). ": </strong>";
+		$product_price_lbl = "<strong>". $VM_LANG->_('VM_CART_PRICE'). ": </strong>";
 	}
 
 	$product_price = "";
@@ -297,7 +297,7 @@ $product_vendor_id2 = $db_product->f('vendor_id');
 $dbv->query("SELECT `vendor_store_name` FROM #__{vm}_vendor WHERE vendor_id=$product_vendor_id2" );
 $dbv->next_record();
 $product_vendor_store_name = $dbv->f("vendor_store_name");
-$product_vendor_lbl = "<strong>". $VM_LANG->_('PHPSHOP_PRODUCT_DETAILS_VENDOR_LBL'). " </strong>";
+$product_vendor_lbl = "<strong>". $VM_LANG->_('VM_PRODUCT_DETAILS_VENDOR_LBL'). " </strong>";
 $product_vendor_lbl = $product_vendor_lbl. $product_vendor_store_name;
 
 
@@ -311,14 +311,14 @@ if (  $db_product->f("product_packaging") ) {
 	$box = ($db_product->f("product_packaging") >> 16) & 0xFFFF;
 	$product_packaging = "";
 	if ( $packaging ) {
-		$product_packaging .= $VM_LANG->_('PHPSHOP_PRODUCT_PACKAGING1').$packaging;
+		$product_packaging .= $VM_LANG->_('VM_PRODUCT_PACKAGING1').$packaging;
 		if( $box ) $product_packaging .= "<br/>";
 	}
 	if ( $box ) {
-		$product_packaging .= $VM_LANG->_('PHPSHOP_PRODUCT_PACKAGING2').$box;
+		$product_packaging .= $VM_LANG->_('VM_PRODUCT_PACKAGING2').$box;
 	}
 
-	$product_packaging = str_replace("{unit}",$db_product->f("product_unit")?$db_product->f("product_unit") : $VM_LANG->_('PHPSHOP_PRODUCT_FORM_UNIT_DEFAULT'),$product_packaging);
+	$product_packaging = str_replace("{unit}",$db_product->f("product_unit")?$db_product->f("product_unit") : $VM_LANG->_('VM_PRODUCT_FORM_UNIT_DEFAULT'),$product_packaging);
 }
 else {
 	$product_packaging = "";
@@ -386,7 +386,7 @@ $vend_id = $ps_product->get_vendor_id_ofproduct($product_id);
 $vend_name = $ps_product->get_vendorname($product_id);
 
 $link = "$mosConfig_live_site/index2.php?page=shop.infopage&amp;vendor_id=$vend_id&amp;output=lite&amp;option=com_virtuemart&amp;Itemid=".$Itemid;
-$text = $VM_LANG->_('PHPSHOP_VENDOR_FORM_INFO_LBL');
+$text = $VM_LANG->_('VM_VENDOR_FORM_INFO_LBL');
 $vendor_link = vmPopupLink( $link, $text );
 
 // Avoid JavaScript on PDF Output

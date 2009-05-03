@@ -38,7 +38,7 @@ $db->query( $q );
 $listObj = new listFactory( $pageNav );
 
 // print out the search field and a list heading
-$listObj->writeSearchHeader($VM_LANG->_('PHPSHOP_PRODUCT_TYPE_LIST_LBL'), IMAGEURL."ps_image/categories.gif", $modulename, "product_type_list");
+$listObj->writeSearchHeader($VM_LANG->_('VM_PRODUCT_TYPE_LIST_LBL'), IMAGEURL."ps_image/categories.gif", $modulename, "product_type_list");
 
 // start the list table
 $listObj->startTable();
@@ -46,12 +46,12 @@ $listObj->startTable();
 // these are the columns in the table
 $columns = Array(  "#" => "width=\"20\"", 
 					"<input type=\"checkbox\" name=\"toggle\" value=\"\" onclick=\"checkAll(".$num_rows.")\" />" => "width=\"20\"",
-					$VM_LANG->_('PHPSHOP_PRODUCT_TYPE_FORM_NAME') => 'width="25%"',
-					$VM_LANG->_('PHPSHOP_PRODUCT_TYPE_FORM_DESCRIPTION') => 'width="30%"',
-					$VM_LANG->_('PHPSHOP_PRODUCT_TYPE_FORM_PARAMETERS') => 'width="15%"',
-					$VM_LANG->_('PHPSHOP_PRODUCTS_LBL') => 'width="15%"',
-					$VM_LANG->_('PHPSHOP_PRODUCT_LIST_PUBLISH') => 'width="5%"',
-					$VM_LANG->_('PHPSHOP_MODULE_LIST_ORDER') => 'width="5%"',
+					$VM_LANG->_('VM_PRODUCT_TYPE_FORM_NAME') => 'width="25%"',
+					$VM_LANG->_('VM_PRODUCT_TYPE_FORM_DESCRIPTION') => 'width="30%"',
+					$VM_LANG->_('VM_PRODUCT_TYPE_FORM_PARAMETERS') => 'width="15%"',
+					$VM_LANG->_('VM_PRODUCTS_LBL') => 'width="15%"',
+					$VM_LANG->_('VM_PRODUCT_LIST_PUBLISH') => 'width="5%"',
+					$VM_LANG->_('VM_MODULE_LIST_ORDER') => 'width="5%"',
 					$VM_LANG->_('E_REMOVE') => "width=\"5%\""
 				);
 $listObj->writeTableHeader( $columns );
@@ -87,8 +87,8 @@ while ($db->next_record()) {
 							? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link )) 
 							: str_replace('index.php', 'index2.php', $link );
 			}
-	$tmp_cell = $parameter_count . " " . $VM_LANG->_('PHPSHOP_PARAMETERS_LBL') . " <a href=\""
-			. $link . "\">[ ".$VM_LANG->_('PHPSHOP_SHOW')." ]</a>";
+	$tmp_cell = $parameter_count . " " . $VM_LANG->_('VM_PARAMETERS_LBL') . " <a href=\""
+			. $link . "\">[ ".$VM_LANG->_('VM_SHOW')." ]</a>";
 	$listObj->addCell( $tmp_cell );
 	$link = $_SERVER['PHP_SELF'] . "?option=com_virtuemart&page=product.product_list&product_type_id=" . $db->f("product_type_id");
 	if( $vmLayout != 'standard' ) {
@@ -97,9 +97,9 @@ while ($db->next_record()) {
 							? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link )) 
 							: str_replace('index.php', 'index2.php', $link );
 			}
-	$tmp_cell = $product_count ." ". $VM_LANG->_('PHPSHOP_PRODUCTS_LBL')."&nbsp;<a href=\""
+	$tmp_cell = $product_count ." ". $VM_LANG->_('VM_PRODUCTS_LBL')."&nbsp;<a href=\""
 			. $link
-			. "\">[ ".$VM_LANG->_('PHPSHOP_SHOW')." ]</a>";
+			. "\">[ ".$VM_LANG->_('VM_SHOW')." ]</a>";
 	$listObj->addCell( $tmp_cell );
       //$listObj->addCell( $db->f("list_order"));
 

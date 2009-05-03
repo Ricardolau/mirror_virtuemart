@@ -397,26 +397,26 @@ class ps_product_files extends vmAbstractObject {
 		if( $dbf->f("file_is_image") && !$file_still_used ) {
 			$info = pathinfo($fullfilepath);
 			if( !@unlink(realpath($fullfilepath)) ) {
-				$vmLogger->err( $VM_LANG->_('PHPSHOP_FILES_FULLIMG_DELETE_FAILURE',false) );
+				$vmLogger->err( $VM_LANG->_('VM_FILES_FULLIMG_DELETE_FAILURE',false) );
 			} else {
-				$vmLogger->info( $VM_LANG->_('PHPSHOP_FILES_FULLIMG_DELETE_SUCCESS',false) );
+				$vmLogger->info( $VM_LANG->_('VM_FILES_FULLIMG_DELETE_SUCCESS',false) );
 			}
 		
 			$thumb1 = $info["dirname"]."/resized/".basename($fullfilepath, ".".$info["extension"])."_".$dbf->f("file_image_thumb_height")."x".$dbf->f("file_image_thumb_width").".".$info["extension"];
 			$thumb2 = $info["dirname"]."/resized/".basename($fullfilepath, ".".$info["extension"])."_".PSHOP_IMG_HEIGHT."x".PSHOP_IMG_WIDTH.".".$info["extension"];
 			if( file_exists($thumb1) || file_exists($thumb2) ) {
 				if( !@unlink( realpath($thumb1)) && !@unlink( realpath($thumb2) ))  {	
-					$vmLogger->err( $VM_LANG->_('PHPSHOP_FILES_THUMBIMG_DELETE_FAILURE',false)." ". $thumb1 );
+					$vmLogger->err( $VM_LANG->_('VM_FILES_THUMBIMG_DELETE_FAILURE',false)." ". $thumb1 );
 				} else {
-					$vmLogger->info( $VM_LANG->_('PHPSHOP_FILES_THUMBIMG_DELETE_SUCCESS',false) );
+					$vmLogger->info( $VM_LANG->_('VM_FILES_THUMBIMG_DELETE_SUCCESS',false) );
 				}
 			}
 		}
 		elseif( $fullfilepath && !$file_still_used ) {
 			if( !@unlink(realpath($fullfilepath)) ) {
-				$vmLogger->err( $VM_LANG->_('PHPSHOP_FILES_FILE_DELETE_FAILURE',false) );
+				$vmLogger->err( $VM_LANG->_('VM_FILES_FILE_DELETE_FAILURE',false) );
 			} else {
-				$vmLogger->info( $VM_LANG->_('PHPSHOP_FILES_FILE_DELETE_SUCCESS',false) );
+				$vmLogger->info( $VM_LANG->_('VM_FILES_FILE_DELETE_SUCCESS',false) );
 			}
 		}
 		
@@ -444,14 +444,14 @@ class ps_product_files extends vmAbstractObject {
 		if( $dbf->f('product_full_image') && (@$d['file_type'] == 'product_images' || @$d['file_type'] == 'product_full_image') ) {		
 			$fullfilepath = IMAGEPATH .'product/'.$dbf->f('product_full_image');
 			if( !@unlink( realpath($fullfilepath) ) && file_exists($fullfilepath) ) {
-				$vmLogger->err( $VM_LANG->_('PHPSHOP_FILES_THUMBIMG_DELETE_FAILURE',false)." ". $thumb );
+				$vmLogger->err( $VM_LANG->_('VM_FILES_THUMBIMG_DELETE_FAILURE',false)." ". $thumb );
 			}	
 			$sql[] = "product_full_image =''";
 		}
 		if( $dbf->f('product_thumb_image') && (@$d['file_type'] == 'product_images' || @$d['file_type'] == 'product_thumb_image') ) {
 			$thumbfilepath = IMAGEPATH .'product/'.$dbf->f('product_thumb_image');
 			if( !@unlink( realpath($thumbfilepath) ) && file_exists($thumbfilepath) ) {
-				$vmLogger->err( $VM_LANG->_('PHPSHOP_FILES_THUMBIMG_DELETE_FAILURE',false)." ". $thumb );
+				$vmLogger->err( $VM_LANG->_('VM_FILES_THUMBIMG_DELETE_FAILURE',false)." ". $thumb );
 			}
 			$sql[] = "product_thumb_image =''";
 		}
@@ -498,7 +498,7 @@ class ps_product_files extends vmAbstractObject {
 					@mkdir( $uploaddir );
 				}
 				if( !file_exists( $uploaddir ) ) {
-					$vmLogger->err( $VM_LANG->_('PHPSHOP_FILES_PATH_ERROR',false) );
+					$vmLogger->err( $VM_LANG->_('VM_FILES_PATH_ERROR',false) );
 					return false;
 				}
 				
@@ -515,7 +515,7 @@ class ps_product_files extends vmAbstractObject {
 			$d['upload_success'] = $this->moveUploadedFile( 'file_upload', $uploaddir.$d['filename']);
 		}
 		else {
-			$vmLogger->err( $VM_LANG->_('PHPSHOP_FILES_UPLOAD_FAILURE',false) );
+			$vmLogger->err( $VM_LANG->_('VM_FILES_UPLOAD_FAILURE',false) );
 			return false;
 		}
 		
@@ -536,7 +536,7 @@ class ps_product_files extends vmAbstractObject {
 					$d['fileout'] = $fileout = $this->createThumbImage($tmp_filename, 'product', $height, $width );
 
 					if( is_file( $fileout ) ) {
-						$vmLogger->info( $VM_LANG->_('PHPSHOP_FILES_IMAGE_RESIZE_SUCCESS',false) );
+						$vmLogger->info( $VM_LANG->_('VM_FILES_IMAGE_RESIZE_SUCCESS',false) );
 						$thumbimg = getimagesize( $fileout );
 						$d['file_image_thumb_width'] = $thumbimg[0];
 						$d['file_image_thumb_height'] = $thumbimg[1];
@@ -550,7 +550,7 @@ class ps_product_files extends vmAbstractObject {
 						///a25
 					}
 					else {
-						$vmLogger->warning( $VM_LANG->_('PHPSHOP_FILES_IMAGE_RESIZE_FAILURE',false) );
+						$vmLogger->warning( $VM_LANG->_('VM_FILES_IMAGE_RESIZE_FAILURE',false) );
 						$d['file_image_thumb_height'] = "";
 						$d['file_image_thumb_width'] = "";
 					}
@@ -715,7 +715,7 @@ class ps_product_files extends vmAbstractObject {
 		$dbf->setQuery($sql);
 		$dbf->query();
 		if( !$dbf->next_record() ) {
-			$vmLogger->err( $VM_LANG->_('PHPSHOP_FILES_NOT_FOUND',false) );
+			$vmLogger->err( $VM_LANG->_('VM_FILES_NOT_FOUND',false) );
 			return false;
 		}
 		$filename = $mosConfig_absolute_path. str_replace($mosConfig_absolute_path, '', $dbf->f("file_name") );
@@ -734,7 +734,7 @@ class ps_product_files extends vmAbstractObject {
 			$GLOBALS['vm_mainframe']->close(true);
 		}
 		else {
-			$vmLogger->err( $VM_LANG->_('PHPSHOP_FILES_NOT_FOUND',false) );
+			$vmLogger->err( $VM_LANG->_('VM_FILES_NOT_FOUND',false) );
 		}
 		return true;
 	}

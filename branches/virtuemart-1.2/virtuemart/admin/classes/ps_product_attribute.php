@@ -274,7 +274,7 @@ class ps_product_attribute {
 		if( $db->num_rows() > 0 ) {
 			$flypage = $ps_product->get_flypage( $product_id ) ;
 			$html = "<input type=\"hidden\" name=\"product_id\" value=\"$product_id\" />" ;
-			$html .= "<label for=\"product_id_field\">" . $VM_LANG->_( 'PHPSHOP_PLEASE_SEL_ITEM' ) . "</label>: <br />\n" ;
+			$html .= "<label for=\"product_id_field\">" . $VM_LANG->_( 'VM_PLEASE_SEL_ITEM' ) . "</label>: <br />\n" ;
 			
 			// If content plugins are enabled, reload the whole page; otherwise, use ajax 
 			if( VM_CONTENT_PLUGINS_ENABLE == '1' ) {
@@ -283,7 +283,7 @@ class ps_product_attribute {
 				$html .= "<select class=\"inputbox\" onchange=\"var id = $('product_id_field')[selectedIndex].value; if(id != '') { loadNewPage( 'vmMainPage', '" . $mm_action_url . "index.php?option=com_virtuemart&amp;page=shop.product_details&amp;flypage=$flypage&amp;Itemid=$Itemid&amp;category_id=$category_id&amp;product_id=' + id ); }\" id=\"product_id_field\" name=\"prod_id[]\">\n" ;
 			}
 			
-			$html .= "<option value=\"$product_id\">" . $VM_LANG->_( 'PHPSHOP_SELECT' ) . "</option>" ;
+			$html .= "<option value=\"$product_id\">" . $VM_LANG->_( 'VM_SELECT' ) . "</option>" ;
 			while( $db->next_record() ) {
 				$selected = isset( $_REQUEST['product_id'] ) ? ($db->f( "product_id" ) == $_REQUEST['product_id'] ? 'selected="selected"' : '') : '' ;
 				
@@ -382,7 +382,7 @@ class ps_product_attribute {
 		if( $db->num_rows() > 0 ) {
 			$flypage = $ps_product->get_flypage( $product_id ) ;
 			$html = "<input type=\"hidden\" name=\"product_id\" value=\"$product_id\" />" ;
-			$html .= "<label for=\"product_id_field\">" . $VM_LANG->_( 'PHPSHOP_PLEASE_SEL_ITEM' ) . "</label>: <br />" ;
+			$html .= "<label for=\"product_id_field\">" . $VM_LANG->_( 'VM_PLEASE_SEL_ITEM' ) . "</label>: <br />" ;
 
 			// If content plugins are enabled, reload the whole page; otherwise, use ajax 
 			if( VM_CONTENT_PLUGINS_ENABLE == '1' ) {
@@ -391,7 +391,7 @@ class ps_product_attribute {
 				$html .= "<select class=\"inputbox\" onchange=\"var id = $('product_id_field')[selectedIndex].value; if(id != '') { loadNewPage( 'vmMainPage', '" . $mm_action_url . "index.php?option=com_virtuemart&amp;page=shop.product_details&amp;flypage=$flypage&amp;Itemid=$Itemid&amp;category_id=$category_id&amp;product_id=' + id ); }\" id=\"product_id_field\" name=\"prod_id[]\">\n" ;
 			}
 
-			$html .= "<option value=\"$product_id\">" . $VM_LANG->_( 'PHPSHOP_SELECT' ) . "</option>" ;
+			$html .= "<option value=\"$product_id\">" . $VM_LANG->_( 'VM_SELECT' ) . "</option>" ;
 			while( $db->next_record() ) {
 				$selected = isset( $child_id ) ? ($db->f( "product_id" ) == $child_id ? "selected=\"selected\"" : "") : "" ;
 				
@@ -1115,12 +1115,12 @@ class ps_product_attribute {
 	function loadAttributeExtension( $attribute_string = false ) {
 		global $VM_LANG ;
 		
-		echo '<input type="hidden" name="js_lbl_title" value="' . $VM_LANG->_( 'PHPSHOP_PRODUCT_FORM_TITLE' ) . '" />
-		      <input type="hidden" name="js_lbl_property" value="' . $VM_LANG->_( 'PHPSHOP_PRODUCT_FORM_PROPERTY' ) . '" />
-		      <input type="hidden" name="js_lbl_property_new" value="' . $VM_LANG->_( 'PHPSHOP_PRODUCT_FORM_PROPERTY_NEW' ) . '" />
-		      <input type="hidden" name="js_lbl_attribute_new" value="' . $VM_LANG->_( 'PHPSHOP_PRODUCT_FORM_ATTRIBUTE_NEW' ) . '" />
-		      <input type="hidden" name="js_lbl_attribute_delete" value="' . $VM_LANG->_( 'PHPSHOP_PRODUCT_FORM_ATTRIBUTE_DELETE' ) . '" />
-		      <input type="hidden" name="js_lbl_price" value="' . $VM_LANG->_( 'PHPSHOP_CART_PRICE' ) . '" />' ;
+		echo '<input type="hidden" name="js_lbl_title" value="' . $VM_LANG->_( 'VM_PRODUCT_FORM_TITLE' ) . '" />
+		      <input type="hidden" name="js_lbl_property" value="' . $VM_LANG->_( 'VM_PRODUCT_FORM_PROPERTY' ) . '" />
+		      <input type="hidden" name="js_lbl_property_new" value="' . $VM_LANG->_( 'VM_PRODUCT_FORM_PROPERTY_NEW' ) . '" />
+		      <input type="hidden" name="js_lbl_attribute_new" value="' . $VM_LANG->_( 'VM_PRODUCT_FORM_ATTRIBUTE_NEW' ) . '" />
+		      <input type="hidden" name="js_lbl_attribute_delete" value="' . $VM_LANG->_( 'VM_PRODUCT_FORM_ATTRIBUTE_DELETE' ) . '" />
+		      <input type="hidden" name="js_lbl_price" value="' . $VM_LANG->_( 'VM_CART_PRICE' ) . '" />' ;
 		
 		if( ! $attribute_string ) {
 			// product has no attributes
@@ -1130,27 +1130,27 @@ class ps_product_attribute {
 	<tbody width="30%">
 		<tr>
 			<td width="5%"><?php
-			echo $VM_LANG->_( 'PHPSHOP_PRODUCT_FORM_TITLE' ) ;
+			echo $VM_LANG->_( 'VM_PRODUCT_FORM_TITLE' ) ;
 			?></td>
 			<td align="left" colspan="2"><input type="text"
 				name="attributeX[0][name]" value="" size="60" /></td>
 			<td colspan="3" align="left"><a href="javascript: newAttribute(1)"><?php
-			echo $VM_LANG->_( 'PHPSHOP_PRODUCT_FORM_ATTRIBUTE_NEW' ) ;
+			echo $VM_LANG->_( 'VM_PRODUCT_FORM_ATTRIBUTE_NEW' ) ;
 			?></a>
 			| <a href="javascript: newProperty(0)"><?php
-			echo $VM_LANG->_( 'PHPSHOP_PRODUCT_FORM_PROPERTY_NEW' ) ;
+			echo $VM_LANG->_( 'VM_PRODUCT_FORM_PROPERTY_NEW' ) ;
 			?></a>
 			</td>
 		</tr>
 		<tr id="attributeX_tr_0_0">
 			<td width="5%">&nbsp;</td>
 			<td width="10%" align="left"><?php
-			echo $VM_LANG->_( 'PHPSHOP_PRODUCT_FORM_PROPERTY' ) ;
+			echo $VM_LANG->_( 'VM_PRODUCT_FORM_PROPERTY' ) ;
 			?></td>
 			<td align="left" width="20%"><input type="text"
 				name="attributeX[0][value][]" value="" size="40" /></td>
 			<td align="left" width="5%"><?php
-			echo $VM_LANG->_( 'PHPSHOP_PRODUCT_PRICE_TITLE' ) ;
+			echo $VM_LANG->_( 'VM_PRODUCT_PRICE_TITLE' ) ;
 			?></td>
 			<td align="left" width="60%"><input type="text"
 				name="attributeX[0][price][]" size="10" value="" /></td>
@@ -1178,7 +1178,7 @@ class ps_product_attribute {
 	<tbody width="30%">
 		<tr>
 			<td width="5%"><?php
-			echo $VM_LANG->_( 'PHPSHOP_PRODUCT_FORM_TITLE' ) ;
+			echo $VM_LANG->_( 'VM_PRODUCT_FORM_TITLE' ) ;
 			?></td>
 			<td align="left" colspan="2"><input type="text"
 				name="attributeX[<?php
@@ -1191,7 +1191,7 @@ class ps_product_attribute {
 				href="javascript:newAttribute(<?php
 			echo ($i + 1) ;
 			?>)"><?php
-			echo $VM_LANG->_( 'PHPSHOP_PRODUCT_FORM_ATTRIBUTE_NEW' ) ;
+			echo $VM_LANG->_( 'VM_PRODUCT_FORM_ATTRIBUTE_NEW' ) ;
 			?></a> | 
 			    <?php
 			if( $i != 0 ) {
@@ -1199,14 +1199,14 @@ class ps_product_attribute {
 				href="javascript:deleteAttribute(<?php
 				echo ($i) ;
 				?>)"><?php
-				echo $VM_LANG->_( 'PHPSHOP_PRODUCT_FORM_ATTRIBUTE_DELETE' ) ;
+				echo $VM_LANG->_( 'VM_PRODUCT_FORM_ATTRIBUTE_DELETE' ) ;
 				?></a> | <?php
 			}
 			?>
 			    <a href="javascript:newProperty(<?php
 			echo ($i) ;
 			?>)"><?php
-			echo $VM_LANG->_( 'PHPSHOP_PRODUCT_FORM_PROPERTY_NEW' ) ;
+			echo $VM_LANG->_( 'VM_PRODUCT_FORM_PROPERTY_NEW' ) ;
 			?></a>
 			</td>
 		</tr>
@@ -1223,7 +1223,7 @@ class ps_product_attribute {
 					?>">
 			<td width="5%">&nbsp;</td>
 			<td width="10%" align="left"><?php
-					echo $VM_LANG->_( 'PHPSHOP_PRODUCT_FORM_PROPERTY' ) ;
+					echo $VM_LANG->_( 'VM_PRODUCT_FORM_PROPERTY' ) ;
 					?></td>
 			<td align="left" width="20%"><input type="text"
 				name="attributeX[<?php
@@ -1233,7 +1233,7 @@ class ps_product_attribute {
 					echo $value_price[0] ;
 					?>" size="40" /></td>
 			<td align="left" width="5%"><?php
-					echo $VM_LANG->_( 'PHPSHOP_CART_PRICE' ) ;
+					echo $VM_LANG->_( 'VM_CART_PRICE' ) ;
 					?></td>
 			<td align="left" width="60%"><input type="text"
 				name="attributeX[<?php
@@ -1256,7 +1256,7 @@ class ps_product_attribute {
 					?>">
 			<td width="5%">&nbsp;</td>
 			<td width="10%" align="left"><?php
-					echo $VM_LANG->_( 'PHPSHOP_PRODUCT_FORM_PROPERTY' ) ;
+					echo $VM_LANG->_( 'VM_PRODUCT_FORM_PROPERTY' ) ;
 					?></td>
 			<td align="left" width="20%"><input type="text"
 				name="attributeX[<?php
@@ -1266,7 +1266,7 @@ class ps_product_attribute {
 					echo $value ;
 					?>" size="40" /></td>
 			<td align="left" width="5%"><?php
-					echo $VM_LANG->_( 'PHPSHOP_CART_PRICE' ) ;
+					echo $VM_LANG->_( 'VM_CART_PRICE' ) ;
 					?></td>
 			<td align="left" width="60%"><input type="text"
 				name="attributeX[<?php

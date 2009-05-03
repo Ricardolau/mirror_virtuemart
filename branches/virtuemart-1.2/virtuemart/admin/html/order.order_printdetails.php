@@ -55,7 +55,7 @@ for($i = 0; $i < count($order_id_ar); $i++) {
 	<table width="100%" align="center" border="0" cellspacing="0" cellpadding="2">
   <tr>
     <td valign="top">
-     <h2><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_PO_LBL') ?></h2>
+     <h2><?php echo $VM_LANG->_('VM_ORDER_PRINT_PO_LBL') ?></h2>
      <p><?php echo ps_vendor::formatted_store_address(true,$vendor_id) ?></p>
     </td>
     <td valign="top" width="10%" align="right"><?php echo $vendor_image; ?></td>
@@ -65,26 +65,26 @@ for($i = 0; $i < count($order_id_ar); $i++) {
 <table border="0" cellspacing="0" cellpadding="2" width="100%">
   <!-- begin customer information -->
   <tr class="sectiontableheader">
-    <th align="left" colspan="2"><?php echo $VM_LANG->_('PHPSHOP_ACC_ORDER_INFO') ?></th>
+    <th align="left" colspan="2"><?php echo $VM_LANG->_('VM_ACC_ORDER_INFO') ?></th>
   </tr>
   <tr>
-    <td><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_PO_NUMBER')?>:</td>
+    <td><?php echo $VM_LANG->_('VM_ORDER_PRINT_PO_NUMBER')?>:</td>
     <td><?php printf("%08d", $db->f("order_id")); ?></td>
   </tr>
 
   <tr>
-    <td><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_PO_DATE') ?>:</td>
+    <td><?php echo $VM_LANG->_('VM_ORDER_PRINT_PO_DATE') ?>:</td>
     <td><?php echo vmFormatDate( $db->f("cdate")); ?></td>
   </tr>
   <tr>
-    <td><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_PO_STATUS') ?>:</td>
+    <td><?php echo $VM_LANG->_('VM_ORDER_PRINT_PO_STATUS') ?>:</td>
     <td><?php echo $ps_order_status->getOrderStatusName( $db->f("order_status") )   ?></td>
   </tr>
   <?php
   // Print the coupon code when available
   if( $db->f("coupon_code") ) { ?>
 	  <tr>
-		  <td><strong><?php echo $VM_LANG->_('PHPSHOP_COUPON_COUPON_HEADER') ?>:</strong></td>
+		  <td><strong><?php echo $VM_LANG->_('VM_COUPON_COUPON_HEADER') ?>:</strong></td>
 		  <td><?php $db->p("coupon_code"); ?></td>
 	  </tr>
 	  <?php
@@ -93,7 +93,7 @@ for($i = 0; $i < count($order_id_ar); $i++) {
   <!-- End Customer Information -->
   <!-- Begin 2 column bill-ship to -->
   <tr class="sectiontableheader">
-    <th align="left" colspan="2"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_CUST_INFO_LBL') ?></th>
+    <th align="left" colspan="2"><?php echo $VM_LANG->_('VM_ORDER_PRINT_CUST_INFO_LBL') ?></th>
   </tr>
   <tr valign="top">
     <td width="50%"> <!-- Begin BillTo --><?php
@@ -106,7 +106,7 @@ for($i = 0; $i < count($order_id_ar); $i++) {
   ?>
       <table width="100%" cellspacing="0" cellpadding="2" border="0">
         <tr>
-          <td colspan="2"><strong><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_BILL_TO_LBL') ?></strong></td>
+          <td colspan="2"><strong><?php echo $VM_LANG->_('VM_ORDER_PRINT_BILL_TO_LBL') ?></strong></td>
         </tr>
 	        <?php
 		foreach( $registrationfields as $field ) {
@@ -142,7 +142,7 @@ for($i = 0; $i < count($order_id_ar); $i++) {
   ?>
  <table width="100%" cellspacing="0" cellpadding="2" border="0">
         <tr>
-          <td colspan="2"><strong><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_SHIP_TO_LBL') ?></strong></td>
+          <td colspan="2"><strong><?php echo $VM_LANG->_('VM_ORDER_PRINT_SHIP_TO_LBL') ?></strong></td>
         </tr>
         <?php
 		foreach( $shippingfields as $field ) {
@@ -185,15 +185,15 @@ for($i = 0; $i < count($order_id_ar); $i++) {
       <table width="100%" border="0" cellspacing="0" cellpadding="1">
 
         <tr class="sectiontableheader">
-          <th align="left"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_CUST_SHIPPING_LBL') ?></th>
+          <th align="left"><?php echo $VM_LANG->_('VM_ORDER_PRINT_CUST_SHIPPING_LBL') ?></th>
         </tr>
         <tr>
           <td>
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td><strong><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_SHIPPING_CARRIER_LBL') ?></strong></td>
-                <td><strong><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_SHIPPING_MODE_LBL') ?></strong></td>
-                <td><strong><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_PRICE') ?>&nbsp;</strong></td>
+                <td><strong><?php echo $VM_LANG->_('VM_ORDER_PRINT_SHIPPING_CARRIER_LBL') ?></strong></td>
+                <td><strong><?php echo $VM_LANG->_('VM_ORDER_PRINT_SHIPPING_MODE_LBL') ?></strong></td>
+                <td><strong><?php echo $VM_LANG->_('VM_ORDER_PRINT_PRICE') ?>&nbsp;</strong></td>
               </tr>
               <tr>
                 <td><?php echo $details[1];  ?>&nbsp;</td>
@@ -214,17 +214,17 @@ for($i = 0; $i < count($order_id_ar); $i++) {
   </tr>
   <!-- Begin Order Items Information -->
   <tr class="sectiontableheader">
-    <th align="left" colspan="2"><?php echo $VM_LANG->_('PHPSHOP_ORDER_ITEM') ?></th>
+    <th align="left" colspan="2"><?php echo $VM_LANG->_('VM_ORDER_ITEM') ?></th>
   </tr>
   <tr>
     <td colspan="2">
       <table width="100%" cellspacing="0" cellpadding="2" border="0">
         <tr align="left">
-          <th><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_QTY') ?></th>
-          <th><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_NAME') ?></th>
-          <th><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_SKU') ?></th>
-          <th><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_PRICE') ?></th>
-          <th align="right"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_TOTAL') ?>&nbsp;&nbsp;&nbsp;</th>
+          <th><?php echo $VM_LANG->_('VM_ORDER_PRINT_QTY') ?></th>
+          <th><?php echo $VM_LANG->_('VM_ORDER_PRINT_NAME') ?></th>
+          <th><?php echo $VM_LANG->_('VM_ORDER_PRINT_SKU') ?></th>
+          <th><?php echo $VM_LANG->_('VM_ORDER_PRINT_PRICE') ?></th>
+          <th align="right"><?php echo $VM_LANG->_('VM_ORDER_PRINT_TOTAL') ?>&nbsp;&nbsp;&nbsp;</th>
         </tr>
         <?php
       $dbcart = new ps_DB;
@@ -257,7 +257,7 @@ for($i = 0; $i < count($order_id_ar); $i++) {
           <td>&nbsp;</td>
         </tr>
         <tr>
-          <td colspan="4" align="right"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_SUBTOTAL') ?> :</td>
+          <td colspan="4" align="right"><?php echo $VM_LANG->_('VM_ORDER_PRINT_SUBTOTAL') ?> :</td>
           <td align="right"><?php echo $CURRENCY_DISPLAY->getFullValue($subtotal, '', $db->f('order_currency')) ?>&nbsp;&nbsp;&nbsp;</td>
         </tr>
 <?php
@@ -268,7 +268,7 @@ for($i = 0; $i < count($order_id_ar); $i++) {
         $subtotal -= $coupon_discount;
       ?>
         <tr>
-          <td colspan="4" align="right"><?php echo $VM_LANG->_('PHPSHOP_COUPON_DISCOUNT') ?>:
+          <td colspan="4" align="right"><?php echo $VM_LANG->_('VM_COUPON_DISCOUNT') ?>:
           </td>
           <td align="right"><?php
             echo "- ".$CURRENCY_DISPLAY->getFullValue( $coupon_discount, '', $db->f('order_currency') ); ?>&nbsp;&nbsp;&nbsp;
@@ -280,9 +280,9 @@ for($i = 0; $i < count($order_id_ar); $i++) {
         <tr>
             <td colspan="4" align="right"><?php
               if( $db->f("order_discount") > 0)
-                echo $VM_LANG->_('PHPSHOP_PAYMENT_METHOD_LIST_DISCOUNT');
+                echo $VM_LANG->_('VM_PAYMENT_METHOD_LIST_DISCOUNT');
               else
-                echo $VM_LANG->_('PHPSHOP_FEE');
+                echo $VM_LANG->_('VM_FEE');
                 ?>:
             </td>
             <td align="right"><?php
@@ -298,7 +298,7 @@ for($i = 0; $i < count($order_id_ar); $i++) {
 ?>
 
         <tr>
-          <td colspan="4" align="right"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_SHIPPING') ?> :</td>
+          <td colspan="4" align="right"><?php echo $VM_LANG->_('VM_ORDER_PRINT_SHIPPING') ?> :</td>
           <td align="right"><?php
             $shipping_total = $db->f("order_shipping");
             echo $CURRENCY_DISPLAY->getFullValue($shipping_total, '', $db->f('order_currency'));
@@ -306,7 +306,7 @@ for($i = 0; $i < count($order_id_ar); $i++) {
             ?>&nbsp;&nbsp;&nbsp;</td>
         </tr>
         <tr>
-          <td colspan="4" align="right"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_TOTAL_TAX') ?> :</td>
+          <td colspan="4" align="right"><?php echo $VM_LANG->_('VM_ORDER_PRINT_TOTAL_TAX') ?> :</td>
           <td align="right"><?php
             $tax_total = $db->f("order_tax")+ $db->f("order_shipping_tax");
             echo $CURRENCY_DISPLAY->getFullValue($tax_total, '', $db->f('order_currency'));
@@ -318,7 +318,7 @@ for($i = 0; $i < count($order_id_ar); $i++) {
           <td colspan="4" align="right">
           <?php if (PAYMENT_DISCOUNT_BEFORE == '1') { ?><strong><?php }
 
-          echo $VM_LANG->_('PHPSHOP_CART_TOTAL') .":"; if (PAYMENT_DISCOUNT_BEFORE != '1') { ?></strong><?php } ?></td>
+          echo $VM_LANG->_('VM_CART_TOTAL') .":"; if (PAYMENT_DISCOUNT_BEFORE != '1') { ?></strong><?php } ?></td>
 
           <td align="right"><?php
           if (PAYMENT_DISCOUNT_BEFORE == '1') { ?><strong><?php
@@ -336,9 +336,9 @@ for($i = 0; $i < count($order_id_ar); $i++) {
         <tr>
         <td colspan="4" align="right"><?php
               if( $db->f("order_discount") > 0)
-                echo $VM_LANG->_('PHPSHOP_PAYMENT_METHOD_LIST_DISCOUNT');
+                echo $VM_LANG->_('VM_PAYMENT_METHOD_LIST_DISCOUNT');
               else
-                echo $VM_LANG->_('PHPSHOP_FEE');
+                echo $VM_LANG->_('VM_FEE');
                 ?>:
         </td>
         <td align="right"><?php
@@ -350,7 +350,7 @@ for($i = 0; $i < count($order_id_ar); $i++) {
         </td>
         </tr>
         <tr>
-            <td colspan="4" align="right"><strong><?php echo $VM_LANG->_('PHPSHOP_CART_TOTAL') ?>: </strong></td>
+            <td colspan="4" align="right"><strong><?php echo $VM_LANG->_('VM_CART_TOTAL') ?>: </strong></td>
         <td align="right"><strong><?php echo $CURRENCY_DISPLAY->getFullValue($db->f("order_total"), '', $db->f('order_currency')); ?>
         </strong>&nbsp;&nbsp;&nbsp;
           </td>
@@ -375,7 +375,7 @@ for($i = 0; $i < count($order_id_ar); $i++) {
 
       <table width="100%">
       <tr class="sectiontableheader">
-        <th align="left" colspan="2"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_PAYINFO_LBL') ?></th>
+        <th align="left" colspan="2"><?php echo $VM_LANG->_('VM_ORDER_PRINT_PAYINFO_LBL') ?></th>
       </tr>
           <?php
           /** Retrieve Payment Info **/
@@ -388,7 +388,7 @@ for($i = 0; $i < count($order_id_ar); $i++) {
           $dbpm->query($q);
           $dbpm->next_record(); ?>
       <tr>
-        <td width="20%"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_PAYMENT_LBL') ?> :</td>
+        <td width="20%"><?php echo $VM_LANG->_('VM_ORDER_PRINT_PAYMENT_LBL') ?> :</td>
         <td><?php $dbpm->p("name"); ?> </td>
       </tr>
 	  <?php
@@ -405,16 +405,16 @@ for($i = 0; $i < count($order_id_ar); $i++) {
             $dbaccount->query($q);
             $dbaccount->next_record(); ?>
       <tr>
-        <td width="10%"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_ACCOUNT_NAME') ?> :</td>
+        <td width="10%"><?php echo $VM_LANG->_('VM_ORDER_PRINT_ACCOUNT_NAME') ?> :</td>
         <td><?php $dbpm->p("order_payment_name"); ?> </td>
       </tr>
       <tr>
-        <td><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_ACCOUNT_NUMBER') ?> :</td>
+        <td><?php echo $VM_LANG->_('VM_ORDER_PRINT_ACCOUNT_NUMBER') ?> :</td>
         <td><?php echo ps_checkout::asterisk_pad($dbaccount->f("account_number"),4);
     ?> </td>
       </tr>
       <tr>
-        <td><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_EXPIRE_DATE') ?> :</td>
+        <td><?php echo $VM_LANG->_('VM_ORDER_PRINT_EXPIRE_DATE') ?> :</td>
         <td><?php echo vmFormatDate($dbpm->f("order_payment_expire"), '%b-%Y'); ?> </td>
       </tr>
           <?php } ?>
@@ -431,7 +431,7 @@ for($i = 0; $i < count($order_id_ar); $i++) {
         <td colspan="2">&nbsp;</td>
       </tr>
       <tr class="sectiontableheader">
-        <th align="left" colspan="2"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_CUSTOMER_NOTE') ?></th>
+        <th align="left" colspan="2"><?php echo $VM_LANG->_('VM_ORDER_PRINT_CUSTOMER_NOTE') ?></th>
       </tr>
       <tr>
         <td colspan="2">
@@ -449,6 +449,6 @@ for($i = 0; $i < count($order_id_ar); $i++) {
 ?>
 <script type="text/javascript">
 //<!--
-window.document.title="<?php echo $VM_LANG->_('PHPSHOP_CHECK_OUT_THANK_YOU_PRINT_VIEW', false ); ?>";
+window.document.title="<?php echo $VM_LANG->_('VM_CHECK_OUT_THANK_YOU_PRINT_VIEW', false ); ?>";
 //-->
 </script>

@@ -145,10 +145,10 @@ $registration_url = $sess->url( SECUREURL.'index.php?option=com_virtuemart&amp;p
 		<?php if( $params->get('accountlink') || ENABLE_DOWNLOADS == '1' ) : ?>
 		<ul>
 			<?php if( $params->get('accountlink') ) : ?>
-			<li><a href="<?php echo $sess->url(SECUREURL . "index.php?page=account.index");?>"><?php echo $VM_LANG->_('PHPSHOP_ACCOUNT_TITLE') ?></a></li>
+			<li><a href="<?php echo $sess->url(SECUREURL . "index.php?page=account.index");?>"><?php echo $VM_LANG->_('VM_ACCOUNT_TITLE') ?></a></li>
 			<?php endif; ?>
 			<?php if( ENABLE_DOWNLOADS == '1' ) : ?>
-        	<li><a href="<?php $sess->purl(SECUREURL . "index.php?page=shop.downloads");?>"><?php echo $VM_LANG->_('PHPSHOP_DOWNLOADS_TITLE') ?></a></li>
+        	<li><a href="<?php $sess->purl(SECUREURL . "index.php?page=shop.downloads");?>"><?php echo $VM_LANG->_('VM_DOWNLOADS_TITLE') ?></a></li>
 			<?php endif; ?>
 		</ul>
 		<?php endif; ?>

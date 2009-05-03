@@ -46,7 +46,7 @@ $pageNav = new vmPageNav( $num_rows, $limitstart, $limit );
 $listObj = new listFactory( $pageNav );
 
 // print out the search field and a list heading
-$listObj->writeSearchHeader($VM_LANG->_('PHPSHOP_CREDITCARD_LIST_LBL'), VM_THEMEURL .'images/administration/dashboard/credit.png', $modulename, "creditcard_list");
+$listObj->writeSearchHeader($VM_LANG->_('VM_CREDITCARD_LIST_LBL'), VM_THEMEURL .'images/administration/dashboard/credit.png', $modulename, "creditcard_list");
 
 // start the list table
 $listObj->startTable();
@@ -54,8 +54,8 @@ $listObj->startTable();
 // these are the columns in the table
 $columns = Array(  "#" => "width=\"20\"", 
 					"<input type=\"checkbox\" name=\"toggle\" value=\"\" onclick=\"checkAll(".$num_rows.")\" />" => "width=\"20\"",
-					$VM_LANG->_('PHPSHOP_CREDITCARD_NAME') => '',
-					$VM_LANG->_('PHPSHOP_CREDITCARD_CODE') => '',
+					$VM_LANG->_('VM_CREDITCARD_NAME') => '',
+					$VM_LANG->_('VM_CREDITCARD_CODE') => '',
 					$VM_LANG->_('E_REMOVE') => "width=\"5%\""
 				);
 $listObj->writeTableHeader( $columns );

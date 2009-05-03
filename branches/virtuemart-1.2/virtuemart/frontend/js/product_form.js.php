@@ -178,7 +178,7 @@ var productSearchField = function(){
         width: 270,
         minListWidth: 270,
         pageSize:15,
-        emptyText: "<?php  echo addslashes($VM_LANG->_('PHPSHOP_SEARCH_TITLE')); ?>",
+        emptyText: "<?php  echo addslashes($VM_LANG->_('VM_SEARCH_TITLE')); ?>",
         tpl: resultTpl,
         onSelect: function(record) {
         	for(var i=0;i<relatedSelection.options.length;i++) {
@@ -230,7 +230,7 @@ var categorySearchField = function(){
         width: 170,
         minListWidth: 170,
         pageSize:15,
-        emptyText: "<?php  echo addslashes($VM_LANG->_('PHPSHOP_SEARCH_TITLE')); ?>",
+        emptyText: "<?php  echo addslashes($VM_LANG->_('VM_SEARCH_TITLE')); ?>",
         tpl: resultTpl,
         onSelect: function(record) {
         	for(var i=0;i<relatedCatSelection.options.length;i++) {

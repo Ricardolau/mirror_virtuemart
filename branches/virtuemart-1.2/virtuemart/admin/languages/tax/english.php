@@ -19,12 +19,12 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
 global $VM_LANG;
 $langvars = array (
 	'CHARSET' => 'ISO-8859-1',
-	'PHPSHOP_TAX_LIST_LBL' => 'Tax Rate List',
-	'PHPSHOP_TAX_LIST_STATE' => 'Tax State or Region',
-	'PHPSHOP_TAX_LIST_COUNTRY' => 'Tax Country',
-	'PHPSHOP_TAX_FORM_LBL' => 'Add Tax Information',
-	'PHPSHOP_TAX_FORM_STATE' => 'Tax State or Region',
-	'PHPSHOP_TAX_FORM_COUNTRY' => 'Tax Country',
-	'PHPSHOP_TAX_FORM_RATE' => 'Tax Rate (for 16% => fill in 0.16)'
+	'VM_TAX_LIST_LBL' => 'Tax Rate List',
+	'VM_TAX_LIST_STATE' => 'Tax State or Region',
+	'VM_TAX_LIST_COUNTRY' => 'Tax Country',
+	'VM_TAX_FORM_LBL' => 'Add Tax Information',
+	'VM_TAX_FORM_STATE' => 'Tax State or Region',
+	'VM_TAX_FORM_COUNTRY' => 'Tax Country',
+	'VM_TAX_FORM_RATE' => 'Tax Rate (for 16% => fill in 0.16)'
 ); $VM_LANG->initModule( 'tax', $langvars );
 ?>

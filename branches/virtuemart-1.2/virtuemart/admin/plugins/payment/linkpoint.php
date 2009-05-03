@@ -239,7 +239,7 @@ class plgPaymentLinkpoint extends vmPaymentPlugin {
 		}
 		else    // Success, let's return
 		{
-		   $d["order_payment_log"] = $VM_LANG->_('PHPSHOP_PAYMENT_TRANSACTION_SUCCESS').": ";
+		   $d["order_payment_log"] = $VM_LANG->_('VM_PAYMENT_TRANSACTION_SUCCESS').": ";
 		   $d["order_payment_log"] = $result["r_approved"];
 		   // Catch Transaction ID
 		   $d["order_payment_trans_id"] = $result["r_ordernum"];
@@ -263,7 +263,7 @@ class plgPaymentLinkpoint extends vmPaymentPlugin {
   	  }
   	  else    // Success, let's return
   	  {
-  		 $d["order_payment_log"] = $VM_LANG->_('PHPSHOP_PAYMENT_TRANSACTION_SUCCESS').": ";
+  		 $d["order_payment_log"] = $VM_LANG->_('VM_PAYMENT_TRANSACTION_SUCCESS').": ";
   		 $d["order_payment_log"] = $result["r_approved"];
   		 // Catch Transaction ID
   		 $d["order_payment_trans_id"] = $result["r_ordernum"];

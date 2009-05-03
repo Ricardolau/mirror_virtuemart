@@ -125,7 +125,7 @@ if ($lvisit == "0000-00-00 00:00:00") {
 //First create the object and let it print a form heading
 $formObj = &new formFactory( vmCommonHTML::imageTag(VM_THEMEURL.'images/administration/header/icon-48-user.png', 'User Icon', 'absmiddle' ) 
 							.'&nbsp;&nbsp;&nbsp;' 
-							. $VM_LANG->_('PHPSHOP_USER_FORM_LBL') );
+							. $VM_LANG->_('VM_USER_FORM_LBL') );
 //Then Start the form
 $formObj->startForm();
 
@@ -353,18 +353,18 @@ function gotocontact( id ) {
 <?php
 
 $tabs->endTab();
-$tabs->startTab( $VM_LANG->_('PHPSHOP_SHOPPER_FORM_LBL'), "third-page");
+$tabs->startTab( $VM_LANG->_('VM_SHOPPER_FORM_LBL'), "third-page");
 
 ?>
 
-<fieldset style="width:48%;"><legend><?php echo $VM_LANG->_('PHPSHOP_SHOPPER_FORM_LBL') ?></legend>
+<fieldset style="width:48%;"><legend><?php echo $VM_LANG->_('VM_SHOPPER_FORM_LBL') ?></legend>
 <table class="adminform">  
     <tr> 
-        <td style="text-align:right;"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_VENDOR') ?>:</td>
+        <td style="text-align:right;"><?php echo $VM_LANG->_('VM_PRODUCT_FORM_VENDOR') ?>:</td>
         <td><?php ps_vendor::list_vendor($db->f("vendor_id"),true);  ?></td>
     </tr>
 	<tr> 
-        <td nowrap="nowrap" style="text-align:right;" width="38%" ><?php echo $VM_LANG->_('PHPSHOP_USER_FORM_PERMS') ?>:</td> 
+        <td nowrap="nowrap" style="text-align:right;" width="38%" ><?php echo $VM_LANG->_('VM_USER_FORM_PERMS') ?>:</td> 
         <td width="62%" > 
                 <?php
                 if( !isset( $ps_perms)) { $ps_perms = new ps_perm(); }
@@ -373,13 +373,13 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_SHOPPER_FORM_LBL'), "third-page");
         </td> 
     </tr> 
       <tr> 
-    	<td style="text-align:right;"><?php echo $VM_LANG->_('PHPSHOP_USER_FORM_CUSTOMER_NUMBER') ?>:</td>
+    	<td style="text-align:right;"><?php echo $VM_LANG->_('VM_USER_FORM_CUSTOMER_NUMBER') ?>:</td>
         <td > 
       	<input type="text" class="inputbox" name="customer_number" size="40" value="<?php echo $ps_shopper_group->get_customer_num($db->f("user_id")) ?>" />
         </td>
      </tr>
      <tr> 
-    	<td style="text-align:right;"> <?php echo $VM_LANG->_('PHPSHOP_SHOPPER_FORM_GROUP') ?>:</td>
+    	<td style="text-align:right;"> <?php echo $VM_LANG->_('VM_SHOPPER_FORM_GROUP') ?>:</td>
         <td ><?php
             include_class('shopper');
             $sg_id = $ps_shopper_group->get_shoppergroup_by_id($db->f("user_id"));
@@ -392,10 +392,10 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_SHOPPER_FORM_LBL'), "third-page");
 <?php 
 if( $db->f("user_id") ) { 
 ?> 
-    <fieldset><legend><?php echo $VM_LANG->_('PHPSHOP_USER_FORM_SHIPTO_LBL') ?></legend>
+    <fieldset><legend><?php echo $VM_LANG->_('VM_USER_FORM_SHIPTO_LBL') ?></legend>
     
     <a class="vmicon vmicon-16-editadd" href="<?php $sess->purl($_SERVER['PHP_SELF'] . "?page=$modulename.user_address_form&amp;user_id=$user_id") ?>" >
-	(<?php echo $VM_LANG->_('PHPSHOP_USER_FORM_ADD_SHIPTO_LBL') ?>)</a> 
+	(<?php echo $VM_LANG->_('VM_USER_FORM_ADD_SHIPTO_LBL') ?>)</a> 
 	
 	<table class="adminlist"> 
 		<tr> 
@@ -457,10 +457,10 @@ require_once(CLASSPATH.'ps_order.php');
 $db = ps_order::list_order_resultSet($order_status);
 $num_rows = $db->f("num_rows");
 if( $num_rows ) {
-	$tabs->startTab( $VM_LANG->_('PHPSHOP_ORDER_LIST_LBL') . ' ('.$num_rows.')', "order-list");
+	$tabs->startTab( $VM_LANG->_('VM_ORDER_LIST_LBL') . ' ('.$num_rows.')', "order-list");
 	?>
 	        
-	<h3><?php echo $VM_LANG->_('PHPSHOP_ORDER_LIST_LBL') ?> </h3>
+	<h3><?php echo $VM_LANG->_('VM_ORDER_LIST_LBL') ?> </h3>
 	
 	<?php
 	
@@ -474,12 +474,12 @@ if( $num_rows ) {
 	
 	// these are the columns in the table
 	$columns = Array(  "#" => "width=\"20\"", 
-	                                        $VM_LANG->_('PHPSHOP_ORDER_LIST_ID') => '',
-	                                        $VM_LANG->_('PHPSHOP_CHECK_OUT_THANK_YOU_PRINT_VIEW') => '',
-	                                        $VM_LANG->_('PHPSHOP_ORDER_LIST_CDATE') => '',
-	                                        $VM_LANG->_('PHPSHOP_ORDER_LIST_MDATE') => '',
-	                                        $VM_LANG->_('PHPSHOP_ORDER_LIST_STATUS') => '',
-	                                        $VM_LANG->_('PHPSHOP_ORDER_LIST_TOTAL') => '',
+	                                        $VM_LANG->_('VM_ORDER_LIST_ID') => '',
+	                                        $VM_LANG->_('VM_CHECK_OUT_THANK_YOU_PRINT_VIEW') => '',
+	                                        $VM_LANG->_('VM_ORDER_LIST_CDATE') => '',
+	                                        $VM_LANG->_('VM_ORDER_LIST_MDATE') => '',
+	                                        $VM_LANG->_('VM_ORDER_LIST_STATUS') => '',
+	                                        $VM_LANG->_('VM_ORDER_LIST_TOTAL') => '',
 	                                        $VM_LANG->_('E_REMOVE') => "width=\"5%\""
 	                                );
 	$listObj->writeTableHeader( $columns );
@@ -538,60 +538,60 @@ if(!empty($vendor_id)){
 //$tabs = new vmTabPanel(0, 1, "vendorform");
 //$tabs->startPane("content-pane");
 
-$tabs->startTab( $VM_LANG->_('PHPSHOP_STORE_MOD'), "info-page");
+$tabs->startTab( $VM_LANG->_('VM_STORE_MOD'), "info-page");
 ?>
 
 <table class="adminform">
     <tr> 
-      <td><strong><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_INFO_LBL') ?></strong></td>
+      <td><strong><?php echo $VM_LANG->_('VM_VENDOR_FORM_INFO_LBL') ?></strong></td>
       <td>&nbsp;</td>
     </tr>
     <tr> 
-      <td align="right" ><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_FULL_IMAGE') ?>:</td>
+      <td align="right" ><?php echo $VM_LANG->_('VM_VENDOR_FORM_FULL_IMAGE') ?>:</td>
       <td><?php  
         ps_vendor::show_image($db->f("vendor_full_image"), $vendor_id); ?> 
         <input type="hidden" name="vendor_full_image_curr" value="<?php $db->p("vendor_full_image"); ?>" />
       </td>
     </tr>
     <tr> 
-      <td align="right" ><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_UPLOAD') ?>:</td>
+      <td align="right" ><?php echo $VM_LANG->_('VM_VENDOR_FORM_UPLOAD') ?>:</td>
       <td> 
         <input type="file" name="vendor_full_image" size="16" />
       </td>
     </tr>
     <tr> 
-      <td align="right" ><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_STORE_NAME') ?>:</td>
+      <td align="right" ><?php echo $VM_LANG->_('VM_VENDOR_FORM_STORE_NAME') ?>:</td>
       <td> 
         <input type="text" class="inputbox" name="vendor_store_name" value="<?php $db->sp("vendor_store_name") ?>" size="16" />
       </td>
     </tr>
     <tr> 
-      <td align="right"><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_COMPANY_NAME') ?></td>
+      <td align="right"><?php echo $VM_LANG->_('VM_VENDOR_FORM_COMPANY_NAME') ?></td>
       <td> 
         <input type="text" class="inputbox" name="vendor_name" value="<?php $db->sp("vendor_name") ?>" size="16" />
       </td>
     </tr>
     <tr> 
-      <td width="22%" align="right" ><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_URL') ?>:</td>
+      <td width="22%" align="right" ><?php echo $VM_LANG->_('VM_PRODUCT_FORM_URL') ?>:</td>
       <td width="78%" > 
         <input type="text" class="inputbox" name="vendor_url" value="<?php $db->sp("vendor_url") ?>" size="32" />
       </td>
     </tr>
     <tr> 
-      <td width="22%" align="right" ><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_MPOV') ?>: </td>
+      <td width="22%" align="right" ><?php echo $VM_LANG->_('VM_STORE_FORM_MPOV') ?>: </td>
       <td width="78%" > 
         <input type="text" class="inputbox" name="vendor_min_pov" value="<?php $db->sp("vendor_min_pov") ?>" size="6" />
       </td>
     </tr>
     <tr> 
-      <td width="22%" align="right" ><?php echo $VM_LANG->_('PHPSHOP_FREE_SHIPPING_AMOUNT') ?>: </td>
+      <td width="22%" align="right" ><?php echo $VM_LANG->_('VM_FREE_SHIPPING_AMOUNT') ?>: </td>
       <td width="78%" > 
         <input type="text" class="inputbox" name="vendor_freeshipping" value="<?php $db->sp("vendor_freeshipping") ?>" size="6" />
-      <?php echo vmToolTip( $VM_LANG->_('PHPSHOP_FREE_SHIPPING_AMOUNT_TOOLTIP') ) ?>
+      <?php echo vmToolTip( $VM_LANG->_('VM_FREE_SHIPPING_AMOUNT_TOOLTIP') ) ?>
       </td>
     </tr>
     <tr> 
-      <td align="right"><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_CATEGORY') ?>:</td>
+      <td align="right"><?php echo $VM_LANG->_('VM_VENDOR_FORM_CATEGORY') ?>:</td>
       <td ><?php 
       	global $ps_vendor_category;
           $ps_vendor_category->list_category($db->sf("vendor_category_id"));
@@ -599,7 +599,7 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_STORE_MOD'), "info-page");
       </td>
     </tr>
     <tr>
-      <td colspan="2" style="font-weight:bold;"><hr /><?php echo $VM_LANG->_('PHPSHOP_CURRENCY_DISPLAY') ?></td>
+      <td colspan="2" style="font-weight:bold;"><hr /><?php echo $VM_LANG->_('VM_CURRENCY_DISPLAY') ?></td>
     </tr>
     
 <?php
@@ -607,37 +607,37 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_STORE_MOD'), "info-page");
 $currency_display =& ps_vendor::get_currency_display_style( $db->f("vendor_currency_display_style") );
 ?>
     <tr>        
-      <td align="right"><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_CURRENCY') ?>:</td>
+      <td align="right"><?php echo $VM_LANG->_('VM_VENDOR_FORM_CURRENCY') ?>:</td>
       <td> 
         <?php $ps_html->list_currency("vendor_currency", $db->sf("vendor_currency")); ?>
       </td>
     </tr>
     <tr>
-      <td align="right"><?php echo $VM_LANG->_('PHPSHOP_CURRENCY_SYMBOL') ?> : </td>
+      <td align="right"><?php echo $VM_LANG->_('VM_CURRENCY_SYMBOL') ?> : </td>
       <td>
         <input type="hidden" name="display_style[0]" value="<?php echo $vendor_id; ?>" size="4">
         <input type="text" name="display_style[1]" value="<?php echo $currency_display['symbol']; ?>" size="4" />
-        <?php echo vmToolTip( $VM_LANG->_('PHPSHOP_CURRENCY_SYMBOL_TOOLTIP') )?>
+        <?php echo vmToolTip( $VM_LANG->_('VM_CURRENCY_SYMBOL_TOOLTIP') )?>
       </td>
     </tr>
     <tr>
-      <td align="right"><?php echo $VM_LANG->_('PHPSHOP_CURRENCY_DECIMALS') ?> : </td>
+      <td align="right"><?php echo $VM_LANG->_('VM_CURRENCY_DECIMALS') ?> : </td>
       <td><input type="text" name="display_style[2]" value="<?php echo $currency_display['nbdecimal']; ?>" size="1" />
-      <?php echo vmToolTip( $VM_LANG->_('PHPSHOP_CURRENCY_DECIMALS_TOOLTIP') ) ?>
+      <?php echo vmToolTip( $VM_LANG->_('VM_CURRENCY_DECIMALS_TOOLTIP') ) ?>
       </td>
     </tr>
     <tr>
-      <td align="right"><?php echo $VM_LANG->_('PHPSHOP_CURRENCY_DECIMALSYMBOL') ?> : </td>
+      <td align="right"><?php echo $VM_LANG->_('VM_CURRENCY_DECIMALSYMBOL') ?> : </td>
       <td><input type="text" name="display_style[3]" value="<?php echo $currency_display['sdecimal']; ?>" size="1" />
-      <?php echo vmToolTip( $VM_LANG->_('PHPSHOP_CURRENCY_DECIMALSYMBOL_TOOLTIP') ) ?></td>
+      <?php echo vmToolTip( $VM_LANG->_('VM_CURRENCY_DECIMALSYMBOL_TOOLTIP') ) ?></td>
     </tr>
     <tr>
-      <td align="right"><?php echo $VM_LANG->_('PHPSHOP_CURRENCY_THOUSANDS') ?> : </td>
+      <td align="right"><?php echo $VM_LANG->_('VM_CURRENCY_THOUSANDS') ?> : </td>
       <td><input type="text" name="display_style[4]" value="<?php echo $currency_display['thousands']; ?>" size="1" />
-      <?php echo vmToolTip( $VM_LANG->_('PHPSHOP_CURRENCY_THOUSANDS_TOOLTIP') )?></td>
+      <?php echo vmToolTip( $VM_LANG->_('VM_CURRENCY_THOUSANDS_TOOLTIP') )?></td>
     </tr>
     <tr>
-      <td align="right"><?php echo $VM_LANG->_('PHPSHOP_CURRENCY_POSITIVE_DISPLAY') ?> : </td>
+      <td align="right"><?php echo $VM_LANG->_('VM_CURRENCY_POSITIVE_DISPLAY') ?> : </td>
       <td>
         <select name="display_style[5]">
 			<option value="0"<?php if ($currency_display['positive']=='0') echo ' selected=\"selected\" ';?>>00Symb</option>
@@ -645,11 +645,11 @@ $currency_display =& ps_vendor::get_currency_display_style( $db->f("vendor_curre
 	   		<option value="2"<?php if ($currency_display['positive']=='2') echo ' selected=\"selected\" ';?>>Symb00</option>
 		   	<option value="3"<?php if ($currency_display['positive']=='3') echo ' selected=\"selected\" ';?>>Symb 00</option>
         </select>
-        <?php echo vmToolTip( $VM_LANG->_('PHPSHOP_CURRENCY_POSITIVE_DISPLAY_TOOLTIP') ) ?>
+        <?php echo vmToolTip( $VM_LANG->_('VM_CURRENCY_POSITIVE_DISPLAY_TOOLTIP') ) ?>
       </td>
     </tr>
     <tr>
-      <td align="right"><?php echo $VM_LANG->_('PHPSHOP_CURRENCY_NEGATIVE_DISPLAY') ?> : </td>
+      <td align="right"><?php echo $VM_LANG->_('VM_CURRENCY_NEGATIVE_DISPLAY') ?> : </td>
       <td>
         <select name="display_style[6]">
 			<option value="0"<?php if ($currency_display['negative']=='0') echo ' selected=\"selected\" ';?>>(Symb00)</option>
@@ -669,21 +669,21 @@ $currency_display =& ps_vendor::get_currency_display_style( $db->f("vendor_curre
 		   	<option value="14"<?php if ($currency_display['negative']=='14') echo ' selected=\"selected\" ';?>>(Symb 00)</option>
 		   	<option value="15"<?php if ($currency_display['negative']=='15') echo ' selected=\"selected\" ';?>>(00 Symb)</option>
         </select>
-        <?php echo vmToolTip( $VM_LANG->_('PHPSHOP_CURRENCY_NEGATIVE_DISPLAY_TOOLTIP') ) ?>
+        <?php echo vmToolTip( $VM_LANG->_('VM_CURRENCY_NEGATIVE_DISPLAY_TOOLTIP') ) ?>
       </td>
     </tr>
   </table>
   
    <table class="adminform">
     <tr> 
-      <td width="22%" align="right"  valign="top"><?php echo $VM_LANG->_('PHPSHOP_VENDOR_FORM_DESCRIPTION') ?>:</td>
+      <td width="22%" align="right"  valign="top"><?php echo $VM_LANG->_('VM_VENDOR_FORM_DESCRIPTION') ?>:</td>
       <td width="78%" ><?php
 	  	 editorArea( 'editor1', $db->f("vendor_store_desc"), 'vendor_store_desc', '400', '200', '70', '15' );
 			?>
       </td>
     </tr>
             <tr> 
-      <td width="22%" align="right"  valign="top"><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_TOS') ?>:</td>
+      <td width="22%" align="right"  valign="top"><?php echo $VM_LANG->_('VM_STORE_FORM_TOS') ?>:</td>
       <td width="78%" ><?php
 	  	  editorArea( 'editor2', $db->f("vendor_terms_of_service"), 'vendor_terms_of_service', '400', '200', '70', '15' );
 		?>

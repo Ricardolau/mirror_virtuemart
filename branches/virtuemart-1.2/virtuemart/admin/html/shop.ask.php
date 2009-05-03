@@ -35,7 +35,7 @@ elseif( !empty($product_sku )) {
 	$q .= "`product_sku`='$product_sku'";
 }
 else {
-	vmRedirect( $sess->url( $_SERVER['PHP_SELF']."?page=shop.product_details&keyword=".urlencode($_SESSION['keyword'])."&category_id={$_SESSION['category_id']}&limitstart={$_SESSION['limitstart']}", false, false), $VM_LANG->_('PHPSHOP_PRODUCT_NOT_FOUND') );
+	vmRedirect( $sess->url( $_SERVER['PHP_SELF']."?page=shop.product_details&keyword=".urlencode($_SESSION['keyword'])."&category_id={$_SESSION['category_id']}&limitstart={$_SESSION['limitstart']}", false, false), $VM_LANG->_('VM_PRODUCT_NOT_FOUND') );
 }
 if( !$perm->check("admin,storeadmin") ) {
 	$q .= " AND `product_publish`='Y'";
@@ -46,7 +46,7 @@ if( !$perm->check("admin,storeadmin") ) {
 $db_product->query( $q );
 // Redirect back to Product Browse Page on Error
 if( !$db_product->next_record() ) {
-	vmRedirect( $sess->url( $_SERVER['PHP_SELF']."?page=shop.product_details&keyword=".urlencode($_SESSION['keyword'])."&category_id={$_SESSION['category_id']}&limitstart={$_SESSION['limitstart']}", false, false ), $VM_LANG->_('PHPSHOP_PRODUCT_NOT_FOUND') );
+	vmRedirect( $sess->url( $_SERVER['PHP_SELF']."?page=shop.product_details&keyword=".urlencode($_SESSION['keyword'])."&category_id={$_SESSION['category_id']}&limitstart={$_SESSION['limitstart']}", false, false ), $VM_LANG->_('VM_PRODUCT_NOT_FOUND') );
 }
 
 

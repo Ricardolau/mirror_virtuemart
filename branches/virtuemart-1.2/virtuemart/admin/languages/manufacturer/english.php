@@ -19,18 +19,18 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
 global $VM_LANG;
 $langvars = array (
 	'CHARSET' => 'ISO-8859-1',
-	'PHPSHOP_MANUFACTURER_LIST_LBL' => 'Manufacturer List',
-	'PHPSHOP_MANUFACTURER_LIST_MANUFACTURER_NAME' => 'Manufacturer Name',
-	'PHPSHOP_MANUFACTURER_FORM_LBL' => 'Add Information',
-	'PHPSHOP_MANUFACTURER_FORM_CATEGORY' => 'Manufacturer Category',
-	'PHPSHOP_MANUFACTURER_FORM_EMAIL' => 'Email',
-	'PHPSHOP_MANUFACTURER_CAT_LIST_LBL' => 'Manufacturer Category List',
-	'PHPSHOP_MANUFACTURER_CAT_NAME' => 'Category Name',
-	'PHPSHOP_MANUFACTURER_CAT_DESCRIPTION' => 'Category Description',
-	'PHPSHOP_MANUFACTURER_CAT_MANUFACTURERS' => 'Manufacturers',
-	'PHPSHOP_MANUFACTURER_CAT_FORM_LBL' => 'Manufacturer Category Form',
-	'PHPSHOP_MANUFACTURER_CAT_FORM_INFO_LBL' => 'Category Information',
-	'PHPSHOP_MANUFACTURER_CAT_FORM_NAME' => 'Category Name',
-	'PHPSHOP_MANUFACTURER_CAT_FORM_DESCRIPTION' => 'Category Description'
+	'VM_MANUFACTURER_LIST_LBL' => 'Manufacturer List',
+	'VM_MANUFACTURER_LIST_MANUFACTURER_NAME' => 'Manufacturer Name',
+	'VM_MANUFACTURER_FORM_LBL' => 'Add Information',
+	'VM_MANUFACTURER_FORM_CATEGORY' => 'Manufacturer Category',
+	'VM_MANUFACTURER_FORM_EMAIL' => 'Email',
+	'VM_MANUFACTURER_CAT_LIST_LBL' => 'Manufacturer Category List',
+	'VM_MANUFACTURER_CAT_NAME' => 'Category Name',
+	'VM_MANUFACTURER_CAT_DESCRIPTION' => 'Category Description',
+	'VM_MANUFACTURER_CAT_MANUFACTURERS' => 'Manufacturers',
+	'VM_MANUFACTURER_CAT_FORM_LBL' => 'Manufacturer Category Form',
+	'VM_MANUFACTURER_CAT_FORM_INFO_LBL' => 'Category Information',
+	'VM_MANUFACTURER_CAT_FORM_NAME' => 'Category Name',
+	'VM_MANUFACTURER_CAT_FORM_DESCRIPTION' => 'Category Description'
 ); $VM_LANG->initModule( 'manufacturer', $langvars );
 ?>

@@ -88,7 +88,7 @@ $menu_items = getAdminMenu($module_id);
 				<img align="middle" hspace="15" src="<?php echo IMAGEURL ?>ps_image/menu_logo.gif" alt="VirtueMart Cart Logo" />
 			</a>
 		
-			<h2><?php echo $VM_LANG->_('PHPSHOP_ADMIN')	?></h2>
+			<h2><?php echo $VM_LANG->_('VM_ADMIN')	?></h2>
 		</center>
 		<div class="status-divider">
 		</div>
@@ -169,7 +169,7 @@ function getAdminMenu($filter_by_module_id=0) {
 		$db->query($q);
 		
 		while( $db->next_record() ) {
-		    $menuArr[$db->f('module_name')]['title'] = $GLOBALS['VM_LANG']->_('PHPSHOP_'.strtoupper($db->f('module_name')).'_MOD');
+		    $menuArr[$db->f('module_name')]['title'] = $GLOBALS['VM_LANG']->_('VM_'.strtoupper($db->f('module_name')).'_MOD');
 			$menuArr[$db->f('module_name')]['items'][] = array('name' => $db->f('name'),
 																		'link' => $db->f('link'),
 																		'depends' => $db->f('depends'),

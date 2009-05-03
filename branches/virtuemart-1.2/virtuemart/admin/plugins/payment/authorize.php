@@ -140,7 +140,7 @@ class plgPaymentAuthorize extends vmPaymentPlugin {
 
 		// Invoice Information
 		'x_invoice_num' => substr($order_number, 0, 20),
-		'x_description' => $VM_LANG->_('PHPSHOP_ORDER_PRINT_PO_LBL'),
+		'x_description' => $VM_LANG->_('VM_ORDER_PRINT_PO_LBL'),
 
 		// Transaction Data
 		'x_amount' => $order_total,
@@ -186,7 +186,7 @@ class plgPaymentAuthorize extends vmPaymentPlugin {
 
 		// Approved - Success!
 		if ($response[0] == '1') {
-			$d["order_payment_log"] = $VM_LANG->_('PHPSHOP_PAYMENT_TRANSACTION_SUCCESS').": ";
+			$d["order_payment_log"] = $VM_LANG->_('VM_PAYMENT_TRANSACTION_SUCCESS').": ";
 			$d["order_payment_log"] .= $response[3];
 
 			$vmLogger->debug( $d['order_payment_log']);
@@ -384,7 +384,7 @@ class plgPaymentAuthorize extends vmPaymentPlugin {
 
 		// Approved - Success!
 		if ($response[0] == '1') {
-			$d["order_payment_log"] = $VM_LANG->_('PHPSHOP_PAYMENT_TRANSACTION_SUCCESS').": ";
+			$d["order_payment_log"] = $VM_LANG->_('VM_PAYMENT_TRANSACTION_SUCCESS').": ";
 			$d["order_payment_log"] .= $response[3];
 			// Catch Transaction ID
 			$d["order_payment_trans_id"] = $response[6];

@@ -22,7 +22,7 @@ echo $basket_html;
 
 echo '<br />';
 
-$varname = 'PHPSHOP_CHECKOUT_MSG_' . CHECK_OUT_GET_PAYMENT_METHOD;
+$varname = 'VM_CHECKOUT_MSG_' . CHECK_OUT_GET_PAYMENT_METHOD;
 echo '<h4>'. $VM_LANG->_($varname) . '</h4>';
 
 echo ps_checkout::list_payment_methods( $payment_method_id );

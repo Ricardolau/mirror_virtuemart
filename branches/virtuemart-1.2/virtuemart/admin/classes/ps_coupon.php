@@ -38,28 +38,28 @@ class ps_coupon {
         $q = "SELECT coupon_code FROM #__{vm}_coupons WHERE coupon_code = '".$coupon_db->getEscaped($d['coupon_code'])."' ";
         $coupon_db->query($q);
         if ($coupon_db->next_record()) {
-            $vmLogger->err( $VM_LANG->_('PHPSHOP_COUPON_CODE_EXISTS',false) );
+            $vmLogger->err( $VM_LANG->_('VM_COUPON_CODE_EXISTS',false) );
             $valid = false;
         }
         if( empty( $d['coupon_value'] ) || empty( $d['coupon_code'] )) {
-            $vmLogger->warning( $VM_LANG->_('PHPSHOP_COUPON_COMPLETE_ALL_FIELDS',false) );
+            $vmLogger->warning( $VM_LANG->_('VM_COUPON_COMPLETE_ALL_FIELDS',false) );
             $valid = false;
         }
         if( !is_numeric( $d['coupon_value'] )) {
-            $vmLogger->err( $VM_LANG->_('PHPSHOP_COUPON_VALUE_NOT_NUMBER',false) );
+            $vmLogger->err( $VM_LANG->_('VM_COUPON_VALUE_NOT_NUMBER',false) );
             $valid = false;
         }
 		if( !is_numeric( $d['coupon_value_valid'] )) {
-            $vmLogger->err( $VM_LANG->_('PHPSHOP_COUPON_VALUE_VALID_AT_NOT_NUMBER',false) );
+            $vmLogger->err( $VM_LANG->_('VM_COUPON_VALUE_VALID_AT_NOT_NUMBER',false) );
             $valid = false;
         }
 		if (!$d["coupon_start_date"]) {
-			$vmLogger->err( $VM_LANG->_('PHPSHOP_COUPON_START_INVALID',false) );
+			$vmLogger->err( $VM_LANG->_('VM_COUPON_START_INVALID',false) );
 			$valid = false;
 		}
 
 		if (!$d["coupon_expiry_date"]) {
-			$vmLogger->err( $VM_LANG->_('PHPSHOP_COUPON_EXPIRY_INVALID',false) );
+			$vmLogger->err( $VM_LANG->_('VM_COUPON_EXPIRY_INVALID',false) );
 			$valid = false;
 		}
         return $valid;
@@ -75,28 +75,28 @@ class ps_coupon {
         $q = "SELECT coupon_code FROM #__{vm}_coupons WHERE coupon_code = '".$coupon_db->getEscaped($d['coupon_code'])."' AND coupon_id <> '".$d['coupon_id']."'";
         $coupon_db->query($q);
         if ($coupon_db->next_record()) {
-            $vmLogger->err( $VM_LANG->_('PHPSHOP_COUPON_CODE_EXISTS',false) );
+            $vmLogger->err( $VM_LANG->_('VM_COUPON_CODE_EXISTS',false) );
             $valid = false;
         }
         if( empty( $d['coupon_value'] ) || empty( $d['coupon_code'] )) {
-            $vmLogger->err( $VM_LANG->_('PHPSHOP_COUPON_COMPLETE_ALL_FIELDS',false) );
+            $vmLogger->err( $VM_LANG->_('VM_COUPON_COMPLETE_ALL_FIELDS',false) );
             $valid = false;
         }
         if( !is_numeric( $d['coupon_value'] )) {
-            $vmLogger->err( $VM_LANG->_('PHPSHOP_COUPON_VALUE_NOT_NUMBER',false) );
+            $vmLogger->err( $VM_LANG->_('VM_COUPON_VALUE_NOT_NUMBER',false) );
             $valid = false;
         }
 		if( !is_numeric( $d['coupon_value_valid'] )) {
-            $vmLogger->err( $VM_LANG->_('PHPSHOP_COUPON_VALUE_VALID_AT_NOT_NUMBER',false) );
+            $vmLogger->err( $VM_LANG->_('VM_COUPON_VALUE_VALID_AT_NOT_NUMBER',false) );
             $valid = false;
         }
         if (!$d["coupon_start_date"]) {
-			$vmLogger->err( $VM_LANG->_('PHPSHOP_COUPON_START_INVALID',false) );
+			$vmLogger->err( $VM_LANG->_('VM_COUPON_START_INVALID',false) );
 			$valid = false;
 		}
 
 		if (!$d["coupon_expiry_date"]) {
-			$vmLogger->err( $VM_LANG->_('PHPSHOP_COUPON_EXPIRY_INVALID',false) );
+			$vmLogger->err( $VM_LANG->_('VM_COUPON_EXPIRY_INVALID',false) );
 			$valid = false;
 		}
         return $valid;
@@ -224,7 +224,7 @@ class ps_coupon {
         {
 
         	/* no record, so coupon_code entered was not valid */
-            $GLOBALS['coupon_error'] = $VM_LANG->_('PHPSHOP_COUPON_CODE_INVALID');
+            $GLOBALS['coupon_error'] = $VM_LANG->_('VM_COUPON_CODE_INVALID');
             return false;
 
         }else{
@@ -293,7 +293,7 @@ class ps_coupon {
 
 		        else {
 		            /*Coupon not valid */
-		            $GLOBALS['coupon_error'] = $VM_LANG->_('PHPSHOP_COUPON_CODE_INVALID');
+		            $GLOBALS['coupon_error'] = $VM_LANG->_('VM_COUPON_CODE_INVALID');
 		            /*echo "STARTDATE:".$start_date."<br/>";
 		            echo "ENDDATE:".$expiration_date."<br/>";
 					echo "TODAYDATE:".$today."<br/>";*/

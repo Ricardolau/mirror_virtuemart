@@ -19,25 +19,25 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
 global $VM_LANG;
 $langvars = array (
 	'CHARSET' => 'ISO-8859-1',
-	'PHPSHOP_RB_INDIVIDUAL' => 'Individual Product Listings',
-	'PHPSHOP_RB_SALE_TITLE' => 'Sales Reporting', // not used?
-	'PHPSHOP_RB_SALES_PAGE_TITLE' => 'Sales Activity Overview', // not used?
-	'PHPSHOP_RB_INTERVAL_TITLE' => 'Set Interval',
-	'PHPSHOP_RB_INTERVAL_MONTHLY_TITLE' => 'Monthly',
-	'PHPSHOP_RB_INTERVAL_WEEKLY_TITLE' => 'Weekly',
-	'PHPSHOP_RB_INTERVAL_DAILY_TITLE' => 'Daily',
-	'PHPSHOP_RB_THISMONTH_BUTTON' => 'This Month',
-	'PHPSHOP_RB_LASTMONTH_BUTTON' => 'Last Month',
-	'PHPSHOP_RB_LAST60_BUTTON' => 'Last 60 days',
-	'PHPSHOP_RB_LAST90_BUTTON' => 'Last 90 days',
-	'PHPSHOP_RB_START_DATE_TITLE' => 'Start on',
-	'PHPSHOP_RB_END_DATE_TITLE' => 'End at',
-	'PHPSHOP_RB_SHOW_SEL_RANGE' => 'Show this selected range',
-	'PHPSHOP_RB_REPORT_FOR' => 'Report for ',
-	'PHPSHOP_RB_DATE' => 'Date',
-	'PHPSHOP_RB_ORDERS' => 'Orders',
-	'PHPSHOP_RB_TOTAL_ITEMS' => 'Total Items sold',
-	'PHPSHOP_RB_REVENUE' => 'Revenue',
-	'PHPSHOP_RB_PRODLIST' => 'Product Listing'
+	'VM_RB_INDIVIDUAL' => 'Individual Product Listings',
+	'VM_RB_SALE_TITLE' => 'Sales Reporting', // not used?
+	'VM_RB_SALES_PAGE_TITLE' => 'Sales Activity Overview', // not used?
+	'VM_RB_INTERVAL_TITLE' => 'Set Interval',
+	'VM_RB_INTERVAL_MONTHLY_TITLE' => 'Monthly',
+	'VM_RB_INTERVAL_WEEKLY_TITLE' => 'Weekly',
+	'VM_RB_INTERVAL_DAILY_TITLE' => 'Daily',
+	'VM_RB_THISMONTH_BUTTON' => 'This Month',
+	'VM_RB_LASTMONTH_BUTTON' => 'Last Month',
+	'VM_RB_LAST60_BUTTON' => 'Last 60 days',
+	'VM_RB_LAST90_BUTTON' => 'Last 90 days',
+	'VM_RB_START_DATE_TITLE' => 'Start on',
+	'VM_RB_END_DATE_TITLE' => 'End at',
+	'VM_RB_SHOW_SEL_RANGE' => 'Show this selected range',
+	'VM_RB_REPORT_FOR' => 'Report for ',
+	'VM_RB_DATE' => 'Date',
+	'VM_RB_ORDERS' => 'Orders',
+	'VM_RB_TOTAL_ITEMS' => 'Total Items sold',
+	'VM_RB_REVENUE' => 'Revenue',
+	'VM_RB_PRODLIST' => 'Product Listing'
 ); $VM_LANG->initModule( 'reportbasic', $langvars );
 ?>

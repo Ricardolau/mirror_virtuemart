@@ -27,19 +27,19 @@ if (!empty( $module_id )) {
 }
 
 //First create the object and let it print a form heading
-$formObj = &new formFactory( $VM_LANG->_('PHPSHOP_MODULE_FORM_LBL') );
+$formObj = &new formFactory( $VM_LANG->_('VM_MODULE_FORM_LBL') );
 //Then Start the form
 $formObj->startForm();
 ?> 
 <table class="adminform">
     <tr> 
-      <td width="24%" align="right" ><?php echo $VM_LANG->_('PHPSHOP_MODULE_FORM_NAME') ?>:</td>
+      <td width="24%" align="right" ><?php echo $VM_LANG->_('VM_MODULE_FORM_NAME') ?>:</td>
       <td width="76%" > 
         <input type="text" class="inputbox" name="module_name" value="<?php echo $db->sf("module_name") ?>" size="32" <?php if( $ps_module->is_core( $db->f("module_name"))) { echo 'readonly="readonly"'; } ?> />
       </td>
     </tr>
     <tr> 
-      <td width="24%" align="right" ><?php echo $VM_LANG->_('PHPSHOP_MODULE_FORM_PERMS') ?>:</td>
+      <td width="24%" align="right" ><?php echo $VM_LANG->_('VM_MODULE_FORM_PERMS') ?>:</td>
       <td width="76%" > 
         <?php
         $module_perms = explode( ',', $db->f("module_perms") );
@@ -48,13 +48,13 @@ $formObj->startForm();
       </td>
     </tr>
     <tr> 
-      <td width="24%" align="right" ><?php echo $VM_LANG->_('PHPSHOP_MODULE_FORM_MENU') ?>:</td>
+      <td width="24%" align="right" ><?php echo $VM_LANG->_('VM_MODULE_FORM_MENU') ?>:</td>
       <td width="76%">
       	<?php echo ps_html::yesNoSelectList('module_publish', $db->f('module_publish'), 'Y', 'N') ?> 
       </td>
     </tr>
     <tr> 
-      <td width="24%" align="right"><?php echo $VM_LANG->_('PHPSHOP_MODULE_FORM_ORDER') ?>:</td>
+      <td width="24%" align="right"><?php echo $VM_LANG->_('VM_MODULE_FORM_ORDER') ?>:</td>
       <td width="76%" > 
         <input type="text" class="inputbox" name="list_order" size="3" maxlength="2" value="<?php $db->sp("list_order") ?>" />
       </td>
@@ -63,7 +63,7 @@ $formObj->startForm();
       <td valign="top" colspan="2" >&nbsp; </td>
     </tr>
     <tr> 
-      <td valign="top" align="right" ><?php echo $VM_LANG->_('PHPSHOP_MODULE_FORM_DESCRIPTION') ?>:</td>
+      <td valign="top" align="right" ><?php echo $VM_LANG->_('VM_MODULE_FORM_DESCRIPTION') ?>:</td>
       <td valign="top" >&nbsp;</td>
     </tr>
     <tr align="center"> 

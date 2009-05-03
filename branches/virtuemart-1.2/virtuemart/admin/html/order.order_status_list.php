@@ -56,7 +56,7 @@ $pageNav = new vmPageNav( $num_rows, $limitstart, $limit );
 $listObj = new listFactory( $pageNav );
 
 // print out the search field and a list heading
-$listObj->writeSearchHeader($VM_LANG->_('PHPSHOP_ORDER_STATUS_LIST_MNU'), "", $modulename, "order_status_list");
+$listObj->writeSearchHeader($VM_LANG->_('VM_ORDER_STATUS_LIST_MNU'), "", $modulename, "order_status_list");
 
 // start the list table
 $listObj->startTable();
@@ -64,8 +64,8 @@ $listObj->startTable();
 // these are the columns in the table
 $columns = Array(  "#" => "width=\"20\"", 
 					"<input type=\"checkbox\" name=\"toggle\" value=\"\" onclick=\"checkAll(".$num_rows.")\" />" => "width=\"20\"",
-					$VM_LANG->_('PHPSHOP_ORDER_STATUS_LIST_NAME') => '',
-					$VM_LANG->_('PHPSHOP_ORDER_STATUS_LIST_CODE') => '',
+					$VM_LANG->_('VM_ORDER_STATUS_LIST_NAME') => '',
+					$VM_LANG->_('VM_ORDER_STATUS_LIST_CODE') => '',
 					$VM_LANG->_('E_REMOVE') => "width=\"5%\""
 				);
 $listObj->writeTableHeader( $columns );

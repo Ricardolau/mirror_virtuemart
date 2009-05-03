@@ -58,7 +58,7 @@ class plgPaymentEcheck extends vmPaymentPlugin {
 		
 		$passkey = $this->get_passkey();
 		if( empty( $passkey ) ) {
-			$vmLogger->err( $VM_LANG->_( 'PHPSHOP_PAYMENT_ERROR' ), false ) ;
+			$vmLogger->err( $VM_LANG->_( 'VM_PAYMENT_ERROR' ), false ) ;
 			return false ;
 		}
 		
@@ -134,7 +134,7 @@ class plgPaymentEcheck extends vmPaymentPlugin {
 			$error = curl_error( $CR ) ;
 			if( ! empty( $error ) ) {
 				$vmLogger->err( curl_error( $CR ) ) ;
-				$html = "<br/><span class=\"message\">" . $VM_LANG->_( 'PHPSHOP_PAYMENT_INTERNAL_ERROR' ) . " authorize.net</span>" ;
+				$html = "<br/><span class=\"message\">" . $VM_LANG->_( 'VM_PAYMENT_INTERNAL_ERROR' ) . " authorize.net</span>" ;
 				return false ;
 			} else {
 				//echo $result; exit();
@@ -186,7 +186,7 @@ class plgPaymentEcheck extends vmPaymentPlugin {
 		
 		// Approved - Success!
 		if( $response[0] == '1' ) {
-			$d["order_payment_log"] = $VM_LANG->_( 'PHPSHOP_PAYMENT_TRANSACTION_SUCCESS' ) . ": " ;
+			$d["order_payment_log"] = $VM_LANG->_( 'VM_PAYMENT_TRANSACTION_SUCCESS' ) . ": " ;
 			$d["order_payment_log"] .= $response[3] ;
 			return True ;
 		} // Payment Declined

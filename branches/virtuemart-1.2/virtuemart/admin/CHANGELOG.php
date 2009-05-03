@@ -33,6 +33,11 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+03.052009 aravot
+^ Changed Authorize.net Login ID to Authorize.net API ID
+^ Changed language prefix from phpshop to vm
+- Removed header and toolbar related files from wrong location
+
 02.05.2009 aravot
 + Added states of Argentina
 

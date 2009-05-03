@@ -15,7 +15,7 @@
 ?>
     <br /><table width="100%" cellspacing="0" cellpadding="0" border="0">
     <tr><td colspan="2"><strong><?php 
-    echo $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETERS_IN_CATEGORY').": ".$product_types["product_type_name"];
+    echo $VM_LANG->_('VM_PRODUCT_TYPE_PARAMETERS_IN_CATEGORY').": ".$product_types["product_type_name"];
     ?></strong></td></tr><?php 
     $i = 0;
     foreach($product_types["parameters"] as $product_type_params) {

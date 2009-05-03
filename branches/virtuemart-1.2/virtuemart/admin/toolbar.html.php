@@ -151,31 +151,31 @@ var submitbutton = function(pressbutton){
 			if( empty($product_parent_id) ) { 
 				// add new attribute
 				$href=$_SERVER['PHP_SELF']."?option=com_virtuemart&page=product.product_attribute_form&product_id=". $product_id ."&limitstart=". $limitstart."&no_menu=$no_menu";
-				$alt =  $VM_LANG->_('PHPSHOP_ATTRIBUTE_FORM_MNU');
+				$alt =  $VM_LANG->_('VM_ATTRIBUTE_FORM_MNU');
 				$bar->customHref( $href, 'new', $alt );
 				
 			}
 			else {
                 // back to parent product
 				$href=$_SERVER['PHP_SELF']."?option=com_virtuemart&page=product.product_form&product_id=$product_parent_id&limitstart=".$limitstart."&no_menu=$no_menu";
-				$alt =  $VM_LANG->_('PHPSHOP_PRODUCT_FORM_RETURN_LBL');
+				$alt =  $VM_LANG->_('VM_PRODUCT_FORM_RETURN_LBL');
 				$bar->customHref( $href, $vmIcons['back_icon'], $vmIcons['back_icon2'], $alt );
 				
 				// new child product
 				$href=$_SERVER['PHP_SELF']."?option=com_virtuemart&page=product.product_form&product_parent_id=$product_parent_id&limitstart=". $limitstart."&no_menu=$no_menu";
-				$alt =  $VM_LANG->_('PHPSHOP_PRODUCT_FORM_ADD_ANOTHER_ITEM_MNU');
+				$alt =  $VM_LANG->_('VM_PRODUCT_FORM_ADD_ANOTHER_ITEM_MNU');
 				$bar->customHref( $href, 'new', $alt );
 				
 			} 
 			// Go to Price list
 			$href = $_SERVER['PHP_SELF']."?page=product.product_price_list&product_id=$product_id&product_parent_id=$product_parent_id&limitstart=$limitstart&return_args=&option=com_virtuemart&no_menu=$no_menu";
-			$alt =  $VM_LANG->_('PHPSHOP_PRICE_LIST_MNU');
+			$alt =  $VM_LANG->_('VM_PRICE_LIST_MNU');
 			$bar->customHref( $href, 'new', $alt );
 			
 	
 			// add product type
 			$href= $_SERVER['PHP_SELF']."?option=com_virtuemart&page=product.product_product_type_form&product_id=$product_id&product_parent_id=$product_parent_id&limitstart=$limitstart&no_menu=$no_menu";
-			$alt =  $VM_LANG->_('PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_MNU');
+			$alt =  $VM_LANG->_('VM_PRODUCT_PRODUCT_TYPE_FORM_MNU');
 			$bar->customHref( $href, 'new', $alt );
 			
 			
@@ -183,7 +183,7 @@ var submitbutton = function(pressbutton){
 			if (ps_product::product_has_attributes( $product_id ) ) { 
 				// Add Item
 				$href=$_SERVER['PHP_SELF']."?option=com_virtuemart&page=product.product_form&product_parent_id=$product_id&limitstart=$limitstart&no_menu=$no_menu";
-				$alt =  $VM_LANG->_('PHPSHOP_PRODUCT_FORM_NEW_ITEM_LBL');
+				$alt =  $VM_LANG->_('VM_PRODUCT_FORM_NEW_ITEM_LBL');
 				$bar->customHref( $href, 'new', $alt );
 				
 			}
@@ -192,12 +192,12 @@ var submitbutton = function(pressbutton){
 		elseif( $page == "admin.country_form" ) {
             if( !empty( $_REQUEST['country_id'] )) {
 				$href= $_SERVER['PHP_SELF'] ."?option=com_virtuemart&page=admin.country_state_form&country_id=". intval($_REQUEST['country_id']) ."&limitstart=$limitstart&no_menu=$no_menu";
-				$alt = $VM_LANG->_('PHPSHOP_ADD_STATE');
+				$alt = $VM_LANG->_('VM_ADD_STATE');
 				$bar->customHref( $href, 'new', $alt );
 				
 				
 				$href = $_SERVER['PHP_SELF'] ."?option=com_virtuemart&page=admin.country_state_list&country_id=". intval($_REQUEST['country_id']) ."&limitstart=$limitstart&no_menu=$no_menu";
-				$alt = $VM_LANG->_('PHPSHOP_LIST_STATES');
+				$alt = $VM_LANG->_('VM_LIST_STATES');
 				$bar->customHref( $href, 'new', $alt );			
 				
 				$bar->divider();
@@ -226,7 +226,7 @@ var submitbutton = function(pressbutton){
 			// Back to the country
 			$bar->divider();
 			$href = $_SERVER['PHP_SELF']. '?option=com_virtuemart&page=admin.country_list';
-			$bar->customHref( $href, 'back', '&nbsp;'.$VM_LANG->_('PHPSHOP_BACK_TO_COUNTRY') );
+			$bar->customHref( $href, 'back', '&nbsp;'.$VM_LANG->_('VM_BACK_TO_COUNTRY') );
         }
         elseif ($page == 'product.file_list') {
 			// Close the window
@@ -268,22 +268,22 @@ var submitbutton = function(pressbutton){
 			
 				if( empty($_REQUEST['product_parent_id']) ) { 
 					// add new attribute
-					$alt =  $VM_LANG->_('PHPSHOP_ATTRIBUTE_FORM_MNU');
+					$alt =  $VM_LANG->_('VM_ATTRIBUTE_FORM_MNU');
 					$bar->custom( 'new', "product.product_attribute_form", 'new', $alt );
 					
 				}
 				// Go to Price list
-				$alt =  $VM_LANG->_('PHPSHOP_PRICE_LIST_MNU');
+				$alt =  $VM_LANG->_('VM_PRICE_LIST_MNU');
 				$bar->custom( 'new', "product.product_price_list", 'new', $alt );				
 		
 				// add product type
-				$alt =  $VM_LANG->_('PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_MNU');
+				$alt =  $VM_LANG->_('VM_PRODUCT_PRODUCT_TYPE_FORM_MNU');
 				$bar->custom( 'new', "product.product_product_type_form", 'new', $alt );			
 		
 				/*** Adding an item is only pssible, if the product has attributes ***/
 				if (ps_product::product_has_attributes( $product_id ) ) { 
 					// Add Item
-					$alt =  $VM_LANG->_('PHPSHOP_PRODUCT_FORM_NEW_ITEM_LBL');
+					$alt =  $VM_LANG->_('VM_PRODUCT_FORM_NEW_ITEM_LBL');
 					$bar->custom( 'new', "product.product_child_form", 'new', $alt );
 				}
 				$bar->divider();
@@ -299,10 +299,10 @@ var submitbutton = function(pressbutton){
 			
 			case "admin.country_list":
 
-					$alt = $VM_LANG->_('PHPSHOP_ADD_STATE');
+					$alt = $VM_LANG->_('VM_ADD_STATE');
 					$bar->custom( 'new', "admin.country_state_form", 'new', $alt );					
 					
-					$alt = $VM_LANG->_('PHPSHOP_LIST_STATES');
+					$alt = $VM_LANG->_('VM_LIST_STATES');
 					$bar->custom( 'new', "admin.country_state_list", 'new', $alt );
 					
 					$bar->divider();

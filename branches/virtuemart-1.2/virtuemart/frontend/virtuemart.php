@@ -154,7 +154,7 @@ else {
 			
 			// Load PAGE
 			if( !$pagePermissionsOK ) {
-				$error = $VM_LANG->_('PHPSHOP_MOD_NO_AUTH');
+				$error = $VM_LANG->_('VM_MOD_NO_AUTH');
 				include( PAGEPATH. ERRORPAGE .'.php');
 				return;
 			}

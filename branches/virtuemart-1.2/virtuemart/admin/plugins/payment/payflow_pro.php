@@ -62,7 +62,7 @@ class plgPaymentPayflow_Pro extends vmPaymentPlugin {
 		// Get the Password securely from the database
 		$transactionkey = $this->get_passkey();
 		if( empty($transactionkey)) {
-			$vmLogger->err( $VM_LANG->_('PHPSHOP_PAYMENT_ERROR',false).'. Technical Note: The required passwird is empty! The payment method settings must be reviewed.' );
+			$vmLogger->err( $VM_LANG->_('VM_PAYMENT_ERROR',false).'. Technical Note: The required passwird is empty! The payment method settings must be reviewed.' );
 			return false;
 		}
 
@@ -174,7 +174,7 @@ class plgPaymentPayflow_Pro extends vmPaymentPlugin {
 			case '0':
 				// Approved - Success!
 				$success = true;
-				$d["order_payment_log"] = $VM_LANG->_('PHPSHOP_PAYMENT_TRANSACTION_SUCCESS').": ";
+				$d["order_payment_log"] = $VM_LANG->_('VM_PAYMENT_TRANSACTION_SUCCESS').": ";
 				$d["order_payment_log"] .= $RESPMSG;
 				$vmLogger->debug( $d['order_payment_log']);
 				break;
@@ -218,7 +218,7 @@ class plgPaymentPayflow_Pro extends vmPaymentPlugin {
 		// Get the Account Password securely from the database
 		$transactionkey = $this->get_passkey();
 		if( empty($transactionkey)) {
-			$vmLogger->err($VM_LANG->_('PHPSHOP_PAYMENT_ERROR'),false);
+			$vmLogger->err($VM_LANG->_('VM_PAYMENT_ERROR'),false);
 			return false;
 		}
 		$db = new ps_DB;
@@ -347,7 +347,7 @@ class plgPaymentPayflow_Pro extends vmPaymentPlugin {
 			case '0':
 				// Approved - Success!
 				$success = true;
-				$d["order_payment_log"] = $VM_LANG->_('PHPSHOP_PAYMENT_TRANSACTION_SUCCESS').": ";
+				$d["order_payment_log"] = $VM_LANG->_('VM_PAYMENT_TRANSACTION_SUCCESS').": ";
 				$d["order_payment_log"] .= $RESPMSG;
 				
 				$q = "UPDATE #__{vm}_order_payment SET ";
@@ -393,7 +393,7 @@ class plgPaymentPayflow_Pro extends vmPaymentPlugin {
 		// Get the Account Password securely from the database
 		$transactionkey = $this->get_passkey();
 		if( empty($transactionkey)) {
-			$vmLogger->err($VM_LANG->_('PHPSHOP_PAYMENT_ERROR'),false);
+			$vmLogger->err($VM_LANG->_('VM_PAYMENT_ERROR'),false);
 			return false;
 		}
 		$db = new ps_DB;
@@ -522,7 +522,7 @@ class plgPaymentPayflow_Pro extends vmPaymentPlugin {
 			case '0':
 				// Approved - Success!
 				$success = true;
-				$d["order_payment_log"] = $VM_LANG->_('PHPSHOP_PAYMENT_TRANSACTION_SUCCESS').": ";
+				$d["order_payment_log"] = $VM_LANG->_('VM_PAYMENT_TRANSACTION_SUCCESS').": ";
 				$d["order_payment_log"] .= $RESPMSG;
 				
 				$q = "UPDATE #__{vm}_order_payment SET ";

@@ -88,9 +88,9 @@ class ps_order_edit {
       </table>
       <table class="adminlist">
 		    <tr>
-      		<th><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_SKU') ?></th>
-      		<th><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_NAME') ?></th>
-      		<th width="5%" align="left"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_QUANTITY') ?></th>
+      		<th><?php echo $VM_LANG->_('VM_ORDER_PRINT_SKU') ?></th>
+      		<th><?php echo $VM_LANG->_('VM_ORDER_PRINT_NAME') ?></th>
+      		<th width="5%" align="left"><?php echo $VM_LANG->_('VM_ORDER_PRINT_QUANTITY') ?></th>
       		<th width="5%" align="left" colspan="2"><?php echo $VM_LANG->_('VM_ORDER_EDIT_ACTIONS') ?></th>
     		</tr>
     		<?php
@@ -124,8 +124,8 @@ class ps_order_edit {
             	  <input type="text" value="<?php $dbt->p("product_quantity") ?>" name="product_quantity" size="5" />
         		</td>
             	<td align="left">
-            		<input type="image" title="<?php echo $VM_LANG->_('PHPSHOP_UPDATE') ?>" 
-            		src="<?php echo VM_THEMEURL ?>images/edit_f2.gif" border="0"  alt="<?php echo $VM_LANG->_('PHPSHOP_UPDATE') ?>" />
+            		<input type="image" title="<?php echo $VM_LANG->_('VM_UPDATE') ?>" 
+            		src="<?php echo VM_THEMEURL ?>images/edit_f2.gif" border="0"  alt="<?php echo $VM_LANG->_('VM_UPDATE') ?>" />
             		<input type="hidden" value="1" name="update_quantity" />
             		<input type="hidden" name="order_edit_page" value="1" />
             		<input type="hidden" name="page" value="order.order_print" />
@@ -137,7 +137,7 @@ class ps_order_edit {
   		      </td>
             <td>
           		<form method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
-            		<input type="image" title="<?php echo $VM_LANG->_('PHPSHOP_DELETE') ?>" src="<?php echo IMAGEURL ?>ps_image/delete_f2.gif" border="0"  alt="<?php echo $VM_LANG->_('PHPSHOP_DELETE') ?>" />
+            		<input type="image" title="<?php echo $VM_LANG->_('VM_DELETE') ?>" src="<?php echo IMAGEURL ?>ps_image/delete_f2.gif" border="0"  alt="<?php echo $VM_LANG->_('VM_DELETE') ?>" />
             		<input type="hidden" value="1" name="delete_product" />
             		<input type="hidden" name="order_edit_page" value="1" />
             		<input type="hidden" name="page" value="order.order_print" />
@@ -156,7 +156,7 @@ class ps_order_edit {
       
       <table class="adminlist">
 		  <tr>
-      		<th><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_SHIPPING') . " &amp; " . $VM_LANG->_('PHPSHOP_PAYMENT_METHOD_LIST_DISCOUNT') ?></th>
+      		<th><?php echo $VM_LANG->_('VM_ORDER_PRINT_SHIPPING') . " &amp; " . $VM_LANG->_('VM_PAYMENT_METHOD_LIST_DISCOUNT') ?></th>
       		<th width="5%" align="left"> &nbsp; </th>
       		<th width="5%" align="left" colspan="1"><?php echo $VM_LANG->_('VM_ORDER_EDIT_ACTIONS') ?></th>
     		</tr>
@@ -164,7 +164,7 @@ class ps_order_edit {
 			if($db->f('ship_method_id') == "" OR preg_match('/^standard_shipping/', $db->f('ship_method_id'))) {
     		?>
       		<tr>
-        		<td align="right"><strong><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_SHIPPING') ?>: &nbsp;</strong></td>
+        		<td align="right"><strong><?php echo $VM_LANG->_('VM_ORDER_PRINT_SHIPPING') ?>: &nbsp;</strong></td>
         		<td>
           		<form method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
             		
@@ -188,8 +188,8 @@ class ps_order_edit {
               	</select>
       		  </td>
             <td>
-            		<input type="image" title="<?php echo $VM_LANG->_('PHPSHOP_UPDATE') ?>"
-            		src="<?php echo VM_THEMEURL ?>images/edit_f2.gif" border="0"  alt="<?php echo $VM_LANG->_('PHPSHOP_UPDATE') ?>" />
+            		<input type="image" title="<?php echo $VM_LANG->_('VM_UPDATE') ?>"
+            		src="<?php echo VM_THEMEURL ?>images/edit_f2.gif" border="0"  alt="<?php echo $VM_LANG->_('VM_UPDATE') ?>" />
             		<input type="hidden" value="1" name="update_standard_shipping" />
             		<input type="hidden" name="order_edit_page" value="1" />
             		<input type="hidden" name="page" value="order.order_print" />
@@ -204,14 +204,14 @@ class ps_order_edit {
     		?>
 
       		<tr>
-        		<td align="right"><strong><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_SHIPPING') ?>: </strong></td>
+        		<td align="right"><strong><?php echo $VM_LANG->_('VM_ORDER_PRINT_SHIPPING') ?>: </strong></td>
         		<td>
           		<form method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
             		<input type="text" value="<?php $db->p("order_shipping") ?>" size="5" name="order_shipping" />
         		</td>
             <td>
-            		<input type="image" title="<?php echo $VM_LANG->_('PHPSHOP_UPDATE') ?>"
-            		src="<?php echo VM_THEMEURL ?>images/edit_f2.gif" border="0"  alt="<?php echo $VM_LANG->_('PHPSHOP_UPDATE') ?>" />
+            		<input type="image" title="<?php echo $VM_LANG->_('VM_UPDATE') ?>"
+            		src="<?php echo VM_THEMEURL ?>images/edit_f2.gif" border="0"  alt="<?php echo $VM_LANG->_('VM_UPDATE') ?>" />
             		<input type="hidden" value="1" name="update_shipping" />
             		<input type="hidden" name="order_edit_page" value="1" />
             		<input type="hidden" name="page" value="order.order_print" />
@@ -222,14 +222,14 @@ class ps_order_edit {
         		</td>     
       		</tr>
       		<tr>
-        		<td align="right"><strong><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_SHIPPING_TAX') ?>: </strong></td>
+        		<td align="right"><strong><?php echo $VM_LANG->_('VM_ORDER_PRINT_SHIPPING_TAX') ?>: </strong></td>
         		<td>
           		<form method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
             		<input type="text" value="<?php $db->p("order_shipping_tax") ?>" name="order_shipping_tax" size="5" />
         		</td>
             <td>
-            		<input type="image" title="<?php echo $VM_LANG->_('PHPSHOP_UPDATE') ?>"
-            		src="<?php echo VM_THEMEURL ?>images/edit_f2.gif" border="0"  alt="<?php echo $VM_LANG->_('PHPSHOP_UPDATE') ?>" />
+            		<input type="image" title="<?php echo $VM_LANG->_('VM_UPDATE') ?>"
+            		src="<?php echo VM_THEMEURL ?>images/edit_f2.gif" border="0"  alt="<?php echo $VM_LANG->_('VM_UPDATE') ?>" />
             		<input type="hidden" value="1" name="update_shipping_tax" />
             		<input type="hidden" name="order_edit_page" value="1" />
             		<input type="hidden" name="page" value="order.order_print" />
@@ -243,14 +243,14 @@ class ps_order_edit {
     		}
     		?>
       		<tr>
-        		<td align="right"><strong><?php echo $VM_LANG->_('PHPSHOP_COUPON_DISCOUNT') ?>: </strong></td>
+        		<td align="right"><strong><?php echo $VM_LANG->_('VM_COUPON_DISCOUNT') ?>: </strong></td>
         		<td>
           		<form method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
             		<input type="text" value="<?php $db->p("coupon_discount") ?>" size="5" name="coupon_discount" />
         		</td>
             <td>
-            		<input type="image" title="<?php echo $VM_LANG->_('PHPSHOP_UPDATE') ?>"
-            		src="<?php echo VM_THEMEURL ?>images/edit_f2.gif" border="0"  alt="<?php echo $VM_LANG->_('PHPSHOP_UPDATE') ?>" />
+            		<input type="image" title="<?php echo $VM_LANG->_('VM_UPDATE') ?>"
+            		src="<?php echo VM_THEMEURL ?>images/edit_f2.gif" border="0"  alt="<?php echo $VM_LANG->_('VM_UPDATE') ?>" />
             		<input type="hidden" value="1" name="update_coupon_discount" />
             		<input type="hidden" name="order_edit_page" value="1" />
             		<input type="hidden" name="page" value="order.order_print" />
@@ -262,14 +262,14 @@ class ps_order_edit {
       		</tr>
 
       		<tr>
-        		<td align="right"><strong><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_METHOD_LIST_DISCOUNT') ?>: </strong></td>
+        		<td align="right"><strong><?php echo $VM_LANG->_('VM_PAYMENT_METHOD_LIST_DISCOUNT') ?>: </strong></td>
         		<td>
           		<form method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
             		<input type="text" value="<?php $db->p("order_discount") ?>" size="5" name="order_discount" />
         		</td>
             <td>
-            		<input type="image" title="<?php echo $VM_LANG->_('PHPSHOP_UPDATE') ?>"
-            		src="<?php echo VM_THEMEURL ?>images/edit_f2.gif" border="0"  alt="<?php echo $VM_LANG->_('PHPSHOP_UPDATE') ?>" />
+            		<input type="image" title="<?php echo $VM_LANG->_('VM_UPDATE') ?>"
+            		src="<?php echo VM_THEMEURL ?>images/edit_f2.gif" border="0"  alt="<?php echo $VM_LANG->_('VM_UPDATE') ?>" />
             		<input type="hidden" value="1" name="update_discount" />
             		<input type="hidden" name="order_edit_page" value="1" />
             		<input type="hidden" name="page" value="order.order_print" />
@@ -283,12 +283,12 @@ class ps_order_edit {
       
       <table class="adminlist">
 		    <tr>
-      		<th><?php echo $VM_LANG->_('PHPSHOP_USER_FORM_BILLTO_LBL') . " & " . $VM_LANG->_('PHPSHOP_USER_FORM_SHIPTO_LBL')  ?></th>
+      		<th><?php echo $VM_LANG->_('VM_USER_FORM_BILLTO_LBL') . " & " . $VM_LANG->_('VM_USER_FORM_SHIPTO_LBL')  ?></th>
       		<th width="5%" align="left"> &nbsp; </th>
       		<th width="5%" align="left" colspan="1"><?php echo $VM_LANG->_('VM_ORDER_EDIT_ACTIONS') ?></th>
     		</tr>
     		<tr>
-      		<td align="right"><strong><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_BILL_TO_LBL') ?>: </strong></td>
+      		<td align="right"><strong><?php echo $VM_LANG->_('VM_ORDER_PRINT_BILL_TO_LBL') ?>: </strong></td>
       		<td align="right">
         		<form method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
           		<select name="bill_to">
@@ -310,8 +310,8 @@ class ps_order_edit {
           		</select>
       		</td>
           <td>
-          		<input type="image" title="<?php echo $VM_LANG->_('PHPSHOP_UPDATE') ?>"
-          		src="<?php echo VM_THEMEURL ?>images/edit_f2.gif" border="0"  alt="<?php echo $VM_LANG->_('PHPSHOP_UPDATE') ?>" />
+          		<input type="image" title="<?php echo $VM_LANG->_('VM_UPDATE') ?>"
+          		src="<?php echo VM_THEMEURL ?>images/edit_f2.gif" border="0"  alt="<?php echo $VM_LANG->_('VM_UPDATE') ?>" />
           		<input type="hidden" value="1" name="update_bill_to" />
           		<input type="hidden" name="order_edit_page" value="1" />
           		<input type="hidden" name="page" value="order.order_print" />
@@ -324,7 +324,7 @@ class ps_order_edit {
     		
 		    <?php /* Change ship to form */ ?>
     		<tr>
-      		<td align="right"><strong><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_SHIP_TO_LBL') ?>: </strong></td>
+      		<td align="right"><strong><?php echo $VM_LANG->_('VM_ORDER_PRINT_SHIP_TO_LBL') ?>: </strong></td>
       		<td align="right">
         		<form method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
           		<select name="ship_to">
@@ -343,8 +343,8 @@ class ps_order_edit {
           		</select>
       		</td>
           <td>
-          		<input type="image" title="<?php echo $VM_LANG->_('PHPSHOP_UPDATE') ?>"
-          		src="<?php echo VM_THEMEURL ?>images/edit_f2.gif" border="0"  alt="<?php echo $VM_LANG->_('PHPSHOP_UPDATE') ?>" />
+          		<input type="image" title="<?php echo $VM_LANG->_('VM_UPDATE') ?>"
+          		src="<?php echo VM_THEMEURL ?>images/edit_f2.gif" border="0"  alt="<?php echo $VM_LANG->_('VM_UPDATE') ?>" />
           		<input type="hidden" value="1" name="update_ship_to" />
           		<input type="hidden" name="order_edit_page" value="1" />
           		<input type="hidden" name="page" value="order.order_print" />
@@ -914,7 +914,7 @@ class ps_order_edit {
 		$html_entete = '<form method="post" action="' . $_SERVER['PHP_SELF'] . '">';
 		$html_entete .= '<br /><br /><table class="adminlist"><tr><th>' . $VM_LANG->_('VM_ORDER_EDIT_ADD_PRODUCT') . '</th></tr></table>';
 		$html_entete .= '<table class="adminlist"><tr>';
-		$html_entete .= '<th>' . $VM_LANG->_('PHPSHOP_ORDER_PRINT_NAME') . '</th>';
+		$html_entete .= '<th>' . $VM_LANG->_('VM_ORDER_PRINT_NAME') . '</th>';
 		
 		$html_pied = '<input type="hidden" name="add_product" value="1" />
 		<input type="hidden" name="order_edit_page" value="1" />
@@ -972,9 +972,9 @@ class ps_order_edit {
 			$html_table = '<tr><td>' . $this->list_products($product_id) . '</td>';
 		}
 		
-		$html_entete .= '<th>' . $VM_LANG->_('PHPSHOP_PRODUCT_FORM_CUSTOM_ATTRIBUTE_LIST') . '</th>';
-		$html_entete .= '<th>' . $VM_LANG->_('PHPSHOP_PRODUCT_FORM_ATTRIBUTE_LIST') . '</th>';
-		$html_entete .= '<th align="left">' . $VM_LANG->_('PHPSHOP_ORDER_PRINT_QUANTITY') . '</th>';
+		$html_entete .= '<th>' . $VM_LANG->_('VM_PRODUCT_FORM_CUSTOM_ATTRIBUTE_LIST') . '</th>';
+		$html_entete .= '<th>' . $VM_LANG->_('VM_PRODUCT_FORM_ATTRIBUTE_LIST') . '</th>';
+		$html_entete .= '<th align="left">' . $VM_LANG->_('VM_ORDER_PRINT_QUANTITY') . '</th>';
 		$html_entete .= '<th align="left">Action</th></tr>';
 		$html_table .= '<td>' . $ps_product_attribute->list_advanced_attribute($product_id) . '</td>';
 		$html_table .= '<td>' . $ps_product_attribute->list_custom_attribute($product_id) . '</td>';

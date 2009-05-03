@@ -460,7 +460,7 @@ class ps_product_type {
 		$html = '		
 		  <table class="adminform">
 		    <tr class="row0"> 
-		      <td colspan="2"><h2>'. $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_LBL').': '.$product_type_name.'</h2>';
+		      <td colspan="2"><h2>'. $VM_LANG->_('VM_PRODUCT_TYPE_LBL').': '.$product_type_name.'</h2>';
 		
 		      if( $product_id > 0 ) {
 		      	$html .= '<h3>'.$VM_LANG->_('E_REMOVE').' =&gt; '.$ps_html->deleteButton( "product_type_id", $product_type_id, "productProductTypeDelete", $keyword, $limitstart, "&product_id=$product_id&product_parent_id=$product_parent_id&next_page=$next_page" ) . '</h3>';
@@ -558,31 +558,31 @@ class ps_product_type {
 	    		}
 	    		$html .= " ".$dbpt->f("parameter_unit");
 	    		if ($dbpt->f("parameter_default")) {
-	    			$html .= " (".$VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DEFAULT').": ";
+	    			$html .= " (".$VM_LANG->_('VM_PRODUCT_TYPE_PARAMETER_FORM_DEFAULT').": ";
 	    			$html .= $dbpt->f("parameter_default").")";
 	    		}
-	    		$html .= " [ ".$VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE').": ";
+	    		$html .= " [ ".$VM_LANG->_('VM_PRODUCT_TYPE_PARAMETER_FORM_TYPE').": ";
 	    		switch( $dbpt->f("parameter_type") ) {
-	    			case "I": $html .= $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_INTEGER'); break;	// Integer
-	    			case "T": $html .= $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TEXT'); break; 	// Text
-	    			case "S": $html .= $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_SHORTTEXT'); break; // Short Text
-	    			case "F": $html .= $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_FLOAT'); break; 	// Float
-	    			case "C": $html .= $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_CHAR'); break; 	// Char
+	    			case "I": $html .= $VM_LANG->_('VM_PRODUCT_TYPE_PARAMETER_FORM_TYPE_INTEGER'); break;	// Integer
+	    			case "T": $html .= $VM_LANG->_('VM_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TEXT'); break; 	// Text
+	    			case "S": $html .= $VM_LANG->_('VM_PRODUCT_TYPE_PARAMETER_FORM_TYPE_SHORTTEXT'); break; // Short Text
+	    			case "F": $html .= $VM_LANG->_('VM_PRODUCT_TYPE_PARAMETER_FORM_TYPE_FLOAT'); break; 	// Float
+	    			case "C": $html .= $VM_LANG->_('VM_PRODUCT_TYPE_PARAMETER_FORM_TYPE_CHAR'); break; 	// Char
 	    			case "D": 
-	    				$html .= $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATETIME')." ";	// Date & Time
-	    				$html .= $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE_FORMAT')." ";
-	    				$html .= $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TIME_FORMAT');
+	    				$html .= $VM_LANG->_('VM_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATETIME')." ";	// Date & Time
+	    				$html .= $VM_LANG->_('VM_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE_FORMAT')." ";
+	    				$html .= $VM_LANG->_('VM_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TIME_FORMAT');
 	    			break;
 	    			case "A": 
-    					$html .= $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE')." ";		// Date
-	    				$html .= $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE_FORMAT');
+    					$html .= $VM_LANG->_('VM_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE')." ";		// Date
+	    				$html .= $VM_LANG->_('VM_PRODUCT_TYPE_PARAMETER_FORM_TYPE_DATE_FORMAT');
 	    			break;
 	    			case "M": 
-    					$html .= $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TIME')." ";		// Time
-	    				$html .= $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TIME_FORMAT');
+    					$html .= $VM_LANG->_('VM_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TIME')." ";		// Time
+	    				$html .= $VM_LANG->_('VM_PRODUCT_TYPE_PARAMETER_FORM_TYPE_TIME_FORMAT');
 	    			break;
 	    			case "V": 
-	    				$html .= $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_MULTIVALUE'); break; 	// Multiple Value
+	    				$html .= $VM_LANG->_('VM_PRODUCT_TYPE_PARAMETER_FORM_TYPE_MULTIVALUE'); break; 	// Multiple Value
 	    		}
 	    		$html .= " ] ";
 	    	}
@@ -742,7 +742,7 @@ class ps_product_type {
 				$parameter_name = $dba->f("parameter_name");
 				$parameter_description = $dba->f("parameter_description");
 				if (!empty($parameter_description)) {
-					$html = vmToolTip($parameter_description, $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DESCRIPTION'));
+					$html = vmToolTip($parameter_description, $VM_LANG->_('VM_PRODUCT_TYPE_PARAMETER_FORM_DESCRIPTION'));
 				}
 				$product_type[$product_type_name."_".$parameter_name."_label"] = $dba->f("parameter_label");
 				$product_type[$product_type_name."_".$parameter_name."_desc"] = $parameter_description;

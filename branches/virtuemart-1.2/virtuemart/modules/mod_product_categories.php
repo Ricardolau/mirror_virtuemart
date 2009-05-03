@@ -1,7 +1,7 @@
 <?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 /**
-* mambo-phphop Product Categories Module
+* VirtueMart Product Categories Module
 * NOTE: THIS MODULE REQUIRES AN INSTALLED VirtueMart Component!
 *
 * @version $Id$

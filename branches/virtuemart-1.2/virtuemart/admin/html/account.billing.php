@@ -20,7 +20,7 @@ mm_showMyFileName( __FILE__ );
 require_once( CLASSPATH . "ps_userfield.php" );
 require_once( CLASSPATH . "htmlTools.class.php" );
 
-$mainframe->setPageTitle( $VM_LANG->_('PHPSHOP_USER_FORM_BILLTO_LBL') );
+$mainframe->setPageTitle( $VM_LANG->_('VM_USER_FORM_BILLTO_LBL') );
       
 $next_page = vmGet( $_REQUEST, "next_page", "account.index");
 $Itemid = $sess->getShopItemid();
@@ -40,12 +40,12 @@ if(empty($db)){
 $pathway = array();
 if( stristr( $next_page, 'checkout' ) !== false ) {
 	// We are in the checkout process
-	$pathway[] = $vm_mainframe->vmPathwayItem( $VM_LANG->_('PHPSHOP_CHECKOUT_TITLE'), $sess->url( SECUREURL."index.php?page=$next_page") );
-	$pathway[] = $vm_mainframe->vmPathwayItem( $VM_LANG->_('PHPSHOP_SHOPPER_FORM_SHIPTO_LBL') );	
+	$pathway[] = $vm_mainframe->vmPathwayItem( $VM_LANG->_('VM_CHECKOUT_TITLE'), $sess->url( SECUREURL."index.php?page=$next_page") );
+	$pathway[] = $vm_mainframe->vmPathwayItem( $VM_LANG->_('VM_SHOPPER_FORM_SHIPTO_LBL') );	
 } else {
 	// We are in account maintenance
-	$pathway[] = $vm_mainframe->vmPathwayItem( $VM_LANG->_('PHPSHOP_ACCOUNT_TITLE'), $sess->url( SECUREURL .'index.php?page=account.index' ) );
-	$pathway[] = $vm_mainframe->vmPathwayItem( $VM_LANG->_('PHPSHOP_USER_FORM_BILLTO_LBL') );
+	$pathway[] = $vm_mainframe->vmPathwayItem( $VM_LANG->_('VM_ACCOUNT_TITLE'), $sess->url( SECUREURL .'index.php?page=account.index' ) );
+	$pathway[] = $vm_mainframe->vmPathwayItem( $VM_LANG->_('VM_USER_FORM_BILLTO_LBL') );
 }
 $vm_mainframe->vmAppendPathway( $pathway );
 

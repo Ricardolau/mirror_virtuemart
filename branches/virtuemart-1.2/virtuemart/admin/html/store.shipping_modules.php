@@ -36,7 +36,7 @@ $ps_shipping_method = new vmshippingMethod;
 <?php
 $rows = $ps_shipping_method->method_list();
 if ( !$rows ) {
-     echo $VM_LANG->_('PHPSHOP_NO_SEARCH_RESULT');
+     echo $VM_LANG->_('VM_NO_SEARCH_RESULT');
 }
 else {
 ?>
@@ -49,7 +49,7 @@ else {
       <th class="title"><?php echo $VM_LANG->_('VM_SHIPPING_MODULE_LIST_HEADER_AUTHOR') ?></th>
       <th class="title"><?php echo $VM_LANG->_('URL') ?></th>
       <th class="title"><?php echo $VM_LANG->_('CMN_EMAIL') ?></th>
-      <th class="title"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_DESC_TITLE') ?></th>
+      <th class="title"><?php echo $VM_LANG->_('VM_PRODUCT_DESC_TITLE') ?></th>
     </tr>
 <?php
     $i = 0;
@@ -63,7 +63,7 @@ else {
         <td><?php echo( $i ); ?></td>
         <td><?php 
           if( in_array($row['name'], $PSHOP_SHIPPING_MODULES ) )
-            echo "<img src=\"$mosConfig_live_site/administrator/images/tick.png\" border=\"0\" alt=\"" . $VM_LANG->_('PHPSHOP_ISSHIP_LIST_PUBLISH_LBL') . "\"  align=\"center\"/>";
+            echo "<img src=\"$mosConfig_live_site/administrator/images/tick.png\" border=\"0\" alt=\"" . $VM_LANG->_('VM_ISSHIP_LIST_PUBLISH_LBL') . "\"  align=\"center\"/>";
         ?></td>
         <td width="19%"><?php
         echo $row["name"];
@@ -83,7 +83,7 @@ else {
         }
         
         if( $row['name'] != 'no_shipping' ) {
-        	echo $VM_LANG->_('PHPSHOP_ISSHIP_FORM_UPDATE_LBL')."</a>";
+        	echo $VM_LANG->_('VM_ISSHIP_FORM_UPDATE_LBL')."</a>";
         }
         
           ?>

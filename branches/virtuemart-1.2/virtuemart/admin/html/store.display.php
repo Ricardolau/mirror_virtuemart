@@ -20,13 +20,13 @@ mm_showMyFileName( __FILE__ );
 ?>
 <br />
 <img src="<?php echo VM_THEMEURL ?>images/administration/dashboard/store.png" border="0" align="left" alt="Store Home" />
-<h2 class="adminListHeader"><?php echo $VM_LANG->_('PHPSHOP_STORE_MOD') ?></h2>
+<h2 class="adminListHeader"><?php echo $VM_LANG->_('VM_STORE_MOD') ?></h2>
 
 <br /><br />
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr> 
     <td colspan="2" align="right"> 
-      <div align="left"><b><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_LBL') ?> </B>
+      <div align="left"><b><?php echo $VM_LANG->_('VM_STORE_FORM_LBL') ?> </B>
 
 <?php 
 		$db = ps_vendor::get_vendor_details($vendor_id);   
@@ -34,11 +34,11 @@ mm_showMyFileName( __FILE__ );
     </td>
   </tr>
   <tr> 
-    <td width="22%" align="right" ><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_STORE_NAME') ?> :</td>
+    <td width="22%" align="right" ><?php echo $VM_LANG->_('VM_STORE_FORM_STORE_NAME') ?> :</td>
     <td width="78%" > <?php $db->sp("vendor_store_name") ?></td>
   </tr>
   <tr> 
-    <td width="22%" align="right" ><?php echo $VM_LANG->_('PHPSHOP_VENDOR_LIST_VENDOR_NAME') ?> :</td>
+    <td width="22%" align="right" ><?php echo $VM_LANG->_('VM_VENDOR_LIST_VENDOR_NAME') ?> :</td>
     <td width="78%" > <?php $db->sp("vendor_name") ?> </td>
   </tr>
   <tr> 
@@ -54,31 +54,31 @@ $db->sp("address_2")
       <?php $db->sp("vzip") ?> <?php $db->sp("country") ?></td>
   </tr>
   <tr> 
-    <td width="22%" align="right" ><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_PHONE') ?> :</td>
+    <td width="22%" align="right" ><?php echo $VM_LANG->_('VM_STORE_FORM_PHONE') ?> :</td>
     <td width="78%" > <?php $db->sp("vendor_phone") ?></td>
   </tr>
   <tr> 
-    <td colspan="2" class="topmenu"><b><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_CONTACT_LBL') ?></b></td>
+    <td colspan="2" class="topmenu"><b><?php echo $VM_LANG->_('VM_STORE_FORM_CONTACT_LBL') ?></b></td>
   </tr>
   <tr> 
-    <td width="22%" align="right" ><?php echo $VM_LANG->_('PHPSHOP_CART_NAME') ?> :</td>
+    <td width="22%" align="right" ><?php echo $VM_LANG->_('VM_CART_NAME') ?> :</td>
     <td width="78%" > <?php $db->sp("title") ?> <?php $db->sp("first_name") ?> 
       <?php $db->sp("middle_name") ?> <?php $db->sp("last_name") ?></td>
   </tr>
   <tr> 
-    <td width="22%" align="right" ><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_PHONE_1') ?> :</TD>
+    <td width="22%" align="right" ><?php echo $VM_LANG->_('VM_STORE_FORM_PHONE_1') ?> :</TD>
     <TD WIDTH="78%" > <?php $db->sp("phone_1") ?></TD>
   </TR>
   <TR> 
-    <TD WIDTH="22%" ALIGN="right" ><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_PHONE_2') ?> :</TD>
+    <TD WIDTH="22%" ALIGN="right" ><?php echo $VM_LANG->_('VM_STORE_FORM_PHONE_2') ?> :</TD>
     <TD WIDTH="78%" > <?php $db->sp("phone_2") ?></TD>
   </TR>
   <TR> 
-    <TD WIDTH="22%" ALIGN="right" ><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_FAX') ?> :</TD>
+    <TD WIDTH="22%" ALIGN="right" ><?php echo $VM_LANG->_('VM_STORE_FORM_FAX') ?> :</TD>
     <TD WIDTH="78%" > <?php $db->sp("fax") ?></TD>
   </TR>
   <TR> 
-    <TD WIDTH="22%" ALIGN="right" ><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_EMAIL') ?> :</TD>
+    <TD WIDTH="22%" ALIGN="right" ><?php echo $VM_LANG->_('VM_STORE_FORM_EMAIL') ?> :</TD>
     <TD WIDTH="78%" > <?php $db->sp("email") ?></TD>
   </TR>
   <TR> 

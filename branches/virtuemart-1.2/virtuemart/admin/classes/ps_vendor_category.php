@@ -126,7 +126,7 @@ class ps_vendor_category extends vmAbstractObject {
 				FROM #__{vm}_vendor_category 
 				ORDER BY vendor_category_name" ;
 		$db->query( $q ) ;
-		$array = array('0' => $VM_LANG->_('PHPSHOP_SELECT'));
+		$array = array('0' => $VM_LANG->_('VM_SELECT'));
 
 		while( $db->next_record() ) {
 			$array[$db->f( "vendor_category_id" )] = $db->f( "vendor_category_name" );

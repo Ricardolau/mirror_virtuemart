@@ -223,35 +223,35 @@ class ps_order {
 				$db->next_record();
 				
 				$message = $VM_LANG->_('HI',false) .' '. $db->f("first_name") .($db->f("middle_name")?' '.$db->f("middle_name") : '' ). ' ' . $db->f("last_name") . ",\n\n";
-				$message .= $VM_LANG->_('PHPSHOP_DOWNLOADS_SEND_MSG_1',false).".\n";
-				$message .= $VM_LANG->_('PHPSHOP_DOWNLOADS_SEND_MSG_2',false)."\n\n";
+				$message .= $VM_LANG->_('VM_DOWNLOADS_SEND_MSG_1',false).".\n";
+				$message .= $VM_LANG->_('VM_DOWNLOADS_SEND_MSG_2',false)."\n\n";
 
 				while($dbw->next_record()) {
 					$message .= $dbw->f("file_name").": ".$dbw->f("download_id")
 					. "\n$url&download_id=".$dbw->f("download_id")."\n\n";
 				}
 
-				$message .= $VM_LANG->_('PHPSHOP_DOWNLOADS_SEND_MSG_3',false) . DOWNLOAD_MAX."\n";
+				$message .= $VM_LANG->_('VM_DOWNLOADS_SEND_MSG_3',false) . DOWNLOAD_MAX."\n";
 				$expire = ((DOWNLOAD_EXPIRE / 60) / 60) / 24;
-				$message .= str_replace("{expire}", $expire, $VM_LANG->_('PHPSHOP_DOWNLOADS_SEND_MSG_4',false));
+				$message .= str_replace("{expire}", $expire, $VM_LANG->_('VM_DOWNLOADS_SEND_MSG_4',false));
 				$message .= "\n\n____________________________________________________________\n";
-				$message .= $VM_LANG->_('PHPSHOP_DOWNLOADS_SEND_MSG_5',false)."\n";
+				$message .= $VM_LANG->_('VM_DOWNLOADS_SEND_MSG_5',false)."\n";
 				$message .= $dbv->f("vendor_name") . " \n" . URL."\n\n".$dbv->f("email") . "\n";
 				$message .= "____________________________________________________________\n";
-				$message .= $VM_LANG->_('PHPSHOP_DOWNLOADS_SEND_MSG_6',false) . $dbv->f("vendor_name");
+				$message .= $VM_LANG->_('VM_DOWNLOADS_SEND_MSG_6',false) . $dbv->f("vendor_name");
 
 
 				$mail_Body = $message;
-				$mail_Subject = $VM_LANG->_('PHPSHOP_DOWNLOADS_SEND_SUBJ',false);
+				$mail_Subject = $VM_LANG->_('VM_DOWNLOADS_SEND_SUBJ',false);
 
 				$result = vmMail( $dbv->f("email"), $dbv->f("vendor_name"), 
 						$db->f("email"), $mail_Subject, $mail_Body, '' );
 
 				if ($result) {
-					$vmLogger->info( $VM_LANG->_('PHPSHOP_DOWNLOADS_SEND_MSG',false). " ". $db->f("first_name") . " " . $db->f("last_name") . " ".$db->f("email") );
+					$vmLogger->info( $VM_LANG->_('VM_DOWNLOADS_SEND_MSG',false). " ". $db->f("first_name") . " " . $db->f("last_name") . " ".$db->f("email") );
 				}
 				else {
-					$vmLogger->warning( $VM_LANG->_('PHPSHOP_DOWNLOADS_ERR_SEND',false)." ". $db->f("first_name") . " " . $db->f("last_name") . ", ".$db->f("email") );
+					$vmLogger->warning( $VM_LANG->_('VM_DOWNLOADS_ERR_SEND',false)." ". $db->f("first_name") . " " . $db->f("last_name") . ", ".$db->f("email") );
 				}
 			} 
 		}
@@ -292,21 +292,21 @@ class ps_order {
 
 		// MAIL BODY
 		$message = $VM_LANG->_('HI',false) .' '. $db->f("first_name") . ($db->f("middle_name")?' '.$db->f("middle_name") : '' ). ' ' . $db->f("last_name") . ",\n\n";
-		$message .= $VM_LANG->_('PHPSHOP_ORDER_STATUS_CHANGE_SEND_MSG_1',false)."\n\n";
+		$message .= $VM_LANG->_('VM_ORDER_STATUS_CHANGE_SEND_MSG_1',false)."\n\n";
 
 		if( !empty($d['include_comment']) && !empty($d['order_comment']) ) {
-			$message .= $VM_LANG->_('PHPSHOP_ORDER_HISTORY_COMMENT_EMAIL',false).":\n";
+			$message .= $VM_LANG->_('VM_ORDER_HISTORY_COMMENT_EMAIL',false).":\n";
 			$message .= $d['order_comment'];
 			$message .= "\n____________________________________________________________\n\n";
 		}
 
-		$message .= $VM_LANG->_('PHPSHOP_ORDER_STATUS_CHANGE_SEND_MSG_2',false)."\n";
+		$message .= $VM_LANG->_('VM_ORDER_STATUS_CHANGE_SEND_MSG_2',false)."\n";
 		$message .= "____________________________________________________________\n\n";
 		$message .= $db->f("order_status_name");
 
 		if( VM_REGISTRATION_TYPE != 'NO_REGISTRATION' ) {
 			$message .= "\n____________________________________________________________\n\n";
-			$message .= $VM_LANG->_('PHPSHOP_ORDER_STATUS_CHANGE_SEND_MSG_3',false)."\n";
+			$message .= $VM_LANG->_('VM_ORDER_STATUS_CHANGE_SEND_MSG_3',false)."\n";
 			$message .= $url;
 		}
 		$message .= "\n\n____________________________________________________________\n";
@@ -317,7 +317,7 @@ class ps_order {
 		$message = str_replace( "{order_id}", $d["order_id"], $message );
 
 		$mail_Body = html_entity_decode($message);
-		$mail_Subject = str_replace( "{order_id}", $d["order_id"], $VM_LANG->_('PHPSHOP_ORDER_STATUS_CHANGE_SEND_SUBJ',false));
+		$mail_Subject = str_replace( "{order_id}", $d["order_id"], $VM_LANG->_('VM_ORDER_STATUS_CHANGE_SEND_SUBJ',false));
 		
 		
 		$result = vmMail( $dbv->f("email"),  $dbv->f("vendor_name"), 
@@ -325,10 +325,10 @@ class ps_order {
 		
 		/* Send the email */
 		if ($result) {
-			$vmLogger->info( $VM_LANG->_('PHPSHOP_DOWNLOADS_SEND_MSG',false). " ". $db->f("first_name") . " " . $db->f("last_name") . ", ".$db->f("email") );
+			$vmLogger->info( $VM_LANG->_('VM_DOWNLOADS_SEND_MSG',false). " ". $db->f("first_name") . " " . $db->f("last_name") . ", ".$db->f("email") );
 		}
 		else {
-			$vmLogger->warning( $VM_LANG->_('PHPSHOP_DOWNLOADS_ERR_SEND',false).' '. $db->f("first_name") . " " . $db->f("last_name") . ", ".$db->f("email")." (". $result->ErrorInfo.")" );
+			$vmLogger->warning( $VM_LANG->_('VM_DOWNLOADS_ERR_SEND',false).' '. $db->f("first_name") . " " . $db->f("last_name") . ", ".$db->f("email")." (". $result->ErrorInfo.")" );
 			$GLOBALS['vmLogger']->debug('From: '.$dbv->f("email"));
 			$GLOBALS['vmLogger']->debug('To: '.$db->f("email"));
 		}
@@ -407,7 +407,7 @@ class ps_order {
 		$zeit=time();
 
 		if (!$download_id) {
-			$vmLogger->err( $VM_LANG->_('PHPSHOP_DOWNLOADS_ERR_INV',false) );
+			$vmLogger->err( $VM_LANG->_('VM_DOWNLOADS_ERR_INV',false) );
 			return false;
 			//vmRedirect("index.php?option=com_virtuemart&page=shop.downloads", $d["error"]);
 		}
@@ -417,7 +417,7 @@ class ps_order {
 			$q .=" WHERE download_id = '" . $download_id . "'";
 			$db->query($q);
 			$db->next_record();
-			$vmLogger->err( $VM_LANG->_('PHPSHOP_DOWNLOADS_ERR_MAX',false) );
+			$vmLogger->err( $VM_LANG->_('VM_DOWNLOADS_ERR_MAX',false) );
 			return false;
 			//vmRedirect("index.php?option=com_virtuemart&page=shop.downloads", $d["error"]);
 		}
@@ -427,7 +427,7 @@ class ps_order {
 			$q .=" WHERE download_id = '" . $download_id . "'";
 			$db->query($q);
 			$db->next_record();
-			$vmLogger->err( $VM_LANG->_('PHPSHOP_DOWNLOADS_ERR_EXP',false) );
+			$vmLogger->err( $VM_LANG->_('VM_DOWNLOADS_ERR_EXP',false) );
 			return false;
 			//vmRedirect("index.php?option=com_virtuemart&page=shop.downloads", $d["error"]);
 		}
@@ -581,7 +581,7 @@ class ps_order {
 		
 		$num_rows = $db->f('num_rows');
 		if( $num_rows == 0 ) {
-			echo "<span style=\"font-style:italic;\">".$VM_LANG->_('PHPSHOP_ACC_NO_ORDERS')."</span>\n";
+			echo "<span style=\"font-style:italic;\">".$VM_LANG->_('VM_ACC_NO_ORDERS')."</span>\n";
 			return;
 		}
 		$pageNav = new vmPageNav( $num_rows, $limitstart, $limit );
@@ -606,15 +606,15 @@ class ps_order {
 			$listObj->newRow();
 
 			$tmp_cell = "<a href=\"". $sess->url( $mm_action_url."index.php?page=account.order_details&order_id=".$db->f("order_id") )."\">\n";
-			$tmp_cell .= "<img src=\"".IMAGEURL."ps_image/goto.png\" height=\"32\" width=\"32\" align=\"middle\" border=\"0\" alt=\"".$VM_LANG->_('PHPSHOP_ORDER_LINK')."\" />&nbsp;".$VM_LANG->_('PHPSHOP_VIEW')."</a><br />";
+			$tmp_cell .= "<img src=\"".IMAGEURL."ps_image/goto.png\" height=\"32\" width=\"32\" align=\"middle\" border=\"0\" alt=\"".$VM_LANG->_('VM_ORDER_LINK')."\" />&nbsp;".$VM_LANG->_('VM_VIEW')."</a><br />";
 			$listObj->addCell( $tmp_cell );
 
-			$tmp_cell = "<strong>".$VM_LANG->_('PHPSHOP_ORDER_PRINT_PO_DATE').":</strong> " . vmFormatDate($db->f("cdate"), "%d. %B %Y");
-			$tmp_cell .= "<br /><strong>".$VM_LANG->_('PHPSHOP_ORDER_PRINT_TOTAL').":</strong> " . $CURRENCY_DISPLAY->getFullValue($db->f("order_total"), '', $db->f('order_currency'));
+			$tmp_cell = "<strong>".$VM_LANG->_('VM_ORDER_PRINT_PO_DATE').":</strong> " . vmFormatDate($db->f("cdate"), "%d. %B %Y");
+			$tmp_cell .= "<br /><strong>".$VM_LANG->_('VM_ORDER_PRINT_TOTAL').":</strong> " . $CURRENCY_DISPLAY->getFullValue($db->f("order_total"), '', $db->f('order_currency'));
 			$listObj->addCell( $tmp_cell );
 
-			$tmp_cell = "<strong>".$VM_LANG->_('PHPSHOP_ORDER_PRINT_PO_STATUS').":</strong> ".$order_status;
-			$tmp_cell .= "<br /><strong>".$VM_LANG->_('PHPSHOP_ORDER_PRINT_PO_NUMBER').":</strong> " . sprintf("%08d", $db->f("order_id"));
+			$tmp_cell = "<strong>".$VM_LANG->_('VM_ORDER_PRINT_PO_STATUS').":</strong> ".$order_status;
+			$tmp_cell .= "<br /><strong>".$VM_LANG->_('VM_ORDER_PRINT_PO_NUMBER').":</strong> " . sprintf("%08d", $db->f("order_id"));
 			$listObj->addCell( $tmp_cell );
 		}
 		$listObj->writeTable();

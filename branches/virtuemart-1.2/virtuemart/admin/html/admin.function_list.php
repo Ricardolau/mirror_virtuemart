@@ -28,7 +28,7 @@ $module_id = vmGet( $_REQUEST, 'module_id', 0 );
 $q = "SELECT module_name FROM #__{vm}_module WHERE module_id='$module_id'";
 $db->query($q);
 $db->next_record();
-$title = $VM_LANG->_('PHPSHOP_FUNCTION_LIST_LBL') . ": " . $db->f("module_name");
+$title = $VM_LANG->_('VM_FUNCTION_LIST_LBL') . ": " . $db->f("module_name");
 if (!empty( $keyword )) {
 	$list  = "SELECT * FROM #__{vm}_function WHERE ";
 	$count = "SELECT count(*) as num_rows FROM #__{vm}_function WHERE ";
@@ -68,9 +68,9 @@ $listObj->startTable();
 // these are the columns in the table
 $columns = Array(  "#" => "width=\"20\"", 
 					"<input type=\"checkbox\" name=\"toggle\" value=\"\" onclick=\"checkAll(".count($db->record) .")\" />" => "width=\"20\"",
-					$VM_LANG->_('PHPSHOP_FUNCTION_LIST_NAME') => "",
-					$VM_LANG->_('PHPSHOP_FUNCTION_LIST_CLASS') => "",
-					$VM_LANG->_('PHPSHOP_FUNCTION_LIST_METHOD') => "" );
+					$VM_LANG->_('VM_FUNCTION_LIST_NAME') => "",
+					$VM_LANG->_('VM_FUNCTION_LIST_CLASS') => "",
+					$VM_LANG->_('VM_FUNCTION_LIST_METHOD') => "" );
 $usergroups = $vmUserGroup->get_groups();
 
 while($usergroups->next_record()) {

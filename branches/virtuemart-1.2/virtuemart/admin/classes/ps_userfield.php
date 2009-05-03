@@ -311,13 +311,13 @@ class ps_userfield extends vmAbstractObject {
 	   		}
 	   		if( $field->name == 'agreed') {
 	   			$field->title = '<script type="text/javascript">//<![CDATA[
-				document.write(\'<label for="agreed_field">'. str_replace("'","\\'",$VM_LANG->_('PHPSHOP_I_AGREE_TO_TOS')) .'</label><a href="javascript:void window.open(\\\''. $mosConfig_live_site .'/index2.php?option=com_virtuemart&page=shop.tos&pop=1\\\', \\\'win2\\\', \\\'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no\\\');">\');
-				document.write(\' ('.$VM_LANG->_('PHPSHOP_STORE_FORM_TOS') .')</a>\');
+				document.write(\'<label for="agreed_field">'. str_replace("'","\\'",$VM_LANG->_('VM_I_AGREE_TO_TOS')) .'</label><a href="javascript:void window.open(\\\''. $mosConfig_live_site .'/index2.php?option=com_virtuemart&page=shop.tos&pop=1\\\', \\\'win2\\\', \\\'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no\\\');">\');
+				document.write(\' ('.$VM_LANG->_('VM_STORE_FORM_TOS') .')</a>\');
 				//]]></script>
 				<noscript>
-					<label for="agreed_field">'. $VM_LANG->_('PHPSHOP_I_AGREE_TO_TOS') .'</label>
-					<a target="_blank" href="'. $mosConfig_live_site .'/index.php?option=com_virtuemart&amp;page=shop.tos" title="'. $VM_LANG->_('PHPSHOP_I_AGREE_TO_TOS') .'">
-					 ('.$VM_LANG->_('PHPSHOP_STORE_FORM_TOS').')
+					<label for="agreed_field">'. $VM_LANG->_('VM_I_AGREE_TO_TOS') .'</label>
+					<a target="_blank" href="'. $mosConfig_live_site .'/index.php?option=com_virtuemart&amp;page=shop.tos" title="'. $VM_LANG->_('VM_I_AGREE_TO_TOS') .'">
+					 ('.$VM_LANG->_('VM_STORE_FORM_TOS').')
 					</a></noscript>';
 	   		}
 	   		if( $field->name == 'username' && VM_REGISTRATION_TYPE == 'OPTIONAL_REGISTRATION' ) {
@@ -337,7 +337,7 @@ class ps_userfield extends vmAbstractObject {
 	   			if( $delimiter > 0) {
 	   				echo "</fieldset>\n";
 	   			}
-	   			if( VM_REGISTRATION_TYPE == 'SILENT_REGISTRATION' && $field->title == $VM_LANG->_('PHPSHOP_ORDER_PRINT_CUST_INFO_LBL') && $page == 'checkout.index' ) {
+	   			if( VM_REGISTRATION_TYPE == 'SILENT_REGISTRATION' && $field->title == $VM_LANG->_('VM_ORDER_PRINT_CUST_INFO_LBL') && $page == 'checkout.index' ) {
 	   				continue;
 	   			}
 	   			echo '<fieldset>
@@ -742,7 +742,7 @@ class ps_userfield extends vmAbstractObject {
         if( isset( $required_fields['agreed'] )) {
 			echo '
             if (!form.agreed.checked) {
-				alert( "'. $VM_LANG->_('PHPSHOP_AGREE_TO_TOS',false) .'" );
+				alert( "'. $VM_LANG->_('VM_AGREE_TO_TOS',false) .'" );
 				return false;
 			}';
 		}

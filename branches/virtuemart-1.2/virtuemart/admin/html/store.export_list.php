@@ -58,7 +58,7 @@ $columns = Array(  "#" => "width=\"20\"",
 "<input type=\"checkbox\" name=\"toggle\" value=\"\" onclick=\"checkAll(".$num_rows.")\" />" => "width=\"20\"",
 $VM_LANG->_('VM_ORDER_EXPORT_MODULE_LIST_NAME') => '',
 $VM_LANG->_('VM_ORDER_EXPORT_MODULE_LIST_DESC') => '',
-$VM_LANG->_('PHPSHOP_ISSHIP_LIST_PUBLISH_LBL') => '',
+$VM_LANG->_('VM_ISSHIP_LIST_PUBLISH_LBL') => '',
 $VM_LANG->_('E_REMOVE') => "width=\"5%\""
 );
 $listObj->writeTableHeader( $columns );

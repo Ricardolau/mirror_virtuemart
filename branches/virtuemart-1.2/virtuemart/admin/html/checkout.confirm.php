@@ -21,7 +21,7 @@ require_once(CLASSPATH.'ps_payment_method.php');
 $ps_payment_method = new ps_payment_method;
 ?>
 
-<h3><?php echo $VM_LANG->_('PHPSHOP_ORDER_CONFIRM_MNU') ?></h3>
+<h3><?php echo $VM_LANG->_('VM_ORDER_CONFIRM_MNU') ?></h3>
 
 <?php include(PAGEPATH."ro_basket.php"); ?>
 
@@ -60,16 +60,16 @@ require_once(CLASSPATH. "ps_user.php");
 $db = ps_user::get_user_details($auth["user_id"],array("*"),"", "AND `u`.`address_type`='ST'" );
 
 $db->next_record();
-?><?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_BILLINFO') ?></b></td>
+?><?php echo $VM_LANG->_('VM_CHECKOUT_CONF_BILLINFO') ?></b></td>
           </tr>
           <tr> 
-            <td width="10%" align="right"><b><?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_COMPANY') ?>: </b></td>
+            <td width="10%" align="right"><b><?php echo $VM_LANG->_('VM_CHECKOUT_CONF_COMPANY') ?>: </b></td>
             <td width="90%" nowrap="nowrap"> <?php
      $db->p("company");
    ?> </td>
           </tr>
           <tr> 
-            <td width="10%" align="right"> <b><?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_NAME') ?>: </b></td>
+            <td width="10%" align="right"> <b><?php echo $VM_LANG->_('VM_CHECKOUT_CONF_NAME') ?>: </b></td>
             <td width="90%" nowrap="nowrap"> <?php
      $db->p("first_name");
      echo " ";
@@ -79,7 +79,7 @@ $db->next_record();
    ?> </td>
           </tr>
           <tr> 
-            <td width="10%" align="right"> <b><?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_ADDRESS') ?>: </b></td>
+            <td width="10%" align="right"> <b><?php echo $VM_LANG->_('VM_CHECKOUT_CONF_ADDRESS') ?>: </b></td>
             <td width="90%" nowrap="nowrap"> <?php
      $db->p("address_1");
      echo "<BR>";
@@ -99,19 +99,19 @@ $db->next_record();
    ?> </td>
           </tr>
           <tr> 
-            <td width="10%" align="right"><b><?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_PHONE') ?>: </b></td>
+            <td width="10%" align="right"><b><?php echo $VM_LANG->_('VM_CHECKOUT_CONF_PHONE') ?>: </b></td>
             <td width="90%" nowrap="nowrap"> <?php
      $db->p("phone_1");
    ?> </td>
           </tr>
           <tr> 
-            <td width="10%" align="right"><b><?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_FAX') ?>: </b></td>
+            <td width="10%" align="right"><b><?php echo $VM_LANG->_('VM_CHECKOUT_CONF_FAX') ?>: </b></td>
             <td width="90%" nowrap="nowrap"> <?php
      $db->p("fax");
    ?> </td>
           </tr>
           <tr> 
-            <td width="10%" align="right"><b><?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_EMAIL') ?>: </b></td>
+            <td width="10%" align="right"><b><?php echo $VM_LANG->_('VM_CHECKOUT_CONF_EMAIL') ?>: </b></td>
             <td width="90%" nowrap="nowrap"> <?php if (!$db->f("email")) { $db->p("email"); } else $db->f("email"); ?>
             </td>
           </tr>
@@ -134,16 +134,16 @@ $db->next_record();
 //    }
 //    $db->next_record();
     
-?><?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_SHIPINFO') ?></b></td>
+?><?php echo $VM_LANG->_('VM_CHECKOUT_CONF_SHIPINFO') ?></b></td>
           </tr>
           <tr> 
-            <td width="10%" align="right"><b><?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_SHIPINFO_COMPANY') ?>: </b></td>
+            <td width="10%" align="right"><b><?php echo $VM_LANG->_('VM_CHECKOUT_CONF_SHIPINFO_COMPANY') ?>: </b></td>
             <td width="90%" nowrap="nowrap"> <?php
      $db->p("company");
    ?> </td>
           </tr>
           <tr> 
-            <td width="10%" align="right"><b> <?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_SHIPINFO_NAME') ?>: </b></td>
+            <td width="10%" align="right"><b> <?php echo $VM_LANG->_('VM_CHECKOUT_CONF_SHIPINFO_NAME') ?>: </b></td>
             <td width="90%" nowrap="nowrap"> <?php
      $db->p("first_name");
      echo " ";
@@ -153,7 +153,7 @@ $db->next_record();
    ?> </td>
           </tr>
           <tr> 
-            <td width="10%" align="right"><b> <?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_SHIPINFO_ADDRESS') ?>: </b></td>
+            <td width="10%" align="right"><b> <?php echo $VM_LANG->_('VM_CHECKOUT_CONF_SHIPINFO_ADDRESS') ?>: </b></td>
             <td width="90%" nowrap="nowrap"> <?php
      $db->p("address_1");
      echo "<BR>";
@@ -173,13 +173,13 @@ $db->next_record();
    ?> </td>
           </tr>
           <tr> 
-            <td width="10%" align="right"><b><?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_SHIPINFO_PHONE') ?>: </b></td>
+            <td width="10%" align="right"><b><?php echo $VM_LANG->_('VM_CHECKOUT_CONF_SHIPINFO_PHONE') ?>: </b></td>
             <td width="90%" nowrap="nowrap"> <?php
      $db->p("phone_1");
    ?> </td>
           </tr>
           <tr> 
-            <td width="10%" align="right"><b><?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_SHIPINFO_FAX') ?>: </b></td>
+            <td width="10%" align="right"><b><?php echo $VM_LANG->_('VM_CHECKOUT_CONF_SHIPINFO_FAX') ?>: </b></td>
             <td width="90%" nowrap="nowrap"> <?php
      $db->p("fax");
    ?> </td>
@@ -199,38 +199,38 @@ include(PAGEPATH."/checkout.shipping_selected.php");
 <!-- Begin Payment Infomation -->
   <table border="0" cellspacing="0" cellpadding="2" width="100%">
     <tr class="sectiontableheader"> 
-      <td colspan="2"><b><?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_PAYINFO') ?></b></td>
+      <td colspan="2"><b><?php echo $VM_LANG->_('VM_CHECKOUT_CONF_PAYINFO') ?></b></td>
     </tr>
     <tr> 
-      <td nowrap="nowrap" width="10%" align="right"><?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_PAYINFO_METHOD') ?>: </td>
+      <td nowrap="nowrap" width="10%" align="right"><?php echo $VM_LANG->_('VM_CHECKOUT_CONF_PAYINFO_METHOD') ?>: </td>
       <td><?php $ps_payment_method->list_method($db->sf("payment_method_id")) ?></td>
     </tr>
     <tr> 
       <td colspan="2">&nbsp;</td>
     </tr>
     <tr> 
-      <td nowrap="nowrap" width="10%" align="right"><?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_PAYINFO_NAMECARD') ?>*: </td>
+      <td nowrap="nowrap" width="10%" align="right"><?php echo $VM_LANG->_('VM_CHECKOUT_CONF_PAYINFO_NAMECARD') ?>*: </td>
       <td> 
         <input type="text" class="inputbox" name="order_payment_name" value="<?php echo $order_payment_name ?>">
       </td>
     </tr>
     <tr> 
-      <td nowrap="nowrap" width="10%" align="right"><?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_PAYINFO_CCNUM') ?>*: </td>
+      <td nowrap="nowrap" width="10%" align="right"><?php echo $VM_LANG->_('VM_CHECKOUT_CONF_PAYINFO_CCNUM') ?>*: </td>
       <td> 
         <input type="text"  class="inputbox" name="order_payment_number" value="<?php echo $order_payment_number ?>">
       </td>
     </tr>
     <tr> 
-      <td nowrap="nowrap" width="10%" align="right"><?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_PAYINFO_EXDATE') ?>*: </td>
+      <td nowrap="nowrap" width="10%" align="right"><?php echo $VM_LANG->_('VM_CHECKOUT_CONF_PAYINFO_EXDATE') ?>*: </td>
       <td><?php $ps_html->list_month("order_payment_expire_month") . "/" . $ps_html->list_year("order_payment_expire_year") ?></td>
     </tr>
   </table>
 <!-- End payment information -->
 <BR>
-*<?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_PAYINFO_REQINFO') ?>.
+*<?php echo $VM_LANG->_('VM_CHECKOUT_CONF_PAYINFO_REQINFO') ?>.
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr align=center>
-  <td><input type="submit" class="button" name="submit" value="<?php echo $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_PAYINFO_COMPORDER') ?>"></td>
+  <td><input type="submit" class="button" name="submit" value="<?php echo $VM_LANG->_('VM_CHECKOUT_CONF_PAYINFO_COMPORDER') ?>"></td>
 </tr>
 </table>
 

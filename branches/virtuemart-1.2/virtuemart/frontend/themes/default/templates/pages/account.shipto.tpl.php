@@ -23,7 +23,7 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
 <?php
  if ( $next_page=="checkout.index") {
     
-     echo "<h3>". $VM_LANG->_('PHPSHOP_CHECKOUT_TITLE') ."</h3>";    
+     echo "<h3>". $VM_LANG->_('VM_CHECKOUT_TITLE') ."</h3>";    
 	    
 	include_class('checkout');
 	ps_checkout::show_checkout_bar();
@@ -34,10 +34,10 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
 *****************************/
 ?>
 <fieldset>
-        <legend><span class="sectiontableheader"><?php echo $VM_LANG->_('PHPSHOP_SHOPPER_FORM_SHIPTO_LBL') ?></span></legend>
+        <legend><span class="sectiontableheader"><?php echo $VM_LANG->_('VM_SHOPPER_FORM_SHIPTO_LBL') ?></span></legend>
         
 <br />
-<?php echo $VM_LANG->_('PHPSHOP_SHIPTO_TEXT') ?>
+<?php echo $VM_LANG->_('VM_SHIPTO_TEXT') ?>
 <br /><br /><br />
 
 <div style="width:90%;">

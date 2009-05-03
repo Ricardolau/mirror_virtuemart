@@ -41,13 +41,13 @@ if ( $coupon_id ) {
 		$selected[1] = "selected=\"selected\"";
 		$selected[0] = "";
 	}
-	$title = $VM_LANG->_('PHPSHOP_COUPON_EDIT_HEADER');
+	$title = $VM_LANG->_('VM_COUPON_EDIT_HEADER');
 
 }
 else {
 	$selected[0] = "selected=\"selected\"";
 	$selected[1] = "";
-	$title = $VM_LANG->_('PHPSHOP_COUPON_NEW_HEADER');
+	$title = $VM_LANG->_('VM_COUPON_NEW_HEADER');
 }
 
 $coupon_code_eon = $db->sf("coupon_code");
@@ -79,44 +79,44 @@ $formObj->startForm();
       <td colspan="2">&nbsp;</td>
     </tr>
     <tr>
-      <td width="24%"><div align="right"><?php echo $VM_LANG->_('PHPSHOP_COUPON_COUPON_HEADER') ?>:</div></td>
+      <td width="24%"><div align="right"><?php echo $VM_LANG->_('VM_COUPON_COUPON_HEADER') ?>:</div></td>
       <td width="76%">
         <input type="text" class="inputbox" name="coupon_code" value="<?php $db->sp("coupon_code") ?>" />
       </td>
     </tr>
     <tr>
-      <td width="24%"><div align="right"><?php echo $VM_LANG->_('PHPSHOP_COUPON_PERCENT_TOTAL') ?>:</div></td>
+      <td width="24%"><div align="right"><?php echo $VM_LANG->_('VM_COUPON_PERCENT_TOTAL') ?>:</div></td>
       <td width="76%">
         <input type="radio" class="inputbox" name="percent_or_total" value="percent" <?php if($db->sf("percent_or_total")=='percent' || empty($coupon_id)) echo "checked=\"checked\""; ?> />
-        <?php echo $VM_LANG->_('PHPSHOP_COUPON_PERCENT') ?>&nbsp;&nbsp;&nbsp;
-        <?php echo mm_ToolTip( $VM_LANG->_('PHPSHOP_PRODUCT_DISCOUNT_ISPERCENT_TIP') ); ?><br />
+        <?php echo $VM_LANG->_('VM_COUPON_PERCENT') ?>&nbsp;&nbsp;&nbsp;
+        <?php echo mm_ToolTip( $VM_LANG->_('VM_PRODUCT_DISCOUNT_ISPERCENT_TIP') ); ?><br />
         <input type="radio" class="inputbox" name="percent_or_total" value="total" <?php if($db->sf("percent_or_total")=='total') echo "checked=\"checked\""; ?> />
-        <?php echo $VM_LANG->_('PHPSHOP_COUPON_TOTAL') ?>
+        <?php echo $VM_LANG->_('VM_COUPON_TOTAL') ?>
       </td>
     </tr>
     <tr>
-      <td width="24%"><div align="right"><?php echo $VM_LANG->_('PHPSHOP_COUPON_TYPE') ?>:</div></td>
+      <td width="24%"><div align="right"><?php echo $VM_LANG->_('VM_COUPON_TYPE') ?>:</div></td>
       <td width="76%">
         <select class="inputbox" name="coupon_type">
           <option value="gift" <?php echo $selected[0] ?>>
-            <?php echo $VM_LANG->_('PHPSHOP_COUPON_TYPE_GIFT') ?>
+            <?php echo $VM_LANG->_('VM_COUPON_TYPE_GIFT') ?>
           </option>
           <option value="permanent" <?php echo $selected[1] ?>>
-            <?php echo $VM_LANG->_('PHPSHOP_COUPON_TYPE_PERMANENT') ?>
+            <?php echo $VM_LANG->_('VM_COUPON_TYPE_PERMANENT') ?>
           </option>
         </select>
-        <?php echo mm_ToolTip( $VM_LANG->_('PHPSHOP_COUPON_TYPE_TOOLTIP') ); ?>
+        <?php echo mm_ToolTip( $VM_LANG->_('VM_COUPON_TYPE_TOOLTIP') ); ?>
       </td>
     </tr>
     <tr>
-      <td width="24%"><div align="right"><?php echo $VM_LANG->_('PHPSHOP_COUPON_VALUE') ?>:</div></td>
+      <td width="24%"><div align="right"><?php echo $VM_LANG->_('VM_COUPON_VALUE') ?>:</div></td>
       <td width="76%">
         <input type="text" class="inputbox" name="coupon_value" value="<?php $db->sp("coupon_value"); ?>" />
       </td>
     </tr>
 
 	<tr>
-      <td width="24%"><div align="right"><?php echo $VM_LANG->_('PHPSHOP_COUPON_VALUE_VALID_AT') ?>:</div></td>
+      <td width="24%"><div align="right"><?php echo $VM_LANG->_('VM_COUPON_VALUE_VALID_AT') ?>:</div></td>
       <td width="76%">
         <input type="text" class="inputbox" name="coupon_value_valid" value="<?php $db->sp("coupon_value_valid"); ?>" />
       </td>
@@ -124,14 +124,14 @@ $formObj->startForm();
 
      <!-- AG add coupon start and expiry dates -->
     <tr>
-      <td width="24%"><div align="right"><?php echo $VM_LANG->_('PHPSHOP_COUPON_START') ?>:</div></td>
+      <td width="24%"><div align="right"><?php echo $VM_LANG->_('VM_COUPON_START') ?>:</div></td>
       <td width="76%">
         <input type="text" class="inputbox" id="coupon_start_date" name="coupon_start_date" value="<?php echo $coupon_start_date; ?>" />
         <input name="reset" type="reset" class="button" onclick="return showCalendar('coupon_start_date', 'y-mm-dd');" value="..." />
       </td>
     </tr>
     <tr>
-      <td width="24%"><div align="right"><?php echo $VM_LANG->_('PHPSHOP_COUPON_EXPIRY') ?>:</div></td>
+      <td width="24%"><div align="right"><?php echo $VM_LANG->_('VM_COUPON_EXPIRY') ?>:</div></td>
       <td width="76%">
         <input type="text" class="inputbox" name="coupon_expiry_date" id="coupon_expiry_date" value="<?php echo $coupon_expiry_date; ?>" />
         <input name="reset" type="reset" class="button" onclick="return showCalendar('coupon_expiry_date', 'y-mm-dd');" value="..." />

@@ -22,7 +22,7 @@ $category_id = vmGet($_REQUEST, 'category_id', 0);
 $option = empty($option)?vmGet( $_REQUEST, 'option', 'com_virtuemart'):$option;
 
 //First create the object and let it print a form heading
-$formObj = &new formFactory( $VM_LANG->_('PHPSHOP_CATEGORY_FORM_LBL') );
+$formObj = &new formFactory( $VM_LANG->_('VM_CATEGORY_FORM_LBL') );
 //Then Start the form
 $formObj->startForm( 'adminForm', 'enctype="multipart/form-data"');
 
@@ -43,11 +43,11 @@ elseif (empty($vars["error"])) {
   
 $tabs = new vmTabPanel(0, 1, "categoryform");
 $tabs->startPane("category-pane");
-$tabs->startTab( "<img src='". IMAGEURL ."ps_image/edit.png' align='absmiddle' width='16' height='16' border='0' /> ".$VM_LANG->_('PHPSHOP_CATEGORY_FORM_LBL'), "info-page");
+$tabs->startTab( "<img src='". IMAGEURL ."ps_image/edit.png' align='absmiddle' width='16' height='16' border='0' /> ".$VM_LANG->_('VM_CATEGORY_FORM_LBL'), "info-page");
 ?> 
 <table class="adminform">
     <tr> 
-      <td width="21%" nowrap><div align="right"><?php echo $VM_LANG->_('PHPSHOP_CATEGORY_FORM_PUBLISH') ?>:</div></td>
+      <td width="21%" nowrap><div align="right"><?php echo $VM_LANG->_('VM_CATEGORY_FORM_PUBLISH') ?>:</div></td>
       <td width="79%"><?php 
         if ($db->sf("category_publish")=="Y") { 
           echo "<input type=\"checkbox\" name=\"category_publish\" value=\"Y\" checked=\"checked\" />";
@@ -59,7 +59,7 @@ $tabs->startTab( "<img src='". IMAGEURL ."ps_image/edit.png' align='absmiddle' w
       </td>
     </tr>
         <tr> 
-      <td width="21%" nowrap><div align="right"><?php echo $VM_LANG->_('PHPSHOP_CATEGORY_FORM_SHARED') ?>:</div></td>
+      <td width="21%" nowrap><div align="right"><?php echo $VM_LANG->_('VM_CATEGORY_FORM_SHARED') ?>:</div></td>
       <td width="79%"><?php 
         if ($db->sf("category_shared")=="Y") { 
           echo "<input type=\"checkbox\" name=\"category_shared\" value=\"Y\" checked=\"checked\" />";
@@ -71,19 +71,19 @@ $tabs->startTab( "<img src='". IMAGEURL ."ps_image/edit.png' align='absmiddle' w
       </td>
     </tr>
     <tr> 
-      <td width="21%" nowrap><div align="right"><?php echo $VM_LANG->_('PHPSHOP_CATEGORY_FORM_NAME') ?>:</div></td>
+      <td width="21%" nowrap><div align="right"><?php echo $VM_LANG->_('VM_CATEGORY_FORM_NAME') ?>:</div></td>
       <td width="79%"> 
         <input type="text" class="inputbox" name="category_name" size="60" value="<?php echo shopMakeHtmlSafe( $db->sf('category_name')) ?>" />
       </td>
     </tr>
     <tr> 
-      <td width="21%" valign="top" nowrap><div  align="right"><?php echo $VM_LANG->_('PHPSHOP_CATEGORY_FORM_DESCRIPTION') ?>:</div></td>
+      <td width="21%" valign="top" nowrap><div  align="right"><?php echo $VM_LANG->_('VM_CATEGORY_FORM_DESCRIPTION') ?>:</div></td>
       <td width="79%" valign="top"><?php
         editorArea( 'editor1', $db->f("category_description"), 'category_description', '800', '300', '110', '40' ) ?>
       </td>
     </tr>
     <tr>
-      <td ><div align="right"><?php echo $VM_LANG->_('PHPSHOP_MODULE_LIST_ORDER') ?>: </div></td>
+      <td ><div align="right"><?php echo $VM_LANG->_('VM_MODULE_LIST_ORDER') ?>: </div></td>
       <td valign="top"><?php 
         echo $ps_product_category->list_level( $db->f("category_parent_id"), $db->f("category_id"), $db->f("list_order"));
         echo "<input type=\"hidden\" name=\"currentpos\" value=\"".$db->f("list_order")."\" />";
@@ -91,7 +91,7 @@ $tabs->startTab( "<img src='". IMAGEURL ."ps_image/edit.png' align='absmiddle' w
       </td>
     </tr>
     <tr> 
-      <td width="21%" valign="top" nowrap><div  align="right"><?php echo $VM_LANG->_('PHPSHOP_CATEGORY_FORM_PARENT') ?>:</div></td>
+      <td width="21%" valign="top" nowrap><div  align="right"><?php echo $VM_LANG->_('VM_CATEGORY_FORM_PARENT') ?>:</div></td>
       <td width="79%" valign="top"> <?php 
           if (!$category_id) {
             $ps_product_category->list_all("parent_category_id", $category_id);
@@ -124,7 +124,7 @@ $tabs->startTab( "<img src='". IMAGEURL ."ps_image/edit.png' align='absmiddle' w
     </tr>
      <tr>
       <td ><div align="right">
-        <?php echo $VM_LANG->_('PHPSHOP_CATEGORY_FORM_FLYPAGE') ?>:</div>
+        <?php echo $VM_LANG->_('VM_CATEGORY_FORM_FLYPAGE') ?>:</div>
       </td>
       <td valign="top">
           <?php
@@ -149,28 +149,28 @@ if( !stristr( $db->f("category_full_image"), "http") )
   <table width="100%" border="0" cellspacing="0" cellpadding="2">
     <tr> 
       <td valign="top" width="50%" style="border-right: 1px solid black;">
-        <h2><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_FULL_IMAGE') ?></h2>
+        <h2><?php echo $VM_LANG->_('VM_PRODUCT_FORM_FULL_IMAGE') ?></h2>
         <table>
           <tr> 
             <td colspan="2" ><?php 
               if ($category_id) {
-                echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_IMAGE_UPDATE_LBL') . "<br />"; } ?> 
+                echo $VM_LANG->_('VM_PRODUCT_FORM_IMAGE_UPDATE_LBL') . "<br />"; } ?> 
               <input type="file" class="inputbox" name="category_full_image" size="50" maxlength="255" />
             </td>
           </tr>
           <tr> 
-            <td colspan="2" ><strong><?php echo $VM_LANG->_('PHPSHOP_IMAGE_ACTION') ?>:</strong><br/>
+            <td colspan="2" ><strong><?php echo $VM_LANG->_('VM_IMAGE_ACTION') ?>:</strong><br/>
               <input type="radio" class="inputbox" name="category_full_image_action" id="category_full_image_action0" checked="checked" value="none" onchange="toggleDisable( document.adminForm.category_full_image_action[1], document.adminForm.category_thumb_image, true );toggleDisable( document.adminForm.category_full_image_action[1], document.adminForm.category_thumb_image_url, true );"/>
-              <label for="category_full_image_action0"><?php echo $VM_LANG->_('PHPSHOP_NONE') ?></label><br/>
+              <label for="category_full_image_action0"><?php echo $VM_LANG->_('VM_NONE') ?></label><br/>
               <?php
               if( function_exists('imagecreatefromjpeg')) {
               		?>
 	              <input type="radio" class="inputbox" name="category_full_image_action" id="category_full_image_action1" value="auto_resize" onchange="toggleDisable( document.adminForm.category_full_image_action[1], document.adminForm.category_thumb_image, true );toggleDisable( document.adminForm.category_full_image_action[1], document.adminForm.category_thumb_image_url, true );"/>
-	              <label for="category_full_image_action1"><?php echo $VM_LANG->_('PHPSHOP_FILES_FORM_AUTO_THUMBNAIL') . "</label><br />"; 
+	              <label for="category_full_image_action1"><?php echo $VM_LANG->_('VM_FILES_FORM_AUTO_THUMBNAIL') . "</label><br />"; 
               }
               if ($category_id and $db->f("category_full_image")) { ?>
                 <input type="radio" class="inputbox" name="category_full_image_action" id="category_full_image_action2" value="delete" onchange="toggleDisable( document.adminForm.category_full_image_action[1], document.adminForm.category_thumb_image, true );toggleDisable( document.adminForm.category_full_image_action[1], document.adminForm.category_thumb_image_url, true );"/>
-                <label for="category_full_image_action2"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_IMAGE_DELETE_LBL') . "</label><br />"; 
+                <label for="category_full_image_action2"><?php echo $VM_LANG->_('VM_PRODUCT_FORM_IMAGE_DELETE_LBL') . "</label><br />"; 
               } ?> 
             </td>
           </tr>
@@ -201,22 +201,22 @@ if( !stristr( $db->f("category_full_image"), "http") )
       </td>
 
       <td valign="top" width="50%">
-        <h2><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_THUMB_IMAGE') ?></h2>
+        <h2><?php echo $VM_LANG->_('VM_PRODUCT_FORM_THUMB_IMAGE') ?></h2>
         <table>
           <tr> 
             <td colspan="2" ><?php if ($category_id) {
-                echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_IMAGE_UPDATE_LBL') . "<br>"; } ?> 
+                echo $VM_LANG->_('VM_PRODUCT_FORM_IMAGE_UPDATE_LBL') . "<br>"; } ?> 
               <input type="file" class="inputbox" name="category_thumb_image" size="50" maxlength="255" onchange="if(document.adminForm.category_thumb_image.value!='') document.adminForm.category_thumb_image_url.value='';" />
             </td>
           </tr>
           <tr> 
-            <td colspan="2" ><strong><?php echo $VM_LANG->_('PHPSHOP_IMAGE_ACTION') ?>:</strong><br/>
+            <td colspan="2" ><strong><?php echo $VM_LANG->_('VM_IMAGE_ACTION') ?>:</strong><br/>
               <input type="radio" class="inputbox" id="category_thumb_image_action0" name="category_thumb_image_action" checked="checked" value="none" onchange="toggleDisable( document.adminForm.image_action[1], document.adminForm.category_thumb_image, true );toggleDisable( document.adminForm.image_action[1], document.adminForm.category_thumb_image_url, true );"/>
-              <label for="category_thumb_image_action0"><?php echo $VM_LANG->_('PHPSHOP_NONE') ?></label><br/>
+              <label for="category_thumb_image_action0"><?php echo $VM_LANG->_('VM_NONE') ?></label><br/>
               <?php 
               if ($category_id and $db->f("category_thumb_image")) { ?>
                 <input type="radio" class="inputbox" id="category_thumb_image_action1" name="category_thumb_image_action" value="delete" onchange="toggleDisable( document.adminForm.image_action[1], document.adminForm.category_thumb_image, true );toggleDisable( document.adminForm.image_action[1], document.adminForm.category_thumb_image_url, true );"/>
-                <label for="category_thumb_image_action1"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_FORM_IMAGE_DELETE_LBL') . "</label><br />"; 
+                <label for="category_thumb_image_action1"><?php echo $VM_LANG->_('VM_PRODUCT_FORM_IMAGE_DELETE_LBL') . "</label><br />"; 
               } ?> 
             </td>
           </tr>

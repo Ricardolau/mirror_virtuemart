@@ -236,7 +236,7 @@ class ps_perm {
 		arsort( $perms );
 		
 		if( $size==1 ) {
-			$values[0] = $VM_LANG->_('PHPSHOP_SELECT');
+			$values[0] = $VM_LANG->_('VM_SELECT');
 		}
 		while( list($key,$value) = each( $perms ) ) {
 			// Display only those permission that this user can set

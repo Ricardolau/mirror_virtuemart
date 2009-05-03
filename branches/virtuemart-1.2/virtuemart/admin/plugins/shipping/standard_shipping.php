@@ -74,9 +74,9 @@ class plgShippingStandard_Shipping extends vmShippingPlugin {
 			while( $dbr->next_record() ) {
 				if( ! defined( "_SHIPPING_RATE_TABLE_HEADER" ) ) {
 					$html = "<table width=\"100%\">\n<tr class=\"sectiontableheader\"><th>&nbsp;</th>" ;
-					$html .= "<th>" . $VM_LANG->_('PHPSHOP_INFO_MSG_CARRIER') . "</th><th>" ;
-					$html .= $VM_LANG->_('PHPSHOP_INFO_MSG_SHIPPING_METHOD') . "</th><th>" ;
-					$html .= $VM_LANG->_('PHPSHOP_INFO_MSG_SHIPPING_PRICE') . "</th></tr>\n" ;
+					$html .= "<th>" . $VM_LANG->_('VM_INFO_MSG_CARRIER') . "</th><th>" ;
+					$html .= $VM_LANG->_('VM_INFO_MSG_SHIPPING_METHOD') . "</th><th>" ;
+					$html .= $VM_LANG->_('VM_INFO_MSG_SHIPPING_PRICE') . "</th></tr>\n" ;
 					define( "_SHIPPING_RATE_TABLE_HEADER", "1" ) ;
 				}
 				if( $i ++ % 2 )
@@ -239,7 +239,7 @@ class plgShippingStandard_Shipping extends vmShippingPlugin {
 		$dbu = new ps_DB( ) ; //DB User
 		$dbu->query( $q ) ;
 		if( ! $dbu->next_record() ) {
-			/*$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_SHIPTO_NOT_FOUND',false) );
+			/*$vmLogger->err( $VM_LANG->_('VM_CHECKOUT_ERR_SHIPTO_NOT_FOUND',false) );
 			return False;*/
 		}
 		
@@ -250,7 +250,7 @@ class plgShippingStandard_Shipping extends vmShippingPlugin {
 		$dbs = new ps_DB( ) ; // DB Shiping_rate
 		$dbs->query( $q ) ;
 		if( ! $dbs->next_record() ) {
-			$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_RATE_NOT_FOUND',false) ) ;
+			$vmLogger->err( $VM_LANG->_('VM_CHECKOUT_ERR_RATE_NOT_FOUND',false) ) ;
 			return False ;
 		}
 		
@@ -300,7 +300,7 @@ class plgShippingStandard_Shipping extends vmShippingPlugin {
 				}
 			}
 			if( ! $valid ) {
-				$vmLogger->err( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_OTHER_SHIP',false) ) ;
+				$vmLogger->err( $VM_LANG->_('VM_CHECKOUT_ERR_OTHER_SHIP',false) ) ;
 			}
 			return $valid ;
 		

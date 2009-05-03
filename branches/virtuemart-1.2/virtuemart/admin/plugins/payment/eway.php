@@ -87,14 +87,14 @@ class plgPaymentEway extends vmPaymentPlugin {
         
         if( $eway->doPayment() == EWAY_TRANSACTION_OK ) {
 			
-			$d["order_payment_log"] = $VM_LANG->_('PHPSHOP_PAYMENT_TRANSACTION_SUCCESS');
+			$d["order_payment_log"] = $VM_LANG->_('VM_PAYMENT_TRANSACTION_SUCCESS');
             //Catch Transaction ID
             $d["order_payment_trans_id"] = $eway->getTrxnNumber();
             //$d["error"] = "";
             return true;
 		} 
         else {
-			$vmLogger->err( $VM_LANG->_('PHPSHOP_PAYMENT_ERROR',false).": "
+			$vmLogger->err( $VM_LANG->_('VM_PAYMENT_ERROR',false).": "
                             .$eway->getErrorMessage() );
             //Catch Transaction ID
             $d["order_payment_trans_id"] = $eway->getTrxnNumber();

@@ -36,7 +36,7 @@ if ($cart["idx"] == 0) {
 	$checkout = False;
 
 	//CT. invalidate coupon if they have redeemed one.
-	if ($_SESSION['coupon_redeemed'] == 1)
+	if ((isset($_SESSION['coupon_redeemed'])) && ($_SESSION['coupon_redeemed'] == 1))
 	{
 		@$_SESSION['coupon_redeemed'] = 0;
 		@$_SESSION['coupon_id'] = 0;
@@ -206,6 +206,7 @@ else {
 
 	//CT.COUPON VALIDITY CHECK ON ORDER
 	if (
+		(isset($_SESSION['coupon_redeemed'])) &&
 		($_SESSION['coupon_redeemed'] == 1) &&
 		($total+$shipping_total < @$_SESSION['coupon_value_valid'])){
 

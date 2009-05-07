@@ -33,7 +33,11 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
-03.052009 aravot
+06.05.2009 aravot
+# Fixed TransMenu Call to a member function setQuery() on a non-object error message
+# Fixed TigraTree Call to a member function query() on a non-object error message
+
+03.05.2009 aravot
 ^ Changed Authorize.net Login ID to Authorize.net API ID
 ^ Changed language prefix from phpshop to vm
 - Removed header and toolbar related files from wrong location

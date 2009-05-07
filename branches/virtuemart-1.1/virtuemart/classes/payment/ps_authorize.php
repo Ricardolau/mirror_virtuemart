@@ -386,7 +386,24 @@ class ps_authorize {
 			$vmLogger->err('The transaction could not be completed.' );
 			return false;
 		}
-		$response = explode("|", $result);
+
+		$c_mccomb = '|';
+		$foundmm = 0;
+		$iimm = 0;
+		for($imm=0;$imm<strlen($result);$imm++) {
+		        if (!$foundmm) {
+		                if($result[$imm] == $c_mccomb) {
+		                        $foundmm = 1;
+		                        $resultmm .= $result[$imm - 1];
+		                        $iimm++;
+		                }
+		        }
+		        if ($foundmm) {
+		                $resultmm .= $result[$imm];
+		                $iimm++;
+		        }
+		}
+		$response = explode("|", $resultmm);
 		// Strip off quotes from the first response field
 		$response[0] = str_replace( '"', '', $response[0] );
 		
@@ -432,6 +449,14 @@ class ps_authorize {
 			// Catch Transaction ID
 			$d["order_payment_trans_id"] = $response[6];
 			return False;
+
+		} else if ($response[0] == '4') {
+			$d["order_payment_log"] = $VM_LANG->_('PHPSHOP_PAYMENT_TRANSACTION_SUCCESS').": ";
+			$d["order_payment_log"] .= $response[3];
+			$vmLogger->debug( $d['order_payment_log']);
+			// Catch Transaction ID
+			$d["order_payment_trans_id"] = $response[6];
+			return True;
 		}
 	}
 

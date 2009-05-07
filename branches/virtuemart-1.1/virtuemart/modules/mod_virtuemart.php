@@ -1,14 +1,14 @@
 <?php
-if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct access to '.basename(__FILE__).' is not allowed.' );
+if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 /**
-* mambo-phphop Main Module
-* NOTE: THIS MODULE REQUIRES AN INSTALLED MAMBO-PHPSHOP COMPONENT!
+* VirtueMart Main Module
+* NOTE: THIS MODULE REQUIRES AN INSTALLED VIRTUEMART COMPONENT!
 *
 * @version $Id$
 * @package VirtueMart
 * @subpackage modules
 * 
-* @copyright (C) 2004-2008 soeren - All Rights reserved
+* @copyright (C) 2004-2008 soeren - All Rights Reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 *
 * VirtueMart is Free Software.

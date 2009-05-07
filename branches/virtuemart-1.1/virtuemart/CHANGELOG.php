@@ -34,7 +34,12 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
-03.052009 aravot
+06.05.2009 aravot
+# Fixed TransMenu Call to a member function setQuery() on a non-object error message
+# Fixed TigraTree Call to a member function query() on a non-object error message
+# BUG #2592 - Fix for Authorize.net status code 4 (good trans but produces error in VM)
+
+03.05.2009 aravot
 ^ Changed Authorize.net Login ID to Authorize.net API ID
 
 02.05.2009 rolandd

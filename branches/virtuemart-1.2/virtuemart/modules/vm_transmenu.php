@@ -30,7 +30,7 @@ $params->set( 'LSPath', $live_module_dir . '/' . $params->get( 'module' ) );
 include_once( $params->get( 'absPath' ) .'/Shop_Menu.php' );
 
 global $my, $db;
-
+$db = new ps_DB();
 $mbtmenu= new Shop_Menu($db, $params);
 
 $mbtmenu->genMenu();

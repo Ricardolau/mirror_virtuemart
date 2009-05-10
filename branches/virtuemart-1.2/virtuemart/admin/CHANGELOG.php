@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+10.05.2009 aravot
+# BUG #2611 - Changed _PSHOP_ADMIN to _VM_IS_BACKEND
+
 06.05.2009 aravot
 # Fixed TransMenu Call to a member function setQuery() on a non-object error message
 # Fixed TigraTree Call to a member function query() on a non-object error message

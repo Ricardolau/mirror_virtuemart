@@ -160,7 +160,7 @@ if( vmIsJoomla('1.0') && strstr( $_SERVER['PHP_SELF'], 'index3.php')) {
 					<li class="item-smenu vmicon vmicon-16-config">
 					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=store.store_form") ?>"><?php echo $VM_LANG->_('PHPSHOP_STORE_FORM_MNU') ?></a>
 					</li>
-					<?php if ($_SESSION['auth']['perms'] != "admin" && defined('_PSHOP_ADMIN')) { ?>
+					<?php if ($_SESSION['auth']['perms'] != "admin" && defined('_VM_IS_BACKEND')) { ?>
 					<li class="item-smenu vmicon vmicon-16-user">
 					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=store.user_list") ?>"><?php echo $VM_LANG->_('PHPSHOP_USER_LIST_MNU') ?></a>
 					</li>

@@ -1413,7 +1413,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		$ps_vendor_id = $_SESSION["ps_vendor_id"];
 		$auth = $_SESSION['auth'];
 
-		if( !defined('_PSHOP_ADMIN' ) || $page == 'product.product_list') {
+		if( !defined('_VM_IS_BACKEND' ) || $page == 'product.product_list') {
 
 			$db = new ps_DB;
 

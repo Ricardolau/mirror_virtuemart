@@ -36,6 +36,8 @@ VirtueMart 1.1.x
 *************************************
 10.05.2009 aravot
 # BUG #2611 - Changed _PSHOP_ADMIN to _VM_IS_BACKEND
+# Fixed The Vendor Category and Vendoer Image Path fields can't be updated (Thank you Phil)
+# Fixed 'Error: A value for the field "vendor_category_name" is missing' (Thank you Phil)
 
 06.05.2009 aravot
 # Fixed TransMenu Call to a member function setQuery() on a non-object error message

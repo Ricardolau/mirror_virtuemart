@@ -268,6 +268,8 @@ class vm_ps_vendor {
 						'vendor_zip' => $d["vendor_zip"],
 						'vendor_store_name' => $d["vendor_store_name"],
 						'vendor_store_desc' => $d["vendor_store_desc"],
+						'vendor_category_id' => $d["vendor_category_id"],
+						'vendor_image_path' => $d["vendor_image_path"],
 						'vendor_thumb_image' => $d["vendor_thumb_image"],
 						'vendor_full_image' => $d["vendor_full_image"],
 						'vendor_currency' => $d["vendor_currency"],

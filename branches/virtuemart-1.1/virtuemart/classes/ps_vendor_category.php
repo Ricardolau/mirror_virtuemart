@@ -76,7 +76,24 @@ class vm_ps_vendor_category extends vmAbstractObject {
 		$GLOBALS['vmLogger']->err( 'Failed to update the Vendor Category.');
 		return false;
 	}
-	
+
+	/**
+	 * Validate record before allowing deletion
+	 */
+	function validate_delete( &$d ) {
+		$db = new ps_DB() ;
+
+		$q = 'SELECT COUNT(*) AS num_rows FROM #__{vm}_vendor WHERE vendor_category_id='.(int)$d['vendor_category_id'];
+		$db->query( $q ) ;
+		$db->next_record();
+
+		if( $db->f("num_rows") > 0 ) {
+			$GLOBALS['vmLogger']->err( 'This Vendor Category has associated Vendor records.');
+			return false;
+		}
+		return true;
+	}
+
 	/**
 	 * Controller for Deleting Records.
 	 */

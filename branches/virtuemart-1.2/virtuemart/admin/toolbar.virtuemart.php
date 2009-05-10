@@ -9,7 +9,7 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
 * - no toolbar
 *
 *
-* @version $Id$
+* @version $Id: toolbar.virtuemart.php 1279 2008-02-29 09:01:49Z soeren_nb $
 * @package VirtueMart
 * @subpackage core
 * @copyright Copyright (C) 2004-2007 soeren - All rights reserved.

@@ -2876,7 +2876,9 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
     	$tpl->set('stock_level_label',$label);
     	return $tpl->fetch( 'common/stockIndicator.tpl.php' );
     }
-    
+    function get_build_product_id($product_id) {
+    	return;
+    }
     function favouritesButton($product_id) {
     	global $my, $db, $VM_LANG;
 	    $tpl = new $GLOBALS['VM_THEMECLASS']();

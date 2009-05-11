@@ -154,7 +154,7 @@ class ps_cart {
 			}
 		}
 		//Check to see if a prod_id has been set
-		if (!isset(@$d["prod_id"])) {
+		if (!isset($d["prod_id"])) {
 			return true;
 		}
 		$multiple_products = sizeof($d["prod_id"]);

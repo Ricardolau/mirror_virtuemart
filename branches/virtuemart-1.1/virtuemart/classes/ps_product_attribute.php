@@ -6,7 +6,7 @@ if( ! defined( '_VALID_MOS' ) && ! defined( '_JEXEC' ) )
  * @version $Id$
  * @package VirtueMart
  * @subpackage classes
- * @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+ * @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -982,7 +982,7 @@ class vm_ps_product_attribute {
 			
 			$pagevar = $encodefunc( $pagevar ) ;
 			
-			if( ! empty( $d[$pagevar] ) ) {
+			if (!is_null($d[$pagevar]) && $d[$pagevar] != '') {
 				$attribute_given = true ;
 			}
 			if( $description != '' ) {
@@ -990,7 +990,7 @@ class vm_ps_product_attribute {
 			}
 			
 			$description .= $a . ":" ;
-			$description .= empty( $d[$pagevar] ) ? '' : $decodefunc( $d[$pagevar] ) ;
+			$description .= (is_null($d[$pagevar]) || $d[$pagevar] == '') ? '' : $decodefunc( $d[$pagevar] ) ;
 		
 		}
 		rtrim( $description ) ;
@@ -1011,14 +1011,14 @@ class vm_ps_product_attribute {
 				$pagevar .= $d['prod_id'] ;
 				$pagevar = $encodefunc( $pagevar ) ;
 				
-				if( ! empty( $d[$pagevar] ) ) {
+				if( is_null($d[$pagevar]) || $d[$pagevar] == '' ) {
 					$custom_attribute_given = true ;
 				}
 				if( $description != '' ) {
 					$description .= "; " ;
 				}
 				$description .= $field . ":" ;
-				$description .= empty( $d[$pagevar] ) ? '' : $decodefunc( $d[$pagevar] ) ;
+				$description .= (is_null($d[$pagevar]) || $d[$pagevar] == '') ? '' : $decodefunc( $d[$pagevar] ) ;
 			
 			}
 			rtrim( $description ) ;
@@ -1303,7 +1303,7 @@ class vm_ps_product_attribute {
 				$value = $attributes['value'][$i2] ;
 				$price = $attributes['price'][$i2] ;
 				
-				if( ! empty( $value ) ) {
+				if( ! is_null( $value ) && $value != '' ) {
 					$attribute_string .= ',' . trim( $value ) ;
 					
 					if( ! empty( $price ) ) {

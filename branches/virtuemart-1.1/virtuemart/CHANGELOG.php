@@ -34,6 +34,14 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+
+11.05.2009 soeren
+# Task #2590 - Attributes are not calculated 
+# Task #2595 - Frontend edit icon should not have a hard-coded dimension
+# Task #2566 - Notify button not working 
+# Task #2599 - Product attributes with a '0' value are blank in orders [PATCH] 
+# Task #2602 - Multiple price table (tier pricing) conversion bug
+
 10.05.2009 aravot
 # BUG #2611 - Changed _PSHOP_ADMIN to _VM_IS_BACKEND
 # Fixed The Vendor Category and Vendoer Image Path fields can't be updated (Thank you Phil)

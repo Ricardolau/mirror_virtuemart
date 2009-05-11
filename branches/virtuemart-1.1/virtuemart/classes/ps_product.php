@@ -1786,7 +1786,6 @@ class vm_ps_product extends vmAbstractObject {
 					}
 				}
                 
-				$this_value=str_replace("_"," ",$this_value);
 				if( isset( $product_attributes[$this_key]['values'][$this_value] )) {
 					$modifier = $product_attributes[$this_key]['values'][$this_value]['adjustment'];
 					$operand = $product_attributes[$this_key]['values'][$this_value]['operand'];
@@ -1938,7 +1937,7 @@ class vm_ps_product extends vmAbstractObject {
 		
 		$auth = $_SESSION['auth'];
 		$description = stripslashes($description);
-        $description = str_replace("_"," ",$description);
+        
 		// if we've been given a description to deal with, get the adjusted price
 		if ($description != '' && $auth["show_price_including_tax"] == 1 && $product_id != 0 ) {
 			$my_taxrate = $this->get_product_taxrate($product_id);
@@ -1982,7 +1981,7 @@ class vm_ps_product extends vmAbstractObject {
 					continue;
 				}
 			}
-            $this_value = str_replace("_"," ",$this_value);
+            
 			if( isset( $product_attributes[$this_key]['values'][$this_value] )) {
 				$modifier = $product_attributes[$this_key]['values'][$this_value]['adjustment'];
 				$operand = $product_attributes[$this_key]['values'][$this_value]['operand'];
@@ -2001,7 +2000,7 @@ class vm_ps_product extends vmAbstractObject {
 			}
 			
 		}
-        $description = str_replace("_"," ",$description);
+        
 		$description = str_replace( $CURRENCY_DISPLAY->symbol, '@saved@', $description );
 		$description = str_replace( "[", " (", $description );
 		$description = str_replace( "]", ")", $description );
@@ -2185,7 +2184,7 @@ class vm_ps_product extends vmAbstractObject {
 						$db->next_record();
 						$shopper_group_discount = $db->f("shopper_group_discount");
 						// check for prices in default shopper group
-						$q = "SELECT product_price, price_quantity_start, price_quantity_end FROM #__{vm}_product_price
+						$q = "SELECT product_price, price_quantity_start, price_quantity_end, product_currency FROM #__{vm}_product_price
 							WHERE product_id='$product_id' AND shopper_group_id='".$default_shopper_group_id."' ORDER BY price_quantity_start";
 						$db->query( $q );
 						while( $db->next_record() ) {

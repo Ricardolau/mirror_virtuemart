@@ -732,15 +732,16 @@ class vm_ps_userfield extends vmAbstractObject {
             }';
         }
         if( isset($required_fields['password']) ) {
-			if( $page == 'checkout.index') {
+			if( $page == 'checkout.index' || $page == 'shop.registration') {
                 echo '
+                passregex=/^\S[\S ]{2,98}\S$/;
                 if (form.password.value.length < 6 '.$optional_check.') {
                     alert( "'.$VM_LANG->_('REGWARN_PASS',false) .'" );
 					return false;
                 } else if (form.password2.value == ""'.$optional_check.') {
                     alert( "'. $VM_LANG->_('REGWARN_VPASS1',false) .'" );
                     return false;
-                } else if (r.exec(form.password.value)'.$optional_check.') {
+                } else if (passregex.test(form.password.value)'.$optional_check.') {
                     alert( "'. sprintf( $VM_LANG->_('VALID_AZ09',false), $VM_LANG->_('PASSWORD',false), 6 ) .'" );
                     return false;
                 }';

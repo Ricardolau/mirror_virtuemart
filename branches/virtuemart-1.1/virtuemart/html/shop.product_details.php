@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage html
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -240,7 +240,7 @@ if( vmIsJoomla('1.5')) {
 // Show an "Edit PRODUCT"-Link
 if ($perm->check("admin,storeadmin")) {
 	$edit_link = '<a href="'. $sess->url( 'index2.php?page=product.product_form&next_page=shop.product_details&product_id='.$product_id).'">
-      <img src="images/M_images/edit.png" width="16" height="16" alt="'. $VM_LANG->_('PHPSHOP_PRODUCT_FORM_EDIT_PRODUCT') .'" border="0" /></a>';
+      <img src="images/M_images/edit.png" alt="'. $VM_LANG->_('PHPSHOP_PRODUCT_FORM_EDIT_PRODUCT') .'" border="0" /></a>';
 }
 else {
 	$edit_link = "";

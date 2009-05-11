@@ -167,7 +167,7 @@ class vm_ps_cart {
 				$product_in_stock = ps_product::get_field( $product_id, 'product_in_stock');
 				if (empty($product_in_stock)) {
 					$product_in_stock = 0;
-				}
+				}				
 				if ($quantity > $product_in_stock) {
 					//Create an array for out of stock items and continue to next item
 					$request_stock[$ci]['product_id'] = $product_id;
@@ -278,7 +278,7 @@ class vm_ps_cart {
 			// Comment out the following line to turn off msg i.e. //$vmLogger->tip( $msg );
 			$vmLogger->info( $msg );
 		}
-        else if (@$request_stock && vmIsXHR() ) {
+        else if (@$request_stock ) {
             $vmLogger->tip( $VM_LANG->_('PHPSHOP_CART_GOTO_WAITING_LIST',false) );
 		} elseif( $total_quantity == 0 ) {
 			vmRequest::setVar('product_id', $product_id );

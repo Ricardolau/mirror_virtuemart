@@ -41,7 +41,7 @@ class vmTheme extends vmTemplate  {
 		if( !defined( "_MOOTOOLS_LOADED" )) {
 			JHTML::_("behavior.mootools");
 			$document =& JFactory::getDocument();
-			$document->addScriptDeclaration('var cart_title = "'.$VM_LANG->_('PHPSHOP_CART_TITLE').'";var ok_lbl="'.$VM_LANG->_('CMN_CONTINUE').'";var cancel_lbl="'.$VM_LANG->_('CMN_CANCEL').'";var notice_lbl="'.$VM_LANG->_('PEAR_LOG_NOTICE').'";var live_site="'.$mosConfig_live_site.'";' );
+			$document->addScriptDeclaration('var cart_title = "'.$VM_LANG->_('VM_CART_TITLE').'";var ok_lbl="'.$VM_LANG->_('CMN_CONTINUE').'";var cancel_lbl="'.$VM_LANG->_('CMN_CANCEL').'";var notice_lbl="'.$VM_LANG->_('PEAR_LOG_NOTICE').'";var live_site="'.$mosConfig_live_site.'";' );
 			$document->addScript(VM_THEMEURL.'js/mootools/mooPrompt.js');
 			$document->addStyleSheet(VM_THEMEURL.'js/mootools/mooPrompt.css');
 			define ("_MOOTOOLS_LOADED","1");
@@ -92,7 +92,9 @@ class vmTheme extends vmTemplate  {
 				/* Build the "See Bigger Image" Link */
 				if( @$_REQUEST['output'] != "pdf" && $this->get_cfg('useLightBoxImages', 1 ) ) {
 					$link = $imageurl;
-$text = ps_product::image_tag($product['product_full_image'], $img_attributes, 1,null,200,200,true)."<br/>".$VM_LANG->_('VM_FLYPAGE_ENLARGE_IMAGE');
+					//$text = ps_product::image_tag($product['product_full_image'], $img_attributes, 1,null,200,200,true)."<br/>".$VM_LANG->_('VM_FLYPAGE_ENLARGE_IMAGE');
+					$text = ps_product::image_tag($product['product_thumb_image'], $img_attributes, 0)."<br/>".$VM_LANG->_('VM_FLYPAGE_ENLARGE_IMAGE');
+					
 					$product_image = $this->getLightboxImageLink( $link, $text, $product['product_name'], 'product'.$product['product_id'] );
 				}
 				elseif( @$_REQUEST['output'] != "pdf" ) {

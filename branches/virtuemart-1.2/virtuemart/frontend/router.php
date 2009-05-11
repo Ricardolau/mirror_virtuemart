@@ -368,6 +368,7 @@ function getCategoryRecurse($category_id,$first ) {
 	if($first) {
 		$idsArr = array();
 	}
+	//
 	$db			= & JFactory::getDBO();	
 	$q = "SELECT category_child_id AS child, category_parent_id AS parent
 			FROM  #__vm_category_xref AS xref

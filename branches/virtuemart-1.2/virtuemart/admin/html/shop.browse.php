@@ -463,7 +463,7 @@ else {
 			$tpl->set( 'product_in_stock', $db_browse->f('product_in_stock') );
 			$tpl->set( 'ps_product_attribute', $ps_product_attribute );
 			$tpl->set( 'ps_product', $ps_product );
-			$tpl->set('call_for_pricing',($product_price != "" && !stristr( $product_price, $VM_LANG->_('PHPSHOP_PRODUCT_CALL') )) ? false : true);			
+			$tpl->set('call_for_pricing',($product_price != "" && !stristr( $product_price, $VM_LANG->_('VM_PRODUCT_CALL') )) ? false : true);			
 			$products[$i]['form_addtocart'] = $tpl->fetch( 'browse/includes/addtocart_form.tpl.php' );
 			$products[$i]['has_addtocart'] = true;
 		}

@@ -7,11 +7,12 @@ mm_showMyFileName(__FILE__);
 // This function lists all product children ( = Items)
 // or, when not children are defined, the product_id
 // SO LEAVE THIS IN HERE!
+
 list($html,$children) = $ps_product_attribute->list_attribute( ( $product_parent_id > 0 )  ? $product_parent_id : $product_id );
 
 if ($children != "multi") { 
 
-    if( CHECK_STOCK == '1' && !$product_in_stock ) {
+    if( CHECK_STOCK == '1' && !$product_in_stock && $children != "list") {
      	$notify = true;
     } else {
     	$notify = false;
@@ -23,20 +24,19 @@ if ($children != "multi") {
 <?php
 }
 echo $html;
-
 if (USE_AS_CATALOGUE != '1' && $product_price != "" && !stristr( $product_price, $VM_LANG->_('VM_PRODUCT_CALL') )) {
 	?>
         <?php if ($children != "multi") { ?> 
     <div style="float: right;vertical-align: middle;"> <?php 
     if ($children == "drop") { 
-    	echo $ps_product_attribute->show_quantity_box($product_id,$product_id);
+    	echo $ps_product_attribute->show_quantity_box($product_parent_id,$product_id,null,"Y");
     } 
     if ($children == "radio") {
 		echo $ps_product_attribute->show_radio_quantity_box();
     }
     $button_lbl = $VM_LANG->_('VM_CART_ADD_TO');
     $button_cls = 'addtocart_button';
-    if( CHECK_STOCK == '1' && !$product_in_stock ) {
+    if( CHECK_STOCK == '1' && !$product_in_stock && $children != "list") {
      	$button_lbl = $VM_LANG->_('VM_CART_NOTIFY');
      	$button_cls = 'notify_button';
     }

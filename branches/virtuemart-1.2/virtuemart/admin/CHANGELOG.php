@@ -33,6 +33,15 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+11.05.2009 macallf
++ favourites (Partial implementation)
++ router.php for Joomla sef
+^ change shop.product_details.php so that previous/next has full url including category
+^ Change mootools control to theme.php
++ 2561 Stock level indicator 
+^ 2562 Child product display modifications
+^ 2569 Browse page improvements
+
 10.05.2009 aravot
 # BUG #2611 - Changed _PSHOP_ADMIN to _VM_IS_BACKEND
 

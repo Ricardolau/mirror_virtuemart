@@ -6,7 +6,7 @@
 */
 
 /* General Shop Styles here please */
-.addtocart_button, .notify_button {
+.addtocart_button, .notify_button,.details_button,.options_button {
 	text-align:center;
 	background-position:bottom left;
 	width:160px;height:30px;
@@ -23,6 +23,35 @@
 .notify_button {
 	background: url( 'images/notify_blue.gif' ) no-repeat  center transparent;
 }
+.details_button {
+	background: url( 'images/add-to-cart-details.gif' ) no-repeat  center transparent;
+}
+.options_button {
+	background: url( 'images/add-to-cart-options.gif' ) no-repeat  center transparent;
+}
+.stock_low, .stock_ok, .stock_out {
+	text-align:left;
+	background-position: middle right;
+	width:140px;height:16px;
+	border: none;
+	font-weight:normal;
+	font-family:inherit;
+	vertical-align: middle;
+	overflow:hidden;
+	margin-left: 0;
+	margin-right: 0;
+	float: left;
+}
+.stock_low {
+	background: url( 'images/lowstock.gif' ) no-repeat  center transparent;
+}
+.stock_ok {
+	background: url( 'images/normalstock.gif' ) no-repeat  center transparent;
+}
+.stock_out {
+	background: url( 'images/nostock.gif' ) no-repeat  center transparent;
+}
+
 .addtocart_button_module {
 	text-align:center;
 	background-position:bottom left;
@@ -508,3 +537,49 @@ ul.pagination li {
 	background: none;
 }
 .clr { clear: both; overflow:hidden; }
+.VMtooltip-tip {
+   float: left;
+   background: #E2E7FF;
+   border: 1px solid #003099;
+   padding: 5px;
+   max-width: 310px;
+}
+ 
+.VMtooltip-title {
+   padding: 0;
+   margin: 0;
+   font-size: 100%;
+   font-weight: bold;
+   margin: -5px -5px 5px -5px;
+  padding-left: 2px;
+   background: #003099 ;
+   color: white;
+}
+ 
+.VMtooltip-text {
+   font-size: 100%;
+   margin: 0;
+}
+.stockImageTip-tip {
+   float: left;
+   background: #ffc;
+   border: 1px solid #D4D5AA;
+   padding: 5px;
+   max-width: 310px;
+}
+ 
+.stockImageTip-title {
+   padding: 0;
+   margin: 0;
+   font-size: 100%;
+   font-weight: bold;
+   margin-top: -15px;
+   padding-top: 15px;
+   padding-bottom: 5px;
+   background: url(images/selector-arrow.png) no-repeat;
+}
+ 
+.stockImageTip-text {
+   font-size: 100%;
+   margin: 0;
+}

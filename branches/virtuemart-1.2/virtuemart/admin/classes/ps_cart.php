@@ -108,10 +108,10 @@ class ps_cart {
 			if( !empty( $d['product_id'])){
 				require_once(CLASSPATH.'ps_product.php');
 				$vendor_id = ps_product::get_vendor_id_ofproduct($d['product_id']);
-				$GLOBALS['vmLogger']->info( '$cart_vendor_id should be set to '.$vendor_id);
+				//$GLOBALS['vmLogger']->info( '$cart_vendor_id should be set to '.$vendor_id);
 				if(isset($vendor_id )) {
 					if(empty($cart_vendor_id)){
-						$GLOBALS['vmLogger']->debug( 'Set cart[cart_vendor_id] to '.$vendor_id);
+						//$GLOBALS['vmLogger']->debug( 'Set cart[cart_vendor_id] to '.$vendor_id);
 						$cart['cart_vendor_id'] = $vendor_id;
 					}else{
 						if($cart_vendor_id!=$vendor_id){
@@ -154,11 +154,16 @@ class ps_cart {
 			}
 		}
 		//Check to see if a prod_id has been set
-		if (!isset($d["prod_id"])) {
+		if (!isset(@$d["prod_id"])) {
 			return true;
 		}
 		$multiple_products = sizeof($d["prod_id"]);
 		//Iterate through the prod_id's and perform an add to cart for each one
+		if($d["overide_error"]) {
+			$_REQUEST['flypage'] = ps_product::get_flypage($product_id);
+			$GLOBALS['page'] = 'shop.product_details';
+			return true;
+		}
 		for ($ikey = 0; $ikey < $multiple_products; $ikey++) {
 
 			// Create single array from multi array

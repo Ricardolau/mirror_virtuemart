@@ -37,6 +37,9 @@ mm_showMyFileName(__FILE__);
             <?php echo $product_s_desc ?>&nbsp;
 			<a href="<?php echo $product_flypage ?>" title="<?php echo $product_name ?>"><?php echo $product_details ?>&nbsp;<strong><?php echo $product_name ?></strong></a>        </div>
         <br />
+        <div >
+    		<?php echo $stock_level ?>
+    	</div>
         <span class="browseAddToCartContainer">
         <?php echo $form_addtocart ?>
         </span>

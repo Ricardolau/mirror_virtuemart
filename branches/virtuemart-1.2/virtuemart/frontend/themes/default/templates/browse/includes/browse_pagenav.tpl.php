@@ -9,7 +9,7 @@ mm_showMyFileName(__FILE__); ?>
 		<br/><br/>
 		<form action="<?php echo $search_string ?>" method="post">
 			<?php echo $VM_LANG->_('PN_DISPLAY_NR') ?>&nbsp;&nbsp;
-			<?php $pagenav->writeLimitBox( $search_string ); ?>
+			<?php $pagenav->writeLimitBox( $search_string,$category_id ); ?>
 			
 			<noscript><input class="button" type="submit" value="<?php echo $VM_LANG->_('VM_SUBMIT') ?>" /></noscript>
 		

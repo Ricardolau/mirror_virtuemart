@@ -24,5 +24,6 @@ mm_showMyFileName(__FILE__);
       <a href="<?php echo $product_flypage ?>" title="<?php echo $product_name ?>"><?php echo $product_details ?>&nbsp;<strong><?php echo $product_name ?></strong></a>
   </p>
    <p><?php echo $product_rating ?></p>
+   <p><?php echo $stock_level ?></p>
   <p><?php echo $form_addtocart ?></p>
 </div>

@@ -35,7 +35,7 @@ $discounted = vmGet($_REQUEST, 'discounted', 'N' );
 // These are the names of all fields we fetch data from
 $fieldnames = "`product_name`,`products_per_row`,`category_browsepage`,`category_flypage`,`#__{vm}_category`.`category_id`,
 				`#__{vm}_product`.`product_id`,`product_full_image`,`product_thumb_image`,`product_s_desc`,`product_parent_id`,`product_publish`,`product_in_stock`,`product_sku`, `product_url`,
-				`product_weight`,`product_weight_uom`,`product_length`,`product_width`,`product_height`,`product_lwh_uom`,`product_in_stock`,`product_available_date`,`product_availability`,`#__{vm}_product`.`mdate`, `#__{vm}_product`.`cdate`, `#__{vm}_product`.`product_sales`";
+				`product_weight`,`product_weight_uom`,`product_length`,`product_width`,`product_height`,`product_lwh_uom`,`product_in_stock`,`low_stock_notification`,`product_available_date`,`product_availability`,`#__{vm}_product`.`mdate`, `#__{vm}_product`.`cdate`, `#__{vm}_product`.`product_sales`";
 $count_name = "COUNT(DISTINCT `#__{vm}_product`.`product_sku`) as num_rows";
 $table_names = '`#__{vm}_product`, `#__{vm}_category`, `#__{vm}_product_category_xref`,`#__{vm}_shopper_group`';
 

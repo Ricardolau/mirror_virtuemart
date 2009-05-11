@@ -33,4 +33,10 @@ mm_showMyFileName(__FILE__);
   <tr>
     <td ><?php echo $product_rating ?></td>
   </tr>
+  <tr>
+    <td ><?php echo $stock_level ?></td>
+  </tr>
+  <tr>
+    <td ><?php echo $form_addtocart ?></td>
+  </tr>
 </table>

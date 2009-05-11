@@ -56,16 +56,21 @@ if( $this->get_cfg( 'product_navigation', 1 )) {
 	  </td>
 	</tr>
 	<tr>
+	<td colspan="3" align="right">
+		<?php echo $favouriteButton; ?>
+	</td>
+	<tr>
 	  <td><?php
 	  		if( $this->get_cfg( 'showAvailability' )) {
 	  			echo $product_availability;
 	  		}
+	  		echo $stock_level;
 	  		?><br />
 	  </td>
 	  <td colspan="2"><br /><?php echo $addtocart ?></td>
 	</tr>
 	<tr>
-	  <td colspan="3"><?php echo $product_type ?></td>
+	  <td colspan="3"><?php echo $Standard ?></td>
 	</tr>
 	<tr>
 	  <td colspan="3"><hr /><?php echo $product_reviews ?></td>

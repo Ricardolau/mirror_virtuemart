@@ -711,7 +711,6 @@ class ps_product_type {
 			while ($dba->next_record()) {				
                 $product_type[$product_type_name."_".$dba->f("parameter_name")."_label"] = "";
                 $product_type[$product_type_name."_".$dba->f("parameter_name")."_desc"] = "";
-                $product_type[$product_type_name."_".$dba->f("parameter_name")."_tooltip"] = "";
                 $product_type[$product_type_name."_".$dba->f("parameter_name")] = "";
             }
         }
@@ -741,9 +740,6 @@ class ps_product_type {
 			while ($dba->next_record()) {
 				$parameter_name = $dba->f("parameter_name");
 				$parameter_description = $dba->f("parameter_description");
-				if (!empty($parameter_description)) {
-					$html = vmToolTip($parameter_description, $VM_LANG->_('VM_PRODUCT_TYPE_PARAMETER_FORM_DESCRIPTION'));
-				}
 				$product_type[$product_type_name."_".$parameter_name."_label"] = $dba->f("parameter_label");
 				$product_type[$product_type_name."_".$parameter_name."_desc"] = $parameter_description;
                 $product_type[$product_type_name."_".$parameter_name."_tooltip"] = $html;
@@ -755,7 +751,7 @@ class ps_product_type {
 						$custom_parameters[$parameter_count]["parameter_value"] =	$dbp->f($dba->f("parameter_name"));
 						$custom_parameters[$parameter_count]["parameter_unit"] =	$dba->f("parameter_unit");
 						$custom_parameters[$parameter_count]["parameter_description"] = $parameter_description;
-						$custom_parameters[$parameter_count]["parameter_tooltip"] = $html;
+						
 						$custom_parameters[$parameter_count]["parameter_label"] =	$dba->f("parameter_label");
 						$custom_parameters[$parameter_count]["parameter_name"] =	$dba->f("parameter_name");
 						$parameter_count++;	

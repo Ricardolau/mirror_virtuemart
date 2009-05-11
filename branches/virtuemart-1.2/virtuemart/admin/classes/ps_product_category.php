@@ -287,6 +287,10 @@ class ps_product_category extends vmAbstractObject {
 										'category_flypage' => vmGet( $d, 'category_flypage' ),
 										'category_thumb_image' => vmGet( $d, 'category_thumb_image' ),
 										'category_full_image' => vmGet( $d, 'category_full_image' ),
+										'limit_list_start' => vmGet( $d, 'limit_list_start' ),
+										'limit_list_step' => vmGet( $d, 'limit_list_step' ),
+										'limit_list_max' => vmGet( $d, 'limit_list_max' ),
+										'limit_list_initial' => vmGet( $d, 'limit_list_initial' ),
 										'cdate' => $timestamp,
 										'mdate' => $timestamp,
 										'list_order' => $list_order,
@@ -351,6 +355,10 @@ class ps_product_category extends vmAbstractObject {
 										'category_flypage' => vmGet( $d, 'category_flypage' ),
 										'category_thumb_image' => vmGet( $d, 'category_thumb_image' ),
 										'category_full_image' => vmGet( $d, 'category_full_image' ),
+										'limit_list_start' => vmGet( $d, 'limit_list_start' ),
+										'limit_list_step' => vmGet( $d, 'limit_list_step' ),
+										'limit_list_max' => vmGet( $d, 'limit_list_max' ),
+										'limit_list_initial' => vmGet( $d, 'limit_list_initial' ),
 										'mdate' => $timestamp,
 										'list_order' => vmRequest::getInt('list_order'),
 									);
@@ -504,6 +512,7 @@ class ps_product_category extends vmAbstractObject {
 		$vmLogger->info( $VM_LANG->_('VM_PRODUCT_CATEGORY_DELETED').": $record_id." );
 		return True;
 	}
+	
 	function get_field( $category_id, $field_name ) {
 		if( $category_id == 0 ) return '';
 		$db = new ps_DB;
@@ -1496,6 +1505,21 @@ class ps_product_category extends vmAbstractObject {
 			$i++;
 			
 		}
+	}
+	
+	function getMaxDisplayRecords($category_id) {
+		return ps_product_category::get_field($category_id,'limit_list_initial') ? ps_product_category::get_field($category_id,'limit_list_initial') : null;
+		
+	}
+	
+	function get_category_row_limits($category_id) {
+		$start = ps_product_category::get_field($category_id,'limit_list_start') ? ps_product_category::get_field($category_id,'limit_list_start') : 5;
+		$step = ps_product_category::get_field($category_id,'limit_list_step') ? ps_product_category::get_field($category_id,'limit_list_step') : 5;
+		$maxrecs = ps_product_category::get_field($category_id,'limit_list_max')? ps_product_category::get_field($category_id,'limit_list_max') : 30;
+		$limit_list = array("start_record" => $start,
+                   "record_max"  => $maxrecs,
+                   "step_record" => $step);
+		return $limit_list;
 	}
 
 }

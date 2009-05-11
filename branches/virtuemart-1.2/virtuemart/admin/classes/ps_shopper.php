@@ -343,9 +343,9 @@ class ps_shopper {
 				}
 				$db->query('SELECT `id` FROM `#__users` WHERE `username`="'.$d['username'].'"');
 				$db->next_record();
-
-				$GLOBALS['vmLogger']->info('$uid '.$uid.' und username: '.$d['username'].' $db->f("id"): '.$db->f('id'));
 				$uid = $db->f('id');
+				$GLOBALS['vmLogger']->info('$uid '.$uid.' und username: '.$d['username'].' $db->f("id"): '.$db->f('id'));
+				
  			}
 		}
 		else {
@@ -477,19 +477,19 @@ class ps_shopper {
 				$mainframe->login($d['username'], md5( $d['password'] ));
 			}
 			// Redirect to the Checkout Page if the cart is not empty
-			if( !empty( $_SESSION['cart']['idx'])) {
-				$redirect_to_page = 'checkout.index';
-			} else {
-				$redirect_to_page = HOMEPAGE;
-			}
+			//if( !empty( $_SESSION['cart']['idx'])) {
+				$redirect_to_page = $d['page'];//checkout.index';
+			//} else {
+			//	$redirect_to_page = HOMEPAGE;
+			//}
 			vmRedirect( $sess->url( 'index.php?page='.$redirect_to_page, false, false ), $VM_LANG->_('REG_COMPLETE') );
 		}
 
 		if( !empty($my->id) || !empty($auth['user_id']) ) {
-			vmRedirect( $sess->url( 'index.php?page=checkout.index', false, false ) );
+			vmRedirect( $sess->url( 'index.php?page='.$d['page'], false, false ) );
 		}
 		else {
-			$GLOBALS['page'] = 'shop.cart';
+			//$GLOBALS['page'] = 'shop.cart';
 			$msg = strip_tags( $VM_LANG->_('REG_COMPLETE_ACTIVATE',false) );
 			$vmLogger->info( $msg );
 		}

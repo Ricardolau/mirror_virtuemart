@@ -35,8 +35,18 @@ if( vmIsJoomla('1.0') && mosGetParam($_REQUEST,'option') != VM_COMPONENT_NAME) {
 class vmTheme extends vmTemplate  {
 	
 	function vmTheme() {
+		global $mosConfig_live_site, $vm_mainframe, $VM_LANG;
+
 		parent::vmTemplate();
-		vmCommonHTML::loadMooTools();
+		if( !defined( "_MOOTOOLS_LOADED" )) {
+			JHTML::_("behavior.mootools");
+			$document =& JFactory::getDocument();
+			$document->addScriptDeclaration('var cart_title = "'.$VM_LANG->_('PHPSHOP_CART_TITLE').'";var ok_lbl="'.$VM_LANG->_('CMN_CONTINUE').'";var cancel_lbl="'.$VM_LANG->_('CMN_CANCEL').'";var notice_lbl="'.$VM_LANG->_('PEAR_LOG_NOTICE').'";var live_site="'.$mosConfig_live_site.'";' );
+			$document->addScript(VM_THEMEURL.'js/mootools/mooPrompt.js');
+			$document->addStyleSheet(VM_THEMEURL.'js/mootools/mooPrompt.css');
+			define ("_MOOTOOLS_LOADED","1");
+		}
+		//vmCommonHTML::loadMooTools();
 	}
 	
 	function vmBuildFullImageLink( $product ) {
@@ -82,9 +92,8 @@ class vmTheme extends vmTemplate  {
 				/* Build the "See Bigger Image" Link */
 				if( @$_REQUEST['output'] != "pdf" && $this->get_cfg('useLightBoxImages', 1 ) ) {
 					$link = $imageurl;
-					$text = ps_product::image_tag($product['product_thumb_image'], $img_attributes, 0)."<br/>".$VM_LANG->_('VM_FLYPAGE_ENLARGE_IMAGE');
-
-					$product_image = vmCommonHTML::getLightboxImageLink( $link, $text, $product['product_name'], 'product'.$product['product_id'] );
+$text = ps_product::image_tag($product['product_full_image'], $img_attributes, 1,null,200,200,true)."<br/>".$VM_LANG->_('VM_FLYPAGE_ENLARGE_IMAGE');
+					$product_image = $this->getLightboxImageLink( $link, $text, $product['product_name'], 'product'.$product['product_id'] );
 				}
 				elseif( @$_REQUEST['output'] != "pdf" ) {
 					$link = $imageurl;
@@ -118,7 +127,7 @@ class vmTheme extends vmTemplate  {
 			$fulladdress = $sess->url( 'index2.php?page=shop.view_images&amp;image_id='.$image->file_id.'&amp;product_id='.$product_id.'&amp;pop=1' );
 			
 			if( $this->get_cfg('useLightBoxImages', 1 )) {
-				$html .= vmCommonHTML::getLightboxImageLink( $image->file_url, $thumbtag, $title ? $title : $image->file_title, 'product'.$product_id );
+				$html .= $this->getLightboxImageLink( $image->file_url, $thumbtag, $title ? $title : $image->file_title, 'product'.$product_id );
 			}
 			else {
 				$html .= vmPopupLink( $fulladdress, $thumbtag, 640, 550 );
@@ -145,6 +154,55 @@ class vmTheme extends vmTemplate  {
 
 	
 	// Your code here please...
+	/**
+	 * Function to load the javascript and stylsheet files for Slimbox,
+	 * a Lightbox derivate with mootools and prototype.lite
+	 * @author http://www.digitalia.be/software/slimbox
+	 *
+	 * @param boolean $print
+	 */
+	function loadSlimBox( ) {
+		global $mosConfig_live_site, $vm_mainframe;
+		if( !defined( '_SLIMBOX_LOADED' )) {
+
+			JHTML::_("behavior.mootools");
+
+						JHTML::_("behavior.mootools");
+			$document =& JFactory::getDocument();
+			$document->addScriptDeclaration('var slimboxurl = \''.VM_THEMEURL.'js/slimbox/\';' );
+			$document->addScript(VM_THEMEURL.'js/slimbox/js/slimbox.js');
+			$document->addStyleSheet(VM_THEMEURL.'js/slimbox/css/slimbox.css');
+			
+			//$vm_mainframe->addScriptDeclaration( 'var slimboxurl = \''.$mosConfig_live_site.'/components/'. VM_COMPONENT_NAME .'/js/slimbox/\';');
+			//$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/slimbox/js/slimbox.js' );
+			//$vm_mainframe->addStyleSheet( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/slimbox/css/slimbox.css' );
+
+			define ( '_SLIMBOX_LOADED', '1' );
+		}
+	}
+
+	/**
+	 * Returns a properly formatted image link that opens a LightBox2/Slimbox
+	 *
+	 * @param string $image_link Can be the image src or a complete image tag
+	 * @param string $text The Link Text, e.g. 'Click here!'
+	 * @param string $title The Link title, will be used as Image Caption
+	 * @param string $image_group The image group name when you want to use the gallery functionality
+	 * @param string $mootools Set to 'true' if you're using slimbox or another MooTools based image viewing library
+	 * @return string
+	 */
+	function getLightboxImageLink( $image_link, $text, $title='', $image_group='' ) {
+
+		$this->loadSlimBox();
+
+		if( $image_group ) {
+			$image_group = '['.$image_group.']';
+		}
+		$link = vmCommonHTML::hyperLink( $image_link, $text, '', $title, 'rel="lightbox'.$image_group.'"' );
+
+		return $link;
+	}
+
 
 }
 ?>

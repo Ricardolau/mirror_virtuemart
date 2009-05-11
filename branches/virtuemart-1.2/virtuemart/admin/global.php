@@ -202,13 +202,14 @@ if( vmShouldDebug() ) {   /*@MWM1: Log/Debug enhancements */
 //In the most cases a shop with vendors will use a standard currency anyway.
 
 $mainvendor = 1;
-$db = ps_vendor::get_vendor_fields($mainvendor,array('vendor_currency', 'vendor_currency_display_style','vendor_accepted_currencies'));
+$db = ps_vendor::get_vendor_fields($mainvendor,array('vendor_currency', 'vendor_currency_display_style','vendor_accepted_currencies','vendor_store_desc'));
 if(!empty($db)){
 	$vendor_currency = $db->f("vendor_currency");
 	$_SESSION["vendor_currency"] = $vendor_currency;
 
 	$vendor_currency_display_style = $db->f("vendor_currency_display_style");
 	$vendor_accepted_currencies = $db->f("vendor_accepted_currencies");
+	$vendor_store_desc = $db->f("vendor_store_desc");
 }
 
 

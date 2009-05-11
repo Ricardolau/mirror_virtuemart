@@ -24,7 +24,7 @@ if( vmIsJoomla( '1.5' ) ) {
 
 	// Return URL
 	$uri = JFactory::getURI();
-	$url = $uri->toString();
+	$url = $uri->toString(array('path', 'query', 'fragment'));
 	$return_url = base64_encode( $url );
 
 	// Set the validation value

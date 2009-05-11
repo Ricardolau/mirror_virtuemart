@@ -43,32 +43,44 @@ class vmPageNav {
    * Writes the html limit # input box
    * Modified by shumisha to handle SEF URLs 2008-06-28
    */
-  function writeLimitBox ( $link = '') {
-    echo $this->getLimitBox( $link);
+  function writeLimitBox ( $link = '',$category_id = null) {
+    echo $this->getLimitBox( $link, $category_id);
   }
   /**
    * Modified by shumisha to handle SEF URLs 2008-06-28
    * @return string The html for the limit # input box
    */
-  function getLimitBox ( $link = '') {
+  function getLimitBox ( $link = '', $category_id = null) {
     $limits = array();
 
     if (!empty($link) && strpos( 'limitstart=', $link) === false) {  // insert limitstart in url if missing // shumisha
       $link .= '&limitstart='.$this->limitstart;
     }
-    for ($i=5; $i <= 30; $i+=5) {
+    if($category_id) {
+    	$limit_list = ps_product_category::get_category_row_limits($category_id);
+    	extract($limit_list);
+    } else {
+    	$start_record = 5;
+    	$record_max = 30;
+    	$step_record = 5;
+    }
+    $max = $record_max;// ? $record_max : intval(50 / $start_record) * $start_record;
+    for($i=$start_record; $i <= $max; $i+=$step_record) {
       if (empty( $link)) {
         $limits[$i] = $i;
       } else {
         $limits[vmRoute($link.'&limit='.$i)] = $i;
       }
     }
+    
     if (empty( $link)) {
-      $limits[50] = 50;
+      $limits[$max] = $max;
+      $limits[0] = 'All';
     } else {
-      $limits[vmRoute($link.'&limit=50')] = 50;
+      $limits[vmRoute($link.'&limit='.$max)] = $max;
+      $limits[vmRoute($link.'&limit=0')] = 'All';
     }
-
+	if($this->limit == 1) $this->limit = 0;
     // build the html select list
     if (empty( $link)) {
     $html = ps_html::selectList( 'limit', $this->limit, $limits, 1, '',  'onchange="this.form.submit();"' );

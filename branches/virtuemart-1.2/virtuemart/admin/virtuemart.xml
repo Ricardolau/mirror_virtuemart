@@ -35,6 +35,7 @@
 			<filename>compat.joomla1.5.php</filename>
 			<filename>COPYRIGHT.php</filename>
 			<filename>global.php</filename>
+			<filename>header.php</filename>
 			<filename>index.html</filename>
 			<filename>install.css</filename>
 			<filename>install.copy.php</filename>
@@ -47,6 +48,8 @@
 			<filename>virtuemart.cfg-dist.php</filename>
 			<filename>Tar.php</filename>
 			<filename>TODO.php</filename>
+			<filename>toolbar.html.php</filename>
+			<filename>toolbar.php</filename>
 			<filename>toolbar.virtuemart.html.php</filename>
 			<filename>toolbar.virtuemart.php</filename>
 			<filename>version.php</filename>

@@ -168,7 +168,7 @@ $next_product = $neighbors['next'];
 $previous_product = $neighbors['previous'];
 $next_product_url = $previous_product_url = '';
 if( !empty($next_product) ) {
-	$url_parameters = 'page=shop.product_details&product_id='.$next_product['product_id'].'&flypage='.$ps_product->get_flypage($next_product['product_id']).'&pop='.$pop;
+	$url_parameters = 'page=shop.product_details&category_id='.$category_id.'&product_id='.$next_product['product_id'].'&flypage='.$ps_product->get_flypage($next_product['product_id']).'&pop='.$pop;
     if( $manufacturer_id ) {
     	$url_parameters .= "&amp;manufacturer_id=" . $manufacturer_id;
     }
@@ -182,7 +182,7 @@ if( !empty($next_product) ) {
 	}
 }
 if( !empty($previous_product) ) {
-	$url_parameters = 'page=shop.product_details&product_id='.$previous_product['product_id'].'&flypage='.$ps_product->get_flypage($previous_product['product_id']).'&pop='.$pop;
+	$url_parameters = 'page=shop.product_details&category_id='.$category_id.'&product_id='.$previous_product['product_id'].'&flypage='.$ps_product->get_flypage($previous_product['product_id']).'&pop='.$pop;
     if( $manufacturer_id ) {
     	$url_parameters .= "&amp;manufacturer_id=" . $manufacturer_id;
     }
@@ -406,6 +406,14 @@ if(is_array($product_type) && !empty($product_type)) {
 }
 
 $recent_products = $ps_product->recentProducts($product_id,$tpl->get_cfg('showRecent', 5));
+$tpl->set( 'flypage', $flypage );
+if($my->id && $ps_product->favouritesButton($product_id)) {
+	// Already Added so indicate that it's already added
+	$tpl->set("favouriteButton", $tpl->fetch('common/favouritesAdded.tpl.php')) ;
+} else {
+	// Not logged in so have to show add to favourites
+	$tpl->set("favouriteButton", $tpl->fetch('common/favourites.tpl.php')) ;
+}
 /**
 * This has changed since VM 1.1.0
 * Now we have a template object that can use all variables
@@ -435,7 +443,7 @@ foreach( $productArray as $property => $value ) {
 // Assemble the thumbnail image as a link to the full image
 // This function is defined in the theme (theme.php)
 $product_image = $tpl->vmBuildFullImageLink( $productArray );
-
+$tpl->set('stock_level', $ps_product->stockIndicator($db_product->f("product_in_stock"),$db_product->f("low_stock_notification"),$product_id,"detail"));
 $tpl->set( "product_id", $product_id );
 $tpl->set( "product_name", $product_name );
 $tpl->set( "product_image", $product_image );
@@ -457,7 +465,7 @@ $tpl->set( "product_vendor_store_name", $product_vendor_store_name );
 
 /* ADD-TO-CART */
 $tpl->set( 'manufacturer_id', $manufacturer_id );
-$tpl->set( 'flypage', $flypage );
+
 $tpl->set( 'ps_product_attribute', $ps_product_attribute );
 $addtocart = $tpl->fetch('product_details/includes/addtocart_form.tpl.php' );
 

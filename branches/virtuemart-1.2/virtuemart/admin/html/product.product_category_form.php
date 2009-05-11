@@ -111,6 +111,31 @@ $tabs->startTab( "<img src='". IMAGEURL ."ps_image/edit.png' align='absmiddle' w
       <input type="text" class="inputbox" size="3" name="products_per_row" value="<?php $db->sp("products_per_row"); ?>" />
       </td>
     </tr>
+    
+    <tr>
+      <td ><div align="right"><?php echo $VM_LANG->_('VM_CATEGORY_FORM_LIMIT_LIST_START'); ?>: </div></td>
+      <td valign="top">
+      <input type="text" class="inputbox" size="3" name="limit_list_start" value="<?php $db->sp("limit_list_start"); ?>" />
+      </td>
+    </tr>
+    <tr>
+      <td ><div align="right"><?php echo $VM_LANG->_('VM_CATEGORY_FORM_LIMIT_LIST_STEP'); ?>: </div></td>
+      <td valign="top">
+      <input type="text" class="inputbox" size="3" name="limit_list_step" value="<?php $db->sp("limit_list_step"); ?>" />
+      </td>
+    </tr>
+    <tr>
+      <td ><div align="right"><?php echo $VM_LANG->_('VM_CATEGORY_FORM_LIMIT_LIST_MAX'); ?>: </div></td>
+      <td valign="top">
+      <input type="text" class="inputbox" size="3" name="limit_list_max" value="<?php $db->sp("limit_list_max"); ?>" />
+      </td>
+    </tr>
+    <tr>
+      <td ><div align="right"><?php echo $VM_LANG->_('VM_CATEGORY_FORM_INITIAL_DISPLAY_RECORDS'); ?>: </div></td>
+      <td valign="top">
+      <input type="text" class="inputbox" size="3" name="limit_list_initial" value="<?php $db->sp("limit_list_initial"); ?>" />
+      </td>
+    </tr>    
     <tr>
       <td><div align="right"><?php echo $VM_LANG->_('VM_CATEGORY_FORM_BROWSE_PAGE'); ?>: </div></td>
       <td valign="top">

@@ -37,8 +37,30 @@ $keyword2 = $vmInputFilter->safeSQL( urldecode(vmGet( $_REQUEST, 'keyword2', nul
 $search_op= $vmInputFilter->safeSQL( vmGet( $_REQUEST, 'search_op', null ));
 $search_limiter= $vmInputFilter->safeSQL( vmGet( $_REQUEST, 'search_limiter', null ));
 
-if (empty($category_id)) $category_id = $search_category;
+$limit = $vmInputFilter->safeSQL( vmGet( $_REQUEST, 'limit', null ));
 
+if (empty($category_id)) { 
+	$category_id = $search_category;
+} else {
+	//we have a category_id so get the current page from session variables
+	if(is_null($limit) && @$_SESSION['limit'][$category_id]) {
+		$limit = $_SESSION["limit"][$category_id];
+	} 
+	if(!$limitstart && @$_SESSION['limitstart'][$category_id]) {
+		$limitstart = $_SESSSION['limitstart'][$category_id];
+	}
+	
+}
+if(!@$_SESSION["firstlimit"][$category_id] ) {
+	//If limit is null, check to see if we have set max amount of records to display
+	$maxDisplay = ps_product_category::getMaxDisplayRecords($category_id);
+	if(!is_null($maxDisplay)) {
+		$limit = $maxDisplay;
+	}
+}
+$_SESSION["limit"][$category_id] = $limit;
+$_SESSION["limitstart"][$category_id] = $limistart;
+$_SESSION["firstlimit"][$category_id] = true;
 $default['category_flypage'] = FLYPAGE;
 
 $db_browse = new ps_DB;
@@ -91,7 +113,8 @@ elseif( $num_rows == 1 && ( !empty($keyword) || !empty($keyword1) ) ) {
 else {
 	// NOW START THE PRODUCT LIST
 	$tpl = vmTemplate::getInstance();
-
+	$buttons_header = $tpl->fetch( 'common/buttons.tpl.php' );
+	$tpl->set('buttons_header',$buttons_header);
 	if( $category_id ) {
 		/**
 	    * CATEGORY DESCRIPTION
@@ -154,22 +177,34 @@ else {
 	}
 	$tpl->set( 'parameter_form', $parameter_form );
 
+	$db_browse->query( $list );
+	$db_browse->next_record();
+
+	$products_per_row = (!empty($category_id)) ? $db_browse->f("products_per_row") : PRODUCTS_PER_ROW;
+
+	if( $products_per_row < 1 ) {
+		$products_per_row = 1;
+	}
+	$tpl->set('products_per_row', $products_per_row );
+	$tpl->set('prodlimit', $limit );
+	
+	// Prepare Page Navigation
+	require_once( CLASSPATH . 'pageNavigation.class.php' );
+	
+	$pagenav = new vmPageNav( $num_rows, $limitstart, $limit );
+	$tpl->set( 'pagenav', $pagenav );
+	
 	// Decide whether to show the limit box
-	$show_limitbox = ( $num_rows > 5 && @$_REQUEST['output'] != "pdf" );
+	$show_limitbox = ( $num_rows > $products_per_row && @$_REQUEST['output'] != "pdf" );
 	$tpl->set( 'show_limitbox', $show_limitbox );
 
 	// Decide whether to show the top navigation
-	$show_top_navigation = ( PSHOP_SHOW_TOP_PAGENAV =='1' && $num_rows > $limit );
+	$show_top_navigation = ( PSHOP_SHOW_TOP_PAGENAV =='1' && $num_rows > $products_per_row );
 	$tpl->set( 'show_top_navigation', $show_top_navigation );
-
-	// Prepare Page Navigation
-	require_once( CLASSPATH . 'pageNavigation.class.php' );
-	$pagenav = new vmPageNav( $num_rows, $limitstart, $limit );
-	$tpl->set( 'pagenav', $pagenav );
 
 	$search_string = '';
 	if ( $num_rows > 1 && @$_REQUEST['output'] != "pdf") {
-		if ( $num_rows > 5 ) { // simplified logic
+		if ( $num_rows > $products_per_row ) { // simplified logic
 			$search_string = $mm_action_url."index.php?option=com_virtuemart&amp;Itemid=$Itemid&amp;category_id=$category_id&amp;page=$modulename.browse";
 			$search_string .= empty($manufacturer_id) ? '' : "&amp;manufacturer_id=$manufacturer_id";
 			$search_string .= empty($keyword) ? '' : '&amp;keyword='.urlencode( $keyword );
@@ -233,16 +268,9 @@ else {
     else {
     	$tpl->set( 'orderby_form', '' );
     }
+	
 
-	$db_browse->query( $list );
-	$db_browse->next_record();
-
-	$products_per_row = (!empty($category_id)) ? $db_browse->f("products_per_row") : PRODUCTS_PER_ROW;
-
-	if( $products_per_row < 1 ) {
-		$products_per_row = 1;
-	}
-	$buttons_header = '';
+	//$buttons_header = '';
 	/**
 	 *   Start caching all product details for a later loop
 	 *
@@ -270,8 +298,7 @@ else {
 	}
 
 	$tpl->set( 'buttons_header', $buttons_header );
-
-	$tpl->set('products_per_row', $products_per_row );
+	
 	$tpl->set('templatefile', $templatefile );
 
 	$db_browse->reset();
@@ -378,7 +405,8 @@ else {
 				$full_image_height = $full_image_info[1]+40;
 			}
 		}
-
+		$products[$i]['product_full_image_no_url'] = $product_full_image;
+		
 		// Get image size information and add the full URL
 		if( substr( $product_full_image, 0, 4) != 'http' ) {
 			// This is a local image
@@ -387,7 +415,8 @@ else {
 				$full_image_width = $full_image_info[0]+40;
 				$full_image_height = $full_image_info[1]+40;
 			}
-
+			$products[$i]['product_full_image_no_url'] = $product_full_image;
+			
 			$product_full_image = IMAGEURL . 'product/' . $product_full_image;
 		} elseif( !isset( $full_image_width ) || !isset( $full_image_height ) ) {
 			// This is a URL image
@@ -422,17 +451,19 @@ else {
 		else {
 			$product_rating = "";
 		}
-
-		// Add-to-Cart Button
-		if (USE_AS_CATALOGUE != '1' && $product_price != ""
-			&& $tpl->get_cfg( 'showAddtocartButtonOnProductList' )
-			&& !stristr( $product_price, $VM_LANG->_('VM_PRODUCT_CALL') )
-			&& !ps_product::product_has_attributes( $db_browse->f('product_id'), true )) {
-
+		// Stock Level Indicator
+		$products[$i]['stock_level'] = $ps_product->stockIndicator($db_browse->f("product_in_stock"),$db_browse->f("low_stock_notification"),$db_browse->f("product_id"));		
+		
+		// Add-to-Cart Button 
+		if (USE_AS_CATALOGUE != '1'  
+			&& $tpl->get_cfg( 'showAddtocartButtonOnProductList' ) ) {
+				
 			$tpl->set( 'i', $i );
 			$tpl->set( 'product_id', $db_browse->f('product_id') );
 			$tpl->set( 'product_in_stock', $db_browse->f('product_in_stock') );
 			$tpl->set( 'ps_product_attribute', $ps_product_attribute );
+			$tpl->set( 'ps_product', $ps_product );
+			$tpl->set('call_for_pricing',($product_price != "" && !stristr( $product_price, $VM_LANG->_('PHPSHOP_PRODUCT_CALL') )) ? false : true);			
 			$products[$i]['form_addtocart'] = $tpl->fetch( 'browse/includes/addtocart_form.tpl.php' );
 			$products[$i]['has_addtocart'] = true;
 		}
@@ -440,7 +471,9 @@ else {
 			$products[$i]['form_addtocart'] = '';
 			$products[$i]['has_addtocart'] = false;
 		}
-
+		if(stristr( $product_price, $VM_LANG->_('VM_PRODUCT_CALL')) && $ps_product->parent_has_children($db_browse->f('product_id'))) {
+			$product_price = '';
+		}
 		$products[$i]['product_flypage'] = $url;
 		$products[$i]['product_thumb_image'] = $product_thumb_image;
 		$products[$i]['product_full_image'] = $product_full_image;

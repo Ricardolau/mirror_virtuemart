@@ -18,7 +18,7 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
 mm_showMyFileName( __FILE__ );
 require_once(CLASSPATH.'ps_checkout.php');
 
-global $acl, $VM_BROWSE_ORDERBY_FIELDS, $VM_MODULES_FORCE_HTTPS, $database, $PSHOP_SHIPPING_MODULES;
+global $acl, $VM_BROWSE_ORDERBY_FIELDS, $VM_MODULES_FORCE_HTTPS, $database;
 if( !isset( $VM_BROWSE_ORDERBY_FIELDS )) { $VM_BROWSE_ORDERBY_FIELDS = array(); }
 if( !isset( $VM_MODULES_FORCE_HTTPS )) { $VM_MODULES_FORCE_HTTPS = array('account','checkout'); }
 if( !isset( $VM_CHECKOUT_MODULES )) {
@@ -65,7 +65,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_GLOBAL'), "global-page");
 		<tr>
 			<td class="labelcell">
 				<label for="conf_PSHOP_IS_OFFLINE"><?php echo $VM_LANG->_('VM_ADMIN_CFG_SHOP_OFFLINE',false) ?></label>
-
+				
 			</td>
 			<td>
 				<input type="checkbox" id="conf_PSHOP_IS_OFFLINE" name="conf_PSHOP_IS_OFFLINE" class="inputbox" <?php if (PSHOP_IS_OFFLINE == 1) echo "checked=\"checked\""; ?> value="1" />
@@ -77,11 +77,11 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_GLOBAL'), "global-page");
 			<td colspan="2">
 				<textarea rows="8" cols="35" name="conf_PSHOP_OFFLINE_MESSAGE"><?php echo shopMakeHtmlSafe(stripslashes(PSHOP_OFFLINE_MESSAGE)); ?></textarea>
 			</td>
-		</tr>
+		</tr>  
 		<tr>
 			<td class="labelcell">
 				<label for="conf_USE_AS_CATALOGUE"><?php echo $VM_LANG->_('VM_ADMIN_CFG_USE_ONLY_AS_CATALOGUE') ?></label>
-
+				
 			</td>
 			<td>
 				<input type="checkbox" id="conf_USE_AS_CATALOGUE" name="conf_USE_AS_CATALOGUE" class="inputbox" <?php if (USE_AS_CATALOGUE == 1) echo "checked=\"checked\""; ?> value="1" />
@@ -92,12 +92,12 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_GLOBAL'), "global-page");
 	</table>
 </fieldset>
 <fieldset style="width:48%;float:right;">
-	<legend><?php echo $VM_LANG->_('VM_ADMIN_CFG_PRICE_CONFIGURATION') ?></legend>
+	<legend><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PRICE_CONFIGURATION') ?></legend>
 	<table class="adminform">
 		<tr>
 			<td class="labelcell">
-				<label for="conf__SHOW_PRICES"><?php echo $VM_LANG->_('VM_ADMIN_CFG_SHOW_PRICES') ?></label>
-
+				<label for="conf__SHOW_PRICES"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_SHOW_PRICES') ?></label>
+				
 			</td>
 			<td>
 				<input type="checkbox" id="conf__SHOW_PRICES" name="conf__SHOW_PRICES" class="inputbox" <?php if (_SHOW_PRICES == 1) echo "checked=\"checked\""; ?> value="1" />
@@ -148,11 +148,10 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_GLOBAL'), "global-page");
 			</td>
 			<td class="iconcell"><?php echo vmToolTip( $VM_LANG->_('VM_ADMIN_CFG_PRICE_SHOW_WITHTAX_TIP') ) ?></td>
 		</tr>
-
 		<tr>
 			<td class="labelcell">
 				<label for="conf_VM_PRICE_SHOW_INCLUDINGTAX"><?php echo $VM_LANG->_('VM_ADMIN_CFG_PRICE_SHOW_INCLUDINGTAX') ?></label>
-
+				
 			</td>
 			<td>
 				<input type="checkbox" id="conf_VM_PRICE_SHOW_INCLUDINGTAX" name="conf_VM_PRICE_SHOW_INCLUDINGTAX" class="inputbox" <?php if (VM_PRICE_SHOW_INCLUDINGTAX == 1) echo "checked=\"checked\""; ?> value="1" />
@@ -163,7 +162,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_GLOBAL'), "global-page");
 			<td class="labelcell">
 				<label for="conf_VM_PRICE_SHOW_PACKAGING_PRICELABEL"><?php echo $VM_LANG->_('VM_ADMIN_CFG_PRICE_SHOW_PACKAGING_PRICELABEL') ?>
 				</label>
-
+				
 			</td>
 			<td>
 				<input type="checkbox" id="conf_VM_PRICE_SHOW_PACKAGING_PRICELABEL" name="conf_VM_PRICE_SHOW_PACKAGING_PRICELABEL" class="inputbox" <?php if (VM_PRICE_SHOW_PACKAGING_PRICELABEL == 1) echo "checked=\"checked\""; ?> value="1" />
@@ -181,7 +180,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_GLOBAL'), "global-page");
 		<tr>
 			<td class="labelcell">
 				<label for="conf_VM_CONTENT_PLUGINS_ENABLE"><?php echo $VM_LANG->_('VM_CFG_CONTENT_PLUGINS_ENABLE') ?></label>
-
+				
 			</td>
 			<td>
 				<input type="checkbox" id="conf_VM_CONTENT_PLUGINS_ENABLE" name="conf_VM_CONTENT_PLUGINS_ENABLE" class="inputbox" <?php if (@VM_CONTENT_PLUGINS_ENABLE == '1') echo "checked='checked'"; ?> value="1" />
@@ -192,7 +191,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_GLOBAL'), "global-page");
 		<tr>
 			<td class="labelcell">
 				<label for="conf_PSHOP_COUPONS_ENABLE"><?php echo $VM_LANG->_('VM_COUPONS_ENABLE') ?></label>
-
+				
 			</td>
 			<td>
 				<input type="checkbox" id="conf_PSHOP_COUPONS_ENABLE" name="conf_PSHOP_COUPONS_ENABLE" class="inputbox" <?php if (PSHOP_COUPONS_ENABLE == '1') echo "checked='checked'"; ?> value="1" />
@@ -203,7 +202,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_GLOBAL'), "global-page");
 		<tr>
 			<td class="labelcell">
 				<label for="conf_PSHOP_ALLOW_REVIEWS"><?php echo $VM_LANG->_('VM_ADMIN_CFG_REVIEW') ?></label>
-
+				
 			</td>
 			<td>
 				<input type="checkbox" id="conf_PSHOP_ALLOW_REVIEWS" name="conf_PSHOP_ALLOW_REVIEWS" class="inputbox" <?php if (PSHOP_ALLOW_REVIEWS == '1') echo "checked='checked'"; ?> value="1" />
@@ -211,11 +210,11 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_GLOBAL'), "global-page");
 			<td><?php echo vmToolTip( $VM_LANG->_('VM_ADMIN_CFG_REVIEW_EXPLAIN') ) ?>
 			</td>
 		</tr>
-
+		
 		<tr>
 			<td class="labelcell">
 				<label for="conf_VM_REVIEWS_AUTOPUBLISH"><?php echo $VM_LANG->_('VM_REVIEWS_AUTOPUBLISH') ?></label>
-
+				
 			</td>
 			<td>
 				<input type="checkbox" id="conf_VM_REVIEWS_AUTOPUBLISH" name="conf_VM_REVIEWS_AUTOPUBLISH" class="inputbox" <?php if (@VM_REVIEWS_AUTOPUBLISH == '1') echo "checked='checked'"; ?> value="1" />
@@ -226,7 +225,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_GLOBAL'), "global-page");
 		<tr>
 			<td class="labelcell">
 				<label for="conf_VM_REVIEWS_MINIMUM_COMMENT_LENGTH"><?php echo $VM_LANG->_('VM_ADMIN_CFG_REVIEW_MINIMUM_COMMENT_LENGTH') ?></label>
-
+				
 			</td>
 			<td>
 				<input type="text" size="6" id="conf_VM_REVIEWS_MINIMUM_COMMENT_LENGTH" name="conf_VM_REVIEWS_MINIMUM_COMMENT_LENGTH" class="inputbox" value="<?php echo @intval(VM_REVIEWS_MINIMUM_COMMENT_LENGTH); ?>" />
@@ -237,7 +236,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_GLOBAL'), "global-page");
 		<tr>
 			<td class="labelcell">
 				<label for="conf_VM_REVIEWS_MAXIMUM_COMMENT_LENGTH"><?php echo $VM_LANG->_('VM_ADMIN_CFG_REVIEW_MAXIMUM_COMMENT_LENGTH') ?></label>
-
+				
 			</td>
 			<td>
 				<input type="text" size="6" id="conf_VM_REVIEWS_MAXIMUM_COMMENT_LENGTH" name="conf_VM_REVIEWS_MAXIMUM_COMMENT_LENGTH" class="inputbox" value="<?php echo @intval(VM_REVIEWS_MAXIMUM_COMMENT_LENGTH); ?>" />
@@ -255,7 +254,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_GLOBAL'), "global-page");
 		<tr>
 			<td class="labelcell">
 				<label for="conf_TAX_VIRTUAL"><?php echo $VM_LANG->_('VM_ADMIN_CFG_VIRTUAL_TAX') ?></label>
-
+				
 			</td>
 			<td align="left">
 				<input type="checkbox" name="conf_TAX_VIRTUAL" id="conf_TAX_VIRTUAL" class="inputbox" <?php if (TAX_VIRTUAL == 1) echo "checked=\"checked\""; ?> value="1" />
@@ -284,7 +283,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_GLOBAL'), "global-page");
 		<tr>
 			<td class="labelcell">
 				<label for="conf_MULTIPLE_TAXRATES_ENABLE"><?php echo $VM_LANG->_('VM_ADMIN_CFG_MULTI_TAX_RATE') ?></label>
-
+				
 			</td>
 			<td>
 				<input type="checkbox" id="conf_MULTIPLE_TAXRATES_ENABLE" name="conf_MULTIPLE_TAXRATES_ENABLE" class="inputbox" <?php if (MULTIPLE_TAXRATES_ENABLE == '1') echo "checked=\"checked\""; ?> value="1" />
@@ -295,7 +294,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_GLOBAL'), "global-page");
 		<tr>
 			<td class="labelcell">
 				<label for="conf_PAYMENT_DISCOUNT_BEFORE"><?php echo $VM_LANG->_('VM_ADMIN_CFG_SUBSTRACT_PAYEMENT_BEFORE') ?></label>
-
+				
 			</td>
 			<td>
 				<input type="checkbox" id="conf_PAYMENT_DISCOUNT_BEFORE" name="conf_PAYMENT_DISCOUNT_BEFORE" class="inputbox" <?php if (PAYMENT_DISCOUNT_BEFORE == '1') echo "checked=\"checked\""; ?> value="1" />
@@ -312,7 +311,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_GLOBAL'), "global-page");
 		<tr>
 			<td class="labelcell">
 				<label for="conf_VM_REGISTRATION_TYPE"><?php echo $VM_LANG->_('VM_CFG_REGISTRATION_TYPE') ?></label>
-
+				
 			</td>
 			<td>
 				<select id="conf_VM_REGISTRATION_TYPE" name="conf_VM_REGISTRATION_TYPE" class="inputbox">
@@ -321,23 +320,23 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_GLOBAL'), "global-page");
 					<option value="OPTIONAL_REGISTRATION"<?php if( @VM_REGISTRATION_TYPE == 'OPTIONAL_REGISTRATION' ) echo "selected=\"selected\""; ?>><?php echo $VM_LANG->_('VM_CFG_REGISTRATION_TYPE_OPTIONAL_REGISTRATION') ?></option>
 					<option value="NO_REGISTRATION"<?php if( @VM_REGISTRATION_TYPE == 'NO_REGISTRATION' ) echo "selected=\"selected\""; ?>><?php echo $VM_LANG->_('VM_CFG_REGISTRATION_TYPE_NO_REGISTRATION') ?></option>
 				</select>
-			</td>
+			</td> 
 			<td><?php echo vmToolTip( $VM_LANG->_('VM_CFG_REGISTRATION_TYPE_TIP') ) ?>
 			</td>
 		</tr>
-
+		
 		<tr>
 			<td class="labelcell">
 				<label for="conf_VM_SHOW_REMEMBER_ME_BOX"><?php echo $VM_LANG->_('VM_SHOW_REMEMBER_ME_BOX') ?></label>
-
+				
 			</td>
 			<td>
 				<input type="checkbox" id="conf_VM_SHOW_REMEMBER_ME_BOX" name="conf_VM_SHOW_REMEMBER_ME_BOX" class="inputbox" <?php if (@VM_SHOW_REMEMBER_ME_BOX == "1") echo "checked=\"checked\""; ?> value="1" />
-			</td>
+			</td> 
 			<td><?php echo vmToolTip( $VM_LANG->_('VM_SHOW_REMEMBER_ME_BOX_TIP') ) ?>
 			</td>
 		</tr>
-
+		
 		<tr>
 			<td class="labelcell"><?php
 			echo $_VERSION->PRODUCT.': ' .  $VM_LANG->_('VM_ADMIN_CFG_ALLOW_REGISTRATION');
@@ -366,7 +365,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_GLOBAL'), "global-page");
 			echo ' <a href="'.$mosConfig_live_site.'/administrator/index2.php?option=com_config&amp;hidemainmenu=1"> ['.$VM_LANG->_('VM_UPDATE').']</a>';
 			?></td>
 		</tr>
-
+		
 		<tr>
 			<td class="labelcell">
 				<label for="conf_PSHOP_AGREE_TO_TOS_ONORDER"><?php echo $VM_LANG->_('VM_ADMIN_CFG_AGREE_TERMS_ONORDER') ?></label>
@@ -404,7 +403,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_GLOBAL'), "global-page");
 			<td>
 			<?php
 			$db->query( "SELECT id AS value, CONCAT( title, ' (', title_alias, ')' ) AS text FROM #__content ORDER BY id" );
-
+			
 			$select =  "<select size=\"5\" name=\"conf_VM_ONCHECKOUT_LEGALINFO_LINK\" id=\"conf_VM_ONCHECKOUT_LEGALINFO_LINK\" class=\"inputbox\" style=\"width: 300px;\">\n";
 			while( $db->next_record()) {
 				$selected = @VM_ONCHECKOUT_LEGALINFO_LINK == $db->f('value') ? 'selected="selected"' : '';
@@ -417,7 +416,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_GLOBAL'), "global-page");
 			<td><?php echo vmToolTip( $VM_LANG->_('VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK_TIP') ) ?>
 			</td>
 		</tr>
-
+		
 		</table>
 </fieldset>
 
@@ -429,7 +428,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_GLOBAL'), "global-page");
 		<tr>
 			<td class="labelcell">
 				<label for="conf_CHECK_STOCK" onclick="var checkStock = document.adminForm.conf_CHECK_STOCK.checked;toggleVisibility( checkStock, 'cs1' );toggleVisibility( checkStock, 'cs2' );toggleVisibility( checkStock, 'cs3' );"><?php echo $VM_LANG->_('VM_ADMIN_CFG_CHECK_STOCK') ?></label>
-
+				
 				<div style="display:none;visibility:hidden;" id="cs1"><br/><br/>
 					<strong>
 						<label for="conf_PSHOP_SHOW_OUT_OF_STOCK_PRODUCTS">
@@ -451,7 +450,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_GLOBAL'), "global-page");
 		  <tr>
 			<td class="labelcell">
 				<label for="conf_VM_ENABLE_COOKIE_CHECK"><?php echo $VM_LANG->_('VM_ADMIN_CFG_COOKIE_CHECK') ?></label>
-
+				
 			</td>
 			<td>
 				<input type="checkbox" id="conf_VM_ENABLE_COOKIE_CHECK" name="conf_VM_ENABLE_COOKIE_CHECK" class="inputbox" <?php if (@VM_ENABLE_COOKIE_CHECK == '1') echo "checked=\"checked\""; ?> value="1" />
@@ -462,11 +461,11 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_GLOBAL'), "global-page");
 		<tr>
 			<td class="labelcell">
 				<label for="conf__VM_CURRENCY_CONVERTER_MODULE"><?php echo $VM_LANG->_('VM_CFG_CURRENCY_MODULE') ?></label>
-
+				
 			</td>
 			<td>
 				<select id="conf__VM_CURRENCY_CONVERTER_MODULE" name="conf__VM_CURRENCY_CONVERTER_MODULE" class="inputbox">
-					<?php
+					<?php 
 					$files = vmReadDirectory( CLASSPATH."currency/", "convert?.", true, true);
 					foreach ($files as $file) {
 						$file_info = pathinfo($file);
@@ -615,7 +614,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_SECURITY'), "security-page");
 		</tr>
 		<tr>
 			<td class="labelcell">
-				<?php echo $VM_LANG->_('VM_MODULES_FORCE_HTTPS') ?>
+				<?php echo $VM_LANG->_('VM_MODULES_FORCE_HTTPS') ?>				
 			</td>
 			<td>
 				<?php
@@ -625,7 +624,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_SECURITY'), "security-page");
 			<td><?php echo vmToolTip( $VM_LANG->_('VM_MODULES_FORCE_HTTPS_TIP') ) ?>
 			</td>
 		</tr>
-
+	
 		<tr>
 			<td class="labelcell">
 				<input type="checkbox" id="conf_VM_GENERALLY_PREVENT_HTTPS" name="conf_VM_GENERALLY_PREVENT_HTTPS" class="inputbox" <?php if (@VM_GENERALLY_PREVENT_HTTPS == '1') echo "checked=\"checked\""; ?> value="1" />
@@ -645,7 +644,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_SECURITY'), "security-page");
 				<td class="labelcell"><?php echo $VM_LANG->_('VM_ADMIN_ENCRYPTION_FUNCTION') ?>&nbsp;&nbsp;</td>
 				<td>
 					<?php
-					$options = array('ENCODE' => 'ENCODE (insecure)',
+					$options = array('ENCODE' => 'ENCODE (insecure)', 
 								'AES_ENCRYPT' => 'AES_ENCRYPT (strong security)'
 								);
 					echo ps_html::selectList('conf_ENCRYPT_FUNCTION', @VM_ENCRYPT_FUNCTION, $options );
@@ -671,7 +670,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_SECURITY'), "security-page");
 				<label for="conf_VM_STORE_CREDITCARD_DATA"><?php echo $VM_LANG->_('VM_ADMIN_STORE_CREDITCARD_DATA') ?>&nbsp;&nbsp;</label>
 			</td>
 			<td class="iconcell"><?php echo vmToolTip( $VM_LANG->_('VM_ADMIN_STORE_CREDITCARD_DATA_TIP') ); ?></td>
-		</tr>
+		</tr>	
 		<tr>
 			<td colspan="3"><hr />&nbsp;</td>
 		</tr>
@@ -837,7 +836,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_SITE'), "site-page");
 
                         <input name="conf_VM_BROWSE_ORDERBY_FIELDS[]" type="checkbox" value="product_sales" <?php if (in_array( 'product_sales', $VM_BROWSE_ORDERBY_FIELDS )) echo "checked=\"checked\""; ?> id="conf_VM_BROWSE_ORDERBY_FIELDS5" />
                         <label for="conf_VM_BROWSE_ORDERBY_FIELDS5"><?php echo $VM_LANG->_('VM_SALES') ?></label>
-
+                        
         </td>
         <td><?php echo vmToolTip( $VM_LANG->_('VM_BROWSE_ORDERBY_FIELDS_LBL_TIP') ) ?></td>
     </tr>
@@ -879,7 +878,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_SITE'), "site-page");
     <tr>
         <td class="labelcell"><?php echo $VM_LANG->_('VM_SELECT_THEME') ?></td>
         <td>
-        <?php
+        <?php 
         echo ps_html::list_themes( 'conf_THEME', basename(VM_THEMEURL) );
 
         if( $vmLayout == 'standard') {
@@ -888,18 +887,18 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_SITE'), "site-page");
 			echo vmCommonHTML::hyperlink($link, $VM_LANG->_('VM_CONFIG') );
 		} else {
 	        $link = $sess->url( $_SERVER['PHP_SELF'].'?page=admin.theme_config_form&amp;theme='.basename(VM_THEMEURL).'&amp;no_menu=1&amp;tmpl=component' );
-
-			$link = defined('_VM_IS_BACKEND')
-							? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link ))
+	        
+			$link = defined('_VM_IS_BACKEND') 
+							? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link )) 
 							: str_replace('index.php', 'index2.php', $link );
 	        $text = $VM_LANG->_('VM_CONFIG');
 			echo vmCommonHTML::hyperLink($link, $text, '', 'Edit: '.$text, 'onclick="parent.addSimplePanel( \''.$db->getEscaped($text).'\', \''.$link.'\' );return false;"');
-		}
+		}  
         ?>
         </td>
         <td><?php echo vmToolTip( $VM_LANG->_('VM_SELECT_THEME_TIP') ) ?></td>
-    </tr>
-
+    </tr> 
+  
     <tr>
         <td class="labelcell"><?php echo $VM_LANG->_('VM_ADMIN_CFG_PRODUCTS_PER_ROW') ?></td>
         <td>
@@ -930,7 +929,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_SITE'), "site-page");
     <?php
     if( function_exists('imagecreatefromjpeg') ) {
     	?>
-
+    
 	    <tr>
 	        <td class="labelcell">
 	        	<label for="conf_PSHOP_IMG_RESIZE_ENABLE"><?php echo $VM_LANG->_('VM_ADMIN_CFG_DYNAMIC_THUMBNAIL_RESIZING') ?></label></td>
@@ -963,7 +962,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_SITE'), "site-page");
     	echo '<input type="hidden" name="conf_PSHOP_IMG_HEIGHT" value="'. PSHOP_IMG_HEIGHT .'" /></td></tr>';
     }
     ?>
-
+    
 </table>
 </fieldset>
 <br style="clear:both;" />
@@ -1017,7 +1016,7 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_CHECKOUT'), "checkout-page");
             }
             ?>
         </td>
-        <td width="30%" valign="top"><?php
+        <td width="30%" valign="top"><?php 
         echo vmToolTip( $VM_LANG->_('VM_CFG_CHECKOUT_SHOWSTEP_TIP') );
         	?>
         	</td>

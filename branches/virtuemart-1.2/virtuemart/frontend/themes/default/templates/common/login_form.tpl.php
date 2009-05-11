@@ -25,7 +25,7 @@ if( vmIsJoomla('1.5')) {
 	$lostPwUrl = sefRelToAbs( basename($_SERVER['PHP_SELF']).'?option=com_registration&amp;task=lostPassword' );
 }
 ?>
-<form action="<?php echo $action ?>" method="post" name="login" style="margin-left:20px;">
+<form action="index.php" method="post" name="login" style="margin-left:20px;">
 	<label for="username_login"><?php echo $VM_LANG->_('USERNAME') ?>:</label>
 	<input type="text" id="username_login" name="username" class="inputbox" size="20" />
 	<br />
@@ -43,7 +43,8 @@ if( vmIsJoomla('1.5')) {
 	<?php else : ?>
 	<input type="hidden" name="remember" value="yes" />
 	<?php endif; ?>
-	<input type="hidden" name="op2" value="login" />
+	<input type="hidden" name="option" value="com_user" />
+	<input type="hidden" name="task" value="login" />
 	<input type="hidden" name="lang" value="<?php echo vmIsJoomla() ? $mosConfig_lang : $GLOBALS['mosConfig_locale'] ?>" />
 	<input type="hidden" name="return" value="<?php echo $return_url ?>" />
 	<input type="hidden" name="<?php echo $validate; ?>" value="1" />

@@ -56,6 +56,9 @@ if( $this->get_cfg( 'product_navigation', 1 )) {
 	  <td style="text-align: center;" rowspan="1"><?php echo $product_availability ?></td>
 	</tr>
 	<tr>
+	  <td colspan="2"><?php echo $stock_level ?></td>
+	</tr>
+	<tr>
 	  <td colspan="2"><?php echo $product_type ?></td>
 	</tr>
 	<tr>

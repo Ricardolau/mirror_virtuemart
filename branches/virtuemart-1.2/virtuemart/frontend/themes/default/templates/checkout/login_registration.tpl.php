@@ -20,6 +20,9 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
    // occured during registration. So, let's show the Registration Details Stretcher first
    // Otherwise the Login Form will be shown by default
    $open_to_stretcher = !isset($_POST['func']) ? '0' : '1';
+   if(@$_POST['func'] == "addFavourite") {
+   		$open_to_stretcher = 0;
+   }
    $show_login = VM_REGISTRATION_TYPE == 'NO_REGISTRATION' ? 0 : 1;
 ?>
 <?php if( $show_login ) : ?>

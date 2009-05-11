@@ -2820,7 +2820,73 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		$tpl->set("recent_products",$recent);
 		return $tpl->fetch( 'common/recent.tpl.php' );
     }
-
+    
+    function stockIndicator($stock_level,$reorder_level,$pid,$detail="browse") {
+    	global $db, $VM_LANG;
+	    $tpl = new $GLOBALS['VM_THEMECLASS']();
+	    //Check for parent item without stock and determine if children have levels
+    	if($this->parent_has_children($pid) && $stock_level == 0 && $detail != "child") {
+    		//Check if we are on the detail page, dont want to show levels for empty parent
+    		if($detail=="detail") {
+    			return "";
+    		}
+    		$db = new ps_DB;
+    		//Check children for stock.
+    		$q = "SELECT product_in_stock AS s,low_stock_notification AS r FROM #__{vm}_product  " ;
+			$q .= " WHERE product_publish='Y' AND product_parent_id='$pid' ";
+			$db->query($q);
+			$stock_ok = false;
+			while($db->next_record()) {				
+				if($db->f('s') > $db->f('r') ) {
+					$stock_level = $db->f('s');
+					$reorder_level = $db->f('r');
+					$stock_ok = true;
+				}
+				elseif (!$stock_ok) {
+					$stock_level = $db->f('s');
+					$reorder_level = $db->f('r');
+				}
+			}
+    	}
+    	// Assign class to indicator 
+		$level = 'stock_ok';
+		$stock_tip = $VM_LANG->_('VM_STOCK_LEVEL_DISPLAY_NORMAL_TIP');
+		if ($stock_level <= $reorder_level) {
+			$level = 'stock_low';
+			$stock_tip = $VM_LANG->_('VM_STOCK_LEVEL_DISPLAY_LOW_TIP');
+		}
+		if ($stock_level == 0) {
+			$level = 'stock_out';
+			$stock_tip = $VM_LANG->_('VM_STOCK_LEVEL_DISPLAY_OUT_TIP');
+		}    	
+    	switch($detail) {
+    		case 'child' :
+    			$label = $VM_LANG->_('VM_STOCK_LEVEL_DISPLAY_CHILD_LABEL');   			
+    			break;
+    		case 'detail' :
+    			$label = $VM_LANG->_('VM_STOCK_LEVEL_DISPLAY_DETAIL_LABEL');    			
+    			break;
+    		case 'browse' :
+    		default :
+    			$label = $VM_LANG->_('VM_STOCK_LEVEL_DISPLAY_BROWSE_LABEL');
+    			break;
+    	}
+    	$tpl->set('stock_tip',$stock_tip);
+    	$tpl->set('stock_level',$level);
+    	$tpl->set('stock_level_label',$label);
+    	return $tpl->fetch( 'common/stockIndicator.tpl.php' );
+    }
+    
+    function favouritesButton($product_id) {
+    	global $my, $db, $VM_LANG;
+	    $tpl = new $GLOBALS['VM_THEMECLASS']();
+	    $q = "SELECT * FROM `#__{vm}_favourites` WHERE `user_id`=".$my->id." AND `product_id`=".$product_id;
+	    $db->query($q);
+	    if($db->nextRow()) {
+	    	return true;
+	    }
+	    return false;
+    }    
 }  // ENd of CLASS ps_product
 
 ?>

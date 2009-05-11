@@ -20,6 +20,10 @@ mm_showMyFileName(__FILE__);
 		if ($product_price_without_tax != ""){echo "<br/>".$product_price_without_tax;}
 		if ($product_price_with_tax != ""){echo "<br/>".$product_price_with_tax;}
   	?></p>
+  	<div >
+    <?php echo $stock_level ?>
+    </div>
+    <br style="clear:both;" />
   <div style="float:left;width:60%">
       <?php echo $product_rating ?>
   </div>

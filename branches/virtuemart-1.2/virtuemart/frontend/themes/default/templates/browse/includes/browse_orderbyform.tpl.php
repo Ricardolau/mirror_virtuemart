@@ -32,25 +32,24 @@ if( !empty( $product_type_id )) {
 	echo '<input type="hidden" name="product_type_id" value="'.$product_type_id.'" />'; 
 	echo $ps_product_type->get_parameter_form($product_type_id);
 }
-
+?></div><?php
 if( $show_top_navigation ) {
 	?>
 	&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $VM_LANG->_('PN_DISPLAY_NR') ?>&nbsp;&nbsp;
-
-	<?php $pagenav->writeLimitBox( $search_string ); ?>
+	<?php $pagenav->writeLimitBox('',$category_id); ?>
 	<noscript><input type="submit" value="<?php echo $VM_LANG->_('VM_SUBMIT') ?>" /></noscript>
 	
     <!-- PAGE NAVIGATION AT THE TOP -->
     <br/>
     <div style="text-align:center;"><?php 
-    	$pagenav->writePagesLinks( $search_string );
-    	echo '<br />';
-    	$pagenav->writePagesCounter();
+		if($prodlimit) {
+			$pagenav->writePagesLinks( $search_string );
+			echo '<br />';
+    		$pagenav->writePagesCounter();
+		}
       ?>
     </div>
-    
 	<?php
-	
-}
+}  	
 ?>
 </form>

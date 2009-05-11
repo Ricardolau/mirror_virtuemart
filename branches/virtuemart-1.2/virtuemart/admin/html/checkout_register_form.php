@@ -83,6 +83,6 @@ echo '
 	<input type="hidden" name="' . $validate . '" value="1" />
 	<input type="hidden" name="useractivation" value="'. $mosConfig_useractivation .'" />
 	<input type="hidden" name="func" value="shopperadd" />
-	<input type="hidden" name="page" value="checkout.index" />
+	<input type="hidden" name="page" value="'.$page.'" />
 	</form>';
 ?>

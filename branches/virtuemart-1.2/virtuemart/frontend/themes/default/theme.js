@@ -10,7 +10,7 @@ function loadNewPage( el, url ) {
 	var callback = {
 		success : function(responseText) {
 			theEl.innerHTML = responseText;
-			if( Lightbox ) Lightbox.init();
+			if( Slimbox ) Slimbox.scanPage();
 		}
 	}
 	var opt = {
@@ -23,6 +23,7 @@ function loadNewPage( el, url ) {
 }
 
 function handleGoToCart() { document.location = live_site + '/index.php?option=com_virtuemart&page=shop.cart&product_id=' + formCartAdd.product_id.value + '&Itemid=' +formCartAdd.Itemid.value; }
+var timeoutID = 0;
 
 function handleAddToCart( formId, parameters ) {
 	formCartAdd = document.getElementById( formId );
@@ -60,6 +61,46 @@ function handleAddToCart( formId, parameters ) {
 	}
 
 	new Ajax(formCartAdd.action, opt).request();
+}
+
+function handleGoToFavourites() { document.location = live_site + '/index.php?option=com_virtuemart&page=shop.favourites&product_id=' + formfavouriteAdd.product_id.value + '&Itemid=' +formfavouriteAdd.Itemid.value; }
+
+function handleAddToFavourites( formId, parameters ) {
+	formFavouriteAdd = document.getElementById( formId );
+	
+	var callback = function(responseText) {
+		updateMinifavourites();
+		// close an existing mooPrompt box first, before attempting to create a new one (thanks wellsie!)
+		if (document.boxC) {
+			document.boxC.close();
+			clearTimeout(timeoutID);
+		}
+
+		document.boxC = new MooPrompt(notice_lbl, responseText, {
+				buttons: 2,
+				width:400,
+				height:150,
+				overlay: false,
+				button1: ok_lbl,
+				button2: favs_title,
+				onButton2: 	handleGoToFavourites
+			});
+			
+		timeoutID = setTimeout( 'document.boxC.close()', 3000 );
+	}
+	
+	var opt = {
+	    // Use POST
+	    method: 'post',
+	    // Send this lovely data
+	    data: $(formId),
+	    // Handle successful response
+	    onComplete: callback,
+	    
+	    evalScripts: true
+	}
+
+	new Ajax(formFavouriteAdd.action, opt).request();
 }
 /**
 * This function searches for all elements with the class name "vmCartModule" and
@@ -100,6 +141,48 @@ function updateMiniCarts() {
 		}
 	}
 	var option = { method: 'post', onComplete: callbackCart, data: { only_page:1,page: "shop.basket_short", option: "com_virtuemart" } }
+	new Ajax( live_site + '/index2.php', option).request();
+} 
+
+/**
+* This function searches for all elements with the class name "vmFavouritesModule" and
+* updates them with the contents of the page "shop.favourites_short" after a favourites modification event
+*/
+function updateMiniFavourites() {
+	var callbackFavs = function(responseText) {
+		favs = $$( '.vmFavouritesModule' );
+		if( favs ) {
+			try {
+				for (var i=0; i<favs.length; i++){
+					favs[i].innerHTML = responseText;
+		
+					try {
+						color = favs[i].getStyle( 'color' );
+						bgcolor = favs[i].getStyle( 'background-color' );
+						if( bgcolor == 'transparent' ) {
+							// If the current element has no background color, it is transparent.
+							// We can't make a highlight without knowing about the real background color,
+							// so let's loop up to the next parent that has a BG Color
+							parent = favs[i].getParent();
+							while( parent && bgcolor == 'transparent' ) {
+								bgcolor = parent.getStyle( 'background-color' );
+								parent = parent.getParent();
+							}
+						}
+						var fxc = new Fx.Style(favs[i], 'color', {duration: 1000});
+						var fxbgc = new Fx.Style(favs[i], 'background-color', {duration: 1000});
+
+						fxc.start( '#222', color );				
+						fxbgc.start( '#fff68f', bgcolor );
+						if( parent ) {
+							setTimeout( "favs[" + i + "].setStyle( 'background-color', 'transparent' )", 1000 );
+						}
+					} catch(e) {}
+				}
+			} catch(e) {}
+		}
+	}
+	var option = { method: 'post', onComplete: callbackFavs, data: { only_page:1,page: "shop.favourites_short", option: "com_virtuemart" } }
 	new Ajax( live_site + '/index2.php', option).request();
 } 
 /**

@@ -90,9 +90,14 @@ while ($db->next_record()) {
 
 	// The Checkbox
 	$listObj->addCell( vmCommonHTML::idBox( $i, $db->f("module_id"), false, "module_id" ) );
-
-	$tmp_cell = "<a href=\"". $sess->url( $_SERVER['PHP_SELF'] . "?page=$modulename.module_form&&limitstart=$limitstart&module_id=" . $db->f("module_id"))."\">";
-	$tmp_cell .= $db->f("module_name")."</a>";
+	$link = "<a href=\"". $sess->url( $_SERVER['PHP_SELF'] . "?page=$modulename.module_form&limitstart=$limitstart&module_id=" . $db->f("module_id"));
+	if( $vmLayout != 'standard' ) {
+		$link .= "&no_menu=1&tmpl=component";
+		$link = defined('_VM_IS_BACKEND') 
+			? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link )) 
+			: str_replace('index.php', 'index2.php', $link );
+	}
+	$tmp_cell = $link."\">".$db->f("module_name")."</a>";
 	$listObj->addCell( $tmp_cell );
 	$module_perms = explode(',', $db->f("module_perms") );
 	while($usergroups->next_record()) {
@@ -111,8 +116,14 @@ while ($db->next_record()) {
 		
 	$listObj->addCell('');
 	$usergroups->reset();
-
-	$tmp_cell = "<a href=\"".$sess->url($_SERVER['PHP_SELF']."?page=$modulename.function_list&module_id=" . $db->f("module_id"))."\">". $VM_LANG->_('VM_FUNCTION_LIST_LBL') ."</a>";
+	$link = "<a href=\"".$sess->url($_SERVER['PHP_SELF']."?page=$modulename.function_list&module_id=" . $db->f("module_id"));
+	if( $vmLayout != 'standard' ) {
+		$link .= "&no_menu=1&tmpl=component";
+		$link = defined('_VM_IS_BACKEND') 
+			? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link )) 
+			: str_replace('index.php', 'index2.php', $link );
+	}
+	$tmp_cell = $link."\">". $VM_LANG->_('VM_FUNCTION_LIST_LBL') ."</a>";
 	$listObj->addCell( $tmp_cell );
 
 	$tmp_cell = "<div align=\"center\">"

@@ -1,4 +1,4 @@
-<?php if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
+<?php if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 mm_showMyFileName(__FILE__);
  ?>
  <div class="browseProductContainer">
@@ -23,6 +23,9 @@ mm_showMyFileName(__FILE__);
 
   <a href="<?php echo $product_flypage ?>" title="<?php echo $product_name ?>"><?php echo $product_details ?>&nbsp;<strong><?php echo $product_name ?></strong></a>
   <br style="clear:both;" />
+  <div >
+    <?php echo $stock_level ?>
+    </div>
   <div style="float:left;width:90%;margin-top: 3px;">
       <?php echo $product_rating ?>
   </div>

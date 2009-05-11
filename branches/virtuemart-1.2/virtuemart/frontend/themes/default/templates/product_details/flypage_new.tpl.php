@@ -38,12 +38,14 @@ if( $this->get_cfg( 'showPathway' )) {
   <td rowspan="1" colspan="3"><hr /> <?php echo $product_description ?><br/><span style="font-style: italic;"> <?php echo $file_list ?></span></td>
 </tr>
 <tr>
-  <td> <?php echo $product_availability ?><br /></td>
-  <td colspan="2"><br /> <?php echo $addtocart ?></td>
-</tr>
+  <td colspan="3" align="right"> <?php echo $favouriteButton; ?></td>
 <tr>
-  <td colspan="3"> <?php echo $product_type ?></td>
+<tr>
+  <td> <?php echo $product_availability ?><br /></td>
+  <td> <?php echo $$stock_level; ?></td>
+  <td><br /> <?php echo $addtocart ?></td>
 </tr>
+
 <tr>
   <td colspan="3"><hr /> <?php echo $product_reviews ?></td>
 </tr>

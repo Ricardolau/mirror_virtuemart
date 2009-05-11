@@ -1309,18 +1309,24 @@ class vmCommonHTML {
  */
 function vmToolTip( $tooltip, $title='Tip!', $image = "{mosConfig_live_site}/images/M_images/con_info.png", $width='350', $text='', $href='#', $link=false ) {
 	global $mosConfig_live_site, $database;
-
-	defined( 'vmToolTipCalled') or define('vmToolTipCalled', 1);
+	//defined('vmToolTipCalled') or define('vmToolTipCalled',1);
+	if(!defined( 'vmJToolTipCalled')) { 
+		$tooltipArray = array('className'=>'VMImageTip');
+		JHTML::_('behavior.tooltip','.vmToolTip',$tooltipArray);
+		define('vmJToolTipCalled', "1");
+	}
 
 	$tooltip = str_replace('"','&quot;',$tooltip);
 	$tooltip = $database->getEscaped($tooltip);
 	$tooltip = str_replace("&#039;","\&#039;",$tooltip);
-
+    //$tooltip = str_replace('\n',"",$tooltip);
+    $tooltip = stripcslashes($tooltip);
+	
 	if ( !empty($width) ) {
 		$width = ',WIDTH, -'.$width;
 	}
 	if ( $title ) {
-		$title = ',TITLE,\''.$title .'\'';
+		//$title = ',TITLE,\''.$title .'\'';
 	}
 	$image = str_replace( "{mosConfig_live_site}", $mosConfig_live_site, $image);
 	if( $image != '' ) {
@@ -1332,9 +1338,10 @@ function vmToolTip( $tooltip, $title='Tip!', $image = "{mosConfig_live_site}/ima
 		$style = '';
 	}
 	if ( $link ) {
-		$tip = vmCommonHTML::hyperLink( $href, $text, '','', "onmouseover=\"Tip( '$tooltip' );\" onmouseout=\"UnTip()\" ". $style );
+		$tip = vmCommonHTML::hyperLink( $href, $text, '','', "onmouseover=\"Tip( '$tooltip' $width $title );\" onmouseout=\"UnTip()\" ". $style );
 	} else {
-		$tip = "<span onmouseover=\"Tip( '$tooltip' $width $title );\" onmouseout=\"UnTip()\" ". $style .">". $text ."</span>";
+		//$tip = "<span onmouseover=\"Tip( '$tooltip' $width $title );\" onmouseout=\"UnTip()\" ". $style .">". $text ."</span>";
+		$tip = "<span class='vmToolTip' title=\"".$title."::".$tooltip."\" ".$style.'>'.$text.'</span>';
 	}
 
 	return $tip;

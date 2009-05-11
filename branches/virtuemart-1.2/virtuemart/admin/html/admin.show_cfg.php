@@ -92,11 +92,11 @@ $tabs->startTab( $VM_LANG->_('VM_ADMIN_CFG_GLOBAL'), "global-page");
 	</table>
 </fieldset>
 <fieldset style="width:48%;float:right;">
-	<legend><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PRICE_CONFIGURATION') ?></legend>
+	<legend><?php echo $VM_LANG->_('VM_ADMIN_CFG_PRICE_CONFIGURATION') ?></legend>
 	<table class="adminform">
 		<tr>
 			<td class="labelcell">
-				<label for="conf__SHOW_PRICES"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_SHOW_PRICES') ?></label>
+				<label for="conf__SHOW_PRICES"><?php echo $VM_LANG->_('VM_ADMIN_CFG_SHOW_PRICES') ?></label>
 				
 			</td>
 			<td>

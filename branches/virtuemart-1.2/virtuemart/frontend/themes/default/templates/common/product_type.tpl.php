@@ -12,6 +12,8 @@
 	 * 		$product_types["parameters"]["parameter_unit"] => The unit value of the value
 	 * 		$product_types["parameters"]["parameter_name"] => name of the parameter
 	 */
+	 $tooltipArray = array('className'=>'VMtooltip');
+	 JHTML::_('behavior.tooltip','.VMtip',$tooltipArray); 
 ?>
     <br /><table width="100%" cellspacing="0" cellpadding="0" border="0">
     <tr><td colspan="2"><strong><?php 
@@ -27,12 +29,12 @@
     } else {
     	$bgcolor = 'row1';
     }
-    ?><tr class="<?php echo $bgcolor;?> height="18">
+    ?><tr class="<?php echo $bgcolor;?>" height="18">
     <td width="30%"><?php echo $product_type_params["parameter_label"]; 
-    if (!empty($product_type_params["parameter_tooltip"])) { ?>
-    	&nbsp;<?php echo $product_type_params["parameter_tooltip"]; 
+    if (!empty($product_type_params["parameter_description"])) { ?>
+    	<span class="VMtip" title="<?php echo $VM_LANG->_('VM_PRODUCT_TYPE_PARAMETER_FORM_DESCRIPTION')."::".$product_type_params["parameter_description"] ?>">&nbsp;<?php echo vmCommonHTML::imageTag( $mosConfig_live_site."/images/M_images/con_info.png", '', 'top' ) ?></span><?php
     } ?>
-    </td><td><?php echo $product_type_params["parameter_value"]." ".$product_type_params["unit"]; ?>
+    </td><td><?php echo $product_type_params["parameter_value"]." ".$product_type_params["parameter_unit"]; ?>
     </td></tr>
 	<?php
     } ?>

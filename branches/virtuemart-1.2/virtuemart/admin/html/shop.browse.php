@@ -59,7 +59,7 @@ if(!@$_SESSION["firstlimit"][$category_id] ) {
 	}
 }
 $_SESSION["limit"][$category_id] = $limit;
-$_SESSION["limitstart"][$category_id] = $limistart;
+$_SESSION["limitstart"][$category_id] = $limitstart;
 $_SESSION["firstlimit"][$category_id] = true;
 $default['category_flypage'] = FLYPAGE;
 

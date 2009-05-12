@@ -70,9 +70,6 @@ if( $this->get_cfg( 'product_navigation', 1 )) {
 	  <td colspan="2"><br /><?php echo $addtocart ?></td>
 	</tr>
 	<tr>
-	  <td colspan="3"><?php echo $Standard ?></td>
-	</tr>
-	<tr>
 	  <td colspan="3"><hr /><?php echo $product_reviews ?></td>
 	</tr>
 	<tr>

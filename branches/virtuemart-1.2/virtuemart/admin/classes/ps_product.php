@@ -1355,7 +1355,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 				else
 				{
 					$new_img_width = PSHOP_IMG_WIDTH;
-					$new_img_HEIGHT = PSHOP_IMG_HEIGHT;
+					$new_img_height = PSHOP_IMG_HEIGHT;
 				}
 				if(PSHOP_IMG_RESIZE_ENABLE == '1' || $resize==1) {
 					$url = $mosConfig_live_site."/components/com_virtuemart/show_image_in_imgtag.php?filename=".urlencode($image)."&amp;newxsize=".$new_img_width."&amp;newysize=".$new_img_height."&amp;fileout=";

@@ -33,7 +33,7 @@ if(USE_AS_CATALOGUE != '1' && ($product['advanced_attribute'] != "" || $product[
 	<?php 
 } ?>
 <?php 
-if(USE_AS_CATALOGUE != '1' && ($advanced_attribute != "" || $product['custom_attribute'] !="")) { ?>
+if(USE_AS_CATALOGUE != '1' && ($product['advanced_attribute'] != "" || $product['custom_attribute'] !="")) { ?>
 	</div>
 	<?php 
 }?> 

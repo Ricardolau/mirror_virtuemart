@@ -203,7 +203,7 @@ class ps_product_attribute {
 			if( ! empty( $child_options ) ) {
 				extract( $child_options ) ;
 			}
-			
+			$display_type = "";
 			$quantity_options = ps_product::get_quantity_options( $product_id ) ;
 			if( ! empty( $quantity_options['quantity_box'] ) ) {
 			$display_type = $quantity_options['quantity_box'] ;
@@ -526,7 +526,7 @@ class ps_product_attribute {
 			} elseif ($product_list =="YM") {
 				$list_type = "multi" ;
 				$html = $tpl->fetch( 'product_details/includes/addtocart_list_multi.tpl.php' ) ;
-			} elseif ($product_list == "N" && $ci == 1) {
+			} elseif (($product_list == "N" || $product_list == "") && $ci == 1) {
 				$html = $tpl->fetch('product_details/includes/addtocart_normal.tpl.php') ;
 				$list_type = "drop" ;
 			} else {

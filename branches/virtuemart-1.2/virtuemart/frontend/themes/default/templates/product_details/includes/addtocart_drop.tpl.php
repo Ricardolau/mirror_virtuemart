@@ -3,7 +3,7 @@
 <div class="vmCartDetails<?php echo $cls_suffix; ?>">
 
 <?php 
-if(USE_AS_CATALOGUE != '1' && ($advanced_attribute != "" || $custom_attribute !="")) { ?>
+if(USE_AS_CATALOGUE != '1' && ($products[0]['advanced_attribute'] != "" || $products[0]['custom_attribute'] !="")) { ?>
     <div class="vmCartChild<?php echo $cls_suffix ?> vmRowTwo<?php echo $cls_suffix ?>">
   	<?php 
 }
@@ -46,21 +46,21 @@ foreach( $products as $product ) {
 
  } ?></option></select>
 <?php 
-if(USE_AS_CATALOGUE != '1' && ($advanced_attribute != "" || $custom_attribute != "")) { ?>
+if(USE_AS_CATALOGUE != '1' && ($product['advanced_attribute'] != "" || $product['custom_attribute'] != "")) { ?>
   	<div class="vmCartAttributes<?php echo $cls_suffix ?>">
   	<?php   
-  	if($advanced_attribute) {
-		echo $advanced_attribute;
+  	if($product['advanced_attribute']) {
+		echo $product['advanced_attribute'];
   	}
-	if($custom_attribute) {
-		echo $custom_attribute;
+	if($product['custom_attribute']) {
+		echo $product['custom_attribute'];
 	}
   	?>
 	</div>
 	<?php 
 } ?>
 <?php 
-if(USE_AS_CATALOGUE != '1' && ($advanced_attribute != "" || $custom_attribute !="")) { ?>
+if(USE_AS_CATALOGUE != '1' && ($product['advanced_attribute']' != "" || $product['custom_attribute']' !="")) { ?>
 	</div>
 	<?php 
 }?> 

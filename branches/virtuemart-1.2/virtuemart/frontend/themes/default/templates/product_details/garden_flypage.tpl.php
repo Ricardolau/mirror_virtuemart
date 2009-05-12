@@ -59,9 +59,6 @@ if( $this->get_cfg( 'product_navigation', 1 )) {
 	  <td colspan="2"><?php echo $stock_level ?></td>
 	</tr>
 	<tr>
-	  <td colspan="2"><?php echo $product_type ?></td>
-	</tr>
-	<tr>
 	  <td colspan="2"><hr /><?php echo $product_reviews ?></td>
 	</tr>
 	<tr>

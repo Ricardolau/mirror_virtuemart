@@ -34,6 +34,9 @@ Legend:
 VirtueMart 1.2.x
 *************************************
 12.05.2009 macallf
+#2598 - Remove product_type from flypages
+
+12.05.2009 macallf
 #2618 - Remove notices
 
 11.05.2009 macallf

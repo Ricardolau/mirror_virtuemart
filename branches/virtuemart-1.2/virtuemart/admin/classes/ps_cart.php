@@ -159,7 +159,7 @@ class ps_cart {
 		}
 		$multiple_products = sizeof($d["prod_id"]);
 		//Iterate through the prod_id's and perform an add to cart for each one
-		if($d["overide_error"]) {
+		if(@$d["overide_error"]) {
 			$_REQUEST['flypage'] = ps_product::get_flypage($product_id);
 			$GLOBALS['page'] = 'shop.product_details';
 			return true;

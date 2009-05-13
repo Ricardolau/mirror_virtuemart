@@ -90,7 +90,11 @@ if( $category_id ) {
 	$desc = vmCommonHTML::ParseContentByPlugins( $desc );
 	if($db->f("metadesc") == "") {
 		$metadesc = vmCommonHTML::ParseContentByPlugins( $desc );
-	} else {
+		if ($substr(strip_tags($metadesc ), 0, 255) == "") {
+			$metadesc = $db->f("category_name");
+		}
+	}
+	else {
 		$metadesc = $db->f('metadesc');
 	}
 	/* Prepend Product Short Description Meta Tag "description" when applicable */

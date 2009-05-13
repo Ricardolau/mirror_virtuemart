@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -40,30 +40,32 @@ class vm_ps_cart {
 			if( $db->next_record() ) {
 				// Fill the cart from the contents of the field cart_content, which holds a serialized array
 				$contents = $db->f('cart_content');
-                $_SESSION['savedcart'] = array();
-				$_SESSION['savedcart'] = unserialize( $contents );
-				// Now check if all products are still published and existant
-				$products_in_cart = array();
-				for ($i=0;$i<$_SESSION['savedcart']["idx"];$i++) {
-					$products_in_cart[$_SESSION['savedcart'][$i]['product_id']] = (int)$_SESSION['savedcart'][$i]['product_id'];
-				}
-				if( !empty( $products_in_cart )) {
-					$db->query('SELECT product_id FROM #__{vm}_product WHERE product_id IN('.implode(',', $products_in_cart ).') AND product_publish=\'Y\'' );
-					while( $db->next_record() ) {
-						unset( $products_in_cart[$db->f('product_id')] );
+				$contents = @unserialize( $contents );
+				if( $contents !== false ) {
+	                $_SESSION['savedcart'] = $contents;
+					// Now check if all products are still published and existant
+					$products_in_cart = array();
+					for ($i=0;$i<$_SESSION['savedcart']["idx"];$i++) {
+						$products_in_cart[$_SESSION['savedcart'][$i]['product_id']] = (int)$_SESSION['savedcart'][$i]['product_id'];
 					}
-					foreach ( $products_in_cart as $product_id ) {
-						// Delete those products who have been unpublished or deleted meanwhile
-						ps_cart::deleteSaved( array('product_id'=>$product_id,'description'=>''), true);
+					if( !empty( $products_in_cart )) {
+						$db->query('SELECT product_id FROM #__{vm}_product WHERE product_id IN('.implode(',', $products_in_cart ).') AND product_publish=\'Y\'' );
+						while( $db->next_record() ) {
+							unset( $products_in_cart[$db->f('product_id')] );
+						}
+						foreach ( $products_in_cart as $product_id ) {
+							// Delete those products who have been unpublished or deleted meanwhile
+							ps_cart::deleteSaved( array('product_id'=>$product_id,'description'=>''), true);
+						}
 					}
+	                // If Current cart is empty populate with saved cart
+	                if(@$_SESSION['cart']['idx'] == 0) {
+	                    $_SESSION['cart'] = $_SESSION['savedcart'];
+	                    $_SESSION['savedcart']['idx'] = 0;
+	                    ps_cart::saveCart();
+	                }
+					return $_SESSION['cart'];
 				}
-                // If Current cart is empty populate with saved cart
-                if(@$_SESSION['cart']['idx'] == 0) {
-                    $_SESSION['cart'] = $_SESSION['savedcart'];
-                    $_SESSION['savedcart']['idx'] = 0;
-                    ps_cart::saveCart();
-                }
-				return $_SESSION['cart'];
 			}
 		}
 		// Register the cart

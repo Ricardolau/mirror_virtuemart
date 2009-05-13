@@ -233,7 +233,7 @@ $vm_mainframe->setPageTitle( html_entity_decode( substr($product_name, 0, 60 ), 
 
 	if($db_product->f("metadesc") == "") {
 		$metadesc = $db_product->f("product_s_desc");
-		if ($substr(strip_tags($metadesc ), 0, 255) == "") {
+		if (substr(strip_tags($metadesc ), 0, 255) == "") {
 			$metadesc = html_entity_decode( substr($product_name, 0, 60 ), ENT_QUOTES );
 		}
 	} 

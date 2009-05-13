@@ -90,7 +90,7 @@ if( $category_id ) {
 	$desc = vmCommonHTML::ParseContentByPlugins( $desc );
 	if($db->f("metadesc") == "") {
 		$metadesc = vmCommonHTML::ParseContentByPlugins( $desc );
-		if ($substr(strip_tags($metadesc ), 0, 255) == "") {
+		if (substr(strip_tags($metadesc ), 0, 255) == "") {
 			$metadesc = $db->f("category_name");
 		}
 	}

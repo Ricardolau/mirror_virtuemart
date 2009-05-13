@@ -28,6 +28,7 @@ if( CHECK_STOCK == '1' && !$product_in_stock && !$ps_product->parent_has_childre
     <input type="hidden" name="category_id" value="<?php echo  @$_REQUEST['category_id'] ?>" />
     <input type="hidden" name="product_id" value="<?php echo $product_id ?>" />
     <input type="hidden" name="prod_id[]" value="<?php echo $product_id ?>" />
+    <input type="hidden" name="flypage" value="<?php echo $flypage ?>" />
     <input type="hidden" name="page" value="shop.cart" />
     <input type="hidden" name="func" value="cartadd" />
     <input type="hidden" name="Itemid" value="<?php echo $sess->getShopItemid() ?>" />

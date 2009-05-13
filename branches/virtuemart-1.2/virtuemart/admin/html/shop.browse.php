@@ -457,7 +457,7 @@ else {
 		// Add-to-Cart Button 
 		if (USE_AS_CATALOGUE != '1'  
 			&& $tpl->get_cfg( 'showAddtocartButtonOnProductList' ) ) {
-				
+			$tpl->set('flypage',$flypage);	
 			$tpl->set( 'i', $i );
 			$tpl->set( 'product_id', $db_browse->f('product_id') );
 			$tpl->set( 'product_in_stock', $db_browse->f('product_in_stock') );

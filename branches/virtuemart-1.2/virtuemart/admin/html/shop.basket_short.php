@@ -140,8 +140,8 @@ if(@$_SESSION['vmEnableEmptyCart'] && !@$_SESSION['vmMiniCart']) {
 
 }
 
-$href = $sess->url($mm_action_url."index.php?page=shop.cart");
-$href2 = $sess->url($mm_action_url."index2.php?page=shop.cart", true);
+$href = $sess->url(URL."index.php?page=shop.cart");
+$href2 = $sess->url(URL."index2.php?page=shop.cart", true);
 $text = $VM_LANG->_('VM_CART_SHOW');
 if( @$_SESSION['vmUseGreyBox'] ) {
 	$show_cart = vmCommonHTML::getGreyboxPopUpLink( $href2, $text, '', $text, '', 500, 600, $href );
@@ -159,7 +159,7 @@ $tpl->set('total_price', @$total_price);
 $tpl->set('show_cart', @$show_cart);
 $saved_cart_text = "";
 if($saved_cart['idx'] != 0) {
-	$saved_cart_text = "<br style=\"clear:both;\"/><a href=\"".str_replace("Itemid=26","Itemid=34",$sess->url($mm_action_url."index.php?page=shop.savedcart"))."\" class=\"savedCart\">".$VM_LANG->_('VM_RECOVER_CART')."</a>";
+	$saved_cart_text = "<br style=\"clear:both;\"/><a href=\"".$sess->url(URL."index.php?page=shop.savedcart")."\" class=\"savedCart\">".$VM_LANG->_('VM_RECOVER_CART')."</a>";
 }
 $tpl->set('saved_cart',$saved_cart_text);
 echo $tpl->fetch( 'common/minicart.tpl.php');

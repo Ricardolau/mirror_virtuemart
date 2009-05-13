@@ -166,13 +166,17 @@ function virtuemartBuildRoute(&$query)
 		break;
 
 		case 'shop.tos';
-			$segments[] ="terms-of-service";
+			$segments[] = "terms-of-service";
 		break;
 
+		case 'shop.savedcart';
+			$segments[] = "recover";
+		break;
+		
 		case 'shop.cart';
-			$segments[] ="cart";
+			$segments[] = "cart";
 		break;
-
+		
 		case 'account.index';
 			$segments[] ="account";
 		break;
@@ -303,6 +307,10 @@ function virtuemartParseRoute($segments)
 			$vars['page'] = "account.index";
 		break; 
 
+		case 'recover':
+			$vars['page'] = "shop.savedcart";
+		break;
+		
 		case 'cart':
 			$vars['page'] = "shop.cart";
 		break; 

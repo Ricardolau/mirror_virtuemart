@@ -450,7 +450,8 @@ class vmMainFrame {
 			$mainframe->setPageTitle( $title );
 		}
 	}
-
+	
+	
 	/**
 	 * Returns a pathway item
 	 *

@@ -294,6 +294,10 @@ class ps_product_category extends vmAbstractObject {
 										'cdate' => $timestamp,
 										'mdate' => $timestamp,
 										'list_order' => $list_order,
+										'metadesc' => vmGet($d, 'metadesc',''),
+										'metakey' => vmGet($d, 'metakey',''),
+										'metarobot' => vmGet($d, 'metarobot',''),
+										'metaauthor' => vmGet($d, 'metaauthor',''),
 									);
 			$db->buildQuery('INSERT', '#__{vm}_category', $fields );		
 			$db->query();
@@ -361,6 +365,10 @@ class ps_product_category extends vmAbstractObject {
 										'limit_list_initial' => vmGet( $d, 'limit_list_initial' ),
 										'mdate' => $timestamp,
 										'list_order' => vmRequest::getInt('list_order'),
+										'metadesc' => vmGet($d, 'metadesc',''),
+										'metakey' => vmGet($d, 'metakey',''),
+										'metarobot' => vmGet($d, 'metarobot',''),
+										'metaauthor' => vmGet($d, 'metaauthor',''),
 									);
 			$db->buildQuery('UPDATE', '#__{vm}_category', $fields, 'WHERE category_id=' .(int)$d["category_id"].' AND vendor_id='.$vendor_id );		
 			$db->query();
@@ -777,7 +785,9 @@ class ps_product_category extends vmAbstractObject {
 
 		return $html;
 	}
+	
 
+	
 	/**
 	 * Function to print a table containing all categories sorted and structured
 	 * It goes through the category table and establishes

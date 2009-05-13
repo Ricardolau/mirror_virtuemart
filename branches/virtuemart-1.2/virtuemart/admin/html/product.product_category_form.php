@@ -83,80 +83,124 @@ $tabs->startTab( "<img src='". IMAGEURL ."ps_image/edit.png' align='absmiddle' w
       </td>
     </tr>
     <tr>
-      <td ><div align="right"><?php echo $VM_LANG->_('VM_MODULE_LIST_ORDER') ?>: </div></td>
-      <td valign="top"><?php 
-        echo $ps_product_category->list_level( $db->f("category_parent_id"), $db->f("category_id"), $db->f("list_order"));
-        echo "<input type=\"hidden\" name=\"currentpos\" value=\"".$db->f("list_order")."\" />";
-      ?>
-      </td>
-    </tr>
-    <tr> 
-      <td width="21%" valign="top" nowrap><div  align="right"><?php echo $VM_LANG->_('VM_CATEGORY_FORM_PARENT') ?>:</div></td>
-      <td width="79%" valign="top"> <?php 
-          if (!$category_id) {
-            $ps_product_category->list_all("parent_category_id", $category_id);
-          }
-          else {
-            $ps_product_category->list_all("category_parent_id", $category_id);
-          }
-        echo "<input type=\"hidden\" name=\"current_parent_id\" value=\"".$db->f("category_parent_id")."\" />"; ?>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2"><br /></td>
-    </tr>
-    <tr>
-      <td ><div align="right"><?php echo $VM_LANG->_('VM_CATEGORY_FORM_PRODUCTS_PER_ROW'); ?>: </div></td>
-      <td valign="top">
-      <input type="text" class="inputbox" size="3" name="products_per_row" value="<?php $db->sp("products_per_row"); ?>" />
-      </td>
-    </tr>
+      <td colspan="2">
+      	<table width="100%">
+      		<tr>
+      			<td width="60%">
+      				<table>
+    					<tr>
+      						<td ><div align="right"><?php echo $VM_LANG->_('VM_MODULE_LIST_ORDER') ?>: </div></td>
+      						<td valign="top"><?php 
+        						echo $ps_product_category->list_level( $db->f("category_parent_id"), $db->f("category_id"), $db->f("list_order"));
+        						echo "<input type=\"hidden\" name=\"currentpos\" value=\"".$db->f("list_order")."\" />";
+      						?>
+      						</td>
+    					</tr>
+    					<tr> 
+      						<td width="35%" valign="top" nowrap><div  align="right"><?php echo $VM_LANG->_('VM_CATEGORY_FORM_PARENT') ?>:</div></td>
+      						<td width="65%" valign="top"> <?php 
+          						if (!$category_id) {
+            						$ps_product_category->list_all("parent_category_id", $category_id);
+          						}
+          						else {
+            						$ps_product_category->list_all("category_parent_id", $category_id);
+          						}
+        						echo "<input type=\"hidden\" name=\"current_parent_id\" value=\"".$db->f("category_parent_id")."\" />"; ?>
+      						</td>
+    					</tr>
+    					<tr>
+      						<td colspan="2"><br /></td>
+    					</tr>
+    					<tr>
+      						<td ><div align="right"><?php echo $VM_LANG->_('VM_CATEGORY_FORM_PRODUCTS_PER_ROW'); ?>: </div></td>
+      						<td valign="top">
+      							<input type="text" class="inputbox" size="3" name="products_per_row" value="<?php $db->sp("products_per_row"); ?>" />
+      						</td>
+    					</tr>
     
-    <tr>
-      <td ><div align="right"><?php echo $VM_LANG->_('VM_CATEGORY_FORM_LIMIT_LIST_START'); ?>: </div></td>
-      <td valign="top">
-      <input type="text" class="inputbox" size="3" name="limit_list_start" value="<?php $db->sp("limit_list_start"); ?>" />
-      </td>
-    </tr>
-    <tr>
-      <td ><div align="right"><?php echo $VM_LANG->_('VM_CATEGORY_FORM_LIMIT_LIST_STEP'); ?>: </div></td>
-      <td valign="top">
-      <input type="text" class="inputbox" size="3" name="limit_list_step" value="<?php $db->sp("limit_list_step"); ?>" />
-      </td>
-    </tr>
-    <tr>
-      <td ><div align="right"><?php echo $VM_LANG->_('VM_CATEGORY_FORM_LIMIT_LIST_MAX'); ?>: </div></td>
-      <td valign="top">
-      <input type="text" class="inputbox" size="3" name="limit_list_max" value="<?php $db->sp("limit_list_max"); ?>" />
-      </td>
-    </tr>
-    <tr>
-      <td ><div align="right"><?php echo $VM_LANG->_('VM_CATEGORY_FORM_INITIAL_DISPLAY_RECORDS'); ?>: </div></td>
-      <td valign="top">
-      <input type="text" class="inputbox" size="3" name="limit_list_initial" value="<?php $db->sp("limit_list_initial"); ?>" />
-      </td>
-    </tr>    
-    <tr>
-      <td><div align="right"><?php echo $VM_LANG->_('VM_CATEGORY_FORM_BROWSE_PAGE'); ?>: </div></td>
-      <td valign="top">
-      <?php
-      echo ps_html::list_template_files( "category_browsepage", 'browse', $db->sf("category_browsepage") );
-      ?>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2"><br /></td>
-    </tr>
-     <tr>
-      <td ><div align="right">
-        <?php echo $VM_LANG->_('VM_CATEGORY_FORM_FLYPAGE') ?>:</div>
-      </td>
-      <td valign="top">
-          <?php
-	      echo ps_html::list_template_files( "category_flypage", 'product_details', str_replace('shop.', '', $db->sf("category_flypage")) );
-	      ?>
-      </td>
-    </tr>
+    					<tr>
+      						<td ><div align="right"><?php echo $VM_LANG->_('VM_CATEGORY_FORM_LIMIT_LIST_START'); ?>: </div></td>
+      						<td valign="top">
+      							<input type="text" class="inputbox" size="3" name="limit_list_start" value="<?php $db->sp("limit_list_start"); ?>" />
+      						</td>
+    					</tr>
+    					<tr>
+    						<td ><div align="right"><?php echo $VM_LANG->_('VM_CATEGORY_FORM_LIMIT_LIST_STEP'); ?>: </div></td>
+      						<td valign="top">
+      							<input type="text" class="inputbox" size="3" name="limit_list_step" value="<?php $db->sp("limit_list_step"); ?>" />
+      						</td>
+    					</tr>
+    					<tr>
+      						<td ><div align="right"><?php echo $VM_LANG->_('VM_CATEGORY_FORM_LIMIT_LIST_MAX'); ?>: </div></td>
+      						<td valign="top">
+      							<input type="text" class="inputbox" size="3" name="limit_list_max" value="<?php $db->sp("limit_list_max"); ?>" />
+      						</td>
+    					</tr>
+    					<tr>
+      						<td ><div align="right"><?php echo $VM_LANG->_('VM_CATEGORY_FORM_INITIAL_DISPLAY_RECORDS'); ?>: </div></td>
+      						<td valign="top">
+      							<input type="text" class="inputbox" size="3" name="limit_list_initial" value="<?php $db->sp("limit_list_initial"); ?>" />
+      						</td>
+    					</tr>    
+    					<tr>
+      						<td><div align="right"><?php echo $VM_LANG->_('VM_CATEGORY_FORM_BROWSE_PAGE'); ?>: </div></td>
+      						<td valign="top">
+      							<?php
+      								echo ps_html::list_template_files( "category_browsepage", 'browse', $db->sf("category_browsepage") );
+      							?>
+      						</td>
+    					</tr>
+    					<tr>
+      						<td colspan="2"><br /></td>
+    					</tr>
+     					<tr>
+      						<td ><div align="right">
+        						<?php echo $VM_LANG->_('VM_CATEGORY_FORM_FLYPAGE') ?>:</div>
+      						</td>
+      						<td valign="top">
+          						<?php
+	      						echo ps_html::list_template_files( "category_flypage", 'product_details', str_replace('shop.', '', $db->sf("category_flypage")) );
+	      						?>
+      						</td>
+    					</tr>
+    				</table>
+    			</td>
+    			<td valign="top">
+    				<fieldset>
+            			<legend><?php echo $VM_LANG->_('VM_META_INFORMATION'); ?></legend>		
+   						<table valign="top">
+   							<tr>
+   								<td vlaign="top"><div align="right"><?php echo $VM_LANG->_('VM_META_DESC'); ?>: </div></td>
+      							<td valign="top">
+      								<textarea class="inputbox" name="meta_desc" id="meta_desc" cols="35" rows="5"><?php echo $db->sf("metadesc"); ?></textarea>
+      							</td>
+    						</tr>
+    						<tr>
+    							<td ><div align="right"><?php echo $VM_LANG->_('VM_META_KEYWORDS'); ?>: </div></td>
+      							<td valign="top">
+      								<textarea class="inputbox" name="metakey" id="meta_key" cols="35" rows="5"><?php echo $db->sf("metakey"); ?></textarea>
+      							</td>
+    						</tr>
+    						<tr>
+    							<td ><div align="right"><?php echo $VM_LANG->_('VM_META_ROBOTS'); ?>: </div></td>
+      							<td valign="top">
+      								<input type="text" class="inputbox" size="20" name="metarobot" value="<?php echo $db->sf("metarobot"); ?>" />
+      							</td>
+   							</tr>
+    						<tr>
+    							<td ><div align="right"><?php echo $VM_LANG->_('VM_META_AUTHOR'); ?>: </div></td>
+      							<td valign="top">
+      								<input type="text" class="inputbox" size="20" name="metaauthor" value="<?php echo $db->sf("metaauthor"); ?>" />
+      							</td>
+    						</tr>
+    					</table>
+    				</fieldset>
+
+			    </td>
+    		</tr>
+    	</table>
+    </td>
+  </tr>
 </table>
 <?php
 $tabs->endTab();

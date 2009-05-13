@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+13.05.2009 macallf
++ Create Joomla style meta info for products and categories
+
 13.05.2009 aravot
 # Fixed Notice Undefined variable total in shop.basket_short.php
 

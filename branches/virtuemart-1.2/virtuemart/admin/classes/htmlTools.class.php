@@ -1487,5 +1487,35 @@ function vmFormatAddress( $address_details, $use_html=false, $removeEmptyLines=f
 	}
 	return $store_address;
 }
+/**
+ * Creates meta information
+ *
+ * @param array $metadata
+ * @ $metadata[] = array('type' => type of action, set, append or prepend,
+ * 						 'title' => meta key to set e.g. keyword, author etc,
+ * 						 'meta' => actual meta data,
+ * 						)
+ */
+function vmSetMetaData($metadata) {
+		$document=& JFactory::getDocument();
+		foreach($metadata as $meta) {
+			switch($meta['type']) {
+				case 'append' :
+					$prepend = $document->getMetaData($meta['title']);
+					$metaval = shopMakeHtmlSafe((($prepend == "") ? '' : $prepend.",") .$meta['meta']);
+					break;
+				case 'prepend' :
+					$append = $document->getMetaData($meta['title']);
+					$metaval = shopMakeHtmlSafe($meta['meta'].(($append == "") ? '' : ",".$append));
+					break;
+				case 'set' :
+				default;
+					$metaval = shopMakeHtmlSafe($meta['meta']);
+			}
+			$document->setMetaData($meta['title'],$metaval);
+		}
+		
+	}
+
 
 ?>

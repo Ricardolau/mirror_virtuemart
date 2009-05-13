@@ -402,15 +402,47 @@ $tabs->startTab( $info_label, "info-page");
   </table>
   <table class="adminform">
     <tr class="row1">
-      <td valign="top" width="15%"><div style="font-weight:bold;">
+      <td valign="top" width="20%"><div style="font-weight:bold;">
         <?php echo $VM_LANG->_('VM_PRODUCT_FORM_DESCRIPTION') ?>:</div>
       </td>
-      <td width="85%">
+      <td width="60%">
         <?php
         editorArea( 'editor1', htmlspecialchars( $db->sf("product_desc"), ENT_QUOTES ), 'product_desc', '550', '300', '55', '25' )
 	?>
       </td>
-    </tr>
+      
+      <td valign="top">
+    	<fieldset>
+        <legend><?php echo $VM_LANG->_('VM_META_INFORMATION') ?></legend>		
+   			<table valign="top">
+   				<tr>
+   					<td vlaign="top"><div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_('VM_META_DESC'); ?>: </div></td>
+      				<td valign="top">
+      					<textarea class="inputbox" name="metadesc" id="meta_desc" cols="30" rows="6"><?php echo $db->sf("metadesc"); ?></textarea>
+      				</td>
+    			</tr>
+    			<tr>
+    				<td ><div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_('VM_META_KEYWORDS'); ?>: </div></td>
+      				<td valign="top">
+      					<textarea class="inputbox" name="metakeyword" id="meta_keyword" cols="30" rows="6"><?php echo $db->sf('metakey'); ?></textarea>
+      				</td>
+    			</tr>
+    			<tr>
+    				<td ><div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_('VM_META_ROBOTS'); ?>: </div></td>
+      				<td valign="top">
+      					<input type="text" class="inputbox" size="20" name="metarobot" value="<?php echo $db->sf("metarobot") ?>" />
+      				</td>
+   				</tr>
+    			<tr>
+    				<td ><div style="text-align:right;font-weight:bold;"><?php echo $VM_LANG->_('VM_META_AUTHOR'); ?>: </div></td>
+      				<td valign="top">
+      					<input type="text" class="inputbox" size="20" name="metaauthor" value="<?php echo $db->sf("metaauthor") ?>" />
+      				</td>
+    			</tr>
+   			</table>
+    	</fieldset>
+	</td>
+   </tr>
   </table>
 
 

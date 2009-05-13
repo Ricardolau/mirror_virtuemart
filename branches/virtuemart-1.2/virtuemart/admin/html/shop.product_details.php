@@ -229,13 +229,33 @@ if ($ps_product_category->has_childs($category_id) ) {
 // Set Dynamic Page Title
 $vm_mainframe->setPageTitle( html_entity_decode( substr($product_name, 0, 60 ), ENT_QUOTES ));
 
-// Prepend Product Short Description Meta Tag "description"
-if( vmIsJoomla('1.5')) {
-	$document = JFactory::getDocument();
-	$document->setDescription(strip_tags( $db_product->f("product_s_desc")));
-} else {
-	$mainframe->prependMetaTag( "description", strip_tags( $db_product->f("product_s_desc")) );
-}
+// populate meta information
+
+	if($db_product->f("metadesc") == "") {
+		$metadesc = $db_product->f("product_s_desc");
+	} else {
+		$metadesc = $db_product->f('metadesc');
+	}
+	
+	$metadata[] = array('type' => 'prepend',
+						'title' => 'description',
+						'meta' => substr(strip_tags($metadesc ), 0, 255));
+	if($db_product->f("metakey") != "") {
+		$metadata[] =array ('type' => 'prepend',
+						'title' => 'keywords',
+						'meta' => substr(strip_tags($db_product->f("metakey") ), 0, 255));
+	}
+	if($db_product->f("metarobot") != "") {
+		$metadata[] =array ('type' => 'set',
+						'title' => 'robots',
+						'meta' => substr(strip_tags($db_product->f("metarobot") ), 0, 255));
+	}
+	if($db_product->f("metaauthor") != "") {
+		$metadata[] =array ('type' => 'prepend',
+						'title' => 'author',
+						'meta' => substr(strip_tags($db_product->f("metaauthor") ), 0, 255));
+	}
+	vmSetMetaData($metadata);
 
 
 // Show an "Edit PRODUCT"-Link

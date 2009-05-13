@@ -311,7 +311,11 @@ class ps_product extends vmAbstractObject {
 						'mdate' => $timestamp,
 						'product_tax_id' => vmRequest::getInt('product_tax_id'),
 						'child_option_ids' => vmGet($d,'included_product_id'),
-						'product_order_levels' => $d['order_levels'] );
+						'product_order_levels' => $d['order_levels'],
+						'metadesc' => vmGet($d, 'metadesc',''),
+						'metakey' => vmGet($d, 'metakey',''),
+						'metarobot' => vmGet($d, 'metarobot',''),
+						'metaauthor' => vmGet($d, 'metaauthor',''));
 
 		$db->buildQuery('INSERT', '#__{vm}_product', $fields );
 		if( $db->query() === false ) {
@@ -506,7 +510,11 @@ class ps_product extends vmAbstractObject {
 						'mdate' => $timestamp,
 						'product_tax_id' => vmRequest::getInt('product_tax_id'),
 						'child_option_ids' => vmGet($d,'included_product_id'),
-						'product_order_levels' => $d['order_levels'] );
+						'product_order_levels' => $d['order_levels'],
+						'metadesc' => vmGet($d, 'metadesc',''),
+						'metakey' => vmGet($d, 'metakey',''),
+						'metarobot' => vmGet($d, 'metarobot',''),
+						'metaauthor' => vmGet($d, 'metaauthor',''));
 
 		//this line didnt worked correct. Sometimes the category was changed but not the description, updating vendor didnt worked at all by Max Milbers
 //		$db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  'WHERE product_id='. (int)$d["product_id"] . ' AND vendor_id=' . (int)$d['vendor_id'] );

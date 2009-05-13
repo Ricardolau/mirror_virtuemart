@@ -80,17 +80,41 @@ if( $category_id ) {
 	/**
     * CATEGORY DESCRIPTION
     */
-	$db->query( "SELECT category_id, category_name FROM #__{vm}_category WHERE category_id='$category_id'");
+	$db->query( "SELECT category_id, category_name, metadesc, metakey, metarobot, metaauthor FROM #__{vm}_category WHERE category_id='$category_id'");
 	$db->next_record();
 	$category_name = shopMakeHtmlSafe( $db->f('category_name') );
 
 	/* Set Dynamic Page Title */
 	$mainframe->setPageTitle( $db->f("category_name") );
-
 	$desc =  $ps_product_category->get_description($category_id);
 	$desc = vmCommonHTML::ParseContentByPlugins( $desc );
+	if($db->f("metadesc") == "") {
+		$metadesc = vmCommonHTML::ParseContentByPlugins( $desc );
+	} else {
+		$metadesc = $db->f('metadesc');
+	}
 	/* Prepend Product Short Description Meta Tag "description" when applicable */
-	$mainframe->prependMetaTag( "description", substr(strip_tags($desc ), 0, 255) );
+	//$mainframe->prependMetaTag( "description", substr(strip_tags($desc ), 0, 255) );
+	$metadata[] = array('type' => 'prepend',
+						'title' => 'description',
+						'meta' => substr(strip_tags($metadesc ), 0, 255));
+	if($db->f("metakey") != "") {
+		$metadata[] =array ('type' => 'prepend',
+						'title' => 'keywords',
+						'meta' => substr(strip_tags($db->f("metakey") ), 0, 255));
+	}
+	if($db->f("metarobot") != "") {
+		$metadata[] =array ('type' => 'set',
+						'title' => 'robots',
+						'meta' => substr(strip_tags($db->f("metarobot") ), 0, 255));
+	}
+	if($db->f("metaauthor") != "") {
+		$metadata[] =array ('type' => 'prepend',
+						'title' => 'author',
+						'meta' => substr(strip_tags($db->f("metaauthor") ), 0, 255));
+	}
+	vmSetMetaData($metadata);
+
 
 }
 // when nothing has been found we tell this here and say goodbye

@@ -241,6 +241,11 @@ Title = Color, Property = Red ; Click on New Property to add a new color: Green 
 Price = +10 to add this amount to the configured price.<br />  Price = -10 to subtract this amount from the configured price.<br />  Price = 10 to set the product\'s price to this amount.',
 	'VM_FILES_FORM_PRODUCT_IMAGE' => 'Product Image (full and thumb)',
 	'VM_FILES_FORM_DOWNLOADABLE' => 'Downloadable Product File (to be sold!)',
-	'VM_FILES_FORM_RESIZE_IMAGE' => 'Resize Full Image File?'
+	'VM_FILES_FORM_RESIZE_IMAGE' => 'Resize Full Image File?',
+	'VM_META_INFORMATION' => 'Metadata Information',
+	'VM_META_DESC' => 'Description',
+	'VM_META_KEYWORDS' => 'Keywords',
+	'VM_META_ROBOTS' => 'Robots',
+	'VM_META_AUTHOR' => 'Author'
 ); $VM_LANG->initModule( 'product', $langvars );
 ?>

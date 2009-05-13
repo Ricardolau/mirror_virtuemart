@@ -34,6 +34,8 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+13.05.2009 aravot
+# Fixed Notice Undefined variable total in shop.basket_short.php
 
 11.05.2009 soeren
 # Task #2590 - Attributes are not calculated 
@@ -60,7 +62,7 @@ VirtueMart 1.1.x
 # suppres getimagesize warning if file does not exist
 
 01.05.2009
-# Fixed to show shipping rate tax for all tax modes
+# BUG #2583 - Fixed to show shipping rate tax for all tax modes
 
 01.05.2009 rolandd
 # Unknown column 'file_is_image=0'

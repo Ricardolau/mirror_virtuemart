@@ -40,6 +40,7 @@ $minicart = array();
 if ($cart["idx"] == 0) {
 	$empty_cart = true;
 	$checkout = false;
+	$total = 0;
 }
 else {
 	$empty_cart = false;

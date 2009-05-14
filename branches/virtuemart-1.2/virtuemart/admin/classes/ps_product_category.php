@@ -694,13 +694,13 @@ class ps_product_category extends vmAbstractObject {
 	}
 	/**
 	 * This function is used for the frontend to display a
-	 * complete link list of top-level categories
+	 * complete flat list of top-level categories
 	 * 
 	 * @param int $category_id The category to be highlighted
 	 * @param string $links_css_class The css class that marks mainlevel links
 	 * @param string $list_css_class (deprecated)
 	 * @param string $highlighted_style The css styles that format the hightlighted category
-	 * @return string HTML code with the link list
+	 * @return string HTML code with the flat list
 	 */
 	function get_category_tree( $category_id=0,
 				$links_css_class="mainlevel",
@@ -786,6 +786,138 @@ class ps_product_category extends vmAbstractObject {
 		return $html;
 	}
 	
+	/**
+	 * This function is used for the frontend to display a
+	 * complete flat list of top-level categories
+	 * 
+	 * builds an array of all menu items 
+	 * 
+	 * @param int $category_id The category id to be highlighted
+	 * @param string $depthmin min level
+	 * @param string $depthmax max level
+	 * @param string $params values from module
+	 * @return string HTML code with the link list
+	 */	
+	function getCategoryList($category_id=0, $depthmin, $depthmax, $params ) {
+    	if (empty($category_id)) {
+    		$category_id="0";
+    	}
+    	$parent_id=$category_id;
+    	$menus_table=array();
+    	if ($rows = $this->getChildMenu($parent_id)) {
+      		$menus_table[]=$rows;
+    	}
+    	if ($category_id>0) {
+      		do {
+        		$child_id=$parent_id;
+        		$parent_id=$this->getParentMenu($parent_id);
+        		$rows = $this->getChildMenu($parent_id);
+        		for ($n=0; $n<count($rows); $n++) {
+            		if ($rows[$n]['id']==$child_id){
+              			$rows[$n]['active']=1;
+            		}
+            		if ($rows[$n]['id']==$category_id){
+              			$rows[$n]['active']=2;
+            		}
+          		}
+        		$menus_table[] = $rows;
+      		} while ($parent_id>0);
+    	}   
+    	$menus_table = array_reverse($menus_table);
+    
+    	return $this->getRowMenu ($menus_table,$depthmin, $depthmax, true, $params);
+  	}
+  
+	/**
+	 * This function is used for the frontend to display a
+	 * complete link list of top-level categories
+	 * 
+	 * formats the menu rows for flat list
+	 * 
+	 * @param array $rows the category list in row format
+	 * @param string $depthmin min level
+	 * @param string $depthmax max level
+	 * @param string $firstPass toplevel of menu
+	 * @param string $params values from module
+	 * @return string HTML code with the link list
+	 */ 
+  	function getRowMenu ($rows,$depthmin, $depthmax, $firstPass=false, $params) {
+    	global $sess ;
+    	$class_sfx = $params->get( 'class_sfx', "" );
+     
+    	if (isset($rows[$depthmin])) {
+      		$html='<ul'.($firstPass ? ' class="menu'.$class_sfx.'"' : '').'>';
+      		$item=0;
+      		foreach ($rows[$depthmin] as $menu_element) {
+        		$name = shopMakeHtmlSafe ($menu_element['name']);
+          		$link = $sess->url(URL."index.php?page=shop.browse&category_id=".$menu_element['id']);
+          		if ($menu_element['active']==1) {
+            		$class = ' class="active parent item'.$item.'"';
+            		$aclass = 'class="topdaddy"';
+          		} elseif ($menu_element['active']==2) {
+            		$class = ' class="active parent item'.$item.'" id="current"';
+            		$aclass = 'class="daddy"';
+          		} else {
+            		$class = ' class="item'.$item.'"';
+            		$aclass = '';
+          		}
+          		$html.= '<li'.$class.'><a '.$aclass.' href="'.$link.'" title="'.$name.'" ><span>'.$name.'</span></a>';
+          			if ($menu_element['active']>0 && $depthmin<$depthmax && isset($rows[$depthmin+1])) {
+            			$html.=$this->getRowMenu ($rows,$depthmin+1, $depthmax,false, $params);
+          			}
+          		$html.= '</li>';
+          		$item++;
+      		}
+      		$html.="</ul>";
+      		return $html;
+    	}
+  	}
+  
+	/**
+	 * This function is used for the frontend to display a
+	 * complete flat list of top-level categories
+	 * 
+	 * returns the category_parent_id of the current category
+	 * 
+	 * @param int $category_parent_id The parent category 
+	 * @return string HTML code with the link list
+	 */  
+  	function getParentMenu($category_child_id) {
+    	$db = new ps_DB();
+    	$q="SELECT category_parent_id FROM #__{vm}_category_xref WHERE category_child_id=".$category_child_id;
+    	$db->setQuery($q);  
+    	return $db->loadResult();
+  	}
+  
+	/**
+	 * This function is used for the frontend to display a
+	 * complete flat list of top-level categories
+	 * 
+	 * returns all children of the current parent
+	 * 
+	 * @param int $category_id The category to be highlighted
+	 * @return string HTML code with the link list
+	 */  
+  	function getChildMenu ($category_parent_id) {
+  		global $perm;
+    	$db = new ps_DB();
+    	$q = "SELECT category_id AS id, category_parent_id AS parent, category_name AS name, 0 AS active ".
+    		"FROM #__{vm}_category_xref, #__{vm}_category  ".
+    		"WHERE category_parent_id = ".$category_parent_id.
+    		" AND #__{vm}_category.category_id = #__{vm}_category_xref.category_child_id ".
+  			" AND #__{vm}_category.category_publish='Y' ";
+  		if (!$perm->check("admin")) {
+			$q .= "AND (#__{vm}_category.vendor_id = '$vendor_id' OR #__{vm}_category_xref.category_shared = 'Y') ";
+		}
+  		$q .= "ORDER BY #__{vm}_category.list_order ASC, #__{vm}_category.category_name ASC";
+  		$db->setQuery($q);
+  		$db->query();
+    	if ($db->num_rows()>0) {
+      		return $db->loadAssocList();
+    	} else {
+      		return false;
+    	}   
+  	}
 
 	
 	/**

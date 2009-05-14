@@ -51,6 +51,8 @@ $jscookMenu_style = $params->get( 'jscookMenu_style', 'ThemeOffice' );
 $jscookTree_style = $params->get( 'jscookTree_style', 'ThemeXP' );
 $jscook_type = $params->get( 'jscook_type', 'menu' );
 $menu_orientation = $params->get( 'menu_orientation', 'hbr' );
+$min_level = $params->get( 'flat_min', 0 );
+$max_level = $params->get( 'flat_max', 10 );
 $_REQUEST['root_label'] = $params->get( 'root_label', 'Shop' );
 
 $class_mainlevel = "mainlevel".$class_sfx;
@@ -69,8 +71,11 @@ if( $show_categories == "yes" ) {
   if ( $menutype == 'links' ) {
 	/* MENUTPYE LINK LIST */
     echo $ps_product_category->get_category_tree( $category_id, $class_mainlevel );
-
   } 
+  elseif( $menutype == "flat" ) {
+  	/* MENUTPYE FLAT LIST */
+	echo $ps_product_category->getCategoryList($category_id, $min_level, $max_level, $params);
+  }
   elseif( $menutype == "transmenu" ) {
       /* TransMenu script to display a DHTML Drop-Down Menu */
       include_once( $mod_dir.'/vm_transmenu.php' );

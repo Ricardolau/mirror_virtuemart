@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+14.05.2009 macallf
++ Create XHtml Flat List Category menu, J!1.5 css 
+
 13.05.2009 macallf
 + Create Joomla style meta info for products and categories
 

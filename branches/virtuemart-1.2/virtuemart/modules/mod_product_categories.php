@@ -35,6 +35,8 @@ $jscookMenu_style = $params->get( 'jscookMenu_style', 'ThemeOffice' );
 $jscookTree_style = $params->get( 'jscookTree_style', 'ThemeXP' );
 $jscook_type = $params->get( 'jscook_type', 'menu' );
 $menu_orientation = $params->get( 'menu_orientation', 'hbr' );
+$min_level = $params->get( 'flat_min', 0 );
+$max_level = $params->get( 'flat_max', 10 );
 $_REQUEST['root_label'] = $params->get( 'root_label', 'Shop' );
 
 $class_mainlevel = "mainlevel".$class_sfx;
@@ -66,7 +68,11 @@ switch( $menutype ) {
 		/* TigraTree script to display structured categories */
 		include( $vm_path . '/vm_tigratree.php' );
 		break;
-
+	case 'flat' :
+		require_once(CLASSPATH.'ps_product_category.php');
+		$ps_product_category = new ps_product_category();
+		echo $ps_product_category->getCategoryList($category_id, $min_level, $max_level, $params);
+		break;
 	case 'links' :
 	default:
 		/* MENUTPYE LINK LIST */

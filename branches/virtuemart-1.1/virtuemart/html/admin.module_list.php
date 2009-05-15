@@ -112,7 +112,7 @@ while ($db->next_record()) {
 	$listObj->addCell('');
 	$usergroups->reset();
 
-	$tmp_cell = "<a href=\"".$sess->url($_SERVER['PHP_SELF']."?page=$modulename.function_list&module_id=" . $db->f("module_id"))."\">". $VM_LANG->_('PHPSHOP_FUNCTION_LIST_LBL') ."</a>";
+	$tmp_cell = "<a href=\"".$sess->url($_SERVER['PHP_SELF']."?page=$modulename.function_list&module_id=" . $db->f("module_id"))."&limitstart=0\">". $VM_LANG->_('PHPSHOP_FUNCTION_LIST_LBL') ."</a>";
 	$listObj->addCell( $tmp_cell );
 
 	$tmp_cell = "<div align=\"center\">"

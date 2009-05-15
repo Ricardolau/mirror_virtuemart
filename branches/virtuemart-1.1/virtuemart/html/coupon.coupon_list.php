@@ -24,8 +24,8 @@ if (!empty($keyword)) {
   
 	$list  = "SELECT * FROM #__{vm}_coupons WHERE ";
 	$count = "SELECT count(*) as num_rows FROM #__{vm}_coupons WHERE ";
-	$q  = "(code LIKE '%$keyword%' OR ";
-	$q .= "value LIKE '%$keyword%' ";
+	$q  = "(coupon_code LIKE '%$keyword%' OR ";
+	$q .= "coupon_value LIKE '%$keyword%' ";
 	$q .= ") ";
 	$q .= "ORDER BY coupon_id ";
 	$list .= $q . " LIMIT $limitstart, " . $limit;

@@ -256,8 +256,12 @@ class vm_ps_product_attribute {
 		$tpl->set( "advanced_attribute", $this->list_advanced_attribute( $product_id, $db->f( "product_id" ) ) ) ;
 		$tpl->set( "custom_attribute", $this->list_custom_attribute( $product_id, $db->f( "product_id" ) ) ) ;
 		// Get list of children
+		$q1 = "";
+		if( CHECK_STOCK && PSHOP_SHOW_OUT_OF_STOCK_PRODUCTS != "1") {
+			$q1 = " AND product_in_stock > 0 ";
+		}
 		$q = "SELECT product_id,product_name FROM #__{vm}_product WHERE product_parent_id='$product_id' AND product_publish='Y'" ;
-		$db->query($q);
+		$db->query($q.$q1);
 		
 		if( $db->num_rows() < 1 ) {
 			// Must be a child then
@@ -267,13 +271,14 @@ class vm_ps_product_attribute {
 			if( $product_parent_id != "0" ) {
 				$product_id = $product_parent_id;
 				$q = "SELECT product_id,product_name FROM #__{vm}_product WHERE product_parent_id=$product_id AND product_parent_id<>0 AND product_publish='Y'" ;
-				$db->setQuery( $q ) ;
+				$db->setQuery( $q.$q1 ) ;
 				$db->query() ;
 			}
 		}
 		if( $db->num_rows() > 0 ) {
 			$flypage = $ps_product->get_flypage( $product_id ) ;
 			$html = "<input type=\"hidden\" name=\"product_id\" value=\"$product_id\" />" ;
+			
 			$html .= "<label for=\"product_id_field\">" . $VM_LANG->_( 'PHPSHOP_PLEASE_SEL_ITEM' ) . "</label>: <br />\n" ;
 			
 			// If content plugins are enabled, reload the whole page; otherwise, use ajax 
@@ -382,6 +387,7 @@ class vm_ps_product_attribute {
 		if( $db->num_rows() > 0 ) {
 			$flypage = $ps_product->get_flypage( $product_id ) ;
 			$html = "<input type=\"hidden\" name=\"product_id\" value=\"$product_id\" />" ;
+			$html .= "<input type=\"hidden\" name=\"prod_id[]\" value=\"$product_id\" />" ;
 			$html .= "<label for=\"product_id_field\">" . $VM_LANG->_( 'PHPSHOP_PLEASE_SEL_ITEM' ) . "</label>: <br />" ;
 
 			// If content plugins are enabled, reload the whole page; otherwise, use ajax 
@@ -476,9 +482,9 @@ class vm_ps_product_attribute {
 		// Get list of children
 		$pp = $ps_product->parent_has_children( $product_id ) ;
 		if( $pp ) {
-			$q = "SELECT product_id,product_name,product_parent_id,product_sku,product_in_stock,product_full_image,product_thumb_image FROM #__{vm}_product WHERE product_publish='Y' AND product_parent_id='$product_id'  " ;
+			$q = "SELECT product_id,product_name,product_parent_id,product_sku,product_in_stock,product_full_image,product_thumb_image FROM #__{vm}_product WHERE product_publish='Y' AND product_parent_id='$product_id' ORDER BY product_id " ;
 		} else {
-			$q = "SELECT product_id,product_name,product_parent_id,product_sku,product_in_stock,product_full_image,product_thumb_image FROM #__{vm}_product WHERE product_publish='Y' AND product_id='$product_id'  " ;
+			$q = "SELECT product_id,product_name,product_parent_id,product_sku,product_in_stock,product_full_image,product_thumb_image FROM #__{vm}_product WHERE product_publish='Y' AND product_id='$product_id'  ORDER BY product_id " ;
 		}
 		if( $child_ids ) {
 			$ids = explode( ",", $child_ids ) ;

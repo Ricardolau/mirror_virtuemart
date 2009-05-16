@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+15.05.2009 macallf
+# BUG #1345/#1598 - Out of stock children displayed in drop down
+
 15.05.2009 aravot
 # BUG #1348 - Functions not showing in admin
 

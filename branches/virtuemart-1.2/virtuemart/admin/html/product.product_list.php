@@ -22,222 +22,391 @@ require_once( CLASSPATH .'pageNavigation.class.php' );
 global $ps_product, $ps_product_category;
 
 $ps_product = new ps_product();
+
+// uuuh, we are using modern methods.
+vmCommonHTML::loadExtjs(); // Having a modal window is good
+
 $keyword = vmGet($_REQUEST, 'keyword' );
 
-//The vmGet didnt worked for this purpose by Max Milbers 
+//The vmGet didnt worked for this purpose by Max Milbers
 $vendor = ps_vendor::get_logged_vendor();
 
-$product_parent_id = vmGet($_REQUEST, 'product_parent_id', null);
+$category_id = vmGet($_REQUEST, 'category_id', 0);//ct, was null
 
+//PARAMETERS
+$product_parent_id = vmGet($_REQUEST, 'product_parent_id', 0);//ct, was null
 $product_type_id = vmGet($_REQUEST, 'product_type_id', null); // Changed Product Type
 
-$search_date = vmGet($_REQUEST, 'search_date', null); // Changed search by date
-
+//drop down menu to filter on modified
+$search_type = vmGet($_REQUEST, 'search_type', "none");//none||product||price||withoutprice
 
 $now = getdate();
 $nowstring = $now["hours"].":".$now["minutes"]." ".$now["mday"].".".$now["mon"].".".$now["year"];
+
+$search_date = vmGet($_REQUEST, 'search_date', null); // Changed search by date
+
 if(isset($_REQUEST['search_order']) && @$_REQUEST['search_order'] == '<') {
 	$search_order = '<';
 }
 else {
 	$search_order = '>';
 }
-$search_type = vmGet($_REQUEST, 'search_type', 'product');
 
+$filtered = vmGet($_REQUEST, 'filtered', "no");
 
-// uuuh, we're using modern methods.
-vmCommonHTML::loadExtjs(); // Having a modal window is good
-?>
-<div align="right">
+if ($filtered == "yes"){
 
-	<form style="float:right;" action="<?php $_SERVER['PHP_SELF'] ?>" method="get"><?php echo $VM_LANG->_('VM_PRODUCT_LIST_SEARCH_BY_DATE') ?>&nbsp;
-          <select class="inputbox" name="search_type">
-              <option value="product"><?php echo $VM_LANG->_('VM_PRODUCT_LIST_SEARCH_BY_DATE_TYPE_PRODUCT') ?></option>
-              <option value="price" <?php echo $search_type == "price" ? 'selected="selected"' : ''; ?>><?php echo $VM_LANG->_('VM_PRODUCT_LIST_SEARCH_BY_DATE_TYPE_PRICE') ?></option>
-              <option value="withoutprice" <?php echo $search_type == "withoutprice" ? 'selected="selected"' : ''; ?>><?php echo $VM_LANG->_('VM_PRODUCT_LIST_SEARCH_BY_DATE_TYPE_WITHOUTPRICE') ?></option>
-          </select>
-          <select class="inputbox" name="search_order">
-              <option value="&lt;"><?php echo $VM_LANG->_('VM_PRODUCT_LIST_SEARCH_BY_DATE_BEFORE') ?></option>
-              <option value="&gt;" <?php echo $search_order == ">" ? 'selected="selected"' : ''; ?>><?php echo $VM_LANG->_('VM_PRODUCT_LIST_SEARCH_BY_DATE_AFTER') ?></option>
-          </select>
-          <input type="hidden" name="option" value="com_virtuemart" />
-          <input class="inputbox" type="text" size="15" name="search_date" value="<?php echo vmGet($_REQUEST, 'search_date', $nowstring) ?>" />
-          <input type="hidden" name="page" value="product.product_list" />
-          <input class="button" type="submit" name="search" value="<?php echo $VM_LANG->_('VM_SEARCH_TITLE')?>" />
-	</form>
-	<br/>
-</div>
-<?php
-
-
-
-$search_sql = " (#__{vm}_product.product_name LIKE '%$keyword%' OR \n";
-$search_sql .= "#__{vm}_product.vendor_id LIKE '%$keyword%' OR \n";
-$search_sql .= "#__{vm}_product.product_sku LIKE '%$keyword%' OR \n";
-$search_sql .= "#__{vm}_product.product_s_desc LIKE '%$keyword%' OR \n";
-$search_sql .= "#__{vm}_product.product_desc LIKE '%$keyword%'";
-$search_sql .= ") \n";
-
-// Check to see if this is a search or a browse by category
-// Default is to show all products
-if (!empty($category_id) && empty( $product_parent_id)) {
-	$list  = "SELECT #__{vm}_category.category_name,#__{vm}_product.product_id,#__{vm}_product.vendor_id,#__{vm}_product.product_name,#__{vm}_product.product_sku,#__{vm}_product.vendor_id,product_publish, product_list, product_full_image, product_thumb_image";
-	$list .= " FROM #__{vm}_product, #__{vm}_product_category_xref, #__{vm}_category WHERE ";
-	$count  = "SELECT count(*) as num_rows FROM #__{vm}_product, #__{vm}_product_category_xref, #__{vm}_category WHERE ";
-
-	$q = "#__{vm}_product_category_xref.category_id='$category_id' ";
-	$q .= "AND #__{vm}_category.category_id=#__{vm}_product_category_xref.category_id ";
-	$q .= "AND #__{vm}_product.product_id=#__{vm}_product_category_xref.product_id ";
-	$q .= "AND #__{vm}_product.product_parent_id='' ";
-	if (!$perm->check("admin")) {
-		$q  .= "AND #__{vm}_product.vendor_id = '$vendor' ";
+	if (vmGet($_REQUEST, 'published', "no") == "on"){
+		$showPublishedItems = 1;
+	} else {
+		$showPublishedItems = 0;
 	}
-	
-	if( !empty( $keyword)) {
-		$q .= " AND $search_sql";
+
+	if (vmGet($_REQUEST, 'unpublished', "no") == "on"){
+		$showUnPublishedItems = 1;
+	} else {
+		$showUnPublishedItems = 0;
 	}
-	$count .= $q;
-	$q .= "ORDER BY product_list, product_publish DESC,product_name ";
-	
+
+}else{
+
+	$showPublishedItems = 1;
+	$showUnPublishedItems = 0;
+
 }
-elseif (!empty($keyword)) {
-	$list  = "SELECT * FROM #__{vm}_product WHERE ";
-	$count = "SELECT COUNT(*) as num_rows FROM #__{vm}_product WHERE ";
-	$q = $search_sql;
-	$q .= "AND #__{vm}_product.product_parent_id='' ";
-	if (!$perm->check("admin")) {
-		$q  .= "AND #__{vm}_product.vendor_id = '$vendor' ";
-	}
 
-	$count .= $q;
-	$q .= " ORDER BY product_publish DESC,product_name ";
-}
-elseif (!empty($product_parent_id)) {
-	$list  = "SELECT * FROM #__{vm}_product WHERE ";
-	$count = "SELECT COUNT(*) as num_rows FROM #__{vm}_product WHERE ";
-	$q = "product_parent_id='$product_parent_id' ";
-	$q .= !empty($vendor) ? "AND #__{vm}_product.vendor_id='$vendor'" : "";
-	if( !empty( $keyword)) {
-		$q .= " AND $search_sql";
-	}
-	//$q .= "AND #__{vm}_product.product_id=#__{vm}_product_reviews.product_id ";
-	//$q .= "AND #__{vm}_category.category_id=#__{vm}_product_category_xref.category_id ";
-	$count .= $q;
-	$q .= " ORDER BY product_publish DESC,product_name ";
-}
-/** Changed Product Type - Begin */
-elseif (!empty($product_type_id)) {
-	$list  = "SELECT * FROM #__{vm}_product,#__{vm}_product_product_type_xref WHERE ";
-	$count = "SELECT count(*) as num_rows FROM #__{vm}_product,#__{vm}_product_product_type_xref WHERE ";
-	$q = "#__{vm}_product.product_id=#__{vm}_product_product_type_xref.product_id ";
-	$q .= "AND product_type_id='$product_type_id' ";
-	if (!$perm->check("admin")) {
-		$q  .= "AND #__{vm}_product.vendor_id = '$vendor' ";
-	}
+$filterOnSpecial = vmGet($_REQUEST, 'on_special');
 
-	if( !empty( $keyword)) {
-		$q .= " AND $search_sql";
-	}
-	$q .= " ORDER BY product_publish DESC,product_name ";
-	$count .= $q;
-}  /** Changed Product Type - End */
-/** Changed search by date - Begin */
-elseif (!empty($search_date)) {
+/*all|instock|lowstock|nostock*/
+$stockLimit = vmGet($_REQUEST, 'stock_limit', "all");
+
+$orderby = vmGet($_REQUEST, 'orderby', "product_name");
+
+$sequence = vmGet($_REQUEST, 'sequence', "ASC");
+
+if ((($search_type == "price") || ($search_type == "withoutprice")) && (!empty($search_date))){
+	$searchSql = "SELECT DISTINCT p.product_id,product_name,product_sku,vendor_id,
+					product_publish,product_parent_id ";
+}else{
+	$searchSql = "SELECT * ";
+}
+$countSql = "SELECT COUNT(p.product_id) as num_rows ";
+
+/*NOTE: ALIASES FOR TABLE NAMES*/
+$sql = "FROM #__{vm}_product p ";
+
+/*JOIN in the necessary tables for our query*/
+//product_price table
+if (((($search_type == "price") || ($search_type == "withoutprice")) && (!empty($search_date))) || ($orderby == "product_price")){
+	$sql .= "LEFT JOIN #__{vm}_product_price pp ON p.product_id = pp.product_id ";
+}
+
+//product_category_xref table
+if (!empty($category_id)){
+	$sql .= "LEFT JOIN #__{vm}_product_category_xref pcx ON p.product_id = pcx.product_id ";
+}
+
+//product_type table
+if (!empty($product_type_id)) {
+	$sql .= "LEFT JOIN #__{vm}_product_product_type_xref ptx ON p.product_id = ptx.product_id ";
+}
+
+/*FILTER products*/
+//PRODUCT table
+$sql .= "WHERE ";
+//these two are ALWAYS to be present!
+$sql .= "product_parent_id='" . $product_parent_id ."'";
+if (!$perm->check("admin")) {
+	$sql .= " AND vendor_id = " . $vendor;
+}
+
+if (!empty($search_date)){
+
 	list($time,$date) = explode(" ",$search_date);
 	list($d["search_date_hour"],$d["search_date_minute"]) = explode(":",$time);
 	list($d["search_date_day"],$d["search_date_month"],$d["search_date_year"]) = explode(".",$date);
 	$d["search_date_use"] = true;
-	if (process_date_time($d,"search_date",$VM_LANG->_('VM_SEARCH_LBL'))) {
+
+	if (process_date_time($d,"search_date",$VM_LANG->_('VM_SEARCH_LBL'))){
+
 		$date = $d["search_date"];
-		switch( $search_type ) {
-			case "product" :
-				$list  = "SELECT * FROM #__{vm}_product WHERE ";
-				$count = "SELECT COUNT(*) as num_rows FROM #__{vm}_product WHERE ";
-			break;
-			case "withoutprice" :
-			case "price" :
-			$list  = "SELECT DISTINCT #__{vm}_product.product_id,product_name,product_sku,vendor_id,";
-			$list .= "product_publish,product_parent_id FROM #__{vm}_product ";
-			$list .= "LEFT JOIN #__{vm}_product_price ON #__{vm}_product.product_id = #__{vm}_product_price.product_id WHERE ";
-			$count = "SELECT DISTINCT count(*) as num_rows FROM #__{vm}_product ";
-			$count.= "LEFT JOIN #__{vm}_product_price ON #__{vm}_product.product_id = #__{vm}_product_price.product_id WHERE ";
-			break;
-		}
-		$where = array();
-		//         $where[] = "#__{vm}_product.product_parent_id='0' ";
-		if (!$perm->check("admin")) {
-			$where[] = " #__{vm}_product.vendor_id = '$vendor' ";
-		}
 
-		$q = "";
 		switch( $search_type ) {
-			case "product" :
-			$where[] = "#__{vm}_product.mdate ". $search_order . " $date ";
-			break;
-			case "price" :
-			$where[] = "#__{vm}_product_price.mdate ". $search_order . " $date ";
-			$q = "GROUP BY #__{vm}_product.product_sku ";
-			break;
-			case "withoutprice" :
-			$where[] = "#__{vm}_product_price.mdate IS NULL ";
-			$q = "GROUP BY #__{vm}_product.product_sku ";
-			break;
+			case "product" : $sql .= " AND p.mdate ". $search_order . " $date "; break;
+			case "price" : $sql .= " AND pp.mdate ". $search_order . " $date "; break;
+			case "withoutprice": $sql .= " AND pp.mdate IS NULL "; break;
 		}
-
-		$q = implode(" AND ",$where) . $q . " ORDER BY #__{vm}_product.product_publish DESC,#__{vm}_product.product_name ";
-		$count .= $q;
-	}
-	else {
+	}else {
 		echo "<script type=\"text/javascript\">alert('".$d["error"]."')</script>\n";
 	}
 }
-/** Changed search by date - End */
-else {
-	$list  = "SELECT * FROM #__{vm}_product WHERE ";
-	$count = "SELECT COUNT(*) as num_rows FROM #__{vm}_product WHERE ";
-	$q = "product_parent_id='0' ";
-	if (!$perm->check("admin")) {
-		$q  .= "AND #__{vm}_product.vendor_id = '$vendor' ";
-	}
 
-	//$q .= "AND #__{vm}_product.product_id=#__{vm}_product_reviews.product_id ";
-	//$q .= "AND #__{vm}_category.category_id=#__{vm}_product_category_xref.category_id ";
-	$count .= $q;
-	$q .= " ORDER BY product_publish DESC,product_name ";
+if ($stockLimit == "instock")
+{	$sql .= " AND product_in_stock > low_stock_notification";
+} else if ($stockLimit == "lowstock") {
+	$sql .= " AND product_in_stock <= low_stock_notification";
+} else if ($stockLimit == "nostock"){
+	$sql .= " AND product_in_stock <= 0";
+} /*else no filter on stock status*/
+
+if ($filterOnSpecial == "on"){
+	$sql .= " AND product_special = 'Y'";
 }
-$GLOBALS['vmLogger']->debug('The query in product.product_list: '.$count);
+
+if ($filtered == "yes"){
+
+	if (($showPublishedItems == 1) && ($showUnPublishedItems == 0)){
+		$sql .= " AND product_publish = 'Y'";
+	}else if (($showPublishedItems == 0) && ($showUnPublishedItems == 1)){
+		$sql .= " AND product_publish != 'Y'";
+	} //otherwise show all
+
+}else{
+		$sql .= " AND product_publish = 'Y'";
+}
+
+if (!empty($keyword))
+{
+	$sql .= " AND (";
+	$sql .= "p.product_name LIKE '%$keyword%'"." OR ";
+	$sql .= "p.vendor_id LIKE '%$keyword%'"." OR ";
+	$sql .= "p.product_sku LIKE '%$keyword%'"." OR ";
+	$sql .= "p.product_s_desc LIKE '%$keyword%'"." OR ";
+	$sql .= "p.product_desc LIKE '%$keyword%'";
+	$sql .= ")";
+}
+
+//product_category_xref table
+if (!empty($category_id)){
+	$sql .= " AND pcx.category_id = " . $category_id;
+}
+//product_type table
+if (!empty($product_type_id)) {
+	$sql .= " AND ptx.product_type_id = ". $product_type_id;
+}
+
+if (((($search_type == "price") || ($search_type == "withoutprice")) && (!empty($search_date))) || ($orderby == "product_price")){
+	$sql .= " GROUP BY p.product_id,product_name,product_sku,vendor_id, product_publish,product_parent_id ";
+}
+
+/*ORDERBY = product_list|product_name|product_price|product_sku|product_cdate|product_sales*/
+
+
+$searchSql .= $sql . " ORDER BY ";
+if ($orderby == "product_name"){$searchSql .= "p.product_name ".$sequence;}
+elseif ($orderby == "product_price"){$searchSql .= "pp.product_price ".$sequence;}
+elseif ($orderby == "product_sku"){$searchSql .= "p.product_sku ".$sequence;}
+elseif ($orderby == "product_cdate"){$searchSql .= "p.cdate ".$sequence;}
+
+$searchSql .= ", product_publish DESC";
+$countSql .= $sql . ";";
+
+
+/*echo "COUNT SQL IS:".$countSql."<br/>";
+echo "QUERY SQL IS:".$searchSql."<br/>";
+*/
+
+?>
+
+	<!--Product List Header-->
+	<!---->
+	<?php
+		echo '<div class="header" style="background: transparent url(';
+		echo VM_THEMEURL.'images/administration/dashboard/product_code.png';
+		echo ') no-repeat scroll 0% 0%; -moz-background-clip: -moz-initial; ';
+		echo '-moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;
+			text-indent: 30px; line-height: 50px; float:left;">';
+	?>
+
+		<h2 style="margin: 0px;"><?php echo $VM_LANG->_('VM_PRODUCT_LIST_LBL'); ?></h2>
+
+	</div>
+
+	<div style="float:right;">
+
+		<form action="<?php $_SERVER['PHP_SELF'] ?>" method="get">
+
+			<!--date filter-->
+			<div align="left">
+				 <?php echo $VM_LANG->_('VM_PRODUCT_LIST_SEARCH_BY_DATE') ?>&nbsp;
+				 <select class="inputbox" name="search_type">
+					<option selected value="none"></option>
+					<option value="product">
+						<?php echo $VM_LANG->_('VM_PRODUCT_LIST_SEARCH_BY_DATE_TYPE_PRODUCT') ?>
+					</option>
+					<option value="price" <?php echo $search_type == "price" ? 'selected="selected"' : ''; ?>>
+						<?php echo $VM_LANG->_('VM_PRODUCT_LIST_SEARCH_BY_DATE_TYPE_PRICE') ?>
+					</option>
+					<option value="withoutprice" <?php echo $search_type == "withoutprice" ? 'selected="selected"' : ''; ?>>
+						<?php echo $VM_LANG->_('VM_PRODUCT_LIST_SEARCH_BY_DATE_TYPE_WITHOUTPRICE') ?>
+					</option>
+				</select>
+				<select class="inputbox" name="search_order">
+					<option value="&lt;">
+						<?php echo $VM_LANG->_('VM_PRODUCT_LIST_SEARCH_BY_DATE_BEFORE') ?>
+					</option>
+					<option value="&gt;" <?php echo $search_order == ">" ? 'selected="selected"' : ''; ?>>
+						<?php echo $VM_LANG->_('VM_PRODUCT_LIST_SEARCH_BY_DATE_AFTER') ?>
+					</option>
+				</select>
+				<input class="inputbox" type="text" size="20" name="search_date"
+					value="<?php echo vmGet($_REQUEST, 'search_date', $nowstring) ?>" />
+
+			</div>
+			<!--//date filter-->
+
+			<!--in/low stock, on special, published, unpublished-->
+			<div align="left" style="margin-top: 10px;">
+				<?php echo $VM_LANG->_('VM_ALL_STOCK'); ?>:<input type="radio" name="stock_limit" value="all" <?php if ($stockLimit == "all") echo "checked"; ?> />&nbsp;&nbsp;
+				<?php echo $VM_LANG->_('VM_PRODUCT_FORM_IN_STOCK') ?>: <input type="radio" name="stock_limit" value="instock" <?php if ($stockLimit == "instock") echo "checked"; ?> />&nbsp;&nbsp;
+				<?php echo $VM_LANG->_('VM_LOW_STOCK'); ?>: <input type="radio" name="stock_limit" value="lowstock" <?php if ($stockLimit == "lowstock") echo "checked"; ?> />&nbsp;&nbsp;
+				<?php echo $VM_LANG->_('VM_CART_NOSTOCK'); ?>:<input type="radio" name="stock_limit" value="nostock" <?php if ($stockLimit == "nostock") echo "checked"; ?> />
+			</div>
+
+			<div align="left" style="margin-top: 10px;">
+				<?php echo $VM_LANG->_('VM_PRODUCT_FORM_SPECIAL') ?>: <input type="checkbox" name="on_special" <?php if ($filterOnSpecial == "on") echo "checked"; ?> />
+				&nbsp;&nbsp;&nbsp;
+				<?php echo $VM_LANG->_('CMN_PUBLISHED') ?>: <input type="checkbox" name="published" <?php if ($showPublishedItems == 1) echo "checked"; ?> />
+				&nbsp;
+				<?php echo $VM_LANG->_('CMN_UNPUBLISHED') ?>: <input type="checkbox" name="unpublished" <?php if ($showUnPublishedItems == 1) echo "checked"; ?> />
+			</div>
+
+			<!--word filter-->
+			<div align="left" style="margin-top: 10px;">
+				<?php echo $VM_LANG->_('VM_PRODUCT_NAME_TITLE'); ?>
+				<input class="inputbox" size="50" name="keyword" value="<?php echo $keyword; ?>" type="text">
+			</div>
+			<!--//word filter-->
+
+			<!--Category Filter-->
+			<div align="left" style="margin-top: 10px;">
+				<div style="float:left;">
+						<?php echo $VM_LANG->_('VM_FILTER') ?>:
+						<select
+							class="inputbox"
+							id="category_id"
+							name="category_id"
+							onchange="this.form.submit();"
+							<option value="">
+								<?php echo $VM_LANG->_('SEL_CATEGORY') ?>
+							</option>
+						<?php $ps_product_category->list_tree( $category_id ); ?>
+						</select>
+
+						<?php
+
+							echo vmToolTip( $VM_LANG->_('VM_PRODUCT_LIST_REORDER_TIP') );
+
+						?>
+
+						<!--SORT BY-->
+
+						&nbsp;&nbsp;
+						<?php echo $VM_LANG->_('VM_ORDERBY') ?>:
+
+						<select class="inputbox" name="orderby">
+
+							<option value="product_name" ><?php echo $VM_LANG->_('VM_SELECT') ?></option>
+
+							<option value="product_name" <?php echo $orderby=="product_name" ? "selected=\"selected\"" : "";?>>
+							<?php echo $VM_LANG->_('VM_PRODUCT_NAME_TITLE') ?></option>
+
+							<option value="product_price" <?php echo $orderby=="product_price" ? "selected=\"selected\"" : "";?>>
+							<?php echo $VM_LANG->_('VM_PRODUCT_PRICE_TITLE') ?></option>
+
+							<option value="product_sku" <?php echo $orderby=="product_sku" ? "selected=\"selected\"" : "";?>>
+							<?php echo $VM_LANG->_('VM_CART_SKU') ?></option>
+
+							<option value="product_cdate" <?php echo $orderby=="product_cdate" ? "selected=\"selected\"" : "";?>>
+							<?php echo $VM_LANG->_('VM_LATEST') ?></option>
+
+							<!--<option value="product_sales" <?php echo $orderby=="product_sales" ? "selected=\"selected\"" : "";?>>
+							<?php echo $VM_LANG->_('VM_SALES') ?></option>-->
+
+						</select>
+
+						<select class="inputbox" name="sequence">
+
+							<option value="ASC" <?php echo $sequence=="ASC" ? "selected=\"selected\"" : "";?>>
+								<?php echo $VM_LANG->_('VM_PARAMETER_SEARCH_ASCENDING_ORDER'); ?>
+							</option>
+						    <option value="DESC" <?php echo $sequence=="DESC" ? "selected=\"selected\"" : "";?>>
+						    	<?php echo $VM_LANG->_('VM_PARAMETER_SEARCH_DESCENDING_ORDER'); ?>
+							</option>
+
+						</select>
+
+						<?php
+
+						 	$selected = Array( "selected=\"selected\"", "" );
+		  					$asc_desc = Array( "DESC", "ASC" );
+							$icon = "sort_asc.png";/*|$icon = "sort_desc.png";*/
+
+							echo mm_writeWithJS('&nbsp;<input type="hidden"
+								name="DescOrderBy"
+								value="'.$asc_desc[0].'" />
+								<a href="javascript: document.order.DescOrderBy.value=\''.$asc_desc[1].'\'; document.order.submit()">
+								<img src="'. $mosConfig_live_site."/images/M_images/$icon"  .'" border="0" alt="'. $VM_LANG->_('VM_PARAMETER_SEARCH_'.$asc_desc[0].'ENDING_ORDER') .'"
+									title="'.$VM_LANG->_('VM_PARAMETER_SEARCH_'.$asc_desc[0].'ENDING_ORDER') .'" width="12" height="12" /></a>',
+							      '<select class="inputbox" name="DescOrderBy">
+						            <option '.$selected[0].' value="DESC">'.$VM_LANG->_('VM_PARAMETER_SEARCH_DESCENDING_ORDER').'</option>
+						            <option '.$selected[1].' value="ASC">'.$VM_LANG->_('VM_PARAMETER_SEARCH_ASCENDING_ORDER').'</option>
+							      </select>
+							      <input class="button" type="submit" value="'.$VM_LANG->_('VM_SUBMIT').'" />');
+
+						?>
+
+				</div>
+				<br/>
+				<!--SUBMIT-->
+				<div align="right" style="float:right;">
+					<input class="button" type="submit" name="search"
+						value="<?php echo $VM_LANG->_('VM_SEARCH_TITLE')?>" />
+				</div>
+				<br style="clear:both;" />
+
+			</div>
+			<!--//Category Filter-->
+
+		<!--</form>-->
+
+		<?php
+
+			$formObj = new formFactory();
+			$formObj->finishForm("", "product.product_list");
+
+		?>
+
+	</div>
+
+	<br style="clear:both" />
+
+	&nbsp;
+
+<?php
+
 $db = new ps_DB();
-$db->query($count);
+$db->query($countSql);
 $db->next_record();
 $num_rows = $db->f("num_rows");
+
+$GLOBALS['vmLogger']->debug('The query in product.product_list: '.$num_rows);
 
 // Create the Page Navigation
 $pageNav = new vmPageNav( $num_rows, $limitstart, $limit );
 
 $limitstart = $pageNav->limitstart;
-$list .= $q . " LIMIT $limitstart, " . $limit;
+
+$searchSql .= " LIMIT $limitstart, " . $limit;
 
 if ($num_rows > 0) {
-	$db->query($list);
+	$db->query($searchSql);
 	$num_rows = $db->num_rows();
 }
 
 // Create the List Object with page navigation
 $listObj = new listFactory( $pageNav );
 
-// print out the search field and a list heading
-$listObj->writeSearchHeader($VM_LANG->_('VM_PRODUCT_LIST_LBL'), VM_THEMEURL.'images/administration/dashboard/product_code.png', "product", "product_list");
-
-echo $VM_LANG->_('VM_FILTER') ?>:
- <select class="inputbox" id="category_id" name="category_id" onchange="window.location='<?php echo $_SERVER['PHP_SELF'] ?>?option=com_virtuemart&page=product.product_list&category_id='+document.getElementById('category_id').options[selectedIndex].value;">
-	<option value=""><?php echo $VM_LANG->_('SEL_CATEGORY') ?></option>
-	<?php
-	$ps_product_category->list_tree( $category_id );
-	?>
-</select>
-<?php 
-echo vmToolTip( $VM_LANG->_('VM_PRODUCT_LIST_REORDER_TIP') );
-         
 // start the list table
 $listObj->startTable();
 
@@ -270,49 +439,49 @@ if ($num_rows > 0) {
 	$i = 0;
 	$db_cat = new ps_DB;
 	$dbtmp = new ps_DB;
-	
+
 	while ($db->next_record()) {
 
 		$listObj->newRow();
 
 		// The row number
 		$listObj->addCell( $pageNav->rowNumber( $i ) );
-		
+
 		// The Checkbox
 		$listObj->addCell( vmCommonHTML::idBox( $i, $db->f("product_id"), false, "product_id" ) );
-		
-		$link = $_SERVER['PHP_SELF'] . "?page=$modulename.product_form&limitstart=$limitstart&keyword=".urlencode($keyword) . 
+
+		$link = $_SERVER['PHP_SELF'] . "?page=$modulename.product_form&limitstart=$limitstart&keyword=".urlencode($keyword) .
 						"&product_id=" . $db->f("product_id")."&product_parent_id=".$product_parent_id;
 		if( $vmLayout != 'standard' ) {
 		$link .= "&no_menu=1&tmpl=component";
-		$link = defined('_VM_IS_BACKEND') 
-						? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link )) 
+		$link = defined('_VM_IS_BACKEND')
+						? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link ))
 						: str_replace('index.php', 'index2.php', $link );
 		}
 		$link = $sess->url( $link );
-		
+
 		$text = shopMakeHtmlSafe($db->f("product_name"));
-		
+
 		// The link to the product form / to the child products
 		if( $vmLayout == 'standard') {
 			$tmpcell = vmCommonHTML::hyperLink( $link, $text, '', 'Edit: '.$text );
 		} else {
 			$tmpcell = vmCommonHTML::hyperLink($link, $text, '', 'Edit: '.$text, 'onclick="parent.addSimplePanel( \''.$db->getEscaped($db->f("product_name")).'\', \''.$link.'\' );return false;"');
-		}		
+		}
 		if( $ps_product->parent_has_children( $db->f("product_id") ) ) {
 			$tmpcell .= "&nbsp;&nbsp;&nbsp;<a href=\"";
 			$link = $sess->url($_SERVER['PHP_SELF'] . "?page=$modulename.product_list&product_parent_id=" . $db->f("product_id"));
 			if( $vmLayout != 'standard' ) {
 				$link .= "&no_menu=1&tmpl=component";
-				$link = defined('_VM_IS_BACKEND') 
-							? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link )) 
+				$link = defined('_VM_IS_BACKEND')
+							? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link ))
 							: str_replace('index.php', 'index2.php', $link );
 			}
 			$tmpcell .= $link;
 			$tmpcell .=  "\">[ ".$VM_LANG->_('VM_PRODUCT_FORM_ITEM_INFO_LBL'). " ]</a>";
 		}
 		$listObj->addCell( $tmpcell );
-		
+
 		//Product Vendor nick by Max Milbers
 		$product_vendor_id = $db->f("vendor_id");
 		if($product_vendor_id==0){
@@ -324,29 +493,29 @@ if ($num_rows > 0) {
 			}
 			$listObj->addCell( $dbtmp->f("vendor_name") );
 		}
-		
+
 		// Product Media Link
 		$numFiles = ps_product_files::countFilesForProduct($db->f('product_id'));
 		if( $db->f('product_full_image')) $numFiles++;
 		if( $db->f('product_thumb_image')) $numFiles++;
 		$link = $sess->url( $_SERVER['PHP_SELF']. '?page=product.file_list&product_id='.$db->f('product_id').'&no_menu=1' );
-		$link = defined('_VM_IS_BACKEND') 
-						? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link )) 
+		$link = defined('_VM_IS_BACKEND')
+						? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link ))
 						: str_replace('index.php', 'index2.php', $link );
 		$text = '<img src="'.$mosConfig_live_site.'/includes/js/ThemeOffice/media.png" align="middle" border="0" />&nbsp;('.$numFiles.')';
 		$tmpcell = vmPopupLink( $link, $text, 800, 540, '_blank', '', 'screenX=100,screenY=100' );
 		$listObj->addCell( $tmpcell );
-		
+
 		// The product sku
 		$listObj->addCell( $db->f("product_sku") );
-		
+
 		// The product Price
 		$price = $ps_product->getPriceByShopperGroup( $db->f('product_id'), '');
 		$tmp_cell = '<span class="editable priceform">'.$GLOBALS['CURRENCY_DISPLAY']->getValue( $price['product_price']).' '.$price['product_currency'];
 		$tmp_cell .= '&nbsp;&nbsp;&nbsp;</span>';
-		
+
 		$listObj->addCell( $tmp_cell, 'id="'.$db->f('product_id').'" onclick="showPriceForm(this.id)" title="'.$VM_LANG->_('VM_PRICE_FORM_LBL').'"' );
-		
+
 		// The Categories or the parent product's name
 		$tmpcell = "";
 		if( empty($product_parent_id) ) {
@@ -383,8 +552,8 @@ if ($num_rows > 0) {
 			$link = $_SERVER["PHP_SELF"]."?option=com_virtuemart&page=product.review_list&product_id=".$db->f("product_id");
 			if( $vmLayout != 'standard' ) {
 				$link .= "&no_menu=1&tmpl=component";
-				$link = defined('_VM_IS_BACKEND') 
-							? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link )) 
+				$link = defined('_VM_IS_BACKEND')
+							? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link ))
 							: str_replace('index.php', 'index2.php', $link );
 			}
 			$tmpcell = $db_cat->f("num_rows")."&nbsp;";
@@ -395,8 +564,8 @@ if ($num_rows > 0) {
 			$link = $sess->url( $_SERVER['PHP_SELF'].'?page=product.review_form&product_id='.$db->f('product_id'));
 			if( $vmLayout != 'standard' ) {
 				$link .= "&no_menu=1&tmpl=component";
-				$link = defined('_VM_IS_BACKEND') 
-							? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link )) 
+				$link = defined('_VM_IS_BACKEND')
+							? str_replace('index2.php', 'index3.php', str_replace('index.php', 'index3.php', $link ))
 							: str_replace('index.php', 'index2.php', $link );
 			}
 			$text = '['.$VM_LANG->_('VM_REVIEW_FORM_LBL').']';
@@ -426,29 +595,51 @@ if ($num_rows > 0) {
 		$listObj->addCell( $ps_html->deleteButton( "product_id", $db->f("product_id"), "productDelete", $keyword, $limitstart ) );
 
 		$listObj->addCell( $db->f('product_id') );
+
 		$i++;
-		
+
 	}
-	
+
 }
 
 $listObj->writeTable();
 
 $listObj->endTable();
 
-$listObj->writeFooter( $keyword,  "&product_parent_id=$product_parent_id&category_id=$category_id&product_type_id=$product_type_id&search_date=$search_date");
+/*Limit last search to drop down list */
+$listObj->writeSearchHeader("", "", "product", "product_list", true);
+
+/*Build a filter string for use with the writeFooter, based on previously entered data from form at top of page*/
+$filter = "&filtered=$filtered";
+$filter .= "&product_parent_id=$product_parent_id";
+$filter .= "&category_id=$category_id";
+$filter .= "&product_type_id=$product_type_id";
+
+$filter .= "&search_type=$search_type";
+$filter .= "&search_order=$search_order";
+$filter .= "&search_date=$search_date";
+$filter .= "&stock_limit=$stockLimit";
+
+if ($showUnPublishedItems == 1){$filter .= "&unpublished=on";}
+if ($showPublishedItems == 1){$filter .= "&published=on";}
+if ($filterOnSpecial == 1){$filter .= "&on_special=on";}
+
+$filter .= "&keyword=$keyword";
+
+$listObj->writeFooter( $keyword,  $filter);
 
 $path = defined('_VM_IS_BACKEND' ) ? '/administrator/' : '/';
+
 ?>
 <script type="text/javascript">
 var priceDlg = null;
 function showPriceForm(prodId) {
-    
+
     // define some private variables
     var showBtn;
 	sUrl = '<?php $sess->purl( $mm_action_url .'index3.php?page=product.ajax_tools&task=getPriceForm&no_html=1', false, false, true ) ?>&product_id=' + prodId;
-	callback = { success : function(o) { 
-		
+	callback = { success : function(o) {
+
 				        priceDlg = Ext.Msg.show({
 		                    width:300,
 		                    height:250,
@@ -457,7 +648,7 @@ function showPriceForm(prodId) {
 				           buttons: Ext.Msg.OKCANCEL,
 				           fn: handleResult
 				       });
-	}};	
+	}};
 	Ext.Ajax.request({method:'GET', url: sUrl, success: callback.success });
 }
 
@@ -470,12 +661,12 @@ function handleResult( btn ) {
 			break;
 	}
 }
-function submitPriceForm(formId) {	
+function submitPriceForm(formId) {
     // define some private variables
     var dialog, showBtn, hideTask;
-   
+
     function showDialog( content ) {
-    	var msgbox = Ext.Msg.show( { 
+    	var msgbox = Ext.Msg.show( {
             		title: '<?php echo $VM_LANG->_('PEAR_LOG_NOTICE') ?>',
             		msg: content,
             		autoCreate: true,
@@ -504,7 +695,7 @@ function submitPriceForm(formId) {
     var callback = {
     	success: function(o) {
     		//Ext.DomHelper.insertHtml( document.body, o.responseText );
-    		
+
     		showDialog( o.responseText );
     	},
     	failure: function(o) {
@@ -515,14 +706,14 @@ function submitPriceForm(formId) {
     		showDialog( o.responseText );
         }
     };
-    
+
    	Ext.Ajax.request({method:'POST', url: '<?php echo $_SERVER['PHP_SELF'] ?>', success: callback.success, failure: callback.failure, form: formId});
-	
+
 }
 function cancelPriceForm(id) {
 	updatePriceField( id );
 }
-function updatePriceField( id ) {	
+function updatePriceField( id ) {
 	sUrl = '<?php  $sess->purl( $mm_action_url .'index3.php?option=com_virtuemart&no_html=1&page=product.ajax_tools&task=getpriceforshoppergroup&formatPrice=1', false, false, true ) ?>&product_id=' + id;
 	callback = { success : function(o) { Ext.get("priceform-dlg").innerHTML = o.responseText;	}};
 	Ext.Ajax.request({method:'GET', url: sUrl, success:callback.success });
@@ -533,7 +724,7 @@ function reloadForm( parentId, keyName, keyValue ) {
 	Ext.Ajax.request({method:'GET', url: sUrl, success:callback.success });
 }
 </script>
-<?php 
+<?php
 $formName = uniqid('priceForm');
 ?>
 <div id="priceform-dlg"></div>

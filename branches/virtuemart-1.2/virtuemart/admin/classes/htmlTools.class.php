@@ -202,7 +202,7 @@ class listFactory {
 	* @param The page name (e.g. "product_list" )
 	* @param Additional varaibles to include as hidden input fields
 	*/
-	function writeSearchHeader( $title, $image="", $modulename, $pagename) {
+	function writeSearchHeader( $title, $image="", $modulename, $pagename, $headerOnly=false) {
 
 		global $sess, $keyword, $VM_LANG;
 
@@ -230,21 +230,25 @@ class listFactory {
 		if( defined( "_VM_IS_BACKEND") || @$_REQUEST['pshop_mode'] == "admin"  ) {
 			$header .= "<input type=\"hidden\" name=\"pshop_mode\" value=\"admin\" />\n";
 		}
-        if(( $title != "" ) || !empty( $pagename )) {
-			$header .= '<table><tr>';
-			if( $title != "" ) {
-				$style = ($image != '') ? 'style="background:url('.$image.') no-repeat;text-indent: 30px;line-height: 50px;"' : '';
-				$header .= '<td><div class="header" '.$style.'><h2 style="margin: 0px;">'.$title.'</h2></div></td>'."\n";
-				$GLOBALS['vm_mainframe']->setPageTitle( $title );
+
+		//if we want a search header but not any fields displayed from here then set $headerOnly = true
+		if ($headerOnly == false){
+	        if(( $title != "" ) || !empty( $pagename )) {
+				$header .= '<table><tr>';
+				if( $title != "" ) {
+					$style = ($image != '') ? 'style="background:url('.$image.') no-repeat;text-indent: 30px;line-height: 50px;"' : '';
+					$header .= '<td><div class="header" '.$style.'><h2 style="margin: 0px;">'.$title.'</h2></div></td>'."\n";
+					$GLOBALS['vm_mainframe']->setPageTitle( $title );
+				}
+	
+				if( !empty( $pagename ))
+					$header .= '<td width="20%">
+					<input class="inputbox" type="text" size="25" name="keyword" value="'.shopMakeHtmlSafe($keyword).'" />
+					<input class="button" type="submit" name="search" value="'.$VM_LANG->_('VM_SEARCH_TITLE').'" />
+					</td>';
+	
+				$header .= "\n</tr></table><br style=\"clear:both;\" />\n";
 			}
-
-			if( !empty( $pagename ))
-				$header .= '<td width="20%">
-				<input class="inputbox" type="text" size="25" name="keyword" value="'.shopMakeHtmlSafe($keyword).'" />
-				<input class="button" type="submit" name="search" value="'.$VM_LANG->_('VM_SEARCH_TITLE').'" />
-				</td>';
-
-			$header .= "\n</tr></table><br style=\"clear:both;\" />\n";
 		}
 
 		if ( !empty($search_date) ) // Changed search by date

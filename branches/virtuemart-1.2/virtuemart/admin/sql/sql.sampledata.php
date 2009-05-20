@@ -29,11 +29,19 @@ $db->query( "INSERT INTO `#__{vm}_category_xref` VALUES (0, 3, NULL,'Y');");
 $db->query( "INSERT INTO `#__{vm}_category_xref` VALUES (2, 4, NULL,'Y');");
 $db->query( "INSERT INTO `#__{vm}_category_xref` VALUES (2, 5, NULL,'Y');");
 
-$db->query( "INSERT INTO `#__{vm}_coupons` VALUES (1, 'test1', 'total', 'gift', 6.00);");
-$db->query( "INSERT INTO `#__{vm}_coupons` VALUES (2, 'test2', 'percent', 'permanent', 15.00);");
-$db->query( "INSERT INTO `#__{vm}_coupons` VALUES (3, 'test3', 'total', 'permanent', 4.00);");
-$db->query( "INSERT INTO `#__{vm}_coupons` VALUES (4, 'test4', 'total', 'gift', 15.00);");
-	
+/* set all coupons valid for one month from installation.ct */
+$now = time();
+$validfrom = date("Y", $now)."-".date("m", $now)."-01";
+$year = date("Y", $now);$month = date("m", $now);
+if ($month >= 11){$year=$year++;$month=2;}
+else{$month++;$month++;}
+$validtil = $year."-".$month."-01";
+
+$db->query( "INSERT INTO `#__{vm}_coupons` VALUES (1, 'test1', 'total', 'gift', 6.00, '$validfrom', '$validtil', 0);");
+$db->query( "INSERT INTO `#__{vm}_coupons` VALUES (2, 'test2', 'percent', 'permanent', 15.00, '$validfrom', '$validtil', 100);");
+$db->query( "INSERT INTO `#__{vm}_coupons` VALUES (3, 'test3', 'total', 'permanent', 4.00, '$validfrom', '$validtil', 0);");
+$db->query( "INSERT INTO `#__{vm}_coupons` VALUES (4, 'test4', 'total', 'gift', 15.00, '$validfrom', '$validtil', 50);");
+
 $db->query( "INSERT INTO `#__{vm}_product` VALUES (1, 1, 0, 'G01', '<p>Nice hand shovel to dig with in the yard.</p>\r\n', '\r\n<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br />  5\" Diameter<br />  Tungsten handle tip with 5 point loft<br />\r\n', '8d886c5855770cc01a3b8a2db57f6600.jpg', 'cca3cd5db813ee6badf6a3598832f2fc.jpg', 'Y', '10.0000', 'pounds', '0.0000', '0.0000', '0.0000', 'inches', '', 10, 5, 1072911600, '48h.gif', 'Y', 1, NULL, 950320117, 1084907592, 'Hand Shovel', 0, '', '', 2, '', 0, NULL, NULL, NULL, NULL, NULL, '', '', '', '');");
 $db->query( "INSERT INTO `#__{vm}_product` VALUES (2, 1, 0, 'G02', 'A really long ladder to reach high places.', '\r\n<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br />  5\" Diameter<br />  Tungsten handle tip with 5 point loft<br />\r\n', 'ffd5d5ace2840232c8c32de59553cd8d.jpg', '8cb8d644ef299639b7eab25829d13dbc.jpg', 'Y', '10.0000', 'pounds', '0.0000', '0.0000', '0.0000', 'inches', '', 76, 5, 1072911600, '3-5d.gif', 'N', 0, NULL, 950320180, 1084907618, 'Ladder', 0, '', '', 2, '', 0, NULL, NULL, NULL, NULL, NULL, '', '', '', '');");
 $db->query( "INSERT INTO `#__{vm}_product` VALUES (3, 1, 0, 'G03', 'Nice shovel.  You can dig your way to China with this one.', '\r\n<ul>  <li>Hand crafted handle with maximum grip torque  </li><li>Titanium tipped shovel platter  </li><li>Half degree offset for less accidents  </li><li>Includes HowTo Video narrated by Bob Costas  </li></ul>    <b>Specifications</b><br />  5\" Diameter<br />  Tungsten handle tip with 5 point loft<br />\r\n', '8147a3a9666aec0296525dbd81f9705e.jpg', '520efefd6d7977f91b16fac1149c7438.jpg', 'Y', '10.0000', 'pounds', '0.0000', '0.0000', '0.0000', 'inches', '', 32, 5, 1072911600, '7d.gif', 'N', 0, NULL, 950320243, 1084907765, 'Shovel', 0, 'Size,XL[+1.99],M,S[-2.99];Colour,Red,Green,Yellow,ExpensiveColor[=24.00]', '', 2, '', 0, NULL, NULL, NULL, NULL, NULL, '', '', '', '');");
@@ -50,7 +58,7 @@ $db->query( "INSERT INTO `#__{vm}_product` VALUES (13, 1, 1, 'G01-03', '', '', '
 $db->query( "INSERT INTO `#__{vm}_product` VALUES (14, 1, 2, 'L01', '', '', '', '', 'Y', '10.0000', 'pounds', '0.0000', '0.0000', '0.0000', 'inches', '', 22, 5, 1072911600, '', 'N', 0, NULL, 962351149, 1084902820, 'Metal Ladder', 0, NULL, '', 2, '', 0, NULL, NULL, NULL, NULL, NULL, '', '', '', '');");
 $db->query( "INSERT INTO `#__{vm}_product` VALUES (15, 1, 2, 'L02', '', '', '', '', 'Y', '10.0000', 'pounds', '0.0000', '0.0000', '0.0000', 'inches', '', 0, 5, 0, '', '', 0, NULL, 962351165, 962351165, 'Wooden Ladder', 0, NULL, '', 0, '', 0, NULL, NULL, NULL, NULL, NULL, '', '', '', '');");
 $db->query( "INSERT INTO `#__{vm}_product` VALUES (16, 1, 2, 'L03', '', '', '', '', 'Y', '10.0000', 'pounds', '0.0000', '0.0000', '0.0000', 'inches', '', 0, 5, 0, '', '', 0, NULL, 962351180, 962351180, 'Plastic Ladder', 0, NULL, '', 0, '', 0, NULL, NULL, NULL, NULL, NULL, '', '', '', '');");
- 
+
 $db->query( "INSERT INTO `#__{vm}_product_attribute` VALUES (1, 11, 'Color', 'Red');");
 $db->query( "INSERT INTO `#__{vm}_product_attribute` VALUES (2, 12, 'Color', 'Green');");
 $db->query( "INSERT INTO `#__{vm}_product_attribute` VALUES (3, 13, 'Color', 'Blue');");
@@ -112,10 +120,10 @@ $db->query( "INSERT INTO `#__{vm}_product_price` VALUES (13, 14, '79.99', 'USD',
 $db->query( "INSERT INTO `#__{vm}_product_price` VALUES (14, 15, '49.99', 'USD', 0, 0, 962351233, 962351233, 5, 0, 0);");
 $db->query( "INSERT INTO `#__{vm}_product_price` VALUES (15, 16, '59.99', 'USD', 0, 0, 962351259, 962351259, 5, 0, 0);");
 $db->query( "INSERT INTO `#__{vm}_product_price` VALUES (16, 7, '2.99', 'USD', 0, 0, 966589140, 966589140, 6, 0, 0);");
-  
+
 $db->query( " INSERT INTO `#__{vm}_shipping_carrier` VALUES (1, 'DHL', 0);" );
 $db->query( " INSERT INTO `#__{vm}_shipping_carrier` VALUES (2, 'UPS', 1);" );
-  
+
 $db->query( " INSERT INTO `#__{vm}_shipping_rate` VALUES (1,'Inland &gt; 4kg','1','DEU','00000','99999','0.0','4.0','5.62','2','47','0','1');" );
 $db->query( " INSERT INTO `#__{vm}_shipping_rate` VALUES (2,'Inland &gt; 8kg','1','DEU','00000','99999','4.0','8.0','6.39','2','47','0','2');" );
 $db->query( " INSERT INTO `#__{vm}_shipping_rate` VALUES (3,'Inland &gt; 12kg','1','DEU','00000','99999','8.0','12.0','7.16','2','47','0','3');" );
@@ -139,5 +147,5 @@ $db->query( " INSERT INTO `#__{vm}_shipping_rate` VALUES (20,'World_2 &gt; 20kg'
 $db->query( " INSERT INTO `#__{vm}_shipping_rate` VALUES (21,'UPS Express','2','AND;BEL;DNK;FRO;FIN;FRA;GRC;GRL;GBR;IRL;ITA;LIE;LUX;MCO;NLD;AUT;POL;PRT;SMR;SWE;CHE;SVK;ESP;CZE','00000','99999','0.0','20.0','5.24','2','47','0','21');" );
 
 $messages[] = "The sample data was installed successfully.";
-  
-?>		  
+
+?>

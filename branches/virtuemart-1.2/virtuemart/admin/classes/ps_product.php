@@ -2107,6 +2107,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		$tpl->set( 'vendor_mail', $vendor_mail );
 		$discount_info = $base_price = array();
 		$text_including_tax = '';
+		$text_excluding_tax = '';
 
 		if( $auth['show_prices'] ) {
 			// Get the DISCOUNT AMOUNT
@@ -2828,7 +2829,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		$tpl->set("recent_products",$recent);
 		return $tpl->fetch( 'common/recent.tpl.php' );
     }
-    
+
     function stockIndicator($stock_level,$reorder_level,$pid,$detail="browse") {
     	global $db, $VM_LANG;
 	    $tpl = new $GLOBALS['VM_THEMECLASS']();
@@ -2844,7 +2845,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 			$q .= " WHERE product_publish='Y' AND product_parent_id='$pid' ";
 			$db->query($q);
 			$stock_ok = false;
-			while($db->next_record()) {				
+			while($db->next_record()) {
 				if($db->f('s') > $db->f('r') ) {
 					$stock_level = $db->f('s');
 					$reorder_level = $db->f('r');
@@ -2856,7 +2857,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 				}
 			}
     	}
-    	// Assign class to indicator 
+    	// Assign class to indicator
 		$level = 'stock_ok';
 		$stock_tip = $VM_LANG->_('VM_STOCK_LEVEL_DISPLAY_NORMAL_TIP');
 		if ($stock_level <= $reorder_level) {
@@ -2866,13 +2867,13 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 		if ($stock_level == 0) {
 			$level = 'stock_out';
 			$stock_tip = $VM_LANG->_('VM_STOCK_LEVEL_DISPLAY_OUT_TIP');
-		}    	
+		}
     	switch($detail) {
     		case 'child' :
-    			$label = $VM_LANG->_('VM_STOCK_LEVEL_DISPLAY_CHILD_LABEL');   			
+    			$label = $VM_LANG->_('VM_STOCK_LEVEL_DISPLAY_CHILD_LABEL');
     			break;
     		case 'detail' :
-    			$label = $VM_LANG->_('VM_STOCK_LEVEL_DISPLAY_DETAIL_LABEL');    			
+    			$label = $VM_LANG->_('VM_STOCK_LEVEL_DISPLAY_DETAIL_LABEL');
     			break;
     		case 'browse' :
     		default :
@@ -2896,7 +2897,7 @@ $db->buildQuery( 'UPDATE', '#__{vm}_product', $fields,  "WHERE product_id='". (i
 	    	return true;
 	    }
 	    return false;
-    }    
+    }
 }  // ENd of CLASS ps_product
 
 ?>

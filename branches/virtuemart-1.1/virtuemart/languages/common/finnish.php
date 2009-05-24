@@ -6,6 +6,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @subpackage languages
 * @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @translator soeren
+* @ 2009/01/07 updated by Mauri
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -50,6 +51,7 @@ $langvars = array (
 	'PHPSHOP_CART_SKU' => 'Tuotetunnus',
 	'PHPSHOP_CART_PRICE' => 'Hinta',
 	'PHPSHOP_CART_QUANTITY' => 'Määrä',
+	'PHPSHOP_CART_QUANTITY_EXCEEDED' => 'Valittu määrä ylittää varastossa olevan määrän.',
 	'PHPSHOP_CART_SUBTOTAL' => 'Välisumma',
 	'PHPSHOP_ADD_SHIPTO_1' => 'Lisää uusi',
 	'PHPSHOP_ADD_SHIPTO_2' => 'Toimitusosoite',
@@ -257,7 +259,7 @@ $langvars = array (
 	'PHPSHOP_AGREE_TO_TOS' => 'Hyväksy palvelun ehdot ensin.',
 	'PHPSHOP_I_AGREE_TO_TOS' => 'Hyväksyn palvelun ehdot',
 	'PHPSHOP_RETURN_LOGIN' => 'Rekisteröitynyt asiakas: Kirjaudu sisään',
-	'PHPSHOP_NEW_CUSTOMER' => 'Uusi asiakas? Anna laskutus tiedot',
+	'PHPSHOP_NEW_CUSTOMER' => 'Uusi asiakas? Anna laskutustiedot',
 	'PHPSHOP_ACC_ORDER_INFO' => 'Tilaustiedot',
 	'PHPSHOP_ACC_NO_ORDERS' => 'Ei tilauksia',
 	'PHPSHOP_ACC_BILL_DEF' => '- Oletus (samat kuin laskutustiedot)',
@@ -564,7 +566,7 @@ $langvars = array (
 	'PHPSHOP_PARAMETER_SEARCH_CHANGE_PARAMETERS' => 'Vaihda muuttujia',
 	'PHPSHOP_PARAMETER_SEARCH_DESCENDING_ORDER' => 'Alenevassa järjestyksessä',
 	'PHPSHOP_PARAMETER_SEARCH_ASCENDING_ORDER' => 'Nousevassa järjestyksessä',
-	'PHPSHOP_PRODUCT_TYPE_PARAMETERS_IN_CATEGORY' => 'Kategorian muuttujat',
+	'PHPSHOP_PRODUCT_TYPE_PARAMETERS_IN_CATEGORY' => 'Tuotetyyppi ',
 	'PHPSHOP_FEE' => 'Maksutapalisä',
 	'PHPSHOP_BACK_TO_COUNTRY' => 'Takaisin maan asetuksiin',
 	'PHPSHOP_ADD_STATE' => 'Lisää osavaltio',
@@ -1323,6 +1325,6 @@ check with your hosting company to see if you can access this port first',
 	'PHPSHOP_DOWNLOAD_REMAINING' => '{count} lataus jäljellä',
 	'PHPSHOP_DOWNLOADS_REMAINING' => '{count} latausta jäljellä',
 	'PHPSHOP_DOWNLOAD_VALID_UNTIL' => '{date} saakka',
-	'USER_REGISTRATION_DISABLED' => 'User registration is disabled, it must be enabled in order to proceed.'
+	'USER_REGISTRATION_DISABLED' => 'Käyttäjien rekisteröinti on estetty, se täytyy sallia jos sitä käytetään.'
 ); $VM_LANG->initModule( 'common', $langvars );
 ?>

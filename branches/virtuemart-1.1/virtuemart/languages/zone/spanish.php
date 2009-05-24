@@ -19,19 +19,19 @@ global $VM_LANG;
 $langvars = array (
 	'CHARSET' => 'ISO-8859-1',
 	'PHPSHOP_ZONE_ASSIGN_COUNTRY_LBL' => 'País',
-	'PHPSHOP_ZONE_ASSIGN_ASSIGN_LBL' => 'destinar a Zona',
-	'PHPSHOP_ASSIGN_ZONE_PG_LBL' => 'Destinar Zonas',
-	'PHPSHOP_ZONE_FORM_NAME_LBL' => 'Nombre de Zona',
-	'PHPSHOP_ZONE_FORM_DESC_LBL' => 'Descripción de Zona',
-	'PHPSHOP_ZONE_FORM_COST_PER_LBL' => 'Costo por Zona por Artículo',
-	'PHPSHOP_ZONE_FORM_COST_LIMIT_LBL' => 'Limite de Costo de Zona',
-	'PHPSHOP_ZONE_LIST_LBL' => 'Lista de Zonas',
-	'PHPSHOP_ZONE_LIST_NAME_LBL' => 'Nombre de Zona',
-	'PHPSHOP_ZONE_LIST_DESC_LBL' => 'Descripción de Zona',
-	'PHPSHOP_ZONE_LIST_COST_PER_LBL' => 'Costo por Zona y Por Artículo',
-	'PHPSHOP_ZONE_LIST_COST_LIMIT_LBL' => 'Límite de Costo de Zona',
-	'VM_ZONE_ASSIGN_PERITEM' => 'Por Artículo',
+	'PHPSHOP_ZONE_ASSIGN_ASSIGN_LBL' => 'Destinar a zona',
+	'PHPSHOP_ASSIGN_ZONE_PG_LBL' => 'Destinar zonas',
+	'PHPSHOP_ZONE_FORM_NAME_LBL' => 'Nombre de zona',
+	'PHPSHOP_ZONE_FORM_DESC_LBL' => 'Descripción de zona',
+	'PHPSHOP_ZONE_FORM_COST_PER_LBL' => 'Costo por zona por artículo',
+	'PHPSHOP_ZONE_FORM_COST_LIMIT_LBL' => 'Limite de costo de Zona',
+	'PHPSHOP_ZONE_LIST_LBL' => 'Lista de zonas',
+	'PHPSHOP_ZONE_LIST_NAME_LBL' => 'Nombre de zona',
+	'PHPSHOP_ZONE_LIST_DESC_LBL' => 'Descripción de zona',
+	'PHPSHOP_ZONE_LIST_COST_PER_LBL' => 'Costo por zona por artículo',
+	'PHPSHOP_ZONE_LIST_COST_LIMIT_LBL' => 'Límite de costo de zona',
+	'VM_ZONE_ASSIGN_PERITEM' => 'Por artículo',
 	'VM_ZONE_ASSIGN_LIMIT' => 'Límite',
-	'VM_ZONE_EDITZONE' => 'Editar esta Zona'
+	'VM_ZONE_EDITZONE' => 'Edite esta zona'
 ); $VM_LANG->initModule( 'zone', $langvars );
 ?>

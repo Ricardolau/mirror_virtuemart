@@ -1,4 +1,4 @@
-<?php
+ï»¿<?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
@@ -18,12 +18,12 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-1',
-	'PHPSHOP_COUPON_EDIT_HEADER' => 'Ureðivanje Kupona',
+	'CHARSET' => 'utf-8',
+	'PHPSHOP_COUPON_EDIT_HEADER' => 'UreÄ‘ivanje Kupona',
 	'PHPSHOP_COUPON_CODE_HEADER' => 'Kod',
 	'PHPSHOP_COUPON_PERCENT_TOTAL' => 'Postotak ili Fiksno',
 	'PHPSHOP_COUPON_TYPE' => 'Tip Kupona',
-	'PHPSHOP_COUPON_TYPE_TOOLTIP' => 'Poklon Kupon se briše nakon što je iskorišten dok se stalni kupon može koristiti neograni&#269;eno',
+	'PHPSHOP_COUPON_TYPE_TOOLTIP' => 'Poklon Kupon se briÅ¡e nakon Å¡to je iskoriÅ¡ten dok se stalni kupon moÅ¾e koristiti neograni&#269;eno',
 	'PHPSHOP_COUPON_TYPE_GIFT' => 'Poklon Kupon',
 	'PHPSHOP_COUPON_TYPE_PERMANENT' => 'Trajni Kupon',
 	'PHPSHOP_COUPON_VALUE_HEADER' => 'Vrijednost',

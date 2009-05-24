@@ -1,4 +1,4 @@
-<?php
+ï»¿<?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
@@ -17,44 +17,44 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-1',
+	'CHARSET' => 'utf-8',
 	'PHPSHOP_BROWSE_LBL' => 'Katalog',
 	'PHPSHOP_FLYPAGE_LBL' => 'Detaljne Informacije',
-	'PHPSHOP_PRODUCT_FORM_EDIT_PRODUCT' => 'Ureğivanje ovog Proizvoda',
-	'PHPSHOP_DOWNLOADS_START' => 'Zapoèni download',
-	'PHPSHOP_DOWNLOADS_INFO' => 'Molimo vas unesite Download-ID koji ste dobili u e-mailu i kliknite \'Zapoèni download\'.',
+	'PHPSHOP_PRODUCT_FORM_EDIT_PRODUCT' => 'UreÄ‘ivanje ovog Proizvoda',
+	'PHPSHOP_DOWNLOADS_START' => 'ZapoÄni download',
+	'PHPSHOP_DOWNLOADS_INFO' => 'Molimo vas unesite Download-ID koji ste dobili u e-mailu i kliknite \'ZapoÄni download\'.',
 	'PHPSHOP_WAITING_LIST_MESSAGE' => 'Molimo, unesite svoju Email adresu da bi smo vas mogli obavijestiti kada ovaj proizvod opet postane dostupan.
-                                        Vaša Email adresa neæe biti upotrebljavana za ništa drugo osim da vas obavijestimo
+                                        VaÅ¡a Email adresa neÄ‡e biti upotrebljavana za niÅ¡ta drugo osim da vas obavijestimo
 						    da je proizvod ponovo dostupan.<br /><br />Hvala!',
-	'PHPSHOP_WAITING_LIST_THANKS' => 'Hvala što ste prièekali! <br />Obavijestit æemo vas èim dobijemo proizvode.',
+	'PHPSHOP_WAITING_LIST_THANKS' => 'Hvala Å¡to ste priÄekali! <br />Obavijestit Ä‡emo vas Äim dobijemo proizvode.',
 	'PHPSHOP_WAITING_LIST_NOTIFY_ME' => 'Obavijesti me!',
 	'PHPSHOP_SEARCH_ALL_CATEGORIES' => 'Sve Kategorije',
 	'PHPSHOP_SEARCH_ALL_PRODINFO' => 'Sve informacije o proizvodu',
 	'PHPSHOP_SEARCH_PRODNAME' => 'Samo Imena Proizvoda',
-	'PHPSHOP_SEARCH_MANU_VENDOR' => 'Samo Proizvoğaèe/Prodavaèe',
+	'PHPSHOP_SEARCH_MANU_VENDOR' => 'Samo ProizvoÄ‘aÄe/ProdavaÄe',
 	'PHPSHOP_SEARCH_DESCRIPTION' => 'Samo Opise Proizvoda',
 	'PHPSHOP_SEARCH_AND' => 'I',
 	'PHPSHOP_SEARCH_NOT' => 'NE',
-	'PHPSHOP_SEARCH_TEXT1' => 'Prvi padajuæi izbornik omoguæuje odabir kategorije na koju elite ogranièiti pretraivanje.
-        Drugi padajuæi izbornik omoguæuje ogranièavanje pretraivanja na odreğeni dio informacija o proizvodu (npr. Opis).
-        Ne zaboravite unijeti kljuènu rijeè za pretraivanje. ',
-	'PHPSHOP_SEARCH_TEXT2' => 'Pretraivanje moete dodatno rafinirati dodavanjem druge kljuène rijeèi i odabirom I ili NE operatora.
-        I znaèi da obje rijeèi moraju biti sadrane da bi se proizvod prikazao.
-        Ne znaèi da æe se proizvod prikazati samo ako je prva kljuèna rijeè prisutna a druga nije.',
+	'PHPSHOP_SEARCH_TEXT1' => 'Prvi padajuÄ‡i izbornik omoguÄ‡uje odabir kategorije na koju Å¾elite ograniÄiti pretraÅ¾ivanje.
+        Drugi padajuÄ‡i izbornik omoguÄ‡uje ograniÄavanje pretraÅ¾ivanja na odreÄ‘eni dio informacija o proizvodu (npr. Opis).
+        Ne zaboravite unijeti kljuÄnu rijeÄ za pretraÅ¾ivanje. ',
+	'PHPSHOP_SEARCH_TEXT2' => 'PretraÅ¾ivanje moÅ¾ete dodatno rafinirati dodavanjem druge kljuÄne rijeÄi i odabirom I ili NE operatora.
+        I znaÄi da obje rijeÄi moraju biti sadrÅ¾ane da bi se proizvod prikazao.
+        Ne znaÄi da Ä‡e se proizvod prikazati samo ako je prva kljuÄna rijeÄ prisutna a druga nije.',
 	'PHPSHOP_CONTINUE_SHOPPING' => 'Nastavi Kupnju',
 	'PHPSHOP_AVAILABLE_IMAGES' => 'Dostupne slike za',
 	'PHPSHOP_BACK_TO_DETAILS' => 'Nazad na detalje o proizvodima',
-	'PHPSHOP_IMAGE_NOT_FOUND' => 'Slika nije pronağena!',
-	'PHPSHOP_PARAMETER_SEARCH_TEXT1' => 'elite li pretraivati proizvode prema tehnièkim parametrima?<BR>Moete koristiti bilo koji pripremljeni obrazac:',
-	'PHPSHOP_PARAMETER_SEARCH_NO_PRODUCT_TYPE' => 'Naalost, nema kategorije za pretraivanje.',
-	'PHPSHOP_PARAMETER_SEARCH_BAD_PRODUCT_TYPE' => 'Naalost, nije objavljen nijedan proizvod ovoga imena.',
+	'PHPSHOP_IMAGE_NOT_FOUND' => 'Slika nije pronaÄ‘ena!',
+	'PHPSHOP_PARAMETER_SEARCH_TEXT1' => 'Å½elite li pretraÅ¾ivati proizvode prema tehniÄkim parametrima?<BR>MoÅ¾ete koristiti bilo koji pripremljeni obrazac:',
+	'PHPSHOP_PARAMETER_SEARCH_NO_PRODUCT_TYPE' => 'NaÅ¾alost, nema kategorije za pretraÅ¾ivanje.',
+	'PHPSHOP_PARAMETER_SEARCH_BAD_PRODUCT_TYPE' => 'NaÅ¾alost, nije objavljen nijedan proizvod ovoga imena.',
 	'PHPSHOP_PARAMETER_SEARCH_IS_LIKE' => 'Je kao',
 	'PHPSHOP_PARAMETER_SEARCH_IS_NOT_LIKE' => 'Nije kao',
-	'PHPSHOP_PARAMETER_SEARCH_FULLTEXT' => 'Pretraivanje cijelog teksta',
-	'PHPSHOP_PARAMETER_SEARCH_FIND_IN_SET_ALL' => 'Sve oznaèeno',
-	'PHPSHOP_PARAMETER_SEARCH_FIND_IN_SET_ANY' => 'Bilo što oznaèeno',
-	'PHPSHOP_PARAMETER_SEARCH_RESET_FORM' => 'Poništi',
-	'PHPSHOP_PRODUCT_NOT_FOUND' => 'Traeni proizvod nije pronağen!',
+	'PHPSHOP_PARAMETER_SEARCH_FULLTEXT' => 'PretraÅ¾ivanje cijelog teksta',
+	'PHPSHOP_PARAMETER_SEARCH_FIND_IN_SET_ALL' => 'Sve oznaÄeno',
+	'PHPSHOP_PARAMETER_SEARCH_FIND_IN_SET_ANY' => 'Bilo Å¡to oznaÄeno',
+	'PHPSHOP_PARAMETER_SEARCH_RESET_FORM' => 'PoniÅ¡ti',
+	'PHPSHOP_PRODUCT_NOT_FOUND' => 'TraÅ¾eni proizvod nije pronaÄ‘en!',
 	'PHPSHOP_PRODUCT_PACKAGING1' => 'Broj jedinica u Pakovanju',
 	'PHPSHOP_PRODUCT_PACKAGING2' => 'Broj jedinica u Kutiji:',
 	'PHPSHOP_CART_PRICE_PER_UNIT' => 'Cijena po Jedinici',

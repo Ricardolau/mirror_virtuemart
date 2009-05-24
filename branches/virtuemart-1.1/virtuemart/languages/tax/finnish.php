@@ -25,6 +25,6 @@ $langvars = array (
 	'PHPSHOP_TAX_FORM_LBL' => 'Lisää/muokkaa veron tiedot',
 	'PHPSHOP_TAX_FORM_STATE' => 'Osavaltion tai alueen vero',
 	'PHPSHOP_TAX_FORM_COUNTRY' => 'Maakohtainen vero',
-	'PHPSHOP_TAX_FORM_RATE' => 'Veroprosentti'
+	'PHPSHOP_TAX_FORM_RATE' => 'Veroprosentti( 22% => täytä 0.22)'
 ); $VM_LANG->initModule( 'tax', $langvars );
 ?>

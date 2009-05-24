@@ -6,6 +6,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @subpackage languages
 * @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @translator soeren
+* @ 2009/01/07 updated by Mauri
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -29,15 +30,15 @@ $langvars = array (
 	'PHPSHOP_SHOPPER_GROUP_FORM_DESC' => 'Ryhmän kuvaus',
 	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT' => 'Perusasiakasryhmän alennusprosentti (%)',
 	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP' => 'Positiivinen luku X tarkoittaa: (Jos tuotteella ei ole mitään erikoishintaa tälle ostajaryhmälle) perushintaa lasketaan X %:lla. Negatiivinen luku tarkoittaa päinvastaista',
-	'SHOPPER_GROUP_MISSING_NAME' => 'You must enter a shopper group name.',
-	'SHOPPER_GROUP_ALREADY_EXISTS' => 'Shopper group already exists for this vendor.',
-	'SHOPPER_GROUP_DELETE_SELECT' => 'Please select a shopper group to delete.',
-	'SHOPPER_GROUP_DELETE_PAYMENT_METHODS_ASS' => 'This Shopper Group (Id: {id}) still has Payment Methods assigned to it.',
-	'SHOPPER_GROUP_DELETE_USERS_ASS' => 'There are still Users assigned to this Shopper Group (Id: {id})',
-	'SHOPPER_GROUP_DELETE_DEFAULT' => 'Cannot delete the default shopper group.',
-	'SHOPPER_GROUP_ADDED' => 'The Shopper Group has been added.',
-	'SHOPPER_GROUP_ADD_FAILED' => 'Failed to add the Shopper Group',
-	'SHOPPER_GROUP_UPDATED' => 'The Shopper Group has been updated.',
-	'SHOPPER_GROUP_UPDATE_FAILED' => 'Failed to update the Shopper Group'
+	'SHOPPER_GROUP_MISSING_NAME' => 'Anna ostajaryhmän nimi.',
+	'SHOPPER_GROUP_ALREADY_EXISTS' => 'Tämä ostajaryhmä on jo tässä kaupassa.',
+	'SHOPPER_GROUP_DELETE_SELECT' => 'Valitse poistettava ostajaryhmä.',
+	'SHOPPER_GROUP_DELETE_PAYMENT_METHODS_ASS' => 'Tälle ostajaryhmälle (Id: {id}) on asetettu vielä maksutapoja!',
+	'SHOPPER_GROUP_DELETE_USERS_ASS' => 'Tälle ostajaryhmälle (Id: {id}) on vielä asetettu käyttäjiä!',
+	'SHOPPER_GROUP_DELETE_DEFAULT' => 'Ei voida poistaa oletus ostajaryhmää.',
+	'SHOPPER_GROUP_ADDED' => 'Ostajaryhmä on lisätty.',
+	'SHOPPER_GROUP_ADD_FAILED' => 'Ostajaryhmän lisäys epäonnistui',
+	'SHOPPER_GROUP_UPDATED' => 'Ostajaryhmä on päivitetty.',
+	'SHOPPER_GROUP_UPDATE_FAILED' => 'Ostajaryhmän päivitys epäonnistui'
 ); $VM_LANG->initModule( 'shopper', $langvars );
 ?>

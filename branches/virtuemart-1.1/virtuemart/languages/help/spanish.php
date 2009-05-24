@@ -18,13 +18,15 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 global $VM_LANG;
 $langvars = array (
 	'CHARSET' => 'ISO-8859-1',
-	'VM_HELP_YOURVERSION' => 'Tu versión del {product}',
-	'VM_HELP_ABOUT' => '<span style="font-weight: bold;">VirtueMart</span> is the complete Open Source E-Commerce solution for Mambo and Joomla!. It is an Application, which comes with a Component, more than 8 Modules and Mambots/Plugins. It has its roots in a Shopping Cart Script called "phpShop" (Authors: Edikon Corp. & the <a href="http://www.virtuemart.net/" target="_blank">phpShop</a> community).',
-	'VM_HELP_LICENSE_DESC' => 'VirtueMart is licensed under the <a href="{licenseurl}" target="_blank">{licensename} License</a>.',
-	'VM_HELP_TEAM' => 'There\'s a small team of Developers who help in evolving this Shopping Cart Script.',
-	'VM_HELP_PROJECTLEADER' => 'Project Leader',
-	'VM_HELP_HOMEPAGE' => 'Homepage',
-	'VM_HELP_DONATION_DESC' => 'Please consider a small donation to the VirtueMart Project to help us keep up the work on this Component and create new Features.',
-	'VM_HELP_DONATION_BUTTON_ALT' => 'Make payments with PayPal - it\'s fast, free and secure!'
+	'VM_HELP_YOURVERSION' => 'Su versión {product}',
+	'VM_HELP_ABOUT' => '<span style="font-weight: bold;">
+		VirtueMart</span> es la solucion completa de comercio electrónico para Joomla!. 
+		Esta aplicación viene con un componente, mas de 8 módulos y Plugins.',
+	'VM_HELP_LICENSE_DESC' => 'VirtueMart esta licenciado por <a href="{licenseurl}" target="_blank">{licensename} Licencia</a>.',
+	'VM_HELP_TEAM' => 'Hay un grupo pequeño de desarrolladores ayudando a evolucionar este scipt.',
+	'VM_HELP_PROJECTLEADER' => 'Lider de proyecto',
+	'VM_HELP_HOMEPAGE' => 'Página de inicio',
+	'VM_HELP_DONATION_DESC' => 'Por favor considere una pequeña donación para seguir desarrollando el componente y sus módulos.',
+	'VM_HELP_DONATION_BUTTON_ALT' => 'Haga pagos con PayPal - es gratis, rapido y seguro!'
 ); $VM_LANG->initModule( 'help', $langvars );
 ?>

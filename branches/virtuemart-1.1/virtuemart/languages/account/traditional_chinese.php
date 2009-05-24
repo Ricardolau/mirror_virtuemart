@@ -18,12 +18,12 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'BIG5',
-	'PHPSHOP_ACC_CUSTOMER_ACCOUNT' => 'ÅU«È±b¸¹:',
-	'PHPSHOP_ACC_UPD_BILL' => '±z¥i¥H¦b¦¹§ó·s±zªº¥I´Ú¸ê°T.',
-	'PHPSHOP_ACC_UPD_SHIP' => '³oùØ±z¥i¥H¼W¥[©Î­×§ï¥I´Ú¦a§}.',
-	'PHPSHOP_ACC_ACCOUNT_INFO' => '±b¤á¸ê°T',
-	'PHPSHOP_ACC_SHIP_INFO' => '°e³f¸ê°T',
+	'CHARSET' => 'UTF-8',
+	'PHPSHOP_ACC_CUSTOMER_ACCOUNT' => 'é¡§å®¢å¸³è™Ÿ:',
+	'PHPSHOP_ACC_UPD_BILL' => 'æ‚¨å¯ä»¥åœ¨æ­¤æ›´æ–°æ‚¨çš„ä»˜æ¬¾è³‡è¨Š.',
+	'PHPSHOP_ACC_UPD_SHIP' => 'é€™è£æ‚¨å¯ä»¥å¢žåŠ æˆ–ä¿®æ”¹ä»˜æ¬¾åœ°å€.',
+	'PHPSHOP_ACC_ACCOUNT_INFO' => 'å¸³æˆ¶è³‡è¨Š',
+	'PHPSHOP_ACC_SHIP_INFO' => 'é€è²¨è³‡è¨Š',
 	'PHPSHOP_DOWNLOADS_CLICK' => 'Click on Product Name to Download File(s).',
 	'PHPSHOP_DOWNLOADS_EXPIRED' => 'You have already downloaded the file(s) the maximum number of times, or the download period has expired.'
 ); $VM_LANG->initModule( 'account', $langvars );

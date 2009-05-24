@@ -18,12 +18,12 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 global $VM_LANG;
 $langvars = array (
 	'CHARSET' => 'ISO-8859-1',
-	'PHPSHOP_ACC_CUSTOMER_ACCOUNT' => 'Cuenta de Cliente:',
-	'PHPSHOP_ACC_UPD_BILL' => 'Aquí se puede actualizar sus datos de facturación.',
-	'PHPSHOP_ACC_UPD_SHIP' => 'Aquí se puede añadir y mantener las direcciones de envío.',
-	'PHPSHOP_ACC_ACCOUNT_INFO' => 'Información de Cuenta',
-	'PHPSHOP_ACC_SHIP_INFO' => 'Información de Envío',
-	'PHPSHOP_DOWNLOADS_CLICK' => 'Pulsar en el Nomber del Producto para Descargar Archivo(s)',
-	'PHPSHOP_DOWNLOADS_EXPIRED' => 'Ya has descargado el archivo(s) el número máximo de veces, o el período para realizar la descarga ha finalizado. '
+	'PHPSHOP_ACC_CUSTOMER_ACCOUNT' => 'Cuenta de cliente:',
+	'PHPSHOP_ACC_UPD_BILL' => 'Aquí puede actualizar sus datos de emisión de comprobantes.',
+	'PHPSHOP_ACC_UPD_SHIP' => 'Aquí puede agregar y mantener sus direcciones de envío.',
+	'PHPSHOP_ACC_ACCOUNT_INFO' => 'Información de cuenta',
+	'PHPSHOP_ACC_SHIP_INFO' => 'Información de envío',
+	'PHPSHOP_DOWNLOADS_CLICK' => 'Haga click en el nombre del archivo para descargarlo.',
+	'PHPSHOP_DOWNLOADS_EXPIRED' => 'Ya ha descargado el archivo el número máximo permitido, o el periodo de descarga ha expirado.'
 ); $VM_LANG->initModule( 'account', $langvars );
 ?>

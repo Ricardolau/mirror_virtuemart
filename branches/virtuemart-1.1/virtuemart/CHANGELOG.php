@@ -34,6 +34,14 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+24.05.2009 thepisu
+# updated Croatian-Hrvatski language (thanks to dac3d)
+# updated Spanish language (thanks to Blogapeuta)
+# updated Bulgarian language (thanks to Imago)
+# updated Swedish language (thanks to mauri)
+# updated Traditional Chinese language (thanks to SimonSimon)
++ added Lithuanian translation (thanks to no0n3)
+
 15.05.2009 macallf
 # BUG #1345/#1598 - Out of stock children displayed in drop down
 

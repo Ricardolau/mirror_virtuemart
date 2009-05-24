@@ -18,13 +18,13 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'BIG5',
-	'PHPSHOP_TAX_LIST_LBL' => 'µ|²v¦Cªí',
-	'PHPSHOP_TAX_LIST_STATE' => '¬Ù¥÷©Î¦a°Ïµ|ª÷',
-	'PHPSHOP_TAX_LIST_COUNTRY' => '°ê®aµ|ª÷',
-	'PHPSHOP_TAX_FORM_LBL' => '¼W¥[µ|ª÷¸ê°T',
-	'PHPSHOP_TAX_FORM_STATE' => '¬Ù¥÷©Î¦a¤èµ|',
-	'PHPSHOP_TAX_FORM_COUNTRY' => '¤¤¥¡µ|',
-	'PHPSHOP_TAX_FORM_RATE' => 'µ|²v ( 16% => ¶ñ¤J 0.16 )'
+	'CHARSET' => 'UTF-8',
+	'PHPSHOP_TAX_LIST_LBL' => 'ç¨…çŽ‡åˆ—è¡¨',
+	'PHPSHOP_TAX_LIST_STATE' => 'çœä»½æˆ–åœ°å€ç¨…é‡‘',
+	'PHPSHOP_TAX_LIST_COUNTRY' => 'åœ‹å®¶ç¨…é‡‘',
+	'PHPSHOP_TAX_FORM_LBL' => 'å¢žåŠ ç¨…é‡‘è³‡è¨Š',
+	'PHPSHOP_TAX_FORM_STATE' => 'çœä»½æˆ–åœ°æ–¹ç¨…',
+	'PHPSHOP_TAX_FORM_COUNTRY' => 'ä¸­å¤®ç¨…',
+	'PHPSHOP_TAX_FORM_RATE' => 'ç¨…çŽ‡ ( 16% => å¡«å…¥ 0.16 )'
 ); $VM_LANG->initModule( 'tax', $langvars );
 ?>

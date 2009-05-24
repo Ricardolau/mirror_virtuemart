@@ -1,4 +1,4 @@
-<?php
+ï»¿<?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
@@ -18,11 +18,11 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-1',
-	'PHPSHOP_ACC_CUSTOMER_ACCOUNT' => 'Korisnièki raèun:',
-	'PHPSHOP_ACC_UPD_BILL' => 'Ovdje možete izmijeniti svoje podatke za naplatu.',
-	'PHPSHOP_ACC_UPD_SHIP' => 'Ovdje možete dodavati i mijenjati podatke za dostavu.',
-	'PHPSHOP_ACC_ACCOUNT_INFO' => 'Informacije o korisnièkom raèunu',
+	'CHARSET' => 'utf-8',
+	'PHPSHOP_ACC_CUSTOMER_ACCOUNT' => 'KorisniÄki raÄun:',
+	'PHPSHOP_ACC_UPD_BILL' => 'Ovdje moÅ¾ete izmijeniti svoje podatke za naplatu.',
+	'PHPSHOP_ACC_UPD_SHIP' => 'Ovdje moÅ¾ete dodavati i mijenjati podatke za dostavu.',
+	'PHPSHOP_ACC_ACCOUNT_INFO' => 'Informacije o korisniÄkom raÄunu',
 	'PHPSHOP_ACC_SHIP_INFO' => 'Podatci za Dostavu',
 	'PHPSHOP_DOWNLOADS_CLICK' => 'Click on Product Name to Download File(s).',
 	'PHPSHOP_DOWNLOADS_EXPIRED' => 'You have already downloaded the file(s) the maximum number of times, or the download period has expired.'

@@ -6,7 +6,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
-* @translator soeren
+* @translator BULTRANS
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -18,13 +18,13 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'cp1251',
-	'PHPSHOP_ACC_CUSTOMER_ACCOUNT' => 'Àêàóíò íà êëèåíò:',
-	'PHPSHOP_ACC_UPD_BILL' => 'Òóê ìîæåòå äà ïðîìåíèòå èíôîðìàöèÿòà çà ïëàùàíå.',
-	'PHPSHOP_ACC_UPD_SHIP' => 'Òóê ìîæåòå äà ïðîìåíÿòå è äîáàâÿòå àäðåñè çà äîñòàâêà.',
-	'PHPSHOP_ACC_ACCOUNT_INFO' => 'Èíôîðìàöèÿ çà àêàóíò',
-	'PHPSHOP_ACC_SHIP_INFO' => 'Èíôîðìàöèÿ çà äîñòàâêà',
-	'PHPSHOP_DOWNLOADS_CLICK' => 'Click on Product Name to Download File(s).',
-	'PHPSHOP_DOWNLOADS_EXPIRED' => 'You have already downloaded the file(s) the maximum number of times, or the download period has expired.'
+	'CHARSET' => 'UTF-8',
+	'PHPSHOP_ACC_CUSTOMER_ACCOUNT' => 'ÐšÐ»Ð¸ÐµÐ½Ñ‚ÑÐºÐ¸ Ð¿Ñ€Ð¾Ñ„Ð¸Ð»:',
+	'PHPSHOP_ACC_UPD_BILL' => 'Ð¢ÑƒÐº Ð¼Ð¾Ð¶ÐµÑ‚Ðµ Ð´Ð° Ð¿Ñ€Ð¾Ð¼ÐµÐ½Ð¸Ñ‚Ðµ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸ÑÑ‚Ð° Ð·Ð° Ð¿Ð»Ð°Ñ‰Ð°Ð½Ðµ.',
+	'PHPSHOP_ACC_UPD_SHIP' => 'Ð¢ÑƒÐº Ð¼Ð¾Ð¶ÐµÑ‚Ðµ Ð´Ð° Ð¿Ñ€Ð¾Ð¼ÐµÐ½ÑÑ‚Ðµ Ð¸ Ð´Ð¾Ð±Ð°Ð²ÑÑ‚Ðµ Ð°Ð´Ñ€ÐµÑÐ¸ Ð·Ð° Ð´Ð¾ÑÑ‚Ð°Ð²ÐºÐ°.',
+	'PHPSHOP_ACC_ACCOUNT_INFO' => 'Ð˜Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ Ð·Ð° ÐºÐ»Ð¸ÐµÐ½Ñ‚Ð°',
+	'PHPSHOP_ACC_SHIP_INFO' => 'Ð˜Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ Ð·Ð° Ð´Ð¾ÑÑ‚Ð°Ð²ÐºÐ°',
+	'PHPSHOP_DOWNLOADS_CLICK' => 'Ð©Ñ€Ð°ÐºÐ½ÐµÑ‚Ðµ Ð¿Ð¾ Ð¸Ð¼ÐµÑ‚Ð¾ Ð½Ð° Ð¿Ñ€Ð¾Ð´ÑƒÐºÑ‚Ð°, Ð·Ð° Ð´Ð° ÑÐ²Ð°Ð»Ð¸Ñ‚Ðµ Ñ„Ð°Ð¹Ð»Ð°.',
+	'PHPSHOP_DOWNLOADS_EXPIRED' => 'Ð’ÐµÑ‡Ðµ ÑÑ‚Ðµ Ð¸Ð·Ñ‡ÐµÑ€Ð¿Ð°Ð»Ð¸ Ð»Ð¸Ð¼Ð¸Ñ‚Ð° ÑÐ¸ Ð½Ð° Ð¿Ð¾Ð·Ð²Ð¾Ð»ÐµÐ½Ð¸ ÑÐ²Ð°Ð»ÑÐ½Ð¸Ñ Ð¸Ð»Ð¸ Ð¿ÑŠÐº Ð²Ñ€ÐµÐ¼ÐµÑ‚Ð¾ Ð·Ð° ÑÐ²Ð°Ð»ÑÐ½Ðµ Ð½Ð° Ñ„Ð°Ð¹Ð»Ð° Ðµ Ð¸Ð·Ñ‚ÐµÐºÐ»Ð¾.'
 ); $VM_LANG->initModule( 'account', $langvars );
 ?>

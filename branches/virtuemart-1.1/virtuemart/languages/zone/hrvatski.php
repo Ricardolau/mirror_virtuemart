@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
@@ -18,8 +18,8 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-1',
-	'PHPSHOP_ZONE_ASSIGN_COUNTRY_LBL' => 'Dr�ava',
+	'CHARSET' => 'utf-8',
+	'PHPSHOP_ZONE_ASSIGN_COUNTRY_LBL' => 'Država',
 	'PHPSHOP_ZONE_ASSIGN_ASSIGN_LBL' => 'Dodijeli zoni',
 	'PHPSHOP_ASSIGN_ZONE_PG_LBL' => 'Dodjeli zone',
 	'PHPSHOP_ZONE_FORM_NAME_LBL' => 'Naziv zone',

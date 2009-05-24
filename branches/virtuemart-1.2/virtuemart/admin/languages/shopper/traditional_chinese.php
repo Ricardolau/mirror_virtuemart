@@ -2,9 +2,10 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
+* @version : traditional_chinese.php 1071 2007-12-03 08:42:28Z thepisu $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
 * @translator soeren
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -17,27 +18,17 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'BIG5',
-	'PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX' => 'Åã¥Ü§tµ|»ù¡H',
-	'PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX_EXPLAIN' => 'µL½×»ù®æ¬O§_§tµ|§¡³]¸m¼Ð»x¡C',
-	'PHPSHOP_SHOPPER_FORM_ADDRESS_LABEL' => '¦a§}§O¦W',
-	'PHPSHOP_SHOPPER_GROUP_LIST_LBL' => 'ÅU«È¸s²Õ¦Cªí',
-	'PHPSHOP_SHOPPER_GROUP_LIST_NAME' => '¸s²Õ¦WºÙ',
-	'PHPSHOP_SHOPPER_GROUP_LIST_DESCRIPTION' => '¸s²Õ´y­z',
-	'PHPSHOP_SHOPPER_GROUP_FORM_LBL' => 'ÅU«È¸s²Õªí³æ',
-	'PHPSHOP_SHOPPER_GROUP_FORM_NAME' => '¸s²Õ¦WºÙ',
-	'PHPSHOP_SHOPPER_GROUP_FORM_DESC' => '¸s²Õ´y­z',
-	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT' => '¹w³]ÅU«È¸s²Õªº°â»ù§é¦© (¥H¦Ê¤À¤ñªº§Î¦¡)',
-	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP' => '¥¿­Èªº X ·N«üµÛ:°Ó«~¦pªG¹ï©ó¸Ó¸s²ÕÅU«È¨S¦³«ü©w»ù®æªº¸Ü¡A¨º»ò±N¦b¹w³]»ù®æ¤W­±´î¤Ö X%¡C­t­È«h¦³¬Û¤Ï®ÄªG¡C',
-	'SHOPPER_GROUP_MISSING_NAME' => 'You must enter a shopper group name.',
-	'SHOPPER_GROUP_ALREADY_EXISTS' => 'Shopper group already exists for this vendor.',
-	'SHOPPER_GROUP_DELETE_SELECT' => 'Please select a shopper group to delete.',
-	'SHOPPER_GROUP_DELETE_PAYMENT_METHODS_ASS' => 'This Shopper Group (Id: {id}) still has Payment Methods assigned to it.',
-	'SHOPPER_GROUP_DELETE_USERS_ASS' => 'There are still Users assigned to this Shopper Group (Id: {id})',
-	'SHOPPER_GROUP_DELETE_DEFAULT' => 'Cannot delete the default shopper group.',
-	'SHOPPER_GROUP_ADDED' => 'The Shopper Group has been added.',
-	'SHOPPER_GROUP_ADD_FAILED' => 'Failed to add the Shopper Group',
-	'SHOPPER_GROUP_UPDATED' => 'The Shopper Group has been updated.',
-	'SHOPPER_GROUP_UPDATE_FAILED' => 'Failed to update the Shopper Group'
+	'CHARSET' => 'UTF-8',
+	'PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX' => 'é¡¯ç¤ºå«ç¨…åƒ¹ï¼Ÿ',
+	'PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX_EXPLAIN' => 'ç„¡è«–åƒ¹æ ¼æ˜¯å¦å«ç¨…å‡è¨­ç½®æ¨™èªŒã€‚',
+	'PHPSHOP_SHOPPER_FORM_ADDRESS_LABEL' => 'åœ°å€åˆ¥å',
+	'PHPSHOP_SHOPPER_GROUP_LIST_LBL' => 'é¡§å®¢ç¾¤çµ„åˆ—è¡¨',
+	'PHPSHOP_SHOPPER_GROUP_LIST_NAME' => 'ç¾¤çµ„åç¨±',
+	'PHPSHOP_SHOPPER_GROUP_LIST_DESCRIPTION' => 'ç¾¤çµ„æè¿°',
+	'PHPSHOP_SHOPPER_GROUP_FORM_LBL' => 'é¡§å®¢ç¾¤çµ„è¡¨å–®',
+	'PHPSHOP_SHOPPER_GROUP_FORM_NAME' => 'ç¾¤çµ„åç¨±',
+	'PHPSHOP_SHOPPER_GROUP_FORM_DESC' => 'ç¾¤çµ„æè¿°',
+	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT' => 'é è¨­é¡§å®¢ç¾¤çµ„çš„å”®åƒ¹æŠ˜æ‰£ (ä»¥ç™¾åˆ†æ¯”çš„å½¢å¼)',
+	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP' => 'æ­£å€¼çš„ X æ„æŒ‡è‘—:å•†å“å¦‚æžœå°æ–¼è©²ç¾¤çµ„é¡§å®¢æ²’æœ‰æŒ‡å®šåƒ¹æ ¼çš„è©±ï¼Œé‚£éº¼å°‡åœ¨é è¨­åƒ¹æ ¼ä¸Šé¢æ¸›å°‘ X%ã€‚è² å€¼å‰‡æœ‰ç›¸åæ•ˆæžœã€‚'
 ); $VM_LANG->initModule( 'shopper', $langvars );
 ?>

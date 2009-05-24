@@ -1,4 +1,4 @@
-<?php
+ï»¿<?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
@@ -18,28 +18,28 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-1',
-	'PHPSHOP_CARRIER_LIST_LBL' => 'Lista Dostavljaèa',
+	'CHARSET' => 'utf-8',
+	'PHPSHOP_CARRIER_LIST_LBL' => 'Lista DostavljaÄa',
 	'PHPSHOP_RATE_LIST_LBL' => 'Lista Dostavnih Tarifa',
 	'PHPSHOP_CARRIER_LIST_NAME_LBL' => 'Naziv',
 	'PHPSHOP_CARRIER_LIST_ORDER_LBL' => 'Redoslijed',
-	'PHPSHOP_CARRIER_FORM_LBL' => 'Dodavanje/Ureðivanje Dostavljaèa',
-	'PHPSHOP_RATE_FORM_LBL' => 'Dodavanje/Ureðivanje Dostavne Tarife',
+	'PHPSHOP_CARRIER_FORM_LBL' => 'Dodavanje/UreÄ‘ivanje DostavljaÄa',
+	'PHPSHOP_RATE_FORM_LBL' => 'Dodavanje/UreÄ‘ivanje Dostavne Tarife',
 	'PHPSHOP_RATE_FORM_NAME' => 'Opis Dostavne Tarife',
-	'PHPSHOP_RATE_FORM_CARRIER' => 'Dostavljaè',
-	'PHPSHOP_RATE_FORM_COUNTRY' => 'Država',
-	'PHPSHOP_RATE_FORM_ZIP_START' => 'Poštanski broj poèetak',
-	'PHPSHOP_RATE_FORM_ZIP_END' => 'Poštanski broj kraj',
-	'PHPSHOP_RATE_FORM_WEIGHT_START' => 'Najmanja težina',
-	'PHPSHOP_RATE_FORM_WEIGHT_END' => 'Najveæa težina',
-	'PHPSHOP_RATE_FORM_PACKAGE_FEE' => 'Pristojba za vašu pošiljku',
+	'PHPSHOP_RATE_FORM_CARRIER' => 'DostavljaÄ',
+	'PHPSHOP_RATE_FORM_COUNTRY' => 'DrÅ¾ava',
+	'PHPSHOP_RATE_FORM_ZIP_START' => 'PoÅ¡tanski broj poÄetak',
+	'PHPSHOP_RATE_FORM_ZIP_END' => 'PoÅ¡tanski broj kraj',
+	'PHPSHOP_RATE_FORM_WEIGHT_START' => 'Najmanja teÅ¾ina',
+	'PHPSHOP_RATE_FORM_WEIGHT_END' => 'NajveÄ‡a teÅ¾ina',
+	'PHPSHOP_RATE_FORM_PACKAGE_FEE' => 'Pristojba za vaÅ¡u poÅ¡iljku',
 	'PHPSHOP_RATE_FORM_CURRENCY' => 'Valuta',
 	'PHPSHOP_RATE_FORM_LIST_ORDER' => 'Redoslijed',
-	'PHPSHOP_SHIPPING_RATE_LIST_CARRIER_LBL' => 'Dostavljaè',
+	'PHPSHOP_SHIPPING_RATE_LIST_CARRIER_LBL' => 'DostavljaÄ',
 	'PHPSHOP_SHIPPING_RATE_LIST_RATE_NAME' => 'Opis dostavne tarife',
-	'PHPSHOP_SHIPPING_RATE_LIST_RATE_WSTART' => 'težina od ...',
+	'PHPSHOP_SHIPPING_RATE_LIST_RATE_WSTART' => 'teÅ¾ina od ...',
 	'PHPSHOP_SHIPPING_RATE_LIST_RATE_WEND' => '... do',
-	'PHPSHOP_CARRIER_FORM_NAME' => 'Dostavljaè',
-	'PHPSHOP_CARRIER_FORM_LIST_ORDER' => 'Prikaži narudžbu'
+	'PHPSHOP_CARRIER_FORM_NAME' => 'DostavljaÄ',
+	'PHPSHOP_CARRIER_FORM_LIST_ORDER' => 'PrikaÅ¾i narudÅ¾bu'
 ); $VM_LANG->initModule( 'shipping', $langvars );
 ?>

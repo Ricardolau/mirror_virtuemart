@@ -6,6 +6,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @subpackage languages
 * @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @translator soeren
+* @ 2009/01/07 updated by Mauri
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -28,9 +29,9 @@ $langvars = array (
 	'PHPSHOP_COUPON_VALUE_HEADER' => 'Arvo',
 	'PHPSHOP_COUPON_PERCENT' => 'Prosentti',
 	'PHPSHOP_COUPON_TOTAL' => 'Kiinteä summa',
-	'PHPSHOP_COUPON_START' => 'Coupon Start Date',
-	'PHPSHOP_COUPON_EXPIRY' => 'Coupon Expiry Date',
-	'PHPSHOP_COUPON_CODE_INVALID' => 'Coupon code out of date. Please try an alternative.',
-	'PHPSHOP_COUPON_CODE_NOT FOUND' => 'Coupon code not found. Please try again.'
+	'PHPSHOP_COUPON_START' => 'Kupongin aloituspäivä',
+	'PHPSHOP_COUPON_EXPIRY' => 'Kupongin viimeinen voimassaolopäivä',
+	'PHPSHOP_COUPON_CODE_INVALID' => 'Kuponki on vanhentunut. Kokeilkaa toista vaihtoehtoa tai jatkakaa ostoksia.',
+	'PHPSHOP_COUPON_CODE_NOT FOUND' => 'Kuponkikoodia ei löydy. Yrittäkää uudestaan.'
 ); $VM_LANG->initModule( 'coupon', $langvars );
 ?>

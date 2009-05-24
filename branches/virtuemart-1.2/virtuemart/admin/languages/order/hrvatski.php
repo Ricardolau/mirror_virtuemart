@@ -1,4 +1,4 @@
-<?php
+ï»¿<?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
@@ -18,22 +18,22 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-1',
-	'PHPSHOP_ORDER_PRINT_PAYMENT_LOG_LBL' => 'Evidencija Plaæanja',
+	'CHARSET' => 'utf-8',
+	'PHPSHOP_ORDER_PRINT_PAYMENT_LOG_LBL' => 'Evidencija PlaÄ‡anja',
 	'PHPSHOP_ORDER_PRINT_SHIPPING_PRICE_LBL' => 'Cijena Dostave',
-	'PHPSHOP_ORDER_STATUS_LIST_CODE' => 'Kod Statusa Narudžbe',
-	'PHPSHOP_ORDER_STATUS_LIST_NAME' => 'Naziv Statusa Narudžbe',
-	'PHPSHOP_ORDER_STATUS_FORM_LBL' => 'Status Narudžbe',
-	'PHPSHOP_ORDER_STATUS_FORM_CODE' => 'Kod Statusa Narudžbe',
-	'PHPSHOP_ORDER_STATUS_FORM_NAME' => 'Naziv Statusa Narudžbe',
+	'PHPSHOP_ORDER_STATUS_LIST_CODE' => 'Kod Statusa NarudÅ¾be',
+	'PHPSHOP_ORDER_STATUS_LIST_NAME' => 'Naziv Statusa NarudÅ¾be',
+	'PHPSHOP_ORDER_STATUS_FORM_LBL' => 'Status NarudÅ¾be',
+	'PHPSHOP_ORDER_STATUS_FORM_CODE' => 'Kod Statusa NarudÅ¾be',
+	'PHPSHOP_ORDER_STATUS_FORM_NAME' => 'Naziv Statusa NarudÅ¾be',
 	'PHPSHOP_ORDER_STATUS_FORM_LIST_ORDER' => 'Redoslijed',
 	'PHPSHOP_COMMENT' => 'Komentar',
 	'PHPSHOP_ORDER_LIST_NOTIFY' => 'Obavijestiti kupca?',
-	'PHPSHOP_ORDER_LIST_NOTIFY_ERR' => 'Prvo promijenite status narudžbe!',
-	'PHPSHOP_ORDER_HISTORY_INCLUDE_COMMENT' => 'Ukljuèiti ovaj komentar?',
+	'PHPSHOP_ORDER_LIST_NOTIFY_ERR' => 'Prvo promijenite status narudÅ¾be!',
+	'PHPSHOP_ORDER_HISTORY_INCLUDE_COMMENT' => 'UkljuÄiti ovaj komentar?',
 	'PHPSHOP_ORDER_HISTORY_DATE_ADDED' => 'Dodano datuma',
-	'PHPSHOP_ORDER_HISTORY_CUSTOMER_NOTIFIED' => 'Kupac obaviješten?',
-	'PHPSHOP_ORDER_STATUS_CHANGE' => 'Promjena statusa narudžbe',
+	'PHPSHOP_ORDER_HISTORY_CUSTOMER_NOTIFIED' => 'Kupac obavijeÅ¡ten?',
+	'PHPSHOP_ORDER_STATUS_CHANGE' => 'Promjena statusa narudÅ¾be',
 	'PHPSHOP_ORDER_LIST_PRINT_LABEL' => 'Print Label',
 	'PHPSHOP_ORDER_LIST_VOID_LABEL' => 'Void Label',
 	'PHPSHOP_ORDER_LIST_TRACK' => 'Track',

@@ -1,11 +1,12 @@
-<?php
+﻿<?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
+* @version : bulgarian.php 1071 2007-12-03 08:42:28Z thepisu $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
-* @translator soeren
+* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @translator BULTRANS
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -17,27 +18,17 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'cp1251',
-	'PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX' => '��������� �� ���� � ������ � ��������?',
-	'PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX_EXPLAIN' => 'Ako izberete tazi opcia, potrebitelite shte vijdat cenite s vkl. danuk i nadcenka.',
-	'PHPSHOP_SHOPPER_FORM_ADDRESS_LABEL' => '������ �� �����',
-	'PHPSHOP_SHOPPER_GROUP_LIST_LBL' => '������ �� ����������� �����',
-	'PHPSHOP_SHOPPER_GROUP_LIST_NAME' => '��� �� �������',
-	'PHPSHOP_SHOPPER_GROUP_LIST_DESCRIPTION' => '�������� �� �������',
-	'PHPSHOP_SHOPPER_GROUP_FORM_LBL' => '�������� �� ��������� �����',
-	'PHPSHOP_SHOPPER_GROUP_FORM_NAME' => '��� �� �������',
-	'PHPSHOP_SHOPPER_GROUP_FORM_DESC' => '�������� �� �������',
-	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT' => '�������� �� ����������� ����� �� ������������ (� %)',
-	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP' => 'Polojitelna stoinost X oznachava: Ako produktut niama cena za TAZI klientska grupa, cenata mu po podrazbirane se namaliava s X %. Otricatelna stoinost za X shte ima obratnia efekt.',
-	'SHOPPER_GROUP_MISSING_NAME' => 'You must enter a shopper group name.',
-	'SHOPPER_GROUP_ALREADY_EXISTS' => 'Shopper group already exists for this vendor.',
-	'SHOPPER_GROUP_DELETE_SELECT' => 'Please select a shopper group to delete.',
-	'SHOPPER_GROUP_DELETE_PAYMENT_METHODS_ASS' => 'This Shopper Group (Id: {id}) still has Payment Methods assigned to it.',
-	'SHOPPER_GROUP_DELETE_USERS_ASS' => 'There are still Users assigned to this Shopper Group (Id: {id})',
-	'SHOPPER_GROUP_DELETE_DEFAULT' => 'Cannot delete the default shopper group.',
-	'SHOPPER_GROUP_ADDED' => 'The Shopper Group has been added.',
-	'SHOPPER_GROUP_ADD_FAILED' => 'Failed to add the Shopper Group',
-	'SHOPPER_GROUP_UPDATED' => 'The Shopper Group has been updated.',
-	'SHOPPER_GROUP_UPDATE_FAILED' => 'Failed to update the Shopper Group'
+	'CHARSET' => 'UTF-8',
+	'PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX' => 'Показване на цени с данъци и такси?',
+	'PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX_EXPLAIN' => 'Ако изберете тази опция, потребителите ще виждат цените с включени данъци и такси.',
+	'PHPSHOP_SHOPPER_FORM_ADDRESS_LABEL' => 'Етикет за адрес',
+	'PHPSHOP_SHOPPER_GROUP_LIST_LBL' => 'Списък на клиентските групи',
+	'PHPSHOP_SHOPPER_GROUP_LIST_NAME' => 'Име на групата',
+	'PHPSHOP_SHOPPER_GROUP_LIST_DESCRIPTION' => 'Описание на групата',
+	'PHPSHOP_SHOPPER_GROUP_FORM_LBL' => 'Формуляр за клиентска група',
+	'PHPSHOP_SHOPPER_GROUP_FORM_NAME' => 'Име на групата',
+	'PHPSHOP_SHOPPER_GROUP_FORM_DESC' => 'Описание на групата',
+	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT' => 'Отстъпка за клиентската група по подразбиране (в %)',
+	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP' => 'Положителната стойност X означава следното: Ако продуктът няма цена за тази клиентска група, основната му цена ще се намали с X %. Отрицателно стойност на Х ще доведе до обратния резултат.'
 ); $VM_LANG->initModule( 'shopper', $langvars );
 ?>

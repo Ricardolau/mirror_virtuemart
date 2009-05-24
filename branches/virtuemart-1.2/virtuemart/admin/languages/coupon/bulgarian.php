@@ -2,10 +2,11 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
+* @version : bulgarian.php 1071 2007-12-03 08:42:28Z thepisu $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
-* @translator soeren
+* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @translator BULTRANS
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -17,20 +18,16 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'cp1251',
-	'PHPSHOP_COUPON_EDIT_HEADER' => '������� �� �����',
-	'PHPSHOP_COUPON_CODE_HEADER' => '���',
-	'PHPSHOP_COUPON_PERCENT_TOTAL' => '������� ��� ����',
-	'PHPSHOP_COUPON_TYPE' => '���� �� ������',
-	'PHPSHOP_COUPON_TYPE_TOOLTIP' => 'Ednokratniqt talon se deaktiwira sled purvata uspeshna pokupka s nego. Wechniat talon moje da se polzwa ot klienta vinagi.',
-	'PHPSHOP_COUPON_TYPE_GIFT' => '����������',
-	'PHPSHOP_COUPON_TYPE_PERMANENT' => '�����',
-	'PHPSHOP_COUPON_VALUE_HEADER' => '��������',
-	'PHPSHOP_COUPON_PERCENT' => '�������',
-	'PHPSHOP_COUPON_TOTAL' => '����',
-	'PHPSHOP_COUPON_START' => 'Coupon Start Date',
-	'PHPSHOP_COUPON_EXPIRY' => 'Coupon Expiry Date',
-	'PHPSHOP_COUPON_CODE_INVALID' => 'Coupon code out of date. Please try an alternative.',
-	'PHPSHOP_COUPON_CODE_NOT FOUND' => 'Coupon code not found. Please try again.'
+	'CHARSET' => 'UTF-8',
+	'PHPSHOP_COUPON_EDIT_HEADER' => 'Промяна на талон',
+	'PHPSHOP_COUPON_CODE_HEADER' => 'Код',
+	'PHPSHOP_COUPON_PERCENT_TOTAL' => 'Процент или сума',
+	'PHPSHOP_COUPON_TYPE' => 'Вид на талона',
+	'PHPSHOP_COUPON_TYPE_TOOLTIP' => 'Еднократният талон се деактивира след първата покупка с него. Постоянният талон може да се ползва от клиента по всяко време.',
+	'PHPSHOP_COUPON_TYPE_GIFT' => 'Еднократен',
+	'PHPSHOP_COUPON_TYPE_PERMANENT' => 'Постоянен',
+	'PHPSHOP_COUPON_VALUE_HEADER' => 'Стойност',
+	'PHPSHOP_COUPON_PERCENT' => 'Процент',
+	'PHPSHOP_COUPON_TOTAL' => 'Сума'
 ); $VM_LANG->initModule( 'coupon', $langvars );
 ?>

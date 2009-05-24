@@ -33,6 +33,14 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+24.05.2009 thepisu
+# updated Croatian-Hrvatski language (thanks to dac3d)
+# updated Spanish language (thanks to Blogapeuta)
+# updated Bulgarian language (thanks to Imago)
+# updated Swedish language (thanks to mauri)
+# updated Traditional Chinese language (thanks to SimonSimon)
++ added Lithuanian translation (thanks to no0n3)
+
 14.05.2009 macallf
 + Create XHtml Flat List Category menu, J!1.5 css 
 

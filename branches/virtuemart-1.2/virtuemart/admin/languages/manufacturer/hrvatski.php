@@ -1,4 +1,4 @@
-<?php
+ï»¿<?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
@@ -18,17 +18,17 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-1',
-	'PHPSHOP_MANUFACTURER_LIST_LBL' => 'Lista Proizvoðaèa',
-	'PHPSHOP_MANUFACTURER_LIST_MANUFACTURER_NAME' => 'Naziv Proizvoðaèa',
+	'CHARSET' => 'utf-8',
+	'PHPSHOP_MANUFACTURER_LIST_LBL' => 'Lista ProizvoÄ‘aÄa',
+	'PHPSHOP_MANUFACTURER_LIST_MANUFACTURER_NAME' => 'Naziv ProizvoÄ‘aÄa',
 	'PHPSHOP_MANUFACTURER_FORM_LBL' => 'Dodavanje informacija',
-	'PHPSHOP_MANUFACTURER_FORM_CATEGORY' => 'Kategorija proizvoðaèa',
+	'PHPSHOP_MANUFACTURER_FORM_CATEGORY' => 'Kategorija proizvoÄ‘aÄa',
 	'PHPSHOP_MANUFACTURER_FORM_EMAIL' => 'Email',
-	'PHPSHOP_MANUFACTURER_CAT_LIST_LBL' => 'Lista Kategorija Proizvoðaèa',
+	'PHPSHOP_MANUFACTURER_CAT_LIST_LBL' => 'Lista Kategorija ProizvoÄ‘aÄa',
 	'PHPSHOP_MANUFACTURER_CAT_NAME' => 'Naziv Kategorije',
 	'PHPSHOP_MANUFACTURER_CAT_DESCRIPTION' => 'Opis Kategorije',
-	'PHPSHOP_MANUFACTURER_CAT_MANUFACTURERS' => 'Proizvoðaèi',
-	'PHPSHOP_MANUFACTURER_CAT_FORM_LBL' => 'Forma kategorije proizvoðaèa',
+	'PHPSHOP_MANUFACTURER_CAT_MANUFACTURERS' => 'ProizvoÄ‘aÄi',
+	'PHPSHOP_MANUFACTURER_CAT_FORM_LBL' => 'Forma kategorije proizvoÄ‘aÄa',
 	'PHPSHOP_MANUFACTURER_CAT_FORM_INFO_LBL' => 'Informacije o kategoriji',
 	'PHPSHOP_MANUFACTURER_CAT_FORM_NAME' => 'Naziv Kategorije',
 	'PHPSHOP_MANUFACTURER_CAT_FORM_DESCRIPTION' => 'Opis Kategorije'

@@ -1,11 +1,11 @@
 <?php
-if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
+if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Р”РёСЂРµРєС‚РЅРёСЏС‚ РґРѕСЃС‚СЉРї РґРѕ '.basename(__FILE__).' РЅРµ Рµ СЂР°Р·СЂРµС€РµРЅ.' ); 
 /**
 *
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
-* @translator soeren
+* @translator BULTRANS
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -17,39 +17,38 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'cp1251',
-	'PHPSHOP_NO_CUSTOMER' => 'Не сте регистриран като клиент. Трябва да ни предоставите информация за разплащане.',
-	'PHPSHOP_THANKYOU' => 'Благодарим Ви за поръчката!',
-	'PHPSHOP_EMAIL_SENDTO' => 'Изпратихме Ви email за потвърждение',
-	'PHPSHOP_CHECKOUT_NEXT' => 'Напред',
-	'PHPSHOP_CHECKOUT_CONF_BILLINFO' => 'Информация за плащане',
-	'PHPSHOP_CHECKOUT_CONF_COMPANY' => 'Организация',
-	'PHPSHOP_CHECKOUT_CONF_NAME' => 'Име',
-	'PHPSHOP_CHECKOUT_CONF_ADDRESS' => 'Адрес',
+	'CHARSET' => 'UTF-8',
+	'PHPSHOP_NO_CUSTOMER' => 'РќРµ СЃС‚Рµ СЂРµРіРёСЃС‚СЂРёСЂР°РЅ РєР°С‚Рѕ РєР»РёРµРЅС‚. РўСЂСЏР±РІР° РґР° РЅРё РїСЂРµРґРѕСЃС‚Р°РІРёС‚Рµ РёРЅС„РѕСЂРјР°С†РёСЏ Р·Р° СЂР°Р·РїР»Р°С‰Р°РЅРµ.',
+	'PHPSHOP_THANKYOU' => 'Р‘Р»Р°РіРѕРґР°СЂРёРј Р’Рё Р·Р° РїРѕСЂСЉС‡РєР°С‚Р°!',
+	'PHPSHOP_EMAIL_SENDTO' => 'РР·РїСЂР°С‚РёС…РјРµ Р’Рё email Р·Р° РїРѕС‚РІСЉСЂР¶РґРµРЅРёРµ',
+	'PHPSHOP_CHECKOUT_NEXT' => 'РќР°РїСЂРµРґ',
+	'PHPSHOP_CHECKOUT_CONF_BILLINFO' => 'РРЅС„РѕСЂРјР°С†РёСЏ Р·Р° РїР»Р°С‰Р°РЅРµ',
+	'PHPSHOP_CHECKOUT_CONF_COMPANY' => 'РћСЂРіР°РЅРёР·Р°С†РёСЏ',
+	'PHPSHOP_CHECKOUT_CONF_NAME' => 'РРјРµ',
+	'PHPSHOP_CHECKOUT_CONF_ADDRESS' => 'РђРґСЂРµСЃ',
 	'PHPSHOP_CHECKOUT_CONF_EMAIL' => 'Email',
-	'PHPSHOP_CHECKOUT_CONF_SHIPINFO' => 'Информация за доставка',
-	'PHPSHOP_CHECKOUT_CONF_SHIPINFO_COMPANY' => 'Организация',
-	'PHPSHOP_CHECKOUT_CONF_SHIPINFO_NAME' => 'Име',
-	'PHPSHOP_CHECKOUT_CONF_SHIPINFO_ADDRESS' => 'Адрес',
-	'PHPSHOP_CHECKOUT_CONF_SHIPINFO_PHONE' => 'Телефон',
-	'PHPSHOP_CHECKOUT_CONF_SHIPINFO_FAX' => 'Факс',
-	'PHPSHOP_CHECKOUT_CONF_PAYINFO_METHOD' => 'Начин за плащане',
-	'PHPSHOP_CHECKOUT_CONF_PAYINFO_REQINFO' => 'задължителна информация за плащане с кредитна карта',
-	'PHPSHOP_PAYPAL_THANKYOU' => 'Благодарим Ви! Транзакцията беше успешна. Ще получите email за потвърждение на тази транзакция от PayPal. Можете да продължите или да влезете в <a href=http://www.paypal.com>www.paypal.com</a>, за да видите детайлна информация за Вашата транзакция.',
-	'PHPSHOP_PAYPAL_ERROR' => 'Възникна грешка при осъществяване на транзакцията. Статусът на поръчката Ви не е променен.',
-	'PHPSHOP_THANKYOU_SUCCESS' => 'Поръчката Ви беше приета успешно!',
-	'VM_CHECKOUT_TITLE_TAG' => 'Checkout: Step %s of %s',
-	'VM_CHECKOUT_ORDERIDNOTSET' => 'Order ID is not set or emtpy!',
-	'VM_CHECKOUT_FAILURE' => 'Failure',
-	'VM_CHECKOUT_SUCCESS' => 'Success',
-	'VM_CHECKOUT_PAGE_GATEWAY_EXPLAIN_1' => 'This page is located on the webshop\'s website.',
-	'VM_CHECKOUT_PAGE_GATEWAY_EXPLAIN_2' => 'The gateway execute the page on the website, and the shows the result SSL Encrypted.',
-	'VM_CHECKOUT_CCV_CODE' => 'Credit Card Validation Code',
-	'VM_CHECKOUT_CCV_CODE_TIPTITLE' => 'What\'s the Credit Card Validation Code?',
-	'VM_CHECKOUT_MD5_FAILED' => 'MD5 Check failed',
-	'VM_CHECKOUT_ORDERNOTFOUND' => 'Order not found',
-	'PHPSHOP_EPAY_PAYMENT_CARDTYPE' => 'The payment is
-created by %s <img
+	'PHPSHOP_CHECKOUT_CONF_SHIPINFO' => 'РРЅС„РѕСЂРјР°С†РёСЏ Р·Р° РґРѕСЃС‚Р°РІРєР°',
+	'PHPSHOP_CHECKOUT_CONF_SHIPINFO_COMPANY' => 'РћСЂРіР°РЅРёР·Р°С†РёСЏ',
+	'PHPSHOP_CHECKOUT_CONF_SHIPINFO_NAME' => 'РРјРµ',
+	'PHPSHOP_CHECKOUT_CONF_SHIPINFO_ADDRESS' => 'РђРґСЂРµСЃ',
+	'PHPSHOP_CHECKOUT_CONF_SHIPINFO_PHONE' => 'РўРµР»РµС„РѕРЅ',
+	'PHPSHOP_CHECKOUT_CONF_SHIPINFO_FAX' => 'Р¤Р°РєСЃ',
+	'PHPSHOP_CHECKOUT_CONF_PAYINFO_METHOD' => 'РќР°С‡РёРЅ Р·Р° РїР»Р°С‰Р°РЅРµ',
+	'PHPSHOP_CHECKOUT_CONF_PAYINFO_REQINFO' => 'Р·Р°РґСЉР»Р¶РёС‚РµР»РЅР° РёРЅС„РѕСЂРјР°С†РёСЏ Р·Р° РїР»Р°С‰Р°РЅРµ СЃ РєСЂРµРґРёС‚РЅР° РєР°СЂС‚Р°',
+	'PHPSHOP_PAYPAL_THANKYOU' => 'Р‘Р»Р°РіРѕРґР°СЂРёРј Р’Рё! РўСЂР°РЅР·Р°РєС†РёСЏС‚Р° Р±РµС€Рµ СѓСЃРїРµС€РЅР°. Р©Рµ РїРѕР»СѓС‡РёС‚Рµ email Р·Р° РїРѕС‚РІСЉСЂР¶РґРµРЅРёРµ РЅР° С‚Р°Р·Рё С‚СЂР°РЅР·Р°РєС†РёСЏ РѕС‚ PayPal. РњРѕР¶РµС‚Рµ РґР° РїСЂРѕРґСЉР»Р¶РёС‚Рµ РёР»Рё РґР° РІР»РµР·РµС‚Рµ РІ <a href=http://www.paypal.com>www.paypal.com</a>, Р·Р° РґР° РІРёРґРёС‚Рµ РґРµС‚Р°Р№Р»РЅР° РёРЅС„РѕСЂРјР°С†РёСЏ Р·Р° Р’Р°С€Р°С‚Р° С‚СЂР°РЅР·Р°РєС†РёСЏ.',
+	'PHPSHOP_PAYPAL_ERROR' => 'Р’СЉР·РЅРёРєРЅР° РіСЂРµС€РєР° РїСЂРё РѕСЃСЉС‰РµСЃС‚РІСЏРІР°РЅРµ РЅР° С‚СЂР°РЅР·Р°РєС†РёСЏС‚Р°. РЎС‚Р°С‚СѓСЃСЉС‚ РЅР° РїРѕСЂСЉС‡РєР°С‚Р° Р’Рё РЅРµ Рµ РїСЂРѕРјРµРЅРµРЅ.',
+	'PHPSHOP_THANKYOU_SUCCESS' => 'РџРѕСЂСЉС‡РєР°С‚Р° Р’Рё Р±РµС€Рµ РїСЂРёРµС‚Р° СѓСЃРїРµС€РЅРѕ!',
+	'VM_CHECKOUT_TITLE_TAG' => 'РџР»Р°С‰Р°РЅРµ: РЎС‚СЉРїРєР° %s РѕС‚ %s',
+	'VM_CHECKOUT_ORDERIDNOTSET' => 'РќСѓР¶РµРЅ Рµ РЅРѕРјРµСЂ РЅР° РїРѕСЂСЉС‡РєР°С‚Р°!',
+	'VM_CHECKOUT_FAILURE' => 'РџСЂРѕРІР°Р»',
+	'VM_CHECKOUT_SUCCESS' => 'РЈСЃРїРµС…',
+	'VM_CHECKOUT_PAGE_GATEWAY_EXPLAIN_1' => 'РўР°Р·Рё СЃС‚СЂР°РЅРёС†Р° СЃРµ РЅР°РјРёСЂР° РЅР° РЅР°С€РёСЏ СЃСЉСЂРІСЉСЂ.',
+	'VM_CHECKOUT_PAGE_GATEWAY_EXPLAIN_2' => 'РџРѕР»СѓС‡РµРЅРёСЏС‚ СЂРµР·СѓР»С‚Р°С‚ С‰Рµ Р±СЉРґРµ С€РёС„СЂРѕРІР°РЅ.',
+	'VM_CHECKOUT_CCV_CODE' => 'РљРѕРґ Р·Р° РІР°Р»РёРґР°С†РёСЏ РЅР° РљРљ',
+	'VM_CHECKOUT_CCV_CODE_TIPTITLE' => 'РљР°РєРІРѕ Рµ С‚РѕРІР°?',
+	'VM_CHECKOUT_MD5_FAILED' => 'MD5 РїСЂРѕРІРµСЂРєР°С‚Р° СЃРµ РїСЂРѕРІР°Р»Рё',
+	'VM_CHECKOUT_ORDERNOTFOUND' => 'РќСЏРјР° РїРѕСЂСЉС‡РєРё',
+	'PHPSHOP_EPAY_PAYMENT_CARDTYPE' => 'РќР°РїСЂР°РІРµРЅРѕ Рµ РїР»Р°С‰Р°РЅРµ РѕС‚ %s <img
 src="/components/com_virtuemart/shop_image/ps_image/epay_images/%s"
 border="0">'
 ); $VM_LANG->initModule( 'checkout', $langvars );

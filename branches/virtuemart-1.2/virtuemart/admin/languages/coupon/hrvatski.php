@@ -1,10 +1,11 @@
-<?php
+ï»¿<?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
+* @version : hrvatski.php 1071 2007-12-03 08:42:28Z thepisu $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
 * @translator soeren
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -17,20 +18,16 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-1',
-	'PHPSHOP_COUPON_EDIT_HEADER' => 'Ureðivanje Kupona',
+	'CHARSET' => 'utf-8',
+	'PHPSHOP_COUPON_EDIT_HEADER' => 'UreÄ‘ivanje Kupona',
 	'PHPSHOP_COUPON_CODE_HEADER' => 'Kod',
 	'PHPSHOP_COUPON_PERCENT_TOTAL' => 'Postotak ili Fiksno',
 	'PHPSHOP_COUPON_TYPE' => 'Tip Kupona',
-	'PHPSHOP_COUPON_TYPE_TOOLTIP' => 'Poklon Kupon se briše nakon što je iskorišten dok se stalni kupon može koristiti neograni&#269;eno',
+	'PHPSHOP_COUPON_TYPE_TOOLTIP' => 'Poklon Kupon se briÅ¡e nakon Å¡to je iskoriÅ¡ten dok se stalni kupon moÅ¾e koristiti neograni&#269;eno',
 	'PHPSHOP_COUPON_TYPE_GIFT' => 'Poklon Kupon',
 	'PHPSHOP_COUPON_TYPE_PERMANENT' => 'Trajni Kupon',
 	'PHPSHOP_COUPON_VALUE_HEADER' => 'Vrijednost',
 	'PHPSHOP_COUPON_PERCENT' => 'Postotak',
-	'PHPSHOP_COUPON_TOTAL' => 'Fiksno',
-	'PHPSHOP_COUPON_START' => 'Coupon Start Date',
-	'PHPSHOP_COUPON_EXPIRY' => 'Coupon Expiry Date',
-	'PHPSHOP_COUPON_CODE_INVALID' => 'Coupon code out of date. Please try an alternative.',
-	'PHPSHOP_COUPON_CODE_NOT FOUND' => 'Coupon code not found. Please try again.'
+	'PHPSHOP_COUPON_TOTAL' => 'Fiksno'
 ); $VM_LANG->initModule( 'coupon', $langvars );
 ?>

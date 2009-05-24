@@ -20,17 +20,13 @@ $langvars = array (
 	'CHARSET' => 'ISO-8859-1',
 	'PHPSHOP_COUPON_EDIT_HEADER' => 'Actualizar cupón',
 	'PHPSHOP_COUPON_CODE_HEADER' => 'Código',
-	'PHPSHOP_COUPON_PERCENT_TOTAL' => 'Porcentaje o Total',
+	'PHPSHOP_COUPON_PERCENT_TOTAL' => 'Porcentaje total',
 	'PHPSHOP_COUPON_TYPE' => 'Tipo de cupón',
-	'PHPSHOP_COUPON_TYPE_TOOLTIP' => 'El cupón regalo es borrado una vez ha sido utilizado para aplicar descuento en un pedido.<br /> El cupón permanente se puede utilizar tantas veces como el cliente desee.',
-	'PHPSHOP_COUPON_TYPE_GIFT' => 'Cupón regalo',
+	'PHPSHOP_COUPON_TYPE_TOOLTIP' => 'El cupón de REGALO se borra después de que fue utilizado para descontar un pedido. El cupón PERMANENTE se puede utilizar tan a menudo como el cliente desee.',
+	'PHPSHOP_COUPON_TYPE_GIFT' => 'Cupón de regalo',
 	'PHPSHOP_COUPON_TYPE_PERMANENT' => 'Cupón permamente',
 	'PHPSHOP_COUPON_VALUE_HEADER' => 'Valor',
 	'PHPSHOP_COUPON_PERCENT' => 'Porcentaje',
-	'PHPSHOP_COUPON_TOTAL' => 'Total',
-	'PHPSHOP_COUPON_START' => 'Coupon Start Date',
-	'PHPSHOP_COUPON_EXPIRY' => 'Coupon Expiry Date',
-	'PHPSHOP_COUPON_CODE_INVALID' => 'Coupon code out of date. Please try an alternative.',
-	'PHPSHOP_COUPON_CODE_NOT FOUND' => 'Coupon code not found. Please try again.'
+	'PHPSHOP_COUPON_TOTAL' => 'Total'
 ); $VM_LANG->initModule( 'coupon', $langvars );
 ?>

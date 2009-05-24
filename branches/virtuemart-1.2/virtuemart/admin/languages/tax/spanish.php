@@ -18,12 +18,12 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 global $VM_LANG;
 $langvars = array (
 	'CHARSET' => 'ISO-8859-1',
-	'PHPSHOP_TAX_LIST_LBL' => 'Listado tarifas impuesto',
-	'PHPSHOP_TAX_LIST_STATE' => 'Impuestos por provincia o región',
-	'PHPSHOP_TAX_LIST_COUNTRY' => 'Impuestos del país',
-	'PHPSHOP_TAX_FORM_LBL' => 'Añadir información de impuesto',
-	'PHPSHOP_TAX_FORM_STATE' => 'Impuesto por provincia o región',
-	'PHPSHOP_TAX_FORM_COUNTRY' => 'Impuesto de país',
-	'PHPSHOP_TAX_FORM_RATE' => 'Tarifa impuesto (par el 16% => introducir 0.16)'
+	'PHPSHOP_TAX_LIST_LBL' => 'Lista de tarifa de impuesto',
+	'PHPSHOP_TAX_LIST_STATE' => 'Lista de impuestos por provincia o región',
+	'PHPSHOP_TAX_LIST_COUNTRY' => 'Lista de impuestos por país',
+	'PHPSHOP_TAX_FORM_LBL' => 'Agregar información de impuesto',
+	'PHPSHOP_TAX_FORM_STATE' => 'Impuesto por Provincia o Región',
+	'PHPSHOP_TAX_FORM_COUNTRY' => 'Impuesto por País',
+	'PHPSHOP_TAX_FORM_RATE' => 'Tarifas de Impuesto'
 ); $VM_LANG->initModule( 'tax', $langvars );
 ?>

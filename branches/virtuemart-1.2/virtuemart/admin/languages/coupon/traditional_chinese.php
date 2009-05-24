@@ -2,9 +2,10 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
+* @version : traditional_chinese.php 1071 2007-12-03 08:42:28Z thepisu $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
 * @translator soeren
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -17,20 +18,16 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'BIG5',
-	'PHPSHOP_COUPON_EDIT_HEADER' => '§ó·sÀu«Ý',
-	'PHPSHOP_COUPON_CODE_HEADER' => '¥N½X',
-	'PHPSHOP_COUPON_PERCENT_TOTAL' => '¦Ê¤À¤ñ©Î¬OÁ`ÃB',
-	'PHPSHOP_COUPON_TYPE' => 'Àu«ÝÃþ«¬',
-	'PHPSHOP_COUPON_TYPE_TOOLTIP' => '¤@±iÀu«ÝÂ§¨÷¤@¥¹¥Î¨Ó¥´§é¤§«á±N³Q§R°£. ¦Ó¥Ã¤[«¬Àu«Ý¨÷«h¥i¥H·Q¦h±`¥Î´N¥Î, ÀHÅU«È°ª¿³.',
-	'PHPSHOP_COUPON_TYPE_GIFT' => 'Àu«ÝÂ§¨÷',
-	'PHPSHOP_COUPON_TYPE_PERMANENT' => '¥Ã¤[«¬Àu«Ý¨÷',
-	'PHPSHOP_COUPON_VALUE_HEADER' => '¼Æ­È',
-	'PHPSHOP_COUPON_PERCENT' => '¦Ê¤À¤ñ',
-	'PHPSHOP_COUPON_TOTAL' => 'Á`ÃB',
-	'PHPSHOP_COUPON_START' => 'Coupon Start Date',
-	'PHPSHOP_COUPON_EXPIRY' => 'Coupon Expiry Date',
-	'PHPSHOP_COUPON_CODE_INVALID' => 'Coupon code out of date. Please try an alternative.',
-	'PHPSHOP_COUPON_CODE_NOT FOUND' => 'Coupon code not found. Please try again.'
+	'CHARSET' => 'UTF-8',
+	'PHPSHOP_COUPON_EDIT_HEADER' => 'æ›´æ–°å„ªå¾…',
+	'PHPSHOP_COUPON_CODE_HEADER' => 'ä»£ç¢¼',
+	'PHPSHOP_COUPON_PERCENT_TOTAL' => 'ç™¾åˆ†æ¯”æˆ–æ˜¯ç¸½é¡',
+	'PHPSHOP_COUPON_TYPE' => 'å„ªå¾…é¡žåž‹',
+	'PHPSHOP_COUPON_TYPE_TOOLTIP' => 'ä¸€å¼µå„ªå¾…ç¦®å·ä¸€æ—¦ç”¨ä¾†æ‰“æŠ˜ä¹‹å¾Œå°‡è¢«åˆªé™¤. è€Œæ°¸ä¹…åž‹å„ªå¾…å·å‰‡å¯ä»¥æƒ³å¤šå¸¸ç”¨å°±ç”¨, éš¨é¡§å®¢é«˜èˆˆ.',
+	'PHPSHOP_COUPON_TYPE_GIFT' => 'å„ªå¾…ç¦®å·',
+	'PHPSHOP_COUPON_TYPE_PERMANENT' => 'æ°¸ä¹…åž‹å„ªå¾…å·',
+	'PHPSHOP_COUPON_VALUE_HEADER' => 'æ•¸å€¼',
+	'PHPSHOP_COUPON_PERCENT' => 'ç™¾åˆ†æ¯”',
+	'PHPSHOP_COUPON_TOTAL' => 'ç¸½é¡'
 ); $VM_LANG->initModule( 'coupon', $langvars );
 ?>

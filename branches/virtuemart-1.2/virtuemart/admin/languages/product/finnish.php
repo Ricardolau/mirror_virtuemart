@@ -134,6 +134,7 @@ $langvars = array (
 	'PHPSHOP_PRODUCT_PRODUCT_TYPE_LIST_LBL' => 'Tyyppilista tuotteille:',
 	'PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_LBL' => 'Lisää tuotetyyppi kohtaan',
 	'PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_PRODUCT_TYPE' => 'Tuotetyyppi',
+	'VM_PRODUCT_PRODUCT_TYPE_ADD_MULTIPLE_PRODUCTS' => ' Useita tuotteita',
 	'PHPSHOP_PRODUCT_TYPE_FORM_NAME' => 'Tuotetyypin nimi',
 	'PHPSHOP_PRODUCT_TYPE_FORM_DESCRIPTION' => 'Tuotetyypin kuvaus',
 	'PHPSHOP_PRODUCT_TYPE_FORM_PARAMETERS' => 'Muuttujat/parametrit',

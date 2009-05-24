@@ -6,7 +6,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
-* @translator soeren
+* @translator BULTRANS
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -18,13 +18,13 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'cp1251',
-	'PHPSHOP_TAX_LIST_LBL' => 'Ñïèñúê íà äàíúöèòå',
-	'PHPSHOP_TAX_LIST_STATE' => 'Îáëàñò çà îáëàãàíå ñ äàíúê',
-	'PHPSHOP_TAX_LIST_COUNTRY' => 'Äúðæàâà çà îáëàãàíå ñ äàíúê',
-	'PHPSHOP_TAX_FORM_LBL' => 'Äîáàâÿíå èíôîðìàöèÿ çà äàíúê',
-	'PHPSHOP_TAX_FORM_STATE' => 'Îáëàñò çà îáëàãàíå ñ äàíúê',
-	'PHPSHOP_TAX_FORM_COUNTRY' => 'Äúðæàâà çà îáëàãàíå ñ äàíúê',
-	'PHPSHOP_TAX_FORM_RATE' => 'Ðàçìåð íà äàíúê (íàïðèìåð, çà 16% ïîïúëíåòå 0.16)'
+	'CHARSET' => 'UTF-8',
+	'PHPSHOP_TAX_LIST_LBL' => 'Ð¡Ð¿Ð¸ÑÑŠÐº Ð½Ð° Ð´Ð°Ð½ÑŠÑ†Ð¸Ñ‚Ðµ',
+	'PHPSHOP_TAX_LIST_STATE' => 'ÐžÐ±Ð»Ð°ÑÑ‚ Ð·Ð° Ð¾Ð±Ð»Ð°Ð³Ð°Ð½Ðµ Ñ Ð´Ð°Ð½ÑŠÐº',
+	'PHPSHOP_TAX_LIST_COUNTRY' => 'Ð”ÑŠÑ€Ð¶Ð°Ð²Ð° Ð·Ð° Ð¾Ð±Ð»Ð°Ð³Ð°Ð½Ðµ Ñ Ð´Ð°Ð½ÑŠÐº',
+	'PHPSHOP_TAX_FORM_LBL' => 'Ð”Ð¾Ð±Ð°Ð²ÑÐ½Ðµ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ Ð·Ð° Ð´Ð°Ð½ÑŠÐº',
+	'PHPSHOP_TAX_FORM_STATE' => 'ÐžÐ±Ð»Ð°ÑÑ‚ Ð·Ð° Ð¾Ð±Ð»Ð°Ð³Ð°Ð½Ðµ Ñ Ð´Ð°Ð½ÑŠÐº',
+	'PHPSHOP_TAX_FORM_COUNTRY' => 'Ð”ÑŠÑ€Ð¶Ð°Ð²Ð° Ð·Ð° Ð¾Ð±Ð»Ð°Ð³Ð°Ð½Ðµ Ñ Ð´Ð°Ð½ÑŠÐº',
+	'PHPSHOP_TAX_FORM_RATE' => 'Ð Ð°Ð·Ð¼ÐµÑ€ Ð½Ð° Ð´Ð°Ð½ÑŠÐº (Ð½Ð°Ð¿Ñ€Ð¸Ð¼ÐµÑ€ Ð·Ð° 16% Ð¿Ð¾Ð¿ÑŠÐ»Ð½ÐµÑ‚Ðµ 0.16)'
 ); $VM_LANG->initModule( 'tax', $langvars );
 ?>

@@ -6,7 +6,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
-* @translator soeren
+* @translator BULTRANS
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -18,19 +18,19 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'cp1251',
-	'PHPSHOP_MANUFACTURER_LIST_LBL' => 'Ñïèñúê íà ïðîèçâîäèòåëèòå',
-	'PHPSHOP_MANUFACTURER_LIST_MANUFACTURER_NAME' => 'Èìå íà ïðîèçâîäèòåëÿ',
-	'PHPSHOP_MANUFACTURER_FORM_LBL' => 'Äîáàâÿíå íà èíôîðìàöèÿ',
-	'PHPSHOP_MANUFACTURER_FORM_CATEGORY' => 'Êàòåãîðèÿ ïðîèçâîäèòåëè',
+	'CHARSET' => 'UTF-8',
+	'PHPSHOP_MANUFACTURER_LIST_LBL' => 'Ð¡Ð¿Ð¸ÑÑŠÐº Ð½Ð° Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»Ð¸Ñ‚Ðµ',
+	'PHPSHOP_MANUFACTURER_LIST_MANUFACTURER_NAME' => 'Ð˜Ð¼Ðµ Ð½Ð° Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»Ñ',
+	'PHPSHOP_MANUFACTURER_FORM_LBL' => 'Ð”Ð¾Ð±Ð°Ð²ÑÐ½Ðµ Ð½Ð° Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ',
+	'PHPSHOP_MANUFACTURER_FORM_CATEGORY' => 'ÐšÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ñ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»Ð¸',
 	'PHPSHOP_MANUFACTURER_FORM_EMAIL' => 'Email',
-	'PHPSHOP_MANUFACTURER_CAT_LIST_LBL' => 'Ñïèñúê ñ êàòåãîðèèòå ïðîèçâîäèòåëè',
-	'PHPSHOP_MANUFACTURER_CAT_NAME' => 'Èìå íà êàòåãîðèÿòà',
-	'PHPSHOP_MANUFACTURER_CAT_DESCRIPTION' => 'Îïèñàíèå íà êàòåãîðèÿòà',
-	'PHPSHOP_MANUFACTURER_CAT_MANUFACTURERS' => 'Ïðîèçâîäèòåëè',
-	'PHPSHOP_MANUFACTURER_CAT_FORM_LBL' => 'Ôîðìóëÿð çà äîáàâÿíå êàòåãîðèÿ ïðîèçâîäèòåë',
-	'PHPSHOP_MANUFACTURER_CAT_FORM_INFO_LBL' => 'Èíôîðìàöèÿ çà êàòåãîðèÿòà',
-	'PHPSHOP_MANUFACTURER_CAT_FORM_NAME' => 'Èìå íà êàòåãîðèÿòà',
-	'PHPSHOP_MANUFACTURER_CAT_FORM_DESCRIPTION' => 'Îïèñàíèå íà êàòåãîðèÿòà'
+	'PHPSHOP_MANUFACTURER_CAT_LIST_LBL' => 'ÐšÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ð¸ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»Ð¸',
+	'PHPSHOP_MANUFACTURER_CAT_NAME' => 'Ð˜Ð¼Ðµ Ð½Ð° ÐºÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸ÑÑ‚Ð°',
+	'PHPSHOP_MANUFACTURER_CAT_DESCRIPTION' => 'ÐžÐ¿Ð¸ÑÐ°Ð½Ð¸Ðµ Ð½Ð° ÐºÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸ÑÑ‚Ð°',
+	'PHPSHOP_MANUFACTURER_CAT_MANUFACTURERS' => 'ÐŸÑ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»Ð¸',
+	'PHPSHOP_MANUFACTURER_CAT_FORM_LBL' => 'Ð”Ð¾Ð±Ð°Ð²ÑÐ½Ðµ Ð½Ð° ÐºÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ñ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»',
+	'PHPSHOP_MANUFACTURER_CAT_FORM_INFO_LBL' => 'Ð˜Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ Ð·Ð° ÐºÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸ÑÑ‚Ð°',
+	'PHPSHOP_MANUFACTURER_CAT_FORM_NAME' => 'Ð˜Ð¼Ðµ Ð½Ð° ÐºÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸ÑÑ‚Ð°',
+	'PHPSHOP_MANUFACTURER_CAT_FORM_DESCRIPTION' => 'ÐžÐ¿Ð¸ÑÐ°Ð½Ð¸Ðµ Ð½Ð° ÐºÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸ÑÑ‚Ð°'
 ); $VM_LANG->initModule( 'manufacturer', $langvars );
 ?>

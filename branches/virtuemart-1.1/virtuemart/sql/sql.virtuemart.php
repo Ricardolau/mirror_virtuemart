@@ -364,7 +364,7 @@ $db->query( "INSERT INTO `#__{vm}_country` VALUES (1, 1, 'Afghanistan', 'AFG', '
 (233, 1, 'Wallis and Futuna Islands', 'WLF', 'WF'),
 (234, 1, 'Western Sahara', 'ESH', 'EH'),
 (235, 1, 'Yemen', 'YEM', 'YE'),
-(236, 1, 'Yugoslavia', 'YUG', 'YU'),
+(236, 1, 'Serbia', 'SRB', 'RS'),
 (237, 1, 'The Democratic Republic of Congo', 'DRC', 'DC'),
 (238, 1, 'Zambia', 'ZMB', 'ZM'),
 (239, 1, 'Zimbabwe', 'ZWE', 'ZW'),
@@ -372,7 +372,8 @@ $db->query( "INSERT INTO `#__{vm}_country` VALUES (1, 1, 'Afghanistan', 'AFG', '
 (241, 1, 'Jersey', 'XJE', 'XJ'),
 (242, 1, 'St. Barthelemy', 'XSB', 'XB'),
 (243, 1, 'St. Eustatius', 'XSE', 'XU'),
-(244, 1, 'Canary Islands', 'XCA', 'XC'); " );
+(244, 1, 'Canary Islands', 'XCA', 'XC'),
+(245, 1, 'Montenegro', 'MNE', 'ME'); " );
 
 ## --------------------------------------------------------
 
@@ -620,7 +621,7 @@ $db->query( "INSERT INTO `#__{vm}_currency` VALUES (1, 'Andorran Peseta', 'ADP')
 (149, 'Samoan Tala', 'WST'),
 (150, 'Democratic Yemeni Dinar', 'YDD'),
 (151, 'Yemeni Rial', 'YER'),
-(152, 'New Yugoslavia Dinar', 'YUD'),
+(152, 'Dinar', 'RSD'),
 (153, 'South African Rand', 'ZAR'),
 (154, 'Zambian Kwacha', 'ZMK'),
 (155, 'Zaire Zaire', 'ZRZ'),

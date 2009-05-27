@@ -34,6 +34,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+27.05.2009 soeren
+# Task #2634 - Can not register user 
+# corrected Serbian/Yugoslavia currency
+
 24.05.2009 thepisu
 # updated Croatian-Hrvatski language (thanks to dac3d)
 # updated Spanish language (thanks to Blogapeuta)

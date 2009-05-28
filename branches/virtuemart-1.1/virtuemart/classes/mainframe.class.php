@@ -396,7 +396,10 @@ class vm_vmMainFrame {
 		if( vmIsJoomla('1.5') ) {
 			$cmsPathway =& $mainframe->getPathway();
 			foreach( $pathway AS $item) {
-				$cmsPathway->addItem( $item->name, str_replace('&amp;', '&', $item->link) );
+				$item->link = str_replace('&amp;', '&', $item->link);
+				// make sure that &#039; (apostrophe) is converted to '
+				$item->name = html_entity_decode( $item->name, ENT_QUOTES );				
+				$cmsPathway->addItem( $item->name, $item->link );
 			}
 		} else {
 			$tpl = vmTemplate::getInstance();
@@ -405,6 +408,12 @@ class vm_vmMainFrame {
 			$mainframe->appendPathWay( $vmPathway );
 		}
 	}
+	
+	/**
+	 * Sets the page title
+	 *
+	 * @param string $title
+	 */
 	function setPageTitle( $title ) {
 		global $mainframe;
 		$title = strip_tags(str_replace('&nbsp;',' ', $title));

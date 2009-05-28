@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+28.05.2009 soeren
+# Task #2547 - "&amp;#039;" instead of "apostrophe" in breadcrumb (mainframe.class.php) 
+
 27.05.2009 soeren
 # Task #2634 - Can not register user 
 # corrected Serbian/Yugoslavia currency

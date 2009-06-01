@@ -2374,9 +2374,9 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_vendor` (
   PRIMARY KEY  (`vendor_id`),
   KEY `idx_vendor_name` (`vendor_name`),
   KEY `idx_vendor_category_id` (`vendor_category_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Vendors manage their products in your store' AUTO_INCREMENT=3 ; ");
+) TYPE=MyISAM CHARSET=utf8 COMMENT='Vendors manage their products in your store' AUTO_INCREMENT=3; ");
 
-
+echo "Creating Vendor Table";
 ##
 ## Dumping data for table `#__{vm}_vendor`
 ##

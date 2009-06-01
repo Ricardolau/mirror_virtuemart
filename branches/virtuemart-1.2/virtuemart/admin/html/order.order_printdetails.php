@@ -241,8 +241,17 @@ for($i = 0; $i < count($order_id_ar); $i++) {
           <td><?php /*
                 $price = $ps_product->get_price($dbcart->f("product_id"));
                 $item_price = $price["product_price"]; */
-                $item_price = $dbcart->f("product_item_price");
-               echo $CURRENCY_DISPLAY->getFullValue($item_price, '', $db->f('order_currency'));
+
+                $my_taxrate = $ps_product->get_product_taxrate($dbcart->f("product_id"), 0);
+				$tax = $my_taxrate * 100;
+
+                if( $auth["show_price_including_tax"] == 1 ) {
+					$item_price = $dbcart->f("product_item_price") * ($my_taxrate+1);
+				} else {
+					$item_price = $dbcart->f("product_item_price");//originally.CT.
+				}
+
+                echo $CURRENCY_DISPLAY->getFullValue($item_price, '', $db->f('order_currency'));
 
            ?></td>
           <td align="right"><?php $total = $dbcart->f("product_quantity") * $item_price;
@@ -300,7 +309,12 @@ for($i = 0; $i < count($order_id_ar); $i++) {
         <tr>
           <td colspan="4" align="right"><?php echo $VM_LANG->_('VM_ORDER_PRINT_SHIPPING') ?> :</td>
           <td align="right"><?php
-            $shipping_total = $db->f("order_shipping");
+            
+ 			if( $auth["show_price_including_tax"] == 1 ) {
+            	$shipping_total = $db->f("order_shipping") + $db->f("order_shipping_tax");;
+            } else {
+            	$shipping_total = $db->f("order_shipping");//original.CT.
+            }
             echo $CURRENCY_DISPLAY->getFullValue($shipping_total, '', $db->f('order_currency'));
 
             ?>&nbsp;&nbsp;&nbsp;</td>
@@ -326,8 +340,16 @@ for($i = 0; $i < count($order_id_ar); $i++) {
             echo $CURRENCY_DISPLAY->getFullValue($total, '', $db->f('order_currency'));
           }
           else {
-            $total = $db->f("order_subtotal") + $db->f("order_tax") + $db->f("order_shipping") - $db->f("coupon_discount");
-            echo $CURRENCY_DISPLAY->getFullValue($total, '', $db->f('order_currency'));
+            //$total = $db->f("order_subtotal") + $db->f("order_tax") + $db->f("order_shipping") - $db->f("coupon_discount");
+			if( $auth["show_price_including_tax"] == 1 ) {
+            	//the calculated total is already in the database
+            	$total = $db->f("order_total");
+            }else{
+            	//$total = $db->f("order_subtotal") + $db->f("order_tax") + $db->f("order_shipping") - $db->f("coupon_discount");
+            	$total = $db->f("order_subtotal") + $tax_total + $db->f("order_shipping") - $db->f("coupon_discount");
+            }
+            
+			echo $CURRENCY_DISPLAY->getFullValue($total, '', $db->f('order_currency'));
           }
           if (PAYMENT_DISCOUNT_BEFORE == '1') { ?></strong><?php } ?>&nbsp;&nbsp;&nbsp;</td>
         </tr>

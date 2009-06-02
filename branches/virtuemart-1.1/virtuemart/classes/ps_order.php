@@ -65,16 +65,31 @@ class vm_ps_order {
 				$db->query( $q );
 				$db->next_record();
 				$payment_class = $db->f("payment_class");
-				if( $payment_class=="ps_authorize" ) {
-					require_once( CLASSPATH."payment/ps_authorize.cfg.php");
-					if( AN_TYPE == 'AUTH_ONLY' ) {
-						require_once( CLASSPATH."payment/ps_authorize.php");
-						$authorize = new ps_authorize();
-						$d["order_number"] = $db->f("order_number");
-						if( !$authorize->capture_payment( $d )) {
-							return false;
+				$d["order_number"] = $db->f("order_number");
+				
+				switch( $payment_class ) {
+					case "ps_authorize":
+				
+						require_once( CLASSPATH."payment/ps_authorize.cfg.php");
+						if( AN_TYPE == 'AUTH_ONLY' ) {
+							require_once( CLASSPATH."payment/ps_authorize.php");
+							$authorize = new ps_authorize();
+							if( !$authorize->capture_payment( $d )) {
+								return false;
+							}
 						}
-					}
+						break;
+					default:
+							// default case for payment methods that allow to "capture" the payment
+							if( file_exists( CLASSPATH.'payment/'.basename($payment_class) ) ) {
+								require_once( CLASSPATH.'payment/'.basename($payment_class) );
+								if( !class_exists($payment_class)) break;
+								$paymentObj = new $payment_class();
+								if( !method_exists($paymentObj,'capture_payment')) break;
+								if( !$paymentObj->capture_payment( $d )) {
+									return false;
+								}
+							}
 				}
 			}
 			/*
@@ -98,10 +113,10 @@ class vm_ps_order {
 				$db->query( $q );
 				$db->next_record();
 				$payment_class = $db->f("payment_class");
-				if( $payment_class=="ps_pfp" ) {
-					require_once( CLASSPATH."payment/ps_pfp.cfg.php");
+				if( $payment_class=="payflow_pro" ) {
+					require_once( CLASSPATH."payment/payflow_pro.cfg.php");
 					if( PFP_TYPE == 'A' ) {
-						require_once( CLASSPATH."payment/ps_pfp.php");
+						require_once( CLASSPATH."payment/payflow_pro.php");
 						$pfp = new ps_pfp();
 						$d["order_number"] = $db->f("order_number");
 						if( !$pfp->capture_payment( $d )) {
@@ -127,10 +142,10 @@ class vm_ps_order {
 				$db->query( $q );
 				$db->next_record();
 				$payment_class = $db->f("payment_class");
-				if( $payment_class=="ps_pfp" ) {
-					require_once( CLASSPATH."payment/ps_pfp.cfg.php");
+				if( $payment_class=="payflow_pro" ) {
+					require_once( CLASSPATH."payment/payflow_pro.cfg.php");
 					if( PFP_TYPE == 'A' ) {
-						require_once( CLASSPATH."payment/ps_pfp.php");
+						require_once( CLASSPATH."payment/payflow_pro.php");
 						$pfp = new ps_pfp();
 						$d["order_number"] = $db->f("order_number");
 						if( !$pfp->void_authorization( $d )) {

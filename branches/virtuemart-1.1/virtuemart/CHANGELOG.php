@@ -34,6 +34,15 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+
+02.06.2009 soeren
+# Task #2637 - Credit card type now showing for No Account creation method 
+# Task #2638 - flypage_images.tpl.php has function protoPop() which is outdated
+# Task #2495 - Order Print View, Inc Tax & Coupon Discount
+ 
+29.05.2009 soeren
+# partly fixed linkpoint class
+
 28.05.2009 soeren
 # Task #2547 - "&amp;#039;" instead of "apostrophe" in breadcrumb (mainframe.class.php) 
 
@@ -215,7 +224,7 @@ VirtueMart 1.1.x
 
 01.02.2009 soeren
 # Task #2486 - Loading Edit Store and other administrative pages under MSIE <= 7.0 results in Operation Aborted error and unable to view.
-
+# Task #2481 - Changes to class_currency_display.php course currency symbol to be displayed as currency type.
 
 24.01.2009 aravot
 # in Extended Layout view, menu icons are shown twice

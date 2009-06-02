@@ -342,7 +342,7 @@ class ps_linkpoint {
 		// If everything worked out fine, then process the order here and leave the class.  Saved by the Bell
 		$result = $mylphp->curl_process($myorder);
 		
-		if ($result["r_approved"] != "SUBMITTED")    // transaction failed, print the reason
+		if ($result["r_approved"] != "APPROVED")    // transaction failed, print the reason
 		{
 		   $vmLogger->err( $result["r_error"] );
 		   $d["order_payment_log"] = $result["r_error"];

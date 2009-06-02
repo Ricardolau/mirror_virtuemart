@@ -40,7 +40,7 @@ if( $this->get_cfg( 'showPathway' )) {
 	</tr>
 	<tr>
 	  <td colspan="2">
-	  	<a class="button" onclick="protoPop( this.href.replace(/index.php/, 'index2.php' ) + '&only_page=1', { modal: true,width:640,height:480 } );return false;" href="<?php echo $ask_seller_href ?>"><?php echo $ask_seller_text ?></a>
+	  	<?php echo $ask_seller ?>
 	  </td>
 	</tr>
 	<tr>

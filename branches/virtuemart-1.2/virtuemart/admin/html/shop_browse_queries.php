@@ -22,7 +22,15 @@ mm_showMyFileName( __FILE__ );
 // Descending or Ascending Order? possible values: [ASC|DESC]
 $DescOrderBy = $vmInputFilter->safeSQL( $vm_mainframe->getUserStateFromRequest( "browse{$keyword}{$category_id}{$manufacturer_id}DescOrderBy", 'DescOrderBy', "ASC" ) );
 
-// Sort by which factor? possible values: 
+//on refresh, after a certain amount of time the $category_id may be empty,
+//or if I navigate to a product from a link then the next/previous products are missing!
+//so next line makes navigation work
+if (empty($category_id)) {
+	$category_id = vmGet($_REQUEST, "category_id", null);
+	$GLOBALS['vmLogger']->debug( 'The Field &#36;category_id was empty is now'.$category_id);
+}
+
+// Sort by which factor? possible values:
 // product_list, product_name, product_price, product_sku, product_cdate (=latest additions)
 $orderby = $vmInputFilter->safeSQL( $vm_mainframe->getUserStateFromRequest( "browse{$keyword}{$category_id}{$manufacturer_id}orderby", 'orderby', VM_BROWSE_ORDERBY_FIELD ));
 
@@ -93,14 +101,14 @@ if( !empty($keywordArr) ) {
 		$sq .= "\n `#__{vm}_product`.`product_sku` LIKE '%$searchstring%' OR ";
 		$sq .= "\n `#__{vm}_product`.`product_s_desc` LIKE '%$searchstring%' OR ";
 		$sq .= "\n `#__{vm}_product`.`product_desc` LIKE '%$searchstring%') ";
-	
+
 		if( $i++ < $numKeywords ) {
 			$sq .= "\n  AND ";
 		}
 	}
 	$sq .= ")";
 	$where_clause[] = $sq;
-}	
+}
 // Process the advanced search
 elseif( !empty($keyword1Arr) ) {
 	$sq = "(";
@@ -168,7 +176,7 @@ elseif( !empty($keyword1Arr) ) {
 
 // GET ALL PUBLISHED PRODUCTS FROM THAT MANUFACTURER
 if (!empty($manufacturer_id)) {
-	$table_names .= ',`#__{vm}_product_mf_xref`';	
+	$table_names .= ',`#__{vm}_product_mf_xref`';
 	$where_clause[]  = "manufacturer_id='".$manufacturer_id."'";
 	$where_clause[] = "`#__{vm}_product`.`product_id`=`#__{vm}_product_mf_xref`.`product_id` ";
 
@@ -299,7 +307,7 @@ if (!empty($product_type_id)) {
 $list  = "SELECT DISTINCT $fieldnames FROM ($table_names) ";
 $count  = "SELECT $count_name FROM ($table_names) ";
 
-if( $perm->is_registered_customer($auth['user_id']) ) {	
+if( $perm->is_registered_customer($auth['user_id']) ) {
 	$where_clause[] = "(`#__{vm}_product`.`product_id`=`#__{vm}_product_price`.`product_id` OR `#__{vm}_product_price`.`product_id` IS NULL) ";
 	$join_array[] = 'LEFT JOIN `#__{vm}_shopper_vendor_xref` ON (`#__{vm}_shopper_vendor_xref`.`user_id` ='.$auth['user_id'].' AND `#__{vm}_shopper_vendor_xref`.`shopper_group_id`=`#__{vm}_shopper_group`.`shopper_group_id`)';
 }

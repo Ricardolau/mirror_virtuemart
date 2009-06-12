@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -186,7 +186,8 @@ class vm_ps_perm {
 			$p2 = explode(",", $perms);
 			while (list($key1, $value1) = each($p1)) {
 				while (list($key2, $value2) = each($p2)) {
-					if ($value1 == $value2) {
+					if ($auth['perms'] && $this->user_groups[$value2] 
+					>= $this->user_groups[$auth['perms']]) {
 						return True;
 					}
 				}

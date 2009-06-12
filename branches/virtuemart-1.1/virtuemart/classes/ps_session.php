@@ -498,11 +498,13 @@ class vm_ps_session {
 	 */
 	function url($text, $createAbsoluteURI=false, $encodeAmpersands=true, $ignoreSEF=false ) {
 		global $mm_action_url, $page, $mainframe;
-		
-		if( !defined( '_VM_IS_BACKEND' )) {
+
+		if(!defined('_VM_IS_BACKEND')) {
+			
 			// Strip the parameters from the $text variable and parse to a temporary array
 			$tmp_text=str_replace('amp;','',substr($text,strpos($text,'?')));
 			if(substr($tmp_text,0,1)=='?') $tmp_text=substr($tmp_text,1);
+			
 			parse_str($tmp_text,$ii_arr);
 
 			// Init the temp. Itemid
@@ -510,15 +512,14 @@ class vm_ps_session {
 
 			$db = new ps_DB;
 			
-			// Check if there is a menuitem for a product_id (highest priority)
+			// Check if the is a menuitem for a product_id (highest priority)				
 			if (!empty($ii_arr['product_id'])) {
 				if ($ii_product_id=intval($ii_arr['product_id'])) {
 					$db->query( "SELECT id FROM #__menu WHERE link='index.php?option=com_virtuemart' AND params like '%product_id=$ii_product_id%' AND published=1");
 					if( $db->next_record() ) $tmp_Itemid = $db->f("id");
 				} 
 			}
-			// Check if there is a menuitem for a category_id
-			// This only checks for the exact category ID, it might be good to check for parents also. But at the moment, this would produce a lot of queries
+			// Check if the is a menuitem for a category_id
 			if (!empty($ii_arr['category_id'])) {
 				$ii_cat_id=intval($ii_arr['category_id']);
 				if ( $ii_cat_id && $tmp_Itemid=='') {
@@ -526,17 +527,17 @@ class vm_ps_session {
 					if( $db->next_record() ) $tmp_Itemid = $db->f("id");
 				}
 			}
-			// Check if there is a menuitem for a flypage
+			// Check if the is a menuitem for a flypage
 			if (!empty($ii_arr['flypage'])) {
-				$ii_flypage=$db->getEscaped(vmget($ii_arr,'flypage'));
+				$ii_flypage=$ii_arr['flypage'];
 				if ($ii_flypage && $tmp_Itemid=='') {
 					$db->query( "SELECT id FROM #__menu WHERE link='index.php?option=com_virtuemart' AND params like '%flypage=$ii_flypage%' AND published=1");
 					if( $db->next_record() ) $tmp_Itemid = $db->f("id");
 				}
 			}
-			// Check if there is a menuitem for a page
+			// Check if the is a menuitem for a page
 			if (!empty($ii_arr['page'])) {
-				$ii_page=$db->getEscaped(vmget($ii_arr,'page' ));
+				$ii_page=$ii_arr['page'];
 				if ($ii_page && $tmp_Itemid=='') {
 					$db->query( "SELECT id FROM #__menu WHERE link='index.php?option=com_virtuemart' AND params like '%page=$ii_page%' AND published=1");
 					if( $db->next_record() ) $tmp_Itemid = $db->f("id");
@@ -544,85 +545,67 @@ class vm_ps_session {
 			}
 			// If we haven't found an Itemid, use the standard VM-Itemid
 			$Itemid = "&Itemid=" . ($tmp_Itemid ? $tmp_Itemid : $this->getShopItemid()); 
-		}
-		else {
-			$Itemid = '';
+			//by tkahl end
+			
+		} else {
+			$Itemid = NULL;
 		}
 
-		switch ($text) {
-			case SECUREURL:
-				$text =  SECUREURL.basename( $_SERVER['SCRIPT_NAME'] )."?".$this->component_name.$Itemid;
-				break;
-			case URL:
-				$text =  URL.basename( $_SERVER['SCRIPT_NAME'] )."?".$this->component_name.$Itemid;
-				break;
-				
-			default:
-				$limiter = strpos($text, '?');
-				if( !stristr( $text, $_SERVER['SCRIPT_NAME']) && $limiter === false ) {
-					$text = '?'.$text;
-				}
-				$appendix = "";
-				// now append "&option=com_virtuemart&Itemid=XX"
-				if (!strstr($text, "option=")) {
-					$appendix .= "&" . $this->component_name;
-				}
-				$appendix .= $Itemid;
-				
-				$script = basename( substr( $text, 0, $limiter ));
-				if( $script == '' ) {
-					$script = basename( $_SERVER['SCRIPT_NAME'] );
-				}
-				
-				if (!defined( '_VM_IS_BACKEND' )) {
-					if( $script == 'index3.php') {
-						$script = 'index2.php'; // index3.php is not available in the frontend!
-					}
-	
-					$appendix = $script.substr($text, $limiter, strlen($text)).$appendix;
-				
-					if( class_exists('JRoute') && !$ignoreSEF && $mainframe->getCfg('sef') ) {
-						$appendix = JRoute::_( str_replace( $script.'&', $script.'?', $appendix ) );
-						
-					} 
-					else if( function_exists('sefRelToAbs') && !$ignoreSEF && !defined( '_JLEGACY' ) ) {
-						$appendix = sefRelToAbs( str_replace( $script.'&', $script.'?', $appendix ) );
-					}
-					if( $createAbsoluteURI && substr($appendix,0,4)!='http'  && ($ignoreSEF || !$mainframe->getCfg('sef')) ) {
-						$appendix = URL . $appendix;
-					}
-					
-					
-				}
-				elseif( $_SERVER['SERVER_PORT'] == 443 ) {
-					//$script = strstr($_SERVER['PHP_SELF'], 'index2.php') ? 'index2.php' : 'index3.php';
-					
-					$appendix = SECUREURL."administrator/$script".substr($text, $limiter, strlen($text)-1).$appendix;
-				}
-				else {
-					//$script = strstr($_SERVER['PHP_SELF'], 'index2.php') ? 'index2.php' : 'index3.php';
-					$appendix = URL."administrator/$script".substr($text, $limiter, strlen($text)-1).$appendix;
-				}
-				if( vmIsAdminMode() && strstr($text, 'func') !== false ) {
-					$appendix .= '&vmtoken='.vmSpoofValue($this->getSessionId());
-				}
-				if ( stristr($text, SECUREURL)) {
-					$appendix = str_replace(URL, SECUREURL, $appendix);
-				}
-				elseif( stristr($text, URL) && $createAbsoluteURI ) {
-					$appendix = str_replace(SECUREURL, URL, $appendix);
-				}
-	
-				$text = $appendix;
-	
-				break;
+		// split url into base ? path
+		$limiter = strpos($text, '?');
+		if ($limiter === false) {
+			if (!strstr($text, "=")) { // $text recognized to be parameter-list (bug?)
+				$base = NULL;
+				$params = $text;
+			}
+			else { // text recognized to be url without parameters
+				$base = $text;
+				$params = NULL;
+			}
 		}
-		if( $encodeAmpersands ) {
-	        $text = vmAmpReplace( $text );
-	    }  else {
-			$text = str_replace( '&amp;', '&', $text );
-	    }
-		return $text;
+		else { // base?params
+			$base = substr($text, 0, $limiter);
+			$params = substr($text, $limiter+1);
+		}
+		
+		// normalize base (cut off multislashes)
+		$base = eregi_replace("[/]+", "/", $base);
+		$base = ereg_replace(":/", "://", $base);
+
+		// add script name to naked base url
+		// TODO: Improve
+		if ($base == URL || $base == SECUREURL)
+			$base .= basename($_SERVER['SCRIPT_NAME']);
+		if (!basename($base))
+			$base .= basename($_SERVER['SCRIPT_NAME']);
+
+		// append "&option=com_virtuemart&Itemid=XX"
+		$params .= (!strstr($params, $this->component_name)) ? ($params ? "&" : NULL) . $this->component_name : NULL;
+		$params .= $Itemid;
+
+		if (vmIsAdminMode() && strstr($text, 'func') !== false)
+			$params .= ($params ? "&" : NULL) . 'vmtoken=' . vmSpoofValue($this->getSessionId());
+
+		if (!defined( '_VM_IS_BACKEND' )) {
+			// index3.php is not available in the frontend!
+			$base = ereg_replace("index3.php$", "index2.php", $base);
+
+			$url = basename($base) . "?" . $params;
+			if( class_exists('JRoute') && !$ignoreSEF && $mainframe->getCfg('sef') )
+				$url = JRoute::_($url);
+			else if( function_exists('sefRelToAbs') && !$ignoreSEF && !defined( '_JLEGACY' ) )
+				$url = sefRelToAbs($url);
+
+			// make url absolute
+			if ($createAbsoluteURI && !eregi("^http[s]?:", $url))
+				$url = (stristr($text, SECUREURL) ? SECUREURL : URL) . substr($url, $url[0] == '/' ? 1 : 0);
+		}
+		else // backend
+			$url = ($_SERVER['SERVER_PORT'] == 443 ? SECUREURL : URL) . "administrator/" . basename($base) . "?" . $params;
+				
+		$url = $encodeAmpersands ? vmAmpReplace($url) : str_replace('&amp;', '&', $url);
+
+		return $url;
 	}
 
 	/**

@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+12.06.2009 soeren
+# Task #2646 - New usergroup with admin rights can't see administration in in frontend
+^ adapted rewritten ps_session::url function from here: http://forum.virtuemart.net/index.php?topic=56664.0, thanks!
 
 02.06.2009 soeren
 # Task #2637 - Credit card type now showing for No Account creation method 

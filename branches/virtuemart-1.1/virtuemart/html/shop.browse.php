@@ -302,7 +302,7 @@ else {
         if( $keyword != '') {
         	$url_parameters .= "&amp;keyword=".urlencode($keyword);
         }
-        $url = $sess->url( $url_parameters );
+        $url = $sess->url( $mm_action_url.'?'.$url_parameters );
 
         // Price: xx.xx EUR
 		if (_SHOW_PRICES == '1' && $auth['show_prices']) {

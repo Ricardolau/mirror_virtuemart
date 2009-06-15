@@ -964,6 +964,7 @@ Order Total: '.$order_total.'
 		else {
 			$ip = 'unknown';
 		}
+		
 		// Collect all fields and values to store them!
 		$fields = array(
 			'user_id' => $auth["user_id"], 
@@ -984,7 +985,7 @@ Order Total: '.$order_total.'
 			'order_status' => 'P', 
 			'cdate' => $timestamp,
 			'mdate' => $timestamp,
-			'customer_note' => htmlspecialchars(strip_tags($d['customer_note']), ENT_QUOTES ),
+			'customer_note' => htmlspecialchars(vmRequest::getString('customer_note','', 'POST', 'none' ), ENT_QUOTES ),
 			'ip_address' => $ip
 			);
 

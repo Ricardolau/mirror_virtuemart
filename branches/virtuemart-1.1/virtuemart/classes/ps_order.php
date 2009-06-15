@@ -81,7 +81,7 @@ class vm_ps_order {
 						break;
 					default:
 							// default case for payment methods that allow to "capture" the payment
-							if( file_exists( CLASSPATH.'payment/'.basename($payment_class) ) ) {
+							if( is_file( CLASSPATH.'payment/'.basename($payment_class) ) ) {
 								require_once( CLASSPATH.'payment/'.basename($payment_class) );
 								if( !class_exists($payment_class)) break;
 								$paymentObj = new $payment_class();

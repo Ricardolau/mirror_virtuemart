@@ -35,6 +35,7 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 12.06.2009 soeren
+# Task #2373 - Customers comments sripts slashes and I m getting rn in the enter of users. 
 # Task #2646 - New usergroup with admin rights can't see administration in in frontend
 ^ adapted rewritten ps_session::url function from here: http://forum.virtuemart.net/index.php?topic=56664.0, thanks!
 

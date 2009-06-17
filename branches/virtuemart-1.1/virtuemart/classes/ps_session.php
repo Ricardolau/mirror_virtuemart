@@ -498,13 +498,11 @@ class vm_ps_session {
 	 */
 	function url($text, $createAbsoluteURI=false, $encodeAmpersands=true, $ignoreSEF=false ) {
 		global $mm_action_url, $page, $mainframe;
-
-		if(!defined('_VM_IS_BACKEND')) {
-			
+		
+		if( !defined( '_VM_IS_BACKEND' )) {
 			// Strip the parameters from the $text variable and parse to a temporary array
 			$tmp_text=str_replace('amp;','',substr($text,strpos($text,'?')));
 			if(substr($tmp_text,0,1)=='?') $tmp_text=substr($tmp_text,1);
-			
 			parse_str($tmp_text,$ii_arr);
 
 			// Init the temp. Itemid
@@ -512,14 +510,15 @@ class vm_ps_session {
 
 			$db = new ps_DB;
 			
-			// Check if the is a menuitem for a product_id (highest priority)				
+			// Check if there is a menuitem for a product_id (highest priority)
 			if (!empty($ii_arr['product_id'])) {
 				if ($ii_product_id=intval($ii_arr['product_id'])) {
 					$db->query( "SELECT id FROM #__menu WHERE link='index.php?option=com_virtuemart' AND params like '%product_id=$ii_product_id%' AND published=1");
 					if( $db->next_record() ) $tmp_Itemid = $db->f("id");
 				} 
 			}
-			// Check if the is a menuitem for a category_id
+			// Check if there is a menuitem for a category_id
+			// This only checks for the exact category ID, it might be good to check for parents also. But at the moment, this would produce a lot of queries
 			if (!empty($ii_arr['category_id'])) {
 				$ii_cat_id=intval($ii_arr['category_id']);
 				if ( $ii_cat_id && $tmp_Itemid=='') {
@@ -527,17 +526,17 @@ class vm_ps_session {
 					if( $db->next_record() ) $tmp_Itemid = $db->f("id");
 				}
 			}
-			// Check if the is a menuitem for a flypage
+			// Check if there is a menuitem for a flypage
 			if (!empty($ii_arr['flypage'])) {
-				$ii_flypage=$ii_arr['flypage'];
+				$ii_flypage=$db->getEscaped(vmget($ii_arr,'flypage'));
 				if ($ii_flypage && $tmp_Itemid=='') {
 					$db->query( "SELECT id FROM #__menu WHERE link='index.php?option=com_virtuemart' AND params like '%flypage=$ii_flypage%' AND published=1");
 					if( $db->next_record() ) $tmp_Itemid = $db->f("id");
 				}
 			}
-			// Check if the is a menuitem for a page
+			// Check if there is a menuitem for a page
 			if (!empty($ii_arr['page'])) {
-				$ii_page=$ii_arr['page'];
+				$ii_page=$db->getEscaped(vmget($ii_arr,'page' ));
 				if ($ii_page && $tmp_Itemid=='') {
 					$db->query( "SELECT id FROM #__menu WHERE link='index.php?option=com_virtuemart' AND params like '%page=$ii_page%' AND published=1");
 					if( $db->next_record() ) $tmp_Itemid = $db->f("id");
@@ -559,8 +558,8 @@ class vm_ps_session {
 				$params = $text;
 			}
 			else { // text recognized to be url without parameters
-				$base = $text;
-				$params = NULL;
+				$base = $mm_action_url;
+				$params = $text;
 			}
 		}
 		else { // base?params

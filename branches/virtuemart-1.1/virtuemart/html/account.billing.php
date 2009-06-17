@@ -30,7 +30,7 @@ if (!empty($missing)) {
 	echo "<script type=\"text/javascript\"> alert('".$VM_LANG->_('CONTACT_FORM_NC')."'); </script>\n";
 }
 
-if ( VM_REGISTRATION_TYPE == 'NO_REGISTRATION' ) {
+if ( VM_REGISTRATION_TYPE == 'NO_REGISTRATION' || VM_REGISTRATION_TYPE == 'OPTIONAL_REGISTRATION' && empty($d['register_account'])) {
 	$q =  "SELECT * FROM #__{vm}_user_info 
 			WHERE user_id='" . $auth["user_id"] . "' 
 			AND address_type='BT' ";
@@ -64,7 +64,7 @@ $tpl->set( 'vmPathway', $vmPathway );
 
 // Handle NO_REGISTRATION
 $skip_fields = array();
-if ( VM_REGISTRATION_TYPE == 'NO_REGISTRATION' ) {
+if ( VM_REGISTRATION_TYPE == 'NO_REGISTRATION' || VM_REGISTRATION_TYPE == 'OPTIONAL_REGISTRATION' && empty($d['register_account'])) {
 	global $default;
 	$default['email'] = $db->f('user_email');
 	$skip_fields = array( 'username', 'password', 'password2' );

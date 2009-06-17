@@ -34,6 +34,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+17.06.2009 aravot
+# BUG #2649 - Username & Password required when updating address with "No Account Creation"
+# BUG #2648 - Product name in Call for Pricing message promt is wrong, if product name have special characters.
+
 12.06.2009 soeren
 # Task #2373 - Customers comments sripts slashes and I m getting rn in the enter of users. 
 # Task #2646 - New usergroup with admin rights can't see administration in in frontend

@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+17.06.2009 aravot
+# BUG #2648 - Product name in Call for Pricing message promt is wrong, if product name have special characters.
+
 24.05.2009 thepisu
 # updated Croatian-Hrvatski language (thanks to dac3d)
 # updated Spanish language (thanks to Blogapeuta)

@@ -660,7 +660,10 @@ class vm_ps_shopper {
 		$_POST['gid'] = $my->gid;
 		$d['error'] = "";
 
-		if ( VM_REGISTRATION_TYPE != 'NO_REGISTRATION' ) {
+		if ( VM_REGISTRATION_TYPE == 'NO_REGISTRATION' || VM_REGISTRATION_TYPE == 'OPTIONAL_REGISTRATION' && empty($d['register_account'] )) {
+		// NO_REGISTRATION or OPTIONAL_REGISTRATION' with empty register_account. Dont saveUser!
+		}
+		else {
 			ps_user::saveUser( $d );
 		}
 		

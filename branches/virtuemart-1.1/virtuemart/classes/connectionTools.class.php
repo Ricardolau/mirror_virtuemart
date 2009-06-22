@@ -278,7 +278,7 @@ class vmConnector {
 
 			$chunk = ($len > $chunksize) ? $chunksize : $len;
 			while (!feof($fp) && $chunk > 0) {
-				@set_time_limit(); // large files can take a lot of time
+				@set_time_limit(0); // large files can take a lot of time
 				print fread($fp, $chunk);
 				flush();
 				$len -= $chunk;

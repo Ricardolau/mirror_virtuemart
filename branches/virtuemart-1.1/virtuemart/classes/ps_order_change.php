@@ -546,10 +546,18 @@ class vm_ps_order_change {
 			$product_name = $dbp->f( "product_name" ) ;
 			$product_parent_id = $dbp->f( "product_parent_id" ) ;
 			
+		// Read user_info_id from db * mauri
+		$prod_weight = $ps_product->get_weight($product_id);
+		$dbu = new ps_DB( ) ;
+		$q = "SELECT user_info_id FROM #__{vm}_order_item WHERE order_id = '" . $this->order_id . "' " ;
+		$dbu->query( $q ) ;
+		$dbu->next_record() ;
+		$user_info_id = $dbu->f( "user_info_id" ) ;
+
 			// On r�cup�re le prix exact du produit
 			$product_price_arr = $this->get_adjusted_attribute_price( $product_id, $quantity, $d["description"], $result_attributes ) ;
 			$product_price = $product_price_arr["product_price"] ;
-			$my_taxrate = $ps_product->get_product_taxrate( $product_id ) ;
+			$my_taxrate = $ps_product->get_product_taxrate( $product_id, $prod_weight , $user_info_id ) ; // mauri
 			
 			$description = $d["description"] ;
 			
@@ -921,10 +929,19 @@ class vm_ps_order_change {
 			$price["product_price"] = 0 ;
 		}
 		// Get the DISCOUNT AMOUNT
+
+		// Read user_info_id from db * mauri
+		$dbu = new ps_DB( ) ;
+		$q = "SELECT user_info_id FROM #__{vm}_order_item WHERE order_id = '" . $this->order_id . "' " ;
+		$dbu->query( $q ) ;
+		$dbu->next_record() ;
+		$user_info_id = $dbu->f( "user_info_id" ) ;
+
 		$ps_product = new ps_product( ) ;
+		$prod_weight = $ps_product->get_weight($product_id); // mauri
 		$discount_info = $ps_product->get_discount( $product_id ) ;
 		
-		$my_taxrate = $ps_product->get_product_taxrate( $product_id ) ;
+		$my_taxrate = $ps_product->get_product_taxrate( $product_id, $prod_weight , $user_info_id ) ; // mauri
 		
 		if( ! empty( $discount_info["amount"] ) ) {
 			if( $auth["show_price_including_tax"] == 1 ) {
@@ -970,8 +987,8 @@ class vm_ps_order_change {
 		$product_final_price_new = trim( vmGet( $_REQUEST, 'product_final_price' ) ) ;
 		
 		$db = new ps_DB( ) ;
-		
-		$q = "SELECT product_id, product_quantity, product_final_price, product_item_price, product_final_price - product_item_price AS item_tax " ;
+		// Added, to read user_info_id * mauri
+		$q = "SELECT user_info_id, product_id, product_quantity, product_final_price, product_item_price, product_final_price - product_item_price AS item_tax " ;
 		$q .= "FROM #__{vm}_order_item WHERE order_id = '" . $this->order_id . "' " ;
 		$q .= "AND order_item_id = '" . addslashes( $order_item_id ) . "'" ;
 		$db->query( $q ) ;
@@ -979,8 +996,10 @@ class vm_ps_order_change {
 		
 		$product_id = $db->f( 'product_id' ) ;
 		$timestamp = time() + ($mosConfig_offset * 60 * 60) ;
-		$my_taxrate = $ps_product->get_product_taxrate( $product_id ) ;
-		
+		$user_info_id = $db->f( 'user_info_id' ); //mauri
+		$prod_weight = $ps_product->get_weight($product_id); // mauri
+		$my_taxrate = $ps_product->get_product_taxrate( $product_id, $prod_weight , $user_info_id ) ; //mauri
+
 		$product_item_price = $db->f( 'product_item_price' ) ;
 		$product_final_price = $db->f( 'product_final_price' ) ;
 		$quantity = $db->f( 'product_quantity' ) ;

@@ -236,7 +236,7 @@ class vm_ps_order {
 		$db->query( 'SELECT order_status FROM #__{vm}_orders WHERE order_id='.(int)$d['order_id'] );
 		$db->next_record();
 		
-		if ($db->f("order_status")==ENABLE_DOWNLOAD_STATUS) {
+		if (in_array($db->f("order_status"), array(ENABLE_DOWNLOAD_STATUS,'S'))) {
 			$dbw = new ps_DB;
 			
 			$q = "SELECT order_id,user_id,download_id,file_name FROM #__{vm}_product_download WHERE";
@@ -293,7 +293,7 @@ class vm_ps_order {
 				}
 			} 
 		}
-		elseif ($d["order_status"]==DISABLE_DOWNLOAD_STATUS) {
+		elseif ( in_array($d["order_status"], array(DISABLE_DOWNLOAD_STATUS,'X','R'))) {
 			$q = "DELETE FROM #__{vm}_product_download WHERE order_id=" . (int)$d["order_id"];
 			$db->query($q);
 			$db->next_record();

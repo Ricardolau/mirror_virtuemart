@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -256,6 +256,11 @@ class vm_ps_product_files extends vmAbstractObject {
 				$qu = "UPDATE #__{vm}_product_attribute ";
 				$qu .= "SET attribute_value = '". $_FILES['file_upload']['name'] ."' ";
 				$qu .= "WHERE product_id='".$d["product_id"]."' AND attribute_name='download' AND attribute_value='".$old_attribute."'";
+				$db->query($qu);
+				// Update any file references in the pruchased downloadable product table
+				$qu = "UPDATE #__{vm}_product_download ";
+				$qu .= "SET file_name = '". $_FILES['file_upload']['name'] ."' ";
+				$qu .= "WHERE product_id=".$d["product_id"]." AND file_name='".$old_attribute."'";
 				$db->query($qu);
 			}
 			elseif($d['file_type'] != 'downloadable_file') {

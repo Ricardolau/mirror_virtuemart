@@ -498,11 +498,13 @@ class vm_ps_session {
 	 */
 	function url($text, $createAbsoluteURI=false, $encodeAmpersands=true, $ignoreSEF=false ) {
 		global $mm_action_url, $page, $mainframe;
-		
-		if( !defined( '_VM_IS_BACKEND' )) {
+
+		if(!defined('_VM_IS_BACKEND')) {
+			
 			// Strip the parameters from the $text variable and parse to a temporary array
 			$tmp_text=str_replace('amp;','',substr($text,strpos($text,'?')));
 			if(substr($tmp_text,0,1)=='?') $tmp_text=substr($tmp_text,1);
+			
 			parse_str($tmp_text,$ii_arr);
 
 			// Init the temp. Itemid
@@ -544,7 +546,6 @@ class vm_ps_session {
 			}
 			// If we haven't found an Itemid, use the standard VM-Itemid
 			$Itemid = "&Itemid=" . ($tmp_Itemid ? $tmp_Itemid : $this->getShopItemid()); 
-			//by tkahl end
 			
 		} else {
 			$Itemid = NULL;

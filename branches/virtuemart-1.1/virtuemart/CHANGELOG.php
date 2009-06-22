@@ -34,6 +34,14 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+22.06.2009 soeren
+# Fixed VAT based on Shipping Address (http://forum.virtuemart.net/index.php?topic=56983.msg186554)
+^ added Slovak Language Files (utf-8)
+# Task #2053 - Resend Download ID, lower order status update buttons do not send emails 
+# when updating a downloadable product file any references to ordered downloadable files are updated as well when necessary
+# Task #2643 - Title setting is done by different function, integrity of code requires virtumart defined function 
+
+ 
 17.06.2009 aravot
 # BUG #2649 - Username & Password required when updating address with "No Account Creation"
 # BUG #2648 - Product name in Call for Pricing message promt is wrong, if product name have special characters.

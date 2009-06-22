@@ -6,7 +6,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage html
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -62,12 +62,12 @@ if( $category_id ) {
 	$db->next_record();
 	$category_name = shopMakeHtmlSafe( $db->f('category_name') );
 	
-	/* Set Dynamic Page Title */
-	$mainframe->setPageTitle( $db->f("category_name") );
+	// Set Dynamic Page Title
+	$vm_mainframe->setPageTitle( $db->f("category_name") );
 	
 	$desc =  $ps_product_category->get_description($category_id);
 	$desc = vmCommonHTML::ParseContentByPlugins( $desc );	
-	/* Prepend Product Short Description Meta Tag "description" when applicable */	
+	// Prepend Product Short Description Meta Tag "description" when applicable	
 	$mainframe->prependMetaTag( "description", substr(strip_tags($desc ), 0, 255) );
 	
 }	

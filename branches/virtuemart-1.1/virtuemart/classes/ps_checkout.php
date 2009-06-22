@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -2226,16 +2226,20 @@ Order Total: '.$order_total.'
 				return false;
 			}
 		}
+		$html_rate = ''; //mauri
 		$html = '';
 		if( sizeof( $details) > 1 ) {
-			$html .= '<br />'.$VM_LANG->_('VM_TAXDETAILS_LABEL').':<br />';
-			
 			foreach ($details as $rate => $value ) {
 				if( !$auth['show_price_including_tax']) {
 					$value /= $discount_factor;
 				}
+				if ( !empty($value) ){  //mauri
 				$rate = str_replace( '-', $CURRENCY_DISPLAY->decimal, $rate )*100;
-				$html .= $CURRENCY_DISPLAY->getFullValue( $value, 5, $currency ).' ('.$rate.'% '.$VM_LANG->_('PHPSHOP_CART_TAX').')<br />';
+				$html_rate .= $CURRENCY_DISPLAY->getFullValue( $value, 5, $currency ).' ('.$rate.'% '.$VM_LANG->_('PHPSHOP_CART_TAX').')<br />'; // mauri
+				}
+			}
+			if ( !empty( $html_rate )){  //mauri
+				$html = '<br />'.$VM_LANG->_('VM_TAXDETAILS_LABEL').':<br />'.$html_rate ;
 			}
 		}
 		return $html;
@@ -2261,12 +2265,12 @@ Order Total: '.$order_total.'
 	 * If the customer is in the EU then tax should be charged according to the
 	 *  vendor's address, and this function will return true.
 	 */
-	function tax_based_on_vendor_address () {
+	function tax_based_on_vendor_address ($ship_to_info_id = '') { // mauri
 		global $__tax_based_on_vendor_address;
 		global $vmLogger;
 	
 		if (!isset ($__tax_based_on_vendor_address)) {
-			$__tax_based_on_vendor_address = ps_checkout::_tax_based_on_vendor_address ();
+			$__tax_based_on_vendor_address = ps_checkout::_tax_based_on_vendor_address ($ship_to_info_id); //mauri
 			if ($__tax_based_on_vendor_address)
 				$vmLogger->debug ('calculating tax based on vendor address');
 			else
@@ -2275,7 +2279,7 @@ Order Total: '.$order_total.'
 		return $__tax_based_on_vendor_address;
 	}
 	
-	function _tax_based_on_vendor_address () {
+	function _tax_based_on_vendor_address ($ship_to_info_id = '') { // mauri
 		global $auth;
 		global $vmLogger;
 	
@@ -2287,14 +2291,32 @@ Order Total: '.$order_total.'
 			return true;
 	
 		case '17749':
-			if (! array_key_exists ('country', $auth)) {
+			 
+			// mauri, start
+			$ship_to_info_id = !empty($ship_to_info_id)? $ship_to_info_id : vmGet( $_REQUEST, 'ship_to_info_id'); // mauri
+
+			$db = new ps_DB;
+			$q  = "SELECT country FROM #__{vm}_user_info WHERE user_info_id='" . $ship_to_info_id ."'";
+			$db->query($q);
+			$db->next_record();
+			$ship_country = $db->f("country");
+
+			if (! array_key_exists ('country', $auth) || empty( $ship_country ) ) {
 				$vmLogger->debug ('shopper\'s country is not known; defaulting to vendor-based tax');
 				return true;
 			}
-	
-			$vmLogger->debug ('shopper is in ' . $auth['country']);
-			return ps_checkout::country_in_eu_common_vat_zone ($auth['country']);
-	
+
+			if ( $ship_to_info_id ) {
+				$vmLogger->debug ('shopper shipping in ' . $ship_country);
+				$auth_country = $ship_country;
+			}
+			else {
+				$vmLogger->debug ('shopper is in ' . $auth['country']);
+				$auth_country = $auth['country'];
+			}
+				return ps_checkout::country_in_eu_common_vat_zone ( $auth_country );
+			// mauri, end
+
 		default:
 			$vmLogger->warning ('unknown TAX_MODE "' . TAX_MODE . '"');
 			return true;

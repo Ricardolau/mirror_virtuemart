@@ -201,7 +201,21 @@ else {
 
 	// SHOW TAX
 	$tax_display = '';
-	if (!empty($_REQUEST['ship_to_info_id']) || ps_checkout::tax_based_on_vendor_address() ) {
+	// mauri start
+	if ( empty($_REQUEST['ship_to_info_id']) && $auth["user_id"] > 0 && !ps_checkout::tax_based_on_vendor_address()){
+		$db = new ps_DB;
+		$q = "SELECT user_info_id FROM #__{vm}_user_info " ;
+		$q .= "WHERE user_id = '" . $auth["user_id"] . "' ";
+		$q .= "AND address_type = 'BT' ";
+		$db->query( $q ) ;
+		$db->next_record() ;
+
+		$_REQUEST['ship_to_info_id'] = $db->f("user_info_id");
+		ps_checkout::tax_based_on_vendor_address($_REQUEST['ship_to_info_id']);
+	}
+
+	// mauri end
+	if (!empty($_REQUEST['ship_to_info_id']) || ps_checkout::tax_based_on_vendor_address()) {
 
 		$show_tax = true;
 

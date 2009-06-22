@@ -1413,31 +1413,42 @@ class vm_ps_product extends vmAbstractObject {
 	 * @author soeren
 	 * @return int The tax rate found
 	 */
-	function get_taxrate() {
+	function get_taxrate( $ship_to_info_id = '' ) { // mauri , $user_info_id -> $ship_to_info_id
 		global $page;
 		$ps_vendor_id = $_SESSION["ps_vendor_id"];
 		$auth = $_SESSION['auth'];
 
-		if( !defined('_VM_IS_BACKEND' ) || $page == 'product.product_list') {
+		if( !defined('_VM_IS_BACKEND' ) || $page == 'product.product_list' || $page == 'order.order_print') { // mauri
 
 			$db = new ps_DB;
 
 			if ($auth["show_price_including_tax"] == 1) {
 
 				require_once( CLASSPATH . 'ps_checkout.php' );
-				if (! ps_checkout::tax_based_on_vendor_address ()) {
+				if (! ps_checkout::tax_based_on_vendor_address ($ship_to_info_id) ) {
 					if( $auth["user_id"] > 0 ) {
 
-						$q = "SELECT state, country FROM #__{vm}_user_info WHERE user_id='". $auth["user_id"] . "'";
-						$db->query($q);
+						$ship_to_info_id = !empty($ship_to_info_id)? $ship_to_info_id : vmGet( $_REQUEST, 'ship_to_info_id'); // mauri
 
-						$db->next_record();
-						$state = $db->f("state");
-						$country = $db->f("country");
+							//**  mauri  */
+							if( empty($ship_to_info_id)){									
+								$q = "SELECT state, country FROM #__{vm}_user_info WHERE user_id='". $auth["user_id"] . "'";
+								$db->query($q);
+								$db->next_record();
+								$state = $db->f("state");
+								$country = $db->f("country");
+							} 
+							else {
+								$q  = "SELECT country, state FROM #__{vm}_user_info WHERE user_info_id='" . $ship_to_info_id."'";
+								$db->query($q);
+								$db->next_record();
+								$state = $db->f("state");
+								$country = $db->f("country");
+							}
 
 						$q = "SELECT tax_rate FROM #__{vm}_tax_rate WHERE tax_country='$country'\n";
 						if( !empty($state)) {
-							$q .= "AND (tax_state='$state' OR tax_state=' $state ')";
+							$q .= "AND (tax_state='$state' OR tax_state=' $state ' OR tax_state='-')"; // mauri
 						}
 						$db->query($q);
 						if ($db->next_record()) {
@@ -1490,20 +1501,20 @@ class vm_ps_product extends vmAbstractObject {
 	 * @param int $weight_subtotal (tax virtual/zero-weight items?)
 	 * @return int The tax rate for the product
 	 */
-	function get_product_taxrate( $product_id, $weight_subtotal=0 ) {
+	function get_product_taxrate( $product_id, $weight_subtotal=0, $ship_to_info_id = '' ) { // mauri , $ship_to_info_id
 
 		require_once( CLASSPATH . 'ps_checkout.php' );
 
-		if (($weight_subtotal != 0 or TAX_VIRTUAL=='1') && !ps_checkout::tax_based_on_vendor_address() ) {
-			$_SESSION['product_sess'][$product_id]['tax_rate'] = $this->get_taxrate();
+		if (($weight_subtotal != 0 or TAX_VIRTUAL=='1') && !ps_checkout::tax_based_on_vendor_address($ship_to_info_id) ) {
+			$_SESSION['product_sess'][$product_id]['tax_rate'] = $this->get_taxrate( $ship_to_info_id ); // mauri
 			return $_SESSION['product_sess'][$product_id]['tax_rate'];
 		}
-		elseif( ($weight_subtotal == 0 or TAX_VIRTUAL != '1' ) && !ps_checkout::tax_based_on_vendor_address() ) {
+		elseif( ($weight_subtotal == 0 or TAX_VIRTUAL != '1' ) && !ps_checkout::tax_based_on_vendor_address($ship_to_info_id) ) { // mauri
 			$_SESSION['product_sess'][$product_id]['tax_rate'] = 0;
 			return $_SESSION['product_sess'][$product_id]['tax_rate'];
 		}
 
-		elseif( ps_checkout::tax_based_on_vendor_address () ) {
+		elseif( ps_checkout::tax_based_on_vendor_address ($ship_to_info_id) ) { // mauri
 
 //			if( empty( $_SESSION['product_sess'][$product_id]['tax_rate'] ) ) {
 				$db = new ps_DB;
@@ -1520,7 +1531,7 @@ class vm_ps_product extends vmAbstractObject {
 				}
 				else {
 					// if we didn't find a product tax rate id, let's get the store's tax rate
-					$rate = $this->get_taxrate();
+					//$rate = $this->get_taxrate(); // mauri, if vendor want to show product without tax
 				}
 				if ($weight_subtotal != 0 or TAX_VIRTUAL=='1') {
 					$_SESSION['product_sess'][$product_id]['tax_rate'] = $rate;
@@ -1862,7 +1873,7 @@ class vm_ps_product extends vmAbstractObject {
 
 					$q = "SELECT tax_rate FROM #__{vm}_tax_rate WHERE tax_country='$country' ";
 					if( !empty($state)) {
-						$q .= "AND (tax_state='$state' OR tax_state=' $state ')";
+						$q .= "AND (tax_state='$state' OR tax_state=' $state ' OR tax_state='-')"; // mauri
 					}
 					$db->query($q);
 					if ($db->next_record()) {

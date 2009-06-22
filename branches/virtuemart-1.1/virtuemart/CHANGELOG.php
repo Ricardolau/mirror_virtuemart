@@ -35,6 +35,7 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 22.06.2009 soeren
+# Task #2015 - The Value of the Coupon is greater than the current Order Total, coupon value displayed with no tax 
 # Fixed VAT based on Shipping Address (http://forum.virtuemart.net/index.php?topic=56983.msg186554)
 ^ added Slovak Language Files (utf-8)
 # Task #2053 - Resend Download ID, lower order status update buttons do not send emails 

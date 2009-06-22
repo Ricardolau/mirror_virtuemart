@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -201,7 +201,7 @@ class vm_ps_coupon {
                  $coupon_value = round( ($d["total"] * $coupon_db->f("coupon_value") / 100), 2);
                  
                  if( $d["total"] < $coupon_value ) {
-                  	$coupon_value = (float)$d['total'];
+                  	$coupon_value = (float)$d['total'] +(float)$d['order_tax'] ;
                   	$vmLogger->info( str_replace('{value}',$GLOBALS['CURRENCY_DISPLAY']->getFullValue( $coupon_value ),$VM_LANG->_('VM_COUPON_GREATER_TOTAL_SETTO')) );
                 }
                  $_SESSION['coupon_discount'] = $coupon_value;
@@ -213,7 +213,7 @@ class vm_ps_coupon {
 
                 /* Total Amount */
                 if( $d["total"] < $coupon_value ) {
-                  	$coupon_value = (float)$d['total'];
+                  	$coupon_value = (float)$d['total'] +(float)$d['order_tax'] ;
                   	$vmLogger->info( str_replace('{value}',$GLOBALS['CURRENCY_DISPLAY']->getFullValue( $coupon_value ),$VM_LANG->_('VM_COUPON_GREATER_TOTAL_SETTO')) );
                 }
                 $_SESSION['coupon_discount'] = $GLOBALS['CURRENCY']->convert( $coupon_value );

@@ -209,9 +209,9 @@ class vm_vmTemplate {
 	function fetch($file) {
 		extract($this->vars);          // Extract the vars to local namespace
 		ob_start();                    // Start output buffering
-		if( file_exists( $this->path . $file ) ) {
+		if( is_file( $this->path . $file ) ) {
 			include($this->path . $file);  // Include the file
-		} elseif( file_exists( $this->default_path . $file ) ) {
+		} elseif( is_file( $this->default_path . $file ) ) {
 			include( $this->default_path . $file );
 		}
 		$contents = ob_get_contents(); // Get the contents of the buffer

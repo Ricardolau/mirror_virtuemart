@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+23.06.2009 aravot
+# Fixed landscape/portrait issue http://forum.virtuemart.net/index.php?topic=55201.0 Thank you Phil
+
 17.06.2009 aravot
 # BUG #2648 - Product name in Call for Pricing message promt is wrong, if product name have special characters.
 

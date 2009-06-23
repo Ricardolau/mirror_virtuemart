@@ -1,5 +1,5 @@
 <?php
-// Important: Must be includeable from outside the Mambo Framework!
+// Important: Must be includeable from outside the Joomla Framework!
 // if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 /**
 *
@@ -188,7 +188,7 @@ class Img2Thumb	{
 		$maxX = $newxsize;
 		$maxY = $newysize;
 		
-		if ($orig_size[0]<$orig_size[1])
+		if (($orig_size[0]*$maxY)<($orig_size[1]*$maxX))
 		{
 			$newxsize = $newysize * ($orig_size[0]/$orig_size[1]);
 			$adjustX = ($maxX - $newxsize)/2;

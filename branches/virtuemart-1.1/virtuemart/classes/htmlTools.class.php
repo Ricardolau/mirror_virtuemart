@@ -884,7 +884,7 @@ class vmCommonHTML {
 		global $mosConfig_live_site, $vm_mainframe;
 		vmCommonHTML::loadYUI();
 		if( !defined( "_EXTJS_LOADED" )) {
-			
+			$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/extjs2/yui-utilities.js' );
 			$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/extjs2/ext-yui-adapter.js' );
 			$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/extjs2/ext-all.js' );
 			$vm_mainframe->addScriptDeclaration( 'Ext.BLANK_IMAGE_URL = "'.$mosConfig_live_site.'/components/'. VM_COMPONENT_NAME .'/js/extjs2/images/default/s.gif";', 'bottom' );

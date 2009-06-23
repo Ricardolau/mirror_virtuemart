@@ -6,7 +6,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -416,6 +416,15 @@ class vmTabPanel {
 		deferredRender: false,
 		enableTabScroll: true,
 		autoScroll: true,
+		 listeners : {
+		    'beforerender' : {
+		        fn: function() { $$('textarea.mce_editable').each(function(elem) { if(tinyMCE.get(elem.id)) tinyMCE.execCommand('mceRemoveControl',false,elem.id);}) }
+		    },
+		    'afterrender' : {
+		        fn: function() { $$('textarea.mce_editable').each(function(elem) { tinyMCE.execCommand('mceAddControl',false,elem.id);}) },
+		        scope: this
+		    }
+		},
 		autoWidth: true,
 		items: [";
 		
@@ -867,7 +876,7 @@ class vmCommonHTML {
 	function loadYUI( ) {
 		global $mosConfig_live_site, $vm_mainframe;
 		if( !defined( "_YUI_LOADED" )) {
-			$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/extjs2/yui-utilities.js' );
+			$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/extjs3/yui-utilities.js' );
 			define ( "_YUI_LOADED", "1" );
 		}
 	}

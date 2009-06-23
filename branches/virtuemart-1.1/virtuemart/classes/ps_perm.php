@@ -25,11 +25,12 @@ class vm_ps_perm {
 	var $user_groups;	
 	
 	function vm_ps_perm() {
+		$this->user_groups = array();
 		$this->getUserGroups();
 	}
 	
 	function getUserGroups() {
-		if( empty( $this->user_groups )) {			
+		if( empty( $this->user_groups )) {				
 			$db = new ps_DB();
 			$db->query('SELECT group_id,group_name,group_level FROM `#__{vm}_auth_group` ORDER BY group_level');
 			while( $db->next_record() ) {

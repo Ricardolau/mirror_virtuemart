@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -286,7 +286,7 @@ class vm_ps_shopper {
 				} else {
 					$username_length = 25;
 				}
-				$silent_username = substr( str_replace( '-', '_', vmGet($d,'email') ), 0, $username_length );
+				$silent_username = substr( vmGet($d,'email'), 0, $username_length );
 				$db->query( 'SELECT username FROM `#__users` WHERE username=\''.$silent_username.'\'');
 				$i = 0;
 				while( $db->next_record()) {

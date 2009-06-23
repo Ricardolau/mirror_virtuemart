@@ -34,6 +34,12 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+
+23.06.2009 soeren
+# Task #2652 - Wrapper Url traced wrrong 
+# Task #2653 - arguments for str_replace () are swapped 
+# Task #2654 - Problem with email registration 
+
 23.06.2009 aravot
 # Fixed landscape/portrait issue http://forum.virtuemart.net/index.php?topic=55201.0 Thank you Phil
 # Fixed Bug in template.class.php http://forum.virtuemart.net/index.php?topic=54394.0 Thank you Phil

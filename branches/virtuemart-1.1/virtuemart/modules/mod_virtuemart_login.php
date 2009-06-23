@@ -74,7 +74,7 @@ if( vmIsJoomla('1.5') ) {
 		// The Joomla! home page
 		$menu = &JSite::getMenu();
 		$default = $menu->getDefault();
-		$uri = JFactory::getURI( $default->link );
+		$uri = JFactory::getURI( $default->link.'&Itemid='.$default->id );
 		$url = $uri->toString(array('path', 'query', 'fragment'));
 	} elseif( $redirect == 'vmhome' ) {
 		// The VirtueMart home page

@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage html
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -415,7 +415,7 @@ $duration = 500;
   function prep4SQL(o){
 	if(o.value!='') {
 		o.value=o.value.replace('vm_','');
-    	o.value='vm_' + o.value.replace(/[^a-zA-Z]+/g,'');
+    	o.value='vm_' + o.value.replace(/[\W]+/g,'');
 	}
   }
 

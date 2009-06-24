@@ -2,16 +2,16 @@
 <!DOCTYPE install SYSTEM "http://www.joomla.org/xml/dtd/1.5/module-install.dtd">
 <install type="module" version="1.5.0">
 	<name>VirtueMart Module</name>
-	<creationDate>April 2008</creationDate>
+	<creationDate>June 2009</creationDate>
 	<author>The VirtueMart Development Team</author>
 	<authorEmail>soeren|at|virtuemart.net</authorEmail>
 	<authorUrl>http://www.virtuemart.net</authorUrl>
 	<copyright>
-		Copyright (C) 2004-2008 Soeren Eberhardt-Biermann. All rights
+		Copyright (C) 2004-2009 Soeren Eberhardt-Biermann. All rights
 		reserved.
 	</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<version>1.1.0</version>
+	<version>1.1.4</version>
 	<description>
 		Shows VirtueMart categories, the shopping cart, a product search field,
 		an administration link, an account maintenance link and a link
@@ -117,6 +117,12 @@
 			<option value="yes">Yes</option>
 			<option value="no">No</option>
 		</param>
+      <param name="remember_me_default" type="radio" default="1"
+            label="Default value for the Remember Me checkbox?"
+            description="Defines wether the Remember me checkbox is checked by default or not.">
+            <option value="1">Checked</option>
+            <option value="0">Not checked</option>
+        </param>
 		<param name="show_categories" type="radio" default="yes"
 			label="Show the Product Categories?"
 			description="Defines wether the Product Categories are displayed in the Module or not.">

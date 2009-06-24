@@ -2,15 +2,15 @@
 <!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/module-install.dtd">
 <install type="module" version="1.5.0">
 	<name>VirtueMart Login</name>
-	<creationDate>February 2008</creationDate>
+	<creationDate>June 2009</creationDate>
 	<author>The VirtueMart Development Team</author>
 	<authorEmail>greg|at|virtuemart.net</authorEmail>
 	<authorUrl>www.virtuemart.net</authorUrl>
 	<copyright>
-		Copyright (C) 2007-2008 Greg Perkins. All rights reserved.
+		Copyright (C) 2007-2009 Greg Perkins. All rights reserved.
 	</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<version>1.1.0</version>
+	<version>1.1.4</version>
 	<description>
 		This module provides login/logout functionality for VirtueMart .
 	</description>
@@ -61,5 +61,11 @@
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
+      <param name="remember_me_default" type="radio" default="1"
+            label="Default value for the Remember Me checkbox?"
+            description="Defines wether the Remember me checkbox is checked by default or not.">
+            <option value="1">Checked</option>
+            <option value="0">Not checked</option>
+        </param>
 	</params>
 </install>

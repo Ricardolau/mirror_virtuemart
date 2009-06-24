@@ -252,14 +252,16 @@ if ( $show_login_form == "yes" ) {
 		  <br/>
 			<label for="password_vm_login"><?php echo $VM_LANG->_('PASSWORD') ?></label><br/>
 			<input type="password" class="inputbox" id="password_vm_login" size="12" name="passwd" />
-			<?php if( @VM_SHOW_REMEMBER_ME_BOX == '1' ) : ?>
+			<?php if( @VM_SHOW_REMEMBER_ME_BOX == '1' ) { 
+						$remember_me_checked = $params->get('remember_me_default', 1) ? 'checked="checked"' : '';
+				?>
 			<br />
 			<label for="remember_vm_login"><?php echo $VM_LANG->_('REMEMBER_ME') ?></label>
-			<input type="checkbox" name="remember" id="remember_vm_login" value="yes" checked="checked" />
-			<?php else : ?>
+			<input type="checkbox" name="remember" id="remember_vm_login" value="yes" <?php echo $remember_me_checked ?> />
+			<?php } else { ?>
 			<br />
 			<input type="hidden" name="remember" value="yes" />
-			<?php endif; ?>
+			<?php } ?>
 			<input type="hidden" value="login" name="op2" />
 			<input type="hidden" value="<?php echo $return ?>" name="return" />
 		  	<br/>

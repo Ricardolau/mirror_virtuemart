@@ -34,7 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
-
+24.06.2009 soeren
+# Task #1489 - PDF Output won't add product image
+ 
 23.06.2009 soeren
 # Task #2630 - Undefined index message in Store Edit 
 # Task #2631 - prep4SQL renames field names

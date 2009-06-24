@@ -22,12 +22,12 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 // HTML2FPDF is a php script to read a HTML text and generate a PDF file.   //
 // Copyright (C) 2004  Renato Coelho                                        //
 // This script may be distributed as long as the following files are kept   //
-// together: 	                             							    //
-//	                                                               		    //
+// together:                                                                //
+//                                                                          //
 // fpdf.php, html2fpdf.php, gif.php, license.txt,credits.txt,htmltoolkit.php//
 //                                                                          //
 //////////////////////////////////////////////////////////////////////////////
-*/
+ */
 
 class PDF extends HTML2FPDF {
 
@@ -78,7 +78,7 @@ class PDF extends HTML2FPDF {
     $this->divwidth = $this->pgwidth;
     $this->divheight = 8.5;
   
-    //Custom Word Wrap (para melhorar organiza��o das palvras no titulo)
+    //Custom Word Wrap (para melhorar organiza??o das palvras no titulo)
     $maxwidth = $this->divwidth;
     $titulo = trim($titulo);
     $words = preg_split('/ +/', $titulo);
@@ -95,7 +95,7 @@ class PDF extends HTML2FPDF {
       $nextwordwidth = $this->GetStringWidth($nextword);
       if((strlen($word) <= 3) and ($nextword != '') and ($width + $wordwidth + $nextwordwidth > $maxwidth))
       {
-         //Para n�o ficar um artigo/preposi��o esquecido(a) no final de uma linha
+         //Para n?o ficar um artigo/preposi??o esquecido(a) no final de uma linha
          $width = $wordwidth + $space;
          $titulo = rtrim($titulo)."\n".$word.' ';
       }
@@ -104,7 +104,7 @@ class PDF extends HTML2FPDF {
          $width += $wordwidth + $space;
          $titulo .= $word.' ';
       }
-      else //Palavra n�o cabe, pular linha e inserir na outra linha
+      else //Palavra n?o cabe, pular linha e inserir na outra linha
       {
          $width = $wordwidth + $space;
          $titulo = rtrim($titulo)."\n".$word.' ';
@@ -153,7 +153,7 @@ class PDF extends HTML2FPDF {
   //! @return void
       //Position at 1.0 cm from bottom
       $this->SetY(-10);
-      //Copyright //especial para esta vers�o
+      //Copyright //especial para esta vers?o
       $this->SetFont('Arial','B',9);
       $this->SetTextColor(0);
       $texto = "Copyright ".chr(169).date('Y')."  -  $vendor_name  -  ";

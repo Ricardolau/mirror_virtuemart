@@ -21,6 +21,13 @@ $showpage = vmGet( $_REQUEST, 'showpage');
 $flypage = vmGet( $_REQUEST, 'flypage');
 $product_id = vmGet( $_REQUEST, 'product_id');
 $category_id = vmGet( $_REQUEST, 'category_id');
+// Page Navigation Parameters
+$my_page= explode ( '.', $showpage  );
+
+$pagename = $my_page[1];
+$limit = intval( $vm_mainframe->getUserStateFromRequest( "viewlistlimit{$showpage}", 'limit', $mosConfig_list_limit ) );
+$limitstart = intval( $vm_mainframe->getUserStateFromRequest( "view{$keyword}{$category_id}{$pagename}limitstart", 'limitstart', 0 )) ;
+
 
 /* Who cares for Safe Mode ? Not me! */
 if (@file_exists( "/usr/bin/htmldoc" )) {
@@ -37,7 +44,7 @@ if (@file_exists( "/usr/bin/htmldoc" )) {
 	exit;
 } 
 else {
-	freePDF( $showpage, $flypage, $product_id, $category_id );
+    freePDF( $showpage, $flypage, $product_id, $category_id, $limitstart, $limit );
 }
 function repairImageLinks( $html ) {
 	
@@ -57,11 +64,11 @@ function repairImageLinks( $html ) {
 					$fileName = substr( $source, $fileNamePos+9, $firstAmpersand - $fileNamePos-9 );
 					$extension = strrchr( $fileName, "." );
 					$fileNameNoExt = str_replace( $extension, "", $fileName );
-					$newSource = IMAGEURL . "product/resized/".$fileNameNoExt."_".PSHOP_IMG_WIDTH."x".PSHOP_IMG_HEIGHT.$extension;
+                   // $newSource = IMAGEURL . "product/resized/".$fileNameNoExt."_".PSHOP_IMG_WIDTH."x".PSHOP_IMG_HEIGHT.$extension;
+                     $newSource = IMAGEURL . "product/resized/".$fileNameNoExt.$extension;
 				  }
 				  else
 					$newSource= $source;
-					
 				  $html = str_replace( $source, $newSource, $html );
 			  }
 			}
@@ -71,7 +78,7 @@ function repairImageLinks( $html ) {
 	return $html;
 
 }
-function freePDF( $showpage, $flypage, $product_id, $category_id ) {
+function freePDF( $showpage, $flypage, $product_id, $category_id, $limitstart, $limit ) {
 	global $db, $sess, $auth, $my, $perm, $VM_LANG, $mosConfig_live_site, $mosConfig_sitename, $mosConfig_offset, $mosConfig_hideCreateDate, $mosConfig_hideAuthor, 
 	$mosConfig_hideModifyDate,$mm_action_url, $database, $mainframe, $mosConfig_absolute_path, $vendor_full_image, $vendor_name, $limitstart, $limit,
 	$vm_mainframe, $keyword, $cur_template;
@@ -127,12 +134,19 @@ function freePDF( $showpage, $flypage, $product_id, $category_id ) {
 		$pdf->InitLogo($logo);
 		$pdf->PutTitle($mosConfig_sitename);
 		$pdf->PutAuthor( $vendor_name );
+        $html = str_replace ("&amp;", "&", $html);
 		$pdf->WriteHTML($html);
-		//Output the file
-		$pdf->Output();		
+
+		$pdf->Output();
 	} elseif( file_exists(CLASSPATH."pdf/dompdf/dompdf_config.inc.php")) {
 		// In this part you can use the dompdf library (http://www.digitaljunkies.ca/dompdf/)
 		// Just extract the dompdf archive to /classes/pdf/dompdf
+        //require_once( CLASSPATH . "pdf/dompdf/dompdf_config.inc.php" );
+        //require_once( CLASSPATH . "pdf/dompdf/load_font.php" );
+
+        //require_once( CLASSPATH . "pdf/dompdf/dompdf.php" );
+        //define('DOMPDF_FONTPATH', CLASSPATH.'pdf/dompdf/lib/fonts/');
+        //define( 'RELATIVE_PATH', CLASSPATH.'pdf/dompdf/' );
 		$image_details = getimagesize($logo);
 		$footer = '<script type="text/php">
 
@@ -154,11 +168,12 @@ if ( isset($pdf) ) {
   $img_h = 1 * 72; // 1 inch, in points -- change these as required
   $pdf->image("'.$logourl.'", "'.$image_details[2].'", ($w - $img_w) / 2.0, $y - $img_h, $img_w, $img_h);
 
+  // Close the object (stop capture)
+  $pdf->close_object();
   // Add the object to every page. You can
   // also specify "odd" or "even"
   $pdf->add_object($footer, "all");
-  // Close the object (stop capture)
-  $pdf->close_object();
+
 }
 </script>';
 		
@@ -176,12 +191,32 @@ if ( isset($pdf) ) {
 			' . $footer .'
 		</body>
 	</html>';
-		//die( htmlspecialchars($website));
+
+
+    $website = str_replace ("resized%2F", "", $website);
+    $website = str_replace ("&amp;", "&", $website);
+    $website = str_replace ("#", "", $website);
+
 		require_once( CLASSPATH."pdf/dompdf/dompdf_config.inc.php");
 		$dompdf = new DOMPDF();
+
 		$dompdf->load_html($website);
 		$dompdf->render();
-		$dompdf->stream("pdf_file.pdf", array('Attachment' => 0));
+       // die( htmlspecialchars($website));
+       //YOU CAN EITHER UNCOMMENT THE FOLLOWING LINES AND COMMENT THIS LINE --> // $dompdf->stream( "virtue".$limitstart.".pdf", array('Attachment' => 1));
+       // OR LEAVE THE FOLLOWING LINES COMMENTED WITH // AND THE $dompdf->stream( "virtue".$limitstart.".pdf", array('Attachment' => 1)); UNCOMMENTED, BOTH WORK AT LAST !!
+       // $file = "virtutest1.pdf";
+       // file_put_contents($file, $website);
+       // $url = "dompdf.php?input_file=".  $mosConfig_live_site."/".rawurlencode($file) .
+       //       "&paper=letter&output_file=" . rawurlencode("virtue".$limitstart.".pdf");
+       //$url  = str_replace ("%3A", ":", $url );
+       //$url  = str_replace ("%5C", "/", $url );
+       //$url = str_replace ("&amp;", "&", $url);
+       //header("Location: ".$mosConfig_live_site . "/administrator/components/com_virtuemart/classes/pdf/dompdf/$url");
+
+
+       $dompdf->stream( "virtue".$limitstart.".pdf", array('Attachment' => 1));
+
 	}
 
 	

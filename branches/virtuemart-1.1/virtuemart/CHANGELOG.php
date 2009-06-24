@@ -35,6 +35,7 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 24.06.2009 soeren
+# Task #2624 - Credit card type now showing 
 # Task #1489 - PDF Output won't add product image
  
 23.06.2009 soeren

@@ -47,7 +47,7 @@ class vm_ps_html {
 		}
 		$html = "<select class=\"inputbox\" name=\"$name\" size=\"$size\" $multiple $extra>\n";
 
-		while (list($key, $val) = each($arr)) {
+		foreach($arr as $key => $val) {
 			$selected = "";
 			if( is_array( $value )) {
 				if( in_array( $key, $value )) {

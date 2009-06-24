@@ -297,7 +297,7 @@ class vm_ps_creditcard {
 			$script .="}\n";
 			$script .="//-->\n";
 			$script .="</script>\n";
-
+			$script .= '<noscript>'.ps_html::selectList('creditcard_code', key($cards), $cards ).'</noscript>';
 			return $script;
 		}
 	}

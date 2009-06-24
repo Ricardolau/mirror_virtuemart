@@ -63,7 +63,7 @@ if ($db->next_record()) {
 		$old_user = $user;
 	}
 	
-	$user = $dbbt->record;
+	$user = $dbbt->record[0];
 	/** Retrieve Payment Info **/
 	$dbpm = new ps_DB;
 	

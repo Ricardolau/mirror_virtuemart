@@ -149,12 +149,28 @@ class standard_shipping {
 	function get_tax_rate( $shipping_rate_id = 0 ) {
 		$database = new ps_DB( ) ;
 		
+		// added by sobers_2002 to fix the issue with shipping tax being calculated for non-state orders
+		$ship_to_info_id = vmGet( $_REQUEST, 'ship_to_info_id');
+		$q = "SELECT state, country FROM #__{vm}_user_info ";
+		$q .= "WHERE user_info_id='".$ship_to_info_id. "'";
+		$db->query($q);
+		$db->next_record();
+		$state = $db->f("state");
+		
 		if( $shipping_rate_id == 0 ) {
 			$shipping_rate_id = vmGet( $_REQUEST, "shipping_rate_id" ) ;
 			$ship_arr = explode( "|", urldecode( urldecode( $shipping_rate_id ) ) ) ;
 			$shipping_rate_id = (int)$ship_arr[4] ;
 		}
-		$database->query( "SELECT tax_rate FROM #__{vm}_shipping_rate,#__{vm}_tax_rate WHERE shipping_rate_id='$shipping_rate_id' AND shipping_rate_vat_id=tax_rate_id" ) ;
+		
+		$q = "SELECT tax_rate FROM #__{vm}_shipping_rate,#__{vm}_tax_rate WHERE shipping_rate_id='$shipping_rate_id' AND shipping_rate_vat_id=tax_rate_id"; 
+		
+		// check if state tax is applicable to the user
+		if ($state) {
+			$q .= " AND tax_state = '" . $state . "'";
+		}
+
+		$database->query($q);
 		$database->next_record() ;
 		if( $database->f( 'tax_rate' ) ) {
 			return $database->f( 'tax_rate' ) ;

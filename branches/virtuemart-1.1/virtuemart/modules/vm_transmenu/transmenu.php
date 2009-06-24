@@ -108,6 +108,7 @@ class TransMenu {
 			//echo "$pmenu.addItem(\"$row->name\", \"$row->link\");\n";
 			$active = 0;
 			if ( in_array($row->id, $this->parent->open) ) $active = 1;
+			$row->link = $sess->url( SECUREURL . $row->link);
 			echo "$pmenu.addItem(\"$row->name\", \"$row->link\", $row->browserNav, $active);\n";
 		}
 		else{

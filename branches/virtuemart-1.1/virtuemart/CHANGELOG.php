@@ -34,6 +34,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+24.06.2009 sobers_2002
+# Fixed the shipping tax calculation in the standard shipping module
+# Fixed the sh404sef issues in transmenu with submenus
+
 24.06.2009 aravot
 # Corrected PHP short tags.
 

@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+24.06.2009 aravot
+# Corrected PHP short tags.
+
 24.06.2009 soeren
 ^ TSK-2620 -  Do not save login cookies by default 
 # Task #2624 - Credit card type now showing 

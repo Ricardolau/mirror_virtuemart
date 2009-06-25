@@ -41,7 +41,7 @@ echo '<h4>'. $VM_LANG->_($varname) . '</h4>';
 </div>
 <!-- Customer Ship To -->
 
-<div style="width: 40%; align: left; float: left;">
+<div style="width: 100%; align: left; float: left;">
 	<?php
 	$ps_checkout->ship_to_addresses_radio($auth["user_id"], "ship_to_info_id", $ship_to_info_id);
 	?>

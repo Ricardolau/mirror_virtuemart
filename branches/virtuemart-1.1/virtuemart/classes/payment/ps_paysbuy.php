@@ -65,7 +65,7 @@ function CopyAndPaste( from, to )
 		      <td><strong>Form PaySbuy</strong></td>
             <td colspan="2">
 <textarea name="PaySbuy_FORM" cols="80" rows="15" readonly="readonly" STYLE="display:none;">
-<? echo "<?php\n"; ?>
+<?php echo "<?php\n"; ?>
 $url = "https://www.paysbuy.com/paynow.aspx?c=true";
 if(PaySbuy_GATEWAY == "1"){
 $url .= "c=true";

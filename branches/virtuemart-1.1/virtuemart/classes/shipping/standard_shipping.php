@@ -150,6 +150,7 @@ class standard_shipping {
 		$database = new ps_DB( ) ;
 		
 		// added by sobers_2002 to fix the issue with shipping tax being calculated for non-state orders
+		$db = new ps_DB();
 		$ship_to_info_id = vmGet( $_REQUEST, 'ship_to_info_id');
 		$q = "SELECT state, country FROM #__{vm}_user_info ";
 		$q .= "WHERE user_info_id='".$ship_to_info_id. "'";

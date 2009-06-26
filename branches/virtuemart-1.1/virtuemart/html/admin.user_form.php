@@ -493,8 +493,8 @@ if( $num_rows ) {
 	    $details_link .= "<img src=\"$mosConfig_live_site/images/M_images/printButton.png\" align=\"center\" height=\"16\" width=\"16\" border=\"0\" /></a>"; 
 	    $listObj->addCell( $details_link );
 	
-	    $listObj->addCell( strftime("%d-%b-%y %H:%M", $db->f("cdate")));
-	    $listObj->addCell( strftime("%d-%b-%y %H:%M", $db->f("mdate")));
+	    $listObj->addCell( strftime("%d-%b-%y %H:%M", $db->f("cdate") + ($mosConfig_offset*60*60)));
+	    $listObj->addCell( strftime("%d-%b-%y %H:%M", $db->f("mdate") + ($mosConfig_offset*60*60)));
 	    
 	    $listObj->addCell(  $ps_order_status->getOrderStatusName($db->f("order_status")));
 	    

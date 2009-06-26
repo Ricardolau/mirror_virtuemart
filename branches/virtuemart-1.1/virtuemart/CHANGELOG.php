@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+26.06.2009 aravot
+#BUG #2498 - Order Dates incorrect (thank you Scott)
+
 24.06.2009 sobers_2002
 # Fixed the shipping tax calculation in the standard shipping module
 # Fixed the sh404sef issues in transmenu with submenus

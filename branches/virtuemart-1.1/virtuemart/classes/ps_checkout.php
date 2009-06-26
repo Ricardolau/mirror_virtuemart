@@ -898,7 +898,7 @@ class vm_ps_checkout {
 		$totals = $this->calc_order_totals( $d );
 		extract( $totals );
 		
-		$timestamp = time() + ($mosConfig_offset*60*60);
+		$timestamp = time();
 		
 		if (!$this->validate_form($d)) {
 			return false;
@@ -1000,7 +1000,7 @@ Order Total: '.$order_total.'
 		}
 
 	    // Insert the initial Order History.	    
-		$mysqlDatetime = date("Y-m-d G:i:s", $timestamp);
+		$mysqlDatetime = date("Y-m-d G:i:s", $timestamp + ($mosConfig_offset*60*60));
 		
 		$fields = array(
 					'order_id' => $order_id,

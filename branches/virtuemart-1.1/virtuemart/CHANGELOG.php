@@ -35,6 +35,8 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 27.06.2009 mauri
+ #Fixed Standard_Shipping_modele Currency convert in rate value.
+ #Fixed Divided by zero in ps_order_change, all orders deletetd.
 # BUG #2657 - Undefined variable: order_id when viewing order.
 # Fixed Undefined variables in ps_order_change.
 # Fixed Order Dates incorrect in ps_order_change.

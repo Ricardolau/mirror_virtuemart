@@ -38,7 +38,7 @@ class standard_shipping {
 		
 		$dbc = new ps_DB( ) ; // Carriers
 		$dbr = new ps_DB( ) ; // Rates
-		
+		$dbs = new ps_DB( ) ; // Shipping_Currensy
 
 		$selected = False ;
 		$d['ship_to_info_id'] = vmGet( $_REQUEST, 'ship_to_info_id' ) ;
@@ -54,7 +54,7 @@ class standard_shipping {
 		$i = 0 ;
 		$html = "" ;
 		while( $dbc->next_record() ) {
-			$q = "SELECT shipping_rate_id,shipping_rate_name,shipping_rate_value,shipping_rate_package_fee FROM #__{vm}_shipping_rate WHERE " ;
+			$q = "SELECT shipping_rate_id,shipping_rate_name,shipping_rate_value,shipping_rate_package_fee,shipping_rate_currency_id FROM #__{vm}_shipping_rate WHERE " ;
 			$q .= "shipping_rate_carrier_id='" . $dbc->f( "shipping_carrier_id" ) . "' AND " ;
 			$q .= "(shipping_rate_country LIKE '%" . $country . "%' OR " ;
 			$q .= "shipping_rate_country = '') AND " ;
@@ -83,11 +83,18 @@ class standard_shipping {
 				} else {
 					$taxrate = $this->get_tax_rate( $dbr->f( "shipping_rate_id" ) ) + 1 ;
 				}
+				// Select shipping_rate_currency_code
+				$q = "SELECT currency_code FROM #__{vm}_currency WHERE currency_id ='" . $dbr->f( "shipping_rate_currency_id" ) . "'" ;
+				$dbs->query( $q ) ;
+				if( $dbs->next_record() ) {
+					$shipping_rate_currency_code = $dbs->f( "currency_code" ) ;
+				}
+
 				$total_shipping_handling = $dbr->f( "shipping_rate_value" ) + $dbr->f( "shipping_rate_package_fee" ) ;
-				$total_shipping_handling = $GLOBALS['CURRENCY']->convert( $total_shipping_handling ) ;
+				$total_shipping_handling = $GLOBALS['CURRENCY']->convert( $total_shipping_handling, $shipping_rate_currency_code, $GLOBALS['product_currency'] ) ;
 				$total_shipping_handling *= $taxrate ;
 				$show_shipping_handling = $CURRENCY_DISPLAY->getFullValue( $total_shipping_handling ) ;
-				
+
 				// THE ORDER OF THOSE VALUES IS IMPORTANT:
 				// ShippingClassName|carrier_name|rate_name|totalshippingcosts|rate_id
 				$shipping_rate_id = urlencode( __CLASS__ . "|" . $dbc->f( "shipping_carrier_name" ) . "|" . $dbr->f( "shipping_rate_name" ) . "|" . number_format( $total_shipping_handling, 2, '.', '' ) . "|" . $dbr->f( "shipping_rate_id" ) ) ;

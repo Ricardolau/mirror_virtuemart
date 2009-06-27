@@ -84,7 +84,7 @@ class vm_ps_order_change {
 		
 		$order_total = $order_subtotal + round( $order_tax, 2 ) + $order_shipping + $order_shipping_tax - $coupon_discount - $order_discount ;
 		
-		If( PAYMENT_DISCOUNT_BEFORE == 1 && $order_total > 0) {
+		If( PAYMENT_DISCOUNT_BEFORE == 1 && $order_subtotal > 0) {
 			// Calculate the taxes after discounts are subtracted
 			$my_total_taxrate = round( (($order_subtotal + $order_tax) / $order_subtotal) - 1, 4 ) ;
 			$temp_order_subtotal = $order_subtotal - $coupon_discount - $order_discount ;

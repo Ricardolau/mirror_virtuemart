@@ -1413,12 +1413,12 @@ class vm_ps_product extends vmAbstractObject {
 	 * @author soeren
 	 * @return int The tax rate found
 	 */
-	function get_taxrate( $ship_to_info_id = '' ) { // mauri , $user_info_id -> $ship_to_info_id
+	function get_taxrate( $ship_to_info_id = '' ) {
 		global $page;
 		$ps_vendor_id = $_SESSION["ps_vendor_id"];
 		$auth = $_SESSION['auth'];
 
-		if( !defined('_VM_IS_BACKEND' ) || $page == 'product.product_list' || $page == 'order.order_print') { // mauri
+		if( !defined('_VM_IS_BACKEND' ) || $page == 'product.product_list' || $page == 'order.order_print') {
 
 			$db = new ps_DB;
 
@@ -1428,9 +1428,9 @@ class vm_ps_product extends vmAbstractObject {
 				if (! ps_checkout::tax_based_on_vendor_address ($ship_to_info_id) ) {
 					if( $auth["user_id"] > 0 ) {
 
-						$ship_to_info_id = !empty($ship_to_info_id)? $ship_to_info_id : vmGet( $_REQUEST, 'ship_to_info_id'); // mauri
+						$ship_to_info_id = !empty($ship_to_info_id)? $ship_to_info_id : vmGet( $_REQUEST, 'ship_to_info_id');
 
-							//**  mauri  */
+							//**  Select country and state  */
 							if( empty($ship_to_info_id)){									
 								$q = "SELECT state, country FROM #__{vm}_user_info WHERE user_id='". $auth["user_id"] . "'";
 								$db->query($q);
@@ -1448,7 +1448,7 @@ class vm_ps_product extends vmAbstractObject {
 
 						$q = "SELECT tax_rate FROM #__{vm}_tax_rate WHERE tax_country='$country'\n";
 						if( !empty($state)) {
-							$q .= "AND (tax_state='$state' OR tax_state=' $state ' OR tax_state='-')"; // mauri
+							$q .= "AND (tax_state='$state' OR tax_state=' $state ' OR tax_state='-')";
 						}
 						$db->query($q);
 						if ($db->next_record()) {
@@ -1501,20 +1501,20 @@ class vm_ps_product extends vmAbstractObject {
 	 * @param int $weight_subtotal (tax virtual/zero-weight items?)
 	 * @return int The tax rate for the product
 	 */
-	function get_product_taxrate( $product_id, $weight_subtotal=0, $ship_to_info_id = '' ) { // mauri , $ship_to_info_id
+	function get_product_taxrate( $product_id, $weight_subtotal=0, $ship_to_info_id = '' ) {
 
 		require_once( CLASSPATH . 'ps_checkout.php' );
 
 		if (($weight_subtotal != 0 or TAX_VIRTUAL=='1') && !ps_checkout::tax_based_on_vendor_address($ship_to_info_id) ) {
-			$_SESSION['product_sess'][$product_id]['tax_rate'] = $this->get_taxrate( $ship_to_info_id ); // mauri
+			$_SESSION['product_sess'][$product_id]['tax_rate'] = $this->get_taxrate( $ship_to_info_id );
 			return $_SESSION['product_sess'][$product_id]['tax_rate'];
 		}
-		elseif( ($weight_subtotal == 0 or TAX_VIRTUAL != '1' ) && !ps_checkout::tax_based_on_vendor_address($ship_to_info_id) ) { // mauri
+		elseif( ($weight_subtotal == 0 or TAX_VIRTUAL != '1' ) && !ps_checkout::tax_based_on_vendor_address($ship_to_info_id) ) {
 			$_SESSION['product_sess'][$product_id]['tax_rate'] = 0;
 			return $_SESSION['product_sess'][$product_id]['tax_rate'];
 		}
 
-		elseif( ps_checkout::tax_based_on_vendor_address ($ship_to_info_id) ) { // mauri
+		elseif( ps_checkout::tax_based_on_vendor_address ($ship_to_info_id) ) {
 
 //			if( empty( $_SESSION['product_sess'][$product_id]['tax_rate'] ) ) {
 				$db = new ps_DB;
@@ -1874,7 +1874,7 @@ class vm_ps_product extends vmAbstractObject {
 
 					$q = "SELECT tax_rate FROM #__{vm}_tax_rate WHERE tax_country='$country' ";
 					if( !empty($state)) {
-						$q .= "AND (tax_state='$state' OR tax_state=' $state ' OR tax_state='-')"; // mauri
+						$q .= "AND (tax_state='$state' OR tax_state=' $state ' OR tax_state='-')";
 					}
 					$db->query($q);
 					if ($db->next_record()) {

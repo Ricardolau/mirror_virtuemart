@@ -1531,7 +1531,8 @@ class vm_ps_product extends vmAbstractObject {
 				}
 				else {
 					// if we didn't find a product tax rate id, let's get the store's tax rate
-					//$rate = $this->get_taxrate(); // mauri, if vendor want to show product without tax
+					// $rate = $this->get_taxrate();
+					$rate = 0;  // if vendor wants to show product without tax
 				}
 				if ($weight_subtotal != 0 or TAX_VIRTUAL=='1') {
 					$_SESSION['product_sess'][$product_id]['tax_rate'] = $rate;

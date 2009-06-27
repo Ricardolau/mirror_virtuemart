@@ -39,7 +39,6 @@ class vm_ps_order_change {
 	function recalc_order( $order_id ) {
 		//global $VM_LANG, $vmLogger;
 		
-
 		$debug_output = False ;
 		
 		// Read all items from db
@@ -48,7 +47,8 @@ class vm_ps_order_change {
 		$db->query( $q ) ;
 		
 		$order_tax_details = array() ;
-		
+		$order_tax = 0;
+		$order_subtotal = 0;
 		while( $db->next_record() ) {
 			$product_final_price = $db->f( "product_final_price" ) ;
 			$product_item_price = $db->f( "product_item_price" ) ;
@@ -84,7 +84,7 @@ class vm_ps_order_change {
 		
 		$order_total = $order_subtotal + round( $order_tax, 2 ) + $order_shipping + $order_shipping_tax - $coupon_discount - $order_discount ;
 		
-		If( PAYMENT_DISCOUNT_BEFORE == 1 ) {
+		If( PAYMENT_DISCOUNT_BEFORE == 1 && $order_total > 0) {
 			// Calculate the taxes after discounts are subtracted
 			$my_total_taxrate = round( (($order_subtotal + $order_tax) / $order_subtotal) - 1, 4 ) ;
 			$temp_order_subtotal = $order_subtotal - $coupon_discount - $order_discount ;
@@ -111,7 +111,12 @@ class vm_ps_order_change {
 				$vmLogger->info( "\n" . '$order_subtotal=' . $order_subtotal . "\n" . '$order_tax=' . $order_tax . "\n" . '$order_discount=' . $order_discount * - 1 . "\n" . '$coupon_discount=' . $coupon_discount * - 1 . "\n" . '$order_shipping=' . $order_shipping . "\n" . '$order_shipping_tax=' . $order_shipping_tax . "\n" . '$order_total=' . $order_total . "\n" . '$order_tax_details=' . serialize( $order_tax_details ) ) ;
 			}
 		}
-		
+
+		if (empty($order_subtotal) ) {
+			$order_subtotal = 0;
+			$order_tax = 0;
+			$order_total = 0;
+		}
 		// Write data to database
 		$q = "UPDATE #__{vm}_orders SET " ;
 		$q .= "order_subtotal = " . $order_subtotal . ", " ;
@@ -186,7 +191,39 @@ class vm_ps_order_change {
 		$q .= " WHERE order_id = '" . $this->order_id . "' AND address_type = 'BT'" ;
 		$db2->query( $q ) ;
 		$db2->next_record() ;
-		
+
+		// Read all items from db
+		if( $db->f( 'address_type' ) == 'BT' ) {
+			$dbo = new ps_DB( ) ;
+			$q = "SELECT * FROM #__{vm}_order_item WHERE order_id = '" . $this->order_id . "'" ;
+			$dbo->query( $q ) ;
+
+			$ps_product = new ps_product( ) ;
+			$user_info_id = $db->f( 'user_info_id' );
+			while( $dbo->next_record() ) {
+				$product_item_price = $dbo->f( "product_item_price" ) ;
+				$product_id = $dbo->f( "product_id" ) ;
+				$order_item_id = $dbo->f( "order_item_id" ) ;
+
+				if ($product_item_price > 0) {
+					$my_taxrate = $ps_product->get_product_taxrate( $product_id, '' , $user_info_id ) ;
+					$product_final_price = round( ($product_item_price * ($my_taxrate + 1)), 2 ) ;
+				} else {
+					$my_taxrate = 0;
+					$product_final_price = 0;
+				}
+
+				// Update item
+				$dbs = new ps_DB( ) ;
+				$q = "UPDATE #__{vm}_order_item  SET " ;
+				$q .= "user_info_id = '" . $user_info_id . "', " ;
+				$q .= "product_final_price = '" . $product_final_price . "' " ;
+				$q .= "WHERE order_item_id = '" . addslashes( $order_item_id ) . "'" ;
+				$dbs->query( $q ) ;
+				$dbs->next_record() ;
+			}
+		}
+
 		// Delete ship to
 		$q = "DELETE FROM #__{vm}_order_user_info " ;
 		$q .= "WHERE order_id = '" . $this->order_id . "' AND address_type = 'ST'" ;
@@ -194,7 +231,7 @@ class vm_ps_order_change {
 		$db2->next_record() ;
 		
 		$this->reload_from_db = 1 ;
-		
+		$this->recalc_order( $this->order_id ) ;	
 		$vmLogger->info( $VM_LANG->_( 'PHPSHOP_ORDER_PRINT_BILL_TO_LBL' ) . $VM_LANG->_( 'PHPSHOP_ORDER_EDIT_SOMETHING_HAS_CHANGED' ) ) ;
 	}
 	
@@ -210,6 +247,7 @@ class vm_ps_order_change {
 		
 		$ship_to = trim( vmGet( $_REQUEST, 'ship_to' ) ) ;
 		$db = new ps_DB( ) ;
+		$dbu= new ps_DB( ) ;
 		
 		// Delete ship to
 		$q = "DELETE FROM #__{vm}_order_user_info " ;
@@ -221,8 +259,43 @@ class vm_ps_order_change {
 		$q .= "WHERE user_info_id = '" . $ship_to . "'" ;
 		$db->query( $q ) ;
 		$db->next_record() ;
-		
-		if( $db->f( 'address_type' ) == 'ST' ) {
+
+		// Update order user_info_id
+		$q = "UPDATE #__{vm}_orders " ;
+		$q .= "SET  user_info_id = '" . $db->f( 'user_info_id' ) . "'" ;
+		$q .= " WHERE order_id = '" . $this->order_id . "'" ;
+		$dbu->query( $q ) ;
+		$dbu->next_record() ;
+
+		// Read all items from db
+		if( $db->f( 'address_type' ) == 'ST' || $db->f( 'address_type_name' ) == '-default-') {
+			$dbo = new ps_DB( ) ;
+			$q = "SELECT * FROM #__{vm}_order_item WHERE order_id = '" . $this->order_id . "'" ;
+			$dbo->query( $q ) ;
+			$ps_product = new ps_product( ) ;
+			while( $dbo->next_record() ) {
+				$product_item_price = $dbo->f( "product_item_price" ) ;
+				$product_id = $dbo->f( "product_id" ) ;
+				$order_item_id = $dbo->f( "order_item_id" ) ;
+				if ($product_item_price > 0) {
+					$my_taxrate = $ps_product->get_product_taxrate( $product_id, '' , $ship_to ) ;
+					$product_final_price = round( ($product_item_price * ($my_taxrate + 1)), 2 ) ;
+				} else {
+					$my_taxrate = 0;
+					$product_final_price = 0;
+				}
+
+				// Update item
+				$dbs = new ps_DB( ) ;
+				$q = "UPDATE #__{vm}_order_item  SET " ;
+				$q .= "user_info_id = '" . $ship_to . "', " ;
+				$q .= "product_final_price = '" . $product_final_price . "' " ;
+				$q .= "WHERE order_item_id = '" . addslashes( $order_item_id ) . "'" ;
+
+				$dbs->query( $q ) ;
+				$dbs->next_record() ;
+			}
+
 			// Find the required fields - 
 			require_once (CLASSPATH . 'ps_userfield.php');
 			$shippingFields = ps_userfield::getUserFields( '', false, '', true, true );
@@ -242,7 +315,7 @@ class vm_ps_order_change {
 			$db->next_record() ;
 		}
 		$this->reload_from_db = 1 ;
-		
+		$this->recalc_order( $this->order_id ) ;
 		$vmLogger->info( $VM_LANG->_( 'PHPSHOP_ORDER_PRINT_SHIP_TO_LBL' ) . $VM_LANG->_( 'PHPSHOP_ORDER_EDIT_SOMETHING_HAS_CHANGED' ) ) ;
 	}
 	
@@ -477,7 +550,7 @@ class vm_ps_order_change {
 		
 		$product_id = $db->f( 'product_id' ) ;
 		$diff = $quantity - $db->f( 'product_quantity' ) ;
-		$timestamp = time() + ($mosConfig_offset * 60 * 60) ;
+		$timestamp = time() ;
 		
 		// Update quantity of item
 		$q = "UPDATE #__{vm}_order_item " ;
@@ -546,21 +619,23 @@ class vm_ps_order_change {
 			$product_name = $dbp->f( "product_name" ) ;
 			$product_parent_id = $dbp->f( "product_parent_id" ) ;
 			
-		// Read user_info_id from db * mauri
-		$prod_weight = $ps_product->get_weight($product_id);
-		$dbu = new ps_DB( ) ;
-		$q = "SELECT user_info_id FROM #__{vm}_order_item WHERE order_id = '" . $this->order_id . "' " ;
-		$dbu->query( $q ) ;
-		$dbu->next_record() ;
-		$user_info_id = $dbu->f( "user_info_id" ) ;
+			// Read user_info_id from db 
+			$prod_weight = $ps_product->get_weight($product_id);
+			$dbu = new ps_DB( ) ;
+			$q = "SELECT user_info_id FROM #__{vm}_orders WHERE order_id = '" . $this->order_id . "' " ;
+			$dbu->query( $q ) ;
+			$dbu->next_record() ;
+
+			$user_info_id = $dbu->f( "user_info_id" ) ;
 
 			// On r�cup�re le prix exact du produit
+			$my_taxrate = $ps_product->get_product_taxrate( $product_id, $prod_weight , $user_info_id ) ;
+
 			$product_price_arr = $this->get_adjusted_attribute_price( $product_id, $quantity, $d["description"], $result_attributes ) ;
+			$product_price_arr["product_price"] = $GLOBALS['CURRENCY']->convert( $product_price_arr["product_price"], $product_price_arr["product_currency"] );
 			$product_price = $product_price_arr["product_price"] ;
-			$my_taxrate = $ps_product->get_product_taxrate( $product_id, $prod_weight , $user_info_id ) ; // mauri
-			
 			$description = $d["description"] ;
-			
+			$description = $this->getDescriptionWithTax($description, $product_id);	 // Don´t show attribute prices in descripton	
 			$product_final_price = round( ($product_price * ($my_taxrate + 1)), 2 ) ;
 			$product_currency = $product_price_arr["product_currency"] ;
 			
@@ -584,7 +659,7 @@ class vm_ps_order_change {
 			$user_info_id = $db->f( "user_info_id" ) ;
 			$order_status = $db->f( "order_status" ) ;
 			
-			$timestamp = time() + ($mosConfig_offset * 60 * 60) ;
+			$timestamp = time() ;
 			$q = "SELECT order_item_id, product_quantity " ;
 			$q .= "FROM #__{vm}_order_item WHERE order_id = '" . $this->order_id . "' " ;
 			$q .= "AND product_id = '" . $product_id . "' " ;
@@ -593,7 +668,8 @@ class vm_ps_order_change {
 		
 			if ($db->next_record()) {
 				$this->change_item_quantity( $this->order_id, $db->f('order_item_id'), ($quantity + (int)$db->f('product_quantity')) );
-			} else {
+			} 
+			else {
 			
 				$q = "INSERT INTO #__{vm}_order_item " ;
 				$q .= "(order_id, user_info_id, vendor_id, product_id, order_item_sku, order_item_name, " ;
@@ -635,7 +711,107 @@ class vm_ps_order_change {
 		}
 	
 	}
-	
+	/**
+	 * This function can parse an "advanced / custom attribute"
+	 * description like
+	 * Size:big[+2.99]; Color:red[+0.99]
+	 * and return the same string with values, tax added
+	 * Size: big (+3.47), Color: red (+1.15)
+	 * 
+	 * @param string $description
+	 * @param int $product_id
+	 * @return string The reformatted description
+	 */
+	function getDescriptionWithTax( $description, $product_id=0 ) {
+		global $CURRENCY_DISPLAY, $mosConfig_secret;
+		require_once(CLASSPATH.'ps_product_attribute.php');
+		
+		$auth = $_SESSION['auth'];
+		$description = stripslashes($description);
+        
+		// if we've been given a description to deal with, get the adjusted price
+		if ($description != '' && $auth["show_price_including_tax"] == 1 && $product_id != 0 ) {
+
+
+			// Read user_info_id from db
+			$ps_product = new ps_product( ) ;
+			$prod_weight = $ps_product->get_weight($product_id);
+			$dbu = new ps_DB( ) ;
+			$q = "SELECT user_info_id FROM #__{vm}_orders WHERE order_id = '" . $this->order_id . "' " ;
+			$dbu->query( $q ) ;
+			$dbu->next_record() ;
+			$user_info_id = $dbu->f( "user_info_id" ) ;
+
+			$my_taxrate = $ps_product->get_product_taxrate( $product_id, $prod_weight, $user_info_id ) ;
+			$price = $this->get_price( $product_id );
+			$product_currency = $price['product_currency'];
+		}
+		else {
+			$my_taxrate = 0.00;
+			$product_currency = '';
+		}
+		// We must care for custom attribute fields! Their value can be freely given
+		// by the customer, so we mustn't include them into the price calculation
+		// Thanks to AryGroup@ua.fm for the good advice
+		if( empty( $_REQUEST["custom_attribute_fields"] )) {
+			if( !empty( $_SESSION["custom_attribute_fields"] )) {
+				$custom_attribute_fields = vmGet( $_SESSION, "custom_attribute_fields", Array() );
+				$custom_attribute_fields_check = vmGet( $_SESSION, "custom_attribute_fields_check", Array() );
+			}
+			else {
+				$custom_attribute_fields = $custom_attribute_fields_check = Array();
+			}
+		}
+		else {
+			$custom_attribute_fields = $_SESSION["custom_attribute_fields"] = vmGet( $_REQUEST, "custom_attribute_fields", Array() );
+			$custom_attribute_fields_check = $_SESSION["custom_attribute_fields_check"]= vmGet( $_REQUEST, "custom_attribute_fields_check", Array() );
+		}
+
+		$product_attributes = ps_product_attribute::getAdvancedAttributes($product_id);
+		$attribute_keys = explode( ";", $description );
+
+		foreach( $attribute_keys as $temp_desc ) {
+			$finish = strpos($temp_desc,"]");
+			$temp_desc = trim( $temp_desc );
+			// Get the key name (e.g. "Color" )
+			$this_key = substr( $temp_desc, 0, strpos($temp_desc, ":") );
+			$this_value = substr( $temp_desc, strpos($temp_desc, ":")+1 );
+
+			if( in_array( $this_key, $custom_attribute_fields )) {
+				if( @$custom_attribute_fields_check[$this_key] == md5( $mosConfig_secret.$this_key )) {
+					// the passed value is valid, don't use it for calculating prices
+					continue;
+				}
+			}
+            
+			if( isset( $product_attributes[$this_key]['values'][$this_value] )) {
+				$modifier = $product_attributes[$this_key]['values'][$this_value]['adjustment'];
+				$operand = $product_attributes[$this_key]['values'][$this_value]['operand'];
+
+				$value_notax = $GLOBALS['CURRENCY']->convert( $modifier, $product_currency );
+				if( abs($value_notax) >0 ) {
+					$value_taxed = $value_notax * ($my_taxrate+1);
+					$temp_desc_new  = str_replace( $operand.$modifier, $operand.' '.$CURRENCY_DISPLAY->getFullValue( $value_taxed ), $temp_desc );
+                    
+					$description = str_replace( $this_key.':'.$this_value, 
+												 $this_key.':'.$this_value.' ('.$operand.' '.$CURRENCY_DISPLAY->getFullValue( $value_taxed ).')',
+													$description);
+
+				}
+				$temp_desc = substr($temp_desc, $finish+1);
+			}
+			
+		}
+        
+		$description = str_replace( $CURRENCY_DISPLAY->symbol, '@saved@', $description );
+		$description = str_replace( "[", " (", $description );
+		$description = str_replace( "]", ")", $description );
+		$description = str_replace( ":", ": ", $description );
+		$description = str_replace( ";", "<br/>", $description );
+		$description = str_replace( '@saved@', $CURRENCY_DISPLAY->symbol, $description );
+
+		return $description;
+	}	
 	/**************************************************************************
 	 * name: get_price
 	 * created by: nfischer
@@ -643,7 +819,7 @@ class vm_ps_order_change {
 	 * parameters: $product_id, $quantity ,$check_multiple_prices=false, $result_attributes
 	 * returns: Price of the product
 	 **************************************************************************/
-	function get_price( $product_id, $quantity, $check_multiple_prices = false, $result_attributes ) {
+	function get_price( $product_id, $quantity = 0, $check_multiple_prices = false, $result_attributes = '' ) {
 		if( $check_multiple_prices ) {
 			$db = new ps_DB( ) ;
 			
@@ -782,7 +958,7 @@ class vm_ps_order_change {
 	 * parameters: $product_id, $quantity ,$description='', $result_attributes
 	 * returns: Price of the product
 	 **************************************************************************/
-	function get_adjusted_attribute_price( $product_id, $quantity, $description = '', $result_attributes ) {
+	function get_adjusted_attribute_price( $product_id, $quantity = 0, $description = '', $result_attributes = ''  ) {
 		
 		global $mosConfig_secret ;
 		$auth = $_SESSION['auth'] ;
@@ -796,177 +972,181 @@ class vm_ps_order_change {
 		// We must care for custom attribute fields! Their value can be freely given
 		// by the customer, so we mustn't include them into the price calculation
 		// Thanks to AryGroup@ua.fm for the good advice
-		//***********************
-		//***********************
-		//***********************
-		//***********************
-		// A VOIR
-		//***********************
-		//***********************
-		//***********************
-		//***********************
-		
 
-		if( empty( $_REQUEST["custom_attribute_fields"] ) ) {
-			if( ! empty( $_SESSION["custom_attribute_fields"] ) ) {
-				$custom_attribute_fields = vmGet( $_SESSION, "custom_attribute_fields", Array() ) ;
-				$custom_attribute_fields_check = vmGet( $_SESSION, "custom_attribute_fields_check", Array() ) ;
-			} else
-				$custom_attribute_fields = $custom_attribute_fields_check = Array() ;
-		} else {
-			$custom_attribute_fields = $_SESSION["custom_attribute_fields"] = vmGet( $_REQUEST, "custom_attribute_fields", Array() ) ;
-			$custom_attribute_fields_check = $_SESSION["custom_attribute_fields_check"] = vmGet( $_REQUEST, "custom_attribute_fields_check", Array() ) ;
+		if( empty( $_REQUEST["custom_attribute_fields"] )) {
+			if( !empty( $_SESSION["custom_attribute_fields"] )) {
+				$custom_attribute_fields = vmGet( $_SESSION, "custom_attribute_fields", Array() );
+				$custom_attribute_fields_check = vmGet( $_SESSION, "custom_attribute_fields_check", Array() );
+			}
+			else
+			$custom_attribute_fields = $custom_attribute_fields_check = Array();
 		}
-		
-		//***********************
-		//***********************
-		//***********************
-		//***********************
-		// A VOIR
-		//***********************
-		//***********************
-		//***********************
-		//***********************
-		
+		else {
+			$custom_attribute_fields = $_SESSION["custom_attribute_fields"] = vmGet( $_REQUEST, "custom_attribute_fields", Array() );
+			$custom_attribute_fields_check = $_SESSION["custom_attribute_fields_check"]= vmGet( $_REQUEST, "custom_attribute_fields_check", Array() );
+		}
 
 		// if we've been given a description to deal with, get the adjusted price
-		if( $description != '' ) { // description is safe to use at this point cause it's set to ''
-			
-
-			$attribute_keys = explode( ";", $description ) ;
-			
-			foreach( $attribute_keys as $temp_desc ) {
-				
-				$temp_desc = trim( $temp_desc ) ;
-				// Get the key name (e.g. "Color" )
-				$this_key = substr( $temp_desc, 0, strpos( $temp_desc, ":" ) ) ;
-				
-				if( in_array( $this_key, $custom_attribute_fields ) ) {
-					if( @$custom_attribute_fields_check[$this_key] == md5( $mosConfig_secret . $this_key ) ) {
-						// the passed value is valid, don't use it for calculating prices
-						continue ;
-					}
-				}
-				
-				$i = 0 ;
-				
-				$start = strpos( $temp_desc, "[" ) ;
-				$finish = strpos( $temp_desc, "]", $start ) ;
-				
-				$o = substr_count( $temp_desc, "[" ) ;
-				$c = substr_count( $temp_desc, "]" ) ;
-				//echo "open: $o<br>close: $c<br>\n";
-				
-
-				// check to see if we have a bracket
-				if( True == is_int( $finish ) ) {
-					$length = $finish - $start ;
-					
-					// We found a pair of brackets (price modifier?)
-					if( $length > 1 ) {
-						$my_mod = substr( $temp_desc, $start + 1, $length - 1 ) ;
-						//echo "before: ".$my_mod."<br>\n";
-						if( $o != $c ) { // skip the tests if we don't have to process the string
-							if( $o < $c ) {
-								$char = "]" ;
-								$offset = $start ;
-							} else {
-								$char = "[" ;
-								$offset = $finish ;
-							}
-							$s = substr_count( $my_mod, $char ) ;
-							for( $r = 1 ; $r < $s ; $r ++ ) {
-								$pos = strrpos( $my_mod, $char ) ;
-								$my_mod = substr( $my_mod, $pos + 1 ) ;
-							}
-						}
-						$oper = substr( $my_mod, 0, 1 ) ;
-						
-						$my_mod = substr( $my_mod, 1 ) ;
-						
-						// if we have a number, allow the adjustment
-						if( true == is_numeric( $my_mod ) ) {
-							// Now add or sub the modifier on
-							if( $oper == "+" ) {
-								$adjustment += $my_mod ;
-							} else if( $oper == "-" ) {
-								$adjustment -= $my_mod ;
-							} else if( $oper == '=' ) {
-								// NOTE: the +=, so if we have 2 sets they get added
-								// this could be moded to say, if we have a set_price, then
-								// calc the diff from the base price and start from there if we encounter
-								// another set price... just a thought.
-								
-
-								$setprice += $my_mod ;
-								$set_price = true ;
-							}
-						}
-						$temp_desc = substr( $temp_desc, $finish + 1 ) ;
-						$start = strpos( $temp_desc, "[" ) ;
-						$finish = strpos( $temp_desc, "]" ) ;
-					}
-				}
-				$i ++ ; // not necessary, but perhaps interesting? ;)
-			}
-		}
+		if ($description != '') { // description is safe to use at this point cause it's set to ''
+			require_once(CLASSPATH.'ps_product_attribute.php');
+			$product_attributes = ps_product_attribute::getAdvancedAttributes($product_id, true);
 		
+			$attribute_keys = explode( ";", $description );
+
+			for($i=0; $i < sizeof($attribute_keys); $i++ ) {		
+				$temp_desc = $attribute_keys[$i];				
+				$temp_desc = trim( $temp_desc );
+				// Get the key name (e.g. "Color" )
+				$this_key = substr( $temp_desc, 0, strpos($temp_desc, ":") );
+				$this_value = substr( $temp_desc, strpos($temp_desc, ":")+1 );
+			
+				if( in_array( $this_key, $custom_attribute_fields )) {
+					if( @$custom_attribute_fields_check[$this_key] == md5( $mosConfig_secret.$this_key )) {
+						// the passed value is valid, don't use it for calculating prices
+						continue;
+					}
+				}
+				if( isset( $product_attributes[$this_key]['values'][$this_value] )) {
+					$modifier = $product_attributes[$this_key]['values'][$this_value]['adjustment'];
+					$operand = $product_attributes[$this_key]['values'][$this_value]['operand'];
+	
+					// if we have a number, allow the adjustment
+					if (true == is_numeric($modifier) ) {
+			//			$modifier = $GLOBALS['CURRENCY']->convert( $modifier, $price['product_currency'], $GLOBALS['product_currency'] );
+						// Now add or sub the modifier on
+						if ($operand=="+") {
+							$adjustment += $modifier;
+						}
+						else if ($operand=="-") {
+							$adjustment -= $modifier;
+						}
+						else if ($operand=='=') {
+							// NOTE: the +=, so if we have 2 sets they get added
+							// this could be moded to say, if we have a set_price, then
+							// calc the diff from the base price and start from there if we encounter
+							// another set price... just a thought.
+	
+							$setprice += $modifier;
+							$set_price = true;
+						}
+					}
+				} else {
+					continue;
+				}
+			}
+		}				
+
 		// no set price was set from the attribs
-		if( $set_price == false ) {
-			$price["product_price"] = $base_price + $adjustment ;
-		} else {
+		if ($set_price == false) {
+			$price["product_price"] = $base_price + ($adjustment)*(1 - ($auth["shopper_group_discount"]/100));
+		}
+		else {
 			// otherwise, set the price
 			// add the base price to the price set in the attributes
 			// then subtract the adjustment amount
 			// we could also just add the set_price to the adjustment... not sure on that one.
-			// $setprice += $adjustment;
-			$setprice *= 1 - ($auth["shopper_group_discount"] / 100) ;
-			$price["product_price"] = $setprice ;
+			if (!empty($adjustment)) {
+				$setprice += $adjustment;
+			}
+			$setprice *= 1 - ($auth["shopper_group_discount"]/100);
+			$price["product_price"] = $setprice;
 		}
-		
+
 		// don't let negative prices get by, set to 0
-		if( $price["product_price"] < 0 ) {
-			$price["product_price"] = 0 ;
+		if ($price["product_price"] < 0) {
+			$price["product_price"] = 0;
 		}
 		// Get the DISCOUNT AMOUNT
+		$ps_product = new ps_product( ) ;
+		$discount_info = $ps_product->get_discount( $product_id );
 
-		// Read user_info_id from db * mauri
+		// Read user_info_id from db
 		$dbu = new ps_DB( ) ;
-		$q = "SELECT user_info_id FROM #__{vm}_order_item WHERE order_id = '" . $this->order_id . "' " ;
+		$q = "SELECT user_info_id FROM #__{vm}_orders WHERE order_id = '" . $this->order_id . "' " ;
 		$dbu->query( $q ) ;
 		$dbu->next_record() ;
 		$user_info_id = $dbu->f( "user_info_id" ) ;
+		$prod_weight = $ps_product->get_weight($product_id);
+		$my_taxrate = $ps_product->get_product_taxrate($product_id, $prod_weight , $user_info_id );
 
-		$ps_product = new ps_product( ) ;
-		$prod_weight = $ps_product->get_weight($product_id); // mauri
-		$discount_info = $ps_product->get_discount( $product_id ) ;
-		
-		$my_taxrate = $ps_product->get_product_taxrate( $product_id, $prod_weight , $user_info_id ) ; // mauri
-		
-		if( ! empty( $discount_info["amount"] ) ) {
-			if( $auth["show_price_including_tax"] == 1 ) {
-				switch( $discount_info["is_percent"]) {
-					case 0 :
-						$price["product_price"] = (($price["product_price"] * ($my_taxrate + 1)) - $discount_info["amount"]) / ($my_taxrate + 1) ;
-					break ;
-					//case 1: $price["product_price"] = ($price["product_price"]*($my_taxrate+1) - $discount_info["amount"]/100*$price["product_price"])/($my_taxrate+1); break;
-					case 1 :
-						$price["product_price"] = ($price["product_price"] - $discount_info["amount"] / 100 * $price["product_price"]) ;
-					break ;
+		// If discounts are applied after tax, but prices are shown without tax,
+		// AND tax is EU mode and shopper is not in the EU,
+		// then ps_product::get_product_taxrate() returns 0, so $my_taxrate = 0.
+		// But, the discount still needs to be reduced by the shopper's tax rate, so we obtain it here:
+		if( PAYMENT_DISCOUNT_BEFORE != '1'  && $auth["show_price_including_tax"] != 1 && !ps_checkout::tax_based_on_vendor_address($user_info_id) ) {
+			$db = new ps_DB;
+			$ps_vendor_id = $_SESSION["ps_vendor_id"];
+			require_once( CLASSPATH . 'ps_checkout.php' );
+			if (! ps_checkout::tax_based_on_vendor_address ($user_info_id)) {
+				if( $auth["user_id"] > 0 ) {
+
+					$q = "SELECT state, country FROM #__{vm}_user_info WHERE user_id='". $auth["user_id"] . "'";
+					$db->query($q);
+
+					$db->next_record();
+					$state = $db->f("state");
+					$country = $db->f("country");
+
+					$q = "SELECT tax_rate FROM #__{vm}_tax_rate WHERE tax_country='$country' ";
+					if( !empty($state)) {
+						$q .= "AND (tax_state='$state' OR tax_state=' $state ' OR tax_state='-')";
+					}
+					$db->query($q);
+					if ($db->next_record()) {
+						$my_taxrate = $db->f("tax_rate");
+					}
+					else {
+						$my_taxrate = 0;
+					}
 				}
-			} else {
-				switch( $discount_info["is_percent"]) {
-					case 0 :
-						$price["product_price"] = (($price["product_price"]) - $discount_info["amount"]) ;
-					break ;
-					case 1 :
-						$price["product_price"] = ($price["product_price"] - ($discount_info["amount"] / 100) * $price["product_price"]) ;
-					break ;
+				else {
+					$my_taxrate = 0;
+				}
+
+			}
+			else {	
+				if( empty( $_SESSION['taxrate'][$ps_vendor_id] )) {
+					// let's get the store's tax rate
+					$q = "SELECT `tax_rate` FROM #__{vm}_vendor, #__{vm}_tax_rate ";
+					$q .= "WHERE tax_country=vendor_country AND #__{vm}_vendor.vendor_id=1 ";
+					// !! Important !! take the highest available tax rate for the store's country
+					$q .= "ORDER BY `tax_rate` DESC";
+					$db->query($q);
+					if ($db->next_record()) {
+						$my_taxrate = $db->f("tax_rate");
+					}
+					else {
+						$my_taxrate = 0;
+					}
+				}
+				else {
+					$my_taxrate = $_SESSION['taxrate'][$ps_vendor_id];
 				}
 			}
 		}
 		
-		return $price ;
+		// Apply the discount
+		if( !empty($discount_info["amount"])) {
+			$undiscounted_price = $base_price;
+			switch( $discount_info["is_percent"] ) {
+				case 0:
+					if( PAYMENT_DISCOUNT_BEFORE == '1' ) {
+						// If we subtract discounts BEFORE tax
+						// Subtract the whole discount
+						$price["product_price"] -= $discount_info["amount"];
+					}
+					else {
+						// But, if we subtract discounts AFTER tax
+						// Subtract the untaxed portion of the discount
+						$price["product_price"] -= $discount_info["amount"]/($my_taxrate + 1);
+					}
+					break;
+				case 1:
+					$price["product_price"] -=  $price["product_price"]*($discount_info["amount"]/100);
+					break;
+			}
+		}
+		return $price;
 	}
 	
 	/**************************************************************************
@@ -987,7 +1167,7 @@ class vm_ps_order_change {
 		$product_final_price_new = trim( vmGet( $_REQUEST, 'product_final_price' ) ) ;
 		
 		$db = new ps_DB( ) ;
-		// Added, to read user_info_id * mauri
+		// Added, to read user_info_id 
 		$q = "SELECT user_info_id, product_id, product_quantity, product_final_price, product_item_price, product_final_price - product_item_price AS item_tax " ;
 		$q .= "FROM #__{vm}_order_item WHERE order_id = '" . $this->order_id . "' " ;
 		$q .= "AND order_item_id = '" . addslashes( $order_item_id ) . "'" ;
@@ -995,11 +1175,10 @@ class vm_ps_order_change {
 		$db->next_record() ;
 		
 		$product_id = $db->f( 'product_id' ) ;
-		$timestamp = time() + ($mosConfig_offset * 60 * 60) ;
-		$user_info_id = $db->f( 'user_info_id' ); //mauri
-		$prod_weight = $ps_product->get_weight($product_id); // mauri
-		$my_taxrate = $ps_product->get_product_taxrate( $product_id, $prod_weight , $user_info_id ) ; //mauri
-
+		$timestamp = time() ;
+		$user_info_id = $db->f( 'user_info_id' );
+		$prod_weight = $ps_product->get_weight($product_id);
+		$my_taxrate = $ps_product->get_product_taxrate( $product_id, $prod_weight, $user_info_id ) ;
 		$product_item_price = $db->f( 'product_item_price' ) ;
 		$product_final_price = $db->f( 'product_final_price' ) ;
 		$quantity = $db->f( 'product_quantity' ) ;
@@ -1077,7 +1256,7 @@ class vm_ps_order_change {
 
 }
 
-if( vmGet( $_REQUEST, 'page' ) == 'order.order_print' ) {
+if( vmGet( $_REQUEST, 'page' ) == 'order.order_print' && !empty($order_id) ) {
 	$ps_order_change = new vm_ps_order_change( $order_id ) ;
 	if( vmGet( $_REQUEST, 'change_bill_to' ) != '' )
 		$ps_order_change->change_bill_to() ;
@@ -1093,7 +1272,7 @@ if( vmGet( $_REQUEST, 'page' ) == 'order.order_print' ) {
 		$ps_order_change->change_shipping_tax( $order_id, vmRequest::getFloat( 'order_shipping_tax' ) );
 	elseif( vmGet( $_REQUEST, 'change_discount' ) != '' )
 		if( $ps_order_change->change_discount( $order_id, trim( vmGet( $_REQUEST, 'order_discount' ) ) ) ) {
-			$vmLogger->err( "Invalid Order Item ID!" ) ;
+			$vmLogger->err( "Invalid Order Item ID or Discount is not a number!" ) ;
 		} else {
 			$vmLogger->info( $VM_LANG->_( 'PHPSHOP_COUPON_DISCOUNT' ) . $VM_LANG->_( 'PHPSHOP_ORDER_EDIT_SOMETHING_HAS_CHANGED' ) ) ;
 		}

@@ -34,6 +34,13 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+27.06.2009 mauri
+# BUG #2657 - Undefined variable: order_id when viewing order.
+# Fixed Undefined variables in ps_order_change.
+# Fixed Order Dates incorrect in ps_order_change.
+# Fixed Undefined variable rate in ps_product.
+# BUG #2502 - Wrong tax, when update price in backend order.
+
 26.06.2009 aravot
 #BUG #2498 - Order Dates incorrect (thank you Scott)
 

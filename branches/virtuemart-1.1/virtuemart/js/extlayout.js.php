@@ -8,7 +8,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id: compat.joomla1.5.php 1133 2008-01-08 20:40:56Z gregdev $
 * @package VirtueMart
 * @subpackage core
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -28,7 +28,7 @@ $q .= "AND module_name <> 'checkout' ORDER BY list_order ASC";
 $db->query($q);
 
 while ($db->next_record()) {
-    if (ps_perm::check($db->f("module_perms"))) {
+    if ($perm->check($db->f("module_perms"))) {
         $mod[] = $db->f("module_name");
 	}
 }

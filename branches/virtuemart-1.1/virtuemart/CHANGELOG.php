@@ -34,6 +34,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+28.06.2009 soeren
+# Task #2660 - little enhancement for addtocart_advanced_attribute.tpl.php
+# Task #2661 - Notice: Undefined variable: resultmm in ps_authorize 
+
 27.06.2009 mauri
 # Clean unnecessary comments in ps_product
 # Fixed Standard_Shipping_module, Currency convert in shipping rates.

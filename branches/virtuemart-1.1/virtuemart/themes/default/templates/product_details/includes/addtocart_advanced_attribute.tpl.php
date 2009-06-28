@@ -2,10 +2,10 @@
 
 foreach($attributes as $attribute) { 		
     ?>
-    <div class="vmAttribChildDetail" style="float: left;width:30%;text-align:right;margin:3px;">
+    <div class="vmAttribChildDetail" style="float: left;text-align:right;margin:3px;">
         <label for="<?php echo $attribute['titlevar'] ?>_field"><?php echo $attribute['title'] ?></label>:
     </div>
-    <div class="vmAttribChildDetail" style="float:left;width:60%;margin:3px;">
+    <div class="vmAttribChildDetail" style="float:left;margin:3px;">
         <select class="inputboxattrib" id="<?php echo $attribute['titlevar'] ?>_field" name="<?php echo $attribute['titlevar'].$attribute['product_id'] ?>">
 		<?php foreach ( $attribute['options_list'] as $options_item ) : ?>
 	        <?php if( isset( $options_item['display_price']) ) : ?>

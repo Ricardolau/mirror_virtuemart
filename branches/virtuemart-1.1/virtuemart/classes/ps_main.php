@@ -541,7 +541,7 @@ function vmCreateMail( $from='', $fromname='', $subject='', $body='' ) {
 * @param string/array Attachment file name(s)
 * @return boolean Mail send success
 */
-function vmMail($from, $fromname, $recipient, $subject, $body, $Altbody='', $mode=false, $cc=NULL, $bcc=NULL, $images=null, $attachment=null ) {
+function vmMail($from, $fromname, $recipient, $subject, $body, $Altbody='', $mode=false, $cc=NULL, $bcc=NULL, $images=null, $attachment=null, $replyto=null ) {
 	global $mosConfig_debug;
 
 		// Filter from, fromname and subject
@@ -599,6 +599,9 @@ function vmMail($from, $fromname, $recipient, $subject, $body, $Altbody='', $mod
 				$mail->AddBCC($bcc);
 			}
 		}
+	}
+	if( !empty($replyto) && vmValidateEmail( $replyto )) {
+		$mail->AddReplyTo($replyto);
 	}
 	if( $images ) {
 		foreach( $images as $image) {

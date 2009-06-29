@@ -1805,7 +1805,6 @@ class vm_ps_product extends vmAbstractObject {
 					// if we have a number, allow the adjustment
 					if (true == is_numeric($modifier) ) {
                     
-						$modifier = $GLOBALS['CURRENCY']->convert( $modifier, $price['product_currency'], $GLOBALS['product_currency'] );
 						// Now add or sub the modifier on
 						if ($operand=="+") {
 							$adjustment += $modifier;

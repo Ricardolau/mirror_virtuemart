@@ -281,8 +281,8 @@ class vm_ps_order {
 
 				$mail_Body = $message;
 				$mail_Subject = $VM_LANG->_('PHPSHOP_DOWNLOADS_SEND_SUBJ',false);
-
-				$result = vmMail( $dbv->f("contact_email"), $dbv->f("vendor_name"), 
+				$from  = $dbv->f("contact_email") ? $dbv->f("contact_email") : $GLOBALS['mosConfig_mailfrom'];
+				$result = vmMail( $from, $dbv->f("vendor_name"), 
 						$db->f("user_email"), $mail_Subject, $mail_Body, '' );
 
 				if ($result) {

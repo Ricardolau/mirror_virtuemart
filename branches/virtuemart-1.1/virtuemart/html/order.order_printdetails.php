@@ -26,6 +26,9 @@ $registrationfields = ps_userfield::getUserFields('registration', false, '', tru
 $shippingfields = ps_userfield::getUserFields('shipping', false, '', true, true );
 
 $order_id = vmRequest::getInt('order_id', 0);
+if( empty($order_id)) {
+	vmRedirect($_SERVER['SCRIPT_NAME'].'?option=com_virtuemart&page=order.order_list');
+}
 $dbc = new ps_DB;
 
 $q = "SELECT * FROM #__{vm}_orders WHERE order_id=$order_id and vendor_id = $ps_vendor_id";

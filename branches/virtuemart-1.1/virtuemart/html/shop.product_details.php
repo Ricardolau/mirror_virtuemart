@@ -226,7 +226,13 @@ if ($ps_product_category->has_childs($category_id) ) {
 }
 
 // Set Dynamic Page Title
-$vm_mainframe->setPageTitle( html_entity_decode( substr($product_name, 0, 60 ), ENT_QUOTES ));
+if( function_exists('mb_substr')) {
+	$page_title = mb_substr($product_name, 0, 64, vmGetCharset() );
+} else {
+	$page_title = substr($product_name, 0, 64 );
+	
+}
+$vm_mainframe->setPageTitle( html_entity_decode( $page_title, ENT_QUOTES, vmGetCharset() ));
 
 // Prepend Product Short Description Meta Tag "description"
 if( vmIsJoomla('1.5')) {

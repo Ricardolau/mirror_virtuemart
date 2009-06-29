@@ -331,7 +331,7 @@ class vm_ps_checkout {
 		}
 		// calculate the unix timestamp for the specified expiration date
 		// default the day to the 1st
-		$expire_timestamp = @mktime(0,0,0,$_SESSION["ccdata"]["order_payment_expire_month"], 1,$_SESSION["ccdata"]["order_payment_expire_year"]);
+		$expire_timestamp = @mktime(0,0,0,$_SESSION["ccdata"]["order_payment_expire_month"], 15,$_SESSION["ccdata"]["order_payment_expire_year"]);
 		$_SESSION["ccdata"]["order_payment_expire"] = $expire_timestamp;
 
 		return True;

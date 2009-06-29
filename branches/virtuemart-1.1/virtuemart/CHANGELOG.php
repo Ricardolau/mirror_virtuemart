@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+29.06.2009 soeren
+# Task #2655 - CC month in Admin panel differs from Email Invoice 
+
 28.06.2009 soeren
 # Task #2660 - little enhancement for addtocart_advanced_attribute.tpl.php
 # Task #2661 - Notice: Undefined variable: resultmm in ps_authorize 

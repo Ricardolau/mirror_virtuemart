@@ -35,6 +35,8 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 29.06.2009 soeren
+# Task #2647 - Product could not be unpublished from the product list page if this product has different vendor other then the default one.
+# Task #2659 - Super Adminisrtaor has right to publish/unpublish only default vendor products (should have permission to all) 
 # Task #2665 - Price converted twice when attributes with prices are set up 
 # Task #2662 - Only variable references should be returned in ps_country
 # Task #2655 - CC month in Admin panel differs from Email Invoice 

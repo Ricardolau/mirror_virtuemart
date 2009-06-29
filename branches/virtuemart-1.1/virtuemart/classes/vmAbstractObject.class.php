@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -440,7 +440,7 @@ class vm_vmAbstractObject {
 	 * @return boolean
 	 */
 	function changePublishState( $itemId, $task, $table_name, $publish_field_name, $field_name, $has_vendor ) {
-		global $vmLogger, $VM_LANG;
+		global $vmLogger, $perm, $VM_LANG;
 		
 		$db = new ps_DB();
 		if( $field_name == 'fieldid' || $field_name == 'file_id' ) {
@@ -460,7 +460,7 @@ class vm_vmAbstractObject {
 		
 		$q = "UPDATE `$table_name` SET `$publish_field_name` = '$value' ";
 		$q .= "WHERE FIND_IN_SET( `$field_name`, '$set' )";
-		if( $has_vendor ) {
+		if( $has_vendor && !$perm->check('admin') ) {
 			$q .= " AND `vendor_id`=".$_SESSION['ps_vendor_id'];
 		}
 		

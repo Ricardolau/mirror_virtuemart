@@ -183,20 +183,30 @@ class vm_ps_product_category extends vmAbstractObject {
 		$db->next_record();
 
 		/* Prepare category_thumb_image for Deleting */
-		if( !stristr( $db->f("category_thumb_image"), "http") ) {
-			$_REQUEST["category_thumb_image_curr"] = $db->f("category_thumb_image");
-			$d["category_thumb_image_action"] = "delete";
-			if (!vmImageTools::validate_image($d,"category_thumb_image","category")) {
-				$vmLogger->err( $VM_LANG->_('VM_PRODUCT_CATEGORY_ERR_DELETE_IMAGES') );
-				return false;
+		if( $db->f("category_thumb_image") && !stristr( $db->f("category_thumb_image"), "http") ) {
+			$dbc = new ps_DB();
+			$dbc->query('SELECT category_id FROM #__{vm}_category WHERE category_id='.$category_id.' 
+									AND category_thumb_image = \''.$db->f("category_thumb_image").'\'');
+			if( $dbc->num_rows() >= 1 ) { 
+				$_REQUEST["category_thumb_image_curr"] = $db->f("category_thumb_image");
+				$d["category_thumb_image_action"] = "delete";
+				if (!vmImageTools::validate_image($d,"category_thumb_image","category")) {
+					$vmLogger->err( $VM_LANG->_('VM_PRODUCT_CATEGORY_ERR_DELETE_IMAGES') );
+					return false;
+				}
 			}
 		}
 		/* Prepare product_full_image for Deleting */
-		if( !stristr( $db->f("category_full_image"), "http") ) {
-			$_REQUEST["category_full_image_curr"] = $db->f("category_full_image");
-			$d["category_full_image_action"] = "delete";
-			if (!vmImageTools::validate_image($d,"category_full_image","category")) {
-				return false;
+		if( $db->f("category_full_image") && !stristr( $db->f("category_full_image"), "http") ) {
+			$dbc = new ps_DB();
+			$dbc->query('SELECT category_id FROM #__{vm}_category WHERE category_id='.$category_id.' 
+									AND category_full_image = \''.$db->f("category_full_image").'\'');
+			if( $dbc->num_rows() >= 1 ) { 
+				$_REQUEST["category_full_image_curr"] = $db->f("category_full_image");
+				$d["category_full_image_action"] = "delete";
+				if (!vmImageTools::validate_image($d,"category_full_image","category")) {
+					return false;
+				}
 			}
 		}
 		return True;
@@ -390,7 +400,7 @@ class vm_ps_product_category extends vmAbstractObject {
 
 	/**
 	* Controller for Deleting Records.
-	* @param $d Holds the category_id(s) of the category(/ies) to be deleted
+	* @param array $d Holds the category_id(s) of the category(/ies) to be deleted
 	*/
 	function delete( &$d ) {
 
@@ -458,7 +468,7 @@ class vm_ps_product_category extends vmAbstractObject {
 		$q  = "DELETE FROM #__{vm}_category_xref WHERE category_child_id='$record_id'";
 		$db->setQuery($q);   $db->query();
 
-		/* Delete Image files */
+		// Delete Image files
 		if (!vmImageTools::process_images($d)) {
 			return false;
 		}

@@ -34,6 +34,11 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+
+30.06.2009 soeren
+# Task #2548 - When Dynamic Thumbnail Resizing is off (unchecked) additional images show big image instead of thumbnail
+# Task #2507 - In category removing a thumbnail doesn't check if the file is used by other categories
+
 26.06.2009 aravot
 #BUG #2498 - Order Dates incorrect, reverted changes.
 ^ Update CA tax rate

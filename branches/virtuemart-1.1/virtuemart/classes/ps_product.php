@@ -1352,7 +1352,7 @@ class vm_ps_product extends vmAbstractObject {
 		if( strpos( $args, "border=" )===false ) {
 			$border = 'border="0"';
 		}
-		$height = $width = '';
+		$height = $width = 0;
 		
 		if ($image != "") {
 			// URL
@@ -1361,7 +1361,7 @@ class vm_ps_product extends vmAbstractObject {
 			}
 			// local image file
 			else {
-				if(PSHOP_IMG_RESIZE_ENABLE == '1' || $resize==1) {
+				if(PSHOP_IMG_RESIZE_ENABLE == '1' && $resize==1) {
 					$url = $mosConfig_live_site."/components/com_virtuemart/show_image_in_imgtag.php?filename=".urlencode($image)."&amp;newxsize=".PSHOP_IMG_WIDTH."&amp;newysize=".PSHOP_IMG_HEIGHT."&amp;fileout=";
 					if( !strpos( $args, "height=" )) {
 						$arr = @getimagesize( vmImageTools::getresizedfilename( $image, $path_appendix, '', $thumb_width, $thumb_height ) );
@@ -1369,22 +1369,30 @@ class vm_ps_product extends vmAbstractObject {
 					}
 				}
 				else {
-					$url = IMAGEURL.$path_appendix.'/'.$image;
+					if( $resize ) {
+						$image = vmImageTools::getresizedfilename( $image, $path_appendix, '', $thumb_height, $thumb_width );
+					} else {
+						$url = IMAGEURL.$path_appendix.'/'.$image;
+					}
+					
 					if( file_exists($image)) {
 						$url = str_replace( $mosConfig_absolute_path, $mosConfig_live_site, $image );
+						
 					} elseif( file_exists($mosConfig_absolute_path.'/'.$image)) {
 						$url = $mosConfig_live_site.'/'.$image;
 					}
 					
+					$url = str_replace('//', '/', $url );
+					$url = str_replace(':/', '://', $url );
 					if( !strpos( $args, "height=" ) ) {
 						$f = str_replace( IMAGEURL, IMAGEPATH, $url );
-						  if ( file_exists($f) ) {
+						
+						if ( file_exists($f) ) {
 						    $arr = getimagesize( $f );
 						    $width = $arr[0]; $height = $arr[1];
-						  } else {
+						} else {
 						    $width = 100; $height = 100;
-						  }
-						$width = $arr[0]; $height = $arr[1];
+						}
 						
 					}
 					if( $resize ) {
@@ -1531,8 +1539,7 @@ class vm_ps_product extends vmAbstractObject {
 				}
 				else {
 					// if we didn't find a product tax rate id, let's get the store's tax rate
-					// $rate = $this->get_taxrate();
-					$rate = 0;  // if vendor wants to show product without tax
+					$rate = $this->get_taxrate();
 				}
 				if ($weight_subtotal != 0 or TAX_VIRTUAL=='1') {
 					$_SESSION['product_sess'][$product_id]['tax_rate'] = $rate;

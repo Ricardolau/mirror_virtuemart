@@ -36,8 +36,8 @@ class vm_ps_order {
 		global $mosConfig_offset;
 		
 		$db = new ps_DB;
-		$timestamp = time();
-		$mysqlDatetime = date("Y-m-d G:i:s", $timestamp + ($mosConfig_offset*60*60));
+		$timestamp = time() + ($mosConfig_offset*60*60);
+		$mysqlDatetime = date("Y-m-d G:i:s", $timestamp);
 
 		if( empty($_REQUEST['include_comment'])) {
 			$include_comment="N";

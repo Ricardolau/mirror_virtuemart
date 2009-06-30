@@ -2096,7 +2096,7 @@ CREATE TABLE IF NOT EXISTS `jos_vm_tax_rate` (
 ## Dumping data for table `jos_vm_tax_rate`
 ## 
 
-INSERT INTO `jos_vm_tax_rate` VALUES (2, 1, 'CA', 'USA', 964565926, 0.0925);
+INSERT INTO `jos_vm_tax_rate` VALUES (2, 1, 'CA', 'USA', 964565926, 0.0975);
 
 ## --------------------------------------------------------
 

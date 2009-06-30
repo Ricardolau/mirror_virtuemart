@@ -5101,7 +5101,7 @@
 
           <important>
             <para>If you want to create a single Product Type for a NON parent
-            category of products, witch is recommanded, you have to <emphasis
+            category of products, which is recommended, you have to <emphasis
             role="bold">give your Product Type exactly the same name as the
             category that contain the products</emphasis> assigned to it. It
             is best thing to do, because the most important bad effect is that

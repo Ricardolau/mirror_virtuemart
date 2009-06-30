@@ -34,6 +34,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+26.06.2009 aravot
+#BUG #2498 - Order Dates incorrect, reverted changes.
+^ Update CA tax rate
+
 29.06.2009 soeren
 # Task #2658 - The page title of product details pages gets truncated when use national product names
 # Task #2647 - Product could not be unpublished from the product list page if this product has different vendor other then the default one.

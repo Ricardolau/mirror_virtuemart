@@ -27,9 +27,6 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
  * @param string $type
  * @return boolean
  */
-
-date_default_timezone_set('GMT0');
-
 function process_date_time(&$d,$field,$type="") {
 	$month = $d["$field" . "_month"];
 	$day = $d["$field" . "_day"];

@@ -1369,10 +1369,13 @@ class vm_ps_product extends vmAbstractObject {
 					}
 				}
 				else {
+					$url = IMAGEURL.$path_appendix.'/'.$image;
+					$using_resized_image = false;	
 					if( $resize ) {
 						$image = vmImageTools::getresizedfilename( $image, $path_appendix, '', $thumb_height, $thumb_width );
-					} else {
-						$url = IMAGEURL.$path_appendix.'/'.$image;
+						if( file_exists($image)) {
+							$using_resized_image = true;							
+						}
 					}
 					
 					if( file_exists($image)) {
@@ -1395,7 +1398,7 @@ class vm_ps_product extends vmAbstractObject {
 						}
 						
 					}
-					if( $resize ) {
+					if( $resize && ! $using_resized_image) {
 						if( $height < $width ) {
 							$width = round($width / ($height / PSHOP_IMG_HEIGHT));
 							$height = PSHOP_IMG_HEIGHT;

@@ -2,10 +2,9 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
-* @version : simplified_chinese.php 1071 2007-12-03 08:42:28Z thepisu $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @translator soeren
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -18,13 +17,13 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'GB2312',
-	'PHPSHOP_ACC_CUSTOMER_ACCOUNT' => '¿Í»§ÕÊºÅ:',
-	'PHPSHOP_ACC_UPD_BILL' => 'ÔÚ´ËÄú¿ÉÒÔ¸üÐÂÄúµÄÖ§¸¶ÐÅÏ¢.',
-	'PHPSHOP_ACC_UPD_SHIP' => 'ÕâÀïÄú¿ÉÒÔÔö¼Ó»òÐÞ¸ÄÖ§¸¶ÐÅÏ¢.',
-	'PHPSHOP_ACC_ACCOUNT_INFO' => '¸¶¿îÕÊ»§ÐÅÏ¢',
-	'PHPSHOP_ACC_SHIP_INFO' => 'ËÍ»õÐÅÏ¢',
-	'PHPSHOP_DOWNLOADS_CLICK' => 'Click on Product Name to Download File(s).',
-	'PHPSHOP_DOWNLOADS_EXPIRED' => 'You have already downloaded the file(s) the maximum number of times, or the download period has expired.'
+	'CHARSET' => 'UTF-8',
+	'PHPSHOP_ACC_CUSTOMER_ACCOUNT' => 'å®¢æˆ·å¸æˆ·ï¼š',
+	'PHPSHOP_ACC_UPD_BILL' => 'æ‚¨å¯ä»¥åœ¨è¿™é‡Œæ›´æ–°æ‚¨çš„æ”¯ä»˜ä¿¡æ¯ã€‚',
+	'PHPSHOP_ACC_UPD_SHIP' => 'æ‚¨å¯ä»¥åœ¨è¿™é‡Œå¢žåŠ æˆ–ä¿®æ”¹é€è´§åœ°å€ã€‚',
+	'PHPSHOP_ACC_ACCOUNT_INFO' => 'å¸æˆ·ä¿¡æ¯',
+	'PHPSHOP_ACC_SHIP_INFO' => 'é€è´§ä¿¡æ¯',
+	'PHPSHOP_DOWNLOADS_CLICK' => 'ç‚¹å‡»å•†å“åç§°ä¸‹è½½æ–‡ä»¶ã€‚',
+	'PHPSHOP_DOWNLOADS_EXPIRED' => 'ä¸‹è½½çš„æœ€å¤§æ¬¡æ•°å·²åˆ°æˆ–ä¸‹è½½çš„æœŸé™å·²è¿‡ã€‚'
 ); $VM_LANG->initModule( 'account', $langvars );
 ?>

@@ -2,9 +2,10 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
+* @version : simplified_chinese.php 1071 2007-12-03 08:42:28Z thepisu $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
 * @translator soeren
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -17,20 +18,16 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'GB2312',
-	'PHPSHOP_COUPON_EDIT_HEADER' => 'Update Coupon',
-	'PHPSHOP_COUPON_CODE_HEADER' => 'Code',
-	'PHPSHOP_COUPON_PERCENT_TOTAL' => 'Percent or Total',
-	'PHPSHOP_COUPON_TYPE' => 'Coupon Type',
-	'PHPSHOP_COUPON_TYPE_TOOLTIP' => 'A Gift Coupon is deleted after it was used for discounting an order. A permanent coupon can be used as often as the customer wants to.',
-	'PHPSHOP_COUPON_TYPE_GIFT' => 'Gift Coupon',
-	'PHPSHOP_COUPON_TYPE_PERMANENT' => 'Permanent Coupon',
-	'PHPSHOP_COUPON_VALUE_HEADER' => 'Value',
-	'PHPSHOP_COUPON_PERCENT' => 'Percent',
-	'PHPSHOP_COUPON_TOTAL' => 'Total',
-	'PHPSHOP_COUPON_START' => 'Coupon Start Date',
-	'PHPSHOP_COUPON_EXPIRY' => 'Coupon Expiry Date',
-	'PHPSHOP_COUPON_CODE_INVALID' => 'Coupon code out of date. Please try an alternative.',
-	'PHPSHOP_COUPON_CODE_NOT FOUND' => 'Coupon code not found. Please try again.'
-); $VM_LANG->initModule( 'coupon', $langvars );
+	'CHARSET' => 'UTF-8',
+	'PHPSHOP_COUPON_EDIT_HEADER' => '更新优惠卷',
+	'PHPSHOP_COUPON_CODE_HEADER' => '优惠卷代码',
+	'PHPSHOP_COUPON_PERCENT_TOTAL' => '百分比/数值',
+	'PHPSHOP_COUPON_TYPE' => '优惠卷类型',
+	'PHPSHOP_COUPON_TYPE_TOOLTIP' => '一次性赠券只能在订单中使用一次，永久优惠卷可以反复使用。',
+	'PHPSHOP_COUPON_TYPE_GIFT' => '一次性赠券',
+	'PHPSHOP_COUPON_TYPE_PERMANENT' => '永久优惠券',
+	'PHPSHOP_COUPON_VALUE_HEADER' => '数量',
+	'PHPSHOP_COUPON_PERCENT' => '百分比',
+	'PHPSHOP_COUPON_TOTAL' => '数值'
+); $VM_LANG->initModule( 'Coupon', $langvars );
 ?>

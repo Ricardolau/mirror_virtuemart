@@ -17,27 +17,17 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'GB2312',
-	'PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX' => 'ÏÔÊ¾º¬Ë°¼Û£¿',
-	'PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX_EXPLAIN' => 'ÎÞÂÛ¼Û¸ñÊÇ·ñº¬Ë°¾ùÉèÖÃ±êÖ¾¡£',
-	'PHPSHOP_SHOPPER_FORM_ADDRESS_LABEL' => 'µØÖ·±ðÃû',
-	'PHPSHOP_SHOPPER_GROUP_LIST_LBL' => '¹ºÎï»áÔ±×éÁÐ±í',
-	'PHPSHOP_SHOPPER_GROUP_LIST_NAME' => '×éÃû',
-	'PHPSHOP_SHOPPER_GROUP_LIST_DESCRIPTION' => '×éÃèÊö',
-	'PHPSHOP_SHOPPER_GROUP_FORM_LBL' => '¹ºÎï»áÔ±×é±í¸ñ',
-	'PHPSHOP_SHOPPER_GROUP_FORM_NAME' => '×éÃû',
-	'PHPSHOP_SHOPPER_GROUP_FORM_DESC' => '×éÃèÊö',
-	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT' => 'Ä¬ÈÏ¹Ë¿Í×éµÄÕÛ¿ÛÁ¿ (ÒÔ°Ù·Ö±ÈµÄÐÎÊ½)',
-	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP' => 'ÕýÖµXÒâÎ¶×Å:ÉÌÆ·Èç¹û¶ÔÓÚ¸Ã×é¹Ë¿ÍÃ»ÓÐÖ¸¶¨¼Û¸ñµÄ»°£¬ÄÇÃ´½«ÔÚÄ¬ÈÏ¼Û¸ñÉÏÃæ¼õÉÙX%¡£¸ºÖµÔòÓÐÏà·´Ð§¹û¡£',
-	'SHOPPER_GROUP_MISSING_NAME' => 'You must enter a shopper group name.',
-	'SHOPPER_GROUP_ALREADY_EXISTS' => 'Shopper group already exists for this vendor.',
-	'SHOPPER_GROUP_DELETE_SELECT' => 'Please select a shopper group to delete.',
-	'SHOPPER_GROUP_DELETE_PAYMENT_METHODS_ASS' => 'This Shopper Group (Id: {id}) still has Payment Methods assigned to it.',
-	'SHOPPER_GROUP_DELETE_USERS_ASS' => 'There are still Users assigned to this Shopper Group (Id: {id})',
-	'SHOPPER_GROUP_DELETE_DEFAULT' => 'Cannot delete the default shopper group.',
-	'SHOPPER_GROUP_ADDED' => 'The Shopper Group has been added.',
-	'SHOPPER_GROUP_ADD_FAILED' => 'Failed to add the Shopper Group',
-	'SHOPPER_GROUP_UPDATED' => 'The Shopper Group has been updated.',
-	'SHOPPER_GROUP_UPDATE_FAILED' => 'Failed to update the Shopper Group'
+	'CHARSET' => 'UTF-8',
+	'PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX' => 'æ˜¾ç¤ºå«ç¨Žä»·ï¼Ÿ',
+	'PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX_EXPLAIN' => 'å¦‚æžœé€‰ä¸­ï¼Œåˆ™æ˜¾ç¤ºå«ç¨Žä»·ã€‚',
+	'PHPSHOP_SHOPPER_FORM_ADDRESS_LABEL' => 'åœ°å€åˆ«å',
+	'PHPSHOP_SHOPPER_GROUP_LIST_LBL' => 'ä¼šå‘˜ç»„åˆ—è¡¨',
+	'PHPSHOP_SHOPPER_GROUP_LIST_NAME' => 'ç»„å',
+	'PHPSHOP_SHOPPER_GROUP_LIST_DESCRIPTION' => 'ç»„æè¿°',
+	'PHPSHOP_SHOPPER_GROUP_FORM_LBL' => 'ä¼šå‘˜ç»„è¡¨å•',
+	'PHPSHOP_SHOPPER_GROUP_FORM_NAME' => 'ç»„å',
+	'PHPSHOP_SHOPPER_GROUP_FORM_DESC' => 'ç»„æè¿°',
+	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT' => 'åœ¨é»˜è®¤ä¼šå‘˜ç»„ä»·æ ¼ä¸Šæ‰“æŠ˜(ç™¾åˆ†æ¯”)',
+	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP' => 'å¦‚æžœä¸€ä¸ªå•†å“è¿˜æ²¡æœ‰è®¾ç½®å±žäºŽæœ¬ä¼šå‘˜ç»„çš„ä»·æ ¼ï¼Œåˆ™è¯¥å•†å“çš„æœ¬ä¼šå‘˜ç»„ä»·æ ¼ä¸ºè¯¥å•†å“çš„é»˜è®¤ä¼šå‘˜ç»„ä»·æ ¼çš„ä¸€ä¸ªæŠ˜æ‰£ã€‚æ­£å€¼æ„å‘³ç€ä»·æ ¼å¢žåŠ ï¼Œè´Ÿå€¼æ„å‘³ç€ä»·æ ¼å‡å°‘ã€‚'
 ); $VM_LANG->initModule( 'shopper', $langvars );
 ?>

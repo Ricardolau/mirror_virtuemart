@@ -33,6 +33,10 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+02.07.2009 thepisu
+^ updated Simplified Chinese language, now utf-8 (thanks to joomladz)
++ added Estonian language (thanks to Eraser)
+
 23.06.2009 aravot
 # Fixed landscape/portrait issue http://forum.virtuemart.net/index.php?topic=55201.0 Thank you Phil
 

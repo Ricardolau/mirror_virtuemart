@@ -2,10 +2,9 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
-* @version : simplified_chinese.php 1071 2007-12-03 08:42:28Z thepisu $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @translator soeren
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -18,21 +17,21 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'GB2312',
-	'PHPSHOP_ZONE_ASSIGN_COUNTRY_LBL' => '¹ú¼Ò',
-	'PHPSHOP_ZONE_ASSIGN_ASSIGN_LBL' => '·ÖÅäµ½µØÇø',
-	'PHPSHOP_ASSIGN_ZONE_PG_LBL' => '·ÖÅäµØÇø',
-	'PHPSHOP_ZONE_FORM_NAME_LBL' => 'µØÇøÃû',
-	'PHPSHOP_ZONE_FORM_DESC_LBL' => 'µØÇøÃèÊö',
-	'PHPSHOP_ZONE_FORM_COST_PER_LBL' => 'Ã¿¼þÉÌÆ·µÄµØÇøÔË·Ñ',
-	'PHPSHOP_ZONE_FORM_COST_LIMIT_LBL' => 'µØÇø·ÑÓÃÏÞ¶î',
-	'PHPSHOP_ZONE_LIST_LBL' => 'µØÇøÁÐ±í',
-	'PHPSHOP_ZONE_LIST_NAME_LBL' => 'µØÇøÃû',
-	'PHPSHOP_ZONE_LIST_DESC_LBL' => 'µØÇøÃèÊö',
-	'PHPSHOP_ZONE_LIST_COST_PER_LBL' => 'Ã¿¸öÎïÆ·µÄµØÇøÔË·Ñ',
-	'PHPSHOP_ZONE_LIST_COST_LIMIT_LBL' => 'µØÇø·ÑÓÃÏÞ¶î',
-	'VM_ZONE_ASSIGN_PERITEM' => 'Per Item',
-	'VM_ZONE_ASSIGN_LIMIT' => 'Limit',
-	'VM_ZONE_EDITZONE' => 'Edit This Zone'
+	'CHARSET' => 'UTF-8',
+	'PHPSHOP_ZONE_ASSIGN_COUNTRY_LBL' => 'å›½å®¶',
+	'PHPSHOP_ZONE_ASSIGN_ASSIGN_LBL' => 'åˆ†é…åˆ°åŒºåŸŸ',
+	'PHPSHOP_ASSIGN_ZONE_PG_LBL' => 'åˆ†é…åŒºåŸŸ',
+	'PHPSHOP_ZONE_FORM_NAME_LBL' => 'åŒºåŸŸåç§°',
+	'PHPSHOP_ZONE_FORM_DESC_LBL' => 'åŒºåŸŸæè¿°',
+	'PHPSHOP_ZONE_FORM_COST_PER_LBL' => 'æ¯ä»¶å•†å“çš„å›ºå®šè¿è´¹',
+	'PHPSHOP_ZONE_FORM_COST_LIMIT_LBL' => 'æ¯å•è¿è´¹ä¸Šé™',
+	'PHPSHOP_ZONE_LIST_LBL' => 'åŒºåŸŸåˆ—è¡¨',
+	'PHPSHOP_ZONE_LIST_NAME_LBL' => 'åŒºåŸŸåç§°',
+	'PHPSHOP_ZONE_LIST_DESC_LBL' => 'åŒºåŸŸæè¿°',
+	'PHPSHOP_ZONE_LIST_COST_PER_LBL' => 'æ¯ä»¶å•†å“çš„å›ºå®šè¿è´¹',
+	'PHPSHOP_ZONE_LIST_COST_LIMIT_LBL' => 'æ¯å•è¿è´¹ä¸Šé™',
+	'VM_ZONE_ASSIGN_PERITEM' => 'æ¯ä»¶å•†å“',
+	'VM_ZONE_ASSIGN_LIMIT' => 'ä¸Šé™',
+	'VM_ZONE_EDITZONE' => 'ç¼–è¾‘åŒºåŸŸ'
 ); $VM_LANG->initModule( 'zone', $langvars );
 ?>

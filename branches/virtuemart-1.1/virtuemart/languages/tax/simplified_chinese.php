@@ -2,10 +2,9 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
-* @version : simplified_chinese.php 1071 2007-12-03 08:42:28Z thepisu $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @translator soeren
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -18,13 +17,13 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'GB2312',
-	'PHPSHOP_TAX_LIST_LBL' => '税率表',
-	'PHPSHOP_TAX_LIST_STATE' => '省份或地区税费',
-	'PHPSHOP_TAX_LIST_COUNTRY' => '国家税费',
-	'PHPSHOP_TAX_FORM_LBL' => '增加税费信息',
-	'PHPSHOP_TAX_FORM_STATE' => '省份或地区税费',
-	'PHPSHOP_TAX_FORM_COUNTRY' => '国家税费',
-	'PHPSHOP_TAX_FORM_RATE' => '税率'
+	'CHARSET' => 'UTF-8',
+	'PHPSHOP_TAX_LIST_LBL' => '绋庣巼鍒楄〃',
+	'PHPSHOP_TAX_LIST_STATE' => '鐪佷唤',
+	'PHPSHOP_TAX_LIST_COUNTRY' => '鍥藉',
+	'PHPSHOP_TAX_FORM_LBL' => '鍒涘缓绋庣巼',
+	'PHPSHOP_TAX_FORM_STATE' => '鐪佷唤',
+	'PHPSHOP_TAX_FORM_COUNTRY' => '鍥藉',
+	'PHPSHOP_TAX_FORM_RATE' => '绋庣巼'
 ); $VM_LANG->initModule( 'tax', $langvars );
 ?>

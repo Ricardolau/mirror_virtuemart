@@ -18,6 +18,6 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'GB2312'
+	'CHARSET' => 'UTF-8'
 ); $VM_LANG->initModule( 'msgs', $langvars );
 ?>

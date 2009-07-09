@@ -2,10 +2,9 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
-* @version : simplified_chinese.php 1071 2007-12-03 08:42:28Z thepisu $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @translator soeren
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -18,41 +17,41 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'GB2312',
-	'PHPSHOP_VENDOR_LIST_LBL' => 'ÂôÖ÷ÁÐ±í',
-	'PHPSHOP_VENDOR_LIST_ADMIN' => '¹ÜÀí',
-	'PHPSHOP_VENDOR_FORM_LBL' => 'Ôö¼ÓÐÅÏ¢',
-	'PHPSHOP_VENDOR_FORM_CONTACT_LBL' => 'ÁªÏµÐÅÏ¢',
-	'PHPSHOP_VENDOR_FORM_FULL_IMAGE' => 'ÍêÕûÍ¼Æ¬',
-	'PHPSHOP_VENDOR_FORM_UPLOAD' => 'ÉÏ´«Í¼Æ¬',
-	'PHPSHOP_VENDOR_FORM_STORE_NAME' => 'ÂôÖ÷ÉÌÆÌÃû',
-	'PHPSHOP_VENDOR_FORM_COMPANY_NAME' => 'ÂôÖ÷¹«Ë¾Ãû³Æ',
-	'PHPSHOP_VENDOR_FORM_ADDRESS_1' => 'µØÖ·1',
-	'PHPSHOP_VENDOR_FORM_ADDRESS_2' => 'µØÖ·2',
-	'PHPSHOP_VENDOR_FORM_CITY' => '³ÇÊÐ',
-	'PHPSHOP_VENDOR_FORM_STATE' => 'Ê¡·Ý/µØÇø',
-	'PHPSHOP_VENDOR_FORM_COUNTRY' => '¹ú¼Ò',
-	'PHPSHOP_VENDOR_FORM_ZIP' => 'ÓÊ±à',
-	'PHPSHOP_VENDOR_FORM_PHONE' => 'µç»°',
-	'PHPSHOP_VENDOR_FORM_CURRENCY' => '»õ±Ò',
-	'PHPSHOP_VENDOR_FORM_CATEGORY' => 'ÂôÖ÷·ÖÀà',
-	'PHPSHOP_VENDOR_FORM_LAST_NAME' => 'Ãû',
-	'PHPSHOP_VENDOR_FORM_FIRST_NAME' => 'ÐÕ',
-	'PHPSHOP_VENDOR_FORM_MIDDLE_NAME' => 'ÖÐ¼äÃû',
-	'PHPSHOP_VENDOR_FORM_TITLE' => 'Ö°Îñ',
-	'PHPSHOP_VENDOR_FORM_PHONE_1' => 'µç»°1',
-	'PHPSHOP_VENDOR_FORM_PHONE_2' => 'µç»°2',
-	'PHPSHOP_VENDOR_FORM_FAX' => '´«Õæ',
+	'CHARSET' => 'UTF-8',
+	'PHPSHOP_VENDOR_LIST_LBL' => 'å•†æˆ·åˆ—è¡¨',
+	'PHPSHOP_VENDOR_LIST_ADMIN' => 'ç®¡ç†',
+	'PHPSHOP_VENDOR_FORM_LBL' => 'ç¼–è¾‘å•†æˆ·ä¿¡æ¯',
+	'PHPSHOP_VENDOR_FORM_CONTACT_LBL' => 'è”ç³»ä¿¡æ¯',
+	'PHPSHOP_VENDOR_FORM_FULL_IMAGE' => 'å¤§å›¾',
+	'PHPSHOP_VENDOR_FORM_UPLOAD' => 'ä¸Šä¼ å›¾ç‰‡',
+	'PHPSHOP_VENDOR_FORM_STORE_NAME' => 'åº—é“ºåç§°',
+	'PHPSHOP_VENDOR_FORM_COMPANY_NAME' => 'å…¬å¸åç§°',
+	'PHPSHOP_VENDOR_FORM_ADDRESS_1' => 'åœ°å€1',
+	'PHPSHOP_VENDOR_FORM_ADDRESS_2' => 'åœ°å€2',
+	'PHPSHOP_VENDOR_FORM_CITY' => 'åŸŽå¸‚',
+	'PHPSHOP_VENDOR_FORM_STATE' => 'çœä»½',
+	'PHPSHOP_VENDOR_FORM_COUNTRY' => 'å›½å®¶',
+	'PHPSHOP_VENDOR_FORM_ZIP' => 'é‚®ç¼–',
+	'PHPSHOP_VENDOR_FORM_PHONE' => 'ç”µè¯',
+	'PHPSHOP_VENDOR_FORM_CURRENCY' => 'è´§å¸',
+	'PHPSHOP_VENDOR_FORM_CATEGORY' => 'å•†æˆ·åˆ†ç±»',
+	'PHPSHOP_VENDOR_FORM_LAST_NAME' => 'å',
+	'PHPSHOP_VENDOR_FORM_FIRST_NAME' => 'å§“',
+	'PHPSHOP_VENDOR_FORM_MIDDLE_NAME' => 'å­—å·',
+	'PHPSHOP_VENDOR_FORM_TITLE' => 'ç§°å‘¼',
+	'PHPSHOP_VENDOR_FORM_PHONE_1' => 'ç”µè¯1',
+	'PHPSHOP_VENDOR_FORM_PHONE_2' => 'ç”µè¯2',
+	'PHPSHOP_VENDOR_FORM_FAX' => 'ä¼ çœŸ',
 	'PHPSHOP_VENDOR_FORM_EMAIL' => 'Email',
-	'PHPSHOP_VENDOR_FORM_IMAGE_PATH' => 'Í¼Æ¬Â·¾¶',
-	'PHPSHOP_VENDOR_FORM_DESCRIPTION' => 'ÃèÊö',
-	'PHPSHOP_VENDOR_CAT_LIST_LBL' => 'ÂôÖ÷Àà±ðÁÐ±í',
-	'PHPSHOP_VENDOR_CAT_NAME' => 'Àà±ðÃû',
-	'PHPSHOP_VENDOR_CAT_DESCRIPTION' => 'Àà±ðÃèÊö',
-	'PHPSHOP_VENDOR_CAT_VENDORS' => 'ÂôÖ÷',
-	'PHPSHOP_VENDOR_CAT_FORM_LBL' => 'ÂôÖ÷Àà±ð±íµ¥',
-	'PHPSHOP_VENDOR_CAT_FORM_INFO_LBL' => 'Àà±ðÐÅÏ¢',
-	'PHPSHOP_VENDOR_CAT_FORM_NAME' => 'Àà±ðÃû',
-	'PHPSHOP_VENDOR_CAT_FORM_DESCRIPTION' => 'Àà±ðÃèÊö'
+	'PHPSHOP_VENDOR_FORM_IMAGE_PATH' => 'å›¾ç‰‡è·¯å¾„',
+	'PHPSHOP_VENDOR_FORM_DESCRIPTION' => 'æè¿°',
+	'PHPSHOP_VENDOR_CAT_LIST_LBL' => 'å•†æˆ·åˆ†ç±»åˆ—è¡¨',
+	'PHPSHOP_VENDOR_CAT_NAME' => 'åˆ†ç±»åç§°',
+	'PHPSHOP_VENDOR_CAT_DESCRIPTION' => 'åˆ†ç±»æè¿°',
+	'PHPSHOP_VENDOR_CAT_VENDORS' => 'å•†æˆ·',
+	'PHPSHOP_VENDOR_CAT_FORM_LBL' => 'å•†æˆ·åˆ†ç±»è¡¨å•',
+	'PHPSHOP_VENDOR_CAT_FORM_INFO_LBL' => 'åˆ†ç±»ä¿¡æ¯',
+	'PHPSHOP_VENDOR_CAT_FORM_NAME' => 'åˆ†ç±»åç§°',
+	'PHPSHOP_VENDOR_CAT_FORM_DESCRIPTION' => 'åˆ†ç±»æè¿°'
 ); $VM_LANG->initModule( 'vendor', $langvars );
 ?>

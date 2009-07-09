@@ -2,10 +2,9 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
-* @version : simplified_chinese.php 1071 2007-12-03 08:42:28Z thepisu $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
 * @translator soeren
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -18,17 +17,14 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'GB2312',
-	'VM_HELP_YOURVERSION' => 'Your {product} version',
-	'VM_HELP_ABOUT' => '<span style="font-weight: bold;">
-		VirtueMart</span> is the complete Open Source E-Commerce solution for Mambo and Joomla!. 
-		It is an Application, which comes with a Component, more than 8 Modules and Mambots/Plugins.
-		It has its roots in a Shopping Cart Script called "phpShop" (Authors: Edikon Corp. & the <a href="http://www.virtuemart.org/" target="_blank">phpShop</a> community).',
-	'VM_HELP_LICENSE_DESC' => 'VirtueMart is licensed under the <a href="{licenseurl}" target="_blank">{licensename} License</a>.',
-	'VM_HELP_TEAM' => 'There\'s a small team of Developers who help in evolving this Shopping Cart Script.',
-	'VM_HELP_PROJECTLEADER' => 'Project Leader',
-	'VM_HELP_HOMEPAGE' => 'Homepage',
-	'VM_HELP_DONATION_DESC' => 'Please consider a small donation to the VirtueMart Project to help us keep up the work on this Component and create new Features.',
-	'VM_HELP_DONATION_BUTTON_ALT' => 'Make payments with PayPal - it\'s fast, free and secure!'
+	'CHARSET' => 'UTF-8',
+	'VM_HELP_YOURVERSION' => '您的{product}版本',
+	'VM_HELP_ABOUT' => '<span style="font-weight: bold;">VirtueMart</span>是开源项目Mambo和Joomla!下的BtoC网上商店解决方案，包括一个组件, 多个模块和插件。VirtueMart	源自“phpShop”(作者: Edikon公司和<a href="http://www.virtuemart.org/" target="_blank">phpShop</a>)。',
+	'VM_HELP_LICENSE_DESC' => 'VirtueMart的License：<a href="{licenseurl}" target="_blank">{licensename} License</a>。',
+	'VM_HELP_TEAM' => '现在VirtueMart由一个开发小组维护和开发。',
+	'VM_HELP_PROJECTLEADER' => '项目组长',
+	'VM_HELP_HOMEPAGE' => '网址',
+	'VM_HELP_DONATION_DESC' => '请捐赠VirtueMart以帮助我们发展。',
+	'VM_HELP_DONATION_BUTTON_ALT' => '可以通过PayPal捐赠。'
 ); $VM_LANG->initModule( 'help', $langvars );
 ?>

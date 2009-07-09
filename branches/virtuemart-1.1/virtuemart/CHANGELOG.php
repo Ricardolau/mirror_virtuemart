@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+02.07.2009 thepisu
+^ updated Simplified Chinese language, now utf-8 (thanks to joomladz)
++ added Estonian language (thanks to Eraser)
 
 30.06.2009 soeren
 # Task #2548 - When Dynamic Thumbnail Resizing is off (unchecked) additional images show big image instead of thumbnail

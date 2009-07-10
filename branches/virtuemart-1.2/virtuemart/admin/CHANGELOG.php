@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+10.07.2009 aravot
+# Fixed Warning: Call-time pass-by-reference has been deprecated in payment/ps_eway.php on line 511
+
 02.07.2009 thepisu
 ^ updated Simplified Chinese language, now utf-8 (thanks to joomladz)
 + added Estonian language (thanks to Eraser)

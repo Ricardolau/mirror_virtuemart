@@ -550,7 +550,7 @@ class vm_ps_order_change {
 		
 		$product_id = $db->f( 'product_id' ) ;
 		$diff = $quantity - $db->f( 'product_quantity' ) ;
-		$timestamp = time() ;
+		$timestamp = time() + ($mosConfig_offset * 60 * 60) ;
 		
 		// Update quantity of item
 		$q = "UPDATE #__{vm}_order_item " ;
@@ -659,7 +659,7 @@ class vm_ps_order_change {
 			$user_info_id = $db->f( "user_info_id" ) ;
 			$order_status = $db->f( "order_status" ) ;
 			
-			$timestamp = time() ;
+			$timestamp = time() + ($mosConfig_offset * 60 * 60) ;
 			$q = "SELECT order_item_id, product_quantity " ;
 			$q .= "FROM #__{vm}_order_item WHERE order_id = '" . $this->order_id . "' " ;
 			$q .= "AND product_id = '" . $product_id . "' " ;
@@ -1175,7 +1175,7 @@ class vm_ps_order_change {
 		$db->next_record() ;
 		
 		$product_id = $db->f( 'product_id' ) ;
-		$timestamp = time() ;
+		$timestamp = time() + ($mosConfig_offset * 60 * 60) ;
 		$user_info_id = $db->f( 'user_info_id' );
 		$prod_weight = $ps_product->get_weight($product_id);
 		$my_taxrate = $ps_product->get_product_taxrate( $product_id, $prod_weight, $user_info_id ) ;

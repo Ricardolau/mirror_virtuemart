@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+11.07.2009 mauri
+# Fixed Order Dates incorrect ps_order_change, reverted changes.
+
 10.07.2009 aravot
 # Fixed Warning: Call-time pass-by-reference has been deprecated in payment/ps_eway.php on line 511
 

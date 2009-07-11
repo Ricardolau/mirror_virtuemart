@@ -1,4 +1,4 @@
-<?php 
+<?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 /**
 *
@@ -82,7 +82,7 @@ class vm_ps_payment_method extends vmAbstractObject {
 				$d["accepted_creditcards"] .= $creditcard_id . ",";
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -146,7 +146,7 @@ class vm_ps_payment_method extends vmAbstractObject {
 
 		return True;
 	}
-	
+
 	/**
 	 * Adds a new payment method
 	 *
@@ -155,7 +155,7 @@ class vm_ps_payment_method extends vmAbstractObject {
 	 */
 	function add(&$d) {
 		global $VM_LANG;
-		
+
 		$ps_vendor_id = $_SESSION["ps_vendor_id"];
 		$db = new ps_DB;
 
@@ -184,7 +184,7 @@ class vm_ps_payment_method extends vmAbstractObject {
         if( is_callable( array( $_PAYMENT, 'write_configuration'))) {
     	    $_PAYMENT->write_configuration( $d );
         }
-    
+
 		if (!$d["shopper_group_id"]) {
 			$q =  "SELECT shopper_group_id FROM #__{vm}_shopper_group WHERE ";
 			$q .= "`default`='1' ";
@@ -194,27 +194,28 @@ class vm_ps_payment_method extends vmAbstractObject {
 			$d["shopper_group_id"] = $db->f("shopper_group_id");
 		}
 
-		$fields = array( 'vendor_id' => $ps_vendor_id, 
-						'payment_method_name' => vmGet($d, 'payment_method_name' ), 
+		$fields = array( 'vendor_id' => $ps_vendor_id,
+						'payment_method_name' => vmGet($d, 'payment_method_name' ),
 						'payment_class' => vmGet($d, 'payment_class' ),
 						'shopper_group_id' => vmRequest::getInt('shopper_group_id'),
 						'payment_method_discount' => vmRequest::getFloat('payment_method_discount'),
 						'payment_method_discount_is_percent' => vmGet($d, 'payment_method_discount_is_percent'),
-						'payment_method_discount_max_amount' => (float)str_replace(',', '.', $d["payment_method_discount_max_amount"]),						
+						'payment_method_discount_max_amount' => (float)str_replace(',', '.', $d["payment_method_discount_max_amount"]),
 						'payment_method_discount_min_amount' => (float)str_replace(',', '.', $d["payment_method_discount_min_amount"]),
+						'payment_method_discount_vat_id' => vmGet($d, 'payment_method_discount_vat_id'),
 						'payment_method_code' => vmGet($d, 'payment_method_code'),
-						'enable_processor' => vmGet($d, 'enable_processor'), 
-						'list_order' => vmRequest::getInt('list_order'), 
+						'enable_processor' => vmGet($d, 'enable_processor'),
+						'list_order' => vmRequest::getInt('list_order'),
 						'is_creditcard' => vmGet($d, 'is_creditcard'),
 						'payment_enabled' => vmGet($d, 'payment_enabled'),
-						'accepted_creditcards' => vmGet($d, 'accepted_creditcards'), 
+						'accepted_creditcards' => vmGet($d, 'accepted_creditcards'),
 						'payment_extrainfo' => vmGet( $_POST, 'payment_extrainfo', null, VMREQUEST_ALLOWRAW )
 				);
 		$db->buildQuery( 'INSERT', '#__{vm}_payment_method', $fields );
 		$db->query();
-		
+
 		$_REQUEST['payment_method_id'] = $db->last_insert_id();
-		
+
 		return True;
 
 	}
@@ -227,7 +228,7 @@ class vm_ps_payment_method extends vmAbstractObject {
 	 */
 	function update(&$d) {
 		global $VM_LANG;
-		
+
 		global $vmLogger, $VM_LANG;
 		$ps_vendor_id = $_SESSION["ps_vendor_id"];
 
@@ -260,24 +261,25 @@ class vm_ps_payment_method extends vmAbstractObject {
 			return false;
 		}
 
-		$fields = array( 'payment_method_name' => vmGet($d, 'payment_method_name' ), 
+		$fields = array( 'payment_method_name' => vmGet($d, 'payment_method_name' ),
 						'payment_class' => vmGet($d, 'payment_class' ),
 						'shopper_group_id' => vmRequest::getInt('shopper_group_id'),
 						'payment_method_discount' => vmRequest::getFloat('payment_method_discount'),
 						'payment_method_discount_is_percent' => vmGet($d, 'payment_method_discount_is_percent'),
-						'payment_method_discount_max_amount' => (float)str_replace(',', '.', $d["payment_method_discount_max_amount"]),						
+						'payment_method_discount_max_amount' => (float)str_replace(',', '.', $d["payment_method_discount_max_amount"]),
 						'payment_method_discount_min_amount' => (float)str_replace(',', '.', $d["payment_method_discount_min_amount"]),
+						'payment_method_discount_vat_id' => vmGet($d, 'payment_method_discount_vat_id'),
 						'payment_method_code' => vmGet($d, 'payment_method_code'),
-						'enable_processor' => vmGet($d, 'enable_processor'), 
-						'list_order' => vmRequest::getInt('list_order'), 
+						'enable_processor' => vmGet($d, 'enable_processor'),
+						'list_order' => vmRequest::getInt('list_order'),
 						'is_creditcard' => vmGet($d, 'is_creditcard'),
 						'payment_enabled' => vmGet($d, 'payment_enabled'),
-						'accepted_creditcards' => vmGet($d, 'accepted_creditcards'), 
+						'accepted_creditcards' => vmGet($d, 'accepted_creditcards'),
 						'payment_extrainfo' => vmGet( $_POST, 'payment_extrainfo', null, VMREQUEST_ALLOWRAW )
 				);
 		$db->buildQuery( 'UPDATE', '#__{vm}_payment_method', $fields, 'WHERE payment_method_id='.(int)$d["payment_method_id"].' AND vendor_id='.$ps_vendor_id );
 		$db->query();
-	
+
 		return True;
 	}
 
@@ -324,7 +326,7 @@ class vm_ps_payment_method extends vmAbstractObject {
 	 */
 	function list_method($payment_method_id) {
 		global $VM_LANG;
-		
+
 		$ps_vendor_id = $_SESSION["ps_vendor_id"];
 		$db = new ps_DB;
 
@@ -354,7 +356,7 @@ class vm_ps_payment_method extends vmAbstractObject {
 		$db->query($q);
 
 		// Start drop down list
-	
+
 		$array[0] = $VM_LANG->_('PHPSHOP_SELECT');
 		while ($db->next_record()) {
 			$array[$db->f("payment_method_id")] = $db->f("payment_method_name");
@@ -377,7 +379,7 @@ class vm_ps_payment_method extends vmAbstractObject {
 		$auth = $_SESSION["auth"];
 		$db = new ps_DB;
 		if( !isset( $ps_checkout )) { $ps_checkout = new ps_checkout(); }
-		
+
 		require_once(CLASSPATH.'ps_shopper_group.php');
 		$ps_shopper_group = new ps_shopper_group;
 
@@ -470,7 +472,7 @@ class vm_ps_payment_method extends vmAbstractObject {
 		$has_bank_methods = $this->list_payment_radio("B", $payment_method_id, $horiz); //A bit easier :-)
 		if( $has_bank_methods ) {
 			require_once( CLASSPATH . 'ps_user.php' );
-			$dbu =& ps_user::getUserInfo( $_SESSION['auth']['user_id'], array( 'bank_account_holder','bank_iban','bank_account_nr','bank_sort_code','bank_name' ) ); 
+			$dbu =& ps_user::getUserInfo( $_SESSION['auth']['user_id'], array( 'bank_account_holder','bank_iban','bank_account_nr','bank_sort_code','bank_name' ) );
 			if( !$dbu->f('bank_account_holder') || !$dbu->f('bank_account_nr') || !$dbu->f('bank_sort_code')) {
 				echo '<br />';
 				require_once( CLASSPATH . 'ps_userfield.php');
@@ -506,13 +508,13 @@ class vm_ps_payment_method extends vmAbstractObject {
 	function get_field($payment_method_id, $field_name) {
 
 		$db = new ps_DB;
-		
+
 		$q = 'SELECT `'.$field_name.'` FROM `#__{vm}_payment_method` WHERE `payment_method_id`='.(int)$payment_method_id;
 		$db->query($q);
 		$db->next_record();
 		return $db->f($field_name);
 	}
-	
+
 	/**
 	 * returns true if the payment is credit card payment
 	 *
@@ -815,10 +817,10 @@ class vm_ps_payment_method extends vmAbstractObject {
 	 * @return string
 	 */
 	function list_available_classes( $name, $preselected='ps_payment' ) {
-		
+
 		$files = vmReadDirectory( CLASSPATH."payment/", ".php", true, true);
 		$array = array();
-        foreach ($files as $file) { 
+        foreach ($files as $file) {
             $file_info = pathinfo($file);
             $filename = $file_info['basename'];
             if( stristr($filename, '.cfg')) { continue; }

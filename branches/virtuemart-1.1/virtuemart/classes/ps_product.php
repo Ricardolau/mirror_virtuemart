@@ -1513,32 +1513,38 @@ class vm_ps_product extends vmAbstractObject {
 	 * @return int The tax rate for the product
 	 */
 	function get_product_taxrate( $product_id, $weight_subtotal=0, $ship_to_info_id = '' ) {
+		$db = new ps_DB;
+		// Product's weight_subtotal, if weight_subtotal is 0!
+		$q = "SELECT product_weight FROM #__{vm}_product ";
+		$q .= "WHERE product_id='$product_id'";
+		$db->query($q);
+		if ($db->next_record()) {
+			$product_weight = $db->f("product_weight");
+			if( $weight_subtotal == 0 && $product_weight > 0 ) {
+				$weight_subtotal = $product_weight;
+			}
+		}
 
 		require_once( CLASSPATH . 'ps_checkout.php' );
 
-		if (($weight_subtotal != 0 or TAX_VIRTUAL=='1') && !ps_checkout::tax_based_on_vendor_address($ship_to_info_id) ) {
+		if ( ( $weight_subtotal != 0 or TAX_VIRTUAL=='1' ) && !ps_checkout::tax_based_on_vendor_address( $ship_to_info_id ) ) {
 			$_SESSION['product_sess'][$product_id]['tax_rate'] = $this->get_taxrate( $ship_to_info_id );
 			return $_SESSION['product_sess'][$product_id]['tax_rate'];
 		}
-		elseif( ($weight_subtotal == 0 or TAX_VIRTUAL != '1' ) && !ps_checkout::tax_based_on_vendor_address($ship_to_info_id) ) {
+		elseif( ( $weight_subtotal == 0 or TAX_VIRTUAL != '1' ) && !ps_checkout::tax_based_on_vendor_address( $ship_to_info_id ) ) {
 			$_SESSION['product_sess'][$product_id]['tax_rate'] = 0;
 			return $_SESSION['product_sess'][$product_id]['tax_rate'];
 		}
-
-		elseif( ps_checkout::tax_based_on_vendor_address ($ship_to_info_id) ) {
+		elseif( ps_checkout::tax_based_on_vendor_address ( $ship_to_info_id ) ) {
 
 //			if( empty( $_SESSION['product_sess'][$product_id]['tax_rate'] ) ) {
 				$db = new ps_DB;
 				// Product's tax rate id has priority!
-				$q = "SELECT product_weight, tax_rate FROM #__{vm}_product, #__{vm}_tax_rate ";
+				$q = "SELECT tax_rate FROM #__{vm}_product, #__{vm}_tax_rate ";
 				$q .= "WHERE product_tax_id=tax_rate_id AND product_id='$product_id'";
 				$db->query($q);
-				if ($db->next_record()) {
+				if ( $db->next_record() ) {
 					$rate = $db->f("tax_rate");
-					$product_weight = $db->f('product_weight');
-					if( $weight_subtotal == 0 && $product_weight > 0 ) {
-						$weight_subtotal = $product_weight;
-					}
 				}
 				else {
 					// if we didn't find a product tax rate id, let's get the store's tax rate

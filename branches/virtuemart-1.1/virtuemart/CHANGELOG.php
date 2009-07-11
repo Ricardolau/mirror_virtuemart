@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+12.07.2009 mauri
+# Task #2549 - When 'Virtual Tax' is unchecked, 'Show "(including XX% tax)" when applicable?' it not shown for all products. 
+
 11.07.2009 mauri
 # Fixed Order Dates incorrect ps_order_change, reverted changes.
 

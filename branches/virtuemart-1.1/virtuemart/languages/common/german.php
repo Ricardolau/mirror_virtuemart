@@ -1,5 +1,5 @@
 <?php
-if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
+if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 /**
 *
 * @package VirtueMart
@@ -380,7 +380,7 @@ $langvars = array (
 	'PHPSHOP_ADMIN_CFG_PAYPAL_EMAIL' => 'PayPal Email:',
 	'PHPSHOP_ADMIN_CFG_PAYPAL_EMAIL_EXPLAIN' => 'Die email adresse für PayPal Zahlungen. Ihre Empfänger-Email-Adresse.',
 	'PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS' => 'Bestellstatus for erfolgreiche Transaktionen',
-	'PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS_EXPLAIN' => 'Wählen Sie den Bestellstatus aus, auf den die Bestellung gesetzt wird, wenn die Zahlunge über PayPal erfolgreich war. 
+	'PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_SUCCESS_EXPLAIN' => 'Wählen Sie den Bestellstatus aus, auf den die Bestellung gesetzt wird, wenn die Zahlunge über PayPal erfolgreich war.
                                                                                                             Falls Sie das Download-Feature aktiviert haben, wählen Sie den Status aus, bei dem der Download aktiviert wird und der Kunde
                                                                                                             die Download-ID mitgeteilt bekommt.',
 	'PHPSHOP_ADMIN_CFG_PAYPAL_STATUS_FAILED' => 'Bestellstatus für fehlgeschlagene Transaktionen',
@@ -438,6 +438,7 @@ $langvars = array (
 	'PHPSHOP_PRODUCT_DISCOUNT_ISTOTAL' => 'Geldbetrag',
 	'PHPSHOP_PRODUCT_DISCOUNT_ISPERCENT_TIP' => 'Geben Sie an, ob der angegebene Rabattbetrag ein Prozentwert oder ein Abzugsbetrag vom Preis sein soll.',
 	'PHPSHOP_PRODUCT_DISCOUNT_ADDDISCOUNT_TIP' => 'Benutzen Sie das Rabattformular um Rabatte hinzuzufügen!',
+	'PHPSHOP_PRODUCT_DISCOUNT_VATID_TIP' => 'Bitte wählen Sie den Mehrwertsteuersatz für den Rabatt / die Gebühr.',
 	'PHPSHOP_PRODUCT_DISCOUNT_SAVE' => 'Sie sparen',
 	'PHPSHOP_FLYPAGE_ENLARGE_IMAGE' => 'größeres Bild anzeigen',
 	'PHPSHOP_CURRENCY_DISPLAY' => 'Darstellung von Beträgen',
@@ -483,7 +484,7 @@ $langvars = array (
 	'PHPSHOP_FREE_SHIPPING' => 'Versandkostenfrei',
 	'PHPSHOP_FREE_SHIPPING_CUSTOMER_TEXT' => 'Diese Bestellung ist versandkostenfrei!',
 	'PHPSHOP_FREE_SHIPPING_AMOUNT' => 'Mindestbetrag für Wegfall der Versandkosten',
-	'PHPSHOP_FREE_SHIPPING_AMOUNT_TOOLTIP' => 'Dieser Betrag (inkl. MwSt.!) gibt an, ab wann die Versandkosten komplett wegfallen 
+	'PHPSHOP_FREE_SHIPPING_AMOUNT_TOOLTIP' => 'Dieser Betrag (inkl. MwSt.!) gibt an, ab wann die Versandkosten komplett wegfallen
                                                 (Beispiel: <strong>50</strong> bedeutet versandkostenfreue Bestellung ab einem Bestellwert
                                                 von 50€ (inkl. MwSt.)',
 	'PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE' => 'Bankkonto-Typ',
@@ -653,10 +654,10 @@ Anfrage von: <{shopper_name}> {shopper_email}',
 	'VM_RECOMMEND_DONE' => 'Die Empfehlung wurde erfolgreich versendet!',
 	'VM_RECOMMEND_FAILED' => 'Die Empfehlung konnte nicht versendet werden!',
 	'VM_LEGALINFO_SHORTTEXT' => '<strong>Ihr Widerrufs- und Rückgaberecht:</strong><br />
-Sie können diese Bestellung innerhalb von zwei Wochen ohne Angabe von Gründen 
-schriftlich widerrufen. Bereits ausgelieferte Ware können Sie innerhalb von zwei Wochen ab 
-Erhalt der Lieferung ohne Angabe von Gründen an uns zurücksenden. Detaillierte Informationen zu 
-Ihrem Widerrufs- und Rückgaberecht finden Sie <a href="%s" onclick="%s" target="_blank">hier</a> und in der Bestätigungs-Mail, die Ihnen wenige 
+Sie können diese Bestellung innerhalb von zwei Wochen ohne Angabe von Gründen
+schriftlich widerrufen. Bereits ausgelieferte Ware können Sie innerhalb von zwei Wochen ab
+Erhalt der Lieferung ohne Angabe von Gründen an uns zurücksenden. Detaillierte Informationen zu
+Ihrem Widerrufs- und Rückgaberecht finden Sie <a href="%s" onclick="%s" target="_blank">hier</a> und in der Bestätigungs-Mail, die Ihnen wenige
 Minuten nach dem Absenden dieser Bestellung zugehen wird.',
 	'VM_SESSION_SAVEPATH_UNWRITABLE_TMPFIX' => 'Das Verzeichnis zum Speichern von Sitzungsdaten ist nicht beschreibbar. Bitte korrigieren Sie das oder kontaktieren Sie Ihren Administrator.',
 	'VM_SESSION_SAVEPATH_UNWRITABLE' => 'Das Verzeichnis zum Speichern von Sitzungsdaten %s ist nicht beschreibbar. Bitte korrigieren Sie das! Es wird ersatzweise das Verzeichnis %s genutzt.',
@@ -938,13 +939,13 @@ Das %s  ist jetzt wieder auf Lager und kann bestellt werden durch anklicken von 
  Dies ist eine einmalige Information. sie werden dieses E-Mail nicht nochmals erhalten.',
 	'PHPSHOP_CART_GOTO_WAITING_LIST' => 'Bitte warten: auf der nächsten Seite können Sie eine Benachrichtigungsantrag machen.',
 	'PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_SUCC' => 'Order Status for successful transactions',
-	'PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_SUCC_EXPLAIN' => 'Select the order status to which the actual order is set, if the payment transaction was successful. 
+	'PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_SUCC_EXPLAIN' => 'Select the order status to which the actual order is set, if the payment transaction was successful.
 If using download selling options: select the status which enables the download (then the customer is instantly notified about the download via e-mail).',
 	'PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_FAIL' => 'Order Status for failed transactions',
 	'PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_FAIL_EXPLAIN' => 'Select an order status for failed payment transactions.',
 	'PHPSHOP_ADMIN_CFG_AUTORIZENET_RESPCODES' => 'Show Response Codes for Failed Transactions?',
-	'PHPSHOP_ADMIN_CFG_AUTORIZENET_RESPCODES_EXPLAIN' => 'If set to YES then the customer will see the Authorize.net Transaction Response Reason Codes (Response Code - 
-Response Subcode - Response Reason Code - AVS Result Code - Card Code (CVV2/CVC2/CID) Response Code - 
+	'PHPSHOP_ADMIN_CFG_AUTORIZENET_RESPCODES_EXPLAIN' => 'If set to YES then the customer will see the Authorize.net Transaction Response Reason Codes (Response Code -
+Response Subcode - Response Reason Code - AVS Result Code - Card Code (CVV2/CVC2/CID) Response Code -
 Cardholder Authentication Verification Value (CAVV) Response Code - in a format like: 2-2-65-Y-N--)
 along with the Response Reason Text. This can be useful for troubleshooting failed or declined transactions.
 For further details see the <a href="http://www.authorize.net/support/AIM_guide.pdf">Authorize.net Advanced Integration Method (AIM) Implementation Guide</a>',

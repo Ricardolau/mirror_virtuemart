@@ -1,5 +1,5 @@
 <?php
-if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
+if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 /**
 *
 * @package VirtueMart
@@ -105,7 +105,7 @@ $langvars = array (
                                                                                         <ul><li>als a einfache Text-email</li>
                                                                                         <li>oder als eine formatierte HTML-email mit Bildern.</li></ul>',
 	'PHPSHOP_ADMIN_CFG_FRONTENDAMDIN' => 'Frontend-Administration für nicht-Backend Nutzer erlauben?',
-	'PHPSHOP_ADMIN_CFG_FRONTENDAMDIN_EXPLAIN' => 'Mit dieser Einstellung kann es nicht-Backend-Nutzern (mit storeadmin oder admin Rechten) ermöglicht werden, 
+	'PHPSHOP_ADMIN_CFG_FRONTENDAMDIN_EXPLAIN' => 'Mit dieser Einstellung kann es nicht-Backend-Nutzern (mit storeadmin oder admin Rechten) ermöglicht werden,
                                                                                               die Frontend Administration zu nutzen (z.B. für registrierte Nutzer / Autoren).',
 	'PHPSHOP_ADMIN_CFG_URLSECURE' => 'Sichere URL',
 	'PHPSHOP_ADMIN_CFG_URLSECURE_EXPLAIN' => 'The sichere Web-Adresse zur Seite. (Beginnt mit https - mit einem Schrägstrich am Ende!)',
@@ -121,7 +121,7 @@ $langvars = array (
 	'PHPSHOP_ADMIN_CFG_CATEGORY_TEMPLATE_EXPLAIN' => 'Hiermit wird die standardmäßig zu ladende Vorlagendatei (template) angegeben,
                                                                                                       die Produkte in einer Übersicht anzeigt.<br />
                                                                                                       Es können durch Anpassung der vorhandenen neue Vorlagen erstellt werden.<br />
-                                                                                                      Diese Vorlagen befinden sich im Verzeichnis <strong>COMPONENTPATH/html/templates/</strong> 
+                                                                                                      Diese Vorlagen befinden sich im Verzeichnis <strong>COMPONENTPATH/html/templates/</strong>
                                                                                                       und fangen mit \'browse_\' an',
 	'PHPSHOP_ADMIN_CFG_PRODUCTS_PER_ROW' => 'Produkte pro Zeile',
 	'PHPSHOP_ADMIN_CFG_PRODUCTS_PER_ROW_EXPLAIN' => 'Die legt die Standardmäßige Anzahl von Produkte in einer Tabellenzeile fest. <br />
@@ -137,7 +137,7 @@ $langvars = array (
                                                                                                           zur Verfügung oder kontaktieren Sie <a href="mailto:zephware@devcompany.com">ZephWare.com</a>.',
 	'PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_DISABLE' => 'Liefermodule NICHT nutzen. Z.B. wenn Sie Downloadbare Güter verkaufen, die nicht ausgeliefert werden müssen.',
 	'PHPSHOP_ADMIN_CFG_ENABLE_CHECKOUTBAR' => 'Bestellbegleitende Übersicht aktivieren?',
-	'PHPSHOP_ADMIN_CFG_ENABLE_CHECKOUTBAR_EXPLAIN' => 'Falls aktiviert, wird dem Kunden während der verschiedenen Schritte der Bestellung jederzeit visuell signalisiert, 
+	'PHPSHOP_ADMIN_CFG_ENABLE_CHECKOUTBAR_EXPLAIN' => 'Falls aktiviert, wird dem Kunden während der verschiedenen Schritte der Bestellung jederzeit visuell signalisiert,
                                                                                                         an welcher Stelle er/sie sich gerade befindet ( 1 - 2 - 3 - 4 mit Graphiken).',
 	'PHPSHOP_ADMIN_CFG_CHECKOUT_PROCESS' => 'Bestellprozess auswählen',
 	'PHPSHOP_ADMIN_CFG_ENABLE_DOWNLOADS' => 'Download-Feature aktivieren',
@@ -152,7 +152,7 @@ $langvars = array (
 	'PHPSHOP_ADMIN_CFG_DOWNLOAD_MAX' => 'Download-Maximum',
 	'PHPSHOP_ADMIN_CFG_DOWNLOAD_MAX_EXPLAIN' => 'Gibt die Anzahl von Dowloads an, die mit einer Download-ID durchgeführt werden können.',
 	'PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE' => 'Download-Zeitspanne',
-	'PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE_EXPLAIN' => 'Gibt die Zeitspanne <strong>in Sekunden</strong> an, in der der Kunde den Download durchführen kann. 
+	'PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE_EXPLAIN' => 'Gibt die Zeitspanne <strong>in Sekunden</strong> an, in der der Kunde den Download durchführen kann.
   Die Zeitspanne läuft ab dem ersten Download. Ist diese abgelaufen, wird die Download-ID deaktiviert.<br />Hinweis : 86400s=24h, 43%s=5d.',
 	'PHPSHOP_COUPONS' => 'Gutscheine',
 	'PHPSHOP_COUPONS_ENABLE' => 'Gutschein-Benutzung aktivieren',
@@ -173,8 +173,8 @@ $langvars = array (
 	'PHPSHOP_ADMIN_CFG_SHOW_PRODUCT_COUNT' => 'Anzahl der Produkte zeigen?',
 	'PHPSHOP_ADMIN_CFG_SHOW_PRODUCT_COUNT_TIP' => 'Soll die Anzahl von Produkte innerhalb einer Kategorie angezeigt werden? Beispiel: Gartengeräte (4)',
 	'PHPSHOP_ADMIN_CFG_DYNAMIC_THUMBNAIL_RESIZING' => 'Dynamisches Verkleinern von Produktbildern aktivieren?',
-	'PHPSHOP_ADMIN_CFG_DYNAMIC_THUMBNAIL_RESIZING_TIP' => 'Falls aktiviert, werden Produktbilder automatisch auf die unten angebenen Maße verkleinert. 
-Hierzu wird zwingend die GD1 / GD2 Bibliothek benötigt. Das Vorhandensein der GD2 Unterstützung kann unter "System" -> "System Info" -> "PHP Info" -> gd angezeigt werden. 
+	'PHPSHOP_ADMIN_CFG_DYNAMIC_THUMBNAIL_RESIZING_TIP' => 'Falls aktiviert, werden Produktbilder automatisch auf die unten angebenen Maße verkleinert.
+Hierzu wird zwingend die GD1 / GD2 Bibliothek benötigt. Das Vorhandensein der GD2 Unterstützung kann unter "System" -> "System Info" -> "PHP Info" -> gd angezeigt werden.
 Die Qualität der erzeugten Bilder ist viel besser, als wenn die Bilder vom Browser des Kunden verkleinert dargestellt würden. Die verkleinerten Bilder sind im Verzeichnis /shop_image/prduct/resized/ zu finden. Falls das Bild bereits verkleinert wurde, wird immer wieder die vorhandene Kopie genutzt.',
 	'PHPSHOP_ADMIN_CFG_THUMBNAIL_WIDTH' => 'Breite des verkleinerten Bildes',
 	'PHPSHOP_ADMIN_CFG_THUMBNAIL_WIDTH_TIP' => 'Die Ziel<strong>breite</strong> des verkleinerten Bildes.',
@@ -213,6 +213,8 @@ Falls nicht aktiviert, sehen Preis-Labels wie immer aus:<br/>
 	'VM_BROWSE_ORDERBY_FIELDS_LBL_TIP' => 'Wählen Sie die "Sortiere-nach" Felder aus, die angezeigt werden sollen. Jedes Feld definiert ein Sortierkriterium.',
 	'VM_GENERALLY_PREVENT_HTTPS' => 'Sichere https Verbindungen vermeiden?',
 	'VM_GENERALLY_PREVENT_HTTPS_TIP' => 'Falls diese Option aktiviert ist, werden https Verbindungen vermieden, falls sie nicht notwendig sind (Geschwindigkeitssteigerung). So wird ein Kunde zur <strong>http</strong> URL weitergeleitet, falls er nicht in Bereichen des Shops surft, die https erfordern.',
+	'VM_ALLOW_EXTENDED_CLASSES' => 'Klassenerweiterungen in Themes erlauben?',
+	'VM_ALLOW_EXTENDED_CLASSES_TIP' => 'Falls diese Option aktiviert ist, können die Standardklassen von Virtuemart durch eigene Programmierung im Themes-Verzeichnis-> /user_classes/ erweitert oder überschrieben werden. Wenn Sie diese Funktionalität nicht benötigen, sollten Sie diese Option aus Sicherheitsgründen deaktivieren.',
 	'VM_MODULES_FORCE_HTTPS' => 'Shop-Bereiche, in denen https Verbindungen erforderlich sind.',
 	'VM_MODULES_FORCE_HTTPS_TIP' => 'Tragen Sie hier die Shopmodule ein, die https Verbindungen erzwingen (Siehe "Administrator" => "Module auflisten", Standard: "account,checkout").',
 	'VM_SHOW_REMEMBER_ME_BOX' => 'Anzeigen der "Angemeldet bleiben" Box bei der Anmeldung?',
@@ -404,7 +406,7 @@ Customers don\'t need to and are not able to register in this type of registrati
 	'VM_UPDATE_NOTDOWNLOADED' => 'The Update Package could not be downloaded.',
 	'VM_UPDATE_PREVIEW_LBL' => 'VirtueMart Update Preview',
 	'VM_UPDATE_WARNING_TITLE' => 'General Warning',
-	'VM_UPDATE_WARNING_TEXT' => 'Installing an Update for VirtueMart using a Patch Package can cause damage on your site 
+	'VM_UPDATE_WARNING_TEXT' => 'Installing an Update for VirtueMart using a Patch Package can cause damage on your site
 if you have already modified some files of the VirtueMart component. The Patching Process will overwrite all the files listed below - it won\'t just apply smaller changes (diff), but replace the existing file with the new one. If you have modified VirtueMart files on your own, this can lead to inconsistent files and missing class/function dependencies.',
 	'VM_UPDATE_PATCH_DETAILS' => 'Patch Details',
 	'VM_UPDATE_PATCH_DESCRIPTION' => 'Description',

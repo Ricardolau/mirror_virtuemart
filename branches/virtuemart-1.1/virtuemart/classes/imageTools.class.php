@@ -62,11 +62,32 @@ class vmImageTools {
 		require_once( CLASSPATH. 'ps_product_files.php');
 		ps_product_files::checkUploadedFile( $field_name );
 		
+		// proof of concept fix by jmarsik 20090422 - safely move the uploaded file from upload_tmp_dir to temporary location (hopefully) included in open_basedir, following code will be much happier :)
+		// if the file is not moved, following code will try to manipulate it using functions that check open_basedir (for example copy, file_exists, unlink, getimagesize)
+		if( !empty ( $_FILES[$field_name]["tmp_name"] ) && is_uploaded_file($_FILES[$field_name]["tmp_name"]) )
+		{
+			$tmpfile_moved_from_uploaded_file = $path . "tmpForThumb_" . basename($_FILES[$field_name]["tmp_name"]);
+			$vmLogger->debug("Moving file from " . $_FILES[$field_name]["tmp_name"] . " to " . $tmpfile_moved_from_uploaded_file . " (helps when upload_tmp_dir is not in open_basedir)");
+			move_uploaded_file($_FILES[$field_name]["tmp_name"], $tmpfile_moved_from_uploaded_file);
+			$_FILES[$field_name]["tmp_name"] = $tmpfile_moved_from_uploaded_file;
+		}
+		
 		$tmp_field_name = str_replace( "thumb", "full", $field_name );
 		//	Class for resizing Thumbnails
 		require_once( CLASSPATH . "class.img2thumb.php");
-				
+
 		if( @$d[$tmp_field_name.'_action'] == 'auto_resize' ) {
+
+			// proof of concept fix by jmarsik 20090422 - safely move the uploaded file from upload_tmp_dir to temporary location (hopefully) included in open_basedir, following code will be much happier :)
+			// if the file is not moved, following code will try to manipulate it using functions that check open_basedir (for example copy, file_exists, unlink, getimagesize)
+			if( !empty ( $_FILES[$tmp_field_name]["tmp_name"] ) && is_uploaded_file($_FILES[$tmp_field_name]["tmp_name"]) )
+			{
+				$tmpfile_moved_from_uploaded_file = $path . "tmpForThumb_" . basename($_FILES[$tmp_field_name]["tmp_name"]);
+				$vmLogger->debug("Moving file from " . $_FILES[$tmp_field_name]["tmp_name"] . " to " . $tmpfile_moved_from_uploaded_file . " (helps when upload_tmp_dir is not in open_basedir)");
+				move_uploaded_file($_FILES[$tmp_field_name]["tmp_name"], $tmpfile_moved_from_uploaded_file);
+				$_FILES[$tmp_field_name]["tmp_name"] = $tmpfile_moved_from_uploaded_file;
+			}
+		
 			// Resize the Full Image
 			if( !empty ( $_FILES[$tmp_field_name]["tmp_name"] )) {
 				$full_file = $_FILES[$tmp_field_name]["tmp_name"];

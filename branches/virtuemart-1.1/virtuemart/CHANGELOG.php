@@ -34,6 +34,12 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+
+14.07.2009 soeren
+# Task #2668 - Mail contents is broken on OSX server. 
+# Task #1972 - Tax added even when product has no tax assign to it 
+# Task #2584 - Image upload displays errors and thumbnail creation is not possible when open_basedir does not include PHP's upload_tmp_dir directory 
+
 12.07.2009 mauri
 # Task #2549 - When 'Virtual Tax' is unchecked, 'Show "(including XX% tax)" when applicable?' it not shown for all products. 
 

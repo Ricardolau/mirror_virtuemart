@@ -515,9 +515,10 @@ function vmCreateMail( $from='', $fromname='', $subject='', $body='' ) {
 		case "WIN":
 			$mail->LE = "\r\n";
 			break;
-		case "MAC": // fallthrough
-		case "DAR": // Does PHP_OS return 'Macintosh' or 'Darwin' ?
+		case "MAC": // Mac OS9
 			$mail->LE = "\r";
+			break;
+		case "DAR": // Mac OSX
 		default: // change nothing
 			break;
 	}

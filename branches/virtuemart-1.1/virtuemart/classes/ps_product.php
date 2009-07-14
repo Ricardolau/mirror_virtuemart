@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -1515,20 +1515,22 @@ class vm_ps_product extends vmAbstractObject {
 	function get_product_taxrate( $product_id, $weight_subtotal=0, $ship_to_info_id = '' ) {
 		$db = new ps_DB;
 		// Product's weight_subtotal, if weight_subtotal is 0!
-		$q = "SELECT product_weight FROM #__{vm}_product ";
-		$q .= "WHERE product_id='$product_id'";
-		$db->query($q);
-		if ($db->next_record()) {
-			$product_weight = $db->f("product_weight");
-			if( $weight_subtotal == 0 && $product_weight > 0 ) {
-				$weight_subtotal = $product_weight;
-			}
+		$product_weight = ps_product::get_field($product_id, 'product_weight');
+		
+		if( $weight_subtotal == 0 && $product_weight > 0 ) {
+			$weight_subtotal = $product_weight;
 		}
-
+		
 		require_once( CLASSPATH . 'ps_checkout.php' );
-
+		
 		if ( ( $weight_subtotal != 0 or TAX_VIRTUAL=='1' ) && !ps_checkout::tax_based_on_vendor_address( $ship_to_info_id ) ) {
-			$_SESSION['product_sess'][$product_id]['tax_rate'] = $this->get_taxrate( $ship_to_info_id );
+			$tax_rate_id = ps_product::get_field($product_id, 'product_tax_id');
+			if( $tax_rate_id == 0 ) {
+				// if the tax rate was explicitely set to "0 (none)", the product should not be taxed, no matter what else
+				$_SESSION['product_sess'][$product_id]['tax_rate'] = 0;
+			} else {
+				$_SESSION['product_sess'][$product_id]['tax_rate'] = $this->get_taxrate( $ship_to_info_id );
+			}
 			return $_SESSION['product_sess'][$product_id]['tax_rate'];
 		}
 		elseif( ( $weight_subtotal == 0 or TAX_VIRTUAL != '1' ) && !ps_checkout::tax_based_on_vendor_address( $ship_to_info_id ) ) {
@@ -1540,8 +1542,8 @@ class vm_ps_product extends vmAbstractObject {
 //			if( empty( $_SESSION['product_sess'][$product_id]['tax_rate'] ) ) {
 				$db = new ps_DB;
 				// Product's tax rate id has priority!
-				$q = "SELECT tax_rate FROM #__{vm}_product, #__{vm}_tax_rate ";
-				$q .= "WHERE product_tax_id=tax_rate_id AND product_id='$product_id'";
+				$q = 'SELECT tax_rate FROM #__{vm}_product, #__{vm}_tax_rate ';
+				$q .= 'WHERE product_tax_id=tax_rate_id AND product_id='.(int)$product_id;
 				$db->query($q);
 				if ( $db->next_record() ) {
 					$rate = $db->f("tax_rate");

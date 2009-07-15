@@ -44,12 +44,14 @@ foreach( $product_types as $product_type ) { // Loop through all recent products
 			if ( !empty($product_type_params["tooltip"] ) ) { ?>
     			&nbsp;<?php echo $product_type_params["tooltip"]; 
 			} 
+			?>
+			</td><td><?php echo $product_type_params["parameter_value"];
 
-			if ( !empty($product_type_params["unit"] ) ) { ?>
-				</td><td><?php echo $product_type_params["parameter_value"]." ".$product_type_params["unit"]; ?>
-				</td></tr>
-				<?php 
-			}
+			if ( !empty($product_type_params["unit"] ) ) {
+				echo " ".$product_type_params["unit"];
+			} ?>
+			</td></tr>
+			<?php
 		}
 	}
 	?>

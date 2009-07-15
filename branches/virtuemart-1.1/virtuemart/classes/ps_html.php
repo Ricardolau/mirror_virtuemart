@@ -119,6 +119,8 @@ class vm_ps_html {
 
 		$title = array($VM_LANG->_('PHPSHOP_REGISTRATION_FORM_MR'),
 						$VM_LANG->_('PHPSHOP_REGISTRATION_FORM_MRS'),
+						$VM_LANG->_('PHPSHOP_REGISTRATION_FORM_MISS'),
+						$VM_LANG->_('PHPSHOP_REGISTRATION_FORM_MS'),
 						$VM_LANG->_('PHPSHOP_REGISTRATION_FORM_DR'),
 						$VM_LANG->_('PHPSHOP_REGISTRATION_FORM_PROF'));
 		echo "<select class=\"inputbox\" name=\"title\" $extra>\n";

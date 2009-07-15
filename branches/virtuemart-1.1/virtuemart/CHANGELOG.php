@@ -34,6 +34,8 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+15.07.2009 aravot
++ Task #2663 - One Title option in billing form (Ms)
 
 15.07.2009 mauri
 # Task #2672 - Notice: Undefined index: unit in product_type.tpl.php on line 44

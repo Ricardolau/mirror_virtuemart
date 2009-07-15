@@ -27,28 +27,32 @@ foreach( $product_types as $product_type ) { // Loop through all recent products
     echo $VM_LANG->_('PHPSHOP_PRODUCT_TYPE_PARAMETERS_IN_CATEGORY').": ".$product_type["product_type_name"];
     ?></strong></td></tr><?php 
     $i = 0;
-    foreach($product_type["parameters"] as $product_type_params) {
-    	foreach($product_type_params as $attr => $val) {
-    		$this->set( $attr, $val);
-    	}
-    if($i++ % 2) {
-    	$bgcolor = 'row0';
-    } else {
-    	$bgcolor = 'row1';
-    }
-    ?><tr class="<?php echo $bgcolor;?> height="18">
-    <td width="30%"><?php echo $product_type_params["parameter_label"]; 
-    if (!empty($product_type_params["tooltip"])) { ?>
-    	&nbsp;<?php echo $product_type_params["tooltip"]; 
-    } ?>
-    </td><td><?php echo $product_type_params["parameter_value"]." ".$product_type_params["unit"]; ?>
-    </td></tr>
-    <?php 
-	
+	if ( !empty( $product_type["parameters"] ) ) {
+		foreach( $product_type["parameters"] as $product_type_params ) {
+    		foreach( $product_type_params as $attr => $val ) {
+    			$this->set( $attr, $val );
+    		}
+			if ( $i++ % 2 ) {
+    			$bgcolor = 'row0';
+			}
+			else {
+    			$bgcolor = 'row1';
+			}
+			?><tr class="<?php echo $bgcolor;?> height="18">
+			<td width="30%"><?php echo $product_type_params["parameter_label"]; 
+
+			if ( !empty($product_type_params["tooltip"] ) ) { ?>
+    			&nbsp;<?php echo $product_type_params["tooltip"]; 
+			} 
+
+			if ( !empty($product_type_params["unit"] ) ) { ?>
+				</td><td><?php echo $product_type_params["parameter_value"]." ".$product_type_params["unit"]; ?>
+				</td></tr>
+				<?php 
+			}
+		}
+	}
 	?>
-	
-	<?php
-    } ?>
     </table><?php 
 }
 ?>

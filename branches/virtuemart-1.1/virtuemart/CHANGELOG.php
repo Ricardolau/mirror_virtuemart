@@ -35,6 +35,9 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 
+15.07.2009 mauri
+# Task #2672 - Notice: Undefined index: unit in product_type.tpl.php on line 44
+
 14.07.2009 soeren
 # Task #2668 - Mail contents is broken on OSX server. 
 # Task #1972 - Tax added even when product has no tax assign to it 

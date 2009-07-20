@@ -293,7 +293,7 @@ class vm_ps_order {
 				}
 			} 
 		}
-		elseif ( in_array($d["order_status"], array(DISABLE_DOWNLOAD_STATUS,'X','R'))) {
+		elseif ( in_array(vmGet($d,'order_status'), array(DISABLE_DOWNLOAD_STATUS,'X','R'))) {
 			$q = "DELETE FROM #__{vm}_product_download WHERE order_id=" . (int)$d["order_id"];
 			$db->query($q);
 			$db->next_record();

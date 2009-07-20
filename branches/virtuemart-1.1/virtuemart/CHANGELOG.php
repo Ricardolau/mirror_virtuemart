@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+20.07.2009 soeren
+# Task #2676 - Notice: Undefined index: order_status in ps_order.php on line 296 when Resend Download ID is clicked.
+ 
 15.07.2009 aravot
 + Task #2663 - One Title option in billing form (Ms)
 

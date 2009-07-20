@@ -2101,7 +2101,7 @@ $db->query( "CREATE TABLE IF NOT EXISTS `#__{vm}_tax_rate` (
   `tax_state` varchar(64) default NULL,
   `tax_country` varchar(64) default NULL,
   `mdate` int(11) default NULL,
-  `tax_rate` decimal(10,4) default NULL,
+  `tax_rate` decimal(10,5) default NULL,
   PRIMARY KEY  (`tax_rate_id`),
   KEY `idx_tax_rate_vendor_id` (`vendor_id`)
 ) TYPE=MyISAM COMMENT='The tax rates for your store'; ");

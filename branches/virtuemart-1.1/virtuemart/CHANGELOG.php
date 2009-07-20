@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage core
-* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 VirtueMart Development Team - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -35,6 +35,10 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 20.07.2009 soeren
+# Task #2677 - Tax rate should not be rounded. 
+! Table Structure Change: Table "jos_vm_tax_rate", using 5 decimals for the tax rate now
+! ALTER TABLE `jos_vm_tax_rate` CHANGE `tax_rate` `tax_rate` DECIMAL( 10, 5 ) NULL DEFAULT NULL 
+
 # Task #2676 - Notice: Undefined index: order_status in ps_order.php on line 296 when Resend Download ID is clicked.
  
 15.07.2009 aravot

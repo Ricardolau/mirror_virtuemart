@@ -82,7 +82,7 @@ while ($db->next_record()) {
 	$listObj->addCell( $db->f("tax_state"));
     
 	$url = $_SERVER['PHP_SELF'] . "?page=$modulename.tax_form&limitstart=$limitstart&keyword=".urlencode($keyword)."&tax_rate_id=". $db->f("tax_rate_id");
-	$tmp_cell = "<a href=\"" . $sess->url($url) . "\">". sprintf("%8.4f", $db->f("tax_rate")). "</a>";
+	$tmp_cell = "<a href=\"" . $sess->url($url) . "\">". sprintf("%8.5f", $db->f("tax_rate")). "</a>";
 	$listObj->addCell( $tmp_cell );
 	
 	$listObj->addCell( $ps_html->deleteButton( "tax_rate_id", $db->f("tax_rate_id"), "deleteTaxRate", $keyword, $limitstart ) );

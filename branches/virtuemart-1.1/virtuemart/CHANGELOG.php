@@ -34,6 +34,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+21.07.2009 aravot
+# Task #2677 - Tax rate should not be rounded. 
+! Modified tax.tax_list.php file to use 5 decimals for the tax rate 
+
 20.07.2009 soeren
 # Task #2677 - Tax rate should not be rounded. 
 ! Table Structure Change: Table "jos_vm_tax_rate", using 5 decimals for the tax rate now

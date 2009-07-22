@@ -180,13 +180,22 @@ class vm_ps_order {
 				$q = "SELECT product_id, product_quantity FROM #__{vm}_order_item WHERE order_id='".$db->getEscaped($d["order_id"])."'";
 				$db->query( $q );
 				$dbu = new ps_DB;
+				require_once( CLASSPATH.'ps_product.php');
 				// Now update each ordered product
 				while( $db->next_record() ) {
-					$q = "UPDATE #__{vm}_product 
+					if( ENABLE_DOWNLOADS == '1' && ps_product::is_downloadable($db->f("product_id")) && VM_DOWNLOADABLE_PRODUCTS_KEEP_STOCKLEVEL == '1') {
+						$q = "UPDATE #__{vm}_product  
+								SET product_sales=product_sales-".$db->f("product_quantity")." 
+							WHERE product_id=".$db->f("product_id");
+						$dbu->query( $q );
+					}
+					else {
+						$q = "UPDATE #__{vm}_product 
 							SET product_in_stock=product_in_stock+".$db->f("product_quantity").",
 								product_sales=product_sales-".$db->f("product_quantity")." 
-							WHERE product_id='".$db->f("product_id")."'";
-					$dbu->query( $q );
+							WHERE product_id=".$db->f("product_id");
+						$dbu->query( $q );
+					}
 				}
 			}
 			// Update the Order Items' status
@@ -211,6 +220,28 @@ class vm_ps_order {
 				$this->notify_customer( $d );
 			}
 		} elseif( !empty($d['order_item_id'])) {
+				// Update the Order Items' status
+				$q = "SELECT order_item_id, product_id, product_quantity FROM #__{vm}_order_item 
+							WHERE order_id=".$db->getEscaped($d['order_id'])
+						. ' AND order_item_id='.intval( $d['order_item_id'] );
+				$db->query($q);
+				$item_product_id = $db->f('product_id');
+				$item_product_quantity = $db->f('product_quantity');
+				
+				if( ENABLE_DOWNLOADS == '1' && ps_product::is_downloadable($item_product_id) && VM_DOWNLOADABLE_PRODUCTS_KEEP_STOCKLEVEL == '1') {
+						$q = "UPDATE #__{vm}_product  
+								SET product_sales=product_sales-".$item_product_quantity." 
+							WHERE product_id=".$item_product_id;
+						$db->query( $q );
+					}
+					else {
+						$q = "UPDATE #__{vm}_product 
+							SET product_in_stock=product_in_stock+".$item_product_quantity.",
+								product_sales=product_sales-".$item_product_quantity." 
+							WHERE product_id=".$item_product_id;
+						$db->query( $q );
+				}
+				
 				$fields =array( 'order_status'=> $d["order_status"], 
 											'mdate'=> $timestamp );
 				$db->buildQuery('UPDATE', '#__{vm}_order_item', $fields, 'WHERE order_item_id='.intval( $d['order_item_id'] ));
@@ -658,18 +689,6 @@ class vm_ps_order {
 			$GLOBALS['vmLogger']->err($VM_LANG->_('VM_ORDER_DELETE_ERR_ID'));
 			return False;
 		}
-		
-		// Get the order items and update the stock level
-		// to the number before the order was placed
-		$q = "SELECT product_id, product_quantity FROM #__{vm}_order_item WHERE order_id='".$db->getEscaped($order_id)."'";
-		$db->query( $q );
-		$dbu = new ps_DB;
-		// Now update each ordered product
-		while( $db->next_record() ) {
-			$q = "UPDATE #__{vm}_product SET product_in_stock=product_in_stock+".$db->f("product_quantity")
-			.",product_sales=product_sales-".$db->f("product_quantity")." WHERE product_id='".$db->f("product_id")."'";
-			$dbu->query( $q );
-		}
 
 		return True;
 	}
@@ -699,6 +718,32 @@ class vm_ps_order {
 		global $db;
 		$record_id = intval( $record_id );
 		if ($this->validate_delete($record_id)) {
+			
+			$dbu = new ps_db();
+			// 	Get the order items and update the stock level
+			// to the number before the order was placed
+			$q = "SELECT order_status, product_id, product_quantity FROM #__{vm}_order_item WHERE order_id=$record_id";
+			$db->query( $q );
+			
+			// Now update each ordered product
+			while( $db->next_record() ) {
+				if( in_array( $db->f('order_status'), array('P', 'X', 'R') )) continue;
+				
+				if( ENABLE_DOWNLOADS == '1' && ps_product::is_downloadable($db->f("product_id")) && VM_DOWNLOADABLE_PRODUCTS_KEEP_STOCKLEVEL == '1') {
+					$q = "UPDATE #__{vm}_product  
+							SET product_sales=product_sales-".$db->f("product_quantity")." 
+						WHERE product_id=".$db->f("product_id");
+					$dbu->query( $q );
+				}
+				else {
+					$q = "UPDATE #__{vm}_product 
+						SET product_in_stock=product_in_stock+".$db->f("product_quantity").",
+							product_sales=product_sales-".$db->f("product_quantity")." 
+						WHERE product_id=".$db->f("product_id");
+					$dbu->query( $q );
+				}
+			}
+		
 			$q = "DELETE from #__{vm}_orders where order_id='$record_id'";
 			$db->query($q);
 

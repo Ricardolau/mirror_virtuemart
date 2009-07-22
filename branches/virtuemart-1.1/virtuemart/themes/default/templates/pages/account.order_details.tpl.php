@@ -575,16 +575,23 @@ if( $db->f('order_number')) {
 	        <td width="10%"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_ACCOUNT_NAME') ?> :</td>
 	        <td><?php $dbpm->p("order_payment_name"); ?> </td>
 	      </tr>
+	      <?php if( $dbaccount->f("account_number")) {?>
 	      <tr> 
 	        <td><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_ACCOUNT_NUMBER') ?> :</td>
 	        <td> <?php echo ps_checkout::asterisk_pad($dbaccount->f("account_number"),4);
 	    ?> </td>
 	      </tr>
+	      <?php 
+	      }
+	      if( $dbpm->f("order_payment_expire") ) {
+	      ?>
 	      <tr> 
 	        <td><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_EXPIRE_DATE') ?> :</td>
-	        <td><?php echo strftime("%m - %Y", $dbpm->f("order_payment_expire")); ?> </td>
+	        <td><?php echo $dbpm->f("order_payment_expire") ? strftime("%m - %Y", $dbpm->f("order_payment_expire")) : ''; ?> </td>
 	      </tr>
-		  <?php } ?>
+		  <?php
+	      } 
+	   } ?>
 	      <!-- end payment information --> 
 	      </table>
 	

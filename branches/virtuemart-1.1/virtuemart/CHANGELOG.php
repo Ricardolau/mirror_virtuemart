@@ -34,6 +34,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+22.07.2009 soeren
+# Task #2563 - Wrong credit card expiration date in user Account Maintenance.
+# Task #2310 - Stock levels not maintained correctly when selling downloadable products.
+  
 21.07.2009 aravot
 # Task #2677 - Tax rate should not be rounded. 
 ! Modified tax.tax_list.php file to use 5 decimals for the tax rate 

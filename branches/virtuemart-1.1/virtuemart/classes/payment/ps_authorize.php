@@ -21,7 +21,6 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 class ps_authorize {
 
 	var $payment_code = "AN";
-	var $classname = "ps_authorize";
 
 	/**
     * Show all configuration parameters for this payment method
@@ -33,11 +32,11 @@ class ps_authorize {
 		$db =& new ps_DB;
 		$payment_method_id = vmGet( $_REQUEST, 'payment_method_id', null );
 		/** Read current Configuration ***/
-		require_once(CLASSPATH ."payment/".$this->classname.".cfg.php");
+		require_once(CLASSPATH ."payment/".__CLASS__.".cfg.php");
     ?>
-      <table>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_TESTMODE') ?></strong></td>
+      <table class="adminform">
+        <tr class="row0">
+            <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_TESTMODE') ?></td>
             <td>
                 <select name="AN_TEST_REQUEST" class="inputbox" >
                 <option <?php if (AN_TEST_REQUEST == 'TRUE') echo "selected=\"selected\""; ?> value="TRUE"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES') ?></option>
@@ -47,24 +46,33 @@ class ps_authorize {
             <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_ENABLE_AUTORIZENET_TESTMODE_EXPLAIN') ?>
             </td>
         </tr>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_AUTORIZENET_USERNAME') ?></strong></td>
+        <tr class="row1">
+            <td class="labelcell">Authorize.net Server Hostname</td>
+            <td>
+                <input type="text" name="AN_HOSTNAME" value="<?php echo defined('AN_HOSTNAME') ? AN_HOSTNAME : 'secure.authorize.net' ?>" />
+            </td>
+            <td>Name of the Authorize.net Server, the requests are sent to. Default Value: <strong>secure.authorize.net</strong><br />
+            DO NOT CHANGE UNLESS YOU KNOW WHAT YOU'RE DOING. 
+            </td>
+        </tr>
+        <tr class="row0">
+            <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_AUTORIZENET_USERNAME') ?></td>
             <td>
                 <input type="text" name="AN_LOGIN" class="inputbox" value="<?php echo AN_LOGIN ?>" />
             </td>
             <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_AUTORIZENET_USERNAME_EXPLAIN') ?>
             </td>
         </tr>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_AUTORIZENET_KEY') ?></strong></td>
+        <tr class="row1">
+            <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_AUTORIZENET_KEY') ?></td>
             <td>
                 <a class="button" id="changekey" href="<?php $sess->purl($_SERVER['PHP_SELF']."?page=store.payment_method_keychange&pshop_mode=admin&payment_method_id=$payment_method_id") ?>" >
                 <?php echo $VM_LANG->_('PHPSHOP_CHANGE_TRANSACTION_KEY') ?><a/>
             </td>
             <td>&nbsp;</td>
         </tr>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_CVV2') ?></strong></td>
+        <tr class="row0">
+            <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_CVV2') ?></td>
             <td>
                 <select name="AN_CHECK_CARD_CODE" class="inputbox">
                 <option <?php if (AN_CHECK_CARD_CODE == 'YES') echo "selected=\"selected\""; ?> value="YES">
@@ -75,8 +83,8 @@ class ps_authorize {
             </td>
             <td><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_CVV2_TOOLTIP') ?></td>
         </tr>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_AN_RECURRING') ?></strong></td>
+        <tr class="row1">
+            <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_AN_RECURRING') ?></td>
             <td>
                 <select name="AN_RECURRING" class="inputbox">
                 <option <?php if (AN_RECURRING == 'YES') echo "selected=\"selected\""; ?> value="YES">
@@ -88,8 +96,8 @@ class ps_authorize {
             <td><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_AN_RECURRING_TOOLTIP') ?>
             </td>
         </tr>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_AUTORIZENET_AUTENTICATIONTYPE') ?></strong></td>
+        <tr class="row0">
+            <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_AUTORIZENET_AUTENTICATIONTYPE') ?></td>
             <td>
                <select name="AN_TYPE" class="inputbox">
                 <option <?php if (AN_TYPE == 'AUTH_CAPTURE') echo "selected=\"selected\""; ?> value="AUTH_CAPTURE">AUTH_CAPTURE</option>
@@ -100,8 +108,8 @@ class ps_authorize {
             </td>
         </tr>
         <tr><td colspan="3"><hr/></td></tr>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_SUCC') ?></strong></td>
+        <tr class="row1">
+            <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_SUCC') ?></td>
             <td>
                 <select name="AN_VERIFIED_STATUS" class="inputbox" >
                 <?php
@@ -126,8 +134,8 @@ class ps_authorize {
             </td>
             <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_SUCC_EXPLAIN') ?></td>
         </tr>
-            <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_FAIL') ?></strong></td>
+            <tr class="row0">
+            <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_FAIL') ?></td>
             <td>
                 <select name="AN_INVALID_STATUS" class="inputbox" >
                 <?php
@@ -144,8 +152,8 @@ class ps_authorize {
             <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_FAIL_EXPLAIN') ?></td>
         </tr>
 
-            <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_AUTORIZENET_RESPCODES') ?></strong></td>
+            <tr class="row1">
+            <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_AUTORIZENET_RESPCODES') ?></td>
             <td>
                 <select name="AN_SHOW_ERROR_CODE" class="inputbox">
                 <option <?php if (AN_SHOW_ERROR_CODE == 'YES') echo "selected=\"selected\""; ?> value="YES">
@@ -156,8 +164,8 @@ class ps_authorize {
             </td>
             <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_AUTORIZENET_RESPCODES_EXPLAIN') ?></td>
         </tr>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_AUTORIZENET_EMAIL_MERCHANT') ?></strong></td>
+        <tr class="row0">
+            <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_AUTORIZENET_EMAIL_MERCHANT') ?></td>
             <td>
                 <select name="AN_EMAIL_MERCHANT" class="inputbox">
                 <option <?php if (AN_EMAIL_MERCHANT == 'YES') echo "selected=\"selected\""; ?> value="YES">
@@ -168,8 +176,8 @@ class ps_authorize {
             </td>
             <td><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_AUTORIZENET_EMAIL_MERCHANT_EXPLAIN') ?></td>
         </tr>
-        <tr>
-            <td><strong><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_AUTORIZENET_EMAIL_CUSTOMER') ?></strong></td>
+        <tr class="row1">
+            <td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_AUTORIZENET_EMAIL_CUSTOMER') ?></td>
             <td>
                 <select name="AN_EMAIL_CUSTOMER" class="inputbox">
                 <option <?php if (AN_EMAIL_CUSTOMER == 'YES') echo "selected=\"selected\""; ?> value="YES">
@@ -197,7 +205,7 @@ class ps_authorize {
 	* @returns boolean True when the configuration file is writeable, false when not
 	*/
 	function configfile_writeable() {
-		return is_writeable( CLASSPATH."payment/".$this->classname.".cfg.php" );
+		return is_writeable( CLASSPATH."payment/".__CLASS__.".cfg.php" );
 	}
 
 	/**
@@ -206,7 +214,7 @@ class ps_authorize {
 	* @returns boolean True when the configuration file is writeable, false when not
 	*/
 	function configfile_readable() {
-		return is_readable( CLASSPATH."payment/".$this->classname.".cfg.php" );
+		return is_readable( CLASSPATH."payment/".__CLASS__.".cfg.php" );
 	}
 	/**
 	* Writes the configuration file for this payment method
@@ -217,6 +225,7 @@ class ps_authorize {
 
 		$my_config_array = array("AN_TEST_REQUEST" => $d['AN_TEST_REQUEST'],
 		"AN_LOGIN" => $d['AN_LOGIN'],
+		"AN_HOSTNAME" => $d['AN_HOSTNAME'],
 		"AN_TYPE" => $d['AN_TYPE'],
 		"AN_CHECK_CARD_CODE" => $d['AN_CHECK_CARD_CODE'],
 		"AN_VERIFIED_STATUS" => $d['AN_VERIFIED_STATUS'],
@@ -234,7 +243,7 @@ class ps_authorize {
 
 		$config .= "?>";
 
-		if ($fp = fopen(CLASSPATH ."payment/".$this->classname.".cfg.php", "w")) {
+		if ($fp = fopen(CLASSPATH ."payment/".__CLASS__.".cfg.php", "w")) {
 			fputs($fp, $config, strlen($config));
 			fclose ($fp);
 			return true;
@@ -261,12 +270,14 @@ class ps_authorize {
 		$ps_checkout = new ps_checkout;
 
 		// Get the Configuration File for authorize.net
-		require_once(CLASSPATH ."payment/".$this->classname.".cfg.php");
+		require_once(CLASSPATH ."payment/".__CLASS__.".cfg.php");
 		// connector class
 		require_once(CLASSPATH ."connectionTools.class.php");
 
 		// Get the Transaction Key securely from the database
-		$database->query( "SELECT ".VM_DECRYPT_FUNCTION."(payment_passkey,'".ENCODE_KEY."') as passkey FROM #__{vm}_payment_method WHERE payment_class='".$this->classname."' AND shopper_group_id='".$auth['shopper_group_id']."'" );
+		$database->query( "SELECT ".VM_DECRYPT_FUNCTION."(payment_passkey,'".ENCODE_KEY."') as passkey FROM #__{vm}_payment_method 
+									WHERE payment_class='".__CLASS__."'  
+										AND payment_enabled = 'Y'" );
 		$transaction = $database->record[0];
 		if( empty($transaction->passkey)) {
 			$vmLogger->err( $VM_LANG->_('PHPSHOP_PAYMENT_ERROR',false).'. Technical Note: The required transaction key is empty! The payment method settings must be reviewed.' );
@@ -378,7 +389,11 @@ class ps_authorize {
 		// strip off trailing ampersand
 		$poststring = substr($poststring, 0, -1);
 		
-		$host = 'secure.authorize.net';
+		if (defined('AN_HOSTNAME')) {
+   			$host = AN_HOSTNAME;
+  		} else {
+   			$host = 'secure.authorize.net';
+  		}
 				
 		$result = vmConnector::handleCommunication( "https://$host:443/gateway/transact.dll", $poststring );
 		
@@ -490,10 +505,11 @@ class ps_authorize {
 			return false;
 		}
 		/*** Get the Configuration File for authorize.net ***/
-		require_once(CLASSPATH ."payment/".$this->classname.".cfg.php");
+		require_once(CLASSPATH ."payment/".__CLASS__.".cfg.php");
 
 		// Get the Transaction Key securely from the database
-		$database->query( "SELECT ".VM_DECRYPT_FUNCTION."(payment_passkey,'".ENCODE_KEY."') as passkey FROM #__{vm}_payment_method WHERE payment_class='".$this->classname."'" );
+		$database->query( "SELECT ".VM_DECRYPT_FUNCTION."(payment_passkey,'".ENCODE_KEY."') as passkey FROM #__{vm}_payment_method 
+									WHERE payment_class='".__CLASS__."' AND payment_enabled = 'Y'" );
 		$transaction = $database->record[0];
 		if( empty($transaction->passkey)) {
 			$vmLogger->err($VM_LANG->_('PHPSHOP_PAYMENT_ERROR'),false);
@@ -611,7 +627,11 @@ class ps_authorize {
 		// strip off trailing ampersand
 		$poststring = substr($poststring, 0, -1);
 		
-		$host = 'secure.authorize.net';
+		if (defined('AN_HOSTNAME')) {
+   			$host = AN_HOSTNAME;
+  		} else {
+   			$host = 'secure.authorize.net';
+  		}
 		
 		$result = vmConnector::handleCommunication( "https://$host:443/gateway/transact.dll", $poststring );
 		

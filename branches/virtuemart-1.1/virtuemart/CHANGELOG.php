@@ -34,6 +34,12 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+29.07.2009 soeren
+# Task #2686 - Problem with ps_authorize.php on checkout if more than one ps_authorize payment method exists
+
+23.07.2009 soeren
+# Task #2679 - Authorize.net current configuration will not connect to the testing server.
+
 22.07.2009 soeren
 # Task #2563 - Wrong credit card expiration date in user Account Maintenance.
 # Task #2310 - Stock levels not maintained correctly when selling downloadable products.

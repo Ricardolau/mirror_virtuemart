@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+31.07.2009 aravot
+# Fixed - SQL error caused by function get_name_by_catid($catid) (http://forum.virtuemart.net/index.php?topic=58641.0)
+
 29.07.2009 soeren
 # Task #2686 - Problem with ps_authorize.php on checkout if more than one ps_authorize payment method exists
 

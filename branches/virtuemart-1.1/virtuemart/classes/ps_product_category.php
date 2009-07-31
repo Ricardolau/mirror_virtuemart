@@ -1165,7 +1165,7 @@ class vm_ps_product_category extends vmAbstractObject {
 		$db = new ps_DB;
 
 		$q = "SELECT category_name FROM #__{vm}_category ";
-		$q .= "WHERE category_id = $catid ";
+		$q .= "WHERE category_id = '$catid' ";
 		$db->query( $q );
 		$db->next_record();
 

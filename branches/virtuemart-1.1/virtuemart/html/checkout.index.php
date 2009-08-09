@@ -108,9 +108,6 @@ if ($cart["idx"] > 0) {
         <input type="hidden" name="checkout_last_step" value="'. $current_stage .'" />';
 		
 		$theme->set( 'basket_html', $basket_html );
-		
-	    // Set Dynamic Page Title: "Checkout: Step x of x"
-	    $mainframe->setPageTitle( sprintf( $VM_LANG->_('VM_CHECKOUT_TITLE_TAG'), $current_stage, count($checkout_steps) ));
 	    
 	    // CHECK_OUT_GET_SHIPPING_ADDR
 	    // Lets the user pick or add an alternative Shipping Address
@@ -147,7 +144,19 @@ if ($cart["idx"] > 0) {
 		foreach( $checkout_steps[$current_stage] as $this_step ) {	
 			echo '<input type="hidden" name="checkout_this_step[]" value="'.$this_step.'" />';
 		}
-            
+		
+ 		// Set Dynamic Page Title: "Checkout: Step x of x"
+		$ii = 0;
+		for( $i = 1; $i < 5; $i++ ) {
+			if( isset( $checkout_steps[$i] ) ) {
+				$ii += 1;
+				if( in_array($this_step, $checkout_steps[$i] ) ) {
+					$mainframe->setPageTitle( sprintf( $VM_LANG->_('VM_CHECKOUT_TITLE_TAG'), $ii, count($checkout_steps) ));
+					break;
+				}
+			}
+		}
+		
         if( !in_array('CHECK_OUT_GET_FINAL_CONFIRMATION', $checkout_steps[$current_stage]) ) {
          	?>
                 <div align="center">

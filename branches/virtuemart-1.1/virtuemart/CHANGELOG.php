@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+09.08.2009 mauri
+# Task #2688 - Page Title shows wrong in checkout, if uncheck some steps.
+
 31.07.2009 aravot
 # Fixed - SQL error caused by function get_name_by_catid($catid) (http://forum.virtuemart.net/index.php?topic=58641.0)
 

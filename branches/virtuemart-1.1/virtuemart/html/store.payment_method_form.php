@@ -140,19 +140,6 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_PAYMENT_METHOD_FORM_LBL'), "global-page");
         <label for="payment_method_discount_is_percent1"><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_DISCOUNT_ISTOTAL') ?></label>
       </td>
     </tr>
-
-    <tr class="row1">
-    	<td class="labelcell"><?php echo $VM_LANG->_('PHPSHOP_RATE_FORM_VAT_ID') ?>:</td>
-    	<td >
-		<?php
-			require_once(CLASSPATH.'ps_tax.php');
-			$ps_tax = new ps_tax;
-			$ps_tax->list_tax_value("payment_method_discount_vat_id",$db->sf("payment_method_discount_vat_id"));
-			echo mm_ToolTip( $VM_LANG->_('PHPSHOP_PRODUCT_DISCOUNT_VATID_TIP') );
-		?>
-    	</td>
-   	</tr>
-
     <tr class="row1">
     	<td class="labelcell"><?php echo $VM_LANG->_('VM_PAYMENT_METHOD_DISCOUNT_MAX_AMOUNT') ?>:</td>
     	<td ><input type="text" name="payment_method_discount_max_amount" value="<?php $db->sp('payment_method_discount_max_amount') ?>" size="5" /></td>

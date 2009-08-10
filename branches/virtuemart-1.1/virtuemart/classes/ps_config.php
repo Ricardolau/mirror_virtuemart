@@ -25,7 +25,7 @@ class vm_ps_config {
 	/**
 	 * writes the virtuemart.cfg.php
 	 * @author soeren
-	 * @static 
+	 * @static
 	 * @param array $d
 	 * @return boolean
 	 */
@@ -41,12 +41,12 @@ class vm_ps_config {
 		}
 		$db->next_record();
 		$d['conf_VM_PRICE_ACCESS_LEVEL'] = $db->f('name');
-		
-		if (!$fp = fopen(ADMINPATH ."virtuemart.cfg.php", "w")) {			
+
+		if (!$fp = fopen(ADMINPATH ."virtuemart.cfg.php", "w")) {
 			$vmLogger->err( $VM_LANG->_('VM_CONFIGURATION_CHANGE_FAILURE',false).' ('. ADMINPATH ."virtuemart.cfg.php)" );
 			return false;
 		}
-			
+
 		if ($_POST['myname'] != "Jabba Binks") {
 			return false;
 		}
@@ -115,6 +115,7 @@ class vm_ps_config {
 			"TAX_MODE" 	        =>      "conf_TAX_MODE",
 			"MULTIPLE_TAXRATES_ENABLE" 	        =>      "conf_MULTIPLE_TAXRATES_ENABLE",
 			"PAYMENT_DISCOUNT_BEFORE" => "conf_PAYMENT_DISCOUNT_BEFORE",
+			"PAYMENT_DISCOUNT_VAT_ID" => "conf_PAYMENT_DISCOUNT_VAT_ID",
 			"PSHOP_ALLOW_REVIEWS" => "conf_PSHOP_ALLOW_REVIEWS",
 			"PSHOP_AGREE_TO_TOS_ONORDER" =>      "conf_PSHOP_AGREE_TO_TOS_ONORDER",
 			"SHOW_CHECKOUT_BAR"	=>	"conf_SHOW_CHECKOUT_BAR",
@@ -154,7 +155,7 @@ class vm_ps_config {
             "VM_DEBUG_IP_ENABLED"     =>      "conf_VM_DEBUG_IP_ENABLED",
             "VM_DEBUG_IP_ADDRESS"     =>      "conf_VM_DEBUG_IP_ADDRESS",
             "VM_LOGFILE_FORMAT"       =>      "conf_VM_LOGFILE_FORMAT",
-			
+
 			// Begin Arrays
 			"VM_BROWSE_ORDERBY_FIELDS"          =>      "conf_VM_BROWSE_ORDERBY_FIELDS",
 			"VM_MODULES_FORCE_HTTPS"          =>      "conf_VM_MODULES_FORCE_HTTPS",
@@ -186,9 +187,9 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 global \$mosConfig_absolute_path,\$mosConfig_live_site;
 if( !class_exists( 'jconfig' )) {
 	\$global_lang = \$GLOBALS['mosConfig_lang'];
-	
+
 	@include( dirname( __FILE__ ).'/../../../configuration.php' );
-	
+
 	\$GLOBALS['mosConfig_lang'] = \$mosConfig_lang = \$global_lang;
 }
 // Check for trailing slash
@@ -325,7 +326,7 @@ define( 'IMAGEPATH', \$mosConfig_absolute_path.'/components/com_virtuemart/shop_
 				vmRedirect( $_SERVER['PHP_SELF']."?page=admin.show_cfg&option=com_virtuemart", $VM_LANG->_('VM_CONFIGURATION_CHANGE_SUCCESS') );
 			}
 			return true;
-			
+
 		}
 	} // end function writeconfig
 
@@ -336,7 +337,7 @@ define( 'IMAGEPATH', \$mosConfig_absolute_path.'/components/com_virtuemart/shop_
 	 */
 	function writeThemeConfig( &$d ) {
 		global $page, $VM_LANG, $vmLogger;
-		
+
 		$my_config_array = array();
 		$config = "<?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
@@ -366,7 +367,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 				$_POST['params'] = mosParameters::textareaHandling( $txt );
 			}
 			else {
-				
+
 				$total = count( $txt );
 				for( $i=0; $i < $total; $i++ ) {
 					if ( strstr( $txt[$i], "\n" ) ) {
@@ -374,11 +375,11 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 					}
 				}
 				$_POST['params'] = implode( "\n", $txt );
-		
+
 			}
 		}
 		$config .= $_POST['params'];
-		
+
 		if ($fp = fopen(VM_THEMEPATH ."theme.config.php", "w")) {
 			fputs($fp, $config, strlen($config));
 			fclose ($fp);
@@ -399,7 +400,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 				} else {
 					vmRedirect( $_SERVER['PHP_SELF']."?page=$page$theme&option=com_virtuemart", $VM_LANG->_('VM_CONFIGURATION_CHANGE_SUCCESS') );
 				}
-				
+
 			}
 			return true;
 		} else {
@@ -407,7 +408,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 			return false;
 		}
 	}
-	
+
 } // end class ps_config
 
 // Check if there is an extended class in the Themes and if it is allowed to use them

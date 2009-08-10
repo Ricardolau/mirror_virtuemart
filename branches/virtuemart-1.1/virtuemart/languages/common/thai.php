@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
-* @translator soeren
+* @translator soeren Akarawuth  Tamrareang   http://www.joomlacorner.com
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -50,6 +50,7 @@ $langvars = array (
 	'PHPSHOP_CART_SKU' => 'รหัสสินค้า',
 	'PHPSHOP_CART_PRICE' => 'ราคา',
 	'PHPSHOP_CART_QUANTITY' => 'จำนวน',
+	'PHPSHOP_CART_QUANTITY_EXCEEDED' => 'จำนวนที่ระบุ มากเกินกว่าสินค้าที่เหลืออยู่ในสต๊อคสินค้า ',
 	'PHPSHOP_CART_SUBTOTAL' => 'ยอดรวม',
 	'PHPSHOP_ADD_SHIPTO_1' => 'เพิ่ม',
 	'PHPSHOP_ADD_SHIPTO_2' => 'สถานที่จัดส่ง',
@@ -352,6 +353,7 @@ $langvars = array (
 	'PHPSHOP_REGISTRATION_FORM_NONE' => 'ไม่ระบุ',
 	'PHPSHOP_REGISTRATION_FORM_MR' => 'นาย',
 	'PHPSHOP_REGISTRATION_FORM_MRS' => 'นาง',
+	'PHPSHOP_REGISTRATION_FORM_MISS' => 'นางสาว',
 	'PHPSHOP_REGISTRATION_FORM_DR' => 'ดร.',
 	'PHPSHOP_REGISTRATION_FORM_PROF' => 'ศจ.',
 	'PHPSHOP_DEFAULT' => 'กำหนดเป็นค่าปกติ',
@@ -415,7 +417,7 @@ $langvars = array (
 	'PHPSHOP_REVIEW_RATE' => 'ขั้นแรก: ให้คะแนนสินค้า โปรดระบุคะแนนระหว่าง 0 (แย่มาก) ถึง 5 ดาว (ดีเยี่ยม).',
 	'PHPSHOP_REVIEW_COMMENT' => 'กรุณาแสดงความคิดเห็น....(อย่างน้อย %s ตัวอักษร, สูงสุด %s ตัวอักษร) ',
 	'PHPSHOP_REVIEW_COUNT' => 'จำนวนตัวอักษร: ',
-	'PHPSHOP_REVIEW_SUBMIT' => 'ตกลง',
+	'PHPSHOP_REVIEW_SUBMIT' => 'ส่งความเห็น',
 	'PHPSHOP_REVIEW_ALREADYDONE' => 'ท่านได้แสดงความคิดเห็นสำหรับสินค้านี้แล้ว',
 	'PHPSHOP_REVIEW_THANKYOU' => 'ขอบคุณสำหรับความคิดเห็นของท่าน',
 	'PHPSHOP_CREDITCARD_FORM_LBL' => 'เพิ่ม/แก้ไขประเภทบัตรเครดิต',
@@ -436,6 +438,7 @@ $langvars = array (
 	'PHPSHOP_PRODUCT_DISCOUNT_ISTOTAL' => 'ยอดรวม',
 	'PHPSHOP_PRODUCT_DISCOUNT_ISPERCENT_TIP' => 'ระบุเป็นเปอร์เซ็นต์ หรือยอดรวม?',
 	'PHPSHOP_PRODUCT_DISCOUNT_ADDDISCOUNT_TIP' => 'ท่านสามารถใช้แบบฟอร์มส่วนลดสำหรับเพิ่มรายการส่วนลด!',
+	'PHPSHOP_PRODUCT_DISCOUNT_VATID_TIP' => 'Select the VAT that shall be calculated for the Discount / Surcharge.',
 	'PHPSHOP_PRODUCT_DISCOUNT_SAVE' => 'ท่านประหยัดได้',
 	'PHPSHOP_FLYPAGE_ENLARGE_IMAGE' => 'ดูภาพขยาย',
 	'PHPSHOP_CURRENCY_DISPLAY' => 'รูปแบบการแสดงสกุลเงิน',
@@ -584,8 +587,8 @@ $langvars = array (
 	'PEAR_LOG_EMERG' => 'Emergency',
 	'PEAR_LOG_NOTICE' => 'Notice',
 	'PEAR_LOG_DEBUG' => 'Debug',
-	'PHPSHOP_ADMIN_CFG_ENABLE_PFP_TESTMODE' => 'Test mode ?',
-	'PHPSHOP_ADMIN_CFG_ENABLE_PFP_TESTMODE_EXPLAIN' => 'Select \'Yes\' while testing. Select \'No\' for enabling live transactions.',
+	'PHPSHOP_ADMIN_CFG_ENABLE_PFP_TESTMODE' => 'โหมด ทดสอบ ?',
+	'PHPSHOP_ADMIN_CFG_ENABLE_PFP_TESTMODE_EXPLAIN' => 'เลือก \'Yes\' ใช้เพื่อการทดสอบ. เลือก \'No\' เพื่อเปิดใช้งานข้อมูลจริง',
 	'PHPSHOP_ADMIN_CFG_PFP_PARTNER' => 'VeriSign processing Partner ID',
 	'PHPSHOP_ADMIN_CFG_PFP_PARTNET_EXPLAIN' => 'The Partner ID provided to you by the authorized VeriSign Reseller that registered you for the PayFlow Pro service',
 	'VM_MANAGE_USER_FIELDS' => 'จัดการ User',
@@ -640,7 +643,8 @@ The transaction was not cancelled in this case, but it is just pending and waiti
 ชื่อสินค้า: {product_name}
 สินค้า SKU : {product_sku}
 
-คำถาม: {shopper_message}
+คำถาม: 
+{shopper_message}
 URL: {product_url}
 
 จดหมาย mailto: {shopper_email}',
@@ -1054,10 +1058,9 @@ ePay will calculate the fee and put it on the payment before the payment is made
 default: ps_xmlexport<br />
 <i>Leave blank if you\'re not sure what to fill in!</i>',
 	'VM_ORDER_EXPORT_CONFIG' => 'Order Export configuration',
-	'VM_ORDER_EXPORT_CONFIG_TIP' => 'Here you can configure your order export.
-It has to be valid PHP Code!
-',
-	'VM_REGISTER_BEFORE' => 'Please register to use this facillity',
+	'VM_ORDER_EXPORT_CONFIG_TIP' => 'Here you can configure your export.
+		It has to be valid PHP Code!',
+	'VM_REGISTER_BEFORE' => 'Please register to use this facility',
 	'VM_RECOMMEND_MESSAGE_PREFACE' => 'The following recommendation from the "%s" website has been sent to you by %s (%s).
 
 _____________________',

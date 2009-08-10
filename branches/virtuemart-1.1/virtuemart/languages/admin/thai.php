@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
-* @translator soeren
+* @translator  Akarawuth Tamrareang  JoomlaCorner.com
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -89,8 +89,6 @@ $langvars = array (
 	'PHPSHOP_ADMIN_CFG_AGREE_TERMS_EXPLAIN' => 'เลือกรายการนี้ หากต้องการให้ผู้ซื้อต้องเห็นชอบกับข้อตกลงการใช้บริการก่อน',
 	'PHPSHOP_ADMIN_CFG_CHECK_STOCK' => 'ตรวจนับสินค้า?',
 	'PHPSHOP_ADMIN_CFG_CHECK_STOCK_EXPLAIN' => 'กำหนดให้มีการตรวจนับสินค้า เมื่อผู้ซื้อหยิบสินค้าใส่รถเข็น ถ้าเลือกรายการนี้จะทำให้ลูกค้าไม่สามารถเพิ่มรายการสินค้าในรถเข็นถ้าหากไม่มีสินค้าในสต๊อค',
-	'PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE' => 'อนุญาตให้มีระบบสมาชิกเครือข่าย?',
-	'PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE_EXPLAIN' => 'ถ้าเลือกรายการนี้ จะเป็นการอนุญาตให้มีระบบการติดตามสมาชิกเครือข่ายจากหน้าร้าน..',
 	'PHPSHOP_ADMIN_CFG_MAIL_FORMAT' => 'รูปแบบการยืนยันการสั่งซื้อที่ส่งไปทางอีเมล์:',
 	'PHPSHOP_ADMIN_CFG_MAIL_FORMAT_TEXT' => 'แบบอักษรธรรมดา',
 	'PHPSHOP_ADMIN_CFG_MAIL_FORMAT_HTML' => 'แบบ HTML',
@@ -190,6 +188,8 @@ $langvars = array (
 	'VM_BROWSE_ORDERBY_FIELDS_LBL_TIP' => 'เลือกจาก "Sort-by" สำหรับด้านหน้าเว็บไซต์. เพื่อกำหนดการจัดเรียงสินค้าด้านหน้าเวบไซต์. ถ้าท่านไม่ได้เลือกอะไรเลย  รูปแบบ Order-By-Form จะไม่แสดง.',
 	'VM_GENERALLY_PREVENT_HTTPS' => 'ป้องกันการติดต่อทาง https connections?',
 	'VM_GENERALLY_PREVENT_HTTPS_TIP' => 'เมื่อเลือกตัวเลือกนี้, หน้าร้านจะส่งหน้าไปยัง <strong>http</strong> URL when not browsing in those shop areas, which are forced to use https.',
+	'VM_ALLOW_EXTENDED_CLASSES' => 'Allow the inclusion of extended classes from the theme-directory?',
+	'VM_ALLOW_EXTENDED_CLASSES_TIP' => 'When checked, virtuemart executes extended programm code. The original virtuemart code can be replaced or extended. If you don\'t know what this is or you don\'t need it, uncheck this',
 	'VM_MODULES_FORCE_HTTPS' => 'พื้นที่จำเป็นต้องใช้ https',
 	'VM_MODULES_FORCE_HTTPS_TIP' => 'คุณสามารถเลือกใช้ คอมม่า-เส้นขั้น (comma-separated) รายการ ของโมดูลสินค้าหลัก (ดูได้ที่ "Admin" => "List Modules"), เพื่อใช้ การเชื่อมต่อแบบ https .',
 	'VM_SHOW_REMEMBER_ME_BOX' => 'แสดง checkbox "จำค่าตัวเอง" บน login?',

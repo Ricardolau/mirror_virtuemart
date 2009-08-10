@@ -6,7 +6,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
-* @translator soeren
+* @translator  Akarawuth Tamrareang  http://www.joomlacorner.com
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -133,6 +133,7 @@ $langvars = array (
 	'PHPSHOP_PRODUCT_PRODUCT_TYPE_LIST_LBL' => 'รายการชนิดสินค้าสำหรับ',
 	'PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_LBL' => 'เพิ่มชนิดสินค้าสำหรับ',
 	'PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_PRODUCT_TYPE' => 'ชนิดสินค้า',
+	'VM_PRODUCT_PRODUCT_TYPE_ADD_MULTIPLE_PRODUCTS' => ' หลายรายการสินค้า',
 	'PHPSHOP_PRODUCT_TYPE_FORM_NAME' => 'ชนิดชื่อสินค้า',
 	'PHPSHOP_PRODUCT_TYPE_FORM_DESCRIPTION' => 'รายละเอียดชนิดสินค้า',
 	'PHPSHOP_PRODUCT_TYPE_FORM_PARAMETERS' => 'พารามิเตอร์',
@@ -158,7 +159,7 @@ $langvars = array (
 	'PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_TYPE_MULTIVALUE' => 'Multiple Values',
 	'PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_VALUES' => 'Possible Values',
 	'PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_MULTISELECT' => 'Show Possible Values as Multiple select?',
-	'PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_VALUES_DESCRIPTION' => '<strong>If Possible Values are set, Parameter can have only this values. Example for Possible Values:</strong><br/><span class="sectionname">Steel;Wood;Plastic;...</span>',
+	'PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_VALUES_DESCRIPTION' => '<strong>If Possible Values are set, Parameter can have only these values. Example for Possible Values:</strong><br/><span class="sectionname">Steel;Wood;Plastic;...</span>',
 	'PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DEFAULT' => 'Default Value',
 	'PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_DEFAULT_HELP_TEXT' => 'For Parameter Default Value use this format:<ul><li>Date: YYYY-MM-DD</li><li>Time: HH:MM:SS</li><li>Date & Time: YYYY-MM-DD HH:MM:SS</li></ul>',
 	'PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_UNIT' => 'Unit',
@@ -221,7 +222,7 @@ The Shop will create a new discount record from the discounted price.',
 	'VM_FILES_LIST_GO_UP' => 'Go Up',
 	'VM_CATEGORY_FORM_PRODUCTS_PER_ROW' => 'Show x products per row',
 	'VM_CATEGORY_FORM_BROWSE_PAGE' => 'Category Browse Page',
-	'VM_PRODUCT_CLONE_OPTIONS_TAB' => 'Clone Product Otions',
+	'VM_PRODUCT_CLONE_OPTIONS_TAB' => 'Clone Product Options',
 	'VM_PRODUCT_CLONE_OPTIONS_LBL' => 'Also clone these Child Items',
 	'VM_PRODUCT_LIST_MEDIA' => 'Media',
 	'VM_REVIEW_LIST_NAMEDATE' => 'Name/Date',

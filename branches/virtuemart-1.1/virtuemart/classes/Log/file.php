@@ -237,6 +237,9 @@ class vmLog_file extends vmLog
     function open()
     {
         if (!$this->_opened) {
+        	if( empty( $this->_filename )) {
+        		return false;
+        	}
             /* If the log file's directory doesn't exist, create it. */
             if (!is_dir(dirname($this->_filename))) {
                 $this->_mkpath($this->_filename, $this->_dirmode);

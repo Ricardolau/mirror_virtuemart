@@ -1252,7 +1252,7 @@ class vm_ps_product_category extends vmAbstractObject {
 		foreach( $category_list as $category ) {
 			$item = new stdClass();
 			$item->name = vmHtmlEntityDecode( $category['category_name'] );
-			$item->link = $sess->url( $_SERVER['PHP_SELF'] . "?page=shop.browse&category_id=$category[category_id]", true, false );
+			$item->link = $sess->url( $_SERVER['PHP_SELF'] . "?page=shop.browse&category_id=$category[category_id]", false, false );
 			$pathway_items[] = $item;
 		}
 		

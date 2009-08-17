@@ -591,14 +591,17 @@ class vm_ps_session {
 			$base = ereg_replace("index3.php$", "index2.php", $base);
 
 			$url = basename($base) . "?" . $params;
+			
+			// make url absolute
+			if ($createAbsoluteURI && !eregi("^http[s]?:", $url)) {
+				$url = (stristr($text, SECUREURL) ? SECUREURL : URL) . substr($url, $url[0] == '/' ? 1 : 0);
+			}
+			
 			if( class_exists('JRoute') && !$ignoreSEF && $mainframe->getCfg('sef') )
 				$url = JRoute::_($url);
 			else if( function_exists('sefRelToAbs') && !$ignoreSEF && !defined( '_JLEGACY' ) )
 				$url = sefRelToAbs($url);
-
-			// make url absolute
-			if ($createAbsoluteURI && !eregi("^http[s]?:", $url))
-				$url = (stristr($text, SECUREURL) ? SECUREURL : URL) . substr($url, $url[0] == '/' ? 1 : 0);
+		
 		}
 		else // backend
 			$url = ($_SERVER['SERVER_PORT'] == 443 ? SECUREURL : URL) . "administrator/" . basename($base) . "?" . $params;

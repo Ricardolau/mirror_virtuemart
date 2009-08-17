@@ -96,9 +96,9 @@ $Itemid = vmRequest::getInt( 'Itemid' );
 $TreeId = vmRequest::getInt( 'TreeId' );
 
 if( vmIsJoomla('1.5')) {
-	$js_src = 'modules/mod_virtuemart';
+	$js_src = $mosConfig_live_site.'/modules/mod_virtuemart';
 } else {
-	$js_src = 'modules';
+	$js_src = $mosConfig_live_site.'/modules';
 }
 echo vmCommonHTML::scriptTag( '', 'var ctThemeXPBase = "'.$js_src.'/ThemeXP/";' );
 if( $jscook_type == "tree" ) {
@@ -129,11 +129,34 @@ else {
 // (max one per module)
 $varname = "JSCook_".uniqid( $jscook_type."_" );
 
-$menu_htmlcode = "<div align=\"left\" class=\"mainlevel\" id=\"div_$varname\"></div>
-<script type=\"text/javascript\"><!--
-var $varname = 
+$menu_htmlcode = '<div align="left" class="mainlevel" id="div_'.$varname.'"></div>
+<script type="text/javascript">
+//<!--
+function '.$varname.'_addEvent( obj, type, fn )
+{
+   if (obj.addEventListener) {
+      obj.addEventListener( type, fn, false );
+   } else if (obj.attachEvent) {
+      obj["e"+type+fn] = fn;
+      obj[type+fn] = function() { obj["e"+type+fn]( window.event ); }
+      obj.attachEvent( "on"+type, obj[type+fn] );
+   }
+}
+
+function '.$varname.'_removeEvent( obj, type, fn )
+{
+   if (obj.removeEventListener) {
+      obj.removeEventListener( type, fn, false );
+   } else if (obj.detachEvent) {
+      obj.detachEvent( "on"+type, obj[type+fn] );
+      obj[type+fn] = null;
+      obj["e"+type+fn] = null;
+   }
+}
+
+var '.$varname.' = 
 [
-";
+';
 $vm_jscook->traverse_tree_down($menu_htmlcode);
 
 
@@ -142,11 +165,14 @@ $menu_htmlcode .= "];
 if(  $jscook_type == "tree" ) {
 	$menu_htmlcode .= "var treeindex = ctDraw ('div_$varname', $varname, $jscook_tree, '$jscookTree_style', 0, 0);";
 }
-else
-$menu_htmlcode .= "cmDraw ('div_$varname', $varname, '$menu_orientation', cm$jscookMenu_style, '$jscookMenu_style');";
+else {
+	$menu_htmlcode .= "cmDrawNow =function() { cmDraw ('div_$varname', $varname, '$menu_orientation', cm$jscookMenu_style, '$jscookMenu_style'); };
+	".$varname."_addEvent( window, \"load\", cmDrawNow, false );";
+}
 
 $menu_htmlcode .="
---></script>\n";
+//-->
+</script>\n";
 
 if(  $jscook_type == "tree" ) {
 	if( $TreeId ) {

@@ -34,6 +34,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+17.08.2009 soeren
+# Task #2687 - mod_virtuemart vm_JSCook.php error 
+# Task #2689 - shop.feed.php SEF URL Bug Fix
+ 
 09.08.2009 mauri
 # Task #2688 - Page Title shows wrong in checkout, if uncheck some steps.
 

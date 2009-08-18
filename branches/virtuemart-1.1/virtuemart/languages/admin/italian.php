@@ -96,8 +96,6 @@ $langvars = array (
 	'PHPSHOP_ADMIN_CFG_CHECK_STOCK' => 'Controlla Scorte di Magazzino?',
 	'PHPSHOP_ADMIN_CFG_CHECK_STOCK_EXPLAIN' => 'Determina se viene fatto un controllo sulla disponibilità del prodotto in magazzino quando un utente lo aggiunge al carrello.
         Se selezionato, non consente ad un utente di aggiungere al carrello una quantità di quell\'articolo superiore alle scorte di magazzino.',
-	'PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE' => 'Consenti Programma Affiliati?',
-	'PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE_EXPLAIN' => 'Abilita il tracking per gli affiliati direttamente dalla vetrina del negozio. Abilitalo se hai aggiunto affiliati nel pannello di amministrazione.',
 	'PHPSHOP_ADMIN_CFG_MAIL_FORMAT' => 'Formato mail dell\'ordine:',
 	'PHPSHOP_ADMIN_CFG_MAIL_FORMAT_TEXT' => 'Mail in formato testo',
 	'PHPSHOP_ADMIN_CFG_MAIL_FORMAT_HTML' => 'Mail in formato HTML',
@@ -206,6 +204,8 @@ $langvars = array (
 	'VM_BROWSE_ORDERBY_FIELDS_LBL_TIP' => 'Scegli i campi "Ordina" per le pagine di navigazione. Ognuno di essi definisce un metodo di ordinamento per i prodotti. Se vengono tutti deselezionati, l\'opzione per l\'ordinamento non verrà visualizzata.',
 	'VM_GENERALLY_PREVENT_HTTPS' => 'Evitare connessioni https generiche?',
 	'VM_GENERALLY_PREVENT_HTTPS_TIP' => 'Quando selezionato, il cliente viene reindirizzato all\'indirizzo <strong>http</strong> quando non sta navigando in quelle aree del negozio, dove è obbligatorio usare https.',
+	'VM_ALLOW_EXTENDED_CLASSES' => 'Abilitare l\'inclusione di classi estese dalla cartella del tema?',
+	'VM_ALLOW_EXTENDED_CLASSES_TIP' => 'Se attivato, VirtueMart esegue codice di programma esteso, se correttamente posizionato nella cartella del tema. Il codice VirtueMart originale può essere sostituito o esteso. Se non conosci o non necessiti di questa funzionalità, disattivala.',
 	'VM_MODULES_FORCE_HTTPS' => 'Aree del negozio che devono usare https',
 	'VM_MODULES_FORCE_HTTPS_TIP' => 'Qui puoi specificare una lista di moduli (Vedi "Amministrazione" => "Lista dei Moduli"), separati da una virgola, che useranno la connessione https.',
 	'VM_SHOW_REMEMBER_ME_BOX' => 'Visualizza l\'opzione "Ricordami" sul login?',

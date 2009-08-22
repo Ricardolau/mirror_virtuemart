@@ -33,6 +33,9 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+22.08.2009 thepisu
+^ updated Persian (farsi) language (thanks to Mohoammad Hosien Fazeli)
+
 10.07.2009 aravot
 # Fixed Warning: Call-time pass-by-reference has been deprecated in payment/ps_eway.php on line 511
 

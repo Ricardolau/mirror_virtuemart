@@ -1,8 +1,9 @@
 <?php
-if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
+if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) )
+ die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
-* @version : farsi.php 1071 2007-12-03 08:42:28Z thepisu $
+* @version $Id: english.php 1071 2007-12-03 08:42:28Z thepisu $
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
@@ -13,13 +14,13 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * is derivative of works licensed under the GNU General Public License or
 * other free or open source software licenses.
 * See /administrator/components/com_virtuemart/COPYRIGHT.php for copyright notices and details.
-*
+* Translated by Mohammad Hosin Fazeli
 * http://virtuemart.net
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'UTF-8',
-	'VM_HELP_YOURVERSION' => 'Your {product} version',
+	'CHARSET' => 'utf-8',
+	'VM_HELP_YOURVERSION' => 'Stable 1.1 farsi',
 	'VM_HELP_ABOUT' => '<span style="font-weight: bold;">
 		VirtueMart</span> is the complete Open Source E-Commerce solution for Mambo and Joomla!. 
 		It is an Application, which comes with a Component, more than 8 Modules and Mambots/Plugins.

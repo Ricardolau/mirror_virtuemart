@@ -37,6 +37,9 @@ VirtueMart 1.1.x
 22.08.2009 thepisu
 ^ updated Persian (farsi) language (thanks to Mohoammad Hosien Fazeli)
 
+19.08.2009 soeren
+# Task #2690 - impossible to delete a credit card
+
 17.08.2009 soeren
 # Task #2687 - mod_virtuemart vm_JSCook.php error 
 # Task #2689 - shop.feed.php SEF URL Bug Fix

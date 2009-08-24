@@ -178,7 +178,7 @@ class vm_ps_creditcard {
 			$d["error"]=$this->error;
 			return False;
 		}
-		$q = "DELETE FROM #__{vm}_creditcard WHERE creditcard_id=" . (int)$creditcard_id . "'";
+		$q = "DELETE FROM #__{vm}_creditcard WHERE creditcard_id=" . (int)$creditcard_id;
 		$db->query($q);
 		return True;
 	}

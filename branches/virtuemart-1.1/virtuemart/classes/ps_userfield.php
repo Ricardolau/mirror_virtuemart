@@ -19,6 +19,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 class vm_ps_userfield extends vmAbstractObject {
 	
 	var $_key = 'fieldid';
+	var $_table_name = '#__{vm}_userfield';
 	
 	function validateOnSave( &$d ) {
 		global $vmLogger, $VM_LANG;
@@ -428,7 +429,7 @@ class vm_ps_userfield extends vmAbstractObject {
 							break;
 							
 						case 'checkbox':
-							echo '<input type="checkbox" name="'.$field->name.'" id="'.$field->name.'_field" value="1" '. ($db->sf($field->name, true, false) ? 'checked="checked"' : '') .'/>';
+							echo '<input type="checkbox" name="'.$field->name.'" id="'.$field->name.'_field" value="1" '. ($db->sf($field->name, true, false) ? 'checked="checked"' : '') . $readonly.'/>';
 							break;
 						case 'age_verification':
 							$year = vmRequest::getInt('birthday_selector_year', date('Y'));
@@ -487,7 +488,7 @@ class vm_ps_userfield extends vmAbstractObject {
 									}
 									if($field->type=='multicheckbox') {
 										$rowFieldValues['lst_'.$field->name] = vmCommonHTML::checkboxListTable( $Values, $field->name."[]", 
-											'class="inputbox" size="'.$field->size.'" '.$multi, 
+											'class="inputbox" size="'.$field->size.'" '.$multi . $readonly, 
 											'fieldvalue', 'fieldtitle', $k, $field->cols, $field->rows, $field->size, $field->required);
 									} else {
 										$rowFieldValues['lst_'.$field->name] = vmCommonHTML::selectList( $Values, $field->name."[]", 

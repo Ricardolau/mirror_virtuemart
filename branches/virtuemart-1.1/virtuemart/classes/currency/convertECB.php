@@ -32,30 +32,15 @@ class convertECB {
 	var $supplier = 'European Central Bank';
 	
 	/**
-	 * Converts an amount from one currency into another using
-	 * the rate conversion table from the European Central Bank
+	 * Initializes the global currency converter array
 	 *
-	 * @param float $amountA
-	 * @param string $currA defaults to $vendor_currency
-	 * @param string $currB defaults to $GLOBALS['product_currency'] (and that defaults to $vendor_currency)
-	 * @return mixed The converted amount when successful, false on failure
+	 * @return mixed
 	 */
-	function convert( $amountA, $currA='', $currB='' ) {
-		global $mosConfig_cachepath, $mosConfig_live_site, $mosConfig_absolute_path,
-				$mosConfig_offset, $vendor_currency, $vmLogger;
-	
-		// global $vendor_currency is DEFAULT!
-		if( !$currA ) {
-			$currA = $vendor_currency;
-		}
-		if( !$currB ) {
-			$currB = $GLOBALS['product_currency'];
-		}
-		// If both currency codes match, do nothing
-		if( $currA == $currB ) {		
-			return $amountA;
-		}
-		if( $GLOBALS['converter_array'] == '') {
+	function init() {
+		global $mosConfig_cachepath, $mosConfig_absolute_path,
+				$vendor_currency, $vmLogger;
+				
+		if( !is_array($GLOBALS['converter_array'])) {
 			setlocale(LC_TIME, "en-GB");
 			$now = time() + 3600; // Time in ECB (Germany) is GMT + 1 hour (3600 seconds)
 			if (date("I")) {
@@ -126,8 +111,8 @@ class convertECB {
 				$xmlDoc =& new DOMIT_Lite_Document();
 				if( !$xmlDoc->parseXML( $contents, false, true ) ) {
 					$vmLogger->err( 'Failed to parse the Currency Converter XML document.');
-					$GLOBALS['product_currency'] = $vendor_currency;
-					return $amountA;
+					$_SESSION['product_currency'] = $GLOBALS['product_currency'] = $vendor_currency;
+					return false;
 				}
 				
 				$currency_list = $xmlDoc->getElementsByTagName( "Cube" );
@@ -142,9 +127,37 @@ class convertECB {
 			else {
 				$GLOBALS['converter_array'] = -1;
 				$vmLogger->err( 'Failed to retrieve the Currency Converter XML document.');
-				$GLOBALS['product_currency'] = $vendor_currency;
-				return $amountA;
+				$_SESSION['product_currency'] = $GLOBALS['product_currency'] = $vendor_currency;
+				return false;
 			}
+		}
+		return true;
+	}
+	/**
+	 * Converts an amount from one currency into another using
+	 * the rate conversion table from the European Central Bank
+	 *
+	 * @param float $amountA
+	 * @param string $currA defaults to $vendor_currency
+	 * @param string $currB defaults to $GLOBALS['product_currency'] (and that defaults to $vendor_currency)
+	 * @return mixed The converted amount when successful, false on failure
+	 */
+	function convert( $amountA, $currA='', $currB='' ) {
+		global $vendor_currency;
+	
+		// global $vendor_currency is DEFAULT!
+		if( !$currA ) {
+			$currA = $vendor_currency;
+		}
+		if( !$currB ) {
+			$currB = $GLOBALS['product_currency'];
+		}
+		// If both currency codes match, do nothing
+		if( $currA == $currB ) {		
+			return $amountA;
+		}
+		if( !$this->init()) {
+			return $amountA;
 		}
 		$valA = isset( $GLOBALS['converter_array'][$currA] ) ? $GLOBALS['converter_array'][$currA] : 1;
 		$valB = isset( $GLOBALS['converter_array'][$currB] ) ? $GLOBALS['converter_array'][$currB] : 1;

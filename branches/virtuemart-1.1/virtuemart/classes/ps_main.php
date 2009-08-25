@@ -905,7 +905,12 @@ function vmSpoofValue($alt=NULL) {
  */
 function vmSetGlobalCurrency(){
 	global $vendor_accepted_currencies, $vendor_currency, $vmLogger;
-
+	
+	if( is_callable(array($GLOBALS['CURRENCY'],'init')) && !$GLOBALS['CURRENCY']->init() ) {
+		$GLOBALS['product_currency'] = $vendor_currency;
+		return;
+	}
+	
 	if( !defined('_VM_IS_BACKEND') && empty( $_REQUEST['ajax_request']) && empty($_REQUEST['pshop_mode'])) {
 		if( isset( $_REQUEST['product_currency']) ) {
 			$GLOBALS['product_currency'] = $_SESSION['product_currency'] = vmGet($_REQUEST, 'product_currency' );

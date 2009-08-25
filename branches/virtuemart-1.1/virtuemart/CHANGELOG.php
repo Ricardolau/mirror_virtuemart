@@ -34,6 +34,11 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+25.08.2009 soeren
+
+^ added new "init" function to the currency converter module, to check wether currency conversion can be initialized
+# when currency conversion was not possible, the currency was still changed, but no conversion was calculated!
+
 22.08.2009 thepisu
 ^ updated Persian (farsi) language (thanks to Mohoammad Hosien Fazeli)
 

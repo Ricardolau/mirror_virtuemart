@@ -2,10 +2,11 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
+* @version: swedish.php 10:55 2009-07-22
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
-* @translator soeren
+* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @translators Stefan Gagner, Mei Ya E-service, http://www.mei-ya.se and Mia Steen, First Solution, http://www.1solution.se
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -17,7 +18,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-1',
+	'CHARSET' => 'UTF-8',
 	'PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX' => 'Visa priser inklusive moms?',
 	'PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX_EXPLAIN' => 'S Anger om en kund skall se priser inklusive eller exklusive moms.',
 	'PHPSHOP_SHOPPER_FORM_ADDRESS_LABEL' => 'Adress-namn',
@@ -27,17 +28,7 @@ $langvars = array (
 	'PHPSHOP_SHOPPER_GROUP_FORM_LBL' => 'Kundgruppsuppgifter',
 	'PHPSHOP_SHOPPER_GROUP_FORM_NAME' => 'Gruppnamn',
 	'PHPSHOP_SHOPPER_GROUP_FORM_DESC' => 'Gruppbeskrivning',
-	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT' => 'Standardrabatt för Kundgrupp (i %)',
-	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP' => 'Ett positivt värde X innebär: Om produkten inte har ett pris tilldelat till denna grupp så kommer priset att sjunka med  X %. Ett negativt värde har motsatt effekt',
-	'SHOPPER_GROUP_MISSING_NAME' => 'You must enter a shopper group name.',
-	'SHOPPER_GROUP_ALREADY_EXISTS' => 'Shopper group already exists for this vendor.',
-	'SHOPPER_GROUP_DELETE_SELECT' => 'Please select a shopper group to delete.',
-	'SHOPPER_GROUP_DELETE_PAYMENT_METHODS_ASS' => 'This Shopper Group (Id: {id}) still has Payment Methods assigned to it.',
-	'SHOPPER_GROUP_DELETE_USERS_ASS' => 'There are still Users assigned to this Shopper Group (Id: {id})',
-	'SHOPPER_GROUP_DELETE_DEFAULT' => 'Cannot delete the default shopper group.',
-	'SHOPPER_GROUP_ADDED' => 'The Shopper Group has been added.',
-	'SHOPPER_GROUP_ADD_FAILED' => 'Failed to add the Shopper Group',
-	'SHOPPER_GROUP_UPDATED' => 'The Shopper Group has been updated.',
-	'SHOPPER_GROUP_UPDATE_FAILED' => 'Failed to update the Shopper Group'
+	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT' => 'Standardrabatt fÃ¶r Kundgrupp (i %)',
+	'PHPSHOP_SHOPPER_GROUP_FORM_DISCOUNT_TIP' => 'Ett positivt vÃ¤rde X innebÃ¤r: Om produkten inte har ett pris tilldelat till denna grupp sÃ¥ kommer priset att sjunka med  X %. Ett negativt vÃ¤rde har motsatt effekt'
 ); $VM_LANG->initModule( 'shopper', $langvars );
 ?>

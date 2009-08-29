@@ -34,6 +34,11 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+28.08.2009 thepisu
+^ updated Persian (farsi) language (thanks to Mohoammad Hosien Fazeli)
+^ updated Hungarian language (thanks to pedrohsi)
+^ updated Swedish language (thanks to sgagner)
+
 25.08.2009 soeren
 
 ^ added new "init" function to the currency converter module, to check wether currency conversion can be initialized

@@ -2,11 +2,11 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
-* @version : swedish.php 1071 2007-12-03 08:42:28Z thepisu $
+* @version: swedish.php 11:00 2009-07-22
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
-* @translators:Stefan Gagner, Mei Ya Service, http://www.mei-ya.se & Mia Steen, 1st Solution http://www.1stsolution.se
+* @translators Stefan Gagner, Mei Ya E-service, http://www.mei-ya.se and Mia Steen, First Solution, http://www.1solution.se
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -18,21 +18,21 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-1',
+	'CHARSET' => 'UTF-8',
 	'PHPSHOP_ZONE_ASSIGN_COUNTRY_LBL' => 'Land',
 	'PHPSHOP_ZONE_ASSIGN_ASSIGN_LBL' => 'Tilldela till Zon',
 	'PHPSHOP_ASSIGN_ZONE_PG_LBL' => 'Tilldela Zoner',
 	'PHPSHOP_ZONE_FORM_NAME_LBL' => 'Zonnamn',
 	'PHPSHOP_ZONE_FORM_DESC_LBL' => 'Zonbeskrivning',
 	'PHPSHOP_ZONE_FORM_COST_PER_LBL' => 'Zonkostnad per artikel',
-	'PHPSHOP_ZONE_FORM_COST_LIMIT_LBL' => 'Zonkostandsgräns',
+	'PHPSHOP_ZONE_FORM_COST_LIMIT_LBL' => 'ZonkostnadsgrÃ¤ns',
 	'PHPSHOP_ZONE_LIST_LBL' => 'Zoner',
 	'PHPSHOP_ZONE_LIST_NAME_LBL' => 'Zonnamn',
 	'PHPSHOP_ZONE_LIST_DESC_LBL' => 'Zonbeskrivning',
 	'PHPSHOP_ZONE_LIST_COST_PER_LBL' => 'Zonkostnad per artikel',
-	'PHPSHOP_ZONE_LIST_COST_LIMIT_LBL' => 'Zonkostandsgräns',
+	'PHPSHOP_ZONE_LIST_COST_LIMIT_LBL' => 'ZonkostnadsgrÃ¤ns',
 	'VM_ZONE_ASSIGN_PERITEM' => 'Per artikel',
-	'VM_ZONE_ASSIGN_LIMIT' => 'Gräns',
-	'VM_ZONE_EDITZONE' => 'Ändra denna Zon'
+	'VM_ZONE_ASSIGN_LIMIT' => 'GrÃ¤ns',
+	'VM_ZONE_EDITZONE' => 'Ã„ndra denna Zon'
 ); $VM_LANG->initModule( 'zone', $langvars );
 ?>

@@ -125,10 +125,6 @@ $langvars = array (
 	'PHPSHOP_FILES_FORM_FILE_URL' => 'Állomány URL (opcionális)',
 	'PHPSHOP_PRODUCT_FORM_AVAILABILITY_TOOLTIP1' => 'Bármely olyan szöveg, amit meg akar jeleníteni a vásárlók számára a termék röplapján.<br />példa.: 24h, 48 óra, 3 - 5 nap, Megrendelésre.....',
 	'PHPSHOP_PRODUCT_FORM_AVAILABILITY_TOOLTIP2' => 'VAGY válasszon ki egy képet amely a Termék részletek oldalon (FLYPAGE - röplap) lesz megjelenítve.<br />A képek az alábbi könyvtárban találhatók<i>%s</i><br />',
-	'PHPSHOP_PRODUCT_FORM_ATTRIBUTE_LIST_EXAMPLES' => '<h4>Attribútum lista formátum példák:</h4>
-Név = Szín, Tulajdonság = Vörös ; Kattintson az Új Tulajdonságra az új szín hozzáadásához: Zöld ; Ezután az Új attribútumra egy új attribútum létrehozásához, és így tovább.
-<h4>Inline ár változtatás a További attribútum módosításhoz:</h4>
-Ár = +10 a megadott értékkel növeli az árat.<br />  Ár = -10 a megadott értékkel csökkenti az árat.<br />  Ár = 10 a fix ár beállításához.',
 	'PHPSHOP_PRODUCT_FORM_CUSTOM_ATTRIBUTE_LIST_EXAMPLES' => '<h4>Példák az egyéni termék-attribútum lista formátumokhoz:</h4>
 
         <pre>Név;Extrák;</strong>...</pre>',
@@ -231,6 +227,10 @@ Név = Szín, Tulajdonság = Vörös ; Kattintson az Új Tulajdonságra az új s
 	'VM_REVIEW_LIST_NAMEDATE' => 'Név/Dátum',
 	'VM_PRODUCT_SELECT_ONE_OR_MORE' => 'Termékek kiválasztása',
 	'VM_PRODUCT_SEARCHING' => 'Keresés...',
+	'PHPSHOP_PRODUCT_FORM_ATTRIBUTE_LIST_EXAMPLES' => '<h4>Attribútum lista formátum példák:</h4>
+Név = Szín, Tulajdonság = Vörös ; Kattintson az Új Tulajdonságra az új szín hozzáadásához: Zöld ; Ezután az Új attribútumra egy új attribútum létrehozásához, és így tovább.
+<h4>Inline ár változtatás a További attribútum módosításhoz:</h4>
+Ár = +10 a megadott értékkel növeli az árat.<br />  Ár = -10 a megadott értékkel csökkenti az árat.<br />  Ár = 10 a fix ár beállításához.',
 	'VM_FILES_FORM_PRODUCT_IMAGE' => 'Termék képe (teljes és bélyegkép)',
 	'VM_FILES_FORM_DOWNLOADABLE' => 'Letölthető termék fájl (eladásra!)',
 	'VM_FILES_FORM_RESIZE_IMAGE' => 'Teljes kép átméretezése?'

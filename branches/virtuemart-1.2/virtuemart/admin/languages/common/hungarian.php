@@ -50,6 +50,7 @@ $langvars = array (
 	'PHPSHOP_CART_SKU' => 'SKU',
 	'PHPSHOP_CART_PRICE' => 'Ár',
 	'PHPSHOP_CART_QUANTITY' => 'Mennyiség',
+	'PHPSHOP_CART_QUANTITY_EXCEEDED' => 'A megrendelt mennyiség jelenleg nincs készleten.',
 	'PHPSHOP_CART_SUBTOTAL' => 'SubTotal',
 	'PHPSHOP_ADD_SHIPTO_1' => 'Hozzáad egy új',
 	'PHPSHOP_ADD_SHIPTO_2' => 'Szállítási cím',
@@ -1312,10 +1313,10 @@ lépjen kapcsolatba szolgáltatójával a megoldásért.',
 	'OFFLINE_MODE' => 'OFFLINE MÓD',
 	'VM_STORE_UPDATED' => 'Üzlet frissítve',
 	'VM_VENDOR_UPDATED' => 'Forgalmazó frissítve',
-	'PHPSHOP_DOWNLOADS_LINK' => 'Click on this link to download your file',
-	'PHPSHOP_DOWNLOAD_REMAINING' => '{count} download remaining',
-	'PHPSHOP_DOWNLOADS_REMAINING' => '{count} downloads remaining',
-	'PHPSHOP_DOWNLOAD_VALID_UNTIL' => ' until {date}',
+	'PHPSHOP_DOWNLOADS_LINK' => 'Katt a hivatkozásra a fájl letöltéséhez',
+	'PHPSHOP_DOWNLOAD_REMAINING' => '{count} letöltés lehetséges',
+	'PHPSHOP_DOWNLOADS_REMAINING' => '{count} letöltés lehetséges',
+	'PHPSHOP_DOWNLOAD_VALID_UNTIL' => '{date}-ig',
 	'USER_REGISTRATION_DISABLED' => 'User registration is disabled, it must be enabled in order to proceed.'
 ); $VM_LANG->initModule( 'common', $langvars );
 ?>

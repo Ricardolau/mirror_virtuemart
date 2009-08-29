@@ -33,6 +33,11 @@ Legend:
 
 VirtueMart 1.2.x
 *************************************
+28.08.2009 thepisu
+^ updated Persian (farsi) language (thanks to Mohoammad Hosien Fazeli)
+^ updated Hungarian language (thanks to pedrohsi)
+^ updated Swedish language (thanks to sgagner)
+
 22.08.2009 thepisu
 ^ updated Persian (farsi) language (thanks to Mohoammad Hosien Fazeli)
 

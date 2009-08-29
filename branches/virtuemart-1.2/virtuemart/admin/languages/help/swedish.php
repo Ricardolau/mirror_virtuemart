@@ -18,17 +18,17 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-1',
-	'VM_HELP_YOURVERSION' => 'Din {produkt} version',
+	'CHARSET' => 'UTF-8',
+	'VM_HELP_YOURVERSION' => 'Din {product} version',
 	'VM_HELP_ABOUT' => '<span style="font-weight: bold;">
-		VirtueMart</span> är en fullständig Open Source E-Commerce lösning för Mambo och Joomla!. 
-		Det är en applikation som består av en Komponent, mer än 8 Moduler och Mambots/Plugin:er.
-		Den har sitt ursprung i ett Kundvagnsskript kallat "phpShop" (Förf: Edikon Corp. & <a href="http://www.virtuemart.org/" target="_blank">phpShop</a> community).',
-	'VM_HELP_LICENSE_DESC' => 'VirtueMart är licensierad under <a href="{licenseurl}" target="_blank">{licensename} Licens</a>.',
-	'VM_HELP_TEAM' => 'Det är ett litet team utvecklare som hjälps åt att utveckla detta Kundvagsnsskript.',
+		VirtueMart</span> Ã¤r en fullstÃ¤ndig Open Source E-Commerce lÃ¶sning fÃ¶r Mambo och Joomla!. 
+		Det Ã¤r en applikation som bestÃ¥r av en Komponent, mer Ã¤n 8 Moduler och Mambots/Plugin:er.
+		Den har sitt ursprung i ett Kundvagnsskript kallat "phpShop" (FÃ¶rf: Edikon Corp. & <a href="http://www.virtuemart.org/" target="_blank">phpShop</a> community).',
+	'VM_HELP_LICENSE_DESC' => 'VirtueMart Ã¤r licensierad under <a href="{licenseurl}" target="_blank">{licensename} Licens</a>.',
+	'VM_HELP_TEAM' => 'Det Ã¤r ett litet team utvecklare som hjÃ¤lps Ã¥t att utveckla detta Kundvagsnsskript.',
 	'VM_HELP_PROJECTLEADER' => 'Projektledare',
 	'VM_HELP_HOMEPAGE' => 'Hemsida',
-	'VM_HELP_DONATION_DESC' => 'Gör gärna en donation till VirtueMart-projektet för att hjälpa oss fortsätta arbetet med denna komponent och att skapa nya funktioner.',
-	'VM_HELP_DONATION_BUTTON_ALT' => 'Betala med PayPal - det är snabbt, gratis och säkert!'
+	'VM_HELP_DONATION_DESC' => 'GÃ¶r gÃ¤rna en donation till VirtueMart-projektet fÃ¶r att hjÃ¤lpa oss fortsÃ¤tta arbetet med denna komponent och att skapa nya funktioner.',
+	'VM_HELP_DONATION_BUTTON_ALT' => 'Betala med PayPal - det Ã¤r snabbt, gratis och sÃ¤kert!'
 ); $VM_LANG->initModule( 'help', $langvars );
 ?>

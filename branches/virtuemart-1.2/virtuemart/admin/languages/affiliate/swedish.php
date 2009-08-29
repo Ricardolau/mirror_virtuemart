@@ -2,11 +2,11 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
-* @version : swedish.php 1071 2007-12-03 08:42:28Z thepisu $
+* @version : swedish.php 10:31 2009-07-22
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
-* @translator soeren
+* @translators Stefan Gagner, Mei Ya Service, http://www.mei-ya.se and Mia Steen, First Solution, http://www.1solution.se
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -18,34 +18,34 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-1',
+	'CHARSET' => 'UTF-8',
 	'PHPSHOP_USER_FORM_EMAIL' => 'E-post',
 	'PHPSHOP_SHOPPER_LIST_LBL' => 'Kundlista',
 	'PHPSHOP_SHOPPER_FORM_BILLTO_LBL' => 'Betalningsinformation',
-	'PHPSHOP_SHOPPER_FORM_USERNAME' => 'Användarnamn',
+	'PHPSHOP_SHOPPER_FORM_USERNAME' => 'AnvÃ¤ndarnamn',
 	'PHPSHOP_AFFILIATE_MOD' => 'Partneradministration',
 	'PHPSHOP_AFFILIATE_LIST_LBL' => 'Partners',
 	'PHPSHOP_AFFILIATE_LIST_AFFILIATE_NAME' => 'Namn',
 	'PHPSHOP_AFFILIATE_LIST_AFFILIATE_ACTIVE' => 'Aktiv',
-	'PHPSHOP_AFFILIATE_LIST_RATE' => 'Rate',
-	'PHPSHOP_AFFILIATE_LIST_MONTH_TOTAL' => 'Månadstotal',
-	'PHPSHOP_AFFILIATE_LIST_MONTH_COMMISSION' => 'Månadsprovision',
+	'PHPSHOP_AFFILIATE_LIST_RATE' => 'VÃ¤rde',
+	'PHPSHOP_AFFILIATE_LIST_MONTH_TOTAL' => 'MÃ¥nadstotal',
+	'PHPSHOP_AFFILIATE_LIST_MONTH_COMMISSION' => 'MÃ¥nadsprovision',
 	'PHPSHOP_AFFILIATE_LIST_ORDERS' => 'Listordning',
 	'PHPSHOP_AFFILIATE_EMAIL_WHO' => 'Till vem? (* = Alla)',
 	'PHPSHOP_AFFILIATE_EMAIL_CONTENT' => 'Din e-postadress',
-	'PHPSHOP_AFFILIATE_EMAIL_SUBJECT' => 'Ämne',
+	'PHPSHOP_AFFILIATE_EMAIL_SUBJECT' => 'Ã„mne',
 	'PHPSHOP_AFFILIATE_EMAIL_STATS' => 'Inkludera aktuell statistik',
-	'PHPSHOP_AFFILIATE_FORM_RATE' => 'Provisionsnivå (procent)',
+	'PHPSHOP_AFFILIATE_FORM_RATE' => 'ProvisionsnivÃ¥ (procent)',
 	'PHPSHOP_AFFILIATE_FORM_ACTIVE' => 'Aktiv?',
-	'VM_AFFILIATE_SHOWINGDETAILS_FOR' => 'Showing Details for',
-	'VM_AFFILIATE_LISTORDERS' => 'List Orders',
-	'VM_AFFILIATE_MONTH' => 'Month',
-	'VM_AFFILIATE_CHANGEVIEW' => 'Change View',
-	'VM_AFFILIATE_ORDERSUMMARY_LBL' => 'Order Summary',
+	'VM_AFFILIATE_SHOWINGDETAILS_FOR' => 'Visa information om',
+	'VM_AFFILIATE_LISTORDERS' => 'Orderlista',
+	'VM_AFFILIATE_MONTH' => 'MÃ¥nad',
+	'VM_AFFILIATE_CHANGEVIEW' => 'Ã„ndra vy',
+	'VM_AFFILIATE_ORDERSUMMARY_LBL' => 'Ordersammandrag',
 	'VM_AFFILIATE_ORDERLIST_ORDERREF' => 'Order Ref',
-	'VM_AFFILIATE_ORDERLIST_DATEORDERED' => 'Date Ordered',
-	'VM_AFFILIATE_ORDERLIST_ORDERTOTAL' => 'Order Total',
-	'VM_AFFILIATE_ORDERLIST_COMMISSION' => 'Commission (rate)',
-	'VM_AFFILIATE_ORDERLIST_ORDERSTATUS' => 'Order Status'
+	'VM_AFFILIATE_ORDERLIST_DATEORDERED' => 'Orderdatum',
+	'VM_AFFILIATE_ORDERLIST_ORDERTOTAL' => 'Ordersumma',
+	'VM_AFFILIATE_ORDERLIST_COMMISSION' => 'Provision',
+	'VM_AFFILIATE_ORDERLIST_ORDERSTATUS' => 'Orderstatus'
 ); $VM_LANG->initModule( 'affiliate', $langvars );
 ?>

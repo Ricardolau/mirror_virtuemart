@@ -898,7 +898,8 @@ class vm_ps_checkout {
 		$totals = $this->calc_order_totals( $d );
 		extract( $totals );
 		
-		$timestamp = time() + ($mosConfig_offset*60*60);
+		//$timestamp = time() + ($mosConfig_offset*60*60);  //Original
+		$timestamp = time();  //Custom
 		
 		if (!$this->validate_form($d)) {
 			return false;

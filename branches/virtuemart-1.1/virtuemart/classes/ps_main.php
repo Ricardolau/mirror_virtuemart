@@ -27,6 +27,12 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
  * @param string $type
  * @return boolean
  */
+if(function_exists('date_default_timezone_set')){
+   date_default_timezone_set('GMT0');
+}else{
+   putenv("TZ=GMT");
+} 
+
 function process_date_time(&$d,$field,$type="") {
 	$month = $d["$field" . "_month"];
 	$day = $d["$field" . "_day"];
@@ -1064,11 +1070,19 @@ function vmFormatDate( $time=0, $dateformat='' ) {
 	global $vendor_date_format;
 	if( empty($time)) $time = time();
 	
+    if( vmIsJoomla('1.5') ) {
+        if( empty( $dateformat )) {
+            return JHTML::_('date',  $time, $vendor_date_format);
+        } else {
+            return JHTML::_('date',  $time, $dateformat);
+        }
+    } else {
 	if( empty( $dateformat )) {
     	return strftime( $vendor_date_format, $time );
     } else {
         return strftime( $dateformat, $time );
     }
+}
 }
 /**
 * Function to strip additional / or \ in a path name

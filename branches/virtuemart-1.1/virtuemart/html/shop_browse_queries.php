@@ -58,7 +58,7 @@ switch( $orderby ) {
 		$orderbyField = '`#__{vm}_product`.`product_name`'; break;
 }
 
-$where_clause[] = "`#__{vm}_product_category_xref`.`product_id`=`#__{vm}_product`.`product_id`";
+$where_clause[] = "(`#__{vm}_product_category_xref`.`product_id`=`#__{vm}_product`.`product_id` OR `#__{vm}_product_category_xref`.`product_id`=`#__{vm}_product`.`product_parent_id`)";
 $where_clause[] = "`#__{vm}_product_category_xref`.`category_id`=`#__{vm}_category`.`category_id`";
 // Filter Products by Category
 if( $category_id ) {
@@ -306,7 +306,7 @@ else {
 	$where_clause[] = "((`#__{vm}_product`.`product_id`=`#__{vm}_product_price`.`product_id` AND `#__{vm}_shopper_group`.`shopper_group_id`=`#__{vm}_product_price`.`shopper_group_id`) OR `#__{vm}_product_price`.`product_id` IS NULL) ";
 	$where_clause[] = '`#__{vm}_shopper_group`.`default` = 1';
 }
-$where_clause[] = "`product_parent_id`=0 ";
+//$where_clause[] = "`product_parent_id`=0 ";
 if( !$perm->check("admin,storeadmin") ) {
 	$where_clause[] = "`product_publish`='Y' ";
 	$where_clause[] = "`category_publish`='Y' ";

@@ -34,6 +34,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+
+01.09.2009 soeren
+# Task #2555 - Searching for child products is not possible 
+
 28.08.2009 thepisu
 ^ updated Persian (farsi) language (thanks to Mohoammad Hosien Fazeli)
 ^ updated Hungarian language (thanks to pedrohsi)

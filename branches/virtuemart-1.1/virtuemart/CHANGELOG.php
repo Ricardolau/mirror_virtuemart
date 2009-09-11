@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+11.09.2009 soeren
+# Task #2683 - Attribute List price modification not honored in add to cart  
+# added the fix for order tax calculation when coupon discounts are used (http://www.nandebayo.org/blog/?p=80)
 
 01.09.2009 soeren
 # Task #2555 - Searching for child products is not possible 

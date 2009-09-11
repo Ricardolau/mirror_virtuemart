@@ -764,7 +764,7 @@ class vm_ps_product_attribute {
 						if( $price == "0" ) {
 							$attribut_hint = "test" ;
 						}
-						$base_var = str_replace( " ", "_", $base_value ) ;
+						$base_var = $base_value;
 						$base_var = substr( $base_var, 0, strrpos( $base_var, '[' ) ) ;
 						
 						$options_item['base_var'] = $base_var ;
@@ -1013,7 +1013,7 @@ class vm_ps_product_attribute {
 			$description = $d["description"] ;
 			
 			foreach( $fields as $field ) {
-				$pagevar = str_replace( " ", "_", $field ) ;
+				$pagevar = $field;
 				$pagevar .= $d['prod_id'] ;
 				$pagevar = $encodefunc( $pagevar ) ;
 				

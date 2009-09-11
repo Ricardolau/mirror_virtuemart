@@ -306,7 +306,10 @@ else {
 	$where_clause[] = "((`#__{vm}_product`.`product_id`=`#__{vm}_product_price`.`product_id` AND `#__{vm}_shopper_group`.`shopper_group_id`=`#__{vm}_product_price`.`shopper_group_id`) OR `#__{vm}_product_price`.`product_id` IS NULL) ";
 	$where_clause[] = '`#__{vm}_shopper_group`.`default` = 1';
 }
-//$where_clause[] = "`product_parent_id`=0 ";
+if( empty( $keyword ) ) {
+	// when someone is searching, we also show child products (product_parent_id != 0), but that's not the case here
+	$where_clause[] = "`product_parent_id`=0 ";
+}
 if( !$perm->check("admin,storeadmin") ) {
 	$where_clause[] = "`product_publish`='Y' ";
 	$where_clause[] = "`category_publish`='Y' ";

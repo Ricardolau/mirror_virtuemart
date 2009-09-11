@@ -1465,7 +1465,7 @@ Order Total: '.$order_total.'
 		
 		$discount_factor = 1;
 		
-		// Shipping address based TAX
+			// Shipping address based TAX
 		if ( !ps_checkout::tax_based_on_vendor_address () ) {
 			$q = "SELECT state, country FROM #__{vm}_user_info ";
 			$q .= "WHERE user_info_id='".$ship_to_info_id. "'";
@@ -1482,16 +1482,47 @@ Order Total: '.$order_total.'
 				$rate = $order_taxable * floatval( $db->f("tax_rate") );
 				if (empty($rate)) {
 					$order_tax = 0.0;
-				}
-				else {
-					$order_tax = $rate;
-				}
-			}
-			else {
-				$order_tax = 0.0;
-			}
-			$order_tax_details[$db->f('tax_rate')] = $order_tax;
-		}
+                } else {
+                    $cart = $_SESSION['cart'];
+                    if( (!empty( $_SESSION['coupon_discount'] ) || !empty( $d['payment_discount'] ))
+                        && PAYMENT_DISCOUNT_BEFORE == '1' ) {
+
+                        require_once(CLASSPATH.'ps_product.php');
+                        $ps_product= new ps_product;
+
+                        for($i = 0; $i < $cart["idx"]; $i++) {
+                            $item_weight = ps_shipping_method::get_weight($cart[$i]["product_id"]) * $cart[$i]['quantity'];
+
+                            if ($item_weight !=0 or TAX_VIRTUAL) {
+                                $price = $ps_product->get_adjusted_attribute_price($cart[$i]["product_id"], $cart[$i]["description"]);
+                                $price['product_price'] = $GLOBALS['CURRENCY']->convert( $price['product_price'], $price['product_currency']);
+                                $tax_rate = $db->f("tax_rate");
+
+                                $use_coupon_discount= @$_SESSION['coupon_discount'];
+                                if( !empty( $_SESSION['coupon_discount'] )) {
+                                    if( $auth["show_price_including_tax"] == 1 ) {
+                                        $use_coupon_discount = $_SESSION['coupon_discount'] / ($tax_rate+1);
+                                    }
+                                }
+                                $factor = (100 * ($use_coupon_discount + @$d['payment_discount'])) / $this->_subtotal;
+                                $price["product_price"] = $price["product_price"] - ($factor * $price["product_price"] / 100);
+                                @$order_tax_details[$tax_rate] += $price["product_price"] * $tax_rate * $cart[$i]["quantity"];
+
+                                $order_tax += $price["product_price"] * $tax_rate * $cart[$i]["quantity"];
+                                $total += $price["product_price"] * $cart[$i]["quantity"];
+                            } else {
+                                $order_tax += 0.0;
+                            }
+                        }
+                    } else {
+                        $order_tax = $rate;
+                    }
+                }
+            } else {
+                $order_tax = 0.0;
+            }
+            $order_tax_details[$db->f('tax_rate')] = $order_tax;
+        }
 		// Store Owner Address based TAX
 		else {
 

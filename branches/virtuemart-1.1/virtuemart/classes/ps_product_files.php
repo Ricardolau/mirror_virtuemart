@@ -569,7 +569,7 @@ class vm_ps_product_files extends vmAbstractObject {
 					$height = intval( $d['fullimage_height'] );
 					$width = intval( $d['fullimage_width'] );
 					
-					vmImageTools::resizeImage( $uploaddir.$d['filename'], $uploaddir.$d['filename'], $width, $height );
+					vmImageTools::resizeImage( $uploaddir.$d['filename'], $uploaddir.$d['filename'], $height, $width );
 					
 					$fullimg = getimagesize( $uploaddir.$d['filename'] );
 					$d['file_image_width'] = $fullimg[0];

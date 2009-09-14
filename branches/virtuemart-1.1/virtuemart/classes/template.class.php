@@ -262,6 +262,10 @@ if (defined('VM_ALLOW_EXTENDED_CLASSES') && defined('VM_THEMEPATH') && VM_ALLOW_
 	include_once(VM_THEMEPATH.'user_class/'.basename(__FILE__));
 } else {
 	// Otherwise we have to use the original classname to extend the core-class
-	class vmTemplate extends vm_vmTemplate {}
+	class vmTemplate extends vm_vmTemplate {
+		function vmTemplate() {
+			parent::vm_vmTemplate();
+		}
+	}
 }
 ?>

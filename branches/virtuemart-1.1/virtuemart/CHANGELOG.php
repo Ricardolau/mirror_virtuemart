@@ -34,6 +34,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+14.09.2009 soeren
+
+# small fix to make VirtueMart compatible to PHP 5.3
+
 11.09.2009 soeren
 # Task #2683 - Attribute List price modification not honored in add to cart  
 # added the fix for order tax calculation when coupon discounts are used (http://www.nandebayo.org/blog/?p=80)

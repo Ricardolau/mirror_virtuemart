@@ -821,20 +821,6 @@ class vmCommonHTML {
 	}
 
 	/**
-	 * Prototype is a Javascript framework
-	 * @author http://prototype.conio.net/
-	 *
-	 */
-	function loadPrototype( ) {
-		global $vm_mainframe, $mosConfig_live_site;
-		if( !defined( "_PROTOTYPE_LOADED" )) {
-			$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/prototype/prototype.js' );
-			define( '_PROTOTYPE_LOADED', 1 );
-		}
-
-	}
-
-	/**
 	 * Loads the CSS and Javascripts needed to run the Greybox
 	 * Source: http://orangoo.com/labs/?page_id=5
 	 *
@@ -876,7 +862,7 @@ class vmCommonHTML {
 	function loadYUI( ) {
 		global $mosConfig_live_site, $vm_mainframe;
 		if( !defined( "_YUI_LOADED" )) {
-			$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/extjs3/yui-utilities.js' );
+			$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/extjs2/yui-utilities.js' );
 			define ( "_YUI_LOADED", "1" );
 		}
 	}

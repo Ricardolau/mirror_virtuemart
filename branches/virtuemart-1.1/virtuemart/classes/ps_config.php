@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -42,7 +42,7 @@ class vm_ps_config {
 		$db->next_record();
 		$d['conf_VM_PRICE_ACCESS_LEVEL'] = $db->f('name');
 
-		if (!$fp = fopen(ADMINPATH ."virtuemart.cfg.php", "w")) {
+		if (!is_writable(ADMINPATH ."virtuemart.cfg.php")) {
 			$vmLogger->err( $VM_LANG->_('VM_CONFIGURATION_CHANGE_FAILURE',false).' ('. ADMINPATH ."virtuemart.cfg.php)" );
 			return false;
 		}
@@ -318,8 +318,8 @@ define( 'IMAGEPATH', \$mosConfig_absolute_path.'/components/com_virtuemart/shop_
 
 			$config .= "?>";
 
-			fputs($fp, $config, strlen($config));
-			fclose ($fp);
+			file_put_contents(ADMINPATH ."virtuemart.cfg.php", $config );
+			
 			if( !empty($_REQUEST['ajax_request'] )) {
 				$vmLogger->info( $VM_LANG->_('VM_CONFIGURATION_CHANGE_SUCCESS',false) );
 			} else {

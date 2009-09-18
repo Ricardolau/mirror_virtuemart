@@ -1,5 +1,5 @@
 <?php
-
+if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 /*
 $Id: nusoap.php,v 1.114 2007/11/06 15:17:46 snichol Exp $
 

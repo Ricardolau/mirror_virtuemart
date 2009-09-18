@@ -34,8 +34,14 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
-14.09.2009 soeren
+18.09.2009 soeren
+- removed prototype.js
+- removed unnecessary nusoap class files
+^ using file_put_contents to write the configuration file in ps_config.php (instead of fputs)
+- removed old "all-one-module"
 
+
+14.09.2009 soeren
 # small fix to make VirtueMart compatible to PHP 5.3
 
 11.09.2009 soeren

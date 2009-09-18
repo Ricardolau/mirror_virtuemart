@@ -6,7 +6,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) {
 * @version $Id$
 * @package VirtueMart
 * @subpackage core
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -77,12 +77,9 @@ You can get your copy  of Joomla from http://joomla.org
 
 This package contains some code from the original 0.8.0 Edikon Corp. phpShop distribution available at www.phpshop.org
 
-This package was tested on 
-- Mambo 4.5.2.3
-- Mambo 4.5.3h
-- Mambo 4.6.2
-- Joomla 1.0.x
-- Joomla 1.5.9
+This package was successfully tested on 
+- Joomla 1.0.15
+- Joomla 1.5.14
 
  -- IMPORTANT --
 Please note that module and component SHOULD be used together! 
@@ -193,13 +190,6 @@ You don't need to unpack any of the archives in this complete package!
 	and click on 'Delete'.
    
     Done.
-
-
-############################
-   WHAT'S NEW IN VM 1.1.3?
-###########################
-
-//TODO
 
 #
 ############################

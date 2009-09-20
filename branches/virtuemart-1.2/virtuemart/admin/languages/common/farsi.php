@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
@@ -896,7 +896,7 @@ Mail mailto: {shopper_email}',
 	'PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_SENDER' => 'فرستنده',
 	'PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_RECEIVER' => 'دريافت كننده',
 	'PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_PICKUP' => 'Pick-Up',
-	'PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_DELIVERY' => 'Delivery',
+	'PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_DELIVERY' => 'تحویل',
 	'PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_DATE' => 'تاريخ',
 	'PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_TIME' => 'زمان',
 	'PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_LOCATION' => 'موقعيت',
@@ -911,7 +911,7 @@ Mail mailto: {shopper_email}',
 	'PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_LEGEND_LOF' => 'LOF Left per Letter on File at Station',
 	'PHPSHOP_SHIPPING_METHOD_DHL_TRACKING_LEGEND_LPN' => 'LPN Left per Signed not or Attempted Delivery Notice',
 	'FORGOT_YOUR_USERNAME' => 'نام كاربري خود را فراموش كرده ايد؟',
-	'EMAIL_FRIEND' => 'E-mail this to a friend.',
+	'EMAIL_FRIEND' => 'ایمیل به یک دوست.',
 	'EMAIL_FRIEND_ADDR' => 'پست الكترونيك دوست (تان) شما:',
 	'EMAIL_YOUR_NAME' => 'نام شما:',
 	'EMAIL_YOUR_MAIL' => 'پست الكترونيك شما:',
@@ -963,7 +963,7 @@ Mail mailto: {shopper_email}',
 	'PHPSHOP_ADMIN_CFG_ECHECK_AUTENTICATIONTYPE' => 'نوع تصدیق یل سندیت',
 	'PHPSHOP_ADMIN_CFG_ECHECK_AUTENTICATIONTYPE_EXPLAIN' => 'این نوع سندیت eCheck.Net است.',
 	'PHPSHOP_ADMIN_CFG_ECHECK_TRANSACTIONTYPE' => 'نوع تراکنش eCheck.Net',
-	'PHPSHOP_ADMIN_CFG_ECHECK_TRANSACTIONTYPE_EXPLAIN' => 'این نوع ترکنش eCheck.Net است.',
+	'PHPSHOP_ADMIN_CFG_ECHECK_TRANSACTIONTYPE_EXPLAIN' => 'این نوع تراکنش eCheck.Net است.',
 	'PHPSHOP_ADMIN_CFG_EWAY_CUSTID' => 'eWay Customer ID',
 	'PHPSHOP_ADMIN_CFG_EWAY_CUSTID_EXPLAIN' => 'The Customer ID you received from eWay.',
 	'PHPSHOP_ADMIN_CFG_NOCHEX_EMAIL' => 'NoChex Email',

@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
-* @translator soeren.
+* @translator soeren
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -198,15 +198,15 @@ $langvars = array (
 	'VM_DISPLAY_CHILD_SUFFIX' => 'پسوند كلاس زير شاخه ها',
 	'VM_INCLUDED_PRODUCT_ID' => 'Product IDs to include',
 	'VM_EXTRA_PRODUCT_ID' => 'شناسه هاي اضافي',
-	'PHPSHOP_DISPLAY_RADIOBOX' => 'از دکمه رادییویی استفاده کن',
+	'PHPSHOP_DISPLAY_RADIOBOX' => 'Use Radio Box',
 	'PHPSHOP_PRODUCT_FORM_ITEM_DISPLAY_LBL' => 'نمايش گزينه ها',
 	'PHPSHOP_DISPLAY_USE_PARENT' => 'نمايش مقادير زير شاخه هاي محصولات باطل گرددو مقادير مادر بكارگيري گردد.',
 	'PHPSHOP_DISPLAY_NORMAL' => 'جعبه تعداد استاندارد',
 	'PHPSHOP_DISPLAY_HIDE' => 'جعبه تعداد بالا',
 	'PHPSHOP_DISPLAY_DROPDOWN' => 'Use Dropdown Box',
-	'PHPSHOP_DISPLAY_CHECKBOX' => 'از دکمه چکباکس استفاده کن',
-	'PHPSHOP_DISPLAY_ONE' => 'یکی به دکمه سبد خرید اض',
-	'PHPSHOP_DISPLAY_MANY' => 'دکمه سبد خرید رل به همه فرزندان اضافه کن',
+	'PHPSHOP_DISPLAY_CHECKBOX' => 'Use Check Box',
+	'PHPSHOP_DISPLAY_ONE' => 'One Add to Cart Button',
+	'PHPSHOP_DISPLAY_MANY' => 'Add to Cart Button for each Child',
 	'PHPSHOP_DISPLAY_START' => 'مقدار اول',
 	'PHPSHOP_DISPLAY_END' => 'مقدار آخر',
 	'PHPSHOP_DISPLAY_STEP' => 'مقدار گام',

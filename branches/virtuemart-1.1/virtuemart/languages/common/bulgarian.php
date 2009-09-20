@@ -343,9 +343,9 @@ $langvars = array (
 	'PHPSHOP_DOWNLOADS_SEND_MSG_6' => 'Информация за теглене на файл от ',
 	'PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER1' => 'Благодарим Ви, че пазарувхте при нас! Следва информация за Вашата поръчка.',
 	'PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER2' => 'Благодарим Ви за съдействието!',
-	'PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER3' => 'Въпроси? Проблеми?',
+	'PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER3' => 'Ако имате въпроси може да ги зададете на този адрес.',
 	'PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER4' => 'Беше получена следната поръчка.',
-	'PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER5' => 'Рагледайте поръчката като кликнете на линка по-долу.',
+	'PHPSHOP_CHECKOUT_EMAIL_SHOPPER_HEADER5' => 'Рагледайте поръчката като кликнете на този линк.',
 	'PHPSHOP_CART_ERROR_NO_NEGATIVE' => 'Отрицателни количества не са позволени.',
 	'PHPSHOP_CART_ERROR_NO_VALID_QUANTITY' => 'Моля, въведете валидна стойност за количество за този артикул.',
 	'PHPSHOP_CART_SELECT_ITEM' => 'Моля, изберете разновидност.',
@@ -409,8 +409,8 @@ $langvars = array (
 	'PHPSHOP_WRITE_FIRST_REVIEW' => 'Напишете първия коментар!',
 	'PHPSHOP_REVIEW_LOGIN' => 'Моля, влезте в системата с потебителско име и парола, за да оставите коментар.',
 	'PHPSHOP_REVIEW_ERR_RATE' => 'Моля, дайте Вашата оценка за този продукт!',
-	'PHPSHOP_REVIEW_ERR_COMMENT1' => 'Моля, бъдете по-подробни - минималният брой символи е %s, а максималния - %s.',
-	'PHPSHOP_REVIEW_ERR_COMMENT2' => 'Моля, съкратете Вашия коментар - минималният брой символи е %s, а максималният - %s.',
+	'PHPSHOP_REVIEW_ERR_COMMENT1' => 'Моля, бъдете по-подробни - минималният брой символи е %s.',
+	'PHPSHOP_REVIEW_ERR_COMMENT2' => 'Моля, съкратете Вашия коментар - максималният брой символи- %s.',
 	'PHPSHOP_WRITE_REVIEW' => 'Изпратете ни Вашето мнение за този продукт!',
 	'PHPSHOP_REVIEW_RATE' => 'Оценете този продукт. Моля, изберете оценка между 5 (най-висока) и 0 (най-ниска).',
 	'PHPSHOP_REVIEW_COMMENT' => 'Изпратете ни Вашия коментар... (%s-%s символи) ',
@@ -633,7 +633,7 @@ $langvars = array (
 Инв. №: {product_sku}
 Препратка: {product_url}
 
-Ще се свъжем с вас при първа възможност.
+Ще се свържем с вас при първа възможност.
 (Моля, не отговаряйте на това писмо)',
 	'VM_ENQUIRY_VENDOR_EMAIL_MESSAGE' => 'Получихте запитване от {shopper_name} относно: 
 Продукт: {product_name}

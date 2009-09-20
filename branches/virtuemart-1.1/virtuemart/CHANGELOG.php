@@ -34,6 +34,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+20.09.2009 thepisu
+^ updated Persian (farsi) language (thanks to Mohoammad Hosien Fazeli)
+^ updated Bulgarian language (thanks to Todor Iliev)
+
 18.09.2009 soeren
 - removed prototype.js
 - removed unnecessary nusoap class files

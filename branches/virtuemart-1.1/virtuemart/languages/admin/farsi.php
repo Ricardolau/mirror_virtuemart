@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
@@ -78,11 +78,11 @@ $langvars = array (
 	'PHPSHOP_ADMIN_CFG_TAX_MODE' => 'شيوه ماليات:',
 	'PHPSHOP_ADMIN_CFG_TAX_MODE_SHIP' => 'بر اساس آدرس پستي',
 	'PHPSHOP_ADMIN_CFG_TAX_MODE_VENDOR' => 'بر اساس آدرس فروشنده',
-	'PHPSHOP_ADMIN_CFG_TAX_MODE_EXPLAIN' => 'اين گزينه مشخص كننده ميزان مالياتي براي محاسبه مالياتها مي باشد :<br />
+	'PHPSHOP_ADMIN_CFG_TAX_MODE_EXPLAIN' => 'اين گزينه مشخص كننده تراز مالياتي براي محاسبه مالياتها مي باشد :<br />
 	<ul><li>بر اساس كشور يا استان مالك فروشگاه</li><br/>
 	<li>بر اساس كشور يا استان خريدار.</li></ul>',
 	'PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE' => 'فعالسازي ميزانهاي چند گانه مالياتي؟',
-	'PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE_EXPLAIN' => 'اگر كالاهايي با ميزانهاي مالياتي متفاوتي داشته باشيد ، اين گزينه را انتخاب نماييد (بعنوان مثال  7% براي كتاب و مواد غذايي و 16% براي ساير اقلام)',
+	'PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE_EXPLAIN' => 'اگر كالاهايي با ترازهای مالياتي متفاوتي داشته باشيد ، اين گزينه را انتخاب نماييد (بعنوان مثال  7% براي كتاب و مواد غذايي و 16% براي ساير اقلام)',
 	'PHPSHOP_ADMIN_CFG_SUBSTRACT_PAYEMENT_BEFORE' => 'كم كردن ميزان تخفيف قبل از افزودن ماليات و هزينه حمل؟',
 	'PHPSHOP_ADMIN_CFG_REVIEW' => 'فعالسازي سيستم مرور/رتبه بندي توسط مشتريان؟',
 	'PHPSHOP_ADMIN_CFG_REVIEW_EXPLAIN' => 'با فعالسازي اين گزينه به مشتريان امكان <strong>رتبه بندي كالاها </strong> و <strong>نوشتن يادداشت</strong> درباره آنها را فراهم مي آوريد. <br /> با اين امكان مشتريان مي توانيد تجربيات خود را در استفاده از آن كالا در اختيار ديگران نيز قرار دهند. <br />',
@@ -128,18 +128,18 @@ $langvars = array (
 
 	'PHPSHOP_ADMIN_CFG_CHECKOUT_PROCESS' => 'انتخاب پروسه پرداخت فروشگاه',
 	'PHPSHOP_ADMIN_CFG_ENABLE_DOWNLOADS' => 'فعالسازي داونلودها',
-	'PHPSHOP_ADMIN_CFG_ENABLE_DOWNLOADS_EXPLAIN' => 'براي فعالسازي داونلودها اين گزينه بايد انتخاب گردد. در اين حالت كالاهاي فروشي بايد قابل داونلود باشند.',
-	'PHPSHOP_ADMIN_CFG_ORDER_ENABLE_DOWNLOADS' => 'وضعيت سفارشي كه داونلود را فعال مي سازد',
-	'PHPSHOP_ADMIN_CFG_ORDER_ENABLE_DOWNLOADS_EXPLAIN' => 'وضعيت سفارشي را انتخاب نماييد كه در آن مشتري از طريق پست الكترونيكي از داونلود مطلع مي شود.',
+	'PHPSHOP_ADMIN_CFG_ENABLE_DOWNLOADS_EXPLAIN' => 'براي فعالسازي دانلودها اين گزينه بايد انتخاب گردد. در اين حالت كالاهاي فروشي بايد قابل دانلود باشند.',
+	'PHPSHOP_ADMIN_CFG_ORDER_ENABLE_DOWNLOADS' => 'وضعيت سفارشي كه دانلود را فعال مي سازد',
+	'PHPSHOP_ADMIN_CFG_ORDER_ENABLE_DOWNLOADS_EXPLAIN' => 'وضعيت سفارشي را انتخاب نماييد كه در آن مشتري از طريق پست الكترونيكي از دانلود مطلع مي شود.',
 	'PHPSHOP_ADMIN_CFG_ORDER_DISABLE_DOWNLOADS' => 'وضعيت سفارشي كه داونلود را غير فعال مي سازد',
-	'PHPSHOP_ADMIN_CFG_ORDER_DISABLE_DOWNLOADS_EXPLAIN' => 'وضعيت سفارشي را تنظيم نماييد كه در آن امكان داونلود براي مشتري غير فعال مي شود.',
+	'PHPSHOP_ADMIN_CFG_ORDER_DISABLE_DOWNLOADS_EXPLAIN' => 'وضعيت سفارشي را تنظيم نماييد كه در آن امكان دانلود براي مشتري غير فعال مي شود.',
 	'PHPSHOP_ADMIN_CFG_DOWNLOADROOT' => 'مسير داونلود',
-	'PHPSHOP_ADMIN_CFG_DOWNLOADROOT_EXPLAIN' => 'مسير دسترسي به فايلها براي داونلود مشتريان. (با يك اسلش در انتها!)<br>
+	'PHPSHOP_ADMIN_CFG_DOWNLOADROOT_EXPLAIN' => 'مسير دسترسي به فايلها براي دانلود مشتريان. (با يك اسلش در انتها!)<br>
         <span class="message">براي امنيت فروشگاه خود : لطفاً اگر مي توانيد از يك دايركتوري در بيرون از WEBROOT استفاده نماييد.</span>',
 	'PHPSHOP_ADMIN_CFG_DOWNLOAD_MAX' => 'حداكثر داونلود',
-	'PHPSHOP_ADMIN_CFG_DOWNLOAD_MAX_EXPLAIN' => 'تنظيم كننده تعداد داونلودي كه مي توان با يك شناسه داونلود (براي يك سفارش) انجام داد.',
-	'PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE' => 'انقضاي داونلود',
-	'PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE_EXPLAIN' => 'تنظيم كننده ميزان زمان <strong>به ثانيه</strong> كه در آن مدت امكان داونلود براي مشتريان فعال مي ماند. اين ميزان زماني با اولين داونلود شروع شده و بعد از اتمام زمان شناسه داونلود غير فعال مي شود. 
+	'PHPSHOP_ADMIN_CFG_DOWNLOAD_MAX_EXPLAIN' => 'تنظيم كننده تعداد داونلودي كه مي توان با يك شناسه دانلود (براي يك سفارش) انجام داد.',
+	'PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE' => 'انقضاي دانلود',
+	'PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE_EXPLAIN' => 'تنظيم كننده ميزان زمان <strong>به ثانيه</strong> كه در آن مدت امكان دانلود براي مشتريان فعال مي ماند. اين ميزان زماني با اولين دانلود شروع شده و بعد از اتمام زمان شناسه دانلود غير فعال مي شود. 
   <br />توجه : 86400 ثانيه = 24  ساعت.',
 	'PHPSHOP_COUPONS' => 'كوپن ها',
 	'PHPSHOP_COUPONS_ENABLE' => 'فعالسازي استفاده از كوپن ',
@@ -360,7 +360,7 @@ $langvars = array (
 	'VM_ADMIN_CFG_LOGFILE_NAME' => 'نام فايل واقع نگاري',
 	'VM_ADMIN_CFG_LOGFILE_NAME_EXPLAIN' => ' بايد قابل دسترسي و  نوشتن باشد، logfile مسير',
 	'VM_ADMIN_CFG_LOGFILE_LEVEL' => 'پيام مرحله ورودي',
-	'VM_ADMIN_CFG_LOGFILE_LEVEL_EXPLAIN' => 'Log messages above this priority threshold will be ignored.',
+	'VM_ADMIN_CFG_LOGFILE_LEVEL_EXPLAIN' => 'ثبت پیام های بالالی این آستلاه اولویت از قلم خواهد افتاد.',
 	'VM_ADMIN_CFG_LOGFILE_LEVEL_TIP' => 'TIP - 8',
 	'VM_ADMIN_CFG_LOGFILE_LEVEL_DEBUG' => 'DEBUG - 7',
 	'VM_ADMIN_CFG_LOGFILE_LEVEL_INFO' => 'INFO - 6',

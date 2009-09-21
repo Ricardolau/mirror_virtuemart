@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+21.09.2009 soeren
+# fixed voting on edit vote (http://forum.virtuemart.net/index.php?topic=60287.0)
+
 21.09.2009 aravot
 # Switched width and height in ps_product.php
 # Fixed case in ps_product_files.php

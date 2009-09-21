@@ -138,6 +138,11 @@ class vm_ps_reviews {
 			return false;
 		}
 		$time = time() + $mosConfig_offset*60*60;
+
+ 		$db->query("SELECT user_rating FROM #__{vm}_product_reviews WHERE product_id='".$d['product_id']."' AND userid=".vmRequest::getInt('userid'));
+ 		$db->next_record();
+ 		$previous_vote = $db->f("user_rating");
+		
 		$fields = array('product_id' => $d['product_id'], 
 									'userid' => vmRequest::getInt('userid'),
 									'comment' => vmGet($d, 'comment' ),
@@ -147,7 +152,7 @@ class vm_ps_reviews {
 		$db->buildQuery('REPLACE', '#__{vm}_product_reviews', $fields );
 		$db->query();
 
-		$this->process_vote( $d );
+		$this->process_vote( $d, $previous_vote );
 
 		$vmLogger->info( $VM_LANG->_('PHPSHOP_REVIEW_MODIFIED',false) );
 
@@ -184,7 +189,7 @@ class vm_ps_reviews {
 	 * @param array $d
 	 * @return boolean
 	 */
-	function process_vote( &$d ) {
+	function process_vote( &$d, $previous_vote = -1 ) {
 		global $db, $auth;
 
 		if (PSHOP_ALLOW_REVIEWS == "1" && !empty($auth['user_id'])) {
@@ -203,15 +208,27 @@ class vm_ps_reviews {
 				}
 				else {
 					$allvotes=intval( $db->f("allvotes") );
-					$votes = $d["user_rating"].','.$db->f("votes");
+					if ($previous_vote > -1) { // If this is an edit
+						$votes = $db->f("votes");
+					} else {
+						$votes = $d["user_rating"].','.$db->f("votes");
+					}
 				}
 				$currip = $_SERVER["REMOTE_ADDR"];
-
+ 				if ($previous_vote > -1) { // If this is an edit
+ 					$i = array_search($previous_vote, $votes_arr); // Find a vote with the same value 
+ 					unset($votes_arr[$i]); // And remove it
+ 					$allvotes--; // Decrement the vote counter
+ 					
+ 					$votes_arr[] = $d["user_rating"]; // Add the new rating in
+ 					$votes = implode(",", $votes_arr); // Then reconstruct the string
+ 				}
 				$votes_arr=explode(",", $votes);
 				$votes_count=array_sum($votes_arr);
-				$newrating=$votes_count / ( ( $allvotes )+1 );
+				$allvotes++; // Increment the number of votes
+ 				$newrating=$votes_count / ( $allvotes );
 				$newrating = round( $newrating );
-				$sql="UPDATE #__{vm}_product_votes SET allvotes=allvotes+1, rating=$newrating, votes='$votes', lastip='$currip' WHERE product_id='".$d["product_id"]."'";
+				$sql="UPDATE #__{vm}_product_votes SET allvotes=$allvotes, rating=$newrating, votes='$votes', lastip='$currip' WHERE product_id='".$d["product_id"]."'";
 				$db->query( $sql );
 
 			}

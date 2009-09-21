@@ -1364,7 +1364,7 @@ class vm_ps_product extends vmAbstractObject {
 				if(PSHOP_IMG_RESIZE_ENABLE == '1' && $resize==1) {
 					$url = $mosConfig_live_site."/components/com_virtuemart/show_image_in_imgtag.php?filename=".urlencode($image)."&amp;newxsize=".PSHOP_IMG_WIDTH."&amp;newysize=".PSHOP_IMG_HEIGHT."&amp;fileout=";
 					if( !strpos( $args, "height=" )) {
-						$arr = @getimagesize( vmImageTools::getresizedfilename( $image, $path_appendix, '', $thumb_width, $thumb_height ) );
+						$arr = @getimagesize( vmImageTools::getresizedfilename( $image, $path_appendix, '', $thumb_height, $thumb_width ) );
 						$width = $arr[0]; $height = $arr[1];
 					}
 				}

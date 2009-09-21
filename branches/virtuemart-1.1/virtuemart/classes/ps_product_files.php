@@ -839,7 +839,7 @@ class vm_ps_product_files extends vmAbstractObject {
 		
 		$fileout = IMAGEPATH."$section/resized/".$to_file_thumb;
 		
-		vmImageTools::ResizeImage( $fileName, $fileout, $height, $width );
+		vmImageTools::resizeImage( $fileName, $fileout, $height, $width );
 		
 		return $fileout;
 			

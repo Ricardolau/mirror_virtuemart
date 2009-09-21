@@ -34,6 +34,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+21.09.2009 aravot
+# Switched width and height in ps_product.php
+# Fixed case in ps_product_files.php
+
 20.09.2009 thepisu
 ^ updated Persian (farsi) language (thanks to Mohoammad Hosien Fazeli)
 ^ updated Bulgarian language (thanks to Todor Iliev)

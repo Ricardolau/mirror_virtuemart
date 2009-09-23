@@ -34,6 +34,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+23.09.2009 mauri
+# Fixed EU VAT ID in ps_product.php and ps_checkout.php
+# Fixed undefined index in ps_order_chenge.php
+
 21.09.2009 soeren
 # fixed voting on edit vote (http://forum.virtuemart.net/index.php?topic=60287.0)
 

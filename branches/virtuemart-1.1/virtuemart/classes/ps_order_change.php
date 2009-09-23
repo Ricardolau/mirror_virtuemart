@@ -536,7 +536,7 @@ class vm_ps_order_change {
 	 * returns:
 	 **************************************************************************/
 	function change_item_quantity( $order_id, $order_item_id, $quantity ) {
-		
+		global $mosConfig_offset;
 		if( ! is_numeric( $quantity ) || $quantity < 1 ) {
 			return - 1 ;
 		}
@@ -585,7 +585,7 @@ class vm_ps_order_change {
 	 * returns:
 	 **************************************************************************/
 	function add_product() {
-		global $VM_LANG, $vmLogger ;
+		global $VM_LANG, $vmLogger, $mosConfig_offset ;
 		
 		require_once (CLASSPATH . 'ps_product_attribute.php') ;
 		require_once (CLASSPATH . 'ps_product.php') ;
@@ -1158,7 +1158,7 @@ class vm_ps_order_change {
 	 **************************************************************************/
 	function change_product_item_price() {
 		require_once (CLASSPATH . 'ps_product.php') ;
-		global $VM_LANG, $vmLogger ;
+		global $VM_LANG, $vmLogger, $mosConfig_offset ;
 		
 		$ps_product = new ps_product( ) ;
 		

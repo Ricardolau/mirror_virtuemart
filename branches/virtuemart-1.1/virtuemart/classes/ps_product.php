@@ -1513,6 +1513,7 @@ class vm_ps_product extends vmAbstractObject {
 	 * @return int The tax rate for the product
 	 */
 	function get_product_taxrate( $product_id, $weight_subtotal=0, $ship_to_info_id = '' ) {
+		global $vendor_country_3_code;
 		$db = new ps_DB;
 		// Product's weight_subtotal, if weight_subtotal is 0!
 		$product_weight = ps_product::get_field($product_id, 'product_weight');
@@ -1522,7 +1523,59 @@ class vm_ps_product extends vmAbstractObject {
 		}
 		
 		require_once( CLASSPATH . 'ps_checkout.php' );
-		
+
+		// EU TAX_MODE
+		$auth = $_SESSION['auth'];
+		$userid = $auth["user_id"];
+		if ( $userid > 0 && TAX_MODE == '17749'  && ps_checkout::country_in_eu_common_vat_zone($vendor_country_3_code)){
+			$ship_country = '';
+			$user_info_id = '';
+			if ( vmGet( $_REQUEST, 'ship_to_info_id') || $ship_to_info_id ){
+				if (!$ship_to_info_id){
+					$ship_to_info_id = vmGet( $_REQUEST, 'ship_to_info_id');
+				}
+				$q  = "SELECT country FROM #__{vm}_user_info WHERE user_info_id='" . $ship_to_info_id ."'";
+				$db->query($q);
+				$db->next_record();
+				$ship_country = $db->f("country");
+			}
+
+			if ( $ship_to_info_id == '') {
+				$ship_country = $auth["country"];
+				$q = "SELECT user_info_id FROM #__{vm}_user_info WHERE user_id = '" .(int)$userid . "' AND address_type='BT'";
+				$db->query($q);
+				$user_info_id = $db->f("user_info_id");
+			}
+
+			// Check if user country is outside EU.
+			$eu_vat = '';
+			if( ps_checkout::country_in_eu_common_vat_zone($ship_country)){
+				$eu_vat = 'yes';
+			}
+
+			if( !$eu_vat && ps_checkout::country_in_eu_common_vat_zone($vendor_country_3_code)) {
+				$_SESSION['product_sess'][$product_id]['tax_rate'] = 0;
+				return $_SESSION['product_sess'][$product_id]['tax_rate'];
+			}
+
+			// Handle TAX if EU VAT ID
+			if( $eu_vat == 'yes' && $vendor_country_3_code != $ship_country){
+				$q = "SELECT country_2_code FROM #__{vm}_country WHERE country_3_code='" . $ship_country ."'";
+				$db->query($q);
+				$db->next_record();
+				$ship_country_2_code = $db->f("country_2_code");
+				$q = "SELECT vm_vatid FROM #__{vm}_user_info WHERE user_info_id='" . $ship_to_info_id ."' OR user_info_id='" . $user_info_id."'";
+				$db->query($q);
+				while($db->next_record()) { 
+					$vat_id = $db->f("vm_vatid");
+					if( $ship_country_2_code == substr($vat_id, 0, 2) ) {
+						$_SESSION['product_sess'][$product_id]['tax_rate'] = 0;
+						return $_SESSION['product_sess'][$product_id]['tax_rate'];
+					}
+				}
+			}
+		}
+
 		if ( ( $weight_subtotal != 0 or TAX_VIRTUAL=='1' ) && !ps_checkout::tax_based_on_vendor_address( $ship_to_info_id ) ) {
 			$tax_rate_id = ps_product::get_field($product_id, 'product_tax_id');
 			if( $tax_rate_id == 0 ) {
@@ -1550,7 +1603,7 @@ class vm_ps_product extends vmAbstractObject {
 				}
 				else {
 					// if we didn't find a product tax rate id, let's get the store's tax rate
-					$rate = $this->get_taxrate();
+					$rate = $this->get_taxrate( $ship_to_info_id );
 				}
 				if ($weight_subtotal != 0 or TAX_VIRTUAL=='1') {
 					$_SESSION['product_sess'][$product_id]['tax_rate'] = $rate;

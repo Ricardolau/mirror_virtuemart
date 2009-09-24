@@ -1453,7 +1453,7 @@ Order Total: '.$order_total.'
 	 * @return float
 	 */
 	function calc_order_tax($order_taxable, $d) {
-		global $order_tax_details, $discount_factor, $vendor_country_3_code;
+		global $order_tax_details, $discount_factor;
 		$auth = $_SESSION['auth'];
 		$ps_vendor_id = $_SESSION["ps_vendor_id"];
 		$db = new ps_DB;
@@ -1465,8 +1465,8 @@ Order Total: '.$order_total.'
 		
 		$discount_factor = 1;
 		
-		// Shipping address based TAX
-		if ( !ps_checkout::tax_based_on_vendor_address ($ship_to_info_id) ) {
+			// Shipping address based TAX
+		if ( !ps_checkout::tax_based_on_vendor_address () ) {
 			$q = "SELECT state, country FROM #__{vm}_user_info ";
 			$q .= "WHERE user_info_id='".$ship_to_info_id. "'";
 			$db->query($q);
@@ -1475,7 +1475,7 @@ Order Total: '.$order_total.'
 			$country = $db->f("country");
 			$q = "SELECT * FROM #__{vm}_tax_rate WHERE tax_country='$country' ";
 			if( !empty($state)) {
-				$q .= "AND (tax_state='$state' OR tax_state=' $state ' OR tax_state='-')";
+				$q .= "AND (tax_state='$state' OR tax_state=' $state ')";
 			}
 			$db->query($q);
 			if ($db->next_record()) {
@@ -1484,6 +1484,7 @@ Order Total: '.$order_total.'
 					$order_tax = 0.0;
                 } else {
                     $cart = $_SESSION['cart'];
+					$order_tax = 0.0;
                     if( (!empty( $_SESSION['coupon_discount'] ) || !empty( $d['payment_discount'] ))
                         && PAYMENT_DISCOUNT_BEFORE == '1' ) {
 
@@ -1518,10 +1519,6 @@ Order Total: '.$order_total.'
                         $order_tax = $rate;
                     }
                 }
-				// tax 0 if EU MODE and shipping out of EU
-				if ( TAX_MODE=='17749' && ps_checkout::country_in_eu_common_vat_zone( $vendor_country_3_code) && !ps_checkout::country_in_eu_common_vat_zone( $country)) {
-					$order_tax = 0.0;
-				}
             } else {
                 $order_tax = 0.0;
             }

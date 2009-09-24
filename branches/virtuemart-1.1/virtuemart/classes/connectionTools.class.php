@@ -174,12 +174,16 @@ class vmConnector {
 				}
 				else {
 					// Do a read-only fopen transaction
-					$fp = fopen( $urlParts['scheme'].'://'.$urlParts['host'].':'.$urlParts['port'].$urlParts['path'], 'rb' );
+					$fp = @fopen( $urlParts['scheme'].'://'.$urlParts['host'].':'.$urlParts['port'].$urlParts['path'], 'rb' );
 				}
 			}
 			if(!$fp){
-				//error tell us
-				$vmLogger->err( "Possible server error! - $errstr ($errno)\n" );
+				//error, plesae tell us which one
+				$errmsg = "Possible server error!";
+				if( !empty($errstr )) {
+					$errmsg .= " - $errstr ($errno)\n";
+				}
+				$vmLogger->err( $errmsg );
 				return false;
 			}
 			else {

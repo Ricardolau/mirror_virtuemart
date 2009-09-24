@@ -215,6 +215,7 @@ class vm_ps_reviews {
 					}
 				}
 				$currip = $_SERVER["REMOTE_ADDR"];
+				$votes_arr=explode(",", $votes);
  				if ($previous_vote > -1) { // If this is an edit
  					$i = array_search($previous_vote, $votes_arr); // Find a vote with the same value 
  					unset($votes_arr[$i]); // And remove it
@@ -223,7 +224,7 @@ class vm_ps_reviews {
  					$votes_arr[] = $d["user_rating"]; // Add the new rating in
  					$votes = implode(",", $votes_arr); // Then reconstruct the string
  				}
-				$votes_arr=explode(",", $votes);
+				
 				$votes_count=array_sum($votes_arr);
 				$allvotes++; // Increment the number of votes
  				$newrating=$votes_count / ( $allvotes );

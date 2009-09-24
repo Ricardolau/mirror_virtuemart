@@ -34,6 +34,11 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+24.09.2009 soeren
+# Task #2711 - Undefined variable when review is modified by store owner.
+# Task #2651 - EU VAT ID tax handling with dynamic EU VAT ID field name
+# Task #2703 - convertECB error in localhost 
+
 23.09.2009 mauri
 # Fixed EU VAT ID in ps_product.php and ps_checkout.php
 # Fixed undefined index in ps_order_chenge.php

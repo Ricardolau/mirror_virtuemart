@@ -40,7 +40,7 @@ class convertECB {
 		global $mosConfig_cachepath, $mosConfig_absolute_path,
 				$vendor_currency, $vmLogger;
 				
-		if( !is_array($GLOBALS['converter_array'])) {
+		if( !is_array($GLOBALS['converter_array']) && $GLOBALS['converter_array'] !== -1 ) {
 			setlocale(LC_TIME, "en-GB");
 			$now = time() + 3600; // Time in ECB (Germany) is GMT + 1 hour (3600 seconds)
 			if (date("I")) {
@@ -157,6 +157,7 @@ class convertECB {
 			return $amountA;
 		}
 		if( !$this->init()) {
+			$GLOBALS['product_currency'] = $vendor_currency;
 			return $amountA;
 		}
 		$valA = isset( $GLOBALS['converter_array'][$currA] ) ? $GLOBALS['converter_array'][$currA] : 1;

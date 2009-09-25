@@ -39,6 +39,7 @@ else {
 	$checkout = True;
 
 	$total = 0;
+	$grandSubtotal = 0;
 	// Added for the zone shipping module
 	$vars["zone_qty"] = 0;
 	$weight_total = 0;
@@ -113,12 +114,12 @@ else {
 
 		$subtotal = $product_price * $cart[$i]["quantity"];
 
+		// Rick Glunt 9/25/09 - Remove tax based on coupon amount
 		/* TOTAL CALCULATION */	
 		if( PSHOP_COUPONS_ENABLE=='1' && @$_SESSION['coupon_redeemed']=="1" && PAYMENT_DISCOUNT_BEFORE=='1') {
-			if ( $auth["show_price_including_tax"] == 0 ) {
+			if ($auth["show_price_including_tax"] == 0) {
 				$total += $subtotal;
 			}
-			// Rick Glunt 9/25/09 - Remove tax based on coupon amount
 			else {
 				$total += $subtotal - ($_SESSION['coupon_discount'] * $my_taxrate);
 			}
@@ -126,7 +127,7 @@ else {
 		else {
 			$total += $subtotal;
 		}
-		//$total += $subtotal;
+		$grandSubtotal += $subtotal;
 		
 		$product_rows[$i]['subtotal'] = $GLOBALS['CURRENCY_DISPLAY']->getFullValue($subtotal);
 		$product_rows[$i]['subtotal_with_tax'] = $GLOBALS['CURRENCY_DISPLAY']->getFullValue($subtotal * ($my_taxrate+1));
@@ -170,7 +171,7 @@ else {
 
 	$total = $total_undiscounted = round($total, 5);
 	$vars["total"] = $total;
-	$subtotal_display = $GLOBALS['CURRENCY_DISPLAY']->getFullValue($total);
+	$subtotal_display = $GLOBALS['CURRENCY_DISPLAY']->getFullValue($grandSubtotal);
 
     if (!empty($_POST["do_coupon"]) || (in_array( strtolower($func), array( 'cartadd', 'cartupdate', 'cartdelete' )) && !empty($_SESSION['coupon_redeemed'])) ) {
         /* process the coupon */
@@ -261,7 +262,7 @@ else {
 		$total_undiscounted += $tax_total;
 	}
 			
-			
+	
 	$order_total += $shipping_total + $total;
 	$total_undiscounted += $shipping_total;
 

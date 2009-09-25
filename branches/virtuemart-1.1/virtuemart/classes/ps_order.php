@@ -298,7 +298,7 @@ class vm_ps_order {
 				$message .= $VM_LANG->_('PHPSHOP_DOWNLOADS_SEND_MSG_2',false)."\n\n";
 
 				while($dbw->next_record()) {
-					$message .= $dbw->f("file_name").": ".$dbw->f("download_id")
+					$message .= basename($dbw->f("file_name")).": ".$dbw->f("download_id")
 					. "\n$url&download_id=".$dbw->f("download_id")."\n\n";
 				}
 

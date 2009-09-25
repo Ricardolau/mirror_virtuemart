@@ -111,21 +111,23 @@ else {
 		$product_price = round( $product_price, 2 );
 		$product_rows[$i]['product_price'] = $GLOBALS['CURRENCY_DISPLAY']->getFullValue($product_price);
 
-		/* SUBTOTAL CALCULATION */	
+		$subtotal = $product_price * $cart[$i]["quantity"];
+
+		/* TOTAL CALCULATION */	
 		if( PSHOP_COUPONS_ENABLE=='1' && @$_SESSION['coupon_redeemed']=="1" && PAYMENT_DISCOUNT_BEFORE=='1') {
 			if ( $auth["show_price_including_tax"] == 0 ) {
-				$subtotal = $product_price * $cart[$i]["quantity"];
+				$total += $subtotal;
 			}
 			// Rick Glunt 9/25/09 - Remove tax based on coupon amount
 			else {
-				$subtotal = ($product_price - ($_SESSION['coupon_discount'] * $my_taxrate))  * $cart[$i]["quantity"];	
+				$total += $subtotal - ($_SESSION['coupon_discount'] * $my_taxrate);
 			}
 		}
 		else {
-			$subtotal = $product_price * $cart[$i]["quantity"];
+			$total += $subtotal;
 		}
-
-		$total += $subtotal;
+		//$total += $subtotal;
+		
 		$product_rows[$i]['subtotal'] = $GLOBALS['CURRENCY_DISPLAY']->getFullValue($subtotal);
 		$product_rows[$i]['subtotal_with_tax'] = $GLOBALS['CURRENCY_DISPLAY']->getFullValue($subtotal * ($my_taxrate+1));
 

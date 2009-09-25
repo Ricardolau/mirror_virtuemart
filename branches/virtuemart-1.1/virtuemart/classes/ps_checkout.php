@@ -1317,7 +1317,7 @@ Order Total: '.$order_total.'
 											- $totals['payment_discount'];
 		
 		$totals['order_tax'] *= $discount_factor;
-		
+
 		return $totals;
 	}
 	/**
@@ -1500,11 +1500,11 @@ Order Total: '.$order_total.'
                                 $tax_rate = $db->f("tax_rate");
 
                                 $use_coupon_discount= @$_SESSION['coupon_discount'];
-                                if( !empty( $_SESSION['coupon_discount'] )) {
-                                    if( $auth["show_price_including_tax"] == 1 ) {
-                                        $use_coupon_discount = $_SESSION['coupon_discount'] / ($tax_rate+1);
-                                    }
-                                }
+                                //if( !empty( $_SESSION['coupon_discount'] )) {
+                                //    if( $auth["show_price_including_tax"] == 1 ) {
+                                //        $use_coupon_discount = $_SESSION['coupon_discount'] / ($tax_rate+1);
+                                //    }
+                                //}
                                 $factor = (100 * ($use_coupon_discount + @$d['payment_discount'])) / $this->_subtotal;
                                 $price["product_price"] = $price["product_price"] - ($factor * $price["product_price"] / 100);
                                 @$order_tax_details[$tax_rate] += $price["product_price"] * $tax_rate * $cart[$i]["quantity"];

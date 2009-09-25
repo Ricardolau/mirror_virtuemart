@@ -1454,6 +1454,7 @@ Order Total: '.$order_total.'
 	 */
 	function calc_order_tax($order_taxable, $d) {
 		global $order_tax_details, $discount_factor;
+		$total = 0;
 		$auth = $_SESSION['auth'];
 		$ps_vendor_id = $_SESSION["ps_vendor_id"];
 		$db = new ps_DB;

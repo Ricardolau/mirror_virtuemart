@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+26.09.2009 soeren
+# small fix to resized image display [http://forum.virtuemart.net/index.php?topic=59990.0]
+
 24.09.2009 soeren
 # Task #2711 - Undefined variable when review is modified by store owner.
 # Task #2651 - EU VAT ID tax handling with dynamic EU VAT ID field name

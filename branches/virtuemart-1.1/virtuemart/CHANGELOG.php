@@ -35,6 +35,7 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 26.09.2009 soeren
+# Task #2692 - Rounding issue in step 4 of checkout 
 # Task #2702 - Count of Parameters of Product Type at front page 
 # small fix to resized image display [http://forum.virtuemart.net/index.php?topic=59990.0]
 

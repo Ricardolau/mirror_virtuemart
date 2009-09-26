@@ -38,6 +38,10 @@ foreach( $product_types as $product_type ) { // Loop through all recent products
 			else {
     			$bgcolor = 'row1';
 			}
+			if ( $i > $product_type["product_type_count_params"] ) {
+				break;
+			}
+
 			?><tr class="<?php echo $bgcolor;?> height="18">
 			<td width="30%"><?php echo $product_type_params["parameter_label"]; 
 

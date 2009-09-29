@@ -116,17 +116,17 @@ else {
 
 		// Rick Glunt 9/25/09 - Remove tax based on coupon amount
 		/* TOTAL CALCULATION */	
-		if( PSHOP_COUPONS_ENABLE=='1' && @$_SESSION['coupon_redeemed']=="1" && PAYMENT_DISCOUNT_BEFORE=='1') {
-			if ($auth["show_price_including_tax"] == 0) {
-				$total += $subtotal;
-			}
-			else {
-				$total += $subtotal - ($_SESSION['coupon_discount'] * $my_taxrate);
-			}
-		}
-		else {
+		//if( PSHOP_COUPONS_ENABLE=='1' && PAYMENT_DISCOUNT_BEFORE=='1') {
+		//	if ($auth["show_price_including_tax"] == 0) {
+		//		$total += $subtotal;
+		//	}
+		//	else {
+		//		$total += $subtotal - ($_SESSION['coupon_discount'] * $my_taxrate);
+		//	}
+		//}
+		//else {
 			$total += $subtotal;
-		}
+		//}
 		$grandSubtotal += $subtotal;
 		
 		$product_rows[$i]['subtotal'] = $GLOBALS['CURRENCY_DISPLAY']->getFullValue($subtotal);
@@ -178,9 +178,8 @@ else {
 		require_once( CLASSPATH . "ps_coupon.php" );
 		$vars["total"] = $total;
 		ps_coupon::process_coupon_code( $vars );
-
 	}
-
+	
 	/* HANDLE SHIPPING COSTS */
 	if( !empty($shipping_rate_id) && !ps_checkout::noShippingMethodNecessary() ) {
 		$shipping = true;
@@ -244,7 +243,6 @@ else {
 		$tax_total += $shipping_tax;
 		$tax_total = round( $tax_total, 5 );
 		$tax_display = $GLOBALS['CURRENCY_DISPLAY']->getFullValue($tax_total);
-
 		$tax_display .= ps_checkout::show_tax_details( $order_tax_details );
 	}
 
@@ -252,6 +250,13 @@ else {
 	if( PSHOP_COUPONS_ENABLE=='1' && @$_SESSION['coupon_redeemed']=="1" && PAYMENT_DISCOUNT_BEFORE != '1') {
 		$discount_after=true;
 		$total -= $_SESSION['coupon_discount'];
+		$coupon_display = "- ".$GLOBALS['CURRENCY_DISPLAY']->getFullValue( $_SESSION['coupon_discount'] );
+	}
+	else if( PSHOP_COUPONS_ENABLE=='1' && @$_SESSION['coupon_redeemed']=="1" && PAYMENT_DISCOUNT_BEFORE == '1') {
+		$discount_after=false;
+		$total -= $_SESSION['coupon_discount'];
+		$total -= ($_SESSION['coupon_discount'] * $my_taxrate);
+		$tax_total += ($_SESSION['coupon_discount'] * $my_taxrate);
 		$coupon_display = "- ".$GLOBALS['CURRENCY_DISPLAY']->getFullValue( $_SESSION['coupon_discount'] );
 	}
 
@@ -312,6 +317,7 @@ else {
 	) {
 		$basket_html .= $tpl->fetch( 'common/couponField.tpl.php' );
 	}
+
 }
 
 ?>

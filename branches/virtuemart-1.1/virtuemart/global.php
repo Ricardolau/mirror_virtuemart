@@ -82,7 +82,7 @@ require_once(CLASSPATH."Log/LogInit.php");
 // The abstract language class
 require_once( CLASSPATH."language.class.php" );
 /** @global vmLanguage $GLOBALS['VM_LANG'] */
-$GLOBALS['VM_LANG'] = $GLOBALS['PHPSHOP_LANG'] =& new vmLanguage();
+$GLOBALS['VM_LANG'] = $GLOBALS['PHPSHOP_LANG'] = new vmLanguage();
 // loading common language module
 $VM_LANG->load('common');
 
@@ -206,7 +206,7 @@ require_once( CLASSPATH.'currency/class_currency_display.php' );
  *  @global CurrencyDisplay $GLOBALS['CURRENCY_DISPLAY']
  *  @global CurrencyDisplay $CURRENCY_DISPLAY
  */
-$CURRENCY_DISPLAY = $GLOBALS['CURRENCY_DISPLAY'] =& new CurrencyDisplay($currency_display["id"], $currency_display["symbol"], $currency_display["nbdecimal"], $currency_display["sdecimal"], $currency_display["thousands"], $currency_display["positive"], $currency_display["negative"]);
+$CURRENCY_DISPLAY = $GLOBALS['CURRENCY_DISPLAY'] = new CurrencyDisplay($currency_display["id"], $currency_display["symbol"], $currency_display["nbdecimal"], $currency_display["sdecimal"], $currency_display["thousands"], $currency_display["positive"], $currency_display["negative"]);
 	
 // Include the theme
 if( file_exists( VM_THEMEPATH.'theme.php' )) {

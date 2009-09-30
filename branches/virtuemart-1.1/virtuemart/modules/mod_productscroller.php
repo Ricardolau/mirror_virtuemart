@@ -293,8 +293,8 @@ if( !class_exists('productScroller')) { // Prevent double class declaration
 }
 
 // start of Product Scroller Script
-$params =& new vmParameters( $module->params );
-$scroller =& new productScroller($params);
+$params = new vmParameters( $module->params );
+$scroller = new productScroller($params);
 
 /**
 * Load Products

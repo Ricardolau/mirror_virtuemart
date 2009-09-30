@@ -68,7 +68,7 @@ class vm_vmTemplate {
 		
 		// the theme configuration needs to be available to the templates! (so you can use $this->get_cfg('showManufacturerLink') for example )
 		if( empty( $GLOBALS['vmThemeConfig'] ) || !empty( $_REQUEST['vmThemeConfig'])) {
-			$GLOBALS['vmThemeConfig'] =& new vmParameters( @file_get_contents(VM_THEMEPATH.'theme.config.php'), VM_THEMEPATH.'theme.xml', 'theme');
+			$GLOBALS['vmThemeConfig'] = new vmParameters( @file_get_contents(VM_THEMEPATH.'theme.config.php'), VM_THEMEPATH.'theme.xml', 'theme');
 
 		}
 		$this->config =& $GLOBALS['vmThemeConfig'];

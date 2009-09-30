@@ -8,7 +8,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @package VirtueMart
 * @subpackage modules
 * 
-* @copyright (C) 2004-2008 soeren - All Rights Reserved.
+* @copyright (C) 2004-2009 soeren - All Rights Reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 *
 * VirtueMart is Free Software.
@@ -25,7 +25,7 @@ global $mosConfig_absolute_path, $page;
 require_once( $mosConfig_absolute_path.'/components/com_virtuemart/virtuemart_parser.php' );
 
 require_once(CLASSPATH.'ps_product_category.php');
-$ps_product_category =& new ps_product_category();
+$ps_product_category = new ps_product_category();
 
 global $my, $root_label, $mosConfig_allowUserRegistration, $jscook_type, $jscookMenu_style, $jscookTree_style, $VM_LANG, $sess, $mm_action_url;
 

@@ -569,8 +569,8 @@ class vm_ps_session {
 		}
 		
 		// normalize base (cut off multislashes)
-		$base = eregi_replace("[/]+", "/", $base);
-		$base = ereg_replace(":/", "://", $base);
+		$base = str_replace("//", "/", $base);
+		$base = str_replace(":/", "://", $base);
 
 		// add script name to naked base url
 		// TODO: Improve
@@ -588,12 +588,12 @@ class vm_ps_session {
 
 		if (!defined( '_VM_IS_BACKEND' )) {
 			// index3.php is not available in the frontend!
-			$base = ereg_replace("index3.php$", "index2.php", $base);
+			$base = str_replace("index3.php", "index2.php", $base);
 
 			$url = basename($base) . "?" . $params;
 			
 			// make url absolute
-			if ($createAbsoluteURI && !eregi("^http[s]?:", $url)) {
+			if ($createAbsoluteURI && !substr($url, 0, 4 ) != "http") {
 				$url = (stristr($text, SECUREURL) ? SECUREURL : URL) . substr($url, $url[0] == '/' ? 1 : 0);
 			}
 			

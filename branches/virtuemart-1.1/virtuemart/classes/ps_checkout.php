@@ -70,7 +70,7 @@ class vm_ps_checkout {
 			if( $filename != '' && file_exists(CLASSPATH. "shipping/".$filename.".php")) {
 				include_once( CLASSPATH. "shipping/".$filename.".php" );
 				if( class_exists($filename) ) {
-					$this->_SHIPPING =& new $filename();
+					$this->_SHIPPING = new $filename();
 				}
 			}
 		}
@@ -1185,7 +1185,7 @@ Order Total: '.$order_total.'
         }
 		if ( $update_order ) {
 			require_once(CLASSPATH."ps_order.php");
-			$ps_order =& new ps_order();
+			$ps_order = new ps_order();
 			$ps_order->order_status_update($d);
 		}
 		

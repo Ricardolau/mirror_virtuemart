@@ -1379,10 +1379,10 @@ class vm_ps_product extends vmAbstractObject {
 					}
 					if( $resize && ! $using_resized_image) {
 						if( $height < $width ) {
-							$width = round($width / ($height / PSHOP_IMG_HEIGHT));
+							$width = @round($width / ($height / PSHOP_IMG_HEIGHT));
 							$height = PSHOP_IMG_HEIGHT;
 						} else {
-							$height = round($height / ($width / PSHOP_IMG_WIDTH ));
+							$height = @round($height / ($width / PSHOP_IMG_WIDTH ));
 							$width = PSHOP_IMG_WIDTH;
 						}
 					}

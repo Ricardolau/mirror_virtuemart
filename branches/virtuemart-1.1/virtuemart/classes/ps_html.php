@@ -238,7 +238,7 @@ class vm_ps_html {
 	function list_states($list_name,$selected_item="", $country_id="", $extra="") {
 		global $VM_LANG;
 
-		$db =& new ps_DB;
+		$db = new ps_DB;
 		$q = 'SELECT country_name, state_name, state_3_code , state_2_code 
 				FROM #__{vm}_state s, #__{vm}_country c 
 				WHERE s.country_id = c.country_id';
@@ -424,7 +424,7 @@ class vm_ps_html {
 	 */
 	function list_products($list_name, $values=array(), $product_id, $show_items=false ) {
 
-		$db =& new ps_DB;
+		$db = new ps_DB;
 
 		$q = "SELECT #__{vm}_product.product_id,category_name,product_name
 			FROM #__{vm}_product,#__{vm}_product_category_xref,#__{vm}_category ";

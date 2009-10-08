@@ -34,6 +34,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+08.10.2009 soeren
+# Admin Folder Blocked Via Htacess | Update Account "Save" Image comes from Admin [topic=61258]
+# Task #2722 - 3 Bugs in product.folders.php 
+
 30.09.2009 soeren
 # Task #2719 - Deprecated error message when using php 5.3 
 

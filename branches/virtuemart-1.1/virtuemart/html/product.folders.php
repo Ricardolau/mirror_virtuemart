@@ -69,7 +69,7 @@ class vmFoldersMenu {
             $itemid = isset($_REQUEST['Itemid']) ? '&Itemid='.intval($_REQUEST['Itemid'] ) : "";
             $mymenu_content.= str_repeat("\t", $level-1);
             if( $level > 1 && $i == 1 ) { $mymenu_content.= ","; }
-            $mymenu_content.= "['".$category->cname;
+            $mymenu_content.= "['".addslashes($category->cname);
             $mymenu_content.= ps_product_category::products_in_category( $category->cid );
             $mymenu_content.= "','".$_SERVER['PHP_SELF'].'?option=com_virtuemart&page=product.product_category_form&category_id='.$category->cid."'\n ";
             
@@ -80,12 +80,12 @@ class vmFoldersMenu {
             $db->query( $q );
             $products = $db->record;
             $xx = 1;
-            if( count( $products > 0 )) {
+            if( count( $products ) > 0 ) {
             	$mymenu_content .= ",\n";
             }
             foreach( $products as $product ) {
               // get name and link (just to save space in the code later on)
-              $mymenu_content.= str_repeat("\t", $level)."['".$product->product_name;
+              $mymenu_content.= str_repeat("\t", $level)."['".addslashes( $product->product_name );
               $url = $_SERVER['PHP_SELF'].'?option=com_virtuemart&page=product.product_form&product_id='.$product->product_id;
               $mymenu_content .= "','".$url."']";
               if( $xx++ < sizeof( $products ))

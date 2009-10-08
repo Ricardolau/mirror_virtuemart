@@ -84,7 +84,7 @@ switch( $task ) {
 	case 'getproducts':
 	if(!defined('SERVICES_JSON_SLICE'))
 		require_once(CLASSPATH . 'JSON.php');
-		$db =& new ps_DB;
+		$db = new ps_DB;
 		$keyword = $db->getEscaped(vmGet( $_REQUEST, 'query' ));
 		$q = "SELECT SQL_CALC_FOUND_ROWS #__{vm}_product.product_id,category_name,product_name
 			FROM #__{vm}_product,#__{vm}_product_category_xref,#__{vm}_category ";
@@ -126,7 +126,7 @@ switch( $task ) {
 		break;
 	case 'getcategories':
 		require_once(CLASSPATH . 'JSON.php');
-		$db =& new ps_DB;
+		$db = new ps_DB;
 		$keyword = $db->getEscaped(vmGet( $_REQUEST, 'query' ));
 		$q = "SELECT SQL_CALC_FOUND_ROWS #__{vm}_category.category_id,category_name
 			FROM `#__{vm}_category` ";

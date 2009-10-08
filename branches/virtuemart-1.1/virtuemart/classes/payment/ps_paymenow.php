@@ -28,7 +28,7 @@ class ps_paymenow {
     function show_configuration() { 
     
       global $VM_LANG;
-      $db =& new ps_DB;
+      $db = new ps_DB;
       /** Read current Configuration ***/
       require_once(CLASSPATH ."payment/".$this->classname.".cfg.php");
     ?>

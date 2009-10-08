@@ -132,10 +132,10 @@ class HTML_Table extends HTML_Common {
         }
         HTML_Common::HTML_Common($attributes, (int)$tabOffset);
         $this->_useTGroups = (boolean)$useTGroups;
-        $this->_tbody =& new HTML_Table_Storage($attributes, $tabOffset, $this->_useTGroups);
+        $this->_tbody = new HTML_Table_Storage($attributes, $tabOffset, $this->_useTGroups);
         if ($this->_useTGroups) {
-            $this->_thead =& new HTML_Table_Storage($attributes, $tabOffset, $this->_useTGroups);
-            $this->_tfoot =& new HTML_Table_Storage($attributes, $tabOffset, $this->_useTGroups);
+            $this->_thead = new HTML_Table_Storage($attributes, $tabOffset, $this->_useTGroups);
+            $this->_tfoot = new HTML_Table_Storage($attributes, $tabOffset, $this->_useTGroups);
         }
     }
 
@@ -158,7 +158,7 @@ class HTML_Table extends HTML_Common {
     {
         if (is_null($this->_thead)) {
             $this->_useTGroups = true;
-            $this->_thead =& new HTML_Table_Storage($this->_attributes,
+            $this->_thead = new HTML_Table_Storage($this->_attributes,
                 $this->_tabOffset, $this->_useTGroups);
             $this->_tbody->setUseTGroups(true);
         }
@@ -174,7 +174,7 @@ class HTML_Table extends HTML_Common {
     {
         if (is_null($this->_tfoot)) {
             $this->_useTGroups = true;
-            $this->_tfoot =& new HTML_Table_Storage($this->_attributes,
+            $this->_tfoot = new HTML_Table_Storage($this->_attributes,
                 $this->_tabOffset, $this->_useTGroups);
             $this->_tbody->setUseTGroups(true);
         }

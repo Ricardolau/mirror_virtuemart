@@ -46,8 +46,8 @@ class fedex {
     function list_rates( &$d ) {
 		global $vendor_country_2_code, $vendor_currency, $vmLogger;
 		global $VM_LANG, $CURRENCY_DISPLAY;
-		$db =& new ps_DB;
-		$dbv =& new ps_DB;
+		$db = new ps_DB;
+		$dbv = new ps_DB;
 
 		$cart = $_SESSION['cart'];
 		
@@ -138,7 +138,7 @@ class fedex {
 
 		   	// Switch to StandardShipping on Error !!!
 			require_once( CLASSPATH . 'shipping/standard_shipping.php' );
-			$shipping =& new standard_shipping();
+			$shipping = new standard_shipping();
 			$shipping->list_rates( $d );
 			return;
 		} 

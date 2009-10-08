@@ -26,7 +26,7 @@ class ps_epay {
     */
     function show_configuration() {
     	global $VM_LANG, $mosConfig_live_site;
-      $db =& new ps_DB;
+      $db = new ps_DB;
       /** Read current Configuration ***/
       require_once(CLASSPATH ."payment/".__CLASS__.".cfg.php");
     ?>

@@ -841,7 +841,7 @@ class MiniXMLElement extends MiniXMLTreeComponent {
 			return _MiniXMLError("MiniXMLElement::createChild() Name of child must be a STRING");
 		}
 
-		$child =& new MiniXMLElement($name);
+		$child = new MiniXMLElement($name);
 
 		$appendedChild =& $this->appendChild($child);
 

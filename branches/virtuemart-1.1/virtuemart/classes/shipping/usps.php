@@ -247,7 +247,7 @@ class usps {
 						if( stristr( $xmlResult, "Success" )) {
 							/* XML Parsing */
 							require_once( $mosConfig_absolute_path. '/includes/domit/xml_domit_lite_include.php' );
-							$xmlDoc =& new DOMIT_Lite_Document();
+							$xmlDoc = new DOMIT_Lite_Document();
 							$xmlDoc->parseXML( $xmlResult, false, true );
 							$error = false;
 							
@@ -273,7 +273,7 @@ class usps {
 					//$vmLogger->err( $html );
 					// Switch to StandardShipping on Error !!!
 					//require_once( CLASSPATH . 'shipping/standard_shipping.php' );
-					//$shipping =& new standard_shipping();
+					//$shipping = new standard_shipping();
 					//$shipping->list_rates( $d );
 					echo "We are unable to ship USPS as the there was an error,<br> please select another shipping method.";
 					return;
@@ -444,7 +444,7 @@ class usps {
 					//$vmLogger->err( $html );
 					// Switch to StandardShipping on Error !!!
 					//require_once( CLASSPATH . 'shipping/standard_shipping.php' );
-					//$shipping =& new standard_shipping();
+					//$shipping = new standard_shipping();
 					//$shipping->list_rates( $d );
 					//return;
 					echo "We are unable to ship USPS as there was an error,<br> please select another shipping method.";

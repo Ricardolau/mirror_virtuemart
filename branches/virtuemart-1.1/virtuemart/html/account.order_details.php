@@ -32,7 +32,7 @@ $order_id = vmGet( $_REQUEST, 'order_id', 0);
 $tpl->set( 'print', $print );
 $tpl->set( 'order_id', $order_id );
 
-$db =& new ps_DB;
+$db = new ps_DB;
 $q = "SELECT * FROM `#__{vm}_orders` WHERE ";
 $q .= "user_id=" . $auth["user_id"] . " AND order_id='$order_id'";
 $db->query($q);

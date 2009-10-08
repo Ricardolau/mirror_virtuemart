@@ -27,7 +27,7 @@ $Itemid = intval(vmGet($_REQUEST, "Itemid"));
 if( !empty($product_id) ) {
 
   require_once( CLASSPATH . "ps_product.php" );
-  $ps_product =& new ps_product();
+  $ps_product = new ps_product();
   
 // Get the default full and thumb image
   $db->query( "SELECT product_name,product_full_image,product_thumb_image FROM #__{vm}_product WHERE product_id='$product_id'" );

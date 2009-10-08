@@ -98,7 +98,7 @@ $columns = Array(  "#" => "width=\"20\"",
 				);
 $listObj->writeTableHeader( $columns );
 // so we can determine if shipping labels can be printed
-$dbl =& new ps_DB;
+$dbl = new ps_DB;
 
 $db->query($list);
 $i = 0;
@@ -138,7 +138,7 @@ while ($db->next_record()) {
 	$display_void_label = false;
 	if ($dbl->next_record()) {
 		include_once(CLASSPATH."shipping/" . $dbl->f("shipper_class") .".php");
-		eval( "\$ship_class =& new " . $dbl->f("shipper_class") . "();");
+		eval( "\$ship_class = new " . $dbl->f("shipper_class") . "();");
 		if (is_callable(array($ship_class, 'generate_label')))
 			$display_print_label = true;
 		if (is_callable(array($ship_class, 'track')) &&

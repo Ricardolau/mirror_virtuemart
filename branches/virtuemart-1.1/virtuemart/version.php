@@ -16,7 +16,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * http://virtuemart.net
 */
 if( class_exists( 'vmVersion' ) ) {
-	$VMVERSION =& new vmVersion();
+	$VMVERSION = new vmVersion();
 	
 	$shortversion = $VMVERSION->PRODUCT . " " . $VMVERSION->RELEASE . " " . $VMVERSION->DEV_STATUS. " ";
 		
@@ -37,7 +37,7 @@ class vmVersion {
 	// Song by Enya
 	var $CODENAME = 'On My Way Home';
 	/** @var string Date */
-	var $RELDATE = '18/09/2009';
+	var $RELDATE = '10/10/2009';
 	/** @var string Time */
 	var $RELTIME = '20:00';
 	/** @var string Timezone */
@@ -49,7 +49,7 @@ class vmVersion {
 	/** @var string URL */
 	var $URL = '<a href="http://virtuemart.net">VirtueMart</a> is a Free Component for Joomla!/Mambo released under the GNU/GPL License.';
 }
-$VMVERSION =& new vmVersion();
+$VMVERSION = new vmVersion();
 
 $shortversion = $VMVERSION->PRODUCT . " " . $VMVERSION->RELEASE . " " . $VMVERSION->DEV_STATUS. " ";
 	

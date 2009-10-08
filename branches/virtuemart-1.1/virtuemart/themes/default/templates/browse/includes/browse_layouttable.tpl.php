@@ -30,7 +30,7 @@ foreach( $products as $product ) {
 }
 // Creates a new HTML_Table object that will help us
 // to build a table holding all the products
-$table =& new HTML_Table('width="100%"');
+$table = new HTML_Table('width="100%"');
 
 // Loop through each row and build the table
 foreach($data as $key => $value ) {

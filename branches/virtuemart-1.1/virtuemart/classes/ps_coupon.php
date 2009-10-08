@@ -31,7 +31,7 @@ class vm_ps_coupon {
     function validate_add( &$d ) {
         global $VM_LANG, $vmLogger;
         /* init the database */
-        $coupon_db =& new ps_DB;
+        $coupon_db = new ps_DB;
         $valid = true;
         
         /* make sure the coupon_code does not exist */
@@ -55,7 +55,7 @@ class vm_ps_coupon {
     function validate_update( &$d ) {
         global $VM_LANG, $vmLogger;
         /* init the database */
-        $coupon_db =& new ps_DB;
+        $coupon_db = new ps_DB;
         $valid = true;
         
         /* make sure the coupon_code does not exist */
@@ -79,7 +79,7 @@ class vm_ps_coupon {
     /* function to add a coupon coupon_code to the database */
     function add_coupon_code( &$d ) {
      	global $vmLogger, $VM_LANG;
-        $coupon_db =& new ps_DB;
+        $coupon_db = new ps_DB;
 
         if( !$this->validate_add( $d ) ) {
             return false;
@@ -157,11 +157,11 @@ class vm_ps_coupon {
     function process_coupon_code( $d ) {
         global $VM_LANG, $vmLogger;
         /* init the database */
-        $coupon_db =& new ps_DB;
+        $coupon_db = new ps_DB;
         
         /* we need some functions from the checkout module */
         require_once( CLASSPATH . "ps_checkout.php" );
-        $checkout =& new ps_checkout();
+        $checkout = new ps_checkout();
         if( empty( $d['total'])) {
         	$totals = $checkout->calc_order_totals($d);
         	$d['total'] = 	$totals['order_subtotal']

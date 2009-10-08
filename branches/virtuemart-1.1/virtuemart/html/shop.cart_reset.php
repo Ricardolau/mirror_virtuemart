@@ -18,7 +18,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 mm_showMyFileName( __FILE__ );
 Global $return,$option,$option2,$product_id,$category_id,$Itemid,$flypage;
 require_once(CLASSPATH. 'ps_cart.php' );
-$ps_cart =& new ps_cart;
+$ps_cart = new ps_cart;
 
 $loc = $_SERVER['HTTP_REFERER'];
 $set = $ps_cart->reset();

@@ -193,7 +193,7 @@ class ps_linkpoint {
 	  require( CLASSPATH ."payment/lphp.php" );
 
 	  // Declare new linkpoint php class
-	  $mylphp =& new lphp();
+	  $mylphp = new lphp();
 
         global $vendor_mail, $vendor_currency, $VM_LANG, $database;
 
@@ -213,7 +213,7 @@ class ps_linkpoint {
         $user_info_id = $dbbt->f("user_info_id");
         if( $user_info_id != $d["ship_to_info_id"]) {
             // Get user billing information
-            $dbst =& new ps_DB;
+            $dbst = new ps_DB;
             $qt = "SELECT * FROM #__{vm}_user_info WHERE user_info_id='".$d["ship_to_info_id"]."' AND address_type='ST'";
             $dbst->query($qt);
             $dbst->next_record();

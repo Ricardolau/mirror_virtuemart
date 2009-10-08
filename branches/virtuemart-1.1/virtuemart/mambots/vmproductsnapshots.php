@@ -77,7 +77,7 @@ function handleProductSnapShot( &$row, &$params, $page = 0, $published = true ) 
 		$mambot = $database->loadResult() ;
 		$parameters = $mambot->params ;
 	}
-	$bot_params = & new vmParameters( $parameters ) ;
+	$bot_params = new vmParameters( $parameters ) ;
 	$param_defaults = array( 'id' => '0' , 
 												'enabled' => '1',
 												'showname' => 'y' , 

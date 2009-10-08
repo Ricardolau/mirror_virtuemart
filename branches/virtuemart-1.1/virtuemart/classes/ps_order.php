@@ -782,7 +782,7 @@ class vm_ps_order {
 	function order_print_navigation( $order_id=1 ) {
 		global $sess, $modulename, $VM_LANG;
 
-		$navi_db =& new ps_DB;
+		$navi_db = new ps_DB;
 
 		$navigation = "<div align=\"center\">\n<strong>\n";
 		$q = "SELECT order_id FROM #__{vm}_orders WHERE ";

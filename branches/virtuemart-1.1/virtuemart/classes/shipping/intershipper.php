@@ -335,7 +335,7 @@ class intershipper {
 		// Switch to StandardShipping on Error !!!
 		$vmLogger->err( $html );
 		require_once( CLASSPATH . 'shipping/standard_shipping.php' );
-		$shipping =& new standard_shipping();
+		$shipping = new standard_shipping();
 		$shipping->list_rates( $d );
 		return;
 	  }

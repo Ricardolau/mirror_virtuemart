@@ -36,7 +36,7 @@ if( $task == 'extlayout') {
 // Include The Version File
 include_once( ADMINPATH. 'version.php' );
 if( !isset( $VMVERSION ) || !is_object( $VMVERSION ) ) {
-	$VMVERSION =& new vmVersion();
+	$VMVERSION = new vmVersion();
 }
 
 // Get the Layout Type from the Cookie

@@ -24,7 +24,7 @@ if( _SHOW_PRICES && $auth['show_prices'] && USE_AS_CATALOGUE != '1' ) {
 
 // Creates a new HTML_Table object that will help us
 // to build a table holding all the products
-$table =& new HTML_Table('width="100%"');
+$table = new HTML_Table('width="100%"');
 
 $table->addRow( $tableheader, 'class="sectiontableheader"', 'th', true );
 

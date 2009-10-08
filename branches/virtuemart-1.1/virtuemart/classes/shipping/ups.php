@@ -29,8 +29,8 @@ class ups {
 	function list_rates( &$d ) {
 		global $vendor_country_2_code, $vendor_currency, $vmLogger;
 		global $VM_LANG, $CURRENCY_DISPLAY, $mosConfig_absolute_path;
-		$db =& new ps_DB;
-		$dbv =& new ps_DB;
+		$db = new ps_DB;
+		$dbv = new ps_DB;
 
 		$cart = $_SESSION['cart'];
 
@@ -161,7 +161,7 @@ class ups {
 			else {
 				/* XML Parsing */
 				require_once( $mosConfig_absolute_path. '/includes/domit/xml_domit_lite_include.php' );
-				$xmlDoc =& new DOMIT_Lite_Document();
+				$xmlDoc = new DOMIT_Lite_Document();
 				$xmlDoc->parseXML( $xmlResult, false, true );
 
 				/* Let's check wether the response from UPS is Success or Failure ! */
@@ -185,7 +185,7 @@ class ups {
 			if( $error ) {
 				// Switch to StandardShipping on Error !!!
 				require_once( CLASSPATH . 'shipping/standard_shipping.php' );
-				$shipping =& new standard_shipping();
+				$shipping = new standard_shipping();
 				$shipping->list_rates( $d );
 				return;
 			}
@@ -284,7 +284,7 @@ class ups {
 				Or choose a rate below." );
 				// Switch to StandardShipping on Error !!!
 				require_once( CLASSPATH . 'shipping/standard_shipping.php' );
-				$shipping =& new standard_shipping();
+				$shipping = new standard_shipping();
 				$shipping->list_rates( $d );*/
 				return;
 			}

@@ -24,8 +24,8 @@ class shipvalue {
 
 	function list_rates( &$d ) {
 		global $total, $tax_total, $CURRENCY_DISPLAY;
-		$db =& new ps_DB;
-		$dbv =& new ps_DB;
+		$db = new ps_DB;
+		$dbv = new ps_DB;
 
 		$cart = $_SESSION['cart'];
 

@@ -33,7 +33,7 @@ class vmUpdate {
 		if( !empty($_SESSION['vmLatestVersion'])) {
 			return $_SESSION['vmLatestVersion'];
 		}
-		$VMVERSION =& new vmVersion();
+		$VMVERSION = new vmVersion();
 		$url = "http://virtuemart.net/index2.php?option=com_versions&catid=1&myVersion={$VMVERSION->RELEASE}&task=latestversionastext&j=".(vmIsJoomla('1.5')?'1.5':'1.0');
 		$result = vmConnector::handleCommunication($url);
 		if( $result !== false ) {
@@ -56,7 +56,7 @@ class vmUpdate {
 		if( empty($_FILES['uploaded_package']['tmp_name'])) {
 			// retrieve the latest version number from virtuemart.net
 			require_once( ADMINPATH.'version.php');
-			$VMVERSION =& new vmVersion();
+			$VMVERSION = new vmVersion();
 			// This URL should return a string - the direct URL to the matching patch package
 			$url = "http://virtuemart.net/index2.php?option=com_versions&catid=1&myVersion={$VMVERSION->RELEASE}&task=listpatchpackages&j=".(vmIsJoomla('1.5')?'1.5':'1.0');
 			$result = vmConnector::handleCommunication($url);

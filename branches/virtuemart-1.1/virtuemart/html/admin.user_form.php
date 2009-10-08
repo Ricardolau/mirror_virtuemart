@@ -111,7 +111,7 @@ if( vmIsJoomla( '1.5' ) ) {
 } elseif( file_exists( $mosConfig_absolute_path . '/administrator/components/com_users/users.class.php' ) ) {
 	require_once( $mosConfig_absolute_path . '/administrator/components/com_users/users.class.php' );
 	$file 	= $mainframe->getPath( 'com_xml', 'com_users' );
-	$params =& new mosUserParameters( $row->params, $file, 'component' );
+	$params = new mosUserParameters( $row->params, $file, 'component' );
 }
 
 // Set the last visit date

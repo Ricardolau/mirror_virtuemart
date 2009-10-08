@@ -29,7 +29,7 @@ class ps_authorize {
 	function show_configuration() {
 
 		global $VM_LANG, $sess;
-		$db =& new ps_DB;
+		$db = new ps_DB;
 		$payment_method_id = vmGet( $_REQUEST, 'payment_method_id', null );
 		/** Read current Configuration ***/
 		require_once(CLASSPATH ."payment/".__CLASS__.".cfg.php");
@@ -294,7 +294,7 @@ class ps_authorize {
 		$user_info_id = $dbbt->f("user_info_id");
 		if( $user_info_id != $d["ship_to_info_id"]) {
 			// Get user billing information
-			$dbst =& new ps_DB;
+			$dbst = new ps_DB;
 			$qt = "SELECT * FROM #__{vm}_user_info WHERE user_info_id='".$d["ship_to_info_id"]."' AND address_type='ST'";
 			$dbst->query($qt);
 			$dbst->next_record();
@@ -541,7 +541,7 @@ class ps_authorize {
 		$user_info_id = $dbbt->f("user_info_id");
 		if( $user_info_id != $db->f("user_info_id")) {
 			// Get user's alternative shipping information
-			$dbst =& new ps_DB;
+			$dbst = new ps_DB;
 			$qt = "SELECT * FROM #__{vm}_user_info WHERE user_info_id='".$db->f("user_info_id")."' AND address_type='ST'";
 			$dbst->query($qt);
 			$dbst->next_record();

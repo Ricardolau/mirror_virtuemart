@@ -24,9 +24,9 @@ require_once(CLASSPATH.'ps_checkout.php');
 require_once(CLASSPATH.'ps_order_change.php');
 require_once(CLASSPATH.'ps_order_change_html.php');
 
-$ps_product =& new ps_product;
+$ps_product = new ps_product;
 $order_id = vmRequest::getInt('order_id');
-$ps_order_change_html =& new ps_order_change_html($order_id);
+$ps_order_change_html = new ps_order_change_html($order_id);
 
 if (!is_numeric($order_id))
     echo "<h2>The Order ID $order_id is not valid.</h2>";
@@ -531,14 +531,14 @@ else {
   			  </td>
 
   			  <?php
-  			    $dbpm =& new ps_DB;
+  			    $dbpm = new ps_DB;
   				$q  = "SELECT * FROM #__{vm}_payment_method, #__{vm}_order_payment WHERE #__{vm}_order_payment.order_id='$order_id' ";
   				$q .= "AND #__{vm}_payment_method.payment_method_id=#__{vm}_order_payment.payment_method_id";
   				$dbpm->query($q);
   				$dbpm->next_record();
   			   
   				// DECODE Account Number
-  				$dbaccount =& new ps_DB;
+  				$dbaccount = new ps_DB;
   			    $q = "SELECT ".VM_DECRYPT_FUNCTION."(order_payment_number,'".ENCODE_KEY."')
   					AS account_number, order_payment_code FROM #__{vm}_order_payment  
   					WHERE order_id='".$order_id."'";

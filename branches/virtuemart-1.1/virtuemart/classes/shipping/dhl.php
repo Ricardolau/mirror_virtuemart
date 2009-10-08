@@ -89,7 +89,7 @@ class dhl {
 			}
 		}
 
-		$db =& new ps_DB;
+		$db = new ps_DB;
 
 		$cart = $_SESSION['cart'];
 
@@ -236,7 +236,7 @@ class dhl {
 			$html .= '</strong></span><br />';
 		}
 		foreach ($methods as $method) {
-			$xmlReq =& new DOMIT_Lite_Document();
+			$xmlReq = new DOMIT_Lite_Document();
 
 			$xmlReq->setXMLDeclaration('<?xml version="1.0"?>' ); 
 			$root =& $xmlReq->createElement('eCommerce'); 
@@ -423,7 +423,7 @@ class dhl {
 			}
 
 			// XML Parsing
-			$xmlResp =& new DOMIT_Lite_Document();
+			$xmlResp = new DOMIT_Lite_Document();
 			if (!$xmlResp->parseXML($xmlResult, false, true)) {
 				$vmLogger->err(
 				    $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INVALID_XML') .
@@ -612,7 +612,7 @@ class dhl {
 		$q .= "'0'";
 		$q .= ")";
 
-		$db =& new ps_DB;
+		$db = new ps_DB;
 		$db->query($q);
 		$db->next_record();
 	}
@@ -623,7 +623,7 @@ class dhl {
 		global $VM_LANG, $mosConfig_absolute_path;
 
 		/* Retrieve label information from database */
-		$dbl =& new ps_DB;
+		$dbl = new ps_DB;
 		$q = "SELECT order_id, ship_date, service_code, special_service, ";
 		$q .= "package_type, order_weight, is_international, ";
 		$q .= "additional_protection_type, additional_protection_value, ";
@@ -645,7 +645,7 @@ class dhl {
 			return (true);
 
 		/* get customer shipping information */
-		$db =& new ps_DB;
+		$db = new ps_DB;
 		$q = "SELECT first_name,last_name,address_1,address_2,";
 		$q .= "city,state,country,zip,phone_1,user_email,country_2_code ";
 		$q .= "FROM #__{vm}_order_user_info, #__{vm}_country ";
@@ -703,14 +703,14 @@ class dhl {
 		/* Get our sending address information */
 		$vq  = "SELECT * FROM #__{vm}_vendor ";
 		$vq .= "WHERE vendor_id='" . $_SESSION['ps_vendor_id'] . "'";
-		$dbv =& new ps_DB;
+		$dbv = new ps_DB;
 		$dbv->query($vq);
 		$dbv->next_record();
 
 		require_once($mosConfig_absolute_path .
 			'/includes/domit/xml_domit_lite_include.php');
 
-		$xmlReq =& new DOMIT_Lite_Document();
+		$xmlReq = new DOMIT_Lite_Document();
 
 		$xmlReq->setXMLDeclaration('<?xml version="1.0"?>' ); 
 		$root =& $xmlReq->createElement('eCommerce'); 
@@ -981,7 +981,7 @@ class dhl {
 		}
 
 		// XML Parsing
-		$xmlResp =& new DOMIT_Lite_Document();
+		$xmlResp = new DOMIT_Lite_Document();
 		if (!$xmlResp->parseXML($xmlResult, false, true)) {
 			echo $VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INVALID_XML') .
 			    $xmlResult;
@@ -1051,7 +1051,7 @@ class dhl {
 		$q .= "label_image='" . $label_image . "' ";
 		$q .= "WHERE order_id = '" . $order_id . "'";
 
-		$dbnl =& new ps_DB;
+		$dbnl = new ps_DB;
 		$dbnl->query($q);
 		$dbnl->next_record();
 
@@ -1062,7 +1062,7 @@ class dhl {
 		global $vmLogger;
 
 		/* Retrieve label information from database */
-		$dbl =& new ps_DB;
+		$dbl = new ps_DB;
 		$q = "SELECT is_international ";
 		$q .= "FROM #__{vm}_shipping_label ";
 		$q .= "WHERE order_id = '" . $order_id . "'";
@@ -1089,7 +1089,7 @@ class dhl {
 		global $vmLogger;
 
 		/* Retrieve label information from database */
-		$dbl =& new ps_DB;
+		$dbl = new ps_DB;
 		$q = "SELECT label_is_generated, label_image ";
 		$q .= "FROM #__{vm}_shipping_label ";
 		$q .= "WHERE order_id = '" . $order_id . "'";
@@ -1115,7 +1115,7 @@ class dhl {
 		global $VM_LANG, $mosConfig_absolute_path;
 
 		/* Retrieve waybill information from database */
-		$dbl =& new ps_DB;
+		$dbl = new ps_DB;
 		$q = "SELECT tracking_number, label_is_generated, is_international ";
 		$q .= "FROM #__{vm}_shipping_label ";
 		$q .= "WHERE order_id = '" . $order_id . "'";
@@ -1141,7 +1141,7 @@ class dhl {
 		require_once($mosConfig_absolute_path .
 			'/includes/domit/xml_domit_lite_include.php');
 
-		$xmlReq =& new DOMIT_Lite_Document();
+		$xmlReq = new DOMIT_Lite_Document();
 
 		$xmlReq->setXMLDeclaration('<?xml version="1.0"?>' ); 
 		$root =& $xmlReq->createElement('eCommerce'); 
@@ -1205,7 +1205,7 @@ class dhl {
 		}
 
 		// XML Parsing
-		$xmlResp =& new DOMIT_Lite_Document();
+		$xmlResp = new DOMIT_Lite_Document();
 		if (!$xmlResp->parseXML($xmlResult, false, true)) {
 			$emsg = '<br /><span class="message">' .
 				$VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INVALID_XML') .
@@ -1267,7 +1267,7 @@ class dhl {
 		$q .= "signature_image=NULL ";
 		$q .= "WHERE order_id = '" . $order_id . "'";
 
-		$dbnl =& new ps_DB;
+		$dbnl = new ps_DB;
 		$dbnl->query($q);
 		$dbnl->next_record();
 
@@ -1280,7 +1280,7 @@ class dhl {
 		global $VM_LANG, $mosConfig_absolute_path;
 
 		/* Retrieve waybill information from database */
-		$dbl =& new ps_DB;
+		$dbl = new ps_DB;
 		$q = "SELECT tracking_number, label_is_generated, is_international ";
 		$q .= "FROM #__{vm}_shipping_label ";
 		$q .= "WHERE order_id = '" . $order_id . "'";
@@ -1302,7 +1302,7 @@ class dhl {
 		require_once($mosConfig_absolute_path .
 			'/includes/domit/xml_domit_lite_include.php');
 
-		$xmlReq =& new DOMIT_Lite_Document();
+		$xmlReq = new DOMIT_Lite_Document();
 
 		$xmlReq->setXMLDeclaration('<?xml version="1.0"?>' ); 
 		$root =& $xmlReq->createElement('eCommerce'); 
@@ -1355,7 +1355,7 @@ class dhl {
 		}
 
 		// XML Parsing
-		$xmlResp =& new DOMIT_Lite_Document();
+		$xmlResp = new DOMIT_Lite_Document();
 		if (!$xmlResp->parseXML($xmlResult, false, true)) {
 			$emsg = '<br /><span class="message">' .
 				$VM_LANG->_('PHPSHOP_SHIPPING_METHOD_DHL_INVALID_XML') .
@@ -2016,7 +2016,7 @@ class dhl {
 		global $VM_LANG, $mosConfig_absolute_path;
 
 		/* Retrieve waybill information from database */
-		$dbl =& new ps_DB;
+		$dbl = new ps_DB;
 		$q = "SELECT tracking_number, label_is_generated, is_international, ";
 		$q .= "have_signature ";
 		$q .= "FROM #__{vm}_shipping_label ";
@@ -2042,7 +2042,7 @@ class dhl {
 		require_once($mosConfig_absolute_path .
 			'/includes/domit/xml_domit_lite_include.php');
 
-		$xmlReq =& new DOMIT_Lite_Document();
+		$xmlReq = new DOMIT_Lite_Document();
 
 		$xmlReq->setXMLDeclaration('<?xml version="1.0"?>' ); 
 		$root =& $xmlReq->createElement('eCommerce'); 
@@ -2102,7 +2102,7 @@ class dhl {
 		}
 
 		// XML Parsing
-		$xmlResp =& new DOMIT_Lite_Document();
+		$xmlResp = new DOMIT_Lite_Document();
 		if (!$xmlResp->parseXML($xmlResult, false, true))
 			return (false);
 //		$vmLogger->err($xmlResp->toNormalizedString());
@@ -2167,7 +2167,7 @@ class dhl {
 		$q .= "signature_image='" . $signature_image . "' ";
 		$q .= "WHERE order_id = '" . $order_id . "'";
 
-		$dbnl =& new ps_DB;
+		$dbnl = new ps_DB;
 		$dbnl->query($q);
 		$dbnl->next_record();
 
@@ -2189,7 +2189,7 @@ class dhl {
 		global $vmLogger;
 
 		/* Retrieve signature information from database */
-		$dbl =& new ps_DB;
+		$dbl = new ps_DB;
 		$q = "SELECT have_signature, signature_image ";
 		$q .= "FROM #__{vm}_shipping_label ";
 		$q .= "WHERE order_id = '" . $order_id . "'";

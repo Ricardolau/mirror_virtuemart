@@ -40,7 +40,7 @@ if( $shipping_module ) {
   
   <?php
 	// Create the Form Control Object
-	$formObj =& new formFactory( $VM_LANG->_('VM_SHIPPING_MODULE_CONFIG_LBL') . ': '. $shipping_module );
+	$formObj = new formFactory( $VM_LANG->_('VM_SHIPPING_MODULE_CONFIG_LBL') . ': '. $shipping_module );
 	
 	// Start the the Form
 	$formObj->startForm();

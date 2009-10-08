@@ -281,7 +281,7 @@ class canadapost {
 // print "Request XML:<br><form action='http://" . CP_SERVER . ":" . CP_PORT . "' method='post' target='_blank' ><textarea name='XMLRequest' style='width:100%;height:400px;background-color:#f2f2f2'>\n" . $this->xml_request . "\n\n</textarea><br><input type='submit' value='Send to Canada Post'></form>";
 // print "<br><br>Return XML:<br><form><textarea style='width:100%;height:400px;background-color:#f2f2f2'>\n" . $this->xml_response . "\n\n</textarea></form>";
 		require_once( CLASSPATH . 'shipping/standard_shipping.php' );
-		$shipping =& new standard_shipping();
+		$shipping = new standard_shipping();
 		$shipping->list_rates( $d );
 		return;
 	  }

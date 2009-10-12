@@ -158,7 +158,7 @@ class vm_ps_cart {
 				return False;
 			}
 
-			if (!ereg("^[0-9]*$", $quantity)) {
+			if ( !is_int($quantity) ) {
 				vmRequest::setVar('product_id', $product_id );
 				$vmLogger->warning( $VM_LANG->_('PHPSHOP_CART_ERROR_NO_VALID_QUANTITY',false) );
 				return False;
@@ -335,7 +335,7 @@ class vm_ps_cart {
 			return False;
 		}
 
-		if (!ereg("^[0-9]*$", $quantity)) {
+		if (!is_int($quantity)) {
 			$vmLogger->warning( $VM_LANG->_('PHPSHOP_CART_ERROR_NO_VALID_QUANTITY',false) );
 			return False;
 		}
@@ -526,7 +526,7 @@ class vm_ps_cart {
 			return False;
 		}
 
-		if (!ereg("^[0-9]*$", $quantity)) {
+		if (!is_int($quantity)) {
 			$vmLogger->warning( $VM_LANG->_('PHPSHOP_CART_ERROR_NO_VALID_QUANTITY',false) );
 			return False;
 		}

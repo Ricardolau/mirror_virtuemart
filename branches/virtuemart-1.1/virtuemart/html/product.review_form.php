@@ -36,7 +36,7 @@ $uid = $db->f('userid') ? $db->f("userid") : $my->id;
 if( empty($product_id)) $product_id = $db->f('product_id');
 
 // Create the Form Control Object
-$formObj = &new formFactory( $VM_LANG->_('PHPSHOP_REVIEW_EDIT') );
+$formObj = new formFactory( $VM_LANG->_('PHPSHOP_REVIEW_EDIT') );
 
 // Start the the Form
 $formObj->startForm();

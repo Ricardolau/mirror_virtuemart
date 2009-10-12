@@ -18,7 +18,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 mm_showMyFileName( __FILE__ );
 
 //First create the object and let it print a form heading
-$formObj = &new formFactory( $VM_LANG->_('PHPSHOP_PRODUCT_DISCOUNT_ADDEDIT') );
+$formObj = new formFactory( $VM_LANG->_('PHPSHOP_PRODUCT_DISCOUNT_ADDEDIT') );
 //Then Start the form
 $formObj->startForm();
 

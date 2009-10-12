@@ -24,7 +24,7 @@ $order_status_id = vmGet( $_REQUEST, 'order_status_id' );
 $option = empty($option)?vmGet( $_REQUEST, 'option', 'com_virtuemart'):$option;
 
 //First create the object and let it print a form heading
-$formObj = &new formFactory( $VM_LANG->_('PHPSHOP_ORDER_STATUS_FORM_LBL') );
+$formObj = new formFactory( $VM_LANG->_('PHPSHOP_ORDER_STATUS_FORM_LBL') );
 //Then Start the form
 $formObj->startForm();
 

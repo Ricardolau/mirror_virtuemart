@@ -22,7 +22,7 @@ $category_id = vmGet($_REQUEST, 'category_id', 0);
 $option = empty($option)?vmGet( $_REQUEST, 'option', 'com_virtuemart'):$option;
 
 //First create the object and let it print a form heading
-$formObj = &new formFactory( $VM_LANG->_('PHPSHOP_CATEGORY_FORM_LBL') );
+$formObj = new formFactory( $VM_LANG->_('PHPSHOP_CATEGORY_FORM_LBL') );
 //Then Start the form
 $formObj->startForm( 'adminForm', 'enctype="multipart/form-data"');
 

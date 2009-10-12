@@ -30,7 +30,7 @@ if( !empty( $state_id )) {
   $db->next_record();
 }
 //First create the object and let it print a form heading
-$formObj = &new formFactory(  );
+$formObj = new formFactory(  );
 //Then Start the form
 $formObj->startForm();
 ?>

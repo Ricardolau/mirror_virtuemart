@@ -21,7 +21,7 @@ global $ps_vendor;
 $shopper_group_id = vmGet( $_REQUEST, 'shopper_group_id', null );
 $option = vmGet( $_REQUEST, 'option', 'com_virtuemart' );
 //First create the object and let it print a form heading
-$formObj = &new formFactory( $VM_LANG->_('PHPSHOP_SHOPPER_GROUP_FORM_LBL') );
+$formObj = new formFactory( $VM_LANG->_('PHPSHOP_SHOPPER_GROUP_FORM_LBL') );
 //Then Start the form
 $formObj->startForm();
 

@@ -44,7 +44,7 @@ if( sizeof( $temp ) == 1) {
 	$title .= $VM_LANG->_('VM_PRODUCT_PRODUCT_TYPE_ADD_MULTIPLE_PRODUCTS');
 }
 //First create the object and let it print a form heading
-$formObj = &new formFactory( $title );
+$formObj = new formFactory( $title );
 //Then Start the form
 $formObj->startForm();
 

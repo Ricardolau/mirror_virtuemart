@@ -27,7 +27,7 @@ if (!empty($creditcard_id)) {
 }
 
 //First create the object and let it print a form heading
-$formObj = &new formFactory( $VM_LANG->_('PHPSHOP_CREDITCARD_FORM_LBL') );
+$formObj = new formFactory( $VM_LANG->_('PHPSHOP_CREDITCARD_FORM_LBL') );
 //Then Start the form
 $formObj->startForm();
 

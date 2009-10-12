@@ -22,7 +22,7 @@ mm_showMyFileName( __FILE__ );
 VirtueMart currently doesn't support managing multiple vendors</div>
 <?php 
 //First create the object and let it print a form heading
-$formObj = &new formFactory( $VM_LANG->_('PHPSHOP_VENDOR_FORM_LBL') );
+$formObj = new formFactory( $VM_LANG->_('PHPSHOP_VENDOR_FORM_LBL') );
 //Then Start the form
 $formObj->startForm( 'adminForm', 'enctype="multipart/form-data"');
 

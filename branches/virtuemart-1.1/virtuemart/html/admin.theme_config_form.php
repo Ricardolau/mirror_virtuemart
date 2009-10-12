@@ -42,7 +42,7 @@ $title = '&nbsp;&nbsp;<img src="'. VM_THEMEURL .'images/administration/header/ic
 $title .= $VM_LANG->_('VM_ADMIN_CFG_THEME_SETTINGS');
 
 //First create the object and let it print a form heading
-$formObj = &new formFactory( $title );
+$formObj = new formFactory( $title );
 //Then Start the form
 $formObj->startForm();
 

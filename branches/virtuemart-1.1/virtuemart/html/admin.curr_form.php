@@ -27,7 +27,7 @@ if ($currency_id) {
 }
   
 //First create the object and let it print a form heading
-$formObj = &new formFactory( $VM_LANG->_('PHPSHOP_CURRENCY_LIST_ADD') );
+$formObj = new formFactory( $VM_LANG->_('PHPSHOP_CURRENCY_LIST_ADD') );
 //Then Start the form
 $formObj->startForm();
 

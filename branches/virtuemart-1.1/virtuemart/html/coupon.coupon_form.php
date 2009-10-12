@@ -41,7 +41,7 @@ else {
 	$title = $VM_LANG->_('PHPSHOP_COUPON_NEW_HEADER');
 }
 //First create the object and let it print a form heading
-$formObj = &new formFactory( $title );
+$formObj = new formFactory( $title );
 //Then Start the form
 $formObj->startForm();
 

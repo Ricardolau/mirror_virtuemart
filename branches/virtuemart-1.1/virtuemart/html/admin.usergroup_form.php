@@ -30,7 +30,7 @@ if (!empty( $group_id )) {
 $funcname = !empty($group_id) ? "usergroupUpdate" : "usergroupAdd";
 
 // Create the Form Control Object
-$formObj = &new formFactory( $VM_LANG->_('VM_USERGROUP_FORM_LBL') );
+$formObj = new formFactory( $VM_LANG->_('VM_USERGROUP_FORM_LBL') );
 
 // Start the the Form
 $formObj->startForm();

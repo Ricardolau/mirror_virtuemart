@@ -121,7 +121,7 @@ if ($lvisit == "0000-00-00 00:00:00") {
 }
 
 //First create the object and let it print a form heading
-$formObj = &new formFactory( vmCommonHTML::imageTag(VM_THEMEURL.'images/administration/header/icon-48-user.png', 'User Icon', 'absmiddle' ) 
+$formObj = new formFactory( vmCommonHTML::imageTag(VM_THEMEURL.'images/administration/header/icon-48-user.png', 'User Icon', 'absmiddle' ) 
 							.'&nbsp;&nbsp;&nbsp;' 
 							. $VM_LANG->_('PHPSHOP_USER_FORM_LBL') );
 //Then Start the form

@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+14.10.2009 aravot
+# Fix for review form.
+
 08.10.2009 soeren
 # Task #2719 - Deprecated error message when using php 5.3 
 # Admin Folder Blocked Via Htacess | Update Account "Save" Image comes from Admin [topic=61258]

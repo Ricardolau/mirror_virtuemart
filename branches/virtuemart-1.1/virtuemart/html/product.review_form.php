@@ -120,7 +120,7 @@ function refresh_counter() {
 refresh_counter();
 // Preselect the userrating
 try {
-	document.getElementById('user_rating<?php echo $db->f('user_rating')?>').checked = true;
+	document.getElementById('user_rating<?php $db->sp("user_rating"); ?>').checked = true;
 }
 catch(e) {}
 </script>

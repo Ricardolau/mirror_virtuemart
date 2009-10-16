@@ -1,9 +1,9 @@
 <?xml version="1.0" ?>
 <mosinstall type="component">
 	<name>VirtueMart</name>
-	<creationDate>18.09.2009</creationDate>
+	<creationDate>16.10.2009</creationDate>
 	<author>The VirtueMart Development Team</author>
-	<authorEmail>soeren|at|virtuemart.net</authorEmail>
+	<authorEmail>team@virtuemart.net</authorEmail>
 	<authorUrl>http://www.virtuemart.net</authorUrl>
 	<copyright>
 		Copyright (C) 2004-2009 VirtueMart Development Team. All rights

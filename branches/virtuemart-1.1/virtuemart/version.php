@@ -34,10 +34,10 @@ class vmVersion {
 	/** @var string Development Status */
 	var $DEV_STATUS = 'stable';
 	/** @var string Codename */
-	// Song by Enya
-	var $CODENAME = 'On My Way Home';
+	// Song by Milosh (http://www.k7.com/welcome.php?GoTo=iii.I.PRO2112)
+	var $CODENAME = 'Gentle Samui';
 	/** @var string Date */
-	var $RELDATE = '10/10/2009';
+	var $RELDATE = '16/10/2009';
 	/** @var string Time */
 	var $RELTIME = '20:00';
 	/** @var string Timezone */

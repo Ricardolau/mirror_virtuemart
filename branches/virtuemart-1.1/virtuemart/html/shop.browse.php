@@ -178,7 +178,7 @@ else {
 	$search_string = '';
 	if ( $num_rows > 1 && @$_REQUEST['output'] != "pdf") {
 		if ( $num_rows > 5 ) { // simplified logic
-			$search_string = $mm_action_url."index.php?option=com_virtuemart&amp;Itemid=$Itemid&amp;category_id=$category_id&amp;page=$modulename.browse";
+			$search_string = $mm_action_url."index.php?option=com_virtuemart&amp;category_id=$category_id&amp;page=$modulename.browse";
 			$search_string .= empty($manufacturer_id) ? '' : "&amp;manufacturer_id=$manufacturer_id";
 			$search_string .= empty($keyword) ? '' : '&amp;keyword='.urlencode( $keyword );
 			if (!empty($keyword1)) {
@@ -207,9 +207,9 @@ else {
 			}
 
 		}
-
+		$searchstring=$sess->url($searchstring);
+		
 		$tpl->set( 'VM_BROWSE_ORDERBY_FIELDS', $VM_BROWSE_ORDERBY_FIELDS);
-
 	    if ($DescOrderBy == "DESC") {
 	        $icon = "sort_desc.png";
 	        $selected = Array( "selected=\"selected\"", "" );

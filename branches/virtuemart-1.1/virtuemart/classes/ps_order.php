@@ -730,7 +730,7 @@ class vm_ps_order {
 			// Now update each ordered product
 			while( $db->next_record() ) {
 				if( in_array( $db->f('order_status'), array('P', 'X', 'R') )) continue;
-				
+				require_once( CLASSPATH . 'ps_product.php' );
 				if( ENABLE_DOWNLOADS == '1' && ps_product::is_downloadable($db->f("product_id")) && VM_DOWNLOADABLE_PRODUCTS_KEEP_STOCKLEVEL == '1') {
 					$q = "UPDATE #__{vm}_product  
 							SET product_sales=product_sales-".$db->f("product_quantity")." 

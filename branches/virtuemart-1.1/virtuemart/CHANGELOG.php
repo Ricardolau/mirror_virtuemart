@@ -34,6 +34,12 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+11.11.2009 soeren
+# Task #2764 - Can't delete old (pre 1.1.4) orders in VM 1.1.4
+
+
+--- VirtueMart 1.1.4 released (Rev. 1967 2009-10-16) ---
+
 14.10.2009 aravot
 # Fix for review form.
 

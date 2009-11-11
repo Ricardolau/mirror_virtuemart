@@ -207,7 +207,7 @@ else {
 			}
 
 		}
-		$searchstring=$sess->url($searchstring);
+		$search_string=$sess->url($search_string);
 		
 		$tpl->set( 'VM_BROWSE_ORDERBY_FIELDS', $VM_BROWSE_ORDERBY_FIELDS);
 	    if ($DescOrderBy == "DESC") {

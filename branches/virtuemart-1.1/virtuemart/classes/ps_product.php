@@ -513,11 +513,15 @@ class vm_ps_product extends vmAbstractObject {
 			$zw_waiting_list->notify_list($d["product_id"]);
 		}
 
-		$q = "UPDATE #__{vm}_product_mf_xref SET ";
-		$q .= 'manufacturer_id='.vmRequest::getInt('manufacturer_id').' ';
-		$q .= 'WHERE product_id = '.$d['product_id'];
+		// Check if the Manufacturer XRef is missing
+		if($this->get_manufacturer_id($d['product_id'])) {
+			$q = "UPDATE #__{vm}_product_mf_xref SET ";
+			$q .= 'manufacturer_id='.vmRequest::getInt('manufacturer_id').' ';
+			$q .= 'WHERE product_id = '.$d['product_id'];
+		} else {
+			$q = "INSERT INTO #__{vm}_product_mf_xref (product_id,manufacturer_id) VALUES ('".$d['product_id']."','".vmRequest::getInt('manufacturer_id')."')";
+		}
 		$db->query($q);
-
 
 		/* If is Item, update attributes */
 		if( !empty($d["product_parent_id"])) {

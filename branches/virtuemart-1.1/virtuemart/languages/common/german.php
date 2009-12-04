@@ -735,17 +735,17 @@ Bitte nicht auf diese Nachricht antworten, da sie automatisch generiert wurde un
 	'LAST_UPDATED' => 'Zuletzt aktualisiert',
 	'NOT_AUTH' => 'Sie sind nicht berechtigt diese Ressource zu sehen.',
 	'DO_LOGIN' => 'Sie müssen sich anmelden.',
-	'VALID_AZ09' => 'Bitte geben Sie ein gültiges Passwort ein. Es darf keine Leerzeichen enthalten, ist mehr als 6 Zeichen lang und besteht nur aus 0-9,a-z,A-Z',
+	'VALID_AZ09' => 'Bitte geben Sie ein gültiges Passwort und einen gültigen Benutzernamen mit mindestens 6 Stellen ein. Bitte verwenden Sie nur die Zeichen 0-9,a-z,A-Z und keine Leerzeichen.',
 	'CMN_PUBLISHED' => 'Veröffentlicht',
 	'CMN_UNPUBLISHED' => 'Unveröffentlicht',
 	'MORE' => 'Mehr...',
 	'BUTTON_LOGOUT' => 'Abmelden',
 	'NO_ACCOUNT' => 'Noch kein Konto?',
 	'CREATE_ACCOUNT' => 'Registrieren',
-	'REGWARN_PASS' => 'Bitte geben Sie ein gültiges Passwort ein. Es darf keine Leerzeichen enthalten, ist mehr als 6 Zeichen lang und besteht nur aus 0-9, a-z oder A-Z',
+	'REGWARN_PASS' => 'Bitte geben Sie ein gültiges Passwort und einen gültigen Benutzernamen mit mindestens 6 Stellen ein. Bitte verwenden Sie nur die Zeichen 0-9,a-z,A-Z und keine Leerzeichen.',
 	'REGWARN_VPASS1' => 'Bitte überpruefen Sie ihr Passwort.',
 	'REGWARN_VPASS2' => 'Passwort und Passwortwiederholung stimmen nicht ueberein, bitte versuchen Sie es erneut.',
-	'USEND_MSG_ACTIVATE' => 'Hello %s,
+	'USEND_MSG_ACTIVATE' => 'Guten Tag %s,
 
 Danke für Ihre Registrierung bei %s. Ihr Konto wurde erstellt und muss  aktiviert werden, bevor Sie es benützen können it.
 Um das Konto zu aktivieren, klicken Sie den folgenden Link oder kopieren Sie ihn in Ihren Browser:
@@ -755,14 +755,14 @@ Nach der Aktivierung, können Sie sich auf  %s anmelden, mit folgenden Nutzername
 
 Nutzername - %s
 Passwort   - %s',
-	'USEND_MSG' => 'Grüezi %s,
+	'USEND_MSG' => 'Guten Tag %s,
 
 Danke für Ihre Registrierung bei %s.
 
 Sie können sich jetzt anmelden bei %s mit dem Nutzername und Passwort den Sie bei der Registrierung angegeben haben.',
-	'HI' => 'Grüezi',
+	'HI' => 'Guten Tag',
 	'NEW_USER_MESSAGE_SUBJECT' => 'Neuer Nutzerdetails',
-	'NEW_USER_MESSAGE' => 'Grüezi %s,
+	'NEW_USER_MESSAGE' => 'Guten Tag %s,
 
 
 Sie wurden als Nutzer bei %s eingetragen bei unserem Administrator.

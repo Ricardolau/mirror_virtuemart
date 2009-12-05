@@ -103,16 +103,16 @@ Standard: ps_payment<br />
 	'VM_EXPORT_MODULE_FORM_DESC' => 'Description',
 	'VM_EXPORT_CLASS_NAME' => 'Export Class Name',
 	'VM_EXPORT_CLASS_NAME_TIP' => '(e.g. <strong>ps_orders_csv</strong>) :<br /> default: ps_xmlexport<br /> <i>Leave blank if you\'re not sure what to fill in!</i>',
-	'VM_EXPORT_CONFIG' => 'Export Extra Configuration',
-	'VM_EXPORT_CONFIG_TIP' => 'Define Export configuration for user-defined export modules or define additional configuration. Code must be valid PHP-Code.',
+	'VM_EXPORT_CONFIG' => 'Export Extra Konfiguration',
+	'VM_EXPORT_CONFIG_TIP' => 'Export-Konfiguration für benutzerdefinierte Export-Module oder zusätzliche Konfiguration bearbeiten.',
 	'VM_SHIPPING_MODULE_LIST_NAME' => 'Name',
 	'VM_SHIPPING_MODULE_LIST_E_VERSION' => 'Version',
 	'VM_SHIPPING_MODULE_LIST_HEADER_AUTHOR' => 'Author',
-	'PHPSHOP_STORE_ADDRESS_FORMAT' => 'Store Address Format',
-	'PHPSHOP_STORE_ADDRESS_FORMAT_TIP' => 'You can use the following placeholders here',
-	'PHPSHOP_STORE_DATE_FORMAT' => 'Store Date Format',
-	'VM_PAYMENT_METHOD_ID_NOT_PROVIDED' => 'Error: Payment Method ID was not provided.',
-	'VM_SHIPPING_MODULE_CONFIG_LBL' => 'Shipping Module Configuration',
-	'VM_SHIPPING_MODULE_CLASSERROR' => 'Could not instantiate Class {shipping_module}'
+	'PHPSHOP_STORE_ADDRESS_FORMAT' => 'Adressformat',
+	'PHPSHOP_STORE_ADDRESS_FORMAT_TIP' => 'Sie können die folgenden Platzhalter verwenden:',
+	'PHPSHOP_STORE_DATE_FORMAT' => 'Datumsformat',
+	'VM_PAYMENT_METHOD_ID_NOT_PROVIDED' => 'Fehler: ID der Zahlart wurde nicht übergeben.',
+	'VM_SHIPPING_MODULE_CONFIG_LBL' => 'Versandmodul-Konfiguration',
+	'VM_SHIPPING_MODULE_CLASSERROR' => 'Klasse konnte nicht instanziiert werden {shipping_module}'
 ); $VM_LANG->initModule( 'store', $langvars );
 ?>

@@ -370,7 +370,7 @@ $tabs->startTab( $VM_LANG->_('PHPSHOP_ADMIN_CFG_GLOBAL'), "global-page");
 			</td>
 			<td>
 			<?php
-			$db->query( "SELECT id AS value, CONCAT( title, ' (', title_alias, ')' ) AS text FROM #__content ORDER BY id" );
+			$db->query( "SELECT id AS value, CONCAT( title, ' (', title_alias, ')' ) AS text FROM #__content where state > 0 ORDER BY id" );
 			
 			$select =  "<select size=\"5\" name=\"conf_VM_ONCHECKOUT_LEGALINFO_LINK\" id=\"conf_VM_ONCHECKOUT_LEGALINFO_LINK\" class=\"inputbox\" style=\"width: 300px;\">\n";
 			while( $db->next_record()) {

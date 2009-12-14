@@ -28,6 +28,16 @@ $ps_product = new ps_product;
 $order_id = vmRequest::getInt('order_id');
 $ps_order_change_html = new ps_order_change_html($order_id);
 
+$resend_action=vmRequest::getVar('func');
+if( $resend_action=='resendconfirm' && $order_id) {
+	ps_checkout::email_receipt($order_id);
+	$redirurl=$_SERVER['PHP_SELF'];
+	foreach ($_POST as $key => $value) {
+		if($value!='resendconfirm') $redirurl.=!strpos($redirurl,'?') ? '?' : '&' . $key . '=' . vmRequest::getVar($key);
+	}
+	vmRedirect($redirurl, $VM_LANG->_('PHPSHOP_ORDER_RESEND_CONFIRMATION_MAIL_SUCCESS'));
+}
+
 if (!is_numeric($order_id))
     echo "<h2>The Order ID $order_id is not valid.</h2>";
 else {
@@ -86,7 +96,6 @@ else {
 			  <tr>
 		      <td><strong><?php echo $VM_LANG->_('VM_ORDER_PRINT_PO_IPADDRESS') ?>:</strong></td>
 			    <td><?php $db->p("ip_address"); ?></td>
-			  </tr>
 		  <?php 
 		  if( PSHOP_COUPONS_ENABLE == '1') { ?>
 		  <tr>
@@ -95,6 +104,17 @@ else {
 		  </tr>
 		  <?php 
 			} ?>
+			  </tr>
+		      <td colspan="2">
+				<form method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
+					<input type="submit" class="button" name="Submit" value="<?php echo $VM_LANG->_('PHPSHOP_ORDER_RESEND_CONFIRMATION_MAIL') ?>" />
+					<input type="hidden" name="page" value="order.order_print" />
+					<input type="hidden" name="func" value="resendconfirm" />
+					<input type="hidden" name="option" value="com_virtuemart" />
+					<input type="hidden" name="order_id" value="<?php echo $order_id ?>" />
+				</form>
+			  </td>
+			  </tr>
 			</table>
 		  </td>
 		  <td valign="top">

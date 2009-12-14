@@ -482,9 +482,9 @@ class vm_ps_product_attribute {
 		// Get list of children
 		$pp = $ps_product->parent_has_children( $product_id ) ;
 		if( $pp ) {
-			$q = "SELECT product_id,product_name,product_parent_id,product_sku,product_in_stock,product_full_image,product_thumb_image FROM #__{vm}_product WHERE product_publish='Y' AND product_parent_id='$product_id' ORDER BY product_id " ;
+			$q = "SELECT product_id,product_name,product_parent_id,product_sku,product_in_stock,product_full_image,product_thumb_image FROM #__{vm}_product WHERE product_publish='Y' AND product_parent_id='$product_id' " ;
 		} else {
-			$q = "SELECT product_id,product_name,product_parent_id,product_sku,product_in_stock,product_full_image,product_thumb_image FROM #__{vm}_product WHERE product_publish='Y' AND product_id='$product_id'  ORDER BY product_id " ;
+			$q = "SELECT product_id,product_name,product_parent_id,product_sku,product_in_stock,product_full_image,product_thumb_image FROM #__{vm}_product WHERE product_publish='Y' AND product_id='$product_id' " ;
 		}
 		if( $child_ids ) {
 			$ids = explode( ",", $child_ids ) ;
@@ -505,7 +505,10 @@ class vm_ps_product_attribute {
 			if( $parent_ids ) {
 				$q .= "UNION ALL SELECT product_id,product_name,product_parent_id,product_sku,product_in_stock,product_full_image,product_thumb_image FROM #__{vm}_product WHERE product_publish='Y' AND  product_parent_id IN ($parent_ids)" ;
 			}
-		}
+		} 
+		
+		$q.=' ORDER BY product_id ';
+		
 		$db->query($q);
 		if( $pp ) {
 			$master_id = $product_id ;

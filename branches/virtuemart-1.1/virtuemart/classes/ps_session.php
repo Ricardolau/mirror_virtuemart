@@ -515,8 +515,7 @@ class vm_ps_session {
 			// Check if there is a menuitem for a product_id (highest priority)
 			if (!empty($ii_arr['product_id'])) {
 				if ($ii_product_id=intval($ii_arr['product_id'])) {
-					$db->query( "SELECT id FROM #__menu WHERE link='index.php?option=com_virtuemart' AND params like '%product_id=$ii_product_id\n%' AND published=1");
-					if( $db->next_record() ) $tmp_Itemid = $db->f("id");
+					$tmp_Itemid=$this->checkMenuItems('product_id', $ii_product_id);
 				} 
 			}
 			// Check if there is a menuitem for a category_id
@@ -524,24 +523,21 @@ class vm_ps_session {
 			if (!empty($ii_arr['category_id'])) {
 				$ii_cat_id=intval($ii_arr['category_id']);
 				if ( $ii_cat_id && $tmp_Itemid=='') {
-					$db->query( "SELECT id FROM #__menu WHERE link='index.php?option=com_virtuemart' AND params like '%category_id=$ii_cat_id\n%' AND published=1");
-					if( $db->next_record() ) $tmp_Itemid = $db->f("id");
+					$tmp_Itemid=$this->checkMenuItems('category_id', $ii_cat_id);
 				}
 			}
 			// Check if there is a menuitem for a flypage
 			if (!empty($ii_arr['flypage'])) {
 				$ii_flypage=$db->getEscaped(vmget($ii_arr,'flypage'));
 				if ($ii_flypage && $tmp_Itemid=='') {
-					$db->query( "SELECT id FROM #__menu WHERE link='index.php?option=com_virtuemart' AND params like '%flypage=$ii_flypage\n%' AND published=1");
-					if( $db->next_record() ) $tmp_Itemid = $db->f("id");
+					$tmp_Itemid=$this->checkMenuItems('flypage', $ii_flypage);
 				}
 			}
 			// Check if there is a menuitem for a page
 			if (!empty($ii_arr['page'])) {
 				$ii_page=$db->getEscaped(vmget($ii_arr,'page' ));
 				if ($ii_page && $tmp_Itemid=='') {
-					$db->query( "SELECT id FROM #__menu WHERE link='index.php?option=com_virtuemart' AND params like '%page=$ii_page\n%' AND published=1");
-					if( $db->next_record() ) $tmp_Itemid = $db->f("id");
+					$tmp_Itemid=$this->checkMenuItems('page', $ii_page);
 				}
 			}
 			// If we haven't found an Itemid, use the standard VM-Itemid
@@ -611,6 +607,22 @@ class vm_ps_session {
 		return $url;
 	}
 
+	function checkMenuItems($parameter, $value) {
+		global $mainframe;
+		$db = new ps_DB;
+		if(!is_array($mainframe->vm_menuitems)) {
+			$db->setQuery("SELECT id, params FROM #__menu WHERE link='index.php?option=com_virtuemart' AND published=1");
+			$mainframe->vm_menuitems=$db->loadAssocList();				
+		}
+		foreach($mainframe->vm_menuitems as $chkmenu) {
+			if(strpos($chkmenu['params'],$parameter."=".$value."\n")!==false) {
+				return $chkmenu['id'];
+			}
+		}
+		return false;
+	}
+	
+	
 	/**
 	 * Formerly printed the session id into a hidden field
 	 * @deprecated 
@@ -619,6 +631,8 @@ class vm_ps_session {
 	function hidden_session() {
 		return true;
 	}
+
+	
 
 	function initRecentProducts() {
 		global $recentproducts, $sess;

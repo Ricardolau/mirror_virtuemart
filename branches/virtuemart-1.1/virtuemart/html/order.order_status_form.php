@@ -20,7 +20,7 @@ mm_showMyFileName( __FILE__ );
 require_once(CLASSPATH.'ps_order_status.php');
 $ps_order_status = new ps_order_status();
 
-$order_status_id = vmGet( $_REQUEST, 'order_status_id' );
+$order_status_id =vmrequest::getInt('order_status_id', 0);
 $option = empty($option)?vmGet( $_REQUEST, 'option', 'com_virtuemart'):$option;
 
 //First create the object and let it print a form heading

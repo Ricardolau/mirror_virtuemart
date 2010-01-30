@@ -40,6 +40,13 @@ $manufacturer_id = vmGet($_REQUEST, "manufacturer_id", null);
 $Itemid = $sess->getShopItemid();
 $db_product = new ps_DB;
 
+// Check for non-numeric product id
+if (!empty($product_id)) {
+	if (!is_numeric($product_id)) {
+		$product_id = '';
+	}
+}
+
 // Get the product info from the database
 $q = "SELECT * FROM `#__{vm}_product` WHERE ";
 if( !empty($product_id)) {

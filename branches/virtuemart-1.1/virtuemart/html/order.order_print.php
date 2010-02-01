@@ -28,6 +28,7 @@ $ps_product = new ps_product;
 $order_id = vmRequest::getInt('order_id');
 $ps_order_change_html = new ps_order_change_html($order_id);
 
+//Added Option to resend the Confirmation Mail
 $resend_action=vmRequest::getVar('func');
 if( $resend_action=='resendconfirm' && $order_id) {
 	ps_checkout::email_receipt($order_id);

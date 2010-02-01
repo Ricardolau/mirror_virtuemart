@@ -131,16 +131,16 @@ class vm_ps_shipping_method {
 		}
 
 		if ($db->f("product_weight") > 0) {
-			if (eregi("LB",$db->f("product_weight_uom")) || eregi("PO",$db->f("product_weight_uom"))) {
+			if (stristr($db->f("product_weight_uom"), "LB") || stristr($db->f("product_weight_uom"), "PO")) {
 				$weight = $db->f("product_weight") * 16;
 			}
-			elseif (eregi("KG",$db->f("product_weight_uom")) || eregi("KILO",$db->f("product_weight_uom"))) {
+			elseif (stristr($db->f("product_weight_uom"), "KG") || stristr($db->f("product_weight_uom"), "KILO")) {
 				$weight = $db->f("product_weight") * 35.27396194958041;
 			}
-			elseif (eregi("G",$db->f("product_weight_uom"))) {
+			elseif (stristr($db->f("product_weight_uom"), "G") || stristr($db->f("product_weight_uom"), "GRAM")) {
 				$weight = $db->f("product_weight") * 0.035273961949580414;
 			}
-			elseif (eregi("OZ",$db->f("product_weight_uom")) || eregi("OU",$db->f("product_weight_uom"))) {
+			elseif (stristr($db->f("product_weight_uom"), "OZ") || stristr($db->f("product_weight_uom"), "OU")) {
 				$weight = $db->f("product_weight");
 			}
 			else {
@@ -185,16 +185,16 @@ class vm_ps_shipping_method {
 		}
 
 		if ($db->f("product_weight") > 0) {
-			if (eregi("LB",$db->f("product_weight_uom")) || eregi("PO",$db->f("product_weight_uom"))) {
+			if (stristr($db->f("product_weight_uom"), "LB") || stristr($db->f("product_weight_uom"), "PO")) {
 				$weight = $db->f("product_weight") * 0.4536;
 			}
-			elseif (eregi("KG",$db->f("product_weight_uom")) || eregi("KILO",$db->f("product_weight_uom"))) {
+			elseif (stristr($db->f("product_weight_uom"), "KG") || stristr($db->f("product_weight_uom"), "KILO")) {
 				$weight = $db->f("product_weight");
 			}
-			elseif (eregi("G",$db->f("product_weight_uom"))) {
+			elseif (stristr($db->f("product_weight_uom"), "G") || stristr($db->f("product_weight_uom"), "GRAM")) {
 				$weight = $db->f("product_weight") * 0.001;
 			}
-			elseif (eregi("OZ",$db->f("product_weight_uom")) || eregi("OU",$db->f("product_weight_uom"))) {
+			elseif (stristr($db->f("product_weight_uom"), "OZ") || stristr($db->f("product_weight_uom"), "OU")) {
 				$weight = $db->f("product_weight") * 0.02835;
 			}
 			else {
@@ -239,16 +239,16 @@ class vm_ps_shipping_method {
 		}
 
 		if ($db->f("product_weight") > 0) {
-			if (eregi("LB",$db->f("product_weight_uom")) || eregi("PO",$db->f("product_weight_uom"))) {
+			if (stristr($db->f("product_weight_uom"), "LB") || stristr($db->f("product_weight_uom"), "PO")) {
 				$weight = $db->f("product_weight");
 			}
-			elseif (eregi("KG",$db->f("product_weight_uom")) || eregi("KILO",$db->f("product_weight_uom"))) {
+			elseif (stristr($db->f("product_weight_uom"), "KG") || stristr($db->f("product_weight_uom"), "KILO")) {
 				$weight = $db->f("product_weight") * 2.20459;
 			}
-			elseif (eregi("G",$db->f("product_weight_uom"))) {
+			elseif (stristr($db->f("product_weight_uom"), "G") || stristr($db->f("product_weight_uom"), "GRAM")) {
 				$weight = $db->f("product_weight") * 0.00220459;
 			}
-			elseif (eregi("OZ",$db->f("product_weight_uom")) || eregi("OU",$db->f("product_weight_uom"))) {
+			elseif (stristr($db->f("product_weight_uom"), "OZ") || stristr($db->f("product_weight_uom"), "OU")) {
 				$weight = $db->f("product_weight") * 0.0625;
 			}
 			else {

@@ -201,7 +201,7 @@ class vm_ps_DB {
 	 */
 	function sf($field_name, $stripslashes=true, $usevars=true) {
 		global $vars, $default;
-		
+
 		if ((defined( '_VM_LOG_ERRORS' ) || isset($vars["error"])) && !empty($vars["$field_name"]) && $usevars) {
 			if($stripslashes) {
 				return  stripslashes($vars[$field_name] );
@@ -225,7 +225,15 @@ class vm_ps_DB {
 			else {
 				return( $default[$field_name] );
 			}
-		}
+		} elseif (isset($_SESSION['ppex_userdata'][$field_name])) {
+            if($stripslashes) {
+                return  stripslashes($_SESSION['ppex_userdata'][$field_name]);
+            }
+            else {
+                return( $_SESSION['ppex_userdata'][$field_name] );
+            }
+        }
+
 	}
 
 	/**

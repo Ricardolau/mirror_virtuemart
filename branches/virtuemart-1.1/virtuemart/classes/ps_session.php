@@ -610,9 +610,12 @@ class vm_ps_session {
 	function checkMenuItems($parameter, $value) {
 		global $mainframe;
 		$db = new ps_DB;
-		if(!is_array($mainframe->vm_menuitems)) {
+		if(!isset($mainframe->vm_menuitems)) {
 			$db->setQuery("SELECT id, params FROM #__menu WHERE link='index.php?option=com_virtuemart' AND published=1");
-			$mainframe->vm_menuitems=$db->loadAssocList();				
+			$mainframe->vm_menuitems=$db->loadAssocList();
+			if( !is_array($mainframe->vm_menuitems)) {
+				$mainframe->vm_menuitems = array(); // Query failed, empty result
+			}
 		}
 		foreach($mainframe->vm_menuitems as $chkmenu) {
 			if(strpos($chkmenu['params'],$parameter."=".$value."\n")!==false) {

@@ -32,12 +32,14 @@ if( !empty( $manufacturer_id ) ) {
 	$mf_email=$db->f("mf_email");
 	$mf_desc=$db->f("mf_desc");
 	$mf_url = $db->f("mf_url");
-	
+	if( substr( $mf_url, 0, 4 ) != 'http' ){
+		$mf_url = 'http://'.$mf_url;
+	}
 	$tpl = vmTemplate::getInstance();
 	$tpl->set_vars(array('mf_name'=>$db->f("mf_name"),
 					'mf_email' => $db->f("mf_email"),
 					'mf_desc' => $db->f("mf_desc"),
-					'mf_url' => $db->f("mf_url"),
+					'mf_url' => $mf_url,
 					'db' => $db
 					)
 	);

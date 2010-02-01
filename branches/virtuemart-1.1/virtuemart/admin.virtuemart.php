@@ -105,7 +105,7 @@ $vm_mainframe->addStyleSheet( VM_THEMEURL.'theme.css' );
 $vm_mainframe->addScript( $mosConfig_live_site.'/components/'.VM_COMPONENT_NAME.'/js/functions.js' );
 
 if( $no_menu != 1 && $vmLayout != 'extended' ) {
-	echo '<table style="width:100%;table-layout:fixed;"><tr><td style="vertical-align:top;">';
+	echo '<table style="width:100%;table-layout:fixed;"><tr><td width="20%" style="vertical-align:top;">';
 	include(ADMINPATH.'header.php');
 	echo '</td>';
 }
@@ -129,7 +129,7 @@ if( $only_page != 1 && $vmLayout == 'extended') {
 		}
 		echo '<div id="vmPage">';
 	} else {
-		echo '<td id="vmPage" style="width:78%;vertical-align:top;">';
+		echo '<td id="vmPage" style="width:80%;vertical-align:top;padding-left: 5px;">';
 	}
 	// Load PAGE
 	if( !$pagePermissionsOK ) {
@@ -156,11 +156,7 @@ if( $only_page != 1 && $vmLayout == 'extended') {
 		include( PAGEPATH.'store.index.php' );
 	}
 	
-	if( $vmLayout != 'extended' ) {
-		echo '<br style="clear:both;"/><div class="smallgrey" align="center">'
-	                .$VMVERSION->PRODUCT.' '.$VMVERSION->RELEASE
-	                .' (<a href="http://virtuemart.net/index2.php?option=com_versions&amp;catid=1&amp;myVersion='.@$VMVERSION->RELEASE.'" onclick="javascript:void window.open(this.href, \'win2\', \'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=580,directories=no,location=no\'); return false;" title="'.$VM_LANG->_('VM_VERSIONCHECK_TITLE').'" target="_blank">'.$VM_LANG->_('VM_VERSIONCHECK_NOW').'</a>)</div>';
-	}
+
 	if( DEBUG == '1' && $no_menu != 1 ) {
 	        // Load PAGE
 		include( PAGEPATH."shop.debug.php" );
@@ -183,6 +179,11 @@ if( $only_page != 1 && $vmLayout == 'extended') {
 		}
 	} else {
 		echo '</td></tr></table>';
+		
+		echo '<div class="smallgrey" align="center">'
+	                .$VMVERSION->PRODUCT.' '.$VMVERSION->RELEASE
+	                .' (<a href="http://virtuemart.net/index2.php?option=com_versions&amp;catid=1&amp;myVersion='.@$VMVERSION->RELEASE.'" onclick="javascript:void window.open(this.href, \'win2\', \'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=580,directories=no,location=no\'); return false;" title="'.$VM_LANG->_('VM_VERSIONCHECK_TITLE').'" target="_blank">'.$VM_LANG->_('VM_VERSIONCHECK_NOW').'</a>)</div>';
+		
 	}
 }
 // Render the script and style resources into the document head

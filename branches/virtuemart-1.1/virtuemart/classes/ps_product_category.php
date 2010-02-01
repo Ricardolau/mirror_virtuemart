@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2010 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -1181,9 +1181,9 @@ class vm_ps_product_category extends vmAbstractObject {
 	function get_cid($product_id) {
 		$db = new ps_DB;
 
-		$q = "SELECT #__{vm}_category.category_id FROM #__{vm}_category,#__{vm}_product_category_xref ";
-		$q .= "WHERE product_id='$product_id' ";
-		$q .= "AND #__{vm}_category.category_id = #__{vm}_product_category_xref.category_id ";
+		$q = "SELECT category_id FROM `#__{vm}_product_category_xref` ";
+		$q .= 'WHERE product_id='.(int)$product_id;
+		
 		$db->query( $q );
 		$db->next_record();
 
@@ -1271,7 +1271,7 @@ class vm_ps_product_category extends vmAbstractObject {
 
 		static $i=0;
 		static $category_list = array();
-		$q = "SELECT category_id, category_name,category_parent_id FROM #__{vm}_category, #__{vm}_category_xref WHERE ";
+		$q = "SELECT category_id, category_name,category_parent_id, category_child_id FROM #__{vm}_category, #__{vm}_category_xref WHERE ";
 		$q .= "#__{vm}_category_xref.category_child_id='$category_id' ";
 		$q .= "AND #__{vm}_category.category_id='$category_id'";
 		$db->setQuery($q);   $db->query();

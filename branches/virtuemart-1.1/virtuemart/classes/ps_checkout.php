@@ -225,7 +225,7 @@ class vm_ps_checkout {
 	 * @param int $step_count Number of steps to make
 	 * @param int $highlighted_step The index of the recent step
 	 */
-	function show_checkout_bar() {
+	function show_checkout_bar($highlighted_step=null) {
 
 		global $sess, $ship_to_info_id, $shipping_rate_id, $VM_LANG;
 		
@@ -261,9 +261,9 @@ class vm_ps_checkout {
     		next( $steps_tmp );
 	    	$i++;
 	    }
-	      
-      	$highlighted_step = ps_checkout::get_current_stage(); 
-    	
+		if( !$highlighted_step  ) {
+			$highlighted_step = ps_checkout::get_current_stage(); 
+    	}
     	$theme = new $GLOBALS['VM_THEMECLASS']();
     	$theme->set_vars( array( 'step_count' => $step_count,
     							'steps_to_do' => $steps_to_do,
@@ -932,13 +932,14 @@ Order Total: '.$order_total.'
 		// Check to see if Payment Class File exists
 		$payment_class = $ps_payment_method->get_field($d["payment_method_id"], "payment_class");
 		$enable_processor = $ps_payment_method->get_field($d["payment_method_id"], "enable_processor");
-
+		$d['new_order_status'] = 'P'; // This is meant to be updated by a payment modules' process_payment method
 		if (file_exists(CLASSPATH . "payment/$payment_class.php") ) {
 			if( !class_exists( $payment_class )) {
 				include( CLASSPATH. "payment/$payment_class.php" );
 			}
 
 			$_PAYMENT = new $payment_class();
+			
 			if (!$_PAYMENT->process_payment($order_number,$order_total, $d)) {
 				$vmLogger->err( $VM_LANG->_('PHPSHOP_PAYMENT_ERROR',false)." ($payment_class)" );
 				$_SESSION['last_page'] = "checkout.index";
@@ -1173,8 +1174,11 @@ Order Total: '.$order_total.'
 		// Payment Processors return false on any error
 		// Only completed payments return true!
 		$update_order = false;
-		if( $enable_processor == "Y" ) {
-			if( defined($_PAYMENT->payment_code.'_VERIFIED_STATUS')) {
+		if( $enable_processor == "Y" || stristr($_PAYMENT->payment_code, '_API' ) !== false ) {
+			if( $d['new_order_status'] != 'P' ) {
+              	$d['order_status'] = $d['new_order_status'];
+              	$update_order = true;
+			} elseif( defined($_PAYMENT->payment_code.'_VERIFIED_STATUS')) {
               	$d['order_status'] = constant($_PAYMENT->payment_code.'_VERIFIED_STATUS');
               	$update_order = true;
             }
@@ -1550,7 +1554,7 @@ Order Total: '.$order_total.'
 						$price = $ps_product->get_adjusted_attribute_price($cart[$i]["product_id"], $cart[$i]["description"]);
 						$price['product_price'] = $GLOBALS['CURRENCY']->convert( $price['product_price'], $price['product_currency']);
 						$tax_rate = $ps_product->get_product_taxrate($cart[$i]["product_id"]);
-						
+				
 						if( (!empty( $_SESSION['coupon_discount'] ) || !empty( $d['payment_discount'] ))
 							&& PAYMENT_DISCOUNT_BEFORE == '1' ) {
 							$use_coupon_discount= @$_SESSION['coupon_discount'];

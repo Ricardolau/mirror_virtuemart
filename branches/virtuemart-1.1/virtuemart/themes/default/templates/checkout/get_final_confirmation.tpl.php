@@ -107,7 +107,12 @@ echo '</table>';
 </div>
 <?php
 if( VM_ONCHECKOUT_SHOW_LEGALINFO == '1' ) {
-	$link =  sefRelToAbs('index2.php?option=com_content&amp;task=view&amp;id='.VM_ONCHECKOUT_LEGALINFO_LINK );
+	$link = 'index2.php?option=com_content&amp;task=view&amp;id='.VM_ONCHECKOUT_LEGALINFO_LINK;
+	if( class_exists('jroute')) {
+		$link = JRoute::_($link);
+	} else {
+		$link =  sefRelToAbs( $link );
+	}
 	$jslink = "window.open('$link', 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no'); return false;";
 		if( @VM_ONCHECKOUT_LEGALINFO_SHORTTEXT=='' || !defined('VM_ONCHECKOUT_LEGALINFO_SHORTTEXT')) {
 		$text = $VM_LANG->_('VM_LEGALINFO_SHORTTEXT');

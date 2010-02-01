@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage core
-* @copyright Copyright (C) 2004-2009 VirtueMart Development Team - All rights reserved.
+* @copyright Copyright (C) 2004-2010 VirtueMart Development Team - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -34,6 +34,20 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+01.02.2010 soeren
+^ added some modifications to prepare integration of a PayPal WPP/Express module
+^ some adjustments to the simple admin interface
+
+28.01.2010 tkahl
+! Fixed SQL Injection problem (alert: http://www.securityfocus.com/bid/37963/exploit)
+
+11.01.2010 soeren
+# Task #2847 - Joomfish can't translate the category name in navigation list
+
+16.12.2009 soeren
+# Task #2748 - Useless table in the query of get_cid
+# Task #1094 - Omitting http:// from Product Info URL field in Backend causes invalid Image link on Product flypage 
+
 11.11.2009 soeren
 # Task #2764 - Can't delete old (pre 1.1.4) orders in VM 1.1.4
 

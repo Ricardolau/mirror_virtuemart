@@ -378,11 +378,11 @@ class vm_ps_userfield extends vmAbstractObject {
 	   				else {
 	   					$onchange = "";
 	   				}
-	   				$ps_html->list_country("country", $db->sf('country', true, false), "id=\"country_field\" $onchange");
+	   				$ps_html->list_country("country", $db->sf('country', true), "id=\"country_field\" $onchange");
 	   				break;
 	   			
 	   			case 'state':
-	   				echo $ps_html->dynamic_state_lists( "country", "state", $db->sf('country', true, false), $db->sf('state', true, false) );
+	   				echo $ps_html->dynamic_state_lists( "country", "state", $db->sf('country', true), $db->sf('state', true, false) );
 				    echo "<noscript>\n";
 				    $ps_html->list_states("state", $db->sf('state', true, false), "", "id=\"state_field\"");
 				    echo "</noscript>\n";

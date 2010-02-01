@@ -83,11 +83,13 @@ class vm_ps_order {
 						break;
 					default:
 							// default case for payment methods that allow to "capture" the payment
-							if( is_file( CLASSPATH.'payment/'.basename($payment_class) ) ) {
-								require_once( CLASSPATH.'payment/'.basename($payment_class) );
+							if( is_file( CLASSPATH.'payment/'.basename($payment_class).'.php' ) ) {
+								require_once( CLASSPATH.'payment/'.basename($payment_class).'.php' );
 								if( !class_exists($payment_class)) break;
 								$paymentObj = new $payment_class();
+								
 								if( !method_exists($paymentObj,'capture_payment')) break;
+								
 								if( !$paymentObj->capture_payment( $d )) {
 									return false;
 								}
@@ -134,7 +136,6 @@ class vm_ps_order {
 			 * It might work on captured cards too, if we want to
 			 * void shipped orders.
 			 *
-			 * Restricted to PayFlow Pro for now.
 			 */
 			if( $curr_order_status=="P" && $d["order_status"]=="X") {
 				$q = "SELECT order_number,payment_class,order_payment_trans_id FROM #__{vm}_payment_method,#__{vm}_order_payment,#__{vm}_orders WHERE ";
@@ -143,14 +144,13 @@ class vm_ps_order {
 				$q .= "AND #__{vm}_order_payment.payment_method_id=#__{vm}_payment_method.payment_method_id";
 				$db->query( $q );
 				$db->next_record();
-				$payment_class = $db->f("payment_class");
-				if( $payment_class=="payflow_pro" ) {
-					require_once( CLASSPATH."payment/payflow_pro.cfg.php");
-					if( PFP_TYPE == 'A' ) {
-						require_once( CLASSPATH."payment/payflow_pro.php");
-						$pfp = new ps_pfp();
-						$d["order_number"] = $db->f("order_number");
-						if( !$pfp->void_authorization( $d )) {
+				$payment_class = strtolower(basename($db->f("payment_class")));
+				if( file_exists( CLASSPATH.'payment/'.$payment_class.'.php' )) {
+					require_once( CLASSPATH."payment/$payment_class.php");
+					$payment = new $payment_class();
+					$d["order_number"] = $db->f("order_number");
+					if( is_callable( array( $payment, 'void_authorization' ))) {
+						if( !$payment->void_authorization( $d )) {
 							return false;
 						}
 					}
@@ -730,7 +730,7 @@ class vm_ps_order {
 			// Now update each ordered product
 			while( $db->next_record() ) {
 				if( in_array( $db->f('order_status'), array('P', 'X', 'R') )) continue;
-				require_once( CLASSPATH . 'ps_product.php' );
+				
 				if( ENABLE_DOWNLOADS == '1' && ps_product::is_downloadable($db->f("product_id")) && VM_DOWNLOADABLE_PRODUCTS_KEEP_STOCKLEVEL == '1') {
 					$q = "UPDATE #__{vm}_product  
 							SET product_sales=product_sales-".$db->f("product_quantity")." 
@@ -832,5 +832,4 @@ if (defined('VM_ALLOW_EXTENDED_CLASSES') && defined('VM_THEMEPATH') && VM_ALLOW_
 
 
 $ps_order = new ps_order;
-
 ?>

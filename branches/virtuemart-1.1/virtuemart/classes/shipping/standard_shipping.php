@@ -254,7 +254,11 @@ class standard_shipping {
 		$d['ship_to_info_id'] = vmGet( $_REQUEST, 'ship_to_info_id' ) ;
 		
 		if( empty( $_SESSION[$d['shipping_rate_id']] ) ) {
-			return false ;
+			// Fixed this because PayPal returned a slightly different string
+			$d['shipping_rate_id'] = str_replace('++%26', '%2B+%26', urlencode(htmlentities(urldecode($d['shipping_rate_id']))));
+			if( empty( $_SESSION[$d['shipping_rate_id']] ) ) {
+				return false ;
+			}
 		}
 		
 		$details = explode( "|", urldecode( $d['shipping_rate_id'] ) ) ;

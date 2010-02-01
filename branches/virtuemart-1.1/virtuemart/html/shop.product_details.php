@@ -253,7 +253,7 @@ if( vmIsJoomla('1.5')) {
 // Show an "Edit PRODUCT"-Link
 if ($perm->check("admin,storeadmin")) {
 	$edit_link = '<a href="'. $sess->url( 'index2.php?page=product.product_form&next_page=shop.product_details&product_id='.$product_id).'">
-      <img src="images/M_images/edit.png" alt="'. $VM_LANG->_('PHPSHOP_PRODUCT_FORM_EDIT_PRODUCT') .'" border="0" /></a>';
+      <img src="'.$mosConfig_live_site.'/images/M_images/edit.png" alt="'. $VM_LANG->_('PHPSHOP_PRODUCT_FORM_EDIT_PRODUCT') .'" border="0" /></a>';
 }
 else {
 	$edit_link = "";

@@ -235,6 +235,7 @@ table.adminform td.labelcell {
 }
 .shop_error, .shop_warning, .shop_info, .shop_debug, .shop_critical, .shop_tip {
 	background-color:#FAFAD2;
+    color:black; 
 	background-position:left 5px;
 	background-repeat:no-repeat;
 	border-color:#AACCAA;

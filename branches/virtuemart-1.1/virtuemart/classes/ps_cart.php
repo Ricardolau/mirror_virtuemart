@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2010 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -285,6 +285,7 @@ class vm_ps_cart {
 		} elseif( $total_quantity == 0 ) {
 			vmRequest::setVar('product_id', $product_id );
 			$GLOBALS['last_page'] = 'shop.product_details';
+			$vmLogger->warning( $VM_LANG->_('PHPSHOP_CART_ERROR_NO_VALID_QUANTITY',false) );
 			return false;
 		} else {
             $vmLogger->tip( $VM_LANG->_('PHPSHOP_CART_QUANTITY_EXCEEDED',false) );

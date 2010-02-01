@@ -70,7 +70,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
            </td>
         </tr>
         <tr>
-           <td nowrap="nowrap"width="10%" align="right"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_FAX') ?>: </td>
+           <td nowrap="nowrap" width="10%" align="right"><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_FAX') ?>: </td>
            <td width="90%">
            <?php
              $db->p("fax");

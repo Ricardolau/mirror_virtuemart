@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2010 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -352,7 +352,7 @@ class vm_ps_reviews {
 			$newrating=$votes_count / ( ( $allvotes )-1 );
 		}
 		$newrating = round( $newrating );
-		if( !empty( $votes )) {
+		if( strlen( $votes ) > 0 ) {
 			$db->query("UPDATE #__{vm}_product_votes SET allvotes=allvotes-1, votes = '$votes', rating='$newrating'"
 			." WHERE product_id='".$d["product_id"]."'");
 		}

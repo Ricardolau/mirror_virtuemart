@@ -8,7 +8,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage themes
-* @copyright Copyright (C) 2006-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2006-2010 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -118,7 +118,7 @@ class vmTheme extends vmTemplate  {
 			$fulladdress = $sess->url( 'index2.php?page=shop.view_images&amp;image_id='.$image->file_id.'&amp;product_id='.$product_id.'&amp;pop=1' );
 			
 			if( $this->get_cfg('useLightBoxImages', 1 )) {
-				$html .= vmCommonHTML::getLightboxImageLink( $image->file_url, $thumbtag, $title ? $title : $image->file_title, 'product'.$product_id );
+				$html .= vmCommonHTML::getLightboxImageLink( $image->file_url, $thumbtag, $title ? $title : stripslashes(htmlentities($image->file_title,ENT_QUOTES)), 'product'.$product_id );
 			}
 			else {
 				$html .= vmPopupLink( $fulladdress, $thumbtag, 640, 550 );

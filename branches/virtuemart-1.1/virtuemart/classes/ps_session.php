@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2010 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -538,6 +538,12 @@ class vm_ps_session {
 				$ii_page=$db->getEscaped(vmget($ii_arr,'page' ));
 				if ($ii_page && $tmp_Itemid=='') {
 					$tmp_Itemid=$this->checkMenuItems('page', $ii_page);
+				}
+			}
+			if (!empty($ii_arr['Itemid'])) {
+				$ii_itemid=intval($ii_arr['Itemid']);
+				if ($ii_itemid && $tmp_Itemid=='') {
+					$tmp_Itemid=$ii_itemid;
 				}
 			}
 			// If we haven't found an Itemid, use the standard VM-Itemid

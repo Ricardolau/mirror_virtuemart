@@ -34,7 +34,19 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+
 01.02.2010 soeren
+# Task #2754 - "Failed to parse the XML Update File" during the update 1.1.3 -> 1.1.4 
+# Task #2755 - Additional images double quotations and backslashes not stripped 
+# Task #2758 - No message when add 0 stock product to cart VM 1.1.4
+# Task #2760 - If single 0 vote remains when a review is deleted, that vote is wrongly deleted 
+# Task #2766 - Tax Rates not calculated in standard shipping module 
+# Task #2769 - Method url in class vm_ps_session overwrites native Joomla Itemid 
+# Task #2809 - Missing space between html attributes 
+# Task #2816 - Value input doesn´t work with up/down buttons if child list with radio buttons is used 
+# Task #2841 - Login problem during checkout - Joomla 1.0.x only 
+# Task #2853 - Ensure Contrasting Text in Shop Debug Messages 
+# Task #2859 - Product pagination in product details does not loaduser defined queries 
 ^ added some modifications to prepare integration of a PayPal WPP/Express module
 ^ some adjustments to the simple admin interface
 

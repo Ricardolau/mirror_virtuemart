@@ -232,12 +232,17 @@ class vmConnector {
 			}
 			fclose( $fp );
 
-			// If didnt get content-lenght, something is wrong, return false.
+			// If didnt get content-length, something is wrong, return false.
 			if ( trim($data) == '' ) {
 				$vmLogger->err('An error occured while communicating with the server '.$urlParts['host'].'. It didn\'t reply (correctly). Please try again later, thank you.' );
 				return false;
 			}
-			$result = trim( $data );
+			if(strpos($url, 'zip')) {
+			   $result = $data;
+			}     
+			else { 
+			   $result = trim( $data );
+			} 
 			if( is_resource($fileToSaveData )) {
 				fwrite($fileToSaveData, $result );
 				return true;

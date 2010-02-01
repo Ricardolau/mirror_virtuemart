@@ -1299,7 +1299,15 @@ class vm_ps_product extends vmAbstractObject {
 		}
 		$db = new ps_DB();
 		$db_browse = new ps_DB();
-		include( PAGEPATH . 'shop_browse_queries.php' );
+		
+		if (defined('VM_ALLOW_EXTENDED_CLASSES') && defined('VM_THEMEPATH') && VM_ALLOW_EXTENDED_CLASSES && file_exists(VM_THEMEPATH.'user_class/shop_browse_queries.php')) {
+			// Load the user-defined shop_browse_queries file
+			include_once(VM_THEMEPATH.'user_class/shop_browse_queries.php');
+		} else {
+			// Otherwise we have to use the original file
+			include( PAGEPATH . 'shop_browse_queries.php' );
+		}
+		
 		
 		$db->query( $list );
 		

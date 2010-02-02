@@ -6,7 +6,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2010 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -183,12 +183,12 @@ class vmImageTools {
 		$curr_file = isset($_REQUEST[$field_name."_curr"]) ? $_REQUEST[$field_name."_curr"] : "";
 	
 		/* Generate text to display in error messages */
-		if (eregi("thumb",$field_name)) {
+		if (stristr("thumb",$field_name)) {
 			$image_type = "thumbnail image";
-		} elseif (eregi("full",$field_name))  {
+		} elseif (stristr("full",$field_name))  {
 			$image_type = "full image";
 		} else {
-			$image_type = ereg_replace("_"," ",$field_name);
+			$image_type = str_replace("_"," ",$field_name);
 		}
 		
 		/* If User types "none" in Image Upload Field */

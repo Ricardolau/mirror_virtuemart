@@ -35,7 +35,12 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 
-01.02.2010 soeren
+02.02.2010 soeren
+# Task #2750 - custom attributes error in 1.1.4
+# Task #2713 - You can't delete from order status listpage with the toolbar button 
+
+01.02.2010 soeren 
+# Task #2763 - Product old price not rendered correctly in PDF 
 # Task #2754 - "Failed to parse the XML Update File" during the update 1.1.3 -> 1.1.4 
 # Task #2755 - Additional images double quotations and backslashes not stripped 
 # Task #2758 - No message when add 0 stock product to cart VM 1.1.4

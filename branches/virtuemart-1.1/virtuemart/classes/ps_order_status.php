@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2010 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -72,24 +72,34 @@ class vm_ps_order_status extends vmAbstractObject {
 	}
 
 	function validate_delete($d) {
-		global $VM_LANG;
+		global $VM_LANG, $vmLogger;
 		
 		if (empty($d["order_status_id"])) {
 			$vmLogger->err( $VM_LANG->_('VM_ORDERSTATUS_DELETE_ERR_SELECT') );
 			return False;
 		}
-		$db = $this->get(intval($d["order_status_id"]));
-		if( $db->f('order_status_code')) {
-			$order_status_code = $db->f('order_status_code');
-			if( in_array( $order_status_code, $this->_protected_status_codes ) ) {
-				$vmLogger->err( $VM_LANG->_('VM_ORDERSTATUS_DELETE_ERR_CORE') );
-				return False;
+		$order_status = array();
+		if( is_array( $d["order_status_id"]) ) {
+			foreach( $d["order_status_id"] as $order_status_id ) {
+				$order_status[] = intval($order_status_id);
 			}
-			$dbo = new ps_DB();
-			$dbo->query('SELECT order_id FROM #__{vm}_orders WHERE order_status=\''.$order_status_code.'\' LIMIT 1');
-			if( $dbo->next_record() ) {
-				$vmLogger->err( $VM_LANG->_('VM_ORDERSTATUS_DELETE_ERR_STILL') );
-				return False;
+		} else {
+			$order_status[] = intval($d["order_status_id"]);
+		}
+		foreach( $order_status as $order_status_id ) {
+			$db = $this->get($order_status_id);
+			if( $db->f('order_status_code')) {
+				$order_status_code = $db->f('order_status_code');
+				if( in_array( $order_status_code, $this->_protected_status_codes ) ) {
+					$vmLogger->err( $VM_LANG->_('VM_ORDERSTATUS_DELETE_ERR_CORE') );
+					return False;
+				}
+				$dbo = new ps_DB();
+				$dbo->query('SELECT order_id FROM #__{vm}_orders WHERE order_status=\''.$order_status_code.'\' LIMIT 1');
+				if( $dbo->next_record() ) {
+					$vmLogger->err( $VM_LANG->_('VM_ORDERSTATUS_DELETE_ERR_STILL') );
+					return False;
+				}
 			}
 		}
 		return True;

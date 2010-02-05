@@ -681,7 +681,7 @@ class vm_ps_order_change {
 				$q .= $vendor_id . "', '" ;
 				$q .= $product_id . "', '" ;
 				$q .= $product_sku . "', '" ;
-				$q .= $product_name . "', '" ;
+				$q .= addslashes($product_name) . "', '" ;
 				$q .= $quantity . "', '" ;
 				$q .= $product_price . "', '" ;
 				$q .= $product_final_price . "', '" ;

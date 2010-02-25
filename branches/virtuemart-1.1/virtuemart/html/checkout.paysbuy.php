@@ -3,7 +3,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 /**
 * PayPal IPN Result Checker
 *
-* @version $Id: checkout.result.php 617 2007-01-04 19:43:08Z soeren_nb $
+* @version $Id: checkout.paysbuy.php 617 2007-01-04 19:43:08Z soeren_nb $
 * @package VirtueMart
 * @subpackage html
 * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
@@ -19,29 +19,51 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 mm_showMyFileName( __FILE__ );
 
 if( !isset( $_REQUEST["order_id"] ) || empty( $_REQUEST["order_id"] )) {
-	echo "Order ID is not set or emtpy!";
+  echo $VM_LANG->_('VM_CHECKOUT_ORDERIDNOTSET');
 }
 else {
 	include( CLASSPATH. "payment/ps_paypal.cfg.php" );
-	$order_id = intval( mosgetparam( $_REQUEST, "order_id" ));
+	$order_id = intval( vmGet( $_REQUEST, "order_id" ));
 
-	$q = "SELECT order_status FROM #__{vm}_orders WHERE ";
+	$q = "SELECT order_id, order_status FROM #__{vm}_orders WHERE ";
 	$q .= "#__{vm}_orders.user_id= " . $auth["user_id"] . " ";
 	$q .= "AND #__{vm}_orders.order_id= $order_id ";
 	$db->query($q);
 	if ($db->next_record()) {
 		$order_status = $db->f("order_status");
-		if($order_status == "P" || $order_status == "C") {  ?> 
-        <img src="<?php echo IMAGEURL ?>ps_image/button_ok.png" align="center" alt="Success" border="0" />
-        <h2>Thanks for your payment. 
-        The transaction was successful. You will get a confirmation e-mail for the transaction by PaySbuy. 
-        You can now continue or log in at <a href=https://www.paysbuy.com>https://www.paysbuy.com</a> to see the transaction details.'</h2>
+		$d['order_id'] = $db->f("order_id");
+	
+	//if($_REQUEST['x_response_code'] == '1') {
+		if(substr($_REQUEST['result'],0,2) == '00') {
+
+			// UPDATE THE ORDER STATUS to 'PAID'
+            $d['order_status'] = "D";
+            require_once ( CLASSPATH . 'ps_order.php' );
+            $ps_order= new ps_order;
+            $ps_order->order_status_update($d);
+			?>
+
+	
+			<img src="<?php echo VM_THEMEURL ?>images/button_ok.png" alt="Success" style="border: 0;" />
+			<h2>Thanks for your payment.</h2>
+			<p>The transaction was successful. You will get a confirmation e-mail for the transaction by PaySbuy. You can now continue or log in at <a href=https://www.paysbuy.com>https://www.paysbuy.com</a> to see the transaction details.'</p>
     
     <?php
       }
-      else { ?>
-        <img src="<?php echo IMAGEURL ?>ps_image/button_cancel.png" align="center" alt="Failure" border="0" />
-        <span class="message">An error occured while processing your transaction. The status of your order could not be updated.</span>
+		else {
+
+            // the Payment wasn't successful. Maybe the Payment couldn't
+            // be verified and is pending
+            // UPDATE THE ORDER STATUS to 'CANCELLED'
+            $d['order_status'] = "X";
+            require_once ( CLASSPATH . 'ps_order.php' );
+            $ps_order= new ps_order;
+            $ps_order->order_status_update($d);
+
+			?>
+			<img src="<?php echo VM_THEMEURL ?>images/button_cancel.png" alt="<?php echo $VM_LANG->_('VM_CHECKOUT_FAILURE'); ?>" style="border: 0;" />
+			<h2>Payment Unsuccessful</h2>
+			<p><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_ERROR') ?></p>
     
     <?php
     } ?>

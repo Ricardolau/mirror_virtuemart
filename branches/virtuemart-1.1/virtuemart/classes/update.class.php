@@ -191,6 +191,17 @@ class vmUpdate {
 			foreach( $xml->queries->query as $query ) {
 				$queryArr[] = (string)$query;
 			}
+			
+			// RickG - Look for an install file
+			$installfile = (string)$xml->vminstallfile;
+			if ($installfile) {
+				if (file_exists($extractdir.DS.$installfile)) {
+					$returnArr['installfile'] = $extractdir.DS.$installfile;	
+				}	
+				else {
+					$returnArr['installfile'] = '';
+				}
+			}			
 		} else {
 			// Use the SimpleXML Equivalent
 			require_once( CLASSPATH. 'simplexml.php' );
@@ -227,6 +238,18 @@ class vmUpdate {
 					$queryArr[] = $query->data();
 				}
 			}
+			
+			// RickG - Look for an install file
+			$installfile = (string)$xml->vminstallfile;
+			if ($installfile) {
+				if (file_exists($extractdir.DS.$installfile)) {;
+					$returnArr['installfile'] = $extractdir.DS.$installfile;	
+				}	
+				else {
+					$returnArr['installfile'] = '';
+				}
+			}
+						
 		}
 		$returnArr['toversion'] = $toversion;
 		$returnArr['forversion'] = $forversion;
@@ -251,6 +274,10 @@ class vmUpdate {
 			return false;
 		}
 		$patchdir = vmUpdate::getPackageDir($updatepackage);
+		
+		// RickG - Save the location of the patch file
+		JRequest::setVar('patchdir', $patchdir);
+		
 		$packageContents = vmUpdate::getPatchContents($updatepackage);
 		
 		if( !vmUpdate::verifyPackage( $packageContents ) ) {
@@ -314,6 +341,12 @@ class vmUpdate {
   			} else {
   				$vmLogger->debug( sprintf($VM_LANG->_('VM_UPDATE_QUERY_EXECUTED'),$query) );
   			}
+  		}
+  		
+  		// RickG - Run the install file if it exists
+  		if ($packageContents['installfile']) {
+  			include($packageContents['installfile']);
+  			com_vminstall($patchdir);	
   		}
   		
   		$db->query('UPDATE `#__components` SET `params` = \'RELEASE='.$packageContents['toversion'].'\nDEV_STATUS=stable\' WHERE `name` = \'virtuemart_version\'');

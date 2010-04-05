@@ -32,7 +32,8 @@ else {
   require_once( CLASSPATH. 'payment/ps_twocheckout.cfg.php' );
   
   /* x_invoice_num is the name of the variable that holds OUR order_number */
-  $order_number = vmGet( $_REQUEST, "x_invoice_num" ); 
+  // 04-01-2010 RickG Added intval call to prevent SQL injection
+  $order_number = intval(vmGet( $_REQUEST, "x_invoice_num" )); 
   
   // In Demo Mode the MD5 Hash is built using a "1"
   if( isset($_REQUEST['demo']) )

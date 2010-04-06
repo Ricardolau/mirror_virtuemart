@@ -229,7 +229,7 @@ class vm_ps_order {
 				$db->query($q);
 				$item_product_id = $db->f('product_id');
 				$item_product_quantity = $db->f('product_quantity');
-				
+				require_once( CLASSPATH. 'ps_product.php' );
 				if( ENABLE_DOWNLOADS == '1' && ps_product::is_downloadable($item_product_id) && VM_DOWNLOADABLE_PRODUCTS_KEEP_STOCKLEVEL == '1') {
 						$q = "UPDATE #__{vm}_product  
 								SET product_sales=product_sales-".$item_product_quantity." 

@@ -109,7 +109,9 @@ class vmTigraTreeMenu {
 					$mymenu_content.= ",";
 				}
 				$mymenu_content.= "['".$category->cname;
-				$mymenu_content.= "','href=\'".sefRelToAbs('index.php?option=com_virtuemart&page=shop.browse&category_id='.$category->cid.'&Treeid='.$Treeid.$itemid)."\''\n ";
+				$link  = 'index.php?option=com_virtuemart&page=shop.browse&category_id='.$category->cid.'&Treeid='.$Treeid.$itemid;
+				$link = class_exists('jroute') ? JRoute::_($link) : sefRelToAbs($link);
+				$mymenu_content.= "','href=\'".$link."\''\n ";
 				
 				/* recurse through the subcategories */
 				$this->traverse_tree_down($mymenu_content, $category->ccid, $level);

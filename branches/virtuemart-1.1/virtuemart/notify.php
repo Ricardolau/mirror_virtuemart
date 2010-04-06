@@ -215,7 +215,8 @@ if ($_POST) {
     	// Get the list of IP addresses for www.paypal.com and notify.paypal.com
         $paypal_iplist = gethostbynamel('www.paypal.com');
 		$paypal_iplist2 = gethostbynamel('notify.paypal.com');
-        $paypal_iplist = array_merge( $paypal_iplist, $paypal_iplist2 );
+        $paypal_iplist3 = array( '216.113.188.202' , '216.113.188.203' , '216.113.188.204' , '66.211.170.66' ); 
+        $paypal_iplist = array_merge( $paypal_iplist, $paypal_iplist2, $paypal_iplist3 );
 
         $paypal_sandbox_hostname = 'ipn.sandbox.paypal.com';
         $remote_hostname = gethostbyaddr( $_SERVER['REMOTE_ADDR'] );
@@ -230,13 +231,8 @@ if ($_POST) {
             $ips = "";
             // Loop through all allowed IPs and test if the remote IP connected here
             // is a valid IP address
-            foreach( $paypal_iplist as $ip ) {
-                $ips .= "$ip,\n";
-                $parts = explode( ".", $ip );
-                $first_three = $parts[0].".".$parts[1].".".$parts[2];
-                if( preg_match("/^$first_three/", $_SERVER['REMOTE_ADDR']) ) {
+            if( in_array( $_SERVER['REMOTE_ADDR'], $paypal_iplist )) {
                     $valid_ip = true;
-                }
             }
             $hostname = 'www.paypal.com';
         }
@@ -333,8 +329,12 @@ if ($_POST) {
       $qv = "SELECT `order_id`, `order_number`, `user_id`, `order_subtotal`,
                     `order_total`, `order_currency`, `order_tax`, 
                     `order_shipping_tax`, `coupon_discount`, `order_discount`
-                FROM `#__{vm}_orders` 
-                WHERE `order_number`='".$invoice."'";
+                FROM `#__{vm}_orders` ";
+		if( strlen( $invoice ) == 20 ) {
+				$qv .= " WHERE `order_number` LIKE '".$invoice."%'";
+		} else {
+               $qv .= " WHERE `order_number`='".$invoice."'";
+		}
       $db = new ps_DB;
       $db->query($qv);
       $db->next_record();

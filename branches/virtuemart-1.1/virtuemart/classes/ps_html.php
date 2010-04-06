@@ -126,6 +126,7 @@ class vm_ps_html {
 		echo "<select class=\"inputbox\" name=\"title\" $extra>\n";
 		echo "<option value=\"\">".$VM_LANG->_('PHPSHOP_REGISTRATION_FORM_NONE')."</option>\n";
 		for ($i=0;$i<count($title);$i++) {
+			if ($title[$i] == "") continue;
 			echo "<option value=\"" . $title[$i]."\"";
 			if ($title[$i] == $t)
 			echo " selected=\"selected\" ";

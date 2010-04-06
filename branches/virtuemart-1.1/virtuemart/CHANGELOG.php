@@ -34,6 +34,8 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+29.03.2010 soeren
+^ FRQ-2889 - improve eway payment module test mode settings 
 
 02.02.2010 soeren
 # Task #2750 - custom attributes error in 1.1.4
@@ -48,7 +50,7 @@ VirtueMart 1.1.x
 # Task #2766 - Tax Rates not calculated in standard shipping module 
 # Task #2769 - Method url in class vm_ps_session overwrites native Joomla Itemid 
 # Task #2809 - Missing space between html attributes 
-# Task #2816 - Value input doesn´t work with up/down buttons if child list with radio buttons is used 
+# Task #2816 - Value input doesn't work with up/down buttons if child list with radio buttons is used 
 # Task #2841 - Login problem during checkout - Joomla 1.0.x only 
 # Task #2853 - Ensure Contrasting Text in Shop Debug Messages 
 # Task #2859 - Product pagination in product details does not loaduser defined queries 

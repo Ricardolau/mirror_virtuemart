@@ -34,7 +34,7 @@ class ps_eway {
         $db = new ps_DB();
         
         /** Read current Configuration ***/
-        include_once(CLASSPATH ."payment/".$this->classname.".cfg.php");
+        include_once(CLASSPATH ."payment/".__CLASS__.".cfg.php");
     ?>
     <table>
         <tr>
@@ -125,7 +125,7 @@ class ps_eway {
 	* @returns boolean True when the configuration file is writeable, false when not
 	*/
    function configfile_writeable() {
-      return is_writeable( CLASSPATH."payment/".$this->classname.".cfg.php" );
+      return is_writeable( CLASSPATH."payment/".__CLASS__.".cfg.php" );
    }
    
   /**
@@ -134,7 +134,7 @@ class ps_eway {
 	* @returns boolean True when the configuration file is writeable, false when not
 	*/
    function configfile_readable() {
-      return is_readable( CLASSPATH."payment/".$this->classname.".cfg.php" );
+      return is_readable( CLASSPATH."payment/".__CLASS__.".cfg.php" );
    }
    
   /**
@@ -158,7 +158,7 @@ class ps_eway {
       
       $config .= "?>";
   
-      if ($fp = fopen(CLASSPATH ."payment/".$this->classname.".cfg.php", "w")) {
+      if ($fp = fopen(CLASSPATH ."payment/".__CLASS__.".cfg.php", "w")) {
           fputs($fp, $config, strlen($config));
           fclose ($fp);
           return true;
@@ -175,14 +175,11 @@ class ps_eway {
         global $vendor_name, $VM_LANG, $vmLogger;
         $auth = $_SESSION['auth'];
         
-        /*** Get the Configuration File for eway ***/
-        require_once(CLASSPATH ."payment/".$this->classname.".cfg.php");
+        // Get the Configuration File for eway 
+        require_once(CLASSPATH ."payment/".__CLASS__.".cfg.php");
         
-        /* eWAY Gateway Location (URI) */
-        if( EWAY_TEST_REQUEST == "FALSE" )
-            define( "GATEWAY_URL", "https://www.eway.com.au/gateway_cvn/xmlpayment.asp");
-        else
-            define( "GATEWAY_URL", "https://www.eway.com.au/gateway_cvn/xmltest/testpage.asp");
+        // eWAY Gateway Location (URI)
+        define( "GATEWAY_URL", "https://www.eway.com.au/gateway_cvn/xmlpayment.asp");
             
         // Get user billing information
         $db = new ps_DB;
@@ -198,9 +195,11 @@ class ps_eway {
         
 		$my_trxn_number = uniqid( "eway_" );
         $payer_name_is = $_SESSION['ccdata']['order_payment_name'];
-        
-		$eway = new EwayPayment( EWAY_CUSTID, GATEWAY_URL );
-
+        if( EWAY_TEST_REQUEST == "FALSE" ) {
+			$eway = new EwayPayment( EWAY_CUSTID, GATEWAY_URL );
+		} else {
+			$eway = new EwayPayment( '87654321', "https://www.eway.com.au/gateway_cvn/xmltest/testpage.asp" );
+		}
 		$eway->setCustomerFirstname( $db->f("first_name") );
 		$eway->setCustomerLastname( $db->f("last_name") );
 		$eway->setCustomerEmail( $db->f("email") );

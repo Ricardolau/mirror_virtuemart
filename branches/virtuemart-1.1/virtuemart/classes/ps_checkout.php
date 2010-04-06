@@ -1132,7 +1132,21 @@ Order Total: '.$order_total.'
 			$q .= "SET product_sales= product_sales + ".(int)$cart[$i]["quantity"];
 			$q .= " WHERE product_id='".$cart[$i]["product_id"]."'";
 			$db->query($q);
-
+			// Update stock of parent product, if all child products are sold, thanks Ragnar Brynjulfsson
+			if ($dboi->f("product_parent_id") != 0) {
+				$q = "SELECT COUNT(product_id) ";
+				$q .= "FROM #__{vm}_product ";
+				$q .= "WHERE product_parent_id = ".$dboi->f("product_parent_id");
+				$q .= " AND product_in_stock > 0";
+				$db->query($q);
+				$db->next_record();
+				if (!$db->f("COUNT(product_id)")) {
+					$q = "UPDATE #__{vm}_product ";
+					$q .= "SET product_in_stock = 0 ";
+					$q .= "WHERE product_id = ".$dboi->f("product_parent_id")." LIMIT 1";
+					$db->query($q);
+			  }
+			}
 		}
 
 		######## BEGIN DOWNLOAD MOD ###############

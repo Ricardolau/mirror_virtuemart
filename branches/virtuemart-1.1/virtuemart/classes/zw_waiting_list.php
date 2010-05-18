@@ -162,7 +162,7 @@ class vm_zw_waiting_list {
 
 		$db = new ps_DB;
 		$q = 'SELECT notify_email FROM #__{vm}_waiting_list WHERE ';
-		$q .= 'notified=0 AND product_id='.$product_id;
+		$q .= 'notified="0" AND product_id='.$product_id;
 		$db->query($q);
 
 		require_once( CLASSPATH. 'ps_product.php');

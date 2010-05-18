@@ -2,11 +2,12 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
-* @version : norwegian.php 1071 2007-12-03 08:42:28Z thepisu $
+* @version $Id: norwegian.php 458 2008-08-05 10:47:28Z rued $
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
-* @translator soeren
+* Translation is based on old language file for VM 1.0.
+* New translation and cleanup for v1.1 by Odd-Eirik Eriksen (abc@abc-konsult.no) and Rune Rasmussen (syntaxerror.no).
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -18,6 +19,6 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-1'
+	'CHARSET' => 'UTF-8'
 ); $VM_LANG->initModule( 'msgs', $langvars );
 ?>

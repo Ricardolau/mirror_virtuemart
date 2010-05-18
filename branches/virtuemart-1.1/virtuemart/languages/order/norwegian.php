@@ -2,11 +2,12 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
-* @version : norwegian.php 1071 2007-12-03 08:42:28Z thepisu $
+* @version $Id: norwegian.php 464 2008-08-05 20:13:18Z rued $
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
-* @translator soeren
+* Translation is based on old language file for VM 1.0.
+* New translation and cleanup for v1.1 by Odd-Eirik Eriksen (abc@abc-konsult.no) and Rune Rasmussen (syntaxerror.no).
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -18,21 +19,21 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-1',
+	'CHARSET' => 'UTF-8',
 	'PHPSHOP_ORDER_PRINT_PAYMENT_LOG_LBL' => 'Betalingslogg',
 	'PHPSHOP_ORDER_PRINT_SHIPPING_PRICE_LBL' => 'Fraktpris',
-	'PHPSHOP_ORDER_STATUS_LIST_CODE' => 'Ordrestatus kode',
-	'PHPSHOP_ORDER_STATUS_LIST_NAME' => 'Ordrestatus navn',
+	'PHPSHOP_ORDER_STATUS_LIST_CODE' => 'Ordrestatuskode',
+	'PHPSHOP_ORDER_STATUS_LIST_NAME' => 'Ordrestatusnavn',
 	'PHPSHOP_ORDER_STATUS_FORM_LBL' => 'Ordrestatus',
-	'PHPSHOP_ORDER_STATUS_FORM_CODE' => 'Ordrestatus kode',
-	'PHPSHOP_ORDER_STATUS_FORM_NAME' => 'Ordrestatus navn',
-	'PHPSHOP_ORDER_STATUS_FORM_LIST_ORDER' => 'Opplisting ordre',
+	'PHPSHOP_ORDER_STATUS_FORM_CODE' => 'Ordrestatuskode',
+	'PHPSHOP_ORDER_STATUS_FORM_NAME' => 'Ordrestatusnavn',
+	'PHPSHOP_ORDER_STATUS_FORM_LIST_ORDER' => 'Ordreliste',
 	'PHPSHOP_COMMENT' => 'Kommentar',
-	'PHPSHOP_ORDER_LIST_NOTIFY' => 'Gi kunden beskjed?',
-	'PHPSHOP_ORDER_LIST_NOTIFY_ERR' => 'Venligst endre ordrestatus f�rst!',
+	'PHPSHOP_ORDER_LIST_NOTIFY' => 'Varsle kunden?',
+	'PHPSHOP_ORDER_LIST_NOTIFY_ERR' => 'Vennligst endre ordrestatus først!',
 	'PHPSHOP_ORDER_HISTORY_INCLUDE_COMMENT' => 'Inkluder denne kommentaren?',
-	'PHPSHOP_ORDER_HISTORY_DATE_ADDED' => 'Dato lagt til',
-	'PHPSHOP_ORDER_HISTORY_CUSTOMER_NOTIFIED' => 'Beskjed til kunde?',
+	'PHPSHOP_ORDER_HISTORY_DATE_ADDED' => 'Lagt til',
+	'PHPSHOP_ORDER_HISTORY_CUSTOMER_NOTIFIED' => 'Kunde varslet?',
 	'PHPSHOP_ORDER_STATUS_CHANGE' => 'Status for ordre endret',
 	'PHPSHOP_ORDER_LIST_PRINT_LABEL' => 'Print Label',
 	'PHPSHOP_ORDER_LIST_VOID_LABEL' => 'Void Label',
@@ -53,24 +54,24 @@ $langvars = array (
 	'VM_ORDER_LABEL_TRACK_TITLE' => 'Track',
 	'VM_ORDER_LABEL_VOID_TITLE' => 'Void Label',
 	'VM_ORDER_LABEL_VOIDED_MSG' => 'Label for waybill {tracking_number} has been voided.',
-	'VM_ORDER_PRINT_PO_IPADDRESS' => 'IP-ADDRESS',
-	'VM_ORDER_STATUS_ICON_ALT' => 'Status Icon',
-	'VM_ORDER_PAYMENT_CCV_CODE' => 'CVV Code',
-	'VM_ORDER_NOTFOUND' => 'Order not found! It may have been deleted.',
-	'PHPSHOP_ORDER_EDIT_ACTIONS' => 'Actions',
-	'PHPSHOP_ORDER_EDIT' => 'Change Order Details',
-	'PHPSHOP_ORDER_EDIT_ADD' => 'Add',
-	'PHPSHOP_ORDER_EDIT_ADD_PRODUCT' => 'Add Product',
-	'PHPSHOP_ORDER_EDIT_EDIT_ORDER' => 'Change Order',
-	'PHPSHOP_ORDER_EDIT_ERROR_QUANTITY_MUST_BE_HIGHER_THAN_0' => 'Quantity must be greater than 0.',
-	'PHPSHOP_ORDER_EDIT_PRODUCT_ADDED' => 'The Product was added to the Order',
-	'PHPSHOP_ORDER_EDIT_PRODUCT_DELETED' => 'The Product was removed from this Order',
-	'PHPSHOP_ORDER_EDIT_QUANTITY_UPDATED' => 'Quantity has been updated',
-	'PHPSHOP_ORDER_EDIT_RETURN_PARENTS' => 'back to Parent Product',
-	'PHPSHOP_ORDER_EDIT_CHOOSE_PRODUCT' => 'Select a Product',
-	'PHPSHOP_ORDER_CHANGE_UPD_BILL' => 'Change Billto Address',
-	'PHPSHOP_ORDER_CHANGE_UPD_SHIP' => 'Change Shipto Address',
-	'PHPSHOP_ORDER_EDIT_SOMETHING_HAS_CHANGED' => ' has been changed',
-	'PHPSHOP_ORDER_EDIT_CHOOSE_PRODUCT_BY_SKU' => 'Select SKU'
+	'VM_ORDER_PRINT_PO_IPADDRESS' => 'IP-adresse',
+	'VM_ORDER_STATUS_ICON_ALT' => 'Statusikon',
+	'VM_ORDER_PAYMENT_CCV_CODE' => 'CVV-kode',
+	'VM_ORDER_NOTFOUND' => 'Kunne ikke finne ordren, den kan ha blitt slettet.',
+	'PHPSHOP_ORDER_EDIT_ACTIONS' => 'Handlinger',
+	'PHPSHOP_ORDER_EDIT' => 'Endre ordredetaljer',
+	'PHPSHOP_ORDER_EDIT_ADD' => 'Legg til',
+	'PHPSHOP_ORDER_EDIT_ADD_PRODUCT' => 'Legg til produkt',
+	'PHPSHOP_ORDER_EDIT_EDIT_ORDER' => 'Endre ordre',
+	'PHPSHOP_ORDER_EDIT_ERROR_QUANTITY_MUST_BE_HIGHER_THAN_0' => 'Antall må være høyere enn 0.',
+	'PHPSHOP_ORDER_EDIT_PRODUCT_ADDED' => 'Produktet ble lagt til ordren',
+	'PHPSHOP_ORDER_EDIT_PRODUCT_DELETED' => 'Produktet ble fjernet fra ordren',
+	'PHPSHOP_ORDER_EDIT_QUANTITY_UPDATED' => 'Antall har blitt oppdatert',
+	'PHPSHOP_ORDER_EDIT_RETURN_PARENTS' => 'tilbake til hovedproduktet',
+	'PHPSHOP_ORDER_EDIT_CHOOSE_PRODUCT' => 'Velg et produkt',
+	'PHPSHOP_ORDER_CHANGE_UPD_BILL' => 'Endre fakturaadresse',
+	'PHPSHOP_ORDER_CHANGE_UPD_SHIP' => 'Endre leveringsadresse',
+	'PHPSHOP_ORDER_EDIT_SOMETHING_HAS_CHANGED' => ' har blitt endret',
+	'PHPSHOP_ORDER_EDIT_CHOOSE_PRODUCT_BY_SKU' => 'Velg produktnummer'
 ); $VM_LANG->initModule( 'order', $langvars );
 ?>

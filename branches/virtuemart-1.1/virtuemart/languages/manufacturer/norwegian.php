@@ -2,11 +2,12 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
-* @version : norwegian.php 1071 2007-12-03 08:42:28Z thepisu $
+* @version $Id: norwegian.php 458 2008-08-05 10:47:28Z rued $
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
-* @translator soeren
+* Translation is based on old language file for VM 1.0.
+* New translation and cleanup for v1.1 by Odd-Eirik Eriksen (abc@abc-konsult.no) and Rune Rasmussen (syntaxerror.no).
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -18,19 +19,19 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-1',
-	'PHPSHOP_MANUFACTURER_LIST_LBL' => 'Produsent liste',
-	'PHPSHOP_MANUFACTURER_LIST_MANUFACTURER_NAME' => 'Produsent navn',
-	'PHPSHOP_MANUFACTURER_FORM_LBL' => 'Legg til Informasjon',
-	'PHPSHOP_MANUFACTURER_FORM_CATEGORY' => 'Produsent Kategori',
-	'PHPSHOP_MANUFACTURER_FORM_EMAIL' => 'Epost',
-	'PHPSHOP_MANUFACTURER_CAT_LIST_LBL' => 'Produsent Kategoriliste',
-	'PHPSHOP_MANUFACTURER_CAT_NAME' => 'Kategori Navn',
-	'PHPSHOP_MANUFACTURER_CAT_DESCRIPTION' => 'Kategori Beskrivelse',
+	'CHARSET' => 'UTF-8',
+	'PHPSHOP_MANUFACTURER_LIST_LBL' => 'Produsentliste',
+	'PHPSHOP_MANUFACTURER_LIST_MANUFACTURER_NAME' => 'Produsentnavn',
+	'PHPSHOP_MANUFACTURER_FORM_LBL' => 'Legg til informasjon',
+	'PHPSHOP_MANUFACTURER_FORM_CATEGORY' => 'Produsentkategori',
+	'PHPSHOP_MANUFACTURER_FORM_EMAIL' => 'E-post',
+	'PHPSHOP_MANUFACTURER_CAT_LIST_LBL' => 'Produsentkategorier',
+	'PHPSHOP_MANUFACTURER_CAT_NAME' => 'Kategorinavn',
+	'PHPSHOP_MANUFACTURER_CAT_DESCRIPTION' => 'Kategoribeskrivelse',
 	'PHPSHOP_MANUFACTURER_CAT_MANUFACTURERS' => 'Produsenter',
-	'PHPSHOP_MANUFACTURER_CAT_FORM_LBL' => 'Produsent Kategori Formular',
-	'PHPSHOP_MANUFACTURER_CAT_FORM_INFO_LBL' => 'Kategori Informasjon',
-	'PHPSHOP_MANUFACTURER_CAT_FORM_NAME' => 'Kategori Navn',
-	'PHPSHOP_MANUFACTURER_CAT_FORM_DESCRIPTION' => 'Kategori Beskrivelse'
+	'PHPSHOP_MANUFACTURER_CAT_FORM_LBL' => 'Skjema for ny produsentkategori',
+	'PHPSHOP_MANUFACTURER_CAT_FORM_INFO_LBL' => 'Informasjon om kategorien',
+	'PHPSHOP_MANUFACTURER_CAT_FORM_NAME' => 'Kategorinavn',
+	'PHPSHOP_MANUFACTURER_CAT_FORM_DESCRIPTION' => 'Kategoribeskrivelse'
 ); $VM_LANG->initModule( 'manufacturer', $langvars );
 ?>

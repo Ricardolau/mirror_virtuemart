@@ -2,11 +2,12 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
-* @version : norwegian.php 1071 2007-12-03 08:42:28Z thepisu $
+* @version $Id: norwegian.php 458 2008-08-05 10:47:28Z rued $
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
-* @translator soeren
+* Translation is based on old language file for VM 1.0.
+* New translation and cleanup for v1.1 by Odd-Eirik Eriksen (abc@abc-konsult.no) and Rune Rasmussen (syntaxerror.no).
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -18,13 +19,13 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-1',
-	'PHPSHOP_TAX_LIST_LBL' => 'Liste over mva verdier',
-	'PHPSHOP_TAX_LIST_STATE' => 'Mva stat eller region',
-	'PHPSHOP_TAX_LIST_COUNTRY' => 'Mva land',
-	'PHPSHOP_TAX_FORM_LBL' => 'Legg til info for satsen',
-	'PHPSHOP_TAX_FORM_STATE' => 'Mva stat eller region',
-	'PHPSHOP_TAX_FORM_COUNTRY' => 'Mva land',
-	'PHPSHOP_TAX_FORM_RATE' => 'Mva sats'
+	'CHARSET' => 'UTF-8',
+	'PHPSHOP_TAX_LIST_LBL' => 'Liste over mva-satser',
+	'PHPSHOP_TAX_LIST_STATE' => 'Mva-region',
+	'PHPSHOP_TAX_LIST_COUNTRY' => 'Mva-land',
+	'PHPSHOP_TAX_FORM_LBL' => 'Legg til infomasjon om satsen',
+	'PHPSHOP_TAX_FORM_STATE' => 'Mva-region',
+	'PHPSHOP_TAX_FORM_COUNTRY' => 'Mva-land',
+	'PHPSHOP_TAX_FORM_RATE' => 'Mva-sats'
 ); $VM_LANG->initModule( 'tax', $langvars );
 ?>

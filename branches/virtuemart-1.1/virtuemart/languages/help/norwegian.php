@@ -2,11 +2,11 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
-* @version : norwegian.php 1071 2007-12-03 08:42:28Z thepisu $
+* @version $Id: norwegian.php 458 2008-08-05 10:47:28Z rued $
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
-* @translator soeren
+* Translation by Rune Rasmussen (syntaxerror.no).
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -18,17 +18,17 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 global $VM_LANG;
 $langvars = array (
-	'CHARSET' => 'ISO-8859-1',
-	'VM_HELP_YOURVERSION' => 'Your {product} version',
+	'CHARSET' => 'UTF-8',
+	'VM_HELP_YOURVERSION' => 'Din {product} versjon',
 	'VM_HELP_ABOUT' => '<span style="font-weight: bold;">
-		VirtueMart</span> is the complete Open Source E-Commerce solution for Mambo and Joomla!. 
-		It is an Application, which comes with a Component, more than 8 Modules and Mambots/Plugins.
-		It has its roots in a Shopping Cart Script called "phpShop" (Authors: Edikon Corp. & the <a href="http://www.virtuemart.org/" target="_blank">phpShop</a> community).',
-	'VM_HELP_LICENSE_DESC' => 'VirtueMart is licensed under the <a href="{licenseurl}" target="_blank">{licensename} License</a>.',
-	'VM_HELP_TEAM' => 'There\'s a small team of Developers who help in evolving this Shopping Cart Script.',
-	'VM_HELP_PROJECTLEADER' => 'Project Leader',
-	'VM_HELP_HOMEPAGE' => 'Homepage',
-	'VM_HELP_DONATION_DESC' => 'Please consider a small donation to the VirtueMart Project to help us keep up the work on this Component and create new Features.',
-	'VM_HELP_DONATION_BUTTON_ALT' => 'Make payments with PayPal - it\'s fast, free and secure!'
+		VirtueMart</span> er en komplett netthandelsløsning for Mambo og Joomla! i åpen kildekode. 
+		Det er en applikasjon som utgis med en komponent, mer enn 8 moduler og programtillegg.
+		Den har sine røtter i et nettbutikkskript med navn "phpShop" (Utviklere: Edikon Corp. & the <a href="http://www.virtuemart.org/" target="_blank">phpShop</a>-samfunnet).',
+	'VM_HELP_LICENSE_DESC' => 'VirtueMart er lisensiert under <a href="{licenseurl}" target="_blank">{licensename} lisens</a>.',
+	'VM_HELP_TEAM' => 'Det er en liten gruppe utviklere som hjelper til med utviklingen av dette butikkskriptet.',
+	'VM_HELP_PROJECTLEADER' => 'Prosjektleder',
+	'VM_HELP_HOMEPAGE' => 'Hjemmeside',
+	'VM_HELP_DONATION_DESC' => 'Vær snill og vurder å gi et lite bidrag til VirtueMart-prosjektet, for å hjelpe oss å frigjøre tid til å jobbe videre med denne komponenten og nye funksjoner.',
+	'VM_HELP_DONATION_BUTTON_ALT' => 'Betal via PayPal - det er raskt, gratis og sikkert!'
 ); $VM_LANG->initModule( 'help', $langvars );
 ?>

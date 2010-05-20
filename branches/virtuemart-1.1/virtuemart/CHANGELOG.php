@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+20.05.2010 soeren
++ added PayPal Express/API integration code
+
 29.03.2010 soeren
 ^ FRQ-2889 - improve eway payment module test mode settings 
 

@@ -22,3 +22,9 @@ if( $this->get_cfg( 'showlatest', 1 )) {
     ps_product::latestProducts(true,10,false,false);
 }
 ?>
+
+<?php if( isset($paypalLogo)) : ?>
+<div class="vmRecent" style="padding: 10px; text-align: center;">
+	<?php echo $paypalLogo; ?>
+</div>
+<?php endif; ?>

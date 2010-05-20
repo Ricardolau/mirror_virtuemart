@@ -76,6 +76,12 @@ if($discount_after) { ?>
     <td colspan="3" align="right"><strong><?php echo $order_total_display ?></strong>
     </td>
   </tr>
+  <?php if(isset($paypal_express_button)) : ?>
+   <tr>
+    <td colspan="4" align="right"><?php echo $paypal_express_button; ?>
+    </td>
+  </tr> 
+  <?php endif; ?>
   <tr>
     <td colspan="7"><hr /></td>
   </tr>

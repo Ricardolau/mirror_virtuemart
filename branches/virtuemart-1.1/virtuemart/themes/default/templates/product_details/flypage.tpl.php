@@ -75,6 +75,13 @@ if( $this->get_cfg( 'product_navigation', 1 )) {
 		  <td colspan="3"><div style="text-align: center;"><?php echo $vendor_link ?><br /></div><br /></td>
 		</tr>
 	<?php  } ?>
+	<?php if( isset($paypalLogo)) : ?>
+		<tr>
+			<td colspan="3" align="center">
+				<?php echo $paypalLogo ?>
+			</td>
+		</tr>
+	<?php endif;?>
   </tbody>
 </table>
 <?php 

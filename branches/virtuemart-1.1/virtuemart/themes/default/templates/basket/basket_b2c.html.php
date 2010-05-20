@@ -75,6 +75,12 @@ if($discount_after) { ?>
         <td colspan="3" align="right"><?php echo $tax_display ?></td>
   </tr>
 <?php } ?>
+  <?php if(isset($paypal_express_button)) : ?>
+   <tr>
+    <td colspan="4" align="right"><?php echo $paypal_express_button; ?>
+    </td>
+  </tr> 
+  <?php endif; ?>
   <tr>
     <td colspan="7"><hr /></td>
   </tr>

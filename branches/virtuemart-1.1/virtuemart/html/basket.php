@@ -288,6 +288,23 @@ else {
 	$order_total_display = $GLOBALS['CURRENCY_DISPLAY']->getFullValue($order_total);
 	
 	$tpl = new $GLOBALS['VM_THEMECLASS']();
+    if( file_exists( CLASSPATH.'payment/ps_paypal_api.php') ) {
+		require_once( CLASSPATH.'payment/ps_paypal_api.php');
+		if( ps_paypal_api::getPaymentMethodId() && ps_paypal_api::isActive()) {
+			// Paypal API / Express
+			$lang = jfactory::getLanguage();
+			$lang_iso = str_replace( '-', '_', $lang->gettag() );
+			$available_buttons = array('en_US', 'en_GB', 'de_DE', 'es_ES', 'pl_PL', 'nl_NL', 'fr_FR', 'it_IT', 'zn_CN' );
+			if( !in_array( $lang_iso , $available_buttons )) {
+				$lang_iso = 'en_US';
+			}
+			$tpl->set('ppex_img_iso', $lang_iso);
+			$paypal_express = $tpl->fetch( 'basket/includes/paypal_express.tpl.php');
+			$tpl->set( 'paypal_express_button', $paypal_express );
+		}
+    }
+
+    
 	$tpl->set_vars( Array(
 								'product_rows' => $product_rows,
 								'subtotal_display' => $subtotal_display,

@@ -108,7 +108,8 @@ if ($_POST) {
         /* @MWM1: Logging enhancements (file logging & composite logger). */
         $vmLogIdentifier = "notify.php";
         require_once(CLASSPATH."Log/LogInit.php");
-              
+		global $vmLogger;
+		 
         /* Load the PayPal Configuration File */ 
         require_once( CLASSPATH. 'payment/ps_paypal.cfg.php' );
         
@@ -118,6 +119,7 @@ if ($_POST) {
 		else {
 			$debug_email_address = PAYPAL_EMAIL;
 		}
+		
 	    // restart session
 	    // Constructor initializes the session!
 	    $sess = new ps_session();                        
@@ -340,6 +342,36 @@ if ($_POST) {
       $db->next_record();
       $order_id = $db->f("order_id");
      
+	  //Since we can't find the order based on paypal invoice number
+	  //We need to check and see if we can grab the order based on TransactionID
+	  if($order_id === "" || $order_id === null)
+	  {
+			$vmLogger->debug("Could not find order ID via invoice");
+			$vmLogger->debug("Trying to get via TransactionID: ".$txn_id);
+			$qv = "SELECT * FROM `#__{vm}_order_payment` WHERE `order_payment_trans_id` = '".$txn_id."'";
+			$db->query($qv);
+			
+			if( !$db->next_record()) {
+				$vmLogger->err("Error: No Records Found.");
+			}
+			
+			$order_id = $db->f("order_id");
+			
+			$vmLogger->debug("Order ID From Transaction: ".$order_id);
+			//If it isn't empty then we need to get the rest of the order details from the database
+			if($order_id !== null && $order_id !== "")
+			{
+				$vmLogger->debug("Order ID is not Empty - Getting Order Details");
+				$qv = "SELECT `order_id`, `order_number`, `user_id`, `order_subtotal`,
+                    `order_total`, `order_currency`, `order_tax`, 
+                    `order_shipping_tax`, `coupon_discount`, `order_discount`
+					FROM `#__{vm}_orders` 
+					WHERE `order_id`='".$order_id."'";
+				$db->query($qv);
+				$db->next_record();
+			}
+	  }
+	 
       $d['order_id'] = $order_id;
       $d['notify_customer'] = "Y";
 
@@ -360,7 +392,7 @@ if ($_POST) {
                 if (empty($order_id)) {
                     $mailsubject = "PayPal IPN Transaction on your site: Order ID not found";
                     $mailbody = "The right order_id wasn't found during a PayPal transaction on your website.
-                    The Order ID received was: $invoice";
+                    The Order ID received was: $invoice\n\nTransaction ID: ".$txn_id;
                     vmMail($mosConfig_mailfrom, $mosConfig_fromname, $debug_email_address, $mailsubject, $mailbody );
                     exit();
                 }

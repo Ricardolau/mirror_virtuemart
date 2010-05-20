@@ -97,10 +97,10 @@ function handleUpdateCheckResult( o ) {
 			$("checkbutton").setStyle("display", "");
 			$("checkbutton").value= "<?php echo $VM_LANG->_('VM_UPDATE_CHECK_CHECKNOW' ); ?>";
 		}
-		else if( o.version == "<?php echo number_format($VMVERSION->RELEASE, 2 ) ?>" ) {
+		else if( o.version == "<?php echo @number_format($VMVERSION->RELEASE, 2 ) ?>" ) {
 			$("versioncheckresult").setStyle( "color", "green" );
 		} 
-		else if( o.version > "<?php echo number_format($VMVERSION->RELEASE, 2 ) ?>" ) {
+		else if( o.version > "<?php echo @number_format($VMVERSION->RELEASE, 2 ) ?>" ) {
 			$("versioncheckresult").setStyle( "color", "red" );
 			$("downloadbutton").setStyle("display", "");
 		} else {

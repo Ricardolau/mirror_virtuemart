@@ -34,6 +34,7 @@ class vm_ps_order {
     */
 	function order_status_update(&$d) {
 		global $mosConfig_offset;
+			global  $sess, $VM_LANG, $vmLogger;
 		
 		$db = new ps_DB;
 		//$timestamp = time() + ($mosConfig_offset*60*60);  //Original
@@ -94,6 +95,7 @@ class vm_ps_order {
 									return false;
 								}
 							}
+							break;
 				}
 			}
 			/*
@@ -129,6 +131,31 @@ class vm_ps_order {
 					}
 				}
 			}
+			
+			/**
+			 * Do capture when product is shipped
+			 */
+			 /*
+			 if(($curr_order_status == "P" || $curr_order_status == "C") && $d["order_status"]=="S")
+			 {
+				$q = "SELECT order_number,payment_class,order_payment_trans_id FROM #__{vm}_payment_method,#__{vm}_order_payment,#__{vm}_orders WHERE ";
+				$q .= "#__{vm}_orders.order_id='".$db->getEscaped($d['order_id'])."' ";
+				$q .= "AND #__{vm}_orders.order_id=#__{vm}_order_payment.order_id ";
+				$q .= "AND #__{vm}_order_payment.payment_method_id=#__{vm}_payment_method.payment_method_id";
+				$db->query( $q );
+				$db->next_record();
+				$payment_class = strtolower(basename($db->f("payment_class")));
+				if( file_exists( CLASSPATH.'payment/'.$payment_class.'.php' )) {
+					require_once( CLASSPATH."payment/$payment_class.php");
+					$payment = new $payment_class();
+					$d["order_number"] = $db->f("order_number");
+					if( is_callable( array( $payment, 'capture_payment' ))) {
+						if( !$payment->capture_payment( $d )) {
+							return false;
+						}
+					}
+				}			 
+			 }*/
 	
 			/*
 			 * If a pending order gets cancelled, void the authorization.
@@ -156,7 +183,34 @@ class vm_ps_order {
 					}
 				}
 			}
-	
+			
+			// Do a Refund
+			if( $d['order_status']=='R' && $curr_order_status != 'R') {
+				$vmLogger->debug("Initiating Refund");
+				$q = 'SELECT order_number,payment_class,order_payment_trans_id FROM #__{vm}_payment_method,#__{vm}_order_payment,#__{vm}_orders WHERE ';
+				$q .= '#__{vm}_orders.order_id=\''.$db->getEscaped($d['order_id']).'\' ';
+				$q .= 'AND #__{vm}_orders.order_id=#__{vm}_order_payment.order_id ';
+				$q .= 'AND #__{vm}_order_payment.payment_method_id=#__{vm}_payment_method.payment_method_id';
+				$db->query( $q );
+				$db->next_record();
+				$payment_class = strtolower(basename($db->f("payment_class")));
+				$vmLogger->debug('Payment Class: '.$payment_class);
+				if( file_exists( CLASSPATH.'payment/'.$payment_class.'.php' )) {
+					$vmLogger->debug('Found Payment Module');
+					require_once( CLASSPATH."payment/$payment_class.php");
+					$payment = new $payment_class();
+					$d["order_number"] = $db->f("order_number");
+					if( is_callable( array( $payment, 'do_refund' ))) 
+					{
+						$vmLogger->debug('Can call do_refund');
+						if( !$payment->do_refund( &$d )) {
+							$vmLogger->debug('failed to do refund');
+							return false;
+						}
+					}
+				}
+			}
+			
 			$fields =array( 'order_status'=> $d["order_status"], 
 										'mdate'=> $timestamp );
 			$db->buildQuery('UPDATE', '#__{vm}_orders', $fields, "WHERE order_id='" . $db->getEscaped($d["order_id"]) . "'");

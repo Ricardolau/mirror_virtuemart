@@ -19,7 +19,8 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) {
 */
 
 function com_uninstall() {
-	include(JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'uninstall.virtuemart.html.php');
+	
+	// include(JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'uninstall.virtuemart.html.php');
 	
 	return true;
 }

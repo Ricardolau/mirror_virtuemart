@@ -929,7 +929,7 @@ Order Total: '.$order_total.'
 ----------------------------' 
 		);
 
-		// Check to see if Payment Class File exists
+		// Check to see if Payment Class File exists	
 		$payment_class = $ps_payment_method->get_field($d["payment_method_id"], "payment_class");
 		$enable_processor = $ps_payment_method->get_field($d["payment_method_id"], "enable_processor");
 		$d['new_order_status'] = 'P'; // This is meant to be updated by a payment modules' process_payment method
@@ -939,7 +939,6 @@ Order Total: '.$order_total.'
 			}
 
 			$_PAYMENT = new $payment_class();
-			
 			if (!$_PAYMENT->process_payment($order_number,$order_total, $d)) {
 				$vmLogger->err( $VM_LANG->_('PHPSHOP_PAYMENT_ERROR',false)." ($payment_class)" );
 				$_SESSION['last_page'] = "checkout.index";

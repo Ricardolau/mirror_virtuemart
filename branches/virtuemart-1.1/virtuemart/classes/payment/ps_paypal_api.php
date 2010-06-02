@@ -380,7 +380,7 @@ class ps_paypal_api {
 		
 		//Check to see if we are coming from paypal express checkout.
 		//If not we do a directpaymentrequest, otherwise we try express checkout request.
-		if (is_array($_SESSION['ppex_userdata']) && isset($_SESSION['ppex_token']))
+		if ( isset($_SESSION['ppex_userdata']) && is_array($_SESSION['ppex_userdata']) && isset($_SESSION['ppex_token']) )
 		{
 		
 			//Need to test to see if the express checkout is verified if PAYPAL_API_VERIFIED_ONLY is set to accept
@@ -504,7 +504,7 @@ class ps_paypal_api {
 				}
 				
 				if(isset($errorCODE)) {
-					if(is_array($_SESSION['ppex_userdata']) && isset($_SESSION['ppex_token'])) {
+					if(isset($_SESSION['ppex_userdata']) && is_array($_SESSION['ppex_userdata']) && isset($_SESSION['ppex_token'])) {
 						$errorText = $this->NVP_ErrorToText($errorCODE, 'doexpress');
 						
 						if($errorText) {
@@ -632,7 +632,7 @@ class ps_paypal_api {
 		
 		//Since the order completed successfully lets go ahead and assign the payerID
 		//If it is set and put into the user_info in extra_field_3
-		if(is_array($_SESSION['ppex_userdata']) && isset($_SESSION['ppex_userdata']['payer_id']) && isset($_SESSION['ppex_token']))
+		if(isset($_SESSION['ppex_userdata']) && is_array($_SESSION['ppex_userdata']) && isset($_SESSION['ppex_userdata']['payer_id']) && isset($_SESSION['ppex_token']))
 		{
 			if(isset($_SESSION['ppex_userdata']['payerstatus'])) $d['order_payment_log'] .= " PayPal Payer Status: ".$_SESSION['ppex_userdata']['payerstatus'];
 						

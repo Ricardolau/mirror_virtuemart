@@ -71,7 +71,7 @@ else if($paypal_express_checkout_payment === "2")
 
 $paypal_express_checkout = vmGet($_REQUEST, 'ppex_gecd',null);
 
-if(is_array($_SESSION['ppex_userdata']) && isset($_SESSION['ppex_token']) && $paypalActive) {
+if(isset($_SESSION['ppex_userdata']) && is_array($_SESSION['ppex_userdata']) && isset($_SESSION['ppex_token']) && $paypalActive) {
 
 	if(!isset($auth['user_id']) || $auth['user_id'] <= 0)
 	{
@@ -172,7 +172,7 @@ if( in_array('CHECK_OUT_GET_FINAL_CONFIRMATION', $checkout_steps[$current_stage]
 $zone_qty = vmGet( $vars, 'zone_qty');
 
 //Check for express checkout from paypal
-if(is_array($_SESSION['ppex_userdata']) && isset($_SESSION['ppex_token']) && $paypalActive) 
+if(isset($_SESSION['ppex_userdata']) && is_array($_SESSION['ppex_userdata']) && isset($_SESSION['ppex_token']) && $paypalActive) 
 {
 	//If the $paypal_express_checkout is equal to 2
 	//Then we just came from paypal express which originated from 

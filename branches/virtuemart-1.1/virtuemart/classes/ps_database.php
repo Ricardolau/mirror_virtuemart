@@ -225,7 +225,8 @@ class vm_ps_DB {
 			else {
 				return( $default[$field_name] );
 			}
-		} elseif (isset($_SESSION['ppex_userdata'][$field_name])) {
+		} 
+		elseif (isset($_SESSION['ppex_userdata'][$field_name])) {
             if($stripslashes) {
                 return  stripslashes($_SESSION['ppex_userdata'][$field_name]);
             }

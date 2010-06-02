@@ -203,7 +203,7 @@ class vm_ps_order {
 					if( is_callable( array( $payment, 'do_refund' ))) 
 					{
 						$vmLogger->debug('Can call do_refund');
-						if( !$payment->do_refund( &$d )) {
+						if( !$payment->do_refund( $d )) {
 							$vmLogger->debug('failed to do refund');
 							return false;
 						}

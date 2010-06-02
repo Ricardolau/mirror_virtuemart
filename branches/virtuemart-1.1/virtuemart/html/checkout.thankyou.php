@@ -60,7 +60,7 @@ $q .= "AND `#__{vm}_orders`.`order_id`='$order_id' ";
 $db->query($q);
 	
 /**Check to see if we need to redirect the user for GiroPay**/
-if(isset($_SESSION['ppex_userdata']['redirectrequired']))
+if(isset($_SESSION['ppex_userdata']) && isset($_SESSION['ppex_userdata']['redirectrequired']))
 {
 	$doRedirect = $_SESSION['ppex_userdata']['redirectrequired'];
 }
@@ -79,7 +79,7 @@ else
 }
 
 /**Clear the PayPal API Session if it is set**/
-if(isset($_SESSION['ppex_token']) || is_array($_SESSION['ppex_userdata']))
+if(isset($_SESSION['ppex_token']) || isset($_SESSION['ppex_userdata']))
 {
 	ps_paypal_api::destroyPaypalSession();
 }

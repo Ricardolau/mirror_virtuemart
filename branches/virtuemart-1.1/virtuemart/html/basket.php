@@ -205,12 +205,12 @@ else {
 
 	// COUPON DISCOUNT
 	$coupon_display = '';
-	if( PSHOP_COUPONS_ENABLE=='1' && @$_SESSION['coupon_redeemed']=="1" && PAYMENT_DISCOUNT_BEFORE=='1') {
-
-		$total -= $_SESSION['coupon_discount'];
-		$coupon_display = "- ".$GLOBALS['CURRENCY_DISPLAY']->getFullValue( $_SESSION['coupon_discount'] );
-		$discount_before=true;
-	}
+	// disabled zanardi 20100605 - it is already calculated below
+	//if( PSHOP_COUPONS_ENABLE=='1' && @$_SESSION['coupon_redeemed']=="1" && PAYMENT_DISCOUNT_BEFORE=='1') {
+	//	$total -= $_SESSION['coupon_discount'];
+	//	$coupon_display = "- ".$GLOBALS['CURRENCY_DISPLAY']->getFullValue( $_SESSION['coupon_discount'] );
+	//	$discount_before=true;
+	//}
 
 	// SHOW TAX
 	$tax_display = '';

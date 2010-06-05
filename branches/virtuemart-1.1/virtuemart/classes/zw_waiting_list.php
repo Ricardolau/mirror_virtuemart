@@ -174,9 +174,10 @@ class vm_zw_waiting_list {
 
 			// lets make the e-mail up from the info we have
 			$notice_subject = sprintf($VM_LANG->_('PRODUCT_WAITING_LIST_EMAIL_SUBJECT'), $product_name);
+			$flypage = $ps_product->get_flypage( $product_id );
 			
 			// now get the url information
-			$url = URL . "index.php?page=shop.product_details&flypage=shop.flypage&product_id=$product_id&option=$option&Itemid=".$sess->getShopItemid();
+			$url = URL . "index.php?page=shop.product_details&flypage=$flypage&product_id=$product_id&option=$option&Itemid=".$sess->getShopItemid();
 			$notice_body = sprintf($VM_LANG->_('PRODUCT_WAITING_LIST_EMAIL_TEXT'), $product_name, $url);
 			
 			// send the e-mail

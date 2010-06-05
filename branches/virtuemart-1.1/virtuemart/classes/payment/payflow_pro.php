@@ -219,7 +219,7 @@ class payflow_pro {
 		$database->query( "SELECT ".VM_DECRYPT_FUNCTION."(payment_passkey,'".ENCODE_KEY."') as passkey FROM #__{vm}_payment_method WHERE payment_class='".__CLASS__."' AND shopper_group_id='".$auth['shopper_group_id']."'" );
 		$transaction = $database->record[0];
 		if( empty($transaction->passkey)) {
-			$vmLogger->err( $VM_LANG->_('PHPSHOP_PAYMENT_ERROR',false).'. Technical Note: The required passwird is empty! The payment method settings must be reviewed.' );
+			$vmLogger->err( $VM_LANG->_('PHPSHOP_PAYMENT_ERROR',false).'. Technical Note: The required password is empty! The payment method settings must be reviewed.' );
 			return false;
 		}
 

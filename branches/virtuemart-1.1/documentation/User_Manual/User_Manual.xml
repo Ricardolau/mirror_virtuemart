@@ -47,12 +47,22 @@
     </othercredit>
 
     <copyright>
-      <year>2005-2008</year>
+      <year>2005-2010</year>
 
       <holder>Soeren Eberhardt-Biermann</holder>
     </copyright>
 
     <revhistory>
+      <revision>
+        <revnumber>1.2</revnumber>
+
+        <date>June 2010</date>
+
+        <authorinitials>soeren_nb</authorinitials>
+
+        <revremark>Fixed links to Developer Portal</revremark>
+      </revision>
+
       <revision>
         <revnumber>1.1.1</revnumber>
 
@@ -143,10 +153,10 @@
 
     <para>VirtueMart is free Software, licensed under GNU/GPL; VirtueMart [
     <ulink url="http://virtuemart.net">http://virtuemart.net</ulink> ], ©
-    2005-2008 Sören Eberhardt-Biermann &amp; the VirtueMart Development
+    2005-2010 Sören Eberhardt-Biermann &amp; the VirtueMart Development
     Team</para>
 
-    <para><emphasis role="strong">The Software 'VirtueMart' is intended
+    <para><emphasis role="strong">The Software 'VirtueMart 1.1' is intended
     </emphasis><emphasis role="strong">for use in Joomla! (Versions 1.0, 1.5)
     or Mambo (Versions &gt;= 4.5.3, 4.6.x).</emphasis></para>
 
@@ -525,16 +535,16 @@
     <title>Installation</title>
 
     <section>
-      <title>Joomla! / Mambo Installation</title>
+      <title>Joomla! Installation</title>
 
       <para>Unless you have downloaded the VirtueMart eCommerce Bundle
-      (including Joomla!), Joomla! and Mambo must be installed prior to the
-      Installation of VirtueMart, because VirtueMart needs a CMS as runtime
+      (including Joomla!), Joomla! must be installed prior to the Installation
+      of VirtueMart, because VirtueMart needs a CMS as runtime
       environment.</para>
 
-      <para>The Installation of Joomla! or Mambo is not covered in this
-      Manual, because it is subject to change and would have to cover a series
-      of Tutorials for all different versions of Joomla! and/or Mambo.</para>
+      <para>The Installation of Joomla! is not covered in this Manual, because
+      it is subject to change and would have to cover a series of Tutorials
+      for all different versions of Joomla!.</para>
 
       <para>You can find further information about the Installation in
       the</para>
@@ -544,12 +554,6 @@
           <para><ulink
           url="http://docs.joomla.org/Joomla_installation">Joomla!
           Installation Tutorial Links</ulink></para>
-        </listitem>
-
-        <listitem>
-          <para>Mambo Knowledgebase: <ulink
-          url="http://docs.mambo-foundation.org/en/?CategoryID=4">Installation
-          and Configuration</ulink></para>
         </listitem>
       </itemizedlist>
     </section>
@@ -585,8 +589,7 @@
             </listitem>
 
             <listitem>
-              <para>Joomla! 1.0.x, 1.5.x or Mambo (&gt;= 4.6.2), recommended:
-              Joomla! 1.0.x</para>
+              <para>Joomla! 1.0.x, 1.5.x, recommended: Joomla! 1.5.x</para>
             </listitem>
           </itemizedlist>
 
@@ -630,10 +633,9 @@
           dev.virtuemart.net.</para>
 
           <para>The official Download Page is <ulink type=""
-          url="http://dev.virtuemart.net/cb/wiki/1693">http://dev.virtuemart.net/cb/wiki/1693</ulink>.</para>
+          url="http://virtuemart.net/downloads">http://virtuemart.net/downloads</ulink>.</para>
 
-          <para><ulink
-          url="http://dev.virtuemart.net/cb/wiki/1693"><inlinegraphic
+          <para><ulink url="http://virtuemart.net/downloads"><inlinegraphic
           align="center"
           fileref="figure/vm-download-110.jpg" /></ulink></para>
         </section>
@@ -7818,7 +7820,7 @@
       <title>Known Problems</title>
 
       <para>See <ulink type=""
-      url="https://dev.virtuemart.net/cb/proj/tracker/browseTracker.do?tracker_id=1">Bug
+      url="http://dev.virtuemart.net/redmine/projects/virtuemart/issues">Bug
       Tracker</ulink></para>
     </section>
 
@@ -7880,22 +7882,21 @@
       <title>About the VirtueMart Project</title>
 
       <para>VirtueMart is an Open Source E-Commerce solution for <ulink
-      url="http://joomla.org" userlevel="">Joomla!</ulink> and <ulink
-      url="http://mambo-foundation.org">Mambo</ulink>.</para>
+      url="http://joomla.org" userlevel="">Joomla!</ulink>.</para>
 
       <para>VirtueMart is released under the GNU General Public License. It is
       free to download and use.</para>
 
       <para>There's a small group of developers who help in making this
-      Shopping Cart Script more professional and easily usable. The author of
-      this documentation is the Lead Developer...and having not much time
-      besides Wife, Kids, Work &amp; Studies.</para>
+      Shopping Cart Script more professional and easily usable.</para>
 
-      <para>History: VirtueMart is the successor of mambo-phpShop.
-      mambo-phpShop was the first port of phpShop to Mambo. phpShop was
-      developed by <ulink url="http://www.edikon.com">Edikon Corp.</ulink> and
-      the phpShop community - <ulink
-      url="http://www.phpshop.org">http://www.phpshop.org</ulink>.</para>
+      <para>Short note on Project History: VirtueMart is the successor of
+      mambo-phpShop. mambo-phpShop was the first port of phpShop to Mambo.
+      phpShop was developed by <ulink url="http://www.edikon.com">Edikon
+      Corp.</ulink> and the phpShop community - <ulink
+      url="http://www.phpshop.org">http://www.phpshop.org</ulink>. Mambo was
+      forked to a new Project called "Joomla!" in 2005. In the same Year
+      mambo-phpShop was renamed to "VirtueMart".</para>
     </section>
 
     <section id="The_Community">
@@ -7917,11 +7918,7 @@
       VirtueMart-related Open Source Projects. It offers the same services as
       <ulink url="http://joomlacode.org">JoomlaCode</ulink> or <ulink
       url="http://sourceforge.net">Sourceforge</ulink>, but focusses on
-      VirtueMart Development. The Portal is powered by a free Open Source
-      Community License of <ulink
-      url="https://codebeamer.com">CodeBeamer</ulink> - the Enterprise
-      Collaborative Development Platform by <ulink
-      url="http://www.intland.com">Intland</ulink>.</para>
+      VirtueMart Development.</para>
     </section>
 
     <section id="The_Documentation">

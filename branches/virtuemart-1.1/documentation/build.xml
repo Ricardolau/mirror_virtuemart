@@ -55,7 +55,7 @@ available Tasks:
 
 	<!-- Remove all temporary build files, but leave the directories -->
 	<target name="clean" depends="server,local">
-		<delete includeemptydirs="true">
+		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${dist.dir}/${document.name}" includes="**/*" />
 		</delete>
 		<echo message="Deleted all temporary build files from the '${dist.dir}' directory." />
@@ -76,7 +76,7 @@ available Tasks:
 		<available file="${stylesheet.dir}/virtuemart.xsl" property="virtuemart.xsl.present"/>
 		<available file="${xsl.dir}/xhtml/docbook.xsl" property="docbook.xsl.present"/>
 		
-		<fail unless="document.present" message="The Document [${document.name}] couldn't be found. Maybe the specified Path [${svn.dir}/documentation/${document.name}/] is wrong."/>
+		<fail unless="document.present" message="The Document ${svn.dir}/${document.name}/${document.name}.xml couldn't be found. Maybe the specified Path [${svn.dir}/documentation/${document.name}/] is wrong."/>
 		<fail unless="xalan.present" message="This Build requires the XALAN XSLT Processor (Version &gt;= 2.7.0). Please add the .jar files from the Xalan Distribution to ${ant.home}/lib"/>
 		<fail unless="virtuemart.xsl.present" message="The file virtuemart.xsl couldn't be found. Maybe the specified Path [${stylesheet.dir}] is wrong."/>
 		<fail unless="docbook.xsl.present" message="The DocBook Stylesheet couldn't be found. Maybe the specified Path [${xsl.dir}] is wrong."/>

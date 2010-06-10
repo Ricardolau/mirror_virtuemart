@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage html
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2010 soeren - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -17,7 +17,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 */
 mm_showMyFileName( __FILE__ );
 
-$manufacturer_id = vmGet( $_REQUEST, 'manufacturer_id');
+$manufacturer_id = vmrequest::getint( 'manufacturer_id');
 
 $mainframe->setPageTitle( $VM_LANG->_('PHPSHOP_CART_TITLE') );
 $mainframe->appendPathWay( $VM_LANG->_('PHPSHOP_CART_TITLE') );

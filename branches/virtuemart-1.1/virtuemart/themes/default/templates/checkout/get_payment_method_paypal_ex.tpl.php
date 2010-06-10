@@ -85,8 +85,7 @@ $html .= '<script type="text/javascript">window.addEvent("domready", function() 
 
 
 <?php
-if(PAYPAL_API_DIRECT_PAYMENT_ON == '1')
-{
+
 	echo ps_checkout::list_payment_methods( $payment_method_id );
-}
+
 ?>

@@ -58,7 +58,15 @@ switch( $orderby ) {
 		$orderbyField = '`#__{vm}_product`.`product_name`'; break;
 }
 
-$where_clause[] = "(`#__{vm}_product_category_xref`.`product_id`=`#__{vm}_product`.`product_id` OR `#__{vm}_product_category_xref`.`product_id`=`#__{vm}_product`.`product_parent_id`)";
+// The "OR" in the where clause slows down the whole query. It is only needed when there are parent-products
+$tmpdb = new ps_DB();
+$tmpdb->query( "SELECT COUNT(*) AS parentcnt FROM #__{vm}_product WHERE product_parent_id>0");
+$tmpdb->next_record();
+if($tmpdb->f('parentcnt')>0) {
+	$where_clause[] = "(`#__{vm}_product_category_xref`.`product_id`=`#__{vm}_product`.`product_id` OR `#__{vm}_product_category_xref`.`product_id`=`#__{vm}_product`.`product_parent_id`)";
+} else {
+	$where_clause[] = "`#__{vm}_product_category_xref`.`product_id`=`#__{vm}_product`.`product_id`";	
+}
 $where_clause[] = "`#__{vm}_product_category_xref`.`category_id`=`#__{vm}_category`.`category_id`";
 // Filter Products by Category
 if( $category_id ) {

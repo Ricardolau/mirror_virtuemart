@@ -499,10 +499,12 @@ function vmCreateMail( $from='', $fromname='', $subject='', $body='' ) {
 
 	// Add smtp values if needed
 	if ( $mosConfig_mailer == 'smtp' ) {
-		$mail->SMTPAuth = $mosConfig_smtpauth;
-		$mail->Username = $mosConfig_smtpuser;
-		$mail->Password = $mosConfig_smtppass;
-		$mail->Host 	= $mosConfig_smtphost;
+		$mail->SMTPAuth 	= $mosConfig_smtpauth;
+		$mail->Username 	= $mosConfig_smtpuser;
+		$mail->Password 	= $mosConfig_smtppass;
+		$mail->Host 		= $mosConfig_smtphost;
+		$mail->Port			= $mosConfig_smtpport;
+		$mail->SMTPSecure	= $mosConfig_smtpsecure;
 	} else
 
 	// Set sendmail path

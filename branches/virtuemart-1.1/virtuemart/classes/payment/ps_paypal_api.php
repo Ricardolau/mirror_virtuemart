@@ -1318,7 +1318,7 @@ class ps_paypal_api {
 			$_SESSION['ppex_userdata']['last_name']=$resArray['LASTNAME'];
 			$_SESSION['ppex_userdata']['middle_name']='';
 			$_SESSION['ppex_userdata']['address_1']=$resArray['SHIPTOSTREET'];
-			$_SESSION['ppex_userdata']['address_2']='';
+			$_SESSION['ppex_userdata']['address_2']=$resArray['SHIPTOSTREET2'];
 			$_SESSION['ppex_userdata']['city']=$resArray['SHIPTOCITY'];
 			$_SESSION['ppex_userdata']['zip']=$resArray['SHIPTOZIP'];
 			$_SESSION['ppex_userdata']['country']=$resArray['SHIPTOCOUNTRYCODE'];

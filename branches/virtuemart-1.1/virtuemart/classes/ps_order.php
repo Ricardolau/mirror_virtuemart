@@ -780,7 +780,7 @@ class vm_ps_order {
 			// to the number before the order was placed
 			$q = "SELECT order_status, product_id, product_quantity FROM #__{vm}_order_item WHERE order_id=$record_id";
 			$db->query( $q );
-			
+			require_once( CLASSPATH .'ps_product.php' );
 			// Now update each ordered product
 			while( $db->next_record() ) {
 				if( in_array( $db->f('order_status'), array('P', 'X', 'R') )) continue;

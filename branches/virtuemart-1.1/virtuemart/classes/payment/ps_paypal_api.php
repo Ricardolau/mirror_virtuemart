@@ -1508,7 +1508,9 @@ class ps_paypal_api {
 		
 		$amt = round($order_totals['order_total'], 2);
 		$shippingamt = round($order_totals['order_shipping']+$order_totals['order_shipping_tax'],2);
-		$taxamt = $order_totals['order_tax'];
+		//$taxamt = $order_totals['order_tax'];
+		// to avoid rounding issues, calculates tax as a differenct between total amount and other items
+		$taxamt = $amt - $shippingamt - $order_totals['item_total'];
 		
 		$nvpstr .= 
 						"&AMT=$amt"

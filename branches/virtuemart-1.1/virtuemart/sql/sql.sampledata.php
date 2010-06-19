@@ -18,7 +18,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 
 $db->query( "INSERT INTO `#__{vm}_category` VALUES (1, 1, 'Hand Tools', 'Hand Tools', 'ee024e46399e792cc8ba4bf097d0fa6a.jpg', 'fc2f001413876a374484df36ed9cf775.jpg', 'Y', 950319905, 960304194, 'browse_3', '3', '', '1');");
 $db->query( "INSERT INTO `#__{vm}_category` VALUES (2, 1, 'Power Tools', 'Power Tools', 'fc8802c7eaa1149bde98a541742217de.jpg', 'fe2f63f4c46023e3b33404c80bdd2bfe.jpg', 'Y', 950319916, 960304104, 'browse_4', '4', '', '2');");
-$db->query( "INSERT INTO `#__{vm}_category` VALUES (3, 1, 'Garden Tools', 'Garden Tools', '702168cd91e8b7bbb7a36be56f86e9be.jpg', '756ff6d140e11079caf56955060f1162.jpg', 'Y', 950321122, 960304338, 'browse_2', '2', 'shop.garden_flypage', '3');");
+$db->query( "INSERT INTO `#__{vm}_category` VALUES (3, 1, 'Garden Tools', 'Garden Tools', '702168cd91e8b7bbb7a36be56f86e9be.jpg', '756ff6d140e11079caf56955060f1162.jpg', 'Y', 950321122, 960304338, 'browse_2', '2', 'garden_flypage.tpl', '3');");
 $db->query( "INSERT INTO `#__{vm}_category` VALUES (4, 1, 'Outdoor Tools', 'Outdoor Tools', NULL, NULL, 'Y', 955626629, 958889528, 'browse_1', '1', NULL, '4');");
 $db->query( "INSERT INTO `#__{vm}_category` VALUES (5, 1, 'Indoor Tools', 'Indoor Tools', NULL, NULL, 'Y', 958892894, 958892894, 'browse_1', '1', NULL, '5');");
 

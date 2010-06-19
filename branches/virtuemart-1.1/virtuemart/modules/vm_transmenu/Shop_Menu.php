@@ -33,13 +33,13 @@ class Shop_Menu{
 		global $my, $database, $cur_template, $Itemid;
 		global $mosConfig_absolute_path, $mosConfig_live_site, $mosConfig_shownoauth;
 
-		$query  = "SELECT category_id as id, category_parent_id as parent, category_name as name, '' as type,
-							CONCAT('index.php?option=com_virtuemart&page=shop.browse&category_id=', category_id ) AS link,
-							'-1' as browserNav, list_order
-								FROM #__{vm}_category, #__{vm}_category_xref 
-								WHERE #__{vm}_category.category_publish='Y' 
-									AND #__{vm}_category.category_id=#__{vm}_category_xref.category_child_id 
-								ORDER BY name ASC";
+		$query = "SELECT category_id as id, category_parent_id as parent, category_name as name, '' as type,
+					CONCAT('index.php?option=com_virtuemart&page=shop.browse&category_id=', category_id ) AS link,
+					'-1' as browserNav, list_order
+					FROM #__{vm}_category, #__{vm}_category_xref 
+					WHERE #__{vm}_category.category_publish='Y' 
+						AND #__{vm}_category.category_id=#__{vm}_category_xref.category_child_id 
+					ORDER BY list_order ASC";
 		
 		$this->_db->setQuery( $query );
 		$database->setQuery( $this->_db->_sql );

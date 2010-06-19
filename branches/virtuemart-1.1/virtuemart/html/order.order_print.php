@@ -517,36 +517,35 @@ else {
 	&nbsp;
 	<table class="adminlist">
 		<tr>
-  		<td valign="top" width="300">
-    				<table class="adminlist">
-    				  <tr>
-      					<th ><?php 
-      							echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_SHIPPING_LBL') ?>
-      					</th>
-    				  </tr>
-    				  <tr> 
-    					  <td align="left">
-        					<?php
-                    if( $db->f("ship_method_id") ) { 
-                      $details = explode( "|", $db->f("ship_method_id"));
+		<td valign="top" width="300">
+			<table class="adminlist">
+				<?php
+					$details = array();
+					if( $db->f("ship_method_id") ) { 
+						$details = explode( "|", $db->f("ship_method_id"));
                     }
-                  ?>
-    					    <strong><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_SHIPPING_CARRIER_LBL') ?>: </strong>
-    						  <?php  echo $details[1]; ?>&nbsp;
-                </td>
-    	        </tr>
-    				  <tr>
-    					  <td align="left">
-    					    <strong><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_SHIPPING_MODE_LBL') ?>: </strong>
-    					    <?php echo $details[2]; ?>
-                </td>
-    				  </tr>
-    				  <tr>
-    					  <td align="left">
-    					    <strong><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_SHIPPING_PRICE_LBL') ?>: </strong>
-    					    <?php echo $GLOBALS['CURRENCY_DISPLAY']->getFullValue($details[3], '', $db->f('order_currency')); ?>
-    					  </td>
-    				  </tr>
+					?>
+				<tr>
+					<th><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_SHIPPING_LBL') ?></th>
+				</tr>
+				<tr> 
+					<td align="left">
+						<strong><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_SHIPPING_CARRIER_LBL') ?>: </strong>
+    					<?php if ( $details[1] ) echo $details[1]; ?>&nbsp;
+					</td>
+				</tr>
+				<tr>
+					<td align="left">
+						<strong><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_SHIPPING_MODE_LBL') ?>: </strong>
+						<?php if ( $details[2] ) echo $details[2]; ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="left">
+						<strong><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_SHIPPING_PRICE_LBL') ?>: </strong>
+						<?php if ( $details[3] ) { echo $GLOBALS['CURRENCY_DISPLAY']->getFullValue($details[3], '', $db->f('order_currency')); } ?>
+					</td>
+				</tr>
               <?php $ps_order_change_html->html_change_shipping() ?>  
     				</table>
   			  </td>

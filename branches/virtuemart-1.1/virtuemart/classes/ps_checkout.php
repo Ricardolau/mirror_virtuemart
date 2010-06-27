@@ -1187,19 +1187,21 @@ Order Total: '.$order_total.'
 		// Payment Processors return false on any error
 		// Only completed payments return true!
 		$update_order = false;
-		if( $enable_processor == "Y" || stristr($_PAYMENT->payment_code, '_API' ) !== false ) {
+		if (isset($_PAYMENT)) {
+		    if( $enable_processor == "Y" || stristr($_PAYMENT->payment_code, '_API' ) !== false ) {
 			if( $d['new_order_status'] != 'P' ) {
-              	$d['order_status'] = $d['new_order_status'];
-              	$update_order = true;
+			    $d['order_status'] = $d['new_order_status'];
+			    $update_order = true;
 			} elseif( defined($_PAYMENT->payment_code.'_VERIFIED_STATUS')) {
-              	$d['order_status'] = constant($_PAYMENT->payment_code.'_VERIFIED_STATUS');
-              	$update_order = true;
-            }
-        } elseif( $order_total == 0.00 ) {
-        	// If the Order Total is zero, we can confirm the order to automatically enable the download
-        	$d['order_status'] = ENABLE_DOWNLOAD_STATUS;
-        	$update_order = true;
-        }
+			    $d['order_status'] = constant($_PAYMENT->payment_code.'_VERIFIED_STATUS');
+			    $update_order = true;
+			}
+		    }
+		} elseif( $order_total == 0.00 ) {
+		    // If the Order Total is zero, we can confirm the order to automatically enable the download
+		    $d['order_status'] = ENABLE_DOWNLOAD_STATUS;
+		    $update_order = true;
+		}
 		if ( $update_order ) {
 			require_once(CLASSPATH."ps_order.php");
 			$ps_order = new ps_order();

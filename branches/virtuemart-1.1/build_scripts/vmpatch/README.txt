@@ -30,7 +30,9 @@ Patches from 1.1.x to 1.1.y (where 1.1.x is the original version to upgrade from
  (You do not need to change the repository paths.)
 5. Inside build.patch11y-11x.xml, change the line below to match your properties file name (from step 4):
  <property file="build.patch114-113.properties" />
-6. Run the "patch" target in build.patch11y-11x.xml. It is the default target.
+6. Run the "patch" target in build.patch11y-11x.xml. It is the default target. E.g.
+
+	ant -f build.patch115-112.xml patch
 
 NOTE: In the output from running the ant build script, you can safely ignore any paths the are from 
 another branch; they are removed automatically from the build.

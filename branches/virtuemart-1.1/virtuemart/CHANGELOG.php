@@ -34,6 +34,26 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+
+
+
+
+
+
+--- VirtueMart 1.1.5 released (Rev. 2459 2010-07-03) ---
+
+20.06.2010 zanardi
+# Fix incorrect link in waiting list e-mail
+# Fix notices in backend order detail
++ added configuration for SMTP server with SSL and/or listening on a port different than 25 (retrieves Joomla configuration)
+^ modified uninstall function, now tables are preserved for future installations
+
+15.06.2010 tkahl
+^ Performace improvement by checking if parent product has to be included in the query
+
+11.06.2010 milbo
+^ added Merchant Warrior payment method
+
 20.05.2010 soeren
 + added PayPal Express/API integration code
 

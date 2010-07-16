@@ -144,17 +144,16 @@ class vm_zw_waiting_list {
 	* returns: true
 	**************************************************************************/
 	function notify_list($product_id) {
-		
 		global $sess,  $mosConfig_fromname, $VM_LANG;
 		
 		$option = vmGet( $_REQUEST, 'option' );
-		
-		if (!$product_id) {
+		$product_id = intval($product_id);
+		if ($product_id == 0) {
 			return False;
 		}
 
 		$dbv = new ps_DB;
-		$qt = "SELECT * from #__{vm}_vendor ";
+		$qt = "SELECT contact_email from #__{vm}_vendor ";
 		$qt .= "WHERE vendor_id='1'";
 		$dbv->query($qt);
 		$dbv->next_record();
@@ -162,8 +161,8 @@ class vm_zw_waiting_list {
 
 
 		$db = new ps_DB;
-		$q = "SELECT * FROM #__{vm}_waiting_list WHERE ";
-		$q .= "notified='0' AND product_id='$product_id'";
+		$q = 'SELECT notify_email FROM #__{vm}_waiting_list WHERE ';
+		$q .= 'notified="0" AND product_id='.$product_id;
 		$db->query($q);
 
 		require_once( CLASSPATH. 'ps_product.php');
@@ -175,8 +174,6 @@ class vm_zw_waiting_list {
 
 			// lets make the e-mail up from the info we have
 			$notice_subject = sprintf($VM_LANG->_('PRODUCT_WAITING_LIST_EMAIL_SUBJECT'), $product_name);
-			
-			// retrieve flypage
 			$flypage = $ps_product->get_flypage( $product_id );
 			
 			// now get the url information

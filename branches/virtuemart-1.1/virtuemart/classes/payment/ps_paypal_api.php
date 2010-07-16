@@ -895,6 +895,7 @@ class ps_paypal_api {
 					'address_type_name' => $_SESSION['ppex_userdata']['address_1'].', '.$_SESSION['ppex_userdata']['city'],
 					'company' => $_SESSION['ppex_userdata']['company'],
 					'address_1' => $_SESSION['ppex_userdata']['address_1'],
+					'address_2' => vmget($_SESSION['ppex_userdata'],'address_2'),
 					'city' => $_SESSION['ppex_userdata']['city'],
 					'zip' => $_SESSION['ppex_userdata']['zip'],
 					'country' => $_SESSION['ppex_userdata']['country'],
@@ -1313,7 +1314,7 @@ class ps_paypal_api {
 			
 			$_SESSION['ppex_userdata']['shiptoname']=$resArray['SHIPTONAME'];
 			$_SESSION['ppex_userdata']['email']=$resArray['EMAIL'];
-			$_SESSION['ppex_userdata']['company']=$resArray['EMAIL'];
+			$_SESSION['ppex_userdata']['company']=$resArray['BUSINESS'];
 			$_SESSION['ppex_userdata']['first_name']=$resArray['FIRSTNAME'];
 			$_SESSION['ppex_userdata']['last_name']=$resArray['LASTNAME'];
 			$_SESSION['ppex_userdata']['middle_name']='';
@@ -1468,8 +1469,13 @@ class ps_paypal_api {
 		$payment_method_id = vmGet( $_REQUEST, 'payment_method_id');
 		$checkout_this_step = ps_checkout::get_current_stage();
 	   $returnURL =urlencode($url.'/index.php?page=checkout.index&option=com_virtuemart&checkout_stage='.$checkout_this_step.'&ship_to_info_id='.$ship_to_info_id.'&shipping_rate_id='.$shipping_rate_id.'&ppex_gecd='.$ppex);
-	   $cancelURL =urlencode($url.'/index.php?page=checkout.index&option=com_virtuemart&checkout_stage='.$checkout_this_step.'&ship_to_info_id='.$ship_to_info_id.'&shipping_rate_id='.$shipping_rate_id.'&ppex_cancel=1');
 	   
+	   $lastpage = vmGet( $_SERVER, 'HTTP_REFERER' );
+	   if( strpos( $lastpage, 'page=shop.cart') !== false ) {
+			$cancelURL =urlencode($url.'/index.php?page=shop.cart&option=com_virtuemart&ppex_cancel=1');
+	   } else {
+			$cancelURL =urlencode($url.'/index.php?page=checkout.index&option=com_virtuemart&checkout_stage='.$checkout_this_step.'&ship_to_info_id='.$ship_to_info_id.'&shipping_rate_id='.$shipping_rate_id.'&ppex_cancel=1');
+	   }
 	   $gp_returnURL =urlencode($url.'/index.php?page=checkout.generic_result&option=com_virtuemart&result=success');
 	   $gp_cancelURL =urlencode($url.'/index.php?page=checkout.generic_result&option=com_virtuemart&result=cancel');
 	   $bank_pending_URL =urlencode($url.'/index.php?page=checkout.generic_result&option=com_virtuemart&result=pending' );
@@ -1629,13 +1635,13 @@ class ps_paypal_api {
 		
 			$nvpreq .= ps_paypal_api::getCartnvpstr( $order_totals );
 			
-			$tax_total = round($d['order_tax'],2);
-			$ship_total = isset($d['shipping_total']) ? round($d['shipping_total'],2) : 0;
-			
+			$amt = round($order_totals['order_total'], 2);
+			$shippingamt = round($order_totals['order_shipping']+$order_totals['order_shipping_tax'],2);
+			$taxamt = $amt - $order_totals['item_total'] - $shippingamt;
 			$nvpreq .= 
-						"&AMT=$order_total"
-						."&TAXAMT=$tax_total"
-						."&SHIPPINGAMT=$ship_total";
+						"&AMT=$amt"
+						."&TAXAMT=$taxamt"
+						."&SHIPPINGAMT=$shippingamt";
 			
 			if($useshipping == '1') {
 				$nvpreq .= "&SHIPTONAME=$ship_name"

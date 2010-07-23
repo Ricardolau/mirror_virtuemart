@@ -677,7 +677,7 @@ class ps_paypal_api {
 		ps_paypal_api::destroyPaypalSession();
 		
 		vmRedirect( $sess->url( 'index.php?page=checkout.index&shipping_rate_id='.
-			$d['shipping_rate_id'].'&ship_to_info_id='.$d['ship_to_info_id'].'&checkout_stage='.$current_stage, false, false ) );
+			urlencode($d['shipping_rate_id']).'&ship_to_info_id='.$d['ship_to_info_id'].'&checkout_stage='.$current_stage, false, false ) );
 	}
 	
 	/**
@@ -1314,7 +1314,7 @@ class ps_paypal_api {
 			
 			$_SESSION['ppex_userdata']['shiptoname']=$resArray['SHIPTONAME'];
 			$_SESSION['ppex_userdata']['email']=$resArray['EMAIL'];
-			$_SESSION['ppex_userdata']['company']=$resArray['BUSINESS'];
+			$_SESSION['ppex_userdata']['company']=vmGet($resArray,'BUSINESS');
 			$_SESSION['ppex_userdata']['first_name']=$resArray['FIRSTNAME'];
 			$_SESSION['ppex_userdata']['last_name']=$resArray['LASTNAME'];
 			$_SESSION['ppex_userdata']['middle_name']='';
@@ -1468,13 +1468,13 @@ class ps_paypal_api {
 		$shipping_rate_id = urldecode(vmGet( $_REQUEST, "shipping_rate_id", null ));
 		$payment_method_id = vmGet( $_REQUEST, 'payment_method_id');
 		$checkout_this_step = ps_checkout::get_current_stage();
-	   $returnURL =urlencode($url.'/index.php?page=checkout.index&option=com_virtuemart&checkout_stage='.$checkout_this_step.'&ship_to_info_id='.$ship_to_info_id.'&shipping_rate_id='.$shipping_rate_id.'&ppex_gecd='.$ppex);
+	   $returnURL =urlencode($url.'/index.php?page=checkout.index&option=com_virtuemart&checkout_stage='.$checkout_this_step.'&ship_to_info_id='.$ship_to_info_id.'&shipping_rate_id='.urlencode($shipping_rate_id).'&ppex_gecd='.$ppex);
 	   
 	   $lastpage = vmGet( $_SERVER, 'HTTP_REFERER' );
 	   if( strpos( $lastpage, 'page=shop.cart') !== false ) {
 			$cancelURL =urlencode($url.'/index.php?page=shop.cart&option=com_virtuemart&ppex_cancel=1');
 	   } else {
-			$cancelURL =urlencode($url.'/index.php?page=checkout.index&option=com_virtuemart&checkout_stage='.$checkout_this_step.'&ship_to_info_id='.$ship_to_info_id.'&shipping_rate_id='.$shipping_rate_id.'&ppex_cancel=1');
+			$cancelURL =urlencode($url.'/index.php?page=checkout.index&option=com_virtuemart&checkout_stage='.($checkout_this_step-1).'&ship_to_info_id='.$ship_to_info_id.'&shipping_rate_id='.$shipping_rate_id.'&ppex_cancel=1');
 	   }
 	   $gp_returnURL =urlencode($url.'/index.php?page=checkout.generic_result&option=com_virtuemart&result=success');
 	   $gp_cancelURL =urlencode($url.'/index.php?page=checkout.generic_result&option=com_virtuemart&result=cancel');

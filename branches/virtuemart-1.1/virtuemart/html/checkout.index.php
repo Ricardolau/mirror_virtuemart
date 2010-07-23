@@ -81,7 +81,11 @@ if(isset($_SESSION['ppex_userdata']) && is_array($_SESSION['ppex_userdata']) && 
 	ps_paypal_api::checkAddress($auth);
 	
     $ship_to_info_id = vmGet( $_REQUEST, 'ship_to_info_id');
-    $shipping_rate_id = urldecode(vmGet( $_REQUEST, "shipping_rate_id", null ));
+    $shipping_rate_id = vmGet( $_REQUEST, "shipping_rate_id", null );
+	
+	if( strpos( $shipping_rate_id, '%' ) !== false ){
+		$shipping_rate_id = urldecode( $shipping_rate_id );
+	}
 	
     $paypal_api_payment_method_id = $payment_method_id = ps_paypal_api::getPaymentMethodId();
 	
@@ -157,6 +161,10 @@ if( !empty( $paypal_api_payment_method_id ) && in_array('CHECK_OUT_GET_PAYMENT_M
 }
 
 if( in_array('CHECK_OUT_GET_FINAL_CONFIRMATION', $checkout_steps[$current_stage]) ) {
+	if( $paypalActive && !empty( $paypal_api_payment_method_id ) && $paypal_api_payment_method_id == $payment_method_id && empty ( $_SESSION['ppex_token'])){
+		ps_paypal_api::gettoken(2);
+	}
+	
     $next_page = 'checkout.thankyou';
     if( sizeof($checkout_steps[$current_stage]) > 1 ) {
     	include_once( PAGEPATH . 'basket.php' );

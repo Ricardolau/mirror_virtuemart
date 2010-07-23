@@ -38,7 +38,7 @@ if(!ps_checkout::noShipToNecessary()) {
 	$q = "SELECT * FROM #__{vm}_country WHERE country_3_code='".$db->f("country")."'";
 	$dbs->query($q);
 	$country_id = $dbs->f("country_id");
-	$q = "SELECT * FROM #__{vm}_state WHERE country_id=".$country_id." AND state_2_code='".$db->f("state")."'";
+	$q = "SELECT * FROM #__{vm}_state WHERE country_id=".(int)$country_id." AND state_2_code='".$db->f("state")."'";
 	$dbs->query($q);
 	$state_name = $dbs->f("state_name");
 	echo vmFormatAddress( array('name' => $db->f("first_name")." ".$db->f("last_name"),
@@ -58,7 +58,7 @@ if(!ps_checkout::noShipToNecessary()) {
 if(!ps_checkout::noShippingMethodNecessary()) {
 
 	echo '<tr><td valign="top"><strong>'.$VM_LANG->_('PHPSHOP_INFO_MSG_SHIPPING_METHOD') . ":</strong></td>";
-	$rate_details = explode( "|", urldecode(urldecode(vmGet($_REQUEST,'shipping_rate_id'))) );
+	$rate_details = explode( "|", $shipping_rate_id );
 	echo '<td>';
 	foreach( $rate_details as $k => $v ) {
 		// thepisu: old sample data cointaned "&gt;" instead of ">"... 

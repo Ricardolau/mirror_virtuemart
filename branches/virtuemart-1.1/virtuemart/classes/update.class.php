@@ -187,9 +187,10 @@ class vmUpdate {
 			if( $result === false ) {
 				return $result;
 			}
-			if( !empty( $xml->queries->query ) && is_array($xml->queries->query) )
-			foreach( $xml->queries->query as $query ) {
-				$queryArr[] = (string)$query;
+			if( !empty( $xml->queries->query ) ) {
+				foreach( $xml->queries->query as $query ) {
+					$queryArr[] = (string)$query;
+				}
 			}
 			
 			// RickG - Look for an install file

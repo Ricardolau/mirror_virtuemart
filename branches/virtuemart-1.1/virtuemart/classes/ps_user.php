@@ -257,7 +257,7 @@ class vm_ps_user {
 			foreach( $userFields as $userField ) {
 				if( !in_array($userField->name,$skip_fields)) {
 					$d[$userField->name] = ps_userfield::prepareFieldDataSave( $userField->type, $userField->name, @$d[$userField->name]);
-					$fields[] = "`".$userField->name."`='".$d[$userField->name]."'";
+					$fields[] = "`".$userField->name."`='".mysql_real_escape_string($d[$userField->name])."'";
 				}
 			}
 			$q .= str_replace( '`email`', '`user_email`', implode( ",\n", $fields ));

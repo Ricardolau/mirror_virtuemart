@@ -1,0 +1,75 @@
+<project name="vmpatch" default="all" basedir=".">
+
+	<path id="lib.path.ref">
+	    <fileset dir="lib" includes="*.jar"/>
+	</path>
+
+	<!-- user defined values can be defined in build.properties -->
+	<property file="build.properties" />
+
+	<!-- ================================================================= -->
+	<!-- Default properties -->
+	<!-- the above call the to build.properties file can supply non-default values -->
+	<!-- ================================================================= -->
+
+	<!-- patchselector version -->
+	<property name="vmpatch.version" value="0.1" />
+
+	<!-- compile with debug on or off -->
+	<property name="debug" value="off" />
+	
+	<!-- locations of directories -->
+	<property name="src.dir" value="src" />
+	<property name="build.dir" value="build" />
+	<property name="build.distrib.dir" value="${build.dir}/distrib" />
+	<property name="build.classes.dir" value="${build.dir}/classes" />
+	<property name="build.lib.dir" value="${build.dir}/lib" />
+	<property name="build.cache.dir" value="build/depcache" />
+	<property name="distribfiles.dir" value="distribfiles" />
+
+	<!-- ================================================================= -->
+	<!-- cleans everything                                                 -->
+	<!-- ================================================================= -->
+	<target name="clean">
+		<delete dir="${build.dir}" />
+	</target>
+
+	<!-- ================================================================= -->
+	<!-- compile                                                           -->
+	<!-- ================================================================= -->
+	<target name="compile" description="compile all source files">
+		<mkdir dir="${build.classes.dir}" />
+		<depend srcDir="${src.dir}" destDir="${build.classes.dir}" cache="${build.cache.dir}" />
+		<javac srcdir="${src.dir}" 
+			destdir="${build.classes.dir}"
+			classpathref="lib.path.ref"
+			debug="${debug}" 
+			target="${targetJvm}"
+			includes="**" 
+		/>
+	</target>
+
+	<!-- ================================================================= -->
+	<!-- create patchselector.jar                                                 -->
+	<!-- ================================================================= -->
+	<target name="vmpatch.jar" depends="compile" description="generate vmpatch.jar">
+		<tstamp />
+		<mkdir dir="${build.lib.dir}" />
+		<jar jarfile="${build.lib.dir}/vmpatch.jar" basedir="${build.classes.dir}" excludes="**/*Main*.class">
+			<manifest>
+				<section name="org.virtuemart.ant.patch">
+					<attribute name="Specification-Title" value="VirtueMartPatch" />
+					<attribute name="Specification-Version" value="${vmpatch.version}" />
+					<attribute name="Implementation-Title" value="org.virtuemart.ant.patch" />
+					<attribute name="Implementation-Version" value="${vmpatch.version} (${TODAY})" />
+				</section>
+			</manifest>
+		</jar>
+		<copy file="${build.lib.dir}/vmpatch.jar" todir="lib" />
+	</target>
+
+	<!-- create all jar files -->
+	<target name="all" depends="vmpatch.jar">
+	</target>
+
+</project>

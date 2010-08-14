@@ -2,7 +2,7 @@
 
 <?php
 defined( 'vmToolTipCalled') or define('vmToolTipCalled', 1);
-echo $vendor_store_desc."<br />";
+echo $vendor_store_desc = vmCommonHTML::ParseContentByPlugins( $vendor_store_desc )."<br />";
 echo "<br /><h4>".$VM_LANG->_('PHPSHOP_CATEGORIES')."</h4>";
 echo $categories; ?>
 <div class="vmRecent">

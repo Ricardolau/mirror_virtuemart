@@ -585,8 +585,8 @@ class vmCommonHTML {
 	function imageTag( $src, $alt='', $align='', $height='', $width='', $title='', $border='0', $attributes='' ) {
 		
 		if( $align ) { $align = ' align="'.$align.'"'; }
-		if( $height ) { $height = ' height="'.$height.'"'; }
-		if( $width ) { $width = ' width="'.$width.'"'; }
+		if( $height ) { $height = ' height="'.$height.'"'; } else { $height = ""; } 
+		if( $width ) { $width = ' width="'.$width.'"'; } else { $width = ""; } 
 		if( $title ) { $title = ' title="'.$title.'"'; }
 		if( $attributes ) {	$attributes = ' ' . $attributes; }
 		

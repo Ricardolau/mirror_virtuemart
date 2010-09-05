@@ -249,11 +249,13 @@ else {
 	/* COUPON DISCOUNT */
 	if( PSHOP_COUPONS_ENABLE=='1' && @$_SESSION['coupon_redeemed']=="1" && PAYMENT_DISCOUNT_BEFORE != '1') {
 		$discount_after=true;
+		$discount_before=false;
 		$total -= $_SESSION['coupon_discount'];
 		$coupon_display = "- ".$GLOBALS['CURRENCY_DISPLAY']->getFullValue( $_SESSION['coupon_discount'] );
 	}
 	else if( PSHOP_COUPONS_ENABLE=='1' && @$_SESSION['coupon_redeemed']=="1" && PAYMENT_DISCOUNT_BEFORE == '1') {
 		$discount_after=false;
+		$discount_before=true;
 		$total -= $_SESSION['coupon_discount'];
 		$total -= ($_SESSION['coupon_discount'] * $my_taxrate);
 		$tax_total += ($_SESSION['coupon_discount'] * $my_taxrate);

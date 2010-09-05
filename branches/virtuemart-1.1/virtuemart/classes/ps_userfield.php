@@ -690,7 +690,7 @@ class vm_ps_userfield extends vmAbstractObject {
                         }                               
                     }
                     else if( formelement.options ) {
-                        if(formelement.selectedIndex.value == '') {
+                        if(formelement.selectedIndex.value == '' || formelement.value == '') {
                                 document.getElementById(required_fields[i]+'$div_id_postfix').className += ' missing';
                                 isvalid = false;
                         } 

@@ -242,6 +242,7 @@ while ($db->next_record()) {
 		<input type="hidden" name="option" value="com_virtuemart" />
 		<input type="hidden" name="order_id" value="'. $db->f("order_id") .'" />
 		<input type="hidden" name="current_order_status" value="'. $db->f("order_status").'" />
+		<input type="hidden" name="show" value="'. $show .'" />
 		</form>';
 	
     // Delete Order Button

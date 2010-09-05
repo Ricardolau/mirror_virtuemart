@@ -37,7 +37,7 @@
 		</span>
 		<br /><br />
 		<?php
-		if( CHECK_STOCK == '1' && !$product_in_stock ) {
+		if( CHECK_STOCK == '1' && ( $product_in_stock < 1 ) ) {
 			$product_availability = 'not_available.gif';
 		}
 		if( is_file( VM_THEMEPATH."images/availability/".$product_availability)) {

@@ -1092,7 +1092,7 @@ class vm_ps_product_attribute {
 		
 		//Start output of quantity
 		//Check for incompatabilities and reset to normal
-		if( CHECK_STOCK == '1' && ! $product_in_stock ) {
+		if( CHECK_STOCK == '1' && ( $product_in_stock < 1 ) ) {
 			$display_type = 'hide' ;
 		}
 		if( empty( $display_type ) || (@$display_type == "hide" && $child == 'Y') || (@$display_type == "radio" && $child == 'YM') || (@$display_type == "radio" && ! $child) ) {

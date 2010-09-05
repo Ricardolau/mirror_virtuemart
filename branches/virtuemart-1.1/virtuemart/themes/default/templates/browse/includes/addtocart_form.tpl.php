@@ -3,7 +3,7 @@ mm_showMyFileName(__FILE__);
 
 $button_lbl = $VM_LANG->_('PHPSHOP_CART_ADD_TO');
 $button_cls = 'addtocart_button';
-if( CHECK_STOCK == '1' && !$product_in_stock ) {
+if( CHECK_STOCK == '1' && ( $product_in_stock < 1 ) ) {
 	$button_lbl = $VM_LANG->_('VM_CART_NOTIFY');
 	$button_cls = 'notify_button';
 	$notify = true;

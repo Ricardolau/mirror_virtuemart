@@ -81,11 +81,7 @@ if(isset($_SESSION['ppex_userdata']) && is_array($_SESSION['ppex_userdata']) && 
 	ps_paypal_api::checkAddress($auth);
 	
     $ship_to_info_id = vmGet( $_REQUEST, 'ship_to_info_id');
-    $shipping_rate_id = vmGet( $_REQUEST, "shipping_rate_id", null );
-	
-	if( strpos( $shipping_rate_id, '%' ) !== false ){
-		$shipping_rate_id = urldecode( $shipping_rate_id );
-	}
+    $shipping_rate_id = urldecode(vmGet( $_REQUEST, "shipping_rate_id", null ));
 	
     $paypal_api_payment_method_id = $payment_method_id = ps_paypal_api::getPaymentMethodId();
 	
@@ -161,10 +157,6 @@ if( !empty( $paypal_api_payment_method_id ) && in_array('CHECK_OUT_GET_PAYMENT_M
 }
 
 if( in_array('CHECK_OUT_GET_FINAL_CONFIRMATION', $checkout_steps[$current_stage]) ) {
-	if( $paypalActive && !empty( $paypal_api_payment_method_id ) && $paypal_api_payment_method_id == $payment_method_id && empty ( $_SESSION['ppex_token'])){
-		ps_paypal_api::gettoken(2);
-	}
-	
     $next_page = 'checkout.thankyou';
     if( sizeof($checkout_steps[$current_stage]) > 1 ) {
     	include_once( PAGEPATH . 'basket.php' );
@@ -268,15 +260,14 @@ if ($cart["idx"] > 0) {
     
     // We have something in the Card so move on
     if ($perm->is_registered_customer($auth['user_id'])) { // user is logged in and a registered customer
-		$basket_html .= '<form action="'. SECUREURL.basename($_SERVER['PHP_SELF']) .'" method="post" name="adminForm">
-		
-	<input type="hidden" name="option" value="com_virtuemart" />
-	<input type="hidden" name="Itemid" value="'. $Itemid .'" />
-	<input type="hidden" name="user_id" value="'. $auth['user_id'] .'" />
-	<input type="hidden" name="page" value="'. $next_page .'" />
-	<input type="hidden" name="func" value="checkoutProcess" />
-		
-	<input type="hidden" name="zone_qty" value="'. $zone_qty .'" />
+	
+	$basket_html .= '<form action="'. $sess->url( SECUREURL."index.php?page=".$next_page."&checkout_last_step=".$current_stage) .'" method="post" name="adminForm">  
+		<input type="hidden" name="option" value="com_virtuemart" />
+		<input type="hidden" name="Itemid" value="'. $Itemid .'" />
+		<input type="hidden" name="user_id" value="'. $auth['user_id'] .'" />
+		<input type="hidden" name="page" value="'. $next_page .'" />
+		<input type="hidden" name="func" value="checkoutProcess" />
+		<input type="hidden" name="zone_qty" value="'. $zone_qty .'" />
         <input type="hidden" name="ship_to_info_id" value="'. $ship_to_info_id .'" />
         <input type="hidden" name="shipping_rate_id" value="'. urlencode($shipping_rate_id) .'" />
         <input type="hidden" name="payment_method_id" value="'. $payment_method_id .'" />

@@ -35,12 +35,11 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 
+27.07.2010 zanardi
+# Task 114 After changing order status goes back to all orders
+# Task 116 Bug in checking stock (doesn't check for negative values)
 
-
-
-
-
---- VirtueMart 1.1.5 released (Rev. 2459 2010-07-03) ---
+--- VirtueMart 1.1.5 released (Rev. 2499 2010-07-25) ---
 
 20.06.2010 zanardi
 # Fix incorrect link in waiting list e-mail

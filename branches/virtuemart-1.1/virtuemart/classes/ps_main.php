@@ -474,6 +474,7 @@ function vmCreateMail( $from='', $fromname='', $subject='', $body='' ) {
 	global $mosConfig_absolute_path, $mosConfig_sendmail;
 	global $mosConfig_smtpauth, $mosConfig_smtpuser;
 	global $mosConfig_smtppass, $mosConfig_smtphost;
+	global $mosConfig_smtpport, $mosConfig_smtpsecure;
 	global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_mailer;
 	
 	$phpmailer_classname='phpmailer';
@@ -504,7 +505,7 @@ function vmCreateMail( $from='', $fromname='', $subject='', $body='' ) {
 		$mail->Password 	= $mosConfig_smtppass;
 		$mail->Host 		= $mosConfig_smtphost;
 		$mail->Port			= $mosConfig_smtpport;
-		$mail->SMTPSecure	= $mosConfig_smtpsecure;
+		if ( $mosConfig_smtpsecure != "none" ) $mail->SMTPSecure = $mosConfig_smtpsecure;
 	} else
 
 	// Set sendmail path
@@ -1324,6 +1325,15 @@ function vmArrayToInts( &$array, $default=null ) {
 	}
 }
 function vmRoute( $nonSefUrl) {
+	
+	// solve an issue with "?" and "&" in the wrong place in the URL
+	if(!strpos('option=com_virtuemart',$nonSefUrl)) {
+            $nonSefUrl = str_replace( '&', '&', $nonSefUrl);
+            $nonSefUrl = str_replace( '?', '&', $nonSefUrl);
+            if(strpos($nonSefUrl,'&')) $nonSefUrl=preg_replace('/&/', '?', $nonSefUrl, 1);
+            return $nonSefUrl;
+    }
+	
 	if (class_exists('JApplication')) {  // J 1.5
 	  $nonSefUrl = str_replace( '&amp;', '&', $nonSefUrl);  
 	  $nonSefUrl = str_replace( JURI::base(), '', $nonSefUrl); // you are adding &amp; and mosConfig_live_site to urls, but it is actually the role of the sef function to do this. So we have to remove them, otherwise Joomla router will not accept to sef-y the url

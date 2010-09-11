@@ -80,7 +80,7 @@ foreach( $products as $product ) {
                     echo $product['actual_price'] ?></span>
                 <?php } ?>
             </div>
-            <br style="clear: both;">
+            <br style="clear: both;"/>
             <input type="hidden" name="flypage" value="shop.<?php echo $product['flypage'] ?>" />
             <input type="hidden" name="category_id" value="<?php echo $product['category_id'] ?>" />
             <input type="hidden" name="page" value="shop.cart" />

@@ -68,7 +68,7 @@ foreach( $products as $product ) {
             <?php } ?>
 
         </div>
-        <br style="clear: both;"><?php
+        <br style="clear: both;"/><?php
         // Out Put Product Type 
         if ($display_product_type == "Y" && $product['product_type'] != "") { ?>    
             <div class="vmChildType<?php echo $cls_suffix ?>">

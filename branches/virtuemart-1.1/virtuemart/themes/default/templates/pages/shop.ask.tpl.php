@@ -27,9 +27,9 @@ if ( $set == 0 ) { // This is the enquiry form!
 	
 	<form action="<?php echo $mm_action_url ?>index.php" method="post" name="emailForm" id="emailForm">
 	<label for="contact_name"><?php echo $VM_LANG->_('NAME_PROMPT') ?></label>
-	<br /><input type="text" name="name" id="contact_name" size="80" class="inputbox" value="<?php echo $name ?>"><br /><br />
+	<br /><input type="text" name="name" id="contact_name" size="80" class="inputbox" value="<?php echo $name ?>"/><br /><br />
 	<label for="contact_mail"><?php echo $VM_LANG->_('EMAIL_PROMPT') ?></label>
-	<br /><input type="text" id="contact_mail" name="email" size="80" label="Your email" class="inputbox" value="<?php echo $email ?>"><br /><br />
+	<br /><input type="text" id="contact_mail" name="email" size="80" label="Your email" class="inputbox" value="<?php echo $email ?>"/><br /><br />
 	<label for="contact_text"><?php echo $VM_LANG->_('MESSAGE_PROMPT') ?></label><br />
 	<textarea rows="10" cols="60" name="text" id="contact_text" class="inputbox"><?php echo utf8_decode($subject) ?></textarea><br />
 	
@@ -63,7 +63,7 @@ if ( $set == 0 ) { // This is the enquiry form!
 }
 else { // if set==1 then we have sent the email to the vendor and say thank you here.
   ?>
-   <img src="<?php echo VM_THEMEURL ?>images/button_ok.png" height="48" width="48" align="center" alt="Success" border="0" />
+   <img src="<?php echo VM_THEMEURL ?>images/button_ok.png" height="48" width="48" style="text-align: center" alt="Success" border="0" />
    <?php echo $VM_LANG->_('THANK_MESSAGE') ?>
  
   <br /><br />

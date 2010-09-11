@@ -418,7 +418,7 @@ class vm_ps_payment_method extends vmAbstractObject {
 				$GLOBALS['payment_selected'] = true;
 			}
 			else
-			echo ">\n";
+			echo "/>\n";
 			$discount  = $ps_checkout->get_payment_discount( $db->f("payment_method_id") );
 			echo "<label for=\"".$db->f("payment_method_name")."\">".$db->f("payment_method_name");
 			if ($discount > 0.00) {

@@ -681,14 +681,14 @@ class vm_ps_order_change {
 				$q .= $vendor_id . "', '" ;
 				$q .= $product_id . "', '" ;
 				$q .= $product_sku . "', '" ;
-				$q .= addslashes($product_name) . "', '" ;
+				$q .= $db->getEscaped($product_name) . "', '" ;
 				$q .= $quantity . "', '" ;
 				$q .= $product_price . "', '" ;
 				$q .= $product_final_price . "', '" ;
 				$q .= $product_currency . "', '" ;
 				$q .= $order_status . "', '" ;
 				// added for advanced attribute storage
-				$q .= addslashes( $description ) . "', '" ;
+				$q .= $db->getEscaped( $description ) . "', '" ;
 				// END advanced attribute modifications
 				$q .= $timestamp . "','" ;
 				$q .= $timestamp . "'" ;

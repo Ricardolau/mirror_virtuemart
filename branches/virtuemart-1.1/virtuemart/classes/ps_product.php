@@ -2348,6 +2348,7 @@ class vm_ps_product extends vmAbstractObject {
 		$tpl->set( 'undiscounted_price', @$undiscounted_price );
 		$tpl->set( 'base_price', $base_price );
         $tpl->set( 'price_table', $html);
+        $tpl->set( 'parent_has_children', $this->parent_has_children($product_id));
 		return $tpl->fetch( 'common/price.tpl.php');
 
 	}

@@ -20,8 +20,8 @@ mm_showMyFileName( __FILE__ );
 $shipping_module = vmGet($_REQUEST, 'shipping_module', null);
 
 if( $shipping_module ) {
-	if( !include( CLASSPATH.'shipping/'.basename($shipping_module) )) {
-		vmRedirect( $_SERVER['PHP_SELF']."?option=com_virtuemart&page=store.shipping_modules", str_replace('{shipping_module}',$shipping_module,$VM_LANG->_('VM_SHIPPING_MODULE_CLASSERROR')));
+	if( !include_once( CLASSPATH.'shipping/'.basename($shipping_module) )) {
+		vmRedirect( $_SERVER['PHP_SELF']."?option=com_virtuemart&page=store.shipping_module_form", str_replace('{shipping_module}',$shipping_module,$VM_LANG->_('VM_SHIPPING_MODULE_CLASSERROR')));
 	}
 	else {
 		$classname = basename($shipping_module,".php"); 
@@ -49,8 +49,9 @@ if( $shipping_module ) {
   
   	// Write common hidden input fields
   	$formObj->hiddenField('shipping_class', basename($shipping_module,".php") );
+  	$formObj->hiddenField('shipping_module', $shipping_module );
 	// and close the form
-	$formObj->finishForm( 'shippingmethodSave', 'store.shipping_modules', $option );
+	$formObj->finishForm( 'shippingmethodSave', 'store.shipping_module_form', $option );
 	?>
 	</td>
 	</tr>

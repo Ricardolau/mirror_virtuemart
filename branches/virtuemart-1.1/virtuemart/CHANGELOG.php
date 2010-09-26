@@ -35,6 +35,10 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 
+11.09.2010 zanardi
+# Small XHTML validation fixes
+
+
 27.07.2010 zanardi
 # Task 114 After changing order status goes back to all orders
 # Task 116 Bug in checking stock (doesn't check for negative values)

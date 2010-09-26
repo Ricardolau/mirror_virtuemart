@@ -20,15 +20,19 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 **/
 ?>
 <div class="pathway"><?php echo $vmPathway; ?></div>
+<div style="float:left;width:90%;text-align:right;"> 
+    <span>
+    	<a href="#" onclick="if( submitregistration() ) { document.adminForm.submit(); return false;}">
+    		<img border="0" src="images/save_f2.png" name="submit" alt="<?php echo $VM_LANG->_('CMN_SAVE') ?>" />
+    	</a>
+    </span>
+    <span style="margin-left:10px;">
+    	<a href="<?php $sess->purl( SECUREURL."index.php?page=$next_page") ?>">
+    		<img src="images/back_f2.png" alt="<?php echo $VM_LANG->_('BACK') ?>" border="0" />
+    	</a>
+    </span>
+</div>
 <?php
- if ( $next_page=="checkout.index") {
-    
-     echo "<h3>". $VM_LANG->_('PHPSHOP_CHECKOUT_TITLE') ."</h3>";    
-	    
-	include_class('checkout');
-	ps_checkout::show_checkout_bar();
-    
- }
 /**
 ** End Checkout Bar Feature
 *****************************/
@@ -66,10 +70,6 @@ ps_userfield::listUserFields( $fields, array(), $db );
 
     
   <br/>
-  <div style="float:left;width:45%;text-align:right;" >
-    <input type="submit" class="button" name="submit" value="<?php echo $VM_LANG->_('CMN_SAVE') ?>" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="<?php $sess->purl( SECUREURL."index.php?page=$next_page") ?>" class="button"><?php echo $VM_LANG->_('BACK') ?></a>
-  </div>
   </form>
 <?php
   if (!empty($user_info_id)) { ?>

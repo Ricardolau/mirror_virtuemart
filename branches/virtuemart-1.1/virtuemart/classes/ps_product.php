@@ -152,6 +152,17 @@ class vm_ps_product extends vmAbstractObject {
 			}
 		}
 		
+		// avoid empty attribute names
+		if ( count ( $d["attributeX"] ) > 1 ) {
+			foreach ( $d["attributeX"] as $attributeX ) {
+				if ( $attributeX["name"] == "" ) {
+					echo "Error"; exit;
+					$vmLogger->err( $VM_LANG->_('VM_PRODUCT_MISSING_ATTRIBUTE_NAME',false) );
+					$valid = false;
+				}
+			}
+		}			
+			
 		// added for advanced attribute modification
 		// strips the trailing semi-colon from an attribute
         if(isset($d["product_advanced_attribute"])) {
@@ -190,7 +201,7 @@ class vm_ps_product extends vmAbstractObject {
 		$d['child_options'] = ps_product::set_child_options($d);
 		
         $d['order_levels'] = vmRequest::getInt('min_order_level').",".vmRequest::getInt('max_order_level');
-        
+
 		return $valid;
 	}
 
@@ -252,6 +263,7 @@ class vm_ps_product extends vmAbstractObject {
 		$database = new ps_DB();
 
 		if (!$this->validate($d)) {
+			echo "Test"; exit;
 			return false;
 		}
 
@@ -507,7 +519,7 @@ class vm_ps_product extends vmAbstractObject {
 
 		/* notify the shoppers that the product is here */
 		/* see zw_waiting_list */
-		if ($d["product_in_stock"] > 0 && @$d['notify_users'] == '1' && $d['product_in_stock_old'] < 1) {
+		if ($d["product_in_stock"] > "0" && @$d['notify_users'] == '1' && $d['product_in_stock_old'] == '0') {
 			require_once( CLASSPATH . 'zw_waiting_list.php');
 			$zw_waiting_list = new zw_waiting_list;
 			$zw_waiting_list->notify_list($d["product_id"]);
@@ -1370,7 +1382,7 @@ class vm_ps_product extends vmAbstractObject {
 			// URL
 			if( substr( $image, 0, 4) == "http" ) {
 				$url = $image;
-			}
+				}
 			// local image file
 			else {
 				if(PSHOP_IMG_RESIZE_ENABLE == '1' && $resize==1) {
@@ -1381,6 +1393,7 @@ class vm_ps_product extends vmAbstractObject {
 					}
 				}
 				else {
+					
 					$url = IMAGEURL.$path_appendix.'/'.$image;
 					$using_resized_image = false;	
 					if( $resize ) {
@@ -1425,7 +1438,7 @@ class vm_ps_product extends vmAbstractObject {
 		}
 		else {
 			$url = VM_THEMEURL.'images/'.NO_IMAGE;
-		}
+		}	
 		
 		return vmCommonHTML::imageTag( $url, '', '', $height, $width, '', '', $args.' '.$border );
 

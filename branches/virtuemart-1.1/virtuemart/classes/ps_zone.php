@@ -138,7 +138,9 @@ class vm_ps_zone {
     $q .= $d["zone_limit"] . "','";
     $q .= $d["zone_description"] . "','";
     $q .= $d["zone_tax_rate"] . "')";
-    $db->query($q);
+    if ( $db->query($q) ) {
+		$vmLogger->info( $VM_LANG->_('VM_SHIPPING_RATE_UPDATED',false) );
+	}
     $db->next_record();
     $_REQUEST['zone_id'] = $db->last_insert_id();
     return True;
@@ -173,7 +175,9 @@ class vm_ps_zone {
     $q .= "',zone_description='" . $d["zone_description"];
     $q .= "',zone_tax_rate='" . $d["zone_tax_rate"];
     $q .= "' WHERE zone_id='" . $d["zone_id"] . "'";
-    $db->query($q);
+    if ( $db->query($q) ) {
+		$vmLogger->info( $VM_LANG->_('VM_SHIPPING_RATE_UPDATED',false) );
+	}
     $db->next_record();
     return True;
   }

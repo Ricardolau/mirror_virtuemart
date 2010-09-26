@@ -152,14 +152,16 @@ class vm_ps_product extends vmAbstractObject {
 			}
 		}
 		
-		// avoid empty attribute names
-		if ( count ( $d["attributeX"] ) > 1 ) {
-			foreach ( $d["attributeX"] as $attributeX ) {
-				if ( $attributeX["name"] == "" ) {
-					echo "Error"; exit;
-					$vmLogger->err( $VM_LANG->_('VM_PRODUCT_MISSING_ATTRIBUTE_NAME',false) );
-					$valid = false;
-				}
+		// validate attribute names
+		foreach ( $d["attributeX"] as $attributeX ) {
+			// if we only have one attribute it can be left empty
+			if ( ( $attributeX["name"] == "" ) and ( count ( $d["attributeX"] ) > 1 ) ) {
+				$vmLogger->err( $VM_LANG->_('VM_PRODUCT_MISSING_ATTRIBUTE_NAME',false) );
+				$valid = false;	
+			}
+			if ( strpos( $attributeX["name"], ":" ) or strpos( $attributeX["name"], "." ) ) {
+				$vmLogger->err( $VM_LANG->_('VM_PRODUCT_INVALID_ATTRIBUTE_NAME',false) );
+				$valid = false;	
 			}
 		}			
 			

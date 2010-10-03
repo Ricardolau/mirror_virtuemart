@@ -2,10 +2,11 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
+* @version : french.php 1071 2007-12-03 08:42:28Z thepisu $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
-* @translator soeren
+* @copyright Copyright (C) 2004-2010 soeren - All rights reserved.
+* @translator Nadia Andreoletti
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -266,7 +267,7 @@ $langvars = array (
 	'PHPSHOP_USERS' => 'Utilisateurs',
 	'PHPSHOP_SHIPPING_MOD' => 'Expéditions',
 	'PHPSHOP_CARRIER_LIST_MNU' => 'Expéditeur',
-	'PHPSHOP_RATE_LIST_MNU' => 'Taux expéditions',
+	'PHPSHOP_RATE_LIST_MNU' => 'Taux expédition',
 	'PHPSHOP_CARRIER_FORM_MNU' => 'Créer expéditeur',
 	'PHPSHOP_RATE_FORM_MNU' => 'Créer taux expédition',
 	'PHPSHOP_RATE_FORM_VALUE' => 'Frais',
@@ -291,7 +292,7 @@ $langvars = array (
 	'PHPSHOP_CHECKOUT_MSG_4' => 'Choisissez une méthode de paiement',
 	'PHPSHOP_CHECKOUT_ERR_NO_SHIP' => 'Choisissez une méthode d\'expédition.',
 	'PHPSHOP_CHECKOUT_ERR_OTHER_SHIP' => 'Choisissez une autre méthode d\'expédition.',
-	'PHPSHOP_CHECKOUT_ERR_NO_PAYM' => 'Choisissez une Méthode de Paiement.',
+	'PHPSHOP_CHECKOUT_ERR_NO_PAYM' => 'Choisissez une méthode de Paiement.',
 	'PHPSHOP_CHECKOUT_ERR_NO_CCNR' => 'Saisissez votre numéro de carte de crédit.',
 	'PHPSHOP_CHECKOUT_ERR_NO_CCDATE' => 'Le numéro de carte saisi n\'est pas valide.',
 	'PHPSHOP_CHECKOUT_ERR_NO_CCMON' => 'Mois d\'expiration de la carte.',
@@ -364,7 +365,7 @@ $langvars = array (
 	'PHPSHOP_STATISTIC_SUMMARY' => 'Résumé',
 	'PHPSHOP_STATISTIC_SUM' => 'Somme',
 	'PHPSHOP_CHECK_OUT_THANK_YOU_PRINT_VIEW' => 'Imprimer document',
-	'PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD' => 'Choisisir votre méthode d\'expédition',
+	'PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD' => 'Choisir votre méthode d\'expédition',
 	'PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS' => '<a href=\'http://www.ups.com\' target=\'_blank\'>UPS Online(R) Tools</a> Calcul de Transport',
 	'PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_ACCESS_CODE' => 'Code d\'accès UPS',
 	'PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_UPS_ACCESS_CODE_EXPLAIN' => 'Votre code d\'accès à UPS',
@@ -471,7 +472,7 @@ Sélectionnez l\'état qui autorise le téléchargement pour le client. (ainsi l
 	'PHPSHOP_COUPON_ALREADY_REDEEMED' => 'Le chèque boutique a déjà été dépensé.',
 	'PHPSHOP_COUPON_ENTER_HERE' => 'Si vous avez un code chèque boutique, saisissez-le ci-dessous:',
 	'PHPSHOP_COUPON_SUBMIT_BUTTON' => 'Recalculer',
-	'PHPSHOP_COUPON_CODE_EXISTS' => 'Ce code chèque boutique existe déjà. Veuillez essayer de nouveau.',
+	'PHPSHOP_COUPON_CODE_EXISTS' => 'Ce code chèque boutique existe déjà. Veuillez essayer à nouveau.',
 	'PHPSHOP_COUPON_COMPLETE_ALL_FIELDS' => 'Veuillez compléter tous les champs.',
 	'PHPSHOP_COUPON_VALUE_NOT_NUMBER' => 'La valeur du chèque boutique doit être un nombre.',
 	'PHPSHOP_COUPON_NEW_HEADER' => 'Nouveau chèque boutique',
@@ -489,7 +490,7 @@ Sélectionnez l\'état qui autorise le téléchargement pour le client. (ainsi l
 	'PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE_CHECKING' => 'Compte chèque',
 	'PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE_BUSINESSCHECKING' => 'Compte chèque entreprise',
 	'PHPSHOP_ACCOUNT_LBL_ACCOUNT_TYPE_SAVINGS' => 'Compte de placement',
-	'PHPSHOP_PAYMENT_AN_RECURRING' => 'Facturations récurentes ?',
+	'PHPSHOP_PAYMENT_AN_RECURRING' => 'Facturations récurrentes ?',
 	'PHPSHOP_PAYMENT_AN_RECURRING_TOOLTIP' => 'Définir si vous désirez des facturations qui se répètent périodiquement.',
 	'PHPSHOP_INTERNAL_ERROR' => 'Erreur interne au traitement de la demande de',
 	'PHPSHOP_PAYMENT_ERROR' => 'Echec dans le traitement du règlement',
@@ -511,7 +512,7 @@ Sélectionnez l\'état qui autorise le téléchargement pour le client. (ainsi l
 	'PHPSHOP_ERROR_CODE' => 'Code Erreur',
 	'PHPSHOP_ERROR_DESC' => 'Erreur de description',
 	'PHPSHOP_CHANGE_TRANSACTION_KEY' => 'Afficher / Modifier la clé de transaction',
-	'PHPSHOP_PAYMENT_CVV2' => 'Demande/Capture cryptograme sécurité carte de c·rédit (CVV2/CVC2/CID)',
+	'PHPSHOP_PAYMENT_CVV2' => 'Demande/Capture cryptograme sécurité carte de crédit (CVV2/CVC2/CID)',
 	'PHPSHOP_PAYMENT_CVV2_TOOLTIP' => 'Demander la valeur CVV2/CVC2/CID valide (trois -ou quatre- chiffres à l\'arrière de la carte de crédit, sur l\'avant des Cartes American Express) ?',
 	'PHPSHOP_CUSTOMER_CVV2_TOOLTIP' => 'Veuillez saisir les trois -ou quatre- chiffres à l\'arrière de votre carte de crédit (sur l\'avant pour les Cartes American Express)',
 	'PHPSHOP_CUSTOMER_CVV2_ERROR' => 'Vous devez saisir le cryptogramme de sécurité de la carte de crédit avant de continuer.',
@@ -573,7 +574,7 @@ Sélectionnez l\'état qui autorise le téléchargement pour le client. (ainsi l
 	'PHPSHOP_USER_SEND_REGISTRATION_DETAILS' => 'Bonjour %s,
 
 Merci de vous être enregistré(e) sur %s. Votre compte client a été créé.
-Vous pouvez vous connectez sur %s en utilisant le nom d\'utilisateur et mot de passe suivant:
+Vous pouvez vous connecter sur %s en utilisant le nom d\'utilisateur et mot de passe suivant:
 
 Nom d\'Utilisateur - %s
 Mot de passe - %s
@@ -598,13 +599,13 @@ Mot de passe - %s
 	'VM_ADMIN_CFG_PAYPAL_STATUS_PENDING_EXPLAIN' => 'Etat des commandes qui n\'ont pas terminé la transaction de paiement. 
 La transaction n\'a pas été annulée dans le cas présent, mais elle est en suspens et en attente d\'achèvement.',
 	'VM_ADMIN_CFG_PAYPAL_STATUS_PENDING' => 'Etat de la commande pour les paiements en attente',
-	'VM_SHIPPING_MODULE_LIST_LBL' => 'Lister les modules d\'expeditions',
+	'VM_SHIPPING_MODULE_LIST_LBL' => 'Lister les modules d\'expéditions',
 	'VM_ENABLED' => 'activé',
 	'VM_DISABLED' => 'désactivé',
 	'VM_ABOUT' => 'A propos',
 	'VM_HELP_TOPICS' => 'Help Topics',
 	'VM_COMMUNITY_FORUM' => 'Forum',
-	'VM_CONFIGURATION_CHANGE_SUCCESS' => 'La configuration ont été mises à jour',
+	'VM_CONFIGURATION_CHANGE_SUCCESS' => 'La configuration a été mise à jour',
 	'VM_CONFIGURATION_CHANGE_FAILURE' => 'Impossible d\'écrire dans le fichier de configuration %s',
 	'VM_WRITABLE' => 'Modifiable',
 	'VM_UNWRITABLE' => 'Non modifiable',
@@ -648,7 +649,7 @@ URL: {product_url}
 
 Mail mailto: {shopper_email}',
 	'VM_RECOMMEND_SUBJECT' => 'Recommandation de produit à %s',
-	'VM_RECOMMEND_DONE' => 'Votre recommandation a été bien envoyée',
+	'VM_RECOMMEND_DONE' => 'Votre recommandation a bien été envoyée',
 	'VM_RECOMMEND_FAILED' => 'Votre recommandation n\'a  pas pu être envoyée',
 	'VM_LEGALINFO_SHORTTEXT' => '<h5>Returns Policy</h5>
 
@@ -656,8 +657,8 @@ You can cancel this order within two weeks after we have received it.
 You can return new, unopened items from a cancelled order within 2 weeks after they have been 
 delivered to you. Items should be returned in their original packaging.
 For more information on cancelling orders and returning items, see the <a href="%s" onclick="%s" target="_blank">Our Returns Policy</a> page.',
-	'VM_SESSION_SAVEPATH_UNWRITABLE_TMPFIX' => 'Le répertoire pour stocker les données de session n\'est pas modifiable. S?il vous plaît corriger ceci ou contactez votre hébergeur.',
-	'VM_SESSION_SAVEPATH_UNWRITABLE' => 'Le chemain de sauvegarde de la Session (Session Save Path) %s n\'est pas inscriptible. S?il vous plaît corriger cela! La boutique  essaye d\'utiliser le %s à la place.',
+	'VM_SESSION_SAVEPATH_UNWRITABLE_TMPFIX' => 'Le répertoire pour stocker les données de session n\'est pas modifiable. Veuillez corriger ceci ou contacter votre hébergeur.',
+	'VM_SESSION_SAVEPATH_UNWRITABLE' => 'Le chemain de sauvegarde de la Session (Session Save Path) %s n\'est pas inscriptible. Veuillez corriger cela! La boutique  essaye d\'utiliser le %s à la place.',
 	'VM_SESSION_COOKIES_NOT_ACCEPTED_TIP' => 'Votre navigateur n\'accepte pas les cookies. Pour mettre les produits dans votre panier d\'achat et les acheter, vous devez activer les cookies.',
 	'BUTTON_SEND_REG' => 'S\'inscrire',
 	'CONTACT_FORM_NC' => 'S\'il vous plaît assurez-vous que le formulaire est complet et correct.',
@@ -702,24 +703,24 @@ For more information on cancelling orders and returning items, see the <a href="
 	
 	Please do not respond to this message as it is automatically generated and is for information purposes only',
 	'REG_COMPLETE' => '<div Class="componentheading"> enregistrement complet! </ Div> <br /> Vous pouvez maintenant vous connecter.',
-	'REG_COMPLETE_ACTIVATE' => '<div Class="componentheading"> Inscription terminée! </ Div> <br /> Votre compte a été créé et le lien d\'activation a été envoyé à l\'adresse e-mail que vous avez entrés. Notez que vous devez activer le compte en cliquant sur le lien d\'activation lorsque vous recevez l\'e-mail avant de pouvoir vous connecter.',
+	'REG_COMPLETE_ACTIVATE' => '<div Class="componentheading"> Inscription terminée! </ Div> <br /> Votre compte a été créé et le lien d\'activation a été envoyé à l\'adresse e-mail que vous avez entrée. Notez que vous devez activer le compte en cliquant sur le lien d\'activation lorsque vous recevez l\'e-mail avant de pouvoir vous connecter.',
 	'DATE_FORMAT_LC' => '%A, %d %B %Y',
 	'VM_CART_PRODUCT_ADDED' => 'Le produit a été ajouté à votre panier.',
-	'VM_CART_PRODUCT_UPDATED' => 'La quantite a été mise à jour.',
+	'VM_CART_PRODUCT_UPDATED' => 'La quantité a été mise à jour.',
 	'CMN_OK' => 'Ok',
 	'CMN_CONTINUE' => 'Continuer',
 	'CMN_CANCEL' => 'Annuler',
 	'VM_USERGROUP_LBL' => 'Groupes utilisateur',
 	'VM_CART_MIN_ORDER' => 'The minimum order level for this product is $min items.',
 	'VM_CART_MAX_ORDER' => 'The maximum order level for this product is $max items.',
-	'ITEM_PREVIOUS' => 'précedent',
+	'ITEM_PREVIOUS' => 'précédent',
 	'ITEM_NEXT' => 'prochain',
 	'VM_ORDER_EDIT_ACTIONS' => 'Actions',
 	'VM_ORDER_EDIT' => 'Modifier la commande',
 	'VM_ORDER_EDIT_ADD' => 'Ajouter',
 	'VM_ORDER_EDIT_ADD_PRODUCT' => 'Ajouter produit',
 	'VM_ORDER_EDIT_EDIT_ORDER' => 'Modifier la commande',
-	'VM_ORDER_EDIT_ERROR_QUANTITY_MUST_BE_HIGHER_THAN_0' => 'La quantité doit être supérieur à 0',
+	'VM_ORDER_EDIT_ERROR_QUANTITY_MUST_BE_HIGHER_THAN_0' => 'La quantité doit être supérieure à 0',
 	'VM_ORDER_EDIT_PRODUCT_ADDED' => 'Produit ajouté à la commande',
 	'VM_ORDER_EDIT_PRODUCT_DELETED' => 'Produit supprimé de la commande',
 	'VM_ORDER_EDIT_QUANTITY_UPDATED' => 'Quantité mise à jour',
@@ -740,11 +741,11 @@ For more information on cancelling orders and returning items, see the <a href="
 	'NO_ACCOUNT' => 'Pas encore de compte?',
 	'CREATE_ACCOUNT' => 'Inscription',
 	'REGWARN_PASS' => 'S\'il vous plaît, entrez un mot de passe valide. Pas d\'espaces, de plus de 6 caractères et contenir 0-9, az, AZ',
-	'REGWARN_VPASS1' => 'S?il vous plaît vérifier le mot de passe.',
-	'REGWARN_VPASS2' => 'Mot de passe et la vérification ne correspondent pas, réessayez s?il vous plaît.',
+	'REGWARN_VPASS1' => 'S\'il vous plaît vérifiez le mot de passe.',
+	'REGWARN_VPASS2' => 'Mot de passe et la vérification ne correspondent pas, réessayez s\'il vous plaît.',
 	'USEND_MSG_ACTIVATE' => 'Bonjour %s, 
 
-Merci de vous identifier à %s. Votre compte est créé et doit être activée avant de pouvoir l\'utiliser. 
+Merci de vous identifier à %s. Votre compte est créé et doit être activé avant de pouvoir l\'utiliser. 
 Pour activer le compte, cliquez sur le lien ci-dessous ou copiez-collez-le dans votre navigateur: 
 %s 
 
@@ -809,9 +810,9 @@ An Account allows you to come back to this shop and view all the orders you have
 	'VM_FEDEX_SORT_ASC' => 'Ascendant',
 	'VM_FEDEX_SORT_DESC' => 'Descendant',
 	'VM_FEDEX_ERR_METER_NUMBER' => 'Error updating the Meter Number.',
-	'VM_FEDEX_LBL_METHOD' => 'Méthode d\'expedition',
+	'VM_FEDEX_LBL_METHOD' => 'Méthode d\'expédition',
 	'VM_FEDEX_LBL_PRICE' => 'Prix',
-	'VM_FEATURED_PRODUCT' => 'Produits vedette',
+	'VM_FEATURED_PRODUCT' => 'Produits vedettes',
 	'VM_RECENT_PRODUCTS' => 'Produits vus récemment',
 	'VM_ADMIN_SIMPLE_LAYOUT' => 'Mise en page simple',
 	'VM_ADMIN_EXTENDED_LAYOUT' => 'Mise en page étendu',
@@ -915,7 +916,7 @@ An Account allows you to come back to this shop and view all the orders you have
 	'EMAIL_FRIEND' => 'E-mail this to a friend.',
 	'EMAIL_FRIEND_ADDR' => 'Your friend\'s e-mail:',
 	'EMAIL_YOUR_NAME' => 'Votre nom:',
-	'EMAIL_YOUR_MAIL' => 'Votre Emai:',
+	'EMAIL_YOUR_MAIL' => 'Votre Email:',
 	'VM_CART_NOTIFY' => 'Informez moi',
 	'CMN_PUBLISH' => 'Publier',
 	'CMN_UNPUBLISH' => 'Dépublier',
@@ -923,7 +924,7 @@ An Account allows you to come back to this shop and view all the orders you have
 	'CMN_PLEASESELECT_UNPUBLISH' => 'Faites une sélection depuis la liste des éléments à ne pas publier',
 	'CMN_PLEASESELECT_DELETE' => 'Faites une sélection depuis la liste à supprimer',
 	'CMN_PLEASESELECT_TO' => 'Faites une sélection depuis la liste à',
-	'CMN_CONFIRM_DELETE_ITEMS' => 'Etes vous sur de vouloir supprimer les éléments sélectionnés',
+	'CMN_CONFIRM_DELETE_ITEMS' => 'Etes vous sûr de vouloir supprimer les éléments sélectionnés',
 	'NO_RESTRICTION' => 'Pas de restriction',
 	'CMN_ORDER_UP' => 'Vers le haut',
 	'CMN_ORDER_DOWN' => 'Vers le bas',
@@ -933,7 +934,7 @@ An Account allows you to come back to this shop and view all the orders you have
 Nos %s sont maintenant en stock et peuvent être achetés en suivant ce lien: 
 %s.
 
-Ce message est envoyé une fois, vous ne recevez pas de nouvel e-mail .',
+Ce message est envoyé une fois, vous ne recevrez pas de nouvel e-mail .',
 	'PHPSHOP_CART_GOTO_WAITING_LIST' => 'Please wait: in the next page you will can submit the notify request.',
 	'PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_SUCC' => 'Order Status for successful transactions',
 	'PHPSHOP_ADMIN_CFG_PAYMENT_ORDERSTATUS_SUCC_EXPLAIN' => 'Select the order status to which the actual order is set, if the payment transaction was successful. 
@@ -1057,20 +1058,20 @@ ePay will calculate the fee and put it on the payment before the payment is made
 Default: ps_xmlexport <br /> 
 <i> Laissez vide si vous n\'êtes pas sûr de ce qu\'il faut remplir </ I>',
 	'VM_ORDER_EXPORT_CONFIG' => 'Configuration de l\'exportation des commandes',
-	'VM_ORDER_EXPORT_CONFIG_TIP' => 'Vous pouvez configurer votre export. Votre code PHP doit être validée.
+	'VM_ORDER_EXPORT_CONFIG_TIP' => 'Vous pouvez configurer votre export. Votre code PHP doit être validé.
 ',
 	'VM_REGISTER_BEFORE' => 'Veuillez vous inscrire pour utiliser cette fonctionnalité',
 	'VM_RECOMMEND_MESSAGE_PREFACE' => 'Nous vous adressons ce message du site web %s de la part de %s (%s).
 
 _____________________',
 	'VM_CFG_BROWSE_STYLE' => 'Sélectionnez un style pour la liste de produit',
-	'VM_CFG_BROWSE_STYLE_TIP' => 'Changer le style de la liste de produits avec ce paramètre. <br /> Le layout tableless est parfait poursi vous avez un site tableless XHTML / CSS. Essayez les autres si votre mise en page est vissée.',
+	'VM_CFG_BROWSE_STYLE_TIP' => 'Changez le style de la liste de produits avec ce paramètre. <br /> Le layout tableless est parfait si vous avez un site tableless XHTML / CSS. Essayez les autres si votre mise en page est vissée.',
 	'PHPSHOP_CHECKOUT_MSG_2' => 'Choisissez une adresse d\'expédition',
 	'PHPSHOP_CHECKOUT_MSG_3' => 'Choisissez une méthode d\'expédition',
-	'PHPSHOP_CHECKOUT_MSG_99' => 'Vérifier vos informations et passer votre commande ',
+	'PHPSHOP_CHECKOUT_MSG_99' => 'Vérifiez vos informations et passez votre commande ',
 	'PROMPT_PASSWORD' => 'Perdu votre mot de passe?',
 	'REGISTER_TITLE' => 'Enregistrement',
-	'VM_LATEST_PRODUCT' => 'Dernier produits',
+	'VM_LATEST_PRODUCT' => 'Dernier produit',
 	'VM_CART_NOSTOCK' => 'Rupture de stock',
 	'CSVIMPROVED_TITLE' => 'CSV Improved -Composant d\' Import/Export ',
 	'CSVIMPROVED_NEEDINSTALL' => 'Afin d\'utiliser CSV Import / Export vous devez installer le composant "CSVImproved"',

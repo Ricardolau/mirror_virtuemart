@@ -2,10 +2,11 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
+* @version : french.php 1071 2007-12-03 08:42:28Z thepisu $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
-* @translator soeren
+* @copyright Copyright (C) 2004-2010 soeren - All rights reserved.
+* @translator Nadia Andreoletti
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -19,7 +20,7 @@ global $VM_LANG;
 $langvars = array (
 	'CHARSET' => 'UTF-8',
 	'PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX' => 'Afficher les prix TTC?',
-	'PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX_EXPLAIN' => 'Si la case est cochée, les prix sont affichés TVA incluses.  Sinon ils sont affichés sans la TVA',
+	'PHPSHOP_ADMIN_CFG_PRICES_INCLUDE_TAX_EXPLAIN' => 'Si la case est cochée, les prix sont affichés TVA incluse.  Sinon ils sont affichés sans la TVA',
 	'PHPSHOP_SHOPPER_FORM_ADDRESS_LABEL' => 'Nom de l\'adresse',
 	'PHPSHOP_SHOPPER_GROUP_LIST_LBL' => 'Liste des groupes de clients',
 	'PHPSHOP_SHOPPER_GROUP_LIST_NAME' => 'Nom du groupe',

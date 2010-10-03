@@ -2,11 +2,11 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
-* @version : italian.php 1071 2007-12-03 08:42:28Z thepisu $
+* @version : french.php 1071 2007-12-03 08:42:28Z thepisu $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
-* @translator soeren
+* @copyright Copyright (C) 2004-2010 soeren - All rights reserved.
+* @translator Nadia Andreoletti
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -22,7 +22,7 @@ $langvars = array (
 	'PHPSHOP_RB_INDIVIDUAL' => 'Listes de produits individuels',
 	'PHPSHOP_RB_SALE_TITLE' => 'Rapport des ventes',
 	'PHPSHOP_RB_SALES_PAGE_TITLE' => 'Vue d\'ensemble des activités de vente',
-	'PHPSHOP_RB_INTERVAL_TITLE' => 'Régler l\'interval',
+	'PHPSHOP_RB_INTERVAL_TITLE' => 'Régler l\'intervalle',
 	'PHPSHOP_RB_INTERVAL_MONTHLY_TITLE' => 'Mensuel',
 	'PHPSHOP_RB_INTERVAL_WEEKLY_TITLE' => 'Hebdomadaire',
 	'PHPSHOP_RB_INTERVAL_DAILY_TITLE' => 'Quotidien',

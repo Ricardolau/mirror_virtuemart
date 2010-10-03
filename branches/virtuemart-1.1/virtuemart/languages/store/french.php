@@ -2,11 +2,11 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
-* @version : italian.php 1071 2007-12-03 08:42:28Z thepisu $
+* @version : french.php 1071 2007-12-03 08:42:28Z thepisu $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
-* @translator soeren
+* @copyright Copyright (C) 2004-2010 soeren - All rights reserved.
+* @translator Nadia Andreoletti
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -97,22 +97,22 @@ default: ps_payment<br />
 	'VM_ORDER_EXPORT_MODULE_LIST_NAME' => 'Nom',
 	'VM_ORDER_EXPORT_MODULE_LIST_DESC' => 'Description',
 	'VM_STORE_FORM_ACCEPTED_CURRENCIES' => 'Liste des devises acceptées',
-	'VM_STORE_FORM_ACCEPTED_CURRENCIES_TIP' => 'Cette liste définit toutes les monnaies que vous acceptez dans votre boutique. <strong> Remarque: </ strong> Toutes les monnaies retenus ici peuvent être utilisés lors du passage en caisse! Si vous ne voulez pas utlisez cette fonctionnalité, sélectionner votre pays en devise (= par défaut).',
+	'VM_STORE_FORM_ACCEPTED_CURRENCIES_TIP' => 'Cette liste définit toutes les monnaies que vous acceptez dans votre boutique. <strong> Remarque: </ strong> Toutes les monnaies retenues ici peuvent être utilisées lors du passage en caisse! Si vous ne voulez pas utiliser cette fonctionnalité, sélectionnez votre pays en devise (= par défaut).',
 	'VM_EXPORT_MODULE_FORM_LBL' => 'Export Module Form',
 	'VM_EXPORT_MODULE_FORM_NAME' => 'Export Module Name',
 	'VM_EXPORT_MODULE_FORM_DESC' => 'Description',
 	'VM_EXPORT_CLASS_NAME' => 'Nom de la classe Export',
 	'VM_EXPORT_CLASS_NAME_TIP' => '(e.g. <strong>ps_orders_csv</strong>) :<br /> default: ps_xmlexport<br /> <i>Leave blank if you\'re not sure what to fill in!</i>',
 	'VM_EXPORT_CONFIG' => 'Configuration supplémentaire Export',
-	'VM_EXPORT_CONFIG_TIP' => 'Préciser la configuration Export pour les modules définies par les utlisateursou de définir de nouveaux modules de configuration. Code doit être du code PHP correct.',
+	'VM_EXPORT_CONFIG_TIP' => 'Préciser la configuration Export pour les modules définis par les utilisateurs ou de définir de nouveaux modules de configuration. Code doit être du code PHP correct.',
 	'VM_SHIPPING_MODULE_LIST_NAME' => 'Nom',
 	'VM_SHIPPING_MODULE_LIST_E_VERSION' => 'Version',
 	'VM_SHIPPING_MODULE_LIST_HEADER_AUTHOR' => 'Auteur',
 	'PHPSHOP_STORE_ADDRESS_FORMAT' => 'Format de l\'adresse de la boutique',
 	'PHPSHOP_STORE_ADDRESS_FORMAT_TIP' => 'Vous pouvez utiliser les paramètres fictifs suivants ici',
 	'PHPSHOP_STORE_DATE_FORMAT' => 'Format de la date de la boutique',
-	'VM_PAYMENT_METHOD_ID_NOT_PROVIDED' => 'Erreur: ID de la méthode de pamet non trouvé.',
-	'VM_SHIPPING_MODULE_CONFIG_LBL' => 'Configuration de la méthode d\'expedition',
+	'VM_PAYMENT_METHOD_ID_NOT_PROVIDED' => 'Erreur: ID de la méthode de paiement non trouvé.',
+	'VM_SHIPPING_MODULE_CONFIG_LBL' => 'Configuration de la méthode d\'expédition',
 	'VM_SHIPPING_MODULE_CLASSERROR' => 'Impossible d\'instancier la classe shipping_module ()'
 ); $VM_LANG->initModule( 'store', $langvars );
 ?>

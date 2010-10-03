@@ -2,10 +2,11 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
+* @version : french.php 1071 2007-12-03 08:42:28Z thepisu $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
-* @translator soeren
+* @copyright Copyright (C) 2004-2010 soeren - All rights reserved.
+* @translator Nadia Andreoletti
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -64,11 +65,11 @@ $langvars = array (
 	'PHPSHOP_PRODUCT_FORM_DIMENSION_UOM_DEFAULT' => 'pouces',
 	'PHPSHOP_PRODUCT_FORM_PACKAGING' => 'Nombre de pièces dans l\'emballage',
 	'PHPSHOP_PRODUCT_FORM_PACKAGING_DESCRIPTION' => 'Préciser le nombre de pièces dans l\'emballage. (max. 65535)',
-	'PHPSHOP_PRODUCT_FORM_BOX' => 'Nombre de pièces le Lot',
+	'PHPSHOP_PRODUCT_FORM_BOX' => 'Nombre de pièces dans le lot',
 	'PHPSHOP_PRODUCT_FORM_BOX_DESCRIPTION' => 'Préciser le nombre de pièces dans le lot. (max. 65535)',
 	'PHPSHOP_PRODUCT_DISPLAY_ADD_PRODUCT_LBL' => 'Résultats produit ajouté',
 	'PHPSHOP_PRODUCT_DISPLAY_UPDATE_PRODUCT_LBL' => 'Résultats produit mis à jour',
-	'PHPSHOP_PRODUCT_DISPLAY_ADD_ITEM_LBL' => 'Résultats élèment ajouté',
+	'PHPSHOP_PRODUCT_DISPLAY_ADD_ITEM_LBL' => 'Résultats élément ajouté',
 	'PHPSHOP_PRODUCT_DISPLAY_UPDATE_ITEM_LBL' => 'Résultats élément mis à Jour',
 	'PHPSHOP_CATEGORY_FORM_LBL' => 'Information sur la catégorie',
 	'PHPSHOP_CATEGORY_FORM_NAME' => 'Nom de la catégorie',
@@ -164,7 +165,7 @@ $langvars = array (
 	'PHPSHOP_PRODUCT_TYPE_PARAMETER_FORM_UNIT' => 'Unité',
 	'PHPSHOP_PRODUCT_CLONE' => 'Cloner produit',
 	'PHPSHOP_HIDE_OUT_OF_STOCK' => 'Ne pas afficher le nombre de produits en stock',
-	'PHPSHOP_FEATURED_PRODUCTS_LIST_LBL' => 'Caractéristiques & Remises des produit',
+	'PHPSHOP_FEATURED_PRODUCTS_LIST_LBL' => 'Caractéristiques & Remises des produits',
 	'PHPSHOP_FEATURED' => 'Caractéristiques',
 	'PHPSHOP_SHOW_FEATURED_AND_DISCOUNTED' => 'caractéristiques ET réductions',
 	'PHPSHOP_SHOW_DISCOUNTED' => 'remises sur les produits',
@@ -182,11 +183,11 @@ $langvars = array (
 	'SEL_CATEGORY' => 'Sélectionner catégorie',
 	'VM_PRODUCT_FORM_MIN_ORDER' => 'Quantité d\'achat minimum',
 	'VM_PRODUCT_FORM_MAX_ORDER' => 'Quantité d\'achat maximum',
-	'VM_DISPLAY_TABLE_HEADER' => 'Affiche entête du tableau',
+	'VM_DISPLAY_TABLE_HEADER' => 'Affiche en tête du tableau',
 	'VM_DISPLAY_LINK_TO_CHILD' => 'Lien vers le produit à partir de la liste des enfants',
 	'VM_DISPLAY_INCLUDE_PRODUCT_TYPE' => 'Inclure le type de produit avec un enfant',
 	'VM_DISPLAY_USE_LIST_BOX' => 'Use List box for child products',
-	'VM_DISPLAY_LIST_STYLE' => 'Style dela liste',
+	'VM_DISPLAY_LIST_STYLE' => 'Style de la liste',
 	'VM_DISPLAY_USE_PARENT_LABEL' => 'Utilisez les paramètres de parent:',
 	'VM_DISPLAY_LIST_TYPE' => 'Liste:',
 	'VM_DISPLAY_QUANTITY_LABEL' => 'Quantité:',
@@ -197,9 +198,9 @@ $langvars = array (
 	'VM_DISPLAY_CHILD_SUFFIX' => 'Suffixe de la classe enfant',
 	'VM_INCLUDED_PRODUCT_ID' => 'IDs des produits à inclure',
 	'VM_EXTRA_PRODUCT_ID' => 'IDs supplémentaires',
-	'PHPSHOP_DISPLAY_RADIOBOX' => 'Utliser les cases radio',
+	'PHPSHOP_DISPLAY_RADIOBOX' => 'Utiliser les cases radio',
 	'PHPSHOP_PRODUCT_FORM_ITEM_DISPLAY_LBL' => 'Affiche les options',
-	'PHPSHOP_DISPLAY_USE_PARENT' => 'Efface les valeurs  d\'affichage des produits enfants et utlise les parents',
+	'PHPSHOP_DISPLAY_USE_PARENT' => 'Efface les valeurs  d\'affichage des produits enfants et utilise les parents',
 	'PHPSHOP_DISPLAY_NORMAL' => 'Case quantité standard',
 	'PHPSHOP_DISPLAY_HIDE' => 'Cacher la case quantité',
 	'PHPSHOP_DISPLAY_DROPDOWN' => 'Utilisez une liste déroulante',
@@ -207,10 +208,10 @@ $langvars = array (
 	'PHPSHOP_DISPLAY_ONE' => 'Un bouton "ajouter au panier"',
 	'PHPSHOP_DISPLAY_MANY' => 'Bouton "ajouter au panier "pour chaque enfant',
 	'PHPSHOP_DISPLAY_START' => 'Valeur départ',
-	'PHPSHOP_DISPLAY_END' => 'Valeur final',
+	'PHPSHOP_DISPLAY_END' => 'Valeur finale',
 	'PHPSHOP_DISPLAY_STEP' => 'Valeur du pas',
 	'PRODUCT_WAITING_LIST_TAB' => 'Liste d\'attente',
-	'PRODUCT_WAITING_LIST_USERLIST' => 'Des utilisateurs attendent d\'être averti dès que ce produit est à nouveau en stock',
+	'PRODUCT_WAITING_LIST_USERLIST' => 'Des utilisateurs attendent d\'être avertis dès que ce produit est à nouveau en stock',
 	'PRODUCT_WAITING_LIST_NOTIFYUSERS' => 'Informer ces utilisateurs maintenant (si vous avez mis à jour le nombre de produits de stock)',
 	'PRODUCT_WAITING_LIST_NOTIFIED' => 'Informée',
 	'VM_PRODUCT_FORM_AVAILABILITY_SELECT_IMAGE' => 'Sélectionnez une image',
@@ -221,7 +222,7 @@ $langvars = array (
 	'VM_CATEGORY_FORM_PRODUCTS_PER_ROW' => 'Affiche x produits par ligne',
 	'VM_CATEGORY_FORM_BROWSE_PAGE' => 'Page de navigation catégorie',
 	'VM_PRODUCT_CLONE_OPTIONS_TAB' => 'Cloner les options du produit',
-	'VM_PRODUCT_CLONE_OPTIONS_LBL' => 'Cloner aussi les elements enfant',
+	'VM_PRODUCT_CLONE_OPTIONS_LBL' => 'Cloner aussi les éléments enfant',
 	'VM_PRODUCT_LIST_MEDIA' => 'Media',
 	'VM_REVIEW_LIST_NAMEDATE' => 'Nom/Date',
 	'VM_PRODUCT_SELECT_ONE_OR_MORE' => 'Sélectionnez un ou plusieurs produits',

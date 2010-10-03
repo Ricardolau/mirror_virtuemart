@@ -2,11 +2,11 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
-* @version : italian.php 1071 2007-12-03 08:42:28Z thepisu $
+* @version : french.php 1071 2007-12-03 08:42:28Z thepisu $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
-* @translator soeren
+* @copyright Copyright (C) 2004-2010 soeren - All rights reserved.
+* @translator Nadia Andreoletti
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -29,10 +29,10 @@ $langvars = array (
 	'PHPSHOP_ORDER_STATUS_FORM_LIST_ORDER' => 'Ordre d\\\'affichage',
 	'PHPSHOP_COMMENT' => 'Commentaire',
 	'PHPSHOP_ORDER_LIST_NOTIFY' => 'Avertir le client ?',
-	'PHPSHOP_ORDER_LIST_NOTIFY_ERR' => 'Veuillez d\'abord modifier de l\'état de la commande',
+	'PHPSHOP_ORDER_LIST_NOTIFY_ERR' => 'Veuillez d\'abord modifier l\'état de la commande',
 	'PHPSHOP_ORDER_HISTORY_INCLUDE_COMMENT' => 'Inclure ce commentaire ?',
 	'PHPSHOP_ORDER_HISTORY_DATE_ADDED' => 'Date ajoutée',
-	'PHPSHOP_ORDER_HISTORY_CUSTOMER_NOTIFIED' => 'Avertir cient ?',
+	'PHPSHOP_ORDER_HISTORY_CUSTOMER_NOTIFIED' => 'Avertir client ?',
 	'PHPSHOP_ORDER_STATUS_CHANGE' => 'Etat de commande',
 	'PHPSHOP_ORDER_LIST_PRINT_LABEL' => 'Libellé Imprimer',
 	'PHPSHOP_ORDER_LIST_VOID_LABEL' => 'Libellé void',
@@ -45,7 +45,7 @@ $langvars = array (
 	'VM_EXPIRY' => 'Echéance',
 	'VM_UPDATE_STATUS' => 'Mise à jour de l\'etat',
 	'VM_ORDER_LABEL_ORDERID_NOTVALID' => 'Merci de fournir un ID de commande valide et numérique et non pas "(order_id )"',
-	'VM_ORDER_LABEL_NOTFOUND' => 'Commande introuvable dans la base de données des llibéllés d\'expédition.',
+	'VM_ORDER_LABEL_NOTFOUND' => 'Commande introuvable dans la base de données des libellés d\'expédition.',
 	'VM_ORDER_LABEL_NEVERGENERATED' => 'Label has not been generated yet',
 	'VM_ORDER_LABEL_CLASSCANNOT' => 'Class {ship_class} cannot get label images, why are we here?',
 	'VM_ORDER_LABEL_SHIPPINGLABEL_LBL' => 'Libellé d\'expédition',
@@ -56,7 +56,7 @@ $langvars = array (
 	'VM_ORDER_PRINT_PO_IPADDRESS' => 'ADDRESS IP',
 	'VM_ORDER_STATUS_ICON_ALT' => 'Icône status',
 	'VM_ORDER_PAYMENT_CCV_CODE' => 'Code CVV',
-	'VM_ORDER_NOTFOUND' => 'Aucune command n\'a été trouvée. Elle a peut être été effacée.',
+	'VM_ORDER_NOTFOUND' => 'Aucune commande n\'a été trouvée. Elle a peut être été effacée.',
 	'PHPSHOP_ORDER_EDIT_ACTIONS' => 'Actions',
 	'PHPSHOP_ORDER_EDIT' => 'Change Order Details',
 	'PHPSHOP_ORDER_EDIT_ADD' => 'Add',

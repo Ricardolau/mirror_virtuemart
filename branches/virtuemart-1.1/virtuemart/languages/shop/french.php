@@ -2,10 +2,11 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
+* @version : french.php 1071 2007-12-03 08:42:28Z thepisu $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
-* @translator soeren
+* @copyright Copyright (C) 2004-2010 soeren - All rights reserved.
+* @translator Nadia Andreoletti
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -24,7 +25,7 @@ $langvars = array (
 	'PHPSHOP_DOWNLOADS_START' => 'Démarrer le téléchargement',
 	'PHPSHOP_DOWNLOADS_INFO' => 'Veuillez saisir le numéro de téléchargement qui vous a été communiqué par email, puis cliquez sur "Démarrer le téléchargement".',
 	'PHPSHOP_WAITING_LIST_MESSAGE' => 'Veuillez saisir votre adresse email pour être prévenu(e) dès que ce produit sera de nouveau disponible en stock. 
-Votre adresse email ne sera en aucune manière cédée, vendue ou partagée de quelques manière que ce soit autre que pour vous avertir lors de nos rétablissements de stocks.<br /><br />Merci !',
+Votre adresse email ne sera en aucune manière cédée, vendue ou partagée de quelque manière que ce soit autre que pour vous avertir lors de nos rétablissements de stocks.<br /><br />Merci !',
 	'PHPSHOP_WAITING_LIST_THANKS' => 'Merci pour votre patience! <br />Nous vous ferons savoir dès que ce produit sera à nouveau disponible en stock.',
 	'PHPSHOP_WAITING_LIST_NOTIFY_ME' => 'M\'informer !',
 	'PHPSHOP_SEARCH_ALL_CATEGORIES' => 'Chercher dans toutes les catégories',
@@ -64,7 +65,7 @@ Votre adresse email ne sera en aucune manière cédée, vendue ou partagée de q
 	'EMPTY_CATEGORY' => 'Cette catégorie ne contient pas de produit.',
 	'ENQUIRY' => 'Demande de renseignements',
 	'NAME_PROMPT' => 'Entrer votre nom',
-	'EMAIL_PROMPT' => 'Adresse eamil',
+	'EMAIL_PROMPT' => 'Adresse email',
 	'MESSAGE_PROMPT' => 'Ecrivez votre message',
 	'SEND_BUTTON' => 'Envoyer',
 	'THANK_MESSAGE' => '	
@@ -72,7 +73,7 @@ Merci pour votre demande de renseignements. Nous vous contacterons dès que poss
 	'PROMPT_CLOSE' => 'Fermer',
 	'VM_RECOVER_CART' => 'Récupérer le panier sauvegardé',
 	'VM_RECOVER_CART_REPLACE' => 'Remplacer le panier avec le panier sauvegardé',
-	'VM_RECOVER_CART_MERGE' => 'Ajouter le panier sauvegardé  au  panier',
+	'VM_RECOVER_CART_MERGE' => 'Ajouter le panier sauvegardé  au panier',
 	'VM_RECOVER_CART_DELETE' => 'Supprimer le panier sauvegardé ',
 	'VM_EMPTY_YOUR_CART_TIP' => 'Vider le panier de tous les contenus',
 	'VM_SAVED_CART_TITLE' => 'Saved Cart',

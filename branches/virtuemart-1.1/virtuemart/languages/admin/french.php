@@ -2,10 +2,11 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
+* @version : french.php 1071 2007-12-03 08:42:28Z thepisu $
 * @package VirtueMart
 * @subpackage languages
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
-* @translator soeren
+* @copyright Copyright (C) 2004-2010 soeren - All rights reserved.
+* @translator Nadia Andreoletti
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -82,7 +83,7 @@ $langvars = array (
                                                 <ul><li>Celui pour la région / pays de provenance du propriétaire de la boutique</li><br/>
                                                 <li>Ou celui pour la région / pays de provenance du client.</li></ul>',
 	'PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE' => 'Activer le taux de TVA multiples ?',
-	'PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE_EXPLAIN' => 'Cocher si vos produits peuvent être avoir différents taux de taxes (ex. 5.5% pour les livres et l\'alimentaire, 19.6% pour les cd)',
+	'PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE_EXPLAIN' => 'Cocher si vos produits peuvent avoir différents taux de taxes (ex. 5.5% pour les livres et l\'alimentaire, 19.6% pour les cd)',
 	'PHPSHOP_ADMIN_CFG_SUBSTRACT_PAYEMENT_BEFORE' => 'Soustraire les remises avant d\'appliquer taxes et frais ?',
 	'PHPSHOP_ADMIN_CFG_REVIEW' => 'Activer le système de notation/appréciation des clients',
 	'PHPSHOP_ADMIN_CFG_REVIEW_EXPLAIN' => 'Si activé, vous autorisez vos clients à <strong>noter les produits</strong> et <strong>écrire des appréciations</strong> sur ces produits. <br />
@@ -91,9 +92,9 @@ $langvars = array (
 	'PHPSHOP_ADMIN_CFG_AGREE_TERMS' => 'Les clients doivent-ils accepter les Conditions d\'utilisation ?',
 	'PHPSHOP_ADMIN_CFG_AGREE_TERMS_EXPLAIN' => 'Cocher si le client doit accepter les conditions d\'utilisation avant de s\'enregistrer sur la boutique.',
 	'PHPSHOP_ADMIN_CFG_CHECK_STOCK' => 'Vérifier les stocks ?',
-	'PHPSHOP_ADMIN_CFG_CHECK_STOCK_EXPLAIN' => 'Cocher pour activer la gestion des stocks, et pour empècher toute commande si l\'article n\'est pas (ou plus) disponible.',
+	'PHPSHOP_ADMIN_CFG_CHECK_STOCK_EXPLAIN' => 'Cocher pour activer la gestion des stocks, et pour empêcher toute commande si l\'article n\'est pas (ou plus) disponible.',
 	'PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE' => 'Activer le programme d\'affiliation ?',
-	'PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE_EXPLAIN' => 'Active le suivi d\'affiliation de la boutique. Activer le si vous avez ajouté des affiliés dans votre arrière-boutique.',
+	'PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE_EXPLAIN' => 'Active le suivi d\'affiliation de la boutique. Activez-le si vous avez ajouté des affiliés dans votre arrière-boutique.',
 	'PHPSHOP_ADMIN_CFG_MAIL_FORMAT' => 'Format des emails de commande',
 	'PHPSHOP_ADMIN_CFG_MAIL_FORMAT_TEXT' => 'Email format texte',
 	'PHPSHOP_ADMIN_CFG_MAIL_FORMAT_HTML' => 'Email  format HTML',
@@ -112,14 +113,14 @@ $langvars = array (
 	'PHPSHOP_ADMIN_CFG_FLYPAGE' => 'Page produit',
 	'PHPSHOP_ADMIN_CFG_FLYPAGE_EXPLAIN' => 'Nom de la page qui sera utilisée par défaut pour afficher la fiche produit.',
 	'PHPSHOP_ADMIN_CFG_CATEGORY_TEMPLATE' => 'Modèle catégorie',
-	'PHPSHOP_ADMIN_CFG_CATEGORY_TEMPLATE_EXPLAIN' => 'Nom du fichier Modèle, qui sera utilisé par défaut pour afficher les produits d\'une catégorie.<br />                                                                                                     Vous pouvez créer de nouveaux modèles en personnalisant les fichiers de modèles existants.Ces fichiers sont dans le répertoire <strong>COMPONENTPATH/html/templates/browse</strong> et commence par le mot "browse".<br />
+	'PHPSHOP_ADMIN_CFG_CATEGORY_TEMPLATE_EXPLAIN' => 'Nom du fichier Modèle, qui sera utilisé par défaut pour afficher les produits d\'une catégorie.<br />                                                                                                     Vous pouvez créer de nouveaux modèles en personnalisant les fichiers de modèles existants.Ces fichiers sont dans le répertoire <strong>COMPONENTPATH/html/templates/browse</strong> et commencent par le mot "browse".<br />
                                                                                                       ',
 	'PHPSHOP_ADMIN_CFG_PRODUCTS_PER_ROW' => 'Nombre par défaut de produits sur une ligne',
 	'PHPSHOP_ADMIN_CFG_PRODUCTS_PER_ROW_EXPLAIN' => 'Nombre de produits à afficher sur une ligne. <br />                                                           Exemple: Si vous réglez à 4, le modèle catégorie affichera 4 produits par ligne',
 	'PHPSHOP_ADMIN_CFG_NOIMAGEPAGE' => 'Image \'aucune image\'',
 	'PHPSHOP_ADMIN_CFG_NOIMAGEPAGE_EXPLAIN' => 'C\'est l\'image de substitution utilisée si vous ne proposez pas d\'image pour le produit.',
 	'PHPSHOP_ADMIN_CFG_SHOWPHPSHOP_VERSION' => 'Afficher la version de VirtueMart en pied-de-page ?',
-	'PHPSHOP_ADMIN_CFG_SHOWPHPSHOP_VERSION_EXPLAIN' => 'Affiche le numéro de version de VirtueMART en bas de chaque page.  Utlisé pour les démonstrations, mais pas en production.  Habituellement non activé.',
+	'PHPSHOP_ADMIN_CFG_SHOWPHPSHOP_VERSION_EXPLAIN' => 'Affiche le numéro de version de VirtueMART en bas de chaque page.  Utilisé pour les démonstrations, mais pas en production.  Habituellement non activé.',
 	'PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_STANDARD' => 'Module standard, avec frais et transporteur indépendant. <strong>RECOMMANDÉ !</strong>',
 	'PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_ZONE' => ' Module d\'expédition par Zone/Pays Version 1.0<br />
                                                               Pour plus d\'informations, visiter <a href=\'http://ZephWare.com\'>ZephWare.com</a><br />
@@ -176,7 +177,7 @@ $langvars = array (
 	'PHPSHOP_ADMIN_CFG_PRICE_SHOW_PACKAGING_PRICELABEL_TIP' => 'Cocher si le prix affiché est fonction du prix unitaire et du prix par emballage:<br /><strong>Prix Unitaire (10 pièces)</strong>.<br />Si la case n\'est pas cochée, le prix affiché est comme d\'habitude: <strong>Prix: xx.xx </strong>',
 	'PHPSHOP_ADMIN_CFG_MORE_CORE_SETTINGS' => 'Paramètres principaux (suite)',
 	'PHPSHOP_ADMIN_CFG_CORE_SETTINGS' => 'Paramètres principaux',
-	'PHPSHOP_ADMIN_CFG_FRONTEND_FEATURES' => 'Fonctionnalités la boutique',
+	'PHPSHOP_ADMIN_CFG_FRONTEND_FEATURES' => 'Fonctionnalités de la boutique',
 	'PHPSHOP_ADMIN_CFG_TAX_CONFIGURATION' => 'Configuration des taxes (TVA)',
 	'PHPSHOP_ADMIN_CFG_USER_REGISTRATION_SETTINGS' => 'Paramètres d\'enregistrement des utilisateurs',
 	'PHPSHOP_ADMIN_CFG_ALLOW_REGISTRATION' => 'Enregistrement des utilisateurs autorisé?',
@@ -190,17 +191,17 @@ $langvars = array (
 	'VM_FIELDMANAGER_SHOW_ON_ACCOUNT' => 'Afficher dans les informations de compte',
 	'VM_USERFIELD_FORM_LBL' => 'Ajouter / Editer les champs utilisateurs',
 	'VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL' => 'Ordre par défaut de tri des produits',
-	'VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL_TIP' => 'Définit par le champ sur lequel les produits sont classés par défaut sur les pages de navigation par catégorie',
+	'VM_BROWSE_ORDERBY_DEFAULT_FIELD_LBL_TIP' => 'Défini par le champ sur lequel les produits sont classés par défaut sur les pages de navigation par catégorie',
 	'VM_BROWSE_ORDERBY_FIELDS_LBL' => 'Champs disponibles " trier par"',
 	'VM_BROWSE_ORDERBY_FIELDS_LBL_TIP' => 'Choisir les "trier par" méthode de la page catégorie. Chacun définit une méthode de tri pour le produit parcourir la page. Si vous désactivez tous, l\'Ordre-By-Form ne sera pas affichée.',
 	'VM_GENERALLY_PREVENT_HTTPS' => 'Empêcher les connexions https?',
 	'VM_GENERALLY_PREVENT_HTTPS_TIP' => 'Quand elle est cochée, l\'acheteur est redirigé vers l\'URL<strong> http </ strong> quand ils ne sont pas dans ces zones de la boutique, qui sont forcés d\'utiliser https.',
-	'VM_MODULES_FORCE_HTTPS' => 'Zones de la boutique qui  doivent utliser https',
-	'VM_MODULES_FORCE_HTTPS_TIP' => 'Ici, vous pouvez utiliser une liste séparée par des virgules des modules de base de la boutique (voir la rubrique "Admin" => "Liste des modules"), qui sera amené à utiliser les connexions https.',
+	'VM_MODULES_FORCE_HTTPS' => 'Zones de la boutique qui  doivent utiliser https',
+	'VM_MODULES_FORCE_HTTPS_TIP' => 'Ici, vous pouvez utiliser une liste séparée par des virgules des modules de base de la boutique (voir la rubrique "Admin" => "Liste des modules"), qui sera amenée à utiliser les connexions https.',
 	'VM_SHOW_REMEMBER_ME_BOX' => 'Afficher la case à cocher "se souvenir de moi?"',
-	'VM_SHOW_REMEMBER_ME_BOX_TIP' => 'Quand elle est cochée, "se souvenir de moi" est indiquée sur lors de la validation de la commande. Non recommandé si vous utilisez du SSL mutualisé , parce que le client peut ne pas accepter les cookie utilisateur - or un cookie utlisateur est nécessaire pour garder l\'utilisateur connecté sur les deux domaines.',
+	'VM_SHOW_REMEMBER_ME_BOX_TIP' => 'Quand elle est cochée, "se souvenir de moi" est indiquée lors de la validation de la commande. Non recommandé si vous utilisez du SSL mutualisé , parce que le client peut ne pas accepter les cookie utilisateur - or un cookie utilisateur est nécessaire pour garder l\'utilisateur connecté sur les deux domaines.',
 	'VM_ADMIN_CFG_REVIEW_MINIMUM_COMMENT_LENGTH' => 'Taille minimale du commentaire',
-	'VM_ADMIN_CFG_REVIEW_MINIMUM_COMMENT_LENGTH_TIP' => 'C\'est le nombre de caractères qui DOIVENT au moins être rédigé par un client avant que le formulaire soit accepté.',
+	'VM_ADMIN_CFG_REVIEW_MINIMUM_COMMENT_LENGTH_TIP' => 'C\'est le nombre de caractères qui DOIT au moins être rédigé par un client avant que le formulaire soit accepté.',
 	'VM_ADMIN_CFG_REVIEW_MAXIMUM_COMMENT_LENGTH' => 'Taille maximale du commentaire',
 	'VM_ADMIN_CFG_REVIEW_MAXIMUM_COMMENT_LENGTH_TIP' => 'C\'est le montant maximum de caractères pouvant être écrit par un client dans un commentaire.
 ',
@@ -208,30 +209,30 @@ $langvars = array (
 	'VM_ADMIN_SHOW_EMAILFRIEND_TIP' => 'Lorsque cette option est activée, un petit lien est affiché qui permet au client d\'envoyer un em de recommandation pour un produit spécifique.',
 	'VM_ADMIN_SHOW_PRINTICON' => 'Afficher le lien "Imprimer\'"',
 	'VM_ADMIN_SHOW_PRINTICON_TIP' => 'Lorsque cette option est activée, un petit lien est affiché qui ouvre la page courante dans une nouvelle fenêtre pour l\'impression.',
-	'VM_REVIEWS_AUTOPUBLISH' => 'Commentaires auto publié',
-	'VM_REVIEWS_AUTOPUBLISH_TIP' => 'Si elle est cochée, les commentaires sont publiés automatiquement après avoir été posté. Sinon, l\'administrateur doit les approuver et les publier.',
-	'VM_ADMIN_CFG_PROXY_SETTINGS' => 'Les paramêtres globaux Proxy',
+	'VM_REVIEWS_AUTOPUBLISH' => 'Commentaires auto-publiés',
+	'VM_REVIEWS_AUTOPUBLISH_TIP' => 'Si elle est cochée, les commentaires sont publiés automatiquement après avoir été postés. Sinon, l\'administrateur doit les approuver et les publier.',
+	'VM_ADMIN_CFG_PROXY_SETTINGS' => 'Les paramètres globaux Proxy',
 	'VM_ADMIN_CFG_PROXY_URL' => 'URL du Serveur Proxy',
 	'VM_ADMIN_CFG_PROXY_URL_TIP' => 'Exemple: <strong> http://10.42.21.1 </ strong> <br />.
 Laissez vide si vous n\'ètes pas sûr. </ Strong> Cette valeur sera utilisée pour se connecter à Internet à partir de la boutique de serveur (par exemple lors de la récupération des tarifs d\'expédition d\'UPS / USPS).',
 	'VM_ADMIN_CFG_PROXY_PORT' => 'Port proxy',
 	'VM_ADMIN_CFG_PROXY_PORT_TIP' => 'Le port utilisé pour la communication avec le serveur proxy (principalement <b> 80 </ b> ou <b> 8080 </ b>).',
 	'VM_ADMIN_CFG_PROXY_USER' => 'Utilisateur proxy',
-	'VM_ADMIN_CFG_PROXY_USER_TIP' => 'Si le proxy requiert une authentification s?il vous plaît, remplissez votre nom d\'utilisateur ici.',
+	'VM_ADMIN_CFG_PROXY_USER_TIP' => 'Si le proxy requiert une authentification s\'il vous plaît, remplissez votre nom d\'utilisateur ici.',
 	'VM_ADMIN_CFG_PROXY_PASS' => 'Mot de passe proxy',
-	'VM_ADMIN_CFG_PROXY_PASS_TIP' => 'Si le proxy requiert une authentification s?il vous plaît remplir le bon mot de passe ici.',
+	'VM_ADMIN_CFG_PROXY_PASS_TIP' => 'Si le proxy requiert une authentification s\'il vous plaît, remplir le bon mot de passe ici.',
 	'VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO' => 'Afficher des informations sur "Politique de retour" sur la page de confirmation de commande?',
-	'VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO_TIP' => 'Dans la plupart des pays européens; les propriétaires de boutique sont tenus par la loi d\'informer les clients su les conditions de retour des produits et les conditions d\'annulation de la commande. ',
+	'VM_ADMIN_ONCHECKOUT_SHOW_LEGALINFO_TIP' => 'Dans la plupart des pays européens; les propriétaires de boutique sont tenus par la loi d\'informer les clients sur les conditions de retour des produits et les conditions d\'annulation de la commande. ',
 	'VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT' => 'Mentions légales (version courte)',
 	'VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT_TIP' => 'Ce texte informe vos clients sur vos conditions de retour et annulation de commande . Il est affiché sur la dernière page lors de la validation de la commande, juste au-dessus du "Confirmer la commande".',
 	'VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK' => 'Lien vers la version longue de votre texte concernant la politique des retours.',
-	'VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK_TIP' => 'Ajouter un nouveau contenu concernant votre politique de gestion des retours et annulation de commande. Vous pouvez ensuite le s�lectionner ici.',
+	'VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK_TIP' => 'Ajouter un nouveau contenu concernant votre politique de gestion des retours et annulation de commande. Vous pouvez ensuite le sélectionner ici.',
 	'VM_SELECT_THEME' => 'Choisir le thème de sa boutique',
-	'VM_SELECT_THEME_TIP' => 'Les thèmes permettent d\'appliquer des styles et de personnaliser votre boutique. <br /> Si aucun autre thèmes que  "défaut" est présent, c\'est que vous n\'avez pas installé d\'autres thèmes.',
+	'VM_SELECT_THEME_TIP' => 'Les thèmes permettent d\'appliquer des styles et de personnaliser votre boutique. <br /> Si aucun autre thème que  "défaut" est présent, c\'est que vous n\'avez pas installé d\'autres thèmes.',
 	'VM_CFG_CONTENT_PLUGINS_ENABLE' => 'Activer les mambots / plugins de contenu pour les descriptions',
-	'VM_CFG_CONTENT_PLUGINS_ENABLE_TIP' => 'Si activé, les description de la catégorie et des produits sont analysées par les mambots / plugins  de contenu publiés.',
+	'VM_CFG_CONTENT_PLUGINS_ENABLE_TIP' => 'Si activé, les descriptions de la catégorie et des produits sont analysées par les mambots / plugins  de contenu publiés.',
 	'VM_CFG_CURRENCY_MODULE' => 'Sélectionner un module convertisseur de devises',
-	'VM_CFG_CURRENCY_MODULE_TIP' => 'Permet de sélectionner un module convertisseur de devises. Ces modules  recherche les taux de change à partir d\'un serveur et convertissent une monnaie en une autre.',
+	'VM_CFG_CURRENCY_MODULE_TIP' => 'Permet de sélectionner un module convertisseur de devises. Ces modules  recherchent les taux de change à partir d\'un serveur et convertissent une monnaie en une autre.',
 	'PHPSHOP_ADMIN_CFG_TAX_MODE_EU' => 'Mode Union Europpéenne',
 	'VM_ADMIN_CFG_DOWNLOAD_KEEP_STOCKLEVEL' => 'Garder le niveau des stocks de produits après un achat?',
 	'VM_ADMIN_CFG_DOWNLOAD_KEEP_STOCKLEVEL_TIP' => 'Lorsque cette option est activée, le niveau des stocks pour un produit téléchargeable n\'est pas modifié même si il a été acheté par les clients.',
@@ -241,16 +242,16 @@ Laissez vide si vous n\'ètes pas sûr. </ Strong> Cette valeur sera utilisée p
 	'VM_USERGROUP_LEVEL_TIP' => 'Important! Un grand nombre signifie <b> moins </ b> d\'autorisations. Le groupe <b> admin </ b>  est <em> de niveau 0 </ em>, et storeadmin niveau 250, les utilisateurs ont un niveau 500.',
 	'VM_USERGROUP_LIST_LBL' => 'Liste des groupes utilisateurs',
 	'VM_ADMIN_CFG_COOKIE_CHECK' => 'Activer la vérification de l\'autorisation cookie?',
-	'VM_ADMIN_CFG_COOKIE_CHECK_EXPLAIN' => 'Si elle est activée, VirtueMart vérifie si le navigateur du client accepte les cookies ou non. Cette fonctionnalité peut avoir des  des conséquences négatives sur la recherche SEF de votre boutique.',
+	'VM_ADMIN_CFG_COOKIE_CHECK_EXPLAIN' => 'Si elle est activée, VirtueMart vérifie si le navigateur du client accepte les cookies ou non. Cette fonctionnalité peut avoir des conséquences négatives sur la recherche SEF de votre boutique.',
 	'VM_CFG_REGISTRATION_TYPE' => 'Mode enregistrement utilisateur',
 	'VM_CFG_REGISTRATION_TYPE_TIP' => 'Choisissez la façon dont l\'utilisateur s\'enregistre sur votre boutique<br />
  <strong> Enregistrement normal </ strong> <br />
 C\'est le type d\'enregistrement standard où le client doit s\'inscrire et choisir un nom d\'utilisateur et un mot de passe <br /> <br />
 <strong> Enregistrement silencieux  </ strong> <br />
-L\'enregistrement silencieux signifie que le consommateur n\'a pas besoin de choisir le nom d\'utilisateur et mot de passe, mais ceux-ci sont créés automatiquement lors de l\'enregistrement et envoyées à l\'adresse e-mail.
+L\'enregistrement silencieux signifie que le consommateur n\'a pas besoin de choisir le nom d\'utilisateur et mot de passe, mais ceux-ci sont créés automatiquement lors de l\'enregistrement et envoyés à l\'adresse e-mail.
 <br /> <br />
 <strong>Enregistrement facultatif </ strong> <br />
-L\'enregistrement facultatif laisser le choix au client de créer un compte ou non. Si le client veut créer un compte, un nom d\'utilisateur et mot de passe doit être choisi.
+L\'enregistrement facultatif laisse le choix au client de créer un compte ou non. Si le client veut créer un compte, un nom d\'utilisateur et mot de passe doit être choisi.
 <br /> <br />
 <strong> Aucun enregistrement </ strong> <br />
 Les clients ne doivent pas et ne sont pas en mesure de s\'inscrire dans ce type d\'enregistrement.',
@@ -280,25 +281,25 @@ Les clients ne doivent pas et ne sont pas en mesure de s\'inscrire dans ce type 
 	'VM_ADMIN_CFG_FEED_TITLE_CATEGORIES_TIP' => 'Titre de la catégorie syndication ( \'(catname)\' est l\'emplacement réservé pour le nom de la catégorie, (storename)  contient le nom de votre boutique)',
 	'VM_ADMIN_CFG_FEED_TITLE' => 'Titre syndication',
 	'VM_ADMIN_CFG_FEED_TITLE_CATEGORIES' => 'Titre syndication pour les catégories',
-	'VM_ADMIN_SECURITY' => 'Securité',
-	'VM_ADMIN_SECURITY_SETTINGS' => 'Paramêtres de sécurité',
+	'VM_ADMIN_SECURITY' => 'Sécurité',
+	'VM_ADMIN_SECURITY_SETTINGS' => 'Paramètres de sécurité',
 	'VM_CFG_ENABLE_FEATURE' => 'Activer cette fonctionnalité',
-	'VM_CFG_CHECKOUT_SHOWSTEP_TIP' => 'Ici vous pouvez activer, désactiver et de réorganiser certaines étapes de la validation de la commande. Vous pouvez afficher plusieurs étapes sur une seule page, en leur donnant le même numéro d\'étape.',
-	'PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_FLEX' => 'Flex Shipping. Les coûts d\'expédition sont calculé sur un pourcentage du total de la commande lorsque celui ci est supérieur à la valeur de base.',
+	'VM_CFG_CHECKOUT_SHOWSTEP_TIP' => 'Ici vous pouvez activer, désactiver et réorganiser certaines étapes de la validation de la commande. Vous pouvez afficher plusieurs étapes sur une seule page, en leur donnant le même numéro d\'étape.',
+	'PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_FLEX' => 'Flex Shipping. Les coûts d\'expédition sont calculés sur un pourcentage du total de la commande lorsque celui-ci est supérieur à la valeur de base.',
 	'PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_SHIPVALUE' => 'Expédition basée sur le montant total de la commande. Les coûts d\'expédition sont fixes et basés sur les valeurs saisies dans la configuration.',
 	'VM_CFG_CHECKOUT_SHOWSTEPINCHECKOUT' => 'Afficher à l\' étape:% s lors de la validation de la commande',
 	'VM_ADMIN_ENCRYPTION_KEY' => 'Clé de cryptage',
-	'VM_ADMIN_ENCRYPTION_KEY_TIP' => 'Utilisé pour stocker et de récupérer toute sécurité données sensibles (comme le numéro de carte bancaire) cryptée dans la base de données.',
+	'VM_ADMIN_ENCRYPTION_KEY_TIP' => 'Utilisé pour stocker et récupérer en toute sécurité les données sensibles (comme le numéro de carte bancaire) cryptée dans la base de données.',
 	'VM_ADMIN_STORE_CREDITCARD_DATA' => 'Enregistrer les informations de Carte de crédit?',
-	'VM_ADMIN_STORE_CREDITCARD_DATA_TIP' => 'VirtueMart enregistre les données de la carte de crédit du client sous forme cryptées dans la base de données. Et cela , même si la carte de crédit est traitée par un serveur externe. <strong> Si vous n\'avez pas besoin de traiter manuellement l\'information de carte de crédit une fois la commande passée, vous devriez désactiver cette option. </ Strong>',
+	'VM_ADMIN_STORE_CREDITCARD_DATA_TIP' => 'VirtueMart enregistre les données de la carte de crédit du client sous forme cryptée dans la base de données. Et cela , même si la carte de crédit est traitée par un serveur externe. <strong> Si vous n\'avez pas besoin de traiter manuellement l\'information de carte de crédit une fois la commande passée, vous devriez désactiver cette option. </ Strong>',
 	'VM_USERFIELDS_URL_ONLY' => 'URL seulement',
 	'VM_USERFIELDS_HYPERTEXT_URL' => 'Hypertext et URL',
 	'VM_FIELDS_TEXTFIELD' => 'Champ de saisie ',
 	'VM_FIELDS_CHECKBOX_SINGLE' => 'Case à cocher (choix unique)',
-	'VM_FIELDS_CHECKBOX_MULTIPLE' => 'Case à coocher (choix multiple)',
+	'VM_FIELDS_CHECKBOX_MULTIPLE' => 'Case à cocher (choix multiple)',
 	'VM_FIELDS_DATE' => 'Date',
-	'VM_FIELDS_DROPDOWN_SINGLE' => 'Liste  déroulant (choix unique)',
-	'VM_FIELDS_DROPDOWN_MULTIPLE' => 'Liste  à choix multiple',
+	'VM_FIELDS_DROPDOWN_SINGLE' => 'Liste  déroulante (choix unique)',
+	'VM_FIELDS_DROPDOWN_MULTIPLE' => 'Liste à choix multiple',
 	'VM_FIELDS_EMAIL' => 'Adresse email',
 	'VM_FIELDS_EUVATID' => 'ID TVA EU',
 	'VM_FIELDS_EDITORAREA' => 'Editor zone de texte',

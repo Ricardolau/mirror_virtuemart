@@ -34,10 +34,22 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+01.10.2010 zanardi
+# Task #167 VM1.1.5: Orders equal to 0.00 but customers still get sent to PayPal
+
+26.09.2010 zanardi
+^ Task #115 Error Process for Missing Required Ship To Fields Loses User Entered Data
+# Task #117 Illegal variable_files ... error after clicking Add to Cart when there are empty attributes
++ Added "router.php" file for Joomla SEF
+# Task #129: Some characters in attribute name cause issues
+^ Task #134: When creating text or textarea field type in Manage User Fields, default value is 0
++ Task #135: Zone shipping module doesn’t have ‘The shipping rate has been updated’ message when ‘Apply‘
+# Task #136 "Apply" button in shipping module form acts wrong
+^ Task #138 Admin Customer Reviews page should have no "New" button
+^ Task #151 Check for child items before displaying "call for price"
 
 11.09.2010 zanardi
 # Small XHTML validation fixes
-
 
 27.07.2010 zanardi
 # Task 114 After changing order status goes back to all orders

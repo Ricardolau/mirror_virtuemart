@@ -184,12 +184,6 @@ if( vmIsJoomla('1.0') && strstr( $_SERVER['PHP_SELF'], 'index3.php')) {
 					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=store.creditcard_form") ?>"><?php echo $VM_LANG->_('PHPSHOP_CREDITCARD_FORM_LBL') ?></a>
 					<hr />
 					</li>
-					<li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=store.export_list") ?>"><?php echo $VM_LANG->_('VM_ORDER_EXPORT_MODULE_LIST_MNU') ?></a>
-					</li>
-					<li class="item-smenu vmicon vmicon-16-editadd">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=store.export_form") ?>"><?php echo $VM_LANG->_('VM_ORDER_EXPORT_MODULE_FORM_MNU') ?></a>
-					</li>
 					</ul>
 					</div>
 				<?php 
@@ -225,22 +219,6 @@ if( vmIsJoomla('1.0') && strstr( $_SERVER['PHP_SELF'], 'index3.php')) {
 					<div class="section-smenu">
 					<ul>
 					<?php include_class("product"); ?>
-		           	<li class="item-smenu vmicon vmicon-16-import">
-			           	<?php
-			           	// Check for an Installation of Roland's CSVImproved Component
-			           	if( file_exists($mosConfig_absolute_path.'/administrator/components/com_csvimproved/admin.csvimproved.php')) {
-			           		$url = $mosConfig_live_site . '/administrator/index2.php?option=com_csvimproved';
-							$extra = 'onclick="document.location=this.href"';
-			           		$title = str_replace('"','&quot;',$VM_LANG->_('CSVIMPROVED_TITLE'));
-			           	} else {
-			           		$url = 'http://www.csvimproved.com/index.php?option=com_ionfiles&Itemid=2';
-			           		$extra = 'target="_blank"';
-			           		$title = str_replace('"','&quot;',$VM_LANG->_('CSVIMPROVED_NEEDINSTALL'));
-			           	}
-			           	?>
-						<a href="<?php echo $url  ?>" title="<?php echo $title  ?>" <?php echo $extra ?>><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_CSV_UPLOAD') ?></a>
-						<hr />
-					</li>
 					<li><strong><?php echo $VM_LANG->_('PHPSHOP_PRODUCT_MOD') ?></strong></li>
 					<?php    
 		            if (!empty($recent_product_id) && empty($_REQUEST['product_parent_id'])) { 
@@ -505,20 +483,6 @@ if( vmIsJoomla('1.0') && strstr( $_SERVER['PHP_SELF'], 'index3.php')) {
 				<?php 
 				$modCount++;
 				break;
-				case 'export':
-					?>
-					<h3 class="title-smenu" title="coupon" onclick="SwitchMenu('<?php echo $modCount ?>')">Export</h3>
-					<div class="section-smenu">
-					<ul>
-					<li class="item-smenu vmicon vmicon-16-content">
-					<a href="<?php $sess->purl($_SERVER['PHP_SELF']."?pshop_mode=admin&amp;page=export.index") ?>">Export Manager</a>
-					</li>
-					</ul>
-					</div>
-				<?php 
-				$modCount++;
-				break;
-				
 				case 'manufacturer':
 					?>
 					<h3 class="title-smenu" title="manufacturer" onclick="SwitchMenu('<?php echo $modCount ?>')">

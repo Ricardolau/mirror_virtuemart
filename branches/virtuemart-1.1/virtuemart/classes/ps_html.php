@@ -216,13 +216,13 @@ class vm_ps_html {
 
 		$db = new ps_DB;
 
-		$q = "SELECT country_id, country_name, country_3_code from #__{vm}_country ORDER BY country_name ASC";
+		$q = "SELECT country_id, country_name, country_3_code from #__{vm}_country ORDER BY country_id ASC";
 		$db->query($q);
-		$countries[''] = $VM_LANG->_('PHPSHOP_SELECT');
-		
 		while ($db->next_record()) {
 			$countries[$db->f("country_3_code")] = $db->f("country_name");
 		}
+		asort($countries);
+		array_unshift($countries, $VM_LANG->_('PHPSHOP_SELECT'));
 		
 		return ps_html::selectList( $list_name, $value, $countries, 1, '', $extra );
 	}

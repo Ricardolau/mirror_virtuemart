@@ -44,13 +44,13 @@ VirtueMart is an Open Source Online-Shop plugin for Joomla! and Mambo.
 	  * /administrator
 	  * /components
 	  * /modules
-	  * /mambots
+	  * /plugins
 	
 	The directory structure in those directories is the
 	same as in your Joomla!/Mambo site.
 	
 2.  Open up an FTP Connection to your site and upload
-	the directories to your Joomla!/Mambo site.
+	the directories to your Joomla! site.
 	
 	/components
 	to
@@ -64,12 +64,6 @@ VirtueMart is an Open Source Online-Shop plugin for Joomla! and Mambo.
 	to
 	  /path-to-site-root/modules/
 
-	For Joomla! 1.0.x or Mambo:
-	/mambots
-	to
-	  /path-to-site-root/mambots/
-
-	Or, for Joomla! 1.5.x:
 	/plugins
 	to
 	  /path-to-site-root/plugins/
@@ -79,20 +73,18 @@ VirtueMart is an Open Source Online-Shop plugin for Joomla! and Mambo.
 	An existing configuration file will not be overwritten.
 
 
-3.  Login in to the Joomla! / Mambo Administration (the so-called Backend).
+3.  Login in to the Joomla! Administration (the so-called Backend).
 
 	  http://www.xxxxxx.com/administrator/
 	
 	* When having logged in, you see this URL in the address bar:
 	
-	  http://www.xxxxxx.com/administrator/index2.php
-	  (or for Joomla! 1.5.x: http://www.xxxxxx.com/administrator/index.php)
+	  http://www.xxxxxx.com/administrator/index.php
 	
-	* Now just add "?option=com_virtuemart" after index2.php (or index.php for Joomla! 1.5.x), so it looks like this
+	* Now just add "?option=com_virtuemart" after index.php, so it looks like this
 	  in your browser's address bar:
 	  
-		http://www.xxxxxx.com/administrator/index2.php?option=com_virtuemart
-		(or for Joomla! 1.5.x: http://www.xxxxxx.com/administrator/index.php?option=com_virtuemart)
+		http://www.xxxxxx.com/administrator/index.php?option=com_virtuemart
 	
 	  and submit (press Enter).
 	
@@ -104,9 +96,9 @@ VirtueMart is an Open Source Online-Shop plugin for Joomla! and Mambo.
 
 	* That's it.	  
 
-=== Modules and Mambots (Plugins) ===
+=== Modules and Plugins ===
 
-4. The Modules and Mambots (Plugins) in the archive are add-ons, but most important is the VirtueMart Main Module,
+4. The Modules and Plugins in the archive are add-ons, but most important is the VirtueMart Main Module,
 	which consists of two files:
 	/modules/mod_virtuemart.php
 	/modules/mod_virtuemart.xml
@@ -115,35 +107,12 @@ VirtueMart is an Open Source Online-Shop plugin for Joomla! and Mambo.
 	like a customer.
 
 	For experienced users, just import the appropriate sql file:
-	 - Joomla! 1.0.x: virtuemart.installation.addons.joomla.sql
 	 - Joomla! 1.5.x: virtuemart.installation.addons.joomla1.5.sql
-	 - Mambo: virtuemart.installation.addons.mambo.sql
 	
 	Otherwise, browse to phpMyAdmin and select your database.
 	Select "SQL" in the toolbar on the middle top.
-	Then run the approriate SQL code below:
+	Then run the SQL code below:
 	
-	For Joomla! 1.0.x (using a jos_ table prefix):
-	
-####
-INSERT IGNORE INTO `jos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart Module', '', 99, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_virtuemart', 0, 0, 1, '', 0, 0);
-INSERT IGNORE INTO `jos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart Login', '', 99, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_virtuemart_login', 0, 0, 1, '', 0, 0);
-INSERT IGNORE INTO `jos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart TopTen Products', '', 99, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_virtuemart_topten', 0, 0, 1, '', 0, 0);
-INSERT IGNORE INTO `jos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart Product Scroller', '', 99, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_productscroller', 0, 0, 1, '', 0, 0);
-INSERT IGNORE INTO `jos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart Product Categories', '', 99, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_product_categories', 0, 0, 1, '', 0, 0);
-INSERT IGNORE INTO `jos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart All-In-One', '', 99, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_virtuemart_allinone', 0, 0, 1, '', 0, 0);
-INSERT IGNORE INTO `jos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart Cart', '', 99, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_virtuemart_cart', 0, 0, 1, '', 0, 0);
-INSERT IGNORE INTO `jos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart Featured Products', '', 99, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_virtuemart_featureprod', 0, 0, 1, '', 0, 0);
-INSERT IGNORE INTO `jos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart Latest Products', '', 99, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_virtuemart_latestprod', 0, 0, 1, '', 0, 0);
-INSERT IGNORE INTO `jos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart Manufacturers', '', 99, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_virtuemart_manufacturers', 0, 0, 1, '', 0, 0);
-INSERT IGNORE INTO `jos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart Random Products', '', 99, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_virtuemart_randomprod', 0, 0, 1, '', 0, 0);
-INSERT IGNORE INTO `jos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart Search', '', 99, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_virtuemart_search', 0, 0, 1, '', 0, 0);
-
-INSERT IGNORE INTO `jos_mambots` (`name`, `element`, `folder`, `access`, `ordering`, `published`, `iscore`, `client_id`, `checked_out`, `checked_out_time`, `params`) VALUES ('VirtueMart Product Snapshot', 'vmproductsnapshots', 'content', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
-INSERT IGNORE INTO `jos_mambots` (`name`, `element`, `folder`, `access`, `ordering`, `published`, `iscore`, `client_id`, `checked_out`, `checked_out_time`, `params`) VALUES ('VirtueMart Search', 'virtuemart.searchbot', 'search', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
-INSERT IGNORE INTO `jos_mambots` (`name`, `element`, `folder`, `access`, `ordering`, `published`, `iscore`, `client_id`, `checked_out`, `checked_out_time`, `params`) VALUES ('VirtueMart Xtd Search', 'vmxsearch.searchbot', 'search', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
-####
-
 	For Joomla! 1.5.x (using a jos_ table prefix):
 	
 ####
@@ -159,37 +128,12 @@ INSERT IGNORE INTO `jos_modules` (`title`, `content`, `ordering`, `position`, `c
 INSERT IGNORE INTO `jos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart Manufacturers', '', 99, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_virtuemart_manufacturers', 0, 0, 1, '', 0, 0);
 INSERT IGNORE INTO `jos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart Random Products', '', 99, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_virtuemart_randomprod', 0, 0, 1, '', 0, 0);
 INSERT IGNORE INTO `jos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart Search', '', 99, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_virtuemart_search', 0, 0, 1, '', 0, 0);
-
 INSERT IGNORE INTO `jos_plugins` (`name`, `element`, `folder`, `access`, `ordering`, `published`, `iscore`, `client_id`, `checked_out`, `checked_out_time`, `params`) VALUES ('VirtueMart Product Snapshot', 'vmproductsnapshots', 'content', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
 INSERT IGNORE INTO `jos_plugins` (`name`, `element`, `folder`, `access`, `ordering`, `published`, `iscore`, `client_id`, `checked_out`, `checked_out_time`, `params`) VALUES ('VirtueMart Product Search', 'vmxsearch.plugin', 'search', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
 ####
 
-	For Mambo (using a mos_ table prefix):
-
-####
-INSERT IGNORE INTO `mos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart Module', '', 99, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_virtuemart', 0, 0, 1, '', 0, 0);
-INSERT IGNORE INTO `mos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart Login', '', 99, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_virtuemart_login', 0, 0, 1, '', 0, 0);
-INSERT IGNORE INTO `mos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart TopTen Products', '', 99, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_virtuemart_topten', 0, 0, 1, '', 0, 0);
-INSERT IGNORE INTO `mos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart Product Scroller', '', 99, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_productscroller', 0, 0, 1, '', 0, 0);
-INSERT IGNORE INTO `mos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart Product Categories', '', 99, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_product_categories', 0, 0, 1, '', 0, 0);
-INSERT IGNORE INTO `mos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart All-In-One', '', 99, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_virtuemart_allinone', 0, 0, 1, '', 0, 0);
-INSERT IGNORE INTO `mos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart Cart', '', 99, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_virtuemart_cart', 0, 0, 1, '', 0, 0);
-INSERT IGNORE INTO `mos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart Featured Products', '', 99, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_virtuemart_featureprod', 0, 0, 1, '', 0, 0);
-INSERT IGNORE INTO `mos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart Latest Products', '', 99, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_virtuemart_latestprod', 0, 0, 1, '', 0, 0);
-INSERT IGNORE INTO `mos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart Manufacturers', '', 99, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_virtuemart_manufacturers', 0, 0, 1, '', 0, 0);
-INSERT IGNORE INTO `mos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart Random Products', '', 99, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_virtuemart_randomprod', 0, 0, 1, '', 0, 0);
-INSERT IGNORE INTO `mos_modules` (`title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`) VALUES ( 'VirtueMart Search', '', 99, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_virtuemart_search', 0, 0, 1, '', 0, 0);
-
-INSERT IGNORE INTO `mos_mambots` (`name`, `element`, `folder`, `access`, `ordering`, `published`, `iscore`, `client_id`, `checked_out`, `checked_out_time`, `params`) VALUES ('VirtueMart Product Snapshot', 'vmproductsnapshots', 'content', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
-INSERT IGNORE INTO `mos_mambots` (`name`, `element`, `folder`, `access`, `ordering`, `published`, `iscore`, `client_id`, `checked_out`, `checked_out_time`, `params`) VALUES ('VirtueMart Search', 'virtuemart.searchbot', 'search', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
-INSERT IGNORE INTO `mos_mambots` (`name`, `element`, `folder`, `access`, `ordering`, `published`, `iscore`, `client_id`, `checked_out`, `checked_out_time`, `params`) VALUES ('VirtueMart Xtd Search', 'vmxsearch.searchbot', 'search', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
-####
-
-
-5.  In the Joomla! / Mambo backend browse to "Modules" => "Site Modules" and
-	search for VirtueMart modules.
+5.  In the Joomla! backend browse to "Modules" => "Site Modules" and search for VirtueMart modules.
 	Select each of them step-by-step and set them to "published".
-	Please note that you MUST PUBLISH THE 
-		"VirtueMart Module"
+	Please note that you MUST PUBLISH THE "VirtueMart Module"
 
 </pre>

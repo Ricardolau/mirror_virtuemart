@@ -34,6 +34,14 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+10.10.2010 zanardi
+^ Task #134 default values for some fields was "0" instead of null
+# Task #156 Virtuemart registration form country and state list translation issue
+^ Task #161 updated README and INSTALLATION
+# Task #163 removed ordering buttons for child products list
+# Task #164 bug in ps_montrada
+^ Task #176 import / export menu items removed
+
 01.10.2010 zanardi
 # Task #167 VM1.1.5: Orders equal to 0.00 but customers still get sent to PayPal
 

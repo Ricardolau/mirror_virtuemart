@@ -292,15 +292,7 @@ class ps_montrada {
             $vmLogger->debug( wordwrap( urldecode($result), 60, "<br/>", 1) );
         
         // Split Response-Data
-        $data = explode("&", $result);
-        foreach ($data as $var)
-        {
-           $var = explode("=", $var);
-           $key = urldecode( $var[0] );
-           $value = urldecode( $var[1] );
-           
-           $response[$key] = $value;
-        }
+		parse_str( $result, $response );
         
         // Array of posherr values that get displayed
         $posherr1 = array("0", "100", "2014", "2016", "2018", "2040", "2042", "2048", "2090".
@@ -338,7 +330,7 @@ class ps_montrada {
         } 
         else
         {
-           if ($response['posherr'] = "") $response['posherr'] = -1;
+           if ($response['posherr'] == "") $response['posherr'] = -1;
            $vmLogger->err( $VM_LANG->_('PHPSHOP_PAYMENT_ERROR',false)." ($response[posherr])" );
            
            if (in_array($response['posherr'], $posherr1))

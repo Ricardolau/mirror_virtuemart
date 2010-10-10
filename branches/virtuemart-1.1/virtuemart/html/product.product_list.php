@@ -38,8 +38,7 @@ $search_type = vmGet($_REQUEST, 'search_type', 'product');
 require_once( CLASSPATH . "pageNavigation.class.php" );
 require_once( CLASSPATH . "htmlTools.class.php" );
 
-// uuuh, we're using modern methods.
-vmCommonHTML::loadExtjs(); // Having a modal window is good
+vmCommonHTML::loadExtjs(); 
 ?>
 <div align="right">
 
@@ -254,12 +253,14 @@ $columns = Array(  '#' => '',
 				$VM_LANG->_('PHPSHOP_PRODUCT_PRICE_TITLE') => "width=\"10%\"",
 				$VM_LANG->_('PHPSHOP_CATEGORY') => "width=\"15%\"" );
 
-// Only show reordering fields when a category ID is selected!
-if( $category_id ) {
+// Only show reordering fields when a category ID is selected AND a parent id is NOT selected!
+if( $category_id && !$product_parent_id ) {
 	$columns[$VM_LANG->_('VM_FIELDMANAGER_REORDER')] ="width=\"5%\"";
 	$columns[vmCommonHTML::getSaveOrderButton( $num_rows, 'changeordering' )] ='width="8%"';
+	$columns[$VM_LANG->_('PHPSHOP_MANUFACTURER_MOD')] ="width=\"10%\"";
+} else {
+	$columns[$VM_LANG->_('PHPSHOP_MANUFACTURER_MOD')] ="width=\"10%\"";
 }
-$columns[$VM_LANG->_('PHPSHOP_MANUFACTURER_MOD')] ="width=\"10%\"";
 $columns[$VM_LANG->_('PHPSHOP_REVIEWS')] ="width=\"10%\"";
 $columns[$VM_LANG->_('PHPSHOP_PRODUCT_LIST_PUBLISH')] ="";
 $columns[$VM_LANG->_('PHPSHOP_PRODUCT_CLONE')] = "";
@@ -349,7 +350,8 @@ if ($num_rows > 0) {
 		}
 		$listObj->addCell( $tmpcell );
 
-		if( $category_id ) {
+		// reordering
+		if( $category_id && !$product_parent_id ) {
 			$tmp_cell = "<div align=\"center\">"
 			. $pageNav->orderUpIcon( $i, $i > 0, "orderup", $VM_LANG->_('CMN_ORDER_UP'), $page, "changeordering" )
 			. "\n&nbsp;"
@@ -375,6 +377,7 @@ if ($num_rows > 0) {
 		}
 		$listObj->addCell( $tmpcell );
 
+		// publish
 		$tmpcell = "<a href=\"". $sess->url( $_SERVER['PHP_SELF']."?page=product.product_list&category_id=$category_id&product_id=".$db->f("product_id")."&func=changePublishState" );
 		if ($db->f("product_publish")=='N') {
 			$tmpcell .= "&task=publish\">";
@@ -385,7 +388,8 @@ if ($num_rows > 0) {
 		$tmpcell .= vmCommonHTML::getYesNoIcon( $db->f("product_publish"), $VM_LANG->_('CMN_PUBLISH'), $VM_LANG->_('CMN_UNPUBLISH') );
 		$tmpcell .= "</a>";
 		$listObj->addCell( $tmpcell );
-
+		
+		// clone
 		$tmpcell = "<a title=\"".$VM_LANG->_('PHPSHOP_PRODUCT_CLONE')."\" onmouseout=\"MM_swapImgRestore();\"  onmouseover=\"MM_swapImage('copy_$i','','". IMAGEURL ."ps_image/copy_f2.gif',1);\" href=\"";
 		$url = $_SERVER['PHP_SELF'] . "?page=$modulename.product_form&clone_product=1&limitstart=$limitstart&keyword=".urlencode($keyword)."&product_id=" . $db->f("product_id");
 		if( !empty($product_parent_id) )

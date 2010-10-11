@@ -10,10 +10,10 @@ if( !$auth['show_prices'] || ( !isset($price_info["product_price_id"] ) && ( !$p
 ?>
 
 <?php
-// DISCOUNT: Show old price!
+// DISCOUNT: Show old price! Inline style specified for PDF creation, remove it if you don't need it
 if(!empty($discount_info["amount"])) {
 	?>
-	<span class="product-Old-Price">
+	<span class="product-Old-Price" style="color:red;text-decoration:line-through;">
 		<?php echo $CURRENCY_DISPLAY->getFullValue($undiscounted_price); ?></span>
 	
 	<br/>

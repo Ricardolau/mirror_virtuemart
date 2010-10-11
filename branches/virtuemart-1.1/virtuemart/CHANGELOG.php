@@ -35,6 +35,8 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 10.10.2010 zanardi
+# Task #111 Old Price in PDF not correctly styled
+# Task #132 Image creation error when thumb height or width is Zero or empty in configuration -> site (tab)
 ^ Task #134 default values for some fields was "0" instead of null
 # Task #156 Virtuemart registration form country and state list translation issue
 ^ Task #161 updated README and INSTALLATION

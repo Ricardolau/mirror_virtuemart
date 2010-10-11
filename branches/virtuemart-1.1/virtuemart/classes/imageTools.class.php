@@ -58,6 +58,10 @@ class vmImageTools {
 			$vmLogger->err( 'Cannot write to '.$table_name.' image directory: '.$path );
 			return false;
 		}
+		if ( PSHOP_IMG_WIDTH == 0 or PSHOP_IMG_HEIGHT == 0 ) {
+			$vmLogger->err( 'Thumb default height or width is set to 0! Cannot resize the image' );
+			return false;
+		}
 		// Check for upload errors
 		require_once( CLASSPATH. 'ps_product_files.php');
 		ps_product_files::checkUploadedFile( $field_name );

@@ -1279,7 +1279,7 @@ class ps_paypal_api {
 	
    function ppex_getCheckoutDetails() {
 
-        if( file_exists( CLASSPATH ."payment/".__CLASS__.".cfg.php") {
+        if( file_exists( CLASSPATH ."payment/".__CLASS__.".cfg.php")) {
 			include_once(CLASSPATH ."payment/".__CLASS__.".cfg.php");
 		}
 		if(isset($_SESSION['ppex_token']) && !isset($_SESSION['ppex_userdata']))

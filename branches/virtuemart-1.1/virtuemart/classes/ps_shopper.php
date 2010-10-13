@@ -466,7 +466,7 @@ class vm_ps_shopper {
 			}
 			// Redirect to the Checkout Page if the cart is not empty
 			if( !empty( $_SESSION['cart']['idx'])) {
-				$redirect_to_page = 'checkout.index';
+				$redirect_to_page = $d['page'];
 			} else {
 				$redirect_to_page = HOMEPAGE;
 			}
@@ -474,7 +474,8 @@ class vm_ps_shopper {
 		}
 		
 		if( !empty($my->id) || !empty($auth['user_id']) ) {
-			vmRedirect( $sess->url( 'index.php?page=checkout.index', false, false ) );
+			$redirect_to_page = $d['page'];
+			vmRedirect( $sess->url( 'index.php?page='.$redirect_to_page, false, false ) );
 		}
 		else {
 			$GLOBALS['page'] = 'shop.cart';

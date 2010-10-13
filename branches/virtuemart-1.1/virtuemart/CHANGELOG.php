@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+12.10.2010 zanardi
+^ Task 160 Breadcrumb issues with direct menu links to product or category
+
 10.10.2010 zanardi
 # Task #111 Old Price in PDF not correctly styled
 # Task #132 Image creation error when thumb height or width is Zero or empty in configuration -> site (tab)

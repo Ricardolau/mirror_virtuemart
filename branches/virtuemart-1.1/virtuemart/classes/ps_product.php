@@ -265,7 +265,6 @@ class vm_ps_product extends vmAbstractObject {
 		$database = new ps_DB();
 
 		if (!$this->validate($d)) {
-			echo "Test"; exit;
 			return false;
 		}
 
@@ -1679,8 +1678,8 @@ class vm_ps_product extends vmAbstractObject {
 
 		$q = "SELECT product_price,product_currency,price_quantity_start,price_quantity_end 
 				FROM #__{vm}_product_price 
-				WHERE product_id='$product_id' AND 
-							shopper_group_id='$default_shopper_group_id'";
+				WHERE product_id='$product_id' AND shopper_group_id='$default_shopper_group_id'
+				ORDER BY price_quantity_start";
 		$db->query($q);
 		if ($db->next_record()) {
 			$price_info["product_price"]= $db->f("product_price");

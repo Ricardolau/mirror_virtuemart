@@ -1449,11 +1449,26 @@ Order Total: '.$order_total.'
 		$db = new ps_DB;
 
 		for($i = 0; $i < $cart["idx"]; $i++) {
+			
+			$skip_tax = false; // do we skip this product due to zero percent tax rate?	
+			$tax_rate_id = $ps_product->get_field($cart[$i]["product_id"],'product_tax_id');
+			if($tax_rate_id != '0'){
+				// look up the tax rate
+				$q = "SELECT tax_rate FROM #__{vm}_tax_rate WHERE tax_rate_id='$tax_rate_id'";
+				$db->query($q);			
+				if($db->num_rows() > 0){
+					$tax_rate = $db->f('tax_rate');					
+					if($tax_rate==0){
+						$skip_tax = true;
+					}
+				}
+			}	
+			
 			$price = $ps_product->get_adjusted_attribute_price($cart[$i]["product_id"], $cart[$i]["description"]);
 			$product_price = $GLOBALS['CURRENCY']->convert( $price["product_price"], $price['product_currency'] );
 			$item_weight = ps_shipping_method::get_weight($cart[$i]["product_id"]) * $cart[$i]['quantity'];
 
-			if ($item_weight != 0 or TAX_VIRTUAL=='1') {
+			if (($item_weight != 0 or TAX_VIRTUAL=='1') && !$skip_tax ){
 				$subtotal += $product_price * $cart[$i]["quantity"];
 			}
 		}

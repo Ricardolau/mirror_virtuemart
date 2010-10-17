@@ -52,7 +52,6 @@ $sess = new ps_session;
 	<br />
 	<?php
 	if( !empty( $_POST )) {
-		
 		foreach( $_POST as $key => $val ) {
 			if( $key == 'product_currency' ) continue;
 			if( is_array($val) ) {
@@ -89,5 +88,6 @@ $sess = new ps_session;
 	}
 	echo $ps_html->selectList( 'product_currency', $GLOBALS['product_currency'], $currencies, 1, '', 'style="width:130px;"' );
 	?>
+	<input type="hidden" name="do_coupon" value="yes" />
     <input class="button" type="submit" name="submit" value="<?php echo 'Change Currency' ?>" />
 </form>

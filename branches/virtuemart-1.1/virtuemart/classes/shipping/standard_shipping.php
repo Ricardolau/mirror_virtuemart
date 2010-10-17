@@ -154,16 +154,67 @@ class standard_shipping {
 	 * @return float
 	 */
 	function get_tax_rate( $shipping_rate_id = 0 ) {
-		$database = new ps_DB( ) ;
+		global $vendor_country_3_code;
+		$db = new ps_DB( ) ;
 		
 		// added by sobers_2002 to fix the issue with shipping tax being calculated for non-state orders
-		$db = new ps_DB();
 		$ship_to_info_id = vmGet( $_REQUEST, 'ship_to_info_id');
 		$q = "SELECT state, country FROM #__{vm}_user_info ";
 		$q .= "WHERE user_info_id='".$ship_to_info_id. "'";
 		$db->query($q);
 		$db->next_record();
 		$state = $db->f("state");
+			
+		// EU VAT check
+		$auth = $_SESSION['auth'];
+		$userid = $auth["user_id"];	
+		if ( $userid > 0 && TAX_MODE == '17749' && ps_checkout::country_in_eu_common_vat_zone( $vendor_country_3_code ) ) {
+			$ship_country = '';
+			$user_info_id = '';
+			if ( vmGet( $_REQUEST, 'ship_to_info_id') || $ship_to_info_id ){
+				if (!$ship_to_info_id){
+					$ship_to_info_id = vmGet( $_REQUEST, 'ship_to_info_id');
+				}
+				$q  = "SELECT country FROM #__{vm}_user_info WHERE user_info_id='" . $ship_to_info_id ."'";
+				$db->query($q);
+				$db->next_record();
+				$ship_country = $db->f("country");
+			}
+
+			if ( $ship_to_info_id == '') {
+				$ship_country = $auth["country"];
+				$q = "SELECT user_info_id FROM #__{vm}_user_info WHERE user_id = '" .(int)$userid . "' AND address_type='BT'";
+				$db->query($q);
+				$user_info_id = $db->f("user_info_id");
+			}
+
+			// Check if user country is inside EU.
+			$eu_vat = '';
+			if( ps_checkout::country_in_eu_common_vat_zone($ship_country)){
+				$eu_vat = 'yes';
+				$q="SELECT name FROM #__{vm}_userfield WHERE type='euvatid' AND published=1";
+				$db->query($q);
+				$vatid_fieldname = $db->f( 'name' );
+			}
+			
+			// Handle TAX if EU VAT ID
+			if( $eu_vat == 'yes' && $vendor_country_3_code != $ship_country){
+				$q = "SELECT country_2_code FROM #__{vm}_country WHERE country_3_code='" . $ship_country ."'";
+				$db->query($q);
+				$db->next_record();
+				$ship_country_2_code = $db->f("country_2_code");
+				if( $vatid_fieldname ) {
+					$q = "SELECT `$vatid_fieldname` FROM #__{vm}_user_info WHERE user_info_id='" . $ship_to_info_id ."' OR user_info_id='" . $user_info_id."'";
+					$db->query($q);
+					while($db->next_record()) { 
+						$vat_id = $db->f($vatid_fieldname);
+						if( $ship_country_2_code == substr($vat_id, 0, 2) ) {
+							return 0.00 ;
+						}
+					}
+				}
+			}
+		}
 		
 		if( $shipping_rate_id == 0 ) {
 			$shipping_rate_id = vmGet( $_REQUEST, "shipping_rate_id" ) ;
@@ -178,10 +229,10 @@ class standard_shipping {
 			$q .= " AND (tax_state='$state' OR tax_state=' $state ' OR rtrim(ltrim(tax_state))='-' OR tax_state is null)";
 		}
 
-		$database->query($q);
-		$database->next_record() ;
-		if( $database->f( 'tax_rate' ) ) {
-			return $database->f( 'tax_rate' ) ;
+		$db->query($q);
+		$db->next_record() ;
+		if( $db->f( 'tax_rate' ) ) {
+			return $db->f( 'tax_rate' ) ;
 		} else {
 			return 0.00 ;
 		}

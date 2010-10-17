@@ -1554,7 +1554,7 @@ class vm_ps_product extends vmAbstractObject {
 		// EU TAX_MODE
 		$auth = $_SESSION['auth'];
 		$userid = $auth["user_id"];
-		if ( $userid > 0 && TAX_MODE == '17749'  && ps_checkout::country_in_eu_common_vat_zone($vendor_country_3_code)){
+		if ( $userid > 0 && TAX_MODE == '17749' && ps_checkout::country_in_eu_common_vat_zone($vendor_country_3_code)){
 			$ship_country = '';
 			$user_info_id = '';
 			if ( vmGet( $_REQUEST, 'ship_to_info_id') || $ship_to_info_id ){
@@ -1579,11 +1579,12 @@ class vm_ps_product extends vmAbstractObject {
 			if( ps_checkout::country_in_eu_common_vat_zone($ship_country)){
 				$eu_vat = 'yes';
 			}
-			if( TAX_MODE == '17749' && $eu_vat == 'yes' ) {
+			if( $eu_vat == 'yes' ) {
 				$q="SELECT name FROM #__{vm}_userfield WHERE type='euvatid' AND published=1";
 				$db->query($q);
 				$vatid_fieldname = $db->f( 'name' );
 			}
+			//???
 			if( !$eu_vat && ps_checkout::country_in_eu_common_vat_zone($vendor_country_3_code)) {
 				$_SESSION['product_sess'][$product_id]['tax_rate'] = 0;
 				return $_SESSION['product_sess'][$product_id]['tax_rate'];

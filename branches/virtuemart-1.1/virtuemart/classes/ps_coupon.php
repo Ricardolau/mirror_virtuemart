@@ -209,14 +209,14 @@ class vm_ps_coupon {
             else
             {
             	
-            	$coupon_value = $coupon_db->f("coupon_value");
+            	$coupon_value = $GLOBALS['CURRENCY']->convert( $coupon_db->f("coupon_value") );
 
                 /* Total Amount */
                 if( $d["total"] < $coupon_value ) {
                   	$coupon_value = (float)$d['total'] +(float)$d['order_tax'] ;
                   	$vmLogger->info( str_replace('{value}',$GLOBALS['CURRENCY_DISPLAY']->getFullValue( $coupon_value ),$VM_LANG->_('VM_COUPON_GREATER_TOTAL_SETTO')) );
                 }
-                $_SESSION['coupon_discount'] = $GLOBALS['CURRENCY']->convert( $coupon_value );
+                $_SESSION['coupon_discount'] = $coupon_value;
                 
             }
             

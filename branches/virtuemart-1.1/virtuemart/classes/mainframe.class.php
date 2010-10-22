@@ -389,23 +389,13 @@ class vm_vmMainFrame {
 	 */
 	function vmAppendPathway( $pathway ) {
 		
-		global $mainframe;
-		
-		//retrieve menu parameters
-		$menus = &JSite::getMenu();
-		$menu  = $menus->getActive();
-		$menu_params = new JParameter( $menu->params );
-		$menu_product_id = $menu_params->get('product_id', 0);
-		$menu_category_id = $menu_params->get('category_id', 0);
-		
-		// retrieve current VM element id
-		$vm_product_id = vmRequest::getVar('product_id', 0);
-		$vm_category_id = vmRequest::getVar('category_id', 0);
+		global $mainframe, $sess;
 
-		// avoid double pathway
-		if ( ( $menu_product_id == $vm_product_id ) or ( $menu_category_id == $vm_category_id ) ) {
+		// Only add the extra pathway if the menu item is using the default VM Itemid
+		$Itemid = $_REQUEST['Itemid'];
+		if( $Itemid && $Itemid != $sess->getShopItemid() ) {
 			return;
-		}
+		}		
 		
 		// Remove the link on the last pathway item
 		$pathway[ count($pathway) - 1 ]->link = '';

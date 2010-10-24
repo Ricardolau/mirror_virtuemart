@@ -53,7 +53,7 @@ class vm_ps_shopper {
 			/* Special checking for EU VAT ID */
 			if ($field->type == 'euvatid') {
 				if( $field->required == 0 && empty( $d[$field->name])) {
-					break; // Do nothing when the EU VAT ID field was left empty
+					continue; // Do nothing when the EU VAT ID field was left empty
 				}
 				if( $field->required == 1 && empty( $d[$field->name])) {
 						$provided_required = false;

@@ -118,25 +118,40 @@ for($n = $pageNav->limitstart ; $n < $nrows ; $n++) {
 		$upCondition = $downCondition = false;
 		if( !isset( $levels[$depth_list[$n]+1] ))
 			$levels[$depth_list[$n]+1] = 1;
-		if( $categories[$row_list[$n]]["category_parent_id"] == @$categories[$row_list[$n-1]]["category_parent_id"])
+					
+		// check row immediately before or after
+		if( $categories[$row_list[$n]]["category_parent_id"] == @$categories[$row_list[$n-1]]["category_parent_id"]) {
 			$upCondition = true;
-		if( $categories[$row_list[$n]]["category_parent_id"] == @$categories[$row_list[$n+1]]["category_parent_id"] )
+		}
+		if( $categories[$row_list[$n]]["category_parent_id"] == @$categories[$row_list[$n+1]]["category_parent_id"] ) {
 			$downCondition = true;
+		}
+				
 		if( !$downCondition || !$upCondition ) {
 			
-			if( $levelcounter[$categories[$row_list[$n]]["category_parent_id"]] > $levels[$depth_list[$n]+1] )
+			// $levelcounter[$categories[$row_list[$n]]["category_parent_id"]]
+			//		is total of my sister categories (same level, same parent id)
+			// $depth_list[$n] + 1
+			//		is my depth (1 = root, 2 = first child ...)
+			// $levels[ $depth_list[$n] + 1 ]
+ 			//		is my position amongst all categories of the same level ( WITH NO CHECK FOR PARENT ID, HOW CAN THIS WORK? But it does )
+			
+			if( $levelcounter[$categories[$row_list[$n]]["category_parent_id"]] > $levels[$depth_list[$n]+1] ) {
 				$downCondition = true;
-				if( $levels[$depth_list[$n]+1] > 1 )
+				if( $levels[$depth_list[$n]+1] > 1 ) {
 					$upCondition = true;
+				}
+			}
 			if( $levelcounter[$categories[$row_list[$n]]["category_parent_id"]] == $levels[$depth_list[$n]+1] ) {
 				$upCondition = true;
 				$downCondition = false;
 			}
-			if( $levelcounter[$categories[$row_list[$n]]["category_parent_id"]] < $levels[$depth_list[$n]+1] ) {
-				$downCondition = false;
-				$upCondition = false;
-			}
+			//if( $levelcounter[$categories[$row_list[$n]]["category_parent_id"]] < $levels[$depth_list[$n]+1] ) {
+			//	$downCondition = false;
+			//	$upCondition = false;
+			//}
 		}
+		
 		$levels[$depth_list[$n]+1]++;
 		
 		$listObj->addCell( $pageNav->orderUpIcon( $ibg, $upCondition, 'orderup', $VM_LANG->_('CMN_ORDER_UP'), $page, 'reorder' )

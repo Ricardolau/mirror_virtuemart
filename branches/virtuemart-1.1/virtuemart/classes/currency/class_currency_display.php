@@ -99,7 +99,7 @@ if(!defined("_CLASS_CURRENCY_DISPLAY_LOADED")) {
 		// this cause problem when no thousands separator is given : in this
 		// case, an unwanted ',' is displayed.
 		// That's why we have to do the work ourserlve.
-		// Note : when no decimal il given (i.e. 3 parameters), everything works fine
+		// Note : when no decimal is given (i.e. 3rd parameter), everything works fine
 		if( $decimals === '') {
 			$decimals = $this->nbDecimal;
 		}

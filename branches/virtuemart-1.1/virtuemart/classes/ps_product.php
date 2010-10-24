@@ -159,7 +159,12 @@ class vm_ps_product extends vmAbstractObject {
 				$vmLogger->err( $VM_LANG->_('VM_PRODUCT_MISSING_ATTRIBUTE_NAME',false) );
 				$valid = false;	
 			}
-			if ( strpos( $attributeX["name"], ":" ) or strpos( $attributeX["name"], "." ) ) {
+			if ( 
+				strpos( $attributeX["name"], ":" ) or 
+				strpos( $attributeX["name"], "." ) or
+				strpos( $attributeX["name"], "&" ) or
+				strpos( $attributeX["name"], "'" )
+			) {
 				$vmLogger->err( $VM_LANG->_('VM_PRODUCT_INVALID_ATTRIBUTE_NAME',false) );
 				$valid = false;	
 			}

@@ -34,8 +34,13 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+22.10.2010 zanardi
+^ Task #155 Account maintenance not redirected to https in mod_virtuemart_login
+# Task #160 Breadcrumb issues with direct menu links to product or category (again)
+# Task #165 Coupon value is not changed according to currency
+
 12.10.2010 zanardi
-^ Task 160 Breadcrumb issues with direct menu links to product or category
+^ Task #160 Breadcrumb issues with direct menu links to product or category
 
 10.10.2010 zanardi
 # Task #111 Old Price in PDF not correctly styled

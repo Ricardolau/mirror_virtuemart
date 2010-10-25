@@ -912,6 +912,7 @@ class ps_paypal_api {
 					$fields['user_id'] = $_SESSION['auth']['user_id'];
 					$fields['user_info_id'] = md5(  uniqid($_SESSION['ppex_userdata']['payer_id']) );
 					$fields['address_type'] = 'ST';
+					$timestamp = time();
 					$fields['cdate'] = $timestamp;
 					$fields['mdate'] = $timestamp;
 
@@ -1394,7 +1395,8 @@ class ps_paypal_api {
    
    //Createst the NVP string for all items in the cart
    function getCartnvpstr( &$order_totals=array() ) {
-		global $cart, $auth, $VM_LANG;
+		global $auth, $VM_LANG;
+		$cart = $_SESSION['cart'];
         require_once(CLASSPATH. 'ps_product.php' );
         $ps_product = new ps_product;
 		
@@ -1429,7 +1431,7 @@ class ps_paypal_api {
 		}
 		$order_totals['item_total'] = round($item_total, 2);
 		$ret_str.="&ITEMAMT=".round($item_total, 2);
-//		die( $ret_str );
+		//die( $ret_str );
 		return $ret_str;
    }
    
@@ -1491,8 +1493,7 @@ class ps_paypal_api {
 		$lang_arr = explode( '-', $lang->gettag() );
 		$localecode = strtoupper( $lang_arr[1] );
 
-	   $nvpstr=$product_params."&NAME=".$personName
-						."&CALLBACKTIMEOUT=4&CALLBACK=&ReturnUrl=".$returnURL
+	   $nvpstr= "&CALLBACKTIMEOUT=4&CALLBACK=&ReturnUrl=".$returnURL
 						."&CANCELURL=".$cancelURL 
 						."&HDRIMG=".PAYPAL_API_IMAGEURL 
 						."&GIROPAYCANCELURL=".$gp_cancelURL

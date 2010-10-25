@@ -1016,7 +1016,7 @@ Order Total: '.$order_total.'
 		/**
 	    * Insert the Order payment info 
 	    */
-		$payment_number = ereg_replace(" |-", "", @$_SESSION['ccdata']['order_payment_number']);
+		$payment_number = str_replace(array(' ','|','-'), '', @$_SESSION['ccdata']['order_payment_number']);
 
 		$d["order_payment_code"] = @$_SESSION['ccdata']['credit_card_code'];
 

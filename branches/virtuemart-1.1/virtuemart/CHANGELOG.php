@@ -34,6 +34,10 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+25.10.2010 soeren
+# Task #158 PayPal API cart empty if shipping address and method are not enabled
+# fixed deprecated function message regarding usage of "ereg_replace" in ps_checkout.php
+
 22.10.2010 zanardi
 ^ Task #155 Account maintenance not redirected to https in mod_virtuemart_login
 # Task #160 Breadcrumb issues with direct menu links to product or category (again)

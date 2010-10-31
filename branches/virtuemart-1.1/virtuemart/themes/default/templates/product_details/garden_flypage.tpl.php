@@ -26,7 +26,7 @@ if( $this->get_cfg( 'product_navigation', 1 )) {
 	  <h1><?php echo $product_name ?> <?php echo $edit_link ?></h1>
 	  &nbsp;<?php echo $manufacturer_link ?>
 	  </td>
-<td align="center" valign="top" rowspan="4"><?php echo $product_image ?><br/><br/><?php echo $more_images ?></td>
+<td align="center" valign="top" rowspan="4"><?php echo urldecode( $product_image ) ?><br/><br/><?php echo $more_images ?></td>
 	</tr>
 	<tr>
 	  <td rowspan="1"><font size="2"><?php echo $product_price ?></font><br /></td>

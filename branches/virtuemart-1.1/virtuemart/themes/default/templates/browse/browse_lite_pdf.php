@@ -4,7 +4,7 @@ mm_showMyFileName(__FILE__);
  <table><tr><td></td></tr></table>
 <table width="100%">
   <tr>
-	<td><?php echo ps_product::image_tag( $product_thumb_image, 'class="browseProductImage" border="0" title="'.$product_name.'" alt="'.$product_name .'"' ) ?>
+	<td><?php echo ps_product::image_tag( urldecode($product_thumb_image), 'class="browseProductImage" border="0" title="'.$product_name.'" alt="'.$product_name .'"' ) ?>
        </td>
 	<td><h2><?php echo $product_name ?></h2><br><?php echo $product_price ?></td>
   </tr>

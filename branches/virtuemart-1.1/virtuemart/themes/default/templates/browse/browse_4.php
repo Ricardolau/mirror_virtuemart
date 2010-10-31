@@ -9,7 +9,7 @@ mm_showMyFileName(__FILE__);
   <p><?php echo $product_price ?></p>
   <div style="float:left;width:90%" >
   		<a href="<?php echo $product_flypage ?>" title="<?php echo $product_name ?>">
-         <?php echo ps_product::image_tag( $product_thumb_image, 'class="browseProductImage" border="0" title="'.$product_name.'" alt="'.$product_name .'"' ) ?>
+         <?php echo ps_product::image_tag( urldecode($product_thumb_image), 'class="browseProductImage" border="0" title="'.$product_name.'" alt="'.$product_name .'"' ) ?>
         </a>  
    </div>
   

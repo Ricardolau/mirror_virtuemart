@@ -12,7 +12,7 @@ if( $this->get_cfg( 'showPathway' )) {
   <tbody>
 	<tr>
 	  <td rowspan="5" valign="top" style="text-align:center;"><br/>
-	  	<?php echo $product_image ?>
+	  	<?php echo urldecode( $product_image ) ?>
 	  	<br/><br/>
 	  	<?php if( !empty($images)) { ?>
 		  	<div class="thumbnailListContainer">

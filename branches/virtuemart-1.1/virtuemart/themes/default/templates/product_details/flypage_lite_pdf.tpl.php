@@ -9,7 +9,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 
 <table width=100%>
 <tr><td width=50%><br><?php echo $product_price ?> </td>
-<td width=50%><?php echo $product_image ?>&nbsp;</td>
+<td width=50%><?php echo urldecode( $product_image ) ?>&nbsp;</td>
 </tr>
 </table>
 

@@ -15,12 +15,12 @@ mm_showMyFileName(__FILE__);
         <div class="browseProductImageContainer">
 	        <script type="text/javascript">//<![CDATA[
 	        document.write('<a href="javascript:void window.open(\'<?php echo $product_full_image ?>\', \'win2\', \'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=<?php echo $full_image_width ?>,height=<?php echo $full_image_height ?>,directories=no,location=no\');">');
-	        document.write( '<?php echo ps_product::image_tag( $product_thumb_image, 'class="browseProductImage" border="0" title="'.$product_name.'" alt="'.$product_name .'"' ) ?></a>' );
+	        document.write( '<?php echo ps_product::image_tag( urldecode($product_thumb_image), 'class="browseProductImage" border="0" title="'.$product_name.'" alt="'.$product_name .'"' ) ?></a>' );
 	        //]]>
 	        </script>
 	        <noscript>
 	            <a href="<?php echo $product_full_image ?>" target="_blank" title="<?php echo $product_name ?>">
-	            <?php echo ps_product::image_tag( $product_thumb_image, 'class="browseProductImage" border="0" title="'.$product_name.'" alt="'.$product_name .'"' ) ?>
+	            <?php echo ps_product::image_tag( urldecode($product_thumb_image), 'class="browseProductImage" border="0" title="'.$product_name.'" alt="'.$product_name .'"' ) ?>
 	            </a>
 	        </noscript>
         </div>

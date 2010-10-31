@@ -38,7 +38,7 @@ if( $this->get_cfg( 'product_navigation', 1 )) {
     </tr>
     <tr>
         <td align="left" valign="top" width="220">
-            <div><?php echo $product_image ?></div>
+            <div><?php echo urldecode( $product_image ) ?></div>
         </td>
         <td valign="top">
             <div style="text-align: center;">

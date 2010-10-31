@@ -10,7 +10,7 @@ if( $this->get_cfg( 'showPathway' )) {
 <table border="0" style="width: 100%;">
   <tbody>
 <tr>
-  <td rowspan="3" valign="top" style="text-align:center;"><br/> <?php echo $product_image ?><br/><br/> <?php echo $more_images ?></td>
+  <td rowspan="3" valign="top" style="text-align:center;"><br/> <?php echo urldecode( $product_image ) ?><br/><br/> <?php echo $more_images ?></td>
   <td rowspan="1" colspan="2">
   <h1> <?php echo $product_name ?>  <?php echo $edit_link ?></h1>
   </td>

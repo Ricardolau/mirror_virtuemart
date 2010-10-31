@@ -38,8 +38,10 @@
 			<filename>install.copy.php</filename>
 			<filename>install.php</filename>
 			<filename>INSTALLATION.php</filename>
+			<filename>ipayment_notify.php</filename>
 			<filename>LICENSE.php</filename>
 			<filename>notify.php</filename>
+			<filename>paysbuynotify.php</filename>
 			<filename>PEAR.php</filename>
 			<filename>README.php</filename>
 			<filename>virtuemart.cfg-dist.php</filename>

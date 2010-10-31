@@ -51,8 +51,8 @@ foreach( $product_types as $product_type ) { // Loop through all recent products
 			?>
 			</td><td><?php echo $product_type_params["parameter_value"];
 
-			if ( !empty($product_type_params["unit"] ) ) {
-				echo " ".$product_type_params["unit"];
+			if ( !empty($product_type_params["parameter_unit"] ) ) {
+				echo " ".$product_type_params["parameter_unit"];
 			} ?>
 			</td></tr>
 			<?php

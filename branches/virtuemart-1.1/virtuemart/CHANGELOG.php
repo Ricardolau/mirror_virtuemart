@@ -34,6 +34,12 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+
+30.10.2010 zanardi
+# Task #184 Bug in get_price for child products
+# Task #185 Notify script not installed for ipayment and paysbuy
+# Task #186 In Product Type - Parameter Unit value is not shown on frontpage. 
+
 25.10.2010 soeren
 # Task #158 PayPal API cart empty if shipping address and method are not enabled
 # fixed deprecated function message regarding usage of "ereg_replace" in ps_checkout.php

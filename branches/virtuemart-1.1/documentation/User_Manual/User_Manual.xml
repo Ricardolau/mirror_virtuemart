@@ -17,9 +17,6 @@
 
       <para><trademark>Joomla!</trademark> is a Trademark of Open Source
       Matters, Inc.</para>
-
-      <para><trademark>Mambo</trademark> is a Trademark of The Mambo
-      Foundation Inc.</para>
     </legalnotice>
 
     <author>
@@ -157,12 +154,11 @@
     Team</para>
 
     <para><emphasis role="strong">The Software 'VirtueMart 1.1' is intended
-    </emphasis><emphasis role="strong">for use in Joomla! (Versions 1.0, 1.5)
-    or Mambo (Versions &gt;= 4.5.3, 4.6.x).</emphasis></para>
+    </emphasis><emphasis role="strong">for use in Joomla! or compatible
+    distributions.</emphasis></para>
 
-    <para>(Joomla! and Mambo is free Software, licensed under GNU/GPL; Joomla!
-    is available from <ulink
-    url="http://www.joomla.org">www.joomla.org</ulink>)</para>
+    <para>(Joomla! is free Software, licensed under GNU/GPL; it is available
+    from <ulink url="http://www.joomla.org">www.joomla.org</ulink>)</para>
   </preface>
 
   <chapter id="Introduction">
@@ -178,12 +174,12 @@
 
         <para>VirtueMart is a PHP-based Shopping Cart Application for selling
         goods over the internet. It's a Component (<emphasis>=
-        plugin</emphasis>) for a Content Management System called Joomla! (and
-        Mambo) and can't be used without Joomla!. It installs fairly easy
-        using the automatic Component and Module Installer. It's intended for
-        use in small / mid-sized Online Businesses / Online-Shops. So every
-        user who wants to build up a Online Store can use this Component for
-        selling something to Customers.</para>
+        plugin</emphasis>) for a Content Management System called Joomla! and
+        can't be used without Joomla!. It installs fairly easy using the
+        automatic Component and Module Installer. It's intended for use in
+        small / mid-sized Online Businesses / Online-Shops. So every user who
+        wants to build up a Online Store can use this Component for selling
+        something to Customers.</para>
       </section>
 
       <section>
@@ -273,8 +269,7 @@
 
           <itemizedlist>
             <listitem>
-              <para>Powerful Web-Administration Interface
-              (Javascript-powered)</para>
+              <para>Powerful Web-Administration Interface</para>
             </listitem>
 
             <listitem>
@@ -585,11 +580,12 @@
             <listitem>
               <para>MySQL 3.23.x or above - <ulink
               url="http://www.mysql.com">http://www.mysql.com</ulink>,
-              recommended: MySQL 5.0.x</para>
+              recommended: at least MySQL 5.0.x</para>
             </listitem>
 
             <listitem>
-              <para>Joomla! 1.0.x, 1.5.x, recommended: Joomla! 1.5.x</para>
+              <para>Joomla! 1.5.x (VirtueMart Versions earlier than Version
+              1.1.6 support Jooml! 1.0 as well)</para>
             </listitem>
           </itemizedlist>
 
@@ -612,10 +608,10 @@
           <title>Client Requirements</title>
 
           <para>VirtueMart can be used with most major browsers including:
-          Internet Explorer (version 5.5+), Firefox, Opera 9+, Safari and
-          Konqueror. Javascript doesn't need to be enabled in the frontend
-          (when shopping and checking out). The administration section
-          requires Javascript to be enabled.</para>
+          Internet Explorer (version 6+), Firefox, Chrome/Chromium, Opera 9+,
+          Safari and Konqueror. Javascript doesn't need to be enabled in the
+          frontend (when shopping and checking out). The administration
+          section requires Javascript to be enabled.</para>
 
           <para>The client/browser needs to be capable of accepting Cookies
           and Cookies must be enabled.</para>
@@ -649,7 +645,7 @@
           <important>
             <para>The "Complete Package" and the "Manual Installation Package"
             are available in two basic versions: one for <emphasis
-            role="bold">Joomla! 1.0/Mambo</emphasis> and one for <emphasis
+            role="bold">Joomla! 1.0</emphasis> and one for <emphasis
             role="bold">Joomla! 1.5</emphasis>. The second one has the
             extension ".j15.zip" (or ".j15.tar.gz").</para>
           </important>
@@ -670,9 +666,9 @@
             <title>The VirtueMart "Complete Package"</title>
 
             <para>The complete package is an archive with all the things you
-            need to install VirtueMart on Joomla! or Mambo using their
-            automatic installer system. You can extract the parts from the
-            complete package and upload&amp;install them one by one.</para>
+            need to install VirtueMart on Joomla! using their automatic
+            installer system. You can extract the parts from the complete
+            package and upload&amp;install them one by one.</para>
           </section>
 
           <section id="Download_ManualInstallationP">
@@ -683,7 +679,7 @@
             contain any installable items.</para>
 
             <para>This archive is meant to be uploaded into an existing
-            Joomla!/Mambo installation via FTP. After that VirtueMart can be
+            Joomla! installation via FTP. After that VirtueMart can be
             accessed and the necessary table structure will be set up.</para>
 
             <para>If you want to <emphasis role="bold">upgrade</emphasis>
@@ -699,13 +695,13 @@
           <title>New Installation</title>
 
           <para>When having met all the requirements and when you are running
-          Joomla! or Mambo you have two choices:</para>
+          Joomla! you have two choices:</para>
 
           <orderedlist continuation="restarts" numeration="arabic">
             <listitem>
               <para>The <link linkend="Automatic_Installation">automatic
-              installation</link> with Joomla's / Mambo's Element (Component-,
-              Module-, Mambot-) Installer.</para>
+              installation</link> with Joomla's Element (Component-, Module-,
+              Plugin-) Installer.</para>
             </listitem>
 
             <listitem>
@@ -854,11 +850,11 @@
       <section id="Automatic_Installation">
         <title>Automatic Installation</title>
 
-        <para>To install VirtueMart into Joomla! or Mambo you need to download
-        the file <filename>VirtueMart_1.1.x-COMPLETE_PACKAGE.zip</filename>
-        (or <filename>VirtueMart_1.1.x-COMPLETE_PACKAGE.j15.zip</filename> if
-        you want to install on Joomla! 1.5). This file contains various
-        Elements for VirtueMart.<important>
+        <para>To install VirtueMart into Joomla! you need to download the file
+        <filename>VirtueMart_1.1.x-COMPLETE_PACKAGE.zip</filename> (or
+        <filename>VirtueMart_1.1.x-COMPLETE_PACKAGE.j15.zip</filename> if you
+        want to install on Joomla! 1.5). This file contains various Elements
+        for VirtueMart.<important>
             <para>This "complete package" file is not installable! Its
             contents are, but they must be unpacked first.</para>
           </important></para>
@@ -881,7 +877,7 @@
           </listitem>
 
           <listitem>
-            <para>2 Mambots (1 Search, 1 Content Mambot)</para>
+            <para>2 Plugins (1 Search, 1 Content Plugin)</para>
           </listitem>
         </itemizedlist>
 
@@ -915,8 +911,7 @@
           </listitem>
 
           <listitem>
-            <para>In Mambo/Joomla! 1.0 click
-            <guimenuitem>Installers</guimenuitem> ⇒
+            <para>In Joomla! 1.0 click <guimenuitem>Installers</guimenuitem> ⇒
             <guimenuitem>Components</guimenuitem>. In Joomla! 1.5 click
             <guimenuitem>Extensions</guimenuitem> ⇒
             <guimenuitem>Install/Uninstall</guimenuitem> in the Top
@@ -939,7 +934,7 @@
               <para>You must check if the directories listed above the
               component list are writable! If the directories are not
               writable, use ftp or <ulink
-              url="http://joomlacode.org/gf/project/joomlaxplorer/">JoomlaXplorer</ulink>
+              url="http://joomlacode.org/gf/project/joomlaxplorer/">eXtplorer</ulink>
               to change the permissions. For proper installation, the
               directories should be set to 777, after that you can change back
               to 755.</para>
@@ -1188,56 +1183,51 @@
           </listitem>
 
           <listitem id="vm_automatc_installation_step7">
-            <para>Recommended: <emphasis role="bold">Mambot/Plugin
+            <para>Recommended: <emphasis role="bold">Plugin
             Installation</emphasis></para>
 
-            <para>Click on 'Mambots' ⇒ 'Install/Uninstall' (or 'Extensions' ⇒
-            'Install/Uninstall when using Joomla! 1.5) in the Top Menu.</para>
+            <para>Click on 'Extensions' ⇒ 'Install/Uninstall' in the Top
+            Menu.</para>
 
             <para></para>
 
             <variablelist>
               <varlistentry>
-                <term>Search Bot</term>
+                <term>Search Plugin</term>
 
                 <listitem>
                   <para>Performs a search on the product table and delivers
-                  search results for Joomla's / Mambo's site search. Select
-                  the file '<filename>vmxsearch.mambot_1.1.x.zip</filename>'
-                  (called
-                  '<filename>vmxsearch.plugin_1.1.x.j15.zip</filename>' for
-                  Joomla! 1.5) and click 'Upload File &amp; Install'.</para>
+                  search results for Joomla's site search. Select the file
+                  '<filename>vmxsearch.plugin_1.1.x.j15.zip</filename>' and
+                  click 'Upload File &amp; Install'.</para>
                 </listitem>
               </varlistentry>
 
               <varlistentry>
-                <term>ProductSnapshot Mambot/Plugin</term>
+                <term>ProductSnapshot Plugin</term>
 
                 <listitem>
                   <para>Displays product figure/price/add-to-cart link in
                   content items.</para>
 
                   <para>Select the file
-                  '<filename>vmproductsnapshots_1.1.x.zip</filename>' (called
-                  '<filename>vmproductsnapshots_1.1.x.j15.zip</filename>' for
-                  Joomla! 1.5) and click 'Upload File &amp; Install'.</para>
+                  '<filename>vmproductsnapshots_1.1.x.j15.zip</filename>' and
+                  click 'Upload File &amp; Install'.</para>
                 </listitem>
               </varlistentry>
             </variablelist>
 
-            <para><emphasis role="strong">Publishing the
-            Mambots/Plugins</emphasis>:</para>
+            <para><emphasis role="strong">Publish the
+            Plugins</emphasis>:</para>
 
-            <para>Mambots/Plugins need to be published before they do
-            ANYTHING. Click on <guimenu>Mambots</guimenu> ⇒ <guimenu>Site
-            Mambots</guimenu> (Joomla! 1.5:
-            <guimenuitem>Extensions</guimenuitem> ⇒
-            <guimenuitem>Plugins</guimenuitem>) in the Top Menu. Now browse
-            through the list of installed Mambots/Plugins and find
-            'vmxsearchbot' and 'vmproductsnapshot'. Select one (click on the
-            name) and modify its settings/details. Remember to publish it. For
-            more information about Mambots/Plugins please consult the Joomla!
-            documentation ( <ulink url="http://help.joomla.org"><emphasis
+            <para>Plugins need to be published before they do ANYTHING. Click
+            on <guimenuitem>Extensions</guimenuitem> ⇒
+            <guimenuitem>Plugins</guimenuitem> in the Top Menu. Now browse
+            through the list of installed Plugins and find 'vmxsearchbot' and
+            'vmproductsnapshot'. Select one (click on the name) and modify its
+            settings/details. Remember to publish it. For more information
+            about Plugins please consult the Joomla! documentation ( <ulink
+            url="http://help.joomla.org"><emphasis
             role="underline">http://help.joomla.org</emphasis></ulink>).</para>
           </listitem>
         </orderedlist>
@@ -1279,8 +1269,7 @@
 
               <member><filename>/components</filename></member>
 
-              <member><filename>/mambots (/plugins for Joomla!
-              1.5)</filename></member>
+              <member><filename>/plugins</filename></member>
 
               <member><filename>/modules</filename></member>
             </simplelist>
@@ -1312,10 +1301,7 @@
             <para>When having logged in, you see this URL in the address
             bar:</para>
 
-            <para><filename>http://www.yoursite.tld/administrator/index2.php</filename></para>
-
-            <para>In Joomla! 1.5 it's
-            <filename>http://www.yoursite.tld/administrator/index.php</filename></para>
+            <para><filename>http://www.yoursite.tld/administrator/index.php</filename></para>
           </listitem>
 
           <listitem>
@@ -1324,7 +1310,7 @@
             <filename>index2.php</filename>, so it looks like this in your
             browser's address bar:</para>
 
-            <para><filename>http://www.yoursite.tld/administrator/index2.php?option=com_virtuemart</filename></para>
+            <para><filename>http://www.yoursite.tld/administrator/index.php?option=com_virtuemart</filename></para>
 
             <para>and hit <keycode>Enter</keycode>.</para>
           </listitem>
@@ -1339,30 +1325,25 @@
           </listitem>
 
           <listitem>
-            <para>To install the Modules and Mambots/Plugins for VirtueMart,
-            follow the instructions of the Automatic Installation, <link
+            <para>To install the Modules and Plugins for VirtueMart, follow
+            the instructions of the Automatic Installation, <link
             linkend="vm_automatc_installation_step6">Step 6</link> and <link
             linkend="vm_automatc_installation_step7">Step 7</link>. If this
             doesn't help you, because NO automatic installations are possible,
             you can manually upload the files (you have probably already done
             this in step 3).</para>
 
-            <para>Modules and Mambots/Plugins require entries in the tables
-            <emphasis role="bold">jos_mambots/jos_plugins<emphasis
-            role="bold"> and</emphasis> </emphasis><emphasis
-            role="bold">jos_modules</emphasis> before they can be used.</para>
+            <para>Modules and Plugins require entries in the tables <emphasis
+            role="bold">jos_plugins<emphasis role="bold"> and</emphasis>
+            </emphasis><emphasis role="bold">jos_modules</emphasis> before
+            they can be used.</para>
 
             <para>You need to add these entries by uploading an SQL file
             (using <ulink url="http://phpmyadmin.net">phpMyAdmin</ulink>) that
             contains all necessary queries:</para>
 
-            <para><filename>/administrator/components/com_virtuemart/sql/virtuemart.installation.addons.joomla.sql</filename></para>
-
-            <para>Use the file
-            <filename>virtuemart.installation.addons.joomla1.5.sql</filename>
-            when you're on <emphasis role="bold">Joomla! 1.5</emphasis> and
-            <filename>virtuemart.installation.addons.mambo.sql</filename> when
-            you're on <emphasis role="bold">Mambo</emphasis>.</para>
+            <para><filename>/administrator/components/com_virtuemart/sql/virtuemart.installation.addons.joomla1.5.sql</filename>
+            .</para>
           </listitem>
         </orderedlist>
 
@@ -1417,10 +1398,6 @@
           <listitem>
             <para>Switch the global Language + Locale</para>
 
-            <para><emphasis role="bold">For Joomla! 1.0/Mambo:</emphasis> go
-            to the global Configuration Screen, switch to the Tab "Locale" and
-            change the language option to the language of your choice.</para>
-
             <para><emphasis role="bold">For Joomla! 1.5:</emphasis> go to
             "Extensions" =&gt; "Languages", select the language of your choice
             and make it "default" by clicking that icon in the toolbar.</para>
@@ -1429,8 +1406,8 @@
             own language folder.</para>
 
             <note>
-              <para>The Language Files for Joomla!/Mambo and VirtueMart should
-              have the same file name (or a correct value for the tag
+              <para>The Language Files for Joomla! and VirtueMart should have
+              the same file name (or a correct value for the tag
               "backwardLang" in the XML installer file of the language under
               Joomla! 1.5).</para>
             </note>
@@ -1506,7 +1483,7 @@
 
             <qandaentry>
               <question>
-                <para>The installation on Joomla! 15 fails with the error
+                <para>The installation on Joomla! 1.5 fails with the error
                 <quote>Your Extension appears to be written for an older
                 version of Joomla!. You must enable the System - Legacy Plugin
                 in the Plugin Manager if you wish to complete this
@@ -1691,7 +1668,7 @@
       <title>Joomla! Global Configuration</title>
 
       <para><citation>VirtueMart makes use of the global Configuration values
-      which can be set in the Global Configuration for your Joomla!/Mambo
+      which can be set in the Global Configuration for your Joomla!
       site.</citation></para>
 
       <para><variablelist>
@@ -1777,8 +1754,8 @@
     management, and advanced administration accessed via the VirtueMart
     administrative interface.</para>
 
-    <para>It assumes that you have already installed and configured your site
-    (VirtueMart 1.1 with Joomla! 1.0.13).</para>
+    <para>It assumes that you have already installed and configured your
+    site.</para>
 
     <para>VirtueMart allows you to select "Simple Layout" and "Extended
     Layout". The simple layout is the standard layout and provides a basic
@@ -1786,7 +1763,8 @@
     ExtJS library for creating a nested layout that allows better presentation
     of the administrative functions of VirtueMart. So it opens items for
     editing in a new tab inside the main panel. It should work fine on
-    Internet Explorer 6+, Firefox 2+, Opera 9+ and Safari 2+.</para>
+    Internet Explorer 6+, Firefox 2+, Chrome 4+, Opera 9+ and Safari
+    2+.</para>
 
     <section id="Shop_Configuration">
       <title>Shop Configuration</title>
@@ -3898,8 +3876,8 @@
                 on the Flypage (=details page) of this specific
                 product.</para>
 
-                <para>You can use Mambots/Content Plugin Tags here if you have
-                enabled "Use Mambots to parse Descriptions" in the Store
+                <para>You can use Content Plugin Tags here if you have enabled
+                "Use Mambots to parse Descriptions" in the Store
                 Configuration.</para>
               </listitem>
             </varlistentry>
@@ -4442,9 +4420,9 @@
           want to offer a fixed list of variations for your customer to choose
           from, rather than allowing them to pick and mix attributes as they
           please, you need to create some <emphasis>Items</emphasis>. Note:
-          These are different from the content Items in Joomla! or Mambo
-          itself. An item in VirtueMart is a pre-defined variation on the main
-          product. In order to create an item, you have to set up at least one
+          These are different from the content Items in Joomla! itself. An
+          item in VirtueMart is a pre-defined variation on the main product.
+          In order to create an item, you have to set up at least one
           <emphasis>attribute</emphasis> first. Hence, it is only
           <emphasis>after</emphasis> you have added an attribute that the
           <emphasis>New Item</emphasis> toolbar button and its related menu
@@ -4770,13 +4748,13 @@
             </tip>
 
             <section>
-               
+              <title>VirtueMart Administration: Product Type
+              Management</title>
 
               <figure>
-                <title>
-                  <citetitle>VirtueMart Administration: Product Type
-                  Management - Product Type Information</citetitle>
-                </title>
+                <title>Product Type Information</title>
+
+                <synopsis>After you finished filling in the information, click "Save" Now you will see the Product Type List. </synopsis>
 
                 <screenshot>
                   <mediaobject>
@@ -4788,8 +4766,6 @@
                   </mediaobject>
                 </screenshot>
               </figure>
-
-               After you finished filling in the information, click "Save" Now you will see the Product Type List. 
             </section>
           </section>
 
@@ -5127,22 +5103,21 @@
             process, BUT you <emphasis role="bold">don't have a very deep
             category structure</emphasis>. So in this case we are talking
             about products that have similar functions, but they have
-            different parameters and different parameter values.</para>
+            different parameters and different parameter values.<example>
+                <title>Example</title>
 
-            <example>
-              <para><firstterm>Example</firstterm>: you have "Displays"
-              category, and here you would create 2 more child categories:
-              "LCD Displays" and "Plasma Displays". The 2 categories of
-              products perform same functions (showing you multimedia
-              information), but have different parameters, and you cannot
-              assign a single Product Type to describe all LCD and Plasma
-              displays, because lets say Plasma pixel size is very different
-              than LCD pixel size. So in this particular case you have to
-              create 2 Product Types for "Displays" Category: "LCD Displays"
-              Product Type and "Plasma Displays" Product Type. This is actualy
-              the best thing to do, because Plasma is a very different
-              technology than LCD.</para>
-            </example>
+                <para>Imagine you have "Displays" category, and here you would
+                create 2 more child categories: "LCD Displays" and "Plasma
+                Displays". The 2 categories of products perform same functions
+                (showing you multimedia information), but have different
+                parameters, and you cannot assign a single Product Type to
+                describe all LCD and Plasma displays, because let's say Plasma
+                pixel size is very different than LCD pixel size. So in this
+                particular case you have to create 2 Product Types for
+                "Displays" Category: "LCD Displays" Product Type and "Plasma
+                Displays" Product Type. This is actualy the best thing to do,
+                because Plasma is a very different technology than LCD.</para>
+              </example></para>
           </important>
 
           <important>
@@ -6206,7 +6181,7 @@
 
           <tip>
             <para>Some other Field Types will be visible depending on what
-            other Components you have installed on your Joomla!/Mambo:</para>
+            other Components you have installed on your Joomla!:</para>
 
             <variablelist>
               <varlistentry>
@@ -6216,7 +6191,7 @@
                   <para>You can let your new Customers be automatically be
                   subscribed to a Newsletter. The following Components are
                   supported: <ulink
-                  url="http://www.thejfactory.com/component/option,com_docman/Itemid,56/">Letterman</ulink>.</para>
+                  url="http://www.chillcreations.com/joomla-extensions/ccnewsletter-joomla-newsletter-extension.html">CCNewsletter</ulink>.</para>
                 </listitem>
               </varlistentry>
 
@@ -7669,7 +7644,7 @@
 
                 <para><filename>YOUR_JOOMLA_PATH/2checkout_notify.php</filename></para>
 
-                <para>(means into the Mambo root)</para>
+                <para>(means into the Joomla! root)</para>
               </listitem>
             </orderedlist>When those steps have been completed, you can use
           2Checkout with automatic Order Status updates on your site.</para>

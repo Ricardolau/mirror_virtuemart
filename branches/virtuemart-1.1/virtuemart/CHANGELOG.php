@@ -34,6 +34,11 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+16.11.2010 zanardi
+# Task #134 When creating text or textarea field type in Manage User Fields, default value is 0
+# Task #142 (again) Fixed other notices in backend order detail
+# Task #154 Bug with some SEF router
+# Task #198 "Deprecated" warning in PHP 5.3 when trying to add additional images
 
 30.10.2010 zanardi
 # Task #184 Bug in get_price for child products
@@ -69,7 +74,6 @@ VirtueMart 1.1.x
 26.09.2010 zanardi
 ^ Task #115 Error Process for Missing Required Ship To Fields Loses User Entered Data
 # Task #117 Illegal variable_files ... error after clicking Add to Cart when there are empty attributes
-+ Added "router.php" file for Joomla SEF
 # Task #129: Some characters in attribute name cause issues
 ^ Task #134: When creating text or textarea field type in Manage User Fields, default value is 0
 + Task #135: Zone shipping module doesn’t have ‘The shipping rate has been updated’ message when ‘Apply‘

@@ -110,7 +110,7 @@ class vm_ps_userfield extends vmAbstractObject {
 					'cols' => vmGet($d, 'cols' ), 
 					'rows' => vmGet($d, 'rows' ), 
 					'value' => vmGet($d, 'value' ), 
-					'default' => vmGet($d, 'default' ), 
+					'default' => vmGet($d, 'default', 'NULL' ), 
 					'published' => vmGet($d, 'published' ), 
 					'registration' => vmGet($d, 'registration' ), 
 					'shipping' => vmGet($d, 'shipping' ), 
@@ -122,7 +122,7 @@ class vm_ps_userfield extends vmAbstractObject {
 					 );
 		if( !empty($d['fieldid']) ) {
 			// existing record
-			$db->buildQuery( 'UPDATE', '#__{vm}_userfield', $fields ,'WHERE `fieldid` ='. intval($d['fieldid'] ) );
+			$db->buildQuery( 'UPDATE', '#__{vm}_userfield', $fields ,'WHERE `fieldid` ='. intval($d['fieldid'] ), array('default') );
 			$db->query();
 			
 			if( $d['type'] != 'delimiter') {
@@ -135,7 +135,7 @@ class vm_ps_userfield extends vmAbstractObject {
 			$db->query($sql); $db->next_record();
 			$d['ordering'] = $db->f('max')+1;			
 
-			$db->buildQuery( 'INSERT', '#__{vm}_userfield', $fields );
+			$db->buildQuery( 'INSERT', '#__{vm}_userfield', $fields, '', array('default') );
 			$db->query();
 			
 			$_REQUEST['fieldid'] = $db->last_insert_id();

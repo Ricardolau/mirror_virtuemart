@@ -74,7 +74,7 @@ else {
 }
 
 //First create the object and let it print a form heading
-$formObj = &new formFactory( $title );
+$formObj = new formFactory( $title );
 //Then Start the form
 $formObj->startForm( 'adminForm', 'enctype="multipart/form-data"');
 

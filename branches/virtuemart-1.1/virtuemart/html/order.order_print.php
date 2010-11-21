@@ -531,19 +531,19 @@ else {
 				<tr> 
 					<td align="left">
 						<strong><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_SHIPPING_CARRIER_LBL') ?>: </strong>
-    					<?php if ( $details[1] ) echo $details[1]; ?>&nbsp;
+    					<?php if ( $details && $details[1] ) echo $details[1]; ?>&nbsp;
 					</td>
 				</tr>
 				<tr>
 					<td align="left">
 						<strong><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_SHIPPING_MODE_LBL') ?>: </strong>
-						<?php if ( $details[2] ) echo $details[2]; ?>
+						<?php if ( $details && $details[2] ) echo $details[2]; ?>
 					</td>
 				</tr>
 				<tr>
 					<td align="left">
 						<strong><?php echo $VM_LANG->_('PHPSHOP_ORDER_PRINT_SHIPPING_PRICE_LBL') ?>: </strong>
-						<?php if ( $details[3] ) { echo $GLOBALS['CURRENCY_DISPLAY']->getFullValue($details[3], '', $db->f('order_currency')); } ?>
+						<?php if ( $details && $details[3] ) { echo $GLOBALS['CURRENCY_DISPLAY']->getFullValue($details[3], '', $db->f('order_currency')); } ?>
 					</td>
 				</tr>
               <?php $ps_order_change_html->html_change_shipping() ?>  

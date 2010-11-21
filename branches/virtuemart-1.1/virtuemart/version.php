@@ -32,13 +32,13 @@ class vmVersion {
 	/** @var int Release Number */
 	var $RELEASE = '1.1.6';
 	/** @var string Development Status */
-	var $DEV_STATUS = 'beta';
+	var $DEV_STATUS = 'stable';
 	/** @var string Codename */
 	var $CODENAME = 'Verona';
 	/** @var string Date */
-	var $RELDATE = '10/24/2010';
+	var $RELDATE = '11/21/2010';
 	/** @var string Time */
-	var $RELTIME = '12:00';
+	var $RELTIME = '12:15';
 	/** @var string Timezone */
 	var $RELTZ = 'GMT';
 	/** @var string Revision */

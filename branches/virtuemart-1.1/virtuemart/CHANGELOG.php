@@ -34,6 +34,9 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+
+--- VirtueMart 1.1.6 released (Rev. 2660 2010-11-21) ---
+
 16.11.2010 zanardi
 # Task #134 When creating text or textarea field type in Manage User Fields, default value is 0
 # Task #142 (again) Fixed other notices in backend order detail

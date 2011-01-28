@@ -15,35 +15,37 @@
 * See /administrator/components/com_virtuemart/COPYRIGHT.php for copyright notices and details.
 *
 * http://virtuemart.net
+*
+* Updated 01/26/2011 by undeadzed
+*
 */
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );   
 
 /**
 * Read the post from 2Checkout system 
 * I have used $_REQUEST instead of $_POST, because
-* the "direct return" feature comes here using the GET method
+* the "Header Redirect" feature comes here using the GET method
 * and $_REQUEST includes $_POST as well as $_GET
 **/
-if( !isset( $_REQUEST["x_invoice_num"] ) || empty( $_REQUEST["x_invoice_num"] ))
+if( !isset( $_REQUEST["merchant_order_id"] ) || empty( $_REQUEST["merchant_order_id"] ))
   echo $VM_LANG->_('VM_CHECKOUT_ORDERIDNOTSET');
 else {
   
   /* Load the 2Checkout Configuration File */ 
   require_once( CLASSPATH. 'payment/ps_twocheckout.cfg.php' );
   
-  /* x_invoice_num is the name of the variable that holds OUR order_number */
-  // 04-01-2010 RickG Added intval call to prevent SQL injection
-  $order_number = intval(vmGet( $_REQUEST, "x_invoice_num" )); 
+  /* merchant_order_id is the name of the variable that holds OUR order_number */
+  $order_number = $_REQUEST['merchant_order_id']; 
   
   // In Demo Mode the MD5 Hash is built using a "1"
+  // 2Checkout order number returned by x_trans_id when using Authorize.net parameter set.
+  // Concat some variables for MD5 Hashing (like 2Checkout does online)
   if( isset($_REQUEST['demo']) )
       if($_REQUEST['demo']== "Y")
-      $_REQUEST['order_number'] = "1";
+      $_REQUEST['x_trans_id'] = "1";
 
-  /* Concat some variables for MD5 Hashing (like 2Checkout does online)
-  * order_number is the 2Checkout Order Number, not our one!
-  */
-  $compare_string = TWOCO_SECRETWORD . TWOCO_LOGIN . $_REQUEST['order_number'] . $_REQUEST['x_amount'];
+  //2Checkout order number returned by x_trans_id when using Authorize.net parameter set.
+  $compare_string = TWOCO_SECRETWORD . TWOCO_LOGIN . $_REQUEST['x_trans_id'] . $_REQUEST['x_amount'];
   
   // make it md5
   $compare_hash1 = strtoupper(md5($compare_string));
@@ -62,8 +64,9 @@ else {
         $dbbt->query($qv);
         $dbbt->next_record();
         $d['order_id'] = $dbbt->f("order_id");
-        
-        if ($_REQUEST['x_response_code'] == '1') {
+
+//When using Authorize.net parameter set 2Checkout returns x_2checked = Y on valid sales.        
+        if ($_REQUEST['x_2checked'] == 'Y') {
             
             // UPDATE THE ORDER STATUS to 'VALID'
             $d['order_status'] = TWOCO_VERIFIED_STATUS;

@@ -150,7 +150,7 @@
 
     <para>VirtueMart is free Software, licensed under GNU/GPL; VirtueMart [
     <ulink url="http://virtuemart.net">http://virtuemart.net</ulink> ], ©
-    2005-2010 Sören Eberhardt-Biermann &amp; the VirtueMart Development
+    2005-2011 Sören Eberhardt-Biermann &amp; the VirtueMart Development
     Team</para>
 
     <para><emphasis role="strong">The Software 'VirtueMart 1.1' is intended
@@ -7532,8 +7532,10 @@
           <para><ulink type=""
           url="http://www.paypal.com">www.paypal.com</ulink></para>
 
-          <para>PayPal integration is made using a Webform that transfers the
-          customer to the PayPal site.</para>
+          <para>Since Version 1.1.6, VirtueMart has implemented the PayPal
+          Express API, which allows to process the Payment on the web store.
+          The user just has to login once at PayPal and completes the checkout
+          at your store.</para>
 
           <figure>
             <title>VirtueMart Administration: Paypal Configuration
@@ -7551,7 +7553,7 @@
             </screenshot>
           </figure>
 
-          <para>This payment method allows automatic Order Status Updates.
+          <para>This payment method allows automatic order status updates.
           There's a file in
           <filename>/administrator/components/com_virtuemart/</filename> which
           is called <filename>notify.php</filename>. You will need to enter
@@ -7561,6 +7563,70 @@
           AND the payment have been successful, the order status is
           automatically updated to the status you have set in the PayPal
           configuration form.</para>
+        </section>
+
+        <section>
+          <title>Moneybookers</title>
+
+          <para><ulink type=""
+          url="http://www.moneybookers.com">www.moneybookers.com</ulink></para>
+
+          <para>If you want to offer Moneybookers Payment Methods to your
+          customers, you must first install the "Moneybookers Payment Modules
+          Component" in Joomla!. During the installation process of this
+          component VirtueMart will be prepared to include Moneybooker Payment
+          Methods. So proceed to the "Moneybookers Payment Modules Component"
+          by selecting it from the components drop-down menu. Now you can
+          activate the payment methods you want to offer by clicking the green
+          "plus" icon in the payment module list. This will automatically add
+          the method to VirtueMart's payment method list.</para>
+
+          <para></para>
+
+          <para><figure>
+              <title>Moneybookers Component for Joomla!</title>
+
+              <screenshot>
+                <screeninfo>Manage Moneybookers Payment Merthods for
+                VirtueMart</screeninfo>
+
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="figure/img041.png" />
+                  </imageobject>
+                </mediaobject>
+              </screenshot>
+            </figure>Then it's time to configure the payment module: click on
+          the payment method name in the list or go to the VirtueMart admin
+          section: "Store" =&gt; "List Payment Methods" and select the payment
+          method you've just added.</para>
+
+          <para>Enter you Moneybookers payment email, the secret word and your
+          merchant ID. If you've entered the data into all fields, make sure
+          to publish the payment method and you should now be ready to accept
+          payments using this Moneybookers payment method.</para>
+
+          <para>Repeat these steps with every Moneybookers payment method you
+          want to use on your web store.</para>
+
+          <figure>
+            <title>VirtueMart Administration: Moneybookers Configuration
+            Screen</title>
+
+            <screenshot>
+              <screeninfo>Moneybookers Configuration Screen</screeninfo>
+
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="figure/img040.png" />
+                </imageobject>
+              </mediaobject>
+            </screenshot>
+          </figure>
+
+          <para></para>
+
+          <para></para>
         </section>
 
         <section id="Worldpay">

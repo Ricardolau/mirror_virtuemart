@@ -234,7 +234,7 @@ class vmUpdate {
 			if( $result === false ) {
 				return $result;
 			}
-			if( !empty( $xml->queries[0]->query ) && is_object($xml->queries[0]->query) ) {
+			if( !empty( $xml->queries[0]->query ) ) {
 				foreach( $xml->queries[0]->query as $query ) {
 					$queryArr[] = $query->data();
 				}

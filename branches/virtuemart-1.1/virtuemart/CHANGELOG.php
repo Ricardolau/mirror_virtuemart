@@ -35,6 +35,12 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 
+30.01.2011 zanardi
+# Task #232 product snapshot button always "Add to cart"
+# Task #209 shop.index.php paypal logo HTML error
+# Task #206 SQL update broken
+# Task #200 PayPal API wrong payment method type
+
 --- VirtueMart 1.1.6 released (Rev. 2660 2010-11-21) ---
 
 16.11.2010 zanardi

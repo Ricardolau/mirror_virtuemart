@@ -1460,7 +1460,12 @@ class ps_paypal_api {
 	   require_once(CLASSPATH.'ps_checkout.php');
 	   $serverName = $_SERVER['SERVER_NAME'];
 	   $serverPort = $_SERVER['SERVER_PORT'];
-	   $url=dirname('http://'.$serverName.':'.$serverPort.$_SERVER['REQUEST_URI']);
+		if ( $serverPort == 443 ) {
+			$protocol = 'https://';
+		} else {
+			$protocol = 'http://';
+		}
+		$url = dirname($protocol . $serverName . ':' . $serverPort . $_SERVER['REQUEST_URI'] );
 
 	 /* The returnURL is the location where buyers return when a
 		payment has been succesfully authorized.

@@ -36,7 +36,8 @@ VirtueMart 1.1.x
 *************************************
 
 30.01.2011 zanardi
-# Task #232 product snapshot button always "Add to cart"
+# Task #232 (#202) product snapshot button always "Add to cart"
+# Task #210 Paypal API rerouting to http://xxxx:443
 # Task #209 shop.index.php paypal logo HTML error
 # Task #206 SQL update broken
 # Task #200 PayPal API wrong payment method type

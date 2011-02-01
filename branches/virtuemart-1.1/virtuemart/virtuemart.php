@@ -31,8 +31,8 @@ $is_popup = vmRequest::getBool( 'pop' );
 $limit = intval( $vm_mainframe->getUserStateFromRequest( "viewlistlimit{$page}", 'limit', $mosConfig_list_limit ) );
 $limitstart = intval( $vm_mainframe->getUserStateFromRequest( "view{$keyword}{$category_id}{$pagename}limitstart", 'limitstart', 0 )) ;
 
-/* Get all the other paramters */
-$search_category= vmRequest::getVar( 'search_category' );
+/* Get all the other parameters */
+$search_category= vmRequest::getInt( 'search_category' );
 // Display just the naked page without toolbar, menu and footer?
 $only_page = vmRequest::getInt('only_page', 0 );
 

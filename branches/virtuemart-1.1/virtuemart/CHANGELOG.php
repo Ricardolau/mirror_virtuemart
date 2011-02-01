@@ -35,8 +35,13 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 
+--- VirtueMart 1.1.7 released (Rev. 2685 2011-02-01) ---
+
+01.02.2011
+# Task #213 Blind SQL injection in parameter "search_category"
+
 30.01.2011 zanardi
-# Task #232 (#202) product snapshot button always "Add to cart"
+# Task #212 (#202) product snapshot button always "Add to cart"
 # Task #210 Paypal API rerouting to http://xxxx:443
 # Task #209 shop.index.php paypal logo HTML error
 # Task #206 SQL update broken

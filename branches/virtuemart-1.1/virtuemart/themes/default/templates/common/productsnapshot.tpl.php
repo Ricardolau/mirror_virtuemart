@@ -1,6 +1,6 @@
 <?php if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 
-$quantity_in_stock = ps_product::get_field( $product_id, 'product_in_stock');
+$quantity_in_stock = ps_product::get_field( $product_it, 'product_in_stock');
 
 if( CHECK_STOCK == '1' && ( $quantity_in_stock < 1 ) ) {
 	$button_lbl = $VM_LANG->_('VM_CART_NOTIFY');
@@ -11,6 +11,8 @@ if( CHECK_STOCK == '1' && ( $quantity_in_stock < 1 ) ) {
 	$button_cls = 'addtocart_button_module';
 	$notify = false;
 }
+
+echo $quantity_in_stock;
 
 ?>
 
@@ -58,7 +60,7 @@ if( !empty($addtocart_link) ) {
     <input type="hidden" name="set_price[]" value="" />
     <input type="hidden" name="adjust_price[]" value="" />
     <input type="hidden" name="master_product[]" value="" />
-    <input type="submit" class="addtocart_button_module" value="<?php echo $VM_LANG->_('PHPSHOP_CART_ADD_TO') ?>" title="<?php echo $VM_LANG->_('PHPSHOP_CART_ADD_TO') ?>" />
+    <input type="submit" class="<?php echo $button_cls ?>" value="<?php echo $button_lbl ?>" title="<?php echo $button_lbl ?>" />
     </form>
 	<br />
 	<?php

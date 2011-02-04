@@ -35,9 +35,9 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 
---- VirtueMart 1.1.7 released (Rev. 2687 2011-02-02) ---
+--- VirtueMart 1.1.7 released (Rev. 2688 2011-02-02) ---
 
-02.02.2011
+04.02.2011
 # Task #212 (#202): product snapshot button always "Add to cart".
 
 01.02.2011

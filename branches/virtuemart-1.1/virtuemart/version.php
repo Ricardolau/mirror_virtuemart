@@ -36,9 +36,9 @@ class vmVersion {
 	/** @var string Codename */
 	var $CODENAME = 'In a hurry';
 	/** @var string Date */
-	var $RELDATE = '02/02/2011';
+	var $RELDATE = '04/02/2011';
 	/** @var string Time */
-	var $RELTIME = '21:18';
+	var $RELTIME = '09:37';
 	/** @var string Timezone */
 	var $RELTZ = 'GMT';
 	/** @var string Revision */

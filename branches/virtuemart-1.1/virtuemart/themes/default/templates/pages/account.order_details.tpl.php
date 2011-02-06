@@ -20,14 +20,15 @@ mm_showMyFileName( __FILE__ );
 if( $db->f('order_number')) {
 ?>	
 
-	<?php if (empty( $print )) : ?>
+
+
 	<div class="pathway"><?php echo $vmPathway; ?></div>
 	<div class="buttons_heading">
-	<?php echo vmCommonHTML::PrintIcon(); ?>
-	</div>
+	<?php echo vmCommonHTML::PrintIcon('order_id='.$vars["order_id"]); ?>
+	
 	<br /><br />
-	 <?php endif; ?>
-
+	</div>
+		 
 	<table width="100%" align="center" border="0" cellspacing="0" cellpadding="2">
 	  <tr>
 	    <td valign="top">

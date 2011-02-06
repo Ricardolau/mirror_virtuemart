@@ -994,14 +994,18 @@ class vmCommonHTML {
 		}
 	}
 	
-	function PrintIcon( $link='', $use_icon=true, $add_text='' ) {
+	function PrintIcon( $addlink='', $use_icon=true, $add_text='' ) {
 		global $VM_LANG, $mosConfig_live_site, $mosConfig_absolute_path, $cur_template, $Itemid;
 		if ( @VM_SHOW_PRINTICON == '1' ) {
-			if( !$link ) {
-				$query_string = str_replace( 'only_page=1', 'only_page=0', vmAmpReplace(vmGet($_SERVER,'QUERY_STRING')) );
+			if (substr($addlink, 0, 10) == "index2.php") {
+				$link = $addlink ;
+			} else {
+				$query_string= "option=com_virtuemart&amp;page={$_SESSION['last_page']}&amp;only_page=1";
+				if ($_SESSION['last_browse_parameters']['category_id'])  $query_string.= "&amp;category_id={$_SESSION['last_browse_parameters']['category_id']}";
+				if ($_SESSION['userstate']['product_id']) $query_string.= "&amp;product_id={$_SESSION['userstate']['product_id']}";
 				$link = 'index2.php?'.$query_string.'&amp;pop=1'.(vmIsJoomla('1.5') ? '&amp;tmpl=component' : '');
-			}
-			// checks template image directory for image, if non found default are loaded
+				$link .= '&amp;'.$addlink ;
+			}			// checks template image directory for image, if non found default are loaded
 			if ( $use_icon ) {
 				$text = vmCommonHTML::ImageCheck( 'printButton.png', '/images/M_images/', NULL, NULL, $VM_LANG->_('CMN_PRINT'), $VM_LANG->_('CMN_PRINT') );
 				$text .= shopMakeHtmlSafe($add_text);

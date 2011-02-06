@@ -358,7 +358,7 @@ class ups {
 				if (count($shipment) == 1 ) {
 					$checked = "checked=\"checked\"";
 				}
-				$html .= '<label for="'.$shipping_rate_id.'">'."\n<input type=\"radio\" name=\"shipping_rate_id\" $checked value=\"$shipping_rate_id\" id=\"$shipping_rate_id\" />\n";
+				$html .= '<label for="'.$shipping_rate_id.'"></label>'."\n<input type=\"radio\" name=\"shipping_rate_id\" $checked value=\"$shipping_rate_id\" id=\"$shipping_rate_id\" />\n";
 
 				$_SESSION[$shipping_rate_id] = 1;
 
@@ -380,7 +380,7 @@ class ups {
 					}
 				}
 				if (Show_Delivery_Warning == 1 && !empty($value['RatedShipmentWarning'])) {
-					$html .= "</label><br/>\n&nbsp;&nbsp;&nbsp;*&nbsp;<em>".$value['RatedShipmentWarning']."</em>\n";
+					$html .= "<br/>\n&nbsp;&nbsp;&nbsp;*&nbsp;<em>".$value['RatedShipmentWarning']."</em>\n";
 				}
 				$html .= "<br />\n";
 			}

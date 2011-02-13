@@ -124,9 +124,15 @@ class vm_ps_product extends vmAbstractObject {
 		}
 		else {
 			// File Upload
-			if (!vmImageTools::validate_image($d,"product_thumb_image","product")) {
-				$valid = false;
+			if ($d['product_full_image_action'] == 'auto_resize' &&  is_uploaded_file($_FILES['product_full_image']["tmp_name"]) ) {
+				//do nothing, as uploaded image will be resized below
 			}
+			else {
+				if (!vmImageTools::validate_image($d,"product_thumb_image","product")) {
+					$valid = false;
+				}
+			}
+
 		}
 
 		if (!empty( $d['product_full_image_url'] )) {

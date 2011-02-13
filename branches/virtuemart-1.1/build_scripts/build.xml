@@ -296,8 +296,15 @@
 			includes="vmxsearch.plugin.php vmxsearch.plugin.xml"
 		/>
 	</target>
-	
-	<target name="mambots" depends="vmproductsnapshots, virtuemart.searchbot, vmxsearch.searchbot, vmxsearch.plugin" />
+
+	<target name="virtuemart.search" depends="setup">
+		<zip destfile="${dist.dir}/mambots/virtuemart.search_${vm.version}.j15.zip"
+			basedir="${svn.dir}/mambots"
+			includes="virtuemart.search.php virtuemart.search.xml en-GB.plg_search_virtuemart.ini"
+		/>
+	</target>
+
+	<target name="mambots" depends="vmproductsnapshots, virtuemart.searchbot, vmxsearch.searchbot, vmxsearch.plugin, virtuemart.search" />
 
 	<!-- Language pack -->
 	<target name="languagepack" depends="setup">

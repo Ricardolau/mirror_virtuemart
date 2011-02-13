@@ -63,8 +63,8 @@ class vmImageTools {
 			return false;
 		}
 		// Check for upload errors
-		require_once( CLASSPATH. 'ps_product_files.php');
-		ps_product_files::checkUploadedFile( $field_name );
+		//require_once( CLASSPATH. 'ps_product_files.php');
+		//ps_product_files::checkUploadedFile( $field_name );
 		
 		// proof of concept fix by jmarsik 20090422 - safely move the uploaded file from upload_tmp_dir to temporary location (hopefully) included in open_basedir, following code will be much happier :)
 		// if the file is not moved, following code will try to manipulate it using functions that check open_basedir (for example copy, file_exists, unlink, getimagesize)

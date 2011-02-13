@@ -35,6 +35,12 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 
+13.02.2011 zanardi
+# Task #189 Duplicate resized image (thanks to Gruz)
+# Task #188 Shipping value is not changed according to currency
+# Task #180 Bug in discount price display for multi-priced products 
+# Task #110 Can't choose vmsearch plugin in search results (thanks to Tomasz)
+
 --- VirtueMart 1.1.7 released (Rev. 2688 2011-02-02) ---
 
 04.02.2011

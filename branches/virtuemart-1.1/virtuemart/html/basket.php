@@ -185,6 +185,7 @@ else {
 		$shipping = true;
 		$vars["weight"] = $weight_total;
 		$shipping_total = round( $ps_checkout->_SHIPPING->get_rate ( $vars ), 5 );
+		
 		$shipping_taxrate = $ps_checkout->_SHIPPING->get_tax_rate();
 
 		// When the Shipping rate is shown including Tax
@@ -195,7 +196,8 @@ else {
 		else {
 			$shipping_tax = round($shipping_total * $shipping_taxrate, 5);
 		}
-
+		
+		$shipping_total = $GLOBALS['CURRENCY']->convert( $shipping_total );
 		$shipping_display = $GLOBALS['CURRENCY_DISPLAY']->getFullValue($shipping_total);
 	}
 	else {
@@ -205,16 +207,9 @@ else {
 
 	// COUPON DISCOUNT
 	$coupon_display = '';
-	// disabled zanardi 20100605 - it is already calculated below
-	//if( PSHOP_COUPONS_ENABLE=='1' && @$_SESSION['coupon_redeemed']=="1" && PAYMENT_DISCOUNT_BEFORE=='1') {
-	//	$total -= $_SESSION['coupon_discount'];
-	//	$coupon_display = "- ".$GLOBALS['CURRENCY_DISPLAY']->getFullValue( $_SESSION['coupon_discount'] );
-	//	$discount_before=true;
-	//}
 
 	// SHOW TAX
 	$tax_display = '';
-	// mauri start
 	if ( empty($_REQUEST['ship_to_info_id']) && $auth["user_id"] > 0 && !ps_checkout::tax_based_on_vendor_address()){
 		$db = new ps_DB;
 		$q = "SELECT user_info_id FROM #__{vm}_user_info " ;
@@ -226,8 +221,6 @@ else {
 		$_REQUEST['ship_to_info_id'] = $db->f("user_info_id");
 		ps_checkout::tax_based_on_vendor_address($_REQUEST['ship_to_info_id']);
 	}
-
-	// mauri end
 	if (!empty($_REQUEST['ship_to_info_id']) || ps_checkout::tax_based_on_vendor_address()) {
 		$show_tax = true;
 
@@ -268,12 +261,9 @@ else {
 		$order_total += $tax_total;
 		$total_undiscounted += $tax_total;
 	}
-			
 	
 	$order_total += $shipping_total + $total;
 	$total_undiscounted += $shipping_total;
-
-
 
 	/* check if the minimum purchase order value has already been reached */
 	if( !defined( '_MIN_POV_REACHED' )) {

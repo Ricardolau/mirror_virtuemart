@@ -199,6 +199,7 @@ else {
 		else {
 			$shipping_tax = round( $shipping_total * $shipping_taxrate, 5);
 		}
+		$shipping_total = $GLOBALS['CURRENCY']->convert( $shipping_total );
 		$shipping_display = $GLOBALS['CURRENCY_DISPLAY']->getFullValue($shipping_total);
 	}
 	else {

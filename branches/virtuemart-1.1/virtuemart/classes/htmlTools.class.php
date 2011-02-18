@@ -791,8 +791,16 @@ class vmCommonHTML {
 				$version = 'mootools-release-1.11.js';
 			}
 			$vm_mainframe->addScriptDeclaration( 'var cart_title = "'.$VM_LANG->_('PHPSHOP_CART_TITLE').'";var ok_lbl="'.$VM_LANG->_('CMN_CONTINUE').'";var cancel_lbl="'.$VM_LANG->_('CMN_CANCEL').'";var notice_lbl="'.$VM_LANG->_('PEAR_LOG_NOTICE').'";var live_site="'.$mosConfig_live_site.'";' );
-			$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/mootools/'.$version );
-			$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/mootools/mooPrompt.js' );
+			// added by JK for loading mootoools 1.2 if configured in Joomla
+			$jversion = new JVersion();
+			if ($jversion->RELEASE == '1.5' && $jversion->DEV_LEVEL >= 19 && JPluginHelper::isEnabled( 'system', 'mtupgrade' ) ) { 
+				JHTML::_('behavior.mootools'); //JK
+				$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/mootools/mooPrompt1.2.js' );
+			} else {
+				$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/mootools/'.$version ); //JK
+				$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/mootools/mooPrompt.js' );
+			}
+			// added by JK for loading mootoools 1.2 if configured in Joomla ends
 			$vm_mainframe->addStyleSheet( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/mootools/mooPrompt.css' );
 
 			define ( "_MOOTOOLS_LOADED", "1" );
@@ -812,10 +820,18 @@ class vmCommonHTML {
 			
 			vmCommonHTML::loadMooTools();
 			
-			$vm_mainframe->addScriptDeclaration( 'var slimboxurl = \''.$mosConfig_live_site.'/components/'. VM_COMPONENT_NAME .'/js/slimbox/\';');
-			$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/slimbox/js/slimbox.js' );
-			$vm_mainframe->addStyleSheet( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/slimbox/css/slimbox.css' );
-					
+			// added by JK for loading mootoools 1.2 if configured in Joomla
+			$jversion = new JVersion();
+			if ($jversion->RELEASE == '1.5' && $jversion->DEV_LEVEL >= 19 && JPluginHelper::isEnabled( 'system', 'mtupgrade' ) ) { 
+				$vm_mainframe->addScriptDeclaration( 'var slimboxurl = \''.$mosConfig_live_site.'/components/'. VM_COMPONENT_NAME .'/js/slimbox-1.71a/\';');
+				$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/slimbox-1.71a/js/slimbox.js' );
+				$vm_mainframe->addStyleSheet( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/slimbox-1.71a/css/slimbox.css' );
+			} else {
+				$vm_mainframe->addScriptDeclaration( 'var slimboxurl = \''.$mosConfig_live_site.'/components/'. VM_COMPONENT_NAME .'/js/slimbox/\';');
+				$vm_mainframe->addScript( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/slimbox/js/slimbox.js' );
+				$vm_mainframe->addStyleSheet( $mosConfig_live_site .'/components/'. VM_COMPONENT_NAME .'/js/slimbox/css/slimbox.css' );
+			}		
+			// added by JK for loading mootoools 1.2 if configured in Joomla ends
 			define ( '_SLIMBOX_LOADED', '1' );
 		}	
 	}
@@ -993,7 +1009,7 @@ class vmCommonHTML {
 			return vmPopupLink($link, $text, 640, 480, '_blank', $VM_LANG->_('CMN_EMAIL'), 'screenX=100,screenY=200');
 		}
 	}
-
+	
 	function PrintIcon( $addlink='', $use_icon=true, $add_text='' ) {
 		global $VM_LANG, $mosConfig_live_site, $mosConfig_absolute_path, $cur_template, $Itemid;
 		if ( @VM_SHOW_PRINTICON == '1' ) {
@@ -1008,7 +1024,7 @@ class vmCommonHTML {
 					$link = 'index2.php?'.$query_string.'&amp;pop=1'.(vmIsJoomla('1.5') ? '&amp;tmpl=component' : '');
 					$link .= '&amp;'.$addlink ;
 				}
-					
+				
 			// checks template image directory for image, if non found default are loaded
 			if ( $use_icon ) {
 				$text = vmCommonHTML::ImageCheck( 'printButton.png', '/images/M_images/', NULL, NULL, $VM_LANG->_('CMN_PRINT'), $VM_LANG->_('CMN_PRINT') );

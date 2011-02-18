@@ -252,22 +252,30 @@ class vm_ps_module {
 	 * @param string $basename
 	 * @return mixed
 	 */
-	function get_dir($basename) {
+	function get_dir( $basename ) {
 		$datab = new ps_DB;
 
 		$results = array();
-
-		$q = "SELECT module_perms FROM #__{vm}_module where module_name='".$basename."'";
+		
+		// check if valid module passed
+		$modules = array();
+		foreach ( $this->get_modules()->record as $module ) {
+			$modules[] = $module->module_name;
+		}
+		if (! in_array( $basename, $modules ) ) {
+			return false;
+		}
+		
+		$q = "SELECT module_perms FROM #__{vm}_module where module_name='$basename'";
 		$datab->query($q);
-
 		if ($datab->next_record()) {
 			$results[ 'perms' ] = $datab->f("module_perms");
 			return $results;
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
+	
 	function get_modules( $order_by='module_name' ) {
 		switch ($order_by) {
 			case'module_name':

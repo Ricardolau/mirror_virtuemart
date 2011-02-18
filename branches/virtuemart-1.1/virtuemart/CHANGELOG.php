@@ -31,15 +31,21 @@ Legend:
 
 --------------------------------------------------------------------------------------------------------------
 
-
 VirtueMart 1.1.x
 *************************************
+
+18.02.2011 zanardi
+# Task #199 Checkout shipping radio button selected is not the correct one
 
 13.02.2011 zanardi
 # Task #189 Duplicate resized image (thanks to Gruz)
 # Task #188 Shipping value is not changed according to currency
 # Task #180 Bug in discount price display for multi-priced products 
 # Task #110 Can't choose vmsearch plugin in search results (thanks to Tomasz)
+
+--- patch VirtueMart 1.1.7a released (2011-02-18) ---
+
+# Task #229 SQL Injection fix in ps_module.php
 
 --- VirtueMart 1.1.7 released (Rev. 2688 2011-02-02) ---
 

@@ -108,6 +108,8 @@ class vm_ps_shopper {
 
 		if (!$provided_required) {
 			$_REQUEST['missing'] = $missing;
+			global $default;
+			$default = $_POST;
 			return false;
 		}
 		

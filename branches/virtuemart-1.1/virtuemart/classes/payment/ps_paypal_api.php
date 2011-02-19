@@ -2,10 +2,10 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 /**
 *
-* @version $Id: ps_paypal.php 1095 2007-12-19 20:19:16Z soeren_nb $
+* @version $Id: ps_paypal_api.php 2011-02-19 11:35:16Z zanardi $
 * @package VirtueMart
 * @subpackage payment
-* @copyright Copyright (C) 2009,2010 thomas kahl, soeren - All rights reserved.
+* @copyright Copyright (C) 2011 the Virtuemart team - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -72,6 +72,28 @@ class ps_paypal_api {
             <td><?php echo vmtooltip(PAYPAL_API_TEXT_SIGNATURE_EXPLAIN) ?>
             </td>
         </tr>
+		<tr class="row0">
+        <td><strong><?php echo PAYPAL_API_TEXT_ENABLE_SANDBOX ?></strong></td>
+            <td>
+				<?php
+					$options = array( '1' => PAYPAL_API_TEXT_YES, 
+									'0' =>PAYPAL_API_TEXT_NO );
+				ps_html::dropdown_display( 'PAYPAL_API_DEBUG', PAYPAL_API_DEBUG, $options ); 
+				?>
+            </td>
+            <td><?php echo vmtooltip(PAYPAL_API_TEXT_ENABLE_SANDBOX_EXPLAIN) ?>
+            </td>
+        </tr>
+		<tr class="row1"><td><strong><?php echo PAYPAL_API_DEBUG_TEXT; ?></strong></td>
+            <td><select name="PP_WPP_ERRORS" class="inputbox" >
+                	<option <?php if (@PAYPAL_API_DEBUG == '1') echo "selected=\"selected\""; ?> value="1">
+					<?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES'); ?></option>
+                	<option <?php if (@PAYPAL_API_DEBUG != '1') echo "selected=\"selected\""; ?> value="0">
+					<?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO'); ?></option>
+                </select>
+            </td>
+            <td><?php echo PAYPAL_API_DEBUG_TEXT_EXPLAIN; ?></td>
+        </tr>
         <tr class="row0">
         <td><strong><?php echo PAYPAL_API_TEXT_IMAGE_URL ?></strong></td>
             <td>
@@ -111,7 +133,16 @@ class ps_paypal_api {
             <td><?php echo vmtooltip(PAYPAL_API_CVV_TEXT_EXPLAIN) ?>
             </td>
         </tr>
-		
+		<tr class="row0"><td><strong><?php echo PAYPAL_API_TEXT_CART_BUTTON;?></strong></td>
+			<td><select name="PAYPAL_API_CART_BUTTON_ON" class="inputbox">
+					<option <?php if (@PAYPAL_API_CART_BUTTON_ON == '1') echo "selected=\"selected\""; ?> value="1">
+					<?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES'); ?></option>
+					<option <?php if (@PAYPAL_API_CART_BUTTON_ON != '1') echo "selected=\"selected\""; ?> value="0">
+					<?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO'); ?></option>
+				</select>
+			</td>
+			<td><?php echo PAYPAL_API_TEXT_CART_BUTTON_EXPLAIN;?></td>
+		</tr>
         <tr class="row1">
         <td><strong><?php echo PAYPAL_API_TEXT_USE_SHIPPING ?></strong></td>
             <td>
@@ -123,17 +154,7 @@ class ps_paypal_api {
             </td>
             <td><?php echo vmtooltip( PAYPAL_API_TEXT_USE_SHIPPING_EXPLAIN ) ?>
             </td>
-        </tr>
-		<tr class="row0"><td><strong><?php echo PAYPAL_API_TEXT_CART_BUTTON;?></strong></td>
-			<td><select name="PAYPAL_API_CART_BUTTON_ON" class="inputbox">
-					<option <?php if (@PAYPAL_API_CART_BUTTON_ON == '1') echo "selected=\"selected\""; ?> value="1">
-					<?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES'); ?></option>
-					<option <?php if (@PAYPAL_API_CART_BUTTON_ON != '1') echo "selected=\"selected\""; ?> value="0">
-					<?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO'); ?></option>
-				</select>
-			</td>
-			<td><?php echo PAYPAL_API_TEXT_CART_BUTTON_EXPLAIN;?></td>
-		</tr>
+        </tr>		
 		<tr class="row1"><td><strong><?php echo PAYPAL_API_TEXT_DIRECT_PAYMENT_ON;?></strong></td>
 			<td><select name="PAYPAL_API_DIRECT_PAYMENT_ON" class="inputbox">
 					<option <?php if (@PAYPAL_API_DIRECT_PAYMENT_ON == '1') echo "selected=\"selected\""; ?> value="1">
@@ -216,28 +237,7 @@ class ps_paypal_api {
             <td><?php echo PAYPAL_API_TEXT_STATUS_FAILED_EXPLAIN ?>
             </td>
         </tr>
-        <tr class="row0">
-        <td><strong><?php echo PAYPAL_API_TEXT_ENABLE_SANDBOX ?></strong></td>
-            <td>
-				<?php
-					$options = array( '1' => PAYPAL_API_TEXT_YES, 
-									'0' =>PAYPAL_API_TEXT_NO );
-				ps_html::dropdown_display( 'PAYPAL_API_DEBUG', PAYPAL_API_DEBUG, $options ); 
-				?>
-            </td>
-            <td><?php echo vmtooltip(PAYPAL_API_TEXT_ENABLE_SANDBOX_EXPLAIN) ?>
-            </td>
-        </tr>
-		<tr class="row1"><td><strong><?php echo PAYPAL_API_DEBUG_TEXT; ?></strong></td>
-            <td><select name="PP_WPP_ERRORS" class="inputbox" >
-                	<option <?php if (@PAYPAL_API_DEBUG == '1') echo "selected=\"selected\""; ?> value="1">
-					<?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_YES'); ?></option>
-                	<option <?php if (@PAYPAL_API_DEBUG != '1') echo "selected=\"selected\""; ?> value="0">
-					<?php echo $VM_LANG->_('PHPSHOP_ADMIN_CFG_NO'); ?></option>
-                </select>
-            </td>
-            <td><?php echo PAYPAL_API_DEBUG_TEXT_EXPLAIN; ?></td>
-        </tr>
+ 
       </table>
     <?php
     }

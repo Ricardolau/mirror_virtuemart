@@ -790,6 +790,7 @@ class vm_ps_checkout {
 	 * @param int $payment_method_id
 	 */
 	function list_payment_methods( $payment_method_id=0 ) {
+		
 		global $order_total, $sess, $VM_CHECKOUT_MODULES;
 		$ps_vendor_id = $_SESSION['ps_vendor_id'];
 		$auth = $_SESSION['auth'];
@@ -802,7 +803,12 @@ class vm_ps_checkout {
 		require_once( CLASSPATH. 'ps_creditcard.php' );
 	    $ps_creditcard = new ps_creditcard();
 	    $count = 0;
+	    
 		// Do we have Credit Card Payments?
+		$exclude_ppapi = '';
+   		if ( PAYPAL_API_DIRECT_PAYMENT_ON == 0 ) {
+			$exclude_ppapi = "AND #__{vm}_payment_method.payment_method_code <> 'PP_API' ";
+		}
 		$db_cc  = new ps_DB;
 		$q = "SELECT * from #__{vm}_payment_method,#__{vm}_shopper_group WHERE ";
 		$q .= "#__{vm}_payment_method.shopper_group_id=#__{vm}_shopper_group.shopper_group_id ";
@@ -811,15 +817,14 @@ class vm_ps_checkout {
 		$q .= "AND (enable_processor='' OR enable_processor='Y') ";
 		$q .= "AND payment_enabled='Y' ";
 		$q .= "AND #__{vm}_payment_method.vendor_id='$ps_vendor_id' ";
+		$q .= $exclude_ppapi;
 		$q .= " ORDER BY list_order";
 		$db_cc->query($q);
-		
 		if ($db_cc->num_rows()) {
 			$first_payment_method_id = $db_cc->f("payment_method_id");
 			$count += $db_cc->num_rows();
 		    $cc_payments=true;
-		}
-		else {
+		} else {
 		    $cc_payments=false;
 		}
 		
@@ -838,13 +843,30 @@ class vm_ps_checkout {
 		    $first_payment_method_id = $db_nocc->f("payment_method_id");
 		    $count += $db_nocc->num_rows();
 		    $db_nocc->reset();
-		}
-		else {
+		} else {
 		    $nocc_payments=false;
 		}
+		
+		// Is PayPal API enabled
+	    $db_pp  = new ps_DB;
+		$q = "SELECT * from #__{vm}_payment_method,#__{vm}_shopper_group WHERE ";
+		$q .= "#__{vm}_payment_method.shopper_group_id=#__{vm}_shopper_group.shopper_group_id ";
+		$q .= "AND (#__{vm}_payment_method.shopper_group_id='".$auth['shopper_group_id']."' ";
+		$q .= "OR #__{vm}_shopper_group.default='1') ";
+		$q .= "AND #__{vm}_payment_method.payment_method_code = 'PP_API'  ";
+		$q .= "AND payment_enabled='Y' ";
+		$q .= "AND #__{vm}_payment_method.vendor_id='$ps_vendor_id' ";
+		$db_pp->query($q);
+		if ($db_pp->next_record()) {
+		    $pp_payment=true;
+		    $first_payment_method_id = $db_pp->f("payment_method_id");
+		} else {
+		    $pp_payment=false;
+		}
+		
         // Redirect to the last step when there's only one payment method
 		if( $VM_CHECKOUT_MODULES['CHECK_OUT_GET_PAYMENT_METHOD']['order'] != $VM_CHECKOUT_MODULES['CHECK_OUT_GET_FINAL_CONFIRMATION']['order'] ) {
-			if ($count <= 1 && $cc_payments==false) {
+			if ($count <= 1 && $cc_payments==false && $pp_payment==false) {
 				vmRedirect($sess->url(SECUREURL.basename($_SERVER['PHP_SELF'])."?page=checkout.index&payment_method_id=$first_payment_method_id&ship_to_info_id=$ship_to_info_id&shipping_rate_id=".urlencode($shipping_rate_id)."&checkout_stage=".$VM_CHECKOUT_MODULES['CHECK_OUT_GET_FINAL_CONFIRMATION']['order'], false, false ),"");
 			}
 			elseif( isset($order_total) && $order_total <= 0.00 ) {

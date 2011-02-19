@@ -62,7 +62,7 @@ define('PAYPAL_API_TEXT_CURRENCY_EXPLAIN', 'PayPal now allows Canada to use the 
 define('PAYPAL_API_TEXT_LANGUAGE', 'Language:');
 define('PAYPAL_API_TEXT_LANGUAGE_EXPLAIN', 'The Language File to Use For Backend and Error Messages');
 
-define('PAYPAL_API_TEXT_CART_BUTTON', 'Enable PayPal Express Checkout?');
+define('PAYPAL_API_TEXT_CART_BUTTON', 'Enable Express Checkout button?');
 define('PAYPAL_API_TEXT_CART_BUTTON_EXPLAIN', 'Setting this to YES will enable PayPal Express Checkout Button in your shopping cart.');
 
 define('PAYPAL_API_TEXT_USE_CERTIFICATE', 'Use Certificate?');

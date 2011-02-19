@@ -1,0 +1,467 @@
+<?xml version="1.0"?>
+
+<project name="VirtueMart Patch Build" default="patch" basedir=".">
+	<description>Builds the VirtueMart patch files</description>
+	
+	<property name="dir.lib" value="lib" />
+	
+	<property name="lib.dir" value="${dir.lib}" />
+	<property name="svnClientAdapter.jar" value="${lib.dir}/svnClientAdapter.jar" />
+	<property name="svnjavahl.jar" value="${lib.dir}/svnjavahl.jar" />
+	<property name="svnkit.jar" value="${lib.dir}/svnkit.jar" />
+	<property name="ganymed.jar" value="${lib.dir}/ganymed.jar" />
+	<property name="ant.jar" value="${lib.dir}/ant.jar" />
+	<property name="ant-launcher.jar" value="${lib.dir}/ant-launcher.jar" />
+	<property name="junit.jar" value="${lib.dir}/junit.jar" />
+	<property name="vmpatch.jar" value="${lib.dir}/vmpatch.jar" />
+
+	
+	<path id="project.classpath">
+		<pathelement location="${svnkit.jar}" />
+		<pathelement location="${vmpatch.jar}" />
+	</path>
+
+	<target name="local">
+		<property file="build.patch115-114.properties" />
+		<echo message="Local properties loaded." />
+		<tstamp/>
+	</target>
+
+	<!-- Remove all temporary build files, but leave the directories -->
+	<target name="clean" depends="setup">
+		<delete>
+			<fileset dir="${dist.dir}" includes="**/*"/>
+		</delete>
+		<echo message="Deleted all temporary build files from the '${dist.dir}' directory." />
+	</target>
+
+	<target name="print-vars" depends="local">
+		<echo message="Distribution directory: ${dist.dir}" />
+		<echo message="Subversion directory: ${svn.dir}" />
+		<echo message="VM version: ${vm.version}" />
+	</target>
+	
+	<target name="setup" depends="local">
+		<mkdir dir="${dist.dir}"/>
+		<mkdir dir="${dist.dir}/component"/>
+		<mkdir dir="${dist.dir}/languagepack"/>
+		<mkdir dir="${dist.dir}/modules"/>
+		<mkdir dir="${dist.dir}/mambots"/>
+		<mkdir dir="${dist.dir}/patch"/>
+	</target>
+
+
+	<typedef
+	    name="patchselector"
+	    classname="org.virtuemart.ant.patch.PatchSelector"
+	    classpathref="project.classpath"/>
+	
+	<typedef
+		name="patchfilemanifest"
+		classname="org.virtuemart.ant.patch.PatchFileManifestTask"
+		classpathref="project.classpath"/>
+		
+	<typedef
+		name="tarpatch"
+		classname="org.virtuemart.ant.patch.Tarpatch"
+		classpathref="project.classpath"/>
+
+	<typedef
+		name="zippatch"
+		classname="org.virtuemart.ant.patch.Zippatch"
+		classpathref="project.classpath"/>
+
+	<target name="init" depends="setup">
+		<copy todir="${dist.dir}/patch">
+			<fileset dir="${svn.dir}">
+				<patchselector
+					svnRepositoryUrl="${patch.svnRepositoryUrl}" 
+					svnRepositoryPath="${patch.svnRepositoryPath}" 
+					startRevision="${patch.startRevision}" 
+					endRevision="${patch.endRevision}" />
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="patch" depends="zpatch"/>
+	
+	<!-- Creates tar.gz versions of the patch files-->
+	<target name="tpatch" depends="setup">
+		<patchfilemanifest 
+			svnRepositoryUrl="${patch.svnRepositoryUrl}" 
+			svnRepositoryPath="${patch.svnRepositoryPath}" 
+			startRevision="${patch.startRevision}" 
+			endRevision="${patch.endRevision}" 
+			forVersion="${patch.forVersion}" 
+			toVersion="${patch.toVersion}" 
+			releaseDate="${patch.releaseDate}" 
+			description="${patch.description}" 
+			file="${dist.dir}/patch/update.xml" />
+
+		<selector id="selector.patchselector">
+			<patchselector
+				svnRepositoryUrl="${patch.svnRepositoryUrl}" 
+				svnRepositoryPath="${patch.svnRepositoryPath}" 
+				startRevision="${patch.startRevision}" 
+				endRevision="${patch.endRevision}" />
+		</selector>
+	
+		<!-- Joomla! 1.0.x and Mambo -->
+		<tarpatch longfile="gnu" destfile="${dist.dir}/Patch-VirtueMart-${patch.forVersion}-${patch.toVersion}.tar.gz" compression="gzip"
+			forVersion="${patch.forVersion}" 
+			toVersion="${patch.toVersion}" 
+			releaseDate="${patch.releaseDate}" 
+			description="${patch.description}" 
+			manifestFile="${dist.dir}/patch/update.xml">
+			
+			<tarfileset dir="${svn.dir}" prefix="/administrator/components/com_virtuemart"
+				includes="*.* classes/** html/** languages/**/english.php sql/**"
+				excludes="fetchscript.php config.xml virtuemart.j15.xml virtuemart.php virtuemart_parser.php show_image_in_imgtag.php classes/**/*.cfg.php">
+				<selector refid="selector.patchselector" />
+			</tarfileset>
+			<tarfileset dir="${svn.dir}" prefix="/components/com_virtuemart"
+				includes="js/** css/** shop_image/** themes/** fetchscript.php virtuemart.php virtuemart_parser.php show_image_in_imgtag.php" >
+				<selector refid="selector.patchselector" />
+			</tarfileset>
+
+			<!-- The README -->
+			<!--<tarfileset dir="${svn.dir}" includes="INSTALLATION.php" fullpath="/README.txt">
+				<selector refid="selector.patchselector" />
+			</tarfileset>-->
+
+			<!-- MODULES -->
+			<tarfileset dir="${svn.dir}/modules" prefix="/modules"
+				includes="**" excludes="*j15*">
+				<selector refid="selector.patchselector" />
+			</tarfileset>
+			
+			<!-- Content Mambots -->
+			<tarfileset dir="${svn.dir}/mambots" prefix="/mambots/content"
+				includes="vmproductsnapshots.php vmproductsnapshots.xml">
+				<selector refid="selector.patchselector" />
+			</tarfileset>
+					
+			<!-- Search Mambots -->
+			<tarfileset dir="${svn.dir}/mambots" prefix="/mambots/search"
+				includes="virtuemart.searchbot.php virtuemart.searchbot.xml vmxsearch.searchbot.php vmxsearch.searchbot.xml">
+				<selector refid="selector.patchselector" />
+			</tarfileset>			
+		</tarpatch>
+		<checksum file="${dist.dir}/Patch-VirtueMart-${patch.forVersion}-${patch.toVersion}.tar.gz" property="patchTARGZ.checksum" />
+
+		<!-- Joomla! 1.5 -->
+		<tarpatch longfile="gnu" destfile="${dist.dir}/Patch-VirtueMart-${patch.forVersion}-${patch.toVersion}.j15.tar.gz" compression="gzip"
+			forVersion="${patch.forVersion}" 
+			toVersion="${patch.toVersion}" 
+			releaseDate="${patch.releaseDate}" 
+			description="${patch.description}" 
+			manifestFile="${dist.dir}/patch/update.xml">
+			
+			<tarfileset dir="${svn.dir}" prefix="/administrator/components/com_virtuemart"
+				includes="*.* classes/** html/** languages/**/english.php sql/**"
+				excludes="fetchscript.php virtuemart.j15.xml virtuemart.xml virtuemart.php virtuemart_parser.php VirtueMart_1.1_Installation.pdf show_image_in_imgtag.php classes/**/*.cfg.php">
+				<selector refid="selector.patchselector" />
+			</tarfileset>
+			<tarfileset dir="${svn.dir}" includes="virtuemart.j15.xml" fullpath="/administrator/components/com_virtuemart/virtuemart.xml">
+				<selector refid="selector.patchselector" />
+			</tarfileset>
+			<tarfileset dir="${svn.dir}" prefix="/components/com_virtuemart"
+				includes="js/** css/** shop_image/** themes/** fetchscript.php virtuemart.php virtuemart_parser.php show_image_in_imgtag.php" >
+				<selector refid="selector.patchselector" />
+			</tarfileset>
+			
+			<!-- The README -->
+			<!--<tarfileset dir="${svn.dir}" includes="INSTALLATION.php" fullpath="/README.txt">
+				<selector refid="selector.patchselector" />
+			</tarfileset>-->
+
+			<!-- MODULES -->			
+			<tarfileset dir="${svn.dir}/modules" includes="mod_product_categories.php" prefix="/modules/mod_product_categories">
+				<selector refid="selector.patchselector" />
+			</tarfileset>			
+			<tarfileset dir="${svn.dir}/modules" includes="mod_product_categories.j15.xml" fullpath="/modules/mod_product_categories/mod_product_categories.xml">
+				<selector refid="selector.patchselector" />
+			</tarfileset>
+			<tarfileset dir="${svn.dir}/modules" includes="mod_productscroller.php" prefix="/modules/mod_productscroller">
+				<selector refid="selector.patchselector" />
+			</tarfileset>			
+			<tarfileset dir="${svn.dir}/modules" includes="mod_productscroller.j15.xml" fullpath="/modules/mod_productscroller/mod_productscroller.xml">
+				<selector refid="selector.patchselector" />
+			</tarfileset>
+			<tarfileset dir="${svn.dir}/modules" includes="mod_virtuemart_allinone.php" prefix="/modules/mod_virtuemart_allinone">
+				<selector refid="selector.patchselector" />
+			</tarfileset>			
+			<tarfileset dir="${svn.dir}/modules" includes="mod_virtuemart_allinone.j15.xml" fullpath="/modules/mod_virtuemart_allinone/mod_virtuemart_allinone.xml">
+				<selector refid="selector.patchselector" />
+			</tarfileset>
+			<tarfileset dir="${svn.dir}/modules" includes="mod_virtuemart_cart.php" prefix="/modules/mod_virtuemart_cart">
+				<selector refid="selector.patchselector" />
+			</tarfileset>			
+			<tarfileset dir="${svn.dir}/modules" includes="mod_virtuemart_cart.j15.xml" fullpath="/modules/mod_virtuemart_cart/mod_virtuemart_cart.xml">
+				<selector refid="selector.patchselector" />
+			</tarfileset>
+			<tarfileset dir="${svn.dir}/modules" includes="mod_virtuemart_currencies.php" prefix="/modules/mod_virtuemart_currencies">
+				<selector refid="selector.patchselector" />
+			</tarfileset>			
+			<tarfileset dir="${svn.dir}/modules" includes="mod_virtuemart_currencies.j15.xml" fullpath="/modules/mod_virtuemart_currencies/mod_virtuemart_currencies.xml">
+				<selector refid="selector.patchselector" />
+			</tarfileset>
+			<tarfileset dir="${svn.dir}/modules" includes="mod_virtuemart_featureprod.php" prefix="/modules/mod_virtuemart_featureprod">
+				<selector refid="selector.patchselector" />
+			</tarfileset>			
+			<tarfileset dir="${svn.dir}/modules" includes="mod_virtuemart_featureprod.j15.xml" fullpath="/modules/mod_virtuemart_featureprod/mod_virtuemart_featureprod.xml">
+				<selector refid="selector.patchselector" />
+			</tarfileset>
+			<tarfileset dir="${svn.dir}/modules" includes="mod_virtuemart_latestprod.php" prefix="/modules/mod_virtuemart_latestprod">
+				<selector refid="selector.patchselector" />
+			</tarfileset>			
+			<tarfileset dir="${svn.dir}/modules" includes="mod_virtuemart_latestprod.j15.xml" fullpath="/modules/mod_virtuemart_latestprod/mod_virtuemart_latestprod.xml">
+				<selector refid="selector.patchselector" />
+			</tarfileset>
+			<tarfileset dir="${svn.dir}/modules" includes="mod_virtuemart_login.php" prefix="/modules/mod_virtuemart_login">
+				<selector refid="selector.patchselector" />
+			</tarfileset>			
+			<tarfileset dir="${svn.dir}/modules" includes="mod_virtuemart_login.j15.xml" fullpath="/modules/mod_virtuemart_login/mod_virtuemart_login.xml">
+				<selector refid="selector.patchselector" />
+			</tarfileset>
+			<tarfileset dir="${svn.dir}/modules" includes="mod_virtuemart_manufacturers.php" prefix="/modules/mod_virtuemart_manufacturers">
+				<selector refid="selector.patchselector" />
+			</tarfileset>			
+			<tarfileset dir="${svn.dir}/modules" includes="mod_virtuemart_manufacturers.j15.xml" fullpath="/modules/mod_virtuemart_manufacturers/mod_virtuemart_manufacturers.xml">
+				<selector refid="selector.patchselector" />
+			</tarfileset>
+			<tarfileset dir="${svn.dir}/modules" includes="mod_virtuemart_randomprod.php" prefix="/modules/mod_virtuemart_randomprod">
+				<selector refid="selector.patchselector" />
+			</tarfileset>			
+			<tarfileset dir="${svn.dir}/modules" includes="mod_virtuemart_randomprod.j15.xml" fullpath="/modules/mod_virtuemart_randomprod/mod_virtuemart_randomprod.xml">
+				<selector refid="selector.patchselector" />
+			</tarfileset>
+			<tarfileset dir="${svn.dir}/modules" includes="mod_virtuemart_search.php" prefix="/modules/mod_virtuemart_search">
+				<selector refid="selector.patchselector" />
+			</tarfileset>			
+			<tarfileset dir="${svn.dir}/modules" includes="mod_virtuemart_search.j15.xml" fullpath="/modules/mod_virtuemart_search/mod_virtuemart_search.xml">
+				<selector refid="selector.patchselector" />
+			</tarfileset>
+			<tarfileset dir="${svn.dir}/modules" includes="mod_virtuemart_topten.php" prefix="/modules/mod_virtuemart_topten">
+				<selector refid="selector.patchselector" />
+			</tarfileset>			
+			<tarfileset dir="${svn.dir}/modules" includes="mod_virtuemart_topten.j15.xml" fullpath="/modules/mod_virtuemart_topten/mod_virtuemart_topten.xml">
+				<selector refid="selector.patchselector" />
+			</tarfileset>
+			<tarfileset dir="${svn.dir}/modules" includes="mod_virtuemart.j15.xml" fullpath="/modules/mod_virtuemart/mod_virtuemart.xml">
+				<selector refid="selector.patchselector" />
+			</tarfileset>
+			<tarfileset dir="${svn.dir}/modules" includes="mod_virtuemart.php dtree/** ThemeNavy/** ThemeXP/** tigratree/** vm_transmenu/** JSCookTree.js vm_dtree.php vm_JSCookTree.php vm_JSCook.php vm_transmenu.php vm_tigratree.php" prefix="/modules/mod_virtuemart" >
+				<selector refid="selector.patchselector" />
+			</tarfileset>
+
+			<!-- Content Plugins -->
+			<tarfileset dir="${svn.dir}/mambots" includes="vmproductsnapshots.php" prefix="/plugins/content">
+				<selector refid="selector.patchselector" />
+			</tarfileset>			
+			<tarfileset dir="${svn.dir}/mambots" includes="vmproductsnapshots.j15.xml" fullpath="/plugins/content/vmproductsnapshots.xml">
+				<selector refid="selector.patchselector" />
+			</tarfileset>
+
+			<!-- Search Plugins -->
+			<tarfileset dir="${svn.dir}/mambots" includes="vmxsearch.plugin.php vmxsearch.plugin.xml" prefix="/plugins/search">
+				<selector refid="selector.patchselector" />
+			</tarfileset>			
+		</tarpatch>
+		<checksum file="${dist.dir}/Patch-VirtueMart-${patch.forVersion}-${patch.toVersion}.j15.tar.gz" property="patchTARGZ.j15.checksum" />
+		
+	</target>
+	
+	<!-- Creates zip versions of the patch files-->
+	<target name="zpatch" depends="setup">
+		<patchfilemanifest 
+			svnRepositoryUrl="${patch.svnRepositoryUrl}" 
+			svnRepositoryPath="${patch.svnRepositoryPath}" 
+			startRevision="${patch.startRevision}" 
+			endRevision="${patch.endRevision}" 
+			forVersion="${patch.forVersion}" 
+			toVersion="${patch.toVersion}" 
+			releaseDate="${patch.releaseDate}" 
+			description="${patch.description}" 
+			file="${dist.dir}/patch/update.xml" />
+
+		<selector id="selector.patchselector">
+			<patchselector
+				svnRepositoryUrl="${patch.svnRepositoryUrl}" 
+				svnRepositoryPath="${patch.svnRepositoryPath}" 
+				startRevision="${patch.startRevision}" 
+				endRevision="${patch.endRevision}" />
+		</selector>
+	
+		<!-- Joomla! 1.0.x and Mambo patch file -->
+		<zippatch destfile="${dist.dir}/Patch-VirtueMart-${patch.forVersion}-${patch.toVersion}.zip"
+			forVersion="${patch.forVersion}" 
+			toVersion="${patch.toVersion}" 
+			releaseDate="${patch.releaseDate}" 
+			description="${patch.description}" 
+			manifestFile="${dist.dir}/patch/update.xml">
+
+			<zipfileset dir="${svn.dir}" prefix="administrator/components/com_virtuemart"
+				includes="*.* classes/** html/** languages/**/english.php sql/**"
+				excludes="fetchscript.php config.xml virtuemart.j15.xml virtuemart.php virtuemart_parser.php VirtueMart_1.1_Installation.pdf show_image_in_imgtag.php classes/**/*.cfg.php">
+				<selector refid="selector.patchselector" />
+			</zipfileset>
+
+			<zipfileset dir="${svn.dir}" prefix="components/com_virtuemart"
+					includes="js/** css/** shop_image/** themes/** fetchscript.php virtuemart.php virtuemart_parser.php show_image_in_imgtag.php" >
+				<selector refid="selector.patchselector" />
+			</zipfileset>
+			
+			
+			<!-- The README -->
+			<!--<zipfileset dir="${svn.dir}" includes="INSTALLATION.php" fullpath="README.txt">
+				<selector refid="selector.patchselector" />
+			</zipfileset>-->
+
+			<!-- MODULES -->
+			<zipfileset dir="${svn.dir}/modules" prefix="modules"
+					includes="**" excludes="*j15*">
+				<selector refid="selector.patchselector" />
+			</zipfileset>
+			
+			<!-- Content Mambots -->
+			<zipfileset dir="${svn.dir}/mambots" prefix="mambots/content"
+				includes="vmproductsnapshots.php vmproductsnapshots.xml">
+				<selector refid="selector.patchselector" />
+			</zipfileset>
+
+			<!-- Search Mambots -->
+			<zipfileset dir="${svn.dir}/mambots" prefix="mambots/search"
+				includes="virtuemart.searchbot.php virtuemart.searchbot.xml vmxsearchbot.php vmxsearchbot.xml">
+				<selector refid="selector.patchselector" />
+			</zipfileset>
+			
+		</zippatch>
+		<checksum file="${dist.dir}/Patch-VirtueMart-${patch.forVersion}-${patch.toVersion}.zip" property="patchZIP.checksum" />
+
+		<!-- Joomla! 1.5 patch file -->
+		<zippatch destfile="${dist.dir}/Patch-VirtueMart-${patch.forVersion}-${patch.toVersion}.j15.zip"
+				forVersion="${patch.forVersion}" 
+				toVersion="${patch.toVersion}" 
+				releaseDate="${patch.releaseDate}" 
+				description="${patch.description}" 
+				manifestFile="${dist.dir}/patch/update.xml">
+
+				<zipfileset dir="${svn.dir}" prefix="administrator/components/com_virtuemart"
+					includes="*.* classes/** html/** languages/**/english.php sql/**"
+					excludes="fetchscript.php virtuemart.j15.xml virtuemart.xml virtuemart.php virtuemart_parser.php show_image_in_imgtag.php classes/**/*.cfg.php">
+					<selector refid="selector.patchselector" />
+				</zipfileset>
+
+				<zipfileset dir="${svn.dir}" includes="virtuemart.j15.xml" fullpath="administrator/components/com_virtuemart/virtuemart.xml">
+					<selector refid="selector.patchselector" />
+				</zipfileset>
+
+				<zipfileset dir="${svn.dir}" prefix="components/com_virtuemart"
+						includes="js/** css/** shop_image/** themes/** fetchscript.php virtuemart.php virtuemart_parser.php show_image_in_imgtag.php" >
+					<selector refid="selector.patchselector" />
+				</zipfileset>
+			
+
+				<!-- The README -->
+				<!--<zipfileset dir="${svn.dir}" includes="INSTALLATION.php" fullpath="README.txt">
+					<selector refid="selector.patchselector" />
+				</zipfileset>-->
+
+				<!-- MODULES -->
+				<zipfileset dir="${svn.dir}/modules" includes="mod_product_categories.php" prefix="modules/mod_product_categories">
+					<selector refid="selector.patchselector" />
+				</zipfileset>
+				<zipfileset dir="${svn.dir}/modules" includes="mod_product_categories.j15.xml" fullpath="modules/mod_product_categories/mod_product_categories.xml">
+					<selector refid="selector.patchselector" />
+				</zipfileset>
+				<zipfileset dir="${svn.dir}/modules" includes="mod_productscroller.php" prefix="modules/mod_productscroller">
+					<selector refid="selector.patchselector" />
+				</zipfileset>			
+				<zipfileset dir="${svn.dir}/modules" includes="mod_productscroller.j15.xml" fullpath="modules/mod_productscroller/mod_productscroller.xml">
+					<selector refid="selector.patchselector" />
+				</zipfileset>			
+				<zipfileset dir="${svn.dir}/modules" includes="mod_virtuemart_allinone.php" prefix="modules/mod_virtuemart_allinone">
+					<selector refid="selector.patchselector" />
+				</zipfileset>						
+				<zipfileset dir="${svn.dir}/modules" includes="mod_virtuemart_allinone.j15.xml" fullpath="modules/mod_virtuemart_allinone/mod_virtuemart_allinone.xml">
+					<selector refid="selector.patchselector" />
+				</zipfileset>			
+				<zipfileset dir="${svn.dir}/modules" includes="mod_virtuemart_cart.php" prefix="modules/mod_virtuemart_cart">
+					<selector refid="selector.patchselector" />
+				</zipfileset>						
+				<zipfileset dir="${svn.dir}/modules" includes="mod_virtuemart_cart.j15.xml" fullpath="modules/mod_virtuemart_cart/mod_virtuemart_cart.xml">
+					<selector refid="selector.patchselector" />
+				</zipfileset>			
+				<zipfileset dir="${svn.dir}/modules" includes="mod_virtuemart_currencies.php" prefix="modules/mod_virtuemart_currencies">
+					<selector refid="selector.patchselector" />
+				</zipfileset>						
+				<zipfileset dir="${svn.dir}/modules" includes="mod_virtuemart_currencies.j15.xml" fullpath="modules/mod_virtuemart_currencies/mod_virtuemart_currencies.xml">
+					<selector refid="selector.patchselector" />
+				</zipfileset>			
+				<zipfileset dir="${svn.dir}/modules" includes="mod_virtuemart_featureprod.php" prefix="modules/mod_virtuemart_featureprod">
+					<selector refid="selector.patchselector" />
+				</zipfileset>						
+				<zipfileset dir="${svn.dir}/modules" includes="mod_virtuemart_featureprod.j15.xml" fullpath="modules/mod_virtuemart_featureprod/mod_virtuemart_featureprod.xml">
+					<selector refid="selector.patchselector" />
+				</zipfileset>			
+				<zipfileset dir="${svn.dir}/modules" includes="mod_virtuemart_latestprod.php" prefix="modules/mod_virtuemart_latestprod">
+					<selector refid="selector.patchselector" />
+				</zipfileset>						
+				<zipfileset dir="${svn.dir}/modules" includes="mod_virtuemart_latestprod.j15.xml" fullpath="modules/mod_virtuemart_latestprod/mod_virtuemart_latestprod.xml">
+					<selector refid="selector.patchselector" />
+				</zipfileset>			
+				<zipfileset dir="${svn.dir}/modules" includes="mod_virtuemart_login.php" prefix="modules/mod_virtuemart_login">
+					<selector refid="selector.patchselector" />
+				</zipfileset>						
+				<zipfileset dir="${svn.dir}/modules" includes="mod_virtuemart_login.j15.xml" fullpath="modules/mod_virtuemart_login/mod_virtuemart_login.xml">
+					<selector refid="selector.patchselector" />
+				</zipfileset>			
+				<zipfileset dir="${svn.dir}/modules" includes="mod_virtuemart_manufacturers.php" prefix="modules/mod_virtuemart_manufacturers">
+					<selector refid="selector.patchselector" />
+				</zipfileset>						
+				<zipfileset dir="${svn.dir}/modules" includes="mod_virtuemart_manufacturers.j15.xml" fullpath="modules/mod_virtuemart_manufacturers/mod_virtuemart_manufacturers.xml">
+					<selector refid="selector.patchselector" />
+				</zipfileset>			
+				<zipfileset dir="${svn.dir}/modules" includes="mod_virtuemart_randomprod.php" prefix="modules/mod_virtuemart_randomprod">
+					<selector refid="selector.patchselector" />
+				</zipfileset>						
+				<zipfileset dir="${svn.dir}/modules" includes="mod_virtuemart_randomprod.j15.xml" fullpath="modules/mod_virtuemart_randomprod/mod_virtuemart_randomprod.xml">
+					<selector refid="selector.patchselector" />
+				</zipfileset>			
+				<zipfileset dir="${svn.dir}/modules" includes="mod_virtuemart_search.php" prefix="modules/mod_virtuemart_search">
+					<selector refid="selector.patchselector" />
+				</zipfileset>						
+				<zipfileset dir="${svn.dir}/modules" includes="mod_virtuemart_search.j15.xml" fullpath="modules/mod_virtuemart_search/mod_virtuemart_search.xml">
+					<selector refid="selector.patchselector" />
+				</zipfileset>			
+				<zipfileset dir="${svn.dir}/modules" includes="mod_virtuemart_topten.php" prefix="modules/mod_virtuemart_topten">
+					<selector refid="selector.patchselector" />
+				</zipfileset>						
+				<zipfileset dir="${svn.dir}/modules" includes="mod_virtuemart_topten.j15.xml" fullpath="modules/mod_virtuemart_topten/mod_virtuemart_topten.xml">
+					<selector refid="selector.patchselector" />
+				</zipfileset>			
+				<zipfileset dir="${svn.dir}/modules" includes="mod_virtuemart.php dtree/** ThemeNavy/** ThemeXP/** tigratree/** vm_transmenu/** JSCookTree.js vm_dtree.php vm_JSCookTree.php vm_JSCook.php vm_transmenu.php vm_tigratree.php" prefix="modules/mod_virtuemart" >
+					<selector refid="selector.patchselector" />
+				</zipfileset>			
+				<zipfileset dir="${svn.dir}/modules" includes="mod_virtuemart.j15.xml" fullpath="modules/mod_virtuemart/mod_virtuemart.xml">
+					<selector refid="selector.patchselector" />
+				</zipfileset>			
+
+				<!-- Content Plugins -->
+				<zipfileset dir="${svn.dir}/mambots" includes="vmproductsnapshots.php" prefix="plugins/content">
+					<selector refid="selector.patchselector" />
+				</zipfileset>
+				<zipfileset dir="${svn.dir}/mambots" includes="vmproductsnapshots.j15.xml" fullpath="plugins/content/vmproductsnapshots.xml">
+					<selector refid="selector.patchselector" />
+				</zipfileset>
+
+				<!-- Search Plugins -->
+				<zipfileset dir="${svn.dir}/mambots" includes="vmxsearch.plugin.php vmxsearch.plugin.xml" prefix="plugins/search">
+					<selector refid="selector.patchselector" />
+				</zipfileset>			
+			</zippatch>
+			<checksum file="${dist.dir}/Patch-VirtueMart-${patch.forVersion}-${patch.toVersion}.j15.zip" property="patchZIP.j15.checksum" />
+	</target>
+
+</project>

@@ -24,7 +24,7 @@
 	<uninstallfile>install.vmallinone.php</uninstallfile>
 	
 	<administration>
-	<menu>VM payment</menu>
+	<menu>VirtueMart plugins</menu>
 		<submenu>
 			<menu link="option=com_plugins&amp;filter_type=vmpayment">Configure Payment</menu>
 			<menu link="option=com_plugins&amp;filter_type=vmshipper">Configure Shipper</menu>

@@ -27,7 +27,7 @@ if ($display_style =="div") { ?>
 			</a>
 		</div>
 		<?php 
-		if ($col == $manufacturers_per_row && $manufacturers_per_row && $col < $totalProd ) {
+		if ($col == $manufacturers_per_row) {
 			echo "</div><div style='clear:both;'>";
 			$col= 1 ;
 		} else { 
@@ -61,7 +61,7 @@ foreach ($manufacturers as $manufacturer) {
 		</a>
 	</li>
 	<?php
-	if ($col == $manufacturers_per_row && $manufacturers_per_row) {
+	if ($col == $manufacturers_per_row) {
 		echo "</ul><ul>";
 		$col= 1 ;
 	} else { 

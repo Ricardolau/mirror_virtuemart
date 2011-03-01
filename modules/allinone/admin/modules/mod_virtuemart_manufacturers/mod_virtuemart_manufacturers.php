@@ -24,7 +24,7 @@ $vendorId = JRequest::getInt('vendorid', 1);
 $model = new VirtueMartModelManufacturer();
 
 $display_style = 	$params->get( 'display_style', "div" ); // Display Style
-$manufacturers_per_row = $params->get( 'manufacturers_per_row', 4 ); // Display X manufacturers per Row
+$manufacturers_per_row = $params->get( 'manufacturers_per_row', 1 ); // Display X manufacturers per Row
 $headerText = 		$params->get( 'headerText', '' ); // Display a Header Text
 $footerText = 		$params->get( 'footerText', ''); // Display a footerText
 $show = 			$params->get( 'show', 'all'); // Display a footerText

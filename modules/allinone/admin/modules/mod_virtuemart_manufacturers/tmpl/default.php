@@ -14,15 +14,17 @@ if ($display_style =="div") { ?>
 		$manufacturerImage = VmImage::getImageByMf($manufacturer);
 		?>
 		<div style="float:left;">
+			<a href="<?php echo $link; ?>">
 		<?php
 		if ($manufacturerImage && ($show == 'image' or $show == 'all' )) { ?>
-			<a href="<?php echo $link; ?>"><?php echo $manufacturerImage->displayImage('','',1,1);?></a>
+			<?php echo $manufacturerImage->displayImage('','',1,1);?>
 		<?php
 		}
 		if ($manufacturerImage && ($show == 'text' or $show == 'all' )) { ?>
-		<a href="<?php echo $link; ?>"><?php echo $manufacturer->mf_name; ?></a>
+		 <div><?php echo $manufacturer->mf_name; ?></div>
 		<?php 
 		} ?>
+			</a>
 		</div>
 		<?php 
 		if ($col == $manufacturers_per_row && $manufacturers_per_row && $col < $totalProd ) {
@@ -45,25 +47,26 @@ foreach ($manufacturers as $manufacturer) {
 	$link = JROUTE::_('index.php?option=com_virtuemart&view=manufacturer&&manufacturer_id=' . $manufacturer->manufacturer_id);
 	$manufacturerImage = VmImage::getImageByMf($manufacturer);
 	?>
-	<li>
+	<li><a href="<?php echo $link; ?>">
 		<?php
 		if ($manufacturerImage && ($show == 'image' or $show == 'all' )) { ?>
-			<a href="<?php echo $link; ?>"><?php echo $manufacturerImage->displayImage('','',1,1);?></a>
+			<?php echo $manufacturerImage->displayImage('','',1,1);?>
 		<?php
 		}
 		if ($manufacturerImage && ($show == 'text' or $show == 'all' )) { ?>
-		 <a href="<?php echo $link; ?>"><?php echo $manufacturer->mf_name; ?></a>
+		 <div><?php echo $manufacturer->mf_name; ?></div>
 		<?php 
 		}
 		?>
-		</li>
-		<?php
-		if ($col == $manufacturers_per_row && $manufacturers_per_row) {
-			echo "</ul><ul>";
-			$col= 1 ;
-		} else { 
-			$col++; 
-		}
+		</a>
+	</li>
+	<?php
+	if ($col == $manufacturers_per_row && $manufacturers_per_row) {
+		echo "</ul><ul>";
+		$col= 1 ;
+	} else { 
+		$col++; 
+	}
 } ?>
 </ul>
 

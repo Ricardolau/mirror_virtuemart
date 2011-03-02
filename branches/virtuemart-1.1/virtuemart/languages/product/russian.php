@@ -1,7 +1,7 @@
 <?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
-*
+* Reformatory by uralmas
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
@@ -22,7 +22,7 @@ $langvars = array (
 	'PHPSHOP_PRODUCT_INVENTORY_LBL' => 'Товары на складе',
 	'PHPSHOP_PRODUCT_INVENTORY_STOCK' => 'Количество',
 	'PHPSHOP_PRODUCT_INVENTORY_WEIGHT' => 'Вес',
-	'PHPSHOP_PRODUCT_LIST_PUBLISH' => 'Опубликовать',
+	'PHPSHOP_PRODUCT_LIST_PUBLISH' => 'Опубликовано',
 	'PHPSHOP_PRODUCT_LIST_SEARCH_BY_DATE' => 'Поиск товара',
 	'PHPSHOP_PRODUCT_LIST_SEARCH_BY_DATE_TYPE_PRODUCT' => 'изменен',
 	'PHPSHOP_PRODUCT_LIST_SEARCH_BY_DATE_TYPE_PRICE' => 'с изменением цены',
@@ -78,7 +78,7 @@ $langvars = array (
 	'PHPSHOP_CATEGORY_FORM_FLYPAGE' => 'Просмотр представления (fly-страницы) категории',
 	'PHPSHOP_ATTRIBUTE_LIST_LBL' => 'Список свойств для',
 	'PHPSHOP_ATTRIBUTE_LIST_NAME' => 'Название свойства',
-	'PHPSHOP_ATTRIBUTE_LIST_ORDER' => 'List Order',
+	'PHPSHOP_ATTRIBUTE_LIST_ORDER' => 'Список свойств',
 	'PHPSHOP_ATTRIBUTE_FORM_LBL' => 'Порядок отображения',
 	'PHPSHOP_ATTRIBUTE_FORM_NEW_FOR_PRODUCT' => 'Новое свойство для товара',
 	'PHPSHOP_ATTRIBUTE_FORM_UPDATE_FOR_PRODUCT' => 'Обновить свойство товара',
@@ -101,9 +101,9 @@ $langvars = array (
 	'PHPSHOP_LEAVE_BLANK' => '(оставьте пустым, если у вас<br />нет для этого отдельного php-файла!)',
 	'PHPSHOP_PRODUCT_FORM_ITEM_LBL' => 'Позиция',
 	'PHPSHOP_PRODUCT_DISCOUNT_STARTDATE' => 'Начало действия скидки',
-	'PHPSHOP_PRODUCT_DISCOUNT_STARTDATE_TIP' => 'Specifies the day when the discount begins',
-	'PHPSHOP_PRODUCT_DISCOUNT_ENDDATE' => 'End date of discount',
-	'PHPSHOP_PRODUCT_DISCOUNT_ENDDATE_TIP' => 'Укажите дату начала действия скидки',
+	'PHPSHOP_PRODUCT_DISCOUNT_STARTDATE_TIP' => 'Укажите дату начала действия скидки',
+	'PHPSHOP_PRODUCT_DISCOUNT_ENDDATE' => 'Окончания действия скидки',
+	'PHPSHOP_PRODUCT_DISCOUNT_ENDDATE_TIP' => 'Укажите дату окончания действия скидки',
 	'PHPSHOP_FILEMANAGER_PUBLISHED' => 'Опубликован?',
 	'PHPSHOP_FILES_LIST' => 'Менеджер файлов: список изображений/файлов для',
 	'PHPSHOP_FILES_LIST_FILENAME' => 'Имя файла',
@@ -133,6 +133,7 @@ $langvars = array (
 	'PHPSHOP_PRODUCT_PRODUCT_TYPE_LIST_LBL' => 'Список типов товара для',
 	'PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_LBL' => 'Добавить тип товара для',
 	'PHPSHOP_PRODUCT_PRODUCT_TYPE_FORM_PRODUCT_TYPE' => 'Тип товара',
+	'VM_PRODUCT_PRODUCT_TYPE_ADD_MULTIPLE_PRODUCTS' => ' Множественные товары',
 	'PHPSHOP_PRODUCT_TYPE_FORM_NAME' => 'Название типа товара',
 	'PHPSHOP_PRODUCT_TYPE_FORM_DESCRIPTION' => 'Описание типа товара',
 	'PHPSHOP_PRODUCT_TYPE_FORM_PARAMETERS' => 'Параметры',
@@ -175,7 +176,7 @@ $langvars = array (
 	'PHPSHOP_PRODUCT_LIST_QUANTITY_START' => 'Минимальное количество',
 	'PHPSHOP_PRODUCT_LIST_QUANTITY_END' => 'Максимальное количество',
 	'VM_PRODUCTS_MOVE_LBL' => 'Переместить товары из одной категории в другую',
-	'VM_PRODUCTS_MOVE_LIST' => 'Следующие товары %s будут перемещены',
+	'VM_PRODUCTS_MOVE_LIST' => 'Следующие %s товара(ов) будут перемещены',
 	'VM_PRODUCTS_MOVE_TO_CATEGORY' => 'Переместить в следующую категорию',
 	'VM_PRODUCT_LIST_REORDER_TIP' => 'Выберите категорию, в которой необходимо изменить порядок сортировки товара',
 	'VM_REVIEW_FORM_LBL' => 'Добавить отзыв',
@@ -198,7 +199,7 @@ $langvars = array (
 	'VM_DISPLAY_CHILD_SUFFIX' => 'Префикс класса зависимого товара',
 	'VM_INCLUDED_PRODUCT_ID' => 'ID товара, которое надо включить',
 	'VM_EXTRA_PRODUCT_ID' => 'Дополнительные IDs',
-	'PHPSHOP_DISPLAY_RADIOBOX' => 'Использовать "Radio Box"',
+	'PHPSHOP_DISPLAY_RADIOBOX' => 'Использовать радиокнопки (Radio Box)',
 	'PHPSHOP_PRODUCT_FORM_ITEM_DISPLAY_LBL' => 'Показать опции',
 	'PHPSHOP_DISPLAY_USE_PARENT' => 'Переписать отображаемые значения зависимых товаров на данные родительских товаров',
 	'PHPSHOP_DISPLAY_NORMAL' => 'Стандартное поле ввода количества',
@@ -223,16 +224,16 @@ $langvars = array (
 	'VM_CATEGORY_FORM_BROWSE_PAGE' => 'Страница отображения категории',
 	'VM_PRODUCT_CLONE_OPTIONS_TAB' => 'Опции копирования товара',
 	'VM_PRODUCT_CLONE_OPTIONS_LBL' => 'Также копировать эти зависимые позиции',
-	'VM_PRODUCT_LIST_MEDIA' => 'Медиа',
+	'VM_PRODUCT_LIST_MEDIA' => 'Изобр./<br />Файл',
 	'VM_REVIEW_LIST_NAMEDATE' => 'Имя/Дата',
 	'VM_PRODUCT_SELECT_ONE_OR_MORE' => 'Выберите один или более товаров',
 	'VM_PRODUCT_SEARCHING' => 'Поиск...',
-	'PHPSHOP_PRODUCT_FORM_ATTRIBUTE_LIST_EXAMPLES' => '<h4>Examples for the Attribute List Format:</h4>
-Title = Color, Property = Red ; Click on New Property to add a new color: Green ; Then click on New attribute to add a new attribute, and so on.
-<h4>Inline price adjustments for using the Advanced Attributes modification:</h4>
-Price = +10 to add this amount to the configured price.<br />  Price = -10 to subtract this amount from the configured price.<br />  Price = 10 to set the product\'s price to this amount.',
-	'VM_FILES_FORM_PRODUCT_IMAGE' => 'Product Image (full and thumb)',
-	'VM_FILES_FORM_DOWNLOADABLE' => 'Downloadable Product File (to be sold!)',
-	'VM_FILES_FORM_RESIZE_IMAGE' => 'Resize Full Image File?'
+	'PHPSHOP_PRODUCT_FORM_ATTRIBUTE_LIST_EXAMPLES' => '<h4>Примеры для списка свойств:</h4>
+Название = Цвет, Особенность = Красный;<br />Нажмите на Новая особенность для добавление нового цвета: Зелёный;<br />Затем нажмите на Новое свойство для добавления нового свойства, и т.д.
+<h4>Введите цену в строке Цена для создания расширенного свойства:</h4>
+Цена = +10 для добавления к существующей цене.<br />  Цена = -10 для уменьшения существующей цены.<br />  Цена = 10 для создания цены для данной особенности.',
+	'VM_FILES_FORM_PRODUCT_IMAGE' => 'Изображение товара (большое и уменьшенное)',
+	'VM_FILES_FORM_DOWNLOADABLE' => 'Загружаемый файл (для продажи!)',
+	'VM_FILES_FORM_RESIZE_IMAGE' => 'Автоматически создавать большие изображения??'
 ); $VM_LANG->initModule( 'product', $langvars );
 ?>

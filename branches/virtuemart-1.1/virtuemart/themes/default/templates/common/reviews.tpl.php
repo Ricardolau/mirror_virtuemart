@@ -16,6 +16,7 @@ foreach( $reviews as $review ) { // Loop through all reviews
 	 * $review['comment'] => The comment text
 	 * 
 	 */
+	
 	$date = vmFormatDate( $review["time"], $VM_LANG->_('DATE_FORMAT_LC') );
 	?>
 	<strong><?php echo $review["username"]."&nbsp;&nbsp;($date)" ?></strong>
@@ -41,7 +42,7 @@ if( $num_rows < 1 ) {
 }
 if( !$showall && $num_rows >=5 ) {
 	// Link to: "SHOW ALL Reviews"
-	echo "<a href=\"".$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING']."&showall=1\">"._MORE."</a>";
+	echo "<a href=\"".$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING']."&showall=1\">". $VM_LANG->_('MORE') ."</a>";
 }
 
 ?>

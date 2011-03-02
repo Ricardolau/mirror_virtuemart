@@ -1,7 +1,7 @@
 <?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
-*
+* Reformatory by uralmas
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
@@ -18,9 +18,9 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 global $VM_LANG;
 $langvars = array (
 	'CHARSET' => 'utf-8',
-	'PHPSHOP_NO_CUSTOMER' => 'Вы не являетесь зарегистрированным клиентом. Пожалуйста, введите информацию для оформления заказа.',
+	'PHPSHOP_NO_CUSTOMER' => 'Вы не являетесь зарегистрированным клиентом. Пожалуйста, введите контактную информацию для оформления заказа.',
 	'PHPSHOP_THANKYOU' => 'Спасибо за Ваш заказ.',
-	'PHPSHOP_EMAIL_SENDTO' => 'Подтверждающее письмо было выслано по адресу',
+	'PHPSHOP_EMAIL_SENDTO' => 'Подтверждающее письмо выслано по адресу',
 	'PHPSHOP_CHECKOUT_NEXT' => 'Следующий',
 	'PHPSHOP_CHECKOUT_CONF_BILLINFO' => 'Контактная информация плательщика',
 	'PHPSHOP_CHECKOUT_CONF_COMPANY' => 'Компания',

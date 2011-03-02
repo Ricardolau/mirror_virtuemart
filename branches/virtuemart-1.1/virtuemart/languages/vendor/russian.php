@@ -14,12 +14,8 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * other free or open source software licenses.
 * See /administrator/components/com_virtuemart/COPYRIGHT.php for copyright notices and details.
 *
-* http://virtuemart.net
-* http://www.alex-rus.com
-* http://www.virtuemart.ru
-* http://www.joomlaforum.ru
+* http://virtuemart.net * http://www.alex-rus.com * http://www.virtuemart.ru * http://www.joomlaforum.ru
 */
-
 global $VM_LANG;
 $langvars = array (
 	'CHARSET' => 'utf-8',
@@ -36,7 +32,7 @@ $langvars = array (
 	'PHPSHOP_VENDOR_FORM_CITY' => 'Город',
 	'PHPSHOP_VENDOR_FORM_STATE' => 'Регион',
 	'PHPSHOP_VENDOR_FORM_COUNTRY' => 'Страна',
-	'PHPSHOP_VENDOR_FORM_ZIP' => 'Индекс',
+	'PHPSHOP_VENDOR_FORM_ZIP' => 'Почтовый индекс',
 	'PHPSHOP_VENDOR_FORM_PHONE' => 'Телефон',
 	'PHPSHOP_VENDOR_FORM_CURRENCY' => 'Валюта',
 	'PHPSHOP_VENDOR_FORM_CATEGORY' => 'Категория продавца',

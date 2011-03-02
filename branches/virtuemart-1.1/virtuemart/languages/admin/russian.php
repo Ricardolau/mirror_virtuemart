@@ -1,7 +1,7 @@
 <?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
-*
+* Reformatory by xCoReLx * Reformatory by uralmas
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
@@ -23,7 +23,7 @@ $langvars = array (
 	'PHPSHOP_USER_LIST_FULL_NAME' => 'Полное имя (ФИО)',
 	'PHPSHOP_USER_LIST_GROUP' => 'Группа',
 	'PHPSHOP_USER_FORM_LBL' => 'Добавить/Обновить информацию о пользователе',
-	'PHPSHOP_USER_FORM_PERMS' => 'Разрешения',
+	'PHPSHOP_USER_FORM_PERMS' => 'Группа',
 	'PHPSHOP_USER_FORM_CUSTOMER_NUMBER' => 'Номер клиента / ID',
 	'PHPSHOP_MODULE_LIST_LBL' => 'Список модулей',
 	'PHPSHOP_MODULE_LIST_NAME' => 'Название модуля',
@@ -86,15 +86,14 @@ $langvars = array (
 	'PHPSHOP_ADMIN_CFG_MULTI_TAX_RATE_EXPLAIN' => 'Отметьте этот пункт, если у Вас есть товары с различной налоговой ставкой<br>(например, 10% для книг и еды, 18% для остальных товаров)',
 	'PHPSHOP_ADMIN_CFG_SUBSTRACT_PAYEMENT_BEFORE' => 'Вычитать скидку перед добавлением налогов/доставки?',
 	'PHPSHOP_ADMIN_CFG_REVIEW' => 'Разрешить клиентам оставлять отзывы/рейтинги',
-	'PHPSHOP_ADMIN_CFG_REVIEW_EXPLAIN' => 'Отметьте этот пункт, если Вы хотите разрешить вашим клиентам <strong>оценивать товары</strong> и <strong>писать отзывы</strong> на них. <br />
-                                                                                 Таким образом, Ваши клиенты смогут оставлять свои отзывы о товарах для других клиентов.<br />',
+	'PHPSHOP_ADMIN_CFG_REVIEW_EXPLAIN' => 'Отметьте этот пункт, если Вы хотите разрешить вашим клиентам <strong>оценивать товары</strong> и <strong>писать отзывы</strong> о них. <br />
+		Таким образом, Ваши клиенты смогут оставлять свои отзывы о товарах для других клиентов.<br />',
 	'PHPSHOP_ADMIN_CFG_SUBSTRACT_PAYEMENT_BEFORE_EXPLAIN' => 'Этот пункт определяет последовательность расчёта скидки на заказанные товары: до (пункт отмечен) или после начисления суммы налогов и суммы за доставку.',
 	'PHPSHOP_ADMIN_CFG_AGREE_TERMS' => 'Покупатели должны соглашаться с Условиями обслуживания?',
 	'PHPSHOP_ADMIN_CFG_AGREE_TERMS_EXPLAIN' => 'Отметьте этот пункт, если Вы хотите, чтобы Ваши клиенты соглашались с Условиями обслуживания, во время регистрации в магазине.',
 	'PHPSHOP_ADMIN_CFG_CHECK_STOCK' => 'Проверять наличие на складе?',
-	'PHPSHOP_ADMIN_CFG_CHECK_STOCK_EXPLAIN' => 'Отметьте этот пункт, если Вы хотите, чтобы система проверяла количество доступного товара на складе. Если Вы отметите этот пункт, то система не разрешит добавить в корзину товара больше, чем доступно на складе.',
-	'PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE' => 'Включить партнёрскую программу?',
-	'PHPSHOP_ADMIN_CFG_ENABLE_AFFILIATE_EXPLAIN' => 'Этот пункт включает работу партнёрской программы в магазине. Включите его, если Вы добавили партнеров через панель администрирования.',
+	'PHPSHOP_ADMIN_CFG_CHECK_STOCK_EXPLAIN' => 'Отметьте этот пункт, если Вы хотите, чтобы система проверяла количество доступного товара на складе. 
+		Если Вы отметите этот пункт, то система не разрешит добавить в корзину товара больше, чем доступно на складе.',
 	'PHPSHOP_ADMIN_CFG_MAIL_FORMAT' => 'Формат письма:',
 	'PHPSHOP_ADMIN_CFG_MAIL_FORMAT_TEXT' => 'Текст',
 	'PHPSHOP_ADMIN_CFG_MAIL_FORMAT_HTML' => 'HTML',
@@ -102,7 +101,8 @@ $langvars = array (
 		<ul><li>как простой текст</li>
 		<li>или в формате html с изображениями.</li></ul>',
 	'PHPSHOP_ADMIN_CFG_FRONTENDAMDIN' => 'Разрешить администрирование через магазин (frontend) пользователям, не допущенным в панель администрирования?',
-	'PHPSHOP_ADMIN_CFG_FRONTENDAMDIN_EXPLAIN' => 'Включив эту опцию, Вы можете разрешить пользователям, не имеющим доступа к панели администрирования, администрировать магазин через магазин (frontend)(например пользователям с правами Registered / Editor).',
+	'PHPSHOP_ADMIN_CFG_FRONTENDAMDIN_EXPLAIN' => 'Включив эту опцию, Вы можете разрешить пользователям, не имеющим доступа к панели администрирования, 
+		администрировать магазин через магазин (frontend)(например пользователям с правами Registered / Editor).',
 	'PHPSHOP_ADMIN_CFG_URLSECURE' => 'Адрес для защищённого режима',
 	'PHPSHOP_ADMIN_CFG_URLSECURE_EXPLAIN' => 'Адрес для защищенного режима (SSL) Вашего сайта (https со слешем в конце!)',
 	'PHPSHOP_ADMIN_CFG_HOMEPAGE' => 'Главная страница',
@@ -114,15 +114,18 @@ $langvars = array (
 	'PHPSHOP_ADMIN_CFG_FLYPAGE' => 'Страница товара (flypage)',
 	'PHPSHOP_ADMIN_CFG_FLYPAGE_EXPLAIN' => 'Это страница будет показывать информацию о товаре по умолчанию.',
 	'PHPSHOP_ADMIN_CFG_CATEGORY_TEMPLATE' => 'Шаблон категории',
-	'PHPSHOP_ADMIN_CFG_CATEGORY_TEMPLATE_EXPLAIN' => 'Страница шаблона категории (по-умолчанию) для отображения товаров в категории<br />Вы можете создавать новые шаблоны, модифицируя существующие файлы шаблонов, которые находятся в папке <b>COMPONENTPATH/html/templates/</b> и начинаются с <b>browse_</b>)',
+	'PHPSHOP_ADMIN_CFG_CATEGORY_TEMPLATE_EXPLAIN' => 'Страница шаблона категории (по-умолчанию) для отображения товаров в категории<br />
+		Вы можете создавать новые шаблоны, модифицируя существующие файлы шаблонов, 
+		которые находятся в папке <b>COMPONENTPATH/html/templates/</b> и начинаются с <b>browse_</b>)',
 	'PHPSHOP_ADMIN_CFG_PRODUCTS_PER_ROW' => 'Количество товаров в строке',
-	'PHPSHOP_ADMIN_CFG_PRODUCTS_PER_ROW_EXPLAIN' => 'Этот пункт определяет количество товаров в строке.<br />Например, если Вы установите 4, шаблон категории отобразит 4 товара в строке. <b>Для корректной работы не забудьте поменять шаблон, на соответствующий</b>.',
+	'PHPSHOP_ADMIN_CFG_PRODUCTS_PER_ROW_EXPLAIN' => 'Этот пункт определяет количество товаров в строке.<br />
+		Например, если Вы установите 4, шаблон категории отобразит 4 товара в строке. <b>Для корректной работы не забудьте поменять шаблон, на соответствующий</b>.',
 	'PHPSHOP_ADMIN_CFG_NOIMAGEPAGE' => 'Изображение для товара без картинки',
 	'PHPSHOP_ADMIN_CFG_NOIMAGEPAGE_EXPLAIN' => 'Это изображение будет показано, когда нет изображения товара.',
 	'PHPSHOP_ADMIN_CFG_SHOWPHPSHOP_VERSION' => 'Показывать эмблему магазина ',
 	'PHPSHOP_ADMIN_CFG_SHOWPHPSHOP_VERSION_EXPLAIN' => 'Показывает картинку "Работает на VirtueMart" внизу страницы.',
 	'PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_STANDARD' => 'Стандартный модуль доставки с индивидуальными данными о расценках. <strong>РЕКОМЕНДУЕТСЯ !</strong>',
-	'PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_ZONE' => '  	Модуль регионов доставки Версия 1.0<br />
+	'PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_ZONE' => 'Модуль регионов доставки Версия 1.0<br />
 		За более подробной информацией, посетите <a href="http://ZephWare.com">http://ZephWare.com</a><br />
 		или свяжитесь по адресу <a href="mailto:zephware@devcompany.com">ZephWare.com</a><br /> Отметьте опцию, чтобы включить данный модуль доставки',
 	'PHPSHOP_ADMIN_CFG_STORE_SHIPPING_METHOD_DISABLE' => 'Отключить выбор варианта доставки. Выбирается, если покупатели приобретают скачиваемый товар, который не нужно доставлять.',
@@ -137,19 +140,19 @@ $langvars = array (
 	'PHPSHOP_ADMIN_CFG_ORDER_DISABLE_DOWNLOADS_EXPLAIN' => 'Статус заказа, при котором скачивание отключено для покупателя.',
 	'PHPSHOP_ADMIN_CFG_DOWNLOADROOT' => 'Путь к файлам для скачивания',
 	'PHPSHOP_ADMIN_CFG_DOWNLOADROOT_EXPLAIN' => 'Путь к файлам для скачивания покупателями. (обязательно поставить слеш в конце \'/ \' !)<br>
-        <span class="message">Для безопасности Вашего магазина: Если Вы можете, установите директорию ЗА ПРЕДЕЛАМИ КОРНЕВОЙ ПАПКИ ВЕБСЕРВЕРА</span>',
+	<span class="message">Для безопасности Вашего магазина: Если Вы можете, установите директорию ЗА ПРЕДЕЛАМИ КОРНЕВОЙ ПАПКИ ВЕБСЕРВЕРА</span>',
 	'PHPSHOP_ADMIN_CFG_DOWNLOAD_MAX' => 'Макс. кол-во скачиваний',
 	'PHPSHOP_ADMIN_CFG_DOWNLOAD_MAX_EXPLAIN' => 'Устанавливает количество скачиваний, которое можно сделать на одно ID скачивания, (для одного заказа)',
 	'PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE' => 'Возможность скачивания истекает через (сек.)',
 	'PHPSHOP_ADMIN_CFG_DOWNLOAD_EXPIRE_EXPLAIN' => 'Установите интервал <strong>в секундах</strong>, в течение которого покупатель может скачивать товар. 
-  Этот интервал начинает отсчитываться после первого скачивания! Когда временной интервал истек, ID скачивания отключается.<br />Заметьте: 86400сек=24ч.',
+		Этот интервал начинает отсчитываться после первого скачивания! Когда временной интервал истек, ID скачивания отключается.<br />Заметьте: 86400сек=24ч.',
 	'PHPSHOP_COUPONS' => 'Купоны',
 	'PHPSHOP_COUPONS_ENABLE' => 'Включить использование купонов',
 	'PHPSHOP_COUPONS_ENABLE_EXPLAIN' => 'Если Вы включите Использование купонов, Вы позволите покупателям вводить Номер купона для получения скидок при покупке.',
 	'PHPSHOP_ADMIN_CFG_PDF_BUTTON' => 'PDF - Кнопка',
 	'PHPSHOP_ADMIN_CFG_PDF_BUTTON_EXPLAIN' => 'Показать или скрыть PDF - Кнопку в магазине',
 	'PHPSHOP_ADMIN_CFG_AGREE_TERMS_ONORDER' => 'Покупатели должны соглашаться с условиями обслуживания при каждом заказе?',
-	'PHPSHOP_ADMIN_CFG_AGREE_TERMS_ONORDER_EXPLAIN' => 'Отметьте, если хотите, чтобы покупатель каждый раз соглашался с условиями обслуживания при каждом заказе товара (перед оформлением заказа).',
+	'PHPSHOP_ADMIN_CFG_AGREE_TERMS_ONORDER_EXPLAIN' => 'Отметьте, если хотите, чтобы покупатель каждый раз соглашался с условиями обслуживания при каждом заказе товара (перед окончательным оформлением заказа).',
 	'PHPSHOP_ADMIN_CFG_SHOW_OUT_OF_STOCK_PRODUCTS' => 'Показывать товары, которых нет на складе',
 	'PHPSHOP_ADMIN_CFG_SHOW_OUT_OF_STOCK_PRODUCTS_EXPLAIN' => 'Отметьте, если хотите, чтобы товары, которых временно нет на складе, отображались в магазине. В противном случае, такие товары не будут показаны в магазине.',
 	'PHPSHOP_ADMIN_CFG_SHOP_OFFLINE' => 'Магазин закрыт?',
@@ -163,7 +166,8 @@ $langvars = array (
 	'PHPSHOP_ADMIN_CFG_SHOW_PRODUCT_COUNT_TIP' => 'Показывать количество товаров в категории, например: Категория (4)?',
 	'PHPSHOP_ADMIN_CFG_DYNAMIC_THUMBNAIL_RESIZING' => 'Включить динамическое изменение размеров для мини-изображения?',
 	'PHPSHOP_ADMIN_CFG_DYNAMIC_THUMBNAIL_RESIZING_TIP' => 'Отметьте, если хотите включить динамическое изменение размеров изображения. Это означает, что все изображения изменят размеры до указанных вами ниже, путем применения функций GD2 библиотеки РНР (Вы можете проверить, установлена библиотека GD2 зайдя в "Помощь"->"Информация о системе" -> " Информация PHP" ->  gd. 
-        Качество мини-изображений, полученное при использовании GD2 выше, чем, если бы масштабирование произвел браузер. Новые изображения генерируются и складываются в папку /shop_image/product/resized. Если изображение уже сгенерировано, то копия его отсылается браузеру, а не генерируется каждый раз.',
+        Качество мини-изображений, полученное при использовании GD2 выше, чем, если бы масштабирование произвел браузер. 
+	Новые изображения генерируются и складываются в папку /shop_image/product/resized. Если изображение уже сгенерировано, то копия его отсылается браузеру, а не генерируется каждый раз.',
 	'PHPSHOP_ADMIN_CFG_THUMBNAIL_WIDTH' => 'Ширина мини-изображения',
 	'PHPSHOP_ADMIN_CFG_THUMBNAIL_WIDTH_TIP' => '<strong>Ширина</strong> сгенерированных изображений.',
 	'PHPSHOP_ADMIN_CFG_THUMBNAIL_HEIGHT' => 'Высота мини-изображения',
@@ -173,7 +177,7 @@ $langvars = array (
 	'PHPSHOP_ADMIN_CFG_PRICE_ACCESS_LEVEL' => 'Группа пользователей, которым показывать цены',
 	'PHPSHOP_ADMIN_CFG_PRICE_ACCESS_LEVEL_TIP' => 'Цены на товары в магазине будут показаны только выбранной группе пользователей и всем группам с правами выше выбранной.',
 	'PHPSHOP_ADMIN_CFG_PRICE_SHOW_INCLUDINGTAX' => 'Показать "(включая XX% налогов)", когда они применяются?',
-	'PHPSHOP_ADMIN_CFG_PRICE_SHOW_INCLUDINGTAX_TIP' => 'Отметьте, если хотите, чтобы пользователи видели текст "(включая xx% налоги)" - когда цены показываются, включая налоги.',
+	'PHPSHOP_ADMIN_CFG_PRICE_SHOW_INCLUDINGTAX_TIP' => 'Отметьте, если хотите, чтобы пользователи видели текст "(включая ХХ% налогов)" - когда цены показываются с указанием налогов.',
 	'PHPSHOP_ADMIN_CFG_PRICE_SHOW_PACKAGING_PRICELABEL' => 'Показать стоимость упаковки?',
 	'PHPSHOP_ADMIN_CFG_PRICE_SHOW_PACKAGING_PRICELABEL_TIP' => 'Когда отмечено, цена формируется из цены товара и упаковки:<br/>
 <strong>Цена за единицу (10 штук)</strong><br/>
@@ -188,8 +192,8 @@ $langvars = array (
 	'VM_FIELDMANAGER_NAME' => 'Название поля',
 	'VM_FIELDMANAGER_TITLE' => 'Заголовок поля',
 	'VM_FIELDMANAGER_TYPE' => 'Тип поля',
-	'VM_FIELDMANAGER_REQUIRED' => 'Требуется',
-	'VM_FIELDMANAGER_PUBLISHED' => 'Опубликовать',
+	'VM_FIELDMANAGER_REQUIRED' => 'Требуемое',
+	'VM_FIELDMANAGER_PUBLISHED' => 'Опубликовано',
 	'VM_FIELDMANAGER_SHOW_ON_REGISTRATION' => 'Показывать в регистрационной форме?',
 	'VM_FIELDMANAGER_SHOW_ON_ACCOUNT' => 'Показать в разделе управления учетной записью пользователя?',
 	'VM_USERFIELD_FORM_LBL' => 'Добавить / Изменить поля',
@@ -199,20 +203,22 @@ $langvars = array (
 	'VM_BROWSE_ORDERBY_FIELDS_LBL_TIP' => 'Выберите поля, по которым будет разрешена сортировка. Если Вы ничего не выделите, то форма для сортировки показана не будет.',
 	'VM_GENERALLY_PREVENT_HTTPS' => 'Обычно предотвращать соединение по протоколу https?',
 	'VM_GENERALLY_PREVENT_HTTPS_TIP' => 'Если включить опцию, то пользователь будет перенаправляться на <strong>http</strong> ссылки, когда посещает разделы магазины, для которых жестко не установлена необходимость использования https.',
+	'VM_ALLOW_EXTENDED_CLASSES' => 'Разрешить включение расширенных классов из каталога темы?',
+	'VM_ALLOW_EXTENDED_CLASSES_TIP' => 'Если выбранно, VirtueMart выполняет расширенный программный код. Исходный код VirtueMart может быть заменён или расширен. Если Вы не знаете, что это такое или Вам это не требуется, не выделяйте',
 	'VM_MODULES_FORCE_HTTPS' => 'Разделы магазина, которые должны использовать https',
 	'VM_MODULES_FORCE_HTTPS_TIP' => 'Через запятую укажите те модули, где должно использоваться соединение через https (См. "Администрирование" => "Список модулей").',
 	'VM_SHOW_REMEMBER_ME_BOX' => 'Показать "Запомнить" на форме авторизации?',
 	'VM_SHOW_REMEMBER_ME_BOX_TIP' => 'Если включить опцию, то пользователь сможет отметить поле "Запомнить", чтобы система запоминала его. В целях безопасности не рекомендуется включать при использовании совместного (shared) ssl.',
-	'VM_ADMIN_CFG_REVIEW_MINIMUM_COMMENT_LENGTH' => 'Минимальная длина комментария',
+	'VM_ADMIN_CFG_REVIEW_MINIMUM_COMMENT_LENGTH' => 'Минимальная длина отзыва',
 	'VM_ADMIN_CFG_REVIEW_MINIMUM_COMMENT_LENGTH_TIP' => 'Укажите минимальное количество знаков, которое пользователь должен будет написать, прежде чем сможет отправить свой отзыв.',
-	'VM_ADMIN_CFG_REVIEW_MAXIMUM_COMMENT_LENGTH' => 'Максимальная длина комментария',
-	'VM_ADMIN_CFG_REVIEW_MAXIMUM_COMMENT_LENGTH_TIP' => 'Укажите максимальное количество знаков, которое может написать пользователь.',
+	'VM_ADMIN_CFG_REVIEW_MAXIMUM_COMMENT_LENGTH' => 'Максимальная длина отзыва',
+	'VM_ADMIN_CFG_REVIEW_MAXIMUM_COMMENT_LENGTH_TIP' => 'Укажите максимальное количество знаков, которое может написать в отзыве пользователь.',
 	'VM_ADMIN_SHOW_EMAILFRIEND' => 'Показывать ссылку "Рекомендовать другу"?',
 	'VM_ADMIN_SHOW_EMAILFRIEND_TIP' => 'Если включить опцию, то будет показана небольшая ссылка, которая позволит пользователю отправить по e-mail ссылку на данный товар.',
 	'VM_ADMIN_SHOW_PRINTICON' => 'Показывать ссылку "Вид для печати"?',
 	'VM_ADMIN_SHOW_PRINTICON_TIP' => 'Если включить опцию, то будет показана небольшая ссылка, которая откроет данную страницу в новом окне в формате удобном для печати.',
 	'VM_REVIEWS_AUTOPUBLISH' => 'Разрешить автоматическую публикацию отзывов?',
-	'VM_REVIEWS_AUTOPUBLISH_TIP' => 'Если включить опцию, то отзывы пользователей будут публиковаться автоматически, в противном случае отзывы должны быть одобрены администратором.',
+	'VM_REVIEWS_AUTOPUBLISH_TIP' => 'Если включить опцию, то отзывы пользователей будут публиковаться автоматически, в противном случае отзывы должны быть сначала одобрены администратором.',
 	'VM_ADMIN_CFG_PROXY_SETTINGS' => 'Настройки proxy',
 	'VM_ADMIN_CFG_PROXY_URL' => 'URL-ссылка proxy сервера',
 	'VM_ADMIN_CFG_PROXY_URL_TIP' => 'Например: <strong>http://10.42.21.1</strong>.<br />
@@ -228,12 +234,12 @@ $langvars = array (
 	'VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT' => 'Правовая информация (короткая версия).',
 	'VM_ADMIN_ONCHECKOUT_LEGALINFO_SHORTTEXT_TIP' => 'Этот текст коротко сообщает Вашим покупателям о политике возврата товара и отмены заказов. Он будет показан на странице подтверждения заказа, над кнопкой "Подтвердить заказ".',
 	'VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK' => 'Полная версия политики возврата (Ссылка на описание).',
-	'VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK_TIP' => 'Пожалуйста, напишите подробную политику по возврату товара и отмене заказов.
-После этого, Вы сможете указать ее здесь.',
+	'VM_ADMIN_ONCHECKOUT_LEGALINFO_LINK_TIP' => 'Пожалуйста, напишите подробную политику по возврату товара и отмене заказов на отдельной странице.
+После этого Вы сможете указать ее здесь.',
 	'VM_SELECT_THEME' => 'Выберите шаблон для магазина',
 	'VM_SELECT_THEME_TIP' => 'Шаблоны позволяют изменить облик Вашего магазина. <br />Если кроме шаблона "default" никаких других нет, это значит, что у Вас не установлены другие шаблоны.',
-	'VM_CFG_CONTENT_PLUGINS_ENABLE' => 'Разрешить использование мамботов / плагинов в описании товара и категории?',
-	'VM_CFG_CONTENT_PLUGINS_ENABLE_TIP' => 'Если включить опцию, то в описании категории и товара будут работать все опубликованные мамботы/плагины.',
+	'VM_CFG_CONTENT_PLUGINS_ENABLE' => 'Разрешить использование плагинов в описании товара и категории?',
+	'VM_CFG_CONTENT_PLUGINS_ENABLE_TIP' => 'Если включить опцию, то в описании категории и товара будут работать все опубликованные плагины.',
 	'VM_CFG_CURRENCY_MODULE' => 'Выберите модуль конвертора валют',
 	'VM_CFG_CURRENCY_MODULE_TIP' => 'Здесь Вы можете выбрать модуль, который будет подтягивать данные курсов валют с сервера (например: ЦБ РФ) и на основе которых будет производиться пересчет из одной валюты в другую.',
 	'PHPSHOP_ADMIN_CFG_TAX_MODE_EU' => 'Ставка ЕС',
@@ -247,7 +253,8 @@ $langvars = array (
 	'VM_ADMIN_CFG_COOKIE_CHECK' => 'Включить проверку куки?',
 	'VM_ADMIN_CFG_COOKIE_CHECK_EXPLAIN' => 'Если включить опцию, то VirtueMart будет проверять, принимает ли браузер пользователя куки или нет. Это повышает дружелюбие системы для пользователя, но может негативно сказать на индексации сторонними поисковыми системами.',
 	'VM_CFG_REGISTRATION_TYPE' => 'Тип регистрации пользователя',
-	'VM_CFG_REGISTRATION_TYPE_TIP' => 'Выберите тип регистрации пользователя в Вашем магазине!<br />
+	'VM_CFG_REGISTRATION_TYPE_TIP' => 'Выберите тип регистрации пользователя в Вашем магазине:
+<br /><br />
 <strong>Нормальная регистрация</strong><br />
 Это стандартная регистрация, при которой пользователь должен выбрать имя пользователя (логин) и пароль.<br /><br />
 <strong>Скрытая регистрация</strong><br />
@@ -256,8 +263,7 @@ $langvars = array (
 <strong>Опциональная регистрация</strong><br />
 Опциональная регистрация позволяет выбрать пользователю, хочет он создать свою учетную запись (Стандартная регистрация) или нет (Скрытая регистрация).
 <br /><br />
-<strong>Регистрация не требуется</strong><br />
-Пользователь не должен и не сможет зарегистрироваться.',
+<strong>Регистрация не требуется</strong><br />Пользователь не должен и не сможет зарегистрироваться.',
 	'VM_CFG_REGISTRATION_TYPE_NORMAL_REGISTRATION' => 'Нормальное создание учетной записи',
 	'VM_CFG_REGISTRATION_TYPE_SILENT_REGISTRATION' => 'Скрытое создание учетной записи',
 	'VM_CFG_REGISTRATION_TYPE_OPTIONAL_REGISTRATION' => 'Опциональное создание учетной записи',
@@ -313,7 +319,7 @@ $langvars = array (
 	'VM_FIELDS_NEWSLETTER' => 'Подписка на новости',
 	'VM_USERFIELDS_READONLY' => 'Только для чтения',
 	'VM_USERFIELDS_SIZE' => 'Размер поля',
-	'VM_USERFIELDS_MAXLENGTH' => 'Макс. длина',
+	'VM_USERFIELDS_MAXLENGTH' => 'Максимальная длина',
 	'VM_USERFIELDS_DESCRIPTION' => 'Описание, подсказка: текст или HTML',
 	'VM_USERFIELDS_COLUMNS' => 'Колонок',
 	'VM_USERFIELDS_ROWS' => 'Рядов',
@@ -378,34 +384,35 @@ $langvars = array (
 	'VM_ADMIN_CFG_DEBUG_IP_ENABLED_EXPLAIN' => 'Ограничить вывод отладочной информации для указанного IP адреса?',
 	'VM_ADMIN_CFG_DEBUG_IP_ADDRESS' => 'IP адрес',
 	'VM_ADMIN_CFG_DEBUG_IP_ADDRESS_EXPLAIN' => 'Если включить данную опцию и указать IP адрес, тогда отладочная информация будет отображаться только для пользователя с указанным IP адресом. Все другие клиенты не увидят отладочную информацию.',
-	'VM_USER_NOSHIPPINGADDR' => 'No shipping addresses.',
-	'VM_UPDATE_CHECK_LBL' => 'VirtueMart Update Check',
-	'VM_UPDATE_CHECK_VERSION_INSTALLED' => 'VirtueMart Version installed here',
-	'VM_UPDATE_CHECK_LATEST_VERSION' => 'Latest VirtueMart Version',
-	'VM_UPDATE_CHECK_CHECKNOW' => 'Check now!',
-	'VM_UPDATE_CHECK_DLUPDATE' => 'Download Update',
-	'VM_UPDATE_CHECK_CHECKING' => 'Checking...',
-	'VM_UPDATE_CHECK_CHECK' => 'Check',
-	'VM_UPDATE_NOTDOWNLOADED' => 'The Update Package could not be downloaded.',
-	'VM_UPDATE_PREVIEW_LBL' => 'VirtueMart Update Preview',
-	'VM_UPDATE_WARNING_TITLE' => 'General Warning',
-	'VM_UPDATE_WARNING_TEXT' => 'Installing an Update for VirtueMart using a Patch Package can cause damage on your site 
-if you have already modified some files of the VirtueMart component. The Patching Process will overwrite all the files listed below - it won\'t just apply smaller changes (diff), but replace the existing file with the new one. If you have modified VirtueMart files on your own, this can lead to inconsistent files and missing class/function dependencies.',
-	'VM_UPDATE_PATCH_DETAILS' => 'Patch Details',
-	'VM_UPDATE_PATCH_DESCRIPTION' => 'Description',
-	'VM_UPDATE_PATCH_DATE' => 'Release Date',
-	'VM_UPDATE_PATCH_FILESTOUPDATE' => 'Files to be updated',
-	'VM_UPDATE_PATCH_STATUS' => 'Status',
-	'VM_UPDATE_PATCH_WRITABLE' => 'Writable',
-	'VM_UPDATE_PATCH_UNWRITABLE' => 'File/Directory not writable',
-	'VM_UPDATE_PATCH_QUERYTOEXEC' => 'Queries to be executed on the Database',
-	'VM_UPDATE_PATCH_CONFIRM_TEXT' => 'I have read the <a href="#warning">Warning</a> and I\'m sure to apply the Patch Package to my VirtueMart Installation now.',
-	'VM_UPDATE_PATCH_APPLY' => 'Apply Patch now',
-	'VM_UPDATE_PATCH_ERR_UNWRITABLE' => 'Not all files/directories which need to be updated are writable. Please correct the permissions first.',
-	'VM_UPDATE_PATCH_PLEASEMARK' => 'Please mark the checkbox before you apply the Patch.',
-	'VM_UPDATE_RESULT_TITLE' => 'Currently Installed Version',
-	'VM_FIELDS_CAPTCHA' => 'Captcha Field (using com_securityimages)',
-	'VM_FIELDS_AGEVERIFICATION' => 'Age Verification (Date Select Fields)',
-	'VM_FIELDS_AGEVERIFICATION_MINIMUM' => 'Specify the minimum Age'
+	'VM_FIELDMANAGER_SHOW_ON_SHIPPING' => 'Показать в форме доставки',
+	'VM_USER_NOSHIPPINGADDR' => 'Нет адреса доставки.',
+	'VM_UPDATE_CHECK_LBL' => 'Проверить обновления VirtueMart',
+	'VM_UPDATE_CHECK_VERSION_INSTALLED' => 'Версия установленного VirtueMart',
+	'VM_UPDATE_CHECK_LATEST_VERSION' => 'Последняя версия VirtueMart',
+	'VM_UPDATE_CHECK_CHECKNOW' => 'Проверить сейчас!',
+	'VM_UPDATE_CHECK_DLUPDATE' => 'Скачать обновление',
+	'VM_UPDATE_CHECK_CHECKING' => 'Проверка...',
+	'VM_UPDATE_CHECK_CHECK' => 'Проверено',
+	'VM_UPDATE_NOTDOWNLOADED' => 'Пакет обновления не может быть загружен.',
+	'VM_UPDATE_PREVIEW_LBL' => 'Обновить вид VirtueMart',
+	'VM_UPDATE_WARNING_TITLE' => 'Общее предупреждение',
+	'VM_UPDATE_WARNING_TEXT' => 'Обновление VirtueMart с помощью пакета исправлений (Patch Package) может привести к повреждению Вашего сайта
+если Вы изменяли файлы компонента VirtueMart. Во время процесса обновления будут переписаны все файлы, перечисленные ниже, - обновления не делает измения в файлах, а заменяет существующие файлы на новые. Если вы изменяли файлы VirtueMart, то это может привести к несогласованности файлов и зависимости классов/функций.',
+	'VM_UPDATE_PATCH_DETAILS' => 'Подробности патча',
+	'VM_UPDATE_PATCH_DESCRIPTION' => 'Описание',
+	'VM_UPDATE_PATCH_DATE' => 'Дата релиза',
+	'VM_UPDATE_PATCH_FILESTOUPDATE' => 'Файлы для обновления',
+	'VM_UPDATE_PATCH_STATUS' => 'Статус',
+	'VM_UPDATE_PATCH_WRITABLE' => 'Перезаписываемый',
+	'VM_UPDATE_PATCH_UNWRITABLE' => 'Файл/каталог не доступен для записи',
+	'VM_UPDATE_PATCH_QUERYTOEXEC' => 'Запросы для выполнения в базе данных',
+	'VM_UPDATE_PATCH_CONFIRM_TEXT' => 'Я прочитал <a href="#warning">Предупреждение</a> и я уверен, что хочу обновить VirtueMart сейчас.',
+	'VM_UPDATE_PATCH_APPLY' => 'Применить патч сейчас',
+	'VM_UPDATE_PATCH_ERR_UNWRITABLE' => 'Не все файлы и каталоги, которые должны быть обновлены, доступны для записи. Пожалуйста, исправьте права доступа.',
+	'VM_UPDATE_PATCH_PLEASEMARK' => 'Пожалуйста, установите флажок перед установкой обновления.',
+	'VM_UPDATE_RESULT_TITLE' => 'Текущая версия',
+	'VM_FIELDS_CAPTCHA' => 'Поле Captcha (использует com_securityimages)',
+	'VM_FIELDS_AGEVERIFICATION' => 'Возраст проверки (Date Select Fields)',
+	'VM_FIELDS_AGEVERIFICATION_MINIMUM' => 'Укажите минимальный возраст'
 ); $VM_LANG->initModule( 'admin', $langvars );
 ?>

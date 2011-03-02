@@ -1,7 +1,7 @@
 <?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
-*
+* Reformatory by xCoReLx * Reformatory by uralmas
 * @version $Id: russian.php 1071 2008-02-03 08:42:28Z alex_rus $
 * @package VirtueMart
 * @subpackage languages
@@ -14,12 +14,8 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * other free or open source software licenses.
 * See /administrator/components/com_virtuemart/COPYRIGHT.php for copyright notices and details.
 *
-* http://virtuemart.net
-* http://www.alex-rus.com
-* http://www.virtuemart.ru
-* http://www.joomlaforum.ru
+* http://virtuemart.net * http://www.alex-rus.com * http://www.virtuemart.ru * http://www.joomlaforum.ru
 */
-
 global $VM_LANG;
 $langvars = array (
 	'CHARSET' => 'utf-8',
@@ -56,25 +52,25 @@ $langvars = array (
 	'VM_ORDER_LABEL_SIGNATURENEVER' => 'Подпись никогда не была получена',
 	'VM_ORDER_LABEL_TRACK_TITLE' => 'Следить',
 	'VM_ORDER_LABEL_VOID_TITLE' => 'Пропустить этикетку',
-	'VM_ORDER_LABEL_VOIDED_MSG' => 'Этикетка для накладной {tracking_number} была пропущена.',
+	'VM_ORDER_LABEL_VOIDED_MSG' => 'Этикетка для накладной {tracking_number} пропущена.',
 	'VM_ORDER_PRINT_PO_IPADDRESS' => 'IP адрес',
 	'VM_ORDER_STATUS_ICON_ALT' => 'Статус',
 	'VM_ORDER_PAYMENT_CCV_CODE' => 'CVV код',
 	'VM_ORDER_NOTFOUND' => 'Заказ не найден! Он мог быть удален.',
-	'PHPSHOP_ORDER_EDIT_ACTIONS' => 'Actions',
-	'PHPSHOP_ORDER_EDIT' => 'Change Order Details',
-	'PHPSHOP_ORDER_EDIT_ADD' => 'Add',
-	'PHPSHOP_ORDER_EDIT_ADD_PRODUCT' => 'Add Product',
-	'PHPSHOP_ORDER_EDIT_EDIT_ORDER' => 'Change Order',
-	'PHPSHOP_ORDER_EDIT_ERROR_QUANTITY_MUST_BE_HIGHER_THAN_0' => 'Quantity must be greater than 0.',
-	'PHPSHOP_ORDER_EDIT_PRODUCT_ADDED' => 'The Product was added to the Order',
-	'PHPSHOP_ORDER_EDIT_PRODUCT_DELETED' => 'The Product was removed from this Order',
-	'PHPSHOP_ORDER_EDIT_QUANTITY_UPDATED' => 'Quantity has been updated',
-	'PHPSHOP_ORDER_EDIT_RETURN_PARENTS' => 'back to Parent Product',
-	'PHPSHOP_ORDER_EDIT_CHOOSE_PRODUCT' => 'Select a Product',
-	'PHPSHOP_ORDER_CHANGE_UPD_BILL' => 'Change Billto Address',
-	'PHPSHOP_ORDER_CHANGE_UPD_SHIP' => 'Change Shipto Address',
-	'PHPSHOP_ORDER_EDIT_SOMETHING_HAS_CHANGED' => ' has been changed',
-	'PHPSHOP_ORDER_EDIT_CHOOSE_PRODUCT_BY_SKU' => 'Select SKU'
+	'PHPSHOP_ORDER_EDIT_ACTIONS' => 'Действия',
+	'PHPSHOP_ORDER_EDIT' => 'Изменить порядок детальной информации',
+	'PHPSHOP_ORDER_EDIT_ADD' => 'Добавить',
+	'PHPSHOP_ORDER_EDIT_ADD_PRODUCT' => 'Добавить товар',
+	'PHPSHOP_ORDER_EDIT_EDIT_ORDER' => 'Изменить порядок',
+	'PHPSHOP_ORDER_EDIT_ERROR_QUANTITY_MUST_BE_HIGHER_THAN_0' => 'Количество должно быть больше 0.',
+	'PHPSHOP_ORDER_EDIT_PRODUCT_ADDED' => 'Товар добавлен в заказ',
+	'PHPSHOP_ORDER_EDIT_PRODUCT_DELETED' => 'Товар удален из настоящего заказа',
+	'PHPSHOP_ORDER_EDIT_QUANTITY_UPDATED' => 'Количество обновлено',
+	'PHPSHOP_ORDER_EDIT_RETURN_PARENTS' => 'Назад к Родительскому товару',
+	'PHPSHOP_ORDER_EDIT_CHOOSE_PRODUCT' => 'Выберите товар',
+	'PHPSHOP_ORDER_CHANGE_UPD_BILL' => 'Изменение контактного адреса',
+	'PHPSHOP_ORDER_CHANGE_UPD_SHIP' => 'Изменение адреса доставки',
+	'PHPSHOP_ORDER_EDIT_SOMETHING_HAS_CHANGED' => ' изменен',
+	'PHPSHOP_ORDER_EDIT_CHOOSE_PRODUCT_BY_SKU' => 'Выберите Артикул'
 ); $VM_LANG->initModule( 'order', $langvars );
 ?>

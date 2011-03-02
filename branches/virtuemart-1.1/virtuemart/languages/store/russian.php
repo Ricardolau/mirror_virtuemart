@@ -1,7 +1,7 @@
 <?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
-*
+* Reformatory by uralmas
 * @version $Id: russian.php 1071 2008-02-03 08:42:28Z alex_rus $
 * @package VirtueMart
 * @subpackage languages
@@ -14,12 +14,8 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * other free or open source software licenses.
 * See /administrator/components/com_virtuemart/COPYRIGHT.php for copyright notices and details.
 *
-* http://virtuemart.net
-* http://www.alex-rus.com
-* http://www.virtuemart.ru
-* http://www.joomlaforum.ru
+* http://virtuemart.net * http://www.alex-rus.com * http://www.virtuemart.ru * http://www.joomlaforum.ru
 */
-
 global $VM_LANG;
 $langvars = array (
 	'CHARSET' => 'utf-8',
@@ -31,12 +27,12 @@ $langvars = array (
 	'PHPSHOP_USER_FORM_ADDRESS_2' => 'Адрес 2',
 	'PHPSHOP_USER_FORM_CITY' => 'Город',
 	'PHPSHOP_USER_FORM_STATE' => 'Регион',
-	'PHPSHOP_USER_FORM_ZIP' => 'Индекс',
+	'PHPSHOP_USER_FORM_ZIP' => 'Почтовый индекс',
 	'PHPSHOP_USER_FORM_COUNTRY' => 'Страна',
 	'PHPSHOP_USER_FORM_PHONE' => 'Телефон',
 	'PHPSHOP_USER_FORM_PHONE2' => 'Мобильный телефон',
 	'PHPSHOP_USER_FORM_FAX' => 'Факс',
-	'PHPSHOP_ISSHIP_LIST_PUBLISH_LBL' => 'Активные',
+	'PHPSHOP_ISSHIP_LIST_PUBLISH_LBL' => 'Опубликовано',
 	'PHPSHOP_ISSHIP_FORM_UPDATE_LBL' => 'Настроить вариант доставки',
 	'PHPSHOP_STORE_FORM_FULL_IMAGE' => 'Логотип',
 	'PHPSHOP_STORE_FORM_UPLOAD' => 'Загрузить изображение',
@@ -47,7 +43,7 @@ $langvars = array (
 	'PHPSHOP_STORE_FORM_CITY' => 'Город',
 	'PHPSHOP_STORE_FORM_STATE' => 'Регион',
 	'PHPSHOP_STORE_FORM_COUNTRY' => 'Страна',
-	'PHPSHOP_STORE_FORM_ZIP' => 'Индекс',
+	'PHPSHOP_STORE_FORM_ZIP' => 'Почтовый индекс',
 	'PHPSHOP_STORE_FORM_CURRENCY' => 'Валюта',
 	'PHPSHOP_STORE_FORM_LAST_NAME' => 'Фамилия',
 	'PHPSHOP_STORE_FORM_FIRST_NAME' => 'Имя',
@@ -69,7 +65,7 @@ $langvars = array (
 	'PHPSHOP_PAYMENT_METHOD_FORM_LIST_ORDER' => 'Порядок отображения',
 	'PHPSHOP_PAYMENT_METHOD_FORM_ENABLE_PROCESSOR' => 'Способ оплаты',
 	'PHPSHOP_PAYMENT_FORM_CC' => 'Кредитная карта',
-	'PHPSHOP_PAYMENT_FORM_USE_PP' => 'Использовать платёжный процессор',
+	'PHPSHOP_PAYMENT_FORM_USE_PP' => 'Платёжный процессор',
 	'PHPSHOP_PAYMENT_FORM_BANK_DEBIT' => 'Банковский дебет',
 	'PHPSHOP_PAYMENT_FORM_AO' => 'Доставка по адресу (оплата наличными при получении)',
 	'PHPSHOP_STATISTIC_STATISTICS' => 'Статистика',
@@ -87,13 +83,13 @@ $langvars = array (
 	'PHPSHOP_CURRENT_TRANSACTION_KEY' => 'Текущий ключ транзакции',
 	'PHPSHOP_CHANGE_PASSKEY_SUCCESS' => 'Ключ транзакций успешно изменен.',
 	'VM_PAYMENT_CLASS_NAME' => 'Класс имени платежа',
-	'VM_PAYMENT_CLASS_NAME_TIP' => 'например,  <strong>ps_netbanx</strong>):<br />
-по умолчанию: ps_payment<br />
-<em>Выберите ps_payment, если не уверены что точно требуется!</em>',
+	'VM_PAYMENT_CLASS_NAME_TIP' => 'Например,  <strong>ps_netbanx</strong>.<br />
+По умолчанию: <strong>ps_payment</strong><br />
+<em>Выберите <strong>ps_payment</strong>, если не уверены, что это точно требуется!</em>',
 	'VM_PAYMENT_EXTRAINFO' => 'Дополнительная информация по платежу',
 	'VM_PAYMENT_EXTRAINFO_TIP' => 'Показывается на странице подтверждения товара. Может быть: HTML код от Вашей платежной системы, подсказка клиенту и т.д.',
 	'VM_PAYMENT_ACCEPTED_CREDITCARDS' => 'Кредитные карточки, принимаемые в нашем магазине',
-	'VM_PAYMENT_METHOD_DISCOUNT_TIP' => 'Чтобы преобразовать скидку в доплату, используйте отрицательное число(Например: <strong>-2.00</strong>).',
+	'VM_PAYMENT_METHOD_DISCOUNT_TIP' => 'Чтобы преобразовать скидку в доплату, используйте отрицательное число (например: <strong>-2.00</strong>).',
 	'VM_PAYMENT_METHOD_DISCOUNT_MAX_AMOUNT' => 'Максимальный размер скидки',
 	'VM_PAYMENT_METHOD_DISCOUNT_MIN_AMOUNT' => 'Минимальный размер скидки',
 	'VM_PAYMENT_FORM_FORMBASED' => 'HTML-форма (например, для PayPal)',

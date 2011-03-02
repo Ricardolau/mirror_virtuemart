@@ -34,6 +34,10 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 
+01.03.2011 bob
+# Task #237 Review '_More' missing language string
+^ Task #227 Replace mosHTML with vmCommonHTML
+
 18.02.2011 zanardi
 # Task #199 Checkout shipping radio button selected is not the correct one
 

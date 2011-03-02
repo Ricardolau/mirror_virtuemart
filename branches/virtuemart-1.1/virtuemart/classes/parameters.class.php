@@ -368,9 +368,9 @@ class vmParameters {
 		;
 		$database->setQuery( $query );
 		$options = $database->loadObjectList();
-		array_unshift( $options, mosHTML::makeOption( '0', '- Select Section -', 'id', 'title' ) );
+		array_unshift( $options, vmCommonHTML::makeOption( '0', '- Select Section -', 'id', 'title' ) );
 
-		return mosHTML::selectList( $options, ''. $control_name .'['. $name .']', 'class="inputbox"', 'id', 'title', $value );
+		return vmCommonHTML::selectList( $options, ''. $control_name .'['. $name .']', 'class="inputbox"', 'id', 'title', $value );
 	}
 	/**
 	* @param string The name of the form element
@@ -406,9 +406,9 @@ class vmParameters {
 		}
 		$database->setQuery( $query );
 		$options = $database->loadObjectList();
-		array_unshift( $options, mosHTML::makeOption( '0', '- Select Category -', 'id', 'title' ) );
+		array_unshift( $options, vmCommonHTML::makeOption( '0', '- Select Category -', 'id', 'title' ) );
 
-		return mosHTML::selectList( $options, ''. $control_name .'['. $name .']', 'class="inputbox"', 'id', 'title', $value );
+		return vmCommonHTML::selectList( $options, ''. $control_name .'['. $name .']', 'class="inputbox"', 'id', 'title', $value );
 	}
 	/**
 	* @param string The name of the form element
@@ -423,11 +423,11 @@ class vmParameters {
 		$menuTypes = mosAdminMenus::menutypes();
 
 		foreach($menuTypes as $menutype ) {
-			$options[] = mosHTML::makeOption( $menutype, $menutype );
+			$options[] = vmCommonHTML::makeOption( $menutype, $menutype );
 		}
-		array_unshift( $options, mosHTML::makeOption( '', '- Select Menu -' ) );
+		array_unshift( $options, vmCommonHTML::makeOption( '', '- Select Menu -' ) );
 
-		return mosHTML::selectList( $options, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value );
+		return vmCommonHTML::selectList( $options, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value );
 	}
 	/**
 	* @param string The name of the form element
@@ -446,16 +446,16 @@ class vmParameters {
 
 		$options = array();
 		foreach ($files as $file) {
-			$options[] = mosHTML::makeOption( $file, $file );
+			$options[] = vmCommonHTML::makeOption( $file, $file );
 		}
 		if ( !$node->getAttribute( 'hide_none' ) ) {
-			array_unshift( $options, mosHTML::makeOption( '-1', '- '. 'Do Not Use' .' -' ) );
+			array_unshift( $options, vmCommonHTML::makeOption( '-1', '- '. 'Do Not Use' .' -' ) );
 		}
 		if ( !$node->getAttribute( 'hide_default' ) ) {
-			array_unshift( $options, mosHTML::makeOption( '', '- '. 'Use Default' .' -' ) );
+			array_unshift( $options, vmCommonHTML::makeOption( '', '- '. 'Use Default' .' -' ) );
 		}
 
-		return mosHTML::selectList( $options, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value, "param$name" );
+		return vmCommonHTML::selectList( $options, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value, "param$name" );
 	}
 	/**
 	* @param string The name of the form element

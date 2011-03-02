@@ -1,7 +1,7 @@
 <?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
-*
+* Reformatory by uralmas
 * @version $Id: russian.php 1071 2008-02-03 08:42:28Z alex_rus $
 * @package VirtueMart
 * @subpackage languages
@@ -14,19 +14,15 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * other free or open source software licenses.
 * See /administrator/components/com_virtuemart/COPYRIGHT.php for copyright notices and details.
 *
-* http://virtuemart.net
-* http://www.alex-rus.com
-* http://www.virtuemart.ru
-* http://www.joomlaforum.ru
+* http://virtuemart.net * http://www.alex-rus.com * http://www.virtuemart.ru * http://www.joomlaforum.ru
 */
-
 global $VM_LANG;
 $langvars = array (
 	'CHARSET' => 'utf-8',
 	'VM_HELP_YOURVERSION' => 'Ваша версия {product}',
 	'VM_HELP_ABOUT' => '<span style="font-weight: bold;">
 		VirtueMart</span> полностью законченное бесплатное программное обеспечение для системы Mambo и Joomla!. 
-		Данное программное обеспечение состоит из компонента и более 8 модулей и мамботов/плагинов.
+		Данное программное обеспечение состоит из компонента, 12 модулей и 2 плагинов.
 		В основе VirtueMart лежит скрипт магазина "phpShop" (Авторы: Edikon Corp. & сообщество <a href="http://www.virtuemart.org/" target="_blank">phpShop</a>).',
 	'VM_HELP_LICENSE_DESC' => 'VirtueMart распространяется по <a href="{licenseurl}" target="_blank">{licensename} лицензии</a>.',
 	'VM_HELP_TEAM' => 'Данное программное обеспечение разрабатывается небольшой командой разработчиков в свободное время.',

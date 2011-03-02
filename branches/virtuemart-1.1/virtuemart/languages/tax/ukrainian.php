@@ -2,7 +2,7 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
 *
-* @version $Id: russian.php 1071 2008-02-03 08:42:28Z alex_rus $
+* @version $Id: english.php 1071 2007-12-03 08:42:28Z thepisu $
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
@@ -14,17 +14,17 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * other free or open source software licenses.
 * See /administrator/components/com_virtuemart/COPYRIGHT.php for copyright notices and details.
 *
-* http://virtuemart.net * http://www.alex-rus.com * http://www.virtuemart.ru * http://www.joomlaforum.ru
+* http://virtuemart.net
 */
 global $VM_LANG;
 $langvars = array (
 	'CHARSET' => 'utf-8',
-	'PHPSHOP_TAX_LIST_LBL' => 'Список налоговых ставок',
-	'PHPSHOP_TAX_LIST_STATE' => 'Регион, где действует налог',
-	'PHPSHOP_TAX_LIST_COUNTRY' => 'Страна, где действует налог',
-	'PHPSHOP_TAX_FORM_LBL' => 'Добавить информацию о налоговой ставке',
-	'PHPSHOP_TAX_FORM_STATE' => 'Регион, где действует налог',
-	'PHPSHOP_TAX_FORM_COUNTRY' => 'Страна, где действует налог',
-	'PHPSHOP_TAX_FORM_RATE' => 'Ставка налога (если 18% => вводим 0.18)'
+	'PHPSHOP_TAX_LIST_LBL' => 'Список податкових ставок',
+	'PHPSHOP_TAX_LIST_STATE' => 'Регіон, де діє податок',
+	'PHPSHOP_TAX_LIST_COUNTRY' => 'Країна, де діє податок',
+	'PHPSHOP_TAX_FORM_LBL' => 'Додати інформацію про податкову ставку',
+	'PHPSHOP_TAX_FORM_STATE' => 'Регіон, де діє податок',
+	'PHPSHOP_TAX_FORM_COUNTRY' => 'Країна, де діє податок',
+	'PHPSHOP_TAX_FORM_RATE' => 'Ставка податку (якщо 16% => вводимо 0.16)'
 ); $VM_LANG->initModule( 'tax', $langvars );
 ?>

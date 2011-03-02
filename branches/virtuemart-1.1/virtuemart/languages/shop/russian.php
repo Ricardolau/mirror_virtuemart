@@ -1,7 +1,7 @@
 <?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' ); 
 /**
-*
+* Reformatory by xCoReLx * Reformatory by uralmas
 * @package VirtueMart
 * @subpackage languages
 * @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
@@ -18,7 +18,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 global $VM_LANG;
 $langvars = array (
 	'CHARSET' => 'utf-8',
-	'PHPSHOP_BROWSE_LBL' => 'Просмотр',
+	'PHPSHOP_BROWSE_LBL' => 'Список всех товаров',
 	'PHPSHOP_FLYPAGE_LBL' => 'Подробнее',
 	'PHPSHOP_PRODUCT_FORM_EDIT_PRODUCT' => 'Редактировать товар',
 	'PHPSHOP_DOWNLOADS_START' => 'Скачать',
@@ -38,9 +38,10 @@ $langvars = array (
 	'PHPSHOP_SEARCH_TEXT1' => 'Первый выпадающий список позволяет Вам выбрать категорию для ограничения результатов поиска. 
         Второй выпадающий список позволяет Вам искать товар по свойствам, например, только по наименованию. 
         Выбрав параметры поиска, введите слово, которое Вы ищите. ',
-	'PHPSHOP_SEARCH_TEXT2' => ' Вы можете заново осуществить поиск путем добавления второго слова и выбора оператора И или НЕ. 
-        При выборе оператора И, в результаты включатся слова, в которых присутствуют все заданные слова. 
-        При выборе НЕ, в результаты включатся слова, в которых присутствует первое слово и отсутствует второе.',
+	'PHPSHOP_SEARCH_TEXT2' => 'Вы можете осуществить поиск путем добавления второго слова и выбора оператора И или НЕ. 
+        При выборе оператора И в результаты включатся слова, в которых присутствуютв все слова из обоих полей. 
+        При выборе НЕ, в результаты включатся слова, 
+	в которых присутствуют слова из первого поля и отсутствуют из второго.',
 	'PHPSHOP_CONTINUE_SHOPPING' => 'Продолжить покупки',
 	'PHPSHOP_AVAILABLE_IMAGES' => 'Доступные изображения для',
 	'PHPSHOP_BACK_TO_DETAILS' => 'Назад к описанию товара',
@@ -74,7 +75,7 @@ $langvars = array (
 	'VM_RECOVER_CART_MERGE' => 'Добавить содержимое сохраненной корзины к содержимому текущей корзины',
 	'VM_RECOVER_CART_DELETE' => 'Удалить содержимое сохраненной корзины',
 	'VM_EMPTY_YOUR_CART_TIP' => 'Очистить корзину от всего содержимого',
-	'VM_SAVED_CART_TITLE' => 'Saved Cart',
-	'VM_SAVED_CART_RETURN' => 'Return'
+	'VM_SAVED_CART_TITLE' => 'Сохранить корзину',
+	'VM_SAVED_CART_RETURN' => 'Вернуть'
 ); $VM_LANG->initModule( 'shop', $langvars );
 ?>

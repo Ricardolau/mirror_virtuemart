@@ -11,6 +11,7 @@
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General licence
 * @PLZ ADD YOUR SQL
+* $id$
  */
 class VMInstaller extends JObject {
 	
@@ -59,6 +60,9 @@ class VMInstaller extends JObject {
 	
 	public function install() {
 
+	if (!$this->executeSQL('install')) {
+		return;
+	}
 	/* Plugin to move*/
 	
 	$plugins ="plugins";
@@ -76,6 +80,11 @@ class VMInstaller extends JObject {
 
 	
 	public function uninstall() {
+
+	if (!$this->executeSQL('uninstall')) {
+		return;
+	}
+
 	/*  uninstall Plugin here */
 	
 	$plugins ="plugins";
@@ -203,5 +212,42 @@ class VMInstaller extends JObject {
          return true; // empty dir
     }
     else return false; // not a dir
-}
+	}
+
+	/**
+	 * Select the proper SQL file for (un)install based on the actual Joomla version,
+	 * and execute the SQL code.
+	 * @param string 'install' of 'uninstall'
+	 * @return boolean, true on success, false otherwise
+	 * @author Oscar van Eijk
+	 */
+	private function executeSQL($_sqlf)
+	{
+		jimport('joomla.installer.helper');
+		$_db = JFactory::getDBO();
+
+		if (strpos(JVERSION,'1.6') === 0) {
+			$_sqlf .= '.1.6';
+		}
+		$_sqlf = ('components'.DS.'com_vm_all-in-one'.DS.$_sqlf.'.sql');
+		
+		if ( !file_exists($_sqlf) ) {
+			JError::raiseWarning(500, 'SQL file ' . $_sqlf . ' not found');
+			return false;
+		}
+		$_qr = JInstallerHelper::splitSql(file_get_contents($_sqlf));
+
+		foreach ($_qr as $_q) {
+			$_q = trim($_q);
+			if ($_q != '' && $_q{0} != '#') {
+				$_db->setQuery($_q);
+				if (!$_db->query()) {
+					JError::raiseWarning(500, 'JInstaller::install: '.JText::_('SQL Error')." ".$_db->stderr(true));
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 }

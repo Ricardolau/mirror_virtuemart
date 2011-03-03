@@ -488,7 +488,7 @@ class vm_ps_checkout {
 			}
 
 			if (!$is_test) {
-				$payment_number = ereg_replace(" |-", "", $_SESSION['ccdata']['order_payment_number']);
+				$payment_number = preg_replace("/ |-/", "", $_SESSION['ccdata']['order_payment_number']);
 				if ($payment_number == "4111111111111111") {
 					$vmLogger->warning( $VM_LANG->_('PHPSHOP_CHECKOUT_ERR_TEST',false) );
 					return False;

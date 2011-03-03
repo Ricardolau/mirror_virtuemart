@@ -988,8 +988,7 @@ class vm_ps_product_attribute {
 			
 			$pagevar = str_replace( " ", "_", $a ) ;
 			$pagevar .= $d['prod_id'] ;
-			
-			$pagevar = $encodefunc( $pagevar ) ;
+			$pagevar = addslashes( $encodefunc( $pagevar ) );
 			
 			if ( @$d[$pagevar] != '') {
 				$attribute_given = true ;

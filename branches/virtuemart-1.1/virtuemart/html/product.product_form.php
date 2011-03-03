@@ -414,7 +414,7 @@ $tabs->startTab( $display_label, "display-page");
       
        <?php 
        echo "<input type=\"checkbox\" style=\"vertical-align: middle;\" class=\"checkbox\" id=\"display_desc\" name=\"display_desc\" value=\"Y\" ";
-       if ($display_desc) {
+       if ($display_desc == "Y") {
        	echo 'checked="checked" ';
        }
     echo '/> <label for="display_desc">'.$VM_LANG->_('VM_DISPLAY_CHILD_DESCRIPTION').'</label><br />

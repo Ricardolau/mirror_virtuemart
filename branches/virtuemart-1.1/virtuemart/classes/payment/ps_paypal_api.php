@@ -342,9 +342,17 @@ class ps_paypal_api {
 		
 		require_once(dirname(__FILE__).'/paypal_api/CallerService.php');
 		
-		$token = $_SESSION['ppex_token'];
+		$token = "";
+		if ( isset( $_SESSION['ppex_token'] ) ) {
+			$token = $_SESSION['ppex_token'];
+		}
+
 		$currencyCodeType 	= urlencode($GLOBALS['product_currency']);
-		$payerID 			= urlencode($_SESSION['ppex_userdata']['payer_id']);
+		
+		$payerID = "";
+		if ( isset( $_SESSION['ppex_userdata'] ) ) {
+			$payerID = urlencode($_SESSION['ppex_userdata']['payer_id']);
+		}
 
 		$IP 		= urlencode($_SERVER['REMOTE_ADDR']);
 		

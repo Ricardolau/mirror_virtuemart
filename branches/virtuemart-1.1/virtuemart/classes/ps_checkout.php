@@ -10,7 +10,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
+* other free or open source software licenses.http://goo.gl/INjCq
 * See /administrator/components/com_virtuemart/COPYRIGHT.php for copyright notices and details.
 *
 * http://virtuemart.net
@@ -1904,9 +1904,6 @@ Order Total: '.$order_total.'
 	  		$payment_info_details .= '<br />'.$VM_LANG->_('PHPSHOP_CHECKOUT_CONF_PAYINFO_NAMECARD',false).': '.$_SESSION['ccdata']['order_payment_name'].'<br />';
 	  		$payment_info_details .= $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_PAYINFO_CCNUM',false).': '.$this->asterisk_pad($_SESSION['ccdata']['order_payment_number'], 4 ).'<br />';
 	  		$payment_info_details .= $VM_LANG->_('PHPSHOP_CHECKOUT_CONF_PAYINFO_EXDATE',false).': '.$_SESSION['ccdata']['order_payment_expire_month'].' / '.$_SESSION['ccdata']['order_payment_expire_year'].'<br />';
-	  		if( !empty($_SESSION['ccdata']['credit_card_code'])) {
-	  			$payment_info_details .= 'CVV code: '.$_SESSION['ccdata']['credit_card_code'].'<br />';
-	  		}
 		}
 		// Convert HTML into Text
 		$payment_info_details_text = str_replace( '<br />', "\n", $payment_info_details );

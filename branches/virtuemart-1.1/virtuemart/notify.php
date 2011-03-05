@@ -104,7 +104,9 @@ if ($_POST) {
         include_once( ADMINPATH.'/compat.joomla1.5.php' );
         require_once( ADMINPATH. 'global.php' );
         require_once( CLASSPATH. 'ps_main.php' );
-        
+		require_once( CLASSPATH. 'phpInputFilter/class.inputfilter.php' );
+		$vmInputFilter = new vmInputFilter;
+       
         /* @MWM1: Logging enhancements (file logging & composite logger). */
         $vmLogIdentifier = "notify.php";
         require_once(CLASSPATH."Log/LogInit.php");
@@ -147,7 +149,7 @@ if ($_POST) {
             // Fix issue with magic quotes
             $ipnval = stripslashes ($ipnval);
             
-        if (!eregi("^[_0-9a-z-]{1,30}$",$ipnkey)  || !strcasecmp ($ipnkey, 'cmd'))  { 
+        if (!preg_match("/^[_0-9a-z-]{1,30}$/",$ipnkey)  || !strcasecmp ($ipnkey, 'cmd'))  { 
             // ^ Antidote to potential variable injection and poisoning
             unset ($ipnkey); 
             unset ($ipnval); 
@@ -180,7 +182,7 @@ if ($_POST) {
     $payment_date = trim(stripslashes($_POST['payment_date']));
     
     // The Order Number (not order_id !)
-    $invoice =  trim(stripslashes($_POST['invoice']));
+    $invoice = $vmInputFilter->safeSQL( trim(stripslashes($_POST['invoice'])));
     
     $amount =  trim(stripslashes(@$_POST['amount']));
     
@@ -215,6 +217,7 @@ if ($_POST) {
     */
     if( PAYPAL_DEBUG != "1" ) {
     	// Get the list of IP addresses for www.paypal.com and notify.paypal.com
+    	$paypal_iplist = array();
         $paypal_iplist = gethostbynamel('www.paypal.com');
 		$paypal_iplist2 = gethostbynamel('notify.paypal.com');
         $paypal_iplist3 = array( '216.113.188.202' , '216.113.188.203' , '216.113.188.204' , '66.211.170.66' ); 
@@ -382,12 +385,12 @@ if ($_POST) {
       // ...read the results of the verification...
       // If VERIFIED = continue to process the TX...
       //-------------------------------------------
-        if (eregi ( "VERIFIED", $res) || @PAYPAL_VERIFIED_ONLY == '0' ) {
+        if (preg_match ( "/VERIFIED/", $res) || @PAYPAL_VERIFIED_ONLY == '0' ) {
             //----------------------------------------------------------------------
             // If the payment_status is Completed... Get the password for the product
             // from the DB and email it to the customer.
             //----------------------------------------------------------------------
-            if (eregi ("Completed", $payment_status) || eregi ("Pending", $payment_status)) {
+            if (preg_match ("/Completed/", $payment_status) || preg_match ("/Pending/", $payment_status)) {
                  
                 if (empty($order_id)) {
                     $mailsubject = "PayPal IPN Transaction on your site: Order ID not found";

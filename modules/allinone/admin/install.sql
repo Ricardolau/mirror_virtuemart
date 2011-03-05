@@ -41,5 +41,9 @@ INSERT INTO `#__modules` (`title`, `content`, `ordering`, `position`, `published
 VALUES ( 'Search in Shop', '', 4, 'left', 1, 'mod_virtuemart_search', 0, 0, 1, 'width=20\ntext=\nbutton=\nbutton_pos=right\nimagebutton=\nbutton_text=\nmoduleclass_sfx=\ncache=1\ncache_time=900\n\n', 0, 0, '');
 INSERT INTO `#__modules_menu` (`moduleid`, `menuid`) VALUES( LAST_INSERT_ID() , '0');
 
+INSERT INTO `#__modules` (`title`, `content`, `ordering`, `position`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`, `control`) 
+VALUES ( 'Manufacturer', '', 4, 'left', 1, 'mod_virtuemart_manufacturers', 0, 0, 1, 'show=all\ndisplay_style=div\nmanufacturers_per_row=\nheaderText=\nfooterText=\ncache=0\nmoduleclass_sfx=\nclass_sfx=', 0, 0, '');
+INSERT INTO `#__modules_menu` (`moduleid`, `menuid`) VALUES( LAST_INSERT_ID() , '0');
+
 
 

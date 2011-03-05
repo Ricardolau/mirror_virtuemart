@@ -24,9 +24,11 @@ OR (`element` = 'virtuemart' AND `folder` = 'search');
 DELETE FROM `#__modules_menu` where `moduleid` IN (SELECT `id` FROM `#__modules` where `module` = 'mod_virtuemart_currencies');
 DELETE FROM `#__modules_menu` where `moduleid` IN (SELECT `id` FROM `#__modules` where `module` = 'mod_virtuemart_search');
 DELETE FROM `#__modules_menu` where `moduleid` IN (SELECT `id` FROM `#__modules` where `module` = 'mod_virtuemart_product');
+DELETE FROM `#__modules_menu` where `moduleid` IN (SELECT `id` FROM `#__modules` where `module` = 'mod_virtuemart_manufacturers');
 
 DELETE FROM `#__modules` 
 WHERE ( `module` = 'mod_virtuemart_currencies') 
 OR ( `module` = 'mod_virtuemart_search') 
-OR ( `module` = 'mod_virtuemart_product');
+OR ( `module` = 'mod_virtuemart_product') 
+OR ( `module` = 'mod_virtuemart_manufacturers');
 

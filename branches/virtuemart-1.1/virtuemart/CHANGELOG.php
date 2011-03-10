@@ -34,6 +34,9 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 
+10.03.2011 soeren
+# fixed a problem with the advanced search not returning results
+
 01.03.2011 bob
 # Task #237 Review '_More' missing language string
 ^ Task #227 Replace mosHTML with vmCommonHTML

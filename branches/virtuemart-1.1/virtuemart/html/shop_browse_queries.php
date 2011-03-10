@@ -7,7 +7,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage html
-* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2011 VirtueMart Team - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -137,6 +137,7 @@ elseif( !empty($keyword1Arr) ) {
 	$sq .= ") ";
 	// KEYWORD 2 TO REFINE THE SEARCH
 	if ( !empty($keyword2Arr) ) {
+		$search_op= strtoupper(vmGet( $_REQUEST, 'search_op', 'AND' )) == 'AND' ? 'AND' : 'AND NOT';
 		$sq .= "\n $search_op (";
 		$numKeywords = count( $keyword2Arr );
 		$i = 1;

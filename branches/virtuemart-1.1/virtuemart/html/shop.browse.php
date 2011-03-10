@@ -6,7 +6,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage html
-* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2011 VirtueMart Team - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -34,7 +34,6 @@ $Itemid = $sess->getShopItemid();
 $keyword1 = $vmInputFilter->safeSQL( urldecode(vmGet( $_REQUEST, 'keyword1', null )));
 $keyword2 = $vmInputFilter->safeSQL( urldecode(vmGet( $_REQUEST, 'keyword2', null )));
 
-$search_op= $vmInputFilter->safeSQL( vmGet( $_REQUEST, 'search_op', null ));
 $search_limiter= $vmInputFilter->safeSQL( vmGet( $_REQUEST, 'search_limiter', null ));
 
 if (empty($category_id)) $category_id = $search_category;

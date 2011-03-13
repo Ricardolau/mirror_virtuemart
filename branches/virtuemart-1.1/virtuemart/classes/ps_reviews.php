@@ -278,7 +278,13 @@ class vm_ps_reviews {
 				$userid = vmRequest::getInt('userid', $auth['user_id']);
 			}
 			if ($commented==false) {
-				$comment= nl2br(htmlspecialchars(vmGet($d, 'comment' )));
+				
+				$comment = nl2br(htmlspecialchars(vmGet($d, 'comment' )));
+				// zanardi 2011-03-12
+				// I know this str_replace seems a duplicate function, but for some reason on a review 
+				// submitted by a non-administrative user nl2br fails to convert newline to <br>
+				// If you think you have a better solution you are welcome to do that, but please test it
+				$comment = str_replace('\r\n', '<br />', $comment );
 				$published = VM_REVIEWS_AUTOPUBLISH ? 'Y' : 'N';
 				$time = time() + $mosConfig_offset*60*60;
 				$fields = array('product_id' => $d['product_id'], 

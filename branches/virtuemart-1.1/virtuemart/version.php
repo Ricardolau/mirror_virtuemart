@@ -30,15 +30,15 @@ class vmVersion {
 	/** @var string Product */
 	var $PRODUCT = 'VirtueMart';
 	/** @var int Release Number */
-	var $RELEASE = '1.1.7';
+	var $RELEASE = '1.1.8';
 	/** @var string Development Status */
-	var $DEV_STATUS = 'stable';
+	var $DEV_STATUS = 'beta';
 	/** @var string Codename */
-	var $CODENAME = 'In a hurry';
+	var $CODENAME = 'Little brother';
 	/** @var string Date */
-	var $RELDATE = '04/02/2011';
+	var $RELDATE = '05/03/2011';
 	/** @var string Time */
-	var $RELTIME = '09:37';
+	var $RELTIME = '12:22';
 	/** @var string Timezone */
 	var $RELTZ = 'GMT';
 	/** @var string Revision */

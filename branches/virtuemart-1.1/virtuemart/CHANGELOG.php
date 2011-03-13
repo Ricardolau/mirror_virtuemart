@@ -34,6 +34,12 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 
+12.03.2011 zanardi
+# Bug #281 Quotes in attributes
+# Bug #239 "Deprecated" and "Notice" errors in PayPal API
+# Bug #233 Customer Reviews breaks on 150 character and has no line break
+# Bug #232 Display Child Description ALWAYS checked
+
 10.03.2011 soeren
 # fixed a problem with the advanced search not returning results
 

@@ -1,6 +1,6 @@
 #############################################
 # SQL update script for upgrading 
-# from VirtueMart Version <= 1.1.5 to VirtueMart 1.1.6
+# from VirtueMart Version <= 1.1.6 to VirtueMart 1.1.7
 #
 #############################################
 

@@ -2,10 +2,10 @@
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 /**
 *
-* @version $Id:sql.virtuemart.php 431 2006-10-17 21:55:46 +0200 (Di, 17 Okt 2006) soeren_nb $
+* @version $Id:sql.virtuemart.php 2011-03-13 13:09:00Z zanardi $
 * @package VirtueMart
 * @subpackage core
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2011 The VirtueMart Team - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -1862,6 +1862,7 @@ $db->query( "INSERT INTO `#__{vm}_state` VALUES (1, 223, 'Alabama', 'ALA', 'AL')
 (NULL, 105, 'Asti', 'AST', 'AT'),
 (NULL, 105, 'Avellino', 'AVE', 'AV'),
 (NULL, 105, 'Bari', 'BAR', 'BA'),
+(NULL, 105, 'Barletta Andria Trani', 'BTA', 'BT'),
 (NULL, 105, 'Belluno', 'BEL', 'BL'),
 (NULL, 105, 'Benevento', 'BEN', 'BN'),
 (NULL, 105, 'Bergamo', 'BEG', 'BG'),
@@ -1884,6 +1885,7 @@ $db->query( "INSERT INTO `#__{vm}_state` VALUES (1, 223, 'Alabama', 'ALA', 'AL')
 (NULL, 105, 'Crotone', 'CRO', 'KR'),
 (NULL, 105, 'Cuneo', 'CUN', 'CN'),
 (NULL, 105, 'Enna', 'ENN', 'EN'),
+(NULL, 105, 'Fermo', 'FMO', 'FM'),
 (NULL, 105, 'Ferrara', 'FER', 'FE'),
 (NULL, 105, 'Firenze', 'FIR', 'FI'),
 (NULL, 105, 'Foggia', 'FOG', 'FG'),
@@ -1910,6 +1912,7 @@ $db->query( "INSERT INTO `#__{vm}_state` VALUES (1, 223, 'Alabama', 'ALA', 'AL')
 (NULL, 105, 'Messina', 'MES', 'ME'),
 (NULL, 105, 'Milano', 'MIL', 'MI'),
 (NULL, 105, 'Modena', 'MOD', 'MO'),
+(NULL, 105, 'Monza e della Brianza', 'MBA', 'MB'),
 (NULL, 105, 'Napoli', 'NAP', 'NA'),
 (NULL, 105, 'Novara', 'NOV', 'NO'),
 (NULL, 105, 'Nuoro', 'NUR', 'NU'),
@@ -2087,7 +2090,7 @@ $db->query( "INSERT INTO `#__{vm}_state` VALUES (1, 223, 'Alabama', 'ALA', 'AL')
 (NULL, 101, 'Sistan va Baluchestan', 'SBA', 'SB'),
 (NULL, 101, 'Tehran', 'TEH', 'TE'),
 (NULL, 101, 'Yazd', 'YAZ', 'YA'),
-(NULL, 101, 'Zanjan', 'ZAN', 'ZA'); " );
+(NULL, 101, 'Zanjan', 'ZAN', 'ZA');" );
 
 ## --------------------------------------------------------
 

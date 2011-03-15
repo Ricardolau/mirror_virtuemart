@@ -1905,6 +1905,7 @@ class vm_ps_product extends vmAbstractObject {
 				// Get the key name (e.g. "Color" )
 				$this_key = substr( $temp_desc, 0, strpos($temp_desc, ":") );
 				$this_value = substr( $temp_desc, strpos($temp_desc, ":")+1 );
+				$this_value = addslashes( $this_value ); // since advanced attribute values are saved quote-escaped in db, we should give a similar string
 				
 				if( in_array( $this_key, $custom_attribute_fields )) {
 					if( @$custom_attribute_fields_check[$this_key] == md5( $mosConfig_secret.$this_key )) {
@@ -2137,7 +2138,7 @@ class vm_ps_product extends vmAbstractObject {
 		return $description;
 	}
 
-	function calcEndUserprice( $product_id, $overrideShoppergroup ) {
+	/* function calcEndUserprice( $product_id, $overrideShoppergroup ) {
 		global $VM_LANG, $CURRENCY_DISPLAY;
 		$auth = $_SESSION['auth'];
 		// Get the DISCOUNT AMOUNT
@@ -2177,7 +2178,7 @@ class vm_ps_product extends vmAbstractObject {
 			$price_info['product_price'] = $base_price;
 		}
 		return $price_info;
-	}
+	} */
 
 	/**
          * Function to calculate the price, apply discounts from the discount table

@@ -34,8 +34,13 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 
-12.03.2011 zanardi
+--- VirtueMart 1.1.8 released (Rev. 2861 2011-03-19) ---
+
+15.03.2011 zanardi
+# Bug #307 Security issue in notify.php
 # Bug #281 Quotes in attributes
+
+12.03.2011 zanardi
 # Bug #239 "Deprecated" and "Notice" errors in PayPal API
 # Bug #233 Customer Reviews breaks on 150 character and has no line break
 # Bug #232 Display Child Description ALWAYS checked

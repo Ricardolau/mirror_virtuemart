@@ -55,7 +55,7 @@ class VMInstaller extends JObject {
 		"mod_virtuemart_product.php",
 		"helper.php",
 		"index.html");
-    }
+
 	$this->_mod_virtuemart_manufacturers = array(
 		"tmpl".DS."default.php",
 		"tmpl".DS."index.html",
@@ -63,7 +63,7 @@ class VMInstaller extends JObject {
 		"mod_virtuemart_manufacturers.php",
 		"helper.php",
 		"index.html");
-    }
+	}
 	
 	
 	public function install() {

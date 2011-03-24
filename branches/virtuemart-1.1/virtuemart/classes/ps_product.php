@@ -2138,7 +2138,7 @@ class vm_ps_product extends vmAbstractObject {
 		return $description;
 	}
 
-	/* function calcEndUserprice( $product_id, $overrideShoppergroup ) {
+	function calcEndUserprice( $product_id, $overrideShoppergroup ) {
 		global $VM_LANG, $CURRENCY_DISPLAY;
 		$auth = $_SESSION['auth'];
 		// Get the DISCOUNT AMOUNT
@@ -2178,7 +2178,7 @@ class vm_ps_product extends vmAbstractObject {
 			$price_info['product_price'] = $base_price;
 		}
 		return $price_info;
-	} */
+	}
 
 	/**
          * Function to calculate the price, apply discounts from the discount table

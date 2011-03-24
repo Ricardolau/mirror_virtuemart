@@ -32,7 +32,7 @@ class vmVersion {
 	/** @var int Release Number */
 	var $RELEASE = '1.1.8';
 	/** @var string Development Status */
-	var $DEV_STATUS = 'beta';
+	var $DEV_STATUS = 'stable';
 	/** @var string Codename */
 	var $CODENAME = 'Little brother';
 	/** @var string Date */

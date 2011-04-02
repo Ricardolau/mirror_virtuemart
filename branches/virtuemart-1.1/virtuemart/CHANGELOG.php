@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage core
-* @copyright Copyright (C) 2004-2010 VirtueMart Development Team - All rights reserved.
+* @copyright Copyright (C) 2004-2011 VirtueMart Development Team - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -33,6 +33,14 @@ Legend:
 
 VirtueMart 1.1.x
 *************************************
+
+02.04.2011 zanardi + poy
+# Bug #350 Security issue in notify.php
+# Bug #346 Version is 1.1.8 stable but extension manager is reported 1.1.7
+# Bug #328 CVV still listed on PayPal order list
+# Bug #323 Customer numbers not created in administration, when customer is created by site administrator
+# Bug #312 No search results in user list when not searching from page one
+# Bug #309 PayPal valid IP list is empty
 
 --- VirtueMart 1.1.8 released (Rev. 2861 2011-03-19) ---
 

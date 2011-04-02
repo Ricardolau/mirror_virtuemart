@@ -197,6 +197,13 @@ class vm_ps_user {
 		$q .= "('" . $uid . "','$vendor_id') ";
 		$db->query($q);
 
+		// Update 02042011
+		// If Customer number is not defined
+		if(trim($d['customer_number']) == ''){
+			$d['customer_number'] = uniqid(rand());
+		}
+		// Enc Update 02042011
+		
 		// Insert Shopper -ShopperGroup - Relationship
 		$q  = "INSERT INTO #__{vm}_shopper_vendor_xref ";
 		$q .= "(user_id,vendor_id,shopper_group_id,customer_number) ";

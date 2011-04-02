@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage core
-* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2011 VirtueMart Development Team - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -30,15 +30,15 @@ class vmVersion {
 	/** @var string Product */
 	var $PRODUCT = 'VirtueMart';
 	/** @var int Release Number */
-	var $RELEASE = '1.1.8';
+	var $RELEASE = '1.1.9';
 	/** @var string Development Status */
-	var $DEV_STATUS = 'stable';
+	var $DEV_STATUS = 'beta';
 	/** @var string Codename */
-	var $CODENAME = 'Little brother';
+	var $CODENAME = 'Our last album';
 	/** @var string Date */
-	var $RELDATE = '19/03/2011';
+	var $RELDATE = '02/04/2011';
 	/** @var string Time */
-	var $RELTIME = '12:11';
+	var $RELTIME = '08:27';
 	/** @var string Timezone */
 	var $RELTZ = 'GMT';
 	/** @var string Revision */

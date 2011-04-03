@@ -34,6 +34,9 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 
+03.04.2011 aravot
+# Bug #326 No download email is send for free download-able product
+
 02.04.2011 zanardi + poy
 # Bug #350 Security issue in notify.php
 # Bug #346 Version is 1.1.8 stable but extension manager is reported 1.1.7

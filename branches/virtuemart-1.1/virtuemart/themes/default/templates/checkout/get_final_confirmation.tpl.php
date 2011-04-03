@@ -22,7 +22,7 @@ echo $basket_html;
 echo '<br />';
 
 $varname = 'PHPSHOP_CHECKOUT_MSG_' . CHECK_OUT_GET_FINAL_CONFIRMATION;
-echo '<h5>'. $VM_LANG->_($varname) . '</h5>';
+echo '<h4>'. $VM_LANG->_($varname) . '</h4>'; //h5 tag changed to h4 tag by JK
 $db = new ps_DB();
 
 echo '<table>';
@@ -78,13 +78,15 @@ if(!ps_checkout::noShippingMethodNecessary()) {
 unset( $row );
 if( !isset($order_total) || $order_total > 0.00 ) {
 	$payment_method_id = vmRequest::getInt( 'payment_method_id' );
+	if ($payment_method_id) { // added by JK to disable showing of payment method when there is no payment method.
 	
-	$db->query("SELECT payment_method_id, payment_method_name FROM #__{vm}_payment_method WHERE payment_method_id='$payment_method_id'");
-	$db->next_record();
-	echo '<tr><td valign="top"><strong>'.$VM_LANG->_('PHPSHOP_ORDER_PRINT_PAYMENT_LBL') . ":</strong></td>";
-	echo '<td>';
-	echo $db->f("payment_method_name");
-	echo "</td></tr>";
+		$db->query("SELECT payment_method_id, payment_method_name FROM #__{vm}_payment_method WHERE payment_method_id='$payment_method_id'");
+		$db->next_record();
+		echo '<tr><td valign="top"><strong>'.$VM_LANG->_('PHPSHOP_ORDER_PRINT_PAYMENT_LBL') . ":</strong></td>";
+		echo '<td>';
+		echo $db->f("payment_method_name");
+		echo "</td></tr>";
+	} // closing payment method check by JK
 }
 echo '</table>';
 ?>

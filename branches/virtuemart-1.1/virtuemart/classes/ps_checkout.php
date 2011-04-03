@@ -790,7 +790,7 @@ class vm_ps_checkout {
 	 * @param int $payment_method_id
 	 */
 	function list_payment_methods( $payment_method_id=0 ) {
-		
+
 		global $order_total, $sess, $VM_CHECKOUT_MODULES;
 		$ps_vendor_id = $_SESSION['ps_vendor_id'];
 		$auth = $_SESSION['auth'];
@@ -803,7 +803,7 @@ class vm_ps_checkout {
 		require_once( CLASSPATH. 'ps_creditcard.php' );
 	    $ps_creditcard = new ps_creditcard();
 	    $count = 0;
-	    
+
 		// Do we have Credit Card Payments?
 		$exclude_ppapi = '';
    		if ( PAYPAL_API_DIRECT_PAYMENT_ON == 0 ) {
@@ -824,7 +824,8 @@ class vm_ps_checkout {
 			$first_payment_method_id = $db_cc->f("payment_method_id");
 			$count += $db_cc->num_rows();
 		    $cc_payments=true;
-		} else {
+		}
+		else {
 		    $cc_payments=false;
 		}
 		
@@ -863,7 +864,7 @@ class vm_ps_checkout {
 		} else {
 		    $pp_payment=false;
 		}
-		
+
         // Redirect to the last step when there's only one payment method
 		if( $VM_CHECKOUT_MODULES['CHECK_OUT_GET_PAYMENT_METHOD']['order'] != $VM_CHECKOUT_MODULES['CHECK_OUT_GET_FINAL_CONFIRMATION']['order'] ) {
 			if ($count <= 1 && $cc_payments==false && $pp_payment==false) {
@@ -1210,7 +1211,7 @@ Order Total: '.$order_total.'
 		// Only completed payments return true!
 		$update_order = false;
 		if (isset($_PAYMENT)) {
-		    if( $enable_processor == "Y" || stristr($_PAYMENT->payment_code, '_API' ) !== false ) {
+		  if( $enable_processor == "Y" || stristr($_PAYMENT->payment_code, '_API' ) !== false ) {
 				if( $d['new_order_status'] != 'P' ) {
 					$d['order_status'] = $d['new_order_status'];
 					$update_order = true;
@@ -1218,11 +1219,11 @@ Order Total: '.$order_total.'
 					$d['order_status'] = constant($_PAYMENT->payment_code.'_VERIFIED_STATUS');
 					$update_order = true;
 				}
-			} elseif( $order_total == 0.00 ) {
-				// If the Order Total is zero, we can confirm the order to automatically enable the download
-				$d['order_status'] = ENABLE_DOWNLOAD_STATUS;
-				$update_order = true;
 			}
+		} elseif( $order_total == 0.00 ) { // code moved out of $_PAYMENT check as no payment will be needed when $order_total=0.0
+			// If the Order Total is zero, we can confirm the order to automatically enable the download
+			$d['order_status'] = ENABLE_DOWNLOAD_STATUS;
+			$update_order = true;
 		}
 		if ( $update_order ) {
 			require_once(CLASSPATH."ps_order.php");

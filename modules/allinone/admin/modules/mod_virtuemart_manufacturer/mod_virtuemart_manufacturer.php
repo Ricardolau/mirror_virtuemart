@@ -29,7 +29,8 @@ $headerText = 		$params->get( 'headerText', '' ); // Display a Header Text
 $footerText = 		$params->get( 'footerText', ''); // Display a footerText
 $show = 			$params->get( 'show', 'all'); // Display a footerText
 $manufacturers = $model->getManufacturers(true, true);
+$model->addImagesToManufacturer($manufacturers);
 if(empty($manufacturers)) return false;
 /* load the template */
-require(JModuleHelper::getLayoutPath('mod_virtuemart_manufacturers'));
+require(JModuleHelper::getLayoutPath('mod_virtuemart_manufacturer'));
 ?>

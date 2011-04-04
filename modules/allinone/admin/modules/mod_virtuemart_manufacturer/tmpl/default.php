@@ -11,16 +11,16 @@ if ($display_style =="div") { ?>
 	<div class="vmmanufacturer<?php echo $params->get('moduleclass_sfx'); ?>">
 	<?php foreach ($manufacturers as $manufacturer) {
 		$link = JROUTE::_('index.php?option=com_virtuemart&view=manufacturer&&manufacturer_id=' . $manufacturer->manufacturer_id);
-		$manufacturerImage = VmImage::getImageByMf($manufacturer);
+		
 		?>
 		<div style="float:left;">
 			<a href="<?php echo $link; ?>">
 		<?php
-		if ($manufacturerImage && ($show == 'image' or $show == 'all' )) { ?>
-			<?php echo $manufacturerImage->displayImage('','',1,1);?>
+		if ($manufacturer->images && ($show == 'image' or $show == 'all' )) { ?>
+			<?php echo $manufacturer->images[0]->displayMediaThumb();?>
 		<?php
 		}
-		if ($manufacturerImage && ($show == 'text' or $show == 'all' )) { ?>
+		if ($show == 'text' or $show == 'all' ) { ?>
 		 <div><?php echo $manufacturer->mf_name; ?></div>
 		<?php 
 		} ?>
@@ -45,15 +45,14 @@ if ($display_style =="div") { ?>
 <?php
 foreach ($manufacturers as $manufacturer) { 
 	$link = JROUTE::_('index.php?option=com_virtuemart&view=manufacturer&&manufacturer_id=' . $manufacturer->manufacturer_id);
-	$manufacturerImage = VmImage::getImageByMf($manufacturer);
 	?>
 	<li><a href="<?php echo $link; ?>">
 		<?php
-		if ($manufacturerImage && ($show == 'image' or $show == 'all' )) { ?>
-			<?php echo $manufacturerImage->displayImage('','',1,1);?>
+		if ($manufacturer->images && ($show == 'image' or $show == 'all' )) { ?>
+			<?php echo $manufacturer->images[0]->displayMediaThumb();?>
 		<?php
 		}
-		if ($manufacturerImage && ($show == 'text' or $show == 'all' )) { ?>
+		if ($show == 'text' or $show == 'all' ) { ?>
 		 <div><?php echo $manufacturer->mf_name; ?></div>
 		<?php 
 		}

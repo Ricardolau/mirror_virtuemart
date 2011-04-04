@@ -56,14 +56,23 @@ class VMInstaller extends JObject {
 		"helper.php",
 		"index.html");
 
-	$this->_mod_virtuemart_manufacturers = array(
+
+	$this->mod_virtuemart_cart = array(
 		"tmpl".DS."default.php",
 		"tmpl".DS."index.html",
-		"mod_virtuemart_manufacturers.xml",
-		"mod_virtuemart_manufacturers.php",
+		"mod_virtuemart_cart.xml",
+		"mod_virtuemart_cart.php",
 		"helper.php",
 		"index.html");
-	}
+
+	$this->_mod_virtuemart_manufacturer = array(
+		"tmpl".DS."default.php",
+		"tmpl".DS."index.html",
+		"mod_virtuemart_manufacturer.xml",
+		"mod_virtuemart_manufacturer.php",
+		"helper.php",
+		"index.html");    }
+
 	
 	
 	public function install() {
@@ -84,7 +93,8 @@ class VMInstaller extends JObject {
 	$this->moveFile( $this->_mod_virtuemart_currencies, $modules ,"mod_virtuemart_currencies" );
 	$this->moveFile( $this->_mod_virtuemart_search, $modules ,"mod_virtuemart_search" );
 	$this->moveFile( $this->_mod_virtuemart_product, $modules ,"mod_virtuemart_product" );
-	$this->moveFile( $this->_mod_virtuemart_manufacturers, $modules ,"mod_virtuemart_manufacturers" );
+	$this->moveFile( $this->_mod_virtuemart_manufacturer, $modules ,"mod_virtuemart_manufacturer" );
+	$this->moveFile( $this->mod_virtuemart_cart, $modules ,"mod_virtuemart_cart" );
 	}
 
 	
@@ -107,7 +117,8 @@ class VMInstaller extends JObject {
 	$this->deleteModFolder( "mod_virtuemart_currencies" );
 	$this->deleteModFolder( "mod_virtuemart_search" );
 	$this->deleteModFolder( "mod_virtuemart_product" );
-	$this->deleteModFolder( "mod_virtuemart_manufacturers" );
+	$this->deleteModFolder( "mod_virtuemart_manufacturer" );
+	$this->deleteModFolder( "mod_virtuemart_cart" );
 	}
 
 	/* Folder and Files delete

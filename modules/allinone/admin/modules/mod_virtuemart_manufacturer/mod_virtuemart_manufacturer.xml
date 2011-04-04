@@ -14,7 +14,7 @@
 	<version>1.1.0</version>
 	<description>Shows manufacturers from VirtueMart.</description>
 	<files>
-		<filename module="mod_virtuemart_manufacturers">mod_virtuemart_manufacturers.php</filename>
+		<filename module="mod_virtuemart_manufacturer">mod_virtuemart_manufacturer.php</filename>
         <filename>index.html</filename>
         <filename>helper.php</filename>
         <filename>tmpl/default.php</filename>

@@ -36,8 +36,10 @@ $footerText = 		$params->get( 'footerText', ''); // Display a footerText
 $Product_group = 	$params->get( 'product_group', 'featured'); // Display a footerText
 if (!$filter_category ) $category_id = null;
 $products = 		$productModel->getGroupProducts($Product_group, $vendorId, $category_id, $max_items);
-$totalProd = 		count( $products);
 if(empty($products)) return false;
+$totalProd = 		count( $products);
+$productModel->addImagesToProducts($products);
+
 /* load the template */
 require(JModuleHelper::getLayoutPath('mod_virtuemart_product'));
 ?>

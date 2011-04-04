@@ -58,11 +58,8 @@ class VMInstaller extends JObject {
 
 
 	$this->mod_virtuemart_cart = array(
-		"tmpl".DS."default.php",
-		"tmpl".DS."index.html",
 		"mod_virtuemart_cart.xml",
 		"mod_virtuemart_cart.php",
-		"helper.php",
 		"index.html");
 
 	$this->_mod_virtuemart_manufacturer = array(

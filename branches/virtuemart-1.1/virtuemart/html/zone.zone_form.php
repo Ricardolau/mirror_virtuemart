@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage html
-* @copyright Copyright (C) 2004-2007 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2011 VirtueMart Team - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -18,7 +18,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 mm_showMyFileName( __FILE__ );
 
 //First create the object and let it print a form heading
-$formObj = &new formFactory( $VM_LANG->_('PHPSHOP_ZONE_MOD') );
+$formObj = new formFactory( $VM_LANG->_('PHPSHOP_ZONE_MOD') );
 //Then Start the form
 $formObj->startForm();
 

@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id: ps_checkout.php 1830 2009-06-26 20:52:15Z Aravot $
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2011 VirtueMart Team - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -2028,7 +2028,7 @@ Order Total: '.$order_total.'
 				$sub_total += ($dboi->f("product_quantity") * $dboi->f("product_final_price"));
 				$shopper_message .= $CURRENCY_DISPLAY->getFullValue($dboi->f("product_final_price"), '', $db->f('order_currency'));
 			} else {
-				$sub_total += ($dboi->f("product_quantity") * $dboi->f("product_final_price"));
+				$sub_total += ($dboi->f("product_quantity") * $dboi->f("product_item_price"));
 				$shopper_message .= $CURRENCY_DISPLAY->getFullValue($dboi->f("product_item_price"), '', $db->f('order_currency'));
 			}
 		}
@@ -2389,7 +2389,7 @@ Order Total: '.$order_total.'
 			$db->next_record();
 			$ship_country = $db->f("country");
 
-			if (! array_key_exists ('country', $auth) || empty( $ship_country ) ) {
+			if ( !array_key_exists ('country', $auth) && empty( $ship_country ) ) {
 				$vmLogger->debug ('shopper\'s country is not known; defaulting to vendor-based tax');
 				return true;
 			}

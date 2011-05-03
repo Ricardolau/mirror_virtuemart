@@ -3,7 +3,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 /*
 *Cart Ajax Module
 *
-* @version $Id: mod_virtuemart_cart.php 3015 2011-04-10 16:08:08Z Milbo $
+* @version $Id: mod_virtuemart_cart.php 3132 2011-05-02 15:16:52Z Electrocity $
 * @package VirtueMart
 * @subpackage modules
 *
@@ -44,12 +44,13 @@ if ($show_product_list) {
 	?>
 	<div id="hiddencontainer" style=" display: none; ">
 		<div class="container">
+			<?php if ($show_price) { ?>
+			  <div class="prices" style="float: right;"></div>
+			<?php } ?>
 			<div class="product_row">
 				<span class="quantity"></span>&nbsp;x&nbsp;<span class="product_name"></span>
 			</div>
-			<?php if ($show_price) { ?>
-				<div class="prices"></div>
-			<?php } ?>
+
 			<div class="product_attributes"></div>
 		</div>
 	</div>
@@ -63,7 +64,7 @@ if ($show_product_list) {
 <?php
 }
 ?>
-<div class="total"></div>
+<div class="total" style="float: right;"></div>
 <div class="total_products"><?php echo JText::_('VM_AJAX_CART_WAITING') ?></div>
 <div class="show_cart"></div>
 <noscript>

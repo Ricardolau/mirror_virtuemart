@@ -56,6 +56,89 @@ class VMInstaller extends JObject {
 		"helper.php",
 		"index.html");
 
+	$this->_mod_virtuemart = array(
+		"helper.php","mod_virtuemart.php","mod_virtuemart.xml","index.html",
+		"tmpl".DS."default.php",
+		"tmpl".DS."dtree.php",
+		"tmpl".DS."dtree".DS."dtree.css",
+		"tmpl".DS."dtree".DS."dtree.js",
+		"tmpl".DS."dtree".DS."img".DS."base.gif",
+		"tmpl".DS."dtree".DS."img".DS."cd.gif",
+		"tmpl".DS."dtree".DS."img".DS."empty.gif",
+		"tmpl".DS."dtree".DS."img".DS."folder.gif",
+		"tmpl".DS."dtree".DS."img".DS."folderopen.gif",
+		"tmpl".DS."dtree".DS."img".DS."globe.gif",
+		"tmpl".DS."dtree".DS."img".DS."imgfolder.gif",
+		"tmpl".DS."dtree".DS."img".DS."index.html",
+		"tmpl".DS."dtree".DS."img".DS."join.gif",
+		"tmpl".DS."dtree".DS."img".DS."joinbottom.gif",
+		"tmpl".DS."dtree".DS."img".DS."line.gif",
+		"tmpl".DS."dtree".DS."img".DS."minus.gif",
+		"tmpl".DS."dtree".DS."img".DS."minusbottom.gif",
+		"tmpl".DS."dtree".DS."img".DS."musicfolder.gif",
+		"tmpl".DS."dtree".DS."img".DS."nolines_minus.gif",
+		"tmpl".DS."dtree".DS."img".DS."nolines_plus.gif",
+		"tmpl".DS."dtree".DS."img".DS."page.gif",
+		"tmpl".DS."dtree".DS."img".DS."plus.gif",
+		"tmpl".DS."dtree".DS."img".DS."plusbottom.gif",
+		"tmpl".DS."dtree".DS."img".DS."question.gif",
+		"tmpl".DS."dtree".DS."img".DS."trash.gif",
+		"tmpl".DS."dtree".DS."index.html",
+		"tmpl".DS."JSCook.php",
+		"tmpl".DS."JSCookTree.js",
+		"tmpl".DS."ThemeNavy".DS."close.gif",
+		"tmpl".DS."ThemeNavy".DS."index.html",
+		"tmpl".DS."ThemeNavy".DS."open.gif",
+		"tmpl".DS."ThemeNavy".DS."theme.css",
+		"tmpl".DS."ThemeNavy".DS."theme.js",
+		"tmpl".DS."ThemeXP".DS."darrow.png",
+		"tmpl".DS."ThemeXP".DS."folder1.gif",
+		"tmpl".DS."ThemeXP".DS."folder2.gif",
+		"tmpl".DS."ThemeXP".DS."folderopen1.gif",
+		"tmpl".DS."ThemeXP".DS."folderopen2.gif",
+		"tmpl".DS."ThemeXP".DS."home.gif",
+		"tmpl".DS."ThemeXP".DS."index.html",
+		"tmpl".DS."ThemeXP".DS."join.gif",
+		"tmpl".DS."ThemeXP".DS."joinbottom.gif",
+		"tmpl".DS."ThemeXP".DS."line.gif",
+		"tmpl".DS."ThemeXP".DS."minus.gif",
+		"tmpl".DS."ThemeXP".DS."minusbottom.gif",
+		"tmpl".DS."ThemeXP".DS."page.gif",
+		"tmpl".DS."ThemeXP".DS."plus.gif",
+		"tmpl".DS."ThemeXP".DS."plusbottom.gif",
+		"tmpl".DS."ThemeXP".DS."spacer.gif",
+		"tmpl".DS."ThemeXP".DS."theme.css",
+		"tmpl".DS."ThemeXP".DS."theme.js",
+		"tmpl".DS."tigratree.php",
+		"tmpl".DS."tigratree".DS."icons".DS."base.gif",
+		"tmpl".DS."tigratree".DS."icons".DS."empty.gif",
+		"tmpl".DS."tigratree".DS."icons".DS."folder.gif",
+		"tmpl".DS."tigratree".DS."icons".DS."folderopen.gif",
+		"tmpl".DS."tigratree".DS."icons".DS."index.html",
+		"tmpl".DS."tigratree".DS."icons".DS."join.gif",
+		"tmpl".DS."tigratree".DS."icons".DS."joinbottom.gif",
+		"tmpl".DS."tigratree".DS."icons".DS."line.gif",
+		"tmpl".DS."tigratree".DS."icons".DS."minus.gif",
+		"tmpl".DS."tigratree".DS."icons".DS."minusbottom.gif",
+		"tmpl".DS."tigratree".DS."icons".DS."page.gif",
+		"tmpl".DS."tigratree".DS."icons".DS."plus.gif",
+		"tmpl".DS."tigratree".DS."icons".DS."plusbottom.gif",
+		"tmpl".DS."tigratree".DS."index.html",
+		"tmpl".DS."tigratree".DS."tree.js",
+		"tmpl".DS."transmenu.php",
+		"tmpl".DS."vm_transmenu".DS."img".DS."arrow.gif",
+		"tmpl".DS."vm_transmenu".DS."img".DS."arrow.png",
+		"tmpl".DS."vm_transmenu".DS."img".DS."grey-40.png",
+		"tmpl".DS."vm_transmenu".DS."img".DS."menu_bg.png",
+		"tmpl".DS."vm_transmenu".DS."img".DS."tabarrow.gif",
+		"tmpl".DS."vm_transmenu".DS."img".DS."tabarrow.png",
+		"tmpl".DS."vm_transmenu".DS."img".DS."white-90.png",
+		"tmpl".DS."vm_transmenu".DS."img".DS."x.gif",
+		"tmpl".DS."vm_transmenu".DS."Shop_Menu.php",
+		"tmpl".DS."vm_transmenu".DS."transmenu.js",
+		"tmpl".DS."vm_transmenu".DS."transmenu.php",
+		"tmpl".DS."vm_transmenu".DS."transmenuh.css",
+		"tmpl".DS."vm_transmenu".DS."transmenuv.css");
 
 	$this->mod_virtuemart_cart = array(
 		"mod_virtuemart_cart.xml",
@@ -91,6 +174,7 @@ class VMInstaller extends JObject {
 	$this->moveFile( $this->_mod_virtuemart_search, $modules ,"mod_virtuemart_search" );
 	$this->moveFile( $this->_mod_virtuemart_product, $modules ,"mod_virtuemart_product" );
 	$this->moveFile( $this->_mod_virtuemart_manufacturer, $modules ,"mod_virtuemart_manufacturer" );
+	$this->moveFile( $this->mod_virtuemart, $modules ,"mod_virtuemart" );
 	$this->moveFile( $this->mod_virtuemart_cart, $modules ,"mod_virtuemart_cart" );
 	}
 
@@ -115,6 +199,7 @@ class VMInstaller extends JObject {
 	$this->deleteModFolder( "mod_virtuemart_search" );
 	$this->deleteModFolder( "mod_virtuemart_product" );
 	$this->deleteModFolder( "mod_virtuemart_manufacturer" );
+	$this->deleteModFolder( "mod_virtuemart" );
 	$this->deleteModFolder( "mod_virtuemart_cart" );
 	}
 

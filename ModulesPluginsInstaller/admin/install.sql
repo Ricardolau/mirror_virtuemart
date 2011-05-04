@@ -46,6 +46,10 @@ VALUES ( 'Manufacturer', '', 4, 'left', 1, 'mod_virtuemart_manufacturer', 0, 0, 
 INSERT INTO `#__modules_menu` (`moduleid`, `menuid`) VALUES( LAST_INSERT_ID() , '0');
 
 INSERT INTO `#__modules` (`title`, `content`, `ordering`, `position`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`, `control`) 
-VALUES ( 'shopping cart', '', 4, 'left', 1, 'mod_virtuemart_cart', 0, 0, 1, 'moduleclass_sfx=\nshow_price=1\nshow_product_list=1\n\n', 0, 0, '');
+VALUES ( 'VM2 Shop', '', 4, 'left', 1, 'mod_virtuemart', 0, 0, 1,'class_sfx=\nmoduleclass_sfx=\npretext=\nshow_login_form=no\nshow_categories=yes\nshow_listall=yes\nshow_adminlink=yes\nshow_accountlink=yes\nuseGreyBox_accountlink=0\nshow_minicart=yes\nuseGreyBox_cartlink=0\nshow_productsearch=yes\nshow_product_parameter_search=no\nmenutype=jscook\njscook_type=tree\njscookMenu_style=ThemeOffice\nmenu_orientation=hbr\njscookTree_style=ThemeXP\nroot_label=VMShop\n\n', 0, 0, '');
+INSERT INTO `#__modules_menu` (`moduleid`, `menuid`) VALUES( LAST_INSERT_ID() , '0');
+
+INSERT INTO `#__modules` (`title`, `content`, `ordering`, `position`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `iscore`, `client_id`, `control`) 
+VALUES ( 'Shopping cart', '', 4, 'left', 1, 'mod_virtuemart_cart', 0, 0, 1, 'moduleclass_sfx=\nshow_price=1\nshow_product_list=1\n\n', 0, 0, '');
 INSERT INTO `#__modules_menu` (`moduleid`, `menuid`) VALUES( LAST_INSERT_ID() , '0');
 

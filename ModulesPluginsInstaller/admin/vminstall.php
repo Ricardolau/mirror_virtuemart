@@ -23,6 +23,7 @@ class VMInstaller extends JObject {
 	*/
 	function __construct() {
 
+	/* add plugin files here */
 	$this->_vmpayment = array("authorize.php",
 		"authorize.xml",
 		"cashondel.php",
@@ -33,125 +34,8 @@ class VMInstaller extends JObject {
 
 	$this->_search = array("virtuemart.php",
 		"virtuemart.xml");
-
-	$this->_mod_virtuemart_currencies = array(
-		"tmpl".DS."default.php",
-		"tmpl".DS."index.html",
-		"mod_virtuemart_currencies.xml",
-		"mod_virtuemart_currencies.php",
-		"index.html");
-
-	$this->_mod_virtuemart_search = array(
-		"tmpl".DS."default.php",
-		"tmpl".DS."index.html",
-		"mod_virtuemart_search.xml",
-		"mod_virtuemart_search.php",
-		"index.html");
-
-	$this->_mod_virtuemart_product = array(
-		"tmpl".DS."default.php",
-		"tmpl".DS."index.html",
-		"mod_virtuemart_product.xml",
-		"mod_virtuemart_product.php",
-		"helper.php",
-		"index.html");
-
-	$this->_mod_virtuemart = array(
-		"helper.php","mod_virtuemart.php","mod_virtuemart.xml","index.html",
-		"tmpl".DS."default.php",
-		"tmpl".DS."dtree.php",
-		"tmpl".DS."dtree".DS."dtree.css",
-		"tmpl".DS."dtree".DS."dtree.js",
-		"tmpl".DS."dtree".DS."img".DS."base.gif",
-		"tmpl".DS."dtree".DS."img".DS."cd.gif",
-		"tmpl".DS."dtree".DS."img".DS."empty.gif",
-		"tmpl".DS."dtree".DS."img".DS."folder.gif",
-		"tmpl".DS."dtree".DS."img".DS."folderopen.gif",
-		"tmpl".DS."dtree".DS."img".DS."globe.gif",
-		"tmpl".DS."dtree".DS."img".DS."imgfolder.gif",
-		"tmpl".DS."dtree".DS."img".DS."index.html",
-		"tmpl".DS."dtree".DS."img".DS."join.gif",
-		"tmpl".DS."dtree".DS."img".DS."joinbottom.gif",
-		"tmpl".DS."dtree".DS."img".DS."line.gif",
-		"tmpl".DS."dtree".DS."img".DS."minus.gif",
-		"tmpl".DS."dtree".DS."img".DS."minusbottom.gif",
-		"tmpl".DS."dtree".DS."img".DS."musicfolder.gif",
-		"tmpl".DS."dtree".DS."img".DS."nolines_minus.gif",
-		"tmpl".DS."dtree".DS."img".DS."nolines_plus.gif",
-		"tmpl".DS."dtree".DS."img".DS."page.gif",
-		"tmpl".DS."dtree".DS."img".DS."plus.gif",
-		"tmpl".DS."dtree".DS."img".DS."plusbottom.gif",
-		"tmpl".DS."dtree".DS."img".DS."question.gif",
-		"tmpl".DS."dtree".DS."img".DS."trash.gif",
-		"tmpl".DS."dtree".DS."index.html",
-		"tmpl".DS."JSCook.php",
-		"tmpl".DS."JSCookTree.js",
-		"tmpl".DS."ThemeNavy".DS."close.gif",
-		"tmpl".DS."ThemeNavy".DS."index.html",
-		"tmpl".DS."ThemeNavy".DS."open.gif",
-		"tmpl".DS."ThemeNavy".DS."theme.css",
-		"tmpl".DS."ThemeNavy".DS."theme.js",
-		"tmpl".DS."ThemeXP".DS."darrow.png",
-		"tmpl".DS."ThemeXP".DS."folder1.gif",
-		"tmpl".DS."ThemeXP".DS."folder2.gif",
-		"tmpl".DS."ThemeXP".DS."folderopen1.gif",
-		"tmpl".DS."ThemeXP".DS."folderopen2.gif",
-		"tmpl".DS."ThemeXP".DS."home.gif",
-		"tmpl".DS."ThemeXP".DS."index.html",
-		"tmpl".DS."ThemeXP".DS."join.gif",
-		"tmpl".DS."ThemeXP".DS."joinbottom.gif",
-		"tmpl".DS."ThemeXP".DS."line.gif",
-		"tmpl".DS."ThemeXP".DS."minus.gif",
-		"tmpl".DS."ThemeXP".DS."minusbottom.gif",
-		"tmpl".DS."ThemeXP".DS."page.gif",
-		"tmpl".DS."ThemeXP".DS."plus.gif",
-		"tmpl".DS."ThemeXP".DS."plusbottom.gif",
-		"tmpl".DS."ThemeXP".DS."spacer.gif",
-		"tmpl".DS."ThemeXP".DS."theme.css",
-		"tmpl".DS."ThemeXP".DS."theme.js",
-		"tmpl".DS."tigratree.php",
-		"tmpl".DS."tigratree".DS."icons".DS."base.gif",
-		"tmpl".DS."tigratree".DS."icons".DS."empty.gif",
-		"tmpl".DS."tigratree".DS."icons".DS."folder.gif",
-		"tmpl".DS."tigratree".DS."icons".DS."folderopen.gif",
-		"tmpl".DS."tigratree".DS."icons".DS."index.html",
-		"tmpl".DS."tigratree".DS."icons".DS."join.gif",
-		"tmpl".DS."tigratree".DS."icons".DS."joinbottom.gif",
-		"tmpl".DS."tigratree".DS."icons".DS."line.gif",
-		"tmpl".DS."tigratree".DS."icons".DS."minus.gif",
-		"tmpl".DS."tigratree".DS."icons".DS."minusbottom.gif",
-		"tmpl".DS."tigratree".DS."icons".DS."page.gif",
-		"tmpl".DS."tigratree".DS."icons".DS."plus.gif",
-		"tmpl".DS."tigratree".DS."icons".DS."plusbottom.gif",
-		"tmpl".DS."tigratree".DS."index.html",
-		"tmpl".DS."tigratree".DS."tree.js",
-		"tmpl".DS."transmenu.php",
-		"tmpl".DS."vm_transmenu".DS."img".DS."arrow.gif",
-		"tmpl".DS."vm_transmenu".DS."img".DS."arrow.png",
-		"tmpl".DS."vm_transmenu".DS."img".DS."grey-40.png",
-		"tmpl".DS."vm_transmenu".DS."img".DS."menu_bg.png",
-		"tmpl".DS."vm_transmenu".DS."img".DS."tabarrow.gif",
-		"tmpl".DS."vm_transmenu".DS."img".DS."tabarrow.png",
-		"tmpl".DS."vm_transmenu".DS."img".DS."white-90.png",
-		"tmpl".DS."vm_transmenu".DS."img".DS."x.gif",
-		"tmpl".DS."vm_transmenu".DS."Shop_Menu.php",
-		"tmpl".DS."vm_transmenu".DS."transmenu.js",
-		"tmpl".DS."vm_transmenu".DS."transmenu.php",
-		"tmpl".DS."vm_transmenu".DS."transmenuh.css",
-		"tmpl".DS."vm_transmenu".DS."transmenuv.css");
-
-	$this->mod_virtuemart_cart = array(
-		"mod_virtuemart_cart.xml",
-		"mod_virtuemart_cart.php",
-		"index.html");
-
-	$this->_mod_virtuemart_manufacturer = array(
-		"tmpl".DS."default.php",
-		"tmpl".DS."index.html",
-		"mod_virtuemart_manufacturer.xml",
-		"mod_virtuemart_manufacturer.php",
-		"helper.php",
-		"index.html");    }
+	/* No more files definition for modules */
+	}
 
 	
 	
@@ -167,15 +51,12 @@ class VMInstaller extends JObject {
 	$this->moveFile( $this->_vmshipper, $plugins,"vmshipper" );
 	$this->moveFile( $this->_search, $plugins,"search" );
 	
-	/* modules to move*/
-	
-	$modules ="modules";
-	$this->moveFile( $this->_mod_virtuemart_currencies, $modules ,"mod_virtuemart_currencies" );
-	$this->moveFile( $this->_mod_virtuemart_search, $modules ,"mod_virtuemart_search" );
-	$this->moveFile( $this->_mod_virtuemart_product, $modules ,"mod_virtuemart_product" );
-	$this->moveFile( $this->_mod_virtuemart_manufacturer, $modules ,"mod_virtuemart_manufacturer" );
-	$this->moveFile( $this->mod_virtuemart, $modules ,"mod_virtuemart" );
-	$this->moveFile( $this->mod_virtuemart_cart, $modules ,"mod_virtuemart_cart" );
+	/* modules auto move*/
+	$src= JPATH_ADMINISTRATOR.DS."components".DS."com_vm_all-in-one".DS."modules" ;
+	$dst= JPATH_ROOT . DS . "modules" ;
+	$this->recurse_copy( $src ,$dst );
+	echo " VirtueMart2 modules Moved to the Modules folder<br/ >" ;
+
 	}
 
 	
@@ -282,6 +163,23 @@ class VMInstaller extends JObject {
 		echo $types." ".$name . " Installed<br/>";
 		if (is_dir($sourcePath)) $this->RemoveDir($sourcePath, true);
 	}
+	/* copy all $src to $dst folder and remove it */
+	private function recurse_copy($src,$dst ) {
+		$dir = opendir($src);
+		@mkdir($dst);
+		while(false !== ( $file = readdir($dir)) ) {
+			if (( $file != '.' ) && ( $file != '..' )) {
+				if ( is_dir($src .DS. $file) ) {
+					$this->recurse_copy($src .DS. $file,$dst .DS. $file);
+				}
+				else {
+					copy($src .DS. $file,$dst .DS. $file);
+				}
+			}
+		}
+		closedir($dir);
+		if (is_dir($src)) $this->RemoveDir($src, true);
+	} 
 	/* 
 	  * $dir 		# the folder
 	  * $DeleteMe	# true to delete root folder

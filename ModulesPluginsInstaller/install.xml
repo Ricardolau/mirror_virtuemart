@@ -2,11 +2,11 @@
 <!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/module-install.dtd">
 <install type="component" version="1.5">
 	<name>VM_All-in-one</name>
-	<creationDate>2011 02 15</creationDate>
+	<creationDate>2011 05 04</creationDate>
 	<author>Virtuemart Team - Kohl P. </author>
 	<authorEmail>cyber__fr@hotmail.com</authorEmail>
 	<authorUrl>http://www.virtuemart.net</authorUrl>
-	<version>1.0.0</version>
+	<version>2.0.0</version>
 	<description>Virtuemart payment plugin and module installer</description>
 
 	<installfile>install.vmallinone.php</installfile>

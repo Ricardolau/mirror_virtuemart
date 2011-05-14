@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2009 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2011 The VirtueMart Team - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -169,10 +169,23 @@ class vm_ps_product extends vmAbstractObject {
 				strpos( $attributeX["name"], ":" ) or 
 				strpos( $attributeX["name"], "." ) or
 				strpos( $attributeX["name"], "&" ) or
+				strpos( $attributeX["name"], '"' ) or
 				strpos( $attributeX["name"], "'" )
 			) {
 				$vmLogger->err( $VM_LANG->_('VM_PRODUCT_INVALID_ATTRIBUTE_NAME',false) );
 				$valid = false;	
+			}
+			foreach ( $attributeX["value"] as $property ) {
+				if ( 
+					strpos( $property, ":" ) or 
+					strpos( $property, "." ) or
+					strpos( $property, "&" ) or
+					strpos( $property, '"' ) or
+					strpos( $property, "'" )
+				) {
+					$vmLogger->err( $VM_LANG->_('VM_PRODUCT_INVALID_ATTRIBUTE_PROPERTY',false) );
+					$valid = false;	
+				}
 			}
 		}			
 			
@@ -2201,6 +2214,8 @@ class vm_ps_product extends vmAbstractObject {
 		$discount_info = $base_price = array();
 		$text_including_tax = '';
 		
+		$html = "";
+		
 		if( $auth['show_prices'] ) {
 			// Get the DISCOUNT AMOUNT
 			$discount_info = $this->get_discount( $product_id );
@@ -2217,7 +2232,6 @@ class vm_ps_product extends vmAbstractObject {
 			if( $price_info === false ) {
 				$price_info = $base_price_info;
 			}
-			$html = "";
 			$undiscounted_price = 0;
 			if (isset($price_info["product_price_id"])) {
 				if( $base_price_info["product_price"]== $price_info["product_price"] ) {

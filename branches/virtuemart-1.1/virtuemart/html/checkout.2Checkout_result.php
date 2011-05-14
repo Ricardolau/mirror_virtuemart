@@ -1,4 +1,4 @@
-<?php 
+<?php if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' )   
 /**
 *
 * 2Checkout Order Confirmation Handler
@@ -19,7 +19,6 @@
 * Updated 01/26/2011 by undeadzed
 *
 */
-if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );   
 
 /**
 * Read the post from 2Checkout system 
@@ -35,7 +34,7 @@ else {
   require_once( CLASSPATH. 'payment/ps_twocheckout.cfg.php' );
   
   /* merchant_order_id is the name of the variable that holds OUR order_number */
-  $order_number = $_REQUEST['merchant_order_id']; 
+  $order_number = vmRequest::getInt('merchant_order_id')
   
   // In Demo Mode the MD5 Hash is built using a "1"
   // 2Checkout order number returned by x_trans_id when using Authorize.net parameter set.
@@ -45,11 +44,11 @@ else {
       $_REQUEST['x_trans_id'] = "1";
 
   //2Checkout order number returned by x_trans_id when using Authorize.net parameter set.
-  $compare_string = TWOCO_SECRETWORD . TWOCO_LOGIN . $_REQUEST['x_trans_id'] . $_REQUEST['x_amount'];
+  $compare_string = TWOCO_SECRETWORD . TWOCO_LOGIN . vmRequest::getVar('x_trans_id') . vmRequest::getVar('x_amount');
   
   // make it md5
   $compare_hash1 = strtoupper(md5($compare_string));
-  $compare_hash2 = $_REQUEST['x_MD5_Hash'];
+  $compare_hash2 = vmRequest::getVar('x_MD5_Hash');
   
   /* If both hashes are the same, the post should come from 2Checkout */
   if ($compare_hash1 != $compare_hash2) {

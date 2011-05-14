@@ -844,7 +844,8 @@ class vm_ps_checkout {
 		    $first_payment_method_id = $db_nocc->f("payment_method_id");
 		    $count += $db_nocc->num_rows();
 		    $db_nocc->reset();
-		} else {
+		}
+		else {
 		    $nocc_payments=false;
 		}
 		
@@ -867,12 +868,13 @@ class vm_ps_checkout {
 
         // Redirect to the last step when there's only one payment method
 		if( $VM_CHECKOUT_MODULES['CHECK_OUT_GET_PAYMENT_METHOD']['order'] != $VM_CHECKOUT_MODULES['CHECK_OUT_GET_FINAL_CONFIRMATION']['order'] ) {
-			if ($count <= 1 && $cc_payments==false && $pp_payment==false) {
-				vmRedirect($sess->url(SECUREURL.basename($_SERVER['PHP_SELF'])."?page=checkout.index&payment_method_id=$first_payment_method_id&ship_to_info_id=$ship_to_info_id&shipping_rate_id=".urlencode($shipping_rate_id)."&checkout_stage=".$VM_CHECKOUT_MODULES['CHECK_OUT_GET_FINAL_CONFIRMATION']['order'], false, false ),"");
-			}
-			elseif( isset($order_total) && $order_total <= 0.00 ) {
+			// order of the following two redirections swapped by JK to ensure there is no payment method where there is no order_total 
+			if( isset($order_total) && $order_total <= 0.00 ) {
 				// In case the order total is less than or equal zero, we don't need a payment method
 				vmRedirect($sess->url(SECUREURL.basename($_SERVER['PHP_SELF'])."?page=checkout.index&ship_to_info_id=$ship_to_info_id&shipping_rate_id=".urlencode($shipping_rate_id)."&checkout_stage=".$VM_CHECKOUT_MODULES['CHECK_OUT_GET_FINAL_CONFIRMATION']['order'], false, false),"");
+			}
+			elseif ($count <= 1 && $cc_payments==false) {
+				vmRedirect($sess->url(SECUREURL.basename($_SERVER['PHP_SELF'])."?page=checkout.index&payment_method_id=$first_payment_method_id&ship_to_info_id=$ship_to_info_id&shipping_rate_id=".urlencode($shipping_rate_id)."&checkout_stage=".$VM_CHECKOUT_MODULES['CHECK_OUT_GET_FINAL_CONFIRMATION']['order'], false, false ),"");
 			}
 		}
 		$theme = new $GLOBALS['VM_THEMECLASS']();
@@ -1210,7 +1212,11 @@ Order Total: '.$order_total.'
 		// Payment Processors return false on any error
 		// Only completed payments return true!
 		$update_order = false;
-		if (isset($_PAYMENT)) {
+		if( $order_total == 0.00 ) { // code moved out of $_PAYMENT check as no payment will be needed when $order_total=0.0
+					// If the Order Total is zero, we can confirm the order to automatically enable the download
+					$d['order_status'] = ENABLE_DOWNLOAD_STATUS;
+					$update_order = true;
+		} elseif (isset($_PAYMENT)) {
 		  if( $enable_processor == "Y" || stristr($_PAYMENT->payment_code, '_API' ) !== false ) {
 				if( $d['new_order_status'] != 'P' ) {
 					$d['order_status'] = $d['new_order_status'];
@@ -1220,11 +1226,7 @@ Order Total: '.$order_total.'
 					$update_order = true;
 				}
 			}
-		} elseif( $order_total == 0.00 ) { // code moved out of $_PAYMENT check as no payment will be needed when $order_total=0.0
-			// If the Order Total is zero, we can confirm the order to automatically enable the download
-			$d['order_status'] = ENABLE_DOWNLOAD_STATUS;
-			$update_order = true;
-		}
+		} 
 		if ( $update_order ) {
 			require_once(CLASSPATH."ps_order.php");
 			$ps_order = new ps_order();

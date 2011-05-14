@@ -34,6 +34,16 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 
+14.05.2011 zanardi + poy
+# Bug #366: Security issue in checkout.2Checkout_result.php
+# Bug #364 Disallow quotes in attributes properties
+# Bug #363 Membergroup to show prices to results to Undefined variable
+# Bug #326: No download email is send for free download-able product
+
+30.04.2011 zanardi
+# Bug #318 HTML error in file : product_type.tpl.php
+# Bug #315 Zone Shipping Fatal Error
+
 03.04.2011 aravot
 # Bug #326 No download email is send for free download-able product
 

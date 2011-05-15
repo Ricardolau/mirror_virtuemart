@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2011 VirtueMart Development Team - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -264,7 +264,7 @@ class vm_ps_user {
 			foreach( $userFields as $userField ) {
 				if( !in_array($userField->name,$skip_fields)) {
 					$d[$userField->name] = ps_userfield::prepareFieldDataSave( $userField->type, $userField->name, @$d[$userField->name]);
-					$fields[] = "`".$userField->name."`='".mysql_real_escape_string($d[$userField->name])."'";
+					$fields[] = "`".$userField->name."`='".$db->getEscaped($d[$userField->name])."'";
 				}
 			}
 			$q .= str_replace( '`email`', '`user_email`', implode( ",\n", $fields ));

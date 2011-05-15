@@ -5,7 +5,7 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 * @version $Id$
 * @package VirtueMart
 * @subpackage classes
-* @copyright Copyright (C) 2004-2010 soeren - All rights reserved.
+* @copyright Copyright (C) 2004-2011 VirtueMart Development Team - All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -597,7 +597,6 @@ class vm_ps_cart {
 		global $db;
 		if( $GLOBALS['auth']['user_id'] > 0 ) {
 			$cart_contents = serialize( $_SESSION['cart'] );
-			//$cart_contents = mysql_real_escape_string( $cart_contents );
 			$q = "REPLACE INTO `#__{vm}_cart` (`user_id`, `cart_content` ) VALUES ( ".$GLOBALS['auth']['user_id'].", '$cart_contents' )";
 			$db->query( $q );
 		}

@@ -352,14 +352,16 @@ class vm_ps_module {
 
 			if ($perm->check( $dir_list[ 'perms' ]) ) {
 
-				if ( !file_exists(PAGEPATH.$modulename.".".$pagename.".php") ) {
-					define( '_VM_PAGE_NOT_FOUND', 1 );
-					$error = $VM_LANG->_('PHPSHOP_PAGE_404_1');
-					$error .= ' '.$VM_LANG->_('PHPSHOP_PAGE_404_2') ;
-					$error .= ' "'.$modulename.".".$pagename.'.php"';
-					$vmLogger->err( $error );
-					return false;
-				}
+				// comment out by JK since page existence should not be responsibility of module permission
+				// the code will enable user pages with different name from VM core
+				//~ if ( !file_exists(PAGEPATH.$modulename.".".$pagename.".php") ) { 
+					//~ define( '_VM_PAGE_NOT_FOUND', 1 );
+					//~ $error = $VM_LANG->_('PHPSHOP_PAGE_404_1');
+					//~ $error .= ' '.$VM_LANG->_('PHPSHOP_PAGE_404_2') ;
+					//~ $error .= ' "'.$modulename.".".$pagename.'.php"';
+					//~ $vmLogger->err( $error );
+					//~ return false;
+				//~ }
 				return true;
 			}
 			else {

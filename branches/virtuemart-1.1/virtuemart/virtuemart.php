@@ -154,13 +154,27 @@ else {
 		echo '<div id="vmMainPage">'."\n";
 		
 		// Load requested PAGE
-		if( file_exists( PAGEPATH.$modulename.".".$pagename.".php" )) {
+		// added/mod by JK to support user pages
+		$user_path=VM_THEMEPATH.'user_pages/';
+		if( file_exists( $user_path.$modulename.".".$pagename.".php" )) {
+			if( $only_page) {
+				require_once( CLASSPATH . 'connectionTools.class.php' );
+				vmConnector::sendHeaderAndContent( 200 );
+				if( $func ) echo vmCommonHTML::getSuccessIndicator( $ok, $vmDisplayLogger ); /*@MWM1: Log/Debug enhancements*/
+				include( $user_path.$modulename.".".$pagename.".php" );
+				// Exit gracefully
+				$vm_mainframe->close(true);
+			}
+			include( $user_path.$modulename.".".$pagename.".php" );
+		}
+		elseif( file_exists( PAGEPATH.$modulename.".".$pagename.".php" )) {
+		// added/mod by JK to support user pages ends
 			if( $only_page) {
 				require_once( CLASSPATH . 'connectionTools.class.php' );
 				vmConnector::sendHeaderAndContent( 200 );
 				if( $func ) echo vmCommonHTML::getSuccessIndicator( $ok, $vmDisplayLogger ); /*@MWM1: Log/Debug enhancements*/
 				include( PAGEPATH.$modulename.".".$pagename.".php" );
-				// Exit gracefully
+				// Exit gracefully 
 				$vm_mainframe->close(true);
 			}
 			include( PAGEPATH.$modulename.".".$pagename.".php" );

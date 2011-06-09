@@ -82,6 +82,7 @@ if( !isset( $_REQUEST["x_invoice_num"] ) || empty( $_REQUEST["x_invoice_num"] ))
             <h2><?php echo $VM_LANG->_('PHPSHOP_PAYMENT_ERROR') ?></h2><?php
 		}
 	}
+}
 ?>
 <br />
 <p>

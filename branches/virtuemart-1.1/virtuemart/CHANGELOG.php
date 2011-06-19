@@ -34,11 +34,27 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 
+--- VirtueMart 1.1.8 released (Rev. 3520 2011-06-19) ---
+
+18.06.2011 zanardi
+# Bug #322 Miscalculation in order e-mail receipt
+# Bug #320 Bug in ps_checkout._tax_based_on_vendor_address
+
+07.06.2011 zanardi
+# Bug #327 Error Found in mootools-release-1.1.1.js
+# Bug #321 Coupon problem - multiple currencies
+^ User-pages
+
+28.05.2011 zanardi
+# Bug #367 Use of "mysql_real_escape_string" breaks with mysqli
+# Bug #364 Disallow quotes in attributes properties
+# Bug #360 Ajax calls recorded as last page
+# Bug #310 bug in shop.browse.php empty category
+
 14.05.2011 zanardi + poy
 # Bug #366: Security issue in checkout.2Checkout_result.php
 # Bug #364 Disallow quotes in attributes properties
 # Bug #363 Membergroup to show prices to results to Undefined variable
-# Bug #326: No download email is send for free download-able product
 
 30.04.2011 zanardi
 # Bug #318 HTML error in file : product_type.tpl.php

@@ -138,8 +138,21 @@ if( $only_page != 1 && $vmLayout == 'extended') {
 		return;
 	}
 	
-	if(file_exists(PAGEPATH.$modulename.".".$pagename.".php")) {
-		
+	// added mod by JK to support user pages
+	$user_path=VM_THEMEPATH.'user_pages/';
+	if(file_exists($user_path.$modulename.".".$pagename.".php")) {
+		if( $only_page ) {
+			if( @$_REQUEST['format'] == 'raw' ) while( @ob_end_clean());
+			if( $func ) echo vmCommonHTML::getSuccessIndicator( $ok, $vmDisplayLogger );
+
+			include( $user_path.$modulename.".".$pagename.".php" );
+			if( @$_REQUEST['format'] == 'raw' ) {
+				$vm_mainframe->close(true);
+			}
+		} else {
+			include( $user_path.$modulename.".".$pagename.".php" );
+		}
+	} elseif(file_exists(PAGEPATH.$modulename.".".$pagename.".php")) {
 		if( $only_page ) {
 			if( @$_REQUEST['format'] == 'raw' ) while( @ob_end_clean());
 			if( $func ) echo vmCommonHTML::getSuccessIndicator( $ok, $vmDisplayLogger );

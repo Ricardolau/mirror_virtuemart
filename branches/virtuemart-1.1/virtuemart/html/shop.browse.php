@@ -83,7 +83,7 @@ if( $category_id ) {
 if ($num_rows == 0 && (!empty($keyword)||!empty($keyword1))) {
 	echo $VM_LANG->_('PHPSHOP_NO_SEARCH_RESULT');
 }
-elseif( $num_rows == 0 && empty($product_type_id) && empty($child_list)) {
+elseif( $num_rows == 0 && empty($product_type_id) && !empty($child_list)) {
 	echo $VM_LANG->_('EMPTY_CATEGORY');
 }
 

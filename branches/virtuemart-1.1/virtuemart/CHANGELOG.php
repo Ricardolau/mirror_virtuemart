@@ -34,7 +34,7 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 
---- VirtueMart 1.1.8 released (Rev. 3520 2011-06-19) ---
+--- VirtueMart 1.1.9 released (Rev. 3520 2011-06-19) ---
 
 18.06.2011 zanardi
 # Bug #322 Miscalculation in order e-mail receipt

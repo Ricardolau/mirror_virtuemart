@@ -14,10 +14,9 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.
 class VmEUVatCheck {
 	
 	/** @var string the URL to the VIES */
-	// var $viesurl = 'http://ec.europa.eu/taxation_customs/vies/api/checkVatPort?wsdl';
-	// updated Franz 20100807
-	var $viesurl = 'http://ec.europa.eu/taxation_customs/vies/services/checkVatService.wsdl';
-	
+	// updated Franz 20110816
+	var $viesurl = 'http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl';
+
 	/** @var array contains the data to pass to the VIES */
 	var $param = array('countryCode' => '', 'vatNumber' => '');
 	

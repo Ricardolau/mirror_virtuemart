@@ -36,9 +36,9 @@ class vmVersion {
 	/** @var string Codename */
 	var $CODENAME = 'Our last album';
 	/** @var string Date */
-	var $RELDATE = '19/06/2011';
+	var $RELDATE = '24/06/2011';
 	/** @var string Time */
-	var $RELTIME = '10:14';
+	var $RELTIME = '08:36';
 	/** @var string Timezone */
 	var $RELTZ = 'GMT';
 	/** @var string Revision */

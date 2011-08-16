@@ -24,13 +24,14 @@ if (!empty($keyword)) {
 	$list  = "SELECT * FROM #__{vm}_shipping_rate WHERE ";
 	$count = "SELECT count(*) as num_rows FROM #__{vm}_shipping_rate WHERE ";
 	$q  = "(shipping_rate_name LIKE '%$keyword%') ";
-	$q .= "ORDER BY shipping_rate_carrier_id ASC ";
+	$q .= "ORDER BY shipping_rate_carrier_id ASC, shipping_rate_weight_start ASC ";
 	$list .= $q . " LIMIT $limitstart, " . $limit;
 	$count .= $q;
 }
 else {
 	$q = "";
 	$list  = "SELECT * FROM #__{vm}_shipping_rate ";
+	$q .= "ORDER BY shipping_rate_carrier_id ASC, shipping_rate_weight_start ASC ";
 	$count = "SELECT count(*) as num_rows FROM #__{vm}_shipping_rate";
 	$list .= $q . " LIMIT $limitstart, " . $limit;
 	$count .= $q;

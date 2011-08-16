@@ -34,7 +34,10 @@ Legend:
 VirtueMart 1.1.x
 *************************************
 
---- VirtueMart 1.1.9 released (Rev. 3520 2011-06-19) ---
+16.08.2011
+# Bug #370 Wrong EUVAT check address
+
+--- VirtueMart 1.1.9 released (Rev. 3554 2011-06-24) ---
 
 18.06.2011 zanardi
 # Bug #322 Miscalculation in order e-mail receipt

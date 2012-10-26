@@ -31,7 +31,7 @@ class vmVersion {
 	/** @var string Product */
 	static $PRODUCT = 'VirtueMart';
 	/** @var int Release Number */
-	static $RELEASE = '2.0.12f';
+	static $RELEASE = '2.0.12g';
 	/** @var string Development Status */
 	static $DEV_STATUS = 'MINOR';
 	/** @var string Codename */

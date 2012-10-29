@@ -1388,7 +1388,7 @@ vmdebug('plgVmOnCheckoutCheckDataShipment CART', $retValues);
 	function prepareVendor(){
 
 		$vendorModel = VmModel::getModel('vendor');
-		$this->vendor = $vendorModel->getVendor();
+		$this->vendor = $vendorModel->getVendor(1);
 		$vendorModel->addImages($this->vendor,1);
 		return $this->vendor;
 	}

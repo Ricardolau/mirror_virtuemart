@@ -2010,7 +2010,10 @@ function lowStockWarningEmail($virtuemart_product_id) {
 	public function getUncategorizedChildren ($withParent) {
 		if (empty($this->_uncategorizedChildren)) {
 
-			//Todo add check for shoppergroup depended product display
+
+			$q = 'SELECT `product_parent_id` FROM `#__virtuemart_products` WHERE `virtuemart_product_id` = "' . $this->_id . '" ';
+			$this->_db->setQuery ($q);
+			$product_parent_id = $this->_db->loadResult();			//Todo add check for shoppergroup depended product display
 			$q = 'SELECT * FROM `#__virtuemart_products` as p
 				LEFT JOIN `#__virtuemart_products_' . VMLANG . '` as pl
 				USING (`virtuemart_product_id`)
@@ -2018,7 +2021,10 @@ function lowStockWarningEmail($virtuemart_product_id) {
 				USING (`virtuemart_product_id`) ';
 
 //	 		$q .= ' WHERE (`product_parent_id` = "'.$this->_id.'" AND (pc.`virtuemart_category_id`) IS NULL  ) OR (`virtuemart_product_id` = "'.$this->_id.'" ) ';
-			if ($withParent) {
+			if ($withParent && $product_parent_id != 0) {
+				$q .= ' WHERE (`product_parent_id` = "' . $this->_id . '"  OR `product_parent_id` = "' . $product_parent_id . '" OR `virtuemart_product_id` = "' . $this->_id . '" OR `virtuemart_product_id` = "' . $product_parent_id . '") ';
+			}
+			elseif ($withParent) {
 				$q .= ' WHERE (`product_parent_id` = "' . $this->_id . '"  OR `virtuemart_product_id` = "' . $this->_id . '") ';
 			}
 			else {

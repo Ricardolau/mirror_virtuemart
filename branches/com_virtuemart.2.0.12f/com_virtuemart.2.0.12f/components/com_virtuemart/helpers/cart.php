@@ -436,8 +436,11 @@ class VirtueMartCart {
 				JPluginHelper::importPlugin('vmcustom');
 				$dispatcher = JDispatcher::getInstance();
 				// on returning false the product have not to be added to cart
-				if ( $dispatcher->trigger('plgVmOnAddToCart',array(&$product)) === false )
-					continue;
+				$addToCartReturnValues = $dispatcher->trigger('plgVmOnAddToCart',array(&$product));
+ 			    foreach ($addToCartReturnValues as $returnValue) {
+						if ( $returnValue === false )
+							continue 2;
+					}
 
 
 				if (array_key_exists($productKey, $this->products) && (empty($product->customPlugin)) ) {

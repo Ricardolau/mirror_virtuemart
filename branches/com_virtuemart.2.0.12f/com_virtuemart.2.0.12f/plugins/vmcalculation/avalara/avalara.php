@@ -34,9 +34,9 @@ class plgVmCalculationAvalara extends vmCalculationPlugin {
 
 		$varsToPush = array(
 			'activated'          => array(0, 'int'),
-			'company_code'          => array(0, 'char'),
-			'account'       => array(0, 'char'),
-			'license'     => array(0, 'char'),
+			'company_code'       => array('', 'char'),
+			'account'       => array('', 'char'),
+			'license'     => array('', 'char'),
 		);
 
 		$this->setConfigParameterable ('calc_params', $varsToPush);
@@ -105,17 +105,19 @@ class plgVmCalculationAvalara extends vmCalculationPlugin {
 	//	}
 		//VmTable::bindParameterable ($calc, $this->_xParams, $this->_varsToPushParam);
 
-		$html .= '<fieldset><legend>'.JText::_('VMCALCULATION_ISTRAXX_AVALARA').'</legend><table>';
+		//$html .= '<fieldset><legend>'.JText::_('VMCALCULATION_AVALARA').'</legend>';
+		$html .= '<table>';
 
-		$html .= VmHTML::row('checkbox','VMCALCULATION_ISTRAXX_AVALARA_ACTIVATED','activated',$calc->activated);
-		$html .= VmHTML::row('input','VMCALCULATION_ISTRAXX_AVALARA_COMPANY_CODE','company_code',$calc->company_code);
-		$html .= VmHTML::row('input','VMCALCULATION_ISTRAXX_AVALARA_ACCOUNT','account',$calc->account);
-		$html .= VmHTML::row('input','VMCALCULATION_ISTRAXX_AVALARA_LICENSE','license',$calc->license);
+		$html .= VmHTML::row('checkbox','VMCALCULATION_AVALARA_ACTIVATED','activated',$calc->activated);
+		$html .= VmHTML::row('input','VMCALCULATION_AVALARA_COMPANY_CODE','company_code',$calc->company_code);
+		$html .= VmHTML::row('input','VMCALCULATION_AVALARA_ACCOUNT','account',$calc->account);
+		$html .= VmHTML::row('input','VMCALCULATION_AVALARA_LICENSE','license',$calc->license);
 	//	$html .= VmHTML::row('checkbox','VMCALCULATION_ISTRAXX_AVALARA_TRACE','trace',$calc->trace);
 
 		$html .= '</table></fieldset>';
-
-		$html .= $this->ping($calc);
+		if ($calc->activated) {
+			$html .= $this->ping($calc);
+		}
 		return TRUE;
 	}
 
@@ -134,7 +136,7 @@ class plgVmCalculationAvalara extends vmCalculationPlugin {
 		{
 			if(!class_exists('PingResult')) require (VMAVALARA_CLASS_PATH.DS.'PingResult.class.php');
 			$result = $client->ping("TEST");
-			$html .= 'Ping ResultCode is: '. $result->getResultCode()."<br />";
+			vmDebug('Ping ResultCode is: '. $result->getResultCode() );
 
 			if(!class_exists('SeverityLevel')) require (VMAVALARA_CLASS_PATH.DS.'SeverityLevel.class.php');
 			if($result->getResultCode() != SeverityLevel::$Success)	// call failed
@@ -147,7 +149,7 @@ class plgVmCalculationAvalara extends vmCalculationPlugin {
 			}
 			else // successful calll
 			{
-				$html .= 'Ping Version is: '. $result->getVersion()."<br />";
+				vmdebug('Ping Version is: '. $result->getVersion() );
 			}
 		}
 		catch(SoapFault $exception)

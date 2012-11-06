@@ -1288,8 +1288,8 @@ class VirtueMartModelProduct extends VmModel {
 		$pkey_orders = $this->_db->loadObjectList ();
 
 		$tableOrdering = array();
-		foreach ($pkey_orders as $order) {
-			$tableOrdering[$order->id] = $order->ordering;
+		foreach ($pkey_orders as $orderTemp) {
+			$tableOrdering[$order->id] = $orderTemp->ordering;
 		}
 		// set and save new ordering
 		foreach ($order as $key => $ord) {

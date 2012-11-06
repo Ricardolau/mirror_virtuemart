@@ -167,7 +167,7 @@ abstract class vmPlugin extends JPlugin {
 	 * @author Valérie Isaksen
 	 * @param int/array $id the registered plugin id(s) of the joomla table
 	 */
-	protected function selectedThisByMethodId ($id = 'type') {
+	function selectedThisByMethodId ($id = 'type') {
 
 		//if($psType!=$this->_psType) return false;
 

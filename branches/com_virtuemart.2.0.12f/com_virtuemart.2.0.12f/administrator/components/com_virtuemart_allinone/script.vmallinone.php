@@ -345,7 +345,8 @@ if (!defined ('_VM_SCRIPT_INCLUDED')) {
 
 				$tablename = '#__virtuemart_' . $_psType . '_plg_' . $element;
 				$db = JFactory::getDBO ();
-				$query = 'SHOW TABLES LIKE "%' . str_replace ('#__', '', $tablename) . '"';
+				$prefix=$db->getPrefix();
+				$query = 'SHOW TABLES LIKE "' . str_replace ('#__', $prefix, $tablename) . '"';
 				$db->setQuery ($query);
 				$result = $db->loadResult ();
 				//$app -> enqueueMessage( get_class( $this ).'::  '.$query.' '.$result);
@@ -354,7 +355,7 @@ if (!defined ('_VM_SCRIPT_INCLUDED')) {
 					$loggablefields = $plugin->getTableSQLLoggablefields ();
 					$tablesFields = array_merge ($SQLfields, $loggablefields);
 					$update[$tablename] = array($tablesFields, array(), array());
-
+vmdebug('install plugin',$update );
 					$app->enqueueMessage (get_class ($this) . ':: VirtueMart2 update ' . $tablename);
 
 					if (!class_exists ('GenericTableUpdater')) {

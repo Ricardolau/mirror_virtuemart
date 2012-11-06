@@ -1139,7 +1139,8 @@ class Migrator extends VmModel{
 
 					$product['product_price_quantity_start'] = $product['price_quantity_start'];
 					$product['product_price_quantity_end'] = $product['price_quantity_end'];
-
+		             $product['product_price_publish_up'] = $product['product_price_vdate'];
+					$product['product_price_publish_down'] = $product['product_price_edate'];
 					$product['created_on'] = $this->_changeToStamp($product['cdate']);
 					$product['modified_on'] = $this->_changeToStamp($product['mdate']); //we could remove this to set modified_on today
 					$product['product_available_date'] = $this->_changeToStamp($product['product_available_date']);

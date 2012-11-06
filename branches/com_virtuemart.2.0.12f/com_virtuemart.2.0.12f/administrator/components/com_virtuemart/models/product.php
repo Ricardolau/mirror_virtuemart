@@ -1701,7 +1701,7 @@ class VirtueMartModelProduct extends VmModel {
 		// Calculate the modificator
 		$variantPriceModification = $calculator->calculateModificators ($product, $customVariant);
 
-		$prices = $calculator->getProductPrices ($product, $variantPriceModification, $quantity);
+		$prices = $calculator->getProductPrices ($product,  0,$variantPriceModification, $quantity);
 
 		return $prices;
 

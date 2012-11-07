@@ -24,15 +24,16 @@ if (!class_exists ('vmPSPlugin')) {
 	require(JPATH_VM_PLUGINS . DS . 'vmpsplugin.php');
 }
 
-class plgVmPaymentStandard extends vmPSPlugin {
-
+	class plgVmPaymentStandard extends vmPSPlugin {
+public static $_this = FALSE;
 	function __construct (& $subject, $config) {
 
 		parent::__construct ($subject, $config);
 		// 		vmdebug('Plugin stuff',$subject, $config);
 		$this->_loggable = TRUE;
 		$this->tableFields = array_keys ($this->getTableSQLFields ());
-
+		$this->_tablepkey = 'id';
+		$this->_tableId = 'id';
 		$varsToPush = $this->getVarsToPush ();
 		$this->setConfigParameterable ($this->_configTableFieldName, $varsToPush);
 

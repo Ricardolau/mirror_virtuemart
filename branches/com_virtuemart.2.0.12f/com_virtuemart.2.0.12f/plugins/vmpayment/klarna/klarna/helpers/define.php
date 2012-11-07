@@ -1,5 +1,5 @@
 <?php
-
+defined('JPATH_BASE') or die();
 /**
  *
  * a special type of Klarna
@@ -7,7 +7,7 @@
  * @version $Id:
  * @package VirtueMart
  * @subpackage payment
- * @copyright Copyright (c) 2004 - 2012 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (C) 2012 iStraxx - All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -16,7 +16,7 @@
  *
  * http://virtuemart.net
  */
-defined('JPATH_BASE') or die();
+
 if (JVM_VERSION === 2) {
     if (!defined('JPATH_VMKLARNAPLUGIN'))
 	define('JPATH_VMKLARNAPLUGIN', JPATH_ROOT . DS . 'plugins' . DS . 'vmpayment' . DS . 'klarna');

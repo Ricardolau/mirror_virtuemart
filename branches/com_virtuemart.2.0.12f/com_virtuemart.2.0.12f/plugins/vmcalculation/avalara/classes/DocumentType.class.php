@@ -1,4 +1,6 @@
 <?php
+if (!defined('_JEXEC'))
+die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
 /**
  * DocumentType.class.php
  */
@@ -8,7 +10,7 @@
  * is treated after a tax calculation. Specified when constructing a {@link GetTaxRequest}.
  *
  * @author    Avalara
- * @copyright © 2004 - 2011 Avalara, Inc.  All rights reserved.
+ * @copyright ï¿½ 2004 - 2011 Avalara, Inc.  All rights reserved.
  * @package   Tax
  */
 

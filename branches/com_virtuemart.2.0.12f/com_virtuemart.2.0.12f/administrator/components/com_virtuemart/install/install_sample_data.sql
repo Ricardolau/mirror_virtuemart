@@ -15,10 +15,9 @@ INSERT IGNORE INTO `#__virtuemart_calcs` (`virtuemart_calc_id`, `virtuemart_vend
 --
 -- Dumping data for table `#__virtuemart_calc_categories`
 --
-
-INSERT IGNORE INTO `#__virtuemart_calc_categories` (`id`, `virtuemart_calc_id`, `virtuemart_category_id`) VALUES
-(NULL, 3, 2);
-
+INSERT INTO `#__virtuemart_calc_categories` (`id`, `virtuemart_calc_id`, `virtuemart_category_id`) VALUES
+(1, 3, 2),
+(2, 2, 1);
 
 --
 -- Dumping data for table `#__virtuemart_calc_shoppergroups`

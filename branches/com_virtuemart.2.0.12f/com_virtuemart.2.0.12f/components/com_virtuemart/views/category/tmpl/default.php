@@ -250,7 +250,7 @@ if (!empty($this->products)) {
 					?>
 					<?php } ?>
  					<?php
-						if (!VmConfig::get ('use_as_catalog')   && (VmConfig::get ('display_stock', 1))) { ?>
+						if ( VmConfig::get ('display_stock', 1)) { ?>
 						<!-- 						if (!VmConfig::get('use_as_catalog') and !(VmConfig::get('stockhandle','none')=='none')){?> -->
 						<div class="paddingtop8">
 							<span class="vmicon vm2-<?php echo $product->stock->stock_level ?>" title="<?php echo $product->stock->stock_tip ?>"></span>

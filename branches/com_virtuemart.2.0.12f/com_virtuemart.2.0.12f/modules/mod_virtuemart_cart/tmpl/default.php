@@ -25,7 +25,7 @@ if ($show_product_list) {
 	<div class="vm_cart_products">
 		<div class="container">
 
-		<?php  	vmdebug('CART',$data->products);
+		<?php
 			foreach ($data->products as $product)
 		{
 			if ($show_price) { ?>

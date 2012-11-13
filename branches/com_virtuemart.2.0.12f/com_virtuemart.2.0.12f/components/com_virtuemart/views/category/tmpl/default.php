@@ -249,16 +249,14 @@ if (!empty($this->products)) {
 					// echo JText::_('COM_VIRTUEMART_TOTAL_VOTES').": ". $product->votes->allvotes;
 					?>
 					<?php } ?>
-
-					<?php
-					if (!VmConfig::get ('use_as_catalog') and !(VmConfig::get ('stockhandle', 'none') == 'none') && (VmConfig::get ('display_stock', 1))) {
-						?>
+ 					<?php
+						if (!VmConfig::get ('use_as_catalog')   && (VmConfig::get ('display_stock', 1))) { ?>
 						<!-- 						if (!VmConfig::get('use_as_catalog') and !(VmConfig::get('stockhandle','none')=='none')){?> -->
 						<div class="paddingtop8">
 							<span class="vmicon vm2-<?php echo $product->stock->stock_level ?>" title="<?php echo $product->stock->stock_tip ?>"></span>
 							<span class="stock-level"><?php echo JText::_ ('COM_VIRTUEMART_STOCK_LEVEL_DISPLAY_TITLE_TIP') ?></span>
 						</div>
-						<?php }?>
+						<?php } ?>
 				</div>
 
 				<div class="width70 floatright">

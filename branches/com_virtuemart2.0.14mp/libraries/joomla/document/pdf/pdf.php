@@ -95,7 +95,7 @@ class JDocumentPDF extends JDocument
 		 */
 		// Default settings are a portrait layout with an A4 configuration using millimeters as units
 		if(!class_exists('TCPDF')) require(JPATH_ROOT.DS.'libraries'.DS.'tcpdf'.DS.'tcpdf.php');
-		$this->_engine = new TCPDF();
+		$this->_engine = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', true);
 
 		//set margins
 		$this->_engine->SetMargins($this->_margin_left, $this->_margin_top, $this->_margin_right);

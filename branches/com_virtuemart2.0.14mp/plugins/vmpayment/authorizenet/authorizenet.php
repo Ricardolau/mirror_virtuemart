@@ -337,7 +337,6 @@ class plgVmpaymentAuthorizenet extends vmPSPlugin {
 	 */
 	function plgVmOnCheckoutCheckDataPayment (VirtueMartCart $cart) {
 
-
 		if (!$this->selectedThisByMethodId($cart->virtuemart_paymentmethod_id)) {
 			return NULL; // Another method was selected, do nothing
 		}
@@ -379,18 +378,21 @@ class plgVmpaymentAuthorizenet extends vmPSPlugin {
 			return FALSE;
 		}
 
-		//$cart->creditcard_id = vRequest::getVar('creditcard', '0');
-		$this->_cc_type = vRequest::getVar('cc_type_' . $cart->virtuemart_paymentmethod_id, '');
-		$this->_cc_name = vRequest::getVar('cc_name_' . $cart->virtuemart_paymentmethod_id, '');
-		$this->_cc_number = str_replace(" ", "", vRequest::getVar('cc_number_' . $cart->virtuemart_paymentmethod_id, ''));
-		$this->_cc_cvv = vRequest::getVar('cc_cvv_' . $cart->virtuemart_paymentmethod_id, '');
-		$this->_cc_expire_month = vRequest::getVar('cc_expire_month_' . $cart->virtuemart_paymentmethod_id, '');
-		$this->_cc_expire_year = vRequest::getVar('cc_expire_year_' . $cart->virtuemart_paymentmethod_id, '');
+		if (vRequest::getInt('virtuemart_paymentmethod_id')) {
 
-		if (!$this->_validate_creditcard_data(TRUE)) {
-			return FALSE; // returns string containing errors
+			//$cart->creditcard_id = vRequest::getVar('creditcard', '0');
+			$this->_cc_type = vRequest::getVar('cc_type_' . $cart->virtuemart_paymentmethod_id, '');
+			$this->_cc_name = vRequest::getVar('cc_name_' . $cart->virtuemart_paymentmethod_id, '');
+			$this->_cc_number = str_replace(" ", "", vRequest::getVar('cc_number_' . $cart->virtuemart_paymentmethod_id, ''));
+			$this->_cc_cvv = vRequest::getVar('cc_cvv_' . $cart->virtuemart_paymentmethod_id, '');
+			$this->_cc_expire_month = vRequest::getVar('cc_expire_month_' . $cart->virtuemart_paymentmethod_id, '');
+			$this->_cc_expire_year = vRequest::getVar('cc_expire_year_' . $cart->virtuemart_paymentmethod_id, '');
+
+			if (!$this->_validate_creditcard_data(TRUE)) {
+				return FALSE; // returns string containing errors
+			}
+			$this->_setAuthorizeNetIntoSession();
 		}
-		$this->_setAuthorizeNetIntoSession();
 		return TRUE;
 	}
 
@@ -513,7 +515,7 @@ class plgVmpaymentAuthorizenet extends vmPSPlugin {
 		$this->setInConfirmOrder($cart);
 
 		$usrBT = $order['details']['BT'];
-		$usrST = ((isset($order['details']['ST'])) ? $order['details']['ST'] : $order['details']['BT']);
+		$usrST = ((isset($order['details']['ST'])) ? $order['details']['ST'] : '');
 		$session = JFactory::getSession();
 		$return_context = $session->getId();
 
@@ -526,7 +528,9 @@ class plgVmpaymentAuthorizenet extends vmPSPlugin {
 		$formdata = array_merge($this->_setHeader(), $formdata);
 		$formdata = array_merge($this->_setResponseConfiguration(), $formdata);
 		$formdata = array_merge($this->_setBillingInformation($usrBT), $formdata);
-		$formdata = array_merge($this->_setShippingInformation($usrST), $formdata);
+		if (!empty($usrST)) {
+			$formdata = array_merge($this->_setShippingInformation($usrST), $formdata);
+		}
 		$formdata = array_merge($this->_setTransactionData($order['details']['BT'], $totalInPaymentCurrency['value']), $formdata);
 		$formdata = array_merge($this->_setMerchantData(), $formdata);
 		// prepare the array to post
@@ -918,7 +922,7 @@ class plgVmpaymentAuthorizenet extends vmPSPlugin {
 				$this->approved = FALSE;
 				$this->error = TRUE;
 				$error_message = vmText::_('VMPAYMENT_AUTHORIZENET_UNKNOWN') . $response;
-				$this->debugLog($error_message, 'getOrderIdByOrderNumber', 'error');
+				$this->debugLog($error_message, '_handleResponse', 'error');
 				return $error_message;
 			}
 
@@ -1019,7 +1023,7 @@ class plgVmpaymentAuthorizenet extends vmPSPlugin {
 		$response_fields['invoice_number'] = $authorizeNetResponse['invoice_number'];
 		$response_fields['authorizeresponse_raw'] = $response;
 
-		$this->storePSPluginInternalData($response_fields, 'virtuemart_order_id', TRUE);
+		$this->storePSPluginInternalData($response_fields, 'virtuemart_order_id', true);
 
 		$html = '<table class="adminlist table-striped">' . "\n";
 		$html .= $this->getHtmlRow('AUTHORIZENET_PAYMENT_NAME', $payment_name);

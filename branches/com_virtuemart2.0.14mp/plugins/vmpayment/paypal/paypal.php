@@ -763,7 +763,7 @@ vmdebug('plgVmOnPaymentResponseReceived',$payment );
 		if ($paypal_data) {
 			$response_fields['paypal_fullresponse'] = json_encode($paypal_data);
 		}
-	$response_fields['order_number'] = $order_number;
+		$response_fields['order_number'] = $order_number;
 
 		$response_fields['paypal_response_invoice'] = $paypal_data['invoice'];
 		$response_fields['virtuemart_order_id'] = $virtuemart_order_id;

@@ -100,7 +100,9 @@ class PaypalHelperPaypal {
 	}
 
 	function getItemName ($name) {
-		return substr(strip_tags($name), 0, 127);
+		$name= substr(strip_tags($name), 0, 127);
+		$name = preg_replace('/[^a-zA-Z0-9\s]/', '', $name);
+		return $name;
 	}
 
 	function getProductAmount ($productPricesUnformatted) {

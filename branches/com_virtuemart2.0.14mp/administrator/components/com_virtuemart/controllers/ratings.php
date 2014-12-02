@@ -47,6 +47,10 @@ class VirtuemartControllerRatings extends VmController {
 
 	}
 
+	function edit(){
+		$this->listreviews();
+	}
+
 	/**
 	 * Generic edit task
 	 *

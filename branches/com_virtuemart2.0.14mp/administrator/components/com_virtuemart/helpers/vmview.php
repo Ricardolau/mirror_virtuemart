@@ -116,12 +116,12 @@ class VmView extends JView{
 		if ($this->canDo->get('core.admin') || $this->canDo->get('vm.'.$view.'.edit')) {
 			JToolBarHelper::editListX();
 		}
-		if ($this->canDo->get('core.admin') || $showNew && $this->canDo->get('vm.'.$view.'.create')) {
+		if ($showNew and ($this->canDo->get('core.admin') ||  $this->canDo->get('vm.'.$view.'.create'))) {
 			JToolBarHelper::addNewX();
 		}
 		JToolBarHelper::spacer('30');
 		JToolBarHelper::divider();
-		if ($this->canDo->get('core.admin') || $showDelete && $this->canDo->get('vm.'.$view.'.delete')) {
+		if ($showDelete and ($this->canDo->get('core.admin') || $this->canDo->get('vm.'.$view.'.delete'))) {
 			JToolBarHelper::deleteList();
 		}
 		if($showHelp) self::showHelp ();

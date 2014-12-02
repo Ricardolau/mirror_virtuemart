@@ -101,7 +101,7 @@ class VirtueMartModelRatings extends VmModel {
 		$joinValue = array('product_name' =>'#__virtuemart_products');
 
 	    if ($cids) {
-		    $ratings_data->load ($cids[0], $joinValue, 'virtuemart_product_id');
+		    $ratings_data->load ($cids[0], 'virtuemart_product_id', 0, $joinValue);
 	    }
 
 		/* Add some variables for a new rating */

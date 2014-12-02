@@ -62,6 +62,7 @@ class VirtuemartViewRatings extends VmView {
 		/* Get the task */
 		$task = JRequest::getWord('task');
 		switch ($task) {
+			case 'edit':
 			case 'listreviews':
 				/* Get the data */
 				$this->addStandardDefaultViewLists($model);
@@ -85,15 +86,7 @@ class VirtuemartViewRatings extends VmView {
 				$this->addStandardDefaultViewCommands(false,true);
 				break;
 
-			case 'edit':
-				/* Get the data */
-				$rating = $model->getRating($cids);
-				$this->addStandardEditViewCommands();
 
-				/* Assign the data */
-				$this->assignRef('rating', $rating);
-
-				break;
 			case 'edit_review':
 
 				JToolBarHelper::divider();
@@ -118,7 +111,8 @@ class VirtuemartViewRatings extends VmView {
 				break;
 			default:
 
-				$this->addStandardDefaultViewCommands(false, true);
+				$this->addStandardDefaultViewCommands(false, false);
+
 				$this->addStandardDefaultViewLists($model);
 
 				$ratingslist = $model->getRatings();

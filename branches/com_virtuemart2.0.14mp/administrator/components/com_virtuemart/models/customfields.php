@@ -1305,7 +1305,7 @@ class VirtueMartModelCustomfields extends VmModel {
 	/*
 		   * render custom fields display order BE/FE
 		  */
-	public function CustomsFieldOrderDisplay ($item, $view = 'FE', $absUrl = FALSE) {
+	public static function CustomsFieldOrderDisplay ($item, $view = 'FE', $absUrl = FALSE) {
 
 		$row = 0;
 		// 		$item=(array)$item;

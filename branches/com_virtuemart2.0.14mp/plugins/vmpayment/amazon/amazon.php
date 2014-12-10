@@ -2439,7 +2439,8 @@ jQuery().ready(function($) {
 		$cart = VirtueMartCart::getCart();
 		$cartLayout = $cart->layout;
 		if (empty($cart->products) and $cartLayout == $this->_name) {
-			$this->unsetCartLayoutAndPaymentMethod($cart);
+			//$this->unsetCartLayoutAndPaymentMethod($cart);
+			$this->leaveAmazonCheckout();
 		}
 		$amazonOrderReferenceIdWeight = $this->getAmazonOrderReferenceIdWeightFromSession();
 		if ($amazonOrderReferenceIdWeight) {
@@ -2461,6 +2462,7 @@ jQuery().ready(function($) {
 		VmConfig::loadConfig();
 		$cart->layout = VmConfig::get('cartlayout', 'default');
 		$cart->virtuemart_paymentmethod_id = 0;
+		$cart->prepareAddressDataInCart(); // empty BT ?
 		$cart->setCartIntoSession();
 		return;
 	}
@@ -2479,10 +2481,13 @@ jQuery().ready(function($) {
 		$cart->layoutPath = '';
 		$cart->virtuemart_paymentmethod_id = 0;
 		$previousAddress = $this->getBTandSTFromSession();
-		$cart->BT = $previousAddress['BT'];
-		$cart->ST = $previousAddress['ST'];
+		$cart->BT=$previousAddress['BT'];
+		$cart->ST=$previousAddress['ST'];
+		$cart->prepareAddressDataInCart('BT', true); // empty BT ?
+		$cart->prepareAddressDataInCart('ST', true); // empty ST ?
+
+		$cart->setCartIntoSession();
 		$cart->setOutOfCheckout();
-		//$cart->setCartIntoSession();
 		$this->clearAmazonSession();
 		if ($msg) {
 			$app = JFactory::getApplication();
@@ -2519,7 +2524,7 @@ jQuery().ready(function($) {
 	 *
 	 *
 	 */
-
+	private static $cartPriceUpdatedDone = false;
 	public function plgVmonSelectedCalculatePricePayment (VirtueMartCart $cart, array &$cart_prices, &$cart_prices_name) {
 
 		if (!($this->selectedThisByMethodId($cart->virtuemart_paymentmethod_id))) {
@@ -2537,22 +2542,35 @@ jQuery().ready(function($) {
 		$cart_prices['cost'] = 0;
 
 		if (!$this->checkConditions($cart, $this->_currentMethod, $cart_prices)) {
-			vmInfo('VMPAYMENT_AMAZON_PAYMENT_NOT_AVAILABLE');
+			//vmInfo('VMPAYMENT_AMAZON_PAYMENT_NOT_AVAILABLE');
 
-			$this->unsetCartLayoutAndPaymentMethod($cart);
+			//$this->unsetCartLayoutAndPaymentMethod($cart);
+			$this->leaveAmazonCheckout (vmText::_('VMPAYMENT_AMAZON_PAYMENT_NOT_AVAILABLE'));
 			return FALSE;
 		}
 		$layout = $cart->layout;
 
 		if ($this->shouldLoginAgain($referenceIdIsOnlyDigitalGoods, $this->isOnlyDigitalGoods($cart))) {
 		} else {
+			$check=self::$cartPriceUpdatedDone;
+			if (!self::$cartPriceUpdatedDone) {
+				$cartPriceUpdated= ($this->getAmazonSalesPriceFromSession ()==$cart_prices['salesPrice']) ? false:true;
+				if ($cartPriceUpdated) {
+					$cart->_dataValidated=false;
+					$cart->setCartIntoSession();
+				}
+
+			}
 			$this->renderAddressbookWallet($cart->_dataValidated);
 		}
 
 		$cart_prices_name = $this->renderPluginName($this->_currentMethod);
 
 		$this->setCartPrices($cart, $cart_prices, $this->_currentMethod);
-
+		if (!self::$cartPriceUpdatedDone) {
+			$this->setSalesPriceInSession($cart_prices['salesPrice']) ;
+		}
+		self::$cartPriceUpdatedDone=true;
 		return TRUE;
 	}
 
@@ -3138,6 +3156,45 @@ jQuery().ready(function($) {
 		return NULL;
 
 	}
+
+	/**
+	 * @return null
+	 */
+	private function getAmazonSalesPriceFromSession () {
+		$session = JFactory::getSession();
+		$sessionAmazon = $session->get('amazon', 0, 'vm');
+
+		if ($sessionAmazon) {
+			$sessionAmazonData = json_decode($sessionAmazon, true);
+			if (isset($sessionAmazonData[$this->_currentMethod->virtuemart_paymentmethod_id])) {
+				return $sessionAmazonData[$this->_currentMethod->virtuemart_paymentmethod_id]['_salesPrices'];
+			}
+		}
+
+		return NULL;
+
+	}
+
+	/**
+	 * @param $amazonOrderReferenceId
+	 * @param $isOnlyDigitalGoods
+	 */
+	private function setSalesPriceInSession ($salesPrices) {
+		$session = JFactory::getSession();
+		$sessionAmazon = $session->get('amazon', 0, 'vm');
+		if ($sessionAmazon) {
+			$sessionAmazonData = json_decode($sessionAmazon, true);
+		} else {
+			$sessionAmazonData = array();
+		}
+
+		$sessionAmazonData['virtuemart_paymentmethod_id'] = $this->_currentMethod->virtuemart_paymentmethod_id;
+		$sessionAmazonData[$this->_currentMethod->virtuemart_paymentmethod_id]['_salesPrices'] = $salesPrices;
+		$session->set('amazon', json_encode($sessionAmazonData), 'vm');
+
+	}
+
+
 
 	/**
 	 * @return null

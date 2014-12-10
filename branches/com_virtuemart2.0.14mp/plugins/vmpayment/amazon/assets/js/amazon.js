@@ -93,16 +93,18 @@ var amazonPayment = {
                         function (datas, textStatus) {
                             var errormsg = '';
                             var checkoutFormSubmit = document.getElementById("checkoutFormSubmit");
-                            checkoutFormSubmit.className = 'vm-button-correct';
-                            checkoutFormSubmit.removeAttribute('disabled');
-                            amazonPayment.updateCart();
-                            amazonPayment.showAmazonWallet();
+
                             if (typeof datas.error_msg != 'undefined' && datas.error_msg != '') {
                                 errormsg = datas.error_msg;
                                 checkoutFormSubmit.className = 'vm-button';
                                 checkoutFormSubmit.setAttribute('disabled', 'true');
                                 document.id('amazonShipmentsDiv').style.display = 'none';
                                 amazonPayment.stopLoading();
+                            } else {
+                                checkoutFormSubmit.className = 'vm-button-correct';
+                                checkoutFormSubmit.removeAttribute('disabled');
+                                amazonPayment.updateCart();
+                                amazonPayment.showAmazonWallet();
                             }
                             document.id('amazonErrorDiv').set('html', errormsg);
                         }

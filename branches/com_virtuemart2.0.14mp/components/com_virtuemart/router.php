@@ -79,14 +79,15 @@ function virtuemartBuildRoute(&$query) {
 			}
 			if ( isset($query['virtuemart_category_id']) ) {
 
-				$categoryRoute = $helper->getCategoryRoute($query['virtuemart_category_id']);
+				$categoryRoute = $helper->getCategoryRoute( $query['virtuemart_category_id'] );
 				//vmdebug('my categoryRoute '.$query['virtuemart_category_id'],$categoryRoute);
-				if ($categoryRoute->route) {
+				if($categoryRoute->route) {
 					$segments[] = $categoryRoute->route;
 				}
-				if (isset($jmenu['virtuemart_category_id'][ $query['virtuemart_category_id'] ] ) )
+
+				if(isset($query['virtuemart_category_id']) and isset($jmenu['virtuemart_category_id'][$query['virtuemart_category_id']])) {
 					$query['Itemid'] = $jmenu['virtuemart_category_id'][$query['virtuemart_category_id']];
-				else {
+				} else {
 					//http://forum.virtuemart.net/index.php?topic=121642.0
 					/*$Itemid = vRequest::get('Itemid',false);
 					if($Itemid){

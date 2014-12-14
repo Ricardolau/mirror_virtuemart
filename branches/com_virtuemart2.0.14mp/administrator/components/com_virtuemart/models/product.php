@@ -685,7 +685,7 @@ class VirtueMartModelProduct extends VmModel {
 		}
 
 		if($virtuemart_shoppergroup_ids !=0 and is_array($virtuemart_shoppergroup_ids)){
-			$virtuemart_shoppergroup_idsString = implode('',$virtuemart_shoppergroup_ids);
+			$virtuemart_shoppergroup_idsString = implode('.',$virtuemart_shoppergroup_ids);
 		} else {
 			$virtuemart_shoppergroup_idsString = $virtuemart_shoppergroup_ids;
 		}
@@ -969,7 +969,7 @@ class VirtueMartModelProduct extends VmModel {
 
 		$virtuemart_shoppergroup_idsString = 0;
 		if(!empty($virtuemart_shoppergroup_ids) and is_array($virtuemart_shoppergroup_ids)){
-			$virtuemart_shoppergroup_idsString = implode('',$virtuemart_shoppergroup_ids);
+			$virtuemart_shoppergroup_idsString = implode('.',$virtuemart_shoppergroup_ids);
 		} else if(!empty($virtuemart_shoppergroup_ids)){
 			$virtuemart_shoppergroup_idsString = $virtuemart_shoppergroup_ids;
 		}

@@ -42,6 +42,7 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 	const AUTHORIZE_TRANSACTION_TIMEOUT = 60;
 	var $_currentMethod = NULL;
 	private $_amount = 0.0;
+	private $_is_digital = false;
 	private $_order_number = NULL;
 	var $languages_region = array(
 		'en' => 'UK',
@@ -89,8 +90,10 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 			'order_number'                          => 'char(64)',
 			'virtuemart_paymentmethod_id'           => 'mediumint(1) UNSIGNED',
 			'payment_name'                          => 'varchar(5000)',
+			'amazonOrderReferenceId'                => 'char(64)',
 			//'payment_params'                          => 'varchar(5000)',
-			'payment_order_total'                   => 'decimal(15,5) NOT NULL DEFAULT \'0.00000\'',
+			'order_is_digital'                   => 'smallint(1)',
+			'payment_order_total'                   => 'decimal(15,5)',
 			'payment_currency'                      => 'smallint(1)',
 			'email_currency'                        => 'smallint(1)',
 			'recurring'                             => 'varchar(512)',
@@ -343,7 +346,7 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 
 	private function amazonError ($message, $code = '') {
 
-		$public = '';
+		$public_msg = '';
 		if ($this->_currentMethod->debug) {
 			$public_msg = $message;
 		}
@@ -486,7 +489,7 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 		$db->setQuery($q);
 		$payments = $db->loadObjectList();
 		$done = array();
-		$this->debugLog("<pre>" . var_export($payments, true) . "</pre>", __FUNCTION__, 'debug');
+		//$this->debugLog("<pre>" . var_export($payments, true) . "</pre>", __FUNCTION__, 'debug');
 		$this->loadAmazonServicesClasses();
 		foreach ($payments as $payment) {
 			if (in_array($payment->order_number, $done)) {
@@ -606,12 +609,36 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 		$orderModel = VmModel::getModel('orders');
 		$order = $orderModel->getOrder($payment->virtuemart_order_id);
 		if ($payment->amazon_response_state == 'Pending' OR ($payment->amazon_response_state == 'Open' AND $this->getNumberOfDays($payments) > 30)) {
-			$newState = $this->getAuthorizationState($payments, $order);
-			if ($newState == 'Closed' OR $newState == 'Declined') {
+			$amazonAuthorizationId = $this->getAmazonAuthorizationId($payments);
+			if (!$amazonAuthorizationId) {
+				return false;
+			}
+			$authorizationDetailsResponse = $this->getAuthorizationDetails($amazonAuthorizationId, $order);
+			$this->loadHelperClass('amazonHelperGetAuthorizationDetailsResponse');
+			$amazonHelperAuthorizationDetailsResponse = new amazonHelperGetAuthorizationDetailsResponse($authorizationDetailsResponse, $this->_currentMethod);
+
+			$storeInternalData = $amazonHelperAuthorizationDetailsResponse->getStoreInternalData();
+			$this->storeAmazonInternalData($order, NULL, $authorizationDetailsResponse, NULL, $this->renderPluginName($this->_currentMethod), $storeInternalData);
+			$authorizationState = $amazonHelperAuthorizationDetailsResponse->getState();
+			if ($authorizationState == 'Closed' OR $authorizationState == 'Declined') {
 				// check if status has changed
 				// fetch Order
+				$this->_amazonOrderReferenceId=$payments[0]->amazonOrderReferenceId;
 				$this->vmConfirmedOrder(NULL, $order, FALSE);
+				return;
 			}
+			if (!$authorizationDetailsResponse->isSetGetAuthorizationDetailsResult()) {
+				return;
+			}
+			$getAuthorizationDetailsResult = $authorizationDetailsResponse->getGetAuthorizationDetailsResult();
+
+			if (!$getAuthorizationDetailsResult->isSetAuthorizationDetails()) {
+				return;
+			}
+			$getAuthorizationDetails = $getAuthorizationDetailsResult->getAuthorizationDetails();
+
+			$this->updateAuthorizeBillingAddressInOrder($getAuthorizationDetails, $order);
+
 		}
 	}
 
@@ -946,9 +973,10 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 			$this->onErrorRedirectToCart();
 			return FALSE;
 		}
-
-		$this->storeAmazonInternalData($order, NULL, NULL, NULL, $this->renderPluginName($this->_currentMethod), NULL, $this->_amazonOrderReferenceId, $this->_currentMethod);
 		$this->_amount = $order['details']['BT']->order_total;
+		$this->_is_digital = $this->isOnlyDigitalGoods($cart);
+		$this->storeAmazonInternalData($order, NULL, NULL, NULL, $this->renderPluginName($this->_currentMethod), NULL, $this->_amazonOrderReferenceId, $this->_currentMethod);
+
 		$this->_order_number = $order['details']['BT']->order_number;
 
 		$html = $this->vmConfirmedOrder($cart, $order, false);
@@ -965,9 +993,11 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 	 */
 	private function vmConfirmedOrder ($cart, $order, $orderReferenceModifiable = true) {
 		$client = $this->getOffAmazonPaymentsService_Client();
-		//if ($orderReferenceModifiable) {
-		$this->setOrderReferenceDetails($client, $cart, $order);
-		//}
+
+		// if $cart=NULL may be coming from plgVmRetrieveIPN
+		if ($cart) {
+			$this->setOrderReferenceDetails($client, $cart, $order);
+		}
 		//confirmOrderReference
 		if (!$this->confirmOrderReference($client, $order)) {
 			return FALSE;
@@ -1021,6 +1051,7 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 		$db_values['order_number'] = $order['details']['BT']->order_number;
 		$db_values['virtuemart_order_id'] = $order['details']['BT']->virtuemart_order_id;
 		$db_values['virtuemart_paymentmethod_id'] = $this->_currentMethod->virtuemart_paymentmethod_id;
+		$db_values['order_is_digital'] =$this->_is_digital;
 		$db_values['payment_order_total'] = $this->_amount;
 		$db_values['payment_currency'] = $order['details']['BT']->user_currency_id;
 		$db_values['amazon_request'] = $request ? serialize($request) : "";
@@ -1073,7 +1104,7 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 		}
 
 		// at this step, we should get it from amazon
-		$onlyDigitalGoods = $this->isOnlyDigitalGoods($cart);
+		$onlyDigitalGoods = $this->isOnlyDigitalGoods($cart, $order);
 		if (!$onlyDigitalGoods) {
 
 			$physicalDestination = $orderReferenceDetails->getDestination()->getPhysicalDestination();
@@ -1794,8 +1825,8 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 		$amazonHelperAuthorizationDetailsResponse = new amazonHelperGetAuthorizationDetailsResponse($authorizationDetailsResponse, $this->_currentMethod);
 		$authorizationState = $amazonHelperAuthorizationDetailsResponse->getState();
 
-		//$storeInternalData = $amazonHelperAuthorizationDetailsResponse->getStoreInternalData();
-		//$this->storeAmazonInternalData($order, NULL, $authorizationDetailsResponse, NULL, $this->renderPluginName($this->_currentMethod), $storeInternalData);
+		$storeInternalData = $amazonHelperAuthorizationDetailsResponse->getStoreInternalData();
+		$this->storeAmazonInternalData($order, NULL, $authorizationDetailsResponse, NULL, $this->renderPluginName($this->_currentMethod), $storeInternalData);
 
 
 		return $authorizationState;
@@ -2445,7 +2476,10 @@ jQuery().ready(function($) {
 		$amazonOrderReferenceIdWeight = $this->getAmazonOrderReferenceIdWeightFromSession();
 		if ($amazonOrderReferenceIdWeight) {
 			$this->_amazonOrderReferenceId = $amazonOrderReferenceIdWeight['_amazonOrderReferenceId'];
-			$referenceIdIsOnlyDigitalGoods = $amazonOrderReferenceIdWeight['isOnlyDigitalGoods'];
+			$referenceIdIsOnlyDigitalGoods=false;
+			if (isset($amazonOrderReferenceIdWeight['isOnlyDigitalGoods'])) {
+				$referenceIdIsOnlyDigitalGoods = $amazonOrderReferenceIdWeight['isOnlyDigitalGoods'];
+			}
 		}
 
 		if (!$this->_amazonOrderReferenceId OR $this->shouldLoginAgain($referenceIdIsOnlyDigitalGoods, $this->isOnlyDigitalGoods($cart))) {
@@ -3323,13 +3357,17 @@ jQuery().ready(function($) {
 		if (!$this->_currentMethod->digital_goods) {
 			return false;
 		}
-		$weight = $this->getOrderWeight($cart, 'GR');
+			$weight = $this->getOrderWeight($cart, 'GR');
+
 		if ($weight == 0) {
 			return true;
 		} else {
 			return false;
 		}
 	}
+
+
+
 
 	/**
 	 * In case of some Digital goods, the capture is immediate

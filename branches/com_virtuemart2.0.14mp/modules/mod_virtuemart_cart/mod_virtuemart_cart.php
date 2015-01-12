@@ -69,4 +69,6 @@ $show_price = (bool)$params->get( 'show_price', 1 ); // Display the Product Pric
 $show_product_list = (bool)$params->get( 'show_product_list', 1 ); // Display the Product Price?
 /* Laod tmpl default */
 require(JModuleHelper::getLayoutPath('mod_virtuemart_cart'));
+
+echo vmJsApi::writeJS();
  ?>

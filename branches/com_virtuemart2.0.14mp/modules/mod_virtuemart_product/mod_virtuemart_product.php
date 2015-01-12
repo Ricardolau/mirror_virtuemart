@@ -74,4 +74,5 @@ require(JModuleHelper::getLayoutPath('mod_virtuemart_product',$layout));
 	$cache->store($output, $key);
 }
 echo $output;
+echo vmJsApi::writeJS();
 ?>

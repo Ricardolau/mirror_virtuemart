@@ -25,6 +25,22 @@ jimport( 'joomla.application.component.view');
 
 class VmView extends JView{
 
+	var $writeJs = true;
+
+	public function display($tpl = null)
+	{
+		$result = $this->loadTemplate($tpl);
+		if ($result instanceof Exception) {
+			return $result;
+		}
+
+		echo $result;
+		if($this->writeJs and get_class($this)!='VirtueMartViewProductdetails'){
+			echo vmJsApi::writeJS();
+		}
+
+	}
+
 	public function prepareContinueLink(){
 
 		$virtuemart_category_id = shopFunctionsF::getLastVisitedCategoryId ();

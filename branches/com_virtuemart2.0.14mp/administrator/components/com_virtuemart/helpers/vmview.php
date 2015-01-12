@@ -32,12 +32,11 @@ class VmView extends JView{
 	 *
 	 * @author Max Milbers
 	 */
-	// public function __construct() {
-		// parent::construct();
-	// }
 	var $lists = array();
 
 	protected $canDo;
+	var $writeJs = true;
+
 	function __construct($config = array()) {
 		parent::__construct($config);
 		// What Access Permissions does this user have? What can (s)he do?
@@ -57,12 +56,14 @@ class VmView extends JView{
 			|| $this->canDo->get('core.admin')) { //Super administrators always have access
 			
 			parent::display($tpl);
+			if($this->writeJs) echo vmJsApi::writeJS();
 			return;
 		}
 
         //Super administrator always has access
         if ($this->canDo->get('core.admin')) {
             parent::display($tpl);
+			if($this->writeJs) echo vmJsApi::writeJS();
             return;
         }
 

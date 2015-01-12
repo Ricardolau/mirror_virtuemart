@@ -25,10 +25,94 @@
  */
 class vmJsApi{
 
+	private static $_jsAdd = array();
 
 	private function __construct() {
 
 	}
+
+	/**
+	 *
+	 * @param $name
+	 * @param bool $script
+	 * @param bool $min
+	 * @param bool $defer	http://peter.sh/experiments/asynchronous-and-deferred-javascript-execution-explained/
+	 * @param bool $async
+	 */
+	public static function addJScript($name, $script = false, $defer = true, $async = false, $ver = VM_REV){
+		self::$_jsAdd[$name]['script'] = trim($script);
+		self::$_jsAdd[$name]['defer'] = $defer;
+		self::$_jsAdd[$name]['async'] = $async;
+		if(!isset(self::$_jsAdd[$name]['written']))self::$_jsAdd[$name]['written'] = false;
+		self::$_jsAdd[$name]['ver'] = $ver;
+	}
+
+	public static function getJScripts(){
+		return self::$_jsAdd;
+	}
+
+	public static function removeJScript($name){
+		unset(self::$_jsAdd[$name]);
+	}
+
+	public static function writeJS(){
+
+		$html = '';
+		//vmdebug('writeJS',self::$_jsAdd);
+		foreach(self::$_jsAdd as $name => &$jsToAdd){
+			//vmdebug('writeJS',$name,$jsToAdd);
+			if($jsToAdd['written']) continue;
+			if(!$jsToAdd['script'] or strpos($jsToAdd['script'],'/')===0 and strpos($jsToAdd['script'],'//<![CDATA[')!==0){ //strpos($script,'/')===0){
+
+				if(!$jsToAdd['script']){
+					$file = $name;
+				} else {
+					$file = $jsToAdd['script'];
+				}
+
+				if(strpos($file,'/')!==0){
+					$file = vmJsApi::setPath($file,false,'');
+				} else if(strpos($file,'//')!==0){
+					$file = JURI::root(true).$file;
+				}
+
+				if(empty($file)){
+					vmdebug('writeJS javascript with empty file',$name,$jsToAdd);
+					continue;
+				}
+				//vmdebug('writeJS addScript to header ',$file);
+				$ver = '';
+				if(!empty($jsToAdd['ver'])) $ver = '?vmver='.$jsToAdd['ver'];
+				$document = JFactory::getDocument();
+				$document->addScript( $file .$ver,"text/javascript",$jsToAdd['defer'],$jsToAdd['async'] );
+			} else {
+
+				$script = trim($jsToAdd['script']);
+				if(!empty($script)) {
+					$script = trim($script,chr(13));
+					$script = trim($script,chr(10));
+					$defer='';
+					if($jsToAdd['defer']){
+						$defer = 'defer="defer" ';
+					}
+					$async='';
+					if($jsToAdd['async']){
+						$async = 'async="async" ';
+					}
+					if(strpos($script,'//<![CDATA[')===false){
+						$html .= '<script id="'.$name.'_js" type="text/javascript">//<![CDATA[ '.chr(10).$script.chr(10).' //]]></script>';
+					} else {
+						$html .= '<script id="'.$name.'_js" '.$defer.$async.'type="text/javascript"> '.$script.' </script>';
+					}
+				}
+
+			}
+			$html .= chr(13);
+			$jsToAdd['written'] = true;
+		}
+		return $html;
+	}
+
 	/**
 	 * Write a <script></script> element
 	 * @param   string   path to file
@@ -56,8 +140,14 @@ class vmJsApi{
 		$file = vmJsApi::setPath($namespace,$path,$version, $minified , 'js');
 		$document = JFactory::getDocument();
 		$ver = '?vmver='.$ver;
-
 		$document->addScript( $file.$ver );
+
+		if(!empty($minified)){
+			$namespace .= '.min';
+		}
+		//self::addJScript($namespace,false,false);
+		self::$_jsAdd[$namespace]['written'] = true;
+		//self::addJScript($namespace,false,false);
 		$loaded[$namespace] = TRUE;
 	}
 

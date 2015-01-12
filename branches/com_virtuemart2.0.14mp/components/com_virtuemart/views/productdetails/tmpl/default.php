@@ -380,5 +380,8 @@ echo $this->product->event->afterDisplayContent; ?>
 
 <?php
 echo $this->loadTemplate('reviews');
+
+echo vmJsApi::writeJS();
+
 ?>
 </div>

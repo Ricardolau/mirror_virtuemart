@@ -134,7 +134,7 @@ class plgVmPaymentSofort_Ideal extends vmPSPlugin {
 					vmError('Missing essentials infos for this published payment. Check the configuration  key and the password:'. $method->payment_name. ' ('.$method->virtuemart_paymentmethod_id.')');
 					continue;
 				}
-				$sofort_ideal = new SofortLib_iDealClassic($method->configuration_key, $method->project_password);
+				$sofort_ideal = new SofortLib_iDealClassic(trim($method->configuration_key), trim($method->project_password));
 				$relatedBanks = $sofort_ideal->getRelatedBanks();
 				if (empty($relatedBanks)) {
 					vmError('getRelatedBanks: error, returned NULL'.$method->virtuemart_paymentmethod_id. '.');
@@ -284,7 +284,7 @@ class plgVmPaymentSofort_Ideal extends vmPSPlugin {
 		}
 
 
-		$sofort_ideal = new SofortLib_iDealClassic($method->configuration_key, $method->project_password);
+		$sofort_ideal = new SofortLib_iDealClassic(trim($method->configuration_key), trim($method->project_password));
 		$sofort_ideal->setVersion(self::RELEASE);
 		$sofort_ideal->setAmount($totalInPaymentCurrency['value'], $currency_code_3);
 		$sofort_ideal->setSenderCountryId(ShopFunctions::getCountryByID($address->virtuemart_country_id, 'country_2_code'));

@@ -37,7 +37,7 @@ if (!class_exists('KlikandpayHelperKlikandpay')) {
 }
 class plgVmpaymentKlikandpay extends vmPSPlugin {
 
-
+var $encrypt_po=false;
 	function __construct (& $subject, $config) {
 
 		//if (self::$_this)
@@ -145,7 +145,7 @@ class plgVmpaymentKlikandpay extends vmPSPlugin {
 			"TEL"            => !empty($order['details']['BT']->phone_1) ? $order['details']['BT']->phone_1 : $order['details']['BT']->phone_2,
 			"EMAIL"          => $order['details']['BT']->email,
 			"L"              => $interface->getLanguage(),
-			"ID"             => $this->_currentMethod->account,
+			"ID"             => trim($this->_currentMethod->account),
 			"MONTANT"        => $interface->getTotal(),
 			"DETAILS"        => $interface->getOrderDetails($order),
 			"RETOUR"         => $retourParams,
@@ -846,7 +846,7 @@ $html='';
 	jQuery(document).ready(function($) {
 	    jQuery(window).load(function(){
 			if(jQuery("#vmPaymentForm")) {
-				jQuery("#vmPaymentForm").vm2front("startVmLoading","'.vmText::_('VMPAYMENT_KLICKANDPAY_REDIRECT_MESSAGE', true).'" );
+				jQuery("#vmPaymentForm").vm2front("startVmLoading","'.vmText::_('VMPAYMENT_KLIKANDPAY_REDIRECT_MESSAGE', true).'" );
 				jQuery("#vmPaymentForm").submit();
 			}
 		});
@@ -961,20 +961,30 @@ $html='';
 
 	private function setRetourParams ($order, $context) {
 		$params = $order['details']['BT']->virtuemart_paymentmethod_id . ':' . $order['details']['BT']->order_number . ':' . $context;
-		if (!class_exists('vmCrypt')) {
-			require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'vmcrypt.php');
+
+		if ($this->encrypt_po) {
+			if (!class_exists('vmCrypt')) {
+				require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'vmcrypt.php');
+			}
+			$cryptedParams = vmCrypt::encrypt($params);
+			$retourParams = base64_encode($cryptedParams);
+		} else {
+			$retourParams = $params;
 		}
-		$cryptedParams = vmCrypt::encrypt($params);
-		$cryptedParams = base64_encode($cryptedParams);
-		return $cryptedParams;
+
+		return $retourParams;
 	}
 
-	private function getRetourParams ($cryptedParams) {
-		if (!class_exists('vmCrypt')) {
-			require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'vmcrypt.php');
+	private function getRetourParams ($params) {
+		if ($this->encrypt_po) {
+			if (!class_exists('vmCrypt')) {
+				require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'vmcrypt.php');
+			}
+			$params = base64_decode($params);
+			$params = vmCrypt::decrypt($params);
+		} else {
+
 		}
-		$cryptedParams = base64_decode($cryptedParams);
-		$params = vmCrypt::decrypt($cryptedParams);
 		$paramsArray = explode(":", $params);
 		$retourParams['virtuemart_paymentmethod_id'] = $paramsArray[0];
 		$retourParams['order_number'] = $paramsArray[1];

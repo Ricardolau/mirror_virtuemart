@@ -161,10 +161,10 @@
         <!--param name="klarna_pclasses" type="klarnapclasses"   default="" label="VMPAYMENT_KLARNA_CONF_PCLASSES"
         description="VMPAYMENT_KLARNA_CONF_PCLASSES_DESC" / -->
 
-        <!-- param name="debug" type="radio" default="0" label="VMPAYMENT_KLARNA_CONF_DEBUG" description="VMPAYMENT_KLARNA_CONF_DEBUG_DESC" >
+        <param name="debug" type="radio" default="0" label="VMPAYMENT_KLARNA_CONF_DEBUG" description="VMPAYMENT_KLARNA_CONF_DEBUG_DESC" >
                 <option value="0">COM_VIRTUEMART_NO</option>
                 <option value="1">COM_VIRTUEMART_YES</option>
-            </param -->
+            </param>
     </params>
 
     <updateservers>

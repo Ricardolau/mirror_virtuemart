@@ -92,7 +92,7 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 			'payment_name'                          => 'varchar(5000)',
 			'amazonOrderReferenceId'                => 'char(64)',
 			//'payment_params'                          => 'varchar(5000)',
-			'order_is_digital'                   => 'smallint(1)',
+			'order_is_digital'                      => 'smallint(1)',
 			'payment_order_total'                   => 'decimal(15,5)',
 			'payment_currency'                      => 'smallint(1)',
 			'email_currency'                        => 'smallint(1)',
@@ -163,6 +163,9 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 
 
 	private function redisplayAddressbookWallet ($client, $cart, $order_number) {
+		if ($cart == NULL) {
+			return;
+		}
 		$this->addWidgetUrlScript($client);
 		if (empty($this->_amazonOrderReferenceId)) {
 			$this->_amazonOrderReferenceId = $this->getAmazonOrderReferenceIdFromSession();
@@ -623,7 +626,7 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 			if ($authorizationState == 'Closed' OR $authorizationState == 'Declined') {
 				// check if status has changed
 				// fetch Order
-				$this->_amazonOrderReferenceId=$payments[0]->amazonOrderReferenceId;
+				$this->_amazonOrderReferenceId = $payments[0]->amazonOrderReferenceId;
 				$this->vmConfirmedOrder(NULL, $order, FALSE);
 				return;
 			}
@@ -1006,17 +1009,23 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 		if (!$this->updateBuyerInOrder($client, $cart, $order)) {
 			return FALSE;
 		}
-
+		if ($cart) {
+			$redirect = true;
+		} else {
+			$redirect = false;
+		}
 
 		// at this point, since the authorization and capturing takes additional time to process
 		// let's do that with a trigger
-		if (!($amazonAuthorizationId = $this->getAuthorization($client, $cart, $order))) {
+		if (!($amazonAuthorizationId = $this->getAuthorization($client, $cart, $order, $redirect))) {
 			// getAuhtorization returns false if the the wallet needs to be displayed again
 			//$cart->setOutOfCheckout();
 			$html = $this->redisplayAddressbookWallet($client, $cart, $order['details']['BT']->order_number);
 			return $html;
 		}
-
+		if (!$cart) {
+			return NULL;
+		}
 		if (!class_exists('CurrencyDisplay')) {
 			require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'currencydisplay.php');
 		}
@@ -1031,6 +1040,7 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 
 		$this->leaveAmazonCheckout();
 		$cart->emptyCart();
+
 		return $html;
 
 
@@ -1051,7 +1061,7 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 		$db_values['order_number'] = $order['details']['BT']->order_number;
 		$db_values['virtuemart_order_id'] = $order['details']['BT']->virtuemart_order_id;
 		$db_values['virtuemart_paymentmethod_id'] = $this->_currentMethod->virtuemart_paymentmethod_id;
-		$db_values['order_is_digital'] =$this->_is_digital;
+		$db_values['order_is_digital'] = $this->_is_digital;
 		$db_values['payment_order_total'] = $this->_amount;
 		$db_values['payment_currency'] = $order['details']['BT']->user_currency_id;
 		$db_values['amazon_request'] = $request ? serialize($request) : "";
@@ -1324,6 +1334,7 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 			$getOrderReferenceDetailsRequest->setAmazonOrderReferenceId($this->_amazonOrderReferenceId);
 
 			$getOrderReferenceDetailsResponse = $client->getOrderReferenceDetails($getOrderReferenceDetailsRequest);
+			// todo log in db the response
 			$this->debugLog("<pre>" . var_export($getOrderReferenceDetailsRequest, true) . "</pre>", __FUNCTION__, 'debug');
 			$this->debugLog("<pre>" . var_export($getOrderReferenceDetailsResponse, true) . "</pre>", __FUNCTION__, 'debug');
 		} catch (Exception $e) {
@@ -1565,8 +1576,8 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 			try {
 				$authorizeResponse = $client->authorize($authorizeRequest);
 				$amazonAuthorizationId = $authorizeResponse->getAuthorizeResult()->getAuthorizationDetails()->getAmazonAuthorizationId();
-				//$this->debugLog("ERREUR<pre>" . var_export($authorizeRequest, true) . "</pre>", __FUNCTION__, 'debug');
-				//$this->debugLog("ERREUR<pre>" . var_export($authorizeResponse, true) . "</pre>", __FUNCTION__, 'debug');
+				$this->debugLog("<pre>" . var_export($authorizeRequest, true) . "</pre>", __FUNCTION__, 'debug');
+				$this->debugLog("<pre>" . var_export($authorizeResponse, true) . "</pre>", __FUNCTION__, 'debug');
 
 			} catch (Exception $e) {
 				$msg = "An exception was thrown when trying to do the authorization:" . $e->getMessage() . "\n" . $e->getTraceAsString();
@@ -2476,7 +2487,7 @@ jQuery().ready(function($) {
 		$amazonOrderReferenceIdWeight = $this->getAmazonOrderReferenceIdWeightFromSession();
 		if ($amazonOrderReferenceIdWeight) {
 			$this->_amazonOrderReferenceId = $amazonOrderReferenceIdWeight['_amazonOrderReferenceId'];
-			$referenceIdIsOnlyDigitalGoods=false;
+			$referenceIdIsOnlyDigitalGoods = false;
 			if (isset($amazonOrderReferenceIdWeight['isOnlyDigitalGoods'])) {
 				$referenceIdIsOnlyDigitalGoods = $amazonOrderReferenceIdWeight['isOnlyDigitalGoods'];
 			}
@@ -2515,8 +2526,8 @@ jQuery().ready(function($) {
 		$cart->layoutPath = '';
 		$cart->virtuemart_paymentmethod_id = 0;
 		$previousAddress = $this->getBTandSTFromSession();
-		$cart->BT=$previousAddress['BT'];
-		$cart->ST=$previousAddress['ST'];
+		$cart->BT = $previousAddress['BT'];
+		$cart->ST = $previousAddress['ST'];
 		$cart->prepareAddressDataInCart('BT', true); // empty BT ?
 		$cart->prepareAddressDataInCart('ST', true); // empty ST ?
 
@@ -2559,6 +2570,7 @@ jQuery().ready(function($) {
 	 *
 	 */
 	private static $cartPriceUpdatedDone = false;
+
 	public function plgVmonSelectedCalculatePricePayment (VirtueMartCart $cart, array &$cart_prices, &$cart_prices_name) {
 
 		if (!($this->selectedThisByMethodId($cart->virtuemart_paymentmethod_id))) {
@@ -2579,18 +2591,18 @@ jQuery().ready(function($) {
 			//vmInfo('VMPAYMENT_AMAZON_PAYMENT_NOT_AVAILABLE');
 
 			//$this->unsetCartLayoutAndPaymentMethod($cart);
-			$this->leaveAmazonCheckout (vmText::_('VMPAYMENT_AMAZON_PAYMENT_NOT_AVAILABLE'));
+			$this->leaveAmazonCheckout(vmText::_('VMPAYMENT_AMAZON_PAYMENT_NOT_AVAILABLE'));
 			return FALSE;
 		}
 		$layout = $cart->layout;
 
 		if ($this->shouldLoginAgain($referenceIdIsOnlyDigitalGoods, $this->isOnlyDigitalGoods($cart))) {
 		} else {
-			$check=self::$cartPriceUpdatedDone;
+			$check = self::$cartPriceUpdatedDone;
 			if (!self::$cartPriceUpdatedDone) {
-				$cartPriceUpdated= ($this->getAmazonSalesPriceFromSession ()==$cart_prices['salesPrice']) ? false:true;
+				$cartPriceUpdated = ($this->getAmazonSalesPriceFromSession() == $cart_prices['salesPrice']) ? false : true;
 				if ($cartPriceUpdated) {
-					$cart->_dataValidated=false;
+					$cart->_dataValidated = false;
 					$cart->setCartIntoSession();
 				}
 
@@ -2602,9 +2614,9 @@ jQuery().ready(function($) {
 
 		$this->setCartPrices($cart, $cart_prices, $this->_currentMethod);
 		if (!self::$cartPriceUpdatedDone) {
-			$this->setSalesPriceInSession($cart_prices['salesPrice']) ;
+			$this->setSalesPriceInSession($cart_prices['salesPrice']);
 		}
-		self::$cartPriceUpdatedDone=true;
+		self::$cartPriceUpdatedDone = true;
 		return TRUE;
 	}
 
@@ -2901,7 +2913,7 @@ jQuery().ready(function($) {
 			return;
 		}
 		// Fetch all HTTP request headers
-		$headers = getallheaders();
+		$headers = $this->getallheaders();
 		$body = file_get_contents('php://input');
 		$this->debugLog($headers, 'AMAZON IPN HEADERS debug', 'debug');
 		$this->debugLog($body, 'AMAZON IPN BODY debug', 'debug');
@@ -3229,7 +3241,6 @@ jQuery().ready(function($) {
 	}
 
 
-
 	/**
 	 * @return null
 	 */
@@ -3357,7 +3368,10 @@ jQuery().ready(function($) {
 		if (!$this->_currentMethod->digital_goods) {
 			return false;
 		}
+		$weight = 0;
+		if ($cart) {
 			$weight = $this->getOrderWeight($cart, 'GR');
+		}
 
 		if ($weight == 0) {
 			return true;
@@ -3365,8 +3379,6 @@ jQuery().ready(function($) {
 			return false;
 		}
 	}
-
-
 
 
 	/**
@@ -3587,6 +3599,23 @@ jQuery().ready(function($) {
 			} else {
 				vmError('Programming error:' . __FUNCTION__ . ' trying to load:' . $fileName);
 			}
+		}
+	}
+
+	function getallheaders () {
+		if (!function_exists('getallheaders')) {
+			//$this->debugLog("getallheaders PHP function does not exists" . "<pre>" . var_export($_SERVER, true) . "</pre>", __FUNCTION__, 'debug');
+			$headers = '';
+			foreach ($_SERVER as $name => $value) {
+				if (substr($name, 0, 5) == 'HTTP_') {
+					$headers[str_replace(' ', '-', strtolower(str_replace('_', ' ', substr($name, 5))))] = $value;
+				}
+			}
+			//$this->debugLog("getallheaders Local function returns" . "<pre>" . var_export($headers, true) . "</pre>", __FUNCTION__, 'debug');
+
+			return $headers;
+		} else {
+			return getallheaders();
 		}
 	}
 }

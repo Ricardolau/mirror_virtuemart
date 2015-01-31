@@ -51,8 +51,8 @@ if(class_exists('finfo')){
 				$addLink=false;
 				$fileSize = round(filesize($this->path.DS.$logFile)/1024.0,2);
 				$fileInfo= $finfo?$finfo->file($this->path.DS.$logFile):0;
-				$fileInfoMime=substr($fileInfo, 0 ,strlen("text/plain"));
-				if (!$finfo or strcmp("text/plain", $fileInfoMime)==0) {
+				$fileInfoMime=substr($fileInfo, 0 ,strlen("text/"));
+				if (!$finfo or strcmp("text/", $fileInfoMime)==0 ) {
 					$addLink=true;
 				}
 				?>

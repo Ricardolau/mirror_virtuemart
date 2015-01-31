@@ -42,7 +42,7 @@
                description="VMPAYMENT_PAYBOX_CONF_RANG_TIP"/>
         <param name="identifiant" class="required" type="text" size="15" default="3262411"
                label="VMPAYMENT_PAYBOX_CONF_IDENTIFIANT" description="VMPAYMENT_PAYBOX_CONF_IDENTIFIANT_TIP"/>
-        <param name="key" class="vmwarn required" type="text" size="200" default="0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF" label="VMPAYMENT_PAYBOX_CONF_KEY"
+        <param name="key" class="vmwarn required" type="text" size="200"  default="0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF" label="VMPAYMENT_PAYBOX_CONF_KEY"
                description="VMPAYMENT_PAYBOX_CONF_KEY_TIP"/>
         <param class="level3" type="vmtitle" default="" description="VMPAYMENT_PAYBOX_CONF_SECRETKEY_WARNING"/>
         <param class="level3" type="vmtitle" default="" description="VMPAYMENT_PAYBOX_CONF_SECRETKEY_VALIDATE_WARNING"/>

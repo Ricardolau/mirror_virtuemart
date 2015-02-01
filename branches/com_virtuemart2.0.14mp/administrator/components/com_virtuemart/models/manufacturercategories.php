@@ -128,7 +128,7 @@ class VirtuemartModelManufacturercategories extends VmModel {
 	function getCategoryFilter(){
 		$db = JFactory::getDBO();
 		$query = 'SELECT `virtuemart_manufacturercategories_id` as `value`, `mf_category_name` as text'
-				.' FROM #__virtuemart_manufacturercategories_'.VMLANG.'`';
+				.' FROM `#__virtuemart_manufacturercategories_'.VMLANG.'`';
 		$db->setQuery($query);
 
 		$categoryFilter[] = JHTML::_('select.option',  '0', '- '. JText::_('COM_VIRTUEMART_SELECT_MANUFACTURER_CATEGORY') .' -' );

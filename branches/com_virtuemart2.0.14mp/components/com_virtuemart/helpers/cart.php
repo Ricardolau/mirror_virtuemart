@@ -1182,6 +1182,21 @@ class VirtueMartCart {
 
 			$returnValues = $dispatcher->trigger('plgVmConfirmedOrder', array($this, $orderDetails));
 
+			$lifetime = (24 * 60 * 60) * 180; //180 days
+			if(!class_exists('vmCrypt')){
+				require(VMPATH_ADMIN.DS.'helpers'.DS.'vmcrypt.php');
+			}
+
+			foreach($orderDetails['items'] as $product){
+				//We set a cookie for guests to allow that they can rate/review a product without logging in.
+				$app = JFactory::getApplication();
+				$key = 'productBought'.$product->virtuemart_product_id;
+				$v = vmCrypt::encrypt($key);
+				$app->input->cookie->set($key,$v,time() + $lifetime,'/');
+			}
+
+
+
 			// may be redirect is done by the payment plugin (eg: paypal)
 			// if payment plugin echos a form, false = nothing happen, true= echo form ,
 			// 1 = cart should be emptied, 0 cart should not be emptied
@@ -1202,7 +1217,7 @@ class VirtueMartCart {
 	 */
 	public function emptyCart(){
 
-		self::emptyCartValues($this);
+		//self::emptyCartValues($this);
 
 		$this->setCartIntoSession();
 	}

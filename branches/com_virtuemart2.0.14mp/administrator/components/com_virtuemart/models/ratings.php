@@ -487,18 +487,37 @@ class VirtueMartModelRatings extends VmModel {
 							return $this->_productBought[$product_id];
 						}
 
-						$user = JFactory::getUser ();
-						$rr_os=VmConfig::get('rr_os',array('C'));
-						if(!is_array($rr_os)) $rr_os = array($rr_os);
+						if(!class_exists('vmCrypt')){
+							require(VMPATH_ADMIN.DS.'helpers'.DS.'vmcrypt.php');
+						}
+						$key = 'productBought'.$product_id;
 
-						$db = JFactory::getDBO ();
-						$q = 'SELECT COUNT(*) as total FROM `#__virtuemart_orders` AS o LEFT JOIN `#__virtuemart_order_items` AS oi ';
-						$q .= 'ON `o`.`virtuemart_order_id` = `oi`.`virtuemart_order_id` ';
-						$q .= 'WHERE o.virtuemart_user_id > 0 AND o.virtuemart_user_id = "' . $user->id . '" AND oi.virtuemart_product_id = "' . $product_id . '" ';
-						$q .= 'AND o.order_status IN (\'' . implode("','",$rr_os). '\') ';
+						$count = JFactory::getApplication()->input->cookie->getVar($key, false);
 
-						$db->setQuery ($q);
-						$count = $db->loadResult ();
+						if($count){
+							//check
+							$v = vmCrypt::encrypt($key);
+							if($v!=$count){
+								vmdebug('my key and v',$key,$v,$count);
+								//$count = false;
+							}
+						}
+
+						if(!$count){
+							$user = JFactory::getUser ();
+							$rr_os=VmConfig::get('rr_os',array('C'));
+							if(!is_array($rr_os)) $rr_os = array($rr_os);
+
+							$db = JFactory::getDBO ();
+							$q = 'SELECT COUNT(*) as total FROM `#__virtuemart_orders` AS o LEFT JOIN `#__virtuemart_order_items` AS oi ';
+							$q .= 'ON `o`.`virtuemart_order_id` = `oi`.`virtuemart_order_id` ';
+							$q .= 'WHERE o.virtuemart_user_id > 0 AND o.virtuemart_user_id = "' . $user->id . '" AND oi.virtuemart_product_id = "' . $product_id . '" ';
+							$q .= 'AND o.order_status IN (\'' . implode("','",$rr_os). '\') ';
+
+							$db->setQuery ($q);
+							$count = $db->loadResult ();
+						}
+
 						if ($count) {
 							$this->_productBought[$product_id] = true;
 							return true;

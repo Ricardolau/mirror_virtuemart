@@ -111,7 +111,12 @@
         <param class="ipn_warning warning" type="vmtitle"
                default="" description="VMPAYMENT_AMAZON_IPN_WARNING"/>
 
-
+        <param class="language_restriction" name="language_restriction" type="list" default="1"
+               label="VMPAYMENT_AMAZON_CONF_LANGUAGE_RESTRICTION"
+               description="VMPAYMENT_AMAZON_CONF_LANGUAGE_RESTRICTION_TIP" >
+            <option value="1">COM_VIRTUEMART_YES</option>
+            <option value="0">COM_VIRTUEMART_NO</option>
+        </param>
         <!--param class="region region-other required" type="vmtitle" default="VMPAYMENT_AMAZON_CONF_ENDPOINTS_SECTION" />
         <param class="region region-other required" size="120" name="sandbox_serviceURL" type="text" default=""
                label="VMPAYMENT_AMAZON_CONF_SANDBOX_SERVICEURL"
@@ -264,6 +269,7 @@
         <param name="addressbook_designWidth" type="text" default="400"
                label="VMPAYMENT_AMAZON_CONF_ADDRESSBOOK_DESIGNWIDTH"
                description="VMPAYMENT_AMAZON_CONF_DESIGNWIDTH_TIP"/>
+
         <param name="addressbook_designHeight" type="text" default="260"
                label="VMPAYMENT_AMAZON_CONF_ADDRESSBOOK_DESIGNHEIGHT"
                description="VMPAYMENT_AMAZON_CONF_DESIGNHEIGHT_TIP"/>

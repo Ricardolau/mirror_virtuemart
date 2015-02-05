@@ -52,7 +52,7 @@ class amazonHelperCaptureNotification extends amazonHelper {
 			$order_history['customer_notified'] = 1;
 			if ($amazonState == 'Completed') {
 				$order_history['order_status'] = $this->_currentMethod->status_capture;
-				$order_history['comments'] = vmText::_('VMPAYMENT_AMAZON_COMMENT_STATUS_CAPTURE_COMPLETED');
+				$order_history['comments'] = vmText::_('VMPAYMENT_AMAZON_COMMENT_STATUS_CAPTURE_NOTIFICATION');
 
 			} elseif ($amazonState == 'Declined') {
 				if ($reasonCode == 'AmazonRejected') {

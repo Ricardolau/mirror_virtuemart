@@ -100,7 +100,7 @@ class amazonHelperAuthorizationNotification extends amazonHelper {
 			} elseif ($amazonState == 'Closed') {
 				if ($reasonCode=='MaxCapturesProcessed' and $this->isCaptureNow()) {
 					$order_history['order_status'] = $this->_currentMethod->status_capture;
-					$order_history['comments'] = vmText::_('VMPAYMENT_AMAZON_COMMENT_STATUS_CAPTURE_COMPLETED');
+					$order_history['comments'] = vmText::_('VMPAYMENT_AMAZON_COMMENT_STATUS_CAPTURE_NOTIFICATION');
 					$order_history['customer_notified'] = 0;
 				} else {
 					$order_history['order_status'] = $this->_currentMethod->status_cancel;

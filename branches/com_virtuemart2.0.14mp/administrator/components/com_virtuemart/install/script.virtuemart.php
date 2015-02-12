@@ -166,12 +166,8 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 
 			$this->checkAddDefaultShoppergroups();
 
+			$this->deleteSwfUploader();
 			$this->displayFinished(false);
-
-			//include($this->path.DS.'install'.DS.'install.virtuemart.html.php');
-
-			// perhaps a redirect to updatesMigration here rather than the html file?
-			//			$parent->getParent()->setRedirectURL('index.php?option=com_virtuemart&view=updatesMigration');
 
 			return true;
 		}
@@ -267,10 +263,18 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 				$this->recurse_copy($src,$dst);
 			}
 
-
+			$this->deleteSwfUploader();
 			if($loadVm) $this->displayFinished(true);
 
 			return true;
+		}
+
+		private function deleteSwfUploader(){
+			if(JVM_VERSION>0){
+				if(JFolder::exists(VMPATH_ROOT. DS. 'media' .DS. 'system'. DS. 'swf')){
+					JFolder::delete(VMPATH_ROOT. DS. 'media' .DS. 'system'. DS. 'swf');
+				}
+			}
 		}
 
 		private function fixConfigValues(){
@@ -330,8 +334,6 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 				}
 
 			}
-
-
 
 		}
 
@@ -439,7 +441,6 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 
 			if(!in_array($field,$columns)){
 
-
 				$query = 'ALTER TABLE `'.$table.'` ADD '.$field.' '.$fieldType;
 				$this->_db->setQuery($query);
 				if(!$this->_db->query()){
@@ -472,16 +473,6 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 		}
 
 		private function deleteReCreatePrimaryKey($tablename,$fieldname){
-
-			//Does not work, the keys must be regenerated
-// 			$query = 'ALTER TABLE `#__virtuemart_userinfos`  CHANGE COLUMN `virtuemart_userinfo_id` `virtuemart_userinfo_id` INT(1) NOT NULL AUTO_INCREMENT FIRST';
-// 			$this->_db->setQuery($query);
-// 			if(!$this->_db->query()){
-
-// 			} else {
-// 				$query = 'ALTER TABLE `#__virtuemart_userinfos` AUTO_INCREMENT = 1';
-// 				$this->_db->setQuery($query);
-// 			}
 
 
 			$query = 'SHOW FULL COLUMNS  FROM `'.$tablename.'` ';
@@ -638,15 +629,12 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 			if ($type != 'uninstall') {
 
 				$this->loadVm();
-				// 				VmConfig::loadConfig(true);
-				//if(!class_exists('VirtueMartModelConfig')) require(JPATH_VM_ADMINISTRATOR . DS . 'models' . DS . 'config.php');
+
 				$res  = VirtueMartModelConfig::checkConfigTableExists();
 
-				//if($res){
-					JRequest::setVar(JUtility::getToken(), '1', 'post');
-					$config = JModel::getInstance('config', 'VirtueMartModel');
-					$config->setDangerousToolsOff();
-				//}
+				JRequest::setVar(JUtility::getToken(), '1', 'post');
+				$config = JModel::getInstance('config', 'VirtueMartModel');
+				$config->setDangerousToolsOff();
 
 			}
 			$_REQUEST['install'] = 0;
@@ -655,11 +643,6 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 			if(JFile::exists(JPATH_VM_ADMINISTRATOR.DS.'toolbar.php')){
 				JFile::move('toolbar.php','toolbar.vm1.php',JPATH_VM_ADMINISTRATOR);
 			}
-
-			//Prevents overwriting existing file.
-			// 			if(!JFile::exists(JPATH_VM_ADMINISTRATOR.DS.'virtuemart_defaults.cfg')){
-			// 				JFile::copy('virtuemart_defaults.cfg-dist','virtuemart_defaults.cfg',JPATH_VM_ADMINISTRATOR);
-			// 			}
 
 			return true;
 		}
@@ -738,12 +721,6 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 			$vmInstall->postflight($method);
 		}
 
-		/*		if ((JVM_VERSION===1)) {
-			$method = ($upgrade) ? 'update' : 'install';
-		$vmInstall->$method();
-		$vmInstall->postflight($method);
-		}*/
-
 		return true;
 	}
 
@@ -763,11 +740,6 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 			$vmInstall->uninstall();
 			$vmInstall->postflight('uninstall');
 		}
-
-		/*		if (JVM_VERSION===1) {
-			$vmInstall->uninstall();
-		$vmInstall->postflight('uninstall');
-		}*/
 
 		return true;
 	}

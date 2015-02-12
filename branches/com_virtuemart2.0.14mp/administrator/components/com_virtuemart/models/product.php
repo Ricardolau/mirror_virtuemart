@@ -2102,23 +2102,21 @@ class VirtueMartModelProduct extends VmModel {
 		// remove setted variable
 		unset ($getArray['globalCurrencyConverter'], $getArray['virtuemart_manufacturer_id'], $getArray['order'], $getArray['orderby']);
 
-		// foreach ($getArray as $key => $value )
-		// $fieldLink .= '&'.$key.'='.$value;
-		//vmdebug('getOrderByList',$getArray);
 		foreach ($getArray as $key => $value) {
 			if (is_array ($value)) {
 				foreach ($value as $k => $v) {
-					$fieldLink .= '&' . $key . '[' . $k . ']' . '=' . $v;
+					if(empty($v)) continue;
+					$fieldLink .= '&' . urlencode($key) . '[' . urlencode($k) . ']' . '=' . urlencode($v);
 				}
 			}
 			else {
 				if($key=='dir' or $key=='orderby') continue;
 				if(empty($value)) continue;
-				$fieldLink .= '&' . $key . '=' . $value;
+				$fieldLink .= '&' . urlencode($key) . '=' . urlencode($value);
 			}
 		}
-		$fieldLink[0] = "?";
-		$fieldLink = 'index.php' . $fieldLink;
+
+		$fieldLink = 'index.php?'. ltrim ($fieldLink,'&');
 
 		$orderDirLink = '';
 		$orderDirConf = VmConfig::get ('prd_brws_orderby_dir');

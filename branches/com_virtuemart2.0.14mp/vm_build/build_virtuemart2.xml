@@ -180,6 +180,7 @@
         <include name="**"/>
         <exclude name=".svn"/>
         <exclude name=".DS_Store"/>
+        <exclude name="index.html"/>
     </fileset>
 
     <fileset dir="${admin.component.path}" id='admin.main.refid' defaultexcludes="true">
@@ -187,6 +188,7 @@
         <exclude name="virtuemart.xml"/>
         <exclude name=".svn"/>
         <exclude name=".DS_Store"/>
+        <exclude name="index.html"/>
     </fileset>
     <fileset dir="${admin.component.path}/install" id='install.main.files' defaultexcludes="true">
         <include name="**"/>
@@ -235,7 +237,7 @@
     <fileset dir="${admin.aio.component.path}" id='root.aio.refid' defaultexcludes="true">
         <include name="script.vmallinone.php"/>
          <include name="install.xml"/>
-         <include name="index.html"/>
+         <exclude name="index.html"/>
     </fileset>
 
     <fileset dir="${modules.path}" id='modules.aio.refid' defaultexcludes="true">

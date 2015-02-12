@@ -239,8 +239,7 @@
                label="VMPAYMENT_AMAZON_CONF_COUNTRIES" description="VMPAYMENT_AMAZON_CONF_COUNTRIES_TIP"/>
         <!--param name="languages" type="languages" label="VMPAYMENT_AMAZON_CONF_LANGUAGES"
                description="VMPAYMENT_AMAZON_CONF_LANGUAGES_TIP"/ -->
-        <param name="ip_whitelist" type="textarea" label="VMPAYMENT_AMAZON_CONF_IP_WHITELIST"
-               description="VMPAYMENT_AMAZON_CONF_IP_WHITELIST_TIP"/>
+        <param name="ip_whitelist" type="textarea" label="VMPAYMENT_AMAZON_CONF_IP_WHITELIST" description="VMPAYMENT_AMAZON_CONF_IP_WHITELIST_TIP"/>
         <param name="digital_goods" type="radio" default="0" label="VMPAYMENT_AMAZON_CONF_DIGITAL_GOODS">
             <option value="0">COM_VIRTUEMART_NO</option>
             <option value="1">COM_VIRTUEMART_YES</option>
@@ -286,11 +285,9 @@
                description=""/>
 
         <param name="sign_in_css" type="text" size="50" default=".payments_signin_button"
-               label="VMPAYMENT_AMAZON_CONF_SIGN_IN_CSS"
-               description="VMPAYMENT_AMAZON_CONF_SIGN_IN_CSS_TIP"/>
+               label="VMPAYMENT_AMAZON_CONF_SIGN_IN_CSS" description="VMPAYMENT_AMAZON_CONF_SIGN_IN_CSS_TIP"/>
 
-        <param name="include_amazon_css" type="radio" default="1" label="VMPAYMENT_AMAZON_CONF_INCLUDE_AMAZON_CSS"
-               description="VMPAYMENT_AMAZON_CONF_INCLUDE_AMAZON_CSS_TIP">
+        <param name="include_amazon_css" type="radio" default="1" label="VMPAYMENT_AMAZON_CONF_INCLUDE_AMAZON_CSS" description="VMPAYMENT_AMAZON_CONF_INCLUDE_AMAZON_CSS_TIP">
             <option value="0">COM_VIRTUEMART_NO</option>
             <option value="1">COM_VIRTUEMART_YES</option>
         </param>
@@ -300,8 +297,7 @@
             <option value="0">COM_VIRTUEMART_NO</option>
             <option value="1">COM_VIRTUEMART_YES</option>
         </param>
-        <param name="log" type="radio" default="0" label="VMPAYMENT_AMAZON_CONF_LOG"
-               description="VMPAYMENT_AMAZON_CONF_LOG_TIP">
+        <param name="log" type="radio" default="0" label="VMPAYMENT_AMAZON_CONF_LOG" description="VMPAYMENT_AMAZON_CONF_LOG_TIP">
             <option value="0">COM_VIRTUEMART_NO</option>
             <option value="1">COM_VIRTUEMART_YES</option>
         </param>

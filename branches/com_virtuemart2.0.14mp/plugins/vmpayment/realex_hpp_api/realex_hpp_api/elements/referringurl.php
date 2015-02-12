@@ -37,6 +37,7 @@ class JElementReferringurl extends JElement {
 	function fetchElement ($name, $value, &$node, $control_name) {
 
 		$value = JURI::root() . 'plugins/vmpayment/realex_hpp_api/jump.php';
+ 		//$value = JURI::root() . 'index.php?option=com_virtuemart&view=pluginresponse&task=pluginnotification&notificationTask=jumpRedirect&format=raw';
 
 		$class = ($node->attributes('class') ? 'class="' . $node->attributes('class') . '"' : 'class="text_area"');
 		if ($node->attributes('editable') == 'true') {

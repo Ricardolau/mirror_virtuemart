@@ -343,6 +343,8 @@ jQuery(document).ready(function($){
 	 * @return string
 	 */
 	function getJumpUrl () {
+		return JURI::root() . 'index.php?option=com_virtuemart&view=pluginresponse&task=pluginnotification&notificationTask=jumpRedirect&format=raw';
+
 		return $this->_method->referring_url;
 
 	}

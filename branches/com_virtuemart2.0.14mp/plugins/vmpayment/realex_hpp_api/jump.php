@@ -19,20 +19,29 @@
  */
 ?>
 <?php
-$get=filter_var_array($_GET, FILTER_SANITIZE_STRING);
-$_GET["option"]="com_virtuemart";
-$_GET["element"]="realex_hpp_api";
-
-$_REQUEST["option"]="com_virtuemart";
-$_REQUEST["element"]="realex_hpp_api";
-
-	$_GET["view"]="pluginresponse";
-	$_GET["task"]="pluginresponsereceived";
-	$_REQUEST["view"]="pluginresponse";
-	$_REQUEST["task"]="pluginresponsereceived";
-
-include("index.php");
 
 
-?>
+
+$_GET["option"] = "com_virtuemart";
+$_GET["element"] = "realex_hpp_api";
+
+$_REQUEST["option"] = "com_virtuemart";
+$_REQUEST["element"] = "realex_hpp_api";
+
+$_GET["view"] = "pluginresponse";
+$_GET["task"] = "pluginnotification";
+$_GET["format"] = "raw";
+$_GET["notificationTask"] = "jumpRedirect";
+
+$_REQUEST["view"] = "pluginresponse";
+$_REQUEST["task"] = "pluginnotification";
+$_REQUEST["format"] = "raw";
+$_REQUEST["notificationTask"] = "jumpRedirect";
+$vmpayment_realex_path = dirname(__FILE__);
+if( file_exists($vmpayment_realex_path."/../../../index.php")) {
+	include($vmpayment_realex_path."/../../../index.php");
+}
+
+
+
 

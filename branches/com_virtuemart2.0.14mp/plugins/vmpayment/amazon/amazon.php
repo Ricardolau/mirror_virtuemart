@@ -476,16 +476,16 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 
 
 		$q = "SELECT  * FROM " . $this->_tablename . " WHERE
-		 ( `amazon_class_response_type` LIKE 'OffAmazonPaymentsService_Model_ConfirmOrderReferenceResponse' AND `amazon_response_state`  IN (  'Open', 'Suspended') )
+		(
+		  ( `amazon_class_response_type` LIKE 'OffAmazonPaymentsService_Model_ConfirmOrderReferenceResponse' AND `amazon_response_state`  IN (  'Open', 'Suspended') )
 		  OR
 		( `amazon_class_response_type` LIKE 'OffAmazonPaymentsService_Model_AuthorizeResponse' AND `amazon_response_state`  IN ('Pending',  'Open') )
         OR
   		( `amazon_class_response_type` LIKE 'OffAmazonPaymentsService_Model_CaptureResponse' AND `amazon_response_state`  IN ('Pending') )
         OR
   		( `amazon_class_response_type` LIKE 'OffAmazonPaymentsService_Model_RefundResponse' AND `amazon_response_state`  IN ('Pending') )
-		AND `created_on`  IN (SELECT MAX( `created_on` )
-                FROM " . $this->_tablename . "  GROUP BY `virtuemart_order_id`
-                )
+  		)
+		AND `id`  in (SELECT MAX( id ) FROM " . $this->_tablename . "  GROUP BY virtuemart_order_id )
 		ORDER BY `created_on` DESC ";
 
 		$db = JFactory::getDBO();
@@ -494,6 +494,7 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 		$done = array();
 		//$this->debugLog("<pre>" . var_export($payments, true) . "</pre>", __FUNCTION__, 'debug');
 		$this->loadAmazonServicesClasses();
+		if (!$payments) return;
 		foreach ($payments as $payment) {
 			if (in_array($payment->order_number, $done)) {
 				continue;
@@ -620,14 +621,16 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 			$this->loadHelperClass('amazonHelperGetAuthorizationDetailsResponse');
 			$amazonHelperAuthorizationDetailsResponse = new amazonHelperGetAuthorizationDetailsResponse($authorizationDetailsResponse, $this->_currentMethod);
 
-			$storeInternalData = $amazonHelperAuthorizationDetailsResponse->getSl2344toreInternalData();
-			$this->storeAmazonInternalData($order, NULL, $authorizationDetailsResponse, NULL, $this->renderPluginName($this->_currentMethod), $storeInternalData);
 			$authorizationState = $amazonHelperAuthorizationDetailsResponse->getState();
 			if ($authorizationState == 'Closed' OR $authorizationState == 'Declined') {
 				// check if status has changed
 				// fetch Order
-				$this->_amazonOrderReferenceId = $payments[0]->amazonOrderReferenceId;
-				$this->vmConfirmedOrder(NULL, $order, FALSE);
+				//$this->_amazonOrderReferenceId = $payments[0]->amazonOrderReferenceId;
+				//$this->vmConfirmedOrder(NULL, $order, FALSE);
+				$getAuthorizationDetailsResult = $authorizationDetailsResponse->getGetAuthorizationDetailsResult();
+				$getAuthorizationDetails = $getAuthorizationDetailsResult->getAuthorizationDetails();
+				$this->closeAuthorization($getAuthorizationDetails->getAmazonAuthorizationId(), $order);
+
 				return;
 			}
 			if (!$authorizationDetailsResponse->isSetGetAuthorizationDetailsResult()) {
@@ -1626,6 +1629,9 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 					$cart->setOutOfCheckout();
 					$this->leaveAmazonCheckout();
 					$this->redirectToCart(vmText::_('VMPAYMENT_AMAZON_SELECT_ANOTHER_PAYMENT'), true);
+				}elseif ($amazonState == 'Closed' && $reasonCode == 'MaxCapturesProcessed') {
+					$getAuthorizationDetails = $authorizeResponse->getAuthorizeResult()->getAuthorizationDetails();
+					$this->closeAuthorization($getAuthorizationDetails->getAmazonAuthorizationId(), $order);
 				}
 			}
 
@@ -2534,7 +2540,7 @@ jQuery().ready(function($) {
 		}
 
 		if (!$this->_amazonOrderReferenceId OR $this->shouldLoginAgain($referenceIdIsOnlyDigitalGoods, $this->isOnlyDigitalGoods($cart))) {
-			$html = $this->renderSignInButton($cart);
+			 $html .= $this->renderSignInButton($cart);
 		}
 
 		return $html;
@@ -3107,7 +3113,7 @@ jQuery().ready(function($) {
 			if ($authorizationStatus->isSetReasonCode()) {
 				$reasonCode = $authorizationStatus->getReasonCode();
 			}
-			if ($amazonState == 'Closed' and $reasonCode == 'MaxCapturesProcessed') {
+			if ($amazonState == 'Closed') {
 				$this->closeAuthorization($getAuthorizationDetails->getAmazonAuthorizationId(), $order);
 			}
 

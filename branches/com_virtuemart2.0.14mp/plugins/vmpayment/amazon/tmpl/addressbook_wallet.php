@@ -27,6 +27,8 @@ $browser = JBrowser::getInstance();
 $isMobile = $browser->isMobile();
 if ($isMobile) {
 	$doc->setMetaData('viewport', "width=device-width, initial-scale=1, maximum-scale=1");
+	//$viewData['addressbook_designWidth']="100%";
+	//$viewData['addressbook_designHeight']="100%";
 }
 if (!$jsAWLoaded) {
 	$doc->addScript(JURI::root(true) . '/plugins/vmpayment/amazon/assets/js/amazon.js');

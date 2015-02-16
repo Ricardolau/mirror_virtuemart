@@ -2469,9 +2469,9 @@ jQuery().ready(function($) {
 			$data['BT']['address_type'] = 'BT';
 			$cart->saveAddressInCart($data['BT'], $data['BT']['address_type'], TRUE);
 		}
-		if (isset($data['BT'])) {
-			$data['BS']['address_type'] = 'ST';
-			$cart->saveAddressInCart($data['ST'], $data['BT']['address_type'], TRUE);
+		if (isset($data['ST'])) {
+			$data['ST']['address_type'] = 'ST';
+			$cart->saveAddressInCart($data['ST'], $data['ST']['address_type'], TRUE);
 		}
 		return;
 	}
@@ -2532,7 +2532,9 @@ jQuery().ready(function($) {
 		}
 		$amazonOrderReferenceIdWeight = $this->getAmazonOrderReferenceIdWeightFromSession();
 		if ($amazonOrderReferenceIdWeight) {
-			$this->_amazonOrderReferenceId = $amazonOrderReferenceIdWeight['_amazonOrderReferenceId'];
+			if (isset($amazonOrderReferenceIdWeight['_amazonOrderReferenceId'])) {
+				$this->_amazonOrderReferenceId = $amazonOrderReferenceIdWeight['_amazonOrderReferenceId'];
+			}
 			$referenceIdIsOnlyDigitalGoods = false;
 			if (isset($amazonOrderReferenceIdWeight['isOnlyDigitalGoods'])) {
 				$referenceIdIsOnlyDigitalGoods = $amazonOrderReferenceIdWeight['isOnlyDigitalGoods'];

@@ -26,24 +26,24 @@
 	border="0"
 	width="100%">
 <tr>
-	<th align="left"><?php echo JText::_('COM_VIRTUEMART_CART_NAME') ?></th>
-	<th align="left"><?php echo JText::_('COM_VIRTUEMART_CART_SKU') ?></th>
+	<th align="left"><?php echo vmText::_('COM_VIRTUEMART_CART_NAME') ?></th>
+	<th align="left"><?php echo vmText::_('COM_VIRTUEMART_CART_SKU') ?></th>
 	<th
 		align="center"
-		width="60px"><?php echo JText::_('COM_VIRTUEMART_CART_PRICE') ?></th>
+		width="60px"><?php echo vmText::_('COM_VIRTUEMART_CART_PRICE') ?></th>
 		<th
 			align="right"
-			width="140px"><?php echo JText::_('COM_VIRTUEMART_CART_QUANTITY') ?>
+			width="140px"><?php echo vmText::_('COM_VIRTUEMART_CART_QUANTITY') ?>
 			<?php if (!$this->readonly_cart) { ?>
-			/ <?php echo JText::_('COM_VIRTUEMART_CART_ACTION') ?>
+			/ <?php echo vmText::_('COM_VIRTUEMART_CART_ACTION') ?>
 		<?php } ?>
 		</th>
 
 	<?php if (VmConfig::get('show_tax')) { ?>
-		<th align="right" width="60px"><?php echo "<span  class='priceColor2'>" . JText::_('COM_VIRTUEMART_CART_SUBTOTAL_TAX_AMOUNT') . '</span>' ?></th>
+		<th align="right" width="60px"><?php echo "<span  class='priceColor2'>" . vmText::_('COM_VIRTUEMART_CART_SUBTOTAL_TAX_AMOUNT') . '</span>' ?></th>
 	<?php } ?>
-	<th align="right" width="60px"><?php echo "<span  class='priceColor2'>" . JText::_('COM_VIRTUEMART_CART_SUBTOTAL_DISCOUNT_AMOUNT') . '</span>' ?></th>
-	<th align="right" width="70px"><?php echo JText::_('COM_VIRTUEMART_CART_TOTAL') ?></th>
+	<th align="right" width="60px"><?php echo "<span  class='priceColor2'>" . vmText::_('COM_VIRTUEMART_CART_SUBTOTAL_DISCOUNT_AMOUNT') . '</span>' ?></th>
+	<th align="right" width="70px"><?php echo vmText::_('COM_VIRTUEMART_CART_TOTAL') ?></th>
 </tr>
 
 <?php
@@ -91,7 +91,7 @@ foreach ($this->cart->products as $pkey => $prow) {
 				if ($step == 0) {
 					$step = 1;
 				}
-				$alert = JText::sprintf('COM_VIRTUEMART_WRONG_AMOUNT_ADDED', $step);
+				$alert = vmText::sprintf('COM_VIRTUEMART_WRONG_AMOUNT_ADDED', $step);
 				?>
 				<script type="text/javascript">
 					function check<?php echo $step?>(obj) {
@@ -107,16 +107,16 @@ foreach ($this->cart->products as $pkey => $prow) {
 					}
 				</script>
 
-				<!--<input type="text" title="<?php echo  JText::_('COM_VIRTUEMART_CART_UPDATE') ?>" class="inputbox" size="3" maxlength="4" name="quantity" value="<?php echo $prow->quantity ?>" /> -->
+				<!--<input type="text" title="<?php echo  vmText::_('COM_VIRTUEMART_CART_UPDATE') ?>" class="inputbox" size="3" maxlength="4" name="quantity" value="<?php echo $prow->quantity ?>" /> -->
 				<input type="text"
 				       onblur="check<?php echo $step ?>(this);"
 				       onclick="check<?php echo $step ?>(this);"
 				       onchange="check<?php echo $step ?>(this);"
 				       onsubmit="check<?php echo $step ?>(this);"
-				       title="<?php echo JText::_('COM_VIRTUEMART_CART_UPDATE') ?>" class="quantity-input js-recalculate" size="3" maxlength="4" name="quantity[<?php echo $prow->cart_item_id ?>]" value="<?php echo $prow->quantity ?>"/>
-				<input type="submit" class="vmicon vm2-add_quantity_cart" name="update[<?php echo $prow->cart_item_id ?>]" title="<?php echo JText::_('COM_VIRTUEMART_CART_UPDATE') ?>" align="middle" value=""/>
+				       title="<?php echo vmText::_('COM_VIRTUEMART_CART_UPDATE') ?>" class="quantity-input js-recalculate" size="3" maxlength="4" name="quantity[<?php echo $prow->cart_item_id ?>]" value="<?php echo $prow->quantity ?>"/>
+				<input type="submit" class="vmicon vm2-add_quantity_cart" name="update[<?php echo $prow->cart_item_id ?>]" title="<?php echo vmText::_('COM_VIRTUEMART_CART_UPDATE') ?>" align="middle" value=""/>
 
-				<a class="vmicon vm2-remove_from_cart" title="<?php echo JText::_('COM_VIRTUEMART_CART_DELETE') ?>" align="middle" href="<?php echo JRoute::_('index.php?option=com_virtuemart&view=cart&task=delete&cart_virtuemart_product_id=' . $prow->cart_item_id) ?>" rel="nofollow"> </a>
+				<a class="vmicon vm2-remove_from_cart" title="<?php echo vmText::_('COM_VIRTUEMART_CART_DELETE') ?>" align="middle" href="<?php echo JRoute::_('index.php?option=com_virtuemart&view=cart&task=delete&cart_virtuemart_product_id=' . $prow->cart_item_id) ?>" rel="nofollow"> </a>
 
 		<?php } else {
 		 echo $prow->quantity  ;
@@ -153,7 +153,7 @@ foreach ($this->cart->products as $pkey => $prow) {
 	</td>
 </tr>
 <tr class="sectiontableentry1">
-	<td colspan="4" align="right"><?php echo JText::_('COM_VIRTUEMART_ORDER_PRINT_PRODUCT_PRICES_TOTAL'); ?></td>
+	<td colspan="4" align="right"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PRODUCT_PRICES_TOTAL'); ?></td>
 
 	<?php if (VmConfig::get('show_tax')) { ?>
 		<td align="right"><?php echo "<span  class='priceColor2'>" . $this->currencyDisplay->createPriceDiv('taxAmount', '', $this->cart->pricesUnformatted, FALSE) . "</span>" ?></td>
@@ -170,7 +170,7 @@ if (VmConfig::get('coupons_enable')) {
 			<?php
 			if (!$this->readonly_cart) {
 				//if (!empty($this->layoutName) && $this->layoutName == 'default'  ) {
-					// echo JHTML::_('link', JRoute::_('index.php?view=cart&task=edit_coupon',$this->useXHTML,$this->useSSL), JText::_('COM_VIRTUEMART_CART_EDIT_COUPON'));
+					// echo JHTML::_('link', JRoute::_('index.php?view=cart&task=edit_coupon',$this->useXHTML,$this->useSSL), vmText::_('COM_VIRTUEMART_CART_EDIT_COUPON'));
 					echo $this->loadTemplate('coupon');
 				//}
 			}
@@ -270,7 +270,7 @@ foreach ($this->cart->cartData['DATaxRulesBill'] as $rule) {
 	<tr class="sectiontableentry1" valign="top">
 		<?php if (!$this->cart->automaticSelectedShipment) { ?>
 
-			<?php /*	<td colspan="2" align="right"><?php echo JText::_('COM_VIRTUEMART_ORDER_PRINT_SHIPPING'); ?> </td> */ ?>
+			<?php /*	<td colspan="2" align="right"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_SHIPPING'); ?> </td> */ ?>
 			<td colspan="4" align="left">
 				<?php echo $this->cart->cartData['shipmentName']; ?>
 
@@ -325,7 +325,7 @@ foreach ($this->cart->cartData['DATaxRulesBill'] as $rule) {
 	</td>
 </tr>
 <tr class="sectiontableentry2">
-	<td colspan="4" align="right"><?php echo JText::_('COM_VIRTUEMART_CART_TOTAL') ?>:
+	<td colspan="4" align="right"><?php echo vmText::_('COM_VIRTUEMART_CART_TOTAL') ?>:
 	</td>
 
 	<?php if (VmConfig::get('show_tax')) { ?>
@@ -341,7 +341,7 @@ if ($this->totalInPaymentCurrency) {
 	?>
 
 	<tr class="sectiontableentry2 totalInPaymentCurrency">
-		<td colspan="4" align="right"><?php echo JText::_('COM_VIRTUEMART_CART_TOTAL_PAYMENT') ?>
+		<td colspan="4" align="right"><?php echo vmText::_('COM_VIRTUEMART_CART_TOTAL_PAYMENT') ?>
 			:
 		</td>
 

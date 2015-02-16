@@ -21,13 +21,10 @@ defined('_JEXEC') or die('Restricted access');
 vmJsApi::jPrice();
 $document = JFactory::getDocument();
 $document->addScriptDeclaration("
-
 //<![CDATA[
 function setShipment() {
     amazonPayment.setShipmentReloadWallet();
 }
-
-
 
 //]]>
 

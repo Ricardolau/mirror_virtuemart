@@ -20,11 +20,13 @@
 defined('_JEXEC') or die('Restricted access');
 
 if ($viewData['include_amazon_css']) {
-	$doc->addStyleSheet(JURI::root(true) . '/plugins/vmpayment/amazon/assets/css/amazon.css');
+	JFactory::getDocument()->addStyleSheet(JURI::root(true) . '/plugins/vmpayment/amazon/assets/css/amazon.css');
 }
-JHtml::_('behavior.formvalidation');
-$document = JFactory::getDocument();
 
+
+
+
+JHtml::_('behavior.formvalidation');
 
 ?>
 <h3><?php echo vmText::_('VMPAYMENT_AMAZON_INVALIDPAYMENTMETHOD') ?></h3>

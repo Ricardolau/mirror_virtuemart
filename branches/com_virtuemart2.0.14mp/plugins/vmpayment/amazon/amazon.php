@@ -1002,15 +1002,17 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 
 		// if $cart=NULL may be coming from plgVmRetrieveIPN
 		if ($cart) {
-			$this->setOrderReferenceDetails($client, $cart, $order);
+			if (!$this->setOrderReferenceDetails($client, $cart, $order)) {
+				$this->redirectToCart(vmText::_('VMPAYMENT_AMAZON_SELECT_ANOTHER_PAYMENT'), true);
+			}
 		}
 		//confirmOrderReference
 		if (!$this->confirmOrderReference($client, $order)) {
-			return FALSE;
+			$this->redirectToCart(vmText::_('VMPAYMENT_AMAZON_SELECT_ANOTHER_PAYMENT'), true);
 		}
 		// getorderdetails &  address email
 		if (!$this->updateBuyerInOrder($client, $cart, $order)) {
-			return FALSE;
+			$this->redirectToCart(vmText::_('VMPAYMENT_AMAZON_SELECT_ANOTHER_PAYMENT'), true);
 		}
 		if ($cart) {
 			$redirect = true;
@@ -1042,6 +1044,8 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 
 
 		$this->leaveAmazonCheckout();
+
+		$cart = VirtueMartCart::getCart();
 		$cart->emptyCart();
 
 		return $html;
@@ -1117,7 +1121,7 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 		}
 
 		// at this step, we should get it from amazon
-		$onlyDigitalGoods = $this->isOnlyDigitalGoods($cart, $order);
+		$onlyDigitalGoods = $this->isOnlyDigitalGoods($cart);
 		if (!$onlyDigitalGoods) {
 
 			$physicalDestination = $orderReferenceDetails->getDestination()->getPhysicalDestination();
@@ -1283,7 +1287,14 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 		$this->loadAmazonClass('OffAmazonPaymentsService_Model_OrderReferenceAttributes');
 		$this->loadAmazonClass('OffAmazonPaymentsService_Model_OrderTotal');
 		$this->loadAmazonClass('OffAmazonPaymentsService_Model_SellerOrderAttributes');
-
+		if ($order) {
+			$setSellerOrderId=$order['details']['BT']->order_number;
+			$amountInCurrency=vmPSPlugin::getAmountInCurrency($order['details']['BT']->order_total, $order['details']['BT']->user_currency_id);
+			$amount=$amountInCurrency['value'];
+		} else {
+			$setSellerOrderId='';
+			$amount=$this->getTotalInPaymentCurrency($client, $cart->pricesUnformatted['billTotal'], $cart->pricesCurrency);
+		}
 		//$_amazonOrderReferenceId = $this->getAmazonOrderReferenceIdFromSession();
 		if (empty($this->_amazonOrderReferenceId)) {
 			$this->amazonError(__FUNCTION__ . ' setOrderReferenceDetails, No $_amazonOrderReferenceId');
@@ -1297,11 +1308,11 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 			$setOrderReferenceDetailsRequest->setOrderReferenceAttributes(new OffAmazonPaymentsService_Model_OrderReferenceAttributes());
 			$setOrderReferenceDetailsRequest->getOrderReferenceAttributes()->setOrderTotal(new OffAmazonPaymentsService_Model_OrderTotal());
 			$setOrderReferenceDetailsRequest->getOrderReferenceAttributes()->getOrderTotal()->setCurrencyCode($this->getCurrencyCode3($client));
-			$setOrderReferenceDetailsRequest->getOrderReferenceAttributes()->getOrderTotal()->setAmount($this->getTotalInPaymentCurrency($client, $cart->pricesUnformatted['billTotal'], $cart->pricesCurrency));
+			$setOrderReferenceDetailsRequest->getOrderReferenceAttributes()->getOrderTotal()->setAmount($amount);
 			$setOrderReferenceDetailsRequest->getOrderReferenceAttributes()->setSellerNote($this->getSellerNote());
 			$setOrderReferenceDetailsRequest->getOrderReferenceAttributes()->setSellerOrderAttributes(new OffAmazonPaymentsService_Model_SellerOrderAttributes());
 			if ($order) {
-				$setOrderReferenceDetailsRequest->getOrderReferenceAttributes()->getSellerOrderAttributes()->setSellerOrderId($order['details']['BT']->order_number);
+				$setOrderReferenceDetailsRequest->getOrderReferenceAttributes()->getSellerOrderAttributes()->setSellerOrderId($setSellerOrderId);
 			}
 			$setOrderReferenceDetailsRequest->getOrderReferenceAttributes()->getSellerOrderAttributes()->setStoreName($this->getStoreName());
 			//$setOrderReferenceDetailsRequest->getOrderReferenceAttributes()->getSellerOrderAttributes()->setCustomInformation($order['details']['BT']->customer_note);
@@ -1652,7 +1663,7 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 			$this->onErrorRedirectToCart();
 			return FALSE;
 		}
-		$retryInvalidPaymentMethod = $this->getRetryInvalidPaymentMethodFromSession();
+		$retryInvalidPaymentMethod = $this->incrementRetryInvalidPaymentMethodInSession();
 		if ($retryInvalidPaymentMethod > 2) {
 			//echo "TOO MANY RETRIES STOP";
 			$this->leaveAmazonCheckout();
@@ -1670,9 +1681,9 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 		}
 		$orderModel = VmModel::getModel('orders');
 		$order = $orderModel->getOrder($virtuemart_order_id);
-		$cart = VirtueMartCart::getCart();
-
-		$html = $this->vmConfirmedOrder($cart, $order, false);
+		$this->_amount = $order['details']['BT']->order_total;
+		$this->_order_number = $this->getUniqueReferenceId($order['details']['BT']->order_number);
+		$html = $this->vmConfirmedOrder(NULL, $order, false);
 		echo $html;
 	}
 
@@ -3225,6 +3236,7 @@ jQuery().ready(function($) {
 			$sessionAmazonData['RetryInvalidPaymentMethod'] = 0;
 		}
 		$session->set('amazon', json_encode($sessionAmazonData), 'vm');
+		return $sessionAmazonData['RetryInvalidPaymentMethod'];
 	}
 
 	private function getRetryInvalidPaymentMethodFromSession () {
@@ -3351,8 +3363,7 @@ jQuery().ready(function($) {
 	}
 
 	/**
-	 * @param $amazonOrderReferenceId
-	 * @param $isOnlyDigitalGoods
+	 * @param $salesPrices
 	 */
 	private function setSalesPriceInSession ($salesPrices) {
 		$session = JFactory::getSession();
@@ -3387,7 +3398,23 @@ jQuery().ready(function($) {
 		return NULL;
 
 	}
+	/**
+	 * @return null
+	 */
+	private function getisOnlyDigitalGoodsFromSession () {
+		$session = JFactory::getSession();
+		$sessionAmazon = $session->get('amazon', 0, 'vm');
 
+		if ($sessionAmazon) {
+			$sessionAmazonData = json_decode($sessionAmazon, true);
+			if (isset($sessionAmazonData[$this->_currentMethod->virtuemart_paymentmethod_id])) {
+				return $sessionAmazonData[$this->_currentMethod->virtuemart_paymentmethod_id]['isOnlyDigitalGoods'];
+			}
+		}
+
+		return NULL;
+
+	}
 	/**
 	 * @param $amazonOrderReferenceId
 	 * @param $isOnlyDigitalGoods
@@ -3497,9 +3524,10 @@ jQuery().ready(function($) {
 		if (!$this->_currentMethod->digital_goods) {
 			return false;
 		}
-		$weight = 0;
 		if ($cart) {
 			$weight = $this->getOrderWeight($cart, 'GR');
+		} else {
+			$weight= $this->getisOnlyDigitalGoodsFromSession();
 		}
 
 		if ($weight == 0) {

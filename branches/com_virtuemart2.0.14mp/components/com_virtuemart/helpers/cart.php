@@ -1217,7 +1217,7 @@ class VirtueMartCart {
 	 */
 	public function emptyCart(){
 
-		//self::emptyCartValues($this);
+		self::emptyCartValues($this);
 
 		$this->setCartIntoSession();
 	}

@@ -164,7 +164,7 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 
 	private function redisplayAddressbookWallet ($client, $cart, $order_number) {
 		if ($cart == NULL) {
-			return;
+			$cart = VirtueMartCart::getCart();
 		}
 		$this->addWidgetUrlScript($client);
 		if (empty($this->_amazonOrderReferenceId)) {
@@ -782,7 +782,8 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 				$this->clearAmazonSession();
 				break;
 			case 'onInvalidPaymentNewAuthorization':
-				$this->onInvalidPaymentNewAuthorization();
+				$html = $this->onInvalidPaymentNewAuthorization();
+				echo $html;
 				break;
 			default:
 				$this->amazonError(vmText::_('VMPAYMENT_AMAZON_INVALID_NOTIFICATION_TASK'));
@@ -997,7 +998,7 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 	 * @param $order
 	 * @return bool|string
 	 */
-	private function vmConfirmedOrder ($cart, $order, $orderReferenceModifiable = true) {
+	private function vmConfirmedOrder ($cart, $order, $orderReferenceModifiable = true ) {
 		$client = $this->getOffAmazonPaymentsService_Client();
 
 		// if $cart=NULL may be coming from plgVmRetrieveIPN
@@ -1014,12 +1015,13 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 		if (!$this->updateBuyerInOrder($client, $cart, $order)) {
 			$this->redirectToCart(vmText::_('VMPAYMENT_AMAZON_SELECT_ANOTHER_PAYMENT'), true);
 		}
+		/* why do i have that ? */
 		if ($cart) {
 			$redirect = true;
 		} else {
 			$redirect = false;
 		}
-
+		$redirect=true;
 		// at this point, since the authorization and capturing takes additional time to process
 		// let's do that with a trigger
 		if (!($amazonAuthorizationId = $this->getAuthorization($client, $cart, $order, $redirect))) {
@@ -1028,12 +1030,11 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 			$html = $this->redisplayAddressbookWallet($client, $cart, $order['details']['BT']->order_number);
 			return $html;
 		}
-		if (!$cart) {
-			return NULL;
-		}
+
 		if (!class_exists('CurrencyDisplay')) {
 			require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'currencydisplay.php');
 		}
+		VmConfig::loadJLang('com_virtuemart_orders', TRUE);
 		$success = true;
 		$html = $this->renderByLayout('response', array(
 			"success"            => $success,
@@ -1044,8 +1045,9 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 
 
 		$this->leaveAmazonCheckout();
-
-		$cart = VirtueMartCart::getCart();
+		if (!$cart) {
+			$cart = VirtueMartCart::getCart();
+		}
 		$cart->emptyCart();
 
 		return $html;
@@ -1542,6 +1544,7 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 			$this->debugLog("<pre>" . var_export($confirmOrderReferenceRequest, true) . "</pre>", __FUNCTION__, 'debug');
 
 		} catch (Exception $e) {
+			// here we may have an error code when "Invalid Payment Method", "The OrderReferenceId xxx has constraints PaymentPlanNotSet and cannot be confirmed."
 			$this->amazonError(__FUNCTION__ . ' ' . $e->getMessage(), $e->getCode());
 			return false;
 		}
@@ -1664,7 +1667,7 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 			return FALSE;
 		}
 		$retryInvalidPaymentMethod = $this->incrementRetryInvalidPaymentMethodInSession();
-		if ($retryInvalidPaymentMethod > 2) {
+		if ($retryInvalidPaymentMethod > 3) {
 			//echo "TOO MANY RETRIES STOP";
 			$this->leaveAmazonCheckout();
 			$this->redirectToCart(vmText::_('VMPAYMENT_AMAZON_SELECT_ANOTHER_PAYMENT'), true);
@@ -1684,7 +1687,9 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 		$this->_amount = $order['details']['BT']->order_total;
 		$this->_order_number = $this->getUniqueReferenceId($order['details']['BT']->order_number);
 		$html = $this->vmConfirmedOrder(NULL, $order, false);
-		echo $html;
+		return $html;
+
+
 	}
 
 	function getAuthorizeDetailsFromAuthorizeResponse ($authorizeResponse) {

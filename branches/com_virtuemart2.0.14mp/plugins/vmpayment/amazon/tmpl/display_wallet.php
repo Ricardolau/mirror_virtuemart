@@ -41,5 +41,6 @@ JHtml::_('behavior.formvalidation');
 				<input type='hidden' name='action' value='onInvalidPaymentNewAuthorization'/>
 				<input type='hidden' name='order_number' value='<?php echo $viewData['order_number'] ?>'/>
 				<input type='hidden' name='virtuemart_paymentmethod_id' value='<?php echo $viewData['virtuemart_paymentmethod_id'] ?>'/>
+				<input type='hidden' name='format' value='html'/>
 			</form>
 

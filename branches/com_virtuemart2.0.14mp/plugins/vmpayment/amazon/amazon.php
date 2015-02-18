@@ -192,6 +192,9 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 		$html .= $this->renderByLayout('display_wallet', array(
 			'virtuemart_paymentmethod_id' => $this->_currentMethod->virtuemart_paymentmethod_id,
 			'order_number'                => $order_number,
+			'include_amazon_css'          => $this->_currentMethod->include_amazon_css,
+			'useXHTML' =>$cart->useXHTML,
+			'useSSL'=>$cart->useSSL,
 		));
 
 		return $html;

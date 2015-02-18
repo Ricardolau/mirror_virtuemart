@@ -170,6 +170,8 @@
         <include name="**"/>
         <exclude name=".svn"/>
         <exclude name=".DS_Store"/>
+        <exclude name="uploader.swf"/>
+        <exclude name="index.html"/>
     </fileset>
 
 

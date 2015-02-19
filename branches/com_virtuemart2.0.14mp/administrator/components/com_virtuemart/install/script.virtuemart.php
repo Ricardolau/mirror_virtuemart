@@ -182,9 +182,6 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 		public function createIndexFolder($path){
 			if(!class_exists('JFile')) require(JPATH_VM_LIBRARIES.DS.'joomla'.DS.'filesystem'.DS.'file.php');
 			if(JFolder::create($path)) {
-				if(!JFile::exists($path .DS. 'index.html')){
-					JFile::copy(JPATH_ROOT.DS.'components'.DS.'index.html', $path .DS. 'index.html');
-				}
 				return true;
 			}
 			return false;

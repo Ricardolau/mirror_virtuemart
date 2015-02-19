@@ -59,7 +59,9 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_calcs` (
   KEY `i_virtuemart_vendor_id` (`virtuemart_vendor_id`),
   KEY `i_published` (`published`),
   KEY `idx_calc_kind` (`calc_kind`),
-  KEY `i_shared` (`shared`)
+  KEY `i_shared` (`shared`),
+  KEY `publish_up` (`publish_up`),
+  KEY `publish_down` (`publish_down`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -217,6 +219,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_countries` (
   PRIMARY KEY (`virtuemart_country_id`),
   KEY `idx_country_3_code` (`country_3_code`),
   KEY `idx_country_2_code` (`country_2_code`),
+  KEY `country_name` (`country_name`),
   KEY `ordering` (`ordering`),
   KEY `published` (`published`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 COMMENT='Country records' AUTO_INCREMENT=1 ;
@@ -279,6 +282,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_currencies` (
   `locked_by` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`virtuemart_currency_id`),
   KEY `ordering` (`ordering`),
+  KEY `currency_name` (`currency_name`),
   KEY `published` (`published`),
   KEY `shared` (`shared`),
   KEY `virtuemart_vendor_id` (`virtuemart_vendor_id`),
@@ -888,10 +892,10 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_product_prices` (
   `product_tax_id` int(1),
   `product_discount_id` int(1),
   `product_currency` smallint(1),
-  `product_price_publish_up` datetime,
-  `product_price_publish_down` datetime,
-  `price_quantity_start` int(1) unsigned,
-  `price_quantity_end` int(1) unsigned,
+  `product_price_publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
+  `product_price_publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
+  `price_quantity_start` int(1) unsigned NOT NULL default '0',
+  `price_quantity_end` int(1) unsigned NOT NULL default '0',
   `created_on` datetime NOT NULL default '0000-00-00 00:00:00',
   `created_by` int(1) NOT NULL DEFAULT '0',
   `modified_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -900,9 +904,12 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_product_prices` (
   `locked_by` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`virtuemart_product_price_id`),
   KEY `i_product_id` (`virtuemart_product_id`),
+  KEY `product_price` (`virtuemart_product_id`),
   KEY `i_virtuemart_shoppergroup_id` (`virtuemart_shoppergroup_id`),
   KEY `dx_product_price_publish_up` (`product_price_publish_up`),
-  KEY `dx_product_price_publish_down` (`product_price_publish_down`)
+  KEY `dx_product_price_publish_down` (`product_price_publish_down`),
+  KEY `price_quantity_start` (`price_quantity_start`),
+  KEY `price_quantity_end` (`price_quantity_end`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Holds price records for a product' AUTO_INCREMENT=1 ;
 
 
@@ -931,6 +938,8 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_rating_reviews` (
   `locked_by` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`virtuemart_rating_review_id`),
   UNIQUE KEY `i_virtuemart_product_id` (`virtuemart_product_id`,`created_by`),
+  KEY `created_on` (`created_on`),
+  KEY `created_by` (`created_by`),
   KEY `i_published` (`published`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -1010,7 +1019,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_shipmentmethods` (
 
 CREATE TABLE IF NOT EXISTS `#__virtuemart_shipmentmethod_shoppergroups` (
   `id` int(1) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `virtuemart_shipmentmethod_id` mediumint(1) UNSIGNED,
+  `virtuemart_shipmentmethod_id` mediumint(1) UNSIGNED NOT NULL DEFAULT '0',
   `virtuemart_shoppergroup_id` smallint(1) UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `i_virtuemart_shipmentmethod_id` (`virtuemart_shipmentmethod_id`,`virtuemart_shoppergroup_id`)
@@ -1273,8 +1282,8 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_vendors` (
   `locked_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `locked_by` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`virtuemart_vendor_id`),
-  KEY `idx_vendor_name` (`vendor_name`)
---  KEY `idx_vendor_category_id` (`vendor_category_id`)
+  KEY `idx_vendor_name` (`vendor_name`),
+  KEY `vendor_currency` (`vendor_currency`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Vendors manage their products in your store' AUTO_INCREMENT=1 ;
 
 

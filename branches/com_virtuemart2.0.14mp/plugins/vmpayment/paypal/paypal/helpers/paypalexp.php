@@ -716,7 +716,11 @@ class PaypalHelperPayPalExp extends PaypalHelperPaypal {
 				$lastName = str_replace($firstName . ' ', '', $this->response['SHIPTONAME']);
 			}
 		}
-		if ($this->cart->BT == 0 or empty($this->cart->BT)) {
+
+
+		$usersModel = VmModel::getModel('user');
+		$validateUserData= $usersModel->validateUserData(NULL,'BT');
+		if ($validateUserData === -1) {
 			$addressBT['email'] = $this->response['EMAIL'];
 			$addressBT['first_name'] = $firstName;
 			$addressBT['last_name'] = $lastName;

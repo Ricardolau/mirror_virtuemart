@@ -719,8 +719,8 @@ class PaypalHelperPayPalExp extends PaypalHelperPaypal {
 
 
 		$usersModel = VmModel::getModel('user');
-		$validateUserData= $usersModel->validateUserData(NULL,'BT');
-		if ($validateUserData === -1) {
+		$validateUserData= $usersModel->validateUserData($this->cart->BT,'BT');
+		if ($validateUserData !== true) {
 			$addressBT['email'] = $this->response['EMAIL'];
 			$addressBT['first_name'] = $firstName;
 			$addressBT['last_name'] = $lastName;

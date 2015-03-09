@@ -665,11 +665,8 @@ class PaypalHelperPaypal {
 	 */
 
 	function getRemoteIPAddress() {
-		$ip_keys = array('REMOTE_ADDR' ,
-		                 'HTTP_CLIENT_IP',
-		                 'HTTP_X_FORWARDED_FOR',
-		                 'HTTP_X_FORWARDED',
-		                 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED' );
+		$ip_keys = array('REMOTE_ADDR', 'X_FORWARDED_FOR');
+
 		foreach ($ip_keys as $key) {
 			if (array_key_exists($key, $_SERVER) === true) {
 				foreach (explode(',', $_SERVER[$key]) as $ip) {

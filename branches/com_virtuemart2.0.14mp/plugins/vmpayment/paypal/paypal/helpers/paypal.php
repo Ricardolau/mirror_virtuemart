@@ -666,7 +666,11 @@ class PaypalHelperPaypal {
 
 	function getRemoteIPAddress() {
 		$ip_keys = array('REMOTE_ADDR', 'X_FORWARDED_FOR');
-
+		$extra = VmConfig::get('revproxvar','');
+		if(!empty($extra)){
+			$extra = explode(',',$extra);
+			$ip_keys = array_merge($ip_keys,$extra);
+		}
 		foreach ($ip_keys as $key) {
 			if (array_key_exists($key, $_SERVER) === true) {
 				foreach (explode(',', $_SERVER[$key]) as $ip) {
@@ -682,6 +686,7 @@ class PaypalHelperPaypal {
 
 		return isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : false;
 	}
+
 	/**
 	 * Ensures an ip address is both a valid IP and does not fall within
 	 * a private network range.

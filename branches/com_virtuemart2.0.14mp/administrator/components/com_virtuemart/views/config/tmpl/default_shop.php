@@ -158,7 +158,7 @@ defined('_JEXEC') or die('Restricted access');?>
 		</tr>
 		<?php
 			echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_CFG_DANGEROUS_TOOLS','dangeroustools',VmConfig::get('dangeroustools',0));
-			echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_REV_PROXY_VAR','revproxvar',VmConfig::get('revproxvar',0));
+			echo VmHTML::row('input','COM_VIRTUEMART_REV_PROXY_VAR','revproxvar',VmConfig::get('revproxvar',''));
 		?>
 
 		<tr>

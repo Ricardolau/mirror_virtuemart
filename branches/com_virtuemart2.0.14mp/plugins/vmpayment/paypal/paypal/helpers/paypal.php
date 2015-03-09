@@ -663,8 +663,13 @@ class PaypalHelperPaypal {
 	 * http://blackbe.lt/advanced-method-to-obtain-the-client-ip-in-php/
 	 * @return mixed
 	 */
+
 	function getRemoteIPAddress() {
-		$ip_keys = array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR');
+		$ip_keys = array('REMOTE_ADDR' ,
+		                 'HTTP_CLIENT_IP',
+		                 'HTTP_X_FORWARDED_FOR',
+		                 'HTTP_X_FORWARDED',
+		                 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED' );
 		foreach ($ip_keys as $key) {
 			if (array_key_exists($key, $_SERVER) === true) {
 				foreach (explode(',', $_SERVER[$key]) as $ip) {
@@ -680,7 +685,6 @@ class PaypalHelperPaypal {
 
 		return isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : false;
 	}
-
 	/**
 	 * Ensures an ip address is both a valid IP and does not fall within
 	 * a private network range.

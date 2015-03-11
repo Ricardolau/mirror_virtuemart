@@ -92,7 +92,7 @@ $document->addScriptDeclaration($js);
 			<td class="key">
             	<span class="hasTip" title="<?php echo JText::_('COM_VIRTUEMART_ADMIN_CFG_AUTOMATIC_SHIPMENT_EXPLAIN'); ?>">
 					<label for="automatic_shipment">
-						<?php echo JText::_('COM_VIRTUEMART_ADMIN_CFG_AUTOMATIC_SHIPMENT'); ?>
+						<?php echo JText::_('COM_VIRTUEMART_ADMIN_CFG_AUTOMATIC_SHIPMENT'); ?> legacy
 					</label>
 				</span>
 			</td>
@@ -104,7 +104,7 @@ $document->addScriptDeclaration($js);
 			<td class="key">
             	<span class="hasTip" title="<?php echo JText::_('COM_VIRTUEMART_ADMIN_CFG_AUTOMATIC_PAYMENT_EXPLAIN'); ?>">
 					<label for="automatic_payment">
-						<?php echo JText::_('COM_VIRTUEMART_ADMIN_CFG_AUTOMATIC_PAYMENT'); ?>
+						<?php echo JText::_('COM_VIRTUEMART_ADMIN_CFG_AUTOMATIC_PAYMENT'); ?> legacy
 					</label>
 				</span>
 			</td>
@@ -113,6 +113,8 @@ $document->addScriptDeclaration($js);
 			</td>
 		</tr>
 		</div>
+		<?php echo VmHTML::row('genericlist','COM_VIRTUEMART_ADMIN_CFG_AUTOMATIC_SHIPMENT',$this->listShipment,'set_automatic_shipment','','virtuemart_shipmentmethod_id','shipment_name',VmConfig::get('set_automatic_shipment',1));
+		echo VmHTML::row('genericlist','COM_VIRTUEMART_ADMIN_CFG_AUTOMATIC_PAYMENT',$this->listPayment,'set_automatic_payment','','virtuemart_paymentmethod_id','payment_name',VmConfig::get('set_automatic_payment',1)); ?>
 		<tr>
 			<td class="key">
             	<span class="hasTip" title="<?php echo JText::_('COM_VIRTUEMART_ADMIN_CFG_AGREE_TERMS_ONORDER_EXPLAIN'); ?>">

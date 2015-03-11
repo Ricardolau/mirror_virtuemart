@@ -1380,6 +1380,17 @@ class VirtueMartCart {
 				$this->virtuemart_shipmentmethod_id = 0;
 				$this->automaticSelectedShipment=false;
 				$this->setCartIntoSession();
+				/*//iStraxx QuicknDirty Fix, sets shipment automatically even if more available, but does not check for conditions.
+			$aship = VmConfig::get('set_automatic_shipment','0');
+			if(!empty($aship) and empty($this->virtuemart_shipmentmethod_id)){
+				$this->virtuemart_shipmentmethod_id = $aship;
+				$this->automaticSelectedShipment=true;
+			} else if($this->automaticSelectedShipment){
+				$this->virtuemart_shipmentmethod_id = 0;
+				$this->automaticSelectedShipment=false;
+			}
+			$this->setCartIntoSession();
+			return $this->automaticSelectedShipment;*/
 			}
 			return false;
 		}

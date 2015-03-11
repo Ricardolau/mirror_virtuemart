@@ -692,10 +692,10 @@ class plgVmpaymentAuthorizenet extends vmPSPlugin {
 
 	function _validate_creditcard_data ($enqueueMessage = TRUE) {
 
-		if(empty($this->_cc_number) and empty($this->_cc_cvv) and empty($this->_cc_expire_month) and empty($this->_cc_expire_year)){
+		if(empty($this->_cc_number) and empty($this->_cc_cvv) ){
 			return false;
 		}
-		
+
 		$html = '';
 		$this->_cc_valid = TRUE;
 

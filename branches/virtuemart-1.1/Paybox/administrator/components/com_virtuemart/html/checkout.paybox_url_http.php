@@ -114,7 +114,7 @@ if ($_POST) {
 
 	if ($paybox_data['E'] == '00000') {
 			$d['order_status'] =paybox_conf_status_success;
-		$d['order_comment'] = addslashes($PAYBOX_LANG->_('PS_PAYBOX_PAYMENT_STATUS_CONFIRMED'));
+		$d['order_comment'] = addslashes($PAYBOX_LANG->_('PS_PAYBOX_PAYMENT_STATUS_CONFIRMED')." ".$paybox_data['A']);
 	} else {
 		// the Payment wasn't successful.
 		$d['order_status'] = paybox_conf_status_canceled;
@@ -125,7 +125,6 @@ if ($_POST) {
 	require_once(CLASSPATH . 'ps_order.php');
 	$ps_order = new ps_order;
 	$ps_order->order_status_update($d);
-
 }
 
 ?>

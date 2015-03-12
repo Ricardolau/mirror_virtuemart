@@ -1,30 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="Build VirtueMart" default="VIRTUEMART_AND_FULLINSTALLER" basedir="../">
+<project name="Build Paybox" default="Paybox_Payment_Module" basedir="../">
     <!-- value can be: major, minor, bugfix -->
     <property name="releasetype" value="MINOR"/>
-    <property name="paybox.version" value="1.1.1"/>
-    <property file="build.properties"/>
+    <property name="paybox.version" value="1.1"/>
+    <property file="vm_build/build.properties"/>
     <target name="title">
         <echo message="BUILD PAYBOX package FROM ${export.to}  TO ${package.abspath}"/>
     </target>
 
-
-    <property name="component.name" value="com_virtuemart"/>
-    <property name="admin.component.path" value="${export.to}/administrator/components/${component.name}"/>
-    <property name="paybox.filename" value="paybox-vm1.${vm.version}"/>
+    <property name="paybox.filename" value="paybox-vm1.${paybox.version}"/>
     <property name="readme.file.from" value="${export.to}/vm_build"/>
-
-
-    <property name="package.folder" value="${package.abspath}/paybox.${paybox.version}_unzip"/>
-    <property name="package.folder.main" value="${package.abspath}/paybox.${paybox.version}/${component.name}.${paybox.version}"/>
-
-
-    <!-- ============================================  -->
-    <!-- SVN EXPORT variables -->
-    <!-- ============================================  -->
+    <property name="package.folder" value="${package.abspath}/${paybox.filename}_extract_first"/>
     <property name="svn.paybox.repository" value="https://dev.virtuemart.net/svn/virtuemart/branches/virtuemart-1.1/Paybox/"/>
-    <property name="svn.main.path" value="virtuemart"/>
 
     <svnlastrevision
             svnpath="{$svn.path}"
@@ -86,25 +74,6 @@
 
 
 
-
-    <!-- ============================================  -->
-    <!-- TARGET: copy all files for the MAIN component                           -->
-    <!-- ============================================  -->
-    <target name="main_files">
-        <echo msg="Copying ADMIN COMPONENT files to directory..."/>
-        <copy todir="${package.folder.main}/administrator/components/${component.name}">
-            <fileset refid="admin.main.refid"/>
-            <filterchain>
-                <expandproperties/>
-            </filterchain>
-        </copy>
-
-        <echo msg="Copying README file to directory..."/>
-        <copy todir="${package.folder.main}">
-            <fileset refid="readme.main.file"/>
-        </copy>
-    </target>
-
     <!-- ============================================  -->
     <!-- (DEFAULT)  SVN export            -->
     <!-- ============================================  -->
@@ -133,37 +102,42 @@
     <!-- ============================================  -->
     <!-- (DEFAULT)  CREATE TAR FILES                -->
     <!-- ============================================  -->
-    <target name="clean" depends="delete_package_folder, delete_export_to_folder, create_package_folder">
+    <target name="clean" depends="delete_package_folder, delete_export_to_folder,  create_package_folder">
         <echo msg="Cleaning Package directory OK!"/>
     </target>
 
+    <fileset dir="${export.to}" id='paybox.refid' defaultexcludes="true">
+        <include name="**"/>
+        <exclude name="vm_build/**"/>
+        <exclude name=".svn"/>
+        <exclude name=".DS_Store"/>
+        <exclude name="index.html"/>
+    </fileset>
 
-    <target name="Paybox" depends="main_files">
-        <echo msg="Creating MAIN PACKAGE  ..."/>
 
-        <zip destfile="${package.folder}/${component.name}.${paybox.version}.zip">
-            <fileset dir="${package.folder.main}">
-                <include name="**"/>
+
+    <target name="Paybox_Payment_Module" depends="title, clean ,svn.export">
+        <echo msg="LATEST REVISION is ${svn.lastrevision}"/>
+        <echo msg="DATE ${TODAY}, TIME ${TSTAMP}"/>
+        <echo msg="Creating Paybox PACKAGE  ..."/>
+        <copy todir="${package.folder}">
+            <fileset refid="paybox.refid"/>
+            <filterchain>
+                <expandproperties/>
+            </filterchain>
+        </copy>
+        <echo msg="Copying README file to directory..."/>
+        <copy todir="${package.folder}">
+            <fileset refid="readme.main.file"/>
+        </copy>
+        <zip destfile="${package.folder}.zip">
+            <fileset dir="${package.folder}">
+                <exclude name="vm_build"/>
                 <exclude name=".svn"/>
                 <exclude name=".DS_Store"/>
             </fileset>
         </zip>
         <echo msg="Paybox  Payment Module compressed OK!"/>
-    </target>
-
-
-    <target name="Paybox Payment Module" depends="title, clean ,svn.export, Paybox">
-        <echo msg="LATEST REVISION is ${svn.lastrevision}"/>
-        <echo msg="DATE ${TODAY}, TIME ${TSTAMP}"/>
-        <!-- DOES not create a correct package for me -->
-        <zip destfile="${package.folder}/${component.name}.${paybox.version}_extract_first.zip">
-            <fileset dir="${package.folder}">
-                <include name="${package.folder}/${component.name}.${paybox.version}.tar.gz"/>
-                <include name="${package.folder}/${component.name}.${paybox.version}_ext_aio.tar.gz"/>
-                <exclude name=".DS_Store"/>
-            </fileset>
-        </zip>
-        <echo msg="EXTRACT FIRST compressed in directory OK!"/>
     </target>
 
 

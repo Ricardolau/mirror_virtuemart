@@ -3,8 +3,9 @@
  * @version $Id: checkout.paybox_url_http.php
  * @package VirtueMart
  * @subpackage html
- * @author Valérie Isaksen <valerie.isaksen@alatak.net>
- * @copyright Copyright (C) 2004-2005 Soeren Eberhardt. All rights reserved.
+ * * Version: ${PHING.VM.RELEASE}
+ * valerie Isaksen valerie@virtuemart.net
+ * @copyright Copyright (C) 2004-${PHING.VM.PHING.VM.YEAR} Soeren Eberhardt. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or

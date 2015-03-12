@@ -4,11 +4,12 @@ if (!defined('_VALID_MOS') && !defined('_JEXEC')) {
 }
 
 /**
- * @version $Id: ps_paybox.php,
+ * @version $Id
  * @package VirtueMart
  * @subpackage Payment
- * @author     valerie Isaksen valerie@virtuemart.net
- * @copyright (C) 2004-2005 Soeren Eberhardt
+ * Version: ${PHING.VM.RELEASE}
+ * valerie Isaksen valerie@virtuemart.net
+ * @copyright Copyright (C) 2004-${PHING.VM.PHING.VM.YEAR} Soeren Eberhardt. All rights reserved.
  *
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  * mambo-phpShop is Free Software.

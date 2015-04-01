@@ -3,7 +3,7 @@
 <project name="Build Paybox" default="Paybox_Payment_Module" basedir="../">
     <!-- value can be: major, minor, bugfix -->
     <property name="releasetype" value="MINOR"/>
-    <property name="paybox.version" value="1.1"/>
+    <property name="paybox.version" value="1.2"/>
     <property file="vm_build/build.properties"/>
     <target name="title">
         <echo message="BUILD PAYBOX package FROM ${export.to}  TO ${package.abspath}"/>

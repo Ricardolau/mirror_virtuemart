@@ -414,7 +414,7 @@ class ps_paybox_Language extends vmAbstractLanguage {
 				require_once(ADMINPATH . 'languages/paybox/french.php');
 			}
 		}
-		$this->setDebug();
+		//$this->setDebug();
 		$this->initModule('paybox', $langvars);
 
 	}

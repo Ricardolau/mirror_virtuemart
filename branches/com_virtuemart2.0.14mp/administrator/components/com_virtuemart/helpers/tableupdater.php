@@ -264,12 +264,18 @@ class GenericTableUpdater extends JModel{
 				} else if(strpos($line,'ENGINE')!==false){
 					$tableDefStarted = false;
 
+					if(strpos(strtolower($line),'myisam')!==false){
+						$engine = 'MyISAM';
+					} else {
+						$engine = 'InnoDB';
+					}
+
 					$start = strpos($line,"COMMENT='");
 					$temp = substr($line,$start+9);
 					$end = strpos($temp,"'");
 					$comment = substr($temp,0,$end);
 
-					$tables[$tablename] = array($fieldLines, $tableKeys,$comment);
+					$tables[$tablename] = array($fieldLines, $tableKeys,$comment,$engine);
 				} else if($tableDefStarted){
 
 					$start = strpos($line,"`");
@@ -305,50 +311,36 @@ class GenericTableUpdater extends JModel{
 			$tablename = str_replace('#__',$this->_prefix,$tablename);
 			$demandedTables[] = $tablename;
 			if(in_array($tablename,$existingtables)){
+				$q = 'LOCK TABLES `'.$tablename.'`';
+				$this->_db->setQuery($q);
+				$this->_db->execute();
+
 // 			if($tablename==$this->_prefix.'virtuemart_userinfos'){
 				if($this->reCreaPri!=0){
 					$this->alterColumns($tablename,$table[0],true);
 					$this->alterKey($tablename,$table[1],true);
 					$this->alterColumns($tablename,$table[0],false);
 				} else {
-					$this->alterColumns($tablename,$table[0],false);
+					if(!isset($table[3])) $table[3] = 'MyISAM';
+					$this->alterColumns($tablename,$table[0],false,$table[3]);
 					if($this->reCreaKey!=0){
 						$this->alterKey($tablename,$table[1],false);
 					}
 				}
 
-				// 				unset($todelete[$tablename]);
+				$q = 'UNLOCK TABLES ';
+				$this->_db->setQuery($q);
+				$this->_db->execute();
 			} else {
 
 				$this->createTable($tablename,$table);
 			}
-			// 			$this->_db->setQuery('OPTIMIZE '.$tablename);
-			// 			$this->_db->query();
+
 			$i++;
 
 		}
 
-		//We need first a method here to register valid plugin tables
-/* 		$tablesWithLang = array_keys($this->tables); //('categories','manufacturercategories','manufacturers','paymentmethods','shipmentmethods','products','vendors');
 
-// 		$alangs = VmConfig::get('active_languages');
-// 		if(empty($alangs)) $alangs = array(VmConfig::setdbLanguageTag());
-// 		foreach($alangs as $lang){
-// 			foreach($tablesWithLang as $tablewithlang){
-// 				$demandedTables[] = $this->_prefix.'virtuemart_'.$tablewithlang.'_'.$lang;
-// 			}
-// 		}
-// 		$demandedTables[] = $this->_prefix.'virtuemart_configs';
-
-
-// 		$todelete = array();
-// 		foreach ($existingtables as $tablename){
-// 			if(!in_array($tablename,$demandedTables) and strpos($tablename,'_plg_')===false){
-// 				$todelete[] = $tablename;
-// 			}
-// 		}
-// 		$this->dropTables($todelete);
-*/
 	}
 
 
@@ -525,7 +517,7 @@ class GenericTableUpdater extends JModel{
 	 * @param unknown_type $fields
 	 * @param unknown_type $command
 	 */
-	public function alterColumns($tablename,$fields,$reCreatePrimary){
+	public function alterColumns($tablename,$fields,$reCreatePrimary,$engine='MyISAM'){
 
 
 		$after ='FIRST';
@@ -643,6 +635,17 @@ class GenericTableUpdater extends JModel{
 
 				$after = 'AFTER '.$fieldname;
 			}
+		}
+
+		$q = 'SELECT ENGINE FROM information_schema.TABLES WHERE TABLE_NAME = "'.$tablename.'" ';
+		$this->_db->setQuery($q);
+		$exEngine = $this->_db->loadResult();
+
+		if(strtoupper($exEngine)!=strtoupper($engine)){
+			$q = 'ALTER TABLE '.$tablename.' ENGINE='.$engine;
+			$this->_db->setQuery($q);
+			$this->_db->execute();
+			vmdebug('Changed engine '.$exEngine.' of table '.$tablename.' to '.$engine,$exEngine);
 		}
 
 		if($dropped != 0 or $altered !=0 or $added!=0){

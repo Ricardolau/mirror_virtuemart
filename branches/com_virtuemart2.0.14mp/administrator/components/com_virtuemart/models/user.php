@@ -663,7 +663,8 @@ class VirtueMartModelUser extends VmModel {
 
 		// Save the JUser object
 		if (!$user->save()) {
-			vmError(vmText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED',$user->getError()));
+			$msg = vmText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED',$user->getError());
+			vmError($msg,$msg);
 			return false;
 		}
 		//vmdebug('my user, why logged in? ',$user);

@@ -109,7 +109,7 @@ $document->addStyleDeclaration ('#facebox .content {display: block !important; h
 	<div>
 		<div class="width50 floatleft">
 			<h1><?php echo JText::_ ('COM_VIRTUEMART_CART_TITLE'); ?></h1>
-			<div class="payments_signin_button"></div>
+			<div class="payments-signin-button"></div>
 		</div>
 
 		<?php if (VmConfig::get ('oncheckout_show_steps', 1) && $this->checkout_task === 'confirm') {

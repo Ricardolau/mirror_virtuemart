@@ -109,7 +109,7 @@ $document->addStyleDeclaration('#facebox .content {display: block !important; he
 			<div class="width50 floatleft">
 				<h1><?php echo JText::_('VMPAYMENT_AMAZON_PAY_WITH_AMAZON'); ?></h1>
 
-				<div class="payments_signin_button"></div>
+				<div class="payments-signin-button"></div>
 			</div>
 			<div class="width50 floatleft right">
 				<?php // Continue Shopping Button

@@ -284,7 +284,7 @@
         <param class="level2" type="vmtitle" default="VMPAYMENT_AMAZON_CONF_VM_TEMPLATE"
                description=""/>
 
-        <param name="sign_in_css" type="text" size="50" default=".payments_signin_button"
+        <param name="sign_in_css" type="text" size="50" default=".payments-signin-button"
                label="VMPAYMENT_AMAZON_CONF_SIGN_IN_CSS" description="VMPAYMENT_AMAZON_CONF_SIGN_IN_CSS_TIP"/>
 
         <param name="include_amazon_css" type="radio" default="1" label="VMPAYMENT_AMAZON_CONF_INCLUDE_AMAZON_CSS" description="VMPAYMENT_AMAZON_CONF_INCLUDE_AMAZON_CSS_TIP">

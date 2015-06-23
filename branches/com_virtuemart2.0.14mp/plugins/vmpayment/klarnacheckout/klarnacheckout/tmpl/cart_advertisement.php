@@ -21,26 +21,25 @@ defined('_JEXEC') or die('Restricted access');
 $css =".totalInPaymentCurrency {display:none;}\n";
 
 JFactory::getDocument()->addStyleDeclaration($css);
-/*
+
 $js = '
 	jQuery(document).ready(function( $ ) {
-		      $("#checkoutForm").hide();
-	});
+ $(".checkout-button-top").hide();	});
 	';
-*/
+
 if ($viewData ['hide_BTST']) {
 	$js .= '
 	jQuery(document).ready(function( $ ) {
 		      $(".billto-shipto").hide();
+
 		      $("#com-form-login").hide();
 
 	});
 	';
+
+
 }
-$document = JFactory::getDocument();
-
-$document->addScriptDeclaration ( $js);
-
+JFactory::getDocument()->addScriptDeclaration($js);
 ?>
 <?php if ($viewData ['message'] )  { ?>
 	<h1><?php echo $viewData ['message']; ?>  </h1>

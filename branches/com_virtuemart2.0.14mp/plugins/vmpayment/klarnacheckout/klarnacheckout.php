@@ -21,24 +21,25 @@ if (!class_exists('vmPSPlugin')) {
 	require(JPATH_VM_PLUGINS . DS . 'vmpsplugin.php');
 }
 
-	if (!defined('JPATH_VMKLARNACHEKOUTCHEKOUTPLUGIN')) {
-		define('JPATH_VMKLARNACHEKOUTCHEKOUTPLUGIN', JPATH_ROOT . DS . 'plugins' . DS . 'vmpayment' . DS . 'klarnacheckout');
-	}
-	if (!defined('VMKLARNACHEKOUTPLUGINWEBROOT')) {
-		define('VMKLARNACHEKOUTPLUGINWEBROOT', 'plugins/vmpayment/klarnacheckout');
-	}
-	if (!defined('VMKLARNACHEKOUTPLUGINWEBASSETS')) {
-		define('VMKLARNACHEKOUTPLUGINWEBASSETS', JURI::root() . VMKLARNACHEKOUTPLUGINWEBROOT . '/klarnacheckout/assets');
-	}
-	if (!defined('VMKLARNACHEKOUTPLUGINWEBASSETS')) {
-		define('VMKLARNACHEKOUTPLUGINWEBASSETS', JURI::root() . VMKLARNACHEKOUTPLUGINWEBROOT . '/klarnacheckout/assets');
-	}
-	if (!class_exists ('Klarna')) {
-		require (JPATH_ROOT . DS . 'plugins' . DS . 'vmpayment' . DS . 'klarna'. DS . 'klarna' . DS . 'api' . DS . 'klarna.php');
-	}
-if (!class_exists ('Klarna')) {
-	require (JPATH_ROOT . DS . 'plugins' . DS . 'vmpayment' . DS . 'klarna'. DS . 'klarna' . DS . 'api' . DS . 'klarna.php');
+if (!defined('JPATH_VMKLARNACHEKOUTCHEKOUTPLUGIN')) {
+	define('JPATH_VMKLARNACHEKOUTCHEKOUTPLUGIN', JPATH_ROOT . DS . 'plugins' . DS . 'vmpayment' . DS . 'klarnacheckout');
 }
+if (!defined('VMKLARNACHEKOUTPLUGINWEBROOT')) {
+	define('VMKLARNACHEKOUTPLUGINWEBROOT', 'plugins/vmpayment/klarnacheckout');
+}
+if (!defined('VMKLARNACHEKOUTPLUGINWEBASSETS')) {
+	define('VMKLARNACHEKOUTPLUGINWEBASSETS', JURI::root() . VMKLARNACHEKOUTPLUGINWEBROOT . '/klarnacheckout/assets');
+}
+if (!defined('VMKLARNACHEKOUTPLUGINWEBASSETS')) {
+	define('VMKLARNACHEKOUTPLUGINWEBASSETS', JURI::root() . VMKLARNACHEKOUTPLUGINWEBROOT . '/klarnacheckout/assets');
+}
+if (!class_exists('Klarna')) {
+	require(JPATH_ROOT . DS . 'plugins' . DS . 'vmpayment' . DS . 'klarna' . DS . 'klarna' . DS . 'api' . DS . 'klarna.php');
+}
+if (!class_exists('Klarna')) {
+	require(JPATH_ROOT . DS . 'plugins' . DS . 'vmpayment' . DS . 'klarna' . DS . 'klarna' . DS . 'api' . DS . 'klarna.php');
+}
+
 class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 	const RELEASE = 'VM ${PHING.VM.RELEASE}';
 	protected $currency_code_3;
@@ -50,7 +51,6 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 	protected $merchantid;
 	protected $mode;
 	protected $ssl;
-	var $method;
 
 
 	function __construct (& $subject, $config) {
@@ -65,12 +65,12 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 		$this->setConfigParameterable($this->_configTableFieldName, $varsToPush);
 		plgVmPaymentKlarnaCheckout::includeKlarnaFiles();
 		VmConfig::loadJLang('plg_vmpayment_klarna');
-		if  (!JFactory::getApplication()->isSite()) {
+		if (!JFactory::getApplication()->isSite()) {
 
-		$doc = JFactory::getDocument();
-		$doc->addScript(JURI::root(true).'/plugins/vmpayment/klarnacheckout/klarnacheckout/assets/js/admin.js');
-		$doc->addStyleSheet(JURI::root(true).'/plugins/vmpayment/klarnacheckout/klarnacheckout/assets/css/klarnacheckout.css');
-	}
+			$doc = JFactory::getDocument();
+			$doc->addScript(JURI::root(true) . '/plugins/vmpayment/klarnacheckout/klarnacheckout/assets/js/admin.js');
+			$doc->addStyleSheet(JURI::root(true) . '/plugins/vmpayment/klarnacheckout/klarnacheckout/assets/css/klarnacheckout.css');
+		}
 	}
 
 	/**
@@ -88,17 +88,23 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 
 		$SQLfields = array(
 			'id'                          => 'int(11) UNSIGNED NOT NULL AUTO_INCREMENT',
-			'virtuemart_order_id'         => 'int(1) UNSIGNED',
+			'virtuemart_order_id'         => 'int(11) UNSIGNED',
 			'order_number'                => 'char(64)',
 			'virtuemart_paymentmethod_id' => 'mediumint(1) UNSIGNED',
 			'payment_name'                => 'varchar(1000)',
-			'action'                      => 'varchar(20)',
-			// to_klarna, from_klarna
-			'klarna_status'               => 'varchar(20)',
-			// pre-purchase, purchase, pre-delivery, delivery, post-delivery
-			'format'                        => 'varchar(5)',
-			'data'                        => 'mediumtext',
-			// what was sent
+			'payment_order_total'         => 'decimal(15,5)',
+			'payment_currency'            => 'smallint(1)',
+			'action'                      => 'varchar(20)', // BC
+			'format'                      => 'varchar(5)',// BC
+			'data'                        => 'mediumtext', // BC
+			'klarna_id'                   => 'varchar(64)',
+			'klarna_status'               => 'varchar(64)',
+			'klarna_reservation'          => 'varchar(64)',
+			'klarna_started_at'           => 'varchar(64)',
+			'klarna_completed_at'         => 'varchar(64)',
+			'klarna_expires_at'           => 'varchar(64)',
+			'klarna_invoicenumber'        => 'varchar(255)',
+			'klarna_invoicepdf'           => 'varchar(512)',
 		);
 		return $SQLfields;
 	}
@@ -121,45 +127,45 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 		}
 		$htmla = array();
 		$html = '';
-		$logo='';
+		$logo = '';
 
 		VmConfig::loadJLang('com_virtuemart');
 		$currency = CurrencyDisplay::getInstance();
-		$showallform=true;
+		$showallform = true;
 
-		foreach ($this->methods as $method) {
-			if ($this->checkConditions($cart, $method, $cart->pricesUnformatted)) {
-				$methodSalesPrice = $this->calculateSalesPrice($cart, $method, $cart->pricesUnformatted);
+		foreach ($this->methods as $this->_currentMethod) {
+			if ($this->checkConditions($cart, $this->_currentMethod, $cart->pricesUnformatted)) {
+				$methodSalesPrice = $this->calculateSalesPrice($cart, $this->_currentMethod, $cart->pricesUnformatted);
 
-				if (empty($method->payment_logos)) {
+				if (empty($this->_currentMethod->payment_logos)) {
 					$logo = '<img src="https://cdn.klarna.com/public/images/SE/logos/v1/basic/SE_basic_logo_std_blue-black.png?width=100&" />';
 				}
 				$payment_cost = '';
 				if ($methodSalesPrice) {
 					$payment_cost = $currency->priceDisplay($methodSalesPrice);
 				}
-				if ($selected == $method->virtuemart_paymentmethod_id) {
+				if ($selected == $this->_currentMethod->virtuemart_paymentmethod_id) {
 					$checked = 'checked="checked"';
 				} else {
 					$checked = '';
 				}
-				if ($cart->virtuemart_paymentmethod_id == $method->virtuemart_paymentmethod_id) {
-					 $showallform=false;
+				if ($cart->virtuemart_paymentmethod_id == $this->_currentMethod->virtuemart_paymentmethod_id) {
+					$showallform = false;
 				}
 				$html = $this->renderByLayout('display_payment', array(
-				                                                      'plugin'       => $method,
-				                                                      'checked'      => $checked,
-				                                                      'payment_logo' => $logo,
-				                                                      'payment_cost' => $payment_cost,
-				                                                      'showallform'  => $showallform
-				                                                 ));
+					'plugin'       => $this->_currentMethod,
+					'checked'      => $checked,
+					'payment_logo' => $logo,
+					'payment_cost' => $payment_cost,
+					'showallform'  => $showallform
+				));
 
 				$htmla[] = $html;
 			}
 		}
 
 
-		if ( $showallform) {
+		if ($showallform) {
 			$js = '
 	jQuery(document).ready(function( $ ) {
 		      $("#checkoutForm").show();
@@ -169,7 +175,7 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 	});
 	';
 			$document = JFactory::getDocument();
-			$document->addScriptDeclaration ( $js);
+			$document->addScriptDeclaration($js);
 		}
 
 
@@ -192,14 +198,14 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 			$items[$i]['reference'] = !empty($product->sku) ? $product->sku : $product->virtuemart_product_id;
 			$items[$i]['name'] = $product->product_name;
 			$items[$i]['quantity'] = (int)$product->quantity;
-			$price  = !empty($product->prices['basePriceWithTax']) ? $product->prices['basePriceWithTax'] : $product->prices['basePriceVariant'];
+			$price = !empty($product->prices['basePriceWithTax']) ? $product->prices['basePriceWithTax'] : $product->prices['basePriceVariant'];
 
-			$itemInPaymentCurrency = vmPSPlugin::getAmountInCurrency($price,$this->method->payment_currency);
-			$items[$i]['unit_price'] = round($itemInPaymentCurrency['value'] * 100, 0) ;
+			$itemInPaymentCurrency = vmPSPlugin::getAmountInCurrency($price, $this->_currentMethod->payment_currency);
+			$items[$i]['unit_price'] = round($itemInPaymentCurrency['value'] * 100, 0);
 			//$items[$i]['discount_rate'] = $discountRate;
 			// Bug indoc: discount is not supported
 			//$items[$i]['discount'] = abs($cart->pricesUnformatted[$pkey]['discountAmount']*100);
-			$tax_rate = round($this->getVatTaxProduct($cart->pricesUnformatted[$pkey]['VatTax']) );
+			$tax_rate = round($this->getVatTaxProduct($cart->pricesUnformatted[$pkey]['VatTax']));
 			$items[$i]['tax_rate'] = $tax_rate * 100;
 			//$this->debugLog($unitPriceCentsInPaymentCurrency, 'getCartItems', 'debug');
 			//$this->debugLog($cart->pricesUnformatted[$pkey], 'getCartItems Products', 'debug');
@@ -207,19 +213,19 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 			$i++;
 			// ADD A DISCOUNT AS A NEGATIVE VALUE FOR THAT PRODUCT
 			if ($cart->pricesUnformatted[$pkey]['discountAmount'] != 0.0) {
-				$items[$i]['reference'] = $items[$i-1]['reference'];
-				$items[$i]['name'] = $items[$i-1]['name']. ' ('.vmText::_('VMPAYMENT_KLARNACHECKOUT_PRODUCTDISCOUNT'). ')';
-				$items[$i]['quantity'] =(int)$product->quantity;
-				$discount_tax_percent=0.0;
-				$discountInPaymentCurrency = vmPSPlugin::getAmountInCurrency(abs($cart->pricesUnformatted[$pkey]['discountAmount']),$this->method->payment_currency);
-				$discountAmount=- abs( round($discountInPaymentCurrency['value'] * 100 , 0));
+				$items[$i]['reference'] = $items[$i - 1]['reference'];
+				$items[$i]['name'] = $items[$i - 1]['name'] . ' (' . vmText::_('VMPAYMENT_KLARNACHECKOUT_PRODUCTDISCOUNT') . ')';
+				$items[$i]['quantity'] = (int)$product->quantity;
+				$discount_tax_percent = 0.0;
+				$discountInPaymentCurrency = vmPSPlugin::getAmountInCurrency(abs($cart->pricesUnformatted[$pkey]['discountAmount']), $this->_currentMethod->payment_currency);
+				$discountAmount = -abs(round($discountInPaymentCurrency['value'] * 100, 0));
 				if ($cart->pricesUnformatted[$pkey]['discountAmount'] > 0.0) {
-					$items[$i]['tax_rate'] =$items[$i-1]['tax_rate'];
+					$items[$i]['tax_rate'] = $items[$i - 1]['tax_rate'];
 				} else {
-					$items[$i]['tax_rate'] =0.0;
-					$tax_rate =0.0;
+					$items[$i]['tax_rate'] = 0.0;
+					$tax_rate = 0.0;
 				}
-				$items[$i]['unit_price'] = round($discountAmount  * (1+ ($tax_rate*0.01)) , 0);
+				$items[$i]['unit_price'] = round($discountAmount * (1 + ($tax_rate * 0.01)), 0);
 
 				$this->debugLog($items[$i], 'getCartItems', 'debug');
 				$i++;
@@ -229,8 +235,8 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 			$items[$i]['reference'] = 'COUPON';
 			$items[$i]['name'] = 'Coupon discount';
 			$items[$i]['quantity'] = 1;
-			$couponInPaymentCurrency = vmPSPlugin::getAmountInCurrency($cart->pricesUnformatted['salesPriceCoupon'],$this->method->payment_currency);
-			$items[$i]['unit_price'] = round( $couponInPaymentCurrency['value'] *100, 0);
+			$couponInPaymentCurrency = vmPSPlugin::getAmountInCurrency($cart->pricesUnformatted['salesPriceCoupon'], $this->_currentMethod->payment_currency);
+			$items[$i]['unit_price'] = round($couponInPaymentCurrency['value'] * 100, 0);
 			$items[$i]['tax_rate'] = 0;
 			$this->debugLog($cart->pricesUnformatted['salesPriceCoupon'], 'getCartItems Coupon', 'debug');
 			$this->debugLog($items[$i], 'getCartItems', 'debug');
@@ -240,8 +246,8 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 			$items[$i]['reference'] = 'SHIPPING';
 			$items[$i]['name'] = 'Shipping Fee';
 			$items[$i]['quantity'] = 1;
-			$shipmentInPaymentCurrency = vmPSPlugin::getAmountInCurrency($cart->pricesUnformatted['salesPriceShipment'],$this->method->payment_currency);
-			$items[$i]['unit_price'] = round( $shipmentInPaymentCurrency['value'] *100, 0);
+			$shipmentInPaymentCurrency = vmPSPlugin::getAmountInCurrency($cart->pricesUnformatted['salesPriceShipment'], $this->_currentMethod->payment_currency);
+			$items[$i]['unit_price'] = round($shipmentInPaymentCurrency['value'] * 100, 0);
 			$items[$i]['tax_rate'] = $this->getTaxShipment($cart->pricesUnformatted['shipment_calc_id']);
 			$this->debugLog($cart->pricesUnformatted['salesPriceShipment'], 'getCartItems Shipment', 'debug');
 			$this->debugLog($items[$i], 'getCartItems', 'debug');
@@ -251,8 +257,6 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 		return $items;
 
 	}
-
-
 
 
 	function getTaxShipment ($shipment_calc_id) {
@@ -285,16 +289,27 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 
 	}
 
+	function getKlarnaUrl () {
+		if ($this->_currentMethod->server == 'beta') {
+			return 'https://checkout.testdrive.klarna.com/checkout/orders';
+		} else {
+			return 'https://checkout.klarna.com/checkout/orders';
+		}
+	}
+
+
 	function plgVmOnCheckoutAdvertise ($cart, &$payment_advertise) {
-
-
+		if (!class_exists('Klarna_Checkout_Order')) {
+			require_once 'klarnacheckout/library/Checkout.php';
+		}
+		// check we are in the correct payment
 		if ($this->getPluginMethods($cart->vendorId) === 0) {
 			return FALSE;
 		}
 		$virtuemart_paymentmethod_id = 0;
-		foreach ($this->methods as $method) {
-			if ($cart->virtuemart_paymentmethod_id == $method->virtuemart_paymentmethod_id) {
-				$virtuemart_paymentmethod_id = $method->virtuemart_paymentmethod_id;
+		foreach ($this->methods as $this->_currentMethod) {
+			if ($cart->virtuemart_paymentmethod_id == $this->_currentMethod->virtuemart_paymentmethod_id) {
+				$virtuemart_paymentmethod_id = $this->_currentMethod->virtuemart_paymentmethod_id;
 			}
 		}
 		if ($virtuemart_paymentmethod_id == 0 or empty($cart->products)) {
@@ -305,174 +320,185 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 		}
 
 		// Check if it is the same payment_method_id as the previous one.
-		$session = JFactory::getSession();
-		$klarna_paymentmethod_id_active = $session->get('klarna_paymentmethod_id_active', '', 'vm');
+		$klarna_paymentmethod_id_active = $this->getKlarnaPaymentMethodActive();
 		if ($klarna_paymentmethod_id_active != $cart->virtuemart_paymentmethod_id) {
-			$session->clear('klarna_checkout', 'vm');
-			$session->clear('klarna_paymentmethod_id_active', 'vm');
+			JFactory::getSession()->clear('klarnacheckout', 'vm');
 		}
 
-		$return = $this->initKlarnaParams($this->method);
+		$return = $this->initKlarnaParams($this->_currentMethod);
 		if (!$return) {
 			return;
 		}
 		$message = '';
 		$snippet = '';
-		$hide_BTST=true;
-		if ($cart->virtuemart_shipmentmethod_id == 0) {
-			$message = vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_SELECT_SHIPMENT_FIRST', $this->method->payment_name);
-		} else {
-			$session = JFactory::getSession();
-			require_once 'klarnacheckout/library/Checkout.php';
+		$hide_BTST = true;
 
-			$cartIdInTable = $this->storeCartInTable($cart);
-			if ($this->method->server == 'beta') {
-				Klarna_Checkout_Order::$baseUri = 'https://checkout.testdrive.klarna.com/checkout/orders';
-			} else {
-				Klarna_Checkout_Order::$baseUri = 'https://checkout.klarna.com/checkout/orders';
-			}
+		if ($cart->virtuemart_shipmentmethod_id == 0) {
+			$message = vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_SELECT_SHIPMENT_FIRST', $this->_currentMethod->payment_name);
+		} else {
+
+			Klarna_Checkout_Order::$baseUri = $this->getKlarnaUrl();
 			Klarna_Checkout_Order::$contentType = "application/vnd.klarna.checkout.aggregated-order-v2+json";
 
-			//session_start();
-			$klarna_checkout = $session->get('klarna_checkout', '', 'vm');
-			$connector = Klarna_Checkout_Connector::create($this->sharedsecret);
+			$klarna_checkout_order = null;
 
-			$klarnaOrder = null;
-			//if (array_key_exists('klarna_checkout', $_SESSION)) {
-			if (!empty($klarna_checkout)) {
+			$klarna_checkout_connector = Klarna_Checkout_Connector::create($this->_currentMethod->sharedsecret);
+			$klarna_checkout_uri = $this->getKlarnaCheckoutUriFromSession();
+
+			if (!empty($klarna_checkout_uri)) {
 				// Resume session
-				$klarnaOrder = new Klarna_Checkout_Order($connector, $klarna_checkout);
+				$klarna_checkout_order = new Klarna_Checkout_Order($klarna_checkout_connector, $klarna_checkout_uri);
 				try {
-					$klarnaOrder->fetch();
+					$klarna_checkout_order->fetch();
 
 					// Reset cart
 					$update['cart']['items'] = array();
-					$update['cart']['items'] = $this->getCartItems($cart );
-					if (!empty( $cart->BT['email'])) {
+					$update['cart']['items'] = $this->getCartItems($cart);
+					if (!empty($cart->BT['email'])) {
 						$update['shipping_address']['email'] = $cart->BT['email'];
-						$hide_BTST=false;
+						$hide_BTST = false;
 						$address = (($cart->ST == 0) ? $cart->BT : $cart->ST);
 						if (isset($address['zip']) and !empty($address['zip'])) {
 							$update['shipping_address']['postal_code'] = $cart->BT['zip'];
 						}
 					}
 
-
-
-					$klarnaOrder->update($update);
-					$this->debugLog($update, 'plgVmOnCheckoutAdvertise update', 'debug');
+					$klarna_checkout_order->update($update);
 
 				} catch (Exception $e) {
 					// Reset session
-					$klarnaOrder = null;
-					//unset($_SESSION['klarna_checkout']);
-					$session->clear('klarna_checkout', 'vm');
-					$session->clear('klarna_paymentmethod_id_active', 'vm');
+					$klarna_checkout_order = null;
+					$this->clearKlarnaParamsSession();
 				}
 			}
-
-			if ($klarnaOrder == null) {
+			jimport('joomla.environment.browser');
+			$browser = JBrowser::getInstance();
+			if ($klarna_checkout_order == null) {
 				// Start new session
 				$create['purchase_country'] = $this->country_code_2;
 				$create['purchase_currency'] = $this->currency_code_3;
 				$create['locale'] = $this->locale;
 				$create['merchant']['id'] = $this->merchantid;
 				$create['merchant']['terms_uri'] = $this->getTermsURI($cart->vendorId);
-				$create['merchant']['checkout_uri'] = JURI::root(). 'index.php?option=com_virtuemart&view=cart';
-				$create['merchant']['confirmation_uri'] = JURI::root().'index.php?option=com_virtuemart&view=pluginresponse&task=pluginresponsereceived&t&pm=' . $virtuemart_paymentmethod_id . '&cartId=' . $cartIdInTable . '&klarna_order={checkout.order.uri}';
+				$create['gui']['layout'] = $browser->isMobile() ? 'mobile' : 'desktop';
+				$create['merchant']['checkout_uri'] = JURI::root() . 'index.php?option=com_virtuemart&view=cart' . '&Itemid=' . JRequest::getInt('Itemid');
+				$create['merchant']['confirmation_uri'] = JURI::root() . 'index.php?option=com_virtuemart&view=vmplg&task=pluginresponsereceived&pm=' . $virtuemart_paymentmethod_id . '&Itemid=' . JRequest::getInt('Itemid') . '&klarna_order={checkout.order.uri}';
 				// You can not receive push notification on non publicly available uri
-				$create['merchant']['push_uri'] = JURI::root().'index.php?option=com_virtuemart&view=pluginresponse&task=pluginnotification&tmpl=component&pm=' . $virtuemart_paymentmethod_id . '&cartId=' . $cartIdInTable . '&klarna_order={checkout.order.uri}';
-				if (!empty( $cart->BT['email'])) {
+				$create['merchant']['push_uri'] = JURI::root() . 'index.php?option=com_virtuemart&view=vmplg&task=pluginnotification&tmpl=component&pm=' . $virtuemart_paymentmethod_id . '&klarna_order={checkout.order.uri}';
+				if (!empty($cart->BT['email'])) {
 					$create['shipping_address']['email'] = $cart->BT['email'];
-					$hide_BTST=false;
+					$hide_BTST = false;
 					$address = (($cart->ST == 0) ? $cart->BT : $cart->ST);
 					if (isset($address['zip']) and !empty($address['zip'])) {
 						$create['shipping_address']['postal_code'] = $cart->BT['zip'];
 					}
 				}
 
-
-				$create['cart']['items'] = $this->getCartItems($cart, $method);
+				$create['cart']['items'] = $this->getCartItems($cart, $this->_currentMethod);
 				try {
-					$klarnaOrder = new Klarna_Checkout_Order($connector);
-					$klarnaOrder->create($create);
-					$klarnaOrder->fetch();
-					$this->debugLog($create, 'plgVmOnCheckoutAdvertise create', 'debug');
+					$klarna_checkout_order = new Klarna_Checkout_Order($klarna_checkout_connector);
+					$klarna_checkout_order->create($create);
+					$klarna_checkout_order->fetch();
 
 				} catch (Exception $e) {
-					$session->clear('klarna_checkout', 'vm');
-					$session->clear('klarna_paymentmethod_id_active', 'vm');
+					$this->clearKlarnaParamsSession();
 					$admin_msg = $e->getMessage();
-					vmError($admin_msg, vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_ERROR_OCCURRED', $method->payment_name));
-					$this->debugLog($admin_msg, 'plgVmOnCheckoutAdvertise', 'error');
-					$this->debugLog($create, 'plgVmOnCheckoutAdvertise', 'error');
-
+					vmError($admin_msg, vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_ERROR_OCCURRED', $this->_currentMethod->payment_name));
 					return NULL;
 				}
 
 
 			}
-
-// Store location of checkout session
-			//$_SESSION['klarna_checkout'] = $sessionId = $order->getLocation();
-			$session->set('klarna_checkout', $klarnaOrder->getLocation(), 'vm');
-			$session->set('klarna_paymentmethod_id_active', $virtuemart_paymentmethod_id, 'vm');
+			$this->setKlarnaParamsInSession($klarna_checkout_order->getLocation(), $virtuemart_paymentmethod_id);
 // Display checkout
-			$snippet = $klarnaOrder['gui']['snippet'];
+			$snippet = $klarna_checkout_order['gui']['snippet'];
 
 // DESKTOP: Width of containing block shall be at least 750px
 // MOBILE: Width of containing block shall be 100% of browser window (No
 // padding or margin)
 		}
 		$payment_advertise[] = $this->renderByLayout('cart_advertisement', array(
-		                                                                        'snippet' => $snippet,
-		                                                                        'message' => $message,
-		                                                                        'hide_BTST' => $hide_BTST,
-		                                                                   ));
+			'snippet'   => $snippet,
+			'message'   => $message,
+			'hide_BTST' => $hide_BTST,
+		));
 
 
+	}
+
+	function clearKlarnaParamsSession () {
+		JFactory::getSession()->clear('klarna_checkout', 'vm');
+	}
+
+	function setKlarnaParamsInSession ($klarna_checkout_uri, $virtuemart_paymentmethod_id) {
+
+
+		$sessionData['klarna_checkout_uri'] = $klarna_checkout_uri;
+		$sessionData['klarna_paymentmethod_id_active'] = $virtuemart_paymentmethod_id;
+		JFactory::getSession()->set('klarnacheckout', json_encode($sessionData), 'vm');
+	}
+
+	function getKlarnaPaymentMethodActive () {
+
+		$sessionData = JFactory::getSession()->get('klarnacheckout', 0, 'vm');
+
+		if (!empty($sessionData)) {
+			$data = (object)json_decode($sessionData, true);
+			return $data->klarna_paymentmethod_id_active;
+		}
+		return NULL;
+	}
+
+	function getKlarnaCheckoutUriFromSession () {
+		$sessionData = JFactory::getSession()->get('klarnacheckout', 0, 'vm');
+
+		if (!empty($sessionData)) {
+			$data = (object)json_decode($sessionData, true);
+			return $data->klarna_checkout_uri;
+		}
+		return NULL;
 	}
 
 	/**
 	 * cf https://docs.klarna.com/en/rest-api#supported_locales
 	 * @param $method
 	 */
-	function initKlarnaParams ($method) {
+	function initKlarnaParams () {
 
 
 		$return = true;
 		$db = JFactory::getDBO();
-		$q = 'SELECT ' . $db->getEscaped('country_2_code') . '  , ' . $db->getEscaped('country_3_code') . ' FROM `#__virtuemart_countries` WHERE virtuemart_country_id = ' . (int)$method->purchase_country;
+		$q = 'SELECT ' . $db->getEscaped('country_2_code') . '  , ' . $db->getEscaped('country_3_code') . ' FROM `#__virtuemart_countries` WHERE virtuemart_country_id = ' . (int)$this->_currentMethod->purchase_country;
 		$db->setQuery($q);
 		$country = $db->loadObject();
 		if (!$country) {
-			vmError('Klarna Checkout: No country has been found with country id=' . $method->purchase_country, vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_ERROR_OCCURRED', $method->payment_name));
-			$this->debugLog('No country has been found with country id=' . $method->purchase_country, 'initKlarnaParams', 'error');
+			vmError('Klarna Checkout: No country has been found with country id=' . $this->_currentMethod->purchase_country, vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_ERROR_OCCURRED', $this->_currentMethod->payment_name));
+			$this->debugLog('No country has been found with country id=' . $this->_currentMethod->purchase_country, 'initKlarnaParams', 'error');
 
 			$return = false;
 		}
 		$this->country_code_2 = $country->country_2_code;
 		$this->country_code_3 = $country->country_3_code;
 
-		$this->getPaymentCurrency($method);
-		$this->currency_code_3 = shopFunctions::getCurrencyByID($method->payment_currency, 'currency_code_3');
+		$this->getPaymentCurrency($this->_currentMethod);
+		$this->currency_code_3 = shopFunctions::getCurrencyByID($this->_currentMethod->payment_currency, 'currency_code_3');
 		if (!$this->currency_code_3) {
-			vmError('Klarna Checkout: No currency has been found with currency id=' . $method->payment_currency, vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_ERROR_OCCURRED', $method->payment_name));
-			$this->debugLog('No currency has been found with currency id=' . $method->payment_currency, 'initKlarnaParams', 'error');
+			vmError('Klarna Checkout: No currency has been found with currency id=' . $this->_currentMethod->payment_currency, vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_ERROR_OCCURRED', $this->_currentMethod->payment_name));
+			$this->debugLog('No currency has been found with currency id=' . $this->_currentMethod->payment_currency, 'initKlarnaParams', 'error');
 
 			$return = false;
 		}
-		$this->currency_id = $method->payment_currency;
-		if (empty($method->sharedsecret) or empty($method->merchantid)) {
-			vmError('Klarna Checkout: Missing mandatory values merchant id=' . $method->merchantid . ' shared secret=' . $method->sharedsecret, vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_ERROR_OCCURRED', $method->payment_name));
-			$this->debugLog('Missing mandatory values merchant id=' . $method->merchantid . ' shared secret=' . $method->sharedsecret, 'initKlarnaParams', 'error');
+		$this->currency_id = $this->_currentMethod->payment_currency;
+		if (empty($this->_currentMethod->sharedsecret) or empty($this->_currentMethod->merchantid)) {
+			vmError('Klarna Checkout: Missing mandatory values merchant id=' . $this->_currentMethod->merchantid . ' shared secret=' . $this->_currentMethod->sharedsecret, vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_ERROR_OCCURRED', $this->_currentMethod->payment_name));
+			$this->debugLog('Missing mandatory values merchant id=' . $this->_currentMethod->merchantid . ' shared secret=' . $this->_currentMethod->sharedsecret, 'initKlarnaParams', 'error');
 
 			$return = false;
 		}
-		$this->locale = $method->locale;
-		$this->sharedsecret = $method->sharedsecret;
-		$this->merchantid = $method->merchantid;
-		if ($method->server == 'beta') {
+		$this->locale = $this->_currentMethod->locale;
+		$this->sharedsecret = $this->_currentMethod->sharedsecret;
+		$this->merchantid = $this->_currentMethod->merchantid;
+		if ($this->_currentMethod->server == 'beta') {
 			$this->mode = Klarna::BETA;
 		} else {
 			$this->mode = Klarna::LIVE;
@@ -485,103 +511,15 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 
 	function getTermsURI ($vendorId) {
 
-		return JURI::root() . 'index.php?option=com_virtuemart&view=vendor&layout=tos&virtuemart_vendor_id=' . $vendorId . '&lang='.vRequest::getCmd('lang','') ;;
+		return JURI::root() . 'index.php?option=com_virtuemart&view=vendor&layout=tos&virtuemart_vendor_id=' . $vendorId . '&lang=' . vRequest::getCmd('lang', '');;
 
 	}
 
-	/** Insert or Update the cart content in the  table
-	 * will be used by the push notification to retrieve the cart and save the order
-	 * @param $cart
+
+	/**
+	 * @param $method plugin
+	 * @param $where from where tis function is called
 	 */
-
-	function storeCartInTable ($cart, $cartId = 0, $dbValues = array()) {
-		$this->debugLog(var_export($cart,true), 'storeCartInTable CART IS', 'debug');
-		if (empty($dbValues)) {
-			$dbValues['order_number'] = '';
-			$dbValues['payment_name'] = '';
-			$dbValues['virtuemart_paymentmethod_id'] = $cart->virtuemart_paymentmethod_id;
-			$dbValues['action'] = 'storeCart';
-			$dbValues['klarna_status'] = 'pre-purchase';
-		}
-		$this->debugLog($cartId, 'CARD ID storeCartInTable', 'debug');
-
-		if (empty($cartId)) {
-			$session = JFactory::getSession();
-			$cartIdInTable = $session->get('cartId', 0, 'vm');
-			$dbValues['data'] = serialize($cart);
-			//$dbValues['data'] = ($cart);
-			$preload = false;
-		} else {
-			$cartIdInTable = $cartId;
-			//$dbValues['data'] = $this->getCartFromTable($cartId, true);
-			$dbValues['data'] = serialize($cart);
-			$preload = true;
-		}
-		$dbValues['format'] = 'ser';
-		$dbValues ['id'] = $cartIdInTable;
-		$this->debugLog($dbValues, 'storePSPluginInternalData storeCartInTable', 'debug');
-
-		//$values = $this->storePSPluginInternalData($dbValues, $this->_tablepkey, $preload);
-		$values = $this->storePluginInternalData($dbValues, $this->_tablepkey, 0, $preload);
-
-		if (empty($cartId)) {
-			$session->set('cartId', $values ['id'], 'vm');
-		}
-		$this->debugLog($cartId, 'CARD ID Save in session', 'debug');
-		return $values ['id'];
-
-	}
-
-	/** get  the cart saved in the cart table
-	 *  used by the push notification to retrieve the cart and save the order
-	 * @param $cart
-	 */
-
-	function getCartFromTable ($cartId, $serialized = false) {
-
-		$db = JFactory::getDBO();
-		$q = 'SELECT * FROM `' . $this->_tablename . '` ' . 'WHERE `id` = ' . $cartId . ' AND `action` = "storeCart"';
-
-		$db->setQuery($q);
-		$result = $db->loadObject();
-
-	if ($serialized) {
-			$data = $result->data;
-		} else {
-			$data = unserialize($result->data);
-			//return  ($result->data);
-		}
-
-		$this->debugLog(var_export($data,true), ' getCartFromTable', 'debug');
-
-		return $data;
-
-
-	}
-
-	/** get  the cart saved in the cart table
-	 *  used by the push notification to retrieve the cart and save the order
-	 * @param $cart
-	 */
-
-	function clearCartFromTable () {
-
-
-		//$session = JFactory::getSession();
-		//$session->clear('cartId', 'vm');
-
-		/*
-				$db = JFactory::getDBO();
-				$q = 'DELETE  FROM ' . $db->quoteName($this->_cartTablename) . ' WHERE `session_id`=' . $db->quote($sessionId);
-				$db->setQuery($q);
-				$db->query();
-		*/
-	}
-
-	/*
-		 * @param $method plugin
-	 *  @param $where from where tis function is called
-		 */
 
 	protected function renderPluginName ($method, $where = 'checkout') {
 
@@ -589,32 +527,19 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 
 		if ($method->payment_logos) {
 			$payment_logo = '<img src="https://cdn.klarna.com/public/images/SE/logos/v1/basic/SE_basic_logo_std_blue-black.png?width=100&" /> ';
-
 		}
 		$payment_name = $method->payment_name;
 		$html = $this->renderByLayout('render_pluginname', array(
-		                                                        'where'               => $where,
-		                                                        'logo'                => $payment_logo,
-		                                                        'payment_name'        => $payment_name,
-		                                                        'payment_description' => $method->payment_desc,
-		                                                   ));
+			'where'               => $where,
+			'logo'                => $payment_logo,
+			'payment_name'        => $payment_name,
+			'payment_description' => $method->payment_desc,
+		));
 
 		return $html;
 	}
 
-	/**
-	 * This is for checking the input data of the payment method within the checkout
-	 *
-	 * @author Valerie Cartan Isaksen
-	 */
-	function plgVmOnCheckoutCheckDataPayment (VirtueMartCart $cart) {
 
-		if (!$this->selectedThisByMethodId($cart->virtuemart_paymentmethod_id)) {
-			return NULL; // Another method was selected, do nothing
-		}
-
-		return true;
-	}
 
 
 	/**
@@ -625,7 +550,7 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 	 * @return bool|null|string
 	 */
 	function plgVmOnPaymentResponseReceived (&$html) {
-
+// include what we need
 		if (!class_exists('VirtueMartCart')) {
 			require(JPATH_VM_SITE . DS . 'helpers' . DS . 'cart.php');
 		}
@@ -635,138 +560,224 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 		if (!class_exists('VirtueMartModelOrders')) {
 			require(JPATH_VM_ADMINISTRATOR . DS . 'models' . DS . 'orders.php');
 		}
-		require_once 'klarnacheckout/library/Checkout.php';
+		if (!class_exists('Klarna_Checkout_Order')) {
+			require_once 'klarnacheckout/library/Checkout.php';
+		}
+// check we are in the good payment
 		$virtuemart_paymentmethod_id = vRequest::getInt('pm', 0);
-		if (!($this->method = $this->getVmPluginMethod($virtuemart_paymentmethod_id))) {
+		if (!($this->_currentMethod = $this->getVmPluginMethod($virtuemart_paymentmethod_id))) {
 			return NULL; // Another method was selected, do nothing
 		}
-		if (!$this->selectedThisElement($this->method->payment_element)) {
+		if (!$this->selectedThisElement($this->_currentMethod->payment_element)) {
 			return NULL;
 		}
-		//session_start();
-		$session = JFactory::getSession();
+		$klarna_order_uri = JRequest::getString('klarna_order', '');
 
+		if (empty($klarna_order_uri)) {
+			// not the good payment ?
+			return NULL;
+		}
+
+		// fetch the order at klarna
 		Klarna_Checkout_Order::$contentType = "application/vnd.klarna.checkout.aggregated-order-v2+json";
-		$this->initKlarnaParams($this->method);
-		$connector = Klarna_Checkout_Connector::create($this->sharedsecret);
+		//$this->initKlarnaParams($this->_currentMethod);
+		$klarna_checkout_connector = Klarna_Checkout_Connector::create($this->_currentMethod->sharedsecret);
 
-		//$checkoutId = $_SESSION['klarna_checkout'];
-		$checkoutId = $session->get('klarna_checkout', 0, 'vm');
-		if (empty($checkoutId)) {
+		$klarna_checkout_uri = $this->getKlarnaCheckoutUriFromSession();
+		if (empty($klarna_checkout_uri)) {
 			vmError('Missing klarna_checkout in session', 'Missing klarna_checkout in session', vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_ERROR_OCCURRED', $this->method->payment_name));
 			$this->debugLog('Missing klarna_checkout in session', 'plgVmOnPaymentResponseReceived', 'error');
-
 			return NULL;
 		}
-		$order = new Klarna_Checkout_Order($connector, $checkoutId);
-		$order->fetch();
 
-		if ($order['status'] == 'checkout_incomplete') {
-			$app = JFactory::getApplication();
-			$app->redirect(JRoute::_('index.php?option=com_virtuemart&view=cart',false), vmText::_('VMPAYMENT_KLARNACHECKOUT_INCOMPLETE'));
+
+		$klarna_checkout_order = new Klarna_Checkout_Order($klarna_checkout_connector, $klarna_checkout_uri);
+		$klarna_checkout_order->fetch();
+
+		if ($klarna_checkout_order['status'] == 'checkout_incomplete') {
+			JFactory::getApplication()->redirect(JRoute::_('index.php?option=com_virtuemart&view=cart', false), vmText::_('VMPAYMENT_KLARNACHECKOUT_INCOMPLETE'));
+		}
+		// update the cart with klarna infos
+		$cart = VirtueMartCart::getCart();
+		$this->updateBTSTAddressInCart($cart, $klarna_checkout_order);
+
+		// confirm and create the order in VM
+		$cart->_confirmDone = TRUE;
+		$cart->_dataValidated = TRUE;
+		$cart->tosAccepted = TRUE;
+		$cart->confirmDone();
+		if (!class_exists('VirtueMartModelOrders')) {
+			require(JPATH_VM_ADMINISTRATOR . DS . 'models' . DS . 'orders.php');
+
 		}
 
-		$snippet = $order['gui']['snippet'];
+
+		$orders = new VirtueMartModelOrders();
+
+		$virtuemart_order_id = $orders->getOrderIdByOrderNumber($cart->order_number);
+
+		$orderModel = VmModel::getModel('orders');
+		$order = $orderModel->getOrder($virtuemart_order_id);
+
+		$update_status['order_status'] = $this->_currentMethod->status_checkout_complete;
+		$update_status['customer_notified'] = 1;
+		$update_status['comments'] = vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_PAYMENT_STATUS_CONFIRMED', $cart->order_number);
+
+		$orderModel->updateStatusForOneOrder($virtuemart_order_id, $update_status, TRUE);
+
+
+		$this->clearKlarnaParamsSession();
+		$cart->emptyCart();
+
+// display confirm from klarna to client
+		$snippet = $klarna_checkout_order['gui']['snippet'];
 // DESKTOP: Width of containing block shall be at least 750px
 // MOBILE: Width of containing block shall be 100% of browser window (No
 // padding or margin)
-		//$html .= var_export($order->_data);
 
 		$html = $this->renderByLayout('response_received', array(
-		                                                        'snippet' => $snippet,
-		                                                   ));
+			'snippet'      => $snippet,
+			'order_number' => $order['details']['BT']->order_number,
+			'order_pass'   => $order['details']['BT']->order_pass
+		));
 
 
-		//unset($_SESSION['klarna_checkout']);
-		$session->clear('klarna_checkout', 'vm');
-		$session->clear('cartId', 'vm');
-
-		// let's do
-
-
-		//We delete the old stuff
-		// get the correct cart / session
-		$cart = VirtueMartCart::getCart();
-		$cart->emptyCart();
 		return TRUE;
 	}
 
 
-	/*
-		 *   plgVmOnPaymentNotification() - This event is fired by Offline Payment. It can be used to validate the payment data as entered by the user.
-		 * Return:
-		 * Parameters:
-		 *  None
-		 *  @author Valerie Isaksen
-		 */
+	/**
+	 *
+	 * Is triggered when doing $cart->confirmDone() which is done in plgVmOnPaymentResponseReceived
+	 * @param $cart
+	 * @param $order
+	 * @return bool|null
+	 */
+	function plgVmConfirmedOrder ($cart, $order) {
+		// include what we need
+		if (!class_exists('Klarna_Checkout_Order')) {
+			require_once 'klarnacheckout/library/Checkout.php';
+		}
+
+		// check if we should be triggered
+		if (!($this->_currentMethod = $this->getVmPluginMethod($order['details']['BT']->virtuemart_paymentmethod_id))) {
+			return NULL; // Another method was selected, do nothing
+		}
+		if (!$this->selectedThisElement($this->_currentMethod->payment_element)) {
+			return FALSE;
+		}
+
+
+// fetch klarna order
+		Klarna_Checkout_Order::$baseUri = $this->getKlarnaUrl();
+		Klarna_Checkout_Order::$contentType = "application/vnd.klarna.checkout.aggregated-order-v2+json";
+		$klarna_checkout_connector = Klarna_Checkout_Connector::create($this->_currentMethod->sharedsecret);
+
+		$klarna_checkout_uri = $this->getKlarnaCheckoutUriFromSession();
+		$klarna_order_uri = JRequest::getString('klarna_order', '');
+
+		if (empty($klarna_order_uri)) {
+			// not the good payment ?
+			return NULL;
+		}
+		$klarna_checkout_order = new Klarna_Checkout_Order($klarna_checkout_connector, $klarna_order_uri);
+		$klarna_checkout_order->fetch();
+
+
+		// store data in VM payment table
+		$dbValues['order_number'] = $order['details']['BT']->order_number;
+		$dbValues['virtuemart_paymentmethod_id'] = $cart->virtuemart_paymentmethod_id;
+		$dbValues['payment_name'] = $this->renderPluginName($this->_currentMethod, $order);
+		$dbValues['payment_order_total'] = $klarna_checkout_order['cart']['total_price_including_tax'] / 100;
+		$dbValues['payment_currency'] = ShopFunctions::getCurrencyIDByName($klarna_checkout_order['purchase_currency']);;
+		$dbValues['email_currency'] = $this->getEmailCurrency($this->_currentMethod);
+		$dbValues['klarna_id'] = $klarna_checkout_order['id'];
+		$dbValues['klarna_status'] = $klarna_checkout_order['status'];
+		$dbValues['klarna_reservation'] = $klarna_checkout_order['reservation'];
+		$dbValues['klarna_reference'] = $klarna_checkout_order['reference'];
+		$dbValues['klarna_started_at'] = $klarna_checkout_order['started_at'];
+		$dbValues['klarna_completed_at'] = $klarna_checkout_order['completed_at'];
+		$dbValues['klarna_expires_at'] = $klarna_checkout_order['expires_at'];
+		$dbValues['format'] = 'none';
+
+
+		$this->storePSPluginInternalData($dbValues);
+
+	}
 
 	/**
 	 * @return bool|null
 	 */
 	function plgVmOnPaymentNotification () {
-
-		$virtuemart_paymentmethod_id = vRequest::getInt('pm', '');
-		$checkoutId = vRequest::getString('klarna_order', '');
-		$cartId = vRequest::getString('cartId', '');
-
-
-		if (empty($virtuemart_paymentmethod_id) or !$this->selectedThisByMethodId($virtuemart_paymentmethod_id) or empty($checkoutId) or empty($cartId)) {
-			return NULL;
+		if (!class_exists('Klarna_Checkout_Order')) {
+			require_once 'klarnacheckout/library/Checkout.php';
 		}
-		if (!($this->method = $this->getVmPluginMethod($virtuemart_paymentmethod_id))) {
-			return NULL; // Another method was selected, do nothing
-		}
-
-		if (!($cartDataFromTable = $this->getCartFromTable($cartId))) {
-			$this->debugLog('No cart with this  Id=' . $cartId, 'plgVmOnPaymentNotification', 'error');
-			return NULL; // No cart with this  Id
-		}
-		$this->debugLog($cartDataFromTable, 'plgVmOnPaymentNotification getCartFromTable', 'debug');
-
-		require_once 'klarnacheckout/library/Checkout.php';
-		Klarna_Checkout_Order::$contentType = "application/vnd.klarna.checkout.aggregated-order-v2+json";
-
-		$this->initKlarnaParams($this->method);
-		$connector = Klarna_Checkout_Connector::create($this->sharedsecret);
-		$klarna_order = new Klarna_Checkout_Order($connector, $checkoutId);
-		$klarna_order->fetch();
-
-		if ($klarna_order['status'] != "checkout_complete") {
-			$this->debugLog($klarna_order, 'plgVmOnPaymentNotification Klarna_Checkout_Order', 'error');
-			return NULL;
-		}
-		// At this point make sure the order is created in your system and send a
-		// confirmation email to the customer
-
-		$vmOrderNumber = $this->createVmOrder($klarna_order, $cartDataFromTable,   (int)$cartId);
-		// update Order status
-		$update['status'] = 'created';
-		$update['merchant_reference'] = array(
-			'orderid1' => $vmOrderNumber
-		);
-
-		$klarna_order->update($update);
 		if (!class_exists('VirtueMartModelOrders')) {
 			require(JPATH_VM_ADMINISTRATOR . DS . 'models' . DS . 'orders.php');
 		}
-		$values['virtuemart_order_id'] = VirtueMartModelOrders::getOrderIdByOrderNumber($vmOrderNumber);
-		$dbValues = array(
-			'virtuemart_order_id'         => VirtueMartModelOrders::getOrderIdByOrderNumber($vmOrderNumber),
-			'order_number'                => $vmOrderNumber,
-			'virtuemart_paymentmethod_id' => $this->method->virtuemart_paymentmethod_id,
-			'payment_name'                => $this->renderPluginName($this->method, 'create_order'),
-			'action'                      => 'update',
-			'klarna_status'               => $update['status'],
-			'format'                      => 'json',
-			'data'                        => json_encode($update)
+//$fp=fopen('KLARNATCHECKOUT.TXT', 'w');
+		//fwrite($fp, 'plgVmOnPaymentNotification');
 
+		$virtuemart_paymentmethod_id = vRequest::getInt('pm', '');
+		$klarna_checkout_uri = vRequest::getString('klarna_order', '');
+		if (preg_match("/\/([^\/]+)$/", $klarna_checkout_uri, $match)) {
+			$klarna_checkout_id = $match[1];
+		} else {
+			return NULL;
+		}
+		if (empty($virtuemart_paymentmethod_id) or !$this->selectedThisByMethodId($virtuemart_paymentmethod_id) or empty($klarna_checkout_uri)) {
+			return NULL;
+		}
+		if (!($this->_currentMethod = $this->getVmPluginMethod($virtuemart_paymentmethod_id))) {
+			return NULL; // Another method was selected, do nothing
+		}
+		$this->_currentMethod->debug = true;
+		$this->_currentMethod->log = true;
+		Klarna_Checkout_Order::$contentType = "application/vnd.klarna.checkout.aggregated-order-v2+json";
+
+		$this->initKlarnaParams();
+		$klarna_checkout_connector = Klarna_Checkout_Connector::create($this->sharedsecret);
+		$klarna_checkout_order = new Klarna_Checkout_Order($klarna_checkout_connector, $klarna_checkout_uri);
+		$klarna_checkout_order->fetch();
+
+		if ($klarna_checkout_order['status'] != "checkout_complete") {
+			$this->debugLog($klarna_checkout_order, 'plgVmOnPaymentNotification Klarna_Checkout_Order', 'error');
+			//return NULL;
+		}
+		//  find the saved data in payment table
+		$vm_payment_data = $this->getDataByKlarnaID($klarna_checkout_id);
+		if ($vm_payment_data['virtuemart_order_id'] == 0) {
+			// the order was not yet saved, let's do it now ?
+		}
+
+		// send order number to klarna
+		$klarna_update['status'] = 'created';
+		$klarna_update['merchant_reference'] = array(
+			'orderid1' => $vm_payment_data['order_number']
 		);
-		$this->debugLog($dbValues, 'plgVmOnPaymentNotification update', 'debug');
-		//$this->storePSPluginInternalData($dbValues );
-		$return = $this->storePluginInternalData($dbValues, 0, 0, false);
-		$this->debugLog($return, 'plgVmOnPaymentNotification RETURN', 'debug');
+		$klarna_checkout_order->update($klarna_update);
+
+		// update vm payment table
+		$db_values['virtuemart_order_id'] = $vm_payment_data['virtuemart_order_id'];
+		$db_values['order_number'] = $vm_payment_data['order_number'];
+		$db_values['klarna_status'] = $klarna_checkout_order['status'];
+		$db_values['klarna_reservation'] = $klarna_checkout_order['reservation'];
+		$db_values['klarna_reference'] = $klarna_checkout_order['reference'];
+		$db_values['klarna_started_at'] = $klarna_checkout_order['started_at'];
+		$db_values['klarna_completed_at'] = $klarna_checkout_order['completed_at'];
+		$db_values['klarna_expires_at'] = $klarna_checkout_order['expires_at'];
+		$dbValues['format'] = 'none';
+		$this->storePluginInternalData($db_values);
+
+		// update VM order status and send an email to client
+		$modelOrder = VmModel::getModel('orders');
+		$order['customer_notified'] = 1;
+		$order['order_status'] = $this->_currentMethod->status_checkout_complete;
+		$order['comments'] = vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_PAYMENT_STATUS_CONFIRMED', $vm_payment_data['order_number']);
+		$modelOrder->updateStatusForOneOrder($vm_payment_data['virtuemart_order_id'], $order, TRUE);
 
 
+//fclose($fp);
 	}
 
 	/**
@@ -777,83 +788,11 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 	 * @param $cartId pkey of the cart saved in the table
 	 *
 	 */
-	function createVmOrder ($klarna_order, $cartData,   $cartId) {
 
-		if (!class_exists('VirtueMartCart')) {
-			require(JPATH_VM_SITE . DS . 'helpers' . DS . 'cart.php');
-		}
-		if (!class_exists('shopFunctionsF')) {
-			require(JPATH_VM_SITE . DS . 'helpers' . DS . 'shopfunctionsf.php');
-		}
-		if (!class_exists('VirtueMartModelOrders')) {
-			require(JPATH_VM_ADMINISTRATOR . DS . 'models' . DS . 'orders.php');
-		}
+	function updateBTSTAddressInCart ($cart, $klarna_checkout_order) {
 
-		$cartData->_confirmDone = true;
-		$cartData->_dataValidated = true;
-
-
-		if (!class_exists('VirtueMartCart')) {
-			require(JPATH_VM_SITE . DS . 'helpers' . DS . 'cart.php');
-		}
-
-		$cart = VirtueMartCart::getCart(false, array(), serialize($cartData));
-		$this->updateBTSTAddressInCart($cart, $klarna_order);
-
-		$orderId = $cart->confirmedOrder();
-		$this->debugLog($orderId, 'createVmOrder', 'debug');
-
-		if (!class_exists('VirtueMartModelOrders')) {
-			require(JPATH_VM_ADMINISTRATOR . DS . 'models' . DS . 'orders.php');
-		}
-		$modelOrder = VmModel::getModel('orders');
-		$order_number = VirtueMartModelOrders::getOrderNumber($orderId);
-		$history = array();
-		$history['customer_notified'] = 1;
-		$history['order_status'] = $this->method->status_checkout_complete;
-		$history['comments'] = vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_PAYMENT_STATUS_CHECKOUT_COMPLETE', $order_number);
-		$modelOrder->updateStatusForOneOrder($orderId, $history, TRUE);
-		$this->debugLog('', 'AFTER updateStatusForOneOrder', 'debug');
-
-		$klarna_data = $this->getKlarnaData($klarna_order);
-
-		//$this->debugLog('plgVmOnPaymentNotification KLARNA DATA ' . var_export($klarna_data, true), 'message');
-		$order_number = VirtueMartModelOrders::getOrderNumber($orderId);
-
-		$dbValues = array(
-			'virtuemart_order_id'         => $orderId,
-			'order_number'                => $order_number,
-			'virtuemart_paymentmethod_id' => $this->method->virtuemart_paymentmethod_id,
-			'payment_name'                => $this->renderPluginName($this->method, 'create_order'),
-			'action'                      => 'createOrder',
-			'klarna_status'               => $klarna_order['status'],
-			//'data'                        => ($klarna_data),
-			'format'                        => 'json',
-			'data'                        => json_encode($klarna_data),
-
-		);
-		$this->debugLog($dbValues, 'storePSPluginInternalData createVmOrder', 'debug');
-
-		$this->storePSPluginInternalData($dbValues);
-
-		$dbValues = array(
-			'virtuemart_order_id'         => $orderId,
-			'order_number'                => VirtueMartModelOrders::getOrderNumber($orderId),
-			'virtuemart_paymentmethod_id' => $this->method->virtuemart_paymentmethod_id,
-			'payment_name'                => 'Klarna Checkout',
-			'action'                      => 'storeCart',
-			'format'                        => 'json',
-			'klarna_status'               => 'pre-purchase',
-		);
-		$this->storeCartInTable($cartData, $cartId, $dbValues);
-		return $order_number;
-
-	}
-
-	function updateBTSTAddressInCart ($cart, $klarna_order) {
-
-		$result = $this->updateAddressInCart($cart, $klarna_order['billing_address'], 'BT');
-		$result = $this->updateAddressInCart($cart, $klarna_order['shipping_address'], 'ST');
+		$this->updateAddressInCart($cart, $klarna_checkout_order['billing_address'], 'BT');
+		$this->updateAddressInCart($cart, $klarna_checkout_order['shipping_address'], 'ST');
 
 
 	}
@@ -980,7 +919,7 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 		if (!$this->selectedThisByMethodId($payment_method_id)) {
 			return NULL; // Another method was selected, do nothing
 		}
-		if (!($this->method = $this->getVmPluginMethod($payment_method_id))) {
+		if (!($this->_currentMethod = $this->getVmPluginMethod($payment_method_id))) {
 			return NULL; // Another method was selected, do nothing
 		}
 		if (!($payments = $this->getDatasByOrderId($virtuemart_order_id))) {
@@ -991,17 +930,47 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 		$html = '<table class="adminlist" width="50%">' . "\n";
 		$html .= $this->getHtmlHeaderBE();
 		$first = TRUE;
-		if ($this->method->debug) {
-			$html .= '<tr class="row1"><td></td><td align="left">' . vmText::_('VMPAYMENT_KLARNACHECKOUT_ORDER_BE_WARNING') . '</td></tr>';
 
-		}
+
+		$code = "klarna";
+		$prefix = "KLARNACHECKOUT_";
 		foreach ($payments as $payment) {
-			$display_action = 'onShowOrderBE_' . $payment->action;
-			$row_html = $this->$display_action($payment);
-			if ($row_html) {
-				$html .= '<tr class="row1"><td>' . vmText::_('VMPAYMENT_KLARNACHECKOUT_DATE') . '</td><td align="left">' . $payment->created_on . '</td></tr>';
-				$html .= $row_html;
+			$html .= '<tr class="row1"><td>' . JText::_('VMPAYMENT_KLARNACHECKOUT_DATE') . '</td><td align="left">' . $payment->created_on . '</td></tr>';
+			// Now only the first entry has this data when creating the order
+			if ($first) {
+				$html .= $this->getHtmlRowBE('KLARNACHECKOUT_PAYMENT_NAME', $payment->payment_name);
+				// keep that test to have it backwards compatible. Old version was deleting that column  when receiving an IPN notification
+				if ($payment->payment_order_total and $payment->payment_order_total != 0.00) {
+					$html .= $this->getHtmlRowBE('KLARNACHECKOUT_PAYMENT_ORDER_TOTAL', $payment->payment_order_total . " " . shopFunctions::getCurrencyByID($payment->payment_currency, 'currency_code_3'));
+				}
+				if ($payment->email_currency and $payment->email_currency != 0) {
+					$html .= $this->getHtmlRowBE('KLARNACHECKOUT_PAYMENT_EMAIL_CURRENCY', shopFunctions::getCurrencyByID($payment->email_currency, 'currency_code_3'));
+				}
+				$first = FALSE;
 			}
+
+
+			if ($payment->action) {
+				$display_action = 'onShowOrderBE_' . $payment->action;
+				$row_html = $this->$display_action($payment);
+				if ($row_html) {
+					//$html .= '<tr class="row1"><td>' . vmText::_('VMPAYMENT_KLARNACHECKOUT_DATE') . '</td><td align="left">' . $payment->created_on . '</td></tr>';
+					$html .= $row_html;
+				}
+			} else {
+				// TODO go though the SQL table to have the fields in the correct order
+				foreach ($payment as $key => $value) {
+					// only displays if there is a value or the value is different from 0.00 and the value
+
+					if ($value) {
+						if (substr($key, 0, strlen($code)) == $code) {
+							$html .= $this->getHtmlRowBE($prefix . $key, $value);
+						}
+					}
+				}
+			}
+
+
 		}
 		$html .= '</table>' . "\n";
 		return $html;
@@ -1013,13 +982,12 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 			require(JPATH_VM_ADMINISTRATOR . DS . 'models' . DS . 'orders.php');
 		}
 		$html = $this->getHtmlRowBE(vmText::_('VMPAYMENT_KLARNACHECKOUT_STATUS'), $payment->klarna_status);
-		$activate_data =  $this-> getStoredData($payment);
+		$activate_data = $this->getStoredData($payment);
 
 		$html .= $this->getHtmlRowBE(vmText::_('VMPAYMENT_KLARNACHECKOUT_INVOICE_NUMBER'), $activate_data->InvoiceNumber);
 		if (!empty($activate_data->InvoicePdf)) {
 
-			$virtuemart_order_id = VirtueMartModelOrders::getOrderIdByOrderNumber($payment->order_number);
-			$invoicePdfLink=$this->getInvoicePdfLink($virtuemart_order_id);
+			$invoicePdfLink = $this->getInvoicePdfLink($payment->virtuemart_order_id);
 			$value = '<a target="_blank" href="' . $invoicePdfLink . '">' . vmText::_('VMPAYMENT_KLARNACHECKOUT_VIEW_INVOICE') . '</a>';
 
 			$html .= $this->getHtmlRowBE("", $value);
@@ -1054,6 +1022,7 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 		// 	jexit();
 	}
 
+
 	function onShowOrderBE_createOrder ($payment) {
 
 		if ($this->method->debug) {
@@ -1065,7 +1034,7 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 			$html = "<tr>\n<td class='key' >" . vmText::_('id') . "</td>\n <td align='left'>" . 'ERROR NO DATA' . "</td>\n</tr>\n";
 
 		} else {
-			$klarna_order = $this-> getStoredData($payment);
+			$klarna_order = $this->getStoredData($payment);
 			//$klarna_order =  ($payment->data);
 			$push_params = $this->getKlarnaDisplayParams();
 			$html = '';
@@ -1110,14 +1079,17 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 	}
 
 
-	function getStoredData($payment) {
-		if ($payment->format='json') {
+	function getStoredData ($payment) {
+		if ($payment->format == 'json') {
 			$data = (object)json_decode($payment->data, true);
+		} elseif ($payment->format == 'none') {
+			return $payment;
 		} else {
-			$data =   unserialize($payment->data);
+			$data = unserialize($payment->data);
 		}
 		return $data;
 	}
+
 	/**
 	 * Can be usefull for debugging
 	 * @param $payment
@@ -1143,7 +1115,7 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 	 *
 	 * @author: Valerie Isaksen
 	 *
-	 * @param $cart_prices: cart prices
+	 * @param $cart_prices : cart prices
 	 * @param $payment
 	 * @return true: if the conditions are fulfilled, false otherwise
 	 *
@@ -1155,9 +1127,7 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 		$address = $cart->BT;
 
 		$amount = $cart_prices['salesPrice'];
-		$amount_cond = ($amount >= $method->min_amount AND $amount <= $method->max_amount
-			OR
-			($method->min_amount <= $amount AND ($method->max_amount == 0)));
+		$amount_cond = ($amount >= $method->min_amount AND $amount <= $method->max_amount OR ($method->min_amount <= $amount AND ($method->max_amount == 0)));
 
 		$countries = array();
 		if (!empty($method->purchase_country)) {
@@ -1222,7 +1192,7 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 	 *
 	 * @author Valérie isaksen
 	 *
-	 * @param VirtueMartCart $cart: the actual cart
+	 * @param VirtueMartCart $cart : the actual cart
 	 * @return null if the payment was not selected, true if the data is valid, error message if the data is not vlaid
 	 *
 	 */
@@ -1298,7 +1268,7 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 	 * It displays the the payment method-specific data.
 	 *
 	 * @param integer $_virtuemart_order_id The order ID
-	 * @param integer $method_id  method used for this order
+	 * @param integer $method_id method used for this order
 	 * @return mixed Null when for payment methods that were not selected, text (HTML) otherwise
 	 * @author Valerie Isaksen
 	 */
@@ -1324,20 +1294,15 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 			return NULL; // Another method was selected, do nothing
 		}*/
 
-		if (!($this->method = $this->getVmPluginMethod($order->virtuemart_paymentmethod_id))) {
+		if (!($this->_currentMethod = $this->getVmPluginMethod($order->virtuemart_paymentmethod_id))) {
 			return NULL; // Another method was selected, do nothing
 		}
 
-		if (!$this->selectedThisElement($this->method->payment_element)) {
+		if (!$this->selectedThisElement($this->_currentMethod->payment_element)) {
 			return NULL;
 		}
 
 		if (!($payments = $this->getDatasByOrderId($order->virtuemart_order_id))) {
-			//vmError(vmText::sprintf('VMPAYMENT_KLARNA_ERROR_NO_DATA', $order->virtuemart_order_id), vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_ERROR_OCCURRED', $this->method->payment_name));
-			//$this->debugLog('NO klarna data for this order:' . $order->virtuemart_order_id, 'plgVmOnUpdateOrderPayment', 'error');
-			//$this->debugLog(debug_print_backtrace(), 'plgVmOnUpdateOrderPayment', 'error');
-			//$this->debugLog($payments, 'plgVmOnUpdateOrderPayment', 'debug');
-
 			return NULL;
 		}
 
@@ -1350,15 +1315,15 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 			$status = 'status_' . $action;
 			//vmError($action.' '.$this->method->$status.' '.$new_order_status);
 
-			if ($this->method->$status == $new_order_status and $this->authorizedAction($klarna_status, $new_order_status, $old_order_status, $action, $this->method)) {
-				$this->$action($order,  $payments);
+			if ($this->_currentMethod->$status == $new_order_status and $this->authorizedAction($klarna_status, $new_order_status, $old_order_status, $action, $this->_currentMethod)) {
+				$this->$action($order, $payments);
 				return true;
 			}
 		}
 		// may be it is another new order status unknown?
 		// TO DO ... how can we disply that when not in push
-		vmError(vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_ACTION_NOT_AUTHORIZED', $new_order_status, $lastPayment->klarna_status), vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_ERROR_OCCURRED', $this->method->payment_name));
-		$this->debugLog(vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_ACTION_NOT_AUTHORIZED', $action, $lastPayment->klarna_status), 'plgVmOnUpdateOrderPayment', 'error');
+		//vmError(vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_ACTION_NOT_AUTHORIZED', $new_order_status, $lastPayment->klarna_status), vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_ERROR_OCCURRED', $this->method->payment_name));
+		//$this->debugLog(vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_ACTION_NOT_AUTHORIZED', $action, $lastPayment->klarna_status), 'plgVmOnUpdateOrderPayment', 'error');
 
 
 		// true means plugin call was successfull
@@ -1366,21 +1331,20 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 	}
 
 	function authorizedAction ($klarna_status, $new_order_status, $old_order_status, $action) {
-		return true;
-		if ($old_order_status == $this->method->status_checkout_complete) {
+		if ($old_order_status == $this->_currentMethod->status_checkout_complete) {
 			$authorize = array(
-				'cancelReservation' => $this->method->status_cancelReservation,
-				'changeReservation' => $this->method->status_changeReservation,
-				'activate'          => $this->method->status_activate,
+				'cancelReservation' => $this->_currentMethod->status_cancelReservation,
+				'changeReservation' => $this->_currentMethod->status_changeReservation,
+				'activate'          => $this->_currentMethod->status_activate,
 			);
 			if (in_array($new_order_status, $authorize)) {
 				return TRUE;
 			}
-		} elseif ($old_order_status == $this->method->status_activate) {
+		} elseif ($old_order_status == $this->_currentMethod->status_activate) {
 			$authorize = array(
-				'creditInvoice' => $this->method->status_creditInvoice,
-				'returnAmount'  => $this->method->status_returnAmount,
-				'creditPart'    => $this->method->status_creditPart,
+				'creditInvoice' => $this->_currentMethod->status_creditInvoice,
+				'returnAmount'  => $this->_currentMethod->status_returnAmount,
+				'creditPart'    => $this->_currentMethod->status_creditPart,
 			);
 			if (in_array($new_order_status, $authorize)) {
 				return TRUE;
@@ -1399,7 +1363,7 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 	 * @param $payments
 	 * @return bool
 	 */
-	function activate ($order,  $payments) {
+	function activate ($order, $payments) {
 		$rno = $this->getReservationNumber($payments);
 
 
@@ -1410,7 +1374,7 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 		//$mode = KlarnaHandler::getKlarnaMode($method,  $this->getPurchaseCountry($method));
 		//$ssl = KlarnaHandler::getKlarnaSSL($mode);
 		// Instantiate klarna object.
-		$this->initKlarnaParams($this->method);
+		$this->initKlarnaParams($this->_currentMethod);
 		$klarna = new Klarna_virtuemart();
 		$klarna->config($this->merchantid, $this->sharedsecret, $this->country_code_3, NULL, $this->currency_code_3, $this->mode, VMKLARNA_PC_TYPE, KlarnaHandler::getKlarna_pc_type(), $this->ssl);
 		$modelOrder = VmModel::getModel('orders');
@@ -1421,15 +1385,16 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 				VmInfo(vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_ACTIVATE_RESERVATION', $rno));
 				$vm_invoice_name = '';
 				$invoice_number = $return[1];
-				$invoiceURL=$this->getInvoice($invoice_number, $vm_invoice_name);
+				$invoiceURL = $this->getInvoice($invoice_number, $vm_invoice_name);
 
 				$history = array();
 				$history['customer_notified'] = 0;
-				$history['order_status'] = $this->method->status_activate;
+				$history['order_status'] = $this->_currentMethod->status_activate;
 				$history['comments'] = vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_PAYMENT_STATUS_ACTIVATE', $rno); // $order['details']['BT']->order_number);
-				$modelOrder->updateStatusForOneOrder($order->virtuemart_paymentmethod_id, $history, TRUE);
+				$modelOrder->updateStatusForOneOrder($order->virtuemart_order_id, $history, TRUE);
 
-				$dbValues['order_number'] = $payments[0]->order_number;
+				$dbValues['order_number'] = $order->order_number;
+				$dbValues['virtuemart_order_id'] = $order->virtuemart_order_id;
 				$dbValues['payment_name'] = '';
 				$dbValues['virtuemart_paymentmethod_id'] = $payments[0]->virtuemart_paymentmethod_id;
 				$dbValues['action'] = 'activate';
@@ -1438,9 +1403,9 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 				$data["InvoicePdf"] = $invoiceURL;
 				$dbValues['format'] = 'json';
 				$dbValues['data'] = json_encode($data);
-				$this->debugLog($dbValues, 'storePSPluginInternalData activate', 'debug');
 
-				$values = $this->storePSPluginInternalData($dbValues, $this->_tablepkey);
+
+				$values = $this->storePSPluginInternalData($dbValues);
 
 			} else {
 				VmError('activate returned KO', vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_ERROR_OCCURRED', $this->method->payment_name));
@@ -1460,12 +1425,12 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 	/**
 	 *
 	 */
-	function cancelReservation ($order,   $payments) {
+	function cancelReservation ($order, $payments) {
 		$rno = $this->getReservationNumber($payments);
 		if (!$rno) {
 			return; // error already sent
 		}
-		$this->initKlarnaParams($this->method);
+		$this->initKlarnaParams($this->_currentMethod);
 		$klarna = new Klarna_virtuemart();
 		$klarna->config($this->merchantid, $this->sharedsecret, $this->country_code_3, NULL, $this->currency_code_3, $this->mode, VMKLARNA_PC_TYPE, KlarnaHandler::getKlarna_pc_type(), $this->ssl);
 		$modelOrder = VmModel::getModel('orders');
@@ -1478,17 +1443,19 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 			$history['customer_notified'] = 1;
 			//$history['order_status'] = $this->method->checkout_complete;
 			$history['comments'] = $info; // $order['details']['BT']->order_number);
-			$modelOrder->updateStatusForOneOrder($order->virtuemart_paymentmethod_id, $history, TRUE);
+			$modelOrder->updateStatusForOneOrder($order->virtuemart_order_id, $history, TRUE);
 
-			$dbValues['order_number'] = $payments[0]->order_number;
+			$dbValues['order_number'] = $order->order_number;
+			$dbValues['virtuemart_order_id'] = $order->virtuemart_order_id;
 			$dbValues['payment_name'] = '';
 			$dbValues['virtuemart_paymentmethod_id'] = $payments[0]->virtuemart_paymentmethod_id;
 			$dbValues['action'] = 'cancelReservation';
 			$dbValues['klarna_status'] = 'cancelReservation';
 			$dbValues['data'] = $info;
+			$dbValues['format'] = 'none';
 			$this->debugLog($dbValues, 'storePSPluginInternalData cancelReservation', 'debug');
 
-			$values = $this->storePSPluginInternalData($dbValues, $this->_tablepkey);
+			$values = $this->storePSPluginInternalData($dbValues);
 
 		} catch (Exception $e) {
 			$error = $e->getMessage();
@@ -1520,8 +1487,12 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 		foreach ($payments as $payment) {
 			if ($payment->klarna_status == "checkout_complete") {
 				$klarna_order = $this->getStoredData($payment);
-				//$klarna_order =  ($payment->data);
-				return $klarna_order->reservation;
+				// BC
+				if (isset($klarna_order->reservation)) {
+					return $klarna_order->reservation;
+				} else {
+					return $klarna_order->klarna_reservation;
+				}
 			}
 		}
 		vmError('VMPAYMENT_KLARNACHECKOUT_ERROR_NO_RNO', 'VMPAYMENT_KLARNACHECKOUT_ERROR_NO_RNO');
@@ -1532,17 +1503,29 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 	 * @param $orderDetails
 	 */
 	function plgVmOnUserOrder (&$orderDetails) {
-		if (!($this->method = $this->getVmPluginMethod($orderDetails->virtuemart_paymentmethod_id))) {
+		// the order has not been created, the payment table has not been updated
+		return;
+		if (!($this->_currentMethod = $this->getVmPluginMethod($orderDetails->virtuemart_paymentmethod_id))) {
 			return NULL; // Another method was selected, do nothing
 		}
-		if (!$this->selectedThisElement($this->method->payment_element)) {
+		if (!$this->selectedThisElement($this->_currentMethod->payment_element)) {
 			return NULL;
 		}
-		if (!($payments = $this->getDatasByOrderId($orderDetails->virtuemart_order_id))) {
+		$klarna_checkout_uri = vRequest::getString('klarna_order', '');
+		if (preg_match("/\/([^\/]+)$/", $klarna_checkout_uri, $match)) {
+			$klarna_checkout_id = $match[1];
+		} else {
 			return NULL;
 		}
-		$orderDetails->order_number = $this->getReservationNumber($payments);
-		return;
+		if (!($payment = $this->getDataByKlarnaID($klarna_checkout_id))) {
+			return NULL;
+		}
+		if ($payment->klarna_status == "checkout_complete") {
+			$orderDetails->order_number = $payment->klarna_reservation;
+		}
+
+		return NULL;
+
 	}
 
 	/**
@@ -1581,10 +1564,10 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 	 * @param integer $_orderId The order ID
 	 * @param integer $_lineId
 	 * @return mixed Null for method that aren't active, text (HTML) otherwise
-
-	public function plgVmOnEditOrderLineBE(  $_orderId, $_lineId) {
-	return null;
-	}
+	 *
+	 * public function plgVmOnEditOrderLineBE(  $_orderId, $_lineId) {
+	 * return null;
+	 * }
 	 */
 
 	/**
@@ -1595,10 +1578,10 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 	 * @param integer $_orderId The order ID
 	 * @param integer $_lineId
 	 * @return mixed Null for method that aren't active, text (HTML) otherwise
-
-	public function plgVmOnShowOrderLineFE(  $_orderId, $_lineId) {
-	return null;
-	}
+	 *
+	 * public function plgVmOnShowOrderLineFE(  $_orderId, $_lineId) {
+	 * return null;
+	 * }
 	 */
 	function plgVmDeclarePluginParamsPayment ($name, $id, &$data) {
 
@@ -1616,19 +1599,6 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 		return $this->setOnTablePluginParams($name, $id, $table);
 	}
 
-
-	static function   getSuccessUrl ($order) {
-		return JURI::root()."index.php?option=com_virtuemart&view=pluginresponse&task=pluginresponsereceived&pm=" . $order['details']['BT']->virtuemart_paymentmethod_id . '&on=' . $order['details']['BT']->order_number . "&Itemid=" . vRequest::getInt('Itemid').'&lang='.vRequest::getCmd('lang','');
-	}
-
-	static function   getCancelUrl ($order) {
-		return JURI::root()."index.php?option=com_virtuemart&view=pluginresponse&task=pluginUserPaymentCancel&pm=" . $order['details']['BT']->virtuemart_paymentmethod_id . '&on=' . $order['details']['BT']->order_number . '&Itemid=' . vRequest::getInt('Itemid'). '&lang='.vRequest::getCmd('lang','');
-	}
-
-	static function   getNotificationUrl ($order_number) {
-
-		return JURI::root()."index.php?option=com_virtuemart&view=pluginresponse&task=pluginnotification&on=" . $order_number. '&lang='.vRequest::getCmd('lang','') ;
-	}
 
 	/**
 	 * @return mixed
@@ -1650,13 +1620,13 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 	static function includeKlarnaFiles () {
 
 
-			require(JPATH_ROOT . DS . 'plugins' . DS . 'vmpayment' . DS . 'klarna' . DS . 'klarna' . DS . 'helpers' . DS . 'define.php');
+		require(JPATH_ROOT . DS . 'plugins' . DS . 'vmpayment' . DS . 'klarna' . DS . 'klarna' . DS . 'helpers' . DS . 'define.php');
 
 		if (!class_exists('KlarnaHandler')) {
 			require(JPATH_VMKLARNAPLUGIN . DS . 'klarna' . DS . 'helpers' . DS . 'klarnahandler.php');
 		}
-		if (!class_exists ('klarna_virtuemart')) {
-			require (JPATH_VMKLARNAPLUGIN . DS . 'klarna' . DS . 'helpers' . DS . 'klarna_virtuemart.php');
+		if (!class_exists('klarna_virtuemart')) {
+			require(JPATH_VMKLARNAPLUGIN . DS . 'klarna' . DS . 'helpers' . DS . 'klarna_virtuemart.php');
 		}
 		require_once(JPATH_VMKLARNAPLUGIN . DS . 'klarna' . DS . 'api' . DS . 'transport' . DS . 'xmlrpc-3.0.0.beta' . DS . 'lib' . DS . 'xmlrpc.inc');
 		require_once(JPATH_VMKLARNAPLUGIN . DS . 'klarna' . DS . 'api' . DS . 'transport' . DS . 'xmlrpc-3.0.0.beta' . DS . 'lib' . DS . 'xmlrpc_wrappers.inc');
@@ -1669,11 +1639,11 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 	 * @param $vm_invoice_name
 	 * @return bool
 	 */
-	 function getInvoice ($invoice_number, &$vm_invoice_name) {
+	function getInvoice ($invoice_number, &$vm_invoice_name) {
 
 
 		//$klarna_invoice = explode ('/', $klarna_invoice_pdf);
-		if ($this->method->server =='live') {
+		if ($this->method->server == 'live') {
 			$klarna_invoice_name = "https://online.klarna.com/packslips/" . $invoice_number . '.pdf';
 		} else {
 			$klarna_invoice_name = "https://online.testdrive.klarna.com/packslips/" . $invoice_number . '.pdf';
@@ -1703,18 +1673,28 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 		}
 		foreach ($payments as $payment) {
 			if ($payment->klarna_status == 'activate') {
-				$data =$this->getStoredData($payment);
+				$data = $this->getStoredData($payment);
 				$path = VmConfig::get('forSale_path', 0);
 				$path .= 'invoices' . DS;
-				$fileName =  $data->InvoicePdf;
+				$fileName = $data->InvoicePdf;
 				break;
 			}
 		}
 
 
-
 		return $fileName;
 	}
+
+	function getDataByKlarnaID ($klarna_id) {
+
+		$db = JFactory::getDBO();
+		$q = 'SELECT * FROM `' . $this->_tablename . '` WHERE `klarna_id` = \'' . $klarna_id . '\'';
+		$db->setQuery($q);
+		$paymentData = $db->loadAssoc();
+
+		return $paymentData;
+	}
+
 
 }
 

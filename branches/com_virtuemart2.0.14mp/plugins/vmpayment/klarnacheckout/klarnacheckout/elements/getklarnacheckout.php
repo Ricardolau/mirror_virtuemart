@@ -40,7 +40,7 @@ class JElementGetKlarnacheckout extends JElement {
 
 	function fetchElement ($name, $value, &$node, $control_name) {
 
-
+		JHtml::_('behavior.colorpicker');
 		$jlang = JFactory::getLanguage ();
 		$lang = $jlang->getTag ();
 		$langArray = explode ("-", $lang);

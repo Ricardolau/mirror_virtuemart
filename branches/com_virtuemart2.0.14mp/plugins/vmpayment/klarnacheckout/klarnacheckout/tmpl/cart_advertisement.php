@@ -19,7 +19,9 @@ defined('_JEXEC') or die('Restricted access');
  */
 
 $css =".totalInPaymentCurrency {display:none;}\n";
-
+if ($viewData ['payment_form_position']=='right' ) {
+	$doc = JFactory::getDocument()->addStyleSheet(JURI::root(true) . '/plugins/vmpayment/klarnacheckout/klarnacheckout/assets/css/klarnacheckout.css');
+}
 JFactory::getDocument()->addStyleDeclaration($css);
 
 $js = '

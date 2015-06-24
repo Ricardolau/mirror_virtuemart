@@ -17,29 +17,30 @@
     <params addpath="/administrator/components/com_virtuemart/elements">
         <param type="klarnalogo" level="level1"/>
         <param type="klarnacurl"/>
-        <param type="getklarnacheckout" default="" />
+        <param type="getklarnacheckout" default=""/>
 
-        <param type="spacer" default="VMPAYMENT_KLARNACHECKOUT_WARNING" level="level1" />
-        <param type="spacer" default="" level="level1" />
-        <param type="spacer" default="VMPAYMENT_KLARNACHECKOUT_PAYMENT_PARAMS" level="level1" />
-        <param name="purchase_country" type="vmcountry"   default=""
-               label="VMPAYMENT_KLARNACHECKOUT_PURCHASE_COUNTRY" description="VMPAYMENT_KLARNACHECKOUT_PURCHASE_COUNTRY_DESC"/>
+        <param type="spacer" default="VMPAYMENT_KLARNACHECKOUT_WARNING" level="level1"/>
+        <param type="spacer" default="" level="level1"/>
+        <param type="spacer" default="VMPAYMENT_KLARNACHECKOUT_PAYMENT_PARAMS" level="level1"/>
+        <param name="purchase_country" type="vmcountry" default=""
+               label="VMPAYMENT_KLARNACHECKOUT_PURCHASE_COUNTRY"
+               description="VMPAYMENT_KLARNACHECKOUT_PURCHASE_COUNTRY_DESC"/>
 
         <param name="merchantid" type="text" default="" label="VMPAYMENT_KLARNA_CONF_MERCHANT_ID"
                description="VMPAYMENT_KLARNA_CONF_MERCHANT_ID_DESC"/>
         <param name="sharedsecret" type="text" default="" label="VMPAYMENT_KLARNA_CONF_SHARED_SECRET"
                description="VMPAYMENT_KLARNA_CONF_SHARED_SECRET_DESC"/>
-        <param name="server" type="list" default="0" label="VMPAYMENT_KLARNACHECKOUT_SERVER" description="VMPAYMENT_KLARNACHECKOUT_SERVER_DESC" >
+        <param name="server" type="list" default="0" label="VMPAYMENT_KLARNACHECKOUT_SERVER"
+               description="VMPAYMENT_KLARNACHECKOUT_SERVER_DESC">
             <option value="beta">VMPAYMENT_KLARNACHECKOUT_SERVER_BETA</option>
             <option value="live">VMPAYMENT_KLARNACHECKOUT_SERVER_LIVE</option>
         </param>
-        <param name="payment_currency" type="vmacceptedcurrency"   default=""
-               label="VMPAYMENT_KLARNACHECKOUT_PURCHASE_CURRENCY" description="VMPAYMENT_KLARNACHECKOUT_PURCHASE_CURRENCY_DESC"/>
+        <param name="payment_currency" type="vmacceptedcurrency" default=""
+               label="VMPAYMENT_KLARNACHECKOUT_PURCHASE_CURRENCY"
+               description="VMPAYMENT_KLARNACHECKOUT_PURCHASE_CURRENCY_DESC"/>
 
-        <param name="locale" type="getlanguage"   default=""
+        <param name="locale" type="getlanguage" default=""
                label="VMPAYMENT_KLARNACHECKOUT_LOCALE" description="VMPAYMENT_KLARNACHECKOUT_LOCALE_DESC"/>
-
-
 
 
         <param type="spacer" default="" level="level1"/>
@@ -58,32 +59,65 @@
                label="VMPAYMENT_KLARNACHECKOUT_CHANGE_RESERVATION"
                description="VMPAYMENT_KLARNACHECKOUT_CHANGE_RESERVATION_DESC"/ -->
 
-        <param type="spacer" default="" level="level1" />
-        <param type="spacer" default="VMPAYMENT_KLARNACHECKOUT_TEMPLATING" level="level1" />
-        <param name="payment_logos" class="payment_logos show_payment_logo" default="1" type="radio" label="VMPAYMENT_KLARNACHECKOUT_LOGOS"  description="VMPAYMENT_KLARNACHECKOUT_LOGOS_DESC">
+        <param type="spacer" default="" level="level1"/>
+        <param type="spacer" default="VMPAYMENT_KLARNACHECKOUT_TEMPLATING" level="level1"/>
+        <param name="payment_logos" class="payment_logos show_payment_logo" default="1" type="radio"
+               label="VMPAYMENT_KLARNACHECKOUT_LOGOS" description="VMPAYMENT_KLARNACHECKOUT_LOGOS_DESC">
             <option value="0">COM_VIRTUEMART_NO</option>
             <option value="1">COM_VIRTUEMART_YES</option>
         </param>
-        <param class="show_payment_logo" type="vmtitle" default="" description="" />
+        <param class="show_payment_logo" type="vmtitle" default="" description=""/>
+        <param name="payment_form_position" default="bottom" type="list"
+               label="VMPAYMENT_KLARNACHECKOUT_PAYMENT_FORM_POSITION"
+               description="VMPAYMENT_KLARNACHECKOUT_PAYMENT_FORM_POSITION">
+            <option value="bottom">VMPAYMENT_KLARNACHECKOUT_PAYMENT_FORM_POSITION_BOTTOM</option>
+            <option value="right">VMPAYMENT_KLARNACHECKOUT_PAYMENT_FORM_POSITION_RIGHT</option>
+        </param>
+
+        <param class="input-colorpicker" type="text" name="button_color" size="30"
+               label="VMPAYMENT_KLARNACHECKOUT_BUTTON_COLOR" default=""
+               description="VMPAYMENT_KLARNACHECKOUT_BUTTON_COLOR"/>
+        <param class="input-colorpicker" type="text" name="button_text_color" size="30"
+               label="VMPAYMENT_KLARNACHECKOUT_BUTTON_TEXT_COLOR" default=""
+               description="VMPAYMENT_KLARNACHECKOUT_BUTTON_TEXT_COLOR"/>
+        <param class="input-colorpicker" type="text" name="checkbox_color" size="30"
+               label="VMPAYMENT_KLARNACHECKOUT_CHECKBOX_COLOR" default=""
+               description="VMPAYMENT_KLARNACHECKOUT_CHECKBOX_COLOR"/>
+        <param class="input-colorpicker" type="text" name="button_checkbox_checkmark_color" size="30"
+               label="VMPAYMENT_KLARNACHECKOUT_BUTTON_CHECKBOX_CHECKMARK_COLOR" default=""
+               description="VMPAYMENT_KLARNACHECKOUT_BUTTON_CHECKBOX_CHECKMARK_COLOR"/>
+        <param class="input-colorpicker" type="text" name="header_color" size="30"
+               label="VMPAYMENT_KLARNACHECKOUT_HEADER_COLOR" default=""
+               description="VMPAYMENT_KLARNACHECKOUT_HEADER_COLOR"/>
+        <param class="input-colorpicker" type="text" name="link_color" size="30"
+               label="VMPAYMENT_KLARNACHECKOUT_BUTTON_LINK" default=""
+               description="VMPAYMENT_KLARNACHECKOUT_BUTTON_LINK"/>
+
 
         <param type="spacer" default=""/>
 
 
-
-        <param type="spacer" default="" level="level1" />
-        <param type="spacer" default="VMPAYMENT_KLARNACHECKOUT_RESTRICTIONS" level="level1" />
+        <param type="spacer" default="" level="level1"/>
+        <param type="spacer" default="VMPAYMENT_KLARNACHECKOUT_RESTRICTIONS" level="level1"/>
         <param name="min_amount" type="text" label="VMPAYMENT_KLARNACHECKOUT_MIN_AMOUNT"
                description="VMPAYMENT_KLARNACHECKOUT_MIN_AMOUNT_DESC"/>
         <param name="max_amount" type="text" label="VMPAYMENT_KLARNACHECKOUT_MAX_AMOUNT"
                description="VMPAYMENT_KLARNACHECKOUT_MAX_AMOUNT_DESC"/>
 
-        <param name="debug" type="hidden" default="0" label="VMPAYMENT_KLARNACHECKOUT_DEBUG" description="VMPAYMENT_KLARNACHECKOUT_DEBUG_DESC" >
-        <option value="0">COM_VIRTUEMART_NO</option>
-        <option value="1">COM_VIRTUEMART_YES</option>
-    </param>
+        <param type="vmtitle" default="VMPAYMENT_KLARNACHECKOUT_DEBUG_SECTION"/>
 
-        <param name="cost_percent_total" type="hidden" />
-        <param name="cost_per_transaction" type="hidden" />
+        <param name="debug" type="radio" default="0" label="VMPAYMENT_KLARNACHECKOUT_DEBUG"
+               description="VMPAYMENT_KLARNACHECKOUT_DEBUG_DESC">
+            <option value="0">COM_VIRTUEMART_NO</option>
+            <option value="1">COM_VIRTUEMART_YES</option>
+        </param>
+        <param name="log" type="radio" default="0" label="VMPAYMENT_KLARNACHECKOUT_LOG"
+               description="VMPAYMENT_KLARNACHECKOUT_LOG">
+            <option value="0">COM_VIRTUEMART_NO</option>
+            <option value="1">COM_VIRTUEMART_YES</option>
+        </param>
+        <param name="cost_percent_total" type="hidden"/>
+        <param name="cost_per_transaction" type="hidden"/>
     </params>
     <updateservers>
         <!-- Note: No spaces or linebreaks allowed between the server tags -->

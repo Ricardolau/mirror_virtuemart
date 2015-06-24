@@ -269,6 +269,7 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 		if ($taxrule->calc_value_mathop != "+%") {
 			VmError('KlarnaCheckout getTaxShipment: expecting math operation to be +% but is ' . $taxrule->calc_value_mathop);
 			$this->debugLog(var_export($taxrule,true), 'getTaxShipment', 'debug');
+			$this->debugLog($q , 'getTaxShipment query', 'debug');
 		}
 		return $taxrule->calc_value * 100;
 
@@ -319,8 +320,7 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 		if (!($this->_currentMethod = $this->getVmPluginMethod($virtuemart_paymentmethod_id))) {
 			return NULL; // Another method was selected, do nothing
 		}
-		$this->_currentMethod->debug = true;
-		$this->_currentMethod->log = true;
+
 		// Check if it is the same payment_method_id as the previous one.
 		$klarna_paymentmethod_id_active = $this->getKlarnaPaymentMethodActive();
 		if ($klarna_paymentmethod_id_active != $cart->virtuemart_paymentmethod_id) {
@@ -517,7 +517,6 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 		if (!$country) {
 			vmError('Klarna Checkout: No country has been found with country id=' . $this->_currentMethod->purchase_country, vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_ERROR_OCCURRED', $this->_currentMethod->payment_name));
 			$this->debugLog('No country has been found with country id=' . $this->_currentMethod->purchase_country, 'initKlarnaParams', 'debug');
-
 			$return = false;
 		}
 		$this->country_code_2 = $country->country_2_code;
@@ -528,14 +527,12 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 		if (!$this->currency_code_3) {
 			vmError('Klarna Checkout: No currency has been found with currency id=' . $this->_currentMethod->payment_currency, vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_ERROR_OCCURRED', $this->_currentMethod->payment_name));
 			$this->debugLog('No currency has been found with currency id=' . $this->_currentMethod->payment_currency, 'initKlarnaParams', 'debug');
-
 			$return = false;
 		}
 		$this->currency_id = $this->_currentMethod->payment_currency;
 		if (empty($this->_currentMethod->sharedsecret) or empty($this->_currentMethod->merchantid)) {
 			vmError('Klarna Checkout: Missing mandatory values merchant id=' . $this->_currentMethod->merchantid . ' shared secret=' . $this->_currentMethod->sharedsecret, vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_ERROR_OCCURRED', $this->_currentMethod->payment_name));
 			$this->debugLog('Missing mandatory values merchant id=' . $this->_currentMethod->merchantid . ' shared secret=' . $this->_currentMethod->sharedsecret, 'initKlarnaParams', 'debug');
-
 			$return = false;
 		}
 		$this->locale = $this->_currentMethod->locale;

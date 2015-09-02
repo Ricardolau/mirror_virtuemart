@@ -292,7 +292,7 @@ class VmView extends JView{
 				$childproducts = $productModel->getProductChilds($id) ? $productModel->getProductChilds($id) : '';
 			}
 
-			$token = JUtility::getToken();
+			$token = vRequest::getFormToken();
 			$j = '
 			jQuery(function($) {
 				var oldflag = "";

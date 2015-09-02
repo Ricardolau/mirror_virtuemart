@@ -912,10 +912,12 @@ $q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name,
 			// 				$data = array_merge($plg_data,$data);
 		}
 		if(empty($_orderData->order_number)){
-			$_orderData->order_number = $this->generateOrderNumber($_usr->get('id'),4,$_orderData->virtuemart_vendor_id);
+			//$_orderData->order_number = $this->generateOrderNumber($_usr->get('id'),4,$_orderData->virtuemart_vendor_id);
+			$_orderData->order_number = $this->genStdOrderNumber($_orderData->virtuemart_vendor_id);
 		}
 		if(empty($_orderData->order_pass)){
-			$_orderData->order_pass = 'p_'.substr( md5((string)time().rand(1,1000).$_orderData->order_number ), 0, 5);
+			//$_orderData->order_pass = 'p_'.substr( md5((string)time().rand(1,1000).$_orderData->order_number ), 0, 5);
+			$_orderData->order_pass = $this->genStdOrderPass();
 		}
 
 
@@ -1445,15 +1447,50 @@ $q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name,
 	}
 
 	/**
+	 * Creates a standard order password
+	 */
+	static public function genStdOrderPass(){
+		if(!class_exists('vmCrypt'))
+			require(VMPATH_ADMIN.DS.'helpers'.DS.'vmcrypt.php');
+		$chrs = "ABCDEFGHJKLMNPQRSTUVWXYZ";
+		$chrs.= "abcdefghijkmnopqrstuvwxyz";
+		$chrs.= "123456789";
+		return 'p_'.vmCrypt::getToken(VmConfig::get('randpw',8),$chrs);
+	}
+
+	/**
+	 * Generate a unique ordernumber using getHumanToken, which is a random token
+	 * with only upper case chars and without 0 and O to prevent missreadings
+	 * @author Max Milbers
+	 * @param integer $virtuemart_vendor_id For the correct count
+	 * @return string A unique ordernumber
+	 */
+	static public function genStdOrderNumber($virtuemart_vendor_id=1){
+
+		$db = JFactory::getDBO();
+
+		$q = 'SELECT COUNT(1) FROM #__virtuemart_orders WHERE `virtuemart_vendor_id`="'.$virtuemart_vendor_id.'"';
+		$db->setQuery($q);
+
+		//We can use that here, because the order_number is free to set, the invoice_number must often follow special rules
+		$c = $db->loadResult();
+		$c = $c + (int)VM_ORDER_OFFSET;
+
+		if(!class_exists('vmCrypt'))
+			require(VMPATH_ADMIN.DS.'helpers'.DS.'vmcrypt.php');
+		$str = vmCrypt::getHumanToken(VmConfig::get('randOrderNr',4)).'0'.$c;
+
+		return $str;
+	}
+
+	/**
 	 * Generate a unique ordernumber. This is done in a similar way as VM1.1.x, although
 	 * the reason for this is unclear to me :-S
-	 *
-	 * @author Oscar van Eijk
+	 * @deprecated
 	 * @param integer $uid The user ID. Defaults to 0 for guests
 	 * @return string A unique ordernumber
 	 */
-	static public function generateOrderNumber($uid = 0,$length=10, $virtuemart_vendor_id=1)
-	{
+	static public function generateOrderNumber($uid = 0,$length=4, $virtuemart_vendor_id=1) {
 
 		$db = JFactory::getDBO();
 
@@ -1463,12 +1500,10 @@ $q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name,
 		//We can use that here, because the order_number is free to set, the invoice_number must often follow special rules
 		$count = $db->loadResult();
 		$count = $count + (int)VM_ORDER_OFFSET;
-// 		vmdebug('my db creating ordernumber VM_ORDER_OFFSET '.VM_ORDER_OFFSET.' $count '.$count, $this->_db);
-// 		$variable_fixed=sprintf("%06s",$num_rows);
-		$data = substr( md5( session_id().(string)time().(string)$uid )
-		,0
-		,$length
-		).'0'.$count;
+
+		if(!class_exists('vmCrypt'))
+			require(VMPATH_ADMIN.DS.'helpers'.DS.'vmcrypt.php');
+		$data = vmCrypt::getHumanToken($length).'0'.$count;
 
 		return $data;
 	}

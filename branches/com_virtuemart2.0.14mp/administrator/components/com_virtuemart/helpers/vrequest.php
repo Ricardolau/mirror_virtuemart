@@ -233,12 +233,24 @@ class vRequest {
 
 	public static function getFormToken($fNew = false){
 
+		$sess = JFactory::getSession();
 		$user = JFactory::getUser();
-		$session = JFactory::getSession();
+
 		if(empty($user->id)) $user->id = 0;
-		$hash = JApplication::getHash($user->id . $session->getToken($fNew));
+		if(!class_exists('vmCrypt'))
+			require(VMPATH_ADMIN.DS.'helpers'.DS.'vmcrypt.php');
+
+		$token = $sess->get('session.token');
+		if ($token === null || $fNew) {
+			$token = vmCrypt::getToken();
+			$sess->set('session.token', $token);
+		}
+		$hash = self::getHash($user->id . $token);
 
 		return $hash;
 	}
 
+	public static function getHash($seed) {
+		return md5(VmConfig::getSecret() . $seed);
+	}
 }

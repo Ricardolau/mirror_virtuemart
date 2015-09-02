@@ -112,7 +112,7 @@ class TableOrders extends VmTableData {
 
 		if(empty($this->order_number)){
 			if(!class_exists('VirtueMartModelOrders')) require(JPATH_VM_ADMINISTRATOR.DS.'models'.DS.'orders.php');
-			$this->order_number = VirtueMartModelOrders::generateOrderNumber((string)time());
+			$this->order_number = VirtueMartModelOrders::genStdOrderNumber($this->virtuemart_vendor_id);
 		}
 
 		if(empty($this->order_pass)){

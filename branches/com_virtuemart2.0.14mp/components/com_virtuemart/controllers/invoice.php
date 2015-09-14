@@ -62,8 +62,12 @@ class VirtueMartControllerInvoice extends JController
 			$viewName='invoice';
 			$format="html";
 
+			$app = JFactory::getApplication();
 			// Create the invoice PDF file on disk and send that back
 			$orderDetails = $this->getOrderDetails();
+			if(!$orderDetails){
+				$app->redirect(JRoute::_('/index.php?option=com_virtuemart'));
+			}
 			$fileLocation = $this->getInvoicePDF($orderDetails, 'invoice',$layout);
 			$fileName = basename ($fileLocation);
 
@@ -134,7 +138,8 @@ class VirtueMartControllerInvoice extends JController
 
 	public function getOrderDetails() {
 		$orderModel = VmModel::getModel('orders');
-		$orderDetails = 0;
+		return $orderModel->getMyOrderDetails();
+		/*$orderDetails = 0;
 		// If the user is not logged in, we will check the order number and order pass
 		if ($orderPass = JRequest::getString('order_pass',false) and $orderNumber = JRequest::getString('order_number',false)){
 			$orderId = $orderModel->getOrderIdByOrderPass($orderNumber,$orderPass);
@@ -167,7 +172,7 @@ class VirtueMartControllerInvoice extends JController
 				}
 			}
 		}
-		return $orderDetails;
+		return $orderDetails;*/
 	}
 
 

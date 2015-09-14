@@ -498,7 +498,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_orders` (
   `virtuemart_vendor_id` smallint(1) UNSIGNED NOT NULL DEFAULT '1',
   `order_number` char(64),
   `customer_number` char(32),
-  `order_pass` char(8),
+  `order_pass` char(34),
   `order_total` decimal(15,5) NOT NULL DEFAULT '0.00000',
   `order_salesPrice` decimal(15,5) NOT NULL DEFAULT '0.00000',
   `order_billTaxAmount` decimal(15,5) NOT NULL DEFAULT '0.00000',

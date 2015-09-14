@@ -510,6 +510,7 @@ class VmConfig {
 	// instance of class
 	private static $_jpConfig = NULL;
 	public static $_debug = NULL;
+	private static $_secret = NULL;
 	public static $_starttime = array();
 	public static $loaded = FALSE;
 
@@ -551,6 +552,10 @@ class VmConfig {
 
 	static function setStartTime($name,$value){
 		self::$_starttime[$name] = $value;
+	}
+
+	static function getSecret(){
+		return self::$_secret;
 	}
 
 	static function showDebug(){
@@ -876,7 +881,7 @@ class VmConfig {
 			//self::$_jpConfig->set('sctime',microtime(TRUE));
 			//self::setdbLanguageTag();
 			self::$_jpConfig->_params['vmlang'] = self::setdbLanguageTag();
-
+			self::$_secret = JFactory::getConfig()->get('secret');
 			vmTime('loadConfig db '.$install,'loadConfig');
 
 			// try plugins

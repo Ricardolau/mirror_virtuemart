@@ -16,7 +16,7 @@
  */
 
 
-require_once 'OffAmazonPaymentsService.config.inc.php';
+//require_once 'OffAmazonPaymentsService.config.inc.php';
 require_once 'Client.php';
 
 /**

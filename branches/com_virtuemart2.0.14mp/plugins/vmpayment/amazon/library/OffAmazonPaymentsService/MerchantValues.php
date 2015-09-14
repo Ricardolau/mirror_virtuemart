@@ -16,7 +16,7 @@
  */
 
 
-require_once JPATH_SITE.DS.'plugins'.DS.'vmpayment'.DS.'amazon'.DS.'library'.DS.'OffAmazonPaymentsService'.DS.'OffAmazonPaymentsService.config.inc.php';
+//require_once JPATH_SITE.DS.'plugins'.DS.'vmpayment'.DS.'amazon'.DS.'library'.DS.'OffAmazonPaymentsService'.DS.'OffAmazonPaymentsService.config.inc.php';
 require_once JPATH_SITE.DS.'plugins'.DS.'vmpayment'.DS.'amazon'.DS.'library'.DS.'OffAmazonPaymentsService'.DS.'RegionSpecificProperties.php';
 
 define('MERCHANT_ID', isset($merchantId) ? $merchantId : null);

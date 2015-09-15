@@ -311,9 +311,9 @@ class GenericTableUpdater extends JModel{
 			$tablename = str_replace('#__',$this->_prefix,$tablename);
 			$demandedTables[] = $tablename;
 			if(in_array($tablename,$existingtables)){
-				$q = 'LOCK TABLES `'.$tablename.'`';
+				/*$q = 'LOCK TABLES `'.$tablename.'`';
 				$this->_db->setQuery($q);
-				$this->_db->execute();
+				$this->_db->execute();*/
 
 // 			if($tablename==$this->_prefix.'virtuemart_userinfos'){
 				if($this->reCreaPri!=0){
@@ -328,9 +328,9 @@ class GenericTableUpdater extends JModel{
 					}
 				}
 
-				$q = 'UNLOCK TABLES ';
+				/*$q = 'UNLOCK TABLES ';
 				$this->_db->setQuery($q);
-				$this->_db->execute();
+				$this->_db->execute();*/
 			} else {
 
 				$this->createTable($tablename,$table);

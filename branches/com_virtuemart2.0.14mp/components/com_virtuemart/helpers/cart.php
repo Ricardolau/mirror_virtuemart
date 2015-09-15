@@ -1166,7 +1166,7 @@ class VirtueMartCart {
 				$mainframe->redirect(JRoute::_('index.php?option=com_virtuemart&view=cart', FALSE) );
 			}
 
-			$orderDetails = $orderModel ->getMyOrderDetails($this->virtuemart_order_id);
+			$orderDetails = $orderModel ->getMyOrderDetails($this->virtuemart_order_id,$this->order_number,$this->order_pass);
 
 			if(!$orderDetails or empty($orderDetails['details'])){
 				echo JText::_('COM_VIRTUEMART_CART_ORDER_NOTFOUND');

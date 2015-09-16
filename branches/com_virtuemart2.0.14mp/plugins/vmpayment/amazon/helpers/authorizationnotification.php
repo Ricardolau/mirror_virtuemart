@@ -77,7 +77,7 @@ class amazonHelperAuthorizationNotification extends amazonHelper {
 				if ($reasonCode == 'InvalidPaymentMethod') {
 					$order_history['customer_notified'] = 0;
 					if ($this->_currentMethod->soft_decline == 'soft_decline_enabled') {
-						$order_history['comments'] =$this->getSoftDeclinedComment();
+						$order_history['comments'] = $this->getSoftDeclinedComment();
 						$order_history['order_status'] = $this->_currentMethod->status_orderconfirmed;
 						$order_history['customer_notified'] = 1;
 					} else {
@@ -98,7 +98,7 @@ class amazonHelperAuthorizationNotification extends amazonHelper {
 				$order_history['comments'] = vmText::_('VMPAYMENT_AMAZON_COMMENT_STATUS_AUTHORIZATION_PENDING');
 				$order_history['customer_notified'] = 0;
 			} elseif ($amazonState == 'Closed') {
-				if ($reasonCode=='MaxCapturesProcessed' and $this->isCaptureNow()) {
+				if ($reasonCode == 'MaxCapturesProcessed' and $this->isCaptureNow()) {
 					$order_history['order_status'] = $this->_currentMethod->status_capture;
 					$order_history['comments'] = vmText::_('VMPAYMENT_AMAZON_COMMENT_STATUS_CAPTURE_NOTIFICATION');
 					$order_history['customer_notified'] = 0;
@@ -117,27 +117,28 @@ class amazonHelperAuthorizationNotification extends amazonHelper {
 		return $amazonState;
 	}
 
-private function getSoftDeclinedComment() {
+	private function getSoftDeclinedComment() {
 
-	if (!class_exists('VirtueMartModelVendor')) {
-		require(JPATH_VM_ADMINISTRATOR . DS . 'models' . DS . 'vendor.php');
+		if (!class_exists('VirtueMartModelVendor')) {
+			require(JPATH_VM_ADMINISTRATOR . DS . 'models' . DS . 'vendor.php');
+		}
+		$virtuemart_vendor_id = 1;
+		$vendorModel = VmModel::getModel('vendor');
+		$vendor = $vendorModel->getVendor($virtuemart_vendor_id);
+		$vendorModel->setId($virtuemart_vendor_id);
+		$vendorFields = $vendorModel->getVendorAddressFields($virtuemart_vendor_id);
+		$vendorEmail = $vendorFields['fields']['email']['value'];
+		if (isset($vendorFields['fields']['phone_1']['value'])) {
+			$vendorPhone = $vendorFields['fields']['phone_1']['value'];
+		} else {
+			$vendorPhone = "";
+		}
+
+		return vmText::sprintf('VMPAYMENT_AMAZON_COMMENT_STATUS_AUTHORIZATION_INVALIDPAYMENTMETHOD_SOFT_DECLINED', $vendor->vendor_store_name, $vendorEmail, $vendorPhone);
+
 	}
-	$virtuemart_vendor_id = 1;
-	$vendorModel = VmModel::getModel('vendor');
-	$vendor = $vendorModel->getVendor($virtuemart_vendor_id);
-	$vendorModel->setId($virtuemart_vendor_id);
-	$vendorFields = $vendorModel->getVendorAddressFields($virtuemart_vendor_id);
-	$vendorEmail= $vendorFields['fields']['email']['value'];
-	if (isset($vendorFields['fields']['phone_1']['value'])) {
-		$vendorPhone= $vendorFields['fields']['phone_1']['value'];
-	} else {
-		$vendorPhone="";
-	}
 
-return vmText::sprintf('VMPAYMENT_AMAZON_COMMENT_STATUS_AUTHORIZATION_INVALIDPAYMENTMETHOD_SOFT_DECLINED', $vendor->vendor_store_name,$vendorEmail,$vendorPhone);
-
-}
-	private function isSynchronousMode () {
+	private function isSynchronousMode() {
 		if (($this->_currentMethod->erp_mode == "erp_mode_disabled" AND $this->_currentMethod->authorization_mode_erp_disabled == "automatic_synchronous") or ($this->_currentMethod->erp_mode == "erp_mode_enabled" AND $this->_currentMethod->authorization_mode_erp_enabled == "automatic_synchronous")
 		) {
 			return true;
@@ -146,7 +147,7 @@ return vmText::sprintf('VMPAYMENT_AMAZON_COMMENT_STATUS_AUTHORIZATION_INVALIDPAY
 		return false;
 	}
 
-	public function getStoreInternalData () {
+	public function getStoreInternalData() {
 		//$amazonInternalData = $this->getStoreResultParams();
 		$amazonInternalData = new stdClass();
 		if ($this->amazonData->isSetAuthorizationDetails()) {
@@ -180,15 +181,15 @@ return vmText::sprintf('VMPAYMENT_AMAZON_COMMENT_STATUS_AUTHORIZATION_INVALIDPAY
 	 * @param $amazonState
 	 * @return bool|string
 	 */
-	public function onNotificationNextOperation ($order, $payments, $amazonState) {
-		$state=array('Pending', 'Open', 'Declined', 'Closed');
+	public function onNotificationNextOperation($order, $payments, $amazonState) {
+		$state = array('Pending', 'Open', 'Declined', 'Closed');
 		if (in_array($amazonState, $state)) {
 			return 'onNotificationGetAuthorizationDetails';
 		}
 		return false;
 	}
 
-	public function getReferenceId () {
+	public function getReferenceId() {
 		if ($this->amazonData->isSetAuthorizationDetails()) {
 			$authorizationDetails = $this->amazonData->getAuthorizationDetails();
 			if ($authorizationDetails->isSetAuthorizationReferenceId()) {
@@ -217,7 +218,7 @@ return vmText::sprintf('VMPAYMENT_AMAZON_COMMENT_STATUS_AUTHORIZATION_INVALIDPAY
 	}
 
 
-	public function getAmazonAuthorizationId () {
+	public function getAmazonAuthorizationId() {
 		return $this->amazonData->getAuthorizationDetails()->getAmazonAuthorizationId();
 	}
 

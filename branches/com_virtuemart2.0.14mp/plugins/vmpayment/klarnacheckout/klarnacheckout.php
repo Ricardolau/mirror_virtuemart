@@ -334,12 +334,12 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 		$message = '';
 		$snippet = '';
 		$hide_BTST = true;
-
+/*
 		if ($cart->virtuemart_shipmentmethod_id == 0) {
 			$message = vmText::sprintf('VMPAYMENT_KLARNACHECKOUT_SELECT_SHIPMENT_FIRST', $this->_currentMethod->payment_name);
 			$shipmentFormFields = $this->getShipmentFormFields($cart);
 		} else {
-
+*/
 			Klarna_Checkout_Order::$baseUri = $this->getKlarnaUrl();
 			Klarna_Checkout_Order::$contentType = "application/vnd.klarna.checkout.aggregated-order-v2+json";
 
@@ -422,7 +422,7 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 // DESKTOP: Width of containing block shall be at least 750px
 // MOBILE: Width of containing block shall be 100% of browser window (No
 // padding or margin)
-		}
+		//}
 		$payment_advertise[] = $this->renderByLayout('cart_advertisement', array(
 			'snippet'               => $snippet,
 			'message'               => $message,
@@ -668,6 +668,8 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 
 
 		$this->clearKlarnaSession();
+		$cart->BT=0;
+		$cart->ST=0;
 		$cart->emptyCart();
 		$cart->removeCartFromSession();
 
@@ -1243,18 +1245,7 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 	}
 
 
-	/*
-		 * plgVmonSelectedCalculatePricePayment
-		 * Calculate the price (value, tax_id) of the selected method
-		 * It is called by the calculator
-		 * This function does NOT to be reimplemented. If not reimplemented, then the default values from this function are taken.
-		 * @author Valerie Isaksen
-		 * @cart: VirtueMartCart the current cart
-		 * @cart_prices: array the new cart prices
-		 * @return null if the method was not selected, false if the payment is not valid any more, true otherwise
-		 *
-		 *
-		 */
+
 
 	/**
 	 * @param VirtueMartCart $cart

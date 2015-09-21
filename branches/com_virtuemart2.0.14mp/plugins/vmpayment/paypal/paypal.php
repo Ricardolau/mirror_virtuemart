@@ -1326,7 +1326,38 @@ return true;
 	//This function does NOT to be reimplemented. If not reimplemented, then the default values from this function are taken.
 	public function plgVmOnSelectedCalculatePricePayment(VirtueMartCart $cart, array &$cart_prices, &$cart_prices_name) {
 
-		return $this->onSelectedCalculatePrice($cart, $cart_prices, $cart_prices_name);
+		$id = $this->_idName;
+		//vmTime('onSelectedCalculatePrice before test '.$cart->$id,'prepareCartData');
+		if (!($method = $this->selectedThisByMethodId ($cart->$id))) {
+			return NULL; // Another method was selected, do nothing
+		}
+
+		if (!($method = $this->getVmPluginMethod ($cart->$id))) {
+			return NULL;
+		}
+
+		$cart_prices_name = '';
+		$cart_prices['cost'] = 0;
+
+		if (!$this->checkConditions ($cart, $method, $cart_prices)) {
+			return FALSE;
+		}
+		if ($method->paypalproduct == 'exp') {
+			$js = "
+				jQuery(document).ready(function( $ ) {
+					jQuery('#output-shipto-add').hide();
+					jQuery('#STsameAsBT').val('1') ;
+					var output= jQuery('#output-shipto-display').html();
+					jQuery( '#output-shipto' ).after( output);
+					jQuery('#output-shipto').hide();
+				});
+				";
+			JFactory::getDocument()->addScriptDeclaration($js);
+		}
+		$cart_prices_name = $this->renderPluginName ($method);
+		$this->setCartPrices ($cart, $cart_prices, $method);
+
+		return TRUE;
 	}
 
 

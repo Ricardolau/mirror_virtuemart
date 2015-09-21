@@ -7,7 +7,7 @@
     <copyright>${PHING.VM.COPYRIGHT}</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <version>${PHING.VM.RELEASE}</version>
-    <description>AMAZON system plugin</description>
+    <description>AMAZON payment SYSTEM plugin</description>
     <files>
         <filename plugin="amazon">amazon.php</filename>
         <filename plugin="amazon">touch.php</filename>

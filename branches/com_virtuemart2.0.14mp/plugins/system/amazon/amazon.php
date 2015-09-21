@@ -29,7 +29,7 @@ class PlgSystemAmazon extends JPlugin {
 		if (!class_exists( 'VmConfig' )) require(JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'helpers'.DS.'config.php');
 		VmConfig::loadConfig();
 
-		$fileName = 'touch.php';
+		$fileName = JPATH_ROOT.DS.'plugins'.DS.'system'.DS.'amazon'.DS.'touch.php';
 		$tstamp = @filemtime($fileName);
 		if ($tstamp !== false) {
 			$now = time();

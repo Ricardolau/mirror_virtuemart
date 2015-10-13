@@ -58,9 +58,9 @@ abstract class amazonHelper {
 	function getCustomerNotified() {
 
 		if (($this->_currentMethod->erp_mode == "erp_mode_enabled" AND $this->_currentMethod->authorization_mode_erp_enabled != 'automatic_synchronous') ) {
-			return false;
-		} else {
 			return true;
+		} else {
+			return false;
 		}
 	}
 

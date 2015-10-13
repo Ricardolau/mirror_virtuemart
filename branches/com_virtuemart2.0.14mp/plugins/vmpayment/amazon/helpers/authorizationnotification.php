@@ -68,7 +68,7 @@ class amazonHelperAuthorizationNotification extends amazonHelper {
 			$reasonCode = $authorizationStatus->getReasonCode();
 		}
 
-		$order_history['customer_notified'] = 1;
+		$order_history['customer_notified'] = 0;
 		if ($amazonState != $previousAmazonState) {
 			if ($amazonState == 'Open') {
 				$order_history['order_status'] = $this->_currentMethod->status_authorization;

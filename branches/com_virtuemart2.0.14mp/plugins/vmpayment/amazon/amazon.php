@@ -2656,9 +2656,10 @@ jQuery().ready(function($) {
 		VmConfig::loadConfig();
 		$olgConfig = VmConfig::get('oncheckout_opc', true);
 		$this->saveVMOPCConfigInSession($olgConfig);
-		VmConfig::set('oncheckout_opc', true);
+		VmConfig::set('oncheckout_opc', 1);
 		$cart->layoutPath = vmPlugin::getTemplatePath($this->_name, 'payment', 'cart');
 		$cart->layout = 'cart';
+		vmdebug('setCartLayout old new', (int)$olgConfig, (int)VmConfig::get('oncheckout_opc'));
 		if ($intoSession) {
 			$cart->setCartIntoSession();
 		}
@@ -3022,41 +3023,6 @@ jQuery().ready(function($) {
 		// Fetch all HTTP request headers
 		$headers = $this->getallheaders();
 		$body = file_get_contents('php://input');
-		$this->debugLog($headers, 'AMAZON IPN HEADERS debug', 'debug');
-		$this->debugLog($body, 'AMAZON IPN BODY debug', 'debug');
-
-/*
-				$fp = fopen("/Applications/MAMP/htdocs/VM2/VM2024/AMAZON-ipnhandler.php", 'a+');
-				   fwrite($fp, var_export($headers, true));
-				  fwrite($fp, var_export($body, true));
-				fclose($fp);
-		$headers=array (
-			'x-amz-sns-message-type' => 'Notification',
-			'x-amz-sns-message-id' => '2c9311b0-7bb2-58e9-9fcb-5cfdf71809aa',
-			'x-amz-sns-topic-arn' => 'arn:aws:sns:eu-west-1:291180941288:A3M3RRFO9XDT2GAA3KB5JD2CWIH',
-			'x-amz-sns-subscription-arn' => 'arn:aws:sns:eu-west-1:291180941288:A3M3RRFO9XDT2GAA3KB5JD2CWIH:cf4843ce-a0e5-4f7f-892e-c013c91c4402',
-			'Content-Length' => '2701',
-			'Content-Type' => 'text/plain; charset=UTF-8',
-			'Host' => 'joomla-virtuemart.org',
-			'Connection' => 'Keep-Alive',
-			'User-Agent' => 'Amazon Simple Notification Service Agent',
-			'Cookie' => '53369989722c841763ad3ab697b54ad2=ba355be2a8b664b26fe73fff94c42d58',
-			'Cookie2' => '$Version=1',
-			'Accept-Encoding' => 'gzip,deflate',
-		);
-
-		$body='{
-  "Type" : "Notification",
-  "MessageId" : "2c9311b0-7bb2-58e9-9fcb-5cfdf71809aa",
-  "TopicArn" : "arn:aws:sns:eu-west-1:291180941288:A3M3RRFO9XDT2GAA3KB5JD2CWIH",
-  "Message" : "{\\"NotificationReferenceId\\":\\"f7d81c82-4cfa-4cdf-b9f2-1c0a41189698\\",\\"MarketplaceID\\":\\"136291\\",\\"NotificationType\\":\\"PaymentAuthorize\\",\\"SellerId\\":\\"AA3KB5JD2CWIH\\",\\"ReleaseEnvironment\\":\\"Sandbox\\",\\"Version\\":\\"2013-01-01\\",\\"NotificationData\\":\\"<?xml version=\\\\\\"1.0\\\\\\" encoding=\\\\\\"UTF-8\\\\\\"?><AuthorizationNotification xmlns=\\\\\\"https://mws.amazonservices.com/ipn/OffAmazonPayments/2013-01-01\\\\\\">\\\\n    <AuthorizationDetails>\\\\n        <AmazonAuthorizationId>S02-5813777-8476477-A004132<\\\\/AmazonAuthorizationId>\\\\n        <AuthorizationReferenceId>9a0f027<\\\\/AuthorizationReferenceId>\\\\n        <AuthorizationAmount>\\\\n            <Amount>445.74<\\\\/Amount>\\\\n            <CurrencyCode>GBP<\\\\/CurrencyCode>\\\\n        <\\\\/AuthorizationAmount>\\\\n        <CapturedAmount>\\\\n            <Amount>445.74<\\\\/Amount>\\\\n            <CurrencyCode>GBP<\\\\/CurrencyCode>\\\\n        <\\\\/CapturedAmount>\\\\n        <AuthorizationFee>\\\\n            <Amount>0.0<\\\\/Amount>\\\\n            <CurrencyCode>GBP<\\\\/CurrencyCode>\\\\n        <\\\\/AuthorizationFee>\\\\n        <IdList>\\\\n            <Id>S02-5813777-8476477-C004132<\\\\/Id>\\\\n        <\\\\/IdList>\\\\n        <CreationTimestamp>2015-02-05T15:16:38.719Z<\\\\/CreationTimestamp>\\\\n        <ExpirationTimestamp>2015-03-07T15:16:38.719Z<\\\\/ExpirationTimestamp>\\\\n        <AuthorizationStatus>\\\\n            <State>Closed<\\\\/State>\\\\n            <LastUpdateTimestamp>2015-02-05T15:21:13.685Z<\\\\/LastUpdateTimestamp>\\\\n            <ReasonCode>MaxCapturesProcessed<\\\\/ReasonCode>\\\\n        <\\\\/AuthorizationStatus>\\\\n        <OrderItemCategories/>\\\\n        <CaptureNow>false<\\\\/CaptureNow>\\\\n        <SoftDescriptor/>\\\\n    <\\\\/AuthorizationDetails>\\\\n<\\\\/AuthorizationNotification>\\",\\"Timestamp\\":\\"2015-02-05T03:21:14Z\\"}",
-  "Timestamp" : "2015-02-05T15:21:14.625Z",
-  "SignatureVersion" : "1",
-  "Signature" : "r1L77iTDBFZelBurw3K1jR9zmXqknxtPv/e7zVWu85GiHn+pB3T4pbZVkoeOnwiNDsdkviNSwqWWVyrVsQM/6lilUbWMo8lFrkIgyRrwWObTLxAOpIgPtjIqGjVzrThSIlmJrcmrrIjr4FrCfqflqsmxoxFbVUJKzs3n9IQjTGUS18vBmH/Zc/VgqFjpm1VbyKSJUyPoYQwXBNSim+A5IaP8sKJ/qlOfuAOuV/EjPN1CBrSTiuFz5IGybEHYkzdebtuIi9s4zO/z2YQYHchgkSoaM5zmgwL50yYT7Hy7kmIriok3OCb5k9wWLVwA1iUDBDaTDI8lRlS8JglsZ1D3Yg==",
-  "SigningCertURL" : "https://sns.eu-west-1.amazonaws.com/SimpleNotificationService-d6d679a1d18e95c2f9ffcf11f4f9e198.pem",
-  "UnsubscribeURL" : "https://sns.eu-west-1.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:eu-west-1:291180941288:A3M3RRFO9XDT2GAA3KB5JD2CWIH:cf4843ce-a0e5-4f7f-892e-c013c91c4402"
-}';
-*/
 
 		$this->loadAmazonClass('OffAmazonPaymentsNotifications_Client');
 		$this->loadVmClass('VirtueMartModelOrders', JPATH_VM_ADMINISTRATOR . DS . 'models' . DS . 'orders.php');
@@ -3255,12 +3221,12 @@ jQuery().ready(function($) {
 
 		$url = '';
 		if (in_array($region, $region_europe)) {
-			if ($this->_method->shop_mode == 'sandbox') {
+			if ($this->_currentMethod->shop_mode == 'sandbox') {
 				$url = 'https://static-eu.payments-amazon.com/OffAmazonPayments/' . strtolower($region) . '/sandbox/js/Widgets.js';
 			} else {
 				$url = 'https://static-eu.payments-amazon.com/OffAmazonPayments/' . strtolower($region) . '/js/Widgets.js';
 			}
-			$url .= '?sellerId=' . $this->_method->sellerId;
+			$url .= '?sellerId=' . $this->_currentMethod->sellerId;
 		} else {
 			if ($this->_currentMethod->environment == 'sandbox') {
 				$url = $this->_currentMethod->sandbox_signin;

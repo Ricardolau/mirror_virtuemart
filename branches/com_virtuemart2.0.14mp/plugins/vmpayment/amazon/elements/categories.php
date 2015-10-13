@@ -26,24 +26,25 @@ if (!class_exists('TableCategories')) {
 	require(JPATH_VM_ADMINISTRATOR . DS . 'tables' . DS . 'categories.php');
 }
 
-if (!class_exists('VmElements')) {
+/*if (!class_exists('VmElements')) {
 	require(JPATH_VM_ADMINISTRATOR . DS . 'elements' . DS . 'vmelements.php');
-}
+}*/
 /*
  * This element is used by the menu manager
  * Should be that way
  */
-class JElementcategories extends JElement {
+class JElementCategories extends JElement {
 
 	var $_name = 'categories';
-
+	var $_type = 'categories';
 
 	function fetchElement ($name, $value, &$node, $control_name) {
 		JPlugin::loadLanguage('com_virtuemart', JPATH_ADMINISTRATOR);
-		$categorylist = ShopFunctions::categoryListTree(array($value));
+		if(!is_array($value))$value = array($value);
+		$categorylist = ShopFunctions::categoryListTreeLoop($value);
 		$class = ($node->attributes('class') ? 'class="' . $node->attributes('class') . '"' : '');
 
-		$html = '<select multiple="true" class="inputbox ' . $class . '"   name="' . $control_name . '[' . $name . ']' . '" >';
+		$html = '<select multiple="true" class="inputbox ' . $class . '"   name="' . $control_name . '[' . $name . '][]' . '" >';
 		$html .= '<option value="0">' . vmText::_('COM_VIRTUEMART_NONE') . '</option>';
 		$html .= $categorylist;
 		$html .= "</select>";

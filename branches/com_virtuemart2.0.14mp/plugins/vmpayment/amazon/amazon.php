@@ -2550,7 +2550,14 @@ jQuery().ready(function($) {
 
 		return $this->displayListFE($cart, $selected, $htmlIn);
 	}
+	function plgVmOnCheckoutAdvertise ($cart, &$payment_advertise) {
+		if (vmConfig::get('oncheckout_opc')==0) {
+			$html=NULL;
+			$this->displayListFE($cart, $cart->virtuemart_paymentmethod_id, $html);
+			$payment_advertise=$html;
+		}
 
+	}
 	/**
 	 * @param $plugin
 	 * @param $selectedPlugin

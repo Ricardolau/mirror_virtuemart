@@ -58,7 +58,7 @@ var amazonPayment = {
                  checkoutFormSubmit = document.getElementById("updateOrderId");
             }
 
-            if (checkoutFormSubmit === null ) return;
+            if (checkoutFormSubmit === null) return;
             checkoutFormSubmit.className = 'vm-button-correct';
             checkoutFormSubmit.className = 'vm-button';
             checkoutFormSubmit.setAttribute('disabled', 'true');
@@ -139,7 +139,7 @@ var amazonPayment = {
 
 
         updateCart: function () {
-            var url = vmSiteurl + 'index.php?option=com_virtuemart&nosef=1&view=cart&task=checkoutJS&virtuemart_paymentmethod_id=' + amazonPayment.virtuemart_paymentmethod_id + vmLang;
+            var url = vmSiteurl + 'index.php?option=com_virtuemart&nosef=1&view=cart&task=checkoutJS&forceSetShipment=1&virtuemart_paymentmethod_id=' + amazonPayment.virtuemart_paymentmethod_id + vmLang;
             jQuery.getJSON(url,
                 function (datas, textStatus) {
                     var cartview = "";
@@ -185,7 +185,7 @@ var amazonPayment = {
                     break;
                 }
             }
-            var url = vmSiteurl + 'index.php?option=com_virtuemart&nosef=1&view=cart&task=checkoutJS&virtuemart_shipmentmethod_id=' + virtuemart_shipmentmethod_id + vmLang;
+            var url = vmSiteurl + 'index.php?option=com_virtuemart&nosef=1&view=cart&task=checkoutJS&forceSetShipment=1&virtuemart_shipmentmethod_id=' + virtuemart_shipmentmethod_id + vmLang;
             jQuery.getJSON(url,
                 function (datas, textStatus) {
                     var cartview = '';

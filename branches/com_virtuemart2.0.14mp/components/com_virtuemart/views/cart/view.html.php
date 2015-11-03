@@ -144,7 +144,8 @@ class VirtueMartViewCart extends VmView {
 				$this->checkout_task = 'checkout';
 			}
 
-			if (VmConfig::get('oncheckout_opc', 1)) {
+			$forceSetShipment=vRequest::getInt('forceSetShipment',false);
+			if (VmConfig::get('oncheckout_opc', 1) or $forceSetShipment) {
 				if (!class_exists('vmPSPlugin')) require(JPATH_VM_PLUGINS . DS . 'vmpsplugin.php');
 				JPluginHelper::importPlugin('vmshipment');
 				JPluginHelper::importPlugin('vmpayment');

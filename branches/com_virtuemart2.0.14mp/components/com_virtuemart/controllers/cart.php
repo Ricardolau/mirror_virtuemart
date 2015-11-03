@@ -479,10 +479,10 @@ class VirtueMartControllerCart extends JController {
 		} else if(isset($_POST['setpayment']) or $task=='setpayment'){
 			$this->setpayment();
 		} else {
-			if (VmConfig::get('oncheckout_opc', 1) && $cart->virtuemart_shipmentmethod_id != JRequest::getInt('virtuemart_shipmentmethod_id')) {
+			if (VmConfig::get('oncheckout_opc', 1) && $cart->virtuemart_shipmentmethod_id != JRequest::getInt('virtuemart_shipmentmethod_id',0)) {
 				$this->setshipment();
 			}
-			if (VmConfig::get('oncheckout_opc', 1) && $cart->virtuemart_paymentmethod_id != JRequest::getInt('virtuemart_paymentmethod_id')) {
+			if (VmConfig::get('oncheckout_opc', 1) && $cart->virtuemart_paymentmethod_id != JRequest::getInt('virtuemart_paymentmethod_id',0)) {
 				$this->setpayment();
 			}
 			if ($cart && !VmConfig::get('use_as_catalog', 0)) {

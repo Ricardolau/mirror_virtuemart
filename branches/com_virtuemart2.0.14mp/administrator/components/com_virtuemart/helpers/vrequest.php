@@ -29,7 +29,10 @@
  *  http://virtuemart.net
  */
 
+defined('FILTER_FLAG_NO_ENCODE') or define ('FILTER_FLAG_NO_ENCODE',!FILTER_FLAG_ENCODE_LOW);
+
 class vRequest {
+
 
 	public static function getUword($field, $default='', $custom=''){
 		$source = self::getVar($field,$default);
@@ -51,6 +54,45 @@ class vRequest {
 		}
 	}
 
+	/**
+	 * This function does not allow unicode, replacement for JPath::clean
+	 * and makesafe
+	 * @param      $string
+	 * @param bool $forceNoUni
+	 * @return mixed|string
+	 */
+	static function filterPath($str) {
+
+		if (empty($str)) {
+			vmError('filterPath empty string check your paths ');
+			vmTrace('Critical error, empty string in filterPath');
+			return VMPATH_ROOT;
+		}
+		$str = trim($str);
+
+		// Delete all '?'
+		$str = str_replace('?', '', $str);
+
+		// Replace double byte whitespaces by single byte (East Asian languages)
+		$str = preg_replace('/\xE3\x80\x80/', ' ', $str);
+
+		$unicodeslugs = VmConfig::get('transliterateSlugs',false);
+		if($unicodeslugs){
+			$lang = JFactory::getLanguage();
+			$str = $lang->transliterate($str);
+		}
+
+		//This is a path, so remove all strange slashes
+		$str = str_replace('/', DS, $str);
+
+		//Clean from possible injection
+		while(strpos($str,'..')!==false){
+			$str  = str_replace('..', '', $str);
+		};
+		$str  = preg_replace('#[/\\\\]+#', DS, $str);
+		$str = filter_var($str, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
+		return $str;
+	}
 
 	public static function getBool($name, $default = 0){
 		$tmp = self::get($name, $default, FILTER_SANITIZE_NUMBER_INT);
@@ -62,8 +104,8 @@ class vRequest {
 		return $tmp;
 	}
 
-	public static function getInt($name, $default = 0){
-		return self::get($name, $default, FILTER_SANITIZE_NUMBER_INT);
+	public static function getInt($name, $default = 0, $source = 0){
+		return self::get($name, $default, FILTER_SANITIZE_NUMBER_INT,FILTER_FLAG_NO_ENCODE,$source);
 	}
 
 	public static function getFloat($name,$default=0.0){
@@ -71,50 +113,61 @@ class vRequest {
 	}
 
 	/**
-	 * - Strips all characters that has a numerical value <32.
+	 * - Strips all characters <32 and over 127
 	 * - Strips all html.
-	 *
-	 * @param $name
-	 * @param null $default
-	 * @return mixed|null
 	 */
-	public static function getVar($name, $default = null){
-		return self::get($name, $default, FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW );
-	}
-
-	/**
-	 * - Strips all characters that has a numerical value <32.
-	 * - encodes html
-	 *
-	 * @param $name
-	 * @param string $default
-	 * @return mixed|null
-	 */
-	public static function getString($name, $default = ''){
-		return self::get($name, $default, FILTER_SANITIZE_SPECIAL_CHARS,FILTER_FLAG_STRIP_LOW);
-	}
-
-	public static function getHtml($name, $default = ''){
-		$tmp = self::get($name, $default);
-		return JComponentHelper::filterText($tmp);
-	}
-	
-	/**
-	 * Gets a filtered request value
-	 * - Strips all characters that has a numerical value <32 and >127.
-	 * - strips html
-	 * @author Max Milbers
-	 * @param $name
-	 * @param string $default
-	 * @return mixed|null
-	 */
-
 	public static function getCmd($name, $default = ''){
 		return self::get($name, $default, FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH);
 	}
 
+	/**
+	 * - Strips all characters <32
+	 * - Strips all html.
+	 */
 	public static function getWord($name, $default = ''){
-		return self::get($name, $default, FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH);
+		return self::get($name, $default, FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
+	}
+
+	/**
+	 * - Encodes all characters that has a numerical value <32.
+	 * - encodes <> and similar, so html and scripts do not work
+	 */
+	public static function getVar($name, $default = null){
+		return self::get($name, $default, FILTER_SANITIZE_SPECIAL_CHARS,FILTER_FLAG_ENCODE_LOW );
+	}
+
+	/**
+	 * - Encodes all characters that has a numerical value <32.
+	 * - strips html
+	 */
+	public static function getString($name, $default = ''){
+		return self::get($name, $default, FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
+	}
+
+	/**
+	 * - Encodes all characters that has a numerical value <32.
+	 * - keeps "secure" html
+	 */
+	public static function getHtml($name, $default = '', $input = 0){
+		$tmp = self::get($name, $default,FILTER_UNSAFE_RAW,FILTER_FLAG_ENCODE_LOW,$input);
+		if(is_array($tmp)){
+			foreach($tmp as $k =>$v){
+				$tmp[$k] = JComponentHelper::filterText($v);
+			}
+			return $tmp;
+		} else {
+			return JComponentHelper::filterText($tmp);
+		}
+	}
+
+	public static function getEmail($name, $default = ''){
+		return self::get($name, $default, FILTER_VALIDATE_EMAIL,FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH);
+	}
+
+	public static function filterUrl($url){
+		$url = urldecode($url);
+		$url = self::filter($url,FILTER_SANITIZE_URL,'');
+		return self::filter($url,FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
 	}
 
 	/**
@@ -128,25 +181,64 @@ class vRequest {
 	 * @param int $flags
 	 * @return mixed|null
 	 */
-	public static function get($name, $default = null, $filter = FILTER_UNSAFE_RAW, $flags = FILTER_FLAG_STRIP_LOW){
+	public static function get($name, $default = null, $filter = FILTER_UNSAFE_RAW, $flags = FILTER_FLAG_NO_ENCODE,$source = 0){
 		//vmSetStartTime();
 		if(!empty($name)){
 
-			if(!isset($_REQUEST[$name])) return $default;
+			if($source===0){
+				$source = $_REQUEST;
+			} else if($source=='GET'){
+				$source = $_GET;
+				if(JVM_VERSION>2){
+					$router = JFactory::getApplication()->getRouter();
+					$vars = $router->getVars();
+					if($router->getMode() and !empty($vars)){
+						$source = array_merge($_GET,$vars);
+					}
+				}
+			} else if($source=='POST'){
+				$source = $_POST;
+			}
 
-			//if(strpos($name,'[]'!==FALSE)){
-			if(is_array($_REQUEST[$name])){
-				return filter_var_array($_REQUEST[$name], $filter );
+			if(!isset($source[$name])){
+				return $default;
 			}
-			else {
-				return filter_var($_REQUEST[$name], $filter, $flags);
-			}
+
+			return self::filter($source[$name],$filter,$flags);
 
 		} else {
 			vmTrace('empty name in vRequest::get');
 			return $default;
 		}
 
+	}
+
+	public static function filter($var,$filter,$flags,$array=false){
+		if($array or is_array($var)){
+			if(!is_array($var)) $var = array($var);
+			self::recurseFilter($var,$filter);
+			return $var;
+		}
+		else {
+			return filter_var($var, $filter, $flags);
+		}
+	}
+
+	public static function recurseFilter(&$var,$filter){
+		foreach($var as $k=>&$v){
+			if(!empty($k) and !is_numeric($k)){
+				$t = filter_var($k, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
+				if($t!=$k){
+					$var[$t] = $v;
+					unset($var[$k]);
+					vmdebug('unset invalid key',$k,$t);
+				}
+			}
+			if(!empty($v) and is_array($v) and count($v)>1){
+				self::recurseFilter($v,$filter);
+			}
+		}
+		filter_var_array($var, $filter);
 	}
 
 	/**
@@ -157,20 +249,30 @@ class vRequest {
 	 * @param array $filter
 	 * @return mixed cleaned $_REQUEST
 	 */
-	public static function getRequest( ){
-		return  filter_var_array($_REQUEST, FILTER_SANITIZE_STRING);
+	public static function getRequest( $filter = FILTER_SANITIZE_SPECIAL_CHARS, $flags = FILTER_FLAG_ENCODE_LOW ){
+		return self::filter($_REQUEST, $filter, $flags,true);
+		//return  filter_var_array($_REQUEST, $filter);
 	}
 	
-	public static function getPost( ){
-		return  filter_var_array($_POST, FILTER_SANITIZE_STRING);
+	public static function getPost( $filter = FILTER_SANITIZE_SPECIAL_CHARS, $flags = FILTER_FLAG_ENCODE_LOW ){
+		return self::filter($_POST, $filter, $flags,true);
 	}
 	
-	public static function getGet( ){
-		return  filter_var_array($_GET, FILTER_SANITIZE_STRING);
+	public static function getGet( $filter = FILTER_SANITIZE_SPECIAL_CHARS, $flags = FILTER_FLAG_ENCODE_LOW ){
+		$source = $_GET;
+		if(JVM_VERSION>2){
+			$router = JFactory::getApplication()->getRouter();
+			$vars = $router->getVars();
+			if($router->getMode() and !empty($vars)){
+				$source = array_merge($_GET,$vars);
+			}
+		}
+		return self::filter($source, $filter, $flags,true);
 	}
 	
-	public static function getFiles($name){
-		return  filter_var_array($_FILES[$name], FILTER_SANITIZE_STRING);
+	public static function getFiles( $name, $filter = FILTER_SANITIZE_STRING, $flags = FILTER_FLAG_STRIP_LOW){
+		if(empty($_FILES[$name])) return false;
+		return  self::filter($_FILES[$name], $filter, $flags);
 	}
 
 	public static function setVar($name, $value = null){
@@ -184,11 +286,14 @@ class vRequest {
 		}
 	}
 
+	public static function vmSpecialChars($c){
+		return htmlspecialchars($c,ENT_COMPAT,'UTF-8',false);
+	}
+
 	/**
 	 * Checks for a form token in the request.
 	 *
 	 * @return  boolean  True if token valid
-	 *
 	 */
 	public static function vmCheckToken($redirectMsg=0){
 

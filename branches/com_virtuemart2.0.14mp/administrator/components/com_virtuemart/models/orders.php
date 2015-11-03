@@ -418,7 +418,7 @@ $q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name,
 		$table->bindChecknStore($data);
 
 		if ( $orderUpdate ) {
-			if ( empty($data['order_item_sku']) )
+			if ( empty($data['order_item_sku']) and !empty($virtuemart_order_item_id) )
 			{
 				//update product identification
 				$db = JFactory::getDBO();
@@ -429,7 +429,7 @@ $q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name,
 					" SET $oi.order_item_sku=$protbl.product_sku, $oi.order_item_name=$prolang.product_name ".
 					" WHERE $oi.virtuemart_product_id=$protbl.virtuemart_product_id " . 
 					" and $oi.virtuemart_product_id=$prolang.virtuemart_product_id " .
-					" and $oi.virtuemart_order_item_id=$virtuemart_order_item_id";
+					" and $oi.virtuemart_order_item_id= ".(int)$virtuemart_order_item_id;
 				$db->setQuery($sql);
 				if ($db->query() === false) {
 					vmError($db->getError());
@@ -465,7 +465,7 @@ $q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name,
 			{
 				foreach($calc_rules as $calc_kind => $calc_rule) {
 					foreach($calc_rule as $virtuemart_order_calc_rule_id => $calc_amount) {
-						$sql = "UPDATE `#__virtuemart_order_calc_rules` SET `calc_amount`=$calc_amount WHERE `virtuemart_order_calc_rule_id`=$virtuemart_order_calc_rule_id";
+						$sql = 'UPDATE `#__virtuemart_order_calc_rules` SET `calc_amount`="'.$calc_amount.'" WHERE `virtuemart_order_calc_rule_id`="'.(int)$virtuemart_order_calc_rule_id.'"';
 						$db->setQuery($sql);
 						if(isset($calc_amount)) $calc_rules_amount += $calc_amount;
 						if ($calc_kind == 'DBTaxRulesBill' || $calc_kind == 'DATaxRulesBill') {
@@ -487,7 +487,7 @@ $q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name,
 
 			if ( $os!="" )
 			{
-				$sql = "UPDATE `#__virtuemart_orders` SET `order_shipment`=$os,`order_shipment_tax`=$ost WHERE  `virtuemart_order_id`=$ordid";
+				$sql = 'UPDATE `#__virtuemart_orders` SET `order_shipment`="'.$os.'",`order_shipment_tax`="'.$ost.'" WHERE  `virtuemart_order_id`="'.$ordid.'"';
 				$db->setQuery($sql);
 				if ($db->query() === false) {
 					vmError($db->getError());
@@ -499,13 +499,13 @@ $q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name,
 			$opt = JRequest::getString('order_payment_tax');
 			if ( $op!="" )
 			{
-				$sql = "UPDATE `#__virtuemart_orders` SET `order_payment`=$op,`order_payment_tax`=$opt WHERE  `virtuemart_order_id`=$ordid";
+				$sql = 'UPDATE `#__virtuemart_orders` SET `order_payment`="'.$op.'",`order_payment_tax`="'.$opt.'" WHERE  `virtuemart_order_id`="'.$ordid.'"';
 				$db->setQuery($sql);
 				if ($db->query() === false) {
 					vmError($db->getError());
 				}
 			}
-
+			$ordid = (int)$ordid;
 			$sql = "
 					UPDATE `#__virtuemart_orders` 
 					SET 

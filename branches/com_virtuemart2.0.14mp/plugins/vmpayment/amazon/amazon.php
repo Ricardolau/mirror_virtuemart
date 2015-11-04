@@ -2554,7 +2554,6 @@ jQuery().ready(function($) {
 		if (vmConfig::get('oncheckout_opc')==0) {
 			$html=NULL;
 			$this->displayListFE($cart, $cart->virtuemart_paymentmethod_id, $html);
-			$payment_advertise=$html;
 		}
 
 	}

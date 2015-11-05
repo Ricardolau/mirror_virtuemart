@@ -154,7 +154,7 @@ $document->addStyleDeclaration('#facebox .content {display: block !important; he
 
 				<div id="amazonShipmentsDiv"><?php
 					//if (!$this->readonly_cart) {
-					if (!$this->cart->automaticSelectedShipment  and !$this->cart->_dataValidated) {
+					if (!$this->cart->automaticSelectedShipment or !$this->readonly_cart) {
 						?>
 						<?php echo $this->loadTemplate('shipment'); ?>
 					<?php

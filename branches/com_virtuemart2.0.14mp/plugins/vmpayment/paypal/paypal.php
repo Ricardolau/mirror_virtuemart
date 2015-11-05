@@ -1343,10 +1343,11 @@ return true;
 			return FALSE;
 		}
 		if ($method->paypalproduct == 'exp') {
+			// TODO NEEDS MORE TESTING
 			// the merchant requires Prompt for an address, and require one to Paypal.
 			// He will not be allowed to change ot on VM
 			// in the 2 other cases : "Do not prompt for an address", and "Prompt for an address => he is allowed
-			if ($method->no_shipping==2) {
+			//if ($method->no_shipping==2) {
 				$js = "
 				jQuery(document).ready(function( $ ) {
 					jQuery('#output-shipto-add').hide();
@@ -1357,7 +1358,7 @@ return true;
 				});
 				";
 				JFactory::getDocument()->addScriptDeclaration($js);
-			}
+			//}
 
 		}
 		$cart_prices_name = $this->renderPluginName ($method);

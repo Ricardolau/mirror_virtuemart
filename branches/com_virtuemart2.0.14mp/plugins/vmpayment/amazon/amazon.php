@@ -2546,15 +2546,11 @@ jQuery().ready(function($) {
 	 *
 	 * @author Valerie Isaksen
 	 */
-	public function plgVmDisplayListFEPayment (VirtueMartCart $cart, $selected = 0, &$htmlIn) {
 
-		return $this->displayListFE($cart, $selected, $htmlIn);
-	}
 	function plgVmOnCheckoutAdvertise ($cart, &$payment_advertise) {
-		if (vmConfig::get('oncheckout_opc')==0) {
+
 			$html=NULL;
 			$this->displayListFE($cart, $cart->virtuemart_paymentmethod_id, $html);
-		}
 
 	}
 	/**
@@ -2632,8 +2628,7 @@ jQuery().ready(function($) {
 		if (!class_exists('VmConfig')) {
 			require(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_virtuemart' . DS . 'helpers' . DS . 'config.php');
 		}
-		VmConfig::loadConfig();
-		VmConfig::set('oncheckout_opc', $this->getVMOPCConfigFromSession());
+
 		$cart = VirtueMartCart::getCart();
 		$cart->layout = VmConfig::get('cartlayout', 'default');
 		$cart->layoutPath = '';
@@ -2659,13 +2654,9 @@ jQuery().ready(function($) {
 		if (!class_exists('VmConfig')) {
 			require(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_virtuemart' . DS . 'helpers' . DS . 'config.php');
 		}
-		VmConfig::loadConfig();
-		$olgConfig = VmConfig::get('oncheckout_opc', true);
-		$this->saveVMOPCConfigInSession($olgConfig);
-		VmConfig::set('oncheckout_opc', 1);
+
 		$cart->layoutPath = vmPlugin::getTemplatePath($this->_name, 'payment', 'cart');
 		$cart->layout = 'cart';
-		vmdebug('setCartLayout old new', (int)$olgConfig, (int)VmConfig::get('oncheckout_opc'));
 		if ($intoSession) {
 			$cart->setCartIntoSession();
 		}
@@ -3278,35 +3269,6 @@ jQuery().ready(function($) {
 		}
 	}
 
-	/**
-	 * save the Old Config to force the OPC behaviour in VM
-	 * @param $cart
-	 */
-
-	private function saveVMOPCConfigInSession ($oldConfig) {
-		$session = JFactory::getSession();
-		$sessionAmazon = $session->get('amazon', 0, 'vm');
-		if ($sessionAmazon) {
-			$sessionAmazonData = json_decode($sessionAmazon, true);
-		}
-
-		$sessionAmazonData['oldConfig'] = $oldConfig;
-		$session->set('amazon', json_encode($sessionAmazonData), 'vm');
-
-	}
-
-	/**
-	 * save the Old Config to force the OPC behaviour in VM
-	 * @param $cart
-	 */
-	private function getVMOPCConfigFromSession () {
-		$session = JFactory::getSession();
-		$sessionAmazon = $session->get('amazon', 0, 'vm');
-		$sessionAmazonData = json_decode($sessionAmazon, true);
-		$oldConfig = $sessionAmazonData['oldConfig'];
-		return $oldConfig;
-
-	}
 
 
 	/**

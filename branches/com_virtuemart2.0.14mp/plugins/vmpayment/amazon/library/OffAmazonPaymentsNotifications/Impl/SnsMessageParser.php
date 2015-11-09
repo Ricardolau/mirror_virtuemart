@@ -36,6 +36,7 @@ class SnsMessageParser
      */
     public static function parseNotification($headers, $jsonString)
     {
+        $headers=array_change_key_case($headers);
         self::_validateHeaders($headers);
         $snsMsg = new Message($jsonString);
         self::_checkForCorrectMessageType($snsMsg);

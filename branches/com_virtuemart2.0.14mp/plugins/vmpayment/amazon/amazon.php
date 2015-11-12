@@ -122,7 +122,6 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 
 
 	private function renderSignInButton ($cart) {
-		$display = '';
 
 		if (!$this->checkConditionSignIn($cart)) {
 			return NULL;

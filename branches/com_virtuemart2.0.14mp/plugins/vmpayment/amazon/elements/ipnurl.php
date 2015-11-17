@@ -53,10 +53,10 @@ class JElementIpnURL extends JElement {
 			return '<input type="text" name="' . $control_name . '[' . $name . ']" id="' . $control_name . $name . '" value="' . $value . '" ' . $class . ' ' . $size . ' />';
 		} else {
 			$string = "<div " . $class . ">";
-			$string .= '<div class="ipn-sandbox">' . $http . ' <br /></div>';
+			$string .= '<div >' . $https . ' <br /></div>';
 			if (strcmp($https,$http) !==0){
-				$string .= '<div class="ipn-sandbox">' . vmText::_('VMPAYMENT_AMAZON_OR') . '<br /></div>';
-				$string .= $https;
+				$string .= '<div class="ipn-sandbox">' . vmText::_('VMPAYMENT_AMAZON_OR') . '<br />';
+				$string .= $http;
 				$string .= "</div>";
 			}
 

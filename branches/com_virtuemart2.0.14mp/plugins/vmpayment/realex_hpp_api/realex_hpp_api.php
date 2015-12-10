@@ -1737,6 +1737,8 @@ class plgVmPaymentRealex_hpp_api extends vmPSPlugin {
 			}
 		} else {
 			$msgToShopper = '';
+			$status = $this->_currentMethod->status_canceled;
+
 			if ($realexInterface->isResponseDeclined($xml_response3DSVerifysig)) {
 				$order_history['comments'] = vmText::sprintf('VMPAYMENT_REALEX_HPP_API_PAYMENT_DECLINED', $realexInterface->order['details']['BT']->order_number);
 				$msgToShopper = $xml_response3DSVerifysig->message;
@@ -1746,6 +1748,8 @@ class plgVmPaymentRealex_hpp_api extends vmPSPlugin {
 			} elseif ($realexInterface->isResponseAlreadyProcessed($xml_response3DSVerifysig)) {
 				$order_history['comments'] = $xml_response3DSVerifysig->message;
 				$msgToShopper = $xml_response3DSVerifysig->message;
+				// log this response, but do not change the order status
+				$status = $realexInterface->order['details']['BT']->order_status;
 				/* } elseif ($xml_response and $realexInterface->isResponseInvalidPaymentDetails($xml_response)) {
 
 					$order_history['comments'] =$xml_response->message;
@@ -1761,7 +1765,6 @@ class plgVmPaymentRealex_hpp_api extends vmPSPlugin {
 				$order_history['comments'] = vmText::sprintf('VMPAYMENT_REALEX_HPP_API_PAYMENT_STATUS_CANCELLED', $realexInterface->order['details']['BT']->order_number);
 			}
 			$redirectToCart = true;
-			$status = $this->_currentMethod->status_canceled;
 		}
 
 		$order_history['customer_notified'] = true;

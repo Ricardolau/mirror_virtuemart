@@ -182,7 +182,7 @@ class VirtueMartViewProductdetails extends VmView {
 	}
 	if ($format == 'html') {
 	    // Set Canonic link
-	    $document->addHeadLink($product->canonical, 'canonical', 'rel', '');
+	    $document->addHeadLink(JRoute::_($product->canonical, FALSE), 'canonical', 'rel', '');
 	}
 
 	$pathway->addItem(strip_tags($product->product_name));

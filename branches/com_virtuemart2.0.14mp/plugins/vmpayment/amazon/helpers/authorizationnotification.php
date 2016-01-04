@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Direct Access to ' . basename(__FILE__) . 'is not allo
  */
 class amazonHelperAuthorizationNotification extends amazonHelper {
 
-	public function __construct (OffAmazonPaymentsNotifications_Model_authorizationNotification $authorizationNotification, $method) {
+	public function __construct(OffAmazonPaymentsNotifications_Model_authorizationNotification $authorizationNotification, $method) {
 		parent::__construct($authorizationNotification, $method);
 	}
 
@@ -35,7 +35,7 @@ class amazonHelperAuthorizationNotification extends amazonHelper {
 	 * --
 	 * @return mixed
 	 */
-	function onNotificationUpdateOrderHistory ($order, $payments) {
+	function onNotificationUpdateOrderHistory($order, $payments) {
 		$order_history = array();
 		$amazonState = "";
 		$reasonCode = "";
@@ -182,9 +182,11 @@ class amazonHelperAuthorizationNotification extends amazonHelper {
 	 * @return bool|string
 	 */
 	public function onNotificationNextOperation($order, $payments, $amazonState) {
-		$state = array('Pending', 'Open', 'Declined', 'Closed');
+		$state = array('Pending', 'Open', 'Closed');
 		if (in_array($amazonState, $state)) {
 			return 'onNotificationGetAuthorizationDetails';
+		} elseif($state=="Declined") {
+			return 'cancelPayment';
 		}
 		return false;
 	}
@@ -199,7 +201,7 @@ class amazonHelperAuthorizationNotification extends amazonHelper {
 		return NULL;
 	}
 
-	public function getAmazonId () {
+	public function getAmazonId() {
 		if ($this->amazonData->isSetAuthorizationDetails()) {
 			$authorizationDetails = $this->amazonData->getAuthorizationDetails();
 			if ($authorizationDetails->isSetAmazonAuthorizationId()) {
@@ -209,7 +211,7 @@ class amazonHelperAuthorizationNotification extends amazonHelper {
 		return NULL;
 	}
 
-	public function isCaptureNow () {
+	public function isCaptureNow() {
 		$authorizationDetails = $this->amazonData->getAuthorizationDetails();
 		if ($authorizationDetails->isSetCaptureNow()) {
 			return $authorizationDetails->getCaptureNow();
@@ -222,7 +224,7 @@ class amazonHelperAuthorizationNotification extends amazonHelper {
 		return $this->amazonData->getAuthorizationDetails()->getAmazonAuthorizationId();
 	}
 
-	public function getContents () {
+	public function getContents() {
 
 		$contents = $this->tableStart("Authorization Notification");
 		if ($this->amazonData->isSetAuthorizationDetails()) {

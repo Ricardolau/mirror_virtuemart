@@ -163,7 +163,10 @@
         <param name="status_cancel" class="status_cancel" type="vmorderstate" scope="com_virtuemart"
                default="X"
                label="VMPAYMENT_AMAZON_CONF_STATUS_CANCEL" description="VMPAYMENT_AMAZON_CONF_STATUS_CANCEL_TIP"/>
-
+        <param name="status_refund_declined" class="status_refund_declined" type="vmorderstate" scope="com_virtuemart"
+               default="D"
+               label="VMPAYMENT_AMAZON_CONF_STATUS_REFUND_DECLINED"
+               description="VMPAYMENT_AMAZON_CONF_STATUS_REFUND_DECLINED_TIP"/>
         <!--param name="status_pending" class="erp_mode erp_mode_disabled" type="vmorderstate" scope="com_virtuemart" default="U"
                label="VMPAYMENT_AMAZON_STATUS_PENDINGxxxxxxx" description="VMPAYMENT_AMAZON_STATUS_PENDING_TIP"/-->
 
@@ -265,7 +268,7 @@
 
         <param class="level2" type="vmtitle" default="VMPAYMENT_AMAZON_CONF_TEMPLATE_ADDRESSBOOK"
                description=""/>
-        <param name="addressbook_designWidth" type="text" default="400"
+        <param name="addressbook_designWidth" type="text" default="350"
                label="VMPAYMENT_AMAZON_CONF_ADDRESSBOOK_DESIGNWIDTH"
                description="VMPAYMENT_AMAZON_CONF_DESIGNWIDTH_TIP"/>
 
@@ -276,7 +279,7 @@
         <param class="level2" type="vmtitle" default="VMPAYMENT_AMAZON_CONF_TEMPLATE_WALLET"
                description=""/>
 
-        <param name="wallet_designWidth" type="text" default="400" label="VMPAYMENT_AMAZON_CONF_WALLET_DESIGNWIDTH"
+        <param name="wallet_designWidth" type="text" default="350" label="VMPAYMENT_AMAZON_CONF_WALLET_DESIGNWIDTH"
                description="VMPAYMENT_AMAZON_CONF_DESIGNWIDTH_TIP"/>
         <param name="wallet_designHeight" type="text" default="260" label="VMPAYMENT_AMAZON_CONF_WALLET_DESIGNHEIGHT"
                description="VMPAYMENT_AMAZON_CONF_DESIGNHEIGHT_TIP"/>

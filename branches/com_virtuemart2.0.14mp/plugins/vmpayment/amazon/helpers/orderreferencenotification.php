@@ -66,6 +66,7 @@ class amazonHelperOrderReferenceNotification extends amazonHelper {
 		$orderModel = VmModel::getModel('orders');
 		$orderModel->updateStatusForOneOrder($order['details']['BT']->virtuemart_order_id, $order_history, false);
 	}
+
 	/**
 	 *     *
 	 * if moves to Open, then  allowed operations are: getOrderReferenceDetails, Cancel, CloseOrder, authorize
@@ -194,7 +195,7 @@ class amazonHelperOrderReferenceNotification extends amazonHelper {
 				$contents .= $this->getRow("CaptureStatus: ", $more);
 			}
 			if ($orderReference->isSetCreationTimestamp()) {
-				$contents .= $this->getRow("CreationTimestamp: ", $orderReference->getSoftDescriptor());
+				$contents .= $this->getRow("CreationTimestamp: ", $orderReference->getCreationTimestamp());
 			}
 			if ($orderReference->isSetExpirationTimestamp()) {
 				$contents .= $this->getRow("ExpirationTimestamp: ", $orderReference->getExpirationTimestamp());

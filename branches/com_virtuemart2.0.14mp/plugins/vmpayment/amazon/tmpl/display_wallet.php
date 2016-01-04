@@ -4,7 +4,6 @@
  * Layout for the AMAZON cart
  * @version $Id$
  * @package    VirtueMart
- * @subpackage Cart
  * @author Valerie Isaksen
  *
  * @link http://www.virtuemart.net
@@ -24,7 +23,12 @@ if ($viewData['include_amazon_css']) {
 }
 
 
-
+$js = "
+jQuery(document).ready( function($) {
+	amazonPayment.showAmazonWallet();
+});
+";
+vmJsApi::addJScript('vm.showAmazonWallet', $js);
 
 JHtml::_('behavior.formvalidation');
 
@@ -32,9 +36,9 @@ JHtml::_('behavior.formvalidation');
 <h3><?php echo vmText::_('VMPAYMENT_AMAZON_INVALIDPAYMENTMETHOD') ?></h3>
 <p><?php echo vmText::_('VMPAYMENT_AMAZON_INVALIDPAYMENTMETHOD_CLICK_DECLINE') ?></p>
 	<div id="amazonWalletWidgetDiv" ></div>
-<form method="post" id="updateOrderId" name="updateOrderForm" action="<?php echo JRoute::_('index.php?option=com_virtuemart' , $viewData['useXHTML'], $viewData['useSSL']); ?>">
+<form method="post" id="updateOrderId" name="updateOrderForm" disabled action="<?php echo JRoute::_('index.php?option=com_virtuemart' , $viewData['useXHTML'], $viewData['useSSL']); ?>">
 
-				<button name="updateOrderButton" id="updateOrderId" class="vm-button-correct"><span><?php echo vmText::_('COM_VIRTUEMART_CHECKOUT_TITLE') ?></span></button>
+				<button name="updateOrderButton" id="updateOrderId" class="vm-button"><span><?php echo vmText::_('COM_VIRTUEMART_CHECKOUT_TITLE') ?></span></button>
 				<input type='hidden' name='type' value='vmpayment'/>
 				<input type='hidden' name='name' value='amazon'/>
 				<input type='hidden' name='view' value='plugin'/>

@@ -11,10 +11,6 @@ defined('_JEXEC') or die('Direct Access to ' . basename(__FILE__) . 'is not allo
  * @link http://www.virtuemart.net
  * @copyright Copyright (c) 2004 - ${PHING.VM.RELDATE} VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
- * VirtueMart is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
  *
  */
 class amazonHelperRefundNotification extends amazonHelper {
@@ -55,7 +51,7 @@ class amazonHelperRefundNotification extends amazonHelper {
 		} elseif ($amazonState == 'Declined') {
 			$order_history['customer_notified'] = 0;
 			$order_history['comments'] = vmText::sprintf('VMPAYMENT_AMAZON_COMMENT_STATUS_REFUND_DECLINED', $reasonCode);
-			$order_history['order_status'] = $order['details']['BT']->order_status;
+			$order_history['order_status'] =  $this->_currentMethod->status_refund_declined;
 
 		} elseif ($amazonState == 'Pending') {
 			$order_history['comments'] = vmText::_('VMPAYMENT_AMAZON_COMMENT_STATUS_REFUND_PENDING');

@@ -163,6 +163,7 @@
         <param name="status_cancel" class="status_cancel" type="vmorderstate" scope="com_virtuemart"
                default="X"
                label="VMPAYMENT_AMAZON_CONF_STATUS_CANCEL" description="VMPAYMENT_AMAZON_CONF_STATUS_CANCEL_TIP"/>
+
         <param name="status_refund_declined" class="status_refund_declined" type="vmorderstate" scope="com_virtuemart"
                default="D"
                label="VMPAYMENT_AMAZON_CONF_STATUS_REFUND_DECLINED"

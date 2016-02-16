@@ -396,8 +396,9 @@ return;
 		if (!class_exists('VirtueMartModelCurrency')) {
 			require(JPATH_VM_ADMINISTRATOR . DS . 'models' . DS . 'currency.php');
 		}
-
-		$this->getPaymentCurrency($this->_currentMethod);
+		$html='';
+		//$this->getPaymentCurrency($this->_currentMethod);
+		$this->_currentMethod->payment_currency=$order['details']['BT']->user_currency_id;
 		$email_currency = $this->getEmailCurrency($this->_currentMethod);
 
 		$payment_name = $this->renderPluginName($this->_currentMethod, $order);
@@ -417,7 +418,7 @@ return;
 		$dbValues['paypal_custom'] = $paypalInterface->getContext();
 		$dbValues['cost_per_transaction'] = $this->_currentMethod->cost_per_transaction;
 		$dbValues['cost_percent_total'] = $this->_currentMethod->cost_percent_total;
-		$dbValues['payment_currency'] = $this->_currentMethod->payment_currency;
+		$dbValues['payment_currency'] = $order['details']['BT']->user_currency_id;;
 		$dbValues['email_currency'] = $email_currency;
 		$dbValues['payment_order_total'] = $paypalInterface->getTotal();
 		$dbValues['tax_id'] = $this->_currentMethod->tax_id;

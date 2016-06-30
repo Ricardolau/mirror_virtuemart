@@ -88,7 +88,7 @@ class VirtuemartViewCalc extends VmViewAdmin {
 			}
 
 			$this->countriesList = ShopFunctionsF::renderCountryList($calc->calc_countries,True);
-			$this->statesList = ShopFunctionsF::renderStateList($calc->virtuemart_state_ids,'', True);
+			$this->statesList = ShopFunctionsF::renderStateList($calc->virtuemart_state_ids,'', True, 0, array(), 'virtuemart_state_id', '');
 			$this->manufacturerList= ShopFunctions::renderManufacturerList($calc->virtuemart_manufacturers,true);
 
 			if($this->showVendors()){
@@ -185,7 +185,7 @@ class VirtuemartViewCalc extends VmViewAdmin {
 
 		$answer = $dispatcher->trigger('plgVmAddMathOp', array(&$mathOps));
 
-		$listHTML = vHtml::_('Select.genericlist', $mathOps, 'calc_value_mathop', '', 'calc_value_mathop', 'calc_value_mathop_name', $selected );
+		$listHTML = vHtml::_('Select.genericlist', $mathOps, 'calc_value_mathop', 'style="width:70px;"', 'calc_value_mathop', 'calc_value_mathop_name', $selected );
 		return $listHTML;
 	}
 

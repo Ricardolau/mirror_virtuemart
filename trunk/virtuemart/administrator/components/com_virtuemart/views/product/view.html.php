@@ -65,7 +65,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 
 				$product = $model->getProductSingle($virtuemart_product_id,false);
 				//$user = vFactory::getUser();
-				$superVendor =  vmAccess::isSuperVendor();
+				$superVendor =  vmAccess::getVendorId();
 				if( $superVendor !=1 and $superVendor!=$product->virtuemart_vendor_id){
 					vmdebug('Product view.html.php '.$superVendor,$product->virtuemart_vendor_id);
 					vFactory::getApplication()->redirect( 'index.php?option=com_virtuemart&view=virtuemart', vmText::_('COM_VIRTUEMART_ALERTNOTAUTHOR'), 'error');
@@ -353,9 +353,15 @@ class VirtuemartViewProduct extends VmViewAdmin {
 				}
 			}
 
-			//Get the list of products
-			$productlist = $model->getProductListing(false,false,false,false,true);
-			$this->filter_product = $model->filter_product;
+			$superVendor = vmAccess::isSuperVendor();
+			if(empty($superVendor)){
+				$productlist = array();
+				$this->filter_product = $model->filter_product;
+			} else {
+				//Get the list of products
+				$productlist = $model->getProductListing(false,false,false,false,true);
+				$this->filter_product = $model->filter_product;
+			}
 
 			$now = getdate();
 			$nowstring = $now["hours"].":".substr('0'.$now["minutes"], -2).' '.$now["mday"].".".$now["mon"].".".$now["year"];

@@ -42,23 +42,14 @@ class convertECB {
 		// cache subfolder(group) 'convertECB', cache method: callback
 		$cache= vFactory::getCache('convertECB','callback');
 
-		// save configured lifetime
-		@$lifetime=$cache->lifetime;
 
 		$cache->setLifeTime(360); // check 4 time per day
 
-		// save cache conf
-		$conf = vFactory::getConfig();
-
-		// check if cache is enabled in configuration
-		$cacheactive = $conf->get('caching');
 
 		$cache->setCaching(1); //enable caching
 
 		$globalCurrencyConverter = $cache->call( array( 'convertECB', 'getSetExchangeRates' ),$this->document_address );
 
-		// revert configuration
-		$cache->setCaching($cacheactive);
 
 
 		if(!$globalCurrencyConverter ){

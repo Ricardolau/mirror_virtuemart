@@ -880,7 +880,7 @@ class VmConfig {
 		if(empty(self::$_jpConfig->_raw)){
 			$_value = VirtueMartModelConfig::readConfigFile();
 			if (!$_value) {
-				vmError('Serious error, config file could not be filled with data');
+				vmError('Serious error, config file could not be read');
 				return FALSE;
 			}
 			$_value = join('|', $_value);
@@ -956,7 +956,9 @@ class VmConfig {
 		if (class_exists('JLanguageHelper') && (method_exists('JLanguageHelper', 'getLanguages'))) {
 			$languages = JLanguageHelper::getLanguages('lang_code');
 			$ltag = vFactory::getLanguage()->getTag();
-			self::$vmlangSef = $languages[$ltag]->sef;
+			if(isset($languages[$ltag])){
++				self::$vmlangSef = $languages[$ltag]->sef;
++			}
 			self::$jLangCount = count($languages);
 		}
 

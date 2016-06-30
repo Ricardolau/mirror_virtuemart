@@ -108,6 +108,7 @@ class vmJsApi{
 	public static function writeJS(){
 
 		$html = '';
+		$document = JFactory::getDocument();
 		foreach(self::$_jsAdd as $name => &$jsToAdd){
 
 			if($jsToAdd['written']) continue;
@@ -119,7 +120,7 @@ class vmJsApi{
 					$file = $jsToAdd['script'];
 				}
 
-				if(strpos($file,'/')!==0){
+				if(strpos($file,'/')!==0 and !$jsToAdd['inline']){
 					$file = vmJsApi::setPath($file,false,'');
 				} else if(strpos($file,'//')!==0){
 					$file = vUri::root(true).$file;
@@ -129,10 +130,7 @@ class vmJsApi{
 					vmdebug('writeJS javascript with empty file',$name,$jsToAdd);
 					continue;
 				}
-				$ver = '';
-				if(!empty($jsToAdd['ver'])) $ver = '?vmver='.$jsToAdd['ver'];
 
-				$document = vFactory::getDocument();
 				if($jsToAdd['inline']){
 					//$html .= '<script type="text/javascript" src="'.$file .$ver.'"></script>';
 					/*$content = file_get_contents(VMPATH_ROOT.$file);
@@ -145,6 +143,8 @@ class vmJsApi{
 						//$document->addScript( $script,"text/javascript",$jsToAdd['defer'],$jsToAdd['async'] );
 					}
 				} else {
+					$ver = '';
+					if(!empty($jsToAdd['ver'])) $ver = '?vmver='.$jsToAdd['ver'];
 
 					$document->addScript( $file .$ver,"text/javascript",$jsToAdd['defer'],$jsToAdd['async'] );
 				}
@@ -401,13 +401,13 @@ class vmJsApi{
 jQuery(document).ready(function() { // GALT: Start listening for dynamic content update.
 	// If template is aware of dynamic update and provided a variable let's
 	// set-up the event listeners.
-	if (Virtuemart.container)
+	//if (Virtuemart.container)
 		Virtuemart.updateDynamicUpdateListeners();
 
 }); ");
 	}
 
-	static function JcountryStateList($stateIds, $prefix='') {
+	static function JcountryStateList($stateIds, $prefix='', $suffix='_field') {
 		static $JcountryStateList = array();
 		if (isset($JcountryStateList[$prefix]) or !VmConfig::get ('jsite', TRUE)) {
 			return;
@@ -416,7 +416,7 @@ jQuery(document).ready(function() { // GALT: Start listening for dynamic content
 		self::addJScript('vm.countryState'.$prefix,'
 		vmSiteurl = "'.vUri::root().'";'."\n".'
 		jQuery( function($) {
-			jQuery("#'.$prefix.'virtuemart_country_id_field").vm2front("list",{dest : "#'.$prefix.'virtuemart_state_id_field",ids : "'.$stateIds.'",prefiks : "'.$prefix.'"});
+			jQuery("#'.$prefix.'virtuemart_country_id'.$suffix.'").vm2front("list",{dest : "#'.$prefix.'virtuemart_state_id'.$suffix.'",ids : "'.$stateIds.'",prefiks : "'.$prefix.'"});
 		});	');
 		$JcountryStateList[$prefix] = TRUE;
 		return;
@@ -634,6 +634,11 @@ jQuery(document).ready(function($) {
 		var requ = '';
 		if(r == true){
 			requ = 'required';
+		}
+
+		for	(i = 0; i < regfields.length; i++) {
+			var elem = jQuery('#'+regfields[i]+'_field');
+			elem.attr('class', requ);
 		}
 
 		setDropdownRequiredByResult('virtuemart_country_id','');

@@ -48,7 +48,7 @@ class VirtuemartViewCategory extends VmViewAdmin {
 		$this->user = $user = vFactory::getUser();
 		if ($layoutName == 'edit') {
 
-			$category = $model->getCategory('',false);
+			$category = $model->getCategory('', false, false);
 
 			// Toolbar
 			$text='';

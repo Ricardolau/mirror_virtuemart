@@ -36,10 +36,15 @@ class vFormFieldVmRules extends vFormFieldRules {
 
 		VmConfig::loadConfig();
 		//vHtml::_('behavior.tooltip');
+		VmConfig::loadJLang('com_virtuemart_perms');
 		if(JVM_VERSION<3){
 			return $this->vmRulesJ25();
 		} else {
-			return $this->vmRules();
+			if (version_compare (JVERSION, '3.5.0', 'lt')) {
++				return $this->vmRules();
++			} else {
++				return parent::getInput();
++			}
 		}
 
 	}

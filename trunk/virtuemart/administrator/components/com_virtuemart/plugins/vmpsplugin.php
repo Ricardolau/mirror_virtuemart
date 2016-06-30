@@ -177,7 +177,7 @@ abstract class vmPSPlugin extends vmPlugin {
 		if (!$this->checkConditions ($cart, $method, $cart_prices)) {
 			return FALSE;
 		}
-
+		
 		$cart_prices_name = $this->renderPluginName ($method);
 
 		$this->setCartPrices ($cart, $cart_prices, $method);
@@ -630,6 +630,7 @@ abstract class vmPSPlugin extends vmPlugin {
 				$weight[$to_weight_unit] += (ShopFunctions::convertWeightUnit ($product->product_weight, $product->product_weight_uom, $to_weight_unit) * $product->quantity);
 			}
 		}
+
 		return $weight[$to_weight_unit];
 	}
 
@@ -745,7 +746,7 @@ abstract class vmPSPlugin extends vmPlugin {
 		$plugin_desc = $this->_psType . '_desc';
 		$description = '';
 		$logosFieldName = $this->_psType . '_logos';
-		$logos = $plugin->$logosFieldName;
+		$logos = property_exists($plugin,$logosFieldName)? $plugin->$logosFieldName:array();
 		if (!empty($logos)) {
 			$return = $this->displayLogos ($logos) . ' ';
 		}
@@ -890,25 +891,34 @@ abstract class vmPSPlugin extends vmPlugin {
 	 */
 	static function getPaymentCurrency (&$method, $getCurrency = FALSE) {
 
-		if (!isset($method->payment_currency) or empty($method->payment_currency) or !$method->payment_currency or $getCurrency) {
-			// 	    if (!class_exists('VirtueMartModelVendor')) require(VMPATH_ADMIN . DS . 'models' . DS . 'vendor.php');
-			$vendorId = 1; //VirtueMartModelVendor::getLoggedVendor();
-			$db = vFactory::getDbo ();
+		if (empty($method->payment_currency)) {
+			$vendor_model = VmModel::getModel('vendor');
+			$vendor = $vendor_model->getVendor($method->virtuemart_vendor_id);
+			$method->payment_currency = $vendor->vendor_currency;
+			return $method->payment_currency;
+		} else {
 
-			$q = 'SELECT   `vendor_currency` FROM `#__virtuemart_vendors` WHERE `virtuemart_vendor_id`=' . $vendorId;
-			$db->setQuery ($q);
-			$method->payment_currency = $db->loadResult ();
-		} elseif (isset($method->payment_currency) and $method->payment_currency== -1) {
-			$vendorId = 1;
-			$db = vFactory::getDbo();
-// the select list should include the vendor currency which is the currency in which the product prices are displayed by default.
-			$q  = 'SELECT CONCAT(`vendor_accepted_currencies`, ",",`vendor_currency`) AS all_currencies, `vendor_currency` FROM `#__virtuemart_vendors` WHERE `virtuemart_vendor_id`='.$vendorId;
-			$db->setQuery($q);
-			$vendor_currency = $db->loadAssoc();
-			$mainframe = vFactory::getApplication();
-			$method->payment_currency = $mainframe->getUserStateFromRequest( "virtuemart_currency_id", 'virtuemart_currency_id',JRequest::getInt('virtuemart_currency_id', $vendor_currency['vendor_currency']) );
+			$vendor_model = VmModel::getModel( 'vendor' );
+			$vendor_currencies = $vendor_model->getVendorAndAcceptedCurrencies( $method->virtuemart_vendor_id );
+
+			if(!$selectedUserCurrency) {
+				if($method->payment_currency == -1) {
+					$mainframe = JFactory::getApplication();
+					$selectedUserCurrency = $mainframe->getUserStateFromRequest( "virtuemart_currency_id", 'virtuemart_currency_id', vRequest::getInt( 'virtuemart_currency_id', $vendor_currencies['vendor_currency'] ) );
+				} else {
+					$selectedUserCurrency = $method->payment_currency;
+				}
+			}
+
+			$vendor_currencies['all_currencies'] = explode(',', $vendor_currencies['all_currencies']);
+			if(in_array($selectedUserCurrency,$vendor_currencies['all_currencies'])){
+				$method->payment_currency = $selectedUserCurrency;
+			} else {
+				$method->payment_currency = $vendor_currencies['vendor_currency'];
+			}
+
+			return $method->payment_currency;
 		}
-
 
 	}
 
@@ -1388,8 +1398,7 @@ abstract class vmPSPlugin extends vmPlugin {
 	 *
 	 */
 	public function debugLog($message, $title='', $type = 'message', $doDebug=true) {
-		if ( isset($this->_currentMethod) and isset($this->_currentMethod->debug) and $this->_currentMethod->debug  AND $doDebug) {
-		}
+
 		if ( isset($this->_currentMethod) and !$this->_currentMethod->log and $type !='error') {
 			//Do not log message messages if we are not in LOG mode
 			return;

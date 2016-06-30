@@ -867,7 +867,7 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 										$app -> enqueueMessage('Couldnt delete '.$dst .DS. $file);
 									}
 								}
-								if(!vFile::move($src .DS. $file,$dst .DS. $file)){
+								if(!vFile::copy($src .DS. $file,$dst .DS. $file)){
 									$app = vFactory::getApplication();
 									$app -> enqueueMessage('Couldnt move '.$src .DS. $file.' to '.$dst .DS. $file);
 								}

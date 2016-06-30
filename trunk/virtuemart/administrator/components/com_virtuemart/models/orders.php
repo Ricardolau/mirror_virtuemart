@@ -45,7 +45,9 @@ class VirtueMartModelOrders extends VmModel {
 
 	function populateState () {
 		$type = 'search';
-		$k= 'com_virtuemart.orders.'.$type;
+		$task = vRequest::getCmd('task','');
+		$view = vRequest::getCmd('view','orders');
+		$k= 'com_virtuemart.'.$view.'.'.$task.$type;
 
 		$ts = vRequest::getString($type, false);
 		$app = JFactory::getApplication();
@@ -261,16 +263,16 @@ class VirtueMartModelOrders extends VmModel {
 		$order['history'] = $db->loadObjectList();
 
 		// Get the order items
-$q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name,
-    order_item_sku, i.virtuemart_product_id, product_item_price,
-    product_final_price, product_basePriceWithTax, product_discountedPriceWithoutTax, product_priceWithoutTax, product_subtotal_with_tax, product_subtotal_discount, product_tax, product_attribute, order_status, p.product_available_date, p.product_availability,
-    intnotes, virtuemart_category_id, p.product_mpn
-   FROM (#__virtuemart_order_items i
-   		LEFT JOIN #__virtuemart_products p
-   		ON p.virtuemart_product_id = i.virtuemart_product_id)
-   LEFT JOIN #__virtuemart_product_categories c
-   ON p.virtuemart_product_id = c.virtuemart_product_id
-   WHERE `virtuemart_order_id`="'.$virtuemart_order_id.'" group by `virtuemart_order_item_id`';
+	$q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name,
+		order_item_sku, i.virtuemart_product_id, product_item_price,
+		product_final_price, product_basePriceWithTax, product_discountedPriceWithoutTax, product_priceWithoutTax, product_subtotal_with_tax, product_subtotal_discount, product_tax, product_attribute, order_status, p.product_available_date, p.product_availability,
+		intnotes, virtuemart_category_id, p.product_mpn
+	   FROM (#__virtuemart_order_items i
+			LEFT JOIN #__virtuemart_products p
+			ON p.virtuemart_product_id = i.virtuemart_product_id)
+	   LEFT JOIN #__virtuemart_product_categories c
+	   ON p.virtuemart_product_id = c.virtuemart_product_id
+	   WHERE `virtuemart_order_id`="'.$virtuemart_order_id.'" group by `virtuemart_order_item_id`';
 //group by `virtuemart_order_id`'; Why ever we added this, it makes trouble, only one order item is shown then.
 // without group by we get the product 3 times, when it is in 3 categories and similar, so we need a group by
 //lets try group by `virtuemart_order_item_id`
@@ -284,13 +286,16 @@ $q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name,
 			$ids = array();
 
 			$product = $pModel->getProduct($item->virtuemart_product_id);
-			$pvar = get_object_vars($product);
+			if($product){
+				$pvar = get_object_vars($product);
 
-			foreach ( $pvar as $k => $v) {
-				if (!isset($item->$k) and isset($product->$k) and '_' != substr($k, 0, 1)) {
-					$item->$k = $v;
+				foreach ( $pvar as $k => $v) {
+					if (!isset($item->$k) and isset($product->$k) and '_' != substr($k, 0, 1)) {
+						$item->$k = $v;
+					}
 				}
 			}
+
 
 			if(!empty($item->product_attribute)){
 				//Format now {"9":7,"20":{"126":{"comment":"test1"},"127":{"comment":"t2"},"128":{"comment":"topic 3"},"129":{"comment":"4 44 4 4 44 "}}}
@@ -336,8 +341,7 @@ $q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name,
 	 * @param $uid integer Optional user ID to get the orders of a single user
 	 * @param $_ignorePagination boolean If true, ignore the Joomla pagination (for embedded use, default false)
 	 */
-	public function getOrdersList($uid = 0, $noLimit = false)
-	{
+	public function getOrdersList($uid = 0, $noLimit = false) {
 // 		vmdebug('getOrdersList');
 		$tUserInfos = $this->getTable('userinfos');
 		$this->_noLimit = $noLimit;
@@ -370,35 +374,28 @@ $q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name,
 
 		$where = array();
 
-
-		$virtuemart_vendor_id = vmAccess::isSuperVendor();
-		if(vmAccess::manager('managevendors')){
-			vmdebug('Vendor has managevendors and should see all');
-			$virtuemart_vendor_id = vRequest::get('virtuemart_vendor_id',false);
-			if($virtuemart_vendor_id){
-				$where[]= ' o.virtuemart_vendor_id = "'.$virtuemart_vendor_id.'" ';
+		if(empty($uid)){
+			if(VmConfig::get('multix','none')!='none'){
+				if(vmAccess::manager('managevendors')){
+					$virtuemart_vendor_id = vRequest::get('virtuemart_vendor_id',vmAccess::isSuperVendor());
+				} else if( vmAccess::manager('orders')){
+					$virtuemart_vendor_id = vmAccess::isSuperVendor();
+				} else {
+					$virtuemart_vendor_id = false;
+				}
+				if($virtuemart_vendor_id){
+					$where[]= ' o.virtuemart_vendor_id = ' . (int)$virtuemart_vendor_id.' ';
+				}
 			}
-			if(!empty($uid)){
-				$where[]= ' u.virtuemart_user_id = ' . (int)$uid.' ';
-			}
-		}
-		else if( vmAccess::manager('orders')){
-			
-			vmdebug('Vendor is manager and should only see its own orders venodorId '.$virtuemart_vendor_id);
-			if(!empty($virtuemart_vendor_id)){
-				$where[]= ' (o.virtuemart_vendor_id = '.$virtuemart_vendor_id.' OR u.virtuemart_user_id = ' . (int)$uid.') ';
-				$uid = 0;
-			} else {
-				//We map here as fallback to vendor 1.
-				$where[]= ' u.virtuemart_user_id = ' . (int)$uid;
+			if(!vmAccess::manager('orders')){
+				//A normal user is only allowed to see its own orders, we map $uid to the user id
+				$user = JFactory::getUser();
+				$uid = (int)$user->id;
+				if(!empty($uid)){
+					$where[]= ' u.virtuemart_user_id = ' . (int)$uid.' ';
+				}
 			}
 		} else {
-			//A normal user is only allowed to see its own orders, we map $uid to the user id
-			$user = vFactory::getUser();
-			$uid = (int)$user->id;
-			$where = array();
-		}
-		if(!empty($uid)){
 			$where[]= ' u.virtuemart_user_id = ' . (int)$uid.' ';
 		}
 
@@ -1004,8 +1001,9 @@ $q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name,
 		if (!class_exists('CurrencyDisplay')) {
 			require(VMPATH_ADMIN . '/helpers/currencydisplay.php');
 		}
+
 		if (isset($_cart->pricesCurrency)) {
-			$_orderData->user_currency_id = $_cart->paymentCurrency ;//$this->getCurrencyIsoCode($_cart->pricesCurrency);
+			$_orderData->user_currency_id = $_cart->pricesCurrency ;
 			$currency = CurrencyDisplay::getInstance($_orderData->user_currency_id);
 			if($_orderData->user_currency_id != $_orderData->order_currency){
 				$_orderData->user_currency_rate =   $currency->convertCurrencyTo($_orderData->user_currency_id ,1.0,false);
@@ -1013,6 +1011,17 @@ $q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name,
 				$_orderData->user_currency_rate=1.0;
 			}
 		}
+
+		if (isset($_cart->paymentCurrency)) {
+			$_orderData->payment_currency_id = $_cart->paymentCurrency ;//$this->getCurrencyIsoCode($_cart->pricesCurrency);
+			$currency = CurrencyDisplay::getInstance($_orderData->payment_currency_id);
+			if($_orderData->payment_currency_id != $_orderData->order_currency){
+				$_orderData->payment_currency_rate =   $currency->convertCurrencyTo($_orderData->payment_currency_id ,1.0,false);
+			} else {
+				$_orderData->payment_currency_rate=1.0;
+			}
+		}
+
 
 		$_orderData->virtuemart_paymentmethod_id = $_cart->virtuemart_paymentmethod_id;
 		$_orderData->virtuemart_shipmentmethod_id = $_cart->virtuemart_shipmentmethod_id;
@@ -1035,7 +1044,7 @@ $q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name,
 			$db = vFactory::getDbo();
 			$q = 'SELECT * FROM `#__virtuemart_orders` ';
 			if(!empty($_cart->virtuemart_order_id)){
-				$db->setQuery($q . ' WHERE `order_number`= "'.$_cart->virtuemart_order_id.'" AND `order_status` = "P" ');
+				$db->setQuery($q . ' WHERE `virtuemart_order_id`= "'.$_cart->virtuemart_order_id.'" AND `order_status` = "P" ');
 				$order = $db->loadAssoc();
 				if(!$order){
 					vmdebug('This should not happen, there is a cart with order_number, but not order stored '.$_cart->virtuemart_order_id);
@@ -1059,7 +1068,7 @@ $q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name,
 				}
 
 				//Dirty hack
-				$this->removeOrderItems($order['virtuemart_order_id']);
+				$this->removeOrderItems($order['virtuemart_order_id'],false);
 			}
 		}
 
@@ -1604,7 +1613,7 @@ $q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name,
 	 * @param integer $uid The user ID. Defaults to 0 for guests
 	 * @return string A unique ordernumber
 	 */
-	static public function generateOrderNumber($uid = 0,$length=4, $virtuemart_vendor_id=1) {
+	static public function generateOrderNumber($uid = 0,$length=5, $virtuemart_vendor_id=1) {
 		return self::genStdOrderNumber($virtuemart_vendor_id, $length);
 	}
 
@@ -1853,9 +1862,9 @@ $q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name,
 	 *remove product from order item table
 	*@var $virtuemart_order_id Order to clear
 	*/
-	function removeOrderItems ($virtuemart_order_id){
+	function removeOrderItems ($virtuemart_order_id, $auth = true){
 
-		if(!vmAccess::manager('orders.edit')) {
+		if($auth and !vmAccess::manager('orders.edit')) {
 			return false;
 		}
 		$q ='DELETE from `#__virtuemart_order_items` WHERE `virtuemart_order_id` = ' .(int) $virtuemart_order_id;

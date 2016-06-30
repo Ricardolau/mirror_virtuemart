@@ -391,6 +391,9 @@ class VirtueMartModelUser extends VmModel {
 			if ($doUserActivation ) {
 				$user->set('activation', vRequest::getHash( vmCrypt::getHumanToken(VmConfig::get('randOrderPw',8))));
 				$user->set('block', '1');
+				if ($useractivation == '2') {
+					$user->set('guest', '1');
+				}
 				//$user->set('lastvisitDate', '0000-00-00 00:00:00');
 			}
 		}
@@ -523,7 +526,7 @@ class VirtueMartModelUser extends VmModel {
 		}
 		if(empty($alreadyStoredUserData->customer_number)){
 			if(empty($data['customer_number'])){
-				$data['customer_number'] = strtoupper(substr($data['username'],0,2)).substr(md5($data['username']),0,9);
+				$data['customer_number'] = strtoupper(substr($data['username'],0,2)).substr(md5($data['username']),0,7);
 				//We set this data so that vmshopper plugin know if they should set the customer number
 				$data['customer_number_bycore'] = 1;
 			}

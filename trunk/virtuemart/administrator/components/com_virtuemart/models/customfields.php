@@ -249,7 +249,7 @@ class VirtueMartModelCustomfields extends VmModel {
 			$classBox = 'class="readonly"';
 		}
 		$linkLabel = $line['parent_id'] .'->'. $line['vm_product_id'].' ';
-		$html = '<tr class="row'.(($i+1)%2).'">';
+		$html = '<tr class="row'.(($i+1)%2).' removable">';
 		$html .= '<td>'.vHtml::_('link', JRoute::_('index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id='.$child->virtuemart_product_id), $linkLabel.$child->slug, array('title' => vmText::_('COM_VIRTUEMART_EDIT').' '.$child->slug)).'</td>';
 		if($showSku) $html .= '<td><input '.$readonly.' '.$classBox.' type="text" name="childs['.$child->virtuemart_product_id.'][product_sku]" id="child'.$child->virtuemart_product_id.'product_sku" size="20" maxlength="64" value="'.$child->product_sku .'" /></td>';
 		$html .= '<td><input '.$readonly.' '.$classBox.' type="text" name="childs['.$child->virtuemart_product_id.'][product_gtin]" id="child'.$child->virtuemart_product_id.'product_gtin" size="13" maxlength="13" value="'.$child->product_gtin .'" /></td>';
@@ -333,10 +333,7 @@ class VirtueMartModelCustomfields extends VmModel {
 		//the option "is_cart_attribute" gives the possibility to set a price, there is no sense to set a price,
 		//if the custom is not stored in the order.
 		if ($field->is_input) {
-			if(!class_exists('VirtueMartModelVendor')) require(VMPATH_ADMIN.DS.'models'.DS.'vendor.php');
-			if(!class_exists('VirtueMartModelCurrency')) require(VMPATH_ADMIN.DS.'models'.DS.'currency.php');
 			$vendor_model = VmModel::getModel('vendor');
-			//$virtuemart_vendor_id = 1;
 			$vendor = $vendor_model->getVendor($virtuemart_vendor_id);
 			$currency_model = VmModel::getModel('currency');
 			$vendor_currency = $currency_model->getCurrency($vendor->vendor_currency);
@@ -482,7 +479,7 @@ class VirtueMartModelCustomfields extends VmModel {
 					$html .= '<textarea name="field[' . $row . '][selectoptions]['.$k.'][values]" rows="5" cols="35" style="float:none;margin:5px 5px 0;" >'.$soption->values.'</textarea>';
 
 					if($k>0){
-						$html .='<span class="vmicon vmicon-16-remove"></span>';
+						$html .='<span class="vmicon vmicon-16-remove 4remove"></span>';
 					} else {
 
 					}
@@ -551,7 +548,8 @@ class VirtueMartModelCustomfields extends VmModel {
 				$html .= '</div>
 					</div><div class="clear"></div>';
 				//vmdebug('my $field->selectoptions',$field->selectoptions,$field->options);
-				$html .= '<table id="syncro">';
+				$html .= '<table id="mvo">';
+				$html .= '<thead>';
 				$html .= '<tr>
 <th style="text-align: left !important;width:130px;">#</th>';
 				if($showSku){
@@ -565,7 +563,8 @@ class VirtueMartModelCustomfields extends VmModel {
 					$html .= '<th>'.vmText::_('COM_VIRTUEMART_'.strtoupper($option->voption)).'</th>';
 				}
 				$html .= '</tr>';
-
+				$html .= '</thead>';
+				$html .= '<tbody id="syncro">';
 
 
 				if(isset($childIds[$product_id])){
@@ -574,9 +573,17 @@ class VirtueMartModelCustomfields extends VmModel {
 					}
 				}
 
-
+				$html .= '</tbody>';
 				$html .= '</table>';
 
+				$jsCsort = "
+	nextCustom =".$i.";
+
+	jQuery(document).ready(function(){
+		jQuery('#syncro').sortable({cursorAt: { top: 0, left: 0 },handle: '.vmicon-16-move'});
+});
+";
+				vmJsApi::addJScript('cvSort',$jsCsort);
 				return $html;
 				// 					return 'Automatic Childvariant creation (later you can choose here attributes to show, now product name) </td><td>';
 				break;
@@ -718,14 +725,14 @@ class VirtueMartModelCustomfields extends VmModel {
 
 			/* related category*/
 			case 'Z':
-				if (!$product_id or empty($field->customfield_value)) {
+				if (empty($field->customfield_value)) {
 					return '';
 				} // special case it's category ID !
 
 				$q = 'SELECT * FROM `#__virtuemart_categories_' . VmConfig::$vmlang . '` INNER JOIN `#__virtuemart_categories` AS p using (`virtuemart_category_id`) WHERE `virtuemart_category_id`= "' . (int)$field->customfield_value . '" ';
 				$db = vFactory::getDbo();
 				$db->setQuery ($q);
-				//echo $db->_sql;
+
 				if ($category = $db->loadObject ()) {
 					$q = 'SELECT `virtuemart_media_id` FROM `#__virtuemart_category_medias` WHERE `virtuemart_category_id`= "' . (int)$field->customfield_value . '" ';
 					$db->setQuery ($q);

@@ -222,6 +222,7 @@ class VirtueMartModelProduct extends VmModel {
 
 		//$this->virtuemart_vendor_id = vmAccess::isSuperVendor();
 		$this->virtuemart_vendor_id = vmAccess::getVendorId();
+
 		$this->__state_set = true;
 	}
 
@@ -288,6 +289,20 @@ class VirtueMartModelProduct extends VmModel {
 
 		$langFback = ( !VmConfig::get('prodOnlyWLang',false) and VmConfig::$defaultLang!=VmConfig::$vmlang and VmConfig::$langCount>1 );
 
+		if (!empty($this->searchcustoms)) {
+			$joinCustom = TRUE;
+			foreach ($this->searchcustoms as $key => $searchcustom) {
+				if(empty($searchcustom)) continue;
+				$custom_search[] = '(pf.`virtuemart_custom_id`="' . (int)$key . '" and pf.`customfield_value` like "%' . $db->escape ($searchcustom, TRUE) . '%")';
+				//$custom_search_value[] = 'pf.`customfield_value` like "%' . $db->escape ($searchcustom, TRUE) . '%"';
+				//$custom_search_key[] = 'pf.`virtuemart_custom_id`="' . (int)$key . '"';
+			}
+			if(!empty($custom_search)){
+				$where[] = " ( " . implode (' OR ', $custom_search) . " ) ";
+				//$where[] = " ( " . implode (' AND ', $custom_search_value) . " AND (".implode (' OR ', $custom_search_key).")) ";
+			}
+		}
+
 		if (!empty($this->keyword) and $this->keyword !== '' and $group === FALSE) {
 
 			$keyword = vRequest::filter(html_entity_decode($this->keyword, ENT_QUOTES, "UTF-8"),FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
@@ -338,15 +353,6 @@ class VirtueMartModelProduct extends VmModel {
 				$langFields[] = 'product_name';
 				//If they have no check boxes selected it will default to product name at least.
 			}
-		}
-
-
-		if (!empty($this->searchcustoms)) {
-			$joinCustom = TRUE;
-			foreach ($this->searchcustoms as $key => $searchcustom) {
-				$custom_search[] = '(pf.`virtuemart_custom_id`="' . (int)$key . '" and pf.`customfield_value` like "%' . $db->escape ($searchcustom, TRUE) . '%")';
-			}
-			$where[] = " ( " . implode (' OR ', $custom_search) . " ) ";
 		}
 
 		if($isSite and !VmConfig::get('use_as_catalog',0)) {
@@ -620,6 +626,10 @@ class VirtueMartModelProduct extends VmModel {
 
 		$select = ' p.`virtuemart_product_id`'.$ff_select_price.$selectLang.' FROM `#__virtuemart_products` as p ';
 
+		if ($this->searchcustoms) {
+			$joinedTables[] = ' INNER JOIN `#__virtuemart_product_customfields` as pf ON p.`virtuemart_product_id` = pf.`virtuemart_product_id` ';
+		}
+
 		if ($joinShopper == TRUE) {
 			$joinedTables[] = ' LEFT JOIN `#__virtuemart_product_shoppergroups` as ps ON p.`virtuemart_product_id` = `ps`.`virtuemart_product_id` ';
 			//$joinedTables[] = ' LEFT OUTER JOIN `#__virtuemart_shoppergroups` as s ON s.`virtuemart_shoppergroup_id` = `#__virtuemart_product_shoppergroups`.`virtuemart_shoppergroup_id` ';
@@ -646,9 +656,6 @@ class VirtueMartModelProduct extends VmModel {
 			$joinedTables[] = ' LEFT JOIN `#__virtuemart_product_prices` as pp ON p.`virtuemart_product_id` = pp.`virtuemart_product_id` ';
 		}
 
-		if ($this->searchcustoms) {
-			$joinedTables[] = ' LEFT JOIN `#__virtuemart_product_customfields` as pf ON p.`virtuemart_product_id` = pf.`virtuemart_product_id` ';
-		}
 
 		if ($this->searchplugin !== 0) {
 			if (!empty($PluginJoinTables)) {
@@ -785,16 +792,16 @@ class VirtueMartModelProduct extends VmModel {
 			}
 		}
 
-		$this->setState ('limit', $limit);
-		$this->setState ($limitString, $limit);
+		$this->setState ('limit', (int)$limit);
+		$this->setState ($limitString, (int)$limit);
 		$this->_limit = $limit;
 
 		//There is a strange error in the frontend giving back 9 instead of 10, or 24 instead of 25
 		//This functions assures that the steps of limitstart fit with the limit
 		$limitStart = ceil ((float)$limitStart / (float)$limit) * $limit;
 
-		$this->setState ('limitstart', $limitStart);
-		$this->setState ($limitStartString, $limitStart);
+		$this->setState ('limitstart', (int)$limitStart);
+		$this->setState ($limitStartString, (int)$limitStart);
 
 		$this->_limitStart = $limitStart;
 
@@ -863,6 +870,7 @@ class VirtueMartModelProduct extends VmModel {
 				return false;
 			} else {
 				//vmTime('getProduct return cached clone','getProduct');
+				//vmdebug('getProduct cached',self::$_products[$checkedProductKey[1]]->prices);
 				return clone(self::$_products[$checkedProductKey[1]]);
 			}
 		}
@@ -947,9 +955,9 @@ class VirtueMartModelProduct extends VmModel {
 			$child->prices = $child->allPrices[$child->selectedPrice];
 		}
 
-		if (empty($child->product_template)) {
+		/*if (empty($child->product_template)) {
 			$child->product_template = VmConfig::get ('producttemplate');
-		}
+		}*/
 
 		if(!empty($child->canonCatId) ) {
 			// Add the product link  for canonical
@@ -999,14 +1007,19 @@ class VirtueMartModelProduct extends VmModel {
 			else if ($product_available_date != '0000-00-00' and $current_date < $product_available_date) {
 				$child->availability = vmText::_('COM_VIRTUEMART_PRODUCT_AVAILABLE_DATE') .': '. vHtml::_('date', $child->product_available_date, vmText::_('DATE_FORMAT_LC4'));
 			}
+
+			if(!isset($child->customfields)){
+				$child->customfields = false;
+			}
 			self::$_products[$productKey] = $child;
 		}
 
 		if(!self::$_products[$productKey]){
 			return false;
 		} else {
+			//vmdebug('getProduct fresh',$child);
 			//vmTime('getProduct loaded ','getProduct');
-			return clone(self::$_products[$productKey]);
+			return $child;//clone(self::$_products[$productKey]);
 		}
 
 	}
@@ -1063,6 +1076,7 @@ class VirtueMartModelProduct extends VmModel {
 
 		$productId = $product->virtuemart_product_id===0? $this->_id:$product->virtuemart_product_id;
 		$product->allPrices = $this->loadProductPrices($productId,$virtuemart_shoppergroup_ids,$front);
+
 		$i = 0;
 		$runtime = microtime (TRUE) - $this->starttime;
 		$product_parent_id = $product->product_parent_id;
@@ -1104,7 +1118,7 @@ class VirtueMartModelProduct extends VmModel {
 		$product->selectedPrice = null;
 		if(!empty($product->allPrices) and is_array($product->allPrices)){
 			$emptySpgrpPrice = 0;
-			//vmdebug('Set selectedPrice to ',$product->allPrices);
+
 			foreach($product->allPrices as $k=>$price){
 
 				if(empty($price['price_quantity_start'])){
@@ -1592,6 +1606,7 @@ class VirtueMartModelProduct extends VmModel {
 			$orderByName = '`l`.product_name, virtuemart_product_id';
 			$whereorderByName = '`l`.product_name';
 			$orderByValue = $product->product_name;
+			//$orderByValue = $db->escape($product->product_name);
 			if($pos){
 				$orderByName = trim(substr ($queryArray[3],($pos+8)) );
 
@@ -1651,7 +1666,7 @@ class VirtueMartModelProduct extends VmModel {
 			foreach ($neighbors as &$neighbor) {
 
 				if(!empty($alreadyFound)) $alreadyFound = 'AND p.`virtuemart_product_id`!="'.$alreadyFound.'"';
-				$qm = $alreadyFound.' AND '.$whereorderByName.' '.$op.' "'.$orderByValue.'"  ORDER BY '.$orderByName.' LIMIT 1';
+				$qm = $alreadyFound.' AND '.$whereorderByName.' '.$op.' "'.$db->quote($orderByValue).'"  ORDER BY '.$orderByName.' LIMIT 1';
 				$db->setQuery ($q.$qm);
 				//vmdebug('getneighbors '.$q.$qm);
 				if ($result = $db->loadAssocList ()) {

@@ -363,6 +363,24 @@ class InstallationModelConfiguration extends JModelBase
 			return false;
 		}
 
+		//By VirtueMart set default language, due this method we know which language was selected in the installation
+		$session = JFactory::getSession();
+		$options = $session->get('setup.options',false);
+		$langTag = false;
+		if(isset($options['language'])){
+			$langTag = $options['language'];
+		}
+		if($langTag and $langTag!='en-GB'){
+			$q = 'Select `extension_id` FROM `#__extensions` WHERE `element`="com_languages" ';
+			$db->setQuery($q);
+			$res = $db->loadResult();
+			if($res){
+				$q = 'UPDATE `#__extensions` SET `params`="{\"admin_language\":\"'.$langTag.'\",\"language\":\"'.$langTag.'\"}" WHERE  `extension_id`='.$res;
+				$db->setQuery($q);
+				$db->query();
+			}
+		}
+
 		return true;
 	}
 }

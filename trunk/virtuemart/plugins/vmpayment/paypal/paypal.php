@@ -250,6 +250,7 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 
 		foreach ($this->methods as $this->_currentMethod) {
 			if ($this->_currentMethod->paypalproduct == 'exp') {
+				$this->_currentMethod->payment_currency = $this->getPaymentCurrency($this->_currentMethod);
 				$paypalInterface = $this->_loadPayPalInterface();
 				$product = $paypalInterface->getExpressProduct();
 				$productDisplayHtml = $this->renderByLayout('expproduct',
@@ -274,14 +275,13 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 	 * @param bool               $from_cart
 	 * @return bool|null
 	 */
-	function plgVmDisplayLogin(VirtuemartViewUser $user, &$html, $from_cart = FALSE) {
+	function plgVmDisplayLogin(VmView $view, &$html, $from_cart = FALSE) {
 
 		// only to display it in the cart, not in list orders view
 		if (!$from_cart) {
 			return NULL;
 		}
 
-		$vendorId = 1;
 		if (!class_exists('VirtueMartCart')) {
 			require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');
 		}
@@ -335,6 +335,8 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 		}
 		if ($selectedMethod->paypalproduct == 'exp') {
 			$this->_currentMethod = $selectedMethod;
+
+			$this->_currentMethod->payment_currency = $this->getPaymentCurrency($this->_currentMethod);
 			$paypalExpInterface = $this->_loadPayPalInterface();
 			$paypalExpInterface->loadCustomerData();
 
@@ -365,6 +367,7 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 		$html = '';
 		foreach ($this->methods as $this->_currentMethod) {
 			if ($this->_currentMethod->paypalproduct == 'exp') {
+				$this->_currentMethod->payment_currency = $this->getPaymentCurrency($this->_currentMethod);
 				$paypalInterface = $this->_loadPayPalInterface();
 
 				$button = $paypalInterface->getExpressCheckoutButton();
@@ -381,6 +384,41 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 		}
 		return $html;
 	}
+
+	static function getPaymentCurrency (&$method, $selectedUserCurrency = false) {
+
+		if (empty($method->payment_currency)) {
+			$vendor_model = VmModel::getModel('vendor');
+			$vendor = $vendor_model->getVendor($method->virtuemart_vendor_id);
+			$method->payment_currency = $vendor->vendor_currency;
+			return $method->payment_currency;
+		} else {
+
+			$vendor_model = VmModel::getModel( 'vendor' );
+			$vendor_currencies = $vendor_model->getVendorAndAcceptedCurrencies( $method->virtuemart_vendor_id );
+
+			if(!$selectedUserCurrency) {
+				if($method->payment_currency == -1) {
+					$mainframe = JFactory::getApplication();
+					$selectedUserCurrency = $mainframe->getUserStateFromRequest( "virtuemart_currency_id", 'virtuemart_currency_id', vRequest::getInt( 'virtuemart_currency_id', $vendor_currencies['vendor_currency'] ) );
+				} else {
+					$selectedUserCurrency = $method->payment_currency;
+				}
+			}
+
+			$vendor_currencies['all_currencies'] = explode(',', $vendor_currencies['all_currencies']);
+			if(in_array($selectedUserCurrency,$vendor_currencies['all_currencies'])){
+				$method->payment_currency = $selectedUserCurrency;
+			} else {
+				$method->payment_currency = $vendor_currencies['vendor_currency'];
+			}
+
+			return $method->payment_currency;
+		}
+
+	}
+
+
 
 	/**
 	 *
@@ -404,16 +442,18 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 			require(VMPATH_ADMIN . DS . 'models' . DS . 'currency.php');
 		}
 		$html='';
-		//$this->getPaymentCurrency($this->_currentMethod);
-		$this->_currentMethod->payment_currency=$order['details']['BT']->user_currency_id;
+		$this->_currentMethod->payment_currency = $this->getPaymentCurrency($this->_currentMethod,$order['details']['BT']->payment_currency_id);
+		//$this->_currentMethod->payment_currency=$order['details']['BT']->user_currency_id;
 		$email_currency = $this->getEmailCurrency($this->_currentMethod);
 
 		$payment_name = $this->renderPluginName($this->_currentMethod, $order);
 
 		$paypalInterface = $this->_loadPayPalInterface();
-		$paypalInterface->debugLog('order number: ' . $order['details']['BT']->order_number, 'plgVmConfirmedOrder', 'message');
+
+		$paypalInterface->debugLog('order number: ' . $order['details']['BT']->order_number, 'plgVmConfirmedOrder', 'debug');
 		$paypalInterface->setCart($cart);
 		$paypalInterface->setOrder($order);
+
 		$paypalInterface->setTotal($order['details']['BT']->order_total);
 		$paypalInterface->loadCustomerData();
 
@@ -425,14 +465,14 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 		$dbValues['paypal_custom'] = $paypalInterface->getContext();
 		$dbValues['cost_per_transaction'] = $this->_currentMethod->cost_per_transaction;
 		$dbValues['cost_percent_total'] = $this->_currentMethod->cost_percent_total;
-		$dbValues['payment_currency'] = $order['details']['BT']->user_currency_id;;
+		$dbValues['payment_currency'] = $this->_currentMethod->payment_currency;
 		$dbValues['email_currency'] = $email_currency;
 		$dbValues['payment_order_total'] = $paypalInterface->getTotal();
 		$dbValues['tax_id'] = $this->_currentMethod->tax_id;
 		$this->storePSPluginInternalData($dbValues);
 		VmConfig::loadJLang('com_virtuemart_orders', TRUE);
 
-		$paypalInterface->debugLog('Amount/Currency stored ' . $dbValues['payment_order_total'].' '.$dbValues['payment_currency'], 'plgVmConfirmedOrder', 'message');
+		$paypalInterface->debugLog('Amount/Currency stored ' . $dbValues['payment_order_total'].' paymentcurrency '.$dbValues['payment_currency'].' orderusercurrency'.$order['details']['BT']->user_currency_id, 'plgVmConfirmedOrder', 'message');
 
 		if ($this->_currentMethod->paypalproduct == 'std') {
 			$html = $paypalInterface->ManageCheckout();
@@ -563,32 +603,40 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 		if (!$this->selectedThisElement($this->_currentMethod->payment_element)) {
 			return FALSE;
 		}
-		$this->getPaymentCurrency($this->_currentMethod);
-		$paymentCurrencyId = $this->_currentMethod->payment_currency;
+
+		$paymentCurrencyId = $this->getPaymentCurrency($this->_currentMethod);
 	}
 
 	function plgVmgetEmailCurrency($virtuemart_paymentmethod_id, $virtuemart_order_id, &$emailCurrencyId) {
 
-		if (!($this->_currentMethod = $this->getVmPluginMethod($virtuemart_paymentmethod_id))) {
+		if (!($method = $this->getVmPluginMethod($virtuemart_paymentmethod_id))) {
 			return NULL; // Another method was selected, do nothing
 		}
-		if (!$this->selectedThisElement($this->_currentMethod->payment_element)) {
+		if (!$this->selectedThisElement($method->payment_element)) {
 			return FALSE;
 		}
-		if (!($payments = $this->_getPaypalInternalData($virtuemart_order_id))) {
+		/*if (!($payments = $this->_getPaypalInternalData($virtuemart_order_id))) {
 			// JError::raiseWarning(500, $db->getErrorMsg());
 			return '';
-		}
-		if (empty($payments[0]->email_currency)) {
-			$vendorId = 1; //VirtueMartModelVendor::getLoggedVendor();
-			$db = JFactory::getDBO();
-			$q = 'SELECT   `vendor_currency` FROM `#__virtuemart_vendors` WHERE `virtuemart_vendor_id`=' . $vendorId;
-			$db->setQuery($q);
-			$emailCurrencyId = $db->loadResult();
-		} else {
-			$emailCurrencyId = $payments[0]->email_currency;
-		}
+		}*/
+		$emailCurrencyId = $this -> getEmailCurrency($method);
+		return $emailCurrencyId;
 
+	}
+
+	function getEmailCurrency (&$method) {
+
+		if(empty($method->email_currency) or $method->email_currency == 'vendor'){
+			$vendor_model = VmModel::getModel('vendor');
+			$vendor = $vendor_model->getVendor($method->virtuemart_vendor_id);
+			$emailCurrencyId = $vendor->vendor_currency;
+		} else if($method->email_currency == 'payment'){
+			$emailCurrencyId = $this->getPaymentCurrency($method);
+		}
+		else if($method->email_currency == 'user'){
+
+		}
+		return $emailCurrencyId;
 	}
 
 	/**
@@ -630,18 +678,23 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 		if (!($payments = $this->getDatasByOrderNumber($order_number))) {
 			return '';
 		}
-		$payment_name = $this->renderPluginName($this->_currentMethod);
-		$payment = end($payments);
 
 		VmConfig::loadJLang('com_virtuemart');
 		$orderModel = VmModel::getModel('orders');
 		$order = $orderModel->getOrder($virtuemart_order_id);
+
+		$this->_currentMethod->payment_currency = $this->getPaymentCurrency($this->_currentMethod,$order['details']['BT']->payment_currency_id);
+		$payment_name = $this->renderPluginName($this->_currentMethod);
+		$payment = end($payments);
+
+
 		// to do: this
-		vmdebug('plgVmOnPaymentResponseReceived', $payment);
+		$this->debugLog($payment, 'plgVmOnPaymentResponseReceived', 'debug', false);
 		if (!class_exists('CurrencyDisplay')) {
 			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');
 		}
-		$currency = CurrencyDisplay::getInstance('', $order['details']['BT']->order_currency);
+		//$currency = CurrencyDisplay::getInstance('', $order['details']['BT']->order_currency);
+		$currency = CurrencyDisplay::getInstance('', $order['details']['BT']->payment_currency_id);
 		$paypal_data = new stdClass();
 		if ($payment->paypal_fullresponse) {
 			$paypal_data = json_decode($payment->paypal_fullresponse);
@@ -725,6 +778,8 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 		$orderModel = VmModel::getModel('orders');
 		$order = $orderModel->getOrder($virtuemart_order_id);
 
+		$this->_currentMethod->payment_currency = $this->getPaymentCurrency($this->_currentMethod,$order['details']['BT']->payment_currency_id);
+
 		$paypalInterface = $this->_loadPayPalInterface();
 		$paypalInterface->setOrder($order);
 		$paypalInterface->debugLog($paypal_data, 'PaymentNotification, paypal_data:', 'debug');
@@ -750,26 +805,35 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 	/* Private functions */
 	/*********************/
 	private function _loadPayPalInterface() {
+
+		static $paypalInterface = true;
+
 		$this->_currentMethod->paypalproduct = $this->getPaypalProduct($this->_currentMethod);
 
-		if ($this->_currentMethod->paypalproduct == 'std') {
-			$paypalInterface = new PaypalHelperPayPalStd($this->_currentMethod, $this);
-		} else {
-			if ($this->_currentMethod->paypalproduct == 'api') {
-				$paypalInterface = new PaypalHelperPayPalApi($this->_currentMethod, $this);
+		if($paypalInterface === true){
+			if ($this->_currentMethod->paypalproduct == 'std') {
+				$paypalInterface = new PaypalHelperPayPalStd($this->_currentMethod, $this);
 			} else {
-				if ($this->_currentMethod->paypalproduct == 'exp') {
-					$paypalInterface = new PaypalHelperPayPalExp($this->_currentMethod, $this);
+				if ($this->_currentMethod->paypalproduct == 'api') {
+					$paypalInterface = new PaypalHelperPayPalApi($this->_currentMethod, $this);
 				} else {
-					if ($this->_currentMethod->paypalproduct == 'hosted') {
-						$paypalInterface = new PaypalHelperPayPalHosted($this->_currentMethod, $this);
+					if ($this->_currentMethod->paypalproduct == 'exp') {
+						$paypalInterface = new PaypalHelperPayPalExp($this->_currentMethod, $this);
 					} else {
-						Vmerror('Wrong paypal mode');
-						return NULL;
+						if ($this->_currentMethod->paypalproduct == 'hosted') {
+							$paypalInterface = new PaypalHelperPayPalHosted($this->_currentMethod, $this);
+						} else {
+							Vmerror('Wrong paypal mode');
+							return NULL;
+						}
 					}
 				}
 			}
+		} else {
+			$paypalInterface->paypalPlugin = $this;
+			$paypalInterface->_method = $this->_currentMethod;
 		}
+
 		return $paypalInterface;
 	}
 
@@ -1113,6 +1177,7 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 			return FALSE;
 		}
 
+		$this->_currentMethod->payment_currency = $this->getPaymentCurrency($this->_currentMethod);
 		$paypalInterface = $this->_loadPayPalInterface();
 		$paypalInterface->setCart($cart);
 		$paypalInterface->setTotal($cart->cartPrices['billTotal']);
@@ -1169,8 +1234,7 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 		if ($this->_currentMethod->paypalproduct == 'std') {
 			return null;
 		}
-		//$this->_currentMethod->paypalproduct = $this->($this->_currentMethod);
-
+		$this->_currentMethod->payment_currency = $this->getPaymentCurrency($this->_currentMethod,$order['details']['BT']->payment_currency_id);
 		$payment = end($payments);
 		if ($this->_currentMethod->payment_action == 'Authorization' and $order->order_status == $this->_currentMethod->status_capture) {
 			$paypalInterface = $this->_loadPayPalInterface();
@@ -1254,6 +1318,7 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 				}
 				$methodSalesPrice = $this->setCartPrices($cart, $cartPrices, $this->_currentMethod, $cost_method);
 
+				$this->_currentMethod->payment_currency = $this->getPaymentCurrency($this->_currentMethod);
 				$this->_currentMethod->$method_name = $this->renderPluginName($this->_currentMethod);
 				$html .= $this->getPluginHtml($this->_currentMethod, $selected, $methodSalesPrice);
 

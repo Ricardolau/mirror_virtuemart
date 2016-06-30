@@ -2,7 +2,7 @@
 //============================================================+
 // File name   : tcpdf_config.php
 // Begin       : 2004-06-11
-// Last Update : 2014-09-02
+// Last Update : 2014-12-11
 //
 // Description : Configuration file for TCPDF.
 // Author      : Nicola Asuni - Tecnick.com LTD - www.tecnick.com - info@tecnick.com
@@ -218,7 +218,7 @@ define('K_TCPDF_CALLS_IN_HTML', true);
 /**
  * If true and PHP version is greater than 5, then the Error() method throw new exception instead of terminating the execution.
  */
-define('K_TCPDF_THROW_EXCEPTION_ERROR', false);
+define('K_TCPDF_THROW_EXCEPTION_ERROR', true);
 
 /**
  * Default timezone for datetime functions

@@ -130,7 +130,25 @@ class VirtueMartCustomFieldRenderer {
 						}
 					}
 
-					$tags = array();
+					$view = vRequest::getCmd('view','productdetails');
+
+					$class = 'vm-chzn-select';
+					$selectType = 'select.genericlist';
+
+					if(!empty($customfield->selectType)){
+						$selectType = 'select.radiolist';
+						$class = '';
+						$dom = '';
+					} else {
+						vmJsApi::chosenDropDowns();
+						$dom = 'select';
+					}
+
+					$attribs = array('class'=>$class.' cvselection no-vm-bind','data-dynamic-update'=>'1','style'=>'min-width:70px;');
+					if('productdetails' != $view or !VmConfig::get ('jdynupdate', TRUE)){
+						$attribs['reload'] = '1';
+						$view = 'productdetails';
+					}
 
 					foreach($customfield->selectoptions as $k => $soption){
 
@@ -211,20 +229,24 @@ class VirtueMartCustomFieldRenderer {
 					$jsArray = array();
 
 					$url = '';
+
 					foreach($customfield->options as $product_id=>$variants){
 
 						if($ignore and in_array($product_id,$ignore)){continue;}
 
-						$url = JRoute::_('index.php?option=com_virtuemart&view=productdetails&virtuemart_category_id=' . $virtuemart_category_id . '&virtuemart_product_id='.$product_id.$Itemid,false);
+						$url = JRoute::_('index.php?option=com_virtuemart&view='.$view.'&virtuemart_category_id=' . $virtuemart_category_id . '&virtuemart_product_id='.$product_id.$Itemid,false);
 						$jsArray[] = '["'.$url.'","'.implode('","',$variants).'"]';
 					}
-					$hash = md5(implode('',$tags));
-					vmJsApi::addJScript('cvfind',false,false,true,false,$hash);
+
+					vmJsApi::addJScript('cvfind',false,false,true,false);
 
 					$jsVariants = implode(',',$jsArray);
+
+					$selector = $dom."[cvsel=\"".$attribs['cvsel']."\"]";
+					$hash = md5($selector);
 					$j = "jQuery(document).ready(function() {
-							jQuery('.cvselection').off('change',Virtuemart.cvFind);
-							jQuery('.cvselection').on('change', { variants:[".$jsVariants."] },Virtuemart.cvFind);
+							jQuery('".$selector."').off('change',Virtuemart.cvFind);
+							jQuery('".$selector."').on('change', { variants:[".$jsVariants."] },Virtuemart.cvFind);
 						});";
 					vmJsApi::addJScript('cvselvars'.$hash,$j,false,true,false,$hash);
 
@@ -312,7 +334,13 @@ class VirtueMartCustomFieldRenderer {
 					$virtuemart_category_id .'&virtuemart_product_id='. $selected;
 					$attribs['option.key.toHtml'] = false;
 					$attribs['id'] = $idTag;
-					$attribs['list.attr'] = 'onchange="window.top.location.href=this.options[this.selectedIndex].value" size="1" class="vm-chzn-select no-vm-bind" data-dynamic-update="1" ';
+					$och = '';
+					if($customfield->browseajax){
+						$och = ' data-dynamic-update="1"';
+					} else {
+						$och = ' data-dynamic-update="1" onchange="window.top.location.href=this.options[this.selectedIndex].value"';
+					}
+					$attribs['list.attr'] = 'size="1" class="vm-chzn-select no-vm-bind avselection"'.$och;
 					$attribs['list.translate'] = false;
 					$attribs['option.key'] = 'value';
 					$attribs['option.text'] = 'text';

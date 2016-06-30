@@ -137,15 +137,15 @@ function virtuemartBuildRoute(&$query) {
 
 			// Joomla replace before route limitstart by start but without SEF this is start !
 			if ( isset($query['limitstart'] ) ) {
-				$limitstart = $query['limitstart'] ;
+				$limitstart = (int)$query['limitstart'] ;
 				unset($query['limitstart']);
 			}
 			if ( isset($query['start'] ) ) {
-				$start = $query['start'] ;
+				$start = (int)$query['start'] ;
 				unset($query['start']);
 			}
 			if ( isset($query['limit'] ) ) {
-				$limit = $query['limit'] ;
+				$limit = (int)$query['limit'] ;
 				unset($query['limit']);
 			}
 			if ($start !== null &&  $limitstart!== null ) {
@@ -362,7 +362,7 @@ function virtuemartParseRoute($segments) {
 		// limitstart is swapped by joomla to start ! See includes/route.php
 		if ($start = $results[0]-1) $vars['limitstart'] = $start;
 		else $vars['limitstart'] = 0 ;
-		$vars['limit'] = $results[1]-$results[0]+1;
+		$vars['limit'] = (int)$results[1]-(int)$results[0]+1;
 
 	} else {
 		$vars['limitstart'] = 0 ;
@@ -654,17 +654,17 @@ function virtuemartParseRoute($segments) {
 
 	if(!isset($vars['virtuemart_product_id'])) {
 
-		$vars['view'] = 'productdetails';
+		//$vars['view'] = 'productdetails';	//Must be commmented, because else we cannot call custom views per extended plugin
 		if($last_elem=='notify') {
 			$vars['layout'] = 'notify';
 			array_pop($segments);
 		}
-		$product = $helper->getProductId($segments ,$helper->activeMenu->virtuemart_category_id, false);
+		$product = $helper->getProductId($segments ,$helper->activeMenu->virtuemart_category_id, true);
 
 		//codepyro - removed suffix from router
 		//check if name is a product.
 		//if so then its a product load the details page
-		if(isset($product['virtuemart_product_id'])) {
+		if(!empty($product['virtuemart_product_id'])) {
 			$vars['view'] = 'productdetails';
 			$vars['virtuemart_product_id'] = $product['virtuemart_product_id'];
 			if(isset($product['virtuemart_category_id'])) {
@@ -896,7 +896,7 @@ class vmrouterHelper {
 		if(!VmConfig::get('prodOnlyWLang',false) and VmConfig::$defaultLang!=VmConfig::$vmlang and Vmconfig::$langCount>1){
 			$q = 'SELECT IFNULL(l.`virtuemart_category_id`,ld.`virtuemart_category_id`) as `virtuemart_category_id` ';
 			$q .= ' FROM `#__virtuemart_categories_'.VmConfig::$defaultLang.'` AS `ld` ';
-			$q .= ' LEFT JOIN `#__virtuemart_categories_' .VmConfig::$vmlang . '` as l using (`virtuemart_category_id`) ';
+			$q .= ' LEFT JOIN `#__virtuemart_categories_' .VmConfig::$vmlang . '` as l ON (ld.`virtuemart_category_id`=l.`virtuemart_category_id`) ';
 			$q .= ' WHERE IFNULL(l.`slug`,ld.`slug`) = "'.$db->escape($slug).'" ';
 			$hash = md5(VmConfig::$defaultLang.$slug.VmConfig::$defaultLang);
 		} else {
@@ -978,7 +978,10 @@ class vmrouterHelper {
 	/* get product and category ID */
 	public function getProductId($names,$virtuemart_category_id = NULL, $seo_sufix = true ){
 		$productName = array_pop($names);
-		if($seo_sufix and !empty($this->seo_sufix_size) ){
+		if($this->use_seo_suffix and !empty($this->seo_sufix_size) ){
+			if(substr($productName, -(int)$this->seo_sufix_size ) !== $this->seo_sufix) {
+				return array('virtuemart_product_id' =>0, 'virtuemart_category_id' => false);
+			}
 			$productName =  substr($productName, 0, -(int)$this->seo_sufix_size );
 		}
 
@@ -998,9 +1001,9 @@ class vmrouterHelper {
 
 			$q = 'SELECT IFNULL(l.`virtuemart_product_id`,'.$select2.') as `virtuemart_product_id` ';
 			$q .= ' FROM `#__virtuemart_products_'.VmConfig::$vmlang.'` AS `l` ';
-			$q .= ' RIGHT JOIN `#__virtuemart_products_' .VmConfig::$defaultLang . '` as ld using (`virtuemart_product_id`) ';
+			$q .= ' RIGHT JOIN `#__virtuemart_products_' .VmConfig::$defaultLang . '` as ld ON (l.`virtuemart_product_id`=ld.`virtuemart_product_id`) ';
 			if(VmConfig::$defaultLang!=VmConfig::$jDefLang){
-				$q .= ' RIGHT JOIN `#__virtuemart_products_' .VmConfig::$jDefLang . '` as ljd using (`virtuemart_product_id`) ';
+				$q .= ' RIGHT JOIN `#__virtuemart_products_' .VmConfig::$jDefLang . '` as ljd ON (l.`virtuemart_product_id`=ljd.`virtuemart_product_id`) ';
 			}
 			$q .= ' WHERE IFNULL(l.`slug`,'.$where2.') = "'.$db->escape($productName).'" ';
 			$hash = md5(VmConfig::$defaultLang.$productName.VmConfig::$vmlang);
@@ -1014,7 +1017,7 @@ class vmrouterHelper {
 		if(!isset($prodIds[$hash])){
 			$db->setQuery($q);
 			$prodIds[$hash]['virtuemart_product_id'] = $db->loadResult();
-			if(empty($categoryName)){
+			if(empty($categoryName) and empty($virtuemart_category_id)){
 				$prodIds[$hash]['virtuemart_category_id'] = false;
 			} else {
 				$prodIds[$hash]['virtuemart_category_id'] = $this->getCategoryId($categoryName,$virtuemart_category_id ) ;
@@ -1080,11 +1083,11 @@ class vmrouterHelper {
 			$fallback= 'or language = "'.$jLangTag.'"';
 			$h .= $jLangTag;
 		}
-		vmdebug('Use setMenuItemId');
+
 		if(isset($mCache[$h]['mI'])) {
 			$this->menuVmitems = self::$mCache[$h]['mI'];
 			$this->menu = self::$mCache[$h]['m'];
-			vmdebug('Use cache');
+			vmdebug('Use cache setMenuItemId');
 		} else {
 			$db	= vFactory::getDbo();
 			$query = 'SELECT * FROM `#__menu`  where `link` like "index.php?option=com_virtuemart%" and client_id=0 and published=1 and (language="*" or language = "'.VmConfig::$vmlangTag.'" '.$fallback.' )'  ;

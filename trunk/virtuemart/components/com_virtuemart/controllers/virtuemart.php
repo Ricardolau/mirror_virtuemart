@@ -29,12 +29,7 @@ class VirtueMartControllerVirtuemart extends vController
 
 	function __construct() {
 		parent::__construct();
-		if (VmConfig::get('shop_is_offline') == '1') {
-		    vRequest::setVar( 'layout', 'off_line' );
-	    }
-	    else {
-		    vRequest::setVar( 'layout', 'default' );
-	    }
+
 	}
 
 	/**
@@ -47,10 +42,8 @@ class VirtueMartControllerVirtuemart extends vController
 		$document = vFactory::getDocument();
 		$viewType = $document->getType();
 		$viewName = vRequest::getCmd('view', 'virtuemart');
-		$viewLayout = vRequest::getCmd('layout', 'default');
-
-		//vmdebug('basePath is NOT VMPATH_SITE',$this->basePath,VMPATH_SITE);
 		$view = $this->getView($viewName, $viewType);
+
 		$view->assignRef('document', $document);
 
 		$view->display();

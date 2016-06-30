@@ -40,13 +40,13 @@ class VirtuemartViewInvoice extends VmView {
 	public function display($tpl = null)
 	{
 
-		$document = vFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$orderModel = VmModel::getModel('orders');
 		$orderDetails = $this->orderDetails;
 
 		if($orderDetails==0){
-			$orderDetails = $orderModel ->getMyOrderDetails();
+			$orderDetails = $orderModel ->getMyOrderDetails(0,false,false,true);
 			if(!$orderDetails ){
 				echo vmText::_('COM_VIRTUEMART_CART_ORDER_NOTFOUND');
 				vmdebug('COM_VIRTUEMART_CART_ORDER_NOTFOUND and $orderDetails ',$orderDetails);
@@ -64,9 +64,10 @@ class VirtuemartViewInvoice extends VmView {
 
 		$this->assignRef('orderDetails', $orderDetails);
 
+
 		/* It would be so nice to be able to load the override of the FE additionally from here
 		 * joomlaWantsThisFolder\language\overrides\en-GB.override.ini
-		 * $jlang =vFactory::getLanguage();
+		 * $jlang =JFactory::getLanguage();
 		$tag = $jlang->getTag();
 		$jlang->load('override', 'language/overrides',$tag,true);*/
 
@@ -147,18 +148,49 @@ class VirtuemartViewInvoice extends VmView {
 
 		$virtuemart_vendor_id = $orderDetails['details']['BT']->virtuemart_vendor_id;
 
-		$emailCurrencyId = $orderDetails['details']['BT']->user_currency_id;
-		$exchangeRate=FALSE;
+		$vendorModel = VmModel::getModel('vendor');
+		$vendor = $vendorModel->getVendor($virtuemart_vendor_id);
+		$vendorModel->addImages($vendor);
+		$vendor->vendorFields = $vendorModel->getVendorAddressFields($virtuemart_vendor_id);
+		if (VmConfig::get ('enable_content_plugin', 0)) {
+			if(!class_exists('shopFunctionsF'))require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
+			shopFunctionsF::triggerContentPlugin($vendor, 'vendor','vendor_store_desc');
+			shopFunctionsF::triggerContentPlugin($vendor, 'vendor','vendor_terms_of_service');
+			shopFunctionsF::triggerContentPlugin($vendor, 'vendor','vendor_legal_info');
+		}
+
+		$this->assignRef('vendor', $vendor);
+
+
+
+		$this->user_currency_id = $orderDetails['details']['BT']->user_currency_id;
+
+		/*
+		 * Deprecated trigger will be renamed or removed
+		 */
 		if(!class_exists('vmPSPlugin')) require(JPATH_VM_PLUGINS.DS.'vmpsplugin.php');
-		  vPluginHelper::importPlugin('vmpayment');
-	    $dispatcher = vDispatcher::getInstance();
-	    $dispatcher->trigger('plgVmgetEmailCurrency',array( $orderDetails['details']['BT']->virtuemart_paymentmethod_id, $orderDetails['details']['BT']->virtuemart_order_id, &$emailCurrencyId));
+		  JPluginHelper::importPlugin('vmpayment');
+	    $dispatcher = JDispatcher::getInstance();
+	    $dispatcher->trigger('plgVmgetEmailCurrency',array( $orderDetails['details']['BT']->virtuemart_paymentmethod_id, $orderDetails['details']['BT']->virtuemart_order_id, &$this->user_currency_id));
+
 		if(!class_exists('CurrencyDisplay')) require(VMPATH_ADMIN.DS.'helpers'.DS.'currencydisplay.php');
-		$currency = CurrencyDisplay::getInstance($emailCurrencyId,$virtuemart_vendor_id);
-			if ($emailCurrencyId) {
-				$currency->exchangeRateShopper=$orderDetails['details']['BT']->user_currency_rate;
-			}
-		$this->assignRef('currency', $currency);
+		$this->currency = CurrencyDisplay::getInstance($this->user_currency_id,$virtuemart_vendor_id);
+		if ($this->user_currency_id) {
+			$this->currency->exchangeRateShopper=$orderDetails['details']['BT']->user_currency_rate;
+		}
+
+		if($vendor->vendor_currency!=$this->user_currency_id){
+			$this->currencyV = CurrencyDisplay::getInstance($vendor->vendor_currency,$virtuemart_vendor_id);
+		} else {
+			$this->currencyV = $this->currency;
+		}
+
+		if($this->user_currency_id != $orderDetails['details']['BT']->payment_currency_id){
+			$this->currencyP = CurrencyDisplay::getInstance($orderDetails['details']['BT']->payment_currency_id,$virtuemart_vendor_id);
+			$this->currencyP->exchangeRateShopper = $orderDetails['details']['BT']->payment_currency_rate;
+		} else {
+			$this->currencyP = $this->currency;
+		}
 
 		//Create BT address fields
 		$userFieldsModel = VmModel::getModel('userfields');
@@ -211,7 +243,7 @@ class VirtuemartViewInvoice extends VmView {
 
 		$pM = VmModel::getModel('product');
 		foreach($orderDetails['items'] as $k => $_item) {
-// 			$_itemStatusUpdateFields[$_item->virtuemart_order_item_id] = vHtml::_('select.genericlist', $orderstatuses, "item_id[".$_item->virtuemart_order_item_id."][order_status]", 'class="selectItemStatusCode"', 'order_status_code', 'order_status_name', $_item->order_status, 'order_item_status'.$_item->virtuemart_order_item_id,true);
+// 			$_itemStatusUpdateFields[$_item->virtuemart_order_item_id] = JHtml::_('select.genericlist', $orderstatuses, "item_id[".$_item->virtuemart_order_item_id."][order_status]", 'class="selectItemStatusCode"', 'order_status_code', 'order_status_name', $_item->order_status, 'order_item_status'.$_item->virtuemart_order_item_id,true);
 			$_itemStatusUpdateFields[$_item->virtuemart_order_item_id] =  $_item->order_status;
 			$product = $pM->getProduct($_item->virtuemart_product_id);
 			$orderDetails['items'][$k]->virtuemart_media_id = $product->virtuemart_media_id;
@@ -219,31 +251,20 @@ class VirtuemartViewInvoice extends VmView {
 
 		if (empty($orderDetails['shipmentName']) ) {
 		    if (!class_exists('vmPSPlugin')) require(JPATH_VM_PLUGINS . DS . 'vmpsplugin.php');
-		    vPluginHelper::importPlugin('vmshipment');
-		    $dispatcher = vDispatcher::getInstance();
+		    JPluginHelper::importPlugin('vmshipment');
+		    $dispatcher = JDispatcher::getInstance();
 		    $returnValues = $dispatcher->trigger('plgVmOnShowOrderFEShipment',array(  $orderDetails['details']['BT']->virtuemart_order_id, $orderDetails['details']['BT']->virtuemart_shipmentmethod_id, &$orderDetails['shipmentName']));
 		}
 
 		if (empty($orderDetails['paymentName']) ) {
 		    if(!class_exists('vmPSPlugin')) require(JPATH_VM_PLUGINS.DS.'vmpsplugin.php');
-		    vPluginHelper::importPlugin('vmpayment');
-		    $dispatcher = vDispatcher::getInstance();
+		    JPluginHelper::importPlugin('vmpayment');
+		    $dispatcher = JDispatcher::getInstance();
 		    $returnValues = $dispatcher->trigger('plgVmOnShowOrderFEPayment',array( $orderDetails['details']['BT']->virtuemart_order_id, $orderDetails['details']['BT']->virtuemart_paymentmethod_id,  &$orderDetails['paymentName']));
 
 		}
 
-		$vendorModel = VmModel::getModel('vendor');
-		$vendor = $vendorModel->getVendor($virtuemart_vendor_id);
-		$vendorModel->addImages($vendor);
-		$vendor->vendorFields = $vendorModel->getVendorAddressFields($virtuemart_vendor_id);
-		if (VmConfig::get ('enable_content_plugin', 0)) {
-			if(!class_exists('shopFunctionsF'))require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
-			shopFunctionsF::triggerContentPlugin($vendor, 'vendor','vendor_store_desc');
-			shopFunctionsF::triggerContentPlugin($vendor, 'vendor','vendor_terms_of_service');
-			shopFunctionsF::triggerContentPlugin($vendor, 'vendor','vendor_legal_info');
-		}
 
-		$this->assignRef('vendor', $vendor);
 
 		if (strpos($layout,'mail') !== false) {
 			$lineSeparator="<br />";
@@ -264,11 +285,10 @@ class VirtuemartViewInvoice extends VmView {
 
 		if (strpos($layout,'mail') !== false) {
 		    if ($this->doVendor) {
-		    	 //Old text key COM_VIRTUEMART_MAIL_SUBJ_VENDOR_C
-			    $this->subject = vmText::sprintf('COM_VIRTUEMART_MAIL_SUBJ_VENDOR_'.$orderDetails['details']['BT']->order_status, $this->shopperName, strip_tags($currency->priceDisplay($orderDetails['details']['BT']->order_total, $currency)), $orderDetails['details']['BT']->order_number);
+			    $this->subject = vmText::sprintf('COM_VIRTUEMART_MAIL_SUBJ_VENDOR_'.$orderDetails['details']['BT']->order_status, $this->shopperName, strip_tags($this->currencyV->priceDisplay($orderDetails['details']['BT']->order_total)), $orderDetails['details']['BT']->order_number);
 			    $recipient = 'vendor';
 		    } else {
-			    $this->subject = vmText::sprintf('COM_VIRTUEMART_MAIL_SUBJ_SHOPPER_'.$orderDetails['details']['BT']->order_status, $vendor->vendor_store_name, strip_tags($currency->priceDisplay($orderDetails['details']['BT']->order_total, $currency)), $orderDetails['details']['BT']->order_number );
+			    $this->subject = vmText::sprintf('COM_VIRTUEMART_MAIL_SUBJ_SHOPPER_'.$orderDetails['details']['BT']->order_status, $vendor->vendor_store_name, strip_tags($this->currency->priceDisplay($orderDetails['details']['BT']->order_total, $this->user_currency_id)), $orderDetails['details']['BT']->order_number );
 			    $recipient = 'shopper';
 		    }
 		    $this->assignRef('recipient', $recipient);

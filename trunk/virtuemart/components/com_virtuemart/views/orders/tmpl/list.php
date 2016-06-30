@@ -7,9 +7,9 @@
 *
 * @package	VirtueMart
 * @subpackage Orders
-* @author Oscar van Eijk
+* @author Oscar van Eijk, Andrew Hutson
 * @link http://www.virtuemart.net
-* @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+* @copyright Copyright (c) 2004 - 2016 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -26,9 +26,9 @@ defined('_JEXEC') or die('Restricted access');
 <h1><?php echo vmText::_('COM_VIRTUEMART_ORDERS_VIEW_DEFAULT_TITLE'); ?></h1>
 <?php
 if (count($this->orderlist) == 0) {
-	 echo shopFunctionsF::getLoginForm(false,true); 
-} else {
- ?>
+	//echo vmText::_('COM_VIRTUEMART_ACC_NO_ORDER');
+	 echo shopFunctionsF::getLoginForm(false,true);
+} else { ?>
 <div id="editcell">
 	<table class="adminlist" width="80%">
 	<thead>

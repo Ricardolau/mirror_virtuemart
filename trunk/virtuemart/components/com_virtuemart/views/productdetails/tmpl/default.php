@@ -237,8 +237,6 @@ if (VmConfig::get('showCategory', 1)) {
 }
 
 $j = 'jQuery(document).ready(function($) {
-	Virtuemart.product(jQuery("form.product"));
-
 	$("form.js-recalculate").each(function(){
 		if ($(this).find(".product-fields").length && !$(this).find(".no-vm-bind").length) {
 			var id= $(this).find(\'input[name="virtuemart_product_id[]"]\').val();
@@ -249,18 +247,19 @@ $j = 'jQuery(document).ready(function($) {
 });';
 //vmJsApi::addJScript('recalcReady',$j);
 
-/** GALT
- * Notice for Template Developers!
- * Templates must set a Virtuemart.container variable as it takes part in
- * dynamic content update.
- * This variable points to a topmost element that holds other content.
- */
-$j = "Virtuemart.container = jQuery('.productdetails-view');
+if(VmConfig::get ('jdynupdate', TRUE)){
+
+	/** GALT
+	 * Notice for Template Developers!
+	 * Templates must set a Virtuemart.container variable as it takes part in
+	 * dynamic content update.
+	 * This variable points to a topmost element that holds other content.
+	 */
+	$j = "Virtuemart.container = jQuery('.productdetails-view');
 Virtuemart.containerSelector = '.productdetails-view';";
 
-vmJsApi::addJScript('ajaxContent',$j);
+	vmJsApi::addJScript('ajaxContent',$j);
 
-if(VmConfig::get ('jdynupdate', TRUE)){
 	$j = "jQuery(document).ready(function($) {
 	Virtuemart.stopVmLoading();
 	var msg = '';

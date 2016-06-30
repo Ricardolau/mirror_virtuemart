@@ -79,12 +79,10 @@ class VirtueMartViewProductdetails extends VmView {
 			$ratingModel = VmModel::getModel('ratings');
 			$product_model->withRating = $this->showRating = $ratingModel->showRating($virtuemart_product_id);
 			$product = $product_model->getProduct($virtuemart_product_id,TRUE,TRUE,TRUE,$quantity);
+			$this->assignRef('product', $product);
 
 			if(!class_exists('shopFunctionsF'))require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
 			$last_category_id = shopFunctionsF::getLastVisitedCategoryId();
-
-			$seo_full = VmConfig::get('seo_full',true);
-			if(in_array($last_category_id,$product->categories) && !$seo_full) $product->virtuemart_category_id = $last_category_id;
 
 			$customfieldsModel = VmModel::getModel ('Customfields');
 
@@ -134,13 +132,7 @@ class VirtueMartViewProductdetails extends VmView {
 
 			}
 
-			$product->event = new stdClass();
-			$product->event->afterDisplayTitle = '';
-			$product->event->beforeDisplayContent = '';
-			$product->event->afterDisplayContent = '';
-			if (VmConfig::get('enable_content_plugin', 0)) {
-				shopFunctionsF::triggerContentPlugin($product, 'productdetails','product_desc');
-			}
+
 
 			$product_model->addImages($product);
 
@@ -157,12 +149,15 @@ class VirtueMartViewProductdetails extends VmView {
 				$this->step_order_level = 1;
 			}
 
+			$currency = CurrencyDisplay::getInstance();
+			$this->assignRef('currency', $currency);
+
+
 			// Load the neighbours
 			if (VmConfig::get('product_navigation', 1)) {
 				$product->neighbours = $product_model->getNeighborProducts($product);
 			}
 
-			$this->assignRef('product', $product);
 
 			if (VmConfig::get('show_manufacturers', 1) && !empty($this->product->virtuemart_manufacturer_id)) {
 				$manModel = VmModel::getModel('manufacturer');
@@ -177,6 +172,8 @@ class VirtueMartViewProductdetails extends VmView {
 			}
 			// Load the category
 			$category_model = VmModel::getModel('category');
+			$seo_full = VmConfig::get('seo_full',true);
+			if(in_array($last_category_id,$product->categories) && !$seo_full) $product->virtuemart_category_id = $last_category_id;
 
 			shopFunctionsF::setLastVisitedCategoryId($product->virtuemart_category_id);
 
@@ -184,6 +181,7 @@ class VirtueMartViewProductdetails extends VmView {
 
 				$category = $category_model->getCategory($product->virtuemart_category_id);
 				if(in_array($last_category_id,$product->categories) && !$seo_full) $product->category_name = $category->category_name;
+
 				$category_model->addImages($category, 1);
 				$this->assignRef('category', $category);
 
@@ -243,7 +241,14 @@ class VirtueMartViewProductdetails extends VmView {
 			$this->rating_reviews='';
 			if ($this->showReview) {
 				$this->review = $ratingModel->getProductReviewForUser($product->virtuemart_product_id);
-				$this->rating_reviews = $ratingModel->getReviews($product->virtuemart_product_id, 0, VmConfig::get( 'vm_num_ratings_show', 3 ));
+				$this->showall = vRequest::getBool( 'showall', FALSE );
+				if($this->showall){
+					$limit = 50;
+				} else {
+					$limit = VmConfig::get( 'vm_num_ratings_show', 3 );
+				}
+
+				$this->rating_reviews = $ratingModel->getReviews($product->virtuemart_product_id, 0, $limit);
 			}
 
 			if ($this->showRating) {
@@ -265,8 +270,7 @@ class VirtueMartViewProductdetails extends VmView {
 			$this->user = vFactory::getUser();
 
 			// More reviews link
-			$uri = vUri::getInstance();
-			$uri->setVar('showall', 1);
+			vRequest::setVar('showall', 1);
 			$uristring = vmURI::getCleanUrl();
 			$this->assignRef('more_reviews', $uristring);
 
@@ -291,10 +295,16 @@ class VirtueMartViewProductdetails extends VmView {
 				$document->setMetaData('author', $product->metaauthor);
 			}
 
-
-			$user = vFactory::getUser();
 			$showBasePrice = (vmAccess::manager() or vmAccess::isSuperVendor());
 			$this->assignRef('showBasePrice', $showBasePrice);
+
+			$product->event = new stdClass();
+			$product->event->afterDisplayTitle = '';
+			$product->event->beforeDisplayContent = '';
+			$product->event->afterDisplayContent = '';
+			if (VmConfig::get('enable_content_plugin', 0)) {
+				shopFunctionsF::triggerContentPlugin($product, 'productdetails','product_desc');
+			}
 
 			$productDisplayShipments = array();
 			$productDisplayPayments = array();
@@ -314,12 +324,9 @@ class VirtueMartViewProductdetails extends VmView {
 				$category->category_template = VmConfig::get('categorytemplate');
 			}
 
-			shopFunctionsF::setVmTemplate($this, $category->category_template, $product->product_template, $category->category_product_layout, $product->layout);
+			shopFunctionsF::setVmTemplate($this, $category->category_template, 0, $category->category_product_layout, $product->layout);
 
 			shopFunctionsF::addProductToRecent($virtuemart_product_id);
-
-			$currency = CurrencyDisplay::getInstance();
-			$this->assignRef('currency', $currency);
 
 			if(vRequest::getCmd( 'layout', 'default' )=='notify') $this->setLayout('notify'); //Added by Seyi Awofadeju to catch notify layout
 			VmConfig::loadJLang('com_virtuemart');
@@ -331,12 +338,11 @@ class VirtueMartViewProductdetails extends VmView {
 				vmJsApi::jDynUpdate();
 			}
 
-
-			if ($show_prices == '1') {
+			if ($this->show_prices) {
 				if (!class_exists('calculationHelper'))
 					require(VMPATH_ADMIN . DS . 'helpers' . DS . 'calculationh.php');
-				vmJsApi::jPrice();
 			}
+			vmJsApi::jPrice();
 
 			parent::display($tpl);
     }

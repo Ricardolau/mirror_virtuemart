@@ -39,10 +39,7 @@ class VirtueMartViewVirtueMart extends VmView {
 		$this->vendor = $vendorModel->getVendor();
 
 		if(!class_exists('shopFunctionsF'))require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
-		if (VmConfig::get ('enable_content_plugin', 0)) {
-			shopFunctionsF::triggerContentPlugin($this->vendor, 'vendor','vendor_store_desc');
-			shopFunctionsF::triggerContentPlugin($this->vendor, 'vendor','vendor_terms_of_service');
-		}
+
 
 		$app = vFactory::getApplication();
 		$menus = $app->getMenu();
@@ -57,6 +54,12 @@ class VirtueMartViewVirtueMart extends VmView {
 		$document = vFactory::getDocument();
 
 		if(!VmConfig::get('shop_is_offline',0)){
+
+
+			if (VmConfig::get ('enable_content_plugin', 0)) {
+				shopFunctionsF::triggerContentPlugin($this->vendor, 'vendor','vendor_store_desc');
+				shopFunctionsF::triggerContentPlugin($this->vendor, 'vendor','vendor_terms_of_service');
+			}
 
 			if( ShopFunctionsF::isFEmanager('product.edit') ){
 				$add_product_link = vUri::root() . 'index.php?option=com_virtuemart&tmpl=component&view=product&task=edit&virtuemart_product_id=0&manage=1' ;

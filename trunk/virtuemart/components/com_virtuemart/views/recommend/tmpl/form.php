@@ -94,14 +94,7 @@ if (empty ( $this->product )) {
 
 					<div class="submit">
 						<?php // captcha addition
-						if(VmConfig::get ('ask_captcha') && vFactory::getUser()->guest == 1){
-							vHtml::_('behavior.framework');
-							vPluginHelper::importPlugin('captcha');
-							$dispatcher = vDispatcher::getInstance(); $dispatcher->trigger('onInit','dynamic_recaptcha_1');
-							?>
-							<div id="dynamic_recaptcha_1"></div>
-						<?php
-						}
+						echo $this->captcha;
 						// end of captcha addition
 						?>
             <div>

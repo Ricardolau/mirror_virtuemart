@@ -32,7 +32,7 @@ defined('_JEXEC') or die('Restricted access');
 class VirtueMartCart {
 
 	var $products = array();
-	var $_productAdded = false;
+	var $_productAdded = true;
 	var $_calculated = false;
 	var $_inCheckOut = false;
 	var $_inConfirm = false;
@@ -318,8 +318,9 @@ class VirtueMartCart {
 	}
 
 	public function storeCart($cartDataToStore = false){
+		$adminID = vmAccess::getBgManagerId();
 		$currentUser = vFactory::getUser();
-		if(!$currentUser->guest){
+		if(!$currentUser->guest && (!$adminID || $adminID == $currentUser->id)){
 			$model = new VmModel();
 			$carts = $model->getTable('carts');
 			if(!$cartDataToStore) $cartDataToStore = json_encode($this->getCartDataToStore());
@@ -977,9 +978,17 @@ class VirtueMartCart {
 			}
 		}
 
-		if(VmConfig::get('oncheckout_only_registered',0)) {
+		$usersConfig = JComponentHelper::getParams( 'com_users' );
+		$useractivation = $usersConfig->get( 'useractivation' );
+		if ($currentUser ->block) {
+			if($useractivation!=1){
+				$redirectMsg = vmText::_('JERROR_NOLOGIN_BLOCKED');
+				return $this->redirecter('index.php?option=com_virtuemart&view=user&task=editaddresscart&addrtype=BT' , $redirectMsg);
+			}
+		}
 
-			if(empty($currentUser->id)){
+		if(VmConfig::get('oncheckout_only_registered',0)) {
+			if(empty($currentUser->id)) {
 				$redirectMsg = vmText::_('COM_VIRTUEMART_CART_ONLY_REGISTERED');
 				return $this->redirecter('index.php?option=com_virtuemart&view=user&task=editaddresscart&addrtype=BT' , $redirectMsg);
 			}
@@ -1555,7 +1564,7 @@ class VirtueMartCart {
 						continue;
 					}
 					$productdata['quantity'] = (int)$productdata['quantity'];
-					$productTemp = $productsModel->getProduct($productdata['virtuemart_product_id'],TRUE,FALSE,TRUE,$productdata['quantity']);
+					$productTemp = $productsModel->getProduct($productdata['virtuemart_product_id'],TRUE,true,false,$productdata['quantity']);
 					if(empty($productTemp->virtuemart_product_id)){
 						vmError('prepareCartData virtuemart_product_id is empty','The product is no longer available');
 						unset($this->cartProductsData[$k]);
@@ -1667,7 +1676,7 @@ class VirtueMartCart {
 			// TODO $productsleft = $product->product_in_stock - $product->product_ordered - $quantityincart ;
 			if ($quantity > $productsleft ){
 				vmdebug('my products left '.$productsleft.' and my quantity '.$quantity);
-				if($productsleft>0 and ($stockhandle=='disableadd' or $stockhandle=='disableit_children') ){
+				if($productsleft>0){
 					$quantity = $productsleft;
 					$product->errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_PRODUCT_OUT_OF_QUANTITY',$product->product_name,$quantity);
 					vmError($product->errorMsg);

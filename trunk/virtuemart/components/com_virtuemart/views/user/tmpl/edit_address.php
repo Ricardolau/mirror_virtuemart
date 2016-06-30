@@ -106,17 +106,17 @@ echo shopFunctionsF::getLoginForm (TRUE, FALSE, $url);
 
 <?php // captcha addition
 	if(VmConfig::get ('reg_captcha') && vFactory::getUser()->guest == 1){
-		vHtml::_('behavior.framework');
-		vPluginHelper::importPlugin('captcha');
+
 		$captcha_visible = vRequest::getVar('captcha');
-		$dispatcher = vDispatcher::getInstance(); $dispatcher->trigger('onInit','dynamic_recaptcha_1');
+
 		$hide_captcha = (VmConfig::get ('oncheckout_only_registered') or $captcha_visible) ? '' : 'style="display: none;"';
 		?>
 		<fieldset id="recaptcha_wrapper" <?php echo $hide_captcha ?>>
 			<?php if(!VmConfig::get ('oncheckout_only_registered')) { ?>
 				<span class="userfields_info"><?php echo vmText::_ ('COM_VIRTUEMART_USER_FORM_CAPTCHA'); ?></span>
 			<?php } ?>
-			<div id="dynamic_recaptcha_1" class="g-recaptcha" data-sitekey=""></div>
+			<?php
+			echo $this->captcha; ?>
 		</fieldset>
 <?php }
 	// end of captcha addition

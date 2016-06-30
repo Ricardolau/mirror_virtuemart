@@ -14,9 +14,24 @@ if (typeof Virtuemart === "undefined")
 Virtuemart.cvFind = function(event) {
 	event.preventDefault();
 	var selection = [];
-	var container = jQuery('.product-field-display');//jQuery(this).parent().parent();
 
+	//var container = jQuery('.product-field-display');
+	//We ensure with this, to get the right product, if more than one is displayed
+	var container = jQuery(event.currentTarget);
+	while(!container.hasClass('product-field-display')){
+		container = container.parent();
+	}
+
+	Virtuemart.container = container;
+	if(typeof Virtuemart.containerSelector === typeof undefined) Virtuemart.containerSelector = '.product-container';
+	var cl = Virtuemart.containerSelector.substring(1);
+
+	while(!Virtuemart.container.hasClass(cl)){
+		Virtuemart.container = Virtuemart.container.parent();
+	}
+	//console.log('my new ajax container ',Virtuemart.container);
 	var found = false;
+
 	//We check first if it is a radio
 	jQuery(container).find('.cvselection:checked').each(function() {
 		selection[selection.length] = jQuery(this).val();
@@ -44,6 +59,7 @@ Virtuemart.cvFind = function(event) {
 						if(jQuery(this).attr('reload')){
 							window.top.location.href = url;
 						}
+						//console.log('return url '+url);
 						return url;
 					}
 				} else {

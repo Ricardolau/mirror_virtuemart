@@ -23,7 +23,7 @@ defined( '_JEXEC' ) or die('Restricted access');
 
 class shopFunctionsF {
 
-	static public function getLoginForm ($cart = FALSE, $order = FALSE, $url = '') {
+	static public function getLoginForm ($cart = FALSE, $order = FALSE, $url = '', $layout = 'login') {
 
 		$body = '';
 		$show = TRUE;
@@ -219,13 +219,13 @@ class shopFunctionsF {
 	 * @param string $_prefix Optional prefix for the formtag name attribute
 	 * @return string HTML containing the <select />
 	 */
-	static public function renderStateList ($stateId = '0', $_prefix = '', $multiple = FALSE, $required = 0,$attribs=array(),$idTag = 'virtuemart_state_id') {
+	static public function renderStateList ($stateId = '0', $_prefix = '', $multiple = FALSE, $required = 0,$attribs=array(),$idTag = 'virtuemart_state_id', $suffix='_field') {
 
 		if (is_array ($stateId)) {
 			$stateId = implode (",", $stateId);
 		}
 
-		vmJsApi::JcountryStateList ($stateId,$_prefix);
+		vmJsApi::JcountryStateList ($stateId,$_prefix, $suffix);
 
 		if(!isset($attrs['class'])){
 			$attrs['class'] = '';
@@ -655,27 +655,34 @@ class shopFunctionsF {
 		$mailer->setSubject(  html_entity_decode( $subject , ENT_QUOTES, 'UTF-8') );
 		$mailer->isHTML( VmConfig::get( 'order_mail_html', TRUE ) );
 		$mailer->setBody( $body );
-
+		$replyTo = array();
+		$replyToName = array();
+ 
 		if(!$noVendorMail) {
 			$replyTo[0] = $view->vendorEmail;
-			$replyTo[1] = $view->vendor->vendor_name;
-			$mailer->addReplyTo( $replyTo );
+			$replyToName[0] = $view->vendor->vendor_name;
 		} else {
-			if(isset($view->orderDetails['details']) and isset($view->orderDetails['details']['BT'])){
+			if(isset($view->orderDetails['details']) && isset($view->orderDetails['details']['BT'])) {
 				$replyTo[0] = $view->orderDetails['details']['BT']->email;
-				$replyTo[1] = $view->orderDetails['details']['BT']->first_name.' '.$view->orderDetails['details']['BT']->last_name;
+				$replyToName[0] = $view->orderDetails['details']['BT']->first_name . ' ' . $view->orderDetails['details']['BT']->last_name;
 			} else {
-				if (isset($view->user->email) and $view->user->name) {
+				if(isset($view->user->email) && $view->user->name) {
 					$replyTo[0] = $view->user->email;
-					$replyTo[1] = $view->user->name;
+					$replyToName[0] = $view->user->name;
 				} else {
 					$replyTo[0] = $view->user['email'];
-					$replyTo[1] = $view->user['name'];
+					$replyToName[0] = $view->user['name'];
 				}
-
 			}
-
-			$mailer->addReplyTo( $replyTo );
+		}
+ 
+		if(count($replyTo)) {
+			if(version_compare(JVERSION, '3.5', 'ge')) {
+				$mailer->addReplyTo($replyTo, $replyToName);
+			} else {
+				$replyTo[1] = $replyToName[0];
+				$mailer->addReplyTo($replyTo);
+			}
 		}
 		if(isset($view->mediaToSend)) {
 			foreach( (array)$view->mediaToSend as $media ) {
@@ -699,8 +706,19 @@ class shopFunctionsF {
 			}
 		}
 		$mailer->setSender( $sender );
-
-		return $mailer->Send();
+		
+		try {
+		$return = $mailer->Send();
+		}
+		catch (Exception $e)
+		{
+			VmConfig::$logDebug = true;
+			vmdebug('Error sending mail ',$e);
+			vmError('Error sending mail ');
+			// this will take care of the error message
+			return false; 
+		}
+		return $return; 
 	}
 
 
@@ -938,5 +956,23 @@ class shopFunctionsF {
 		}
 	}
 
+	static public function renderCaptcha($config = 'reg_captcha',$id = 'dynamic_recaptcha_1'){
 
+		if(VmConfig::get ($config) and JFactory::getUser()->guest==1 ){
+
+			JPluginHelper::importPlugin('captcha');
+			$dispatcher = JDispatcher::getInstance();
+			$dispatcher->trigger('onInit',$id);
+			if(version_compare(JVERSION, '3.5', 'ge')){
+				$plugin = JPluginHelper::getPlugin('captcha', 'recaptcha');
+				$params = new JRegistry($plugin->params);
+				if ($params->get('version') != '1.0') {
+					return '<div id="jform_captcha" class="g-recaptcha  required" data-sitekey="'.$params->get('public_key').'" data-theme="'.$params->get('theme2').'" data-size="normal"></div>';
+				}
+			}
+			JHTML::_('behavior.framework');
+			return '<div id="'.$id.'"></div>';
+		}
+		return '';
+	}
 }

@@ -29,10 +29,11 @@ a:hover,a:active,a:focus {
 }
 
 .logoheader {
-	background: url(../images/personal/personal2.png) no-repeat right
-		bottom #0C1A3E;
+	background-image: url("../../../images/stories/virtuemart.png");
 	color: #FFFFFF;
-	min-height: 250px;
+	min-height: 150px;
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
 #all {
@@ -41,7 +42,7 @@ a:hover,a:active,a:focus {
 }
 
 #shadow #all {
-	box-shadow: 0px 20px 10px #555555
+	box-shadow: 0px 0px 10px #555555
 }
 
 
@@ -366,23 +367,8 @@ ul.tabs li a.linkclosed:hover,ul.tabs li a.linkclosed:active,ul.tabs li a.linkcl
 	padding-left: 0
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* responsive */
-#mobile_select h2 {border:0; margin:-17px 0 0 0; padding:0; background:#0C1D43;text-align:right}
+#mobile_select h2 {border:0; margin:0; padding:0; background:#0C1D43;text-align:right}
 #mobile_select h2 a {
 display:inline-block;
 font-size:0.8em;
@@ -392,7 +378,9 @@ font-size:0.75em;
 margin-right:5px;
 }
 
-
+@media all and (max-width: 920px) {
+    .logoheader {background-size: 100% auto;padding-top: 0;}
+}
 
 @media only screen and (max-width: 480px) {
 
@@ -403,16 +391,14 @@ margin-right:5px;
   -ms-interpolation-mode: bicubic;
 }
 
-
 	#fontsize{display:none}
 	#nav,#wrapper2,#wrapper,.cols-3 .column-1,.cols-3 .column-2,.cols-3 .column-3,#right,.box,#header form
 		{
 		float: none;
 		width: 100%
 	}
-	#header {padding-top:3em}
+	#header {padding-top: 0; margin-top: 0;}
 	#header form  {margin:0}
-	.logoheader {background:#0C1D43; min-height:100px; margin:0}
 	.box {
 		border-left: 0 !important;
 		border-bottom: solid 1px #ddd;

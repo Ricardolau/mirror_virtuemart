@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -35,6 +35,10 @@ $config         = JFactory::getConfig();
 $bootstrap      = explode(',', $templateparams->get('bootstrap'));
 $jinput         = JFactory::getApplication()->input;
 $option         = $jinput->get('option', '', 'cmd');
+
+// Param 2 Variable
+$change_content_width = $templateparams->get('change_content_width');
+$content_width = $templateparams->get('content_width');
 
 // Output as HTML5
 $this->setHtml5(true);
@@ -99,9 +103,24 @@ require __DIR__ . '/jsstrings.php';
 		<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 	</head>
 	<body id="shadow">
-		<div id="all">
+		<div id="all" <?php if ($templateparams->get('change_content_width')) {
+			echo ' style="max-width: ' . $this->params->get('content_width') . 'px"';
+			} ?>
+			>
 			<div id="back">
 				<header id="header">
+					<?php if ($this->params->get('fontsizeselect') OR $this->countModules('positon-0')) { ?>
+					<div id="line">
+						<?php if ($templateparams->get('fontsizeselect')) { ?>
+						<div id="fontsize"></div>
+						<?php } ?>
+						<h3 class="unseen"><?php echo JText::_('TPL_BEEZ3_SEARCH'); ?></h3>
+						<jdoc:include type="modules" name="position-0" />
+					</div>
+					<?php } ?>
+					<?php if ($templateparams->get('main_menu_position') == 'main_menu_top') { ?>
+						<jdoc:include type="modules" name="position-1" />
+					<?php } ?>
 					<div class="logoheader">
 						<h1 id="logo">
 						<?php if ($logo) : ?>
@@ -109,8 +128,6 @@ require __DIR__ . '/jsstrings.php';
 						<?php endif;?>
 						<?php if (!$logo AND $templateparams->get('sitetitle')) : ?>
 							<?php echo htmlspecialchars($templateparams->get('sitetitle')); ?>
-						<?php elseif (!$logo AND $config->get('sitename')) : ?>
-							<?php echo htmlspecialchars($config->get('sitename')); ?>
 						<?php endif; ?>
 						<span class="header1">
 						<?php echo htmlspecialchars($templateparams->get('sitedescription')); ?>
@@ -125,12 +142,9 @@ require __DIR__ . '/jsstrings.php';
 					</ul>
 					<h2 class="unseen"><?php echo JText::_('TPL_BEEZ3_NAV_VIEW_SEARCH'); ?></h2>
 					<h3 class="unseen"><?php echo JText::_('TPL_BEEZ3_NAVIGATION'); ?></h3>
-					<jdoc:include type="modules" name="position-1" />
-					<div id="line">
-						<div id="fontsize"></div>
-						<h3 class="unseen"><?php echo JText::_('TPL_BEEZ3_SEARCH'); ?></h3>
-						<jdoc:include type="modules" name="position-0" />
-					</div> <!-- end line -->
+					<?php if ($templateparams->get('main_menu_position') == 'main_menu_bottom') { ?>
+						<jdoc:include type="modules" name="position-1" />
+					<?php } ?>
 				</header><!-- end header -->
 				<div id="<?php echo $showRightColumn ? 'contentarea2' : 'contentarea'; ?>">
 					<div id="breadcrumbs">
@@ -195,7 +209,6 @@ require __DIR__ . '/jsstrings.php';
 		<div id="footer-outer">
 			<?php if ($showbottom) : ?>
 				<div id="footer-inner" >
-
 					<div id="bottom">
 						<div class="box box1"> <jdoc:include type="modules" name="position-9" style="beezDivision" headerlevel="3" /></div>
 						<div class="box box2"> <jdoc:include type="modules" name="position-10" style="beezDivision" headerlevel="3" /></div>
@@ -204,12 +217,13 @@ require __DIR__ . '/jsstrings.php';
 
 				</div>
 			<?php endif; ?>
-
-			<div id="footer-sub">
-				<footer id="footer">
-					<jdoc:include type="modules" name="position-14" />
-				</footer><!-- end footer -->
-			</div>
+			<?php if ($this->countModules('position-14')) { ?>
+				<div id="footer-sub">
+					<footer id="footer">
+						<jdoc:include type="modules" name="position-14" />
+					</footer><!-- end footer -->
+				</div>
+			<?php } ?>
 		</div>
 		<jdoc:include type="modules" name="debug" />
 	</body>

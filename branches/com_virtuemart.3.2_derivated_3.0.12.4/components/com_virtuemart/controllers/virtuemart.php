@@ -1,0 +1,77 @@
+<?php
+/**
+*
+* Base controller Frontend
+*
+* @package		VirtueMart
+* @subpackage
+* @author Max Milbers
+* @link http://www.virtuemart.net
+* @copyright Copyright (c) 2011-2014 VirtueMart Team. All rights reserved.
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+* VirtueMart is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* @version $Id$
+ */
+
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die('Restricted access');
+
+/**
+ * VirtueMart Component Controller
+ *
+ * @package		VirtueMart
+ */
+class VirtueMartControllerVirtuemart extends vController
+{
+
+	function __construct() {
+		parent::__construct();
+
+	}
+
+	/**
+	 * Override of display to prevent caching
+	 *
+	 * @return  JController  A JController object to support chaining.
+	 */
+	public function display($cachable = false, $urlparams = false){
+
+		$document = vFactory::getDocument();
+		$viewType = $document->getType();
+		$viewName = vRequest::getCmd('view', 'virtuemart');
+		$view = $this->getView($viewName, $viewType);
+
+		$view->assignRef('document', $document);
+
+		$view->display();
+
+		return $this;
+	}
+
+	public function feed(){
+
+		if(!class_exists( 'vmRSS' )) require(VMPATH_ADMIN.'/helpers/vmrss.php');
+
+		$this->virtuemartFeed = vmRSS::getVirtueMartRssFeed();
+		$this->extensionsFeed = vmRSS::getExtensionsRssFeed();
+
+		$document = vFactory::getDocument();
+		$headData = $document->getHeadData();
+		$headData['scripts'] = array();
+		$document->setHeadData($headData);
+
+		ob_clean();
+		ob_start();
+		include(VMPATH_SITE.DS.'views'.DS.'virtuemart'.DS.'tmpl'.DS.'feed.php');
+		echo ob_get_clean();
+		jExit();
+	}
+
+	public function keepalive(){
+		jExit();
+	}
+}
+ //pure php no closing tag

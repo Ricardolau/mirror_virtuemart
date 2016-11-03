@@ -13,7 +13,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-if (!class_exists( 'vHtml' )) require(VMPATH_ADMIN.DS.'vmf'.DS.'html'.DS.'html.php');
+if (!class_exists( 'vHtml' )) require(VMPATH_ADMIN .'/vmf/html/html.php');
 
 /**
  * HTML Helper

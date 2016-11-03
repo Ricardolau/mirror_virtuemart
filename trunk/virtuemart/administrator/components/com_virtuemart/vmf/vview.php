@@ -77,7 +77,8 @@ abstract class vView extends vBasicModel implements vIView {
 			}
 		}
 		VmConfig::$echoDebug = 1;
-		vmdebug('layoutLoader couldnt find path for '.$filename,self::$_paths['layout']);
+		vmdebug('layoutLoader couldnt find path for  '.$filename,self::$_paths['layout']);
+		vmTrace('layoutLoader');
 		return false;
 	}
 

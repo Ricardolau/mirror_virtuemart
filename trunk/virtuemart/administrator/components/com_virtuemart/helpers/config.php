@@ -56,6 +56,8 @@ defined ('VMPATH_LIBS') or define ('VMPATH_LIBS', $vmPathLibraries);
 
 defined ('VMPATH_ADMINISTRATOR') or define ('VMPATH_ADMINISTRATOR',	VMPATH_ROOT .'/administrator');
 defined ('VMPATH_ADMIN') or define ('VMPATH_ADMIN', VMPATH_ADMINISTRATOR .'/components/com_virtuemart' );
+
+defined('VM_VERSION') or define ('VM_VERSION', 3);
 if (!class_exists( 'vFactory' ))
 	require(VMPATH_ADMIN .'/vmf/vfactory.php');
 
@@ -250,8 +252,8 @@ function vmError($descr,$publicdescr=''){
  */
 function vmdebug($debugdescr,$debugvalues=NULL){
 
-	if(VMConfig::showDebug()  ){
-		$app = vFactory::getApplication();
+	if(VmConfig::showDebug()  ){
+		$app = JFactory::getApplication();
 
 		if(VmConfig::$maxMessageCount<VmConfig::$maxMessage){
 			if($debugvalues!==NULL){
@@ -273,7 +275,7 @@ function vmdebug($debugdescr,$debugvalues=NULL){
 				logInfo($debugdescr,'vmdebug');
 			}else {
 				VmConfig::$maxMessageCount++;
-				$app = vFactory::getApplication();
+				//$app = vFactory::getApplication();
 				$app ->enqueueMessage('<span class="vmdebug" >vmdebug '.$debugdescr.'</span>');
 			}
 
@@ -497,9 +499,10 @@ class VmConfig {
 		defined ('VMPATH_MODULES') or define ('VMPATH_MODULES', VMPATH_ROOT .'/modules' );
 
 
-		$app = vFactory::getApplication();
+		//$app = vFactory::getApplication();
 		$admin = '';
-		if(!$app->isSite()){
+		//if(!$app->isSite()){
+		if(vFactory::$_appId == 'administrator'){
 			$admin = '/administrator';//echo('in administrator');
 		}
 
@@ -515,10 +518,7 @@ class VmConfig {
 		define( 'JPATH_VM_PLUGINS', VMPATH_PLUGINLIBS );
 		define( 'JPATH_VM_MODULES', VMPATH_MODULES );
 
-
-		defined('VM_VERSION') or define ('VM_VERSION', 3);
-
-//This number is for obstruction, similar to the prefix jos_ of joomla it should be avoided
+		//This number is for obstruction, similar to the prefix jos_ of joomla it should be avoided
 //to use the standard 7, choose something else between 1 and 99, it is added to the ordernumber as counter
 // and must not be lowered.
 		defined('VM_ORDER_OFFSET') or define('VM_ORDER_OFFSET',3);
@@ -957,8 +957,8 @@ class VmConfig {
 			$languages = JLanguageHelper::getLanguages('lang_code');
 			$ltag = vFactory::getLanguage()->getTag();
 			if(isset($languages[$ltag])){
-+				self::$vmlangSef = $languages[$ltag]->sef;
-+			}
+				self::$vmlangSef = $languages[$ltag]->sef;
+			}
 			self::$jLangCount = count($languages);
 		}
 

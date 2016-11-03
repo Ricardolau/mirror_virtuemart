@@ -88,8 +88,8 @@ class VirtueMartModelRatings extends VmModel {
 			$collate= '';
 			$collateMb4= '';
 			if(JVM_VERSION>=3){
-				$c = JFactory::getConfig();
-				$db = JFactory::getDbo();
+				$c = vFactory::getConfig();
+				$db = vFactory::getDbo();
 
 				$q = 'select COLLATION_NAME from information_schema.columns where TABLE_SCHEMA = "'.$c->get('db').'"
 				and TABLE_NAME = "'.str_replace('#__',$db->getPrefix(),'#__users').'"

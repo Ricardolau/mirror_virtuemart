@@ -108,7 +108,7 @@ class vmJsApi{
 	public static function writeJS(){
 
 		$html = '';
-		$document = JFactory::getDocument();
+		$document = vFactory::getDocument();
 		foreach(self::$_jsAdd as $name => &$jsToAdd){
 
 			if($jsToAdd['written']) continue;

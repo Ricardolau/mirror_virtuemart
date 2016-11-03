@@ -889,7 +889,7 @@ abstract class vmPSPlugin extends vmPlugin {
 	 * @param      $method
 	 * @param bool $getCurrency
 	 */
-	static function getPaymentCurrency (&$method, $getCurrency = FALSE) {
+	static function getPaymentCurrency (&$method, $selectedUserCurrency = FALSE) {
 
 		if (empty($method->payment_currency)) {
 			$vendor_model = VmModel::getModel('vendor');
@@ -903,7 +903,7 @@ abstract class vmPSPlugin extends vmPlugin {
 
 			if(!$selectedUserCurrency) {
 				if($method->payment_currency == -1) {
-					$mainframe = JFactory::getApplication();
+					$mainframe = vFactory::getApplication();
 					$selectedUserCurrency = $mainframe->getUserStateFromRequest( "virtuemart_currency_id", 'virtuemart_currency_id', vRequest::getInt( 'virtuemart_currency_id', $vendor_currencies['vendor_currency'] ) );
 				} else {
 					$selectedUserCurrency = $method->payment_currency;

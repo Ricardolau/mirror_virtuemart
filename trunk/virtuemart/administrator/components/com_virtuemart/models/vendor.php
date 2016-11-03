@@ -272,7 +272,7 @@ class VirtueMartModelVendor extends VmModel {
 	function getVendorAndAcceptedCurrencies($vendorId){
 
 		if(!isset(self::$_vendorAcceptedCurrencies[$vendorId])){
-			$db = JFactory::getDBO();
+			$db = vFactory::getDBO();
 // the select list should include the vendor currency which is the currency in which the product prices are displayed by default.
 			$q  = 'SELECT CONCAT(`vendor_accepted_currencies`, ",",`vendor_currency`) AS all_currencies, `vendor_currency` FROM `#__virtuemart_vendors` WHERE `virtuemart_vendor_id`='.(int)$vendorId;
 			$db->setQuery($q);

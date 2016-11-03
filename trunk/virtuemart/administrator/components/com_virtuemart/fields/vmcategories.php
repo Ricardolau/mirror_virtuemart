@@ -62,7 +62,7 @@ if(JVM_VERSION>0){
 			public function __construct ($form = null) {
 				parent::__construct( $form );
 				vBasicModel::addIncludePath( VMPATH_ADMIN.DS.'vmf'.DS.'html', 'html' );
-				vFactory::$_lang = JFactory::getLanguage();
+				vFactory::$_lang = vFactory::getLanguage();
 			}
 		}
 	}

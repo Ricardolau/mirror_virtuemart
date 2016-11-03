@@ -173,7 +173,6 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 			// 					'COM_VIRTUEMART_STOCKABLE_PRODUCT_DESC', 'G', 0, 0, 0, 1 );");
 
 			$this->installPlugin ('VirtueMart Product', 'plugin', 'virtuemart', 'search');
-			$this->updateMoneyBookersToSkrill();
 
 
 			$task = vRequest::getCmd ('task');

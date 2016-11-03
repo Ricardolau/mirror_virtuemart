@@ -845,7 +845,7 @@ abstract class vDatabaseDriver implements vIDataBaseConnector
 			if (!class_exists($class))
 			{
 				// If it doesn't exist we are at an impasse so throw an exception.
-				throw new RuntimeException('Database Query Class not found.');
+				throw new RuntimeException('Database Query Class not found. '.$class);
 			}
 
 			return new $class($this);

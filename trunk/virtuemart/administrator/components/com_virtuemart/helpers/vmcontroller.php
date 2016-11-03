@@ -77,7 +77,9 @@ class VmController extends vController {
 		$viewLayout	= vRequest::getCmd('layout', 'default');
 
 		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath));
-
+		if(!$view){
+			echo ''.$viewName.' '.$this->basePath;
+		}
 		// Set the layout
 		$view->setLayout($viewLayout);
 

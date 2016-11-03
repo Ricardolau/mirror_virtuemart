@@ -180,7 +180,7 @@ class vFormHelper extends vBasicModel{
 				return $classJ;
 			}
 		}
-		VmConfig::$echoDebug=1;
+		//VmConfig::$echoDebug=1;
 		vmdebug('joomla loadClass',$entity, $type,$paths,$class);
 		// Check for all if the class exists.
 		return class_exists($class) ? $class : false;

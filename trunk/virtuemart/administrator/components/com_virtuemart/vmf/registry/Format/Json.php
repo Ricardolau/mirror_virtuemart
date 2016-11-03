@@ -30,7 +30,7 @@ class Json extends AbstractRegistryFormat
 	 */
 	public function objectToString($object, $options = array())
 	{
-		return vtring::unicode_to_utf8(json_encode($object));
+		return vString::unicode_to_utf8(json_encode($object));
 	}
 
 	/**

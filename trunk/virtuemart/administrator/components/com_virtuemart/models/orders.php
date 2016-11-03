@@ -50,7 +50,7 @@ class VirtueMartModelOrders extends VmModel {
 		$k= 'com_virtuemart.'.$view.'.'.$task.$type;
 
 		$ts = vRequest::getString($type, false);
-		$app = JFactory::getApplication();
+		$app = vFactory::getApplication();
 
 		if($ts===false){
 			$this->{$type} = $app->getUserState($k, '');
@@ -389,7 +389,7 @@ class VirtueMartModelOrders extends VmModel {
 			}
 			if(!vmAccess::manager('orders')){
 				//A normal user is only allowed to see its own orders, we map $uid to the user id
-				$user = JFactory::getUser();
+				$user = vFactory::getUser();
 				$uid = (int)$user->id;
 				if(!empty($uid)){
 					$where[]= ' u.virtuemart_user_id = ' . (int)$uid.' ';
@@ -1080,7 +1080,7 @@ class VirtueMartModelOrders extends VmModel {
 		}
 
 		vPluginHelper::importPlugin('vmshopper');
-		JPluginHelper::importPlugin('vmextended');
+		vPluginHelper::importPlugin('vmextended');
 		$dispatcher = vDispatcher::getInstance();
 		$plg_datas = $dispatcher->trigger('plgVmOnUserOrder',array(&$_orderData));
 		foreach($plg_datas as $plg_data){
@@ -1645,7 +1645,7 @@ class VirtueMartModelOrders extends VmModel {
 
 			vPluginHelper::importPlugin('vmshopper');
 			vPluginHelper::importPlugin('vmpayment');
-			JPluginHelper::importPlugin('vmextended');
+			vPluginHelper::importPlugin('vmextended');
 			$dispatcher = vDispatcher::getInstance();
 			// plugin returns invoice number, 0 if it does not want an invoice number to be created by Vm
 			$plg_datas = $dispatcher->trigger('plgVmOnUserInvoice',array($orderDetails,&$data));

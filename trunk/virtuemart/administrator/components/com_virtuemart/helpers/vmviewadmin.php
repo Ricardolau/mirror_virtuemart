@@ -236,7 +236,7 @@ class VmViewAdmin extends vView {
 		}
 
 		// only add if ID and view not null
-		if ($editView and $id and (count(vmconfig::get('active_languages'))>1) ) {
+		if ($editView and ($id or VmConfig::get('prodOnlyWLang',false)) and (count(vmconfig::get('active_languages'))>1) ) {
 
 			if ($editView =='user') $editView ='vendor';
 

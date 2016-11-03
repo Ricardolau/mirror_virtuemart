@@ -384,6 +384,8 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_invoices` (
 CREATE TABLE IF NOT EXISTS `#__virtuemart_manufacturers` (
   `virtuemart_manufacturer_id` int(1) UNSIGNED NOT NULL AUTO_INCREMENT,
   `virtuemart_manufacturercategories_id` int(1),
+  `metarobot` varchar(400),
+  `metaauthor` varchar(400),
   `hits` int(1) unsigned NOT NULL DEFAULT '0',
   `published` tinyint(1) NOT NULL DEFAULT '1',
   `created_on` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -758,9 +760,9 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_products` (
   `product_sales` int(1) UNSIGNED NOT NULL DEFAULT '0',
   `product_unit` varchar(8),
   `product_packaging` decimal(8,4) UNSIGNED,
-  `product_params` text NOT NULL DEFAULT '',
+  `product_params` text NOT NULL,
   `hits` int(1) unsigned,
-  `intnotes` varchar(18000),
+  `intnotes` text,
   `metarobot` varchar(400),
   `metaauthor` varchar(400),
   `layout` char(16),
@@ -921,6 +923,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_product_prices` (
 
 CREATE TABLE IF NOT EXISTS `#__virtuemart_rating_reviews` (
   `virtuemart_rating_review_id` INT(1) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `virtuemart_rating_vote_id` INT(1) UNSIGNED,
   `virtuemart_product_id` int(1) UNSIGNED NOT NULL DEFAULT '0',
   `comment` varchar(18000),
   `review_ok` tinyint(1) NOT NULL DEFAULT '0',
@@ -938,6 +941,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_rating_reviews` (
   `locked_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `locked_by` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`virtuemart_rating_review_id`),
+  KEY `virtuemart_rating_vote_id` (`virtuemart_rating_vote_id`),
   KEY `virtuemart_product_id` (`virtuemart_product_id`,`created_by`),
   KEY `created_on` (`created_on`),
   KEY `created_by` (`created_by`),

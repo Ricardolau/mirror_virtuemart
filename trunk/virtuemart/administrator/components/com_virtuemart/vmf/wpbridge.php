@@ -11,7 +11,7 @@
 * http://virtuemart.net
 */
 
-class wpBridge extends vBasicModel implements vIApp {
+class wpBridge implements vIApp {
 
 	private static $config;
 

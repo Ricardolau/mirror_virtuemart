@@ -1,6 +1,6 @@
 <?php
 
-defined('JPATH_PLATFORM') or die;
+defined('VM_VERSION') or die('Direct access to VMF is not allowed');
 
 defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 
@@ -9,6 +9,7 @@ class vFactory {
 
 	static $_db = 0;
 	static $_apps = array();
+	static $_appId = 'site';
 	static $_session = false;
 	static $_document = false;
 	static $_lang = false;
@@ -70,9 +71,25 @@ class vFactory {
 		return self::$_db;
 	}
 
-	static function getApplication($id='site'){
+	static function getApplication($id=0, $config = array(), $prefix = 'v'){
+
+		if($id===0){
+			$id = self::$_appId;
+		}
+
 		if(!isset(self::$_apps[$id])){
-			if(JVM_VERSION===0){
+			if(!interface_exists('vIObject'))
+				require(VMPATH_ADMIN .'/vmf/vinterfaces.php');
+			if(!class_exists('vObject')) require(VMPATH_ADMIN .'/vmf/vobject.php');
+			if(!class_exists('vRequest')) require(VMPATH_ADMIN .'/helpers/vrequest.php');
+
+			if(!class_exists('vApplicationCms'))
+				require(VMPATH_ADMIN .'/vmf/app/cms/cms.php');
+			if(!class_exists('vApplication'.ucfirst($id)))
+				require(VMPATH_ADMIN .'/vmf/app/cms/'.$id.'.php');
+			self::$_apps[$id] = vApplicationCms::getInstance($id, $config, $prefix);
+
+			/*if(JVM_VERSION===0){
 				if(!class_exists('wpBridge'))
 					require(VMPATH_ADMIN .'/vmf/wpbridge.php');
 				self::$_apps[$id] = wpBridge::getInstance();
@@ -82,7 +99,7 @@ class vFactory {
 				self::$_apps[$id] = JFactory::getApplication($id);
 				//if(!class_exists('JApplicationCms')) require(VMPATH_ROOT.DS.'libraries'.DS.'cms'.DS.'application'.DS.'cms.php');
 				//self::$_apps[$id] = JApplicationCms::getInstance($id);
-			}
+			}*/
 
 		}
 		return self::$_apps[$id];

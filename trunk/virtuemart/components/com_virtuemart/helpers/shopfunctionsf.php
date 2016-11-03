@@ -31,23 +31,12 @@ class shopFunctionsF {
 		if($cart) {
 			$show = VmConfig::get( 'oncheckout_show_register', 1 );
 		}
-		if($show == 1) {
 
+		if($show == 1) {
 			if(!class_exists( 'VirtuemartViewUser' )) require(VMPATH_SITE.DS.'views'.DS.'user'.DS.'view.html.php');
 			$view = vController::createView('user','VirtuemartView');
-
-			$view->setLayout( 'login' );
-			$view->assignRef( 'show', $show );
-
-			$view->assignRef( 'order', $order );
-			$view->assignRef( 'from_cart', $cart );
-			$view->assignRef( 'url', $url );
-			$view->writeJs = false;
-
-			ob_start();
-			$view->display();
-			$body = ob_get_contents();
-			ob_end_clean();
+			$view->useSSL = VmConfig::get('useSSL', 0);
+			$body = $view->renderVmSubLayout($layout,array('show' => $show, 'order' => $order, 'from_cart' => $cart, 'url' => $url));
 		}
 
 		return $body;
@@ -958,13 +947,13 @@ class shopFunctionsF {
 
 	static public function renderCaptcha($config = 'reg_captcha',$id = 'dynamic_recaptcha_1'){
 
-		if(VmConfig::get ($config) and JFactory::getUser()->guest==1 ){
+		if(VmConfig::get ($config) and vFactory::getUser()->guest==1 ){
 
-			JPluginHelper::importPlugin('captcha');
-			$dispatcher = JDispatcher::getInstance();
+			vPluginHelper::importPlugin('captcha');
+			$dispatcher = vDispatcher::getInstance();
 			$dispatcher->trigger('onInit',$id);
 			if(version_compare(JVERSION, '3.5', 'ge')){
-				$plugin = JPluginHelper::getPlugin('captcha', 'recaptcha');
+				$plugin = vPluginHelper::getPlugin('captcha', 'recaptcha');
 				$params = new JRegistry($plugin->params);
 				if ($params->get('version') != '1.0') {
 					return '<div id="jform_captcha" class="g-recaptcha  required" data-sitekey="'.$params->get('public_key').'" data-theme="'.$params->get('theme2').'" data-size="normal"></div>';

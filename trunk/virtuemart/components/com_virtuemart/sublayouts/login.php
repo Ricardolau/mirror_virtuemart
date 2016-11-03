@@ -34,12 +34,12 @@ if (empty($this->url)){
 //$url = JRoute::_($url, $this->useXHTML, $this->useSSL);
 
 $user = vFactory::getUser();
-
+if (!class_exists( 'vHtml' )) require(VMPATH_ADMIN .'/vmf/html/html.php');
 if ($this->show and $user->id == 0  ) {
 vHtml::_('behavior.formvalidator');
 
 	//Extra login stuff, systems like openId and plugins HERE
-    if (JPluginHelper::isEnabled('authentication', 'openid')) {
+    if (vPluginHelper::isEnabled('authentication', 'openid')) {
         $lang = vFactory::getLanguage();
         $lang->load('plg_authentication_openid', JPATH_ADMINISTRATOR);
         $langScript = '
@@ -125,7 +125,7 @@ vHtml::_('behavior.formvalidator');
 
         <div class="width30 floatleft" id="com-form-login-remember">
           <input type="submit" name="Submit" class="default" value="<?php echo vmText::_('COM_VIRTUEMART_LOGIN') ?>" />
-          <?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
+          <?php if (vPluginHelper::isEnabled('system', 'remember')) : ?>
           <label for="remember"><?php echo $remember_me = vmText::_('JGLOBAL_REMEMBER_ME') ?></label>
           <input type="checkbox" id="remember" name="remember" class="inputbox" value="yes" />
           <?php endif; ?>

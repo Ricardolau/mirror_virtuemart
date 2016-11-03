@@ -256,7 +256,7 @@ class VirtueMartControllerCart extends vController {
 	public function addJS() {
 
 		$this->json = new stdClass();
-		$cart = VirtueMartCart::getCart(false);
+		$cart = VirtueMartCart::getCart();
 		if ($cart) {
 			$view = $this->getView ('cart', 'json');
 			$virtuemart_category_id = shopFunctionsF::getLastVisitedCategoryId();

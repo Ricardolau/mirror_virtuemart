@@ -173,11 +173,11 @@ class VirtueMartCustomFieldRenderer {
 								if(empty($elem)){
 									$text = vmText::_('COM_VIRTUEMART_LIST_EMPTY_OPTION');
 								}
-
 								$o = new stdClass();
 								$o->value = $elem;
 								$o->text = $text;
 								$options[] = $o;
+
 								if($productSelection and $productSelection[$k] == $elem){
 									$selected = $elem;
 								}
@@ -201,23 +201,10 @@ class VirtueMartCustomFieldRenderer {
 
 						}
 
-						$class = 'vm-chzn-select';
-						$selectType = 'select.genericlist';
-
-						if(!empty($customfield->selectType)){
-							$selectType = 'select.radiolist';
-							$class = '';
-						} else {
-							vmJsApi::chosenDropDowns();
-						}
-
-						$attribs = array('class'=>$class.' cvselection no-vm-bind','data-dynamic-update'=>'1','style'=>'min-width:70px;');
-						if('productdetails' != vRequest::getCmd('view') or !VmConfig::get ('jdynupdate', TRUE)){
-							$attribs['reload'] = '1';
-						}
+						$attribs['cvsel'] = 'field' . $customfield->virtuemart_customfield_id ;
 						$fname = $fieldname.'['.$k.']';
 						$html .= vHtml::_ ($selectType, $options, $fname, $attribs , "value", "text", $selected,$idTagK);
-						$tags[] = $idTagK;
+
 					}
 
 					$Itemid = vRequest::getInt('Itemid',''); // '&Itemid=127';
@@ -541,7 +528,7 @@ class VirtueMartCustomFieldRenderer {
 				case 'Z':
 					if(empty($customfield->customfield_value)) break;
 					$html = '';
-					$q = 'SELECT * FROM `#__virtuemart_categories_' . VmConfig::$vmlang . '` as l INNER JOIN `#__virtuemart_categories` AS c using (`virtuemart_category_id`) WHERE `published`=1 AND l.`virtuemart_category_id`= "' . (int)$customfield->customfield_value . '" ';
+					$q = 'SELECT * FROM `#__virtuemart_categories_' . VmConfig::$vmlang . '` as l INNER JOIN `#__virtuemart_categories` AS c ON (l.`virtuemart_category_id`=c.`virtuemart_category_id`) WHERE `published`=1 AND l.`virtuemart_category_id`= "' . (int)$customfield->customfield_value . '" ';
 					$db = vFactory::getDbo();
 					$db->setQuery ($q);
 					if ($category = $db->loadObject ()) {

@@ -40,7 +40,7 @@ class VirtuemartViewInvoice extends VmView {
 	public function display($tpl = null)
 	{
 
-		$document = JFactory::getDocument();
+		$document = vFactory::getDocument();
 
 		$orderModel = VmModel::getModel('orders');
 		$orderDetails = $this->orderDetails;
@@ -67,7 +67,7 @@ class VirtuemartViewInvoice extends VmView {
 
 		/* It would be so nice to be able to load the override of the FE additionally from here
 		 * joomlaWantsThisFolder\language\overrides\en-GB.override.ini
-		 * $jlang =JFactory::getLanguage();
+		 * $jlang =vFactory::getLanguage();
 		$tag = $jlang->getTag();
 		$jlang->load('override', 'language/overrides',$tag,true);*/
 
@@ -169,8 +169,8 @@ class VirtuemartViewInvoice extends VmView {
 		 * Deprecated trigger will be renamed or removed
 		 */
 		if(!class_exists('vmPSPlugin')) require(JPATH_VM_PLUGINS.DS.'vmpsplugin.php');
-		  JPluginHelper::importPlugin('vmpayment');
-	    $dispatcher = JDispatcher::getInstance();
+		  vPluginHelper::importPlugin('vmpayment');
+	    $dispatcher = vDispatcher::getInstance();
 	    $dispatcher->trigger('plgVmgetEmailCurrency',array( $orderDetails['details']['BT']->virtuemart_paymentmethod_id, $orderDetails['details']['BT']->virtuemart_order_id, &$this->user_currency_id));
 
 		if(!class_exists('CurrencyDisplay')) require(VMPATH_ADMIN.DS.'helpers'.DS.'currencydisplay.php');
@@ -251,15 +251,15 @@ class VirtuemartViewInvoice extends VmView {
 
 		if (empty($orderDetails['shipmentName']) ) {
 		    if (!class_exists('vmPSPlugin')) require(JPATH_VM_PLUGINS . DS . 'vmpsplugin.php');
-		    JPluginHelper::importPlugin('vmshipment');
-		    $dispatcher = JDispatcher::getInstance();
+		    vPluginHelper::importPlugin('vmshipment');
+		    $dispatcher = vDispatcher::getInstance();
 		    $returnValues = $dispatcher->trigger('plgVmOnShowOrderFEShipment',array(  $orderDetails['details']['BT']->virtuemart_order_id, $orderDetails['details']['BT']->virtuemart_shipmentmethod_id, &$orderDetails['shipmentName']));
 		}
 
 		if (empty($orderDetails['paymentName']) ) {
 		    if(!class_exists('vmPSPlugin')) require(JPATH_VM_PLUGINS.DS.'vmpsplugin.php');
-		    JPluginHelper::importPlugin('vmpayment');
-		    $dispatcher = JDispatcher::getInstance();
+		    vPluginHelper::importPlugin('vmpayment');
+		    $dispatcher = vDispatcher::getInstance();
 		    $returnValues = $dispatcher->trigger('plgVmOnShowOrderFEPayment',array( $orderDetails['details']['BT']->virtuemart_order_id, $orderDetails['details']['BT']->virtuemart_paymentmethod_id,  &$orderDetails['paymentName']));
 
 		}

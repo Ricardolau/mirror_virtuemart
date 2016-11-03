@@ -22,7 +22,7 @@ defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 if (!class_exists( 'VmConfig' )) require(JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'helpers'.DS.'config.php');
 
 VmConfig::loadConfig();
-
+VmConfig::showDebug('all');
 
 
 vmRam('Start');

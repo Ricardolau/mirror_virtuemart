@@ -34,10 +34,10 @@ class VirtueMartControllerCategory extends vController {
 
 	public function display($cachable = false, $urlparams = false)  {
 
-		if (vRequest::getvar('search')) {
+	/*	if (vRequest::getvar('search')) {
 			$view = $this->getView('category', 'html');
 			$view->display();
-		} else {
+		} else {*/
 			// Display it all
 			$document = vFactory::getDocument();
 			$viewType = $document->getType();
@@ -49,7 +49,7 @@ class VirtueMartControllerCategory extends vController {
 			$view->assignRef('document', $document);
 
 			$view->display();
-		}
+		//}
 		if($categoryId = vRequest::getInt('virtuemart_category_id',0)){
 			shopFunctionsF::setLastVisitedCategoryId($categoryId);
 		}

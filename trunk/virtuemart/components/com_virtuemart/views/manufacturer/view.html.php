@@ -86,7 +86,7 @@ class VirtuemartViewManufacturer extends VmView {
 				$document->setMetaData('robots', $manufacturer->metarobot);
 			}
 
-			$app = JFactory::getApplication();
+			$app = vFactory::getApplication();
 			if ($app->getCfg('MetaTitle') == '1') {
 				$document->setMetaData('title', $manufacturer->mf_name);  //Maybe better product_name
 			}

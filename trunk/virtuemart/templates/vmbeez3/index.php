@@ -85,7 +85,9 @@ if (file_exists($userCss) && filesize($userCss) > 0)
 }
 
 JHtml::_('bootstrap.framework');
-$this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/md_stylechanger.js');
+if($templateparams->get('fontsizeselect')){
+	$this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/md_stylechanger.js');
+}
 $this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/hide.js');
 $this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/respond.src.js');
 $this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/template.js');
@@ -151,15 +153,23 @@ require __DIR__ . '/jsstrings.php';
 						<jdoc:include type="modules" name="position-2" />
 					</div>
 
-					<?php if ($navposition == 'left' and $showleft) : ?>
-						<nav class="left1 <?php if ($showRightColumn == null) { echo 'leftbigger';} ?>" id="nav">
+					<?php
+					$r = $templateparams->get('nav2cont_ratio','25');
+					if ($navposition == 'left' and $showleft) :
+						?>
+						<nav class="left1"  <?php if ($showRightColumn == null) { echo 'style="width:'.$r.'%;min-width:100px" ';} ?> id="nav">
 							<jdoc:include type="modules" name="position-7" style="beezDivision" headerLevel="3" />
 							<jdoc:include type="modules" name="position-4" style="beezHide" headerLevel="3" state="0 " />
 							<jdoc:include type="modules" name="position-5" style="beezTabs" headerLevel="2"  id="3" />
 						</nav><!-- end navi -->
 					<?php endif; ?>
 
-					<div id="<?php echo $showRightColumn ? 'wrapper' : 'wrapper2'; ?>" <?php if (isset($showno)){echo 'class="shownocolumns"';}?>>
+					<div id="<?php echo $showRightColumn ? 'wrapper' : 'wrapper2'; ?>"
+					<?php if (isset($showno)){
+						echo 'class="shownocolumns" ';
+					} else {
+						echo 'style="width:'.(96-$r).'%;min-width:200px" ';
+					}?>>
 						<div id="main">
 
 							<?php if ($this->countModules('position-12')) : ?>

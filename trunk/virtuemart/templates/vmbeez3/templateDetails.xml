@@ -132,6 +132,10 @@
 					<option value="main_menu_top">TPL_BEEZ3_MAIN_MENU_TOP</option>
 					<option value="main_menu_bottom">TPL_BEEZ3_MAIN_MENU_BOTTOM</option>
 				</field>
+				<field name="nav2cont_ratio"  class="validate-numeric" type="text" default="25"
+					   label="TPL_BEEZ3_FIELD_NAV2CONT_RATIO_LABEL"
+					   description="TPL_BEEZ3_FIELD_NAV2CONT_RATIO_LABEL_DESC"
+					   filter="integer" />
 			</fieldset>
 
 

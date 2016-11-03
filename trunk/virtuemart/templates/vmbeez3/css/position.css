@@ -163,7 +163,7 @@ body {
 }
 
 #wrapper2 {
-    width: 72%;
+    /*width: 72%;*/
     float: left;
     position: relative;
     padding-bottom: 20px;
@@ -310,12 +310,10 @@ body {
 #line {
     padding: 5px 0 2px 2px;
     position: absolute;
-    right: 10px;
+    left: 10px;
     top: 0.5em;
     max-width: 40em;
-    text-align: right;
-    min-width: 40em
-
+    text-align: left;
 }
 
 #fontsize,

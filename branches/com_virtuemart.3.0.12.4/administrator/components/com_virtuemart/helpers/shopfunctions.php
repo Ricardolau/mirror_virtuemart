@@ -834,6 +834,7 @@ class ShopFunctions {
 	 * Creates an drop-down list with numbers from 1 to 31 or of the selected range,
 	 * dont use within virtuemart. It is just meant for paymentmethods
 	 *
+	 * @deprecated
 	 * @param string $list_name The name of the select element
 	 * @param string $selected_item The pre-selected value
 	 */
@@ -947,32 +948,23 @@ class ShopFunctions {
 		return ($str);
 	}
 
+	/**
+	 * @deprecated
+	 * @return array
+	 */
 	static function getValidProductFilterArray () {
 
 		static $filterArray;
 
-		if (!isset($filterArray)) {
+		if(!isset( $filterArray )) {
 
-			$filterArray = array('product_name', '`p`.created_on', '`p`.product_sku','`p`.product_mpn',
-			'product_s_desc', 'product_desc','`l`.slug',
-			'category_name', 'category_description', 'mf_name',
-			'product_price', '`p`.product_special', '`p`.product_sales', '`p`.product_availability', '`p`.product_available_date',
-			'`p`.product_height', '`p`.product_width', '`p`.product_length', '`p`.product_lwh_uom',
-			'`p`.product_weight', '`p`.product_weight_uom', '`p`.product_in_stock', '`p`.low_stock_notification',
-			'`p`.modified_on', '`p`.product_gtin',
-			'`p`.product_unit', '`p`.product_packaging', '`p`.virtuemart_product_id', 'pc.ordering');
-
-			//other possible fields
-			//'p.intnotes',		this is maybe interesting, but then only for admins or special shoppergroups
-
-			// this fields leads to trouble, because we have this fields in product, category and manufacturer,
-			// they are anyway making not a lot sense for orderby or search.
-			//'l.metadesc', 'l.metakey', 'l.metarobot', 'l.metaauthor'
+			VmModel::getModel( 'product' );
+			$filterArray = VirtueMartModelProduct::getValidProductFilterArray();
 		}
 
 		return $filterArray;
 	}
-
+	
 	/**
 	 * Returns developer information for a plugin
 	 * Returns a 2 link with background image, should look like a button to open contact page or manual

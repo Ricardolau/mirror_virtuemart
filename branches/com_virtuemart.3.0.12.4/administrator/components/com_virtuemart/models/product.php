@@ -67,7 +67,7 @@ class VirtueMartModelProduct extends VmModel {
 			if (!class_exists ('shopFunctions')) {
 				require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
 			}
-			$browseOrderByFields = ShopFunctions::getValidProductFilterArray ();
+			$browseOrderByFields = self::getValidProductFilterArray ();
 			$this->addvalidOrderingFieldName (array('pc.ordering,product_name','product_price','product_sales'));
 			//$this->addvalidOrderingFieldName (array('product_price'));
 			// 	vmdebug('$browseOrderByFields',$browseOrderByFields);
@@ -108,6 +108,33 @@ class VirtueMartModelProduct extends VmModel {
 	private $_autoOrder = 0;
 	private $orderByString = 0;
 	private $listing = FALSE;
+
+
+	static function getValidProductFilterArray () {
+
+		static $filterArray;
+
+		if (!isset($filterArray)) {
+
+			$filterArray = array('product_name', '`p`.created_on', '`p`.product_sku','`p`.product_mpn',
+			'product_s_desc', 'product_desc','`l`.slug',
+			'category_name', 'category_description', 'mf_name',
+			'product_price', '`p`.product_special', '`p`.product_sales', '`p`.product_availability', '`p`.product_available_date',
+			'`p`.product_height', '`p`.product_width', '`p`.product_length', '`p`.product_lwh_uom',
+			'`p`.product_weight', '`p`.product_weight_uom', '`p`.product_in_stock', '`p`.low_stock_notification',
+			'`p`.modified_on', '`p`.product_gtin',
+			'`p`.product_unit', '`p`.product_packaging', '`p`.virtuemart_product_id', 'pc.ordering');
+
+			//other possible fields
+			//'p.intnotes',		this is maybe interesting, but then only for admins or special shoppergroups
+
+			// this fields leads to trouble, because we have this fields in product, category and manufacturer,
+			// they are anyway making not a lot sense for orderby or search.
+			//'l.metadesc', 'l.metakey', 'l.metarobot', 'l.metaauthor'
+		}
+
+		return $filterArray;
+	}
 
 
 	/**
@@ -276,7 +303,7 @@ class VirtueMartModelProduct extends VmModel {
 		$joinShopper = FALSE;
 		$joinChildren = FALSE;
 		//$joinLang = false;
-		$orderBy = ' ';
+
 
 		$where = array();
 
@@ -549,6 +576,9 @@ class VirtueMartModelProduct extends VmModel {
 						$joinLang = true;
 						$langFields[] = 'product_name';
 					}
+				} else {
+					$orderBy = 'ORDER BY product_name ' . $filterOrderDir.', p.`virtuemart_product_id` '.$filterOrderDir;
+					$langFields[] = 'product_name';
 				}
 				break;
 		}
@@ -573,10 +603,10 @@ class VirtueMartModelProduct extends VmModel {
 					$orderBy = 'ORDER BY p.`' . $latest_products_orderBy . '` DESC, p.`virtuemart_product_id` DESC';;
 					break;
 				case 'random':
-					$orderBy = ' ORDER BY RAND() '; //LIMIT 0, '.(int)$nbrReturnProducts ; //TODO set limit LIMIT 0, '.(int)$nbrReturnProducts;
+					$orderBy = 'ORDER BY RAND() '; //LIMIT 0, '.(int)$nbrReturnProducts ; //TODO set limit LIMIT 0, '.(int)$nbrReturnProducts;
 					break;
 				case 'topten':
-					$orderBy = ' ORDER BY p.`product_sales` DESC, p.`virtuemart_product_id` DESC'; //LIMIT 0, '.(int)$nbrReturnProducts;  //TODO set limitLIMIT 0, '.(int)$nbrReturnProducts;
+					$orderBy = 'ORDER BY p.`product_sales` DESC, p.`virtuemart_product_id` DESC'; //LIMIT 0, '.(int)$nbrReturnProducts;  //TODO set limitLIMIT 0, '.(int)$nbrReturnProducts;
 					$joinPrice = true;
 					$where[] = 'pp.`product_price`>"0.001" ';
 					break;
@@ -604,23 +634,21 @@ class VirtueMartModelProduct extends VmModel {
 			}
 		}
 
-		//}
-
-
 
 		$joinedTables = array();
 
-
 		//Maybe we have to join the language to order by product name, description, etc,...
 		$productLangFields = array('product_s_desc','product_desc','product_name','metadesc','metakey','slug');
-		foreach($productLangFields as $field){
-			if(strpos($orderBy,$field,6)!==FALSE){
-				$langFields[] = $field;
-				$orderbyLangField = $field;
-				$joinLang = true;
-				break;
+		if(!empty($orderBy)){
+			foreach($productLangFields as $field){
+				if(strpos($orderBy,$field,6)!==FALSE){
+					$langFields[] = $field;
+					$joinLang = true;
+					break;
+				}
 			}
 		}
+
 
 		//This option switches between showing products without the selected language or only products with language.
 		if( $app->isSite() ){	//and !VmConfig::get('prodOnlyWLang',false)){
@@ -1002,7 +1030,7 @@ vmdebug('$limitStart',$limitStart);
 			foreach ($attribs as $k=> $v) {
 				if (!property_exists($parentProduct, $k)) continue;
 				if ('product_in_stock' != $k and 'product_ordered' != $k) {// Do not copy parent stock into child
-					if (strpos ($k, '_') !== 0 and empty($child->$k)) {
+					if (strpos ($k, '_') !== 0 and property_exists($child, $k) and empty($child->$k)) {
 						$child->$k = $v;
 						//	vmdebug($child->product_parent_id.' $child->$k',$child->$k);
 					}

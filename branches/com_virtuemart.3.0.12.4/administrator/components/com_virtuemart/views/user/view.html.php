@@ -119,7 +119,7 @@ class VirtuemartViewUser extends VmViewAdmin {
 			$this->lists['shipTo'] = shopFunctionsF::generateStAddressList($this, $model, 'addST');
 
 			$new = false;
-			if(vRequest::getInt('new','0')===1){
+			if(vRequest::getInt('new','0')==1){
 				$new = true;
 			}
 
@@ -151,6 +151,7 @@ class VirtuemartViewUser extends VmViewAdmin {
 				$userFieldsArray = $model->getUserInfoInUserFields($layoutName,'ST',$virtuemart_userinfo_id,false);
 				if($new ){
 					$virtuemart_userinfo_id = 0;
+
 				} else {
 
 				}

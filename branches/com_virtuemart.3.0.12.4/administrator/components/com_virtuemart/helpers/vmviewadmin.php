@@ -347,7 +347,7 @@ class VmViewAdmin extends JViewLegacy {
 
 		$viewText = vmText::_('COM_VIRTUEMART_' . strtoupper($name));
 
-		$taskName = ' <small><small>[ ' . vmText::_('COM_VIRTUEMART_' . $task) . ' ]</small></small>';
+		$taskName = ' <small><small>[ ' . vmText::_('COM_VIRTUEMART_' . strtoupper($task)) . ' ]</small></small>';
 
 		JToolBarHelper::title($viewText . ' ' . $taskName . $msg, 'head vm_' . $icon . '_48');
 		$this->assignRef('viewName',$viewText); //was $viewName?

@@ -242,16 +242,14 @@ class VirtueMartModelOrders extends VmModel {
 		$order['history'] = $db->loadObjectList();
 
 		// Get the order items
-	$q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name,
-		order_item_sku, i.virtuemart_product_id, product_item_price,
-		product_final_price, product_basePriceWithTax, product_discountedPriceWithoutTax, product_priceWithoutTax, product_subtotal_with_tax, product_subtotal_discount, product_tax, product_attribute, order_status, p.product_available_date, p.product_availability,
-		intnotes, virtuemart_category_id, p.product_mpn
-	   FROM (#__virtuemart_order_items i
-			LEFT JOIN #__virtuemart_products p
-			ON p.virtuemart_product_id = i.virtuemart_product_id)
-	   LEFT JOIN #__virtuemart_product_categories c
-	   ON p.virtuemart_product_id = c.virtuemart_product_id
-	   WHERE `virtuemart_order_id`="'.$virtuemart_order_id.'" group by `virtuemart_order_item_id`';
+	$q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name, order_item_sku, i.virtuemart_product_id, product_item_price, product_final_price, product_basePriceWithTax, product_discountedPriceWithoutTax, product_priceWithoutTax, product_subtotal_with_tax, product_subtotal_discount, product_tax, product_attribute, order_status,
+			intnotes, virtuemart_category_id
+			FROM #__virtuemart_order_items i
+				LEFT JOIN #__virtuemart_products p
+				ON p.virtuemart_product_id = i.virtuemart_product_id
+				LEFT JOIN #__virtuemart_product_categories c
+				ON p.virtuemart_product_id = c.virtuemart_product_id
+			WHERE `virtuemart_order_id`="'.$virtuemart_order_id.'" group by `virtuemart_order_item_id`';
 //group by `virtuemart_order_id`'; Why ever we added this, it makes trouble, only one order item is shown then.
 // without group by we get the product 3 times, when it is in 3 categories and similar, so we need a group by
 //lets try group by `virtuemart_order_item_id`
@@ -260,7 +258,7 @@ class VirtueMartModelOrders extends VmModel {
 
 		$customfieldModel = VmModel::getModel('customfields');
 		$pModel = VmModel::getModel('product');
-		foreach($order['items'] as &$item){
+		foreach($order['items'] as $p=>$item){
 
 			$ids = array();
 
@@ -274,7 +272,6 @@ class VirtueMartModelOrders extends VmModel {
 					}
 				}
 			}
-
 
 			if(!empty($item->product_attribute)){
 				//Format now {"9":7,"20":{"126":{"comment":"test1"},"127":{"comment":"t2"},"128":{"comment":"topic 3"},"129":{"comment":"4 44 4 4 44 "}}}
@@ -304,6 +301,7 @@ class VirtueMartModelOrders extends VmModel {
 					}
 				}
 			}
+			$order['items'][$p] = $item;
 		}
 
 // Get the order items

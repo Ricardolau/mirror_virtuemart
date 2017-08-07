@@ -322,7 +322,8 @@ class VirtueMartModelConfig extends VmModel {
 			$searchChecked = (array)$searchChecked;
 		}
 		if($type!='browse_cat_orderby_field'){
-			$searchFieldsArray = ShopFunctions::getValidProductFilterArray ();
+			VmModel::getModel('product');
+			$searchFieldsArray = VirtueMartModelProduct::getValidProductFilterArray ();
 			if($type=='browse_search_fields'){
 				if($key = array_search('pc.ordering',$searchFieldsArray)){
 					unset($searchFieldsArray[$key]);

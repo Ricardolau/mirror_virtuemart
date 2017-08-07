@@ -60,13 +60,22 @@ abstract class vmPlugin extends JPlugin {
 	 */
 	function __construct (& $subject, $config) {
 
-		parent::__construct ($subject, $config);
+		parent::__construct( $subject, $config );
+
+		//systemplugins must not load the language
+		$wLang = ($this->_type != 'system');
+
+		if (!class_exists( 'VmConfig' )) {
+			require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
+			VmConfig::loadConfig(FALSE, FALSE, $wLang);
+		}
+
 
 		$this->_psType = substr ($this->_type, 2);
 
 		$filename = 'plg_' . $this->_type . '_' . $this->_name;
 
-		$this->loadJLangThis($filename); //TODO remove this is not allowed here, else systemplugins derived from vmPlugin throw errors on a multilanguage pages
+		if($wLang)$this->loadJLangThis($filename);
 
 		$this->_tablename = '#__virtuemart_' . $this->_psType . '_plg_' . $this->_name;
 		$this->_tableChecked = FALSE;

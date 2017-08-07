@@ -113,14 +113,7 @@ class VirtuemartViewCustom extends VmViewAdmin {
 				}
 			}
 
-			if(!empty($this->custom->custom_parent_id)){
-				$list = ShopFunctions::renderOrderingList('customs','custom_title',$this->custom->ordering,'WHERE custom_parent_id ="'.(int)$this->custom->custom_parent_id.'" ');
-				$this->ordering = VmHTML::row('raw','COM_VIRTUEMART_ORDERING',$list);
-			} else {
-				$this->ordering='';
-				$this->addHidden('ordering',$this->custom->ordering);
-			}
-
+			$this->addHidden('ordering',$this->custom->ordering);
 			$this->pluginList = self::renderInstalledCustomPlugins($selected);
 
         }
@@ -189,10 +182,7 @@ class VirtuemartViewCustom extends VmViewAdmin {
 		$this->addHiddenByType ($datas);
 
 		$html = "";
-
 		$model = VmModel::getModel('custom');
-
-
 
 		// only input when not set else display
 		if ($datas->field_type) {
@@ -221,9 +211,6 @@ class VirtuemartViewCustom extends VmViewAdmin {
 			$html .= VmHTML::row ('select', 'COM_VIRTUEMART_CUSTOM_IS_LIST', 'is_list', $opt,$datas->is_list,'','value','text',false);
 		}
 		$html .= VmHTML::row ('booleanlist', 'COM_VIRTUEMART_CUSTOM_IS_HIDDEN', 'is_hidden', $datas->is_hidden);
-		$html .= $this->ordering;
-
-		// $html .= '</table>';  removed
 		$html .= VmHTML::inputHidden ($this->_hidden);
 
 		return $html;

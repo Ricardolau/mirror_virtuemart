@@ -336,17 +336,10 @@ class ShopFunctions {
 
 	static function renderUnitIsoList($name, $selected){
 
-		$weight_unit_default = array(
-			'KG' => vmText::_ ('COM_VIRTUEMART_UNIT_SYMBOL_KG')
-		, '100G' => vmText::_ ('COM_VIRTUEMART_UNIT_SYMBOL_100G')
-		, 'M'   => vmText::_ ('COM_VIRTUEMART_UNIT_SYMBOL_M')
-		, 'SM'   => vmText::_ ('COM_VIRTUEMART_UNIT_SYMBOL_SM')
-		, 'CUBM'   => vmText::_ ('COM_VIRTUEMART_UNIT_SYMBOL_CUBM')
-		, 'L'   => vmText::_ ('COM_VIRTUEMART_UNIT_SYMBOL_L')
-		, '100ML'   => vmText::_ ('COM_VIRTUEMART_UNIT_SYMBOL_100ML')
-		);
-		foreach ($weight_unit_default as  $key => $value) {
-			$wu_list[] = JHtml::_ ('select.option', $key, $value, $name);
+		$weight_unit_default = explode(',',VmConfig::get('norm_units', 'KG,100G,M,SM,CUBM,L,100ML,P'));
+
+		foreach ($weight_unit_default as  $value) {
+			$wu_list[] = JHtml::_ ('select.option', $value, vmText::_('COM_VIRTUEMART_UNIT_SYMBOL_'.strtoupper(trim($value))), $name);
 		}
 		$listHTML = JHtml::_ ('Select.genericlist', $wu_list, $name, '', $name, 'text', $selected);
 		return $listHTML;

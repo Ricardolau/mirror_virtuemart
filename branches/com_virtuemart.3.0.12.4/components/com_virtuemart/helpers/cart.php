@@ -1555,7 +1555,7 @@ class VirtueMartCart {
 
 	function prepareCartData($force=true){
 
-		$this->totalProduct = 0;
+		//$this->totalProduct = 0;
 		if(count($this->products) != count($this->cartProductsData) or $this->_productAdded){
 			$productsModel = VmModel::getModel('product');
 			$this->totalProduct = 0;

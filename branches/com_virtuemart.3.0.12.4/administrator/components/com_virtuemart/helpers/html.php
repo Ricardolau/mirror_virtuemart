@@ -555,7 +555,8 @@ class VmHtml{
 	/**
 	 * Creates a Radio Input List
 	 *
-	 * @param string $name	 * @param string $value default value
+	 * @param string $name
+	 * @param string $value default value
 	 * @param string $arr
 	 * @param string $extra
 	 * @return string

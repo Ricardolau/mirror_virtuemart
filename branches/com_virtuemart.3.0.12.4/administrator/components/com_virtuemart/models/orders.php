@@ -513,8 +513,11 @@ class VirtueMartModelOrders extends VmModel {
 				$db = JFactory::getDbo();
 				$sql = 'SELECT * FROM `#__virtuemart_order_calc_rules` WHERE `virtuemart_order_id` = "'.$orderdata->virtuemart_order_id.'" AND `calc_kind` = "VatTax" ';
 				$db->setQuery($sql);
-				$vat = $db->loadObject();
-				$taxCalcValue = $vat->calc_value;
+				if ($vat = $db->loadObject()) {
+					$taxCalcValue = $vat->calc_value;
+				} else {
+					$vat = new stdClass();
+				}
 				$vat->virtuemart_order_calc_rule_id = 0; 	//We set this here, so that we know the tax is missing and must be inserted
 				vmdebug('updateSingleItem $taxCalcValue loaded by fallback '.$vat->virtuemart_calc_id);
 			}

@@ -1100,8 +1100,7 @@ vmdebug('$limitStart',$limitStart);
 		}
 
 		$stockhandle = VmConfig::get('stockhandle_products', false) && $child->product_stockhandle ? $child->product_stockhandle : VmConfig::get('stockhandle', 'none');
-		$app = JFactory::getApplication ();
-		if ($app->isSite () and $stockhandle == 'disableit' and ($child->product_in_stock - $child->product_ordered) <= 0) {
+		if ($front and $stockhandle == 'disableit' and ($child->product_in_stock - $child->product_ordered) <= 0) {
 			vmdebug ('STOCK 0', VmConfig::get ('use_as_catalog', 0), VmConfig::get ('stockhandle', 'none'), $child->product_in_stock);
 			self::$_products[$productKey] = false;
 		} else {

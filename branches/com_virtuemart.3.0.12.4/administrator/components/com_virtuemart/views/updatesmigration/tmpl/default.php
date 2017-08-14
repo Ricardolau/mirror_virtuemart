@@ -20,8 +20,18 @@
 defined('_JEXEC') or die('Restricted access');
 AdminUIHelper::startAdminArea($this);
 
-AdminUIHelper::buildTabs ( $this, array (	'tools' 	=> 	'COM_VIRTUEMART_UPDATE_TOOLS_TAB',
-									'migrator' 	=> 	'COM_VIRTUEMART_MIGRATION_TAB'
-									 ) );
+echo '<div id="cpanel">';
+
+$tabs = array (	'tools' 	=> 	'COM_VIRTUEMART_UPDATE_TOOLS_TAB',
+'spwizard' 	=> 	'COM_VM_WIZARD_TAB',
+'migrator' 	=> 	'COM_VIRTUEMART_MIGRATION_TAB');
+
+if(vRequest::getBool('show_spwizard',false)){
+	unset($tabs['spwizard']);
+	$tabs = array_merge(array('spwizard' 	=> 	'COM_VM_WIZARD_TAB'), $tabs);
+}
+AdminUIHelper::buildTabs ( $this,  $tabs);
 
 AdminUIHelper::endAdminArea();
+
+echo '</div>';

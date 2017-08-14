@@ -991,6 +991,11 @@ class ShopFunctions {
 		return $html;
 	}
 
+	/**
+	 * @deprecated
+	 * @param int $length
+	 * @return string
+	 */
 	static function generateRandomString($length = 10) {
 		return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
 	}
@@ -1007,7 +1012,7 @@ class ShopFunctions {
 			$safePath = $sPath;
 		}
 
-		if(VmConfig::$installed==false or vRequest::getInt('nosafepathcheck',false)){
+		if(VmConfig::$installed==false or vRequest::getInt('nosafepathcheck',false) or vRequest::getWord('view')== 'updatesmigration') {
 			return $safePath;
 		}
 
@@ -1028,13 +1033,11 @@ class ShopFunctions {
 		if($warn){
 			vmLanguage::loadJLang('com_virtuemart');
 			$safePath = false;
-			$suggestedPath = shopFunctions::getSuggestedSafePath();
-			$suggestedPath2 = VMPATH_ADMIN.DS.self::generateRandomString(12).DS;
-			vmLanguage::loadJLang('com_virtuemart_config');
-			$configlink = $uri->root() . 'administrator/index.php?option=com_virtuemart&view=config';
 
-			$c = vmText::sprintf('COM_VM_SAFEPATH_EXPLAIN', htmlspecialchars($suggestedPath), $configlink, htmlspecialchars($suggestedPath2));
-			$t = vmText::sprintf('COM_VM_SAFEPATH_WARN_'.$warn, vmText::_('COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH'), $c);
+			vmLanguage::loadJLang('com_virtuemart_config');
+			$configlink = $uri->root() . 'administrator/index.php?option=com_virtuemart&view=updatesmigration&show_spwizard=1';
+
+			$t = vmText::sprintf('COM_VM_SAFEPATH_WARN_'.$warn, vmText::_('COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH'), vmText::sprintf('COM_VM_SAFEPATH_WIZARD',$configlink));
 			VmError($t);
 		} else {
 			if(!is_writable( $safePath )){
@@ -1075,15 +1078,29 @@ class ShopFunctions {
 		return  $safePath.self::getInvoiceFolderName() ;
 	}
 
+	static function getUpperJoomlaPath(){
+		$sub = JUri::root(true);
+		if(!empty($sub)){
+			$sub = trim($sub,'/');
+			$subIndex= strrpos(VMPATH_ROOT,$sub);
+			$p = substr(VMPATH_ROOT,0,$subIndex-1);
+
+		} else {
+			$p = VMPATH_ROOT;
+		}
+		$lastIndex= strrpos($p,DS);
+		return substr(VMPATH_ROOT,0,$lastIndex);
+	}
+
 	/*
 	 * Returns the suggested safe Path, used to store the invoices
 	 * @static
 	 * @return string: suggested safe path
 	 */
 	static public function getSuggestedSafePath() {
-		$lastIndex= strrpos(VMPATH_ROOT,DS);
-		return substr(VMPATH_ROOT,0,$lastIndex).DS.'vmfiles'.DS;
+		return self::getUpperJoomlaPath().DS.'vmfiles'.DS;
 	}
+
 	/*
 	 * @author Valerie Isaksen
 	 */

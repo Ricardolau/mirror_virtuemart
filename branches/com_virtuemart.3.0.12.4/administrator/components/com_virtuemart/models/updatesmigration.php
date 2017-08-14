@@ -642,6 +642,45 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		return $extensionXmlFileName;
 	}
 
+	public function setSafePathCreateFolders($token = ''){
+
+		if(!class_exists('JFolder')){
+			require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'folder.php');
+		}
+
+		if(empty($token)){
+			$safePath = shopFunctions::getSuggestedSafePath();
+		} else {
+			$safePath = VMPATH_ADMIN.'/'.$token.'/';
+		}
+		$safePath = str_replace('/',DS,$safePath);
+
+		if(!class_exists('ShopFunctionsF')) require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
+		$invoice = $safePath.ShopFunctionsF::getInvoiceFolderName();
+
+		//$invoice = shopFunctions::getInvoicePath($safePath);
+		$encryptSafePath = $safePath. vmCrypt::ENCRYPT_SAFEPATH;
+
+		JFolder::create($safePath,0755);vmdebug('setSafePathCreateFolders $safePath',$safePath);
+		JFolder::create($invoice,0755);vmdebug('setSafePathCreateFolders $invoice',$invoice);
+		JFolder::create($encryptSafePath,0755);vmdebug('setSafePathCreateFolders $encryptSafePath',$encryptSafePath);
+
+		$config = VmConfig::loadConfig();
+		//vmdebug('setSafePathCreateFolders set forSale_path ',$safePath,$config);
+		$config->set('forSale_path', $safePath);
+
+		$data['virtuemart_config_id'] = 1;
+		$data['config'] = $config->toString();
+
+		$confTable = $this->getTable('configs');
+		//vmdebug('setSafePathCreateFolders set forSale_path ',$safePath,$data['config']);
+		$confTable->bindChecknStore($data);
+
+		VmConfig::loadConfig(true);
+
+		return true;
+	}
+
 	/**
 	 * This function deletes all stored thumbs and deletes the entries for all thumbs, usually this is need for shops
 	 * older than vm2.0.22. The new pattern is now not storing the url as long it is not overwritten.

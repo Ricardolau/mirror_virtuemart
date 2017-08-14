@@ -6,7 +6,7 @@ defined ('_JEXEC') or die();
  * Heidelpay credit card plugin
  *
  * @author Heidelberger Payment GmbH <Jens Richter>
- * @version 17.02.28
+ * @version 17.08.08
  * @package VirtueMart
  * @subpackage payment
  * @copyright Copyright (C) Heidelberger Payment GmbH
@@ -19,7 +19,7 @@ if (!class_exists ('vmPSPlugin')) {
 class plgVmPaymentHeidelpay extends vmPSPlugin {
 
 	public static $_this = FALSE;
-	protected $version = '17.02.28';
+	protected $version = '17.08.08';
 
 	function __construct (& $subject, $config) {
 
@@ -154,6 +154,7 @@ class plgVmPaymentHeidelpay extends vmPSPlugin {
 		$cd = CurrencyDisplay::getInstance ($cart->pricesCurrency);
 
 		// prepare the post var values:
+		//$languageTag = $this->getLang ();
 		$params = array();
 		/*
 		* Default configuration for hco
@@ -167,7 +168,7 @@ class plgVmPaymentHeidelpay extends vmPSPlugin {
 
 		$params['PRESENTATION.AMOUNT'] = $totalInPaymentCurrency;
 		$params['PRESENTATION.CURRENCY'] = $currency_code_3;
-		$params['FRONTEND.LANGUAGE'] = strtoupper(substr(vmConfig::$vmlangTag, 0,2));
+		$params['FRONTEND.LANGUAGE'] = strtolowerr(substr(vmConfig::$vmlangTag, 0,2));
 		$params['CRITERION.LANG'] = $params['FRONTEND.LANGUAGE'];
 		$params['IDENTIFICATION.TRANSACTIONID'] = $order['details']['BT']->order_number;
 		/*
@@ -358,7 +359,6 @@ class plgVmPaymentHeidelpay extends vmPSPlugin {
 	}
 
 	function plgVmOnPaymentResponseReceived (&$html) {
-		
 		if (!class_exists ('VirtueMartCart')) {
 			require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');
 		}
@@ -393,7 +393,6 @@ class plgVmPaymentHeidelpay extends vmPSPlugin {
 	
 
 		if ($paymentData->processing_result == "NOK") {
-
 			vmError ('VMPAYMENT_HEIDELPAY_PAYMENT_FAILED','VMPAYMENT_HEIDELPAY_PAYMENT_FAILED');
 			vmError (" - " . $paymentData->comment," - " . $paymentData->comment);
 		} else {
@@ -412,8 +411,7 @@ class plgVmPaymentHeidelpay extends vmPSPlugin {
 		}
 		$orgSecret = $this->createSecretHash ($order_number, $method->HEIDELPAY_SECRET);
 		$order['comments']="";
-		
-		if ($virtuemart_order_id && $paymentData->created_on != '0000-00-00 00:00:00') {
+		if ($virtuemart_order_id) {
 			$order['customer_notified'] = 0;
 			$order['order_status'] = $this->getStatus ($method, $paymentData->processing_result);
 			$modelOrder = VmModel::getModel ('orders');
@@ -585,6 +583,13 @@ class plgVmPaymentHeidelpay extends vmPSPlugin {
 	public function plgVmOnShowOrderLineFE ($_orderId, $_lineId) {
 		return NULL;
 	}
+
+
+	/*protected function getLang () {
+		$language =& JFactory::getLanguage ();
+		$tag = strtolower (substr ($language->get ('tag'), 0, 2));
+		return $tag;
+	}*/
 
 	private function doRequest ($url, $params, $debug) {
 		$data = $params;

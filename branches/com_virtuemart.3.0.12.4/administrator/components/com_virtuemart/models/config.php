@@ -735,7 +735,7 @@ class VirtueMartModelConfig extends VmModel {
 		if(self::checkConfigTableExists()){
 
 			$config = VmConfig::loadConfig();
-			$config->dangeroustools = 0;
+			$config->set('dangeroustools',0);
 
 			$data['virtuemart_config_id'] = 1;
 			$data['config'] = $config->toString();

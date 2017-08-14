@@ -123,11 +123,7 @@ class AdminUIHelper {
 		$token = vRequest::getFormToken();
 		if (!class_exists('ShopFunctions'))
 			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
-		$safePath = ShopFunctions::checkSafePath();
-		if (empty($safePath)) {
-			return NULL;
-		}
-		$safePath .= '/vmm.ini';
+
 
 		preg_match('/[a-z]/', $token, $matches);
 		if(!empty($matches[0][0])){
@@ -140,7 +136,11 @@ class AdminUIHelper {
 		$dplyVer = 'display: none;';
 		$ackey = VmConfig::get('member_access_number','');
 		//$host = JUri::getInstance()->getHost();
-		if(JFile::exists($safePath)){
+
+		$safePath = ShopFunctions::checkSafePath();
+
+		if(!empty($safePath) and JFile::exists($safePath)){
+			$safePath .= '/vmm.ini';
 			$content = parse_ini_file($safePath);
 			if(!empty($content) and !empty($content['key']) and !empty($content['unixtime']) and !empty($content['html']) ){
 				// if(true){

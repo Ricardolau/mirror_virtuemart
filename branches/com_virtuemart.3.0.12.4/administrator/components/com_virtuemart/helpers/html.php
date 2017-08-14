@@ -566,7 +566,7 @@ class VmHtml{
 		if( empty( $arr ) ) {
 			$arr = array();
 		}
-		$html = '';
+		$html = '<div class="controls">';
 		$i = 0;
 		foreach($arr as $key => $val) {
 			$checked = '';
@@ -580,9 +580,16 @@ class VmHtml{
 					$checked = 'checked="checked"';
 				}
 			}
-			$html .= '<input type="radio" name="'.$name.'" id="'.$name.$i.'" value="'.htmlspecialchars($key, ENT_QUOTES).'" '.$checked.' '.$extra." />\n";
-			$html .= '<label for="'.$name.$i++.'">'.$val."</label>".$separator."\n";
+			$id = $name.$i;
+			$html .= "\n\t" . '<label for="' . $id . '" id="' . $id . '-lbl" class="radio">';
+			$html .= "\n\t\n\t" . '<input type="radio" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($key, ENT_QUOTES) . '" '.$checked.' ' . $extra. ' />' . $val;
+			$html .= "\n\t" . "</label>".$separator."\n";
+
 		}
+
+		$html .= "\n";
+		$html .= '</div>';
+		$html .= "\n";
 
 		return $html;
 	}

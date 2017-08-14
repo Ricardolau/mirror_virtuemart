@@ -31,8 +31,6 @@ require(VMPATH_ADMIN . DS . 'helpers' . DS . 'vmcontroller.php');
  */
 class VirtuemartControllerUpdatesMigration extends VmController{
 
-	private $installer;
-
 	/**
 	 * Method to display the view
 	 *
@@ -59,27 +57,22 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		return true;
 	}
 
-	/**
-	 * Akeeba release system tasks
-	 * Update
-	 * @author Max Milbers
-	 */
-	function liveUpdate(){
+	function setsafepathupper(){
 
-		$this->setRedirect('index.php?option=com_virtuemart&view=liveupdate.', 'Akeeba release system');
+		$this->checkPermissionForTools();
+
+		$model = $this->getModel('updatesMigration');
+		$model->setSafePathCreateFolders();
+		$this->setRedirect($this->redirectPath);
 	}
 
-	/**
-	 * Install sample data into the database
-	 *
-	 * @author RickG
-	 */
-	function checkForLatestVersion(){
-		$model = $this->getModel('updatesMigration');
-		vRequest::setVar('latestverison', $model->getLatestVersion());
-		vRequest::setVar('view', 'updatesMigration');
+	function setsafepathcom(){
 
-		parent::display();
+		$this->checkPermissionForTools();
+
+		$model = $this->getModel('updatesMigration');
+		$model->setSafePathCreateFolders(vRequest::getVar('safepathToken'));
+		$this->setRedirect($this->redirectPath);
 	}
 
 	/**
@@ -160,19 +153,16 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 			if($json){
 
 				$vars = get_object_vars($json);
-
 				foreach($vars as $key=>$value){
 					if(!empty($key)){
 						$store .= $key . '=' . vmJsApi::safe_json_encode($value) . '|';
 					}
-
 				}
 
 				if(!empty($store)){
 					$q = 'UPDATE `#__virtuemart_product_customfields` SET `customfield_params` = "'.$db->escape($store).'" WHERE `virtuemart_customfield_id` = "'.$fields['virtuemart_customfield_id'].'" ';
 					$db->setQuery($q);
 					$db->execute();
-
 				}
 
 			}
@@ -302,39 +292,6 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		}else {
 			$msg = $this->_getMsgDangerousTools();
 		}
-
-		$this->setRedirect($this->redirectPath, $msg);
-	}
-
-	function deleteAll(){
-
-		$this->checkPermissionForTools();
-
-		$msg = vmText::_('COM_VIRTUEMART_SYSTEM_ALLVMDATA_DELETED');
-		if(VmConfig::get('dangeroustools', false)){
-
-			$this->installer->populateVmDatabase("delete_essential.sql");
-			$this->installer->populateVmDatabase("delete_data.sql");
-			$this->setDangerousToolsOff();
-		}else {
-			$msg = $this->_getMsgDangerousTools();
-		}
-
-		$this->setRedirect($this->redirectPath, $msg);
-	}
-
-	function deleteRestorable(){
-
-		$this->checkPermissionForTools();
-
-		$msg = vmText::_('COM_VIRTUEMART_SYSTEM_RESTVMDATA_DELETED');
-		if(VmConfig::get('dangeroustools', false)){
-			$this->installer->populateVmDatabase("delete_restoreable.sql");
-			$this->setDangerousToolsOff();
-		}else {
-			$msg = $this->_getMsgDangerousTools();
-		}
-
 
 		$this->setRedirect($this->redirectPath, $msg);
 	}

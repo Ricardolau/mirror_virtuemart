@@ -68,8 +68,9 @@ class VirtueMartModelUserfields extends VmModel {
 	/**
 	 * Prepare a user field for database update
 	 */
-	public function prepareFieldDataSave($field, &$data) {
-		//		$post = vRequest::getRequest();
+	public function prepareFieldDataSave($field, &$data, $prefix = '') {
+
+
 		$fieldType = $field->type;
 		$fieldName = $field->name;
 		$value = $data[$field->name];
@@ -78,11 +79,11 @@ class VirtueMartModelUserfields extends VmModel {
 		if(!class_exists('vmFilter'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmfilter.php');
 		switch(strtolower($fieldType)) {
 			case 'webaddress':
-
-				if (isset($post[$fieldName."Text"]) && ($post[$fieldName."Text"])) {
+				$post = vRequest::getRequest();
+				if (isset($post[$prefix.$fieldName."Text"]) && ($post[$prefix.$fieldName."Text"])) {
 					$oValuesArr = array();
 					$oValuesArr[0] = str_replace(array('mailto:','http://','https://'),'', $value);
-					$oValuesArr[1] = str_replace(array('mailto:','http://','https://'),'', $post[$fieldName."Text"]);
+					$oValuesArr[1] = str_replace(array('mailto:','http://','https://'),'', $post[$prefix.$fieldName."Text"]);
 					$value = implode("|*|",$oValuesArr);
 				}
 				else {
@@ -112,16 +113,22 @@ class VirtueMartModelUserfields extends VmModel {
 				.'-'.vRequest::getInt('birthday_selector_day');
 				break;*/
 			case 'textarea':
-				$value = vRequest::getVar($fieldName, '', 'post', 'string' ,JREQUEST_ALLOWRAW);
-				$value = vmFilter::hl( $value,'text' );
+				if(vmAccess::manager('html')){
+					$value = vRequest::getHtml($prefix.$fieldName,'');
+				} else {
+					$value = vRequest::getString($prefix.$fieldName,'');
+				}
 				break;
-
 			case 'editorta':
-				$value = vRequest::getVar($fieldName, '', 'post', 'string' ,JREQUEST_ALLOWRAW);
-				$value = vmFilter::hl( $value,'no_js_flash' );
+				if(vmAccess::manager('html')){
+					$value = vRequest::getHtml($prefix.$fieldName,'');
+				} else {
+					$value = vRequest::getString($prefix.$fieldName,'');
+				}
+				//$value = vRequest::getVar($fieldName, '', 'post', 'string' ,JREQUEST_ALLOWRAW);
+				//$value = vmFilter::hl( $value,'no_js_flash' );
 				break;
 			default:
-
 
 				// //*** code for htmlpurifier ***
 				// //SEE http://htmlpurifier.org/

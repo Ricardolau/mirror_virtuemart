@@ -124,7 +124,7 @@ class VirtueMartControllerUser extends JControllerLegacy
 
 			$msg = $this->saveData($cart);
 			$task = '';
-			vmdebug('saveUser _fromCart',(int)$cart->_fromCart,(int)$msg);
+			//vmdebug('saveUser _fromCart',(int)$cart->_fromCart,(int)$msg);
 			if(!$msg){
 				$this->setRedirect(JRoute::_('index.php?option=com_virtuemart&view=user&task=editaddresscart&addrtype=BT'.$task, FALSE) );
 			} else {

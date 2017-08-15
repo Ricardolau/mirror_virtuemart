@@ -111,7 +111,7 @@ $invoice = shopFunctions::getInvoicePath($safePath.'/');
 $encryptSafePath = $safePath .'/'. vmCrypt::ENCRYPT_SAFEPATH;
 
 
-if($safePath == $current){
+if( ($safePath.DS) == $current){
 	$used = 'COM_VM_ACTIVE';
 } else {
 	$used = 'COM_VM_INACTIVE';

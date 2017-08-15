@@ -695,11 +695,13 @@ class VirtueMartModelUser extends VmModel {
 		// Check for fields with the the 'shipto_' prefix; that means a (new) shipto address.
 		if($data['address_type'] == 'ST' or isset($data['shipto_address_type_name'])){
 			$dataST = array();
-			$_pattern = '/^shipto_/';
+			//$_pattern = '/^shipto_/';
 
 			foreach ($data as $_k => $_v) {
-				if (preg_match($_pattern, $_k)) {
-					$_new = preg_replace($_pattern, '', $_k);
+				//if (preg_match($_pattern, $_k)) {
+				if (strpos($_k,'shipto_')===0) {
+					//$_new = preg_replace($_pattern, '', $_k);
+					$_new = substr($_k,7);
 					$dataST[$_new] = $_v;
 				}
 			}
@@ -738,7 +740,7 @@ class VirtueMartModelUser extends VmModel {
 				return false;
 			}
 			$dataST['address_type'] = 'ST';
-			$userfielddata = self::_prepareUserFields($dataST, 'ST',$userinfo);
+			$userfielddata = self::_prepareUserFields($dataST, 'ST',$userinfo,'shipto_');
 
 			$userinfo->bindChecknStore($userfielddata);
 
@@ -850,7 +852,7 @@ class VirtueMartModelUser extends VmModel {
 	}
 
 
-	function _prepareUserFields(&$data, $type,$userinfo = 0)
+	function _prepareUserFields(&$data, $type, $userinfo = 0, $prefix = '')
 	{
 		if(!class_exists('VirtueMartModelUserfields')) require(VMPATH_ADMIN.DS.'models'.DS.'userfields.php' );
 		$userFieldsModel = VmModel::getModel('userfields');
@@ -888,7 +890,7 @@ class VirtueMartModelUser extends VmModel {
 					}
 				}
 			} else {
-				$data[$fld->name] = $userFieldsModel->prepareFieldDataSave($fld, $data);
+				$data[$fld->name] = $userFieldsModel->prepareFieldDataSave($fld, $data, $prefix);
 			}
 		}
 
@@ -1031,7 +1033,7 @@ class VirtueMartModelUser extends VmModel {
 
 	/**
 	 * This stores the userdata given in userfields
-	 *
+	 * @deprecated seems unused
 	 * @author Max Milbers
 	 */
 	function storeUserDataByFields($data,$type, $toggles, $skips){

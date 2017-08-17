@@ -652,7 +652,7 @@ class VirtueMartModelProduct extends VmModel {
 
 		//This option switches between showing products without the selected language or only products with language.
 		if( $app->isSite() ){	//and !VmConfig::get('prodOnlyWLang',false)){
-			if(self::$omitLoaded and self::$_alreadyLoadedIds){
+			if((empty($this->keyword) or $group !== FALSE) and self::$omitLoaded and self::$_alreadyLoadedIds){
 				$where[] = ' p.`virtuemart_product_id`!='.implode(' AND p.`virtuemart_product_id`!=',self::$_alreadyLoadedIds).' ';
 				//$where[] = ' p.`virtuemart_product_id` NOT IN ('.implode(',',self::$_alreadyLoadedIds).') ';
 			}
@@ -756,15 +756,18 @@ class VirtueMartModelProduct extends VmModel {
 
 	public function getProductStockhandle () {
 
-		$db = JFactory::getDbo();
-		$db->setQuery (' SELECT `product_stockhandle` FROM `#__virtuemart_products` WHERE `product_stockhandle` = "disableit_children" AND `published` = "1" LIMIT 1 ');
+		static $product_stockhandle = null;
 
-		$product_stockhandle = new stdClass();
-		$product_stockhandle->disableit_children = $db->loadResult () ? 1 : 0;
+		if($product_stockhandle===null){
+			$db = JFactory::getDbo();
+			$db->setQuery (' SELECT `product_stockhandle` FROM `#__virtuemart_products` WHERE `product_stockhandle` = "disableit_children" AND `published` = "1" LIMIT 1 ');
 
-		$db->setQuery (' SELECT `product_stockhandle` FROM `#__virtuemart_products` WHERE `product_stockhandle` = "disableit" AND `published` = "1" LIMIT 1 ');
-		$product_stockhandle->disableit = $db->loadResult () ? 1 : 0;
+			$product_stockhandle = new stdClass();
+			$product_stockhandle->disableit_children = $db->loadResult () ? 1 : 0;
 
+			$db->setQuery (' SELECT `product_stockhandle` FROM `#__virtuemart_products` WHERE `product_stockhandle` = "disableit" AND `published` = "1" LIMIT 1 ');
+			$product_stockhandle->disableit = $db->loadResult () ? 1 : 0;
+		}
 		return $product_stockhandle;
 
 	}

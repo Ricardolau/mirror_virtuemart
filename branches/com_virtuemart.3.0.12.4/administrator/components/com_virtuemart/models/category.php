@@ -407,12 +407,12 @@ class VirtueMartModelCategory extends VmModel {
 		$db = JFactory::getDBO();
 		$vendorId = 1;
 		if ($cat_id > 0) {
-			$q = 'SELECT count(#__virtuemart_products.virtuemart_product_id) AS total
-			FROM `#__virtuemart_products`, `#__virtuemart_product_categories`
-			WHERE `#__virtuemart_products`.`virtuemart_vendor_id` = "'.(int)$vendorId.'"
-			AND `#__virtuemart_product_categories`.`virtuemart_category_id` = '.(int)$cat_id.'
-			AND `#__virtuemart_products`.`virtuemart_product_id` = `#__virtuemart_product_categories`.`virtuemart_product_id`
-			AND `#__virtuemart_products`.`published` = "1" ';
+			$q = 'SELECT count(`p`.virtuemart_product_id) AS total	
+  FROM `#__virtuemart_product_categories` as `pc`
+  LEFT JOIN `#__virtuemart_products` as `p` ON `pc`.virtuemart_product_id = `p`.virtuemart_product_id
+  WHERE `pc`.`virtuemart_category_id` = "'.(int)$cat_id.'"
+  AND `p`.`virtuemart_vendor_id` = "'.(int)$vendorId.'"
+  AND `p`.`published` = "1" ';
 			$db->setQuery($q);
 			$count = $db->loadResult();
 		} else $count=0 ;
@@ -716,8 +716,8 @@ class VirtueMartModelCategory extends VmModel {
 		$parents_id = array_reverse($this->getCategoryRecurse($virtuemart_category_id,$menuCatid));
 
 
-		$useFb = vmLanguage::getUseLangFallback();
-		$useFb2 = vmLanguage::getUseLangFallbackSecondary();
+		//$useFb = vmLanguage::getUseLangFallback();
+		//$useFb2 = vmLanguage::getUseLangFallbackSecondary();
 
 		$langFields = array('virtuemart_category_id','category_name');
 
@@ -732,7 +732,14 @@ class VirtueMartModelCategory extends VmModel {
 			if($db->getErrorMsg()){
 				vmError('Error in sql ',$db->getErrorMsg());
 			}
-			$parents[] = $db->loadObject();
+			if($cat=$db->loadObject()){
+				$parents[] = $cat;
+			} else {
+				if(VmConfig::$echoAdmin){
+					vmWarn('category with id '.(int)$id.' is missing the main language ');
+				}
+
+			}
 		}
 
 		return $parents;

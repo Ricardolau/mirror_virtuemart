@@ -308,7 +308,9 @@ class VirtuemartViewCategory extends VmView {
 		// Add the category name to the pathway
 		if ($category->parents) {
 			foreach ($category->parents as $c){
-				$pathway->addItem(strip_tags(vmText::_($c->category_name)),JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id='.$c->virtuemart_category_id, FALSE));
+				if(!empty($c->virtuemart_category_id) and !empty($c->category_name)){
+					$pathway->addItem(strip_tags(vmText::_($c->category_name)),JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id='.$c->virtuemart_category_id, FALSE));
+				} else vmdebug('parent category is empty',$category->parents);
 			}
 		}
 		$catImgAmount = VmConfig::get('catimg_browse',1);

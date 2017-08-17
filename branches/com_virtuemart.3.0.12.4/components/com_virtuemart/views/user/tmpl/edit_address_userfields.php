@@ -24,6 +24,26 @@ $closeDelimiter = false;
 $openTable = true;
 $hiddenFields = '';
 
+$i=0;
+//When only one Delimiter exists, set it to begin of the array
+//not an elegant solution, but works for the moment.
+foreach($this->userFields['fields'] as $k=>$field){
+	if($field['type'] == 'delimiter') {
+	    $tmp = $field;
+	    $pos = $k;
+	    $i++;
+	}
+	if($i>1){
+	    $tmp = false;
+	    break;
+	}
+}
+
+if($tmp){
+    unset($this->userFields['fields'][$pos]);
+    array_unshift($this->userFields['fields'],$tmp);
+}
+
 // Output: Userfields
 foreach($this->userFields['fields'] as $field) {
 
@@ -37,15 +57,18 @@ foreach($this->userFields['fields'] as $field) {
 		</fieldset>
 		<?php
 			$closeDelimiter = false;
-		} //else {
-			?>
-			<fieldset>
-			<legend class="userfields_info"><?php echo $field['title'] ?></legend>
-
+		} else if(!$openTable){ ?>
+            </table>
 			<?php
-			$closeDelimiter = true;
-			$openTable = true;
-		//}
+		}
+
+        ?>
+        <fieldset>
+        <legend class="userfields_info"><?php echo $field['title'] ?></legend>
+
+        <?php
+        $closeDelimiter = true;
+        $openTable = true;
 
 	} elseif ($field['hidden'] == true) {
 
@@ -81,6 +104,13 @@ foreach($this->userFields['fields'] as $field) {
 	<?php
 	}
 
+}
+
+if($closeDelimiter) { ?>
+    </table>
+    </fieldset>
+	<?php
+	$closeDelimiter = false;
 }
 
 // At the end we have to close the current

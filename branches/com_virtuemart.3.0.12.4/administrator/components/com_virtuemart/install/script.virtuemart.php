@@ -299,10 +299,10 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 			//copy payment/shipment logos to new directory
 			$dest = JPATH_ROOT .DS. 'images'.DS.'virtuemart';
 			$src = JPATH_ROOT .DS. 'images'.DS.'stories'.DS.'virtuemart';
-			if(!JFolder::exists($dest.DS.'payment')){
+			if(JFolder::exists($src.DS.'payment') and !JFolder::exists($dest.DS.'payment')){
 				$this->recurse_copy($src.DS.'payment',$dest.DS.'payment');
 			}
-			if(!JFolder::exists($dest.DS.'shipment')){
+			if(JFolder::exists($src.DS.'shipment') and !JFolder::exists($dest.DS.'shipment')){
 				$this->recurse_copy($src.DS.'shipment',$dest.DS.'shipment');
 			}
 

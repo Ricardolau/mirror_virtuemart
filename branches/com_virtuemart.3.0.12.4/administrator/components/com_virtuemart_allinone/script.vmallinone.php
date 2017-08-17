@@ -172,6 +172,7 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 			$this->installPlugin ('VirtueMart Product', 'plugin', 'virtuemart', 'search');
 			$this->updateMoneyBookersToSkrill();
 
+			$this->installPlugin ('VM Framework Loader during Plugin Updates', 'plugin', 'vmLoaderPluginUpdate', 'system', 1);
 
 			$task = vRequest::getCmd ('task');
 			if ($task != 'updateDatabase') {

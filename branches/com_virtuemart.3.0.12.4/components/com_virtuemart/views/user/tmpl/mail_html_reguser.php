@@ -71,7 +71,7 @@ $li = '<br />';
 				    <?php
 				    echo vmText::_('COM_VIRTUEMART_YOUR_LOGINAME')   . $this->user->username . $li;
 				    echo vmText::_('COM_VIRTUEMART_YOUR_DISPLAYED_NAME')   . $this->user->name . $li;
-				    if ($this->password) {
+				    if (!empty($this->password)) {
 					    echo vmText::_('COM_VIRTUEMART_YOUR_PASSWORD')  . $this->password . $li;
 				    }
 				    echo $li.vmText::_('COM_VIRTUEMART_YOUR_ADDRESS')  . $li;

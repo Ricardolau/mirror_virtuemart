@@ -8,7 +8,7 @@ defined('_JEXEC') or die( 'Direct Access to '.basename(__FILE__).' is not allowe
 * @subpackage modules
 *
 * @copyright (C) 2010 - Patrick Kohl
-* @copyright (C) 2011 - 2016 The VirtueMart Team
+* @copyright (C) 2011 - 2017 The VirtueMart Team
 * @author Max Milbers, Valerie Isaksen, Alexander Steiner
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 * VirtueMart is Free Software.
@@ -24,29 +24,32 @@ if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/
 VmConfig::loadConfig();
 vmLanguage::loadJLang('mod_virtuemart_product', true);
 
-class productHelper{
+if(!class_exists('productHelper')){
+	class productHelper{
 
-	public static function getProductsListing ($group = FALSE, $nbrReturnProducts = FALSE, $withCalc = TRUE, $onlyPublished = TRUE, $single = FALSE, $filterCategory = TRUE, $category_id = 0, $filterManufacturer = TRUE, $manufacturer_id = 0, $omit = 0) {
-		$productModel = VmModel::getModel('Product');
-		VirtueMartModelProduct::$omitLoaded = $omit;
-		$products = $productModel->getProductListing($group, $nbrReturnProducts, $withCalc, $onlyPublished, $single, $filterCategory, $category_id, $filterManufacturer, $manufacturer_id);
+		public static function getProductsListing ($group = FALSE, $nbrReturnProducts = FALSE, $withCalc = TRUE, $onlyPublished = TRUE, $single = FALSE, $filterCategory = TRUE, $category_id = 0, $filterManufacturer = TRUE, $manufacturer_id = 0, $omit = 0) {
+			$productModel = VmModel::getModel('Product');
+			VirtueMartModelProduct::$omitLoaded = $omit;
+			$products = $productModel->getProductListing($group, $nbrReturnProducts, $withCalc, $onlyPublished, $single, $filterCategory, $category_id, $filterManufacturer, $manufacturer_id);
 
-		$cproducts = array();
-		foreach($products as $product){
-			$tmp = get_object_vars($product);
-			$t = new stdClass();
-			foreach ($tmp as $k => $v){
-				// Do not process internal variables
-				if (strpos ($k, '_') !== 0 and property_exists($product, $k)){
-					$t->$k = $v;
+			$cproducts = array();
+			foreach($products as $product){
+				$tmp = get_object_vars($product);
+				$t = new stdClass();
+				foreach ($tmp as $k => $v){
+					// Do not process internal variables
+					if (strpos ($k, '_') !== 0 and property_exists($product, $k)){
+						$t->$k = $v;
+					}
 				}
+				$cproducts[] = $t;
 			}
-			$cproducts[] = $t;
-		}
-		return $cproducts;
+			return $cproducts;
 
+		}
 	}
 }
+
 
 // Setting
 $max_items = 		$params->get( 'max_items', 2 ); //maximum number of items to display

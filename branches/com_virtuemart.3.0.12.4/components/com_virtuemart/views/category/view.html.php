@@ -236,6 +236,17 @@ class VirtuemartViewCategory extends VmView {
 			}
 		} else {
 
+			if($this->showproducts or $this->keyword !== false) {
+
+				if(!$this->keyword) VirtueMartModelProduct::$omitLoaded = VmConfig::get('omitLoaded');
+				// Load the products in the given category
+				$ids = $productModel->sortSearchListQuery (TRUE, $this->categoryId);
+				$this->vmPagination = $productModel->getPagination($this->perRow);
+				$this->orderByList = $productModel->getOrderByList($this->categoryId);
+				$this->products['products'] = $productModel->getProducts ($ids);
+				$productModel->addImages($this->products['products'], $imgAmount );
+			}
+
 			if(!$legacy) {
 				$opt = array('featured', 'discontinued', 'latest', 'topten', 'recent');
 				foreach( $opt as $o ) {
@@ -248,16 +259,7 @@ class VirtuemartViewCategory extends VmView {
 					}
 				}
 			}
-			if($this->showproducts or $this->keyword !== false) {
 
-				if(!$this->keyword) VirtueMartModelProduct::$omitLoaded = VmConfig::get('omitLoaded');
-				// Load the products in the given category
-				$ids = $productModel->sortSearchListQuery (TRUE, $this->categoryId);
-				$this->vmPagination = $productModel->getPagination($this->perRow);
-				$this->orderByList = $productModel->getOrderByList($this->categoryId);
-				$this->products['products'] = $productModel->getProducts ($ids);
-				$productModel->addImages($this->products['products'], $imgAmount );
-			}
 		}
 
 		if ($this->products) {

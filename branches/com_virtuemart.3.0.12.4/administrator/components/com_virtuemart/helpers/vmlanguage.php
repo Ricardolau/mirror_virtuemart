@@ -165,12 +165,11 @@ class vmLanguage {
 		}
 
 		if(!empty(self::$_loaded['plg'])){
-			foreach(self::$_loaded['plg'] as $type){
-				foreach($type as $fname){
-					foreach($fname as $name){
-						vmPlugin::loadJLang($fname,$type,$name);
-					}
-				}
+			foreach(self::$_loaded['plg'] as $cvalue=>$name){
+
+				$t = explode(';',$cvalue);
+				vmdebug('loadUsedLangFiles',$t[0],$t[1],$name);
+				vmPlugin::loadJLang($t[0],$t[1],$name);
 			}
 		}
 		vmTime('loadUsedLangFiles','loadUsedLangFiles');

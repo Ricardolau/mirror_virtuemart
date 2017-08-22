@@ -118,6 +118,7 @@ abstract class vmPlugin extends JPlugin {
 		//if(empty($tag)) {
 			$tag = vmLanguage::$currLangTag;
 		//}
+		vmLanguage::$_loaded['plg'][$type][$fname][] = $name;
 		vmLanguage::getLanguage($tag);
 
 		$path = $basePath = VMPATH_ROOT .DS. 'plugins' .DS.$type.DS.$name;

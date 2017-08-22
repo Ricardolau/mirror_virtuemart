@@ -593,6 +593,7 @@ class shopFunctionsF {
 		$cache = true;
 		vmLanguage::setLanguageByTag($language);
 
+		//Shouldnt be necessary anylonger.
 		vmLanguage::loadJLang('com_virtuemart', 0, $language, $cache);
 		vmLanguage::loadJLang('com_virtuemart', $s, $language, $cache);
 		vmLanguage::loadJLang('com_virtuemart_shoppers', $s, $language, $cache);

@@ -133,11 +133,47 @@ class vmLanguage {
 		}
 
 		//JLangTag if also activevmlang set as FB, ShopLangTag($jDefLangTag), vmLangTag, vm_lfbs overwrites
-
-
+		if(!empty(self::$_loaded)){
+			//vmdebug('Loaded not empty, lets start',self::$_loaded);
+			self::loadUsedLangFiles();
+		}
 		//@deprecated just fallback
 		defined('VMLANG') or define('VMLANG', VmConfig::$vmlang );
 		self::debugLangVars();
+	}
+
+	static public function loadUsedLangFiles(){
+
+		vmSetStartTime('loadUsedLangFiles');
+		if(!empty(self::$_loaded['com'])){
+			if(!empty(self::$_loaded['com'][0])){
+				foreach(self::$_loaded['com'][0] as $name){
+					self::loadJLang($name,0);
+				}
+			}
+			if(!empty(self::$_loaded['com'][1])){
+				foreach(self::$_loaded['com'][1] as $name){
+					self::loadJLang($name,1);
+				}
+			}
+		}
+
+		if(!empty(self::$_loaded['mod'])){
+			foreach(self::$_loaded['mod'] as $name){
+				self::loadModJLang($name);
+			}
+		}
+
+		if(!empty(self::$_loaded['plg'])){
+			foreach(self::$_loaded['plg'] as $type){
+				foreach($type as $fname){
+					foreach($fname as $name){
+						vmPlugin::loadJLang($fname,$type,$name);
+					}
+				}
+			}
+		}
+		vmTime('loadUsedLangFiles','loadUsedLangFiles');
 	}
 
 	static public function debugLangVars(){
@@ -162,12 +198,11 @@ class vmLanguage {
 			self::getLanguage($tag);
 		}
 		if(!empty(self::$languages[$tag])) {
-			vmdebug('Set language '.$tag. ' '.self::$languages[$tag]->getTag());
 			vmText::$language = self::$languages[$tag];
-			//vmText::setLanguage(self::$languages[$tag]);
+			//vmdebug('vmText is now set to '.$tag,vmText::$language );
 		}
 		self::$currLangTag = $tag;
-		vmdebug('vmText is now set to '.$tag);
+
 	}
 
 	static public function getLanguage($tag = 0){
@@ -179,10 +214,10 @@ class vmLanguage {
 		if(!isset(self::$languages[$tag])) {
 			if($tag == self::$jSelLangTag) {
 				self::$languages[$tag] = JFactory::getLanguage();
-				vmdebug('loadJLang created $l->getTag '.$tag);
+				//vmdebug('loadJLang created $l->getTag '.$tag);
 			} else {
 				self::$languages[$tag] = JLanguage::getInstance($tag, false);
-				vmdebug('loadJLang created JLanguage::getInstance '.$tag);
+				//vmdebug('loadJLang created JLanguage::getInstance '.$tag,self::$languages[$tag]);
 			}
 
 		}
@@ -190,6 +225,7 @@ class vmLanguage {
 		return self::$languages[$tag];
 	}
 
+	static public $_loaded = array();
 	/**
 	 * loads a language file, the trick for us is that always the config option enableEnglish is tested
 	 * and the path are already set and the correct order is used
@@ -207,9 +243,11 @@ class vmLanguage {
 		if(empty($tag)) {
 			$tag = self::$currLangTag;
 		}
+		$site = (int)$site;
+		self::$_loaded['com'][$site][] = $name;
 		self::getLanguage($tag);
 
-		$h = (int)$site.$tag.$name;
+		$h = $site.$tag.$name;
 		if($cache and isset($loaded[$h])){
 			vmText::$language = self::$languages[$tag];
 			return self::$languages[$tag];
@@ -253,7 +291,7 @@ class vmLanguage {
 
 		self::$languages[$tag]->load($name, $path, $tag, true, true);
 		$loaded[$h] = true;
-		//vmdebug('loaded '.$h.' '.self::$languages[$tag]->getTag());
+		vmdebug('loaded '.$h.' '.$path.' '.self::$languages[$tag]->getTag());
 		vmText::$language = self::$languages[$tag];
 		//vmText::setLanguage(self::$languages[$tag]);
 		return self::$languages[$tag];
@@ -266,7 +304,8 @@ class vmLanguage {
 	 */
 	static public function loadModJLang($name){
 
-		$tag = self::$currLangTag;;
+		$tag = self::$currLangTag;
+		self::$_loaded['mod'][] = $name;
 		self::getLanguage($tag);
 
 		$path = $basePath = JPATH_VM_MODULES.'/'.$name;

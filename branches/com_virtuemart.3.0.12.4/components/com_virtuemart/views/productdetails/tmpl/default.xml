@@ -12,7 +12,6 @@
 			/>
             <field name="cat_productdetails" type="list"
                    label="COM_VM_PRODUCTDETAILS_DISPL_CATS"
-                   required="true"
                    description="COM_VM_PRODUCTDETAILS_DISPL_CATS_DESC"
             >
                 <option value="">JGLOBAL_USE_GLOBAL</option>

@@ -168,7 +168,7 @@ class vmLanguage {
 			foreach(self::$_loaded['plg'] as $cvalue=>$name){
 
 				$t = explode(';',$cvalue);
-				vmdebug('loadUsedLangFiles',$t[0],$t[1],$name);
+				//vmdebug('loadUsedLangFiles',$t[0],$t[1],$name);
 				vmPlugin::loadJLang($t[0],$t[1],$name);
 			}
 		}

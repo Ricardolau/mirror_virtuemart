@@ -84,7 +84,8 @@ function virtuemartBuildRoute(&$query) {
 						$segments[] = $categoryRoute->route;
 					}
 				}
-				if(!empty($catId)) $limit = vmrouterHelper::getLimitByCategory($catId);
+				//We should not need that, because it is loaded, when the category is opened
+				//if(!empty($catId)) $limit = vmrouterHelper::getLimitByCategory($catId);
 
 				if(isset($jmenu['virtuemart_category_id'][$catId][$manId])) {
 					$query['Itemid'] = $jmenu['virtuemart_category_id'][$catId][$manId];

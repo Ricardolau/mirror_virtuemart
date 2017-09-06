@@ -137,7 +137,9 @@ if(!empty($this->orderByList)) { ?>
 </div> <!-- end of orderby-displaynumber -->
 <?php } ?>
 
+<?php if (!empty($this->category->category_name)) { ?>
 <h1><?php echo vmText::_($this->category->category_name); ?></h1>
+<?php } ?>
 
 	<?php
 	if (!empty($this->products)) {

@@ -144,7 +144,7 @@ class vmLanguage {
 
 	static public function loadUsedLangFiles(){
 
-		vmSetStartTime('loadUsedLangFiles');
+		//vmSetStartTime('loadUsedLangFiles');
 		if(!empty(self::$_loaded['com'])){
 			if(!empty(self::$_loaded['com'][0])){
 				foreach(self::$_loaded['com'][0] as $name){
@@ -172,7 +172,8 @@ class vmLanguage {
 				vmPlugin::loadJLang($t[0],$t[1],$name);
 			}
 		}
-		vmTime('loadUsedLangFiles','loadUsedLangFiles');
+		//vmTime('loadUsedLangFiles','loadUsedLangFiles');
+		//vmRam('loadUsedLangFiles');
 	}
 
 	static public function debugLangVars(){
@@ -243,7 +244,7 @@ class vmLanguage {
 			$tag = self::$currLangTag;
 		}
 		$site = (int)$site;
-		self::$_loaded['com'][$site][] = $name;
+		self::$_loaded['com'][$site][$name] = $name;
 		self::getLanguage($tag);
 
 		$h = $site.$tag.$name;
@@ -304,7 +305,7 @@ class vmLanguage {
 	static public function loadModJLang($name){
 
 		$tag = self::$currLangTag;
-		self::$_loaded['mod'][] = $name;
+		self::$_loaded['mod'][$name] = $name;
 		self::getLanguage($tag);
 
 		$path = $basePath = JPATH_VM_MODULES.'/'.$name;

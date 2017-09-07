@@ -199,7 +199,7 @@ class VirtueMartModelCategory extends VmModel {
 	}
 
 	/**
-	 * Be aware we need the lang to assure that the cache works properly. The cache needs all paraemeters
+	 * Be aware we need the lang to assure that the cache works properly. The cache needs all parameters
 	 * in the function call to use the right hash
 	 *
 	 * @author Max Milbers

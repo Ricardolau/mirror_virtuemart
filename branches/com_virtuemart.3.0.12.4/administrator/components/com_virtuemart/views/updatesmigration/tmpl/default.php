@@ -35,3 +35,12 @@ AdminUIHelper::buildTabs ( $this,  $tabs);
 AdminUIHelper::endAdminArea();
 
 echo '</div>';
+
+$j = 'function confirmation(message, destnUrl) {
+	var answer = confirm(message);
+	if (answer) {
+		window.location = destnUrl;
+	}
+}';
+
+vmJsApi::addJScript('vm.confirm',$j);

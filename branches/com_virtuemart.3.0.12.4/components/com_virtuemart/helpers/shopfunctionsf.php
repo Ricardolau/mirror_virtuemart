@@ -963,10 +963,13 @@ class shopFunctionsF {
 			$dispatcher->trigger('onInit',$id);
 			if(version_compare(JVERSION, '3.5', 'ge')){
 				$plugin = JPluginHelper::getPlugin('captcha', 'recaptcha');
-				$params = new JRegistry($plugin->params);
-				if ($params->get('version') != '1.0') {
-					return '<div id="jform_captcha" class="g-recaptcha  required" data-sitekey="'.$params->get('public_key').'" data-theme="'.$params->get('theme2').'" data-size="normal"></div>';
+				if(!empty($plugin->params)){
+					$params = new JRegistry($plugin->params);
+					if ($params->get('version') != '1.0') {
+						return '<div id="jform_captcha" class="g-recaptcha  required" data-sitekey="'.$params->get('public_key').'" data-theme="'.$params->get('theme2').'" data-size="normal"></div>';
+					}
 				}
+
 			}
 			JHTML::_('behavior.framework');
 			return '<div id="'.$id.'"></div>';

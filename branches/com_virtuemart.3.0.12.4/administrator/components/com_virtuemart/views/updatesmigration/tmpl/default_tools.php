@@ -148,13 +148,3 @@ if(!VmConfig::get('dangeroustools', false)){
 </table>
 
 
-<script type="text/javascript">
-<!--
-function confirmation(message, destnUrl) {
-	var answer = confirm(message);
-	if (answer) {
-		window.location = destnUrl;
-	}
-}
-//-->
-</script>

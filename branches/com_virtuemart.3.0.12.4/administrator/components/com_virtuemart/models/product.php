@@ -600,7 +600,7 @@ class VirtueMartModelProduct extends VmModel {
 					$orderBy = 'ORDER BY RAND()';
 					break;
 				case 'latest':
-					$orderBy = 'ORDER BY p.`' . $latest_products_orderBy . '` DESC, p.`virtuemart_product_id` DESC';;
+					$orderBy = 'ORDER BY p.`' . $latest_products_orderBy . '` DESC, p.`virtuemart_product_id` DESC';
 					break;
 				case 'random':
 					$orderBy = 'ORDER BY RAND() '; //LIMIT 0, '.(int)$nbrReturnProducts ; //TODO set limit LIMIT 0, '.(int)$nbrReturnProducts;
@@ -906,7 +906,7 @@ vmdebug('$limitStart',$limitStart);
 			if($virtuemart_shoppergroup_ids !=0 and is_array($virtuemart_shoppergroup_ids)){
 				$virtuemart_shoppergroup_ids = implode('.',$virtuemart_shoppergroup_ids);
 			} else {
-				$virtuemart_shoppergroup_ids = $virtuemart_shoppergroup_ids?TRUE:0;;
+				$virtuemart_shoppergroup_ids = $virtuemart_shoppergroup_ids?TRUE:0;
 			}
 
 			$opt->virtuemart_shoppergroup_ids = $virtuemart_shoppergroup_ids;

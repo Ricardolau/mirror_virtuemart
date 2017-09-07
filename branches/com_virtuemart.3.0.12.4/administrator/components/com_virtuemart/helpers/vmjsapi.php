@@ -813,7 +813,9 @@ jQuery(document).ready(function($) {
 		$jsDateFormat = str_replace($search, $replace, $dateFormat);
 
 		if ($date) {
-			$formatedDate = JHtml::_('date', $date, $dateFormat );
+			//$formatedDate = JHtml::_('date', $date, $dateFormat, null );
+			$date1 = new DateTime($date);
+			$formatedDate = $date1->format($dateFormat);
 		}
 		else {
 			$formatedDate = vmText::_('COM_VIRTUEMART_NEVER');
@@ -876,12 +878,12 @@ jQuery(document).ready(function($) {
 			return vmText::_ ('COM_VIRTUEMART_NEVER');
 		}
 		If ($joomla) {
-			$formatedDate = JHtml::_('date', $date, vmText::_('DATE_FORMAT_'.$format));
+			$formatedDate = JHtml::_('date', $date, vmText::_('DATE_FORMAT_'.$format),null);
 		} else {
 
 			$J16 = "_J16";
 
-			$formatedDate = JHtml::_('date', $date, vmText::_('COM_VIRTUEMART_DATE_FORMAT_'.$format.$J16));
+			$formatedDate = JHtml::_('date', $date, vmText::_('COM_VIRTUEMART_DATE_FORMAT_'.$format.$J16),null);
 		}
 		return $formatedDate;
 	}

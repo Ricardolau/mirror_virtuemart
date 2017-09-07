@@ -306,7 +306,9 @@ class VirtuemartViewProduct extends VmViewAdmin {
 					$session->set('reset_pag', false,'vm');
 				}
 				$this->categories = $catmodel->getCategoryTree(0,0,false,$this->lists['search'],$limit);
-
+				foreach($this->categories as $i=>$c){
+					$this->categories[$i]->productcount = $catmodel->countProducts($this->categories[$i]->virtuemart_category_id);
+				}
 				$catpagination = $catmodel->getPagination();
 				$this->assignRef('catpagination', $catpagination);
 

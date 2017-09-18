@@ -82,9 +82,7 @@ class VirtuemartViewCategory extends VmViewAdmin {
 			$this->jTemplateList = ShopFunctions::renderTemplateList(vmText::_('COM_VIRTUEMART_ADMIN_CFG_JOOMLA_TEMPLATE_DEFAULT'));
 
 			$cmodel = VmModel::getModel('config');
-			$this->vmLayoutList = $cmodel->getLayoutList('virtuemart');
 
-			$this->cartLayoutList = $cmodel->getLayoutList('cart',array('padded.php','perror.php'));
 			$this->categoryLayoutList = $cmodel->getLayoutList('category');
 
 			$this->productLayoutList = $cmodel->getLayoutList('productdetails');

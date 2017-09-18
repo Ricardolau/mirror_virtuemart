@@ -743,6 +743,9 @@ vmdebug('my prices',$data);
 
 	public function updateBill($virtuemart_order_id, $vattax){
 
+		if (!class_exists('CurrencyDisplay')) {
+			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');
+		}
 		$this->_currencyDisplay = CurrencyDisplay::getInstance();
 		$rounding = $this->_currencyDisplay->_priceConfig['salesPrice'][1];
 		//OSP update cartRules/shipment/payment

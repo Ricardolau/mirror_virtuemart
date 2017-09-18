@@ -59,7 +59,7 @@ class VirtueMartModelConfig extends VmModel {
 	 * @param name of the view
 	 * @return object List of flypage objects
 	 */
-	static function getLayoutList($view,$ignore=0) {
+	static function getLayoutList($view, $ignore=0, $emptyOption = true) {
 
 		$dirs = array();
 		$com = strpos($view,'mod_');
@@ -88,7 +88,7 @@ class VirtueMartModelConfig extends VmModel {
 			}
 		}
 
-		return self::getLayouts($dirs,0,$ignore);
+		return self::getLayouts($dirs,0,$ignore, $emptyOption);
 	}
 
 	static function getLayouts($dirs,$type=0,$ignore=0, $emptyOption = true){
@@ -119,7 +119,13 @@ class VirtueMartModelConfig extends VmModel {
 							}
 							if ($path_info['extension'] == 'php' && !in_array($file,$alreadyAddedFile)) {
 								$alreadyAddedFile[] = $file;
-								$result[] = JHtml::_('select.option', $path_info['filename'], $path_info['filename']);
+								$add = JHtml::_('select.option', $path_info['filename'], $path_info['filename']);
+								if($path_info['filename'] == 'default'){
+									array_unshift($result,$add);
+								} else {
+									$result[] = $add;
+								}
+
 							}
 						}
 

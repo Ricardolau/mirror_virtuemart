@@ -37,7 +37,7 @@
 #vm_num_ratings_show     //amount of ratings to show
 #invoiceInUserLang
 #invoiceNameInShopLang
-
+#transliterateslugs
 
 
 useSSL=0

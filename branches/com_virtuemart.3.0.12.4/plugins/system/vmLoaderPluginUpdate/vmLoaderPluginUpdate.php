@@ -20,6 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport('joomla.event.plugin');
 
 class plgSystemVmLoaderPluginUpdate extends JPlugin {
+
 	function __construct(&$subject, $config = array()) {
 		parent::__construct($subject, $config);
 		# Only for Joomla 3.7 and above:
@@ -40,6 +41,37 @@ class plgSystemVmLoaderPluginUpdate extends JPlugin {
 				}
 			}
 		}
+	}
+
+
+	function onAfterRoute() {
+		$app = JFactory::getApplication();
+		$jinput = JFactory::getApplication()->input;
+		$option = $jinput->get('option');
+		$view = $jinput->get('view');
+		$task = $jinput->get('task');
+     	//$itemID = $jinput->get('Itemid');
+
+		if ($option=='com_users') {
+			$itemID = '';
+			/*if (isset($itemID) && ($itemID !='')) {
+				//I think this would activate wrong menu item
+				$itemID = '&Itemid='.$itemID;
+			}*/
+
+			if($view=='registration' or $task == 'registration.register') {
+				$t = '';
+				$msg = '';
+				if($task == 'registration.register'){
+					$t = '&task=saveUser';
+					$msg = 'Use the registration of VirtueMart';
+				}
+				$l = JRoute::_('index.php?option=com_virtuemart&view=user'.$t.$itemID);
+
+				$app->redirect( $l,$msg);
+			}
+		}
+
 	}
 
 }

@@ -911,6 +911,13 @@ class VirtueMartModelCustomfields extends VmModel {
 		return $media->displayMediaThumb ('', FALSE, '', TRUE, TRUE, $absUrl, $width, $height);
 	}
 
+	/**
+	 * @deprecated
+	 * @param $customPrice
+	 * @param $currency
+	 * @param $calculator
+	 * @return string
+	 */
 	static function _getCustomPrice($customPrice, $currency, $calculator) {
 		if ((float)$customPrice) {
 			$price = strip_tags ($currency->priceDisplay ($calculator->calculateCustomPriceWithTax ($customPrice)));
@@ -922,6 +929,52 @@ class VirtueMartModelCustomfields extends VmModel {
 			$price = ($customPrice === '') ? '' :  vmText::sprintf('COM_VIRTUEMART_CART_PRICE_FREE',$currency->getSymbol());
 		}
 		return $price;
+	}
+
+	static function renderCustomfieldPrice($productCustom,$product,$calculator){
+		vmdebug('renderCustomfieldPrice',$productCustom);
+		$customPrice = self::getCustomFieldPriceModificator($productCustom,$product);
+		if ((float)$customPrice) {
+
+			if ($customPrice > 0) {
+				$sign = vmText::_('COM_VM_PLUS');
+			} else {
+				$sign = vmText::_('COM_VM_MINUS');
+			}
+
+			if(empty($productCustom->multiplyPrice)){
+				$v = strip_tags ($calculator->_currencyDisplay->priceDisplay ($calculator->calculateCustomPriceWithTax ($customPrice)));
+				$price = vmText::sprintf('COM_VM_CUSTOMFIELD_VARIANT_PRICE',$sign,$v);
+			} else {
+				$v = trim($productCustom->customfield_price,0);
+				$v = trim($v,'.');
+				$price = vmText::sprintf('COM_VM_CUSTOMFIELD_VARIANT_PERCENTAGE',$sign,$v);
+
+			}
+
+		}
+		else {
+			$price = ($customPrice === '') ? '' :  vmText::sprintf('COM_VIRTUEMART_CART_PRICE_FREE',$calculator->_currencyDisplay->getSymbol());
+		}
+		return $price;
+	}
+
+	static function getCustomFieldPriceModificator($productCustom,$product){
+
+		if(empty($productCustom->multiplyPrice)){
+			$p = $productCustom->customfield_price;
+		} else {
+			if($productCustom->multiplyPrice == 'base_productprice' or $productCustom->multiplyPrice == 'base_variantprice'){
+				$pVirt = $product->allPrices[$product->selectedPrice]['product_price'];
+				if($productCustom->multiplyPrice == 'base_variantprice'){
+					$pVirt += $product->modificatorSum ;
+				}
+				$p = $pVirt * $productCustom->customfield_price * 0.01;
+			} else {	//base_modificatorprice
+				$p = $product->modificatorSum * $productCustom->customfield_price * 0.01;
+			}
+		}
+		return $p;
 	}
 
 	/**
@@ -982,9 +1035,8 @@ class VirtueMartModelCustomfields extends VmModel {
 						$dispatcher->trigger( 'plgVmPrepareCartProduct', array(&$product, &$product->customfields[$k], $selected, &$product->modificatorSum) );
 					} else {
 						if($productCustom->customfield_price) {
-							//vmdebug('calculateModificators $productCustom->customfield_price ',$productCustom->customfield_price);
-							//TODO adding % and more We should use here $this->interpreteMathOp
-							$product->modificatorSum += $productCustom->customfield_price;
+
+							$product->modificatorSum += self::getCustomFieldPriceModificator($productCustom,$product);
 						}
 					}
 				}

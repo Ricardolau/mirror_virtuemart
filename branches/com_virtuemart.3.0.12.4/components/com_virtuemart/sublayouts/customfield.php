@@ -512,7 +512,7 @@ class VirtueMartCustomFieldRenderer {
 							foreach ($customfields[$selectList[$customfield->virtuemart_custom_id]]->options as &$productCustom) {
 								if(!isset($productCustom->customfield_price)) $productCustom->customfield_price = 0.0;
 								if(!isset($productCustom->customfield_value)) $productCustom->customfield_value = '';
-								$price = VirtueMartModelCustomfields::_getCustomPrice($productCustom->customfield_price, $currency, $calculator);
+								$price = VirtueMartModelCustomfields::renderCustomfieldPrice($productCustom, $product, $calculator);
 								if($type == 'M'){
 									$productCustom->text = VirtueMartModelCustomfields::displayCustomMedia ($productCustom->customfield_value,'product',$customfield->width,$customfield->height).' '.$price;
 								} else {

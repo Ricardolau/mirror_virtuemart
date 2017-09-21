@@ -468,14 +468,16 @@ class VirtueMartModelCustom extends VmModel {
 		} else if($type=='S' or $type=='B'){
 			$varsToPush = array(
 				'addEmpty'		=> array(0, 'int'),
-				'selectType'	=> array(0, 'int')
+				'selectType'	=> array(0, 'int'),
+				'multiplyPrice'	=> array('', 'string')
 			);
 		} else if($type=='M'){
 			$varsToPush = array(
 				'width'		=> array('', 'string'),
 				'height'	=> array('', 'string'),
 				'addEmpty'		=> array(0, 'int'),
-				'selectType'	=> array(1, 'int')
+				'selectType'	=> array(1, 'int'),
+				'multiplyPrice'	=> array('', 'string')
 			);
 		} else if($type=='R'){
 			$varsToPush = array(

@@ -384,7 +384,7 @@ class VirtueMartModelConfig extends VmModel {
 			return false;
 		}
 		//$oldLangs = $config->get('active_languages');
-		$oldLangs = VmConfig::get('active_languages');
+		$oldLangs = VmConfig::get('active_languages', array());
 
 		foreach($data as $k => $dat){
 			if(is_array($dat)){
@@ -499,7 +499,7 @@ class VirtueMartModelConfig extends VmModel {
 		}
 
 		$conf_langs = self::getContentLanguages();
-		$active_langs = $config->get('active_languages');
+		$active_langs = $config->get('active_languages', array());
 
 		if(empty($active_langs)){
 			$active_langs = $conf_langs;

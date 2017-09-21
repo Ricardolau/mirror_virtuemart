@@ -929,11 +929,10 @@ class VirtueMartModelUser extends VmModel {
 		/*
 		 * JUser  or $this->_id is the logged user
 		 */
-
-		if(!empty($this->_data->JUser)){
+		if(!empty($this->_data->JUser) and $this->_data->JUser->id==$this->_id){
 			$JUser = $this->_data->JUser;
 		} else {
-			$JUser = JUser::getInstance($this->_id);
+			$JUser = $this->_data->JUser = JUser::getInstance($this->_id);
 		}
 
 		$data = null;

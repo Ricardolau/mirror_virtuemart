@@ -359,25 +359,25 @@ class vmJsApi{
 		static $e = true;
 		if($e){
 			$v = 'if (typeof Virtuemart === "undefined"){
-	Virtuemart = {};}'."\n";
-			$v .= "vmSiteurl = '".JURI::root()."' ;\n";
+	var Virtuemart = {};}'."\n";
+			$v .= "var vmSiteurl = '".JURI::root()."' ;\n";
 			$v .= "Virtuemart.vmSiteurl = vmSiteurl;\n";
-			$v .= "vmLang = '&lang=".VmConfig::$vmlangSef."';\n";
+			$v .= "var vmLang = '&lang=".VmConfig::$vmlangSef."';\n";
 			$v .= "Virtuemart.vmLang = vmLang; \n";
-			$v .= "vmLangTag = '".VmConfig::$vmlangSef."';\n";
+			$v .= "var vmLangTag = '".VmConfig::$vmlangSef."';\n";
 			$v .= "Virtuemart.vmLangTag = vmLangTag;\n";
 			$itemId = vRequest::getInt('Itemid',false,'GET');
 			if(!empty($itemId)){
-				$v .= "Itemid = '&Itemid=".$itemId."';\n";
+				$v .= "var Itemid = '&Itemid=".$itemId."';\n";
 			} else {
-				$v .= 'Itemid = "";'."\n";
+				$v .= 'var Itemid = "";'."\n";
 			}
 			$v .= 'Virtuemart.addtocart_popup = "'.VmConfig::get('addtocart_popup',1).'"'." ; \n";
 			if(VmConfig::get('usefancy',1)) {
-				$v .= "usefancy = true;\n";
+				$v .= "var usefancy = true;\n";
 			} else {//This is just there for the backward compatibility
-				$v .= "vmCartText = '". addslashes( vmText::_('COM_VIRTUEMART_CART_PRODUCT_ADDED') )."' ;\n" ;
-				$v .= "vmCartError = '". addslashes( vmText::_('COM_VIRTUEMART_MINICART_ERROR_JS') )."' ;\n" ;
+				$v .= "var vmCartText = '". addslashes( vmText::_('COM_VIRTUEMART_CART_PRODUCT_ADDED') )."' ;\n" ;
+				$v .= "var vmCartError = '". addslashes( vmText::_('COM_VIRTUEMART_MINICART_ERROR_JS') )."' ;\n" ;
 				//This is necessary though and should not be removed without rethinking the whole construction
 				$v .= "usefancy = false;\n";
 			}

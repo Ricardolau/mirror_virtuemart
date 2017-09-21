@@ -690,24 +690,21 @@ class VmConfig {
 
 	static function setErrRepDebug(){
 		$ret[0] = ini_set('display_errors', '-1');
+		$cVer = phpversion();
 		if(VM_VERSION<3){
-			if(version_compare(phpversion(),'5.4.0','<' )){
-				vmdebug('PHP 5.3');
+			if(version_compare($cVer,'5.4.0','<' )){
 				$ret[1] = error_reporting( E_ALL ^ E_STRICT );
 			} else {
-				vmdebug('PHP 5.4');
 				$ret[1] = error_reporting( E_ALL );
 			}
 		} else {
-			if(version_compare(phpversion(),'5.4.0','<' )){
-				vmdebug('PHP 5.3');
+			if(version_compare($cVer,'5.4.0','<' )){
 				$ret[1] = error_reporting( E_ALL );
 			} else {
-				vmdebug('PHP 5.4');
 				$ret[1] = error_reporting( E_ALL & ~E_STRICT);
 			}
 		}
-		vmdebug('Show All Errors');
+		vmdebug('Show All Errors, PHP-Version '.$cVer);
 	}
 
 

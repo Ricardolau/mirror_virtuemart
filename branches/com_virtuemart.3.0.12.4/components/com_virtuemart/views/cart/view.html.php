@@ -81,7 +81,7 @@ class VirtueMartViewCart extends VmView {
 			$pathway->addItem(vmText::_('COM_VIRTUEMART_CART_OVERVIEW'), JRoute::_('index.php?option=com_virtuemart&view=cart', FALSE));
 			$pathway->addItem(vmText::_('COM_VIRTUEMART_CART_SELECTPAYMENT'));
 			$document->setTitle(vmText::_('COM_VIRTUEMART_CART_SELECTPAYMENT'));
-		} else if ($this->layoutName == 'order_done') {
+		} else if ($this->layoutName == 'orderdone' or $this->layoutName == 'order_done') {
 			vmLanguage::loadJLang( 'com_virtuemart_shoppers', true );
 			$this->lOrderDone();
 

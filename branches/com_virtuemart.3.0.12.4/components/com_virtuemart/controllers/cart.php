@@ -119,7 +119,7 @@ class VirtueMartControllerCart extends JControllerLegacy {
 
 			$cart->confirmDone();
 			$view = $this->getView('cart', 'html');
-			$view->setLayout('order_done');
+			$view->setLayout('orderdone');
 			$cart->_fromCart = false;
 			$view->display();
 			return true;

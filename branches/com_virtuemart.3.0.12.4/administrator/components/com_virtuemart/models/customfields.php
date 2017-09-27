@@ -932,7 +932,7 @@ class VirtueMartModelCustomfields extends VmModel {
 	}
 
 	static function renderCustomfieldPrice($productCustom,$product,$calculator){
-		vmdebug('renderCustomfieldPrice',$productCustom);
+
 		$customPrice = self::getCustomFieldPriceModificator($productCustom,$product);
 		if ((float)$customPrice) {
 

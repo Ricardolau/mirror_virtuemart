@@ -141,10 +141,20 @@ function refresh_counter() {
 		<span><?php echo vmText::_( 'COM_VIRTUEMART_REVIEW_COUNT' ) ?>
 			<input type="text" value="0" size="4" name="counter" maxlength="4" readonly="readonly"/>
 				</span>
-				<?php
+                <br/><br/>
+                <input class="highlight-button" type="submit" onclick="return( check_reviewform());"
+                       name="submit_review" title="<?php echo vmText::_( 'COM_VIRTUEMART_REVIEW_SUBMIT' ) ?>"
+                       value="<?php echo vmText::_( 'COM_VIRTUEMART_REVIEW_SUBMIT' ) ?>"/>
+				<?php } else if($review_editable and $this->allowRating) { ?>
+                    <input class="highlight-button" type="submit" name="submit_review"
+                           title="<?php echo vmText::_( 'COM_VIRTUEMART_REVIEW_SUBMIT' ) ?>"
+                           value="<?php echo vmText::_( 'COM_VIRTUEMART_REVIEW_SUBMIT' ) ?>"/>
+
+                </div>
+					<?php
 				}
 
-				if($review_editable and $this->allowReview) {
+				/*if($review_editable and $this->allowReview) {
 					?>
 					<br/><br/>
 					<input class="highlight-button" type="submit" onclick="return( check_reviewform());"
@@ -155,9 +165,9 @@ function refresh_counter() {
 						   title="<?php echo vmText::_( 'COM_VIRTUEMART_REVIEW_SUBMIT' ) ?>"
 						   value="<?php echo vmText::_( 'COM_VIRTUEMART_REVIEW_SUBMIT' ) ?>"/>
 				<?php
-				}
+				}*/
 
-				?>    </div>
+				?>
 			<input type="hidden" name="virtuemart_product_id"
 				   value="<?php echo $this->product->virtuemart_product_id; ?>"/>
 			<input type="hidden" name="option" value="com_virtuemart"/>

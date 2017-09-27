@@ -46,7 +46,7 @@ if(!VmConfig::get('use_as_catalog', 0)){
 
 ?>
 	<div class="addtocart-area">
-		<form method="post" class="product js-recalculate" action="<?php echo JRoute::_ ('index.php?option=com_virtuemart',false); ?>">
+		<form method="post" class="product js-recalculate" action="<?php echo JRoute::_ ('index.php?option=com_virtuemart',false); ?>" autocomplete="off" >
 			<div class="vm-customfields-wrap">
 				<?php
 				if(!empty($rowHeights['customfields'])) {

@@ -431,7 +431,7 @@ INSERT IGNORE INTO `#__virtuemart_currencies` (`virtuemart_currency_id`, `virtue
 	(171, 1, 'Nicaraguan córdoba', '', 'NIO', 558, 0.00000, 'C$', '2', ',', '', '{number} {symbol}', '{sign}{number} {symbol}'),
 	(172, 1, 'Ugandan shilling', '', 'UGX', 800, 0.00000, 'Sh', '2', ',', '', '{number} {symbol}', '{sign}{number} {symbol}'),
 	(173, 1, 'Macedonian denar', '', 'MKD', 807, 0.00000, 'ден', '2', ',', '', '{number} {symbol}', '{sign}{number} {symbol}'),
-	(174, 1, 'Uruguayan peso', '', 'UYU', 858, 0.00000, '$', '0', '', '', '{symbol}number}', '{symbol}{sign}{number}'),
+	(174, 1, 'Uruguayan peso', '', 'UYU', 858, 0.00000, '$', '0', '', '', '{symbol}{number}', '{symbol}{sign}{number}'),
 	(175, 1, 'Uzbekistani som', '', 'UZS', 860, 0.00000, 'лв', '2', ',', '', '{number} {symbol}', '{sign}{number} {symbol}'),
 	(176, 1, 'Azerbaijani manat', '', 'AZN', 934, 0.00000, 'ман', '2', ',', '', '{number} {symbol}', '{sign}{number} {symbol}'),
 	(177, 1, 'Ghanaian cedi', '', 'GHS', 936, 0.00000, '₵', '2', ',', '', '{number} {symbol}', '{sign}{number} {symbol}'),

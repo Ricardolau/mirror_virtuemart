@@ -1404,7 +1404,7 @@ class vmURI{
 
 	static function getCurrentUrlBy ($source = 'request',$route = false, $white = true, $ignore = false){
 
-		$vars = array('option', 'view', 'controller', 'task', 'virtuemart_category_id', 'virtuemart_manufacturer_id', 'virtuemart_product_id', 'virtuemart_user_id', 'addrtype', 'virtuemart_user_info', 'virtuemart_currency_id', 'layout', 'format', 'limitstart', 'limit', 'language', 'keyword', 'search', 'virtuemart_order_id', 'order_number', 'order_pass', 'tmpl', 'usersearch', 'manage', 'orderby', 'dir', 'Itemid', 'lang');	//TODO Maybe better to remove the 'lang', which keeps the SEF suffix
+		$vars = array('option', 'view', 'controller', 'task', 'virtuemart_category_id', 'virtuemart_manufacturer_id', 'virtuemart_product_id', 'virtuemart_user_id', 'virtuemart_vendor_id', 'addrtype', 'virtuemart_user_info', 'virtuemart_currency_id', 'layout', 'format', 'limitstart', 'limit', 'language', 'keyword', 'search', 'virtuemart_order_id', 'order_number', 'order_pass', 'tmpl', 'usersearch', 'manage', 'orderby', 'dir', 'Itemid', 'lang');	//TODO Maybe better to remove the 'lang', which keeps the SEF suffix
 
 		$url = 'index.php?';
 		if($white){
@@ -1453,7 +1453,7 @@ class vmURI{
 		if ($route){
 			$url = JRoute::_($url);
 		}
-		vmdebug('getCurrentUrlBy ',$urlold,$url);
+		//vmdebug('getCurrentUrlBy ',$urlold,$url);
 		return $url;
 	}
 

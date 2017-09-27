@@ -137,6 +137,9 @@ class VirtuemartViewCategory extends VmView {
 		}
 		if($this->categoryId===-1) $this->categoryId = 0;
 
+		$this->virtuemart_manufacturer_id = $virtuemart_manufacturer_id;
+		if($this->virtuemart_manufacturer_id===-1) $this->virtuemart_manufacturer_id = 0;
+
 		$prefix = '';
 
 		if((isset($menu->query['virtuemart_category_id']) and $menu->query['virtuemart_category_id']!=$this->categoryId) or $this->keyword !== false) {
@@ -372,7 +375,8 @@ class VirtuemartViewCategory extends VmView {
 			$this->vendor = $vendorModel->getVendor();
 		}
 
-		if(($this->storefront and empty($prefix)) or empty($this->categoryId) ){
+		$this->manu_descr = '';
+		if(($this->storefront and empty($prefix)) or (empty($this->categoryId) and empty($this->virtuemart_manufacturer_id)) ){
 
 			if(empty($this->vendor->customtitle)){
 				if(empty($customtitle)) {
@@ -388,18 +392,24 @@ class VirtuemartViewCategory extends VmView {
 			if(!empty($this->vendor->metaauthor)) $metaauthor = $this->vendor->metaauthor;
 
 		} else {
+			if(empty($this->categoryId)){
+				$metaObj = VmModel::getModel('manufacturer')->getManufacturer($this->virtuemart_manufacturer_id);
+				$this->manu_descr = $metaObj->mf_desc;
+			} else {
+				$metaObj = $category;
+			}
 
-			if (!empty($category->metadesc)) {
-				$metadesc = $category->metadesc;
+			if (!empty($metaObj->metadesc)) {
+				$metadesc = $metaObj->metadesc;
 			}
-			if (!empty($category->metakey)) {
-				$metakey = $category->metakey;
+			if (!empty($metaObj->metakey)) {
+				$metakey = $metaObj->metakey;
 			}
-			if (!empty($category->metarobot)) {
-				$metarobot = $category->metarobot;
+			if (!empty($metaObj->metarobot)) {
+				$metarobot = $metaObj->metarobot;
 			}
-			if(!empty($category->customtitle)){
-				$customtitle = $category->customtitle;
+			if(!empty($metaObj->customtitle)){
+				$customtitle = $metaObj->customtitle;
 			}
 
 			if ($this->app->getCfg('MetaAuthor') == '1' and !empty($category->metaauthor)) {
@@ -450,7 +460,7 @@ class VirtuemartViewCategory extends VmView {
 			$document->setMetaData('title',  $title);
 		}
 
-		//Fallback for older layouts, will be removed vm3.2
+		//Fallback for older layouts, will be removed vm3.4
 		$this->fallback=false;
 		if(count($this->products)===1 and isset($this->products['products'])){
 			$this->products = $this->products['products'];

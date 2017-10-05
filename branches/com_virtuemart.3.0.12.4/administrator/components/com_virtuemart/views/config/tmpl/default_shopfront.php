@@ -27,7 +27,7 @@ defined('_JEXEC') or die('Restricted access');?>
 	<?php
 	echo VmHTML::row('raw','COM_VIRTUEMART_WEIGHT_UNIT_DEFAULT',ShopFunctions::renderWeightUnitList('weight_unit_default', VmConfig::get('weight_unit_default')));
 	echo VmHTML::row('raw','COM_VIRTUEMART_LWH_UNIT_DEFAULT',ShopFunctions::renderLWHUnitList('lwh_unit_default', VmConfig::get('lwh_unit_default')));
-	echo VmHtml::row('input','COM_VIRTUEMART_PROVIDED_UNITS','norm_units',VmConfig::get('norm_units', 'KG,100G,M,SM,CUBM,L,100ML,P'));
+	echo VmHtml::row('input','COM_VM_PROVIDED_UNITS','norm_units',VmConfig::get('norm_units', 'KG,100G,M,SM,CUBM,L,100ML,P'));
 	echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_SHOW_PRINTICON','show_printicon',VmConfig::get('show_printicon',1));
 	echo VmHTML::row('checkbox','COM_VIRTUEMART_PDF_ICON_SHOW','pdf_icon',VmConfig::get('pdf_icon',0));
 ?>

@@ -39,6 +39,8 @@
 #invoiceNameInShopLang
 #transliterateslugs
 
+#layout_order_detail=detail
+#layout_order_list=list
 
 useSSL=0
 dangeroustools=0

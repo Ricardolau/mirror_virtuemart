@@ -94,8 +94,9 @@ class VirtueMartCustomFieldRenderer {
 					$db = JFactory::getDbo();
 					$db->setQuery($q);
 					$avail = $db->loadColumn();
-					array_unshift($avail,$product->virtuemart_product_id);
-
+					if(!in_array($customfield->virtuemart_product_id,$avail)){
+						array_unshift($avail,$customfield->virtuemart_product_id);
+					}
 
 					foreach($customfield->options as $product_id=>$variants){
 						static $counter = 0;

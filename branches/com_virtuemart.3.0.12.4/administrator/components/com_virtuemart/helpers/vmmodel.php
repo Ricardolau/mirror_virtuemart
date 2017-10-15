@@ -892,12 +892,12 @@ class VmModel extends vObject{
 
 	static public function joinLangTables($tablename, $prefix, $on, $method = 0){
 
-		static $useFb = null, $useFb2 = null, $isSite = null;
-		if($useFb === null){
-			$useFb = vmLanguage::getUseLangFallback();
-			$useFb2 = vmLanguage::getUseLangFallbackSecondary();
-			$isSite = vmConfig::isSite();
-		}
+		static $isSite = null;
+
+		$useFb = vmLanguage::getUseLangFallback();
+		$useFb2 = vmLanguage::getUseLangFallbackSecondary();
+		$isSite = vmConfig::isSite();
+
 
 		if($method===0){
 			$method = 'LEFT JOIN';
@@ -943,11 +943,9 @@ class VmModel extends vObject{
 
 	static public function joinLangSelectFields($langFields, $as = true){
 
-		static $useFb = null, $useFb2 = null;
-		if($useFb === null){
-			$useFb = vmLanguage::getUseLangFallback();
-			$useFb2 = vmLanguage::getUseLangFallbackSecondary();
-		}
+		$useFb = vmLanguage::getUseLangFallback();
+		$useFb2 = vmLanguage::getUseLangFallbackSecondary();
+
 
 		$langFields = array_unique($langFields);
 		$fields = array();
@@ -980,11 +978,9 @@ class VmModel extends vObject{
 
 	static public function joinLangLikeField($searchField, $keyword){
 
-		static $useFb = null, $useFb2 = null;
-		if($useFb === null){
-			$useFb = vmLanguage::getUseLangFallback();
-			$useFb2 = vmLanguage::getUseLangFallbackSecondary();
-		}
+		$useFb = vmLanguage::getUseLangFallback();
+		$useFb2 = vmLanguage::getUseLangFallbackSecondary();
+
 
 		if (strpos ($searchField, '`') !== FALSE){
 			$searchField = str_replace('`','',$searchField);

@@ -677,6 +677,34 @@ class VmMediaHandler {
 		return ;
 	}
 
+	function deleteThumbs(){
+
+		$oldFileUrlThumb = $this->getFileUrlThumb();
+
+		$dir = VMPATH_ROOT.DS.$this->file_url_folder.'resized';
+
+		if(!is_dir($dir)){
+			$m = 'Attention directoy is not accessible (does not exists or wrong rights) ';
+			vmError($m.$dir,$m);
+			//continue;
+		}
+
+		if ($handle = opendir(VMPATH_ROOT.'/'.$dir)) {
+			while (false !== ($file = readdir($handle))) {
+				if(!empty($file) and strpos($file,'.')!==0 and $file != 'index.html' and !is_dir($dir.DS.$file)){
+					$hits = array();
+					$regex = "/".$this->file_name.'_\d{1,4}x\d{1,4}.\S{1,3}'."/";
+					$res = strpos($regex, $file, $hits);
+					foreach($hits as $name){
+						$this->deleteFile($this->file_url_folder.'resized'.DS.$name);
+					}
+				}
+			}
+		}
+
+		$this->deleteFile($oldFileUrlThumb);
+	}
+
 	/**
 	 * Processes the choosed Action while storing the data, gets extend by the used child, use for the action clear commands.
 	 * Useable commands in all medias upload, upload_delete, delete, and all of them with _thumb on it also.
@@ -699,8 +727,11 @@ class VmMediaHandler {
 			$this->file_url = $this->file_url_folder.$this->file_name;
 		}
 		else if( $data['media_action'] == 'replace' ){
+
+			//always delete the thumb
+			$this->deleteThumbs();
+
 			$oldFileUrl = $this->file_url;
-			$oldFileUrlThumb = $this->getFileUrlThumb();
 			$file_name = $this->uploadFile($this->file_url_folder,true);
 			if ($file_name===false) return false;
 			$this->file_name = $file_name;
@@ -709,8 +740,8 @@ class VmMediaHandler {
 			if($this->file_url!=$oldFileUrl && !empty($this->file_name)){
 				$this->deleteFile($oldFileUrl);
 			}
-			//always delete the thumb
-			$this->deleteFile($oldFileUrlThumb);
+
+
 		}
 		else if( $data['media_action'] == 'replace_thumb' ){
 

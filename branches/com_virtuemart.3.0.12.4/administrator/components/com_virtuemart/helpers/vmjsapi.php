@@ -853,10 +853,13 @@ jQuery(document).ready(function($) {
 		vmJsApi::css('ui/jquery.ui.all');
 		$lg = JFactory::getLanguage();
 		$lang = $lg->getTag();
-
+		$sh_lang = substr($lang, 0, 2);
 		$vlePath = vmJsApi::setPath('i18n/jquery.ui.datepicker-'.$lang, FALSE , '' ,$minified = NULL ,   'js', true);
 		if(!file_exists($vlePath) or is_dir($vlePath)){
-			$lang = 'en-GB';
+			$vlePath = vmJsApi::setPath('i18n/jquery.ui.datepicker-'.$sh_lang, FALSE , '' ,$minified = NULL ,   'js', true);
+			if(!file_exists($vlePath) or is_dir($vlePath)){
+				$lang = 'en-GB';
+			}
 		}
 		vmJsApi::addJScript( 'i18n/jquery.ui.datepicker-'.$lang );
 

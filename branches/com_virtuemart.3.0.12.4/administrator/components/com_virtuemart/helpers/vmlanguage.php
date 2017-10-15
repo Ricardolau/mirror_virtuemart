@@ -65,10 +65,16 @@ class vmLanguage {
 
 	}
 
-	static public function setLanguageByTag($siteLang){
+	static public function setLanguageByTag($siteLang, $alreadyLoaded = true){
 
 		if(empty($siteLang)){
 			$siteLang = self::$currLangTag;
+		} else {
+			if($siteLang!=self::$currLangTag){
+				self::$cgULF = null;
+				self::$cgULFS = null;
+			}
+
 		}
 		self::setLanguage($siteLang);
 
@@ -133,7 +139,7 @@ class vmLanguage {
 		}
 
 		//JLangTag if also activevmlang set as FB, ShopLangTag($jDefLangTag), vmLangTag, vm_lfbs overwrites
-		if(!empty(self::$_loaded)){
+		if(!empty(self::$_loaded) and $alreadyLoaded){
 			//vmdebug('Loaded not empty, lets start',self::$_loaded);
 			self::loadUsedLangFiles();
 		}
@@ -291,7 +297,7 @@ class vmLanguage {
 
 		self::$languages[$tag]->load($name, $path, $tag, true, true);
 		$loaded[$h] = true;
-		vmdebug('loaded '.$h.' '.$path.' '.self::$languages[$tag]->getTag());
+		//vmdebug('loaded '.$h.' '.$path.' '.self::$languages[$tag]->getTag());
 		vmText::$language = self::$languages[$tag];
 		//vmText::setLanguage(self::$languages[$tag]);
 		return self::$languages[$tag];
@@ -325,31 +331,33 @@ class vmLanguage {
 		return self::$languages[$tag];
 	}
 
+	static $cgULF = null;
 
 	static public function getUseLangFallback(){
 
-		static $c = null;
-		if($c===null){
+		//static $cgULF = null;
+		if(self::$cgULF===null){
 			if(VmConfig::$langCount>1 and VmConfig::$defaultLang!=VmConfig::$vmlang and !VmConfig::get('prodOnlyWLang',false) ){
-				$c = true;
+				self::$cgULF = true;
 			} else {
-				$c = false;
+				self::$cgULF = false;
 			}
 		}
 
-		return $c;
+		return self::$cgULF;
 	}
+
+	static $cgULFS = null;
 
 	static public function getUseLangFallbackSecondary(){
 
-		static $c = null;
-		if($c===null){
+		if(self::$cgULFS===null){
 			if(self::getUseLangFallback() and VmConfig::$defaultLang!=VmConfig::$jDefLang and VmConfig::$jDefLang!=VmConfig::$vmlang){
-				$c = true;
+				self::$cgULFS = true;
 			} else {
-				$c = false;
+				self::$cgULFS = false;
 			}
 		}
-		return $c;
+		return self::$cgULFS;
 	}
 }

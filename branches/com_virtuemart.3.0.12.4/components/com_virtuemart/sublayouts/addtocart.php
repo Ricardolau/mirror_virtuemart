@@ -38,7 +38,7 @@ if(!VmConfig::get('use_as_catalog', 0)){
 	if($product->addToCartButton){
 		$addtoCartButton = $product->addToCartButton;
 	} else {
-		$addtoCartButton = shopFunctionsF::getAddToCartButton ($product->orderable);
+		$addtoCartButton = self::renderVmSubLayout('addtocartbtn',array('orderable'=>$product->orderable));
 	}
 
 }

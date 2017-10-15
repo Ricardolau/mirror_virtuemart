@@ -89,16 +89,6 @@ class VirtuemartViewCategory extends VmViewAdmin {
 
 			$this->productsFieldList  = $cmodel->getFieldList('products');
 
-
-			//$templateList = ShopFunctions::renderTemplateList(vmText::_('COM_VIRTUEMART_CATEGORY_TEMPLATE_DEFAULT'));
-			//$this->assignRef('jTemplateList', $templateList);
-
-			//$categoryLayoutList = VirtueMartModelConfig::getLayoutList('category');
-			//$this->assignRef('categoryLayouts', $categoryLayoutList);
-
-			//$productLayouts = VirtueMartModelConfig::getLayoutList('productdetails');
-			//$this->assignRef('productLayouts', $productLayouts);
-
 			//Nice fix by Joe, the 4. param prevents setting an category itself as child
 			$categorylist = '';//ShopFunctions::categoryListTree(array($parent->virtuemart_category_id), 0, 0, (array) $category->virtuemart_category_id);
 
@@ -127,8 +117,11 @@ class VirtuemartViewCategory extends VmViewAdmin {
 			$this->addStandardDefaultViewCommands();
 			$this->addStandardDefaultViewLists($model,'category_name');
 
-			$topCategory=vRequest::getInt('top_category_id',0);
+			$app = JFactory::getApplication ();
 
+			//$topCategory=vRequest::getInt('top_category_id',0);
+			$topCategory = $app->getUserStateFromRequest ( 'com_virtuemart.category.top_category_id', 'top_category_id', '', 'int');
+			$app->setUserState( 'com_virtuemart.category.top_category_id',$topCategory);
 			$param = '';
 			if(!empty($topCategory)){
 				$param = '&top_category_id='.$topCategory;

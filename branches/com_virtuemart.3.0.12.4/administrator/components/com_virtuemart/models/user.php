@@ -932,7 +932,11 @@ class VirtueMartModelUser extends VmModel {
 		if(!empty($this->_data->JUser) and $this->_data->JUser->id==$this->_id){
 			$JUser = $this->_data->JUser;
 		} else {
-			$JUser = $this->_data->JUser = JUser::getInstance($this->_id);
+			if(empty($this->_data)){
+				$JUser = JUser::getInstance($this->_id);
+			} else {
+				$JUser = $this->_data->JUser = JUser::getInstance($this->_id);
+			}
 		}
 
 		$data = null;

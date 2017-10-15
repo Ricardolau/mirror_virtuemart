@@ -418,13 +418,14 @@ class VirtueMartModelVendor extends VmModel {
 	public function getVendorAddressFields($vendorId=0){
 		if($vendorId!=0) $this->_id = (int)$vendorId;
 		if(!$this->_vendorFields){
-			$userId = VirtueMartModelVendor::getUserIdByVendorId ($this->_id);
+			if(empty($vendorId)) $vendorId = 1;
+			$userId = VirtueMartModelVendor::getUserIdByVendorId ($vendorId);
 			$userModel = VmModel::getModel ('user');
 			$virtuemart_userinfo_id = $userModel->getBTuserinfo_id ($userId);
 
 			//TODO should be unecessary, lets change the code: this is needed to set the correct user id for the vendor when the user is logged
-			$userModel->getVendor($this->_id,FALSE);
-
+			//$userModel->setId($userId);
+			$userModel->getVendor($vendorId,FALSE);
 			$vendorFieldsArray = $userModel->getUserInfoInUserFields ('mail', 'BT', $virtuemart_userinfo_id, FALSE, TRUE);
 			$this->_vendorFields = $vendorFieldsArray[$virtuemart_userinfo_id];
 		}

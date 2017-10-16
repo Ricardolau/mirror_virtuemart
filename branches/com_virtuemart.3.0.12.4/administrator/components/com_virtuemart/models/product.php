@@ -915,13 +915,13 @@ vmdebug('$limitStart',$limitStart);
 		}
 
 
-		$productKey = $virtuemart_product_id.':'.$front.$onlyPublished.':'.$quantity.':'.$virtuemart_shoppergroup_ids.':'.$withCalc.$withRating;
+		$productKey = $virtuemart_product_id.':'.$front.$onlyPublished.':'.$quantity.':'.$virtuemart_shoppergroup_ids.':'.$withCalc.$withRating.VmLanguage::$currLangTag;
 
 		if (array_key_exists ($productKey, self::$_products)) {
 			//vmdebug('getProduct, take from cache : '.$productKey);
 			return  array(true,$productKey);
 		} else if(!$withCalc){
-			$productKeyTmp = $virtuemart_product_id.':'.$front.$onlyPublished.':'.$quantity.':'.$virtuemart_shoppergroup_ids.':'.TRUE.$withRating;
+			$productKeyTmp = $virtuemart_product_id.':'.$front.$onlyPublished.':'.$quantity.':'.$virtuemart_shoppergroup_ids.':'.TRUE.$withRating.VmLanguage::$currLangTag;
 			if (array_key_exists ($productKeyTmp,  self::$_products)) {
 				//vmdebug('getProduct, take from cache full product '.$productKeyTmp);
 				return  array(true,$productKeyTmp);
@@ -964,7 +964,7 @@ vmdebug('$limitStart',$limitStart);
 			}
 		}
 
-		$checkedProductKey= $this->checkIfCached($virtuemart_product_id, $front, $withCalc, $onlyPublished, $quantity,$virtuemart_shoppergroup_ids,$this->withRating);
+		$checkedProductKey= self::checkIfCached($virtuemart_product_id, $front, $withCalc, $onlyPublished, $quantity,$virtuemart_shoppergroup_ids,$this->withRating);
 		if($checkedProductKey[0]){
 			if(self::$_products[$checkedProductKey[1]]===false){
 				return false;
@@ -1316,7 +1316,7 @@ vmdebug('$limitStart',$limitStart);
 		}
 
 
-		$productKey = $virtuemart_product_id.':'.$virtuemart_shoppergroup_ids.':'.$quantity.':'.$front.':'.$prices;
+		$productKey = $virtuemart_product_id.':'.$virtuemart_shoppergroup_ids.':'.$quantity.':'.$front.':'.$prices.VmLanguage::$currLangTag;
 
 		if (array_key_exists ($productKey, self::$_productsSingle)) {
 			//vmdebug('getProduct, take from cache : '.$productKey);

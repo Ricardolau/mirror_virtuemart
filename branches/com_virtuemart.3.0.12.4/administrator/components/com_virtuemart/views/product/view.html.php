@@ -336,6 +336,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 				break;
 
 		default:
+			$product_parent = false;
 			if ($product_parent_id=vRequest::getInt('product_parent_id',false) ) {
 				$product_parent= $model->getProductSingle($product_parent_id,false);
 
@@ -497,7 +498,10 @@ class VirtuemartViewProduct extends VmViewAdmin {
 				JToolBarHelper::custom('massxref_sgrps', 'new', 'new', vmText::_('COM_VIRTUEMART_PRODUCT_XREF_SGRPS'), true);
 			}
 			if (vmAccess::manager('product.create')) {
-				JToolBarHelper::custom('createchild', 'new', 'new', vmText::_('COM_VIRTUEMART_PRODUCT_CHILD'), true);
+				if($product_parent){
+					$product_parent = true;
+				}
+				JToolBarHelper::custom('createchild', 'new', 'new', vmText::_('COM_VIRTUEMART_PRODUCT_CHILD'), !$product_parent);
 				JToolBarHelper::custom('cloneproduct', 'copy', 'copy', vmText::_('COM_VIRTUEMART_PRODUCT_CLONE'), true);
 			}
 			JToolBarHelper::custom('addrating', 'default', '', vmText::_('COM_VIRTUEMART_ADD_RATING'), true);

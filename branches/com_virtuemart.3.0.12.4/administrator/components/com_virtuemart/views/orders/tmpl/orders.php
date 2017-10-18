@@ -171,7 +171,7 @@ if(!is_array($orderstatusForShopperEmail)) $orderstatusForShopperEmail = array($
 $jsOrderStatusShopperEmail = vmJsApi::safe_json_encode($orderstatusForShopperEmail);
 
 $j = 'if (typeof Virtuemart === "undefined")
-	Virtuemart = {};
+	var Virtuemart = {};
 	Virtuemart.orderstatus = '.$jsOrderStatusShopperEmail.';
 	jQuery(document).ready(function() {
 		//Virtuemart.onReadyOrderItems();

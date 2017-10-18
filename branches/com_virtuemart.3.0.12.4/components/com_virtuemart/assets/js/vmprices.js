@@ -1,5 +1,5 @@
 if (typeof Virtuemart === "undefined")
-	Virtuemart = {};
+	var Virtuemart = {};
 
 Virtuemart.stopSendtocart = false;
 

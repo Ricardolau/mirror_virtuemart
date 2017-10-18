@@ -67,7 +67,7 @@ if($app->isAdmin()){
 }
 
 $j = 'if (typeof Virtuemart === "undefined")
-	Virtuemart = {};
+	var Virtuemart = {};
 	Virtuemart.nextCustom ="'.count($this->product->customfields).'";
 	Virtuemart.jsonLink ="'.$jsonLink.'";
 	Virtuemart.virtuemart_product_id ="'.$this->product->virtuemart_product_id.'";

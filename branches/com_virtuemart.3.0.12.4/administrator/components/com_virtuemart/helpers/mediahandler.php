@@ -941,7 +941,7 @@ class VmMediaHandler {
 
 
 		$j = 'if (typeof Virtuemart === "undefined")
-	Virtuemart = {};
+	var Virtuemart = {};
 	Virtuemart.medialink = "'. JURI::root(false) .'administrator/index.php?option=com_virtuemart&view=media&task=viewJson&format=json&mediatype='.$type.'";';
 		$j .= "jQuery(document).ready(function(){ jQuery('#ImagesContainer').vmmedia('media','".$type."','0') }); " ;
 		vmJsApi::addJScript('mediahandler.vars',$j);

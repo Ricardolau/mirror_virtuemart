@@ -28,7 +28,7 @@ JPluginHelper::importPlugin('vmpayment');
 
 $jsOrderStatusShopperEmail = '""';
 $j = 'if (typeof Virtuemart === "undefined")
-	Virtuemart = {};
+	var Virtuemart = {};
 	Virtuemart.confirmDelete = "'.addslashes( vmText::_('COM_VIRTUEMART_ORDER_DELETE_ITEM_JS') ).'";
 	jQuery(document).ready(function() {
 		Virtuemart.onReadyOrderItems();

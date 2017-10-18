@@ -12,7 +12,7 @@
 //Virtuemart.empty;
 //Virtuemart.param;
 if (typeof Virtuemart === "undefined")
-	Virtuemart = {};
+	var Virtuemart = {};
 Virtuemart.startVmLoading = function(a) {
 	var msg = '';
 	/*if (typeof a.data.msg !== 'undefined') {

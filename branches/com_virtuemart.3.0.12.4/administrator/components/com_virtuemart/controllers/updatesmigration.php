@@ -458,17 +458,15 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 	function optimizeDatabase(){
 		vRequest::vmCheckToken();
 		$db = JFactory::getDbo();
-		$q = $db->getQuery(true);
-		$q = 'OPTIMIZE TABLE' . $db->quoteName('#__virtuemart_products');
-		$db->setQuery($q);
-		$db->execute();
-		$q = $db->getQuery(true);
-		$q = 'OPTIMIZE TABLE' . $db->quoteName('#__virtuemart_product_categories');
-		$db->setQuery($q);
-		$db->execute();
-		$q = 'OPTIMIZE TABLE' . $db->quoteName('#__virtuemart_categories');
-		$db->setQuery($q);
-		$db->execute();
+
+		$tables = array('virtuemart_products','virtuemart_product_categories','virtuemart_product_manufacturers','virtuemart_categories');
+
+		foreach($tables as $table){
+			$q = 'OPTIMIZE TABLE' . $db->quoteName('#__'.$table);
+			$db->setQuery($q);
+			$db->execute();
+		}
+
 		$this->setRedirect($this->redirectPath, 'Database updated');
 	}
 

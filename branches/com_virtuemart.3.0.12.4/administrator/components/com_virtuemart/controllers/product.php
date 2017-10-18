@@ -141,7 +141,7 @@ class VirtuemartControllerProduct extends VmController {
 
 		$model = VmModel::getModel('product');
 
-		$cids = vRequest::getInt($this->_cidName, vRequest::getint('virtuemart_product_id',false));
+		$cids = vRequest::getInt($this->_cidName, vRequest::getInt('virtuemart_product_id',vRequest::getInt('product_parent_id',false)));
 		if(!is_array($cids) and $cids > 0){
 			$cids = array($cids);
 		} else {

@@ -139,15 +139,20 @@ class VirtueMartModelOrders extends VmModel {
 	 */
 	public function getMyOrderDetails($orderID = 0, $orderNumber = false, $orderPass = false, $userlang=false){
 
+		if(VmConfig::get('ordertracking','guests') == 'none'){
+			return false;
+		}
+
 		$_currentUser = JFactory::getUser();
 		$cuid = $_currentUser->get('id');
+
 
 		$virtuemart_order_id = vRequest::getInt('virtuemart_order_id',$orderID) ;
 		$orderNumber = vRequest::getString('order_number',$orderNumber);
 
 		$sess = JFactory::getSession();
 		$tries = $sess->get('getOrderDetails.'.$orderNumber.$virtuemart_order_id,0);
-		if($tries>5){
+		if($tries>6){
 			vmDebug ('Too many tries, Invalid order_number/password '.vmText::_('COM_VIRTUEMART_RESTRICTED_ACCESS'));
 			vmError ('Too many tries, Invalid order_number/password guest '.$orderNumber.' '.$orderPass , 'COM_VIRTUEMART_RESTRICTED_ACCESS');
 			return false;
@@ -169,18 +174,37 @@ class VirtueMartModelOrders extends VmModel {
 					return $orderDetails;
 				}
 			}
+		} else if(VmConfig::get('ordertracking','guests') == 'registered' and empty($cuid)){
+			return false;
 		}
 
-		$orderPass = vRequest::getString('order_pass',$orderPass);
+		if( VmConfig::get('ordertracking','guests') == 'guestlink' or VmConfig::get('ordertracking','guests') == 'guests'){
+			$orderPass = vRequest::getString( 'order_pass', $orderPass );
 
-		if (!empty($orderNumber) and !empty($orderPass)){
+			if(!empty( $orderNumber ) and !empty( $orderPass )) {
 
-			$orderId = $this->getOrderIdByOrderPass($orderNumber,$orderPass);
-			if($orderId){
-				$sess->set('getOrderDetails.'.$orderNumber.$virtuemart_order_id,0);
-				return $this->getOrder($orderId);
+				$orderId = $this->getOrderIdByOrderPass( $orderNumber, $orderPass );
+				if($orderId) {
+
+					if(VmConfig::get('ordertracking','guests') == 'guestlink'){
+						$sess->set( 'getOrderDetails.'.$orderNumber.$virtuemart_order_id, 0 );
+						return $this->getOrder( $orderId );
+					} //Guest case
+					else {
+						$o = $this->getOrder( $orderId );
+						if(empty( $o['details']['BT']->virtuemart_user_id ) ) {
+							$sess->set( 'getOrderDetails.'.$orderNumber.$virtuemart_order_id, 0 );
+							return $o;
+						} else {
+							$tries++;
+							$sess->set('getOrderDetails.'.$orderNumber.$virtuemart_order_id,$tries);
+							return true;
+						}
+					}
+				}
 			}
 		}
+
 		$tries++;
 		$sess->set('getOrderDetails.'.$orderNumber.$virtuemart_order_id,$tries);
 

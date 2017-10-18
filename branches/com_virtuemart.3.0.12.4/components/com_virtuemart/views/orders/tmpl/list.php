@@ -32,8 +32,8 @@ if(VmConfig::get ('ajax_order', TRUE)){
 <h1><?php echo vmText::_('COM_VIRTUEMART_ORDERS_VIEW_DEFAULT_TITLE'); ?></h1>
 <?php
 if (count($this->orderlist) == 0) {
-	//echo vmText::_('COM_VIRTUEMART_ACC_NO_ORDER');
-	 echo shopFunctionsF::getLoginForm(false,true);
+
+	echo shopFunctionsF::getLoginForm(false,$this->trackingByOrderPass);
 } else { ?>
 <div id="editcell">
 	<table class="adminlist" width="80%">

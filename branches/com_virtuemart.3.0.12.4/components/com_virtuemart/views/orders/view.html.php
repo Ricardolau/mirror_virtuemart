@@ -67,16 +67,24 @@ class VirtuemartViewOrders extends VmView {
 
 		$orderModel = VmModel::getModel('orders');
 
+		$this->order_list_link = JRoute::_('index.php?option=com_virtuemart&view=orders&layout=list', FALSE);
+
+		$this->trackingByOrderPass = -1;
 		if ($layoutName == 'details') {
-
-			$this->order_list_link = JRoute::_('index.php?option=com_virtuemart&view=orders&layout=list', FALSE);
-
 			$orderDetails = $orderModel ->getMyOrderDetails();
-
 			if(!$orderDetails or empty($orderDetails['details'])){
-				echo vmText::_('COM_VIRTUEMART_ORDER_NOTFOUND');
-				return;
+				if($orderDetails) {
+					$layoutName = 'list';
+					$this->setLayout($layoutName);
+					$this->trackingByOrderPass = false;
+				} else {
+					echo vmText::_('COM_VIRTUEMART_ORDER_NOTFOUND');
+					return;
+				}
 			}
+		}
+
+		if ($layoutName == 'details') {
 
 			$userFieldsModel = VmModel::getModel('userfields');
 			$_userFields = $userFieldsModel->getUserFields(
@@ -169,6 +177,7 @@ class VirtuemartViewOrders extends VmView {
 				$this->setLayout( strtolower( $l ) );
 			}
 		} else { // 'list' -. default
+
 			$this->useSSL = vmURI::useSSL();
 			$this->useXHTML = false;
 			if ($_currentUser->get('id') == 0) {
@@ -200,8 +209,17 @@ class VirtuemartViewOrders extends VmView {
 					$order->invoiceNumber = $orderModel->getInvoiceNumber($order->virtuemart_order_id);
 					$this->orderlist[$k] = $order;
 				}
-				if($l = VmConfig::get('layout_order_list',false)){
-					$this->setLayout( strtolower( $l ) );
+			}
+			if($l = VmConfig::get('layout_order_list',false)){
+				vmdebug('Set new order list layout',$l);
+				$this->setLayout( strtolower( $l ) );
+			}
+
+			if($this->trackingByOrderPass == -1){
+				$ordertracking = VmConfig::get('ordertracking','guests');
+				$this->trackingByOrderPass = false; //(VmConfig::get( 'orderGuestLink', 0 ) or !VmConfig::get('oncheckout_only_registered',0)) ;
+				if($ordertracking == 'guests' or $ordertracking == 'guestlink'){
+					$this->trackingByOrderPass = true;
 				}
 			}
 		}

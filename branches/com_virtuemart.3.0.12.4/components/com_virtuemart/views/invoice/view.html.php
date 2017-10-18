@@ -63,6 +63,10 @@ class VirtuemartViewInvoice extends VmView {
 		}
 
 		$this->assignRef('orderDetails', $orderDetails);
+		if(!empty($orderDetails['details']['BT']->order_language)){
+			shopFunctionsF::loadOrderLanguages($orderDetails['details']['BT']->order_language);
+		}
+
 
 
 		/* It would be so nice to be able to load the override of the FE additionally from here

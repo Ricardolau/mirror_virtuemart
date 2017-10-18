@@ -29,13 +29,24 @@ defined('_JEXEC') or die('Restricted access');
 		echo VmHTML::row('genericlist','COM_VIRTUEMART_ADMIN_CFG_AUTOMATIC_SHIPMENT',$this->listShipment,'set_automatic_shipment','','virtuemart_shipmentmethod_id','shipment_name',VmConfig::get('set_automatic_shipment',0));
 		echo VmHTML::row('genericlist','COM_VIRTUEMART_ADMIN_CFG_AUTOMATIC_PAYMENT',$this->listPayment,'set_automatic_payment','','virtuemart_paymentmethod_id','payment_name',VmConfig::get('set_automatic_payment',0));
 		echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_CFG_AGREE_TERMS_ONORDER','agree_to_tos_onorder',VmConfig::get('agree_to_tos_onorder',1));
-		echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_ONCHECKOUT_SHOW_REGISTER','oncheckout_show_register',VmConfig::get('oncheckout_show_register',1));
-		echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_ONCHECKOUT_ONLY_REGISTERED','oncheckout_only_registered',VmConfig::get('oncheckout_only_registered',0));
+
 		echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_ONCHECKOUT_SHOW_PRODUCTIMAGES','oncheckout_show_images',VmConfig::get('oncheckout_show_images',1));
 
 		echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_ONCHECKOUT_CHANGE_SHOPPER','oncheckout_change_shopper',VmConfig::get('oncheckout_change_shopper',1));
 
 		echo VmHTML::row('genericlist','COM_VIRTUEMART_CFG_DELDATE_INV',$this->osDel_Options,'del_date_type','class="inputbox"', 'order_status_code', 'order_status_name', VmConfig::get('del_date_type',array('m')), 'del_date_type',true);
+
+		echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_ONCHECKOUT_SHOW_REGISTER','oncheckout_show_register',VmConfig::get('oncheckout_show_register',1));
+		echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_ONCHECKOUT_ONLY_REGISTERED','oncheckout_only_registered',VmConfig::get('oncheckout_only_registered',0));
+		//echo VmHTML::row('checkbox','COM_VM_CFG_PROVIDE_ORDER_GUEST_LINK','orderGuestLink',VmConfig::get('orderGuestLink',0));
+
+		$opt = array(
+		'none' => vmText::_('COM_VIRTUEMART_NONE'),
+		'registered_only' => vmText::_('COM_VM_CFG_ORDERTRACKING_REGISTERED'),
+		'guests' => vmText::_('COM_VM_CFG_ORDERTRACKING_GUESTS'),
+		'guestlink' => vmText::_('COM_VM_CFG_ORDERTRACKING_GUESTLINK')
+		);
+		echo VmHTML::row('genericlist','COM_VM_CFG_ORDERTRACKING',$opt, 'ordertracking', '', 'value', 'text', VmConfig::get('ordertracking','guests'));
 		?>
 
 	</table>

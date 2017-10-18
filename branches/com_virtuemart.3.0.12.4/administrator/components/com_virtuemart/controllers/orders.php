@@ -43,6 +43,17 @@ class VirtuemartControllerOrders extends VmController {
 	}
 
 	/**
+	 * Calls the FE Invoice view, to generate invoices from the BE using the FE views
+	 */
+	public function callInvoiceView(){
+
+		if(!class_exists( 'VirtueMartControllerInvoice' )) require(VMPATH_SITE.DS.'controllers'.DS.'invoice.php');
+		$controller = new VirtueMartControllerInvoice();
+		$controller->display();
+
+	}
+
+	/**
 	 * Shows the order details
 	 */
 	public function edit($layout='order'){

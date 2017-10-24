@@ -482,7 +482,11 @@ class VirtuemartViewProduct extends VmViewAdmin {
 		    				'parent' => vmText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_PARENT_PRODUCT'),
 							'product' => vmText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_DATE_TYPE_PRODUCT'),
 							'price' => vmText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_DATE_TYPE_PRICE'),
-							'withoutprice' => vmText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_DATE_TYPE_WITHOUTPRICE')
+							'withoutprice' => vmText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_DATE_TYPE_WITHOUTPRICE'),
+							'featured' => vmText::_('COM_VIRTUEMART_SHOW_FEATURED'),
+							'topten' => vmText::_('COM_VIRTUEMART_SHOW_TOPTEN'),
+							'latest' => vmText::_('COM_VIRTUEMART_LATEST_PRODUCT'),
+							'discontinued' => vmText::_('COM_VIRTUEMART_PRODUCT_FORM_DISCONTINUED'),
 			);
 			$this->lists['search_type'] = VmHTML::selectList('search_type', $model->search_type,$options, 1, "", 'style="width:130px;"');
 

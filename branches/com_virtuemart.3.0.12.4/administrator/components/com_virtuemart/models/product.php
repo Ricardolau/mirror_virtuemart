@@ -510,6 +510,9 @@ class VirtueMartModelProduct extends VmModel {
 				case 'stocklow':
 					$where[] = 'p.`product_in_stock`- p.`product_ordered` < p.`low_stock_notification`';
 					break;
+				default:
+					$group = $this->search_type;
+					break;
 			}
 		}
 
@@ -566,7 +569,7 @@ class VirtueMartModelProduct extends VmModel {
 			case '`p`.created_on':
 				$orderBy = ' ORDER BY p.`created_on` '.$filterOrderDir.', p.`virtuemart_product_id` '.$filterOrderDir;
 				break;
-			default;
+			default:
 				if (!empty($this->filter_order)) {
 					$orderBy = ' ORDER BY '.$this->filter_order.' ' . $filterOrderDir ;
 					if(strpos($this->filter_order, 'virtuemart_product_id')===FALSE){
@@ -597,7 +600,10 @@ class VirtueMartModelProduct extends VmModel {
 					break;
 				case 'discontinued':
 					$where[] = 'p.`product_discontinued`="1" ';
-					$orderBy = 'ORDER BY RAND()';
+					if($isSite){
+						$orderBy = 'ORDER BY RAND()';
+					}
+
 					break;
 				case 'latest':
 					$orderBy = 'ORDER BY p.`' . $latest_products_orderBy . '` DESC, p.`virtuemart_product_id` DESC';
@@ -619,6 +625,10 @@ class VirtueMartModelProduct extends VmModel {
 			$joinPrice = TRUE;	//Why we set this all the time?
 			$this->searchplugin = FALSE;
 // 			$joinLang = false;
+		}
+
+		if($group!='discontinued' and !VmConfig::get('discontinuedPrdsBrowseable',1)){
+			$where[] = ' p.`product_discontinued` = "0" ';
 		}
 
 		/*if ($onlyPublished and !empty($this->virtuemart_vendor_id) and vRequest::get('manage',false) and vmAccess::isSuperVendor()) {

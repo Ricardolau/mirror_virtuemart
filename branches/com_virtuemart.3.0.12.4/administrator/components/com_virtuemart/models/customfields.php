@@ -672,6 +672,7 @@ class VirtueMartModelCustomfields extends VmModel {
 				$options[] = array('value' => 'product_width', 'text' => vmText::_ ('COM_VIRTUEMART_PRODUCT_WIDTH'));
 				$options[] = array('value' => 'product_height', 'text' => vmText::_ ('COM_VIRTUEMART_PRODUCT_HEIGHT'));
 				$options[] = array('value' => 'product_weight', 'text' => vmText::_ ('COM_VIRTUEMART_PRODUCT_WEIGHT'));
+				$options[] = array('value' => 'product_unit', 'text' => vmText::_ ('COM_VIRTUEMART_PRODUCT_UNIT'));
 
 				$html = '</td><td>'.JHtml::_ ('select.genericlist', $options, 'field[' . $row . '][customfield_value]', '', 'value', 'text', $field->customfield_value) ;
 				if($field->round){
@@ -944,6 +945,9 @@ class VirtueMartModelCustomfields extends VmModel {
 
 			if(empty($productCustom->multiplyPrice)){
 				$v = strip_tags ($calculator->_currencyDisplay->priceDisplay ($calculator->calculateCustomPriceWithTax ($customPrice)));
+				if ($customPrice < 0) {
+					$v = trim($v,'-');
+				}
 				$price = vmText::sprintf('COM_VM_CUSTOMFIELD_VARIANT_PRICE',$sign,$v);
 			} else {
 				$v = trim($productCustom->customfield_price,0);

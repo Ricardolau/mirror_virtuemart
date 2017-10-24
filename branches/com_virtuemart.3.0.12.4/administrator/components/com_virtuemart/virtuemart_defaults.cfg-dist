@@ -41,6 +41,7 @@
 
 #layout_order_detail=detail
 #layout_order_list=list
+#discontinuedPrdsBrowseable=1		//Keep discontinued products browseable
 
 useSSL=0
 dangeroustools=0

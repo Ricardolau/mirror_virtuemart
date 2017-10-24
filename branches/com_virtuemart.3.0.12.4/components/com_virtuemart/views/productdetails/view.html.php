@@ -276,7 +276,8 @@ class VirtueMartViewProductdetails extends VmView {
 
 			$superVendor = vmAccess::isSuperVendor();
 
-			if($superVendor == 1 or $superVendor==$product->virtuemart_vendor_id or ($superVendor)){
+
+			if($superVendor == 1 or (vmAccess::manager('product') and $superVendor==$product->virtuemart_vendor_id)){
 				$edit_link = JURI::root() . 'index.php?option=com_virtuemart&tmpl=component&manage=1&view=product&task=edit&virtuemart_product_id=' . $product->virtuemart_product_id;
 				$this->edit_link = $this->linkIcon($edit_link, 'COM_VIRTUEMART_PRODUCT_FORM_EDIT_PRODUCT', 'edit', false, false);
 			} else {

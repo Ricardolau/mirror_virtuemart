@@ -296,7 +296,7 @@ function virtuemartBuildRoute(&$query) {
 			}
 			if(!empty($query['Itemid'])){
 				unset ($query['virtuemart_vendor_id'] );
-				unset ($query['layout']);
+				//unset ($query['layout']);
 
 			}
 			//unset ($query['limitstart']);
@@ -736,6 +736,9 @@ function virtuemartParseRoute($segments) {
 			$vars['virtuemart_category_id'] = $id;
 			$vars['view'] = 'category' ;
 		}
+		if(empty($vars['virtuemart_category_id'])) $vars['virtuemart_category_id'] = 0;
+		if(empty($vars['view'])) $vars['view'] = 'category';
+
 		if(!isset($vars['limit'])) $vars['limit'] = vmrouterHelper::getLimitByCategory($vars['virtuemart_category_id'],$vars['view']);
 	}
 	if (!isset($vars['view'])){

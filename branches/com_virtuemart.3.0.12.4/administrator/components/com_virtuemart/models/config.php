@@ -533,6 +533,7 @@ class VirtueMartModelConfig extends VmModel {
 
 		$cache = VmConfig::getCache();
 		//$cache = JFactory::getCache();
+		$cache->clean('com_virtuemart_admin');
 		$cache->clean('com_virtuemart_cats');
 		$cache->clean('com_virtuemart_cat_childs');
 		$cache->clean('mod_virtuemart_product');

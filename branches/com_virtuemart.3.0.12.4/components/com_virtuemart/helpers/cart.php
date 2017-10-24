@@ -190,7 +190,8 @@ class VirtueMartCart {
 				$firstName = empty(self::$_cart->BT['first_name'])? '':self::$_cart->BT['first_name'];
 				$lastName = empty(self::$_cart->BT['last_name'])? '':self::$_cart->BT['last_name'];
 				$email = empty(self::$_cart->BT['email'])? '':self::$_cart->BT['email'];
-				self::$_cart->customer_number = 'nonreg_'.$firstName.$lastName.$email;
+				$qdate = date("Ymd_His_");
+				self::$_cart->customer_number = 'nonreg_'.shopFunctionsF::vmSubstr($firstName,0,2).shopFunctionsF::vmSubstr($lastName,0,2).shopFunctionsF::vmSubstr($email,0,2).$qdate;
 			}
 
 			$multixcart = VmConfig::get('multixcart',0);
@@ -1187,7 +1188,8 @@ class VirtueMartCart {
 				}
 			}
 
-			$orderDetails = $orderModel->getMyOrderDetails($this->virtuemart_order_id,$this->order_number,$this->order_pass);
+			//$orderDetails = $orderModel->getMyOrderDetails($this->virtuemart_order_id,$this->order_number,$this->order_pass);
+			$orderDetails = $orderModel->getOrder($this->virtuemart_order_id);
 
 			if(!$orderDetails or empty($orderDetails['details'])){
 				echo vmText::_('COM_VIRTUEMART_CART_ORDER_NOTFOUND');
@@ -1277,7 +1279,7 @@ class VirtueMartCart {
 		$cart->totalProduct=false;
 		$cart->productsQuantity=array();
 		$cart->virtuemart_order_id = null;
-
+		$cart->layout = VmConfig::get('cartlayout','default');
 		if($session){
 			$cart->deleteCart();
 			$cart->setCartIntoSession(false,true);

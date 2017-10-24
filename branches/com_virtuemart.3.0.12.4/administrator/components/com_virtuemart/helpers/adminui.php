@@ -108,9 +108,12 @@ class AdminUIHelper {
 			<?php }
 			AdminUIHelper::showAdminMenu($vmView);
 
-            echo self::writeVmm();
+            //echo self::writeVmm();
+			$cache = VmConfig::getCache('com_virtuemart_admin','callback');
+			$cache->setCaching(true);
+			$cache->setLifeTime(2600);
 
-
+			echo $cache->call( array( 'AdminUIHelper', 'writeVmm' ));
 			?>
 		</div>
 		<div id="admin-content" class="admin-content">
@@ -118,7 +121,7 @@ class AdminUIHelper {
 
 	}
 
-    private static function writeVmm(){
+    public static function writeVmm(){
 
 		$token = vRequest::getFormToken();
 		if (!class_exists('ShopFunctions'))

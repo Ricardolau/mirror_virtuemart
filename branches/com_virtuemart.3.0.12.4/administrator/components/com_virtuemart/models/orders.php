@@ -139,28 +139,27 @@ class VirtueMartModelOrders extends VmModel {
 	 */
 	public function getMyOrderDetails($orderID = 0, $orderNumber = false, $orderPass = false, $userlang=false){
 
-		if(VmConfig::get('ordertracking','guests') == 'none'){
+		if(VmConfig::get('ordertracking','guests') == 'none' and !vmAccess::manager('orders')){
 			return false;
 		}
-
-		$_currentUser = JFactory::getUser();
-		$cuid = $_currentUser->get('id');
-
 
 		$virtuemart_order_id = vRequest::getInt('virtuemart_order_id',$orderID) ;
 		$orderNumber = vRequest::getString('order_number',$orderNumber);
 
 		$sess = JFactory::getSession();
-		$tries = $sess->get('getOrderDetails.'.$orderNumber.$virtuemart_order_id,0);
+		if(empty($orderNumber)) $h = $virtuemart_order_id; else $h = $orderNumber;
+		$tries = $sess->get('getOrderDetails.'.$h,0);
 		if($tries>6){
 			vmDebug ('Too many tries, Invalid order_number/password '.vmText::_('COM_VIRTUEMART_RESTRICTED_ACCESS'));
 			vmError ('Too many tries, Invalid order_number/password guest '.$orderNumber.' '.$orderPass , 'COM_VIRTUEMART_RESTRICTED_ACCESS');
 			return false;
+		} else {
+			$tries++;
+			$sess->set('getOrderDetails.'.$h,$tries);
 		}
 
-		/*if($userlang){
-			shopFunctionsF::loadOrderLanguages($userlang);
-		}*/
+		$_currentUser = JFactory::getUser();
+		$cuid = $_currentUser->get('id');
 
 		//Extra check, when a user is logged in, else we use the guest method
 		if(!empty($cuid)){
@@ -170,34 +169,34 @@ class VirtueMartModelOrders extends VmModel {
 			if(!empty($virtuemart_order_id)){
 				$orderDetails = $this->getOrder($virtuemart_order_id);
 				if($orderDetails['details']['BT']->virtuemart_user_id == $cuid or vmAccess::manager('orders')) {
-					$sess->set('getOrderDetails.'.$orderNumber.$virtuemart_order_id,0);
+					$sess->set('getOrderDetails.'.$h,0);
 					return $orderDetails;
 				}
 			}
 		} else if(VmConfig::get('ordertracking','guests') == 'registered' and empty($cuid)){
-			return false;
+			return true;
 		}
 
-		if( VmConfig::get('ordertracking','guests') == 'guestlink' or VmConfig::get('ordertracking','guests') == 'guests'){
+		if( (VmConfig::get('ordertracking','guests') == 'guestlink' or VmConfig::get('ordertracking','guests') == 'guests') and !empty( $orderNumber )){
 			$orderPass = vRequest::getString( 'order_pass', $orderPass );
 
-			if(!empty( $orderNumber ) and !empty( $orderPass )) {
+			if( empty( $orderPass )) {
+				return true;
+			} else {
 
 				$orderId = $this->getOrderIdByOrderPass( $orderNumber, $orderPass );
 				if($orderId) {
 
-					if(VmConfig::get('ordertracking','guests') == 'guestlink'){
-						$sess->set( 'getOrderDetails.'.$orderNumber.$virtuemart_order_id, 0 );
+					if(VmConfig::get('ordertracking','guests') == 'guestlink' or vmAccess::manager('orders')){
+						$sess->set('getOrderDetails.'.$h,0);
 						return $this->getOrder( $orderId );
 					} //Guest case
 					else {
 						$o = $this->getOrder( $orderId );
 						if(empty( $o['details']['BT']->virtuemart_user_id ) ) {
-							$sess->set( 'getOrderDetails.'.$orderNumber.$virtuemart_order_id, 0 );
+							$sess->set('getOrderDetails.'.$h,0);
 							return $o;
 						} else {
-							$tries++;
-							$sess->set('getOrderDetails.'.$orderNumber.$virtuemart_order_id,$tries);
 							return true;
 						}
 					}
@@ -205,13 +204,6 @@ class VirtueMartModelOrders extends VmModel {
 			}
 		}
 
-		$tries++;
-		$sess->set('getOrderDetails.'.$orderNumber.$virtuemart_order_id,$tries);
-
-		vmdebug('getMyOrderDetails COM_VIRTUEMART_RESTRICTED_ACCESS',$orderNumber, $orderPass, $tries);
-		vmError(vmText::_('COM_VIRTUEMART_RESTRICTED_ACCESS').' by guest '.$orderNumber.' '.$orderPass, 'COM_VIRTUEMART_RESTRICTED_ACCESS');
-
-		//echo vmText::_('COM_VIRTUEMART_RESTRICTED_ACCESS');
 		return false;
 	}
 

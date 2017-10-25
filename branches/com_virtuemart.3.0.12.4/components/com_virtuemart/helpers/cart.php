@@ -191,6 +191,7 @@ class VirtueMartCart {
 				$lastName = empty(self::$_cart->BT['last_name'])? '':self::$_cart->BT['last_name'];
 				$email = empty(self::$_cart->BT['email'])? '':self::$_cart->BT['email'];
 				$qdate = date("Ymd_His_");
+				if (!class_exists ('shopFunctionsF')) require(VMPATH_SITE . DS . 'helpers' . DS . 'shopfunctionsf.php');
 				self::$_cart->customer_number = 'nonreg_'.shopFunctionsF::vmSubstr($firstName,0,2).shopFunctionsF::vmSubstr($lastName,0,2).shopFunctionsF::vmSubstr($email,0,2).$qdate;
 			}
 

@@ -275,7 +275,7 @@ class VirtuemartViewOrders extends VmViewAdmin {
 
 	function createPrintLinks($order,&$print_link,&$deliverynote_link,&$invoice_link){
 
-		$baseUrl = /*juri::root () .*/ 'index.php?option=com_virtuemart&view=orders&task=callInvoiceView&tmpl=component&virtuemart_order_id=' . $order->virtuemart_order_id;
+		$baseUrl = 'index.php?option=com_virtuemart&view=orders&task=callInvoiceView&tmpl=component&virtuemart_order_id=' . $order->virtuemart_order_id;
 		/* Print view URL */
 		$print_url = $baseUrl .'&layout=invoice';
 		$print_link = "<a href=\"javascript:void window.open('$print_url', 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');\"  >";

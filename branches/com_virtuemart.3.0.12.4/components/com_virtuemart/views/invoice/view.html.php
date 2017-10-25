@@ -48,7 +48,7 @@ class VirtuemartViewInvoice extends VmView {
 		if($orderDetails==0){
 			$orderDetails = $orderModel ->getMyOrderDetails(0,false,false,true);
 			if(!$orderDetails ){
-				echo vmText::_('COM_VIRTUEMART_CART_ORDER_NOTFOUND');
+				//echo vmText::_('COM_VIRTUEMART_CART_ORDER_NOTFOUND');
 				vmdebug('COM_VIRTUEMART_CART_ORDER_NOTFOUND and $orderDetails ',$orderDetails);
 				return;
 			} else if(empty($orderDetails['details'])){

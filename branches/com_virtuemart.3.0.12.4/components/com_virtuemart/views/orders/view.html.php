@@ -73,13 +73,13 @@ class VirtuemartViewOrders extends VmView {
 		if ($layoutName == 'details') {
 			$orderDetails = $orderModel ->getMyOrderDetails();
 			if(!$orderDetails or empty($orderDetails['details'])){
+				$layoutName = 'list';
+				$this->setLayout($layoutName);
 				if($orderDetails) {
-					$layoutName = 'list';
-					$this->setLayout($layoutName);
 					$this->trackingByOrderPass = false;
 				} else {
-					echo vmText::_('COM_VIRTUEMART_ORDER_NOTFOUND');
-					return;
+					vmInfo('COM_VIRTUEMART_ORDER_NOTFOUND');
+					//return;
 				}
 			}
 		}

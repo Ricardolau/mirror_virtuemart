@@ -108,12 +108,8 @@ class AdminUIHelper {
 			<?php }
 			AdminUIHelper::showAdminMenu($vmView);
 
-            //echo self::writeVmm();
-			$cache = VmConfig::getCache('com_virtuemart_admin','callback');
-			$cache->setCaching(true);
-			$cache->setLifeTime(2600);
+			echo self::writeVmm();
 
-			echo $cache->call( array( 'AdminUIHelper', 'writeVmm' ));
 			?>
 		</div>
 		<div id="admin-content" class="admin-content">
@@ -142,20 +138,21 @@ class AdminUIHelper {
 
 		$safePath = ShopFunctions::checkSafePath();
 
-		if(!empty($safePath) and JFile::exists($safePath)){
-			$safePath .= '/vmm.ini';
-			$content = parse_ini_file($safePath);
-			if(!empty($content) and !empty($content['key']) and !empty($content['unixtime']) and !empty($content['html']) ){
-				// if(true){
-				if($content['key']==$ackey){
-					$date = JFactory::getDate();
-					$today = $date->toUnix();
-					$diff = $today-$content['unixtime'];
-					$spread = (int)substr((string)$diff,-1) * 4320;
-					//$d = 8 * 24 * 3600;
-					if($diff>0 and $diff<((4 * 86400)+$spread)){  //4 days
-						$nag = htmlspecialchars_decode($content['html']);
-						if($content['res']=='valid') $dplyVer = '';
+		if(!empty($safePath)){
+			$safePath .= 'vmm.ini';
+			if (JFile::exists($safePath)){
+				$content = parse_ini_file($safePath);
+				if(!empty($content) and !empty($content['key']) and !empty($content['unixtime']) and !empty($content['html']) ){
+					if($content['key']==$ackey){
+						$date = JFactory::getDate();
+						$today = $date->toUnix();
+						$diff = $today-$content['unixtime'];
+						$spread = (int)substr((string)$diff,-1) * 4320;
+						//$d = 8 * 24 * 3600;
+						if($diff>0 and $diff<((4 * 86400)+$spread)){  //4 days
+							$nag = htmlspecialchars_decode($content['html']);
+							if($content['res']=='valid') $dplyVer = '';
+						}
 					}
 				}
 			}

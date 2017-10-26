@@ -42,9 +42,9 @@ class VirtuemartViewUpdatesMigration extends VmViewAdmin {
 			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'image.php');
 		if (!class_exists('VmHTML'))
 			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'html.php');
+		if(!class_exists('vmCrypt'))
+			require(VMPATH_ADMIN.'/helpers/vmcrypt.php');
 
-		$this->assignRef('checkbutton_style', $checkbutton_style);
-		$this->assignRef('downloadbutton_style', $downloadbutton_style);
 		$this->assignRef('latestVersion', $latestVersion);
 
 		$freshInstall = vRequest::getInt('redirected',0);

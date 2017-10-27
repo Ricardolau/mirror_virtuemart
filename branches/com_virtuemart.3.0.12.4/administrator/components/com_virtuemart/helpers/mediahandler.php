@@ -771,7 +771,7 @@ class VmMediaHandler {
 			$this->file_url = $this->file_url_folder.$this->file_name;
 
 			if($this->file_url!=$oldFileUrl && !empty($this->file_name)){
-				$this->deleteFile($oldFileUrl);
+				$this->deleteFile($oldFileUrl,$this->file_is_forSale);
 			}
 
 

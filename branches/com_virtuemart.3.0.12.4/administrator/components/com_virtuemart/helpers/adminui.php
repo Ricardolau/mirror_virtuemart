@@ -139,7 +139,7 @@ class AdminUIHelper {
 		$safePath = ShopFunctions::checkSafePath();
 
 		if(!empty($safePath)){
-			$safePath .= 'vmm.ini';
+			$safePath .= 'keys/vmm.ini';
 			if (JFile::exists($safePath)){
 				$content = parse_ini_file($safePath);
 				if(!empty($content) and !empty($content['key']) and !empty($content['unixtime']) and !empty($content['html']) ){

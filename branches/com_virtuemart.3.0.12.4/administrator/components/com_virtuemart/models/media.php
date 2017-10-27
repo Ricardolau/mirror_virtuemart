@@ -435,7 +435,36 @@ class VirtueMartModelMedia extends VmModel {
 			vmWarn('Insufficient permissions to delete media');
 			return false;
 		}
+
 		return parent::remove($ids);
+	}
+
+	function removeFiles($ids){
+
+		if(!vmAccess::manager('media.delete')){
+			vmWarn('Insufficient permissions to delete media');
+			return false;
+		}
+
+		if(!is_array($ids)) $ids = array($ids);
+		$rids = array();
+		foreach($ids as $id){
+			$file = $this->getFile($id);
+
+			$image = $this->createMediaByIds($id,$file->file_type,$file->file_mimetype,1);
+			if(empty($image[0])){
+
+			} else {
+				$image[0]->deleteThumbs();
+				$r = $image[0]->deleteFile($image[0]->file_url,$image[0]->file_is_forSale);
+				if($r){
+					$rids[] = $id;
+				}
+			}
+
+		}
+
+		return parent::remove($rids);
 	}
 
 }

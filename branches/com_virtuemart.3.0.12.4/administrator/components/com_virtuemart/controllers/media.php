@@ -137,5 +137,31 @@ class VirtuemartControllerMedia extends VmController {
 		}
 
 	}
+
+	function deleteFiles(){
+
+		vRequest::vmCheckToken();
+
+		$ids = vRequest::getVar($this->_cidName, vRequest::getInt('cid', array() ));
+
+		$type = 'notice';
+		if(count($ids) < 1) {
+			$msg = vmText::_('COM_VIRTUEMART_SELECT_ITEM_TO_DELETE');
+
+		} else {
+			$model = $this->getModel($this->_cname);
+			$ret = $model->removeFiles($ids);
+
+			$msg = vmText::sprintf('COM_VIRTUEMART_STRING_DELETED',$this->mainLangKey);
+			if($ret==false) {
+				$msg = vmText::sprintf('COM_VIRTUEMART_STRING_COULD_NOT_BE_DELETED',$this->mainLangKey);
+				$type = 'error';
+			}
+		}
+
+		$this->setRedirect($this->redirectPath, $msg,$type);
+	}
+
+
 }
 // pure php no closing tag

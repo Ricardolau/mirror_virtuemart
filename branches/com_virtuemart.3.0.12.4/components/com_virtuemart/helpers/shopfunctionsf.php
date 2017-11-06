@@ -905,13 +905,14 @@ class shopFunctionsF {
 	static function getInvoiceName($invoice_number, $layout='invoice'){
 
 		$tmpT = false;
+		vmLanguage::loadJLang('com_virtuemart_orders', true);
 		if(VmConfig::get('invoiceNameInShopLang',true)){
 			$tmpT = VmConfig::$vmlangTag;
-			if($tmpT!=VmConfig::$jDefLangTag){
+			/*if($tmpT!=VmConfig::$jDefLangTag){
 				//ensure that the invoice is written in shop language
 				vmdebug('invoiceNameInShopLang VmConfig::$jDefLangTag '.VmConfig::$jDefLangTag,$tmpT);
 				vmLanguage::loadJLang('com_virtuemart_orders', true, VmConfig::$jDefLangTag);
-			}
+			}*/
 		}
 		$prefix = vmText::_('COM_VIRTUEMART_FILEPREFIX_'.strtoupper($layout));
 		if($tmpT!=false){

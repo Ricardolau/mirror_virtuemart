@@ -741,11 +741,11 @@ abstract class vmPSPlugin extends vmPlugin {
 			if(!class_exists('JFolder')){
 				require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'folder.php');
 			}
-			$url ='/images/virtuemart/' . $this->_psType ;
+			$url ='images/virtuemart/' . $this->_psType ;
 
-			if(!JFolder::exists( VMPATH_ROOT .$url)){
-				$url = '/images/stories/virtuemart/' . $this->_psType;
-				if(!JFolder::exists(VMPATH_ROOT .$url)){
+			if(!JFolder::exists( VMPATH_ROOT .'/'. $url)){
+				$url = 'images/stories/virtuemart/' . $this->_psType;
+				if(!JFolder::exists(VMPATH_ROOT .'/'. $url)){
 					return $img;
 				}
 			}

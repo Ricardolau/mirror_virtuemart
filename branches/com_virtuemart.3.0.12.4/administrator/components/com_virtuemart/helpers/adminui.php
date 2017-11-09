@@ -120,9 +120,6 @@ class AdminUIHelper {
     public static function writeVmm(){
 
 		$token = vRequest::getFormToken();
-		if (!class_exists('ShopFunctions'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
-
 
 		preg_match('/[a-z]/', $token, $matches);
 		if(!empty($matches[0][0])){
@@ -136,12 +133,15 @@ class AdminUIHelper {
 		$ackey = VmConfig::get('member_access_number','');
 		//$host = JUri::getInstance()->getHost();
 
-		$safePath = ShopFunctions::checkSafePath();
+		if(!class_exists('vmCrypt'))
+			require(VMPATH_ADMIN.DS.'helpers'.DS.'vmcrypt.php');
 
-		if(!empty($safePath)){
-			$safePath .= 'keys/vmm.ini';
-			if (JFile::exists($safePath)){
-				$content = parse_ini_file($safePath);
+		$keyPath = vmCrypt::getEncryptSafepath();
+
+		if(!empty($keyPath)){
+			$keyPath .= DS.'vmm.ini';
+			if (JFile::exists($keyPath)){
+				$content = parse_ini_file($keyPath);
 				if(!empty($content) and !empty($content['key']) and !empty($content['unixtime']) and !empty($content['html']) ){
 					if($content['key']==$ackey){
 						$date = JFactory::getDate();

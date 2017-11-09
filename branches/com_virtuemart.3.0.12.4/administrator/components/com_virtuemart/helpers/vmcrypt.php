@@ -87,7 +87,7 @@ class vmCrypt {
 		vmSetStartTime('_checkCreateKeyFile');
 		static $existingKeys = false;
 
-		$keyPath = self::_getEncryptSafepath ();
+		$keyPath = self::getEncryptSafepath ();
 
 		if(!$existingKeys){
 			$dir = opendir($keyPath);
@@ -206,7 +206,7 @@ class vmCrypt {
 		}
 	}
 
-	private static function _getEncryptSafepath () {
+	public static function getEncryptSafepath () {
 
 		if (!class_exists('ShopFunctions'))
 			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');

@@ -1691,12 +1691,12 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 
 			$reasonCode = $authorizeResponse->getAuthorizeResult()->getAuthorizationDetails()->getAuthorizationStatus()->getReasonCode();
 			if($redirect) {
-				if($amazonState == 'Declined' && $reasonCode == 'InvalidPaymentMethod' && $this->_currentMethod->soft_decline) {
+				if($amazonState == 'Declined' && $reasonCode == 'InvalidPaymentMethod' && $this->_currentMethod->soft_decline == 'soft_decline_enabled') {
 					$this->_session->incrementRetryInvalidPaymentMethodInSession();
 
 					return false;
 
-				} elseif(($amazonState == 'Open' && $reasonCode == 'AmazonRejected') or ($amazonState == 'Declined' && $reasonCode == 'TransactionTimedOut') or ($amazonState == 'Closed' && $reasonCode == 'TransactionTimedOut')) {
+				} elseif(($amazonState == 'Open' && $reasonCode == 'AmazonRejected') or ($amazonState == 'Declined' && ($reasonCode == 'TransactionTimedOut' or $reasonCode == 'ProcessingFailure')) or ($amazonState == 'Closed' && $reasonCode == 'TransactionTimedOut')) {
 					if ($amazonState == 'Closed' ) $retries =2; // closed by amazon, then don't retry
 					if($retries < 2) {
 						$shouldRetry = true;

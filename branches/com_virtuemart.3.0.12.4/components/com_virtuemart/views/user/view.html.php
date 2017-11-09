@@ -219,7 +219,7 @@ class VirtuemartViewUser extends VmView {
 
 		$this->add_product_link="";
 		$this->manage_link="";
-		if(ShopFunctionsF::isFEmanager() ){
+		if(ShopFunctionsF::isFEmanager('manage'/*,'category','product','inventory','ratings','custom','calc','manufacturer','orders','report','user'*/) ){
 			$mlnk = JURI::root() . 'index.php?option=com_virtuemart&tmpl=component&manage=1' ;
 			$this->manage_link = $this->linkIcon($mlnk, 'JACTION_MANAGE', 'new', false, false, true, true);
 		}

@@ -498,6 +498,8 @@ class VirtueMartControllerCart extends JControllerLegacy {
 			foreach($data[0] as $k => $v) {
 				$data[$k] = $v;
 			}
+		} else {
+			$cart->BT = 0;
 		}
 
 		$cart->BT['email'] = $newUser->email;
@@ -506,6 +508,7 @@ class VirtueMartControllerCart extends JControllerLegacy {
 		$cart->STsameAsBT = 1;
 		$cart->selected_shipto = 0;
 		$cart->virtuemart_shipmentmethod_id = 0;
+		$cart->virtuemart_paymentmethod_id = 0;
 		$cart->saveAddressInCart($data, 'BT');
 
 		$this->resetShopperGroup(false);

@@ -43,8 +43,34 @@ defined('_JEXEC') or die('Restricted access');
 		<?php
 		echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_CFG_MAIL_USEVENDOR','useVendorEmail',VmConfig::get('useVendorEmail',0));
 		echo VmHTML::row('checkbox','COM_VM_CFG_INVOICE_IN_USER_LANG','invoiceInUserLang',VmConfig::get('invoiceInUserLang',0));
-		echo VmHTML::row('checkbox','COM_VM_CFG_DEBUG_MAIL','debug_mail',VmConfig::get('debug_mail',0));
 		?>
+		<tr>
+			<td class="key">
+					<span class="hasTip" title="<?php echo vmText::_('COM_VM_CFG_DEBUG_MAIL_TIP'); ?>">
+						<?php echo vmText::_('COM_VM_CFG_DEBUG_MAIL'); ?>
+					</span>
+			</td>
+			<td>
+				<select name="debug_mail" id="debug_mail">
+					<option value="0" <?php if (VmConfig::get('debug_mail') == '0') {
+						echo 'selected="selected"';
+					} ?>>
+						<?php echo vmText::_('COM_VIRTUEMART_NO'); ?>
+					</option>
+					<option value="debug_email" <?php if (VmConfig::get('debug_mail') == '1' or (VmConfig::get('debug_mail') == 'debug_email')) {
+						echo 'selected="selected"';
+					} ?>>
+						<?php echo vmText::_('COM_VM_CFG_DEBUG_MAIL_YES'); ?>
+					</option>
+					<option value="debug_email_send" <?php if (VmConfig::get('debug_mail') == 'debug_email_send') {
+						echo 'selected="selected"';
+					} ?>>
+						<?php echo vmText::_('COM_VM_CFG_DEBUG_MAIL_SEND'); ?>
+					</option>
+				</select>
+			</td>
+		</tr>
+
 
 		<?php /*?>		<!-- NOT YET -->
  		echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_CFG_MAIL_FROM_RECIPIENT','mail_from_recipient',VmConfig::get('mail_from_recipient',0));

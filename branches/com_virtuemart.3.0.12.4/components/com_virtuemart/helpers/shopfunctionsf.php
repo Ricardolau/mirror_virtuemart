@@ -624,7 +624,9 @@ class shopFunctionsF {
 		$subject = (isset($view->subject)) ? $view->subject : vmText::_( 'COM_VIRTUEMART_DEFAULT_MESSAGE_SUBJECT' );
 		$mailer = JFactory::getMailer();
 		$mailer->addRecipient( $recipient );
-		$mailer->setSubject(  html_entity_decode( $subject , ENT_QUOTES, 'UTF-8') );
+
+		$subjectMailer= '=?utf-8?B?'.base64_encode($subject).'?=';
+		$mailer->setSubject(  html_entity_decode( $subjectMailer , ENT_QUOTES, 'UTF-8') );
 		$mailer->isHTML( VmConfig::get( 'order_mail_html', TRUE ) );
 		$mailer->setBody( $body );
 		$replyTo = array();
@@ -679,29 +681,37 @@ class shopFunctionsF {
 		}
 		$mailer->setSender( $sender );
 
-		if(VmConfig::get('debug_mail',false)){
-			if(!is_array($recipient)) $recipient = array($recipient);
-			if(VmConfig::showDebug()){
-				vmdebug('Debug mail active, no mail sent. The mail to send subject '.$subject.' to "'.implode(' ',$recipient).'" from '.$sender[0].' '.$sender[1].' '.vmText::$language->getTag().'<br>'.$body);
-			} else {
-				vmInfo('Debug mail active, no mail sent. The mail to send subject '.$subject.' to "'.implode(' ',$recipient).'" from '.$sender[0].' '.$sender[1].'<br>'.$body);
-			}
-
-			return true;
-		} else {
-			try {
-				$return = $mailer->Send();
-			}
-			catch (Exception $e)
-			{
-				VmConfig::$logDebug = true;
-				vmdebug('Error sending mail ',$e);
-				vmError('Error sending mail ');
-				// this will take care of the error message
-				return false;
-			}
+		$mailer->setSender($sender);
+		$debug_email = VmConfig::get('debug_mail', false);
+		if (VmConfig::get('debug_mail', false) == '1') {
+			$debug_email = 'debug_email';
 
 		}
+		if ($debug_email) {
+			if (!is_array($recipient)) {
+				$recipient = array($recipient);
+			}
+			if (VmConfig::showDebug()) {
+				vmdebug('Debug mail active, no mail sent. The mail to send subject ' . $subject . ' to "' . implode(' ', $recipient) . '" from ' . $sender[0] . ' ' . $sender[1] . ' ' . vmText::$language->getTag() . '<br>' . $body);
+			} else {
+				vmInfo('Debug mail active, no mail sent. The mail to send subject ' . $subject . ' to "' . implode(' ', $recipient) . '" from ' . $sender[0] . ' ' . $sender[1] . '<br>' . $body);
+			}
+			if ($debug_email == 'debug_email') {
+				return true;
+			}
+		}
+		try {
+			$return = $mailer->Send();
+		}
+		catch (Exception $e)
+		{
+			VmConfig::$logDebug = true;
+			vmdebug('Error sending mail ',$e);
+			vmError('Error sending mail ');
+			// this will take care of the error message
+			return false;
+		}
+
 
 		return $return; 
 	}

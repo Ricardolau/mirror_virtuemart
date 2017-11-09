@@ -221,6 +221,7 @@ class vmCrypt {
 	}
 
 	private static function createEncryptFolder ($folderName) {
+		jimport('joomla.filesystem.folder');
 
 		//$folderName = self::_getEncryptSafepath ();
 

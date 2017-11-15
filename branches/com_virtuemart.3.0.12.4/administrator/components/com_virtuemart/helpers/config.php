@@ -381,7 +381,7 @@ function vmdebug($debugdescr,$debugvalues=NULL){
 				if (count($args) > 1) {
 					for($i=1;$i<count($args);$i++){
 						if(isset($args[$i])){
-							$debugdescr .=' Var'.$i.': <pre>'.print_r($args[$i],1).'<br />'.print_r(get_class_methods($args[$i]),1).'</pre>';
+							$debugdescr .=' Var'.$i.': <pre>'.print_r($args[$i],1).'<br />'.print_r(get_class_methods($args[$i]),1).'</pre>'."\n";
 						}
 					}
 
@@ -390,7 +390,7 @@ function vmdebug($debugdescr,$debugvalues=NULL){
 
 			if(VmConfig::$echoDebug){
 				VmConfig::$maxMessageCount++;
-				echo $debugdescr."\n";
+				echo $debugdescr;
 			} else if(VmConfig::$logDebug){
 				logInfo($debugdescr,'vmdebug');
 			}else {
@@ -1404,7 +1404,7 @@ class vmURI{
 
 	static function getCurrentUrlBy ($source = 'request',$route = false, $white = true, $ignore = false){
 
-		$vars = array('option', 'view', 'controller', 'task', 'virtuemart_category_id', 'virtuemart_manufacturer_id', 'virtuemart_product_id', 'virtuemart_user_id', 'virtuemart_vendor_id', 'addrtype', 'virtuemart_user_info', 'virtuemart_currency_id', 'layout', 'format', 'limitstart', 'limit', 'language', 'keyword', 'search', 'virtuemart_order_id', 'order_number', 'order_pass', 'tmpl', 'usersearch', 'manage', 'orderby', 'dir', 'Itemid', 'lang');	//TODO Maybe better to remove the 'lang', which keeps the SEF suffix
+		$vars = array('id','1','option', 'view', 'controller', 'task', 'virtuemart_category_id', 'virtuemart_manufacturer_id', 'virtuemart_product_id', 'virtuemart_user_id', 'virtuemart_vendor_id', 'addrtype', 'virtuemart_user_info', 'virtuemart_currency_id', 'layout', 'format', 'limitstart', 'limit', 'language', 'keyword', 'search', 'virtuemart_order_id', 'order_number', 'order_pass', 'tmpl', 'usersearch', 'manage', 'orderby', 'dir', 'Itemid', 'customfields', 'lang');	//TODO Maybe better to remove the 'lang', which keeps the SEF suffix
 
 		$url = 'index.php?';
 		if($white){
@@ -1414,16 +1414,16 @@ class vmURI{
 			if(is_array($ignore) ){
 				$vars = array_diff($vars, $ignore);
 			}
+
 			foreach ($vars as $k){
 				$v = vRequest::getVar($k);
 				if(isset($v)){
-					$v = vRequest::filterUrl($v);
 					if(is_array($v)){
 						foreach($v as $ka => $va){
 							$url .= $k.'['.vRequest::filterUrl($ka).']='.vRequest::filterUrl($va).'&';
 						}
 					} else {
-						$url .= $k.'='.$v.'&';
+						$url .= $k.'='.vRequest::filterUrl($v).'&';
 					}
 				}
 			}
@@ -1450,6 +1450,7 @@ class vmURI{
 		}
 
 		$url = $urlold = rtrim($url,'&');
+		$url = vRequest::filterUrl($url);
 		if ($route){
 			$url = JRoute::_($url);
 		}

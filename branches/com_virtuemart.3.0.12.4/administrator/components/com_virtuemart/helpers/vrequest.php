@@ -165,12 +165,18 @@ class vRequest {
 	}
 
 	public static function filterUrl($url){
+
 		if(!is_array($url)){
 			$url = urldecode($url);
+		} else {
+			foreach($url as $k => $u){
+				$url[$k] = self::filterUrl($u);
+			}
 		}
+		$url = strip_tags($url);
 
 		$url = self::filter($url,FILTER_SANITIZE_URL,'');
-		return self::filter($url,FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
+		return self::filter($url,FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
 	}
 
 	/**

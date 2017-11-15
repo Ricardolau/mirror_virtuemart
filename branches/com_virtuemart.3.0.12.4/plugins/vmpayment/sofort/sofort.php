@@ -704,7 +704,6 @@ class plgVmPaymentSofort extends vmPSPlugin {
 				$methodSalesPrice = $this->calculateSalesPrice($cart, $this->_currentMethod, $cartPrices);
 
 				$logo = $this->displayLogos($this->_currentMethod->payment_logos);
-				$logo_link = $this->getLogoLink();
 				$payment_cost = '';
 				if ($methodSalesPrice) {
 					$payment_cost = $currency->priceDisplay($methodSalesPrice);
@@ -718,7 +717,6 @@ class plgVmPaymentSofort extends vmPSPlugin {
 				                                                       'plugin' => $this->_currentMethod,
 				                                                       'checked' => $checked,
 				                                                       'payment_logo' => $logo,
-				                                                       'payment_logo_link' => $logo_link,
 				                                                       'payment_cost' => $payment_cost,
 				                                                  ));
 

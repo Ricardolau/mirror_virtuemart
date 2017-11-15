@@ -65,14 +65,6 @@ function virtuemartBuildRoute(&$query) {
 				$segments[] = $helper->lang('manufacturer').'/'.$helper->getManufacturerName($query['virtuemart_manufacturer_id']) ;
 				//unset($query['virtuemart_manufacturer_id']);
 			}
-			if ( isset($query['search'])  ) {
-				$segments[] = $helper->lang('search') ;
-				unset($query['search']);
-			}
-			if ( isset($query['keyword'] )) {
-				$segments[] = $query['keyword'];
-				unset($query['keyword']);
-			}
 
 			if ( isset($query['virtuemart_category_id']) or isset($query['virtuemart_manufacturer_id']) ) {
 				$categoryRoute = null;
@@ -104,6 +96,15 @@ function virtuemartBuildRoute(&$query) {
 			}
 			if ( isset($jmenu['category']) ) $query['Itemid'] = $jmenu['category'];
 
+			/*if ( isset($query['search'])  ) {
+				$segments[] = $helper->lang('search') ;
+				unset($query['search']);
+			}*/
+			/*if ( isset($query['keyword'] )) {
+				$segments[] = $helper->lang('search').'='.$query['keyword'];
+				unset($query['keyword']);
+			}*/
+
 			if ( isset($query['orderby']) ) {
 				$segments[] = $helper->lang('by').','.$helper->lang( $query['orderby']) ;
 				unset($query['orderby']);
@@ -125,21 +126,26 @@ function virtuemartBuildRoute(&$query) {
 				unset($query['limitstart']);
 			}
 			if ( isset($query['start'] ) ) {
-				$limit = $start = (int)$query['start'] ;
+				$start = (int)$query['start'] ;
 				unset($query['start']);
 			}
 			if ( isset($query['limit'] ) ) {
 				$limit = (int)$query['limit'] ;
 				unset($query['limit']);
 			}
+
 			if ($start !== null &&  $limitstart!== null ) {
+				vmdebug('Pagination limits $start !== null &&  $limitstart!== null',$start,$limitstart);
 				//$segments[] = $helper->lang('results') .',1-'.$start ;
 			} else if ( $start>0 ) {
+				//For the urls leading to the paginated pages
 				// using general limit if $limit is not set
 				if ($limit === null) $limit= vmrouterHelper::$limit ;
-
 				$segments[] = $helper->lang('results') .','. ($start+1).'-'.($start+$limit);
-			} else if ($limit !== null && $limit != vmrouterHelper::$limit ) $segments[] = $helper->lang('results') .',1-'.$limit ;//limit change
+			} else if ($limit !== null && $limit != vmrouterHelper::$limit ) {
+				//for the urls of the list where the user sets the pagination size/limit
+				$segments[] = $helper->lang('results') .',1-'.$limit ;
+			}
 
 			break;
 		//Shop product details view
@@ -414,6 +420,30 @@ function virtuemartParseRoute($segments) {
 		}
 	}
 
+	/*$searchText = 'search';
+	//if ($this->seo_translate ) {
+		$searchText = vmText::_( 'COM_VIRTUEMART_SEF_search' );
+	//}
+
+	$searchPre = substr($segments[0],0,strlen($searchText));
+	if($searchPre==$searchText){
+
+	//}
+
+
+	//if ( $helper->compareKey($segments[0] ,'search') ) {
+		$vars['search'] = 'true';
+		array_shift($segments);
+		if ( !empty ($segments) ) {
+			$vars['keyword'] = array_shift($segments);
+		}
+		$vars['view'] = 'category';
+		$vars['virtuemart_category_id'] = $helper->activeMenu->virtuemart_category_id ;
+		$vars['limit'] = vmrouterHelper::getLimitByCategory($vars['virtuemart_category_id'],$vars['view']);
+		vmdebug('my segments checking for search',$segments,$vars);
+		if (empty($segments)) return $vars;
+	}*/
+
 	$orderby = explode(',',end($segments),2);
 	if ( count($orderby) == 2 and $helper->compareKey($orderby[0] , 'by') ) {
 		$vars['orderby'] = $helper->getOrderingKey($orderby[1]) ;
@@ -475,17 +505,7 @@ function virtuemartParseRoute($segments) {
 
 	}
 
-	if ( $helper->compareKey($segments[0] ,'search') ) {
-		$vars['search'] = 'true';
-		array_shift($segments);
-		if ( !empty ($segments) ) {
-			$vars['keyword'] = array_shift($segments);
-		}
-		$vars['view'] = 'category';
-		$vars['virtuemart_category_id'] = $helper->activeMenu->virtuemart_category_id ;
-		$vars['limit'] = vmrouterHelper::getLimitByCategory($vars['virtuemart_category_id'],$vars['view']);
-		if (empty($segments)) return $vars;
-	}
+
 	if (end($segments) == 'modal') {
 		$vars['tmpl'] = 'component';
 		array_pop($segments);
@@ -1324,9 +1344,10 @@ class vmrouterHelper {
 					}
 				} else {
 					static $msg = array();
-					if(empty($msg[$item])){
+					$id = empty($item->id)? '0': $item->id;
+					if(empty($msg[$id])){
 						vmdebug('my item with empty $link["view"]',$item);
-						$msg[$item] = 1;
+						$msg[$id] = 1;
 					}
 
 					//vmError('$link["view"] is empty');

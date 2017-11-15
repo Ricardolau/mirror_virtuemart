@@ -6,7 +6,7 @@
     <property name="vm.version.main" value="3.2.0"/>
     <property name="vm.version" value="3.2.5"/>
     <property name="joomla.version" value="3.7.5"/>
-    <property name="svn.lastrevision" value="9663"/>
+    <property name="PHING.VM.REVISION" value="9668"/>
     <property name="PHING.VM.CODENAME" value="Blue Corvus"/>
     <property name="PHING.VM.UPDATEFOLDER" value="vm3"/>
     <property file="build.properties"/>
@@ -34,7 +34,7 @@
 
     <property name="vm.main.filename" value="${component.name}.${vm.version}"/>
     <property name="vm.aio.filename" value="${component.name}.${vm.version}_ext_aio"/>
-    <property name="vm.extract.filename" value="${component.name}.${vm.version}_extract_first"/>
+    <property name="vm.extract.filename" value="${component.name}.${vm.version}.{PHING.VM.REVISION}_extract_first"/>
     <property name="full.extract.filename" value="VirtueMart${vm.version}_Joomla_${joomla.version}-Stable-Full_Package"/>
     <property name="joomla.folder.from" value="${joomla.path}"/>
 
@@ -44,7 +44,7 @@
 
     <!-- DESTINATION -->
 
-    <property name="package.folder" value="${package.abspath}/${component.name}.${vm.version}_extract_first"/>
+    <property name="package.folder" value="${package.abspath}/${component.name}.${vm.version}.${PHING.VM.REVISION}_extract_first"/>
 
 
     <property name="package.folder.main" value="${package.abspath}/${component.name}.${vm.version}/${component.name}.${vm.version}"/>
@@ -87,7 +87,7 @@
     <property name="PHING.VM.RELDATE" value="${TODAY}"/>
     <property name="PHING.VM.RELTIME" value="${TSTAMP}"/>
     <property name="PHING.VM.RELTZ" value="GMT"/>
-    <property name="PHING.VM.REVISION" value="${svn.lastrevision}"/>
+    <!--property name="PHING.VM.REVISION" value="${svn.lastrevision}"/-->
     <tstamp>
         <format property="PHING.VM.YEAR" pattern="%Y"/>
     </tstamp>
@@ -534,14 +534,14 @@
     </target>
     <target name="Main" depends="main_files">
         <echo msg="Creating MAIN PACKAGE  ..."/>
-        <tar destfile="${package.folder}/${component.name}.${vm.version}.tar.gz" compression="gzip">
+        <!--tar destfile="${package.folder}/${component.name}.${vm.version}.tar.gz" compression="gzip">
             <fileset dir="${package.folder.main}">
                 <include name="**"/>
                 <exclude name=".svn"/>
                 <exclude name=".DS_Store"/>
             </fileset>
-        </tar>
-        <zip destfile="${package.folder}/${component.name}.${vm.version}.zip">
+        </tar-->
+        <zip destfile="${package.folder}/${component.name}.${vm.version}.${PHING.VM.REVISION}.zip">
             <fileset dir="${package.folder.main}">
                 <include name="**"/>
                 <exclude name=".svn"/>
@@ -552,14 +552,14 @@
     </target>
     <target name="AIO" depends="aio_files">
         <echo msg="Creating AIO PACKAGE  ..."/>
-        <tar destfile="${package.folder}/${component.name}.${vm.version}_ext_aio.tar.gz" compression="gzip">
+        <!--tar destfile="${package.folder}/${component.name}.${vm.version}_ext_aio.tar.gz" compression="gzip">
             <fileset dir="${package.folder.aio}">
                 <include name="**"/>
                 <exclude name=".svn"/>
                 <exclude name=".DS_Store"/>
             </fileset>
-        </tar>
-        <zip destfile="${package.folder}/${component.name}.${vm.version}_ext_aio.zip">
+        </tar-->
+        <zip destfile="${package.folder}/${component.name}.${vm.version}.${PHING.VM.REVISION}_ext_aio.zip">
             <fileset dir="${package.folder.aio}">
                 <include name="**"/>
                 <exclude name=".svn"/>
@@ -570,7 +570,7 @@
     </target>
 
     <target name="VIRTUEMART_ALONE" depends="title, clean ,svn.export, Main, AIO">
-        <echo msg="LATEST REVISION is ${svn.lastrevision}"/>
+        <echo msg="LATEST REVISION is ${PHING.VM.REVISION"/>
         <echo msg="DATE ${TODAY}, TIME ${TSTAMP}"/>
         <!-- DOES not create a correct package for me -->
         <zip destfile="${package.folder}/${component.name}.${vm.version}_extract_first.zip">
@@ -584,7 +584,7 @@
     </target>
 
     <target name="FULLINSTALLER_ALONE" depends="title, clean ,  svn.export, full_installer">
-        <echo msg="LATEST REVISION is ${svn.lastrevision}"/>
+        <echo msg="LATEST REVISION is ${PHING.VM.REVISION}"/>
         <echo msg="DATE ${TODAY}, TIME ${TSTAMP}"/>
 
         <echo msg="FULLINSTALLER_ALONE DONE!"/>
@@ -592,7 +592,7 @@
 
 
     <target name="VIRTUEMART_AND_FULLINSTALLER" depends="title, clean , svn.export, Main, AIO, full_installer">
-        <echo msg="LATEST REVISION is ${svn.lastrevision}"/>
+        <echo msg="LATEST REVISION is ${PHING.VM.REVISION}"/>
         <echo msg="DATE ${TODAY}, TIME ${TSTAMP}"/>
         <!-- DOES not create a correct package for me -->
         <zip destfile="${package.folder}/${component.name}.${vm.version}_extract_first.zip">

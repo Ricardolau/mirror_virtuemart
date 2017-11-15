@@ -36,19 +36,22 @@ class VirtuemartViewCategory extends VmView {
 
 		//For BC, we convert first the new config param names to the old ones
 		//Attention, this will be removed around 2018.
-		VmConfig::set('show_featured', VmConfig::get('featured'));
-		VmConfig::set('show_discontinued', VmConfig::get('discontinued'));
-		VmConfig::set('show_topTen', VmConfig::get('topten'));
-		VmConfig::set('show_recent', VmConfig::get('recent'));
-		VmConfig::set('show_latest', VmConfig::get('latest'));
+		//if(VmConfig::get('legacylayouts',false)){
+			VmConfig::set('show_featured', VmConfig::get('featured'));
+			VmConfig::set('show_discontinued', VmConfig::get('discontinued'));
+			VmConfig::set('show_topTen', VmConfig::get('topten'));
+			VmConfig::set('show_recent', VmConfig::get('recent'));
+			VmConfig::set('show_latest', VmConfig::get('latest'));
 
-		VmConfig::set('featured_products_rows', VmConfig::get('featured_rows'));
-		VmConfig::set('discontinued_products_rows', VmConfig::get('discontinued_rows'));
-		VmConfig::set('topTen_products_rows', VmConfig::get('topten_rows'));
-		VmConfig::set('recent_products_rows', VmConfig::get('recent_rows'));
-		VmConfig::set('latest_products_rows', VmConfig::get('latest_rows'));
-		VmConfig::set('omitLoaded_topTen', VmConfig::get('omitLoaded_topten'));
-		VmConfig::set('showCategory', VmConfig::get('showcategory'));
+			VmConfig::set('featured_products_rows', VmConfig::get('featured_rows'));
+			VmConfig::set('discontinued_products_rows', VmConfig::get('discontinued_rows'));
+			VmConfig::set('topTen_products_rows', VmConfig::get('topten_rows'));
+			VmConfig::set('recent_products_rows', VmConfig::get('recent_rows'));
+			VmConfig::set('latest_products_rows', VmConfig::get('latest_rows'));
+			VmConfig::set('omitLoaded_topTen', VmConfig::get('omitLoaded_topten'));
+			VmConfig::set('showCategory', VmConfig::get('showcategory'));
+		//}
+
 
 		$this->show_prices  = (int)VmConfig::get('show_prices',1);
 
@@ -65,10 +68,7 @@ class VirtuemartViewCategory extends VmView {
 		if (!class_exists('VmImage'))
 			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'image.php');
 
-		// set search and keyword
-		if ($this->keyword = vRequest::getString('keyword', false)){//uword('keyword', false, ' ,-,+,.,_')) {
-			$pathway->addItem($this->keyword);
-		}
+
 
 		if( ShopFunctionsF::isFEmanager('product.edit') ){
 			$add_product_link = JURI::root() . 'index.php?option=com_virtuemart&tmpl=component&view=product&task=edit&virtuemart_product_id=0&manage=1' ;
@@ -142,7 +142,9 @@ class VirtuemartViewCategory extends VmView {
 
 		$prefix = '';
 
-		if((isset($menu->query['virtuemart_category_id']) and $menu->query['virtuemart_category_id']!=$this->categoryId) or $this->keyword !== false) {
+		$productModel = VmModel::getModel('product');
+		$this->keyword = $productModel->keyword;
+		if((isset($menu->query['virtuemart_category_id']) and $menu->query['virtuemart_category_id']!=$this->categoryId) or !empty($this->keyword ) ) {
 			$prefix = 'stf_';
 		}
 
@@ -173,7 +175,12 @@ class VirtuemartViewCategory extends VmView {
 
 
 		$categoryModel = VmModel::getModel('category');
-		$productModel = VmModel::getModel('product');
+
+
+		// set search and keyword
+		if ($productModel->keyword){
+			$pathway->addItem(strip_tags(htmlspecialchars_decode($this->keyword)));
+		}
 
 		$category = $categoryModel->getCategory($this->categoryId);
 		$this->assignRef('category', $category);
@@ -203,7 +210,7 @@ class VirtuemartViewCategory extends VmView {
 		$this->searchcustom = '';
 		$this->searchCustomValues = '';
 
-		if($this->keyword !== false or $this->showsearch){
+		if($this->keyword !== '' or $this->showsearch){
 			vmSetStartTime('getSearchCustom');
 			$customfields = vRequest::getString('customfields');
 			$app = JFactory::getApplication();
@@ -292,7 +299,9 @@ class VirtuemartViewCategory extends VmView {
 
 		// Add feed links
 		if ($this->products  && VmConfig::get('feed_cat_published', 0)==1) {
-			$link = '&format=feed&limitstart=';
+
+			$link = vmURI::getCurrentUrlBy('get').'&format=feed&limitstart=';
+
 			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 			$document->addHeadLink(JRoute::_($link . '&type=rss', FALSE), 'alternate', 'rel', $attribs);
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');

@@ -194,13 +194,19 @@ class VirtueMartModelProduct extends VmModel {
 
 			$this->product_parent_id = vRequest::getInt ('product_parent_id', FALSE);
 			$this->virtuemart_manufacturer_id = vRequest::getInt ('virtuemart_manufacturer_id', FALSE);
-			$this->keyword = vRequest::getString('keyword','');	//vRequest::uword ('keyword', "", ' ,-,+,.,_,#,/');
+
+			$keyword = $app->getUserStateFromRequest('com_virtuemart.keyword','keyword','');
+			$keyword = urldecode($keyword);
+			$this->keyword = vRequest::filter($keyword,FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
 
 			if ($this->keyword === '') {
-				$this->keyword = vRequest::getString('filter_product','');//vRequest::uword ('filter_product', "", ' ,-,+,.,_,#,/');
-				vRequest::setVar('filter_product',$this->keyword);
+
+				$keyword = $app->getUserStateFromRequest('com_virtuemart.' . $view . '.filter_product','keyword','');
+				$keyword = urldecode($keyword);
+				$this->keyword = vRequest::filter($keyword,FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);//vRequest::uword ('filter_product', "", ' ,-,+,.,_,#,/');
+				$app->setUserState( 'com_virtuemart.' . $view . '.filter_product',$this->keyword);
 			} else {
-				vRequest::setVar('keyword',$this->keyword);
+				$app->setUserState( 'com_virtuemart.keyword',$this->keyword);
 			}
 			$this->searchAllCats = $app->getUserStateFromRequest('com_virtuemart.customfields.searchAllCats','searchAllCats',false);
 		}
@@ -696,7 +702,7 @@ class VirtueMartModelProduct extends VmModel {
 		}
 
 		if ($joinCategory == TRUE or $joinCatLang) {
-			$joinedTables[] = ' LEFT JOIN `#__virtuemart_product_categories` as pc ON p.`virtuemart_product_id` = `pc`.`virtuemart_product_id` ';
+			$joinedTables[] = ' INNER JOIN `#__virtuemart_product_categories` as pc ON p.`virtuemart_product_id` = `pc`.`virtuemart_product_id` ';
 			if ($isSite and !VmConfig::get('show_unpub_cat_products',TRUE)) {
 				$joinedTables[] = ' LEFT JOIN `#__virtuemart_categories` as c ON c.`virtuemart_category_id` = `pc`.`virtuemart_category_id` ';
 			}
@@ -795,7 +801,7 @@ class VirtueMartModelProduct extends VmModel {
 		$cateid = vRequest::getInt ('virtuemart_category_id', -1);
 		$manid = vRequest::getInt ('virtuemart_manufacturer_id', 0);
 
-		$limitString = 'com_virtuemart.' . $view . 'c' . $cateid . '.limit';
+		$limitString = 'com_virtuemart.' . $view . '.limit';
 		$limit = (int)$app->getUserStateFromRequest ($limitString, 'limit');
 
 		$limitStartString  = 'com_virtuemart.' . $view . '.limitstart';

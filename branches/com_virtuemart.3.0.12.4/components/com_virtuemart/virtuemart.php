@@ -18,7 +18,7 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
 */
 
 /* Require the config */
-defined('DS') or define('DS', DIRECTORY_SEPARATOR);
+
 if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 
 VmConfig::loadConfig();
@@ -31,6 +31,7 @@ vmLanguage::loadJLang('com_virtuemart', true);
 
 $_controller = vRequest::getCmd('view', vRequest::getCmd('controller', 'virtuemart')) ;
 $task = vRequest::getCmd('task','') ;
+
 if(VmConfig::get('shop_is_offline',0) and $task!='feed' and $_controller!='virtuemart'){	//yes, quickndirty
 	$_controller = 'virtuemart';
 	require (VMPATH_SITE.DS.'controllers'.DS.'virtuemart.php');

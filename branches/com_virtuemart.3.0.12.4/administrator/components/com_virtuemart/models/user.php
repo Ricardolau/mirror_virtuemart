@@ -412,6 +412,9 @@ class VirtueMartModelUser extends VmModel {
 			$user->setParam('language',$data['language']);
 		}
 
+		// Load the users plugin group.
+		JPluginHelper::importPlugin('user');
+
 		// Save the JUser object
 		if (!$user->save()) {
 			$msg = vmText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED',$user->getError());

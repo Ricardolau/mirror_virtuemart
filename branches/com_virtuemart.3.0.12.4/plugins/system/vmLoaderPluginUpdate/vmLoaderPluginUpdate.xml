@@ -14,6 +14,17 @@
 		<filename plugin="vmLoaderPluginUpdate">vmLoaderPluginUpdate.php</filename>
 	</files> 
 	<config>
+		<fields name="params">
+		<fieldset name="restrictions">
+			<field name="comuserredirect" type="radio" default="1"
+				   label="VMSYSTEM_COMUSER_REDIRECT"
+				   extension="com_virtuemart"
+				   description="VMSYSTEM_COMUSER_REDIRECT_TIP">
+				<option value="0">COM_VIRTUEMART_NO</option>
+				<option value="1">COM_VIRTUEMART_YES</option>
+			</field>
+		</fieldset>
+		</fields>
 	</config>
 	
 	<updateservers>

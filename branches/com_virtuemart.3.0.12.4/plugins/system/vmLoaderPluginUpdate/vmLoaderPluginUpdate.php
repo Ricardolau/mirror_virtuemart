@@ -45,32 +45,38 @@ class plgSystemVmLoaderPluginUpdate extends JPlugin {
 
 
 	function onAfterRoute() {
-		$app = JFactory::getApplication();
-		$jinput = JFactory::getApplication()->input;
-		$option = $jinput->get('option');
-		$view = $jinput->get('view');
-		$task = $jinput->get('task');
-     	//$itemID = $jinput->get('Itemid');
+		if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
+		VmConfig::loadConfig();
+		$r = $this->params->get('comuserredirect', true);
 
-		if ($option=='com_users') {
-			$itemID = '';
-			/*if (isset($itemID) && ($itemID !='')) {
-				//I think this would activate wrong menu item
-				$itemID = '&Itemid='.$itemID;
-			}*/
+		if($r){
+			$app = JFactory::getApplication();
+			$jinput = JFactory::getApplication()->input;
+			$option = $jinput->get('option');
+			$view = $jinput->get('view');
+			$task = $jinput->get('task');
+			//$itemID = $jinput->get('Itemid');
 
-			if($view=='registration' or $task == 'registration.register') {
-				$t = '';
-				$msg = '';
-				if($task == 'registration.register'){
-					$t = '&task=saveUser';
-					$msg = 'Use the registration of VirtueMart';
+			if ($option=='com_users') {
+				$itemID = '';
+				/*if (isset($itemID) && ($itemID !='')) {
+					//I think this would activate wrong menu item
+					$itemID = '&Itemid='.$itemID;
+				}*/
+
+				if($view=='registration' or $task == 'registration.register') {
+					$t = '';
+					$msg = '';
+					if($task == 'registration.register'){
+						$t = '&task=saveUser';
+						$msg = 'Use the registration of VirtueMart';
+					}
+					$l = JRoute::_('index.php?option=com_virtuemart&view=user'.$t.$itemID);
+					$app->redirect( $l,$msg);
 				}
-				$l = JRoute::_('index.php?option=com_virtuemart&view=user'.$t.$itemID);
-
-				$app->redirect( $l,$msg);
 			}
 		}
+
 
 	}
 

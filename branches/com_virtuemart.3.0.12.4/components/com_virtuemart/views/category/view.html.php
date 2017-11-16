@@ -144,6 +144,9 @@ class VirtuemartViewCategory extends VmView {
 
 		$productModel = VmModel::getModel('product');
 		$this->keyword = $productModel->keyword;
+
+		if(empty($this->keyword)) $this->keyword = false;
+
 		if((isset($menu->query['virtuemart_category_id']) and $menu->query['virtuemart_category_id']!=$this->categoryId) or !empty($this->keyword ) ) {
 			$prefix = 'stf_';
 		}
@@ -202,7 +205,19 @@ class VirtuemartViewCategory extends VmView {
 		$ratingModel = VmModel::getModel('ratings');
 		$productModel->withRating = $this->showRating = $ratingModel->showRating();
 
-		$this->products = false;
+		//Would be nice to have the ordering configurable.
+		$this->products = array();
+		if(!empty($this->keyword)){
+			$this->products['products'] = false;
+		}
+		$this->products['featured'] = false;
+		$this->products['discontinued'] = false;
+		$this->products['latest'] = false;
+		$this->products['topten'] = false;
+		$this->products['recent'] = false;
+		if(empty($this->keyword)){
+			$this->products['products'] = false;
+		}
 
 		$this->vmPagination = '';
 		$this->orderByList = '';
@@ -210,7 +225,7 @@ class VirtuemartViewCategory extends VmView {
 		$this->searchcustom = '';
 		$this->searchCustomValues = '';
 
-		if($this->keyword !== '' or $this->showsearch){
+		if(!empty($this->keyword) or $this->showsearch){
 			vmSetStartTime('getSearchCustom');
 			$customfields = vRequest::getString('customfields');
 			$app = JFactory::getApplication();
@@ -246,7 +261,8 @@ class VirtuemartViewCategory extends VmView {
 			}
 		} else {
 
-			if($this->showproducts or $this->keyword !== false) {
+			//The search must be executed first
+			if($this->showproducts or !empty($this->keyword)) {
 
 				if(!$this->keyword) VirtueMartModelProduct::$omitLoaded = VmConfig::get('omitLoaded');
 				// Load the products in the given category
@@ -269,7 +285,6 @@ class VirtuemartViewCategory extends VmView {
 					}
 				}
 			}
-
 		}
 
 		if ($this->products) {
@@ -277,6 +292,12 @@ class VirtuemartViewCategory extends VmView {
 			$this->currency = CurrencyDisplay::getInstance( );
 			$display_stock = VmConfig::get('display_stock',1);
 			$showCustoms = VmConfig::get('show_pcustoms',1);
+			
+			//Unset the empty product groups to avoid errors with old layouts
+			foreach($this->products as $pType => $productSeries) {
+				if($productSeries===false) unset($this->products[$pType]);
+			}
+
 			if($display_stock or $showCustoms){
 
 				if(!$showCustoms){
@@ -289,7 +310,7 @@ class VirtuemartViewCategory extends VmView {
 					if (!class_exists ('vmCustomPlugin')) {
 						require(VMPATH_PLUGINLIBS . DS . 'vmcustomplugin.php');
 					}
-					//vmdebug('My products ',$this->products);
+
 					foreach($this->products as $pType => $productSeries) {
 						shopFunctionsF::sortLoadProductCustomsStockInd($this->products[$pType],$productModel);
 					}

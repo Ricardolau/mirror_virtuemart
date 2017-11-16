@@ -361,6 +361,7 @@ class shopFunctionsF {
 
 	static public function sortLoadProductCustomsStockInd(&$products,$pModel){
 
+		if(!$products) return;
 		$customfieldsModel = VmModel::getModel ('Customfields');
 		if (!class_exists ('vmCustomPlugin')) {
 			require(VMPATH_PLUGINLIBS . DS . 'vmcustomplugin.php');
@@ -399,12 +400,15 @@ class shopFunctionsF {
 
 	static public function calculateProductRowsHeights($products,$currency,$products_per_row){
 
+		$rowsHeight = array();
+		if(!$products) return $rowsHeight;
+
 		$col = 1;
 		$nb = 1;
 		$row = 1;
 		$BrowseTotalProducts = count($products);
 		$rowHeights = array();
-		$rowsHeight = array();
+
 
 		foreach($products as $product){
 

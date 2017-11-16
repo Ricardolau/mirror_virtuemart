@@ -144,7 +144,7 @@ class VirtueMartModelProduct extends VmModel {
 	 */
 	function initialiseRequests () {
 
-		$this->keyword = "";
+		$this->keyword = false;
 		$this->valid_search_fields = $this->valid_BE_search_fields;
 		$this->product_parent_id = FALSE;
 		$this->virtuemart_manufacturer_id = FALSE;
@@ -201,7 +201,7 @@ class VirtueMartModelProduct extends VmModel {
 
 			if ($this->keyword === '') {
 
-				$keyword = $app->getUserStateFromRequest('com_virtuemart.' . $view . '.filter_product','keyword','');
+				$keyword = $app->getUserStateFromRequest('com_virtuemart.' . $view . '.filter_product','filter_product','');
 				$keyword = urldecode($keyword);
 				$this->keyword = vRequest::filter($keyword,FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);//vRequest::uword ('filter_product', "", ' ,-,+,.,_,#,/');
 				$app->setUserState( 'com_virtuemart.' . $view . '.filter_product',$this->keyword);
@@ -2631,7 +2631,7 @@ vmdebug('$limitStart',$limitStart);
 
 		$Itemid = '';
 
-		$fieldLink = vmURI::getCurrentUrlBy('request', false, true, array('orderby','dir'));
+		$fieldLink = vmURI::getCurrentUrlBy('request', false, true, array('orderby','dir','keyword'));
 
 		$orderDirLink = '';
 		$orderDirConf = VmConfig::get ('prd_brws_orderby_dir');

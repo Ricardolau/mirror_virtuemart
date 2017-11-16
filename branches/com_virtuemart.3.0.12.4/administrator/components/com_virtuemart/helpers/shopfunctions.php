@@ -81,6 +81,7 @@ class ShopFunctions {
 			$i++;
 		}
 
+		if(!$list) return '';
 		$list = substr ($list, 2);
 		$ttip = substr ($ttip, 2);
 

@@ -234,8 +234,16 @@ class calculationHelper {
 
 	protected function setCountryState() {
 
-		if ($this->_app->isAdmin())
+		if ($this->_app->isAdmin()) {
+			if(!class_exists('VirtueMartModelVendor')) require(VMPATH_ADMIN.DS.'models'.DS.'vendor.php');
+			$vendorModel = VmModel::getModel ('vendor');
+			$vendorAddress = $vendorModel->getVendorAdressBT (1);
+
+			$this->_deliveryCountry = $vendorAddress->virtuemart_country_id;
+			$this->_deliveryState = $vendorAddress->virtuemart_state_id;
 			return;
+		}
+
 
 		if(empty($this->_cart)){
 			if (!class_exists('VirtueMartCart')) require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');

@@ -37,7 +37,8 @@ class vmLanguage {
 			if(empty(VmConfig::$jDefLangTag)) {
 				if (class_exists('JComponentHelper') && (method_exists('JComponentHelper', 'getParams'))) {
 					$params = JComponentHelper::getParams('com_languages');
-					VmConfig::$jDefLangTag = $params->get('site', 'en-GB');
+
+					VmConfig::$jDefLangTag = $params->get('language', 'en-GB');
 				} else {
 					VmConfig::$jDefLangTag = 'en-GB';//use default joomla
 					vmError('JComponentHelper not found');

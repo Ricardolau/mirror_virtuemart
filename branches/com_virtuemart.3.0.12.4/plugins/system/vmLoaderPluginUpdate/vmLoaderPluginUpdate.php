@@ -45,12 +45,13 @@ class plgSystemVmLoaderPluginUpdate extends JPlugin {
 
 
 	function onAfterRoute() {
-		if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
-		VmConfig::loadConfig();
-		$r = $this->params->get('comuserredirect', true);
 
+		$app = JFactory::getApplication();
+		if($app->isClient('administrator')) return;
+
+		$r = $this->params->get('comuserredirect', true);
 		if($r){
-			$app = JFactory::getApplication();
+
 			$jinput = JFactory::getApplication()->input;
 			$option = $jinput->get('option');
 			$view = $jinput->get('view');

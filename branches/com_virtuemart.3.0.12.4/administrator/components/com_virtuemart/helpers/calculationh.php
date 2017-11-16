@@ -32,8 +32,8 @@ class calculationHelper {
 
 	protected $_debug;
 	protected $_manufacturerId;
-	protected $_deliveryCountry;
-	protected $_deliveryState;
+	public $_deliveryCountry;
+	public $_deliveryState;
 	public $_currencyDisplay;
 	var $_cart = null;
 

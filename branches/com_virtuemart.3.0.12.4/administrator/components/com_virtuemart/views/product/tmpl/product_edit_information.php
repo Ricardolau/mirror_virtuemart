@@ -149,12 +149,13 @@ $i=0;
 			    <legend>
 				    <?php
 					echo vmText::sprintf('COM_VIRTUEMART_PRODUCT_FORM_PRICES',$this->activeShoppergroups);
+					if ($this->deliveryCountry) {
+						echo vmText::sprintf('COM_VIRTUEMART_PRODUCT_FORM_PRICES_COUNTRY', $this->deliveryCountry  );
+					}
 					if ($this->deliveryState)  {
 						echo  vmText::sprintf('COM_VIRTUEMART_PRODUCT_FORM_PRICES_STATE',$this->deliveryState   );
 					}
-					if ($this->deliveryCountry) {
-						echo vmText::sprintf('COM_VIRTUEMART_PRODUCT_FORM_PRICES_COUNTRY', $this->deliveryCountry  );
-					} ?>
+					?>
 
 				</legend>
 
@@ -166,20 +167,15 @@ $i=0;
 				}
 	$this->i = 0;
 	$rowColor = 0;
-	if (!class_exists ('calculationHelper')) {
-		require(VMPATH_ADMIN . DS . 'helpers' . DS . 'calculationh.php');
-	}
-	$calculator = calculationHelper::getInstance ();
+
+	$calculator = $this->calculator;
 	$currency_model = VmModel::getModel ('currency');
 	$currencies = $currency_model->getCurrencies ();
 	$nbPrice = count ($this->product->allPrices);
 	$this->priceCounter = 0;
 	$this->product->allPrices[$nbPrice] = VmModel::getModel()->fillVoidPrice();
 
-	if (!class_exists ('calculationHelper')) {
-		require(VMPATH_ADMIN . DS . 'helpers' . DS . 'calculationh.php');
-	}
-	$calculator = calculationHelper::getInstance ();
+
 	?>
     <table border="0" width="100%" cellpadding="2" cellspacing="3" id="mainPriceTable" class="adminform  ">
         <tbody id="productPriceBody">

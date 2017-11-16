@@ -216,38 +216,12 @@ class VirtuemartViewProduct extends VmViewAdmin {
 					$this->activeShoppergroups = vmText::_($shoppergroupModel->getDefault(0)->shopper_group_name);
 				}
 
-				$userModel = VmModel::getModel('user');
-				$virtuemart_userinfo_id_BT = $userModel->getBTuserinfo_id($cid);
-				$this->deliveryState='';
-				$this->deliveryCountry='';
-				if ($virtuemart_userinfo_id_BT) {
-					$userFieldsArray = $userModel->getUserInfoInUserFields(NULL,'BT',$virtuemart_userinfo_id_BT,false);
-					$userFieldsBT = $userFieldsArray[$virtuemart_userinfo_id_BT];
-					if ($userFieldsBT) {
-						if (isset($userFieldsBT['fields']['virtuemart_country_id']) and isset($userFieldsBT['fields']['virtuemart_country_id']['country_3_code'])) {
-							$this->deliveryCountry = $userFieldsBT['fields']['virtuemart_country_id']['country_3_code'];
-						}
-						if (isset($userFieldsBT['fields']['virtuemart_state_id']) and isset($userFieldsBT['fields']['virtuemart_state_id']['state_3_code'])) {
-							$this->deliveryState = $userFieldsBT['fields']['virtuemart_state_id']['state_3_code'];
-						}
-					}
-				} else {
-					if(!class_exists('VirtueMartModelVendor')) require(VMPATH_ADMIN.DS.'models'.DS.'vendor.php');
-					$vendorModel = VmModel::getModel ('vendor');
-					$vendorAddress = $vendorModel->getVendorAdressBT (1);
-					if (isset( $vendorAddress->virtuemart_country_id)){
-						$deliveryCountryId = $vendorAddress->virtuemart_country_id;
-						$this->deliveryCountry = ShopFunctions::getCountryByID ($deliveryCountryId,  'country_3_code');
-					}
-					if (isset( $vendorAddress->virtuemart_state_id)) {
-						$deliveryStateId = $vendorAddress->virtuemart_state_id;
-						$this->deliveryState = ShopFunctions::getStateByID ($deliveryStateId,  'state_3_code');
-					}
+				if (!class_exists ('calculationHelper')) {
+					require(VMPATH_ADMIN .'/helpers/calculationh.php');
 				}
-
-
-
-
+				$this->calculator = calculationHelper::getInstance ();
+				$this->deliveryCountry = ShopFunctions::getCountryByID ($this->calculator->_deliveryCountry,  'country_3_code');
+				$this->deliveryState = ShopFunctions::getStateByID ($this->calculator->_deliveryState,  'state_3_code');
 
 				// Load protocustom lists
 				$customModel = VmModel::getModel ('custom');

@@ -235,12 +235,31 @@ class calculationHelper {
 	protected function setCountryState() {
 
 		if ($this->_app->isAdmin()) {
-			if(!class_exists('VirtueMartModelVendor')) require(VMPATH_ADMIN.DS.'models'.DS.'vendor.php');
-			$vendorModel = VmModel::getModel ('vendor');
-			$vendorAddress = $vendorModel->getVendorAdressBT (1);
-
-			$this->_deliveryCountry = $vendorAddress->virtuemart_country_id;
-			$this->_deliveryState = $vendorAddress->virtuemart_state_id;
+			$userModel = VmModel::getModel('user');
+			$userDetails = $userModel->getUser();
+			$virtuemart_userinfo_id_BT = $userModel->getBTuserinfo_id($userDetails->JUser->get('id'));
+			if ($virtuemart_userinfo_id_BT) {
+				$userFieldsArray = $userModel->getUserInfoInUserFields(NULL,'BT',$virtuemart_userinfo_id_BT,false);
+				$userFieldsBT = $userFieldsArray[$virtuemart_userinfo_id_BT];
+				if ($userFieldsBT) {
+					if (isset($userFieldsBT['fields']['virtuemart_country_id']) and isset($userFieldsBT['fields']['virtuemart_country_id']['virtuemart_country_id'])) {
+						$this->_deliveryCountry = $userFieldsBT['fields']['virtuemart_country_id']['virtuemart_country_id'];
+					}
+					if (isset($userFieldsBT['fields']['virtuemart_state_id']) and isset($userFieldsBT['fields']['virtuemart_state_id']['virtuemart_state_id'])) {
+						$this->_deliveryState = $userFieldsBT['fields']['virtuemart_state_id']['virtuemart_state_id'];
+					}
+				}
+			} else {
+				if(!class_exists('VirtueMartModelVendor')) require(VMPATH_ADMIN.DS.'models'.DS.'vendor.php');
+				$vendorModel = VmModel::getModel ('vendor');
+				$vendorAddress = $vendorModel->getVendorAdressBT (1);
+				if (isset( $vendorAddress->virtuemart_country_id)){
+					$this->_deliveryCountry = $vendorAddress->virtuemart_country_id;
+				}
+				if (isset( $vendorAddress->virtuemart_state_id)) {
+					$this->_deliveryState = $vendorAddress->virtuemart_state_id;
+				}
+			}
 			return;
 		}
 

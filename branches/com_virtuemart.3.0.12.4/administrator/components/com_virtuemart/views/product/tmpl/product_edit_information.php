@@ -146,9 +146,18 @@ $i=0;
 
 			<!-- Product pricing -->
 			<fieldset>
-			    <legend><?php
-					echo vmText::sprintf('COM_VIRTUEMART_PRODUCT_FORM_PRICES',$this->activeShoppergroups); ?></legend>
-			
+			    <legend>
+				    <?php
+					echo vmText::sprintf('COM_VIRTUEMART_PRODUCT_FORM_PRICES',$this->activeShoppergroups);
+					if ($this->deliveryState)  {
+						echo  vmText::sprintf('COM_VIRTUEMART_PRODUCT_FORM_PRICES_STATE',$this->deliveryState   );
+					}
+					if ($this->deliveryCountry) {
+						echo vmText::sprintf('COM_VIRTUEMART_PRODUCT_FORM_PRICES_COUNTRY', $this->deliveryCountry  );
+					} ?>
+
+				</legend>
+
 				<?php
 				//$product = $this->product;
 			

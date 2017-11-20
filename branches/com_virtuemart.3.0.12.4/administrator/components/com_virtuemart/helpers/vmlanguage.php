@@ -32,19 +32,7 @@ class vmLanguage {
 
 		//Determine the shop default language (default joomla site language)
 		if(VmConfig::$jDefLang===false){
-
-			VmConfig::$jDefLangTag = VmConfig::get('vmDefLang','');
-			if(empty(VmConfig::$jDefLangTag)) {
-				if (class_exists('JComponentHelper') && (method_exists('JComponentHelper', 'getParams'))) {
-					$params = JComponentHelper::getParams('com_languages');
-
-					VmConfig::$jDefLangTag = $params->get('language', 'en-GB');
-				} else {
-					VmConfig::$jDefLangTag = 'en-GB';//use default joomla
-					vmError('JComponentHelper not found');
-				}
-			}
-
+			VmConfig::$jDefLangTag = self::getShopDefaultSiteLangTagByJoomla();
 			VmConfig::$jDefLang = strtolower(strtr(VmConfig::$jDefLangTag,'-','_'));
 		}
 
@@ -64,6 +52,21 @@ class vmLanguage {
 
 		self::setLanguageByTag($siteLang);
 
+	}
+
+	static public function getShopDefaultSiteLangTagByJoomla(){
+
+		$l= VmConfig::get('vmDefLang','');
+		if(empty($l)) {
+			if (class_exists('JComponentHelper') && (method_exists('JComponentHelper', 'getParams'))) {
+				$params = JComponentHelper::getParams('com_languages');
+				$l = $params->get('language', 'en-GB');
+			} else {
+				$l = 'en-GB';//use default joomla
+				vmError('JComponentHelper not found');
+			}
+		}
+		return $l;
 	}
 
 	static public function setLanguageByTag($siteLang, $alreadyLoaded = true){

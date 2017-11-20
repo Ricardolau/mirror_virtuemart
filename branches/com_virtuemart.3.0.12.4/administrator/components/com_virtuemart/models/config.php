@@ -498,18 +498,14 @@ class VirtueMartModelConfig extends VmModel {
 			}
 		}
 
-		$conf_langs = self::getContentLanguages();
-		$active_langs = $config->get('active_languages', array());
-
-		if(empty($active_langs)){
-			$active_langs = $conf_langs;
-		}
-
 		if(empty($data['vmDefLang'])){
 			$defl = VmConfig::$jDefLangTag;
 		} else {
 			$defl = $data['vmDefLang'];
 		}
+
+		$active_langs = self::getActiveVmLanguages();
+
 		$active_langs[] = $defl;
 		$active_langs = array_unique($active_langs);
 		$config->set('active_languages',$active_langs);
@@ -550,20 +546,11 @@ class VirtueMartModelConfig extends VmModel {
 		return true;
 	}
 
-	static public function getContentLanguages(){
+	static public function getActiveVmLanguages(){
 		$langs = VmConfig::get('active_languages',false);
 		if(empty($langs)){
-			if (class_exists('JLanguageHelper') && (method_exists('JLanguageHelper', 'getLanguages'))) {
-				$languages = JLanguageHelper::getLanguages('lang_code');
-				foreach($languages as $k=>$v){
-					if($v->published==1 and $v->access==1){
-						$langs[] = $k;
-					}
-				}
-			}
-			if(empty($langs)){
-				$langs = array(VmConfig::$jDefLangTag);
-			}
+			$langs = vmLanguage::getShopDefaultSiteLangTagByJoomla();
+			$langs = (array)strtolower(strtr($langs,'-','_'));
 		}
 		return $langs;
 	}
@@ -572,7 +559,7 @@ class VirtueMartModelConfig extends VmModel {
 
 		if(!class_exists('GenericTableUpdater')) require(VMPATH_ADMIN .'/helpers/tableupdater.php');
 		$updater = new GenericTableUpdater();
-		$langs = self::getContentLanguages();
+		$langs = self::getActiveVmLanguages();
 
 		$updater->createLanguageTables($langs);
 	}

@@ -176,7 +176,7 @@ class VirtueMartModelProduct extends VmModel {
 
 		$app = JFactory::getApplication ();
 		$option = 'com_virtuemart';
-		$view = 'product';
+		$view = vRequest::getCMd('view','product');
 
 		$valid_search_fields = VmConfig::get ('browse_search_fields',array());
 		if ($app->isSite () and !vRequest::getInt('manage',false)) {
@@ -194,21 +194,15 @@ class VirtueMartModelProduct extends VmModel {
 
 			$this->product_parent_id = vRequest::getInt ('product_parent_id', FALSE);
 			$this->virtuemart_manufacturer_id = vRequest::getInt ('virtuemart_manufacturer_id', FALSE);
+			//$this->virtuemart_category_id = vRequest::getInt ('virtuemart_category_id', FALSE);
+			$this->searchAllCats = $app->getUserStateFromRequest('com_virtuemart.customfields.searchAllCats','searchAllCats',false);
 
-			$keyword = $app->getUserStateFromRequest('com_virtuemart.keyword','keyword','');
+			$keyword = vRequest::getString('keyword','');//$app->getUserStateFromRequest('com_virtuemart.keyword','keyword','');
 			$keyword = urldecode($keyword);
 			$this->keyword = vRequest::filter($keyword,FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
 
-			if ($this->keyword === '') {
+			vRequest::setVar('keyword',urlencode($this->keyword));//$app->setUserState( 'com_virtuemart.' . $view . '.'.$this->virtuemart_category_id.'.'.$this->virtuemart_manufacturer_id.'.keyword',$this->keyword);
 
-				$keyword = $app->getUserStateFromRequest('com_virtuemart.' . $view . '.filter_product','filter_product','');
-				$keyword = urldecode($keyword);
-				$this->keyword = vRequest::filter($keyword,FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);//vRequest::uword ('filter_product', "", ' ,-,+,.,_,#,/');
-				$app->setUserState( 'com_virtuemart.' . $view . '.filter_product',$this->keyword);
-			} else {
-				$app->setUserState( 'com_virtuemart.keyword',$this->keyword);
-			}
-			$this->searchAllCats = $app->getUserStateFromRequest('com_virtuemart.customfields.searchAllCats','searchAllCats',false);
 		}
 		else {
 			$filter_order = strtolower ($app->getUserStateFromRequest ('com_virtuemart.' . $view . '.filter_order', 'filter_order', $this->_selectedOrdering, 'cmd'));
@@ -2631,7 +2625,7 @@ vmdebug('$limitStart',$limitStart);
 
 		$Itemid = '';
 
-		$fieldLink = vmURI::getCurrentUrlBy('request', false, true, array('orderby','dir','keyword'));
+		$fieldLink = vmURI::getCurrentUrlBy('request', false, true, array('orderby','dir'));
 
 		$orderDirLink = '';
 		$orderDirConf = VmConfig::get ('prd_brws_orderby_dir');

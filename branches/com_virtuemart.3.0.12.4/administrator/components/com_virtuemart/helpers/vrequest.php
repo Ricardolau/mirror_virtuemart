@@ -175,7 +175,7 @@ class vRequest {
 		}
 		$url = strip_tags($url);
 
-		$url = self::filter($url,FILTER_SANITIZE_URL,'');
+		//$url = self::filter($url,FILTER_SANITIZE_URL,'');
 		return self::filter($url,FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
 	}
 

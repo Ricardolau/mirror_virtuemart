@@ -114,7 +114,7 @@ class VmHtml{
 		} else {
 			$label = vmText::_($label);
 		}
-		if ($func[1]=="checkbox") {
+		if ($func[1]=="checkbox" OR $func[1]=="input") {
 			$label = "\n\t" . '<label for="' . $args[0] . '" id="' . $args[0] . '-lbl"  >'.$label."</label>";
 		}
 		$html = '

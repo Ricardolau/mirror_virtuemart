@@ -1293,7 +1293,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 
 		$i = 0;
 
-		while ($i < 20) {
+		while ($i < 40) {
 
 			$tbl_key = $this->_tbl_key;
 			$q = 'SELECT `' . $name . '` FROM `' . $tbl_name . '` WHERE `' . $name . '` =  "' . $this->$name . '" ';

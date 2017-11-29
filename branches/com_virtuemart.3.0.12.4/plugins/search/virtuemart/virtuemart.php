@@ -84,6 +84,8 @@ class plgSearchVirtuemart extends JPlugin
 				// The custom field ID must be either in the list specified or NULL.
 				$customfield_ids_condition = "AND cf.virtuemart_custom_id IN (" .
 				implode(',', $customfield_ids) . ")";
+			} else {
+				$search_customfields = false;
 			}
 
 		}

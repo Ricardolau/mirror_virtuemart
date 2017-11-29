@@ -324,9 +324,9 @@ class VirtuemartViewCategory extends VmView {
 			$link = vmURI::getCurrentUrlBy('get').'&format=feed&limitstart=';
 
 			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$document->addHeadLink(JRoute::_($link . '&type=rss', FALSE), 'alternate', 'rel', $attribs);
+			$document->addHeadLink(JRoute::_($link . '&type=rss', false), 'alternate', 'rel', $attribs);
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$document->addHeadLink(JRoute::_($link . '&type=atom', FALSE), 'alternate', 'rel', $attribs);
+			$document->addHeadLink(JRoute::_($link . '&type=atom', false), 'alternate', 'rel', $attribs);
 		}
 
 		$this->showBasePrice = (vmAccess::manager() or vmAccess::isSuperVendor());

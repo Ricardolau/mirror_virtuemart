@@ -198,8 +198,12 @@ class VirtuemartViewProduct extends VmViewAdmin {
 				}
 
 				$option = vRequest::getCmd('option');
-				$lists['filter_order'] = $app->getUserStateFromRequest($option.'filter_order_orders', 'filter_order', 'email', 'cmd');
-				$lists['filter_order_Dir'] = $app->getUserStateFromRequest($option.'filter_order_Dir', 'filter_order_Dir', 'ASC', 'word');
+				//$lists['filter_order'] = $app->getUserStateFromRequest($option.'filter_order_orders', 'filter_order', 'email', 'cmd');
+				//$lists['filter_order_Dir'] = $app->getUserStateFromRequest($option.'filter_order_Dir', 'filter_order_Dir', 'ASC', 'word');
+
+				$lists['filter_order'] = $app->getUserStateFromRequest('com_virtuemart.product.productShoppers.filter_order', 'filter_order', 'email', 'cmd');
+				$lists['filter_order_Dir'] = $app->getUserStateFromRequest('com_virtuemart.product.productShoppers.filter_order_Dir', 'filter_order_Dir', 'ASC', 'word');
+
 
 				$order_status = vRequest::getvar('order_status',array('S'));
 				$productShoppers = $model->getProductShoppersByStatus($product->virtuemart_product_id,$order_status,$lists['filter_order'],$lists['filter_order_Dir'] );
@@ -364,17 +368,6 @@ class VirtuemartViewProduct extends VmViewAdmin {
 			$this->SetViewTitle($title, $msg );
 
 			$this->addStandardDefaultViewLists($model,'created_on');
-
-			if($cI = vRequest::getInt('virtuemart_category_id',false)){
-
-				//$old_state = $app->getUserState('virtuemart_category_id');
-				$old_state = $app->getUserState('virtuemart_category_id');
-				if(empty($old_state) or $old_state!=$cI){
-					vRequest::setVar('com_virtuemart.product.filter_order','pc.ordering');
-					$model->filter_order = 'pc.ordering';
-					$old_state = $app->setUserState('virtuemart_category_id',$cI);
-				}
-			}
 
 			$superVendor = vmAccess::isSuperVendor();
 			if(empty($superVendor)){

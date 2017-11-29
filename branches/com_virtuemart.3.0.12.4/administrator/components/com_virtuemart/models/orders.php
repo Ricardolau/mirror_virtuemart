@@ -1950,11 +1950,11 @@ vmdebug('my prices',$data);
 
 		$vendorModel = VmModel::getModel('vendor');
 		//Lets set the language to the BE default of the main vendor
-		$vendorUserId = $vendorModel->getUserIdByVendorId(1);
-		$vu = JFactory::getUser($vendorUserId);
-		$vLang = $vu->getParam('admin_language',VmConfig::$jDefLangTag);
+		//$vendorUserId = $vendorModel->getUserIdByVendorId(1);
+		//$vu = JFactory::getUser($vendorUserId);
+		//$vLang = $vu->getParam('admin_language',VmConfig::$jDefLangTag);
 
-		shopFunctionsF::loadOrderLanguages($vLang);
+		shopFunctionsF::loadOrderLanguages(VmConfig::$jDefLangTag);
 		$order = $this->getOrder($virtuemart_order_id);
 
 

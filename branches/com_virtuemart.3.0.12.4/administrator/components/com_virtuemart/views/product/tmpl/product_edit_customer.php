@@ -90,13 +90,13 @@ $i = 0;
 				<table class="adminlist table ui-sortable" cellspacing="0" cellpadding="0">
 					<thead>
 					<tr>
-						<th class="title"><?php echo $this->sort ('ou.first_name', 'COM_VIRTUEMART_NAME');?></th>
-						<th class="title"><?php echo $this->sort ('ou.email', 'COM_VIRTUEMART_EMAIL');?></th>
+						<th class="title"><?php echo $this->sort ('ou.first_name', 'COM_VIRTUEMART_NAME','productShoppers');?></th>
+						<th class="title"><?php echo $this->sort ('ou.email', 'COM_VIRTUEMART_EMAIL','productShoppers');?></th>
 						<th class="title"><?php echo vmText::_ ('COM_VIRTUEMART_SHOPPER_FORM_PHONE');?></th>
 						<th class="title"><?php echo vmText::_ ('COM_VIRTUEMART_ORDER_PRINT_QUANTITY');?></th>
 						<th class="title"><?php echo vmText::_ ('COM_VIRTUEMART_ORDER_PRINT_ITEM_STATUS');?></th>
-						<th class="title"><?php echo $this->sort ('o.order_number', 'COM_VIRTUEMART_ORDER_NUMBER');?></th>
-						<th class="title"><?php echo $this->sort ('order_date', 'COM_VIRTUEMART_ORDER_CDATE');?></th>
+						<th class="title"><?php echo $this->sort ('o.order_number', 'COM_VIRTUEMART_ORDER_NUMBER', 'productShoppers');?></th>
+						<th class="title"><?php echo $this->sort ('order_date', 'COM_VIRTUEMART_ORDER_CDATE','productShoppers');?></th>
 					</tr>
 					</thead>
 					<tbody id="customers-list">

@@ -180,7 +180,8 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 	}
 
 	function getInvoicePDF($orderDetails, $viewName='invoice', $layout='invoice', $format='html', $force = false){
-// 		$force = true;
+
+		vmLanguage::loadJLang('com_virtuemart',1);
 
 		$path = VmConfig::get('forSale_path',0);
 		if(empty($path) ){
@@ -224,13 +225,7 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 			return $path;
 		}
 
-		if(VmConfig::get('invoiceInUserLang', false) and !empty($orderDetails['details']) and !empty($orderDetails['details']['BT']->order_language)) {
-			$orderLang = $orderDetails['details']['BT']->order_language;
-			shopFunctionsF::loadOrderLanguages($orderLang);
-			$orderDetails = $orderModel->getOrder($orderDetails['details']['BT']->virtuemart_order_id);
-		} else {
-			shopFunctionsF::loadOrderLanguages(VmConfig::$jDefLangTag);
-		}
+
 
 		$view = $this->getViewWithTemplate($viewName, $format);
 

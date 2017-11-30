@@ -43,9 +43,13 @@ class VirtuemartViewInvoice extends VmView {
 		$document = JFactory::getDocument();
 
 		$orderModel = VmModel::getModel('orders');
-		$orderDetails = $this->orderDetails;
+		$orderDetails = 0;
+		if(!empty($this->orderDetails)) $orderDetails = $this->orderDetails;
 
 		if($orderDetails==0){
+			if (!class_exists ('shopFunctionsF'))
+				require(VMPATH_SITE . DS . 'helpers' . DS . 'shopfunctionsf.php');
+			shopFunctionsF::loadOrderLanguages(VmConfig::$jDefLangTag);
 			$orderDetails = $orderModel ->getMyOrderDetails(0,false,false,true);
 			if(!$orderDetails ){
 				//echo vmText::_('COM_VIRTUEMART_CART_ORDER_NOTFOUND');
@@ -63,10 +67,13 @@ class VirtuemartViewInvoice extends VmView {
 		}
 
 		$this->assignRef('orderDetails', $orderDetails);
-		if(!empty($orderDetails['details']['BT']->order_language)){
-			shopFunctionsF::loadOrderLanguages($orderDetails['details']['BT']->order_language);
-		}
 
+		if(VmConfig::get('invoiceInUserLang', false) and !empty($orderDetails['details']['BT']->order_language)){
+			if($orderDetails['details']['BT']->order_language!=VmConfig::$vmlangTag){
+				shopFunctionsF::loadOrderLanguages($orderDetails['details']['BT']->order_language);
+				$orderDetails = $orderModel->getOrder($orderDetails['details']['BT']->virtuemart_order_id);
+			}
+		}
 
 
 		/* It would be so nice to be able to load the override of the FE additionally from here

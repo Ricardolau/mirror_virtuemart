@@ -47,7 +47,8 @@ class plgSystemVmLoaderPluginUpdate extends JPlugin {
 	function onAfterRoute() {
 
 		$app = JFactory::getApplication();
-		if($app->isClient('administrator')) return;
+		//if($app->isClient('administrator')) return;
+		if($app->isAdmin()) return;
 
 		$r = $this->params->get('comuserredirect', true);
 		if($r){

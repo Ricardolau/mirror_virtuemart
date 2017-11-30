@@ -89,7 +89,7 @@ class VirtuemartViewCoupon extends VmViewAdmin {
 				} else {
 					$_expDate = new DateTime();
 					$_expDate->add(new DateInterval('P'.$_expTime[0].$_expTime[1]));
-					$coupon->coupon_expiry_date = $_expDate->format("U");
+					$coupon->coupon_expiry_date = $_expDate->format("Y-m-d H:i:s");
 				}
 			}
 

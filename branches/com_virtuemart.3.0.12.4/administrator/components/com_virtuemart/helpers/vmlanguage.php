@@ -60,7 +60,7 @@ class vmLanguage {
 		if(empty($l)) {
 			if (class_exists('JComponentHelper') && (method_exists('JComponentHelper', 'getParams'))) {
 				$params = JComponentHelper::getParams('com_languages');
-				$l = $params->get('language', 'en-GB');
+				$l = $params->get('site', 'en-GB');
 			} else {
 				$l = 'en-GB';//use default joomla
 				vmError('JComponentHelper not found');

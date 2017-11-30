@@ -94,7 +94,7 @@ class VirtueMartModelConfig extends VmModel {
 	static function getLayouts($dirs,$type=0,$ignore=0, $emptyOption = true){
 
 		$result = array();
-		if($emptyOption){
+		if(!empty($emptyOption)){
 			$emptyOption = JHtml::_('select.option', '', vmText::_('COM_VIRTUEMART_ADMIN_CFG_NO_OVERRIDE'));
 			$result[] = $emptyOption;
 		}

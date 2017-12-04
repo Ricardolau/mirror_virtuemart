@@ -266,6 +266,12 @@ class VirtueMartModelOrders extends VmModel {
 				LEFT JOIN #__virtuemart_product_categories c
 				ON p.virtuemart_product_id = c.virtuemart_product_id
 			WHERE `virtuemart_order_id`="'.$virtuemart_order_id.'" group by `virtuemart_order_item_id`';
+
+		$orderBy = VmConfig::get('order_item_ordering','virtuemart_order_item_id');
+        if (!empty ( $orderBy)) {
+        	$orderingDir = VmConfig::get('order_item_ordering_dir','ASC');
+            $q .= ' ORDER BY `'.$orderBy.'` ' . $orderingDir;
+        }
 //group by `virtuemart_order_id`'; Why ever we added this, it makes trouble, only one order item is shown then.
 // without group by we get the product 3 times, when it is in 3 categories and similar, so we need a group by
 //lets try group by `virtuemart_order_item_id`
@@ -1949,10 +1955,7 @@ vmdebug('my prices',$data);
 		//always be in the database, so using getOrder is the right method
 
 		$vendorModel = VmModel::getModel('vendor');
-		//Lets set the language to the BE default of the main vendor
-		//$vendorUserId = $vendorModel->getUserIdByVendorId(1);
-		//$vu = JFactory::getUser($vendorUserId);
-		//$vLang = $vu->getParam('admin_language',VmConfig::$jDefLangTag);
+		//Lets set the language to the Shop default
 
 		shopFunctionsF::loadOrderLanguages(VmConfig::$jDefLangTag);
 		$order = $this->getOrder($virtuemart_order_id);

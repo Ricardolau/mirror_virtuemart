@@ -9,7 +9,7 @@
  * @version $Id: authorize.php 5122 2011-12-18 22:24:49Z alatak $
  * @package VirtueMart
  * @subpackage search
- * @copyright Copyright (C) 2004-2008 soeren - All rights reserved. 2012 The VirtueMart Team
+ * @copyright Copyright (C) 2004-2008 soeren - All rights reserved. 2012 - 2017 The VirtueMart Team
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -125,6 +125,7 @@ class plgSearchVirtuemart extends JPlugin
 					$word      = $db->quote('%' . $db->escape($word, true) . '%', false);
 					$wheres2   = array();
 					$wheres2[] = 'LOWER(pd.product_name) LIKE LOWER(' . $word . ')';
+					$wheres2[] 	= 'LOWER(p.product_sku) LIKE '.$word;
 					if ($search_product_s_description)
 						$wheres2[] = 'LOWER(pd.product_s_desc) LIKE LOWER(' . $word . ')';
 					if ($search_product_description)

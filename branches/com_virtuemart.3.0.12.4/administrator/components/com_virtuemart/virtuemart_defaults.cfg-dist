@@ -39,6 +39,8 @@
 #invoiceNameInShopLang=1
 #transliterateslugs
 
+#order_item_ordering=order_item_sku
+#order_item_ordering_dir
 #layout_order_detail=detail
 #layout_order_list=list
 #discontinuedPrdsBrowseable=1		//Keep discontinued products browseable

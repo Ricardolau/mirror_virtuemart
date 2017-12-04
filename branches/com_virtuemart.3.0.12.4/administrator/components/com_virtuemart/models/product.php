@@ -2242,6 +2242,9 @@ vmdebug('$limitStart',$limitStart);
 						$child['product_parent_id'] = 0;
 					}
 
+					if(empty($child['slug'])){
+						$child['slug'] = $data['slug'];
+					}
 					$child['isChild'] = $this->_id;
 					$this->store ($child);
 				}

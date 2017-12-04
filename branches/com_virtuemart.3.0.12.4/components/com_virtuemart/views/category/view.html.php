@@ -147,7 +147,9 @@ class VirtuemartViewCategory extends VmView {
 
 		if(empty($this->keyword)) $this->keyword = false;
 
-		if((isset($menu->query['virtuemart_category_id']) and $menu->query['virtuemart_category_id']!=$this->categoryId) or !empty($this->keyword ) ) {
+		if(		(isset($menu->query['virtuemart_category_id']) and $menu->query['virtuemart_category_id']!=$this->categoryId) or
+				(isset($menu->query['virtuemart_manufacturer_id']) and $menu->query['virtuemart_manufacturer_id']!=$this->virtuemart_manufacturer_id) or
+				!empty($this->keyword ) ) {
 			$prefix = 'stf_';
 		}
 

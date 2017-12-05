@@ -477,6 +477,7 @@ function virtuemartParseRoute($segments) {
 		if(!empty($segments[1])){
 			array_shift($segments);
 			$vars['virtuemart_manufacturer_id'] =  $helper->getManufacturerId($segments[0]);
+
 		}
 
 		array_shift($segments);
@@ -484,7 +485,7 @@ function virtuemartParseRoute($segments) {
 		if (empty($segments)) {
 			$vars['view'] = 'category';
 			$vars['virtuemart_category_id'] = $helper->activeMenu->virtuemart_category_id ;
-			$vars['limit'] = vmrouterHelper::getLimitByCategory($vars['virtuemart_category_id'],$vars['view']);
+			if(empty($vars['limit'])) $vars['limit'] = vmrouterHelper::getLimitByCategory($vars['virtuemart_manufacturer_id'],'manufacturer');
 			return $vars;
 		}
 
@@ -899,24 +900,27 @@ class vmrouterHelper {
 		return self::$_instance;
 	}
 
-	public static function getLimitByCategory($catId, $view = 'virtuemart'){
+	public static function getLimitByCategory($catId, $view = 'category'){
 
 		static $c = array();
 
 		if(empty($c[$catId][$view])){
-			$catModel = VmModel::getModel('category');
-			$cat = $catModel->getCategory($catId);
-			//vmdebug('getLimitByCategory '.$cat->limit_list_initial);
-			if(!empty($cat->limit_list_initial)){
-				$initial = $cat->limit_list_initial;
-				vmdebug('limit by category '.$view.' '.$catId.' '.$cat->limit_list_initial);
-			} else {
-				$initial = VmConfig::get('llimit_init_FE', 24);
+
+			$initial = VmConfig::get('llimit_init_FE', 24);
+			if($view!='manufacturer'){	//Take care, this could be the categor view, just displaying manufacturer products
+				$catModel = VmModel::getModel('category');
+				$cat = $catModel->getCategory($catId);
+				if(!empty($cat->limit_list_initial)){
+					$initial = $cat->limit_list_initial;
+					vmdebug('limit by category '.$view.' '.$catId.' '.$cat->limit_list_initial);
+				}
 			}
+
 			$app = JFactory::getApplication();
-			$c[$catId][$view] = $app->getUserStateFromRequest('com_virtuemart.'.$view.'.limit', 'limit',$initial, 'int');
+			$c[$catId][$view] = $app->getUserStateFromRequest('com_virtuemart.category.limit', 'limit',$initial, 'int');
 		}
 		self::$limit = $c[$catId][$view];
+
 		return self::$limit;
 	}
 
@@ -1025,7 +1029,7 @@ class vmrouterHelper {
 	 */
 	public function getCategoryId($slug,$catId ){
 
-		$catIds = $this->getFieldOfObjectWithLangFallBack('#__virtuemart_categories_','virtuemart_category_id','slug',$slug);
+		$catIds = $this->getFieldOfObjectWithLangFallBack('#__virtuemart_categories_','virtuemart_category_id','virtuemart_category_id','slug',$slug);
 		if (!$catIds) {
 			$catIds = $catId;
 		}
@@ -1142,7 +1146,7 @@ class vmrouterHelper {
 		$hash = md5($productName.VmConfig::$vmlang);
 
 		if(!isset($prodIds[$hash])){
-			$prodIds[$hash]['virtuemart_product_id'] = $this->getFieldOfObjectWithLangFallBack('#__virtuemart_products_', 'virtuemart_product_id', 'slug', $productName);
+			$prodIds[$hash]['virtuemart_product_id'] = $this->getFieldOfObjectWithLangFallBack('#__virtuemart_products_', 'virtuemart_product_id', 'virtuemart_product_id', 'slug', $productName);
 			if(empty($categoryName) and empty($catId)){
 				$prodIds[$hash]['virtuemart_category_id'] = false;
 			} else {
@@ -1156,26 +1160,26 @@ class vmrouterHelper {
 	/* Get URL safe Manufacturer name */
 	public function getManufacturerName($manId ){
 
-		return $this->getFieldOfObjectWithLangFallBack('#__virtuemart_manufacturers_','slug','virtuemart_manufacturer_id',(int)$manId);
+		return $this->getFieldOfObjectWithLangFallBack('#__virtuemart_manufacturers_','virtuemart_manufacturer_id','slug','virtuemart_manufacturer_id',(int)$manId);
 	}
 
 	/* Get Manufacturer id */
 	public function getManufacturerId($slug ){
 
-		return $this->getFieldOfObjectWithLangFallBack('#__virtuemart_manufacturers_','virtuemart_manufacturer_id','slug',$slug);
+		return $this->getFieldOfObjectWithLangFallBack('#__virtuemart_manufacturers_','virtuemart_manufacturer_id','virtuemart_manufacturer_id','slug',$slug);
 	}
 	/* Get URL safe Manufacturer name */
 	public function getVendorName($virtuemart_vendor_id ){
 
-		return $this->getFieldOfObjectWithLangFallBack('#__virtuemart_vendors_','slug','virtuemart_vendor_id',(int)$virtuemart_vendor_id);
+		return $this->getFieldOfObjectWithLangFallBack('#__virtuemart_vendors_','virtuemart_vendor_id','slug','virtuemart_vendor_id',(int)$virtuemart_vendor_id);
 	}
 	/* Get Manufacturer id */
 	public function getVendorId($slug ){
 
-		return $this->getFieldOfObjectWithLangFallBack('#__virtuemart_vendors_','virtuemart_vendor_id','slug',$slug);
+		return $this->getFieldOfObjectWithLangFallBack('#__virtuemart_vendors_','virtuemart_vendor_id','virtuemart_vendor_id','slug',$slug);
 	}
 
-	public function getFieldOfObjectWithLangFallBack($table, $idname, $wherename, $value){
+	public function getFieldOfObjectWithLangFallBack($table, $idname, $name, $wherename, $value){
 
 		static $ids = array();
 		$value = trim($value);
@@ -1185,7 +1189,7 @@ class vmrouterHelper {
 			return $ids[$hash];
 		}
 
-		$select = implode(', ',VmModel::joinLangSelectFields(array($idname), true));
+		$select = implode(', ',VmModel::joinLangSelectFields(array($name), true));
 		$joins = implode(' ',VmModel::joinLangTables(substr($table,0,-1),'i',$idname,'FROM'));
 		$wherenames = implode(', ',VmModel::joinLangSelectFields(array($wherename), false));
 		$q = 'SELECT '.$select.' '.$joins.' WHERE '.$wherenames.' = "'.$this->_db->escape($value).'"';

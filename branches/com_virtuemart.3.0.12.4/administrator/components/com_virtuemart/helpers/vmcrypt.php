@@ -26,7 +26,7 @@ class vmCrypt {
 
 		$key = self::_getKey ();
 
-		if(function_exists('mcrypt_encrypt')){
+		if(!empty($key) and function_exists('mcrypt_encrypt')){
 			// create a random IV to use with CBC encoding
 			$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC);
 			$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);

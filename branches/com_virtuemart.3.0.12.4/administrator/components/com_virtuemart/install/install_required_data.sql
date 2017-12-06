@@ -444,7 +444,7 @@ INSERT IGNORE INTO `#__virtuemart_currencies` (`virtuemart_currency_id`, `virtue
 	(184, 1, 'Central African CFA franc', '', 'XAF', 950, 0.00000, 'Fr', '0', '', '', '{number} {symbol}', '{sign}{number} {symbol}'),
 	(185, 1, 'East Caribbean dollar', '', 'XCD', 951, 0.00000, '$', '2', ',', '', '{number} {symbol}', '{sign}{number} {symbol}'),
 	(186, 1, 'West African CFA franc', '', 'XOF', 952, 0.00000, 'Fr', '2', ',', '', '{number} {symbol}', '{sign}{number} {symbol}'),
-	(187, 1, 'CFP franc', '', 'XPF', 953, 0.00000, 'Fr', '2', ',', '', '{number} {symbol}', '{sign}{number} {symbol}'),
+	(187, 1, 'CFP franc', '', 'XPF', 953, 0.00000, 'F', '0', ',', '', '{number} {symbol}', '{sign}{number} {symbol}'),
 	(188, 1, 'Surinamese dollar', '', 'SRD', 968, 0.00000, '$', '2', ',', '', '{number} {symbol}', '{sign}{number} {symbol}'),
 	(189, 1, 'Malagasy ariary', '', 'MGA', 969, 0.00000, 'MGA', '2', ',', '', '{number} {symbol}', '{sign}{number} {symbol}'),
 	(190, 1, 'Unidad de Valor Real', '', 'COU', 970, 0.00000, 'COU', '2', ',', '', '{number} {symbol}', '{sign}{number} {symbol}'),

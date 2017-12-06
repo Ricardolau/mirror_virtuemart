@@ -1,6 +1,6 @@
 <?php
 
-defined('_JEXEC') or die('Direct Access to ' . basename(__FILE__) . 'is not allowed.');
+defined('_JEXEC') or die('Direct Access is not allowed.');
 
 /**
  *
@@ -397,8 +397,9 @@ class plgVmpaymentPaybox extends vmPSPlugin {
 	 *
 	 * @author: Valerie Isaksen
 	 *
-	 * @param $cart_prices: cart prices
-	 * @param $payment
+	 * @param $cart
+	 * @param $method
+	 * @param $cart_prices
 	 * @return true: if the conditions are fulfilled, false otherwise
 	 *
 	 */
@@ -605,7 +606,7 @@ class plgVmpaymentPaybox extends vmPSPlugin {
 	 * This method is fired when showing when priting an Order
 	 * It displays the the payment method-specific data.
 	 *
-	 * @param integer $_virtuemart_order_id The order ID
+	 * @param string $order_number
 	 * @param integer $method_id  method used for this order
 	 * @return mixed Null when for payment methods that were not selected, text (HTML) otherwise
 	 * @author Valerie Isaksen

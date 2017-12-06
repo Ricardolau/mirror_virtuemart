@@ -123,7 +123,7 @@ class  PayboxHelperPaybox {
 		$subscribe = array();
 		$recurring = array();
 		$post_variables["PBX_CMD"] = $order['details']['BT']->order_number;
-		if ($this->_method->integration == "recurring" AND ($orderTotalVendorCurrency > $this->_method->recurring_min_amount)) {
+		if ($orderTotalVendorCurrency > $this->_method->min_amount) {
 			$recurring = $this->getRecurringPayments($pbxOrderTotalInPaymentCurrency);
 			// PBX_TOTAL will be replaced in the array_merge.
 			$post_variables = array_merge($post_variables, $recurring);
@@ -835,7 +835,16 @@ jQuery().ready(function($) {
 		if ($this->_method->shop_mode == 'test') {
 			$url = 'https://preprod-tpeweb.paybox.com/php/';
 		} else {
-			$url = 'https://' . $this->getPayboxServerAvailable() . '/php/';
+			if (isset($this->_method->check_server_available)) {
+				if ($this->_method->check_server_available) {
+					$url = 'https://' . $this->getPayboxServerAvailable() . '/php/';
+				} else {
+					$url = 'https://tpeweb.paybox.com/php/';
+				}
+			} else {
+				$url = 'https://' . $this->getPayboxServerAvailable() . '/php/';
+			}
+
 		}
 		return $url;
 
@@ -910,8 +919,8 @@ jQuery().ready(function($) {
 		$amount = $cart_prices['salesPrice'];
 		$amount_cond = true;
 
-		if ($method->integration == 'recurring' AND $amount <= $method->recurring_min_amount) {
-			$this->plugin->debugLog('recurring_min_amount FALSE' . $amount . ' ' . $method->recurring_min_amount, 'checkConditions', 'debug');
+		if ( $amount <= $method->min_amount) {
+			$this->plugin->debugLog('min_amount FALSE' . $amount . ' ' . $method->min_amount, 'checkConditions', 'debug');
 			return false;
 		}
 

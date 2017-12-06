@@ -123,7 +123,7 @@ class  PayboxHelperPaybox {
 		$subscribe = array();
 		$recurring = array();
 		$post_variables["PBX_CMD"] = $order['details']['BT']->order_number;
-		if ($orderTotalVendorCurrency > $this->_method->min_amount) {
+		if ($this->_method->integration == "recurring" ) {
 			$recurring = $this->getRecurringPayments($pbxOrderTotalInPaymentCurrency);
 			// PBX_TOTAL will be replaced in the array_merge.
 			$post_variables = array_merge($post_variables, $recurring);
@@ -917,9 +917,10 @@ jQuery().ready(function($) {
 		$address = $cart->getST();
 
 		$amount = $cart_prices['salesPrice'];
-		$amount_cond = true;
-
-		if ( $amount <= $method->min_amount) {
+		$amount_cond = ($amount >= $method->min_amount AND $amount <= $method->max_amount
+			OR
+			($method->min_amount <= $amount AND ($method->max_amount == 0)));
+		if ( !$amount_cond) {
 			$this->plugin->debugLog('min_amount FALSE' . $amount . ' ' . $method->min_amount, 'checkConditions', 'debug');
 			return false;
 		}

@@ -96,8 +96,8 @@ class vmCrypt {
 				while(false !== ( $file = readdir($dir)) ) {
 					if (( $file != '.' ) && ( $file != '..' )) {
 						if ( !is_dir($keyPath .DS. $file)) {
-							$ext = Jfile::getExt($file);
-							if($ext=='ini' and file_exists($keyPath .DS. $file)){
+							$ext = JFile::getExt($file);
+							if($ext=='ini' and $file!='vmm.ini' and file_exists($keyPath .DS. $file)){
 								$content = parse_ini_file($keyPath .DS. $file);
 								if($content and is_array($content) and isset($content['unixtime'])){
 									$k = $content['unixtime'];
@@ -128,6 +128,12 @@ class vmCrypt {
 			$key = '';
 			$usedKey = '';
 			$uDate = 0;
+
+			if(empty($date)){
+				$date = new JDate('now');
+				$date = $date->toSQL();
+			}
+
 			if(!empty($date)){
 
 				foreach($existingKeys as $unixDate=>$values){
@@ -135,7 +141,7 @@ class vmCrypt {
 						vmdebug('$unixDate '.$unixDate.' >= $date '.$date);
 						continue;
 					}
-					vmdebug('$unixDate < $date '.$unixDate);
+					vmdebug('$unixDate < $date '.$date. ' '.$unixDate);
 					$usedKey = $values;
 					$uDate = $unixDate;
 				}

@@ -813,9 +813,9 @@ jQuery(document).ready(function($) {
 		$jsDateFormat = str_replace($search, $replace, $dateFormat);
 
 		if ($date) {
-			//$formatedDate = JHtml::_('date', $date, $dateFormat, null );
-			$date1 = new DateTime($date);
-			$formatedDate = $date1->format($dateFormat);
+			$formatedDate = JHtml::_('date', $date, $dateFormat, false );
+			/*$date1 = new DateTime($date);
+			$formatedDate = $date1->format($dateFormat);*/
 		}
 		else {
 			$formatedDate = vmText::_('COM_VIRTUEMART_NEVER');
@@ -870,23 +870,23 @@ jQuery(document).ready(function($) {
 
 	/*
 	 * Convert formated date;
-	 * @ $date the date to convert
-	 * @ $format Joomla DATE_FORMAT Key endding eg. 'LC2' for DATE_FORMAT_LC2
-	 * @ revert date format for database- TODO ?
+	 * @$date the date to convert
+	 * @$format Joomla DATE_FORMAT Key endding eg. 'LC2' for DATE_FORMAT_LC2
+	 * @tz Timezone offset, defaults to false, which is the general joomla timezone
 	 */
 
-	static function date($date , $format ='LC2', $joomla=FALSE ,$revert=FALSE ){
+	static function date($date , $format ='LC2', $joomla=FALSE , $tz=false ){
 
 		if (!strcmp ($date, '0000-00-00 00:00:00')) {
 			return vmText::_ ('COM_VIRTUEMART_NEVER');
 		}
 		If ($joomla) {
-			$formatedDate = JHtml::_('date', $date, vmText::_('DATE_FORMAT_'.$format),null);
+			$formatedDate = JHtml::_('date', $date, vmText::_('DATE_FORMAT_'.$format),$tz);
 		} else {
 
 			$J16 = "_J16";
 
-			$formatedDate = JHtml::_('date', $date, vmText::_('COM_VIRTUEMART_DATE_FORMAT_'.$format.$J16),null);
+			$formatedDate = JHtml::_('date', $date, vmText::_('COM_VIRTUEMART_DATE_FORMAT_'.$format.$J16),$tz);
 		}
 		return $formatedDate;
 	}

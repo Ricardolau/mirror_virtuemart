@@ -121,7 +121,7 @@ echo '<fieldset><legend>'.vmText::_('COM_VM_FOLDERS_SAFEPATH_COM').' '.vmText::_
 echo '<div style="font-size:16px">Token: '.$token.'</div>';
 echo $this->renderTaskButton('setsafepathcom','COM_VM_INSTALL_SAFEPATH_COM','&safepathToken='.$token.$extra);
 echo '<div class="clear"></div>';
-$foldersToTest = array('safe_path'=>$safePath,'invoice_path' => $invoice, 'keys_path' => $encryptSafePath);
+$foldersToTest = array('com_virtuemart' => VMPATH_ADMIN,'safe_path'=>$safePath,'invoice_path' => $invoice, 'keys_path' => $encryptSafePath);
 echo $this->writePathLines($foldersToTest);
 echo '</fieldset>';
 ?>

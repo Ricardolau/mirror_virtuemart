@@ -269,6 +269,7 @@ class VirtuemartViewCategory extends VmView {
 				if(!$this->keyword) VirtueMartModelProduct::$omitLoaded = VmConfig::get('omitLoaded');
 				// Load the products in the given category
 				$ids = $productModel->sortSearchListQuery (TRUE, $this->categoryId);
+				VirtueMartModelProduct::$_alreadyLoadedIds = array_merge(VirtueMartModelProduct::$_alreadyLoadedIds,$ids);
 				$this->vmPagination = $productModel->getPagination($this->perRow);
 				$this->orderByList = $productModel->getOrderByList($this->categoryId);
 				$this->products['products'] = $productModel->getProducts ($ids);

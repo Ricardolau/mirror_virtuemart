@@ -89,18 +89,7 @@ class VirtueMartModelCategory extends VmModel {
 					$this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->virtuemart_media_id = false;
 				}
 
-				if($fe){
-					if(empty($this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->category_template)){
-						$this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->category_template = VmConfig::get('categorytemplate');
-					}
 
-					if(empty($this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->category_layout)){
-						$this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->category_layout = VmConfig::get('categorylayout');
-					}
-				} else {
-					/* Get the product count */
-					//$this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->productcount = $this->countProducts($this->_id);
-				}
 				$this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->categorytemplate = $this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->category_template;
 				$this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->categorylayout = $this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->category_layout;
 				$this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->productlayout = $this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->category_product_layout;

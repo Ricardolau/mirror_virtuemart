@@ -76,7 +76,7 @@ class vRequest {
 		// Replace double byte whitespaces by single byte (East Asian languages)
 		$str = preg_replace('/\xE3\x80\x80/', ' ', $str);
 
-		$unicodeslugs = VmConfig::get('transliterateSlugs',false);
+		$unicodeslugs = VmConfig::get('transliteratePaths',false);
 		if($unicodeslugs){
 			$lang = JFactory::getLanguage();
 			$str = $lang->transliterate($str);

@@ -118,6 +118,7 @@ $i = 0;
 						<th class="title"><?php echo vmText::_ ('COM_VIRTUEMART_NAME');?></th>
 						<th class="title"><?php echo vmText::_ ('COM_VIRTUEMART_USERNAME');?></th>
 						<th class="title"><?php echo vmText::_ ('COM_VIRTUEMART_EMAIL');?></th>
+                        <th class="title"><?php echo vmText::_ ('COM_VIRTUEMART_CREATED_ON');?></th>
 					</tr>
 					</thead>
 					<tbody id="customers-notify-list">
@@ -127,10 +128,10 @@ $i = 0;
 							foreach ($this->waitinglist as $key => $wait) {
 								if ($wait->virtuemart_user_id == 0) {
 									$row = '<tr class="row'.$i.'"><td></td><td></td><td><a href="mailto:' . $wait->notify_email . '">' .
-									$wait->notify_email . '</a></td></tr>';
+									$wait->notify_email . '</a></td><td>' .  vmJsApi::date($wait->created_on, 'LC2', TRUE) . '</td></tr>';
 								}
 								else {
-									$row = '<tr class="row'.$i.'"><td>' . $wait->name . '</td><td>' . $wait->username . '</td><td>' . '<a href="mailto:' . $wait->notify_email . '">' . $wait->notify_email . '</a>' . '</td></tr>';
+									$row = '<tr class="row'.$i.'"><td>' . $wait->name . '</td><td>' . $wait->username . '</td><td>' . '<a href="mailto:' . $wait->notify_email . '">' . $wait->notify_email . '</a>' . '</td> <td>' . vmJsApi::date($wait->created_on, 'LC2', TRUE) . '</td></tr>';
 								}
 								echo $row;
 								$i = 1 - $i;

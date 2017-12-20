@@ -587,7 +587,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 
 			} else {
 				$c[$product_parent_id] = '';
-				vmdebug('my link displayLinkToParent '.$product_parent_id,$parent);
+				//vmdebug('my link displayLinkToParent '.$product_parent_id,$parent);
 			}
 
 		}

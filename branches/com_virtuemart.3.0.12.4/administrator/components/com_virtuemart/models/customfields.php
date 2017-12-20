@@ -101,7 +101,7 @@ class VirtueMartModelCustomfields extends VmModel {
 		if($hashCwAttribute==-1) $hashCwAttribute = 2;
 		$productCustomsCached = array();
 		foreach($productIds as $k=>$productId){
-			$hkey = (int)$productId.$hashCwAttribute;
+			$hkey = (int)$productId.'_'.$hashCwAttribute;
 			if (array_key_exists ($hkey, $_customFieldByProductId)) {
 
 				//Must be cloned!

@@ -908,9 +908,16 @@ class VirtueMartModelUser extends VmModel {
 			vmdebug('getBTuserinfo_id is '.$this->_id);
 		}
 
-		$q = 'SELECT `virtuemart_userinfo_id` FROM `#__virtuemart_userinfos` WHERE `virtuemart_user_id` = "' .(int)$id .'" AND `address_type`="BT" ';
-		$db->setQuery($q);
-		return $db->loadResult();
+		static $c = array();
+
+		if(isset($c[$id])){
+			return $c[$id];
+		} else {
+			$q = 'SELECT `virtuemart_userinfo_id` FROM `#__virtuemart_userinfos` WHERE `virtuemart_user_id` = "' .(int)$id .'" AND `address_type`="BT" ';
+			$db->setQuery($q);
+			$c[$id] = $db->loadResult();
+			return $c[$id];
+		}
 	}
 
 	/**

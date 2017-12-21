@@ -115,8 +115,8 @@ class VirtueMartControllerCart extends JControllerLegacy {
 
 		$request = vRequest::getRequest();
 		$task = vRequest::getCmd('task');
-		if(($task == 'confirm' or isset($request['confirm'])) and !$cart->getInCheckOut()){
 
+		if(($task == 'confirm' or isset($request['confirm'])) and !$cart->getInCheckOut()){
 			$cart->confirmDone();
 			$view = $this->getView('cart', 'html');
 			$view->setLayout('orderdone');
@@ -151,11 +151,27 @@ class VirtueMartControllerCart extends JControllerLegacy {
 
 		$cart->saveCartFieldsInCart();
 
+		/*For storing cartfields
+		$currentUser = JFactory::getUser();
+		$userModel = VmModel::getModel('user');
+
+		if($currentUser->guest!=1 and !empty($currentUser->id)){
+
+			$btId = $userModel->getBTuserinfo_id($currentUser->id);
+			if($btId){
+				$cart->BT['virtuemart_userinfo_id'] = $btId;
+
+				$dataT = $userModel->getTable('userinfos');
+				$dataT->bindChecknStore($cart->BT,true);
+			}
+		}
+		*/
+
 		if($cart->updateProductCart()){
 			vmInfo('COM_VIRTUEMART_PRODUCT_UPDATED_SUCCESSFULLY');
 		}
 
-		//Maybe better in line 133
+
 		$STsameAsBT = vRequest::getInt('STsameAsBT', null);
 		if(isset($STsameAsBT)){
 			$cart->STsameAsBT = $STsameAsBT;

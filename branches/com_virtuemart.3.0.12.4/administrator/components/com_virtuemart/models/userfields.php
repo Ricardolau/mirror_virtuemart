@@ -498,7 +498,7 @@ class VirtueMartModelUserfields extends VmModel {
 		//Here we get the fields
 		if ($type == 'BT') {
 			$userFields = $this->getUserFields(
-					 'account'
+				'account'
 			,	array() // Default toggles
 			,	$skips// Skips
 			);
@@ -563,14 +563,23 @@ class VirtueMartModelUserfields extends VmModel {
 	 */
 	public function getUserFields ($_sec = 'registration', $_switches=array(), $_skip = array('username', 'password', 'password2'))
 	{
-	    // stAn, we can't really create cache per sql as we want to create named array as well
-		$cache_hash = md5($_sec.json_encode($_switches).json_encode($_skip).$this->_selectedOrdering.$this->_selectedOrderingDir);
+
+		if(is_array($_sec)){
+			$sec = implode ( $_sec);
+		} else {
+			$sec = $_sec;
+		}
+		$cache_hash = md5($sec.json_encode($_switches).json_encode($_skip).$this->_selectedOrdering.$this->_selectedOrderingDir);
 		if (isset(self::$_cache_ordered[$cache_hash])) return self::$_cache_ordered[$cache_hash];
 
 		$_q = 'SELECT * FROM `#__virtuemart_userfields` WHERE 1 = 1 ';
 
 		if( !empty($_sec)) {
-			$_q .= 'AND `'.$_sec.'`=1 ';
+			if(is_array($_sec)){
+				$_q .= 'AND ( ' . implode ('="1" OR ', $_sec) . '="1" ) ';
+			} else {
+				$_q .= 'AND `'.$_sec.'`="1" ';
+			}
 		}
 
 		if(array_key_exists('published',$_switches)){
@@ -638,11 +647,11 @@ class VirtueMartModelUserfields extends VmModel {
 		}
 		// stAn: slow to run the first time:
 		self::$_cache_ordered[$cache_hash] = $_fields;
-		if (!isset(self::$_cache_named[$_sec]))
-		self::$_cache_named[$_sec] = array();
+		if (!isset(self::$_cache_named[$sec]))
+		self::$_cache_named[$sec] = array();
 		foreach ($_fields as &$f)
 		 {
-		    self::$_cache_named[$_sec][$f->name] = $f;
+		    self::$_cache_named[$sec][$f->name] = $f;
 		 }
 
 		return $_fields;
@@ -988,7 +997,7 @@ class VirtueMartModelUserfields extends VmModel {
 						case 'textarea':
 							$_return['fields'][$_fld->name]['formcode'] = '<textarea id="'
 							. $_prefix.$_fld->name . '_field" name="' . $_prefix.$_fld->name . '" cols="' . $_fld->cols
-							. '" rows="'.$_fld->rows . '" class="inputbox" '
+							. '" rows="'.$_fld->rows . '" class="inputbox'.($_fld->required ? ' required': '' ).'" '
 							. ($_fld->maxlength ? ' maxlength="' . $_fld->maxlength . '"' : '')
 							. $readonly.'>'
 							. $_return['fields'][$_fld->name]['value'] .'</textarea>';
@@ -1004,7 +1013,8 @@ class VirtueMartModelUserfields extends VmModel {
 						case 'checkbox':
 							$_return['fields'][$_fld->name]['formcode'] = '<input type="checkbox" name="'
 							. $_prefix.$_fld->name . '" id="' . $_prefix.$_fld->name . '_field" value="1" '
-							. ($_return['fields'][$_fld->name]['value'] ? 'checked="checked"' : '') .'/>';
+							. ($_return['fields'][$_fld->name]['value'] ? 'checked="checked"' : '')
+							. ($_fld->required ? ' class="required"' : '').'/>';
 							 if($_return['fields'][$_fld->name]['value']) {
 								 $_return['fields'][$_fld->name]['value'] = vmText::_($_prefix.$_fld->title);
 							 }

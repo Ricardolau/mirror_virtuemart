@@ -1691,7 +1691,7 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 
 			$reasonCode = $authorizeResponse->getAuthorizeResult()->getAuthorizationDetails()->getAuthorizationStatus()->getReasonCode();
 			if($redirect) {
-				if($amazonState == 'Declined' && $reasonCode == 'InvalidPaymentMethod' && $this->_currentMethod->soft_decline == 'soft_decline_enabled') {
+				if($amazonState == 'Declined' && $reasonCode == 'InvalidPaymentMethod') {
 					$this->_session->incrementRetryInvalidPaymentMethodInSession();
 
 					return false;

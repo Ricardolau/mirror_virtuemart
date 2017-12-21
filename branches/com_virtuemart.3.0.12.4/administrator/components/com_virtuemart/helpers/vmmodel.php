@@ -861,7 +861,7 @@ class VmModel extends vObject{
 		if($err=$db->getErrorMsg()){
 			vmError('exeSortSearchListQuery '.$err);
 		}
-
+		if($this->debug === 1) vmdebug('exeSortSearchListQuery result ',$this->ids );
 		if($this->_withCount){
 
 			$db->setQuery('SELECT FOUND_ROWS()');

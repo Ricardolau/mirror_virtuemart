@@ -1689,7 +1689,6 @@ vmdebug('$limitStart',$limitStart);
 	 */
 	public function getProductListing ($group = FALSE, $nbrReturnProducts = FALSE, $withCalc = TRUE, $onlyPublished = TRUE, $single = FALSE, $filterCategory = TRUE, $category_id = 0, $filterManufacturer = TRUE, $manufacturer_id = 0) {
 
-		$products = array();
 		$ids = array();
 		$app = JFactory::getApplication ();
 		if ($app->isSite ()) {
@@ -1729,7 +1728,7 @@ vmdebug('$limitStart',$limitStart);
 			}
 		}
 
-		//quickndirty hack for the BE list, we can do that, because in vm2.1 this is anyway fixed correctly
+		//quickndirty hack for the BE list
 		$this->listing = TRUE;
 		$products = $this->getProducts ($ids, $front, $withCalc, $onlyPublished, $single);
 		$this->listing = FALSE;
@@ -2242,9 +2241,6 @@ vmdebug('$limitStart',$limitStart);
 						$child['product_parent_id'] = 0;
 					}
 
-					if(empty($child['slug'])){
-						$child['slug'] = $data['slug'];
-					}
 					$child['isChild'] = $this->_id;
 					$this->store ($child);
 				}

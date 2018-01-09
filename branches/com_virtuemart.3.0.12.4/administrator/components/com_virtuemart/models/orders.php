@@ -1955,8 +1955,9 @@ vmdebug('my prices',$data);
 		//always be in the database, so using getOrder is the right method
 
 		$vendorModel = VmModel::getModel('vendor');
-		//Lets set the language to the Shop default
 
+		//Lets set the language to the Shop default
+		$prevLang = VmConfig::$vmlangTag;
 		shopFunctionsF::loadOrderLanguages(VmConfig::$jDefLangTag);
 		$order = $this->getOrder($virtuemart_order_id);
 
@@ -2069,6 +2070,7 @@ vmdebug('my prices',$data);
 			$cart = VirtueMartCart::getCart();
 			$cart->customer_notified = true;
 		}
+		VmLanguage::setLanguageByTag($prevLang);
 		return true;
 	}
 

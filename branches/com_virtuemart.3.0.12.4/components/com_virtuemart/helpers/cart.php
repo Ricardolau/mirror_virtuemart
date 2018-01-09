@@ -1353,7 +1353,7 @@ class VirtueMartCart {
 		} else { // BT
 			if(empty($data['email'])){
 				$jUser = JFactory::getUser();
-				$address['email'] = $jUser->email;
+				if(!empty($jUser->email)) $data['email'] = $jUser->email;
 			}
 		}
 
@@ -1699,15 +1699,43 @@ class VirtueMartCart {
 			return false;
 		}
 
-		// Check to see if checking stock quantity
+		$checkForDisable = false;
 		if ($stockhandle!='none' && $stockhandle!='risetime') {
+			$checkForDisable = true;
+		}
 
+		// Check for the minimum and maximum quantities
+		$min = $product->min_order_level;
+		if ($min != 0 && $quantity < $min){
+			$quantity = $min;
+			$errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_MIN_ORDER', $min, $product->product_name);
+			vmInfo($errorMsg,$product->product_name);
+			if (!$checkForDisable) return false;
+		}
+
+		$max = $product->max_order_level;
+		if ($max != 0 && $quantity > $max) {
+			$quantity = $max;
+			$errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_MAX_ORDER', $max, $product->product_name);
+			vmInfo($errorMsg,$product->product_name);
+			if (!$checkForDisable) return false;
+		}
+
+		$step = $product->step_order_level;
+		if ($step != 0 && ($quantity%$step)!= 0) {
+			$quantity = $quantity + ($quantity%$step);
+			$errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_STEP_ORDER', $step);
+			vmInfo($errorMsg,$product->product_name);
+			if (!$checkForDisable) return false;
+		}
+
+		// Check to see if checking stock quantity
+		if ($checkForDisable) {
 			$productsleft = $product->product_in_stock - $product->product_ordered;
 
-			// TODO $productsleft = $product->product_in_stock - $product->product_ordered - $quantityincart ;
-			if ($quantity > $productsleft ){
+			if ($quantity >= $productsleft ){
 				vmdebug('my products left '.$productsleft.' and my quantity '.$quantity);
-				if($productsleft>0){
+				if($productsleft>=$min ){
 					$quantity = $productsleft;
 					$product->errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_PRODUCT_OUT_OF_QUANTITY',$product->product_name,$quantity);
 					vmError($product->errorMsg);
@@ -1722,30 +1750,6 @@ class VirtueMartCart {
 			}
 		}
 
-		// Check for the minimum and maximum quantities
-		$min = $product->min_order_level;
-		if ($min != 0 && $quantity < $min){
-			$quantity = $min;
-			$errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_MIN_ORDER', $min, $product->product_name);
-			vmInfo($errorMsg,$product->product_name);
-			return false;
-		}
-
-		$max = $product->max_order_level;
-		if ($max != 0 && $quantity > $max) {
-			$quantity = $max;
-			$errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_MAX_ORDER', $max, $product->product_name);
-			vmInfo($errorMsg,$product->product_name);
-			return false;
-		}
-
-		$step = $product->step_order_level;
-		if ($step != 0 && ($quantity%$step)!= 0) {
-			$quantity = $quantity + ($quantity%$step);
-			$errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_STEP_ORDER', $step);
-			vmInfo($errorMsg,$product->product_name);
-			return false;
-		}
 		return true;
 	}
 

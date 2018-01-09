@@ -38,7 +38,7 @@ Virtuemart.loadCategoryTree = function(id){
 
 	jQuery.ajax({
 		type: 'GET',
-		url: 'index.php',
+		url: Virtuemart.vmSiteurl+'administrator/index.php',
 		cache: 'true',
 		data: 'option=com_virtuemart&view=product&type=getCategoriesTree'+Virtuemart.param+'&format=json'+Virtuemart.vmLang,
 		success:function(json){

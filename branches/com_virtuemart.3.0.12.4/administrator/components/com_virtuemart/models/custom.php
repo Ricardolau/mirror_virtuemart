@@ -334,7 +334,7 @@ class VirtueMartModelCustom extends VmModel {
 				}
 			}
 
-			if(!$validEntry and !empty($data['custom_jplugin_id'])){
+			if(!$validEntry and empty($data['custom_element']) and !empty($data['custom_jplugin_id'])){
 				$q = 'SELECT `element` FROM `' . $tb . '` WHERE `' . $ext_id . '` = "'.$data['custom_jplugin_id'].'" AND `enabled`="1" AND `state`="0" ';
 				$db->setQuery($q);
 				$data['custom_element'] = $db->loadResult();

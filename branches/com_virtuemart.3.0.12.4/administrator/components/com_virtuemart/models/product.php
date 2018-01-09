@@ -2454,13 +2454,12 @@ vmdebug('$limitStart',$limitStart);
 	/* look if whe have a product type */
 	private function productCustomsfieldsClone ($virtuemart_product_id) {
 
-		$db = JFactory::getDBO ();
-		$q = "SELECT * FROM `#__virtuemart_product_customfields`";
-		$q .= " WHERE `virtuemart_product_id` = " . $virtuemart_product_id;
-		$db->setQuery ($q);
-		$customfields = $db->loadAssocList ();
+		$cM = VmModel::getModel('customfields');
+		$customfields = $cM->getCustomEmbeddedProductCustomFields(array($virtuemart_product_id));
+
 		if ($customfields) {
 			foreach ($customfields as &$customfield) {
+				$customfield = get_object_vars($customfield);
 				unset($customfield['virtuemart_product_id'], $customfield['virtuemart_customfield_id']);
 			}
 			return $customfields;

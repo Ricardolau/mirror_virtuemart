@@ -287,7 +287,7 @@ class VirtuemartControllerProduct extends VmController {
 	 * @author Max Milbers
 	 */
 	public function CloneProduct() {
-		$mainframe = Jfactory::getApplication();
+		$app = Jfactory::getApplication();
 
 		$model = VmModel::getModel('product');
 		$msgtype = '';
@@ -309,7 +309,7 @@ class VirtuemartControllerProduct extends VmController {
 			}
 		}
 
-		$mainframe->redirect('index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id='.$l, $msg, $msgtype);
+		$app->redirect('index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id='.$l, $msg, $msgtype);
 	}
 
 

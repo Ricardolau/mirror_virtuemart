@@ -1059,7 +1059,6 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 					if($this->_langTag != VmConfig::$defaultLang ){
 						$this->_ltmp = $this->_langTag;
 						$this->_langTag = VmConfig::$defaultLang;
-						$this->_tempHash = $this->_lhash;
 					} else {
 						$this->_langTag = VmConfig::$jDefLang;
 					}
@@ -1067,9 +1066,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 				} else {
 					$this->_ltmp = $this->_langTag;
 					$this->_langTag = VmConfig::$defaultLang;
-					$this->_tempHash = $this->_lhash;
 				}
-
 
 				//vmdebug('No result for '.$this->_ltmp.', lets check for Fallback lang '.$this->_langTag);
 				//vmSetStartTime('lfallback');
@@ -1085,7 +1082,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			//vmdebug('Set Ltmp '.$this->_ltmp.' back to false');
 			$this->_langTag = $this->_ltmp;
 
-			self::$_cache['l'][$this->_lhash] = self::$_cache['l'][$this->_tempHash] = $this->loadFieldValues(false);
+			self::$_cache['l'][$this->_lhash] = $this->loadFieldValues(false);
 		}
 		else {
 			self::$_cache['l'][$this->_lhash] = $this->loadFieldValues(false);

@@ -86,7 +86,7 @@ $i = 0;
 				</span><br/>
 				<?php echo $this->lists['OrderStatus'];?>
 				<br/> <br/>
-				<div style="font-weight:bold;"><?php echo vmText::sprintf ('COM_VIRTUEMART_PRODUCT_SHOPPERS_LIST', ($this->product->product_name)); ?></div>
+				<div style="font-weight:bold;"><?php echo vmText::sprintf ('COM_VIRTUEMART_PRODUCT_SHOPPERS_LIST', vRequest::vmSpecialChars($this->product->product_name)); ?></div>
 				<table class="adminlist table ui-sortable" cellspacing="0" cellpadding="0">
 					<thead>
 					<tr>

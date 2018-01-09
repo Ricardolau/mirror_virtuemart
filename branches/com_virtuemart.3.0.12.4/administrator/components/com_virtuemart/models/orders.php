@@ -1928,13 +1928,21 @@ vmdebug('my prices',$data);
 
 	/*
 	 * @author Valérie Isaksen
+	 * @author Max Milbers
 	 */
-	function getInvoiceNumber($virtuemart_order_id){
+	static function getInvoiceNumber($virtuemart_order_id, $last = true){
 
 		$db = JFactory::getDBO();
-		$q = 'SELECT `invoice_number` FROM `#__virtuemart_invoices` WHERE `virtuemart_order_id`= "'.$virtuemart_order_id.'" ';
-		$db->setQuery($q);
-		return $db->loadresult();
+		$q = 'SELECT `invoice_number` FROM `#__virtuemart_invoices` WHERE `virtuemart_order_id`= "'.$virtuemart_order_id.'" ORDER BY `created_on` DESC ';
+		if($last){
+			$q .= ' Limit 1';
+			$db->setQuery($q);
+			return $db->loadResult();
+		} else {
+			$db->setQuery($q);
+			return $db->loadColumn();
+		}
+
 	}
 
 

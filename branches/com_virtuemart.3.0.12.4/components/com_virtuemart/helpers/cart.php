@@ -78,6 +78,7 @@ class VirtueMartCart {
 	var $cartPrices = array();
 	var $layout ;
 	var $layoutPath='';
+	var $orderdoneHtml = '';
 	var $virtuemart_cart_id = 0;
 	var $customer_notified = false;
 	/* @deprecated */
@@ -165,6 +166,7 @@ class VirtueMartCart {
 					self::$_cart->layout						= $sessionCart->layout;
 					self::$_cart->layoutPath				    = $sessionCart->layoutPath;
 					self::$_cart->virtuemart_cart_id			= $sessionCart->virtuemart_cart_id;
+					self::$_cart->orderdoneHtml					= $sessionCart->orderdoneHtml;
 				}
 			}
 
@@ -420,6 +422,7 @@ class VirtueMartCart {
 		$sessionCart->layout						= $this->layout;
 		$sessionCart->layoutPath					= $this->layoutPath;
 		$sessionCart->virtuemart_cart_id			= $this->virtuemart_cart_id;
+		$sessionCart->orderdoneHtml					= $sessionCart->orderdoneHtml;
 		return $sessionCart;
 	}
 
@@ -904,14 +907,18 @@ class VirtueMartCart {
 
 		//Final check
 		$this->checkoutData(false);
+		$app = JFactory::getApplication();
 		if ($this->_dataValidated == $cHash) {
 			$this->_confirmDone = true;
 			$this->orderDetails = 0;
 			$this->confirmedOrder();
+
+			$msg = 0;
+			$app->redirect(JRoute::_('index.php?option=com_virtuemart&view=cart&layout=orderdone', FALSE), 0);
 		} else {
 			$this->_dataValidated = false;
 			$this->_confirmDone = false;
-			$app = JFactory::getApplication();
+
 			$app->redirect(JRoute::_('index.php?option=com_virtuemart&view=cart'.$this->getLayoutUrlString(), FALSE), vmText::_('COM_VIRTUEMART_CART_CHECKOUT_DATA_NOT_VALID'));
 		}
 	}
@@ -1219,6 +1226,19 @@ class VirtueMartCart {
 				}
 			}
 
+			$this->layout = 'orderdone';
+
+			if(empty($this->orderdoneHtml)){
+				$orderDoneHtml = vRequest::get('html', false);
+				if($orderDoneHtml){
+					$this->orderdoneHtml = $orderDoneHtml;
+				} else {
+					$this->orderdoneHtml = vmText::_('COM_VIRTUEMART_ORDER_PROCESSED');
+				}
+				//$this->orderdoneHtml = !isset($this->html) ? vRequest::get('html', vmText::_('COM_VIRTUEMART_ORDER_PROCESSED')) : $this->html;
+			}
+
+
 			// may be redirect is done by the payment plugin (eg: paypal)
 			// if payment plugin echos a form, false = nothing happen, true= echo form ,
 			// 1 = cart should be emptied, 0 cart should not be emptied
@@ -1313,12 +1333,8 @@ class VirtueMartCart {
 						if(is_array($tmp)){
 							$tmp = implode("|*|",$tmp);
 						}
-						if (version_compare(phpversion(), '5.4.0', '<')) {
-							// php version isn't high enough
-							$tmp = htmlspecialchars ($tmp,ENT_QUOTES,'UTF-8',false);	//ENT_SUBSTITUTE only for php5.4 and higher
-						} else {
-							$tmp = htmlspecialchars ($tmp,ENT_QUOTES|ENT_SUBSTITUTE,'UTF-8',false);
-						}
+
+						$tmp = vRequest::vmSpecialChars($tmp);
 
 						$tmp = (string)preg_replace('#on[a-z](.+?)\)#si','',$tmp);//replace start of script onclick() onload()...
 					}

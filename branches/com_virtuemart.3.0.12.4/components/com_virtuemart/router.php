@@ -309,8 +309,10 @@ function virtuemartBuildRoute(&$query) {
 			//unset ($query['limit']);
 			break;
 		case 'cart';
-			if (isset($jmenu['cart'])) {
-				$query['Itemid'] = $jmenu['cart'];
+			vmdebug('my view is cart and layout',$query);
+			$layout = (empty($query['layout'])) ? 0 : $query['layout'];
+			if (isset($jmenu['cart'][$layout])) {
+				$query['Itemid'] = $jmenu['cart'][$layout];
 			} else if ( isset($jmenu['virtuemart']) ) {
 				$query['Itemid'] = $jmenu['virtuemart'];
 				$segments[] = $helper->lang('cart') ;
@@ -1318,6 +1320,17 @@ class vmrouterHelper {
 									$this->menu['virtuemart_'.$dbKey.'_id'][ $link['virtuemart_'.$dbKey.'_id'] ] = $item->id;
 								}
 							}
+						} else if ( $dbKey == 'cart' ){
+							vmdebug('my others '.$dbKey,$item,$link);
+							$layout = empty($link['layout'])? 0:$link['layout'];
+							if(!isset($this->menu[$dbKey][$layout])){
+								$this->menu[$dbKey][$layout] = $item->id;
+							} else {
+								//vmdebug('This menu item exists two times',$item,$this->template->id);
+								if($item->template_style_id==$this->template->id){
+									$this->menu[$dbKey][$layout] = $item->id;
+								}
+							}
 						} else {
 							if(!isset($this->menu[$dbKey])){
 								$this->menu[$dbKey] = $item->id;
@@ -1377,7 +1390,7 @@ class vmrouterHelper {
 				} else $this->menu['virtuemart'] = $homeid;
 			}
 		}
-
+		vmdebug('Router parse, using Itemid',$this->Itemid);
 		$mCache[$h.$this->Itemid] = $this->menu;
 	}
 

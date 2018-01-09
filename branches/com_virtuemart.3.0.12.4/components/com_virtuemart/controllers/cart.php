@@ -118,11 +118,6 @@ class VirtueMartControllerCart extends JControllerLegacy {
 
 		if(($task == 'confirm' or isset($request['confirm'])) and !$cart->getInCheckOut()){
 			$cart->confirmDone();
-			$view = $this->getView('cart', 'html');
-			$view->setLayout('orderdone');
-			$cart->_fromCart = false;
-			$view->display();
-			return true;
 		} else {
 			//$cart->_inCheckOut = false;
 			$redirect = (isset($request['checkout']) or $task=='checkout');

@@ -1865,11 +1865,9 @@ vmdebug('my prices',$data);
 			vmWarn('createInvoiceNumber $orderDetails has no virtuemart_order_id ',$orderDetails);
 			vmdebug('createInvoiceNumber $orderDetails has no virtuemart_order_id ',$orderDetails);
 		}
-		$q = 'SELECT * FROM `#__virtuemart_invoices` WHERE `virtuemart_order_id`= "'.$orderDetails['virtuemart_order_id'].'" '; // AND `order_status` = "'.$orderDetails->order_status.'" ';
 
-		$db->setQuery($q);
-		$result = $db->loadAssoc();
-
+		$result = self::getInvoiceNumber($orderDetails['virtuemart_order_id'], true, '*');
+//vmdebug('createInvoiceNumber',$orderDetails,$result);
 		if (!class_exists('ShopFunctions')) require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
 		if(!$result or empty($result['invoice_number']) ){
 
@@ -1930,19 +1928,34 @@ vmdebug('my prices',$data);
 	 * @author Valérie Isaksen
 	 * @author Max Milbers
 	 */
-	static function getInvoiceNumber($virtuemart_order_id, $last = true){
+	static function getInvoiceNumber($virtuemart_order_id, $last = true, $select = '`invoice_number`' ){
 
 		$db = JFactory::getDBO();
-		$q = 'SELECT `invoice_number` FROM `#__virtuemart_invoices` WHERE `virtuemart_order_id`= "'.$virtuemart_order_id.'" ORDER BY `created_on` DESC ';
+		$q = 'SELECT '.$select.' FROM `#__virtuemart_invoices` WHERE `virtuemart_order_id`= "'.$virtuemart_order_id.'" ORDER BY `created_on` DESC ';
 		if($last){
 			$q .= ' Limit 1';
-			$db->setQuery($q);
-			return $db->loadResult();
-		} else {
-			$db->setQuery($q);
-			return $db->loadColumn();
 		}
+		$db->setQuery($q);
 
+		$single = true;
+		if($select == '*' or strpos($select,',')!=0){
+			$single = false;
+		}
+		if($last){
+			if($single ){
+				$res =  $db->loadResult();
+			} else {
+				$res = $db->loadAssoc();
+			}
+		} else {
+			if($single ){
+				$res = $db->loadColumn();
+			} else {
+				$res = $db->loadAssocList();
+			}
+
+		}
+		return $res;
 	}
 
 
@@ -2497,7 +2510,7 @@ vmdebug('my prices',$data);
 	 * @param $order_id Id of the order
 	 * @return boolean true if deleted successful, false if there was a problem
 	 */
-	function renameInvoice($order_id ) {
+	function renameInvoice($order_id) {
 
 		$table = $this->getTable('invoices');
 		$table->load($order_id,'virtuemart_order_id');

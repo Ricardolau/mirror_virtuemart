@@ -301,7 +301,13 @@ class vRequest {
 	}
 
 	public static function vmSpecialChars($c){
-		return htmlspecialchars($c,ENT_QUOTES,'UTF-8',false);
+		if (version_compare(phpversion(), '5.4.0', '<')) {
+			// php version isn't high enough
+			$c = htmlspecialchars ($c,ENT_QUOTES,'UTF-8',false);	//ENT_SUBSTITUTE only for php5.4 and higher
+		} else {
+			$c = htmlspecialchars ($c,ENT_QUOTES|ENT_SUBSTITUTE,'UTF-8',false);
+		}
+		return $c;
 	}
 
 	/**

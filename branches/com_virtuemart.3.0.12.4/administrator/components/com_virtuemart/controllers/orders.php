@@ -368,6 +368,39 @@ class VirtuemartControllerOrders extends VmController {
 		$app->redirect($editLink);
 	}
 
+
+	/**
+	 * remove order
+	 *
+	 * @author Valérie Isaksen
+	 */
+	function remove(){
+
+		vRequest::vmCheckToken();
+
+		$ids = vRequest::getVar($this->_cidName, vRequest::getInt('cid', array() ));
+		$app = JFactory::getApplication ();
+
+		if(count($ids) < 1) {
+			$msg = vmText::_('COM_VIRTUEMART_SELECT_ITEM_TO_DELETE');
+			$app->enqueueMessage ($msg, 'notice');
+		} else {
+			$model = $this->getModel($this->_cname);
+			$removedOrderMsgs = $model->remove($ids);
+
+			foreach ($removedOrderMsgs as $orderNumber => $removedOrderMsg) {
+				if ($removedOrderMsg=== true) {
+					$msg = vmText::sprintf('COM_VIRTUEMART_STRING_DELETED',$this->mainLangKey). ' '.$orderNumber;
+					$app->enqueueMessage ($msg, 'notice');
+				} else {
+					$msg = vmText::sprintf($removedOrderMsg,$this->mainLangKey). ' '.$orderNumber;
+					$app->enqueueMessage ($msg, 'error');
+				}
+			}
+		}
+
+		$this->setRedirect($this->redirectPath);
+	}
 }
 // pure php no closing tag
 

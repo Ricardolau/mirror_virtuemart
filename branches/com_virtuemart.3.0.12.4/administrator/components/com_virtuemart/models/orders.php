@@ -1853,10 +1853,10 @@ vmdebug('my prices',$data);
 		return self::genStdOrderNumber($virtuemart_vendor_id, $length);
 	}
 
-/*
- * returns true if an invoice number has been created
- * returns false if an invoice number has not been created  due to some configuration parameters
- */
+	/**
+	 * returns true if an invoice number has been created
+	 * returns false if an invoice number has not been created  due to some configuration parameters
+	 */
 	function createInvoiceNumber($orderDetails, &$invoiceNumber){
 
 		$orderDetails = (array)$orderDetails;
@@ -1866,8 +1866,8 @@ vmdebug('my prices',$data);
 			vmdebug('createInvoiceNumber $orderDetails has no virtuemart_order_id ',$orderDetails);
 		}
 
-		$result = self::getInvoiceNumber($orderDetails['virtuemart_order_id'], true, '*');
-//vmdebug('createInvoiceNumber',$orderDetails,$result);
+		$result = self::getInvoice($orderDetails['virtuemart_order_id'], true, '*');
+		//vmdebug('createInvoiceNumber',$orderDetails,$result);
 		if (!class_exists('ShopFunctions')) require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
 		if(!$result or empty($result['invoice_number']) ){
 
@@ -1924,11 +1924,22 @@ vmdebug('my prices',$data);
 		return true;
 	}
 
-	/*
+	/**
+	 * @author Valérie Isaksen
+	 * @author Max Milbers
+	 *
+	 * @deprecated: use the function VirtueMartModelOrders::getInvoice instead
+	 *
+	 */
+	static function getInvoiceNumber($virtuemart_order_id, $last = true, $select = '`invoice_number`' ) {
+		self::getInvoice($virtuemart_order_id, $last , $select );
+	}
+
+	 /**
 	 * @author Valérie Isaksen
 	 * @author Max Milbers
 	 */
-	static function getInvoiceNumber($virtuemart_order_id, $last = true, $select = '`invoice_number`' ){
+	static function getInvoice($virtuemart_order_id, $last = true, $select = '`invoice_number`' ){
 
 		$db = JFactory::getDBO();
 		$q = 'SELECT '.$select.' FROM `#__virtuemart_invoices` WHERE `virtuemart_order_id`= "'.$virtuemart_order_id.'" ORDER BY `created_on` DESC ';
@@ -2259,9 +2270,16 @@ vmdebug('my prices',$data);
 		}
 
 		$table = $this->getTable($this->_maintablename);
-
+		$removedOrderMsgs=array();
 		foreach($ids as $id) {
+
 			$order = $this->getOrder($id);
+
+			$invoice= $this->hasInvoice($id);
+			if ($invoice) {
+				$removedOrderMsgs [$order['details']['BT']->order_number]= 'COM_VIRTUEMART_ORDER_NOT_ALLOWED_TO_DELETE';
+				continue;
+			}
 
 			if(!empty($order['items'])){
 				foreach($order['items'] as $it){
@@ -2282,13 +2300,14 @@ vmdebug('my prices',$data);
 			$this->_db->execute();
 
 			// rename invoice number by adding the date, and update the invoice table
-			$this->renameInvoice($id );
+			//$this->renameInvoice($id );
 
 			if (!$table->delete((int)$id)) {
-				return false;
+				$removedOrderMsgs [$order['details']['BT']->order_number] = 'COM_VIRTUEMART_ORDER_PB_WHILE_DELETING';
 			}
+			$removedOrderMsgs [$order['details']['BT']->order_number] =true;
 		}
-		return true;
+		return $removedOrderMsgs;
 
 	}
 
@@ -2549,6 +2568,37 @@ vmdebug('my prices',$data);
 
 
 	}
+
+	/**
+	 * Get Invoice
+	 *
+	 * @author Valérie Isaksen
+	 * @param $order_id Id of the order
+	 * @return  invoice table
+	 */
+	function getInvoiceTable($order_id) {
+
+		$table = $this->getTable('invoices');
+		$table->load($order_id,'virtuemart_order_id');
+		return $table;
+	}
+
+	/**
+	 * has Invoice
+	 *
+	 * @author Valérie Isaksen
+	 * @param $order_id Id of the order
+	 * @return  false if there is no invoice, $invoiceTable otherwise
+	 */
+	function hasInvoice($order_id) {
+		$invoiceTable= $this->getInvoiceTable($order_id);
+
+		if(empty($invoiceTable->invoice_number)){
+			return false;
+		}
+		return $invoiceTable;
+	}
+
 	/** Delete Invoice when an item is updated
 	 *
 	 * @author Valérie Isaksen

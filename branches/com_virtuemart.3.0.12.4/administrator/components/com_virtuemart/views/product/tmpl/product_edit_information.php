@@ -171,7 +171,8 @@ $i=0;
 	$calculator = $this->calculator;
 	$currency_model = VmModel::getModel ('currency');
 	$currencies = $currency_model->getCurrencies ();
-	$nbPrice = count ($this->product->allPrices);
+
+	$nbPrice = is_array($this->product->allPrices)? count ($this->product->allPrices):0;
 	$this->priceCounter = 0;
 	$this->product->allPrices[$nbPrice] = VmModel::getModel()->fillVoidPrice();
 

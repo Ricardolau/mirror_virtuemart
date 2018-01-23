@@ -139,26 +139,13 @@ echo $this->loadTemplate('images');
 		<?php
 		echo shopFunctionsF::renderVmSubLayout('rating', array('showRating' => $this->showRating, 'product' => $this->product));
 
-		$productDisplayTypes = array('productDisplayShipments', 'productDisplayPayments');
-		foreach ($productDisplayTypes as $productDisplayType) {
+		foreach ($this->productDisplayTypes as $type=>$productDisplayType) {
 
-			if(empty($this->$productDisplayType)){
-				continue;
-			} else if (!is_array($this->$productDisplayType)) {
-				$this->$productDisplayType = array($this->$productDisplayType);
-			}
-
-			foreach ($this->$productDisplayType as $productDisplay) {
-
-				if(empty($productDisplay)){
-					continue;
-				} else if (!is_array($productDisplay)){
-					$productDisplay = array($productDisplay);
-				}
+			foreach ($productDisplayType as $productDisplay) {
 
 				foreach ($productDisplay as $virtuemart_method_id =>$productDisplayHtml) {
 					?>
-					<div class="<?php echo substr($productDisplayType, 0, -1) ?> <?php echo substr($productDisplayType, 0, -1).'-'.$virtuemart_method_id ?>">
+					<div class="<?php echo substr($type, 0, -1) ?> <?php echo substr($type, 0, -1).'-'.$virtuemart_method_id ?>">
 						<?php
 						echo $productDisplayHtml;
 						?>

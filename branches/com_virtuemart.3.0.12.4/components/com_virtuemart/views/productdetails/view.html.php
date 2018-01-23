@@ -338,8 +338,44 @@ class VirtueMartViewProductdetails extends VmView {
 			if(VmConfig::get('debug_enable_methods',false)){
 				VmConfig::$_debug = 1;
 			}
+			//@Todo lets use only one trigger
 			$returnValues = $dispatcher->trigger('plgVmOnProductDisplayShipment', array($productC, &$this->productDisplayShipments));
 			$returnValues = $dispatcher->trigger('plgVmOnProductDisplayPayment', array($productC, &$this->productDisplayPayments));
+
+			$this->productDisplayTypes = array();
+			$productDisplayTypes = array();
+			if(!empty($this->productDisplayShipments)) $productDisplayTypes[] = 'productDisplayShipments';
+			if(!empty($this->productDisplayPayments)) $productDisplayTypes[] = 'productDisplayPayments';
+
+			foreach ($productDisplayTypes as $productDisplayType) {
+
+				if(empty($this->$productDisplayType)){
+					continue;
+				} else if (!is_array($this->$productDisplayType)){
+					$this->$productDisplayType = array($this->$productDisplayType);
+				}
+
+				foreach( $this->$productDisplayType as $k=>$productDisplay ) {
+
+					if(empty($productDisplay)){
+						continue;
+					} else if(!is_array($productDisplay)){
+						$productDisplay = array($productDisplay);
+					}
+
+					foreach( $productDisplay as $virtuemart_method_id => $productDisplayHtml ) {
+						if(!empty($productDisplayHtml)){
+							if(empty($this->productDisplayTypes[$productDisplayType])){
+								$this->productDisplayTypes[$productDisplayType] = array();
+							}
+							if(empty($this->productDisplayTypes[$productDisplayType][$k])){
+								$this->productDisplayTypes[$productDisplayType][$k] = array();
+							}
+							$this->productDisplayTypes[$productDisplayType][$k][$virtuemart_method_id] = $productDisplayHtml;
+						}
+					}
+				}
+			}
 			VmConfig::$_debug = $d;
 
 			if (empty($category->category_template)) {

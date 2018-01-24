@@ -38,6 +38,8 @@ class VirtueMartViewCart extends VmView {
 	/* @deprecated */
 	var $display_loginform = true;
 
+	var $html = false;
+
 	public function display($tpl = null) {
 
 
@@ -374,10 +376,13 @@ class VirtueMartViewCart extends VmView {
 		$this->display_title = !isset($this->display_title) ? vRequest::getBool('display_title', true) : $this->display_title;
 		$this->display_loginform = !isset($this->display_loginform) ? vRequest::getBool('display_loginform', true) : $this->display_loginform;
 
-		//Do not change this. It contains the payment form
-		//$this->html = !isset($this->html) ? vRequest::get('html', vmText::_('COM_VIRTUEMART_ORDER_PROCESSED')) : $this->html;
 		//Show Thank you page or error due payment plugins like paypal express
-		$this->html = $this->cart->orderdoneHtml;
+		//Do not change this. It contains the payment form
+		$this->html = empty($this->html) ? vRequest::get('html', $this->cart->orderdoneHtml) : $this->html;
+
+		$this->cart->orderdoneHtml = false;
+		$this->cart->setCartIntoSession(true,true);
+
 	}
 
 	private function checkPaymentMethodsConfigured() {

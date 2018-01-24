@@ -309,13 +309,16 @@ function virtuemartBuildRoute(&$query) {
 			//unset ($query['limit']);
 			break;
 		case 'cart';
-			vmdebug('my view is cart and layout',$query);
-			$layout = (empty($query['layout'])) ? 0 : $query['layout'];
-			if (isset($jmenu['cart'][$layout])) {
+
+			$layout = (empty( $query['layout'] )) ? 0 : $query['layout'];
+			if(isset( $jmenu['cart'][$layout] )) {
 				$query['Itemid'] = $jmenu['cart'][$layout];
+			} else if ($layout!=0 and isset($jmenu['cart'][0]) ) {
+				$query['Itemid'] = $jmenu['cart'][0];
 			} else if ( isset($jmenu['virtuemart']) ) {
 				$query['Itemid'] = $jmenu['virtuemart'];
 				$segments[] = $helper->lang('cart') ;
+
 			} else {
 				// the worst
 				$segments[] = $helper->lang('cart') ;
@@ -651,6 +654,7 @@ function virtuemartParseRoute($segments) {
 		elseif ( $helper->compareKey($segments[0] ,'editpayment') ) $vars['task'] = 'editpayment' ;
 		elseif ( $helper->compareKey($segments[0] ,'delete') ) $vars['task'] = 'delete' ;
 		elseif ( $helper->compareKey($segments[0] ,'checkout') ) $vars['task'] = 'checkout' ;
+		elseif ( $helper->compareKey($segments[0] ,'orderdone') ) $vars['layout'] = 'orderdone' ;
 		else $vars['task'] = $segments[0];
 		return $vars;
 	}
@@ -759,7 +763,10 @@ function virtuemartParseRoute($segments) {
 			$vars['virtuemart_category_id'] = $id;
 			$vars['view'] = 'category' ;
 		}
-		if(empty($vars['virtuemart_category_id'])) $vars['virtuemart_category_id'] = 0;
+		if(empty($vars['virtuemart_category_id'])) {
+			$vars['error'] = '404';
+			$vars['virtuemart_category_id'] = 0;
+		}
 		if(empty($vars['view'])) $vars['view'] = 'category';
 
 		if(!isset($vars['limit'])) $vars['limit'] = vmrouterHelper::getLimitByCategory($vars['virtuemart_category_id'],$vars['view']);
@@ -1321,7 +1328,6 @@ class vmrouterHelper {
 								}
 							}
 						} else if ( $dbKey == 'cart' ){
-							vmdebug('my others '.$dbKey,$item,$link);
 							$layout = empty($link['layout'])? 0:$link['layout'];
 							if(!isset($this->menu[$dbKey][$layout])){
 								$this->menu[$dbKey][$layout] = $item->id;

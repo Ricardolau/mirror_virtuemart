@@ -308,6 +308,7 @@ class VirtueMartModelProduct extends VmModel {
 		$joinCustom = FALSE;
 		$joinShopper = FALSE;
 		$joinChildren = FALSE;
+		$virtuemart_category_id = (int)$virtuemart_category_id;
 		//$joinLang = false;
 
 
@@ -488,7 +489,7 @@ class VirtueMartModelProduct extends VmModel {
 				}
 				$where[] = " ( " . implode (' OR ', $mans) . " ) ";
 			} else {
-				$where[] = ' `#__virtuemart_product_manufacturers`.`virtuemart_manufacturer_id` = ' . $this->virtuemart_manufacturer_id;
+				$where[] = ' `#__virtuemart_product_manufacturers`.`virtuemart_manufacturer_id` = ' . (int)$this->virtuemart_manufacturer_id;
 				//$virtuemart_manufacturer_id = $this->virtuemart_manufacturer_id;
 			}
 

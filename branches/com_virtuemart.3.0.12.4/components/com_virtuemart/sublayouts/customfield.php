@@ -677,7 +677,7 @@ class VirtueMartCustomFieldRenderer {
 		if(empty($product->customfields)){
 
 			$productDB = VmModel::getModel('product')->getProduct($product->virtuemart_product_id);
-			if($productDB and $productDB->customfields){
+			if($productDB and !empty($productDB->customfields)){
 
 				$product->customfields = $productDB->customfields;
 			} else {

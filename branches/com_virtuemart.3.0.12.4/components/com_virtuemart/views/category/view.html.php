@@ -482,7 +482,10 @@ class VirtuemartViewCategory extends VmView {
 
 		if ($virtuemart_manufacturer_id>0 and !empty($this->products['products'])){
 
-			if (!empty($this->products['products'][0])) $title .=' '.$this->products['products'][0]->mf_name ;
+			if(VmConfig::get('addManuNameToCatBrowseTitle',true)){
+				if (!empty($this->products['products'][0])) $title .=' '.$this->products['products'][0]->mf_name ;
+			}
+
 			// Override Category name when viewing manufacturers products !IMPORTANT AFTER page title.
 			if (!empty($this->products['products'][0]) and isset($category->category_name)) $category->category_name = $this->products['products'][0]->mf_name ;
 
@@ -661,14 +664,14 @@ INNER JOIN #__virtuemart_product_categories as cat ON (pc.virtuemart_product_id=
 		if(!$cat or empty($cat->slug)){
 			vmInfo(vmText::_('COM_VIRTUEMART_CAT_NOT_FOUND'));
 		} else {
-			if($cat->virtuemart_id!==0 and !$cat->published){
+			if($cat->virtuemart_id>0 and !$cat->published){
 				vmInfo('COM_VIRTUEMART_CAT_NOT_PUBL',$cat->category_name,$this->categoryId);
 			}
 		}
 
 		//Fallback
 		$catLink = '';
-		if ($cat and !empty($cat->category_parent_id)) {
+		if ($cat and !empty($cat->category_parent_id) and $this->categoryId != $cat->category_parent_id) {
 			$catLink = '&view=category&virtuemart_category_id=' .$cat->category_parent_id;
 		} else {
 			$last_category_id = shopFunctionsF::getLastVisitedCategoryId();

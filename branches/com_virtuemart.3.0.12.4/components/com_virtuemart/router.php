@@ -365,6 +365,7 @@ function virtuemartParseRoute($segments) {
 	$vars = array();
 
 	$helper = vmrouterHelper::getInstance();
+
 	if ($helper->router_disabled) {
 		$total = count($segments);
 		for ($i = 0; $i < $total; $i=$i+2) {
@@ -765,7 +766,7 @@ function virtuemartParseRoute($segments) {
 		}
 		if(empty($vars['virtuemart_category_id'])) {
 			$vars['error'] = '404';
-			$vars['virtuemart_category_id'] = 0;
+			$vars['virtuemart_category_id'] = -2;
 		}
 		if(empty($vars['view'])) $vars['view'] = 'category';
 
@@ -777,7 +778,7 @@ function virtuemartParseRoute($segments) {
 			$vars['task'] = $segments[1] ;
 		}
 	}
-	//vmdebug('my vars from router',$vars);
+	vmdebug('my vars from router',$vars);
 	return $vars;
 }
 

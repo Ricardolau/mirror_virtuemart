@@ -1070,15 +1070,20 @@ vmdebug('my prices',$data);
 
 
 			$inputOrder['comments'] = trim($inputOrder['comments']);
-			/* Update the order history */
-			$this->_updateOrderHist($virtuemart_order_id, $data->order_status, $inputOrder['customer_notified'], $inputOrder['comments']);
 
 			//We need a new invoice, therefore rename the old one.
 			$inv_os = VmConfig::get('inv_os',array('C'));
 			if(!is_array($inv_os)) $inv_os = array($inv_os);
 			if($old_order_status!=$data->order_status and in_array($data->order_status,$inv_os)){
-				$this->renameInvoice($data->virtuemart_order_id);
+				//$this->renameInvoice($data->virtuemart_order_id);
+				vmdebug('my input order here',$inputOrder);
+				$inputOrder['invoice_number'] = $this->createReferencedInvoice($data->virtuemart_order_id);
 			}
+
+			/* Update the order history */
+			$this->_updateOrderHist($virtuemart_order_id, $data->order_status, $inputOrder['customer_notified'], $inputOrder['comments']);
+
+
 
 			// When the plugins did not already notified the user, do it here (the normal way)
 			//Attention the ! prevents at the moment that an email is sent. But it should used that way.
@@ -1772,12 +1777,25 @@ vmdebug('my prices',$data);
 	public function _updateOrderHist($_id, $_status = 'P', $_notified = 0, $_comment = '')
 	{
 		$_orderHist = $this->getTable('order_histories');
-		$_orderHist->virtuemart_order_id = $_id;
-		$_orderHist->order_status_code = $_status;
-		//$_orderHist->date_added = date('Y-m-d G:i:s', time());
-		$_orderHist->customer_notified = $_notified;
+		$oldOrderStatus = false;
+		if(!empty($_id)){
+			$db = JFactory::getDbo();
+			$q = 'SELECT `order_status_code` FROM #__virtuemart_order_histories WHERE virtuemart_order_id="'.$_id.'" ORDER BY `created_on` DESC LIMIT 1';
+			$db->setQuery($q);
+			$oldOrderStatus = $db->loadResult();
+		}
+
+		if($oldOrderStatus==$_status) {
+			$_orderHist->load($_id,'virtuemart_order_id');
+		} else {
+			$_orderHist->virtuemart_order_id = $_id;
+			$_orderHist->order_status_code = $_status;
+			//$_orderHist->date_added = date('Y-m-d G:i:s', time());
+			$_orderHist->customer_notified = $_notified;
+		}
 		$_orderHist->comments = nl2br($_comment);
 		$_orderHist->store();
+
 	}
 
 	/**
@@ -1866,7 +1884,7 @@ vmdebug('my prices',$data);
 			vmdebug('createInvoiceNumber $orderDetails has no virtuemart_order_id ',$orderDetails);
 		}
 
-		$result = self::getInvoiceNumber($orderDetails['virtuemart_order_id'], true, '*');
+		$result = self::getInvoice($orderDetails['virtuemart_order_id'], true, '*');
 //vmdebug('createInvoiceNumber',$orderDetails,$result);
 		if (!class_exists('ShopFunctions')) require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
 		if(!$result or empty($result['invoice_number']) ){
@@ -1973,7 +1991,7 @@ vmdebug('my prices',$data);
 				$res = $db->loadAssocList();
 			}
 		}
-		vmdebug('getInvoiceEntry ',$q,$res);
+		//vmdebug('getInvoiceEntry ',$q,$res);
 		return $res;
 	}
 
@@ -2530,31 +2548,36 @@ vmdebug('my prices',$data);
 		return $_orderID;
 	}
 
+	function createStoreNewInvoiceNumberById($orderId, $orderDetails = false){
+		if(!$orderDetails) {
+			$order = $this->getOrder( $orderId );
+			$orderDetails = $order['details']['BT'];
+		}
+		$ret = $this->createStoreNewInvoiceNumber( $orderDetails );
+		if(!empty($ret[0])){
+			return $ret[0];
+		} else {
+			return false;
+		}
+	}
+
 	function createReferencedInvoice($orderId, $orderDetails = false) {
 
 		//check if there is already an InvoiceEntry
 		$invNu = self::getInvoice( $orderId, true, '*' );
 		vmdebug( 'createReferencedInvoice', $orderId, $invNu );
-		if($invNu) {
-
-			if(VmConfig::get( 'ChangedInvCreateNewInvNumber', false )) {
-				if(!$orderDetails) {
-					$order = $this->getOrder( $orderId );
-					$orderDetails = $order['details']['BT'];
-				}
-				$this->createStoreNewInvoiceNumber( $orderDetails );
-			} else {
-				//$invoice_number = self::getInvoiceEntry($orderId,true, '*');
-				//$data = array('invoice_number' => $invoice_number);
-				//unset($data['virtuemart_invoice_id']);
-				$invT = $this->getTable( 'invoices' );
-				$invT->bind( $invNu );
-				$invT->virtuemart_invoice_id = 0;
-				vmdebug( 'my table', $invT );
-				$invT->check();
-				$invT->store();
-			}
-
+		if(!VmConfig::get( 'ChangedInvCreateNewInvNumber', false ) and $invNu) {
+			$invT = $this->getTable( 'invoices' );
+			$invT->bind( $invNu );
+			$invT->virtuemart_invoice_id = 0;
+			$invT->created_on = '';
+			$invT->created_by = 0;
+			vmdebug( 'my table', $invT );
+			$invT->check();
+			$invT->store();
+			return $invT->invoice_number;
+		} else {
+			return self::createStoreNewInvoiceNumberById($orderId, $orderDetails);
 		}
 	}
 

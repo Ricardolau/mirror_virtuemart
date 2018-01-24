@@ -630,6 +630,39 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_order_items` (
   KEY `virtuemart_vendor_id` (`virtuemart_vendor_id`),
   KEY `order_status` (`order_status`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Stores all items (products) which are part of an order' AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `#__virtuemart_order_item_histories` (
+  `virtuemart_order_item_history_id` INT(1) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `virtuemart_order_item_id` INT(1) UNSIGNED NOT NULL,
+  `virtuemart_order_id` int(1) UNSIGNED,
+  `virtuemart_vendor_id` int(1) UNSIGNED NOT NULL DEFAULT '1',
+  `virtuemart_product_id` int(1),
+  `action` varchar(255) NOT NULL DEFAULT '',
+  `order_item_sku` varchar(255) NOT NULL DEFAULT '',
+  `order_item_name` varchar(4096) NOT NULL DEFAULT '',
+  `product_quantity` int(1),
+  `product_item_price` decimal(15,5),
+  `product_priceWithoutTax` decimal(15,5),
+  `product_tax` decimal(15,5),
+  `product_basePriceWithTax` decimal(15,5),
+  `product_discountedPriceWithoutTax` decimal(15,5),
+  `product_final_price` decimal(15,5) NOT NULL DEFAULT '0.00000',
+  `product_subtotal_discount` decimal(15,5) NOT NULL DEFAULT '0.00000',
+  `product_subtotal_with_tax` decimal(15,5) NOT NULL DEFAULT '0.00000',
+  `order_item_currency` INT(1),
+  `order_status` char(1),
+  `product_attribute` mediumtext,
+  `delivery_date` varchar(200),
+  `created_on` datetime NOT NULL default '0000-00-00 00:00:00',
+  `created_by` int(1) NOT NULL DEFAULT '0',
+  `modified_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_by` int(1) NOT NULL DEFAULT '0',
+  `locked_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `locked_by` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`virtuemart_order_item_history_id`),
+  KEY `virtuemart_order_id` (`virtuemart_order_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Stores all actions and changes that occur to an order item only' AUTO_INCREMENT=1 ;
+
 -- --------------------------------------------------------
 
 --

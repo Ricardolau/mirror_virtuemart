@@ -2462,6 +2462,8 @@ vmdebug('my prices',$data);
 	public function createStoreNewInvoiceNumber($orderDetails){
 
 		vmTrace('createStoreNewInvoiceNumber');
+		$orderDetails = (array)$orderDetails;
+
 		$data['virtuemart_order_id'] = $orderDetails['virtuemart_order_id'];
 
 		$data['order_status'] = $orderDetails['order_status'];

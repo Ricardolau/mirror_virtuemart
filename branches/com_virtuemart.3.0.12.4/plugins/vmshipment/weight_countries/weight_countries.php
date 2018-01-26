@@ -140,7 +140,6 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 	 *
 	 * @param integer $virtuemart_order_id The order ID
 	 * @param integer $virtuemart_shipmentmethod_id The order shipment method ID
-	 * @param object  $_shipInfo Object with the properties 'shipment' and 'name'
 	 * @return mixed Null for shipments that aren't active, text (HTML) otherwise
 	 * @author Valerie Isaksen
 	 */
@@ -164,7 +163,9 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 			. 'WHERE `virtuemart_order_id` = ' . $virtuemart_order_id;
 		$db->setQuery ($q);
 		if (!($shipinfo = $db->loadObject ())) {
-			vmWarn (500, $q . " " . $db->getErrorMsg ());
+			$msg=vmText::sprintf('VMSHIPMENT_WEIGHT_COUNTRIES_NO_ENTRY_FOUND', $virtuemart_order_id);
+			vmWarn ($msg);
+			vmDebug($msg, $q . " " . $db->getErrorMsg ());
 			return '';
 		}
 

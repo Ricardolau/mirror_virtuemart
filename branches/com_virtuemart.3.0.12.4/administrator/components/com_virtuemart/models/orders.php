@@ -2100,10 +2100,15 @@ vmdebug('my prices',$data);
 	}
 
 
-	/*
-	 *remove product from order item table
-	*@var $virtuemart_order_id Order to clear
-	*/
+	/**
+	 * @author Max Milbers
+	 *
+	 * remove product from order item table
+	 * @param $virtuemart_order_id Order to clear
+	 * @param $auth
+	 * @return boolean True of remove was successful, false otherwise
+	 *
+	 */
 	function removeOrderItems ($virtuemart_order_id, $auth = true){
 
 		if($auth and !vmAccess::manager('orders.edit')) {
@@ -2141,6 +2146,7 @@ vmdebug('my prices',$data);
 		$this->handleStockAfterStatusChangedPerProduct('X', $item->order_status, $item,$item->product_quantity);
 
 		//TODO Why should the stock change, when the order is deleted? Paypal? Valerie?
+		// answer Valerie: when creating an order (P) the stock is reserved
 		if ($item->delete($orderLineId)) {
 			/*$q = "DELETE FROM `#__virtuemart_order_histories`
 			WHERE `virtuemart_order_id`=".$id;
@@ -2515,6 +2521,9 @@ vmdebug('my prices',$data);
 		return self::getInvoice($virtuemart_order_id, $last , $select );
 	}
 
+
+
+
 	/**
 	 * @author Valérie Isaksen
 	 * @author Max Milbers
@@ -2549,6 +2558,11 @@ vmdebug('my prices',$data);
 		return $res;
 	}
 
+
+
+	function getInvoices($virtuemart_order_id,  $select = '`invoice_number`' ){
+		return $this->getInvoice($virtuemart_order_id, false, $select   );
+	}
 	function createStoreNewInvoiceNumberById($orderId, $orderDetails = false){
 		if(!$orderDetails) {
 			$order = $this->getOrder( $orderId );

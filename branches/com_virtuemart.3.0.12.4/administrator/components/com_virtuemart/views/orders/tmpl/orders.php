@@ -91,7 +91,7 @@ $styleDateCol = 'style="width:5%;min-width:110px"';
 				?>
 				<td><?php echo JHtml::_ ('link', JRoute::_ ($link, FALSE), $order->order_number, array('title' => vmText::_ ('COM_VIRTUEMART_ORDER_EDIT_ORDER_NUMBER') . ' ' . $order->order_number));
 				echo '<br>';
-				echo $order->invoiceNumber; ?>
+				echo implode('<br>',$order->invoiceNumbers); ?>
 				</td>
 				<td>
 					<?php

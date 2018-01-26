@@ -73,7 +73,7 @@ class VirtuemartViewOrders extends VmViewAdmin {
 			$_orderID = $order['details']['BT']->virtuemart_order_id;
 			$orderbt = $order['details']['BT'];
 			$orderst = $order['details']['ST'];//(array_key_exists('ST', $order['details'])) ? $order['details']['ST'] : $orderbt;
-			$orderbt ->invoiceNumber = $orderModel->getInvoiceNumber($orderbt->virtuemart_order_id);
+			$orderbt ->invoiceNumbers = $orderModel->getInvoices($orderbt->virtuemart_order_id);
 
 			$currency = CurrencyDisplay::getInstance(0,$order['details']['BT']->virtuemart_vendor_id);
 
@@ -227,7 +227,7 @@ class VirtuemartViewOrders extends VmViewAdmin {
 				    }
 
 					$orderslist[$virtuemart_order_id]->order_total = $_currencies['curr'.$currency]->priceDisplay($order->order_total);
-					$orderslist[$virtuemart_order_id]->invoiceNumber = $model->getInvoiceNumber($order->virtuemart_order_id);
+					$orderslist[$virtuemart_order_id]->invoiceNumbers = $model->getInvoices($order->virtuemart_order_id);
 			    }
 
 			}
@@ -273,32 +273,52 @@ class VirtuemartViewOrders extends VmViewAdmin {
 		parent::display($tpl);
 	}
 
-	function createPrintLinks($order,&$print_link,&$deliverynote_link,&$invoice_link){
+
+	/**
+	 * @author Max Milbers
+	 * @author Valérie Isaksen
+	 * @param $order
+	 * @param $print_link
+	 * @param $deliverynote_link
+	 * @param $invoice_links
+	 */
+	function createPrintLinks($order,&$print_link,&$deliverynote_link,&$invoice_links){
 
 		$baseUrl = 'index.php?option=com_virtuemart&view=orders&task=callInvoiceView&tmpl=component&virtuemart_order_id=' . $order->virtuemart_order_id;
 		/* Print view URL */
 		$print_url = $baseUrl .'&layout=invoice';
 		$print_link = "<a href=\"javascript:void window.open('$print_url', 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');\"  >";
 		$print_link .= '<span class="hasTip print_32" title="' . vmText::_ ('COM_VIRTUEMART_PRINT').' '. $order->order_number.'">&nbsp;</span></a>';
-		$invoice_link = '';
+		$invoice_links_array = array();
 		$deliverynote_link = '';
 		$pdfDummi= '&d='.rand(0,100);
-		if (!$order->invoiceNumber) {
+		if (!$order->invoiceNumbers) {
 			$invoice_url = $baseUrl .'&layout=invoice&format=pdf&create_invoice='.$order->order_create_invoice_pass.$pdfDummi;
-			$invoice_link .= "<a href=\"$invoice_url\"  >".'<span class="hasTip invoicenew_32" title="' . vmText::_ ('COM_VIRTUEMART_INVOICE_CREATE') . '"></span></a>';
-		} elseif (!shopFunctions::InvoiceNumberReserved ($order->invoiceNumber)) {
-			$invoice_url = $baseUrl .'&layout=invoice&format=pdf'.$pdfDummi;
-			$invoice_link = "<a href=\"$invoice_url\"  >" . '<span class="hasTip invoice_32" title="' . vmText::_ ('COM_VIRTUEMART_INVOICE') .' '.$order->invoiceNumber. '"></span></a>';
+			$invoice_links_array[]= "<a href=\"$invoice_url\"  >".'<span class="hasTip invoicenew_32" title="' . vmText::_ ('COM_VIRTUEMART_INVOICE_CREATE') . '"></span></a>';
+		} else {
+			foreach ($order->invoiceNumbers as $invoiceNumber) {
+				if (!shopFunctions::InvoiceNumberReserved ($invoiceNumber)) {
+					$invoice_url = $baseUrl .'&layout=invoice&format=pdf'.$pdfDummi;
+					$invoice_links_array[] = "<a href=\"$invoice_url\"  >" . '<span class="hasTip invoice_32" title="' . vmText::_ ('COM_VIRTUEMART_INVOICE') .' '.$invoiceNumber. '"></span></a>';
+				}
+			}
 		}
 
-		if (!$order->invoiceNumber) {
+		if (!$order->invoiceNumbers) {
 			$deliverynote_url = $baseUrl .'&layout=deliverynote&format=pdf&create_invoice='.$order->order_create_invoice_pass.$pdfDummi;
 			$deliverynote_link = "<a href=\"$deliverynote_url\"  >" . '<span class="hasTip deliverynotenew_32" title="' . vmText::_ ('COM_VIRTUEMART_DELIVERYNOTE_CREATE') . '"></span></a>';
-		} elseif (!shopFunctionsF::InvoiceNumberReserved ($order->invoiceNumber)) {
-			$deliverynote_url = $baseUrl .'&layout=deliverynote&format=pdf&virtuemart_order_id=' . $order->virtuemart_order_id .$pdfDummi;
-			$deliverynote_link = "<a href=\"$deliverynote_url\"  >" . '<span class="hasTip deliverynote_32" title="' . vmText::_ ('COM_VIRTUEMART_DELIVERYNOTE').' '.$order->invoiceNumber . '"></span></a>';
+		} else {
+			/*
+			 * TODO: InvoiceNumberReserved is used by some payments like Klarna
+			 */
+			$invoiceNumber= $order->invoiceNumbers [0];
+			if (!shopFunctionsF::InvoiceNumberReserved ($invoiceNumber)) {
+				$deliverynote_url = $baseUrl .'&layout=deliverynote&format=pdf&virtuemart_order_id=' . $order->virtuemart_order_id .$pdfDummi;
+				$deliverynote_link = "<a href=\"$deliverynote_url\"  >" . '<span class="hasTip deliverynote_32" title="' . vmText::_ ('COM_VIRTUEMART_DELIVERYNOTE').' '.$invoiceNumber . '"></span></a>';
 		}
 
+		}
+		$invoice_links=implode(' ', $invoice_links_array);
 	}
 }
 

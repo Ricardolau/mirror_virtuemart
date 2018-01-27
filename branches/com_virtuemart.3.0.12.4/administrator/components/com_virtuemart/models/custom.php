@@ -465,6 +465,11 @@ class VirtueMartModelCustom extends VmModel {
 				'clabels'   	=> array(0, 'int'),
 				'options'		=> array(0, 'int')
 			);
+		} else if($type=='D'){
+			$varsToPush = array(
+				'yearRangeStart'		=> array('', 'string'),
+				'yearRangePeriod'		=> array('', 'string')
+			);
 		} else if($type=='S' or $type=='B'){
 			$varsToPush = array(
 				'addEmpty'		=> array(0, 'int'),

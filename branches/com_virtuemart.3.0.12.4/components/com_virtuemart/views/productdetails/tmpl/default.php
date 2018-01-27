@@ -285,6 +285,3 @@ if ($this->product->prices['salesPrice'] > 0) {
 
 ?>
 </div>
-
-
-

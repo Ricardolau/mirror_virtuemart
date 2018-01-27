@@ -2072,8 +2072,10 @@ vmdebug('$limitStart',$limitStart);
 		// Setup some place holders
 		$product_data = $this->getTable ('products');
 
+		$data['new'] = '1';
 		if(!empty($data['virtuemart_product_id'])){
 			$product_data -> load($data['virtuemart_product_id']);
+			$data['new'] = '0';
 		}
 		if( (empty($data['virtuemart_product_id']) or empty($product_data->virtuemart_product_id)) and !vmAccess::manager('product.create')){
 			vmWarn('Insufficient permission to create product');

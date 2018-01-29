@@ -113,6 +113,10 @@ class VirtueMartModelInvoice extends VmModel {
 			$invT->store();
 			return $invT->invoice_number;
 		} else {
+			if(!$orderDetails) {
+				$order = $this->getOrder( $orderId );
+				$orderDetails = $order['details']['BT'];
+			}
 			return self::createStoreNewInvoiceNumberById($orderId, $orderDetails);
 		}
 	}
@@ -131,9 +135,6 @@ class VirtueMartModelInvoice extends VmModel {
 	}
 
 	public function createStoreNewInvoiceNumber($orderDetails){
-
-
-		//$orderDetails = (array)$orderDetails;
 
 		$data['virtuemart_order_id'] = $orderDetails['virtuemart_order_id'];
 

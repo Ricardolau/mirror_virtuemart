@@ -1075,7 +1075,7 @@ vmdebug('my prices',$data);
 			//TODO use here needNewInvoiceNumber
 
 			if($old_order_status!=$data->order_status and VirtueMartModelInvoice::needInvoiceByOrderstatus($inputOrder['order_status'])){
-				$inputOrder['invoice_number'] = $invM->createReferencedInvoiceNumber($data->virtuemart_order_id);
+				$inputOrder['invoice_number'] = $invM->createReferencedInvoiceNumber($data->virtuemart_order_id, $inputOrder);
 			}
 
 			//We need a new invoice, therefore rename the old one.

@@ -96,7 +96,7 @@ class TableOrders extends VmTableData {
 	/** @var char Order language */
 	var $order_language = NULL;
 	var $delivery_date = NULL;
-
+	var $o_hash = NULL;
 
 	/**
 	 *
@@ -109,7 +109,7 @@ class TableOrders extends VmTableData {
 
 		$this->setUniqueName('order_number');
 		$this->setLoggable();
-
+		//$this->setHashable('o_hash');
 		$this->setTableShortCut('o');
 	}
 

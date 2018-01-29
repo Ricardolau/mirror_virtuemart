@@ -73,7 +73,8 @@ class VirtuemartViewOrders extends VmViewAdmin {
 			$_orderID = $order['details']['BT']->virtuemart_order_id;
 			$orderbt = $order['details']['BT'];
 			$orderst = $order['details']['ST'];//(array_key_exists('ST', $order['details'])) ? $order['details']['ST'] : $orderbt;
-			$orderbt ->invoiceNumbers = $orderModel->getInvoices($orderbt->virtuemart_order_id);
+			$invM = VmModel::getModel('invoice');
+			$orderbt ->invoiceNumbers = $invM->getInvoiceNumbers($orderbt->virtuemart_order_id);
 
 			$currency = CurrencyDisplay::getInstance(0,$order['details']['BT']->virtuemart_vendor_id);
 
@@ -210,7 +211,7 @@ class VirtuemartViewOrders extends VmViewAdmin {
 			$_currencies = array(); // Save the currency data during this loop for performance reasons
 
 			if ($orderslist) {
-
+				$invM = VmModel::getModel('invoice');
 			    foreach ($orderslist as $virtuemart_order_id => $order) {
 
 				    if(!empty($order->order_currency)){
@@ -227,7 +228,8 @@ class VirtuemartViewOrders extends VmViewAdmin {
 				    }
 
 					$orderslist[$virtuemart_order_id]->order_total = $_currencies['curr'.$currency]->priceDisplay($order->order_total);
-					$orderslist[$virtuemart_order_id]->invoiceNumbers = $model->getInvoices($order->virtuemart_order_id);
+
+					$orderslist[$virtuemart_order_id]->invoiceNumbers = $invM->getInvoiceNumbers($order->virtuemart_order_id);
 			    }
 
 			}

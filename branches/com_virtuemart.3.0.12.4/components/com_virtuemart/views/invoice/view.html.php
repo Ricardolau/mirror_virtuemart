@@ -144,7 +144,7 @@ class VirtuemartViewInvoice extends VmView {
 			    $this->invoiceNumber = $invoiceNumberDate[0];
 			    $this->invoiceDate = $invoiceNumberDate[1];
 			    if(!$this->invoiceNumber or empty($this->invoiceNumber)){
-				    vmError('Cant create pdf, createInvoiceNumber failed');
+				    vmError('invoice view Cant create pdf, createInvoiceNumber failed');
 				    if  ($this->uselayout!='mail') {
 					    return ;
 				    }

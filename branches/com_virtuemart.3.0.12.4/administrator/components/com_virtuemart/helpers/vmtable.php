@@ -71,6 +71,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 	public $_varsToPushParam = array();
 	var $_translatable = false;
 	protected $_translatableFields = array();
+	protected $_hashName = '';
 	public $_cryptedFields = false;
 	protected $_langTag = null;
 	public $_ltmp = false;
@@ -369,6 +370,10 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		$this->_orderable = 1;
 		$this->_autoOrdering = $auto;
 		$this->$key = 0;
+	}
+
+	function setHashable($key){
+		$this->_hashName = $key;
 	}
 
 	function setSlug($slugAutoName, $key = 'slug') {
@@ -1325,6 +1330,124 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 
 	}
 
+	function setCheckVendorId(){
+		if(empty($this->virtuemart_vendor_id) and $this->_pkey=='virtuemart_vendor_id'){
+			$this->virtuemart_vendor_id = $this->_pvalue;
+		}
+
+		$multix = Vmconfig::get('multix', 'none');
+		//Lets check if the user is admin or the mainvendor
+		$virtuemart_vendor_id = false;
+		//Todo removed Quickn Dirty, use check in derived class
+		if ($multix == 'none' and get_class($this) !== 'TableVmusers') {
+
+			$this->virtuemart_vendor_id = 1;
+			//return true;
+		} else {
+			//$user = JFactory::getUser();
+			//$loggedVendorId = vmAccess::isSuperVendor($user->id);
+			$loggedVendorId = vmAccess::isSuperVendor();
+			//vmdebug('Table '.$this->_tbl.' check '.$loggedVendorId,$user->id);
+			$user_is_vendor = 0;
+			$tbl_key = $this->_tbl_key;
+			$className = get_class($this);
+
+			$admin = vmAccess::manager('managevendors');
+			//Todo removed Quickn Dirty, use check in derived class
+			if (strpos($this->_tbl,'virtuemart_vmusers')===FALSE) {
+				$q = 'SELECT `virtuemart_vendor_id` FROM `' . $this->_tbl . '` WHERE `' . $this->_tbl_key . '`="' . $this->$tbl_key . '" ';
+				if (!isset(self::$_cache[md5($q)])) {
+					$this->_db->setQuery($q);
+					self::$_cache[md5($q)] = $virtuemart_vendor_id = $this->_db->loadResult();
+				} else $virtuemart_vendor_id = self::$_cache[md5($q)];
+			} else {
+				$q = 'SELECT `virtuemart_vendor_id`,`user_is_vendor`,`virtuemart_user_id` FROM `' . $this->_tbl . '` WHERE `' . $this->_tbl_key . '`="' . $this->$tbl_key . '" ';
+				if (!isset(self::$_cache[md5($q)])) {
+					$this->_db->setQuery($q);
+					$vmuser = $this->_db->loadRow();
+					self::$_cache[md5($q)] = $vmuser;
+				} else $vmuser = self::$_cache[md5($q)];
+
+				vmdebug('Table '.$this->_tbl.' check loaded old entry',$vmuser);
+				if ($vmuser and count($vmuser) === 3) {
+					$virtuemart_vendor_id = $vmuser[0];
+					$user_is_vendor = $vmuser[1];
+
+					if ($multix == 'none') {
+						if (empty($user_is_vendor)) {
+							$this->virtuemart_vendor_id = 0;
+						} else {
+							$this->virtuemart_vendor_id = 1;
+						}
+						return true;
+					} else {
+						vmdebug('Table '.$this->_tbl.' check loaded old entry mv mode',$vmuser);
+						if (!$admin) {
+							if(!empty($vmuser[2])){
+								$user = JFactory::getUser($vmuser[2]);
+								$loggedVendorId = vmAccess::isSuperVendor($user->id);
+								vmdebug('Table '.$this->_tbl.' check new user '.$loggedVendorId);
+							}
+							$this->virtuemart_vendor_id = $loggedVendorId;
+							return true;
+						}
+					}
+				} else {
+					//New User
+					//vmInfo('We run in multivendor mode and you did not set any vendor for '.$className.' and '.$this->_tbl);//, Set to mainvendor '.$this->virtuemart_vendor_id
+					if(empty($this->user_is_vendor)){
+						$this->virtuemart_vendor_id = 0;
+						return true;
+					}
+				}
+			}
+
+			if (!$admin and !empty($virtuemart_vendor_id) and !empty($loggedVendorId) and $loggedVendorId != $virtuemart_vendor_id) {
+				//Todo removed Quickn Dirty, use check in derived class
+				//This is the case when a vendor buys products of vendor1
+				if (strpos($this->_tbl,'virtuemart_order_items')===FALSE and strpos($this->_tbl,'virtuemart_carts')===FALSE) {
+					vmdebug('Blocked storing, logged vendor ' . $loggedVendorId . ' but data belongs to ' . $virtuemart_vendor_id,$this->_tbl);
+					return false;
+				} else {
+					$this->virtuemart_vendor_id = $virtuemart_vendor_id;
+				}
+
+			} else if (!$admin) {
+				if ($virtuemart_vendor_id) {
+					$this->virtuemart_vendor_id = $virtuemart_vendor_id;
+					vmdebug('Non admin is storing using loaded vendor_id');
+				} else {
+					if(empty($this->virtuemart_vendor_id) ){
+						$this->virtuemart_vendor_id = $loggedVendorId;
+					}
+					//No id is stored, even users are allowed to use for the storage and vendorId, no change
+				}
+
+			} else {
+				//Admins are allowed to do anything. We just trhow some messages
+				if (!empty($virtuemart_vendor_id) and $loggedVendorId != $virtuemart_vendor_id) {
+					vmdebug('Admin with vendor id ' . $loggedVendorId . ' is using for storing vendor id ' . $this->virtuemart_vendor_id);
+				}
+				else if (empty($virtuemart_vendor_id) and empty($this->virtuemart_vendor_id)) {
+					if(strpos($this->_tbl,'virtuemart_vendors')===FALSE and strpos($this->_tbl,'virtuemart_vmusers')===FALSE){
+						$this->virtuemart_vendor_id = $loggedVendorId;
+						vmdebug('Fallback to '.$this->virtuemart_vendor_id.' for $loggedVendorId '.$loggedVendorId.': We run in multivendor mode and you did not set any vendor for '.$className.' and '.$this->_tbl);
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	function hashEntry(){
+
+		$fields = $this->loadFields();
+		$tblKey = $this->_tbl_key;
+		unset($fields->{(string)$tblKey});
+		$toHash = vmJsApi::safe_json_encode($fields);
+		$this->{$this->_hashName} = hash('md5',$toHash);
+		vmdebug('my Hash '.$this->_hashName,$this->{$this->_hashName});
+	}
 
 	/**
 	 * @author Max Milbers
@@ -1420,114 +1543,14 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 
 
 		if (property_exists($this,'virtuemart_vendor_id') ) {
-
-			if(empty($this->virtuemart_vendor_id) and $this->_pkey=='virtuemart_vendor_id'){
-				$this->virtuemart_vendor_id = $this->_pvalue;
-			}
-
-			$multix = Vmconfig::get('multix', 'none');
-			//Lets check if the user is admin or the mainvendor
-			$virtuemart_vendor_id = false;
-			//Todo removed Quickn Dirty, use check in derived class
-			if ($multix == 'none' and get_class($this) !== 'TableVmusers') {
-
-				$this->virtuemart_vendor_id = 1;
-				return true;
-			} else {
-				//$user = JFactory::getUser();
-				//$loggedVendorId = vmAccess::isSuperVendor($user->id);
-				$loggedVendorId = vmAccess::isSuperVendor();
-				//vmdebug('Table '.$this->_tbl.' check '.$loggedVendorId,$user->id);
-				$user_is_vendor = 0;
-				$tbl_key = $this->_tbl_key;
-				$className = get_class($this);
-
-				$admin = vmAccess::manager('managevendors');
-				//Todo removed Quickn Dirty, use check in derived class
-				if (strpos($this->_tbl,'virtuemart_vmusers')===FALSE) {
-					$q = 'SELECT `virtuemart_vendor_id` FROM `' . $this->_tbl . '` WHERE `' . $this->_tbl_key . '`="' . $this->$tbl_key . '" ';
-					if (!isset(self::$_cache[md5($q)])) {
-						$this->_db->setQuery($q);
-						self::$_cache[md5($q)] = $virtuemart_vendor_id = $this->_db->loadResult();
-					} else $virtuemart_vendor_id = self::$_cache[md5($q)];
-				} else {
-					$q = 'SELECT `virtuemart_vendor_id`,`user_is_vendor`,`virtuemart_user_id` FROM `' . $this->_tbl . '` WHERE `' . $this->_tbl_key . '`="' . $this->$tbl_key . '" ';
-					if (!isset(self::$_cache[md5($q)])) {
-						$this->_db->setQuery($q);
-						$vmuser = $this->_db->loadRow();
-						self::$_cache[md5($q)] = $vmuser;
-					} else $vmuser = self::$_cache[md5($q)];
-
-					vmdebug('Table '.$this->_tbl.' check loaded old entry',$vmuser);
-					if ($vmuser and count($vmuser) === 3) {
-						$virtuemart_vendor_id = $vmuser[0];
-						$user_is_vendor = $vmuser[1];
-
-						if ($multix == 'none') {
-							if (empty($user_is_vendor)) {
-								$this->virtuemart_vendor_id = 0;
-							} else {
-								$this->virtuemart_vendor_id = 1;
-							}
-							return true;
-						} else {
-							vmdebug('Table '.$this->_tbl.' check loaded old entry mv mode',$vmuser);
-							if (!$admin) {
-								if(!empty($vmuser[2])){
-									$user = JFactory::getUser($vmuser[2]);
-									$loggedVendorId = vmAccess::isSuperVendor($user->id);
-									vmdebug('Table '.$this->_tbl.' check new user '.$loggedVendorId);
-								}
-								$this->virtuemart_vendor_id = $loggedVendorId;
-								return true;
-							}
-						}
-					} else {
-						//New User
-						//vmInfo('We run in multivendor mode and you did not set any vendor for '.$className.' and '.$this->_tbl);//, Set to mainvendor '.$this->virtuemart_vendor_id
-						if(empty($this->user_is_vendor)){
-							$this->virtuemart_vendor_id = 0;
-							return true;
-						}
-					}
-				}
-
-				if (!$admin and !empty($virtuemart_vendor_id) and !empty($loggedVendorId) and $loggedVendorId != $virtuemart_vendor_id) {
-					//Todo removed Quickn Dirty, use check in derived class
-					//This is the case when a vendor buys products of vendor1
-					if (strpos($this->_tbl,'virtuemart_order_items')===FALSE and strpos($this->_tbl,'virtuemart_carts')===FALSE) {
-						vmdebug('Blocked storing, logged vendor ' . $loggedVendorId . ' but data belongs to ' . $virtuemart_vendor_id,$this->_tbl);
-						return false;
-					} else {
-						$this->virtuemart_vendor_id = $virtuemart_vendor_id;
-					}
-
-				} else if (!$admin) {
-					if ($virtuemart_vendor_id) {
-						$this->virtuemart_vendor_id = $virtuemart_vendor_id;
-						vmdebug('Non admin is storing using loaded vendor_id');
-					} else {
-						if(empty($this->virtuemart_vendor_id) ){
-							$this->virtuemart_vendor_id = $loggedVendorId;
-						}
-						//No id is stored, even users are allowed to use for the storage and vendorId, no change
-					}
-
-				} else {
-					//Admins are allowed to do anything. We just trhow some messages
-					if (!empty($virtuemart_vendor_id) and $loggedVendorId != $virtuemart_vendor_id) {
-						vmdebug('Admin with vendor id ' . $loggedVendorId . ' is using for storing vendor id ' . $this->virtuemart_vendor_id);
-					}
-					else if (empty($virtuemart_vendor_id) and empty($this->virtuemart_vendor_id)) {
-						if(strpos($this->_tbl,'virtuemart_vendors')===FALSE and strpos($this->_tbl,'virtuemart_vmusers')===FALSE){
-							$this->virtuemart_vendor_id = $loggedVendorId;
-							vmdebug('Fallback to '.$this->virtuemart_vendor_id.' for $loggedVendorId '.$loggedVendorId.': We run in multivendor mode and you did not set any vendor for '.$className.' and '.$this->_tbl);
-						}
-					}
-				}
+			if(!$this->setCheckVendorId()){
+				return false;
 			}
 		}
 
+		if(!empty($this->_hashName)){
+			$this->hashEntry();
+		}
 		return true;
 	}
 

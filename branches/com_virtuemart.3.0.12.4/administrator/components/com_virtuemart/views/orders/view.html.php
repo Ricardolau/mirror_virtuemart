@@ -5,7 +5,7 @@
  *
  * @package	VirtueMart
  * @subpackage
- * @author
+ * @author Max Milbers, Valérie Isaksen
  * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -126,6 +126,9 @@ class VirtuemartViewOrders extends VmViewAdmin {
 
 			$_itemStatusUpdateFields = array();
 			$_itemAttributesUpdateFields = array();
+			// for the order item template
+			$_itemStatusUpdateFields[0] = JHtml::_('select.genericlist', $orderStates, "item_id[0][order_status]", 'class="selectItemStatusCode"', 'order_status_code', 'order_status_name', 'P', 'order_item_status_0',true);
+
 			foreach($order['items'] as $_item) {
 				$_itemStatusUpdateFields[$_item->virtuemart_order_item_id] = JHtml::_('select.genericlist', $orderStates, "item_id[".$_item->virtuemart_order_item_id."][order_status]", 'class="selectItemStatusCode"', 'order_status_code', 'order_status_name', $_item->order_status, 'order_item_status'.$_item->virtuemart_order_item_id,true);
 
@@ -300,7 +303,7 @@ class VirtuemartViewOrders extends VmViewAdmin {
 		} else {
 			foreach ($order->invoiceNumbers as $invoiceNumber) {
 				if (!shopFunctions::InvoiceNumberReserved ($invoiceNumber)) {
-					$invoice_url = $baseUrl .'&layout=invoice&format=pdf'.$pdfDummi;
+					$invoice_url = $baseUrl .'&layout=invoice&format=pdf'.$pdfDummi.'&invoiceNumber='.$invoiceNumber;
 					$invoice_links_array[] = "<a href=\"$invoice_url\"  >" . '<span class="hasTip invoice_32" title="' . vmText::_ ('COM_VIRTUEMART_INVOICE') .' '.$invoiceNumber. '"></span></a>';
 				}
 			}

@@ -239,12 +239,16 @@ Virtuemart.prdcustomer = jQuery(function($) {
 				dragHandleClass: ".price_ordering",	//".drag-handle",
 				insertFadeSpeed:"slow",
 				removeFadeSpeed:"fast",
+				insertRowPlace:"last",
 				hideTableOnEmpty:true,
 				onRowRemove:function () {
 				},
+                onBeforeRowInsert:function (newTr) {
+                },
+
 				onRowClone:function () {
 				},
-				onRowAdd:function () {
+				onRowAdd:function (newTr) {
 				},
 				onTableEmpty:function () {
 				},
@@ -257,6 +261,7 @@ Virtuemart.prdcustomer = jQuery(function($) {
 			var cloneRow = function (btn) {
 				var clonedRow = $(btn).closest('tr').clone();
 				var tbod = $(btn).closest('tbody');
+
 				insertRow(clonedRow, tbod);
 				options.onRowClone();
 			}
@@ -269,12 +274,19 @@ Virtuemart.prdcustomer = jQuery(function($) {
 
 				$(clonedRow).find('*').andSelf().filter('[id]').each(function () {
 					//change to something else so we don't have ids with the same name
-					// this.id += "_" + numRows;
+                    //this.id += '__c';
 				});
+                options.onBeforeRowInsert(clonedRow);
 
-				//finally append new row to end of table
-				$(tbod).append(clonedRow);
-				bindActions(clonedRow);
+				if (options.insertRowPlace=="last") {
+					//finally append new row to end of table
+					$(tbod).append(clonedRow);
+				} else {
+                    $(tbod).find(options.insertRowPlace +':last').after(clonedRow);
+				}
+
+
+                bindActions(clonedRow);
 				$(tbod).children("tr:last").hide().fadeIn(options.insertFadeSpeed);
 			}
 
@@ -359,7 +371,7 @@ Virtuemart.prdcustomer = jQuery(function($) {
 							//options.onBeforeRowAdd();
 							var newTr = tmpl.clone();
 							insertRow(newTr, tbody);
-							options.onRowAdd();
+							options.onRowAdd(newTr);
 							return false;
 						});
 					});

@@ -77,7 +77,7 @@ class TableOrder_items extends VmTable {
 		parent::__construct('#__virtuemart_order_items', 'virtuemart_order_item_id', $db);
 
 		$this->setLoggable();
-		//$this->setHashable('oi_hash');
+		$this->setHashable('oi_hash');
 	}
 
 }

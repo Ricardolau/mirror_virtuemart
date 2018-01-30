@@ -1439,14 +1439,32 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		return true;
 	}
 
-	function hashEntry(){
+	function hashEntry($set = true){
 
-		$fields = $this->loadFields();
+		$fields = $this->loadFieldValues();
 		$tblKey = $this->_tbl_key;
 		unset($fields->{(string)$tblKey});
-		$toHash = vmJsApi::safe_json_encode($fields);
-		$this->{$this->_hashName} = hash('md5',$toHash);
-		vmdebug('my Hash '.$this->_hashName,$this->{$this->_hashName});
+		$toHash = serialize($fields);
+		$h =  hash('md5',$toHash);
+		if($set ) {
+			$hashName = $this->_hashName;
+			$this->{$hashName} = $h;
+		}
+		vmdebug('my Hash '.$this->_hashName,$this->{$this->_hashName},$toHash);
+		return $h;
+
+	}
+
+	function integrity(){
+
+		$hashName = $this->_hashName;
+		$oldHash = $this->{$hashName};
+		$hash = $this->hashEntry(false);
+		if($oldHash==$hash){
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**

@@ -55,7 +55,7 @@ class VirtueMartModelInvoice extends VmModel {
 	 * @param $orderId
 	 * @param bool $orderDetails
 	 */
-	static function needNewInvoiceNumber($orderId, $order, $layout = 'invoice'){
+	static function checkCreateInvoiceNumber($orderId, $order, $layout = 'invoice'){
 
 		$invoiceOrderStatus = self::needInvoiceByOrderstatus($order['details']['BT']->order_status);
 		$refundOrderStatus = self::needInvoiceByOrderstatus($order['details']['BT']->order_status,'inv_osr',array('R'));
@@ -121,6 +121,31 @@ class VirtueMartModelInvoice extends VmModel {
 		}
 	}
 
+	/**
+	 * returns true if an invoice number has been created
+	 * returns false if an invoice number has not been created  due to some configuration parameters
+	 */
+	function createNewInvoiceNumber($orderDetails, &$invoiceNumber){
+
+		$orderDetails = (array)$orderDetails;
+
+		if(!isset($orderDetails['virtuemart_order_id'])){
+			vmWarn('createInvoiceNumber $orderDetails has no virtuemart_order_id ',$orderDetails);
+			vmdebug('createInvoiceNumber $orderDetails has no virtuemart_order_id ',$orderDetails);
+		}
+
+		$invM = VmModel::getModel('invoice');
+		$result = $invM->getInvoiceEntry($orderDetails['virtuemart_order_id'], true, '*');
+//vmdebug('createInvoiceNumber',$orderDetails,$result);
+		if (!class_exists('ShopFunctions')) require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
+		if(!$result or empty($result['invoice_number']) ){
+			$invoiceNumber = $invM->createStoreNewInvoiceNumber($orderDetails);
+		} else {
+			$invoiceNumber = array($result['invoice_number'],$result['created_on']);
+		}
+		return true;
+	}
+
 	function createStoreNewInvoiceNumberById($orderId, $orderDetails = false){
 		if(!$orderDetails) {
 			$order = $this->getOrder( $orderId );
@@ -135,6 +160,8 @@ class VirtueMartModelInvoice extends VmModel {
 	}
 
 	public function createStoreNewInvoiceNumber($orderDetails){
+
+		if(is_object($orderDetails)) $orderDetails = get_object_vars($orderDetails);
 
 		$data['virtuemart_order_id'] = $orderDetails['virtuemart_order_id'];
 
@@ -272,6 +299,52 @@ class VirtueMartModelInvoice extends VmModel {
 			}
 		}
 		return $path;
+	}
+
+	/** Rename Invoice  (when an order is deleted)
+	 *
+	 * @author Valérie Isaksen
+	 * @author Max Milbers
+	 * @param $order_id Id of the order
+	 * @return boolean true if deleted successful, false if there was a problem
+	 */
+	function renameInvoice($order_id) {
+		//$invM = VmModel::getModel('invoice');
+		//return $invM->createReferencedInvoiceNumber($order_id);
+		$table = $this->getTable('invoices');
+		$table->load($order_id,'virtuemart_order_id');
+		if(empty($table->invoice_number)){
+			return false;
+		}
+		if (!class_exists ('shopFunctionsF'))
+			require(VMPATH_SITE . DS . 'helpers' . DS . 'shopfunctionsf.php');
+
+		// rename invoice pdf file
+		$path = shopFunctions::getInvoicePath(VmConfig::get('forSale_path',0));
+		$name = shopFunctionsF::getInvoiceName($table->invoice_number);
+		$invoice_name_src = $path.DS.$name.'.pdf';
+
+		if(!file_exists($invoice_name_src)){
+			// may be it was already deleted when changing order items
+			$data['invoice_number'] = $table->invoice_number;
+			//$data['invoice_number'] = $data['invoice_number'].' not found.';
+		} else {
+			$date = date("Ymd");
+			// We change the invoice number in the invoice table only. The order's invoice number is not modified!
+			$data['invoice_number'] = $table->invoice_number.'_'.$date.'_'.$table->order_status;
+			// We the sanitized file name as the invoice number might contain strange characters like 2015/01.
+			$invoice_name_dst = $path.DS.$name.'_deprecated'.$date.'_'.$table->order_status.'.pdf';
+
+			if(!class_exists('JFile')) require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'file.php');
+			if (!JFile::move($invoice_name_src, $invoice_name_dst)) {
+				vmError ('Could not rename Invoice '.$invoice_name_src.' to '. $invoice_name_dst );
+			}
+		}
+
+		$table = $this->getTable('invoices');
+		$table->bindChecknStore($data);
+
+		return true;
 	}
 }
 

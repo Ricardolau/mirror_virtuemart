@@ -537,11 +537,12 @@ class VirtueMartModelOrders extends VmModel {
 				$db->setQuery($sql);
 				if ($vat = $db->loadObject()) {
 					$taxCalcValue = $vat->calc_value;
+					$vat->virtuemart_order_calc_rule_id = 0; 	//We set this here, so that we know the tax is missing and must be inserted
+					vmdebug('updateSingleItem $taxCalcValue loaded by fallback '.$vat->virtuemart_calc_id);
 				} else {
-					$vat = new stdClass();
+					$vat = false;
 				}
-				$vat->virtuemart_order_calc_rule_id = 0; 	//We set this here, so that we know the tax is missing and must be inserted
-				vmdebug('updateSingleItem $taxCalcValue loaded by fallback '.$vat->virtuemart_calc_id);
+
 			}
 
 			//When the product has no discount
@@ -579,7 +580,7 @@ class VirtueMartModelOrders extends VmModel {
 				vmdebug('Set $overwriteDiscount '.$data['product_subtotal_discount']);
 			}
 
-			if($data['calculate_product_tax']) {
+			if(!empty($data['calculate_product_tax'])) {
 				$data = self::calculateRow($data, $taxCalcValue, $rounding, $daTax, $withTax, $overwriteDiscount);
 			}
 
@@ -2214,7 +2215,7 @@ vmdebug('my prices',$data);
 			$this->_db->execute();
 
 			// rename invoice number by adding the date, and update the invoice table
-			//$this->renameInvoice($id );
+			$this->renameInvoice($id );
 
 			if (!$table->delete((int)$id)) {
 				$removedOrderMsgs [$order['details']['BT']->order_number] = 'COM_VIRTUEMART_ORDER_PB_WHILE_DELETING';
@@ -2443,27 +2444,8 @@ vmdebug('my prices',$data);
 	*/
 	function createInvoiceNumber($orderDetails, &$invoiceNumber){
 
-		$orderDetails = (array)$orderDetails;
-
-		if(!isset($orderDetails['virtuemart_order_id'])){
-			vmWarn('createInvoiceNumber $orderDetails has no virtuemart_order_id ',$orderDetails);
-			vmdebug('createInvoiceNumber $orderDetails has no virtuemart_order_id ',$orderDetails);
-		}
-
 		$invM = VmModel::getModel('invoice');
-		$result = $invM->getInvoiceEntry($orderDetails['virtuemart_order_id'], true, '*');
-//vmdebug('createInvoiceNumber',$orderDetails,$result);
-		if (!class_exists('ShopFunctions')) require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
-		if(!$result or empty($result['invoice_number']) ){
-
-			$invoiceNumber = $invM->createStoreNewInvoiceNumber($orderDetails);
-		} elseif (ShopFunctions::InvoiceNumberReserved($result['invoice_number']) ) {
-			$invoiceNumber = array($result['invoice_number'],$result['created_on']);
-			return true;
-		} else {
-			$invoiceNumber = array($result['invoice_number'],$result['created_on']);
-		}
-		return true;
+		return $invM->checkCreateInvoiceNumber($orderDetails, $invoiceNumber);
 	}
 
 	static function getInvoiceNumber($virtuemart_order_id) {
@@ -2480,8 +2462,7 @@ vmdebug('my prices',$data);
 	 */
 	function renameInvoice($order_id) {
 		$invM = VmModel::getModel('invoice');
-		return $invM->createReferencedInvoiceNumber($order_id);
-
+		return $invM->renameInvoice($order_id);
 	}
 
 	/** Delete Invoice when an item is updated
@@ -2492,7 +2473,7 @@ vmdebug('my prices',$data);
 	 */
 	function deleteInvoice($order_id ) {
 		$invM = VmModel::getModel('invoice');
-		return $invM->renameInvoice($order_id);
+		return $invM->createReferencedInvoiceNumber($order_id);
 	}
 
 }

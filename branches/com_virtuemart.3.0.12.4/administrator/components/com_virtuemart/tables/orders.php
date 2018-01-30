@@ -109,7 +109,7 @@ class TableOrders extends VmTableData {
 
 		$this->setUniqueName('order_number');
 		$this->setLoggable();
-		//$this->setHashable('o_hash');
+		$this->setHashable('o_hash');
 		$this->setTableShortCut('o');
 	}
 

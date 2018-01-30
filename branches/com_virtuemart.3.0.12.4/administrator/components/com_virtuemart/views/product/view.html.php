@@ -551,7 +551,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 		foreach($discounts as $discount){
 			$discountrates[] = JHtml::_('select.option', $discount->virtuemart_calc_id, $discount->calc_name, 'product_discount_id');
 		}
-		$listHTML = JHtml::_('Select.genericlist', $discountrates, $name, '', 'product_discount_id', 'text', $selected );
+		$listHTML = JHtml::_('Select.genericlist', $discountrates, $name, 'class="vm-chzn-add"', 'product_discount_id', 'text', $selected, '[' );
 		return $listHTML;
 
 	}

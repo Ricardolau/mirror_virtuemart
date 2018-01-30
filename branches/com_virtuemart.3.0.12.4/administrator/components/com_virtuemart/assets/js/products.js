@@ -287,6 +287,8 @@ Virtuemart.prdcustomer = jQuery(function($) {
 
 
                 bindActions(clonedRow);
+                console.log('executed insertRow');
+				jQuery("select.vm-chzn-add").chosen({enable_select_all: true,select_all_text : vm2string.select_all_text,select_some_options_text:vm2string.select_some_options_text,disable_search_threshold: 5});
 				$(tbod).children("tr:last").hide().fadeIn(options.insertFadeSpeed);
 			}
 

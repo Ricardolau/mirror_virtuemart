@@ -519,7 +519,7 @@ jQuery(document).ready(function($) {
 				$selectText = 'COM_VIRTUEMART_DRDOWN_AVA2ALL';
 				$vm2string = "editImage: 'edit image',select_all_text: '".vmText::_('COM_VIRTUEMART_DRDOWN_SELALL')."',select_some_options_text: '".vmText::_($selectText)."'" ;
 				if($be or vRequest::getInt('manage',false)){
-					$selector = 'jQuery("select")';
+					$selector = 'jQuery("select:not(.vm-chzn-add)")';
 				} else {
 					$selector = 'jQuery("select.vm-chzn-select")';
 				}
@@ -529,9 +529,8 @@ jQuery(document).ready(function($) {
 	var Virtuemart = {};
 	Virtuemart.updateChosenDropdownLayout = function() {
 		var vm2string = {'.$vm2string.'};
-		'.$selector.'.each( function () {
-			jQuery(this).chosen({enable_select_all: true,select_all_text : vm2string.select_all_text,select_some_options_text:vm2string.select_some_options_text,disable_search_threshold: 5});
-		});
+		'.$selector.'.chosen({enable_select_all: true,select_all_text : vm2string.select_all_text,select_some_options_text:vm2string.select_some_options_text,disable_search_threshold: 5});
+		console.log("updateChosenDropdownLayout");
 	}
 	jQuery(document).ready( function() {
 		Virtuemart.updateChosenDropdownLayout($);

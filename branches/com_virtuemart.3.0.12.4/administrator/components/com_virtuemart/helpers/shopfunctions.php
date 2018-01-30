@@ -165,7 +165,7 @@ class ShopFunctions {
 		$shoppergrps = $shopperModel->getShopperGroups (FALSE, TRUE);
 
 
-		$attrs['class'] = 'vm-chzn-select vm-drop';
+		if(empty($attrs['class'])) $attrs['class'] = 'vm-chzn-select vm-drop';
 		//if(!isset($attrs['style'])) $attrs['style'] = 'min-width:150px'; //$attrs['style']='width: 200px;';
 		if ($multiple) {
 			$attrs['multiple'] = 'multiple';
@@ -178,7 +178,7 @@ class ShopFunctions {
 			array_unshift ($shoppergrps, $emptyOption);
 		}
 
-		$listHTML = JHTML::_ ('select.genericlist', $shoppergrps, $name, $attrs, 'virtuemart_shoppergroup_id', 'shopper_group_name', $shopperGroupId,false,true);
+		$listHTML = JHTML::_ ('select.genericlist', $shoppergrps, $name, $attrs, 'virtuemart_shoppergroup_id', 'shopper_group_name', $shopperGroupId,'[',true);
 		$listHTML .= '<input name="virtuemart_shoppergroup_set" value="1" type="hidden">';
 		return $listHTML;
 	}
@@ -227,7 +227,7 @@ class ShopFunctions {
 		foreach ($taxes as $tax) {
 			$taxrates[] = JHtml::_ ('select.option', $tax->virtuemart_calc_id, $tax->calc_name, $name);
 		}
-		$listHTML = JHtml::_ ('Select.genericlist', $taxrates, $name, $class, $name, 'text', $selected);
+		$listHTML = JHtml::_ ('Select.genericlist', $taxrates, $name, $class, $name, 'text', $selected,'[');
 		return $listHTML;
 	}
 

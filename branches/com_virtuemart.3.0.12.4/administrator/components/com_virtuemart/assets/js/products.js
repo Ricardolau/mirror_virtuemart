@@ -261,6 +261,10 @@ Virtuemart.prdcustomer = jQuery(function($) {
 			var cloneRow = function (btn) {
 				var clonedRow = $(btn).closest('tr').clone();
 				var tbod = $(btn).closest('tbody');
+                $(clonedRow).find(".chzn-container").remove();
+                $(clonedRow).find('select').each(function () {
+                    $(this).removeClass("chzn-done").addClass("vm-chzn-add").show();
+                });
 
 				insertRow(clonedRow, tbod);
 				options.onRowClone();

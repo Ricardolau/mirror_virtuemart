@@ -50,8 +50,21 @@ class VirtueMartModelInvoice extends VmModel {
 		 return $invoiceOrderStatus;
 	}
 
+	static function checkInvoiceExists($invoiceNumber, $layout){
+		$path = self::getInvoicePath();
+		$path .= shopFunctionsF::getInvoiceName($invoiceNumber, $layout).'.pdf';
+		vmdebug('checkInvoiceExists path '.$path);
+		//Last check here, does the invoice already exists? else we can just use the old one
+		if(file_exists($path)){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	/**
 	 * Checks if we need a new invoice and therefore, if we need a new invoice number
+	 * Actually at the moment unused
 	 * @param $orderId
 	 * @param bool $orderDetails
 	 */
@@ -75,14 +88,7 @@ class VirtueMartModelInvoice extends VmModel {
 			return false;
 		} else {
 
-			$path = self::getInvoicePath();
-			$path .= shopFunctionsF::getInvoiceName($invoice['invoice_number'], $layout).'.pdf';
-			//Last check here, does the invoice already exists? else we can just use the old one
-			if(file_exists($path)){
-				return true;
-			} else {
-				return false;
-			}
+			return self::checkInvoiceExists($invoice['invoice_number'], $layout);
 
 		}
 		//Compare hash of orderDetails and stored invoice hash
@@ -102,6 +108,16 @@ class VirtueMartModelInvoice extends VmModel {
 
 		//check if there is already an InvoiceEntry
 		$invNu = self::getInvoiceEntry( $orderId, true, '*' );
+
+		//First lets execute a path check, if the invoice was actually already rendered
+		if($invNu){
+			$exists = self::checkInvoiceExists($invNu['invoice_number'], $layout);
+			if(!$exists){
+				vmdebug('Current invoice number not rendered yet');
+				return false; //No new invoice number created
+			}
+		}
+
 		vmdebug( 'createReferencedInvoiceNumber', $orderId, $invNu );
 		if(!VmConfig::get( 'ChangedInvCreateNewInvNumber', false ) and $invNu) {
 			$invT = $this->getTable( 'invoices' );
@@ -113,10 +129,6 @@ class VirtueMartModelInvoice extends VmModel {
 			$invT->store();
 			return $invT->invoice_number;
 		} else {
-			if(!$orderDetails) {
-				$order = $this->getOrder( $orderId );
-				$orderDetails = $order['details']['BT'];
-			}
 			return self::createStoreNewInvoiceNumberById($orderId, $orderDetails);
 		}
 	}

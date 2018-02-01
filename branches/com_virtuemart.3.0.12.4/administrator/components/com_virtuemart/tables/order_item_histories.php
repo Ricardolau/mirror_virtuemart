@@ -43,6 +43,8 @@ class TableOrder_item_histories extends VmTable {
 	/** @var text Comments */
 	var $comments = NULL;
 
+	var $oi_hash = NULL;
+
 	/**
 	 * @param $db Class constructor; connect to the database
 	 */
@@ -50,7 +52,8 @@ class TableOrder_item_histories extends VmTable {
 		parent::__construct('#__virtuemart_order_item_histories', 'virtuemart_order_item_history_id', $db);
 
 		$this->setObligatoryKeys('virtuemart_order_item_id');
-
+		$this->setHashable('oi_hash');
+		$this->setOmittedHashFields(array('virtuemart_order_item_history_id'));
 		$this->setLoggable();
 	}
 }

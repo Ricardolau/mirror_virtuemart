@@ -110,6 +110,8 @@ class TableOrders extends VmTableData {
 		$this->setUniqueName('order_number');
 		$this->setLoggable();
 		$this->setHashable('o_hash');
+
+		$this->setOmittedHashFields(array('order_pass','order_create_invoice_pass'));
 		$this->setTableShortCut('o');
 	}
 

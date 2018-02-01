@@ -78,6 +78,7 @@ class TableOrder_items extends VmTable {
 
 		$this->setLoggable();
 		$this->setHashable('oi_hash');
+		$this->setOmittedHashFields(array('virtuemart_order_item_id'));
 	}
 
 }

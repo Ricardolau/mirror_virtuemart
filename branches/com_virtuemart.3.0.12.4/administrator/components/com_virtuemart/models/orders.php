@@ -2445,7 +2445,7 @@ vmdebug('my prices',$data);
 	function createInvoiceNumber($orderDetails, &$invoiceNumber){
 
 		$invM = VmModel::getModel('invoice');
-		return $invM->checkCreateInvoiceNumber($orderDetails, $invoiceNumber);
+		return $invM->createNewInvoiceNumber($orderDetails, $invoiceNumber);
 	}
 
 	static function getInvoiceNumber($virtuemart_order_id) {

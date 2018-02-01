@@ -72,6 +72,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 	var $_translatable = false;
 	protected $_translatableFields = array();
 	protected $_hashName = '';
+	protected $_omittedHashFields = array();
 	public $_cryptedFields = false;
 	protected $_langTag = null;
 	public $_ltmp = false;
@@ -374,6 +375,10 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 
 	function setHashable($key){
 		$this->_hashName = $key;
+	}
+
+	function setOmittedHashFields(array $fields){
+		$this->_omittedHashFields = $fields;
 	}
 
 	function setSlug($slugAutoName, $key = 'slug') {
@@ -1441,16 +1446,22 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 
 	function hashEntry($set = true){
 
-		$fields = $this->loadFieldValues();
-		$tblKey = $this->_tbl_key;
-		unset($fields->{(string)$tblKey});
+		$fields = $this->getProperties();
+
+		unset($fields[(string)$this->_hashName]);
+		if(!empty($this->_omittedHashFields)){
+			foreach($this->_omittedHashFields as $prop){
+				unset($fields[(string)$prop]);
+			}
+		}
+
 		$toHash = serialize($fields);
 		$h =  hash('md5',$toHash);
 		if($set ) {
 			$hashName = $this->_hashName;
 			$this->{$hashName} = $h;
 		}
-		vmdebug('my Hash '.$this->_hashName,$this->{$this->_hashName},$toHash);
+
 		return $h;
 
 	}
@@ -1460,6 +1471,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		$hashName = $this->_hashName;
 		$oldHash = $this->{$hashName};
 		$hash = $this->hashEntry(false);
+
 		if($oldHash==$hash){
 			return true;
 		} else {

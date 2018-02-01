@@ -186,17 +186,30 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 		$invModel = VmModel::getModel('invoice');
 		$path = VirtueMartModelInvoice::getInvoicePath();
 
-		$orderModel = VmModel::getModel('orders');
-		$invoiceNumberDate=array();
-		if (!  $orderModel->createInvoiceNumber($orderDetails['details']['BT'], $invoiceNumberDate)) {
-		    return false;
+		$invoiceNumber = vRequest::getString('invoiceNumber',false);
+
+		if($invoiceNumber) {
+			$invM = VmModel::getModel('invoice');
+			$storedOIds = $invM->getInvoiceEntry($orderDetails['details']['BT']->vrituemart_order_id, false, 'invoice_number');
+			if(!in_array($invoiceNumber,$storedOIds)){
+				$invoiceNumber = false;
+			}
 		}
 
-		if(!empty($invoiceNumberDate[0])){
-			$invoiceNumber = $invoiceNumberDate[0];
-		} else {
-			$invoiceNumber = FALSE;
+		if(!$invoiceNumber or empty($invoiceNumber)){
+			$orderModel = VmModel::getModel('orders');
+			$invoiceNumberDate=array();
+			if (!  $orderModel->createInvoiceNumber($orderDetails['details']['BT'], $invoiceNumberDate)) {
+				return false;
+			}
+
+			if(!empty($invoiceNumberDate[0])){
+				$invoiceNumber = $invoiceNumberDate[0];
+			} else {
+				$invoiceNumber = FALSE;
+			}
 		}
+
 
 		if(!$invoiceNumber or empty($invoiceNumber)){
 			vmError('getInvoicePDF Cant create pdf, createInvoiceNumber failed');

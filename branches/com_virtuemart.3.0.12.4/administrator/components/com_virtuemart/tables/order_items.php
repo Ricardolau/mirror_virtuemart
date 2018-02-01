@@ -78,7 +78,7 @@ class TableOrder_items extends VmTable {
 
 		$this->setLoggable();
 		$this->setHashable('oi_hash');
-		$this->setOmittedHashFields(array('virtuemart_order_item_id'));
+		$this->setOmittedHashFields(array('virtuemart_order_item_id','modified_on','modified_by','locked_on','locked_by'));
 	}
 
 }

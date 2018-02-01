@@ -646,7 +646,7 @@ class VirtueMartModelOrders extends VmModel {
 				$set = 'oi.virtuemart_product_id=p.virtuemart_product_id, oi.order_item_name=l.product_name';
 				$where = 'p.virtuemart_product_id=l.virtuemart_product_id and
 				 			p.product_sku="'.$data['order_item_sku'].'" and
-				 			oi.virtuemart_order_item_id="'.$virtuemart_order_item_id.'"';
+				 			oi.virtuemart_order_item_id="'.(int)$virtuemart_order_item_id.'"';
 			}
 
 			if(!empty($set)){
@@ -663,6 +663,14 @@ class VirtueMartModelOrders extends VmModel {
 				}
 			}
 		}
+
+		//store history
+		$table->load($virtuemart_order_item_id);
+		if($dataT['oi_hash']!=$table->oi_hash){
+			$tableHist = $this->getTable('order_item_histories');
+			$tableHist->bindChecknStore($dataT);
+		}
+
 
 		if(!empty($oldQuantity) and $oldQuantity!=$table->product_quantity){
 			$this->handleStockAfterStatusChangedPerProduct($oldOrderStatus, $oldOrderStatus, $table, $oldQuantity);

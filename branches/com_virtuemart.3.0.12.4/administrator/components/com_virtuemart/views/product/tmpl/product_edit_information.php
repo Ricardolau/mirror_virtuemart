@@ -318,10 +318,6 @@ $j = 'jQuery(document).ready(function ($) {
             onRowClone:function () {
             },
             onRowAdd:function () {
-                //$(\'select\').chosen(\'destroy\');
-                //Virtuemart.updateChosenDropdownLayout($);
-                //$(".chzn-single").chosen();
-               // $(\'select\').trigger(\'chosen:updated\');
             },
             onTableEmpty:function () {
             },

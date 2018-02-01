@@ -704,8 +704,7 @@ AdminUIHelper::endAdminArea();
 
 </script>*/
 
-// TODO Move the dynoTable script from that file
-vmJsApi::addJScript( '/administrator/components/com_virtuemart/assets/js/products.js', false, false );
+vmJsApi::addJScript( '/administrator/components/com_virtuemart/assets/js/dynotable.js', false, false );
 
 $j = 'jQuery(document).ready(function ($) {
         jQuery("#order-items-table").dynoTable({

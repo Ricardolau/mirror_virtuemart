@@ -56,6 +56,7 @@ AdminUIHelper::buildTabs ( $this,  $tabarray, $this->product->virtuemart_product
 </form>
 <?php AdminUIHelper::endAdminArea();
 
+vmJsApi::addJScript( '/administrator/components/com_virtuemart/assets/js/dynotable.js', false, false );
 vmJsApi::addJScript( '/administrator/components/com_virtuemart/assets/js/products.js', false, false );
 
 $app = JFactory::getApplication();

@@ -1017,9 +1017,9 @@ class vmrouterHelper {
 					$strings[] = $cat->slug;
 
 				} else if(!empty($id)){
-					vmdebug('router.php getCategoryNames set 404 for id '.$id,$cat);
-					$categoryNamesCache[VmLanguage::$currLangTag][$id] = '404';
-					$strings[] = '404';
+					//vmdebug('router.php getCategoryNames set 404 for id '.$id,$cat);
+					//$categoryNamesCache[VmLanguage::$currLangTag][$id] = '404';
+					//$strings[] = '404';
 				}
 			} else {
 				$strings[] = $categoryNamesCache[VmLanguage::$currLangTag][$id];

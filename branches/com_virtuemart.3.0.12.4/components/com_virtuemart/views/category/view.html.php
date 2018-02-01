@@ -26,9 +26,7 @@ if(!class_exists('VmView'))require(VMPATH_SITE.DS.'helpers'.DS.'vmview.php');
 * Handle the category view
 *
 * @package VirtueMart
-* @author RolandD
-* @todo set meta data
-* @todo add full path to breadcrumb
+* @author Max Milbers
 */
 class VirtuemartViewCategory extends VmView {
 

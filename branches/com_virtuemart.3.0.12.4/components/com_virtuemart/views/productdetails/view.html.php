@@ -193,7 +193,7 @@ class VirtueMartViewProductdetails extends VmView {
 			if ($category_model) {
 
 				$category = $category_model->getCategory($product->virtuemart_category_id, $this->cat_productdetails);
-				if($category->parents===false) $category->parents = $category_model->getParentsList($product->virtuemart_category_id);
+				//if($category->parents===false) $category->parents = $category_model->getParentsList($product->virtuemart_category_id);
 				if(in_array($last_category_id,$product->categories) && !$seo_full) $product->category_name = $category->category_name;
 
 				$category_model->addImages($category, 1);
@@ -206,7 +206,7 @@ class VirtueMartViewProductdetails extends VmView {
 				//Seems we dont need this anylonger, destroyed the breadcrumb
 				if ($category->parents) {
 					foreach ($category->parents as $c) {
-						if(is_object($c) and isset($c->category_name)){
+						if(is_object($c) and !empty($c->category_name) and !empty($c->published)){
 							$pathway->addItem(strip_tags(vmText::_($c->category_name)), JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id=' . $c->virtuemart_category_id, FALSE));
 						} else {
 							vmdebug('Error, parent category has no name, breadcrumb maybe broken, category',$c);

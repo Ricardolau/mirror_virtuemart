@@ -201,7 +201,7 @@ $i=0;
 			$this->product->allPrices[$k] = array_merge($this->product->allPrices[$k],$this->calculatedPrices);
 
 			$currency_model = VmModel::getModel ('currency');
-			$this->lists['currencies'] = JHtml::_ ('select.genericlist', $currencies, 'mprices[product_currency][' . $this->priceCounter . ']', 'class="'.$class.'"', 'virtuemart_currency_id', 'currency_name', $this->product->allPrices[$k]['product_currency'],'[');
+			$this->lists['currencies'] = JHtml::_ ('select.genericlist', $currencies, 'mprices[product_currency][]', 'class="'.$class.'"', 'virtuemart_currency_id', 'currency_name', $this->product->allPrices[$k]['product_currency'],'[');
 
 			$DBTax = ''; //vmText::_('COM_VIRTUEMART_RULES_EFFECTING') ;
 			foreach ($calculator->rules['DBTax'] as $rule) {
@@ -230,13 +230,13 @@ $i=0;
 			if (!isset($this->product->allPrices[$k]['product_tax_id'])) {
 				$this->product->allPrices[$k]['product_tax_id'] = 0;
 			}
-			$this->lists['taxrates'] = ShopFunctions::renderTaxList ($this->product->allPrices[$k]['product_tax_id'], 'mprices[product_tax_id][' . $this->priceCounter . ']','class="'.$class.'"');
+			$this->lists['taxrates'] = ShopFunctions::renderTaxList ($this->product->allPrices[$k]['product_tax_id'], 'mprices[product_tax_id][]','class="'.$class.'"');
 			if (!isset($this->product->allPrices[$k]['product_discount_id'])) {
 				$this->product->allPrices[$k]['product_discount_id'] = 0;
 			}
-			$this->lists['discounts'] = $this->renderDiscountList ($this->product->allPrices[$k]['product_discount_id'], 'mprices[product_discount_id][' . $this->priceCounter . ']');
+			$this->lists['discounts'] = $this->renderDiscountList ($this->product->allPrices[$k]['product_discount_id'], 'mprices[product_discount_id][]');
 
-			$this->lists['shoppergroups'] = ShopFunctions::renderShopperGroupList ($this->product->allPrices[$k]['virtuemart_shoppergroup_id'], false, 'mprices[virtuemart_shoppergroup_id][' . $this->priceCounter . ']', 'COM_VIRTUEMART_DRDOWN_AVA2ALL',array('class'=>$class));
+			$this->lists['shoppergroups'] = ShopFunctions::renderShopperGroupList ($this->product->allPrices[$k]['virtuemart_shoppergroup_id'], false, 'mprices[virtuemart_shoppergroup_id][]', 'COM_VIRTUEMART_DRDOWN_AVA2ALL',array('class'=>$class));
 
 
 

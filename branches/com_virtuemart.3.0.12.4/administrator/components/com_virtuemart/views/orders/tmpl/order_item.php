@@ -47,7 +47,7 @@ $i=0;
 <td>
 	<span class='orderView'><?php echo $item->order_item_name; ?></span>
 
-	<input class='orderEdit' type="text"  name="item_id[<?php echo $item->virtuemart_order_item_id; ?>][order_item_name]" value="<?php echo $item->order_item_name; ?>"/>
+	<input class='orderEdit' type="text"  name="item_id[<?php echo $item->virtuemart_order_item_id; ?>][order_item_name]" value="<?php echo $item->order_item_name; ?>" style="width:90%;min-width:100px" />
 	<?php if ($item->virtuemart_order_item_id > 0 ) { ?>
 		<div class="goto-product">
 			<a href="<?php echo $item->linkedit ?>" target="_blank"
@@ -86,8 +86,9 @@ $i=0;
 </td>
 <td>
 	<span class='orderView'><?php echo $item->order_item_sku; ?></span>
-	<input class='orderEdit' type="text"  name="item_id[<?php echo $item->virtuemart_order_item_id; ?>][order_item_sku]" value="<?php echo $item->order_item_sku; ?>" placeholder="<?php echo vmText::_('COM_VIRTUEMART_ORDER_ITEM_ENTER_SKU') ?>"/>
-	<span class='orderEdit'><?php echo vmText::_('COM_VIRTUEMART_ORDER_ITEM_ENTER_SKU_PRODUCT_ID') ?></span>
+    <span class='orderEdit'><?php echo vmText::_('COM_VIRTUEMART_ORDER_ITEM_ENTER_SKU_PRODUCT_ID') ?></span>
+	<input class='orderEdit' type="text" name="item_id[<?php echo $item->virtuemart_order_item_id; ?>][order_item_sku]" value="<?php echo $item->order_item_sku; ?>" placeholder="<?php echo vmText::_('COM_VIRTUEMART_ORDER_ITEM_ENTER_SKU') ?>"/><br>
+
 	<input class='orderEdit' type="text" size="10" name="item_id[<?php echo $item->virtuemart_order_item_id; ?>][virtuemart_product_id]" value="<?php echo $item->virtuemart_product_id; ?>" placeholder="<?php echo vmText::_('COM_VIRTUEMART_ORDER_ITEM_ENTER_PRODUCT_ID') ?>"/>
 
 </td>
@@ -101,30 +102,30 @@ $i=0;
 	$item->product_discountedPriceWithoutTax = (float) $item->product_discountedPriceWithoutTax;
 	if (!empty($item->product_discountedPriceWithoutTax) && $item->product_discountedPriceWithoutTax != $item->product_priceWithoutTax) {
 		echo '<span style="text-decoration:line-through">'.$this->currency->priceDisplay($item->product_item_price) .'</span><br />';
-		echo '<span >'.$this->currency->priceDisplay($item->product_discountedPriceWithoutTax) .'</span><br />';
+		echo '<span >'.$this->currency->priceDisplay($item->product_discountedPriceWithoutTax) .'</span>';
 	} else {
-		echo '<span >'.$this->currency->priceDisplay($item->product_item_price) .'</span><br />';
+		echo '<span >'.$this->currency->priceDisplay($item->product_item_price) .'</span>';
 	}
-	?>
+	?><br />
 	<input class='orderEdit' type="text" size="8" name="item_id[<?php echo $item->virtuemart_order_item_id; ?>][product_item_price]" value="<?php echo $item->product_item_price; ?>"/>
 </td>
 <td align="right" style="padding-right: 5px;">
-	<?php echo $this->currency->priceDisplay($item->product_basePriceWithTax); ?>
+	<?php echo $this->currency->priceDisplay($item->product_basePriceWithTax); ?><br />
 	<input class='orderEdit' type="text" size="8" name="item_id[<?php echo $item->virtuemart_order_item_id; ?>][product_basePriceWithTax]" value="<?php echo $item->product_basePriceWithTax; ?>"/>
 </td>
 <td align="right" style="padding-right: 5px;">
-	<?php echo $this->currency->priceDisplay($item->product_final_price); ?>
+	<?php echo $this->currency->priceDisplay($item->product_final_price); ?><br />
 	<input class='orderEdit' type="text" size="8" name="item_id[<?php echo $item->virtuemart_order_item_id; ?>][product_final_price]" value="<?php echo $item->product_final_price; ?>"/>
 </td>
 <td align="right" style="padding-right: 5px;">
-	<?php echo $this->currency->priceDisplay( $item->product_tax); ?>
+	<?php echo $this->currency->priceDisplay( $item->product_tax); ?><br />
 	<input class='orderEdit' type="text" size="12" name="item_id[<?php echo $item->virtuemart_order_item_id; ?>][product_tax]" value="<?php echo $item->product_tax; ?>"/>
 	<span style="display: block; font-size: 80%;" title="<?php echo vmText::_('COM_VIRTUEMART_ORDER_EDIT_CALCULATE_DESC'); ?>">
 			<input class='orderEdit' type="checkbox" name="item_id[<?php echo $item->virtuemart_order_item_id; ?>][calculate_product_tax]" value="1" /> <label class='orderEdit' for="calculate_product_tax"><?php echo vmText::_('COM_VIRTUEMART_ORDER_EDIT_CALCULATE'); ?></label>
 		</span>
 </td>
 <td align="right" style="padding-right: 5px;">
-	<?php echo $this->currency->priceDisplay( $item->product_subtotal_discount); ?>
+	<?php echo $this->currency->priceDisplay( $item->product_subtotal_discount); ?><br />
 	<input class='orderEdit' type="text" size="8" name="item_id[<?php echo $item->virtuemart_order_item_id; ?>][product_subtotal_discount]" value="<?php echo $item->product_subtotal_discount; ?>"/>
 </td>
 <td align="right" style="padding-right: 5px;">

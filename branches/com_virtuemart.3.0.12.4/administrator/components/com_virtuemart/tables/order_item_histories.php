@@ -81,13 +81,15 @@ class TableOrder_item_histories extends VmTable {
 	var $locked_on = NULL;
 	var $locked_by = NULL;
 
+	var $action = NULL;
+
 	/**
 	 * @param $db Class constructor; connect to the database
 	 */
 	function __construct($db) {
 		parent::__construct('#__virtuemart_order_item_histories', 'virtuemart_order_item_history_id', $db);
 
-		$this->setObligatoryKeys('virtuemart_order_item_id');
+		$this->setObligatoryKeys('virtuemart_order_id');
 		$this->setHashable('oi_hash');
 		$this->setOmittedHashFields(array('virtuemart_order_item_history_id','virtuemart_order_item_id','modified_on','modified_by','locked_on','locked_by'));
 		//$this->setLoggable();

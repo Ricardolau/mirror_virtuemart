@@ -145,7 +145,7 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
 						$countInvoices=count($this->orderbt->invoiceNumbers);
 						foreach ($this->orderbt->invoiceNumbers as $index =>$invoiceNumber){
 							if ($invoiceNumber and !shopFunctionsF::InvoiceNumberReserved($invoiceNumber) ) {
-								$baseUrl = 'index.php?option=com_virtuemart&view=orders&task=callInvoiceView&tmpl=component&virtuemart_order_id=' . $this->orderbt->virtuemart_order_id;
+								$baseUrl = 'index.php?option=com_virtuemart&view=orders&task=callInvoiceView&tmpl=component&virtuemart_order_id=' . $this->orderbt->virtuemart_order_id.'&invoiceNumber='.$invoiceNumber.'&layout=invoice';
 								echo $invoiceNumber;
 							?>
 							 <a title="<?php echo vmText::_('COM_VIRTUEMART_INVOICE_PRINT') ?>"

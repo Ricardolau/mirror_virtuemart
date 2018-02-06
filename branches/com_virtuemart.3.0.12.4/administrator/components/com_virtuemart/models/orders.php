@@ -615,11 +615,7 @@ class VirtueMartModelOrders extends VmModel {
 					$orderCalcRules->check();
 					$orderCalcRules->store();
 				}
-
-
 			}
-
-
 		}
 
 		if(!empty($table->virtuemart_vendor_id)){
@@ -632,6 +628,10 @@ class VirtueMartModelOrders extends VmModel {
 		}
 
 		$table->bindChecknStore($data);
+
+		if(empty($virtuemart_order_item_id) and !empty($table->virtuemart_order_item_id)){
+			$virtuemart_order_item_id = $table->virtuemart_order_item_id;
+		}
 
 		//update product identification
 		if ( $orderUpdate  and !empty($virtuemart_order_item_id)) {
@@ -665,11 +665,29 @@ class VirtueMartModelOrders extends VmModel {
 		}
 
 		//store history
-		$table->load($virtuemart_order_item_id);
-		if($dataT['oi_hash']!=$table->oi_hash){
-			$tableHist = $this->getTable('order_item_histories');
-			$tableHist->bindChecknStore($dataT);
+		if($orderUpdate){
+			$table->emptyCache();
+			$table->load($virtuemart_order_item_id);
+			if($dataT['oi_hash']!=$table->oi_hash){
+				if(empty($dataT['virtuemart_order_item_id'])){
+					$dataT['action'] = 'new';
+					if(!empty($virtuemart_order_item_id)){
+						$dataT['virtuemart_order_item_id'] = $virtuemart_order_item_id;
+					}
+
+					$props = $table->getProperties();
+					foreach($props as $k=>$v){
+						if(empty($dataT[$k])){
+							$dataT[$k] = $v;
+						}
+					}
+				}
+				$tableHist = $this->getTable('order_item_histories');
+
+				$tableHist->bindChecknStore($dataT);
+			}
 		}
+
 
 
 		if(!empty($oldQuantity) and $oldQuantity!=$table->product_quantity){

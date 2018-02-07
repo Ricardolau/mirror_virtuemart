@@ -147,7 +147,7 @@ abstract class CouponHelper
 	 * @author Valérie Isaksen
 	 * @return boolean True on success
 	 */
-	static public function setInUseCoupon($code, $in_use=true){
+	static public function setInUseCoupon($code, $in_use=true, $coupon_used = null){
 		JPluginHelper::importPlugin('vmcoupon');
 		$dispatcher = JDispatcher::getInstance();
 		$returnValues = $dispatcher->trigger('plgVmCouponInUse', array($code));
@@ -159,7 +159,7 @@ abstract class CouponHelper
 			}
 		}
 		$session = JFactory::getSession();
-		$coupon_used = $session->getId();
+		if($coupon_used===null)$coupon_used = $session->getId();
 		$db = JFactory::getDBO();
 		if (!$in_use) {
 			$db = JFactory::getDBO();

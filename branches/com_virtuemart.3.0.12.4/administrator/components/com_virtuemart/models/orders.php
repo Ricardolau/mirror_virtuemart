@@ -2175,37 +2175,19 @@ vmdebug('my prices',$data);
 			return false;
 		}
 
+		//Why should the stock change, when the order is deleted?
+		//answer : when creating an order (P) the stock is reserved
 		$this->handleStockAfterStatusChangedPerProduct('X', $item->order_status, $item,$item->product_quantity);
 
-		//TODO Why should the stock change, when the order is deleted? Paypal? Valerie?
-		// answer Valerie: when creating an order (P) the stock is reserved
+
 
 		//store history
-		//if($orderUpdate){
+		$data = $item->getProperties();
+		$data['action'] = 'deleted';
+		$tableHist = $this->getTable('order_item_histories');
 
-			//$table->emptyCache();
-			//$table->load($virtuemart_order_item_id);
-			//if($dataT['oi_hash']!=$table->oi_hash){
-				/*if(empty($dataT['virtuemart_order_item_id'])){
-					$dataT['action'] = 'new';
-					if(!empty($virtuemart_order_item_id)){
-						$dataT['virtuemart_order_item_id'] = $virtuemart_order_item_id;
-					}
+		$tableHist->bindChecknStore($data);
 
-
-					foreach($props as $k=>$v){
-						if(empty($dataT[$k])){
-							$dataT[$k] = $v;
-						}
-					}
-				}*/
-				$data = $item->getProperties();
-				$data['action'] = 'deleted';
-				$tableHist = $this->getTable('order_item_histories');
-
-				$tableHist->bindChecknStore($data);
-			//}
-		//}
 
 		if ($item->delete($orderLineId)) {
 			/*$q = "DELETE FROM `#__virtuemart_order_histories`

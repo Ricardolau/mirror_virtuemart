@@ -1275,6 +1275,17 @@ class VirtueMartCart {
 	 */
 	static public function emptyCartValues(&$cart, $session = true){
 
+		//if we used a coupon, we must set it in final use now
+		$couponCode = '';
+		if(!empty($cart->couponCode)){
+			$couponCode = $cart->couponCode;
+		} else if(!empty($cart->cartData['couponCode'])){
+			$couponCode = $cart->cartData['couponCode'];
+		}
+		if(!empty($cart->couponCode)){
+			CouponHelper::setInUseCoupon($couponCode, true, 1);
+		}
+
 		//We delete the old stuff
 		$cart->products = array();
 		$cart->cartProductsData = array();

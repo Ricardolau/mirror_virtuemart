@@ -801,7 +801,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_products` (
   `product_availability` varchar(32),
   `product_special` tinyint(1) NOT NULL DEFAULT '0',
   `product_discontinued` tinyint(1) NOT NULL DEFAULT '0',
-  `product_sales` int(1) UNSIGNED NOT NULL DEFAULT '0',
+  `product_sales` int(1) NOT NULL DEFAULT '0',
   `product_unit` varchar(8),
   `product_packaging` decimal(8,4) UNSIGNED,
   `product_params` varchar(255) NOT NULL,

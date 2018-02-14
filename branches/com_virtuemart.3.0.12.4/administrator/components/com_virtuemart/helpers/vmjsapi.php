@@ -916,6 +916,7 @@ jQuery(document).ready(function($) {
 	jQuery(document).ready(function($) {
 		Virtuemart.emptyCatOpt = '".$emptyOpt."';
 		Virtuemart.param = '".$param."';
+		Virtuemart.isAdmin = '".self::isAdmin()."';
 		Virtuemart.loadCategoryTree('".$id."');
 	});
 });

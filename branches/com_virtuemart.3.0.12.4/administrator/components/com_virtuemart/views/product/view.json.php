@@ -251,7 +251,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 			//TODO Why do we not use the states of the model directly?
 			//$productModel = VmModel::getModel('product');
 			//$own_category_id = $productModel->filter_order;
-
+			if(!class_exists('ShopFunctions'))require(VMPATH_ADMIN.DS.'helpers'.DS.'shopfunctions.php');
 			if($own_category_id){
 				$html = ShopFunctions::categoryListTree($categories, 0, 0, (array) $own_category_id);
 			} else {

@@ -250,11 +250,11 @@ class VirtueMartViewProductdetails extends VmView {
 			if ($product->customtitle) {
 				$document->setTitle(strip_tags(html_entity_decode($product->customtitle,ENT_QUOTES)));
 			} else {
-				$category = '';
+				$catName = '';
 				if($category->published and !empty($category->category_name)){
-					$category = $category->category_name.': ';
+					$catName = $category->category_name.': ';
 				}
-				$document->setTitle(strip_tags(html_entity_decode($category . $product->product_name,ENT_QUOTES)));
+				$document->setTitle(strip_tags(html_entity_decode($catName . $product->product_name,ENT_QUOTES)));
 			}
 
 			$this->allowReview = $ratingModel->allowReview($product->virtuemart_product_id);

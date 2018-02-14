@@ -2179,21 +2179,14 @@ vmdebug('my prices',$data);
 		//answer : when creating an order (P) the stock is reserved
 		$this->handleStockAfterStatusChangedPerProduct('X', $item->order_status, $item,$item->product_quantity);
 
-
-
-		//store history
+		//take data for history
 		$data = $item->getProperties();
-		$data['action'] = 'deleted';
-		$tableHist = $this->getTable('order_item_histories');
 
-		$tableHist->bindChecknStore($data);
+		if (!VmConfig::get('ordersAddOnly',false) and $item->delete($orderLineId)) {
+			$data['action'] = 'deleted';
+			$tableHist = $this->getTable('order_item_histories');
 
-
-		if ($item->delete($orderLineId)) {
-			/*$q = "DELETE FROM `#__virtuemart_order_histories`
-			WHERE `virtuemart_order_id`=".$id;
-			$this->_db->setQuery($q);
-			$this->_db->execute();*/
+			$tableHist->bindChecknStore($data);
 
 			$q = "DELETE FROM `#__virtuemart_order_calc_rules`
 			WHERE `virtuemart_order_item_id`=".$orderLineId;

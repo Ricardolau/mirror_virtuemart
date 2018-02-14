@@ -618,7 +618,7 @@ abstract class vmPSPlugin extends vmPlugin {
 		if(!vmTable::checkTableExists($t)) return false;
 		$db = JFactory::getDBO ();
 		$q = 'SELECT * FROM `' . $this->_tablename . '` '
-			. 'WHERE `order_number`="'.$db->escape($order_number).'"';
+			. 'WHERE `order_number`="'.$db->escape($order_number).'" and payment_currency > "0"';
 
 		$db->setQuery ($q);
 		$methodData = $db->loadObjectList ();

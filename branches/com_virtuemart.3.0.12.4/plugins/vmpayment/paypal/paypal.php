@@ -1274,7 +1274,7 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 				$this->_storePaypalInternalData(  $paypalInterface->getResponse(false), $order->virtuemart_order_id, $payment->virtuemart_paymentmethod_id, $order->order_number);
 			}
 
-		} elseif ($order->order_status == $this->_currentMethod->status_refunded OR $order->order_status == $this->_currentMethod->status_canceled) {
+		} elseif ($order->order_status == $this->_currentMethod->status_refunded /*OR $order->order_status == $this->_currentMethod->status_canceled*/) {
 			$paypalInterface = $this->_loadPayPalInterface();
 			$paypalInterface->setOrder($order);
 			$paypalInterface->setTotal($order->order_total);

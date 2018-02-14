@@ -43,7 +43,7 @@ if(JVM_VERSION<3){
 		}
 	}
 }
-if(!class_exists('vObject')) require(VMPATH_ADMIN .DS. 'helpers' .DS. 'vobject.php');
+if(!class_exists('vObject')) require(VMPATH_ADMIN .'/helpers/vobject.php');
 
 class VmTable extends vObject implements JObservableInterface, JTableInterface {
 
@@ -240,7 +240,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		// If the internal paths have not been initialised, do so with the base table path.
 		if (!isset($_paths))
 		{
-			$_paths = array(VMPATH_ADMIN .DS. 'tables');
+			$_paths = array(VMPATH_ADMIN .'/tables');
 		}
 
 		// Convert the passed path(s) to add to an array.
@@ -255,8 +255,11 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 				// Sanitize path.
 				$dir = trim($dir);
 
-				// Add to the front of the list so that custom paths are searched first.
-				array_unshift($_paths, $dir);
+				if(!in_array($dir,$_paths)){
+					// Add to the front of the list so that custom paths are searched first.
+					array_unshift($_paths, $dir);
+				}
+
 			}
 		}
 
@@ -1120,7 +1123,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 
 	function decryptFields(){
 		if(!class_exists('vmCrypt')){
-			require(VMPATH_ADMIN.DS.'helpers'.DS.'vmcrypt.php');
+			require(VMPATH_ADMIN .'/helpers/vmcrypt.php');
 		}
 		if(isset($this->modified_on) and $this->modified_on!='0000-00-00 00:00:00'){
 			$date = JFactory::getDate($this->modified_on);
@@ -1155,7 +1158,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 
 		if($this->_cryptedFields){
 			if(!class_exists('vmCrypt')){
-				require(VMPATH_ADMIN.DS.'helpers'.DS.'vmcrypt.php');
+				require(VMPATH_ADMIN .'/helpers/vmcrypt.php');
 			}
 
 			foreach($this->_cryptedFields as $field){
@@ -1597,7 +1600,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		$tblKey = $this->_tbl_key;
 		$ok = true;
 		if ($this->_translatable) {
-			if (!class_exists('VmTableData')) require(VMPATH_ADMIN . DS . 'helpers' . DS . 'vmtabledata.php');
+			if (!class_exists('VmTableData')) require(VMPATH_ADMIN .'/helpers/vmtabledata.php');
 			$db = JFactory::getDBO();
 			$dataTable = clone($this);
 			$langTable = new VmTableData($this->_tbl_lang, $tblKey, $db);
@@ -2229,7 +2232,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 
 			$langs = VmConfig::get('active_languages', array(VmConfig::$jDefLang));
 			if (!$langs) $langs[] = VmConfig::$vmlang;
-			if (!class_exists('VmTableData')) require(VMPATH_ADMIN . DS . 'helpers' . DS . 'vmtabledata.php');
+			if (!class_exists('VmTableData')) require(VMPATH_ADMIN .'/helpers/vmtabledata.php');
 			foreach ($langs as $lang) {
 				$lang = strtolower(strtr($lang, '-', '_'));
 				$langError = $this->checkAndDelete($this->_tbl . '_' . $lang);

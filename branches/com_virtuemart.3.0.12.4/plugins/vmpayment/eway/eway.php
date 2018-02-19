@@ -86,7 +86,9 @@ class plgVmpaymentEway extends vmPSPlugin {
 			'cost_percent_total' => 'char(10)',
 			'tax_id' => 'smallint(1)',
 			'TransactionID' => 'int(1)',
-			'TransactionType' => ' char(64)',
+			'ResponseMessage' => ' text DEFAULT NULL',
+			'eway_response_json' => ' text DEFAULT NULL',
+			'eway_request_type' => ' char(64)',
 			'eway_response_raw' => ' text DEFAULT NULL',
 			'eway_request_raw' => ' text DEFAULT NULL'
 		);
@@ -109,11 +111,11 @@ class plgVmpaymentEway extends vmPSPlugin {
 		}
 
 		require_once VMPATH_PLUGINS . '/vmpayment/eway/library/include_eway.php';
-
-		$customer = $this->getCustomer($order);
+		// TODO get TokenCustomerID from user select list
+		$TokenCustomerID='';
+		$customer = $this->getCustomer($order,$TokenCustomerID);
 		$shippingAddress = $this->getShippingAddress($order);
 		$items = $this->getOrderItems($order);
-
 
 		$this->getPaymentCurrency($method);
 		$currency_code_3 = shopFunctions::getCurrencyByID($method->payment_currency, 'currency_code_3');
@@ -138,11 +140,16 @@ class plgVmpaymentEway extends vmPSPlugin {
 		$transaction = array();
 		$transaction ["Customer"] = $customer;
 		$transaction ["ShippingAddress"] = $shippingAddress;
-		$transaction ["Items"] = $items;
+		if ($method->payment_type != 'PayPal') {
+			$transaction ["Items"] = $items;
+		}
 		$transaction ["Options"] = $options;
 		$transaction ["Payment"] = $payment;
 		$transaction ["CustomerIP"] = self::getClientIP();// O: The customer's IP address. When this field is present along with the Customer Country field, any transaction will be processed using Beagle Fraud Alerts
 		$transaction ["PartnerID"] = self::PARTNER_ID;
+		//$transaction ["SaveCustomer"] =true;
+
+		// NOTE : $transaction ["Method"] is done by the library
 
 		$transaction ["TransactionType"] = Eway\Rapid\Enum\TransactionType::PURCHASE; // Values: Purchase, MOTO, Recurring
 		// Rapid SDK Libraries Only Set to true to capture funds immediately (default), set to false to perform an authorisation and only hold funds.
@@ -151,6 +158,10 @@ class plgVmpaymentEway extends vmPSPlugin {
 		} else {
 			$transaction ["Capture"] = false;
 		}
+		if ($method->save_card_enabled ) {
+			$transaction ["SaveCustomer"] = true;
+		}
+
 		$transaction ["RedirectUrl"] = self::getRedirectUrl($order['details']['BT']->virtuemart_paymentmethod_id); // The web address the customer is redirected to with the result of the action.
 
 		$apiEndpoint = self::getApiEndpoint($method);
@@ -170,6 +181,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 		}
 
 		// Prepare data that should be stored in the database
+		// VM values
 		$dbValues['order_number'] = $order['details']['BT']->order_number;
 		$dbValues['virtuemart_order_id'] = $order['details']['BT']->virtuemart_order_id;
 		$dbValues['payment_name'] = $this->renderPluginName($method);
@@ -180,24 +192,39 @@ class plgVmpaymentEway extends vmPSPlugin {
 		$dbValues['email_currency'] = $this->getEmailCurrency($method);
 		$dbValues['payment_order_total'] = $totalInPaymentCurrency['value'];
 		$dbValues['tax_id'] = $method->tax_id;
+		// Eway response Value
 		$dbValues['TransactionID'] = $response->TransactionID;
-		$dbValues['TransactionType'] = (string)\Eway\Rapid\Enum\ApiMethod::TRANSPARENT_REDIRECT;
+		$dbValues['eway_request_type'] = (string)\Eway\Rapid\Enum\ApiMethod::TRANSPARENT_REDIRECT;
+		// todo: huuummm
+		$dbValues['eway_response_json'] = json_encode(json_decode(json_encode($response, true)));
+
+		// Eway save raw
 		$dbValues['eway_request_raw'] = print_r($transaction, true);
 		$dbValues['eway_response_raw'] = print_r($response, true);
 		$this->storePSPluginInternalData($dbValues);
+
 		$prefill = false;
-		if ($method->debug and $method->sandbox) {
-			$prefill = true;
+		if ($method->payment_type == 'Credit Card') {
+			if ($method->debug and $method->sandbox) {
+				$prefill = true;
+			}
+			$html = $this->renderByLayout('cc_payment_page', array(
+				'FormActionURL' => $response->FormActionURL,
+				'AccessCode' => $response->AccessCode,
+				'payment_type' => $method->payment_type,
+				'pageTitle' => vmText::sprintf('VMPAYMENT_EWAY_PAYMENT_PAGE_TITLE', $order['details']['BT']->order_number, $totalInPaymentCurrency['display']),
+				'prefill' => $prefill,
+				'order_number' => $order['details']['BT']->order_number,
+				'sandbox' => $method->sandbox,
+			));
+		} else {
+			$html = $this->renderByLayout('wallet_payment_page', array(
+				'FormActionURL' => $response->FormActionURL,
+				'AccessCode' => $response->AccessCode,
+				'payment_type' => $method->payment_type,
+			));
 		}
 
-		$html = $this->renderByLayout('payment_page', array(
-			'FormActionURL' => $response->FormActionURL,
-			'AccessCode' => $response->AccessCode,
-			'eway_payment_type' => $method->eway_payment_type,
-			'pageTitle' => vmText::sprintf(VMPAYMENT_EWAY_PAYMENT_PAGE_TITLE, $order['details']['BT']->order_number, $totalInPaymentCurrency['display']),
-			'prefill' => $prefill,
-			'order_number' => $order['details']['BT']->order_number,
-		));
 
 		vRequest::setVar('html', $html);
 		vRequest::setVar('display_title', false);
@@ -210,7 +237,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 	 * @param $order
 	 * @return mixed
 	 */
-	private function getCustomer($order) {
+	private function getCustomer($order, $TokenCustomerID) {
 		$name = $order['details']['BT']->first_name;
 		if (isset($order['details']['BT']->middle_name) and $order['details']['BT']->middle_name) {
 			$name .= $order['details']['BT']->middle_name;
@@ -227,7 +254,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 		$customer['PostalCode'] = $order['details']['BT']->zip;
 		$customer['Country'] = ShopFunctions::getCountryByID($order['details']['BT']->virtuemart_country_id, 'country_2_code');
 		$customer['Email'] = $order['details']['BT']->email;
-
+		$customer ["TokenCustomerID"] =$TokenCustomerID;
 		return $customer;
 	}
 
@@ -274,6 +301,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 			// Total is calculated automatically
 			$items[] = $lineItem;
 		}
+
 		return $items;
 	}
 
@@ -327,7 +355,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 	 * @param $paymentCurrencyId
 	 * @return bool|null
 	 */
-	function plgVmgetPaymentCurrency($virtuemart_paymentmethod_id, &$paymentCurrencyId) {
+	function plgVmGetPaymentCurrency($virtuemart_paymentmethod_id, &$paymentCurrencyId) {
 
 		if (!($method = $this->getVmPluginMethod($virtuemart_paymentmethod_id))) {
 			return NULL; // Another method was selected, do nothing
@@ -399,6 +427,10 @@ class plgVmpaymentEway extends vmPSPlugin {
 			return;
 		}
 
+		if ($transactionResponse->TokenCustomerID) {
+			$this->saveTokenCustomerID($transactionResponse->TokenCustomerID);
+		}
+
 		$orderHistory['customer_notified'] = 1;
 		if ($method->Pre_Auth == 'Authorisation') {
 			$orderHistory['order_status'] = $method->status_authorisation;
@@ -423,7 +455,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 		$response_fields['email_currency'] = $this->getEmailCurrency($method);
 		$response_fields['payment_order_total'] = $transactionResponse->TotalAmount;
 		$response_fields['TransactionID'] = $transactionResponse->TransactionID;
-		$response_fields['TransactionType'] = 'queryTransaction';
+		$response_fields['eway_request_type'] = 'queryTransaction';
 		$this->storePSPluginInternalData($response_fields);
 
 		$cart = VirtueMartCart::getCart();
@@ -445,6 +477,10 @@ class plgVmpaymentEway extends vmPSPlugin {
 
 	}
 
+	//TODO
+	private function saveTokenCustomerID($TokenCustomerID){
+
+	}
 	/**
 	 * @param $method
 	 * @return string
@@ -498,7 +534,6 @@ class plgVmpaymentEway extends vmPSPlugin {
 	}
 
 
-
 	/**
 	 * Display stored payment data for an order
 	 *
@@ -526,14 +561,18 @@ class plgVmpaymentEway extends vmPSPlugin {
 			// Now only the first entry has this data when creating the order
 			if ($first) {
 				$html .= $this->getHtmlRowBE('VMPAYMENT_EWAY_PAYMENT_NAME', $payment->payment_name);
+				$html .= $this->getHtmlRowBE('VMPAYMENT_EWAY_PAYMENT_ORDER_TOTAL', ($payment->payment_order_total) . " " . shopFunctions::getCurrencyByID($payment->payment_currency, 'currency_code_3'));
 				$first = FALSE;
 			}
 
-			if ($payment->TransactionType) {
-				$html .= $this->getHtmlRowBE('VMPAYMENT_EWAY_PAYMENT_TRANSACTIONTYPE', $payment->TransactionType);
+			if ($payment->eway_request_type) {
+				$html .= $this->getHtmlRowBE('VMPAYMENT_EWAY_PAYMENT_REQUEST_TYPE', $payment->eway_request_type);
 			}
 			if ($payment->TransactionID) {
-				$html .= $this->getHtmlRowBE('VMPAYMENT_EWAY_PAYMENT_TransactionID', $payment->TransactionID);
+				$html .= $this->getHtmlRowBE('VMPAYMENT_EWAY_PAYMENT_TRANSACTIONID', $payment->TransactionID);
+			}
+			if ($payment->ResponseMessage) {
+				$html .= $this->getHtmlRowBE('VMPAYMENT_EWAY_PAYMENT_RESPONSEMESSAGE', $payment->ResponseMessage);
 			}
 			if (!empty($payment->eway_request_raw)) {
 				$eway_request_raw = self::getEwayRaw($payment->eway_request_raw);
@@ -634,6 +673,48 @@ jQuery().ready(function($) {
 
 		return $this->displayListFE($cart, $selected, $htmlIn);
 	}
+
+// TODO GetTokenCustomerID
+	protected function getPluginHtml ($plugin, $selectedPlugin, $pluginSalesPrice) {
+
+		$pluginmethod_id = $this->_idName;
+		$pluginName = $this->_psType . '_name';
+		if ($selectedPlugin == $plugin->$pluginmethod_id) {
+			$checked = 'checked="checked"';
+		} else {
+			$checked = '';
+		}
+
+		if (!class_exists ('CurrencyDisplay')) {
+			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');
+		}
+		$currency = CurrencyDisplay::getInstance ();
+		$costDisplay = "";
+		if ($pluginSalesPrice) {
+			$costDisplay = $currency->priceDisplay( $pluginSalesPrice );
+			$t = vmText::_( 'COM_VIRTUEMART_PLUGIN_COST_DISPLAY' );
+			if(strpos($t,'/')!==FALSE){
+				list($discount, $fee) = explode( '/', vmText::_( 'COM_VIRTUEMART_PLUGIN_COST_DISPLAY' ) );
+				if($pluginSalesPrice>=0) {
+					$costDisplay = '<span class="'.$this->_type.'_cost fee"> ('.$fee.' +'.$costDisplay.")</span>";
+				} else if($pluginSalesPrice<0) {
+					$costDisplay = '<span class="'.$this->_type.'_cost discount"> ('.$discount.' -'.$costDisplay.")</span>";
+				}
+			} else {
+				$costDisplay = '<span class="'.$this->_type.'_cost fee"> ('.$t.' +'.$costDisplay.")</span>";
+			}
+		}
+		$dynUpdate='';
+		if( VmConfig::get('oncheckout_ajax',false)) {
+			//$url = JRoute::_('index.php?option=com_virtuemart&view=cart&task=updatecart&'. $this->_idName. '='.$plugin->$pluginmethod_id );
+			$dynUpdate=' data-dynamic-update="1" ';
+		}
+		$html = '<input type="radio"'.$dynUpdate.' name="' . $pluginmethod_id . '" id="' . $this->_psType . '_id_' . $plugin->$pluginmethod_id . '"   value="' . $plugin->$pluginmethod_id . '" ' . $checked . ">\n"
+			. '<label for="' . $this->_psType . '_id_' . $plugin->$pluginmethod_id . '">' . '<span class="' . $this->_type . '">' . $plugin->$pluginName . $costDisplay . "</span></label>\n";
+
+		return $html;
+	}
+
 
 	/**
 	 * @param $method
@@ -788,11 +869,11 @@ jQuery().ready(function($) {
 			return NULL;
 		}
 
-		if (!$this->isValidUpdateOrderStatus($order->order_status, $method)) {
+		if (!$this->isStatusRequireEwayAction($order->order_status, $method)) {
 			if (!JFactory::getApplication()->isSite()) {
-				$orderStatusModel=VmModel::getModel('orderstatus');
+				$orderStatusModel = VmModel::getModel('orderstatus');
 				$orderStates = $orderStatusModel->getOrderStatusNames(true);
-				vmInfo(vmText::sprintf('VMPAYMENT_EWAY_UPDATEPAYMENT_NO_ACTION', $orderStates[$old_order_status]['order_status_name'] , $orderStates[$order->order_status]['order_status_name'] ));
+				vmInfo(vmText::sprintf('VMPAYMENT_EWAY_STATUS_NO_ACTION', $orderStates[$order->order_status]['order_status_name']));
 			}
 			return true; // it is true because may be the merchant wants still to do it.
 		}
@@ -808,18 +889,37 @@ jQuery().ready(function($) {
 		$oModel = VmModel::getModel('orders');
 		$orderModelData = $oModel->getOrder($order->virtuemart_order_id);
 
+		// let('s try to find out what is the transaction status at eway
 		$foundPayment = $this->getTransactionIDPayment($payments);
 		$apiEndpoint = self::getApiEndpoint($method);
 		$client = \Eway\Rapid::createClient($method->APIKey, $method->APIPassword, $apiEndpoint);
 		$client->setVersion(40);
 		$response = $client->queryTransaction($foundPayment->TransactionID);
 
-		if ($order->order_status == $method->status_refund and $this->canDoRefund($method, $payments, $orderModelData)) {
-			return $this->refundPayment($method,$payments, $orderModelData);
-		} elseif ($order->order_status == $method->status_capture and $this->canDoCapture($method, $payments, $orderModelData)) {
-			return $this->capturePayment($method, $payments, $orderModelData, $response);
-		} elseif ($order->order_status == $method->status_cancel and $this->canDoCancel($method, $payments, $orderModelData)) {
-			return $this->cancelPayment($payments, $orderModelData);
+		// save it
+		$dbValues['order_number'] = $foundPayment->order_number;
+		$dbValues['virtuemart_order_id'] = $foundPayment->virtuemart_order_id;
+		$dbValues['virtuemart_paymentmethod_id'] = $foundPayment->virtuemart_paymentmethod_id;
+		//$dbValues['payment_order_total'] = $refundItem['TotalAmount'];
+		$dbValues['TotalAmount'] = $response->TotalAmount;
+		$dbValues['TransactionID'] = $response->TransactionID;
+		$dbValues['eway_request_type'] = 'refund';
+		$dbValues['eway_request_raw'] = print_r($foundPayment->TransactionID, true);
+		$dbValues['eway_response_raw'] = print_r($response, true);
+		$this->storePSPluginInternalData($dbValues);
+
+		$transactionResponse = $response->Transactions[0];
+		if (count($response->Transactions) > 1) {
+			vmError('Programming Error: please report:). Several transactions exists for this transaction ID. Case not handle');
+			return false;
+		}
+
+		if ($order->order_status == $method->status_refund and $this->canDoRefund($method, $transactionResponse)) {
+			return $this->refundPayment($method, $payments, $orderModelData, $response, $old_order_status);
+		} elseif ($order->order_status == $method->status_capture and $this->canDoCapture($method, $transactionResponse)) {
+			return $this->capturePayment($method, $payments, $orderModelData, $response, $old_order_status);
+		} elseif ($order->order_status == $method->status_cancel and $this->canDoCancel($method, $transactionResponse)) {
+			return $this->cancelPayment($payments, $orderModelData, $response, $old_order_status);
 		}
 
 		return true;
@@ -831,15 +931,16 @@ jQuery().ready(function($) {
 	 * @param $orderModelData
 	 * @return bool
 	 */
-	private function canDoRefund($method, $payments, $order) {
-		if ($method->Pre_Auth == 'Authorisation' and $order['details']['BT']->order_status == $method->status_capture) {
-			return true;
+	private function canDoRefund($method, $transactionResponse) {
+		if (!$method->status_refund_enabled) {
+			vmInfo(vmText::_('VMPAYMENT_EWAY_STATUS_REFUND_NOT_ENABLED'));
+			return false;
 		}
-
-		if ($method->Pre_Auth == 'Capture' and $order['details']['BT']->order_status == $method->status_success) {
-			return true;
+		if (!$transactionResponse->TransactionCaptured) {
+			vmInfo(vmText::_('VMPAYMENT_EWAY_STATUS_NO_REFUND_NOT_TRANSACTIONCAPTURED'));
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 
@@ -848,43 +949,44 @@ jQuery().ready(function($) {
 	 *
 	 * @param $payments
 	 * @param $order
+	 * @param $response
 	 * @return bool
 	 */
-	private function canDoCancel($method, $payments, $order) {
+	private function canDoCancel($method, $transactionResponse) {
 
-		if ($method->Pre_Auth != 'Authorisation') {
+		if (!$method->status_canceled_enabled) {
+			vmInfo(vmText::_('VMPAYMENT_EWAY_STATUS_CANCELED_NOT_ENABLED'));
 			return false;
 		}
-		// check old order status if == status_authorisation
-		if ($order['details']['BT']->order_status == $method->status_authorisation) {
-			return true;
+		if ($transactionResponse->TransactionCaptured) {
+			vmInfo(vmText::_('VMPAYMENT_EWAY_STATUS_NO_CANCEL_TRANSACTIONCAPTURED'));
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	/**
 	 * Capture a Payment: Once a payment has been authorised, the transaction can be completed with a Capture request
 	 * @param $payments
 	 * @param $order
+	 * @param $response
 	 * @return bool
 	 */
-	private function canDoCapture($method, $payments, $order, $response) {
+	private function canDoCapture($method, $transactionResponse) {
 
-
-		if ($response->TransactionCaptured) {
-			vmInfo(vmText::_('VMPAYMENT_EWAY_TRANSACTIONCAPTURED'));
+		if (!$method->status_capture_enabled) {
+			vmInfo(vmText::_('VMPAYMENT_EWAY_STATUS_CAPTURE_NOT_ENABLED'));
 			return false;
 		}
-
-		return false;
+		if ($transactionResponse->TransactionCaptured) {
+			vmInfo(vmText::_('VMPAYMENT_EWAY_STATUS_NO_CAPTURE_TRANSACTIONCAPTURED'));
+			return false;
+		}
+		return true;
 	}
 
-	/**
-	 * @param $payments
-	 * @param $orderModelData
-	 * @return bool
-	 */
-	private function refundPayment($method, $vmPayments, $order) {
+
+	private function refundPayment($method, $vmPayments, $order, $response, $old_order_status) {
 		$foundPayment = $this->getTransactionIDPayment($vmPayments);
 		if (!$foundPayment) {
 			vmError(vmText::_('VMPAYMENT_EWAY_TRANSACTION_ID_NOT_FOUND'));
@@ -902,7 +1004,7 @@ jQuery().ready(function($) {
 		$refundItem['TransactionID'] = $foundPayment->TransactionID;
 		$refundItem['TotalAmount'] = (int)$foundPayment->payment_order_total;
 		$refundItem['InvoiceNumber'] = $foundPayment->order_number;
-		$refundItem['CurrencyCode'] =  shopFunctions::getCurrencyByID($foundPayment->payment_currency, 'currency_code_3');
+		$refundItem['CurrencyCode'] = shopFunctions::getCurrencyByID($foundPayment->payment_currency, 'currency_code_3');
 		$refund ["Refund"] = $refundItem;
 		//$refund ["DeviceID"] = $;
 		$refund ["PartnerID"] = self::PARTNER_ID;
@@ -913,23 +1015,29 @@ jQuery().ready(function($) {
 		$dbValues['order_number'] = $foundPayment->order_number;
 		$dbValues['virtuemart_order_id'] = $foundPayment->virtuemart_order_id;
 		$dbValues['virtuemart_paymentmethod_id'] = $foundPayment->virtuemart_paymentmethod_id;
-		$dbValues['payment_order_total'] = $refundItem['TotalAmount'];
+		//$dbValues['payment_order_total'] = $refundItem['TotalAmount'];
+
+		$dbValues['TotalAmount'] = $response->TotalAmount;
 		$dbValues['TransactionID'] = $response->TransactionID;
-		$dbValues['TransactionType'] = 'refund';
+		$dbValues['ResponseCode'] = $response->ResponseCode;
+		$dbValues['eway_request_type'] = 'refund';
 		$dbValues['eway_request_raw'] = print_r($refund, true);
 		$dbValues['eway_response_raw'] = print_r($response, true);
 
-
 		if (!$response->TransactionStatus) {
-			vmError(vmText::_('VMPAYMENT_EWAY_PAYMENT_CAPTURE_DECLINED'));
+			vmError(vmText::_('VMPAYMENT_EWAY_PAYMENT_REFUND_DECLINED'));
 			$errors = explode(',', $response->ResponseMessage);
+			$errorMessages[] = vmText::_('VMPAYMENT_EWAY_PAYMENT_REFUND_DECLINED');
 			foreach ($errors as $error) {
 				vmError(\Eway\Rapid::getMessage($error));
+				$errorMessages[] = \Eway\Rapid::getMessage($error);
 			}
+			$dbValues['ResponseMessage'] = implode('<br />', $errorMessages);;
+			$this->storePSPluginInternalData($dbValues);
 			return false;
 		}
 
-
+		$this->storePSPluginInternalData($dbValues);
 		return true;
 	}
 
@@ -941,6 +1049,7 @@ jQuery().ready(function($) {
 	 * @param $customer
 	 * @return mixed
 	 */
+	// TODO
 	private function getCardDetails($foundPayment, $customer) {
 		return $customer;
 	}
@@ -961,7 +1070,7 @@ jQuery().ready(function($) {
 		$payment = array();
 		$payment['TotalAmount'] = (int)$foundPayment->payment_order_total;
 		$payment['InvoiceNumber'] = $foundPayment->order_number;
-		$payment['CurrencyCode'] =  shopFunctions::getCurrencyByID($foundPayment->payment_currency, 'currency_code_3');
+		$payment['CurrencyCode'] = shopFunctions::getCurrencyByID($foundPayment->payment_currency, 'currency_code_3');
 		$transaction = array();
 		$transaction ["Payment"] = $payment;
 		$transaction ["TransactionID"] = $foundPayment->TransactionID;
@@ -975,7 +1084,7 @@ jQuery().ready(function($) {
 		$dbValues['virtuemart_paymentmethod_id'] = $foundPayment->virtuemart_paymentmethod_id;
 		$dbValues['payment_order_total'] = $payment['TotalAmount'];
 		$dbValues['TransactionID'] = $response->TransactionID;
-		$dbValues['TransactionType'] = (string)\Eway\Rapid\Enum\ApiMethod::AUTHORISATION;
+		$dbValues['eway_request_type'] = (string)\Eway\Rapid\Enum\ApiMethod::AUTHORISATION;
 		$dbValues['eway_request_raw'] = print_r($transaction, true);
 		$dbValues['eway_response_raw'] = print_r($response, true);
 		$this->storePSPluginInternalData($dbValues);
@@ -989,9 +1098,7 @@ jQuery().ready(function($) {
 			return false;
 		}
 
-
 		return true;
-
 
 	}
 
@@ -1020,7 +1127,7 @@ jQuery().ready(function($) {
 		$dbValues['virtuemart_order_id'] = $foundPayment->virtuemart_order_id;
 		$dbValues['payment_name'] = $this->renderPluginName($method);
 		$dbValues['TransactionID'] = $response->TransactionID;
-		$dbValues['TransactionType'] = 'cancelTransaction';
+		$dbValues['eway_request_type'] = 'cancelTransaction';
 		$dbValues['eway_response_raw'] = print_r($response, true);
 		$this->storePSPluginInternalData($dbValues);
 
@@ -1032,7 +1139,6 @@ jQuery().ready(function($) {
 			}
 			return false;
 		}
-
 
 		return true;
 	}
@@ -1046,7 +1152,7 @@ jQuery().ready(function($) {
 		$foundPayment = '';
 		foreach ($vmPayments as $vmPayment) {
 
-			if ($vmPayment->TransactionType == 'queryTransaction') {
+			if ($vmPayment->eway_request_type == 'queryTransaction') {
 				$foundPayment = $vmPayment;
 				return $foundPayment;
 			}
@@ -1056,18 +1162,19 @@ jQuery().ready(function($) {
 
 
 	/**
+	 *
+	 * Order status that may require an action from the plugin
 	 * @param $orderStatus
 	 * @param $method
 	 * @return bool
 	 */
-	private static function isValidUpdateOrderStatus($orderStatus, $method) {
-		$validOrderStatus = array(
-			$method->status_success,
-			$method->status_capture,
+	private static function isStatusRequireEwayAction($orderStatus, $method) {
+		$requireAction = array(
+			$method->status_capture, // captures the payment when it was a authorisation payment type
 			$method->status_refund,
-			$method->status_cancel,
+			$method->status_canceled,
 		);
-		if (!in_array($orderStatus, $validOrderStatus)) {
+		if (!in_array($orderStatus, $requireAction)) {
 			return false;
 		}
 
@@ -1124,27 +1231,6 @@ jQuery().ready(function($) {
 	 */
 	function plgVmSetOnTablePluginParamsPayment($name, $id, &$table) {
 		return $this->setOnTablePluginParams($name, $id, $table);
-	}
-
-
-	/**
-	 * @return mixed
-	 */
-	private function getContext() {
-
-		$session = JFactory::getSession();
-		return $session->getId();
-	}
-
-	/**
-	 * @param $context
-	 * @return bool
-	 */
-	private function isValidContext($context) {
-		if ($this->getContext() == $context) {
-			return true;
-		}
-		return false;
 	}
 
 

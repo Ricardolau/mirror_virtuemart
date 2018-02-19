@@ -70,6 +70,13 @@
                        label="VMPAYMENT_EWAY_PARAMS"
                        heading="h4"
                 />
+
+                <field type="list" name="TransactionType" default="1" label="VMPAYMENT_EWAY_TRANSACTION_TYPE"
+                       description="VMPAYMENT_EWAY_TRANSACTION_TYPE_DESC">
+                    <option value="Purchase">VMPAYMENT_EWAY_TRANSACTION_TYPE_PURCHASE</option>
+                    <!--option value="Recurring">VMPAYMENT_EWAY_TRANSACTION_TYPE_RECURRING</option-->
+                </field>
+
                 <field type="list" name="Pre_Auth" default="Capture" label="VMPAYMENT_EWAY_PAYMENT_ACTION"
                        description="VMPAYMENT_EWAY_PAYMENT_ACTION_DESC">
                     <option value="Authorisation">VMPAYMENT_EWAY_PAYMENT_ACTION_PREAUTH</option>
@@ -81,46 +88,46 @@
                        class="showOnPre_Auth"
                 />
 
-                <field type="list" name="TransactionType" default="1" label="VMPAYMENT_EWAY_TRANSACTION_TYPE"
-                       description="VMPAYMENT_EWAY_TRANSACTION_TYPE_DESC">
-                    <option value="Purchase">VMPAYMENT_EWAY_TRANSACTION_TYPE_PURCHASE</option>
-                    <!--option value="Recurring">VMPAYMENT_EWAY_TRANSACTION_TYPE_RECURRING</option-->
-                </field>
-
-                <!-- VMPAYMENT_EWAY_PAYMENT_TYPE_PARAMS -->
-
 
                 <field type="list" name="payment_type" default="1" label="VMPAYMENT_EWAY_PAYMENT_TYPE"
-                       multiple="multiple"
                        description="VMPAYMENT_EWAY_PAYMENT_TYPE_DESC">
-                    <option value="creditcard">VMPAYMENT_EWAY_PAYMENT_TYPE_CREDIT_CARD</option>
-                    <option value="paypal">VMPAYMENT_EWAY_PAYMENT_TYPE_PAYPAL</option>
-                    <option value="masterpass">VMPAYMENT_EWAY_PAYMENT_TYPE_MASTERPASS</option>
-                    <option value="visa_checkout">VMPAYMENT_EWAY_PAYMENT_TYPE_VISA_CHECKOUT</option>
+                    <option value="Credit Card">VMPAYMENT_EWAY_PAYMENT_TYPE_CREDIT_CARD</option>
+                    <option value="PayPal">VMPAYMENT_EWAY_PAYMENT_TYPE_PAYPAL</option>
+                    <option value="MasterPass">VMPAYMENT_EWAY_PAYMENT_TYPE_MASTERPASS</option>
+                    <option value="VisaCheckout">VMPAYMENT_EWAY_PAYMENT_TYPE_VISA_CHECKOUT</option>
                 </field>
+                <field type="note"
+                       label="VMPAYMENT_EWAY_PAYMENT_TYPE_PAYPAL_NOTE"
+                       heading="h5"
+                       class="showOnPayPal"
+                />
+                <field type="note"
+                       label="VMPAYMENT_EWAY_PAYMENT_TYPE_MASTERPASS_NOTE"
+                       heading="h5"
+                       class="showOnMasterpass"
+                />
+                <field type="note"
+                       label="VMPAYMENT_EWAY_PAYMENT_TYPE_VISACHECKOUT_NOTE"
+                       heading="h5"
+                       class="showOnVisaCheckout"
+                />
 
                 <!-- BY DEFAULT EWAY currency= vendor currency -->
                 <field name="payment_currency" type="vmacceptedcurrency" default="" label="VMPAYMENT_EWAY_CURRENCY"
                        description="VMPAYMENT_EWAY_CURRENCY_DESC"/>
+
                 <!-- VMPAYMENT_EWAY_TOKEN_PAYMENT_PARAMS -->
                 <field type="note"
-                       label="VMPAYMENT_EWAY_TOKEN_PAYMENT_PARAMS"
+                       label="VMPAYMENT_EWAY_SAVE_CARD_PARAMS"
                        heading="h4"
+                       class="showOnCreditCard"
                 />
-
-                <field type="list"
-                       name="token_payment_enabled"
-                       default="0"
-                       label="VMPAYMENT_EWAY_TOKEN_PAYMENT_ENABLED"
-                       description="VMPAYMENT_EWAY_TOKEN_PAYMENT_ENABLED_DESC">
-                    <option value="0">COM_VIRTUEMART_NO</option>
-                    <option value="1">COM_VIRTUEMART_YES</option>
-                </field>
-
                 <field type="list" name="save_card_enabled"
                        default="0"
                        label="VMPAYMENT_EWAY_SAVE_CARD_ENABLED"
-                       description="VMPAYMENT_EWAY_SAVE_CARD_ENABLED_DESC">
+                       description="VMPAYMENT_EWAY_SAVE_CARD_ENABLED_DESC"
+                       class="showOnCreditCard"
+                >
                     <option value="0">COM_VIRTUEMART_NO</option>
                     <option value="1">COM_VIRTUEMART_YES</option>
                 </field>

@@ -22,101 +22,150 @@ jQuery().ready(function ($) {
     /************/
     /* Handlers */
     /************/
-    handleShowOnSandbox = function () {
+    showOnSandbox = function () {
         var sandbox = $('#params_sandbox').val();
 
         $('.showOnSandbox ').parents('.control-group').hide();
 
-        if (sandbox==1) {
+        if (sandbox == 1) {
             $('.showOnSandbox').parents('.control-group').show();
         }
     }
 
-    handleShowOnPre_Auth = function () {
+    showOnPre_Auth = function () {
         var Pre_Auth = $('#params_Pre_Auth').val();
 
         $('.showOnPre_Auth ').parents('.control-group').hide();
 
-        if (Pre_Auth=='Authorisation') {
+        if (Pre_Auth == 'Authorisation') {
             $('.showOnPre_Auth').parents('.control-group').show();
         }
     }
 
-    handleShowOnCapture = function () {
+    showOnCapture = function () {
         var Pre_Auth = $('#params_Pre_Auth').val();
 
         $('.showOnCapture ').parents('.control-group').hide();
 
-        if (Pre_Auth=='Capture') {
+        if (Pre_Auth == 'Capture') {
             $('.showOnCapture').parents('.control-group').show();
         }
     }
 
-    handleShowOnCaptureEnabledPre_Auth= function () {
+    showOnCaptureEnabledPre_Auth = function () {
         var Pre_Auth = $('#params_Pre_Auth').val();
         var status_capture_enabled = $('#params_status_capture_enabled').val();
 
         $('.showOnCaptureEnabledPre_Auth ').parents('.control-group').hide();
 
-        if (Pre_Auth=='Authorisation' && status_capture_enabled==1) {
+        if (Pre_Auth == 'Authorisation' && status_capture_enabled == 1) {
             $('.showOnCaptureEnabledPre_Auth').parents('.control-group').show();
         }
     }
 
-    handleShowOnCanceledEnablePre_Auth= function () {
+    showOnCanceledEnablePre_Auth = function () {
         var Pre_Auth = $('#params_Pre_Auth').val();
         var status_canceled_enabled = $('#params_status_canceled_enabled').val();
 
         $('.showOnCanceledEnablePre_Auth ').parents('.control-group').hide();
 
-        if (Pre_Auth=='Authorisation' && status_canceled_enabled==1) {
+        if (Pre_Auth == 'Authorisation' && status_canceled_enabled == 1) {
             $('.showOnCanceledEnablePre_Auth').parents('.control-group').show();
         }
     }
 
-    handleShowOnRefundEnabled= function () {
+    showOnRefundEnabled = function () {
         var status_refund_enabled = $('#params_status_refund_enabled').val();
 
         $('.showOnRefundEnabled ').parents('.control-group').hide();
 
-        if ( status_refund_enabled==1) {
+        if (status_refund_enabled == 1) {
             $('.showOnRefundEnabled').parents('.control-group').show();
         }
     }
+
+    showOnPayPal = function () {
+        var payment_type = $('#params_payment_type').val();
+
+        $('.showOnPayPal ').parents('.control-group').hide();
+
+        if (payment_type == 'PayPal') {
+            $('.showOnPayPal').parents('.control-group').show();
+        }
+    }
+
+    showOnCreditCard = function () {
+        var payment_type = $('#params_payment_type').val();
+
+        $('.showOnCreditCard ').parents('.control-group').hide();
+
+        if (payment_type == 'Credit Card') {
+            $('.showOnCreditCard').parents('.control-group').show();
+        }
+    }
+
+    showOnMasterpass = function () {
+        var payment_type = $('#params_payment_type').val();
+
+        $('.showOnMasterpass ').parents('.control-group').hide();
+
+        if (payment_type == 'MasterPass') {
+            $('.showOnMasterpass').parents('.control-group').show();
+        }
+    }
+
+    showOnVisaCheckout = function () {
+        var payment_type = $('#params_payment_type').val();
+
+        $('.showOnVisaCheckout ').parents('.control-group').hide();
+
+        if (payment_type == 'VisaCheckout') {
+            $('.showOnVisaCheckout').parents('.control-group').show();
+        }
+    }
+
     /**********/
     /* Events */
     /**********/
     $('#params_sandbox').change(function () {
-        handleShowOnSandbox();
+        showOnSandbox();
     });
 
     $('#params_Pre_Auth').change(function () {
-        handleShowOnPre_Auth();
-        handleShowOnCapture();
-        handleShowOnCanceledEnablePre_Auth();
-        handleShowOnCaptureEnabledPre_Auth();
+        showOnPre_Auth();
+        showOnCapture();
+        showOnCanceledEnablePre_Auth();
+        showOnCaptureEnabledPre_Auth();
     });
 
     $('#params_status_capture_enabled').change(function () {
-        handleShowOnCaptureEnabledPre_Auth();
+        showOnCaptureEnabledPre_Auth();
     });
 
     $('#params_status_canceled_enabled').change(function () {
-        handleShowOnCanceledEnablePre_Auth();
+        showOnCanceledEnablePre_Auth();
     });
 
     $('#params_status_refund_enabled').change(function () {
-        handleShowOnRefundEnabled();
+        showOnRefundEnabled();
     });
-
+    $('#params_payment_type').change(function () {
+        showOnPayPal();
+        showOnCreditCard();
+        showOnMasterpass();
+        showOnVisaCheckout();
+    });
     /*****************/
     /* Initial calls */
     /*****************/
-    handleShowOnSandbox();
-    handleShowOnPre_Auth();
-    handleShowOnCapture();
-    handleShowOnCaptureEnabledPre_Auth();
-    handleShowOnCanceledEnablePre_Auth();
-    handleShowOnRefundEnabled();
-
+    showOnSandbox();
+    showOnPre_Auth();
+    showOnCapture();
+    showOnCaptureEnabledPre_Auth();
+    showOnCanceledEnablePre_Auth();
+    showOnRefundEnabled();
+    showOnPayPal();
+    showOnCreditCard();
+    showOnMasterpass();
+    showOnVisaCheckout();
 });

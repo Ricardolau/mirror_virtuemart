@@ -958,16 +958,12 @@ class VirtueMartModelUserfields extends VmModel {
 							. $readonly . ' /> ';
 							$_return['fields'][$_fld->name]['hidden'] = true;
 							break;
-
-							$currentYear= date('Y');
-							$_return['fields'][$_fld->name]['formcode'] = vmJsApi::jDate($_return['fields'][$_fld->name]['value'],  $_prefix.$_fld->name,$_prefix.$_fld->name . '_field',false,$currentYear.':'. ($currentYear+1));
-							break;
 						case 'age_verification':
 							// Year range MUST start 100 years ago, for birthday
-							$yOffset = 100;
+							$yOffset = 120;
 						case 'date':
-							$currentYear= date('Y');
-							$_return['fields'][$_fld->name]['formcode'] = vmJsApi::jDate($_return['fields'][$_fld->name]['value'],  $_prefix.$_fld->name,$_prefix.$_fld->name . '_field',false,($currentYear-$yOffset).':'.$currentYear+3);
+							$currentYear = intval(date('Y'));
+							$_return['fields'][$_fld->name]['formcode'] = vmJsApi::jDate($_return['fields'][$_fld->name]['value'],  $_prefix.$_fld->name,$_prefix.$_fld->name . '_field',false,($currentYear-$yOffset).':'.$currentYear);
 							break;
 						case 'emailaddress':
 							if( JFactory::getApplication()->isSite()) {

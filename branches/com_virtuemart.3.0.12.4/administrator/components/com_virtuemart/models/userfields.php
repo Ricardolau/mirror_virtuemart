@@ -963,7 +963,8 @@ class VirtueMartModelUserfields extends VmModel {
 							$yOffset = 120;
 						case 'date':
 							$currentYear = intval(date('Y'));
-							$_return['fields'][$_fld->name]['formcode'] = vmJsApi::jDate($_return['fields'][$_fld->name]['value'],  $_prefix.$_fld->name,$_prefix.$_fld->name . '_field',false,($currentYear-$yOffset).':'.$currentYear);
+							$maxmin = 'minDate: -0, maxDate: "+1Y",';
+							$_return['fields'][$_fld->name]['formcode'] = vmJsApi::jDate($_return['fields'][$_fld->name]['value'],  $_prefix.$_fld->name,$_prefix.$_fld->name . '_field',false,($currentYear-$yOffset).':'.($currentYear+1),$maxmin);
 							break;
 						case 'emailaddress':
 							if( JFactory::getApplication()->isSite()) {

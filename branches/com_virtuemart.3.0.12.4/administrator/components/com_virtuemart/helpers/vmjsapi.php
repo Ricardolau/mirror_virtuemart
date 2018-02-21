@@ -787,7 +787,7 @@ jQuery(document).ready(function($) {
 
 	// $yearRange format >> 1980:2010
 	// Virtuemart Datepicker script
-	static function jDate($date='',$name="date",$id=NULL,$resetBt = TRUE, $yearRange='') {
+	static function jDate($date='',$name="date",$id=NULL,$resetBt = TRUE, $yearRange='', $minMax='') {
 
 		if ($yearRange) {
 			$yearRange = 'yearRange: "' . $yearRange . '",';
@@ -837,6 +837,7 @@ jQuery(document).ready(function($) {
 					changeMonth: true,
 					changeYear: true,
 					'.$yearRange.'
+					'.$minMax.'
 					dateFormat:"'.$jsDateFormat.'",
 					altField: $(this).prev(),
 					altFormat: "yy-mm-dd"
@@ -856,6 +857,7 @@ jQuery(document).ready(function($) {
 		$vlePath = vmJsApi::setPath('i18n/jquery.ui.datepicker-'.$lang, FALSE , '' ,$minified = NULL ,   'js', true);
 		if(!file_exists($vlePath) or is_dir($vlePath)){
 			$vlePath = vmJsApi::setPath('i18n/jquery.ui.datepicker-'.$sh_lang, FALSE , '' ,$minified = NULL ,   'js', true);
+			$lang = $sh_lang;
 			if(!file_exists($vlePath) or is_dir($vlePath)){
 				$lang = 'en-GB';
 			}

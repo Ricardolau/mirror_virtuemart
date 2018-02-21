@@ -49,7 +49,7 @@ class VirtuemartViewCategory extends VmView {
 		
     	if ($this->type=='getCategoriesTree') {
 			if(!empty($product_id)){
-				$this->ProductModel = VmModel::getModel();
+				$this->ProductModel = VmModel::getModel('product');
 				$product = $this->ProductModel->getProductSingle($virtuemart_product_id,false);
 				$categories = $product->categories;
 			} else {

@@ -145,12 +145,13 @@ function refresh_counter() {
                 <input class="highlight-button" type="submit" onclick="return( check_reviewform());"
                        name="submit_review" title="<?php echo vmText::_( 'COM_VIRTUEMART_REVIEW_SUBMIT' ) ?>"
                        value="<?php echo vmText::_( 'COM_VIRTUEMART_REVIEW_SUBMIT' ) ?>"/>
+            </div>
 				<?php } else if($review_editable and $this->allowRating) { ?>
                     <input class="highlight-button" type="submit" name="submit_review"
                            title="<?php echo vmText::_( 'COM_VIRTUEMART_REVIEW_SUBMIT' ) ?>"
                            value="<?php echo vmText::_( 'COM_VIRTUEMART_REVIEW_SUBMIT' ) ?>"/>
 
-                </div>
+
 					<?php
 				}
 

@@ -28,7 +28,7 @@ defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 
 VmConfig::loadConfig();
-vmLanguage::loadJLang('mod_virtuemart_currencies', true);
+vmLanguage::loadModJLang('mod_virtuemart_currencies');
 vmJsApi::jQuery();
 
 vmLanguage::loadJLang( 'com_virtuemart', true );

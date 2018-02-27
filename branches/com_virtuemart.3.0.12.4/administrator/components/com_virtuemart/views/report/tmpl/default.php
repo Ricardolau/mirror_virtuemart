@@ -152,11 +152,12 @@ else $addDateInfo = false;
             </tbody>
             <thead>
             <tr>
-                <th  class="right"><?php echo vmText::_('COM_VIRTUEMART_TOTAL').' : '; ?></th>
-                <th class="right"><?php echo $this->totalReport['number_of_ordersTotal']?></th>
-                <th class="right"><?php echo $this->totalReport['itemsSoldTotal'];?></th>
-                <th class="right"><?php echo $this->totalReport['revenueTotal_netto'];?></th>
-                <th class="right"><?php echo $this->totalReport['revenueTotal_brutto'];?></th>
+                <td  class="right"><strong><?php echo vmText::_('COM_VIRTUEMART_TOTAL').' : '; ?></strong></td>
+                <td class="right"><strong><?php echo $this->totalReport['number_of_ordersTotal']?></strong></td>
+                <td class="right"><strong><?php echo $this->totalReport['itemsSoldTotal'];?></strong></td>
+                <td class="right"><strong><?php echo $this->totalReport['revenueTotal_netto'];?></strong></td>
+                <td class="right"><strong><?php echo $this->totalReport['revenueTotal_brutto'];?></strong></td>
+								<td></td>
             </tr>
             </thead>
             <tfoot>

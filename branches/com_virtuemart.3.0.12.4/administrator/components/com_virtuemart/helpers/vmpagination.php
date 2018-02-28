@@ -58,7 +58,7 @@ class VmPagination extends vObject {
 		 * If limitstart is greater than total (i.e. we are asked to display records that don't exist)
 		 * then set limitstart to display the last natural page of results
 		 */
-		if ($this->limitstart > $this->total - $this->limit)
+		if ($this->limitstart > ($this->total - $this->limit))
 		{
 			$this->limitstart = max(0, (int) (ceil($this->total / $this->limit) - 1) * $this->limit);
 		}

@@ -1331,23 +1331,21 @@ class VirtueMartCart {
 					$tmp = vRequest::getInt($name,0);
 				} else {
 					$tmp = vRequest::getString($name,null);
-				}
+					if(isset($tmp)){
+						if(!empty($tmp)){
+							if(is_array($tmp)){
+								$tmp = implode("|*|",$tmp);
+							}
 
-				if(isset($tmp)){
-					if(!empty($tmp)){
-						if(is_array($tmp)){
-							$tmp = implode("|*|",$tmp);
+							$tmp = vRequest::vmSpecialChars($tmp);
+
+							//$tmp = (string)preg_replace('#on[a-z](.+?)\)#si','',$tmp);//replace start of script onclick() onload()...
 						}
 
-						$tmp = vRequest::vmSpecialChars($tmp);
-
-						$tmp = (string)preg_replace('#on[a-z](.+?)\)#si','',$tmp);//replace start of script onclick() onload()...
+						$this->cartfields[$name] = $tmp;
+						//vmdebug('Store $this->cartfields[$name] '.$name.' '.$tmp);
 					}
-
-					$this->cartfields[$name] = $tmp;
-					//vmdebug('Store $this->cartfields[$name] '.$name.' '.$tmp);
 				}
-
 			}
 		}
 		$this->BT = array_merge((array)$this->BT,(array)$this->cartfields);

@@ -1042,12 +1042,14 @@ class ShopFunctions {
 			VmError($t);
 		} else {
 			if(!is_writable( $safePath )){
+				vmLanguage::loadJLang('com_virtuemart');
 				vmLanguage::loadJLang('com_virtuemart_config');
 				vmdebug('checkSafePath $safePath not writeable '.$safePath);
 				VmError(vmText::sprintf('COM_VIRTUEMART_WARN_SAFE_PATH_INV_NOT_WRITEABLE',vmText::_('COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH'),$safePath)
 				,vmText::sprintf('COM_VIRTUEMART_WARN_SAFE_PATH_INV_NOT_WRITEABLE','',''));
 			} else {
 				if(!is_writable(self::getInvoicePath($safePath) )){
+					vmLanguage::loadJLang('com_virtuemart');
 					vmLanguage::loadJLang('com_virtuemart_config');
 					vmdebug('checkSafePath $safePath/invoice not writeable '.addslashes($safePath));
 					VmError(vmText::sprintf('COM_VIRTUEMART_WARN_SAFE_PATH_INV_NOT_WRITEABLE',vmText::_('COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH'),htmlspecialchars($safePath))

@@ -558,6 +558,9 @@ class VirtueMartModelUser extends VmModel {
 			$noError = false;
 		}
 
+		$data['virtuemart_vendor_id'] = $usertable->virtuemart_vendor_id;
+		$data['user_is_vendor'] = $usertable->user_is_vendor;
+
 		if(vmAccess::manager('user.edit') and !empty($data['virtuemart_shoppergroup_set'])){
 
 			$shoppergroupmodel = VmModel::getModel('ShopperGroup');

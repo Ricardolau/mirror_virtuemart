@@ -530,7 +530,7 @@ jQuery(document).ready(function($) {
 	Virtuemart.updateChosenDropdownLayout = function() {
 		var vm2string = {'.$vm2string.'};
 		'.$selector.'.chosen({enable_select_all: true,select_all_text : vm2string.select_all_text,select_some_options_text:vm2string.select_some_options_text,disable_search_threshold: 5});
-		console.log("updateChosenDropdownLayout");
+		//console.log("updateChosenDropdownLayout");
 	}
 	jQuery(document).ready( function() {
 		Virtuemart.updateChosenDropdownLayout($);

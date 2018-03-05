@@ -22,7 +22,7 @@ $doc->addStyleSheet(JURI::root(true) . '/plugins/vmpayment/eway/assets/css/eway.
 ?>
 
 
-<div id="eway-payment-page">
+<div id="eway-page">
 		<div id="eway-payment-logo">
 			<img src="<?php echo JURI::root() ?>/plugins/vmpayment/eway/assets/images/eway-logo.png"/>
 		</div>
@@ -42,7 +42,7 @@ $doc->addStyleSheet(JURI::root(true) . '/plugins/vmpayment/eway/assets/css/eway.
 		<span class="discover"></span>
 	</div>
 
-	<form method="POST" action="<?php echo $viewData['FormActionURL'] ?>" id="eway-payment-form">
+	<form method="POST" action="<?php echo $viewData['FormActionURL'] ?>" id="eway-payment-form" class="eway-payment-form">
 		<input type="hidden" name="EWAY_ACCESSCODE" value="<?php echo $viewData['AccessCode'] ?>"/>
 		<input type="hidden" name="EWAY_PAYMENTTYPE" value="<?php echo $viewData['payment_type'] ?>"/>
 			<div class="transactioncustomer">

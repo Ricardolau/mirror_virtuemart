@@ -3,7 +3,7 @@
     padding-top: 5px;
 }
 
-#eway-payment-page {
+#eway-page {
     z-index: 100001;
     width: 70%;
     min-width: 300px;
@@ -17,7 +17,7 @@
     display: block;
 }
 
-#eway-payment-page>h1 {
+#eway-page>h1 {
     margin: 0 !important;
     padding: 20px !important;
     text-align: center;
@@ -30,13 +30,13 @@
     border-top-right-radius: 8px;
 }
 
-#eway-payment-form {
+.eway-payment-form {
     margin: 0 25px 25px;
 }
-#eway-payment-page p {
+#eway-page p {
     margin: 5px 25px;
 }
-#eway-payment-form label {
+.eway-payment-form label {
     color: #46545C;
     margin-bottom: 2px;
     display: inline-block;
@@ -95,7 +95,7 @@
     margin-bottom: 15px;
 }
 
-#eway-payment-form-content input {
+.eway-payment-form-content input {
     box-shadow: none!important;
 }
 .clear {clear:both;}

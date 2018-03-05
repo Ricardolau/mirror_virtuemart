@@ -26,6 +26,9 @@ $doc->addStyleSheet(JURI::root(true) . '/plugins/vmpayment/eway/assets/css/eway.
 	<form method="POST" action="<?php echo $viewData['FormActionURL'] ?>" id="eway-payment-form">
 		<input type="hidden" name="EWAY_ACCESSCODE" value="<?php echo $viewData['AccessCode'] ?>"/>
 		<input type="hidden" name="EWAY_PAYMENTTYPE" value="<?php echo $viewData['payment_type'] ?>"/>
+		<?php if (isset ($viewData['eway_cardcvn'])) { ?>
+		<input type="hidden" name="EWAY_CARDCVN" value="<?php echo $viewData['eway_cardcvn'] ?>"/>
+		<?php } ?>
 		<div class="button">
 			<input type="submit" name="btnSubmit" value=""/>
 		</div>

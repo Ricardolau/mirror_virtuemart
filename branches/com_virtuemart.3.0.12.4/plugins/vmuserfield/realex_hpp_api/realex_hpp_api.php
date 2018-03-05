@@ -150,8 +150,8 @@ class plgVmUserfieldRealex_hpp_api extends vmUserfieldPlugin {
 			return;
 		}
 
-		$card_delete_ids = JRequest::getVar('realex_card_delete_ids', array(), 'post', 'array');
-		$card_update_ids = JRequest::getVar('realex_card_update_ids', array(), 'post', 'array');
+		$card_delete_ids = vRequest::getVar('realex_card_delete_ids', array(), 'post', 'array');
+		$card_update_ids = vRequest::getVar('realex_card_update_ids', array(), 'post', 'array');
 		if (!empty($card_delete_ids)) {
 			return $this->deleteStoredCards($card_delete_ids);
 		}

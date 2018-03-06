@@ -44,7 +44,7 @@
     font-weight: 700;
 }
 
-.eway-input {
+.eway-form-control {
     display: block;
     width: 100%;
     height: 34px;
@@ -91,7 +91,7 @@
     float: left;
 }
 
-.eway-fields {
+.eway-form-group {
     margin-bottom: 15px;
 }
 
@@ -154,4 +154,15 @@
 }
 :-moz-placeholder { /* Firefox 18- */
     color: #e7eaed;
+}
+.has-error .eway-control-label{
+    color: #a94442;
+}
+.has-error .eway-form-control{
+    border-color: #a94442;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+.has-error input {
+    border-width: 2px;
 }

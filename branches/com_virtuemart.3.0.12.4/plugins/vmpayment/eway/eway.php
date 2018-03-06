@@ -23,6 +23,9 @@ if (!class_exists('vmPSPlugin')) {
 	require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
 }
 
+if (!class_exists('vmCrypt')) {
+	require(VMPATH_ADMIN . DS . 'helpers' . DS . 'vmcrypt.php');
+}
 
 /**
  * Class plgVmpaymentEway
@@ -117,12 +120,10 @@ class plgVmpaymentEway extends vmPSPlugin {
 		if ($maskedCard) {
 			$tokenCustomerIDs = $this->getTokenCustomerIDs(JFactory::getUser()->id);
 			foreach ($tokenCustomerIDs as $key => $tokenCustomerID) {
-				if ($tokenCustomerID->tokencustomerid) {
-					$tokenCustomerIDSelected = $tokenCustomerID->tokencustomerid;
-				}
+				$tokenCustomerIDSelected = $tokenCustomerID;
 			}
 		}
-		$tokenCustomerIDSelected = "919446411734";
+
 		$customer = $this->getCustomer($order, $tokenCustomerIDSelected);
 		$shippingAddress = $this->getShippingAddress($order);
 		$items = $this->getOrderItems($order);
@@ -446,7 +447,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 		}
 
 		if ($transactionResponse->TokenCustomerID) {
-			$this->saveTokenCustomerID($order['details']['BT']->virtuemart_user_id, $transactionResponse);
+			$this->saveTokenCustomerID($order['details']['BT']->virtuemart_user_id, $transactionResponse->TokenCustomerID);
 		}
 
 		$orderHistory['customer_notified'] = 1;
@@ -481,7 +482,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 		CurrencyDisplay::getInstance($cart->pricesCurrency);
 		$cart = VirtueMartCart::getCart();
 		$cart->emptyCart();
-
+		self::clearEwaySession();
 		$html = $this->renderByLayout('response_page', array(
 			'TransactionID' => $transactionResponse->TransactionID,
 			'ResponseCode' => \Eway\Rapid::getMessage($transactionResponse->ResponseCode),
@@ -507,7 +508,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 			->select('*')
 			->from($db->quoteName($tokenCustomerIDTableName))
 			->where($db->quoteName('virtuemart_user_id') . ' = ' . $db->quote($virtuemart_user_id))
-			->where($db->quoteName('tokencustomerid') . ' = ' . $db->quote($tokenCustomerID));
+			->where($db->quoteName('tokencustomerid') . ' = ' . $db->quote(vmCrypt::encrypt($tokenCustomerID)));
 		$db->setQuery($query);
 
 		$found = $db->loadResult();
@@ -516,7 +517,8 @@ class plgVmpaymentEway extends vmPSPlugin {
 		}
 		$obj = new stdClass();
 		$obj->virtuemart_user_id = $virtuemart_user_id;
-		$obj->tokencustomerid = $tokenCustomerID;
+
+		$obj->tokencustomerid = vmCrypt::encrypt($tokenCustomerID);
 		$date = JFactory::getDate();
 		$today = $date->toSQL();
 		$obj->created_on = $today;
@@ -536,7 +538,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 		$SQLfields = array(
 			'id' => 'int(11) UNSIGNED NOT NULL AUTO_INCREMENT',
 			'virtuemart_user_id' => 'int(11) UNSIGNED',
-			'$tokenCustomerID' => 'char(32)',
+			'tokenCustomerID' => 'text',
 		);
 		return $SQLfields;
 	}
@@ -763,31 +765,8 @@ jQuery().ready(function($) {
 		if (!$method = $this->getVmPluginMethod($cart->virtuemart_paymentmethod_id) or empty($method->virtuemart_paymentmethod_id)) {
 			return NULL;
 		}
+		$this->getEwaySelected($method, $cart);
 
-		$maskedCardSelected = vRequest::getVar('eway-selected-' . $method->virtuemart_paymentmethod_id);
-
-		if ($maskedCardSelected) {
-			$CVV = vRequest::getVar('CVV' . $cart->virtuemart_paymentmethod_id, '');
-			if (!Creditcard::validate_credit_card_cvv('', $CVV, true, $maskedCardSelected)) {
-				vmError('VMPAYMENT_EWAY_CARD_CVV_INVALID', 'VMPAYMENT_EWAY_CARD_CVV_INVALID');
-				return false;
-			}
-			$maskedCardSelected->Number = $maskedCardSelected;
-			$maskedCards = self::getMaskedCardsFromSession();
-			foreach ($maskedCards as $maskedCard) {
-				if ($maskedCard->Number == $maskedCardSelected) {
-					$maskedCard->IssueNumber = $CVV;
-					$maskedCard->selected = true;
-				} else {
-					$maskedCard->CVV = '';
-					$maskedCard->IssueNumber = false;
-				}
-			}
-			self::setMaskedCardsInSession($maskedCards);
-
-		} else {
-			self::clearEwaySession();
-		}
 
 		return true;
 	}
@@ -816,45 +795,59 @@ jQuery().ready(function($) {
 			}
 		}
 
-
 		$mname = $this->_psType . '_name';
 		$idN = 'virtuemart_' . $this->_psType . 'method_id';
 		$maskedIndex = false;
 		$ret = FALSE;
 		foreach ($this->methods as $method) {
 			if (!isset($htmlIn[$this->_psType][$method->$idN])) {
+				vmdebug('EWAY plgVmDisplayListFEPayment', $method->APIPassword);
+
 				if ($this->checkConditions($cart, $method, $cart->cartPrices)) {
-					$ret=true;
+					$ret = true;
 					$prices = $cart->cartPrices;
 					$methodSalesPrice = $this->setCartPrices($cart, $prices, $method);
 					if (!JFactory::getUser()->guest AND $method->save_card_enabled) {
 						$maskedCars = $this->getMaskedCards($method);
+						$selectedMaskedCard = false;
 						if ($maskedCars) {
 							$found = false;
 							foreach ($maskedCars as $key => $maskedCard) {
-									$found = true;
-										///$doc = JFactory::getDocument()->addStyleSheet(JURI::root(true) . '/plugins/vmpayment/eway/assets/css/eway.css');
-										$maskedIndex = $method->$idN . '-' . $key;
-										$htmlIn[$this->_psType][$maskedIndex] = $this->getPluginHtmlMaskedCard($method, $selected, $methodSalesPrice, $maskedCard);
-										if ($maskedCard->selected) $selectedMaskedCard=$maskedCard;
+								$found = true;
+								///$doc = JFactory::getDocument()->addStyleSheet(JURI::root(true) . '/plugins/vmpayment/eway/assets/css/eway.css');
+								$maskedIndex = $method->$idN . '-' . $key;
+								$htmlIn[$this->_psType][$maskedIndex] = $this->getPluginHtmlMaskedCard($method, $selected, $methodSalesPrice, $maskedCard);
+								if ($maskedCard->selected) {
+									$selectedMaskedCard = $maskedCard;
+								}
 							}
 							if ($found) {
 								vmJsApi::addJScript('vm.ewaySelect', '
-					                jQuery(document).ready(function( $ ) {
-					                        jQuery("input.eway-select-' . $method->virtuemart_paymentmethod_id . '").click( function(){
-					                            var eway_selected = jQuery(this).data("eway");
-					                            if (eway_selected !== undefined ) {
-					                                jQuery("#eway-selected-' . $method->virtuemart_paymentmethod_id . '").val(eway_selected) ;
-					                            }
-					                        });
-					                });
-							    ');
+									jQuery(document).ready(function( $ ) {
+											jQuery("#eway-selected-' . $method->virtuemart_paymentmethod_id . '").val() ;
+											jQuery("input.eway-select-' . $method->virtuemart_paymentmethod_id . '").click( function(){
+											var eway_selected = jQuery(this).data("eway");
+											if (eway_selected !== undefined ) {
+												jQuery("#eway-selected-' . $method->virtuemart_paymentmethod_id . '").val(eway_selected) ;
+												console.log("eway_selected",eway_selected);
+												var ewayindex = jQuery(this).data("ewayindex");
+												console.log("ewayindex",ewayindex);
+												var issueNumberIndex="#input-id-' . $method->virtuemart_paymentmethod_id .'-"
+											    issueNumberIndex = issueNumberIndex + ewayindex;
+											    var issueNumberInput= jQuery(issueNumberIndex).val() ;
+												console.log("issueNumberInput",issueNumberInput);
+												jQuery("#eway-selected-issueNumber-' . $method->virtuemart_paymentmethod_id . '").val(issueNumberInput) ;
+											}
+										});
+									});
+								');
 								$htmlIn[$this->_psType][$maskedIndex] .= '<input type="hidden" name="eway-selected-' . $method->virtuemart_paymentmethod_id . '" id="eway-selected-' . $method->virtuemart_paymentmethod_id . '" value="' . $selectedMaskedCard->Number . '" />';
+								$htmlIn[$this->_psType][$maskedIndex] .= '<input type="hidden" name="eway-selected-issueNumber-' . $method->virtuemart_paymentmethod_id . '" id="eway-selected-issueNumber-' . $method->virtuemart_paymentmethod_id . '" value="' . $selectedMaskedCard->IssueNumber . '" />';
 							}
 						}
 						//$method->$mname = $this->renderPluginName($method);
 
-						$htmlIn[$this->_psType][$method->$idN] = $this->getPluginHtmlMaskedCard($method, $selected, $methodSalesPrice);
+						$htmlIn[$this->_psType][$method->$idN] = $this->getPluginHtmlMaskedCard($method, $selected, $methodSalesPrice, $selectedMaskedCard, true);
 					} else {
 						//This makes trouble, because $method->$mname is used in  renderPluginName to render the Name, so it must not be called twice!
 						$method->$mname = $this->renderPluginName($method);
@@ -877,7 +870,14 @@ jQuery().ready(function($) {
 			->where($db->quoteName('virtuemart_user_id') . ' = ' . $db->quote($virtuemart_user_id));
 		$db->setQuery($query);
 
-		$tokenCustomerIDs = $db->loadObjectList();
+		$tokenCustomerIDList = $db->loadObjectList();
+
+		$tokenCustomerIDs = array();
+		foreach ($tokenCustomerIDList as $key => $tokenCustomerID) {
+			if ($tokenCustomerID->tokencustomerid) {
+				$tokenCustomerIDs[] = vmCrypt::decrypt($tokenCustomerID->tokencustomerid);
+			}
+		}
 		return $tokenCustomerIDs;
 	}
 
@@ -890,10 +890,10 @@ jQuery().ready(function($) {
 
 		$tokenCustomerIDs = $this->getTokenCustomerIDs(JFactory::getUser()->id);
 		if ($tokenCustomerIDs) {
-			foreach ($tokenCustomerIDs as $key => $tokenCustomerID) {
-				if ($tokenCustomerID->tokencustomerid) {
-					$maskedCards[] = $this->getMaskedCard($method, $tokenCustomerID->tokencustomerid);
-				}
+			foreach ($tokenCustomerIDs as $tokenCustomerID) {
+				$maskedCard = $this->getMaskedCard($method, $tokenCustomerID);
+				$maskedCard->selected = false;
+				$maskedCards[] = $maskedCard;
 			}
 		}
 		if ($maskedCards) {
@@ -935,16 +935,17 @@ jQuery().ready(function($) {
 	}
 
 // TODO GetTokenCustomerID
-	protected function getPluginHtmlMaskedCard($method, $selected, $pluginSalesPrice,  $maskedCard = NULL) {
-		static $index = 0;
+	protected function getPluginHtmlMaskedCard($method, $selected, $pluginSalesPrice, $maskedCard, $plugin = false) {
+		static $index = 1;
 
-		if ($selected == $method->virtuemart_paymentmethod_id  AND $maskedCard == NULL) {
+		$checked = '';
+		// $maskedCard if no $maskedCard->selected found, so may be it is the defaut plugin
+		if ($plugin and !$maskedCard->selected and $selected == $method->virtuemart_paymentmethod_id) {
 			$checked = 'checked="checked"';
-		} elseif ($selected == $method->virtuemart_paymentmethod_id AND $maskedCard->selected ) {
+		} elseif (!$plugin and $maskedCard->selected) {
 			$checked = 'checked="checked"';
-		} else {
-			$checked = '';
 		}
+
 
 		if (!class_exists('CurrencyDisplay')) {
 			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');
@@ -972,35 +973,40 @@ jQuery().ready(function($) {
 			$dynUpdate = ' data-dynamic-update="1" ';
 		}
 
-		if ($maskedCard) {
-			$pluginName = $maskedCard->Number . ' ' . vmText::_('VMPAYMENT_EWAY_PAYMENT_EXPIRY_DATE') . ' (' . $maskedCard->ExpiryMonth . '/' . $maskedCard->ExpiryYear . ')';
-			$extraPluginName = '
-			<div class="eway-payment-form">
-			<div class="eway-fields eway-cardissuenumber-group">
-					<label for="eway-cardissuenumber">' . vmText::_('VMPAYMENT_EWAY_PAYMENT_ISSUE_NUMBER') . '</label>' .
-				'<input type="text" name="CVV" 
-							id="eway-cardissuenumber" 
-							class="eway-input"
-						   placeholder="123" maxlength="4"
-						   value=""
-					/> 
-				</div>
-				</div>
-				';
-			$id = 'payment-id-' . $method->virtuemart_paymentmethod_id . '-' . $index;
+		if (!$plugin) {
+
+			$maskedCardJson = json_encode($maskedCard);
+			$maskedCardCrypt = vmCrypt::encrypt($maskedCardJson);
+			$pluginName = $maskedCard->Number . ' ' . $maskedCard->Name . ' ' . vmText::_('VMPAYMENT_EWAY_PAYMENT_EXPIRY_DATE') . ' (' . $maskedCard->ExpiryMonth . '/' . $maskedCard->ExpiryYear . ')';
+
+			$html = $this->renderByLayout('cc_display_page', array(
+				'dynUpdate' => $dynUpdate,
+				'maskedCard' => $maskedCardCrypt,
+				'costDisplay' => $costDisplay,
+				'pluginName' => $pluginName,
+				'virtuemart_paymentmethod_id' => $method->virtuemart_paymentmethod_id,
+				'checked' => $checked,
+				'IssueNumber' => $maskedCard->IssueNumber,
+				'doIssueNumber' => true,
+				'index' => $index,
+				'sandbox' => $method->sandbox,
+			));
 			$index++;
 		} else {
-			$pluginName = $method->payment_name;
-			$id = 'payment-id-' . $method->virtuemart_paymentmethod_id;
+			$index=false;
+			$html = $this->renderByLayout('cc_display_page', array(
+				'dynUpdate' => $dynUpdate,
+				'maskedCard' => '',
+				'costDisplay' => $costDisplay,
+				'pluginName' => $method->payment_name,
+				'virtuemart_paymentmethod_id' => $method->virtuemart_paymentmethod_id,
+				'checked' => $checked,
+				'IssueNumber' => '',
+				'doIssueNumber' => false,
+				'index' => $index,
+				'sandbox' => $method->sandbox,
+			));
 		}
-
-		$html = '<input type="radio"' . $dynUpdate . ' 
-				class="eway-select-' . $method->virtuemart_paymentmethod_id . '" 
-				name="virtuemart_paymentmethod_id" 
-				data-eway="' . $maskedCard->Number . '"
-				id="' . $id . '"   
-				value="' . $method->virtuemart_paymentmethod_id . '" ' . $checked . ">\n"
-			. '<label for="' . $id . '">' . '<span class="vmpayment">' . $pluginName . $costDisplay . $extraPluginName . "</span></label>\n";
 
 		return $html;
 	}
@@ -1011,12 +1017,12 @@ jQuery().ready(function($) {
 	 * @return mixed|string
 	 */
 	protected function renderPluginName($method) {
-		$maskedCard = false;
+		$selectedMaskedCard = false;
 		if (!JFactory::getUser()->guest AND $method->save_card_enabled) {
-			$maskedCard = $this->getSelectedMaskedCardFromSession();
+			$selectedMaskedCard = $this->getSelectedMaskedCardFromSession();
 		}
-		if ($maskedCard) {
-			$pluginName = $maskedCard->Number . ' ' . vmText::_('VMPAYMENT_EWAY_PAYMENT_EXPIRY_DATE') . ' (' . $maskedCard->ExpiryMonth . '/' . $maskedCard->ExpiryYear . ')';
+		if ($selectedMaskedCard) {
+			$pluginName = $selectedMaskedCard->Number . ' ' . $selectedMaskedCard->Name . ' ' . vmText::_('VMPAYMENT_EWAY_PAYMENT_EXPIRY_DATE') . ' (' . $selectedMaskedCard->ExpiryMonth . '/' . $selectedMaskedCard->ExpiryYear . ')';
 		} else {
 			$pluginName = parent::renderPluginName($method);
 		}
@@ -1091,32 +1097,65 @@ jQuery().ready(function($) {
 		if (!$method = $this->getVmPluginMethod($cart->virtuemart_paymentmethod_id) or empty($method->virtuemart_paymentmethod_id)) {
 			return NULL;
 		}
+		if (!class_exists('Creditcard')) {
+			require_once(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'creditcard.php');
+		}
+		$this->getEwaySelected($method, $cart);
+		return $this->onSelectedCalculatePrice($cart, $cart_prices, $cart_prices_name);
+	}
 
-		$maskedCardSelected = vRequest::getVar('eway-selected-' . $method->virtuemart_paymentmethod_id);
 
+	private function getEwaySelected($method, $cart) {
+		$maskedCardSelectedCrypted = vRequest::getVar('eway-selected-' . $method->virtuemart_paymentmethod_id);
+		$maskedCardSelectedJson = vmCrypt::decrypt($maskedCardSelectedCrypted);
+		$maskedCardSelected = json_decode($maskedCardSelectedJson);
+		if (!class_exists('Creditcard')) {
+			require_once(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'creditcard.php');
+		}
+		$issueNumber = false;
 		if ($maskedCardSelected) {
-			$CVV = vRequest::getVar('CVV' . $cart->virtuemart_paymentmethod_id, '');
-			if (!Creditcard::validate_credit_card_cvv('', $CVV, true, $maskedCardSelected)) {
+			$issueNumber = vRequest::getVar('eway-selected-issueNumber-' . $cart->virtuemart_paymentmethod_id, '');
+			if (!Creditcard::validate_credit_card_cvv('', $issueNumber, true, $maskedCardSelected)) {
 				vmError('VMPAYMENT_EWAY_CARD_CVV_INVALID', 'VMPAYMENT_EWAY_CARD_CVV_INVALID');
 				return false;
 			}
-			$maskedCardSelected->Number = $maskedCardSelected;
-			$maskedCards = self::getMaskedCardsFromSession();
-			foreach ($maskedCards as $maskedCard) {
-				if ($maskedCard->Number == $maskedCardSelected) {
-					$maskedCard->IssueNumber = $CVV;
-					$maskedCard->selected = true;
-				} else {
-					$maskedCard->CVV = '';
-					$maskedCard->IssueNumber = false;
-				}
-			}
-			self::setMaskedCardsInSession($maskedCards);
-
 		}
+		$maskedCards = self::getMaskedCardsFromSession();
+		foreach ($maskedCards as $maskedCard) {
+			if ($this->isSameCard($maskedCard, $maskedCardSelected)) {
+				$maskedCard->IssueNumber = $issueNumber;
+				$maskedCard->selected = true;
+			} else {
+				$maskedCard->IssueNumber = false;
+				$maskedCard->selected = false;
+			}
+		}
+		self::setMaskedCardsInSession($maskedCards);
+	}
 
-
-		return $this->onSelectedCalculatePrice($cart, $cart_prices, $cart_prices_name);
+	private function isSameCard($maskedCard, $maskedCardSelected) {
+		if (!$maskedCardSelected) {
+			return false;
+		}
+		if ($maskedCard->Number != $maskedCardSelected->Number) {
+			return false;
+		}
+		if ($maskedCard->Name != $maskedCardSelected->Name) {
+			return false;
+		}
+		if ($maskedCard->ExpiryMonth != $maskedCardSelected->ExpiryMonth) {
+			return false;
+		}
+		if ($maskedCard->ExpiryYear != $maskedCardSelected->ExpiryYear) {
+			return false;
+		}
+		if ($maskedCard->StartMonth != $maskedCardSelected->StartMonth) {
+			return false;
+		}
+		if ($maskedCard->StartYear != $maskedCardSelected->StartYear) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -1129,9 +1168,31 @@ jQuery().ready(function($) {
 	 * @return null if no plugin was found, 0 if more then one plugin was found,  virtuemart_xxx_id if only one plugin is found
 	 *
 	 */
-	function plgVmOnCheckAutomaticSelectedPayment(VirtueMartCart $cart, array $cart_prices = array()) {
+	function plgVmOnCheckAutomaticSelectedPayment(VirtueMartCart $cart, array $cart_prices = array(), &$paymentCounter) {
 
-		return $this->onCheckAutomaticSelected($cart, $cart_prices);
+		$nbMethod = $this->getSelectable($cart, $virtuemart_pluginmethod_id, $cart_prices);
+		$paymentCounter += $nbMethod;
+
+		if ($nbMethod == NULL) {
+			return NULL;
+		} else {
+			if ($nbMethod == 1) {
+				$method = $this->getVmPluginMethod($virtuemart_pluginmethod_id) ;
+				if (!$method->save_card_enabled) {
+					return $virtuemart_pluginmethod_id;
+				}
+				if (JFactory::getUser()->guest) {
+					return $virtuemart_pluginmethod_id;
+				}
+				$maskedCars = $this->getMaskedCards($method);
+				if (!$maskedCars) {
+					return $virtuemart_pluginmethod_id;
+				}
+				return 0;
+			} else {
+				return 0;
+			}
+		}
 	}
 
 	/**
@@ -1232,7 +1293,8 @@ jQuery().ready(function($) {
 		$dbValues['TransactionID'] = $response->TransactionID;
 		$dbValues['eway_request_type'] = 'refund';
 		$dbValues['eway_request_raw'] = print_r($foundPayment->TransactionID, true);
-		$dbValues['eway_response_raw'] = print_r($response, true);
+		$obfuscateResponse = $this->obfuscateResponse($response);
+		$dbValues['eway_response_raw'] = print_r($obfuscateResponse, true);
 		$this->storePSPluginInternalData($dbValues);
 
 		$transactionResponse = $response->Transactions[0];
@@ -1252,6 +1314,10 @@ jQuery().ready(function($) {
 		return true;
 	}
 
+	private function obfuscateResponse($response) {
+
+		return $response;
+	}
 
 	/**
 	 * @param $payments
@@ -1476,7 +1542,7 @@ jQuery().ready(function($) {
 	 * @return bool|string
 	 */
 	private function getTransactionIDPayment($vmPayments) {
-		$foundPayment = '';
+		$foundPayment = false;
 		foreach ($vmPayments as $vmPayment) {
 
 			if ($vmPayment->eway_request_type == 'queryTransaction') {
@@ -1484,7 +1550,7 @@ jQuery().ready(function($) {
 				return $foundPayment;
 			}
 		}
-		return false;
+		return $foundPayment;
 	}
 
 
@@ -1563,8 +1629,9 @@ jQuery().ready(function($) {
 	private
 	static function setMaskedCardsInSession($maskedCards) {
 		$session = JFactory::getSession();
-		$json = json_encode($maskedCards);
-		$session->set('eway', $json, 'vm');
+		$maskedCardsJson = json_encode($maskedCards);
+		$maskedCardsCrypt = vmCrypt::encrypt($maskedCardsJson);
+		$session->set('eway', $maskedCardsCrypt, 'vm');
 	}
 
 
@@ -1580,9 +1647,9 @@ jQuery().ready(function($) {
 
 	private
 	static function getMaskedCardsFromSession() {
-
 		$session = JFactory::getSession();
-		$maskedCardsJson = $session->get('eway', '', 'vm');
+		$maskedCardsCrypt = $session->get('eway', '', 'vm');
+		$maskedCardsJson = vmCrypt::decrypt($maskedCardsCrypt);
 		$maskedCards = json_decode($maskedCardsJson);
 		return $maskedCards;
 	}

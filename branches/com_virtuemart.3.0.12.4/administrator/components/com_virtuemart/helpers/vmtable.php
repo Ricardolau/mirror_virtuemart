@@ -9,7 +9,7 @@
  * @subpackage Helpers
  * @author Max Milbers
  * @copyright Copyright (C) 2014 Open Source Matters, Inc. All rights reserved.
- * @copyright Copyright (c) 2011 -2014 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2011 - 2018 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -1019,7 +1019,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 				self::bindParameterable($this, $this->_xParams, $this->_varsToPushParam);
 			}
 			if($this->_cryptedFields){
-				$this->decryptFields($this);
+				$this->decryptFields();
 			}
 			//vmTime('loaded by cache '.$this->_pkey.' '.$this->_slugAutoName.' '.$oid,'vmtableload');
 			return $this;
@@ -1116,6 +1116,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 
 	/**
 	 * Typo, had wrong name
+	 * @deprecated heavily
 	 */
 	function encryptFields(){
 		$this->decryptFields();
@@ -1201,6 +1202,11 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			}
 		}
 		$this->_tmpParams = false;
+
+		//decrypt the Fields
+		if($this->_cryptedFields){
+				$this->decryptFields();
+		}
 
 		// If the store failed return false.
 		if (!$ok) {

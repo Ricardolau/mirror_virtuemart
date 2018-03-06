@@ -31,6 +31,8 @@ $manufacturers = $model->getManufacturers(true, true,true);
 $model->addImages($manufacturers);
 if(empty($manufacturers)) return false;
 
+$totalManus = 		count( $manufacturers);
+
 // load the template
 require JModuleHelper::getLayoutPath('mod_virtuemart_manufacturer', $params->get('layout', 'default'));
 ?>

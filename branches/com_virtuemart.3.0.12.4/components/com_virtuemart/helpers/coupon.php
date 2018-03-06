@@ -74,7 +74,7 @@ abstract class CouponHelper
 			return vmText::_('COM_VIRTUEMART_COUPON_CODE_NOTYET') . $couponData->coupon_start_date;
 		}
 		if ($couponData->ended) {
-			self::RemoveCoupon($_code, true);
+			//self::RemoveCoupon($_code, true);
 			return vmText::_('COM_VIRTUEMART_COUPON_CODE_EXPIRED');
 		}
 

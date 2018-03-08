@@ -18,44 +18,121 @@ defined('_JEXEC') or die();
  */
 defined('_JEXEC') or die();
 $doc = JFactory::getDocument();
-$doc->addStyleSheet(JURI::root(true) . '/plugins/vmpayment/eway/assets/css/eway.css');
+JFactory::getDocument()->addStyleSheet(JURI::root(true) . '/plugins/vmpayment/eway/assets/css/eway.css');
+if ($viewData['doCardCvn']) {
+	vmJsApi::addJScript('/plugins/vmpayment/eway/assets/js/jquery.payform.min.js');
+}
+$selectedMaskedCardNumber='';
+$selectedMaskedCardCardCvn='';
 if ($viewData['index']) {
 	$id = 'payment-id-' . $viewData['virtuemart_paymentmethod_id'] . '-' . $viewData['index'];
-	$inputId = 'input-id-' . $viewData['virtuemart_paymentmethod_id'] . '-' . $viewData['index'];
+	$cvnId = 'cvn-id-' . $viewData['virtuemart_paymentmethod_id'] . '-' . $viewData['index'];
+	$ccnId = 'ccn-id-' . $viewData['virtuemart_paymentmethod_id'] . '-' . $viewData['index'];
+	$clickId = 'click-id-' . $viewData['virtuemart_paymentmethod_id'] . '-' . $viewData['index'];
+	$dynClick=$viewData['dynUpdate'];
+	$dynRadio='';
+	if ( $viewData['checked']) {
+		$selectedMaskedCard=$viewData['maskedCard'];
+		$selectedMaskedCardCardCvn=$viewData['CardCvn'];
+	}
 } else {
 	$id = 'payment-id-' . $viewData['virtuemart_paymentmethod_id'];
-	$inputId='';
+	$cvnId = '';
+	$dynClick='';
+	$dynRadio=$viewData['dynUpdate'];
 }
+
+
 ?>
 
 
 <label for="<?php echo $id ?>">
 	<span class="vmpayment">
-		<input type="radio" <?php echo $viewData['dynUpdate'] ?>
-		   class="eway-select-<?php echo $viewData['virtuemart_paymentmethod_id'] ?>" name="virtuemart_paymentmethod_id"
-		   data-eway="<?php echo $viewData['maskedCard'] ?>"
-		   data-ewayindex="<?php echo $viewData['index'] ?>"
-		   id="<?php echo $id ?>"
-		   value="<?php echo $viewData['virtuemart_paymentmethod_id'] ?>" <?php echo $viewData['checked'] ?> >
+		<input type="radio" <?php echo $dynRadio ?>
+			   class="eway-select eway-select-<?php echo $viewData['virtuemart_paymentmethod_id'] ?>"
+			   name="virtuemart_paymentmethod_id"
+			<?php if ($viewData['doCardCvn']) { ?>
+			   data-eway='<?php echo $viewData['maskedCard'] ?>'
+			   data-ewayindex="<?php echo $viewData['index'] ?>"
+			<?php } ?>
+			   id="<?php echo $id ?>"
+			   value="<?php echo $viewData['virtuemart_paymentmethod_id'] ?>" <?php echo $viewData['checked'] ?> >
+
 		<?php echo $viewData['pluginName'] ?>
 		<?php echo $viewData['costDisplay'] ?>
 		<?php if ($viewData['sandbox']) { ?>
-			<span style="color:red;font-weight:bold">Sandbox (<?php echo $viewData['virtuemart_paymentmethod_id'] ?>)</span>
+			<span style="color:red;font-weight:bold">Sandbox (<?php echo $viewData['virtuemart_paymentmethod_id'] ?>
+				)</span>
 		<?php } ?>
-		<?php if ($viewData['doIssueNumber']) { ?>
-		<div class="eway-display-form">
-			<div class="eway-display-issuenumber">
-				<?php echo vmText::_('VMPAYMENT_EWAY_PAYMENT_ISSUE_NUMBER') ?>
-				<input type="text"
-					id="<?php echo $inputId ?>"
-					name="issueNumber-<?php echo $viewData['virtuemart_paymentmethod_id'] ?>"
-					class="eway-display-input"
-					data-issueNumber="<?php echo $viewData['IssueNumber'] ?>"
-					placeholder="123" maxlength="4"
-					value="<?php echo $viewData['IssueNumber'] ?>"
-				/>
-			</div>
+		<?php if ($viewData['doCardCvn']) { ?>
+			<input type="hidden" <?php echo $dynClick ?>
+				   name="virtuemart_paymentmethod_id_click"
+				   id="<?php echo $clickId ?>"
+				   value="<?php echo $viewData['virtuemart_paymentmethod_id'] ?>">
+
+			<div class="eway-display-group">
+				<input type="hidden"
+					id="<?php echo $ccnId ?>"
+					name="ccn-<?php echo $viewData['virtuemart_paymentmethod_id'] ?>"
+					value="<?php echo $viewData['maskedCardNumber'] ?>"
+				>
+				<label for="<?php echo $cvnId ?>" class="eway-display-label">
+					<?php echo vmText::_('VMPAYMENT_EWAY_PAYMENT_CVN') ?></label>
+					<input type="tel"
+						   id="<?php echo $cvnId ?>"
+						   name="cardcvn-<?php echo $viewData['virtuemart_paymentmethod_id'] ?>"
+						   class="eway-display-input"
+						   data-issueNumber="<?php echo $viewData['cardcvn'] ?>"
+						   placeholder="123" maxlength="4"
+						   value="<?php echo $selectedMaskedCardCardCvn ?>"
+					/>
+				<a href=""><?php echo vmText::_('VMPAYMENT_EWAY_EDIT_CREDIT_CARD') ?></a>&nbsp;
+				</div>
 		</div>
 		<?php } ?>
 	</span>
 </label>
+
+<?php if ($viewData['doCardCvn'] && $viewData['addScript']) { ?>
+<input type="hidden" name="eway-selected-<?php echo $viewData['virtuemart_paymentmethod_id'] ?>" id="eway-selected-<?php echo $viewData['virtuemart_paymentmethod_id'] ?>" value="<?php echo $selectedMaskedCard ?>" />
+<input type="hidden" name="eway-selected-cvn-<?php echo $viewData['virtuemart_paymentmethod_id'] ?>" id="eway-selected-cvn-<?php echo $viewData['virtuemart_paymentmethod_id'] ?>" value="<?php echo $selectedMaskedCardCardCvn ?>" />
+
+
+<script>
+jQuery(document).ready(function( $ ) {
+	jQuery("#eway-selected-<?php echo $viewData['virtuemart_paymentmethod_id'] ?>").val() ;
+	jQuery(".eway-display-input").focus( function() {
+        $(".eway-select").prop('checked', false);
+    });
+
+	jQuery("input.eway-select-<?php echo $viewData['virtuemart_paymentmethod_id'] ?>").click( function() {
+		var eway_selected = $(this).data("eway");
+		var ewayindex = $(this).data("ewayindex");
+        var cardCvnIndex="#cvn-id-<?php echo $viewData['virtuemart_paymentmethod_id'] ?>-";
+       	cardCvnIndex = cardCvnIndex + ewayindex;
+        var cardCvnInput= $(cardCvnIndex).val() ;
+
+        var ccnIndex="#ccn-id-<?php echo $viewData['virtuemart_paymentmethod_id'] ?>-";
+        cardCcnIndex = ccnIndex + ewayindex;
+        var cardCcnInput= $(cardCcnIndex).val() ;
+        var cardType = $.payform.parseCardType(cardCcnInput);
+
+        var validCardCVC = $.payform.validateCardCVC(cardCvnInput, cardType);
+        $('.eway-display-group').removeClass('eway-error');
+
+        $('#payment-id-<?php echo $viewData['virtuemart_paymentmethod_id'] ?>' +'-' + ewayindex).prop('checked', false);
+        $(cardCcnIndex).parent('.eway-display-group').toggleClass('eway-error', !validCardCVC);
+
+		if (eway_selected !== undefined && validCardCVC) {
+            $("#eway-selected-<?php echo $viewData['virtuemart_paymentmethod_id'] ?>").val(eway_selected);
+            $("#eway-selected-cvn-<?php echo $viewData['virtuemart_paymentmethod_id'] ?>").val(cardCvnInput);
+
+            $('#payment-id-<?php echo $viewData['virtuemart_paymentmethod_id'] ?>' +'-' + ewayindex).prop('checked', true);
+            $('#click-id-<?php echo $viewData['virtuemart_paymentmethod_id'] ?>' +'-' + ewayindex).trigger('click');
+		}
+	});
+
+});
+</script>
+
+<?php } ?>

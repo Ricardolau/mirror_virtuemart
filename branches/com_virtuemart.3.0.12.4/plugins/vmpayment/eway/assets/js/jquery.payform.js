@@ -577,6 +577,7 @@ var indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i 
       return groups.join(' ');
     }
   };
+
   payform.formatCardExpiry = function(expiry) {
     var mon, parts, sep, year;
     expiry = replaceFullWidthChars(expiry);

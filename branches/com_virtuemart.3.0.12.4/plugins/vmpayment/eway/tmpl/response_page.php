@@ -27,6 +27,8 @@ $doc->addStyleSheet(JURI::root(true) . '/plugins/vmpayment/eway/assets/css/eway.
 	<h1><?php echo $viewData['pageTitle'] ?></h1>
 	<?php if ($viewData['sandbox']) {
 		echo '<p><span style="color:red;font-weight:bold">Your payment is set in sandbox mode. No real money is transferred and this is not suitable for live sites.</span></p>';
+		echo '<p><span style="color:red;font-weight:bold"><a href="https://go.eway.io/s/article/Bank-Response-Codes-Responses-00-to-38" target="_blank">Bank Response Codes</a></span></p>';
+		echo '<p><span style="color:red;font-weight:bold"><a href="https://go.eway.io/s/article/Transaction-Response-Codes" target="_blank">Transaction Response Codes</a></span></p>';
 	}
 	?>
 	<div class="eway-fields">

@@ -20,7 +20,7 @@ defined('_JEXEC') or die();
 $doc = JFactory::getDocument();
 $doc->addStyleSheet(JURI::root(true) . '/plugins/vmpayment/eway/assets/css/eway.css');
 vmJsApi::addJScript( '/plugins/vmpayment/eway/assets/js/jquery.payform.min.js');
-
+$maskedCard=$viewData['maskedCard'];
 ?>
 
 
@@ -31,6 +31,7 @@ vmJsApi::addJScript( '/plugins/vmpayment/eway/assets/js/jquery.payform.min.js');
 	<h1><?php echo $viewData['pageTitle'] ?></h1>
 	<?php if ($viewData['sandbox']) {
 		echo '<p><span style="color:red;font-weight:bold">Your payment is set in sandbox mode. No real money is transferred and this is not suitable for live sites.</span></p>';
+		echo '<p><span style="color:red;font-weight:bold"><a href="https://go.eway.io/s/article/Test-Credit-Card-Numbers" target="_blank">Test Credit Card Numbers</a></span></p>';
 	}
 	?>
 	<?php if ($viewData['prefill']) {
@@ -54,15 +55,15 @@ vmJsApi::addJScript( '/plugins/vmpayment/eway/assets/js/jquery.payform.min.js');
 				<input type='text' name='EWAY_CARDNAME' id='eway-cardname'
 					   class="eway-form-control"
 					   placeholder="<?php echo vmText::_('VMPAYMENT_EWAY_PAYMENT_CARD_HOLDER_PLACE') ?>"
-					   value="<?php if ($viewData['prefill']) echo $viewData['order_number'] ?>"
+					   value="<?php if ($viewData['prefill']) echo $maskedCard->Name ?>"
 				/>
 			</div>
 			<div class="eway-form-group">
 				<label for="eway-cardnumber" class="eway-control-label">
 					<?php echo vmText::_('VMPAYMENT_EWAY_PAYMENT_CARD_NUMBER') ?></label>
-				<input type='tel' name='EWAY_CARDNUMBER' id='eway-cardnumber' class="eway-form-control cc-number"
+				<input type="tel" name="EWAY_CARDNUMBER" id='eway-cardnumber' class="eway-form-control cc-number"
 					   placeholder="4444333322221111"
-					   value="<?php if ($viewData['prefill']) echo '4444333322221111' ?>"
+					   value="<?php if ($viewData['prefill']) echo $maskedCard->Number ?>"
 				/>
 			</div>
 			<div class="eway-form-group eway-cardexpiry-group">
@@ -73,12 +74,18 @@ vmJsApi::addJScript( '/plugins/vmpayment/eway/assets/js/jquery.payform.min.js');
 						<?php
 						$expiry_month = date('m');
 						for ($i = 1; $i <= 12; $i++) {
-							$s = sprintf('%02d', $i);
-							echo "<option value='$s'";
-							if ($expiry_month == $i) {
-								echo " selected='selected'";
+							$month = sprintf('%02d', $i);
+							$selected='';
+							if ($viewData['prefill']) {
+								if ($maskedCard->ExpiryMonth == $i) {
+									$selected= " selected='selected'";
+								}
+							} elseif ($expiry_month == $i) {
+								$selected= " selected='selected'";
 							}
-							echo ">$s</option>\n";
+							?>
+							<option value="<?php echo $month?>" "<?php echo $selected?>"><?php echo $month?></option>
+						<?php
 						}
 						?>
 					</select>
@@ -88,7 +95,17 @@ vmJsApi::addJScript( '/plugins/vmpayment/eway/assets/js/jquery.payform.min.js');
 						$i = date("y");
 						$j = $i + 11;
 						for ($i; $i <= $j; $i++) {
-							echo "<option value='$i'>$i</option>\n";
+							$selected='';
+							if ($viewData['prefill']) {
+								if ($maskedCard->ExpiryYear == $i) {
+									$selected= " selected='selected'";
+								}
+							} elseif ($expiry_month == $i) {
+							$selected= " selected='selected'";
+							}
+							?>
+							<option value="<?php echo $i?>" "<?php echo $selected?>"><?php echo $i?></option>
+						<?php
 						}
 						?>
 					</select>
@@ -100,17 +117,20 @@ vmJsApi::addJScript( '/plugins/vmpayment/eway/assets/js/jquery.payform.min.js');
 				<div class="eway-cardstart-select">
 					<select id="eway-cardstartmonth" class="eway-cardstartmonth" name="EWAY_CARDSTARTMONTH">
 						<?php
-						$expiry_month = "";//date('m');
-						?>
-						<option value=""><?php echo vmText::_('VMPAYMENT_EWAY_PAYMENT_VALID_FROM_DATE_SELECT_MONTH') ?></option>
-						<?php
+						$start_month = "";
 						for ($i = 1; $i <= 12; $i++) {
-							$s = sprintf('%02d', $i);
-							echo "<option value='$s'";
-							if ($expiry_month == $i) {
-								echo " selected='selected'";
+							$month = sprintf('%02d', $i);
+							$selected='';
+							if ($viewData['prefill']) {
+								if ($maskedCard->StartMonth == $i) {
+									$selected= " selected='selected'";
+								}
+							} elseif ($start_month == $i) {
+								$selected= " selected='selected'";
 							}
-							echo ">$s</option>\n";
+							?>
+							<option value="<?php echo $month?>" "<?php echo $selected?>"><?php echo $month?></option>
+							<?php
 						}
 						?>
 					</select>
@@ -123,8 +143,15 @@ vmJsApi::addJScript( '/plugins/vmpayment/eway/assets/js/jquery.payform.min.js');
 						<option value=""><?php echo vmText::_('VMPAYMENT_EWAY_PAYMENT_VALID_FROM_DATE_SELECT_YEAR') ?></option>
 						<?php
 						for ($i; $i >= $j; $i--) {
-							$year = sprintf('%02d', $i);
-							echo "<option value='$year'>$year</option>\n";
+							$selected='';
+							if ($viewData['prefill']) {
+								if ($maskedCard->StartYear == $i) {
+									$selected= " selected='selected'";
+								}
+							}
+							?>
+							<option value="<?php echo $i?>" "<?php echo $selected?>"><?php echo $i?></option>
+							<?php
 						}
 						?>
 					</select>
@@ -133,18 +160,18 @@ vmJsApi::addJScript( '/plugins/vmpayment/eway/assets/js/jquery.payform.min.js');
 			<div class="eway-form-group eway-cardissuenumber-group">
 				<label for="eway-cardissuenumber" class="eway-control-label">
 					<?php echo vmText::_('VMPAYMENT_EWAY_PAYMENT_ISSUE_NUMBER') ?></label>
-				<input type='text' name='eway_cardissuenumber' id='eway-cardissuenumber' class="eway-form-control cc-cvc"
+				<input type="tel" name='eway_cardissuenumber' id='eway-cardissuenumber' class="eway-form-control cc-cvc"
 					   placeholder="22" maxlength="2"
-					   value="<?php if ($viewData['prefill']) echo '22' ?>"
+					   value="<?php if ($viewData['prefill']) echo $maskedCard->IssueNumber ?>"
 				/> <!-- This field is optional but highly recommended -->
 			</div>
 			<div class="eway-form-group eway-cardcvn-group">
 				<label for="eway-cardcvn" class="eway-control-label">
 					<?php echo vmText::_('VMPAYMENT_EWAY_PAYMENT_CVN') ?></label>
-				<input type='text' name='EWAY_CARDCVN' id='eway-cardcvn'
+				<input type="tel" name='EWAY_CARDCVN' id='eway-cardcvn'
 					   placeholder="123" maxlength="4"
 					   class="eway-form-control cc-cvn"
-					   value="<?php if ($viewData['prefill']) echo '123' ?>"
+					   value="<?php if ($viewData['prefill']) echo $maskedCard->CVN ?>"
 				/>
 				<!-- This field is optional but highly recommended -->
 			</div>
@@ -161,13 +188,12 @@ vmJsApi::addJScript( '/plugins/vmpayment/eway/assets/js/jquery.payform.min.js');
 
 
 <script>
-    jQuery(function ($) {
-
-        $('#eway-cardnumber').payform('formatCardNumber');
+	jQuery(document).ready(function( $ ) {
+        $('#eway-cardnumber-formatted').payform('formatCardNumber');
         $('#eway-cardcvn').payform('formatCardCVC');
 
         $.fn.toggleInputError = function (erred) {
-            this.parent('.eway-form-group').toggleClass('has-error', erred);
+            this.parent('.eway-form-group').toggleClass('eway-error', erred);
             return this;
         };
         $('#eway-payment-form').submit(function (e) {
@@ -179,15 +205,20 @@ vmJsApi::addJScript( '/plugins/vmpayment/eway/assets/js/jquery.payform.min.js');
             $('#eway-cardcvn').toggleInputError(!validCardCVC);
 
             if (!validCardNumber || !validCardCVC) {
+                // Stop the form from submitting
                 e.preventDefault();
                 return false;
             }
+
+            $('#eway-cardnumber').val($('#eway-cardnumber').val().replace(/\s/g, ""));
+
             Virtuemart.ewayAjax();
         });
 
+
         Virtuemart.ewayAjax = function () {
 
-            var form = jQuery("#eway-payment-form");
+            var form = $("#eway-payment-form");
 
             form.ewayAjax();
 
@@ -195,7 +226,7 @@ vmJsApi::addJScript( '/plugins/vmpayment/eway/assets/js/jquery.payform.min.js');
 
                 // call eWAY to process the request
                 eWAY.process(
-                    jQuery("#eway-payment-form"),
+                    $("#eway-payment-form"),
                     {
                         autoRedirect: false,
                         onComplete: function (data) {

@@ -1,0 +1,296 @@
+<?php
+defined('_JEXEC') or die();
+
+
+/**
+ *
+ * Realex User Field plugin
+ *
+ * @author Valerie Isaksen
+ * @version $Id: eway_.php 9560 2017-05-30 14:13:21Z Milbo $
+ * @package VirtueMart
+ * @subpackage userfield
+ * ${PHING.VM.COPYRIGHT}
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * VirtueMart is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See /administrator/components/com_virtuemart/COPYRIGHT.php for copyright notices and details.
+ *
+ * http://virtuemart.net
+ */
+
+if (!class_exists('vmUserfieldPlugin')) {
+	require(VMPATH_PLUGINLIBS . DS . 'vmuserfieldtypeplugin.php');
+}
+
+
+class plgVmUserfieldEway extends vmUserfieldPlugin {
+
+	var $varsToPush = array();
+
+	const EWAY_FOLDERNAME = "eway_";
+
+	function _construct(& $subject, $config) {
+
+		parent::_construct($subject, $config);
+
+		$this->_loggable = TRUE;
+		$this->tableFields = array_keys($this->getTableSQLFields());
+		$this->_tablepkey = 'id';
+		$this->_tableId = 'id';
+		$this->setConfigParameterable('params', $this->varsToPush);
+		$this->_userFieldName = 'eway_';
+	}
+
+
+	function plgVmDeclarePluginParamsUserfield($type, $name, $id, &$data) {
+
+		return $this->declarePluginParams($type, $name, $id, $data);
+	}
+
+	/**
+	 * Create the table for this plugin if it does not yet exist.
+	 * This functions checks if the called plugin is active one.
+	 * When yes it is calling the standard method to create the tables
+	 *
+	 * @author Valérie Isaksen
+	 *
+	 */
+	function plgVmOnStoreInstallPluginTable($type, $data) {
+
+		return $this->onStoreInstallPluginTable($type, $data->name);
+	}
+
+
+	/**
+	 * This method is fired when showing the order details in the frontend.
+	 * It displays the shipment-specific data.
+	 *
+	 * @param integer $order_number The order Number
+	 * @return mixed Null for shipments that aren't active, text (HTML) otherwise
+	 * @author Valérie Isaksen
+	 */
+
+	public function plgVmOnUserfieldDisplay($_prefix, $field, $userId, &$return) {
+
+		if ('plugin' . $this->_name != $field->type) {
+			return;
+		}
+		$html = $this->onShowUserDisplayUserfield($userId, $field->name);
+		if ($html) {
+			$return['fields'][$field->name]['formcode'] .= $html;
+		}
+		return '';
+
+	}
+
+
+	function onShowUserDisplayUserfield($userId, $fieldName) {
+		if ($userId == 0) {
+			return;
+		}
+		$html = '';
+		if (!class_exists('VmHTML')) {
+			require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'html.php');
+		}
+		$view = vRequest::getString('view', '');
+		$this->loadJLangThis('plg_vmpayment_eway_', 'vmpayment');
+		if (($view == 'user')) {
+			$maskedCards = '';
+
+			JPluginHelper::importPlugin('vmpayment');
+
+			$app = JFactory::getApplication();
+			$app->triggerEvent('plgVmOnEwayGetCreditCards', array('eway', $userId, &$maskedCards));
+
+
+			$html = $this->renderByLayout("creditcards", array(
+				"creditCards" => $maskedCards,
+				"js" => true,
+			));
+		} elseif ($view == 'order') {
+			$userlink = JROUTE::_('index.php?option=com_virtuemart&view=user&task=edit&virtuemart_user_id[]=' . $userId, FALSE);
+			$html = JHTML::_('link', JRoute::_($userlink, FALSE), JText::_('VMUSERFIELD_EWAY_MANAGE_CARDS'), array('title' => JText::_('VMUSERFIELD_EWAY_MANAGE_CARDS')));
+
+		}
+
+		return $html;
+	}
+
+	function deleteCard($userId, $delete_card_selected) {
+		if (!class_exists('VmHTML')) {
+			require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'html.php');
+		}
+		$view = vRequest::getString('view', '');
+		$this->loadJLangThis('plg_vmpayment_eway_', 'vmpayment');
+		if ($view != 'plugin') {
+			$result['error'] = true;
+			$result['msg'] = 'Programming error: View is wrong';
+			return $result;
+		}
+		$maskedCards = '';
+		$msg = '';
+		JPluginHelper::importPlugin('vmpayment');
+
+		$app = JFactory::getApplication();
+		$return = $app->triggerEvent('plgVmOnEwayDeleteCreditCard', array('eway', $userId, (object)$delete_card_selected, &$maskedCards, &$msg));
+		$result['error'] = !$return[0];
+		$result['msg'] = $msg;
+
+		$html = $this->renderByLayout("creditcards", array(
+			"creditCards" => $maskedCards,
+			"eway_card_selected" => NULL,
+			"action" => 'delete',
+			"js" => false,
+		));
+
+		$result['html'] = $html;
+
+		return $result;
+	}
+
+	function editCard($userId, $eway_card_selected) {
+		if (!class_exists('VmHTML')) {
+			require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'html.php');
+		}
+		$view = vRequest::getString('view', '');
+		$this->loadJLangThis('plg_vmpayment_eway_', 'vmpayment');
+		if ($view != 'plugin') {
+			$result['error'] = true;
+			$result['msg'] = 'Programming error: View is wrong';
+			return $result;
+		}
+		$maskedCards = '';
+		$msg = '';
+		JPluginHelper::importPlugin('vmpayment');
+
+		$app = JFactory::getApplication();
+		$return = $app->triggerEvent('plgVmOnEwayEditCreditCard', array('eway', $userId, (object)$eway_card_selected, &$maskedCards, &$msg));
+		$result['error'] = !$return[0];
+		$result['msg'] = $msg;
+
+		$html = $this->renderByLayout("creditcards", array(
+			"creditCards" => $maskedCards,
+			"eway_card_selected" => $eway_card_selected,
+			"action" => 'edit',
+			"js" => false,
+		));
+
+		$result['html'] = $html;
+
+		return $result;
+	}
+
+	function updateCard($userId, $eway_card_selected) {
+		if (!class_exists('VmHTML')) {
+			require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'html.php');
+		}
+		$view = vRequest::getString('view', '');
+		$this->loadJLangThis('plg_vmpayment_eway_', 'vmpayment');
+		if ($view != 'plugin') {
+			$result['error'] = true;
+			$result['msg'] = 'Programming error: View is wrong';
+			return $result;
+		}
+		$html = '';
+		JPluginHelper::importPlugin('vmpayment');
+
+		$app = JFactory::getApplication();
+		$return = $app->triggerEvent('plgVmOnEwayUpdateCreditCard', array('eway', $userId, (object)$eway_card_selected, &$html));
+		$result['error'] = !$return[0];
+		$result['html'] = $html;
+
+		return $result;
+	}
+
+	function updateToken() {
+		if (!class_exists('VmHTML')) {
+			require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'html.php');
+		}
+		$view = vRequest::getString('view', '');
+		$this->loadJLangThis('plg_vmpayment_eway_', 'vmpayment');
+		if ($view != 'plugin') {
+			$result['error'] = true;
+			$result['msg'] = 'Programming error: View is wrong';
+			return $result;
+		}
+
+		JPluginHelper::importPlugin('vmpayment');
+
+		$app = JFactory::getApplication();
+		$maskedCards = '';
+		$return = $app->triggerEvent('plgVmOnEwayUpdateToken', array('eway', &$maskedCards));
+
+		$html = $this->renderByLayout("creditcards", array(
+			"creditCards" => $maskedCards,
+			"eway_card_selected" => NULL,
+			"action" => 'delete',
+			"js" => false,
+		));
+
+		$result['html'] = $html;
+		$result['error'] = false;
+
+		return $result;
+
+	}
+
+	function plgVmOnSelfCallFE($type, $name, &$render) {
+		if ($type != $this->_type) {
+			return;
+		}
+		if ($name != $this->_name) {
+			return;
+		}
+
+		$token = JSession::getFormToken();
+		$jinput = JFactory::getApplication()->input;
+		$call_token = $jinput->get('token', 0, 'ALNUM');
+		$render['error'] = false;
+		if ($token != $call_token) {
+			$render['error'] = true;
+			$render['msg'] = 'Action not allowed (' . __LINE__ . ')';
+			//return;
+		}
+		$user = JFactory::getUser();
+		if (!$user->id) {
+			$render['error'] = true;
+			$render['msg'] = 'Action not allowed (' . __LINE__ . ')';
+			return;
+		}
+
+		$action = vRequest::getCmd('action');
+
+		switch ($action) {
+			case 'deletecard':
+
+				$eway_card_selected = vRequest::getVar('eway_card_selected', array());
+				$render = $this->deleteCard($user->id, $eway_card_selected);
+				echo json_encode($render);
+				jexit();
+				break;
+			case 'editcard':
+				$eway_card_selected = vRequest::getVar('eway_card_selected', array());
+				$render = $this->editCard($user->id, $eway_card_selected);
+				break;
+			case 'updatecard':
+				$eway_card_selected = vRequest::getVar('eway_card_selected', array());
+				$render = $this->updateCard($user->id, $eway_card_selected);
+
+				break;
+			case 'updatetoken':
+				$render = $this->updateToken();
+				break;
+			default:
+				$render['error'] = true;
+				$render['msg'] = 'Action not allowed (' . __LINE__ . ')';
+		}
+
+		return;
+	}
+
+}
+
+// No closing tag

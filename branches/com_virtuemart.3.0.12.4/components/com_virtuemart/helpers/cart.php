@@ -309,16 +309,22 @@ class VirtueMartCart {
 					}
 
 					foreach($cartData['cartData'] as $key=>$value){
-						if(is_array($value)){
-							$existingSession->$key = array_merge( $value,(array)$existingSession->$key);
-						} else if(empty($existingSession->$key)){
-							$existingSession->$key = $cartData['cartData']->$key;
-						}
-					}
 
-					if(count($existingSession->_triesValidateCoupon)>6){
-						$existingSession->_triesValidateCoupon = array_slice($existingSession->_triesValidateCoupon,0,6);
-						vmdebug('Coupon were blocked, release 1');
+						if($key == '_triesValidateCoupon'){	//We need this special handling for fallback reasons, we could also just delete stored carts when updating
+							foreach($value as $k=>$v){
+								if($k<100) continue;
+								if(!in_array($v,$existingSession->_triesValidateCoupon)){
+									$existingSession->_triesValidateCoupon[$k] = $v;
+								}
+							}
+						} else {
+							if(is_array($value)){
+								$existingSession->$key = array_merge( $value,(array)$existingSession->$key);
+							} else if(empty($existingSession->$key)){
+								$existingSession->$key = $cartData['cartData']->$key;
+							}
+						}
+
 					}
 				}
 			}
@@ -799,15 +805,44 @@ class VirtueMartCart {
 		}
 
 		$this->prepareCartData();
-		//$this->getCartPrices();
 
+		$msg = $this->validateCoupon($coupon_code);
+		//$this->getCartPrices();
+		if(empty($msg)){
+			$this->couponCode = $coupon_code;
+
+			$this->prepareCartData(true);
+			$this->setCartIntoSession(true,true);
+			return vmText::_('COM_VIRTUEMART_CART_COUPON_VALID');
+		} else {
+			$this->couponCode = '';
+			$this->setCartIntoSession(true,true);
+			return $msg;
+		}
+
+
+
+	}
+
+	public function validateCoupon($coupon_code){
+
+		$timeDeleteTries = time() - (24 * 60 * 60);
+		foreach($this->_triesValidateCoupon as $k=>$v){
+			if($k<8 or $k<$timeDeleteTries){
+				unset($this->_triesValidateCoupon[$k]);
+			}
+		}
+
+		$couponTryTime = (string)time();
 		if(!in_array($coupon_code,$this->_triesValidateCoupon)){
-			$this->_triesValidateCoupon[] = $coupon_code;
+			$this->_triesValidateCoupon[$couponTryTime] = $coupon_code;
 		}
 
 		if(count($this->_triesValidateCoupon)<8){
-			vmdebug('setCouponCode',$coupon_code, $this->cartPrices['salesPrice']);
-			$msg = CouponHelper::ValidateCouponCode($coupon_code, $this->cartPrices['salesPrice']);;
+			$msg = CouponHelper::ValidateCouponCode($coupon_code, $this->cartPrices['salesPrice']);
+			if(empty($msg)){
+				unset($this->_triesValidateCoupon[$couponTryTime]);
+			}
 		} else{
 			$msg = vmText::_('COM_VIRTUEMART_CART_COUPON_TOO_MANY_TRIES');
 		}
@@ -815,15 +850,10 @@ class VirtueMartCart {
 		if (!empty($msg)) {
 			$this->_dataValidated = false;
 			$this->_blockConfirm = true;
-			$this->getCartPrices(true);
-			$this->setCartIntoSession();
 			return $msg;
 		}
-		$this->couponCode = $coupon_code;
-		//$this->getCartPrices(true);
-		$this->prepareCartData(true);
-		$this->setCartIntoSession(true);
-		return vmText::_('COM_VIRTUEMART_CART_COUPON_VALID');
+
+		return '';
 	}
 
 	public function setMethod($type,$force=false, $redirect=true, $id = null) {
@@ -1028,15 +1058,8 @@ class VirtueMartCart {
 			if (!class_exists('CouponHelper')) {
 				require(VMPATH_SITE . DS . 'helpers' . DS . 'coupon.php');
 			}
+			$redirectMsg = $this->validateCoupon($this->couponCode);
 
-			if(!in_array($this->couponCode,$this->_triesValidateCoupon)){
-				$this->_triesValidateCoupon[] = $this->couponCode;
-			}
-			if(count($this->_triesValidateCoupon)<8){
-				$redirectMsg = CouponHelper::ValidateCouponCode($this->couponCode, $this->cartPrices['salesPrice']);
-			} else{
-				$redirectMsg = vmText::_('COM_VIRTUEMART_CART_COUPON_TOO_MANY_TRIES');
-			}
 
 			if (!empty($redirectMsg)) {
 				$this->couponCode = '';
@@ -1194,6 +1217,10 @@ class VirtueMartCart {
 			//We set this in the trigger of the plugin. so old plugins keep the old behaviour
 			$orderModel = VmModel::getModel('orders');
 
+			if($this->virtuemart_order_id){
+				$this->virtuemart_order_id = $orderModel->reUsePendingOrder($this);
+			}
+
 			if(!$this->virtuemart_order_id){
 				$this->virtuemart_order_id = $orderModel->createOrderFromCart($this);
 				if (!$this->virtuemart_order_id) {
@@ -1304,7 +1331,7 @@ class VirtueMartCart {
 		$cart->_inConfirm = false;
 		$cart->totalProduct=false;
 		$cart->productsQuantity=array();
-		$cart->virtuemart_order_id = null;
+		$cart->virtuemart_order_id = false;
 		$cart->layout = VmConfig::get('cartlayout','default');
 		if($session){
 			$cart->deleteCart();

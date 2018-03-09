@@ -1294,35 +1294,10 @@ vmdebug('my prices',$data);
 		}
 
 		if($_cart->_inConfirm){
-			$order = false;
-			$db = JFactory::getDbo();
-			$q = 'SELECT * FROM `#__virtuemart_orders` ';
-			if(!empty($_cart->virtuemart_order_id)){
-				$db->setQuery($q . ' WHERE `virtuemart_order_id`= "'.$_cart->virtuemart_order_id.'" AND `order_status` = "P" ');
-				$order = $db->loadAssoc();
-				if(!$order){
-					vmdebug('This should not happen, there is a cart with order_number, but not order stored '.$_cart->virtuemart_order_id);
-				}
-			}
 
-			if(VmConfig::get('reuseorders',true) and !$order){
-				$jnow = JFactory::getDate();
-				$jnow->sub(new DateInterval('PT1H'));
-				$minushour = $jnow->toSQL();
-				$q .= ' WHERE `customer_number`= "'.$_orderData->customer_number.'" ';
-				$q .= '	AND `order_status` = "P"
-				AND `created_on` > "'.$minushour.'" ';
-				$db->setQuery($q);
-				$order = $db->loadAssoc();
-			}
-
-			if($order){
-				if(!empty($order['virtuemart_order_id'])){
-					$_orderData->virtuemart_order_id = $order['virtuemart_order_id'];
-				}
-
-				//Dirty hack
-				$this->removeOrderItems($order['virtuemart_order_id'],false);
+			$orderId = $this->reUsePendingOrder($_cart, $_orderData->customer_number);
+			if(!empty($orderId)){
+				$_orderData->virtuemart_order_id = $orderId;
 			}
 		}
 
@@ -1368,6 +1343,55 @@ vmdebug('my prices',$data);
 		return $orderTable->virtuemart_order_id;
 	}
 
+	function reUsePendingOrder($_cart,$customer_number = false){
+		$order = false;
+		$db = JFactory::getDbo();
+		$q = 'SELECT * FROM `#__virtuemart_orders` ';
+		if(!empty($_cart->virtuemart_order_id)){
+			$db->setQuery($q . ' WHERE `virtuemart_order_id`= "'.$_cart->virtuemart_order_id.'" AND `order_status` = "P" ');
+			$order = $db->loadAssoc();
+			if(!$order){
+				vmdebug('This should not happen, there is a cart with order_number, but not order stored '.$_cart->virtuemart_order_id);
+			}
+		}
+
+		if($customer_number and VmConfig::get('reuseorders',true) and !$order){
+			$jnow = JFactory::getDate();
+			$jnow->sub(new DateInterval('PT1H'));
+			$minushour = $jnow->toSQL();
+			$q .= ' WHERE `customer_number`= "'.$customer_number.'" ';
+			$q .= '	AND `order_status` = "P"
+				AND `created_on` > "'.$minushour.'" ';
+			$db->setQuery($q);
+			$order = $db->loadAssoc();
+		}
+
+		if($order) {
+
+			//Dirty hack
+			$this->removeOrderItems( $order['virtuemart_order_id'], false );
+
+			$psTypes = array('shipment','payment');
+			foreach($psTypes as $_psType){
+				if(!empty($order['virtuemart_'.$_psType.'method_id'])){
+					$q = 'SELECT `'.$_psType.'_element` FROM `#__virtuemart_'.$_psType.'methods` ';
+					$q .= 'WHERE `virtuemart_'.$_psType.'method_id` = "'.(int)$order['virtuemart_shipmentmethod_id'].'" ';
+					$db->setQuery($q);
+					$plg_name = $db->loadResult();
+					$_tablename = '#__virtuemart_' . $_psType . '_plg_' . $plg_name;
+					vmdebug('reUsePendingOrder DELETE FROM ',$q);
+					$q = 'DELETE FROM '.$_tablename.' WHERE virtuemart_order_id="'.$order['virtuemart_order_id'].'"';
+					$db->setQuery($q);
+					$db->execute();
+					vmdebug('reUsePendingOrder DELETE FROM ',$q);
+				}
+			}
+
+			return $order['virtuemart_order_id'];
+		} else {
+			return false;
+		}
+	}
 
 	private function getVendorCurrencyId($vendorId){
 		$q = 'SELECT `vendor_currency` FROM `#__virtuemart_vendors` WHERE `virtuemart_vendor_id`="'.$vendorId.'" ';

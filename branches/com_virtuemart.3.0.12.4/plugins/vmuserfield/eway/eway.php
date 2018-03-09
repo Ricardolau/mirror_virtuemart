@@ -108,7 +108,6 @@ class plgVmUserfieldEway extends vmUserfieldPlugin {
 
 			$html = $this->renderByLayout("creditcards", array(
 				"creditCards" => $maskedCards,
-				"js" => true,
 			));
 		} elseif ($view == 'order') {
 			$userlink = JROUTE::_('index.php?option=com_virtuemart&view=user&task=edit&virtuemart_user_id[]=' . $userId, FALSE);
@@ -119,7 +118,8 @@ class plgVmUserfieldEway extends vmUserfieldPlugin {
 		return $html;
 	}
 
-	function deleteCard($userId, $delete_card_selected) {
+
+	function deleteCard($userId, $cardToDelete) {
 		if (!class_exists('VmHTML')) {
 			require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'html.php');
 		}
@@ -135,7 +135,7 @@ class plgVmUserfieldEway extends vmUserfieldPlugin {
 		JPluginHelper::importPlugin('vmpayment');
 
 		$app = JFactory::getApplication();
-		$return = $app->triggerEvent('plgVmOnEwayDeleteCreditCard', array('eway', $userId, (object)$delete_card_selected, &$maskedCards, &$msg));
+		$return = $app->triggerEvent('plgVmOnEwayDeleteCreditCard', array('eway', $userId, (object)$cardToDelete, &$maskedCards, &$msg));
 		$result['error'] = !$return[0];
 		$result['msg'] = $msg;
 
@@ -183,7 +183,7 @@ class plgVmUserfieldEway extends vmUserfieldPlugin {
 		return $result;
 	}
 
-	function updateCard($userId, $eway_card_selected) {
+	function updateCard($userId, $cardToUpdate) {
 		if (!class_exists('VmHTML')) {
 			require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'html.php');
 		}
@@ -194,48 +194,19 @@ class plgVmUserfieldEway extends vmUserfieldPlugin {
 			$result['msg'] = 'Programming error: View is wrong';
 			return $result;
 		}
+
 		$html = '';
 		JPluginHelper::importPlugin('vmpayment');
 
 		$app = JFactory::getApplication();
-		$return = $app->triggerEvent('plgVmOnEwayUpdateCreditCard', array('eway', $userId, (object)$eway_card_selected, &$html));
+		$return = $app->triggerEvent('plgVmOnEwayUpdateCreditCard', array('eway', $userId, (object)$cardToUpdate, &$html));
 		$result['error'] = !$return[0];
 		$result['html'] = $html;
 
-		return $result;
+		return $html;
 	}
 
-	function updateToken() {
-		if (!class_exists('VmHTML')) {
-			require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'html.php');
-		}
-		$view = vRequest::getString('view', '');
-		$this->loadJLangThis('plg_vmpayment_eway_', 'vmpayment');
-		if ($view != 'plugin') {
-			$result['error'] = true;
-			$result['msg'] = 'Programming error: View is wrong';
-			return $result;
-		}
 
-		JPluginHelper::importPlugin('vmpayment');
-
-		$app = JFactory::getApplication();
-		$maskedCards = '';
-		$return = $app->triggerEvent('plgVmOnEwayUpdateToken', array('eway', &$maskedCards));
-
-		$html = $this->renderByLayout("creditcards", array(
-			"creditCards" => $maskedCards,
-			"eway_card_selected" => NULL,
-			"action" => 'delete',
-			"js" => false,
-		));
-
-		$result['html'] = $html;
-		$result['error'] = false;
-
-		return $result;
-
-	}
 
 	function plgVmOnSelfCallFE($type, $name, &$render) {
 		if ($type != $this->_type) {
@@ -250,8 +221,8 @@ class plgVmUserfieldEway extends vmUserfieldPlugin {
 		$call_token = $jinput->get('token', 0, 'ALNUM');
 		$render['error'] = false;
 		if ($token != $call_token) {
-			$render['error'] = true;
-			$render['msg'] = 'Action not allowed (' . __LINE__ . ')';
+			//$render['error'] = true;
+			//$render['msg'] = 'Action not allowed (' . __LINE__ . ')';
 			//return;
 		}
 		$user = JFactory::getUser();
@@ -264,28 +235,23 @@ class plgVmUserfieldEway extends vmUserfieldPlugin {
 		$action = vRequest::getCmd('action');
 
 		switch ($action) {
-			case 'deletecard':
-
-				$eway_card_selected = vRequest::getVar('eway_card_selected', array());
-				$render = $this->deleteCard($user->id, $eway_card_selected);
+			case 'deleteCard':
+				$cardToDelete = vRequest::getVar('cardToDelete', array());
+				$render = $this->deleteCard($user->id, $cardToDelete);
 				echo json_encode($render);
 				jexit();
 				break;
-			case 'editcard':
+			case 'editCard':
 				$eway_card_selected = vRequest::getVar('eway_card_selected', array());
 				$render = $this->editCard($user->id, $eway_card_selected);
 				break;
-			case 'updatecard':
-				$eway_card_selected = vRequest::getVar('eway_card_selected', array());
-				$render = $this->updateCard($user->id, $eway_card_selected);
-
-				break;
-			case 'updatetoken':
-				$render = $this->updateToken();
+			case 'updateCard':
+				$cardToUpdate = vRequest::getVar('cardToUpdate', array());
+				$render = $this->updateCard($user->id, $cardToUpdate);
 				break;
 			default:
 				$render['error'] = true;
-				$render['msg'] = 'Action not allowed (' . __LINE__ . ')';
+				$render['msg'] = 'Action not allowed (' . __LINE__ . ')'.$action;
 		}
 
 		return;

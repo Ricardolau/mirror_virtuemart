@@ -217,28 +217,32 @@ class plgVmpaymentEway extends vmPSPlugin {
 		$dbValues['eway_request_raw'] = print_r($transaction, true);
 		$dbValues['eway_response_raw'] = print_r($response, true);
 		$this->storePSPluginInternalData($dbValues);
-
-		$prefill = false;
+		$maskedCard = new stdClass();
+		$maskedCard->Name = '';
+		$maskedCard->Number = '';
+		$maskedCard->StartMonth = '';
+		$maskedCard->StartYear= '';
+		$maskedCard->IssueNumber = '';
+		$maskedCard->ExpiryMonth = '';
+		$maskedCard->ExpiryYear = '';
 		if ($method->payment_type == 'Credit Card') {
-			if ($method->debug and $method->sandbox) {
-				$prefill = true;
-			}
 			if (!$tokenCustomerIDSelected) {
 				$html = $this->renderByLayout('cc_payment_page', array(
 					'FormActionURL' => $response->FormActionURL,
 					'AccessCode' => $response->AccessCode,
 					'payment_type' => $method->payment_type,
 					'pageTitle' => vmText::sprintf('VMPAYMENT_EWAY_PAYMENT_PAGE_TITLE', $order['details']['BT']->order_number, $totalInPaymentCurrency['display']),
-					'prefill' => $prefill,
 					'order_number' => $order['details']['BT']->order_number,
+					'maskedCard' => $maskedCard,
 					'sandbox' => $method->sandbox,
+					'update_pay' => 'pay',
 				));
 			} else {
 				$html = $this->renderByLayout('payment_page', array(
 					'FormActionURL' => $response->FormActionURL,
 					'AccessCode' => $response->AccessCode,
 					'payment_type' => $method->payment_type,
-					'eway_cardcvn' => '123',// //TODO ????
+					'eway_cardcvn' => $maskedCard->CardCvn,
 				));
 			}
 		} else {
@@ -953,22 +957,11 @@ jQuery().ready(function($) {
 		$apiEndpoint = self::getApiEndpoint($method);
 		$client = \Eway\Rapid::createClient($method->APIKey, $method->APIPassword, $apiEndpoint);
 
-
 		$customer ["TokenCustomerID"] = $tokenCustomerID;
-		$customer['FirstName'] = vRequest::getString('first_name_field', '');
-		$customer['LastName'] = vRequest::getString('last_name_field', '');
-		$customer['Country'] = ShopFunctions::getCountryByID(vRequest::getInt('virtuemart_country_id_field', ''), 'country_2_code');
-		$cardDetails['Name'] = $maskedCardToUpdate->Name;
-		$cardDetails['Number'] = $maskedCardToUpdate->Number;
-		$cardDetails['ExpiryMonth'] = $maskedCardToUpdate->ExpiryMonth;
-		$cardDetails['ExpiryYear'] = $maskedCardToUpdate->ExpiryYear;
-		$cardDetails['CVN'] = $maskedCardToUpdate->CVN;
-		//$customer['CardDetails'] = $cardDetails;
-		$transaction = array();
-		$transaction ["Customer"] = $customer;
-		$redirectUrl = JURI::root() . 'index.php?option=com_virtuemart&view=plugin&type=vmuserfield&name=eway&action=updatetoken&pm='.$method->virtuemart_paymentmethod_id;
+		$redirectUrl = JURI::root() . 'index.php?option=com_virtuemart&view=plugin&type=vmuserfield&name=eway&action=getCards&pm=' . $method->virtuemart_paymentmethod_id;
+		$redirectUrl = JRoute::_(JURI::root() .'index.php?option=com_virtuemart&view=user&layout=edit');
+		$customer ["RedirectUrl"] = $redirectUrl;
 
-		$customer ["RedirectUrl"]  =$redirectUrl;
 		$response = $client->updateCustomer(\Eway\Rapid\Enum\ApiMethod::TRANSPARENT_REDIRECT, $customer);
 		if (!($response instanceof \Eway\Rapid\Model\Response\AbstractResponse)) {
 			$result['error'] = true;
@@ -984,17 +977,24 @@ jQuery().ready(function($) {
 			$result['msg'] = implode(',', $errors);
 			return $result;
 		}
-
+		$maskedCard = new stdClass();
+		$maskedCard->Name = $response->Customer->CardName;
+		$maskedCard->Number = $response->Customer->CardNumber;
+		$maskedCard->StartMonth = $response->Customer->CardStartMonth;
+		$maskedCard->StartYear = $response->Customer->CardStartYear;
+		$maskedCard->IssueNumber = $response->Customer->CardIssueNumber;
+		$maskedCard->ExpiryMonth = $response->Customer->CardExpiryMonth;
+		$maskedCard->ExpiryYear = $response->Customer->CardExpiryYear;
 		$result['error'] = false;
-		$result['html'] = $this->renderByLayout('test_payment_page', array(
+		$result['html'] = $this->renderByLayout('cc_payment_page', array(
 			'FormActionURL' => $response->FormActionURL,
 			'AccessCode' => $response->AccessCode,
-			'payment_type' => $method->payment_type,
+			'payment_type' => '',
 			'pageTitle' => vmText::_('VMPAYMENT_EWAY_UPDATE_CREDIT_CARD'),
-			'prefill' => true,
 			'order_number' => '',
-			'maskedCard'=>$response->Customer,
+			'maskedCard' => $maskedCard,
 			'sandbox' => $method->sandbox,
+			'update_pay' => 'update'
 		));
 
 		return $result;
@@ -1723,8 +1723,7 @@ jQuery().ready(function($) {
 	private
 	static function clearEwaySession() {
 		$session = JFactory::getSession();
-		$session->clear('eway', 'vm');
-
+		$session->set('eway', json_encode(NULL), 'vm');
 	}
 
 
@@ -1748,13 +1747,33 @@ jQuery().ready(function($) {
 			}
 			$maskedCards = $this->getMaskedCards($method, $userId, false);
 		}
-
-
 		return true;
 	}
 
+	public function plgVmOnEwayGetCards($element, $userId, &$maskedCards, &$msg) {
+		if (!$this->selectedThisElement($element)) {
+			return FALSE;
+		}
+		$vendorId = 1;
+		if ($this->getPluginMethods($vendorId) === 0) {
+			return false;
+		}
 
-	public function plgVmOnEwayDeleteCreditCard($element, $userId, $maskedCardToDelete, &$maskedCards, &$msg) {
+		foreach ($this->methods as $method) {
+			if (!$method->save_card_enabled) {
+				continue;
+			}
+			$maskedCards = $this->getMaskedCards($method, $userId, false);
+
+		}
+		$msg = vmText::_('VMUSERFIELD_EWAY_CARD_UPDATED');
+
+		return true;
+
+	}
+
+
+	public function plgVmOnEwayDeleteCreditCard($element, $userId, $cardToDelete, &$maskedCards, &$msg) {
 		if (!$this->selectedThisElement($element)) {
 			return FALSE;
 		}
@@ -1771,16 +1790,16 @@ jQuery().ready(function($) {
 			if ($tokenCustomerIDs) {
 				foreach ($tokenCustomerIDs as $tokenCustomerID) {
 					$maskedCard = $this->getMaskedCard($method, $tokenCustomerID);
-					if ($this->isSameCard($maskedCard, $maskedCardToDelete)) {
+					if ($this->isSameCard($maskedCard, $cardToDelete)) {
 						$return = $this->deleteTokenCustomerID($tokenCustomerID);
 						if (!$return) {
 							$vendorId = 1;
 							$vendor_link = JRoute::_('index.php?option=com_virtuemart&view=vendor&layout=contact&virtuemart_vendor_id=' . $vendorId);
-							$msg = vmText::sprintf('VMUSERFIELD_EWAY_CARD_NOT_DELETED', $maskedCardToDelete->Number, $maskedCardToDelete->Name, $maskedCardToDelete->ExpiryMonth, $maskedCardToDelete->ExpiryYear, $vendor_link);
+							$msg = vmText::sprintf('VMUSERFIELD_EWAY_CARD_NOT_DELETED', $cardToDelete->Number, $cardToDelete->Name, $cardToDelete->ExpiryMonth, $cardToDelete->ExpiryYear, $vendor_link);
 							return false;
 						}
 						$maskedCards = $this->getMaskedCards($method, $userId, false);
-						$msg = vmText::sprintf('VMUSERFIELD_EWAY_CARD_DELETED_SUCCESS', $maskedCardToDelete->Number, $maskedCardToDelete->Name, $maskedCardToDelete->ExpiryMonth, $maskedCardToDelete->ExpiryYear);
+						$msg = vmText::sprintf('VMUSERFIELD_EWAY_CARD_DELETED_SUCCESS', $cardToDelete->Number, $cardToDelete->Name, $cardToDelete->ExpiryMonth, $cardToDelete->ExpiryYear);
 						return true;
 					}
 				}
@@ -1788,12 +1807,12 @@ jQuery().ready(function($) {
 		}
 		$vendorId = 1;
 		$vendor_link = JRoute::_('index.php?option=com_virtuemart&view=vendor&layout=contact&virtuemart_vendor_id=' . $vendorId);
-		$msg = vmText::sprintf('VMUSERFIELD_EWAY_CARD_NOT_DELETED', $maskedCardToDelete->Number, $maskedCardToDelete->Name, $maskedCardToDelete->ExpiryMonth, $maskedCardToDelete->ExpiryYear, $vendor_link);
+		$msg = vmText::sprintf('VMUSERFIELD_EWAY_CARD_NOT_DELETED', $cardToDelete->Number, $cardToDelete->Name, $cardToDelete->ExpiryMonth, $cardToDelete->ExpiryYear, $vendor_link);
 		return false;
 
 	}
 
-	public function plgVmOnEwayUpdateCreditCard($element, $userId, $maskedCardToUpdate,  &$html) {
+	public function plgVmOnEwayUpdateCreditCard($element, $userId, $cardToUpdate, &$html) {
 		if (!$this->selectedThisElement($element)) {
 			return FALSE;
 		}
@@ -1810,19 +1829,19 @@ jQuery().ready(function($) {
 			if ($tokenCustomerIDs) {
 				foreach ($tokenCustomerIDs as $tokenCustomerID) {
 					$maskedCard = $this->getMaskedCard($method, $tokenCustomerID);
-					if ($this->isSameCard($maskedCard, $maskedCardToUpdate)) {
-						$result = $this->updateCardDetails($method, $tokenCustomerID, $maskedCardToUpdate);
+					if ($this->isSameCard($maskedCard, $cardToUpdate)) {
+						$result = $this->updateCardDetails($method, $tokenCustomerID, $cardToUpdate);
 						if ($result['error']) {
 							$vendorId = 1;
 							$vendor_link = JRoute::_('index.php?option=com_virtuemart&view=vendor&layout=contact&virtuemart_vendor_id=' . $vendorId);
-							$html = vmText::sprintf('VMUSERFIELD_EWAY_CARD_NOT_UPDATED', $maskedCardToUpdate->Number, $maskedCardToUpdate->Name, $maskedCardToUpdate->ExpiryMonth, $maskedCardToUpdate->ExpiryYear, $vendor_link);
+							$html = vmText::sprintf('VMUSERFIELD_EWAY_CARD_NOT_UPDATED', $cardToUpdate->Number, $cardToUpdate->Name, $cardToUpdate->ExpiryMonth, $cardToUpdate->ExpiryYear, $vendor_link);
 							if ($method->debug) {
-								$html .= '<br /><strong>[DEBUG ON] Error Returned by eway: '.$result['msg'].'</strong>';
+								$html .= '<br /><strong>[DEBUG ON] Error Returned by eway: ' . $result['msg'] . '</strong>';
 							}
 							return false;
 						}
 
-						$html =$result['html'];
+						$html = $result['html'];
 						return true;
 					}
 				}
@@ -1830,10 +1849,11 @@ jQuery().ready(function($) {
 		}
 		$vendorId = 1;
 		$vendor_link = JRoute::_('index.php?option=com_virtuemart&view=vendor&layout=contact&virtuemart_vendor_id=' . $vendorId);
-		$html = vmText::sprintf('VMUSERFIELD_EWAY_CARD_NOT_UPDATED', $maskedCardToUpdate->Number, $maskedCardToUpdate->Name, $maskedCardToUpdate->ExpiryMonth, $maskedCardToUpdate->ExpiryYear, $vendor_link);
+		$html = vmText::sprintf('VMUSERFIELD_EWAY_CARD_NOT_UPDATED', $cardToUpdate->Number, $cardToUpdate->Name, $cardToUpdate->ExpiryMonth, $cardToUpdate->ExpiryYear, $vendor_link);
 		return false;
 	}
-	function plgVmOnEwayUpdateToken($element,   &$maskedCards) {
+
+	function plgVmOnEwayUpdateToken($element, &$maskedCards) {
 
 		if (!class_exists('VirtueMartCart')) {
 			require(JPATH_VM_SITE . DS . 'helpers' . DS . 'cart.php');

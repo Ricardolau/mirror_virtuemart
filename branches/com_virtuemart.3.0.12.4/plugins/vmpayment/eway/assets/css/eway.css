@@ -135,9 +135,10 @@
     float: right;
     width: 50%;
 }
+.cc-cvn, .cc-cvc{
+    width: 50%;
+}
 .eway-cards span {
-    width: 48px;
-    height: 30px;
     margin-right: 3px;
     background-repeat: no-repeat;
     display: inline-block;

@@ -737,7 +737,7 @@ class VirtueMartCustomFieldRenderer {
 				$productCustoms[$prodcustom->virtuemart_customfield_id] = $prodcustom;
 			}
 		}
-		vmdebug('renderCustomfieldsCart $variantmods foreach',$variantmods);
+
 		foreach ( (array)$variantmods as $i => $customfield_ids) {
 
 			if(!is_array($customfield_ids)){

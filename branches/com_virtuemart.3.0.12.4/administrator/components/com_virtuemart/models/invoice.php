@@ -162,6 +162,9 @@ class VirtueMartModelInvoice extends VmModel {
 		if(!$orderDetails) {
 			$order = $this->getOrder( $orderId );
 			$orderDetails = $order['details']['BT'];
+		} else if(empty($orderDetails['virtuemart_order_id'])){
+			$order = $this->getOrder( $orderId );
+			$orderDetails = array_merge($orderDetails,$order['details']['BT']);
 		}
 		$ret = $this->createStoreNewInvoiceNumber( $orderDetails );
 		if(!empty($ret[0])){

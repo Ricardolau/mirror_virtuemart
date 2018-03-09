@@ -649,6 +649,9 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			unset($fieldNames[$this->_pkey]);
 		}
 		$this->_cryptedFields = $fieldNames;
+		if(!class_exists('vmCrypt')){
+			require(VMPATH_ADMIN .'/helpers/vmcrypt.php');
+		}
 	}
 
 	/**
@@ -1139,7 +1142,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		foreach($this->_cryptedFields as $field){
 			if(isset($this->$field)){
 				$this->$field = vmCrypt::decrypt($this->$field, $date);
-				vmdebug($this->_tbl.' Field '.$field.' encrypted = '.$this->$field);
+				//vmdebug($this->_tbl.' Field '.$field.' encrypted = '.$this->$field);
 			}
 		}
 	}
@@ -1158,10 +1161,6 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		$this->setLoggableFieldsForStore();
 
 		if($this->_cryptedFields){
-			if(!class_exists('vmCrypt')){
-				require(VMPATH_ADMIN .'/helpers/vmcrypt.php');
-			}
-
 			foreach($this->_cryptedFields as $field){
 				if(isset($this->$field)){
 					$this->$field = vmCrypt::encrypt($this->$field);
@@ -1192,7 +1191,17 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		if(!empty($this->$tblKey)){
 			$ok = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
 		} else {
+			$p = $this->$tblKey;
 			$ok = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
+
+			if($ok and !empty($this->_hashName)){
+				$oldH= $this->{$this->_hashName};
+				if($p!=$this->$tblKey and !in_array($tblKey,$this->_omittedHashFields)){
+					$this->hashEntry();
+					$ok = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
+					vmdebug('Updated entry with correct hash ',$this->_tbl_key,$p,$this->$tblKey,$oldH,$this->{$this->_hashName});
+				}
+			}
 		}
 
 		//reset Params
@@ -1740,7 +1749,6 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 
 
 		} else {
-
 			if (!$this->bindChecknStoreNoLang($data, $preload)) {
 				$ok = false;
 			}
@@ -1792,7 +1800,6 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		if ($ok) {
 			if (!$this->checkDataContainsTableFields($data)) {
 				$ok = false;
-				//    			$msg .= ' developer notice:: checkDataContainsTableFields';
 			}
 		}
 

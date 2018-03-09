@@ -561,7 +561,7 @@ abstract class vmPSPlugin extends vmPlugin {
 				if(isset($method->$field)){
 					$t = $method->$field;
 					$method->$field = vmCrypt::decrypt($method->$field, $date);
-					vmdebug(' Field '.$field.' crypted '.$t.' decrypted = '.$method->$field);
+					//vmdebug(' Field '.$field.' crypted '.$t.' decrypted = '.$method->$field);
 				}
 			}
 			$this->_encrypted = false;

@@ -257,7 +257,7 @@ class VirtuemartViewOrders extends VmViewAdmin {
 
 			JToolBarHelper::save('updatestatus', vmText::_('COM_VIRTUEMART_UPDATE_STATUS'));
 
-			if (vmAccess::manager('orders.delete')) {
+			if (vmAccess::manager('orders.delete') && !VmConfig::get('ordersAddOnly',false)) {
 				JToolBarHelper::spacer('80');
 				JToolBarHelper::deleteList();
 			}

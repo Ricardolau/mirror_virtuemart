@@ -28,9 +28,11 @@ $i=0;
 	<!--span class="vmicon vmicon-16-remove order-item-remove"></span-->
 	<?php // TODO COM_VIRTUEMART_ORDER_DELETE_ITEM_JS : _JS Why ? ?>
 	<?php if(vmAccess::manager('orders.edit')) { ?>
+		<?php if (!VmConfig::get('ordersAddOnly',false)) { ?>
 		<a href="#" title="<?php echo vmText::_('COM_VIRTUEMART_ORDER_DELETE_ITEM_JS'). ' ' . $item->order_item_name ; ?>"
 		   onClick="javascript:Virtuemart.removeItem(event,<?php echo $item->virtuemart_order_item_id; ?>);">
 			<span class="vmicon vmicon-16-remove 4remove orderEdit"></span></a>
+		<?php } ?>
 		<?php //TODO: change vmicon-16-move and create vmicon-16-clone class ?>
 			<span class="icon-copy order-item-clone orderEdit hasTip" title="<?php echo vmText::_('COM_VIRTUEMART_ORDER_ITEM_CLONE'). ' ' . $item->order_item_name ; ?>"></span>
 	<?php } ?>

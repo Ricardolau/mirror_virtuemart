@@ -1368,6 +1368,8 @@ jQuery().ready(function($) {
 			return false;
 		}
 
+
+
 		if ($order->order_status == $method->status_refund and $this->canDoRefund($method, $transactionResponse)) {
 			return $this->refundPayment($method, $payments, $orderModelData, $response, $old_order_status);
 		} elseif ($order->order_status == $method->status_capture and $this->canDoCapture($method, $transactionResponse)) {
@@ -1451,7 +1453,7 @@ jQuery().ready(function($) {
 			return;
 		}
 
-		$customer = $this->getCustomer($order);
+		$customer = $this->getCustomer($order, $response->TokenCustomerID);
 		$customer = $this->getCardDetails($foundPayment, $customer);
 		$shippingAddress = $this->getShippingAddress($order);
 		$items = $this->getOrderItems($order);
@@ -1488,9 +1490,11 @@ jQuery().ready(function($) {
 			$errorMessages[] = vmText::_('VMPAYMENT_EWAY_PAYMENT_REFUND_DECLINED');
 			foreach ($errors as $error) {
 				vmError(\Eway\Rapid::getMessage($error));
+				$app = JFactory::getApplication();
+				$app ->enqueueMessage(\Eway\Rapid::getMessage($error),'error');
 				$errorMessages[] = \Eway\Rapid::getMessage($error);
 			}
-			$dbValues['ResponseMessage'] = implode('<br />', $errorMessages);;
+			$dbValues['ResponseMessage'] = implode('<br />', $errorMessages);
 			$this->storePSPluginInternalData($dbValues);
 			return false;
 		}

@@ -7,7 +7,7 @@ defined('_JEXEC') or die();
  * Realex User Field plugin
  *
  * @author Valerie Isaksen
- * @version $Id:$
+ * @version $Id$
  * @package VirtueMart
  * @subpackage userfield
  * ${PHING.VM.COPYRIGHT}

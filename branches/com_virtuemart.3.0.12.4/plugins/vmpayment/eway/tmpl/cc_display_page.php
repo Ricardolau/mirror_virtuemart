@@ -3,7 +3,7 @@ defined('_JEXEC') or die();
 
 /**
  * @author Valérie Isaksen
- * @version $Id:$
+ * @version $Id$
  * @package VirtueMart
  * @subpackage vmpayment
  * @copyright Copyright (C) 2004-${PHING.VM.COPYRIGHT}   - All rights reserved.
@@ -86,7 +86,13 @@ if ($viewData['index']) {
 						   placeholder="123" maxlength="4"
 						   value="<?php echo $selectedMaskedCardCardCvn ?>"
 					/>
-				<a href=""><?php echo vmText::_('VMPAYMENT_EWAY_EDIT_CREDIT_CARD') ?></a>&nbsp;
+				<span
+						data-eway='<?php echo $viewData['maskedCard'] ?>'
+						class="eway-edit-card button"><?php echo vmText::_('VMPAYMENT_EWAY_EDIT_CREDIT_CARD') ?>
+						</span>
+				<span data-eway='<?php echo $viewData['maskedCard'] ?>'
+					  data-ewayindex="<?php echo $viewData['index'] ?>"
+					  class="eway-delete-card button"><?php echo vmText::_('VMPAYMENT_EWAY_DELETE_CREDIT_CARD') ?></span>
 				</div>
 		</div>
 		<?php } ?>
@@ -134,5 +140,111 @@ jQuery(document).ready(function( $ ) {
 
 });
 </script>
+
+	<script>
+        jQuery(document).ready(function ($) {
+            jQuery(".eway-delete-card").click(function () {
+                var eway_card_selected = $(this).data("eway");
+                var ewayindex = $(this).data("ewayindex");
+
+                if (eway_card_selected !== undefined) {
+                    $("#eway_card_selected").val(eway_card_selected);
+                    $('.eway-cards-error').removeClass('eway-error').html();
+                    request = {
+                        'option': 'com_virtuemart',
+                        'view': 'plugin',
+                        'type': 'vmpayment',
+                        'tmpl': 'raw',
+                        'name': 'eway',
+                        'action': 'deleteCard',
+                        'cardToDelete': eway_card_selected,
+                        'token': "<?php echo JSession::getFormToken() ?>",
+                    };
+                    ewayDeleteAjax(request, ewayindex);
+
+                }
+            });
+
+
+            jQuery(".eway-edit-card").click(function () {
+                var eway_card_selected = $(this).data("eway");
+
+                if (eway_card_selected !== undefined) {
+
+                    $('.eway-cards-error').removeClass('eway-error').html();
+
+                    request = {
+                        'option': 'com_virtuemart',
+                        'view': 'plugin',
+                        'type': 'vmpayment',
+                        'tmpl': 'raw',
+                        'name': 'eway',
+                        'action': 'updateCard',
+                        'cardToUpdate': eway_card_selected,
+                        'redirectURL': Virtuemart.vmSiteurl + "<?php echo vmURI::getCurrentUrlBy('get') ?>",
+                        'token': "<?php echo JSession::getFormToken() ?>",
+                    };
+                    $.ajax({
+                        type: 'POST',
+                        dataType: 'JSON',
+                        data: request,
+                        url: Virtuemart.vmSiteurl,
+                        beforeSend: function() {
+                            var object = {
+                                data: {
+                                    msg: ''
+                                }
+                            };
+                            Virtuemart.startVmLoading(object);
+                        },
+                        success: function (response) {
+                            Virtuemart.stopVmLoading();
+                            $.fancybox(response);
+                        },
+                        error: function (e, t, n) {
+                            console.log(e);
+                            console.log(t);
+                            console.log(n);
+                            Virtuemart.stopVmLoading();
+                        }
+                    });
+
+                }
+            });
+
+            var ewayDeleteAjax = function (request, ewayindex) {
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: request,
+                    url: Virtuemart.vmSiteurl,
+                    beforeSend: function() {
+                        var object = {
+                            data: {
+                                msg: ''
+                            }
+                        };
+                        Virtuemart.startVmLoading(object);
+                    },
+                    success: function (json) {
+                        Virtuemart.stopVmLoading();
+                       console.log('ewayDeleteAjax success');
+                        $('#payment-id-<?php echo $viewData['virtuemart_paymentmethod_id'] ?>' +'-' + ewayindex).prop('checked', false);
+                        $('#click-id-<?php echo $viewData['virtuemart_paymentmethod_id'] ?>' +'-' + ewayindex).trigger('click');
+                    },
+                    error: function (e, t, n) {
+                        console.log('ewayDeleteAjax error');
+                        console.log(e);
+                        console.log(t);
+                        console.log(n);
+                        Virtuemart.stopVmLoading();
+                    }
+                });
+            }
+        });
+	</script>
+
+
+
 
 <?php } ?>

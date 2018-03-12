@@ -28,6 +28,7 @@ vmJsApi::addJScript('/plugins/vmpayment/eway/assets/js/jquery.payform.min.js');
 	//echo vmText::_('VMUSERFIELD_EWAY_NO_CARDS');
 	return;
 }
+
 ?>
 	<div class="eway-cards">
 		<table>
@@ -49,11 +50,11 @@ vmJsApi::addJScript('/plugins/vmpayment/eway/assets/js/jquery.payform.min.js');
 						<?php echo $creditCard->ExpiryMonth ?>/<?php echo $creditCard->ExpiryYear ?>
 					</td>
 					<td><span
-							data-eway='<?php echo json_encode($creditCard) ?>'
+							data-eway='<?php echo vmCrypt::encrypt(json_encode($creditCard)) ?>'
 							class="eway-edit-card button"><?php echo vmText::_('VMPAYMENT_EWAY_EDIT_CREDIT_CARD') ?>
 						</span>
 					</td>
-					<td><span data-eway='<?php echo json_encode($creditCard) ?>'
+					<td><span data-eway='<?php echo vmCrypt::encrypt(json_encode($creditCard)) ?>'
 							class="eway-delete-card button"><?php echo vmText::_('VMPAYMENT_EWAY_DELETE_CREDIT_CARD') ?></span>
 					</td>
 				</tr>
@@ -72,7 +73,6 @@ vmJsApi::addJScript('/plugins/vmpayment/eway/assets/js/jquery.payform.min.js');
 
 	<script>
         jQuery(document).ready(function ($) {
-            jQuery('.eway-update-card').hide();
             jQuery(".eway-delete-card").click(function () {
                 var eway_card_selected = $(this).data("eway");
 
@@ -95,7 +95,6 @@ vmJsApi::addJScript('/plugins/vmpayment/eway/assets/js/jquery.payform.min.js');
             jQuery(".eway-edit-cardxx").click(function () {
                 jQuery('.eway-edit-card').toggle();
                 jQuery('.eway-delete-card').toggle();
-                jQuery('.eway-update-card').toggle();
             });
 
             jQuery(".eway-edit-card").click(function () {
@@ -113,6 +112,7 @@ vmJsApi::addJScript('/plugins/vmpayment/eway/assets/js/jquery.payform.min.js');
                         'name': 'eway',
                         'action': 'updateCard',
                         'cardToUpdate': eway_card_selected,
+                        'redirectURL':  Virtuemart.vmSiteurl + "<?php echo vmURI::getCurrentUrlBy() ?>",
                         'token': "<?php echo JSession::getFormToken() ?>",
                     };
                     $.ajax({

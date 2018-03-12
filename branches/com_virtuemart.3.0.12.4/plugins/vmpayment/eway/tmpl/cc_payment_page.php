@@ -3,7 +3,7 @@ defined('_JEXEC') or die();
 
 /**
  * @author Valérie Isaksen
- * @version $Id:$
+ * @version $Id$
  * @package VirtueMart
  * @subpackage vmpayment
  * @copyright Copyright (C) 2004-${PHING.VM.COPYRIGHT}   - All rights reserved.
@@ -245,5 +245,3 @@ $maskedCard = $viewData['maskedCard'];
 
     });
 </script>
-
-

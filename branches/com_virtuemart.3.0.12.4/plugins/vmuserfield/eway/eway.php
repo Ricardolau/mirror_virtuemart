@@ -7,7 +7,7 @@ defined('_JEXEC') or die();
  * Realex User Field plugin
  *
  * @author Valerie Isaksen
- * @version $Id: eway_.php 9560 2017-05-30 14:13:21Z Milbo $
+ * @version $Id:$
  * @package VirtueMart
  * @subpackage userfield
  * ${PHING.VM.COPYRIGHT}
@@ -105,14 +105,9 @@ class plgVmUserfieldEway extends vmUserfieldPlugin {
 			$app = JFactory::getApplication();
 			$app->triggerEvent('plgVmOnEwayGetCreditCards', array('eway', $userId, &$maskedCards));
 
-
 			$html = $this->renderByLayout("creditcards", array(
 				"creditCards" => $maskedCards,
 			));
-		} elseif ($view == 'order') {
-			$userlink = JROUTE::_('index.php?option=com_virtuemart&view=user&task=edit&virtuemart_user_id[]=' . $userId, FALSE);
-			$html = JHTML::_('link', JRoute::_($userlink, FALSE), JText::_('VMUSERFIELD_EWAY_MANAGE_CARDS'), array('title' => JText::_('VMUSERFIELD_EWAY_MANAGE_CARDS')));
-
 		}
 
 		return $html;
@@ -135,7 +130,7 @@ class plgVmUserfieldEway extends vmUserfieldPlugin {
 		JPluginHelper::importPlugin('vmpayment');
 
 		$app = JFactory::getApplication();
-		$return = $app->triggerEvent('plgVmOnEwayDeleteCreditCard', array('eway', $userId, (object)$cardToDelete, &$maskedCards, &$msg));
+		$return = $app->triggerEvent('plgVmOnEwayDeleteCreditCard', array('eway', $userId, $cardToDelete, &$maskedCards, &$msg));
 		$result['error'] = !$return[0];
 		$result['msg'] = $msg;
 
@@ -143,38 +138,6 @@ class plgVmUserfieldEway extends vmUserfieldPlugin {
 			"creditCards" => $maskedCards,
 			"eway_card_selected" => NULL,
 			"action" => 'delete',
-			"js" => false,
-		));
-
-		$result['html'] = $html;
-
-		return $result;
-	}
-
-	function editCard($userId, $eway_card_selected) {
-		if (!class_exists('VmHTML')) {
-			require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'html.php');
-		}
-		$view = vRequest::getString('view', '');
-		$this->loadJLangThis('plg_vmpayment_eway_', 'vmpayment');
-		if ($view != 'plugin') {
-			$result['error'] = true;
-			$result['msg'] = 'Programming error: View is wrong';
-			return $result;
-		}
-		$maskedCards = '';
-		$msg = '';
-		JPluginHelper::importPlugin('vmpayment');
-
-		$app = JFactory::getApplication();
-		$return = $app->triggerEvent('plgVmOnEwayEditCreditCard', array('eway', $userId, (object)$eway_card_selected, &$maskedCards, &$msg));
-		$result['error'] = !$return[0];
-		$result['msg'] = $msg;
-
-		$html = $this->renderByLayout("creditcards", array(
-			"creditCards" => $maskedCards,
-			"eway_card_selected" => $eway_card_selected,
-			"action" => 'edit',
 			"js" => false,
 		));
 
@@ -199,7 +162,7 @@ class plgVmUserfieldEway extends vmUserfieldPlugin {
 		JPluginHelper::importPlugin('vmpayment');
 
 		$app = JFactory::getApplication();
-		$return = $app->triggerEvent('plgVmOnEwayUpdateCreditCard', array('eway', $userId, (object)$cardToUpdate, &$html));
+		$return = $app->triggerEvent('plgVmOnEwayUpdateCreditCard', array('eway', $userId, $cardToUpdate, &$html));
 		$result['error'] = !$return[0];
 		$result['html'] = $html;
 
@@ -240,10 +203,6 @@ class plgVmUserfieldEway extends vmUserfieldPlugin {
 				$render = $this->deleteCard($user->id, $cardToDelete);
 				echo json_encode($render);
 				jexit();
-				break;
-			case 'editCard':
-				$eway_card_selected = vRequest::getVar('eway_card_selected', array());
-				$render = $this->editCard($user->id, $eway_card_selected);
 				break;
 			case 'updateCard':
 				$cardToUpdate = vRequest::getVar('cardToUpdate', array());

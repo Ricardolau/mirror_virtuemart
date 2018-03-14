@@ -129,9 +129,18 @@ class VirtuemartViewConfig extends VmViewAdmin {
 		shopFunctions::checkSafePath();
 		$this -> checkTCPDFinstalled();
 		$this -> checkVmUserVendor();
-
+		$this -> checkMysqliUsed();
 		//$this -> checkClientIP();
 		parent::display($tpl);
+	}
+
+	private function checkMysqliUsed(){
+		$config = JFactory::getConfig();
+		$type = $config->get( 'dbtype' );
+		if ($type != 'mysqli') {
+			$msg = 'To ensure seemless working with Virtuemart please use MySQLi as database type in Joomla configuration';
+			vmError($msg,$msg);
+		}
 	}
 
 	private function listIt($ps){

@@ -922,7 +922,6 @@ vmdebug('my prices',$data);
 			$orders = array($orders);
 		}
 
-
 		/* Process the orders to update */
 		$updated = 0;
 		$error = 0;
@@ -958,6 +957,7 @@ vmdebug('my prices',$data);
 	function updateStatusForOneOrder($virtuemart_order_id,$inputOrder,$useTriggers=true){
 
 // 		vmdebug('updateStatusForOneOrder', $inputOrder);
+		$inputOrder['comments'] = trim($inputOrder['comments']);
 		/* Update the order */
 		$data = $this->getTable('orders');
 		$data->load($virtuemart_order_id);
@@ -965,6 +965,7 @@ vmdebug('my prices',$data);
 		if(empty($inputOrder['virtuemart_order_id'])){
 			unset($inputOrder['virtuemart_order_id']);
 		}
+
 		$data->bind($inputOrder);
 
 		$cp_rm = VmConfig::get('cp_rm',array('C'));
@@ -1095,9 +1096,6 @@ vmdebug('my prices',$data);
 				}
 			}
 
-
-			$inputOrder['comments'] = trim($inputOrder['comments']);
-
 			$invM = VmModel::getModel('invoice');
 			//TODO use here needNewInvoiceNumber
 
@@ -1206,7 +1204,7 @@ vmdebug('my prices',$data);
 
 		$_orderData = new stdClass();
 
-		$_orderData->virtuemart_order_id = null;
+		$_orderData->virtuemart_order_id = !empty($_cart->virtuemart_order_id) ? $_cart->virtuemart_order_id:null;
 		$_orderData->virtuemart_user_id = $_usr->get('id');
 		$_orderData->virtuemart_vendor_id = $_cart->vendorId;
 		$_orderData->customer_number = $_cart->customer_number;
@@ -1293,13 +1291,6 @@ vmdebug('my prices',$data);
 			$_orderData->ip_address = substr($_orderData->ip_address,0,($rpos+1)).'xx';
 		}
 
-		if($_cart->_inConfirm){
-
-			$orderId = $this->reUsePendingOrder($_cart, $_orderData->customer_number);
-			if(!empty($orderId)){
-				$_orderData->virtuemart_order_id = $orderId;
-			}
-		}
 
 		//lets merge here the userdata from the cart to the order so that it can be used
 		if(!empty($_cart->BT)){
@@ -1375,11 +1366,12 @@ vmdebug('my prices',$data);
 			foreach($psTypes as $_psType){
 				if(!empty($order['virtuemart_'.$_psType.'method_id'])){
 					$q = 'SELECT `'.$_psType.'_element` FROM `#__virtuemart_'.$_psType.'methods` ';
-					$q .= 'WHERE `virtuemart_'.$_psType.'method_id` = "'.(int)$order['virtuemart_shipmentmethod_id'].'" ';
+					$q .= 'WHERE `virtuemart_'.$_psType.'method_id` = "'.(int)$order['virtuemart_'.$_psType.'method_id'].'" ';
 					$db->setQuery($q);
 					$plg_name = $db->loadResult();
+					if(empty($plg_name)) continue;
 					$_tablename = '#__virtuemart_' . $_psType . '_plg_' . $plg_name;
-					vmdebug('reUsePendingOrder DELETE FROM ',$q);
+					vmdebug('reUsePendingOrder get plg name ',$q);
 					$q = 'DELETE FROM '.$_tablename.' WHERE virtuemart_order_id="'.$order['virtuemart_order_id'].'"';
 					$db->setQuery($q);
 					$db->execute();
@@ -2174,11 +2166,22 @@ vmdebug('my prices',$data);
 		$db = JFactory::getDBO();
 		$db->setQuery($q);
 
+		$ok = true;
 		if ($db->execute() === false) {
 			vmError($db->getError());
-			return false;
+			$ok = true;
 		}
-		return true;
+
+		$q ='DELETE from `#__virtuemart_order_calc_rules` WHERE `virtuemart_order_id` = ' .(int) $virtuemart_order_id;
+		$db = JFactory::getDBO();
+		$db->setQuery($q);
+
+		if ($db->execute() === false) {
+			vmError($db->getError());
+			$ok = true;
+		}
+
+		return $ok;
 	}
 
 	/**
@@ -2232,7 +2235,7 @@ vmdebug('my prices',$data);
 	 */
 	public function remove($ids) {
 
-		if(!vmAccess::manager('orders.edit')) {
+		if(!vmAccess::manager('orders.delete')) {
 			return false;
 		}
 

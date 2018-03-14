@@ -841,7 +841,7 @@ class VirtueMartCart {
 		if(count($this->_triesValidateCoupon)<8){
 			$msg = CouponHelper::ValidateCouponCode($coupon_code, $this->cartPrices['salesPrice']);
 			if(empty($msg)){
-				unset($this->_triesValidateCoupon[$couponTryTime]);
+				$this->_triesValidateCoupon = array();	//A valid couponcode means we had a normal customer
 			}
 		} else{
 			$msg = vmText::_('COM_VIRTUEMART_CART_COUPON_TOO_MANY_TRIES');
@@ -902,12 +902,13 @@ class VirtueMartCart {
 				}
 			}
 			// When a payment already created an order, the order should be updated, because some payment use the payment id of the order and not of the cart to determine if they should be active.
-			if(!empty($this->virtuemart_order_id)){
+			//This is obsolete now.
+			/*if(!empty($this->virtuemart_order_id)){
 				$orderModel = VmModel::getModel('orders');
 				$t = $orderModel->getTable('orders');
 				$st = array('virtuemart_order_id' =>$this->virtuemart_order_id,$idN => $id);
 				$t->bindChecknStore($st,true);
-			}
+			}*/
 			$this->setCartIntoSession();
 		}
 	}
@@ -1221,14 +1222,14 @@ class VirtueMartCart {
 				$this->virtuemart_order_id = $orderModel->reUsePendingOrder($this);
 			}
 
-			if(!$this->virtuemart_order_id){
-				$this->virtuemart_order_id = $orderModel->createOrderFromCart($this);
-				if (!$this->virtuemart_order_id) {
-					$mainframe = JFactory::getApplication();
-					//vmError('No order created '.$orderModel->getError());
-					$mainframe->redirect(JRoute::_('index.php?option=com_virtuemart&view=cart', FALSE) );
-				}
+
+			$this->virtuemart_order_id = $orderModel->createOrderFromCart($this);
+			if (!$this->virtuemart_order_id) {
+				$mainframe = JFactory::getApplication();
+				//vmError('No order created '.$orderModel->getError());
+				$mainframe->redirect(JRoute::_('index.php?option=com_virtuemart&view=cart', FALSE) );
 			}
+
 			$orderId = $this->virtuemart_order_id;
 			//$orderDetails = $orderModel->getMyOrderDetails($this->virtuemart_order_id,$this->order_number,$this->order_pass);
 			$orderDetails = $orderModel->getOrder($this->virtuemart_order_id);

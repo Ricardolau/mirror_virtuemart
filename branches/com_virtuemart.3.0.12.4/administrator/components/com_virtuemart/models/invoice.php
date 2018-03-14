@@ -164,7 +164,13 @@ class VirtueMartModelInvoice extends VmModel {
 			$orderDetails = $order['details']['BT'];
 		} else if(empty($orderDetails['virtuemart_order_id'])){
 			$order = $this->getOrder( $orderId );
-			$orderDetails = array_merge($orderDetails,$order['details']['BT']);
+			if(!empty($order['details']['BT']) and is_object($order['details']['BT'])){
+				$orderDetails = array_merge($orderDetails,get_object_vars($order['details']['BT']));
+			} else {
+				vmdebug('createStoreNewInvoiceNumberById could not merge array',$orderId,$order,$orderDetails);
+				vmTrace('Hmmm createStoreNewInvoiceNumberById');
+			}
+
 		}
 		$ret = $this->createStoreNewInvoiceNumber( $orderDetails );
 		if(!empty($ret[0])){

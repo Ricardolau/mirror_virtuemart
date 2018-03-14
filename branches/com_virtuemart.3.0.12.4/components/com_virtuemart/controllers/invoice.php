@@ -190,7 +190,7 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 
 		if($invoiceNumber) {
 			$invM = VmModel::getModel('invoice');
-			$storedOIds = $invM->getInvoiceEntry($orderDetails['details']['BT']->vrituemart_order_id, false, 'invoice_number');
+			$storedOIds = $invM->getInvoiceEntry($orderDetails['details']['BT']->virtuemart_order_id, false, 'invoice_number');
 			if(!in_array($invoiceNumber,$storedOIds)){
 				$invoiceNumber = false;
 			}

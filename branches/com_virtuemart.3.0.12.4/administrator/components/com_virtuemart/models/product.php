@@ -203,7 +203,7 @@ class VirtueMartModelProduct extends VmModel {
 			$this->keyword = vRequest::filter($this->keyword,FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
 
 			vRequest::setVar('keyword',urlencode($this->keyword));
-
+			$this->search_type = vRequest::getVar ('search_type', '');
 		}
 		else {
 			$task = vRequest::getCmd('task','');
@@ -239,6 +239,8 @@ class VirtueMartModelProduct extends VmModel {
 			}
 
 			$this->keyword = $this->filter_product;
+
+			$this->search_type = $app->getUserStateFromRequest ($option . '.'. $view . $task.'.search_type', 'search_type', '', 'word');
 		}
 		$filter_order_Dir = $this->checkFilterDir ($filter_order_Dir, $task);
 
@@ -246,7 +248,7 @@ class VirtueMartModelProduct extends VmModel {
 		$this->filter_order_Dir = $filter_order_Dir;
 		$this->valid_search_fields = $valid_search_fields;
 
-		$this->search_type = vRequest::getVar ('search_type', '');
+
 
 		$this->searchcustoms = vRequest::getVar ('customfields', false, true);
 

@@ -211,7 +211,7 @@ class VmPagination extends vObject {
 			$js = 'onchange="window.top.location.href=this.options[this.selectedIndex].value"';
 
 			$id = VmHtml::ensureUniqueId('limit');
-			$html = JHtml::_( 'select.genericlist', $limits, '', 'class="inputbox" size="1" '.$js, 'value', 'text', $selected,$id );
+			$html = JHtml::_( 'select.genericlist', $limits, 'limit', 'class="inputbox" size="1" '.$js, 'value', 'text', $selected,$id );
 		}
 		return $html;
 	}

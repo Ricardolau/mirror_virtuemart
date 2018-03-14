@@ -219,7 +219,7 @@ class VirtuemartControllerOrders extends VmController {
 
 	/**
 	 * Save changes to the order item status
-	 *
+	 * @deprecated Not used, we are going to remove this, use editOrderItem
 	 */
 	public function saveItemStatus() {
 
@@ -334,7 +334,7 @@ class VirtuemartControllerOrders extends VmController {
 		$model = VmModel::getModel();
 		$msg = '';
 		$orderId = vRequest::getInt('virtuemart_order_id', '');
-		if(!vmAccess::manager('orders.edit')) {
+		if(!vmAccess::manager('orders.edit') or VmConfig::get('ordersAddOnly',false)) {
 			vmInfo( 'Restricted' );
 			$view = $this->getView( 'orders', 'html' );
 			$view->display();

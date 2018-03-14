@@ -372,12 +372,11 @@ class VirtuemartViewProduct extends VmViewAdmin {
 			$superVendor = vmAccess::isSuperVendor();
 			if(empty($superVendor)){
 				$productlist = array();
-				$this->filter_product = $model->filter_product;
 			} else {
 				//Get the list of products
 				$productlist = $model->getProductListing(false,false,false,false,true);
-				$this->filter_product = $model->filter_product;
 			}
+			$this->filter_product = $model->filter_product;
 
 			$now = getdate();
 			$nowstring = $now["hours"].":".substr('0'.$now["minutes"], -2).' '.$now["mday"].".".$now["mon"].".".$now["year"];

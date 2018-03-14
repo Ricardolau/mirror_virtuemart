@@ -206,7 +206,7 @@ class VirtueMartCustomFieldRenderer {
 
 						}
 						$idTagK = '[';	//Joomla workaround to get a list without id
-						$attribs['cvsel'] = 'field' . $customfield->virtuemart_customfield_id ;
+						$attribs['data-cvsel'] = 'field' . $customfield->virtuemart_customfield_id ;
 						$fname = $fieldname.'['.$k.']';
 						$html .= JHtml::_ ($selectType, $options, $fname, $attribs , "value", "text", $selected,$idTagK);
 
@@ -239,7 +239,7 @@ class VirtueMartCustomFieldRenderer {
 
 					$jsVariants = implode(',',$jsArray);
 
-					$selector = $dom."[cvsel=\"".$attribs['cvsel']."\"]";
+					$selector = $dom."[data-cvsel=\"".$attribs['data-cvsel']."\"]";
 					$hash = md5($selector);
 					$j = "jQuery(document).ready(function($) {
 							".$BrowserNewState."

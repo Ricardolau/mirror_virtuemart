@@ -631,10 +631,28 @@ class VirtueMartModelUser extends VmModel {
 				vmdebug('Error storing vendor',$vendorModel);
 				return false;
 			}
+			$this->setFraudProtection();
+
 		}
 
 		return true;
 	}
+
+	/**
+	 * FraudProtection to comply to the French financial Law 2018
+	 *
+	 * @author Valérie Isaksen
+	 */
+	function setFraudProtection(){
+
+		if(!class_exists('VirtueMartModelConfig')) require(VMPATH_ADMIN .'/models/config.php');
+		$res  = VirtueMartModelConfig::checkConfigTableExists();
+		if(!empty($res)){
+			$model = $this->getModel('config');
+			$model->setFraudProtection();
+		}
+	}
+
 
 	/**
 	 * Take a data array and save any address info found in the array.

@@ -631,7 +631,7 @@ class VirtueMartModelUser extends VmModel {
 				vmdebug('Error storing vendor',$vendorModel);
 				return false;
 			}
-			$this->setFraudProtection();
+			//$this->setFraudProtection();
 
 		}
 

@@ -901,14 +901,6 @@ class VirtueMartCart {
 					}
 				}
 			}
-			// When a payment already created an order, the order should be updated, because some payment use the payment id of the order and not of the cart to determine if they should be active.
-			//This is obsolete now.
-			/*if(!empty($this->virtuemart_order_id)){
-				$orderModel = VmModel::getModel('orders');
-				$t = $orderModel->getTable('orders');
-				$st = array('virtuemart_order_id' =>$this->virtuemart_order_id,$idN => $id);
-				$t->bindChecknStore($st,true);
-			}*/
 			$this->setCartIntoSession();
 		}
 	}
@@ -948,7 +940,6 @@ class VirtueMartCart {
 			if($this->confirmedOrder()){
 
 				return true;
-
 			}
 
 		}
@@ -1217,11 +1208,6 @@ class VirtueMartCart {
 
 			//We set this in the trigger of the plugin. so old plugins keep the old behaviour
 			$orderModel = VmModel::getModel('orders');
-
-			if($this->virtuemart_order_id){
-				$this->virtuemart_order_id = $orderModel->reUsePendingOrder($this);
-			}
-
 
 			$this->virtuemart_order_id = $orderModel->createOrderFromCart($this);
 			if (!$this->virtuemart_order_id) {

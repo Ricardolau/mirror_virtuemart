@@ -89,7 +89,6 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 		 */
 		public function preflight ($type, $parent=null) {
 
-			//We want disable the redirect in the installation process
 			if(version_compare(JVERSION,'1.6.0','ge') and version_compare(JVERSION,'3.0.0','le')) {
 
 				$this->_db = JFactory::getDbo();
@@ -101,13 +100,14 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 					$this->_db -> setQuery($q);
 					$this->_db -> execute();
 				}
-				/*else {
-					$q = 'DELETE FROM `#__menu` WHERE `menutype` = "main" AND `type` = "component" AND `client_id`="1"
-						AND `link`="%option=com_virtuemart%" )';
-				}*/
-
 			}
 
+			$config = JFactory::getConfig();
+			$type = $config->get( 'dbtype' );
+			if ($type != 'mysqli') {
+				JFactory::getApplication()->enqueueMessage('To ensure seemless working with Virtuemart please use MySQLi as database type in Joomla configuration', 'warning');
+				return false;
+			}
 		}
 
 

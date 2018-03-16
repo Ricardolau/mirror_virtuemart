@@ -957,7 +957,7 @@ vmdebug('my prices',$data);
 	function updateStatusForOneOrder($virtuemart_order_id,$inputOrder,$useTriggers=true){
 
 // 		vmdebug('updateStatusForOneOrder', $inputOrder);
-		$inputOrder['comments'] = trim($inputOrder['comments']);
+
 		/* Update the order */
 		$data = $this->getTable('orders');
 		$data->load($virtuemart_order_id);
@@ -1096,6 +1096,8 @@ vmdebug('my prices',$data);
 				}
 			}
 
+			//Must be below the handling of the order items, else we must add an except as for "customer_notified"
+			$inputOrder['comments'] = trim($inputOrder['comments']);
 			$invM = VmModel::getModel('invoice');
 			//TODO use here needNewInvoiceNumber
 
@@ -1204,7 +1206,16 @@ vmdebug('my prices',$data);
 
 		$_orderData = new stdClass();
 
-		$_orderData->virtuemart_order_id = !empty($_cart->virtuemart_order_id) ? $_cart->virtuemart_order_id:null;
+		$_orderData->virtuemart_order_id = null;
+		$oldOrderNumber = '';
+		if(!empty($_cart->virtuemart_order_id)){
+			$_orderData->virtuemart_order_id = $this->reUsePendingOrder($_cart);
+			if($_orderData->virtuemart_order_id){
+				$order = $this->getOrder($_orderData->virtuemart_order_id);
+				$oldOrderNumber = $order['details']['BT']->order_number;
+			}
+		}
+
 		$_orderData->virtuemart_user_id = $_usr->get('id');
 		$_orderData->virtuemart_vendor_id = $_cart->vendorId;
 		$_orderData->customer_number = $_cart->customer_number;
@@ -1274,7 +1285,6 @@ vmdebug('my prices',$data);
 			}
 		}
 
-
 		$_orderData->virtuemart_paymentmethod_id = $_cart->virtuemart_paymentmethod_id;
 		$_orderData->virtuemart_shipmentmethod_id = $_cart->virtuemart_shipmentmethod_id;
 
@@ -1303,11 +1313,18 @@ vmdebug('my prices',$data);
 		JPluginHelper::importPlugin('vmextended');
 		$dispatcher = JDispatcher::getInstance();
 		$plg_datas = $dispatcher->trigger('plgVmOnUserOrder',array(&$_orderData));
-		foreach($plg_datas as $plg_data){
-			// 				$data = array_merge($plg_data,$data);
-		}
-		if(empty($_orderData->order_number)){
-			$_orderData->order_number = $this->genStdOrderNumber($_orderData->virtuemart_vendor_id);
+
+
+		$i = 0;
+		while($oldOrderNumber==$_orderData->order_number) {
+			if($i>5) {
+				$msg = 'Could not generate new unique ordernumber';
+				vmError($msg.', an ordernumber should contain at least one random char', $msg);
+				break;
+			}
+			$_orderData->order_number = $this->genStdOrderNumber( $_orderData->virtuemart_vendor_id );
+			if(!empty($oldOrderNumber))vmdebug('Generated new ordernumber ',$oldOrderNumber,$_orderData->order_number);
+			$i++;
 		}
 		if(empty($_orderData->order_pass)){
 			$_orderData->order_pass = $this->genStdOrderPass();
@@ -1337,16 +1354,18 @@ vmdebug('my prices',$data);
 	function reUsePendingOrder($_cart,$customer_number = false){
 		$order = false;
 		$db = JFactory::getDbo();
-		$q = 'SELECT * FROM `#__virtuemart_orders` ';
+		$q = 'SELECT `virtuemart_order_id` FROM `#__virtuemart_orders` ';
+		$orderId = false;
+		
 		if(!empty($_cart->virtuemart_order_id)){
 			$db->setQuery($q . ' WHERE `virtuemart_order_id`= "'.$_cart->virtuemart_order_id.'" AND `order_status` = "P" ');
-			$order = $db->loadAssoc();
-			if(!$order){
+			$orderId = $db->loadResult();
+			if(!$orderId){
 				vmdebug('This should not happen, there is a cart with order_number, but not order stored '.$_cart->virtuemart_order_id);
 			}
 		}
 
-		if($customer_number and VmConfig::get('reuseorders',true) and !$order){
+		if($customer_number and !$orderId and VmConfig::get('reuseorders',true) ){
 			$jnow = JFactory::getDate();
 			$jnow->sub(new DateInterval('PT1H'));
 			$minushour = $jnow->toSQL();
@@ -1354,13 +1373,12 @@ vmdebug('my prices',$data);
 			$q .= '	AND `order_status` = "P"
 				AND `created_on` > "'.$minushour.'" ';
 			$db->setQuery($q);
-			$order = $db->loadAssoc();
+			$orderId = $db->loadResult();
 		}
 
-		if($order) {
-
+		if($orderId) {
 			//Dirty hack
-			$this->removeOrderItems( $order['virtuemart_order_id'], false );
+			$this->removeOrderItems( $orderId, false );
 
 			$psTypes = array('shipment','payment');
 			foreach($psTypes as $_psType){
@@ -1371,15 +1389,14 @@ vmdebug('my prices',$data);
 					$plg_name = $db->loadResult();
 					if(empty($plg_name)) continue;
 					$_tablename = '#__virtuemart_' . $_psType . '_plg_' . $plg_name;
-					vmdebug('reUsePendingOrder get plg name ',$q);
-					$q = 'DELETE FROM '.$_tablename.' WHERE virtuemart_order_id="'.$order['virtuemart_order_id'].'"';
+
+					$q = 'DELETE FROM '.$_tablename.' WHERE virtuemart_order_id="'.$orderId.'"';
 					$db->setQuery($q);
 					$db->execute();
-					vmdebug('reUsePendingOrder DELETE FROM ',$q);
 				}
 			}
 
-			return $order['virtuemart_order_id'];
+			return $orderId;
 		} else {
 			return false;
 		}

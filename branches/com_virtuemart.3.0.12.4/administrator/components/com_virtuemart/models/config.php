@@ -384,7 +384,7 @@ class VirtueMartModelConfig extends VmModel {
 			return false;
 		}
 
-		$this->setFraudProtection();
+		//$this->setFraudProtection();
 
 		//$oldLangs = $config->get('active_languages');
 		$oldLangs = VmConfig::get('active_languages', array());

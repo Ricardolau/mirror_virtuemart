@@ -378,7 +378,7 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
 </form>
 	<?php  $oId=0;  ?>
 	<table width="100%">
-		<tr id="updateOrderItemStatus">
+		<tr id="updateOrderItemStatus" class="viewMode">
 			<td colspan="11">
 
 				<?php if(vmAccess::manager('orders.edit')) { ?>
@@ -396,7 +396,7 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
 				<?php } ?>
 
 				<?php if(vmAccess::manager('orders.status') or vmAccess::manager('orders.edit')) { ?>
-					<a class="btn btn-small  updateOrderItemStatus" href="#"><span
+					<a class="btn btn-small  updateOrderItemStatus orderEdit" href="#"><span
 								class="icon-nofloat vmicon vmicon-16-save"></span><?php echo vmText::_('COM_VIRTUEMART_ORDER_ITEMS_SAVE'); ?></a>
 				<?php } ?>
 			</td>
@@ -739,6 +739,9 @@ $j = 'jQuery(document).ready(function ($) {
             onRowReorder:function () {
             }
         });
+        
+      
+        
     });';
 vmJsApi::addJScript('dynotable_order_item_ini',$j);
 

@@ -79,6 +79,13 @@ if (typeof Virtuemart === "undefined")
 				$('select').trigger('chosen:updated');
 				return false;
 			});
+            $('.selectItemStatusCode').change(function () {
+            	if ($('#updateOrderItemStatus').hasClass('viewMode')){
+                    document.orderItemForm.task.value = 'updateOrderItemStatus';
+                    document.orderItemForm.submit();
+                    return false;
+				}
+            });
 			$('.updateOrderItemStatus').click(function () {
 				document.orderItemForm.task.value = 'updateOrderItemStatus';
 				document.orderItemForm.submit();
@@ -152,6 +159,7 @@ if (typeof Virtuemart === "undefined")
 			$(this).toggle();
 		});
         $('.enableEdit').hide();
+        $("#updateOrderItemStatus").removeClass('viewMode');
 		e.preventDefault();
 	};
 
@@ -179,6 +187,7 @@ if (typeof Virtuemart === "undefined")
 		$('.orderEdit').hide();
 		$('.enableEdit').show();
 		$('.orderView').show();
+		$("#updateOrderItemStatus").addClass('viewMode');
 		e.preventDefault();
 	}
 

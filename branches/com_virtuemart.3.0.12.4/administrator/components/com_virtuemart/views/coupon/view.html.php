@@ -45,8 +45,7 @@ class VirtuemartViewCoupon extends VmViewAdmin {
 
 		$model = VmModel::getModel();
 
-		$coupon = $model->getCoupon();
-		$this->SetViewTitle('', $coupon->coupon_code);
+
 
 
 		$layoutName = vRequest::getCmd('layout', 'default');
@@ -57,7 +56,7 @@ class VirtuemartViewCoupon extends VmViewAdmin {
 // 				$this->assignRef('vendorList', $vendorList);
 // 		}
 
-		 $vendorModel = VmModel::getModel('Vendor');
+		$vendorModel = VmModel::getModel('Vendor');
 		$vendorModel->setId(1);
 		$vendor = $vendorModel->getVendor();
 
@@ -66,6 +65,8 @@ class VirtuemartViewCoupon extends VmViewAdmin {
 		$this->assignRef('vendor_currency', $currencyModel->currency_symbol);
 
 		if ($layoutName == 'edit') {
+			$coupon = $model->getCoupon();
+			$this->SetViewTitle('', $coupon->coupon_code);
 			if ($coupon->virtuemart_coupon_id < 1) {
 				// Set a default expiration date
 				$_expTime = explode(',', VmConfig::get('coupons_default_expire','14,D'));
@@ -96,8 +97,11 @@ class VirtuemartViewCoupon extends VmViewAdmin {
 			$this->assignRef('coupon',	$coupon);
 
 			$this->addStandardEditViewCommands();
+			if($this->showVendors()){
+				$this->vendorList = Shopfunctions::renderVendorList($coupon->virtuemart_vendor_id);
+			}
         } else {
-
+			//$this->SetViewTitle('', $coupon->coupon_code);
 			$this->addStandardDefaultViewCommands();
 			$this->addStandardDefaultViewLists($model);
 
@@ -105,7 +109,9 @@ class VirtuemartViewCoupon extends VmViewAdmin {
 			$this->coupons = $model->getCoupons($filter_coupon);
 
 			$this->pagination = $model->getPagination();
-
+			if($this->showVendors()){
+				$this->vendorlist = Shopfunctions::renderVendorList($model->virtuemart_vendor_id);
+			}
 		}
 
 		parent::display($tpl);

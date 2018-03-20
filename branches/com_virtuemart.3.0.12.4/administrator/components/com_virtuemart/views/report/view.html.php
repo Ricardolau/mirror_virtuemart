@@ -80,7 +80,9 @@ class VirtuemartViewReport extends VmViewAdmin {
 		$this->assignRef('report', $revenueBasic);
 		$this->assignRef('totalReport', $totalReport);
 
-
+		if($this->showVendors()){
+			$this->lists['vendors'] = Shopfunctions::renderVendorList($model->virtuemart_vendor_id);
+		}
 		$orderstatusM =VmModel::getModel('orderstatus');
 		$this->lists['select_date'] = $model->renderDateSelectList();
 		$orderstates = vRequest::getVar ('order_status_code', array('C','S'));

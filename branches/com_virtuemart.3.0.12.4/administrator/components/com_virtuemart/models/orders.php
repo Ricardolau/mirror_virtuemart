@@ -1354,18 +1354,16 @@ vmdebug('my prices',$data);
 	function reUsePendingOrder($_cart,$customer_number = false){
 		$order = false;
 		$db = JFactory::getDbo();
-		$q = 'SELECT `virtuemart_order_id` FROM `#__virtuemart_orders` ';
-		$orderId = false;
-		
+		$q = 'SELECT * FROM `#__virtuemart_orders` ';
 		if(!empty($_cart->virtuemart_order_id)){
 			$db->setQuery($q . ' WHERE `virtuemart_order_id`= "'.$_cart->virtuemart_order_id.'" AND `order_status` = "P" ');
-			$orderId = $db->loadResult();
-			if(!$orderId){
+			$order = $db->loadAssoc();
+			if(!$order){
 				vmdebug('This should not happen, there is a cart with order_number, but not order stored '.$_cart->virtuemart_order_id);
 			}
 		}
 
-		if($customer_number and !$orderId and VmConfig::get('reuseorders',true) ){
+		if($customer_number and VmConfig::get('reuseorders',true) and !$order){
 			$jnow = JFactory::getDate();
 			$jnow->sub(new DateInterval('PT1H'));
 			$minushour = $jnow->toSQL();
@@ -1373,12 +1371,12 @@ vmdebug('my prices',$data);
 			$q .= '	AND `order_status` = "P"
 				AND `created_on` > "'.$minushour.'" ';
 			$db->setQuery($q);
-			$orderId = $db->loadResult();
+			$order = $db->loadAssoc();
 		}
 
-		if($orderId) {
+		if($order) {
 			//Dirty hack
-			$this->removeOrderItems( $orderId, false );
+			$this->removeOrderItems( $order['virtuemart_order_id'], false );
 
 			$psTypes = array('shipment','payment');
 			foreach($psTypes as $_psType){
@@ -1390,13 +1388,13 @@ vmdebug('my prices',$data);
 					if(empty($plg_name)) continue;
 					$_tablename = '#__virtuemart_' . $_psType . '_plg_' . $plg_name;
 
-					$q = 'DELETE FROM '.$_tablename.' WHERE virtuemart_order_id="'.$orderId.'"';
+					$q = 'DELETE FROM '.$_tablename.' WHERE virtuemart_order_id="'.$order['virtuemart_order_id'].'"';
 					$db->setQuery($q);
 					$db->execute();
 				}
 			}
 
-			return $orderId;
+			return $order['virtuemart_order_id'];
 		} else {
 			return false;
 		}

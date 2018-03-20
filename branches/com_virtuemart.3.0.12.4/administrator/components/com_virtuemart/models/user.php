@@ -1197,7 +1197,8 @@ class VirtueMartModelUser extends VmModel {
 		}
 		return false;
 	}
-	
+
+	var $searchTable = 'juser';
 	/**
 	 * Retrieve a list of users from the database.
 	 *
@@ -1209,7 +1210,9 @@ class VirtueMartModelUser extends VmModel {
 		//$select = ' * ';
 		//$joinedTables = ' FROM #__users AS ju LEFT JOIN #__virtuemart_vmusers AS vmu ON ju.id = vmu.virtuemart_user_id';
 		$search = vRequest::getString('search', false);
-		$tableToUse = vRequest::getString('searchTable','juser');
+		$app = JFactory::getApplication ();
+		$this->searchTable = $app->getUserStateFromRequest ('com_virtuemart.user.searchTable', 'searchTable', 'juser', 'string');
+		//$tableToUse = vRequest::getString('searchTable','juser');
 
 		$where = array();
 		if ($search) {
@@ -1217,7 +1220,7 @@ class VirtueMartModelUser extends VmModel {
 			$db = JFactory::getDbo();
 			$searchArray = array('ju.name','ju.username','ju.email','shopper_group_name');	// removed ,'usertype' should be handled by extra dropdown
 			$userFieldsValid = array();
-			if($tableToUse!='juser'){
+			if($this->searchTable!='juser'){
 
 				if(!class_exists('TableUserinfos'))require(VMPATH_ADMIN.DS.'tables'.DS.'userinfos.php');
 
@@ -1250,7 +1253,7 @@ class VirtueMartModelUser extends VmModel {
 			, IFNULL(sg.shopper_group_name, "") AS shopper_group_name ';
 
 		if ($search) {
-			if($tableToUse!='juser'){
+			if($this->searchTable!='juser'){
 				$select .= ' , ui.name as uiname ';
 			}
 
@@ -1263,7 +1266,7 @@ class VirtueMartModelUser extends VmModel {
 			LEFT JOIN #__virtuemart_vmusers AS vmu ON ju.id = vmu.virtuemart_user_id
 			LEFT JOIN #__virtuemart_vmuser_shoppergroups AS vx ON ju.id = vx.virtuemart_user_id
 			LEFT JOIN #__virtuemart_shoppergroups AS sg ON vx.virtuemart_shoppergroup_id = sg.virtuemart_shoppergroup_id ';
-		if ($search and $tableToUse!='juser') {
+		if ($search and $this->searchTable!='juser') {
 			$joinedTables .= ' LEFT JOIN #__virtuemart_userinfos AS ui ON ui.virtuemart_user_id = vmu.virtuemart_user_id';
 		}
 

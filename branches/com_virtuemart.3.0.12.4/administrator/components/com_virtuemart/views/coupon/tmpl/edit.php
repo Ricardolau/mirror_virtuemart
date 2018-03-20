@@ -45,7 +45,7 @@ AdminUIHelper::imitateTabs('start', 'COM_VIRTUEMART_COUPON_DETAILS');
 			<?php echo VmHTML::row('raw','COM_VIRTUEMART_COUPON_START',  vmJsApi::jDate($this->coupon->coupon_start_date , 'coupon_start_date') ); ?>
 			<?php echo VmHTML::row('raw','COM_VIRTUEMART_COUPON_EXPIRY', vmJsApi::jDate($this->coupon->coupon_expiry_date,'coupon_expiry_date') ); ?>
 			<?php if($this->showVendors()){
-				echo VmHTML::row('raw','COM_VIRTUEMART_VENDOR', Shopfunctions::renderVendorList(vmAccess::getVendorId()) );
+				echo VmHTML::row('raw','COM_VIRTUEMART_VENDOR', $this->vendorList );
 			}
 			?>
 	    </table>

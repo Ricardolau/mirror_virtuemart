@@ -71,13 +71,11 @@ class VirtuemartViewProduct extends VmViewAdmin {
 					vmInfo('COM_VM_LOADED_WITH_LANGFALLBACK',$product->_loadedWithLangFallback);
 				}
 				$this->setOrigLang($product);
-				//$user = JFactory::getUser();
-				//$superVendor =  vmAccess::isSuperVendor();
-				//vmdebug('$superVendor by vmAccess::isSuperVendor',$superVendor);
-				$superVendor = vmAccess::getVendorId();
-				vmdebug('$superVendor by vmAccess::getVendorId',$superVendor);
-				if(!empty($product->virtuemart_vendor_id) and $superVendor !=1 and $superVendor!=$product->virtuemart_vendor_id){
-					vmdebug('Product view.html.php '.$superVendor,$product->virtuemart_vendor_id);
+
+				$superVendor =  vmAccess::isSuperVendor();
+				$vendorId = vmAccess::getVendorId();
+
+				if(!empty($product->virtuemart_vendor_id) and $superVendor !=1 and $vendorId!=$product->virtuemart_vendor_id){
 					$app->redirect( 'index.php?option=com_virtuemart&view=virtuemart', vmText::_('COM_VIRTUEMART_ALERTNOTAUTHOR'), 'error');
 				}
 				if(!empty($product->product_parent_id)){
@@ -404,7 +402,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 
 			$this->lists['vendors'] = '';
 			if($this->showVendors()){
-				$this->lists['vendors'] = Shopfunctions::renderVendorList();
+				$this->lists['vendors'] = Shopfunctions::renderVendorList($model->virtuemart_vendor_id);
 			}
 
 

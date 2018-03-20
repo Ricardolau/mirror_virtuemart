@@ -204,6 +204,7 @@ class VirtueMartModelProduct extends VmModel {
 
 			vRequest::setVar('keyword',urlencode($this->keyword));
 			$this->search_type = vRequest::getVar ('search_type', '');
+			$this->virtuemart_vendor_id = vmAccess::getVendorId();
 		}
 		else {
 			$task = vRequest::getCmd('task','');
@@ -241,6 +242,9 @@ class VirtueMartModelProduct extends VmModel {
 			$this->keyword = $this->filter_product;
 
 			$this->search_type = $app->getUserStateFromRequest ($option . '.'. $view . $task.'.search_type', 'search_type', '', 'word');
+			if(!vmAccess::manager('managevendors')){
+				$this->virtuemart_vendor_id = vmAccess::getVendorId();
+			}
 		}
 		$filter_order_Dir = $this->checkFilterDir ($filter_order_Dir, $task);
 
@@ -255,7 +259,7 @@ class VirtueMartModelProduct extends VmModel {
 		$this->searchplugin = vRequest::getInt ('custom_parent_id', 0);
 
 		//$this->virtuemart_vendor_id = vmAccess::isSuperVendor();
-		$this->virtuemart_vendor_id = vmAccess::getVendorId();
+		//$this->virtuemart_vendor_id = vmAccess::getVendorId();
 
 		$this->__state_set = true;
 	}
@@ -706,11 +710,11 @@ class VirtueMartModelProduct extends VmModel {
 		}
 
 		if ($joinCategory == TRUE or $joinCatLang) {
-			if($app->isSite() and !empty($this->keyword)){
+			/*if($app->isSite() and !empty($this->keyword)){ 	//We need an extra boolean to handel this correctly
 				$joink = 'INNER';
-			} else {
+			} else {*/
 				$joink = 'LEFT';
-			}
+			//}
 			$joinedTables[] = ' '.$joink.' JOIN `#__virtuemart_product_categories` as pc ON p.`virtuemart_product_id` = `pc`.`virtuemart_product_id` ';
 			if ($isSite and !VmConfig::get('show_unpub_cat_products',TRUE)) {
 				$joinedTables[] = ' LEFT JOIN `#__virtuemart_categories` as c ON c.`virtuemart_category_id` = `pc`.`virtuemart_category_id` ';

@@ -21,7 +21,7 @@
 defined ('_JEXEC') or die('Restricted access');
 
 vmJsApi::vmValidator();
-
+//vmdebug('my cart',$this->cart);
 ?>
 
 <div class="vm-cart-header-container">

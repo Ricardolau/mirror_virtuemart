@@ -706,8 +706,8 @@ class VirtueMartModelCategory extends VmModel {
 
 		$langFields = array('virtuemart_category_id','category_name');
 
-		$select = 'SELECT '.implode(', ',self::joinLangSelectFields($langFields));
-		$joins = implode(' ',self::joinLangTables('#__virtuemart_categories','c','virtuemart_category_id','FROM'));
+		$select = 'SELECT '.implode(', ',self::joinLangSelectFields($langFields)).', published';
+		$joins = 'FROM `#__virtuemart_categories` as c '.implode(' ',self::joinLangTables('#__virtuemart_categories','c','virtuemart_category_id'));
 
 		$where = 'WHERE '.implode(', ',self::joinLangSelectFields(array('virtuemart_category_id'),false)).' = ';
 		$q = $select.' '.$joins.' '.$where;

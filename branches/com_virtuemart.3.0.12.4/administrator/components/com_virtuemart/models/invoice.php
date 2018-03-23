@@ -118,8 +118,8 @@ class VirtueMartModelInvoice extends VmModel {
 			}
 		}
 
-		vmdebug( 'createReferencedInvoiceNumber', $orderId, $invNu );
-		if(!VmConfig::get( 'ChangedInvCreateNewInvNumber', false ) and $invNu) {
+		//vmdebug( 'createReferencedInvoiceNumber', $orderId, $invNu );
+		if(!VmConfig::get( 'ChangedInvCreateNewInvNumber', true ) and $invNu) {
 			$invT = $this->getTable( 'invoices' );
 			$invT->bind( $invNu );
 			$invT->virtuemart_invoice_id = 0;

@@ -2243,7 +2243,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 
 		if ($this->_translatable) {
 
-			$langs = VmConfig::get('active_languages', array(VmConfig::$jDefLang));
+			$langs = VmConfig::get('active_languages', array(VmConfig::$jDefLangTag));
 			if (!$langs) $langs[] = VmConfig::$vmlang;
 			if (!class_exists('VmTableData')) require(VMPATH_ADMIN .'/helpers/vmtabledata.php');
 			foreach ($langs as $lang) {

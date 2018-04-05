@@ -6,7 +6,7 @@
     <property name="vm.version.main" value="3.2.0"/>
     <property name="vm.version" value="3.2.14"/>
     <property name="joomla.version" value="3.8.6"/>
-    <property name="PHING.VM.REVISION" value="9805"/>
+    <property name="PHING.VM.REVISION" value="9807"/>
     <property name="PHING.VM.CODENAME" value="Blue Corvus"/>
     <property name="PHING.VM.UPDATEFOLDER" value="vm3"/>
     <property file="build.properties"/>
@@ -601,6 +601,7 @@
                 <include name="${package.folder}/${component.name}.${vm.version}.zip"/>
                 <include name="${package.folder}/${component.name}.${vm.version}_ext_aio.zip"/>
                 <exclude name=".DS_Store"/>
+                <exclude name="**/vm_update/**"/>
             </fileset>
         </zip>
         <echo msg="EXTRACT FIRST compressed in directory OK!"/>

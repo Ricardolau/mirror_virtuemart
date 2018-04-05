@@ -460,29 +460,6 @@ class VirtueMartModelConfig extends VmModel {
 				vmError('Do not use as safepath your virtuemart root folder');
 			}
 			$config->set('forSale_path',$safePath);
-		} else {
-			//VmWarn('COM_VIRTUEMART_WARN_SAFE_PATH_NO_INVOICE',vmText::_('COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH'));
-		/*	$safePath = VMPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'vmfiles';
-
-			$exists = JFolder::exists($safePath);
-			if(!$exists){
-				$created = JFolder::create($safePath);
-				$safePath = $safePath.DS;
-				if($created){
-					vmInfo('COM_VIRTUEMART_SAFE_PATH_DEFAULT_CREATED',$safePath);
-					// create htaccess file
-					$fileData = "order deny, allow\ndeny from all\nallow from none";
-					JLoader::import('joomla.filesystem.file');
-					$fileName = $safePath.DS.'.htaccess';
-					$result = JFile::write($fileName, $fileData);
-					if (!$result) {
-						VmWarn('COM_VIRTUEMART_HTACCESS_DEFAULT_NOT_CREATED',$safePath,$fileData);
-					}
-					$config->set('forSale_path',$safePath);
-				} else {
-					VmWarn('COM_VIRTUEMART_WARN_SAFE_PATH_NO_INVOICE',vmText::_('COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH'));
-				}
-			}*/
 		}
 
 		if(!class_exists('shopfunctions')) require(VMPATH_ADMIN.DS.'helpers'.DS.'shopfunctions.php');
@@ -507,8 +484,11 @@ class VirtueMartModelConfig extends VmModel {
 			$defl = $data['vmDefLang'];
 		}
 
-		$active_langs = self::getActiveVmLanguages();
-
+		$active_langs = $data['active_languages'];
+		if(empty($active_langs)){
+			$active_langs = vmLanguage::getShopDefaultSiteLangTagByJoomla();
+			$active_langs = (array)strtolower(strtr($active_langs,'-','_'));
+		}
 		$active_langs[] = $defl;
 		$active_langs = array_unique($active_langs);
 		$config->set('active_languages',$active_langs);
@@ -566,6 +546,26 @@ class VirtueMartModelConfig extends VmModel {
 		$langs = self::getActiveVmLanguages();
 
 		$updater->createLanguageTables($langs);
+	}
+
+	public function setVmLanguages() {
+		$db = JFactory::getDbo();
+		$db->setQuery('SELECT lang_code FROM #__languages');
+		$options = $db->loadColumn();
+
+		$config = VmConfig::loadConfig();
+		$config->set('active_languages',$options);
+
+		$lang = vmLanguage::getShopDefaultSiteLangTagByJoomla();
+		$config->set('vmDefLang',$lang);
+
+		$data['virtuemart_config_id'] = 1;
+		$data['config'] = $config->toString();
+
+		$confTable = $this->getTable('configs');
+		$confTable->bindChecknStore($data);
+
+		VmConfig::loadConfig(true);
 	}
 
 	static public function checkConfigTableExists(){

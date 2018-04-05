@@ -2409,7 +2409,7 @@ vmdebug('$limitStart',$limitStart);
 		$dispatcher = JDispatcher::getInstance ();
 		$result=$dispatcher->trigger ('plgVmCloneProduct', array($product));
 
-		$langs = VmConfig::get('active_languages', array(VmConfig::$jDefLang));
+		$langs = VmConfig::get('active_languages', array(VmConfig::$jDefLangTag));
 		if ($langs and count($langs)>1){
 			$langTable = $this->getTable('products');
 			foreach($langs as $lang){

@@ -149,8 +149,6 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 
 			$model->setStoreOwner();
 
-
-
 			$this->createIndexFolder(VMPATH_ROOT .DS. 'images');
 			$this->createIndexFolder(VMPATH_ROOT .DS. 'images'.DS.'virtuemart');
 			$this->createIndexFolder(VMPATH_ROOT .DS. 'images'.DS.'virtuemart'.DS.'shipment');
@@ -166,8 +164,8 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 			$this->createIndexFolder(VMPATH_ROOT .DS. 'images'.DS.'virtuemart'.DS.'forSale'.DS.'resized');
 			$this->createIndexFolder(VMPATH_ROOT .DS. 'images'.DS.'virtuemart'.DS.'typeless');
 
+			$this->setVmLanguages();
 			$this->installLanguageTables();
-
 
 
 			$this->checkAddDefaultShoppergroups();
@@ -328,6 +326,11 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 		private function installLanguageTables(){
 			VmModel::getModel('config');
 			VirtueMartModelConfig::installLanguageTables();
+		}
+
+		private function setVmLanguages(){
+			$m = VmModel::getModel('config');
+			$m->setVmLanguages();
 		}
 
 		private function updateOldConfigEntries(){

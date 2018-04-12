@@ -508,6 +508,12 @@ class VirtueMartCart {
 		$this->_productAdded = true;
 		$productModel = VmModel::getModel('product');
 		$customFieldsModel = VmModel::getModel('customfields');
+
+		if(!class_exists('vmCustomPlugin')) require(VMPATH_PLUGINLIBS.DS.'vmcustomplugin.php');
+		JPluginHelper::importPlugin('vmcustom');
+		JPluginHelper::importPlugin('vmextended');
+		$dispatcher = JDispatcher::getInstance();
+
 		//Iterate through the prod_id's and perform an add to cart for each one
 		foreach ($virtuemart_product_ids as $p_key => $virtuemart_product_id) {
 
@@ -557,9 +563,7 @@ class VirtueMartCart {
 
 			foreach($product->customfields as $customfield){
 
-				if(!class_exists('vmCustomPlugin')) require(VMPATH_PLUGINLIBS.DS.'vmcustomplugin.php');
-				JPluginHelper::importPlugin('vmcustom');
-				$dispatcher = JDispatcher::getInstance();
+
 				$addToCartReturnValues = $dispatcher->trigger('plgVmOnAddToCartFilter',array(&$product, &$customfield, &$customProductData, &$customFiltered));
 
 				if(!$customFiltered && $customfield->is_input==1){

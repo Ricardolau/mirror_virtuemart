@@ -253,13 +253,12 @@ class VirtueMartModelProduct extends VmModel {
 		$this->valid_search_fields = $valid_search_fields;
 
 
-
-		$this->searchcustoms = vRequest::getVar ('customfields', false, true);
+		$this->searchcustoms = $app->getUserStateFromRequest ($option . '.customfields', 'customfields', '', 'array');
+		if(!empty($this->searchcustoms)){
+			$this->searchcustoms = vRequest::filter($this->searchcustoms,FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
+		}
 
 		$this->searchplugin = vRequest::getInt ('custom_parent_id', 0);
-
-		//$this->virtuemart_vendor_id = vmAccess::isSuperVendor();
-		//$this->virtuemart_vendor_id = vmAccess::getVendorId();
 
 		$this->__state_set = true;
 	}

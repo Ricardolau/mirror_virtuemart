@@ -140,8 +140,8 @@ class VirtuemartViewCategory extends VmView {
 
 		$prefix = '';
 
-		$productModel = VmModel::getModel('product');
-		$this->keyword = $productModel->keyword;
+		$this->productModel = VmModel::getModel('product');
+		$this->keyword = $this->productModel->keyword;
 
 		if(empty($this->keyword)) $this->keyword = false;
 
@@ -181,7 +181,7 @@ class VirtuemartViewCategory extends VmView {
 
 
 		// set search and keyword
-		if ($productModel->keyword){
+		if ($this->productModel->keyword){
 			$pathway->addItem(strip_tags(htmlspecialchars_decode($this->keyword)));
 		}
 
@@ -203,7 +203,7 @@ class VirtuemartViewCategory extends VmView {
 		$vendorId = $category->virtuemart_vendor_id;
 
 		$ratingModel = VmModel::getModel('ratings');
-		$productModel->withRating = $this->showRating = $ratingModel->showRating();
+		$this->productModel->withRating = $this->showRating = $ratingModel->showRating();
 
 		//Would be nice to have the ordering configurable.
 		$this->products = array();
@@ -252,12 +252,12 @@ class VirtuemartViewCategory extends VmView {
 		$id = vRequest::getInt('virtuemart_product_id',false);
 		$legacy = VmConfig::get('legacylayouts',1);
 		if ($dynamic and $id) {
-			$p = $productModel->getProduct ($id);
+			$p = $this->productModel->getProduct ($id);
 			$this->products['products'][] = $p;
-			$productModel->addImages($this->products['products'], $imgAmount );
+			$this->productModel->addImages($this->products['products'], $imgAmount );
 			$this->orderByList = array('orderby' => '', 'manufacturer' => '');
 			if($legacy) {
-				$this->vmPagination = $productModel->getPagination($this->perRow);
+				$this->vmPagination = $this->productModel->getPagination($this->perRow);
 			}
 		} else {
 
@@ -266,12 +266,12 @@ class VirtuemartViewCategory extends VmView {
 
 				if(!$this->keyword) VirtueMartModelProduct::$omitLoaded = VmConfig::get('omitLoaded');
 				// Load the products in the given category
-				$ids = $productModel->sortSearchListQuery (TRUE, $this->categoryId);
+				$ids = $this->productModel->sortSearchListQuery (TRUE, $this->categoryId);
 				VirtueMartModelProduct::$_alreadyLoadedIds = array_merge(VirtueMartModelProduct::$_alreadyLoadedIds,$ids);
-				$this->vmPagination = $productModel->getPagination($this->perRow);
-				$this->orderByList = $productModel->getOrderByList($this->categoryId);
-				$this->products['products'] = $productModel->getProducts ($ids);
-				$productModel->addImages($this->products['products'], $imgAmount );
+				$this->vmPagination = $this->productModel->getPagination($this->perRow);
+				$this->orderByList = $this->productModel->getOrderByList($this->categoryId);
+				$this->products['products'] = $this->productModel->getProducts ($ids);
+				$this->productModel->addImages($this->products['products'], $imgAmount );
 			}
 
 			if(!$legacy) {
@@ -281,8 +281,8 @@ class VirtuemartViewCategory extends VmView {
 					VirtueMartModelProduct::$omitLoaded = VmConfig::get('omitLoaded_'.$o);
 					//Lets check, if we use the new Frontpages settings
 					if(!empty($this->$o) and !empty($this->{$o.'_rows'})) {
-						$this->products[$o] = $productModel->getProductListing( $o, $this->perRow*$this->{$o.'_rows'} );
-						$productModel->addImages( $this->products[$o], $imgAmount );
+						$this->products[$o] = $this->productModel->getProductListing( $o, $this->perRow*$this->{$o.'_rows'} );
+						$this->productModel->addImages( $this->products[$o], $imgAmount );
 					}
 				}
 			}
@@ -304,7 +304,7 @@ class VirtuemartViewCategory extends VmView {
 				if(!$showCustoms){
 					foreach($this->products as $pType => $productSeries){
 						foreach($productSeries as $i => $productItem){
-							$this->products[$pType][$i]->stock = $productModel->getStockIndicator($productItem);
+							$this->products[$pType][$i]->stock = $this->productModel->getStockIndicator($productItem);
 						}
 					}
 				} else {
@@ -313,7 +313,7 @@ class VirtuemartViewCategory extends VmView {
 					}
 
 					foreach($this->products as $pType => $productSeries) {
-						shopFunctionsF::sortLoadProductCustomsStockInd($this->products[$pType],$productModel);
+						shopFunctionsF::sortLoadProductCustomsStockInd($this->products[$pType],$this->productModel);
 					}
 				}
 			}
@@ -618,7 +618,12 @@ INNER JOIN #__virtuemart_product_categories as cat ON (pc.virtuemart_product_id=
 								}
 							}
 							$valueOptions = array_merge(array($emptyOption), $valueOptions);
-							$v = $app->getUserStateFromRequest ('com_virtuemart.customfields.'.$selected->virtuemart_custom_id, 'customfields['.$selected->virtuemart_custom_id.']', '', 'string');
+
+							$v = '';
+							if(!empty($this->productModel->searchcustoms) and !empty($this->productModel->searchcustoms[$selected->virtuemart_custom_id])){
+								$v = $this->productModel->searchcustoms[$selected->virtuemart_custom_id];
+							}
+							//$v = $app->getUserStateFromRequest ('com_virtuemart.customfields.'.$selected->virtuemart_custom_id, 'customfields['.$selected->virtuemart_custom_id.']', '', 'string');
 							$this->searchCustomValues .= '<div class="vm-search-custom-values-group"><div class="vm-custom-title-select">' .  vmText::_( $selected->custom_title ).'</div>'.JHtml::_( 'select.genericlist', $valueOptions, 'customfields['.$selected->virtuemart_custom_id.']', 'class="inputbox vm-chzn-select changeSendForm"', 'virtuemart_custom_id', 'custom_title', $v ) . '</div>';
 						}
 

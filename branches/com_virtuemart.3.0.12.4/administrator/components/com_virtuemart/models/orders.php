@@ -1832,34 +1832,30 @@ vmdebug('my prices',$data);
 	/**
 	 * Update the order history
 	 *
-	 * @author Oscar van Eijk
-	 * @param $_id Order ID
-	 * @param $_status New order status (default: P)
-	 * @param $_notified 1 (default) if the customer was notified, 0 otherwise
-	 * @param $_comment (Customer) comment, default empty
+	 * @param $id Order ID
+	 * @param $status New order status (default: P)
+	 * @param $_otified 1 (default) if the customer was notified, 0 otherwise
+	 * @param $comment (Customer) comment, default empty
 	 */
-	public function _updateOrderHist($_id, $_status = 'P', $_notified = 0, $_comment = '')
+	public function _updateOrderHist($id, $status = 'P', $notified = 0, $comment = '')
 	{
+		$inputOrder = array('virtuemart_order_id'=>$id, 'order_status'=>$status, 'customer_notified'=>$notified, 'comments'=>$comment);
+		return $this->updateOrderHistory($inputOrder);
+	}
+
+	public function updateOrderHistory($inputOrder){
+
 		$_orderHist = $this->getTable('order_histories');
-		$oldOrderStatus = false;
-		if(!empty($_id)){
+		if(!empty($inputOrder->virtuemart_order_id)){
 			$db = JFactory::getDbo();
-			$q = 'SELECT `order_status_code` FROM #__virtuemart_order_histories WHERE virtuemart_order_id="'.$_id.'" ORDER BY `created_on` DESC LIMIT 1';
+			$q = 'SELECT * FROM #__virtuemart_order_histories WHERE virtuemart_order_id="'.$inputOrder->virtuemart_order_id.'" ORDER BY `created_on` DESC LIMIT 1';
 			$db->setQuery($q);
-			$oldOrderStatus = $db->loadResult();
+			$oldHistoryRow = $db->loadRow();
+			if(!$oldHistoryRow or $oldHistoryRow->order_status!=$inputOrder['order_status']){
+				$inputOrder['comments'] = nl2br($inputOrder['comments']);	//would be cooler in the table check function
+				$_orderHist->bindChecknStore($inputOrder);
+			}
 		}
-
-		if($oldOrderStatus==$_status) {
-			$_orderHist->load($_id,'virtuemart_order_id');
-		} else {
-			$_orderHist->virtuemart_order_id = $_id;
-			$_orderHist->order_status_code = $_status;
-			//$_orderHist->date_added = date('Y-m-d G:i:s', time());
-			$_orderHist->customer_notified = $_notified;
-		}
-		$_orderHist->comments = nl2br($_comment);
-		$_orderHist->store();
-
 	}
 
 	/**

@@ -1137,7 +1137,7 @@ class VirtueMartModelUser extends VmModel {
 	 */
 	function remove($userIds) {
 
-		if(vmAccess::manager('user')){
+		if(vmAccess::manager('user.delete')){
 
 			$userInfo = $this->getTable('userinfos');
 			$vm_shoppergroup_xref = $this->getTable('vmuser_shoppergroups');
@@ -1323,6 +1323,7 @@ class VirtueMartModelUser extends VmModel {
 				$q .= ' WHERE ju.id!= "'.$hiddenUserID.'" ';
 			}
 
+			$q .= ' AND ju.`block` = 0';
 
 			$q .= $search.' ORDER BY `name` LIMIT 0,10000';
 			$db->setQuery($q);

@@ -552,6 +552,7 @@ class calculationHelper {
 		if (empty($this->productVendorId)) {
 			$this->productVendorId = 1;
 		}
+		$this->setVendorId($this->productVendorId);
 
 		$this->_db->setQuery('SELECT `virtuemart_category_id` FROM #__virtuemart_product_categories  WHERE `virtuemart_product_id`="' . $productId . '" ');
 		$this->_cats = $this->_db->loadColumn();
@@ -569,7 +570,7 @@ class calculationHelper {
 		$this->rules['VatTax'] = $this->gatherEffectingRulesForProductPrice('VatTax', $this->product_tax_id);
 		$this->rules['DBTax'] = $this->gatherEffectingRulesForProductPrice('DBTax', $this->product_discount_id);
 		$this->rules['DATax'] = $this->gatherEffectingRulesForProductPrice('DATax', $this->product_discount_id);
-
+		vmdebug('calculateCostprice $this->rules',$this->rules);
 		$salesPrice = $data['salesPrice'];
 
 		$withoutVatTax = $this->roundInternal($this->executeCalculation($this->rules['VatTax'], $salesPrice));

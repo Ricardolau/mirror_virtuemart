@@ -104,7 +104,7 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 
 			$config = JFactory::getConfig();
 			$type = $config->get( 'dbtype' );
-			if ($type != 'mysqli') {
+			if ($type != 'mysqli' and $type!= 'Jdiction_mysqli') {
 				JFactory::getApplication()->enqueueMessage('To ensure seemless working with Virtuemart please use MySQLi as database type in Joomla configuration', 'warning');
 				return false;
 			}

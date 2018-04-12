@@ -1846,9 +1846,9 @@ vmdebug('my prices',$data);
 	public function updateOrderHistory($inputOrder){
 
 		$_orderHist = $this->getTable('order_histories');
-		if(!empty($inputOrder->virtuemart_order_id)){
+		if(!empty($inputOrder['virtuemart_order_id'])){
 			$db = JFactory::getDbo();
-			$q = 'SELECT * FROM #__virtuemart_order_histories WHERE virtuemart_order_id="'.$inputOrder->virtuemart_order_id.'" ORDER BY `created_on` DESC LIMIT 1';
+			$q = 'SELECT * FROM `#__virtuemart_order_histories` WHERE `virtuemart_order_id`="'.$inputOrder['virtuemart_order_id'].'" ORDER BY `created_on` DESC LIMIT 1';
 			$db->setQuery($q);
 			$oldHistoryRow = $db->loadRow();
 			if(!$oldHistoryRow or $oldHistoryRow->order_status!=$inputOrder['order_status']){

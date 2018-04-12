@@ -128,7 +128,7 @@ class TableOrder_histories extends VmTable {
 		if(empty($this->order_status) and !empty($this->order_status_code)){
 			$this->order_status = $this->order_status_code;
 		}
-		parent::check();
+		return parent::check();
 	}
 }
 // pure php no closing tag

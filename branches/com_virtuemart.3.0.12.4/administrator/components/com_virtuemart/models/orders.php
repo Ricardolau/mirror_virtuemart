@@ -1115,8 +1115,7 @@ vmdebug('my prices',$data);
 			}*/
 
 			/* Update the order history */
-			//$this->_updateOrderHist($virtuemart_order_id, $data->order_status, $inputOrder['customer_notified'], $inputOrder['comments']);
-			$this->updateOrderHistory($inputOrder);
+			$this->_updateOrderHist($virtuemart_order_id, $data->order_status, $inputOrder['customer_notified'], $inputOrder['comments']);
 
 			// When the plugins did not already notified the user, do it here (the normal way)
 			//Attention the ! prevents at the moment that an email is sent. But it should used that way.
@@ -1834,18 +1833,18 @@ vmdebug('my prices',$data);
 	 *
 	 * @param $id Order ID
 	 * @param $status New order status (default: P)
-	 * @param $_otified 1 (default) if the customer was notified, 0 otherwise
+	 * @param $notified 1 (default) if the customer was notified, 0 otherwise
 	 * @param $comment (Customer) comment, default empty
 	 */
-	public function _updateOrderHist($id, $status = 'P', $notified = 0, $comment = '')
-	{
+	public function _updateOrderHist($id, $status = 'P', $notified = 0, $comment = '') {
 		//$inputOrder = array('virtuemart_order_id'=>$id, 'order_status'=>$status, 'customer_notified'=>$notified, 'comments'=>$comment);
-		$order = $this->getTable('order_histories');
+		$order = $this->getTable('orders');
 		$order->load($id);
-		$order->order_status = $status;
-		$order->customer_notified = $notified;
-		$order->comments = $comment;
-		return $this->updateOrderHistory($order);
+		$values = $order->getProperties();
+		$values['order_status'] = $status;
+		$values['customer_notified'] = $notified;
+		$values['comments'] = $comment;
+		return $this->updateOrderHistory($values);
 	}
 
 	public function updateOrderHistory($inputOrder){

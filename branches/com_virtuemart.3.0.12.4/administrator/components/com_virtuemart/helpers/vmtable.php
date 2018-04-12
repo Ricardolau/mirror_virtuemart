@@ -1014,7 +1014,8 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		if (!empty($this->_varsToPushParam)) {
 			$hashVarsToPush = vmJsApi::safe_json_encode($this->_varsToPushParam);
 		}
-		$this->_lhash = md5($oid. $select . $k . $mainTable . $andWhere . $hashVarsToPush);
+
+		$this->_lhash = $this->getHash($oid. $select . $k . $mainTable . $andWhere . $hashVarsToPush);
 		//$this->showFullColumns();
 		if (isset (self::$_cache['l'][$this->_lhash])) {
 			$this->bind(self::$_cache['l'][$this->_lhash]);
@@ -1112,6 +1113,13 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		$this->_ltmp = false;
 		return $this;
 	}
+
+
+	function getHash($value) {
+		$hashFunction = Vmconfig::get('hashFunction', 'md5');
+		return call_user_func_array($hashFunction, array(&$value));
+	}
+
 
 	function getLoaded (){
 		return $this->_loaded;

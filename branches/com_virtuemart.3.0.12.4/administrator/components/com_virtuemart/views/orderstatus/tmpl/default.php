@@ -20,7 +20,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 AdminUIHelper::startAdminArea($this);
-
+vmLanguage::loadJLang('com_virtuemart_config');
 ?>
 <form action="index.php" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
@@ -30,7 +30,6 @@ AdminUIHelper::startAdminArea($this);
 			<th class="admin-checkbox">
 				<input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)" />
 			</th>
-
 			<th>
 			<?php echo $this->sort('order_status_name') ?>
 			</th>
@@ -41,10 +40,26 @@ AdminUIHelper::startAdminArea($this);
 				<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_STOCK_HANDLE'); ?>
 			</th>
 			<th>
-				<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_COLOR'); ?>
+				<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_EMAIL_SHOPPER'); ?>
 			</th>
 			<th>
-				<?php echo vmText::_('COM_VIRTUEMART_DESCRIPTION'); ?>
+				<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_EMAIL_VENDOR'); ?>
+			</th>
+			<th>
+				<?php //echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_STATUS_PDF_INVOICES'); ?>
+				<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_ALLOW_EDIT'); ?>
+			</th>
+			<th>
+				<?php //echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_STATUS_PDF_INVOICES'); ?>
+				<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_CREATE_INVOICE'); ?>
+			</th>
+			<th>
+				<?php //echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_STATUS_PDF_INVOICES'); ?>
+				<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_DO_REFUND'); ?>
+			</th>
+			<th>
+				<?php //echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_STATUS_PDF_INVOICES'); ?>
+				<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_DELIVERY_DATE'); ?>
 			</th>
 			<th>
 			<?php  echo $this->sort('ordering')  ?>
@@ -75,12 +90,16 @@ AdminUIHelper::startAdminArea($this);
 			$editlink = JROUTE::_('index.php?option=com_virtuemart&view=orderstatus&task=edit&cid[]=' . $row->virtuemart_orderstate_id);
 			$deletelink	= JROUTE::_('index.php?option=com_virtuemart&view=orderstatus&task=remove&cid[]=' . $row->virtuemart_orderstate_id);
 			$ordering = $row->ordering ;
+			$colorStyle = '';
+			if ($row->order_status_color) {
+				$colorStyle = 'style="background-color:' . $row->order_status_color.'"';
+			}
 		?>
 			<tr class="row<?php echo $k ; ?>">
-				<td class="admin-checkbox">
+				<td class="admin-checkbox"  <?php echo $colorStyle ?>>
 					<?php echo $checked; ?>
 				</td>
-				<td align="left">
+				<td align="left" >
 					<?php
 					$lang =JFactory::getLanguage();
 					if ($lang->hasKey($row->order_status_name)) {
@@ -96,17 +115,54 @@ AdminUIHelper::startAdminArea($this);
 				<td align="left">
 					<?php echo  vmText::_($this->stockHandelList[$row->order_stock_handle]); ?>
 				</td>
-				<?php
-				$colorStyle = '';
-				if ($row->order_status_color) {
-					$colorStyle = 'style="background-color:' . $row->order_status_color.'"';
-				}
-				?>
-				<td align="left" <?php echo $colorStyle ?>>
-					<?php echo vmText::_($row->order_status_color); ?>
+				<td align="left">
+					<?php
+
+					if (in_array($row->order_status_code,  VmConfig::get('email_os_s',array('U','C','S','R','X'))))
+						echo '<span class="icon-mail-2"><span></span></span>';
+
+					?>
+				</td>	<td align="left">
+					<?php
+
+					if (in_array($row->order_status_code,  VmConfig::get('email_os_v',array('U','C','R','X'))))
+						echo '<span class="icon-mail-2"><span></span></span>';
+
+					?>
 				</td>
 				<td align="left">
-					<?php echo vmText::_($row->order_status_description); ?>
+					<?php
+					if (in_array($row->order_status_code,  VmConfig::get('order_allowedit_os', array('P','U'))))
+						echo '<span class="icon-pencil-2 text-success"><span></span></span>';
+						else echo '<span class="icon-lock"><span></span></span>';
+					?>
+				</td>
+				<td align="left">
+					<?php
+
+					if (in_array($row->order_status_code,  VmConfig::get('inv_os',array('C'))))
+						if (in_array($row->order_status_code,  VmConfig::get('refund_os',array('R'))))
+						echo '<span class="icon-file-2 text-error"><span></span></span>';
+						else echo '<span class="icon-file-2 text-success"><span></span></span>';
+
+					?>
+				</td>
+				<td align="left">
+					<?php
+					if (in_array($row->order_status_code,  VmConfig::get('refund_os',array('R'))))
+						echo '<span class="icon-undo-2 text-error"><span></span></span>';
+					?>
+				</td>
+				<td align="left">
+					<?php
+					$del_date_type= VmConfig::get('del_date_type',array('m'));
+					if ($del_date_type=='m') $del_date_type=VmConfig::get('inv_os',array('C'));
+					if (!is_array($del_date_type)) {
+						$del_date_type = array($del_date_type);
+					}
+					if (in_array($row->order_status_code,  $del_date_type))
+						echo '<span class="icon-box-add text-success"><span></span></span>';
+					?>
 				</td>
 				<td align="center" class="order">
 					<span><?php echo $this->pagination->vmOrderUpIcon($i, $row->ordering, 'orderUp', vmText::_('COM_VIRTUEMART_MOVE_UP')); ?></span>

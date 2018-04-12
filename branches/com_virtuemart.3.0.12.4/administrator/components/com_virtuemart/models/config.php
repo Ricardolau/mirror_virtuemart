@@ -384,7 +384,7 @@ class VirtueMartModelConfig extends VmModel {
 			return false;
 		}
 
-		//$this->setFraudProtection();
+
 
 		//$oldLangs = $config->get('active_languages');
 		$oldLangs = VmConfig::get('active_languages', array());
@@ -493,6 +493,11 @@ class VirtueMartModelConfig extends VmModel {
 		$active_langs = array_unique($active_langs);
 		$config->set('active_languages',$active_langs);
 
+		$orderConstraintIsRequired= $this->vendorRequireOrderConstraint();
+		if ($orderConstraintIsRequired) {
+			$config->set('ordersAddOnly',1);
+			$config->set('ChangedInvCreateNewInvNumber',1);
+		}
 
 
 		//ATM we want to ensure that only one config is used
@@ -777,26 +782,41 @@ class VirtueMartModelConfig extends VmModel {
 
 
 	/**
-	 * FraudProtection to comply to the French financial Law 2018
+	 * orderConstraintAction to comply to the French financial Law 2018
 	 * Those 2 params are required: ordersAddOnly=1, ChangedInvCreateNewInvNumber=1
 	 *
 	 * @author Valérie Isaksen
 	 */
 	//France, Guadeloupe, Martinique, Guyane ,La Réunion, Polynésie française et Nouvelle-Calédonie, Wallis-et-Futuna, Saint-Pierre-et-Miquelon, Saint-Barthélemy, Saint-Martin
-	static $defaultFraudProtectionCountries = array('FRA', 'GLP', 'MTQ', 'GUF', 'REU', 'PYF', 'NCL', 'WLF', 'SPM', 'BLM', 'MAF');
+	static $defaultOrderConstraintCountries = array('FRA', 'GLP', 'MTQ', 'GUF', 'REU', 'PYF', 'NCL', 'WLF', 'SPM', 'BLM', 'MAF');
 	static $vendorCountry = '';
 
-	function setFraudProtection() {
+	function vendorRequireOrderConstraint() {
+		if(!self::checkConfigTableExists()){ return ;}
+		$vendorModel = VmModel::getModel('vendor');
+		$vendorAddress = $vendorModel->getVendorAdressBT(1);
+		self::$vendorCountry = ShopFunctions::getCountryByID($vendorAddress->virtuemart_country_id, 'country_3_code');
+
+		$config = VmConfig::loadConfig();
+
+		$orderConstraintCountries = $config->get('OrderConstraintCountries', array());
+		$orderConstraintCountries = array_merge(self::$defaultOrderConstraintCountries, $orderConstraintCountries);
+
+		if (in_array(self::$vendorCountry, $orderConstraintCountries)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	function setOrderConstraint() {
 		vmLanguage::loadJLang('com_virtuemart_config',false);
 
 		$config = VmConfig::loadConfig();
-		$fraudProtectionIsRequired= $this->vendorRequireFraudProtection();
-		if ($fraudProtectionIsRequired) {
+		$orderConstraintIsRequired= $this->vendorRequireOrderConstraint();
+		if ($orderConstraintIsRequired) {
 			$config->set('ordersAddOnly',1);
 			$config->set('ChangedInvCreateNewInvNumber',1);
-		} else {
-			$config->set('ordersAddOnly',0);
-			$config->set('ChangedInvCreateNewInvNumber',0);
 		}
 
 		$data['virtuemart_config_id'] = 1;
@@ -806,40 +826,8 @@ class VirtueMartModelConfig extends VmModel {
 		$confTable->bindChecknStore($data);
 
 		VmConfig::loadConfig(true);
-		if($fraudProtectionIsRequired ) {
-			if (VmConfig::get('ordersAddOnly',false) and VmConfig::get('ChangedInvCreateNewInvNumber',false)){
-				vmInfo(vmText::_('COM_VIRTUEMART_ADMIN_CFG_FRAUD_PROTECTION_ON'));
-				if (in_array(self::$vendorCountry, self::$defaultFraudProtectionCountries)) {
-					vmInfo(vmText::_('COM_VIRTUEMART_ADMIN_CFG_FRAUD_PROTECTION_ON_FR_WARNING'));
-				}
-			} else {
-				vmError(vmText::_('COM_VIRTUEMART_ADMIN_CFG_FRAUD_PROTECTION_SHOULD_BE_ON'));
-				if (in_array(self::$vendorCountry, self::$defaultFraudProtectionCountries)) {
-					vmError(vmText::_('COM_VIRTUEMART_ADMIN_CFG_FRAUD_PROTECTION_SHOULD_BE_ON_FR_WARNING'));
-				}
-			}
-		}
-
 
 	}
-	function vendorRequireFraudProtection() {
-		if(!self::checkConfigTableExists()){ return ;}
-		$vendorModel = VmModel::getModel('vendor');
-		$vendorAddress = $vendorModel->getVendorAdressBT(1);
-		self::$vendorCountry = ShopFunctions::getCountryByID($vendorAddress->virtuemart_country_id, 'country_3_code');
-
-		$config = VmConfig::loadConfig();
-
-		$FraudProtectionCountries = $config->get('FraudProtectionCountries', array());
-		$FraudProtectionCountries = array_merge(self::$defaultFraudProtectionCountries, $FraudProtectionCountries);
-
-		if (in_array(self::$vendorCountry, $FraudProtectionCountries)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 }
 
 //pure php no closing tag

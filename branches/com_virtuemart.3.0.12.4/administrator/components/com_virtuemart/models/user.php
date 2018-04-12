@@ -631,7 +631,7 @@ class VirtueMartModelUser extends VmModel {
 				vmdebug('Error storing vendor',$vendorModel);
 				return false;
 			}
-			//$this->setFraudProtection();
+			$this->setOrderConstraint();
 
 		}
 
@@ -639,17 +639,18 @@ class VirtueMartModelUser extends VmModel {
 	}
 
 	/**
-	 * FraudProtection to comply to the French financial Law 2018
+	 * setOrderConstraint to comply to the French financial Law 2018
 	 *
 	 * @author Valérie Isaksen
 	 */
-	function setFraudProtection(){
-
-		if(!class_exists('VirtueMartModelConfig')) require(VMPATH_ADMIN .'/models/config.php');
-		$res  = VirtueMartModelConfig::checkConfigTableExists();
-		if(!empty($res)){
-			$model = $this->getModel('config');
-			$model->setFraudProtection();
+	function setOrderConstraint() {
+		if (!class_exists('VirtueMartModelConfig')) {
+			require(VMPATH_ADMIN . '/models/config.php');
+		}
+		$res = VirtueMartModelConfig::checkConfigTableExists();
+		if (!empty($res)) {
+			$configModel = $this->getModel('config');
+			 $configModel->setOrderConstraint();
 		}
 	}
 
@@ -690,7 +691,7 @@ class VirtueMartModelUser extends VmModel {
 				} else {
 					$userId = (int)$data['virtuemart_user_id'];
 				}
-				$q = 'SELECT `virtuemart_userinfo_id` FROM #__virtuemart_userinfos
+				$q = 'SELECT `virtuemart_userinfo_id` FROM `#__virtuemart_userinfos`
 				WHERE `virtuemart_user_id` = '.$userId.'
 				AND `address_type` = "BT"';
 

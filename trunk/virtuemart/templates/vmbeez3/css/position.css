@@ -126,7 +126,6 @@ body {
     display: block !important;
     position: relative;
     padding: 8px 0;
-    overflow: hidden;
 }
 
 #header ul {

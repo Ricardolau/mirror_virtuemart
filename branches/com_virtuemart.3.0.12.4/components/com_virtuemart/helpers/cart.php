@@ -1301,6 +1301,9 @@ class VirtueMartCart {
 			$couponCode = $cart->cartData['couponCode'];
 		}
 		if(!empty($cart->couponCode)){
+			if (!class_exists('CouponHelper')) {
+				require(VMPATH_SITE . DS . 'helpers' . DS . 'coupon.php');
+			}
 			CouponHelper::setInUseCoupon($couponCode, true, 1);
 		}
 

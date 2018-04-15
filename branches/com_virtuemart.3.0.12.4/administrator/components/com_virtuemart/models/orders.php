@@ -1854,8 +1854,8 @@ vmdebug('my prices',$data);
 			$db = JFactory::getDbo();
 			$q = 'SELECT * FROM `#__virtuemart_order_histories` WHERE `virtuemart_order_id`="'.$inputOrder['virtuemart_order_id'].'" ORDER BY `created_on` DESC LIMIT 1';
 			$db->setQuery($q);
-			$oldHistoryRow = $db->loadRow();
-			if(!$oldHistoryRow or $oldHistoryRow->order_status!=$inputOrder['order_status']){
+			$oldHistoryRow = $db->loadObject();
+			if(empty($oldHistoryRow) or $oldHistoryRow->order_status!=$inputOrder['order_status']){
 				$inputOrder['comments'] = nl2br($inputOrder['comments']);	//would be cooler in the table check function
 				$_orderHist->bindChecknStore($inputOrder);
 			}

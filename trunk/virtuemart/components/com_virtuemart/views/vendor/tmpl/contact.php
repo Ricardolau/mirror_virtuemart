@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage vendor
 * @author Kohl Patrick, Eugen Stranz
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -100,7 +100,7 @@ defined('_JEXEC') or die('Restricted access');
 				<input type="hidden" name="virtuemart_vendor_id" value="<?php echo $this->vendor->virtuemart_vendor_id ?>" />
 				<input type="hidden" name="option" value="com_virtuemart" />
 				<input type="hidden" name="task" value="mailAskquestion" />
-				<?php vHtml::token(); ?>
+				<?php echo JHtml::_( 'form.token' ); ?>
 			</form>
 
 		</div>

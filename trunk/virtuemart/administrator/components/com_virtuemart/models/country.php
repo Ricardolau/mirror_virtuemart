@@ -7,7 +7,7 @@
 * @subpackage Country
 * @author Max Milbers
 * @author RickG
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -54,7 +54,7 @@ class VirtueMartModelCountry extends VmModel {
     static function getCountryByCode($code) {
 
 		if(empty($code)) return false;
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$countryCodeLength = strlen($code);
 		switch ($countryCodeLength) {
@@ -99,7 +99,7 @@ class VirtueMartModelCountry extends VmModel {
 		if ($onlyPublished) $where[] = '`published` = 1';
 
 		if($filterCountry){
-			$db = vFactory::getDbo();
+			$db = JFactory::getDBO();
 			$filterCountryS = '"%' . $db->escape( $filterCountry, true ) . '%"' ;
 			$where[] = '`country_name` LIKE '.$filterCountryS.' OR `country_2_code` LIKE '.$filterCountryS.' OR `country_3_code` LIKE '.$filterCountryS;
 		}
@@ -108,7 +108,7 @@ class VirtueMartModelCountry extends VmModel {
 		if (count($where) > 0) $whereString = ' WHERE '.implode(' AND ', $where) ;
 
 		$ordering = $this->_getOrdering();
-		$hash = $filterCountry.$this->_selectedOrderingDir.(int)$onlyPublished.$this->_selectedOrdering.(int)$noLimit;
+		$hash = $filterCountry.(int)$onlyPublished.$ordering.(int)$noLimit;
 		if(!isset($countries[$hash])){
 			$countries[$hash] = $this->_data = $this->exeSortSearchListQuery(0,'*',' FROM `#__virtuemart_countries`',$whereString,'',$ordering);
 		}

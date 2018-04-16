@@ -15,48 +15,36 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 *
 * http://virtuemart.net
 */
-defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 
-
-if (!class_exists( 'VmConfig' )) require(JPATH_ROOT.'/administrator/components/com_virtuemart/helpers/config.php');
-
-vFactory::$_appId = 'administrator';
-
+if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 VmConfig::loadConfig();
+
+//VmConfig::showDebug('all');
+
 vmRam('Start');
-vmSetStartTime('Start');
-VmConfig::showDebug('all');
-//VmConfig::$echoDebug=1;
-
-
-if (!class_exists( 'VmController' )) require(VMPATH_ADMIN.'/helpers/vmcontroller.php');
-if (!class_exists( 'vHtml' )) require(VMPATH_ADMIN .'/vmf/html/html.php');
-//if (!class_exists( 'VmModel' )) require(VMPATH_ADMIN.DS.'helpers/vmmodel.php');
-
-//Setup vUri
-vUri::root(null, str_ireplace('/administrator', '', JUri::base(true)));
+vmSetStartTime('vmStart');
 
 $_controller = vRequest::getCmd('view', vRequest::getCmd('controller', 'virtuemart'));
 
-VmConfig::loadJLang('lib_joomla',true);
-VmConfig::loadJLang('com_virtuemart');
-
+vmLanguage::loadJLang('com_virtuemart');
 $exe = true;
 //VmConfig::$echoDebug=true;
 // Require specific controller if requested
 if($_controller) {
-	if (file_exists(VMPATH_ADMIN.DS.'controllers'.DS.$_controller.'.php')) {
+	if (file_exists(VMPATH_ADMIN .'/controllers/'.$_controller.'.php')) {
 		// Only if the file exists, since it might be a Joomla view we're requesting...
-		require (VMPATH_ADMIN.DS.'controllers'.DS.$_controller.'.php');
+		require (VMPATH_ADMIN .'/controllers/'.$_controller.'.php');
 	} else {
 		// try plugins
-		vPluginHelper::importPlugin('vmextended');
-		$dispatcher = vDispatcher::getInstance();
+
+		JPluginHelper::importPlugin('vmextended');
+		$dispatcher = JDispatcher::getInstance();
 		$results = $dispatcher->trigger('onVmAdminController', array($_controller));
+
 		if (empty($results)) {
-			$app = vFactory::getApplication();
+			$app = JFactory::getApplication();
 			$app->enqueueMessage('Fatal Error in maincontroller admin.virtuemart.php: Couldnt find file '.$_controller);
-			//$app->redirect('index.php?option=com_virtuemart');
+			$app->redirect('index.php?option=com_virtuemart');
 		} else {
 			foreach($results as $res){
 				if($res){
@@ -66,7 +54,7 @@ if($_controller) {
 		}
 	}
 } else {
-	$app = vFactory::getApplication();
+	$app = JFactory::getApplication();
 	$app->enqueueMessage('Fatal Error in maincontroller admin.virtuemart.php: No controller given '.$_controller);
 	$app->redirect('index.php?option=com_virtuemart');
 }
@@ -78,7 +66,8 @@ if($exe){
 	$_class = 'VirtueMartController'.ucfirst($_controller);
 	if(!class_exists($_class)){
 		vmError('Serious Error could not find controller '.$_class,'Serious error, could not find class');
-		$app = vFactory::getApplication();
+		$app = JFactory::getApplication();
+		$app->enqueueMessage('Fatal Error in maincontroller admin.virtuemart.php: No controller given '.$_controller);
 		$app->redirect('index.php?option=com_virtuemart');
 	}
 	$controller = new $_class();
@@ -86,7 +75,7 @@ if($exe){
 // Perform the Request task
 	$controller->execute(vRequest::getCmd('task', $_controller));
 
-	vmTime($_class.' Finished task '.$_controller,'Start');
+	vmTime('"'.$_class.'" Finished task '.$_controller,'vmStart');
 	vmRam('End');
 	vmRamPeak('Peak');
 	$controller->redirect();

@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage
 * @author  Patrick Kohl
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -20,7 +20,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Load the view framework
-if (!class_exists('vView')) require(VMPATH_ADMIN.DS.'vmf'.DS.'vview.php');
+jimport( 'joomla.application.component.view');
 
 /**
  * Json View class for the VirtueMart Component
@@ -28,26 +28,26 @@ if (!class_exists('vView')) require(VMPATH_ADMIN.DS.'vmf'.DS.'vview.php');
  * @package		VirtueMart
  * @author  Patrick Kohl
  */
-class VirtuemartViewCustom extends vView {
+class VirtuemartViewCustom extends JViewLegacy {
 
 	/* json object */
 	private $json = null;
 
 	function display($tpl = null) {
 
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 		if ( $virtuemart_media_id = vRequest::getInt('virtuemart_media_id') ) {
-			//$db = vFactory::getDbo();
+			//$db = JFactory::getDBO();
 			$query='SELECT `file_url`,`file_title` FROM `#__virtuemart_medias` where `virtuemart_media_id`='.$virtuemart_media_id;
 			$db->setQuery( $query );
 			$json = $db->loadObject();
 			if (isset($json->file_url)) {
-				$json->file_url = vUri::root().$json->file_url;
+				$json->file_url = JURI::root().$json->file_url;
 				$json->msg =  'OK';
 				echo vmJsApi::safe_json_encode($json);
 			} else {
 				$json->msg =  '<b>'.vmText::_('COM_VIRTUEMART_NO_IMAGE_SET').'</b>';
-				echo json_encode($json);
+				echo vmJsApi::safe_json_encode($json);
 			}
 		}
 		elseif ( $custom_jplugin_id = vRequest::getInt('custom_jplugin_id') ) {
@@ -65,15 +65,14 @@ class VirtuemartViewCustom extends vView {
 			// Get the payment XML.
 			$formFile	= vRequest::filterPath( VMPATH_ROOT .DS. 'plugins' .DS. 'vmcustom' .DS . $this->jCustom->element . DS . $this->jCustom->element . '.xml');
 			if (file_exists($formFile)){
-				VmConfig::loadJLang('plg_vmpsplugin', false);
+				vmLanguage::loadJLang('plg_vmpsplugin', false);
 				if (!class_exists('vmPlugin')) require(VMPATH_PLUGINLIBS . DS . 'vmplugin.php');
 				$filename = 'plg_vmcustom_' .  $this->jCustom->element;
 				vmPlugin::loadJLang($filename,'vmcustom',$this->jCustom->element);
-				if (!class_exists('vForm'))
-					require(VMPATH_ADMIN . DS . 'vmf' . DS . 'form' . DS . 'form.php');
+
 				$this->custom = VmModel::getModel('custom')->getCustom();
 				$varsToPush = vmPlugin::getVarsToPushByXML($formFile,'customForm');
-				$this->custom->form = vForm::getInstance($this->jCustom->element, $formFile, array(),false, '//vmconfig | //config[not(//vmconfig)]');
+				$this->custom->form = JForm::getInstance($this->jCustom->element, $formFile, array(),false, '//vmconfig | //config[not(//vmconfig)]');
 				$this->custom->params = new stdClass();
 
 				foreach($varsToPush as $k => $field){

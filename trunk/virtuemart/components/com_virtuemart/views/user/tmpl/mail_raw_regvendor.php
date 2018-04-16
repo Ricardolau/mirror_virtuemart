@@ -8,7 +8,7 @@ defined('_JEXEC') or die('');
  * @subpackage User
  * @author Max Milbers
  * @author Valérie Isaksen
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -38,9 +38,9 @@ foreach ($this->userFields['fields'] as $userField) {
 
 echo $li;
 
-echo vUri::root() . 'index.php?option=com_virtuemart&view=user' . $li;
+echo JURI::root() . 'index.php?option=com_virtuemart&view=user' . $li;
 
 echo $li;
-//echo vUri::root() . 'index.php?option=com_virtuemart&view=user&virtuemart_user_id=' . $this->_models['user']->_id . ' ' . $li;
-//echo vUri::root() . 'index.php?option=com_virtuemart&view=vendor&virtuemart_vendor_id=' . $this->vendor->virtuemart_vendor_id . ' ' . $li;
+//echo JURI::root() . 'index.php?option=com_virtuemart&view=user&virtuemart_user_id=' . $this->_models['user']->_id . ' ' . $li;
+//echo JURI::root() . 'index.php?option=com_virtuemart&view=vendor&virtuemart_vendor_id=' . $this->vendor->virtuemart_vendor_id . ' ' . $li;
 ?>

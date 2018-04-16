@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Currency
 * @author RickG
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -55,6 +55,8 @@ class VirtuemartControllerCurrency extends VmController {
 		$data['currency_name'] = vRequest::getHtml('currency_name','');
 		$data['currency_positive_style'] = vRequest::getHtml('currency_positive_style','');
 		$data['currency_negative_style'] = vRequest::getHtml('currency_negative_style','');
+		$data['currency_thousands'] = vRequest::getHtml('currency_thousands','');
+		$data['currency_decimal_symbol'] = vRequest::getHtml('currency_decimal_symbol','');
 
 		parent::save($data);
 	}

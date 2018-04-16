@@ -7,7 +7,7 @@
  * @subpackage
  * @author Max Milbers, Valerie Isaksen
 
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -21,6 +21,12 @@ defined('_JEXEC') or die('Restricted access');
 
 vmJsApi::loadPopUpLib();
 if(VmConfig::get('usefancy',1)){
+	if(VmConfig::get('add_thumb_use_descr', false)){
+		$u = 'descr';
+	} else {
+		$u = 'this.alt';
+	}
+
 $imageJS = '
 jQuery(document).ready(function() {
 	Virtuemart.updateImageEventListeners()
@@ -40,7 +46,7 @@ Virtuemart.updateImageEventListeners = function() {
 		jQuery(".main-image img").attr("alt",this.alt );
 		jQuery(".main-image a").attr("href",src );
 		jQuery(".main-image a").attr("title",this.alt );
-		jQuery(".main-image .vm-img-desc").html(this.alt);
+		jQuery(".main-image .vm-img-desc").html('.$u.');
 		}); 
 	}
 	';
@@ -63,7 +69,15 @@ if (!empty($this->product->images)) {
 	$image = $this->product->images[0];
 	?>
 	<div class="main-image">
-		<?php echo $image->displayMediaFull("",true,"rel='vm-additional-images'"); ?>
+		<?php
+		$width = VmConfig::get('img_width_full', 0);
+		$height = VmConfig::get('img_height_full', 0);
+		if(!empty($width) or !empty($height)){
+			echo $image->displayMediaThumb("",true,"rel='vm-additional-images'", true, true, false, $width, $height);
+		} else {
+			echo $image->displayMediaFull("",true,"rel='vm-additional-images'");
+		}
+		 ?>
 		<div class="clear"></div>
 	</div>
 	<?php

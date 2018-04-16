@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Order status
 * @author Oscar van Eijk
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -38,6 +38,8 @@ class TableOrderstates extends VmTable {
 	/** @var boolean */
 	/** @var char Order status Code */
 	var $order_status_code			= '';
+	/** @var char Order status Color */
+	var $order_status_color			= '';
 	/** @var string Order status name*/
 	var $order_status_name			= null;
 	/** @var string Order status description */
@@ -72,7 +74,7 @@ class TableOrderstates extends VmTable {
 	 */
 	function check(){
 
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 		$q = 'SELECT count(*),virtuemart_orderstate_id FROM `#__virtuemart_orderstates` ';
 		$q .= 'WHERE `order_status_code`="' .  $this->order_status_code . '"';
 		$db->setQuery($q);

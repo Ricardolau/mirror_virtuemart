@@ -1,6 +1,6 @@
 <?php
 
-defined('_JEXEC') or die('Direct Access to ' . basename(__FILE__) . 'is not allowed.');
+defined('_JEXEC') or die('Direct Access is not allowed.');
 
 /**
  *
@@ -9,7 +9,7 @@ defined('_JEXEC') or die('Direct Access to ' . basename(__FILE__) . 'is not allo
  * @package VirtueMart
  * @subpackage
  * @author Valérie Isaksen
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - ${PHING.VM.RELDATE} VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Direct Access to ' . basename(__FILE__) . 'is not allo
  * Pour accéder au Back-office commerçant: https://preprod-admin.paybox.com
  */
 if (!class_exists('vmPSPlugin')) {
-	require(JPATH_VM_PLUGINS . DS . 'vmpsplugin.php');
+	require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
 }
 
 class plgVmpaymentPaybox extends vmPSPlugin {
@@ -138,7 +138,7 @@ class plgVmpaymentPaybox extends vmPSPlugin {
 		}
 
 
-		VmConfig::loadJLang('com_virtuemart_orders', TRUE);
+		vmLanguage::loadJLang('com_virtuemart_orders', TRUE);
 
 		$virtuemart_paymentmethod_id = vRequest::getInt('pm', 0);
 
@@ -397,8 +397,9 @@ class plgVmpaymentPaybox extends vmPSPlugin {
 	 *
 	 * @author: Valerie Isaksen
 	 *
-	 * @param $cart_prices: cart prices
-	 * @param $payment
+	 * @param $cart
+	 * @param $method
+	 * @param $cart_prices
 	 * @return true: if the conditions are fulfilled, false otherwise
 	 *
 	 */
@@ -605,7 +606,7 @@ class plgVmpaymentPaybox extends vmPSPlugin {
 	 * This method is fired when showing when priting an Order
 	 * It displays the the payment method-specific data.
 	 *
-	 * @param integer $_virtuemart_order_id The order ID
+	 * @param string $order_number
 	 * @param integer $method_id  method used for this order
 	 * @return mixed Null when for payment methods that were not selected, text (HTML) otherwise
 	 * @author Valerie Isaksen
@@ -681,7 +682,7 @@ class plgVmpaymentPaybox extends vmPSPlugin {
 	function getResponseHTML($order, $paybox_data, $success, $extra_comment) {
 
 		$payment_name = $this->renderPluginName($this->_currentMethod);
-		VmConfig::loadJLang('com_virtuemart_orders', TRUE);
+		vmLanguage::loadJLang('com_virtuemart_orders', TRUE);
 		$q = 'SELECT `currency_code_3` FROM `#__virtuemart_currencies` WHERE `virtuemart_currency_id`="' . $order['details']['BT']->order_currency . '" ';
 		$db = JFactory::getDBO();
 		$db->setQuery($q);

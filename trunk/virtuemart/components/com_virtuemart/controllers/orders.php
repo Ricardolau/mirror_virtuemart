@@ -6,7 +6,7 @@
  * @package	VirtueMart
  * @subpackage User
  * @author Oscar van Eijk
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -19,12 +19,15 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
+// Load the controller framework
+jimport('joomla.application.component.controller');
+
 /**
  * VirtueMart Component Controller
  *
  * @package		VirtueMart
  */
-class VirtueMartControllerOrders extends vController
+class VirtueMartControllerOrders extends JControllerLegacy
 {
 
 	/**
@@ -36,8 +39,8 @@ class VirtueMartControllerOrders extends vController
 		$format = vRequest::getCmd('format','html');
 		if  ($format == 'pdf') $viewName= 'pdf';
 		else $viewName='orders';
-		VmConfig::loadJLang('com_virtuemart_orders',TRUE);
-		VmConfig::loadJLang('com_virtuemart_shoppers',TRUE);
+		vmLanguage::loadJLang('com_virtuemart_orders',TRUE);
+		vmLanguage::loadJLang('com_virtuemart_shoppers',TRUE);
 		$view = $this->getView($viewName, $format);
 
 		// Display it all

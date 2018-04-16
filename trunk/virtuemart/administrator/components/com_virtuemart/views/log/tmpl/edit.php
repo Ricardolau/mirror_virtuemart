@@ -6,7 +6,7 @@
  * @package	VirtueMart
  * @subpackage OrderStatus
  * @author Oscar van Eijk
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -21,7 +21,10 @@ AdminUIHelper::startAdminArea($this);
 
 ?>
 <form name='adminForm' id="adminForm">
-	<?php echo $this->addStandardHiddenToForm(); ?>
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="option" value="com_virtuemart" />
+	<input type="hidden" name="view" value="log" />
+	<?php echo JHTML::_( 'form.token' ); ?>
 </form>
 <pre class="code">
 	<ol class="logline">

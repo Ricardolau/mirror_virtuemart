@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Orders
 * @author RolandD
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -68,6 +68,8 @@ class TableOrder_items extends VmTable {
 	/** @var text Product attribute */
 	var $product_attribute = NULL;
 
+	var $oi_hash = NULL;
+
 	/**
 	 * @param $db Class constructor; connect to the database
 	 */
@@ -75,6 +77,8 @@ class TableOrder_items extends VmTable {
 		parent::__construct('#__virtuemart_order_items', 'virtuemart_order_item_id', $db);
 
 		$this->setLoggable();
+		$this->setHashable('oi_hash');
+		$this->setOmittedHashFields(array('virtuemart_order_item_id','modified_on','modified_by','locked_on','locked_by'));
 	}
 
 }

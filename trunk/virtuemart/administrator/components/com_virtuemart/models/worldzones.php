@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Shipment
 * @author RickG
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -48,7 +48,7 @@ class VirtueMartModelWorldzones extends VmModel {
      */
 	function getShipmentZone()
 	{
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		if (empty($this->_data)) {
 			$query = 'SELECT * ';
@@ -75,7 +75,7 @@ class VirtueMartModelWorldzones extends VmModel {
      */
     function getWorldZonesSelectList()
     {
-    	$db = vFactory::getDbo();
+    	$db = JFactory::getDBO();
 
     	$query = 'SELECT `virtuemart_worldzone_id`, `zone_name` ';
 		$query .= 'FROM `#__virtuemart_worldzones`';

@@ -22,9 +22,9 @@
 
 defined('_JEXEC') or die();
 
-if(!class_exists('vTable'))require(VMPATH_ADMIN.DS.'vmf'.DS.'vtable.php');
+if(!class_exists('VmTable'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmtable.php');
 
-class VmTableXarray extends vTable {
+class VmTableXarray extends VmTable {
 
 	/** @var int Primary key */
 
@@ -33,6 +33,13 @@ class VmTableXarray extends vTable {
     protected $_skey = '';
     protected $_skeyForm = '';
 	protected $_pvalue = '';
+
+//    function setOrderable($key='ordering', $auto=true){
+//    	$this->_orderingKey = $key;
+//    	$this->_orderable = 1;
+//    	$this->_autoOrdering = $auto;
+//    	$this->$key = 0;
+//    }
 
 	function setSecondaryKey($key,$keyForm=0){
 		$this->_skey 		= $key;
@@ -44,6 +51,7 @@ class VmTableXarray extends vTable {
 	function setOrderableFormname($orderAbleFormName){
 		$this->_okeyForm = $orderAbleFormName;
 	}
+
 
 	/**
 	* swap the ordering of a record in the Xref tables
@@ -57,7 +65,7 @@ class VmTableXarray extends vTable {
     	}
 		$skeyId = vRequest::getInt($this->_skey, 0);
 		// Initialize variables
-		$db		= vFactory::getDBO();
+		$db		= JFactory::getDBO();
 		$cid	= vRequest::getInt( $this->_pkey );
 		$order	= vRequest::getInt( 'order' ); //I found now two times "order" instead of ordering.
 
@@ -86,7 +94,6 @@ class VmTableXarray extends vTable {
 			}
 		}
 	}
-
     /**
      * Records in this table are arrays. Therefore we need to overload the load() function.
      * TODO, this function is giving back the array, not the table, it is not working like the other table, so we should change that
@@ -104,7 +111,7 @@ class VmTableXarray extends vTable {
 		$pkey = $this->_pkey;
 		$this->$pkey = $oid;
 
-    	if(empty($db)) $db = vFactory::getDBO();
+    	if(empty($db)) $db = JFactory::getDBO();
 
 		if($this->_orderable){
 			$orderby = 'ORDER BY `'.$this->_orderingKey.'`';
@@ -113,24 +120,24 @@ class VmTableXarray extends vTable {
 		}
 		$hash = md5((int)$oid. $this->_skey . $this->_tbl . $this->_pkey . $orderby);
 
-		if (!isset ($this->_cache['ar'][$hash])) {
+		if (!isset (self::$_cache['ar'][$hash])) {
 			$q = 'SELECT `'.$this->_skey.'` FROM `'.$this->_tbl.'` WHERE `'.$this->_pkey.'` = "'.(int)$oid.'" '.$orderby;
 			$db->setQuery($q);
 			$result = $db->loadColumn();
 			if(!$result){
 				//vmError(get_class( $this ).':: load'  );
-				$this->_cache['ar'][$hash] = false;
+				self::$_cache['ar'][$hash] = false;
 			} else {
 				if(empty($result)) $result = array();
 				if(!is_array($result)) $result = array($result);
-				$this->_cache['ar'][$hash] = $result;
+				self::$_cache['ar'][$hash] = $result;
 			}
 		}
 
 		$skey = $this->_skey;
-		$this->$skey = $this->_cache['ar'][$hash];
+		$this->$skey = self::$_cache['ar'][$hash];
 
-		return $this->_cache['ar'][$hash];
+		return self::$_cache['ar'][$hash];
 
     }
 
@@ -169,8 +176,8 @@ class VmTableXarray extends vTable {
     public function store($updateNulls = false) {
 
     	$returnCode = true;
-		//$this->setLoggableFieldsForStore();
-		$db = vFactory::getDBO();
+		$this->setLoggableFieldsForStore();
+		$db = JFactory::getDBO();
 
         $pkey = $this->_pkey;
         $skey = $this->_skey;
@@ -285,7 +292,7 @@ class VmTableXarray extends vTable {
 
 
     function deleteRelation(){
-		$db = vFactory::getDbo();
+		$db = JFactory::getDbo();
     	$q  = 'DELETE FROM `'.$this->_tbl.'` WHERE `'.$this->_pkey.'` = "'. $this->_pvalue.'" ';
     	$db->setQuery($q);
     	if(!$db->execute()){

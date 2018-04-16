@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Orders
 * @author Oscar van Eijk, Valerie Isaksen
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -18,12 +18,12 @@
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
-vHtml::stylesheet('vmpanels.css', vUri::root().'components/com_virtuemart/assets/css/');
+vmJsApi::css('vmpanels');
 if($this->print){
 	?>
 
 		<body onload="javascript:print();">
-		<div class="vm-orders-vendor-image"><img src="<?php  echo vUri::root() . $this-> vendor->images[0]->file_url ?>"></div>
+		<div class="vm-orders-vendor-image"><img src="<?php  echo JURI::root() . $this-> vendor->images[0]->file_url ?>"></div>
 		<h2><?php  echo $this->vendor->vendor_store_name; ?></h2>
 		<?php  echo $this->vendor->vendor_name .' - '.$this->vendor->vendor_phone ?>
 		<h1><?php echo vmText::_('COM_VIRTUEMART_ACC_ORDER_INFO'); ?></h1>
@@ -55,7 +55,7 @@ if($this->print){
 	$details_link = "<a href=\"javascript:void window.open('$this->details_url', 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');\"  >";
 	//$details_link .= '<span class="hasTip print_32" title="' . vmText::_('COM_VIRTUEMART_PRINT') . '">&nbsp;</span></a>';
 	$button = 'system/printButton.png';
-	$details_link .= vHtml::_('image',$button, vmText::_('COM_VIRTUEMART_PRINT'), NULL, true);
+	$details_link .= JHtml::_('image',$button, vmText::_('COM_VIRTUEMART_PRINT'), NULL, true);
 	$details_link  .=  '</a>';
 	echo $details_link;
 	$this->orderdetails['details']['BT']->invoiceNumber = VmModel::getModel('orders')->getInvoiceNumber($this->orderdetails['details']['BT']->virtuemart_order_id);

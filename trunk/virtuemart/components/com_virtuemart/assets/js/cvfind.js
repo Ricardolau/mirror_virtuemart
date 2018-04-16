@@ -4,31 +4,59 @@
  * @package	VirtueMart
  * @subpackage Javascript Library
  * @author Max Milbers
- * @copyright Copyright (c) 2014 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2014-16 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 
 if (typeof Virtuemart === "undefined")
-	Virtuemart = {};
+	var Virtuemart = {};
+
+Virtuemart.findContainers = function(event){
+	var runs= 0, maxruns = 20;
+	//We ensure with this, to get the right product, if more than one is displayed
+	var container = jQuery(event.currentTarget);
+	while(!container.hasClass('product-field-display') && runs<=maxruns){
+		container = container.parent();
+		runs++;
+	}
+	if(runs>maxruns){
+		console.log('CV: Could not find parent container product-field-display');
+		return false;
+	}
+	Virtuemart.container = container;
+
+	runs=0;
+	var cl = 'product-container';
+	var byL = Virtuemart.containerSelector;
+	Virtuemart.containerSelector = '.'+cl;
+	while(!Virtuemart.container.hasClass(cl) && runs<=maxruns){
+		Virtuemart.container = Virtuemart.container.parent();
+		runs++;
+	}
+	if(runs>maxruns){
+		Virtuemart.container = container;
+		Virtuemart.containerSelector = byL;
+		cl = Virtuemart.containerSelector.substring(1);
+		runs = 0;
+		while(!Virtuemart.container.hasClass(cl) && runs<=maxruns){
+			Virtuemart.container = Virtuemart.container.parent();
+			runs++;
+		}
+		if(runs>maxruns){
+			console.log('CV: Could not find product-container '+byL,container);
+			return false;
+		}
+
+	}
+	return container;
+}
 
 Virtuemart.cvFind = function(event) {
 	event.preventDefault();
 	var selection = [];
 
-	//var container = jQuery('.product-field-display');
-	//We ensure with this, to get the right product, if more than one is displayed
-	var container = jQuery(event.currentTarget);
-	while(!container.hasClass('product-field-display')){
-		container = container.parent();
-	}
+	var container = Virtuemart.findContainers(event);
 
-	Virtuemart.container = container;
-	if(typeof Virtuemart.containerSelector === typeof undefined) Virtuemart.containerSelector = '.product-container';
-	var cl = Virtuemart.containerSelector.substring(1);
-
-	while(!Virtuemart.container.hasClass(cl)){
-		Virtuemart.container = Virtuemart.container.parent();
-	}
 	//console.log('my new ajax container ',Virtuemart.container);
 	var found = false;
 
@@ -43,7 +71,7 @@ Virtuemart.cvFind = function(event) {
 		});
 	}
 
-	var index=0, i2=0, hitcount=0, runs=0;
+	var index=0, i2=0, hitcount=0;
 	//to ensure that an url is set, set the url of first product
 	jQuery(this).prop('url',event.data.variants[0][0]);
 	for	(runs = 0; runs < selection.length; index++) {
@@ -57,9 +85,11 @@ Virtuemart.cvFind = function(event) {
 						jQuery(this).attr('url',url);
 						jQuery(this).val(url);
 						if(jQuery(this).attr('reload')){
+							Virtuemart.isUpdatingContent = true;
 							window.top.location.href = url;
+							return false;
 						}
-						//console.log('return url '+url);
+						//console.log('CV: return url '+url);
 						return url;
 					}
 				} else {
@@ -68,10 +98,40 @@ Virtuemart.cvFind = function(event) {
 			}
 		}
 		runs++;
-		//console.log('Could not find product for selection '+runs);
+		//console.log('CV: Could not find product for selection '+runs);
 	}
 
 	return false;
+};
+
+Virtuemart.avFind = function(event) {
+	event.preventDefault();
+
+	var container = Virtuemart.findContainers(event);
+	//console.log('my new ajax container ',Virtuemart.container);
+	url = false;
+	found = false;
+	//We check first if it is a radio
+	jQuery(container).find('.avselection:checked').each(function() {
+		found = true;
+		url = jQuery(this).attr('url');
+		if (typeof url === typeof undefined || url === false) {
+			url = jQuery(this).val();
+		}
+		jQuery(this).val(url);
+	});
+	if(!found){
+		jQuery(container).find('.avselection').each(function() {
+			url = jQuery(this).attr('url');
+			if (typeof url === typeof undefined || url === false) {
+				url = jQuery(this).val();
+			}
+			jQuery(this).val(url);
+		});
+	}
+
+	return url;
+
 };
 
 

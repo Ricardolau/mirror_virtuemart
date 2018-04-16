@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage
 * @author Max Milberes
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -31,6 +31,14 @@ if (!class_exists ('VmController')){
  */
 class VirtuemartControllerRatings extends VmController {
 
+	/**
+	 * Method to display the view
+	 *
+	 * @access	public
+	 */
+	function __construct() {
+		parent::__construct();
+	}
 
 	/**
 	 * we must overwrite it here, because the task publish can be meant for two different list layouts.

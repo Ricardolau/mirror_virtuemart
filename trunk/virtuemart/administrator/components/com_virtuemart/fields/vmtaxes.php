@@ -5,7 +5,7 @@ defined('JPATH_PLATFORM') or die;
  * @package    VirtueMart
  * @subpackage Plugins  - Elements
  * @author Valérie Isaksen
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (C) 2014-2015 Virtuemart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -16,13 +16,13 @@ defined('JPATH_PLATFORM') or die;
  */
 
 defined('DS') or define('DS', DIRECTORY_SEPARATOR);
-if (!class_exists( 'VmConfig' )) require(JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'helpers'.DS.'config.php');
+if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 
 if (!class_exists('ShopFunctions'))
 	require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
 
 
-class vFormFieldVmTaxes extends vFormField {
+class JFormFieldVmTaxes extends JFormField {
 
 	/**
 	 * The form field type.
@@ -38,7 +38,7 @@ class vFormFieldVmTaxes extends vFormField {
 		return ShopFunctions::renderTaxList($this->value, $this->name, '');
 
 		// $class = 'multiple="true" size="10"';
-		// return vHtml::_('select.genericlist', $taxrates, $control_name . '[' . $name . '][]', $class, 'value', 'text', $value, $control_name . $name);
+		// return JHtml::_('select.genericlist', $taxrates, $control_name . '[' . $name . '][]', $class, 'value', 'text', $value, $control_name . $name);
 	}
 
 }

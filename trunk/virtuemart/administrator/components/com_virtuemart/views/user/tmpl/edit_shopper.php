@@ -6,7 +6,7 @@
  * @package	VirtueMart
  * @subpackage User
  * @author Oscar van Eijk
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -291,7 +291,7 @@ function gotocontact(id) {
 			<tr>
 				<td></td>
 				<td valign="top">
-					<img src="<?php echo $mosConfig_live_site;?>/images/stories/<?php echo $this->contactDetails->image; ?>" align="middle" alt="Contact" />
+					<img src="/images/stories/<?php echo $this->contactDetails->image; ?>" align="middle" alt="Contact" />
 				</td>
 			</tr>
 		<?php } ?>

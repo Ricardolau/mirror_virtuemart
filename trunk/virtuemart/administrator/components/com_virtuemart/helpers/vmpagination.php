@@ -58,7 +58,7 @@ class VmPagination extends vObject {
 		 * If limitstart is greater than total (i.e. we are asked to display records that don't exist)
 		 * then set limitstart to display the last natural page of results
 		 */
-		if ($this->limitstart > $this->total - $this->limit)
+		if ($this->limitstart > ($this->total - $this->limit))
 		{
 			$this->limitstart = max(0, (int) (ceil($this->total / $this->limit) - 1) * $this->limit);
 		}
@@ -122,7 +122,7 @@ class VmPagination extends vObject {
 
 	function getLimitBox ($sequence = 0) {
 
-		$app = vFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Initialize variables
 		$limits = array();
@@ -141,28 +141,29 @@ class VmPagination extends vObject {
 				$sequenceArray = explode( ',', $sequence );
 				if(count( $sequenceArray>1 )) {
 					foreach( $sequenceArray as $items ) {
-						$limits[$items] = vHtml::_( 'select.option', $items );
+						$limits[$items] = JHtml::_( 'select.option', $items );
 					}
 				}
 			}
 
 			if(empty($limits)) {
-				$limits[15] = vHtml::_( 'select.option', 15 );
-				$limits[30] = vHtml::_( 'select.option', 30 );
-				$limits[50] = vHtml::_( 'select.option', 50 );
-				$limits[100] = vHtml::_( 'select.option', 100 );
-				$limits[200] = vHtml::_( 'select.option', 200 );
-				$limits[400] = vHtml::_( 'select.option', 400 );
+				$limits[15] = JHtml::_( 'select.option', 15 );
+				$limits[30] = JHtml::_( 'select.option', 30 );
+				$limits[50] = JHtml::_( 'select.option', 50 );
+				$limits[100] = JHtml::_( 'select.option', 100 );
+				$limits[200] = JHtml::_( 'select.option', 200 );
+				$limits[400] = JHtml::_( 'select.option', 400 );
 			}
 
 			if(!array_key_exists( $this->limit, $limits )) {
-				$limits[$this->limit] = vHtml::_( 'select.option', $this->limit );
+				$limits[$this->limit] = JHtml::_( 'select.option', $this->limit );
 				ksort( $limits );
 			}
 
 			$namespace = 'Joomla.';
+
 			$id = VmHtml::ensureUniqueId('limit');
-			$html = vHtml::_( 'select.genericlist', $limits, 'limit', 'class="inputbox" size="1" onchange="'.$namespace.'submitform();"', 'value', 'text', $selected ,$id);
+			$html = JHtml::_( 'select.genericlist', $limits, 'limit', 'class="inputbox" size="1" onchange="'.$namespace.'submitform();"', 'value', 'text', $selected, $id );
 		} else {
 
 			$getArray = vRequest::getGet();
@@ -190,27 +191,27 @@ class VmPagination extends vObject {
 				$sequenceArray = explode( ',', $sequence );
 				if(count( $sequenceArray>1 )) {
 					foreach( $sequenceArray as $items ) {
-						$limits[$items] = vHtml::_( 'select.option', JRoute::_( $link.'&limit='.$items, false ), $items );
+						$limits[$items] = JHtml::_( 'select.option', JRoute::_( $link.'&limit='.$items, false ), $items );
 					}
 				}
 			}
 
 			if(empty($limits) or !is_array( $limits )) {
 				if($this->_perRow === 1) $this->_perRow = 5;
-				$limits[$this->_perRow*5] = vHtml::_( 'select.option', JRoute::_( $link.'&limit='.$this->_perRow*5, false ), $this->_perRow*5 );
-				$limits[$this->_perRow*10] = vHtml::_( 'select.option', JRoute::_( $link.'&limit='.$this->_perRow*10, false ), $this->_perRow*10 );
-				$limits[$this->_perRow*20] = vHtml::_( 'select.option', JRoute::_( $link.'&limit='.$this->_perRow*20, false ), $this->_perRow*20 );
-				$limits[$this->_perRow*50] = vHtml::_( 'select.option', JRoute::_( $link.'&limit='.$this->_perRow*50, false ), $this->_perRow*50 );
+				$limits[$this->_perRow*5] = JHtml::_( 'select.option', JRoute::_( $link.'&limit='.$this->_perRow*5, false ), $this->_perRow*5 );
+				$limits[$this->_perRow*10] = JHtml::_( 'select.option', JRoute::_( $link.'&limit='.$this->_perRow*10, false ), $this->_perRow*10 );
+				$limits[$this->_perRow*20] = JHtml::_( 'select.option', JRoute::_( $link.'&limit='.$this->_perRow*20, false ), $this->_perRow*20 );
+				$limits[$this->_perRow*50] = JHtml::_( 'select.option', JRoute::_( $link.'&limit='.$this->_perRow*50, false ), $this->_perRow*50 );
 			}
 			if(!array_key_exists( $this->limit, $limits )) {
-				$limits[$this->limit] = vHtml::_( 'select.option', JRoute::_( $link.'&limit='.$this->limit, false ), $this->limit );
+				$limits[$this->limit] = JHtml::_( 'select.option', JRoute::_( $link.'&limit='.$this->limit, false ), $this->limit );
 				ksort( $limits );
 			}
 			$selected = JRoute::_( $link.'&limit='.$selected, false );
 			$js = 'onchange="window.top.location.href=this.options[this.selectedIndex].value"';
 
 			$id = VmHtml::ensureUniqueId('limit');
-			$html = vHtml::_( 'select.genericlist', $limits, '', 'class="inputbox" size="1" '.$js, 'value', 'text', $selected, $id );
+			$html = JHtml::_( 'select.genericlist', $limits, 'limit', 'class="inputbox" size="1" '.$js, 'value', 'text', $selected,$id );
 		}
 		return $html;
 	}
@@ -233,8 +234,9 @@ class VmPagination extends vObject {
 	 */
 
 	public function vmOrderUpIcon ($i, $ordering = true, $task = 'orderup', $alt = 'JLIB_HTML_MOVE_UP', $enabled = true, $checkbox = 'cb') {
+
 		if(($ordering>1)) {
-			return vHtml::_( 'jgrid.orderUp', $i, $task, '', $alt, $enabled, $checkbox );
+			return JHtml::_( 'jgrid.orderUp', $i, $task, '', $alt, $enabled, $checkbox );
 		} else {
 			return '&#160;';
 		}
@@ -256,13 +258,13 @@ class VmPagination extends vObject {
 	 * @since   11.1
 	 */
 	public function vmOrderDownIcon ($i, $ordering, $n, $condition = true, $task = 'orderdown', $alt = 'JLIB_HTML_MOVE_DOWN', $enabled = true, $checkbox = 'cb') {
+
 		if($ordering<$n) {
-			return vHtml::_( 'jgrid.orderDown', $i, $task, '', $alt, $enabled, $checkbox );
+			return JHtml::_( 'jgrid.orderDown', $i, $task, '', $alt, $enabled, $checkbox );
 		} else {
 			return '&#160;';
-		}
 	}
-
+}
 	/**
 	 * @var    integer  The record number to start displaying from.
 	 * @since  11.1
@@ -398,7 +400,7 @@ class VmPagination extends vObject {
 	 */
 	public function getPagesLinks()
 	{
-		$app = vFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Build the page navigation list.
 		$data = $this->_buildDataObject();
@@ -512,7 +514,7 @@ class VmPagination extends vObject {
 	 */
 	public function getListFooter($lbox=true)
 	{
-		$app = vFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$list = array();
 		$list['prefix'] = $this->prefix;
@@ -553,7 +555,7 @@ class VmPagination extends vObject {
 	{
 		if (($i > 0 || ($i + $this->limitstart > 0)) && $condition)
 		{
-			return vHtml::_('jgrid.orderUp', $i, $task, '', $alt, $enabled, $checkbox);
+			return JHtml::_('jgrid.orderUp', $i, $task, '', $alt, $enabled, $checkbox);
 		}
 		else
 		{
@@ -580,7 +582,7 @@ class VmPagination extends vObject {
 	{
 		if (($i < $n - 1 || $i + $this->limitstart < $this->total - 1) && $condition)
 		{
-			return vHtml::_('jgrid.orderDown', $i, $task, '', $alt, $enabled, $checkbox);
+			return JHtml::_('jgrid.orderDown', $i, $task, '', $alt, $enabled, $checkbox);
 		}
 		else
 		{
@@ -599,7 +601,7 @@ class VmPagination extends vObject {
 	 */
 	protected function _list_footer($list)
 	{
-		$html = "<div class=\"list-footer\">\n";
+		$html = "<div class=\"list-footer pagination pagination-toolbar clearfix\">\n";
 
 		$html .= "\n<div class=\"limit\">" . vmText::_('JGLOBAL_DISPLAY_NUM') . $list['limitfield'] . "</div>";
 		$html .= $list['pageslinks'];
@@ -648,7 +650,7 @@ class VmPagination extends vObject {
 	 */
 	protected function _item_active(&$item)
 	{
-		$app = vFactory::getApplication();
+		$app = JFactory::getApplication();
 		if ($app->isAdmin())
 		{
 			if ($item->base > 0)
@@ -686,7 +688,7 @@ class VmPagination extends vObject {
 	 */
 	protected function _item_inactive(&$item)
 	{
-		$app = vFactory::getApplication();
+		$app = JFactory::getApplication();
 		if ($app->isAdmin())
 		{
 			return "<span>" . $item->text . "</span>";
@@ -784,7 +786,7 @@ class VmPagination extends vObject {
  * @subpackage  HTML
  * @since       11.1
  */
-class vPaginationObject extends vObject
+class vPaginationObject extends JObject
 {
 	/**
 	 * @var    string  The link text.

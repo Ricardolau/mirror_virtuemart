@@ -7,7 +7,7 @@ defined('_JEXEC') or die();
 * @package	VirtueMart
 * @subpackage Core
 * @author Max Milbers
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2011 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -46,8 +46,8 @@ class VirtuemartControllerPlugin extends VmController
 		if(!in_array($type,$typeWhiteList)) return false;
 		$name = vRequest::getString('name','');
 
-		vPluginHelper::importPlugin($type, $name);
-		$dispatcher = vDispatcher::getInstance();
+		JPluginHelper::importPlugin($type, $name);
+		$dispatcher = JDispatcher::getInstance();
 		// if you want only one render simple in the plugin use jExit();
 		// or $render is an array of code to echo as html or json Object!
 		$render = null ;
@@ -55,7 +55,7 @@ class VirtuemartControllerPlugin extends VmController
 		$dispatcher->trigger('plgVmOnSelfCallBE',array($type, $name, &$render));
 		if ($render ) {
 			// Get the document object.
-			$document =vFactory::getDocument();
+			$document =JFactory::getDocument();
 			if (vRequest::getCmd('cache', 'no')) {
 				JResponse::setHeader('Cache-Control','no-cache, must-revalidate');
 				JResponse::setHeader('Expires','Mon, 6 Jul 2000 10:00:00 GMT');

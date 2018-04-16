@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Direct Access to ' . basename(__FILE__) . ' is not all
  *
  */
 if (!class_exists('vmPSPlugin'))
-require(JPATH_VM_PLUGINS . DS . 'vmpsplugin.php');
+require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
 
 class plgVmPaymentTco extends vmPSPlugin {
 
@@ -76,17 +76,17 @@ class plgVmPaymentTco extends vmPSPlugin {
 
         $SQLfields = array(
             'id' => 'int(11) unsigned NOT NULL AUTO_INCREMENT ',
-            'virtuemart_order_id' => 'int(11) UNSIGNED DEFAULT NULL',
-            'order_number' => 'char(32) DEFAULT NULL',
-            'virtuemart_paymentmethod_id' => 'mediumint(1) UNSIGNED DEFAULT NULL',
+            'virtuemart_order_id' => 'int(11) UNSIGNED',
+            'order_number' => 'char(32)',
+            'virtuemart_paymentmethod_id' => 'mediumint(1) UNSIGNED',
             'payment_name' => 'char(255) NOT NULL DEFAULT \'\' ',
             'payment_order_total' => 'decimal(15,5) NOT NULL DEFAULT \'0.00000\' ',
             'payment_currency' => 'char(3) ',
-            'cost_per_transaction' => 'decimal(10,2) DEFAULT NULL ',
-            'cost_percent_total' => 'decimal(10,2) DEFAULT NULL ',
-            'tax_id' => 'smallint(1) DEFAULT NULL',
+            'cost_per_transaction' => 'decimal(10,2) ',
+            'cost_percent_total' => 'decimal(10,2) ',
+            'tax_id' => 'smallint(1) ',
             'tco_response' => 'varchar(255)  ',
-            'tco_response_order_number' => 'char(20) DEFAULT NULL'
+            'tco_response_order_number' => 'char(20) '
         );
         return $SQLfields;
     }
@@ -233,7 +233,7 @@ class plgVmPaymentTco extends vmPSPlugin {
         if (!class_exists('shopFunctionsF'))
         require(JPATH_VM_SITE . DS . 'helpers' . DS . 'shopfunctionsf.php');
 		// setup response html
-        VmConfig::loadJLang('com_virtuemart');
+        vmLanguage::loadJLang('com_virtuemart');
         $modelOrder = VmModel::getModel('orders');
         
         $tco_data = vRequest::getRequest();
@@ -365,7 +365,7 @@ class plgVmPaymentTco extends vmPSPlugin {
         if (!($paymentTable = $this->getDataByOrderId ($virtuemart_order_id))) {
 			return NULL;
 		}
-		VmConfig::loadJLang('com_virtuemart');
+		vmLanguage::loadJLang('com_virtuemart');
 		$html = '<table class="adminlist table">' . "\n";
 		$html .= $this->getHtmlHeaderBE ();
 		$html .= $this->getHtmlRowBE ('COM_VIRTUEMART_PAYMENT_NAME', $paymentTable->payment_name);

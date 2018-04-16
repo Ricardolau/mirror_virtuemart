@@ -53,12 +53,14 @@
 	<section name="component">
 		<action name="vm.orders" title="COM_VM_ORDERS_MANAGE" description="COM_VM_ORDERS_MANAGE_TIP" />
 		<action name="vm.orders.edit" title="COM_VM_ORDERS_EDIT" description="COM_VM_ORDERS_EDIT_TIP" />
+		<action name="vm.orders.delete" title="COM_VM_ORDERS_DELETE" description="COM_VM_ORDERS_DELETE_TIP" />
 		<action name="vm.orders.status" title="COM_VM_ORDERS_CHANGE_OS" description="COM_VM_ORDERS_CHANGE_OS_TIP" />
 		<action name="vm.report" title="COM_VM_REPORT_MANAGE" description="COM_VM_REPORT_MANAGE_TIP" />
 	</section>
 	<section name="component">
 		<action name="vm.user" title="COM_VM_USER_MANAGE" description="COM_VM_USER_MANAGE_TIP" />
 		<action name="vm.user.edit" title="COM_VM_USER_EDIT" description="COM_VM_USER_EDIT_TIP" />
+		<action name="vm.user.delete" title="COM_VM_USER_DELETE" description="COM_VM_USER_DELETE_TIP" />
 		<action name="vm.user.editshop" title="COM_VM_USER_EDITSHOP" description="COM_VM_USER_EDITSHOP_TIP" />
 		<action name="vm.shoppergroup" title="COM_VM_SHOPPERGROUP_MANAGE" description="COM_VM_SHOPPERGROUP_MANAGE_TIP" />
 		<action name="vm.shoppergroup.edit" title="COM_VM_SHOPPERGROUP_EDIT" description="COM_VM_SHOPPERGROUP_EDIT_TIP" />

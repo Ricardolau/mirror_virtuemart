@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Category
 * @author RickG, jseros
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -20,14 +20,14 @@
 defined('_JEXEC') or die('Restricted access');
 
 AdminUIHelper::startAdminArea($this);
-$editor = vFactory::getEditor();
-
+$editor = JFactory::getEditor();
 ?>
 
 <form action="index.php" method="post" id="adminForm" name="adminForm" enctype="multipart/form-data">
 
 <?php // Loading Templates in Tabs
 AdminUIHelper::buildTabs ( $this, array (	'categoryform' 	=> 	'COM_VIRTUEMART_CATEGORY_FORM_LBL',
+                                            'categoryparams' 	=> 	'COM_MENUS_DISPLAY_FIELDSET_LABEL',
 									'images' 	=> 	'COM_VIRTUEMART_IMAGES'
 									 ),$this->category->virtuemart_category_id );
 ?>

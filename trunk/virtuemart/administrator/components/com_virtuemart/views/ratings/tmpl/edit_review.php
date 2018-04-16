@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage 	ratings
 * @author
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -44,11 +44,11 @@ AdminUIHelper::imitateTabs('start','COM_VIRTUEMART_REVIEW_DETAILS');
 
             $title = (vmText::_("COM_VIRTUEMART_RATING_TITLE").' : '. $i . '/' . $this->max_rating) ;
 			$stars  = '<span class="floatleft vmiconFE vm2-stars'.$i.'" title="'.$title.'"></span>';
-			$rating_options[] = vHtml::_('select.option',$i,$stars);
+			$rating_options[] = JHtml::_('select.option',$i,$stars);
 
 		}
 		vmdebug('my $this->rating ',$this->rating);
-		echo vHtml::_('select.radiolist', $rating_options, 'vote', 'id="vote" class="inputbox"', 'value', 'text', $this->rating->vote);
+		echo JHtml::_('select.radiolist', $rating_options, 'vote', 'id="vote" class="inputbox"', 'value', 'text', $this->rating->vote);
 		?>
 		</fieldset></td>
 	</tr>
@@ -91,7 +91,7 @@ AdminUIHelper::imitateTabs('start','COM_VIRTUEMART_REVIEW_DETAILS');
         	</td>
 		<td width="76%" align="left">
 	<?php
-	$editor = vFactory::getEditor();
+	$editor = JFactory::getEditor();
 	echo $editor->display('comment', $this->rating->comment, '100%', '100', '60', '20',false);?>
 	</td>
 	</tr>
@@ -103,7 +103,7 @@ AdminUIHelper::imitateTabs('start','COM_VIRTUEMART_REVIEW_DETAILS');
 			<?php echo vmText::_('COM_VIRTUEMART_PUBLISHED'); ?>
 		</td>
 		<td><fieldset class="radio">
-			<?php echo vHtml::_('select.booleanlist', 'published', '', $this->rating->published); ?>
+			<?php echo JHtml::_('select.booleanlist', 'published', '', $this->rating->published); ?>
 		</fieldset></td>
 	</tr>
 </table>
@@ -112,6 +112,7 @@ AdminUIHelper::imitateTabs('start','COM_VIRTUEMART_REVIEW_DETAILS');
 <!-- Hidden Fields -->
 	<?php echo $this->addStandardHiddenToForm(); ?>
 <input type="hidden" name="virtuemart_rating_review_id" value="<?php echo $this->rating->virtuemart_rating_review_id; ?>" />
+<input type="hidden" name="virtuemart_rating_vote_id" value="<?php echo $this->rating->virtuemart_rating_vote_id; ?>" />
 <input type="hidden" name="virtuemart_product_id" value="<?php echo $this->rating->virtuemart_product_id; ?>" />
 
 </form>

@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage
 * @author
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2012 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -38,8 +38,9 @@ class VirtuemartViewProduct extends VmViewAdmin {
 
 		$this->type = vRequest::getCmd('type', false);
 		$this->row = vRequest::getInt('row', false);
-		$this->db = vFactory::getDbo();
+		$this->db = JFactory::getDBO();
 		$this->model = VmModel::getModel('Customfields') ;
+		
 
 	}
 	function display($tpl = null) {
@@ -53,20 +54,65 @@ class VirtuemartViewProduct extends VmViewAdmin {
 		} else {
 			$product_id = (int)$virtuemart_product_id;
 		}
-		//$customfield = $this->model->getcustomfield();
+		$useFb = vmLanguage::getUseLangFallback();
+		$useFb2 = vmLanguage::getUseLangFallbackSecondary();
 		/* Get the task */
 		if ($this->type=='relatedproducts') {
-			$query = "SELECT virtuemart_product_id AS id, CONCAT(product_name, '::', product_sku) AS value
-				FROM #__virtuemart_products_".VmConfig::$vmlang."
-				 JOIN `#__virtuemart_products` AS p using (`virtuemart_product_id`)";
-			if (!empty($filter)) $query .= " WHERE product_name LIKE '%". $this->db->escape( $filter, true ) ."%' or product_sku LIKE '%". $this->db->escape( $filter, true ) ."%'";
+
+			$query = "SELECT p.virtuemart_product_id AS id, ";
+
+			$langField = 'product_name';
+			if($useFb){
+				$f2 = 'ld.'.$langField;
+				if($useFb2){
+					$f2 = 'IFNULL(ld.'.$langField.', ljd.'.$langField.')';
+				}
+				$field = 'IFNULL(l.'.$langField.','.$f2.')';
+			} else {
+				$field = 'l.'.$langField;
+			}
+
+			$query .= ' CONCAT('.$field.', "::", product_sku) AS value';
+			$query .= ' FROM `#__virtuemart_products` AS p ';
+
+			$joinedTables = VmModel::joinLangTables('#__virtuemart_products','p','virtuemart_product_id');
+			$query .= " \n".implode(" \n",$joinedTables);
+			if (!empty($filter)){
+				$filter = '"%'.$this->db->escape( $filter, true ).'%"';
+				$fields = VmModel::joinLangLikeFields(array('product_name'),$filter);
+				$query .=  ' WHERE '.implode (' OR ', $fields) ;
+				$query .= ' OR product_sku LIKE '.$filter;
+			}
+
 			self::setRelatedHtml($product_id,$query,'R');
 		}
-		else if ($this->type=='relatedcategories')
-		{
-			$query = "SELECT virtuemart_category_id AS id, CONCAT(category_name, '::', virtuemart_category_id) AS value
-				FROM #__virtuemart_categories_".VmConfig::$vmlang;
-			if (!empty($filter)) $query .= " WHERE category_name LIKE '%". $this->db->escape(  $filter, true ) ."%'";
+		else if ($this->type=='relatedcategories') {
+
+
+			$query = "SELECT c.virtuemart_category_id AS id, ";
+
+			$langField = 'category_name';
+			if($useFb){
+				$f2 = 'ld.'.$langField;
+				if($useFb2){
+					$f2 = 'IFNULL(ld.'.$langField.', ljd.'.$langField.')';
+				}
+				$field = 'IFNULL(l.'.$langField.','.$f2.')';
+			} else {
+				$field = 'l.'.$langField;
+			}
+
+			$query .= ' CONCAT('.$field.', "::", c.virtuemart_category_id) AS value';
+			$query .= ' FROM `#__virtuemart_categories` AS c ';
+
+			$joinedTables = VmModel::joinLangTables('#__virtuemart_categories','c','virtuemart_category_id');
+			$query .= " \n".implode(" \n",$joinedTables);
+			if (!empty($filter)){
+				$filter = '"%'.$this->db->escape( $filter, true ).'%"';
+				$fields = VmModel::joinLangLikeFields(array('category_name'),$filter);
+				$query .=  ' WHERE '.implode (' OR ', $fields) ;
+			}
+
 			self::setRelatedHtml($product_id,$query,'Z');
 		}
 		else if ($this->type=='custom')
@@ -171,16 +217,50 @@ class VirtuemartViewProduct extends VmViewAdmin {
 			$this->json['ok'] = 1 ;
 		} else if ($this->type=='userlist')
 		{
-			$status = vRequest::getvar('status');
+			$status = vRequest::getvar('order_status',array('S'));
 			$productShoppers=0;
+
 			if ($status) {
+				$option = vRequest::getCmd('option');
+				$lists['filter_order'] = JFactory::getApplication()->getUserStateFromRequest($option.'filter_order_orders', 'filter_order', 'email', 'cmd');
+				$lists['filter_order_Dir'] = JFactory::getApplication()->getUserStateFromRequest($option.'filter_order_Dir', 'filter_order_Dir', 'ASC', 'word');
+
 				$productModel = VmModel::getModel('product');
-				$productShoppers = $productModel->getProductShoppersByStatus($product_id ,$status);
+				$productShoppers = $productModel->getProductShoppersByStatus($product_id ,$status,$lists['filter_order'],$lists['filter_order_Dir']);
 			}
+
 			if(!class_exists('ShopFunctions'))require(VMPATH_ADMIN.DS.'helpers'.DS.'shopfunctions.php');
 			$html = ShopFunctions::renderProductShopperList($productShoppers);
 			$this->json['value'] = $html;
 
+		} else if ($this->type=='getCategoriesTree') {
+			if(!empty($product_id)){
+				$this->ProductModel = VmModel::getModel();
+				$product = $this->ProductModel->getProductSingle($virtuemart_product_id,false);
+				$categories = $product->categories;
+			} else {
+				if(!$categories = vRequest::getInt('top_category_id')){
+					$categories = vRequest::getInt('virtuemart_category_id',array());
+					if(!is_array($categories)){
+						$categories = (array) $categories;
+					}
+				}
+			}
+			$own_category_id = vRequest::getInt('own_category_id',false);
+
+			//TODO Why do we not use the states of the model directly?
+			//$productModel = VmModel::getModel('product');
+			//$own_category_id = $productModel->filter_order;
+			if(!class_exists('ShopFunctions'))require(VMPATH_ADMIN.DS.'helpers'.DS.'shopfunctions.php');
+			if($own_category_id){
+				$html = ShopFunctions::categoryListTree($categories, 0, 0, (array) $own_category_id);
+			} else {
+				$html = ShopFunctions::categoryListTree($categories);
+			}
+
+			$this->json['value'] = $html;
+			
+			
 		} else $this->json['ok'] = 0 ;
 
 		if ( empty($this->json)) {
@@ -188,15 +268,22 @@ class VirtuemartViewProduct extends VmViewAdmin {
 			$this->json['ok'] = 1 ;
 		}
 
+		header ('Content-Type: application/json');
 		echo vmJsApi::safe_json_encode($this->json);
-
+		jExit();
 	}
 
+	
+	
 	function setRelatedHtml($product_id,$query,$fieldType) {
-//VmConfig::$echoDebug=true;
+
+
 		$this->db->setQuery($query.' limit 0,50');
 		$this->json = $this->db->loadObjectList();
-
+		if(!($this->json)){
+			echo('setRelatedHtml '.$query);
+			return;
+		}
 		$query = 'SELECT * FROM `#__virtuemart_customs` WHERE field_type ="'.$fieldType.'" ';
 		$this->db->setQuery($query);
 		$custom = $this->db->loadObject();

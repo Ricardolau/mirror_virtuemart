@@ -8,11 +8,12 @@
  * @copyright  Copyright (c) 2014-2016 VirtueMart Team. All rights reserved.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
-var Virtuemart = window.Virtuemart || {};
+if (typeof Virtuemart === "undefined")
+	var Virtuemart = {};
+//var Virtuemart = window.Virtuemart || {};
 
 (function($) {
-	var undefined,
-		methods = {
+	var methods = {
 			_cache: {},
 			list: function(options) {
 				if (typeof Virtuemart.vmSiteurl === 'undefined') Virtuemart.vmSiteurl = '';
@@ -256,6 +257,6 @@ var Virtuemart = window.Virtuemart || {};
 			f.submit();
 		}
 		/*var acti = jQuery(f).attr(\'action\');
-		 jQuery(f).attr(\'action\', acti+"&tmpl=component");*/
+		jQuery(f).attr(\'action\', acti+"&tmpl=component");*/
 	}
 })(jQuery)

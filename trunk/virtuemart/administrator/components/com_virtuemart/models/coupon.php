@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Coupon
 * @author Max Milbers
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2014 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -63,11 +63,11 @@ class VirtueMartModelCoupon extends VmModel {
 
 		// Convert selected dates to MySQL format for storing.
 		if ($data['coupon_start_date']) {
-		    $startDate = vFactory::getDate($data['coupon_start_date']);
+		    $startDate = JFactory::getDate($data['coupon_start_date']);
 		    $data['coupon_start_date'] = $startDate->toSQL();
 		}
 		if ($data['coupon_expiry_date']) {
-		    $expireDate = vFactory::getDate($data['coupon_expiry_date']);
+		    $expireDate = JFactory::getDate($data['coupon_expiry_date']);
 		    $data['coupon_expiry_date'] = $expireDate->toSQL();
 		}
 		$table->bindChecknStore($data);
@@ -82,13 +82,24 @@ class VirtueMartModelCoupon extends VmModel {
 	 *
 	 * @return object List of coupon objects
 	 */
-	function getCoupons() {
+	function getCoupons($filterCoupon = false) {
 
-		$virtuemart_vendor_id = vmAccess::getVendorId();
-		$whereString = '';
-		if(!empty($virtuemart_vendor_id)){
-			$whereString = 'WHERE virtuemart_vendor_id="'.$virtuemart_vendor_id.'"';
+		$this->virtuemart_vendor_id = vmAccess::getVendorId();
+		$where = array();
+
+		if(!empty($this->virtuemart_vendor_id)){
+			$where[] = '`virtuemart_vendor_id`="'.$this->virtuemart_vendor_id.'"';
 		}
+		if($filterCoupon) {
+
+			$filterCouponS = '"%' . $this->_db->escape( $filterCoupon, true ) . '%"' ;
+			$where[] = '`coupon_code` LIKE '.$filterCouponS;
+
+		}
+
+		$whereString = '';
+		if (count($where) > 0) $whereString = ' WHERE '.implode(' AND ', $where) ;
+
 		return $this->_data = $this->exeSortSearchListQuery(0,'*',' FROM `#__virtuemart_coupons`',$whereString,'',$this->_getOrdering());
 	}
 

@@ -4,7 +4,7 @@
 *
 * @package	VirtueMart
 * @author Max Milbers
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2014 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL2, see LICENSE.php
 * @version $Id: cart.php 7682 2014-02-26 17:07:20Z Milbo $
@@ -29,7 +29,7 @@ if (!empty($product->customfieldsSorted[$position])) {
 			$field = $product->customfieldsSorted[$position][0]; ?>
 		<div class="product-fields-title-wrapper"><span class="product-fields-title"><strong><?php echo vmText::_ ($field->custom_title) ?></strong></span>
 			<?php if ($field->custom_tip) {
-				echo vHtml::tooltip (vmText::_($field->custom_tip), vmText::_ ($field->custom_title), 'tooltip.png');
+				echo JHtml::tooltip (vmText::_($field->custom_tip), vmText::_ ($field->custom_title), 'tooltip.png');
 			} ?>
 		</div> <?php
 		}
@@ -40,7 +40,7 @@ if (!empty($product->customfieldsSorted[$position])) {
 				<?php if (!$customTitle and $field->custom_title != $custom_title and $field->show_title) { ?>
 					<span class="product-fields-title-wrapper"><span class="product-fields-title"><strong><?php echo vmText::_ ($field->custom_title) ?></strong></span>
 						<?php if ($field->custom_tip) {
-							echo vHtml::tooltip (vmText::_($field->custom_tip), vmText::_ ($field->custom_title), 'tooltip.png');
+							echo JHtml::tooltip (vmText::_($field->custom_tip), vmText::_ ($field->custom_title), 'tooltip.png');
 						} ?></span>
 				<?php }
 				if (!empty($field->display)){

@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Edit
 * @author Max Milbers
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -32,8 +32,13 @@ AdminUIHelper::buildTabs ( $this, $tabarray,$this->payment->virtuemart_paymentme
 
 
     <!-- Hidden Fields -->
-    <?php echo $this->addStandardHiddenToForm(); ?>
-    <input type="hidden" name="virtuemart_paymentmethod_id" value="<?php echo $this->payment->virtuemart_paymentmethod_id; ?>" />
+<input type="hidden" name="option" value="com_virtuemart" />
+<input type="hidden" name="virtuemart_paymentmethod_id" value="<?php echo $this->payment->virtuemart_paymentmethod_id; ?>" />
+<input type="hidden" name="task" value="" />
+<input type="hidden" name="boxchecked" value="0" />
+<input type="hidden" name="xxcontroller" value="paymentmethod" />
+<input type="hidden" name="view" value="paymentmethod" />
 
+<?php echo JHtml::_('form.token'); ?>
 </form>
     <?php AdminUIHelper::endAdminArea(); ?>

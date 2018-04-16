@@ -6,7 +6,7 @@
  * @package	VirtueMart
  * @subpackage User
  * @author Oscar van Eijk
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -18,8 +18,6 @@
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
-
-AdminUIHelper::startAdminArea($this);
 
 ?>
 
@@ -99,8 +97,3 @@ if(!empty($this->virtuemart_userinfo_id)){
 
 </fieldset>
 
-<?php
-
-	AdminUIHelper::endAdminArea();
-
-?>

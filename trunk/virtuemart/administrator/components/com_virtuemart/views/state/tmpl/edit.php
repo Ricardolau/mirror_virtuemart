@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage State
 * @author RickG, Max Milbers
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -27,23 +27,13 @@ AdminUIHelper::startAdminArea($this);
 <div class="col50">
 	<fieldset>
 <?php /*	<legend><?php echo vmText::_('COM_VIRTUEMART_STATE_DETAILS'); ?></legend> */?>
-	<legend><?php echo vHtml::_('link','index.php?option=com_virtuemart&view=state&virtuemart_country_id='.$this->virtuemart_country_id,vmText::sprintf('COM_VIRTUEMART_STATE_COUNTRY',$this->country_name).' '. vmText::_('COM_VIRTUEMART_DETAILS') ); ?></legend>
+	<legend><?php echo JHtml::_('link','index.php?option=com_virtuemart&view=state&virtuemart_country_id='.$this->virtuemart_country_id,vmText::sprintf('COM_VIRTUEMART_STATE_COUNTRY',$this->country_name).' '. vmText::_('COM_VIRTUEMART_DETAILS') ); ?></legend>
 	<table class="admintable">
 		<?php
 		echo VmHTML::row('input', 'COM_VIRTUEMART_STATE_NAME', 'state_name', $this->state->state_name,'class="required" size="50"');
 		echo VmHTML::row('booleanlist', 'COM_VIRTUEMART_PUBLISHED', 'published', $this->state->published);
-		?>
-		<tr>
-		<td width="110" class="key">
-				<label for="virtuemart_worldzone_id">
-					<?php echo vmText::_('COM_VIRTUEMART_WORLDZONE'); ?>
-				</label>
-			</td>
-			<td>
-				<?php echo vHtml::_('Select.genericlist', $this->worldZones, 'virtuemart_worldzone_id', '', 'virtuemart_worldzone_id', 'zone_name', $this->state->virtuemart_worldzone_id); ?>
-			</td>
-		</tr>
-		<?php
+		echo VmHTML::row('booleanlist', 'COM_VIRTUEMART_PUBLISHED', 'published', $this->state->published);
+		echo VmHTML::row('genericlist', 'COM_VIRTUEMART_WORLDZONE', $this->worldZones, 'virtuemart_worldzone_id', '', 'virtuemart_worldzone_id', 'zone_name', $this->state->virtuemart_worldzone_id);
 		echo VmHTML::row('input', 'COM_VIRTUEMART_STATE_3_CODE', 'state_3_code', $this->state->state_3_code,'size="10"');
 		echo VmHTML::row('input', 'COM_VIRTUEMART_STATE_2_CODE', 'state_2_code', $this->state->state_2_code,'size="10"');
 		?>

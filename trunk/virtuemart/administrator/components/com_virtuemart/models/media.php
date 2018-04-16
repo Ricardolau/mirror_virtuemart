@@ -6,7 +6,7 @@
  * @package	VirtueMart
  * @subpackage
  * @author Max Milbers
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved by the author.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -76,7 +76,7 @@ class VirtueMartModelMedia extends VmModel {
 
 		if (!class_exists('VmMediaHandler')) require(VMPATH_ADMIN.DS.'helpers'.DS.'mediahandler.php');
 
-		$app = vFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$medias = array();
 
@@ -106,7 +106,7 @@ class VirtueMartModelMedia extends VmModel {
 						$mime		= empty($data->file_mimetype)? $mime:$data->file_mimetype;
 						if($app->isSite()){
 							$selectedLangue = explode(",", $data->file_lang);
-							$lang =  vFactory::getLanguage();
+							$lang =  JFactory::getLanguage();
 							if(in_array($lang->getTag(), $selectedLangue) || $data->file_lang == '') {
 								$_medias[$id] = VmMediaHandler::createMedia($data,$file_type,$mime);
 								if(is_object($virtuemart_media_id) && !empty($virtuemart_media_id->product_name)) $_medias[$id]->product_name = $virtuemart_media_id->product_name;
@@ -173,7 +173,7 @@ class VirtueMartModelMedia extends VmModel {
 
 		$this->_noLimit = $noLimit;
 
-		if(empty($db)) $db = vFactory::getDbo();
+		if(empty($db)) $db = JFactory::getDBO();
 
 		$query = '';
 
@@ -215,7 +215,13 @@ class VirtueMartModelMedia extends VmModel {
 			$selectFields[] = ' `virtuemart_media_id` ';
 
 
-			if(!vmAccess::manager('managevendors')){
+			if(vmAccess::manager('managevendors')){
+				$vendorId = vRequest::getInt('virtuemart_vendor_id',false);
+				if(!empty($vendorId)){
+					$whereItems[] = '(`virtuemart_vendor_id` = "'.$vendorId.'" OR `shared`="1")';
+				}
+
+			} else {
 				$vendorId = vmAccess::isSuperVendor();
 				$whereItems[] = '(`virtuemart_vendor_id` = "'.$vendorId.'" OR `shared`="1")';
 			}
@@ -380,7 +386,7 @@ class VirtueMartModelMedia extends VmModel {
 			return false;
 		}
 
-		VmConfig::loadJLang('com_virtuemart_media');
+		vmLanguage::loadJLang('com_virtuemart_media');
 		if (!class_exists('VmMediaHandler')) require(VMPATH_ADMIN.DS.'helpers'.DS.'mediahandler.php');
 
 		$table = $this->getTable('medias');
@@ -429,7 +435,36 @@ class VirtueMartModelMedia extends VmModel {
 			vmWarn('Insufficient permissions to delete media');
 			return false;
 		}
+
 		return parent::remove($ids);
+	}
+
+	function removeFiles($ids){
+
+		if(!vmAccess::manager('media.delete')){
+			vmWarn('Insufficient permissions to delete media');
+			return false;
+		}
+
+		if(!is_array($ids)) $ids = array($ids);
+		$rids = array();
+		foreach($ids as $id){
+			$file = $this->getFile($id);
+
+			$image = $this->createMediaByIds($id,$file->file_type,$file->file_mimetype,1);
+			if(empty($image[0])){
+
+			} else {
+				$image[0]->deleteThumbs();
+				$r = $image[0]->deleteFile($image[0]->file_url,$image[0]->file_is_forSale);
+				if($r){
+					$rids[] = $id;
+				}
+			}
+
+		}
+
+		return parent::remove($rids);
 	}
 
 }

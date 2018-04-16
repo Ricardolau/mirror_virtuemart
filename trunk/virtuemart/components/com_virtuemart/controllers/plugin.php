@@ -6,7 +6,7 @@
  * @package    VirtueMart
  * @subpackage Core
  * @author Max Milbers
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2011 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -16,12 +16,14 @@
  * @version $Id: plugin.php 2641 2010-11-09 19:25:13Z milbo $
  */
 
+jimport ('joomla.application.component.controller');
+
 /**
  * VirtueMart default administrator controller
  *
  * @package        VirtueMart
  */
-class VirtuemartControllerPlugin extends vController {
+class VirtuemartControllerPlugin extends JControllerLegacy {
 
 	/**
 	 * Method to render the plugin datas
@@ -48,15 +50,15 @@ class VirtuemartControllerPlugin extends vController {
 			return FALSE;
 		}
 
-		vPluginHelper::importPlugin ($type, $name);
-		$dispatcher = vDispatcher::getInstance ();
+		JPluginHelper::importPlugin ($type, $name);
+		$dispatcher = JDispatcher::getInstance ();
 		// if you want only one render simple in the plugin use jExit();
 		// or $render is an array of code to echo as html or json Objects!
 		$render = NULL;
 		$dispatcher->trigger ('plgVmOnSelfCallFE', array($type, $name, &$render));
 		if ($render) {
 			// Get the document object.
-			$document = vFactory::getDocument ();
+			$document = JFactory::getDocument ();
 			if (vRequest::getCmd ('cache') == 'no') {
 				JResponse::setHeader ('Cache-Control', 'no-cache, must-revalidate');
 				JResponse::setHeader ('Expires', 'Mon, 6 Jul 2000 10:00:00 GMT');

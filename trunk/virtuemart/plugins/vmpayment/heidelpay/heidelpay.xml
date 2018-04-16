@@ -8,7 +8,7 @@
     <authorUrl>http://www.heidelpay.de</authorUrl>
     <copyright>Copyright Heidelberger Payment GmbH</copyright>
     <license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
-    <version>3.0.0</version>
+    <version>16.11.07</version>
     <description>
         <![CDATA[<h2>Virtuemart Plugin von:</h2><p><a href="http://www.Heidelpay.de" target="_blank"><img src="http://www.heidelpay.de/gfx/logo.gif" style="margin-right:20px;"/></a></p> ]]></description>
     <files>
@@ -27,7 +27,7 @@
                 <field type="spacer" default=""/>
                 <field name="payment_logos" type="vmfiles" label="VMPAYMENT_HEIDELPAY_LOGOS"
                        description="VMPAYMENT_HEIDELPAY_LOGOS_DESC"
-                       directory="/images/stories/virtuemart/payment"
+                       directory="/images/virtuemart/payment"
                        default="default" hide_default="1" hide_none="1"
                        stripext="0" exclude="^_"/>
                 <field type="spacer" default=""/>

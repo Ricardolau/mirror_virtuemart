@@ -6,7 +6,7 @@
  * @packageVirtueMart
  * @subpackage Config
  * @author RickG
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -27,6 +27,7 @@ defined('_JEXEC') or die('Restricted access');?>
 	<?php
 	echo VmHTML::row('raw','COM_VIRTUEMART_WEIGHT_UNIT_DEFAULT',ShopFunctions::renderWeightUnitList('weight_unit_default', VmConfig::get('weight_unit_default')));
 	echo VmHTML::row('raw','COM_VIRTUEMART_LWH_UNIT_DEFAULT',ShopFunctions::renderLWHUnitList('lwh_unit_default', VmConfig::get('lwh_unit_default')));
+	echo VmHtml::row('input','COM_VM_PROVIDED_UNITS','norm_units',VmConfig::get('norm_units', 'KG,100G,M,SM,CUBM,L,100ML,P'));
 	echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_SHOW_PRINTICON','show_printicon',VmConfig::get('show_printicon',1));
 	echo VmHTML::row('checkbox','COM_VIRTUEMART_PDF_ICON_SHOW','pdf_icon',VmConfig::get('pdf_icon',0));
 ?>
@@ -72,9 +73,11 @@ defined('_JEXEC') or die('Restricted access');?>
 	echo VmHTML::row('checkbox','COM_VIRTUEMART_PRODUCT_NAVIGATION_SHOW','product_navigation',VmConfig::get('product_navigation',1));
 	echo VmHTML::row('checkbox','COM_VIRTUEMART_DISPLAY_STOCK','display_stock',VmConfig::get('display_stock',1));
 	echo VmHTML::row('checkbox','COM_VIRTUEMART_SHOW_PRODUCT_CUSTOMS','show_pcustoms',VmConfig::get('show_pcustoms',1));
+    echo VmHTML::row('checkbox','COM_VIRTUEMART_SUBCAT_PRODUCTS_SHOW','show_subcat_products',VmConfig::get('show_subcat_products',0));
 	echo VmHTML::row('checkbox','COM_VIRTUEMART_UNCAT_PARENT_PRODUCTS_SHOW','show_uncat_parent_products',VmConfig::get('show_uncat_parent_products',0));
 	echo VmHTML::row('checkbox','COM_VIRTUEMART_UNCAT_CHILD_PRODUCTS_SHOW','show_uncat_child_products',VmConfig::get('show_uncat_child_products',0));
 	echo VmHTML::row('checkbox','COM_VIRTUEMART_SHOW_PRODUCTS_UNPUBLISHED_CATEGORIES','show_unpub_cat_products',VmConfig::get('show_unpub_cat_products',1));
+	echo VmHTML::row('checkbox','COM_VM_PRODUCTDETAILS_DISPL_CATS','cat_productdetails', VmConfig::get('cat_productdetails',0));
 	echo VmHTML::row('input','COM_VIRTUEMART_LATEST_PRODUCTS_DAYS','latest_products_days',VmConfig::get('latest_products_days',7),'class="inputbox"','',4,4);
 	$latest_products_orderBy = array(
 		'modified_on' => vmText::_('COM_VIRTUEMART_LATEST_PRODUCTS_ORDERBY_MODIFIED'),
@@ -97,6 +100,14 @@ defined('_JEXEC') or die('Restricted access');?>
 			<span class="hasTip" title="<?php echo vmText::_('COM_VIRTUEMART_CFG_LOWSTOCK_NOTIFY_TIP'); ?>">
 				<label for="reviews_autopublish">
 					<?php echo vmText::_('COM_VIRTUEMART_CFG_LOWSTOCK_NOTIFY'); ?>
+				</label>
+			</span>
+		</div>
+		<div>
+			<?php echo VmHTML::checkbox('stockhandle_products', VmConfig::get('stockhandle_products')); ?>
+			<span class="hasTip" title="<?php echo vmText::_('COM_VIRTUEMART_CFG_POOS_DISCONTINUED_PRODUCTS_TIP'); ?>">
+				<label for="stockhandle_products">
+					<?php echo vmText::_('COM_VIRTUEMART_CFG_POOS_DISCONTINUED_PRODUCTS'); ?>
 				</label>
 			</span>
 		</div>
@@ -128,7 +139,7 @@ defined('_JEXEC') or die('Restricted access');?>
 
 		<div class="clr"></div>
 		<img id="imagelib" alt="<?php echo vmText::_('COM_VIRTUEMART_PREVIEW'); ?>" name="imagelib" src="<?php if (VmConfig::get('rised_availability')) {
-			echo vUri::root(true) . $this->imagePath . VmConfig::get('rised_availability');
+			echo JURI::root(true) . $this->imagePath . VmConfig::get('rised_availability');
 		}?>"/>
 	</fieldset>
 	<fieldset>
@@ -138,6 +149,7 @@ defined('_JEXEC') or die('Restricted access');?>
 			echo VmHTML::row('checkbox','COM_VIRTUEMART_REVIEWS_AUTOPUBLISH','reviews_autopublish',VmConfig::get('reviews_autopublish',0));
 			echo VmHTML::row('input','COM_VIRTUEMART_ADMIN_CFG_REVIEW_MINIMUM_COMMENT_LENGTH','reviews_minimum_comment_length',VmConfig::get('reviews_minimum_comment_length',0));
 			echo VmHTML::row('input','COM_VIRTUEMART_ADMIN_CFG_REVIEW_MAXIMUM_COMMENT_LENGTH','reviews_maximum_comment_length',VmConfig::get('reviews_maximum_comment_length',0));
+			echo VmHTML::row('input','COM_VM_ADMIN_CFG_NUM_RATINGS','vm_num_ratings_show',VmConfig::get('vm_num_ratings_show',3));
 			$showReviewFor = array('none' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_REVIEW_SHOW_NONE'),
 				'registered' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_REVIEW_SHOW_REGISTERED'),
 				'all' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_REVIEW_SHOW_ALL')
@@ -168,7 +180,7 @@ vmJsApi::addJScript('vm.imagechange','
 	jQuery("#image").change(function () {
 		var $newimage = jQuery(this).val();
 		jQuery("#product_availability").val($newimage);
-		jQuery("#imagelib").attr({ src:"'.vUri::root(true) . $this->imagePath.'" + $newimage, alt:$newimage });
+		jQuery("#imagelib").attr({ src:"'.JURI::root(true) . $this->imagePath.'" + $newimage, alt:$newimage });
 	});');
 ?>
 

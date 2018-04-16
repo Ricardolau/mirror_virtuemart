@@ -41,21 +41,11 @@ class VirtuemartViewReport extends VmViewAdmin {
 
 		$model		= VmModel::getModel();
 
-		vRequest::setvar('task','');
+		vRequest::setVar('task','');
 
 		$this->SetViewTitle('REPORT');
 
 		$myCurrencyDisplay = CurrencyDisplay::getInstance();
-
-		//update order items button
-		/*$q = 'SELECT * FROM #__virtuemart_order_items WHERE `product_discountedPriceWithoutTax` IS NULL ';
-		$db = vFactory::getDbo();
-		$db->setQuery($q);
-		$res = $db->loadRow();
-		if($res) {
-			vToolBarHelper::custom('updateOrderItems', 'new', 'new', vmText::_('COM_VIRTUEMART_REPORT_UPDATEORDERITEMS'),false);
-			vmError('COM_VIRTUEMART_REPORT_UPDATEORDERITEMS_WARN');
-		}*/
 
 		$this->addStandardDefaultViewLists($model);
 		$revenueBasic = $model->getRevenue();
@@ -63,7 +53,7 @@ class VirtuemartViewReport extends VmViewAdmin {
 		if($revenueBasic){
 			$totalReport['revenueTotal_brutto']= $totalReport['revenueTotal_netto']= $totalReport['number_of_ordersTotal'] = $totalReport['itemsSoldTotal'] = 0 ;
 			foreach($revenueBasic as &$j){
-				vmdebug('VirtuemartViewReport revenue',$j);
+				//vmdebug('VirtuemartViewReport revenue',$j);
 				$totalReport['revenueTotal_netto'] += $j['order_subtotal_netto'];
 				$totalReport['revenueTotal_brutto'] += $j['order_subtotal_brutto'];
 				$totalReport['number_of_ordersTotal'] += $j['count_order_id'];
@@ -90,14 +80,16 @@ class VirtuemartViewReport extends VmViewAdmin {
 		$this->assignRef('report', $revenueBasic);
 		$this->assignRef('totalReport', $totalReport);
 
-
+		if($this->showVendors()){
+			$this->lists['vendors'] = Shopfunctions::renderVendorList($model->virtuemart_vendor_id);
+		}
 		$orderstatusM =VmModel::getModel('orderstatus');
 		$this->lists['select_date'] = $model->renderDateSelectList();
 		$orderstates = vRequest::getVar ('order_status_code', array('C','S'));
 		$this->lists['state_list'] = $orderstatusM->renderOSList($orderstates,'order_status_code',TRUE);
 		$this->lists['intervals'] = $model->renderIntervalsList();
-		$this->assignRef('from_period', $model->from_period);
-		$this->assignRef('until_period', $model->until_period);
+		$this->from_period = $model->from_period;
+		$this->until_period = $model->until_period;
 
 		$this->pagination = $model->getPagination();
 

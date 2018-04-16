@@ -7,7 +7,7 @@
  * @subpackage User
  * @author Oscar van Eijk
  * @author Max Milbers
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2014 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -22,18 +22,21 @@ defined('_JEXEC') or die('Restricted access for invoices');
 if(!class_exists('VmModel'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmmodel.php');
 if(!class_exists('VmPdf'))require(VMPATH_SITE.DS.'helpers'.DS.'vmpdf.php');
 
+// Load the controller framework
+jimport('joomla.application.component.controller');
 
 /**
  * VirtueMart Component Controller
  *
  * @package		VirtueMart
  */
-class VirtueMartControllerInvoice extends vController
+class VirtueMartControllerInvoice extends JControllerLegacy
 {
 
-	public function __construct() {
+	public function __construct()
+	{
 		parent::__construct();
-		$this->useSSL = VmConfig::get('useSSL',0);
+		$this->useSSL = vmURI::useSSL();
 		$this->useXHTML = false;
 	}
 
@@ -49,7 +52,8 @@ class VirtueMartControllerInvoice extends vController
 		if ($format != 'pdf') {
 			$viewName='invoice';
 
-			$view = $this->getView($viewName, $format);
+			$view = $this->getViewWithTemplate($viewName, $format);
+			//$view = $this->getView($viewName, $format);
 			$view->headFooter = true;
 			$view->display();
 		} else {
@@ -59,7 +63,7 @@ class VirtueMartControllerInvoice extends vController
 			//PDF needs xhtml links
 			$this->useXHTML = true;
 
-			$app = vFactory::getApplication();
+			$app = JFactory::getApplication();
 			// Create the invoice PDF file on disk and send that back
 			$orderDetails = $this->getOrderDetails();
 			if(!$orderDetails){
@@ -69,6 +73,7 @@ class VirtueMartControllerInvoice extends vController
 			if(!$fileLocation){
 				$app->redirect(JRoute::_('/index.php?option=com_virtuemart'),'Invoice not created');
 			}
+
 			$fileName = basename ($fileLocation);
 
 			if (file_exists ($fileLocation)) {
@@ -138,7 +143,6 @@ class VirtueMartControllerInvoice extends vController
 		$orderModel = VmModel::getModel('orders');
 
 		return $orderModel->getMyOrderDetails(0,false,false,true);
-
 	}
 
 
@@ -152,41 +156,63 @@ class VirtueMartControllerInvoice extends vController
 		$pdf->AddPage();
 		$pdf->PrintContents(vmText::_('COM_VIRTUEMART_PDF_SAMPLEPAGE'));
 		$pdf->Output("vminvoice_sample.pdf", 'I');
-		vFactory::getApplication()->close();
+		JFactory::getApplication()->close();
+	}
+
+	function getViewWithTemplate($viewName, $format){
+
+		$this->addViewPath( VMPATH_SITE.DS.'views' );
+		$view = $this->getView($viewName, $format);
+		$this->writeJs = false;
+		$view->addTemplatePath( VMPATH_SITE.DS.'views'.DS.$viewName.DS.'tmpl' );
+
+		if(!class_exists('VmTemplate')) require(VMPATH_SITE.DS.'helpers'.DS.'vmtemplate.php');
+		$template = VmTemplate::loadVmTemplateStyle();
+		$templateName = VmTemplate::setTemplate($template);
+
+		if(!empty($templateName)){
+			$TemplateOverrideFolder = JPATH_SITE.DS."templates".DS.$templateName.DS."html".DS."com_virtuemart".DS."invoice";
+			if(file_exists($TemplateOverrideFolder)){
+				$view->addTemplatePath( $TemplateOverrideFolder);
+			}
+		}
+		return $view;
 	}
 
 	function getInvoicePDF($orderDetails, $viewName='invoice', $layout='invoice', $format='html', $force = false){
-// 		$force = true;
 
-		$path = VmConfig::get('forSale_path',0);
-		if(empty($path) ){
-			vmError('No path set to store invoices');
-			return false;
-		} else {
-			$path .= shopFunctionsF::getInvoiceFolderName().DS;
-			if(!file_exists($path)){
-				vmError('Path wrong to store invoices, folder invoices does not exist '.$path);
-				return false;
-			} else if(!is_writable( $path )){
-				vmError('Cannot store pdf, directory not writeable '.$path);
-				return false;
+		vmLanguage::loadJLang('com_virtuemart',1);
+
+		$invModel = VmModel::getModel('invoice');
+		$path = VirtueMartModelInvoice::getInvoicePath();
+
+		$invoiceNumber = vRequest::getString('invoiceNumber',false);
+
+		if($invoiceNumber) {
+			$invM = VmModel::getModel('invoice');
+			$storedOIds = $invM->getInvoiceEntry($orderDetails['details']['BT']->virtuemart_order_id, false, 'invoice_number');
+			if(!in_array($invoiceNumber,$storedOIds)){
+				$invoiceNumber = false;
 			}
 		}
 
-		$orderModel = VmModel::getModel('orders');
-		$invoiceNumberDate=array();
-		if (!  $orderModel->createInvoiceNumber($orderDetails['details']['BT'], $invoiceNumberDate)) {
-		    return false;
+		if(!$invoiceNumber or empty($invoiceNumber)){
+			$orderModel = VmModel::getModel('orders');
+			$invoiceNumberDate=array();
+			if (!  $orderModel->createInvoiceNumber($orderDetails['details']['BT'], $invoiceNumberDate)) {
+				return false;
+			}
+
+			if(!empty($invoiceNumberDate[0])){
+				$invoiceNumber = $invoiceNumberDate[0];
+			} else {
+				$invoiceNumber = FALSE;
+			}
 		}
 
-		if(!empty($invoiceNumberDate[0])){
-			$invoiceNumber = $invoiceNumberDate[0];
-		} else {
-			$invoiceNumber = FALSE;
-		}
 
 		if(!$invoiceNumber or empty($invoiceNumber)){
-			vmError('Cant create pdf, createInvoiceNumber failed');
+			vmError('getInvoicePDF Cant create pdf, createInvoiceNumber failed');
 			return 0;
 		}
 		if (shopFunctionsF::InvoiceNumberReserved($invoiceNumber)) {
@@ -200,22 +226,9 @@ class VirtueMartControllerInvoice extends vController
 			return $path;
 		}
 
-		$this->addIncludePath( VMPATH_SITE.DS.'views'.DS.$viewName,'view');
-		$view = $this->getView($viewName, $format);
-		$this->writeJs = false;
-		//$view->addTemplatePath( VMPATH_SITE.DS.'views'.DS.$viewName.DS.'tmpl' );
-		$view->addLayoutPath( $viewName, VMPATH_SITE.DS.'views'.DS.$viewName.DS.'tmpl');
 
-		if(!class_exists('VmTemplate')) require(VMPATH_SITE.DS.'helpers'.DS.'vmtemplate.php');
-		$template = VmTemplate::loadVmTemplateStyle();
-		$templateName = VmTemplate::setTemplate($template);
 
-		if(!empty($templateName)){
-			$TemplateOverrideFolder = JPATH_SITE.DS."templates".DS.$templateName.DS."html".DS."com_virtuemart".DS."invoice";
-			if(file_exists($TemplateOverrideFolder)){
-				$view->addLayoutPath( $TemplateOverrideFolder);
-			}
-		}
+		$view = $this->getViewWithTemplate($viewName, $format);
 
 		$view->invoiceNumber = $invoiceNumberDate[0];
 		$view->invoiceDate = $invoiceNumberDate[1];

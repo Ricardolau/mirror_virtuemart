@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage updatesMigration
 * @author Max Milbers, RickG
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -53,10 +53,10 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		if(!class_exists('VirtueMartModelVendor')) require(VMPATH_ADMIN.DS.'models'.DS.'vendor.php');
 		$virtuemart_user_id = VirtueMartModelVendor::getUserIdByVendorId(1);
 		if (isset($virtuemart_user_id) && $virtuemart_user_id > 0) {
-		    $this->_user = vFactory::getUser($virtuemart_user_id);
+		    $this->_user = JFactory::getUser($virtuemart_user_id);
 		}
 		else {
-		    $this->_user = vFactory::getUser();
+		    $this->_user = JFactory::getUser();
 		}
 		return $this->_user->id;
     }
@@ -65,45 +65,54 @@ class VirtueMartModelUpdatesMigration extends VmModel {
     /**
      * @author Max Milbers
      */
-    function setStoreOwner($userId=-1) {
+	function setStoreOwner($userId=-1) {
 
-	    $allowInsert=FALSE;
-
-	    if($userId===-1){
-		    $allowInsert = TRUE;
-		    $userId = 0;
-	    }
+		if(!vmAccess::manager('core')){
+			vmError('You have no rights to performe this action');
+			return false;
+		}
 
 		if (empty($userId)) {
-		    $userId = $this->determineStoreOwner();
+			vmInfo('No uer id given, can not set vendor relation');
+			return false;
+		} else if($userId===-1){
+			$userId = 0;
+		}
+
+		if (empty($userId)) {
+			$userId = $this->determineStoreOwner();
 			vmdebug('setStoreOwner $userId = '.$userId.' by determineStoreOwner');
 		}
 
-		$db = vFactory::getDbo();
-		$db->setQuery('SELECT * FROM  `#__virtuemart_vmusers` WHERE `virtuemart_user_id`= "' . $userId . '" ');
-		$oldUserId = $db->loadResult();
+		$utable = $this->getTable('vmusers');
 
-		if (!empty($oldUserId) and !empty($userId)) {
-		    $db->setQuery( 'UPDATE `#__virtuemart_vmusers` SET `virtuemart_vendor_id` = "0", `user_is_vendor` = "0" WHERE `virtuemart_vendor_id` ="1" ');
-		    if ($db->execute() == false ) {
-			    vmWarn( 'UPDATE __vmusers failed for virtuemart_user_id '.$userId);
-			    return false;
-		    }
+		if ( empty($userId)) return false;
 
-			$db->setQuery( 'UPDATE `#__virtuemart_vmusers` SET `virtuemart_vendor_id` = "1", `user_is_vendor` = "1" WHERE `virtuemart_user_id` ="'.$userId.'" ');
-			if ($db->execute() === false ) {
-				vmWarn( 'UPDATE __vmusers failed for virtuemart_user_id '.$userId);
-				return false;
-			} else {
+		$db = JFactory::getDBO();
+
+		$db->setQuery( 'SELECT `virtuemart_user_id` FROM `#__virtuemart_vmusers` WHERE `virtuemart_user_id` ="'.$userId.'" ');
+		$vmuid = $db->loadResult();
+
+		$db->setQuery( 'UPDATE `#__virtuemart_vmusers` SET `virtuemart_vendor_id` = "0", `user_is_vendor` = "0" WHERE `virtuemart_vendor_id` ="1" ');
+		if ($db->execute() == false ) {
+			vmWarn( 'UPDATE __vmusers failed for virtuemart_user_id '.$userId);
+			return false;
+		}
+
+		if($vmuid){
+			$data = array('virtuemart_user_id' => $userId, 'virtuemart_vendor_id' => "1", 'user_is_vendor' => "1");
+			if($utable->bindChecknStore($data,true)){
 				vmInfo('setStoreOwner VmUser updated new main vendor has user id  '.$userId);
 			}
-		} else if($allowInsert){
-			$db->setQuery('INSERT `#__virtuemart_vmusers` (`virtuemart_user_id`, `user_is_vendor`, `virtuemart_vendor_id`) VALUES ("' . $userId . '", "1","1")');
-			if ($db->execute() === false ) {
-				vmWarn( 'setStoreOwner was not possible to execute INSERT __vmusers for virtuemart_user_id '.$userId);
+		} else {
+			//Can not use the table here, it would set the virtuemart_vendor_id to zero if there is no entry
+			$date = JFactory::getDate();
+			$today = $date->toSQL();
+			$db->setQuery('INSERT INTO `#__virtuemart_vmusers` (`virtuemart_user_id`,`virtuemart_vendor_id`,`user_is_vendor`,`created_on`)
+					VALUES ("'.$userId.'","1","1","'.$today.'") ');
+			if ($db->execute() == false ) {
+				vmWarn( 'INSERT __vmusers failed for virtuemart_user_id '.$userId);
 				return false;
-			} else {
-				vmInfo('setStoreOwner VmUser inserted new main vendor has user id  '.$userId);
 			}
 		}
 
@@ -152,8 +161,8 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 	$fields['virtuemart_media_id'] =  1;
 	$fields['vendor_currency'] = '47';
 	$fields['vendor_accepted_currencies'] = '52,26,47,144';
-	$fields['vendor_terms_of_service'] =  '<h5>This is a demo store. Your orders will not proceed. You have not configured any terms of service yet. Click <a href="'.vUri::base(true).'/index.php?option=com_virtuemart&view=user&task=editshop">here</a> to change this text.</h5>';
-	$fields['vendor_url'] = vUri::root();
+	$fields['vendor_terms_of_service'] =  '<h5>This is a demo store. Your orders will not proceed. You have not configured any terms of service yet. Click <a href="'.JURI::base(true).'/index.php?option=com_virtuemart&view=user&task=editshop">here</a> to change this text.</h5>';
+	$fields['vendor_url'] = JURI::root();
 	$fields['vendor_name'] =  'Sample Company';
 	$fields['vendor_legal_info']="VAT-ID: XYZ-DEMO<br />Reg.Nr: DEMONUMBER";
 	$fields['vendor_letter_css']='.vmdoc-header { }
@@ -171,43 +180,52 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		vmError(vmText::_('COM_VIRTUEMART_NOT_ABLE_TO_SAVE_USER_DATA')  );
 	}
 
-	    if(!VmConfig::$vmlang){
-		    $params = JComponentHelper::getParams('com_languages');
-		    $lang = $params->get('site', 'en-GB');//use default joomla
-		    $lang = strtolower(strtr($lang,'-','_'));
-	    } else {
-		    $lang = VmConfig::$vmlang;
-	    }
-	    $sampleLang='_'.$lang;
-	    $filename = VMPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'install'.DS.'install_sample_data'.$sampleLang.'.sql';
-		if (!file_exists($filename)) {
-			$filename = VMPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'install'.DS.'install_sample_data.sql';
-		}
+	if(!VmConfig::$vmlang){
+		vmLanguage::initialise();
+	}
 
-	    if(!$this->execSQLFile($filename)){
+	$lang = VmConfig::$vmlang;
+
+	$filename = VMPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'install'.DS.'install_sample_data_'.$lang.'.sql';
+	if (!file_exists($filename)) {
+		$filename = VMPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'install'.DS.'install_sample_data.sql';
+	}
+
+	//copy sampel media
+	$src = VMPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart' .DS. 'assets' .DS. 'images' .DS. 'vmsampleimages';
+	// 			if(version_compare(JVERSION,'1.6.0','ge')) {
+	$dst = VMPATH_ROOT .DS. 'images' .DS. 'virtuemart';
+
+	$this->recurse_copy($src,$dst);
+
+	if(!$this->execSQLFile($filename)){
 		vmError(vmText::_('Problems execution of SQL File '.$filename));
 	} else {
+
+		$comdata['virtuemart_vendor_id'] = 1;
+		$comdata['ordering'] = 1;
+		$comdata['shared'] = 0;
+		$comdata['published'] = 1;
+
 		//update jplugin_id from shipment and payment
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 		$q = 'SELECT `extension_id` FROM #__extensions WHERE element = "weight_countries" AND folder = "vmshipment"';
 		$db->setQuery($q);
 		$shipment_plg_id = $db->loadResult();
+
 		if(!empty($shipment_plg_id)){
-			$q = 'INSERT INTO `#__virtuemart_shipmentmethods` (`virtuemart_shipmentmethod_id`, `virtuemart_vendor_id`, `shipment_jplugin_id`, `shipment_element`, `shipment_params`, `ordering`, `shared`, `published`, `created_on`, `created_by`, `modified_on`, `modified_by`, `locked_on`, `locked_by`) VALUES
-			(1, 1, '.$shipment_plg_id.', "weight_countries", \'shipment_logos=""|countries=""|zip_start=""|zip_stop=""|weight_start=""|weight_stop=""|weight_unit="KG"|nbproducts_start=0|nbproducts_stop=0|orderamount_start=""|orderamount_stop=""|cost="0"|package_fee="2.49"|tax_id="0"|free_shipment="500"|\', 0, 0, 1, "0000-00-00 00:00:00", 0,  "0000-00-00 00:00:00", 0,  "0000-00-00 00:00:00", 0)';
-			$db->setQuery($q);
-			$db->execute();
- 			$q = 'INSERT INTO `#__virtuemart_shipmentmethods_'.$lang.'` (`virtuemart_shipmentmethod_id`, `shipment_name`, `shipment_desc`, `slug`) VALUES (1, "Self pick-up", "", "Self-pick-up")';
-			$db->setQuery($q);
-			$db->execute();
+
+			$shipdata =& $comdata;
+			$shipdata['shipment_jplugin_id'] = $shipment_plg_id;
+			$shipdata['shipment_element'] = "weight_countries";
+			$shipdata['shipment_params'] = 'shipment_logos=""|countries=""|zip_start=""|zip_stop=""|weight_start=""|weight_stop=""|weight_unit="KG"|nbproducts_start=0|nbproducts_stop=0|orderamount_start=""|orderamount_stop=""|cost="0"|package_fee="2.49"|tax_id="0"|free_shipment="500"';
+			$shipdata['shipment_name'] = "Self pick-up";
+
+			$table = $this->getTable('shipmentmethods');
+			$table->bindChecknStore($shipdata);
 
 			//Create table of the plugin
-
-			if(JVM_VERSION!=1){
-				$url = '/plugins/vmshipment/weight_countries';
-			} else{
-				$url = '/plugins/vmshipment';
-			}
+			$url = '/plugins/vmshipment/weight_countries';
 
 			if (!class_exists ('plgVmShipmentWeight_countries')) require(VMPATH_ROOT . DS . $url . DS . 'weight_countries.php');
 			$this->installPluginTable('plgVmShipmentWeight_countries','#__virtuemart_shipment_plg_weight_countries','Shipment Weight Countries Table');
@@ -217,20 +235,18 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		$db->setQuery($q);
 		$payment_plg_id = $db->loadResult();
 		if(!empty($payment_plg_id)){
-			$q='INSERT INTO `#__virtuemart_paymentmethods` (`virtuemart_paymentmethod_id`, `virtuemart_vendor_id`, `payment_jplugin_id`,  `payment_element`, `payment_params`, `shared`, `ordering`, `published`, `created_on`, `created_by`, `modified_on`, `modified_by`, `locked_on`, `locked_by`) VALUES
-			(1, 1, '.$payment_plg_id.',  "standard", \'payment_logos=""|countries=""|payment_currency="0"|status_pending="U"|send_invoice_on_order_null="1"|min_amount=""|max_amount=""|cost_per_transaction="0.10"|cost_percent_total="1.5"|tax_id="0"|payment_info=""|\', 0, 0, 1,  "0000-00-00 00:00:00", 0,  "0000-00-00 00:00:00", 0,  "0000-00-00 00:00:00", 0)';
-			$db->setQuery($q);
-			$db->execute();
 
-			$q="INSERT INTO `#__virtuemart_paymentmethods_".$lang."` (`virtuemart_paymentmethod_id`, `payment_name`, `payment_desc`, `slug`) VALUES	(1, 'Cash on delivery', '', 'Cash-on-delivery')";
-			$db->setQuery($q);
-			$db->execute();
+			$pdata =& $comdata;
+			$pdata['payment_jplugin_id'] = $payment_plg_id;
+			$pdata['payment_element'] = "standard";
+			$pdata['payment_params'] = 'payment_logos=""|countries=""|payment_currency="0"|status_pending="U"|send_invoice_on_order_null="1"|min_amount=""|max_amount=""|cost_per_transaction="0.10"|cost_percent_total="1.5"|tax_id="0"|payment_info=""';
+			$pdata['payment_name'] = "Cash on delivery";
 
-			if(JVM_VERSION!=1){
-				$url = '/plugins/vmpayment/standard';
-			} else{
-				$url = '/plugins/vmpayment';
-			}
+			$table = $this->getTable('paymentmethods');
+			$table->bindChecknStore($pdata);
+
+			$url = '/plugins/vmpayment/standard';
+
 			if (!class_exists ('plgVmPaymentStandard')) require(VMPATH_ROOT . DS . $url . DS . 'standard.php');
 			$this->installPluginTable('plgVmPaymentStandard','#__virtuemart_payment_plg_standard','Payment Standard Table');
 		}
@@ -240,6 +256,58 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 	return true;
 
     }
+
+	/**
+	 * copy all $src to $dst folder and remove it
+	 *
+	 * @author Max Milbers
+	 * @param String $src path
+	 * @param String $dst path
+	 * @param String $type modules, plugins, languageBE, languageFE
+	 */
+	static public function recurse_copy($src,$dst,$delete = true ) {
+
+		if(!class_exists('JFolder'))
+			require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'folder.php');
+		$dir = '';
+		if(JFolder::exists($src)){
+			$dir = opendir($src);
+			JFolder::create($dst);
+
+			if(is_resource($dir)){
+				while(false !== ( $file = readdir($dir)) ) {
+					if (( $file != '.' ) && ( $file != '..' )) {
+						if ( is_dir($src .DS. $file) ) {
+							if(!JFolder::create($dst . DS . $file)){
+								$app = JFactory::getApplication ();
+								$app->enqueueMessage ('Couldnt create folder ' . $dst . DS . $file);
+							}
+							self::recurse_copy($src .DS. $file,$dst .DS. $file);
+						}
+						else {
+							if($delete and JFile::exists($dst .DS. $file)){
+								if(!JFile::delete($dst .DS. $file)){
+									$app = JFactory::getApplication();
+									$app -> enqueueMessage('Couldnt delete '.$dst .DS. $file);
+								}
+							}
+							if(!JFile::copy($src .DS. $file,$dst .DS. $file)){
+								$app = JFactory::getApplication();
+								$app -> enqueueMessage('Couldnt move '.$src .DS. $file.' to '.$dst .DS. $file);
+							}
+						}
+					}
+				}
+				closedir($dir);
+				//if (is_dir($src)) JFolder::delete($src);
+				return true;
+			}
+		}
+
+		$app = JFactory::getApplication();
+		$app -> enqueueMessage('Couldnt read dir '.$dir.' source '.$src);
+
+	}
 
 	function installPluginTable ($className,$tablename,$tableComment) {
 
@@ -263,7 +331,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 
 		$query .= "	      PRIMARY KEY (`id`)
 	    ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='" . $tableComment . "' AUTO_INCREMENT=1 ;";
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 		$db->setQuery($query);
 		if (!$db->execute ()) {
 			vmError ( $className.'::onStoreInstallPluginTable: ' . vmText::_ ('COM_VIRTUEMART_SQL_ERROR') . ' ' . $db->stderr (TRUE));
@@ -274,8 +342,8 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 
     function restoreSystemDefaults() {
 
-		vPluginHelper::importPlugin('vmextended');
-		$dispatcher = vDispatcher::getInstance();
+		JPluginHelper::importPlugin('vmextended');
+		$dispatcher = JDispatcher::getInstance();
 		$dispatcher->trigger('onVmSqlRemove', $this);
 
 		$filename = VMPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'install'.DS.'uninstall_essential_data.sql';
@@ -298,8 +366,8 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		$updater->createLanguageTables();
 
 
-		vPluginHelper::importPlugin('vmextended');
-		$dispatcher = vDispatcher::getInstance();
+		JPluginHelper::importPlugin('vmextended');
+		$dispatcher = JDispatcher::getInstance();
 		$dispatcher->trigger('onVmSqlRestore', $this);
     }
 
@@ -320,8 +388,8 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		$updater = new GenericTableUpdater();
 		$updater->createLanguageTables();
 
-		vPluginHelper::importPlugin('vmextended');
-		$dispatcher = vDispatcher::getInstance();
+		JPluginHelper::importPlugin('vmextended');
+		$dispatcher = JDispatcher::getInstance();
 		$dispatcher->trigger('onVmSqlRestore', $this);
     }
 
@@ -344,12 +412,16 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		}
 
 		if(!VmConfig::$vmlang){
-			VmConfig::setdbLanguageTag();
+			$params = JComponentHelper::getParams('com_languages');
+			$lang = $params->get('site', 'en-GB');//use default joomla
+			$lang = strtolower(strtr($lang,'-','_'));
+		} else {
+			$lang = VmConfig::$vmlang;
 		}
-		$lang = VmConfig::$vmlang;
 
 		// Create an array of queries from the sql file
-		$db = vFactory::getDbo();
+		jimport('joomla.installer.helper');
+		$db = JFactory::getDBO();
 		$queries = $db->splitSql(file_get_contents($sqlfile));
 
 		if (count($queries) == 0) {
@@ -397,8 +469,8 @@ class VirtueMartModelUpdatesMigration extends VmModel {
      * @return True if successful, false otherwise
      */
     function removeAllVMTables() {
-		$db = vFactory::getDbo();
-		$config = vFactory::getConfig();
+		$db = JFactory::getDBO();
+		$config = JFactory::getConfig();
 
 		$prefix = $config->get('dbprefix').'virtuemart_%';
 		$db->setQuery('SHOW TABLES LIKE "'.$prefix.'"');
@@ -407,7 +479,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		    return false;
 		}
 
-		$app = vFactory::getApplication();
+		$app = JFactory::getApplication();
 		foreach ($tables as $table) {
 
 		    $db->setQuery('DROP TABLE ' . $table);
@@ -429,6 +501,11 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 			return false;
 		}
 
+		//Delete VM menues
+		$q = 'DELETE FROM #__menu WHERE `link` = "%option=com_virtuemart%" ';
+		$db->setQuery($q);
+		$db->execute();
+
 		return true;
     }
 
@@ -439,14 +516,14 @@ class VirtueMartModelUpdatesMigration extends VmModel {
      * @return boolean True if successful, false otherwise.
      */
     function removeAllVMData() {
-		vPluginHelper::importPlugin('vmextended');
-		$dispatcher = vDispatcher::getInstance();
+		JPluginHelper::importPlugin('vmextended');
+		$dispatcher = JDispatcher::getInstance();
 		$dispatcher->trigger('onVmSqlRemove', $this);
 
 		$filename = VMPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'install'.DS.'uninstall_data.sql';
 		$this->execSQLFile($filename);
 		$tables = array('categories','manufacturers','manufacturercategories','paymentmethods','products','shipmentmethods','vendors');
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 		$prefix = $db->getPrefix();
 		foreach ($tables as $table) {
 			$query = 'SHOW TABLES LIKE "'.$prefix.'virtuemart_'.$table.'_%"';
@@ -476,7 +553,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 	 */
 	public function updateJoomlaUpdateServer( $type, $element, $dst, $group=''  ){
 
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 		$extensionXmlFileName = self::getExtensionXmlFileName($type, $element, $dst );
 		$xml=simplexml_load_file($extensionXmlFileName);
 
@@ -570,6 +647,45 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		return $extensionXmlFileName;
 	}
 
+	public function setSafePathCreateFolders($token = ''){
+
+		if(!class_exists('JFolder')){
+			require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'folder.php');
+		}
+
+		if(empty($token)){
+			$safePath = shopFunctions::getSuggestedSafePath();
+		} else {
+			$safePath = VMPATH_ADMIN.'/'.$token.'/';
+		}
+		$safePath = str_replace('/',DS,$safePath);
+
+		if(!class_exists('ShopFunctionsF')) require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
+		$invoice = $safePath.ShopFunctionsF::getInvoiceFolderName();
+
+		//$invoice = shopFunctions::getInvoicePath($safePath);
+		$encryptSafePath = $safePath. vmCrypt::ENCRYPT_SAFEPATH;
+
+		JFolder::create($safePath,0755);vmdebug('setSafePathCreateFolders $safePath',$safePath);
+		JFolder::create($invoice,0755);vmdebug('setSafePathCreateFolders $invoice',$invoice);
+		JFolder::create($encryptSafePath,0755);vmdebug('setSafePathCreateFolders $encryptSafePath',$encryptSafePath);
+
+		$config = VmConfig::loadConfig();
+		//vmdebug('setSafePathCreateFolders set forSale_path ',$safePath,$config);
+		$config->set('forSale_path', $safePath);
+
+		$data['virtuemart_config_id'] = 1;
+		$data['config'] = $config->toString();
+
+		$confTable = $this->getTable('configs');
+		//vmdebug('setSafePathCreateFolders set forSale_path ',$safePath,$data['config']);
+		$confTable->bindChecknStore($data);
+
+		VmConfig::loadConfig(true);
+
+		return true;
+	}
+
 	/**
 	 * This function deletes all stored thumbs and deletes the entries for all thumbs, usually this is need for shops
 	 * older than vm2.0.22. The new pattern is now not storing the url as long it is not overwritten.
@@ -578,7 +694,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 	 */
 	function resetThumbs(){
 
-		$db = vFactory::getDbo();
+		$db = JFactory::getDbo();
 		$q = 'UPDATE `#__virtuemart_medias` SET `file_url_thumb`=""';
 
 		$db->setQuery($q);
@@ -587,7 +703,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		if(!empty($err)){
 			vmError('resetThumbs Update entries failed ',$err);
 		}
-
+		jimport('joomla.filesystem.folder');
 		$tmpimg_resize_enable = VmConfig::get('img_resize_enable',1);
 
 		VmConfig::set('img_resize_enable',0);
@@ -614,13 +730,13 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		if(!empty($resized)) $resized = DS.$resized;
 		$typePath = VmConfig::get($type);
 		if(!empty($typePath)){
-			if(!class_exists('vFolder')) require(VMPATH_ADMIN .DS. 'vmf' .DS. 'filesystem' .DS. 'vfolder.php');
+			if(!class_exists('JFolder')) require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'folder.php');
 			$path = VMPATH_ROOT.DS.str_replace('/',DS,$typePath).$resized;
-			$msg = vFolder::delete($path);
+			$msg = JFolder::delete($path);
 			if(!$msg){
 				vmWarn('Problem deleting '.$type);
 			}
-			$msg = vFolder::create($path);
+			$msg = JFolder::create($path);
 			return $msg;
 		} else {
 

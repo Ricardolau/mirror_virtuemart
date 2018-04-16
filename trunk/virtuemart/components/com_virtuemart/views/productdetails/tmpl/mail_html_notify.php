@@ -7,7 +7,7 @@ defined('_JEXEC') or die('');
  * @subpackage Productdetails
  * @author Max Milbers
  * @author Valérie Isaksen
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2012 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -43,7 +43,7 @@ defined('_JEXEC') or die('');
 	<table  border="0" cellpadding="0" cellspacing="0" class="html-email">
 	<tr>
 		<td valign="top">
-			<img src="<?php  echo vUri::root () . $this->vendor->images[0]->file_url ?>" />
+			<img src="<?php  echo JURI::root () . $this->vendor->images[0]->file_url ?>" />
 		</td>
 		<td>
 			<?php echo $this->vendorAddress; ?>
@@ -77,7 +77,7 @@ defined('_JEXEC') or die('');
 	echo '<br/><br/>';
 
 	/* GENERAL FOOTER FOR ALL MAILS */
-		$link = vUri::root().'index.php?option=com_virtuemart';
+		$link = JURI::root().'index.php?option=com_virtuemart';
 
 		echo vmText::_('COM_VIRTUEMART_MAIL_FOOTER' ) . '<a href="'.$link.'">'.$this->vendor->vendor_name.'</a>';
 	echo '<br/>';

@@ -6,7 +6,7 @@
  * @package	VirtueMart
  * @subpackage Shipment
  * @author RickG
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -45,7 +45,12 @@ class VirtueMartModelShipmentmethod extends VmModel {
 	function __construct() {
 		parent::__construct();
 		$this->setMainTable('shipmentmethods');
-		$this->_selectedOrdering = 'ordering';
+
+		$this->_validOrderingFieldName = array();
+		$this->_validOrderingFieldName = array('i.virtuemart_shipmentmethod_id','i.virtuemart_vendor_id',
+		'l.shipment_name','l.shipment_desc','i.currency_id','i.ordering','i.shared', 'i.published');
+
+		$this->_selectedOrdering = 'i.ordering';
 		$this->setToggleName('shared');
 	}
 
@@ -64,13 +69,13 @@ class VirtueMartModelShipmentmethod extends VmModel {
 
 
 			if(empty($this->_cache[$this->_id]->virtuemart_vendor_id)){
-				if(!class_exists('VirtueMartModelVendor')) require(VMPATH_ADMIN.DS.'models'.DS.'vendor.php');
-				$this->_cache[$this->_id]->virtuemart_vendor_id = VirtueMartModelVendor::getLoggedVendor();;
+				//if(!class_exists('VirtueMartModelVendor')) require(VMPATH_ADMIN.DS.'models'.DS.'vendor.php');
+				$this->_cache[$this->_id]->virtuemart_vendor_id = vmAccess::getVendorId('shipmentmethod.edit');;
 			}
 
 			if ($this->_cache[$this->_id]->shipment_jplugin_id) {
-				vPluginHelper::importPlugin ('vmshipment');
-				$dispatcher = vDispatcher::getInstance ();
+				JPluginHelper::importPlugin ('vmshipment');
+				$dispatcher = JDispatcher::getInstance ();
 				$blind = 0;
 				$retValue = $dispatcher->trigger ('plgVmDeclarePluginParamsShipmentVM3', array(&$this->_cache[$this->_id]));
 			}
@@ -86,7 +91,7 @@ class VirtueMartModelShipmentmethod extends VmModel {
 				}
 
 				if(isset($this->_cache[$this->_id]->modified_on)){
-					$date = vFactory::getDate($this->_cache[$this->_id]->modified_on);
+					$date = JFactory::getDate($this->_cache[$this->_id]->modified_on);
 					$date = $date->toUnix();
 				} else {
 					$date = 0;
@@ -113,39 +118,26 @@ class VirtueMartModelShipmentmethod extends VmModel {
 	/**
 	 * Retireve a list of shipment from the database.
 	 *
-	 * @author RickG
+	 * @author Max Milbers
 	 * @return object List of shipment  objects
 	 */
-	public function getShipments() {
+	public function getShipments($onlyPublished=false) {
 
-		$whereString = '';
+		$where = array();
+
+		$langFields = array('shipment_name','shipment_desc');
+
+		$select = 'i.*, '.implode(', ',self::joinLangSelectFields($langFields));
 
 		$joins = ' FROM `#__virtuemart_shipmentmethods` as i ';
+		$joins .= implode(' ',self::joinLangTables($this->_maintable,'i','virtuemart_shipmentmethod_id'));
 
-		if(VmConfig::$defaultLang!=VmConfig::$vmlang and Vmconfig::$langCount>1){
-			$langFields = array('shipment_name','shipment_desc');
-
-			$useJLback = false;
-			if(VmConfig::$defaultLang!=VmConfig::$jDefLang){
-				$joins .= ' LEFT JOIN `#__virtuemart_shipmentmethods_'.VmConfig::$jDefLang.'` as ljd';
-				$useJLback = true;
-			}
-
-			$select = ' i.*';
-			foreach($langFields as $langField){
-				$expr2 = 'ld.'.$langField;
-				if($useJLback){
-					$expr2 = 'IFNULL(ld.'.$langField.',ljd.'.$langField.')';
-				}
-				$select .= ', IFNULL(l.'.$langField.','.$expr2.') as '.$langField.'';
-			}
-			$joins .= ' LEFT JOIN `#__virtuemart_shipmentmethods_'.VmConfig::$defaultLang.'` as ld using (`virtuemart_shipmentmethod_id`)';
-			$joins .= ' LEFT JOIN `#__virtuemart_shipmentmethods_'.VmConfig::$vmlang.'` as l using (`virtuemart_shipmentmethod_id`)';
-		} else {
-			$select = ' * ';
-			$joins .= ' LEFT JOIN `#__virtuemart_shipmentmethods_'.VmConfig::$vmlang.'` as l USING (`virtuemart_shipmentmethod_id`) ';
+		if ($onlyPublished) {
+			$where[] = ' `published` = 1';
 		}
 
+		$whereString = '';
+		if (count($where) > 0) $whereString = ' WHERE '.implode(' AND ', $where) ;
 
 		$datas =$this->exeSortSearchListQuery(0,$select,$joins,$whereString,' ',$this->_getOrdering() );
 
@@ -154,7 +146,7 @@ class VirtueMartModelShipmentmethod extends VmModel {
 			foreach ($datas as &$data){
 				// Add the shipment shoppergroups
 				$q = 'SELECT `virtuemart_shoppergroup_id` FROM #__virtuemart_shipmentmethod_shoppergroups WHERE `virtuemart_shipmentmethod_id` = "'.$data->virtuemart_shipmentmethod_id.'"';
-				$db = vFactory::getDbo();
+				$db = JFactory::getDBO();
 				$db->setQuery($q);
 				$data->virtuemart_shoppergroup_ids = $db->loadColumn();
 			}
@@ -201,7 +193,7 @@ class VirtueMartModelShipmentmethod extends VmModel {
 		$ext_id = 'extension_id';
 
 		$q = 'SELECT `element` FROM `' . $tb . '` WHERE `' . $ext_id . '` = "'.$data['shipment_jplugin_id'].'"';
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 		$db->setQuery($q);
 		$data['shipment_element'] = $db->loadResult();
 
@@ -215,8 +207,8 @@ class VirtueMartModelShipmentmethod extends VmModel {
 
 
 
-			vPluginHelper::importPlugin('vmshipment');
-			$dispatcher = vDispatcher::getInstance();
+			JPluginHelper::importPlugin('vmshipment');
+			$dispatcher = JDispatcher::getInstance();
 			//bad trigger, we should just give it data, so that the plugins itself can check the data to be stored
 			//so this trigger is now deprecated and will be deleted in vm2.2
 			$retValue = $dispatcher->trigger('plgVmSetOnTablePluginParamsShipment',array( $data['shipment_element'],$data['shipment_jplugin_id'],&$table));
@@ -231,9 +223,9 @@ class VirtueMartModelShipmentmethod extends VmModel {
 		$xrefTable->bindChecknStore($data);
 
 		if (!class_exists('vmPSPlugin')) require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
-		vPluginHelper::importPlugin('vmshipment');
+		JPluginHelper::importPlugin('vmshipment');
 		//Add a hook here for other shipment methods, checking the data of the choosed plugin
-		$dispatcher = vDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$retValues = $dispatcher->trigger('plgVmOnStoreInstallShipmentPluginTable', array(  $data['shipment_jplugin_id']));
 
 		return $table->virtuemart_shipmentmethod_id;

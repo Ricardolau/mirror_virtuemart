@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Userfields
 * @author Oscar van Eijk
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -69,7 +69,7 @@ class TableUserfield_values extends VmTable {
 			return false;
 		}
 
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 		$q = 'SELECT `virtuemart_userfield_value_id` FROM `#__virtuemart_userfield_values` '
 			. 'WHERE `fieldvalue`="' . $this->fieldvalue . '" '
 			. 'AND   `virtuemart_userfield_id`=' . $this->virtuemart_userfield_id;
@@ -90,7 +90,7 @@ class TableUserfield_values extends VmTable {
 	 */
 	function delete( $virtuemart_userfield_id=null , $where = 0 ){
 
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 		$db->setQuery('DELETE from `#__virtuemart_userfield_values` WHERE `virtuemart_userfield_id` = ' . $virtuemart_userfield_id);
 		if ($db->execute() === false) {
 			vmError($db->getError());

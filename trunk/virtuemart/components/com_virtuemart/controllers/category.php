@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage
 * @author Max Milbers
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2014 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -19,12 +19,15 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
+// Load the controller framework
+jimport('joomla.application.component.controller');
+
 /**
 * Class Description
 *
 * @package VirtueMart
 */
-class VirtueMartControllerCategory extends vController {
+class VirtueMartControllerCategory extends JControllerLegacy {
 
     public function __construct() {
      	 parent::__construct();
@@ -39,7 +42,7 @@ class VirtueMartControllerCategory extends vController {
 			$view->display();
 		} else {*/
 			// Display it all
-			$document = vFactory::getDocument();
+			$document = JFactory::getDocument();
 			$viewType = $document->getType();
 			$viewName = vRequest::getCmd('view', $this->default_view);
 			$viewLayout = vRequest::getCmd('layout', 'default');

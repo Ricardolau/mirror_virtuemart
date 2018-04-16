@@ -21,7 +21,7 @@ defined ('_JEXEC') or die('Restricted access');
  * http://virtuemart.net
  */
 if (!class_exists ('vmPSPlugin')) {
-	require(JPATH_VM_PLUGINS . DS . 'vmpsplugin.php');
+	require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
 }
 
 class plgVmPaymentStandard extends vmPSPlugin {
@@ -123,8 +123,8 @@ class plgVmPaymentStandard extends vmPSPlugin {
 			return FALSE;
 		}
 
-		VmConfig::loadJLang('com_virtuemart',true);
-		VmConfig::loadJLang('com_virtuemart_orders', TRUE);
+		vmLanguage::loadJLang('com_virtuemart',true);
+		vmLanguage::loadJLang('com_virtuemart_orders', TRUE);
 
 		if (!class_exists ('VirtueMartModelOrders')) {
 			require(VMPATH_ADMIN . DS . 'models' . DS . 'orders.php');
@@ -135,6 +135,13 @@ class plgVmPaymentStandard extends vmPSPlugin {
 		$email_currency = $this->getEmailCurrency($method);
 
 		$totalInPaymentCurrency = vmPSPlugin::getAmountInCurrency($order['details']['BT']->order_total,$method->payment_currency);
+
+		if (!empty($method->payment_info)) {
+			$lang = JFactory::getLanguage ();
+			if ($lang->hasKey ($method->payment_info)) {
+				$method->payment_info = vmText::_ ($method->payment_info);
+			}
+		}
 
 		$dbValues['payment_name'] = $this->renderPluginName ($method) . '<br />' . $method->payment_info;
 		$dbValues['order_number'] = $order['details']['BT']->order_number;
@@ -147,15 +154,7 @@ class plgVmPaymentStandard extends vmPSPlugin {
 		$dbValues['payment_order_total'] = $totalInPaymentCurrency['value'];
 		$dbValues['tax_id'] = $method->tax_id;
 		$this->storePSPluginInternalData ($dbValues);
-		$payment_info='';
-		if (!empty($method->payment_info)) {
-			$lang = JFactory::getLanguage ();
-			if ($lang->hasKey ($method->payment_info)) {
-				$payment_info = vmText::_ ($method->payment_info);
-			} else {
-				$payment_info = $method->payment_info;
-			}
-		}
+
 		if (!class_exists ('VirtueMartModelCurrency')) {
 			require(VMPATH_ADMIN . DS . 'models' . DS . 'currency.php');
 		}
@@ -165,7 +164,8 @@ class plgVmPaymentStandard extends vmPSPlugin {
 			'order_number' =>$order['details']['BT']->order_number,
 			'order_pass' =>$order['details']['BT']->order_pass,
 			'payment_name' => $dbValues['payment_name'],
-			'displayTotalInPaymentCurrency' => $totalInPaymentCurrency['display']
+			'displayTotalInPaymentCurrency' => $totalInPaymentCurrency['display'],
+			'order_user_id' => $order['details']['BT']->virtuemart_user_id
 		));
 		$modelOrder = VmModel::getModel ('orders');
 		$order['order_status'] = $this->getNewStatus ($method);
@@ -205,7 +205,7 @@ class plgVmPaymentStandard extends vmPSPlugin {
 		if (!($paymentTable = $this->getDataByOrderId ($virtuemart_order_id))) {
 			return NULL;
 		}
-		VmConfig::loadJLang('com_virtuemart');
+		vmLanguage::loadJLang('com_virtuemart');
 
 		$html = '<table class="adminlist table">' . "\n";
 		$html .= $this->getHtmlHeaderBE ();
@@ -242,7 +242,7 @@ class plgVmPaymentStandard extends vmPSPlugin {
 
 		$this->convert_condition_amount($method);
 		$amount = $this->getCartAmount($cart_prices);
-		$address = (($cart->ST == 0) ? $cart->BT : $cart->ST);
+		$address = $cart -> getST();
 
 		if($this->_toConvert){
 			$this->convertToVendorCurrency($method);

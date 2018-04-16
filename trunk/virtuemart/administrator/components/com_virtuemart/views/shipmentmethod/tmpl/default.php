@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Shipment
 * @author RickG
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -32,7 +32,7 @@ AdminUIHelper::startAdminArea($this);
 				<input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)" />
 			</th>
 			<th>
-				<?php echo $this->sort('shipment_name', 'COM_VIRTUEMART_SHIPMENT_NAME_LBL'); ?>
+				<?php echo $this->sort('l.shipment_name', 'COM_VIRTUEMART_SHIPMENT_NAME_LBL'); ?>
 			</th>
                         <th>
 				<?php echo vmText::_('COM_VIRTUEMART_SHIPMENT_LIST_DESCRIPTION_LBL'); ?>
@@ -41,17 +41,17 @@ AdminUIHelper::startAdminArea($this);
 				<?php echo vmText::_('COM_VIRTUEMART_SHIPPING_SHOPPERGROUPS'); ?>
 			</th>
                         <th>
-				<?php echo $this->sort('shipment_element', 'COM_VIRTUEMART_SHIPMENTMETHOD'); ?>
+				<?php echo $this->sort('i.shipment_element', 'COM_VIRTUEMART_SHIPMENTMETHOD'); ?>
 			</th>
 			<th>
-				<?php echo $this->sort('ordering', 'COM_VIRTUEMART_LIST_ORDER'); ?>
+				<?php echo $this->sort('i.ordering', 'COM_VIRTUEMART_LIST_ORDER'); ?>
 			</th>
-			<th width="20"><?php echo $this->sort('published', 'COM_VIRTUEMART_PUBLISHED'); ?></th>
+			<th width="20"><?php echo $this->sort('i.published', 'COM_VIRTUEMART_PUBLISHED'); ?></th>
 			<?php if($this->showVendors()){ ?>
 				<th width="20">
 				<?php echo vmText::_( 'COM_VIRTUEMART_SHARED')  ?>
 				</th><?php }  ?>
-			 <th><?php echo $this->sort('virtuemart_shipmentmethod_id', 'COM_VIRTUEMART_ID')  ?></th>
+			 <th><?php echo $this->sort('i.virtuemart_shipmentmethod_id', 'COM_VIRTUEMART_ID')  ?></th>
 		</tr>
 		</thead>
 		<?php
@@ -61,18 +61,21 @@ AdminUIHelper::startAdminArea($this);
 			$row = $this->shipments[$i];
 			$published = $this->gridPublished($row, $i);
 			//$row->published = 1;
-			$checked = vHtml::_('grid.id', $i, $row->virtuemart_shipmentmethod_id);
+			$checked = JHtml::_('grid.id', $i, $row->virtuemart_shipmentmethod_id);
 			if ($this->showVendors) {
 				$shared = $this->toggle($row->shared, $i, 'toggle.shared');
 			}
 			$editlink = JROUTE::_('index.php?option=com_virtuemart&view=shipmentmethod&task=edit&cid[]='.$row->virtuemart_shipmentmethod_id);
+			if(empty($row->shipment_name)){
+				$row->shipment_name = vmText::sprintf('COM_VM_TRANSLATION_MISSING','virtuemart_shipment_id',$row->virtuemart_shipmentmethod_id);
+			}
 	?>
 			<tr class="row<?php echo $k; ?>">
 				<td class="admin-checkbox">
 					<?php echo $checked; ?>
 				</td>
 				<td align="left">
-					<?php echo vHtml::_('link', $editlink, vmText::_($row->shipment_name)); ?>
+					<?php echo JHtml::_('link', $editlink, vmText::_($row->shipment_name)); ?>
 					<?php if ($set_automatic_shipment == $row->virtuemart_shipmentmethod_id) {
 						?><i class="icon-featured"></i><?php
 					}
@@ -85,7 +88,7 @@ AdminUIHelper::startAdminArea($this);
 					<?php echo $row->shipmentShoppersList; ?>
 				</td>
                                 <td align="left">
-					<?php echo $row->shipment_element; //vHtml::_('link', $editlink, vmText::_($row->shipment_element)); ?>
+					<?php echo $row->shipment_element; //JHtml::_('link', $editlink, vmText::_($row->shipment_element)); ?>
 				</td>
 				<td align="left">
 					<?php echo vmText::_($row->ordering); ?>

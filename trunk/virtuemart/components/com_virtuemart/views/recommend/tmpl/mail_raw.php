@@ -8,7 +8,7 @@ defined('_JEXEC') or die('');
  * @package	VirtueMart
  * @subpackage product details
  * @author Valérie Isaksen
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2012 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -30,10 +30,10 @@ echo "\n";
 
 echo "\n";
 
-$link = vUri::root().'index.php?option=com_virtuemart';
+$link = JURI::root().'index.php?option=com_virtuemart';
 
 echo "\n\n";
-$link= vHtml::_('link', $link, $this->vendor->vendor_name) ;
+$link= JHTML::_('link', $link, $this->vendor->vendor_name) ;
 
 
 /* GENERAL FOOTER FOR ALL MAILS */
@@ -44,7 +44,7 @@ echo $this->vendor->vendor_name ."\n".$this->vendor->vendor_phone .' '.$this->ve
 
 echo vmText::sprintf('COM_VIRTUEMART_RECOMMEND_MAIL_MSG', $this->product->product_name, $this->comment);
 
-$link = vUri::root().'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id='.$this->product->virtuemart_product_id ;
+$link = JURI::root().'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id='.$this->product->virtuemart_product_id ;
 
-echo '<br /><b>'.vHtml::_('link',$link, $this->product->product_name).'</b>';
+echo '<br /><b>'.JHTML::_('link',$link, $this->product->product_name).'</b>';
 include(VMPATH_SITE.DS.'views'.DS.'cart'.DS.'tmpl'.DS.'mail_html_footer.php');

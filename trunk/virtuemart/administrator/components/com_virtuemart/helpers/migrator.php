@@ -27,8 +27,8 @@ class Migrator extends VmModel{
 
 	public function __construct(){
 
-		$this->_app = vFactory::getApplication();
-		$this->_db = vFactory::getDbo();
+		$this->_app = JFactory::getApplication();
+		$this->_db = JFactory::getDBO();
 		$this->_oldToNew = new stdClass();
 		$this->starttime = microtime(true);
 
@@ -46,16 +46,13 @@ class Migrator extends VmModel{
 
 		$jrmemory_limit= vRequest::getInt('memory_limit');
 		if(!empty($jrmemory_limit)){
-			@ini_set( 'memory_limit', $jrmemory_limit.'M' );
+			VmConfig::ensureMemoryLimit($jrmemory_limit);
 		} else {
 			VmConfig::ensureMemoryLimit(128);
 		}
 
-		$this->maxMemoryLimit = $this->return_bytes(ini_get('memory_limit')) - (14 * 1024 * 1024)  ;		//Lets use 11MB for joomla
-		// 		vmdebug('$this->maxMemoryLimit',$this->maxMemoryLimit); //134217728
-		//$this->maxMemoryLimit = $this -> return_bytes('20M');
+		$this->maxMemoryLimit = VmConfig::getMemoryLimitBytes() - (14 * 1024 * 1024)  ;		//Lets use 14MB for joomla
 
-		// 		ini_set('memory_limit','35M');
 		$q = 'SELECT `id` FROM `#__virtuemart_migration_oldtonew_ids` ';
 		$this->_db->setQuery($q);
 		$res = $this->_db->loadResult();
@@ -69,22 +66,6 @@ class Migrator extends VmModel{
 		}
 
 		$this->_keepOldProductIds = VmConfig::get('keepOldProductIds',FALSE);
-	}
-
-	private function return_bytes($val) {
-		$val = trim($val);
-		$last = strtolower($val[strlen($val)-1]);
-		switch($last) {
-			// The 'G' modifier is available since PHP 5.1.0
-			case 'g':
-				$val *= 1024;
-			case 'm':
-				$val *= 1024;
-			case 'k':
-				$val *= 1024;
-		}
-
-		return $val;
 	}
 
 	function getMigrationProgress($group){
@@ -361,7 +342,7 @@ class Migrator extends VmModel{
 									$filesInDir[] = array('filename' => $file, 'url' => $relUrl);
 								}
 							}else {
-								if($filetype == 'dir' && $file != 'resized' && $file != 'invoices'){
+								if($filetype == 'dir' && $file != 'resized' && $file != 'invoices' && $file != 'keys'){
 									$subfoldersInDir[] = $dir.$file.DS;
 									// 									vmdebug('my sub folder ',$dir.$file);
 								}
@@ -995,7 +976,7 @@ class Migrator extends VmModel{
 
 		$alreadyKnownIds = $this->getMigrationProgress('products');
 		$oldToNewCats = $this->getMigrationProgress('cats');
-		// 		$user = vFactory::getUser();
+		// 		$user = JFactory::getUser();
 
 		//$oldtonewProducts = array();
 		$oldtonewManus = $this->getMigrationProgress('manus');
@@ -1357,7 +1338,7 @@ class Migrator extends VmModel{
 					$q = 'SELECT * FROM `#__vm_order_item` WHERE `order_id` = "'.$order['order_id'].'" ';
 					$this->_db->setQuery($q);
 					$oldItems = $this->_db->loadAssocList();
-					//$this->_app->enqueueMessage('Migration orderhistories: ' . $newId);
+
 					foreach($oldItems as $item){
 						$item['virtuemart_order_id'] = $newId;
 						if(!empty($newproductIds[$item['product_id']])){
@@ -1470,7 +1451,7 @@ class Migrator extends VmModel{
 
 	private function _changeToStamp($dateIn){
 
-		$date = vFactory::getDate($dateIn);
+		$date = JFactory::getDate($dateIn);
 		return $date->toSQL();
 	}
 
@@ -1478,7 +1459,7 @@ class Migrator extends VmModel{
 
 		$currInt = '';
 		if(!empty($curr)){
-			$this->_db = vFactory::getDbo();
+			$this->_db = JFactory::getDBO();
 			$q = 'SELECT `virtuemart_currency_id` FROM `#__virtuemart_currencies` WHERE `currency_code_3`="' . $this->_db->escape($curr) . '"';
 			$this->_db->setQuery($q);
 			$currInt = $this->_db->loadResult();
@@ -1511,7 +1492,7 @@ class Migrator extends VmModel{
 	 */
 	private function _getStartLimit($name){
 
-		$this->_db = vFactory::getDbo();
+		$this->_db = JFactory::getDBO();
 
 		$q = 'SELECT `'.$name.'` FROM `#__virtuemart_migration_oldtonew_ids` WHERE id="1" ';
 
@@ -1671,41 +1652,6 @@ class Migrator extends VmModel{
 		return $weightUnitMigrate;
 	}
 
-	/**
-	 * Helper function, was used to determine the difference of an loaded array (from vm19
-	 * and a loaded object of vm2
-	 */
-	private function showVmDiff(){
-
-		$productModel = VmModel::getModel('product');
-		$product = $productModel->getProduct(0);
-
-		$productK = array();
-		$attribsImage = get_object_vars($product);
-
-		foreach($attribsImage as $k => $v){
-			$productK[] = $k;
-		}
-
-		$oldproductK = array();
-		foreach($oldProducts[0] as $k => $v){
-			$oldproductK[] = $k;
-		}
-
-		$notSame = array_diff($productK, $oldproductK);
-		$names = '';
-		foreach($notSame as $name){
-			$names .= $name . ' ';
-		}
-		$this->_app->enqueueMessage('_productPorter  array_intersect ' . $names);
-
-		$notSame = array_diff($oldproductK, $productK);
-		$names = '';
-		foreach($notSame as $name){
-			$names .= $name . ' ';
-		}
-		$this->_app->enqueueMessage('_productPorter  ViceVERSA array_intersect ' . $names);
-	}
 
 	function loadCountListContinue($q,$startLimit,$maxItems,$msg){
 
@@ -1732,7 +1678,7 @@ class Migrator extends VmModel{
 	function portCurrency(){
 
 		$this->setRedirect($this->redirectPath);
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 		$q = 'SELECT `virtuemart_currency_id`,
 		  `currency_name`,
 		  `currency_code_2`,
@@ -1778,7 +1724,7 @@ class Migrator extends VmModel{
 		// Initialise variables.
 		$return = true;
 
-		$this->_db = vFactory::getDbo();
+		$this->_db = JFactory::getDBO();
 
 		// Get the tables in the database.
 		if ($tables = $this->_db->getTableList()) {
@@ -1848,7 +1794,7 @@ class Migrator extends VmModel{
 
 		$prefix = '#_';
 		$oldtable = '#__vm_product';
-		$db = vFactory::getDbo();
+		$db = JFactory::getDbo();
 		$db->setQuery("SELECT product_sku, attribute FROM " . $oldtable . " WHERE ( attribute IS NULL or attribute <> '') ");
 		$rows = $db->loadObjectList();
 
@@ -1960,7 +1906,7 @@ class Migrator extends VmModel{
 		vmSetStartTime('relatedproducts');
 
 	    $maxItems = $this->_getMaxItems('relatedproducts');
-		$startLimit = $this->_getStartLimit('relatedproducts_start');;
+		$startLimit = $this->_getStartLimit('relatedproducts');;
 		$i=0;
 		$continue = true;
 

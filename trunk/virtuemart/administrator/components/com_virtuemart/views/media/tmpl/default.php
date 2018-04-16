@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage
 * @author Max Milbers
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -18,21 +18,26 @@
 
 AdminUIHelper::startAdminArea($this);
 
+jimport('joomla.filesystem.file');
+
 /* Get the component name */
 $option = vRequest::getCmd('option');
 
 ?>
-<form action="index.php" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_virtuemart&view=media" method="post" name="adminForm" id="adminForm">
 	<div id="header">
 		<div id="filterbox">
 		<table>
 		  <tr>
-			 <td align="left" width="100%">
+			 <td align="left" width="60%">
 				<?php echo $this->displayDefaultViewSearch('COM_VIRTUEMART_NAME','searchMedia') .' '. $this->lists['search_type'].' '. $this->lists['search_role']; ?>
 			 </td>
-			  <td>
-				  <?php echo VmHtml::checkbox('missing','missing'); ?>
+			  <td align="left" style="width:20%;min-width:60px">
+				  <?php echo VmHtml::checkbox('missing','missing',1,0); echo '<span class="hasTip" title="'.vmText::_('COM_VM_MEDIA_MISSING_TIP').'" style="vertical-align:middle;padding:4px 0 0;">'.vmText::_('COM_VM_MEDIA_MISSING').'</span>'?>
 			  </td>
+              <td>
+				  <?php echo $this->lists['vendors'] ?>
+              </td>
 		  </tr>
 		</table>
 		</div>
@@ -77,7 +82,7 @@ $productfileslist = $this->files;
 					continue;
 				}
 			}
-			$checked = vHtml::_('grid.id', $i , $productfile->virtuemart_media_id,null,'virtuemart_media_id');
+			$checked = JHtml::_('grid.id', $i , $productfile->virtuemart_media_id,null,'virtuemart_media_id');
 			if (!is_null($productfile->virtuemart_media_id)) 	$published = $this->gridPublished( $productfile, $i );
 			else $published = '';
 			?>
@@ -88,12 +93,12 @@ $productfileslist = $this->files;
 				<?php
 				$link = ""; //"index.php?view=media&limitstart=".$pagination->limitstart."&keyword=".urlencode($keyword)."&option=".$option;
 			/*	?>
-				<td><?php echo vHtml::_('link', JRoute::_($link, FALSE), empty($productfile->product_name)? '': htmlentities($productfile->product_name)); ?></td>
+				<td><?php echo JHtml::_('link', JRoute::_($link, FALSE), empty($productfile->product_name)? '': htmlentities($productfile->product_name)); ?></td>
 				<!-- File name -->
 				<?php */
 				$link = 'index.php?option='.$option.'&view=media&task=edit&virtuemart_media_id[]='.$productfile->virtuemart_media_id;
 				?>
-				<td><?php echo vHtml::_('link', JRoute::_($link, FALSE), $productfile->file_title, array('title' => vmText::_('COM_VIRTUEMART_EDIT').' '.$productfile->file_title)); ?></td>
+				<td><?php echo JHtml::_('link', JRoute::_($link, FALSE), $productfile->file_title, array('title' => vmText::_('COM_VIRTUEMART_EDIT').' '.$productfile->file_title)); ?></td>
 				<!-- File role -->
 				<td><?php
 					//Just to have something, we could make this nicer with Icons

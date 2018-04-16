@@ -11,14 +11,14 @@ defined('_JEXEC') or  die( 'Direct Access to '.basename(__FILE__).' is not allow
 * VirtueMart is Free Software.
 * VirtueMart comes with absolute no warranty.
 *
-* www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 */
 
 defined('DS') or define('DS', DIRECTORY_SEPARATOR);
-if (!class_exists( 'VmConfig' )) require(JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'helpers'.DS.'config.php');
+if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 
 VmConfig::loadConfig();
-VmConfig::loadJLang('mod_virtuemart_manufacturer', true);
+vmLanguage::loadModJLang('mod_virtuemart_manufacturer');
 
 $display_style = 	$params->get( 'display_style', "div" ); // Display Style
 $manufacturers_per_row = $params->get( 'manufacturers_per_row', 1 ); // Display X manufacturers per Row
@@ -30,6 +30,8 @@ $model = VmModel::getModel('Manufacturer');
 $manufacturers = $model->getManufacturers(true, true,true);
 $model->addImages($manufacturers);
 if(empty($manufacturers)) return false;
+
+$totalManus = 		count( $manufacturers);
 
 // load the template
 require JModuleHelper::getLayoutPath('mod_virtuemart_manufacturer', $params->get('layout', 'default'));

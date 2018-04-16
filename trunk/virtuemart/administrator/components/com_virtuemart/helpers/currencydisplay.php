@@ -40,6 +40,11 @@ class CurrencyDisplay {
 	var $_vendorCurrency_code_3 = 0;
 	var $_vendorCurrency_numeric = 0;
 
+	public static $priceNames = array('basePrice','variantModification','basePriceVariant',
+	'basePriceWithTax','discountedPriceWithoutTax', 'discountedPriceWithoutTaxTt',
+	'salesPrice', 'salesPriceTt', 'priceWithoutTax', 'priceWithoutTaxTt',
+	'salesPriceWithDiscount','discountAmount','discountAmountTt','taxAmount', 'taxAmountTt','unitPrice');
+
 	private function __construct ($vendorId = 0){
 
 		if(empty($vendorId)) $vendorId = 1;
@@ -66,6 +71,7 @@ class CurrencyDisplay {
 			$this->_currencyConverter = new convertECB();
 
 		}
+
 
 	}
 
@@ -97,7 +103,7 @@ class CurrencyDisplay {
 			self::$_instance[$h] = new CurrencyDisplay($vendorId);
 
 			if(empty($currencyId)){
-				$app = vFactory::getApplication();
+				$app = JFactory::getApplication();
 				if($app->isSite()){
 					self::$_instance[$h]->_currency_id = $app->getUserStateFromRequest( "virtuemart_currency_id", 'virtuemart_currency_id',vRequest::getInt('virtuemart_currency_id', 0));
 				}
@@ -115,14 +121,14 @@ class CurrencyDisplay {
 			if(!empty($style)){
 				self::$_instance[$h]->setCurrencyDisplayToStyleStr($style);
 			} else {
-				VmConfig::loadJLang('com_virtuemart');
+				vmLanguage::loadJLang('com_virtuemart');
 
 				if(empty(self::$_instance[$h]->_currency_id)){
-					$link = vUri::root().'administrator/index.php?option=com_virtuemart&view=user&task=editshop';
+					$link = JURI::root().'administrator/index.php?option=com_virtuemart&view=user&task=editshop';
 					vmWarn(vmText::sprintf('COM_VIRTUEMART_CONF_WARN_NO_CURRENCY_DEFINED','<a href="'.$link.'">'.$link.'</a>'));
 				} else{
 					if(vRequest::getCmd('view')!='currency'){
-						$link = vUri::root().'administrator/index.php?option=com_virtuemart&view=currency&task=edit&cid[]='.self::$_instance[$h]->_currency_id;
+						$link = JURI::root().'administrator/index.php?option=com_virtuemart&view=currency&task=edit&cid[]='.self::$_instance[$h]->_currency_id;
 						vmWarn(vmText::sprintf('COM_VIRTUEMART_CONF_WARN_NO_FORMAT_DEFINED','<a href="'.$link.'">'.$link.'</a>'));
 					}
 				}
@@ -178,16 +184,11 @@ class CurrencyDisplay {
 
 		}
 
-		$priceFieldsRoots = array('basePrice','variantModification','basePriceVariant',
-			'basePriceWithTax','discountedPriceWithoutTax',
-			'salesPrice','priceWithoutTax',
-			'salesPriceWithDiscount','discountAmount','taxAmount','unitPrice');
-
 		if($sprgrp){
 
 			if($sprgrp->custom_price_display){
 				if($sprgrp->show_prices){
-					foreach($priceFieldsRoots as $name){
+					foreach(self::$priceNames as $name){
 						$show = (int)$sprgrp->$name;
 						$text = (int)$sprgrp->{$name.'Text'};
 						$round = (int)$sprgrp->{$name.'Rounding'};
@@ -199,7 +200,7 @@ class CurrencyDisplay {
 				}
 			} else {
 				if(VmConfig::get('show_prices', 1)){
-					foreach($priceFieldsRoots as $name){
+					foreach(self::$priceNames as $name){
 						$show = VmConfig::get($name,0);
 						$text = VmConfig::get($name.'Text',0);
 						$round = VmConfig::get($name.'Rounding',$this->_nbDecimal);
@@ -213,7 +214,7 @@ class CurrencyDisplay {
 		}
 
 		if(!count($this->_priceConfig)){
-			foreach($priceFieldsRoots as $name){
+			foreach(self::$priceNames as $name){
 				$this->_priceConfig[$name] = array(0,0,0);
 			}
 		}
@@ -249,7 +250,8 @@ class CurrencyDisplay {
 
 	public function roundForDisplay($price, $currencyId=0,$quantity = 1.0,$inToShopCurrency = false,$nb= -1){
 
-		$currencyId = $this->getCurrencyForDisplay($currencyId);
+		if(empty($currencyId)) $currencyId = $this->getCurrencyForDisplay($currencyId);
+
 		if($nb==-1){
 			$nb = $this->_nbDecimal;
 		}
@@ -284,13 +286,16 @@ class CurrencyDisplay {
 			$nb = abs($nb);
 		}
 
-		//$res = $this->formatNumber($nb, $nbDecimal, $this->_thousands, $this->_decimal);
 		$res = number_format((float)$nb,(int)$nbDecimal,$this->_decimal,$this->_thousands);
 		$search = array('{sign}', '{number}', '{symbol}');
 		$replace = array($sign, $res, $this->_symbol);
 		$formattedRounded = str_replace ($search,$replace,$format);
 
 		return $formattedRounded;
+	}
+
+	public function getFormattedNumber($n,$dec){
+		return number_format((float)$n,(int)$dec,$this->_decimal,$this->_thousands);
 	}
 
 	/**
@@ -314,7 +319,11 @@ class CurrencyDisplay {
 
 		//This is a fallback because we removed the "salesPriceWithDiscount" ;
 		if(is_array($product_price)){
-			$price = $product_price[$name] ;
+			if(isset($product_price[$name])){
+				$price = $product_price[$name] ;
+			} else {
+				return '';
+			}
 		} else {
 			$price = $product_price;
 		}
@@ -331,16 +340,15 @@ class CurrencyDisplay {
 			if($priceOnly){
 				return $priceFormatted;
 			}
-			if($forceNoLabel) {
-				return '<div class="Price'.$name.$vis.'" ><span class="Price'.$name.'" >'.$priceFormatted.'</span></div>';
-			}
-			$descr = '';
-			if($this->_priceConfig[$name][2]) $descr = vmText::_($description);
-			// 			vmdebug('createPriceDiv $name '.$name.' '.$product_price[$name]);
-			if($switchSequel){
-				return '<div class="Price'.$name.$vis.'"  ><span class="Price'.$name.'" >'.$priceFormatted.'</span>'.$descr.'</div>';
+			if($this->_priceConfig[$name][2] and !$forceNoLabel) {
+				$descr = vmText::_($description);
+				if($switchSequel){
+					return '<div class="Price'.$name.$vis.'"><span class="Price'.$name.'">'.$priceFormatted.'</span>'.$descr.'</div>';
+				} else {
+					return '<div class="Price'.$name.$vis.'"><span class="vm-price-desc">'.$descr.'</span><span class="Price'.$name.'">'.$priceFormatted.'</span></div>';
+				}
 			} else {
-				return '<div class="Price'.$name.$vis.'"><span class="vm-price-desc">'.$descr.'</span><span class="Price'.$name.'">'.$priceFormatted.'</span></div>';
+				return '<div class="Price'.$name.$vis.'"><span class="Price'.$name.'">'.$priceFormatted.'</span></div>';
 			}
 		}
 
@@ -371,7 +379,7 @@ class CurrencyDisplay {
 		else {
 			static $currency_exchange_rate = array();
 			if(!isset($currency_exchange_rate[$currency])){
-				$db = vFactory::getDbo();
+				$db = JFactory::getDBO();
 				$q = 'SELECT `currency_exchange_rate` FROM `#__virtuemart_currencies` WHERE `virtuemart_currency_id` ="'.(int)$currency.'" ';
 				$db->setQuery($q);
 				$currency_exchange_rate[$currency] = (float)$db->loadResult();

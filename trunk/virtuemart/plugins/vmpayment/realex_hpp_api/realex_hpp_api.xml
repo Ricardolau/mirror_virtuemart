@@ -4,7 +4,7 @@
     <name>realex_hpp_api</name>
     <creationDate>${PHING.VM.RELDATE}</creationDate>
     <author>The VirtueMart Development Team</author>
-    <authorUrl>http://www.virtuemart.net</authorUrl>
+    <authorUrl>${PHING.VM.MAINTAINERURL}</authorUrl>
     <copyright>${PHING.VM.COPYRIGHT}</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <version>${PHING.VM.RELEASE}</version>
@@ -204,7 +204,7 @@
                        description=""/>
                 <field name="payment_logos" type="vmfiles" multiple="true" label="VMPAYMENT_REALEX_HPP_API_LOGOS"
                        description="VMPAYMENT_REALEX_HPP_API_LOGOS_DESC"
-                       directory="/images/stories/virtuemart/payment"
+                       directory="/images/virtuemart/payment"
                        default="default" hide_default="1" hide_none="1"
                        stripext="0" exclude="^_"/>
                 <field name="card_payment_button" type="text" size="40" maxlength="25" default=""
@@ -212,7 +212,7 @@
                        description="VMPAYMENT_REALEX_HPP_API_CARD_PAYMENT_BUTTON_TIP"/>
                 <field class="remote" name="cvv_images" type="vmfiles" label="VMPAYMENT_REALEX_HPP_API_CVV_IMAGES"
                        description="VMPAYMENT_REALEX_HPP_API_CVV_IMAGES_DESC"
-                       directory="/images/stories/virtuemart/payment"
+                       directory="/images/virtuemart/payment"
                        default="default" hide_default="1" hide_none="1"
                        stripext="0" exclude="^_"/>
 

@@ -6,7 +6,7 @@
  * @package	VirtueMart
  * @subpackage User
  * @author Oscar van Eijk
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -39,15 +39,15 @@ class VirtuemartViewUser extends VmViewAdmin {
 			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'html.php');
 
 		$model = VmModel::getModel();
-		$currentUser = vFactory::getUser();
+		$currentUser = JFactory::getUser();
 
-		VmConfig::loadJLang('com_virtuemart_shoppers',TRUE);
+		vmLanguage::loadJLang('com_virtuemart_shoppers',TRUE);
 
 		$task = vRequest::getCmd('task', 'edit');
 		if($task == 'editshop'){
 			$isSuperOrVendor = vmAccess::isSuperVendor();
 			if(empty($isSuperOrVendor)){
-				vFactory::getApplication()->redirect( 'index.php?option=com_virtuemart', vmText::_('JERROR_ALERTNOAUTHOR'), 'error');
+				JFactory::getApplication()->redirect( 'index.php?option=com_virtuemart', vmText::_('JERROR_ALERTNOAUTHOR'), 'error');
 			} else {
 				if(!class_exists('VirtueMartModelVendor')) require(VMPATH_ADMIN.DS.'models'.DS.'vendor.php');
 				$userId = VirtueMartModelVendor::getUserIdByVendorId($isSuperOrVendor);
@@ -69,7 +69,7 @@ class VirtuemartViewUser extends VmViewAdmin {
 
 		if ($layoutName == 'edit' || $layoutName == 'edit_shipto') {
 
-			$editor = vFactory::getEditor();
+			$editor = JFactory::getEditor();
 
 			if (!class_exists('VmImage'))
 				require(VMPATH_ADMIN . DS . 'helpers' . DS . 'image.php');
@@ -100,8 +100,8 @@ class VirtuemartViewUser extends VmViewAdmin {
 			$this->lists['canBlock'] = ($currentUser->authorise('com_users', 'block user')
 			&& ($userDetails->JUser->get('id') != $currentUser->get('id'))); // Can't block myself
 			$this->lists['canSetMailopt'] = $currentUser->authorise('workflow', 'email_events');
-			$this->lists['block'] = vHtml::_('select.booleanlist', 'block',      'class="inputbox"', $userDetails->JUser->get('block'),     'COM_VIRTUEMART_YES', 'COM_VIRTUEMART_NO');
-			$this->lists['sendEmail'] = vHtml::_('select.booleanlist', 'sendEmail',  'class="inputbox"', $userDetails->JUser->get('sendEmail'), 'COM_VIRTUEMART_YES', 'COM_VIRTUEMART_NO');
+			$this->lists['block'] = JHtml::_('select.booleanlist', 'block',      'class="inputbox"', $userDetails->JUser->get('block'),     'COM_VIRTUEMART_YES', 'COM_VIRTUEMART_NO');
+			$this->lists['sendEmail'] = JHtml::_('select.booleanlist', 'sendEmail',  'class="inputbox"', $userDetails->JUser->get('sendEmail'), 'COM_VIRTUEMART_YES', 'COM_VIRTUEMART_NO');
 			$this->lists['params'] = $userDetails->JUser->getParameters(true);
 
 			// Shopper info
@@ -115,10 +115,11 @@ class VirtuemartViewUser extends VmViewAdmin {
 			$this->lists['custnumber'] = $model->getCustomerNumberById();
 
 			// Shipment address(es)
-			$this->lists['shipTo'] = ShopFunctions::generateStAddressList($this,$model,'addST');
+			if(!class_exists('ShopFunctionsF')) require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
+			$this->lists['shipTo'] = shopFunctionsF::generateStAddressList($this, $model, 'addST');
 
 			$new = false;
-			if(vRequest::getInt('new','0')===1){
+			if(vRequest::getInt('new','0')==1){
 				$new = true;
 			}
 
@@ -129,13 +130,13 @@ class VirtuemartViewUser extends VmViewAdmin {
 			// Load the required scripts
 			if (count($userFieldsBT['scripts']) > 0) {
 				foreach ($userFieldsBT['scripts'] as $_script => $_path) {
-					vHtml::script($_script, $_path);
+					JHtml::script($_script, $_path);
 				}
 			}
 			// Load the required stylesheets
 			if (count($userFieldsBT['links']) > 0) {
 				foreach ($userFieldsBT['links'] as $_link => $_path) {
-					vHtml::stylesheet($_link, $_path);
+					vmJsApi::css($_link, $_path);
 				}
 			}
 
@@ -150,12 +151,12 @@ class VirtuemartViewUser extends VmViewAdmin {
 				$userFieldsArray = $model->getUserInfoInUserFields($layoutName,'ST',$virtuemart_userinfo_id,false);
 				if($new ){
 					$virtuemart_userinfo_id = 0;
+
 				} else {
 
 				}
 				$userFieldsST = $userFieldsArray[$virtuemart_userinfo_id];
 				$this->assignRef('shipToFields', $userFieldsST);
-				vmdebug('hm ST $virtuemart_userinfo_id',$virtuemart_userinfo_id);
 			}
 
 			$this->assignRef('shipToId', $virtuemart_userinfo_id);
@@ -212,20 +213,23 @@ class VirtuemartViewUser extends VmViewAdmin {
 
 		} else {
 
-			vToolBarHelper::divider();
-			vToolBarHelper::custom('toggle.user_is_vendor.1', 'publish','','COM_VIRTUEMART_USER_ISVENDOR');
-			vToolBarHelper::custom('toggle.user_is_vendor.0', 'unpublish','','COM_VIRTUEMART_USER_ISNOTVENDOR');
-			vToolBarHelper::divider();
-			vToolBarHelper::deleteList();
-			vToolBarHelper::editList();
+			JToolBarHelper::divider();
+			JToolBarHelper::custom('toggle.user_is_vendor.1', 'publish','','COM_VIRTUEMART_USER_ISVENDOR');
+			JToolBarHelper::custom('toggle.user_is_vendor.0', 'unpublish','','COM_VIRTUEMART_USER_ISNOTVENDOR');
+			JToolBarHelper::divider();
+
+			if (vmAccess::manager('user.delete')) {
+				JToolBarHelper::deleteList();
+			}
+
+			JToolBarHelper::editList();
 			self::showACLPref('user');
 			//This is intentionally, creating new user via BE is buggy and can be done by joomla
-			//vToolBarHelper::addNewX();
+			//JToolBarHelper::addNewX();
 			$this->addStandardDefaultViewLists($model,'ju.id');
 
-			$userList = $model->getUserList();
-			$this->assignRef('userList', $userList);
-
+			$this->userList = $model->getUserList();
+			$this->searchTable = $model->searchTable;
 			$this->pagination = $model->getPagination();
 
 			$shoppergroupmodel = VmModel::getModel('shopperGroup');
@@ -234,7 +238,7 @@ class VirtuemartViewUser extends VmViewAdmin {
 
 
 		if(!empty($this->orderlist)){
-			VmConfig::loadJLang('com_virtuemart_orders',TRUE);
+			vmLanguage::loadJLang('com_virtuemart_orders',TRUE);
 		}
 		parent::display($tpl);
 	}
@@ -260,7 +264,7 @@ class VirtuemartViewUser extends VmViewAdmin {
 	private function checkTCPDFinstalled(){
 
 		if(!file_exists(VMPATH_LIBS.DS.'tcpdf'.DS.'tcpdf.php')){
-			VmConfig::loadJLang('com_virtuemart_config');
+			vmLanguage::loadJLang('com_virtuemart_config');
 			vmWarn('COM_VIRTUEMART_TCPDF_NINSTALLED');
 		}
 	}

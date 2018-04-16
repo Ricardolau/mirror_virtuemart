@@ -6,7 +6,7 @@
  * @package	VirtueMart
  * @subpackage
  * @author Max Milbers, Valerie Isaksen
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -37,8 +37,19 @@ class VirtuemartControllerOrders extends VmController {
 	 * @author
 	 */
 	function __construct() {
-		VmConfig::loadJLang('com_virtuemart_orders',TRUE);
+		vmLanguage::loadJLang('com_virtuemart_orders',TRUE);
 		parent::__construct();
+
+	}
+
+	/**
+	 * Calls the FE Invoice view, to generate invoices from the BE using the FE views
+	 */
+	public function callInvoiceView(){
+
+		if(!class_exists( 'VirtueMartControllerInvoice' )) require(VMPATH_SITE.DS.'controllers'.DS.'invoice.php');
+		$controller = new VirtueMartControllerInvoice();
+		$controller->display();
 
 	}
 
@@ -57,7 +68,7 @@ class VirtuemartControllerOrders extends VmController {
 
 		$q = 'SELECT `product_attribute` FROM `#__virtuemart_order_items` LIMIT ';
 		$do = true;
-		$db = vFactory::getDbo();
+		$db = JFactory::getDbo();
 		$start = 0;
 		$hunk  = 1000;
 		while($do){
@@ -166,7 +177,7 @@ class VirtuemartControllerOrders extends VmController {
 	 */
 	public function updatestatus() {
 
-		$app = vFactory::getApplication();
+		$app = Jfactory::getApplication();
 		$lastTask = vRequest::getCmd('last_task');
 
 		if(!vmAccess::manager('orders.status')){
@@ -208,7 +219,7 @@ class VirtuemartControllerOrders extends VmController {
 
 	/**
 	 * Save changes to the order item status
-	 *
+	 * @deprecated Not used, we are going to remove this, use editOrderItem
 	 */
 	public function saveItemStatus() {
 
@@ -218,7 +229,7 @@ class VirtuemartControllerOrders extends VmController {
 			$view->display();
 			return false;
 		}
-		$mainframe = vFactory::getApplication();
+		$mainframe = Jfactory::getApplication();
 
 		$data = vRequest::getRequest();
 		$model = VmModel::getModel();
@@ -254,18 +265,20 @@ class VirtuemartControllerOrders extends VmController {
 
 		$model = VmModel::getModel();
 
-		$_items = vRequest::getVar('item_id',  0, '', 'array');
+		$_items = vRequest::getVar('item_id', 0);
 
+		//The order editing often needs some correction. So we disable sending of the emails here
+		$_items['customer_notified'] = 0;
 		$model->updateStatusForOneOrder($_orderID,$_items,true);
 
 		$model->deleteInvoice($_orderID);
 
-		$app = vFactory::getApplication();
+		$app = JFactory::getApplication();
 		$app->redirect('index.php?option=com_virtuemart&view=orders&task=edit&virtuemart_order_id='.$_orderID);
 	}
 
 	public function updateOrderHead() {
-		$mainframe = vFactory::getApplication();
+		$mainframe = Jfactory::getApplication();
 		if(!vmAccess::manager('orders.edit')) {
 			vmInfo('Restricted');
 			$view = $this->getView('orders', 'html');
@@ -273,7 +286,6 @@ class VirtuemartControllerOrders extends VmController {
 			return false;
 		}
 		$model = VmModel::getModel();
-		$_items = vRequest::getVar('item_id',  0, '', 'array');
 		$_orderID = vRequest::getInt('virtuemart_order_id', '');
 		$model->UpdateOrderHead((int)$_orderID, vRequest::getRequest());
 		$model->deleteInvoice($_orderID);
@@ -282,7 +294,7 @@ class VirtuemartControllerOrders extends VmController {
 	}
 
 	public function CreateOrderHead() {
-		$mainframe = vFactory::getApplication();
+		$mainframe = Jfactory::getApplication();
 		if(!vmAccess::manager('orders.create')) {
 			vmInfo( 'Restricted' );
 			$view = $this->getView( 'orders', 'html' );
@@ -321,23 +333,74 @@ class VirtuemartControllerOrders extends VmController {
 
 		$model = VmModel::getModel();
 		$msg = '';
-		$orderId = vRequest::getInt('orderId', '');
-		if(!vmAccess::manager('orders.edit')) {
+		$orderId = vRequest::getInt('virtuemart_order_id', '');
+		if(!vmAccess::manager('orders.edit') or VmConfig::get('ordersAddOnly',false)) {
 			vmInfo( 'Restricted' );
 			$view = $this->getView( 'orders', 'html' );
 			$view->display();
 			return false;
 		}
-		$orderLineItem = vRequest::getInt('orderLineId', '');
+		$orderLineItem = vRequest::getInt('orderLineId', false);
 
-		$model->removeOrderLineItem($orderLineItem);
+		if(!empty($orderId) and !empty($orderLineItem)) {
 
-		$model->deleteInvoice($orderId);
+			$model->removeOrderLineItem($orderLineItem);
+
+			//The order editing often needs some correction. So we disable sending of the emails here
+			//Also changed order status per line will not update the inventory. The user must use for the moment the "update Status"
+			$_items = vRequest::getVar('item_id', 0);
+
+			foreach($_items as $i => $item){
+				if($i == $orderLineItem){
+					unset($_items[$i]);
+					break;
+				}
+			}
+
+			$_items['customer_notified'] = 0;
+			$model->updateStatusForOneOrder($orderId,$_items,true);
+
+			$model->deleteInvoice($orderId);
+		}
 
 		$editLink = 'index.php?option=com_virtuemart&view=orders&task=edit&virtuemart_order_id=' . $orderId;
-		$this->setRedirect($editLink, $msg);
+		$app = JFactory::getApplication();
+		$app->redirect($editLink);
 	}
 
+
+	/**
+	 * remove order
+	 *
+	 * @author Valérie Isaksen
+	 */
+	function remove(){
+
+		vRequest::vmCheckToken();
+
+		$ids = vRequest::getVar($this->_cidName, vRequest::getInt('cid', array() ));
+		$app = JFactory::getApplication ();
+
+		if(count($ids) < 1) {
+			$msg = vmText::_('COM_VIRTUEMART_SELECT_ITEM_TO_DELETE');
+			$app->enqueueMessage ($msg, 'notice');
+		} else {
+			$model = $this->getModel($this->_cname);
+			$removedOrderMsgs = $model->remove($ids);
+
+			foreach ($removedOrderMsgs as $orderNumber => $removedOrderMsg) {
+				if ($removedOrderMsg=== true) {
+					$msg = vmText::sprintf('COM_VIRTUEMART_STRING_DELETED',$this->mainLangKey). ' '.$orderNumber;
+					$app->enqueueMessage ($msg, 'notice');
+				} else {
+					$msg = vmText::sprintf($removedOrderMsg,$this->mainLangKey). ' '.$orderNumber;
+					$app->enqueueMessage ($msg, 'error');
+				}
+			}
+		}
+
+		$this->setRedirect($this->redirectPath);
+	}
 }
 // pure php no closing tag
 

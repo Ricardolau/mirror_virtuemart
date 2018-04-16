@@ -6,7 +6,7 @@
  * @package	VirtueMart
  * @subpackage ShopperGroup
  * @author Markus �hler
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -45,8 +45,8 @@ class VirtuemartViewShopperGroup extends VmViewAdmin {
 
 		if ($layoutName == 'edit') {
 			//For shoppergroup specific price display
-			VmConfig::loadJLang('com_virtuemart_config');
-			VmConfig::loadJLang('com_virtuemart_shoppers',true);
+			vmLanguage::loadJLang('com_virtuemart_config');
+			vmLanguage::loadJLang('com_virtuemart_shoppers',true);
 			$shoppergroup = $model->getShopperGroup();
 			$this->SetViewTitle('SHOPPERGROUP',$shoppergroup->shopper_group_name);
 

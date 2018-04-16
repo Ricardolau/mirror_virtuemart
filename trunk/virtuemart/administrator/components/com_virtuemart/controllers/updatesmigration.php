@@ -7,7 +7,7 @@
  * @package	VirtueMart
  * @subpackage updatesMigration
  * @author Max Milbers, RickG
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -20,7 +20,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 if(!class_exists('VmController'))
-require(VMPATH_ADMIN . DS . 'helpers' . DS . 'vmcontroller.php');
+	require(VMPATH_ADMIN . DS . 'helpers' . DS . 'vmcontroller.php');
 
 /**
  * updatesMigration Controller
@@ -30,8 +30,6 @@ require(VMPATH_ADMIN . DS . 'helpers' . DS . 'vmcontroller.php');
  * @author Max Milbers
  */
 class VirtuemartControllerUpdatesMigration extends VmController{
-
-	private $installer;
 
 	/**
 	 * Method to display the view
@@ -50,6 +48,7 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 	 */
 	private function checkPermissionForTools(){
 		vRequest::vmCheckToken();
+		//Hardcore Block, we may do that better later
 		if(!vmAccess::manager('core') ){
 			$msg = 'Forget IT';
 			$this->setRedirect('index.php?option=com_virtuemart', $msg);
@@ -58,17 +57,22 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		return true;
 	}
 
-	/**
-	 * Install sample data into the database
-	 *
-	 * @author RickG
-	 */
-	function checkForLatestVersion(){
-		$model = $this->getModel('updatesMigration');
-		vRequest::setVar('latestverison', $model->getLatestVersion());
-		vRequest::setVar('view', 'updatesMigration');
+	function setsafepathupper(){
 
-		parent::display();
+		$this->checkPermissionForTools();
+
+		$model = $this->getModel('updatesMigration');
+		$model->setSafePathCreateFolders();
+		$this->setRedirect($this->redirectPath);
+	}
+
+	function setsafepathcom(){
+
+		$this->checkPermissionForTools();
+
+		$model = $this->getModel('updatesMigration');
+		$model->setSafePathCreateFolders(vRequest::getVar('safepathToken'));
+		$this->setRedirect($this->redirectPath);
 	}
 
 	/**
@@ -82,9 +86,9 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 
 		$model = $this->getModel('updatesMigration');
 
-		$msg = $model->installSampleData();
+		$model->installSampleData();
 
-		$this->setRedirect($this->redirectPath, $msg);
+		$this->setRedirect($this->redirectPath);
 	}
 
 	/**
@@ -135,7 +139,7 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		$q = 'SELECT `virtuemart_customfield_id` FROM `#__virtuemart_product_customfields` LEFT JOIN `#__virtuemart_customs` USING (`virtuemart_custom_id`) ';
 		$q = 'SELECT `virtuemart_customfield_id`,`customfield_params` FROM `#__virtuemart_product_customfields` ';
 		$q .= ' WHERE `customfield_params`!="" ';
-		$db = vFactory::getDbo();
+		$db = JFactory::getDbo();
 		$db->setQuery($q);
 
 		$rows = $db->loadAssocList();
@@ -149,7 +153,6 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 			if($json){
 
 				$vars = get_object_vars($json);
-
 				foreach($vars as $key=>$value){
 					if(!empty($key)){
 						$store .= $key . '=' . vmJsApi::safe_json_encode($value) . '|';
@@ -160,7 +163,6 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 					$q = 'UPDATE `#__virtuemart_product_customfields` SET `customfield_params` = "'.$db->escape($store).'" WHERE `virtuemart_customfield_id` = "'.$fields['virtuemart_customfield_id'].'" ';
 					$db->setQuery($q);
 					$db->execute();
-
 				}
 
 			}
@@ -180,8 +182,12 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		$this->checkPermissionForTools();
 		if(VmConfig::get('dangeroustools', false)){
 
-			$db = vFactory::getDbo();
+			$db = JFactory::getDbo();
 
+			/*$q = 'SELECT customfield_id ';
+			$q .= 'FROM `#__virtuemart_product_customfields` as pc WHERE
+					LEFT JOIN `#__virtuemart_products` as c using (`virtuemart_product_id`) ';
+			$q .= 'WHERE c.product_parent_id =';*/
 			$q = ' SELECT `product_parent_id` FROM `#__virtuemart_products`
 					INNER JOIN `#__virtuemart_product_customfields` as pc using (`virtuemart_product_id`)
 					WHERE `product_parent_id` != "0" GROUP BY `product_parent_id` ';
@@ -211,7 +217,7 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 					foreach($cfs as $cf){
 						foreach($pcfs as $pcf){
 							if($cf['virtuemart_custom_id'] == $pcf['virtuemart_custom_id']){
-									vmdebug('virtuemart_custom_id same');
+								vmdebug('virtuemart_custom_id same');
 								if($cf['customfield_value'] == $pcf['customfield_value'] and
 								$cf['customfield_price'] == $pcf['customfield_price'] and
 								$cf['customfield_params'] == $pcf['customfield_params']){
@@ -232,6 +238,10 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 				$db->execute();
 			}
 
+			/*$q = 'SELECT `virtuemart_customfield_id`
+					FROM `#__virtuemart_product_customfields` as pc
+					LEFT JOIN `#__virtuemart_products` as c using (`virtuemart_product_id`)';
+			$q .= ' WHERE c.product_parent_id != "0" AND ';*/
 		} else {
 			$msg = $this->_getMsgDangerousTools();
 		}
@@ -286,39 +296,6 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		$this->setRedirect($this->redirectPath, $msg);
 	}
 
-	function deleteAll(){
-
-		$this->checkPermissionForTools();
-
-		$msg = vmText::_('COM_VIRTUEMART_SYSTEM_ALLVMDATA_DELETED');
-		if(VmConfig::get('dangeroustools', false)){
-
-			$this->installer->populateVmDatabase("delete_essential.sql");
-			$this->installer->populateVmDatabase("delete_data.sql");
-			$this->setDangerousToolsOff();
-		}else {
-			$msg = $this->_getMsgDangerousTools();
-		}
-
-		$this->setRedirect($this->redirectPath, $msg);
-	}
-
-	function deleteRestorable(){
-
-		$this->checkPermissionForTools();
-
-		$msg = vmText::_('COM_VIRTUEMART_SYSTEM_RESTVMDATA_DELETED');
-		if(VmConfig::get('dangeroustools', false)){
-			$this->installer->populateVmDatabase("delete_restoreable.sql");
-			$this->setDangerousToolsOff();
-		}else {
-			$msg = $this->_getMsgDangerousTools();
-		}
-
-
-		$this->setRedirect($this->redirectPath, $msg);
-	}
-
 	function refreshCompleteInstallAndSample(){
 
 		$this->refreshCompleteInstall(true);
@@ -333,15 +310,54 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 
 			$model = $this->getModel('updatesMigration');
 
-			$model->restoreSystemTablesCompletly();
+			$safePath = VmConfig::get('forSale_path');
 
+			$model->restoreSystemTablesCompletly();
 			$sid = $model->setStoreOwner();
 
 			$sampletxt = '';
 			if($sample){
+
 				$model->installSampleData($sid);
+
+				if(!class_exists('VmConfig')) require_once(VMPATH_ADMIN .'/models/config.php');
+				VirtueMartModelConfig::installVMconfigTable();
+
+				if(!class_exists('VirtueMartModelConfig')) require(VMPATH_ADMIN .'/models/config.php');
+				$res  = VirtueMartModelConfig::checkConfigTableExists();
+
+				if($res) {
+					$config = VmConfig::loadConfig(true);
+					$config->set('forSale_path', $safePath);
+
+					$data['virtuemart_config_id'] = 1;
+					$data['config'] = $config->toString();
+
+					$confTable = $model->getTable( 'configs' );
+					$confTable->bindChecknStore( $data );
+
+					VmConfig::loadConfig( true );
+				}
+
 				$sampletxt = ' and sampledata installed';
 			}
+
+			VirtueMartModelConfig::installLanguageTables();
+
+			$cache = VmConfig::getCache();
+			//$cache = JFactory::getCache();
+			$cache->clean('com_virtuemart_cats');
+			$cache->clean('com_virtuemart_cat_childs');
+			$cache->clean('mod_virtuemart_product');
+			$cache->clean('mod_virtuemart_category');
+			$cache->clean('com_virtuemart_rss');
+			$cache->clean('com_virtuemart_cat_manus');
+			$cache->clean('com_virtuemart_revenue');
+			$cache->clean('convertECB');
+			$cache->clean('_virtuemart');
+			$cache->clean('com_plugins');
+			$cache->clean('_system');
+			$cache->clean('page');
 
 			$msg = '';
 			if(empty($errors)){
@@ -383,17 +399,20 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 			$updater = new com_virtuemart_allinoneInstallerScript(false);
 			$updater->vmInstall(true);
 
-			if($sample) $model->installSampleData($sid);
-
-			if(!class_exists('VmConfig')) require_once(VMPATH_ADMIN .'/models/config.php');
+			if(!class_exists('VirtueMartModelConfig')) require_once(VMPATH_ADMIN .'/models/config.php');
 			VirtueMartModelConfig::installVMconfigTable();
+
+			$this->addAssetEntries();
+			$this->addMenuEntries($sample);
+			if($sample) {
+				$model->installSampleData($sid);
+			}
 
 			//Now lets set some joomla variables
 			//Caching should be enabled, set to files and for 15 minutes
 			if(JVM_VERSION>2){
 				if (!class_exists( 'ConfigModelCms' )) require(VMPATH_ROOT.DS.'components'.DS.'com_config'.DS.'model'.DS.'cms.php');
 				if (!class_exists( 'ConfigModelForm' )) require(VMPATH_ROOT.DS.'components'.DS.'com_config'.DS.'model'.DS.'form.php');
-				if (!class_exists( 'ConfigModelConfig' )) require(VMPATH_ROOT.DS.'components'.DS.'com_config'.DS.'model'.DS.'config.php');
 				if (!class_exists( 'ConfigModelApplication' )) require(VMPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_config'.DS.'model'.DS.'application.php');
 			} else {
 				if (!class_exists( 'ConfigModelApplication' )) require(VMPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_config'.DS.'models'.DS.'application.php');
@@ -406,9 +425,9 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 			$jConfig['lifetime'] = 60;
 			$jConfig['list_limit'] = 25;
 			$jConfig['MetaDesc'] = 'VirtueMart works with Joomla! - the dynamic portal engine and content management system';
-			$jConfig['MetaKeys'] = 'virtuemart, vm2, joomla, Joomla';
+			$jConfig['MetaKeys'] = 'virtuemart, vm3, joomla, Joomla';
 
-			$app = vFactory::getApplication();
+			$app = JFactory::getApplication();
 			$return = $jConfModel->save($jConfig);
 
 			// Check the return value.
@@ -425,7 +444,276 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 			$msg = $this->_getMsgDangerousTools();
 		}
 
-		$this->setRedirect('index.php?option=com_virtuemart&view=updatesmigration&layout=insfinished', $msg);
+		$this->setRedirect('index.php?option=com_virtuemart&view=updatesmigration&layout=insfinished&nosafepathcheck=1', $msg);
+	}
+
+	private function addMenuEntries($sample){
+
+		$db = JFactory::getDbo();
+		$q = 'SELECT extension_id FROM #__extensions WHERE `type` = "component" AND `element` = "com_virtuemart" ';
+		$db ->setQuery($q);
+		$extensionId = $db->loadResult();
+
+		\JTable::addIncludePath(VMPATH_ROOT .'/administrator/components/com_menus/tables');
+		\JModelLegacy::addIncludePath(VMPATH_ROOT .'/administrator/components/com_menus/models', 'MenusModel');
+		$menuModel = \JModelLegacy::getInstance('Item', 'MenusModel', array());
+
+		$this->addBackendMenuEntries($menuModel, $extensionId, $sample);
+
+		//if(!$sample) return;
+
+		$q = 'SELECT m.* FROM `#__menu` as m /*LEFT JOIN `#__menu_types` as mt on m.menutype = mt.menutype */ ';
+		$q .= 'WHERE home = "1" ';//and language = "*"';
+		$q .= ' LIMIT 10';
+		$db->setQuery($q);
+		$feHomeMenus = $db->loadAssocList();
+
+
+
+
+		//$feHomeMenu['id'] = 0;
+
+		foreach($feHomeMenus as $feHomeMenu){
+
+			$feHomeMenu['link'] = 'index.php?option=com_virtuemart&view=category&virtuemart_category_id=0&virtuemart_manufacturer_id=0';
+			$feHomeMenu['component_id'] = $extensionId;
+			$feHomeMenu['params'] = '{"show_store_desc":"","categorylayout":"","showcategory_desc":"","showcategory":"","categories_per_row":"","showproducts":"","showsearch":"","productsublayout":"","products_per_row":"","featured":"","featured_rows":"","discontinued":"","discontinued_rows":"","latest":"","latest_rows":"","topten":"","topten_rows":"","recent":"","recent_rows":"","stf_itemid":"","stf_categorylayout":"","stf_show_store_desc":"","stf_showcategory_desc":"","stf_showcategory":"","stf_categories_per_row":"","stf_showproducts":"","stf_showsearch":"","stf_productsublayout":"","stf_products_per_row":"","stf_featured":"","stf_featured_rows":"","stf_discontinued":"","stf_discontinued_rows":"","stf_latest":"","stf_latest_rows":"","stf_topten":"","stf_topten_rows":"","stf_recent":"","stf_recent_rows":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"menu_show":1,"page_title":"","show_page_heading":"1","page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}';
+			$feHomeMenu['menuordering'] = $feHomeMenu['id'];
+			unset($feHomeMenu['lft']);unset($feHomeMenu['rgt']);
+
+			$menuModel->save($feHomeMenu);
+
+			$aliasSuffix = '';
+			if($feHomeMenu['language']!='*'){
+				$aliasSuffix = '-'.strtolower($feHomeMenu['language']);
+			}
+			$feHomeMenu['home'] = 0;
+			$this->storeMenuEntry($menuModel,$feHomeMenu,'Account','account'.$aliasSuffix,'account','index.php?option=com_virtuemart&view=user&layout=edit','','{"menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"menu_show":1,"page_title":"","show_page_heading":"","page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}');
+
+			$this->storeMenuEntry($menuModel,$feHomeMenu,'Orders','orders'.$aliasSuffix,'orders','index.php?option=com_virtuemart&view=orders&layout=list','','{"menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"menu_show":1,"page_title":"","show_page_heading":"","page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}');
+
+			$this->storeMenuEntry($menuModel,$feHomeMenu,'Cart','cart'.$aliasSuffix,'cart','index.php?option=com_virtuemart&view=cart','','{"menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"menu_show":1,"page_title":"","show_page_heading":"","page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}');
+		}
+
+		//Update Modules
+		$q = 'UPDATE #__modules SET `position`="position-1" WHERE module="mod_menu" and access="1" and client_id=0';
+		$db ->setQuery($q);
+		$db->execute();
+		//vmdebug('addMenuEntries',$data);
+	}
+
+	private function addBackendMenuEntries($menuModel, $extensionId){
+
+		$db = JFactory::getDbo();
+		//We need a menutype for the BE, else the store function overrides the client_id=1
+		$q = 'SELECT `id` FROM `#__menu_types` WHERE menutype="main" and client_id="1" ';
+		$db->setQuery($q);
+		$res = $db->loadResult();
+
+		if(!$res){
+			$q = "INSERT INTO `#__menu_types` (`menutype`, `title`, `description`, client_id) VALUES ('main', 'Main Menu', 'The admin menu for the site',1)";
+			$db->setQuery($q);
+			$db->execute();
+		}
+
+		$data = array();
+		//`id`, `menutype`, `title`, `alias`, `note`, `path`, `link`, `type`, `published`, `parent_id`, `level`, `component_id`, `checked_out`, `checked_out_time`, `browserNav`, `access`, `img`, `template_style_id`, `params`, `lft`, `rgt`, `home`, `language`, `client_id`
+
+		$data['id'] = 0;
+		$data['menutype'] = 'main';
+		$data['note'] = '';
+		$data['type'] = 'component';
+		$data['published'] = 1;
+		$data['parent_id'] = 1;
+		$data['level'] = 1;
+		$data['component_id'] = $extensionId;
+		$data['checked_out'] = 0;
+		$data['checked_out_time'] = '0000-00-00 00:00:00';
+		$data['browserNav'] = 0;
+		$data['access'] = 1;
+		$data['template_style_id'] = 0;
+		//$data['params'] = '{}';
+		$data['home'] = 0;
+		$data['language'] = '*';
+		$data['client_id'] = '1';
+
+		$this->storeMenuEntry($menuModel,$data,'COM_VIRTUEMART','com-virtuemart','com-virtuemart','index.php?option=com_virtuemart','/components/com_virtuemart/assets/images/vmgeneral/menu_icon.png');
+
+		$q = 'SELECT id FROM `#__menu` WHERE menutype ="main" and component_id="'.$extensionId.'" and path = "com-virtuemart" and client_id="1" and published="1"';
+		$db->setQuery($q);
+		$parent_id = $db->loadResult();
+
+		$data['parent_id'] = $parent_id;
+		$data['level'] = 2;
+
+		$this->storeMenuEntry($menuModel,$data,'COM_VIRTUEMART_CONTROL_PANEL','com-virtuemart-control-panel','com-virtuemart/com-virtuemart-control-panel','index.php?option=com_virtuemart&view=virtuemart','components/com_virtuemart/assets/images/icon_16/menu-icon16-report.png');
+		$this->storeMenuEntry($menuModel,$data,'COM_VIRTUEMART_MENU_CATEGORIES','com-virtuemart-menu-categories','com-virtuemart/com-virtuemart-menu-categories','index.php?option=com_virtuemart&view=category','components/com_virtuemart/assets/images/icon_16/menu-icon16-categories.png');
+		$this->storeMenuEntry($menuModel,$data,'COM_VIRTUEMART_MENU_PRODUCTS','com-virtuemart-menu-products','com-virtuemart/com-virtuemart-menu-products','index.php?option=com_virtuemart&view=product','components/com_virtuemart/assets/images/icon_16/menu-icon16-products.png');
+		$this->storeMenuEntry($menuModel,$data,'COM_VIRTUEMART_MENU_ORDERS','com-virtuemart-menu-orders','com-virtuemart/com-virtuemart-menu-orders','index.php?option=com_virtuemart&view=orders','components/com_virtuemart/assets/images/icon_16/menu-icon16-orders.png');
+		$this->storeMenuEntry($menuModel,$data,'COM_VIRTUEMART_MENU_REPORT','com-virtuemart-menu-report','com-virtuemart/com-virtuemart-menu-report','index.php?option=com_virtuemart&view=report','components/com_virtuemart/assets/images/icon_16/menu-icon16-report.png');
+		$this->storeMenuEntry($menuModel,$data,'COM_VIRTUEMART_MENU_USERS','com-virtuemart-menu-users','com-virtuemart/com-virtuemart-menu-users','index.php?option=com_virtuemart&view=user','components/com_virtuemart/assets/images/icon_16/menu-icon16-shoppers.png');
+		$this->storeMenuEntry($menuModel,$data,'COM_VIRTUEMART_MENU_MANUFACTURERS','com-virtuemart-menu-manufacturers','com-virtuemart/com-virtuemart-menu-manufacturers','index.php?option=com_virtuemart&view=manufacturer','components/com_virtuemart/assets/images/icon_16/menu-icon16-manufacturers.png');
+		$this->storeMenuEntry($menuModel,$data,'COM_VIRTUEMART_MENU_STORE','com-virtuemart-menu-store','com-virtuemart/com-virtuemart-menu-store','index.php?option=com_virtuemart&view=user&task=editshop','components/com_virtuemart/assets/images/icon_16/menu-icon16-shop.png');
+		$this->storeMenuEntry($menuModel,$data,'COM_VIRTUEMART_MENU_MEDIAFILES','com-virtuemart-menu-mediafiles','com-virtuemart/com-virtuemart-menu-mediafiles','index.php?option=com_virtuemart&view=media','components/com_virtuemart/assets/images/icon_16/menu-icon16-media.png');
+		$this->storeMenuEntry($menuModel,$data,'COM_VIRTUEMART_MENU_SHIPMENTMETHODS','com-virtuemart-menu-shipmentmethods','com-virtuemart/com-virtuemart-menu-shipmentmethods','index.php?option=com_virtuemart&view=shipmentmethod','components/com_virtuemart/assets/images/icon_16/menu-icon16-shipmentmethods.png');
+		$this->storeMenuEntry($menuModel,$data,'COM_VIRTUEMART_MENU_PAYMENTMETHODS','com-virtuemart-menu-paymentmethods','com-virtuemart/com-virtuemart-menu-paymentmethods','index.php?option=com_virtuemart&view=paymentmethod','components/com_virtuemart/assets/images/icon_16/menu-icon16-paymentmethods.png');
+		$this->storeMenuEntry($menuModel,$data,'COM_VIRTUEMART_MENU_CONFIGURATION','com-virtuemart-menu-configuration','com-virtuemart/com-virtuemart-menu-configuration','index.php?option=com_virtuemart&view=config','components/com_virtuemart/assets/images/icon_16/menu-icon16-config.png');
+
+
+		$q = 'SELECT extension_id FROM #__extensions WHERE `type` = "component" AND `element` = "com_virtuemart_allinone" ';
+		$db ->setQuery($q);
+		$extensionId = $db->loadResult();
+
+		$data['parent_id'] = 1;
+		$data['level'] = 1;
+		$data['component_id'] = $extensionId;
+		$this->storeMenuEntry($menuModel,$data,'VirtueMart AIO','virtuemart-aio','virtuemart-aio','index.php?option=com_virtuemart_allinone','class:component');
+
+		$q = 'SELECT extension_id FROM #__extensions WHERE `type` = "component" AND `element` = "com_tcpdf" ';
+		$db ->setQuery($q);
+		$extensionId = $db->loadResult();
+
+		$data['component_id'] = $extensionId;
+		$this->storeMenuEntry($menuModel,$data,'TCPDF','tcpdf','tcpdf','index.php?option=com_virtuemart_tcpdf','class:component');
+
+		//Lets remove the dummy, before it creates trouble
+		if(!$res){
+			$q = 'DELETE FROM `#__menu_types` WHERE menutype="main" and client_id="1" ';
+			$db->setQuery($q);
+			$db->execute();
+		}
+
+	}
+
+	private function storeMenuEntry($menuModel,$data,$title,$alias,$path,$link,$img,$params = '{}'){
+
+		$db = JFactory::getDbo();
+
+		$menuModel->setState('item.id',0);
+		$q = 'SELECT id FROM `#__menu` WHERE menutype ="'.$data['menutype'].'" and component_id="'.$data['component_id'].'" and alias = "'.$alias.'" and client_id="'.$data['client_id'].'" and published="1" AND language="'.$data['language'].'"';
+
+		$db ->setQuery($q);
+		$data['id'] = $db->loadResult();
+		//if(!empty($data['id'])){
+			$data['menuordering'] = $data['id'];
+		/*} else {
+			$data['menuordering'] = $data['id'];
+		}*/
+		unset($data['lft']);unset($data['rgt']);
+		//vmdebug('storeMenuEntry ' .$q,$data['id'] );
+		$data['title'] = $title;
+		$data['alias'] = $alias;
+		$data['path'] = $path;
+		$data['link'] = $link;
+		$data['img'] = $img;
+		$data['params'] = $params;
+		if(!$menuModel->save($data)){
+			vmdebug('Error $menuModel->save storeMenuEntry ',$menuModel->getError(),$data);
+		}
+	}
+
+	private function addAssetEntries(){
+
+		\JTable::addIncludePath(VMPATH_ROOT .'/libraries/src/Table');
+		$assetTable = JTable::getInstance('Asset');
+
+		$assetData = array();
+		$assetData['parent_id'] = "1";
+		$assetData['level'] = "1";
+		$assetData['name'] = "com_virtuemart";
+		$assetData['title'] = "VIRTUEMART";
+		$this->addAssetEntry($assetTable,$assetData);
+
+		$assetData['name'] = "com_virtuemart_allinone";
+		$assetData['title'] = "VirtueMart_allinone";
+		$this->addAssetEntry($assetTable,$assetData);
+
+		$assetData['name'] = "com_tcpdf";
+		$assetData['title'] = "tcpdf";
+		$this->addAssetEntry($assetTable,$assetData);
+
+		$db = JFactory::getDbo();
+		$q = 'SELECT id FROM #__assets WHERE `name`= "com_modules" ';
+		$db ->setQuery($q);
+		$modulesId = $db->loadResult();
+		$assetData['parent_id'] = $modulesId;
+		$assetData['level'] = "2";
+		$assetData['name'] = "com_modules.module.100";
+		$assetData['title'] = "VM - Administrator Module";
+		$aId = $this->addAssetEntry($assetTable,$assetData);
+		$this->updateModuleAssetId(100,$aId);
+
+		$assetData['name'] = "com_modules.module.101";
+		$assetData['title'] = "VM - Currencies Selector";
+		$aId = $this->addAssetEntry($assetTable,$assetData);
+		$this->updateModuleAssetId(101,$aId);
+
+		$assetData['name'] = "com_modules.module.102";
+		$assetData['title'] = "VM - Featured products";
+		$aId = $this->addAssetEntry($assetTable,$assetData);
+		$this->updateModuleAssetId(102,$aId);
+
+		$assetData['name'] = "com_modules.module.103";
+		$assetData['title'] = "VM - Search in Shop";
+		$aId = $this->addAssetEntry($assetTable,$assetData);
+		$this->updateModuleAssetId(103,$aId);
+
+		$assetData['name'] = "com_modules.module.104";
+		$assetData['title'] = "VM - Manufacturer";
+		$aId = $this->addAssetEntry($assetTable,$assetData);
+		$this->updateModuleAssetId(104,$aId);
+
+		$assetData['name'] = "com_modules.module.105";
+		$assetData['title'] = "VM - Shopping cart";
+		$aId = $this->addAssetEntry($assetTable,$assetData);
+		$this->updateModuleAssetId(105,$aId);
+
+		$assetData['name'] = "com_modules.module.106";
+		$assetData['title'] = "VM - Category";
+		$aId = $this->addAssetEntry($assetTable,$assetData);
+		$this->updateModuleAssetId(106,$aId);
+
+		$assetTable->rebuild();
+	}
+
+	private function addAssetEntry($assetTable, $assetData){
+
+		$db = JFactory::getDbo();
+		$q = 'SELECT * FROM #__assets WHERE `name`= "'.$assetData['name'].'" ';
+		$db ->setQuery($q);
+		$asset = $db->loadAssoc();
+		//vmdebug( 'addAssetEntry $asset ',$asset);
+		$new = false;
+		if(!$asset){
+			$assetData['id'] = 0;
+			$new = true;
+		} else {
+			$assetData = array_merge($asset,$assetData);
+		}
+
+		$assetData['parent_id'] = 1;
+		$assetData['level'] = 1;
+		if($new){
+			$q = 'INSERT INTO #__assets (`parent_id`,`level`,`name`,`title`,`rules`) VALUES (1, 1, "'.$assetData['name'].'", "'.$assetData['title'].'", "{}")';
+			$db->setQuery($q);
+			$db->execute();
+			return $db->insertid();;
+		} else {
+			$assetTable->reset();
+			$assetTable->save($assetData);
+			return $assetData['id'];
+		}
+
+	}
+
+	private function updateModuleAssetId($mId,$aId){
+		$db = JFactory::getDbo();
+		$q = 'UPDATE `#__modules` SET `asset_id`= "'.$aId.'" WHERE  `id`='.$mId.';';
+		$db->setQuery($q);
+		if(!$db->execute()){
+			$m = 'Error updateModuleAssetId ';
+			vmError($m, $m.$q.$db->getError());
+		}
 	}
 
 	/**
@@ -437,6 +725,21 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		if(!class_exists('com_virtuemartInstallerScript')) require(VMPATH_ADMIN . DS . 'install' . DS . 'script.virtuemart.php');
 		$updater = new com_virtuemartInstallerScript();
 		$updater->update(false);
+		$this->setRedirect($this->redirectPath, 'Database updated');
+	}
+
+	function optimizeDatabase(){
+		vRequest::vmCheckToken();
+		$db = JFactory::getDbo();
+
+		$tables = array('virtuemart_products','virtuemart_product_categories','virtuemart_product_manufacturers','virtuemart_categories');
+
+		foreach($tables as $table){
+			$q = 'OPTIMIZE TABLE' . $db->quoteName('#__'.$table);
+			$db->setQuery($q);
+			$db->execute();
+		}
+
 		$this->setRedirect($this->redirectPath, 'Database updated');
 	}
 
@@ -472,9 +775,9 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		$this->checkPermissionForTools();
 
 		//if(VmConfig::get('dangeroustools', true)){
-			$model = $this->getModel('config');
-			$model -> deleteConfig();
-	//	}
+		$model = $this->getModel('config');
+		$model -> deleteConfig();
+		//	}
 		$this->setRedirect($this->redirectPath, 'Configuration is now restored by file');
 	}
 
@@ -501,8 +804,8 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 	 * @author Max Milbers
 	 */
 	function _getMsgDangerousTools(){
-		VmConfig::loadJLang('com_virtuemart_config');
-		$link = vUri::root() . 'administrator/index.php?option=com_virtuemart&view=config';
+		vmLanguage::loadJLang('com_virtuemart_config');
+		$link = JURI::root() . 'administrator/index.php?option=com_virtuemart&view=config';
 		$msg = vmText::sprintf('COM_VIRTUEMART_SYSTEM_DANGEROUS_TOOL_DISABLED', vmText::_('COM_VIRTUEMART_ADMIN_CFG_DANGEROUS_TOOLS'), $link);
 		return $msg;
 	}
@@ -662,7 +965,7 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 
 	function storeMigrationOptionsInSession(){
 
-		$session = vFactory::getSession();
+		$session = JFactory::getSession();
 
 		$session->set('migration_task', vRequest::getString('task',''), 'vm');
 		$session->set('migration_default_category_browse', vRequest::getString('migration_default_category_browse',''), 'vm');

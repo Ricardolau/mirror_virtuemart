@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage
 * @author  Patrick Kohl
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -31,16 +31,16 @@ if(!class_exists('VmViewAdmin'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmviewadmi
 class VirtuemartViewUserfields extends VmViewAdmin {
 
 	function display($tpl = null) {
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 		if ( $field = vRequest::getVar('field') ) {
 			if (strpos($field, 'plugin') !==false) {
 
-				vForm::addFieldPath(VMPATH_ADMIN . DS . 'fields');
+				JForm::addFieldPath(VMPATH_ADMIN . DS . 'fields');
 
 				$table = '#__extensions';
 
 				$field = substr($field, 6);
-				$q = 'SELECT `params`,`element`,`type` FROM `' . $table . '` WHERE `element` = "'.$field.'"';
+				$q = 'SELECT `params`,`element`,`type` FROM `' . $table . '` WHERE `element` = "'.$field.'" and state="0"';
 				$db ->setQuery($q);
 				$this->userField = $db ->loadObject();
 				//$this->userField->element = substr($this->userField->type, 6);
@@ -53,10 +53,10 @@ class VirtuemartViewUserfields extends VmViewAdmin {
 				// Get the payment XML.
 				$formFile	= vRequest::filterPath( $path );
 				if (file_exists($formFile)){
-
+					if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 					if (!class_exists ('VmTable')) require(VMPATH_ADMIN . DS . 'helpers' . DS . 'vmtable.php');
 
-					$this->userField->form = vForm::getInstance($this->userField->element, $formFile, array(),false, '//vmconfig | //config[not(//vmconfig)]');
+					$this->userField->form = JForm::getInstance($this->userField->element, $formFile, array(),false, '//vmconfig | //config[not(//vmconfig)]');
 					$this->userField->params = new stdClass();
 					$varsToPush = vmPlugin::getVarsToPushFromForm($this->userField->form);
 					/*

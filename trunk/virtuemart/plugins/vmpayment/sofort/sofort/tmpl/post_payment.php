@@ -19,7 +19,7 @@ defined ('_JEXEC') or die();
 
 ?>
 <div class="post_payment_order_number" style="width: 100%">
-	<span class=post_payment_order_number_title"><?php echo vmText::_ ('COM_VIRTUEMART_ORDER_NUMBER'); ?> </span>
+	<span class="post_payment_order_number_title"><?php echo vmText::_ ('COM_VIRTUEMART_ORDER_NUMBER'); ?> </span>
 	<?php echo  $viewData['order']['details']['BT']->order_number; ?>
 </div>
 <?php if ($viewData['paymentInfos']->sofort_response_transaction)  { ?>

@@ -6,7 +6,7 @@
  * @package    VirtueMart
  * @subpackage
  * @author Max Milbers, Valerie Isaksen
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -141,10 +141,21 @@ function refresh_counter() {
 		<span><?php echo vmText::_( 'COM_VIRTUEMART_REVIEW_COUNT' ) ?>
 			<input type="text" value="0" size="4" name="counter" maxlength="4" readonly="readonly"/>
 				</span>
-				<?php
+                <br/><br/>
+                <input class="highlight-button" type="submit" onclick="return( check_reviewform());"
+                       name="submit_review" title="<?php echo vmText::_( 'COM_VIRTUEMART_REVIEW_SUBMIT' ) ?>"
+                       value="<?php echo vmText::_( 'COM_VIRTUEMART_REVIEW_SUBMIT' ) ?>"/>
+            </div>
+				<?php } else if($review_editable and $this->allowRating) { ?>
+                    <input class="highlight-button" type="submit" name="submit_review"
+                           title="<?php echo vmText::_( 'COM_VIRTUEMART_REVIEW_SUBMIT' ) ?>"
+                           value="<?php echo vmText::_( 'COM_VIRTUEMART_REVIEW_SUBMIT' ) ?>"/>
+
+
+					<?php
 				}
 
-				if($review_editable and $this->allowReview) {
+				/*if($review_editable and $this->allowReview) {
 					?>
 					<br/><br/>
 					<input class="highlight-button" type="submit" onclick="return( check_reviewform());"
@@ -155,9 +166,9 @@ function refresh_counter() {
 						   title="<?php echo vmText::_( 'COM_VIRTUEMART_REVIEW_SUBMIT' ) ?>"
 						   value="<?php echo vmText::_( 'COM_VIRTUEMART_REVIEW_SUBMIT' ) ?>"/>
 				<?php
-				}
+				}*/
 
-				?>    </div>
+				?>
 			<input type="hidden" name="virtuemart_product_id"
 				   value="<?php echo $this->product->virtuemart_product_id; ?>"/>
 			<input type="hidden" name="option" value="com_virtuemart"/>
@@ -200,7 +211,7 @@ if ($this->showReview) {
 					$reviews_published++;
 					?>
 					<div class="<?php echo $color ?>">
-						<span class="date"><?php echo vHtml::date ($review->created_on, vmText::_ ('DATE_FORMAT_LC')); ?></span>
+						<span class="date"><?php echo JHtml::date ($review->created_on, vmText::_ ('DATE_FORMAT_LC')); ?></span>
 						<span class="vote"><?php echo $stars[(int)$review->review_rating] ?></span>
 						<blockquote><?php echo $review->comment; ?></blockquote>
 						<span class="bold"><?php echo $review->customer ?></span>
@@ -212,7 +223,7 @@ if ($this->showReview) {
 					/* Show all reviews ? */
 					if ($reviews_published >= $ratingsShow) {
 						$attribute = array('class'=> 'details', 'title'=> vmText::_ ('COM_VIRTUEMART_MORE_REVIEWS'));
-						echo vHtml::link ($this->more_reviews, vmText::_ ('COM_VIRTUEMART_MORE_REVIEWS'), $attribute);
+						echo JHtml::link ($this->more_reviews, vmText::_ ('COM_VIRTUEMART_MORE_REVIEWS'), $attribute);
 					}
 					break;
 				}

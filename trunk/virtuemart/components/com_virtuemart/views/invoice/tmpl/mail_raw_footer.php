@@ -7,7 +7,7 @@
 * @subpackage Cart
 * @author Max Milbers, Valerie Isaksen
 *
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2012 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -25,10 +25,10 @@ if (empty($this->vendor)) {
 		$this->vendor = $vendorModel->getVendor();
 }
 
-$link = vUri::root(). 'index.php?option=com_virtuemart' ;
+$link = JURI::root(). 'index.php?option=com_virtuemart' ;
 
 echo "\n\n";
-$link= vHtml::_('link', $link, $this->vendor->vendor_name) ;
+$link= JHtml::_('link', $link, $this->vendor->vendor_name) ;
 
 //	echo vmText::_('COM_VIRTUEMART_MAIL_VENDOR_TITLE').$this->vendor->vendor_name.'<br/>';
 /* GENERAL FOOTER FOR ALL MAILS */

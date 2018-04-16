@@ -13,8 +13,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-if (!class_exists( 'vHtml' )) require(VMPATH_ADMIN .'/vmf/html/html.php');
-
 /**
  * HTML Helper
  *
@@ -107,7 +105,7 @@ class VmHtml{
 			foreach ($passedArgs as $k => $v) {
 			    $args[] = &$passedArgs[$k];
 			}
-		$lang =vFactory::getLanguage();
+		$lang =JFactory::getLanguage();
 		if($lang->hasKey($label.'_TIP')){
 			$label = '<span class="hasTip" title="'.htmlentities(vmText::_($label.'_TIP')).'">'.vmText::_($label).'</span>' ;
 		} //Fallback
@@ -116,7 +114,9 @@ class VmHtml{
 		} else {
 			$label = vmText::_($label);
 		}
-
+		if ($func[1]=="checkbox" OR $func[1]=="input") {
+			$label = "\n\t" . '<label for="' . $args[0] . '" id="' . $args[0] . '-lbl"  >'.$label."</label>";
+		}
 		$html = '
 		<tr>
 			<td class="key">
@@ -137,7 +137,7 @@ class VmHtml{
 	}
 	/* simple value display */
 	static function value( $value ){
-		$lang =vFactory::getLanguage();
+		$lang =JFactory::getLanguage();
 		return $lang->hasKey($value) ? vmText::_($value) : $value;
 	}
 
@@ -161,7 +161,7 @@ class VmHtml{
      */
     static function checkbox($name, $value, $checkedValue=1, $uncheckedValue=0, $extraAttribs = '', $id = null) {
 		if (!$id){
-			$id ='';
+			$id ='id="' . $name.'"';
 		} else {
 			$id = 'id="' . $id.'"';
 		}
@@ -210,7 +210,7 @@ class VmHtml{
 	 * @param   mixed    $attribs    Additional HTML attributes for the <select> tag. This
 	 *                               can be an array of attributes, or an array of options. Treated as options
 	 *                               if it is the last argument passed. Valid options are:
-	 *                               Format options, see {@see vHtml::$formatOptions}.
+	 *                               Format options, see {@see JHtml::$formatOptions}.
 	 *                               Selection options, see {@see JHtmlSelect::options()}.
 	 *                               list.attr, string|array: Additional attributes for the select
 	 *                               element.
@@ -233,7 +233,7 @@ class VmHtml{
 									   $translate = false)
 	{
 		// Set default options
-		$options = array_merge(vHtml::$formatOptions, array('format.depth' => 0, 'id' => false));
+		$options = array_merge(JHtml::$formatOptions, array('format.depth' => 0, 'id' => false));
 		if (is_array($attribs) && func_num_args() == 3)
 		{
 			// Assume we have an options array
@@ -283,7 +283,7 @@ class VmHtml{
 	 * @param   mixed    $optKey     If a string, this is the name of the object variable for
 	 *                               the option value. If null, the index of the array of objects is used. If
 	 *                               an array, this is a set of options, as key/value pairs. Valid options are:
-	 *                               -Format options, {@see vHtml::$formatOptions}.
+	 *                               -Format options, {@see JHtml::$formatOptions}.
 	 *                               -groups: Boolean. If set, looks for keys with the value
 	 *                                "&lt;optgroup>" and synthesizes groups from them. Deprecated. Defaults
 	 *                                true for backwards compatibility.
@@ -321,7 +321,7 @@ class VmHtml{
 	public static function options($arr, $optKey = 'value', $optText = 'text', $selected = null, $translate = false)
 	{
 		$options = array_merge(
-			vHtml::$formatOptions,
+			JHtml::$formatOptions,
 			self::$_optionDefaults['option'],
 			array('format.depth' => 0, 'groups' => true, 'list.select' => null, 'list.translate' => false)
 		);
@@ -435,7 +435,7 @@ class VmHtml{
 			{
 				foreach ($options['list.select'] as $val)
 				{
-					$key2 = is_object($val) ? $val->$options['option.key'] : $val;
+					$key2 = is_object($val) ? $val->{$options['option.key']} : $val;
 					if ($key == $key2)
 					{
 						$extra .= ' selected="selected"';
@@ -491,35 +491,52 @@ class VmHtml{
 	        	 $arr=$arrIn;
 	        }
 		}
+
 		if (!empty($data_placeholder)) {
-			$data_placeholder='data-placeholder="'.vmText::_($data_placeholder).'"';
+			$extra .=' data-placeholder="'.vmText::_($data_placeholder).'" ';
 		}
 
-		$html = '<select class="inputbox" id="'.$name.'" name="'.$name.'" size="'.$size.'" '.$multiple.' '.$extra.' '.$data_placeholder.' >';
-
-		while (list($key, $val) = each($arr)) {
-//		foreach ($arr as $key=>$val){
-			$selected = "";
-			if( is_array( $value )) {
-				if( in_array( $key, $value )) {
-					$selected = 'selected="selected"';
-				}
-			}
-			else {
-				if(strtolower($value) == strtolower($key) ) {
-					$selected = 'selected="selected"';
-				}
-			}
-
-			$html .= '<option value="'.$key.'" '.$selected.'>'.self::shopMakeHtmlSafe($val);
-			$html .= '</option>';
-
+		if (!empty($multiple)) {
+			$extra .=' multiple="multiple" ';
 		}
 
-		$html .= '</select>';
+		$extra .= ' size="'.$size.'" ';
+		return JHtml::_('select.genericlist', $arr, $name, $extra, 'text', 'value', $value, false);
 
-		return $html;
 	}
+
+	/**
+	 * @author Joomla
+	 */
+	static function color($name, $value) {
+
+		$color = strtolower($value);
+
+		if (!$color || in_array($color, array('none', 'transparent'))) {
+			$color = 'none';
+		} elseif ($color['0'] != '#') {
+			$color = '#' . $color;
+		}
+
+		// Including fallback code for HTML5 non supported browsers.
+		vmJsApi::jQuery();
+
+		if (JVM_VERSION > 1) {
+			$class = ' class="minicolors"';
+		} else {
+			$class = ' class="input-colorpicker"';
+			JHtml::_('script', 'system/html5fallback.js', false, true);
+		}
+
+		JHtml::_('behavior.colorpicker');
+
+		return '<input type="text" name="' . $name . '" ' . ' value="'
+		. htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '"' . $class
+		. '/>';
+
+	}
+
+
 
 	/**
 	 * Creates a Radio Input List
@@ -535,7 +552,7 @@ class VmHtml{
 		if( empty( $arr ) ) {
 			$arr = array();
 		}
-		$html = '';
+		$html = '<div class="controls">';
 		$i = 0;
 		foreach($arr as $key => $val) {
 			$checked = '';
@@ -549,9 +566,16 @@ class VmHtml{
 					$checked = 'checked="checked"';
 				}
 			}
-			$html .= '<input type="radio" name="'.$name.'" id="'.$name.$i.'" value="'.htmlspecialchars($key, ENT_QUOTES).'" '.$checked.' '.$extra." />\n";
-			$html .= '<label for="'.$name.$i++.'">'.$val."</label>".$separator."\n";
+			$id = $name.$key;
+			$html .= "\n\t" . '<label for="' . $id . '" id="' . $id . '-lbl" class="radio">';
+			$html .= "\n\t\n\t" . '<input type="radio" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($key, ENT_QUOTES) . '" '.$checked.' ' . $extra. ' />' . $val;
+			$html .= "\n\t" . "</label>".$separator."\n";
+
 		}
+
+		$html .= "\n";
+		$html .= '</div>';
+		$html .= "\n";
 
 		return $html;
 	}
@@ -564,7 +588,7 @@ class VmHtml{
 	 * @return string
 	 */
 	static function radio( $name, $radios, $default,$key='value',$text='text') {
-		return '<fieldset class="radio">'.vHtml::_('select.radiolist', $radios, $name, '', $key, $text, $default).'</fieldset>';
+		return '<fieldset class="radio">'.JHtml::_('select.radiolist', $radios, $name, '', $key, $text, $default).'</fieldset>';
 	}
 	/**
 	 * Creating rows with boolean list
@@ -576,7 +600,7 @@ class VmHtml{
 	 *
 	 */
 	public static function booleanlist (  $name, $value,$class='class="inputbox"'){
-		return '<fieldset class="radio">'.vHtml::_( 'select.booleanlist',  $name , $class , $value).'</fieldset>' ;
+		return '<fieldset class="radio">'.JHtml::_( 'select.booleanlist',  $name , $class , $value).'</fieldset>' ;
 	}
 
 	/**
@@ -610,7 +634,7 @@ class VmHtml{
 	 * @param string $value
 	 */
 	public static function editor($name,$value,$size='100%',$height='300',$hide = array('pagebreak', 'readmore')){
-		$editor = vFactory::getEditor();
+		$editor =JFactory::getEditor();
 		return $editor->display($name, $value, $size, $height, null, null ,$hide )  ;
 	}
 

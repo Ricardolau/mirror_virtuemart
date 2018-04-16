@@ -5,8 +5,8 @@
  *
  * @package	VirtueMart
  * @subpackage
- * @author
- * @link http://www.virtuemart.net
+ * @author Max Milbers, Valérie Isaksen
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -41,7 +41,7 @@ class VirtuemartViewOrders extends VmViewAdmin {
 
 		if(!class_exists('vmPSPlugin')) require(VMPATH_PLUGINLIBS.DS.'vmpsplugin.php');
 
-		$app = vFactory::getApplication();
+		$app = JFactory::getApplication();
 		$orderStatusModel=VmModel::getModel('orderstatus');
 		$orderStates = $orderStatusModel->getOrderStatusList(true);
 
@@ -53,8 +53,8 @@ class VirtuemartViewOrders extends VmViewAdmin {
 
 		$curTask = vRequest::getCmd('task');
 		if ($curTask == 'edit') {
-			VmConfig::loadJLang('com_virtuemart_shoppers',TRUE);
-			VmConfig::loadJLang('com_virtuemart_orders', true);
+			vmLanguage::loadJLang('com_virtuemart_shoppers',TRUE);
+			vmLanguage::loadJLang('com_virtuemart_orders', true);
 
 			//For getOrderStatusName
 			if (!class_exists('ShopFunctions'))	require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
@@ -65,15 +65,16 @@ class VirtuemartViewOrders extends VmViewAdmin {
 			// Get the data
 			$virtuemart_order_id = vRequest::getInt('virtuemart_order_id');
 			$order = $orderModel->getOrder($virtuemart_order_id);
-			vmdebug('my order',$order);
+
 			if(empty($order['details'])){
 				$app->redirect('index.php?option=com_virtuemart&view=orders',vmText::_('COM_VIRTUEMART_ORDER_NOTFOUND'));;
 			}
 
 			$_orderID = $order['details']['BT']->virtuemart_order_id;
 			$orderbt = $order['details']['BT'];
-			$orderst = (array_key_exists('ST', $order['details'])) ? $order['details']['ST'] : $orderbt;
-			$orderbt ->invoiceNumber = $orderModel->getInvoiceNumber($orderbt->virtuemart_order_id);
+			$orderst = $order['details']['ST'];//(array_key_exists('ST', $order['details'])) ? $order['details']['ST'] : $orderbt;
+			$invM = VmModel::getModel('invoice');
+			$orderbt ->invoiceNumbers = $invM->getInvoiceNumbers($orderbt->virtuemart_order_id);
 
 			$currency = CurrencyDisplay::getInstance(0,$order['details']['BT']->virtuemart_vendor_id);
 
@@ -125,9 +126,13 @@ class VirtuemartViewOrders extends VmViewAdmin {
 
 			$_itemStatusUpdateFields = array();
 			$_itemAttributesUpdateFields = array();
-			foreach($order['items'] as $_item) {
-				$_itemStatusUpdateFields[$_item->virtuemart_order_item_id] = vHtml::_('select.genericlist', $orderStates, "item_id[".$_item->virtuemart_order_item_id."][order_status]", 'class="selectItemStatusCode"', 'order_status_code', 'order_status_name', $_item->order_status, 'order_item_status'.$_item->virtuemart_order_item_id,true);
+			// for the order item template
+			$_itemStatusUpdateFields[0] = JHtml::_('select.genericlist', $orderStates, "item_id[0][order_status]", 'class="selectItemStatusCode"', 'order_status_code', 'order_status_name', 'P', 'order_item_status_0',true);
 
+			foreach($order['items'] as $_item) {
+				$_itemStatusUpdateFields[$_item->virtuemart_order_item_id] = JHtml::_('select.genericlist', $orderStates, "item_id[".$_item->virtuemart_order_item_id."][order_status]", 'class="selectItemStatusCode" style="width:160px;', 'order_status_code', 'order_status_name', $_item->order_status, 'order_item_status'.$_item->virtuemart_order_item_id,true);
+
+				$_item->linkedit = 'index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id='.$_item->virtuemart_product_id;
 			}
 
 			if(!isset($_orderStatusList[$orderbt->order_status])){
@@ -154,17 +159,17 @@ class VirtuemartViewOrders extends VmViewAdmin {
 			/* Data for the Edit Status form popup */
 			$_currentOrderStat = $order['details']['BT']->order_status;
 			// used to update all item status in one time
-			$_orderStatusSelect = vHtml::_('select.genericlist', $orderStates, 'order_status', 'style="width:100px;"', 'order_status_code', 'order_status_name', $_currentOrderStat, 'order_items_status',true);
+			$_orderStatusSelect = JHtml::_('select.genericlist', $orderStates, 'order_status', 'style="width:200px;', 'order_status_code', 'order_status_name', $_currentOrderStat, 'order_items_status',true);
 			$this->assignRef('orderStatSelect', $_orderStatusSelect);
 			$this->assignRef('currentOrderStat', $_currentOrderStat);
 
 			/* Toolbar */
 			if (JVM_VERSION < 3) { $backward="back"; $list='back';} else {$backward='backward';$list='list';}
-			vToolBarHelper::custom( 'prevItem', $backward,'','COM_VIRTUEMART_ITEM_PREVIOUS',false);
-			vToolBarHelper::custom( 'nextItem', 'forward','','COM_VIRTUEMART_ITEM_NEXT',false);
-			vToolBarHelper::divider();
-			vToolBarHelper::custom( 'cancel', $list,'','COM_VIRTUEMART_ORDER_LIST_LBL',false,false);
-
+			JToolBarHelper::custom( 'prevItem', $backward,'','COM_VIRTUEMART_ITEM_PREVIOUS',false);
+			JToolBarHelper::custom( 'nextItem', 'forward','','COM_VIRTUEMART_ITEM_NEXT',false);
+			JToolBarHelper::divider();
+			JToolBarHelper::custom( 'cancel', $list,'','COM_VIRTUEMART_ORDER_LIST_LBL',false,false);
+			self::showhelp();
 		}
 		else if ($curTask == 'editOrderItem') {
 			if(!class_exists('calculationHelper')) require(VMPATH_ADMIN.DS.'helpers'.DS.'calculationh.php');
@@ -187,14 +192,20 @@ class VirtuemartViewOrders extends VmViewAdmin {
 			$this->addStandardDefaultViewLists($model,'created_on');
 			$orderStatusModel =VmModel::getModel('orderstatus');
 			$orderstates = vRequest::getCmd('order_status_code','');
-			$this->lists['state_list'] = $orderStatusModel->renderOSList($orderstates,'order_status_code',FALSE,' onchange="this.form.submit();" ');
-			$this->lists['bulk_state_list'] = $orderStatusModel->renderOSList($orderstates,'order_status_code_bulk',FALSE,'id="order_status_code_bulk" onchange="set2status();" ');
+			$this->lists['state_list'] = $orderStatusModel->renderOSList($orderstates,'order_status_code',FALSE,' onchange="this.form.submit();" style="width:180px;"');
+			$this->lists['bulk_state_list'] = $orderStatusModel->renderOSList($orderstates,'order_status_code_bulk',FALSE,'id="order_status_code_bulk" onchange="Virtuemart.set2status();" style="width:180px;"');
 			$orderslist = $model->getOrdersList();
 
 			$this->assignRef('orderstatuses', $orderStates);
+			$orderStatesColors=array();
+			foreach($orderStates as $orderState) {
+				$orderStatesColors[$orderState->order_status_code]=$orderState->order_status_color;
+			}
+			$this->assignRef('orderStatesColors', $orderStatesColors);
+
 			$this->lists['vendors']='';
 			if($this->showVendors()){
-				$this->lists['vendors'] = Shopfunctions::renderVendorList(VmAccess::getVendorId());
+				$this->lists['vendors'] = Shopfunctions::renderVendorList();
 			}
 
 			if(!class_exists('CurrencyDisplay'))require(VMPATH_ADMIN.DS.'helpers'.DS.'currencydisplay.php');
@@ -203,35 +214,54 @@ class VirtuemartViewOrders extends VmViewAdmin {
 			$_currencies = array(); // Save the currency data during this loop for performance reasons
 
 			if ($orderslist) {
-
+				$invM = VmModel::getModel('invoice');
 			    foreach ($orderslist as $virtuemart_order_id => $order) {
 
 				    if(!empty($order->order_currency)){
 					    $currency = $order->order_currency;
-				    } else if($order->virtuemart_vendor_id){
-					    if(!class_exists('VirtueMartModelVendor')) require(VMPATH_ADMIN.DS.'models'.DS.'vendor.php');
-					    $currObj = VirtueMartModelVendor::getVendorCurrency($order->virtuemart_vendor_id);
-				        $currency = $currObj->virtuemart_currency_id;
+				    } else {
+						if(!class_exists('VirtueMartModelVendor')) require(VMPATH_ADMIN.DS.'models'.DS.'vendor.php');
+						$vId = empty($order->virtuemart_vendor_id)? 1:$order->virtuemart_vendor_id;
+						$currObj = VirtueMartModelVendor::getVendorCurrency($vId);
+						$currency = $currObj->virtuemart_currency_id;
 					}
 				    //This is really interesting for multi-X, but I avoid to support it now already, lets stay it in the code
 				    if (!array_key_exists('curr'.$currency, $_currencies)) {
-
 					    $_currencies['curr'.$currency] = CurrencyDisplay::getInstance($currency,$order->virtuemart_vendor_id);
 				    }
 
-				    $order->order_total = $_currencies['curr'.$currency]->priceDisplay($order->order_total);
-				    $order->invoiceNumber = $model->getInvoiceNumber($order->virtuemart_order_id);
+					$orderslist[$virtuemart_order_id]->order_total = $_currencies['curr'.$currency]->priceDisplay($order->order_total);
+
+					$orderslist[$virtuemart_order_id]->invoiceNumbers = $invM->getInvoiceNumbers($order->virtuemart_order_id);
 			    }
 
 			}
 
-			vToolBarHelper::save('updatestatus', vmText::_('COM_VIRTUEMART_UPDATE_STATUS'));
+			//update order items button
+			/*$q = 'SELECT * FROM #__virtuemart_order_items WHERE `product_discountedPriceWithoutTax` IS NULL ';
+			$db = JFactory::getDBO();
+			$db->setQuery($q);
+			//$res = $db->loadRow();
+			if(true) {
+				JToolBarHelper::custom('updateCustomsOrderItems', 'new', 'new', vmText::_('COM_VIRTUEMART_REPORT_UPDATEORDERITEMS'),false);
+				vmError('COM_VIRTUEMART_UPDATEORDERITEMS_WARN');
+			}*/
+			/*
+			 * UpdateStatus removed from the toolbar; don't understand how this was intented to work but
+			 * the order ID's aren't properly passed. Might be readded later; the controller needs to handle
+			 * the arguments.
+			 */
 
-			if (vmAccess::manager('orders.delete')) {
-				vToolBarHelper::spacer('80');
-				vToolBarHelper::deleteList();
+			/* Toolbar */
+			//JToolBarHelper::customX( 'CreateOrderHead', 'new','new','New',false);
+
+			JToolBarHelper::save('updatestatus', vmText::_('COM_VIRTUEMART_UPDATE_STATUS'));
+
+			if (vmAccess::manager('orders.delete') && !VmConfig::get('ordersAddOnly',false)) {
+				JToolBarHelper::spacer('80');
+				JToolBarHelper::deleteList();
 			}
-
+			self::showhelp();
 			/* Assign the data */
 			$this->assignRef('orderslist', $orderslist);
 
@@ -239,7 +269,7 @@ class VirtuemartViewOrders extends VmViewAdmin {
 
 		}
 		if($app->isSite()) {
-			$bar = vToolBar::getInstance( 'toolbar' );
+			$bar = JToolBar::getInstance( 'toolbar' );
 			$bar->appendButton( 'Link', 'back', 'COM_VIRTUEMART_LEAVE', 'index.php?option=com_virtuemart&manage=0' );
 		}
 
@@ -248,31 +278,52 @@ class VirtuemartViewOrders extends VmViewAdmin {
 		parent::display($tpl);
 	}
 
-	function createPrintLinks($order,&$print_link,&$deliverynote_link,&$invoice_link){
 
+	/**
+	 * @author Max Milbers
+	 * @author Valérie Isaksen
+	 * @param $order
+	 * @param $print_link
+	 * @param $deliverynote_link
+	 * @param $invoice_links
+	 */
+	function createPrintLinks($order,&$print_link,&$deliverynote_link,&$invoice_links){
+
+		$baseUrl = 'index.php?option=com_virtuemart&view=orders&task=callInvoiceView&tmpl=component&virtuemart_order_id=' . $order->virtuemart_order_id;
 		/* Print view URL */
-		$print_url = vUri::root () . 'index.php?option=com_virtuemart&view=invoice&layout=invoice&tmpl=component&virtuemart_order_id=' . $order->virtuemart_order_id . '&order_number=' . $order->order_number . '&order_pass=' . $order->order_pass;
+		$print_url = $baseUrl .'&layout=invoice';
 		$print_link = "<a href=\"javascript:void window.open('$print_url', 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');\"  >";
-		$print_link .= '<span class="hasTip print_32" title="' . vmText::_ ('COM_VIRTUEMART_PRINT') . '">&nbsp;</span></a>';
-		$invoice_link = '';
+		$print_link .= '<span class="hasTip print_32" title="' . vmText::_ ('COM_VIRTUEMART_PRINT').' '. $order->order_number.'">&nbsp;</span></a>';
+		$invoice_links_array = array();
 		$deliverynote_link = '';
 		$pdfDummi= '&d='.rand(0,100);
-		if (!$order->invoiceNumber) {
-			$invoice_url = vUri::root () . 'index.php?option=com_virtuemart&view=invoice&layout=invoice&format=pdf&tmpl=component&virtuemart_order_id=' . $order->virtuemart_order_id . '&order_number=' . $order->order_number . '&order_pass=' . $order->order_pass . '&create_invoice='.$order->order_create_invoice_pass.$pdfDummi;
-			$invoice_link .= "<a href=\"$invoice_url\"  >".'<span class="hasTip invoicenew_32" title="' . vmText::_ ('COM_VIRTUEMART_INVOICE_CREATE') . '"></span></a>';
-		} elseif (!shopFunctions::InvoiceNumberReserved ($order->invoiceNumber)) {
-			$invoice_url = vUri::root () . 'index.php?option=com_virtuemart&view=invoice&layout=invoice&format=pdf&tmpl=component&virtuemart_order_id=' . $order->virtuemart_order_id . '&order_number=' . $order->order_number . '&order_pass=' . $order->order_pass.$pdfDummi;
-			$invoice_link = "<a href=\"$invoice_url\"  >" . '<span class="hasTip invoice_32" title="' . vmText::_ ('COM_VIRTUEMART_INVOICE') . '"></span></a>';
+		if (!$order->invoiceNumbers) {
+			$invoice_url = $baseUrl .'&layout=invoice&format=pdf&create_invoice='.$order->order_create_invoice_pass.$pdfDummi;
+			$invoice_links_array[]= "<a href=\"$invoice_url\"  >".'<span class="hasTip invoicenew_32" title="' . vmText::_ ('COM_VIRTUEMART_INVOICE_CREATE') . '"></span></a>';
+		} else {
+			foreach ($order->invoiceNumbers as $invoiceNumber) {
+				if (!shopFunctions::InvoiceNumberReserved ($invoiceNumber)) {
+					$invoice_url = $baseUrl .'&layout=invoice&format=pdf'.$pdfDummi.'&invoiceNumber='.$invoiceNumber;
+					$invoice_links_array[] = "<a href=\"$invoice_url\"  >" . '<span class="hasTip invoice_32" title="' . vmText::_ ('COM_VIRTUEMART_INVOICE') .' '.$invoiceNumber. '"></span></a>';
+				}
+			}
 		}
 
-		if (!$order->invoiceNumber) {
-			$deliverynote_url = vUri::root () . 'index.php?option=com_virtuemart&view=invoice&layout=deliverynote&format=pdf&tmpl=component&virtuemart_order_id=' . $order->virtuemart_order_id . '&order_number=' . $order->order_number . '&order_pass=' . $order->order_pass . '&create_invoice='.$order->order_create_invoice_pass.$pdfDummi;
+		if (!$order->invoiceNumbers) {
+			$deliverynote_url = $baseUrl .'&layout=deliverynote&format=pdf&create_invoice='.$order->order_create_invoice_pass.$pdfDummi;
 			$deliverynote_link = "<a href=\"$deliverynote_url\"  >" . '<span class="hasTip deliverynotenew_32" title="' . vmText::_ ('COM_VIRTUEMART_DELIVERYNOTE_CREATE') . '"></span></a>';
-		} elseif (!shopFunctions::InvoiceNumberReserved ($order->invoiceNumber)) {
-			$deliverynote_url = vUri::root () . 'index.php?option=com_virtuemart&view=invoice&layout=deliverynote&format=pdf&tmpl=component&virtuemart_order_id=' . $order->virtuemart_order_id . '&order_number=' . $order->order_number . '&order_pass=' . $order->order_pass.$pdfDummi;
-			$deliverynote_link = "<a href=\"$deliverynote_url\"  >" . '<span class="hasTip deliverynote_32" title="' . vmText::_ ('COM_VIRTUEMART_DELIVERYNOTE') . '"></span></a>';
+		} else {
+			/*
+			 * TODO: InvoiceNumberReserved is used by some payments like Klarna
+			 */
+			$invoiceNumber= $order->invoiceNumbers [0];
+			if (!shopFunctionsF::InvoiceNumberReserved ($invoiceNumber)) {
+				$deliverynote_url = $baseUrl .'&layout=deliverynote&format=pdf&virtuemart_order_id=' . $order->virtuemart_order_id .$pdfDummi;
+				$deliverynote_link = "<a href=\"$deliverynote_url\"  >" . '<span class="hasTip deliverynote_32" title="' . vmText::_ ('COM_VIRTUEMART_DELIVERYNOTE').' '.$invoiceNumber . '"></span></a>';
 		}
 
+		}
+		$invoice_links=implode(' ', $invoice_links_array);
 	}
 }
 

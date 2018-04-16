@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage
 * @author Valérie Isaksen
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2014 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -26,9 +26,9 @@ if(!class_exists('VmView'))require(VMPATH_SITE.DS.'helpers'.DS.'vmview.php');
 class VirtueMartViewVmplg extends VmView {
 
 	public function display($tpl = null) {
-		$mainframe = vFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$pathway = $mainframe->getPathway();
-		$document = vFactory::getDocument();
+		$document = JFactory::getDocument();
 		$layoutName = $this->getLayout();
 		$document->setMetaData('robots','NOINDEX, NOFOLLOW, NOARCHIVE, NOSNIPPET');
 		parent::display($tpl);

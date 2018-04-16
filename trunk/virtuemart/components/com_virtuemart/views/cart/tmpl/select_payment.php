@@ -7,7 +7,7 @@
  * @subpackage Cart
  * @author Max Milbers
  *
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -25,7 +25,7 @@ if (VmConfig::get('oncheckout_show_steps', 1)) {
 	echo '<div class="checkoutStep" id="checkoutStep3">' . vmText::_('COM_VIRTUEMART_USER_FORM_CART_STEP3') . '</div>';
 }
 
-if ($this->layoutName!='default') {
+if ($this->layoutName!=$this->cart->layout) {
 	$headerLevel = 1;
 	if($this->cart->getInCheckOut()){
 		$buttonclass = 'button vm-button-correct';
@@ -43,22 +43,27 @@ if($this->cart->virtuemart_paymentmethod_id){
 	echo '<h'.$headerLevel.' class="vm-payment-header-selected">'.vmText::_('COM_VIRTUEMART_CART_SELECTED_PAYMENT_SELECT').'</h'.$headerLevel.'>';
 } else {
 	echo '<h'.$headerLevel.' class="vm-payment-header-select">'.vmText::_('COM_VIRTUEMART_CART_SELECT_PAYMENT').'</h'.$headerLevel.'>';
-} ?>
+}
 
-	<div class="buttonBar-right">
+if(VmConfig::get('cart_extraSafeBtn',false) or $this->layoutName!=$this->cart->layout){
+	?>
+
+    <div class="buttonBar-right">
 		<?php
 		$dynUpdate = '';
 		if( VmConfig::get('oncheckout_ajax',false)) {
 			$dynUpdate=' data-dynamic-update="1" ';
 		} ?>
-		<button name="updatecart" class="<?php echo $buttonclass ?>" type="submit" <?php echo $dynUpdate ?> ><?php echo vmText::_('COM_VIRTUEMART_SAVE'); ?></button>
+        <button name="updatecart" class="<?php echo $buttonclass ?>" type="submit" <?php echo $dynUpdate ?> ><?php echo vmText::_('COM_VIRTUEMART_SAVE'); ?></button>
 
-		<?php   if ($this->layoutName!='default') { ?>
-			<button class="<?php echo $buttonclass ?>" type="reset" onClick="window.location.href='<?php echo JRoute::_('index.php?option=com_virtuemart&view=cart&task=cancel'); ?>'" ><?php echo vmText::_('COM_VIRTUEMART_CANCEL'); ?></button>
+		<?php   if ($this->layoutName!=$this->cart->layout) { ?>
+            <button class="<?php echo $buttonclass ?>" type="reset" onClick="window.location.href='<?php echo JRoute::_('index.php?option=com_virtuemart&view=cart&task=cancel'); ?>'" ><?php echo vmText::_('COM_VIRTUEMART_CANCEL'); ?></button>
 		<?php  } ?>
-	</div>
+    </div>
 
-<?php
+	<?php
+}
+
 if ($this->found_payment_method ) {
 
 
@@ -76,7 +81,7 @@ if ($this->found_payment_method ) {
 	echo '<h1>'.$this->payment_not_found_text.'</h1>';
 }
 
-if ($this->layoutName!='default') {
+if ($this->layoutName!=$this->cart->layout) {
 	?>    <input type="hidden" name="option" value="com_virtuemart" />
 	<input type="hidden" name="view" value="cart" />
 	<input type="hidden" name="task" value="updatecart" />

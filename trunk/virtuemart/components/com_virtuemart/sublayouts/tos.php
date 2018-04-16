@@ -5,7 +5,7 @@
  * @package	VirtueMart
  * @subpackage Cart
  * @author Max Milbers
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2014 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL2, see LICENSE.php
  * @version $Id: cart.php 7682 2014-02-26 17:07:20Z Milbo $
@@ -16,7 +16,7 @@ $_prefix = $viewData['prefix'];
 $field = $viewData['field'];
 $tos = $field['value'];
 
-$app = vFactory::getApplication();
+$app = JFactory::getApplication();
 if($app->isSite()){
 	vmJsApi::popup('#full-tos','#terms-of-service');
 	if (!class_exists('VirtueMartCart')) require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');
@@ -31,11 +31,9 @@ if($app->isSite()){
 
 if(!class_exists('VmHtml')) require(VMPATH_ADMIN.DS.'helpers'.DS.'html.php');
 $class = 'terms-of-service';
-
 if(!empty($field['required'])){
 	$class .= ' required';
 }
-
 echo VmHtml::checkbox ($_prefix.$field['name'], $tos, 1, 0, 'class="'.$class.'"', 'tos');
 
 if ( $app->isSite() ) {

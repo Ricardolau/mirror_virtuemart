@@ -9,7 +9,7 @@
  * @subpackage Helpers
  * @author Max Milbers
  * @copyright Copyright (C) 2014 Open Source Matters, Inc. All rights reserved.
- * @copyright Copyright (c) 2011 -2014 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2011 - 2018 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -43,46 +43,84 @@ if(JVM_VERSION<3){
 		}
 	}
 }
+if(!class_exists('vObject')) require(VMPATH_ADMIN .'/helpers/vobject.php');
 
+class VmTable extends vObject implements JObservableInterface, JTableInterface {
 
-if(!class_exists('vTable'))
-	require(VMPATH_ADMIN. DS. 'vmf' .DS. 'vtable.php');
-
-class VmTable extends vTable implements JObservableInterface, JTableInterface {
-
-	protected $_cache = array();
+	protected static $_cache = array();
 	private $_lhash = 0;
 
-
+	protected $_tbl = '';
 	protected $_tbl_lang = null;
-	var $_translatable = false;
-	protected $_translatableFields = array();
-
+	protected $_tbl_key ='';
+	protected $_tbl_keys = '';
+	protected $_pkey = '';
+	protected $_pkeyForm = '';
+	protected $_obkeys = array();
+	protected $_unique = false;
+	protected $_unique_name = array();
+	protected $_orderingKey = 'ordering';
 	protected $_slugAutoName = '';
 	protected $_slugName = '';
-
+	protected $_db = false;
+	protected $_rules;
+	protected $_trackAssets = false;
 	protected $_locked = false;
 	protected $_loggable = false;
 	public $_xParams = 0;
 	public $_varsToPushParam = array();
-
+	var $_translatable = false;
+	protected $_translatableFields = array();
+	protected $_hashName = '';
+	protected $_omittedHashFields = array();
 	public $_cryptedFields = false;
 	protected $_langTag = null;
 	public $_ltmp = false;
+	public $_loadedWithLangFallback = 0;
 	public $_loaded = false;
+	protected $_updateNulls = false;
 
-
+	/**
+	 * @param string $table
+	 * @param string $key
+	 * @param JDatabase $db
+	 */
 	function __construct($table, $key, &$db) {
-		parent::__construct($table, $key, $db);
+
+		$this->_tbl = $table;
+		$this->_db =& $db;
+		$this->_pkey = $key;
+		$this->_pkeyForm = 'cid';
+
+		if(JVM_VERSION<3){
+			$this->_tbl_key = $key;
+			$this->_tbl_keys = array($key);
+		} else {
+			// Set the key to be an array.
+			if (is_string($key)){
+				$key = array($key);
+			} elseif (is_object($key)){
+				$key = (array) $key;
+			}
+
+			$this->_tbl_keys = $key;
+			$this->_tbl_key = $key[0];
+
+			if (count($key) == 1) {
+				$this->_autoincrement = true;
+			} else {
+				$this->_autoincrement = false;
+			}
+		}
 
 		// If we are tracking assets, make sure an access field exists and initially set the default.
 		if (property_exists($this, 'asset_id')){
 			$this->_trackAssets = true;
 		}
 
-// If the access property exists, set the default.
+		// If the access property exists, set the default.
 		if (property_exists($this, 'access')){
-			$this->access = (int) vFactory::getConfig()->get('access');
+			$this->access = (int) JFactory::getConfig()->get('access');
 		}
 
 		if(JVM_VERSION>2){
@@ -91,9 +129,204 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 			$this->_observers = new JObserverUpdater($this);
 			JObserverMapper::attachAllObservers($this);
 		}
+
+	}
+
+	/**
+	 * Returns an associative array of object properties.
+	 *
+	 * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+	 * @param   boolean  $public  If true, returns only the public properties.
+	 *
+	 * @return  array
+	 * @since   11.1
+	 * @see     get()
+	 */
+	public function getProperties($public = true) {
+
+		$vars = get_object_vars($this);
+		if ($public) {
+
+			foreach ($vars as $k => $v) {
+				if (strpos ($k, '_') === 0 or !property_exists($this, $k)) {
+					unset($vars[$k]);
+				}
+			}
+		}
+
+		return $vars;
+	}
+
+	/**
+	 * Static method to get an instance of a JTable class if it can be found in
+	 * the table include paths.  To add include paths for searching for JTable
+	 * classes @see JTable::addIncludePath().
+	 *
+	 * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+	 * @param   string  $type    The type (name) of the JTable class to get an instance of.
+	 * @param   string  $prefix  An optional prefix for the table class name.
+	 * @param   array   $config  An optional array of configuration values for the JTable object.
+	 *
+	 * @return  mixed    A JTable object if found or boolean false if one could not be found.
+	 *
+	 * @link	http://docs.joomla.org/JTable/getInstance
+	 * @since   11.1
+	 */
+	public static function getInstance($type, $prefix = 'VmTable', $config = array())
+	{
+		// Sanitize and prepare the table class name.
+		$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
+		$tableClass = $prefix . ucfirst($type);
+
+		// Only try to load the class if it doesn't already exist.
+		if (!class_exists($tableClass))
+		{
+			// Search for the class file in the JTable include paths.
+			jimport('joomla.filesystem.path');
+
+			$paths = VmTable::addIncludePath();
+			$pathIndex = 0;
+			while (!class_exists($tableClass) && $pathIndex < count($paths))
+			{
+				if ($tryThis = JPath::find($paths[$pathIndex++], strtolower($type) . '.php'))
+				{
+					// Import the class file.
+					include_once $tryThis;
+				}
+			}
+			if (!class_exists($tableClass))
+			{
+				vmdebug('Did not find file '.$type.'.php in ',$paths,$tryThis);
+				return false;
+			}
+		}
+
+		// If a database object was passed in the configuration array use it, otherwise get the global one from JFactory.
+		$db = isset($config['dbo']) ? $config['dbo'] : JFactory::getDbo();
+
+		if(empty(VmConfig::$vmlang)){
+
+			vmTrace('$vmlang not set',true,20);
+			vmdebug('$vmlang not set',VmConfig::$jDefLangTag);
+			vmError('$vmlang not set',VmConfig::$jDefLangTag);
+
+			VmConfig::$logDebug = true;
+			vmTrace('$vmlang not set',true,20);
+			VmConfig::$logDebug = false;
+
+			vmLanguage::initialise();
+			//return false;
+		}
+		// Instantiate a new table class and return it.
+		return new $tableClass($db);
+	}
+
+	/**
+	 * Add a filesystem path where JTable should search for table class files.
+	 * You may either pass a string or an array of paths.
+	 *
+	 * @param   mixed  $path  A filesystem path or array of filesystem paths to add.
+	 *
+	 * @return  array  An array of filesystem paths to find JTable classes in.
+	 *
+	 * @link    http://docs.joomla.org/JTable/addIncludePath
+	 * @since   11.1
+	 */
+	public static function addIncludePath($path = null)
+	{
+		// Declare the internal paths as a static variable.
+		static $_paths;
+
+		// If the internal paths have not been initialised, do so with the base table path.
+		if (!isset($_paths))
+		{
+			$_paths = array(VMPATH_ADMIN .'/tables');
+		}
+
+		// Convert the passed path(s) to add to an array.
+		settype($path, 'array');
+
+		// If we have new paths to add, do so.
+		if (!empty($path) && !in_array($path, $_paths))
+		{
+			// Check and add each individual new path.
+			foreach ($path as $dir)
+			{
+				// Sanitize path.
+				$dir = trim($dir);
+
+				if(!in_array($dir,$_paths)){
+					// Add to the front of the list so that custom paths are searched first.
+					array_unshift($_paths, $dir);
+				}
+
+			}
+		}
+
+		return $_paths;
 	}
 
 
+	public function getKeyName($multiple = false) {
+
+		if (count($this->_tbl_keys)) {
+			if ($multiple) {
+				return $this->_tbl_keys;
+			} else {
+				return $this->_tbl_keys[0];
+			}
+		} else {
+			return $this->_tbl_key;
+		}
+
+	}
+
+	public function getDbo() {
+		//static $db = false;
+		if(!$this->_db){
+			$this->_db = JFactory::getDbo();
+		}
+		return $this->_db;
+	}
+
+	/**
+	 * @return string|void
+	 */
+	public function getError(){
+		vmTrace( get_class($this).' asks for error');
+		vmdebug( get_class($this).' asks for error');
+		return ;
+	}
+
+	public function getErrors(){
+		vmTrace( get_class($this).' asks for errors');
+		vmdebug( get_class($this).' asks for errors');
+		return ;
+	}
+
+	public function setPrimaryKey($key, $keyForm = 0) {
+
+		$error = vmText::sprintf('COM_VIRTUEMART_STRING_ERROR_PRIMARY_KEY', vmText::_('COM_VIRTUEMART_' . strtoupper($key)));
+		$this->setObligatoryKeys('_pkey', $error);
+		$this->_pkey = $key;
+		$this->_pkeyForm = empty($keyForm) ? $key : $keyForm;
+		$this->$key = 0;
+	}
+
+	public function getPKey(){
+		return $this->_pkey;
+	}
+
+	public function setObligatoryKeys($key) {
+
+		$this->_obkeys[$key] = 1;
+	}
+
+	public function setUniqueName($name) {
+		$this->_unique = true;
+		$this->_obkeys[$name] = 1;
+		$this->_unique_name[$name] = 1;
+	}
 
 	public function setLoggable() {
 
@@ -135,7 +368,21 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 		$this->locked_by = 0;
 	}
 
+	function setOrderable($key = 'ordering', $auto = true) {
 
+		$this->_orderingKey = $key;
+		$this->_orderable = 1;
+		$this->_autoOrdering = $auto;
+		$this->$key = 0;
+	}
+
+	function setHashable($key){
+		$this->_hashName = $key;
+	}
+
+	function setOmittedHashFields(array $fields){
+		$this->_omittedHashFields = $fields;
+	}
 
 	function setSlug($slugAutoName, $key = 'slug') {
 
@@ -146,6 +393,49 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 
 	}
 
+	var $_tablePreFix = '';
+
+	function setTableShortCut($prefix) {
+
+		$this->_tablePreFix = $prefix . '.';
+	}
+
+	/**
+	 * Method to set rules for the record.
+	 *
+	 * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+	 * @param   mixed  $input  A JAccessRules object, JSON string, or array.
+	 * @return  void
+	 * @since   11.1
+	 */
+	public function setRules($input)
+	{
+		if ($input instanceof JAccessRules)
+		{
+			$this->_rules = $input;
+		}
+		else
+		{
+			$this->_rules = new JAccessRules($input);
+		}
+	}
+
+	/**
+	 * Method to get the rules for the record.
+	 *
+	 * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+	 * @return  JAccessRules object
+	 * @since   11.1
+	 */
+	public function getRules()
+	{
+		return $this->_rules;
+	}
+
+
+	public function emptyCache(){
+		self::$_cache = array();
+	}
 
 	/**
 	 * This function defines a database field as parameter field, which means that some values get injected there
@@ -173,11 +463,61 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 		//vmdebug('setParameterable called '.$this->_xParams,$this->_varsToPushParam);
 	}
 
+	/**
+	 * Method to bind an associative array or object to the JTable instance.This
+	 * method only binds properties that are publicly accessible and optionally
+	 * takes an array of properties to ignore when binding.
+	 *
+	 * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+	 * @param   mixed  $src     An associative array or object to bind to the JTable instance.
+	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @link    http://docs.joomla.org/JTable/bind
+	 * @since   11.1
+	 */
+	public function bind($src, $ignore = array())
+	{
+		// If the source value is not an array or object return false.
+		if (!is_object($src) && !is_array($src))
+		{
+			$e = new JException(vmText::sprintf('JLIB_DATABASE_ERROR_BIND_FAILED_INVALID_SOURCE_ARGUMENT', get_class($this)));
+			vmError($e);
+			return false;
+		}
 
+		// If the source value is an object, get its accessible properties.
+		if (is_object($src))
+		{
+			$src = get_object_vars($src);
+		}
+
+		// If the ignore value is a string, explode it over spaces.
+		if (!is_array($ignore))
+		{
+			$ignore = explode(' ', $ignore);
+		}
+
+		// Bind the source value, excluding the ignored fields.
+		foreach ($this->getProperties() as $k => $v)
+		{
+			// Only process fields not in the ignore array.
+			if (!in_array($k, $ignore))
+			{
+				if (isset($src[$k]))
+				{
+					$this->$k = $src[$k];
+				}
+			}
+		}
+
+		return true;
+	}
 
 
 	/**
-	 * Maps the parameters to a subfield. usefull for the vForm
+	 * Maps the parameters to a subfield. usefull for the JForm
 	 * @author Max Milbers
 	 * @param $obj
 	 * @param $varsToPush
@@ -309,6 +649,9 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 			unset($fieldNames[$this->_pkey]);
 		}
 		$this->_cryptedFields = $fieldNames;
+		if(!class_exists('vmCrypt')){
+			require(VMPATH_ADMIN .'/helpers/vmcrypt.php');
+		}
 	}
 
 	/**
@@ -330,21 +673,21 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 	public function showFullColumns($typeKey=0,$typeValue=0,$properties=true){
 
 		$hash = 'SFL'.$this->_tbl.$typeKey.$typeValue;
-		if (!isset($this->_cache[$hash])) {//vmSetStartTime('showFullColumns');
+		if (!isset(self::$_cache[$hash])) {//vmSetStartTime('showFullColumns');
 			$this->_db->setQuery('SHOW FULL COLUMNS  FROM `'.$this->_tbl.'` ') ;
-			$this->_cache[$hash] = $this->_db->loadAssocList();
+			self::$_cache[$hash] = $this->_db->loadAssocList();
 			//vmTime('showFullColumns','showFullColumns');
 		}
 
-		if ($properties and count($this->_cache[$hash]) > 0) {
-			foreach ($this->_cache[$hash] as $key => $_f) {
+		if ($properties and count(self::$_cache[$hash]) > 0) {
+			foreach (self::$_cache[$hash] as $key => $_f) {
 				$_fieldlist[$_f['Field']] = $_f['Default'];
 			}
 			$this->setProperties($_fieldlist);
 		}
 
 		if ($typeKey or $typeValue){
-			foreach ($this->_cache[$hash] as $field){
+			foreach (self::$_cache[$hash] as $field){
 				if(empty($typeValue)){
 					$value = $field;
 				} else {
@@ -357,7 +700,7 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 				}
 			}
 		} else {
-			$result = $this->_cache[$hash];
+			$result = self::$_cache[$hash];
 		}
 
 		return $result;
@@ -367,22 +710,30 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 		return $this->showFullColumns();
 	}
 
+	static public function checkTableExists($table){
+		$db = JFactory::getDBO();
+		$q = 'SHOW TABLES LIKE "'.$db->getPrefix().$table.'"';
+		$db->setQuery($q);
+		$t = $db->loadResult();
+
+		if($t==false){
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	function loadFieldValues($array=true){
 
-		$tmp = get_object_vars($this);
+
 		if($array){
-			$return = array();
-			foreach ($tmp as $k => $v){
-				// Do not process internal variables
-				if ('_' != substr($k, 0, 1)){
-					$return[$k] = $v;
-				}
-			}
+			$return = $this->getProperties();
 		} else {
+			$tmp = get_object_vars($this);
 			$return = new stdClass();
 			foreach ($tmp as $k => $v){
 				// Do not process internal variables
-				if ('_' != substr($k, 0, 1)){
+				if (strpos ($k, '_') !== 0 and property_exists($this, $k)){
 					$return->$k = $v;
 				}
 			}
@@ -391,7 +742,35 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 		return $return;
 	}
 
+	function checkDataContainsTableFields($from, $ignore = array()) {
 
+		if (empty($from))
+			return false;
+		$fromArray = is_array($from);
+		$fromObject = is_object($from);
+
+		if (!$fromArray && !$fromObject) {
+			vmError(get_class($this) . '::check if data contains table fields failed. Invalid from argument <pre>' . print_r($from, 1) . '</pre>');
+			return false;
+		}
+		if (!is_array($ignore)) {
+			$ignore = explode(' ', $ignore);
+		}
+		$properties = $this->getProperties();
+		foreach ($properties as $k => $v) {
+			// internal attributes of an object are ignored
+			if (!in_array($k, $ignore)) {
+
+				if ($fromArray && isset($from[$k])) {
+					return true;
+				} else if ($fromObject && isset($from->$k)) {
+					return true;
+				}
+			}
+		}
+		vmdebug('VmTable developer notice, table ' . get_class($this) . ' means that there is no data to store. When you experience that something does not get stored as expected, please write in the forum.virtuemart.net',$properties);
+		return false;
+	}
 
 	/**
 	 * Method to provide a shortcut to binding, checking and storing a JTable
@@ -463,10 +842,10 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 			// set default values always used
 
 			//We store in UTC time, dont touch it!
-			$date = vFactory::getDate();
+			$date = JFactory::getDate();
 			$today = $date->toSQL();
 			//vmdebug('my today ',$date);
-			$user = vFactory::getUser();
+			$user = JFactory::getUser();
 
 			$pkey = $this->_pkey;
 			//Lets check if the user is admin or the mainvendor
@@ -493,7 +872,6 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 					//If nothing is there, dont update it
 					unset($this->created_by);
 				}
-
 
 			} else {
 
@@ -634,17 +1012,18 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 
 		$hashVarsToPush = '';
 		if (!empty($this->_varsToPushParam)) {
-			$hashVarsToPush = json_encode($this->_varsToPushParam);
+			$hashVarsToPush = vmJsApi::safe_json_encode($this->_varsToPushParam);
 		}
-		$this->_lhash = md5($oid. $select . $k . $mainTable . $andWhere . $hashVarsToPush);
+
+		$this->_lhash = $this->getHash($oid. $select . $k . $mainTable . $andWhere . $hashVarsToPush);
 		//$this->showFullColumns();
-		if (isset ($this->_cache['l'][$this->_lhash])) {
-			$this->bind($this->_cache['l'][$this->_lhash]);
+		if (isset (self::$_cache['l'][$this->_lhash])) {
+			$this->bind(self::$_cache['l'][$this->_lhash]);
 			if (!empty($this->_xParams) and !empty($this->_varsToPushParam)) {
 				self::bindParameterable($this, $this->_xParams, $this->_varsToPushParam);
 			}
 			if($this->_cryptedFields){
-				$this->decryptFields($this);
+				$this->decryptFields();
 			}
 			//vmTime('loaded by cache '.$this->_pkey.' '.$this->_slugAutoName.' '.$oid,'vmtableload');
 			return $this;
@@ -697,7 +1076,6 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 					if($this->_langTag != VmConfig::$defaultLang ){
 						$this->_ltmp = $this->_langTag;
 						$this->_langTag = VmConfig::$defaultLang;
-						$this->_tempHash = $this->_lhash;
 					} else {
 						$this->_langTag = VmConfig::$jDefLang;
 					}
@@ -705,13 +1083,11 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 				} else {
 					$this->_ltmp = $this->_langTag;
 					$this->_langTag = VmConfig::$defaultLang;
-					$this->_tempHash = $this->_lhash;
 				}
-
 
 				//vmdebug('No result for '.$this->_ltmp.', lets check for Fallback lang '.$this->_langTag);
 				//vmSetStartTime('lfallback');
-
+				$this->_loadedWithLangFallback = VmConfig::$defaultLangTag;
 				$this->load($oid, $overWriteLoadName, $andWhere, $tableJoins, $joinKey) ;
 				//vmTime('Time to load language fallback '.$this->_langTag, 'lfallback');
 			} else {
@@ -722,10 +1098,11 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 		if($this->_ltmp){
 			//vmdebug('Set Ltmp '.$this->_ltmp.' back to false');
 			$this->_langTag = $this->_ltmp;
-			$this->_cache['l'][$this->_lhash] = $this->_cache['l'][$this->_tempHash] = $this->loadFieldValues(false);
+
+			self::$_cache['l'][$this->_lhash] = $this->loadFieldValues(false);
 		}
 		else {
-			$this->_cache['l'][$this->_lhash] = $this->loadFieldValues(false);
+			self::$_cache['l'][$this->_lhash] = $this->loadFieldValues(false);
 		}
 
 
@@ -737,12 +1114,20 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 		return $this;
 	}
 
+
+	function getHash($value) {
+		$hashFunction = Vmconfig::get('hashFunction', 'md5');
+		return call_user_func_array($hashFunction, array(&$value));
+	}
+
+
 	function getLoaded (){
 		return $this->_loaded;
 	}
 
 	/**
 	 * Typo, had wrong name
+	 * @deprecated heavily
 	 */
 	function encryptFields(){
 		$this->decryptFields();
@@ -750,13 +1135,13 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 
 	function decryptFields(){
 		if(!class_exists('vmCrypt')){
-			require(VMPATH_ADMIN.DS.'helpers'.DS.'vmcrypt.php');
+			require(VMPATH_ADMIN .'/helpers/vmcrypt.php');
 		}
 		if(isset($this->modified_on) and $this->modified_on!='0000-00-00 00:00:00'){
-			$date = vFactory::getDate($this->modified_on);
+			$date = JFactory::getDate($this->modified_on);
 			$date = $date->toUnix();
 		} else if(isset($this->created_on) and $this->created_on!='0000-00-00 00:00:00'){
-			$date = vFactory::getDate($this->created_on);
+			$date = JFactory::getDate($this->created_on);
 			$date = $date->toUnix();
 		} else {
 			$date = 0;
@@ -765,7 +1150,7 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 		foreach($this->_cryptedFields as $field){
 			if(isset($this->$field)){
 				$this->$field = vmCrypt::decrypt($this->$field, $date);
-				vmdebug($this->_tbl.' Field '.$field.' encrypted = '.$this->$field);
+				//vmdebug($this->_tbl.' Field '.$field.' encrypted = '.$this->$field);
 			}
 		}
 	}
@@ -784,10 +1169,6 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 		$this->setLoggableFieldsForStore();
 
 		if($this->_cryptedFields){
-			if(!class_exists('vmCrypt')){
-				require(VMPATH_ADMIN.DS.'helpers'.DS.'vmcrypt.php');
-			}
-
 			foreach($this->_cryptedFields as $field){
 				if(isset($this->$field)){
 					$this->$field = vmCrypt::encrypt($this->$field);
@@ -818,7 +1199,17 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 		if(!empty($this->$tblKey)){
 			$ok = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
 		} else {
+			$p = $this->$tblKey;
 			$ok = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
+
+			if($ok and !empty($this->_hashName)){
+				$oldH= $this->{$this->_hashName};
+				if($p!=$this->$tblKey and !in_array($tblKey,$this->_omittedHashFields)){
+					$this->hashEntry();
+					$ok = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
+					vmdebug('Updated entry with correct hash ',$this->_tbl_key,$p,$this->$tblKey,$oldH,$this->{$this->_hashName});
+				}
+			}
 		}
 
 		//reset Params
@@ -829,9 +1220,14 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 		}
 		$this->_tmpParams = false;
 
+		//decrypt the Fields
+		if($this->_cryptedFields){
+				$this->decryptFields();
+		}
+
 		// If the store failed return false.
 		if (!$ok) {
-			$e = new Exception(vmText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), $this->_db->getErrorMsg()));
+			$e = new JException(vmText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			vmError($e);
 			return false;
 		}
@@ -885,11 +1281,15 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 			// Update the asset_id field in this table.
 			$this->asset_id = (int) $asset->id;
 
-			$q = 'UPDATE '.$this->_db->quoteName($this->_tbl).' SET asset_id = ' . (int) $this->asset_id.' WHERE '.$this->_db->quoteName($tblKey) . ' = ' . (int) $this->$tblKey.';';
-			$this->_db->setQuery($q);
+			$query = $this->_db->getQuery(true);
+			$query->update($this->_db->quoteName($this->_tbl));
+			$query->set('asset_id = ' . (int) $this->asset_id);
+			$query->where($this->_db->quoteName($tblKey) . ' = ' . (int) $this->$tblKey);
+			$this->_db->setQuery($query);
+
 			if (!$this->_db->execute())
 			{
-				$e = new Exception(vmText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED_UPDATE_ASSET_ID', $this->_db->getErrorMsg()));
+				$e = new JException(vmText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED_UPDATE_ASSET_ID', $this->_db->getErrorMsg()));
 				vmError($e);
 				return false;
 			}
@@ -926,7 +1326,7 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 
 		$i = 0;
 
-		while ($i < 20) {
+		while ($i < 40) {
 
 			$tbl_key = $this->_tbl_key;
 			$q = 'SELECT `' . $name . '` FROM `' . $tbl_name . '` WHERE `' . $name . '` =  "' . $this->$name . '" ';
@@ -943,9 +1343,6 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 
 					if(is_numeric($existingNbr)){
 						$existingNbr++;
-						if($i>10){
-							$existingNbr = $existingNbr +  rand (1, 9);
-						}
 						$this->$name = substr($this->$name,0,$posNbr+1) . $existingNbr;
 					} else{
 						$this->$name = $this->$name . '-1';
@@ -953,7 +1350,7 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 				} else {
 					$this->$name = $this->$name . '-1';
 				}
-				vmdebug('checkCreateUnique slug = '.$name.' changed to ',$this->$name);
+				vmdebug('checkCreateUnique '.$name.' = '.$existingSlugName.' changed to ',$this->$name);
 			} else {
 				return true;
 			}
@@ -964,6 +1361,149 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 
 	}
 
+	function setCheckVendorId(){
+		if(empty($this->virtuemart_vendor_id) and $this->_pkey=='virtuemart_vendor_id'){
+			$this->virtuemart_vendor_id = $this->_pvalue;
+		}
+
+		$multix = Vmconfig::get('multix', 'none');
+		//Lets check if the user is admin or the mainvendor
+		$virtuemart_vendor_id = false;
+		//Todo removed Quickn Dirty, use check in derived class
+		if ($multix == 'none' and get_class($this) !== 'TableVmusers') {
+
+			$this->virtuemart_vendor_id = 1;
+			//return true;
+		} else {
+			//$user = JFactory::getUser();
+			//$loggedVendorId = vmAccess::isSuperVendor($user->id);
+			$loggedVendorId = vmAccess::isSuperVendor();
+			//vmdebug('Table '.$this->_tbl.' check '.$loggedVendorId,$user->id);
+			$user_is_vendor = 0;
+			$tbl_key = $this->_tbl_key;
+			$className = get_class($this);
+
+			$admin = vmAccess::manager('managevendors');
+			//Todo removed Quickn Dirty, use check in derived class
+			if (strpos($this->_tbl,'virtuemart_vmusers')===FALSE) {
+				$q = 'SELECT `virtuemart_vendor_id` FROM `' . $this->_tbl . '` WHERE `' . $this->_tbl_key . '`="' . $this->$tbl_key . '" ';
+				if (!isset(self::$_cache[md5($q)])) {
+					$this->_db->setQuery($q);
+					self::$_cache[md5($q)] = $virtuemart_vendor_id = $this->_db->loadResult();
+				} else $virtuemart_vendor_id = self::$_cache[md5($q)];
+			} else {
+				$q = 'SELECT `virtuemart_vendor_id`,`user_is_vendor`,`virtuemart_user_id` FROM `' . $this->_tbl . '` WHERE `' . $this->_tbl_key . '`="' . $this->$tbl_key . '" ';
+				if (!isset(self::$_cache[md5($q)])) {
+					$this->_db->setQuery($q);
+					$vmuser = $this->_db->loadRow();
+					self::$_cache[md5($q)] = $vmuser;
+				} else $vmuser = self::$_cache[md5($q)];
+
+				vmdebug('Table '.$this->_tbl.' check loaded old entry',$vmuser);
+				if ($vmuser and count($vmuser) === 3) {
+					$virtuemart_vendor_id = $vmuser[0];
+					$user_is_vendor = $vmuser[1];
+
+					if ($multix == 'none') {
+						if (empty($user_is_vendor)) {
+							$this->virtuemart_vendor_id = 0;
+						} else {
+							$this->virtuemart_vendor_id = 1;
+						}
+						return true;
+					} else {
+						vmdebug('Table '.$this->_tbl.' check loaded old entry mv mode',$vmuser);
+						if (!$admin) {
+							if(!empty($vmuser[2])){
+								$user = JFactory::getUser($vmuser[2]);
+								$loggedVendorId = vmAccess::isSuperVendor($user->id);
+								vmdebug('Table '.$this->_tbl.' check new user '.$loggedVendorId);
+							}
+							$this->virtuemart_vendor_id = $loggedVendorId;
+							return true;
+						}
+					}
+				} else {
+					//New User
+					//vmInfo('We run in multivendor mode and you did not set any vendor for '.$className.' and '.$this->_tbl);//, Set to mainvendor '.$this->virtuemart_vendor_id
+					if(empty($this->user_is_vendor)){
+						$this->virtuemart_vendor_id = 0;
+						return true;
+					}
+				}
+			}
+
+			if (!$admin and !empty($virtuemart_vendor_id) and !empty($loggedVendorId) and $loggedVendorId != $virtuemart_vendor_id) {
+				//Todo removed Quickn Dirty, use check in derived class
+				//This is the case when a vendor buys products of vendor1
+				if (strpos($this->_tbl,'virtuemart_order_items')===FALSE and strpos($this->_tbl,'virtuemart_carts')===FALSE) {
+					vmdebug('Blocked storing, logged vendor ' . $loggedVendorId . ' but data belongs to ' . $virtuemart_vendor_id,$this->_tbl);
+					return false;
+				} else {
+					$this->virtuemart_vendor_id = $virtuemart_vendor_id;
+				}
+
+			} else if (!$admin) {
+				if ($virtuemart_vendor_id) {
+					$this->virtuemart_vendor_id = $virtuemart_vendor_id;
+					vmdebug('Non admin is storing using loaded vendor_id');
+				} else {
+					if(empty($this->virtuemart_vendor_id) ){
+						$this->virtuemart_vendor_id = $loggedVendorId;
+					}
+					//No id is stored, even users are allowed to use for the storage and vendorId, no change
+				}
+
+			} else {
+				//Admins are allowed to do anything. We just trhow some messages
+				if (!empty($virtuemart_vendor_id) and $loggedVendorId != $virtuemart_vendor_id) {
+					vmdebug('Admin with vendor id ' . $loggedVendorId . ' is using for storing vendor id ' . $this->virtuemart_vendor_id);
+				}
+				else if (empty($virtuemart_vendor_id) and empty($this->virtuemart_vendor_id)) {
+					if(strpos($this->_tbl,'virtuemart_vendors')===FALSE and strpos($this->_tbl,'virtuemart_vmusers')===FALSE){
+						$this->virtuemart_vendor_id = $loggedVendorId;
+						vmdebug('Fallback to '.$this->virtuemart_vendor_id.' for $loggedVendorId '.$loggedVendorId.': We run in multivendor mode and you did not set any vendor for '.$className.' and '.$this->_tbl);
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	function hashEntry($set = true){
+
+		$fields = $this->getProperties();
+
+		unset($fields[(string)$this->_hashName]);
+		if(!empty($this->_omittedHashFields)){
+			foreach($this->_omittedHashFields as $prop){
+				unset($fields[(string)$prop]);
+			}
+		}
+
+		$toHash = serialize($fields);
+		$h =  hash('md5',$toHash);
+		if($set ) {
+			$hashName = $this->_hashName;
+			$this->{$hashName} = $h;
+		}
+
+		return $h;
+
+	}
+
+	function integrity(){
+
+		$hashName = $this->_hashName;
+		$oldHash = $this->{$hashName};
+		$hash = $this->hashEntry(false);
+
+		if($oldHash==$hash){
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	/**
 	 * @author Max Milbers
@@ -1002,11 +1542,11 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 
 			$this->$slugName = str_replace('-', ' ', $this->$slugName);
 			$this->$slugName = html_entity_decode($this->$slugName,ENT_QUOTES);
-			//$config =& vFactory::getConfig();
+			//$config =& JFactory::getConfig();
 			//$transliterate = $config->get('unicodeslugs');
 			$unicodeslugs = VmConfig::get('transliterateSlugs',false);
 			if($unicodeslugs){
-				$lang = vFactory::getLanguage();
+				$lang = JFactory::getLanguage();
 				$this->$slugName = $lang->transliterate($this->$slugName);
 			}
 
@@ -1040,7 +1580,7 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 		}
 
 		if ($this->_unique) {
-			if (empty($this->_db)) $this->_db = vFactory::getDBO();
+			if (empty($this->_db)) $this->_db = JFactory::getDBO();
 			foreach ($this->_unique_name as $obkeys => $error) {
 
 				if (empty($this->$obkeys)) {
@@ -1059,153 +1599,14 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 
 
 		if (property_exists($this,'virtuemart_vendor_id') ) {
-
-			if(empty($this->virtuemart_vendor_id) and $this->_pkey=='virtuemart_vendor_id'){
-				$this->virtuemart_vendor_id = $this->_pvalue;
-			}
-
-			$multix = Vmconfig::get('multix', 'none');
-			//Lets check if the user is admin or the mainvendor
-			$virtuemart_vendor_id = false;
-			//Todo removed Quickn Dirty, use check in derived class
-			if ($multix == 'none' and get_class($this) !== 'TableVmusers') {
-
-				$this->virtuemart_vendor_id = 1;
-				return true;
-			} else {
-				$loggedVendorId = vmAccess::isSuperVendor();
-				$user = vFactory::getUser();
-				$admin = vmAccess::manager('managevendors');
-
-				$tbl_key = $this->_tbl_key;
-				$className = get_class($this);
-				//Todo removed Quickn Dirty, use check in derived class
-				if (strpos($this->_tbl,'virtuemart_vmusers')===FALSE) {
-					$q = 'SELECT `virtuemart_vendor_id` FROM `' . $this->_tbl . '` WHERE `' . $this->_tbl_key . '`="' . $this->$tbl_key . '" ';
-					if (!isset($this->_cache[md5($q)])) {
-						$this->_db->setQuery($q);
-						$this->_cache[md5($q)] = $virtuemart_vendor_id = $this->_db->loadResult();
-					} else $virtuemart_vendor_id = $this->_cache[md5($q)];
-				} else {
-					$q = 'SELECT `virtuemart_vendor_id`,`user_is_vendor` FROM `' . $this->_tbl . '` WHERE `' . $this->_tbl_key . '`="' . $this->$tbl_key . '" ';
-					if (!isset($this->_cache[md5($q)])) {
-						$this->_db->setQuery($q);
-						$vmuser = $this->_db->loadRow();
-						$this->_cache[md5($q)] = $vmuser;
-					} else $vmuser = $this->_cache[md5($q)];
-
-					if ($vmuser and count($vmuser) === 2) {
-						$virtuemart_vendor_id = $vmuser[0];
-						$user_is_vendor = $vmuser[1];
-
-						if ($multix == 'none') {
-							if (empty($user_is_vendor)) {
-								$this->virtuemart_vendor_id = 0;
-							} else {
-								$this->virtuemart_vendor_id = 1;
-							}
-							return true;
-						} else {
-							if (!$admin) {
-								$rVendorId = vmAccess::isSuperVendor($user->id);
-								$this->virtuemart_vendor_id = $rVendorId;
-								return true;
-							}
-						}
-					} else {
-						//New User
-						//vmInfo('We run in multivendor mode and you did not set any vendor for '.$className.' and '.$this->_tbl);//, Set to mainvendor '.$this->virtuemart_vendor_id
-					}
-				}
-
-				if (!$admin and !empty($virtuemart_vendor_id) and !empty($loggedVendorId) and $loggedVendorId != $virtuemart_vendor_id) {
-					//Todo removed Quickn Dirty, use check in derived class
-					//This is the case when a vendor buys products of vendor1
-					if (strpos($this->_tbl,'virtuemart_order_items')===FALSE and strpos($this->_tbl,'virtuemart_carts')===FALSE) {
-						vmdebug('Blocked storing, logged vendor ' . $loggedVendorId . ' but data belongs to ' . $virtuemart_vendor_id,$this->_tbl);
-						return false;
-					} else {
-						$this->virtuemart_vendor_id = $virtuemart_vendor_id;
-					}
-
-				} else if (!$admin) {
-					if ($virtuemart_vendor_id) {
-						$this->virtuemart_vendor_id = $virtuemart_vendor_id;
-						vmdebug('Non admin is storing using loaded vendor_id');
-					} else {
-						if(empty($this->virtuemart_vendor_id)){
-							$this->virtuemart_vendor_id = $loggedVendorId;
-						}
-						//No id is stored, even users are allowed to use for the storage and vendorId, no change
-					}
-
-				} else {
-					//Admins are allowed to do anything. We just trhow some messages
-					if (!empty($virtuemart_vendor_id) and $loggedVendorId != $virtuemart_vendor_id) {
-						vmdebug('Admin with vendor id ' . $loggedVendorId . ' is using for storing vendor id ' . $this->virtuemart_vendor_id);
-					}
-					else if (empty($virtuemart_vendor_id) and empty($this->virtuemart_vendor_id)) {
-						if(strpos($this->_tbl,'virtuemart_vendors')===FALSE and strpos($this->_tbl,'virtuemart_vmusers')===FALSE){
-							$this->virtuemart_vendor_id = $loggedVendorId;
-							vmdebug('Fallback to '.$this->virtuemart_vendor_id.' for $loggedVendorId '.$loggedVendorId.': We run in multivendor mode and you did not set any vendor for '.$className.' and '.$this->_tbl);
-						}
-					}
-				}
+			if(!$this->setCheckVendorId()){
+				return false;
 			}
 		}
 
-		return true;
-	}
-
-	/**
-	 * Method to bind an associative array or object to the JTable instance.This
-	 * method only binds properties that are publicly accessible and optionally
-	 * takes an array of properties to ignore when binding.
-	 *
-	 * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
-	 * @param   mixed  $src     An associative array or object to bind to the JTable instance.
-	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @link    http://docs.joomla.org/JTable/bind
-	 * @since   11.1
-	 */
-	public function bind($src, $ignore = array())
-	{
-		// If the source value is not an array or object return false.
-		if (!is_object($src) && !is_array($src))
-		{
-			$e = new Exception(vmText::sprintf('JLIB_DATABASE_ERROR_BIND_FAILED_INVALID_SOURCE_ARGUMENT', get_class($this)));
-			vmError($e);
-			return false;
+		if(!empty($this->_hashName)){
+			$this->hashEntry();
 		}
-
-		// If the source value is an object, get its accessible properties.
-		if (is_object($src))
-		{
-			$src = get_object_vars($src);
-		}
-
-		// If the ignore value is a string, explode it over spaces.
-		if (!is_array($ignore))
-		{
-			$ignore = explode(' ', $ignore);
-		}
-
-		// Bind the source value, excluding the ignored fields.
-		foreach ($this->getProperties() as $k => $v)
-		{
-			// Only process fields not in the ignore array.
-			if (!in_array($k, $ignore))
-			{
-				if (isset($src[$k]))
-				{
-					$this->$k = $src[$k];
-				}
-			}
-		}
-
 		return true;
 	}
 
@@ -1217,13 +1618,13 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 	 * @param boolean $preload You can preload the data here too preserve not updated data
 	 * @return array/obj $data the updated data
 	 */
-	public function bindChecknStore(&$data, $preload = false) {
+	public function bindChecknStore(&$data, $preload = false, $langOnly = false) {
 
 		$tblKey = $this->_tbl_key;
 		$ok = true;
 		if ($this->_translatable) {
-			if (!class_exists('VmTableData')) require(VMPATH_ADMIN . DS . 'helpers' . DS . 'vmtabledata.php');
-			$db = vFactory::getDBO();
+			if (!class_exists('VmTableData')) require(VMPATH_ADMIN .'/helpers/vmtabledata.php');
+			$db = JFactory::getDBO();
 			$dataTable = clone($this);
 			$langTable = new VmTableData($this->_tbl_lang, $tblKey, $db);
 			$langTable->setLanguage($this->_langTag);
@@ -1312,29 +1713,31 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 
 			if ($ok) {
 
-				$dataTable->bindChecknStoreNoLang($data, $preload);
-				$this->bind($dataTable);
-				$langTable->$tblKey = !empty($this->$tblKey) ? $this->$tblKey : 0;
-				//vmdebug('bindChecknStoreNoLang my $tblKey '.$tblKey.' '.$langTable->$tblKey);
-				if ($ok and $preload) {
-					if (!empty($langTable->$tblKey)) {
-						$id = $langTable->$tblKey;
-						if (!$langTable->load($id)) {
-							$ok = false;
-							vmdebug('Preloading of language table failed, no id given, cannot store ' . $this->_tbl);
-						}
-					} else {
-						if ($ok) {
-							if (!$langTable->bind($data)) {
+				if(!$langOnly){
+					$dataTable->bindChecknStoreNoLang($data, $preload);
+					$this->bind($dataTable);
+					$langTable->$tblKey = !empty($this->$tblKey) ? $this->$tblKey : 0;
+					//vmdebug('bindChecknStoreNoLang my $tblKey '.$tblKey.' '.$langTable->$tblKey);
+					if ($ok and $preload) {
+						if (!empty($langTable->$tblKey)) {
+							$id = $langTable->$tblKey;
+							if (!$langTable->load($id)) {
 								$ok = false;
-								vmdebug('Problem in bind ' . get_class($this) . ' ');
+								vmdebug('Preloading of language table failed, no id given, cannot store ' . $this->_tbl);
 							}
-						}
+						} else {
+							if ($ok) {
+								if (!$langTable->bind($data)) {
+									$ok = false;
+									vmdebug('Problem in bind ' . get_class($this) . ' ');
+								}
+							}
 
-						if ($ok) {
-							if (!$langTable->check()) {
-								$ok = false;
-								vmdebug('Check returned false ' . get_class($langTable) . ' ' . $this->_tbl . ' ' . $langTable->_db->getErrorMsg());
+							if ($ok) {
+								if (!$langTable->check()) {
+									$ok = false;
+									vmdebug('Check returned false ' . get_class($langTable) . ' ' . $this->_tbl . ' ' . $langTable->_db->getErrorMsg());
+								}
 							}
 						}
 					}
@@ -1354,7 +1757,6 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 
 
 		} else {
-
 			if (!$this->bindChecknStoreNoLang($data, $preload)) {
 				$ok = false;
 			}
@@ -1362,7 +1764,7 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 
 		if($ok){
 			if($this->_lhash){
-				$this->_cache['l'][$this->_lhash] = $this->loadFieldValues(false);
+				self::$_cache['l'][$this->_lhash] = $this->loadFieldValues(false);
 			}
 		}
 
@@ -1406,7 +1808,6 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 		if ($ok) {
 			if (!$this->checkDataContainsTableFields($data)) {
 				$ok = false;
-				//    			$msg .= ' developer notice:: checkDataContainsTableFields';
 			}
 		}
 
@@ -1497,6 +1898,7 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 		// problem here was that $this->$k returned (0)
 
 		$cid = vRequest::getInt($this->_pkeyForm,vRequest::getInt($this->_pkey,false));
+
 		if (!empty($cid) && (is_array($cid))) {
 			$cid = reset($cid);
 		} else {
@@ -1505,11 +1907,11 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 		}		// stAn: if somebody knows how to get current `ordering` of selected cid (i.e. virtuemart_userinfo_id or virtuemart_category_id from defined vars, you can review the code below)
 		$q = "SELECT `" . $this->_orderingKey . '` FROM `' . $this->_tbl . '` WHERE `' . $this->_tbl_key . "` = '" . (int)$cid . "' limit 0,1";
 
-		if (!isset($this->_cache[md5($q)])) {
+		if (!isset(self::$_cache[md5($q)])) {
 			$this->_db->setQuery($q);
 			$c_order = $this->_db->loadResult(); // current ordering value of cid
 		} else {
-			$c_order = $this->_cache[md5($q)];
+			$c_order = self::$_cache[md5($q)];
 		}
 
 		$this->$orderingkey = $c_order;
@@ -1553,13 +1955,13 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 		}
 
 
-		if (!isset($this->_cache[md5($sql)])) {
+		if (!isset(self::$_cache[md5($sql)])) {
 			$this->_db->setQuery($sql, 0, 1);
 
 
 			$row = null;
 			$row = $this->_db->loadObject();
-		} else $row = $this->_cache[md5($sql)];
+		} else $row = self::$_cache[md5($sql)];
 
 
 		if (isset($row)) {
@@ -1635,10 +2037,10 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 		$query = 'SELECT MAX(`' . $this->_orderingKey . '`)' .
 			' FROM ' . $this->_tbl .
 			($where ? ' WHERE ' . $where : '');
-		if (!isset($this->_cache[md5($query)])) {
+		if (!isset(self::$_cache[md5($query)])) {
 			$this->_db->setQuery($query);
 			$maxord = $this->_db->loadResult();
-		} else $maxord = $this->_cache[md5($query)];
+		} else $maxord = self::$_cache[md5($query)];
 
 		if ($this->_db->getErrorNum()) {
 			vmError(get_class($this) . ' getNextOrder ' . $this->_db->getErrorMsg());
@@ -1719,9 +2121,9 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 			$this->$k = $oid;
 		}
 
-		$config = vFactory::getConfig();
+		$config = JFactory::getConfig();
 		$siteOffset = $config->get('offset');
-		$date = vFactory::getDate('now', $siteOffset);
+		$date = JFactory::getDate('now', $siteOffset);
 
 		$time = $date->toSql();
 
@@ -1837,7 +2239,30 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 	}
 
 
+	function delete($oid = null, $where = 0) {
 
+		$k = $this->_tbl_key;
+
+		if ($oid) {
+			$this->$k = intval($oid);
+		}
+
+		$mainTableError = $this->checkAndDelete($this->_tbl, $where);
+
+		if ($this->_translatable) {
+
+			$langs = VmConfig::get('active_languages', array(VmConfig::$jDefLangTag));
+			if (!$langs) $langs[] = VmConfig::$vmlang;
+			if (!class_exists('VmTableData')) require(VMPATH_ADMIN .'/helpers/vmtabledata.php');
+			foreach ($langs as $lang) {
+				$lang = strtolower(strtr($lang, '-', '_'));
+				$langError = $this->checkAndDelete($this->_tbl . '_' . $lang);
+				$mainTableError = min($mainTableError, $langError);
+			}
+		}
+
+		return $mainTableError;
+	}
 
 	// author stAn
 	// returns true when mysql version is larger than 5.0
@@ -1852,14 +2277,48 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 	function getMysqlVersion() {
 
 		$q = 'select version()';
-		if (!isset($this->_cache[md5($q)])) {
+		if (!isset(self::$_cache[md5($q)])) {
 			$this->_db->setQuery($q);
 			return $this->_db->loadResult();
-		} else return $this->_cache[md5($q)];
+		} else return self::$_cache[md5($q)];
 
 	}
 
+	function checkAndDelete($table, $whereField = 0, $andWhere = '') {
 
+		$ok = 1;
+		$k = $this->_tbl_key;
+
+		if ($whereField !== 0) {
+			$whereKey = $whereField;
+		} else {
+			$whereKey = $this->_pkey;
+		}
+
+		$query = 'SELECT `' . $this->_tbl_key . '` FROM `' . $table . '` WHERE `' . $whereKey . '` = "' . $this->$k . '" '.$andWhere;
+		$this->_db->setQuery($query);
+		// 		vmdebug('checkAndDelete',$query);
+		$list = $this->_db->loadColumn();
+		// 		vmdebug('checkAndDelete',$list);
+
+
+		if ($list) {
+
+			foreach ($list as $row) {
+				$ok = $row;
+				$query = 'DELETE FROM `' . $table . '` WHERE ' . $this->_tbl_key . ' = "' . $row . '"';
+				$this->_db->setQuery($query);
+
+				if (!$this->_db->execute()) {
+					vmError($this->_db->getErrorMsg());
+					vmError('checkAndDelete ' . $this->_db->getErrorMsg());
+					$ok = 0;
+				}
+			}
+
+		}
+		return $ok;
+	}
 
 	/**
 	 * Add, change or drop userfields
@@ -1876,6 +2335,7 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 	 */
 	function _modifyColumn($_act, $_col, $_type = '', $_col2 = '') {
 
+		$user = JFactory::getUser();
 		if(!vmAccess::manager('core')) return false;
 
 		$_sql = 'ALTER TABLE `' . $this->_tbl . '` ';
@@ -1893,13 +2353,11 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 			if (!$res) {
 				vmdebug('_modifyColumn Command was ' . $_check_act . ' column does not exist, changed to ADD');
 				$_check_act = 'ADD';
-
 			}
 		} else {
 			if ($res) {
 				vmdebug('_modifyColumn Command was ' . $_check_act . ' column already exists, changed to MOD');
 				$_check_act = 'UPD';
-
 			}
 		}
 
@@ -1911,7 +2369,8 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 			case 'DRO': // Drop
 			case 'DEL': // Delete
 				//stAn, i strongly do not recommend to delete customer information only because a field was deleted
-				if (empty($_col2)){
+				if (empty($_col2)) {
+
 					$_col2 = $_col . '_DELETED_' . time();
 					vmInfo('Be aware the column of table '.$this->_tbl.' is not deleted, only renamed to '.$_col2);
 				}
@@ -2039,38 +2498,6 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 	}
 
 	/**
-	 * Method to set rules for the record.
-	 *
-	 * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
-	 * @param   mixed  $input  A JAccessRules object, JSON string, or array.
-	 * @return  void
-	 * @since   11.1
-	 */
-	public function setRules($input)
-	{
-		if ($input instanceof JAccessRules)
-		{
-			$this->_rules = $input;
-		}
-		else
-		{
-			$this->_rules = new JAccessRules($input);
-		}
-	}
-
-	/**
-	 * Method to get the rules for the record.
-	 *
-	 * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
-	 * @return  JAccessRules object
-	 * @since   11.1
-	 */
-	public function getRules()
-	{
-		return $this->_rules;
-	}
-
-	/**
 	 * Implement JObservableInterface:
 	 * Adds an observer to this instance.
 	 * This method will be called fron the constructor of classes implementing JObserverInterface
@@ -2082,8 +2509,8 @@ class VmTable extends vTable implements JObservableInterface, JTableInterface {
 	 *
 	 * @since   3.1.2
 	 */
-	public function attachObserver(JObserverInterface $observer) {
+	public function attachObserver(JObserverInterface $observer)
+	{
 		$this->_observers->attachObserver($observer);
 	}
-
 }

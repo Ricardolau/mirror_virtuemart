@@ -8,7 +8,7 @@
  * @subpackage User
  * @author Oscar van Eijk
  * @author Max Milbers
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -51,12 +51,12 @@ class VirtuemartViewUser extends VmView {
      */
     function display($tpl = null) {
 
-		$this->useSSL = VmConfig::get('useSSL', 0);
+		$this->useSSL = vmURI::useSSL();
 		$this->useXHTML = false;
 
-		VmConfig::loadJLang('com_virtuemart_shoppers',TRUE);
+		vmLanguage::loadJLang('com_virtuemart_shoppers',TRUE);
 
-		$mainframe = vFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$pathway = $mainframe->getPathway();
 		$layoutName = $this->getLayout();
 		if ($layoutName == 'login') {
@@ -75,7 +75,7 @@ class VirtuemartViewUser extends VmView {
 		$this->_model = VmModel::getModel('user');
 
 		//$this->_model->setCurrent(); //without this, the administrator can edit users in the FE, permission is handled in the usermodel, but maybe unsecure?
-		$editor = vFactory::getEditor();
+		$editor = JFactory::getEditor();
 
 		$virtuemart_user_id = vRequest::getInt('virtuemart_user_id',false);
 		if($virtuemart_user_id and is_array($virtuemart_user_id)) $virtuemart_user_id = $virtuemart_user_id[0];
@@ -219,16 +219,16 @@ class VirtuemartViewUser extends VmView {
 
 		$this->add_product_link="";
 		$this->manage_link="";
-		if(ShopFunctionsF::isFEmanager() ){
-			$mlnk = vUri::root() . 'index.php?option=com_virtuemart&tmpl=component&manage=1' ;
+		if(ShopFunctionsF::isFEmanager('manage'/*,'category','product','inventory','ratings','custom','calc','manufacturer','orders','report','user'*/) ){
+			$mlnk = JURI::root() . 'index.php?option=com_virtuemart&tmpl=component&manage=1' ;
 			$this->manage_link = $this->linkIcon($mlnk, 'JACTION_MANAGE', 'new', false, false, true, true);
 		}
 		if(ShopFunctionsF::isFEmanager('product.edit')){
-			$aplnk = vUri::root() . 'index.php?option=com_virtuemart&tmpl=component&view=product&view=product&task=edit&virtuemart_product_id=0&manage=1' ;
+			$aplnk = JURI::root() . 'index.php?option=com_virtuemart&tmpl=component&view=product&view=product&task=edit&virtuemart_product_id=0&manage=1' ;
 			$this->add_product_link = $this->linkIcon($aplnk, 'COM_VIRTUEMART_PRODUCT_ADD_PRODUCT', 'new', false, false, true, true);
 		}
 
-		$document = vFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle($pathway_text);
 		$pathway->additem($pathway_text);
 		$document->setMetaData('robots','NOINDEX, NOFOLLOW, NOARCHIVE, NOSNIPPET');
@@ -267,7 +267,7 @@ class VirtuemartViewUser extends VmView {
 	    }
 	}
 		if($this->_orderList){
-			VmConfig::loadJLang('com_virtuemart_orders',TRUE);
+			vmLanguage::loadJLang('com_virtuemart_orders',TRUE);
 		}
 	$this->assignRef('orderlist', $this->_orderList);
     }
@@ -308,26 +308,26 @@ class VirtuemartViewUser extends VmView {
 		// Load the required scripts
 		if (count($userFields['scripts']) > 0) {
 			foreach ($userFields['scripts'] as $_script => $_path) {
-			vHtml::script($_script, $_path);
+			JHtml::script($_script, $_path);
 			}
 		}
 
 		// Load the required styresheets
 		if (count($userFields['links']) > 0) {
 			foreach ($userFields['links'] as $_link => $_path) {
-			vHtml::stylesheet($_link, $_path);
+				vmJsApi::css($_link, $_path);
 			}
 		}
     }
 
     function lUser() {
 
-		$currentUser = vFactory::getUser();
+		$currentUser = JFactory::getUser();
 		// Can't block myself TODO I broke that, please retest if it is working again
 		$this->lists['canBlock'] = ($currentUser->authorise('com_users', 'block user') && ($this->_model->getId() != $this->_cuid));
 		$this->lists['canSetMailopt'] = $currentUser->authorise('workflow', 'email_events');
-		$this->_lists['block'] = vHtml::_('select.booleanlist', 'block', 'class="inputbox"', $this->userDetails->JUser->get('block'), 'COM_VIRTUEMART_YES', 'COM_VIRTUEMART_NO');
-		$this->_lists['sendEmail'] = vHtml::_('select.booleanlist', 'sendEmail', 'class="inputbox"', $this->userDetails->JUser->get('sendEmail'), 'COM_VIRTUEMART_YES', 'COM_VIRTUEMART_NO');
+		$this->_lists['block'] = JHtml::_('select.booleanlist', 'block', 'class="inputbox"', $this->userDetails->JUser->get('block'), 'COM_VIRTUEMART_YES', 'COM_VIRTUEMART_NO');
+		$this->_lists['sendEmail'] = JHtml::_('select.booleanlist', 'sendEmail', 'class="inputbox"', $this->userDetails->JUser->get('sendEmail'), 'COM_VIRTUEMART_YES', 'COM_VIRTUEMART_NO');
 
 		$this->_lists['params'] = $this->userDetails->JUser->getParameters(true);
 
@@ -382,7 +382,7 @@ class VirtuemartViewUser extends VmView {
 
     public function renderMailLayout($doVendor, $recipient) {
 
-		$this->useSSL = VmConfig::get('useSSL', 0);
+		$this->useSSL = vmURI::useSSL();
 		$this->useXHTML = true;
 
 		$userFieldsModel = VmModel::getModel('UserFields');

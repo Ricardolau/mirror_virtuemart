@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage User
 * @author Oscar van Eijk
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -50,10 +50,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					<a href="<?php echo $editlink; ?>" rel="nofollow"><?php echo $row->order_number; ?></a>
 				</td>
 				<td align="left">
-					<?php echo vHtml::_('date', $row->created_on); ?>
+					<?php echo JHtml::_('date', $row->created_on); ?>
 				</td>
 				<td align="left">
-					<?php echo vHtml::_('date', $row->modified_on); ?>
+					<?php echo JHtml::_('date', $row->modified_on); ?>
 				</td>
 				<td align="left">
 					<?php echo ShopFunctionsF::getOrderStatusName($row->order_status); ?>

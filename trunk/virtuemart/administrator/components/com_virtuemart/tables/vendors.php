@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Vendor
 * @author Max Milbers
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2009 - 2014 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -114,6 +114,7 @@ class TableVendors extends VmTableData {
 			
 			'vendor_letter_add_tos' => array(0,'int'),
 			'vendor_letter_add_tos_newpage' => array(1,'int'),
+			'vendor_letter_for_product_pdf' => array(0,'int'),
 
 			'vendor_mail_width' => array(640, 'int'),
 			'vendor_mail_header' => array(1, 'int'),

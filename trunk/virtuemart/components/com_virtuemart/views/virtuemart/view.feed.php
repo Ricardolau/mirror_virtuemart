@@ -6,7 +6,7 @@
  * @package    VirtueMart
  * @subpackage
  * @author Valérie Isaksen
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2013 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -28,7 +28,7 @@ class VirtueMartViewVirtueMart extends VmView {
 
 	public function display ($tpl = NULL) {
 
-		$doc = vFactory::getDocument ();
+		$doc = JFactory::getDocument ();
 
 		$show_prices = VmConfig::get ('show_prices', 1);
 		if ($show_prices == '1') {

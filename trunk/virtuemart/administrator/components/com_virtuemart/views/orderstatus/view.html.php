@@ -7,7 +7,7 @@
  * @subpackage OrderStatus
  * @author Oscar van Eijk
  * @author Max Milbers
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2014 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -68,7 +68,7 @@ class VirtuemartViewOrderstatus extends VmViewAdmin {
 			// Vendor selection
 			$vendor_model = VmModel::getModel('vendor');
 			$vendor_list = $vendor_model->getVendors();
-			$this->lists['vendors'] = vHtml::_('select.genericlist', $vendor_list, 'virtuemart_vendor_id', '', 'virtuemart_vendor_id', 'vendor_name', $this->orderStatus->virtuemart_vendor_id);
+			$this->lists['vendors'] = JHtml::_('select.genericlist', $vendor_list, 'virtuemart_vendor_id', '', 'virtuemart_vendor_id', 'vendor_name', $this->orderStatus->virtuemart_vendor_id);
 
 			$this->addStandardEditViewCommands();
 		} else {

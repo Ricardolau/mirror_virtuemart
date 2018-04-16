@@ -20,22 +20,24 @@ defined('_JEXEC') or die('');
  * http://virtuemart.net
  */
 // Load the view framework
-if (!class_exists('vView')) require(VMPATH_ADMIN.DS.'vmf'.DS.'vview.php');
+jimport( 'joomla.application.component.view');
 // Load default helpers
 
-class VmView extends vView{
+class VmView extends JViewLegacy{
 
 	var $isMail = false;
 	var $isPdf = false;
 	var $writeJs = true;
+	var $useSSL = 0;
 
 	public function display($tpl = null) {
 
 		if($this->isMail or $this->isPdf){
 			$this->writeJs = false;
 		}
+		$this->useSSL = vmURI::useSSL();
 
-		$result = $this->renderLayout($tpl);
+		$result = $this->loadTemplate($tpl);
 		if ($result instanceof Exception) {
 			return $result;
 		}
@@ -47,6 +49,7 @@ class VmView extends vView{
 				echo vmJsApi::writeJS();
 			}
 		}
+
 	}
 
 	public function withKeepAlive(){
@@ -99,11 +102,11 @@ class VmView extends vView{
 		// get the template and default paths for the layout if the site template has a layout override, use it
 		$templatePath = JPATH_SITE . DS . 'templates' . DS . $template . DS . 'html' . DS . 'com_virtuemart' . DS . 'sublayouts' . DS . $name . '.php';
 
-		if(!class_exists('vFile')) require(VMPATH_ADMIN .DS. 'vmf' .DS. 'filesystem' .DS. 'vfile.php');
-		if (vFile::exists ($templatePath)) {
+		if(!class_exists('JFile')) require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'file.php');
+		if (JFile::exists ($templatePath)) {
 			$lPath =  $templatePath;
 		} else {
-			if (vFile::exists (VMPATH_SITE . DS . 'sublayouts' . DS . $name . '.php')) {
+			if (JFile::exists (VMPATH_SITE . DS . 'sublayouts' . DS . $name . '.php')) {
 				$lPath = VMPATH_SITE . DS . 'sublayouts' . DS . $name . '.php';
 			}
 		}
@@ -124,15 +127,32 @@ class VmView extends vView{
 			$ItemidStr = '&Itemid='.$Itemid;
 		}
 
-		$lang = '';
-		if(VmConfig::$jLangCount>1 and !empty(VmConfig::$vmlangSef)){
-			$lang = '&lang='.VmConfig::$vmlangSef;
+		if(VmConfig::get('sef_for_cart_links', false)){
+			$this->useSSL = vmURI::useSSL();
+			$this->continue_link = JRoute::_('index.php?option=com_virtuemart&view=category' . $categoryStr.$ItemidStr);
+			$this->cart_link = JRoute::_('index.php?option=com_virtuemart&view=cart',false,$this->useSSL);
+		} else {
+			$lang = '';
+			if(VmLanguage::$jLangCount>1 and !empty(VmConfig::$vmlangSef)){
+				$lang = '&lang='.VmConfig::$vmlangSef;
+			}
+
+			$this->continue_link = JURI::root() .'index.php?option=com_virtuemart&view=category' . $categoryStr.$lang.$ItemidStr;
+
+			$juri = JUri::getInstance();
+			$uri = $juri->toString(array( 'host', 'port'));
+
+			$scheme = $juri->toString(array( 'scheme'));
+			$scheme = substr($scheme,0,-3);
+			if($scheme!='https' and $this->useSSL){
+				$scheme .='s';
+			}
+			$this->cart_link = $scheme.'://'.$uri. JURI::root(true).'/index.php?option=com_virtuemart&view=cart'.$lang;
 		}
 
-		$this->continue_link = vUri::root() .'index.php?option=com_virtuemart&view=category' . $categoryStr.$lang.$ItemidStr;
 		$this->continue_link_html = '<a class="continue_link" href="' . $this->continue_link . '">' . vmText::_ ('COM_VIRTUEMART_CONTINUE_SHOPPING') . '</a>';
 
-		$this->cart_link = vUri::root().'index.php?option=com_virtuemart&view=cart'.$lang;
+
 
 		return;
 	}
@@ -143,7 +163,7 @@ class VmView extends vView{
 		}
 		$folder = 'media/system/images/'; //shouldn't be root slash before media, as it automatically tells to look in root directory, for media/system/ which is wrong it should append to root directory.
 		$text='';
-		if ( $use_icon ) $text .= vHtml::_('image', $folder.$boutonName.'.png',  vmText::_($altText), null, false, false); //$folder shouldn't be as alt text, here it is: image(string $file, string $alt, mixed $attribs = null, boolean $relative = false, mixed $path_rel = false) : string, you should change first false to true if images are in templates media folder
+		if ( $use_icon ) $text .= JHtml::_('image', $folder.$boutonName.'.png',  vmText::_($altText), null, false, false); //$folder shouldn't be as alt text, here it is: image(string $file, string $alt, mixed $attribs = null, boolean $relative = false, mixed $path_rel = false) : string, you should change first false to true if images are in templates media folder
 		if ( $use_text ) $text .= '&nbsp;'. vmText::_($altText);
 		if ( $text=='' )  $text .= '&nbsp;'. vmText::_($altText);
 		if ($modal) return '<a '.$class.' class="modal" rel="{handler: \'iframe\', size: {x: 700, y: 550}}" title="'. vmText::_($altText).'" href="'.JRoute::_($link, FALSE).'">'.$text.'</a>';

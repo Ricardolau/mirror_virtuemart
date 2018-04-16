@@ -11,18 +11,19 @@ defined ('_JEXEC') or  die('Direct Access to ' . basename (__FILE__) . ' is not 
  * VirtueMart is Free Software.
  * VirtueMart comes with absolute no warranty.
  *
- * www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  */
 
 defined('DS') or define('DS', DIRECTORY_SEPARATOR);
-if (!class_exists( 'VmConfig' )) require(JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'helpers'.DS.'config.php');
+if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 
 VmConfig::loadConfig ();
-VmConfig::loadJLang ('mod_virtuemart_search', true);
+vmLanguage::loadJLang ('mod_virtuemart_search', true);
 
 // Load the virtuemart main parse code
 $button = $params->get ('button', 0);
 $imagebutton = $params->get ('imagebutton', 0);
+$imagepath = $params->get ('image_button_file', '');
 $button_pos = $params->get ('button_pos', 'left');
 $button_text = $params->get ('button_text', vmText::_ ('MOD_VIRTUEMART_SEARCH_GO'));
 $width = intval ($params->get ('width', 20));

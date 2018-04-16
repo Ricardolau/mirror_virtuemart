@@ -5,7 +5,7 @@
  * @package	VirtueMart
  * @subpackage
  * @author Kohl Patrick, Maik K�nnemann
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2014 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -40,7 +40,7 @@ if (empty ( $this->product )) {
 	echo vmText::_ ( 'COM_VIRTUEMART_PRODUCT_NOT_FOUND' );
 	echo '<br /><br />  ' . $this->continue_link_html;
 } else {
-	$session = vFactory::getSession();
+	$session = JFactory::getSession();
 	$sessData = $session->get('mailrecommend', 0, 'vm');
 	if(!empty($this->login)){
 		echo $this->login;
@@ -94,7 +94,7 @@ if (empty ( $this->product )) {
 
 					<div class="submit">
 						<?php // captcha addition
-						echo $this->captcha;
+							echo $this->captcha;
 						// end of captcha addition
 						?>
             <div>
@@ -114,7 +114,7 @@ if (empty ( $this->product )) {
 					<input type="hidden" name="option" value="com_virtuemart" />
 					<input type="hidden" name="virtuemart_category_id" value="<?php echo vRequest::getInt('virtuemart_category_id'); ?>" />
 					<input type="hidden" name="task" value="mailRecommend" />
-					<?php echo vHtml::token(); ?>
+					<?php echo JHTML::_( 'form.token' ); ?>
 				</form>
 
 			</div>

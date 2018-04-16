@@ -6,7 +6,7 @@
  * @package	VirtueMart
  * @subpackage User
  * @author Oscar van Eijk
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -19,20 +19,23 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
+// Load the controller framework
+jimport('joomla.application.component.controller');
+
 /**
  * VirtueMart Component Controller
  *
  * @package		VirtueMart
  */
-class VirtueMartControllerUser extends vController
+class VirtueMartControllerUser extends JControllerLegacy
 {
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->useSSL = VmConfig::get('useSSL',0);
+		$this->useSSL = vmURI::useSSL();
 		$this->useXHTML = false;
-		VmConfig::loadJLang('com_virtuemart_shoppers',TRUE);
+		vmLanguage::loadJLang('com_virtuemart_shoppers',TRUE);
 	}
 
 	/**
@@ -42,7 +45,7 @@ class VirtueMartControllerUser extends vController
 	 */
 	public function display($cachable = false, $urlparams = array()){
 
-		$document = vFactory::getDocument();
+		$document = JFactory::getDocument();
 		$viewType = $document->getType();
 		$viewName = vRequest::getCmd('view', 'user');
 		$viewLayout = vRequest::getCmd('layout', 'default');
@@ -68,8 +71,37 @@ class VirtueMartControllerUser extends vController
 		if (!class_exists('VirtueMartCart')) require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');
 		$cart = VirtueMartCart::getCart();
 		$cart->_fromCart = true;
-		$cart->setCartIntoSession();
 
+		$new = vRequest::getInt('new',false);
+		if($new){
+			$sess = JFactory::getSession();
+			$vmAdminId = $sess->get('vmAdminID','');
+			if(!empty($vmAdminId)){
+				if(!class_exists('vmCrypt'))
+					require(VMPATH_ADMIN.DS.'helpers'.DS.'vmcrypt.php');
+				$adminId = vmCrypt::decrypt($vmAdminId);
+				vmdebug('Shoppergroup switcher activ',$vmAdminId,$adminId);
+				if($adminId){
+					if(vmAccess::manager('user',$adminId)) {
+
+						vmdebug( 'Lets register a new user by our admin' );
+						$newUser = JFactory::getUser( 0 );
+						$sess->set( 'user', $newUser );
+
+						//update cart data
+						$cart = VirtueMartCart::getCart();
+						$cart->BT = 0;
+						$cart->ST = 0;
+						$cart->STsameAsBT = 1;
+						$cart->selected_shipto = 0;
+						$cart->virtuemart_shipmentmethod_id = 0;
+						//$cart->saveAddressInCart($data, 'BT');
+					}
+				}
+			}
+		}
+
+		$cart->setCartIntoSession();
 		// Display it all
 		$view->display();
 
@@ -92,7 +124,7 @@ class VirtueMartControllerUser extends vController
 
 			$msg = $this->saveData($cart);
 			$task = '';
-			vmdebug('saveUser _fromCart',(int)$cart->_fromCart,(int)$msg);
+			//vmdebug('saveUser _fromCart',(int)$cart->_fromCart,(int)$msg);
 			if(!$msg){
 				$this->setRedirect(JRoute::_('index.php?option=com_virtuemart&view=user&task=editaddresscart&addrtype=BT'.$task, FALSE) );
 			} else {
@@ -129,14 +161,14 @@ class VirtueMartControllerUser extends vController
 	 */
 	private function saveData($cartObj) {
 
-		$mainframe = vFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
 		$msg = true;
 		$data = vRequest::getPost(FILTER_SANITIZE_STRING);
 		$register = isset($_REQUEST['register']);
 
 		$userModel = VmModel::getModel('user');
-		$currentUser = vFactory::getUser();
+		$currentUser = JFactory::getUser();
 
 		if(empty($data['address_type'])){
 			$data['address_type'] = vRequest::getCmd('addrtype','BT');
@@ -209,12 +241,20 @@ class VirtueMartControllerUser extends vController
 				if(!empty($cart->vendorId) and $cart->vendorId!=1){
 					$data['vendorId'] = $cart->vendorId;
 				}
+
+				if(!$cartObj and !isset($data['virtuemart_shoppergroup_id']) and vmAccess::manager('user.edit')){
+					$data['virtuemart_shoppergroup_id'] = array();
+				}
+
+				//important for user registration mail, by Yagendoo
+				if(empty($data['language'])) $data['language'] = VmConfig::$vmlangTag;
+
 				$ret = $userModel->store($data);
 
 				if($switch){ //and VmConfig::get ('oncheckout_change_shopper')){
 					//update session
-					$current = vFactory::getUser($ret['newId']);
-					$session = vFactory::getSession();
+					$current = JFactory::getUser($ret['newId']);
+					$session = JFactory::getSession();
 					$session->set('user', $current);
 				}
 				$msg = (is_array($ret)) ? $ret['message'] : $ret;
@@ -259,7 +299,7 @@ class VirtueMartControllerUser extends vController
 			$cart->setOutOfCheckout();
 			$this->setRedirect( JRoute::_('index.php?option=com_virtuemart&view=cart', FALSE)  );
 		} else {
-			$return = vUri::base();
+			$return = JURI::base();
 			$this->setRedirect( $return );
 		}
 
@@ -287,10 +327,10 @@ class VirtueMartControllerUser extends vController
 	 * @author Maik Künnemann
 	 */
 	function checkCaptcha($retUrl){
-		if(vFactory::getUser()->guest==1 and VmConfig::get ('reg_captcha')){
+		if(JFactory::getUser()->guest==1 and VmConfig::get ('reg_captcha')){
 			$recaptcha = vRequest::getVar ('recaptcha_response_field');
-			vPluginHelper::importPlugin('captcha');
-			$dispatcher = vDispatcher::getInstance();
+			JPluginHelper::importPlugin('captcha');
+			$dispatcher = JDispatcher::getInstance();
 			$res = $dispatcher->trigger('onCheckAnswer',$recaptcha);
 			if(!$res[0]){
 				$data = vRequest::getPost();

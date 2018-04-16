@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage User
 * @author Oscar van Eijk
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access');
 AdminUIHelper::startAdminArea($this);
 
 ?>
-<form action="<?php echo JRoute::_( 'index.php' );?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_( 'index.php?option=com_virtuemart&view=user' );?>" method="post" name="adminForm" id="adminForm">
 	<div id="header">
 	<div id="filterbox">
 		<table>
@@ -31,12 +31,12 @@ AdminUIHelper::startAdminArea($this);
 					<?php echo vmText::_('COM_VIRTUEMART_FILTER'); ?>:
 					<input type="text" name="search" id="search" value="<?php echo $this->lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 					<?php
-					$selected = vRequest::getString('searchTable','juser');
+
 					$searchOptionTables = array(
 						'0' => array('searchTable' => 'juser', 'searchTable_name' => vmText::_('COM_VIRTUEMART_ONLY_JUSER')),
 						'1' => array('searchTable' => 'all', 'searchTable_name' => vmText::_('JALL'))
 					);
-					echo vHtml::_('Select.genericlist', $searchOptionTables, 'searchTable', '', 'searchTable', 'searchTable_name', $selected );
+					echo JHtml::_('Select.genericlist', $searchOptionTables, 'searchTable', '', 'searchTable', 'searchTable_name', $this->searchTable );
 					?>
 					<button class="btn btn-small" onclick="this.form.submit();"><?php echo vmText::_('COM_VIRTUEMART_GO'); ?></button>
 					<button class="btn btn-small" onclick="document.adminForm.search.value='';this.form.submit();"><?php echo vmText::_('COM_VIRTUEMART_RESET'); ?></button>
@@ -69,7 +69,7 @@ AdminUIHelper::startAdminArea($this);
 		$k = 0;
 		for ($i = 0, $n = count($this->userList); $i < $n; $i++) {
 			$row = $this->userList[$i];
-			$checked = vHtml::_('grid.id', $i, $row->id);
+			$checked = JHtml::_('grid.id', $i, $row->id);
 			$editlink = JROUTE::_('index.php?option=com_virtuemart&view=user&task=edit&virtuemart_user_id[]=' . $row->id);
 			$is_vendor = $this->toggle($row->is_vendor, $i, 'toggle.user_is_vendor');
 		?>

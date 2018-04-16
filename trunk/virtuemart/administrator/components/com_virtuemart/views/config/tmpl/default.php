@@ -6,7 +6,7 @@
  * @package	VirtueMart
  * @subpackage Config
  * @author RickG
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -26,18 +26,24 @@ AdminUIHelper::startAdminArea($this);
 <?php // Loading Templates in Tabs
 AdminUIHelper::buildTabs ( $this,  array (
 									'shop' 			=> 	'COM_VIRTUEMART_ADMIN_CFG_SHOPTAB',
-									'email' 		=> 	'COM_VIRTUEMART_ADMIN_CFG_EMAILTAB',
+									'email' 		=> 	'COM_VIRTUEMART_ADMIN_CFG_ORDERTAB',
 									'shopfront' 	=> 	'COM_VIRTUEMART_ADMIN_CFG_SHOPFRONTTAB',
 									'templates' 	=> 	'COM_VIRTUEMART_ADMIN_CFG_TEMPLATESTAB',
 									'pricing' 		=> 	'COM_VIRTUEMART_ADMIN_CFG_PRICINGTAB',
 									'checkout' 		=> 	'COM_VIRTUEMART_ADMIN_CFG_CHECKOUTTAB',
 									'product_order'	=> 	'COM_VIRTUEMART_ADMIN_CFG_PRODUCTORDERTAB',
+									'feeds'			=> 	'COM_VIRTUEMART_ADMIN_CFG_FEEDS',
 									'sef' 			=> 	'COM_VIRTUEMART_ADMIN_CFG_SEF'
 									));
 
 ?>
 
-<?php echo $this->addStandardHiddenToForm(); ?>
+<!-- Hidden Fields --> <input type="hidden" name="task" value="" /> <input
+	type="hidden" name="option" value="com_virtuemart" /> <input
+	type="hidden" name="view" value="config" />
+<?php
+echo JHtml::_ ( 'form.token' );
+?>
 </form>
 <?php
 AdminUIHelper::endAdminArea ();

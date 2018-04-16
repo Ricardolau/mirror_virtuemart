@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Calculation tool
 * @author Max Milbers
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -52,7 +52,7 @@ class VirtuemartViewCalc extends VmViewAdmin {
 			$isNew = ($calc->virtuemart_calc_id < 1);
 			if ($isNew) {
 				$calc->virtuemart_vendor_id = $this->vendorId;
-				$db = vFactory::getDbo();
+				$db = JFactory::getDBO();
 				//get default currency of the vendor, if not set get default of the shop
 				$q = 'SELECT `vendor_currency` FROM `#__virtuemart_vendors` WHERE `virtuemart_vendor_id` = "'.$this->vendorId.'"';
 				$db->setQuery($q);
@@ -99,8 +99,8 @@ class VirtuemartViewCalc extends VmViewAdmin {
 
         } else {
 			if($this->showVendors()){
-				vToolBarHelper::custom('toggle.shared.1', 'publish', 'yes', vmText::_('COM_VIRTUEMART_SHARED_TOGGLE_ON'), true);
-				vToolBarHelper::custom('toggle.shared.0', 'unpublish', 'no', vmText::_('COM_VIRTUEMART_SHARED_TOGGLE_OFF'), true);
+				JToolBarHelper::custom('toggle.shared.1', 'publish', 'yes', vmText::_('COM_VIRTUEMART_SHARED_TOGGLE_ON'), true);
+				JToolBarHelper::custom('toggle.shared.0', 'unpublish', 'no', vmText::_('COM_VIRTUEMART_SHARED_TOGGLE_OFF'), true);
 			}
 
 			$this->addStandardDefaultViewCommands();
@@ -108,7 +108,7 @@ class VirtuemartViewCalc extends VmViewAdmin {
 
 			$search = vRequest::getCmd('search', false);
 			$this->calcs = $model->getCalcs(false, false, $search);
-			VmConfig::loadJLang('com_virtuemart_shoppers',true);
+			vmLanguage::loadJLang('com_virtuemart_shoppers',true);
 			foreach ($this->calcs as &$data){
 				$data->calcCategoriesList = shopfunctions::renderGuiList($data->virtuemart_calc_id,'categories','category_name','category','calc_categories','virtuemart_calc_id');
 
@@ -154,7 +154,7 @@ class VirtuemartViewCalc extends VmViewAdmin {
 		'7' => array('calc_kind' => 'DATaxBill', 'calc_kind_name' => vmText::_('COM_VIRTUEMART_CALC_EPOINT_DATAXBILL')),
 		);
 
-		$listHTML = vHtml::_('Select.genericlist', $entryPoints, 'calc_kind', '', 'calc_kind', 'calc_kind_name', $selected );
+		$listHTML = JHtml::_('Select.genericlist', $entryPoints, 'calc_kind', '', 'calc_kind', 'calc_kind_name', $selected );
 		return $listHTML;
 
 	}
@@ -180,12 +180,12 @@ class VirtuemartViewCalc extends VmViewAdmin {
 		);
 
 		if (!class_exists('vmCalculationPlugin')) require(VMPATH_PLUGINLIBS . DS . 'vmcalculationplugin.php');
-		vPluginHelper::importPlugin('vmcalculation');
-		$dispatcher = vDispatcher::getInstance();
+		JPluginHelper::importPlugin('vmcalculation');
+		$dispatcher = JDispatcher::getInstance();
 
 		$answer = $dispatcher->trigger('plgVmAddMathOp', array(&$mathOps));
 
-		$listHTML = vHtml::_('Select.genericlist', $mathOps, 'calc_value_mathop', 'style="width:70px;"', 'calc_value_mathop', 'calc_value_mathop_name', $selected );
+		$listHTML = JHtml::_('Select.genericlist', $mathOps, 'calc_value_mathop', 'style="width:70px;"', 'calc_value_mathop', 'calc_value_mathop_name', $selected );
 		return $listHTML;
 	}
 

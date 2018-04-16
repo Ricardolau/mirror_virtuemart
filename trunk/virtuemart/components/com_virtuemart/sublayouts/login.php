@@ -7,7 +7,7 @@
 * @subpackage User
 * @author Max Milbers, George Kostopoulos
 *
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -27,20 +27,20 @@ if (!isset( $this->order )) $this->order = FALSE ;
 
 
 if (empty($this->url)){
-	$url = vmURI::getCleanUrl();
+	$url = vmURI::getCurrentUrlBy('request');
 } else{
 	$url = $this->url;
 }
 //$url = JRoute::_($url, $this->useXHTML, $this->useSSL);
+vmdebug('My Url in loginform',$url);
+$user = JFactory::getUser();
 
-$user = vFactory::getUser();
-if (!class_exists( 'vHtml' )) require(VMPATH_ADMIN .'/vmf/html/html.php');
 if ($this->show and $user->id == 0  ) {
-vHtml::_('behavior.formvalidator');
+    vmJsApi::vmValidator();
 
 	//Extra login stuff, systems like openId and plugins HERE
-    if (vPluginHelper::isEnabled('authentication', 'openid')) {
-        $lang = vFactory::getLanguage();
+    if (JPluginHelper::isEnabled('authentication', 'openid')) {
+        $lang = JFactory::getLanguage();
         $lang->load('plg_authentication_openid', JPATH_ADMINISTRATOR);
         $langScript = '
 //<![CDATA[
@@ -52,12 +52,12 @@ vHtml::_('behavior.formvalidator');
 //]]>
                 ';
 		vmJsApi::addJScript('login_openid',$langScript);
-        vHtml::_('script', 'openid.js');
+        JHtml::_('script', 'openid.js');
     }
 
     $html = '';
-    vPluginHelper::importPlugin('vmpayment');
-    $dispatcher = vDispatcher::getInstance();
+    JPluginHelper::importPlugin('vmpayment');
+    $dispatcher = JDispatcher::getInstance();
     $returnValues = $dispatcher->trigger('plgVmDisplayLogin', array($this, &$html, $this->from_cart));
 
     if (is_array($html)) {
@@ -106,7 +106,7 @@ vHtml::_('behavior.formvalidator');
 
 
     // XXX style CSS id com-form-login ?>
-    <form id="com-form-login" action="<?php echo $url; ?>" method="post" name="com-login" >
+    <form id="com-form-login" action="<?php echo JUri::root(true).'/'.$url; ?>" method="post" name="com-login" >
       <fieldset class="userdata">
         <?php if (!$this->from_cart ) { ?>
         <div>
@@ -125,7 +125,7 @@ vHtml::_('behavior.formvalidator');
 
         <div class="width30 floatleft" id="com-form-login-remember">
           <input type="submit" name="Submit" class="default" value="<?php echo vmText::_('COM_VIRTUEMART_LOGIN') ?>" />
-          <?php if (vPluginHelper::isEnabled('system', 'remember')) : ?>
+          <?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
           <label for="remember"><?php echo $remember_me = vmText::_('JGLOBAL_REMEMBER_ME') ?></label>
           <input type="checkbox" id="remember" name="remember" class="inputbox" value="yes" />
           <?php endif; ?>
@@ -147,17 +147,17 @@ vHtml::_('behavior.formvalidator');
       <input type="hidden" name="task" value="user.login" />
       <input type="hidden" name="option" value="com_users" />
       <input type="hidden" name="return" value="<?php echo base64_encode($url) ?>" />
-      <?php echo vHtml::token(); ?>
+      <?php echo JHtml::_('form.token'); ?>
     </form>
 
 <?php  } else if ( $user->id ) { ?>
 
-	  <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="login" id="form-login">
+	  <form action="<?php echo JUri::root(true).'/'.$url; ?>" method="post" name="login" id="form-login">
       <?php echo vmText::sprintf( 'COM_VIRTUEMART_HINAME', $user->name ); ?>
       <input type="submit" name="Submit" class="button" value="<?php echo vmText::_( 'COM_VIRTUEMART_BUTTON_LOGOUT'); ?>" />
       <input type="hidden" name="option" value="com_users" />
       <input type="hidden" name="task" value="user.logout" />
-      <?php vHtml::token(); ?>
+      <?php echo JHtml::_('form.token'); ?>
     	<input type="hidden" name="return" value="<?php echo base64_encode($url) ?>" />
     </form>
 

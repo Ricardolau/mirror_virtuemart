@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage User
 * @author Oscar van Eijk
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -17,7 +17,11 @@
 */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access');
+if(!vmAccess::manager('user.editshop')){
+	?><div><?php echo vmText::_('COM_VM_PERM_MISSING_VENDOR');?></div> <?php
+}
+?>
 <!--div class="col50"-->
 	<table class="admintable">
 		<tr>
@@ -27,6 +31,16 @@ defined('_JEXEC') or die('Restricted access'); ?>
 						<?php echo vmText::_('COM_VIRTUEMART_VENDOR_FORM_INFO_LBL') ?>
 					</legend>
 					<table class="admintable">
+                        <tr>
+                            <td class="key">
+                                <label for="vendor_name">
+									<?php echo vmText::_('COM_VIRTUEMART_STORE_FORM_COMPANY_NAME'); ?>:
+                                </label>
+                            </td>
+                            <td>
+                                <input class="inputbox" type="text" name="vendor_name" id="vendor_name" size="50" value="<?php echo $this->vendor->vendor_name; ?>" />
+                            </td>
+                        </tr>
 						<tr>
 							<td class="key">
                 <label for="vendor_store_name">
@@ -35,16 +49,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 							</td>
 							<td>
 								<input class="inputbox" type="text" name="vendor_store_name" id="vendor_store_name" size="50" value="<?php echo $this->vendor->vendor_store_name; ?>" />
-							</td>
-						</tr>
-						<tr>
-							<td class="key">
-                <label for="vendor_name">
-								<?php echo vmText::_('COM_VIRTUEMART_STORE_FORM_COMPANY_NAME'); ?>:
-                </label>
-							</td>
-							<td>
-								<input class="inputbox" type="text" name="vendor_name" id="vendor_name" size="50" value="<?php echo $this->vendor->vendor_name; ?>" />
 							</td>
 						</tr>
 						<tr>
@@ -85,7 +89,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
                 </label>
 							</td>
 							<td>
-								<?php echo vHtml::_('Select.genericlist', $this->currencies, 'vendor_currency', 'class="vm-chzn-select"', 'virtuemart_currency_id', 'currency_name', $this->vendor->vendor_currency); ?>
+								<?php echo JHtml::_('Select.genericlist', $this->currencies, 'vendor_currency', 'class="vm-chzn-select"', 'virtuemart_currency_id', 'currency_name', $this->vendor->vendor_currency); ?>
 							</td>
 						</tr>
 						<tr>
@@ -95,7 +99,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
                 </label>
 							</td>
 							<td>
-								<?php echo vHtml::_('Select.genericlist', $this->currencies, 'vendor_accepted_currencies[]', 'size=10 multiple="multiple" class="vm-chzn-select"', 'virtuemart_currency_id', 'currency_name', $this->vendor->vendor_accepted_currencies); ?>
+								<?php echo JHtml::_('Select.genericlist', $this->currencies, 'vendor_accepted_currencies[]', 'size=10 multiple="multiple" class="vm-chzn-select"', 'virtuemart_currency_id', 'currency_name', $this->vendor->vendor_accepted_currencies); ?>
 							</td>
 						</tr>
 					</table>

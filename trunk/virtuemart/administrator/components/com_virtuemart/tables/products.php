@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Product
 * @author Max Milbers
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2009 - 2014 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -58,6 +58,7 @@ class TableProducts extends VmTable {
 	/** @var int File thumbnail image width */
 	var $product_in_stock	= 0;
 	var $product_ordered		= 0;
+	var $product_stockhandle	= 0;
 	/** @var int File thumbnail image width */
 	var $low_stock_notification	= 0;
 	/** @var int File thumbnail image width */
@@ -66,6 +67,7 @@ class TableProducts extends VmTable {
 	var $product_availability	= null;
 	/** @var int File thumbnail image width */
 	var $product_special	= null;
+	var $product_discontinued	= null;
 
 	/** @var int product internal ordering, it is for the ordering for child products under a parent null */
 	var $pordering = null;

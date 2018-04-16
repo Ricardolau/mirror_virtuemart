@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage
 * @author  Patrick Kohl
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -34,9 +34,9 @@ class VirtuemartViewMedia extends VmViewAdmin {
 	private $json = null;
 
 	function display($tpl = null) {
-		$document =vFactory::getDocument();
+		$document =JFactory::getDocument();
 		$document->setMimeEncoding( 'application/json' );
-
+		header ('Content-Type: application/json');
 		if ($virtuemart_media_id = vRequest::getInt('virtuemart_media_id')) {
 			//JResponse::setHeader( 'Content-Disposition', 'attachment; filename="media'.$virtuemart_media_id.'.json"' );
 
@@ -44,16 +44,16 @@ class VirtuemartViewMedia extends VmViewAdmin {
 			$image = $model->createMediaByIds($virtuemart_media_id);
 			if(isset($image[0]) and is_object($image[0])){
 				$image[0]->file_url_thumb_dyn = $image[0] -> getFileUrlThumb();
-
+// 			echo '<pre>'.print_r($image,1).'</pre>';
 				$this->json = $image[0];
 				//echo json_encode($this->json);
 				if (isset($this->json->file_url)) {
-					$this->json->file_root = vUri::root(true).'/';
+					$this->json->file_root = JURI::root(true).'/';
 					$this->json->msg =  'OK';
 					echo vmJsApi::safe_json_encode($this->json);
 				} else {
 					$this->json->msg =  '<b>'.vmText::_('COM_VIRTUEMART_NO_IMAGE_SET').'</b>';
-					echo @json_encode($this->json);
+					echo @vmJsApi::safe_json_encode($this->json);
 				}
 			}
 		}

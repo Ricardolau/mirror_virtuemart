@@ -20,7 +20,7 @@ defined('_JEXEC') or die();
 
 defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 if (!class_exists( 'VmConfig' )) {
-	$path = JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'helpers'.DS.'config.php';
+	$path = JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php';
 	if(file_exists($path)){
 		require($path);
 		VmConfig::loadConfig();
@@ -68,7 +68,7 @@ function confirmation(message, destnUrl) {
 			<td align="center" colspan="4">
 				<?php
 				VmConfig::loadConfig();
-				VmConfig::loadJLang('com_virtuemart');
+				vmLanguage::loadJLang('com_virtuemart');
 
 				?>
 				<?php $link = JROUTE::_('index.php?option=com_virtuemart_allinone&task=updateDatabase&' . JSession::getFormToken() . '=1'); ?>

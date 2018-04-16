@@ -5,7 +5,7 @@
  * @package	VirtueMart
  * @subpackage   Models Fields
  * @author Max Milbers
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2011 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -15,13 +15,6 @@
  * @version $Id: $
  */
 defined('JPATH_BASE') or die;
-defined('DS') or define('DS', DIRECTORY_SEPARATOR);
-if (!class_exists( 'VmConfig' )) require(JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'helpers'.DS.'config.php');
-VmConfig::loadConfig();
-if (!class_exists('ShopFunctions'))
-    require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
-if (!class_exists('VirtueMartModelConfig'))
-    require(VMPATH_ADMIN . DS . 'models' . DS . 'config.php');
 jimport('joomla.form.formfield');
 
 /**
@@ -29,7 +22,7 @@ jimport('joomla.form.formfield');
  *
  *
  */
-class vFormFieldVmLayout extends vFormField
+class JFormFieldVmLayout extends JFormField
 {
 	var $type = 'layout';
 
@@ -44,17 +37,24 @@ class vFormFieldVmLayout extends vFormField
   
 	function getInput() {
 
-		VmConfig::loadJLang('com_virtuemart');
+		if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
+		VmConfig::loadConfig();
+		if (!class_exists('VirtueMartModelConfig'))
+			require(VMPATH_ADMIN . DS . 'models' . DS . 'config.php');
 
-		$this->view = (string) $this->element['view'];
+		vmLanguage::loadJLang('com_virtuemart');
+
+		$this->view = $this->getAttribute('view',false);
+
 		if(empty($this->view)){
 			$view = substr($this->fieldname,0,-6);;
 		} else {
 			$view = $this->view;
 		}
+		$gl = $this->getAttribute('allowGlobal',true);
 
-		$vmLayoutList = VirtueMartModelConfig::getLayoutList($view);
-		$html = vHtml::_('Select.genericlist',$vmLayoutList, $this->name, 'size=1 width=200', 'value', 'text', array($this->value));
+		$vmLayoutList = VirtueMartModelConfig::getLayoutList($view,0,$gl);
+		$html = JHtml::_('Select.genericlist',$vmLayoutList, $this->name, 'size=1 width=200', 'value', 'text', array($this->value));
 
         return $html;
 

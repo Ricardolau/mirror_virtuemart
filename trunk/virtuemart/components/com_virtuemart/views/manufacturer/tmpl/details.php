@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Manufacturer
 * @author Kohl Patrick, Eugen Stranz
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -36,7 +36,7 @@ defined('_JEXEC') or die('Restricted access');
 	if(!empty($this->manufacturer->mf_email)) { ?>
 		<div class="manufacturer-email">
 		<?php // TO DO Make The Email Visible Within The Lightbox
-		echo vHtml::_('email.cloak', $this->manufacturer->mf_email,true,vmText::_('COM_VIRTUEMART_EMAIL'),false) ?>
+		echo JHtml::_('email.cloak', $this->manufacturer->mf_email,true,vmText::_('COM_VIRTUEMART_EMAIL'),false) ?>
 		</div>
 	<?php } ?>
 

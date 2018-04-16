@@ -5,7 +5,7 @@
  * @package	VirtueMart
  * @subpackage Orders
  * @author Oscar van Eijk
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -19,7 +19,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Load the view framework
-if (!class_exists('vView')) require(VMPATH_ADMIN.DS.'vmf'.DS.'vview.php');
+jimport( 'joomla.application.component.view');
+
 /**
  * HTML View class for the VirtueMart Component
  *
@@ -118,7 +119,7 @@ class VirtuemartViewOrders extends VmViewAdmin {
 		$this->assignRef('orderst', $orderst);
 		$this->assignRef('virtuemart_shipmentmethod_id', $orderbt->virtuemart_shipmentmethod_id);
 
-		//error_reporting(0);
+		error_reporting(0);
 		parent::display($tpl);
 	}
 

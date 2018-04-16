@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage
 * @author Max Milbers
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -37,7 +37,7 @@ class VirtuemartControllerMedia extends VmController {
 	 * @author
 	 */
 	function __construct() {
-		VmConfig::loadJLang('com_virtuemart_media');
+		vmLanguage::loadJLang('com_virtuemart_media');
 		parent::__construct('virtuemart_media_id');
 
 	}
@@ -127,16 +127,41 @@ class VirtuemartControllerMedia extends VmController {
 			}
 		}
 
-		if(!class_exists('vFile')) require(VMPATH_ADMIN .DS. 'vmf' .DS. 'filesystem' .DS. 'vfile.php');
 		foreach($results as $filetype => $files){
 			foreach($files as $file){
-				$new = vFile::stripExt($file);
-				if(!vFile::exists($file)){
+				$new = JFile::stripExt($file);
+				if(!JFile::exists($file)){
 					$succ = rename ($path.$file,$path.$new.'.'.$filetype);
 				}
 			}
 		}
 
 	}
+
+	function deleteFiles(){
+
+		vRequest::vmCheckToken();
+
+		$ids = vRequest::getVar($this->_cidName, vRequest::getInt('cid', array() ));
+
+		$type = 'notice';
+		if(count($ids) < 1) {
+			$msg = vmText::_('COM_VIRTUEMART_SELECT_ITEM_TO_DELETE');
+
+		} else {
+			$model = $this->getModel($this->_cname);
+			$ret = $model->removeFiles($ids);
+
+			$msg = vmText::sprintf('COM_VIRTUEMART_STRING_DELETED',$this->mainLangKey);
+			if($ret==false) {
+				$msg = vmText::sprintf('COM_VIRTUEMART_STRING_COULD_NOT_BE_DELETED',$this->mainLangKey);
+				$type = 'error';
+			}
+		}
+
+		$this->setRedirect($this->redirectPath, $msg,$type);
+	}
+
+
 }
 // pure php no closing tag

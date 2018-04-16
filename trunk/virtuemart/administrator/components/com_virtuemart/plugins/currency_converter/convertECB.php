@@ -39,18 +39,19 @@ class convertECB {
 	 */
 	function convert( $amountA, $currA='', $currB='', $a2rC = true, $relatedCurrency = 'EUR') {
 
-		// cache subfolder(group) 'convertECB', cache method: callback
-		$cache= vFactory::getCache('convertECB','callback');
+		if($currA==$currB){
+			return $amountA;
+		}
 
+		static $globalCurrencyConverter = false;
+		if(!$globalCurrencyConverter){
+			$cache = VmConfig::getCache('convertECB');
 
-		$cache->setLifeTime(360); // check 4 time per day
+			$cache->setLifeTime(360); // check 4 time per day
+			$cache->setCaching(1); //enable caching
 
-
-		$cache->setCaching(1); //enable caching
-
-		$globalCurrencyConverter = $cache->call( array( 'convertECB', 'getSetExchangeRates' ),$this->document_address );
-
-
+			$globalCurrencyConverter = $cache->call( array( 'convertECB', 'getSetExchangeRates' ),$this->document_address );
+		}
 
 		if(!$globalCurrencyConverter ){
 			return $amountA;

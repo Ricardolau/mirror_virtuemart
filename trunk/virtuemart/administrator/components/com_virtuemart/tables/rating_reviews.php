@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage
 * @author RolandD
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -32,6 +32,7 @@ class TableRating_reviews extends VmTable {
 
 	/** @var int Primary key */
 	var $virtuemart_rating_review_id	= 0;
+	var $virtuemart_rating_vote_id =0;
 	/** @var int Product ID */
 	var $virtuemart_product_id			= null;
 

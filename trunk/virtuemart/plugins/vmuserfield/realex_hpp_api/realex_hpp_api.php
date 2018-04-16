@@ -22,7 +22,7 @@ defined('_JEXEC') or die();
  */
 
 if (!class_exists('vmUserfieldPlugin')) {
-	require(JPATH_VM_PLUGINS . DS . 'vmuserfieldtypeplugin.php');
+	require(VMPATH_PLUGINLIBS . DS . 'vmuserfieldtypeplugin.php');
 }
 define('USERFIELD_REALEX', 1);
 
@@ -107,12 +107,7 @@ class plgVmUserfieldRealex_hpp_api extends vmUserfieldPlugin {
 	 */
 	function plgVmOnStoreInstallPluginTable($type, $data) {
 
-		if ($type == $this->_type and !empty($data->name)) {
-			return $this->onStoreInstallPluginTable($type, $data->name);
-		} else {
-			return false;
-		}
-
+		return $this->onStoreInstallPluginTable($type, $data->name);
 	}
 
 
@@ -155,8 +150,8 @@ class plgVmUserfieldRealex_hpp_api extends vmUserfieldPlugin {
 			return;
 		}
 
-		$card_delete_ids = JRequest::getVar('realex_card_delete_ids', array(), 'post', 'array');
-		$card_update_ids = JRequest::getVar('realex_card_update_ids', array(), 'post', 'array');
+		$card_delete_ids = vRequest::getVar('realex_card_delete_ids', array(), 'post', 'array');
+		$card_update_ids = vRequest::getVar('realex_card_update_ids', array(), 'post', 'array');
 		if (!empty($card_delete_ids)) {
 			return $this->deleteStoredCards($card_delete_ids);
 		}

@@ -23,13 +23,13 @@ class GenericTableUpdater extends VmModel{
 
 	public function __construct(){
 
-		$this->_app = vFactory::getApplication();
-		$this->_db = vFactory::getDbo();
+		$this->_app = JFactory::getApplication();
+		$this->_db = JFactory::getDbo();
 		// 		$this->_oldToNew = new stdClass();
 		$this->starttime = microtime(true);
 
 		$max_execution_time = VmConfig::getExecutionTime();
-		$jrmax_execution_time= vRequest::getInt('max_execution_time',300);
+		$jrmax_execution_time= vRequest::getInt('max_execution_time',900);
 
 		if(!empty($jrmax_execution_time)){
 			// 			vmdebug('$jrmax_execution_time',$jrmax_execution_time);
@@ -38,11 +38,11 @@ class GenericTableUpdater extends VmModel{
 
 		$this->maxScriptTime = VmConfig::getExecutionTime() * 0.90-1;	//Lets use 10% of the execution time as reserve to store the progress
 
-		VmConfig::ensureMemoryLimit(128);
+		VmConfig::ensureMemoryLimit(256);
 
-		$this->maxMemoryLimit = $this->return_bytes(ini_get('memory_limit')) * 0.85;
+		$this->maxMemoryLimit = (VmConfig::getMemoryLimit() * 0.99 * 1048576) - 6291456;	//6 MB Reserve
 
-		$config = vFactory::getConfig();
+		$config = JFactory::getConfig();
 		$this->_prefix = $config->get('dbprefix');
 
 		$this->reCreaPri = VmConfig::get('reCreaPri',0);
@@ -67,11 +67,15 @@ class GenericTableUpdater extends VmModel{
 	public function createLanguageTables($langs=0){
 
 		if(empty($langs)){
-			$langs = VmConfig::get('active_languages');
+			$langs = VmConfig::get('active_languages',array(VmConfig::$jDefLang));
 			if(empty($langs)){
-				$params = JComponentHelper::getParams('com_languages');
-				$langs = (array)$params->get('site', 'en-GB');
+				$langs = (array)VmConfig::$defaultLang;
 			}
+		}
+
+		foreach($langs as $i => $lang){
+			$lang = strtolower(strtr($lang,'-','_'));
+			if(empty($lang))unset($langs[$i]);
 		}
 
 		$langTables = array();
@@ -197,7 +201,7 @@ class GenericTableUpdater extends VmModel{
 				$lines[1][$tblKey] = 'PRIMARY KEY (`'.$tblKey.'`)';
 			}
 
-			$table[3] = '';
+			//$table[3] = '';
 			foreach($langs as $lang){
 				// 				$lang = strtr($lang,'-','_');
 				$lang = strtolower(strtr($lang,'-','_'));
@@ -252,7 +256,7 @@ class GenericTableUpdater extends VmModel{
 				}
 				$tableKeys[$keyName] = $line;
 
-			} else if(strpos($line,'ENGINE')!==false or strpos($line,'COMMENT=')!==false){
+			} else if(strpos($line,'ENGINE')!==false){
 				$tableDefStarted = false;
 
 				$tl = strtolower($line);
@@ -263,7 +267,7 @@ class GenericTableUpdater extends VmModel{
 				} else if(strpos($tl,'memory')!==false){
 					$engine = 'Memory';
 				} else {
-					$engine = 'MyISAM';
+					$engine = '';
 				}
 
 				$start = strpos($line,"COMMENT='");
@@ -546,7 +550,7 @@ class GenericTableUpdater extends VmModel{
 			if(!empty($query)){
 				$this->_db->setQuery($query);
 				if(!$this->_db->execute()){
-					$this->_app = vFactory::getApplication();
+					$this->_app = JFactory::getApplication();
 					$this->_app->enqueueMessage('alterKey '.$action.' INDEX '.$name.': '.$this->_db->getErrorMsg() );
 				} else {
  					//vmdebug('alterKey: a:'.$action.' KEY `'.$name.'` in table `'.$tablename.'` '.$this->_db->getQuery());
@@ -592,7 +596,7 @@ class GenericTableUpdater extends VmModel{
 		$altered = 0;
 		$added = 0;
 		$toRepeat = false;
-		$this->_app = vFactory::getApplication();
+		$this->_app = JFactory::getApplication();
 
 
 		$fields = isset($tableDef[0]) ? $tableDef[0]:false;
@@ -646,7 +650,7 @@ class GenericTableUpdater extends VmModel{
 				if ($oldColumn != $alterCommand ) {
 					$pr = '';
 					//If the field is an auto_increment, we add to the sql the creation of the primary key
-					if( strpos($alterCommand,'AUTO_INCREMENT')!==false xor strpos($oldColumn,'AUTO_INCREMENT')!==false){
+					if( (strpos($alterCommand,'AUTO_INCREMENT')!==false xor strpos($oldColumn,'AUTO_INCREMENT')!==false)){
 						$pr = ', ADD PRIMARY KEY (`'.$fieldname.'`)';
 						//This function drops the key only if existing
 						$this->dropPrimaryKey($tablename);
@@ -655,7 +659,7 @@ class GenericTableUpdater extends VmModel{
 					$query = 'ALTER TABLE `'.$tablename.'` CHANGE COLUMN `'.$fieldname.'` `'.$fieldname.'` '.$alterCommand.' '.$after.$pr;
 					$action = 'CHANGE';
 					$altered++;
-					vmdebug('alterColumns '.$tablename,$fieldname,$oldColumn,$alterCommand);
+					vmdebug('alterColumns '.$tablename.' from to,',$fieldname,$oldColumn,$alterCommand);
 				}
 			}
 			else {
@@ -846,23 +850,6 @@ class GenericTableUpdater extends VmModel{
 			return '';
 		}
 	}
-
-	private function return_bytes($val) {
-		$val = trim($val);
-		$last = strtolower($val[strlen($val)-1]);
-		switch($last) {
-			// The 'G' modifier is available since PHP 5.1.0
-			case 'g':
-				$val *= 1024;
-			case 'm':
-				$val *= 1024;
-			case 'k':
-				$val *= 1024;
-		}
-
-		return $val;
-	}
-
 
 	function loadCountListContinue($q,$startLimit,$maxItems,$msg){
 

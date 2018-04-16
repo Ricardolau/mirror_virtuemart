@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage User
 * @author 	RickG, RolandD
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -108,7 +108,7 @@ class TableUserinfos extends VmTableData {
 
 				if (count($total) > 0) {
 
-					$userId = vFactory::getUser()->id;
+					$userId = JFactory::getUser()->id;
 					if($total[0]!=$userId){
 						vmError('Hacking attempt uid check, you got logged');
 						echo 'Hacking attempt uid check, you got logged';
@@ -140,7 +140,7 @@ class TableUserinfos extends VmTableData {
 		}
 
 		if(empty($this->virtuemart_user_id)){
-			$user = vFactory::getUser();
+			$user = JFactory::getUser();
 			if(!empty($user->id)){
 				$this->virtuemart_user_id = $user->id;
 			}

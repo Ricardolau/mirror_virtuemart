@@ -9,7 +9,7 @@ defined('_JEXEC') or die('');
 * @subpackage Cart
 * @author Max Milbers
 *
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -27,7 +27,7 @@ $this->html = vRequest::get('html', vmText::_('COM_VIRTUEMART_ORDER_PROCESSED') 
 echo $this->html;
 
 if (vRequest::getBool('display_loginform',true)) {
-	$cuser = vFactory::getUser();
+	$cuser = JFactory::getUser();
 	if (!$cuser->guest) echo shopFunctionsF::getLoginForm();
 }
 echo '</div>';

@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
  * http://virtuemart.net
  */
 if (!class_exists('vmPSPlugin')) {
-	require(JPATH_VM_PLUGINS . DS . 'vmpsplugin.php');
+	require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
 }
 
 class plgVmPaymentSofort extends vmPSPlugin {
@@ -523,7 +523,7 @@ class plgVmPaymentSofort extends vmPSPlugin {
 	 * @return string
 	 */
 	function _getPaymentResponseHtml ($method, $order, $payments) {
-		VmConfig::loadJLang('com_virtuemart_orders', TRUE);
+		vmLanguage::loadJLang('com_virtuemart_orders', TRUE);
 		if (!class_exists('CurrencyDisplay')) {
 			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');
 		}
@@ -532,7 +532,7 @@ class plgVmPaymentSofort extends vmPSPlugin {
 			require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');
 		}
 
-		VmConfig::loadJLang('com_virtuemart_orders',TRUE);
+		vmLanguage::loadJLang('com_virtuemart_orders',TRUE);
 
 		$totalInPaymentCurrency = vmPSPlugin::getAmountInCurrency($order['details']['BT']->order_total,$order['details']['BT']->order_currency);
 		$cart = VirtueMartCart::getCart();
@@ -696,7 +696,7 @@ class plgVmPaymentSofort extends vmPSPlugin {
 		}
 		$htmla = array();
 		$html = '';
-		VmConfig::loadJLang('com_virtuemart');
+		vmLanguage::loadJLang('com_virtuemart');
 		$currency = CurrencyDisplay::getInstance();
 		foreach ($this->methods as $this->_currentMethod) {
 			if ($this->checkConditions($cart, $this->_currentMethod, $cart->cartPrices)) {
@@ -704,7 +704,6 @@ class plgVmPaymentSofort extends vmPSPlugin {
 				$methodSalesPrice = $this->calculateSalesPrice($cart, $this->_currentMethod, $cartPrices);
 
 				$logo = $this->displayLogos($this->_currentMethod->payment_logos);
-				$logo_link = $this->getLogoLink();
 				$payment_cost = '';
 				if ($methodSalesPrice) {
 					$payment_cost = $currency->priceDisplay($methodSalesPrice);
@@ -718,7 +717,6 @@ class plgVmPaymentSofort extends vmPSPlugin {
 				                                                       'plugin' => $this->_currentMethod,
 				                                                       'checked' => $checked,
 				                                                       'payment_logo' => $logo,
-				                                                       'payment_logo_link' => $logo_link,
 				                                                       'payment_cost' => $payment_cost,
 				                                                  ));
 
@@ -929,11 +927,10 @@ class plgVmPaymentSofort extends vmPSPlugin {
 	function sofortLog($sofortLib){
 		if ($this->_currentMethod->sofort_log) {
 			$sofortLib->setLogEnabled();
-			if (!class_exists( 'VmConfig' )) require(JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'helpers'.DS.'config.php');
+			if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 			$logFileName=$this->getLogFileName();
 			$path = JFactory::getConfig()->get('log_path', VMPATH_ROOT . "/log" ).'/'.$logFileName.'.log.php';
-			if(!class_exists('vFile')) require(VMPATH_ADMIN .DS. 'vmf' .DS. 'filesystem' .DS. 'vfile.php');
-			if (!vFile::exists($path)) {
+			if (!JFile::exists($path)) {
 				// blank line to prevent information disclose: https://bugs.php.net/bug.php?id=60677
 				// from Joomla log file
 				$head = "#\n";

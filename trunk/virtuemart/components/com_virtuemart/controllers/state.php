@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage State
 * @author jseros, RickG, Max Milbers
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2014 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -19,9 +19,12 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
+// Load the controller framework
+jimport('joomla.application.component.controller');
+
 if(!class_exists('VirtueMartModelState')) require( VMPATH_ADMIN.DS.'models'.DS.'state.php' );
 
-class VirtueMartControllerState extends vController {
+class VirtueMartControllerState extends JControllerLegacy {
 
 	public function __construct() {
 		parent::__construct();

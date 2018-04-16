@@ -6,7 +6,7 @@
  * @package    VirtueMart
  * @subpackage
  * @author Max Milbers
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2011 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -22,7 +22,6 @@ defined( '_JEXEC' ) or die('Restricted access');
 // Load the view framework
 if(!class_exists( 'VmViewAdmin' )) require(VMPATH_ADMIN.DS.'helpers'.DS.'vmviewadmin.php');
 
-
 /**
  * HTML View class for the VirtueMart Component
  *
@@ -33,7 +32,7 @@ class VirtuemartViewAbout extends VmViewAdmin {
 
 	function display ($tpl = null) {
 
-		vToolBarHelper::title( vmText::_( 'COM_VIRTUEMART_ABOUT' )."::".vmText::_( 'COM_VIRTUEMART_CONTROL_PANEL' ), 'vm_store_48' );
+		JToolBarHelper::title( vmText::_( 'COM_VIRTUEMART_ABOUT' )."::".vmText::_( 'COM_VIRTUEMART_CONTROL_PANEL' ), 'vm_store_48' );
 
 		parent::display( $tpl );
 	}

@@ -6,7 +6,7 @@
  * @package    VirtueMart
  * @subpackage Media
  * @author Max Milbers
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2014 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -168,6 +168,7 @@ class TableMedias extends VmTable {
 			}
 		}
 		else {
+			vmdebug('Media table check, media has no file_title',$this);
 			vmError (vmText::_ ('COM_VIRTUEMART_MEDIA_MUST_HAVE_TITLE'));
 			$ok = FALSE;
 		}
@@ -178,7 +179,7 @@ class TableMedias extends VmTable {
 			}
 		}
 
-//		$app = vFactory::getApplication();
+//		$app = JFactory::getApplication();
 
 		//vmError('Checking '.$this->file_url);
 
@@ -200,7 +201,7 @@ class TableMedias extends VmTable {
 			}
 			if (function_exists ('mime_content_type')) {
 				$ok = TRUE;
-				$app = vFactory::getApplication ();
+				$app = JFactory::getApplication ();
 
 				if (!$this->file_is_forSale) {
 					$this->file_mimetype = mime_content_type (JPATH_ROOT . DS . $rel_path);
@@ -228,17 +229,19 @@ class TableMedias extends VmTable {
 
 			}
 			else {*/
-				if(!class_exists('vFile')) require(VMPATH_ADMIN .DS. 'vmf' .DS. 'filesystem' .DS. 'vfile.php');
+				if (!class_exists ('JFile')) {
+					require(VMPATH_LIBS . DS . 'joomla' . DS . 'filesystem' . DS . 'file.php');
+				}
 
 				if (!$this->file_is_forSale) {
 					$lastIndexOfSlash = strrpos ($this->file_url, '/');
 					$name = substr ($this->file_url, $lastIndexOfSlash + 1);
-					$file_extension = strtolower (vFile::getExt ($name));
+					$file_extension = strtolower (JFile::getExt ($name));
 				}
 				else {
 					$lastIndexOfSlash = strrpos ($this->file_url, DS);
 					$name = substr ($this->file_url, $lastIndexOfSlash + 1);
-					$file_extension = strtolower (vFile::getExt ($name));
+					$file_extension = strtolower (JFile::getExt ($name));
 				}
 
 				if (empty($name)) {

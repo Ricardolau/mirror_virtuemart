@@ -5,7 +5,7 @@
  * @package	VirtueMart
  * @subpackage   Models Fields
  * @author Valérie Isaksen
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2011 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -15,39 +15,32 @@
  * @version $Id$
  */
 defined('DS') or define('DS', DIRECTORY_SEPARATOR);
-if (!class_exists( 'VmConfig' )) require(JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'helpers'.DS.'config.php');
-if(!class_exists('vFormField')) require(VMPATH_ADMIN .DS. 'vmf' .DS. 'form' .DS. 'field.php');
+if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
+if (!class_exists('ShopFunctions'))
+    require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
+
+if(!class_exists('TableVendors')) require(VMPATH_ADMIN.DS.'tables'.DS.'vendors.php');
+if (!class_exists( 'VirtueMartModelVendor' ))
+   JLoader::import( 'vendor', JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_virtuemart' . DS . 'models' );
+jimport('joomla.form.formfield');
 
 /**
  * Supports a modal product picker.
  *
  *
  */
-class vFormFieldVendor extends vFormField {
+class JFormFieldVendor extends JFormField {
 
 	var $type = 'vendor';
 	
 	function getInput() {
 		VmConfig::loadConfig();
-		VmConfig::loadJLang('com_virtuemart');
+		vmLanguage::loadJLang('com_virtuemart');
 		$key = ($this->element['key_field'] ? $this->element['key_field'] : 'value');
 		$val = ($this->element['value_field'] ? $this->element['value_field'] : $this->name);
 		$model = VmModel::getModel('vendor');
 
 		$vendors = $model->getVendors(true, true, false);
-		return vHtml::_('select.genericlist', $vendors, $this->name, 'class="inputbox"  size="1"', 'virtuemart_vendor_id', 'vendor_name', $this->value, $this->id);
-	}
-}
-
-if(JVM_VERSION>0){
-	//could be written abstract with eval
-	jimport('joomla.form.formfield');
-	class JFormFieldVendor extends vFormFieldVendor{
-
-		public function __construct($form = null){
-			parent::__construct($form);
-			vBasicModel::addIncludePath(VMPATH_ADMIN.DS.'vmf'.DS.'html','html');
-			VmConfig::loadJLang('com_virtuemart');
-		}
+		return JHtml::_('select.genericlist', $vendors, $this->name, 'class="inputbox"  size="1"', 'virtuemart_vendor_id', 'vendor_name', $this->value, $this->id);
 	}
 }

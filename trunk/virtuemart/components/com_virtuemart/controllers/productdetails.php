@@ -6,7 +6,7 @@
  * @package    VirtueMart
  * @subpackage
  * @author Max Milbers
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2014 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -19,6 +19,8 @@
 // Check to ensure this file is included in Joomla!
 defined ('_JEXEC') or die('Restricted access');
 
+// Load the controller framework
+jimport ('joomla.application.component.controller');
 
 /**
  * VirtueMart Component Controller
@@ -26,7 +28,7 @@ defined ('_JEXEC') or die('Restricted access');
  * @package VirtueMart
  * @author Max Milbers
  */
-class VirtueMartControllerProductdetails extends vController {
+class VirtueMartControllerProductdetails extends JControllerLegacy {
 
 	public function __construct () {
 
@@ -61,9 +63,9 @@ class VirtueMartControllerProductdetails extends vController {
 	 */
 	public function mailAskquestion () {
 
-		vRequest::checkToken () or jexit ('Invalid Token');
+		JSession::checkToken () or jexit ('Invalid Token');
 
-		$app = vFactory::getApplication ();
+		$app = JFactory::getApplication ();
 		if(!VmConfig::get('ask_question',false) and !VmConfig::get ('askprice', 1)){
 			$app->redirect (JRoute::_ ('index.php?option=com_virtuemart&tmpl=component&view=productdetails&task=askquestion&virtuemart_product_id=' . vRequest::getInt ('virtuemart_product_id', 0)), 'Function disabled');
 		}
@@ -106,12 +108,12 @@ class VirtueMartControllerProductdetails extends vController {
 			return;
 		}
 
-		if(vFactory::getUser()->guest == 1 and VmConfig::get ('ask_captcha')){
+		if(JFactory::getUser()->guest == 1 and VmConfig::get ('ask_captcha')){
 			$recaptcha = vRequest::getVar ('recaptcha_response_field');
-			vPluginHelper::importPlugin('captcha');
-			$dispatcher = vDispatcher::getInstance();
+			JPluginHelper::importPlugin('captcha');
+			$dispatcher = JDispatcher::getInstance();
 			$res = $dispatcher->trigger('onCheckAnswer',$recaptcha);
-			$session = vFactory::getSession();
+			$session = JFactory::getSession();
 			if(!$res[0]){
 				$askquestionform = array('name' => vRequest::getVar ('name'), 'email' => vRequest::getVar ('email'), 'comment' => vRequest::getString ('comment'));
 				$session->set('askquestion', $askquestionform, 'vm');
@@ -123,7 +125,7 @@ class VirtueMartControllerProductdetails extends vController {
 			}
 		}
 
-		$user = vFactory::getUser ();
+		$user = JFactory::getUser ();
 		if (empty($user->id)) {
 			$fromMail = vRequest::getVar ('email'); //is sanitized then
 			$fromName = vRequest::getVar ('name', ''); //is sanitized then
@@ -143,10 +145,10 @@ class VirtueMartControllerProductdetails extends vController {
 		$vendorModel = VmModel::getModel ('vendor');
 		$VendorEmail = $vendorModel->getVendorEmail ($vars['product']->virtuemart_vendor_id);
 
-		vPluginHelper::importPlugin ('system');
-		vPluginHelper::importPlugin ('vmextended');
-		vPluginHelper::importPlugin ('userfield');
-		$dispatcher = vDispatcher::getInstance ();
+		JPluginHelper::importPlugin ('system');
+		JPluginHelper::importPlugin ('vmextended');
+		JPluginHelper::importPlugin ('userfield');
+		$dispatcher = JDispatcher::getInstance ();
 		$dispatcher->trigger ('plgVmOnAskQuestion', array(&$VendorEmail, &$vars, &$view));
 
 		$vars['vendor'] = array('vendor_store_name' => $fromName);
@@ -171,19 +173,19 @@ class VirtueMartControllerProductdetails extends vController {
 	 */
 	public function mailRecommend () {
 
-		vRequest::checkToken () or jexit ('Invalid Token');
+		JSession::checkToken () or jexit ('Invalid Token');
 
-		$app = vFactory::getApplication ();
+		$app = JFactory::getApplication ();
 		if(!VmConfig::get('show_emailfriend',false)){
 			$app->redirect (JRoute::_ ('index.php?option=com_virtuemart&tmpl=component&view=productdetails&task=askquestion&virtuemart_product_id=' . vRequest::getInt ('virtuemart_product_id', 0)), 'Function disabled');
 		}
 
-		if(vFactory::getUser()->guest == 1 and VmConfig::get ('ask_captcha')){
+		if(JFactory::getUser()->guest == 1 and VmConfig::get ('ask_captcha')){
 			$recaptcha = vRequest::getVar ('recaptcha_response_field');
-			vPluginHelper::importPlugin('captcha');
-			$dispatcher = vDispatcher::getInstance();
+			JPluginHelper::importPlugin('captcha');
+			$dispatcher = JDispatcher::getInstance();
 			$res = $dispatcher->trigger('onCheckAnswer',$recaptcha);
-			$session = vFactory::getSession();
+			$session = JFactory::getSession();
 			if(!$res[0]){
 				$mailrecommend = array('email' => vRequest::getVar ('email'), 'comment' => vRequest::getString ('comment'));
 				$session->set('mailrecommend', $mailrecommend, 'vm');
@@ -256,8 +258,8 @@ class VirtueMartControllerProductdetails extends vController {
 				shopFunctionsF::sendRatingEmailToVendor($data);
 			}
 		}
-
-		$this->setRedirect (JRoute::_ ('index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' . $virtuemart_product_id, FALSE), $msg);
+		$virtuemart_category_id = vRequest::getInt('virtuemart_category_id',0);
+		$this->setRedirect (JRoute::_ ('index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' . $virtuemart_product_id.'&virtuemart_category_id='.$virtuemart_category_id, FALSE), $msg);
 
 	}
 
@@ -303,19 +305,13 @@ class VirtueMartControllerProductdetails extends vController {
 		}
 		$currency = CurrencyDisplay::getInstance ();
 
-		$priceFieldsRoots = array('basePrice','variantModification','basePriceVariant',
-			'basePriceWithTax','discountedPriceWithoutTax',
-			'salesPrice','priceWithoutTax',
-			'salesPriceWithDiscount','discountAmount','taxAmount','unitPrice');
-
-		foreach ($priceFieldsRoots as $name) {
+		foreach (CurrencyDisplay::$priceNames as $name) {
 			if(isset($prices[$name])){
 				$priceFormated[$name] = $currency->createPriceDiv ($name, '', $prices, TRUE);
 			}
 		}
 
-		// Get the document object.
-		$document = vFactory::getDocument ();
+		$document = JFactory::getDocument ();
 		// stAn: setName works in JDocumentHTML and not JDocumentRAW
 		if (method_exists($document, 'setName')){
 			$document->setName ('recalculate');
@@ -357,6 +353,7 @@ class VirtueMartControllerProductdetails extends vController {
 
 		$model = VmModel::getModel ('waitinglist');
 		if (!$model->adduser ($data)) {
+			$msg = 'Notify Customer; Could not add user to waiting list';
 			$this->setRedirect (JRoute::_ ('index.php?option=com_virtuemart&view=productdetails&layout=notify&virtuemart_product_id=' . $data['virtuemart_product_id'], FALSE), $msg);
 		} else {
 			$msg = vmText::sprintf ('COM_VIRTUEMART_STRING_SAVED', vmText::_ ('COM_VIRTUEMART_CART_NOTIFY'));

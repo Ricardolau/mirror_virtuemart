@@ -33,9 +33,15 @@ class vmText
 	 * @since  11.1
 	 */
 	protected static $strings = array();
+	public static $language = false;
+
+
+	public static function setLanguage(&$l){
+		self::$language =$l;
+	}
 
 	/**
-	 * Translates a string into the current language. This just vmText of joomla 2.5.x
+	 * Translates a string into the current language. This just jText of joomla 2.5.x
 	 *
 	 * Examples:
 	 * <script>alert(Joomla.vmText._('<?php echo vmText::_("JDEFAULT", array("script"=>true));?>'));</script>
@@ -53,7 +59,14 @@ class vmText
 	 */
 	public static function _($string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
-		$lang = vFactory::getLanguage();
+		if(!isset(self::$language)){
+			VmConfig::$echoDebug = 1;
+			echo '<pre> vmText self::$languages has no '.self::$language;
+			debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS,10);
+			echo '</pre>';
+
+		}
+
 		if (is_array($jsSafe))
 		{
 			if (array_key_exists('interpretBackSlashes', $jsSafe))
@@ -75,44 +88,13 @@ class vmText
 		}
 		if ($script)
 		{
-			self::$strings[$string] = $lang->_($string, $jsSafe, $interpretBackSlashes);
+			self::$strings[$string] = self::$language->_($string, $jsSafe, $interpretBackSlashes);
 			return $string;
 		}
 		else
 		{
-			//$tr = $lang->_($string, $jsSafe, $interpretBackSlashes);
-			//vmdebug('my lang',$string,$tr);
-			return $lang->_($string, $jsSafe, $interpretBackSlashes);
+			return self::$language->_($string, $jsSafe, $interpretBackSlashes);
 		}
-	}
-
-	/**
-	 * Translates a string into the current language.
-	 *
-	 * Examples:
-	 * <?php echo JText::alt("JALL","language");?> it will generate a 'All' string in English but a "Toutes" string in French
-	 * <?php echo JText::alt("JALL","module");?> it will generate a 'All' string in English but a "Tous" string in French
-	 *
-	 * @param   string   $string                The string to translate.
-	 * @param   string   $alt                   The alternate option for global string
-	 * @param   mixed    $jsSafe                Boolean: Make the result javascript safe.
-	 * @param   boolean  $interpretBackSlashes  To interpret backslashes (\\=\, \n=carriage return, \t=tabulation)
-	 * @param   boolean  $script                To indicate that the string will be pushed in the javascript language store
-	 *
-	 * @return  string  The translated string or the key if $script is true
-	 *
-	 * @since   11.1
-	 */
-	public static function alt($string, $alt, $jsSafe = false, $interpretBackSlashes = true, $script = false)
-	{
-		$lang = vFactory::getLanguage();
-
-		if ($lang->hasKey($string . '_' . $alt))
-		{
-			$string .= '_' . $alt;
-		}
-
-		return self::_($string, $jsSafe, $interpretBackSlashes, $script);
 	}
 
 	/**
@@ -138,14 +120,14 @@ class vmText
 	 */
 	public static function sprintf($string)
 	{
-		$lang = vFactory::getLanguage();
+
 		$args = func_get_args();
 		$count = count($args);
 		if ($count > 0)
 		{
 			if (is_array($args[$count - 1]))
 			{
-				$args[0] = $lang->_(
+				$args[0] = self::$language->_(
 					$string, array_key_exists('jsSafe', $args[$count - 1]) ? $args[$count - 1]['jsSafe'] : false,
 					array_key_exists('interpretBackSlashes', $args[$count - 1]) ? $args[$count - 1]['interpretBackSlashes'] : true
 				);
@@ -160,7 +142,7 @@ class vmText
 			{
 				foreach($args as &$arg){
 					//vmdebug('my sprintf $arg',$arg);
-					$arg = $lang->_($arg);
+					$arg = self::$language->_($arg);
 					$arg = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $arg);
 				}
 
@@ -169,46 +151,6 @@ class vmText
 			return call_user_func_array('sprintf', $args);
 		}
 		return '';
-	}
-
-	/**
-	 * Translate a string into the current language and stores it in the JavaScript language store.
-	 *
-	 * @param   string   $string                The vmText key.
-	 * @param   boolean  $jsSafe                Ensure the output is JavaScript safe.
-	 * @param   boolean  $interpretBackSlashes  Interpret \t and \n.
-	 *
-	 * @return  string
-	 *
-	 * @since   11.1
-	 */
-	public static function script($string = null, $jsSafe = false, $interpretBackSlashes = true)
-	{
-		if (is_array($jsSafe))
-		{
-			if (array_key_exists('interpretBackSlashes', $jsSafe))
-			{
-				$interpretBackSlashes = (boolean) $jsSafe['interpretBackSlashes'];
-			}
-
-			if (array_key_exists('jsSafe', $jsSafe))
-			{
-				$jsSafe = (boolean) $jsSafe['jsSafe'];
-			}
-			else
-			{
-				$jsSafe = false;
-			}
-		}
-
-		// Add the string to the array if not null.
-		if ($string !== null)
-		{
-			// Normalize the key and translate the string.
-			self::$strings[strtoupper($string)] = vFactory::getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
-		}
-
-		return self::$strings;
 	}
 
 }

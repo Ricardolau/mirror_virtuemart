@@ -7,7 +7,7 @@
  * @subpackage Config
  * @author Max Milbers
  * @author RickG
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2014 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -40,7 +40,7 @@ class VirtueMartModelConfig extends VmModel {
 
 		$q = 'SELECT `template` FROM `#__template_styles` WHERE `client_id` ="0" AND `home`="1" ';
 
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 		$db->setQuery($q);
 
 		$tplnames = $db->loadResult();
@@ -59,7 +59,7 @@ class VirtueMartModelConfig extends VmModel {
 	 * @param name of the view
 	 * @return object List of flypage objects
 	 */
-	static function getLayoutList($view,$ignore=0) {
+	static function getLayoutList($view, $ignore=0, $emptyOption = true) {
 
 		$dirs = array();
 		$com = strpos($view,'mod_');
@@ -73,7 +73,7 @@ class VirtueMartModelConfig extends VmModel {
 
 		$q = 'SELECT `template` FROM `#__template_styles` WHERE `client_id` ="0" AND `home`="1" ';
 
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 		$db->setQuery($q);
 
 		$tplnames = $db->loadResult();
@@ -88,31 +88,44 @@ class VirtueMartModelConfig extends VmModel {
 			}
 		}
 
-		return self::getLayouts($dirs,0,$ignore);
+		return self::getLayouts($dirs,0,$ignore, $emptyOption);
 	}
 
-	static function getLayouts($dirs,$type=0,$ignore=0){
+	static function getLayouts($dirs,$type=0,$ignore=0, $emptyOption = true){
 
 		$result = array();
-		$emptyOption = vHtml::_('select.option', '0', vmText::_('COM_VIRTUEMART_ADMIN_CFG_NO_OVERRIDE'));
-		$result[] = $emptyOption;
+		if(!empty($emptyOption)){
+			$emptyOption = JHtml::_('select.option', '', vmText::_('COM_VIRTUEMART_ADMIN_CFG_NO_OVERRIDE'));
+			$result[] = $emptyOption;
+		}
 
 		$alreadyAddedFile = array();
 		foreach($dirs as $dir){
 
+			if(!is_dir($dir)){
+				$m = 'Attention directoy is not accessible (does not exists or wrong rights) ';
+				vmError($m.$dir,$m);
+				continue;
+			}
 			if ($handle = opendir($dir)) {
 				while (false !== ($file = readdir($handle))) {
-					if(!empty($file) and strpos($file,'.')!==0 and $file != 'index.html' and !is_Dir($file)){
+					if(!empty($file) and strpos($file,'.')!==0 and $file != 'index.html' and !is_dir($dir.DS.$file)){
 						if( (empty($ignore) or (is_array($ignore) and !in_array($file,$ignore)) ) and ( (!empty($type) and strpos($file,$type)===0) or (empty($type) and strpos($file,'_')==0)) ){
 							//Handling directly for extension is much cleaner
 							$path_info = pathinfo($file);
 							if(empty($path_info['extension'])){
-								vmError('Attention file '.$file.' has no extension and directory '.$dir);
+								vmError('Attention file '.$file.' has no extension in directory '.$dir.DS.$file);
 								$path_info['extension'] = '';
 							}
 							if ($path_info['extension'] == 'php' && !in_array($file,$alreadyAddedFile)) {
 								$alreadyAddedFile[] = $file;
-								$result[] = vHtml::_('select.option', $path_info['filename'], $path_info['filename']);
+								$add = JHtml::_('select.option', $path_info['filename'], $path_info['filename']);
+								if($path_info['filename'] == 'default'){
+									array_unshift($result,$add);
+								} else {
+									$result[] = $add;
+								}
+
 							}
 						}
 
@@ -134,34 +147,43 @@ class VirtueMartModelConfig extends VmModel {
 
 		$dir = VMPATH_ROOT.DS.'libraries'.DS.'tcpdf'.DS.'fonts';
 		$result = array();
-		if(function_exists('glob')){
-			$specfiles = glob($dir.DS."*_specs.xml");
-			/*if(empty($specfiles) and is_dir($dir)){
-				vmWarn('No fonts _specs.xml files found in '.$dir);
-			}*/
-		} else {
-			$specfiles = array();
-			$manual = array('courier_specs.xml','freemono_specs.xml','helvetica_specs.xml');
-			foreach($manual as $file){
-				if(file_exists($dir.DS.$file)){
-					$specfiles[] = $dir.DS.$file;
+		$specfiles = array();
+		if(is_dir($dir)) {
+
+			$dir_iterator = new RecursiveDirectoryIterator( $dir );
+			$files = new RecursiveIteratorIterator( $dir_iterator, RecursiveIteratorIterator::SELF_FIRST );
+
+
+			$needle = '_specs.xml';
+			$needlelth = strlen( $needle );
+
+			foreach( $files as $file ) {
+
+				if($file->isFile() and $file->getExtension() == 'xml') {
+					$fn = $file->getBasename();
+					$l = strlen( $fn ) - $needlelth;
+					if(strripos( $fn, $needle ) === $l) {
+						$specfiles[] = $file->getPathname();
+					}
 				}
 			}
 		}
 
 		if(empty($specfiles)){
-			$manual = array('courier','freemono','helvetica');
+			vmLanguage::loadJLang('com_virtuemart_config');
+			vmAdminInfo('COM_VIRTUEMART_TCPDF_NINSTALLED');
+			/*$manual = array('courier','freemono','helvetica');
 			foreach($manual as $file){
 				if (file_exists($dir . DS . $file . '.php')) {
-					$result[] = vHtml::_('select.option',$file, vmText::_($file.' (standard)'));
+					$result[] = JHtml::_('select.option',$file, vmText::_($file.' (standard)'));
 				}
-			}
+			}*/
 		} else {
 			foreach ($specfiles as $file) {
 				$fontxml = @simpleXML_load_file($file);
 				if ($fontxml) {
 					if (file_exists($dir . DS . $fontxml->filename . '.php')) {
-						$result[] = vHtml::_('select.option', $fontxml->filename, vmText::_($fontxml->fontname.' ('.$fontxml->fonttype.')'));
+						$result[] = JHtml::_('select.option', $fontxml->filename, vmText::_($fontxml->fontname.' ('.$fontxml->fonttype.')'));
 					} else {
 						vmError ('A font master file is missing: ' . $dir . DS . 	$fontxml->filename . '.php');
 					}
@@ -188,9 +210,10 @@ class VirtueMartModelConfig extends VmModel {
 		//TODO set config value here
 		$dirs[] = VMPATH_ROOT.DS.'components'.DS.'com_virtuemart'.DS.'assets'.DS.'images'.DS.'vmgeneral';
 
-		$tplpath = VmConfig::get('vmtemplate',0);
+		if(!class_exists('VmTemplate')) require(VMPATH_SITE.DS.'helpers'.DS.'vmtemplate.php');
+		$tplpath = VmConfig::get('vmtemplate',VmTemplate::getDefaultTemplate());
 		if(!empty($tplpath) and is_numeric($tplpath)){
-			$db = vFactory::getDbo();
+			$db = JFactory::getDbo();
 			$query = 'SELECT `template`,`params` FROM `#__template_styles` WHERE `id`="'.$tplpath.'" ';
 			$db->setQuery($query);
 			$res = $db->loadAssoc();
@@ -200,20 +223,21 @@ class VirtueMartModelConfig extends VmModel {
 				$tplpath = $res['template'];
 			}
 		}
-		if($tplpath){
+
+		if(!empty($tplpath)){
 			if(is_dir(VMPATH_ROOT.DS.'templates'.DS.$tplpath.DS.'images'.DS.'vmgeneral')){
 				$dirs[] = VMPATH_ROOT.DS.'templates'.DS.$tplpath.DS.'images'.DS.'vmgeneral';
 			}
 		}
 
-		$result = '';
+		$result = array();
 
 		foreach($dirs as $dir){
 			if ($handle = opendir($dir)) {
 				while (false !== ($file = readdir($handle))) {
 					if ($file != "." && $file != ".." && $file != '.svn' && $file != 'index.html') {
 						if (filetype($dir.DS.$file) != 'dir') {
-							$result[] = vHtml::_('select.option', $file, vmText::_(str_replace('.php', '', $file)));
+							$result[] = JHtml::_('select.option', $file, vmText::_(str_replace('.php', '', $file)));
 						}
 					}
 				}
@@ -231,14 +255,14 @@ class VirtueMartModelConfig extends VmModel {
 	 */
 	function getCurrencyConverterList() {
 		$dir = VMPATH_ADMIN.DS.'plugins'.DS.'currency_converter';
-		$result = '';
+		$result = array();
 
 		if ($handle = opendir($dir)) {
 			while (false !== ($file = readdir($handle))) {
 				if ($file != "." && $file != ".." && $file != '.svn') {
 					$info = pathinfo($file);
 					if ((filetype($dir.DS.$file) == 'file') && ($info['extension'] == 'php')) {
-						$result[] = vHtml::_('select.option', $file, vmText::_($file));
+						$result[] = JHtml::_('select.option', $file, vmText::_($file));
 					}
 				}
 			}
@@ -255,7 +279,7 @@ class VirtueMartModelConfig extends VmModel {
 	 * @return object List of content objects
 	 */
 	function getContentLinks() {
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$query = 'SELECT `id`, CONCAT(`title`, " (", `title_alias`, ")") AS text FROM `#__content` ';
 		$query .= 'ORDER BY `id`';
@@ -267,18 +291,26 @@ class VirtueMartModelConfig extends VmModel {
 	/*
 	 * Get the joomla list of languages
 	 */
-	function getActiveLanguages($active_languages, $name = 'active_languages[]') {
+	function getActiveLanguages($active_languages, $name = 'active_languages[]', $multiple = true, $placeholder = 'COM_VIRTUEMART_DRDOWN_NOTMULTILINGUAL') {
 
 		$activeLangs = array() ;
-		$language =vFactory::getLanguage();
+		$language =JFactory::getLanguage();
 		$jLangs = $language->getKnownLanguages(VMPATH_ROOT);
 
 		foreach ($jLangs as $jLang) {
 			$jlangTag = strtolower(strtr($jLang['tag'],'-','_'));
-			$activeLangs[] = vHtml::_('select.option', $jLang['tag'] , $jLang['name']) ;
+			$activeLangs[] = JHtml::_('select.option', $jLang['tag'] , $jLang['name']) ;
 		}
 
-		return vHtml::_('select.genericlist', $activeLangs, $name, 'size=10 multiple="multiple" data-placeholder="'.vmText::_('COM_VIRTUEMART_DRDOWN_NOTMULTILINGUAL').'"', 'value', 'text', $active_languages );// $activeLangs;
+		if($multiple){
+			$multiple = 'multiple="multiple"';
+		} else {
+			$multiple = '';
+			$emptyOption = JHTML::_ ('select.option', '', vmText::_ ($placeholder));
+			array_unshift ($activeLangs, $emptyOption);
+
+		}
+		return JHtml::_('select.genericlist', $activeLangs, $name, 'size=10  '.$multiple.' data-placeholder="'.vmText::_($placeholder).'"', 'value', 'text', $active_languages );// $activeLangs;
 	}
 
 
@@ -296,7 +328,8 @@ class VirtueMartModelConfig extends VmModel {
 			$searchChecked = (array)$searchChecked;
 		}
 		if($type!='browse_cat_orderby_field'){
-			$searchFieldsArray = ShopFunctions::getValidProductFilterArray ();
+			VmModel::getModel('product');
+			$searchFieldsArray = VirtueMartModelProduct::getValidProductFilterArray ();
 			if($type=='browse_search_fields'){
 				if($key = array_search('pc.ordering',$searchFieldsArray)){
 					unset($searchFieldsArray[$key]);
@@ -328,7 +361,7 @@ class VirtueMartModelConfig extends VmModel {
 			$text = vmText::_('COM_VIRTUEMART_'.strtoupper(str_replace(array(',',' '),array('_',''),$fieldWithoutPrefix))) ;
 
 			if ($type == 'browse_orderby_fields' or $type == 'browse_cat_orderby_field'){
-				$searchFields->select[] =  vHtml::_('select.option', $field, $text) ;
+				$searchFields->select[] =  JHtml::_('select.option', $field, $text) ;
 			}
 			$searchFields->checkbox .= '<li><input type="checkbox" id="' .$type.$fieldWithoutPrefix.$key. '" name="'.$type.'[]" value="' .$field. '" ' .$checked. ' /><label for="' .$type.$fieldWithoutPrefix.$key. '">' .$text. '</label></li>';
 		}
@@ -350,11 +383,11 @@ class VirtueMartModelConfig extends VmModel {
 			vmWarn('Insufficient permissions to delete product');
 			return false;
 		}
-		//$oldLangs = $config->get('active_languages');
-		$oldLangs = VmConfig::get('active_languages');
 
-		//We create a fresh config
-		$config = VmConfig::loadConfig(false,true);
+
+
+		//$oldLangs = $config->get('active_languages');
+		$oldLangs = VmConfig::get('active_languages', array());
 
 		foreach($data as $k => $dat){
 			if(is_array($dat)){
@@ -363,8 +396,11 @@ class VirtueMartModelConfig extends VmModel {
 			$data[$k] = trim($dat);
 		}
 
+		//We create a fresh config
+		$config = VmConfig::loadConfig(false,true);
+
 		//We load the config file
-		$_raw = self::readConfigFile(FALSE);
+		$_raw = self::readConfigFile();
 		$_value = join('|', $_raw);
 		//We set the config file values as parameters into the config
 		$config->setParams($_value);
@@ -405,6 +441,8 @@ class VirtueMartModelConfig extends VmModel {
 			}
 		}
 
+		if(!class_exists('JFolder')) require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'folder.php');
+
 		$safePath = trim($config->get('forSale_path'));
 		if(!empty($safePath)){
 			if(DS!='/' and strpos($safePath,'/')!==false){
@@ -422,39 +460,16 @@ class VirtueMartModelConfig extends VmModel {
 				vmError('Do not use as safepath your virtuemart root folder');
 			}
 			$config->set('forSale_path',$safePath);
-		} else {
-			VmWarn('COM_VIRTUEMART_WARN_SAFE_PATH_NO_INVOICE',vmText::_('COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH'));
-		/*	$safePath = VMPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'vmfiles';
-
-			$exists = JFolder::exists($safePath);
-			if(!$exists){
-				$created = JFolder::create($safePath);
-				$safePath = $safePath.DS;
-				if($created){
-					vmInfo('COM_VIRTUEMART_SAFE_PATH_DEFAULT_CREATED',$safePath);
-					// create htaccess file
-					$fileData = "order deny, allow\ndeny from all\nallow from none";
-					JLoader::import('joomla.filesystem.file');
-					$fileName = $safePath.DS.'.htaccess';
-					$result = JFile::write($fileName, $fileData);
-					if (!$result) {
-						VmWarn('COM_VIRTUEMART_HTACCESS_DEFAULT_NOT_CREATED',$safePath,$fileData);
-					}
-					$config->set('forSale_path',$safePath);
-				} else {
-					VmWarn('COM_VIRTUEMART_WARN_SAFE_PATH_NO_INVOICE',vmText::_('COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH'));
-				}
-			}*/
 		}
 
 		if(!class_exists('shopfunctions')) require(VMPATH_ADMIN.DS.'helpers'.DS.'shopfunctions.php');
 		$safePath = shopFunctions::checkSafePath($safePath);
 
 		if(!empty($safePath)){
-			if(!class_exists('vFolder')) require(VMPATH_ADMIN .DS. 'vmf' .DS. 'filesystem' .DS. 'vfolder.php');
-			$exists = vFolder::exists($safePath.'invoices');
+
+			$exists = JFolder::exists($safePath.'invoices');
 			if(!$exists){
-				$created = vFolder::create($safePath.'invoices');
+				$created = JFolder::create($safePath.'invoices');
 				if($created){
 					vmInfo('COM_VIRTUEMART_SAFE_PATH_INVOICE_CREATED');
 				} else {
@@ -463,11 +478,27 @@ class VirtueMartModelConfig extends VmModel {
 			}
 		}
 
-		$active_langs = $config->get('active_languages');
-		if(empty($active_langs)){
-			$active_langs = array(VmConfig::$vmlangTag);
-			$config->set('active_languages',$active_langs);
+		if(empty($data['vmDefLang'])){
+			$defl = VmConfig::$jDefLangTag;
+		} else {
+			$defl = $data['vmDefLang'];
 		}
+
+		$active_langs = $data['active_languages'];
+		if(empty($active_langs)){
+			$active_langs = vmLanguage::getShopDefaultSiteLangTagByJoomla();
+			$active_langs = (array)strtolower(strtr($active_langs,'-','_'));
+		}
+		$active_langs[] = $defl;
+		$active_langs = array_unique($active_langs);
+		$config->set('active_languages',$active_langs);
+
+		$orderConstraintIsRequired= $this->vendorRequireOrderConstraint();
+		if ($orderConstraintIsRequired) {
+			$config->set('ordersAddOnly',1);
+			$config->set('ChangedInvCreateNewInvNumber',1);
+		}
+
 
 		//ATM we want to ensure that only one config is used
 		$confData = array();
@@ -481,17 +512,20 @@ class VirtueMartModelConfig extends VmModel {
 
 		$d = array_diff($active_langs,$oldLangs);
 		if(!empty($d)){
-			if(!class_exists('GenericTableUpdater')) require(VMPATH_ADMIN . DS . 'helpers' . DS . 'tableupdater.php');
-			$updater = new GenericTableUpdater();
-			$result = $updater->createLanguageTables();
+
+			self::installLanguageTables();
 		}
 
-		$cache = vFactory::getCache();
+		$cache = VmConfig::getCache();
+		//$cache = JFactory::getCache();
+		$cache->clean('com_virtuemart_admin');
 		$cache->clean('com_virtuemart_cats');
+		$cache->clean('com_virtuemart_cat_childs');
 		$cache->clean('mod_virtuemart_product');
 		$cache->clean('mod_virtuemart_category');
 		$cache->clean('com_virtuemart_rss');
 		$cache->clean('com_virtuemart_cat_manus');
+		$cache->clean('com_virtuemart_revenue');
 		$cache->clean('convertECB');
 		$cache->clean('_virtuemart');
 		$cache->clean('com_plugins');
@@ -501,23 +535,52 @@ class VirtueMartModelConfig extends VmModel {
 		return true;
 	}
 
+	static public function getActiveVmLanguages(){
+		$langs = VmConfig::get('active_languages',false);
+		if(empty($langs)){
+			$langs = vmLanguage::getShopDefaultSiteLangTagByJoomla();
+			$langs = (array)strtolower(strtr($langs,'-','_'));
+		}
+		return $langs;
+	}
+
+	static public function installLanguageTables(){
+
+		if(!class_exists('GenericTableUpdater')) require(VMPATH_ADMIN .'/helpers/tableupdater.php');
+		$updater = new GenericTableUpdater();
+		$langs = self::getActiveVmLanguages();
+
+		$updater->createLanguageTables($langs);
+	}
+
+	public function setVmLanguages() {
+		$db = JFactory::getDbo();
+		$db->setQuery('SELECT lang_code FROM #__languages');
+		$options = $db->loadColumn();
+
+		$config = VmConfig::loadConfig();
+		$config->set('active_languages',$options);
+
+		$lang = vmLanguage::getShopDefaultSiteLangTagByJoomla();
+		$config->set('vmDefLang',$lang);
+
+		$data['virtuemart_config_id'] = 1;
+		$data['config'] = $config->toString();
+
+		$confTable = $this->getTable('configs');
+		$confTable->bindChecknStore($data);
+
+		VmConfig::loadConfig(true);
+	}
+
 	static public function checkConfigTableExists(){
 
-		$db = vFactory::getDbo();
-		$query = 'SHOW TABLES LIKE "'.$db->getPrefix().'virtuemart_configs"';
-		$db->setQuery($query);
-		$configTable = $db->loadResult();
-
-		if(!$configTable){
-			return false;
-		} else {
-			return true;
-		}
+		return vmTable::checkTableExists('virtuemart_configs');
 	}
 
 	static public function checkVirtuemartInstalled(){
 
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 		$query = 'SHOW TABLES LIKE "'.$db->getPrefix().'virtuemart%"';
 		$db->setQuery($query);
 		$vmTables = $db->loadColumn();
@@ -540,7 +603,7 @@ class VirtueMartModelConfig extends VmModel {
 	static public function installVMconfigTable(){
 		vmdebug('installVMconfigTable');
 		$qry = self::getCreateConfigTableQuery();
-		$_db = vFactory::getDbo();
+		$_db = JFactory::getDBO();
 		$_db->setQuery($qry);
 		return $_db->execute();
 	}
@@ -570,14 +633,14 @@ class VirtueMartModelConfig extends VmModel {
 		$_datafile = VMPATH_ADMIN.DS.'virtuemart.cfg';
 		if (!file_exists($_datafile)) {
 			if (file_exists(VMPATH_ADMIN.DS.'virtuemart_defaults.cfg-dist')) {
-				if(!class_exists('vFile')) require(VMPATH_ADMIN .DS. 'vmf' .DS. 'filesystem' .DS. 'vfile.php');
-				vFile::copy('virtuemart_defaults.cfg-dist','virtuemart.cfg',VMPATH_ADMIN);
+				if(!class_exists('JFile')) require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'file.php');
+				JFile::copy('virtuemart_defaults.cfg-dist','virtuemart.cfg',VMPATH_ADMIN);
 			} else {
 				vmWarn('The data file with the default configuration could not be found. You must configure the shop manually.');
 				return FALSE;
 			}
 		} else {
-			vmInfo('Taking config from file');
+			vmInfo('Loaded virtuemart default configuration from file virtuemart.cfg');
 		}
 
 		$_section = '[CONFIG]';
@@ -605,11 +668,13 @@ class VirtueMartModelConfig extends VmModel {
 			if (!$_switch) {
 				continue; // Outside a section or inside the wrong one.
 			}
+
 			$pos = strpos($_line, '//');
 			if ($pos !== FALSE) {
 				$_line = substr($_line,0,$pos);
 				$_line = trim($_line);
 			}
+
 			if (strpos($_line, '=') !== FALSE) {
 
 				$pair = explode('=',$_line);
@@ -618,7 +683,7 @@ class VirtueMartModelConfig extends VmModel {
 						$pair[1] = substr($pair[1],6);
 						$pair[1] = explode('|',$pair[1]);
 					}
-					$_line = $pair[0].'='.json_encode($pair[1]);
+					$_line = $pair[0].'='.vmJsApi::safe_json_encode($pair[1]);
 
 				} else {
 					$_line = $pair[0].'=';
@@ -638,7 +703,7 @@ class VirtueMartModelConfig extends VmModel {
 
 	static public function storeConfig($params){
 
-		$user = vFactory::getUser();
+		$user = JFactory::getUser();
 		if($user->authorise('core.admin','com_virtuemart')){
 			$installed = VirtueMartModelConfig::checkVirtuemartInstalled();
 			if($installed){
@@ -650,7 +715,7 @@ class VirtueMartModelConfig extends VmModel {
 
 				$confData['config'] = $params;
 				VmTable::addIncludePath(VMPATH_ADMIN.DS.'tables','Table');
-				vFactory::getDbo();
+				JFactory::getDbo();
 				$confTable = VmTable::getInstance('configs', 'Table', array());
 
 				if (!$confTable->bindChecknStore($confData)) {
@@ -662,7 +727,6 @@ class VirtueMartModelConfig extends VmModel {
 		return false;
 	}
 
-
 	/**
 	 * Dangerous tools get disabled after execution an operation which needed that rights.
 	 * This is the function actually doing it.
@@ -671,20 +735,25 @@ class VirtueMartModelConfig extends VmModel {
 	 */
 	function setDangerousToolsOff(){
 
-		$dangerousTools = VirtueMartModelConfig::readConfigFile(true);
+		if(self::checkConfigTableExists()){
 
-		if( $dangerousTools){
-			$link = vUri::root() . 'administrator/index.php?option=com_virtuemart&view=config';
-			$lang = vmText::sprintf('COM_VIRTUEMART_SYSTEM_DANGEROUS_TOOL_STILL_ENABLED',vmText::_('COM_VIRTUEMART_ADMIN_CFG_DANGEROUS_TOOLS'),$link);
-			VmInfo($lang);
-		}
-		else {
-			if(self::checkConfigTableExists()){
-				$data['dangeroustools'] = 0;
-				$data['virtuemart_config_id'] = 1;
-				$this->store($data);
+			$config = VmConfig::loadConfig();
+			$config->set('dangeroustools',0);
+
+			$data['virtuemart_config_id'] = 1;
+			$data['config'] = $config->toString();
+
+			$confTable = $this->getTable('configs');
+			$confTable->bindChecknStore($data);
+
+			VmConfig::loadConfig(true);
+			if(VmConfig::get('dangeroustools',false)){
+				$link = JURI::root() . 'administrator/index.php?option=com_virtuemart&view=config';
+				$lang = vmText::sprintf('COM_VIRTUEMART_SYSTEM_DANGEROUS_TOOL_STILL_ENABLED',vmText::_('COM_VIRTUEMART_ADMIN_CFG_DANGEROUS_TOOLS'),$link);
+				VmInfo($lang);
 			}
 		}
+
 	}
 
 	public function remove($id) {
@@ -711,6 +780,54 @@ class VirtueMartModelConfig extends VmModel {
 		}
 	}
 
+
+	/**
+	 * orderConstraintAction to comply to the French financial Law 2018
+	 * Those 2 params are required: ordersAddOnly=1, ChangedInvCreateNewInvNumber=1
+	 *
+	 * @author Valérie Isaksen
+	 */
+	//France, Guadeloupe, Martinique, Guyane ,La Réunion, Polynésie française et Nouvelle-Calédonie, Wallis-et-Futuna, Saint-Pierre-et-Miquelon, Saint-Barthélemy, Saint-Martin
+	static $defaultOrderConstraintCountries = array('FRA', 'GLP', 'MTQ', 'GUF', 'REU', 'PYF', 'NCL', 'WLF', 'SPM', 'BLM', 'MAF');
+	static $vendorCountry = '';
+
+	function vendorRequireOrderConstraint() {
+		if(!self::checkConfigTableExists()){ return ;}
+		$vendorModel = VmModel::getModel('vendor');
+		$vendorAddress = $vendorModel->getVendorAdressBT(1);
+		self::$vendorCountry = ShopFunctions::getCountryByID($vendorAddress->virtuemart_country_id, 'country_3_code');
+
+		$config = VmConfig::loadConfig();
+
+		$orderConstraintCountries = $config->get('OrderConstraintCountries', array());
+		$orderConstraintCountries = array_merge(self::$defaultOrderConstraintCountries, $orderConstraintCountries);
+
+		if (in_array(self::$vendorCountry, $orderConstraintCountries)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	function setOrderConstraint() {
+		vmLanguage::loadJLang('com_virtuemart_config',false);
+
+		$config = VmConfig::loadConfig();
+		$orderConstraintIsRequired= $this->vendorRequireOrderConstraint();
+		if ($orderConstraintIsRequired) {
+			$config->set('ordersAddOnly',1);
+			$config->set('ChangedInvCreateNewInvNumber',1);
+		}
+
+		$data['virtuemart_config_id'] = 1;
+		$data['config'] = $config->toString();
+
+		$confTable = $this->getTable('configs');
+		$confTable->bindChecknStore($data);
+
+		VmConfig::loadConfig(true);
+
+	}
 }
 
 //pure php no closing tag

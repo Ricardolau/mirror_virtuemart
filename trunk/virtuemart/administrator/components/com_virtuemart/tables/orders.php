@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Orders
 * @author RolandD
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -80,7 +80,9 @@ class TableOrders extends VmTableData {
 	var $user_currency_id = NULL;
 	/** @var char User currency rate */
 	var $user_currency_rate = NULL;
-	/** @var char User currency id */
+	/** @var char User shoppergroups */
+	var $user_shoppergroups = NULL;
+	/** @var char User currency rate */
 	var $payment_currency_id = NULL;
 	/** @var char User currency rate */
 	var $payment_currency_rate = NULL;
@@ -94,7 +96,7 @@ class TableOrders extends VmTableData {
 	/** @var char Order language */
 	var $order_language = NULL;
 	var $delivery_date = NULL;
-
+	var $o_hash = NULL;
 
 	/**
 	 *
@@ -107,7 +109,9 @@ class TableOrders extends VmTableData {
 
 		$this->setUniqueName('order_number');
 		$this->setLoggable();
+		$this->setHashable('o_hash');
 
+		$this->setOmittedHashFields(array('order_pass','order_create_invoice_pass'));
 		$this->setTableShortCut('o');
 	}
 

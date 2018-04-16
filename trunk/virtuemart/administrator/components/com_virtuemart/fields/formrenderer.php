@@ -29,7 +29,6 @@ if (JVM_VERSION < 3){
 }
 
 if ($form) {
-
 	$fieldSets = $form->getFieldsets();
 	if (!empty($fieldSets)) {
 		?>
@@ -52,9 +51,9 @@ if ($form) {
 				?>
 
 				<?php $i=0; ?>
-				<?php foreach ($form->getFieldset($name) as $field) {
-
-					if (!$field->hidden) { ?>
+				<?php foreach ($form->getFieldset($name) as $field) { ?>
+					<?php if (!$field->hidden) {
+						?>
 						<div class="<?php echo $control_group_class ?>">
 							<div class="<?php echo $control_label_class ?>">
 								<?php echo $field->label; ?>

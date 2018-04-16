@@ -7,7 +7,7 @@ defined('_JEXEC') or die('');
  * @subpackage User
  * @author Max Milbers
  * @author Valérie Isaksen
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -50,7 +50,7 @@ $li = '<br />';
 				    <br />
 				    <?php
 				    if (!empty($this->activationLink)) {
-					$activationLink = '<a class="default" href="' . vUri::root() . $this->activationLink . '">' . vmText::_('COM_VIRTUEMART_LINK_ACTIVATE_ACCOUNT') . '</a>';
+					$activationLink = '<a class="default" href="' . JURI::root() . $this->activationLink . '">' . vmText::_('COM_VIRTUEMART_LINK_ACTIVATE_ACCOUNT') . '</a>';
 					echo $li;
 					echo $activationLink . $li;
 				    }
@@ -71,7 +71,7 @@ $li = '<br />';
 				    <?php
 				    echo vmText::_('COM_VIRTUEMART_YOUR_LOGINAME')   . $this->user->username . $li;
 				    echo vmText::_('COM_VIRTUEMART_YOUR_DISPLAYED_NAME')   . $this->user->name . $li;
-				    if ($this->password) {
+				    if (!empty($this->password)) {
 					    echo vmText::_('COM_VIRTUEMART_YOUR_PASSWORD')  . $this->password . $li;
 				    }
 				    echo $li.vmText::_('COM_VIRTUEMART_YOUR_ADDRESS')  . $li;

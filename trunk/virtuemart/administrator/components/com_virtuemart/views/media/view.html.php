@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage
 * @author
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -56,12 +56,24 @@ class VirtuemartViewMedia extends VmViewAdmin {
 			}
         	$cat_id = vRequest::getInt('virtuemart_category_id',0);
 
-			$super = vmAccess::isSuperVendor();
-			if($super==1){
-				vToolBarHelper::custom('synchronizeMedia', 'new', 'new', vmText::_('COM_VIRTUEMART_TOOLS_SYNC_MEDIA_FILES'),false);
+			if(vmAccess::manager('media.new')){
+				JToolBarHelper::custom('synchronizeMedia', 'new', 'new', vmText::_('COM_VIRTUEMART_TOOLS_SYNC_MEDIA_FILES'),false);
 			}
 
-			$this->addStandardDefaultViewCommands();
+			$this->addStandardDefaultViewCommands(true, false);
+
+			if(vmAccess::manager('media.delete')){
+				//JToolBarHelper::custom('deleteMedia', 'delete', 'deleteFile', vmText::_('COM_VM_MEDIA_DELETE_FILES'),false);
+				//JToolBarHelper::custom('deleteEntry', 'delete', 'deleteEntry', vmText::_('COM_VM_MEDIA_DELETE_ENTRY'),false);
+
+				$bar = JToolbar::getInstance('toolbar');
+				$bar->appendButton('Confirm', 'COM_VM_MEDIA_DELETE_CONFIRM', 'delete', 'COM_VM_MEDIA_FILES_DELETE', 'deleteFiles', true);
+				$bar->appendButton('Standard', 'delete', 'JTOOLBAR_DELETE', 'remove', true);
+				//$bar->appendButton('Confirm', 'COM_VM_MEDIA_DELETE_CONFIRM', 'delete', $alt, $task, true);
+				//JToolBarHelper::deleteList('COM_VM_MEDIA_DELETE_CONFIRM');
+				JToolBarHelper::spacer('10');
+			}
+
 			$this->addStandardDefaultViewLists($model,null,null,'searchMedia');
 			$options = array( '' => vmText::_('COM_VIRTUEMART_LIST_ALL_TYPES'),
 				'product' => vmText::_('COM_VIRTUEMART_PRODUCT'),
@@ -69,14 +81,20 @@ class VirtuemartViewMedia extends VmViewAdmin {
 				'manufacturer' => vmText::_('COM_VIRTUEMART_MANUFACTURER'),
 				'vendor' => vmText::_('COM_VIRTUEMART_VENDOR')
 				);
-			$this->lists['search_type'] = VmHTML::selectList('search_type', vRequest::getVar('search_type'),$options,1,'','onchange="this.form.submit();"');
+			$this->lists['search_type'] = VmHTML::selectList('search_type', vRequest::getVar('search_type'),$options,1,'','onchange="this.form.submit();" style="width:180px;"');
 
+			$vendorId = vmAccess::getVendorId();
+			if(vmAccess::manager('managevendors')){
+				$vendorId = strtolower (JFactory::getApplication()->getUserStateFromRequest ('com_virtuemart.media.virtuemart_vendor_id', 'virtuemart_vendor_id', $vendorId, 'int'));
+			}
+
+			$this->lists['vendors'] = Shopfunctions::renderVendorList($vendorId);
 			$options = array( '' => vmText::_('COM_VIRTUEMART_LIST_ALL_ROLES'),
 				'file_is_displayable' => vmText::_('COM_VIRTUEMART_FORM_MEDIA_DISPLAYABLE'),
 				'file_is_downloadable' => vmText::_('COM_VIRTUEMART_FORM_MEDIA_DOWNLOADABLE'),
 				'file_is_forSale' => vmText::_('COM_VIRTUEMART_FORM_MEDIA_SET_FORSALE'),
 				);
-			$this->lists['search_role'] = VmHTML::selectList('search_role', vRequest::getVar('search_role'),$options,1,'','onchange="this.form.submit();"');
+			$this->lists['search_role'] = VmHTML::selectList('search_role', vRequest::getVar('search_role'),$options,1,'','onchange="this.form.submit();" style="width:180px"');
 
 			$this->files = $model->getFiles(false,false,$virtuemart_product_id,$cat_id);
 

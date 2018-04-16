@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage State
 * @author RickG, Max Milbers
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -25,7 +25,7 @@ AdminUIHelper::startAdminArea($this);
 
 <form action="index.php" method="post" name="adminForm" id="adminForm">
     <div id="editcell">
-    <div><?php echo vHtml::_('link','index.php?option=com_virtuemart&view=country&virtuemart_country_id='.$this->virtuemart_country_id,vmText::sprintf('COM_VIRTUEMART_STATES_COUNTRY',$this->country_name)); ?></div>
+    <div><?php echo JHtml::_('link','index.php?option=com_virtuemart&view=country&virtuemart_country_id='.$this->virtuemart_country_id,vmText::sprintf('COM_VIRTUEMART_STATES_COUNTRY',$this->country_name)); ?></div>
 	    <table class="adminlist table table-striped" cellspacing="0" cellpadding="0">
 	    <thead>
 		<tr>
@@ -42,10 +42,11 @@ AdminUIHelper::startAdminArea($this);
 			<?php echo vmText::_('COM_VIRTUEMART_STATE_2_CODE'); ?>
 		    </th>
 		    <th>
-			<?php echo vmText::_('COM_VIRTUEMART_STATE_3_CODE'); ?>
+			    <?php echo vmText::_('COM_VIRTUEMART_STATE_3_CODE'); ?>
+
 		    </th>
 		    <th width="20px">
-			<?php echo vmText::_('COM_VIRTUEMART_PUBLISHED'); ?>
+			    <?php echo vmText::_('COM_VIRTUEMART_PUBLISHED'); ?>
 		    </th>
 			<th width="20px">
 				<?php echo $this->sort('virtuemart_state_id', 'COM_VIRTUEMART_ID')  ?>
@@ -58,9 +59,9 @@ AdminUIHelper::startAdminArea($this);
 	    for ($i=0, $n=count( $this->states ); $i < $n; $i++) {
 		$row = $this->states[$i];
 
-		$checked = vHtml::_('grid.id', $i, $row->virtuemart_state_id,null,'virtuemart_state_id');
-		$published = $this->toggle( $row->published, $i, 'published');
-		$editlink = JROUTE::_('index.php?option=com_virtuemart&view=state&task=edit&virtuemart_state_id=' . $row->virtuemart_state_id);
+		$checked = JHtml::_('grid.id', $i, $row->virtuemart_state_id,null,'virtuemart_state_id');
+		    $published = $this->gridPublished( $row, $i );
+		    $editlink = JROUTE::_('index.php?option=com_virtuemart&view=state&task=edit&virtuemart_state_id=' . $row->virtuemart_state_id);
 
 		?>
 	    <tr class="row<?php echo $k ; ?>">

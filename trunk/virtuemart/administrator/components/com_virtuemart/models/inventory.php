@@ -5,7 +5,7 @@
 * @author Max Milbers
 * @package	VirtueMart
 * @subpackage
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -76,7 +76,7 @@ class VirtueMartModelInventory extends VmModel {
     	// Check some filters
      	$filters = array();
      	if ($search = vRequest::getVar('filter_inventory', false)){
-			$db = vFactory::getDbo();
+			$db = JFactory::getDBO();
      		$search = '"%' . $db->escape( $search, true ) . '%"' ;
      		$filters[] = '`#__virtuemart_products`.`product_name` LIKE '.$search;
      	}

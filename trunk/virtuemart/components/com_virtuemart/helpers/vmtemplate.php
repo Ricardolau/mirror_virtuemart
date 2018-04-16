@@ -54,7 +54,7 @@ class VmTemplate {
 	public static function getDefaultTemplate($client_id = 0){
 
 		if(self::$_home[$client_id]) return self::$_home[$client_id];
-		$app = vFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		if(!$client_id and $app->isSite()){
 			$template = $app->getTemplate(true);
@@ -68,7 +68,7 @@ class VmTemplate {
 			AND e.client_id=s.client_id
 			WHERE s.client_id = '.$client_id.'
 			AND e.enabled = 1 AND s.home = 1';
-			$db = vFactory::getDbo();
+			$db = JFactory::getDbo();
 			$db->setQuery( $q );
 			$template = $db->loadAssoc();
 		}
@@ -87,7 +87,7 @@ class VmTemplate {
 
 		if(!isset(self::$_templates[$id])){
 			$q = 'SELECT id, home,`template`,`params` FROM `#__template_styles` WHERE `id`="'.$id.'" ';
-			$db = vFactory::getDbo();
+			$db = JFactory::getDbo();
 			$db->setQuery($q);
 			self::$_templates[$id] = $db->loadAssoc();
 			if(!self::$_templates[$id]){
@@ -105,7 +105,7 @@ class VmTemplate {
 
 		//Lets get here the template set in the shopconfig, if there is nothing set, get the joomla standard
 		$template = VmConfig::get( 'vmtemplate', 0 );
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 		//Set specific category template
 		if(!empty($catTpl) && empty($prodTpl)) {
 			if(is_Int( $catTpl )) {
@@ -130,7 +130,7 @@ class VmTemplate {
 			}
 		}
 
-		if( (!empty($template) and $template!='default') or vFactory::getApplication()->isAdmin()){
+		if( (!empty($template) and $template!='default') or JFactory::getApplication()->isAdmin()){
 			self::setTemplate( $template );
 		}
 
@@ -208,7 +208,7 @@ class VmTemplate {
 		}
 
 		if(is_dir( VMPATH_ROOT.DS.'templates'.DS.$template )) {
-			$app = vFactory::getApplication();
+			$app = JFactory::getApplication();
 			if($app->isSite()) $app->setTemplate($template,$registry);
 
 		} else {

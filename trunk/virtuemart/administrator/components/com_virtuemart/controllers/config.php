@@ -7,7 +7,7 @@
 * @subpackage Config
 * @auhtor Max Milbers
 * @author RickG
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2014 VirtueMart Team and authors. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -37,7 +37,8 @@ class VirtuemartControllerConfig extends VmController {
 	 * @access	public
 	 */
 	function __construct() {
-		VmConfig::loadJLang('com_virtuemart_config');
+		vmLanguage::loadJLang('com_virtuemart_config');
+		vmLanguage::loadJLang('com_virtuemart.sys');
 		parent::__construct();
 
 	}
@@ -69,7 +70,7 @@ class VirtuemartControllerConfig extends VmController {
 			$redir = $this->redirectPath;
 		}
 
-		$this->setRedirect($redir, $msg);
+		$this->setRedirect($redir.'&vmms=1&nosafepathcheck=1', $msg);
 
 
 	}

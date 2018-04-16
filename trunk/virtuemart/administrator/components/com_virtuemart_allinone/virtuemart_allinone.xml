@@ -2,10 +2,10 @@
 <extension method="upgrade" type="component" version="2.5">
     <name>VirtueMart_allinone</name>
     <creationDate>${PHING.VM.RELDATE}</creationDate>
-    <copyright>Copyright (C) 2004-2015 Virtuemart Team. All rights reserved.</copyright>
+    <copyright>Copyright (C) 2004-2017 Virtuemart Team. All rights reserved.</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <author>The VirtueMart Development Team</author>
-    <authorUrl>http://www.virtuemart.net</authorUrl>
+    <authorUrl>${PHING.VM.MAINTAINERURL}</authorUrl>
     <version status="${PHING.VM.DEV_STATUS}">${PHING.VM.RELEASE}</version>
 
     <scriptfile>script.vmallinone.php</scriptfile>
@@ -15,7 +15,7 @@
     <administration>
         <menu>VirtueMart AIO</menu>
         <files folder="admin">
-            <filename>admin.virtuemart_allinone.php</filename>
+            <filename>virtuemart_allinone.php</filename>
             <folder>libraries</folder>
             <folder>plugins</folder>
             <folder>modules</folder>

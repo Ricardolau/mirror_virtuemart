@@ -6,7 +6,7 @@
  * @package    VirtueMart
  * @subpackage
  * @author Max Milbers, Valerie Isaksen
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2015 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * @version $Id: addtocartbtn.php 8024 2014-06-12 15:08:59Z Milbo $
@@ -17,9 +17,8 @@ defined ('_JEXEC') or die('Restricted access');
 class VirtueMartCustomFieldRenderer {
 
 
-	
-	static function renderCustomfieldsFE(&$product,&$customfields,$virtuemart_category_id){
 
+	static function renderCustomfieldsFE(&$product,&$customfields,$virtuemart_category_id){
 
 		static $calculator = false;
 		if(!$calculator){
@@ -53,8 +52,8 @@ class VirtueMartCustomFieldRenderer {
 
 			if ($customfield->field_type == "E") {
 
-				vPluginHelper::importPlugin ('vmcustom');
-				$dispatcher = vDispatcher::getInstance ();
+				JPluginHelper::importPlugin ('vmcustom');
+				$dispatcher = JDispatcher::getInstance ();
 				$ret = $dispatcher->trigger ('plgVmOnDisplayProductFEVM3', array(&$product, &$customfields[$k]));
 				continue;
 			}
@@ -76,7 +75,6 @@ class VirtueMartCustomFieldRenderer {
 			switch ($type) {
 
 				case 'C':
-
 					$html = '';
 
 					$dropdowns = array();
@@ -86,22 +84,24 @@ class VirtueMartCustomFieldRenderer {
 					} else {
 						$productSelection = false;
 					}
-					$stockhandle = VmConfig::get('stockhandle', 'none');
+					$stockhandle = VmConfig::get('stockhandle_products', false) && $product->product_stockhandle ? $product->product_stockhandle : VmConfig::get('stockhandle','none');
 
-					$q = 'SELECT `virtuemart_product_id` FROM #__virtuemart_products WHERE product_parent_id = "'.$customfield->virtuemart_product_id.'" and ( published = "0" ';
+					$q = 'SELECT `virtuemart_product_id` FROM #__virtuemart_products WHERE product_parent_id = "'.$customfield->virtuemart_product_id.'" and ( published = "1" ';
 					if($stockhandle == 'disableit_children'){
-						$q .= ' OR (`product_in_stock` - `product_ordered`) <= "0"';
+						$q .= ' AND (`product_in_stock` - `product_ordered`) > "0" ';
 					}
 					$q .= ');';
-					$db = vFactory::getDbo();
+					$db = JFactory::getDbo();
 					$db->setQuery($q);
-					$ignore = $db->loadColumn();
-					//vmdebug('my q '.$q,$ignore);
+					$avail = $db->loadColumn();
+					if(!in_array($customfield->virtuemart_product_id,$avail)){
+						array_unshift($avail,$customfield->virtuemart_product_id);
+					}
 
 					foreach($customfield->options as $product_id=>$variants){
-
-						if($ignore and in_array($product_id,$ignore)){
-							//vmdebug('$customfield->options Product to ignore, continue ',$product_id);
+						static $counter = 0;
+						if(!in_array($product_id,$avail)){
+							vmdebug('$customfield->options Product to ignore, continue ',$product_id);
 							continue;
 						}
 
@@ -109,28 +109,25 @@ class VirtueMartCustomFieldRenderer {
 
 							if(!isset($dropdowns[$k]) or !is_array($dropdowns[$k])) $dropdowns[$k] = array();
 							if(!in_array($variant,$dropdowns[$k])  ){
+
 								if($k==0 or !$productSelection){
 									$dropdowns[$k][] = $variant;
-								} else if($k>0 and $productSelection[$k-1] == $variants[$k-1]){
-									$break=false;
-									for($h=1;$h<=$k;$h++){
-										if($productSelection[$h-1] != $variants[$h-1]){
-											//$ignore[] = $variant;
-											$break=true;
+								} else{
+									if($productSelection[$k-1] == $variants[$k-1]) {
+										$break = false;
+										for( $h = 1; $h<=$k; $h++ ) {
+											if($productSelection[$h - 1] != $variants[$h - 1]) {
+												$break = true;
+											}
+										}
+										if(!$break) {
+											$dropdowns[$k][] = $variant;
 										}
 									}
-									if(!$break){
-										$dropdowns[$k][] = $variant;
-									}
-
-								} else {
-									//	break;
 								}
 							}
 						}
 					}
-
-					$view = vRequest::getCmd('view','productdetails');
 
 					$class = 'vm-chzn-select';
 					$selectType = 'select.genericlist';
@@ -144,10 +141,18 @@ class VirtueMartCustomFieldRenderer {
 						$dom = 'select';
 					}
 
-					$attribs = array('class'=>$class.' cvselection no-vm-bind','data-dynamic-update'=>'1','style'=>'min-width:70px;');
-					if('productdetails' != $view or !VmConfig::get ('jdynupdate', TRUE)){
-						$attribs['reload'] = '1';
-						$view = 'productdetails';
+					$attribs = array('class'=>$class.' cvselection no-vm-bind','style'=>'min-width:70px;');
+
+					$view = 'productdetails';
+					$attribs['reload'] = '1';
+					if(VmConfig::get ('jdynupdate', TRUE)){
+						$view = vRequest::getCmd('view','productdetails');
+						if($view == 'productdetails' or ($customfield->browseajax and $view == 'category')){
+							$attribs['data-dynamic-update'] = '1';
+							unset($attribs['reload']);
+						} else {
+							$view = 'productdetails';
+						}
 					}
 
 					foreach($customfield->selectoptions as $k => $soption){
@@ -188,7 +193,7 @@ class VirtueMartCustomFieldRenderer {
 						if(empty($selected)){
 							$product->orderable=false;
 						}
-						$idTagK = $idTag.'cvard'.$k;
+						//$idTagK = $idTag.'cvard'.$k;
 						if($customfield->showlabels){
 							if( in_array($soption->voption,VirtueMartModelCustomfields::$dimensions) ){
 								$soption->slabel = vmText::_('COM_VIRTUEMART_'.strtoupper($soption->voption));
@@ -200,10 +205,10 @@ class VirtueMartCustomFieldRenderer {
 							}
 
 						}
-
-						$attribs['cvsel'] = 'field' . $customfield->virtuemart_customfield_id ;
+						$idTagK = '[';	//Joomla workaround to get a list without id
+						$attribs['data-cvsel'] = 'field' . $customfield->virtuemart_customfield_id ;
 						$fname = $fieldname.'['.$k.']';
-						$html .= vHtml::_ ($selectType, $options, $fname, $attribs , "value", "text", $selected,$idTagK);
+						$html .= JHtml::_ ($selectType, $options, $fname, $attribs , "value", "text", $selected,$idTagK);
 
 					}
 
@@ -219,23 +224,29 @@ class VirtueMartCustomFieldRenderer {
 
 					foreach($customfield->options as $product_id=>$variants){
 
-						if($ignore and in_array($product_id,$ignore)){continue;}
+						if(!in_array($product_id,$avail)){continue;}
 
 						$url = JRoute::_('index.php?option=com_virtuemart&view='.$view.'&virtuemart_category_id=' . $virtuemart_category_id . '&virtuemart_product_id='.$product_id.$Itemid,false);
 						$jsArray[] = '["'.$url.'","'.implode('","',$variants).'"]';
 					}
 
-					vmJsApi::addJScript('cvfind',false,false,true,false);
+					vmJsApi::addJScript('cvfind');
+
+					$BrowserNewState =  '';
+					if($view != 'productdetails'){
+						$BrowserNewState = 'Virtuemart.setBrowserState = false;';
+					}
 
 					$jsVariants = implode(',',$jsArray);
 
-					$selector = $dom."[cvsel=\"".$attribs['cvsel']."\"]";
+					$selector = $dom."[data-cvsel=\"".$attribs['data-cvsel']."\"]";
 					$hash = md5($selector);
-					$j = "jQuery(document).ready(function() {
-							jQuery('".$selector."').off('change',Virtuemart.cvFind);
-							jQuery('".$selector."').on('change', { variants:[".$jsVariants."] },Virtuemart.cvFind);
+					$j = "jQuery(document).ready(function($) {
+							".$BrowserNewState."
+							$('".$selector."').off('change',Virtuemart.cvFind);
+							$('".$selector."').on('change', { variants:[".$jsVariants."] },Virtuemart.cvFind);
 						});";
-					vmJsApi::addJScript('cvselvars'.$hash,$j,false,true,false,$hash);
+					vmJsApi::addJScript('cvselvars'.$hash,$j,true,false,false,$hash);
 
 					//Now we need just the JS to reload the correct product
 					$customfield->display = $html;
@@ -257,14 +268,31 @@ class VirtueMartCustomFieldRenderer {
 
 					$options = array();
 
-					if(!$customfield->withParent){
-						$options[0] = $emptyOption;
-						$options[0]->value = JRoute::_ ('index.php?option=com_virtuemart&view=productdetails&virtuemart_category_id=' . $virtuemart_category_id . '&virtuemart_product_id=' . $customfield->virtuemart_product_id,FALSE);
-						//$options[0] = array('value' => JRoute::_ ('index.php?option=com_virtuemart&view=productdetails&virtuemart_category_id=' . $virtuemart_category_id . '&virtuemart_product_id=' . $customfield->virtuemart_product_id,FALSE), 'text' => vmText::_ ('COM_VIRTUEMART_ADDTOCART_CHOOSE_VARIANT'));
-					}
-
 					$selected = vRequest::getInt ('virtuemart_product_id',0);
 					$selectedFound = false;
+
+					$view = 'productdetails';
+					$attribs['reload'] = '1';
+					if(VmConfig::get ('jdynupdate', TRUE)){
+						$view = vRequest::getCmd('view','productdetails');
+						if($view == 'productdetails' or ($customfield->browseajax and $view == 'category')){
+							$attribs['data-dynamic-update'] = '1';
+							unset($attribs['reload']);
+						} else {
+							$view = 'productdetails';
+						}
+					}
+
+					$Itemid = vRequest::getInt('Itemid',''); // '&Itemid=127';
+					if(!empty($Itemid)){
+						$Itemid = '&Itemid='.$Itemid;
+					}
+
+					if(!$customfield->withParent){
+						$options[0] = $emptyOption;
+						$options[0]->value = JRoute::_ ('index.php?option=com_virtuemart&view='.$view.'&virtuemart_category_id=' . $virtuemart_category_id . '&virtuemart_product_id=' . $customfield->virtuemart_product_id,FALSE);
+						//$options[0] = array('value' => JRoute::_ ('index.php?option=com_virtuemart&view=productdetails&virtuemart_category_id=' . $virtuemart_category_id . '&virtuemart_product_id=' . $customfield->virtuemart_product_id,FALSE), 'text' => vmText::_ ('COM_VIRTUEMART_ADDTOCART_CHOOSE_VARIANT'));
+					}
 
 					$parentStock = 0;
 					if($uncatChildren){
@@ -273,31 +301,31 @@ class VirtueMartCustomFieldRenderer {
 								vmdebug('The child has no value at index '.$customfield->customfield_value,$customfield,$child);
 							} else {*/
 
-								$productChild = $productModel->getProduct((int)$child,true);
+							$productChild = $productModel->getProduct((int)$child,true);
 
-								if(!$productChild) continue;
-								if(!isset($productChild->{$customfield->customfield_value})){
-									vmdebug('The child has no value at index '.$customfield->customfield_value,$customfield,$child);
-									continue;
-								}
-								$available = $productChild->product_in_stock - $productChild->product_ordered;
-								if(VmConfig::get('stockhandle','none')=='disableit_children' and $available <= 0){
-									continue;
-								}
-								$parentStock += $available;
-								$priceStr = '';
-								if($customfield->wPrice){
-									//$product = $productModel->getProductSingle((int)$child['virtuemart_product_id'],false);
-									$productPrices = $calculator->getProductPrices ($productChild);
-									$priceStr =  ' (' . $currency->priceDisplay ($productPrices['salesPrice']) . ')';
-								}
-								$options[] = array('value' => JRoute::_ ('index.php?option=com_virtuemart&view=productdetails&virtuemart_category_id=' . $virtuemart_category_id . '&virtuemart_product_id=' . $productChild->virtuemart_product_id,false), 'text' => $productChild->{$customfield->customfield_value}.$priceStr);
+							if(!$productChild) continue;
+							if(!isset($productChild->{$customfield->customfield_value})){
+								vmdebug('The child has no value at index '.$child);
+								continue;
+							}
+							$available = $productChild->product_in_stock - $productChild->product_ordered;
+							if(VmConfig::get('stockhandle','none')=='disableit_children' and $available <= 0){
+								continue;
+							}
+							$parentStock += $available;
+							$priceStr = '';
+							if($customfield->wPrice){
+								//$product = $productModel->getProductSingle((int)$child['virtuemart_product_id'],false);
+								$productPrices = $calculator->getProductPrices ($productChild);
+								$priceStr =  ' (' . $currency->priceDisplay ($productPrices['salesPrice']) . ')';
+							}
+							$options[] = array('value' => JRoute::_ ('index.php?option=com_virtuemart&view='.$view.'&virtuemart_category_id=' . $virtuemart_category_id . '&virtuemart_product_id=' . $productChild->virtuemart_product_id,false), 'text' => $productChild->{$customfield->customfield_value}.$priceStr);
 
-								if($selected==$child){
-									$selectedFound = true;
-									vmdebug($customfield->virtuemart_product_id.' $selectedFound by vRequest '.$selected);
-								}
-								//vmdebug('$child productId ',$child['virtuemart_product_id'],$customfield->customfield_value,$child);
+							if($selected==$child){
+								$selectedFound = true;
+								vmdebug($customfield->virtuemart_product_id.' $selectedFound by vRequest '.$selected);
+							}
+							//vmdebug('$child productId ',$child['virtuemart_product_id'],$customfield->customfield_value,$child);
 							//}
 						}
 					}
@@ -317,23 +345,30 @@ class VirtueMartCustomFieldRenderer {
 						}
 					}
 
-					$url = 'index.php?option=com_virtuemart&view=productdetails&virtuemart_category_id='.
+					$url = 'index.php?option=com_virtuemart&view='.$view.'&virtuemart_category_id='.
 					$virtuemart_category_id .'&virtuemart_product_id='. $selected;
 					$attribs['option.key.toHtml'] = false;
-					$attribs['id'] = $idTag;
+					$attribs['id'] = '[';//$idTag;
+
+
 					$och = '';
-					if($customfield->browseajax){
-						$och = ' data-dynamic-update="1"';
+					if(!empty($attribs['reload'])){
+						$och = ' onchange="window.top.location.href=this.options[this.selectedIndex].value" reload=1';
+						unset($attribs['reload']);
 					} else {
-						$och = ' data-dynamic-update="1" onchange="window.top.location.href=this.options[this.selectedIndex].value"';
+						$och = ' data-dynamic-update="1"';
+						unset($attribs['data-dynamic-update']);
 					}
+
 					$attribs['list.attr'] = 'size="1" class="vm-chzn-select no-vm-bind avselection"'.$och;
 					$attribs['list.translate'] = false;
 					$attribs['option.key'] = 'value';
 					$attribs['option.text'] = 'text';
 					$attribs['list.select'] = JRoute::_ ($url,false);
-					$html .= vHtml::_ ('select.genericlist', $options, $fieldname, $attribs);
 
+
+					$html .= JHtml::_ ('select.genericlist', $options, $fieldname, $attribs);
+					//vmdebug('My view $attribs',$attribs,$html);
 					vmJsApi::chosenDropDowns();
 
 					if($customfield->parentOrderable==0){
@@ -346,6 +381,21 @@ class VirtueMartCustomFieldRenderer {
 					$dynChilds++;
 					$customfield->display = $html;
 
+					vmJsApi::addJScript('cvfind');
+
+					$BrowserNewState =  '';
+					if($view != 'productdetails'){
+						$BrowserNewState = 'Virtuemart.setBrowserState = false;';
+					}
+
+					if($customfield->browseajax){
+						$j = "jQuery(document).ready(function($) {
+							".$BrowserNewState."
+							$('select.avselection').off('change',Virtuemart.avFind);
+							$('select.avselection').on('change',{},Virtuemart.avFind);
+						});";
+						vmJsApi::addJScript('avselvars',$j,true);
+					}
 					break;
 
 				/*Date variant*/
@@ -353,7 +403,38 @@ class VirtueMartCustomFieldRenderer {
 					if(empty($customfield->custom_value)) $customfield->custom_value = 'LC2';
 					//Customer selects date
 					if($customfield->is_input){
-						$customfield->display =  '<span class="product_custom_date">' . vmJsApi::jDate ($customfield->customfield_value,$customProductDataName) . '</span>'; //vmJsApi::jDate($field->custom_value, 'field['.$row.'][custom_value]','field_'.$row.'_customvalue').$priceInput;
+						$date = '';
+						if(!empty($customfield->customfield_value)){
+							try{
+								$date = new DateTime();
+								$date->add(new DateInterval($customfield->customfield_value));
+								$date = $date->format('Y-m-d');
+							} catch (Exception $e){
+								$date = $customfield->customfield_value;
+							}
+						}
+						$yearRange = '';
+						if(!empty($customfield->yearRangeStart)){
+							$d = new DateTime();
+							$d->add(new DateInterval($customfield->yearRangeStart));
+							$d = $d->format('Y');
+							$yearRange = $d;
+						} else {
+							$yearRange = date('Y');
+						}
+
+						if(!empty($customfield->yearRangePeriod)){
+							$d = new DateTime();
+							$d->add(new DateInterval($customfield->yearRangePeriod));
+							$d = $d->format('Y');
+							$yearRange .= ':'.$d;
+						} else {
+							$yearRange .= ':1';
+						}
+
+						vmdebug('Date my yearrange',$yearRange);
+						//$yearRange = '2018:2020';
+						$customfield->display =  '<span class="product_custom_date">' . vmJsApi::jDate ($date,$customProductDataName.'[' . $customfield->virtuemart_customfield_id . ']', NULL, TRUE, $yearRange) . '</span>'; //vmJsApi::jDate($field->custom_value, 'field['.$row.'][custom_value]','field_'.$row.'_customvalue').$priceInput;
 					}
 					//Customer just sees a date
 					else {
@@ -379,6 +460,7 @@ class VirtueMartCustomFieldRenderer {
 							if(!empty($customfield->is_input)){
 								vmJsApi::chosenDropDowns();
 								$class = 'class="vm-chzn-select"';
+								$idTag = '[';
 							}
 						} else {
 							$selectType = 'select.radiolist';
@@ -393,6 +475,7 @@ class VirtueMartCustomFieldRenderer {
 							if(!empty($customfield->is_input)){
 								vmJsApi::chosenDropDowns();
 								$class = 'class="vm-chzn-select"';
+								$idTag = '[';
 							}
 						}
 					}
@@ -400,7 +483,6 @@ class VirtueMartCustomFieldRenderer {
 					if($customfield->is_list and $customfield->is_list!=2){
 
 						if(!empty($customfield->is_input)){
-
 
 							$options = array();
 
@@ -411,20 +493,20 @@ class VirtueMartCustomFieldRenderer {
 							$values = explode (';', $customfield->custom_value);
 
 							foreach ($values as $key => $val) {
-								if($val == 0 and $customfield->addEmpty){
-									continue;
-								}
+
+								//if($val == 0 and $customfield->addEmpty){
+									//continue;
+								//}
 								if($type == 'M'){
 									$tmp = array('value' => $val, 'text' => VirtueMartModelCustomfields::displayCustomMedia ($val,'product',$customfield->width,$customfield->height));
-									$options[] = (object)$tmp;
 								} else {
-									$options[] = array('value' => $val, 'text' => vmText::_($val));
+									$tmp = array('value' => $val, 'text' => vmText::_($val));
 								}
+								$options[] = (object)$tmp;
 							}
-
 							$currentValue = $customfield->customfield_value;
 
-							$customfield->display = vHtml::_ ($selectType, $options, $customProductDataName.'[' . $customfield->virtuemart_customfield_id . ']', $class, 'value', 'text', $currentValue,$idTag);
+							$customfield->display = JHtml::_ ($selectType, $options, $customProductDataName.'[' . $customfield->virtuemart_customfield_id . ']', $class, 'value', 'text', $currentValue,$idTag);
 						} else {
 							if($type == 'M'){
 								$customfield->display =  VirtueMartModelCustomfields::displayCustomMedia ($customfield->customfield_value,'product',$customfield->width,$customfield->height);
@@ -461,9 +543,9 @@ class VirtueMartCustomFieldRenderer {
 							$default = reset($customfields[$selectList[$customfield->virtuemart_custom_id]]->options);
 							foreach ($customfields[$selectList[$customfield->virtuemart_custom_id]]->options as &$productCustom) {
 								if(!isset($productCustom->customfield_price)) $productCustom->customfield_price = 0.0;
-								$price = VirtueMartModelCustomfields::_getCustomPrice($productCustom->customfield_price, $currency, $calculator);
+								if(!isset($productCustom->customfield_value)) $productCustom->customfield_value = '';
+								$price = VirtueMartModelCustomfields::renderCustomfieldPrice($productCustom, $product, $calculator);
 								if($type == 'M'){
-									if(!isset($productCustom->customfield_value)) $productCustom->customfield_value = '';
 									$productCustom->text = VirtueMartModelCustomfields::displayCustomMedia ($productCustom->customfield_value,'product',$customfield->width,$customfield->height).' '.$price;
 								} else {
 									$trValue = vmText::_($productCustom->customfield_value);
@@ -476,7 +558,7 @@ class VirtueMartCustomFieldRenderer {
 							}
 
 
-							$customfields[$selectList[$customfield->virtuemart_custom_id]]->display = vHtml::_ ($selectType, $customfields[$selectList[$customfield->virtuemart_custom_id]]->options,
+							$customfields[$selectList[$customfield->virtuemart_custom_id]]->display = JHtml::_ ($selectType, $customfields[$selectList[$customfield->virtuemart_custom_id]]->options,
 							$customfields[$selectList[$customfield->virtuemart_custom_id]]->customProductDataName,
 							$class, 'virtuemart_customfield_id', 'text', $default->customfield_value,$idTag);	//*/
 						} else {
@@ -512,9 +594,10 @@ class VirtueMartCustomFieldRenderer {
 						logInfo('customfield.php: case P, property '.$attr.' does not exists. virtuemart_custom_id: '.$customfield->virtuemart_custom_id);
 						break;
 					}
-					$val= $product->$attr;
-					if($customfield->round!=''){
-						$val = round($val,$customfield->round);
+					$val = $product->$attr;
+					if($customfield->round!=0){
+						if(empty($customfield->digits)) $customfield->digits = 0;
+						$val = $currency->getFormattedNumber($val,$customfield->digits);
 					}
 					if($lkey!=$trValue and strpos($trValue,'%1')!==false) {
 						$customfield->display = vmText::sprintf( $customfield->customfield_value, $val , $dim );
@@ -529,7 +612,7 @@ class VirtueMartCustomFieldRenderer {
 					if(empty($customfield->customfield_value)) break;
 					$html = '';
 					$q = 'SELECT * FROM `#__virtuemart_categories_' . VmConfig::$vmlang . '` as l INNER JOIN `#__virtuemart_categories` AS c ON (l.`virtuemart_category_id`=c.`virtuemart_category_id`) WHERE `published`=1 AND l.`virtuemart_category_id`= "' . (int)$customfield->customfield_value . '" ';
-					$db = vFactory::getDbo();
+					$db = JFactory::getDBO();
 					$db->setQuery ($q);
 					if ($category = $db->loadObject ()) {
 
@@ -541,7 +624,7 @@ class VirtueMartCustomFieldRenderer {
 						if ($media_id = $db->loadResult ()) {
 							$thumb = VirtueMartModelCustomfields::displayCustomMedia ($media_id,'category',$customfield->width,$customfield->height);
 						}
-						$customfield->display = vHtml::link (JRoute::_ ('index.php?option=com_virtuemart&view=category&virtuemart_category_id=' . $category->virtuemart_category_id), $thumb . ' ' . $category->category_name, array('title' => $category->category_name,'target'=>'_blank'));
+						$customfield->display = JHtml::link (JRoute::_ ('index.php?option=com_virtuemart&view=category&virtuemart_category_id=' . $category->virtuemart_category_id), $thumb . ' ' . $category->category_name, array('title' => $category->category_name,'target'=>'_blank'));
 					}
 
 					break;
@@ -556,14 +639,45 @@ class VirtueMartCustomFieldRenderer {
 					if(!$related) break;
 
 					$thumb = '';
-					if($customfield->wImage){
-						if (!empty($related->virtuemart_media_id[0])) {
-							$thumb = VirtueMartModelCustomfields::displayCustomMedia ($related->virtuemart_media_id[0],'product',$customfield->width,$customfield->height).' ';
+					if($customfield->wImage) {
+						if(!empty( $related->virtuemart_media_id[0] )) {
+							$thumb = VirtueMartModelCustomfields::displayCustomMedia( $related->virtuemart_media_id[0], 'product', $customfield->width, $customfield->height ).' ';
 						} else {
-							$thumb = VirtueMartModelCustomfields::displayCustomMedia (0,'product',$customfield->width,$customfield->height).' ';
+							$thumb = VirtueMartModelCustomfields::displayCustomMedia( 0, 'product', $customfield->width, $customfield->height ).' ';
 						}
 					}
 
+					if($customfield->waddtocart){
+						if (!empty($related->customfields)) {
+
+							if (!class_exists ('vmCustomPlugin')) {
+								require(VMPATH_PLUGINLIBS . DS . 'vmcustomplugin.php');
+							}
+							$customfieldsModel = VmModel::getModel ('customfields');
+							if(empty($customfield->from)) {
+								$customfield->from = $related->virtuemart_product_id;
+								$customfieldsModel -> displayProductCustomfieldFE ($related, $related->customfields);
+							} else if($customfield->from!=$related->virtuemart_product_id){
+								$customfieldsModel -> displayProductCustomfieldFE ($related, $related->customfields);
+							}
+
+						}
+						$isCustomVariant = false;
+						if (!empty($related->customfields)) {
+							foreach ($related->customfields as $k => $custom) {
+								if($custom->field_type == 'C' and $custom->virtuemart_product_id != (int)$customfield->customfield_value){
+									$isCustomVariant = $custom;
+								}
+								if (!empty($custom->layout_pos)) {
+									$related->customfieldsSorted[$custom->layout_pos][] = $custom;
+								} else {
+									$related->customfieldsSorted['normal'][] = $custom;
+								}
+								unset($related->customfields);
+							}
+
+						}
+					}
 					$customfield->display = shopFunctionsF::renderVmSubLayout('related',array('customfield'=>$customfield,'related'=>$related, 'thumb'=>$thumb));
 
 					break;
@@ -586,35 +700,45 @@ class VirtueMartCustomFieldRenderer {
 
 		$variantmods = isset($product -> customProductData)?$product -> customProductData:$product -> product_attribute;
 
-		if(empty($variantmods)){
-			$productDB = VmModel::getModel('product')->getProduct($product->virtuemart_product_id);
-			if($productDB){
-				$product->customfields = $productDB->customfields;
-			}
-		}
 		if(!is_array($variantmods)){
 			$variantmods = json_decode($variantmods,true);
 		}
 
+		//We let that here as Fallback
+		if(empty($product->customfields)){
+
+			$productDB = VmModel::getModel('product')->getProduct($product->virtuemart_product_id);
+			if($productDB and !empty($productDB->customfields)){
+
+				$product->customfields = $productDB->customfields;
+			} else {
+				$product->customfields = array();
+			}
+		}
+		//vmdebug('renderCustomfieldsCart $variantmods',$variantmods);
 		$productCustoms = array();
 		foreach( (array)$product->customfields as $prodcustom){
 
 			//We just add the customfields to be shown in the cart to the variantmods
 			if(is_object($prodcustom)){
-				if($prodcustom->is_cart_attribute and !$prodcustom->is_input){
-					if(!isset($variantmods[$prodcustom->virtuemart_custom_id]) or !is_array($variantmods[$prodcustom->virtuemart_custom_id])){
-						$variantmods[$prodcustom->virtuemart_custom_id] = array();
+
+				//We need this here to ensure that broken customdata of order items is shown updated info, or at least displayed,
+				if($prodcustom->is_cart_attribute or $prodcustom->is_input){
+
+					//The problem here is that a normal value and an array can be valid. The function should complement, or update the product. So we are not allowed
+					//to override existing values. When the $variantmods array is not set for the key, then we add an array, when the customproto is used more than one time
+					//the missing values are added with an own key.
+					if(!isset($variantmods[$prodcustom->virtuemart_custom_id]) or (is_array($variantmods[$prodcustom->virtuemart_custom_id]) and !isset($variantmods[$prodcustom->virtuemart_custom_id][$prodcustom->virtuemart_customfield_id])) ){
+						$variantmods[$prodcustom->virtuemart_custom_id][$prodcustom->virtuemart_customfield_id] = $prodcustom->virtuemart_customfield_id;
+						//vmdebug('foreach $variantmods $customfield_id ', $prodcustom->virtuemart_custom_id, $prodcustom->virtuemart_customfield_id,$variantmods);
 					}
-					$variantmods[$prodcustom->virtuemart_custom_id][$prodcustom->virtuemart_customfield_id] = false;
-
-				} else if(!empty($variantmods) and !empty($variantmods[$prodcustom->virtuemart_custom_id])){
-
 				}
+
 				$productCustoms[$prodcustom->virtuemart_customfield_id] = $prodcustom;
 			}
 		}
 
-		foreach ( (array)$variantmods as $custom_id => $customfield_ids) {
+		foreach ( (array)$variantmods as $i => $customfield_ids) {
 
 			if(!is_array($customfield_ids)){
 				$customfield_ids = array( $customfield_ids =>false);
@@ -623,7 +747,7 @@ class VirtueMartCustomFieldRenderer {
 			foreach($customfield_ids as $customfield_id=>$params){
 
 				if(empty($productCustoms) or !isset($productCustoms[$customfield_id])){
-					vmdebug('displayProductCustomfieldSelected continue');
+					//vmdebug('displayProductCustomfieldSelected continue',$customfield_id,$productCustoms);
 					continue;
 				}
 				$productCustom = $productCustoms[$customfield_id];
@@ -637,15 +761,15 @@ class VirtueMartCustomFieldRenderer {
 
 						if (!class_exists ('vmCustomPlugin'))
 							require(VMPATH_PLUGINLIBS . DS . 'vmcustomplugin.php');
-						vPluginHelper::importPlugin ('vmcustom');
-						$dispatcher = vDispatcher::getInstance ();
+						JPluginHelper::importPlugin ('vmcustom');
+						$dispatcher = JDispatcher::getInstance ();
 						$dispatcher->trigger ($trigger.'VM3', array(&$product, &$productCustom, &$tmp));
 					}
 					else {
 						$value = '';
 
 						if (($productCustom->field_type == 'G')) {
-							$db = vFactory::getDbo ();
+							$db = JFactory::getDBO ();
 							$db->setQuery ('SELECT  `product_name` FROM `#__virtuemart_products_' . VmConfig::$vmlang . '` WHERE virtuemart_product_id=' . (int)$productCustom->customfield_value);
 							$child = $db->loadObject ();
 							$value = $child->product_name;
@@ -699,6 +823,10 @@ class VirtueMartCustomFieldRenderer {
 							}
 
 							continue;
+						}
+						elseif (($productCustom->field_type == 'D')) {
+							vmdebug('my date product customfield',$productCustom);
+							$value = $params;
 						}
 						else {
 							$value = vmText::_($productCustom->customfield_value);

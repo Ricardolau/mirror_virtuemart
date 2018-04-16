@@ -7,7 +7,7 @@
 * @subpackage User
 * @author Oscar van Eijk
 * @author Max Milbers
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2014 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -20,12 +20,15 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
+// Load the controller framework
+jimport('joomla.application.component.controller');
+
 /**
  * VirtueMart Component Controller
  *
  * @package		VirtueMart
  */
-class VirtueMartControllerVendor extends vController
+class VirtueMartControllerVendor extends JControllerLegacy
 {
 
 	/**
@@ -39,7 +42,7 @@ class VirtueMartControllerVendor extends vController
 		if(!class_exists('shopFunctionsF')) require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
 
 		$model = VmModel::getModel('vendor');
-		$mainframe = vFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$vars = array();
 		$min = VmConfig::get('asks_minimum_comment_length', 50)+1;
 		$max = VmConfig::get('asks_maximum_comment_length', 2000)-1 ;
@@ -57,14 +60,14 @@ class VirtueMartControllerVendor extends vController
 		if(!class_exists('VirtueMartModelVendor')) require(VMPATH_ADMIN.DS.'models'.DS.'vendor.php');
 		$userId = VirtueMartModelVendor::getUserIdByVendorId($virtuemart_vendor_id);
 
-		//$vendorUser = vFactory::getUser($userId);
+		//$vendorUser = JFactory::getUser($userId);
 
 		if ( $commentSize<$min || $commentSize>$max || !$validMail ) {
 			$this->setRedirect(JRoute::_ ( 'index.php?option=com_virtuemart&view=vendor&task=contact&virtuemart_vendor_id=' . $virtuemart_vendor_id , FALSE),vmText::_('COM_VIRTUEMART_COMMENT_NOT_VALID_JS'));
 			return ;
 		}
 
-		$user = vFactory::getUser();
+		$user = JFactory::getUser();
 
 		$fromMail = vRequest::getVar('email');	//is sanitized then
 		$fromName = vRequest::getVar('name','');//is sanitized then

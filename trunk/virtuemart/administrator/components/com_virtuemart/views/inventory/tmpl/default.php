@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage
 * @author
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -20,7 +20,7 @@
 defined('_JEXEC') or die('Restricted access');
 AdminUIHelper::startAdminArea($this);
 ?>
-<form action="index.php" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_virtuemart&view=inventory" method="post" name="adminForm" id="adminForm">
 	<div id="header">
 		<div id="filterbox">
 		<table>
@@ -57,7 +57,7 @@ AdminUIHelper::startAdminArea($this);
 		$k = 0;
 		$keyword = vRequest::uword ('keyword', "", ' ,-,+,.,_,#,/');
 		foreach ($this->inventorylist as $key => $product) {
-			$checked = vHtml::_('grid.id', $i , $product->virtuemart_product_id);
+			$checked = JHtml::_('grid.id', $i , $product->virtuemart_product_id);
 			$published = $this->gridPublished( $product, $i );
 
 			//<!-- low_stock_notification  -->
@@ -74,7 +74,7 @@ AdminUIHelper::startAdminArea($this);
 				<?php
 				$link = 'index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id='.$product->virtuemart_product_id.'&product_parent_id='.$product->product_parent_id;
 				?>
-				<td><?php echo vHtml::_('link', JRoute::_($link, FALSE), $product->product_name, array('title' => vmText::_('COM_VIRTUEMART_EDIT').' '.htmlentities($product->product_name))); ?></td>
+				<td><?php echo JHtml::_('link', JRoute::_($link, FALSE), $product->product_name, array('title' => vmText::_('COM_VIRTUEMART_EDIT').' '.htmlentities($product->product_name))); ?></td>
 				<td><?php echo $product->product_sku; ?></td>
 				<td <?php echo $stockstatut; ?>><?php echo $product->product_in_stock; ?></td>
 				<td <?php echo $stockstatut; ?> width="5%"><?php echo $product->product_ordered; ?></td>
@@ -100,6 +100,13 @@ AdminUIHelper::startAdminArea($this);
 	</tfoot>
 	</table>
 </div>
-	<?php echo $this->addStandardHiddenToForm(); ?>
+<!-- Hidden Fields -->
+<input type="hidden" name="filter_order" value="<?php echo $this->lists['filter_order']; ?>" />
+<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['filter_order_Dir']; ?>" />
+<input type="hidden" name="task" value="" />
+<input type="hidden" name="option" value="com_virtuemart" />
+<input type="hidden" name="view" value="inventory" />
+<input type="hidden" name="boxchecked" value="0" />
+<?php echo JHtml::_( 'form.token' ); ?>
 </form>
 <?php AdminUIHelper::endAdminArea(); ?>

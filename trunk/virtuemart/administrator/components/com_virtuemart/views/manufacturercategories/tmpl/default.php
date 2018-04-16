@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Manufacturer Category
 * @author Patrick Kohl
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -23,7 +23,7 @@ AdminUIHelper::startAdminArea($this);
 
 ?>
 
-<form action="index.php" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_virtuemart&view=manufacturercategories" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<table class="adminlist table table-striped" cellspacing="0" cellpadding="0">
 		<thead>
@@ -51,7 +51,7 @@ AdminUIHelper::startAdminArea($this);
 		for ($i=0, $n=count( $this->manufacturerCategories ); $i < $n; $i++) {
 			$row = $this->manufacturerCategories[$i];
 
-			$checked = vHtml::_('grid.id', $i, $row->virtuemart_manufacturercategories_id);
+			$checked = JHtml::_('grid.id', $i, $row->virtuemart_manufacturercategories_id);
 			$published = $this->gridPublished( $row, $i );
 
 			$editlink = JROUTE::_('index.php?option=com_virtuemart&view=manufacturercategories&task=edit&virtuemart_manufacturercategories_id=' . $row->virtuemart_manufacturercategories_id);

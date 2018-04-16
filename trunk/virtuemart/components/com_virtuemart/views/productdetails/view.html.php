@@ -7,7 +7,7 @@
  * @package VirtueMart
  * @subpackage
  * @author RolandD
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -34,15 +34,15 @@ class VirtueMartViewProductdetails extends VmView {
     /**
 		 * Collect all data to show on the template
 		 *
-		 * @author RolandD, Max Milbers
+		 * @author Max Milbers
 		 */
 		function display($tpl = null) {
 
 			$this->show_prices = (int)VmConfig::get('show_prices', 1);
 
-			$document = vFactory::getDocument();
+			$document = JFactory::getDocument();
 
-			$app = vFactory::getApplication();
+			$app = JFactory::getApplication();
 
 			$menus	= $app->getMenu();
 			$menu = $menus->getActive();
@@ -89,7 +89,7 @@ class VirtueMartViewProductdetails extends VmView {
 			if ($product->customfields){
 
 				if (!class_exists ('vmCustomPlugin')) {
-					require(JPATH_VM_PLUGINS . DS . 'vmcustomplugin.php');
+					require(VMPATH_PLUGINLIBS . DS . 'vmcustomplugin.php');
 				}
 				$customfieldsModel -> displayProductCustomfieldFE ($product, $product->customfields);
 			}
@@ -177,18 +177,36 @@ class VirtueMartViewProductdetails extends VmView {
 
 			shopFunctionsF::setLastVisitedCategoryId($product->virtuemart_category_id);
 
+
+			if(!empty($menu) ){
+				$t = $menu->params->get('cat_productdetails','');
+				if($t!=''){
+					$this->cat_productdetails = $t;
+				}
+			}
+			if(!isset($this->cat_productdetails)){
+				$this->cat_productdetails = VmConfig::get('cat_productdetails',0);
+			}
+			//Fallback for BC
+			VmConfig::set('showCategory', $this->cat_productdetails);
+
 			if ($category_model) {
 
-				$category = $category_model->getCategory($product->virtuemart_category_id);
+				$category = $category_model->getCategory($product->virtuemart_category_id, $this->cat_productdetails);
+				//if($category->parents===false) $category->parents = $category_model->getParentsList($product->virtuemart_category_id);
 				if(in_array($last_category_id,$product->categories) && !$seo_full) $product->category_name = $category->category_name;
 
 				$category_model->addImages($category, 1);
+				if($this->cat_productdetails){
+					$category_model->addImages($category->children, 1);
+				}
+
 				$this->assignRef('category', $category);
 
 				//Seems we dont need this anylonger, destroyed the breadcrumb
 				if ($category->parents) {
 					foreach ($category->parents as $c) {
-						if(is_object($c) and isset($c->category_name)){
+						if(is_object($c) and !empty($c->category_name) and !empty($c->published)){
 							$pathway->addItem(strip_tags(vmText::_($c->category_name)), JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id=' . $c->virtuemart_category_id, FALSE));
 						} else {
 							vmdebug('Error, parent category has no name, breadcrumb maybe broken, category',$c);
@@ -196,8 +214,7 @@ class VirtueMartViewProductdetails extends VmView {
 					}
 				}
 
-				$category->children = $category_model->getChildCategoryList($product->virtuemart_vendor_id, $product->virtuemart_category_id);
-				$category_model->addImages($category->children, 1);
+
 			}
 
 			$pathway->addItem(strip_tags(html_entity_decode($product->product_name,ENT_QUOTES)));
@@ -219,9 +236,9 @@ class VirtueMartViewProductdetails extends VmView {
 				// Set Canonic link
 				if($isCustomVariant !==false and !empty($isCustomVariant->usecanonical) and !empty($product->product_parent_id)){
 					$parent = $product_model ->getProduct($product->product_parent_id);
-					$document->addHeadLink( vUri::getInstance()->toString(array('scheme', 'host', 'port')).JRoute::_($parent->canonical), 'canonical', 'rel', '');
+					$document->addHeadLink( JUri::getInstance()->toString(array('scheme', 'host', 'port')).JRoute::_($parent->canonical), 'canonical', 'rel', '');
 				} else {
-					$document->addHeadLink( vUri::getInstance()->toString(array('scheme', 'host', 'port')).JRoute::_($product->canonical), 'canonical', 'rel', '');
+					$document->addHeadLink( JUri::getInstance()->toString(array('scheme', 'host', 'port')).JRoute::_($product->canonical), 'canonical', 'rel', '');
 				}
 
 			} else if($format == 'pdf'){
@@ -233,7 +250,11 @@ class VirtueMartViewProductdetails extends VmView {
 			if ($product->customtitle) {
 				$document->setTitle(strip_tags(html_entity_decode($product->customtitle,ENT_QUOTES)));
 			} else {
-				$document->setTitle(strip_tags(html_entity_decode(($category->category_name ? (vmText::_($category->category_name) . ' : ') : '') . $product->product_name,ENT_QUOTES)));
+				$catName = '';
+				if($category->published and !empty($category->category_name)){
+					$catName = $category->category_name.': ';
+				}
+				$document->setTitle(strip_tags(html_entity_decode($catName . $product->product_name,ENT_QUOTES)));
 			}
 
 			$this->allowReview = $ratingModel->allowReview($product->virtuemart_product_id);
@@ -259,20 +280,20 @@ class VirtueMartViewProductdetails extends VmView {
 
 			$superVendor = vmAccess::isSuperVendor();
 
-			if($superVendor == 1 or $superVendor==$product->virtuemart_vendor_id or ($superVendor)){
-				$edit_link = vUri::root() . 'index.php?option=com_virtuemart&tmpl=component&manage=1&view=product&task=edit&virtuemart_product_id=' . $product->virtuemart_product_id;
+
+			if($superVendor == 1 or (vmAccess::manager('product') and $superVendor==$product->virtuemart_vendor_id)){
+				$edit_link = JURI::root() . 'index.php?option=com_virtuemart&tmpl=component&manage=1&view=product&task=edit&virtuemart_product_id=' . $product->virtuemart_product_id;
 				$this->edit_link = $this->linkIcon($edit_link, 'COM_VIRTUEMART_PRODUCT_FORM_EDIT_PRODUCT', 'edit', false, false);
 			} else {
 				$this->edit_link = "";
 			}
 
 			// Load the user details
-			$this->user = vFactory::getUser();
+			$this->user = JFactory::getUser();
 
 			// More reviews link
-			vRequest::setVar('showall', 1);
-			$uristring = vmURI::getCleanUrl();
-			$this->assignRef('more_reviews', $uristring);
+			//vRequest::setVar('showall', 1);
+			$this->more_reviews = JRoute::_(vmURI::getCurrentUrlBy('get').'&showall=1');
 
 			if ($product->metadesc) {
 				$document->setDescription( strip_tags(html_entity_decode($product->metadesc,ENT_QUOTES)) );
@@ -310,15 +331,56 @@ class VirtueMartViewProductdetails extends VmView {
 			$productDisplayPayments = array();
 
 			if (!class_exists('vmPSPlugin'))
-				require(JPATH_VM_PLUGINS . DS . 'vmpsplugin.php');
-			vPluginHelper::importPlugin('vmshipment');
-			vPluginHelper::importPlugin('vmpayment');
-			$dispatcher = vDispatcher::getInstance();
-			$returnValues = $dispatcher->trigger('plgVmOnProductDisplayShipment', array($product, &$productDisplayShipments));
-			$returnValues = $dispatcher->trigger('plgVmOnProductDisplayPayment', array($product, &$productDisplayPayments));
+				require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
+			JPluginHelper::importPlugin('vmcalculation');
+			JPluginHelper::importPlugin('vmshipment');
+			JPluginHelper::importPlugin('vmpayment');
+			$dispatcher = JDispatcher::getInstance();
 
-			$this->assignRef('productDisplayPayments', $productDisplayPayments);
-			$this->assignRef('productDisplayShipments', $productDisplayShipments);
+			$productC = clone($product);
+			$d = VmConfig::$_debug;
+			if(VmConfig::get('debug_enable_methods',false)){
+				VmConfig::$_debug = 1;
+			}
+			//@Todo lets use only one trigger
+			$returnValues = $dispatcher->trigger('plgVmOnProductDisplayShipment', array($productC, &$this->productDisplayShipments));
+			$returnValues = $dispatcher->trigger('plgVmOnProductDisplayPayment', array($productC, &$this->productDisplayPayments));
+
+			$this->productDisplayTypes = array();
+			$productDisplayTypes = array();
+			if(!empty($this->productDisplayShipments)) $productDisplayTypes[] = 'productDisplayShipments';
+			if(!empty($this->productDisplayPayments)) $productDisplayTypes[] = 'productDisplayPayments';
+
+			foreach ($productDisplayTypes as $productDisplayType) {
+
+				if(empty($this->$productDisplayType)){
+					continue;
+				} else if (!is_array($this->$productDisplayType)){
+					$this->$productDisplayType = array($this->$productDisplayType);
+				}
+
+				foreach( $this->$productDisplayType as $k=>$productDisplay ) {
+
+					if(empty($productDisplay)){
+						continue;
+					} else if(!is_array($productDisplay)){
+						$productDisplay = array($productDisplay);
+					}
+
+					foreach( $productDisplay as $virtuemart_method_id => $productDisplayHtml ) {
+						if(!empty($productDisplayHtml)){
+							if(empty($this->productDisplayTypes[$productDisplayType])){
+								$this->productDisplayTypes[$productDisplayType] = array();
+							}
+							if(empty($this->productDisplayTypes[$productDisplayType][$k])){
+								$this->productDisplayTypes[$productDisplayType][$k] = array();
+							}
+							$this->productDisplayTypes[$productDisplayType][$k][$virtuemart_method_id] = $productDisplayHtml;
+						}
+					}
+				}
+			}
+			VmConfig::$_debug = $d;
 
 			if (empty($category->category_template)) {
 				$category->category_template = VmConfig::get('categorytemplate');
@@ -326,10 +388,10 @@ class VirtueMartViewProductdetails extends VmView {
 
 			shopFunctionsF::setVmTemplate($this, $category->category_template, 0, $category->category_product_layout, $product->layout);
 
-			shopFunctionsF::addProductToRecent($virtuemart_product_id);
+			VirtueMartModelProduct::addProductToRecent($virtuemart_product_id);
 
 			if(vRequest::getCmd( 'layout', 'default' )=='notify') $this->setLayout('notify'); //Added by Seyi Awofadeju to catch notify layout
-			VmConfig::loadJLang('com_virtuemart');
+			vmLanguage::loadJLang('com_virtuemart');
 
 			vmJsApi::chosenDropDowns();
 

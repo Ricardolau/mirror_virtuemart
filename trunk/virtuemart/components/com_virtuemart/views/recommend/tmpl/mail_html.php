@@ -5,7 +5,7 @@ defined('_JEXEC') or die('');
 	* @package	VirtueMart
 	* @subpackage product details
 	* @author Maik Künnemann
-	* @link http://www.virtuemart.net
+	* @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2014 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -44,7 +44,7 @@ defined('_JEXEC') or die('');
 		<tr>
 			<td valign="top" align="center" style="padding: 15px 25px;">
 
-				<img src="<?php  echo vUri::root () . $this->vendor->images[0]->file_url ?>" />
+				<img src="<?php  echo JURI::root () . $this->vendor->images[0]->file_url ?>" />
 
 				<table  border="0" cellpadding="0" cellspacing="0" class="html-email" width="100%">
 
@@ -60,8 +60,8 @@ defined('_JEXEC') or die('');
 							<table width="100%" cellpadding="0" cellspacing="0">
 								<tr>
 									<?php
-									$menuItemID = shopFunctionsF::getMenuItemId(vFactory::getLanguage()->getTag());
-									$product_link = vUri::root().'index.php?option=com_virtuemart&view=productdetails
+									$menuItemID = shopFunctionsF::getMenuItemId(JFactory::getLanguage()->getTag());
+									$product_link = JURI::root().'index.php?option=com_virtuemart&view=productdetails
 													&virtuemart_product_id=' . $this->product->virtuemart_product_id . '&Itemid=' . $menuItemID;
 									?>
 									<td width="30%" align="center">

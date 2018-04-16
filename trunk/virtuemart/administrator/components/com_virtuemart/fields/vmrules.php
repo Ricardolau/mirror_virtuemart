@@ -9,16 +9,16 @@
 
 defined('JPATH_PLATFORM') or die;
 
-vFormHelper::loadFieldClass('rules');
+JFormHelper::loadFieldClass('rules');
 
 defined('DS') or define('DS', DIRECTORY_SEPARATOR);
-if (!class_exists( 'VmConfig' )) require(JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'helpers'.DS.'config.php');
+if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 
 /**
  * This is an overload of the core Rules form field
  * It address the issue where several rules cannot be used in the same configuration file
  */
-class vFormFieldVmRules extends vFormFieldRules {
+class JFormFieldVmRules extends JFormFieldRules {
 	/**
 	 * The form field type.
 	 *
@@ -35,21 +35,21 @@ class vFormFieldVmRules extends vFormFieldRules {
 	protected function getInput() {
 
 		VmConfig::loadConfig();
-		//vHtml::_('behavior.tooltip');
-		VmConfig::loadJLang('com_virtuemart_perms');
+		vmLanguage::loadJLang('com_virtuemart_perms');
+		JHtml::_('behavior.tooltip');
 		if(JVM_VERSION<3){
 			return $this->vmRulesJ25();
 		} else {
 			if (version_compare (JVERSION, '3.5.0', 'lt')) {
-+				return $this->vmRules();
-+			} else {
-+				return parent::getInput();
-+			}
+				return $this->vmRules();
+			} else {
+				return parent::getInput();
+			}
 		}
-
 	}
 
-	public function vmRules(){
+
+	private function vmRules(){
 		// Initialise some field attributes.
 		$section = $this->element['section'] ? (string)$this->element['section'] : '';
 		$component = $this->element['component'] ? (string)$this->element['component'] : '';
@@ -70,7 +70,7 @@ class vFormFieldVmRules extends vFormFieldRules {
 
 
 		// Get the explicit rules for this asset.
-		$db = vFactory::getDbo();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('id'));
 		$query->from($db->quoteName('#__assets'));
@@ -256,7 +256,7 @@ class vFormFieldVmRules extends vFormFieldRules {
                  margin-left:0;
            }
         ";
-		vFactory::getDocument()->addStyleDeclaration($css);
+		JFactory::getDocument()->addStyleDeclaration($css);
 
 		return implode("\n", $html);
 	}
@@ -283,15 +283,12 @@ class vFormFieldVmRules extends vFormFieldRules {
 
 
 		// Get the explicit rules for this asset.
-		$db = vFactory::getDbo();
-		/*$query = $db->getQuery(true);
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
 		$query->select($db->quoteName('id'));
 		$query->from($db->quoteName('#__assets'));
 		$query->where($db->quoteName('name') . ' = ' . $db->quote($component));
-		$db->setQuery($query);*/
-
-		$q = 'SELECT `id` FROM `#__assets` WHERE `name` = "'.$component.'"';
-		$db->setQuery($q);
+		$db->setQuery($query);
 		$assetId = (int)$db->loadResult();
 		if ($error = $db->getErrorMsg()) {
 			vmError($error);
@@ -474,7 +471,7 @@ class vFormFieldVmRules extends vFormFieldRules {
 			. (int)vRequest::getInt('jpanesliders_permissions-sliders' . $component, '0', 'cookie') . ", show: "
 			. (int)vRequest::getInt('jpanesliders_permissions-sliders' . $component, '0', 'cookie') . ", alwaysHide:true, opacity: false}); });";
 
-		vFactory::getDocument()->addScriptDeclaration($js);
+		JFactory::getDocument()->addScriptDeclaration($js);
 
 		return implode("\n", $html);
 	}

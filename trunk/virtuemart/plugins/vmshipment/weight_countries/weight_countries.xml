@@ -3,7 +3,7 @@
     <name>By weight, ZIP and countries</name>
     <creationDate>${PHING.VM.RELDATE}</creationDate>
     <author>The VirtueMart Development Team</author>
-    <authorUrl>http://www.virtuemart.net</authorUrl>
+    <authorUrl>${PHING.VM.MAINTAINERURL}</authorUrl>
     <copyright>${PHING.VM.COPYRIGHT}</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <version>${PHING.VM.RELEASE}</version>
@@ -19,7 +19,7 @@
     <vmconfig>
         <fields name="params">
             <fieldset name="template">
-                <field name="shipment_logos" type="vmfiles" multiple="true" directory="/images/stories/virtuemart/shipment"
+                <field name="shipment_logos" type="vmfiles" multiple="true" directory="/images/virtuemart/shipment"
                         label="VMSHIPMENT_WEIGHT_COUNTRIES_LOGOS"
                        size="40"
                        default="" hide_default="1" hide_none="true"
@@ -27,16 +27,17 @@
                        description="VMSHIPMENT_WEIGHT_COUNTRIES_LOGOS_DESC"/>
             </fieldset>
             <fieldset name="restrictions">
-                <field name="show_on_pdetails" type="radio" scope="com_virtuemart" default="1"
-                               label="VMSHIPMENT_WEIGHT_COUNTRIES_SHOW_ON_PRDETAILS"
-                               description="VMSHIPMENT_WEIGHT_COUNTRIES_SHOW_ON_PRDETAILS_TIP">
-                            <option value="0">COM_VIRTUEMART_NO</option>
-                            <option value="1">COM_VIRTUEMART_YES</option>
+                <field name="show_on_pdetails" type="radio" default="0"
+                        label="VMSHIPMENT_WEIGHT_COUNTRIES_SHOW_ON_PRDETAILS"
+                        extension="com_virtuemart"
+                        description="VMSHIPMENT_WEIGHT_COUNTRIES_SHOW_ON_PRDETAILS_TIP">
+                    <option value="0">COM_VIRTUEMART_NO</option>
+                    <option value="1">COM_VIRTUEMART_YES</option>
                 </field>
                 <field name="categories" value_field="category_name" type="vmcategories" multiple="true" size="10" default="" label="VMSHIPMENT_WEIGHT_CATEGORIES"
                        description="VMSHIPMENT_WEIGHT_CATEGORIES_DESC"/>
                 <field name="blocking_categories" value_field="category_name" type="vmcategories" multiple="true" size="10" default="" label="VMSHIPMENT_WEIGHT_BLOCKING_CATEGORIES"
-                       description="VMSHIPMENT_WEIGHT_BLOCKING_CATEGORIES_DESC"/>
+                       description="VMSHIPMENT_WEIGHT_CATEGORIES_DESC"/>
                 <field name="countries" type="vmcountries" multiple="true" scope="com_virtuemart" default=""
                        label="VMSHIPMENT_WEIGHT_COUNTRIES_COUNTRIES" description="VMSHIPMENT_WEIGHT_COUNTRIES_COUNTRIES_DESC"/>
                 <field name="zip_start" type="text" size="10" default="" label="VMSHIPMENT_WEIGHT_COUNTRIES_ZIP_START"

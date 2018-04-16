@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Manufacturer
 * @author Kohl Patrick
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -33,8 +33,8 @@ class VirtuemartViewManufacturer extends VmView {
 
 	function display($tpl = null) {
 
-		$document = vFactory::getDocument();
-		$mainframe = vFactory::getApplication();
+		$document = JFactory::getDocument();
+		$mainframe = JFactory::getApplication();
 		$pathway = $mainframe->getPathway();
 
 		if (!class_exists('VmImage'))
@@ -65,7 +65,7 @@ class VirtuemartViewManufacturer extends VmView {
 					break;
 				}
 			}
-			$document->addHeadLink( vUri::getInstance()->toString(array('scheme', 'host', 'port')).JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_manufacturer_id='.$virtuemart_manufacturer_id, FALSE) , 'canonical', 'rel', '' );
+			$document->addHeadLink( JUri::getInstance()->toString(array('scheme', 'host', 'port')).JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_manufacturer_id='.$virtuemart_manufacturer_id, FALSE) , 'canonical', 'rel', '' );
 			$this->assignRef('manufacturerImage', $manufacturerImage);
 			$this->assignRef('manufacturer',	$manufacturer);
 			$pathway->addItem(strip_tags($manufacturer->mf_name));
@@ -86,7 +86,7 @@ class VirtuemartViewManufacturer extends VmView {
 				$document->setMetaData('robots', $manufacturer->metarobot);
 			}
 
-			$app = vFactory::getApplication();
+			$app = JFactory::getApplication();
 			if ($app->getCfg('MetaTitle') == '1') {
 				$document->setMetaData('title', $manufacturer->mf_name);  //Maybe better product_name
 			}

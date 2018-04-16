@@ -12,38 +12,34 @@ defined ('_JEXEC') or die('Restricted access');
  */
 
 
-defined('VMPATH_ROOT') or define('VMPATH_ROOT', JPATH_ROOT);
-defined('VMPATH_ADMIN') or define('VMPATH_ADMIN', VMPATH_ROOT.'/administrator/components/com_virtuemart');
-
-
-//Update Tables
-if (!class_exists ('VmConfig')) {
-	if(file_exists(VMPATH_ADMIN.'/helpers/config.php')){
-		require(VMPATH_ADMIN.'/helpers/config.php');
-		VmConfig::loadConfig();
-	} else {
-		jExit('Install the virtuemart Core first ');
-	}
-}
-
-$max_execution_time = ini_get ('max_execution_time');
-if ((int)$max_execution_time < 120) {
-	@ini_set ('max_execution_time', '120');
-}
-$memory_limit = (int)substr (ini_get ('memory_limit'), 0, -1);
-if ($memory_limit < 128) {
-	@ini_set ('memory_limit', '128M');
-}
-
 // hack to prevent defining these twice in 1.6 installation
 if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
+
+	defined ('DS') or define('DS', DIRECTORY_SEPARATOR);
+
 
 	define('_VM_AIO_SCRIPT_INCLUDED', TRUE);
 
 	class com_virtuemart_allinoneInstallerScript {
 
 		public function preflight () {
-			//$this->vmInstall();
+			//Update Tables
+			if (!class_exists ('VmConfig')) {
+				if(file_exists(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_virtuemart' . DS . 'helpers' . DS . 'config.php')){
+					require(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_virtuemart' . DS . 'helpers' . DS . 'config.php');
+				} else {
+
+					JFactory::getApplication()->enqueueMessage('Install the VirtueMart Core first ');
+					return false;
+				}
+			}
+			VmConfig::loadConfig();
+			if(!method_exists('vRequest','vmSpecialChars')){
+				JFactory::getApplication()->enqueueMessage('Update the VirtueMart Core first ');
+				return false;
+			}
+			VmConfig::ensureMemoryLimit(128);
+			VmConfig::ensureExecutionTime(120);
 		}
 
 		public function install () {
@@ -61,21 +57,22 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 
 		public function vmInstall ($dontMove=0) {
 
-
-			if(!class_exists('vFile')) require(VMPATH_ADMIN .'/vmf/filesystem/vfile.php');
 			jimport ('joomla.installer.installer');
 
-			VmConfig::loadJLang('com_virtuemart');
-			$this->createIndexFolder (JPATH_ROOT .'/plugins/vmcalculation');
-			$this->createIndexFolder (JPATH_ROOT .'/plugins/vmcustom');
-			$this->createIndexFolder (JPATH_ROOT .'/plugins/vmpayment');
-			$this->createIndexFolder (JPATH_ROOT .'/plugins/vmshipment');
-			$this->createIndexFolder (JPATH_ROOT .'/plugins/vmuserfield');
+			if(!class_exists('JFile')) require(VMPATH_LIBS .'/joomla/filesystem/file.php');
+			if(!class_exists('JFolder')) require(VMPATH_LIBS .'/joomla/filesystem/folder.php');
+
+			vmLanguage::loadJLang('com_virtuemart');
+			$this->createIndexFolder (JPATH_ROOT . DS . 'plugins' . DS . 'vmcalculation');
+			$this->createIndexFolder (JPATH_ROOT . DS . 'plugins' . DS . 'vmcustom');
+			$this->createIndexFolder (JPATH_ROOT . DS . 'plugins' . DS . 'vmpayment');
+			$this->createIndexFolder (JPATH_ROOT . DS . 'plugins' . DS . 'vmshipment');
+			$this->createIndexFolder (JPATH_ROOT . DS . 'plugins' . DS . 'vmuserfield');
 
 			if(empty($dontMove)){
 				$this->path = JInstaller::getInstance ()->getPath ('extension_administrator');
 			} else {
-				$this->path = VMPATH_ROOT;
+				$this->path = JPATH_ROOT;
 			}
 			$this->dontMove = $dontMove;
 			echo '<a
@@ -131,7 +128,7 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 
 			echo "<table><tr><th>Plugins</th><td></td></tr>";
 
-			if(!class_exists('VirtueMartModelUpdatesMigration')) require(VMPATH_ADMIN .'/models/updatesmigration.php');
+			if(!class_exists('VirtueMartModelUpdatesMigration')) require(VMPATH_ADMIN . DS . 'models' . DS . 'updatesmigration.php');
 
 			$this->installPlugin ('VM Payment - Standard', 'plugin', 'standard', 'vmpayment',1);
 			$this->installPlugin ('VM Payment - Klarna', 'plugin', 'klarna', 'vmpayment');
@@ -173,14 +170,16 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 			// 					'COM_VIRTUEMART_STOCKABLE_PRODUCT_DESC', 'G', 0, 0, 0, 1 );");
 
 			$this->installPlugin ('VirtueMart Product', 'plugin', 'virtuemart', 'search');
+			$this->updateMoneyBookersToSkrill();
 
+			$this->installPlugin ('VM Framework Loader during Plugin Updates', 'plugin', 'vmLoaderPluginUpdate', 'system', 1);
 
 			$task = vRequest::getCmd ('task');
 			if ($task != 'updateDatabase') {
 				echo "<tr><th>Modules</th><td></td></tr>";
 				// modules auto move
-				$src = $this->path .'/modulesBE';
-				$dst = JPATH_ROOT .'/administrator/modules';
+				$src = $this->path . DS . "modulesBE";
+				$dst = JPATH_ROOT . DS."administrator". DS . "modules";
 				$this->recurse_copy ($src, $dst);
 				$alreadyInstalled = $this->VmModulesAlreadyInstalled();
 				//echo "Checking VirtueMart modules...";
@@ -191,8 +190,8 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 
 
 				// modules auto move
-				$src = $this->path .'/modules';
-				$dst = JPATH_ROOT .'/modules';
+				$src = $this->path . DS . "modules";
+				$dst = JPATH_ROOT . DS . "modules";
 				$this->recurse_copy ($src, $dst);
 				$alreadyInstalled = $this->VmModulesAlreadyInstalled();
 				if (version_compare (JVERSION, '1.6.0', 'ge')) {
@@ -260,8 +259,8 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 				}
 
 				// libraries auto move
-				$src = $this->path .'/libraries';
-				$dst = JPATH_ROOT .'/libraries';
+				$src = $this->path . DS . "libraries";
+				$dst = JPATH_ROOT . DS . "libraries";
 				$this->recurse_copy ($src, $dst);
 				echo "<tr><th>libraries moved to the joomla libraries folder</th><td></td></tr>";
 
@@ -304,6 +303,65 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 		}
 
 
+		private function updateMoneyBookersToSkrill() {
+			$db = JFactory::getDBO ();
+			$q="SELECT `extension_id` FROM `#__extensions` WHERE `#__extensions`.`folder` =  'vmpayment' AND `#__extensions`.`element` LIKE  'skrill'";
+			$db->setQuery ($q);
+			$skrill_jplugin_id = $db->loadResult()  ;
+			$app = JFactory::getApplication ();
+
+			$q="SELECT *
+				FROM `#__virtuemart_paymentmethods`
+				JOIN `#__extensions` ON `#__extensions`.`extension_id` = `#__virtuemart_paymentmethods`.`payment_jplugin_id`
+				WHERE `#__extensions`.`folder` =  'vmpayment'
+				AND `#__extensions`.`element` LIKE  'moneybookers_%'";
+			$db->setQuery ($q);
+			$moneybookers = $db->loadObjectList()  ;
+			if ($moneybookers) {
+				echo "<h3>Updating MoneyBookers plugin to Skrill</h3>";
+				foreach ($moneybookers as $moneybooker) {
+					$payment_params=$moneybooker->payment_params;
+					$mb_element=str_replace('moneybookers_', '',$moneybooker->element);
+					$payment_params='product='.$mb_element.'|'.$payment_params;
+					$q = 'UPDATE `#__virtuemart_paymentmethods`
+									SET `payment_params`= "'.$payment_params.'" , `payment_jplugin_id` = '.$skrill_jplugin_id.' , `payment_element`= "skrill"
+									 WHERE `virtuemart_paymentmethod_id` ='.$moneybooker->virtuemart_paymentmethod_id;
+					$db->setQuery($q);
+					$db->query();
+					$app->enqueueMessage ("Updated payment method: ".$moneybooker->payment_element.". Uses skrill now");
+				}
+
+			}
+
+
+			$q="DELETE FROM  `#__extensions` WHERE  `#__extensions`.`folder` =  'vmpayment'
+				AND `#__extensions`.`element` LIKE  'moneybookers%'";
+			$db->setQuery($q);
+			$db->query();
+
+			$path =JPATH_ROOT . DS . 'plugins' . DS . 'vmpayment';
+			$moneybookers_variants=array('', '_acc', '_did','_gir','_idl','_obt', '_pwy','_sft', '_wlt');
+			foreach ($moneybookers_variants as $moneybookers_variant) {
+				$folder=$path.DS.'moneybookers'.$moneybookers_variant;
+				if (JFolder::exists($folder) ) {
+					if (!JFolder::delete($folder)) {
+						$app->enqueueMessage ("Failed to delete ". $folder." folder");
+					}
+				}
+				$lang_file=	  JPATH_ROOT . DS."administrator". DS . "language". DS. 'en-GB'. DS.'en-GB.plg_vmpayment_moneybookers'.$moneybookers_variant."ini";
+				if (JFile::exists ($lang_file) ){
+					if (!JFile::delete ($lang_file)) {
+						$app->enqueueMessage ('Couldnt delete ' . $lang_file);
+						return false;
+					}
+				}
+			}
+
+
+		}
+
+
+
 		private function updateOrderingExtensions(){
 
 
@@ -340,7 +398,7 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 			if ($task != 'updateDatabase') {
 				$data = array();
 
-				$src = $this->path .'/plugins/'. $group .'/'. $element;
+				$src = $this->path . DS . 'plugins' . DS . $group . DS . $element;
 
 				if ($createJPluginTable) {
 					if (version_compare(JVERSION, '1.7.0', 'ge')) {
@@ -385,7 +443,7 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 					//We write ALWAYS in the table,like this the version number is updated
 
 					if (version_compare(JVERSION, '1.6.0', 'ge')) {
-						$data['manifest_cache'] = json_encode(JInstaller::parseXMLInstallFile($src .'/'. $element . '.xml'));
+						$data['manifest_cache'] = json_encode(JInstaller::parseXMLInstallFile($src . DS . $element . '.xml'));
 					}
 					if ($count == 1) {
 						$q = 'SELECT ' . $idfield . ' FROM `' . $tableName . '` WHERE `element` = "' . $element . '" and folder = "' . $group . '" ORDER BY  `' . $idfield . '`';
@@ -425,14 +483,14 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 			}
 			if (version_compare (JVERSION, '1.7.0', 'ge')) {
 				// Joomla! 1.7 code here
-				$dst = JPATH_ROOT .'/plugins/'. $group .'/'. $element;
+				$dst = JPATH_ROOT . DS . 'plugins' . DS . $group . DS . $element;
 
 			} elseif (version_compare (JVERSION, '1.6.0', 'ge')) {
 				// Joomla! 1.6 code here
-				$dst = JPATH_ROOT .'/plugins/'. $group .'/'. $element;
+				$dst = JPATH_ROOT . DS . 'plugins' . DS . $group . DS . $element;
 			} else {
 				// Joomla! 1.5 code here
-				$dst = JPATH_ROOT .'/plugins/'. $group;
+				$dst = JPATH_ROOT . DS . 'plugins' . DS . $group;
 			}
 			$success = true;
 			if ($task != 'updateDatabase') {
@@ -445,7 +503,7 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 			$umimodel->updateJoomlaUpdateServer( $type, $element, $dst , $group  );
 			$installTask= $count==0 ? 'installed':'updated';
 			echo '<tr><td>' . $name . '</td><td> '.$installTask.'</td></tr>';
-
+			unset($data);
 		}
 
 
@@ -455,11 +513,11 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 
 			//Update Tables
 			if (!class_exists ('VmConfig')) {
-				require(JPATH_ADMINISTRATOR .'/components/com_virtuemart/helpers/config.php');
+				require(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_virtuemart' . DS . 'helpers' . DS . 'config.php');
 			}
 
 			if (class_exists ('VmConfig')) {
-				$pluginfilename = $dst .'/'. $element . '.php';
+				$pluginfilename = $dst . DS . $element . '.php';
 				if(file_exists($pluginfilename)){
 					require_once ($pluginfilename);	//require_once cause is more failproof and is just for install
 				} else {
@@ -490,11 +548,11 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 					$loggablefields = $plugin->getTableSQLLoggablefields ();
 					$tablesFields = array_merge ($SQLfields, $loggablefields);
 					$update[$tablename] = array($tablesFields, array(), array());
-					vmdebug ('install plugin', $update);
+					//vmdebug ('install plugin', $update);
 					$app->enqueueMessage (get_class ($this) . ':: VirtueMart2 update ' . $tablename);
 
 					if (!class_exists ('GenericTableUpdater')) {
-						require(JPATH_VM_ADMINISTRATOR .'/helpers/tableupdater.php');
+						require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'tableupdater.php');
 					}
 					$updater = new GenericTableUpdater();
 
@@ -511,7 +569,7 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 		public function installModule ($title, $module, $ordering, $params, $src, $client_id = 0, $position = 'position-4', $access = 1, $alreadyInstalled = true) {
 			$table = JTable::getInstance('module');
 			$db = $table->getDBO();
-			$src .= '/'. $module;
+			$src .= DS . $module;
 			if (!$alreadyInstalled) {
 				$params = '';
 
@@ -659,6 +717,36 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 
 		}
 
+		/**
+		 *
+		 * @author Max Milbers
+		 * @param string $table
+		 * @param string $field
+		 * @param string $fieldType
+		 * @return boolean This gives true back, WHEN it altered the table, you may use this information to decide for extra post actions
+		 */
+		private function checkAddFieldToTable ($table, $field, $fieldType) {
+
+			$query = 'SHOW COLUMNS FROM `' . $table . '` ';
+			$this->db->setQuery ($query);
+			$columns = $this->db->loadColumn (0);
+
+			if (!in_array ($field, $columns)) {
+
+				$query = 'ALTER TABLE `' . $table . '` ADD ' . $field . ' ' . $fieldType;
+				$this->db->setQuery ($query);
+				if (!$this->db->query ()) {
+					$app = JFactory::getApplication ();
+					$app->enqueueMessage ('Install checkAddFieldToTable ' . $this->db->getErrorMsg ());
+					return FALSE;
+				} else {
+					return TRUE;
+				}
+			}
+			return FALSE;
+		}
+
+
 
 		/**
 		 * copy all $src to $dst folder and remove it
@@ -677,23 +765,23 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 			if (is_resource ($dir)) {
 				while (FALSE !== ($file = readdir ($dir))) {
 					if (($file != '.') && ($file != '..')) {
-						if (is_dir ($src .'/'. $file)) {
-							if(!vFolder::create($dst .'/'. $file)){
+						if (is_dir ($src . DS . $file)) {
+							if(!JFolder::create($dst . DS . $file)){
 								$app = JFactory::getApplication ();
-								$app->enqueueMessage ('Couldnt create folder ' . $dst .'/'. $file);
+								$app->enqueueMessage ('Couldnt create folder ' . $dst . DS . $file);
 							}
-							$this->recurse_copy ($src .'/'. $file, $dst .'/'. $file);
+							$this->recurse_copy ($src . DS . $file, $dst . DS . $file);
 						} else {
-							if (vFile::exists ($dst .'/'. $file)) {
-								if (!vFile::delete ($dst .'/'. $file)) {
+							if (JFile::exists ($dst . DS . $file)) {
+								if (!JFile::delete ($dst . DS . $file)) {
 									$app = JFactory::getApplication ();
-									$app->enqueueMessage ('Couldnt delete ' . $dst .'/'. $file);
+									$app->enqueueMessage ('Couldnt delete ' . $dst . DS . $file);
 									return false;
 								}
 							}
-							if (!vFile::move ($src .'/'. $file, $dst .'/'. $file)) {
+							if (!JFile::move ($src . DS . $file, $dst . DS . $file)) {
 								$app = JFactory::getApplication ();
-								$app->enqueueMessage ('Couldnt move ' . $src .'/'. $file . ' to ' . $dst .'/'. $file);
+								$app->enqueueMessage ('Couldnt move ' . $src . DS . $file . ' to ' . $dst . DS . $file);
 								return false;
 							}
 						}
@@ -701,7 +789,7 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 				}
 				closedir ($dir);
 				if (is_dir ($src)) {
-					vFolder::delete ($src);
+					JFolder::delete ($src);
 				}
 			} else {
 				$app = JFactory::getApplication ();
@@ -724,8 +812,11 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 		 *
 		 */
 		public function createIndexFolder ($path) {
-			if(!class_exists('vFolder')) require(VMPATH_ADMIN .'/vmf/filesystem/vfolder.php');
-			if (vFolder::create ($path)) {
+
+			if (JFolder::create ($path)) {
+				/*if (!JFile::exists ($path . DS . 'index.html')) {
+					JFile::copy (JPATH_ROOT . DS . 'components' . DS . 'index.html', $path . DS . 'index.html');
+				}*/
 				return TRUE;
 			}
 			return FALSE;

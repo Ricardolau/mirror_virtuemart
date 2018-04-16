@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage
 * @author Max Milbers
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -26,7 +26,7 @@ echo '<fieldset>';
 
 $this->media->addHidden('view','media');
 $this->media->addHidden('task','');
-$this->media->addHidden(vRequest::getFormToken(),1);
+$this->media->addHidden(JSession::getFormToken(),1);
 $this->media->addHidden('file_type',$this->media->file_type);
 
 $virtuemart_product_id = vRequest::getInt('virtuemart_product_id', '');
@@ -38,6 +38,8 @@ if(!empty($virtuemart_category_id)) $this->media->addHidden('virtuemart_category
 echo $this->media->displayFileHandler();
 echo '</fieldset>';
 echo '</form>';
+
+vmJsApi::addJScript('mediahandler');
 
 AdminUIHelper::imitateTabs('end');
 AdminUIHelper::endAdminArea();

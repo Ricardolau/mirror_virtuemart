@@ -96,8 +96,8 @@ width: 100%;
 
 #line
 {
-text-align:right;
-margin-bottom:5px 10px 20px 5px;
+	text-align:right;
+	margin-bottom:5px 10px 20px 5px;
     position: absolute;
     left: 0;
     display: block;
@@ -298,7 +298,6 @@ width:100%
 	border:solid 0px #ddd;
 }
 
-/* For chosen.js in modules for example currency dropdown */
 .slide .module_content, .moduletable_js   {
 	overflow: visible !important;
 }

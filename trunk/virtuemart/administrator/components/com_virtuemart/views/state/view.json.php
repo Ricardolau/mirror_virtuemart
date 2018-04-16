@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage State
 * @author RickG, RolandD
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -20,7 +20,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Load the view framework
-if (!class_exists('vView')) require(VMPATH_ADMIN.DS.'vmf'.DS.'vview.php');
+jimport( 'joomla.application.component.view');
+
 /**
  * HTML View class for maintaining the state
  *
@@ -28,12 +29,12 @@ if (!class_exists('vView')) require(VMPATH_ADMIN.DS.'vmf'.DS.'vview.php');
  * @subpackage State
  * @author RolandD, jseros
  */
-class VirtuemartViewState extends vView {
+class VirtuemartViewState extends JViewLegacy {
 
 	function display($tpl = null) {
 
 		$states = array();
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 		//retrieving countries id
 		$country_ids = vRequest::getString('virtuemart_country_id');
 		$country_ids = explode(',', $country_ids);

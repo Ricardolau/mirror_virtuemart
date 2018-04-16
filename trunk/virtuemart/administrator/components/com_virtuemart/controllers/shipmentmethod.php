@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Shipment
 * @author RickG
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -37,7 +37,7 @@ class VirtuemartControllerShipmentmethod extends VmController {
 	 * @access	public
 	 */
 	function __construct() {
-		VmConfig::loadJLang('com_virtuemart_orders',TRUE);
+		vmLanguage::loadJLang('com_virtuemart_orders',TRUE);
 		parent::__construct();
 	}
 
@@ -73,10 +73,8 @@ class VirtuemartControllerShipmentmethod extends VmController {
 	 * @author Valérie Isaksen
 	 */
 	public function CloneShipment() {
-		$mainframe = vFactory::getApplication();
 
-		/* Load the view object */
-		$view = $this->getView('shipmentmethod', 'html');
+		$app = JFactory::getApplication();
 
 		$model = VmModel::getModel('shipmentmethod');
 		$msgtype = '';
@@ -91,7 +89,7 @@ class VirtuemartControllerShipmentmethod extends VmController {
 			}
 		}
 
-		$mainframe->redirect('index.php?option=com_virtuemart&view=shipmentmethod', $msg, $msgtype);
+		$app->redirect('index.php?option=com_virtuemart&view=shipmentmethod', $msg, $msgtype);
 	}
 }
 // pure php no closing tag

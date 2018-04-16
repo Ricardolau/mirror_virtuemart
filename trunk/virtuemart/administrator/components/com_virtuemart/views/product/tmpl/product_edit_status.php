@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Product
 * @author RolandD
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -30,7 +30,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 			<?php 
 			/*if (isset($this->waitinglist) && count($this->waitinglist) > 0) { 
-				$link=JROUTE::_('index.php?option=com_virtuemart&view=product&task=sentproductemailtoshoppers&virtuemart_product_id='.$this->product->virtuemart_product_id.'&'.vRequest::getFormToken().'=1' );
+				$link=JROUTE::_('index.php?option=com_virtuemart&view=product&task=sentproductemailtoshoppers&virtuemart_product_id='.$this->product->virtuemart_product_id.'&'.JSession::getFormToken().'=1' );
 
 
 					<a href="<?php echo $link ?>">
@@ -78,18 +78,36 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<input type="text" class="inputbox"  name="max_order_level" value="<?php echo $this->product->max_order_level; ?>" size="10" />
 		</td>
 	</tr>
-	<tr class="row1">
+	<?php if(VmConfig::get('stockhandle_products',false)){ ?>
+		<tr class="row1">
+			<th style="text-align:right;">
+				<?php echo vmText::_('COM_VIRTUEMART_CFG_POOS_ENABLE') ?>
+			</th>
+			<td colspan="3">
+				<?php
+				$options = array(
+				'0' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_POOS_GLOBAL'),
+				'none' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_POOS_NONE'),
+				'disableit' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_POOS_DISABLE_IT'),
+				'disableit_children' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_POOS_DISABLE_IT_CHILDREN'),
+				'disableadd' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_POOS_DISABLE_ADD'),
+				'risetime' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_POOS_RISE_AVATIME')
+				);
+				echo VmHTML::selectList('product_stockhandle', $this->product->product_stockhandle, $options);
+				?>
+			</td>
+		</tr>
+	<?php } ?>
+
+	<tr class="row0">
 		<th style="text-align:right;">
-
-				<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_AVAILABLE_DATE') ?>
+			<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_AVAILABLE_DATE') ?>
 		</th>
-		<td colspan="3">
-			<?php
-
-			echo vmJsApi::jDate($this->product->product_available_date, 'product_available_date'); ?>
+		<td>
+			<?php echo vmJsApi::jDate($this->product->product_available_date, 'product_available_date'); ?>
 		</td>
 	</tr>
-	<tr class="row0">
+	<tr class="row1">
 		<th style="text-align:right;">
 
 				<?php echo vmText::_('COM_VIRTUEMART_AVAILABILITY') ?>
@@ -98,10 +116,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<input type="text" class="inputbox" id="product_availability" name="product_availability" value="<?php echo $this->product->product_availability; ?>" />
 			<span class="icon-nofloat vmicon vmicon-16-info tooltip" title="<?php echo '<b>'.vmText::_('COM_VIRTUEMART_AVAILABILITY').'</b><br/ >'.vmText::_('COM_VIRTUEMART_PRODUCT_FORM_AVAILABILITY_TOOLTIP1') ?>"></span>
 
-			<?php echo vHtml::_('list.images', 'image', $this->product->product_availability, " ", $this->imagePath); ?>
+			<?php echo JHtml::_('list.images', 'image', $this->product->product_availability, " ", $this->imagePath); ?>
 			<span class="icon-nofloat vmicon vmicon-16-info tooltip" title="<?php echo '<b>'.vmText::_('COM_VIRTUEMART_AVAILABILITY').'</b><br/ >'.vmText::sprintf('COM_VIRTUEMART_PRODUCT_FORM_AVAILABILITY_TOOLTIP2',  $this->imagePath ) ?>"></span>
 		</td>
-		<td><img border="0" id="imagelib" alt="<?php echo vmText::_('COM_VIRTUEMART_PREVIEW'); ?>" name="imagelib" src="<?php if ($this->product->product_availability) echo vUri::root(true).$this->imagePath.$this->product->product_availability;?>"/></td>
+		<td><img border="0" id="imagelib" alt="<?php echo vmText::_('COM_VIRTUEMART_PREVIEW'); ?>" name="imagelib" src="<?php if ($this->product->product_availability) echo JURI::root(true).$this->imagePath.$this->product->product_availability;?>"/></td>
 
 	</tr>
 </table>
@@ -109,29 +127,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 <fieldset>
 	<legend><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_SHOPPERS'); ?></legend>
-		<?php echo $this->renderLayout('customer'); ?>
+		<?php echo $this->loadTemplate('customer'); ?>
 </fieldset>
 
-
-
-
-<script type="text/javascript">
-	jQuery('#image').change( function() {
-		var $newimage = jQuery(this).val();
-		jQuery('#product_availability').val($newimage);
-		jQuery('#imagelib').attr({ src:'<?php echo vUri::root(true).$this->imagePath ?>'+$newimage, alt:$newimage });
-		});
-	jQuery('.js-change-stock').change( function() {
-
-		var in_stock = jQuery('.js-change-stock[name="product_in_stock"]');
-		var ordered = jQuery('.js-change-stock[name="product_ordered"]');
-		var product_in_stock= parseInt(in_stock.val());
-		if ( oldstock == "undefined") var oldstock = product_in_stock ;
-		var product_ordered=parseInt(ordered.val());
-		if (product_in_stock>product_ordered && product_in_stock!=oldstock )
-			jQuery('#notify_users').attr('checked','checked');
-		else jQuery('#notify_users').attr('checked',false);
-	});
-</script>
 
 

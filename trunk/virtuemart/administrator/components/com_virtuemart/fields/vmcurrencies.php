@@ -6,7 +6,7 @@ defined('JPATH_PLATFORM') or die;
  * @package    VirtueMart
  * @subpackage Plugins  - Elements
  * @author Valérie Isaksen
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2011 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -16,17 +16,17 @@ defined('JPATH_PLATFORM') or die;
  * @version $Id: $
  */
 defined('DS') or define('DS', DIRECTORY_SEPARATOR);
-if(!class_exists('VmConfig')) require(JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'helpers'.DS.'config.php');
-if(!class_exists('vFormField')) require(VMPATH_ADMIN .DS. 'vmf' .DS. 'form' .DS. 'field.php');
+if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 /*
  * This class is used by VirtueMart Payment or Shipment Plugins
- * So It should be an extension of vFormField
+ * So It should be an extension of JFormField
+ * Those plugins cannot be configured througth the Plugin Manager anyway.
  */
 
-vFormHelper::loadFieldClass('list');
+JFormHelper::loadFieldClass('list');
 
-class vFormFieldVmCurrencies extends vFormFieldList {
-//class JFormFieldVmCurrencies extends JFormFieldList {
+class JFormFieldVmCurrencies extends JFormFieldList {
+
 	/**
 	 * The form field type.
 	 *
@@ -46,7 +46,7 @@ class vFormFieldVmCurrencies extends vFormFieldList {
 			$this->value = $currency->virtuemart_currency_id;
 		}
 		// why not logged vendor? shared is missing
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 		$query = 'SELECT `virtuemart_currency_id` AS value, `currency_name` AS text
 			FROM `#__virtuemart_currencies`
 			WHERE `virtuemart_vendor_id` = "1"  AND `published` = "1" ORDER BY `currency_name` ASC ';
@@ -54,7 +54,7 @@ class vFormFieldVmCurrencies extends vFormFieldList {
 		$db->setQuery($query);
 		$values = $db->loadObjectList();
 		foreach ($values as $v) {
-			$options[] = vHtml::_('select.option', $v->value, $v->text);
+			$options[] = JHtml::_('select.option', $v->value, $v->text);
 		}
 		// Merge any additional options in the XML definition.
 		$options = array_merge(parent::getOptions(), $options);
@@ -62,19 +62,4 @@ class vFormFieldVmCurrencies extends vFormFieldList {
 		return $options;
 	}
 
-}
-
-//could be written abstract with eval
-if(JVM_VERSION>0){
-	$o = vRequest::getCmd('option',false);
-	if($o=='com_modules' or $o=='com_plugins') {
-		jimport( 'joomla.form.formfield' );
-		class JFormFieldVmCurrencies extends vFormFieldVmCurrencies {
-			public function __construct ($form = null) {
-				parent::__construct( $form );
-				vBasicModel::addIncludePath( VMPATH_ADMIN.DS.'vmf'.DS.'html', 'html' );
-				vFactory::$_lang = vFactory::getLanguage();
-			}
-		}
-	}
 }

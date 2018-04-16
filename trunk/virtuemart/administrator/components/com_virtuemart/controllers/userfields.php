@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Userfields
 * @author Oscar van Eijk
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -42,14 +42,6 @@ class VirtuemartControllerUserfields extends VmController {
 
 	}
 
-	function Userfields(){
-
-		$document = vFactory::getDocument();
-		$viewType = $document->getType();
-		$view = $this->getView('userfields', $viewType);
-
-		parent::display();
-	}
 	function viewJson() {
 
 		// Create the view object.

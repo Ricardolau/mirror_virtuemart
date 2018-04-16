@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Country
 * @author RickG, Max Milbers, jseros
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -98,7 +98,7 @@ class VirtueMartModelState extends VmModel {
 
 		if(empty($countryId)) return true;
 
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 		$q = 'SELECT * FROM `#__virtuemart_countries` WHERE `virtuemart_country_id`= "'.$countryId.'" AND `published`="1"';
 		$db->setQuery($q);
 		if($db->loadResult()){
@@ -113,16 +113,21 @@ class VirtueMartModelState extends VmModel {
 					return true;
 				} else {
 					//There is a country, but the state does not exist or is unlisted
+					$stateId = 0;
 					return false;
 				}
 			} else {
 				//This country has no states listed
+				$stateId = 0;
 				return true;
 			}
 
 		} else {
-			//The given country does not exist, this can happen, when no country was chosen, which maybe valid.
-			return true;
+			//The given country does not exist, this can happen, when non published country was chosen
+			$countryId = 0;
+			$stateId = 0;
+			vmInfo('COM_VIRTUEMART_COUNTRY_NOTEXIST');
+			return false;
 		}
 	}
 

@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
  * http://virtuemart.net
  */
 if (!class_exists('vmPSPlugin')) {
-	require(JPATH_VM_PLUGINS . DS . 'vmpsplugin.php');
+	require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
 }
 
 if (!defined('JPATH_VMKLARNACHEKOUTCHEKOUTPLUGIN')) {
@@ -59,7 +59,7 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 		$varsToPush = $this->getVarsToPush();
 		$this->setConfigParameterable($this->_configTableFieldName, $varsToPush);
 		plgVmPaymentKlarnaCheckout::includeKlarnaFiles();
-		VmConfig::loadJLang('plg_vmpayment_klarna');
+		vmLanguage::loadJLang('plg_vmpayment_klarna');
 
 	}
 
@@ -122,7 +122,7 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 		$html = '';
 		$logo = '';
 
-		VmConfig::loadJLang('com_virtuemart');
+		vmLanguage::loadJLang('com_virtuemart');
 		$currency = CurrencyDisplay::getInstance();
 		$showallform = true;
 

@@ -9,7 +9,7 @@ defined('_JEXEC') or die('Direct Access to ' . basename(__FILE__) . 'is not allo
  * @package VirtueMart
  * @subpackage Payment
  * @author Valérie Isaksen
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - ${PHING.VM.RELDATE} VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -30,7 +30,7 @@ defined('_JEXEC') or die('Direct Access to ' . basename(__FILE__) . 'is not allo
 
  */
 if (!class_exists('vmPSPlugin')) {
-	require(JPATH_VM_PLUGINS . DS . 'vmpsplugin.php');
+	require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
 }
 if (!class_exists('KlikandpayHelperKlikandpay')) {
 	require(JPATH_SITE . '/plugins/vmpayment/klikandpay/klikandpay/helpers/klikandpay.php');
@@ -232,7 +232,7 @@ class plgVmpaymentKlikandpay extends vmPSPlugin {
 			require(VMPATH_ADMIN . DS . 'models' . DS . 'orders.php');
 		}
 
-		VmConfig::loadJLang('com_virtuemart_orders', TRUE);
+		vmLanguage::loadJLang('com_virtuemart_orders', TRUE);
 
 		$po = vRequest::getString('po', '');
 
@@ -849,7 +849,7 @@ class plgVmpaymentKlikandpay extends vmPSPlugin {
 		');
 
 		$html = '';
-		if ($this->_method->debug) {
+		if ($this->_currentMethod->debug) {
 			$html .= '<form action="' . $server . '" method="post" name="vm_klikandpay_form" target="paypal">';
 		} else {
 			$html .= '<form action="' . $server . '" method="post" name="vm_klikandpay_form" id="vmPaymentForm" accept-charset="UTF-8">';
@@ -859,7 +859,7 @@ class plgVmpaymentKlikandpay extends vmPSPlugin {
 		foreach ($post_variables as $name => $value) {
 			$html .= '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($value) . '" />';
 		}
-		if ($this->_method->debug) {
+		if ($this->_currentMethod->debug) {
 
 			$html .= '<div style="background-color:red;color:white;padding:10px;">
 						<input type="submit"  value="The method is in debug mode. Click here to be redirected to PayPal" />
@@ -898,7 +898,7 @@ class plgVmpaymentKlikandpay extends vmPSPlugin {
 		}
 
 		$payment_name = $this->renderPluginName($this->_currentMethod);
-		VmConfig::loadJLang('com_virtuemart_orders', TRUE);
+		vmLanguage::loadJLang('com_virtuemart_orders', TRUE);
 
 		if (!class_exists('VirtueMartCart')) {
 			require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');

@@ -8,7 +8,7 @@
  * @author Max Milbers, Eugen Stranz
  * @author RolandD,
  * @todo handle child products
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -23,7 +23,7 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
 // addon for joomla modal Box
 			if (isset($this->type)) {
-			$document = vFactory::getDocument();
+			$document = JFactory::getDocument();
 			$document->setTitle($this->product->product_name);
 			$document->setName($this->product->product_name);
 			$document->setDescription( $this->product->product_s_desc);
@@ -103,12 +103,12 @@ if (empty ( $this->product )) {
 				/* TO DO add width and height to the image */
 				if (!empty($this->product->product_availability)) { ?>
 				<div class="availability">
-					<?php echo vHtml::image(vUri::root().VmConfig::get('assets_general_path').'images/availability/'.$this->product->product_availability, $this->product->product_availability, array('class' => 'availability')); ?>
+					<?php echo JHtml::image(JURI::root().VmConfig::get('assets_general_path').'images/availability/'.$this->product->product_availability, $this->product->product_availability, array('class' => 'availability')); ?>
 				</div>
 				<?php } ?>
 
 				<?php // Ask a question about this product
-				$url = JRoute::_(vUri::root().'index.php?option=com_virtuemart&view=productdetails&task=askquestion&virtuemart_product_id='.$this->product->virtuemart_product_id.'&virtuemart_category_id='.$this->product->virtuemart_category_id.'&tmpl=component'); ?>
+				$url = JRoute::_(JURI::root().'index.php?option=com_virtuemart&view=productdetails&task=askquestion&virtuemart_product_id='.$this->product->virtuemart_product_id.'&virtuemart_category_id='.$this->product->virtuemart_category_id.'&tmpl=component'); ?>
 				<div class="ask-a-question">
 					<a class="ask-a-question modal" rel="{handler: 'iframe', size: {x: 700, y: 550}}" href="<?php echo $url ?>"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_ENQUIRY_LBL') ?></a>
 				</div>
@@ -117,12 +117,12 @@ if (empty ( $this->product )) {
 				if(VmConfig::get('show_manufacturers', 1) && !empty($this->product->virtuemart_manufacturer_id[0])) { ?>
 				<div class="manufacturer">
 				<?php
-					$link = JRoute::_(vUri::root().'index.php?option=com_virtuemart&view=manufacturer&virtuemart_manufacturer_id='.$this->product->virtuemart_manufacturer_id[0].'&tmpl=component');
+					$link = JRoute::_(JURI::root().'index.php?option=com_virtuemart&view=manufacturer&virtuemart_manufacturer_id='.$this->product->virtuemart_manufacturer_id[0].'&tmpl=component');
 					$text = $this->product->mf_name;
 
 					/* Avoid JavaScript on PDF Output */
 					if (strtolower(vRequest::getCmd('output')) == "pdf"){
-						echo vHtml::_('link', $link, $text);
+						echo JHtml::_('link', $link, $text);
 					} else { ?>
 						<span class="bold"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_DETAILS_MANUFACTURER_LBL') ?></span><a class="modal" href="<?php echo $link ?>"><?php echo $text ?></a>
 				<?PHP } ?>
@@ -151,7 +151,7 @@ if (empty ( $this->product )) {
 			?><div style="display:inline-block;" class="product-field product-field-type-<?php echo $field->field_type ?>">
 			<?php if ($field->custom_title != $custom_title) { ?>
 				<span class="product-fields-title" ><strong><?php echo vmText::_($field->custom_title); ?></strong></span>
-				<?php //echo vHtml::tooltip($field->custom_tip, $field->custom_title, 'tooltip.png');
+				<?php //echo JHtml::tooltip($field->custom_tip, $field->custom_title, 'tooltip.png');
 			} ?>
 			<span class="product-field-display"><?php echo $field->display ?></span>
 			<span class="product-field-desc"><?php echo vmText::_($field->custom_desc) ?></span>
@@ -182,7 +182,7 @@ if (empty ( $this->product )) {
 		/* Show pdf in a new Window, other file types will be offered as download */
 		// $target = stristr($file->file_mimetype, "pdf") ? "_blank" : "_self";
 		// $link = JRoute::_('index.php?view=productdetails&task=getfile&virtuemart_media_id='.$file->virtuemart_media_id.'&virtuemart_product_id='.$this->product->virtuemart_product_id);
-		// echo vHtml::_('link', $link, $file->file_title.$filesize_display, array('target' => $target));
+		// echo JHTMl::_('link', $link, $file->file_title.$filesize_display, array('target' => $target));
 	// }
 	?>
 
@@ -193,12 +193,12 @@ if (empty ( $this->product )) {
 	if($this->allowRating || $this->showReview) {
 		$maxrating = VmConfig::get('vm_maximum_rating_scale',5);
 		$ratingsShow = VmConfig::get('vm_num_ratings_show',3); // TODO add  vm_num_ratings_show in vmConfig
-		$starsPath = vUri::root().VmConfig::get('assets_general_path').'images/stars/';
+		$starsPath = JURI::root().VmConfig::get('assets_general_path').'images/stars/';
 		$stars = array();
 		$showall = vRequest::getBool('showall', false);
 		for ($num=0 ; $num <= $maxrating; $num++  ) {
 			$title = (vmText::_("VM_RATING_TITLE").' : '. $num . '/' . $maxrating) ;
-			$stars[] = vHtml::image($starsPath.$num.'.gif', vmText::_($num.'_STARS'), array("title" => $title) );
+			$stars[] = JHtml::image($starsPath.$num.'.gif', vmText::_($num.'_STARS'), array("title" => $title) );
 		} ?>
 
 	<div class="customer-reviews">
@@ -224,7 +224,7 @@ if (empty ( $this->product )) {
 				<?php // Loop through all reviews
 				if (!empty($this->rating_reviews)) { ?>
 				<div class="<?php echo $color ?>">
-					<span class="date"><?php echo vHtml::date($review->created_on, vmText::_('DATE_FORMAT_LC')); ?></span>
+					<span class="date"><?php echo JHtml::date($review->created_on, vmText::_('DATE_FORMAT_LC')); ?></span>
 					<?php //echo $stars[ $review->review_rating ] //Attention the review rating is the rating of the review itself, rating for the product is the vote !?>
 					<blockquote><?php echo $review->comment; ?></blockquote>
 					<span class="bold"><?php echo $review->customer ?></span>
@@ -243,7 +243,7 @@ if (empty ( $this->product )) {
 				/* Show all reviews */
 				if (!$showall && count($this->rating_reviews) >= $ratingsShow ) {
 					$attribute = array('class'=>'details', 'title'=>vmText::_('COM_VIRTUEMART_MORE_REVIEWS'));
-					echo vHtml::link($this->more_reviews, vmText::_('COM_VIRTUEMART_MORE_REVIEWS'),$attribute);
+					echo JHtml::link($this->more_reviews, vmText::_('COM_VIRTUEMART_MORE_REVIEWS'),$attribute);
 				}
 			} ?>
 		<div class="clear"></div>

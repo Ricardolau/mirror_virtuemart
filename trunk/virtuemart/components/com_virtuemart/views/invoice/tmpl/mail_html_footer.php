@@ -7,7 +7,7 @@
 * @subpackage Cart
 * @author Max Milbers
 *
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -26,10 +26,10 @@ if (empty($this->vendor)) {
 }
 
 //$link = shopFunctionsF::getRootRoutedUrl('index.php?option=com_virtuemart');
-$link = vUri::root().'index.php?option=com_virtuemart';
+$link = JURI::root().'index.php?option=com_virtuemart';
 
 echo '<br/><br/>';
-//$link='<b>'.vHtml::_('link', vUri::root().$link, $this->vendor->vendor_name).'</b> ';
+//$link='<b>'.JHtml::_('link', JURI::root().$link, $this->vendor->vendor_name).'</b> ';
 
 //	echo vmText::_('COM_VIRTUEMART_MAIL_VENDOR_TITLE').$this->vendor->vendor_name.'<br/>';
 /* GENERAL FOOTER FOR ALL MAILS */
@@ -39,7 +39,7 @@ echo '<br/><br/>';
 ?>	
  
 <?php if ($this->vendor->vendor_letter_footer == 1) { ?>
-<?php if ($this->vendor->vendor_letter_footer_line == 1) { ?><hr/><?php } ?>
+<?php if ($this->vendor->vendor_letter_footer_line == 1) { ?><hr <hr style="border-top: 1px solid #CCCCCC !important;" /><?php } ?>
 <div id="vmdoc-footer" class="vmdoc-footer" style="font-size: <?php echo $this->vendor->vendor_letter_footer_font_size; ?>pt;">
 <?php echo $this->replaceVendorFields($this->vendor->vendor_letter_footer_html, $this->vendor); ?>
 </div>

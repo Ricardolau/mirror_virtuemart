@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Coupon
 * @author RickG
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -23,18 +23,18 @@ AdminUIHelper::startAdminArea($this);
 
 ?>
 
-<form action="index.php" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_virtuemart&view=coupon" method="post" name="adminForm" id="adminForm">
 	<div id="header">
 		<div id="filterbox">
 			<table>
 				<tr>
 					<td align="left" width="100%">
 						<?php echo vmText::_('COM_VIRTUEMART_FILTER'); ?>:
-						<input type="text" name="filter_ratings" value="<?php echo vRequest::getVar('filter_ratings', ''); ?>" />
-						<button class="btn btn-small" onclick="this.form.submit();"><?php echo vmText::_('COM_VIRTUEMART_GO'); ?></button>
-						<button class="btn btn-small" onclick="document.adminForm.filter_ratings.value='';"><?php echo vmText::_('COM_VIRTUEMART_RESET'); ?></button>
+                        <input type="text" name="filter_coupon" value="<?php echo vRequest::getVar('filter_coupon', ''); ?>" />
+                        <button class="btn btn-small" onclick="this.form.submit();"><?php echo vmText::_('COM_VIRTUEMART_GO'); ?></button>
+                        <button class="btn btn-small" onclick="document.adminForm.filter_coupon.value='';"><?php echo vmText::_('COM_VIRTUEMART_RESET'); ?></button>
 						<?php if($this->showVendors()){
-							echo Shopfunctions::renderVendorList(vmAccess::getVendorId());
+							echo $this->vendorList;
 						} ?>
 					</td>
 				</tr>
@@ -75,7 +75,7 @@ AdminUIHelper::startAdminArea($this);
 	    for ($i=0, $n=count($this->coupons); $i < $n; $i++) {
 		$row = $this->coupons[$i];
 
-		$checked = vHtml::_('grid.id', $i, $row->virtuemart_coupon_id);
+		$checked = JHtml::_('grid.id', $i, $row->virtuemart_coupon_id);
 		$editlink = JROUTE::_('index.php?option=com_virtuemart&view=coupon&task=edit&cid[]=' . $row->virtuemart_coupon_id);
 		?>
 	    <tr class="row<?php echo $k; ?>">
@@ -127,7 +127,13 @@ AdminUIHelper::startAdminArea($this);
 	    </tfoot>
 	</table>
     </div>
-	<?php echo $this->addStandardHiddenToForm(); ?>
+
+    <input type="hidden" name="option" value="com_virtuemart" />
+    <input type="hidden" name="controller" value="coupon" />
+    <input type="hidden" name="view" value="coupon" />
+    <input type="hidden" name="task" value="" />
+    <input type="hidden" name="boxchecked" value="0" />
+    <?php echo JHtml::_( 'form.token' ); ?>
 </form>
 
 

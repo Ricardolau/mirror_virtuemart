@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Product
 * @author RolandD
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -32,15 +32,15 @@ defined('_JEXEC') or die('Restricted access');
 	<div>
 		<?php
 			//echo '<div width="100px">'.vmText::_('COM_VIRTUEMART_RTB_AD').'</div>';
-			$jlang =vFactory::getLanguage();
+			$jlang =JFactory::getLanguage();
 			$tag = $jlang->getTag();
-			$imgUrl = 'http://www.pixelz.com/images/gmail.png';
+			$imgUrl = 'https://www.pixelz.com/images/gmail.png';
 			if(strpos($tag,'de')!==FALSE){
-				$url = 'http://de.pixelz.com/virtuemart/';
+				$url = 'https://de.pixelz.com/virtuemart/';
 			} else if(strpos($tag,'fr')!==FALSE){
-				$url = 'http://fr.pixelz.com/virtuemart/';
+				$url = 'https://fr.pixelz.com/virtuemart/';
 			} else {
-				$url = 'http://uk.pixelz.com/virtuemart/';
+				$url = 'https://uk.pixelz.com/virtuemart/';
 			}
 			echo '<a href="'.$url.'" target="_blank" alt="'.vmText::_('COM_VIRTUEMART_RTB_AD').'"><img  style="width: 150px;" src="'.$imgUrl.'" title="'.vmText::_('COM_VIRTUEMART_RTB_AD').'"></a>';
 		?>

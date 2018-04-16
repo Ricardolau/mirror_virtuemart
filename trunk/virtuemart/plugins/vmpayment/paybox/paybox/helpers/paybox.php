@@ -123,7 +123,7 @@ class  PayboxHelperPaybox {
 		$subscribe = array();
 		$recurring = array();
 		$post_variables["PBX_CMD"] = $order['details']['BT']->order_number;
-		if ($this->_method->integration == "recurring" AND ($orderTotalVendorCurrency > $this->_method->recurring_min_amount)) {
+		if ($this->_method->integration == "recurring" ) {
 			$recurring = $this->getRecurringPayments($pbxOrderTotalInPaymentCurrency);
 			// PBX_TOTAL will be replaced in the array_merge.
 			$post_variables = array_merge($post_variables, $recurring);
@@ -409,11 +409,7 @@ jQuery().ready(function($) {
 	 * @return bool
 	 */
 	function isPayboxResponseValid (  $paybox_data, $checkIps = false, $useQuery = false) {
-		if ($checkIps) {
-			if (! $this->checkIps() ) {
-				return FALSE;
-			}
-		}
+
 		$unsetNonPayboxData = true;
 		if ($this->checkSignature($paybox_data, $unsetNonPayboxData, $useQuery) != 1) {
 			$msg = 'Got a Paybox request with invalid signature';
@@ -796,26 +792,6 @@ jQuery().ready(function($) {
 		return $hmac;
 	}
 
-	private function checkIps () {
-		if (!class_exists('ShopFunctions'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
-		$paybox_ips = array('194.2.122.158', '195.25.7.166', '195.101.99.76');
-		$clientIp= ShopFunctions::getClientIP();
-		if (!in_array($clientIp, $paybox_ips)) {
-
-			$text = "Error with REMOTE IP ADDRESS = " . $clientIp . ".
-                        The remote address of the script posting to this notify script does not match a valid Paybox IP address\n
-            These are the valid Paybox IP Addresses: " . implode(",", $paybox_ips) ;
-
-			$this->plugin->debugLog('FUNCTION checkIps' . $text, 'error');
-
-			return false;
-		}
-
-		return true;
-	}
-
-
 	function getLangue () {
 
 		$langPaybox = array(
@@ -859,7 +835,16 @@ jQuery().ready(function($) {
 		if ($this->_method->shop_mode == 'test') {
 			$url = 'https://preprod-tpeweb.paybox.com/php/';
 		} else {
-			$url = 'https://' . $this->getPayboxServerAvailable() . '/php/';
+			if (isset($this->_method->check_server_available)) {
+				if ($this->_method->check_server_available) {
+					$url = 'https://' . $this->getPayboxServerAvailable() . '/php/';
+				} else {
+					$url = 'https://tpeweb.paybox.com/php/';
+				}
+			} else {
+				$url = 'https://' . $this->getPayboxServerAvailable() . '/php/';
+			}
+
 		}
 		return $url;
 
@@ -871,6 +856,9 @@ jQuery().ready(function($) {
 			'tpeweb.paybox.com', //serveur primaire
 			'tpeweb1.paybox.com' //serveur secondaire
 		);
+		static $c = null;
+		if(isset($c)) return $c;
+
 		foreach ($servers as $server) {
 			$doc = new DOMDocument();
 			$doc->loadHTMLFile('https://' . $server . '/load.html');
@@ -881,10 +869,11 @@ jQuery().ready(function($) {
 				$server_status = $element->textContent;
 			}
 			if ($server_status == "OK") {
+				$c = $server;
 				return $server;
 			}
 		}
-
+		$c = FALSE;
 		$this->plugin->debugLog('getPayboxServerAvailable : no server are available' . var_export($servers, true), 'error');
 		return FALSE;
 	}
@@ -928,10 +917,11 @@ jQuery().ready(function($) {
 		$address = $cart->getST();
 
 		$amount = $cart_prices['salesPrice'];
-		$amount_cond = true;
-
-		if ($method->integration == 'recurring' AND $amount <= $method->recurring_min_amount) {
-			$this->plugin->debugLog('recurring_min_amount FALSE' . $amount . ' ' . $method->recurring_min_amount, 'checkConditions', 'debug');
+		$amount_cond = ($amount >= $method->min_amount AND $amount <= $method->max_amount
+			OR
+			($method->min_amount <= $amount AND ($method->max_amount == 0)));
+		if ( !$amount_cond) {
+			$this->plugin->debugLog('min_amount FALSE' . $amount . ' ' . $method->min_amount, 'checkConditions', 'debug');
 			return false;
 		}
 

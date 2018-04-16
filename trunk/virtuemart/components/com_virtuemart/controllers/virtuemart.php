@@ -6,7 +6,7 @@
 * @package		VirtueMart
 * @subpackage
 * @author Max Milbers
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2011-2014 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -19,12 +19,15 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
+// Load the controller framework
+jimport('joomla.application.component.controller');
+
 /**
  * VirtueMart Component Controller
  *
  * @package		VirtueMart
  */
-class VirtueMartControllerVirtuemart extends vController
+class VirtueMartControllerVirtuemart extends JControllerLegacy
 {
 
 	function __construct() {
@@ -39,7 +42,7 @@ class VirtueMartControllerVirtuemart extends vController
 	 */
 	public function display($cachable = false, $urlparams = false){
 
-		$document = vFactory::getDocument();
+		$document = JFactory::getDocument();
 		$viewType = $document->getType();
 		$viewName = vRequest::getCmd('view', 'virtuemart');
 		$view = $this->getView($viewName, $viewType);
@@ -58,7 +61,7 @@ class VirtueMartControllerVirtuemart extends vController
 		$this->virtuemartFeed = vmRSS::getVirtueMartRssFeed();
 		$this->extensionsFeed = vmRSS::getExtensionsRssFeed();
 
-		$document = vFactory::getDocument();
+		$document = JFactory::getDocument();
 		$headData = $document->getHeadData();
 		$headData['scripts'] = array();
 		$document->setHeadData($headData);

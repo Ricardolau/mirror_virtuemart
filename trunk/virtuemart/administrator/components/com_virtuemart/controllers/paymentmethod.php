@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Calc
 * @author Max Milbers, jseros
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -37,7 +37,7 @@ class VirtuemartControllerPaymentmethod extends VmController {
 	 * @access	public
 	 */
 	public function __construct() {
-		VmConfig::loadJLang('com_virtuemart_orders',TRUE);
+		vmLanguage::loadJLang('com_virtuemart_orders',TRUE);
 		parent::__construct();
 
 	}
@@ -68,11 +68,8 @@ class VirtuemartControllerPaymentmethod extends VmController {
 	 * @author Valérie Isaksen
 	 */
 	public function ClonePayment() {
-		$mainframe = vFactory::getApplication();
 
-		/* Load the view object */
-		$view = $this->getView('paymentmethod', 'html');
-
+		$app = JFactory::getApplication();
 		$model = VmModel::getModel('paymentmethod');
 		$msgtype = '';
 
@@ -87,7 +84,7 @@ class VirtuemartControllerPaymentmethod extends VmController {
 			}
 		}
 
-		$mainframe->redirect('index.php?option=com_virtuemart&view=paymentmethod', $msg, $msgtype);
+		$app->redirect('index.php?option=com_virtuemart&view=paymentmethod', $msg, $msgtype);
 	}
 
 }

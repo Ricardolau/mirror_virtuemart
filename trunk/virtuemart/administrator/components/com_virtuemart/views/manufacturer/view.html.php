@@ -6,7 +6,7 @@
  * @package	VirtueMart
  * @subpackage Manufacturer
  * @author Patrick Kohl
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -34,8 +34,6 @@ class VirtuemartViewManufacturer extends VmViewAdmin {
 	function display($tpl = null) {
 
 		// Load the helper(s)
-
-
 		if (!class_exists('VmHTML'))
 			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'html.php');
 
@@ -50,7 +48,20 @@ class VirtuemartViewManufacturer extends VmViewAdmin {
 		$layoutName = vRequest::getCmd('layout', 'default');
 		if ($layoutName == 'edit') {
 
+			$ids = vRequest::getVar('virtuemart_manufacturer_id',  vRequest::getVar('cid',  0));
+			if($ids){
+				if(is_array($ids) and isset($ids[0])){
+					$ids = $ids[0];
+				}
+				$model->setId($ids);
+			}
+
 			$this->manufacturer = $model->getManufacturer();
+
+			if(!empty($this->manufacturer->_loadedWithLangFallback)){
+				vmInfo('COM_VM_LOADED_WITH_LANGFALLBACK',$this->manufacturer->_loadedWithLangFallback);
+			}
+			$this->setOrigLang($this->manufacturer);
 
 			$isNew = ($this->manufacturer->virtuemart_manufacturer_id < 1);
 
@@ -71,7 +82,7 @@ class VirtuemartViewManufacturer extends VmViewAdmin {
 		}
 		else {
 
-			$mainframe = vFactory::getApplication();
+			$mainframe = JFactory::getApplication();
 
 			$categoryFilter = $categoryModel->getCategoryFilter();
 
@@ -82,7 +93,7 @@ class VirtuemartViewManufacturer extends VmViewAdmin {
 			$this->pagination = $model->getPagination();
 
 			$virtuemart_manufacturercategories_id	= $mainframe->getUserStateFromRequest( 'com_virtuemart.virtuemart_manufacturercategories_id', 'virtuemart_manufacturercategories_id', 0, 'int' );
-			$this->lists['virtuemart_manufacturercategories_id'] =  vHtml::_('select.genericlist',   $categoryFilter, 'virtuemart_manufacturercategories_id', 'class="inputbox" onchange="this.form.submit()"', 'value', 'text', $virtuemart_manufacturercategories_id );
+			$this->lists['virtuemart_manufacturercategories_id'] =  JHtml::_('select.genericlist',   $categoryFilter, 'virtuemart_manufacturercategories_id', 'class="inputbox" onchange="this.form.submit()"', 'value', 'text', $virtuemart_manufacturercategories_id );
 
 		}
 

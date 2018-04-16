@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Category
 * @author RickG, jseros, RolandD, Max Milbers
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -26,20 +26,47 @@ AdminUIHelper::startAdminArea($this);
 
 ?>
 
-<form action="index.php" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_virtuemart&view=category" method="post" name="adminForm" id="adminForm">
 <div id="header">
-<div id="filterbox">
-	<span>
-		<?php echo $this->displayDefaultViewSearch() ?>
-
-		<select class="inputbox" id="top_category_id" name="top_category_id" onchange="this.form.submit(); return false;">
-			<option value=""><?php echo vmText::sprintf( 'COM_VIRTUEMART_SELECT' ,  vmText::_('COM_VIRTUEMART_CATEGORY_FORM_TOP_LEVEL')) ; ?></option>
-			<?php echo $this->category_tree; ?>
-		</select>
-		<?php echo $this->catpagination->getLimitBox(); ?>
-	</span>
+<?php if ($this->task=='massxref_cats' or $this->task=='massxref_cats_exe') : ?>
+<div id="massxref_task">
+	<table class="">
+		<tr>
+			<td align="left">
+				<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_XREF_TASK') ?>
+			</td>
+			<td>
+				<?php
+				$options = array(
+				'replace' => vmText::_('COM_VIRTUEMART_PRODUCT_XREF_TASK_REPLACE'),
+				'add' => vmText::_('COM_VIRTUEMART_PRODUCT_XREF_TASK_ADD'),
+				'remove' => vmText::_('COM_VIRTUEMART_PRODUCT_XREF_TASK_REMOVE')
+				);
+				echo VmHTML::selectList('massxref_task', 'replace', $options);
+				?>
+			</td>
+		</tr>
+	</table>
 </div>
-<div id="resultscounter"><?php echo $this->catpagination->getResultsCounter(); ?></div>
+<?php endif; ?>
+<div id="filterbox">
+	<table class="">
+		<tr>
+			<td align="left">
+			<?php echo $this->displayDefaultViewSearch() ?>
+			</td>
+			<td>
+			<select class="inputbox" id="top_category_id" name="top_category_id" onchange="this.form.submit(); return false;">
+				<option value=""><?php echo vmText::sprintf( 'COM_VIRTUEMART_SELECT' ,  vmText::_('COM_VIRTUEMART_CATEGORY_FORM_TOP_LEVEL')) ; ?></option>
+			</select>
+			</td>
+			<td>
+				<?php echo $this->catpagination->getLimitBox(); ?>
+			</td>
+		</tr>
+	</table>
+	</div>
+	<div id="resultscounter"><?php echo $this->catpagination->getResultsCounter(); ?></div>
 
 </div>
 
@@ -64,7 +91,7 @@ AdminUIHelper::startAdminArea($this);
 
 			<th style="min-width:80px;width:8%;align:center;">
 				<?php echo $this->sort( 'c.ordering' , 'COM_VIRTUEMART_ORDERING') ?>
-				<?php echo vHtml::_('grid.order', $this->categories, 'filesave.png', 'saveOrder' ); ?>
+				<?php echo JHtml::_('grid.order', $this->categories, 'filesave.png', 'saveOrder' ); ?>
 			</th>
 			<th align="center" >
 				<?php echo $this->sort('c.published' , 'COM_VIRTUEMART_PUBLISHED') ?>
@@ -94,10 +121,13 @@ AdminUIHelper::startAdminArea($this);
 
 		foreach($this->categories as $i=>$cat){
 
-			$checked = vHtml::_('grid.id', $i, $cat->virtuemart_category_id);
+			$checked = JHtml::_('grid.id', $i, $cat->virtuemart_category_id);
 			$published = $this->gridPublished( $cat, $i );
 
 			$editlink = JRoute::_('index.php?option=com_virtuemart&view=category&task=edit&cid=' . $cat->virtuemart_category_id, FALSE);
+			if(empty($cat->category_name)){
+				$cat->category_name = vmText::sprintf('COM_VM_TRANSLATION_MISSING','virtuemart_category_id',$cat->virtuemart_category_id);
+			}
 // 			$statelink	= JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id=' . $cat->virtuemart_category_id);
 			$showProductsLink = JRoute::_('index.php?option=com_virtuemart&view=product&virtuemart_category_id=' . $cat->virtuemart_category_id, FALSE);
 			$shared = $this->toggle($cat->shared, $i, 'toggle.shared');
@@ -133,7 +163,7 @@ AdminUIHelper::startAdminArea($this);
 					echo shopFunctionsF::limitStringByWord($cat->category_description,200); ?>
 				</td>
 				<td>
-					<?php echo  $this->catmodel->countProducts($cat->virtuemart_category_id);//ShopFunctions::countProductsByCategory($row->virtuemart_category_id);?>
+					<?php echo  $this->categories[$i]->productcount;//ShopFunctions::countProductsByCategory($row->virtuemart_category_id);?>
 					&nbsp;<a href="<?php echo $showProductsLink; ?>">[ <?php echo vmText::_('COM_VIRTUEMART_SHOW');?> ]</a>
 				</td>
 				<td align="center" class="vm-order">
@@ -187,8 +217,10 @@ AdminUIHelper::startAdminArea($this);
 </div>
 
 	<?php
-		echo $this->addStandardHiddenToForm();
-	?>
+
+	echo $this->addStandardHiddenToForm($this->_name,$this->task);
+
+	  ?>
 </form>
 
 <?php

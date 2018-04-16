@@ -3,7 +3,7 @@
   <name>mod_virtuemart_currencies</name>
   <creationDate>${PHING.VM.RELDATE}</creationDate>
   <author>The VirtueMart Development Team</author>
-  <authorUrl>http://www.virtuemart.net</authorUrl>
+  <authorUrl>${PHING.VM.MAINTAINERURL}</authorUrl>
   <copyright>${PHING.VM.COPYRIGHT}</copyright>
   <license>${PHING.VM.LICENSE}</license>
   <version>${PHING.VM.RELEASE}</version>
@@ -13,9 +13,9 @@
     <filename>tmpl/default.php</filename>
     <folder>language</folder>
   </files>
-  <config addfieldpath="/administrator/components/com_virtuemart/fields" >
-    <fields addfieldpath="/administrator/components/com_virtuemart/fields/jfields" name="params" >
-      <fieldset name="basic" >
+  <config>
+    <fields name="params">
+      <fieldset name="basic">
         <field
           name="text_before"
           type="textarea"
@@ -27,9 +27,8 @@
         />
         <field
           name="product_currency"
-          type="vmcurrencies"
+          type="text"
           default=""
-          multiple="true"
           label="MOD_VIRTUEMART_CURRENCIES_DISPLAY"
           description="MOD_VIRTUEMART_CURRENCIES_DISPLAY_DESC"
         />

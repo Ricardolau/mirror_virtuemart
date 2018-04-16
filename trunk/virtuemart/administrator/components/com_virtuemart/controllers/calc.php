@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Calc
 * @author Max Milbers, jseros
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -70,7 +70,6 @@ class VirtuemartControllerCalc extends VmController {
 		// Check token
 		vRequest::vmCheckToken();
 
-		$id = 0;
 		$cid	= vRequest::getInt( 'cid', array() );
 
 		if (isset($cid[0]) && $cid[0]) {
@@ -99,8 +98,7 @@ class VirtuemartControllerCalc extends VmController {
 	{
 		// Check token
 		vRequest::vmCheckToken();
-
-		$id = 0;
+		
 		$cid	= vRequest::getInt( 'cid', array() );
 
 		if (isset($cid[0]) && $cid[0]) {

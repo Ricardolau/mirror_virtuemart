@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Orders
 * @author RolandD
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -58,5 +58,14 @@ class TableInvoices extends VmTable {
 		$this->setTableShortCut('inv');
 	}
 
+	function check(){
+
+		if(empty($this->virtuemart_order_id)){
+			vmTrace('Table invoices check virtuemart_order_id missing');
+			return false;
+		}
+
+		return parent::check();
+	}
 }
 

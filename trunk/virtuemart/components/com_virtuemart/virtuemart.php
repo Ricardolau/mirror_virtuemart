@@ -18,21 +18,20 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
 */
 
 /* Require the config */
-defined('DS') or define('DS', DIRECTORY_SEPARATOR);
-if (!class_exists( 'VmConfig' )) require(JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'helpers'.DS.'config.php');
+
+if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 
 VmConfig::loadConfig();
-VmConfig::showDebug('all');
-
 
 vmRam('Start');
-vmSetStartTime('Start');
+//vmTime('joomla start until Vm is called','joomlaStart');
+vmSetStartTime('vmStart');
 
-VmConfig::loadJLang('lib_joomla',true);
-VmConfig::loadJLang('com_virtuemart', true);
+vmLanguage::loadJLang('com_virtuemart', true);
 
 $_controller = vRequest::getCmd('view', vRequest::getCmd('controller', 'virtuemart')) ;
 $task = vRequest::getCmd('task','') ;
+
 if(VmConfig::get('shop_is_offline',0) and $task!='feed' and $_controller!='virtuemart'){	//yes, quickndirty
 	$_controller = 'virtuemart';
 	require (VMPATH_SITE.DS.'controllers'.DS.'virtuemart.php');
@@ -45,16 +44,17 @@ if(VmConfig::get('shop_is_offline',0) and $task!='feed' and $_controller!='virtu
 	if(!class_exists('VmImage')) require(VMPATH_ADMIN.DS.'helpers'.DS.'image.php'); //dont remove that file it is actually in every view except the state view
 	if(!class_exists('shopFunctionsF'))require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php'); //dont remove that file it is actually in every view
 
+
 	$trigger = 'onVmSiteController';
 // 	$task = vRequest::getCmd('task',vRequest::getCmd('layout',$_controller) );		$this makes trouble!
 
 
-	$session = vFactory::getSession();
+	$session = JFactory::getSession();
 	$manage = vRequest::getCmd('manage',$session->get('manage', false,'vm'));
 	if(!$manage) $session->set('manage', 0,'vm');
 
 	$feViews = array('askquestion','cart','invoice','pdf','pluginresponse','productdetails','recommend','vendor','vmplg');
-	$app = vFactory::getApplication();
+	$app = JFactory::getApplication();
 	if($manage and $task!='feed' and !in_array($_controller,$feViews)){
 
 		if	( shopFunctionsF::isFEmanager() ) {
@@ -62,11 +62,11 @@ if(VmConfig::get('shop_is_offline',0) and $task!='feed' and $_controller!='virtu
 			vRequest::setVar('manage','1');
 			vRequest::setVar('tmpl','component') ;
 
-			VmConfig::loadJLang('com_virtuemart');
-			$jlang = vFactory::getLanguage();
+			//vmLanguage::loadJLang('com_virtuemart');
+			$jlang = JFactory::getLanguage();
 			$tag = $jlang->getTag();
 			$jlang->load('', JPATH_ADMINISTRATOR,$tag,true);
-			VmConfig::loadJLang('com_virtuemart');
+			vmLanguage::loadJLang('com_virtuemart');
 			$basePath = VMPATH_ADMIN;
 			$trigger = 'onVmAdminController';
 
@@ -86,8 +86,8 @@ if(VmConfig::get('shop_is_offline',0) and $task!='feed' and $_controller!='virtu
 
 	} elseif($_controller) {
 			if($_controller!='productdetails'){
-				$session->set('manage', 0,'vm');
-				vRequest::setVar('manage','0');
+				//$session->set('manage', 0,'vm');
+				//vRequest::setVar('manage','0');
 			}
 			vmJsApi::jQuery();
 			vmJsApi::jSite();
@@ -110,8 +110,8 @@ if (file_exists($basePath.DS.'controllers'.DS.$_controller.'.php')) {
 }
 else {
 	// try plugins
-	vPluginHelper::importPlugin('vmextended');
-	$dispatcher = vDispatcher::getInstance();
+	JPluginHelper::importPlugin('vmextended');
+	$dispatcher = JDispatcher::getInstance();
 	$rets = $dispatcher->trigger($trigger, array($_controller));
 
 	foreach($rets as $ret){
@@ -128,13 +128,13 @@ if (class_exists($_class)) {
     //vmTime($_class.' Finished task '.$task,'Start');
     vmRam('End');
     vmRamPeak('Peak');
-
+	vmTime('"'.$_class.'" Finished task ','vmStart');
     /* Redirect if set by the controller */
     $controller->redirect();
 } else {
     vmDebug('VirtueMart controller not found: '. $_class);
     if (VmConfig::get('handle_404',1)) {
-    	$mainframe = vFactory::getApplication();
+    	$mainframe = JFactory::getApplication();
     	$mainframe->redirect(JRoute::_ ('index.php?option=com_virtuemart&view=virtuemart', FALSE));
     } else {
     	JError::raise(E_ERROR,'404','Not found');

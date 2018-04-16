@@ -5,7 +5,7 @@
  * @package	VirtueMart
  * @subpackage   Models Fields
  * @author Max Milbers
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2014 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -15,18 +15,14 @@
  * @version $Id: $
  */
 defined('JPATH_BASE') or die;
-defined('DS') or define('DS', DIRECTORY_SEPARATOR);
-if (!class_exists( 'VmConfig' )) require(JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'helpers'.DS.'config.php');
-if (!class_exists('ShopFunctions'))
-    require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
-if(!class_exists('vFormField')) require(VMPATH_ADMIN .DS. 'vmf' .DS. 'form' .DS. 'field.php');
+jimport('joomla.form.formfield');
 
 /**
  * Supports a modal product picker.
  *
  *
  */
-class vFormFieldVmproductsublayout extends vFormField
+class JFormFieldVmproductsublayout extends JFormField
 {
 	var $type = 'layout';
 
@@ -40,28 +36,16 @@ class vFormFieldVmproductsublayout extends vFormField
 	 */
   
 	function getInput() {
-
-		VmConfig::loadJLang('com_virtuemart');
+		if (!class_exists( 'VmConfig' )) require(JPATH_ROOT.'/administrator/components/com_virtuemart/helpers/config.php');
+		VmConfig::loadConfig();
+		vmLanguage::loadJLang('com_virtuemart');
 		$view = substr($this->fieldname,0,-6);
 		$model = vmModel::getModel('config');
 		$vmLayoutList = $model->getFieldList('products');
-		$html = vHtml::_('Select.genericlist',$vmLayoutList, $this->name, 'size=1 width=200', 'value', 'text', array($this->value));
+		$html = JHtml::_('Select.genericlist',$vmLayoutList, $this->name, 'size=1 width=200', 'value', 'text', array($this->value));
 
         return $html;
 
     }
 
-}
-
-if(JVM_VERSION>0){
-	//could be written abstract with eval
-	jimport('joomla.form.formfield');
-	class JFormFieldVmproductsublayout extends vFormFieldVmproductsublayout{
-
-		public function __construct($form = null){
-			parent::__construct($form);
-			vBasicModel::addIncludePath(VMPATH_ADMIN.DS.'vmf'.DS.'html','html');
-			VmConfig::loadJLang('com_virtuemart');
-		}
-	}
 }

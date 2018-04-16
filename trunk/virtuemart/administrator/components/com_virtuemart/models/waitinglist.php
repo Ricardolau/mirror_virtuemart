@@ -6,7 +6,7 @@
  * @package    VirtueMart
  * @subpackage Product
  * @author Seyi, Max Milbers, Valérie Isaksen
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2012 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -38,7 +38,7 @@ class VirtueMartModelWaitingList extends VmModel {
 		//Sanitize param
 		$virtuemart_product_id = (int)$virtuemart_product_id;
 
-		$db = vFactory::getDbo ();
+		$db = JFactory::getDBO ();
 		$q = 'SELECT * FROM `#__virtuemart_waitingusers`
 				LEFT JOIN `#__users` ON `virtuemart_user_id` = `id`
 				WHERE `virtuemart_product_id`=' . $virtuemart_product_id . '
@@ -74,7 +74,7 @@ class VirtueMartModelWaitingList extends VmModel {
 		$waiting_users = $this->getWaitingusers ($virtuemart_product_id);
 
 		/* Load the product details */
-		$db = vFactory::getDbo ();
+		$db = JFactory::getDbo ();
 		$q = "SELECT l.product_name,product_in_stock FROM `#__virtuemart_products_" . VmConfig::$vmlang . "` l
 				JOIN `#__virtuemart_products` p ON p.virtuemart_product_id=l.virtuemart_product_id
 			   WHERE p.virtuemart_product_id = " . $virtuemart_product_id;
@@ -86,7 +86,7 @@ class VirtueMartModelWaitingList extends VmModel {
 			return FALSE;
 		}
 		*/
-		$url = vUri::root () . 'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' . $virtuemart_product_id;
+		$url = JURI::root () . 'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' . $virtuemart_product_id;
 		$vars['link'] = '<a href="'. $url.'">'. $item->product_name.'</a>';
 
 

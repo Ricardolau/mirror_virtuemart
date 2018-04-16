@@ -6,7 +6,7 @@
 * @package VirtueMart
 * @subpackage
 * @author RolandD
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -37,7 +37,7 @@ class virtuemartViewrecommend extends VmView {
 	*/
 	function display($tpl = null) {
 
-		$app = vFactory::getApplication();
+		$app = JFactory::getApplication();
 		if(!VmConfig::get('show_emailfriend',false)){
 
 			$app->redirect(JRoute::_('index.php?option=com_virtuemart'));
@@ -45,7 +45,7 @@ class virtuemartViewrecommend extends VmView {
 
 		$this->login = '';
 		if(!VmConfig::get('recommend_unauth',false)){
-			$user = vFactory::getUser();
+			$user = JFactory::getUser();
 			if($user->guest){
 				$this->login = shopFunctionsF::getLoginForm(false);
 				//$app->redirect(JRoute::_('index.php?option=com_virtuemart','JGLOBAL_YOU_MUST_LOGIN_FIRST'));
@@ -68,12 +68,12 @@ class virtuemartViewrecommend extends VmView {
 			if(!class_exists('calculationHelper')) require(VMPATH_ADMIN.DS.'helpers'.DS.'calculationh.php');
 		}
 		$this->assignRef('show_prices', $show_prices);
-		$document = vFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setMetaData('robots','NOINDEX, NOFOLLOW, NOARCHIVE, NOSNIPPET');
 		/* add javascript for price and cart */
 		//vmJsApi::jPrice();
 
-		$mainframe = vFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$pathway = $mainframe->getPathway();
 		$task = vRequest::getCmd('task');
 
@@ -90,7 +90,7 @@ class virtuemartViewrecommend extends VmView {
 		/* Set Canonic link */
 		$format = vRequest::getCmd('format', 'html');
 		if ($format == 'html') {
-			$document->addHeadLink( vUri::getInstance()->toString(array('scheme', 'host', 'port')).JRoute::_($this->product->link) , 'canonical', 'rel', '' );
+			$document->addHeadLink( JUri::getInstance()->toString(array('scheme', 'host', 'port')).JRoute::_($this->product->link) , 'canonical', 'rel', '' );
 		}
 
 		/* Set the titles */
@@ -130,7 +130,7 @@ class virtuemartViewrecommend extends VmView {
 		/* Check for editing access */
 		/** @todo build edit page */
 		/* Load the user details */
-		$this->user = vFactory::getUser();
+		$this->user = JFactory::getUser();
 
 		if ($this->product->metadesc) {
 			$document->setDescription( $this->product->metadesc );
@@ -173,7 +173,7 @@ class virtuemartViewrecommend extends VmView {
 		$layout = $this->getLayout();
 		//if($layout != 'form' and $layout != 'mail_confirmed'){
 
-		$user = vFactory::getUser ();
+		$user = JFactory::getUser ();
 		$vars['user'] = array('name' => $user->name, 'email' =>  $user->email);
 
 		$vars['vendorEmail'] = $user->email;

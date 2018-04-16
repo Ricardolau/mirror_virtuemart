@@ -6,7 +6,7 @@
  * @package    VirtueMart
  * @subpackage Config
  * @author RickG
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -30,11 +30,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 								</span>
 						</td>
 						<td>
-							<?php echo vHtml::_('Select.genericlist', $this->orderByFieldsProduct->select, 'browse_orderby_field', 'size=1', 'value', 'text', VmConfig::get('browse_orderby_field', 'product_name'), 'product_name');
-							$orderDirs[] = vHtml::_('select.option', 'ASC' , vmText::_('Ascending')) ;
-							$orderDirs[] = vHtml::_('select.option', 'DESC' , vmText::_('Descending')) ;
+							<?php echo JHtml::_('Select.genericlist', $this->orderByFieldsProduct->select, 'browse_orderby_field', 'size=1', 'value', 'text', VmConfig::get('browse_orderby_field', 'product_name'), 'product_name');
 
-							echo vHtml::_('select.genericlist', $orderDirs, 'prd_brws_orderby_dir', 'size=10', 'value', 'text', VmConfig::get('prd_brws_orderby_dir', 'ASC') ); ?>
+							echo JHtml::_('select.genericlist', $this->orderDirs, 'prd_brws_orderby_dir', 'size=10', 'value', 'text', VmConfig::get('prd_brws_orderby_dir', 'ASC') ); ?>
 							<span class="hasTip" title="<?php echo vmText::_('COM_VIRTUEMART_BROWSE_CAT_ORDERBY_DEFAULT_FIELD_LBL_TIP'); ?>">
 									<?php echo vmText::_('COM_VIRTUEMART_BROWSE_CAT_ORDERBY_DEFAULT_FIELD_LBL'); ?>
 								</span>
@@ -43,8 +41,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 							if(!in_array($ordering,VirtueMartModelCategory::$_validOrderingFields)){
 								$ordering = 'c.ordering,category_name';
 							}
-							echo vHtml::_('Select.genericlist', $this->orderByFieldsCat, 'browse_cat_orderby_field', 'size=1', 'value', 'text', $ordering, 'category_name');
-							echo vHtml::_('select.genericlist', $orderDirs, 'cat_brws_orderby_dir', 'size=10', 'value', 'text', VmConfig::get('cat_brws_orderby_dir', 'ASC') ); ?>
+							echo JHtml::_('Select.genericlist', $this->orderByFieldsCat, 'browse_cat_orderby_field', 'size=1', 'value', 'text', $ordering, 'category_name');
+							echo JHtml::_('select.genericlist', $this->orderDirs, 'cat_brws_orderby_dir', 'size=10', 'value', 'text', VmConfig::get('cat_brws_orderby_dir', 'ASC') ); ?>
 						</td>
 					</tr>
 					<tr>

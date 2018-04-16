@@ -7,7 +7,7 @@
  * @package	VirtueMart
  * @subpackage pluginResponse
  * @author Valérie Isaksen
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2014 VirtueMart Team and authors. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -19,6 +19,9 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
+// Load the controller framework
+jimport('joomla.application.component.controller');
+
 /**
  * Controller for the plugin response view
  *
@@ -27,7 +30,7 @@ defined('_JEXEC') or die('Restricted access');
  * @author Valérie Isaksen
  *
  */
-class VirtueMartControllerVmplg extends vController {
+class VirtueMartControllerVmplg extends JControllerLegacy {
 
     /**
      * Construct the cart
@@ -59,10 +62,10 @@ class VirtueMartControllerVmplg extends vController {
     function PaymentResponseReceived() {
 
 	if (!class_exists('vmPSPlugin'))
-	    require(JPATH_VM_PLUGINS . DS . 'vmpsplugin.php'); vPluginHelper::importPlugin('vmpayment');
+	    require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php'); JPluginHelper::importPlugin('vmpayment');
 
 	$return_context = "";
-	$dispatcher = vDispatcher::getInstance();
+	$dispatcher = JDispatcher::getInstance();
 	$html = "";
 	$paymentResponse = vmText::_('COM_VIRTUEMART_CART_THANKYOU');
 	$returnValues = $dispatcher->trigger('plgVmOnPaymentResponseReceived', array( 'html' => &$html,&$paymentResponse));
@@ -85,11 +88,11 @@ class VirtueMartControllerVmplg extends vController {
 		// TODO: not ready yet
 
 	    if (!class_exists('vmPSPlugin'))
-		    require(JPATH_VM_PLUGINS . DS . 'vmpsplugin.php');
-	    vPluginHelper::importPlugin('vmshipment');
+		    require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
+	    JPluginHelper::importPlugin('vmshipment');
 
 	    $return_context = "";
-	    $dispatcher = vDispatcher::getInstance();
+	    $dispatcher = JDispatcher::getInstance();
 
 	    $html = "";
 	    $shipmentResponse = vmText::_('COM_VIRTUEMART_CART_THANKYOU');
@@ -107,7 +110,7 @@ class VirtueMartControllerVmplg extends vController {
     function pluginUserPaymentCancel() {
 
 	if (!class_exists('vmPSPlugin'))
-	    require(JPATH_VM_PLUGINS . DS . 'vmpsplugin.php');
+	    require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
 
 	if (!class_exists('VirtueMartCart'))
 	    require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');
@@ -120,9 +123,14 @@ class VirtueMartControllerVmplg extends vController {
 	    CouponHelper::setInUseCoupon($cart->couponCode, false);
     }
 
-	vPluginHelper::importPlugin('vmpayment');
-	$dispatcher = vDispatcher::getInstance();
+	JPluginHelper::importPlugin('vmpayment');
+	$dispatcher = JDispatcher::getInstance();
 	$dispatcher->trigger('plgVmOnUserPaymentCancel', array());
+
+	//Todo this could be useful, prevent errors and spares one sql later, but for a mayor version
+	/*
+	$cart->virtuemart_order_id = false;
+	$cart->setCartIntoSession();*/
 
 	// return to cart view
 	$view = $this->getView('cart', 'html');
@@ -141,7 +149,7 @@ class VirtueMartControllerVmplg extends vController {
     function pluginNotification() {
 
 	if (!class_exists('vmPSPlugin'))
-	    require(JPATH_VM_PLUGINS . DS . 'vmpsplugin.php');
+	    require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
 
 	if (!class_exists('VirtueMartCart'))
 	    require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');
@@ -149,9 +157,9 @@ class VirtueMartControllerVmplg extends vController {
 	if (!class_exists('VirtueMartModelOrders'))
 	    require( VMPATH_ADMIN . DS . 'models' . DS . 'orders.php' );
 
-	vPluginHelper::importPlugin('vmpayment');
+	JPluginHelper::importPlugin('vmpayment');
 
-	$dispatcher = vDispatcher::getInstance();
+	$dispatcher = JDispatcher::getInstance();
 	$returnValues = $dispatcher->trigger('plgVmOnPaymentNotification', array());
 
     }

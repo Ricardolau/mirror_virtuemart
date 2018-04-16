@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Country
 * @author RickG
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -23,7 +23,7 @@ AdminUIHelper::startAdminArea($this);
 $states = vmText::_('COM_VIRTUEMART_STATE_S');
 ?>
 
-<form action="index.php" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_virtuemart&view=country" method="post" name="adminForm" id="adminForm">
 	<div id="header">
 	<div id="filterbox">
 		<table>
@@ -58,7 +58,7 @@ $states = vmText::_('COM_VIRTUEMART_STATE_S');
 				<?php echo $this->sort('country_3_code') ?>
 		    </th>
 		    <th width="20">
-				<?php echo vmText::_('COM_VIRTUEMART_PUBLISHED'); ?>
+			    <?php echo $this->sort('published' , 'COM_VIRTUEMART_PUBLISHED') ?>
 		    </th>
 			<th width="20">
 				<?php echo $this->sort('virtuemart_country_id') ?>
@@ -70,7 +70,7 @@ $states = vmText::_('COM_VIRTUEMART_STATE_S');
 	    for ($i=0, $n=count( $this->countries ); $i < $n; $i++) {
 		$row = $this->countries[$i];
 
-		$checked = vHtml::_('grid.id', $i, $row->virtuemart_country_id);
+		$checked = JHtml::_('grid.id', $i, $row->virtuemart_country_id);
 		$published = $this->gridPublished( $row, $i );
 		$editlink = JROUTE::_('index.php?option=com_virtuemart&view=country&task=edit&cid[]=' . $row->virtuemart_country_id);
 		$statelink	= JROUTE::_('index.php?option=com_virtuemart&view=state&view=state&virtuemart_country_id=' . $row->virtuemart_country_id);
@@ -85,7 +85,7 @@ $states = vmText::_('COM_VIRTUEMART_STATE_S');
 			$country_string= vmText::_($prefix.$row->country_3_code); ?>
 		    <a href="<?php echo $editlink; ?>"><?php echo $row->country_name ?> </a>&nbsp;
 			<?php
-			$lang =vFactory::getLanguage();
+			$lang =JFactory::getLanguage();
 			if ($lang->hasKey($prefix.$row->country_3_code)) {
 				echo "(".$country_string.") ";
 			}
@@ -122,8 +122,14 @@ $states = vmText::_('COM_VIRTUEMART_STATE_S');
 	    </tfoot>
 	</table>
     </div>
-
-	<?php echo $this->addStandardHiddenToForm(); ?>
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['filter_order_Dir']; ?>" />
+	<input type="hidden" name="filter_order" value="<?php echo $this->lists['filter_order']; ?>" />
+    <input type="hidden" name="option" value="com_virtuemart" />
+    <input type="hidden" name="controller" value="country" />
+    <input type="hidden" name="view" value="country" />
+    <input type="hidden" name="task" value="" />
+    <input type="hidden" name="boxchecked" value="0" />
+    <?php echo JHtml::_( 'form.token' ); ?>
 </form>
 
 

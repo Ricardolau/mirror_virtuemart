@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Manufacturer
 * @author Patrick Kohl
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -23,7 +23,7 @@ AdminUIHelper::startAdminArea($this);
 
 ?>
 
-<form action="index.php" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_virtuemart&view=manufacturer" method="post" name="adminForm" id="adminForm">
 <div id="header">
 <div id="filterbox">
 	<table class="">
@@ -71,7 +71,7 @@ AdminUIHelper::startAdminArea($this);
 	    for ($i=0, $n=count( $this->manufacturers ); $i < $n; $i++) {
 		$row = $this->manufacturers[$i];
 
-		$checked = vHtml::_('grid.id', $i, $row->virtuemart_manufacturer_id,null,'virtuemart_manufacturer_id');
+		$checked = JHtml::_('grid.id', $i, $row->virtuemart_manufacturer_id,null,'virtuemart_manufacturer_id');
 		$published = $this->gridPublished( $row, $i );
 		$editlink = JROUTE::_('index.php?option=com_virtuemart&view=manufacturer&task=edit&virtuemart_manufacturer_id=' . $row->virtuemart_manufacturer_id);
 		?>
@@ -82,7 +82,7 @@ AdminUIHelper::startAdminArea($this);
 		<td align="left">
 			<?php
 			if(empty($row->mf_name)){
-				$row->mf_name = 'Language Missing id '.$row->virtuemart_manufacturer_id;
+				$row->mf_name = vmText::sprintf('COM_VM_TRANSLATION_MISSING','virtuemart_manufacturer_id',$row->virtuemart_manufacturer_id);
 			}
 			?>
 		    <a href="<?php echo $editlink; ?>"><?php echo $row->mf_name; ?></a>

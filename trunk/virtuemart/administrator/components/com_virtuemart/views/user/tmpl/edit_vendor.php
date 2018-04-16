@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage User
 * @author Oscar van Eijk
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -17,7 +17,11 @@
 */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access');
+if(!vmAccess::manager('user.editshop')){
+    ?><div><?php echo vmText::_('COM_VM_PERM_MISSING_VENDOR');?></div> <?php
+}
+?>
 
 <div class="col50">
 
@@ -27,8 +31,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					</legend>
 					<table class="admintable">
 						<?php
-						echo VmHTML::row('input','COM_VIRTUEMART_STORE_FORM_STORE_NAME','vendor_store_name',$this->vendor->vendor_store_name);
 						echo VmHTML::row('input','COM_VIRTUEMART_STORE_FORM_COMPANY_NAME','vendor_name',$this->vendor->vendor_name);
+						echo VmHTML::row('input','COM_VIRTUEMART_STORE_FORM_STORE_NAME','vendor_store_name',$this->vendor->vendor_store_name);
 						echo VmHTML::row('input','COM_VIRTUEMART_PRODUCT_FORM_URL','vendor_url',$this->vendor->vendor_url);
 						echo VmHTML::row('input','COM_VIRTUEMART_STORE_FORM_MPOV','vendor_min_pov',$this->vendor->vendor_min_pov);
 						if(VmConfig::get('multix','none')!='none' and vmAccess::manager('managevendors')){

@@ -6,7 +6,7 @@
  * @package	VirtueMart
  * @subpackage Shipment
  * @author RickG
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -33,6 +33,7 @@ AdminUIHelper::buildTabs ( $this, $tabarray , $this->shipment->virtuemart_shipme
     <!-- Hidden Fields -->
 	<?php echo $this->addStandardHiddenToForm(); ?>
 <input type="hidden" name="virtuemart_shipmentmethod_id" value="<?php echo $this->shipment->virtuemart_shipmentmethod_id; ?>" />
+<input type="hidden" name="xxcontroller" value="shipmentmethod" />
 
 </form>
     <?php AdminUIHelper::endAdminArea(); ?>

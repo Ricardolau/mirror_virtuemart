@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage ShopperGroup
 * @author Markus �hler
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -23,7 +23,30 @@ AdminUIHelper::startAdminArea($this);
 
 ?>
 
-<form action="index.php" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_virtuemart&view=shoppergroup" method="post" name="adminForm" id="adminForm">
+<?php if ($this->task=='massxref_sgrps' or $this->task=='massxref_sgrps_exe') : ?>
+<div id="header">
+<div id="massxref_task">
+	<table class="">
+		<tr>
+			<td align="left">
+				<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_XREF_TASK') ?>
+			</td>
+			<td>
+				<?php
+				$options = array(
+				'replace' => vmText::_('COM_VIRTUEMART_PRODUCT_XREF_TASK_REPLACE'),
+				'add' => vmText::_('COM_VIRTUEMART_PRODUCT_XREF_TASK_ADD'),
+				'remove' => vmText::_('COM_VIRTUEMART_PRODUCT_XREF_TASK_REMOVE')
+				);
+				echo VmHTML::selectList('massxref_task', 'replace', $options);
+				?>
+			</td>
+		</tr>
+	</table>
+</div>
+</div>
+<?php endif; ?>
   <div id="editcell">
 	  <table class="adminlist table table-striped" cellspacing="0" cellpadding="0">
 		<thead>
@@ -64,7 +87,7 @@ AdminUIHelper::startAdminArea($this);
 
 			$checked = '';
 			if ($row->default == 0) {
-				$checked = vHtml::_('grid.id', $i, $row->virtuemart_shoppergroup_id,null,'virtuemart_shoppergroup_id');
+				$checked = JHtml::_('grid.id', $i, $row->virtuemart_shoppergroup_id,null,'virtuemart_shoppergroup_id');
 			}
 
 			$editlink = JROUTE::_('index.php?option=com_virtuemart&view=shoppergroup&task=edit&virtuemart_shoppergroup_id[]=' . $row->virtuemart_shoppergroup_id);
@@ -84,7 +107,7 @@ AdminUIHelper::startAdminArea($this);
 			<td align="center">
 				<?php
 				if ($row->default != 0) {
-					echo vHtml::_('image','menu/icon-16-default.png', vmText::_('COM_VIRTUEMART_SHOPPERGROUP_DEFAULT'), NULL, true);
+					echo JHtml::_('image','menu/icon-16-default.png', vmText::_('COM_VIRTUEMART_SHOPPERGROUP_DEFAULT'), NULL, true);
 				}
 				?>
 			</td>
@@ -99,7 +122,7 @@ AdminUIHelper::startAdminArea($this);
 			<td align="center">
 				<?php 
 				if ($row->sgrp_additional == 1) {
-					echo vHtml::_('image','menu/icon-16-apply.png', vmText::_('COM_VIRTUEMART_SHOPPERGROUP_ADDITIONAL'), NULL, true);
+					echo JHtml::_('image','menu/icon-16-apply.png', vmText::_('COM_VIRTUEMART_SHOPPERGROUP_ADDITIONAL'), NULL, true);
 				}
 				?>
 			</td>
@@ -119,6 +142,6 @@ AdminUIHelper::startAdminArea($this);
 	  </table>
   </div>
 
-	<?php echo $this->addStandardHiddenToForm(); ?>
+	<?php echo $this->addStandardHiddenToForm($this->_name,$this->task); ?>
 </form><?php
 AdminUIHelper::endAdminArea(); ?>

@@ -6,7 +6,7 @@
  * @package	VirtueMart
  * @subpackage
  * @author
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2011 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -30,28 +30,40 @@ class VirtueMartViewVirtueMart extends VmView {
 
 	public function display($tpl = null) {
 
+		//For BC, we convert first the new config param names to the old ones
+		VmConfig::set('show_featured', VmConfig::get('featured'));
+		VmConfig::set('show_discontinued', VmConfig::get('discontinued'));
+		VmConfig::set('show_topTen', VmConfig::get('topten'));
+		VmConfig::set('show_recent', VmConfig::get('recent'));
+		VmConfig::set('show_latest', VmConfig::get('latest'));
+
+		VmConfig::set('featured_products_rows', VmConfig::get('featured_rows'));
+		VmConfig::set('discontinued_products_rows', VmConfig::get('discontinued_rows'));
+		VmConfig::set('topTen_products_rows', VmConfig::get('topten_rows'));
+		VmConfig::set('recent_products_rows', VmConfig::get('recent_rows'));
+		VmConfig::set('latest_products_rows', VmConfig::get('latest_rows'));
+		VmConfig::set('omitLoaded_topTen', VmConfig::get('omitLoaded_topten'));
+		VmConfig::set('showCategory', VmConfig::get('showcategory'));
+
 		$vendorId = vRequest::getInt('vendorid', 1);
 
 		$vendorModel = VmModel::getModel('vendor');
 
-		$vendorIdUser = vmAccess::isSuperVendor();
 		$vendorModel->setId($vendorId);
 		$this->vendor = $vendorModel->getVendor();
 
-		if(!class_exists('shopFunctionsF'))require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
-
-
-		$app = vFactory::getApplication();
+		$app = JFactory::getApplication();
 		$menus = $app->getMenu();
 		$menu = $menus->getActive();
 
+		if(!class_exists('shopFunctionsF'))require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
 		if(!empty($menu->id)){
 			ShopFunctionsF::setLastVisitedItemId($menu->id);
 		} else if($itemId = vRequest::getInt('Itemid',false)){
 			ShopFunctionsF::setLastVisitedItemId($itemId);
 		}
 
-		$document = vFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		if(!VmConfig::get('shop_is_offline',0)){
 
@@ -62,7 +74,7 @@ class VirtueMartViewVirtueMart extends VmView {
 			}
 
 			if( ShopFunctionsF::isFEmanager('product.edit') ){
-				$add_product_link = vUri::root() . 'index.php?option=com_virtuemart&tmpl=component&view=product&task=edit&virtuemart_product_id=0&manage=1' ;
+				$add_product_link = JURI::root() . 'index.php?option=com_virtuemart&tmpl=component&view=product&task=edit&virtuemart_product_id=0&manage=1' ;
 				$add_product_link = $this->linkIcon($add_product_link, 'COM_VIRTUEMART_PRODUCT_FORM_NEW_PRODUCT', 'edit', false, false);
 			} else {
 				$add_product_link = "";
@@ -88,35 +100,35 @@ class VirtueMartViewVirtueMart extends VmView {
 			
 			$products_per_row = VmConfig::get('homepage_products_per_row',3);
 			
-			$featured_products_rows = VmConfig::get('featured_products_rows',1);
+			$featured_products_rows = VmConfig::get('featured_rows',1);
 			$featured_products_count = $products_per_row * $featured_products_rows;
 
-			if (!empty($featured_products_count) and VmConfig::get('show_featured', 1)) {
+			if (!empty($featured_products_count) and VmConfig::get('featured', 1)) {
 				$this->products['featured'] = $productModel->getProductListing('featured', $featured_products_count);
 				$productModel->addImages($this->products['featured'],1);
 			}
 			
-			$latest_products_rows = VmConfig::get('latest_products_rows');
+			$latest_products_rows = VmConfig::get('latest_rows');
 			$latest_products_count = $products_per_row * $latest_products_rows;
 
-			if (!empty($latest_products_count) and VmConfig::get('show_latest', 1)) {
+			if (!empty($latest_products_count) and VmConfig::get('latest', 1)) {
 				$this->products['latest']= $productModel->getProductListing('latest', $latest_products_count);
 				$productModel->addImages($this->products['latest'],1);
 			}
 
-			$topTen_products_rows = VmConfig::get('topTen_products_rows');
+			$topTen_products_rows = VmConfig::get('topten_rows');
 			$topTen_products_count = $products_per_row * $topTen_products_rows;
 			
-			if (!empty($topTen_products_count) and VmConfig::get('show_topTen', 1)) {
+			if (!empty($topTen_products_count) and VmConfig::get('topten', 1)) {
 				$this->products['topten']= $productModel->getProductListing('topten', $topTen_products_count);
 				$productModel->addImages($this->products['topten'],1);
 			}
 			
-			$recent_products_rows = VmConfig::get('recent_products_rows');
+			$recent_products_rows = VmConfig::get('recent_rows');
 			$recent_products_count = $products_per_row * $recent_products_rows;
 
 			
-			if (!empty($recent_products_count) and VmConfig::get('show_recent', 1) ) {
+			if (!empty($recent_products_count) and VmConfig::get('recent', 1) ) {
 				$recent_products = $productModel->getProductListing('recent');
 				if(!empty($recent_products)){
 					$this->products['recent']= $productModel->getProductListing('recent', $recent_products_count);
@@ -138,7 +150,7 @@ class VirtueMartViewVirtueMart extends VmView {
 						}
 					} else {
 						if (!class_exists ('vmCustomPlugin')) {
-							require(JPATH_VM_PLUGINS . DS . 'vmcustomplugin.php');
+							require(VMPATH_PLUGINLIBS . DS . 'vmcustomplugin.php');
 						}
 						foreach($this->products as $pType => $productSeries) {
 							shopFunctionsF::sortLoadProductCustomsStockInd($this->products[$pType],$productModel);

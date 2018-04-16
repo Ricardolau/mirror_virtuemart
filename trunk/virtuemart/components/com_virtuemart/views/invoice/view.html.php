@@ -6,7 +6,7 @@
  * @package	VirtueMart
  * @subpackage Orders
  * @author Oscar van Eijk
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -40,15 +40,19 @@ class VirtuemartViewInvoice extends VmView {
 	public function display($tpl = null)
 	{
 
-		$document = vFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$orderModel = VmModel::getModel('orders');
-		$orderDetails = $this->orderDetails;
+		$orderDetails = 0;
+		if(!empty($this->orderDetails)) $orderDetails = $this->orderDetails;
 
 		if($orderDetails==0){
+			if (!class_exists ('shopFunctionsF'))
+				require(VMPATH_SITE . DS . 'helpers' . DS . 'shopfunctionsf.php');
+			shopFunctionsF::loadOrderLanguages(VmConfig::$jDefLangTag);
 			$orderDetails = $orderModel ->getMyOrderDetails(0,false,false,true);
 			if(!$orderDetails ){
-				echo vmText::_('COM_VIRTUEMART_CART_ORDER_NOTFOUND');
+				//echo vmText::_('COM_VIRTUEMART_CART_ORDER_NOTFOUND');
 				vmdebug('COM_VIRTUEMART_CART_ORDER_NOTFOUND and $orderDetails ',$orderDetails);
 				return;
 			} else if(empty($orderDetails['details'])){
@@ -64,10 +68,17 @@ class VirtuemartViewInvoice extends VmView {
 
 		$this->assignRef('orderDetails', $orderDetails);
 
+		if(VmConfig::get('invoiceInUserLang', false) and !empty($orderDetails['details']['BT']->order_language)){
+			if($orderDetails['details']['BT']->order_language!=VmConfig::$vmlangTag){
+				shopFunctionsF::loadOrderLanguages($orderDetails['details']['BT']->order_language);
+				$orderDetails = $orderModel->getOrder($orderDetails['details']['BT']->virtuemart_order_id);
+			}
+		}
+
 
 		/* It would be so nice to be able to load the override of the FE additionally from here
 		 * joomlaWantsThisFolder\language\overrides\en-GB.override.ini
-		 * $jlang =vFactory::getLanguage();
+		 * $jlang =JFactory::getLanguage();
 		$tag = $jlang->getTag();
 		$jlang->load('override', 'language/overrides',$tag,true);*/
 
@@ -120,8 +131,9 @@ class VirtuemartViewInvoice extends VmView {
 			$order_print=true;
 		}
 
+		//TODO check and remove. I think this was just an old fallback
         // if it is order print, invoice number should not be created, either it is there, either it has not been created
-		if(empty($this->invoiceNumber) and !$order_print){
+		/*if(empty($this->invoiceNumber) and !$order_print){
 		    $invoiceNumberDate = array();
 			if (  $orderModel->createInvoiceNumber($orderDetails['details']['BT'], $invoiceNumberDate)) {
                 if (shopFunctionsF::InvoiceNumberReserved( $invoiceNumberDate[0])) {
@@ -133,7 +145,8 @@ class VirtuemartViewInvoice extends VmView {
 			    $this->invoiceNumber = $invoiceNumberDate[0];
 			    $this->invoiceDate = $invoiceNumberDate[1];
 			    if(!$this->invoiceNumber or empty($this->invoiceNumber)){
-				    vmError('Cant create pdf, createInvoiceNumber failed');
+				    vmError('invoice view Cant create pdf, createInvoiceNumber failed');
+				    vmTrace('invoice view Cant create pdf');
 				    if  ($this->uselayout!='mail') {
 					    return ;
 				    }
@@ -144,7 +157,7 @@ class VirtuemartViewInvoice extends VmView {
 					return ;
 				}
 			}
-		}
+		}*/
 
 		$virtuemart_vendor_id = $orderDetails['details']['BT']->virtuemart_vendor_id;
 
@@ -168,9 +181,9 @@ class VirtuemartViewInvoice extends VmView {
 		/*
 		 * Deprecated trigger will be renamed or removed
 		 */
-		if(!class_exists('vmPSPlugin')) require(JPATH_VM_PLUGINS.DS.'vmpsplugin.php');
-		  vPluginHelper::importPlugin('vmpayment');
-	    $dispatcher = vDispatcher::getInstance();
+		if(!class_exists('vmPSPlugin')) require(VMPATH_PLUGINLIBS.DS.'vmpsplugin.php');
+		  JPluginHelper::importPlugin('vmpayment');
+	    $dispatcher = JDispatcher::getInstance();
 	    $dispatcher->trigger('plgVmgetEmailCurrency',array( $orderDetails['details']['BT']->virtuemart_paymentmethod_id, $orderDetails['details']['BT']->virtuemart_order_id, &$this->user_currency_id));
 
 		if(!class_exists('CurrencyDisplay')) require(VMPATH_ADMIN.DS.'helpers'.DS.'currencydisplay.php');
@@ -200,19 +213,24 @@ class VirtuemartViewInvoice extends VmView {
 				, array('delimiter_userinfo','user_is_vendor' ,'username','password', 'password2', 'agreed', 'address_type') // Skips
 		);
 
-		$userfields = $userFieldsModel->getUserFieldsFilled( $_userFields ,$orderDetails['details']['BT']);
+		$userfields = $userFieldsModel->getUserFieldsFilled( $_userFields, $orderDetails['details']['BT']);
 		$this->assignRef('userfields', $userfields);
 
 		//Create ST address fields
-		$orderst = (array_key_exists('ST', $orderDetails['details'])) ? $orderDetails['details']['ST'] : $orderDetails['details']['BT'];
+		$orderst = $orderDetails['details']['ST'];
+
+		$skips = array('delimiter_userinfo', 'username', 'email', 'password', 'password2', 'agreed', 'address_type') ;
+		if(empty($orderDetails['details']['has_ST'])){
+			$skips[] = 'address_type_name';
+		}
 
 		$shipmentFieldset = $userFieldsModel->getUserFields(
 				 'shipment'
 				, array() // Default switches
-				, array('delimiter_userinfo', 'username', 'email', 'password', 'password2', 'agreed', 'address_type') // Skips
+				, $skips
 		);
 
-		$shipmentfields = $userFieldsModel->getUserFieldsFilled( $shipmentFieldset ,$orderst );
+		$shipmentfields = $userFieldsModel->getUserFieldsFilled( $shipmentFieldset, $orderst );
 		$this->assignRef('shipmentfields', $shipmentfields);
 
 		$civility="";
@@ -245,21 +263,27 @@ class VirtuemartViewInvoice extends VmView {
 		foreach($orderDetails['items'] as $k => $_item) {
 // 			$_itemStatusUpdateFields[$_item->virtuemart_order_item_id] = JHtml::_('select.genericlist', $orderstatuses, "item_id[".$_item->virtuemart_order_item_id."][order_status]", 'class="selectItemStatusCode"', 'order_status_code', 'order_status_name', $_item->order_status, 'order_item_status'.$_item->virtuemart_order_item_id,true);
 			$_itemStatusUpdateFields[$_item->virtuemart_order_item_id] =  $_item->order_status;
-			$product = $pM->getProduct($_item->virtuemart_product_id);
-			$orderDetails['items'][$k]->virtuemart_media_id = $product->virtuemart_media_id;
+			if(!empty($_item->virtuemart_product_id)){
+				$product = $pM->getProduct($_item->virtuemart_product_id);
+				if(!empty($product->virtuemart_media_id)){
+					$orderDetails['items'][$k]->virtuemart_media_id = $product->virtuemart_media_id;
+				}
+			} else {
+				$product->virtuemart_media_id = false;
+			}
 		}
 
 		if (empty($orderDetails['shipmentName']) ) {
-		    if (!class_exists('vmPSPlugin')) require(JPATH_VM_PLUGINS . DS . 'vmpsplugin.php');
-		    vPluginHelper::importPlugin('vmshipment');
-		    $dispatcher = vDispatcher::getInstance();
+		    if (!class_exists('vmPSPlugin')) require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
+		    JPluginHelper::importPlugin('vmshipment');
+		    $dispatcher = JDispatcher::getInstance();
 		    $returnValues = $dispatcher->trigger('plgVmOnShowOrderFEShipment',array(  $orderDetails['details']['BT']->virtuemart_order_id, $orderDetails['details']['BT']->virtuemart_shipmentmethod_id, &$orderDetails['shipmentName']));
 		}
 
 		if (empty($orderDetails['paymentName']) ) {
-		    if(!class_exists('vmPSPlugin')) require(JPATH_VM_PLUGINS.DS.'vmpsplugin.php');
-		    vPluginHelper::importPlugin('vmpayment');
-		    $dispatcher = vDispatcher::getInstance();
+		    if(!class_exists('vmPSPlugin')) require(VMPATH_PLUGINLIBS.DS.'vmpsplugin.php');
+		    JPluginHelper::importPlugin('vmpayment');
+		    $dispatcher = JDispatcher::getInstance();
 		    $returnValues = $dispatcher->trigger('plgVmOnShowOrderFEPayment',array( $orderDetails['details']['BT']->virtuemart_order_id, $orderDetails['details']['BT']->virtuemart_paymentmethod_id,  &$orderDetails['paymentName']));
 
 		}
@@ -303,6 +327,10 @@ class VirtuemartViewInvoice extends VmView {
 	function renderMailLayout ($doVendor, $recipient) {
 
 		$this->doVendor=$doVendor;
+
+		//customplugins cannot easily access the view
+		vRequest::setVar('doVendor', $this->doVendor);
+
 		$this->frompdf=false;
 		$this->uselayout = 'mail';
 
@@ -310,7 +338,10 @@ class VirtuemartViewInvoice extends VmView {
 
 		if(empty($this->recipient)) $this->recipient = $recipient;
 		if(!empty($attach) and !$doVendor and in_array($this->orderDetails['details']['BT']->order_status,VmConfig::get('attach_os',0)) ){
-			$this->mediaToSend = VMPATH_ROOT.DS.'images'.DS.'stories'.DS.'virtuemart'.DS.'vendor'.DS.VmConfig::get('attach');
+			$attachment = explode(',',$attach);
+			foreach($attachment as $file){
+				$this->mediaToSend[] = VMPATH_ROOT.'/'.VmConfig::get('media_vendor_path','').'/'.trim($file);
+			}
 		}
 		$this->isMail = true;
 		$this->display();

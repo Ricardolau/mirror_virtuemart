@@ -3,7 +3,7 @@
  *
  * Paypal payment plugin
  *
- * @author Valerie Isaksen
+ * @author Max Milbers
  * @version $Id: paypal.php 7217 2013-09-18 13:42:54Z alatak $
  * @package VirtueMart
  * @subpackage payment
@@ -17,15 +17,29 @@
  *
  * http://virtuemart.net
  */
- ?>
 
-<?php
-if ($viewData['sandbox'] ) {
+if(!class_exists('vmPPButton')) require(VMPATH_PLUGINS .'/vmpayment/paypal/paypal/tmpl/ppbuttons.php');
+
+$paypalInterface = $viewData['paypalInterface'];
+?>
+<div style="margin: 8px;">
+    <?php
+    if ($viewData['sandbox'] ) {
+		?>
+        <span style="color:red;font-weight:bold">Sandbox (<?php echo $viewData['virtuemart_paymentmethod_id'] ?>)</span>
+		<?php
+	}
+
+if(empty($viewData['offer_credit'])) {
+	?><div class="pp-logo"><?php
+	echo vmPPButton::renderMarkAcceptance();
+	?></div><?php
+} else {
 	?>
-	<span style="color:red;font-weight:bold">Sandbox (<?php echo $viewData['virtuemart_paymentmethod_id'] ?>)</span>
-<?php
+    <div class="pp-mark-credit"><?php
+	    echo vmPPButton::renderMarkCredit();
+	?>
+    </div><?php
 }
-
-$img='<img id="paypalLogo" alt="'.$viewData['text'].'" src="'.$viewData['img'].'"/>';
-echo shopFunctionsF::vmPopupLink( $viewData['link'], $img, 640, 480, '_blank',$viewData['text']);
-
+    ?>
+</div>

@@ -7,7 +7,7 @@
  * @subpackage Currency
  * @author RickG
  * @author Max Milbers
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -61,7 +61,7 @@ class VirtueMartModelCurrency extends VmModel {
 
 		$where = array();
 
-		$user = vFactory::getUser();
+		$user = JFactory::getUser();
 		$shared = '';
 		if(vmAccess::manager() ){
 			$shared = 'OR `shared`="1"';
@@ -76,7 +76,7 @@ class VirtueMartModelCurrency extends VmModel {
 		}
 		// add filters
 		if($search){
-			$db = vFactory::getDbo();
+			$db = JFactory::getDBO();
 			$search = '"%' . $db->escape( $search, true ) . '%"' ;
 			$where[] = '`currency_name` LIKE '.$search.' OR `currency_code_2` LIKE '.$search.' OR `currency_code_3` LIKE '.$search;
 		}
@@ -104,7 +104,7 @@ class VirtueMartModelCurrency extends VmModel {
 			}
 		}
 		if(!isset($currencies[$vendorId])){
-			$db = vFactory::getDbo();
+			$db = JFactory::getDbo();
 			$q = 'SELECT `vendor_accepted_currencies`, `vendor_currency` FROM `#__virtuemart_vendors` WHERE `virtuemart_vendor_id`=' . $vendorId;
 			$db->setQuery($q);
 			$vendor_currency = $db->loadAssoc();
@@ -112,7 +112,7 @@ class VirtueMartModelCurrency extends VmModel {
 				$vendor_currency['vendor_accepted_currencies'] = $vendor_currency['vendor_currency'];
 				vmWarn('No accepted currencies defined');
 				if(empty($vendor_currency['vendor_accepted_currencies'])) {
-					$uri = vFactory::getURI();
+					$uri = JFactory::getURI();
 					$link = $uri->root().'administrator/index.php?option=com_virtuemart&view=user&task=editshop';
 					vmWarn(vmText::sprintf('COM_VIRTUEMART_CONF_WARN_NO_CURRENCY_DEFINED','<a href="'.$link.'">'.$link.'</a>'));
 					$currencies[$vendorId] = false;
@@ -142,7 +142,7 @@ class VirtueMartModelCurrency extends VmModel {
 	 * @return object List of currency objects
 	 */
 	function getCurrencies($vendorId=1) {
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 		$q = 'SELECT * FROM `#__virtuemart_currencies` WHERE (`virtuemart_vendor_id` = "'.(int)$vendorId.'" OR `shared`="1") AND published = "1" ORDER BY `ordering`,`#__virtuemart_currencies`.`currency_name`';
 		$db->setQuery($q);
 		return $db->loadObjectList();

@@ -6,7 +6,7 @@ defined('JPATH_PLATFORM') or die;
  * @package    VirtueMart
  * @subpackage Plugins  - Elements
  * @author Valérie Isaksen
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2011 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -17,16 +17,16 @@ defined('JPATH_PLATFORM') or die;
  */
 
 defined('DS') or define('DS', DIRECTORY_SEPARATOR);
-if (!class_exists( 'VmConfig' )) require(JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'helpers'.DS.'config.php');
+if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 /*
  * This class is used by VirtueMart Payment or Shipment Plugins
- * So It should be an extension of vFormField
+ * So It should be an extension of JFormField
  * Those plugins cannot be configured through the Plugin Manager anyway.
  */
-vFormHelper::loadFieldClass('list');
+JFormHelper::loadFieldClass('list');
 jimport('joomla.form.formfield');
 
-class vFormFieldVmAcceptedCurrency extends vFormFieldList {
+class JFormFieldVmAcceptedCurrency extends JFormFieldList {
 
 	/**
 	 * The form field type.
@@ -39,15 +39,15 @@ class vFormFieldVmAcceptedCurrency extends vFormFieldList {
 	protected function getOptions() {
 
 		VmConfig::loadConfig();
-		VmConfig::loadJLang('com_virtuemart', false);
+		vmLanguage::loadJLang('com_virtuemart', false);
 
 		$cModel = VmModel::getModel('currency');
 		$values = $cModel->getVendorAcceptedCurrrenciesList();
 
-		$options[] = vHtml::_('select.option', 0, vmText::_('COM_VIRTUEMART_DEFAULT_VENDOR_CURRENCY'));
-		$options[] = vHtml::_('select.option', -1, vmText::_('COM_VIRTUEMART_SELECTED_MODULE_CURRENCY'));
+		$options[] = JHtml::_('select.option', 0, vmText::_('COM_VIRTUEMART_DEFAULT_VENDOR_CURRENCY'));
+		$options[] = JHtml::_('select.option', -1, vmText::_('COM_VIRTUEMART_SELECTED_MODULE_CURRENCY'));
 		foreach ($values as $v) {
-			$options[] = vHtml::_('select.option', $v->virtuemart_currency_id, $v->currency_txt);
+			$options[] = JHtml::_('select.option', $v->virtuemart_currency_id, $v->currency_txt);
 		}
 		return $options;
 	}

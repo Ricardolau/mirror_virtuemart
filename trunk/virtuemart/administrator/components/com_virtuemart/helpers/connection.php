@@ -283,7 +283,7 @@ class VmConnector {
 	}else {
 	    header("HTTP/1.0 500 Internal Server Error");
 	    print "Could not read $file - bad permissions?";
-	    vFactory::getApplication()->close(true);
+	    JFactory::getApplication()->close(true);
 	}
     }
     /**
@@ -316,7 +316,7 @@ class VmConnector {
 	    if( $exitOnError ) {
 		header('HTTP/1.1 416 Requested Range Not Satisfiable');
 		print 'Bad Range Request!';
-		vFactory::getApplication()->close(true);
+		JFactory::getApplication()->close(true);
 	    } else {
 		return array(0,$size);
 	    }

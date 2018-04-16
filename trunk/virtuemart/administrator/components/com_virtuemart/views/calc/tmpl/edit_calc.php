@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Calculation tool
 * @author Max Milbers
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -21,8 +21,8 @@ defined('_JEXEC') or die('Restricted access');
 vmJsApi::jDate();
 
 // if (!class_exists('vmCalculationPlugin')) require(VMPATH_PLUGINLIBS . DS . 'vmcalculationplugin.php');
-		// vPluginHelper::importPlugin('vmcalculation');
-		// $dispatcher = & vDispatcher::getInstance();
+		// JPluginHelper::importPlugin('vmcalculation');
+		// $dispatcher = & JDispatcher::getInstance();
 		// $html = '';
 		// $returnValues = $dispatcher->trigger('plgVmOnDisplayEdit', array('vmcalculation' , $html));
 		// print_r( $returnValues );
@@ -74,8 +74,8 @@ vmJsApi::jDate();
 		<?php
 
 		if (!class_exists('vmCalculationPlugin')) require(VMPATH_PLUGINLIBS . DS . 'vmcalculationplugin.php');
-		vPluginHelper::importPlugin('vmcalculation');
-		$dispatcher = vDispatcher::getInstance();
+		JPluginHelper::importPlugin('vmcalculation');
+		$dispatcher = JDispatcher::getInstance();
 		$html ='';
 		$returnValues = $dispatcher->trigger('plgVmOnDisplayEdit', array(&$this->calc,&$html));
 		echo $html;

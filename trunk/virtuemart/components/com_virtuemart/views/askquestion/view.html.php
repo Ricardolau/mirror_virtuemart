@@ -7,7 +7,7 @@
  * @package VirtueMart
  * @subpackage
  * @author RolandD
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -39,14 +39,14 @@ class VirtueMartViewAskquestion extends VmView {
 	 */
 	function display ($tpl = NULL) {
 
-		$app = vFactory::getApplication();
+		$app = JFactory::getApplication();
 		if(!VmConfig::get('ask_question',false) and !VmConfig::get('askprice',false)){
 			$app->redirect(JRoute::_('index.php?option=com_virtuemart','Disabled function'));
 		}
 
 		$this->login = '';
 		if(!VmConfig::get('recommend_unauth',false)){
-			$user = vFactory::getUser();
+			$user = JFactory::getUser();
 			if($user->guest){
 				$this->login = shopFunctionsF::getLoginForm(false);
 			}
@@ -59,9 +59,9 @@ class VirtueMartViewAskquestion extends VmView {
 			}
 		}
 
-		$document = vFactory::getDocument ();
+		$document = JFactory::getDocument ();
 
-		$mainframe = vFactory::getApplication ();
+		$mainframe = JFactory::getApplication ();
 		$pathway = $mainframe->getPathway ();
 		$task = vRequest::getCmd ('task');
 
@@ -92,7 +92,7 @@ class VirtueMartViewAskquestion extends VmView {
 		// Set Canonic link
 		$format = vRequest::getCmd('format', 'html');
 		if ($format == 'html') {
-			$document->addHeadLink (vUri::getInstance()->toString(array('scheme', 'host', 'port')).JRoute::_($product->canonical, FALSE), 'canonical', 'rel', '');
+			$document->addHeadLink (JUri::getInstance()->toString(array('scheme', 'host', 'port')).JRoute::_($product->canonical, FALSE), 'canonical', 'rel', '');
 		}
 
 		// Set the titles
@@ -128,7 +128,7 @@ class VirtueMartViewAskquestion extends VmView {
 		// for askquestion
 		$pathway->addItem (vmText::_ ('COM_VIRTUEMART_PRODUCT_ASK_QUESTION'));
 
-		$this->user = vFactory::getUser ();
+		$this->user = JFactory::getUser ();
 
 		if ($product->metadesc) {
 			$document->setDescription ($product->metadesc);
@@ -157,7 +157,7 @@ class VirtueMartViewAskquestion extends VmView {
 		$this->setLayout ('mail_html_question');
 		$this->comment = vRequest::getString ('comment');
 
-		$this->user = vFactory::getUser ();
+		$this->user = JFactory::getUser ();
 		if (empty($this->user->id)) {
 			$fromMail = vRequest::getEmail ('email'); //is sanitized then
 			$fromName = vRequest::getVar ('name', ''); //is sanitized then
@@ -184,7 +184,7 @@ class VirtueMartViewAskquestion extends VmView {
 
 		$vendorModel->addImages ($this->vendor);
 
-		$this->vendorEmail = $vendorModel->getVendorEmail($this->vendor->virtuemart_vendor_id);;
+		$this->vendorEmail = $vendorModel->getVendorEmail($this->vendor->virtuemart_vendor_id);
 
 		// in this particular case, overwrite the value for fix the recipient name
 		$this->vendor->vendor_name = $this->user->get('name');

@@ -5,7 +5,7 @@ defined('_JEXEC') or die();
  * @package    VirtueMart
  * @subpackage Plugins  - Elements
  * @author Valérie Isaksen
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (C) 2004-2015 Virtuemart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -14,9 +14,10 @@ defined('_JEXEC') or die();
  * other free or open source software licenses.
  * @version $Id$
  */
-vFormHelper::loadFieldClass('list');
+JFormHelper::loadFieldClass('list');
 jimport('joomla.form.formfield');
-class vFormFieldVmOrderState extends vFormFieldList {
+
+class JFormFieldVmOrderState extends JFormFieldList {
 
 	/**
 	 * The form field type.
@@ -27,10 +28,12 @@ class vFormFieldVmOrderState extends vFormFieldList {
 	var $type = 'vmOrderState';
 
 	protected function getOptions() {
-		VmConfig::loadJLang('com_virtuemart_orders', TRUE);
+		if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
+
+		vmLanguage::loadJLang('com_virtuemart_orders', TRUE);
 
 		$options = array();
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$query = 'SELECT `order_status_code` AS value, `order_status_name` AS text
                  FROM `#__virtuemart_orderstates`
@@ -40,7 +43,7 @@ class vFormFieldVmOrderState extends vFormFieldList {
 		$db->setQuery($query);
 		$values = $db->loadObjectList();
 		foreach ($values as $value) {
-			$options[] = vHtml::_('select.option', $value->value, vmText::_($value->text));
+			$options[] = JHtml::_('select.option', $value->value, vmText::_($value->text));
 		}
 
 

@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Manufacturer category
 * @author Patrick Kohl
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -113,12 +113,12 @@ class VirtuemartModelManufacturercategories extends VmModel {
 	 * @return object List of category to build filter select box
 	 */
 	function getCategoryFilter(){
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 		$query = 'SELECT `virtuemart_manufacturercategories_id` as `value`, `mf_category_name` as text'
 				.' FROM `#__virtuemart_manufacturercategories_'.VmConfig::$vmlang.'`';
 		$db->setQuery($query);
 
-		$categoryFilter[] = vHtml::_('select.option',  '0', '- '. vmText::_('COM_VIRTUEMART_SELECT_MANUFACTURER_CATEGORY') .' -' );
+		$categoryFilter[] = JHtml::_('select.option',  '0', '- '. vmText::_('COM_VIRTUEMART_SELECT_MANUFACTURER_CATEGORY') .' -' );
 		$categoryFilter = array_merge($categoryFilter, (array)$db->loadObjectList());
 
 		return $categoryFilter;

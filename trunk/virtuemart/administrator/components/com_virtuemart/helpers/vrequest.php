@@ -76,9 +76,9 @@ class vRequest {
 		// Replace double byte whitespaces by single byte (East Asian languages)
 		$str = preg_replace('/\xE3\x80\x80/', ' ', $str);
 
-		$unicodeslugs = VmConfig::get('transliterateSlugs',false);
+		$unicodeslugs = VmConfig::get('transliteratePaths',false);
 		if($unicodeslugs){
-			$lang = vFactory::getLanguage();
+			$lang = JFactory::getLanguage();
 			$str = $lang->transliterate($str);
 		}
 
@@ -165,12 +165,18 @@ class vRequest {
 	}
 
 	public static function filterUrl($url){
+
 		if(!is_array($url)){
 			$url = urldecode($url);
+		} else {
+			foreach($url as $k => $u){
+				$url[$k] = self::filterUrl($u);
+			}
 		}
+		$url = strip_tags($url);
 
-		$url = self::filter($url,FILTER_SANITIZE_URL,'');
-		return self::filter($url,FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
+		//$url = self::filter($url,FILTER_SANITIZE_URL,'');
+		return self::filter($url,FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
 	}
 
 	/**
@@ -193,7 +199,7 @@ class vRequest {
 			} else if($source=='GET'){
 				$source = $_GET;
 				if(JVM_VERSION>2){
-					$router = vFactory::getApplication()->getRouter();
+					$router = JFactory::getApplication()->getRouter();
 					$vars = $router->getVars();
 					if($router->getMode() and !empty($vars)){
 						$source = array_merge($_GET,$vars);
@@ -216,10 +222,10 @@ class vRequest {
 
 	}
 
-	public static function filter($var,$filter,$flags,$array=false){
+	public static function filter($var, $filter, $flags, $array=false){
 		if($array or is_array($var)){
 			if(!is_array($var)) $var = array($var);
-			self::recurseFilter($var,$filter);
+			self::recurseFilter($var, $filter, $flags);
 			return $var;
 		}
 		else {
@@ -227,7 +233,7 @@ class vRequest {
 		}
 	}
 
-	public static function recurseFilter(&$var,$filter){
+	public static function recurseFilter(&$var, $filter, $flags = FILTER_FLAG_STRIP_LOW){
 		foreach($var as $k=>&$v){
 			if(!empty($k) and !is_numeric($k)){
 				$t = filter_var($k, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
@@ -237,9 +243,14 @@ class vRequest {
 					vmdebug('unset invalid key',$k,$t);
 				}
 			}
-			if(!empty($v) and is_array($v) and count($v)>1){
-				self::recurseFilter($v,$filter);
+			if(!empty($v)){
+				if( is_array($v) ){	//and count($v)>1){
+					self::recurseFilter($v, $filter, $flags);
+				} else {
+					$v = filter_var($v, $filter, $flags);
+				}
 			}
+
 		}
 		//filter_var_array($var, $filter);
 	}
@@ -264,7 +275,7 @@ class vRequest {
 	public static function getGet( $filter = FILTER_SANITIZE_SPECIAL_CHARS, $flags = FILTER_FLAG_ENCODE_LOW ){
 		$source = $_GET;
 		if(JVM_VERSION>2){
-			$router = vFactory::getApplication()->getRouter();
+			$router = JFactory::getApplication()->getRouter();
 			$vars = $router->getVars();
 			if($router->getMode() and !empty($vars)){
 				$source = array_merge($_GET,$vars);
@@ -290,7 +301,13 @@ class vRequest {
 	}
 
 	public static function vmSpecialChars($c){
-		return htmlspecialchars($c,ENT_COMPAT,'UTF-8',false);
+		if (version_compare(phpversion(), '5.4.0', '<')) {
+			// php version isn't high enough
+			$c = htmlspecialchars ($c,ENT_QUOTES,'UTF-8',false);	//ENT_SUBSTITUTE only for php5.4 and higher
+		} else {
+			$c = htmlspecialchars ($c,ENT_QUOTES|ENT_SUBSTITUTE,'UTF-8',false);
+		}
+		return $c;
 	}
 
 	/**
@@ -310,11 +327,11 @@ class vRequest {
 				}
 			}
 
-			$session = vFactory::getSession();
+			$session = JFactory::getSession();
 
 			if ($session->isNew()){
 				// Redirect to login screen.
-				$app = vFactory::getApplication();
+				$app = JFactory::getApplication();
 				$app->redirect(JRoute::_('index.php'), vmText::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'));
 				$app->close();
 				return false;
@@ -327,7 +344,7 @@ class vRequest {
 					$redirectMsg =  vmText::_($redirectMsg);
 				}
 				// Redirect to login screen.
-				$app = vFactory::getApplication();
+				$app = JFactory::getApplication();
 				$session->close();
 				$app->redirect(JRoute::_('index.php'), $redirectMsg);
 				$app->close();
@@ -341,8 +358,8 @@ class vRequest {
 
 	public static function getFormToken($fNew = false){
 
-		$sess = vFactory::getSession();
-		$user = vFactory::getUser();
+		$sess = JFactory::getSession();
+		$user = JFactory::getUser();
 
 		if(empty($user->id)) $user->id = 0;
 		if(!class_exists('vmCrypt'))

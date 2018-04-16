@@ -7,7 +7,7 @@
  * @subpackage Payment Method
  * @author Max Milbers
  * @author valérie isaksen
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -37,7 +37,7 @@ class VirtuemartViewPaymentMethod extends VmViewAdmin {
 	function display($tpl = null) {
 
 		// Load the helper(s)
-		//$this->addHelperPath(VMPATH_ADMIN.DS.'helpers');
+		$this->addHelperPath(VMPATH_ADMIN.DS.'helpers');
 
 		if (!class_exists('VmHTML'))
 			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'html.php');
@@ -46,7 +46,7 @@ class VirtuemartViewPaymentMethod extends VmViewAdmin {
 			require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
 		}
 
-		$this->user = vFactory::getUser();
+		$this->user = JFactory::getUser();
 		$model = VmModel::getModel('paymentmethod');
 
 		// TODO logo
@@ -68,11 +68,9 @@ class VirtuemartViewPaymentMethod extends VmViewAdmin {
 			if (!class_exists('VmImage'))
 				require(VMPATH_ADMIN . DS . 'helpers' . DS . 'image.php');
 
-			VmConfig::loadJLang('plg_vmpsplugin', false);
+			vmLanguage::loadJLang('plg_vmpsplugin', false);
 
-			if (!class_exists('vForm'))
-				require(VMPATH_ADMIN . DS . 'vmf' . DS . 'form' . DS . 'form.php');
-			vForm::addFieldPath(VMPATH_ADMIN . DS . 'fields');
+			JForm::addFieldPath(VMPATH_ADMIN . DS . 'fields');
 
 			$payment = $model->getPayment();
 
@@ -80,7 +78,7 @@ class VirtuemartViewPaymentMethod extends VmViewAdmin {
 			$formFile	= vRequest::filterPath( VMPATH_ROOT .DS. 'plugins'. DS. 'vmpayment' .DS. $payment->payment_element .DS. $payment->payment_element . '.xml');
 			if (file_exists($formFile)){
 
-				$payment->form = vForm::getInstance($payment->payment_element, $formFile, array(),false, '//vmconfig | //config[not(//vmconfig)]');
+				$payment->form = JForm::getInstance($payment->payment_element, $formFile, array(),false, '//vmconfig | //config[not(//vmconfig)]');
 				$payment->params = new stdClass();
 				$varsToPush = vmPlugin::getVarsToPushFromForm($payment->form);
 				VmTable::bindParameterableToSubField($payment,$varsToPush);
@@ -111,13 +109,13 @@ class VirtuemartViewPaymentMethod extends VmViewAdmin {
 
 			$this->addStandardEditViewCommands( $payment->virtuemart_paymentmethod_id);
 		} else {
-			vToolBarHelper::custom('clonepayment', 'copy', 'copy', vmText::_('COM_VIRTUEMART_PAYMENT_CLONE'), true);
+			JToolBarHelper::custom('clonepayment', 'copy', 'copy', vmText::_('COM_VIRTUEMART_PAYMENT_CLONE'), true);
 
 			$this->addStandardDefaultViewCommands();
 			$this->addStandardDefaultViewLists($model);
 
 			$this->payments = $model->getPayments();
-			VmConfig::loadJLang('com_virtuemart_shoppers',TRUE);
+			vmLanguage::loadJLang('com_virtuemart_shoppers',TRUE);
 
 			foreach ($this->payments as &$data){
 				// Write the first 5 shoppergroups in the list
@@ -133,13 +131,13 @@ class VirtuemartViewPaymentMethod extends VmViewAdmin {
 
 	function renderInstalledPaymentPlugins($selected){
 
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$q = 'SELECT * FROM `#__extensions` WHERE `folder` = "vmpayment" and `state`="0"  ORDER BY `ordering`,`name` ASC';
 		$db->setQuery($q);
 		$result = $db->loadAssocList('extension_id');
 		if(empty($result)){
-			$app = vFactory::getApplication();
+			$app = JFactory::getApplication();
 			$app -> enqueueMessage(vmText::_('COM_VIRTUEMART_NO_PAYMENT_PLUGINS_INSTALLED'));
 		}
 

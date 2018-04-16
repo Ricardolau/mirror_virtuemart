@@ -6,7 +6,7 @@ defined('_JEXEC') or die();
  * @package    VirtueMart
  * @subpackage Plugins  - Elements
  * @author Valérie Isaksen
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2011 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -16,10 +16,10 @@ defined('_JEXEC') or die();
  * @version $Id: $
  */
 
-vFormHelper::loadFieldClass('list');
+JFormHelper::loadFieldClass('list');
 jimport('joomla.form.formfield');
 
-class vFormFieldVmCountries extends vFormFieldList {
+class JFormFieldVmCountries extends JFormFieldList {
 
 	/**
 	 * Element name
@@ -38,11 +38,11 @@ class vFormFieldVmCountries extends vFormFieldList {
 
 		$query = 'SELECT `virtuemart_country_id` AS value, `country_name` AS text FROM `#__virtuemart_countries`
                		WHERE `published` = 1 ORDER BY `country_name` ASC ';
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 		$db->setQuery($query);
 		$values = $db->loadObjectList();
 		foreach ($values as $v) {
-			$options[] = vHtml::_('select.option', $v->value, $v->text);
+			$options[] = JHtml::_('select.option', $v->value, $v->text);
 		}
 
 		//BAD $class = 'multiple="true" size="10"';

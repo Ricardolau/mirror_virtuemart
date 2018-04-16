@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Category
 * @author RickG, jseros
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -40,7 +40,7 @@ class VirtuemartControllerCategory extends VmController {
 
 		//ACL
 		if (!vmAccess::manager('category.edit')) {
-			vFactory::getApplication()->redirect( 'index.php?option=com_virtuemart', vmText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			JFactory::getApplication()->redirect( 'index.php?option=com_virtuemart', vmText::_('JERROR_ALERTNOAUTHOR'), 'error');
 		}
 		
 		$data = vRequest::getRequest();
@@ -61,14 +61,13 @@ class VirtuemartControllerCategory extends VmController {
 	{
 		//ACL
 		if (!vmAccess::manager('category.edit')) {
-			vFactory::getApplication()->redirect( 'index.php?option=com_virtuemart', vmText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			JFactory::getApplication()->redirect( 'index.php?option=com_virtuemart', vmText::_('JERROR_ALERTNOAUTHOR'), 'error');
 		}
 
 		// Check token
 		vRequest::vmCheckToken();
 
 		//capturing virtuemart_category_id
-		$id = 0;
 		$cid	= vRequest::getInt( 'cid', array() );
 
 		if (isset($cid[0]) && $cid[0]) {
@@ -99,14 +98,13 @@ class VirtuemartControllerCategory extends VmController {
 	{
 		//ACL
 		if (!vmAccess::manager('category.edit')) {
-			vFactory::getApplication()->redirect( 'index.php?option=com_virtuemart', vmText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			JFactory::getApplication()->redirect( 'index.php?option=com_virtuemart', vmText::_('JERROR_ALERTNOAUTHOR'), 'error');
 		}
 		
 		// Check token
 		vRequest::vmCheckToken();
 
 		//capturing virtuemart_category_id
-		$id = 0;
 		$cid	= vRequest::getInt( 'cid', array() );
 
 		if (isset($cid[0]) && $cid[0]) {
@@ -135,7 +133,7 @@ class VirtuemartControllerCategory extends VmController {
 	{
 		//ACL
 		if (!vmAccess::manager('category.edit')) {
-			vFactory::getApplication()->redirect( 'index.php?option=com_virtuemart', vmText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			JFactory::getApplication()->redirect( 'index.php?option=com_virtuemart', vmText::_('JERROR_ALERTNOAUTHOR'), 'error');
 		}
 		
 		// Check for request forgeries

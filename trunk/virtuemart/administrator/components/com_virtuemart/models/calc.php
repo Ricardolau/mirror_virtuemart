@@ -9,7 +9,7 @@ defined('_JEXEC') or die('Restricted access');
 * @subpackage  Calculation tool
 * @author Max Milbers
 * @author mediaDESIGN> St.Kraft 2013-02-24 manufacturer relation added
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -75,8 +75,8 @@ class VirtueMartModelCalc extends VmModel {
 			$xrefTable = $this->getTable('calc_manufacturers');
 			$this->_cache[$this->_id]->virtuemart_manufacturers = $xrefTable->load($this->_id);
 
-			vPluginHelper::importPlugin('vmcalculation');
-			$dispatcher = vDispatcher::getInstance();
+			JPluginHelper::importPlugin('vmcalculation');
+			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger('plgVmGetPluginInternalDataCalc',array(&$this->_cache[$this->_id]));
 
   		}
@@ -100,7 +100,7 @@ class VirtueMartModelCalc extends VmModel {
 		// add filters
 		if ($onlyPublished) $where[] = '`published` = 1';
 
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 		if($search){
 			$search = '"%' . $db->escape( $search, true ) . '%"' ;
 			$where[] = ' `calc_name` LIKE '.$search.' OR `calc_descr` LIKE '.$search.' OR `calc_value` LIKE '.$search.' ';
@@ -116,8 +116,8 @@ class VirtueMartModelCalc extends VmModel {
 
 			$data->currencyName = ShopFunctions::getCurrencyByID($data->calc_currency);
 
-			vPluginHelper::importPlugin('vmcalculation');
-			$dispatcher = vDispatcher::getInstance();
+			JPluginHelper::importPlugin('vmcalculation');
+			$dispatcher = JDispatcher::getInstance();
 			$error = $dispatcher->trigger('plgVmGetPluginInternalDataCalcList',array(&$data));
 		}
 
@@ -144,22 +144,22 @@ class VirtueMartModelCalc extends VmModel {
 
 		$table = $this->getTable('calcs');
 
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 		// Convert selected dates to MySQL format for storing.
-		$startDate = vFactory::getDate($data['publish_up']);
+		$startDate = JFactory::getDate($data['publish_up']);
 		$data['publish_up'] = $startDate->toSQL();
 
 		if (empty($data['publish_down']) || trim($data['publish_down']) == vmText::_('COM_VIRTUEMART_NEVER')){
 			$data['publish_down']	= $db->getNullDate();
 		} else {
-			$expireDate = vFactory::getDate($data['publish_down']);
+			$expireDate = JFactory::getDate($data['publish_down']);
 			$data['publish_down']	= $expireDate->toSQL();
 		}
 
 		//Missing in calculation plugins,... plgVmGetTablePluginParams or declare
 		//if ($type == 'E') {
-		/*	vPluginHelper::importPlugin ('vmcalculation');
-			$dispatcher = vDispatcher::getInstance ();
+		/*	JPluginHelper::importPlugin ('vmcalculation');
+			$dispatcher = JDispatcher::getInstance ();
 			//We call here vmplugin->getTablePluginParams which sets the xParam and the varsToPush of the Plugin
 			vmdebug('setParameterableByFieldType before trigger plgVmGetTablePluginParams ',$xParams,$varsToPush);
 			$retValue = $dispatcher->trigger ('plgVmDeclarePluginParams', array('custom',$custom_element, $custom_jplugin_id, &$xParams, &$varsToPush));
@@ -185,8 +185,8 @@ class VirtueMartModelCalc extends VmModel {
     	$xrefTable->bindChecknStore($data);
 
 		if (!class_exists('vmCalculationPlugin')) require(VMPATH_PLUGINLIBS . DS . 'vmcalculationplugin.php');
-		vPluginHelper::importPlugin('vmcalculation');
-		$dispatcher = vDispatcher::getInstance();
+		JPluginHelper::importPlugin('vmcalculation');
+		$dispatcher = JDispatcher::getInstance();
 		//$error = $dispatcher->trigger('plgVmStorePluginInternalDataCalc',array(&$data));
 		$error = $dispatcher->trigger('plgVmOnStoreInstallPluginTable',array('calculation',$data,$table));
 
@@ -196,10 +196,10 @@ class VirtueMartModelCalc extends VmModel {
 	static function getRule($kind){
 
 		if (!is_array($kind)) $kind = array($kind);
-		$db = vFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$nullDate		= $db->getNullDate();
-		$now			= vFactory::getDate()->toSQL();
+		$now			= JFactory::getDate()->toSQL();
 
 		$q = 'SELECT * FROM `#__virtuemart_calcs` WHERE ';
 		foreach ($kind as $field){
@@ -278,8 +278,8 @@ class VirtueMartModelCalc extends VmModel {
 				$ok = false;
 			}
 
-			vPluginHelper::importPlugin('vmcalculation');
-			$dispatcher = vDispatcher::getInstance();
+			JPluginHelper::importPlugin('vmcalculation');
+			$dispatcher = JDispatcher::getInstance();
 			$returnValues = $dispatcher->trigger('plgVmDeleteCalculationRow', array( $id));
 
 		}

@@ -5,7 +5,7 @@
  * @package	VirtueMart
  * @subpackage Helpers
  * @author Oscar van Eijk
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -36,19 +36,18 @@ abstract class CouponHelper
 		}
 		$couponData = 0;
 
-		vPluginHelper::importPlugin('vmcoupon');
-		$dispatcher = vDispatcher::getInstance();
+		JPluginHelper::importPlugin('vmcoupon');
+		$dispatcher = JDispatcher::getInstance();
 		$returnValues = $dispatcher->trigger('plgVmValidateCouponCode', array($_code, $_billTotal));
 		if(!empty($returnValues)){
 			foreach ($returnValues as $returnValue) {
 				if ($returnValue !== null  ) {
-					//Take a look on this seyi, I am not sure about that, but it should work at least simular note by Max
 					return $returnValue;
 				}
 			}
 		}
 		if(empty($couponData)){
-			$_db = vFactory::getDbo();
+			$_db = JFactory::getDBO();
 			$_q = 'SELECT IFNULL( NOW() >= `coupon_start_date` OR `coupon_start_date`="0000-00-00 00:00:00" , 1 ) AS started
     				, `coupon_start_date`
     				,  IFNULL (`coupon_expiry_date`!="0000-00-00 00:00:00" and NOW() > `coupon_expiry_date`,0) AS `ended`
@@ -65,7 +64,7 @@ abstract class CouponHelper
 			return vmText::_('COM_VIRTUEMART_COUPON_CODE_INVALID');
 		}
 		if ($couponData->coupon_used) {
-			$session = vFactory::getSession();
+			$session = JFactory::getSession();
 			$session_id = $session->getId();
 			if ($couponData->coupon_used != $session_id) {
 				return vmText::_('COM_VIRTUEMART_COUPON_CODE_INVALID');
@@ -75,7 +74,7 @@ abstract class CouponHelper
 			return vmText::_('COM_VIRTUEMART_COUPON_CODE_NOTYET') . $couponData->coupon_start_date;
 		}
 		if ($couponData->ended) {
-			self::RemoveCoupon($_code, true);
+			//self::RemoveCoupon($_code, true);
 			return vmText::_('COM_VIRTUEMART_COUPON_CODE_EXPIRED');
 		}
 
@@ -99,7 +98,7 @@ abstract class CouponHelper
 	 */
 	static public function getCouponDetails($_code)
 	{
-		$_db = vFactory::getDbo();
+		$_db = JFactory::getDBO();
 		$_q = 'SELECT `percent_or_total` '
 			. ', `coupon_type` '
 			. ', `coupon_value` '
@@ -118,14 +117,12 @@ abstract class CouponHelper
 	 */
 	static public function RemoveCoupon($_code, $_force = false)
 	{
-		vPluginHelper::importPlugin('vmcoupon');
-		$dispatcher = vDispatcher::getInstance();
+		JPluginHelper::importPlugin('vmcoupon');
+		$dispatcher = JDispatcher::getInstance();
 		$returnValues = $dispatcher->trigger('plgVmRemoveCoupon', array($_code, $_force));
 		if(!empty($returnValues)){
 			foreach ($returnValues as $returnValue) {
 				if ($returnValue !== null  ) {
-					//Take a look on this seyi, I am not sure about that, but it should work at least simular note by Max
-					//$couponData = $returnValue;
 					return $returnValue;
 				}
 			}
@@ -137,7 +134,7 @@ abstract class CouponHelper
 				return true;
 			}
 		}
-		$_db = vFactory::getDbo();
+		$_db = JFactory::getDBO();
 		$_q = 'DELETE FROM `#__virtuemart_coupons` '
 			. 'WHERE `coupon_code` = "' . $_db->escape($_code) . '"';
 		$_db->setQuery($_q);
@@ -150,9 +147,9 @@ abstract class CouponHelper
 	 * @author Valérie Isaksen
 	 * @return boolean True on success
 	 */
-	static public function setInUseCoupon($code, $in_use=true){
-		vPluginHelper::importPlugin('vmcoupon');
-		$dispatcher = vDispatcher::getInstance();
+	static public function setInUseCoupon($code, $in_use=true, $coupon_used = null){
+		JPluginHelper::importPlugin('vmcoupon');
+		$dispatcher = JDispatcher::getInstance();
 		$returnValues = $dispatcher->trigger('plgVmCouponInUse', array($code));
 		if(!empty($returnValues)){
 			foreach ($returnValues as $returnValue) {
@@ -161,11 +158,11 @@ abstract class CouponHelper
 				}
 			}
 		}
-		$session = vFactory::getSession();
-		$coupon_used = $session->getId();
-		$db = vFactory::getDbo();
+		$session = JFactory::getSession();
+		if($coupon_used===null)$coupon_used = $session->getId();
+		$db = JFactory::getDBO();
 		if (!$in_use) {
-			$db = vFactory::getDbo();
+			$db = JFactory::getDBO();
 			$q = 'SELECT `coupon_used` '
 				. 'FROM `#__virtuemart_coupons` '
 				. 'WHERE `coupon_code` = "' . $db->escape($code) . '"';

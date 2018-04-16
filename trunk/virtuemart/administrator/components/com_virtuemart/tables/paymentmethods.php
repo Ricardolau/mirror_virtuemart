@@ -7,7 +7,7 @@
  * @package	VirtueMart
  * @subpackage Payment Methods
  * @author Max Milbers
- * @link http://www.virtuemart.net
+ * @link ${PHING.VM.MAINTAINERURL}
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -74,6 +74,7 @@ class TablePaymentmethods extends VmTable {
 	$this->setLoggable();
 	$this->setTranslatable(array('payment_name', 'payment_desc'));
 	$this->setSlug('payment_name');
+	$this->setTableShortCut('paym');
 // 	$this->setUniqueName('ordering');
     }
 

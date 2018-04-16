@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage
 * @author Max Milbers
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -18,17 +18,19 @@
 
 AdminUIHelper::startAdminArea($this);
 
+jimport('joomla.filesystem.file');
+
 /* Get the component name */
 $option = vRequest::getCmd('option');
 
 /* Load some variables */
 $keyword = vRequest::getCmd('keyword', null);
 ?>
-<form action="index.php" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_virtuemart&view=custom" method="post" name="adminForm" id="adminForm">
 <div id="header">
 	<div>
 		<?php
-			if (vRequest::getInt('virtuemart_product_id', false)) echo vHtml::_('link', JRoute::_('index.php?option='.$option.'&view=custom',FALSE), vmText::_('COM_VIRTUEMART_PRODUCT_FILES_LIST_RETURN'));
+			if (vRequest::getInt('virtuemart_product_id', false)) echo JHtml::_('link', JRoute::_('index.php?option='.$option.'&view=custom',FALSE), vmText::_('COM_VIRTUEMART_PRODUCT_FILES_LIST_RETURN'));
 		echo $this->customsSelect ;
 		echo vmText::_('COM_VIRTUEMART_SEARCH_LBL') .' '.vmText::_('COM_VIRTUEMART_TITLE') ?>&nbsp;
 		<input type="text" value="<?php echo $keyword; ?>" name="keyword" size="25" class="inputbox" />
@@ -48,16 +50,17 @@ $customs = $this->customs->items;
 	<thead>
 	<tr>
 		<th class="admin-checkbox"><input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)" /></th>
-		<th width="10%"><?php echo vmText::_('COM_VIRTUEMART_CUSTOM_GROUP'); ?></th>
+		<th width="8%"><?php echo vmText::_('COM_VIRTUEMART_CUSTOM_GROUP'); ?></th>
 		<th width="30%"><?php echo vmText::_('COM_VIRTUEMART_TITLE'); ?></th>
 		<th width="35%"><?php echo vmText::_('COM_VIRTUEMART_CUSTOM_FIELD_DESCRIPTION'); ?></th>
+        <th width="8%"><?php echo vmText::_('COM_VIRTUEMART_CUSTOM_LAYOUT_POS'); ?></th>
 		<th><?php echo vmText::_('COM_VIRTUEMART_CUSTOM_FIELD_TYPE'); ?></th>
 		<th><?php echo vmText::_('COM_VIRTUEMART_CUSTOM_IS_CART_ATTRIBUTE'); ?></th>
 		<th><?php echo vmText::_('COM_VIRTUEMART_CUSTOM_ADMIN_ONLY'); ?></th>
 		<th><?php echo vmText::_('COM_VIRTUEMART_CUSTOM_IS_HIDDEN'); ?></th>
 		<?php if(!empty($this->custom_parent_id)){
 			echo '<th style="min-width:80px;width:8%;align:center;" >'.$this->sort('ordering');
-			echo vHtml::_('grid.order',  $customs ).'</th>';
+			echo JHtml::_('grid.order',  $customs ).'</th>';
 		}
 		?>
 		<th style="max-width:80px;align:center;" ><?php echo vmText::_('COM_VIRTUEMART_PUBLISHED'); ?></th>
@@ -72,7 +75,7 @@ $customs = $this->customs->items;
 		$k = 0;
 		foreach ($customs as $key => $custom) {
 
-			$checked = vHtml::_('grid.id', $i , $custom->virtuemart_custom_id,false,'virtuemart_custom_id');
+			$checked = JHtml::_('grid.id', $i , $custom->virtuemart_custom_id,false,'virtuemart_custom_id');
 			if (!is_null($custom->virtuemart_custom_id))
 			{
 				$published = $this->gridPublished( $custom, $i );
@@ -87,10 +90,10 @@ $customs = $this->customs->items;
 				?>
 				<td><?php
 
-                            $lang = vFactory::getLanguage();
+                            $lang = JFactory::getLanguage();
                             $text = $lang->hasKey($custom->group_title) ? vmText::_($custom->group_title) : $custom->group_title;
 
-                            echo vHtml::_('link', JRoute::_($link,FALSE),$text, array('title' => vmText::_('COM_VIRTUEMART_FILTER_BY').' '.htmlentities($text))); ?></td>
+                            echo JHtml::_('link', JRoute::_($link,FALSE),$text, array('title' => vmText::_('COM_VIRTUEMART_FILTER_BY').' '.htmlentities($text))); ?></td>
 
 				<!-- Product name -->
 				<?php
@@ -98,8 +101,9 @@ $customs = $this->customs->items;
 				if ($custom->is_cart_attribute) $cartIcon=  'default';
 							 else  $cartIcon= 'default-off';
 				?>
-				<td><?php echo vHtml::_('link', JRoute::_($link, FALSE), vmText::_($custom->custom_title), array('title' => vmText::_('COM_VIRTUEMART_EDIT').' '.htmlentities($custom->custom_title))); ?></td>
+				<td><?php echo JHtml::_('link', JRoute::_($link, FALSE), vmText::_($custom->custom_title), array('title' => vmText::_('COM_VIRTUEMART_EDIT').' '.htmlentities($custom->custom_title))); ?></td>
 				<td><?php echo vmText::_($custom->custom_desc); ?></td>
+                <td><?php echo vmText::_($custom->layout_pos); ?></td>
 				<td><?php echo vmText::_($custom->field_type_display); ?></td>
 				<td><span class="vmicon vmicon-16-<?php echo $cartIcon ?>"></span></td>
 				<td>
@@ -141,33 +145,40 @@ $customs = $this->customs->items;
 	</tfoot>
 	</table>
 <!-- Hidden Fields -->
-
+<input type="hidden" name="task" value="" />
 <?php if (vRequest::getInt('virtuemart_product_id', false)) { ?>
 	<input type="hidden" name="virtuemart_product_id" value="<?php echo vRequest::getInt('virtuemart_product_id',0); ?>" />
 <?php } ?>
-	<?php echo $this->addStandardHiddenToForm(); ?>
+<input type="hidden" name="option" value="com_virtuemart" />
+<input type="hidden" name="view" value="custom" />
+<input type="hidden" name="boxchecked" value="0" />
+<input type="hidden" name="filter_order" value="<?php //echo $this->lists['order']; ?>" />
+<input type="hidden" name="filter_order_Dir" value="<?php //echo $this->lists['order_Dir']; ?>" />
+
+<?php echo JHtml::_( 'form.token' ); ?>
 </form>
 <?php AdminUIHelper::endAdminArea();
 /// DRAG AND DROP PRODUCT ORDER HACK
-if(!empty($this->custom_parent_id)){ ?>
-	<script>
-		jQuery(function() {
+if(!empty($this->custom_parent_id)){
+
+	vmJsApi::addJScript('sortable','Virtuemart.sortable;');
+	/*vmJsApi::addJScript('sortable','jQuery(function() {
 
 			jQuery( ".adminlist" ).sortable({
 				handle: ".vmicon-16-move",
-				items: 'tr:not(:first,:last)',
+				items: \'tr:not(:first,:last)\',
 				opacity: 0.8,
 				update: function() {
 					var i = 1;
 					jQuery(function updatenr(){
-						jQuery('input.ordering').each(function(idx) {
+						jQuery(\'input.ordering\').each(function(idx) {
 							jQuery(this).val(idx);
 						});
 					});
 
 					jQuery(function updaterows() {
 						jQuery(".order").each(function(index){
-							var row = jQuery(this).parent('td').parent('tr').prevAll().length;
+							var row = jQuery(this).parent(\'td\').parent(\'tr\').prevAll().length;
 							jQuery(this).val(row);
 							i++;
 						});
@@ -175,7 +186,6 @@ if(!empty($this->custom_parent_id)){ ?>
 					});
 				}
 			});
-		});
-	</script>
+		});');*/
 
-<?php } ?>
+ } ?>

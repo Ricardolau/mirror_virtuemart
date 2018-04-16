@@ -21,7 +21,7 @@ defined ('_JEXEC') or die('Restricted access');
  *
  */
 if (!class_exists ('vmPSPlugin')) {
-	require(JPATH_VM_PLUGINS . DS . 'vmpsplugin.php');
+	require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
 }
 
 /**
@@ -119,13 +119,12 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 		$values['shipment_weight_unit'] = $method->weight_unit;
 
 		$costs = $this->getCosts($cart,$method,$cart->cartPrices);
-		if(empty($costs)){
-			$values['shipment_cost'] = 0;
-			$values['shipment_package_fee'] = 0;
-		} else {
+		if(!empty($costs)){
 			$values['shipment_cost'] = $method->shipment_cost;
 			$values['shipment_package_fee'] = $method->package_fee;
 		}
+		if(empty($values['shipment_cost'])) $values['shipment_cost'] = 0.0;
+		if(empty($values['shipment_package_fee'])) $values['shipment_package_fee'] = 0.0;
 
 		$values['tax_id'] = $method->tax_id;
 		$this->storePSPluginInternalData ($values);
@@ -141,7 +140,6 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 	 *
 	 * @param integer $virtuemart_order_id The order ID
 	 * @param integer $virtuemart_shipmentmethod_id The order shipment method ID
-	 * @param object  $_shipInfo Object with the properties 'shipment' and 'name'
 	 * @return mixed Null for shipments that aren't active, text (HTML) otherwise
 	 * @author Valerie Isaksen
 	 */
@@ -165,7 +163,9 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 			. 'WHERE `virtuemart_order_id` = ' . $virtuemart_order_id;
 		$db->setQuery ($q);
 		if (!($shipinfo = $db->loadObject ())) {
-			vmWarn (500, $q . " " . $db->getErrorMsg ());
+			$msg=vmText::sprintf('VMSHIPMENT_WEIGHT_COUNTRIES_NO_ENTRY_FOUND', $virtuemart_order_id);
+			vmWarn ($msg);
+			vmDebug($msg, $q . " " . $db->getErrorMsg ());
 			return '';
 		}
 
@@ -201,6 +201,8 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 		if ($method->free_shipment && $cart_prices['salesPrice'] >= $method->free_shipment) {
 			return 0.0;
 		} else {
+			if(empty($method->shipment_cost)) $method->shipment_cost = 0.0;
+			if(empty($method->package_fee)) $method->package_fee = 0.0;
 			return $method->shipment_cost + $method->package_fee;
 		}
 	}
@@ -429,23 +431,24 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 		if (!class_exists('VirtueMartCart'))
 			require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');
 
-		$html = '';
+		$html = array();
 		if (!class_exists('CurrencyDisplay'))
 			require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'currencydisplay.php');
 		$currency = CurrencyDisplay::getInstance();
 
-		if(!isset($cart)){
-			$cart = VirtueMartCart::getCart();
-			$cart->products['virtual'] = $product;
-			$cart->_productAdded = true;
-			$cart->prepareCartData();
-		}
+
 
 		foreach ($this->methods as $this->_currentMethod) {
 
 			if($this->_currentMethod->show_on_pdetails){
 
-				if($this->checkConditions($cart,$this->_currentMethod,$cart->cartPrices,$product)){
+				if(!isset($cart)){
+					$cart = VirtueMartCart::getCart();
+					$cart->products['virtual'] = $product;
+					$cart->_productAdded = true;
+					$cart->prepareCartData();
+				}
+				if($this->checkConditions($cart,$this->_currentMethod,$cart->cartPrices)){
 
 					$product->prices['shipmentPrice'] = $this->getCosts($cart,$this->_currentMethod,$cart->cartPrices);
 
@@ -458,13 +461,16 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 						}
 					}
 
-					$html = $this->renderByLayout( 'default', array("method" => $this->_currentMethod, "cart" => $cart,"product" => $product,"currency" => $currency) );
+					$html[$this->_currentMethod->virtuemart_shipmentmethod_id] = $this->renderByLayout( 'default', array("method" => $this->_currentMethod, "cart" => $cart,"product" => $product,"currency" => $currency) );
 				}
 			}
 		}
-		unset($cart->products['virtual']);
-		$cart->_productAdded = true;
-		$cart->prepareCartData();
+		if(isset($cart)){
+			unset($cart->products['virtual']);
+			$cart->_productAdded = true;
+			$cart->prepareCartData();
+		}
+
 
 		$productDisplayShipments[] = $html;
 
@@ -532,11 +538,26 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 	 */
 	function plgVmOnCheckAutomaticSelectedShipment (VirtueMartCart $cart, array $cart_prices, &$shipCounter) {
 
-		if ($shipCounter > 1) {
-			return 0;
+		return $this->onCheckAutomaticSelected ($cart, $cart_prices, $shipCounter);
+	}
+
+	function plgVmOnCheckoutCheckDataShipment(VirtueMartCart $cart){
+
+		if(empty($cart->virtuemart_shipmentmethod_id)) return false;
+
+		$virtuemart_vendor_id = 1; //At the moment one, could make sense to use the cart vendor id
+		if ($this->getPluginMethods($virtuemart_vendor_id) === 0) {
+			return NULL;
 		}
 
-		return $this->onCheckAutomaticSelected ($cart, $cart_prices, $shipCounter);
+		foreach ($this->methods as $this->_currentMethod) {
+			if($cart->virtuemart_shipmentmethod_id == $this->_currentMethod->virtuemart_shipmentmethod_id){
+				if(!$this->checkConditions($cart,$this->_currentMethod,$cart->cartPrices)){
+					return false;
+				}
+				break;
+			}
+		}
 	}
 
 	/**
@@ -601,7 +622,7 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 				vmWarn('VMSHIPMENT_WEIGHT_COUNTRIES_NBPRODUCTS_CONDITION_WRONG');
 			}
 
-			$data['show_on_pdetails'] = (int) $data['show_on_pdetails'];
+			//$data['show_on_pdetails'] = (int) $data['show_on_pdetails'];
 			return $this->setOnTablePluginParams ($name, $id, $table);
 		}
 	}

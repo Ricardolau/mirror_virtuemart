@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage Currency
 * @author RickG
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -23,7 +23,7 @@ AdminUIHelper::startAdminArea($this);
 
 ?>
 
-<form action="index.php" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_virtuemart&view=currency" method="post" name="adminForm" id="adminForm">
     <table>
 	<tr>
 	    <td width="100%">
@@ -75,7 +75,7 @@ AdminUIHelper::startAdminArea($this);
 	    for ($i=0, $n=count( $this->currencies ); $i < $n; $i++) {
 		$row = $this->currencies[$i];
 
-		$checked = vHtml::_('grid.id', $i, $row->virtuemart_currency_id);
+		$checked = JHtml::_('grid.id', $i, $row->virtuemart_currency_id);
 			$published = $this->gridPublished( $row, $i );
 
 			$editlink = JROUTE::_('index.php?option=com_virtuemart&view=currency&task=edit&cid[]=' . $row->virtuemart_currency_id);
@@ -123,7 +123,15 @@ AdminUIHelper::startAdminArea($this);
 	    </tfoot>
 	</table>
     </div>
-	<?php echo $this->addStandardHiddenToForm(); ?>
+
+    <input type="hidden" name="option" value="com_virtuemart" />
+    <input type="hidden" name="controller" value="currency" />
+    <input type="hidden" name="view" value="currency" />
+    <input type="hidden" name="task" value="" />
+	<input type="hidden" name="boxchecked" value="0" />
+	<input type="hidden" name="filter_order" value="<?php echo $this->lists['filter_order']; ?>" />
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['filter_order_Dir']; ?>" />
+    <?php echo JHtml::_( 'form.token' ); ?>
 </form>
 
 

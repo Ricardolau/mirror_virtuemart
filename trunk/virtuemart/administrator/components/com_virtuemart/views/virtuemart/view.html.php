@@ -6,7 +6,7 @@
 * @package	VirtueMart
 * @subpackage
 * @author
-* @link http://www.virtuemart.net
+* @link ${PHING.VM.MAINTAINERURL}
 * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -35,11 +35,11 @@ class VirtuemartViewVirtuemart extends VmViewAdmin {
 
 		if (!class_exists('VmImage'))
 			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'image.php');
-		VmConfig::loadJLang('com_virtuemart_orders',TRUE);
+		vmLanguage::loadJLang('com_virtuemart_orders',TRUE);
 
 
-		if(vFactory::getApplication()->isSite()){
-			$bar = vToolBar::getInstance('toolbar');
+		if(JFactory::getApplication()->isSite()){
+			$bar = JToolBar::getInstance('toolbar');
 			$bar->appendButton('Link', 'back', 'COM_VIRTUEMART_LEAVE', 'index.php?option=com_virtuemart&manage=0');
 		}
 
@@ -98,7 +98,7 @@ class VirtuemartViewVirtuemart extends VmViewAdmin {
 		//if($layout=='default'){
 			$j = 'jQuery("#feed").ready(function(){
 				var datas = "";
-				vmSiteurl = "'. vUri::root( ) .'"
+				vmSiteurl = "'. JURI::root( ) .'"
 				jQuery.ajax({
 						type: "GET",
 						async: true,

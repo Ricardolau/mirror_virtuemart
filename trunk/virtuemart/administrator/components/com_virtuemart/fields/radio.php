@@ -10,10 +10,10 @@
 defined('JPATH_PLATFORM') or die;
 
 if(!class_exists('VmConfig')) require(JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'helpers'.DS.'config.php');
-if(!class_exists('vFormField')) require(VMPATH_ADMIN .DS. 'vmf' .DS. 'form' .DS. 'field.php');
+//if(!class_exists('vFormField')) require(VMPATH_ADMIN .DS. 'vmf' .DS. 'form' .DS. 'field.php');
 
 //vFormHelper::loadFieldClass('list');
-if(!class_exists('vFormFieldList')) require(VMPATH_ADMIN .DS. 'fields' .DS. 'jfields' .DS. 'list.php');
+//if(!class_exists('vFormFieldList')) require(VMPATH_ADMIN .DS. 'fields' .DS. 'jfields' .DS. 'list.php');
 
 /**
  * Form Field class for the Joomla Platform.
@@ -22,7 +22,7 @@ if(!class_exists('vFormFieldList')) require(VMPATH_ADMIN .DS. 'fields' .DS. 'jfi
  * @link   http://www.w3.org/TR/html-markup/command.radio.html#command.radio
  * @since  11.1
  */
-class vFormFieldRadio extends vFormFieldList
+class JFormFieldRadio extends JFormFieldList
 {
 	/**
 	 * The form field type.

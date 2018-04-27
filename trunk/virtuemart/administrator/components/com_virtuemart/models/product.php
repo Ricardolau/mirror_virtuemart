@@ -255,6 +255,7 @@ class VirtueMartModelProduct extends VmModel {
 
 		$this->searchcustoms = $app->getUserStateFromRequest ($option . '.customfields', 'customfields', '', 'array');
 		if(!empty($this->searchcustoms)){
+			if(is_object($this->searchcustoms)) $this->searchcustoms = get_object_vars($this->searchcustoms);
 			$this->searchcustoms = vRequest::filter($this->searchcustoms,FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
 		}
 

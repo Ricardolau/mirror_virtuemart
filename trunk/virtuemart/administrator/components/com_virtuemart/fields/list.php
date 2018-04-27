@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class vFormFieldList extends vFormField
+class JFormFieldList extends JFormField
 {
 	/**
 	 * The form field type.

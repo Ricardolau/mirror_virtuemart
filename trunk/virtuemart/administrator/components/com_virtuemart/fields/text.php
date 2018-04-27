@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 if(!class_exists('VmConfig')) require(JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'helpers'.DS.'config.php');
-if(!class_exists('vFormField')) require(VMPATH_ADMIN .DS. 'vmf' .DS. 'form' .DS. 'field.php');
+//if(!class_exists('vFormField')) require(VMPATH_ADMIN .DS. 'vmf' .DS. 'form' .DS. 'field.php');
 
 /**
  * Form Field class for the Joomla Platform.
@@ -19,7 +19,7 @@ if(!class_exists('vFormField')) require(VMPATH_ADMIN .DS. 'vmf' .DS. 'form' .DS.
  * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
  * @since  11.1
  */
-class vFormFieldText extends vFormField
+class JFormFieldText extends JFormField
 {
 	/**
 	 * The form field type.

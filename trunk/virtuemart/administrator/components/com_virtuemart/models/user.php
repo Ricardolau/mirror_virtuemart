@@ -631,28 +631,12 @@ class VirtueMartModelUser extends VmModel {
 				vmdebug('Error storing vendor',$vendorModel);
 				return false;
 			}
-			$this->setOrderConstraint();
 
 		}
 
 		return true;
 	}
 
-	/**
-	 * setOrderConstraint to comply to the French financial Law 2018
-	 *
-	 * @author Valérie Isaksen
-	 */
-	function setOrderConstraint() {
-		if (!class_exists('VirtueMartModelConfig')) {
-			require(VMPATH_ADMIN . '/models/config.php');
-		}
-		$res = VirtueMartModelConfig::checkConfigTableExists();
-		if (!empty($res)) {
-			$configModel = $this->getModel('config');
-			 $configModel->setOrderConstraint();
-		}
-	}
 
 
 	/**

@@ -493,12 +493,6 @@ class VirtueMartModelConfig extends VmModel {
 		$active_langs = array_unique($active_langs);
 		$config->set('active_languages',$active_langs);
 
-		$orderConstraintIsRequired= $this->vendorRequireOrderConstraint();
-		if ($orderConstraintIsRequired) {
-			$config->set('ordersAddOnly',1);
-			$config->set('ChangedInvCreateNewInvNumber',1);
-		}
-
 
 		//ATM we want to ensure that only one config is used
 		$confData = array();
@@ -781,53 +775,7 @@ class VirtueMartModelConfig extends VmModel {
 	}
 
 
-	/**
-	 * orderConstraintAction to comply to the French financial Law 2018
-	 * Those 2 params are required: ordersAddOnly=1, ChangedInvCreateNewInvNumber=1
-	 *
-	 * @author Valérie Isaksen
-	 */
-	//France, Guadeloupe, Martinique, Guyane ,La Réunion, Polynésie française et Nouvelle-Calédonie, Wallis-et-Futuna, Saint-Pierre-et-Miquelon, Saint-Barthélemy, Saint-Martin
-	static $defaultOrderConstraintCountries = array('FRA', 'GLP', 'MTQ', 'GUF', 'REU', 'PYF', 'NCL', 'WLF', 'SPM', 'BLM', 'MAF');
-	static $vendorCountry = '';
 
-	function vendorRequireOrderConstraint() {
-		if(!self::checkConfigTableExists()){ return ;}
-		$vendorModel = VmModel::getModel('vendor');
-		$vendorAddress = $vendorModel->getVendorAdressBT(1);
-		self::$vendorCountry = ShopFunctions::getCountryByID($vendorAddress->virtuemart_country_id, 'country_3_code');
-
-		$config = VmConfig::loadConfig();
-
-		$orderConstraintCountries = $config->get('OrderConstraintCountries', array());
-		$orderConstraintCountries = array_merge(self::$defaultOrderConstraintCountries, $orderConstraintCountries);
-
-		if (in_array(self::$vendorCountry, $orderConstraintCountries)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	function setOrderConstraint() {
-		vmLanguage::loadJLang('com_virtuemart_config',false);
-
-		$config = VmConfig::loadConfig();
-		$orderConstraintIsRequired= $this->vendorRequireOrderConstraint();
-		if ($orderConstraintIsRequired) {
-			$config->set('ordersAddOnly',1);
-			$config->set('ChangedInvCreateNewInvNumber',1);
-		}
-
-		$data['virtuemart_config_id'] = 1;
-		$data['config'] = $config->toString();
-
-		$confTable = $this->getTable('configs');
-		$confTable->bindChecknStore($data);
-
-		VmConfig::loadConfig(true);
-
-	}
 }
 
 //pure php no closing tag

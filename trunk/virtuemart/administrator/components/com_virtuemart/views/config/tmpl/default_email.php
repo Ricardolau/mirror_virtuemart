@@ -45,6 +45,7 @@ defined('_JEXEC') or die('Restricted access');
 		?>
 	</table>
 </fieldset>
+<?php if (VmConfig::get('ordersAddOnly', false)) { ?>
 <fieldset>
 	<legend><?php echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_SHOP_ORDERS'); ?></legend>
 	<table class="admintable">
@@ -61,6 +62,7 @@ defined('_JEXEC') or die('Restricted access');
 		?>
 	</table>
 </fieldset>
+<?php } ?>
 <fieldset>
 	<legend><?php echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_SHOP_INVOICES'); ?></legend>
 	<table class="admintable">

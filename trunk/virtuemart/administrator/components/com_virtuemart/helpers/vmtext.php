@@ -153,4 +153,31 @@ class vmText
 		return '';
 	}
 
+	/**
+	 * Translates a string into the current language.
+	 *
+	 * Examples:
+	 * `<?php echo Text::alt('JALL', 'language'); ?>` will generate a 'All' string in English but a "Toutes" string in French
+	 * `<?php echo Text::alt('JALL', 'module'); ?>` will generate a 'All' string in English but a "Tous" string in French
+	 *
+	 * @param   string   $string                The string to translate.
+	 * @param   string   $alt                   The alternate option for global string
+	 * @param   mixed    $jsSafe                Boolean: Make the result javascript safe.
+	 * @param   boolean  $interpretBackSlashes  To interpret backslashes (\\=\, \n=carriage return, \t=tabulation)
+	 * @param   boolean  $script                To indicate that the string will be pushed in the javascript language store
+	 *
+	 * @return  string  The translated string or the key if $script is true
+	 *
+	 * @since   11.1
+	 */
+	public static function alt($string, $alt, $jsSafe = false, $interpretBackSlashes = true, $script = false)
+	{
+		if (\JFactory::getLanguage()->hasKey($string . '_' . $alt))
+		{
+			$string .= '_' . $alt;
+		}
+
+		return static::_($string, $jsSafe, $interpretBackSlashes, $script);
+	}
+
 }

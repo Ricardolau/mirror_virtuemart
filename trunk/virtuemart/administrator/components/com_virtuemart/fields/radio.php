@@ -3,17 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
-if(!class_exists('VmConfig')) require(JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'helpers'.DS.'config.php');
-//if(!class_exists('vFormField')) require(VMPATH_ADMIN .DS. 'vmf' .DS. 'form' .DS. 'field.php');
-
-//vFormHelper::loadFieldClass('list');
-//if(!class_exists('vFormFieldList')) require(VMPATH_ADMIN .DS. 'fields' .DS. 'jfields' .DS. 'list.php');
+JFormHelper::loadFieldClass('list');
 
 /**
  * Form Field class for the Joomla Platform.
@@ -33,6 +29,14 @@ class JFormFieldRadio extends JFormFieldList
 	protected $type = 'Radio';
 
 	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  3.5
+	 */
+	protected $layout = 'joomla.form.field.radio';
+
+	/**
 	 * Method to get the radio button field input markup.
 	 *
 	 * @return  string  The field input markup.
@@ -41,49 +45,30 @@ class JFormFieldRadio extends JFormFieldList
 	 */
 	protected function getInput()
 	{
-		$html = array();
-
-		// Initialize some field attributes.
-		$class     = !empty($this->class) ? ' class="radio ' . $this->class . '"' : ' class="radio"';
-		$required  = $this->required ? ' required aria-required="true"' : '';
-		$autofocus = $this->autofocus ? ' autofocus' : '';
-		$disabled  = $this->disabled ? ' disabled' : '';
-		$readonly  = $this->readonly;
-
-		// Start the radio field output.
-		$html[] = '<fieldset id="' . $this->id . '"' . $class . $required . $autofocus . $disabled . ' >';
-
-		// Get the field options.
-		$options = $this->getOptions();
-
-		// Build the radio field output.
-		foreach ($options as $i => $option)
+		if (empty($this->layout))
 		{
-			// Initialize some option attributes.
-			$checked = ((string) $option->value == (string) $this->value) ? ' checked="checked"' : '';
-			$class = !empty($option->class) ? ' class="' . $option->class . '"' : '';
-
-			$disabled = !empty($option->disable) || ($readonly && !$checked);
-
-			$disabled = $disabled ? ' disabled' : '';
-
-			// Initialize some JavaScript option attributes.
-			$onclick = !empty($option->onclick) ? ' onclick="' . $option->onclick . '"' : '';
-			$onchange = !empty($option->onchange) ? ' onchange="' . $option->onchange . '"' : '';
-
-			$html[] = '<input type="radio" id="' . $this->id . $i . '" name="' . $this->name . '" value="'
-				. htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8') . '"' . $checked . $class . $required . $onclick
-				. $onchange . $disabled . ' />';
-
-			$html[] = '<label for="' . $this->id . $i . '"' . $class . ' >'
-				. vmText::alt($option->text, preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)) . '</label>';
-
-			$required = '';
+			throw new UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
 		}
 
-		// End the radio field output.
-		$html[] = '</fieldset>';
+		return $this->getRenderer($this->layout)->render($this->getLayoutData());
+	}
 
-		return implode($html);
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
+	protected function getLayoutData()
+	{
+		$data = parent::getLayoutData();
+
+		$extraData = array(
+			'options' => $this->getOptions(),
+			'value'   => (string) $this->value,
+		);
+
+		return array_merge($data, $extraData);
 	}
 }

@@ -159,8 +159,8 @@ class plgVmCustomSpecification extends vmCustomPlugin {
 	 * We must reimplement this triggers for joomla 1.7
 	 * vmplugin triggers note by Max Milbers
 	 */
-	public function plgVmOnStoreInstallPluginTable($psType,$name) {
-		return $this->onStoreInstallPluginTable($psType,$name);
+	public function plgVmOnStoreInstallPluginTable($psType,$data,$table) {
+		return $this->onStoreInstallPluginTable($psType,$data,$table);
 	}
 
 	function plgVmSetOnTablePluginParamsCustom($name, $id, &$table){

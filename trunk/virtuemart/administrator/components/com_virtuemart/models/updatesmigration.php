@@ -581,7 +581,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 			$query="UPDATE `#__updates` SET `version`=".$db->quote((string)$xml->version)."
 					         WHERE `extension_id`=".$extension_id;
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 
 
@@ -592,13 +592,13 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 				        `type`=".$db->quote((string)$xml->updateservers->server['type']).",
 				        `location`=".$db->quote((string)$xml->updateservers->server).", enabled=1 ";
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 
 				$update_site_id=$db->insertId();
 
 				$query="INSERT INTO `#__update_sites_extensions` SET `update_site_id`=".$update_site_id." , `extension_id`=".$extension_id;
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 			} else {
 				if(empty($update_sites_extensions->update_site_id)){
 					vmWarn('Update site id not found for '.$element);

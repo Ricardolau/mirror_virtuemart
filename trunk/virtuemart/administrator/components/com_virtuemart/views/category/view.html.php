@@ -50,7 +50,7 @@ class VirtuemartViewCategory extends VmViewAdmin {
 
 			vmLanguage::loadJLang('com_virtuemart_config');
 
-			$category = $model->getCategory('', false, false);
+			$category = $model->getCategory('', false);
 			if(!empty($category->_loadedWithLangFallback)){
 				vmInfo('COM_VM_LOADED_WITH_LANGFALLBACK',$category->_loadedWithLangFallback);
 			}

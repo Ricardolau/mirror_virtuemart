@@ -1115,8 +1115,8 @@ vmdebug('my prices',$data);
 			}*/
 
 			/* Update the order history */
-			$this->_updateOrderHist($virtuemart_order_id, $data->order_status, $inputOrder['customer_notified'], $inputOrder['comments']);
-
+			//$this->_updateOrderHist($virtuemart_order_id, $data->order_status, $inputOrder['customer_notified'], $inputOrder['comments']);
+			$this->updateOrderHistory($inputOrder);
 			// When the plugins did not already notified the user, do it here (the normal way)
 			//Attention the ! prevents at the moment that an email is sent. But it should used that way.
 // 			if (!$inputOrder['customer_notified']) {
@@ -1849,13 +1849,13 @@ vmdebug('my prices',$data);
 
 	public function updateOrderHistory($inputOrder){
 
-		$_orderHist = $this->getTable('order_histories');
 		if(!empty($inputOrder['virtuemart_order_id'])){
 			$db = JFactory::getDbo();
 			$q = 'SELECT * FROM `#__virtuemart_order_histories` WHERE `virtuemart_order_id`="'.$inputOrder['virtuemart_order_id'].'" ORDER BY `created_on` DESC LIMIT 1';
 			$db->setQuery($q);
 			$oldHistoryRow = $db->loadObject();
 			if(empty($oldHistoryRow) or $oldHistoryRow->order_status!=$inputOrder['order_status']){
+				$_orderHist = $this->getTable('order_histories');
 				$inputOrder['comments'] = nl2br($inputOrder['comments']);	//would be cooler in the table check function
 				$_orderHist->bindChecknStore($inputOrder);
 			}

@@ -53,7 +53,8 @@ class VirtueMartModelCategory extends VmModel {
 
 
 	public function checkIfCached($virtuemart_category_id,$childs=TRUE){
-		return !empty($this->_cache[$virtuemart_category_id][(int)$childs]);
+		$childs = (int)$childs;
+		return !empty($this->_cache[$virtuemart_category_id][(int)$childs][VmLanguage::$currLangTag]);
 	}
 
 	/**
@@ -61,64 +62,69 @@ class VirtueMartModelCategory extends VmModel {
 	 *
 	 * @author RickG, jseros, Max Milbers
 	 */
-	public function getCategory($virtuemart_category_id=0,$childs=TRUE, $fe = true){
+	public function getCategory($virtuemart_category_id=0, $childs=TRUE, $fe = true){
 
 		if(!empty($virtuemart_category_id)) $this->_id = (int)$virtuemart_category_id;
 		$childs = (int)$childs;
-		if (empty($this->_cache[$this->_id][$childs.VmLanguage::$currLangTag])) {
+		vmdebug('getCategory '.$this->_id.' '.$childs);
+		if (isset($this->_cache[$this->_id][$childs][VmLanguage::$currLangTag])) {
+			vmdebug('Found cached cat');
+			return clone($this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]);
+		} else {
 
-			if($childs and !empty($this->_cache[$this->_id][0])){
-				$this->_cache[$this->_id][$childs.VmLanguage::$currLangTag] = clone($this->_cache[$this->_id][0]);
-			} else if(!$childs and !empty($this->_cache[$this->_id][1])){
-				$t = clone($this->_cache[$this->_id][1]);
+			if($childs and !empty($this->_cache[$this->_id][0][VmLanguage::$currLangTag])){
+				$this->_cache[$this->_id][1][VmLanguage::$currLangTag] = clone($this->_cache[$this->_id][0][VmLanguage::$currLangTag]);
+vmdebug('Found cached cat, but without children');
+			} else if(!$childs and !empty($this->_cache[$this->_id][1][VmLanguage::$currLangTag])){
+				$t = clone($this->_cache[$this->_id][1][VmLanguage::$currLangTag]);
 				$t->children = false;
 				$t->haschildren = null;
 				$t->productcount = false;
 				$t->parents = false;
-				$this->_cache[$this->_id][0] = $t;
-				//vmdebug('Use category already loaded with children');
+				$this->_cache[$this->_id][0][VmLanguage::$currLangTag] = $t;
+				vmdebug('Use already loaded category with children');
 				return $t;
+
 			} else {
-				$this->_cache[$this->_id][$childs.VmLanguage::$currLangTag] = $this->getTable('categories');
+				$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag] = $this->getTable('categories');
 				if(!empty($this->_id)){
-					$this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->load($this->_id);
+					$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->load($this->_id);
 
 					$xrefTable = $this->getTable('category_medias');
-					$this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->virtuemart_media_id = $xrefTable->load((int)$this->_id);
+					$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->virtuemart_media_id = $xrefTable->load((int)$this->_id);
 				} else {
-					$this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->virtuemart_media_id = false;
+					$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->virtuemart_media_id = false;
 				}
 
-
-				$this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->categorytemplate = $this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->category_template;
-				$this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->categorylayout = $this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->category_layout;
-				$this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->productlayout = $this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->category_product_layout;
+				$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->categorytemplate = $this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->category_template;
+				$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->categorylayout = $this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->category_layout;
+				$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->productlayout = $this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->category_product_layout;
 			}
 
-			$this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->children = false;
-			$this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->haschildren = null;
-			$this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->productcount = false;
-			$this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->parents = false;
+			$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->children = false;
+			$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->haschildren = null;
+			$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->productcount = false;
+			$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->parents = false;
 			if($childs){
-				$this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->haschildren = $this->hasChildren($this->_id);
+				$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->haschildren = $this->hasChildren($this->_id);
 
 				/* Get children if they exist */
-				if ($this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->haschildren) {
-					//$this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->children = $this->getCategories( true, $this->_id );
-					$this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->children = $this->getChildCategoryList($this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->virtuemart_vendor_id, $this->_id );
+				if ($this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->haschildren) {
+					//$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->children = $this->getCategories( true, $this->_id );
+					$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->children = $this->getChildCategoryList($this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->virtuemart_vendor_id, $this->_id );
 				}
 
 
 				/* Get the product count */
-				$this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->productcount = $this->countProducts($this->_id);
+				$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->productcount = $this->countProducts($this->_id);
 
-				/* Get parent for breatcrumb */
-				$this->_cache[$this->_id][$childs.VmLanguage::$currLangTag]->parents = $this->getParentsList($this->_id);
+				/* Get parent for breadcrumb */
+				$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->parents = $this->getParentsList($this->_id);
 			}
 
 		}
 
-		return $this->_cache[$this->_id][$childs.VmLanguage::$currLangTag];
+		return $this->_cache[$this->_id][$childs][VmLanguage::$currLangTag];
 	}
 
 	/**

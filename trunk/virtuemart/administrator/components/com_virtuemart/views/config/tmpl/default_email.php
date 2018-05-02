@@ -55,9 +55,9 @@ defined('_JEXEC') or die('Restricted access');
 <?php */
 
 		/* Should remove none ??? */
-		if (VmConfig::get('ordersAddOnly', false)) {
+
 			echo VmHTML::row('genericlist', 'COM_VIRTUEMART_ADMIN_CFG_STATUS_ORDER_ALLOWEDIT_OS', $this->os_Options, 'order_allowedit_os[]', $attrlist, 'order_status_code', 'order_status_name', VmConfig::get('order_allowedit_os', array('P', 'U')), 'order_allowedit_os', true);
-		}
+
 
 		?>
 	</table>

@@ -193,7 +193,7 @@ class VirtueMartViewProductdetails extends VmView {
 			if ($category_model) {
 
 				$category = $category_model->getCategory($product->virtuemart_category_id, $this->cat_productdetails);
-				//if($category->parents===false) $category->parents = $category_model->getParentsList($product->virtuemart_category_id);
+				if($category->parents===null) $category->parents = $category_model->getParentsList($product->virtuemart_category_id);
 				if(in_array($last_category_id,$product->categories) && !$seo_full) $product->category_name = $category->category_name;
 
 				$category_model->addImages($category, 1);

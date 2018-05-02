@@ -96,6 +96,7 @@ vmdebug('Found cached cat, but without children');
 					$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->virtuemart_media_id = false;
 				}
 
+				//Fallbacks
 				$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->categorytemplate = $this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->category_template;
 				$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->categorylayout = $this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->category_layout;
 				$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->productlayout = $this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->category_product_layout;
@@ -104,7 +105,8 @@ vmdebug('Found cached cat, but without children');
 			$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->children = false;
 			$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->haschildren = null;
 			$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->productcount = false;
-			$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->parents = false;
+			$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->parents = null;
+
 			if($childs){
 				$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->haschildren = $this->hasChildren($this->_id);
 
@@ -113,7 +115,6 @@ vmdebug('Found cached cat, but without children');
 					//$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->children = $this->getCategories( true, $this->_id );
 					$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->children = $this->getChildCategoryList($this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->virtuemart_vendor_id, $this->_id );
 				}
-
 
 				/* Get the product count */
 				$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->productcount = $this->countProducts($this->_id);

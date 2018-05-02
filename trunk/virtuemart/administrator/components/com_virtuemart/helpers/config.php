@@ -134,11 +134,13 @@ class vmDefines {
 		$v = hash('crc32b',(VMPATH_ROOT.VM_REV));
 		defined('VM_JS_VER') or define('VM_JS_VER', $v);
 
-		if(!class_exists('vRequest')) require(VMPATH_ADMIN .'/helpers/vrequest.php');
+		self::core();
+
+		/*if(!class_exists('vRequest')) require(VMPATH_ADMIN .'/helpers/vrequest.php');
 
 		if(!class_exists('vmText')) require(VMPATH_ADMIN .'/helpers/vmtext.php');
 		if(!class_exists('vmLanguage')) require(VMPATH_ADMIN .'/helpers/vmlanguage.php');
-
+*/
 		if(!defined('JVERSION')){
 			self::loadJoomlaCms();
 		}
@@ -152,16 +154,16 @@ class vmDefines {
 
 		if(!class_exists('vController')) require(VMPATH_ADMIN .'/vmf/vcontroller.php');
 */
-		if(!class_exists('VmTable')){
-			require(VMPATH_ADMIN .'/helpers/vmtable.php');
+		//if(!class_exists('VmTable')){
+			//require(VMPATH_ADMIN .'/helpers/vmtable.php');
 			VmTable::addIncludePath(VMPATH_ADMIN .'/tables','Table');
-		}
+		//}
 
-		if(!class_exists('VmModel')) require(VMPATH_ADMIN .'/helpers/vmmodel.php');
+		//if(!class_exists('VmModel')) require(VMPATH_ADMIN .'/helpers/vmmodel.php');
 //		if(!class_exists('vUri')) require(VMPATH_ADMIN .'/vmf/environment/uri.php');
 
 		//if(!class_exists('vHtml')) require(VMPATH_ADMIN .'/vmf/html/html.php');
-		if(!class_exists('vmJsApi')) require(VMPATH_ADMIN .'/helpers/vmjsapi.php');
+		//if(!class_exists('vmJsApi')) require(VMPATH_ADMIN .'/helpers/vmjsapi.php');
 
 /*		if(!class_exists('vDispatcher')) require(VMPATH_ADMIN .'/vmf/dispatcher.php');
 		if(!class_exists('vPlugin')) require(VMPATH_ADMIN .'/vmf/plugin/plugin.php');
@@ -171,7 +173,58 @@ class vmDefines {
 		//Force Joomla to use the FE overrides
 		//defined('JPATH_SITE') or define('JPATH_SITE','VMPATH_SITE');
 	}
+
+	static public function core(){
+
+		JLoader::register('AdminUIHelper', VMPATH_ADMIN.'/helpers/adminui.php');
+		JLoader::register('calculationHelper', VMPATH_ADMIN.'/helpers/calculationh.php');
+		JLoader::register('VmConnector', VMPATH_ADMIN.'/helpers/connection.php');
+		JLoader::register('Creditcard', VMPATH_ADMIN.'/helpers/creditcart.php');
+		JLoader::register('CurrencyDisplay', VMPATH_ADMIN.'/helpers/currencydisplay.php');
+		JLoader::register('VmHtml', VMPATH_ADMIN.'/helpers/html.php');
+		JLoader::register('VmImage', VMPATH_ADMIN.'/helpers/image.php');
+		JLoader::register('Img2Thumb', VMPATH_ADMIN.'/helpers/img2thumb.php');
+		JLoader::register('VmMediaHandler', VMPATH_ADMIN.'/helpers/mediahandler.php');
+		JLoader::register('vmFile', VMPATH_ADMIN.'/helpers/mediahandler.php');
+		JLoader::register('Migrator', VMPATH_ADMIN.'/helpers/migrator.php');
+		JLoader::register('ShopFunctions', VMPATH_ADMIN.'/helpers/shopFunctions.php');
+		JLoader::register('GenericTableUpdater', VMPATH_ADMIN.'/helpers/tableupdater.php');
+		JLoader::register('VmController', VMPATH_ADMIN.'/helpers/vmcontroller.php');
+		JLoader::register('vmCrypt', VMPATH_ADMIN.'/helpers/vmcrypt.php');
+		JLoader::register('vmFilter', VMPATH_ADMIN.'/helpers/vmfilter.php');
+		JLoader::register('vmJsApi', VMPATH_ADMIN.'/helpers/vmjsapi.php');
+		JLoader::register('vmLanguage', VMPATH_ADMIN.'/helpers/vmlanguage.php');
+		JLoader::register('VmModel', VMPATH_ADMIN.'/helpers/vmmodel.php');
+		JLoader::register('VmPagination', VMPATH_ADMIN.'/helpers/vmpagination.php');
+		JLoader::register('vmRSS', VMPATH_ADMIN.'/helpers/vmrss.php');
+		JLoader::register('VmTable', VMPATH_ADMIN.'/helpers/vmtable.php');
+		JLoader::register('VmTableData', VMPATH_ADMIN.'/helpers/vmtabledata.php');
+		JLoader::register('VmTableXarray', VMPATH_ADMIN.'/helpers/vmtablexarray.php');
+		JLoader::register('vmText', VMPATH_ADMIN.'/helpers/vmtext.php');
+		JLoader::register('vmUploader', VMPATH_ADMIN.'/helpers/vmuploader.php');
+		JLoader::register('VmViewAdmin', VMPATH_ADMIN.'/helpers/vmviewadmin.php');
+		JLoader::register('vObject', VMPATH_ADMIN.'/helpers/vobject.php');
+		JLoader::register('vRequest', VMPATH_ADMIN.'/helpers/vrequest.php');
+
+		JLoader::register('vmCalculationPlugin', VMPATH_PLUGINLIBS.'/vmcalculationplugin.php');
+		JLoader::register('vmCouponPlugin', VMPATH_PLUGINLIBS.'/vmcouponplugin.php');
+		JLoader::register('vmCurrencyPlugin', VMPATH_PLUGINLIBS.'/vmcurrencyplugin.php');
+		JLoader::register('vmCustomPlugin', VMPATH_PLUGINLIBS.'/vmcustomplugin.php');
+		JLoader::register('vmExtendedPlugin', VMPATH_PLUGINLIBS.'/vmextendedplugin.php');
+		JLoader::register('vmPlugin', VMPATH_PLUGINLIBS.'/vmplugin.php');
+		JLoader::register('vmPSPlugin', VMPATH_PLUGINLIBS.'/vmpsplugin.php');
+		JLoader::register('vmShopperPlugin', VMPATH_PLUGINLIBS.'/vmshopperplugin.php');
+		JLoader::register('vmUserfieldPlugin', VMPATH_PLUGINLIBS.'/vmuserfieldtypeplugin.php');
+
+		JLoader::register('VirtueMartCart', VMPATH_SITE.'/helpers/cart.php');
+		JLoader::register('CouponHelper', VMPATH_SITE.'/helpers/coupon.php');
+		JLoader::register('shopFunctionsF', VMPATH_SITE.'/helpers/shopfunctionsf.php');
+		JLoader::register('VmPdf', VMPATH_SITE.'/helpers/vmpdf.php');
+		JLoader::register('VmTemplate', VMPATH_SITE.'/helpers/vmtemplate.php');
+		JLoader::register('VmView', VMPATH_SITE.'/helpers/vmview.php');
+	}
 }
+
 
 //In WP, we run the define, when we render vm, in Joomla we have to run them here
 if(defined('JVERSION')){

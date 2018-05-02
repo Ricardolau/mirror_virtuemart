@@ -99,9 +99,6 @@ class VirtuemartViewProduct extends VmViewAdmin {
 				if (!isset($product->shoppergroups)) $product->shoppergroups = 0;
 				$this->shoppergroupList = ShopFunctions::renderShopperGroupList($product->shoppergroups);
 
-				// Load the product price
-				if(!class_exists('calculationHelper')) require(VMPATH_ADMIN.DS.'helpers'.DS.'calculationh.php');
-
 				//Do we need the children? If there is a C customfield, we dont want them
 				$isCustomVariant = false;
 				foreach($product->customfields as $custom){
@@ -218,9 +215,6 @@ class VirtuemartViewProduct extends VmViewAdmin {
 					$this->activeShoppergroups = vmText::_($shoppergroupModel->getDefault(0)->shopper_group_name);
 				}
 
-				if (!class_exists ('calculationHelper')) {
-					require(VMPATH_ADMIN .'/helpers/calculationh.php');
-				}
 				$this->calculator = calculationHelper::getInstance ();
 				$this->deliveryCountry = ShopFunctions::getCountryByID ($this->calculator->_deliveryCountry,  'country_3_code');
 				$this->deliveryState = ShopFunctions::getStateByID ($this->calculator->_deliveryState,  'state_3_code');
@@ -394,9 +388,6 @@ class VirtuemartViewProduct extends VmViewAdmin {
 
 			$this->ajaxCategoryDropDown('virtuemart_category_id');
 
-			//Load the product price
-			if(!class_exists('calculationHelper')) require(VMPATH_ADMIN.DS.'helpers'.DS.'calculationh.php');
-
 			$vendor_model = VmModel::getModel('vendor');
 			$productreviews = VmModel::getModel('ratings');
 
@@ -409,6 +400,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 				$this->lists['vendors'] = Shopfunctions::renderVendorList($model->virtuemart_vendor_id);
 			}
 
+			$bulletList = VmConfig::get('simpleBulletList',0);
 
 			foreach ($productlist as $virtuemart_product_id => $product) {
 				if(empty($product->virtuemart_media_id)){
@@ -451,10 +443,15 @@ class VirtuemartViewProduct extends VmViewAdmin {
 					$product->product_price_display = vmText::_('COM_VIRTUEMART_NO_PRICE_SET');
 				}*/
 
-				// Write the first 5 categories in the list
+				// Write the first 5 categories in the list or display a bullet list of no more than 10
 				$product->categoriesList = '';
 				if (!empty($product->categories[0])) {
-					$product->categoriesList = shopfunctions::renderGuiList($product->categories,'categories','category_name','category');
+					if($bulletList){
+						$product->categoriesList = shopfunctions::renderSimpleBulletList($product->categories,'categories','category_name','category', '','','10');
+					} else {
+						$product->categoriesList = shopfunctions::renderGuiList($product->categories,'categories','category_name','category');
+					}
+
 				}
 
 				// Write the first 5 manufacturers in the list

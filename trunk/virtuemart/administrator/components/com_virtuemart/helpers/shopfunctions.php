@@ -22,6 +22,71 @@ class ShopFunctions {
 
 	}
 
+
+
+	/**
+	 * Builds an bulleted list for information (not chooseable) no links
+	 *
+	 * @author
+	 *
+	 * @param array $idList ids
+	 * @param string $table vmTable to use
+	 * @param string $name fieldname for the name
+	 * @param string $view view for the links
+	 * @param bool $tableXref the xref table
+	 * @param bool $tableSecondaryKey the fieldname of the xref table
+	 * @param int $quantity
+	 * @param bool $translate
+	 * @return string
+	 */
+	static public function renderSimpleBulletList ($idList, $table, $name, $view, $tableXref = false, $tableSecondaryKey = false, $quantity = 5, $translate = true ) {
+
+		$list = '';
+		$list = '<ul>';
+
+		if ($view != 'user' and $view != 'shoppergroup') {
+			$cid = 'cid';
+		} else if ($view == 'user'){
+			$cid = 'virtuemart_user_id';
+		} else {
+			$cid = 'virtuemart_shoppergroup_id';
+		}
+
+		$model = new VmModel();
+		$table = $model->getTable($table);
+
+		if(!is_array($idList)){
+			$db = JFactory::getDBO ();
+			$q = 'SELECT `' . $table->getPKey() . '` FROM `#__virtuemart_' . $db->escape ($tableXref) . '` WHERE ' . $db->escape ($tableSecondaryKey) . ' = "' . (int)$idList . '"';
+			$db->setQuery ($q);
+			$idList = $db->loadColumn ();
+		}
+
+		$i = 0;
+
+		foreach($idList as $id ){
+
+			$item = $table->load ((int)$id);
+			if($translate) $item->$name = vmText::_($item->$name);
+			$link = JHtml::_('link', JRoute::_('index.php?option=com_virtuemart&view='.$view.'&task=edit&'.$cid.'[]='.$id,false), $item->$name);
+			if($i<$quantity and $i<=count($idList)){
+				$list .= '<li>' . $link . '</li>';
+			} else if ($i==$quantity and $i<count($idList)){
+				$list .= '<li> ...... </li>';
+			}
+
+			$i++;
+		}
+		$list .= '</ul>';
+		return $list;
+	}
+
+
+
+
+
+
+
 	/**
 	 * Builds an enlist for information (not chooseable)
 	 *

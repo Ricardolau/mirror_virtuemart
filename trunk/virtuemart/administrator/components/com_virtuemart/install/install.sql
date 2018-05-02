@@ -804,6 +804,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_products` (
   `product_unit` varchar(8),
   `product_packaging` decimal(8,4) UNSIGNED,
   `product_params` varchar(255) NOT NULL,
+  `product_canon_category_id` INT(1) NULL DEFAULT NULL,
   `hits` int(1) unsigned,
   `intnotes` text,
   `metarobot` varchar(400),

@@ -141,6 +141,21 @@ $i=0;
 				echo '<td><td>';
 			}?>
 		</tr>
+        <tr>
+            <td>
+            	<span class="hasTip" title="<?php echo vmText::_ ('COM_VIRTUEMART_PRODUCT_FORM_CANONICAL_CATEGORY_TIP'); ?>">
+                    <?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_CANONICAL_CATEGORY') ?></span>
+			    <?php
+			    $this->categoryTree = ShopFunctions::categoryListTree($this->product->product_canon_category_id);
+			    ?>
+            </td>
+            <td>
+                <select class="inputbox" id="product_canon_category_id" name="product_canon_category_id"  value="<?php echo $this->product->product_canon_category_id ?>"  size="10">
+                    <option value="">No override</option>
+				    <?php echo $this->categoryTree; ?>
+                </select>
+            </td>
+        </tr>
 	</table>
 </fieldset>
 

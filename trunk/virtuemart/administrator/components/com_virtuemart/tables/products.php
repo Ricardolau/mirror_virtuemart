@@ -96,6 +96,8 @@ class TableProducts extends VmTable {
 	var $layout = '';
        /** @var int published or unpublished */
 	var $published = 1;
+	/** @var int product_canon_category_id used to force a canonical category useful for items in more than one category */
+	var $product_canon_category_id = null;
 
 
 	function __construct($db) {

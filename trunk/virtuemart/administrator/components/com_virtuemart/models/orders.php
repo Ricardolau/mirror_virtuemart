@@ -1841,7 +1841,7 @@ vmdebug('my prices',$data);
 		$order = $this->getTable('orders');
 		$order->load($id);
 		$values = $order->getProperties();
-		$values['order_status'] = $status;
+		$values['order_status_code'] = $status;
 		$values['customer_notified'] = $notified;
 		$values['comments'] = $comment;
 		return $this->updateOrderHistory($values);
@@ -1854,7 +1854,8 @@ vmdebug('my prices',$data);
 			$q = 'SELECT * FROM `#__virtuemart_order_histories` WHERE `virtuemart_order_id`="'.$inputOrder['virtuemart_order_id'].'" ORDER BY `created_on` DESC LIMIT 1';
 			$db->setQuery($q);
 			$oldHistoryRow = $db->loadObject();
-			if(empty($oldHistoryRow) or $oldHistoryRow->order_status!=$inputOrder['order_status']){
+
+			if(empty($oldHistoryRow) or $oldHistoryRow->order_status_code!=$inputOrder['order_status_code']){
 				$_orderHist = $this->getTable('order_histories');
 				$inputOrder['comments'] = nl2br($inputOrder['comments']);	//would be cooler in the table check function
 				$_orderHist->bindChecknStore($inputOrder);

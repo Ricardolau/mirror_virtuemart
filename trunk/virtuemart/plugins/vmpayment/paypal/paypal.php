@@ -20,9 +20,6 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-if (!class_exists('vmPSPlugin')) {
-	require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
-}
 
 if (!class_exists('PaypalHelperPaypal')) {
 	require(VMPATH_ROOT .DS.'plugins'.DS.'vmpayment'.DS.'paypal'.DS.'paypal'.DS.'helpers'.DS.'paypal.php');
@@ -282,10 +279,6 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 			return NULL;
 		}
 
-		if (!class_exists('VirtueMartCart')) {
-			require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');
-		}
-
 		$cart = VirtueMartCart::getCart();
 		if ($this->getPluginMethods($cart->vendorId) === 0) {
 			return FALSE;
@@ -436,12 +429,6 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 			return FALSE;
 		}
 
-		if (!class_exists('VirtueMartModelOrders')) {
-			require(VMPATH_ADMIN . DS . 'models' . DS . 'orders.php');
-		}
-		if (!class_exists('VirtueMartModelCurrency')) {
-			require(VMPATH_ADMIN . DS . 'models' . DS . 'currency.php');
-		}
 		$html='';
 		$this->_currentMethod->payment_currency = $this->getPaymentCurrency($this->_currentMethod,$order['details']['BT']->payment_currency_id);
 		//$this->_currentMethod->payment_currency=$order['details']['BT']->user_currency_id;
@@ -646,15 +633,6 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 	 */
 	function plgVmOnPaymentResponseReceived(&$html) {
 
-		if (!class_exists('VirtueMartCart')) {
-			require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');
-		}
-		if (!class_exists('shopFunctionsF')) {
-			require(VMPATH_SITE . DS . 'helpers' . DS . 'shopfunctionsf.php');
-		}
-		if (!class_exists('VirtueMartModelOrders')) {
-			require(VMPATH_ADMIN . DS . 'models' . DS . 'orders.php');
-		}
 		vmLanguage::loadJLang('com_virtuemart_orders', TRUE);
 
 		// the payment itself should send the parameter needed.
@@ -691,9 +669,7 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 
 		// to do: this
 		$this->debugLog($payment, 'plgVmOnPaymentResponseReceived', 'debug', false);
-		if (!class_exists('CurrencyDisplay')) {
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');
-		}
+
 		//$currency = CurrencyDisplay::getInstance('', $order['details']['BT']->order_currency);
 		$currency = CurrencyDisplay::getInstance('', $order['details']['BT']->payment_currency_id);
 		$paypal_data = new stdClass();
@@ -719,10 +695,6 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 	}
 
 	function plgVmOnUserPaymentCancel() {
-
-		if (!class_exists('VirtueMartModelOrders')) {
-			require(VMPATH_ADMIN . DS . 'models' . DS . 'orders.php');
-		}
 
 		$order_number = vRequest::getString('on', '');
 		$virtuemart_paymentmethod_id = vRequest::getInt('pm', '');
@@ -756,9 +728,6 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 
 		//https://developer.paypal.com/webapps/developer/docs/classic/ipn/integration-guide/IPNandPDTVariables/
 
-		if (!class_exists('VirtueMartModelOrders')) {
-			require(VMPATH_ADMIN . DS . 'models' . DS . 'orders.php');
-		}
 		$paypal_data = $_POST;
 
 		//Recuring payment return rp_invoice_id instead of invoice
@@ -1397,9 +1366,6 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 			$checked = '';
 		}
 
-		if (!class_exists ('CurrencyDisplay')) {
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');
-		}
 		$currency = CurrencyDisplay::getInstance ();
 		$costDisplay = "";
 		if ($pluginSalesPrice) {
@@ -1536,9 +1502,6 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 			return false;
 		}
 
-		if(!class_exists( 'VirtueMartCart' )) {
-			require(VMPATH_SITE.DS.'helpers'.DS.'cart.php');
-		}
 		$cart = VirtueMartCart::getCart();
 		//$cart->prepareCartData();
 		$cart->virtuemart_paymentmethod_id = $virtuemart_paymentmethod_id;

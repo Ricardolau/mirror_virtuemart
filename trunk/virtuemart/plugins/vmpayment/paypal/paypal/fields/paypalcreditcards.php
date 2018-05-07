@@ -21,9 +21,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-if (!class_exists('ShopFunctions')) {
-	require(VMPATH_ADMIN . DS.'helpers'.DS.'shopfunctions.php');
-}
 if (!class_exists('PaypalHelperPaypal')) {
 	require(VMPATH_ROOT .   DS  .'plugins'. DS  .'vmpayment'. DS  .'paypal'. DS  .'paypal'. DS  .'helpers'. DS  .'paypal.php');
 }

@@ -216,12 +216,6 @@ class KlarnaHandler {
 		$method_invoice_fee = self::getInvoiceFee($method, $country);
 		$invoice_tax_id = self::getInvoiceTaxId($method, $country);
 		vmdebug('getInvoiceFeeInclTax', $cartPaymentCurrency, $invoice_fee);
-		if (!class_exists('calculationHelper')) {
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'calculationh.php');
-		}
-		if (!class_exists('CurrencyDisplay')) {
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');
-		}
 
 		if (!class_exists('VirtueMartModelVendor')) {
 			require(VMPATH_ADMIN . DS . 'models' . DS . 'vendor.php');

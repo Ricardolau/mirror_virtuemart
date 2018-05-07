@@ -377,7 +377,6 @@ class PaypalHelperPayPalExp extends PaypalHelperPaypal {
 			$this->storeAddresses();
 			VmInfo('VMPAYMENT_PAYPAL_PROCEED_CHECKOUT');
 
-			if (!class_exists('VirtueMartCart')) require(VMPATH_SITE .'/helpers/cart.php');
 			$cart = VirtueMartCart::getCart();
 			$cart->checkoutData(true);
 			return true;
@@ -871,9 +870,6 @@ class PaypalHelperPayPalExp extends PaypalHelperPaypal {
 		$expressCheckout = vRequest::getVar('expresscheckout', '');
 		if ($expressCheckout == 'cancel') {
 			$this->customerData->clear();
-			if (!class_exists('VirtueMartCart')) {
-				require(JPATH_VM_SITE . DS . 'helpers' . DS . 'cart.php');
-			}
 			$cart = VirtueMartCart::getCart();
 			$cart->virtuemart_paymentmethod_id = 0;
 			$cart->setCartIntoSession();

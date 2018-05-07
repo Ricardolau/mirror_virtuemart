@@ -156,9 +156,6 @@ class PaypalHelperPaypal {
 	}
 
 	public function setTotal ($total) {
-		if (!class_exists('CurrencyDisplay')) {
-			require(VMPATH_ADMIN . DS  .'helpers'.DS.'currencydisplay.php');
-		}
 		$this->total = vmPSPlugin::getAmountValueInCurrency($total, $this->_method->payment_currency);
 
 		$cd = CurrencyDisplay::getInstance($this->cart->pricesCurrency);
@@ -302,9 +299,6 @@ class PaypalHelperPaypal {
 	}
 
 	protected function truncate ($string, $length) {
-		if (!class_exists('shopFunctionsF')) {
-			require(VMPATH_SITE . DS . 'helpers' . DS . 'shopfunctionsf.php');
-		}
 		return ShopFunctionsF::vmSubstr($string, 0, $length);
 	}
 
@@ -609,8 +603,6 @@ class PaypalHelperPaypal {
 	}*/
 
 	function getRemoteIPAddress() {
-		if (!class_exists('ShopFunctions'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
 		return ShopFunctions::getClientIP();
 	}
 

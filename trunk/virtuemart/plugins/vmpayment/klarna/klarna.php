@@ -1661,9 +1661,7 @@ class plgVmPaymentKlarna extends vmPSPlugin {
 			$db->setQuery ($q);
 			$taxrules = $db->loadAssocList ();
 		}
-		if (!class_exists ('calculationHelper')) {
-			require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'calculationh.php');
-		}
+
 		$calculator = calculationHelper::getInstance ();
 		if (count ($taxrules) > 0) {
 			$calculator->setRevert (TRUE);

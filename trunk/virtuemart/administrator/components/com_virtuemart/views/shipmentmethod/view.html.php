@@ -19,9 +19,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-// Load the view framework
-if(!class_exists('VmViewAdmin'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmviewadmin.php');
-
 /**
  * HTML View class for maintaining the list of shipment
  *
@@ -32,14 +29,6 @@ if(!class_exists('VmViewAdmin'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmviewadmi
 class VirtuemartViewShipmentmethod extends VmViewAdmin {
 
 	function display($tpl = null) {
-
-		// Load the helper(s)
-		$this->addHelperPath(VMPATH_ADMIN.DS.'helpers');
-
-		if(!class_exists('vmPSPlugin')) require(VMPATH_PLUGINLIBS.DS.'vmpsplugin.php');
-
-		if (!class_exists('VmHTML'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'html.php');
 
 		$model = VmModel::getModel();
 
@@ -66,17 +55,11 @@ class VirtuemartViewShipmentmethod extends VmViewAdmin {
 			} else {
 				$shipment->form = null;
 			}
-			if (!class_exists('VmImage'))
-				require(VMPATH_ADMIN . DS . 'helpers' . DS . 'image.php');
-
-			 if(!class_exists('VirtueMartModelVendor')) require(VMPATH_ADMIN.DS.'models'.DS.'vendor.php');
-
-
 
 			if($this->showVendors()){
-					$vendorList= ShopFunctions::renderVendorList($shipment->virtuemart_vendor_id);
-					$this->assignRef('vendorList', $vendorList);
-			 }
+				$vendorList= ShopFunctions::renderVendorList($shipment->virtuemart_vendor_id);
+				$this->assignRef('vendorList', $vendorList);
+			}
 
 			$this->pluginList = self::renderInstalledShipmentPlugins($shipment->shipment_jplugin_id);
 			$this->assignRef('shipment', $shipment);
@@ -105,7 +88,7 @@ class VirtuemartViewShipmentmethod extends VmViewAdmin {
 
 			foreach ($this->shipments as &$data){
 				// Write the first 5 shoppergroups in the list
-				$data->shipmentShoppersList = shopfunctions::renderGuiList($data->virtuemart_shoppergroup_ids,'shoppergroups','shopper_group_name','shopper');
+				$data->shipmentShoppersList = shopfunctions::renderGuiList($data->virtuemart_shoppergroup_ids,'shoppergroups','shopper_group_name','shoppergroup');
 			}
 
 			$this->pagination = $model->getPagination();

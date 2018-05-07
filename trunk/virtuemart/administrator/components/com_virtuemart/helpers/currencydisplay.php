@@ -256,15 +256,16 @@ class CurrencyDisplay {
 			$nb = $this->_nbDecimal;
 		}
 
-		$price = (float)$price * (float)$quantity;
-
 		$price = $this->convertCurrencyTo($currencyId,$price,$inToShopCurrency);
 
 		if($this->_numeric_code===756 and VmConfig::get('rappenrundung',FALSE)=="1"){
+			$price = (float)$price * (float)$quantity;
 			$price = round((float)$price * 2,1) * 0.5;
 		} else {
-			$price = round($price,$nb);
+			$price = round((float)$price,$nb);
+			$price = (float)$price * (float)$quantity;
 		}
+
 		return $price;
 	}
 
@@ -425,8 +426,6 @@ class CurrencyDisplay {
 	function ensureUsingCurrencyCode($curr){
 
 		if(is_numeric($curr) and $curr!=0){
-			if (!class_exists('ShopFunctions'))
-				require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
 			return ShopFunctions::getCurrencyByID($curr,'currency_code_3');
 		}
 		return $curr;
@@ -441,9 +440,6 @@ class CurrencyDisplay {
 	 */
 	function getCurrencyIdByField($value=0,$fieldName ='currency_code_3'){
 		if(is_string($value) ){
-			if (!class_exists('ShopFunctions'))
-				require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
-
 			return ShopFunctions::getCurrencyIDByName($value,$fieldName);
 		}
 		return $value;

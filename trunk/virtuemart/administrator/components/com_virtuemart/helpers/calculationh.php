@@ -75,7 +75,6 @@ class calculationHelper {
 
 		$this->productVendorId = 1;
 
-		if (!class_exists('CurrencyDisplay')) require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');
 		$this->_currencyDisplay = CurrencyDisplay::getInstance();
 		$this->_debug = false;
 
@@ -250,7 +249,6 @@ class calculationHelper {
 					}
 				}
 			} else {
-				if(!class_exists('VirtueMartModelVendor')) require(VMPATH_ADMIN.DS.'models'.DS.'vendor.php');
 				$vendorModel = VmModel::getModel ('vendor');
 				$vendorAddress = $vendorModel->getVendorAdressBT (1);
 				if (isset( $vendorAddress->virtuemart_country_id)){
@@ -265,7 +263,6 @@ class calculationHelper {
 
 
 		if(empty($this->_cart)){
-			if (!class_exists('VirtueMartCart')) require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');
 			$this->_cart = VirtueMartCart::getCart();
 
 		}
@@ -571,7 +568,7 @@ class calculationHelper {
 		$this->rules['DBTax'] = $this->gatherEffectingRulesForProductPrice('DBTax', $this->product_discount_id);
 		$this->rules['DATax'] = $this->gatherEffectingRulesForProductPrice('DATax', $this->product_discount_id);
 		vmdebug('calculateCostprice $this->rules',$this->rules);
-		$salesPrice = $data['salesPrice'];
+		$salesPrice = $this->roundInternal($data['salesPrice'],'salesPrice');
 
 		$withoutVatTax = $this->roundInternal($this->executeCalculation($this->rules['VatTax'], $salesPrice));
 		$withoutVatTax = !empty($withoutVatTax) ? $withoutVatTax : $salesPrice;
@@ -1042,8 +1039,6 @@ class calculationHelper {
 			}
 		}
 
-		if (!class_exists('CouponHelper'))
-			require(VMPATH_SITE . DS . 'helpers' . DS . 'coupon.php');
 		if (!($_data = CouponHelper::getCouponDetails($_code))) {
 			return; // TODO give some error here
 		}
@@ -1398,8 +1393,6 @@ class calculationHelper {
 	function calculateDisplayedPlugins($type){
 
 		// Handling shipment plugins
-		if (!class_exists('vmPSPlugin')) require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
-
 		JPluginHelper::importPlugin('vm'.$type);
 
 		//We use one trigger to load all possible plugins and store as result an array of the pluginmethods and their display.
@@ -1462,8 +1455,6 @@ class calculationHelper {
 		$this->_cart->cartPrices['shipment_calc_id'] = 0;
 
 		// Handling shipment plugins
-		if (!class_exists('vmPSPlugin')) require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
-
 		JPluginHelper::importPlugin('vmshipment');
 		$this->_cart->checkAutomaticSelectedPlug('shipment');
 		if (empty($this->_cart->virtuemart_shipmentmethod_id)) return;
@@ -1504,7 +1495,6 @@ class calculationHelper {
 		$this->_cart->cartPrices['salesPricePayment'] = 0;
 		$this->_cart->cartPrices['payment_calc_id'] = 0;
 
-		if (!class_exists('vmPSPlugin')) require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
 		JPluginHelper::importPlugin('vmpayment');
 
 		$this->_cart->checkAutomaticSelectedPlug('payment');

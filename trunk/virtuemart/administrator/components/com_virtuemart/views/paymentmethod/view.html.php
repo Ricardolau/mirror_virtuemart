@@ -20,31 +20,19 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-// Load the view framework
-if(!class_exists('VmViewAdmin'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmviewadmin.php');
-
 /**
  * Description
  *
  * @package		VirtueMart
  * @author valérie isaksen
  */
-if (!class_exists('VirtueMartModelCurrency'))
-require(VMPATH_ADMIN . DS . 'models' . DS . 'currency.php');
 
 class VirtuemartViewPaymentMethod extends VmViewAdmin {
 
 	function display($tpl = null) {
 
 		// Load the helper(s)
-		$this->addHelperPath(VMPATH_ADMIN.DS.'helpers');
-
-		if (!class_exists('VmHTML'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'html.php');
-
-		if (!class_exists ('vmPSPlugin')) {
-			require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
-		}
+		//$this->addHelperPath(VMPATH_ADMIN.DS.'helpers');
 
 		$this->user = JFactory::getUser();
 		$model = VmModel::getModel('paymentmethod');
@@ -63,10 +51,6 @@ class VirtuemartViewPaymentMethod extends VmViewAdmin {
 		$this->assignRef('vendor_currency', $currencyModel->currency_symbol);
 
 		if ($layoutName == 'edit') {
-
-			// Load the helper(s)
-			if (!class_exists('VmImage'))
-				require(VMPATH_ADMIN . DS . 'helpers' . DS . 'image.php');
 
 			vmLanguage::loadJLang('plg_vmpsplugin', false);
 
@@ -119,7 +103,7 @@ class VirtuemartViewPaymentMethod extends VmViewAdmin {
 
 			foreach ($this->payments as &$data){
 				// Write the first 5 shoppergroups in the list
-				$data->paymShoppersList = shopfunctions::renderGuiList($data->virtuemart_shoppergroup_ids,'shoppergroups','shopper_group_name','payment' );
+				$data->paymShoppersList = shopfunctions::renderGuiList($data->virtuemart_shoppergroup_ids,'shoppergroups','shopper_group_name','shoppergroup' );
 			}
 
 			$this->pagination = $model->getPagination();

@@ -33,10 +33,9 @@ class shopFunctionsF {
 		}
 		if($show == 1) {
 			//This is deprecated and will be replaced by the commented lines below (vmView instead of VirtuemartViewUser)
-			if(!class_exists( 'VirtuemartViewUser' )) require(VMPATH_SITE.DS.'views'.DS.'user'.DS.'view.html.php');
-			$view = new VirtuemartViewUser();
-			//if(!class_exists( 'vmView' )) require(VMPATH_SITE.DS.'helpers'.DS.'vmview.php');
-			//$view = new vmView();
+			//if(!class_exists( 'VirtuemartViewUser' )) require(VMPATH_SITE.DS.'views'.DS.'user'.DS.'view.html.php');
+			//$view = new VirtuemartViewUser();
+			$view = new vmView();
 			$body = $view->renderVmSubLayout($layout,array('show' => $show, 'order' => $order, 'from_cart' => $cart, 'url' => $url));
 		}
 
@@ -151,9 +150,8 @@ class shopFunctionsF {
 		$idTag = $_prefix.$idTag;
 		$attrs['class'] = 'virtuemart_country_id';
 		$attrs['class'] = 'vm-chzn-select';
+
 		// Load helpers and  languages files
-		if (!class_exists( 'VmConfig' )) require(JPATH_COMPONENT_ADMINISTRATOR .'/helpers/config.php');
-		VmConfig::loadConfig();
 		vmLanguage::loadJLang('com_virtuemart_countries');
 		vmJsApi::jQuery();
 		vmJsApi::chosenDropDowns();
@@ -363,9 +361,7 @@ class shopFunctionsF {
 
 		if(!$products) return;
 		$customfieldsModel = VmModel::getModel ('Customfields');
-		if (!class_exists ('vmCustomPlugin')) {
-			require(VMPATH_PLUGINLIBS . DS . 'vmcustomplugin.php');
-		}
+
 		foreach($products as $i => $productItem){
 
 			if (!empty($productItem->customfields)) {
@@ -487,8 +483,6 @@ class shopFunctionsF {
 	 */
 	static public function renderVmSubLayout($name,$viewData=0){
 
-		if (!class_exists ('VmView'))
-			require(VMPATH_SITE . DS . 'helpers' . DS . 'vmview.php');
 		$lPath = VmView::getVmSubLayoutPath ($name);
 
 		if($lPath){
@@ -534,7 +528,6 @@ class shopFunctionsF {
 	}
 
 	public static function prepareViewForMail($viewName, $vars, $controllerName = false) {
-		if(!class_exists( 'VirtueMartControllerVirtuemart' )) require(VMPATH_SITE.DS.'controllers'.DS.'virtuemart.php');
 
 		$controller = new VirtueMartControllerVirtuemart();
 		// refering to http://forum.virtuemart.net/index.php?topic=96318.msg317277#msg317277
@@ -548,7 +541,6 @@ class shopFunctionsF {
 		//refering to http://forum.virtuemart.net/index.php?topic=96318.msg317277#msg317277
 		$view->addTemplatePath( VMPATH_SITE.'/views/'.$viewName.'/tmpl' );
 
-		if(!class_exists('VmTemplate')) require(VMPATH_SITE.DS.'helpers'.DS.'vmtemplate.php');
 		$template = VmTemplate::loadVmTemplateStyle();
 		VmTemplate::setTemplate($template);
 		if($template){
@@ -574,7 +566,6 @@ class shopFunctionsF {
 
 		static $res = null;
 		if($res!==null) return $res;
-		if(!class_exists('VmTemplate')) require(VMPATH_SITE.DS.'helpers'.DS.'vmtemplate.php');
 		$res = VmTemplate::loadVmTemplateStyle();
 
 	}
@@ -587,7 +578,6 @@ class shopFunctionsF {
 	 */
 	static function setVmTemplate ($view, $catTpl = 0, $prodTpl = 0, $catLayout = 0, $prodLayout = 0) {
 
-		if(!class_exists('VmTemplate')) require(VMPATH_SITE.DS.'helpers'.DS.'vmtemplate.php');
 		return VmTemplate::setVmTemplate($view, $catTpl, $prodTpl, $catLayout, $prodLayout);
 	}
 

@@ -20,10 +20,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-// Load the view framework
-if (!class_exists('VmView'))
-    require(VMPATH_SITE . DS . 'helpers' . DS . 'vmview.php');
-
 // Set to '0' to use tabs i.s.o. sliders
 // Might be a config option later on, now just here for testing.
 define('__VM_USER_USE_SLIDERS', 0);
@@ -100,7 +96,6 @@ class VirtuemartViewUser extends VmView {
 
 		$userFields = null;
 
-		if (!class_exists('VirtueMartCart')) require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');
 		$this->cart = VirtueMartCart::getCart();
 		$task = vRequest::getCmd('task', '');
 
@@ -259,8 +254,6 @@ class VirtuemartViewUser extends VmView {
 	    $this->_orderList = $orders->getOrdersList($this->_model->getId(), true);
 
 	    if (empty($this->currency)) {
-		if (!class_exists('CurrencyDisplay'))
-		    require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');
 
 		$currency = CurrencyDisplay::getInstance();
 		$this->assignRef('currency', $currency);
@@ -275,9 +268,6 @@ class VirtuemartViewUser extends VmView {
     function shopper($userFields) {
 
 		// Shopper info
-		if (!class_exists('VirtueMartModelShopperGroup'))
-			require(VMPATH_ADMIN . DS . 'models' . DS . 'shoppergroup.php');
-
 		$_shoppergroup = VirtueMartModelShopperGroup::getShoppergroupById($this->_model->getId());
 
 		$this->_lists['shoppergroups'] = '';
@@ -286,7 +276,7 @@ class VirtuemartViewUser extends VmView {
 			foreach($_shoppergroup as $group){
 				$shoppergrps[] = $group['virtuemart_shoppergroup_id'];
 			}
-			if (!class_exists('ShopFunctions'))	require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
+
 			$this->_lists['shoppergroups'] = ShopFunctions::renderShopperGroupList($shoppergrps);
 		} else {
 			foreach($_shoppergroup as $group){
@@ -296,7 +286,6 @@ class VirtuemartViewUser extends VmView {
 		}
 
 		if (!empty($this->userDetails->virtuemart_vendor_id)) {
-			if (!class_exists('ShopFunctions'))	require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
 			$this->_lists['vendors'] = ShopFunctions::renderVendorList($this->userDetails->virtuemart_vendor_id);
 		} else {
 			$this->_lists['vendors'] = vmText::_('COM_VIRTUEMART_USER_NOT_A_VENDOR');

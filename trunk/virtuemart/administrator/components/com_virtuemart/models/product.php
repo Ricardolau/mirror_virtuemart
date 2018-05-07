@@ -19,11 +19,6 @@
 // Check to ensure this file is included in Joomla!
 defined ('_JEXEC') or die('Restricted access');
 
-
-if (!class_exists ('VmModel')) {
-	require(VMPATH_ADMIN . DS . 'helpers' . DS . 'vmmodel.php');
-}
-
 // JTable::addIncludePath(VMPATH_ADMIN.DS.'tables');
 /**
  * Model for VirtueMart Products
@@ -64,13 +59,8 @@ class VirtueMartModelProduct extends VmModel {
 			$this->addvalidOrderingFieldName (array('pc.ordering,product_name'));
 		}
 		else {
-			if (!class_exists ('shopFunctions')) {
-				require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
-			}
 			$browseOrderByFields = self::getValidProductFilterArray ();
 			$this->addvalidOrderingFieldName (array('pc.ordering,product_name','product_price','product_sales'));
-			//$this->addvalidOrderingFieldName (array('product_price'));
-			// 	vmdebug('$browseOrderByFields',$browseOrderByFields);
 		}
 		$this->addvalidOrderingFieldName ((array)$browseOrderByFields);
 
@@ -1256,7 +1246,7 @@ vmdebug('$limitStart',$limitStart);
 		$pbC = VmConfig::get('pricesbyCurrency',false);
 		if($front and $pbC){
 			$app = JFactory::getApplication();
-			if(!class_exists('calculationHelper')) require(VMPATH_ADMIN.DS.'helpers'.DS.'calculationh.php');
+
 			$calculator = calculationHelper::getInstance();
 			$cur = (int)$app->getUserStateFromRequest( 'virtuemart_currency_id', 'virtuemart_currency_id',$calculator->vendorCurrency );
 		}
@@ -1409,9 +1399,6 @@ vmdebug('$limitStart',$limitStart);
 			$product->shoppergroups = $this->getTable('product_shoppergroups')->load($this->_id);
 
 			if (!empty($product->shoppergroups) and $front) {
-				if (!class_exists ('VirtueMartModelUser')) {
-					require(VMPATH_ADMIN . DS . 'models' . DS . 'user.php');
-				}
 				$commonShpgrps = array_intersect ($virtuemart_shoppergroup_ids, $product->shoppergroups);
 				if (empty($commonShpgrps)) {
 					return $this->fillVoidProduct ($front);
@@ -1444,6 +1431,7 @@ vmdebug('$limitStart',$limitStart);
 			$product->categoryItem = $this->getProductCategories ($this->_id); //We need also the unpublished categories, else the calculation rules do not work
 
 			$product->canonCatId = false;
+			$product->canonCatIdname = '';
 			$public_cats = array();
 			$product->categories = array();
 			if(!empty($product->categoryItem)){
@@ -1451,6 +1439,11 @@ vmdebug('$limitStart',$limitStart);
 				foreach($product->categoryItem as $category){
 					if($category['published']){
 						if(!$product->canonCatId) $product->canonCatId = $category['virtuemart_category_id'];
+//					use a canonical category if published and a values is stored
+						if (!empty($product->product_canon_category_id)  && $category['virtuemart_category_id'] == $product->product_canon_category_id ){
+							$product->canonCatId = $product->product_canon_category_id;
+							$product->canonCatIdname = $category['category_name'];
+						}
 						$public_cats[] = $category['virtuemart_category_id'];
 					}
 					$tmp[] = $category['virtuemart_category_id'];
@@ -1462,11 +1455,6 @@ vmdebug('$limitStart',$limitStart);
 
 			if (!empty($product->categories) and is_array ($product->categories)){
 				if ($front) {
-
-					if (!class_exists ('shopFunctionsF')) {
-						require(VMPATH_SITE . DS . 'helpers' . DS . 'shopfunctionsf.php');
-					}
-
 					//We must first check if we come from another category, due the canoncial link we would have always the same catgory id for a product
 					//But then we would have wrong neighbored products / category and product layouts
 					if(!isset($this->categoryId)){
@@ -1581,10 +1569,6 @@ vmdebug('$limitStart',$limitStart);
 		/* Add optional fields */
 		$product->virtuemart_manufacturer_id = NULL;
 		$product->virtuemart_product_price_id = NULL;
-
-		if (!class_exists ('VirtueMartModelVendor')) {
-			require(VMPATH_ADMIN . DS . 'models' . DS . 'vendor.php');
-		}
 
 		$product->selectedPrice = 0;
 		$product->allPrices[0] = $this->fillVoidPrice();
@@ -2166,9 +2150,7 @@ vmdebug('$limitStart',$limitStart);
 				}
 
 				if (!$isChild and isset($data['mprices']['use_desired_price'][$k]) and $data['mprices']['use_desired_price'][$k] == "1") {
-					if (!class_exists ('calculationHelper')) {
-						require(VMPATH_ADMIN . DS . 'helpers' . DS . 'calculationh.php');
-					}
+
 					$calculator = calculationHelper::getInstance ();
 					if(isset($data['mprices']['salesPrice'][$k])){
 						$data['mprices']['salesPrice'][$k] = str_replace(array(',',' '),array('.',''),$data['mprices']['salesPrice'][$k]);
@@ -2597,16 +2579,11 @@ vmdebug('$limitStart',$limitStart);
 			$product->customfields = $customfieldsModel->getCustomEmbeddedProductCustomFields ($product->allIds,0,$ctype, true);
 		}
 
-		// Loads the product price details
-		if (!class_exists ('calculationHelper')) {
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'calculationh.php');
-		}
-		$calculator = calculationHelper::getInstance ();
-
 		// Calculate the modificator
 		$customfieldsModel = VmModel::getModel('Customfields');
 		$variantPriceModification = $customfieldsModel->calculateModificators ($product);
 
+		$calculator = calculationHelper::getInstance ();
 		$prices = $calculator->getProductPrices ($product, $variantPriceModification, $quantity);
 
 		return $prices;
@@ -2882,9 +2859,6 @@ vmdebug('$limitStart',$limitStart);
 	function lowStockWarningEmail($virtuemart_product_id) {
 
 		if(VmConfig::get('lstockmail',TRUE)){
-			if (!class_exists ('shopFunctionsF')) {
-				require(VMPATH_SITE . DS . 'helpers' . DS . 'shopfunctionsf.php');
-			}
 
 			/* Load the product details */
 			$q = "SELECT l.product_name,product_in_stock,virtuemart_vendor_id FROM `#__virtuemart_products_" . VmConfig::$vmlang . "` l
@@ -3094,10 +3068,6 @@ vmdebug('$limitStart',$limitStart);
 
 
 	function sentProductEmailToShoppers () {
-
-		if (!class_exists ('ShopFunctions')) {
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
-		}
 
 		$product_id = vRequest::getVar ('virtuemart_product_id', '');
 		$vars = array();

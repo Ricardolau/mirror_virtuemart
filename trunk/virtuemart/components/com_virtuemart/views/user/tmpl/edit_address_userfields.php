@@ -26,7 +26,8 @@ $hiddenFields = '';
 
 $i=0;
 //When only one Delimiter exists, set it to begin of the array
-//not an elegant solution, but works for the moment.
+//not an elegant solution, but works.
+$tmp = false;
 foreach($this->userFields['fields'] as $k=>$field){
 	if($field['type'] == 'delimiter') {
 	    $tmp = $field;

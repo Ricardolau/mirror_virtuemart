@@ -108,9 +108,6 @@ class VirtueMartCart {
 	 */
 	public static function &getCart($forceNew=false, $options = array(), $cartData=NULL) {
 
-		//What does this here? for json stuff?
-		if (!class_exists('JTable')) require(VMPATH_LIBS . DS . 'joomla' . DS . 'database' . DS . 'table.php');
-
 		if(empty(self::$_cart) or $forceNew){
 
 			self::$_cart = new VirtueMartCart;
@@ -194,7 +191,6 @@ class VirtueMartCart {
 				$lastName = empty(self::$_cart->BT['last_name'])? '':self::$_cart->BT['last_name'];
 				$email = empty(self::$_cart->BT['email'])? '':self::$_cart->BT['email'];
 				$qdate = date("Ymd_His_");
-				if (!class_exists ('shopFunctionsF')) require(VMPATH_SITE . DS . 'helpers' . DS . 'shopfunctionsf.php');
 				self::$_cart->customer_number = 'nonreg_'.shopFunctionsF::vmSubstr($firstName,0,2).shopFunctionsF::vmSubstr($lastName,0,2).shopFunctionsF::vmSubstr($email,0,2).$qdate;
 			}
 
@@ -509,7 +505,6 @@ class VirtueMartCart {
 		$productModel = VmModel::getModel('product');
 		$customFieldsModel = VmModel::getModel('customfields');
 
-		if(!class_exists('vmCustomPlugin')) require(VMPATH_PLUGINLIBS.DS.'vmcustomplugin.php');
 		JPluginHelper::importPlugin('vmcustom');
 		JPluginHelper::importPlugin('vmextended');
 		$dispatcher = JDispatcher::getInstance();
@@ -570,7 +565,7 @@ class VirtueMartCart {
 					if(isset($customProductData[$customfield->virtuemart_custom_id][$customfield->virtuemart_customfield_id])){
 
 						if(is_array($customProductData[$customfield->virtuemart_custom_id][$customfield->virtuemart_customfield_id])){
-							if(!class_exists('vmFilter'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmfilter.php');
+
 							foreach($customProductData[$customfield->virtuemart_custom_id][$customfield->virtuemart_customfield_id] as $i=>$customData){
 
 								$value = vmFilter::hl( $customData,array('deny_attribute'=>'*'));
@@ -728,7 +723,7 @@ class VirtueMartCart {
 		unset($this->products[$prod_id]);
 		if(isset($this->cartProductsData[$prod_id])){
 			// hook for plugin action "remove from cart"
-			if(!class_exists('vmCustomPlugin')) require(VMPATH_PLUGINLIBS.DS.'vmcustomplugin.php');
+
 			JPluginHelper::importPlugin('vmcustom');
 			$dispatcher = JDispatcher::getInstance();
 			$addToCartReturnValues = $dispatcher->trigger('plgVmOnRemoveFromCart',array($this,$prod_id));
@@ -804,10 +799,6 @@ class VirtueMartCart {
 			return;
 		}
 
-		if (!class_exists('CouponHelper')) {
-			require(VMPATH_SITE . DS . 'helpers' . DS . 'coupon.php');
-		}
-
 		$this->prepareCartData();
 
 		$msg = $this->validateCoupon($coupon_code);
@@ -875,7 +866,7 @@ class VirtueMartCart {
 		if($this->$idN != $id or (!empty($id) and $force)){
 
 			$this->$idN = $id;
-			if(!class_exists('vmPSPlugin')) require(VMPATH_PLUGINLIBS.DS.'vmpsplugin.php');
+
 			JPluginHelper::importPlugin($vmplugin);
 
 			//Add a hook here for other methods, checking the data of the choosed plugin
@@ -1051,9 +1042,6 @@ class VirtueMartCart {
 
 		// Test Coupon
 		if (!empty($this->couponCode)) {
-			if (!class_exists('CouponHelper')) {
-				require(VMPATH_SITE . DS . 'helpers' . DS . 'coupon.php');
-			}
 			$redirectMsg = $this->validateCoupon($this->couponCode);
 
 
@@ -1070,7 +1058,6 @@ class VirtueMartCart {
 		if (empty($this->virtuemart_shipmentmethod_id)) {
 			return $this->redirecter('index.php?option=com_virtuemart&view=cart&task=edit_shipment' , $redirectMsg);
 		} else {
-			if (!class_exists('vmPSPlugin')) require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
 			JPluginHelper::importPlugin('vmshipment');
 			//Add a hook here for other shipment methods, checking the data of the choosed plugin
 			$dispatcher = JDispatcher::getInstance();
@@ -1092,7 +1079,6 @@ class VirtueMartCart {
 			if (empty($this->virtuemart_paymentmethod_id)) {
 				return $this->redirecter('index.php?option=com_virtuemart&view=cart&task=editpayment' , $redirectMsg);
 			} else {
-				if(!class_exists('vmPSPlugin')) require(VMPATH_PLUGINLIBS.DS.'vmpsplugin.php');
 				JPluginHelper::importPlugin('vmpayment');
 				//Add a hook here for other payment methods, checking the data of the choosed plugin
 				$dispatcher = JDispatcher::getInstance();
@@ -1168,8 +1154,6 @@ class VirtueMartCart {
 		if ($this->vendor->vendor_min_pov > 0) {
 			$this->getCartPrices();
 			if ($this->cartPrices['salesPrice'] < $this->vendor->vendor_min_pov) {
-				if (!class_exists('CurrencyDisplay'))
-				require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');
 				$currency = CurrencyDisplay::getInstance();
 				return vmText::sprintf('COM_VIRTUEMART_CART_MIN_PURCHASE', $currency->priceDisplay($this->vendor->vendor_min_pov));
 			}
@@ -1301,9 +1285,6 @@ class VirtueMartCart {
 			$couponCode = $cart->cartData['couponCode'];
 		}
 		if(!empty($cart->couponCode)){
-			if (!class_exists('CouponHelper')) {
-				require(VMPATH_SITE . DS . 'helpers' . DS . 'coupon.php');
-			}
 			CouponHelper::setInUseCoupon($couponCode, true, 1);
 		}
 
@@ -1335,8 +1316,6 @@ class VirtueMartCart {
 
 	function saveCartFieldsInCart(){
 
-		if (!class_exists('VirtueMartModelUserfields'))
-			require(VMPATH_ADMIN . DS . 'models' . DS . 'userfields.php');
 		$userFieldsModel = VmModel::getModel('userfields');
 
 		$cartFields = $userFieldsModel->getUserFields(
@@ -1375,8 +1354,6 @@ class VirtueMartCart {
 
 	function saveAddressInCart($data, $type, $putIntoSession = true,$prefix='') {
 
-		// VirtueMartModelUserfields::getUserFields() won't work
-		if(!class_exists('VirtueMartModelUserfields')) require(VMPATH_ADMIN.DS.'models'.DS.'userfields.php' );
 		$userFieldsModel = VmModel::getModel('userfields');
 
 		if ($type == 'STaddress' or $type == 'BTaddress'){
@@ -1398,7 +1375,7 @@ class VirtueMartCart {
 		}
 
 		$address = array();
-		if(!class_exists('vmFilter'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmfilter.php');
+
 		foreach ($prepareUserFields as $fld) {
 			if(!empty($fld->name)){
 				$name = $fld->name;
@@ -1501,10 +1478,6 @@ class VirtueMartCart {
 			return false;
 		}
 
-		if (!class_exists('vmPSPlugin')) {
-			require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
-		}
-
 		$counter=0;
 		$dispatcher = JDispatcher::getInstance();
 		$returnValues = $dispatcher->trigger('plgVmOnCheckAutomaticSelected'.ucfirst($type), array(  $this,$this->cartPrices, &$counter));
@@ -1564,7 +1537,7 @@ class VirtueMartCart {
 	public function getCartPrices($force=false) {
 
 		if(empty($this->cartPrices) or !$this->_calculated or $force){
-			if(!class_exists('calculationHelper')) require(VMPATH_ADMIN.DS.'helpers'.DS.'calculationh.php');
+
 			$calculator = calculationHelper::getInstance();
 
 			$this->pricesCurrency = $calculator->_currencyDisplay->getCurrencyForDisplay();
@@ -1670,7 +1643,6 @@ class VirtueMartCart {
 
 		$this->getCartPrices($force);
 
-		if(!class_exists('vmPSPlugin')) require(VMPATH_PLUGINLIBS.DS.'vmpsplugin.php');
 		JPluginHelper::importPlugin('vmpayment');
 		$dispatcher = JDispatcher::getInstance();
 		$returnValues = $dispatcher->trigger('plgVmgetPaymentCurrency', array( $this->virtuemart_paymentmethod_id, &$this->paymentCurrency));
@@ -1802,8 +1774,6 @@ class VirtueMartCart {
 		$data->totalProduct = 0;
 
 		//OSP when prices removed needed to format billTotal for AJAX
-		if (!class_exists('CurrencyDisplay'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');
 		$currencyDisplay = CurrencyDisplay::getInstance();
 
 		foreach ($this->products as $i=>$product){
@@ -1811,8 +1781,6 @@ class VirtueMartCart {
 			//Create product URL
 			$url = JRoute::_('index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id='.$product->virtuemart_product_id.'&virtuemart_category_id='.$product->virtuemart_category_id, FALSE);
 			$data->products[$i]['product_name'] = JHtml::link($url, $product->product_name);
-
-			if(!class_exists('VirtueMartModelCustomfields'))require(VMPATH_ADMIN.DS.'models'.DS.'customfields.php');
 
 			//  custom product fields display for cart
 			$data->products[$i]['customProductData'] = VirtueMartModelCustomfields::CustomsFieldCartModDisplay($product);

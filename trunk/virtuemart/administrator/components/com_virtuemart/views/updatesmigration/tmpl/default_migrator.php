@@ -55,7 +55,7 @@ $session = JFactory::getSession();
 </tr>
 
 <tr>
-	<?php if (!class_exists('ShopFunctions')) require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
+	<?php
 
 	$max_execution_time = ini_get('max_execution_time');
 	?>

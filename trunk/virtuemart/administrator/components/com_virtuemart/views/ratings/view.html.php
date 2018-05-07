@@ -19,9 +19,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-// Load the view framework
-if(!class_exists('VmViewAdmin'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmviewadmin.php');
-
 /**
  * HTML View class for ratings (and customer reviews)
  *
@@ -33,12 +30,6 @@ class VirtuemartViewRatings extends VmViewAdmin {
 
 		$mainframe = Jfactory::getApplication();
 		$option = vRequest::getCmd('option');
-
-		//Load helpers
-
-
-		if (!class_exists('VmHTML'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'html.php');
 
 		/* Get the review IDs to retrieve (input variable may be cid, cid[] or virtuemart_rating_review_id */
 		$cids = vRequest::getInt('cid', vRequest::getVar('virtuemart_rating_review_id',0));

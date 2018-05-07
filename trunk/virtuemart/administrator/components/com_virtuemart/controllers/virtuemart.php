@@ -18,8 +18,6 @@ defined('_JEXEC') or die('Restricted access');
 * @version $Id$
 */
 
-if (!class_exists( 'VmController' )) require(VMPATH_ADMIN.DS.'helpers'.DS.'vmcontroller.php');
-
 /**
  * VirtueMart default administrator controller
  *
@@ -110,8 +108,6 @@ class VirtuemartControllerVirtuemart extends VmController {
 
 			if(!empty($data->html)){
 
-				if(!class_exists('vmCrypt'))
-					require(VMPATH_ADMIN.DS.'helpers'.DS.'vmcrypt.php');
 				$safePath = vmCrypt::getEncryptSafepath();
 				$safePath .= DS.'vmm.ini';
 				$date = JFactory::getDate();

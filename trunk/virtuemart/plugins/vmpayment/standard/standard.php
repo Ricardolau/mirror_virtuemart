@@ -20,9 +20,6 @@ defined ('_JEXEC') or die('Restricted access');
  *
  * http://virtuemart.net
  */
-if (!class_exists ('vmPSPlugin')) {
-	require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
-}
 
 class plgVmPaymentStandard extends vmPSPlugin {
 
@@ -126,10 +123,6 @@ class plgVmPaymentStandard extends vmPSPlugin {
 		vmLanguage::loadJLang('com_virtuemart',true);
 		vmLanguage::loadJLang('com_virtuemart_orders', TRUE);
 
-		if (!class_exists ('VirtueMartModelOrders')) {
-			require(VMPATH_ADMIN . DS . 'models' . DS . 'orders.php');
-		}
-
 		$this->getPaymentCurrency($method, $order['details']['BT']->payment_currency_id);
 		$currency_code_3 = shopFunctions::getCurrencyByID($method->payment_currency, 'currency_code_3');
 		$email_currency = $this->getEmailCurrency($method);
@@ -155,9 +148,6 @@ class plgVmPaymentStandard extends vmPSPlugin {
 		$dbValues['tax_id'] = $method->tax_id;
 		$this->storePSPluginInternalData ($dbValues);
 
-		if (!class_exists ('VirtueMartModelCurrency')) {
-			require(VMPATH_ADMIN . DS . 'models' . DS . 'currency.php');
-		}
 		$currency = CurrencyDisplay::getInstance ('', $order['details']['BT']->virtuemart_vendor_id);
 
 		$html = $this->renderByLayout('post_payment', array(

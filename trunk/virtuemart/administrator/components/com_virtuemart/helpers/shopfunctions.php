@@ -199,7 +199,7 @@ class ShopFunctions {
 		$vendors = $db->loadAssocList ();
 
 		$attrs = array();
-		if(!class_exists('VmHtml')) require(VMPATH_ADMIN.DS.'helpers'.DS.'html.php');
+
 		$id = VmHtml::ensureUniqueId('vendor_name'.$vendorId);
 		$idA = $name;
 		$attrs['class'] = 'vm-chzn-select vm-drop';
@@ -281,9 +281,6 @@ class ShopFunctions {
 	 */
 	static function renderTaxList ($selected, $name = 'product_tax_id', $class = '') {
 
-		if (!class_exists ('VirtueMartModelCalc')) {
-					require(VMPATH_ADMIN . DS . 'models' . DS . 'calc.php');
-				}
 		$taxes = VirtueMartModelCalc::getTaxes ();
 
 		$taxrates = array();
@@ -534,10 +531,6 @@ class ShopFunctions {
 	 */
 	static function renderLWHUnitList ($name, $selected) {
 
-		if (!class_exists ('VmHTML')) {
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'html.php');
-		}
-
 		$lwh_unit_default = array('M' => vmText::_ ('COM_VIRTUEMART_UNIT_NAME_M')
 		, 'CM'                        => vmText::_ ('COM_VIRTUEMART_UNIT_NAME_CM')
 		, 'MM'                        => vmText::_ ('COM_VIRTUEMART_UNIT_NAME_MM')
@@ -559,7 +552,6 @@ class ShopFunctions {
 	 * @author Oscar van Eijk
 	 */
 	static function generateStAddressList ($view, $userModel, $task) {
-		if(!class_exists('ShopFunctionsF')) require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
 		return shopFunctionsF::generateStAddressList($view, $userModel, $task);
 	}
 
@@ -571,7 +563,6 @@ class ShopFunctions {
 	 * @return string
 	 */
 	static public function renderVendorAddress ($vendorId,$lineSeparator="<br />", $skips = array('name','username','email','agreed')) {
-		if(!class_exists('ShopFunctionsF')) require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
 		return shopFunctionsF::renderVendorAddress($vendorId, $lineSeparator, $skips);
 	}
 
@@ -876,7 +867,6 @@ class ShopFunctions {
 	 * @return string The name of the order status
 	 */
 	static public function getOrderStatusName ($_code) {
-		if(!class_exists('ShopFunctionsF')) require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
 		return shopFunctionsF::getOrderStatusName($_code);
 	}
 
@@ -885,7 +875,6 @@ class ShopFunctions {
 	 * @deprecated use shopFunctionsF::InvoiceNumberReserved instead
 	 */
 	static function InvoiceNumberReserved ($invoice_number) {
-		if(!class_exists('ShopFunctionsF')) require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
 		return shopFunctionsF::InvoiceNumberReserved($invoice_number);
 	}
 
@@ -1131,7 +1120,6 @@ class ShopFunctions {
 	 * @return the invoice folder name
 	 */
 	static function getInvoiceFolderName() {
-		if(!class_exists('ShopFunctionsF')) require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
 		return ShopFunctionsF::getInvoiceFolderName();
 	}
 	/*

@@ -19,10 +19,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-// Load the view framework
-if(!class_exists('VmView'))require(VMPATH_SITE.DS.'helpers'.DS.'vmview.php');
-
-
 class VirtueMartViewVmplg extends VmView {
 
 	public function display($tpl = null) {

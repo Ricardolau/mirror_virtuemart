@@ -17,10 +17,6 @@
 
 if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 
-if(!class_exists('VmModel'))
-require(VMPATH_ADMIN . DS . 'helpers' . DS . 'vmmodel.php');
-
-
 class Migrator extends VmModel{
 
 	private $_stop = false;
@@ -199,8 +195,6 @@ class Migrator extends VmModel{
 
 		//$imageExtensions = array('jpg','jpeg','gif','png');
 
-		if(!class_exists('VirtueMartModelMedia'))
-		require(VMPATH_ADMIN . DS . 'models' . DS . 'media.php');
 		$this->mediaModel = VmModel::getModel('Media');
 		//First lets read which files are already stored
 		$this->storedMedias = $this->mediaModel->getFiles(false, true);
@@ -514,7 +508,6 @@ class Migrator extends VmModel{
 			return false;
 		}
 
-		if(!class_exists('VirtueMartModelUser')) require(VMPATH_ADMIN . DS . 'models' . DS . 'user.php');
 		$userModel = VmModel::getModel('user');
 
 		$ok = true;
@@ -925,8 +918,6 @@ class Migrator extends VmModel{
 				$manu['mf_url'] = $oldmanu['mf_url'];
 				$manu['published'] = 1;
 
-				if(!class_exists('TableManufacturers'))
-				require(VMPATH_ADMIN . DS . 'tables' . DS . 'manufacturers.php');
 				$table = $this->getTable('manufacturers');
 
 				$ok = $table->bindChecknStore($manu);
@@ -1211,10 +1202,6 @@ class Migrator extends VmModel{
 			return;
 		}
 
-		if(!class_exists('VirtueMartModelOrderstatus'))
-		require(VMPATH_ADMIN . DS . 'models' . DS . 'orderstatus.php');
-
-		if (!class_exists('ShopFunctions')) require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
 		$this->_db->setQuery('select `order_status_code` FROM `#__virtuemart_orderstates` ');
 		$vm2Fields = $this->_db->loadColumn ();
 		$this->_db->setQuery('select * FROM `#__vm_order_status`');
@@ -1257,9 +1244,6 @@ class Migrator extends VmModel{
 
 		$reWriteOrderNumber = vRequest::getInt('reWriteOrderNumber',0);
 		$userOrderId = vRequest::getInt('userOrderId',0);
-
-		if(!class_exists('VirtueMartModelOrders'))
-			VmModel::getModel('orders');
 
 		while($continue){
 

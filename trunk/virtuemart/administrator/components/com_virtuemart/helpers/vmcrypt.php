@@ -214,8 +214,6 @@ class vmCrypt {
 
 	public static function getEncryptSafepath () {
 
-		if (!class_exists('ShopFunctions'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
 		$safePath = ShopFunctions::checkSafePath();
 		if (empty($safePath)) {
 			return NULL;

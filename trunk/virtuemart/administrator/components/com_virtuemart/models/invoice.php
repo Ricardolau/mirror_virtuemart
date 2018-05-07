@@ -19,8 +19,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-if(!class_exists('VmModel'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmmodel.php');
-
 /**
  * Model class for shop coupons
  *
@@ -149,7 +147,7 @@ class VirtueMartModelInvoice extends VmModel {
 		$invM = VmModel::getModel('invoice');
 		$result = $invM->getInvoiceEntry($orderDetails['virtuemart_order_id'], true, '*');
 //vmdebug('createInvoiceNumber',$orderDetails,$result);
-		if (!class_exists('ShopFunctions')) require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
+
 		if(!$result or empty($result['invoice_number']) ){
 			$invoiceNumber = $invM->createStoreNewInvoiceNumber($orderDetails);
 		} else {
@@ -216,8 +214,6 @@ class VirtueMartModelInvoice extends VmModel {
 
 				if(empty($data['invoice_number'])) {
 					$date = date("Y-m-d");
-					if(!class_exists('vmCrypt'))
-						require(VMPATH_ADMIN.DS.'helpers'.DS.'vmcrypt.php');
 					$data['invoice_number'] = str_replace('-', '', substr($date,2,8)).vmCrypt::getHumanToken(4).'0'.$count;
 				}
 			} else {
@@ -309,7 +305,7 @@ class VirtueMartModelInvoice extends VmModel {
 			vmError('No path set to store invoices');
 			return false;
 		} else {
-			if(!class_exists('ShopFunctionsF')) require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
+
 			$path .= shopFunctionsF::getInvoiceFolderName().DS;
 			if(!file_exists($path)){
 				vmError('Path wrong to store invoices, folder invoices does not exist '.$path);
@@ -337,8 +333,6 @@ class VirtueMartModelInvoice extends VmModel {
 		if(empty($table->invoice_number)){
 			return false;
 		}
-		if (!class_exists ('shopFunctionsF'))
-			require(VMPATH_SITE . DS . 'helpers' . DS . 'shopfunctionsf.php');
 
 		// rename invoice pdf file
 		$path = shopFunctions::getInvoicePath(VmConfig::get('forSale_path',0));
@@ -356,7 +350,6 @@ class VirtueMartModelInvoice extends VmModel {
 			// We the sanitized file name as the invoice number might contain strange characters like 2015/01.
 			$invoice_name_dst = $path.DS.$name.'_deprecated'.$date.'_'.$table->order_status.'.pdf';
 
-			if(!class_exists('JFile')) require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'file.php');
 			if (!JFile::move($invoice_name_src, $invoice_name_dst)) {
 				vmError ('Could not rename Invoice '.$invoice_name_src.' to '. $invoice_name_dst );
 			}

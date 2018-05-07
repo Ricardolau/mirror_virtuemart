@@ -19,9 +19,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-// Load the view framework
-if(!class_exists('VmViewAdmin'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmviewadmin.php');
-
 /**
  * HTML View class for maintaining the list of order types
  *
@@ -37,9 +34,6 @@ class VirtuemartViewUserfields extends VmViewAdmin {
 		$option = vRequest::getCmd( 'option');
 		$mainframe = JFactory::getApplication() ;
 
-		if (!class_exists('VmHTML'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'html.php');
-
 		$layoutName = vRequest::getCmd('layout', 'default');
 		$model = VmModel::getModel();
 
@@ -53,11 +47,8 @@ class VirtuemartViewUserfields extends VmViewAdmin {
 			$this->userField = $model->getUserfield();
 			//vmdebug('user plugin $this->userField',$this->userField);
             $this->SetViewTitle('USERFIELD',$this->userField->name );
-            $this->assignRef('viewName',$viewName);
-			$userFieldPlugin = '';
 
-			if (!class_exists('ShopFunctions'))
-				require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
+			$userFieldPlugin = '';
 
 			$this->ordering = ShopFunctions::renderOrderingList('userfields','name',$this->userField->ordering);
 
@@ -226,8 +217,6 @@ class VirtuemartViewUserfields extends VmViewAdmin {
 	}
 
 	function renderUserfieldPlugin(){
-
-		if(!class_exists('vmUserfieldPlugin')) require(VMPATH_PLUGINLIBS.DS.'vmuserfieldtypeplugin.php');
 
 		vmLanguage::loadJLang('plg_vmpsplugin', false);
 		JForm::addFieldPath(VMPATH_ADMIN . DS . 'fields');

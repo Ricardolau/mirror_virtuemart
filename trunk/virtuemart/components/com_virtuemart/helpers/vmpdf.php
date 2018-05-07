@@ -23,9 +23,6 @@ defined('_JEXEC') or die('');
 defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 VmConfig::loadConfig();
-if(!class_exists('VmModel')) require(VMPATH_ADMIN.DS.'helpers'.DS.'vmmodel.php');
-
-if(!class_exists('VmImage')) require(VMPATH_ADMIN.DS.'helpers'.DS.'image.php');
 
 class VmPdf {
 
@@ -117,9 +114,6 @@ if(!file_exists(VMPATH_LIBS.DS.'tcpdf'.DS.'tcpdf.php')){
 				}
 			}
 			// Generate PDF header
-			if (!class_exists ('JFile')) {
-				require(VMPATH_LIBS . DS . 'joomla' . DS . 'filesystem' . DS . 'file.php');
-			}
 			$this->tcpdf6 = JFile::exists(VMPATH_LIBS.DS.'tcpdf'.DS.'include'.DS.'tcpdf_colors.php');
 			if($this->tcpdf6){
 				$this->tcpdf6 = method_exists('TCPDF','getAllSpotColors');
@@ -214,9 +208,6 @@ if(!file_exists(VMPATH_LIBS.DS.'tcpdf'.DS.'tcpdf.php')){
 				$currentCHRF = $this->getCellHeightRatio();
 				$this->setCellHeightRatio($this->vendor->vendor_letter_footer_cell_height_ratio);
 
-				if (!class_exists ('JFile')) {
-					require(VMPATH_LIBS . DS . 'joomla' . DS . 'filesystem' . DS . 'file.php');
-				}
 				$this->tcpdf6 = JFile::exists(VMPATH_LIBS.DS.'tcpdf'.DS.'include'.DS.'tcpdf_colors.php');
 				if($this->tcpdf6){
 					$this->tcpdf6 = method_exists('TCPDF','getAllSpotColors');
@@ -273,9 +264,6 @@ if(!file_exists(VMPATH_LIBS.DS.'tcpdf'.DS.'tcpdf.php')){
 			$cw = $this->w - $this->original_lMargin - $this->original_rMargin;
 			if (($headerdata['logo']) AND ($headerdata['logo'] != K_BLANK_IMAGE)) {
 
-				if (!class_exists ('JFile')) {
-					require(VMPATH_LIBS . DS . 'joomla' . DS . 'filesystem' . DS . 'file.php');
-				}
 				if($this->tcpdf6){
 					if (!class_exists ('TCPDF_IMAGES')) {
 						require(VMPATH_LIBS.DS.'tcpdf'.DS.'include'.DS.'tcpdf_images.php');

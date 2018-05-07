@@ -19,9 +19,6 @@ defined('_JEXEC') or die('Restricted access');
 * @version $Id$
 */
 
-
-if(!class_exists('VmModel'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmmodel.php');
-
 class VirtueMartModelCalc extends VmModel {
 
 
@@ -111,7 +108,6 @@ class VirtueMartModelCalc extends VmModel {
 
 		$datas = $this->exeSortSearchListQuery(0,'*',' FROM `#__virtuemart_calcs`',$whereString,'',$this->_getOrdering());
 
-		if(!class_exists('ShopFunctions')) require(VMPATH_ADMIN.DS.'helpers'.DS.'shopfunctions.php');
 		foreach ($datas as &$data){
 
 			$data->currencyName = ShopFunctions::getCurrencyByID($data->calc_currency);
@@ -184,7 +180,6 @@ class VirtueMartModelCalc extends VmModel {
 		$xrefTable = $this->getTable('calc_manufacturers');
     	$xrefTable->bindChecknStore($data);
 
-		if (!class_exists('vmCalculationPlugin')) require(VMPATH_PLUGINLIBS . DS . 'vmcalculationplugin.php');
 		JPluginHelper::importPlugin('vmcalculation');
 		$dispatcher = JDispatcher::getInstance();
 		//$error = $dispatcher->trigger('plgVmStorePluginInternalDataCalc',array(&$data));

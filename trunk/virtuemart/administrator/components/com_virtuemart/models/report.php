@@ -22,10 +22,6 @@ if (!defined ('_JEXEC')) {
  * http://virtuemart.org
  */
 
-if (!class_exists ('VmModel')) {
-	require(VMPATH_ADMIN . DS . 'helpers' . DS . 'vmmodel.php');
-}
-
 class VirtuemartModelReport extends VmModel {
 
 	var $from_period = '';

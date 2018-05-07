@@ -19,10 +19,6 @@
 // Check to ensure this file is included in Joomla!
 defined ('_JEXEC') or die('Restricted access');
 
-if (!class_exists ('VmTable')) {
-	require(VMPATH_ADMIN . DS . 'helpers' . DS . 'vmtable.php');
-}
-
 /**
  * Media table class
  * The class is is used to manage the media in the shop.
@@ -229,9 +225,7 @@ class TableMedias extends VmTable {
 
 			}
 			else {*/
-				if (!class_exists ('JFile')) {
-					require(VMPATH_LIBS . DS . 'joomla' . DS . 'filesystem' . DS . 'file.php');
-				}
+
 
 				if (!$this->file_is_forSale) {
 					$lastIndexOfSlash = strrpos ($this->file_url, '/');

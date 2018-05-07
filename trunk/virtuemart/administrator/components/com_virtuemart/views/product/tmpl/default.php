@@ -172,6 +172,10 @@ if($this->pagination->limit<=$mediaLimit or $totalList<=$mediaLimit){
 				<!-- Category name -->
 				<td><?php
 					echo $product->categoriesList;
+					//  show canonical category if set
+					if(!empty($product->product_canon_category_id)  && $product->product_canon_category_id > 0){
+						echo '<p style = "color:red;">CanonCat: '. $product->canonCatIdname.'</p>';
+					}
 				?></td>
 				<!-- Reorder only when category ID is present -->
 				<?php if ($this->categoryId ) { ?>

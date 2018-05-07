@@ -18,8 +18,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-if(!class_exists('VmTableData')) require(VMPATH_ADMIN.DS.'helpers'.DS.'vmtabledata.php');
-
 class TableVendors extends VmTableData {
 
     // @var int Primary key

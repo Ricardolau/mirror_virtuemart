@@ -19,9 +19,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-// Load the view framework
-if(!class_exists('VmViewAdmin'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmviewadmin.php');
-
 /**
  * HTML View class for the VirtueMart Component
  *
@@ -31,11 +28,6 @@ if(!class_exists('VmViewAdmin'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmviewadmi
 class VirtuemartViewCustom extends VmViewAdmin {
 
 	function display($tpl = null) {
-
-		// Load the helper(s)
-		if (!class_exists('VmHTML'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'html.php');
-		if(!class_exists('vmCustomPlugin')) require(VMPATH_PLUGINLIBS.DS.'vmcustomplugin.php');
 
 		$model = VmModel::getModel('custom');
 
@@ -151,9 +143,6 @@ class VirtuemartViewCustom extends VmViewAdmin {
 
 		$results = $db->loadAssocList($ext_id);
 
-		if (!class_exists('vmPlugin'))
-			require(VMPATH_ADMIN . DS . 'plugins' . DS . 'vmplugin.php');
-
 		foreach ($results as $result) {
         //$filename = 'plg_' .strtolower ( $result['name']).'.sys';
         //$lang->load($filename, JPATH_ADMINISTRATOR);
@@ -173,9 +162,7 @@ class VirtuemartViewCustom extends VmViewAdmin {
 	public function displayCustomFields ($datas) {
 
 		$identify = ''; // ':'.$this->virtuemart_custom_id;
-		if (!class_exists ('VmHTML')) {
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'html.php');
-		}
+
 		if ($datas->field_type) {
 			$this->addHidden ('field_type', $datas->field_type);
 		}

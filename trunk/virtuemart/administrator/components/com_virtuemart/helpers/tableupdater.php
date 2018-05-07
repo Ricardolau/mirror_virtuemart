@@ -17,8 +17,6 @@ defined('_JEXEC') or die('Restricted access');
  * http://virtuemart.net
  */
 
-if(!class_exists('VmModel')) require VMPATH_ADMIN.DS.'helpers'.DS.'vmmodel.php';
-
 class GenericTableUpdater extends VmModel{
 
 	public function __construct(){
@@ -322,7 +320,7 @@ class GenericTableUpdater extends VmModel{
 			vmError('updateMyVmTables '.$this->_db->getErrorMsg());
 			return false;
 		}
-
+		vmdebug('updateMyVmTables $existingtables',$existingtables);
 		$i = 0;
 		$demandedTables = array();
 		//TODO ignore admin menu table
@@ -331,7 +329,7 @@ class GenericTableUpdater extends VmModel{
 // 			if($i>2) continue;
 
 			$tablename = str_replace('#__',$this->_prefix,$tablename);
-			$demandedTables[] = $tablename;
+			$demandedTables[] = $tablename; vmdebug('updateMyVmTables $existingtables',$tablename);
 			if(in_array($tablename,$existingtables)){
 
 				/*$q = 'LOCK TABLES `'.$tablename.'` WRITE';

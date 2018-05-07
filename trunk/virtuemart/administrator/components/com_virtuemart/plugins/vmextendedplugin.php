@@ -4,14 +4,13 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
 /**
  * Abstract class for extended plugins
  * This class provides some standard methods that can implemented to add features into the VM core
- * Be sure to include this line in the plugin file:
- * require(VMPATH_ADMIN.DS.'helpers'.DS.'vmextendedplugin.php');
+ *
  *
  * @package	VirtueMart
  * @subpackage Plugins
  * @author Christopher Roussel
  */
-if (!class_exists('vmPlugin')) require(VMPATH_PLUGINLIBS . DS . 'vmplugin.php');
+
 
 abstract class vmExtendedPlugin extends vmPlugin {
 	/**

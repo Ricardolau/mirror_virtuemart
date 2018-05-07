@@ -22,9 +22,6 @@ class VirtueMartCustomFieldRenderer {
 
 		static $calculator = false;
 		if(!$calculator){
-			if (!class_exists ('calculationHelper')) {
-				require(VMPATH_ADMIN . DS . 'helpers' . DS . 'calculationh.php');
-			}
 			$calculator = calculationHelper::getInstance ();
 		}
 
@@ -34,8 +31,6 @@ class VirtueMartCustomFieldRenderer {
 
 		static $currency = false;
 		if(!$currency){
-			if (!class_exists ('CurrencyDisplay'))
-				require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');
 			$currency = CurrencyDisplay::getInstance ();
 		}
 
@@ -45,10 +40,6 @@ class VirtueMartCustomFieldRenderer {
 			if(!isset($customfield->display))$customfield->display = '';
 
 			$calculator->_product = $product;
-
-			if (!class_exists ('vmCustomPlugin')) {
-				require(VMPATH_PLUGINLIBS . DS . 'vmcustomplugin.php');
-			}
 
 			if ($customfield->field_type == "E") {
 
@@ -650,9 +641,6 @@ class VirtueMartCustomFieldRenderer {
 					if($customfield->waddtocart){
 						if (!empty($related->customfields)) {
 
-							if (!class_exists ('vmCustomPlugin')) {
-								require(VMPATH_PLUGINLIBS . DS . 'vmcustomplugin.php');
-							}
 							$customfieldsModel = VmModel::getModel ('customfields');
 							if(empty($customfield->from)) {
 								$customfield->from = $related->virtuemart_product_id;
@@ -695,8 +683,6 @@ class VirtueMartCustomFieldRenderer {
 			return false;
 		}
 		$row = 0;
-		if (!class_exists ('shopFunctionsF'))
-			require(VMPATH_SITE . DS . 'helpers' . DS . 'shopfunctionsf.php');
 
 		$variantmods = isset($product -> customProductData)?$product -> customProductData:$product -> product_attribute;
 
@@ -759,8 +745,6 @@ class VirtueMartCustomFieldRenderer {
 					$tmp = '';
 					if ($productCustom->field_type == "E") {
 
-						if (!class_exists ('vmCustomPlugin'))
-							require(VMPATH_PLUGINLIBS . DS . 'vmcustomplugin.php');
 						JPluginHelper::importPlugin ('vmcustom');
 						$dispatcher = JDispatcher::getInstance ();
 						$dispatcher->trigger ($trigger.'VM3', array(&$product, &$productCustom, &$tmp));

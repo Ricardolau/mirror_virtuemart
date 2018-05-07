@@ -19,9 +19,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-// Load the view framework
-if(!class_exists('VmViewAdmin'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmviewadmin.php');
-
 /**
  * HTML View class for the configuration maintenance
  *
@@ -32,15 +29,6 @@ if(!class_exists('VmViewAdmin'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmviewadmi
 class VirtuemartViewConfig extends VmViewAdmin {
 
 	function display($tpl = null) {
-
-		if (!class_exists('VmImage'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'image.php');
-
-		if (!class_exists('VmHTML'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'html.php');
-
-		if(!class_exists('JFolder'))
-			require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'folder.php');
 
 		$model = VmModel::getModel();
 		$usermodel = VmModel::getModel('user');
@@ -116,7 +104,6 @@ class VirtuemartViewConfig extends VmViewAdmin {
 
 		$this->aclGroups = $usermodel->getAclGroupIndentedTree();
 
-		if(!class_exists('VmTemplate')) require(VMPATH_SITE.DS.'helpers'.DS.'vmtemplate.php');
 		$this->vmtemplate = VmTemplate::loadVmTemplateStyle();
 		$this->imagePath = shopFunctions::getAvailabilityIconUrl($this->vmtemplate);
 
@@ -237,9 +224,6 @@ WHERE published="1"';
 	 */
 	static function writePriceConfigLine ($array, $name, $langkey) {
 
-		if (!class_exists ('VmHTML')) {
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'html.php');
-		}
 		if(is_object($array)) $array = get_object_vars($array);
 		if(!isset($array[$name])) $array[$name] = 0;
 		if(!isset($array[$name . 'Text'])) $array[$name . 'Text'] = 0;

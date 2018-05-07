@@ -210,7 +210,6 @@ class VirtueMartModelConfig extends VmModel {
 		//TODO set config value here
 		$dirs[] = VMPATH_ROOT.DS.'components'.DS.'com_virtuemart'.DS.'assets'.DS.'images'.DS.'vmgeneral';
 
-		if(!class_exists('VmTemplate')) require(VMPATH_SITE.DS.'helpers'.DS.'vmtemplate.php');
 		$tplpath = VmConfig::get('vmtemplate',VmTemplate::getDefaultTemplate());
 		if(!empty($tplpath) and is_numeric($tplpath)){
 			$db = JFactory::getDbo();
@@ -441,8 +440,6 @@ class VirtueMartModelConfig extends VmModel {
 			}
 		}
 
-		if(!class_exists('JFolder')) require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'folder.php');
-
 		$safePath = trim($config->get('forSale_path'));
 		if(!empty($safePath)){
 			if(DS!='/' and strpos($safePath,'/')!==false){
@@ -462,7 +459,6 @@ class VirtueMartModelConfig extends VmModel {
 			$config->set('forSale_path',$safePath);
 		}
 
-		if(!class_exists('shopfunctions')) require(VMPATH_ADMIN.DS.'helpers'.DS.'shopfunctions.php');
 		$safePath = shopFunctions::checkSafePath($safePath);
 
 		if(!empty($safePath)){
@@ -540,7 +536,6 @@ class VirtueMartModelConfig extends VmModel {
 
 	static public function installLanguageTables(){
 
-		if(!class_exists('GenericTableUpdater')) require(VMPATH_ADMIN .'/helpers/tableupdater.php');
 		$updater = new GenericTableUpdater();
 		$langs = self::getActiveVmLanguages();
 
@@ -627,7 +622,6 @@ class VirtueMartModelConfig extends VmModel {
 		$_datafile = VMPATH_ADMIN.DS.'virtuemart.cfg';
 		if (!file_exists($_datafile)) {
 			if (file_exists(VMPATH_ADMIN.DS.'virtuemart_defaults.cfg-dist')) {
-				if(!class_exists('JFile')) require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'file.php');
 				JFile::copy('virtuemart_defaults.cfg-dist','virtuemart.cfg',VMPATH_ADMIN);
 			} else {
 				vmWarn('The data file with the default configuration could not be found. You must configure the shop manually.');

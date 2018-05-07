@@ -92,8 +92,7 @@ class vmDefines {
 		defined ('VMPATH_ADMIN') or define ('VMPATH_ADMIN', VMPATH_ADMINISTRATOR .'/components/com_virtuemart' );
 
 		defined('VM_VERSION') or define ('VM_VERSION', 3);
-		/*if (!class_exists( 'JFactory' ))
-			require(VMPATH_ADMIN .'/vmf/vfactory.php');*/
+
 		self::$_appId = $appId;
 
 		$admin = '';
@@ -127,20 +126,12 @@ class vmDefines {
 		defined('VM_ORDER_OFFSET') or define('VM_ORDER_OFFSET',3);
 
 
+		self::core();
 
-		if(!class_exists('vmVersion')) require(VMPATH_ADMIN.'/version.php');
 		defined('VM_REV') or define('VM_REV',vmVersion::$REVISION);
-
 		$v = hash('crc32b',(VMPATH_ROOT.VM_REV));
 		defined('VM_JS_VER') or define('VM_JS_VER', $v);
 
-		self::core();
-
-		/*if(!class_exists('vRequest')) require(VMPATH_ADMIN .'/helpers/vrequest.php');
-
-		if(!class_exists('vmText')) require(VMPATH_ADMIN .'/helpers/vmtext.php');
-		if(!class_exists('vmLanguage')) require(VMPATH_ADMIN .'/helpers/vmlanguage.php');
-*/
 		if(!defined('JVERSION')){
 			self::loadJoomlaCms();
 		}
@@ -176,6 +167,12 @@ class vmDefines {
 
 	static public function core(){
 
+		//?
+		//if(!class_exists('JFile')) require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'file.php');
+		JLoader::register('JFile', VMPATH_LIBS.DS.'/joomla/filesystem/file.php');
+		JLoader::register('JFolder', VMPATH_LIBS.DS.'/joomla/filesystem/folder.php');
+
+		JLoader::register('vmVersion', VMPATH_ADMIN.'/version.php');
 		JLoader::register('AdminUIHelper', VMPATH_ADMIN.'/helpers/adminui.php');
 		JLoader::register('calculationHelper', VMPATH_ADMIN.'/helpers/calculationh.php');
 		JLoader::register('VmConnector', VMPATH_ADMIN.'/helpers/connection.php');
@@ -187,7 +184,7 @@ class vmDefines {
 		JLoader::register('VmMediaHandler', VMPATH_ADMIN.'/helpers/mediahandler.php');
 		JLoader::register('vmFile', VMPATH_ADMIN.'/helpers/mediahandler.php');
 		JLoader::register('Migrator', VMPATH_ADMIN.'/helpers/migrator.php');
-		JLoader::register('ShopFunctions', VMPATH_ADMIN.'/helpers/shopFunctions.php');
+		JLoader::register('ShopFunctions', VMPATH_ADMIN.'/helpers/shopfunctions.php');
 		JLoader::register('GenericTableUpdater', VMPATH_ADMIN.'/helpers/tableupdater.php');
 		JLoader::register('VmController', VMPATH_ADMIN.'/helpers/vmcontroller.php');
 		JLoader::register('vmCrypt', VMPATH_ADMIN.'/helpers/vmcrypt.php');
@@ -206,6 +203,33 @@ class vmDefines {
 		JLoader::register('vObject', VMPATH_ADMIN.'/helpers/vobject.php');
 		JLoader::register('vRequest', VMPATH_ADMIN.'/helpers/vrequest.php');
 
+		JLoader::register('VirtueMartModelCalc', VMPATH_ADMIN.'/models/calc.php');
+		JLoader::register('VirtueMartModelCategory', VMPATH_ADMIN.'/models/category.php');
+		JLoader::register('VirtueMartModelConfig', VMPATH_ADMIN.'/models/config.php');
+		JLoader::register('VirtueMartModelCountry', VMPATH_ADMIN.'/models/country.php');
+		JLoader::register('VirtueMartModelCoupon', VMPATH_ADMIN.'/models/coupon.php');
+		JLoader::register('VirtueMartModelCurrency', VMPATH_ADMIN.'/models/currency.php');
+		JLoader::register('VirtueMartModelCustom', VMPATH_ADMIN.'/models/custom.php');
+		JLoader::register('VirtueMartModelCustomfields', VMPATH_ADMIN.'/models/customfields.php');
+		JLoader::register('VirtueMartModelInventory', VMPATH_ADMIN.'/models/inventory.php');
+		JLoader::register('VirtueMartModelInvoice', VMPATH_ADMIN.'/models/invoice.php');
+		JLoader::register('VirtueMartModelManufacturer', VMPATH_ADMIN.'/models/manufacturer.php');
+		JLoader::register('VirtuemartModelManufacturercategories', VMPATH_ADMIN.'/models/manufacturercategories.php');
+		JLoader::register('VirtueMartModelMedia', VMPATH_ADMIN.'/models/media.php');
+		JLoader::register('VirtueMartModelOrders', VMPATH_ADMIN.'/models/orders.php');
+		JLoader::register('VirtueMartModelOrderstatus', VMPATH_ADMIN.'/models/orderstatus.php');
+		JLoader::register('VirtueMartModelPaymentmethod', VMPATH_ADMIN.'/models/paymentmethod.php');
+		JLoader::register('VirtueMartModelProduct', VMPATH_ADMIN.'/models/product.php');
+		JLoader::register('VirtueMartModelRatings', VMPATH_ADMIN.'/models/ratings.php');
+		JLoader::register('VirtuemartModelReport', VMPATH_ADMIN.'/models/report.php');
+		JLoader::register('VirtueMartModelShipmentmethod', VMPATH_ADMIN.'/models/shipmentmethod.php');
+		JLoader::register('VirtueMartModelShopperGroup', VMPATH_ADMIN.'/models/shoppergroup.php');
+		JLoader::register('VirtueMartModelUpdatesMigration', VMPATH_ADMIN.'/models/updatesmigration.php');
+		JLoader::register('VirtueMartModelState', VMPATH_ADMIN.'/models/state.php');
+		JLoader::register('VirtueMartModelUser', VMPATH_ADMIN.'/models/user.php');
+		JLoader::register('VirtueMartModelUserfields', VMPATH_ADMIN.'/models/userfields.php');
+		JLoader::register('VirtueMartModelVendor', VMPATH_ADMIN.'/models/vendor.php');
+
 		JLoader::register('vmCalculationPlugin', VMPATH_PLUGINLIBS.'/vmcalculationplugin.php');
 		JLoader::register('vmCouponPlugin', VMPATH_PLUGINLIBS.'/vmcouponplugin.php');
 		JLoader::register('vmCurrencyPlugin', VMPATH_PLUGINLIBS.'/vmcurrencyplugin.php');
@@ -216,12 +240,27 @@ class vmDefines {
 		JLoader::register('vmShopperPlugin', VMPATH_PLUGINLIBS.'/vmshopperplugin.php');
 		JLoader::register('vmUserfieldPlugin', VMPATH_PLUGINLIBS.'/vmuserfieldtypeplugin.php');
 
+		JLoader::register('TableCalcs', VMPATH_ADMIN.'/tables/calcs.php');
+		JLoader::register('TableCategories', VMPATH_ADMIN.'/tables/categories.php');
+		JLoader::register('TableCategory_medias', VMPATH_ADMIN.'/tables/category_medias.php');
+		JLoader::register('TableManufacturers', VMPATH_ADMIN.'/tables/manufacturers.php');
+		JLoader::register('TableMedias', VMPATH_ADMIN.'/tables/medias.php');
+		JLoader::register('TableUserinfos', VMPATH_ADMIN.'/tables/userinfos.php');
+		JLoader::register('TableVendors', VMPATH_ADMIN.'/tables/TableVendors.php');
+
+		JLoader::register('VirtuemartViewConfig', VMPATH_ADMIN.'/views/config/view.html.php');
+
+		//FE
+		//JLoader::register('VirtueMartControllerVirtuemart',VMPATH_SITE .'/controllers/virtuemart.php');
+		JLoader::register('VirtueMartControllerInvoice',VMPATH_SITE .'/controllers/invoice.php');
 		JLoader::register('VirtueMartCart', VMPATH_SITE.'/helpers/cart.php');
 		JLoader::register('CouponHelper', VMPATH_SITE.'/helpers/coupon.php');
 		JLoader::register('shopFunctionsF', VMPATH_SITE.'/helpers/shopfunctionsf.php');
 		JLoader::register('VmPdf', VMPATH_SITE.'/helpers/vmpdf.php');
 		JLoader::register('VmTemplate', VMPATH_SITE.'/helpers/vmtemplate.php');
 		JLoader::register('VmView', VMPATH_SITE.'/helpers/vmview.php');
+		//JLoader::register('VirtuemartViewUser', VMPATH_SITE.'/views/user/view.html.php'); We must not register views which exists in FE and BE (could be done with "use")
+		JLoader::register('VirtuemartViewInvoice', VMPATH_SITE.'/views/invoice/view.html.php');
 	}
 }
 
@@ -572,7 +611,7 @@ function logInfo ($text, $type = 'message') {
 			}
 			return;
 		}
-		if(!class_exists('JFile')) require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'file.php');
+
 		if (!JFile::exists($file)) {
 			// blank line to prevent information disclose: https://bugs.php.net/bug.php?id=60677
 			// from Joomla log file
@@ -989,9 +1028,7 @@ class VmConfig {
 
 		self::$_jpConfig = new VmConfig();
 
-		if(!class_exists('VirtueMartModelConfig')) require(VMPATH_ADMIN .'/models/config.php');
 		$configTable  = VirtueMartModelConfig::checkConfigTableExists();
-
 
 		$db = JFactory::getDbo();
 
@@ -1283,8 +1320,6 @@ class vmAccess {
 
 			//echo $cuId;
 			if($cuId) {
-				if(!class_exists('vmCrypt'))
-					require(VMPATH_ADMIN.'/helpers/vmcrypt.php');
 				$cuId = vmCrypt::decrypt( $cuId );
 				if(empty($cuId)){
 					$cuId = null;

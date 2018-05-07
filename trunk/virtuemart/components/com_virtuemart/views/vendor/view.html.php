@@ -19,9 +19,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-// Load the view framework
-if(!class_exists('VmView'))require(VMPATH_SITE.DS.'helpers'.DS.'vmview.php');
-
 // Set to '0' to use tabs i.s.o. sliders
 // Might be a config option later on, now just here for testing.
 define('__VM_USER_USE_SLIDERS', 0);
@@ -70,14 +67,12 @@ class VirtuemartViewVendor extends VmView {
 			$vendor = $model->getVendor($virtuemart_vendor_id);
 			$model->addImages($vendor);
 			if (VmConfig::get ('enable_content_plugin', 0)) {
-				if(!class_exists('shopFunctionsF'))require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
 				shopFunctionsF::triggerContentPlugin($vendor, 'vendor','vendor_store_desc');
 				shopFunctionsF::triggerContentPlugin($vendor, 'vendor','vendor_terms_of_service');
 			}
 			$this->assignRef('vendor', $vendor);
 
-			if(!class_exists('VirtueMartModelVendor')) require(VMPATH_ADMIN.DS.'models'.DS.'vendor.php');
-			$userId = VirtueMartModelVendor::getUserIdByVendorId($virtuemart_vendor_id);
+			//$userId = VirtueMartModelVendor::getUserIdByVendorId($virtuemart_vendor_id);
 
 			if ($layoutName=='tos') {
 				$customtitle = vmText::_('COM_VIRTUEMART_VENDOR_TOS');

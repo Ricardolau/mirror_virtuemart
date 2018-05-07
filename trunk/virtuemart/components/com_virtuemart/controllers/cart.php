@@ -35,11 +35,6 @@ class VirtueMartControllerCart extends JControllerLegacy {
 		if (VmConfig::get('use_as_catalog', 0)) {
 			$app = JFactory::getApplication();
 			$app->redirect('index.php');
-		} else {
-			if (!class_exists('VirtueMartCart'))
-			require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');
-			if (!class_exists('calculationHelper'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'calculationh.php');
 		}
 		$this->useSSL = vmURI::useSSL();	//VmConfig::get('useSSL', 0);
 		$this->useXHTML = false;
@@ -368,8 +363,6 @@ class VirtueMartControllerCart extends JControllerLegacy {
 	 */
 	public function viewJS() {
 
-		if (!class_exists('VirtueMartCart'))
-		require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');
 		$cart = VirtueMartCart::getCart(false);
 		$cart -> prepareCartData();
 		$data = $cart -> prepareAjaxData(true);
@@ -495,8 +488,6 @@ class VirtueMartControllerCart extends JControllerLegacy {
 		$session = JFactory::getSession();
 		$adminID = $session->get('vmAdminID');
 		if(!isset($adminID)) {
-			if(!class_exists('vmCrypt'))
-				require(VMPATH_ADMIN.DS.'helpers'.DS.'vmcrypt.php');
 			$session->set('vmAdminID', vmCrypt::encrypt($current->id));
 		}
 

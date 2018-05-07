@@ -17,8 +17,6 @@
  */
 defined('_JEXEC') or die;
 
-if(!class_exists('VmView'))require(VMPATH_SITE.DS.'helpers'.DS.'vmview.php');
-
 class VirtueMartViewRaw extends VmView
 {
 

@@ -20,8 +20,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-if(!class_exists('VmModel'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmmodel.php');
-
 /**
  * Model class for shop Currencies
  *
@@ -95,10 +93,7 @@ class VirtueMartModelCurrency extends VmModel {
 		if($vendorId===0){
 			$multix = Vmconfig::get('multix','none');
 			if(strpos($multix,'payment')!==FALSE){
-				if (!class_exists('VirtueMartModelVendor'))
-					require(VMPATH_ADMIN . DS . 'models' . DS . 'vendor.php');
 				$vendorId = VirtueMartModelVendor::getLoggedVendor();
-
 			} else {
 				$vendorId = 1;
 			}

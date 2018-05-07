@@ -19,11 +19,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-if (!class_exists ('shopFunctionsF'))
-	require(VMPATH_SITE . DS . 'helpers' . DS . 'shopfunctionsf.php');
-
 AdminUIHelper::startAdminArea($this);
-
 ?>
 
 <form action="index.php?option=com_virtuemart&view=category" method="post" name="adminForm" id="adminForm">

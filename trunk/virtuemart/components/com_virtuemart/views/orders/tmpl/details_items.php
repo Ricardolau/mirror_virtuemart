@@ -53,7 +53,6 @@ foreach($this->orderdetails['items'] as $item) {
 		<td style="text-align: left;" colspan="2" >
 			<div><a href="<?php echo $_link; ?>"><?php echo $item->order_item_name; ?></a></div>
 			<?php
-				if(!class_exists('VirtueMartModelCustomfields'))require(VMPATH_ADMIN.DS.'models'.DS.'customfields.php');
 				$product_attribute = VirtueMartModelCustomfields::CustomsFieldOrderDisplay($item,'FE');
 				echo $product_attribute;
 			?>

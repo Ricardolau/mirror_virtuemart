@@ -34,16 +34,10 @@ $task = vRequest::getCmd('task','') ;
 
 if(VmConfig::get('shop_is_offline',0) and $task!='feed' and $_controller!='virtuemart'){	//yes, quickndirty
 	$_controller = 'virtuemart';
-	require (VMPATH_SITE.DS.'controllers'.DS.'virtuemart.php');
 	vRequest::setVar('view', 'virtuemart');
 	$task='';
 	$basePath = VMPATH_SITE;
 } else {
-
-	// Front-end helpers
-	if(!class_exists('VmImage')) require(VMPATH_ADMIN.DS.'helpers'.DS.'image.php'); //dont remove that file it is actually in every view except the state view
-	if(!class_exists('shopFunctionsF'))require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php'); //dont remove that file it is actually in every view
-
 
 	$trigger = 'onVmSiteController';
 // 	$task = vRequest::getCmd('task',vRequest::getCmd('layout',$_controller) );		$this makes trouble!

@@ -19,9 +19,6 @@
 # Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-# Load the view framework
-if(!class_exists('VmView'))require(VMPATH_SITE.DS.'helpers'.DS.'vmview.php');
-
 /**
  * Default HTML View class for the VirtueMart Component
  * @todo Find out how to use the front-end models instead of the backend models
@@ -56,7 +53,6 @@ class VirtueMartViewVirtueMart extends VmView {
 		$menus = $app->getMenu();
 		$menu = $menus->getActive();
 
-		if(!class_exists('shopFunctionsF'))require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
 		if(!empty($menu->id)){
 			ShopFunctionsF::setLastVisitedItemId($menu->id);
 		} else if($itemId = vRequest::getInt('Itemid',false)){
@@ -95,7 +91,6 @@ class VirtueMartViewVirtueMart extends VmView {
 
 			$this->assignRef('categories',	$categoryChildren);
 
-			if(!class_exists('CurrencyDisplay'))require(VMPATH_ADMIN.DS.'helpers'.DS.'currencydisplay.php');
 			$this->currency = CurrencyDisplay::getInstance( );
 			
 			$products_per_row = VmConfig::get('homepage_products_per_row',3);
@@ -149,9 +144,6 @@ class VirtueMartViewVirtueMart extends VmView {
 							}
 						}
 					} else {
-						if (!class_exists ('vmCustomPlugin')) {
-							require(VMPATH_PLUGINLIBS . DS . 'vmcustomplugin.php');
-						}
 						foreach($this->products as $pType => $productSeries) {
 							shopFunctionsF::sortLoadProductCustomsStockInd($this->products[$pType],$productModel);
 						}
@@ -212,7 +204,6 @@ class VirtueMartViewVirtueMart extends VmView {
 
 		}
 
-		if(!class_exists('VmTemplate')) require(VMPATH_SITE.DS.'helpers'.DS.'vmtemplate.php');
 		vmTemplate::setTemplate();
 
 		parent::display($tpl);

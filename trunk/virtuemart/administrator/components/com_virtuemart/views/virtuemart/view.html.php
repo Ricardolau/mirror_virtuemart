@@ -19,9 +19,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-// Load the view framework
-if(!class_exists('VmViewAdmin'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmviewadmin.php');
-
 
 /**
  * HTML View class for the VirtueMart Component
@@ -33,10 +30,7 @@ class VirtuemartViewVirtuemart extends VmViewAdmin {
 
 	function display($tpl = null) {
 
-		if (!class_exists('VmImage'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'image.php');
 		vmLanguage::loadJLang('com_virtuemart_orders',TRUE);
-
 
 		if(JFactory::getApplication()->isSite()){
 			$bar = JToolBar::getInstance('toolbar');
@@ -64,7 +58,6 @@ class VirtuemartViewVirtuemart extends VmViewAdmin {
 			$this->ordersByStatus= $ordersByStatus;
 
 			$recentOrders = $model->getRecentOrders();
-			if(!class_exists('CurrencyDisplay'))require(VMPATH_ADMIN.DS.'helpers'.DS.'currencydisplay.php');
 
 			/* Apply currency This must be done per order since it's vendor specific */
 			$_currencies = array(); // Save the currency data during this loop for performance reasons

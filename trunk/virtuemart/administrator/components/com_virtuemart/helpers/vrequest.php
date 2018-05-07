@@ -362,8 +362,6 @@ class vRequest {
 		$user = JFactory::getUser();
 
 		if(empty($user->id)) $user->id = 0;
-		if(!class_exists('vmCrypt'))
-			require(VMPATH_ADMIN.DS.'helpers'.DS.'vmcrypt.php');
 
 		$token = $sess->get('session.token');
 		if ($token === null || $fNew) {

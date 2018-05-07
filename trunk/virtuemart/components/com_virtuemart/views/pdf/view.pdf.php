@@ -17,8 +17,6 @@
  */
 defined('_JEXEC') or die;
 
-if(!class_exists('VmView'))require(VMPATH_SITE.DS.'helpers'.DS.'vmview.php');
-
 class VirtueMartViewPdf extends VmView
 {
 
@@ -52,7 +50,6 @@ class VirtueMartViewPdf extends VmView
 				$html = ob_get_contents();
 				ob_end_clean();
 
-				if(!class_exists('VmPdf')) require(VMPATH_SITE.DS.'helpers'.DS.'vmpdf.php');
 				$pdf = new VmVendorPDF();
 				$pdf->AddPage();
 				$pdf->PrintContents($html);

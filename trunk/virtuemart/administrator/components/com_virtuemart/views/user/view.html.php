@@ -19,9 +19,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-// Load the view framework
-if(!class_exists('VmViewAdmin'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmviewadmin.php');
-
 /**
  * HTML View class for maintaining the list of users
  *
@@ -32,11 +29,6 @@ if(!class_exists('VmViewAdmin'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmviewadmi
 class VirtuemartViewUser extends VmViewAdmin {
 
 	function display($tpl = null) {
-
-
-		// Load the helper(s)
-		if (!class_exists('VmHTML'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'html.php');
 
 		$model = VmModel::getModel();
 		$currentUser = JFactory::getUser();
@@ -49,7 +41,6 @@ class VirtuemartViewUser extends VmViewAdmin {
 			if(empty($isSuperOrVendor)){
 				JFactory::getApplication()->redirect( 'index.php?option=com_virtuemart', vmText::_('JERROR_ALERTNOAUTHOR'), 'error');
 			} else {
-				if(!class_exists('VirtueMartModelVendor')) require(VMPATH_ADMIN.DS.'models'.DS.'vendor.php');
 				$userId = VirtueMartModelVendor::getUserIdByVendorId($isSuperOrVendor);
 			}
 			$this->SetViewTitle('STORE'  );
@@ -70,9 +61,6 @@ class VirtuemartViewUser extends VmViewAdmin {
 		if ($layoutName == 'edit' || $layoutName == 'edit_shipto') {
 
 			$editor = JFactory::getEditor();
-
-			if (!class_exists('VmImage'))
-				require(VMPATH_ADMIN . DS . 'helpers' . DS . 'image.php');
 
 			$userDetails = $model->getUser();
 
@@ -115,7 +103,6 @@ class VirtuemartViewUser extends VmViewAdmin {
 			$this->lists['custnumber'] = $model->getCustomerNumberById();
 
 			// Shipment address(es)
-			if(!class_exists('ShopFunctionsF')) require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
 			$this->lists['shipTo'] = shopFunctionsF::generateStAddressList($this, $model, 'addST');
 
 			$new = false;
@@ -172,7 +159,6 @@ class VirtuemartViewUser extends VmViewAdmin {
 
 
 			if (count($orderList) > 0 || !empty($userDetails->user_is_vendor)) {
-				if (!class_exists('CurrencyDisplay')) require(VMPATH_ADMIN.DS.'helpers'.DS.'currencydisplay.php');
 				$currency = CurrencyDisplay::getInstance();
 				$this->assignRef('currency',$currency);
 			}

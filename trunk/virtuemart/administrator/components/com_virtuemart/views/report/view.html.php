@@ -17,8 +17,6 @@ if( !defined( '_JEXEC' ) ) die('Restricted access');
 * http://virtuemart.org
 */
 
-if(!class_exists('VmViewAdmin'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmviewadmin.php');
-
 /**
  * Report View class
  *
@@ -32,12 +30,6 @@ class VirtuemartViewReport extends VmViewAdmin {
 	 * Render the view
 	 */
 	function display($tpl = null){
-
-		if (!class_exists('VmHTML'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'html.php');
-		if (!class_exists('CurrencyDisplay'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');
-
 
 		$model		= VmModel::getModel();
 

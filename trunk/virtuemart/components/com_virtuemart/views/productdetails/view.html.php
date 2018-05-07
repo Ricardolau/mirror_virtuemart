@@ -19,10 +19,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-// Load the view framework
-if (!class_exists('VmView'))
-    require(VMPATH_SITE . DS . 'helpers' . DS . 'vmview.php');
-
 /**
  * Product details
  *
@@ -56,9 +52,6 @@ class VirtueMartViewProductdetails extends VmView {
 			$pathway = $app->getPathway();
 			$task = vRequest::getCmd('task');
 
-			if (!class_exists('VmImage'))
-				require(VMPATH_ADMIN . DS . 'helpers' . DS . 'image.php');
-
 			// Load the product
 			//$product = $this->get('product');	//Why it is sensefull to use this construction? Imho it makes it just harder
 			$product_model = VmModel::getModel('product');
@@ -81,16 +74,11 @@ class VirtueMartViewProductdetails extends VmView {
 			$product = $product_model->getProduct($virtuemart_product_id,TRUE,TRUE,TRUE,$quantity);
 			$this->assignRef('product', $product);
 
-			if(!class_exists('shopFunctionsF'))require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
 			$last_category_id = shopFunctionsF::getLastVisitedCategoryId();
 
 			$customfieldsModel = VmModel::getModel ('Customfields');
 
 			if ($product->customfields){
-
-				if (!class_exists ('vmCustomPlugin')) {
-					require(VMPATH_PLUGINLIBS . DS . 'vmcustomplugin.php');
-				}
 				$customfieldsModel -> displayProductCustomfieldFE ($product, $product->customfields);
 			}
 
@@ -330,8 +318,6 @@ class VirtueMartViewProductdetails extends VmView {
 			$productDisplayShipments = array();
 			$productDisplayPayments = array();
 
-			if (!class_exists('vmPSPlugin'))
-				require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
 			JPluginHelper::importPlugin('vmcalculation');
 			JPluginHelper::importPlugin('vmshipment');
 			JPluginHelper::importPlugin('vmpayment');
@@ -400,10 +386,6 @@ class VirtueMartViewProductdetails extends VmView {
 				vmJsApi::jDynUpdate();
 			}
 
-			if ($this->show_prices) {
-				if (!class_exists('calculationHelper'))
-					require(VMPATH_ADMIN . DS . 'helpers' . DS . 'calculationh.php');
-			}
 			vmJsApi::jPrice();
 
 			parent::display($tpl);

@@ -23,9 +23,8 @@ defined('_JEXEC') or die('Restricted access');
  * HTML View class for the VirtueMart Component
  *
  * @package		VirtueMart
- * @author RolandD,Max Milbers
+ * @author Max Milbers
  */
-if(!class_exists('VmViewAdmin'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmviewadmin.php');
 
 class VirtuemartViewProduct extends VmViewAdmin {
 
@@ -34,14 +33,6 @@ class VirtuemartViewProduct extends VmViewAdmin {
 		// Get the task
 		$task = vRequest::getCmd('task',$this->getLayout());
 		$this->assignRef('task', $task);
-
-		// Load helpers
-		if (!class_exists('CurrencyDisplay'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');
-		if (!class_exists('VmHTML'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'html.php');
-		if (!class_exists('VmImage'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'image.php');
 
 		$model = VmModel::getModel();
 		$this->assignRef('model', $model);
@@ -120,15 +111,12 @@ class VirtuemartViewProduct extends VmViewAdmin {
 					$this->product_childs = $product_childs;
 				}
 
-
-				if(!class_exists('VirtueMartModelConfig')) require(VMPATH_ADMIN .'/models/config.php');
 				$productLayouts = VirtueMartModelConfig::getLayoutList('productdetails');
 				$this->productLayouts = $productLayouts;
 
 				// Load Images
 				$model->addImages($product);
 
-				if(!class_exists('VmTemplate')) require(VMPATH_SITE.DS.'helpers'.DS.'vmtemplate.php');
 				$vmtemplate = VmTemplate::loadVmTemplateStyle();
 				$this->imagePath = shopFunctions::getAvailabilityIconUrl($vmtemplate);
 
@@ -266,7 +254,6 @@ class VirtuemartViewProduct extends VmViewAdmin {
 				if ($product->product_sku) $sku=' ('.$product->product_sku.')'; else $sku="";
 				//if (!empty($product->canonCatLink)) $canonLink = '&virtuemart_category_id=' . $product->canonCatLink; else $canonLink = '';
 				if(!empty($product->virtuemart_product_id)){
-					if (!class_exists ('shopFunctionsF')) require(VMPATH_SITE . DS . 'helpers' . DS . 'shopfunctionsf.php');
 					$menuItemID = shopFunctionsF::getMenuItemId(JFactory::getLanguage()->getTag());
 					$canonLink='';
 					if($product->canonCatId) $canonLink = '&virtuemart_category_id='.$product->canonCatId;
@@ -539,7 +526,6 @@ class VirtuemartViewProduct extends VmViewAdmin {
 	 */
 	function renderDiscountList($selected,$name='product_discount_id'){
 
-		if(!class_exists('VirtueMartModelCalc')) require(VMPATH_ADMIN.DS.'models'.DS.'calc.php');
 		$discounts = VirtueMartModelCalc::getDiscounts();
 
 		$discountrates = array();

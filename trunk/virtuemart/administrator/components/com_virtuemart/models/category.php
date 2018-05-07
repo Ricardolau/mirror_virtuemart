@@ -20,8 +20,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-if(!class_exists('VmModel'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmmodel.php');
-
 /**
  * Model for product categories
  */
@@ -229,7 +227,6 @@ vmdebug('Found cached cat, but without children');
 		$db->setQuery( $query);
 		$childList = $db->loadObjectList();
 		if(!empty($childList)){
-			if(!class_exists('TableCategory_medias'))require(VMPATH_ADMIN.DS.'tables'.DS.'category_medias.php');
 			foreach($childList as $child){
 				$xrefTable = new TableCategory_medias($db);
 				$child->virtuemart_media_id = $xrefTable->load($child->virtuemart_category_id);

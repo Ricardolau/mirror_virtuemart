@@ -19,9 +19,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-// Load the view framework
-if(!class_exists('VmViewAdmin'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmviewadmin.php');
-
 /**
  * HTML View class for maintaining the Installation. Updating of the files and imports of the database should be done here
  *
@@ -33,17 +30,9 @@ class VirtuemartViewUpdatesMigration extends VmViewAdmin {
 
 	function display($tpl = null) {
 
-
 		$latestVersion = vRequest::getVar('latestverison', '');
 
 		JToolBarHelper::title(vmText::_('COM_VIRTUEMART_UPDATE_MIGRATION'), 'head vm_config_48');
-
-		if (!class_exists('VmImage'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'image.php');
-		if (!class_exists('VmHTML'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'html.php');
-		if(!class_exists('vmCrypt'))
-			require(VMPATH_ADMIN.'/helpers/vmcrypt.php');
 
 		$this->assignRef('latestVersion', $latestVersion);
 

@@ -57,8 +57,6 @@ if(empty($token)) {
 }
 
 if(empty($token)){
-	if(!class_exists('vmCrypt'))
-		require(VMPATH_ADMIN.'/helpers/vmcrypt.php');
 	$token = vmCrypt::getToken(21);
 	$session->set('safepathtoken',$token);
 }
@@ -68,11 +66,6 @@ $safePath = str_replace('/',DS, VMPATH_ADMIN.'/'.$token);
 
 //$suggestedPath2 = VMPATH_ADMIN.DS.vmCrypt::getToken(21).DS;
 echo '<div>'.vmText::sprintf('COM_VM_SAFEPATH_EXPLAIN', htmlspecialchars($usafePath), htmlspecialchars($safePath),'').'</div>';
-
-
-if(!class_exists('JFolder')){
-	require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'folder.php');
-}
 
 $extra = '';
 if(vRequest::getBool('show_spwizard',false)){

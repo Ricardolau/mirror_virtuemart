@@ -19,8 +19,6 @@ defined('_JEXEC') or 	die( 'Direct Access to ' . basename( __FILE__ ) . ' is not
  * http://virtuemart.org
  */
 
-if (!class_exists('vmCustomPlugin')) require(VMPATH_PLUGINLIBS . DS . 'vmcustomplugin.php');
-
 class plgVmCustomTextinput extends vmCustomPlugin {
 
 	function __construct(& $subject, $config) {

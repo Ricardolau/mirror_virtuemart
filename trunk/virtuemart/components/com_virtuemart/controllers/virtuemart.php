@@ -19,9 +19,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-// Load the controller framework
-jimport('joomla.application.component.controller');
-
 /**
  * VirtueMart Component Controller
  *
@@ -55,8 +52,6 @@ class VirtueMartControllerVirtuemart extends JControllerLegacy
 	}
 
 	public function feed(){
-
-		if(!class_exists( 'vmRSS' )) require(VMPATH_ADMIN.'/helpers/vmrss.php');
 
 		$this->virtuemartFeed = vmRSS::getVirtueMartRssFeed();
 		$this->extensionsFeed = vmRSS::getExtensionsRssFeed();

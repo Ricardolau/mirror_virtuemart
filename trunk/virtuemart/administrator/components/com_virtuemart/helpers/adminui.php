@@ -133,9 +133,6 @@ class AdminUIHelper {
 		$ackey = VmConfig::get('member_access_number','');
 		//$host = JUri::getInstance()->getHost();
 
-		if(!class_exists('vmCrypt'))
-			require(VMPATH_ADMIN.DS.'helpers'.DS.'vmcrypt.php');
-
 		$keyPath = vmCrypt::getEncryptSafepath();
 
 		if(!empty($keyPath)){

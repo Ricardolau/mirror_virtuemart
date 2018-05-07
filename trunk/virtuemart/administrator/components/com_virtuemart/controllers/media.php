@@ -19,9 +19,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-if(!class_exists('VmController'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmcontroller.php');
-
-
 /**
  * Product Controller
  *
@@ -94,7 +91,6 @@ class VirtuemartControllerMedia extends VmController {
 				$this -> renameFileExtension(VMPATH_ROOT.DS.VmConfig::get($path) );
 			}
 
-			if(!class_exists('Migrator')) require(VMPATH_ADMIN . DS . 'helpers' . DS . 'migrator.php');
 			$migrator = new Migrator();
 			$result = $migrator->portMedia();
 

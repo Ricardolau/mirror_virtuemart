@@ -22,7 +22,6 @@ defined ('_JEXEC') or die('Restricted access');
 vmJsApi::vmValidator();
 vmJsApi::css('vmpanels');
 
-if (!class_exists('VirtueMartCart')) require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');
 $this->cart = VirtueMartCart::getCart();
 $url = 0;
 if ($this->cart->_fromCart or $this->cart->getInCheckOut()) {
@@ -108,10 +107,6 @@ echo shopFunctionsF::getLoginForm (TRUE, FALSE, $url);
 
 	<!--<form method="post" id="userForm" name="userForm" action="<?php echo JRoute::_ ('index.php'); ?>" class="form-validate">-->
 	<?php renderControlButtons($this,$rview);
-
-	if (!class_exists ('VirtueMartCart')) {
-		require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');
-	}
 
 	if (count ($this->userFields['functions']) > 0) {
 		echo '<script language="javascript">' . "\n";

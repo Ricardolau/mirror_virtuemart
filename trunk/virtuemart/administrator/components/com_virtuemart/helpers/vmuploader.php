@@ -224,7 +224,7 @@ class vmUploader {
 			vmError('Not able to upload file, give path/url empty/too short '.$urlfolder.' please correct path in your virtuemart config');
 			return false;
 		}
-		if(!class_exists('JFile')) require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'file.php');
+
 		$media = vRequest::getFiles('upload');
 		if(empty($media) or !isset($media['error']) ){
 			vmError('Recieved no data for upload','Recieved no data for upload');

@@ -19,9 +19,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-// Load the view framework
-if(!class_exists('VmViewAdmin'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmviewadmin.php');
-
 /**
  * HTML View class for maintaining the list of manufacturers
  *
@@ -32,11 +29,6 @@ if(!class_exists('VmViewAdmin'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmviewadmi
 class VirtuemartViewManufacturer extends VmViewAdmin {
 
 	function display($tpl = null) {
-
-		// Load the helper(s)
-		if (!class_exists('VmHTML'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'html.php');
-
 
 		// get necessary models
 		$model = VmModel::getModel('manufacturer');
@@ -76,9 +68,7 @@ class VirtuemartViewManufacturer extends VmViewAdmin {
 
 			$this->addStandardEditViewCommands($this->manufacturer->virtuemart_manufacturer_id);
 
-			if(!class_exists('VirtueMartModelVendor')) require(VMPATH_ADMIN.DS.'models'.DS.'vendor.php');
 			$this->virtuemart_vendor_id = VirtueMartModelVendor::getLoggedVendor();
-
 		}
 		else {
 

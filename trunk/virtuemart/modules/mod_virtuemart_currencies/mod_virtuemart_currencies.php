@@ -44,8 +44,6 @@ $currencyModel = VmModel::getModel('currency');
 
 $currencies = $currencyModel->getVendorAcceptedCurrrenciesList($vendorId);
 
-
-if (!class_exists('CurrencyDisplay')) require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'currencydisplay.php');
 $currencyDisplay = CurrencyDisplay::getInstance();
 
 $virtuemart_currency_id = $mainframe->getUserStateFromRequest( "virtuemart_currency_id", 'virtuemart_currency_id',vRequest::getInt('virtuemart_currency_id',$currencyDisplay->_vendorCurrency) );

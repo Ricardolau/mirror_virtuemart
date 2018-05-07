@@ -20,9 +20,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-// Load the helpers
-if(!class_exists('VmModel'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmmodel.php');
-
 /**
  * Model class for user fields
  *
@@ -76,7 +73,6 @@ class VirtueMartModelUserfields extends VmModel {
 		$value = $data[$field->name];
 		$params = $field->userfield_params;
 
-		if(!class_exists('vmFilter'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmfilter.php');
 		switch(strtolower($fieldType)) {
 			case 'webaddress':
 				$post = vRequest::getRequest();
@@ -129,19 +125,6 @@ class VirtueMartModelUserfields extends VmModel {
 				//$value = vmFilter::hl( $value,'no_js_flash' );
 				break;
 			default:
-
-				// //*** code for htmlpurifier ***
-				// //SEE http://htmlpurifier.org/
-				// // must only add all htmlpurifier in library/htmlpurifier/
-				// if (!$this->htmlpurifier) {
-				// require(VMPATH_ADMIN.DS.'library'.DS.'htmlpurifier'.DS.'HTMLPurifier.auto.php');
-				// $config = HTMLPurifier_Config::createDefault();
-				// $this->htmlpurifier = new HTMLPurifier($config);
-				// }
-				// $value = $this->htmlpurifier->purify($value);
-				// vmdebug( "purified filter" , $value);
-
-				//$config->set('URI.HostBlacklist', array('google.com'));// set eg .add google.com in black list
 
 				if (strpos($fieldType,'plugin')!==false){
 
@@ -775,7 +758,6 @@ class VirtueMartModelUserfields extends VmModel {
 			$_userData=(array)($_userData);
 		}
 
-		//if(!class_exists('ShopFunctions')) require(VMPATH_ADMIN.DS.'helpers'.DS.'shopfunctions.php');
 		$_return = array(
 				 'fields' => array()
 		,'functions' => array()
@@ -846,7 +828,6 @@ class VirtueMartModelUserfields extends VmModel {
 					// 					break;
 					case 'virtuemart_country_id':
 
-						if(!class_exists('shopFunctionsF'))require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
 						$attrib = array();
 						if ($_fld->size) {
 							$attrib = array('style'=>"width: ".$_fld->size."px");
@@ -881,8 +862,7 @@ class VirtueMartModelUserfields extends VmModel {
 						break;
 
 					case 'virtuemart_state_id':
-						if (!class_exists ('shopFunctionsF'))
-							require(VMPATH_SITE . DS . 'helpers' . DS . 'shopfunctionsf.php');
+
 						$attrib = array();
 						if ($_fld->size) {
 							$attrib = array('style'=>"width: ".$_fld->size."px");
@@ -1017,8 +997,7 @@ class VirtueMartModelUserfields extends VmModel {
 							 }
 							break;
 						case 'custom':
-							if(!class_exists('shopFunctionsF'))require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
-							
+
 							$_return['fields'][$_fld->name]['value'] = $_return['fields'][$_fld->name]['unescapedvalue']; 
 							$_return['fields'][$_fld->name]['htmlentities'] = false; 
 							$_return['fields'][$_fld->name]['formcode'] =  shopFunctionsF::renderVmSubLayout($_fld->name,array('field'=>$_return['fields'][$_fld->name],'userData' => $_userData,'prefix' => $_prefix));

@@ -13,8 +13,6 @@
 
 defined('_JEXEC') or die();
 
-if (!class_exists('VmMediaHandler')) require(VMPATH_ADMIN.DS.'helpers'.DS.'mediahandler.php');
-
 class VmImage extends VmMediaHandler {
 
 
@@ -186,7 +184,6 @@ class VmImage extends VmMediaHandler {
 		$this->checkPathCreateFolders($file_path_thumb);
 
 		if (file_exists($fullSizeFilenamePath)) {
-			if (!class_exists('Img2Thumb')) require(VMPATH_ADMIN.DS.'helpers'.DS.'img2thumb.php');
 			$createdImage = new Img2Thumb($fullSizeFilenamePath, (int)$width, (int)$height, $resizedFilenamePath, $maxsize, $bgred, $bggreen, $bgblue);
 			if($createdImage){
 				return $this->file_url_folder_thumb.$this->file_name_thumb.'.'.$this->file_extension;
@@ -204,9 +201,7 @@ class VmImage extends VmMediaHandler {
 
 		$elements = explode(DS,$path);
 		$examine = VMPATH_ROOT;
-		if(!class_exists('JFolder')){
-			require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'folder.php');
-		}
+
 		foreach($elements as $piece){
 			$examine = $examine.DS.$piece;
 			if(!JFolder::exists($examine)){

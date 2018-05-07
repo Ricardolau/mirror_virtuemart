@@ -19,9 +19,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-if(!class_exists('VmController'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmcontroller.php');
-
-
 /**
  * Orders Controller
  *
@@ -47,7 +44,6 @@ class VirtuemartControllerOrders extends VmController {
 	 */
 	public function callInvoiceView(){
 
-		if(!class_exists( 'VirtueMartControllerInvoice' )) require(VMPATH_SITE.DS.'controllers'.DS.'invoice.php');
 		$controller = new VirtueMartControllerInvoice();
 		$controller->display();
 

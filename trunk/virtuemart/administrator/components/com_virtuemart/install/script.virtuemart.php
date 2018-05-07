@@ -127,21 +127,15 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 			$this->loadVm(true);
 
 			$_REQUEST['install'] = 1;
-			if(!class_exists('JFile')) require(VMPATH_LIBS .'/joomla/filesystem/file.php');
-			if(!class_exists('JFolder')) require(VMPATH_LIBS .'/joomla/filesystem/folder.php');
 
 			$this -> joomlaSessionDBToMediumText();
 
 			// install essential and required data
 			// should this be covered in install.sql (or 1.6's JInstaller::parseSchemaUpdates)?
-			//			if(!class_exists('VirtueMartModelUpdatesMigration')) require(VMPATH_ADMIN.DS.'models'.DS.'updatesMigration.php');
 			$params = JComponentHelper::getParams('com_languages');
 			$lang = $params->get('site', 'en-GB');//use default joomla
 			$lang = strtolower(strtr($lang,'-','_'));
 
-			if(!class_exists('VmModel')) require $this->path.DS.'helpers'.DS.'vmmodel.php';
-
-			if(!class_exists('VirtueMartModelUpdatesMigration')) require($this->path . DS . 'models' . DS . 'updatesmigration.php');
 			$model = VmModel::getModel('updatesmigration');
 			$model->execSQLFile($this->path.DS.'install'.DS.'install.sql');
 			$model->execSQLFile($this->path.DS.'install'.DS.'install_essential_data.sql');
@@ -217,9 +211,6 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 
 			$this->loadVm(false);
 
-			if(!class_exists('JFile')) require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'file.php');
-			if(!class_exists('JFolder')) require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'folder.php');
-
 			//Delete Cache
 			$cache = JFactory::getCache();
 			$cache->clean();
@@ -231,8 +222,6 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 			$lang = $params->get('site', 'en-GB');//use default joomla
 			$lang = strtolower(strtr($lang,'-','_'));
 
-			if(!class_exists('VmModel')) require $this->path.DS.'helpers'.DS.'vmmodel.php';
-			if(!class_exists('VirtueMartModelUpdatesMigration')) require($this->path . DS . 'models' . DS . 'updatesmigration.php');
 			$model = VmModel::getModel('updatesmigration');
 			//$model = new VirtueMartModelUpdatesMigration(); //JModel::getInstance('updatesmigration', 'VirtueMartModel');
 			$model->execSQLFile($this->path.DS.'install'.DS.'install.sql');
@@ -266,7 +255,7 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 				'customer_note' => '`oc_note` text NOT NULL DEFAULT "" COMMENT \'old customer notes\'',
 			));
 
-			if(!class_exists('GenericTableUpdater')) require($this->path . DS . 'helpers' . DS . 'tableupdater.php');
+
 			$updater = new GenericTableUpdater();
 
 			$updater->updateMyVmTables();

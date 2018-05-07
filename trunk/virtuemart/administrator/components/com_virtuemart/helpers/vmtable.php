@@ -43,7 +43,6 @@ if(JVM_VERSION<3){
 		}
 	}
 }
-if(!class_exists('vObject')) require(VMPATH_ADMIN .'/helpers/vobject.php');
 
 class VmTable extends vObject implements JObservableInterface, JTableInterface {
 
@@ -649,9 +648,6 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			unset($fieldNames[$this->_pkey]);
 		}
 		$this->_cryptedFields = $fieldNames;
-		if(!class_exists('vmCrypt')){
-			require(VMPATH_ADMIN .'/helpers/vmcrypt.php');
-		}
 	}
 
 	/**
@@ -1134,9 +1130,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 	}
 
 	function decryptFields(){
-		if(!class_exists('vmCrypt')){
-			require(VMPATH_ADMIN .'/helpers/vmcrypt.php');
-		}
+
 		if(isset($this->modified_on) and $this->modified_on!='0000-00-00 00:00:00'){
 			$date = JFactory::getDate($this->modified_on);
 			$date = $date->toUnix();
@@ -1623,7 +1617,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		$tblKey = $this->_tbl_key;
 		$ok = true;
 		if ($this->_translatable) {
-			if (!class_exists('VmTableData')) require(VMPATH_ADMIN .'/helpers/vmtabledata.php');
+
 			$db = JFactory::getDBO();
 			$dataTable = clone($this);
 			$langTable = new VmTableData($this->_tbl_lang, $tblKey, $db);
@@ -2253,7 +2247,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 
 			$langs = VmConfig::get('active_languages', array(VmConfig::$jDefLangTag));
 			if (!$langs) $langs[] = VmConfig::$vmlang;
-			if (!class_exists('VmTableData')) require(VMPATH_ADMIN .'/helpers/vmtabledata.php');
+
 			foreach ($langs as $lang) {
 				$lang = strtolower(strtr($lang, '-', '_'));
 				$langError = $this->checkAndDelete($this->_tbl . '_' . $lang);

@@ -80,12 +80,6 @@ abstract class vmPlugin extends JPlugin {
 		$this->_tablename = '#__virtuemart_' . $this->_psType . '_plg_' . $this->_name;
 		$this->_tableChecked = FALSE;
 		$this->_xmlFile	= vRequest::filterPath( VMPATH_ROOT .DS. 'plugins' .DS. $this->_type .DS.  $this->_name . DS. $this->_name . '.xml');
-
-		// Load the helper functions that are needed by all plugins
-		if (!class_exists ('ShopFunctions')) {
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
-		}
-
 	}
 
 	public function setConvertDecimal($toConvert) {
@@ -391,8 +385,6 @@ abstract class vmPlugin extends JPlugin {
 			if ($result) {
 				$update[$this->_tablename] = array($tablesFields, array(), array());
 				vmdebug(get_class($this) . ':: VirtueMart update ' . $this->_tablename);
-				if (!class_exists('GenericTableUpdater'))
-					require(VMPATH_ADMIN . DS . 'helpers' . DS . 'tableupdater.php');
 				$updater = new GenericTableUpdater();
 				$updater->updateMyVmTables($update);
 			} else {
@@ -541,12 +533,7 @@ abstract class vmPlugin extends JPlugin {
 
 		}
 
-		if (!class_exists ('VmTable')) {
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'vmtable.php');
-		}
-
 		//New Vm3 way
-
 		//Is only used for the config tables!
 		//VmTable::bindParameterable ($data, $data->_xParams, $this->_varsToPushParam);
 		if(isset($this->_varsToPushParam)){
@@ -645,9 +632,6 @@ abstract class vmPlugin extends JPlugin {
 	 */
 	protected function createPluginTableObject ($tableName, $tableFields, $primaryKey, $tableId, $loggable = FALSE) {
 
-		if (!class_exists ('VmTableData')) {
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'vmtabledata.php');
-		}
 		$db = JFactory::getDBO ();
 		$table = new VmTableData($tableName, $tableId, $db);
 		foreach ($tableFields as $field) {
@@ -729,7 +713,6 @@ abstract class vmPlugin extends JPlugin {
 		$layoutPath=$templatePathWithGroup=$defaultPathWithGroup='';
 		jimport ('joomla.filesystem.file');
 		// First search in the new system
-		if(!class_exists('VmTemplate')) require(VMPATH_SITE.DS.'helpers'.DS.'vmtemplate.php');
 		$vmStyle = VmTemplate::loadVmTemplateStyle();
 		$template = $vmStyle['template'];
 		$templatePath         = VMPATH_ROOT . DS . 'templates' . DS . $template . DS . 'html' . DS . $group . DS . $pluginName . DS . $layout . '.php';

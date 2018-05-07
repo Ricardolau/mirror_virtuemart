@@ -19,8 +19,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-if(!class_exists('VmModel'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmmodel.php');
-
 /**
  * Model for VirtueMart Customs Fields
  *
@@ -134,7 +132,6 @@ class VirtueMartModelCustom extends VmModel {
 	    $datas = new stdClass();
 		$datas->items = $this->exeSortSearchListQuery(0, $query, '',$whereString,$this->_getOrdering());
 
-		if (!class_exists('VmHTML')) require(VMPATH_ADMIN.DS.'helpers'.DS.'html.php');
 		$field_types = self::getCustomTypes() ;
 
 		foreach ($datas->items as $key => & $data) {
@@ -284,7 +281,6 @@ class VirtueMartModelCustom extends VmModel {
 
 		//I think this is obsolete, note by Max
 		if(empty($data['virtuemart_vendor_id'])){
-			if(!class_exists('VirtueMartModelVendor')) require(VMPATH_ADMIN.DS.'models'.DS.'vendor.php');
 			$data['virtuemart_vendor_id'] = VirtueMartModelVendor::getLoggedVendor();
 		} else {
 			$data['virtuemart_vendor_id'] = (int) $data['virtuemart_vendor_id'];

@@ -27,21 +27,10 @@ jimport( 'joomla.application.component.view');
  * @package		VirtueMart
  * @author
  */
-if(!class_exists('VmViewAdmin'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmviewadmin.php');
 
 class VirtuemartViewOrders extends VmViewAdmin {
 
 	function display($tpl = null) {
-
-		//Load helpers
-
-		if (!class_exists('CurrencyDisplay'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');
-
-		if (!class_exists('VmHTML'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'html.php');
-
-		if(!class_exists('vmPSPlugin')) require(VMPATH_PLUGINLIBS.DS.'vmpsplugin.php');
 
 		// Load addl models
 		$orderModel = VmModel::getModel();

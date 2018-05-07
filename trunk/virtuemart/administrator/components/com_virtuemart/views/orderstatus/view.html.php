@@ -20,9 +20,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-// Load the view framework
-if(!class_exists('VmViewAdmin'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmviewadmin.php');
-
 /**
  * HTML View class for maintaining the list of order types
  *
@@ -32,10 +29,6 @@ if(!class_exists('VmViewAdmin'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmviewadmi
 class VirtuemartViewOrderstatus extends VmViewAdmin {
 
 	function display($tpl = null) {
-
-		// Load the helper(s)
-		if (!class_exists('VmHTML'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'html.php');
 
 		$model = VmModel::getModel();
 
@@ -59,9 +52,6 @@ class VirtuemartViewOrderstatus extends VmViewAdmin {
 			if ($this->orderStatus->virtuemart_orderstate_id < 1) {
 				$this->ordering = vmText::_('COM_VIRTUEMART_NEW_ITEMS_PLACE');
 			} else {
-
-				if (!class_exists('ShopFunctions'))
-					require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
 				$this->ordering = ShopFunctions::renderOrderingList('orderstates','order_status_name',$this->orderStatus->ordering);
 			}
 

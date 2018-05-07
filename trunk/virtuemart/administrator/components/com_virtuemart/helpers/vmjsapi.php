@@ -243,7 +243,6 @@ class vmJsApi{
 		$url = 'administrator/templates/system/css';
 		self::css('system',$url);
 
-		if(!class_exists('VmTemplate')) require(VMPATH_SITE.DS.'helpers'.DS.'vmtemplate.php');
 		$template = VmTemplate::getDefaultTemplate(1);
 		$url = 'administrator/templates/'.$template['template'].'/css';
 		self::css('template',$url);
@@ -261,7 +260,7 @@ class vmJsApi{
 		$filemin = $namespace.$version.'.min.'.$ext ;
 		$file 	 = $namespace.$version.'.'.$ext ;
 		$file_exit_path='';
-		if(!class_exists('VmTemplate')) require(VMPATH_SITE.DS.'helpers'.DS.'vmtemplate.php');
+
 		$vmStyle = VmTemplate::loadVmTemplateStyle();
 		$template = $vmStyle['template'];
 		if ($path === FALSE) {
@@ -760,7 +759,6 @@ jQuery(document).ready(function($) {
 		$direction = $document->getDirection ();
 		$cssFile = 'vmsite-' . $direction ;
 
-		if(!class_exists('VmTemplate')) require(VMPATH_SITE.DS.'helpers'.DS.'vmtemplate.php');
 		$vmStyle = VmTemplate::loadVmTemplateStyle();
 		$template = $vmStyle['template'];
 		if($template){
@@ -804,7 +802,7 @@ jQuery(document).ready(function($) {
 		}
 
 		static $jDate;
-		if(!class_exists('VmHtml')) require(VMPATH_ADMIN.DS.'helpers'.DS.'html.php');
+
 		$id = VmHtml::ensureUniqueId($id);
 		$dateFormat = vmText::_('COM_VIRTUEMART_DATE_FORMAT_INPUT_J16');//="m/d/y"
 		$search  = array('m', 'd', 'Y');

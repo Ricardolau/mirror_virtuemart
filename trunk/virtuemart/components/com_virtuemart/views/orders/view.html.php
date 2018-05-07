@@ -19,10 +19,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-// Load the view framework
-if(!class_exists('VmView'))require(VMPATH_SITE.DS.'helpers'.DS.'vmview.php');
-
-
 /**
  * Handle the orders view
  */
@@ -110,13 +106,13 @@ class VirtuemartViewOrders extends VmView {
 			);
 
 			$this->shipment_name='';
-			if (!class_exists('vmPSPlugin')) require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
+
 			JPluginHelper::importPlugin('vmshipment');
 			$dispatcher = JDispatcher::getInstance();
 			$returnValues = $dispatcher->trigger('plgVmOnShowOrderFEShipment',array(  $orderDetails['details']['BT']->virtuemart_order_id, $orderDetails['details']['BT']->virtuemart_shipmentmethod_id, &$this->shipment_name));
 
 			$this->payment_name='';
-			if(!class_exists('vmPSPlugin')) require(VMPATH_PLUGINLIBS.DS.'vmpsplugin.php');
+
 			JPluginHelper::importPlugin('vmpayment');
 			$dispatcher = JDispatcher::getInstance();
 			$returnValues = $dispatcher->trigger('plgVmOnShowOrderFEPayment',array( $orderDetails['details']['BT']->virtuemart_order_id, $orderDetails['details']['BT']->virtuemart_paymentmethod_id,  &$this->payment_name));
@@ -152,13 +148,7 @@ class VirtuemartViewOrders extends VmView {
 
 			$emailCurrencyId = $orderDetails['details']['BT']->user_currency_id;
 			$exchangeRate = FALSE;
-			if (!class_exists ('vmPSPlugin')) {
-				require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
-			}
 
-			if (!class_exists ('CurrencyDisplay')) {
-				require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');
-			}
 			/*
 			 * Deprecated trigger will be renamed or removed
 			 */
@@ -186,16 +176,12 @@ class VirtuemartViewOrders extends VmView {
 				$this->orderlist = array();
 			} else {
 				$this->orderlist = $orderModel->getOrdersList($_currentUser->get('id'), TRUE);
-				if (!class_exists ('CurrencyDisplay')) {
-						require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');
-				}
+
 				foreach ($this->orderlist as $k =>$order) {
 					$vendorId = 1;
 					$emailCurrencyId = $order->user_currency_id;
 					$exchangeRate = FALSE;
-					if (!class_exists ('vmPSPlugin')) {
-						require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
-					}
+
 					JPluginHelper::importPlugin ('vmpayment');
 					$dispatcher = JDispatcher::getInstance ();
 					$dispatcher->trigger ('plgVmgetEmailCurrency', array($order->virtuemart_paymentmethod_id, $order->virtuemart_order_id, &$emailCurrencyId));

@@ -19,10 +19,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-if (!class_exists ('VmModel')){
-	require(VMPATH_ADMIN . DS . 'helpers' . DS . 'vmmodel.php');
-}
-
 /**
  * Model for VirtueMart Products
  *
@@ -423,9 +419,6 @@ class VirtueMartModelRatings extends VmModel {
 				$data['vote'] = $maxrating;
 			}
 
-			if (!class_exists ('ShopFunctions')){
-				require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
-			}
 			$data['lastip'] = ShopFunctions::getClientIP();
 
 			$maskIP = VmConfig::get('maskIP','last');
@@ -658,9 +651,6 @@ class VirtueMartModelRatings extends VmModel {
 							return $this->_productBought[$product_id];
 						}
 
-						if(!class_exists('vmCrypt')){
-							require(VMPATH_ADMIN.DS.'helpers'.DS.'vmcrypt.php');
-						}
 						$key = vmCrypt::encrypt('productBought'.$product_id);
 						$count = JFactory::getApplication()->input->cookie->getString($key, false);
 						if($count){

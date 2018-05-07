@@ -71,9 +71,6 @@ class VirtueMartControllerProductdetails extends JControllerLegacy {
 		}
 
 		$view = $this->getView ('askquestion', 'html');
-		if (!class_exists ('shopFunctionsF')) {
-			require(VMPATH_SITE . DS . 'helpers' . DS . 'shopfunctionsf.php');
-		}
 
 		$vars = array();
 		$min = VmConfig::get ('asks_minimum_comment_length', 50) + 1;
@@ -251,9 +248,6 @@ class VirtueMartControllerProductdetails extends JControllerLegacy {
 			if ($return !== FALSE) {
 				$msg = vmText::sprintf ('COM_VIRTUEMART_STRING_SAVED', vmText::_ ('COM_VIRTUEMART_REVIEW'));
 
-				if (!class_exists ('ShopFunctionsF')) {
-					require(VMPATH_SITE . DS . 'helpers' . DS . 'shopfunctionsf.php');
-				}
 				$data = vRequest::getPost();
 				shopFunctionsF::sendRatingEmailToVendor($data);
 			}
@@ -300,9 +294,7 @@ class VirtueMartControllerProductdetails extends JControllerLegacy {
 			jexit ();
 		}
 		$priceFormated = array();
-		if (!class_exists ('CurrencyDisplay')) {
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');
-		}
+
 		$currency = CurrencyDisplay::getInstance ();
 
 		foreach (CurrencyDisplay::$priceNames as $name) {

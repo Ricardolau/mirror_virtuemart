@@ -19,9 +19,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-// Load the view framework
-if(!class_exists('VmViewAdmin'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmviewadmin.php');
-
 /**
  * HTML View class for maintaining the list of countries
  *
@@ -34,9 +31,6 @@ class VirtuemartViewCountry extends VmViewAdmin {
     function display($tpl = null) {
 
 		vmLanguage::loadJLang('com_virtuemart_countries');
-
-		if (!class_exists('VmHTML'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'html.php');
 
 		$model = VmModel::getModel('country');
 		$zoneModel = VmModel::getModel('worldzones');

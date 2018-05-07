@@ -19,9 +19,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-// Load the view framework
-if(!class_exists('VmView'))require(VMPATH_SITE.DS.'helpers'.DS.'vmview.php');
-
 /**
 * Handle the category view
 *
@@ -53,20 +50,10 @@ class VirtuemartViewCategory extends VmView {
 
 		$this->show_prices  = (int)VmConfig::get('show_prices',1);
 
-		if(!class_exists('calculationHelper')) require(VMPATH_ADMIN.DS.'helpers'.DS.'calculationh.php');
-		if (!class_exists('CurrencyDisplay'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');
-		if(!class_exists('shopFunctionsF'))require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
-
 		$document = JFactory::getDocument();
 
 		$this->app = JFactory::getApplication();
 		$pathway = $this->app->getPathway();
-
-		if (!class_exists('VmImage'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'image.php');
-
-
 
 		if( ShopFunctionsF::isFEmanager('product.edit') ){
 			$add_product_link = JURI::root() . 'index.php?option=com_virtuemart&tmpl=component&view=product&task=edit&virtuemart_product_id=0&manage=1' ;
@@ -308,9 +295,6 @@ class VirtuemartViewCategory extends VmView {
 						}
 					}
 				} else {
-					if (!class_exists ('vmCustomPlugin')) {
-						require(VMPATH_PLUGINLIBS . DS . 'vmcustomplugin.php');
-					}
 
 					foreach($this->products as $pType => $productSeries) {
 						shopFunctionsF::sortLoadProductCustomsStockInd($this->products[$pType],$this->productModel);

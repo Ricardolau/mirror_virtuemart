@@ -19,7 +19,6 @@ vmJsApi::jQuery();
 vmJsApi::addJScript("/modules/mod_virtuemart_cart/assets/js/update_cart.js",false,false);
 
 //This is strange we have the whole thing again in controllers/cart.php public function viewJS()
-if(!class_exists('VirtueMartCart')) require(VMPATH_SITE.DS.'helpers'.DS.'cart.php');
 $cart = VirtueMartCart::getCart(false);
 $viewName = vRequest::getString('view',0);
 if($viewName=='cart'){
@@ -28,7 +27,6 @@ if($viewName=='cart'){
 	$checkAutomaticPS = false;
 }
 $data = $cart->prepareAjaxData();
-if (!class_exists('CurrencyDisplay')) require(VMPATH_ADMIN . DS. 'helpers' . DS . 'currencydisplay.php');
 $currencyDisplay = CurrencyDisplay::getInstance( );
 vmJsApi::cssSite();
 $moduleclass_sfx 	= $params->get('moduleclass_sfx', '');

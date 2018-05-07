@@ -19,8 +19,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-
-
 /**
  * Model class for updates and migrations
  *
@@ -37,8 +35,6 @@ class VirtueMartModelUpdatesMigration extends VmModel {
      */
     function getLatestVersion() {
 
-    	if(!class_exists('VmConnector')) require(VMPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'helpers'.DS.'connection.php');
-
 		$url = "http://virtuemart.net/index2.php?option=com_versions&catid=1&myVersion={".VmConfig::getInstalledVersion()."}&task=latestversionastext";
 		$result = VmConnector::handleCommunication($url);
 
@@ -50,7 +46,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
      * @author Max Milbers
      */
     function determineStoreOwner() {
-		if(!class_exists('VirtueMartModelVendor')) require(VMPATH_ADMIN.DS.'models'.DS.'vendor.php');
+
 		$virtuemart_user_id = VirtueMartModelVendor::getUserIdByVendorId(1);
 		if (isset($virtuemart_user_id) && $virtuemart_user_id > 0) {
 		    $this->_user = JFactory::getUser($virtuemart_user_id);
@@ -171,7 +167,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 	$fields['vendor_letter_header_html']='<h1>{vm:vendorname}</h1><p>{vm:vendoraddress}</p>';
 	$fields['vendor_letter_header_image']='1';
 	$fields['vendor_letter_footer_html']='{vm:vendorlegalinfo}<br /> Page {vm:pagenum}/{vm:pagecount}';
-	if(!class_exists('VirtueMartModelUser')) require(VMPATH_ADMIN.DS.'models'.DS.'user.php');
+
 	$usermodel = VmModel::getModel('user');
 	$usermodel->setId($userId);
 
@@ -267,8 +263,6 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 	 */
 	static public function recurse_copy($src,$dst,$delete = true ) {
 
-		if(!class_exists('JFolder'))
-			require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'folder.php');
 		$dir = '';
 		if(JFolder::exists($src)){
 			$dir = opendir($src);
@@ -361,7 +355,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		$filename = VMPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'install'.DS.'install_required_data.sql';
 		$this->execSQLFile($filename);
 
-			if(!class_exists('GenericTableUpdater')) require(VMPATH_ADMIN . DS . 'helpers' . DS . 'tableupdater.php');
+
 		$updater = new GenericTableUpdater();
 		$updater->createLanguageTables();
 
@@ -384,7 +378,6 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		$filename = VMPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'install'.DS.'install_required_data.sql';
 		$this->execSQLFile($filename);
 
-		if(!class_exists('GenericTableUpdater')) require(VMPATH_ADMIN . DS . 'helpers' . DS . 'tableupdater.php');
 		$updater = new GenericTableUpdater();
 		$updater->createLanguageTables();
 
@@ -649,10 +642,6 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 
 	public function setSafePathCreateFolders($token = ''){
 
-		if(!class_exists('JFolder')){
-			require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'folder.php');
-		}
-
 		if(empty($token)){
 			$safePath = shopFunctions::getSuggestedSafePath();
 		} else {
@@ -660,7 +649,6 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		}
 		$safePath = str_replace('/',DS,$safePath);
 
-		if(!class_exists('ShopFunctionsF')) require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
 		$invoice = $safePath.ShopFunctionsF::getInvoiceFolderName();
 
 		//$invoice = shopFunctions::getInvoicePath($safePath);
@@ -730,7 +718,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		if(!empty($resized)) $resized = DS.$resized;
 		$typePath = VmConfig::get($type);
 		if(!empty($typePath)){
-			if(!class_exists('JFolder')) require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'folder.php');
+
 			$path = VMPATH_ROOT.DS.str_replace('/',DS,$typePath).$resized;
 			$msg = JFolder::delete($path);
 			if(!$msg){

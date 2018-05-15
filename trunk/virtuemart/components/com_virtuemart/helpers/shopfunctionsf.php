@@ -529,14 +529,15 @@ class shopFunctionsF {
 
 	public static function prepareViewForMail($viewName, $vars, $controllerName = false) {
 
-		$controller = new VirtueMartControllerVirtuemart();
+		if(!$controllerName) $controllerName = $viewName;
+		$controllerClassName = 'VirtueMartController'.ucfirst( $controllerName );
+		if(!class_exists( $controllerClassName )) require(VMPATH_SITE.DS.'controllers'.DS.$controllerName.'.php');
+		$controller = new $controllerClassName();
+		//$controller = new VirtueMartControllerVirtuemart();
 		// refering to http://forum.virtuemart.net/index.php?topic=96318.msg317277#msg317277
 		$controller->addViewPath( VMPATH_SITE.DS.'views' );
 
 		$view = $controller->getView( $viewName, 'html' );
-		if(!$controllerName) $controllerName = $viewName;
-		$controllerClassName = 'VirtueMartController'.ucfirst( $controllerName );
-		if(!class_exists( $controllerClassName )) require(VMPATH_SITE.DS.'controllers'.DS.$controllerName.'.php');
 
 		//refering to http://forum.virtuemart.net/index.php?topic=96318.msg317277#msg317277
 		$view->addTemplatePath( VMPATH_SITE.'/views/'.$viewName.'/tmpl' );

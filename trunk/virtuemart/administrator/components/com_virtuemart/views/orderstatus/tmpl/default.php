@@ -31,34 +31,33 @@ vmLanguage::loadJLang('com_virtuemart_config');
 				<input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)" />
 			</th>
 			<th>
-			<?php echo $this->sort('order_status_name') ?>
+			    <?php echo $this->sort('order_status_name') ?>
 			</th>
 			<th>
-			<?php echo $this->sort('order_status_code') ?>
-			</th>
-			<th>
-				<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_STOCK_HANDLE'); ?>
-			</th>
-			<th>
-				<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_EMAIL_SHOPPER'); ?>
+			    <?php echo $this->sort('order_status_code') ?>
 			</th>
 			<th>
 				<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_EMAIL_VENDOR'); ?>
 			</th>
 			<th>
-				<?php //echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_STATUS_PDF_INVOICES'); ?>
-				<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_ALLOW_EDIT'); ?>
+				<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_EMAIL_SHOPPER'); ?>
 			</th>
+            <th>
+	            <?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_EMAIL_ATTACHMENT'); ?>
+            </th>
 			<th>
-				<?php //echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_STATUS_PDF_INVOICES'); ?>
 				<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_CREATE_INVOICE'); ?>
 			</th>
+            <th>
+				<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_ALLOW_EDIT'); ?>
+            </th>
+            <th>
+				<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_STOCK_HANDLE'); ?>
+            </th>
 			<th>
-				<?php //echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_STATUS_PDF_INVOICES'); ?>
 				<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_DO_REFUND'); ?>
 			</th>
 			<th>
-				<?php //echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_STATUS_PDF_INVOICES'); ?>
 				<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_DELIVERY_DATE'); ?>
 			</th>
 			<th>
@@ -112,41 +111,51 @@ vmLanguage::loadJLang('com_virtuemart_config');
 				<td align="left">
 					<?php echo $row->order_status_code; ?>
 				</td>
-				<td align="left">
-					<?php echo  vmText::_($this->stockHandelList[$row->order_stock_handle]); ?>
-				</td>
-				<td align="left">
-					<?php
 
+				<td align="left">
+
+					<?php
+					if (in_array($row->order_status_code,  VmConfig::get('email_os_v',array('U','C','R','X'))))
+						echo '<span class="icon-mail-2"><span></span></span>';
+					?>
+				</td>
+
+                <td align="left">
+					<?php
 					if (in_array($row->order_status_code,  VmConfig::get('email_os_s',array('U','C','S','R','X'))))
 						echo '<span class="icon-mail-2"><span></span></span>';
 
 					?>
-				</td>	<td align="left">
+                </td>
+                <td align="left">
+
 					<?php
-
-					if (in_array($row->order_status_code,  VmConfig::get('email_os_v',array('U','C','R','X'))))
-						echo '<span class="icon-mail-2"><span></span></span>';
-
+					if (in_array($row->order_status_code,  VmConfig::get('attach_os',array(''))))
+						echo '<span class="icon-mail-2"></span><span class="icon-file-2 text-success"><span></span></span>';
 					?>
-				</td>
-				<td align="left">
-					<?php
-					if (in_array($row->order_status_code,  VmConfig::get('order_allowedit_os', array('P','U'))))
-						echo '<span class="icon-pencil-2 text-success"><span></span></span>';
-						else echo '<span class="icon-lock"><span></span></span>';
-					?>
-				</td>
-				<td align="left">
-					<?php
+                </td>
 
+                <td align="left">
+					<?php
 					if (in_array($row->order_status_code,  VmConfig::get('inv_os',array('C'))))
 						if (in_array($row->order_status_code,  VmConfig::get('refund_os',array('R'))))
 						echo '<span class="icon-file-2 text-error"><span></span></span>';
 						else echo '<span class="icon-file-2 text-success"><span></span></span>';
-
 					?>
 				</td>
+
+                <td align="left">
+
+					<?php
+					if (in_array($row->order_status_code,  VmConfig::get('order_allowedit_os', array('P','U'))))
+						echo '<span class="icon-pencil-2 text-success"><span></span></span>';
+					else echo '<span class="icon-lock"><span></span></span>';
+					?>
+                </td>
+
+                <td align="left">
+					<?php echo  vmText::_($this->stockHandelList[$row->order_stock_handle]); ?>
+                </td>
 				<td align="left">
 					<?php
 					if (in_array($row->order_status_code,  VmConfig::get('refund_os',array('R'))))

@@ -1103,6 +1103,8 @@ vmdebug('my prices',$data);
 
 			/* Update the order history */
 			//$this->_updateOrderHist($virtuemart_order_id, $data->order_status, $inputOrder['customer_notified'], $inputOrder['comments']);
+			//update order histories needs the virtuemart_order_id
+			$inputOrder['virtuemart_order_id'] = $virtuemart_order_id;
 			$this->updateOrderHistory($inputOrder);
 			// When the plugins did not already notified the user, do it here (the normal way)
 			//Attention the ! prevents at the moment that an email is sent. But it should used that way.
@@ -1833,6 +1835,12 @@ vmdebug('my prices',$data);
 	public function updateOrderHistory($inputOrder){
 
 		if(!empty($inputOrder['virtuemart_order_id'])){
+
+			//Depending on the used process, it can happen that order_status_code is given as order status
+			if (empty($inputOrder['order_status_code']) && (!empty($inputOrder['order_status']))){
+				$inputOrder['order_status_code'] = $inputOrder['order_status'];
+			}
+
 			$db = JFactory::getDbo();
 			$q = 'SELECT * FROM `#__virtuemart_order_histories` WHERE `virtuemart_order_id`="'.$inputOrder['virtuemart_order_id'].'" ORDER BY `created_on` DESC LIMIT 1';
 			$db->setQuery($q);

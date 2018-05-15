@@ -343,8 +343,13 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
 					<th   style="text-align: center;" colspan="2"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_SHIP_TO_LBL') ?></th>
 				</tr>
 			</thead>
+<?php
+			//Create Ship to address if one does not already exist
+			if($this->orderdetails['details']['has_ST'] == false){
+				echo '<td class="key"><label for="STsameAsBT">'. vmText::_('COM_VM_ST_SAME_AS_BT').'</label></td>';
+			echo '<td><input id="STsameAsBT" type="checkbox" checked name="STsameAsBT" value="1" /></td>';
+			}
 
-			<?php
 			foreach ($this->shipmentfields['fields'] as $_field ) {
 				echo '		<tr>'."\n";
 				echo '			<td class="key">'."\n";

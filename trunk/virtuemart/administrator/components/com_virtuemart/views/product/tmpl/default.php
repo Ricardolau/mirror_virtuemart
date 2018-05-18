@@ -45,6 +45,7 @@ if ($product_parent_id=vRequest::getInt('product_parent_id', false))   $col_prod
 					echo $this->lists['search_type'];
 					echo $this->lists['search_order'];
 					echo vmJsApi::jDate($this->search_date, 'search_date');
+					echo $this->lists['customlist'];
 					echo $this->lists['vendors'];
 				?>
 				<button  class="btn btn-small" onclick="this.form.submit();"><?php echo vmText::_('COM_VIRTUEMART_GO'); ?></button>

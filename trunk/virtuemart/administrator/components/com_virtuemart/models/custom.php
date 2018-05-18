@@ -190,9 +190,9 @@ class VirtueMartModelCustom extends VmModel {
 		if ($publishedOnly) {
 			$q .= 'AND `published`=1';
 		}
-		if ($ID = vRequest::getInt ('virtuemart_custom_id', 0)) {
+		/*if ($ID = vRequest::getInt ('virtuemart_custom_id', 0)) {
 			$q .= ' AND `virtuemart_custom_id`!=' . (int)$ID;
-		}
+		}*/
 		$db = JFactory::getDBO();
 		$db->setQuery ($q);
 

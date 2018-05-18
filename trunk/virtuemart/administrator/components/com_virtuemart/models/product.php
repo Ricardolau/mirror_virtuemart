@@ -166,7 +166,7 @@ class VirtueMartModelProduct extends VmModel {
 
 		$app = JFactory::getApplication ();
 		$option = 'com_virtuemart';
-		$view = vRequest::getCMd('view','product');
+		$view = vRequest::getCmd('view','product');
 
 		$valid_search_fields = VmConfig::get ('browse_search_fields',array());
 		$task = '';
@@ -195,6 +195,12 @@ class VirtueMartModelProduct extends VmModel {
 			vRequest::setVar('keyword',urlencode($this->keyword));
 			$this->search_type = vRequest::getVar ('search_type', '');
 			$this->virtuemart_vendor_id = vmAccess::getVendorId();
+
+			$this->searchcustoms = $app->getUserStateFromRequest ($option . '.customfields', 'customfields', '', 'array');
+			if(!empty($this->searchcustoms)){
+				if(is_object($this->searchcustoms)) $this->searchcustoms = get_object_vars($this->searchcustoms);
+				$this->searchcustoms = vRequest::filter($this->searchcustoms,FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
+			}
 		}
 		else {
 			$task = vRequest::getCmd('task','');
@@ -235,6 +241,12 @@ class VirtueMartModelProduct extends VmModel {
 			if(!vmAccess::manager('managevendors')){
 				$this->virtuemart_vendor_id = vmAccess::getVendorId();
 			}
+
+			$this->virtuemart_custom_id = $app->getUserStateFromRequest ($option . '.virtuemart_custom_id', 'virtuemart_custom_id', '', 'array');
+			if(!empty($this->virtuemart_custom_id)){
+				if(is_object($this->virtuemart_custom_id)) $this->virtuemart_custom_id = get_object_vars($this->virtuemart_customfield_id);
+				$this->virtuemart_custom_id = vRequest::filter($this->virtuemart_custom_id,FILTER_SANITIZE_NUMBER_INT,FILTER_FLAG_NO_ENCODE);
+			}
 		}
 		$filter_order_Dir = $this->checkFilterDir ($filter_order_Dir, $task);
 
@@ -243,11 +255,7 @@ class VirtueMartModelProduct extends VmModel {
 		$this->valid_search_fields = $valid_search_fields;
 
 
-		$this->searchcustoms = $app->getUserStateFromRequest ($option . '.customfields', 'customfields', '', 'array');
-		if(!empty($this->searchcustoms)){
-			if(is_object($this->searchcustoms)) $this->searchcustoms = get_object_vars($this->searchcustoms);
-			$this->searchcustoms = vRequest::filter($this->searchcustoms,FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
-		}
+
 
 		$this->searchplugin = vRequest::getInt ('custom_parent_id', 0);
 
@@ -318,15 +326,29 @@ class VirtueMartModelProduct extends VmModel {
 		$this->useLback = vmLanguage::getUseLangFallback();
 		$this->useJLback = vmLanguage::getUseLangFallbackSecondary();
 
-		if (!empty($this->searchcustoms)) {
+		if (!empty($this->searchcustoms) or !empty($this->virtuemart_custom_id)) {
 			$joinCustom = TRUE;
-			foreach ($this->searchcustoms as $key => $searchcustom) {
-				if(empty($searchcustom)) continue;
-				$custom_search[] = '(pf.`virtuemart_custom_id`="' . (int)$key . '" and pf.`customfield_value` like "%' . $db->escape ($searchcustom, TRUE) . '%")';
-				//$custom_search_value[] = 'pf.`customfield_value` like "%' . $db->escape ($searchcustom, TRUE) . '%"';
-				//$custom_search_key[] = 'pf.`virtuemart_custom_id`="' . (int)$key . '"';
+
+			if (!empty($this->searchcustoms)){
+			vmdebug('sortSearchListQuery',$this->searchcustoms);
+				foreach ($this->searchcustoms as $key => $searchcustom) {
+					if(empty($searchcustom)) continue;
+					$custom_search[] = '(pf.`virtuemart_custom_id`="' . (int)$key . '" and pf.`customfield_value` like "%' . $db->escape ($searchcustom, TRUE) . '%")';
+					//$custom_search_value[] = 'pf.`customfield_value` like "%' . $db->escape ($searchcustom, TRUE) . '%"';
+					//$custom_search_key[] = 'pf.`virtuemart_custom_id`="' . (int)$key . '"';
+				}
 			}
+
+			if(!empty($this->virtuemart_custom_id)) {
+				foreach ($this->virtuemart_custom_id as $key => $virtuemart_custom_id) {
+					if(empty($virtuemart_custom_id)) continue;
+					$custom_search[] = '(pf.`virtuemart_custom_id`="' . (int)$virtuemart_custom_id . '" )';
+				}
+			}
+
+
 			if(!empty($custom_search)){
+				$this->searchcustoms = true;
 				$where[] = " ( " . implode (' OR ', $custom_search) . " ) ";
 				//$where[] = " ( " . implode (' AND ', $custom_search_value) . " AND (".implode (' OR ', $custom_search_key).")) ";
 				if($this->searchAllCats){
@@ -335,6 +357,7 @@ class VirtueMartModelProduct extends VmModel {
 			} else {
 				$this->searchcustoms = false;
 			}
+
 		}
 
 		if (!empty($this->keyword) and $group === FALSE) {
@@ -524,7 +547,7 @@ class VirtueMartModelProduct extends VmModel {
 		//vmdebug('my filter ordering ',$this->filter_order);
 		// special  orders case
 		$ff_select_price = '';
-		$filterOrderDir = $this->filter_order_Dir;
+		$filterOrderDir = $this->filter_order_Dir;vmdebug('my filter order ',$this->filter_order);
 		switch ($this->filter_order) {
 			case '`p`.product_special':
 				if($isSite){
@@ -574,6 +597,9 @@ class VirtueMartModelProduct extends VmModel {
 			case '`p`.created_on':
 				$orderBy = ' ORDER BY p.`created_on` '.$filterOrderDir.', p.`virtuemart_product_id` '.$filterOrderDir;
 				break;
+			case 'published':
+				$orderBy = ' ORDER BY p.`published` '.$filterOrderDir.', p.`virtuemart_product_id` '.$filterOrderDir;
+				break;
 			default:
 				if (!empty($this->filter_order)) {
 					$orderBy = ' ORDER BY '.$this->filter_order.' ' . $filterOrderDir ;
@@ -585,7 +611,7 @@ class VirtueMartModelProduct extends VmModel {
 						$langFields[] = 'product_name';
 					}
 				} else {
-					$orderBy = 'ORDER BY product_name ' . $filterOrderDir.', p.`virtuemart_product_id` '.$filterOrderDir;
+					$orderBy = ' ORDER BY product_name ' . $filterOrderDir.', p.`virtuemart_product_id` '.$filterOrderDir;
 					$langFields[] = 'product_name';
 				}
 				break;

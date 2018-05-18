@@ -82,7 +82,7 @@ class VirtuemartViewMedia extends VmViewAdmin {
 				$vendorId = strtolower (JFactory::getApplication()->getUserStateFromRequest ('com_virtuemart.media.virtuemart_vendor_id', 'virtuemart_vendor_id', $vendorId, 'int'));
 			}
 
-			$this->lists['vendors'] = Shopfunctions::renderVendorList($vendorId);
+			$this->lists['vendors'] = Shopfunctions::renderVendorList($vendorId, 'virtuemart_vendor_id', true);
 			$options = array( '' => vmText::_('COM_VIRTUEMART_LIST_ALL_ROLES'),
 				'file_is_displayable' => vmText::_('COM_VIRTUEMART_FORM_MEDIA_DISPLAYABLE'),
 				'file_is_downloadable' => vmText::_('COM_VIRTUEMART_FORM_MEDIA_DOWNLOADABLE'),

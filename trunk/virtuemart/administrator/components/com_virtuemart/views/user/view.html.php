@@ -96,7 +96,7 @@ class VirtuemartViewUser extends VmViewAdmin {
 			$this->lists['shoppergroups'] = ShopFunctions::renderShopperGroupList($userDetails->shopper_groups,true, 'virtuemart_shoppergroup_id');
 			$this->lists['vendors'] = '';
 			if($this->showVendors()){
-				$this->lists['vendors'] = ShopFunctions::renderVendorList($userDetails->virtuemart_vendor_id);
+				$this->lists['vendors'] = ShopFunctions::renderVendorList($userDetails->virtuemart_vendor_id, 'virtuemart_vendor_id', true);
 			}
 
 			$model->setId($userDetails->JUser->get('id'));
@@ -215,11 +215,20 @@ class VirtuemartViewUser extends VmViewAdmin {
 			$this->addStandardDefaultViewLists($model,'ju.id');
 
 			$this->userList = $model->getUserList();
-			$this->searchTable = $model->searchTable;
 			$this->pagination = $model->getPagination();
 
 			$shoppergroupmodel = VmModel::getModel('shopperGroup');
 			$this->defaultShopperGroup = $shoppergroupmodel->getDefault(0)->shopper_group_name;
+
+			$searchOptionTables = array(
+			'0' => array('searchTable' => 'juser', 'searchTable_name' => vmText::_('COM_VIRTUEMART_ONLY_JUSER')),
+			'1' => array('searchTable' => 'all', 'searchTable_name' => vmText::_('JALL'))
+			);
+
+			if($this->showVendors()){
+				$searchOptionTables[] = array('searchTable' => 'vendors', 'searchTable_name' => vmText::_('COM_VM_ONLY_VENDORS'));
+			}
+			$this->searchOptions = JHtml::_('Select.genericlist', $searchOptionTables, 'searchTable', '', 'searchTable', 'searchTable_name', $model->searchTable );
 		}
 
 

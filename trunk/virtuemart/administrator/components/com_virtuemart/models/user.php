@@ -1221,7 +1221,7 @@ class VirtueMartModelUser extends VmModel {
 			, ju.name AS name
 			, ju.username AS username
 			, ju.email AS email
-			, IFNULL(vmu.user_is_vendor,"0") AS is_vendor
+			, IFNULL(vmu.user_is_vendor,"0") AS user_is_vendor
 			, IFNULL(sg.shopper_group_name, "") AS shopper_group_name ';
 
 		if ($search) {
@@ -1242,13 +1242,15 @@ class VirtueMartModelUser extends VmModel {
 			$joinedTables .= ' LEFT JOIN #__virtuemart_userinfos AS ui ON ui.virtuemart_user_id = vmu.virtuemart_user_id';
 		}
 
+		$superVendor = vmAccess::isSuperVendor();
 		$whereAnd = array();
-		if(VmConfig::get('multixcart',0)=='byvendor'){
-			$superVendor = vmAccess::isSuperVendor();
-			if($superVendor>1){
-				$joinedTables .= ' LEFT JOIN #__virtuemart_vendor_users AS vu ON ju.id = vmu.virtuemart_user_id';
-				$whereAnd[] = ' vu.virtuemart_vendor_id = '.$superVendor.' ';
-			}
+		if(VmConfig::get('multixcart',0)=='byvendor' and $superVendor>1){
+			$joinedTables .= ' LEFT JOIN #__virtuemart_vendor_users AS vu ON ju.id = vmu.virtuemart_user_id';
+			$whereAnd[] = ' vu.virtuemart_vendor_id = '.$superVendor.' ';
+		}
+
+		if(VmConfig::get('multixcart',0)!='none' and vmAccess::manager('managevendors') and $this->searchTable=='vendors'){
+			$whereAnd[] = ' vmu.virtuemart_vendor_id > 1 or (vmu.user_is_vendor>0 and vmu.virtuemart_vendor_id != "1")  ';
 		}
 
 		$where = '';
@@ -1260,6 +1262,7 @@ class VirtueMartModelUser extends VmModel {
 		if(!empty($whereAnd)){
 			$where .= $whereStr.' ('.implode(' OR ',$whereAnd).')';
 		}
+		$this->setDebugSql(1);
 		return $this->_data = $this->exeSortSearchListQuery(0,$select,$joinedTables,$where,' GROUP BY ju.id',$this->_getOrdering());
 
 	}

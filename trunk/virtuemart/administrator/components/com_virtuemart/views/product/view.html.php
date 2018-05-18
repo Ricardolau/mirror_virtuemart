@@ -214,9 +214,9 @@ class VirtuemartViewProduct extends VmViewAdmin {
 
 				$customsList = $customModel->getCustomsList ();
 				$attribs='style= "width: 300px;"';
-				$customlist = JHtml::_('select.genericlist', $customsList,'customlist', $attribs,'value','text',null,false,true);
+				$this->customlist = JHtml::_('select.genericlist', $customsList,'customlist', $attribs,'value','text',null,false,true);
 
-				$this->assignRef('customsList', $customlist);
+				//$this->assignRef('customsList', $customlist);
 
 				if ($product->product_parent_id > 0) {
 
@@ -348,6 +348,18 @@ class VirtuemartViewProduct extends VmViewAdmin {
 				$msg="";
 			}
 
+			//CustomFilter
+			$customModel = VmModel::getModel ('custom');
+			$customsList = $customModel->getCustomsList ();
+			$emptyOption = JHtml::_ ('select.option', '', vmText::_ ('COM_VM_SELECT_CUSTOM'), 'value', 'text');
+			array_unshift ($customsList, $emptyOption);
+			$attribs='style= "width: 300px;"';
+			$selected = '';
+			if(!empty($model->virtuemart_custom_id[0])){
+				$selected = $model->virtuemart_custom_id[0];
+			}
+			$this->lists['customlist'] = JHtml::_('select.genericlist', $customsList,'virtuemart_custom_id', $attribs,'value','text',$selected,false,true);
+
 			$this->SetViewTitle($title, $msg );
 
 			$this->addStandardDefaultViewLists($model,'created_on');
@@ -384,7 +396,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 
 			$this->lists['vendors'] = '';
 			if($this->showVendors()){
-				$this->lists['vendors'] = Shopfunctions::renderVendorList($model->virtuemart_vendor_id);
+				$this->lists['vendors'] = Shopfunctions::renderVendorList($model->virtuemart_vendor_id, 'virtuemart_vendor_id', true);
 			}
 
 			$bulletList = VmConfig::get('simpleBulletList',0);

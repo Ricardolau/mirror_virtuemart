@@ -99,7 +99,7 @@ class VirtuemartViewCoupon extends VmViewAdmin {
 
 			$this->pagination = $model->getPagination();
 			if($this->showVendors()){
-				$this->vendorlist = Shopfunctions::renderVendorList($model->virtuemart_vendor_id);
+				$this->vendorlist = Shopfunctions::renderVendorList($model->virtuemart_vendor_id, 'virtuemart_vendor_id', true);
 			}
 		}
 

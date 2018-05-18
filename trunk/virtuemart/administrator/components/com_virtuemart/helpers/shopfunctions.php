@@ -162,7 +162,7 @@ class ShopFunctions {
 	 * @param bool $multiple if the select list should allow multiple selections
 	 * @return string HTML select option list
 	 */
-	static public function renderVendorList ($vendorId=false, $name = 'virtuemart_vendor_id') {
+	static public function renderVendorList ($vendorId=false, $name = 'virtuemart_vendor_id', $sendForm = false) {
 
 		$view = vRequest::getCmd('view',false);
 		
@@ -185,16 +185,16 @@ class ShopFunctions {
 			}
 			return '<span type="text" size="14" class="inputbox" readonly="">' . $vendor . '</span>';
 		} else {
-			return self::renderVendorFullVendorList($vendorId,false,$name);
+			return self::renderVendorFullVendorList($vendorId, false, $name, $sendForm);
 		}
 
 	}
 
-	static public function renderVendorFullVendorList($vendorId, $multiple = false, $name = 'virtuemart_vendor_id'){
+	static public function renderVendorFullVendorList($vendorId, $multiple = false, $name = 'virtuemart_vendor_id', $sendForm = true){
 
 		$db = JFactory::getDBO ();
 
-		$q = 'SELECT `virtuemart_vendor_id`,`vendor_name` FROM #__virtuemart_vendors';
+		$q = 'SELECT `virtuemart_vendor_id`,`vendor_name` FROM #__virtuemart_vendors ORDER BY `vendor_name` ASC';
 		$db->setQuery ($q);
 		$vendors = $db->loadAssocList ();
 
@@ -207,9 +207,21 @@ class ShopFunctions {
 			$attrs['multiple'] = 'multiple';
 			$idA .= '[]';
 		} else {
-			$emptyOption = JHtml::_ ('select.option', '', vmText::_ ('COM_VIRTUEMART_LIST_EMPTY_OPTION'), 'virtuemart_vendor_id', 'vendor_name');
+			$emptyOption = JHtml::_ ('select.option', '', vmText::_ ('COM_VIRTUEMART_SELECT_VENDOR'), 'virtuemart_vendor_id', 'vendor_name');
 			array_unshift ($vendors, $emptyOption);
 		}
+
+		if($sendForm){
+			$j = 'jQuery(document).ready(function() {
+jQuery(".changeSendForm")
+	.off("change",Virtuemart.sendCurrForm)
+    .on("change",Virtuemart.sendCurrForm);
+})';
+			vmJsApi::addJScript('sendFormChange',$j);
+			$attrs['class'] .= ' changeSendForm';
+
+		}
+
 		$listHTML = JHtml::_ ('select.genericlist', $vendors, $idA, $attrs, 'virtuemart_vendor_id', 'vendor_name', $vendorId, $id);
 		return $listHTML;
 	}

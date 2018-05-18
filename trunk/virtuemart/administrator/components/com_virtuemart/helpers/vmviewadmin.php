@@ -212,8 +212,6 @@ class VmViewAdmin extends JViewLegacy {
 
 		$view = vRequest::getCmd('view', vRequest::getCmd('controller','virtuemart'));
 
-		if (!class_exists('JToolBarHelper')) require(JPATH_ADMINISTRATOR.DS.'includes'.DS.'toolbar.php');
-
 		if ($view == 'product' and vmAccess::manager('product.create')) {
 			if (vmAccess::manager('product.create')) {
 				JToolBarHelper::custom( 'createchild', 'new', 'new', vmText::_( 'COM_VIRTUEMART_PRODUCT_CHILD' ), false );

@@ -169,8 +169,9 @@ class vmDefines {
 
 		//?
 		//if(!class_exists('JFile')) require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'file.php');
-		JLoader::register('JFile', VMPATH_LIBS.DS.'/joomla/filesystem/file.php');
-		JLoader::register('JFolder', VMPATH_LIBS.DS.'/joomla/filesystem/folder.php');
+		JLoader::register('JFile', VMPATH_LIBS.'/joomla/filesystem/file.php');
+		JLoader::register('JFolder', VMPATH_LIBS.'/joomla/filesystem/folder.php');
+		JLoader::register('JToolBarHelper', JPATH_ADMINISTRATOR.'/includes/toolbar.php');
 
 		JLoader::register('vmVersion', VMPATH_ADMIN.'/version.php');
 		JLoader::register('AdminUIHelper', VMPATH_ADMIN.'/helpers/adminui.php');

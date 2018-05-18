@@ -22,10 +22,7 @@ defined('_JEXEC') or die('Restricted access');
 class VirtueMartViewVmplg extends VmView {
 
 	public function display($tpl = null) {
-		$mainframe = JFactory::getApplication();
-		$pathway = $mainframe->getPathway();
 		$document = JFactory::getDocument();
-		$layoutName = $this->getLayout();
 		$document->setMetaData('robots','NOINDEX, NOFOLLOW, NOARCHIVE, NOSNIPPET');
 		parent::display($tpl);
 	}

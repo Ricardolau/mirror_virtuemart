@@ -56,7 +56,9 @@ function confirmation(message, destnUrl) {
 }
 //-->
 </script>
-<?php	JToolBarHelper::title('VirtueMart AIO'  );
+<?php
+if (!class_exists('JToolBarHelper')) require(JPATH_ADMINISTRATOR.'/includes/toolbar.php');
+JToolBarHelper::title('VirtueMart AIO'  );
 
 	$db = JFactory::getDBO ();
 	$q = 'SELECT `name`, `element`, `folder` ,`enabled`  FROM `#__extensions` WHERE  folder in ("vmpayment", "vmshipment", "vmcustom", "vmuserfield", "vmcalculation") ORDER BY folder ';

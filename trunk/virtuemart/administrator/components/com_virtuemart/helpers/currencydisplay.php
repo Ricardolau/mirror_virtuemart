@@ -258,12 +258,13 @@ class CurrencyDisplay {
 
 		$price = $this->convertCurrencyTo($currencyId,$price,$inToShopCurrency);
 
-		if($this->_numeric_code===756 and VmConfig::get('rappenrundung',FALSE)=="1"){
-			$price = (float)$price * (float)$quantity;
-			$price = round((float)$price * 2,1) * 0.5;
-		} else {
+		if(!VmConfig::get('roundindig')){
 			$price = round((float)$price,$nb);
-			$price = (float)$price * (float)$quantity;
+		}
+		$price = round((float)$price * (float)$quantity,$nb);
+		if($this->_numeric_code===756 and VmConfig::get('rappenrundung',FALSE)=="1"){
+			//$price = (float)$price * (float)$quantity;
+			$price = round((float)$price * 2,1) * 0.5;
 		}
 
 		return $price;

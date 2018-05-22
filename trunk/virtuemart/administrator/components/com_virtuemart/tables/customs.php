@@ -85,7 +85,11 @@ class TableCustoms extends VmTable {
 
 		$this->_cidName = 'virtuemart_custom_id';
 
-		$this->setUniqueName('custom_title');
+		$uniqueCustomfieldtitles = VmConfig::get('unique_customfield_titles','1');
+		if($uniqueCustomfieldtitles == '1') {
+			$this->setUniqueName('custom_title');
+		}
+
 		$this->setObligatoryKeys('field_type');
 
 		$this->setLoggable();

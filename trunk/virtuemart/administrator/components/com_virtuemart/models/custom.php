@@ -185,8 +185,15 @@ class VirtueMartModelCustom extends VmModel {
 	 */
 	function getCustomsList ($publishedOnly = FALSE) {
 
+		$title = 'custom_title';
+		$uniqueCustomfieldtitles = VmConfig::get('unique_customfield_titles','1');
+		if($uniqueCustomfieldtitles == '0')
+		{
+			$title = 'CONCAT(custom_title, " - ID = " ,virtuemart_custom_id)';
+		}
+
 		// get custom parents
-		$q = 'SELECT `virtuemart_custom_id` AS value ,custom_title AS text FROM `#__virtuemart_customs` WHERE custom_parent_id="0" AND field_type <> "R" AND field_type <> "Z" ';
+		$q = 'SELECT `virtuemart_custom_id` AS value ,'.$title .' AS text FROM `#__virtuemart_customs` WHERE custom_parent_id="0" AND field_type <> "R" AND field_type <> "Z" ';
 		if ($publishedOnly) {
 			$q .= 'AND `published`=1';
 		}

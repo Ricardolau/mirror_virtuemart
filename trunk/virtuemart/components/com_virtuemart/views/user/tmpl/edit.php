@@ -37,7 +37,7 @@ $cancelUrl = JRoute::_($url.'&task=cancel');
 }
 
 ?>
-<form method="post" id="adminForm" name="userForm" action="<?php echo $url ?>" class="form-validate">
+<form method="post" id="adminForm" name="userForm" action="<?php echo JRoute::_($url) ?>" class="form-validate">
 <?php if($this->userDetails->user_is_vendor){ ?>
     <div class="buttonBar-right">
 	<button class="button" type="submit" onclick="javascript:return myValidator(userForm, true);" ><?php echo $this->button_lbl ?></button>

@@ -49,6 +49,18 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 			VmTable::addIncludePath($this->path .'/tables');
 			VmModel::addIncludePath($this->path .'/models');
 
+			JLoader::register('JFile', JPATH_ROOT.'/libraries/joomla/filesystem/file.php');
+			JLoader::register('JFolder', JPATH_ROOT.'/libraries/joomla/filesystem/folder.php');
+
+			JLoader::register('VmModel', VMPATH_ADMIN.'/helpers/vmmodel.php');
+			JLoader::register('VmTable', VMPATH_ADMIN.'/helpers/vmtable.php');
+			JLoader::register('vmText', VMPATH_ADMIN.'/helpers/vmtext.php');
+			JLoader::register('vObject', VMPATH_ADMIN.'/helpers/vobject.php');
+			JLoader::register('vRequest', VMPATH_ADMIN.'/helpers/vrequest.php');
+
+			JLoader::register('VirtueMartModelUpdatesMigration', VMPATH_ADMIN.'/models/updatesmigration.php');
+			JLoader::register('GenericTableUpdater', VMPATH_ADMIN.'/helpers/tableupdater.php');
+
 			//Maybe it is possible to set this within the xml file note by Max Milbers
 			VmConfig::ensureMemoryLimit(256);
 			VmConfig::ensureExecutionTime(300);

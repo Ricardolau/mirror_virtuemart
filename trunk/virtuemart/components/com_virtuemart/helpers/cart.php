@@ -1700,14 +1700,14 @@ class VirtueMartCart {
 		$mainframe = JFactory::getApplication();
 		// Check for a valid quantity
 		if (!is_numeric( $quantity)) {
-			$errorMsg = vmText::_('COM_VIRTUEMART_CART_ERROR_NO_VALID_QUANTITY', false);
-			vmInfo($errorMsg,$product->product_name);
+			$product->errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_ERROR_NO_VALID_QUANTITY', $product->product_name);
+			vmInfo($product->errorMsg);
 			return false;
 		}
 		// Check for negative quantity
 		if ($quantity < 1) {
-			$errorMsg = vmText::_('COM_VIRTUEMART_CART_ERROR_NO_VALID_QUANTITY', false);
-			vmInfo($errorMsg,$product->product_name);
+			$product->errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_ERROR_NO_VALID_QUANTITY', $product->product_name);
+			vmInfo($product->errorMsg);
 			return false;
 		}
 
@@ -1720,24 +1720,24 @@ class VirtueMartCart {
 		$min = $product->min_order_level;
 		if ($min != 0 && $quantity < $min){
 			$quantity = $min;
-			$errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_MIN_ORDER', $min, $product->product_name);
-			vmInfo($errorMsg,$product->product_name);
+			$product->errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_MIN_ORDER', $min, $product->product_name);
+			vmInfo($product->errorMsg);
 			if (!$checkForDisable) return false;
 		}
 
 		$max = $product->max_order_level;
 		if ($max != 0 && $quantity > $max) {
 			$quantity = $max;
-			$errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_MAX_ORDER', $max, $product->product_name);
-			vmInfo($errorMsg,$product->product_name);
+			$product->errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_MAX_ORDER', $max, $product->product_name);
+			vmInfo($product->errorMsg);
 			if (!$checkForDisable) return false;
 		}
 
 		$step = $product->step_order_level;
 		if ($step != 0 && ($quantity%$step)!= 0) {
 			$quantity = $quantity + ($quantity%$step);
-			$errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_STEP_ORDER', $step);
-			vmInfo($errorMsg,$product->product_name);
+			$product->errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_STEP_ORDER', $step);
+			vmInfo($product->errorMsg);
 			if (!$checkForDisable) return false;
 		}
 
@@ -1750,13 +1750,11 @@ class VirtueMartCart {
 				if($productsleft>=$min ){
 					$quantity = $productsleft;
 					$product->errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_PRODUCT_OUT_OF_QUANTITY',$product->product_name,$quantity);
-					vmError($product->errorMsg);
+					vmInfo($product->errorMsg);
 				} else {
 					$quantity = 0;
 					$product->errorMsg = vmText::_('COM_VIRTUEMART_CART_PRODUCT_OUT_OF_STOCK');
-					vmError($product->errorMsg); // Private error retrieved with getError is used only by addJS, so only the latest is fine
-					// todo better key string
-					vmInfo($product->errorMsg. ' '.$product->product_name);
+					vmInfo($product->errorMsg);
 					return false;
 				}
 			}

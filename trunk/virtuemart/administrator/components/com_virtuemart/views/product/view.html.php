@@ -214,7 +214,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 
 				$customsList = $customModel->getCustomsList ();
 				$attribs='style= "width: 300px;"';
-				$this->customlist = JHtml::_('select.genericlist', $customsList,'customlist', $attribs,'value','text',null,false,true);
+				$this->customsList = JHtml::_('select.genericlist', $customsList,'customlist', $attribs,'value','text',null,false,true);
 
 				//$this->assignRef('customsList', $customlist);
 

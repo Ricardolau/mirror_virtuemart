@@ -1701,13 +1701,13 @@ class VirtueMartCart {
 		// Check for a valid quantity
 		if (!is_numeric( $quantity)) {
 			$product->errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_ERROR_NO_VALID_QUANTITY', $product->product_name);
-			vmInfo($product->errorMsg);
+			vmWarn($product->errorMsg);
 			return false;
 		}
 		// Check for negative quantity
 		if ($quantity < 1) {
 			$product->errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_ERROR_NO_VALID_QUANTITY', $product->product_name);
-			vmInfo($product->errorMsg);
+			vmWarn($product->errorMsg);
 			return false;
 		}
 
@@ -1721,7 +1721,7 @@ class VirtueMartCart {
 		if ($min != 0 && $quantity < $min){
 			$quantity = $min;
 			$product->errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_MIN_ORDER', $min, $product->product_name);
-			vmInfo($product->errorMsg);
+			vmWarn($product->errorMsg);
 			if (!$checkForDisable) return false;
 		}
 
@@ -1729,7 +1729,7 @@ class VirtueMartCart {
 		if ($max != 0 && $quantity > $max) {
 			$quantity = $max;
 			$product->errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_MAX_ORDER', $max, $product->product_name);
-			vmInfo($product->errorMsg);
+			vmWarn($product->errorMsg);
 			if (!$checkForDisable) return false;
 		}
 
@@ -1737,7 +1737,7 @@ class VirtueMartCart {
 		if ($step != 0 && ($quantity%$step)!= 0) {
 			$quantity = $quantity + ($quantity%$step);
 			$product->errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_STEP_ORDER', $step);
-			vmInfo($product->errorMsg);
+			vmWarn($product->errorMsg);
 			if (!$checkForDisable) return false;
 		}
 
@@ -1750,11 +1750,11 @@ class VirtueMartCart {
 				if($productsleft>=$min ){
 					$quantity = $productsleft;
 					$product->errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_PRODUCT_OUT_OF_QUANTITY',$product->product_name,$quantity);
-					vmInfo($product->errorMsg);
+					vmWarn($product->errorMsg);
 				} else {
 					$quantity = 0;
 					$product->errorMsg = vmText::_('COM_VIRTUEMART_CART_PRODUCT_OUT_OF_STOCK');
-					vmInfo($product->errorMsg);
+					vmWarn($product->errorMsg);
 					return false;
 				}
 			}

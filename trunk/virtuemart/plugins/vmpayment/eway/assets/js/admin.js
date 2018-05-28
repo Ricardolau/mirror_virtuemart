@@ -104,6 +104,17 @@ jQuery().ready(function ($) {
         }
     }
 
+    showOnSaveCard = function () {
+        var save_card_enabled = $('#params_save_card_enabled').val();
+
+        $('.showOnSaveCard ').parents('.control-group').hide();
+
+        if (save_card_enabled==1) {
+            $('.showOnSaveCard').parents('.control-group').show();
+        }
+    }
+
+
     showOnMasterpass = function () {
         var payment_type = $('#params_payment_type').val();
 
@@ -141,7 +152,9 @@ jQuery().ready(function ($) {
     $('#params_status_capture_enabled').change(function () {
         showOnCaptureEnabledPre_Auth();
     });
-
+    $('#params_save_card_enabled').change(function () {
+        showOnSaveCard();
+    });
     $('#params_status_canceled_enabled').change(function () {
         showOnCanceledEnablePre_Auth();
     });
@@ -161,6 +174,7 @@ jQuery().ready(function ($) {
     showOnSandbox();
     showOnPre_Auth();
     showOnCapture();
+    showOnSaveCard();
     showOnCaptureEnabledPre_Auth();
     showOnCanceledEnablePre_Auth();
     showOnRefundEnabled();

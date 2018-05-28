@@ -224,6 +224,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 		$maskedCard->IssueNumber = '';
 		$maskedCard->ExpiryMonth = '';
 		$maskedCard->ExpiryYear = '';
+		$maskedCard->CVN = '';
 		if ($method->payment_type == 'Credit Card') {
 			if (!$tokenCustomerIDSelected) {
 				$html = $this->renderByLayout('cc_payment_page', array(
@@ -241,7 +242,8 @@ class plgVmpaymentEway extends vmPSPlugin {
 					'FormActionURL' => $response->FormActionURL,
 					'AccessCode' => $response->AccessCode,
 					'payment_type' => $method->payment_type,
-					'eway_cardcvn' => $maskedCard->CardCvn,
+					'eway_cardcvn' =>  vRequest::getVar('eway-selected-cvn-' . $method->virtuemart_paymentmethod_id)
+				,
 				));
 			}
 		} else {
@@ -337,10 +339,8 @@ class plgVmpaymentEway extends vmPSPlugin {
 	 */
 	private static function ewayError($method, $message) {
 
-		$public_msg = '';
-		if ($method->debug) {
-			$public_msg = $message;
-		}
+
+		$public_msg = $message;
 		vmError($message, $public_msg);
 	}
 
@@ -453,7 +453,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 			return;
 		}
 
-		if ($transactionResponse->TokenCustomerID) {
+		if ($transactionResponse->TokenCustomerID and $method->save_card_enabled) {
 			$this->saveTokenCustomerID($order['details']['BT']->virtuemart_user_id, $transactionResponse->TokenCustomerID);
 		}
 

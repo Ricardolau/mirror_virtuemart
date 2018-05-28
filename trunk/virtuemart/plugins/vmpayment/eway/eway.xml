@@ -126,12 +126,15 @@
                        default="0"
                        label="VMPAYMENT_EWAY_SAVE_CARD_ENABLED"
                        description="VMPAYMENT_EWAY_SAVE_CARD_ENABLED_DESC"
-                       class="showOnCapture"
+                       class="showOnCreditCard showOnCapture"
                 >
                     <option value="0">COM_VIRTUEMART_NO</option>
                     <option value="1">COM_VIRTUEMART_YES</option>
                 </field>
-
+                <field type="note"
+                       label="VMPAYMENT_EWAY_SAVE_CARD_ENABLED_NOTE"
+                       class="showOnSaveCard"
+                />
 
                 <field type="note"
                        name="sandbox_order_status_params"

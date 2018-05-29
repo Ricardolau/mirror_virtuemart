@@ -763,7 +763,7 @@ jQuery(document).ready(function($) {
 		$template = $vmStyle['template'];
 		if($template){
 			//Fallback for old templates
-			$path= 'templates'. DS . $template . DS . 'css' .DS. $cssFile.'.css' ;
+			$path= 'templates/'.$template.'/css/'. $cssFile.'.css' ;
 			if(file_exists($path)){
 				// If exist exit
 				vmJsApi::css ( $cssFile ) ;

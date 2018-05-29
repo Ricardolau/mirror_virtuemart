@@ -1,5 +1,8 @@
 <?php
 
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die();
+
 /**
  * Calculation helper class
  *
@@ -18,8 +21,6 @@
  *
  * http://virtuemart.net
  */
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
 
 class calculationHelper {
 

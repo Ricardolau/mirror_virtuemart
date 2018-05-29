@@ -30,19 +30,7 @@ defined('_JEXEC') or die();
  *
  */
 
-if(JVM_VERSION<3){
-	if(!interface_exists('JObservableInterface')){
-		interface JObservableInterface{
 
-		}
-	}
-
-	if(!interface_exists('JTableInterface')){
-		interface JTableInterface{
-
-		}
-	}
-}
 
 class VmTable extends vObject implements JObservableInterface, JTableInterface {
 

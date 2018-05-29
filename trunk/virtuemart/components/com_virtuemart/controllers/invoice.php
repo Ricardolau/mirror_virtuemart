@@ -147,7 +147,7 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 
 	public function samplePDF() {
 		if(!class_exists('VmVendorPDF')){
-			vmError('vmPdf: For the pdf, you must install the tcpdf library at '.VMPATH_LIBS.DS.'tcpdf');
+			vmError('vmPdf: For the pdf, you must install the tcpdf library at '.VMPATH_LIBS.'/tcpdf');
 			return 0;
 		}
 

@@ -84,7 +84,7 @@ class GenericTableUpdater extends VmModel{
 
 // 			if($i>1) continue;
 			$className = 'Table'.ucfirst ($table);
-			if(!class_exists($className)) require(VMPATH_ADMIN.DS.'tables'.DS.$table.'.php');
+			if(!class_exists($className)) require(VMPATH_ADMIN.'/tables/'.$table.'.php');
 			$tableName = '#__virtuemart_'.$table;
 
 			$langTable = $this->getTable($table);
@@ -303,7 +303,7 @@ class GenericTableUpdater extends VmModel{
 	public function updateMyVmTables($file = 0, $like ='_virtuemart_'){
 
 		if(empty($file)){
-			$file = VMPATH_ADMIN.DS.'install'.DS.'install.sql';
+			$file = VMPATH_ADMIN.'/install/install.sql';
 		}
 
 		if(is_array($file)){
@@ -329,7 +329,7 @@ class GenericTableUpdater extends VmModel{
 // 			if($i>2) continue;
 
 			$tablename = str_replace('#__',$this->_prefix,$tablename);
-			$demandedTables[] = $tablename; vmdebug('updateMyVmTables $existingtables',$tablename);
+			$demandedTables[] = $tablename;
 			if(in_array($tablename,$existingtables)){
 
 				/*$q = 'LOCK TABLES `'.$tablename.'` WRITE';

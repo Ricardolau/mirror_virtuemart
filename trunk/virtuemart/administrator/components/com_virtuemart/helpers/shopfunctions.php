@@ -1090,7 +1090,6 @@ jQuery(".changeSendForm")
 		if(empty($safePath)){
 			$warn = 'EMPTY';
 		} else {
-			if(!class_exists('JFolder')) require_once(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'folder.php');
 			$exists = JFolder::exists($safePath);
 			if(!$exists){
 				$warn = 'WRONG';
@@ -1243,7 +1242,7 @@ jQuery(".changeSendForm")
 
 		if(!empty($vmtemplate) and is_array( $vmtemplate )) $vmtemplate = $vmtemplate['template'];
 
-		if(is_Dir( VMPATH_ROOT.DS.'templates'.DS.$vmtemplate.DS.'images'.DS.'availability'.DS )) {
+		if(is_Dir( VMPATH_ROOT.'/templates/'.$vmtemplate.'/images/availability/' )) {
 			return '/templates/'.$vmtemplate.'/images/availability/';
 		} else if(is_Dir(VMPATH_ROOT.'/'.VmConfig::get('assets_general_path').'images/availability/')){
 			return '/'.VmConfig::get('assets_general_path').'images/availability/';

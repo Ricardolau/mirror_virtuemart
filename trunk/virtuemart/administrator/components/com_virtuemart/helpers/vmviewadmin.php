@@ -53,7 +53,7 @@ class VmViewAdmin extends JViewLegacy {
 				$unoverridable = array('category','manufacturer','user');	//This views have the same name and must not be overridable
 				if(!in_array($view,$unoverridable)){
 					$template = VmTemplate::getDefaultTemplate();
-					$this->addTemplatePath (VMPATH_ROOT . DS. 'templates' . DS . $template['template'] . DS. 'html' . DS . 'com_virtuemart' .DS . $this->_name);
+					$this->addTemplatePath (VMPATH_ROOT .'/templates/'. $template['template'] .'/html/com_virtuemart/'. $this->_name);
 				}
 			}
 

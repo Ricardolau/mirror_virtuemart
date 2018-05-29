@@ -36,7 +36,7 @@ class VirtueMartModelConfig extends VmModel {
 
 	function getFieldList($fieldname){
 
-		$dirs[] = VMPATH_ROOT.DS.'components'.DS.'com_virtuemart'.DS.'sublayouts';
+		$dirs[] = VMPATH_ROOT.'/components/com_virtuemart/sublayouts';
 
 		$q = 'SELECT `template` FROM `#__template_styles` WHERE `client_id` ="0" AND `home`="1" ';
 
@@ -45,8 +45,8 @@ class VirtueMartModelConfig extends VmModel {
 
 		$tplnames = $db->loadResult();
 		if($tplnames){
-			if(is_dir(VMPATH_ROOT.DS.'templates'.DS.$tplnames.DS.'html'.DS.'com_virtuemart'.DS.'sublayouts')){
-				$dirs[] = VMPATH_ROOT.DS.'templates'.DS.$tplnames.DS.'html'.DS.'com_virtuemart'.DS.'sublayouts';
+			if(is_dir(VMPATH_ROOT.'/templates/'.$tplnames.'/html/com_virtuemart/sublayouts')){
+				$dirs[] = VMPATH_ROOT.'/templates/'.$tplnames.'/html/com_virtuemart/sublayouts';
 			}
 		}
 		return self::getLayouts($dirs,$fieldname.'_');
@@ -65,9 +65,9 @@ class VirtueMartModelConfig extends VmModel {
 		$com = strpos($view,'mod_');
 
 		if($com===0){
-			$dirs[] = VMPATH_ROOT.DS.'modules'.DS.$view.DS.'tmpl';
+			$dirs[] = VMPATH_ROOT.'/modules/'.$view.'/tmpl';
 		} else {
-			$dirs[] = VMPATH_ROOT.DS.'components'.DS.'com_virtuemart'.DS.'views'.DS.$view.DS.'tmpl';
+			$dirs[] = VMPATH_ROOT.'/components/com_virtuemart/views/'.$view.'/tmpl';
 
 		}
 
@@ -79,9 +79,9 @@ class VirtueMartModelConfig extends VmModel {
 		$tplnames = $db->loadResult();
 		if($tplnames){
 			if($com===0){
-				$opath = VMPATH_ROOT.DS.'templates'.DS.$tplnames.DS.'html'.DS.$view;
+				$opath = VMPATH_ROOT.'/templates/'.$tplnames.'/html/'.$view;
 			} else {
-				$opath = VMPATH_ROOT.DS.'templates'.DS.$tplnames.DS.'html'.DS.'com_virtuemart'.DS.$view;
+				$opath = VMPATH_ROOT.'/templates/'.$tplnames.'/html/com_virtuemart/'.$view;
 			}
 			if(is_dir($opath)){
 				$dirs[] = $opath;
@@ -145,7 +145,7 @@ class VirtueMartModelConfig extends VmModel {
 	 */
 	function getTCPDFFontsList() {
 
-		$dir = VMPATH_ROOT.DS.'libraries'.DS.'tcpdf'.DS.'fonts';
+		$dir = VMPATH_ROOT.'/libraries/tcpdf/fonts';
 		$result = array();
 		$specfiles = array();
 		if(is_dir($dir)) {
@@ -208,7 +208,7 @@ class VirtueMartModelConfig extends VmModel {
 	function getNoImageList() {
 
 		//TODO set config value here
-		$dirs[] = VMPATH_ROOT.DS.'components'.DS.'com_virtuemart'.DS.'assets'.DS.'images'.DS.'vmgeneral';
+		$dirs[] = VMPATH_ROOT.'/components/com_virtuemart/assets/images/vmgeneral';
 
 		$tplpath = VmConfig::get('vmtemplate',VmTemplate::getDefaultTemplate());
 		if(!empty($tplpath) and is_numeric($tplpath)){
@@ -224,8 +224,8 @@ class VirtueMartModelConfig extends VmModel {
 		}
 
 		if(!empty($tplpath)){
-			if(is_dir(VMPATH_ROOT.DS.'templates'.DS.$tplpath.DS.'images'.DS.'vmgeneral')){
-				$dirs[] = VMPATH_ROOT.DS.'templates'.DS.$tplpath.DS.'images'.DS.'vmgeneral';
+			if(is_dir(VMPATH_ROOT.'/templates/'.$tplpath.'/images/vmgeneral')){
+				$dirs[] = VMPATH_ROOT.'/templates/'.$tplpath.'/images/vmgeneral';
 			}
 		}
 
@@ -253,7 +253,7 @@ class VirtueMartModelConfig extends VmModel {
 	 * @return object List of theme objects
 	 */
 	function getCurrencyConverterList() {
-		$dir = VMPATH_ADMIN.DS.'plugins'.DS.'currency_converter';
+		$dir = VMPATH_ADMIN.'/plugins/currency_converter';
 		$result = array();
 
 		if ($handle = opendir($dir)) {
@@ -619,9 +619,9 @@ class VirtueMartModelConfig extends VmModel {
 	 */
 	static function readConfigFile(){
 
-		$_datafile = VMPATH_ADMIN.DS.'virtuemart.cfg';
+		$_datafile = VMPATH_ADMIN.'/virtuemart.cfg';
 		if (!file_exists($_datafile)) {
-			if (file_exists(VMPATH_ADMIN.DS.'virtuemart_defaults.cfg-dist')) {
+			if (file_exists(VMPATH_ADMIN.'/virtuemart_defaults.cfg-dist')) {
 				JFile::copy('virtuemart_defaults.cfg-dist','virtuemart.cfg',VMPATH_ADMIN);
 			} else {
 				vmWarn('The data file with the default configuration could not be found. You must configure the shop manually.');
@@ -702,7 +702,7 @@ class VirtueMartModelConfig extends VmModel {
 				$confData['virtuemart_config_id'] = 1;
 
 				$confData['config'] = $params;
-				VmTable::addIncludePath(VMPATH_ADMIN.DS.'tables','Table');
+				VmTable::addIncludePath(VMPATH_ADMIN.'/tables','Table');
 				JFactory::getDbo();
 				$confTable = VmTable::getInstance('configs', 'Table', array());
 

@@ -97,9 +97,9 @@ if ($_controller=='pluginresponse') {
 /* Create the controller name */
 $_class = 'VirtuemartController'.ucfirst($_controller);
 
-if (file_exists($basePath.DS.'controllers'.DS.$_controller.'.php')) {
+if (file_exists($basePath.'/controllers/'.$_controller.'.php')) {
 	if (!class_exists($_class)) {
-		require ($basePath.DS.'controllers'.DS.$_controller.'.php');
+		require ($basePath.'/controllers/'.$_controller.'.php');
 	}
 }
 else {

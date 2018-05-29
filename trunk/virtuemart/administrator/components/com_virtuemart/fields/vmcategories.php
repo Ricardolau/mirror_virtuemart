@@ -15,7 +15,7 @@ defined('_JEXEC') or die();
  * other free or open source software licenses.
  * @version $Id$
  */
-defined('DS') or define('DS', DIRECTORY_SEPARATOR);
+
 if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 
 jimport('joomla.form.formfield');

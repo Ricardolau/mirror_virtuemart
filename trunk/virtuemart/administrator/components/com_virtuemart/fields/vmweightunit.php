@@ -15,8 +15,6 @@ defined('_JEXEC') or die();
  * @version $Id$
  */
 
-
-defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 
 class JFormFieldVmWeightunit extends JFormField {

@@ -14,12 +14,8 @@
  * other free or open source software licenses.
  * @version $Id$
  */
-defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 
-if(!class_exists('TableVendors')) require(VMPATH_ADMIN.DS.'tables'.DS.'vendors.php');
-if (!class_exists( 'VirtueMartModelVendor' ))
-   JLoader::import( 'vendor', JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_virtuemart' . DS . 'models' );
-
+if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 
 /**
  * Supports a modal product picker.

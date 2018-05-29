@@ -15,7 +15,6 @@ defined('JPATH_PLATFORM') or die;
  * @version $Id$
  */
 
-defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 
 class JFormFieldVmTaxes extends JFormField {

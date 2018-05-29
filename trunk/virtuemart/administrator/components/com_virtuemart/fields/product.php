@@ -3,7 +3,6 @@
 
 defined('JPATH_BASE') or die;
 
-defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 
 

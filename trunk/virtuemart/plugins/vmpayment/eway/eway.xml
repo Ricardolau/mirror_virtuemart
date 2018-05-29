@@ -175,7 +175,7 @@
                        scope="com_virtuemart"
                        default="S"
                        label="VMPAYMENT_EWAY_STATUS_CAPTURE"
-                       description="VMPAYMENT_EWAY_STATUS_CAPTURE_TIP"
+                       description="VMPAYMENT_EWAY_STATUS_CAPTURE_DESC"
                        class="showOnCaptureEnabledPre_Auth"
                 />
 

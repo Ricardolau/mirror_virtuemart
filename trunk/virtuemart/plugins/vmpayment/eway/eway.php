@@ -138,7 +138,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 		$payment['TotalAmount'] = $totalInPaymentCurrency['value'] * 100;
 		$payment['InvoiceNumber'] = $order['details']['BT']->order_number;
 
-		$invoiceDescription = $items[0]->order_item_name;
+		$invoiceDescription = $order['items'][0]->order_item_name;
 		$invoiceDescription = substr($invoiceDescription, 0, -2);
 		if (strlen($invoiceDescription) > 64) {
 			$invoiceDescription = substr($invoiceDescription, 0, 61) . '...';
@@ -220,7 +220,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 		$maskedCard->Name = '';
 		$maskedCard->Number = '';
 		$maskedCard->StartMonth = '';
-		$maskedCard->StartYear= '';
+		$maskedCard->StartYear = '';
 		$maskedCard->IssueNumber = '';
 		$maskedCard->ExpiryMonth = '';
 		$maskedCard->ExpiryYear = '';
@@ -242,7 +242,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 					'FormActionURL' => $response->FormActionURL,
 					'AccessCode' => $response->AccessCode,
 					'payment_type' => $method->payment_type,
-					'eway_cardcvn' =>  vRequest::getVar('eway-selected-cvn-' . $method->virtuemart_paymentmethod_id)
+					'eway_cardcvn' => vRequest::getVar('eway-selected-cvn-' . $method->virtuemart_paymentmethod_id)
 				,
 				));
 			}
@@ -495,9 +495,10 @@ class plgVmpaymentEway extends vmPSPlugin {
 			'TransactionID' => $transactionResponse->TransactionID,
 			'ResponseCode' => \Eway\Rapid::getMessage($transactionResponse->ResponseCode),
 			'ResponseMessage' => \Eway\Rapid::getMessage($transactionResponse->ResponseMessage),
-			'pageTitle' => vmText::sprintf(VMPAYMENT_EWAY_RESPONSE_PAGE_TITLE, $order['details']['BT']->order_number, $amountInCurrency['display']),
+			'pageTitle' => vmText::sprintf('VMPAYMENT_EWAY_RESPONSE_PAGE_TITLE', $order['details']['BT']->order_number, $amountInCurrency['display']),
 			'order_number' => $order['details']['BT']->order_number,
 			'order_pass' => $order['details']['BT']->order_pass,
+			'sandbox' => $method->sandbox,
 		));
 
 		return;
@@ -650,8 +651,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 		}
 
 		$db = JFactory::getDBO();
-		$q = 'SELECT * FROM `' . $this->_tablename . '` WHERE ';
-		$q .= ' `virtuemart_order_id` = ' . $virtuemart_order_id;
+		$q = 'SELECT * FROM `' . $this->_tablename . '` WHERE `virtuemart_order_id` = ' . $virtuemart_order_id;
 
 		$db->setQuery($q);
 		$payments = $db->loadObjectList();
@@ -913,7 +913,7 @@ jQuery().ready(function($) {
 				$maskedCards[] = $maskedCard;
 			}
 		}
-		if ($maskedCards ) {
+		if ($maskedCards) {
 			self::setMaskedCardsInSession($maskedCards);
 		}
 		return $maskedCards;
@@ -1369,7 +1369,6 @@ jQuery().ready(function($) {
 		}
 
 
-
 		if ($order->order_status == $method->status_refund and $this->canDoRefund($method, $transactionResponse)) {
 			return $this->refundPayment($method, $payments, $orderModelData, $response, $old_order_status);
 		} elseif ($order->order_status == $method->status_capture and $this->canDoCapture($method, $transactionResponse)) {
@@ -1491,7 +1490,7 @@ jQuery().ready(function($) {
 			foreach ($errors as $error) {
 				vmError(\Eway\Rapid::getMessage($error));
 				$app = JFactory::getApplication();
-				$app ->enqueueMessage(\Eway\Rapid::getMessage($error),'error');
+				$app->enqueueMessage(\Eway\Rapid::getMessage($error), 'error');
 				$errorMessages[] = \Eway\Rapid::getMessage($error);
 			}
 			$dbValues['ResponseMessage'] = implode('<br />', $errorMessages);
@@ -1706,9 +1705,11 @@ jQuery().ready(function($) {
 
 	private function getSelectedMaskedCardFromSession() {
 		$maskedCards = self::getMaskedCardsFromSession();
-		foreach ($maskedCards as $maskedCard) {
-			if ($maskedCard->selected) {
-				return $maskedCard;
+		if ($maskedCards) {
+			foreach ($maskedCards as $maskedCard) {
+				if ($maskedCard->selected) {
+					return $maskedCard;
+				}
 			}
 		}
 		return null;
@@ -1735,7 +1736,6 @@ jQuery().ready(function($) {
 	 * @param $name
 	 * @param $render
 	 */
-
 
 
 	function plgVmOnSelfCallFE($type, $name, &$render) {
@@ -1777,7 +1777,7 @@ jQuery().ready(function($) {
 				break;
 			default:
 				$render['error'] = true;
-				$render['msg'] = 'Action not allowed (' . __LINE__ . ')'.$action;
+				$render['msg'] = 'Action not allowed (' . __LINE__ . ')' . $action;
 		}
 
 		return;
@@ -1796,7 +1796,7 @@ jQuery().ready(function($) {
 		}
 		$html = '';
 
-		$return= $this->plgVmOnEwayUpdateCreditCard('eway', $userId, $cardToUpdate, $html);
+		$return = $this->plgVmOnEwayUpdateCreditCard('eway', $userId, $cardToUpdate, $html);
 
 		$result['error'] = !$return[0];
 		$result['html'] = $html;
@@ -1816,9 +1816,9 @@ jQuery().ready(function($) {
 			return $result;
 		}
 
-		$maskedCards=''; // Not used when called from vmpayment
-		$msg='';
-		$return= $this->plgVmOnEwayDeleteCreditCard('eway', $userId, $cardToDelete, $maskedCards, $msg);
+		$maskedCards = ''; // Not used when called from vmpayment
+		$msg = '';
+		$return = $this->plgVmOnEwayDeleteCreditCard('eway', $userId, $cardToDelete, $maskedCards, $msg);
 
 		$result['error'] = !$return[0];
 		$result['msg'] = $msg;
@@ -1877,8 +1877,8 @@ jQuery().ready(function($) {
 			return false;
 		}
 
-		$cardToDelete=vmCrypt::decrypt($cardToDelete);
-		$cardToDelete=json_decode($cardToDelete);
+		$cardToDelete = vmCrypt::decrypt($cardToDelete);
+		$cardToDelete = json_decode($cardToDelete);
 
 		foreach ($this->methods as $method) {
 			if (!$method->save_card_enabled) {
@@ -1930,8 +1930,8 @@ jQuery().ready(function($) {
 		if ($this->getPluginMethods($vendorId) === 0) {
 			return false;
 		}
-		$cardToUpdate=vmCrypt::decrypt($cardToUpdate);
-		$cardToUpdate=json_decode($cardToUpdate);
+		$cardToUpdate = vmCrypt::decrypt($cardToUpdate);
+		$cardToUpdate = json_decode($cardToUpdate);
 
 		foreach ($this->methods as $method) {
 			if (!$method->save_card_enabled) {
@@ -1966,7 +1966,6 @@ jQuery().ready(function($) {
 		$html = vmText::sprintf('VMUSERFIELD_EWAY_CARD_NOT_UPDATED', $cardToUpdate->Number, $cardToUpdate->Name, $cardToUpdate->ExpiryMonth, $cardToUpdate->ExpiryYear, $vendor_link);
 		return false;
 	}
-
 
 
 }

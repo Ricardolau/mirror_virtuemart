@@ -254,7 +254,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 				if ($product->product_sku) $sku=' ('.$product->product_sku.')'; else $sku="";
 				//if (!empty($product->canonCatLink)) $canonLink = '&virtuemart_category_id=' . $product->canonCatLink; else $canonLink = '';
 				if(!empty($product->virtuemart_product_id)){
-					$menuItemID = shopFunctionsF::getMenuItemId(JFactory::getLanguage()->getTag());
+					$menuItemID = shopFunctionsF::getMenuItemId(vmLanguage::getLanguage()->getTag());
 					$canonLink='';
 					if($product->canonCatId) $canonLink = '&virtuemart_category_id='.$product->canonCatId;
 

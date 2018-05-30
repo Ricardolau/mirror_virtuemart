@@ -302,7 +302,7 @@ class VmViewAdmin extends JViewLegacy {
 			vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/vmlang.js', false, true, true);
 			
 		} else {
-			$jlang = JFactory::getLanguage();
+			$jlang = vmLanguage::getLanguage();
 			$langs = $jlang->getKnownLanguages();
 			$defautName = $selectedLangue;
 			$flagImg = $selectedLangue;
@@ -438,7 +438,7 @@ class VmViewAdmin extends JViewLegacy {
 		}
 
 		vmLanguage::loadJLang('com_virtuemart_help');
-		$lang = JFactory::getLanguage();
+		$lang = vmLanguage::getLanguage();
 		$key=  'COM_VIRTUEMART_HELP_'.$view.$task;
 
 		if ($lang->hasKey($key)) {

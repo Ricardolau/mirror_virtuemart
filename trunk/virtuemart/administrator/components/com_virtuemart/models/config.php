@@ -293,7 +293,7 @@ class VirtueMartModelConfig extends VmModel {
 	function getActiveLanguages($active_languages, $name = 'active_languages[]', $multiple = true, $placeholder = 'COM_VIRTUEMART_DRDOWN_NOTMULTILINGUAL') {
 
 		$activeLangs = array() ;
-		$language =JFactory::getLanguage();
+		$language =vmLanguage::getLanguage();
 		$jLangs = $language->getKnownLanguages(VMPATH_ROOT);
 
 		foreach ($jLangs as $jLang) {

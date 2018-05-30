@@ -107,7 +107,7 @@ abstract class vmPlugin extends JPlugin {
 
 	static public function loadJLang($fname,$type,$name){
 
-		//$jlang = JFactory::getLanguage();
+		//$jlang = vmLanguage::getLanguage();
 		//$tag = $jlang->getTag();
 		//if(empty($tag)) {
 			$tag = vmLanguage::$currLangTag;

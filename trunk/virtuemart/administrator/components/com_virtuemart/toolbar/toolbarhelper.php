@@ -7,8 +7,6 @@
 // No direct access
 defined('_JEXEC') or die;
 
-if(!class_exists( 'vToolBar' )) require(VMPATH_ADMIN.DS.'toolbar'.DS.'toolbar.php');
-
 /**
  * Utility class for the button bar.
  *

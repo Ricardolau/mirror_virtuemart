@@ -183,7 +183,7 @@ class VirtueMartViewCart extends VmView {
 				$this->setLayout( strtolower( $this->layoutName ) );
 			}
 			//set order language
-			$lang = JFactory::getLanguage();
+			$lang = vmLanguage::getLanguage();
 			$order_language = $lang->getTag();
 			$this->assignRef('order_language',$order_language);
 		}

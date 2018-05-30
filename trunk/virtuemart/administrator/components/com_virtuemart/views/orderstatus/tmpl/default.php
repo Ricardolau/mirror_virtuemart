@@ -100,7 +100,7 @@ vmLanguage::loadJLang('com_virtuemart_config');
 				</td>
 				<td align="left" >
 					<?php
-					$lang =JFactory::getLanguage();
+					$lang =vmLanguage::getLanguage();
 					if ($lang->hasKey($row->order_status_name)) {
 						echo '<a href="' . $editlink . '">'. vmText::_($row->order_status_name) .'</a> ('.$row->order_status_name.')';
 					} else {

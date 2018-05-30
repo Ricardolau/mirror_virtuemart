@@ -105,7 +105,7 @@ class VmHtml{
 			foreach ($passedArgs as $k => $v) {
 			    $args[] = &$passedArgs[$k];
 			}
-		$lang =JFactory::getLanguage();
+		$lang =vmLanguage::getLanguage();
 		if($lang->hasKey($label.'_TIP')){
 			$label = '<span class="hasTip" title="'.htmlentities(vmText::_($label.'_TIP')).'">'.vmText::_($label).'</span>' ;
 		} //Fallback
@@ -137,7 +137,7 @@ class VmHtml{
 	}
 	/* simple value display */
 	static function value( $value ){
-		$lang =JFactory::getLanguage();
+		$lang =vmLanguage::getLanguage();
 		return $lang->hasKey($value) ? vmText::_($value) : $value;
 	}
 

@@ -248,7 +248,12 @@ class vmDefines {
 		JLoader::register('TableUserinfos', VMPATH_ADMIN.'/tables/userinfos.php');
 		JLoader::register('TableVendors', VMPATH_ADMIN.'/tables/TableVendors.php');
 
+		JLoader::register('vToolBar', VMPATH_ADMIN.'/toolbar/toolbar.php');
+		JLoader::register('vButton', VMPATH_ADMIN.'/toolbar/button.php');
+
 		JLoader::register('VirtuemartViewConfig', VMPATH_ADMIN.'/views/config/view.html.php');
+
+		JLoader::register('vFactory', VMPATH_ADMIN.'/vmf/vfactory.php');
 
 		//FE
 		//JLoader::register('VirtueMartControllerVirtuemart',VMPATH_SITE .'/controllers/virtuemart.php');
@@ -296,7 +301,7 @@ function vmInfo($publicdescr,$value=NULL){
 	$type = VmConfig::$mType;//'info';
 
 	if(VmConfig::$maxMessageCount<VmConfig::$maxMessage){
-		$lang = JFactory::getLanguage();
+		$lang = vmLanguage::getLanguage();
 		if($value!==NULL){
 
 			$args = func_get_args();
@@ -340,7 +345,7 @@ function vmAdminInfo($publicdescr,$value=NULL){
 		$app = JFactory::getApplication();
 
 		if(VmConfig::$maxMessageCount<VmConfig::$maxMessage){
-			$lang = JFactory::getLanguage();
+			$lang = vmLanguage::getLanguage();
 			if($value!==NULL){
 
 				$args = func_get_args();
@@ -373,7 +378,7 @@ function vmWarn($publicdescr,$value=NULL){
 	$app = JFactory::getApplication();
 	$msg = '';
 	if(VmConfig::$maxMessageCount<VmConfig::$maxMessage){
-		$lang = JFactory::getLanguage();
+		$lang = vmLanguage::getLanguage();
 		if($value!==NULL){
 
 			$args = func_get_args();
@@ -413,7 +418,7 @@ function vmWarn($publicdescr,$value=NULL){
 function vmError($descr,$publicdescr=''){
 
 	$msg = '';
-	$lang = JFactory::getLanguage();
+	$lang = vmLanguage::getLanguage();
 	$descr = $lang->_($descr);
 	$adminmsg =  'vmError: '.$descr;
 	if (empty($descr)) {

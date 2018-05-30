@@ -860,7 +860,7 @@ abstract class vmPSPlugin extends vmPlugin {
 
 	protected function getHtmlRow ($key, $value, $class = '') {
 
-		$lang = JFactory::getLanguage ();
+		$lang = vmLanguage::getLanguage ();
 		$key_text = '';
 		$complete_key = strtoupper ($this->_type . '_' . $key);
 

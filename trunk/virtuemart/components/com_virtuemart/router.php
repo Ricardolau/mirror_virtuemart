@@ -824,7 +824,7 @@ class vmrouterHelper {
 			//if ( $this->seo_translate ) {
 			vmLanguage::loadJLang('com_virtuemart.sef',true);
 			/*} else {
-				$this->Jlang = JFactory::getLanguage();
+				$this->Jlang = vmLanguage::getLanguage();
 			}*/
 
 			$this->byMenu =  (int)VmConfig::get('router_by_menu', 0);

@@ -36,7 +36,7 @@ class vmLanguage {
 			VmConfig::$jDefLang = strtolower(strtr(VmConfig::$jDefLangTag,'-','_'));
 		}
 
-		$l = JFactory::getLanguage();
+		$l = vmLanguage::getLanguage();
 		//Set the "joomla selected language tag" and the joomla language to vmText
 		self::$jSelLangTag = $l->getTag();
 		self::$languages[self::$jSelLangTag] = $l;

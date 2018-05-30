@@ -78,7 +78,7 @@ class vRequest {
 
 		$unicodeslugs = VmConfig::get('transliteratePaths',false);
 		if($unicodeslugs){
-			$lang = JFactory::getLanguage();
+			$lang = vmLanguage::getLanguage();
 			$str = $lang->transliterate($str);
 		}
 

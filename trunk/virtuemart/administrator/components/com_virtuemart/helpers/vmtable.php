@@ -1528,7 +1528,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			//$transliterate = $config->get('unicodeslugs');
 			$unicodeslugs = VmConfig::get('transliterateSlugs',false);
 			if($unicodeslugs){
-				$lang = JFactory::getLanguage();
+				$lang = vmLanguage::getLanguage();
 				$this->$slugName = $lang->transliterate($this->$slugName);
 			}
 

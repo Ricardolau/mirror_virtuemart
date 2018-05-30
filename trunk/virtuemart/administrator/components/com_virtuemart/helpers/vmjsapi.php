@@ -561,7 +561,7 @@ jQuery(document).ready(function($) {
 		}
 		vmJsApi::addJScript( 'jquery.validationEngine');
 
-		$lg = JFactory::getLanguage();
+		$lg = vmLanguage::getLanguage();
 		$lang = substr($lg->getTag(), 0, 2);
 		$vlePath = vmJsApi::setPath('languages/jquery.validationEngine-'.$lang, FALSE , '' ,$minified = NULL ,   'js', true);
 		if(!file_exists($vlePath) or is_dir($vlePath)){
@@ -849,7 +849,7 @@ jQuery(document).ready(function($) {
 
 
 		vmJsApi::css('ui/jquery.ui.all');
-		$lg = JFactory::getLanguage();
+		$lg = vmLanguage::getLanguage();
 		$lang = $lg->getTag();
 		$sh_lang = substr($lang, 0, 2);
 		$vlePath = vmJsApi::setPath('i18n/jquery.ui.datepicker-'.$lang, FALSE , '' ,$minified = NULL ,   'js', true);

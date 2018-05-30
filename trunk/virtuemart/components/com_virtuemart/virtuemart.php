@@ -57,7 +57,7 @@ if(VmConfig::get('shop_is_offline',0) and $task!='feed' and $_controller!='virtu
 			vRequest::setVar('tmpl','component') ;
 
 			//vmLanguage::loadJLang('com_virtuemart');
-			$jlang = JFactory::getLanguage();
+			$jlang = vmLanguage::getLanguage();
 			$tag = $jlang->getTag();
 			$jlang->load('', JPATH_ADMINISTRATOR,$tag,true);
 			vmLanguage::loadJLang('com_virtuemart');

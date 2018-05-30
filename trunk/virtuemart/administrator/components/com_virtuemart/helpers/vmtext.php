@@ -172,7 +172,7 @@ class vmText
 	 */
 	public static function alt($string, $alt, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
-		if (\JFactory::getLanguage()->hasKey($string . '_' . $alt))
+		if (\vmLanguage::getLanguage()->hasKey($string . '_' . $alt))
 		{
 			$string .= '_' . $alt;
 		}

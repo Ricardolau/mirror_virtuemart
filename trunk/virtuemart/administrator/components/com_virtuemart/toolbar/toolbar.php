@@ -91,6 +91,7 @@ class vToolBar extends vObject
 			if(JVM_VERSION>0){
 				self::$instances[$name] = JToolBar::getInstance($name);
 			} else {
+
 				self::$instances[$name] = new vToolBar($name);
 			}
 

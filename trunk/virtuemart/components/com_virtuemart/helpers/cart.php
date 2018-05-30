@@ -129,7 +129,7 @@ class VirtueMartCart {
 			$userModel = VmModel::getModel('user');
 			self::$_cart->user = $userModel->getCurrentUser();
 
-			$lang = JFactory::getLanguage();
+			$lang = vmLanguage::getLanguage();
 			self::$_cart->order_language = $lang->getTag();
 
 			if (!empty($cartSession)) {

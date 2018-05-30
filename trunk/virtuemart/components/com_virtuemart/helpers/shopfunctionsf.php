@@ -157,7 +157,7 @@ class shopFunctionsF {
 		vmJsApi::chosenDropDowns();
 
 		$sorted_countries = array();
-		$lang = JFactory::getLanguage();
+		$lang = vmLanguage::getLanguage();
 		$prefix="COM_VIRTUEMART_COUNTRY_";
 		foreach ($countries as  $country) {
 			$country_string = $lang->hasKey($prefix.$country->country_3_code) ?   vmText::_($prefix.$country->country_3_code)  : $country->country_name;

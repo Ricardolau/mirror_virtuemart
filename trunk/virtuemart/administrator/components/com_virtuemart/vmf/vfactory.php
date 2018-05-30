@@ -2,9 +2,6 @@
 
 defined('VM_VERSION') or die('Direct access to VMF is not allowed');
 
-defined('DS') or define('DS', DIRECTORY_SEPARATOR);
-
-
 class vFactory {
 
 	static $_db = 0;
@@ -197,7 +194,7 @@ class vFactory {
 		return self::$_document;
 	}
 
-	public static function getLanguage() {
+/*	public static function getLanguage() {
 
 		if (!self::$_lang) {
 			$conf = self::getConfig();
@@ -209,7 +206,7 @@ class vFactory {
 		}
 
 		return self::$_lang;
-	}
+	}*/
 
 	/**
 	 * Get a cache object

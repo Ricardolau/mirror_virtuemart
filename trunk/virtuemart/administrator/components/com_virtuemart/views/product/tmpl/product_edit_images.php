@@ -32,7 +32,7 @@ defined('_JEXEC') or die('Restricted access');
 	<div>
 		<?php
 			//echo '<div width="100px">'.vmText::_('COM_VIRTUEMART_RTB_AD').'</div>';
-			$jlang =JFactory::getLanguage();
+			$jlang =vmLanguage::getLanguage();
 			$tag = $jlang->getTag();
 			$imgUrl = 'https://www.pixelz.com/images/gmail.png';
 			if(strpos($tag,'de')!==FALSE){

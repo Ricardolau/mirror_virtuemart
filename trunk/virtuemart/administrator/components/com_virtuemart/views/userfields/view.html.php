@@ -114,7 +114,7 @@ class VirtuemartViewUserfields extends VmViewAdmin {
 				$i = 1;
 			} else {
 				$lists['userfield_values'] = '';
-				$lang =JFactory::getLanguage();
+				$lang =vmLanguage::getLanguage();
 				for ($i = 0; $i < $n; $i++) {
 					$translate= $lang->hasKey($userFieldValues[$i]->fieldtitle) ? " (".vmText::_($userFieldValues[$i]->fieldtitle).")" : "";
 					$lists['userfield_values'] .=

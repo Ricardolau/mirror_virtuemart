@@ -189,7 +189,7 @@ WHERE published="1"';
 	static $options = array();
 	static public function rowShopFrontSet($params, $label, $name, $name2, $name3 = 0, $default = 1){
 
-		$lang =JFactory::getLanguage();
+		$lang =vmLanguage::getLanguage();
 		if($lang->hasKey($label.'_TIP')){
 			$label = '<span class="hasTip" title="'.htmlentities(vmText::_($label.'_TIP')).'">'.vmText::_($label).'</span>' ;
 		} //Fallback

@@ -6,10 +6,9 @@
  *
  * @package	VirtueMart
  * @subpackage Cart
- * @author RolandD
  * @author Max Milbers
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2018 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -1499,6 +1498,9 @@ class VirtueMartCart {
 			//vmdebug('FOUND automatic SELECTED '.$type.' !!',$this->$vm_method_name);
 			return true;
 		} else {
+			if($nb==0){
+				$this->$vm_method_name = 0;
+			}
 			$this->$vm_autoSelected_name=false;
 			return false;
 		}
@@ -1745,7 +1747,7 @@ class VirtueMartCart {
 		if ($checkForDisable) {
 			$productsleft = $product->product_in_stock - $product->product_ordered;
 
-			if ($quantity >= $productsleft ){
+			if ($quantity > $productsleft ){
 				vmdebug('my products left '.$productsleft.' and my quantity '.$quantity);
 				if($productsleft>=$min ){
 					$quantity = $productsleft;

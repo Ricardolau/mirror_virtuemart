@@ -36,8 +36,17 @@ class plgSystemVmLoaderPluginUpdate extends JPlugin {
 			$task = $jinput->get('task');
 			if ($option == 'com_installer' && $view == 'update' && $task == 'update.update') {
 				if (!class_exists( 'VmConfig' )) {
-					require(JPATH_ADMINISTRATOR .'/components/com_virtuemart/helpers/config.php');
-					VmConfig::loadConfig();
+					$installer = JInstaller::getInstance();
+					if($installer){
+						$source_path = $installer->getPath('source');
+						if(!empty($source_path) and file_exists($source_path.'/administrator/components/com_virtuemart/helpers/config.php')){
+							defined('VMPATH_ROOT') or define('VMPATH_ROOT', $source_path);
+						}
+					}
+					defined('VMPATH_ROOT') or define('VMPATH_ROOT', JPATH_ROOT);
+
+					if(!class_exists('VmConfig')) require_once(VMPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
+					VmConfig::loadConfig(true,false);
 				}
 			}
 		}

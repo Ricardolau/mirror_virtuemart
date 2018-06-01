@@ -77,8 +77,7 @@ class VirtuemartViewPaymentMethod extends VmViewAdmin {
 			$this->shopperGroupList = ShopFunctions::renderShopperGroupList($payment->virtuemart_shoppergroup_ids, true);
 
 			if($this->showVendors()){
-				$vendorList= ShopFunctions::renderVendorList($payment->virtuemart_vendor_id);
-				$this->assignRef('vendorList', $vendorList);
+				$this->vendorList= ShopFunctions::renderVendorList($payment->virtuemart_vendor_id);
 			}
 
 			$currency_model = VmModel::getModel ('currency');

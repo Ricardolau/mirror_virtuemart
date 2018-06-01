@@ -200,7 +200,7 @@ class ShopFunctions {
 
 		$attrs = array();
 
-		$id = VmHtml::ensureUniqueId('vendor_name'.$vendorId);
+		$id = '[';
 		$idA = $name;
 		$attrs['class'] = 'vm-chzn-select vm-drop';
 		if ($multiple) {

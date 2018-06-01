@@ -320,7 +320,7 @@ class GenericTableUpdater extends VmModel{
 			vmError('updateMyVmTables '.$this->_db->getErrorMsg());
 			return false;
 		}
-		vmdebug('updateMyVmTables $existingtables',$existingtables);
+		//vmdebug('updateMyVmTables $existingtables',$existingtables);
 		$i = 0;
 		$demandedTables = array();
 		//TODO ignore admin menu table

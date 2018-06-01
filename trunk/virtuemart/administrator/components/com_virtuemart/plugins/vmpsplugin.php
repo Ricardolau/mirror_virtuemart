@@ -903,6 +903,8 @@ abstract class vmPSPlugin extends vmPlugin {
 				$nbMethod = $nbMethod + $nb;
 				$idName = $this->_idName;
 				$method_id = $method->$idName;
+			} else {
+				unset($this->methods[$k]);
 			}
 		}
 		return $nbMethod;

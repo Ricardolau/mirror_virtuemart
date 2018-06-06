@@ -9,10 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-//Register the session storage class with the loader
-//JLoader::register('vButton', dirname(__FILE__) . '/toolbar/button.php');
-if(!class_exists( 'vButton' )) require(VMPATH_ADMIN.DS.'toolbar'.DS.'button.php');
-
 /**
  * ToolBar handler
  *

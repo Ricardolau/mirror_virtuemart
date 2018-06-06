@@ -764,6 +764,8 @@ class VmMediaHandler {
 		}
 		else if( $data['media_action'] == 'replace_thumb' ){
 
+			//always delete the thumb
+			$this->deleteThumbs();
 			$oldFileUrlThumb = $this->getFileUrlThumb();
 			$oldFileUrl = $this->file_url_folder_thumb;
 			$file_name = $this->uploadFile($this->file_url_folder_thumb,true);

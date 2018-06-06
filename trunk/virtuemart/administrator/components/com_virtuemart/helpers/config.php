@@ -248,8 +248,6 @@ class vmDefines {
 		JLoader::register('TableUserinfos', VMPATH_ADMIN.'/tables/userinfos.php');
 		JLoader::register('TableVendors', VMPATH_ADMIN.'/tables/TableVendors.php');
 
-		JLoader::register('vToolBar', VMPATH_ADMIN.'/toolbar/toolbar.php');
-		JLoader::register('vButton', VMPATH_ADMIN.'/toolbar/button.php');
 
 		JLoader::register('VirtuemartViewConfig', VMPATH_ADMIN.'/views/config/view.html.php');
 

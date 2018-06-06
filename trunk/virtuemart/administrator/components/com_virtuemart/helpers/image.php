@@ -21,32 +21,6 @@ class VmImage extends VmMediaHandler {
 		if(empty($data['media_action'])) return $data;
 		$data = parent::processAction($data);
 
-		if( $data['media_action'] == 'upload_create_thumb' ){
-			$oldFileUrl = $this->file_url;
-			$file_name = $this->uploadFile($this->file_url_folder);
-			if($file_name){
-
-				if($file_name!=$oldFileUrl && !empty($this->filename)){
-					$this->deleteFile($oldFileUrl);
-				}
-				$this->file_url = $this->file_url_folder.$file_name;
-				$this->filename = $file_name;
-
-				if(!empty($this->file_url_thumb)){
-					$oldFileUrlThumb = $this->file_url_thumb;
-
-					$this->file_url_thumb = $this->createThumb();
-					if($this->file_url_thumb!=$oldFileUrlThumb){
-						$this->deleteFile($oldFileUrlThumb);
-					}
-				}
-
-			}
-		} //creating the thumbnail image
-		else if( $data['media_action'] == 'create_thumb' ){
-			$this->file_url_thumb = $this->createThumb();
-		}
-
 		if(empty($this->file_title) && !empty($file_name)) $this->file_title = $file_name;
 
 		return $data;
@@ -184,12 +158,13 @@ class VmImage extends VmMediaHandler {
 		$this->checkPathCreateFolders($file_path_thumb);
 
 		if (file_exists($fullSizeFilenamePath)) {
-			$createdImage = new Img2Thumb($fullSizeFilenamePath, (int)$width, (int)$height, $resizedFilenamePath, $maxsize, $bgred, $bggreen, $bgblue);
-			if($createdImage){
-				return $this->file_url_folder_thumb.$this->file_name_thumb.'.'.$this->file_extension;
-			} else {
-				return 0;
+			if(!file_exists($resizedFilenamePath)) {
+				$createdImage = new Img2Thumb( $fullSizeFilenamePath, (int)$width, (int)$height, $resizedFilenamePath, $maxsize, $bgred, $bggreen, $bgblue );
+				if(!$createdImage){
+						return 0;
+				}
 			}
+			return $this->file_url_folder_thumb.$this->file_name_thumb.'.'.$this->file_extension;
 		} else {
 			vmError('Couldnt create thumb, file not found '.$fullSizeFilenamePath);
 			return 0;

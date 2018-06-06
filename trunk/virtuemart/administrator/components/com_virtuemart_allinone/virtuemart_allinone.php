@@ -5,7 +5,7 @@
  * @package VirtueMart
  * @author Max Milbers
  * @subpackage All In One
- * @copyright Copyright (C) 2014 VirtueMart Team - All rights reserved.
+ * @copyright Copyright (C) 2014 - 2018 VirtueMart Team - All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -61,7 +61,7 @@ if (!class_exists('JToolBarHelper')) require(JPATH_ADMINISTRATOR.'/includes/tool
 JToolBarHelper::title('VirtueMart AIO'  );
 
 	$db = JFactory::getDBO ();
-	$q = 'SELECT `name`, `element`, `folder` ,`enabled`  FROM `#__extensions` WHERE  folder in ("vmpayment", "vmshipment", "vmcustom", "vmuserfield", "vmcalculation") ORDER BY folder ';
+	$q = 'SELECT `name`, `element`, `folder` ,`enabled`  FROM `#__extensions` WHERE  folder in ("vmpayment", "vmshipment", "vmcustom", "vmuserfield", "vmcalculation", "vmextended") ORDER BY folder ';
 	$db->setQuery ($q);
 	$plugins = $db->loadObjectList();
 ?>

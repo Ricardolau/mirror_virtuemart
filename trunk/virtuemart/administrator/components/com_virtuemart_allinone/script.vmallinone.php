@@ -16,11 +16,11 @@ defined ('_JEXEC') or die('Restricted access');
 if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 
 	defined ('DS') or define('DS', DIRECTORY_SEPARATOR);
-
-
 	define('_VM_AIO_SCRIPT_INCLUDED', TRUE);
 
 	class com_virtuemart_allinoneInstallerScript {
+
+		static $html = '';
 
 		public function preflight () {
 			//Update Tables
@@ -40,6 +40,14 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 			}
 			VmConfig::ensureMemoryLimit(128);
 			VmConfig::ensureExecutionTime(120);
+		}
+
+		public function getVMPathRoot(){
+			$source_path = dirname(__FILE__);
+			if(empty($source_path)){
+				$source_path = JPATH_ROOT;
+			}
+			return $source_path;
 		}
 
 		public function install () {
@@ -70,21 +78,21 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 			$this->createIndexFolder (JPATH_ROOT . DS . 'plugins' . DS . 'vmuserfield');
 
 			if(empty($dontMove)){
-				$this->path = JInstaller::getInstance ()->getPath ('extension_administrator');
+				$this->path = $this->getVMPathRoot();
 			} else {
 				$this->path = JPATH_ROOT;
 			}
 			$this->dontMove = $dontMove;
-			echo '<a
+			self::$html .= '<a
 					href="http://virtuemart.net"
 					target="_blank"> <img
 						border="0"
 						align="left" style="margin-right: 20px"
 						src="components/com_virtuemart/assets/images/vm_menulogo.png"
 						alt="Cart" /> </a>';
-			echo '<h3 style="clear: both;">Installing VirtueMart Plugins and Modules</h3>';
-			echo "<p>The AIO component (com_virtuemart_aio) is used to install or update all the plugins and modules essential to VirtueMart in one go.</p>";
-			echo "<p>Do not uninstall it.</p>";
+			self::$html .= '<h3 style="clear: both;">Installing VirtueMart Plugins and Modules</h3>';
+			self::$html .= "<p>The AIO component (com_virtuemart_aio) is used to install or update all the plugins and modules essential to VirtueMart in one go.</p>";
+			self::$html .= "<p>Do not uninstall it.</p>";
 
 
 			//We do this dirty here, is just the finish page for installation, we must know if we are allowed to add sample data
@@ -96,37 +104,29 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 				$file = 'components/com_virtuemart/assets/css/toolbar_images.css';
 				$document = JFactory::getDocument();
 				$document->addStyleSheet($file.'?vmver='.VM_REV);
-
-				?>
-
-				<p><strong>
-						<?php
-						echo JText::_('COM_VIRTUEMART_INSTALL_SAMPLE_DATA_OPTION') . ' ' . JText::_('COM_VIRTUEMART_INSTALL_SAMPLE_DATA');
-						?>
+				if (JVM_VERSION < 3) {
+					$class="button";
+				} else {
+					$class="btn btn-primary";
+				}
+				self::$html .= '<p><strong>
+						'.JText::_('COM_VIRTUEMART_INSTALL_SAMPLE_DATA_OPTION') . ' ' . JText::_('COM_VIRTUEMART_INSTALL_SAMPLE_DATA').'
 					</strong>
-					<?php echo JText::_('COM_VIRTUEMART_INSTALL_SAMPLE_DATA_TIP'); ?>
+					'.JText::_('COM_VIRTUEMART_INSTALL_SAMPLE_DATA_TIP').'
 				</p>
 				<div id="cpanel">
-					<?php
-					if (JVM_VERSION < 3) {
-						$class="button";
-					} else {
-						$class="btn btn-primary";
-					}
-					?>
 					<div class="icon">
-						<a class="<?php echo $class ?>"
-						   href="<?php echo JROUTE::_('index.php?option=com_virtuemart&view=updatesmigration&task=installSampleData&' . JSession::getFormToken() . '=1') ?>">
-							<?php echo JText::_('COM_VIRTUEMART_INSTALL_SAMPLE_DATA'); ?>
+						<a class="'.$class.'"
+						   href="'.JROUTE::_('index.php?option=com_virtuemart&view=updatesmigration&task=installSampleData&' . JSession::getFormToken() . '=1') .'">
+							'.JText::_('COM_VIRTUEMART_INSTALL_SAMPLE_DATA').'
 						</a>
 						<span class="vmicon48"></span>
 					</div>
 				</div>
-				<div style="clear: both;"></div>
-			<?php
+				<div style="clear: both;"></div>';
 			}
 
-			echo "<table><tr><th>Plugins</th><td></td></tr>";
+			self::$html .= '<table><tr><th>Plugins</th><td></td></tr>';
 
 			if(!class_exists('VirtueMartModelUpdatesMigration')) require(VMPATH_ADMIN . DS . 'models' . DS . 'updatesmigration.php');
 
@@ -176,7 +176,7 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 
 			$task = vRequest::getCmd ('task');
 			if ($task != 'updateDatabase') {
-				echo "<tr><th>Modules</th><td></td></tr>";
+				self::$html .= "<tr><th>Modules</th><td></td></tr>";
 				// modules auto move
 				$src = $this->path . DS . "modulesBE";
 				$dst = JPATH_ROOT . DS."administrator". DS . "modules";
@@ -253,8 +253,8 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 					'mod_virtuemart_cart',
 					'mod_virtuemart_category'
 				);
+				$umimodel = VmModel::getModel('updatesmigration');
 				foreach ($modules as $module) {
-					$umimodel = VmModel::getModel('updatesmigration');
 					$umimodel->updateJoomlaUpdateServer( 'module', $module, $dst   );
 				}
 
@@ -262,18 +262,21 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 				$src = $this->path . DS . "libraries";
 				$dst = JPATH_ROOT . DS . "libraries";
 				$this->recurse_copy ($src, $dst);
-				echo "<tr><th>libraries moved to the joomla libraries folder</th><td></td></tr>";
+				self::$html .= "<tr><th>libraries moved to the joomla libraries folder</th><td></td></tr>";
 
-				echo "</table>";
+				self::$html .= "</table>";
 
 
 			} else {
-				echo "<h3>Updated VirtueMart Plugin tables</h3>";
+				self::$html .= "<h3>Updated VirtueMart Plugin tables</h3>";
 			}
 			$this->updateOrderingExtensions();
 
 			$this->replaceStockableByDynamicChilds();
-			echo "<h3>Installation Successful.</h3>";
+			self::$html .= "<h3>Installation Successful.</h3>";
+			
+			echo self::$html;
+			vRequest::setVar('aio_html',self::$html);
 			return TRUE;
 
 		}
@@ -318,7 +321,7 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 			$db->setQuery ($q);
 			$moneybookers = $db->loadObjectList()  ;
 			if ($moneybookers) {
-				echo "<h3>Updating MoneyBookers plugin to Skrill</h3>";
+				self::$html .= "<h3>Updating MoneyBookers plugin to Skrill</h3>";
 				foreach ($moneybookers as $moneybooker) {
 					$payment_params=$moneybooker->payment_params;
 					$mb_element=str_replace('moneybookers_', '',$moneybooker->element);
@@ -496,13 +499,20 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 			if ($task != 'updateDatabase') {
 				$success =$this->recurse_copy ($src, $dst);
 			}
-			if ($success) {
-				$this->updatePluginTable ($name, $type, $element, $group, $dst);
+
+			//We cannot execute updatePluginTable while package installation, because the VMPATH_ROOT is set to the tmp folder
+			if(JPATH_ROOT==VMPATH_ROOT){
+				if ($success) {
+					$this->updatePluginTable ($name, $type, $element, $group, $dst);
+				}
+			} else {
+
 			}
 			$umimodel = VmModel::getModel('updatesmigration');
 			$umimodel->updateJoomlaUpdateServer( $type, $element, $dst , $group  );
-			$installTask= $count==0 ? 'installed':'updated';
-			echo '<tr><td>' . $name . '</td><td> '.$installTask.'</td></tr>';
+
+			$installTask = $count==0 ? 'installed':'updated';
+			self::$html .= '<tr><td>' . $name . '</td><td> '.$installTask.'</td></tr>';
 			unset($data);
 		}
 
@@ -661,7 +671,7 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 					$app->enqueueMessage(get_class($this) . '::  ' . $db->getErrorMsg());
 				}
 				$installTask = empty($ext_id) ? 'installed' : 'updated';
-				echo '<tr><td>' . $title . '</td><td> '.$installTask.'</td></tr>';
+				self::$html .= '<tr><td>' . $title . '</td><td> '.$installTask.'</td></tr>';
 			}
 
 			//$this->updateJoomlaUpdateServer( 'module', $module, $dst   );
@@ -793,7 +803,7 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 				}
 			} else {
 				$app = JFactory::getApplication ();
-				$app->enqueueMessage ('Couldnt read dir ' . $dir . ' source ' . $src);
+				$app->enqueueMessage ('Virtuemart AIO Installer recurse_copy; Couldnt read source directory '.$src.' or target directory does not exits '.$dst);
 				return false;
 			}
 			return true;

@@ -16,10 +16,10 @@
         <menu>VirtueMart AIO</menu>
         <files folder="admin">
             <filename>virtuemart_allinone.php</filename>
-            <folder>libraries</folder>
+            <!--folder>libraries</folder>
             <folder>plugins</folder>
             <folder>modules</folder>
-            <folder>modulesBE</folder>
+            <folder>modulesBE</folder-->
         </files>
     </administration>
     <updateservers>

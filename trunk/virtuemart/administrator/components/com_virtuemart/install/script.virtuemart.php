@@ -31,18 +31,16 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 		 * Sets the paths and loads VMFramework config
 		 */
 		public function loadVm($fresh = true) {
- 			$this->source_path = JInstaller::getInstance()->getPath('source');
-			if(!empty($this->source_path)){
-				defined('VMPATH_ROOT') or define('VMPATH_ROOT', $this->source_path);
-			} else {
-				defined('VMPATH_ROOT') or define('VMPATH_ROOT', JPATH_ROOT);
-				$this->source_path = VMPATH_ROOT .'/administrator/components/com_virtuemart';
+			$source_path = '';
+			if(!class_exists('VmConfig')){
+				$r = $this->getVMPathRoot();
+				defined('VMPATH_ROOT') or define('VMPATH_ROOT', $r);
+				require_once(VMPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 			}
 
-			if(!class_exists('VmConfig')) require_once(VMPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 			VmConfig::loadConfig(true,$fresh);
 			VmConfig::loadJLang('com_virtuemart');
-
+			if(!empty($source_path))vmdebug('com_virtuemartInstallerScript loadVm',$source_path);
 			$this->path = VMPATH_ADMIN;
 
 			VmTable::addIncludePath($this->path .'/tables');
@@ -51,6 +49,24 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 			//Maybe it is possible to set this within the xml file note by Max Milbers
 			VmConfig::ensureMemoryLimit(256);
 			VmConfig::ensureExecutionTime(300);
+		}
+
+
+		public function getVMPathRoot(){
+			$source_path = dirname(__FILE__);//JInstaller::getInstance()->getPath('source');
+			if(!empty($source_path)){
+				$len = strlen($source_path);
+				//We must remove the install folder to get the root
+				$pos = strrpos($source_path, DIRECTORY_SEPARATOR.'install');
+
+				if($pos>($len - 10)){	//Ensure that we just cut the trailing install
+					$source_path = substr($source_path,0,$pos);
+				}
+
+			} else {
+				$source_path = JPATH_ROOT;
+			}
+			return $source_path;
 		}
 
 		public function checkIfUpdate(){
@@ -163,7 +179,14 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 
 			$this->checkAddDefaultShoppergroups();
 
-			$model->updateJoomlaUpdateServer('component','com_virtuemart',$this->source_path.DS.'virtuemart.xml');
+			$xmlFile = false;
+			if(JFile::exists(VMPATH_ROOT .'/virtuemart.xml')){
+				$xmlFile = VMPATH_ROOT .'/virtuemart.xml';
+			} else if(JFile::exists(VMPATH_ADMIN .'/virtuemart.xml')){
+				$xmlFile = VMPATH_ADMIN .'/virtuemart.xml';
+			}
+
+			if($xmlFile)$model->updateJoomlaUpdateServer('component','com_virtuemart',$xmlFile);
 
 			$this->deleteSwfUploader();
 
@@ -292,8 +315,13 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 				$this->recurse_copy($src.DS.'shipment',$dest.DS.'shipment');
 			}
 
-
-			$model->updateJoomlaUpdateServer('component','com_virtuemart', $this->source_path.DS.'virtuemart.xml');
+			$xmlFile = false;
+			if(JFile::exists(VMPATH_ROOT .'/virtuemart.xml')){
+				$xmlFile = VMPATH_ROOT .'/virtuemart.xml';
+			} else if(JFile::exists(VMPATH_ADMIN .'/virtuemart.xml')){
+				$xmlFile = VMPATH_ADMIN .'/virtuemart.xml';
+			}
+			if($xmlFile) $model->updateJoomlaUpdateServer('component','com_virtuemart', $xmlFile);
 
 			//fix joomla BE menu
 			if(version_compare(JVERSION,'3.7.0','ge')) {
@@ -1050,9 +1078,9 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 		 */
 		public function uninstall ($parent=null) {
 
-			if(empty($this->path)){
+			/*if(empty($this->path)){
 				$this->path = VMPATH_ADMIN;
-			}
+			}*/
 			//$this->loadVm();
 			//include($this->path.DS.'install'.DS.'uninstall.virtuemart.html.php');
 
@@ -1136,7 +1164,7 @@ if (!defined('_VM_SCRIPT_INCLUDED')) {
 			}
 
 			$app = JFactory::getApplication();
-			$app -> enqueueMessage('Couldnt read dir '.$dir.' source '.$src);
+			$app -> enqueueMessage('Virtuemart Installer recurse_copy; Couldnt read source directory '.$src);
 
 		}
 

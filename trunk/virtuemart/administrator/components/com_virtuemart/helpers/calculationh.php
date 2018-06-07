@@ -423,12 +423,12 @@ class calculationHelper {
 
 		if(!empty($this->rules['VatTax'])){
 			$this->_revert = true;
-			$this->productPrices['priceWithoutTax'] = $this->productPrices['salesPrice'] - $this->productPrices['taxAmount'];
 			$afterTax = $this->roundInternal($this->executeCalculation($this->rules['VatTax'], $this->productPrices['salesPrice']),'salesPrice');
 
 			if(!empty($afterTax)){
 				$this->productPrices['taxAmount'] = $this->productPrices['salesPrice'] - $afterTax;
 			}
+
 			$this->_revert = false;
 		}
 
@@ -443,7 +443,7 @@ class calculationHelper {
 		}
 
 		//price Without Tax but with calculated discounts AFTER Tax. So it just shows how much the shopper saves, regardless which kind of tax
-		$this->productPrices['priceWithoutTax'] = $salesPrice - $this->productPrices['taxAmount'];
+		$this->productPrices['priceWithoutTax'] = $this->productPrices['salesPrice'] - $this->productPrices['taxAmount'];
 
 		if ($override==1 || $this->productPrices['discountedPriceWithoutTax'] == 0) {
 			$this->productPrices['discountedPriceWithoutTax'] = $this->productPrices['salesPrice'] - $this->productPrices['taxAmount'];

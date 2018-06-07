@@ -1087,7 +1087,7 @@ vmdebug('my prices',$data);
 			$inputOrder['comments'] = trim($inputOrder['comments']);
 			$invM = VmModel::getModel('invoice');
 			//TODO use here needNewInvoiceNumber
-
+			$inputOrder['order_status'] = $data->order_status;
 			if($old_order_status!=$data->order_status and VirtueMartModelInvoice::needInvoiceByOrderstatus($inputOrder['order_status'])){
 				$inputOrder['invoice_number'] = $invM->createReferencedInvoiceNumber($data->virtuemart_order_id, $inputOrder);
 			}
@@ -1105,6 +1105,7 @@ vmdebug('my prices',$data);
 			//$this->_updateOrderHist($virtuemart_order_id, $data->order_status, $inputOrder['customer_notified'], $inputOrder['comments']);
 			//update order histories needs the virtuemart_order_id
 			$inputOrder['virtuemart_order_id'] = $virtuemart_order_id;
+
 			$this->updateOrderHistory($inputOrder);
 			// When the plugins did not already notified the user, do it here (the normal way)
 			//Attention the ! prevents at the moment that an email is sent. But it should used that way.

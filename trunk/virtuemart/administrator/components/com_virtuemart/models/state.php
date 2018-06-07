@@ -88,8 +88,7 @@ class VirtueMartModelState extends VmModel {
 	 * @author Max Milbers
 	 * @return String Attention, this function gives a 0=false back in case of success
 	 */
-	public static function testStateCountry(&$countryId,&$stateId)
-	{
+	public static function testStateCountry(&$countryId, &$stateId, &$required) {
 
 		$countryId = (int)$countryId;
 		$stateId = (int)$stateId;
@@ -112,11 +111,13 @@ class VirtueMartModelState extends VmModel {
 				} else {
 					//There is a country, but the state does not exist or is unlisted
 					$stateId = 0;
+					vmInfo('COM_VIRTUEMART_COUNTRY_STATE_NOTEXIST');
 					return false;
 				}
 			} else {
 				//This country has no states listed
 				$stateId = 0;
+				$required = false;
 				return true;
 			}
 
@@ -124,6 +125,7 @@ class VirtueMartModelState extends VmModel {
 			//The given country does not exist, this can happen, when non published country was chosen
 			$countryId = 0;
 			$stateId = 0;
+			//$required = false;
 			vmInfo('COM_VIRTUEMART_COUNTRY_NOTEXIST');
 			return false;
 		}

@@ -196,10 +196,16 @@ class VirtueMartModelVendor extends VmModel {
 
 		if(!vmAccess::manager('managevendors')){
 			if(empty($oldVendorId)){
-				$data['max_cats_per_product'] = -1;
+				$data['max_cats_per_product'] = VmConfig::get('max_cats_per_product',-1);
+				$data['max_products'] = VmConfig::get('max_products',-1);
+				$data['max_customers'] = VmConfig::get('max_customers',-1);
+				$data['force_product_pattern'] = VmConfig::get('force_product_pattern',-1);
 			} else {
 				$table->load($oldVendorId);
 				$data['max_cats_per_product'] = $table->max_cats_per_product;
+				$data['max_products'] = $table->max_products;
+				$data['max_customers'] = $table->max_customers;
+				$data['force_product_pattern'] = $table->force_product_pattern;
 			}
 		}
 
@@ -258,6 +264,10 @@ class VirtueMartModelVendor extends VmModel {
 			WHERE v.virtuemart_vendor_id = "' . (int)$_vendorId . '"';
 			$db->setQuery ($q);
 			self::$_vendorCurrencies[$_vendorId] = $db->loadObject ();
+			if(!self::$_vendorCurrencies[$_vendorId]){
+				$link = '/index.php?option=com_virtuemart&view=user&task=editshop';
+				vmWarn('COM_VIRTUEMART_CONF_WARN_NO_CURRENCY_DEFINED','<a href="'.$link.'">'.$link.'</a>');
+			}
 		}
 
 		return self::$_vendorCurrencies[$_vendorId];

@@ -6,7 +6,7 @@
     <property name="vm.version.main" value="3.2.0"/>
     <property name="vm.version" value="3.2.15"/>
     <property name="joomla.version" value="3.8.8"/>
-    <property name="PHING.VM.REVISION" value="9851"/>
+    <property name="PHING.VM.REVISION" value="9858"/>
     <property name="PHING.VM.CODENAME" value="Blue Corvus"/>
     <property name="PHING.VM.UPDATEFOLDER" value="vm3"/>
     <property file="build.properties"/>
@@ -49,13 +49,13 @@
 
     <property name="package.folder.main" value="${package.abspath}/${component.name}.${vm.version}/${component.name}.${vm.version}"/>
     <property name="package.folder.aio" value="${package.abspath}/${component.name}.${vm.version}/${component.name}.aio.${vm.version}"/>
-    <property name="package.admin.folder.aio" value="${package.abspath}/${component.name}.${vm.version}/${component.name}.aio.${vm.version}/admin"/>
+    <property name="package.admin.folder.aio" value="${package.abspath}/${component.name}.${vm.version}/${component.name}.aio.${vm.version}"/>
 
     <property name="full.folder.to" value="${package.abspath}/${component.name}.${vm.version}/${full.extract.filename}"/>
     <property name="fullzip.folder.to" value="${package.folder}"/>
 
 
-    <property name="package.admin.aio" value="${package.folder.aio}/admin"/>
+    <property name="package.admin.aio" value="${package.folder.aio}"/>
     <property name="package.plugins.aio" value="${package.admin.aio}/plugins"/>
     <property name="package.modules.aio" value="${package.admin.aio}/modules"/>
     <property name="package.admin.modules.aio" value="${package.admin.aio}/modulesBE"/>
@@ -282,7 +282,7 @@
     </fileset>
 
     <fileset dir="${admin.aio.component.path}" id='root.aio.refid' defaultexcludes="true">
-        <include name="script.vmallinone.php"/>
+        <!--include name="script.vmallinone.php"/-->
          <include name="install.xml"/>
          <exclude name="index.html"/>
     </fileset>

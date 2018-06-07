@@ -364,7 +364,7 @@ class VirtueMartModelProduct extends VmModel {
 
 			$keyword = vRequest::filter(html_entity_decode($this->keyword, ENT_QUOTES, "UTF-8"),FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
 			$keyword = $db->escape( $keyword, true );
-			$keyword =  '"%' .str_replace(array(' ','-'),'%', $keyword). '%"';
+			$keyword =  '"%' .str_replace(array(' '),'%', $keyword). '%"';
 
 			//$keyword = '"%' . $db->escape ($this->keyword, TRUE) . '%"';
 			//vmdebug('Current search field',$this->valid_search_fields);
@@ -2097,6 +2097,29 @@ vmdebug('$limitStart',$limitStart);
 			vmWarn('Insufficient permission to create product');
 			return false;
 		}
+
+		$vendorId = vmAccess::isSuperVendor();
+		$vM = VmModel::getModel('vendor');
+		$ven = $vM->getVendor($vendorId);
+		vmdebug('Storing product as vendor ',$ven->vendor_name);
+		if(VmConfig::get('multix','none')!='none' and !vmAccess::manager('core')){
+
+			if($ven->max_products!=-1){
+				$this->setGetCount (true);
+				//$this->setDebugSql(true);
+				parent::exeSortSearchListQuery(2,'virtuemart_product_id',' FROM #__virtuemart_products',' WHERE ( `virtuemart_vendor_id` = "'.$vendorId.'" AND `published`="1") ');
+				$this->setGetCount (false);
+				if($ven->max_products<($this->_total+1)){
+					vmWarn('You are not allowed to create more than '.$ven->max_products.' products');
+					return false;
+				}
+			}
+		}
+
+		if($ven->force_product_pattern>0 and empty($data['product_parent_id'])){
+			$data['product_parent_id'] = $ven->force_product_pattern;
+		}
+
 		if(!vmAccess::manager('product.edit.state')){
 			if( (empty($data['virtuemart_product_id']) or empty($product_data->virtuemart_product_id))){
 				$data['published'] = 0;
@@ -2272,9 +2295,7 @@ vmdebug('$limitStart',$limitStart);
 
 			if (!empty($data['categories']) && count ($data['categories']) > 0) {
 				if(VmConfig::get('multix','none')!='none' and !vmAccess::manager('managevendors')){
-					$vendorId = vmAccess::isSuperVendor();
-					$vM = VmModel::getModel('vendor');
-					$ven = $vM->getVendor($vendorId);
+
 					if($ven->max_cats_per_product>=0){
 						while($ven->max_cats_per_product<count($data['categories'])){
 							array_pop($data['categories']);

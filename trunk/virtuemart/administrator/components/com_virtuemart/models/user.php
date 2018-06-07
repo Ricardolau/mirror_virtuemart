@@ -257,6 +257,24 @@ class VirtueMartModelUser extends VmModel {
 			$user = JFactory::getUser($this->_id);
 		}
 
+		if(VmConfig::get('multix','none')!='none'){
+			$vendorId = vmAccess::isSuperVendor();
+			if($vendorId>1){
+				$vM = VmModel::getModel('vendor');
+				$ven = $vM->getVendor($vendorId);
+				if($ven->max_customers){
+					$this->setGetCount (true);
+					parent::exeSortSearchListQuery(2,'virtuemart_user_id',' FROM #__virtuemart_vendor_users',' WHERE ( `virtuemart_vendor_id` = "'.$vendorId.'" ) ');
+					$this->setGetCount (false);
+					if($ven->max_customers<($this->_total+1)){
+						vmWarn('You are not allowed to register more than '.$ven->max_customers.' users');
+						return false;
+					}
+				}
+			}
+
+		}
+
 		$gid = $user->get('gid'); // Save original gid
 
 		// Preformat and control user datas by plugin
@@ -689,9 +707,10 @@ class VirtueMartModelUser extends VmModel {
 				//unset($data['virtuemart_userinfo_id']);
 			}
 			$data = (array)$data;
-			if(!$this->validateUserData($data,'BT')){
-				return false;
-			}
+			$this->validateUserData($data,'BT');
+			//if(!$this->validateUserData($data,'BT')){
+				//return false;	We dont need to stop the storing process here
+			//}
 
 			$userInfoData = self::_prepareUserFields($data, 'BT',$userinfo);
 			//vmdebug('model user storeAddress',$data);
@@ -742,9 +761,11 @@ class VirtueMartModelUser extends VmModel {
 			}
 
 			if(!is_array($dataST)) $dataST = (array)$dataST;
-			if(!$this->validateUserData($dataST,'ST')){
-				return false;
-			}
+
+			$this->validateUserData($dataST,'ST');
+			//if(!$this->validateUserData($dataST,'ST')){
+				//return false;	We dont need to stop the storing process here
+			//}
 			$dataST['address_type'] = 'ST';
 			$userfielddata = self::_prepareUserFields($dataST, 'ST',$userinfo,'shipto_');
 
@@ -774,6 +795,8 @@ class VirtueMartModelUser extends VmModel {
 	*/
 	public function validateUserData(&$data,$type='BT',$showInfo = false) {
 
+		if(empty($data)) return -1;
+
 		$userFieldsModel = VmModel::getModel('userfields');
 
 		if ($type == 'BT') {
@@ -794,27 +817,27 @@ class VirtueMartModelUser extends VmModel {
 		$return = true;
 		$untested = true;
 		$required  = 0;
+		$staterequired = true;
 		$missingFields = array();
-		$lang = JFactory::getLanguage();
+		$lang = vmLanguage::getLanguage();
 		foreach ($neededFields as $field) {
 
 			//This is a special test for the virtuemart_state_id. There is the speciality that the virtuemart_state_id could be 0 but is valid.
-			if ($field->name == 'virtuemart_state_id' or $field->name == 'virtuemart_country_id' and $untested) {
-				$untested = false;
+			if ($field->name == 'virtuemart_state_id' or $field->name == 'virtuemart_country_id' ) {
 
-				if(!empty($data['virtuemart_country_id'])){
-					if(!isset($data['virtuemart_state_id'])) $data['virtuemart_state_id'] = 0;
-
-					if (!$msg = VirtueMartModelState::testStateCountry($data['virtuemart_country_id'], $data['virtuemart_state_id'])) {
-						//The state is invalid, so we set the state 0 here.
-						//$data['virtuemart_state_id'] = 0;
-						//vmdebug('State was not fitting to country, set virtuemart_state_id to 0');
-					} else if(empty($data['virtuemart_state_id'])){
-						//vmdebug('virtuemart_state_id is empty, but valid (country has not states, set to unrequired');
-						$field->required = false;
-					} else {
-						//vmdebug('validateUserData my country '.$data['virtuemart_country_id'].' my state '.$data['virtuemart_state_id']);
+				if($untested){
+					$untested = false;
+					if(!empty($data['virtuemart_country_id'])){
+						if(!isset($data['virtuemart_state_id'])) $data['virtuemart_state_id'] = 0;
 					}
+					$msg = VirtueMartModelState::testStateCountry($data['virtuemart_country_id'], $data['virtuemart_state_id'], $staterequired);
+				}
+
+				/*if ($field->name == 'virtuemart_country_id'){
+					$field->required = $msg;
+				}*/
+				if ($field->name == 'virtuemart_state_id' and $field->required){
+					$field->required = $staterequired;
 				}
 			}
 

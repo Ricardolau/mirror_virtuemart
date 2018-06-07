@@ -143,7 +143,7 @@ if (!defined ('_VM_AIO_SCRIPT_INCLUDED')) {
 				}
 			} else {
 				$app = JFactory::getApplication ();
-				$app->enqueueMessage ('Couldnt read dir ' . $dir . ' source ' . $src);
+				$app->enqueueMessage ('TcPdf Installer recurse_copy; Couldnt read source directory '.$dir);
 				return false;
 			}
 			return true;

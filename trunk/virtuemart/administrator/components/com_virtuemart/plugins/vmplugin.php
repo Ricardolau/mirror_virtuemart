@@ -80,6 +80,9 @@ abstract class vmPlugin extends JPlugin {
 		$this->_tablename = '#__virtuemart_' . $this->_psType . '_plg_' . $this->_name;
 		$this->_tableChecked = FALSE;
 		$this->_xmlFile	= vRequest::filterPath( VMPATH_ROOT .DS. 'plugins' .DS. $this->_type .DS.  $this->_name . DS. $this->_name . '.xml');
+		if(!JFile::exists($this->_xmlFile)){
+			$this->_xmlFile	= vRequest::filterPath( JPATH_ROOT .DS. 'plugins' .DS. $this->_type .DS.  $this->_name . DS. $this->_name . '.xml');
+		}
 	}
 
 	public function setConvertDecimal($toConvert) {

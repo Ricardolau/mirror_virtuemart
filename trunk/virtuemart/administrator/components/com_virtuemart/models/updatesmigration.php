@@ -548,7 +548,13 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 
 		$db = JFactory::getDBO();
 		$extensionXmlFileName = self::getExtensionXmlFileName($type, $element, $dst );
-		$xml=simplexml_load_file($extensionXmlFileName);
+		if(JFile::exists($extensionXmlFileName)){
+			$xml=simplexml_load_file($extensionXmlFileName);
+		} else {
+			vmdebug('updateJoomlaUpdateServer xml file not found ',$type, $element, $dst, $group);
+			return false;
+		}
+
 
 		// get extension id
 		$query="SELECT `extension_id` FROM `#__extensions` WHERE `type`=".$db->quote($type)." AND `element`=".$db->quote($element);

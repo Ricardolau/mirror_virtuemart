@@ -257,11 +257,7 @@ class VirtuemartViewUser extends VmViewAdmin {
 	}
 
 	private function checkTCPDFinstalled(){
-
-		if(!file_exists(VMPATH_LIBS.DS.'tcpdf'.DS.'tcpdf.php')){
-			vmLanguage::loadJLang('com_virtuemart_config');
-			vmWarn('COM_VIRTUEMART_TCPDF_NINSTALLED');
-		}
+		return vmDefines::tcpdf();
 	}
 
 }

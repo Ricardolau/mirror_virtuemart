@@ -175,10 +175,7 @@ WHERE published="1"';
 	}
 
 	private function checkTCPDFinstalled(){
-
-		if(!file_exists(VMPATH_LIBS.DS.'tcpdf'.DS.'tcpdf.php')){
-			vmWarn('COM_VIRTUEMART_TCPDF_NINSTALLED');
-		}
+		return vmDefines::tcpdf();
 	}
 
 	private function checkClientIP(){

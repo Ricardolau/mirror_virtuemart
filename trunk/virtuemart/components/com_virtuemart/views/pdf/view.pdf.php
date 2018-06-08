@@ -33,7 +33,7 @@ class VirtueMartViewPdf extends VmView
 
 	function display($tpl = 'pdf'){
 
-		if(!file_exists(VMPATH_LIBS.DS.'tcpdf'.DS.'tcpdf.php')){
+		if(!vmDefines::tcpdf()){
 			vmError('View pdf: For the pdf invoice, you must install the tcpdf library at '.VMPATH_LIBS.DS.'tcpdf');
 		} else {
 			$vendorModel = VmModel::getModel('vendor');

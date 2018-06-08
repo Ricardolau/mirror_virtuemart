@@ -265,6 +265,30 @@ class vmDefines {
 		//JLoader::register('VirtuemartViewUser', VMPATH_SITE.'/views/user/view.html.php'); We must not register views which exists in FE and BE (could be done with "use")
 		JLoader::register('VirtuemartViewInvoice', VMPATH_SITE.'/views/invoice/view.html.php');
 	}
+
+	static public function tcpdf(){
+
+		static $tcPath = null;
+		if($tcPath === null){
+			$paths = array(VMPATH_LIBS .'/vendor/tecnickcom/tcpdf/', VMPATH_LIBS .'/tcpdf/');
+			foreach($paths as $p){
+				if(file_exists($p)){
+					$tcPath = $p;
+					break;
+				}
+			}
+			if($tcPath === null){
+				vmLanguage::loadJLang('com_virtuemart_config');
+				vmWarn('COM_VIRTUEMART_TCPDF_NINSTALLED');
+				$tcPath = false;
+			} else {
+				if(!class_exists('TCPDF')){
+					require ($tcPath.'tcpdf.php');
+				}
+			}
+		}
+		return $tcPath;
+	}
 }
 
 

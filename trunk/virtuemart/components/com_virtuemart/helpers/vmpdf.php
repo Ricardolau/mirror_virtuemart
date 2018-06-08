@@ -20,7 +20,6 @@ defined('_JEXEC') or die('');
  * http://virtuemart.net
  */
 
-defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 VmConfig::loadConfig();
 
@@ -68,12 +67,21 @@ class VmPdf {
 	}
 }
 
+if(!class_exists('TCPDF')){
 
-if(!file_exists(VMPATH_LIBS.DS.'tcpdf'.DS.'tcpdf.php')){
-	vmError('VmPDF helper: For the PDF invoice and other PDF business letters, you must install the tcpdf library at '.VMPATH_LIBS.DS.'tcpdf');
-} else {
+	if(file_exists(VMPATH_LIBS .'/tecnickcom/tcpdf/tcpdf.php')){
+		require(VMPATH_LIBS .'/tecnickcom/tcpdf/tcpdf.php');
+	} else if(file_exists(VMPATH_LIBS .'/tcpdf/tcpdf.php')){
+		require(VMPATH_LIBS .'/tcpdf/tcpdf.php');
+	} else {
+		vmError('VmPDF helper: For the PDF invoice and other PDF business letters, you must install the tcpdf library at '.VMPATH_LIBS.DS.'tcpdf');
+	}
 
-	if(!class_exists('TCPDF'))require(VMPATH_LIBS.DS.'tcpdf'.DS.'tcpdf.php');
+}
+
+
+if(class_exists('TCPDF')){
+
 	// Extend the TCPDF class to create custom Header and Footer as configured in the Backend
 	class VmVendorPDF extends TCPDF {
 		var $vendor = 0;

@@ -51,7 +51,8 @@ if (!class_exists( 'VmConfig' )) {
 	VmConfig::loadConfig();
 }
 
-define("K_PATH_MAIN", VMPATH_LIBS.DS.'tcpdf'.DS);
+
+define("K_PATH_MAIN", vmDefines::tcpdf().'/');
 
 /**
  * URL path to tcpdf installation folder (http://localhost/tcpdf/).

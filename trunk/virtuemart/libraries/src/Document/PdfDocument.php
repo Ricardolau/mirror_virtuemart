@@ -3,7 +3,7 @@
 * @version		$Id: pdf.php 14401 2010-01-26 14:10:00Z louis $
 * @package		Joomla.Framework
 * @subpackage	Document
-* @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2010 Open Source Matters. 2012 - 2018 VirtueMart. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -14,7 +14,6 @@
 
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
-defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 
 /**
  * DocumentPDF class, provides an easy interface to parse and display a pdf document

@@ -25,7 +25,8 @@ class pkg_virtuemart_pkgInstallerScript {
 
 		include(VMPATH_ADMIN.'/views/updatesmigration/tmpl/insfinished.php');
 
-		echo vRequest::get('aio_html','ging ni');
+		echo vRequest::get('aio_html','something went wrong installing the AIO');
+		echo vRequest::get('tcpdf_html','something went wrong installing the TcPdf');
 	}
 
 }

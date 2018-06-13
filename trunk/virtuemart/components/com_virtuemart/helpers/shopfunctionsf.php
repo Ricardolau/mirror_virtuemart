@@ -93,7 +93,7 @@ class shopFunctionsF {
 	 */
 	static function renderFormField($type){
 		//Get custom field
-		JFormHelper::addFieldPath(VMPATH_ADMIN . DS . 'fields');
+		JFormHelper::addFieldPath(VMPATH_ADMIN .'/fields');
 		$types = JFormHelper::loadFieldType($type, false);
 		return $types->getOptions();
 	}
@@ -531,11 +531,11 @@ class shopFunctionsF {
 
 		if(!$controllerName) $controllerName = $viewName;
 		$controllerClassName = 'VirtueMartController'.ucfirst( $controllerName );
-		if(!class_exists( $controllerClassName )) require(VMPATH_SITE.DS.'controllers'.DS.$controllerName.'.php');
+		if(!class_exists( $controllerClassName )) require(VMPATH_SITE .'/controllers/'.$controllerName.'.php');
 		$controller = new $controllerClassName();
 		//$controller = new VirtueMartControllerVirtuemart();
 		// refering to http://forum.virtuemart.net/index.php?topic=96318.msg317277#msg317277
-		$controller->addViewPath( VMPATH_SITE.DS.'views' );
+		$controller->addViewPath( VMPATH_SITE .'/views' );
 
 		$view = $controller->getView( $viewName, 'html' );
 
@@ -546,9 +546,9 @@ class shopFunctionsF {
 		VmTemplate::setTemplate($template);
 		if($template){
 			if(is_array($template) and isset($template['template'])){
-				$view->addTemplatePath( VMPATH_ROOT.DS.'templates'.DS.$template['template'].DS.'html'.DS.'com_virtuemart'.DS.$viewName );
+				$view->addTemplatePath( VMPATH_ROOT .'/templates/'.$template['template'].'/html/com_virtuemart/'.$viewName );
 			} else {
-				$view->addTemplatePath( VMPATH_ROOT.DS.'templates'.DS.$template.DS.'html'.DS.'com_virtuemart'.DS.$viewName );
+				$view->addTemplatePath( VMPATH_ROOT .'/templates/'.$template.'/html/com_virtuemart/'.$viewName );
 			}
 		}
 

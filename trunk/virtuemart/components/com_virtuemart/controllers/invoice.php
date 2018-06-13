@@ -160,16 +160,16 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 
 	function getViewWithTemplate($viewName, $format){
 
-		$this->addViewPath( VMPATH_SITE.DS.'views' );
+		$this->addViewPath( VMPATH_SITE .'/views' );
 		$view = $this->getView($viewName, $format);
 		$this->writeJs = false;
-		$view->addTemplatePath( VMPATH_SITE.DS.'views'.DS.$viewName.DS.'tmpl' );
+		$view->addTemplatePath( VMPATH_SITE .'/views/'. $viewName .'/tmpl' );
 
 		$template = VmTemplate::loadVmTemplateStyle();
 		$templateName = VmTemplate::setTemplate($template);
 
 		if(!empty($templateName)){
-			$TemplateOverrideFolder = JPATH_SITE.DS."templates".DS.$templateName.DS."html".DS."com_virtuemart".DS."invoice";
+			$TemplateOverrideFolder = JPATH_SITE .'/templates/'.$templateName.'/html/com_virtuemart/invoice';
 			if(file_exists($TemplateOverrideFolder)){
 				$view->addTemplatePath( $TemplateOverrideFolder);
 			}

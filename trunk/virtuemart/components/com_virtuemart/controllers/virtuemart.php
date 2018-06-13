@@ -63,7 +63,7 @@ class VirtueMartControllerVirtuemart extends JControllerLegacy
 
 		ob_clean();
 		ob_start();
-		include(VMPATH_SITE.DS.'views'.DS.'virtuemart'.DS.'tmpl'.DS.'feed.php');
+		include(VMPATH_SITE .'/views/virtuemart/tmpl/feed.php');
 		echo ob_get_clean();
 		jExit();
 	}

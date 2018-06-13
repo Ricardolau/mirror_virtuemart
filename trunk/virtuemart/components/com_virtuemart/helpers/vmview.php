@@ -99,14 +99,14 @@ class VmView extends JViewLegacy{
 		$vmStyle = VmTemplate::loadVmTemplateStyle();
 		$template = $vmStyle['template'];
 		// get the template and default paths for the layout if the site template has a layout override, use it
-		$templatePath = JPATH_SITE . DS . 'templates' . DS . $template . DS . 'html' . DS . 'com_virtuemart' . DS . 'sublayouts' . DS . $name . '.php';
+		$templatePath = JPATH_SITE .'/templates/'. $template .'/html/com_virtuemart/sublayouts/'. $name .'.php';
 
 
 		if (JFile::exists ($templatePath)) {
 			$lPath =  $templatePath;
 		} else {
-			if (JFile::exists (VMPATH_SITE . DS . 'sublayouts' . DS . $name . '.php')) {
-				$lPath = VMPATH_SITE . DS . 'sublayouts' . DS . $name . '.php';
+			if (JFile::exists (VMPATH_SITE .'/sublayouts/'. $name .'.php')) {
+				$lPath = VMPATH_SITE .'/sublayouts/'. $name . '.php';
 			}
 		}
 		return $lPath;

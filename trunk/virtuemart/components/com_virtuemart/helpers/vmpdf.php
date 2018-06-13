@@ -22,6 +22,7 @@ defined('_JEXEC') or die('');
 
 if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 VmConfig::loadConfig();
+vmDefines::tcpdf());
 
 class VmPdf {
 
@@ -36,9 +37,8 @@ class VmPdf {
 			// TODO: use some default view???
 			return;
 		}
-
+		
 		if(!class_exists('VmVendorPDF')){
-			vmError('vmPdf: For the pdf, you must install the tcpdf library at '.VMPATH_LIBS.DS.'tcpdf');
 			return 0;
 		}
 
@@ -67,19 +67,7 @@ class VmPdf {
 	}
 }
 
-if(!class_exists('TCPDF')){
 
-	if(file_exists(VMPATH_LIBS .'/vendor/tecnickcom/tcpdf')){
-		defined ('VMPATH_TCPDF') or define ('VMPATH_TCPDF', VMPATH_LIBS .'/vendor/tecnickcom/tcpdf' );
-		require(VMPATH_TCPDF .'/tcpdf.php');
-	} else if(file_exists(VMPATH_LIBS .'/tcpdf/tcpdf.php')){
-		defined ('VMPATH_TCPDF') or define ('VMPATH_TCPDF', VMPATH_LIBS .'/tcpdf' );
-		require(VMPATH_TCPDF .'/tcpdf.php');
-	} else {
-		vmError('VmPDF helper: For the PDF invoice and other PDF business letters, you must install the tcpdf library at '.VMPATH_LIBS.DS.'tcpdf');
-	}
-
-}
 
 
 if(class_exists('TCPDF')){

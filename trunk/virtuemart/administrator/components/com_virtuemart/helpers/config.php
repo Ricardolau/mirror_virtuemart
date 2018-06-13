@@ -283,9 +283,7 @@ class vmDefines {
 				$tcPath = false;
 			} else {
 				defined ('VMPATH_TCPDF') or define ('VMPATH_TCPDF', $tcPath );
-				if(!class_exists('TCPDF')){
-					require ($tcPath.'/tcpdf.php');
-				}
+				JLoader::register('TCPDF',VMPATH_TCPDF .'/tcpdf.php');
 			}
 		}
 		return $tcPath;

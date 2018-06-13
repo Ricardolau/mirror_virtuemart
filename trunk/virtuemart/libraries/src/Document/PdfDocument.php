@@ -12,7 +12,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-namespace Joomla\CMS\Document;
+//namespace Joomla\CMS\Document;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -23,7 +23,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage	Document
  * @since		1.5
  */
-class JDocumentPDF extends Document
+class JDocumentPDF extends JDocument
 {
 	var $_engine	= null;
 
@@ -96,14 +96,15 @@ class JDocumentPDF extends Document
 		// Default settings are a portrait layout with an A4 configuration using millimeters as units
 		if(!class_exists('TCPDF')){
 
-			if(file_exists(VMPATH_LIBS .'/vendor/tecnickcom/tcpdf')){
-				defined ('VMPATH_TCPDF') or define ('VMPATH_TCPDF', VMPATH_LIBS .'/vendor/tecnickcom/tcpdf' );
+			if(file_exists(JPATH_LIBRARIES .'/vendor/tecnickcom/tcpdf')){
+				defined ('VMPATH_TCPDF') or define ('VMPATH_TCPDF', JPATH_LIBRARIES .'/vendor/tecnickcom/tcpdf' );
 				require(VMPATH_TCPDF .'/tcpdf.php');
-			} else if(file_exists(VMPATH_LIBS .'/tcpdf/tcpdf.php')){
-				defined ('VMPATH_TCPDF') or define ('VMPATH_TCPDF', VMPATH_LIBS .'/tcpdf' );
+			} else if(file_exists(JPATH_LIBRARIES .'/tcpdf/tcpdf.php')){
+				defined ('VMPATH_TCPDF') or define ('VMPATH_TCPDF', JPATH_LIBRARIES .'/tcpdf' );
 				require(VMPATH_TCPDF .'/tcpdf.php');
 			} else {
-				vmError('VmPDF helper: For the PDF invoice and other PDF business letters, you must install the tcpdf library at '.VMPATH_LIBS.DS.'tcpdf');
+				vmError('COM_VIRTUEMART_TCPDF_NINSTALLED','COM_VIRTUEMART_TCPDF_NINSTALLED');
+				return false;
 			}
 
 		}

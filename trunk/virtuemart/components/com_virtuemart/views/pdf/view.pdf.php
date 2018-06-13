@@ -33,9 +33,7 @@ class VirtueMartViewPdf extends VmView
 
 	function display($tpl = 'pdf'){
 
-		if(!vmDefines::tcpdf()){
-			vmError('View pdf: For the pdf invoice, you must install the tcpdf library at '.VMPATH_LIBS .'/vendor/technickom/tcpdf');
-		} else {
+		if(vmDefines::tcpdf()){
 			$vendorModel = VmModel::getModel('vendor');
 			$vendor = $vendorModel->getVendor($this->virtuemart_vendor_id);
 

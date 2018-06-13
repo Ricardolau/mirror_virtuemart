@@ -69,10 +69,12 @@ class VmPdf {
 
 if(!class_exists('TCPDF')){
 
-	if(file_exists(VMPATH_LIBS .'/tecnickcom/tcpdf/tcpdf.php')){
-		require(VMPATH_LIBS .'/tecnickcom/tcpdf/tcpdf.php');
+	if(file_exists(VMPATH_LIBS .'/vendor/tecnickcom/tcpdf')){
+		defined ('VMPATH_TCPDF') or define ('VMPATH_TCPDF', VMPATH_LIBS .'/vendor/tecnickcom/tcpdf' );
+		require(VMPATH_TCPDF .'/tcpdf.php');
 	} else if(file_exists(VMPATH_LIBS .'/tcpdf/tcpdf.php')){
-		require(VMPATH_LIBS .'/tcpdf/tcpdf.php');
+		defined ('VMPATH_TCPDF') or define ('VMPATH_TCPDF', VMPATH_LIBS .'/tcpdf' );
+		require(VMPATH_TCPDF .'/tcpdf.php');
 	} else {
 		vmError('VmPDF helper: For the PDF invoice and other PDF business letters, you must install the tcpdf library at '.VMPATH_LIBS.DS.'tcpdf');
 	}
@@ -122,7 +124,7 @@ if(class_exists('TCPDF')){
 				}
 			}
 			// Generate PDF header
-			$this->tcpdf6 = JFile::exists(VMPATH_LIBS.DS.'tcpdf'.DS.'include'.DS.'tcpdf_colors.php');
+			$this->tcpdf6 = JFile::exists(VMPATH_TCPDF .'/include/tcpdf_colors.php');
 			if($this->tcpdf6){
 				$this->tcpdf6 = method_exists('TCPDF','getAllSpotColors');
 			}
@@ -216,7 +218,7 @@ if(class_exists('TCPDF')){
 				$currentCHRF = $this->getCellHeightRatio();
 				$this->setCellHeightRatio($this->vendor->vendor_letter_footer_cell_height_ratio);
 
-				$this->tcpdf6 = JFile::exists(VMPATH_LIBS.DS.'tcpdf'.DS.'include'.DS.'tcpdf_colors.php');
+				$this->tcpdf6 = JFile::exists(VMPATH_TCPDF .'/include/tcpdf_colors.php');
 				if($this->tcpdf6){
 					$this->tcpdf6 = method_exists('TCPDF','getAllSpotColors');
 				}
@@ -261,7 +263,7 @@ if(class_exists('TCPDF')){
 			$headertxt .= '<div id="vmdoc-header" class="vmdoc-header">' . $this->replace_variables($headerdata['string']) . '</div>';
 			$currentCHRF = $this->getCellHeightRatio();
 			$this->setCellHeightRatio($this->vendor->vendor_letter_header_cell_height_ratio);
-			$this->tcpdf6 = JFile::exists(VMPATH_LIBS.DS.'tcpdf'.DS.'include'.DS.'tcpdf_images.php');
+			$this->tcpdf6 = JFile::exists(VMPATH_TCPDF .'/include/tcpdf_images.php');
 
 			if ($this->rtl) {
 				$this->x = $this->w - $this->original_rMargin;
@@ -274,7 +276,7 @@ if(class_exists('TCPDF')){
 
 				if($this->tcpdf6){
 					if (!class_exists ('TCPDF_IMAGES')) {
-						require(VMPATH_LIBS.DS.'tcpdf'.DS.'include'.DS.'tcpdf_images.php');
+						require(VMPATH_TCPDF .'/include/tcpdf_images.php');
 					}
 
 					$imgtype = TCPDF_IMAGES::getImageFileType(VMPATH_ROOT.DS.$headerdata['logo']);

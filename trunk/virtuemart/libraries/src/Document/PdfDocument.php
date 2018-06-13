@@ -12,8 +12,9 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+namespace Joomla\CMS\Document;
+
+defined('JPATH_PLATFORM') or die;
 
 /**
  * DocumentPDF class, provides an easy interface to parse and display a pdf document
@@ -22,7 +23,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Document
  * @since		1.5
  */
-class JDocumentPDF extends JDocument
+class JDocumentPDF extends Document
 {
 	var $_engine	= null;
 
@@ -93,7 +94,19 @@ class JDocumentPDF extends JDocument
 		 * Create the pdf document
 		 */
 		// Default settings are a portrait layout with an A4 configuration using millimeters as units
-		vmDefines::tcpdf();
+		if(!class_exists('TCPDF')){
+
+			if(file_exists(VMPATH_LIBS .'/vendor/tecnickcom/tcpdf')){
+				defined ('VMPATH_TCPDF') or define ('VMPATH_TCPDF', VMPATH_LIBS .'/vendor/tecnickcom/tcpdf' );
+				require(VMPATH_TCPDF .'/tcpdf.php');
+			} else if(file_exists(VMPATH_LIBS .'/tcpdf/tcpdf.php')){
+				defined ('VMPATH_TCPDF') or define ('VMPATH_TCPDF', VMPATH_LIBS .'/tcpdf' );
+				require(VMPATH_TCPDF .'/tcpdf.php');
+			} else {
+				vmError('VmPDF helper: For the PDF invoice and other PDF business letters, you must install the tcpdf library at '.VMPATH_LIBS.DS.'tcpdf');
+			}
+
+		}
 		$this->_engine = new TCPDF();
 
 		//set margins

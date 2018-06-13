@@ -270,9 +270,9 @@ class vmDefines {
 
 		static $tcPath = null;
 		if($tcPath === null){
-			$paths = array(VMPATH_LIBS .'/vendor/tecnickcom/tcpdf/', VMPATH_LIBS .'/tcpdf/');
+			$paths = array(VMPATH_LIBS .'/vendor/tecnickcom/tcpdf', VMPATH_LIBS .'/tcpdf');
 			foreach($paths as $p){
-				if(file_exists($p)){
+				if(file_exists($p.'/tcpdf.php')){
 					$tcPath = $p;
 					break;
 				}
@@ -282,15 +282,15 @@ class vmDefines {
 				vmWarn('COM_VIRTUEMART_TCPDF_NINSTALLED');
 				$tcPath = false;
 			} else {
+				defined ('VMPATH_TCPDF') or define ('VMPATH_TCPDF', $tcPath );
 				if(!class_exists('TCPDF')){
-					require ($tcPath.'tcpdf.php');
+					require ($tcPath.'/tcpdf.php');
 				}
 			}
 		}
 		return $tcPath;
 	}
 }
-
 
 //In WP, we run the define, when we render vm, in Joomla we have to run them here
 if(defined('JVERSION')){

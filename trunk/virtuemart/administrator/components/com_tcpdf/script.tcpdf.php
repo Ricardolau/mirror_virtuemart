@@ -56,7 +56,7 @@ class com_tcpdfInstallerScript {
 	}
 
 	public function discover_install () {
-		//$this->tcpdfInstall ();
+		$this->tcpdfInstall ();
 	}
 
 	public function postflight () {

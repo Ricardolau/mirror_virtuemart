@@ -2101,7 +2101,7 @@ vmdebug('$limitStart',$limitStart);
 		$vendorId = vmAccess::isSuperVendor();
 		$vM = VmModel::getModel('vendor');
 		$ven = $vM->getVendor($vendorId);
-		vmdebug('Storing product as vendor ',$ven->vendor_name);
+
 		if(VmConfig::get('multix','none')!='none' and !vmAccess::manager('core')){
 
 			if($ven->max_products!=-1){

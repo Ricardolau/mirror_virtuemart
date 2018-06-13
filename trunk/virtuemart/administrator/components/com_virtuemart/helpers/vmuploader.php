@@ -308,8 +308,10 @@ class vmUploader {
 				} else {
 					$uploadPath = $path_folder.$media['name'];
 				}
-				JFile::upload($media['tmp_name'], $uploadPath, false, vmAccess::manager('media.trusteduploader'));
-
+				$uploaded = JFile::upload($media['tmp_name'], $uploadPath, false, vmAccess::manager('media.trusteduploader'));
+				if(!$uploaded){
+					return false;
+				}
 				$obj->file_mimetype = $media['type'];
 				$obj->media_published = 1;
 				$app->enqueueMessage(vmText::sprintf('COM_VIRTUEMART_FILE_UPLOAD_OK',VMPATH_ROOT.DS.$path_folder.$media['name']));

@@ -555,7 +555,6 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 			return false;
 		}
 
-
 		// get extension id
 		$query="SELECT `extension_id` FROM `#__extensions` WHERE `type`=".$db->quote($type)." AND `element`=".$db->quote($element);
 		if ($group) {
@@ -616,8 +615,8 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 				foreach($update_sites as $upSite){
 					if (strcmp($upSite['location'], (string)$xml->updateservers->server) != 0) {
 						// the extension was already there: we just update the server if different
-						$query="UPDATE `#__update_sites` SET `location`=".$db->quote((string)$xml->updateservers->server['name'])."
-					         WHERE update_site_id=".$update_sites_extensions->update_site_id;
+						$query="UPDATE `#__update_sites` SET `location`=".trim($db->quote((string)$xml->updateservers->server))."
+					         WHERE update_site_id=".(int)$update_sites_extensions->update_site_id;
 						$db->setQuery($query);
 						$db->query();
 					}

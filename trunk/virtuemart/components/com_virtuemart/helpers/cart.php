@@ -590,7 +590,9 @@ class VirtueMartCart {
 					} else if(!is_array($customProductDataTmp[$customfield->virtuemart_custom_id])){
 						$customProductDataTmp[$customfield->virtuemart_custom_id] = array($customProductDataTmp[$customfield->virtuemart_custom_id]);
 					}
-					$customProductDataTmp[$customfield->virtuemart_custom_id][(int)$customfield->virtuemart_customfield_id] = false;
+					if(!isset($customProductDataTmp[$customfield->virtuemart_custom_id])){
+						$customProductDataTmp[$customfield->virtuemart_custom_id][(int)$customfield->virtuemart_customfield_id] = false;
+					}
 				}
 
 			}

@@ -77,11 +77,11 @@ class convertECB {
 			$date_now_local = gmdate('Ymd', $now);
 			$time_now_local = gmdate('Hi', $now);
 			$time_ecb_update = '1415';
-			if( is_writable(VMPATH_ROOT.DS.'cache') ) {
-				$store_path = VMPATH_ROOT.DS.'cache';
+			if( is_writable(VMPATH_ROOT .'/cache') ) {
+				$store_path = VMPATH_ROOT .'/cache';
 			}
 			else {
-				$store_path = VMPATH_ROOT.DS.'media';
+				$store_path = VMPATH_ROOT .'/media';
 			}
 
 			$archivefile_name = $store_path.'/daily.xml';

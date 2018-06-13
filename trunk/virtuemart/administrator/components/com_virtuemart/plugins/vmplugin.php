@@ -79,9 +79,9 @@ abstract class vmPlugin extends JPlugin {
 
 		$this->_tablename = '#__virtuemart_' . $this->_psType . '_plg_' . $this->_name;
 		$this->_tableChecked = FALSE;
-		$this->_xmlFile	= vRequest::filterPath( VMPATH_ROOT .DS. 'plugins' .DS. $this->_type .DS.  $this->_name . DS. $this->_name . '.xml');
+		$this->_xmlFile	= vRequest::filterPath( VMPATH_ROOT .'/plugins/' . $this->_type .'/'.  $this->_name .'/'. $this->_name . '.xml');
 		if(!JFile::exists($this->_xmlFile)){
-			$this->_xmlFile	= vRequest::filterPath( JPATH_ROOT .DS. 'plugins' .DS. $this->_type .DS.  $this->_name . DS. $this->_name . '.xml');
+			$this->_xmlFile	= vRequest::filterPath( JPATH_ROOT .'/plugins/' . $this->_type .'/'.  $this->_name .'/'. $this->_name . '.xml');
 		}
 	}
 
@@ -122,10 +122,10 @@ abstract class vmPlugin extends JPlugin {
 
 		vmLanguage::getLanguage($tag);
 
-		$path = $basePath = VMPATH_ROOT .DS. 'plugins' .DS.$type.DS.$name;
+		$path = $basePath = VMPATH_ROOT .'/plugins/' .$type.'/'.$name;
 
 		if(VmConfig::get('enableEnglish', true) and $tag!='en-GB'){
-			$testpath = $basePath.DS.'language'.DS.'en-GB'.DS.'en-GB.'.$fname.'.ini';
+			$testpath = $basePath .'/language/en-GB/en-GB.'.$fname.'.ini';
 			if(!file_exists($testpath)){
 				$epath = VMPATH_ADMINISTRATOR;
 			} else {
@@ -134,7 +134,7 @@ abstract class vmPlugin extends JPlugin {
 			vmLanguage::$languages[$tag]->load($fname, $epath, 'en-GB', true, false);
 		}
 
-		$testpath = $basePath.DS.'language'.DS.$tag.DS.$tag.'.'.$fname.'.ini';
+		$testpath = $basePath .'/language/'.$tag.'/'.$tag.'.'.$fname.'.ini';
 		if(!file_exists($testpath)){
 			$path = VMPATH_ADMINISTRATOR;
 		}
@@ -566,7 +566,7 @@ abstract class vmPlugin extends JPlugin {
 			$db = JFactory::getDBO ();
 
 			if (!class_exists ($this->_configTableClassName)) {
-				require(VMPATH_ADMIN . DS . 'tables' . DS . $this->_configTableFileName . '.php');
+				require(VMPATH_ADMIN .'/tables/'. $this->_configTableFileName . '.php');
 			}
 			$this->_vmpCtable = new $this->_configTableClassName($db);
 			if ($this->_xParams !== 0) {
@@ -718,9 +718,9 @@ abstract class vmPlugin extends JPlugin {
 		// First search in the new system
 		$vmStyle = VmTemplate::loadVmTemplateStyle();
 		$template = $vmStyle['template'];
-		$templatePath         = VMPATH_ROOT . DS . 'templates' . DS . $template . DS . 'html' . DS . $group . DS . $pluginName . DS . $layout . '.php';
-		$defaultPath          = VMPATH_ROOT . DS . 'plugins' . DS . $group . DS . $pluginName . DS . 'tmpl' . DS . $layout . '.php';
-		$defaultPathWithGroup = VMPATH_ROOT . DS . 'plugins' . DS . $group . DS . $pluginName . DS . $pluginName . DS . 'tmpl' . DS . $layout . '.php';
+		$templatePath         = VMPATH_ROOT .'/templates/'. $template .'/html/'. $group . '/' . $pluginName . '/' . $layout . '.php';
+		$defaultPath          = VMPATH_ROOT .'/plugins/'. $group . '/' . $pluginName .'/tmpl/'. $layout . '.php';
+		$defaultPathWithGroup = VMPATH_ROOT .'/plugins/'. $group . '/' . $pluginName . '/' . $pluginName .'/tmpl/'. $layout . '.php';
 
 		if (JFile::exists ($templatePath)) {
 			$layoutPath= $templatePath;
@@ -749,7 +749,7 @@ abstract class vmPlugin extends JPlugin {
 	 */
 	public function getTemplatePath($pluginName, $group, $layout = 'default') {
 		$layoutPath = vmPlugin::_getLayoutPath ($pluginName, 'vm' . $group, $layout);
-		return str_replace(DS . $layout . '.php','',$layoutPath );
+		return str_replace('/' . $layout . '.php','',$layoutPath );
 	}
 
 }

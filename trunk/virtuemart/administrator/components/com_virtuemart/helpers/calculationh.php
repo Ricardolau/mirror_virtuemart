@@ -443,8 +443,8 @@ class calculationHelper {
 		}
 
 		//price Without Tax but with calculated discounts AFTER Tax. So it just shows how much the shopper saves, regardless which kind of tax
-		$this->productPrices['priceWithoutTax'] = $this->productPrices['salesPrice'] - $this->productPrices['taxAmount'];
-
+		//$this->productPrices['priceWithoutTax'] = $this->productPrices['salesPrice'] - $this->productPrices['taxAmount']; Gives correct result, but is the same as discountedPriceWithoutTax, with just $salesPrice it is wrong, but the same as the last years.
+		$this->productPrices['priceWithoutTax'] = $salesPrice - $this->productPrices['taxAmount'];
 		if ($override==1 || $this->productPrices['discountedPriceWithoutTax'] == 0) {
 			$this->productPrices['discountedPriceWithoutTax'] = $this->productPrices['salesPrice'] - $this->productPrices['taxAmount'];
 		}

@@ -32,7 +32,7 @@ class VirtuemartViewUserfields extends VmViewAdmin {
 		if ( $field = vRequest::getVar('field') ) {
 			if (strpos($field, 'plugin') !==false) {
 
-				JForm::addFieldPath(VMPATH_ADMIN . DS . 'fields');
+				JForm::addFieldPath(VMPATH_ADMIN .'/fields');
 
 				$table = '#__extensions';
 
@@ -44,7 +44,7 @@ class VirtuemartViewUserfields extends VmViewAdmin {
 
 				vmPlugin::loadJLang('plg_vmuserfield_'.$this->userField->element, 'vmuserfield',$this->userField->element);
 
-				$path = VMPATH_ROOT .DS. 'plugins' .DS. 'vmuserfield' . DS . $this->userField->element . DS . $this->userField->element . '.xml';
+				$path = VMPATH_ROOT .'/plugins/vmuserfield/'. $this->userField->element . '/' . $this->userField->element . '.xml';
 				// Get the payment XML.
 				$formFile	= vRequest::filterPath( $path );
 				if (file_exists($formFile)){
@@ -66,7 +66,7 @@ class VirtuemartViewUserfields extends VmViewAdmin {
 				if ($this->userField->form) {
 					$form = $this->userField->form;
 					ob_start();
-					include(VMPATH_ADMIN.DS.'fields'.DS.'formrenderer.php');
+					include(VMPATH_ADMIN .'/fields/formrenderer.php');
 					$body = ob_get_contents();
 					ob_end_clean();
 					echo $body;

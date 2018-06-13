@@ -30,9 +30,9 @@ $option = vRequest::getString('option');
 
 if($option=='com_virtuemart'){
 
-	if (!class_exists('JToolBarHelper')) require(JPATH_ADMINISTRATOR.DS.'includes'.DS.'toolbar.php');
+	if (!class_exists('JToolBarHelper')) require(JPATH_ADMINISTRATOR .'/includes/toolbar.php');
 	if (!class_exists ('VirtuemartViewUpdatesMigration'))
-		require(VMPATH_ADMIN . DS . 'views' . DS . 'updatesmigration' .DS. 'view.html.php');
+		require(VMPATH_ADMIN .'/views/updatesmigration/view.html.php');
 
 	$view = new VirtuemartViewUpdatesMigration();
 	AdminUIHelper::startAdminArea($view);

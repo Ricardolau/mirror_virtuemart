@@ -36,7 +36,7 @@ if ($this->payment->payment_jplugin_id) {
 	<?php
 	if ($this->payment->form) {
 		$form = $this->payment->form;
-		include(VMPATH_ADMIN.DS.'fields'.DS.'formrenderer.php');
+		include(VMPATH_ADMIN .'/fields/formrenderer.php');
 	}
 } else {
 	echo vmText::_('COM_VIRTUEMART_SELECT_PAYMENT_METHOD_VM3');

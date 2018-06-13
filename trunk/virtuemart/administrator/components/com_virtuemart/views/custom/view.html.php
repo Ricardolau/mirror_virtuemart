@@ -54,10 +54,10 @@ class VirtuemartViewCustom extends VmViewAdmin {
 			$this->custom->form = false;
 			if(!empty($this->custom->custom_jplugin_id)) {
 				vmLanguage::loadJLang('plg_vmpsplugin', false);
-				JForm::addFieldPath(VMPATH_ADMIN . DS . 'fields');
+				JForm::addFieldPath(VMPATH_ADMIN .'/fields');
 				$selected = $this->custom->custom_jplugin_id;
 				// Get the payment XML.
-				$formFile	= vRequest::filterPath( VMPATH_ROOT .DS. 'plugins'.DS. 'vmcustom' .DS. $this->custom->custom_element . DS . $this->custom->custom_element . '.xml');
+				$formFile	= vRequest::filterPath( VMPATH_ROOT .'/plugins/vmcustom/'. $this->custom->custom_element . '/' . $this->custom->custom_element . '.xml');
 				if (file_exists($formFile)){
 
 					$this->custom->form = JForm::getInstance($this->custom->custom_element, $formFile, array(),false, '//vmconfig | //config[not(//vmconfig)]');
@@ -71,7 +71,7 @@ class VirtuemartViewCustom extends VmViewAdmin {
 				$varsToPush = VirtueMartModelCustom::getVarsToPush($this->custom->field_type);
 
 				if(!empty($varsToPush)){
-					JForm::addFieldPath(VMPATH_ADMIN . DS . 'fields');
+					JForm::addFieldPath(VMPATH_ADMIN .'/fields');
 					$formString = '<vmconfig>'.chr(10).'<fields name="params">'.chr(10).'<fieldset name="extraParams">'.chr(10);
 
 					foreach($varsToPush as $key => $push){

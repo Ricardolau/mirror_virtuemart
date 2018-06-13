@@ -54,12 +54,12 @@ class VirtuemartViewPaymentMethod extends VmViewAdmin {
 
 			vmLanguage::loadJLang('plg_vmpsplugin', false);
 
-			JForm::addFieldPath(VMPATH_ADMIN . DS . 'fields');
+			JForm::addFieldPath(VMPATH_ADMIN .'/fields');
 
 			$payment = $model->getPayment();
 
 			// Get the payment XML.
-			$formFile	= vRequest::filterPath( VMPATH_ROOT .DS. 'plugins'. DS. 'vmpayment' .DS. $payment->payment_element .DS. $payment->payment_element . '.xml');
+			$formFile	= vRequest::filterPath( VMPATH_ROOT .'/plugins/vmpayment/'. $payment->payment_element .'/'. $payment->payment_element . '.xml');
 			if (file_exists($formFile)){
 
 				$payment->form = JForm::getInstance($payment->payment_element, $formFile, array(),false, '//vmconfig | //config[not(//vmconfig)]');

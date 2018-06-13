@@ -56,7 +56,7 @@ class com_tcpdfInstallerScript {
 	}
 
 	public function discover_install () {
-		$this->tcpdfInstall ();
+		//$this->tcpdfInstall ();
 	}
 
 	public function postflight () {
@@ -73,10 +73,20 @@ class com_tcpdfInstallerScript {
 		$this->path =  dirname(__FILE__);
 
 		// libraries auto move
-		$src = $this->path . DS . "libraries";
-		$dst = JPATH_ROOT .'/libraries/tecnickcom/tcpdf';
+		$src = $this->path . "/libraries";
+		$dst = JPATH_ROOT .'/libraries';
 		$this->recurse_copy ($src, $dst);
 
+		if(JFolder::exists(JPATH_ROOT .'/administrator/components/com_tcpdf/libraries')){
+			JFolder::delete(JPATH_ROOT .'/administrator/components/com_tcpdf/libraries');
+		}
+
+		if(JFolder::exists(JPATH_ROOT .'/libraries/joomla/pdf')){
+			JFolder::delete(JPATH_ROOT .'/libraries/joomla/pdf');
+		}
+		if(JFolder::exists(JPATH_ROOT .'/libraries/tcpdf')){
+			JFolder::delete(JPATH_ROOT .'/libraries/tcpdf');
+		}
 		$html = '<a
 				href="http://virtuemart.net"
 				target="_blank"> <img

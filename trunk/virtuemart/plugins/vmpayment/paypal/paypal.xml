@@ -400,7 +400,7 @@
                 – Background image URL -->
                 <field class="hosted templateB templateC level3" type="vmtitle" default=""
                        description="VMPAYMENT_PAYPAL_TEMPLATE_PAGEBG"/>
-                <field class="hosted templateB templateC" type="vmfile" name="bodyBgImg" size="30"
+                <field class="hosted templateB templateC" type="vmfiles" name="bodyBgImg" size="30"
                        label="VMPAYMENT_PAYPAL_BODYBGIMG" description="VMPAYMENT_PAYPAL_BODYBGIMG_DESC"
                        directory="/images/virtuemart/payment" default="" hide_default="0" hide_none="1"
                        stripext="0"
@@ -451,7 +451,7 @@
                 <field class="hosted templateB input-colorpicker" type="text" name="orderSummaryBgColor" size="30"
                        label="VMPAYMENT_PAYPAL_ORDERSUMMARYBGCOLOR"
                        description="VMPAYMENT_PAYPAL_ORDERSUMMARYBGCOLOR_DESC" default=""/>
-                <field class="hosted templateB" type="vmfile" name="orderSummaryBgImage" size="30"
+                <field class="hosted templateB" type="vmfiles" name="orderSummaryBgImage" size="30"
                        label="VMPAYMENT_PAYPAL_ORDERSUMMARYBGIMAGE"
                        description="VMPAYMENT_PAYPAL_ORDERSUMMARYBGIMAGE_DESC"
                        directory="/images/virtuemart/payment" default="" hide_default="0" hide_none="1"

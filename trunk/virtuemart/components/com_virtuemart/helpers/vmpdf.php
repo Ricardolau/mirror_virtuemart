@@ -22,7 +22,7 @@ defined('_JEXEC') or die('');
 
 if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 VmConfig::loadConfig();
-vmDefines::tcpdf());
+vmDefines::tcpdf();
 
 class VmPdf {
 

@@ -2066,10 +2066,9 @@ vmdebug('my prices',$data);
 		$invoiceNumberDate = array();
 		if ($this->createInvoiceNumber($order['details']['BT'], $invoiceNumberDate )) {
 
-			$pdfInvoice = (int)VmConfig::get('pdf_invoice', 0); // backwards compatible
 			$force_create_invoice=vRequest::getInt('create_invoice', -1);
 			//TODO we need an array of orderstatus
-			if ( VirtueMartModelInvoice::needInvoiceByOrderstatus($order['details']['BT']->order_status)  or $pdfInvoice==1  or $force_create_invoice==1 ){
+			if ( VirtueMartModelInvoice::needInvoiceByOrderstatus($order['details']['BT']->order_status) or $force_create_invoice==1 ){
 				if (!shopFunctions::InvoiceNumberReserved($invoiceNumberDate[0])) {
 
 					$controller = new VirtueMartControllerInvoice( array(

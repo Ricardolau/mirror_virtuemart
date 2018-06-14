@@ -6,9 +6,9 @@
 	<author>Angie Radtke, adapted by the VirtueMart team</author>
 	<authorEmail>team@virtuemart.net</authorEmail>
 	<authorUrl>http://virtuemart.net</authorUrl>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters, 2016 Virtuemart Team, Inc. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters, 2016 - 2018 Virtuemart Team, Inc. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>3.1.0</version>
+	<version>3.2.0</version>
 	<description>TPL_BEEZ3_XML_DESCRIPTION</description>
 
 	<files>
@@ -49,8 +49,8 @@
 	<!-- 	For core templates, we also install/uninstall the language files in the core language folders.
 	-->
 	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.tpl_beez3.ini</language>
-		<language tag="en-GB">en-GB/en-GB.tpl_beez3.sys.ini</language>
+		<language tag="en-GB">en-GB/en-GB.tpl_vmbeez3.ini</language>
+		<language tag="en-GB">en-GB/en-GB.tpl_vmbeez3.sys.ini</language>
 	</languages>
 
 	<config>

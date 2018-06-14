@@ -499,9 +499,17 @@ class VirtueMartControllerCart extends JControllerLegacy {
 			$newUser->email = '';
 		}
 
+		//behaviour on admin change shopper
+		if (VmConfig::get('ChangeShopperDeleteCart', 0)) {
 
-		//update cart data
-		$cart = VirtueMartCart::getCart();
+//		Changing shopper empties all existing cart data and give new cart id
+			$cart = VirtueMartCart::getCart(true);
+			VirtuemartCart::emptyCartValues($cart,true);
+		} else {
+			//update cart data
+			$cart = VirtueMartCart::getCart();
+		}
+
 		$usermodel = VmModel::getModel('user');
 		$data = $usermodel->getUserAddressList($userID, 'BT');
 

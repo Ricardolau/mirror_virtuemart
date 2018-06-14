@@ -750,7 +750,7 @@ class com_virtuemart_allinoneInstallerScript {
 				}
 			}
 			closedir ($dir);
-			if (is_dir ($src)) {
+			if (JFolder::exists ($src)) {
 				JFolder::delete ($src);
 			}
 		} else {

@@ -20,13 +20,8 @@ defined ('_JEXEC') or die('Restricted access');
  * @author Valerie Isaksen
  *
  */
-if (!class_exists ('vmPSPlugin')) {
-	require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
-}
 
-/**
- *
- */
+
 class plgVmShipmentWeight_countries extends vmPSPlugin {
 
 	/**
@@ -167,10 +162,6 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 			vmWarn ($msg);
 			vmDebug($msg, $q . " " . $db->getErrorMsg ());
 			return '';
-		}
-
-		if (!class_exists ('CurrencyDisplay')) {
-			require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'currencydisplay.php');
 		}
 
 		$currency = CurrencyDisplay::getInstance ();
@@ -428,16 +419,11 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 
 			return FALSE;
 		}
-		if (!class_exists('VirtueMartCart'))
-			require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');
 
 		$html = array();
-		if (!class_exists('CurrencyDisplay'))
-			require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'currencydisplay.php');
+
 		$currency = CurrencyDisplay::getInstance();
-
-
-
+		
 		foreach ($this->methods as $this->_currentMethod) {
 
 			if($this->_currentMethod->show_on_pdetails){

@@ -60,7 +60,7 @@ class VirtueMartModelVendor extends VmModel {
 			$vendorId = self::getVendorId ('user', $userId, $ownerOnly);
 			return $vendorId;
 		} else {
-			JError::raiseNotice (1, '$virtuemart_user_id empty, no user logged in');
+			//vmError ('$virtuemart_user_id empty, no user logged in', '$virtuemart_user_id empty, no user logged in');
 			return 0;
 		}
 
@@ -307,7 +307,7 @@ class VirtueMartModelVendor extends VmModel {
 //			$virtuemart_user_id = $db->f('virtuemart_user_id');
 			return $db->loadResult ();
 		} else {
-			JError::raiseNotice (1, 'Error in DB $virtuemart_order_id ' . $virtuemart_order_id . ' dont have a virtuemart_user_id');
+			vmError ('Error in DB; No virtuemart_user_id found for $virtuemart_order_id ' . $virtuemart_order_id );
 			return 0;
 		}
 	}

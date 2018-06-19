@@ -2072,8 +2072,8 @@ vmdebug('my prices',$data);
 				if (!shopFunctions::InvoiceNumberReserved($invoiceNumberDate[0])) {
 
 					$controller = new VirtueMartControllerInvoice( array(
-					'model_path' => VMPATH_SITE.DS.'models',
-					'view_path' => VMPATH_SITE.DS.'views'
+					'model_path' => VMPATH_ADMIN .'/models',
+					'view_path' => VMPATH_SITE .'/views'
 					));
 					$lTag = VmConfig::$vmlangTag;
 

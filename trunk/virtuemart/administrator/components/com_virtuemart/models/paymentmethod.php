@@ -254,7 +254,7 @@ class VirtueMartModelPaymentmethod extends VmModel{
 		$payment->virtuemart_paymentmethod_id = 0;
 		$payment->payment_name = $payment->payment_name.' Copy';
 		if (!$clone = $this->store($payment)) {
-			JError::raiseError(500, 'createClone '. $payment->getError() );
+			vmError('createClone '. $payment->getError(),'createClone '. $payment->getError() );
 		}
 		return $clone;
 	}

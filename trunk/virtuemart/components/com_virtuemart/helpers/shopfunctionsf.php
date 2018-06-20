@@ -33,7 +33,6 @@ class shopFunctionsF {
 		}
 		if($show == 1) {
 			//This is deprecated and will be replaced by the commented lines below (vmView instead of VirtuemartViewUser)
-			//if(!class_exists( 'VirtuemartViewUser' )) require(VMPATH_SITE.DS.'views'.DS.'user'.DS.'view.html.php');
 			//$view = new VirtuemartViewUser();
 			$view = new vmView();
 			$body = $view->renderVmSubLayout($layout,array('show' => $show, 'order' => $order, 'from_cart' => $cart, 'url' => $url));
@@ -657,6 +656,7 @@ class shopFunctionsF {
 			foreach( (array)$view->mediaToSend as $media ) {
 				$mailer->addAttachment( $media );
 			}
+			$view->mediaToSend = array();
 		}
 
 		// set proper sender

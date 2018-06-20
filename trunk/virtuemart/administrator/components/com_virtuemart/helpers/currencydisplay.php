@@ -59,19 +59,22 @@ class CurrencyDisplay {
 
 		$converterFile  = VmConfig::get('currency_converter_module','convertECB.php');
 
-		if (file_exists( VMPATH_ADMIN.DS.'plugins'.DS.'currency_converter'.DS.$converterFile ) and !is_dir(VMPATH_ADMIN.DS.'plugins'.DS.'currency_converter'.DS.$converterFile)) {
+		$d = VMPATH_ADMIN .'/plugins/currency_converter/'. $converterFile;
+		if (file_exists( $d ) and !is_dir($d)) {
 			$module_filename=substr($converterFile, 0, -4);
-			require_once(VMPATH_ADMIN.DS.'plugins'.DS.'currency_converter'.DS.$converterFile);
-			if( class_exists( $module_filename )) {
-				$this->_currencyConverter = new $module_filename();
-			}
 		} else {
-
-			if(!class_exists('convertECB')) require(VMPATH_ADMIN.DS.'plugins'.DS.'currency_converter'.DS.'convertECB.php');
-			$this->_currencyConverter = new convertECB();
-
+			$converterFile = 'convertECB.php';
+			$module_filename = 'convertECB';
+			$d = VMPATH_ADMIN .'/plugins/currency_converter/'. $converterFile;
 		}
 
+		if( !class_exists( $module_filename )) {
+			require($d);
+		}
+
+		if( class_exists( $module_filename )) {
+			$this->_currencyConverter = new $module_filename();
+		}
 
 	}
 

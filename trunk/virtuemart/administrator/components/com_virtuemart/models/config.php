@@ -145,7 +145,7 @@ class VirtueMartModelConfig extends VmModel {
 	 */
 	function getTCPDFFontsList() {
 
-		$dir = VMPATH_ROOT.'/libraries/tcpdf/fonts';
+		$dir = vmDefines::tcpdf() .'/fonts';
 		$result = array();
 		$specfiles = array();
 		if(is_dir($dir)) {

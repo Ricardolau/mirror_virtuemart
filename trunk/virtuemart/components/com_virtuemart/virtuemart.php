@@ -131,6 +131,6 @@ if (class_exists($_class)) {
     	$mainframe = JFactory::getApplication();
     	$mainframe->redirect(JRoute::_ ('index.php?option=com_virtuemart&view=virtuemart', FALSE));
     } else {
-    	JError::raise(E_ERROR,'404','Not found');
+		throw new RuntimeException(sprintf('VirtueMart controller not found `%s`.', $_class), 404);
     }
 }

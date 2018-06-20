@@ -673,7 +673,7 @@ INNER JOIN #__virtuemart_product_categories as cat ON (pc.virtuemart_product_id=
 		if ((int)VmConfig::get('handle_404',1)) {
 			$this->app->redirect(JRoute::_('index.php?option=com_virtuemart' . $catLink . '&error=404', FALSE));
 		} else {
-			JError::raise(E_ERROR,'404','Not found');
+			throw new RuntimeException('VirtueMart category not found.', 404);
 		}
 
 		return;

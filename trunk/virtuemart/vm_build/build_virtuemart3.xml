@@ -6,7 +6,7 @@
     <property name="vm.version.main" value="3.2.0"/>
     <property name="vm.version" value="3.2.15"/>
     <property name="joomla.version" value="3.8.8"/>
-    <property name="PHING.VM.REVISION" value="9866"/>
+    <property name="PHING.VM.REVISION" value="9881"/>
     <property name="PHING.VM.CODENAME" value="Blue Corvus"/>
     <property name="PHING.VM.UPDATEFOLDER" value="vm3"/>
     <property file="build.properties"/>
@@ -34,7 +34,7 @@
 
     <property name="vm.main.filename" value="${component.name}.${vm.version}"/>
     <property name="vm.aio.filename" value="${component.name}.${vm.version}_ext_aio"/>
-    <property name="vm.extract.filename" value="${component.name}.${vm.version}.{PHING.VM.REVISION}_extract_first"/>
+    <property name="vm.extract.filename" value="${component.name}.${vm.version}.{PHING.VM.REVISION}_package_or_extract"/>
     <property name="full.extract.filename" value="VirtueMart${vm.version}_Joomla_${joomla.version}-Stable-Full_Package"/>
     <property name="joomla.folder.from" value="${joomla.path}"/>
 
@@ -44,7 +44,7 @@
 
     <!-- DESTINATION -->
 
-    <property name="package.folder" value="${package.abspath}/${component.name}.${vm.version}.${PHING.VM.REVISION}_extract_first"/>
+    <property name="package.folder" value="${package.abspath}/${component.name}.${vm.version}.${PHING.VM.REVISION}_package_or_extract"/>
 
 
     <property name="package.folder.main" value="${package.abspath}/${component.name}.${vm.version}/${component.name}.${vm.version}"/>
@@ -64,7 +64,7 @@
     <property name="package.libraries.aio" value="${package.admin.aio}/libraries"/>
 
     <property name="update.xmls" value="${vm.folder.from}/vm_update"/>
-
+    <property name="package" value="${vm.folder.from}/package"/>
     <!-- ============================================  -->
     <!-- SVN EXPORT variables -->
     <!-- ============================================  -->
@@ -164,8 +164,10 @@
         <exclude name="**/vm_build/**"/>
         <exclude name="**/payzen/**"/>
         <exclude name="**/systempay/**"/>
-        <exclude name="**/installationj2/**"/>
+        <exclude name="**/installationJ2/**"/>
         <exclude name="**/installationJ3/**"/>
+        <exclude name="**/vmf/**"/>
+        <exclude name="**/com_virtuemart/toolbar**"/>
         <exclude name="**/vmbeez5/**"/>
         <!--exclude name="**/vm_update/**"/ -->
         <exclude name="**/ar-AA/**"/>
@@ -216,6 +218,11 @@
         <exclude name=".DS_Store"/>
         <exclude name="uploader.swf"/>
         <exclude name="index.html"/>
+        <exclude name="**/installationJ2/**"/>
+        <exclude name="**/installationJ3/**"/>
+        <exclude name="**/vmf/**"/>
+        <exclude name="**/com_virtuemart/toolbar**"/>
+        <exclude name="**/vmbeez5/**"/>
     </fileset>
 
 
@@ -226,7 +233,6 @@
         <include name="**"/>
         <exclude name=".svn"/>
         <exclude name=".DS_Store"/>
-        <exclude name="index.html"/>
     </fileset>
 
     <fileset dir="${admin.component.path}" id='admin.main.refid' defaultexcludes="true">
@@ -234,7 +240,8 @@
         <exclude name="virtuemart.xml"/>
         <exclude name=".svn"/>
         <exclude name=".DS_Store"/>
-        <exclude name="index.html"/>
+        <exclude name="**/vmf/**"/>
+        <exclude name="**/toolbar**"/>
     </fileset>
     <fileset dir="${admin.component.path}/install" id='install.main.files' defaultexcludes="true">
         <include name="**"/>
@@ -326,6 +333,15 @@
         <exclude name="index.html"/>
     </fileset>
 
+    <fileset dir="${package}" id='package' defaultexcludes="true">
+        <include name="**"/>
+        <exclude name=".svn"/>
+        <exclude name=".DS_Store"/>
+        <exclude name="**/payzen/**"/>
+        <exclude name="**/systempay/**"/>
+        <exclude name="index.html"/>
+    </fileset>
+
     <fileset dir="${package.admin.aio}" id='script.aio.refid' defaultexcludes="true">
         <include name="script.vmallinone.php"/>
     </fileset>
@@ -338,6 +354,15 @@
         <echo msg="Copying Update.xml FILES From folder ${joomla.folder.from} TO ${full.folder.to} "/>
         <copy todir="${package.folder}/updatexmls" overwrite="true">
             <fileset refid="update.xmls"/>
+            <filterchain>
+                <expandproperties/>
+            </filterchain>
+        </copy>
+        <delete dir="${package.folder}/vm_update"/>
+
+        <echo msg="Copying Package FILES From folder ${joomla.folder.from} TO ${full.folder.to} "/>
+        <copy todir="${package.folder}/package" overwrite="true">
+            <fileset refid="package"/>
             <filterchain>
                 <expandproperties/>
             </filterchain>
@@ -602,6 +627,7 @@
                 <include name="${package.folder}/${component.name}.${vm.version}_ext_aio.zip"/>
                 <exclude name=".DS_Store"/>
                 <exclude name="**/vm_update/**"/>
+                <exclude name="**/package/**"/>
             </fileset>
         </zip>
         <echo msg="EXTRACT FIRST compressed in directory OK!"/>

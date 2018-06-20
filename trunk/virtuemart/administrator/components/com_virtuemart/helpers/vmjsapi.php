@@ -1,4 +1,7 @@
 <?php
+
+defined ('_JEXEC') or die();
+
 /**
  * virtuemart table class, with some additional behaviours.
  *

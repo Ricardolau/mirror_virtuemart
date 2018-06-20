@@ -1,5 +1,6 @@
 <?php
-defined('VMPATH_ROOT') or die();
+defined ('_JEXEC') or die();
+
 /**
  * virtuemart encrypt class, with some additional behaviours.
  *

@@ -98,7 +98,7 @@ class VirtueMartViewProductdetails extends VmView {
 				if (VmConfig::get('handle_404',1)) {
 					$app->redirect(JRoute::_('index.php?option=com_virtuemart&view=category' . $categoryLink . '&error=404', FALSE));
 				} else {
-					JError::raise(E_ERROR,'404','Not found');
+					throw new RuntimeException('VirtueMart product not found.', 404);
 				}
 
 				return;

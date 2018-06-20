@@ -45,7 +45,6 @@
         <!-- Administration Main File Copy Section -->
         <files folder="administrator/components/com_virtuemart">
             <filename>virtuemart.php</filename>
-            <filename>changelog.php</filename>
             <filename>COPYRIGHT.php</filename>
             <filename>version.php</filename>
             <filename>virtuemart_defaults.cfg-dist</filename>

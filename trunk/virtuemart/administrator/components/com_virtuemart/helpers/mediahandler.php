@@ -8,7 +8,7 @@
  * @package	VirtueMart
  * @subpackage Helpers
  * @author Max Milbers
- * @copyright Copyright (c) 2011-2016 VirtueMart Team. All rights reserved by the author.
+ * @copyright Copyright (c) 2011-2018 VirtueMart Team. All rights reserved by the author.
  */
 
 defined('_JEXEC') or die();

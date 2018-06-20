@@ -10,7 +10,8 @@ defined ('_JEXEC') or die('Direct Access to ' . basename (__FILE__) . ' is not a
  * @subpackage Helpers
  * @author Max Milbers
  * @author Patrick Kohl
- * @copyright Copyright (c) 2004-2008 Soeren Eberhardt-Biermann, 2009 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004-2008 Soeren Eberhardt-Biermann, 2009 - 2018 VirtueMart Team. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL 2, see COPYRIGHT.php
  * @version $Id$
  */
 class ShopFunctions {

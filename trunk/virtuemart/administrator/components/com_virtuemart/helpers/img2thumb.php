@@ -1,4 +1,7 @@
 <?php
+
+defined ('_JEXEC') or die();
+
 /**
 * class Image2Thumbnail
 * Thumbnail creation with PHP4 and GDLib (recommended, but not mandatory: 2.0.1 !)

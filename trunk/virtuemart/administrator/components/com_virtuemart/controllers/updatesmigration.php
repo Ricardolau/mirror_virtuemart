@@ -741,7 +741,7 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 	function updateDatabaseJoomla(){
 		vRequest::vmCheckToken();
 		if(JVM_VERSION<3){
-			$p = VMPATH_ADMIN.DS.'/install/joomla2.sql';
+			$p = VMPATH_ADMIN .'/install/joomla2.sql';
 		} else {
 			$p = '';
 		}

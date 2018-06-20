@@ -833,9 +833,6 @@ class VirtueMartModelUser extends VmModel {
 					$msg = VirtueMartModelState::testStateCountry($data['virtuemart_country_id'], $data['virtuemart_state_id'], $staterequired);
 				}
 
-				/*if ($field->name == 'virtuemart_country_id'){
-					$field->required = $msg;
-				}*/
 				if ($field->name == 'virtuemart_state_id' and $field->required){
 					$field->required = $staterequired;
 				}

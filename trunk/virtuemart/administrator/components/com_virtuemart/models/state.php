@@ -103,17 +103,22 @@ class VirtueMartModelState extends VmModel {
 			$q = 'SELECT * FROM `#__virtuemart_states`  WHERE `virtuemart_country_id`= "'.$countryId.'" AND `published`="1"';
 			$db->setQuery($q);
 			if($db->loadResult()){
-				//Test if virtuemart_state_id fits to virtuemart_country_id
-				$q = 'SELECT * FROM `#__virtuemart_states` WHERE `virtuemart_country_id`= "'.$countryId.'" AND `virtuemart_state_id`="'.$stateId.'" and `published`="1"';
-				$db->setQuery($q);
-				if($db->loadResult()){
-					return true;
-				} else {
-					//There is a country, but the state does not exist or is unlisted
-					$stateId = 0;
-					vmInfo('COM_VIRTUEMART_COUNTRY_STATE_NOTEXIST');
-					return false;
+
+				if(!empty($stateId)){
+					//Test if virtuemart_state_id fits to virtuemart_country_id
+					$q = 'SELECT * FROM `#__virtuemart_states` WHERE `virtuemart_country_id`= "'.$countryId.'" AND `virtuemart_state_id`="'.$stateId.'" and `published`="1"';
+					$db->setQuery($q);
+					if($db->loadResult()){
+						return true;
+					} else {
+						//There is a country, but the state does not exist or is unlisted
+						$stateId = 0;
+						vmLanguage::loadJLang('com_virtuemart_countries');
+						vmInfo('COM_VIRTUEMART_COUNTRY_STATE_NOTEXIST');
+						return false;
+					}
 				}
+
 			} else {
 				//This country has no states listed
 				$stateId = 0;
@@ -125,7 +130,7 @@ class VirtueMartModelState extends VmModel {
 			//The given country does not exist, this can happen, when non published country was chosen
 			$countryId = 0;
 			$stateId = 0;
-			//$required = false;
+			vmLanguage::loadJLang('com_virtuemart_countries');
 			vmInfo('COM_VIRTUEMART_COUNTRY_NOTEXIST');
 			return false;
 		}

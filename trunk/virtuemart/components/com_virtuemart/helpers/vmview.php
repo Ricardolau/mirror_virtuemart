@@ -37,6 +37,12 @@ class VmView extends JViewLegacy{
 		}
 		$this->useSSL = vmURI::useSSL();
 
+		$bs = VmConfig::get('bootstrap','');
+		if($bs!==''){
+			$l = $this->getLayout();
+			$this->setLayout($bs.$l);
+			vmdebug('my layout here ',$bs.$l);
+		}
 		$result = $this->loadTemplate($tpl);
 		if ($result instanceof Exception) {
 			return $result;

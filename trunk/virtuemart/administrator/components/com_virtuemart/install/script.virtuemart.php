@@ -142,26 +142,26 @@ class com_virtuemartInstallerScript {
 		$lang = strtolower(strtr($lang,'-','_'));
 
 		$model = VmModel::getModel('updatesmigration');
-		$model->execSQLFile($this->path.DS.'install'.DS.'install.sql');
-		$model->execSQLFile($this->path.DS.'install'.DS.'install_essential_data.sql');
-		$model->execSQLFile($this->path.DS.'install'.DS.'install_required_data.sql');
+		$model->execSQLFile($this->path .'/install/install.sql');
+		$model->execSQLFile($this->path .'/install/install_essential_data.sql');
+		$model->execSQLFile($this->path .'/install/install_required_data.sql');
 
 		$model->setStoreOwner();
 
-		$this->createIndexFolder(VMPATH_ROOT .DS. 'images');
-		$this->createIndexFolder(VMPATH_ROOT .DS. 'images'.DS.'virtuemart');
-		$this->createIndexFolder(VMPATH_ROOT .DS. 'images'.DS.'virtuemart'.DS.'shipment');
-		$this->createIndexFolder(VMPATH_ROOT .DS. 'images'.DS.'virtuemart'.DS.'payment');
-		$this->createIndexFolder(VMPATH_ROOT .DS. 'images'.DS.'virtuemart'.DS.'category');
-		$this->createIndexFolder(VMPATH_ROOT .DS. 'images'.DS.'virtuemart'.DS.'category'.DS.'resized');
-		$this->createIndexFolder(VMPATH_ROOT .DS. 'images'.DS.'virtuemart'.DS.'manufacturer');
-		$this->createIndexFolder(VMPATH_ROOT .DS. 'images'.DS.'virtuemart'.DS.'manufacturer'.DS.'resized');
-		$this->createIndexFolder(VMPATH_ROOT .DS. 'images'.DS.'virtuemart'.DS.'product');
-		$this->createIndexFolder(VMPATH_ROOT .DS. 'images'.DS.'virtuemart'.DS.'product'.DS.'resized');
-		$this->createIndexFolder(VMPATH_ROOT .DS. 'images'.DS.'virtuemart'.DS.'forSale');
-		$this->createIndexFolder(VMPATH_ROOT .DS. 'images'.DS.'virtuemart'.DS.'forSale'.DS.'invoices');
-		$this->createIndexFolder(VMPATH_ROOT .DS. 'images'.DS.'virtuemart'.DS.'forSale'.DS.'resized');
-		$this->createIndexFolder(VMPATH_ROOT .DS. 'images'.DS.'virtuemart'.DS.'typeless');
+		$this->createIndexFolder(JPATH_ROOT .'/images');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/shipment');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/payment');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/category');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/category/resized');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/manufacturer');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/manufacturer/resized');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/product');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/product/resized');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/forSale');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/forSale/invoices');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/forSale/resized');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/typeless');
 
 		$this->setVmLanguages();
 		$this->installLanguageTables();
@@ -182,7 +182,7 @@ class com_virtuemartInstallerScript {
 
 		$this->displayFinished(false);
 
-		//include($this->path.DS.'install'.DS.'install.virtuemart.html.php');
+		//include($this->path .'/install/install.virtuemart.html.php');
 
 		// perhaps a redirect to updatesMigration here rather than the html file?
 		//			$parent->getParent()->setRedirectURL('index.php?option=com_virtuemart&view=updatesMigration');
@@ -200,8 +200,8 @@ class com_virtuemartInstallerScript {
 	public function createIndexFolder($path){
 
 		if(JFolder::create($path)) {
-			/*if(!JFile::exists($path .DS. 'index.html')){
-				JFile::copy(VMPATH_ROOT.DS.'components'.DS.'index.html', $path .DS. 'index.html');
+			/*if(!JFile::exists($path .'/index.html')){
+				JFile::copy(VMPATH_ROOT .'/components/index.html', $path .'/index.html');
 			}*/
 			return true;
 		}
@@ -236,7 +236,7 @@ class com_virtuemartInstallerScript {
 
 		$model = VmModel::getModel('updatesmigration');
 		//$model = new VirtueMartModelUpdatesMigration(); //JModel::getInstance('updatesmigration', 'VirtueMartModel');
-		$model->execSQLFile($this->path.DS.'install'.DS.'install.sql');
+		$model->execSQLFile($this->path .'/install/install.sql');
 
 		$this -> joomlaSessionDBToMediumText();
 
@@ -289,20 +289,20 @@ class com_virtuemartInstallerScript {
 		}
 
 		//copy sampel media
-		$src = $this->path .DS. 'assets' .DS. 'images' .DS. 'vmsampleimages';
+		$src = $this->path .'/assets/images/vmsampleimages';
 		if(JFolder::exists($src)){
-			$dst = VMPATH_ROOT .DS. 'images' .DS. 'virtuemart';
+			$dst = VMPATH_ROOT .'/images/virtuemart';
 			$this->recurse_copy($src,$dst);
 		}
 
 		//copy payment/shipment logos to new directory
-		$dest = JPATH_ROOT .DS. 'images'.DS.'virtuemart';
-		$src = JPATH_ROOT .DS. 'images'.DS.'stories'.DS.'virtuemart';
-		if(JFolder::exists($src.DS.'payment') and !JFolder::exists($dest.DS.'payment')){
-			$this->recurse_copy($src.DS.'payment',$dest.DS.'payment');
+		$dest = JPATH_ROOT .'/images/virtuemart';
+		$src = JPATH_ROOT .'/images/stories/virtuemart';
+		if(JFolder::exists($src .'/payment') and !JFolder::exists($dest .'/payment')){
+			$this->recurse_copy($src .'/payment',$dest .'/payment');
 		}
-		if(JFolder::exists($src.DS.'shipment') and !JFolder::exists($dest.DS.'shipment')){
-			$this->recurse_copy($src.DS.'shipment',$dest.DS.'shipment');
+		if(JFolder::exists($src .'/shipment') and !JFolder::exists($dest .'/shipment')){
+			$this->recurse_copy($src .'/shipment',$dest .'/shipment');
 		}
 
 		$xmlFile = false;
@@ -386,11 +386,11 @@ class com_virtuemartInstallerScript {
 
 	private function deleteSwfUploader(){
 		if(JVM_VERSION>0){
-			if( JFolder::exists(VMPATH_ROOT. DS. 'media' .DS. 'system'. DS. 'swf')){
-				JFolder::delete(VMPATH_ROOT. DS. 'media' .DS. 'system'. DS. 'swf');
+			if( JFolder::exists(VMPATH_ROOT .'/media/system/swf')){
+				JFolder::delete(VMPATH_ROOT .'/media/system/swf');
 			}
-			if( JFile::exists(VMPATH_ROOT. DS. 'administrator' .DS. 'language' .DS. 'en-GB'. DS. 'en-GB.com_virtuemart.sys.ini')){
-				JFile::delete(VMPATH_ROOT. DS. 'administrator' .DS. 'language' .DS. 'en-GB'. DS. 'en-GB.com_virtuemart.sys.ini');
+			if( JFile::exists(VMPATH_ROOT .'/administrator/language/en-GB/en-GB.com_virtuemart.sys.ini')){
+				JFile::delete(VMPATH_ROOT .'/administrator/language/en-GB/en-GB.com_virtuemart.sys.ini');
 			}
 		}
 	}
@@ -714,7 +714,7 @@ class com_virtuemartInstallerScript {
 
 	private function updateAdminMenuEntries(){
 
-		$sqlfile = VMPATH_ADMIN .DS. 'install' .DS. 'install_essential_data.sql';
+		$sqlfile = VMPATH_ADMIN .'/install/install_essential_data.sql';
 		$db = JFactory::getDBO();
 		$queries = $db->splitSql(file_get_contents($sqlfile));
 
@@ -1085,7 +1085,7 @@ class com_virtuemartInstallerScript {
 			$this->path = VMPATH_ADMIN;
 		}*/
 		//$this->loadVm();
-		//include($this->path.DS.'install'.DS.'uninstall.virtuemart.html.php');
+		//include($this->path .'/install/uninstall.virtuemart.html.php');
 
 		return true;
 	}

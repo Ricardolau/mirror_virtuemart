@@ -575,7 +575,7 @@ jQuery(document).ready(function($) {
 	}
 
 	static public function vmValidator ($guest=null, $userFields = 0, $prefiks=''){
-
+vmdebug('VmValidator CAAAALLLEEEED');
 		if(!isset($guest)){
 			$guest = JFactory::getUser()->guest;
 		}
@@ -688,7 +688,6 @@ jQuery(document).ready(function($) {
 			setDropdownRequiredByResult('virtuemart_country_id',prefiks);
 			setDropdownRequiredByResult('virtuemart_state_id',prefiks);
 		}
-
 
 		if (document.formvalidator.isValid(f)) {
 			if (jQuery('#recaptcha_wrapper').is(':hidden') && (r == true)) {

@@ -354,13 +354,6 @@ class VirtuemartViewUser extends VmView {
     }
 
 
-	public function vmValidator (){
-		$prefiks = '';
-		if($this->address_type=='ST'){
-			$prefiks = 'shipto_';
-		}
-		vmJsApi::vmValidator($this->userDetails->JUser->guest,$this->userFields['fields'],$prefiks);
-	}
 
     /**
      * renderMailLayout

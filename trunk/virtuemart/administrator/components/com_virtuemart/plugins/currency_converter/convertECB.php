@@ -114,11 +114,9 @@ class convertECB {
 				$archive = false;
 				vmError( "The file $archivefile_name can't be created. The directory $store_path is not writable" );
 			}
-			//			JError::raiseNotice(1, "The file $archivefile_name should be in the directory $store_path " );
+
 			if( $curr_filename == $ecb_filename ) {
 				// Fetch the file from the internet
-
-				//				JError::raiseNotice(1, "Updating currency " );
 				if (!$contents = VmConnector::handleCommunication( $curr_filename )) {
 					if (isset($file_datestamp)) {
 						$contents = @file_get_contents( $curr_filename );

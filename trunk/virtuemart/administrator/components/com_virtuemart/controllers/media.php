@@ -55,7 +55,6 @@ class VirtuemartControllerMedia extends VmController {
 		//Now we try to determine to which this media should be long to
 		$data = array_merge(vRequest::getRequest(),vRequest::get('media'));
 
-		//$data['file_title'] = vRequest::getVar('file_title','','post','STRING',JREQUEST_ALLOWHTML);
 		if(!empty($data['file_description'])){
 			$data['file_description'] = JComponentHelper::filterText($data['file_description']); //vRequest::filter(); vRequest::getHtml('file_description','');
 		}

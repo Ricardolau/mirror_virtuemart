@@ -18,8 +18,7 @@
 // Check to ensure this file is included in Joomla!
 defined ('_JEXEC') or die('Restricted access');
 
-// Implement Joomla's form validation
-vmJsApi::vmValidator();
+
 vmJsApi::css('vmpanels');
 
 $this->cart = VirtueMartCart::getCart();

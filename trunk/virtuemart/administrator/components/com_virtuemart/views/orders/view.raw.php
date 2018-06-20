@@ -108,7 +108,6 @@ class VirtuemartViewOrders extends VmViewAdmin {
 		$this->assignRef('orderst', $orderst);
 		$this->assignRef('virtuemart_shipmentmethod_id', $orderbt->virtuemart_shipmentmethod_id);
 
-		error_reporting(0);
 		parent::display($tpl);
 	}
 

@@ -1946,7 +1946,7 @@ vmdebug('my prices',$data);
 		shopFunctionsF::loadOrderLanguages(VmConfig::$jDefLangTag);
 		$order = $this->getOrder($virtuemart_order_id);
 
-
+		$vars = array();
 		$vars['orderDetails']=$order;
 
 		$payment_name = $shipment_name='';

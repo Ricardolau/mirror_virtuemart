@@ -258,7 +258,6 @@ class vToolBar extends vObject
 
 		if (!class_exists($buttonClass))
 		{
-			//return	JError::raiseError('SOME_ERROR_CODE', "Module file $buttonFile does not contain class $buttonClass.");
 			return false;
 		}
 		$this->_buttons[$signature] = new $buttonClass($this);

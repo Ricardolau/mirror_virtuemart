@@ -106,7 +106,7 @@ abstract class vmPSPlugin extends vmPlugin {
 	 * @param object  $cart Cart object
 	 * @param integer $selected ID of the method selected
 	 * @return boolean True on success, false on failures, null when this plugin was not selected.
-	 * On errors, JError::raiseWarning (or JError::raiseError) must be used to set a message.
+	 * On errors, vmWarn) must be used to set a message.
 	 *
 	 * @author Valerie Isaksen
 	 * @author Max Milbers
@@ -771,7 +771,7 @@ abstract class vmPSPlugin extends vmPlugin {
 			}
 			foreach ($logo_list as $logo) {
 				if(!empty($logo)){
-					if(JFile::exists(VMPATH_ROOT .DS. $url .DS.$logo)){
+					if(JFile::exists(VMPATH_ROOT .'/'. $url .'/'. $logo)){
 						$alt_text = substr ($logo, 0, strpos ($logo, '.'));
 						$img .= '<span class="vmCart' . ucfirst($this->_psType) . 'Logo" ><img align="middle" src="' . JUri::root().$url.'/'.$logo . '"  alt="' . $alt_text . '" /></span> ';
 					}

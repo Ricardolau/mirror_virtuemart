@@ -21,8 +21,8 @@ defined('_JEXEC') or die('Restricted access');
 
 AdminUIHelper::startAdminArea($this);
 
-// Implement Joomla's form validation
-vmJsApi::vmValidator();
+
+
 ?>
 <style type="text/css">
 .invalid {
@@ -66,5 +66,6 @@ AdminUIHelper::buildTabs ( $this, $tabarray,'vm-user');
 <?php echo $this->addStandardHiddenToForm(); ?>
 </form>
 
+// Implement Joomla's form validation
 <?php vmJsApi::vmValidator($this->userDetails->JUser->guest); ?>
 <?php AdminUIHelper::endAdminArea(); ?>

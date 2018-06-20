@@ -190,7 +190,7 @@ class TableCategories extends VmTable {
 			if (!$this->_db->execute())
 			{
 				$err = $this->_db->getErrorMsg();
-				JError::raiseError( 500, 'TableCategories move isset row this->k '.$err );
+				vmError( 'TableCategories move isset row this->k '.$err, 'TableCategories move isset row this->k ' );
 			}
 
 			$query = 'UPDATE '.$this->_tbl
@@ -202,7 +202,7 @@ class TableCategories extends VmTable {
 			if (!$this->_db->execute())
 			{
 				$err = $this->_db->getErrorMsg();
-				JError::raiseError( 500, 'TableCategories move isset row $row->$k '.$err );
+				vmError( 'TableCategories move isset row this->k '.$err, 'TableCategories move isset row $row->$k ' );
 			}
 
 			$this->ordering = $row->ordering;
@@ -218,7 +218,7 @@ class TableCategories extends VmTable {
 			if (!$this->_db->execute())
 			{
 				$err = $this->_db->getErrorMsg();
-				JError::raiseError( 500, 'TableCategories move update '.$err );
+				vmError('TableCategories move update '.$err );
 			}
 		}
 		return true;

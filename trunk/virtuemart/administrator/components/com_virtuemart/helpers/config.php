@@ -809,19 +809,13 @@ class VmConfig {
 	static function setErrRepDebug(){
 		$ret[0] = ini_set('display_errors', '-1');
 		$cVer = phpversion();
-		if(VM_VERSION<3){
-			if(version_compare($cVer,'5.4.0','<' )){
-				$ret[1] = error_reporting( E_ALL ^ E_STRICT );
-			} else {
-				$ret[1] = error_reporting( E_ALL );
-			}
+
+		if(version_compare($cVer,'5.4.0','<' )){
+			$ret[1] = error_reporting( E_ALL );
 		} else {
-			if(version_compare($cVer,'5.4.0','<' )){
-				$ret[1] = error_reporting( E_ALL );
-			} else {
-				$ret[1] = error_reporting( E_ALL & ~E_STRICT);
-			}
+			$ret[1] = error_reporting( E_ALL & ~E_STRICT);
 		}
+
 		vmdebug('Show All Errors, PHP-Version '.$cVer);
 	}
 

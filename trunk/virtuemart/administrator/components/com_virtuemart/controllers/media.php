@@ -87,7 +87,7 @@ class VirtuemartControllerMedia extends VmController {
 
 			$configPaths = array('assets_general_path','media_category_path','media_product_path','media_manufacturer_path','media_vendor_path');
 			foreach($configPaths as $path){
-				$this -> renameFileExtension(VMPATH_ROOT.DS.VmConfig::get($path) );
+				$this -> renameFileExtension(VMPATH_ROOT .'/'. VmConfig::get($path) );
 			}
 
 			$migrator = new Migrator();
@@ -104,6 +104,7 @@ class VirtuemartControllerMedia extends VmController {
 	function renameFileExtension($path){
 
 		$results = array();
+		$path = vRequest::filterPath($path);
 		$handler = opendir($path);
 
 		// open directory and walk through the filenames

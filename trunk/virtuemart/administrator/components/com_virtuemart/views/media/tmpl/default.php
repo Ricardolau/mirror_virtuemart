@@ -74,10 +74,9 @@ $productfileslist = $this->files;
 			if($productfile->file_is_forSale){
 				$fullSizeFilenamePath = $productfile->file_url_folder.$productfile->file_name.'.'.$productfile->file_extension;
 			} else {
-				$rel_path = str_replace('/',DS,$productfile->file_url_folder);
-				$fullSizeFilenamePath = VMPATH_ROOT.DS.$rel_path.$productfile->file_name.'.'.$productfile->file_extension;
+				$fullSizeFilenamePath = VMPATH_ROOT.DS.$productfile->file_url_folder.$productfile->file_name.'.'.$productfile->file_extension;
 			}
-
+			$fullSizeFilenamePath = vRequest::filterPath($fullSizeFilenamePath);
 			if($onlyMissing){
 				if(file_exists($fullSizeFilenamePath)){
 					continue;

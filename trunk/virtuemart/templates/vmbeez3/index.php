@@ -8,7 +8,7 @@
  */
 
 // No direct access.
-// test
+// test weg
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.filesystem.file');

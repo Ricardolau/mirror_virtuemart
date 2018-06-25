@@ -34,7 +34,7 @@ $params = VmConfig::loadConfig();
         <table class="admintable">
 			<?php
 			$opt = array(
-			'' => vmText::_('COM_VIRTUEMART_NONE'),
+			'' => vmText::_('COM_VIRTUEMART_NONE_USE_LEGACY'),
 			'bs2-' => vmText::_('Bootstrap 2'),
 			'bs3-' => vmText::_('Bootstrap 3'),
 			'bs4-' => vmText::_('Bootstrap 4')

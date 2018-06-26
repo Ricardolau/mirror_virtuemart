@@ -35,9 +35,9 @@ $params = VmConfig::loadConfig();
 			<?php
 			$opt = array(
 			'' => vmText::_('COM_VIRTUEMART_NONE_USE_LEGACY'),
-			'bs2-' => vmText::_('Bootstrap 2'),
-			'bs3-' => vmText::_('Bootstrap 3'),
-			'bs4-' => vmText::_('Bootstrap 4')
+			'bs2' => vmText::_('Bootstrap 2'),
+			'bs3' => vmText::_('Bootstrap 3'),
+			'bs4' => vmText::_('Bootstrap 4')
 			);
 			echo VmHTML::row('genericlist','COM_VIRTUEMART_SELECT_BOOTSTRAP_VERSION',$opt, 'bootstrap', 'size=1 width=200', 'value', 'name', VmConfig::get('bootstrap', ''));
 			echo VmHTML::row('genericlist','COM_VIRTUEMART_SELECT_DEFAULT_SHOP_TEMPLATE',$this->jTemplateList, 'vmtemplate', 'size=1 width=200', 'value', 'name', VmConfig::get('vmtemplate', ''));

@@ -77,8 +77,7 @@ class VmStoreTemplate
         try
         {
             $this->setTemplateName();
-        }
-        catch (\Exception $e)
+        } catch (\Exception $e)
         {
             echo 'Exception abgefangen: ', $e->getMessage(), "\n";
         }
@@ -281,24 +280,39 @@ class VmStoreTemplate
         // Get The Joomla Document Factory
         $joomlaDocument = JFactory::getDocument();
 
-        $vmBootstrapVersionFromConfig = $this->getSettingFromVmConfig('bootstrap', NULL);
+        $vmBootstrapVersionFromConfig = (!empty($this->getSettingFromVmConfig('bootstrap', '')))
+            ? $this->getSettingFromVmConfig('bootstrap', '')
+            : 'bs2';
         $templatesAssetsPath          = $this->getSitePath() . '/templates/' . $this->getTemplateName() . '/assets/'
             . $vmBootstrapVersionFromConfig;
 
         switch ($vmBootstrapVersionFromConfig)
         {
+            case 'bs2':
+                // load bootstrap css
+                $joomlaDocument->addStyleSheet($templatesAssetsPath . '/css/bootstrap.css');
+
+                // load bootstrap js
+                \JHtml::_('jquery.framework');
+                $joomlaDocument->addScript($templatesAssetsPath . '/js/bootstrap.min.js');
+                break;
+            case 'bs3':
+                // load bootstrap css
+                $joomlaDocument->addStyleSheet($templatesAssetsPath . '/css/bootstrap.css');
+                $joomlaDocument->addStyleSheet($templatesAssetsPath . '/css/bootstrap-theme.css');
+
+                // load bootstrap js
+                \JHtml::_('jquery.framework');
+                $joomlaDocument->addScript($templatesAssetsPath . '/js/bootstrap.min.js');
+                break;
             case 'bs4':
+            default:
                 // load bootstrap css
                 $joomlaDocument->addStyleSheet($templatesAssetsPath . '/css/bootstrap.css');
 
                 // load bootstrap js
                 \JHtml::_('jquery.framework');
                 $joomlaDocument->addScript($templatesAssetsPath . '/js/bootstrap.bundle.min.js');
-                break;
-            case 'bs3':
-                break;
-            case 'bs2':
-            default:
                 break;
         }
 

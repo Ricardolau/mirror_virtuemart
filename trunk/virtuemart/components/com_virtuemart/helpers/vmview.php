@@ -40,8 +40,9 @@ class VmView extends JViewLegacy{
 		$bs = VmConfig::get('bootstrap','');
         if ($bs !== '')
         {
-            $l = $this->getLayout();
-            $this->setLayout($bs . '-' . $l);
+            $bs = $bs . '-';
+            $l  = $this->getLayout();
+            $this->setLayout($bs . $l);
             vmdebug('my layout here ', $bs . $l);
         }
 		$result = $this->loadTemplate($tpl);

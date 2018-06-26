@@ -14,10 +14,23 @@ $vmStoreTemplate = VmStoreTemplate::getInstance('joomla');
     <?php echo $vmStoreTemplate->getWebsiteHeadArea(); ?>
 </head>
 <body class="d-flex flex-column">
-
 <div class="container">
-    <h1>Hallo Eugen</h1>
+    <div class="row">
+        <div class="col-12">
+            <div class="bg-secondary p-5">
+                <h1 class="mb-0 text-center text-white">Header Position</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-12 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+            <jdoc:include type="message"/>
+            <jdoc:include type="component"/>
+        </div>
+        <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+            Modul Position: Right
+        </div>
+    </div>
 </div>
-
 </body>
 </html>

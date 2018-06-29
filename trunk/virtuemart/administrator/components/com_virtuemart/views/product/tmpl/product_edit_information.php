@@ -114,7 +114,7 @@ $i=0;
 			</td>
 			<td>
 				<select class="vm-drop" id="categories" name="categories[]" multiple="multiple"  data-placeholder="<?php echo vmText::_('COM_VIRTUEMART_DRDOWN_SELECT_SOME_OPTIONS')  ?>" size="100" >
-
+                    <option value="-2" selected="selected">Do not store</option>
 				</select>			</td>
 			<?php
 			// It is important to have all product information in the form, since we do not preload the parent

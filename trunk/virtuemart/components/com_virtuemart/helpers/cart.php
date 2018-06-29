@@ -1330,6 +1330,7 @@ class VirtueMartCart {
 
 				if($fld->type=='checkbox'){
 					$tmp = vRequest::getInt($name,0);
+					$this->cartfields[$name] = $tmp;
 				} else {
 					$tmp = vRequest::getString($name,null);
 					if(isset($tmp)){

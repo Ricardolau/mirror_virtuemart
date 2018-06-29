@@ -50,6 +50,7 @@
             <filename>virtuemart_defaults.cfg-dist</filename>
             <filename>config.xml</filename>
             <filename>access.xml</filename>
+            <filename>index.html</filename>
             <folder>assets</folder>
             <folder>controllers</folder>
             <folder>fields</folder>

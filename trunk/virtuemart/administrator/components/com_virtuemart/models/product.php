@@ -2293,21 +2293,28 @@ vmdebug('$limitStart',$limitStart);
 
 			$data = $this->updateXrefAndChildTables ($data, 'product_manufacturers');
 
-			if (!empty($data['categories']) && count ($data['categories']) > 0) {
-				if(VmConfig::get('multix','none')!='none' and !vmAccess::manager('managevendors')){
-
-					if($ven->max_cats_per_product>=0){
-						while($ven->max_cats_per_product<count($data['categories'])){
-							array_pop($data['categories']);
-						}
-					}
-
-				}
-				$data['virtuemart_category_id'] = $data['categories'];
-			} else {
-				$data['virtuemart_category_id'] = array();
+			$storeCats = true;
+			if (empty($data['categories']) or (!empty($data['categories'][0]) and $data['categories'][0]!="-2")){
+				$storeCats = true;
 			}
-			$data = $this->updateXrefAndChildTables ($data, 'product_categories');
+
+			if($storeCats){
+				if (!empty($data['categories']) && count ($data['categories']) > 0) {
+					if(VmConfig::get('multix','none')!='none' and !vmAccess::manager('managevendors')){
+
+						if($ven->max_cats_per_product>=0){
+							while($ven->max_cats_per_product<count($data['categories'])){
+								array_pop($data['categories']);
+							}
+						}
+
+					}
+					$data['virtuemart_category_id'] = $data['categories'];
+				} else {
+					$data['virtuemart_category_id'] = array();
+				}
+				$data = $this->updateXrefAndChildTables ($data, 'product_categories');
+			}
 
 			// Update waiting list
 			//TODO what is this doing?

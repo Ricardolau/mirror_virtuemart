@@ -598,7 +598,7 @@ INNER JOIN #__virtuemart_product_categories as cat ON (pc.virtuemart_product_id=
 						if($Opts){
 							foreach( $Opts as $k => $v ) {
 								if(!isset($valueOptions[$v->customfield_value])) {
-									$valueOptions[$v->customfield_value] = $v->customfield_value;
+									$valueOptions[$v->customfield_value] = vmText::_($v->customfield_value);
 								}
 							}
 							$valueOptions = array_merge(array($emptyOption), $valueOptions);

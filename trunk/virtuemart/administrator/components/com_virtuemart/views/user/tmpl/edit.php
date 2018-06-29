@@ -66,6 +66,6 @@ AdminUIHelper::buildTabs ( $this, $tabarray,'vm-user');
 <?php echo $this->addStandardHiddenToForm(); ?>
 </form>
 
-// Implement Joomla's form validation
-<?php vmJsApi::vmValidator($this->userDetails->JUser->guest); ?>
+<?php // Implement Joomla's form validation
+ vmJsApi::vmValidator($this->userDetails->JUser->guest); ?>
 <?php AdminUIHelper::endAdminArea(); ?>

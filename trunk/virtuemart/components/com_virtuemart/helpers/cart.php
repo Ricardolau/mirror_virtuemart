@@ -84,7 +84,7 @@ class VirtueMartCart {
 	var $pricesUnformatted = array();
 
 	private static $_cart = null;
-
+	var $tempCart = false;
 	var $useSSL = 1;
 
 	public function __construct() {
@@ -327,6 +327,9 @@ class VirtueMartCart {
 	}
 
 	public function storeCart($cartDataToStore = false){
+
+		if($this->tempCart) return;
+
 		$adminID = vmAccess::getBgManagerId();
 		$currentUser = JFactory::getUser();
 		if(!$currentUser->guest && (!$adminID || $adminID == $currentUser->id)){
@@ -371,9 +374,9 @@ class VirtueMartCart {
 	 */
 	public function setCartIntoSession($storeDb = false, $forceWrite = false) {
 
+		if($this->tempCart) return;
+
 		$session = JFactory::getSession();
-
-
 		$sessionCart = $this->getCartDataToStore();
 		$sessionCart = json_encode($sessionCart);
 		$session->set('vmcart', $sessionCart,'vm');

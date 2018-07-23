@@ -697,7 +697,7 @@ class calculationHelper {
 
 			$this->productCurrency = isset($this->_cart->products[$cprdkey]->product_currency)? $this->_cart->products[$cprdkey]->product_currency:0;
 
-			$variantmod = $customfieldModel->calculateModificators($this->_cart->products[$cprdkey]);
+			$variantmod = $customfieldModel->calculateModificators($this->_cart->products[$cprdkey], $this->_cart);
 			$productPrice = $this->getProductPrices($this->_cart->products[$cprdkey],$variantmod, $this->_cart->products[$cprdkey]->quantity);
 			//vmTrace('getProductPrices $productPrice '.$variantmod.' '.$productPrice['basePriceVariant'].' '.$productPrice['salesPrice']);
 			//vmdebug('getCheckoutPrices ',$productPrice['salesPrice']);

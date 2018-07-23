@@ -135,12 +135,12 @@ class VirtueMartCustomFieldRenderer {
 					$attribs = array('class'=>$class.' cvselection no-vm-bind','style'=>'min-width:70px;');
 
 					$view = 'productdetails';
-					$attribs['reload'] = '1';
+					$attribs['data-reload'] = '1';
 					if(VmConfig::get ('jdynupdate', TRUE)){
 						$view = vRequest::getCmd('view','productdetails');
 						if($view == 'productdetails' or ($customfield->browseajax and $view == 'category')){
 							$attribs['data-dynamic-update'] = '1';
-							unset($attribs['reload']);
+							unset($attribs['data-reload']);
 						} else {
 							$view = 'productdetails';
 						}
@@ -263,12 +263,12 @@ class VirtueMartCustomFieldRenderer {
 					$selectedFound = false;
 
 					$view = 'productdetails';
-					$attribs['reload'] = '1';
+					$attribs['data-reload'] = '1';
 					if(VmConfig::get ('jdynupdate', TRUE)){
 						$view = vRequest::getCmd('view','productdetails');
 						if($view == 'productdetails' or ($customfield->browseajax and $view == 'category')){
 							$attribs['data-dynamic-update'] = '1';
-							unset($attribs['reload']);
+							unset($attribs['data-reload']);
 						} else {
 							$view = 'productdetails';
 						}
@@ -343,9 +343,9 @@ class VirtueMartCustomFieldRenderer {
 
 
 					$och = '';
-					if(!empty($attribs['reload'])){
-						$och = ' onchange="window.top.location.href=this.options[this.selectedIndex].value" reload=1';
-						unset($attribs['reload']);
+					if(!empty($attribs['data-reload'])){
+						$och = ' onchange="window.top.location.href=this.options[this.selectedIndex].value" data-reload=1';
+						unset($attribs['data-reload']);
 					} else {
 						$och = ' data-dynamic-update="1"';
 						unset($attribs['data-dynamic-update']);
@@ -359,7 +359,7 @@ class VirtueMartCustomFieldRenderer {
 
 
 					$html .= JHtml::_ ('select.genericlist', $options, $fieldname, $attribs);
-					//vmdebug('My view $attribs',$attribs,$html);
+
 					vmJsApi::chosenDropDowns();
 
 					if($customfield->parentOrderable==0){

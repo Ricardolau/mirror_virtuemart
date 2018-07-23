@@ -463,9 +463,11 @@ class VirtueMartModelUser extends VmModel {
 
 				//$doVendor = (boolean) $usersConfig->get('mail_to_admin', true);
 
-				$this->sendRegistrationEmail($user,$password, $doUserActivation);
-				if ($doUserActivation ) {
+				$this->sendRegistrationEmail($user,$password, $useractivation);
+				if ($useractivation == '1' ) {
 					vmInfo('COM_VIRTUEMART_REG_COMPLETE_ACTIVATE');
+				} else if ($useractivation == '2' ){
+					vmInfo('COM_VIRTUEMART_REG_COMPLETE_ACTIVATE_ADMIN');
 				} else {
 					vmInfo('COM_VIRTUEMART_REG_COMPLETE');
 					$user->set('activation', '' );
@@ -1097,7 +1099,7 @@ class VirtueMartModelUser extends VmModel {
 	 * @author Christopher Roussel
 	 * @author Valérie Isaksen
 	 */
-	private function sendRegistrationEmail($user, $password, $doUserActivation){
+	private function sendRegistrationEmail($user, $password, $useractivation){
 
 		$vars = array('user' => $user);
 
@@ -1105,11 +1107,11 @@ class VirtueMartModelUser extends VmModel {
 		$password = preg_replace('/[\x00-\x1F\x7F]/', '', $password); //Disallow control chars in the email
 		$vars['password'] = $password;
 
-		if ($doUserActivation) {
+		if ($useractivation == '1' ) {
 			jimport('joomla.user.helper');
-			$activationLink = 'index.php?option=com_users&task=registration.activate&token='.$user->get('activation');
-
-			$vars['activationLink'] = $activationLink;
+			$vars['activationLink'] = 'index.php?option=com_users&task=registration.activate&token='.$user->get('activation');
+		} else if ($useractivation == '2' ){
+			$vars['activationLink'] = vmText::_('COM_VIRTUEMART_REG_COMPLETE_ACTIVATE_ADMIN');
 		}
 
 		$usersConfig = JComponentHelper::getParams( 'com_users' );

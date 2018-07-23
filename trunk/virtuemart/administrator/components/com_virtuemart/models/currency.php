@@ -37,6 +37,7 @@ class VirtueMartModelCurrency extends VmModel {
 	function __construct() {
 		parent::__construct();
 		$this->setMainTable('currencies');
+		$this->setToggleName('shared');
 	}
 
 	/**

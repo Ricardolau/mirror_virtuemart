@@ -62,9 +62,14 @@ AdminUIHelper::startAdminArea($this);
 			<th >
 				<?php echo vmText::_('COM_VIRTUEMART_CURRENCY_END_DATE'); ?>
 			</th> */?>
+
 			<th width="10">
 				<?php echo vmText::_('COM_VIRTUEMART_PUBLISHED'); ?>
 			</th>
+			<?php if($this->showVendors()){ ?>
+                <th width="20">
+				<?php echo vmText::_( 'COM_VIRTUEMART_SHARED')  ?>
+                </th><?php }  ?>
 		<?php /*	<th width="10">
 				<?php echo vmText::_('COM_VIRTUEMART_SHARED'); ?>
 			</th> */ ?>
@@ -76,7 +81,7 @@ AdminUIHelper::startAdminArea($this);
 		$row = $this->currencies[$i];
 
 		$checked = JHtml::_('grid.id', $i, $row->virtuemart_currency_id);
-			$published = $this->gridPublished( $row, $i );
+			//$published = $this->gridPublished( $row, $i );
 
 			$editlink = JROUTE::_('index.php?option=com_virtuemart&view=currency&task=edit&cid[]=' . $row->virtuemart_currency_id);
 		?>
@@ -103,12 +108,13 @@ AdminUIHelper::startAdminArea($this);
 			<?php echo $row->currency_numeric_code; ?>
 		</td>
 		<td align="center">
-			<?php echo $published; ?>
+			<?php echo $this->toggle($row->published, $i, 'toggle.published'); ?>
 		</td>
-		<?php /*
-		<td align="center">
-			<?php echo $row->shared; ?>
-		</td>	*/?>
+        <?php if($this->showVendors){ ?>
+            <td align="center">
+            <?php echo $this->toggle($row->shared, $i, 'toggle.shared'); ?>
+            </td>
+        <?php } ?>
 	    </tr>
 		<?php
 		$k = 1 - $k;

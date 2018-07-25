@@ -2467,8 +2467,7 @@ vmdebug('my prices',$data);
 		$orderTable =  $this->getTable('orders');
 		$orderTable -> bindChecknStore($_orderData);
 
-		$db = JFactory::getDBO();
-		$_orderID = $db->insertid();
+		$_orderID = $orderTable->virtuemart_order_id;;
 
 		$_usr  = JFactory::getUser();
 		if (!$this->_writeUserInfo($_orderID, $_usr, array())) {

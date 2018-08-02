@@ -82,7 +82,7 @@ class amazonHelperAuthorizationNotification extends amazonHelper {
 					$order_history['comments'] = vmText::sprintf('VMPAYMENT_AMAZON_COMMENT_STATUS_AUTHORIZATION_DECLINED', $reasonCode);
 				} elseif ($reasonCode == 'TransactionTimedOut') {
 // TODO  retry the authorization again
-					$amazonState = 'open';
+					//$amazonState = 'open';
 					$order_history['order_status'] = $this->_currentMethod->status_authorization;
 					$order_history['comments'] = vmText::sprintf('VMPAYMENT_AMAZON_COMMENT_STATUS_TRANSACTION_TIMEDOUT', $reasonCode);
 				}

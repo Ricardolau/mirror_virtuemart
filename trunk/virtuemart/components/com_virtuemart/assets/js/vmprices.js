@@ -18,7 +18,7 @@ Virtuemart.setproducttype = function(form, id) {
 		return false;
 	}
 
-	var prices = container.find(".product-price");
+	var prices = container.find('[data-vm="product-prices"],.product-price');
 	if (0 == prices.length) {
 		prices = jQuery("#productPrice" + id);
 	}

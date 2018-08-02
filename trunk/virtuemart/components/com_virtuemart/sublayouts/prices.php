@@ -21,7 +21,7 @@ $product = $viewData['product'];
 $currency = $viewData['currency'];
 
 ?>
-<div class="product-price" id="productPrice<?php echo $product->virtuemart_product_id ?>">
+<div class="product-price" id="productPrice<?php echo $product->virtuemart_product_id ?>" data-vm="product-prices">
 	<?php
 	if (!empty($product->prices['salesPrice'])) {
 		//echo '<div class="vm-cart-price">' . vmText::_ ('COM_VIRTUEMART_CART_PRICE') . '</div>';

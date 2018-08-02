@@ -135,7 +135,7 @@ class VirtueMartModelOrders extends VmModel {
 	 *
 	 * @return array
 	 */
-	public function getMyOrderDetails($orderID = 0, $orderNumber = false, $orderPass = false, $userlang=false){
+	public function getMyOrderDetails($orderID = 0, $orderNumber = false, $orderPass = false, $vmConf=true){
 
 		if(VmConfig::get('ordertracking','guests') == 'none' and !vmAccess::manager('orders')){
 			return false;
@@ -171,21 +171,25 @@ class VirtueMartModelOrders extends VmModel {
 					return $orderDetails;
 				}
 			}
-		} else if(VmConfig::get('ordertracking','guests') == 'registered' and empty($cuid)){
+		} else if($vmConf and VmConfig::get('ordertracking','guests') == 'registered' and empty($cuid)){
 			return true;
 		}
 
-		if( (VmConfig::get('ordertracking','guests') == 'guestlink' or VmConfig::get('ordertracking','guests') == 'guests') and !empty( $orderNumber )){
+		if(!empty( $orderNumber )){
+
+			if($vmConf and VmConfig::get('ordertracking','guests') != 'guestlink' and VmConfig::get('ordertracking','guests') != 'guests'){
+				return false;
+			}
 			$orderPass = vRequest::getString( 'order_pass', $orderPass );
 
 			if( empty( $orderPass )) {
-				return true;
+				return false;
 			} else {
 
 				$orderId = $this->getOrderIdByOrderPass( $orderNumber, $orderPass );
 				if($orderId) {
 
-					if(VmConfig::get('ordertracking','guests') == 'guestlink' or vmAccess::manager('orders')){
+					if(!$vmConf or (VmConfig::get('ordertracking','guests') == 'guestlink' or vmAccess::manager('orders'))){
 						$sess->set('getOrderDetails.'.$h,0);
 						return $this->getOrder( $orderId );
 					} //Guest case
@@ -195,7 +199,7 @@ class VirtueMartModelOrders extends VmModel {
 							$sess->set('getOrderDetails.'.$h,0);
 							return $o;
 						} else {
-							return true;
+							return false;
 						}
 					}
 				}

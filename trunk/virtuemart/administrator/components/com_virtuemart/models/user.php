@@ -152,6 +152,23 @@ class VirtueMartModelUser extends VmModel {
 			$xrefTable = $this->getTable('vmuser_shoppergroups');
 			$this->_data->shopper_groups = $xrefTable->load($this->_id);
 		}
+
+
+//		quorvia - also get shoppergroups for the admin when acting as a user as that can have shoppergroup ids that may impact options
+		if (VmConfig::get('ChangeShopperAlsoUseAdminShoppergroups', 0)){
+			$adminId = vmAccess::getBgManagerId();
+			if (!empty($adminId) && $this->_id != $adminId){
+				$xrefTable            = $this->getTable('vmuser_shoppergroups');
+				$admin_shopper_groups = $xrefTable->load($adminId);
+				if (!empty ($admin_shopper_groups)){
+					$this->_data->shopper_groups = array_merge($this->_data->shopper_groups, $admin_shopper_groups);
+				}
+			}
+		}
+//quorvia end
+
+
+
 		if(empty($this->_data->shopper_groups)) $this->_data->shopper_groups = array();
 
 		$site = JFactory::getApplication ()->isSite ();

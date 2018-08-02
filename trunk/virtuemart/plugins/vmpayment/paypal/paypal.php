@@ -671,7 +671,7 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 		$this->debugLog($payment, 'plgVmOnPaymentResponseReceived', 'debug', false);
 
 		//$currency = CurrencyDisplay::getInstance('', $order['details']['BT']->order_currency);
-		$currency = CurrencyDisplay::getInstance('', $order['details']['BT']->payment_currency_id);
+		$currency = CurrencyDisplay::getInstance($order['details']['BT']->payment_currency_id);
 		$paypal_data = new stdClass();
 		if ($payment->paypal_fullresponse) {
 			$paypal_data = json_decode($payment->paypal_fullresponse);

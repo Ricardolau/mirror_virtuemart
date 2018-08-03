@@ -33,9 +33,12 @@ $option = vRequest::getCmd('option');
 			 <td align="left" width="60%">
 				<?php echo $this->displayDefaultViewSearch('COM_VIRTUEMART_NAME','searchMedia') .' '. $this->lists['search_type'].' '. $this->lists['search_role']; ?>
 			 </td>
-			  <td align="left" style="width:20%;min-width:60px">
+			  <td align="left" style="width:10%;min-width:60px">
 				  <?php echo VmHtml::checkbox('missing','missing',1,0); echo '<span class="hasTip" title="'.vmText::_('COM_VM_MEDIA_MISSING_TIP').'" style="vertical-align:middle;padding:4px 0 0;">'.vmText::_('COM_VM_MEDIA_MISSING').'</span>'?>
 			  </td>
+              <td align="left" style="width:10%;min-width:60px">
+				  <?php echo VmHtml::checkbox('findUnusedMedias','findUnusedMedias',1,0); echo '<span class="hasTip" title="'.vmText::_('COM_VM_MEDIA_UNUSED_TIP').'" style="vertical-align:middle;padding:4px 0 0;">'.vmText::_('COM_VM_MEDIA_UNUSED').'</span>'?>
+              </td>
               <td>
 				  <?php echo $this->lists['vendors'] ?>
               </td>

@@ -90,7 +90,13 @@ class VirtuemartViewMedia extends VmViewAdmin {
 				);
 			$this->lists['search_role'] = VmHTML::selectList('search_role', vRequest::getVar('search_role'),$options,1,'','onchange="this.form.submit();" style="width:180px"');
 
-			$this->files = $model->getFiles(false,false,$virtuemart_product_id,$cat_id);
+			$findUnusedMedias = vRequest::getWord('findUnusedMedias', false);
+			if($findUnusedMedias){
+				$this->files = $model->findUnusedMedias();
+			} else {
+				$this->files = $model->getFiles(false,false,$virtuemart_product_id,$cat_id);
+			}
+
 
 			$this->pagination = $model->getPagination();
 

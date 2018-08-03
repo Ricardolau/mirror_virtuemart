@@ -293,6 +293,29 @@ class VirtueMartModelMedia extends VmModel {
 
 	}
 
+	function findUnusedMedias(){
+
+		$select = 'm.virtuemart_media_id';
+
+		$joinedTables = 'FROM #__virtuemart_medias as m
+LEFT JOIN #__virtuemart_category_medias as cm ON cm.virtuemart_media_id = m.virtuemart_media_id
+LEFT JOIN #__virtuemart_product_medias as pm ON pm.virtuemart_media_id = m.virtuemart_media_id
+LEFT JOIN #__virtuemart_manufacturer_medias as mm ON mm.virtuemart_media_id = m.virtuemart_media_id
+LEFT JOIN #__virtuemart_vendor_medias as vm ON pm.virtuemart_media_id = m.virtuemart_media_id';
+
+		$whereString = 'WHERE m.file_is_forSale = "0"
+  and cm.virtuemart_media_id IS NULL 
+  and pm.virtuemart_media_id IS NULL 
+  and mm.virtuemart_media_id IS NULL 
+  and vm.virtuemart_media_id IS NULL';
+
+		$this->_data = $this->exeSortSearchListQuery(2, $select, $joinedTables, $whereString);
+		if(empty($this->_data)){
+			return array();
+		}
+		$this->_data = $this->createMediaByIds($this->_data);
+		return $this->_data;
+	}
 	/**
 	 * This function stores a media and updates then the refered table
 	 *

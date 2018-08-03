@@ -837,9 +837,9 @@ class VmModel extends vObject{
 		}
 
 		if($this->_withCount){
-			$q = 'SELECT SQL_CALC_FOUND_ROWS '.$select.$joinedTables;
+			$q = 'SELECT SQL_CALC_FOUND_ROWS '.$select.' '.$joinedTables;
 		} else {
-			$q = 'SELECT '.$select.$joinedTables;
+			$q = 'SELECT '.$select.' '.$joinedTables;
 		}
 
 		if($this->_noLimit or empty($limit)){

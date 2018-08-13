@@ -65,7 +65,7 @@ class calculationHelper {
 	 * @author Max Milbers
 	 * @author Geraint
 	 */
-	private function __construct() {
+	private function __construct($vendorId = 1, $countryId = 0, $stateId = 0) {
 		$this->_db = JFactory::getDBO();
 		$this->_app = JFactory::getApplication();
 		//$this->_cart =& VirtuemartCart::getCart();
@@ -74,7 +74,7 @@ class calculationHelper {
 		$this->_now = $jnow->toSQL();
 		$this->_nullDate = $this->_db->getNullDate();
 
-		$this->productVendorId = 1;
+		$this->productVendorId = $vendorId;
 
 		$this->_currencyDisplay = CurrencyDisplay::getInstance();
 		$this->_debug = false;
@@ -87,7 +87,7 @@ class calculationHelper {
 
 		$this->setShopperGroupIds();
 
-		$this->setCountryState();
+		$this->setCountryState($countryId, $stateId);
 		$this->setVendorId($this->productVendorId);
 
 		$this->rules['Marge'] = array();
@@ -100,10 +100,9 @@ class calculationHelper {
 		$this->_roundindig = VmConfig::get('roundindig',FALSE);
 	}
 
-	static public function getInstance() {
+	static public function getInstance($vendorId = 1, $countryId = 0, $stateId = 0) {
 		if (!is_object(self::$_instance)) {
-			self::$_instance = new calculationHelper();
-			//vmdebug('Created new Calculator Instance');
+			self::$_instance = new calculationHelper($vendorId, $countryId, $stateId);
 		} else {
 			//We store in UTC and use here of course also UTC
 			$jnow = JFactory::getDate();
@@ -232,23 +231,23 @@ class calculationHelper {
 		}
 	}
 
-	protected function setCountryState() {
+	protected function setCountryState($countryId = 0, $stateId = 0) {
+
+		if(!empty($countryId)){
+			$this->_deliveryCountry = $countryId;
+			$this->_deliveryState = $stateId;
+			return;
+		}
 
 		if ($this->_app->isAdmin()) {
+
 			$userModel = VmModel::getModel('user');
 			$userDetails = $userModel->getUser();
-			$virtuemart_userinfo_id_BT = $userModel->getBTuserinfo_id($userDetails->JUser->get('id'));
-			if ($virtuemart_userinfo_id_BT) {
-				$userFieldsArray = $userModel->getUserInfoInUserFields(NULL,'BT',$virtuemart_userinfo_id_BT,false);
-				$userFieldsBT = $userFieldsArray[$virtuemart_userinfo_id_BT];
-				if ($userFieldsBT) {
-					if (isset($userFieldsBT['fields']['virtuemart_country_id']) and isset($userFieldsBT['fields']['virtuemart_country_id']['virtuemart_country_id'])) {
-						$this->_deliveryCountry = $userFieldsBT['fields']['virtuemart_country_id']['virtuemart_country_id'];
-					}
-					if (isset($userFieldsBT['fields']['virtuemart_state_id']) and isset($userFieldsBT['fields']['virtuemart_state_id']['virtuemart_state_id'])) {
-						$this->_deliveryState = $userFieldsBT['fields']['virtuemart_state_id']['virtuemart_state_id'];
-					}
-				}
+			if(!empty($userDetails->userInfo)){
+				$userFieldsBT = reset($userDetails->userInfo);
+				$this->_deliveryCountry = $userFieldsBT->virtuemart_country_id;
+				$this->_deliveryState = $userFieldsBT->virtuemart_state_id;
+				//vmdebug('My UserDetails',$this->_deliveryCountry,$this->_deliveryState,$userFieldsBT);
 			} else {
 				$vendorModel = VmModel::getModel ('vendor');
 				$vendorAddress = $vendorModel->getVendorAdressBT (1);

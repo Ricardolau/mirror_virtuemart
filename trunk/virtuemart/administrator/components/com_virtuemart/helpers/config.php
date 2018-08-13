@@ -177,7 +177,7 @@ class vmDefines {
 		JLoader::register('AdminUIHelper', VMPATH_ADMIN.'/helpers/adminui.php');
 		JLoader::register('calculationHelper', VMPATH_ADMIN.'/helpers/calculationh.php');
 		JLoader::register('VmConnector', VMPATH_ADMIN.'/helpers/connection.php');
-		JLoader::register('Creditcard', VMPATH_ADMIN.'/helpers/creditcart.php');
+		JLoader::register('Creditcard', VMPATH_ADMIN.'/helpers/creditcard.php');
 		JLoader::register('CurrencyDisplay', VMPATH_ADMIN.'/helpers/currencydisplay.php');
 		JLoader::register('VmHtml', VMPATH_ADMIN.'/helpers/html.php');
 		JLoader::register('VmImage', VMPATH_ADMIN.'/helpers/image.php');

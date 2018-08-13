@@ -547,7 +547,7 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 							jimport('joomla.environment.browser');
 							$browser = JBrowser::getInstance();
 
-
+							if(empty($paypalInterface->response['EMAILLINK'])) $paypalInterface->response['EMAILLINK'] ='';
 							// this code is only called incase of iframe (templateD), in all other cases redirecttopayapl has been done
 							$html = $this->renderByLayout('hostediframe', array("url" => $paypalInterface->response['EMAILLINK'],
 								"isMobile" => $browser->isMobile()

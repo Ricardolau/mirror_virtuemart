@@ -8,15 +8,20 @@ Virtuemart.setproducttype = function(form, id) {
 	var datas = form.serialize();
 
 	var runs= 0, maxruns = 20;
-	var container = form;
-	while(!container.hasClass('product-container') && !container.hasClass('productdetails') && !container.hasClass('vm-product-details-container')  && runs<=maxruns){
-		container = container.parent();
-		runs++;
+	var container = form.closest('[data-vm="product-container"]');
+
+	if(container.length==0){
+		container = form;
+		while(!container.hasClass('product-container') && !container.hasClass('productdetails') && !container.hasClass('vm-product-details-container')  && runs<=maxruns){
+			container = container.parent();
+			runs++;
+		}
+		if(runs>maxruns){
+			//console.log('setproducttype: Could not find parent container product-container nor product-field-display');
+			return false;
+		}
 	}
-	if(runs>maxruns){
-		//console.log('setproducttype: Could not find parent container product-container nor product-field-display');
-		return false;
-	}
+
 
 	var prices = container.find('[data-vm="product-prices"],.product-price');
 	if (0 == prices.length) {

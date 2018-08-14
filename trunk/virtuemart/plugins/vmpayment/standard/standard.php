@@ -150,6 +150,12 @@ class plgVmPaymentStandard extends vmPSPlugin {
 
 		$currency = CurrencyDisplay::getInstance ('', $order['details']['BT']->virtuemart_vendor_id);
 
+
+		$modelOrder = VmModel::getModel ('orders');
+		$order['order_status'] = $this->getNewStatus ($method);
+		$order['customer_notified'] = 1;
+		$order['comments'] = '';
+		$modelOrder->updateStatusForOneOrder ($order['details']['BT']->virtuemart_order_id, $order, TRUE);
 		$html = $this->renderByLayout('post_payment', array(
 			'order_number' =>$order['details']['BT']->order_number,
 			'order_pass' =>$order['details']['BT']->order_pass,
@@ -157,12 +163,6 @@ class plgVmPaymentStandard extends vmPSPlugin {
 			'displayTotalInPaymentCurrency' => $totalInPaymentCurrency['display'],
 			'order_user_id' => $order['details']['BT']->virtuemart_user_id
 		));
-		$modelOrder = VmModel::getModel ('orders');
-		$order['order_status'] = $this->getNewStatus ($method);
-		$order['customer_notified'] = 1;
-		$order['comments'] = '';
-		$modelOrder->updateStatusForOneOrder ($order['details']['BT']->virtuemart_order_id, $order, TRUE);
-
 		//We delete the old stuff
 		$cart->emptyCart ();
 		vRequest::setVar ('html', $html);

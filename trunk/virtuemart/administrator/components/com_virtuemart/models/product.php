@@ -1098,6 +1098,11 @@ vmdebug('$limitStart',$limitStart);
 			$child->prices = $child->allPrices[$child->selectedPrice] = $this->fillVoidPrice();
 		}
 
+		$child->customfields = false;
+		$customfieldsModel = VmModel::getModel ('Customfields');
+		$child->modificatorSum = null;
+		$child->customfields = $customfieldsModel->getCustomEmbeddedProductCustomFields ($child->allIds,0,-1, true);
+
 		if ($withCalc) {
 
 			if(JFactory::getApplication()->isSite()){
@@ -1160,10 +1165,6 @@ vmdebug('$limitStart',$limitStart);
 			}
 			else if ($product_available_date != '0000-00-00' and $current_date < $product_available_date) {
 				$child->availability = vmText::_('COM_VIRTUEMART_PRODUCT_AVAILABLE_DATE') .': '. JHtml::_('date', $child->product_available_date, vmText::_('DATE_FORMAT_LC4'));
-			}
-
-			if(!isset($child->customfields)){
-				$child->customfields = false;
 			}
 
 			foreach(self::$decimals as $decimal){
@@ -2500,7 +2501,7 @@ vmdebug('$limitStart',$limitStart);
 	private function productCustomsfieldsClone ($virtuemart_product_id) {
 
 		$cM = VmModel::getModel('customfields');
-		$customfields = $cM->getCustomEmbeddedProductCustomFields(array($virtuemart_product_id));
+		$customfields = $cM->getCustomEmbeddedProductCustomFields(array($virtuemart_product_id),0,-1,true);
 
 		if ($customfields) {
 			foreach ($customfields as &$customfield) {
@@ -2627,10 +2628,10 @@ vmdebug('$limitStart',$limitStart);
 			$product = $this->getProduct ($product, TRUE, FALSE, TRUE,$quantity);
 		}
 
-		if (empty($product->customfields) and !empty($product->allIds)) {
+		if (empty($product->customfields) and $product->customfields!=array() and !empty($product->allIds)) {
 			$customfieldsModel = VmModel::getModel ('Customfields');
 			$product->modificatorSum = null;
-			$product->customfields = $customfieldsModel->getCustomEmbeddedProductCustomFields ($product->allIds,0,$ctype, true);
+			$product->customfields = $customfieldsModel->getCustomEmbeddedProductCustomFields ($product->allIds,0,$ctype);
 		}
 
 		// Calculate the modificator

@@ -286,7 +286,7 @@ class VirtueMartModelOrders extends VmModel {
 
 			$ids = array();
 
-			$product = $pModel->getProduct($item->virtuemart_product_id);
+			$product = $pModel->getProduct($item->virtuemart_product_id, false, false, false);
 			if($product){
 				$pvar = get_object_vars($product);
 
@@ -666,6 +666,11 @@ class VirtueMartModelOrders extends VmModel {
 		if($orderUpdate){
 			$table->emptyCache();
 			$table->load($virtuemart_order_item_id);
+
+			JPluginHelper::importPlugin('vmcustom');
+			$dispatcher = JDispatcher::getInstance();
+			$results = $dispatcher->trigger('plgVmOnUpdateSingleItem', array(&$table, &$orderdata));
+
 			if($dataT['oi_hash']!=$table->oi_hash){
 				if(empty($dataT['virtuemart_order_item_id'])){
 					$dataT['action'] = 'new';
@@ -979,12 +984,12 @@ vmdebug('my prices',$data);
 
 			JPluginHelper::importPlugin('vmshipment');
 			$_dispatcher = JDispatcher::getInstance();											//Should we add this? $inputOrder
-			$_returnValues = $_dispatcher->trigger('plgVmOnUpdateOrderShipment',array(&$data,$old_order_status));
+			$_returnValues = $_dispatcher->trigger('plgVmOnUpdateOrderShipment',array(&$data,$old_order_status,$inputOrder));
 
 			// Payment decides what to do when order status is updated
 			JPluginHelper::importPlugin('vmpayment');
 			$_dispatcher = JDispatcher::getInstance();											//Should we add this? $inputOrder
-			$_returnValues = $_dispatcher->trigger('plgVmOnUpdateOrderPayment',array(&$data,$old_order_status));
+			$_returnValues = $_dispatcher->trigger('plgVmOnUpdateOrderPayment',array(&$data,$old_order_status,$inputOrder));
 			foreach ($_returnValues as $_returnValue) {
 				if ($_returnValue === true) {
 					break; // Plugin was successfull

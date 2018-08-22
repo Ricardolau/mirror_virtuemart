@@ -258,16 +258,29 @@ class VirtueMartModelVendor extends VmModel {
 
 		if(!isset(self::$_vendorCurrencies[$_vendorId])){
 			$db = JFactory::getDBO ();
-
-			$q = 'SELECT *  FROM `#__virtuemart_currencies` AS c
+			if(VmConfig::get('anyInShopCurrency',true)){
+				$q = 'SELECT *  FROM `#__virtuemart_currencies` AS c
 			LEFT JOIN `#__virtuemart_vendors` AS v ON  c.virtuemart_currency_id = v.vendor_currency
 			WHERE v.virtuemart_vendor_id = "' . (int)$_vendorId . '"';
-			$db->setQuery ($q);
-			self::$_vendorCurrencies[$_vendorId] = $db->loadObject ();
-			if(!self::$_vendorCurrencies[$_vendorId]){
-				$link = '/index.php?option=com_virtuemart&view=user&task=editshop';
-				vmWarn('COM_VIRTUEMART_CONF_WARN_NO_CURRENCY_DEFINED','<a href="'.$link.'">'.$link.'</a>');
+				$db->setQuery ($q);
+				self::$_vendorCurrencies[$_vendorId] = $db->loadObject ();
+				if(!self::$_vendorCurrencies[$_vendorId]){
+					$link = '/index.php?option=com_virtuemart&view=user&task=editshop';
+					vmWarn('COM_VIRTUEMART_CONF_WARN_NO_CURRENCY_DEFINED','<a href="'.$link.'">'.$link.'</a>');
+				}
+			} else {
+				$virtuemart_currency_id = vRequest::get('virtuemart_currency_id',false);
+				self::getVendorAndAcceptedCurrencies($_vendorId);
+				if(in_array($virtuemart_currency_id, self::$_vendorAcceptedCurrencies)){
+					$q = 'SELECT *  FROM `#__virtuemart_currencies` AS c
+			LEFT JOIN `#__virtuemart_vendors` AS v ON  c.virtuemart_vendor_id = v.virtuemart_vendor_id
+			WHERE v.virtuemart_currency_id = "' . (int)$virtuemart_currency_id . '"';
+					$db->setQuery ($q);
+					self::$_vendorCurrencies[$_vendorId] = $db->loadObject ();
+
+				}
 			}
+
 		}
 
 		return self::$_vendorCurrencies[$_vendorId];

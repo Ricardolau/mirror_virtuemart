@@ -151,11 +151,12 @@ $productfileslist = $this->files;
 	</tr>
 	</tfoot>
 	</table>
+</div>
 <!-- Hidden Fields -->
 <?php if (vRequest::getInt('virtuemart_product_id', false)) { ?>
 	<input type="hidden" name="virtuemart_product_id" value="<?php echo vRequest::getInt('virtuemart_product_id',0); ?>" />
 <?php } ?>
 	<?php echo $this->addStandardHiddenToForm(); ?>
 </form>
-</div>
+
 <?php AdminUIHelper::endAdminArea(); ?>

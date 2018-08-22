@@ -34,7 +34,7 @@ class VirtueMartCustomFieldRenderer {
 			$currency = CurrencyDisplay::getInstance ();
 		}
 
-		foreach($customfields as $k => $customfield){
+		foreach($customfields as $key => $customfield){
 
 
 			if(!isset($customfield->display))$customfield->display = '';
@@ -45,7 +45,7 @@ class VirtueMartCustomFieldRenderer {
 
 				JPluginHelper::importPlugin ('vmcustom');
 				$dispatcher = JDispatcher::getInstance ();
-				$ret = $dispatcher->trigger ('plgVmOnDisplayProductFEVM3', array(&$product, &$customfields[$k]));
+				$ret = $dispatcher->trigger ('plgVmOnDisplayProductFEVM3', array(&$product, &$customfields[$key]));
 				continue;
 			}
 
@@ -483,7 +483,7 @@ class VirtueMartCustomFieldRenderer {
 
 							$values = explode (';', $customfield->custom_value);
 
-							foreach ($values as $key => $val) {
+							foreach ($values as $val) {
 
 								//if($val == 0 and $customfield->addEmpty){
 									//continue;
@@ -510,7 +510,7 @@ class VirtueMartCustomFieldRenderer {
 						if(!empty($customfield->is_input)){
 
 							if(!isset($selectList[$customfield->virtuemart_custom_id])) {
-								$selectList[$customfield->virtuemart_custom_id] = $k;
+								$selectList[$customfield->virtuemart_custom_id] = $key;
 								if($customfield->addEmpty){
 									if(empty($customfields[$selectList[$customfield->virtuemart_custom_id]]->options)){
 										$customfields[$selectList[$customfield->virtuemart_custom_id]]->options[0] = $emptyOption;
@@ -527,7 +527,7 @@ class VirtueMartCustomFieldRenderer {
 
 							} else {
 								$customfields[$selectList[$customfield->virtuemart_custom_id]]->options[$customfield->virtuemart_customfield_id] = $customfield;
-								unset($customfields[$k]);
+								unset($customfields[$key]);
 
 							}
 
@@ -671,7 +671,7 @@ class VirtueMartCustomFieldRenderer {
 					break;
 			}
 
-			$viewData['customfields'][$k] = $customfield;
+			$viewData['customfields'][$key] = $customfield;
 			//vmdebug('my customfields '.$type,$viewData['customfields'][$k]->display);
 		}
 

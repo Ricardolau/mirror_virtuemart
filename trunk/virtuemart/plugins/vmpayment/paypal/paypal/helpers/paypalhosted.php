@@ -257,7 +257,7 @@ class PaypalHelperPayPalHosted extends PaypalHelperPaypal {
 		} else {
 			$emailink = $this->response['EMAILLINK'];
 		}
-		
+
 		if ($this->_method->debug AND $this->_method->template != 'templateD') {
 			echo '<div style="background-color:red;color:white;padding:10px;">The method is in debug mode. <a href="' . $emailink . '">Click here to be redirected to PayPal</a></div>';
 			echo '<div style="background-color:red;color:white;padding:10px;">The method is in debug mode. ' . $websitecode . 'Click here to be redirected to PayPal</a></div>';

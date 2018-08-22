@@ -162,6 +162,8 @@ class com_virtuemartInstallerScript {
 		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/forSale/invoices');
 		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/forSale/resized');
 		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/typeless');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/vendor');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/vendor/resized');
 
 		$this->setVmLanguages();
 		$this->installLanguageTables();

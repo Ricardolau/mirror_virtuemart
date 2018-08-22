@@ -81,11 +81,11 @@ AdminUIHelper::startAdminArea($this);
 			<th align="left" width="65%">
 				<?php echo $this->sort('category_description', 'COM_VIRTUEMART_DESCRIPTION') ; ?>
 			</th>
-			<th style="min-width:80px;width:8%;align:center;">
+			<th style="min-width:80px;width:8%;text-align:center;">
 				<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_S'); ?>
 			</th>
 
-			<th style="min-width:80px;width:8%;align:center;">
+			<th style="min-width:80px;width:8%;text-align:center;">
 				<?php echo $this->sort( 'c.ordering' , 'COM_VIRTUEMART_ORDERING') ?>
 				<?php echo JHtml::_('grid.order', $this->categories, 'filesave.png', 'saveOrder' ); ?>
 			</th>

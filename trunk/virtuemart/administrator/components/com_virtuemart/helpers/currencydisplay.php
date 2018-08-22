@@ -339,7 +339,7 @@ class CurrencyDisplay {
 		if(!empty($this->_priceConfig[$name][0]) or $force){
 			if(!empty($price) or $name == 'billTotal' or $name == 'billTaxAmount'){
 				$vis = " vm-display vm-price-value";
-				$priceFormatted = $this->priceDisplay($price,0,(float)$quantity,false,$this->_priceConfig[$name][1],$name );
+				$priceFormatted = $this->priceDisplay($price,0,(float)$quantity,false,$this->_priceConfig[$name][1] );
 			} else {
 				$priceFormatted = '';
 				$vis = " vm-nodisplay";

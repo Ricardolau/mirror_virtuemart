@@ -83,7 +83,7 @@ class VirtuemartViewVendor extends VmView {
 				$customtitle = vmText::_('COM_VIRTUEMART_VENDOR_CONTACT');
 				$pathway->addItem(vmText::_('COM_VIRTUEMART_VENDOR_CONTACT'));
 				$this->assignRef('user', $user);
-
+				$this->captcha = shopFunctionsF::renderCaptcha('ask_captcha');
 			} else {
 				$customtitle = vmText::_('COM_VIRTUEMART_VENDOR_DETAILS');
 				$pathway->addItem(vmText::_('COM_VIRTUEMART_VENDOR_DETAILS'));

@@ -281,7 +281,7 @@ class VirtueMartModelUser extends VmModel {
 				$ven = $vM->getVendor($vendorId);
 				if($ven->max_customers){
 					$this->setGetCount (true);
-					parent::exeSortSearchListQuery(2,'virtuemart_user_id',' FROM #__virtuemart_vendor_users',' WHERE ( `virtuemart_vendor_id` = "'.$vendorId.'" ) ');
+					parent::exeSortSearchListQuery(2,'virtuemart_user_id',' FROM #__virtuemart_vendor_users as vu LEFT JOIN `#__users` as ju ON vu.virtuemart_user_id = ju.id',' WHERE ( `virtuemart_vendor_id` = "'.$vendorId.'" AND ju.`block` = 0) ');
 					$this->setGetCount (false);
 					if($ven->max_customers<($this->_total+1)){
 						vmWarn('You are not allowed to register more than '.$ven->max_customers.' users');

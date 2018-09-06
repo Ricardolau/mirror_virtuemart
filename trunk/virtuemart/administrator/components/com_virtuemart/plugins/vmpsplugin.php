@@ -1237,14 +1237,16 @@ abstract class vmPSPlugin extends vmPlugin {
 			//shopFunctionsF::sentOrderConfirmedEmail($order);
 			//We delete the old stuff
 			$cart->emptyCart ();
-			vRequest::setVar ('html', $html);
+			//vRequest::setVar ('html', $html);
+			$cart->orderdoneHtml = $html;
 			// payment echos form, but cart should not be emptied, data is valid
 		} elseif ($returnValue == 2) {
 			$cart->_confirmDone = false;
 			$cart->_dataValidated = false;
 			$cart->_inConfirm = false;
+			//vRequest::setVar ('html', $html);
+			$cart->orderdoneHtml = $html;
 			$cart->setCartIntoSession (false,true);
-			vRequest::setVar ('html', $html);
 		} elseif ($returnValue == 0) {
 			// error while processing the payment
 			$mainframe = JFactory::getApplication ();

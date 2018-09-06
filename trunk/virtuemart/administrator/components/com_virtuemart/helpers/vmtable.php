@@ -304,9 +304,9 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		return $this->_pkey;
 	}
 
-	public function setObligatoryKeys($key) {
+	public function setObligatoryKeys($key, $error = 1) {
 
-		$this->_obkeys[$key] = 1;
+		$this->_obkeys[$key] = $error;
 	}
 
 	public function setUniqueName($name) {

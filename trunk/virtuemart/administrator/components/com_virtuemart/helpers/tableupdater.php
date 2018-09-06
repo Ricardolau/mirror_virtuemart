@@ -104,7 +104,7 @@ class GenericTableUpdater extends VmModel{
 			if(VmConfig::get('dblayoutstrict',true)){
 				if($table=='products'){
 					$fields['product_s_desc'] = 'varchar('.VmConfig::get('dbpsdescsize',2000).') '.$linedefault;
-					$fields['product_desc'] = 'text '.$linedefault;
+					$fields['product_desc'] = 'text '.$linedefaulttext;
 
 					$key = array_search('product_desc', $translatableFields);
 					unset($translatableFields[$key]);

@@ -1052,7 +1052,7 @@ class VirtueMartModelCustomfields extends VmModel {
 		$db = JFactory::getDBO();
 		$db->setQuery( 'SELECT `virtuemart_customfield_id` FROM `#__virtuemart_'.$table.'_customfields` as `PC` WHERE `PC`.virtuemart_'.$table.'_id ='.$id );
 		$old_customfield_ids = $db->loadColumn();
-		if (array_key_exists('field', $datas)) {
+		if (!empty( $datas['field'])) {
 
 			foreach($datas['field'] as $key => $fields){
 

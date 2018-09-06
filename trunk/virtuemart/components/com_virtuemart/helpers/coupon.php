@@ -168,7 +168,7 @@ abstract class CouponHelper
 			$db->setQuery($q);
 			$coupon_session_id=$db->loadResult();
 			if ($coupon_used !=$coupon_session_id) {
-				return;
+				return false;
 			}
 			$coupon_used=0;
 		}

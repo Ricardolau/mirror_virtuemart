@@ -687,6 +687,7 @@ class shopFunctionsF {
 				$recipient = array($recipient);
 			}
 			if (VmConfig::showDebug()) {
+				if(!isset($view->mediaToSend)) $view->mediaToSend = array();
 				vmdebug('Debug mail active, no mail sent. The mail to send subject ' . $subject . ' to "' . implode(' ', $recipient) . '" from ' . $sender[0] . ' ' . $sender[1] . ' ' . vmText::$language->getTag() . '<br>' . $body,$view->mediaToSend);
 			} else {
 				vmInfo('Debug mail active, no mail sent. The mail to send subject ' . $subject . ' to "' . implode(' ', $recipient) . '" from ' . $sender[0] . ' ' . $sender[1] . '<br>' . $body);

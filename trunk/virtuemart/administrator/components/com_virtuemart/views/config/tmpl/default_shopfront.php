@@ -176,7 +176,7 @@ defined('_JEXEC') or die('Restricted access');?>
 </tr>
 </table>
 <?php
-vmJsApi::addJScript('vm.imagechange','
+vmJsApi::addJScript('vm-imagechange','
 	jQuery("#image").change(function () {
 		var $newimage = jQuery(this).val();
 		jQuery("#product_availability").val($newimage);

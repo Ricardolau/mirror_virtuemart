@@ -43,4 +43,4 @@ $j = 'function confirmation(message, destnUrl) {
 	}
 }';
 
-vmJsApi::addJScript('vm.confirm',$j);
+vmJsApi::addJScript('vm-confirm',$j);

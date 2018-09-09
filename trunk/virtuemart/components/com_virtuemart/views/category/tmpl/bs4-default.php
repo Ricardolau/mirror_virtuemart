@@ -179,7 +179,7 @@ jQuery(document).ready(function () {
 	)
 });
 ";
-    vmJsApi::addJScript('vm.hover', $js);
+    vmJsApi::addJScript('vm-hover', $js);
 
 
     ?>

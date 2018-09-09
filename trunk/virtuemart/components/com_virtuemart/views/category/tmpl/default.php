@@ -44,7 +44,7 @@ jQuery(document).ready(function () {
 	)
 });
 ";
-vmJsApi::addJScript('vm.hover',$js);
+vmJsApi::addJScript('vm-hover',$js);
 
 if ($this->show_store_desc and !empty($this->vendor->vendor_store_desc)) { ?>
 	<div class="vendor-store-desc">

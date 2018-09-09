@@ -113,7 +113,7 @@ $i = 0;
 											$(id).val($(this).val());
 										});
 									});';
-								vmJsApi::addJScript('vm.childProductName', $js);
+								vmJsApi::addJScript('vm-childProductName', $js);
 							}
 							?>
 							<th style="text-align: left !important;" width="5%"><?php echo vmText::_('COM_VIRTUEMART_ORDERING')?></th>

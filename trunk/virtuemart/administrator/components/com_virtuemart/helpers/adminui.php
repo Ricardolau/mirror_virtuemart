@@ -63,7 +63,7 @@ class AdminUIHelper {
 		vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/vm2admin.js');
 
 		$vm2string = "editImage: 'edit image',select_all_text: '".vmText::_('COM_VIRTUEMART_DRDOWN_SELALL')."',select_some_options_text: '".vmText::_($selectText)."'" ;
-		vmJsApi::addJScript ('vm.remindTab', "
+		vmJsApi::addJScript ('vm-remindTab', "
 		var tip_image='".JURI::root(true)."/components/com_virtuemart/assets/js/images/vtip_arrow.png';
 		var vm2string ={".$vm2string."} ;
 		jQuery( function($) {
@@ -233,7 +233,7 @@ class AdminUIHelper {
 	static public function buildTabs($view, $load_template = array(),$cookieName='') {
 		$cookieName = vRequest::getCmd('view','virtuemart').$cookieName;
 
-		vmJsApi::addJScript ( 'vm.cookie', '
+		vmJsApi::addJScript ( 'vm-cookie', '
 		var virtuemartcookie="'.$cookieName.'";
 		');
 
@@ -261,7 +261,7 @@ class AdminUIHelper {
 	static function imitateTabs($return,$language = '') {
 		if ($return == 'start') {
 
-			vmJsApi::addJScript ( 'vm.cookietab','
+			vmJsApi::addJScript ( 'vm-cookietab','
 			var virtuemartcookie="vm-tab";
 			');
 			$html = 	'<div id="admin-ui-tabs">

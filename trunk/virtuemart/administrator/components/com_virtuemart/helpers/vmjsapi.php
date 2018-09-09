@@ -383,7 +383,7 @@ class vmJsApi{
 				//This is necessary though and should not be removed without rethinking the whole construction
 				$v .= "usefancy = false;\n";
 			}
-			vmJsApi::addJScript('vm.vars',$v,false,true,true);
+			vmJsApi::addJScript('vm-vars',$v,false,true,true);
 			$e = false;
 		}
 	}
@@ -449,7 +449,7 @@ jQuery(document).ready(function() { // GALT: Start listening for dynamic content
 		}
 		VmJsApi::jSite();
 
-		self::addJScript('vm.countryState'.$prefix,'
+		self::addJScript('vm-countryState'.$prefix,'
 		jQuery(document).ready( function($) {
 			$("#'.$prefix.'virtuemart_country_id'.$suffix.'").vm2front("list",{dest : "#'.$prefix.'virtuemart_state_id'.$suffix.'",ids : "'.$stateIds.'",prefiks : "'.$prefix.'"});
 		});
@@ -585,7 +585,7 @@ jQuery(document).ready(function($) {
 
 		// Implement Joomla's form validation
 		JHtml::_('behavior.formvalidator');
-
+		self::vmVariables();
 
 		$regfields = array();
 		if(empty($userFields)){
@@ -609,12 +609,12 @@ jQuery(document).ready(function($) {
 			$jsRegfields = "['".implode("','",$regfields)."']";
 		}
 
-		$js = "var Virtuemart.regfields = ".$jsRegfields.";
-var Virtuemart.prefiks = '".$prefiks."';
-var Virtuemart.requiredMsg = '" .addslashes (vmText::_ ('COM_VIRTUEMART_MISSING_REQUIRED_JS'))."';
+		$js = "Virtuemart.regfields = ".$jsRegfields.";
+Virtuemart.prefiks = '".$prefiks."';
+Virtuemart.requiredMsg = '" .addslashes (vmText::_ ('COM_VIRTUEMART_MISSING_REQUIRED_JS'))."';
 
 ";
-		vmJsApi::addJScript('vm.validator',$js);
+		vmJsApi::addJScript('vm-validator',$js);
 		vmJsApi::addJScript('vmvalidator');
 	}
 

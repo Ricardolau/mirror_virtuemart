@@ -111,7 +111,7 @@ jQuery(document).ready(function() {
 
 $orderDoneLink = JRoute::_('index.php?option=com_virtuemart&view=cart&task=orderdone');
 
-vmJsApi::addJScript('vm.checkoutFormSubmit',"
+vmJsApi::addJScript('vm-checkoutFormSubmit',"
 Virtuemart.bCheckoutButton = function(e) {
 	e.preventDefault();
 	jQuery(this).vm2front('startVmLoading');
@@ -138,7 +138,7 @@ jQuery(document).ready(function($) {
 	");
 
 if( !VmConfig::get('oncheckout_ajax',false)) {
-	vmJsApi::addJScript('vm.STisBT',"
+	vmJsApi::addJScript('vm-STisBT',"
 		jQuery(document).ready(function($) {
 
 			if ( $('#STsameAsBTjs').is(':checked') ) {

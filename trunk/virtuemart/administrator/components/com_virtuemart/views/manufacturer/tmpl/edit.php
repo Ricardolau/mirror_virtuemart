@@ -37,7 +37,7 @@ AdminUIHelper::buildTabs ( $this,  $tabarray ,$this->manufacturer->virtuemart_ma
 	<?php echo $this->addStandardHiddenToForm(); ?>
 </form>
 <?php
-vmJsApi::addJScript('vm.toggle','
+vmJsApi::addJScript('vm-toggle','
 function toggleDisable( elementOnChecked, elementDisable, disableOnChecked ) {
 	try {
 		if( !disableOnChecked ) {

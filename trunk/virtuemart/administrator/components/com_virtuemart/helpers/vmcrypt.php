@@ -38,13 +38,13 @@ class vmCrypt {
 				//return base64_encode ( openssl_encrypt( $string, self::VMCIPHER, $key['key'], 0, $iv ) );
 				$ivlen = openssl_cipher_iv_length(self::VMCIPHER);
 				$iv = openssl_random_pseudo_bytes($ivlen);
-				if(version_compare(PHP_VERSION, '7.1.0', 'ge')) {
-					return base64_encode(openssl_encrypt($string, self::VMCIPHER, $key, $options=0, $iv));
-				} else {
+				/*if(version_compare(PHP_VERSION, '7.1.0', 'ge')) {
+					return base64_encode(openssl_encrypt($string, self::VMCIPHER, $key['key'], $options=OPENSSL_RAW_DATA, $iv));
+				} else {*/
 					$ciphertext_raw = openssl_encrypt($string, self::VMCIPHER, $key['key'], $options=OPENSSL_RAW_DATA, $iv);
 					$hmac = hash_hmac('sha256', $ciphertext_raw, $key['key'], $as_binary=true);
 					return base64_encode( $iv.$hmac.$ciphertext_raw );
-				}
+				//}
 
 			} else
 			if( function_exists('mcrypt_encrypt')) {
@@ -71,11 +71,11 @@ class vmCrypt {
 			if( $key['method']=='openssl_' and function_exists('openssl_decrypt')){
 				$ivlen = openssl_cipher_iv_length(self::VMCIPHER);
 
-				if(version_compare(PHP_VERSION, '7.1.0', 'ge')) {
+				/*if(version_compare(PHP_VERSION, '7.1.0', 'ge')) {
 					//store $cipher, $iv, and $tag for decryption later
 					$iv = openssl_random_pseudo_bytes($ivlen);
-					return openssl_decrypt($string, self::VMCIPHER, $key, $options=0, $iv);
-				} else {
+					return openssl_decrypt($string, self::VMCIPHER, $key['key'], $options=OPENSSL_RAW_DATA, $iv);
+				} else {*/
 					$iv = substr($ciphertext_dec, 0, $ivlen);
 					$hmac = substr($ciphertext_dec, $ivlen, $sha2len=32);
 					$ciphertext_raw = substr($ciphertext_dec, $ivlen+$sha2len);
@@ -88,7 +88,7 @@ class vmCrypt {
 						vmdebug('Timing attack?');
 						return $original_plaintext;
 					}
-				}
+				//}
 
 
 			} else
@@ -415,7 +415,7 @@ class vmCrypt {
 		if((strlen($bytes) < $r) && function_exists('openssl_random_pseudo_bytes')) {
 			$bytes = openssl_random_pseudo_bytes($r);
 			//if(!$used){
-				vmdebug('with openssl_random_pseudo_bytes',$bytes); $used = true;
+				//vmdebug('with openssl_random_pseudo_bytes',$bytes); $used = true;
 			//}
 		}
 
@@ -426,38 +426,9 @@ class vmCrypt {
 			$flag = (version_compare(PHP_VERSION, '5.3.7', '<') && strncasecmp(PHP_OS, 'WIN', 3) == 0) ? MCRYPT_RAND : MCRYPT_DEV_URANDOM ;
 			$bytes = mcrypt_create_iv($r,$flag);
 			//if(!$used){
-				vmdebug('with mcrypt_create_iv',$bytes); $used = true;
+				//vmdebug('with mcrypt_create_iv',$bytes); $used = true;
 			//}
 		}
-
-		if((strlen($bytes) < $r) && is_readable('/dev/urandom') && ($urandom = fopen('/dev/urandom', 'rb')) !== false) {
-			$bytes = @fread($urandom, $r);
-			@fclose($urandom);
-			//if(!$used){
-				vmdebug('with urandom',$bytes); $used = true;
-			//}
-		}
-
-		/*if ((strlen($bytes) < $r) && class_exists('COM')) {
-			// Officially deprecated in Windows 7
-			// http://msdn.microsoft.com/en-us/library/aa388182%28v=vs.85%29.aspx
-			try
-			{
-				// @noinspection PhpUndefinedClassInspection
-				$CAPI_Util = new COM('CAPICOM.Utilities.1');
-				if(is_callable(array($CAPI_Util,'GetRandom')))
-				{
-					// @noinspection PhpUndefinedMethodInspection
-					$bytes = $CAPI_Util->GetRandom($r,0);
-					$bytes = base64_decode($bytes);
-				}
-			}
-			catch (Exception $e){
-			}
-			if(!$used){
-				vmdebug('with CAPICOM',$bytes); $used = true;
-			}
-		}//*/
 
 		if (strlen($bytes) < $r) {
 
@@ -483,15 +454,6 @@ class vmCrypt {
 				}
 			}
 		}
-		//vmdebug('returning '.$bytes.' '.base64_encode($bytes));
-		//*/
-		/*if (strlen($bytes) < $r) {
-			// do something to warn system owner that
-			// pseudorandom generator is missing
-			vmdebug('crypto_rand_secure pseudorandom generator is missing',$bytes);
-		} else {
-			//vmdebug('crypto_rand_secure pseudorandom bytes '.$bytes);
-		}*/
 
 		return $bytes;
 	}

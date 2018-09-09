@@ -23,9 +23,9 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
  */
 class convertECB {
 
-	var $document_address = 'http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml';
+	var $document_address = 'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml';
 
-	var $info_address = 'http://www.ecb.int/stats/eurofxref/';
+	var $info_address = 'https://www.ecb.int/stats/eurofxref/';
 	var $supplier = 'European Central Bank';
 
 	/**

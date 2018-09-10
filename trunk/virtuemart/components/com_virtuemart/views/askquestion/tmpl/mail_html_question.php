@@ -6,13 +6,13 @@ defined('_JEXEC') or die('');
  * @subpackage product details
  * @author Maik Künnemann
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - ${PHING.VM.YEAR} Virtuemart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2018 Virtuemart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
  * is derivative of works licensed under the GNU General Public License or
  * other free or open source software licenses.
- * @version $Id$
+ * @version $Id: mail_html_question.php 9927 2018-09-10 STS $
  */
 ?>
 

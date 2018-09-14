@@ -100,8 +100,8 @@ vmJsApi::vmValidator();
 
 if(VmConfig::get('oncheckout_ajax',false)){
 	vmJsApi::addJScript('updDynamicListeners',"
-if (typeof Virtuemart.containerSelector === 'undefined') Virtuemart.containerSelector = '#cart-view';
-if (typeof Virtuemart.container === 'undefined') Virtuemart.container = jQuery(Virtuemart.containerSelector);
+if (typeof Virtuemart.containerSelector === 'undefined') { Virtuemart.containerSelector = '#cart-view'; }
+if (typeof Virtuemart.container === 'undefined') { Virtuemart.container = jQuery(Virtuemart.containerSelector); }
 
 jQuery(document).ready(function() {
 	if (Virtuemart.container)

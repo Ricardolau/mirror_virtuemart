@@ -39,7 +39,7 @@ $params = VmConfig::loadConfig();
 			'bs3' => vmText::_('Bootstrap 3'),
 			'bs4' => vmText::_('Bootstrap 4')
 			);
-			echo VmHTML::row('genericlist','COM_VIRTUEMART_SELECT_BOOTSTRAP_VERSION',$opt, 'bootstrap', 'size=1 width=200', 'value', 'name', VmConfig::get('bootstrap', ''));
+			echo VmHTML::row('genericlist','COM_VM_SELECT_BOOTSTRAP_VERSION',$opt, 'bootstrap', 'size=1 width=200', 'value', 'name', VmConfig::get('bootstrap', ''));
 			echo VmHTML::row('genericlist','COM_VIRTUEMART_SELECT_DEFAULT_SHOP_TEMPLATE',$this->jTemplateList, 'vmtemplate', 'size=1 width=200', 'value', 'name', VmConfig::get('vmtemplate', ''));
 			echo VmHTML::row('genericlist','COM_VIRTUEMART_ADMIN_CFG_CATEGORY_TEMPLATE',$this->jTemplateList, 'categorytemplate', 'size=1 width=200', 'value', 'name', VmConfig::get('categorytemplate', ''));
 			echo VmHTML::row('genericlist','COM_VIRTUEMART_ADMIN_CFG_CART_LAYOUT', $this->cartLayoutList, 'cartlayout', 'size=1', 'value', 'text', VmConfig::get('cartlayout', 'default'));

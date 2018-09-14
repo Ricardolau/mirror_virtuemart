@@ -33,7 +33,7 @@ class vmCrypt {
 		if(!empty($key)) {
 			if(empty($key['method'])) $key['method'] = '';
 			if( $key['method']=='openssl_' and function_exists('openssl_encrypt')){
-				vmdebug('vmCrypt using openssl for encrypt');
+				//vmdebug('vmCrypt using openssl for encrypt');
 				//$iv = self::_getIvOpenSSL ();
 				//return base64_encode ( openssl_encrypt( $string, self::VMCIPHER, $key['key'], 0, $iv ) );
 				$ivlen = openssl_cipher_iv_length(self::VMCIPHER);
@@ -206,7 +206,7 @@ class vmCrypt {
 			} /*else {
 				$key = $usedKey['key'];
 			}*/
-			vmdebug('vmCrypt return key ',$usedKey);
+			//vmdebug('vmCrypt return key ',$usedKey);
 			return $set ? $usedKey:$usedKey['key'];
 		} else {
 			$key = self::_createKeyFile(VmConfig::get('keysize',24));

@@ -999,7 +999,8 @@ abstract class vmPSPlugin extends vmPlugin {
 		}
 		$cartPrice = !empty($cart->cartPrices['withTax'])? $cart->cartPrices['withTax']:$cart->cartPrices['salesPrice'];
 
-		if(!isset($method->cost_per_transaction)) $method->cost_per_transaction = 0.0;
+		if(empty($method->cost_per_transaction)) $method->cost_per_transaction = 0.0;
+		if(empty($method->cost_percent_total)) $method->cost_percent_total = 0.0;
 
 		$costs = $method->cost_per_transaction + $cartPrice * $method->cost_percent_total * 0.01;
 		if(!empty($method->cost_min_transaction) and $method->cost_min_transaction!='' and $costs < $method->cost_min_transaction){

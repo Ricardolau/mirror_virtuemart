@@ -85,9 +85,9 @@ if (file_exists($userCss) && filesize($userCss) > 0)
 }
 
 JHtml::_('bootstrap.framework');
-if($templateparams->get('fontsizeselect')){
-	$this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/md_stylechanger.js');
-}
+/*if($templateparams->get('fontsizeselect')){
+	//$this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/md_stylechanger.js');
+}*/
 $this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/hide.js');
 $this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/respond.src.js');
 $this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/template.js');

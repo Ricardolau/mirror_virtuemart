@@ -120,7 +120,13 @@ class VirtueMartControllerCart extends JControllerLegacy {
 			return true;
 		} else {
 			//$cart->_inCheckOut = false;
-			$redirect = (isset($request['checkout']) or $task=='checkout');
+			$redirect = (isset($request['checkout']) or $task=='checkout' );
+
+			if( VmConfig::get('directCheckout',false) and !$redirect and !$cart->getInCheckOut() and !vRequest::getInt('dynamic',0) and !$cart->_dataValidated) {
+				$redirect = true;
+				vmdebug('directCheckout');
+			}
+
 			$cart->_inConfirm = false;
 			$cart->checkoutData($redirect);
 		}

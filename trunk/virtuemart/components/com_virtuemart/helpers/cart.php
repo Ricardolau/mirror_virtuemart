@@ -151,9 +151,10 @@ class VirtueMartCart {
 					self::$_cart->pricesCurrency				= $sessionCart->pricesCurrency;
 					self::$_cart->paymentCurrency				= $sessionCart->paymentCurrency;
 
-					self::$_cart->_guest						=  $sessionCart->_guest;
+					self::$_cart->_guest						= $sessionCart->_guest;
 					self::$_cart->_inCheckOut 					= $sessionCart->_inCheckOut;
 					self::$_cart->_inConfirm					= $sessionCart->_inConfirm;
+					self::$_cart->_redirected					= $sessionCart->_redirected;
 					self::$_cart->_dataValidated				= $sessionCart->_dataValidated;
 					self::$_cart->_confirmDone					= $sessionCart->_confirmDone;
 					self::$_cart->STsameAsBT					= $sessionCart->STsameAsBT;
@@ -419,6 +420,7 @@ class VirtueMartCart {
 		$sessionCart->_guest						= JFactory::getUser()->guest;
 		$sessionCart->_inCheckOut 					= $this->_inCheckOut;
 		$sessionCart->_inConfirm					= $this->_inConfirm;
+		$sessionCart->_redirected 					= $this->_redirected;
 		$sessionCart->_dataValidated				= $this->_dataValidated;
 		$sessionCart->_confirmDone					= $this->_confirmDone;
 		$sessionCart->STsameAsBT					= $this->STsameAsBT;
@@ -1123,7 +1125,7 @@ class VirtueMartCart {
 
 		//Show cart and checkout data overview
 		if($this->_redirected){
-			$this->_redirected = false;
+			//$this->_redirected = false;
 		} else {
 			$this->_inCheckOut = false;
 		}

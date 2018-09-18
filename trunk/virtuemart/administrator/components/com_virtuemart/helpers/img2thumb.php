@@ -113,7 +113,7 @@ class Img2Thumb	{
 			if($content){
 				$gd = @imagecreatefromstring($content);
 				if ($gd === false) {
-					vmWarn('Img2Thumb NewImgCreate with imagecreatefromstring failed '.$filename.' ');
+					vmError('Img2Thumb NewImgCreate with imagecreatefromstring failed '.$filename.' ');
 				} else {
 					$pathinfo = pathinfo( $fileout );
 					$type = empty($type)? $pathinfo['extension']:$type;

@@ -183,9 +183,9 @@ class vmJsApi{
 					$script = trim($script,chr(13));
 					$script = trim($script,chr(10));
 					if($cdata===false){
-						$html .= '<script id="'.$name.'_js" type="text/javascript">//<![CDATA[ '.chr(10).$script.' //]]>'.chr(10).'</script>';
+						$html .= '<script id="'.$name.'-js" type="text/javascript">//<![CDATA[ '.chr(10).$script.' //]]>'.chr(10).'</script>';
 					} else {
-						$html .= '<script id="'.$name.'_js" type="text/javascript"> '.$script.' </script>';
+						$html .= '<script id="'.$name.'-js" type="text/javascript"> '.$script.' </script>';
 					}
 				}
 

@@ -759,6 +759,7 @@ class VirtueMartModelOrders extends VmModel {
 		if($withTax){
 			$data['product_tax'] = round($data['product_final_price'], $rounding) * $taxCalcValue / ($taxCalcValue + 100);
 		} else {
+			//Todo why we should display this here with tax, if there isnt any?
 			$data['product_basePriceWithTax'] = round( $data['product_item_price'] * (1 + $taxCalcValue/100.0), $rounding );
 		}
 		$data['product_tax'] = round($data['product_tax'], $roundIntern);

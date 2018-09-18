@@ -399,13 +399,11 @@ class VirtueMartModelCustom extends VmModel {
 			return false;
 		}
 
-		if($table->field_type == 'S'){
-			if(!empty($data['transform'])){
-				$this->transformSetStringsList($data);
-			}
+		if($table->field_type == 'S' and !empty($data['transform'])){
+			$this->transformSetStringsList($data);
 			$data['custom_value'] = $data['transform'];
-			$data['transform'] = '';
 		}
+		$data['transform'] = '';
 
 		$table->bindChecknStore($data);
 

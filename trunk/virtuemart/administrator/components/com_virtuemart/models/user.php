@@ -814,8 +814,6 @@ class VirtueMartModelUser extends VmModel {
 	*/
 	public function validateUserData(&$data,$type='BT',$showInfo = false) {
 
-		if(empty($data)) return -1;
-
 		$userFieldsModel = VmModel::getModel('userfields');
 
 		if ($type == 'BT') {

@@ -2634,12 +2634,8 @@ vmdebug('$limitStart',$limitStart);
 			$product->customfields = $customfieldsModel->getCustomEmbeddedProductCustomFields ($product->allIds,0,$ctype);
 		}
 
-		// Calculate the modificator
-		$customfieldsModel = VmModel::getModel('Customfields');
-		$variantPriceModification = $customfieldsModel->calculateModificators ($product);
-
 		$calculator = calculationHelper::getInstance ();
-		$prices = $calculator->getProductPrices ($product, $variantPriceModification, $quantity);
+		$prices = $calculator->getProductPrices ($product, TRUE, $quantity);
 
 		return $prices;
 

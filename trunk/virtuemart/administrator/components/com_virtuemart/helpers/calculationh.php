@@ -285,6 +285,38 @@ class calculationHelper {
 		}
 	}
 
+	public function setProduct($product, $amount = 1.0){
+
+		if(!empty($product->allPrices[$product->selectedPrice])){
+			$this->productPrices = $product->allPrices[$product->selectedPrice];
+
+			$this->productCurrency = $this->productPrices['product_currency'];
+
+			$product->product_tax_id = $this->product_tax_id = $this->productPrices['product_tax_id'];
+			$this->product_discount_id = $this->productPrices['product_discount_id'];
+		}
+		$productVendorId = !empty($product->virtuemart_vendor_id)? $product->virtuemart_vendor_id:1;
+		$this->setVendorId($productVendorId);
+
+		$this->_cats = isset($product->categories)? $product->categories: array();
+		$this->_product = $product;
+		$this->_product->amount = $amount;	//temporary quantity
+		//$this->productPrices = array();
+		if(!isset($this->_product->quantity)) $this->_product->quantity = 1;
+
+		$this->_manufacturerId = !empty($product->virtuemart_manufacturer_id) ? $product->virtuemart_manufacturer_id:0;
+
+		if(VmConfig::get('multix','none')!='none' and (empty($this->vendorCurrency) or $this->vendorCurrency!=$this->productVendorId)){
+			static $vendorCurrencies = array();
+			if(!isset($vendorCurrencies[$this->productVendorId])){
+				$this->_db->setQuery('SELECT `vendor_currency` FROM #__virtuemart_vendors  WHERE `virtuemart_vendor_id`="' . $this->productVendorId . '" ');
+				$vendorCurrencies[$this->productVendorId] = $this->_db->loadResult();
+			}
+			$this->vendorCurrency = $vendorCurrencies[$this->productVendorId];
+		}
+		return $this->productPrices;
+	}
+
 	/** function to start the calculation, here it is for the product
 	 *
 	 * The function first gathers the information of the product (maybe better done with using the model)
@@ -315,42 +347,23 @@ class calculationHelper {
 		$this->_amount = $amount;
 
 		//We already have the productobject, no need for extra sql
-		if (is_object($product)) {
-
-			if(!empty($product->allPrices[$product->selectedPrice])){
-				$prices = $this->productPrices = $product->allPrices[$product->selectedPrice];
-				$costPrice = $prices['product_price'];
-				$this->productCurrency = $prices['product_currency'];
-				$override = $prices['override'];
-				$product_override_price = $prices['product_override_price'];
-				$product->product_tax_id = $this->product_tax_id = $prices['product_tax_id'];
-				$this->product_discount_id = $prices['product_discount_id'];
-			}
-			$productVendorId = !empty($product->virtuemart_vendor_id)? $product->virtuemart_vendor_id:1;
-			$this->setVendorId($productVendorId);
-
-			$this->_cats = isset($product->categories)? $product->categories: array();
-			$this->_product = $product;
-			$this->_product->amount = $amount;	//temporary quantity
-			//$this->productPrices = array();
-			if(!isset($this->_product->quantity)) $this->_product->quantity = 1;
-
-			$this->_manufacturerId = !empty($product->virtuemart_manufacturer_id) ? $product->virtuemart_manufacturer_id:0;
-		} //Use it as productId
-		else {
+		if (!is_object($product)) {
 			vmError('getProductPrices no object given query time','getProductPrices no object given query time');
+			return false;
 		}
 
-		if(VmConfig::get('multix','none')!='none' and (empty($this->vendorCurrency) or $this->vendorCurrency!=$this->productVendorId)){
-			static $vendorCurrencies = array();
-			if(!isset($vendorCurrencies[$this->productVendorId])){
-				$this->_db->setQuery('SELECT `vendor_currency` FROM #__virtuemart_vendors  WHERE `virtuemart_vendor_id`="' . $this->productVendorId . '" ');
-				$vendorCurrencies[$this->productVendorId] = $this->_db->loadResult();
-			}
-			$this->vendorCurrency = $vendorCurrencies[$this->productVendorId];
+		$prices = $this->setProduct($product, $amount);
+
+		$costPrice = $prices['product_price'];
+		$override = $prices['override'];
+		$product_override_price = $prices['product_override_price'];
+
+		if($variant===TRUE){
+			// Calculate the modificator
+			if(!isset($this->customfieldsModel))$this->customfieldsModel = VmModel::getModel('Customfields');
+			$variant = $this->customfieldsModel->calculateModificators ($product);
+			vmdebug('Calculating variant',$variant);
 		}
-
-
 
 		//For Profit, margin, and so on
 		$this->rules['Marge'] = $this->gatherEffectingRulesForProductPrice('Marge', $this->product_marge_id);
@@ -696,8 +709,8 @@ class calculationHelper {
 
 			$this->productCurrency = isset($this->_cart->products[$cprdkey]->product_currency)? $this->_cart->products[$cprdkey]->product_currency:0;
 
-			$variantmod = $customfieldModel->calculateModificators($this->_cart->products[$cprdkey], $this->_cart);
-			$productPrice = $this->getProductPrices($this->_cart->products[$cprdkey],$variantmod, $this->_cart->products[$cprdkey]->quantity);
+			//$variantmod = $customfieldModel->calculateModificators($this->_cart->products[$cprdkey], $this->_cart);
+			$productPrice = $this->getProductPrices($this->_cart->products[$cprdkey],TRUE, $this->_cart->products[$cprdkey]->quantity);
 			//vmTrace('getProductPrices $productPrice '.$variantmod.' '.$productPrice['basePriceVariant'].' '.$productPrice['salesPrice']);
 			//vmdebug('getCheckoutPrices ',$productPrice['salesPrice']);
 			$selectedPrice = $this->_cart->products[$cprdkey]->selectedPrice;

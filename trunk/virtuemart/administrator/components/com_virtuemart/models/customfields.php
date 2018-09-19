@@ -893,26 +893,6 @@ class VirtueMartModelCustomfields extends VmModel {
 		return $media->displayMediaThumb ('', FALSE, '', TRUE, TRUE, $absUrl, $width, $height);
 	}
 
-	/**
-	 * @deprecated
-	 * @param $customPrice
-	 * @param $currency
-	 * @param $calculator
-	 * @return string
-	 */
-	static function _getCustomPrice($customPrice, $currency, $calculator) {
-		if ((float)$customPrice) {
-			$price = strip_tags ($currency->priceDisplay ($calculator->calculateCustomPriceWithTax ($customPrice)));
-			if ($customPrice >0) {
-				$price ="+".$price;
-			}
-		}
-		else {
-			$price = ($customPrice === '') ? '' :  vmText::sprintf('COM_VIRTUEMART_CART_PRICE_FREE',$currency->getSymbol());
-		}
-		return $price;
-	}
-
 	static function renderCustomfieldPrice($productCustom,$product,$calculator){
 
 		$customPrice = self::getCustomFieldPriceModificator($productCustom,$product);
@@ -925,6 +905,7 @@ class VirtueMartModelCustomfields extends VmModel {
 			}
 
 			if(empty($productCustom->multiplyPrice)){
+				$calculator->setProduct($product);
 				$v = strip_tags ($calculator->_currencyDisplay->priceDisplay ($calculator->calculateCustomPriceWithTax ($customPrice)));
 				if ($customPrice < 0) {
 					$v = trim($v,'-');

@@ -146,25 +146,9 @@ class com_virtuemartInstallerScript {
 		$model->execSQLFile($this->path .'/install/install_essential_data.sql');
 		$model->execSQLFile($this->path .'/install/install_required_data.sql');
 
+		$this->createFolders();
+
 		$model->setStoreOwner();
-
-		$this->createIndexFolder(JPATH_ROOT .'/images');
-		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart');
-		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/shipment');
-		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/payment');
-		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/category');
-		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/category/resized');
-		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/manufacturer');
-		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/manufacturer/resized');
-		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/product');
-		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/product/resized');
-		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/forSale');
-		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/forSale/invoices');
-		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/forSale/resized');
-		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/typeless');
-		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/vendor');
-		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/vendor/resized');
-
 		$this->setVmLanguages();
 		$this->installLanguageTables();
 
@@ -192,7 +176,24 @@ class com_virtuemartInstallerScript {
 		return true;
 	}
 
-
+	function createFolders(){
+		$this->createIndexFolder(JPATH_ROOT .'/images');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/shipment');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/payment');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/category');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/category/resized');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/manufacturer');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/manufacturer/resized');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/product');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/product/resized');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/forSale');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/forSale/invoices');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/forSale/resized');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/typeless');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/vendor');
+		$this->createIndexFolder(JPATH_ROOT .'/images/virtuemart/vendor/resized');
+	}
 	/**
 	 * creates a folder with empty html file
 	 *
@@ -224,6 +225,8 @@ class com_virtuemartInstallerScript {
 		}
 
 		$this->loadVm(false);
+
+		$this->createFolders();
 
 		//Delete Cache
 		$cache = JFactory::getCache();

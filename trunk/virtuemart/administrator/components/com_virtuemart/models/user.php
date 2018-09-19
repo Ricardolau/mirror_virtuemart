@@ -844,9 +844,10 @@ class VirtueMartModelUser extends VmModel {
 
 				if($untested){
 					$untested = false;
-					if(!empty($data['virtuemart_country_id'])){
-						if(!isset($data['virtuemart_state_id'])) $data['virtuemart_state_id'] = 0;
-					}
+					if(empty($data)) $data = array();
+					if(empty($data['virtuemart_country_id'])) $data['virtuemart_country_id'] = 0;
+					if(empty($data['virtuemart_state_id'])) $data['virtuemart_state_id'] = 0;
+
 					$msg = VirtueMartModelState::testStateCountry($data['virtuemart_country_id'], $data['virtuemart_state_id'], $staterequired);
 				}
 

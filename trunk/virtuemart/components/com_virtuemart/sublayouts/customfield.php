@@ -147,7 +147,7 @@ class VirtueMartCustomFieldRenderer {
 					}
 
 					foreach($customfield->selectoptions as $k => $soption){
-
+						$html .= '<div class="custom_field_C_container">';
 						$options = array();
 						$selected = false;
 						if(isset($dropdowns[$k])){
@@ -200,7 +200,7 @@ class VirtueMartCustomFieldRenderer {
 						$attribs['data-cvsel'] = 'field' . $customfield->virtuemart_customfield_id ;
 						$fname = $fieldname.'['.$k.']';
 						$html .= JHtml::_ ($selectType, $options, $fname, $attribs , "value", "text", $selected,$idTagK);
-
+						$html .= '</div>';
 					}
 
 					$Itemid = vRequest::getInt('Itemid',''); // '&Itemid=127';
@@ -532,7 +532,7 @@ class VirtueMartCustomFieldRenderer {
 							}
 
 							$default = reset($customfields[$selectList[$customfield->virtuemart_custom_id]]->options);
-							foreach ($customfields[$selectList[$customfield->virtuemart_custom_id]]->options as &$productCustom) {
+							foreach ($customfields[$selectList[$customfield->virtuemart_custom_id]]->options as $k => $productCustom) {
 								if(!isset($productCustom->customfield_price)) $productCustom->customfield_price = 0.0;
 								if(!isset($productCustom->customfield_value)) $productCustom->customfield_value = '';
 								$price = VirtueMartModelCustomfields::renderCustomfieldPrice($productCustom, $product, $calculator);
@@ -546,6 +546,7 @@ class VirtueMartCustomFieldRenderer {
 										$productCustom->text = $trValue.' '.$price;
 									}
 								}
+								$customfields[$selectList[$customfield->virtuemart_custom_id]]->options[$k] = $productCustom;
 							}
 
 

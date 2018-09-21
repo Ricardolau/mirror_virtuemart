@@ -21,26 +21,43 @@ class com_virtuemartInstallerScript {
 	 * Sets the paths and loads VMFramework config
 	 */
 	public function loadVm($fresh = true) {
-		$source_path = '';
+
+		static $loaded = false;
+		if($loaded) return true;
+		$this->path = $this->getVMPathRoot();
 		if(!class_exists('VmConfig')){
-			$r = $this->getVMPathRoot();
-			defined('VMPATH_ROOT') or define('VMPATH_ROOT', $r);
-			require_once(VMPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
+			require_once($this->path .'/administrator/components/com_virtuemart/helpers/config.php');
+		} else {
+			if($this->path!=VMPATH_ROOT){
+
+				$app = JFactory::getApplication();
+				$app->enqueueMessage(JText::_('COM_VM_INSTALL_VMCONFIG_ALREADY_LOADED'),'warning');
+				if(!class_exists('vmDefines') and file_exists($this->path.'/administrator/component/com_virtuemart/helpers/vmdefines.php')){
+					require_once( $this->path.'/administrator/component/com_virtuemart/helpers/vmdefines.php');
+				}
+				if(class_exists('vmDefines') and method_exists('vmDefines','core')){
+					vmDefines::core($this->path);
+				} else {
+					$this->registerCoreClasses($this->path);
+					//return false;
+				}
+			}
 		}
 
 		VmConfig::loadConfig(true,$fresh);
 		VmConfig::loadJLang('com_virtuemart');
-		if(!empty($source_path))vmdebug('com_virtuemartInstallerScript loadVm',$source_path);
-		$this->path = VMPATH_ADMIN;
+		if(!empty($this->path))vmdebug('com_virtuemartInstallerScript loadVm',$this->path);
 
-		VmTable::addIncludePath($this->path .'/tables');
-		VmModel::addIncludePath($this->path .'/models');
+		VmTable::addIncludePath($this->path .'/administrator/components/com_virtuemart/tables');
+		VmModel::addIncludePath($this->path .'/administrator/components/com_virtuemart/models');
 
 		//Maybe it is possible to set this within the xml file note by Max Milbers
 		VmConfig::ensureMemoryLimit(256);
 		VmConfig::ensureExecutionTime(300);
-	}
 
+		$loaded = true;
+		return true;
+	}
 
 	public function getVMPathRoot(){
 		$source_path = dirname(__FILE__);//JInstaller::getInstance()->getPath('source');
@@ -53,6 +70,14 @@ class com_virtuemartInstallerScript {
 				$source_path = substr($source_path,0,$pos);
 			}
 
+			$len = strlen($source_path);
+			$trail = DIRECTORY_SEPARATOR.'administrator'.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_virtuemart';
+			$lenTr = strlen($trail);
+			$pos = strrpos($source_path, $trail);
+
+			if( $pos > ($len - ($lenTr+4)) ){	//Ensure that we just cut the trailing install
+				$source_path = substr($source_path,0,$pos);
+			}
 		} else {
 			$source_path = JPATH_ROOT;
 		}
@@ -142,9 +167,9 @@ class com_virtuemartInstallerScript {
 		$lang = strtolower(strtr($lang,'-','_'));
 
 		$model = VmModel::getModel('updatesmigration');
-		$model->execSQLFile($this->path .'/install/install.sql');
-		$model->execSQLFile($this->path .'/install/install_essential_data.sql');
-		$model->execSQLFile($this->path .'/install/install_required_data.sql');
+		$model->execSQLFile($this->path .'/administrator/components/com_virtuemart/install/install.sql');
+		$model->execSQLFile($this->path .'/administrator/components/com_virtuemart/install/install_essential_data.sql');
+		$model->execSQLFile($this->path .'/administrator/components/com_virtuemart/install/install_required_data.sql');
 
 		$this->createFolders();
 
@@ -224,7 +249,12 @@ class com_virtuemartInstallerScript {
 			return $this->install($loadVm);
 		}
 
-		$this->loadVm(false);
+		$loaded = $this->loadVm(false);
+		if(!$loaded) {
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(JText::_('COM_VM_INSTALL_DISABLE_PLUGINS_LOADING_VMCONFIG'),'warning');
+			//return false;
+		}
 
 		$this->createFolders();
 
@@ -241,7 +271,7 @@ class com_virtuemartInstallerScript {
 
 		$model = VmModel::getModel('updatesmigration');
 		//$model = new VirtueMartModelUpdatesMigration(); //JModel::getInstance('updatesmigration', 'VirtueMartModel');
-		$model->execSQLFile($this->path .'/install/install.sql');
+		$model->execSQLFile($this->path .'/administrator/components/com_virtuemart/install/install.sql');
 
 		$this -> joomlaSessionDBToMediumText();
 
@@ -272,7 +302,7 @@ class com_virtuemartInstallerScript {
 			'customer_note' => '`oc_note` text NOT NULL DEFAULT "" COMMENT \'old customer notes\'',
 		));
 
-
+		JLoader::register('GenericTableUpdater', $this->path .'/administrator/components/com_virtuemart/helpers/tableupdater.php');
 		$updater = new GenericTableUpdater();
 
 		$updater->updateMyVmTables();
@@ -1104,11 +1134,9 @@ class com_virtuemartInstallerScript {
 	public function postflight ($type, $parent=null) {
 		$_REQUEST['install'] = 0;
 		if ($type != 'uninstall') {
-			$this->loadVm(false);
-			//fix joomla BE menu
-			$model = VmModel::getModel('updatesmigration');
-
-
+			if(!class_exists('VmConfig')){
+				$this->loadVm(false);
+			}
 
 			if(!class_exists('VirtueMartModelConfig')) require(VMPATH_ADMIN .'/models/config.php');
 			$res  = VirtueMartModelConfig::checkConfigTableExists();
@@ -1116,7 +1144,6 @@ class com_virtuemartInstallerScript {
 			if(!empty($res)){
 				vRequest::setVar(JSession::getFormToken(), '1');
 				$config = VmModel::getModel('config');
-
 				$config->setDangerousToolsOff();
 			}
 
@@ -1179,6 +1206,95 @@ class com_virtuemartInstallerScript {
 	public function displayFinished($update){
 
 		include(VMPATH_ADMIN.'/views/updatesmigration/tmpl/insfinished.php');
+
+	}
+
+	static public function registerCoreClasses($rootPath = VMPATH_ROOT){
+
+		$vmpath_admin = $rootPath.'/administrator/components/com_virtuemart';
+		$vmpath_pluginlibs = $vmpath_admin.'/plugins';
+		$vmpath_site = $rootPath.'/components/com_virtuemart';
+
+		JLoader::register('JFile', VMPATH_LIBS.'/joomla/filesystem/file.php');
+		JLoader::register('JFolder', VMPATH_LIBS.'/joomla/filesystem/folder.php');
+
+		JLoader::register('vmVersion', $vmpath_admin.'/version.php');
+		JLoader::register('AdminUIHelper', $vmpath_admin.'/helpers/adminui.php');
+		JLoader::register('calculationHelper', $vmpath_admin.'/helpers/calculationh.php');
+		JLoader::register('VmConnector', $vmpath_admin.'/helpers/connection.php');
+		JLoader::register('CurrencyDisplay', $vmpath_admin.'/helpers/currencydisplay.php');
+		JLoader::register('VmHtml', $vmpath_admin.'/helpers/html.php');
+		JLoader::register('VmImage', $vmpath_admin.'/helpers/image.php');
+		JLoader::register('Img2Thumb', $vmpath_admin.'/helpers/img2thumb.php');
+		JLoader::register('VmMediaHandler', $vmpath_admin.'/helpers/mediahandler.php');
+		JLoader::register('vmFile', $vmpath_admin.'/helpers/mediahandler.php');
+		JLoader::register('Migrator', $vmpath_admin.'/helpers/migrator.php');
+		JLoader::register('ShopFunctions', $vmpath_admin.'/helpers/shopfunctions.php');
+		JLoader::register('GenericTableUpdater', $vmpath_admin.'/helpers/tableupdater.php');
+		JLoader::register('VmController', $vmpath_admin.'/helpers/vmcontroller.php');
+		JLoader::register('vmCrypt', $vmpath_admin.'/helpers/vmcrypt.php');
+		JLoader::register('vmFilter', $vmpath_admin.'/helpers/vmfilter.php');
+		JLoader::register('vmJsApi', $vmpath_admin.'/helpers/vmjsapi.php');
+		JLoader::register('vmLanguage', $vmpath_admin.'/helpers/vmlanguage.php');
+		JLoader::register('VmModel', $vmpath_admin.'/helpers/vmmodel.php');
+		JLoader::register('VmPagination', $vmpath_admin.'/helpers/vmpagination.php');
+		JLoader::register('vmRSS', $vmpath_admin.'/helpers/vmrss.php');
+		JLoader::register('VmTable', $vmpath_admin.'/helpers/vmtable.php');
+		JLoader::register('VmTableData', $vmpath_admin.'/helpers/vmtabledata.php');
+		JLoader::register('VmTableXarray', $vmpath_admin.'/helpers/vmtablexarray.php');
+		JLoader::register('vmText', $vmpath_admin.'/helpers/vmtext.php');
+		JLoader::register('vmUploader', $vmpath_admin.'/helpers/vmuploader.php');
+		JLoader::register('VmViewAdmin', $vmpath_admin.'/helpers/vmviewadmin.php');
+		JLoader::register('vObject', $vmpath_admin.'/helpers/vobject.php');
+		JLoader::register('vRequest', $vmpath_admin.'/helpers/vrequest.php');
+
+		JLoader::register('VirtueMartModelCalc', $vmpath_admin.'/models/calc.php');
+		JLoader::register('VirtueMartModelCategory', $vmpath_admin.'/models/category.php');
+		JLoader::register('VirtueMartModelConfig', $vmpath_admin.'/models/config.php');
+		JLoader::register('VirtueMartModelCountry', $vmpath_admin.'/models/country.php');
+		JLoader::register('VirtueMartModelCoupon', $vmpath_admin.'/models/coupon.php');
+		JLoader::register('VirtueMartModelCurrency', $vmpath_admin.'/models/currency.php');
+		JLoader::register('VirtueMartModelCustom', $vmpath_admin.'/models/custom.php');
+		JLoader::register('VirtueMartModelCustomfields', $vmpath_admin.'/models/customfields.php');
+		JLoader::register('VirtueMartModelInventory', $vmpath_admin.'/models/inventory.php');
+		JLoader::register('VirtueMartModelInvoice', $vmpath_admin.'/models/invoice.php');
+		JLoader::register('VirtueMartModelManufacturer', $vmpath_admin.'/models/manufacturer.php');
+		JLoader::register('VirtuemartModelManufacturercategories', $vmpath_admin.'/models/manufacturercategories.php');
+		JLoader::register('VirtueMartModelMedia', $vmpath_admin.'/models/media.php');
+		JLoader::register('VirtueMartModelOrders', $vmpath_admin.'/models/orders.php');
+		JLoader::register('VirtueMartModelOrderstatus', $vmpath_admin.'/models/orderstatus.php');
+		JLoader::register('VirtueMartModelPaymentmethod', $vmpath_admin.'/models/paymentmethod.php');
+		JLoader::register('VirtueMartModelProduct', $vmpath_admin.'/models/product.php');
+		JLoader::register('VirtueMartModelRatings', $vmpath_admin.'/models/ratings.php');
+		JLoader::register('VirtuemartModelReport', $vmpath_admin.'/models/report.php');
+		JLoader::register('VirtueMartModelShipmentmethod', $vmpath_admin.'/models/shipmentmethod.php');
+		JLoader::register('VirtueMartModelShopperGroup', $vmpath_admin.'/models/shoppergroup.php');
+		JLoader::register('VirtueMartModelUpdatesMigration', $vmpath_admin.'/models/updatesmigration.php');
+		JLoader::register('VirtueMartModelState', $vmpath_admin.'/models/state.php');
+		JLoader::register('VirtueMartModelUser', $vmpath_admin.'/models/user.php');
+		JLoader::register('VirtueMartModelUserfields', $vmpath_admin.'/models/userfields.php');
+		JLoader::register('VirtueMartModelVendor', $vmpath_admin.'/models/vendor.php');
+
+		JLoader::register('vmCalculationPlugin', $vmpath_pluginlibs.'/vmcalculationplugin.php');
+		JLoader::register('vmCouponPlugin', $vmpath_pluginlibs.'/vmcouponplugin.php');
+		JLoader::register('vmCurrencyPlugin', $vmpath_pluginlibs.'/vmcurrencyplugin.php');
+		JLoader::register('vmCustomPlugin', $vmpath_pluginlibs.'/vmcustomplugin.php');
+		JLoader::register('vmExtendedPlugin', $vmpath_pluginlibs.'/vmextendedplugin.php');
+		JLoader::register('vmPlugin', $vmpath_pluginlibs.'/vmplugin.php');
+		JLoader::register('vmPSPlugin', $vmpath_pluginlibs.'/vmpsplugin.php');
+		JLoader::register('vmShopperPlugin', $vmpath_pluginlibs.'/vmshopperplugin.php');
+		JLoader::register('vmUserfieldPlugin', $vmpath_pluginlibs.'/vmuserfieldtypeplugin.php');
+
+		JLoader::register('TableCalcs', $vmpath_admin.'/tables/calcs.php');
+		JLoader::register('TableCategories', $vmpath_admin.'/tables/categories.php');
+		JLoader::register('TableCategory_medias', $vmpath_admin.'/tables/category_medias.php');
+		JLoader::register('TableManufacturers', $vmpath_admin.'/tables/manufacturers.php');
+		JLoader::register('TableMedias', $vmpath_admin.'/tables/medias.php');
+		JLoader::register('TableUserinfos', $vmpath_admin.'/tables/userinfos.php');
+		JLoader::register('TableVendors', $vmpath_admin.'/tables/TableVendors.php');
+
+		JLoader::register('shopFunctionsF', $vmpath_site.'/helpers/shopfunctionsf.php');
+		JLoader::register('VmView', $vmpath_site.'/helpers/vmview.php');
 
 	}
 

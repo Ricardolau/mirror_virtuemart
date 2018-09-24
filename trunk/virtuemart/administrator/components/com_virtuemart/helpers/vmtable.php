@@ -183,7 +183,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			}
 			if (!class_exists($tableClass))
 			{
-				vmdebug('Did not find file '.$type.'.php in ',$paths,$tryThis);
+				vmdebug('Did not find class '.$tableClass.' in file '.$type.'.php in ',$paths,$tryThis);
 				return false;
 			}
 		}
@@ -1009,7 +1009,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			if($this->_cryptedFields){
 				$this->decryptFields();
 			}
-			//vmTime('loaded by cache '.$this->_pkey.' '.$this->_slugAutoName.' '.$oid,'vmtableload');
+			vmTime('loaded by cache '.$this->_pkey.' '.$this->_slugAutoName.' '.$oid,'vmtableload');
 			return $this;
 		} else {
 			//vmdebug('loading '.$this->_pkey.' '.$this->_slugAutoName.' '.$oid);
@@ -1069,7 +1069,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 					$this->_langTag = VmConfig::$defaultLang;
 				}
 
-				//vmdebug('No result for '.$this->_ltmp.', lets check for Fallback lang '.$this->_langTag);
+				vmdebug('No result for '.$this->_ltmp.', lets check for Fallback lang '.$this->_langTag);
 				//vmSetStartTime('lfallback');
 				$this->_loadedWithLangFallback = VmConfig::$defaultLangTag;
 				$this->load($oid, $overWriteLoadName, $andWhere, $tableJoins, $joinKey) ;
@@ -1090,11 +1090,12 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		}
 
 
-		if($this->_cryptedFields){
+		if($this->_cryptedFields ){
 			$this->decryptFields();
 		}
 		//if($this->_translatable) vmTime('loaded '.$this->_langTag.' '.$mainTable.' '.$oid ,'vmtableload');
 		$this->_ltmp = false;
+		//$this->_loadedWithLangFallback = false;
 		return $this;
 	}
 

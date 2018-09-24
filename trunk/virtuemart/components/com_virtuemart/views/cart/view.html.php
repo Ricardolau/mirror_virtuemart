@@ -501,7 +501,7 @@ class VirtueMartViewCart extends VmView {
 		}
 
 		$j='jQuery(document).ready(function(){
-    form = jQuery("#checkoutFormSubmit");
+    var form = jQuery("#checkoutFormSubmit");
     jQuery(".output-shipto").find(":radio").change(function(){
 		form.attr("task","checkout");
 		'.$updF.'

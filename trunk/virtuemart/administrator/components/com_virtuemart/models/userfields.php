@@ -767,7 +767,6 @@ class VirtueMartModelUserfields extends VmModel {
 
 		$admin = vmAccess::manager();
 
-		// 		vmdebug('my user data in getUserFieldsFilled',$_selection,$_userData);
 
 		if (is_array($_selection)) {
 
@@ -787,7 +786,7 @@ class VirtueMartModelUserfields extends VmModel {
 				
 				$valueO = $valueN = (($_userData == null || !array_key_exists($_fld->name, $_userData))
 				? vmText::_($_fld->default)
-				: $_userData[$_fld->name]); 
+				: $_userData[$_fld->name]);
 
 				//TODO htmlentites creates problems with non-ascii chars, which exists as htmlentity, for example äöü
 
@@ -833,7 +832,6 @@ class VirtueMartModelUserfields extends VmModel {
 							$attrib = array('style'=>"width: ".$_fld->size."px");
 						}
 						
-						
 						$_return['fields'][$_fld->name]['formcode'] =
 							ShopFunctionsF::renderCountryList($_return['fields'][$_fld->name]['value'], false, $attrib , $_prefix, $_fld->required,'virtuemart_country_id_field');
 
@@ -848,6 +846,12 @@ class VirtueMartModelUserfields extends VmModel {
 								$_return['fields'][$_fld->name]['value'] = !empty($r['country_name'])? $r['country_name']:'' ;
 								$_return['fields'][$_fld->name]['country_2_code'] = !empty($r['country_2_code'])? $r['country_2_code']:'' ;
 								$_return['fields'][$_fld->name]['country_3_code'] = !empty($r['country_3_code'])? $r['country_3_code']:'' ;
+
+								$lang = vmLanguage::getLanguage();
+								$prefix="COM_VIRTUEMART_COUNTRY_";
+								if( $lang->hasKey($prefix.$_return['fields'][$_fld->name]['country_3_code']) ){
+									$_return['fields'][$_fld->name]['value'] = vmText::_($prefix.$_return['fields'][$_fld->name]['country_3_code']);
+								}
 							} else {
 								vmError('Model Userfields, country with id '.$_return['fields'][$_fld->name]['value'].' not found');
 							}

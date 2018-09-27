@@ -31,6 +31,7 @@ defined('_JEXEC') or die('Restricted access');
         <hr>
     <?php } //endregion ?>
 
+
     <?php //region search form
     if (!empty($this->products) or ($this->showsearch or $this->keyword !== FALSE))
         $formAction = JRoute::_('index.php?option=com_virtuemart&view=category&limitstart=0', FALSE);

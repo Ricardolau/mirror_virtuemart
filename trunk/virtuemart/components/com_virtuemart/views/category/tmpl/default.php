@@ -94,7 +94,23 @@ if ($this->showsearch or $this->keyword !== false) {
 
 			<?php if(!empty($this->searchCustomValues)) { ?>
 			<div class="vm-search-custom-values">
-				<?php echo $this->searchCustomValues ?>
+				<?php
+                echo ShopFunctionsF::renderVmSubLayoutAsGrid(
+                    'searchcustomvalues',
+                    array (
+                        'searchcustomvalues' => $this->searchCustomValues,
+                        'options' => array (
+                            'items_per_row' => array (
+                                'xs' => 2,
+                                'sm' => 2,
+                                'md' => 2,
+                                'lg' => 2,
+                                'xl' => 2,
+                            ),
+                        ),
+                    )
+                );
+                ?>
 			</div>
 			<?php } ?>
 			<div class="vm-search-custom-search-input">

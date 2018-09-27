@@ -92,6 +92,41 @@ defined('_JEXEC') or die('Restricted access');
         vmJsApi::addJScript('sendFormChange', $j);
     } //endregion ?>
 
+
+    <?php
+
+    //region categories
+    if ($this->showcategory and empty($this->keyword))
+    {
+        if (!empty($this->category->haschildren))
+        {
+            echo ShopFunctionsF::renderVmSubLayoutAsGrid(
+                'categories',
+                array (
+                    'categories' => $this->category->children,
+                    'options' => array (
+                        'items_per_row' => array (
+                            'xs' => 1,
+                            'sm' => 2,
+                            'md' => 3,
+                            'lg' => 3,
+                            'xl' => 3,
+                        ),
+                        'show_vertical_line' => true,
+                    ),
+                )
+            );
+
+            // echo ShopFunctionsF::renderVmSubLayout(
+            //     'categories',
+            //     array ('categories' => $this->category->children, 'categories_per_row' => $this->categories_per_row)
+            // );
+        }
+    }
+    //endregion
+    ?>
+
+
     <?php
     if (!empty($this->products) or ($this->showsearch or $this->keyword !== FALSE))
     {
@@ -212,17 +247,7 @@ jQuery(document).ready(function () {
         <?php }
     }
 
-    // Show child categories
-    if ($this->showcategory and empty($this->keyword))
-    {
-        if (!empty($this->category->haschildren))
-        {
-            echo ShopFunctionsF::renderVmSubLayout(
-                'categories',
-                array ('categories' => $this->category->children, 'categories_per_row' => $this->categories_per_row)
-            );
-        }
-    }
+
 
     ?>
 </div>

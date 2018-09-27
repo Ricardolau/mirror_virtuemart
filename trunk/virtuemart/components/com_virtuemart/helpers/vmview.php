@@ -101,24 +101,40 @@ class VmView extends JViewLegacy{
 
 	}
 
-	static public function getVmSubLayoutPath($name){
-		$lPath = false;
+    static public function getVmSubLayoutPath ($name)
+    {
+        $lPath = FALSE;
 
-		$vmStyle = VmTemplate::loadVmTemplateStyle();
-		$template = $vmStyle['template'];
-		// get the template and default paths for the layout if the site template has a layout override, use it
-		$templatePath = JPATH_SITE .'/templates/'. $template .'/html/com_virtuemart/sublayouts/'. $name .'.php';
+        $bs = VmConfig::get('bootstrap', '');
+        if ($bs !== '')
+        {
+            $bs = $bs . '-';
+        }
 
+        $vmStyle  = VmTemplate::loadVmTemplateStyle();
+        $template = $vmStyle['template'];
+        // get the template and default paths for the layout if the site template has a layout override, use it
+        $templatePath = JPATH_SITE . '/templates/' . $template . '/html/com_virtuemart/sublayouts/' . $bs . $name . '.php';
 
-		if (JFile::exists ($templatePath)) {
-			$lPath =  $templatePath;
-		} else {
-			if (JFile::exists (VMPATH_SITE .'/sublayouts/'. $name .'.php')) {
-				$lPath = VMPATH_SITE .'/sublayouts/'. $name . '.php';
-			}
-		}
-		return $lPath;
-	}
+        if (JFile::exists($templatePath))
+        {
+            $lPath = $templatePath;
+        } else
+        {
+            if (JFile::exists($templatePath))
+            {
+                $templatePath = JPATH_SITE . '/templates/' . $template . '/html/com_virtuemart/sublayouts/' . $name . '.php';
+                $lPath = $templatePath;
+            } else if (JFile::exists(VMPATH_SITE . '/sublayouts/' . $bs . $name . '.php'))
+            {
+                $lPath = VMPATH_SITE . '/sublayouts/' . $bs . $name . '.php';
+            } else
+            {
+                $lPath = VMPATH_SITE . '/sublayouts/' . $name . '.php';
+            }
+        }
+        return $lPath;
+    }
 
 	function prepareContinueLink(){
 

@@ -30,7 +30,7 @@
     border-top-right-radius: 8px;
 }
 
-.eway-payment-form {
+.eway-payment-form, .eway-result {
     margin: 0 25px 25px;
 }
 #eway-page p {
@@ -63,7 +63,7 @@
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
 
-.eway-cardstartmonth, .eway-cardstartyear, .eway-cardexpiryyear, .eway-cardexpirymonth {
+.eway-cardexpiryyear, .eway-cardexpirymonth {
     display: block;
     height: 34px;
     padding: 6px 12px;
@@ -81,10 +81,6 @@
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
 
-.eway-cardstartmonth, .eway-cardstartyear  {
-    width: 50%;
-    float: left;
-}
 
 .eway-cardexpiryyear, .eway-cardexpirymonth {
     width: 50%;
@@ -166,4 +162,12 @@
 }
 .eway-error input {
     border-width: 2px;
+}
+.eway-delete-card,.eway-edit-card, .eway-update-card{
+    cursor:pointer;
+}
+
+#eway-page input[readonly] {
+    cursor: not-allowed;
+    background-color: #eee;
 }

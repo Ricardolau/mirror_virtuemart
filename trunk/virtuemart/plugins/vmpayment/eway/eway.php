@@ -30,7 +30,7 @@ if (!class_exists('vmCrypt')) {
  * Class plgVmpaymentEway
  */
 class plgVmpaymentEway extends vmPSPlugin {
-	// TODO
+
 	/**
 	 *
 	 */
@@ -58,7 +58,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 		$this->setConvertDecimal(array('min_amount', 'max_amount', 'cost_per_transaction', 'cost_min_transaction', 'cost_percent_total'));
 
 		if (method_exists($this, 'setCryptedFields')) {
-			$this->setCryptedFields(array('APIPassword'));
+			//$this->setCryptedFields(array('APIPassword'));
 		}
 
 	}
@@ -113,6 +113,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 		if (!$this->selectedThisElement($method->payment_element)) {
 			return FALSE;
 		}
+
 
 		require_once VMPATH_PLUGINS . '/vmpayment/eway/library/include_eway.php';
 
@@ -203,6 +204,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 		$dbValues['payment_currency'] = $method->payment_currency;
 		$dbValues['email_currency'] = $this->getEmailCurrency($method);
 		$dbValues['payment_order_total'] = $totalInPaymentCurrency['value'];
+		$dbValues['payment_currency'] =$currency_code_3;
 		$dbValues['tax_id'] = $method->tax_id;
 		// Eway response Value
 		$dbValues['TransactionID'] = $response->TransactionID;
@@ -235,7 +237,8 @@ class plgVmpaymentEway extends vmPSPlugin {
 					'order_number' => $order['details']['BT']->order_number,
 					'maskedCard' => $maskedCard,
 					'sandbox' => $method->sandbox,
-					'update_pay' => 'pay',
+					'action' => 'pay',
+					'autoRedirect' => true,
 				));
 			} else {
 				$html = $this->renderByLayout('payment_page', array(
@@ -278,7 +281,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 			$customer['Street2'] = $order['details']['BT']->address_2;
 		}
 		$customer['City'] = $order['details']['BT']->city;
-		$customer['State'] = isset($address->virtuemart_state_id) ? ShopFunctions::getStateByID($order['details']['BT']->virtuemart_state_id) : '';
+		$customer['State'] = self::getStateCode($order['details']['BT']->virtuemart_state_id, $order['details']['BT']->virtuemart_country_id);
 		$customer['PostalCode'] = $order['details']['BT']->zip;
 		$customer['Country'] = ShopFunctions::getCountryByID($order['details']['BT']->virtuemart_country_id, 'country_2_code');
 		$customer['Email'] = $order['details']['BT']->email;
@@ -310,6 +313,25 @@ class plgVmpaymentEway extends vmPSPlugin {
 			$shippingAddress['Email'] = $order['details']['ST']->email;
 		}
 		return $shippingAddress;
+	}
+
+	/**
+	 * Note from eway:
+	 * In Asia, the banking connector we are processing payments via requires only the ISO State Codes. As documented here: https://en.wikipedia.org/wiki/ISO_3166-2:US
+	 *
+	 * @param $virtuemart_state_id
+	 * @param $virtuemart_country_id
+	 * @return string
+	 */
+	function getStateCode($virtuemart_state_id, $virtuemart_country_id) {
+		if (!$virtuemart_state_id) {
+			return '';
+		}
+		$country_2_code = ShopFunctions::getCountryByID($virtuemart_country_id, 'country_2_code');
+		$state_3_code = ShopFunctions::getStateByID($virtuemart_state_id, 'state_3_code');
+		//return $state_3_code;
+		return $country_2_code.'-'.$state_3_code;
+
 	}
 
 	/**
@@ -429,10 +451,13 @@ class plgVmpaymentEway extends vmPSPlugin {
 			self::redirectToCart();
 			return;
 		}
+
+
 		require_once VMPATH_PLUGINS . '/vmpayment/eway/library/include_eway.php';
 
 		$apiEndpoint = self::getApiEndpoint($method);
 		$client = \Eway\Rapid::createClient($method->APIKey, $method->APIPassword, $apiEndpoint);
+
 
 		$response = $client->queryTransaction($AccessCode);
 		$transactionResponse = $response->Transactions[0];
@@ -465,7 +490,9 @@ class plgVmpaymentEway extends vmPSPlugin {
 		}
 
 		$orderHistory['comments'] = '';
-		$modelOrder = new VirtueMartModelOrders();
+
+		$modelOrder =  VmModel::getModel('orders');
+
 		$modelOrder->updateStatusForOneOrder($virtuemart_order_id, $orderHistory, false);
 
 		vmLanguage::loadJLang('com_virtuemart_orders', TRUE);
@@ -477,9 +504,10 @@ class plgVmpaymentEway extends vmPSPlugin {
 		$response_fields['eway_response_raw'] = print_r($response, true);
 		$response_fields['order_number'] = $order_number;
 		$response_fields['virtuemart_order_id'] = $virtuemart_order_id;
-		$response_fields['payment_currency'] = $method->payment_currency;
+		//$response_fields['payment_currency'] = $method->payment_currency;
 		$response_fields['email_currency'] = $this->getEmailCurrency($method);
 		$response_fields['payment_order_total'] = $transactionResponse->TotalAmount;
+		$response_fields['payment_currency'] = $transactionResponse->CurrencyCode;
 		$response_fields['TransactionID'] = $transactionResponse->TransactionID;
 		$response_fields['TransactionStatus'] = $transactionResponse->TransactionStatus;
 		$response_fields['eway_request_type'] = 'queryTransaction';
@@ -669,7 +697,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 			// Now only the first entry has this data when creating the order
 			if ($first) {
 				$html .= $this->getHtmlRowBE('VMPAYMENT_EWAY_PAYMENT_NAME', $payment->payment_name);
-				$html .= $this->getHtmlRowBE('VMPAYMENT_EWAY_PAYMENT_ORDER_TOTAL', ($payment->payment_order_total) . " " . shopFunctions::getCurrencyByID($payment->payment_currency, 'currency_code_3'));
+				$html .= $this->getHtmlRowBE('VMPAYMENT_EWAY_PAYMENT_ORDER_TOTAL', ($payment->payment_order_total) . " " . $payment->payment_currency);
 				$first = FALSE;
 			}
 
@@ -896,6 +924,7 @@ jQuery().ready(function($) {
 
 
 	private function getMaskedCards($method, $userId = false, $getFromSession = true) {
+		vmdebug(__FILE__ . ' ' . __FUNCTION__, $userId, (int)$getFromSession);
 		if ($getFromSession) {
 			$maskedCards = self::getMaskedCardsFromSession();
 			if ($maskedCards) {
@@ -906,16 +935,22 @@ jQuery().ready(function($) {
 			$userId = JFactory::getUser()->id;
 		}
 		$tokenCustomerIDs = $this->getTokenCustomerIDs($userId);
-		if ($tokenCustomerIDs) {
-			foreach ($tokenCustomerIDs as $tokenCustomerID) {
-				$maskedCard = $this->getMaskedCard($method, $tokenCustomerID);
-				$maskedCard->selected = false;
-				$maskedCards[] = $maskedCard;
-			}
+		vmdebug(__FILE__ . ' ' . __FUNCTION__.' '.__LINE__, $tokenCustomerIDs);
+		$maskedCards = array();
+
+		if (!$tokenCustomerIDs) {
+			return $maskedCards;
 		}
-		if ($maskedCards) {
-			self::setMaskedCardsInSession($maskedCards);
+		foreach ($tokenCustomerIDs as $tokenCustomerID) {
+			$maskedCard = $this->getMaskedCard($method, $tokenCustomerID);
+			$maskedCard->selected = false;
+			$maskedCards[] = $maskedCard;
 		}
+
+		if (!$maskedCards) {
+			return $maskedCards;
+		}
+		self::setMaskedCardsInSession($maskedCards);
 		return $maskedCards;
 	}
 
@@ -958,12 +993,12 @@ jQuery().ready(function($) {
 
 		$customer ["TokenCustomerID"] = $tokenCustomerID;
 
-		$customer ["RedirectUrl"] = vRequest::get('redirectURL');
+		$customer ["RedirectUrl"] = vRequest::get('reloadUrl');
 
 		$response = $client->updateCustomer(\Eway\Rapid\Enum\ApiMethod::TRANSPARENT_REDIRECT, $customer);
 		if (!($response instanceof \Eway\Rapid\Model\Response\AbstractResponse)) {
 			$result['error'] = true;
-			$result['msg'] = 'Unknow Error';
+			$result['msg'] = 'Unknown Error';
 			return $result;
 		}
 
@@ -992,7 +1027,9 @@ jQuery().ready(function($) {
 			'order_number' => '',
 			'maskedCard' => $maskedCard,
 			'sandbox' => $method->sandbox,
-			'update_pay' => 'update'
+			'action' => 'update',
+			'autoRedirect' => false,
+
 		));
 		self::clearEwaySession();
 		return $result;
@@ -1354,9 +1391,9 @@ jQuery().ready(function($) {
 		$dbValues['virtuemart_order_id'] = $foundPayment->virtuemart_order_id;
 		$dbValues['virtuemart_paymentmethod_id'] = $foundPayment->virtuemart_paymentmethod_id;
 		//$dbValues['payment_order_total'] = $refundItem['TotalAmount'];
-		$dbValues['TotalAmount'] = $response->TotalAmount;
+		//$dbValues['TotalAmount'] = $response->TotalAmount;
 		$dbValues['TransactionID'] = $response->TransactionID;
-		$dbValues['eway_request_type'] = 'refund';
+		$dbValues['eway_request_type'] = 'queryTransaction';
 		$dbValues['eway_request_raw'] = print_r($foundPayment->TransactionID, true);
 		$obfuscateResponse = $this->obfuscateResponse($response);
 		$dbValues['eway_response_raw'] = print_r($obfuscateResponse, true);
@@ -1432,7 +1469,7 @@ jQuery().ready(function($) {
 	 * @return bool
 	 */
 	private function canDoCapture($method, $transactionResponse) {
-
+		return true;
 		if (!$method->status_capture_enabled) {
 			vmInfo(vmText::_('VMPAYMENT_EWAY_STATUS_CAPTURE_NOT_ENABLED'));
 			return false;
@@ -1463,7 +1500,7 @@ jQuery().ready(function($) {
 		$refundItem['TransactionID'] = $foundPayment->TransactionID;
 		$refundItem['TotalAmount'] = (int)$foundPayment->payment_order_total;
 		$refundItem['InvoiceNumber'] = $foundPayment->order_number;
-		$refundItem['CurrencyCode'] = shopFunctions::getCurrencyByID($foundPayment->payment_currency, 'currency_code_3');
+		$refundItem['CurrencyCode'] = $foundPayment->payment_currency;
 		$refund ["Refund"] = $refundItem;
 		//$refund ["DeviceID"] = $;
 		$refund ["PartnerID"] = self::PARTNER_ID;
@@ -1531,7 +1568,7 @@ jQuery().ready(function($) {
 		$payment = array();
 		$payment['TotalAmount'] = (int)$foundPayment->payment_order_total;
 		$payment['InvoiceNumber'] = $foundPayment->order_number;
-		$payment['CurrencyCode'] = shopFunctions::getCurrencyByID($foundPayment->payment_currency, 'currency_code_3');
+		$payment['CurrencyCode'] = $foundPayment->payment_currency; //shopFunctions::getCurrencyByID($foundPayment->payment_currency, 'currency_code_3');
 		$transaction = array();
 		$transaction ["Payment"] = $payment;
 		$transaction ["TransactionID"] = $foundPayment->TransactionID;
@@ -1544,6 +1581,7 @@ jQuery().ready(function($) {
 		$dbValues['virtuemart_order_id'] = $foundPayment->virtuemart_order_id;
 		$dbValues['virtuemart_paymentmethod_id'] = $foundPayment->virtuemart_paymentmethod_id;
 		$dbValues['payment_order_total'] = $payment['TotalAmount'];
+		$dbValues['payment_currency'] = $payment['CurrencyCode'];
 		$dbValues['TransactionID'] = $response->TransactionID;
 		$dbValues['eway_request_type'] = (string)\Eway\Rapid\Enum\ApiMethod::AUTHORISATION;
 		$dbValues['eway_request_raw'] = print_r($transaction, true);
@@ -1765,6 +1803,12 @@ jQuery().ready(function($) {
 		$action = vRequest::getCmd('action');
 
 		switch ($action) {
+			case 'deleteCardConfirm':
+				$cardToDelete = vRequest::getVar('cardToDelete', array());
+				$render = $this->deleteCardConfirm($user->id, $cardToDelete);
+				echo json_encode($render);
+				jexit();
+				break;
 			case 'deleteCard':
 				$cardToDelete = vRequest::getVar('cardToDelete', array());
 				$render = $this->deleteCard($user->id, $cardToDelete);
@@ -1802,6 +1846,56 @@ jQuery().ready(function($) {
 		$result['html'] = $html;
 
 		return $html;
+	}
+
+	function deleteCardConfirm($userId, $cardToDelete) {
+		if (!class_exists('VmHTML')) {
+			require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'html.php');
+		}
+		$view = vRequest::getString('view', '');
+		$this->loadJLangThis('plg_vmpayment_eway_', 'vmpayment');
+		if ($view != 'plugin') {
+			$result['error'] = true;
+			$result['msg'] = 'Programming error: View is wrong';
+			return $result;
+		}
+
+		$maskedCards = ''; // Not used when called from vmpayment
+		$msg = '';
+		$cardToDeleteUncrypted = vmCrypt::decrypt($cardToDelete);
+		$cardToDeleteUncrypted = json_decode($cardToDeleteUncrypted);
+		$reloadUrl=vRequest::get('reloadUrl', '');
+		$reloadUrl= vRequest::filterUrl($reloadUrl);
+		$html = $this->renderByLayout('cc_payment_page', array(
+			'FormActionURL' => '',
+			'AccessCode' => '',
+			'payment_type' => '',
+			'pageTitle' => vmText::_('VMPAYMENT_EWAY_DELETE_CREDIT_CARD_TITLE'),
+			'order_number' => '',
+			'maskedCard' => $cardToDeleteUncrypted,
+			'maskedCardCrypted' => $cardToDelete,
+			'sandbox' => false,
+			'action' => 'delete',
+			'autoRedirect' => false,
+			'reloadUrl' => $reloadUrl,
+		));
+
+
+
+		return $html;
+	}
+
+	public function plgVmOnEwayDeleteConfirmCreditCard($element, $userId, $cardToDelete, &$html) {
+		if (!$this->selectedThisElement($element)) {
+			return FALSE;
+		}
+		$vendorId = 1;
+		if ($this->getPluginMethods($vendorId) === 0) {
+			return false;
+		}
+		$html= $this->deleteCardConfirm($userId, $cardToDelete);
+
+		return;
 	}
 
 	function deleteCard($userId, $cardToDelete) {

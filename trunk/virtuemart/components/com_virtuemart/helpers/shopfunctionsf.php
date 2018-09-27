@@ -494,6 +494,181 @@ class shopFunctionsF {
 
 	}
 
+    /**
+     * renders sub layout in a bootstrap grid layout
+     *
+     * @param     $name
+     * @param int $viewData
+     *
+     * @since 3.8
+     * @author Eugen Stranz
+     */
+    static public function renderVmSubLayoutAsGrid ($name, $viewData = 0)
+    {
+        // get the content of the first index in the array and save it in a variable
+        // this variable will be used in the for each loop to generate the grid
+        // we then delete the first index as there is no point in passing it twice
+        reset($viewData);
+        $itemCollection = $viewData[key($viewData)];
+        unset($viewData[key($viewData)]);
+
+        if(!isset($viewData['options']))
+        {
+            $viewData['options'] = array ();
+        }
+
+        // Grid Settings & Calculation
+        $itemsPerRow              = vRequest::get(
+            'items_per_row',
+            array ( 'xs' => 1, 'sm' => 2, 'md' => 3, 'lg' => 3, 'xl' => 3 ),
+            FILTER_UNSAFE_RAW,
+            FILTER_FLAG_NO_ENCODE,
+            $viewData['options']
+        );
+        $iRowItemsPerDevice       = array ( 'xs' => 0, 'sm' => 0, 'md' => 0, 'lg' => 0, 'xl' => 0 );
+        $totalItems               = count($itemCollection);
+        $iItems                   = 0;
+        $gridClassNamesForNewLine = array (
+            'xs' => 'col-12 d-block d-sm-none',
+            'sm' => 'col-12 d-none d-sm-block d-md-none d-lg-none d-xl-none',
+            'md' => 'col-12 d-none d-sm-none d-md-block d-lg-none d-xl-none',
+            'lg' => 'col-12 d-none d-sm-none d-md-none d-lg-block d-xl-none',
+            'xl' => 'col-12 d-none d-sm-none d-md-none d-lg-none d-xl-block',
+        );
+        $fixedColumnWidth         = vRequest::get(
+            'fixed_column_width',
+            false,
+            FILTER_UNSAFE_RAW,
+            FILTER_FLAG_NO_ENCODE,
+            $viewData['options']
+        );
+        if ($fixedColumnWidth)
+        {
+            $columnClassNames         = array ();
+            $possibleGridColumnWitdhs = array ( 1, 2, 3, 4, 6 );
+            foreach ($itemsPerRow as $deviceSize => $itemPerRow)
+            {
+                if (in_array($itemPerRow, $possibleGridColumnWitdhs))
+                {
+                    $columnClassNames[] = ($deviceSize == 'xs')
+                        ? 'col-' . (12 / $itemPerRow)
+                        : 'col-' . $deviceSize . '-' . (12 / $itemPerRow);
+                }
+                else
+                {
+                    $columnClassNames[]       = ($deviceSize == 'xs')
+                        ? 'col-4'
+                        : 'col-' . $deviceSize . '-4';
+                    $itemsPerRow[$deviceSize] = 3;
+                }
+            }
+            $columnClassNames[] = 'd-flex';
+        }
+        else
+        {
+            // $columnClassNames = array ( 'col', 'd-flex' );
+            $columnClassNames = array ( 'col' );
+        }
+
+        // Display Settings
+        $showHorizontalLine      = vRequest::get(
+            'show_horizontal_line',
+            true,
+            FILTER_UNSAFE_RAW,
+            FILTER_FLAG_NO_ENCODE,
+            $viewData['options']
+        );
+        $showVerticalLine        = vRequest::get(
+            'show_vertical_line',
+            true,
+            FILTER_UNSAFE_RAW,
+            FILTER_FLAG_NO_ENCODE,
+            $viewData['options']
+        );
+        $addMarginBottomToColumn = vRequest::get(
+            'add_margin_bottom_to_column',
+            false,
+            FILTER_UNSAFE_RAW,
+            FILTER_FLAG_NO_ENCODE,
+            $viewData['options']
+        );
+        if (!$showHorizontalLine)
+        {
+            $addMarginBottomToColumn = true;
+        }
+        else
+        {
+            $addMarginBottomToColumn = false;
+        }
+
+        // Output The Items
+        ob_start();
+        ?>
+        <div class="row">
+            <?php
+            // Loop Through The Items Of The Collection
+            foreach ($itemCollection as $item)
+            {
+                // Vertical Line Logic
+                $newLineClassName = array ();
+                if ($showVerticalLine)
+                {
+                    foreach ($iRowItemsPerDevice as $deviceSize => $iRowItem)
+                    {
+                        if (($iRowItemsPerDevice[$deviceSize] + 1) == $itemsPerRow[$deviceSize])
+                        {
+                            $newLineClassName[] = ' end-' . $deviceSize;
+                        }
+                        else
+                        {
+                            $newLineClassName[] = ' vl-' . $deviceSize;
+                        }
+                    }
+                }
+                ?>
+                <div class="<?php echo implode(' ', $columnClassNames) . implode('', $newLineClassName) ?>">
+                    <?php
+                    $viewData[$name] = $item;
+                    echo self::renderVmSubLayout($name, $viewData);
+                    ?>
+                </div>
+                <?php
+                $iItems++;
+
+                // Logic For New Line Force
+                foreach ($iRowItemsPerDevice as $deviceSize => $iRowItem)
+                {
+                    $iRowItemsPerDevice[$deviceSize]++;
+                    if ($iRowItemsPerDevice[$deviceSize] == $itemsPerRow[$deviceSize]
+                        && $iItems < $totalItems)
+                    {
+                        // Add Margin Bottom If We Horizontal Line is Disabled
+                        if ($addMarginBottomToColumn)
+                        {
+                            $gridClassNamesForNewLine[$deviceSize] .= ($deviceSize == 'xs')
+                                ? ' mb-4'
+                                : ' mb-' . $deviceSize . '-4';
+                        }
+                        ?>
+                        <div class="new-line <?php echo $gridClassNamesForNewLine[$deviceSize] ?>">
+                            <?php if ($showHorizontalLine): ?>
+                                <hr>
+                            <?php endif ?>
+                        </div>
+                        <?php
+                        $iRowItemsPerDevice[$deviceSize] = 0;
+                    }
+                }
+            }
+            ?>
+        </div>
+        <?php
+        // Return Content And Clear Memory
+        $content = ob_get_contents();
+        ob_end_clean();
+
+        return $content;
+    }
 
 
 	/**

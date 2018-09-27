@@ -1599,7 +1599,6 @@ vmdebug('my prices',$data);
 			$productModel->updateStockInDB($tableOrderItems, $quantity,$product_in_stock,$product_ordered);
 		}
 
-
 	}
 
 	/**

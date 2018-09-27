@@ -39,9 +39,24 @@ defined('_JEXEC') or die('Restricted access');
             <form action="<?php echo $formAction ?>" method="get">
 
                 <?php if (!empty($this->searchCustomValues)) { ?>
-                    searchCustomValues
                     <div class="vm-store-category-search-custom-values">
-                        <?php echo $this->searchCustomValues ?>
+                        <?php
+                        echo ShopFunctionsF::renderVmSubLayoutAsGrid(
+                            'searchcustomvalues',
+                            array (
+                                'searchcustomvalues' => $this->searchCustomValues,
+                                'options' => array (
+                                    'items_per_row' => array (
+                                        'xs' => 2,
+                                        'sm' => 2,
+                                        'md' => 2,
+                                        'lg' => 2,
+                                        'xl' => 2,
+                                    ),
+                                ),
+                            )
+                        );
+                        ?>
                     </div>
                     <hr>
                 <?php } ?>
@@ -139,12 +154,8 @@ defined('_JEXEC') or die('Restricted access');
             echo vmText::_('COM_VIRTUEMART_NO_RESULT') . ($this->keyword ? ' : (' . $this->keyword . ')' : '');
         }
         ?>
-
-
     <?php } ?>
-
 </div>
-
 
 <?php
 if (vRequest::getInt('dynamic', FALSE) and vRequest::getInt('virtuemart_product_id', FALSE))
@@ -163,7 +174,6 @@ if (vRequest::getInt('dynamic', FALSE) and vRequest::getInt('virtuemart_product_
             $this->productsLayout,
             array ('products' => $this->products, 'currency' => $this->currency, 'products_per_row' => $this->perRow, 'showRating' => $this->showRating)
         );
-
     }
 
     return;
@@ -180,15 +190,7 @@ jQuery(document).ready(function () {
 });
 ";
     vmJsApi::addJScript('vm-hover', $js);
-
-
     ?>
-
-
-
-
-
-
 
     <?php
     if (!empty($this->showcategory_desc) and empty($this->keyword))
@@ -233,5 +235,3 @@ if (VmConfig::get('ajax_category', FALSE))
     vmJsApi::addJScript('ajax_category', $j);
     vmJsApi::jDynUpdate();
 }
-?>
-<!-- end browse-view -->

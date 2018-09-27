@@ -210,7 +210,7 @@ class VirtuemartViewCategory extends VmView {
 		$this->orderByList = '';
 
 		$this->searchcustom = '';
-		$this->searchCustomValues = '';
+		$this->searchCustomValues = array ();
 
 		if(!empty($this->keyword) or $this->showsearch){
 			vmSetStartTime('getSearchCustom');
@@ -608,7 +608,11 @@ INNER JOIN #__virtuemart_product_categories as cat ON (pc.virtuemart_product_id=
 								$v = $this->productModel->searchcustoms[$selected->virtuemart_custom_id];
 							}
 							//$v = $app->getUserStateFromRequest ('com_virtuemart.customfields.'.$selected->virtuemart_custom_id, 'customfields['.$selected->virtuemart_custom_id.']', '', 'string');
-							$this->searchCustomValues .= '<div class="vm-search-custom-values-group"><div class="vm-custom-title-select">' .  vmText::_( $selected->custom_title ).'</div>'.JHtml::_( 'select.genericlist', $valueOptions, 'customfields['.$selected->virtuemart_custom_id.']', 'class="inputbox vm-chzn-select changeSendForm"', 'virtuemart_custom_id', 'custom_title', $v ) . '</div>';
+
+                            // Custom Search Values
+                            $selected->value_options    = $valueOptions;
+                            $selected->v                = $v;
+                            $this->searchCustomValues[] = $selected;
 						}
 
 						//vmdebug('getSearchCustom '.$q2,$Opts,$valueOptions);
@@ -621,9 +625,7 @@ INNER JOIN #__virtuemart_product_categories as cat ON (pc.virtuemart_product_id=
 						}*/
 
 				} else if($selected->field_type=="P"){
-					$v = vRequest::getString('customfields['.$selected->virtuemart_custom_id.']');
-					$n = 'customfields['.$selected->virtuemart_custom_id.']';
-					$this->searchCustomValues .= vmText::_( $selected->custom_title ).' <input name="'.$n.'" class="inputbox vm-chzn-select" type="text" size="20" value="'.$v.'"/>';
+                    $this->searchCustomValues[] = $selected;
 				} else {
 				//Atm not written for other field types
 				/*	$db->setQuery('SELECT `customfield_value` as virtuemart_custom_id,`custom_value` as custom_title FROM `#__virtuemart_product_customfields` WHERE virtuemart_custom_id='.$selected->virtuemart_custom_id);
@@ -634,7 +636,6 @@ INNER JOIN #__virtuemart_product_categories as cat ON (pc.virtuemart_product_id=
 
 				}
 			}
-			$this->searchCustomValues .= '<div class="clear"></div>';
 		}
 
 		if(VmConfig::get('useCustomSearchTrigger',false)){

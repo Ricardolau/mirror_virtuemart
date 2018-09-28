@@ -83,7 +83,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 			'virtuemart_paymentmethod_id' => 'mediumint(1) UNSIGNED',
 			'payment_name' => 'varchar(5000)',
 			'payment_order_total' => 'decimal(15,5) NOT NULL DEFAULT \'0.00000\' ',
-			'payment_currency' => 'char(3) ',
+			'payment_currency' => 'smallint(1)',
 			'cost_per_transaction' => 'decimal(10,2)',
 			'cost_percent_total' => 'char(10)',
 			'tax_id' => 'smallint(1)',
@@ -204,7 +204,6 @@ class plgVmpaymentEway extends vmPSPlugin {
 		$dbValues['payment_currency'] = $method->payment_currency;
 		$dbValues['email_currency'] = $this->getEmailCurrency($method);
 		$dbValues['payment_order_total'] = $totalInPaymentCurrency['value'];
-		$dbValues['payment_currency'] =$currency_code_3;
 		$dbValues['tax_id'] = $method->tax_id;
 		// Eway response Value
 		$dbValues['TransactionID'] = $response->TransactionID;
@@ -422,15 +421,6 @@ class plgVmpaymentEway extends vmPSPlugin {
 	 */
 	function plgVmOnPaymentResponseReceived(&$html) {
 
-		if (!class_exists('VirtueMartCart')) {
-			require(JPATH_VM_SITE . DS . 'helpers' . DS . 'cart.php');
-		}
-		if (!class_exists('shopFunctionsF')) {
-			require(JPATH_VM_SITE . DS . 'helpers' . DS . 'shopfunctionsf.php');
-		}
-		if (!class_exists('VirtueMartModelOrders')) {
-			require(JPATH_VM_ADMINISTRATOR . DS . 'models' . DS . 'orders.php');
-		}
 
 		// the payment itself should send the parameter needed.
 		$virtuemart_paymentmethod_id = vRequest::getInt('pm', 0);
@@ -497,17 +487,14 @@ class plgVmpaymentEway extends vmPSPlugin {
 
 		vmLanguage::loadJLang('com_virtuemart_orders', TRUE);
 
-		if (!class_exists('VirtueMartCart')) {
-			require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');
-		}
+
 		$response_fields['payment_name'] = $this->renderPluginName($method);
 		$response_fields['eway_response_raw'] = print_r($response, true);
 		$response_fields['order_number'] = $order_number;
 		$response_fields['virtuemart_order_id'] = $virtuemart_order_id;
-		//$response_fields['payment_currency'] = $method->payment_currency;
-		$response_fields['email_currency'] = $this->getEmailCurrency($method);
+		$response_fields['payment_currency'] = $order['details']['BT']->payment_currency_id;
+		$response_fields['email_currency'] = $order['details']['BT']->order_currency;
 		$response_fields['payment_order_total'] = $transactionResponse->TotalAmount;
-		$response_fields['payment_currency'] = $transactionResponse->CurrencyCode;
 		$response_fields['TransactionID'] = $transactionResponse->TransactionID;
 		$response_fields['TransactionStatus'] = $transactionResponse->TransactionStatus;
 		$response_fields['eway_request_type'] = 'queryTransaction';
@@ -533,7 +520,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 
 	}
 
-	//TODO
+
 	private function saveTokenCustomerID($virtuemart_user_id, $tokenCustomerID) {
 		if (!$virtuemart_user_id) {
 			return;
@@ -1049,9 +1036,6 @@ jQuery().ready(function($) {
 		}
 
 
-		if (!class_exists('CurrencyDisplay')) {
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');
-		}
 		$currency = CurrencyDisplay::getInstance();
 		$costDisplay = "";
 		if ($pluginSalesPrice) {
@@ -1500,7 +1484,8 @@ jQuery().ready(function($) {
 		$refundItem['TransactionID'] = $foundPayment->TransactionID;
 		$refundItem['TotalAmount'] = (int)$foundPayment->payment_order_total;
 		$refundItem['InvoiceNumber'] = $foundPayment->order_number;
-		$refundItem['CurrencyCode'] = $foundPayment->payment_currency;
+
+		$refundItem['CurrencyCode'] = shopFunctions::getCurrencyByID($foundPayment->payment_currency, 'currency_code_3');
 		$refund ["Refund"] = $refundItem;
 		//$refund ["DeviceID"] = $;
 		$refund ["PartnerID"] = self::PARTNER_ID;
@@ -1568,7 +1553,7 @@ jQuery().ready(function($) {
 		$payment = array();
 		$payment['TotalAmount'] = (int)$foundPayment->payment_order_total;
 		$payment['InvoiceNumber'] = $foundPayment->order_number;
-		$payment['CurrencyCode'] = $foundPayment->payment_currency; //shopFunctions::getCurrencyByID($foundPayment->payment_currency, 'currency_code_3');
+		$payment['CurrencyCode'] = shopFunctions::getCurrencyByID($foundPayment->payment_currency, 'currency_code_3');
 		$transaction = array();
 		$transaction ["Payment"] = $payment;
 		$transaction ["TransactionID"] = $foundPayment->TransactionID;
@@ -1581,7 +1566,7 @@ jQuery().ready(function($) {
 		$dbValues['virtuemart_order_id'] = $foundPayment->virtuemart_order_id;
 		$dbValues['virtuemart_paymentmethod_id'] = $foundPayment->virtuemart_paymentmethod_id;
 		$dbValues['payment_order_total'] = $payment['TotalAmount'];
-		$dbValues['payment_currency'] = $payment['CurrencyCode'];
+		$dbValues['payment_currency'] = $foundPayment->payment_currency;
 		$dbValues['TransactionID'] = $response->TransactionID;
 		$dbValues['eway_request_type'] = (string)\Eway\Rapid\Enum\ApiMethod::AUTHORISATION;
 		$dbValues['eway_request_raw'] = print_r($transaction, true);

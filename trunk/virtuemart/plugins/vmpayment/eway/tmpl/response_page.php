@@ -21,9 +21,7 @@ $doc = JFactory::getDocument();
 $doc->addStyleSheet(JURI::root(true) . '/plugins/vmpayment/eway/assets/css/eway.css');
 ?>
 <div id="eway-page">
-	<div id="eway-payment-logo">
-		<img src="<?php echo JURI::root() ?>/plugins/vmpayment/eway/assets/images/eway-logo.png"/>
-	</div>
+
 	<h1><?php echo $viewData['pageTitle'] ?></h1>
 	<?php if ($viewData['sandbox']) {
 		echo '<p><span style="color:red;font-weight:bold">Your payment is set in sandbox mode. No real money is transferred and this is not suitable for live sites.</span></p>';

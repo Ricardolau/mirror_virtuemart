@@ -666,13 +666,22 @@ INNER JOIN #__virtuemart_product_categories as cat ON (pc.virtuemart_product_id=
 			if (!$last_category_id or $this->categoryId == $last_category_id) {
 				$last_category_id = vRequest::getInt('virtuemart_category_id', false);
 			}
-			if ($last_category_id and $this->categoryId != $last_category_id) {
+			/*if ($last_category_id and $this->categoryId != $last_category_id) {
 				$catLink = '&view=category&virtuemart_category_id=' . $last_category_id;
-			}
+			}*/
 		}
 
 		if ((int)VmConfig::get('handle_404',1)) {
-			$this->app->redirect(JRoute::_('index.php?option=com_virtuemart' . $catLink . '&error=404', FALSE));
+
+			header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
+
+			$cat = VmModel::getModel('category')->getCategory($last_category_id);
+			if(empty($cat->virtuemart_category_id)){
+				$last_category_id = 0;
+			}
+			vRequest::setVar('virtuemart_category_id', $last_category_id);
+			$this->display();
+			//$this->app->redirect(JRoute::_('index.php?option=com_virtuemart' . $catLink . '&error=404', FALSE));
 		} else {
 			throw new RuntimeException('VirtueMart category not found.', 404);
 		}

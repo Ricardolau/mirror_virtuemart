@@ -89,14 +89,29 @@ class VirtueMartViewProductdetails extends VmView {
 
 				$categoryLink = '';
 				if (!$last_category_id) {
-					$last_category_id = vRequest::getInt('virtuemart_category_id', false);
+					$last_category_id = vRequest::getInt('virtuemart_category_id', 0);
 				}
 				if ($last_category_id) {
 					$categoryLink = '&virtuemart_category_id=' . $last_category_id;
 				}
 
 				if (VmConfig::get('handle_404',1)) {
-					$app->redirect(JRoute::_('index.php?option=com_virtuemart&view=category' . $categoryLink . '&error=404', FALSE));
+					header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
+
+					$cat = VmModel::getModel('category')->getCategory($last_category_id);
+					if(empty($cat->virtuemart_category_id)){
+						$last_category_id = 0;
+					}
+					vRequest::setVar('virtuemart_category_id', $last_category_id);
+
+					//Todo we could here also get the home menu item and display that one.
+					$document = JFactory::getDocument();
+					JLoader::register('VirtueMartControllerCategory',VMPATH_SITE .'/controllers/category.php');
+					$controller = new VirtuemartControllerCategory();
+					$view = $controller->getView('category', 'html', '', array('layout' => 'default'));
+					$view->assignRef('document', $document);
+					$view->display();
+
 				} else {
 					throw new RuntimeException('VirtueMart product not found.', 404);
 				}

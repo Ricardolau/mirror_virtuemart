@@ -362,7 +362,6 @@ class calculationHelper {
 			// Calculate the modificator
 			if(!isset($this->customfieldsModel))$this->customfieldsModel = VmModel::getModel('Customfields');
 			$variant = $this->customfieldsModel->calculateModificators ($product);
-			vmdebug('Calculating variant',$variant);
 		}
 
 		//For Profit, margin, and so on
@@ -812,26 +811,26 @@ class calculationHelper {
 
 			// subTotal for each taxID necessary, equal if calc_categories exists ore not
 			if(!empty($this->_cart->cartData['taxRulesBill'])) {
-				foreach($this->_cart->cartData['taxRulesBill'] as $k=>&$trule) {
-					if(empty($trule['subTotal'])) $trule['subTotal'] = 0.0;
+				foreach($this->_cart->cartData['taxRulesBill'] as $k=>$trule) {
+					if(empty($this->_cart->cartData['taxRulesBill'][$k]['subTotal'])) $trule['subTotal'] = 0.0;
 					if($product->product_tax_id != 0) {
 						if($product->product_tax_id == $k) {
-							$trule['subTotal']+= $this->_cart->cartPrices[$cprdkey]['subtotal_with_tax'];
+							$this->_cart->cartData['taxRulesBill'][$k]['subTotal']+= $this->_cart->cartPrices[$cprdkey]['subtotal_with_tax'];
 						}
 					} else if(!empty($trule['calc_categories']) || !empty($trule['virtuemart_manufacturers'])) {
 						$setCat = !empty($trule['calc_categories']) ? array_intersect($trule['calc_categories'],$product->categories) : array();
 						$setMan = !empty($trule['virtuemart_manufacturers']) ? array_intersect($trule['virtuemart_manufacturers'],$product->virtuemart_manufacturer_id) : array();
 						if(!empty($trule['calc_categories']) && !empty($trule['virtuemart_manufacturers'])) {
 							if(count($setCat)>0 && count($setMan)>0) {
-								$trule['subTotal'] += $this->_cart->cartPrices[$cprdkey]['subtotal_with_tax'];
+								$this->_cart->cartData['taxRulesBill'][$k]['subTotal'] += $this->_cart->cartPrices[$cprdkey]['subtotal_with_tax'];
 							}
 						} else {
 							if(count($setCat)>0 || count($setMan)>0) {
-								$trule['subTotal'] += $this->_cart->cartPrices[$cprdkey]['subtotal_with_tax'];
+								$this->_cart->cartData['taxRulesBill'][$k]['subTotal'] += $this->_cart->cartPrices[$cprdkey]['subtotal_with_tax'];
 							}
 						}
 					} else {
-						$trule['subTotal'] += $this->_cart->cartPrices[$cprdkey]['subtotal_with_tax'];
+						$this->_cart->cartData['taxRulesBill'][$k]['subTotal'] += $this->_cart->cartPrices[$cprdkey]['subtotal_with_tax'];
 					}
 					//vmdebug('$this->_cart->cartData["taxRulesBill"]',$this->_cart->cartPrices[$cprdkey]);
 				}
@@ -903,20 +902,20 @@ class calculationHelper {
 
 		// now calculate the discount for whole cart and reduce subTotal for each taxRulesBill, to calculate correct tax, also if there are more than one tax rules
 		$totalDiscountBeforeTax = $this->_cart->cartPrices['salesPriceCoupon'];
-		foreach ($this->_cart->cartData['taxRulesBill'] as $k=>&$rule) {
+		foreach ($this->_cart->cartData['taxRulesBill'] as $k=>$rule) {
 
 			if(!empty($rule['subTotal'])) {
 				if (isset($this->_cart->cartData['VatTax'][$k]['DBTax'])) {
-					$rule['subTotal'] += $this->_cart->cartData['VatTax'][$k]['DBTax'];
+					$this->_cart->cartData['taxRulesBill'][$k]['subTotal'] += $this->_cart->cartData['VatTax'][$k]['DBTax'];
 				}
 				if (!isset($rule['percentage']) && $rule['subTotal'] < $this->_cart->cartPrices['salesPrice']) {
-					$rule['percentage'] = $rule['subTotal'] / ($this->_cart->cartPrices['salesPrice'] + $cartdiscountBeforeTax);
+					$this->_cart->cartData['taxRulesBill'][$k]['percentage'] = $rule['subTotal'] / ($this->_cart->cartPrices['salesPrice'] + $cartdiscountBeforeTax);
 				} else if (!isset($rule['percentage'])) {
-					$rule['percentage'] = 1;
+					$this->_cart->cartData['taxRulesBill'][$k]['percentage'] = 1;
 				}
-				$rule['subTotal'] += $totalDiscountBeforeTax * $rule['percentage'];
+				$this->_cart->cartData['taxRulesBill'][$k]['subTotal'] += $totalDiscountBeforeTax * $rule['percentage'];
 			} else {
-				$rule['subTotal'] = $this->_cart->cartPrices['toTax'];
+				$this->_cart->cartData['taxRulesBill'][$k]['subTotal'] = $this->_cart->cartPrices['toTax'];
 			}
 		}
 

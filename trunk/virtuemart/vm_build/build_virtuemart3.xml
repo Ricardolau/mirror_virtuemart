@@ -6,7 +6,7 @@
     <property name="vm.version.main" value="3.4.0"/>
     <property name="vm.version" value="3.4.0"/>
     <property name="joomla.version" value="3.8.12"/>
-    <property name="PHING.VM.REVISION" value="9939"/>
+    <property name="PHING.VM.REVISION" value="9948"/>
     <property name="PHING.VM.CODENAME" value="Blue Corvus"/>
     <property name="PHING.VM.UPDATEFOLDER" value="vm3"/>
     <property file="build.properties"/>
@@ -168,6 +168,7 @@
         <exclude name="**/installationJ3/**"/>
         <exclude name="**/vmf/**"/>
         <exclude name="**/com_virtuemart/toolbar**"/>
+        <exclude name="components/com_virtuemart/views/virtuemart/**"/>
         <exclude name="**/vmbeez5/**"/>
         <!--exclude name="**/vm_update/**"/ -->
         <exclude name="**/ar-AA/**"/>

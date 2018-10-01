@@ -30,8 +30,8 @@ class com_virtuemartInstallerScript {
 		} else {
 			if($this->path!=VMPATH_ROOT){
 
-				$app = JFactory::getApplication();
-				$app->enqueueMessage(JText::_('COM_VM_INSTALL_VMCONFIG_ALREADY_LOADED'),'warning');
+				//$app = JFactory::getApplication();
+				//$app->enqueueMessage(JText::_('COM_VM_INSTALL_VMCONFIG_ALREADY_LOADED'),'warning');
 				if(!class_exists('vmDefines') and file_exists($this->path.'/administrator/component/com_virtuemart/helpers/vmdefines.php')){
 					require_once( $this->path.'/administrator/component/com_virtuemart/helpers/vmdefines.php');
 				}

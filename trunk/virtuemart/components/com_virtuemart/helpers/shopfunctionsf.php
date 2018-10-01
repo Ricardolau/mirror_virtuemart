@@ -809,12 +809,12 @@ class shopFunctionsF {
 				$replyTo[0] = $view->orderDetails['details']['BT']->email;
 				$replyToName[0] = $view->orderDetails['details']['BT']->first_name . ' ' . $view->orderDetails['details']['BT']->last_name;
 			} else {
-				if(isset($view->user->email) && $view->user->name) {
-					$replyTo[0] = $view->user->email;
-					$replyToName[0] = $view->user->name;
+				if(is_object($view->user)){
+					$replyTo[0] = isset($view->user->email)? $view->user->email:false;
+					$replyToName[0] = isset($view->user->name)? $view->user->name:false;
 				} else {
-					$replyTo[0] = $view->user['email'];
-					$replyToName[0] = $view->user['name'];
+					$replyTo[0] = isset($view->user['email'])? $view->user['email']:false;
+					$replyToName[0] = isset($view->user['name'])? $view->user['name']:false;
 				}
 			}
 		}

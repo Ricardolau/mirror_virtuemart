@@ -168,7 +168,7 @@
         <exclude name="**/installationJ3/**"/>
         <exclude name="**/vmf/**"/>
         <exclude name="**/com_virtuemart/toolbar**"/>
-        <exclude name="components/com_virtuemart/views/virtuemart/**"/>
+        <exclude name="components/com_virtuemart/views/virtuemart/tmpl/default.xml"/>
         <exclude name="**/vmbeez5/**"/>
         <!--exclude name="**/vm_update/**"/ -->
         <exclude name="**/ar-AA/**"/>

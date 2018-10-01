@@ -153,6 +153,7 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 			'smbt_size' => array('', 'char'),
 			'smbt_shape' => array('', 'char'),
 			'smbt_color' => array('', 'char'),
+			'smbt_label' => array('', 'char'),
 			'headerBgColor' => array('', 'char'),
 			'headerHeight' => array('', 'char'),
 			'logoFont' => array('', 'char'),

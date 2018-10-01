@@ -57,12 +57,38 @@ class vmPPButton {
 			$text = vmText::_('VMPAYMENT_PAYPAL_EXPCHECKOUT_BUTTON');
         }
 
+		vmdebug('renderCheckoutButton',$method);
+		$locale = str_replace('-','_',VmLanguage::$jSelLangTag);
+
 		if(!empty($method->enable_smart_buttons)){
+
+			$colorOption = 'color: \''.$method->smbt_color.'\'';
+			$fundingIco= '';
+			$funding= '';
+			if($method->smbt_label=='credit'){
+				$colorOption = '';
+				//$fundingIco = 'fundingicons: \'true\'';
+				//As example for now
+				$funding= 'funding: {
+ allowed: [ paypal.FUNDING.CREDIT ]/*,
+ disallowed: [ paypal.FUNDING.CREDIT ]*/
+},';	//*/
+			}
 			vmJsApi::addJScript('https://www.paypalobjects.com/api/checkout.js',false, false, false);
 			$j = 'jQuery().ready(
 function($) {
     paypal.Button.render({
       env: \''.$env.'\', // Or \'sandbox\',
+      locale: \''.$locale.'\',
+      style: {
+			size: \''.$method->smbt_size.'\',
+			tagline: \'true\',
+			shape: \''.$method->smbt_shape.'\',
+			label: \''.$method->smbt_label.'\',
+			'.$colorOption.'
+			'.$fundingIco.'
+	  },
+	  '.$funding.'
       payment: function (data, actions) {
 			return paypal.request.get(paypalLink.getAttribute(\'href\'), {
 				headers: {

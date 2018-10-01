@@ -1600,7 +1600,7 @@ vmdebug('$limitStart',$limitStart);
 		$product->selectedPrice = 0;
 		$product->allPrices[0] = $this->fillVoidPrice();
 		$product->categories = array();
-
+		$product->allIds = array();
 		if ($front) {
 			$product->link = '';
 			$product->virtuemart_category_id = 0;

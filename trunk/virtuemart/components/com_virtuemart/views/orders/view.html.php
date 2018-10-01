@@ -7,7 +7,7 @@
  * @subpackage Orders
  * @author Oscar van Eijk, Max Milbers
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2015 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2018 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -65,19 +65,36 @@ class VirtuemartViewOrders extends VmView {
 
 		$this->order_list_link = JRoute::_('index.php?option=com_virtuemart&view=orders&layout=list', FALSE);
 
-		$this->trackingByOrderPass = -1;
+
+		$ordertracking = VmConfig::get('ordertracking','guests');
+		$this->trackingByOrderPass = false; //(VmConfig::get( 'orderGuestLink', 0 ) or !VmConfig::get('oncheckout_only_registered',0)) ;
+		if($ordertracking == 'guests' or $ordertracking == 'guestlink'){
+			$this->trackingByOrderPass = true;
+		}
+
 		if ($layoutName == 'details') {
-			$orderDetails = $orderModel ->getMyOrderDetails();
-			if(!$orderDetails or empty($orderDetails['details'])){
-				$layoutName = 'list';
-				$this->setLayout($layoutName);
-				if($orderDetails) {
-					$this->trackingByOrderPass = false;
-				} else {
-					vmInfo('COM_VIRTUEMART_ORDER_NOTFOUND');
-					//return;
+
+			$orderPass = vRequest::getString( 'order_pass', false );
+			if($_currentUser->guest and (!$this->trackingByOrderPass or !$orderPass)){
+				vmInfo('COM_VIRTUEMART_ORDER_CONNECT_FORM');
+				$orderDetails = false;
+				parent::display($tpl);
+				return true;
+			} else {
+				$orderDetails = $orderModel ->getMyOrderDetails();
+				if(!$orderDetails or empty($orderDetails['details'])){
+					$layoutName = 'list';
+					$this->setLayout($layoutName);
+					if($orderDetails) {
+						$this->trackingByOrderPass = false;
+					} else {
+						vmInfo('COM_VIRTUEMART_ORDER_NOTFOUND');
+						//return;
+					}
 				}
 			}
+
+
 		}
 
 		if ($layoutName == 'details') {
@@ -201,13 +218,6 @@ class VirtuemartViewOrders extends VmView {
 				$this->setLayout( strtolower( $l ) );
 			}
 
-			if($this->trackingByOrderPass == -1){
-				$ordertracking = VmConfig::get('ordertracking','guests');
-				$this->trackingByOrderPass = false; //(VmConfig::get( 'orderGuestLink', 0 ) or !VmConfig::get('oncheckout_only_registered',0)) ;
-				if($ordertracking == 'guests' or $ordertracking == 'guestlink'){
-					$this->trackingByOrderPass = true;
-				}
-			}
 		}
 
 		$orderStatusModel = VmModel::getModel('orderstatus');

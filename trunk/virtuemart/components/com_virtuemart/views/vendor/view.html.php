@@ -50,27 +50,24 @@ class VirtuemartViewVendor extends VmView {
 
 		$model = VmModel::getModel();
 
-		$virtuemart_vendor_id = vRequest::getInt('virtuemart_vendor_id','');
+		$virtuemart_vendor_id = vRequest::getInt('virtuemart_vendor_id',false);
 
 // 		if ($layoutName=='default') {
 		if (empty($virtuemart_vendor_id)) {
 			$document->setTitle( vmText::_('COM_VIRTUEMART_VENDOR_LIST') );
 			$pathway->addItem(vmText::_('COM_VIRTUEMART_VENDOR_LIST'));
 
-			$vendors = $model->getVendors();
-			$model->addImages($vendors);
-
-			$this->assignRef('vendors', $vendors);
+			$this->vendors = $model->getVendors();
+			$model->addImages($this->vendors);
 
 		} else {
 
-			$vendor = $model->getVendor($virtuemart_vendor_id);
-			$model->addImages($vendor);
+			$this->vendor = $model->getVendor($virtuemart_vendor_id);
+			$model->addImages($this->vendor);
 			if (VmConfig::get ('enable_content_plugin', 0)) {
-				shopFunctionsF::triggerContentPlugin($vendor, 'vendor','vendor_store_desc');
-				shopFunctionsF::triggerContentPlugin($vendor, 'vendor','vendor_terms_of_service');
+				shopFunctionsF::triggerContentPlugin($this->vendor, 'vendor','vendor_store_desc');
+				shopFunctionsF::triggerContentPlugin($this->vendor, 'vendor','vendor_terms_of_service');
 			}
-			$this->assignRef('vendor', $vendor);
 
 			//$userId = VirtueMartModelVendor::getUserIdByVendorId($virtuemart_vendor_id);
 

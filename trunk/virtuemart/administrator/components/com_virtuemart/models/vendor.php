@@ -102,17 +102,38 @@ class VirtueMartModelVendor extends VmModel {
 	 * todo only names are needed here, maybe it should be enhanced (loading object list is slow)
 	 * todo add possibility to load without limit
 	 *
-	 * @author RickG
 	 * @author Max Milbers
 	 * @return object List of vendors
 	 */
-	public function getVendors () {
+	public function getVendors ($keyword = "") {
+
 
 		$this->setId (0); //This is important ! notice by Max Milbers
-		$query = 'SELECT * FROM `#__virtuemart_vendors_' . VmConfig::$vmlang . '` as l JOIN `#__virtuemart_vendors` as v using (`virtuemart_vendor_id`)';
-		$query .= ' ORDER BY l.`virtuemart_vendor_id`';
-		$this->_data = $this->_getList ($query, $this->getState ('limitstart'), $this->getState ('limit'));
-		return $this->_data;
+		//$query = 'SELECT * FROM `#__virtuemart_vendors_' . VmConfig::$vmlang . '` as l JOIN `#__virtuemart_vendors` as v using (`virtuemart_vendor_id`)';
+//$this->setDebugSql(1);
+
+		$langFields = array('vendor_store_desc','vendor_terms_of_service','vendor_legal_info','vendor_letter_css','vendor_letter_header_html','vendor_letter_footer_html', 'vendor_store_name', 'vendor_phone', 'vendor_url', 'metadesc', 'metakey', 'customtitle', 'vendor_invoice_free1', 'vendor_invoice_free2', 'vendor_mail_free1', 'vendor_mail_free2', 'vendor_mail_css', 'slug');
+		$select = ' v.*, vm.virtuemart_media_id,'.implode(', ',self::joinLangSelectFields($langFields));
+		$joins = ' FROM #__virtuemart_vendors as v '.implode(' ',self::joinLangTables('#__virtuemart_vendors','v','virtuemart_vendor_id')) .' LEFT JOIN #__virtuemart_vendor_medias as vm on v.virtuemart_vendor_id=vm.virtuemart_vendor_id' ;
+		$whereString = '';
+		$ordering = ' ORDER BY l.`virtuemart_vendor_id`';
+
+		//$this->_data = $this->_getList ($query, $this->getState ('limitstart'), $this->getState ('limit'));vmdebug('my data',$this->_data);
+		//return $this->_data;
+
+
+		$hash = md5($keyword.'.'.VmLanguage::$currLangTag);
+		if(!isset($vends[$hash])){
+			$vends[$hash] = $this->exeSortSearchListQuery(0,$select,$joins,$whereString,'GROUP BY virtuemart_vendor_id',$ordering );
+			$venTab = $this->getTable('vendors');
+			foreach($vends[$hash] as $ven){
+				if(!empty($venTab->_varsToPushParam)){
+					VmTable::bindParameterable($ven,'vendor_params',$venTab->_varsToPushParam);
+				}
+			}
+		}
+
+		return $vends[$hash];
 	}
 
 	/**

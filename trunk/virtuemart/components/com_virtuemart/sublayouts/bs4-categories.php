@@ -4,7 +4,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 // output the passed array / object content
-$category = $viewData['categories'];
+$category = $viewData['bs4-categories'];
 
 // CategoryURL
 $caturl = JRoute::_(
@@ -17,7 +17,6 @@ $caturl = JRoute::_(
 // }
 // todo $ajaxUpdate in den container der kategorie einbinden
 ?>
-
 <div class="card center">
     <div>
         <?php echo $category->images[0]->displayMediaThumb('class="img-fluid vm-category-thumbnail"', FALSE); ?>

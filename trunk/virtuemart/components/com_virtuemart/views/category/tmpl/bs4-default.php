@@ -19,7 +19,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 ?>
-
 <div data-vm="main-container">
 
     <?php //region vendor store description
@@ -94,33 +93,27 @@ defined('_JEXEC') or die('Restricted access');
 
 
     <?php
-
     //region categories
     if ($this->showcategory and empty($this->keyword))
     {
         if (!empty($this->category->haschildren))
         {
             echo ShopFunctionsF::renderVmSubLayoutAsGrid(
-                'categories',
+                'bs4-categories',
                 array (
                     'categories' => $this->category->children,
                     'options' => array (
                         'items_per_row' => array (
-                            'xs' => 1,
-                            'sm' => 2,
-                            'md' => 3,
-                            'lg' => 3,
-                            'xl' => 3,
+                            'xs' => $this->categories_per_row,
+                            'sm' => $this->categories_per_row,
+                            'md' => $this->categories_per_row,
+                            'lg' => $this->categories_per_row,
+                            'xl' => $this->categories_per_row,
                         ),
                         'show_vertical_line' => true,
                     ),
                 )
             );
-
-            // echo ShopFunctionsF::renderVmSubLayout(
-            //     'categories',
-            //     array ('categories' => $this->category->children, 'categories_per_row' => $this->categories_per_row)
-            // );
         }
     }
     //endregion
@@ -138,9 +131,7 @@ defined('_JEXEC') or die('Restricted access');
         <br>
         <br>
         <br>
-
         <?php // Show child categories
-
         if (!empty($this->orderByList))
         { ?>
             <div class="orderby-displaynumber">

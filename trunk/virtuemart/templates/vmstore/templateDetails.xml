@@ -32,7 +32,7 @@
     <!-- Template Predefined Module Position Names-->
     <positions>
         <position>debug</position>
-        <position>position-0</position>
+        <position>right</position>
     </positions>
 
     <!-- Template Language Files -->

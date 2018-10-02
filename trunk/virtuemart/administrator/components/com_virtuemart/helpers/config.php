@@ -792,14 +792,7 @@ class VmConfig {
 			//vmdebug('Selected language '.$selectedLang.' $knownLangs ',$knownLangs);
 
 			if($app->isAdmin() and !$redirected and !in_array(vmLanguage::$currLangTag,$knownLangs)){
-				//$option = vRequest::getVar('option');
-				//VmConfig::$_debug=true;
-				//vmdebug('my option',$option,$_REQUEST);
-				//if($option!='com_languages'){
-				$msg = 'Install your selected language <b>'.vmLanguage::$currLangTag.'</b> first in <a href="'.$link.'">joomla language manager</a>, just select then the component VirtueMart under menu "component", to proceed with the installation ';
-				//$link = 'index.php?option=com_installer&view=languages&redirected=1';
-				//$app->redirect($link,$msg);
-				//}
+				$msg = 'Install your selected language <b>'.vmLanguage::$currLangTag.'</b> in <a href="'.$link.'">joomla language manager</a>';
 				$app->enqueueMessage($msg);
 			}
 

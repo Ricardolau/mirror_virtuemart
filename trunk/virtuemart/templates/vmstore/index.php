@@ -27,7 +27,7 @@ $vmStoreTemplate = VmStoreTemplate::getInstance('joomla');
             <jdoc:include type="message"/>
             <jdoc:include type="component"/>
         </div>
-        <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+        <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3 display-none-xs">
             <jdoc:include type="modules" name="right" />
         </div>
     </div>

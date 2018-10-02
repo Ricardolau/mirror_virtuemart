@@ -18,7 +18,6 @@
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
-
 ?>
 <div data-vm="main-container">
     <?php
@@ -28,7 +27,7 @@ defined('_JEXEC') or die('Restricted access');
             'manufacturer' => $this->manufacturers,
             'options' => array (
                 'items_per_row' => array (
-                    'xs' => VmConfig::get ('manufacturer_per_row', 3),
+                    'xs' => 1,
                     'sm' => VmConfig::get ('manufacturer_per_row', 3),
                     'md' => VmConfig::get ('manufacturer_per_row', 3),
                     'lg' => VmConfig::get ('manufacturer_per_row', 3),

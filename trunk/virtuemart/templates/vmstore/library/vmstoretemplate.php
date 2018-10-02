@@ -91,6 +91,9 @@ class VmStoreTemplate
         // load bootstrap framework based on virtuemart config setting
         $this->loadBootstrapFrameworkBasedOnVirtueMartConfig();
 
+        // set viewport meta for mobile friendly support
+        $this->setWebsiteHeadArea('<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">');
+
         // set joomla head into the website head area
         $this->setWebsiteHeadArea('<jdoc:include type="head"/>');
 

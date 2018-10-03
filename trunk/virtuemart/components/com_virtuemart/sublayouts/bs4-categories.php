@@ -17,7 +17,7 @@ $caturl = JRoute::_(
 // }
 // todo $ajaxUpdate in den container der kategorie einbinden
 ?>
-<div class="card center">
+<div class="card text-center">
     <div>
         <?php echo $category->images[0]->displayMediaThumb('class="img-fluid vm-category-thumbnail"', FALSE); ?>
     </div>

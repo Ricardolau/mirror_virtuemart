@@ -653,7 +653,25 @@ Virtuemart.requiredMsg = '" .addslashes (vmText::_ ('COM_VIRTUEMART_MISSING_REQU
 	 */
 	static function cssSite() {
 
-		if (!VmConfig::get ('css', TRUE)) return FALSE;
+		// we load one common css and put styles in there
+		// that we need and which are can't be covered by bootstrap
+		$bootstrapVersion = VmConfig::get('bootstrap', '');
+		if ($bootstrapVersion !== '') {
+			// Load The Common CSS File
+			$cssFile = 'vm-' . $bootstrapVersion . '-common';
+			vmJsApi::css($cssFile);
+
+			// Right To Left Support
+			if (JFactory::getDocument()->getDirection() == 'rtl') {
+				$cssFile = 'vm-' . $bootstrapVersion . '-common-rtl';
+				vmJsApi::css($cssFile);
+			}
+			return FALSE;
+		}
+
+		if (!VmConfig::get('css', TRUE)) {
+			return FALSE;
+		}
 
 		static $cssSite;
 		if ($cssSite) return;

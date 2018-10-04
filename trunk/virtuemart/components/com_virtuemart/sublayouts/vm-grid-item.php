@@ -4,5 +4,5 @@
 defined('_JEXEC') or die('Restricted access');
 
 // output the passed array / object content
-$item = $viewData['item'];
+$item = $viewData['vm-grid-item'];
 echo $item;

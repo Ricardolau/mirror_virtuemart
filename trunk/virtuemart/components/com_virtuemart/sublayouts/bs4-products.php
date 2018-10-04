@@ -61,18 +61,15 @@ if (!empty($menuItemID))
             </div>
         <?php } ?>
 
-
-
         <?php // Product Price
-        echo shopFunctionsF::renderVmSubLayout(
-            'prices',
-            array (
-                'product' => $product,
-                'currency' => $productCurrency,
-            )
-        );
+        // echo shopFunctionsF::renderVmSubLayout(
+        //     'prices',
+        //     array (
+        //         'product' => $product,
+        //         'currency' => $productCurrency,
+        //     )
+        // );
         ?>
-
 
         <?php // Product Add To Cart Area Including Fields
         echo shopFunctionsF::renderVmSubLayout(
@@ -84,12 +81,10 @@ if (!empty($menuItemID))
         );
         ?>
 
-
         <a href="<?php echo $product->link ?>" title="<?php echo vmText::_($product->product_name) ?>"
            class="btn btn-primary btn-block">
             <?php echo vmText::_('JSHOW'); ?>
         </a>
-
 
         <?php
         if (VmConfig::get('display_stock', 1))

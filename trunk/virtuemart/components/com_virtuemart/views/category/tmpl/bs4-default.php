@@ -18,7 +18,9 @@
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
-echo JVERSION;
+
+// echo \Joomla\CMS\Version::MAJOR_VERSION;
+
 ?>
     <div data-vm="main-container">
 
@@ -92,45 +94,28 @@ echo JVERSION;
             vmJsApi::addJScript('sendFormChange', $j);
         } //endregion ?>
 
-
-        <?php
-        //region categories
-        if ($this->showcategory and empty($this->keyword))
-        {
-            if (!empty($this->category->haschildren))
-            {
-                ?>
-                <div class="mb-5">
-                    <?php
-                    echo ShopFunctionsF::renderVmSubLayoutAsGrid(
-                        'bs4-categories',
-                        array (
-                            'categories' => $this->category->children,
-                            'options' => array (
-                                'items_per_row' => array (
-                                    'xs' => $this->categories_per_row,
-                                    'sm' => $this->categories_per_row,
-                                    'md' => $this->categories_per_row,
-                                    'lg' => $this->categories_per_row,
-                                    'xl' => $this->categories_per_row,
-                                ),
-                                'show_vertical_line' => TRUE,
-                            ),
-                        )
-                    );
-                    ?>
-                </div>
-                <?php
-            }
-        }
-        //endregion
-        ?>
-
-
         <?php
         if (!empty($this->products) or ($this->showsearch or $this->keyword !== FALSE))
         {
             ?>
+            <div class="row">
+                <div class="col-6">
+					<?php //region order by list
+					echo ShopFunctionsF::renderVmSubLayout('bs4-order-by', array ());
+					//endregion
+					?>
+                </div>
+                <div class="col-3 offset-3">
+                    <div class="form-group">
+                        <label for="limit" class="text-right d-block">
+                            <?php echo $this->vmPagination->getResultsCounter(); ?>
+                        </label>
+						<?php echo $this->vmPagination->getLimitBox($this->category->limit_list_step); ?>
+                    </div>
+                </div>
+            </div>
+            <hr>
+
             <?php //// Show child categories
             // if (!empty($this->orderByList))
             // { ?>
@@ -140,19 +125,18 @@ echo JVERSION;
             <!--            --><?php //echo $this->orderByList['manufacturer']; ?>
             <!--        </div>-->
             <!---->
-            <!--        <div class="floatright display-number">--><?php //echo $this->vmPagination->getResultsCounter(); ?>
-            <!--            <br/>--><?php //echo $this->vmPagination->getLimitBox($this->category->limit_list_step); ?><!--</div>-->
+            <!--        <div class="floatright display-number">-->
+<!--                        <br/></div>-->
             <!---->
             <!--        <div class="clear"></div>-->
             <!--    </div>-->
             <?php //} ?>
-            <!---->
-            <!---->
-            <?php //if (!empty($this->category->category_name)) { ?>
-            <!--<h1>-->
-            <!--    --><?php //echo vmText::_($this->category->category_name); ?>
-            <!--</h1>-->
-            <?php //} ?>
+
+            <?php if (!empty($this->category->category_name)) { ?>
+            <h1>
+                <?php echo vmText::_($this->category->category_name); ?>
+            </h1>
+            <?php } ?>
 
 
             <?php
@@ -213,6 +197,39 @@ echo JVERSION;
 
             ?>
         <?php } ?>
+
+		<?php
+		//region categories
+		if ($this->showcategory and empty($this->keyword))
+		{
+			if (!empty($this->category->haschildren))
+			{
+				?>
+                <div class="mb-5">
+					<?php
+					echo ShopFunctionsF::renderVmSubLayoutAsGrid(
+						'bs4-categories',
+						array (
+							'categories' => $this->category->children,
+							'options' => array (
+								'items_per_row' => array (
+									'xs' => $this->categories_per_row,
+									'sm' => $this->categories_per_row,
+									'md' => $this->categories_per_row,
+									'lg' => $this->categories_per_row,
+									'xl' => $this->categories_per_row,
+								),
+								'show_vertical_line' => TRUE,
+							),
+						)
+					);
+					?>
+                </div>
+				<?php
+			}
+		}
+		//endregion
+		?>
     </div>
 
 

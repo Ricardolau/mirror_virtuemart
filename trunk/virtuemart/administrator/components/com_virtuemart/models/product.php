@@ -348,7 +348,7 @@ class VirtueMartModelProduct extends VmModel {
 
 
 			if(!empty($custom_search)){
-				$this->searchcustoms = true;
+				// $this->searchcustoms = true;
 				$where[] = " ( " . implode (' OR ', $custom_search) . " ) ";
 				//$where[] = " ( " . implode (' AND ', $custom_search_value) . " AND (".implode (' OR ', $custom_search_key).")) ";
 				if($this->searchAllCats){

@@ -7,7 +7,7 @@
  * @subpackage
  * @author Max Milbers, Patrick Kohl, Valerie Isaksen
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2014 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2018 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -348,7 +348,8 @@ class VirtueMartModelProduct extends VmModel {
 
 
 			if(!empty($custom_search)){
-				// $this->searchcustoms = true;
+
+				if(empty($this->searchcustoms)) $this->searchcustoms = true;
 				$where[] = " ( " . implode (' OR ', $custom_search) . " ) ";
 				//$where[] = " ( " . implode (' AND ', $custom_search_value) . " AND (".implode (' OR ', $custom_search_key).")) ";
 				if($this->searchAllCats){

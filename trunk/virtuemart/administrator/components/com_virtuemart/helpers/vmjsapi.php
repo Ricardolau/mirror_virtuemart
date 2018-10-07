@@ -653,6 +653,9 @@ Virtuemart.requiredMsg = '" .addslashes (vmText::_ ('COM_VIRTUEMART_MISSING_REQU
 	 */
 	static function cssSite() {
 
+		static $cssSite;
+		if ($cssSite) return;
+
 		// we load one common css and put styles in there
 		// that we need and which are can't be covered by bootstrap
 		$bootstrapVersion = VmConfig::get('bootstrap', '');
@@ -672,9 +675,6 @@ Virtuemart.requiredMsg = '" .addslashes (vmText::_ ('COM_VIRTUEMART_MISSING_REQU
 		if (!VmConfig::get('css', TRUE)) {
 			return FALSE;
 		}
-
-		static $cssSite;
-		if ($cssSite) return;
 
 		// Get the Page direction for right to left support
 		$document = JFactory::getDocument ();

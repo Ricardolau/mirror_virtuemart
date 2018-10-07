@@ -286,7 +286,7 @@ class VirtueMartModelVendor extends VmModel {
 				$db->setQuery ($q);
 				self::$_vendorCurrencies[$_vendorId] = $db->loadObject ();
 				if(!self::$_vendorCurrencies[$_vendorId]){
-					$link = '/index.php?option=com_virtuemart&view=user&task=editshop';
+					$link = JURI::root(false).'administrator/index.php?option=com_virtuemart&view=user&task=editshop';
 					vmWarn('COM_VIRTUEMART_CONF_WARN_NO_CURRENCY_DEFINED','<a href="'.$link.'">'.$link.'</a>');
 				}
 			} else {

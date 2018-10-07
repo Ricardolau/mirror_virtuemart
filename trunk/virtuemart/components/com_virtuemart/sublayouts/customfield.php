@@ -407,7 +407,7 @@ class VirtueMartCustomFieldRenderer {
 						$yearRange = '';
 						if(!empty($customfield->yearRangeStart)){
 							$d = new DateTime();
-							$d->add(new DateInterval($customfield->yearRangeStart));
+							$d->add(new DateInterval('P'.$customfield->yearRangeStart.'Y'));
 							$d = $d->format('Y');
 							$yearRange = $d;
 						} else {
@@ -416,7 +416,7 @@ class VirtueMartCustomFieldRenderer {
 
 						if(!empty($customfield->yearRangePeriod)){
 							$d = new DateTime();
-							$d->add(new DateInterval($customfield->yearRangePeriod));
+							$d->add(new DateInterval('P'.$customfield->yearRangePeriod.'Y'));
 							$d = $d->format('Y');
 							$yearRange .= ':'.$d;
 						} else {
@@ -811,7 +811,12 @@ class VirtueMartCustomFieldRenderer {
 						}
 						elseif (($productCustom->field_type == 'D')) {
 							vmdebug('my date product customfield',$productCustom);
-							$value = $params;
+							if($productCustom->is_input){
+								$value = $params;
+							} else {
+								$value = $productCustom->customfield_value;
+							}
+
 						}
 						else {
 							$value = vmText::_($productCustom->customfield_value);

@@ -1123,11 +1123,9 @@ class VirtueMartModelUser extends VmModel {
 		$password = preg_replace('/[\x00-\x1F\x7F]/', '', $password); //Disallow control chars in the email
 		$vars['password'] = $password;
 
-		if ($useractivation == '1' ) {
+		if ($useractivation == '1' or $useractivation == '2') {
 			jimport('joomla.user.helper');
 			$vars['activationLink'] = 'index.php?option=com_users&task=registration.activate&token='.$user->get('activation');
-		} else if ($useractivation == '2' ){
-			$vars['activationLink'] = vmText::_('COM_VIRTUEMART_REG_COMPLETE_ACTIVATE_ADMIN');
 		}
 
 		$usersConfig = JComponentHelper::getParams( 'com_users' );

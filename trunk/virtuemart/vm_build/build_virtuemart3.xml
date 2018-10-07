@@ -4,9 +4,9 @@
     <!-- value can be: major, minor, bugfix -->
     <property name="releasetype" value="MAYOR"/>
     <property name="vm.version.main" value="3.4.0"/>
-    <property name="vm.version" value="3.4.0"/>
+    <property name="vm.version" value="3.4.1"/>
     <property name="joomla.version" value="3.8.12"/>
-    <property name="PHING.VM.REVISION" value="9957"/>
+    <property name="PHING.VM.REVISION" value="9964"/>
     <property name="PHING.VM.CODENAME" value="Blue Corvus"/>
     <property name="PHING.VM.UPDATEFOLDER" value="vm3"/>
     <property file="build.properties"/>
@@ -168,7 +168,7 @@
         <exclude name="**/installationJ3/**"/>
         <exclude name="**/vmf/**"/>
         <exclude name="**/com_virtuemart/toolbar**"/>
-        <exclude name="components/com_virtuemart/views/virtuemart/tmpl/default.xml"/>
+        <exclude name="**/components/com_virtuemart/views/virtuemart/tmpl/default.xml"/>
         <exclude name="**/vmbeez5/**"/>
         <!--exclude name="**/vm_update/**"/ -->
         <exclude name="**/ar-AA/**"/>
@@ -209,6 +209,9 @@
         <exclude name="index.html"/>
         <exclude name="**/joomla/cache/**"/>
         <exclude name="vmfile.php"/>
+        <exclude name="**/tmpl/bs2-**"/>
+        <exclude name="**/tmpl/bs3-**"/>
+        <exclude name="**/tmpl/bs4-**"/>
     </fileset>
     <!-- ============================================  -->
     <!--  FILESET ALL FUL INSTALLER FILES -->
@@ -234,6 +237,11 @@
         <include name="**"/>
         <exclude name=".svn"/>
         <exclude name=".DS_Store"/>
+        <exclude name="**/components/com_virtuemart/views/virtuemart/tmpl/default.php"/>
+        <exclude name="**/components/com_virtuemart/views/virtuemart/tmpl/default.xml"/>
+        <exclude name="**/tmpl/bs2-**"/>
+        <exclude name="**/tmpl/bs3-**"/>
+        <exclude name="**/tmpl/bs4-**"/>
     </fileset>
 
     <fileset dir="${admin.component.path}" id='admin.main.refid' defaultexcludes="true">

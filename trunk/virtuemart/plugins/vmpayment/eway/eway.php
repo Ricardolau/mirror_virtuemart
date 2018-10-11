@@ -329,7 +329,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 		$country_2_code = ShopFunctions::getCountryByID($virtuemart_country_id, 'country_2_code');
 		$state_3_code = ShopFunctions::getStateByID($virtuemart_state_id, 'state_3_code');
 		//return $state_3_code;
-		return $country_2_code.'-'.$state_3_code;
+		return $country_2_code . '-' . $state_3_code;
 
 	}
 
@@ -359,9 +359,11 @@ class plgVmpaymentEway extends vmPSPlugin {
 	 * @param $message
 	 */
 	private static function ewayError($method, $message) {
+		$public_msg = vmText::_('VMPAYMENT_EWAY_ERROR_TRY_AGAIN');
+		if ($method->debug) {
+			$public_msg .= '<br />'.$message;
+		}
 
-
-		$public_msg = $message;
 		vmError($message, $public_msg);
 	}
 
@@ -481,7 +483,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 
 		$orderHistory['comments'] = '';
 
-		$modelOrder =  VmModel::getModel('orders');
+		$modelOrder = VmModel::getModel('orders');
 
 		$modelOrder->updateStatusForOneOrder($virtuemart_order_id, $orderHistory, false);
 
@@ -922,7 +924,7 @@ jQuery().ready(function($) {
 			$userId = JFactory::getUser()->id;
 		}
 		$tokenCustomerIDs = $this->getTokenCustomerIDs($userId);
-		vmdebug(__FILE__ . ' ' . __FUNCTION__.' '.__LINE__, $tokenCustomerIDs);
+		vmdebug(__FILE__ . ' ' . __FUNCTION__ . ' ' . __LINE__, $tokenCustomerIDs);
 		$maskedCards = array();
 
 		if (!$tokenCustomerIDs) {
@@ -1394,8 +1396,8 @@ jQuery().ready(function($) {
 			return $this->refundPayment($method, $payments, $orderModelData, $response, $old_order_status);
 		} elseif ($order->order_status == $method->status_capture and $this->canDoCapture($method, $transactionResponse)) {
 			return $this->capturePayment($method, $payments, $orderModelData, $response, $old_order_status);
-		} elseif ($order->order_status == $method->status_cancel and $this->canDoCancel($method, $transactionResponse)) {
-			return $this->cancelPayment($payments, $orderModelData, $response, $old_order_status);
+		} elseif ($order->order_status == $method->status_canceled and $this->canDoCancel($method, $transactionResponse)) {
+			return $this->cancelPayment($method,$payments, $orderModelData, $response, $old_order_status);
 		}
 
 		return true;
@@ -1438,11 +1440,14 @@ jQuery().ready(function($) {
 			vmInfo(vmText::_('VMPAYMENT_EWAY_STATUS_CANCELED_NOT_ENABLED'));
 			return false;
 		}
+		return true;
+		/* the param TransactionCaptured is always set to true
 		if ($transactionResponse->TransactionCaptured) {
 			vmInfo(vmText::_('VMPAYMENT_EWAY_STATUS_NO_CANCEL_TRANSACTIONCAPTURED'));
 			return false;
 		}
 		return true;
+*/
 	}
 
 	/**
@@ -1466,7 +1471,7 @@ jQuery().ready(function($) {
 	}
 
 
-	private function refundPayment($method, $vmPayments, $order, $response, $old_order_status) {
+	private function refundPayment($method,$vmPayments, $order, $response, $old_order_status) {
 		$foundPayment = $this->getTransactionIDPayment($vmPayments);
 		if (!$foundPayment) {
 			vmError(vmText::_('VMPAYMENT_EWAY_TRANSACTION_ID_NOT_FOUND'));
@@ -1542,7 +1547,7 @@ jQuery().ready(function($) {
 	 * @param $orderModelData
 	 * @return bool
 	 */
-	private function capturePayment($method, $vmPayments, $orderModelData) {
+	private function capturePayment($method,$vmPayments, $orderModelData, $response, $old_order_status) {
 
 		$foundPayment = $this->getTransactionIDPayment($vmPayments);
 		if (!$foundPayment) {
@@ -1594,7 +1599,7 @@ jQuery().ready(function($) {
 	 * @param $orderModelData
 	 * @return bool
 	 */
-	private function cancelPayment($method, $vmPayments, $orderModelData) {
+	private function cancelPayment($method,$vmPayments, $orderModelData, $response, $old_order_status) {
 
 		$foundPayment = $this->getTransactionIDPayment($vmPayments);
 		if (!$foundPayment) {
@@ -1849,8 +1854,8 @@ jQuery().ready(function($) {
 		$msg = '';
 		$cardToDeleteUncrypted = vmCrypt::decrypt($cardToDelete);
 		$cardToDeleteUncrypted = json_decode($cardToDeleteUncrypted);
-		$reloadUrl=vRequest::get('reloadUrl', '');
-		$reloadUrl= vRequest::filterUrl($reloadUrl);
+		$reloadUrl = vRequest::get('reloadUrl', '');
+		$reloadUrl = vRequest::filterUrl($reloadUrl);
 		$html = $this->renderByLayout('cc_payment_page', array(
 			'FormActionURL' => '',
 			'AccessCode' => '',
@@ -1866,7 +1871,6 @@ jQuery().ready(function($) {
 		));
 
 
-
 		return $html;
 	}
 
@@ -1878,7 +1882,7 @@ jQuery().ready(function($) {
 		if ($this->getPluginMethods($vendorId) === 0) {
 			return false;
 		}
-		$html= $this->deleteCardConfirm($userId, $cardToDelete);
+		$html = $this->deleteCardConfirm($userId, $cardToDelete);
 
 		return;
 	}

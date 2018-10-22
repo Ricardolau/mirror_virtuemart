@@ -67,7 +67,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 				$field = 'l.'.$langField;
 			}
 
-			$query .= ' CONCAT('.$field.', "::", product_sku) AS value';
+			$query .= ' CONCAT('.$field.', "::", p.product_sku) AS value';
 			$query .= ' FROM `#__virtuemart_products` AS p ';
 
 			$joinedTables = VmModel::joinLangTables('#__virtuemart_products','p','virtuemart_product_id');
@@ -76,7 +76,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 				$filter = '"%'.$this->db->escape( $filter, true ).'%"';
 				$fields = VmModel::joinLangLikeFields(array('product_name'),$filter);
 				$query .=  ' WHERE '.implode (' OR ', $fields) ;
-				$query .= ' OR product_sku LIKE '.$filter;
+				$query .= ' OR p.product_sku LIKE '.$filter;
 			}
 
 			self::setRelatedHtml($product_id,$query,'R');

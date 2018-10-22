@@ -179,12 +179,11 @@ class CurrencyDisplay {
 		$user = $userModel->getCurrentUser();
 		$shopperModel = VmModel::getModel('shoppergroup');
 
-		if(count($user->shopper_groups)>0){
-			$sprgrp = $shopperModel->getShopperGroup($user->shopper_groups[0]);
+		if(is_array($user->shopper_groups) and count($user->shopper_groups)>0){
+			$sprgrp = $shopperModel->getShopperGroup(reset($user->shopper_groups));
 		} else {
 			//This Fallback is not tested
 			$sprgrp = $shopperModel->getDefault($user->JUser->guest);
-
 		}
 
 		if($sprgrp){

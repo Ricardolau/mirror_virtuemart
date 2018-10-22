@@ -159,7 +159,7 @@ class vmDefines {
 		//if(!class_exists('JFile')) require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'file.php');
 		JLoader::register('JFile', VMPATH_LIBS.'/joomla/filesystem/file.php');
 		JLoader::register('JFolder', VMPATH_LIBS.'/joomla/filesystem/folder.php');
-		//JLoader::register('JToolBarHelper', JPATH_ADMINISTRATOR.'/includes/toolbar.php');
+		JLoader::register('JToolBarhelper', JPATH_ADMINISTRATOR.'/includes/toolbar.php');
 
 		JLoader::register('vmVersion', $vmpath_admin.'/version.php');
 		JLoader::register('AdminUIHelper', $vmpath_admin.'/helpers/adminui.php');
@@ -175,6 +175,7 @@ class vmDefines {
 		JLoader::register('Migrator', $vmpath_admin.'/helpers/migrator.php');
 		JLoader::register('ShopFunctions', $vmpath_admin.'/helpers/shopfunctions.php');
 		JLoader::register('GenericTableUpdater', $vmpath_admin.'/helpers/tableupdater.php');
+		JLoader::register('vmAccess', $vmpath_admin.'/helpers/vmaccess.php');
 		JLoader::register('VmController', $vmpath_admin.'/helpers/vmcontroller.php');
 		JLoader::register('vmCrypt', $vmpath_admin.'/helpers/vmcrypt.php');
 		JLoader::register('vmFilter', $vmpath_admin.'/helpers/vmfilter.php');
@@ -188,6 +189,7 @@ class vmDefines {
 		JLoader::register('VmTableXarray', $vmpath_admin.'/helpers/vmtablexarray.php');
 		JLoader::register('vmText', $vmpath_admin.'/helpers/vmtext.php');
 		JLoader::register('vmUploader', $vmpath_admin.'/helpers/vmuploader.php');
+		JLoader::register('vmURI', $vmpath_admin.'/helpers/vmuri.php');
 		JLoader::register('VmViewAdmin', $vmpath_admin.'/helpers/vmviewadmin.php');
 		JLoader::register('vObject', $vmpath_admin.'/helpers/vobject.php');
 		JLoader::register('vRequest', $vmpath_admin.'/helpers/vrequest.php');

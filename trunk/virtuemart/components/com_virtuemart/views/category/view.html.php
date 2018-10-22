@@ -675,8 +675,8 @@ INNER JOIN #__virtuemart_product_categories as cat ON (pc.virtuemart_product_id=
 
 			header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
 
-			$cat = VmModel::getModel('category')->getCategory($last_category_id);
-			if(empty($cat->virtuemart_category_id)){
+			$cat = VmModel::getModel('category')->getCategory($last_category_id, false, true);
+			if(empty($cat->virtuemart_category_id) or !$cat->published){
 				$last_category_id = 0;
 			}
 			vRequest::setVar('virtuemart_category_id', $last_category_id);

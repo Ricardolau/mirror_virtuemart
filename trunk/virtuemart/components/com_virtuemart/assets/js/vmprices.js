@@ -135,7 +135,7 @@ Virtuemart.cartEffect = function(form) {
 }
 
 Virtuemart.incrQuantity = (function(event) {
-    var rParent = jQuery(this).parent().parent();
+    var rParent = jQuery(this.form);
     quantity = rParent.find('input[name="quantity[]"]');
     virtuemart_product_id = rParent.find('input[name="virtuemart_product_id[]"]').val();
     Ste = parseInt(quantity.attr("step"));
@@ -152,7 +152,7 @@ Virtuemart.incrQuantity = (function(event) {
 });
 
 Virtuemart.decrQuantity = (function(event) {
-    var rParent = jQuery(this).parent().parent();
+    var rParent = jQuery(this.form);
     var quantity = rParent.find('input[name="quantity[]"]');
     var virtuemart_product_id = rParent.find('input[name="virtuemart_product_id[]"]').val();
     var Ste = parseInt(quantity.attr("step"));

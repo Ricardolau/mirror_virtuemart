@@ -33,7 +33,7 @@ class VirtuemartViewConfig extends VmViewAdmin {
 		$model = VmModel::getModel();
 		$usermodel = VmModel::getModel('user');
 
-		JToolBarHelper::title( vmText::_('COM_VIRTUEMART_CONFIG') , 'head vm_config_48');
+		JToolBarhelper::title( vmText::_('COM_VIRTUEMART_CONFIG') , 'head vm_config_48');
 
 		$this->addStandardEditViewCommands();
 

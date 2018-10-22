@@ -311,7 +311,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 
 				$this->setLayout('massxref');
 
-				JToolBarHelper::custom('massxref_cats_exe', 'new', 'new', vmText::_('COM_VIRTUEMART_PRODUCT_XREF_CAT_EXE'), false);
+				JToolBarhelper::custom('massxref_cats_exe', 'new', 'new', vmText::_('COM_VIRTUEMART_PRODUCT_XREF_CAT_EXE'), false);
 				$this->ajaxCategoryDropDown('top_category_id');
 				break;
 
@@ -328,7 +328,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 
 				$this->setLayout('massxref');
 
-				JToolBarHelper::custom('massxref_sgrps_exe', 'new', 'new', vmText::_('COM_VIRTUEMART_PRODUCT_XREF_SGRPS_EXE'), false);
+				JToolBarhelper::custom('massxref_sgrps_exe', 'new', 'new', vmText::_('COM_VIRTUEMART_PRODUCT_XREF_SGRPS_EXE'), false);
 
 				break;
 
@@ -498,17 +498,17 @@ class VirtuemartViewProduct extends VmViewAdmin {
 
 			// Toolbar
 			if (vmAccess::manager('product.edit')) {
-				JToolBarHelper::custom('massxref_cats', 'new', 'new', vmText::_('COM_VIRTUEMART_PRODUCT_XREF_CAT'), true);
-				JToolBarHelper::custom('massxref_sgrps', 'new', 'new', vmText::_('COM_VIRTUEMART_PRODUCT_XREF_SGRPS'), true);
+				JToolBarhelper::custom('massxref_cats', 'new', 'new', vmText::_('COM_VIRTUEMART_PRODUCT_XREF_CAT'), true);
+				JToolBarhelper::custom('massxref_sgrps', 'new', 'new', vmText::_('COM_VIRTUEMART_PRODUCT_XREF_SGRPS'), true);
 			}
 			if (vmAccess::manager('product.create')) {
 				if($product_parent){
 					$product_parent = true;
 				}
-				JToolBarHelper::custom('createchild', 'new', 'new', vmText::_('COM_VIRTUEMART_PRODUCT_CHILD'), !$product_parent);
-				JToolBarHelper::custom('cloneproduct', 'copy', 'copy', vmText::_('COM_VIRTUEMART_PRODUCT_CLONE'), true);
+				JToolBarhelper::custom('createchild', 'new', 'new', vmText::_('COM_VIRTUEMART_PRODUCT_CHILD'), !$product_parent);
+				JToolBarhelper::custom('cloneproduct', 'copy', 'copy', vmText::_('COM_VIRTUEMART_PRODUCT_CLONE'), true);
 			}
-			JToolBarHelper::custom('addrating', 'default', '', vmText::_('COM_VIRTUEMART_ADD_RATING'), true);
+			JToolBarhelper::custom('addrating', 'default', '', vmText::_('COM_VIRTUEMART_ADD_RATING'), true);
 			$this->addStandardDefaultViewCommands();
 
 

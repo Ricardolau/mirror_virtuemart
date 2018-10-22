@@ -220,7 +220,7 @@ class VirtueMartModelUserfields extends VmModel {
 		$userinfo   = $this->getTable('userinfos');
 		$orderinfo  = $this->getTable('order_userinfos');
 		
-		$data['virtuemart_userfield_id'] = (int)$data['virtuemart_userfield_id']; 
+		$data['virtuemart_userfield_id'] = (int)$data['virtuemart_userfield_id'];
 		
 		$isNew = ($data['virtuemart_userfield_id'] < 1) ? true : false;
 

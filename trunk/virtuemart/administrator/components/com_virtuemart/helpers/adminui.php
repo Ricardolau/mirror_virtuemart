@@ -92,7 +92,7 @@ class AdminUIHelper {
 			</script>
 		<![endif]-->
 		<?php if (!self::$backEnd ){
-			//JToolBarHelper
+			//JToolBarhelper
 			$bar = JToolbar::getInstance('toolbar');
 			?><div class="toolbar-box" style="height: 84px;position: relative;"><?php echo $bar->render()?></div>
 		<?php } ?>

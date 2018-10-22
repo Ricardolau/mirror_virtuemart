@@ -44,7 +44,7 @@ class VirtuemartViewLog extends VmViewAdmin {
 			$this->SetViewTitle('LOG', $logFile);
 			$fileContent = file_get_contents($log_path . DS . $logFile);
 			$this->fileContentByLine = explode("\n", $fileContent);
-			JToolBarHelper::cancel();
+			JToolBarhelper::cancel();
 
 		} else {
 

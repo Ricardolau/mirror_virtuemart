@@ -79,7 +79,7 @@ class VirtuemartViewRatings extends VmViewAdmin {
 				$cids = vRequest::getInt('virtuemart_product_id',0);
 			case 'edit_review':
 				$this->setLayout('edit_review');
-				JToolBarHelper::divider();
+				JToolBarhelper::divider();
 
 				// Get the data
 				$this->rating = $model->getReview($cids,$new);
@@ -87,14 +87,14 @@ class VirtuemartViewRatings extends VmViewAdmin {
 				if(!empty($this->rating)){
 					$this->SetViewTitle('REVIEW_RATE',$this->rating->product_name." (". $this->rating->customer.")" );
 
-					JToolBarHelper::custom('saveReview', 'save', 'save',  vmText::_('COM_VIRTUEMART_SAVE'), false);
-					JToolBarHelper::custom('applyReview', 'apply', 'apply',  vmText::_('COM_VIRTUEMART_APPLY'), false);
+					JToolBarhelper::custom('saveReview', 'save', 'save',  vmText::_('COM_VIRTUEMART_SAVE'), false);
+					JToolBarhelper::custom('applyReview', 'apply', 'apply',  vmText::_('COM_VIRTUEMART_APPLY'), false);
 
 				} else {
 					$this->SetViewTitle('REVIEW_RATE','ERROR' );
 				}
 
-				JToolBarHelper::custom('cancelEditReview', 'cancel', 'cancel',  vmText::_('COM_VIRTUEMART_CANCEL'), false);
+				JToolBarhelper::custom('cancelEditReview', 'cancel', 'cancel',  vmText::_('COM_VIRTUEMART_CANCEL'), false);
 
 				break;
 			default:

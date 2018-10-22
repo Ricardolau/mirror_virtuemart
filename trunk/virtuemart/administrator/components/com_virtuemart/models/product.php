@@ -55,7 +55,7 @@ class VirtueMartModelProduct extends VmModel {
 		$app = JFactory::getApplication ();
 		if ($app->isSite ()) {
 			$this->_validOrderingFieldName = array();
-			$browseOrderByFields = VmConfig::get ('browse_orderby_fields',array('pc.ordering,product_name','product_sku','category_name','mf_name'));
+			$browseOrderByFields = VmConfig::get ('browse_orderby_fields',array('pc.ordering,product_name','`p`.product_sku','category_name','mf_name'));
 			$this->addvalidOrderingFieldName (array('pc.ordering,product_name'));
 		}
 		else {
@@ -94,7 +94,7 @@ class VirtueMartModelProduct extends VmModel {
 	var $searchplugin = 0;
 	var $filter_order = 'p.virtuemart_product_id';
 	var $filter_order_Dir = 'DESC';
-	var $valid_BE_search_fields = array('product_name', 'product_sku','`l`.`slug`', 'product_s_desc', '`l`.`metadesc`');
+	var $valid_BE_search_fields = array('product_name', '`p`.product_sku','`l`.`slug`', 'product_s_desc', '`l`.`metadesc`');
 	private $_autoOrder = 0;
 	private $orderByString = 0;
 	private $listing = FALSE;
@@ -297,7 +297,7 @@ class VirtueMartModelProduct extends VmModel {
 
 		$app = JFactory::getApplication ();
 		$db = JFactory::getDbo();
-		//$this->setDebugSql(1);
+		$this->setDebugSql(1);
 		//User Q.Stanley said that removing group by is increasing the speed of product listing in a bigger shop (10k products) by factor 60
 		//So what was the reason for that we have it? TODO experiemental, find conditions for the need of group by
 		$groupBy = ' group by p.`virtuemart_product_id` ';

@@ -57,7 +57,7 @@ function confirmation(message, destnUrl) {
 //-->
 </script>
 <?php
-if (!class_exists('JToolBarHelper')) require(JPATH_ADMINISTRATOR.'/includes/toolbar.php');
+//if (!class_exists('JToolBarHelper')) require(JPATH_ADMINISTRATOR.'/includes/toolbar.php');
 JToolBarHelper::title('VirtueMart AIO'  );
 
 	$db = JFactory::getDBO ();

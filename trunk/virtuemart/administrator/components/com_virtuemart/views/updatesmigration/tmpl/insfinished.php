@@ -30,7 +30,7 @@ $option = vRequest::getString('option');
 
 if($option=='com_virtuemart'){
 
-	if (!class_exists('JToolBarHelper')) require(JPATH_ADMINISTRATOR .'/includes/toolbar.php');
+	//if (!class_exists('JToolBarhelper')) require(JPATH_ADMINISTRATOR .'/includes/toolbar.php');
 	if (!class_exists ('VirtuemartViewUpdatesMigration'))
 		require(VMPATH_ADMIN .'/views/updatesmigration/view.html.php');
 

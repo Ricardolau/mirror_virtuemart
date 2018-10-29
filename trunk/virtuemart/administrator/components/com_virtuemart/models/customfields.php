@@ -300,7 +300,7 @@ class VirtueMartModelCustomfields extends VmModel {
 					$myoption = $field->options->$product_id;
 				}
 
-				if(!isset($myoption[$k])){
+				if($myoption and !isset($myoption[$k])){
 					$value = '';
 				} else {
 					$value = trim($myoption[$k]);

@@ -110,11 +110,13 @@ class VirtuemartViewOrders extends VmViewAdmin {
 
 			$_itemStatusUpdateFields = array();
 			$_itemAttributesUpdateFields = array();
+
+			$attr = array('class' => 'selectItemStatusCode', 'style' => 'width:160px');
 			// for the order item template
-			$_itemStatusUpdateFields[0] = JHtml::_('select.genericlist', $orderStates, "item_id[0][order_status]", 'class="selectItemStatusCode"', 'order_status_code', 'order_status_name', 'P', 'order_item_status_0',true);
+			$_itemStatusUpdateFields[0] = JHtml::_('select.genericlist', $orderStates, "item_id[0][order_status]", $attr, 'order_status_code', 'order_status_name', 'P', 'order_item_status_0',true);
 
 			foreach($order['items'] as $_item) {
-				$_itemStatusUpdateFields[$_item->virtuemart_order_item_id] = JHtml::_('select.genericlist', $orderStates, "item_id[".$_item->virtuemart_order_item_id."][order_status]", 'class="selectItemStatusCode" style="width:160px;', 'order_status_code', 'order_status_name', $_item->order_status, 'order_item_status'.$_item->virtuemart_order_item_id,true);
+				$_itemStatusUpdateFields[$_item->virtuemart_order_item_id] = JHtml::_('select.genericlist', $orderStates, "item_id[".$_item->virtuemart_order_item_id."][order_status]", $attr, 'order_status_code', 'order_status_name', $_item->order_status, 'order_item_status'.$_item->virtuemart_order_item_id,true);
 
 				$_item->linkedit = 'index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id='.$_item->virtuemart_product_id;
 			}

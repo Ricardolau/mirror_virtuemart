@@ -2,11 +2,11 @@
 
 <project name="Build VirtueMart" default="VIRTUEMART_AND_FULLINSTALLER" basedir=".">
     <!-- value can be: major, minor, bugfix -->
-    <property name="releasetype" value="MAYOR"/>
+    <property name="releasetype" value="BUGFIX"/>
     <property name="vm.version.main" value="3.4.0"/>
-    <property name="vm.version" value="3.4.1"/>
+    <property name="vm.version" value="3.4.3"/>
     <property name="joomla.version" value="3.8.12"/>
-    <property name="PHING.VM.REVISION" value="9964"/>
+    <property name="PHING.VM.REVISION" value="9975"/>
     <property name="PHING.VM.CODENAME" value="Blue Corvus"/>
     <property name="PHING.VM.UPDATEFOLDER" value="vm3"/>
     <property file="build.properties"/>
@@ -250,8 +250,9 @@
         <exclude name=".svn"/>
         <exclude name=".DS_Store"/>
         <exclude name="**/vmf/**"/>
-        <exclude name="**/toolbar**"/>
+        <exclude name="**/toolbar/**"/>
     </fileset>
+
     <fileset dir="${admin.component.path}/install" id='install.main.files' defaultexcludes="true">
         <include name="**"/>
         <exclude name=".svn"/>

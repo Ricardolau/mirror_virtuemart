@@ -16,7 +16,7 @@ if ($searchCustomValue->field_type == "S")
         <?php echo JHtml::_(
             'select.genericlist', $searchCustomValue->value_options,
             'customfields[' . $searchCustomValue->virtuemart_custom_id . ']',
-            'class="changeSendForm form-control"', 'virtuemart_custom_id', 'custom_title',
+            'class="changeSendForm form-control vm-chzn-select"', 'virtuemart_custom_id', 'custom_title',
             $searchCustomValue->v
         ); ?>
     </div>

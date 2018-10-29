@@ -16,7 +16,8 @@ defined('_JEXEC') or die('');
  *
  * http://virtuemart.net
  */
- 
+
+use Joomla\Registry\Registry;
 
 class VmTemplate {
 
@@ -58,7 +59,7 @@ class VmTemplate {
 
 		if(!$client_id and $app->isSite()){
 			$template = $app->getTemplate(true);
-			$template = (array) $template;
+			$template = get_object_vars($template);
 		} else {
 			$q = 'SELECT id, home, template, s.params
 			FROM #__template_styles as s
@@ -71,6 +72,7 @@ class VmTemplate {
 			$db = JFactory::getDbo();
 			$db->setQuery( $q );
 			$template = $db->loadAssoc();
+			$template['params'] = new Registry($template['params']);
 		}
 
 		if(!$template){

@@ -597,6 +597,10 @@ INNER JOIN #__virtuemart_product_categories as cat ON (pc.virtuemart_product_id=
 						//vmdebug('getSearchCustom my  q2 '.str_replace('#__',$db->getPrefix(),$db->getQuery()) );
 						if($Opts){
 							foreach( $Opts as $k => $v ) {
+								if(empty($v->customfield_value)){
+									vmdebug('getSearchCustom empty value for ',$k,$v);
+									continue;
+								}
 								if(!isset($valueOptions[$v->customfield_value])) {
 									$valueOptions[$v->customfield_value] = vmText::_($v->customfield_value);
 								}
@@ -609,10 +613,11 @@ INNER JOIN #__virtuemart_product_categories as cat ON (pc.virtuemart_product_id=
 							}
 							//$v = $app->getUserStateFromRequest ('com_virtuemart.customfields.'.$selected->virtuemart_custom_id, 'customfields['.$selected->virtuemart_custom_id.']', '', 'string');
 
-                            // Custom Search Values
-                            $selected->value_options    = $valueOptions;
-                            $selected->v                = $v;
-                            $this->searchCustomValues[] = $selected;
+							// Custom Search Values
+							$selected->value_options    = $valueOptions;
+							$selected->v                = $v;
+							$this->searchCustomValues[] = $selected;
+
 						}
 
 						//vmdebug('getSearchCustom '.$q2,$Opts,$valueOptions);

@@ -136,6 +136,7 @@ function virtuemartBuildRoute(&$query) {
 
 			if ($start !== null &&  $limitstart!== null ) {
 				vmdebug('Pagination limits $start !== null &&  $limitstart!== null',$start,$limitstart);
+
 				//$segments[] = $helper->lang('results') .',1-'.$start ;
 			} else if ( $start>0 ) {
 				//For the urls leading to the paginated pages
@@ -145,6 +146,8 @@ function virtuemartBuildRoute(&$query) {
 			} else if ($limit !== null && $limit != vmrouterHelper::$limit ) {
 				//for the urls of the list where the user sets the pagination size/limit
 				$segments[] = $helper->lang('results') .',1-'.$limit ;
+			} else if(!empty($query['search']) or !empty($query['keyword'])){
+				$segments[] = $helper->lang('results') .',1-'.vmrouterHelper::$limit ;
 			}
 
 			break;

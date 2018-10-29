@@ -693,7 +693,7 @@ class shopFunctionsF {
 			$vu = JFactory::getUser($vendorUserId);
 			$vLang = $vu->getParam('admin_language',VmConfig::$jDefLangTag);
 
-			self::loadOrderLanguages($vLang);
+			vmLanguage::setLanguageByTag($vLang);
 			self::sendVmMail( $view, $view->vendorEmail, TRUE );
 		}
 
@@ -756,18 +756,21 @@ class shopFunctionsF {
 		return VmTemplate::setVmTemplate($view, $catTpl, $prodTpl, $catLayout, $prodLayout);
 	}
 
+	/**
+     * Loads lang files for the set language, new language system reloades all already loaded files automatically for the new language
+	 * @param int $language
+	 */
 	static public function loadOrderLanguages($language = 0){
 
-		$s = TRUE;
-		$cache = true;
 		vmLanguage::setLanguageByTag($language);
 
-		//Shouldnt be necessary anylonger.
+		$s = TRUE;
+		$cache = TRUE;
+
 		vmLanguage::loadJLang('com_virtuemart', 0, $language, $cache);
 		vmLanguage::loadJLang('com_virtuemart', $s, $language, $cache);
 		vmLanguage::loadJLang('com_virtuemart_shoppers', $s, $language, $cache);
 		vmLanguage::loadJLang('com_virtuemart_orders', $s, $language, $cache);
-
 	}
 
 

@@ -137,7 +137,7 @@ class VmPagination extends vObject {
 
 			if(!empty($sequence)) {
 				$sequenceArray = explode( ',', $sequence );
-				if($sequenceArray!==FALSE and count( $sequenceArray>1 )) {
+				if($sequenceArray!==FALSE and count( $sequenceArray)>1) {
 					foreach( $sequenceArray as $items ) {
 						$limits[$items] = JHtml::_( 'select.option', $items );
 					}

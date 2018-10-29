@@ -543,9 +543,9 @@ class VirtueMartModelConfig extends VmModel {
 	}
 
 	static public function getActiveVmLanguages(){
-		$active_lang = VmConfig::get('active_languages',false);
+		$langs = (array)VmConfig::get('active_languages',array());
 		$deflang = vmLanguage::getShopDefaultSiteLangTagByJoomla();
-		$langs = array_merge($active_lang, $deflang);
+		$langs[] = $deflang;
 		$langs = array_unique($langs);
 		return $langs;
 	}

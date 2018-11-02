@@ -215,8 +215,11 @@ class VirtuemartViewProduct extends VmViewAdmin {
 
 			if ($status) {
 				$option = vRequest::getCmd('option');
-				$lists['filter_order'] = JFactory::getApplication()->getUserStateFromRequest($option.'filter_order_orders', 'filter_order', 'email', 'cmd');
-				$lists['filter_order_Dir'] = JFactory::getApplication()->getUserStateFromRequest($option.'filter_order_Dir', 'filter_order_Dir', 'ASC', 'word');
+				//$lists['filter_order'] = JFactory::getApplication()->getUserStateFromRequest($option.'filter_order_orders', 'filter_order', 'email', 'cmd');
+				//$lists['filter_order_Dir'] = JFactory::getApplication()->getUserStateFromRequest($option.'filter_order_Dir', 'filter_order_Dir', 'ASC', 'word');
+
+				$lists['filter_order'] = JFactory::getApplication()->getUserStateFromRequest('com_virtuemart.product.productShoppers.filter_order', 'filter_order', 'email', 'cmd');
+				$lists['filter_order_Dir'] = JFactory::getApplication()->getUserStateFromRequest('com_virtuemart.product.productShoppers.filter_order_Dir', 'filter_order_Dir', 'ASC', 'word');
 
 				$productModel = VmModel::getModel('product');
 				$productShoppers = $productModel->getProductShoppersByStatus($product_id ,$status,$lists['filter_order'],$lists['filter_order_Dir']);

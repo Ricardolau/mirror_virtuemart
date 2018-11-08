@@ -182,12 +182,13 @@ class plgVmpaymentEway extends vmPSPlugin {
 		$response = $client->createTransaction(\Eway\Rapid\Enum\ApiMethod::TRANSPARENT_REDIRECT, $transaction);
 
 		if (!($response instanceof \Eway\Rapid\Model\Response\AbstractResponse)) {
+			//$this->logInfo('Eway: wrong response type.' , 'error');
 			self::redirectToCart();
 		}
 
 		if ($response->getErrors()) {
 			foreach ($response->getErrors() as $error) {
-				self::ewayError($method, \Eway\Rapid::getMessage($error));
+				$this->ewayError($method, \Eway\Rapid::getMessage($error));
 			}
 			self::redirectToCart();
 			return;
@@ -208,9 +209,8 @@ class plgVmpaymentEway extends vmPSPlugin {
 		// Eway response Value
 		$dbValues['TransactionID'] = $response->TransactionID;
 		$dbValues['ResponseCode'] = $response->ResponseCode;
-		$dbValues['TransactionStatus'] = $response->TransactionStatus;
 		$dbValues['eway_request_type'] = (string)\Eway\Rapid\Enum\ApiMethod::TRANSPARENT_REDIRECT;
-
+		$dbValues['eway_request_type'] = (string)\Eway\Rapid\Enum\ApiMethod::TRANSPARENT_REDIRECT;
 		$dbValues['eway_response_json'] = json_encode(json_decode(json_encode($response, true)));
 
 		// Eway save raw
@@ -358,12 +358,12 @@ class plgVmpaymentEway extends vmPSPlugin {
 	 * @param $method
 	 * @param $message
 	 */
-	private static function ewayError($method, $message) {
-		$public_msg = vmText::_('VMPAYMENT_EWAY_ERROR_TRY_AGAIN');
+	private  function ewayError($method, $message) {
+		$public_msg = '';//vmText::_('VMPAYMENT_EWAY_ERROR_TRY_AGAIN');
 		if ($method->debug) {
 			$public_msg .= '<br />'.$message;
 		}
-
+		//$this->logInfo('Eway returned error: '.$message, 'error');
 		vmError($message, $public_msg);
 	}
 
@@ -464,7 +464,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 		if (!$transactionResponse->TransactionStatus) {
 			$errors = explode(',', $transactionResponse->ResponseMessage);
 			foreach ($errors as $error) {
-				self::ewayError($method, \Eway\Rapid::getMessage($error));
+				$this->ewayError($method, \Eway\Rapid::getMessage($error));
 			}
 			self::redirectToCart();
 			return;
@@ -956,7 +956,7 @@ jQuery().ready(function($) {
 
 		if ($response->getErrors()) {
 			foreach ($response->getErrors() as $error) {
-				self::ewayError($method, \Eway\Rapid::getMessage($error));
+				$this->ewayError($method, \Eway\Rapid::getMessage($error));
 			}
 			return false;
 		}
@@ -982,7 +982,7 @@ jQuery().ready(function($) {
 
 		$customer ["TokenCustomerID"] = $tokenCustomerID;
 
-		$customer ["RedirectUrl"] = vRequest::get('reloadUrl');
+		$customer ["RedirectUrl"] = vRequest::get('redirectURL');
 
 		$response = $client->updateCustomer(\Eway\Rapid\Enum\ApiMethod::TRANSPARENT_REDIRECT, $customer);
 		if (!($response instanceof \Eway\Rapid\Model\Response\AbstractResponse)) {
@@ -1394,7 +1394,7 @@ jQuery().ready(function($) {
 
 		if ($order->order_status == $method->status_refund and $this->canDoRefund($method, $transactionResponse)) {
 			return $this->refundPayment($method, $payments, $orderModelData, $response, $old_order_status);
-		} elseif ($order->order_status == $method->status_capture and $this->canDoCapture($method, $transactionResponse)) {
+		} elseif ($order->order_status == $method->status_capture) {
 			return $this->capturePayment($method, $payments, $orderModelData, $response, $old_order_status);
 		} elseif ($order->order_status == $method->status_canceled and $this->canDoCancel($method, $transactionResponse)) {
 			return $this->cancelPayment($method,$payments, $orderModelData, $response, $old_order_status);
@@ -1458,21 +1458,28 @@ jQuery().ready(function($) {
 	 * @return bool
 	 */
 	private function canDoCapture($method, $transactionResponse) {
-		return true;
+
 		if (!$method->status_capture_enabled) {
 			vmInfo(vmText::_('VMPAYMENT_EWAY_STATUS_CAPTURE_NOT_ENABLED'));
 			return false;
 		}
+		/*
 		if ($transactionResponse->TransactionCaptured) {
 			vmInfo(vmText::_('VMPAYMENT_EWAY_STATUS_NO_CAPTURE_TRANSACTIONCAPTURED'));
 			return false;
 		}
+		*/
 		return true;
 	}
 
 
 	private function refundPayment($method,$vmPayments, $order, $response, $old_order_status) {
-		$foundPayment = $this->getTransactionIDPayment($vmPayments);
+		if ($method->Pre_Auth == 'Capture') {
+			$requestType	='queryTransaction';
+		} else {
+			$requestType	='Authorisation';
+		}
+		$foundPayment = $this->getTransactionIDPayment($vmPayments,$requestType);
 		if (!$foundPayment) {
 			vmError(vmText::_('VMPAYMENT_EWAY_TRANSACTION_ID_NOT_FOUND'));
 			return;
@@ -1637,11 +1644,11 @@ jQuery().ready(function($) {
 	 * @param $vmPayments
 	 * @return bool|string
 	 */
-	private function getTransactionIDPayment($vmPayments) {
+	private function getTransactionIDPayment($vmPayments, $requestType='queryTransaction') {
 		$foundPayment = false;
 		foreach ($vmPayments as $vmPayment) {
 
-			if ($vmPayment->eway_request_type == 'queryTransaction') {
+			if ($vmPayment->eway_request_type == $requestType) {
 				$foundPayment = $vmPayment;
 				return $foundPayment;
 			}

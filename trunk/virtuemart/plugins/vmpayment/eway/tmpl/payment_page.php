@@ -19,6 +19,10 @@ defined('_JEXEC') or die();
 defined('_JEXEC') or die();
 $doc = JFactory::getDocument();
 $doc->addStyleSheet(JURI::root(true) . '/plugins/vmpayment/eway/assets/css/eway.css');
+
+
+
+
 ?>
 
 

@@ -27,6 +27,7 @@ if ($viewData['action'] != 'pay') {
 		$onclick = 'parent.jQuery.facebox.close();';
 	}
 }
+
 $readonly = '';
 if ($viewData['action'] == 'delete') {
 	$readonly = " readonly";

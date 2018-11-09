@@ -369,6 +369,11 @@ class CurrencyDisplay {
 	 */
 	function convertCurrencyTo($currency,$price,$shop=true){
 
+		if(empty($price)){
+			$price = 0.0;
+		} else {
+			$price = (float)$price;
+		}
 
 		if(empty($currency)){
 			return $price;

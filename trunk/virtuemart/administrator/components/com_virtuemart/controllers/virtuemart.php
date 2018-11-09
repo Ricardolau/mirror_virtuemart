@@ -116,7 +116,7 @@ class VirtuemartControllerVirtuemart extends VmController {
 
 				$content = ';<?php die(); */
 					[keys]
-					key = "'.VmConfig::get('member_access_number').'"
+					key = "'.VmConfig::get('member_access_number','').'"
 					unixtime = "'.$today.'"
 					res = "'.vRequest::filter($data->res,FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW).'"
 					html = "'.htmlspecialchars($data->html).'"

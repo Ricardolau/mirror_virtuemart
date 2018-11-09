@@ -695,8 +695,7 @@ class VirtueMartModelProduct extends VmModel {
 		//This option switches between showing products without the selected language or only products with language.
 		if( $app->isSite() ){	//and !VmConfig::get('prodOnlyWLang',false)){
 			if((empty($this->keyword) or $group !== FALSE) and self::$omitLoaded and self::$_alreadyLoadedIds){
-				$where[] = ' p.`virtuemart_product_id`!='.implode(' AND p.`virtuemart_product_id`!=',self::$_alreadyLoadedIds).' ';
-				//$where[] = ' p.`virtuemart_product_id` NOT IN ('.implode(',',self::$_alreadyLoadedIds).') ';
+				$where[] = '   ( p.`virtuemart_product_id` NOT IN ('.implode(',',self::$_alreadyLoadedIds).') ) ';
 			}
 
 		} else {

@@ -82,10 +82,22 @@ class VirtueMartViewProductdetails extends VmView {
 				$customfieldsModel -> displayProductCustomfieldFE ($product, $product->customfields);
 			}
 
-			if (empty($product->slug)) {
+			if (isset($product->access) && $product->access == false) {
+
+				$app->enqueueMessage(vmText::_('COM_VIRTUEMART_RESTRICTED_ACCESS'), 'notice');
+
+				if (JFactory::getUser()->get('guest')) {
+					echo shopFunctionsF::getLoginForm(false);
+				} else {
+					$app->setHeader('status', 403, true);
+				}
+
+				return;
+
+			} else if (empty($product->slug)) {
 
 				//Todo this should be redesigned to fit better for SEO
-				$app->enqueueMessage(vmText::_('COM_VIRTUEMART_PRODUCT_NOT_FOUND'));
+				$app->enqueueMessage(vmText::_('COM_VIRTUEMART_PRODUCT_NOT_FOUND'), 'notice');
 
 				$categoryLink = '';
 				if (!$last_category_id) {
@@ -117,6 +129,7 @@ class VirtueMartViewProductdetails extends VmView {
 				}
 
 				return;
+
 			}
 
 			$isCustomVariant = false;

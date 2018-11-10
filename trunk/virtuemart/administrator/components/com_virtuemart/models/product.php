@@ -1428,7 +1428,11 @@ vmdebug('$limitStart',$limitStart);
 			if (!empty($product->shoppergroups) and $front) {
 				$commonShpgrps = array_intersect ($virtuemart_shoppergroup_ids, $product->shoppergroups);
 				if (empty($commonShpgrps)) {
-					return $this->fillVoidProduct ($front);
+					$pr = $this->fillVoidProduct ($front);
+					$pr->virtuemart_product_id = $product->virtuemart_product_id;
+					$pr->slug = $product->slug;
+					$pr->access = false;
+					return $pr;
 				}
 			}
 

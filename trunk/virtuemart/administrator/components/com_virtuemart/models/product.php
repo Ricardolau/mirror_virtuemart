@@ -695,7 +695,7 @@ class VirtueMartModelProduct extends VmModel {
 		//This option switches between showing products without the selected language or only products with language.
 		if( $app->isSite() ){	//and !VmConfig::get('prodOnlyWLang',false)){
 			if((empty($this->keyword) or $group !== FALSE) and self::$omitLoaded and self::$_alreadyLoadedIds){
-				$where[] = '   ( p.`virtuemart_product_id` NOT IN ('.implode(',',self::$_alreadyLoadedIds).') ) ';
+				$where[] = ' ( p.`virtuemart_product_id` NOT IN ('.implode(',',self::$_alreadyLoadedIds).') ) ';
 			}
 
 		} else {
@@ -1088,6 +1088,7 @@ vmdebug('$limitStart',$limitStart);
 
 		}
 
+		$child->product_name = vRequest::vmHtmlEntities( $child->product_name);
 		//vmdebug('getProduct Time: '.$runtime);
 		$child->published = $published;
 		$child->virtuemart_product_id = $pId;
@@ -1474,6 +1475,7 @@ vmdebug('$limitStart',$limitStart);
 						if (!empty($product->product_canon_category_id)  && $category['virtuemart_category_id'] == $product->product_canon_category_id ){
 							$product->canonCatId = $product->product_canon_category_id;
 							$product->canonCatIdname = $category['category_name'];
+							vmdebug('Canon cat found');
 						}
 						$public_cats[] = $category['virtuemart_category_id'];
 					}

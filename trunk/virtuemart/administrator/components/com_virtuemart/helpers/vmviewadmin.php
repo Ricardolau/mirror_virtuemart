@@ -86,23 +86,23 @@ class VmViewAdmin extends JViewLegacy {
 
 		$view = vRequest::getCmd('view', vRequest::getCmd('controller','virtuemart'));
 
-		JToolBarhelper::divider();
+		JToolbarHelper::divider();
 		if(vmAccess::manager($view.'.edit.state')){
-			JToolBarhelper::publishList();
-			JToolBarhelper::unpublishList();
+			JToolbarHelper::publishList();
+			JToolbarHelper::unpublishList();
 		}
 		if(vmAccess::manager($view.'.edit')){
-			JToolBarhelper::editList();
+			JToolbarHelper::editList();
 		}
 		if($showNew and vmAccess::manager($view.'.create')){
-			JToolBarhelper::addNew();
+			JToolbarHelper::addNew();
 		}
 		if($showDelete and vmAccess::manager($view.'.delete')){
-			JToolBarhelper::spacer('10');
-			JToolBarhelper::deleteList();
+			JToolbarHelper::spacer('10');
+			JToolbarHelper::deleteList();
 		}
-		JToolBarhelper::divider();
-		JToolBarhelper::spacer('2');
+		JToolbarHelper::divider();
+		JToolbarHelper::spacer('2');
 		self::showACLPref($view);
 		self::showHelp ( $showHelp);
 		if(JFactory::getApplication()->isSite()){
@@ -216,20 +216,20 @@ class VmViewAdmin extends JViewLegacy {
 
 		if ($view == 'product' and vmAccess::manager('product.create')) {
 			if (vmAccess::manager('product.create')) {
-				JToolBarhelper::custom( 'createchild', 'new', 'new', vmText::_( 'COM_VIRTUEMART_PRODUCT_CHILD' ), false );
-				JToolBarhelper::custom( 'cloneproduct', 'copy', 'copy', vmText::_( 'COM_VIRTUEMART_PRODUCT_CLONE' ), false );
+				JToolbarHelper::custom( 'createchild', 'new', 'new', vmText::_( 'COM_VIRTUEMART_PRODUCT_CHILD' ), false );
+				JToolbarHelper::custom( 'cloneproduct', 'copy', 'copy', vmText::_( 'COM_VIRTUEMART_PRODUCT_CLONE' ), false );
 			}
 			if (vmAccess::manager('ratings.edit')) {
-				JToolBarhelper::custom('addrating', 'default', '', vmText::_('COM_VIRTUEMART_ADD_RATING'), false);
+				JToolbarHelper::custom('addrating', 'default', '', vmText::_('COM_VIRTUEMART_ADD_RATING'), false);
 			}
 		}
 
-		JToolBarhelper::divider();
+		JToolbarHelper::divider();
 		if (vmAccess::manager($view.'.edit')) {
-			JToolBarhelper::save();
-			JToolBarhelper::apply();
+			JToolbarHelper::save();
+			JToolbarHelper::apply();
 		}
-		JToolBarhelper::cancel();
+		JToolbarHelper::cancel();
 		self::showHelp();
 		self::showACLPref($view);
 
@@ -341,7 +341,7 @@ class VmViewAdmin extends JViewLegacy {
 
 		$taskName = ' <small><small>[ ' . vmText::_('COM_VIRTUEMART_' . strtoupper($task)) . ' ]</small></small>';
 
-		JToolBarhelper::title($viewText . ' ' . $taskName . $msg, 'head vm_' . $icon . '_48');
+		JToolbarHelper::title($viewText . ' ' . $taskName . $msg, 'head vm_' . $icon . '_48');
 		$this->assignRef('viewName',$viewText); //TODO was $viewName?
 		$app = JFactory::getApplication();
 		$doc = JFactory::getDocument();
@@ -454,7 +454,7 @@ class VmViewAdmin extends JViewLegacy {
 	function showACLPref(){
 
 		if (vmAccess::manager('core')) {
-			JToolBarhelper::divider();
+			JToolbarHelper::divider();
 			$bar = JToolBar::getInstance('toolbar');
 			if(JVM_VERSION<3){
 				$bar->appendButton('Popup', 'lock', 'JCONFIG_PERMISSIONS_LABEL', 'index.php?option=com_config&amp;view=component&amp;component=com_virtuemart&amp;tmpl=component', 875, 550, 0, 0, '');

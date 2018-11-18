@@ -151,10 +151,10 @@ class VirtuemartViewOrders extends VmViewAdmin {
 
 			/* Toolbar */
 			if (JVM_VERSION < 3) { $backward="back"; $list='back';} else {$backward='backward';$list='list';}
-			JToolBarhelper::custom( 'prevItem', $backward,'','COM_VIRTUEMART_ITEM_PREVIOUS',false);
-			JToolBarhelper::custom( 'nextItem', 'forward','','COM_VIRTUEMART_ITEM_NEXT',false);
-			JToolBarhelper::divider();
-			JToolBarhelper::custom( 'cancel', $list,'','COM_VIRTUEMART_ORDER_LIST_LBL',false,false);
+			JToolbarHelper::custom( 'prevItem', $backward,'','COM_VIRTUEMART_ITEM_PREVIOUS',false);
+			JToolbarHelper::custom( 'nextItem', 'forward','','COM_VIRTUEMART_ITEM_NEXT',false);
+			JToolbarHelper::divider();
+			JToolbarHelper::custom( 'cancel', $list,'','COM_VIRTUEMART_ORDER_LIST_LBL',false,false);
 			self::showhelp();
 		}
 		else if ($curTask == 'editOrderItem') {
@@ -225,7 +225,7 @@ class VirtuemartViewOrders extends VmViewAdmin {
 			$db->setQuery($q);
 			//$res = $db->loadRow();
 			if(true) {
-				JToolBarhelper::custom('updateCustomsOrderItems', 'new', 'new', vmText::_('COM_VIRTUEMART_REPORT_UPDATEORDERITEMS'),false);
+				JToolbarHelper::custom('updateCustomsOrderItems', 'new', 'new', vmText::_('COM_VIRTUEMART_REPORT_UPDATEORDERITEMS'),false);
 				vmError('COM_VIRTUEMART_UPDATEORDERITEMS_WARN');
 			}*/
 			/*
@@ -235,13 +235,13 @@ class VirtuemartViewOrders extends VmViewAdmin {
 			 */
 
 			/* Toolbar */
-			//JToolBarhelper::customX( 'CreateOrderHead', 'new','new','New',false);
+			//JToolbarHelper::customX( 'CreateOrderHead', 'new','new','New',false);
 
-			JToolBarhelper::save('updatestatus', vmText::_('COM_VIRTUEMART_UPDATE_STATUS'));
+			JToolbarHelper::save('updatestatus', vmText::_('COM_VIRTUEMART_UPDATE_STATUS'));
 
 			if (vmAccess::manager('orders.delete') && !VmConfig::get('ordersAddOnly',false)) {
-				JToolBarhelper::spacer('80');
-				JToolBarhelper::deleteList();
+				JToolbarHelper::spacer('80');
+				JToolbarHelper::deleteList();
 			}
 			self::showhelp();
 			/* Assign the data */

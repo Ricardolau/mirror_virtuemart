@@ -113,11 +113,11 @@ class VirtuemartViewCustom extends VmViewAdmin {
         }
         else {
 
-			JToolBarhelper::custom('createClone', 'copy', 'copy',  vmText::_('COM_VIRTUEMART_CLONE'), true);
-			JToolBarhelper::custom('toggle.admin_only.1', 'publish','', vmText::_('COM_VIRTUEMART_TOGGLE_ADMIN'), true);
-			JToolBarhelper::custom('toggle.admin_only.0', 'unpublish','', vmText::_('COM_VIRTUEMART_TOGGLE_ADMIN'), true);
-			JToolBarhelper::custom('toggle.is_hidden.1', 'publish','', vmText::_('COM_VIRTUEMART_TOGGLE_HIDDEN'), true);
-			JToolBarhelper::custom('toggle.is_hidden.0', 'unpublish','', vmText::_('COM_VIRTUEMART_TOGGLE_HIDDEN'), true);
+			JToolbarHelper::custom('createClone', 'copy', 'copy',  vmText::_('COM_VIRTUEMART_CLONE'), true);
+			JToolbarHelper::custom('toggle.admin_only.1', 'publish','', vmText::_('COM_VIRTUEMART_TOGGLE_ADMIN'), true);
+			JToolbarHelper::custom('toggle.admin_only.0', 'unpublish','', vmText::_('COM_VIRTUEMART_TOGGLE_ADMIN'), true);
+			JToolbarHelper::custom('toggle.is_hidden.1', 'publish','', vmText::_('COM_VIRTUEMART_TOGGLE_HIDDEN'), true);
+			JToolbarHelper::custom('toggle.is_hidden.0', 'unpublish','', vmText::_('COM_VIRTUEMART_TOGGLE_HIDDEN'), true);
 
 			$this->addStandardDefaultViewCommands();
 			$this->addStandardDefaultViewLists($model);

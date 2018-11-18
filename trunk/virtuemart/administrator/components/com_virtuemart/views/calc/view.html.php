@@ -89,8 +89,8 @@ class VirtuemartViewCalc extends VmViewAdmin {
 
         } else {
 			if($this->showVendors()){
-				JToolBarhelper::custom('toggle.shared.1', 'publish', 'yes', vmText::_('COM_VIRTUEMART_SHARED_TOGGLE_ON'), true);
-				JToolBarhelper::custom('toggle.shared.0', 'unpublish', 'no', vmText::_('COM_VIRTUEMART_SHARED_TOGGLE_OFF'), true);
+				JToolbarHelper::custom('toggle.shared.1', 'publish', 'yes', vmText::_('COM_VIRTUEMART_SHARED_TOGGLE_ON'), true);
+				JToolbarHelper::custom('toggle.shared.0', 'unpublish', 'no', vmText::_('COM_VIRTUEMART_SHARED_TOGGLE_OFF'), true);
 			}
 
 			$this->addStandardDefaultViewCommands();

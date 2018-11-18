@@ -126,7 +126,7 @@ if($this->pagination->limit<=$mediaLimit or $totalList<=$mediaLimit){
 				if(empty($product->product_name)){
 					$product->product_name = vmText::sprintf('COM_VM_TRANSLATION_MISSING','virtuemart_product_id',$product->virtuemart_product_id);
 				}
-				echo JHtml::_('link', JRoute::_($link), $product->product_name, array('title' => vmText::_('COM_VIRTUEMART_EDIT').' '. vRequest::vmHtmlEntities($product->product_name))); ?>
+				echo JHtml::_('link', JRoute::_($link), vRequest::vmHtmlEntities( $product->product_name), array('title' => vmText::_('COM_VIRTUEMART_EDIT').' '. vRequest::vmHtmlEntities($product->product_name))); ?>
 					<!-- </span>  -->
 				</td>
 

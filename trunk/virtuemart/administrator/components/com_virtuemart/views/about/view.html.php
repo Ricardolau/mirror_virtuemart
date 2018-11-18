@@ -29,7 +29,7 @@ class VirtuemartViewAbout extends VmViewAdmin {
 
 	function display ($tpl = null) {
 
-		JToolBarhelper::title( vmText::_( 'COM_VIRTUEMART_ABOUT' )."::".vmText::_( 'COM_VIRTUEMART_CONTROL_PANEL' ), 'vm_store_48' );
+		JToolbarHelper::title( vmText::_( 'COM_VIRTUEMART_ABOUT' )."::".vmText::_( 'COM_VIRTUEMART_CONTROL_PANEL' ), 'vm_store_48' );
 
 		parent::display( $tpl );
 	}

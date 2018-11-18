@@ -199,19 +199,19 @@ class VirtuemartViewUser extends VmViewAdmin {
 
 		} else {
 
-			JToolBarhelper::divider();
-			JToolBarhelper::custom('toggle.user_is_vendor.1', 'publish','','COM_VIRTUEMART_USER_ISVENDOR');
-			JToolBarhelper::custom('toggle.user_is_vendor.0', 'unpublish','','COM_VIRTUEMART_USER_ISNOTVENDOR');
-			JToolBarhelper::divider();
+			JToolbarHelper::divider();
+			JToolbarHelper::custom('toggle.user_is_vendor.1', 'publish','','COM_VIRTUEMART_USER_ISVENDOR');
+			JToolbarHelper::custom('toggle.user_is_vendor.0', 'unpublish','','COM_VIRTUEMART_USER_ISNOTVENDOR');
+			JToolbarHelper::divider();
 
 			if (vmAccess::manager('user.delete')) {
-				JToolBarhelper::deleteList();
+				JToolbarHelper::deleteList();
 			}
 
-			JToolBarhelper::editList();
+			JToolbarHelper::editList();
 			self::showACLPref('user');
 			//This is intentionally, creating new user via BE is buggy and can be done by joomla
-			//JToolBarhelper::addNewX();
+			//JToolbarHelper::addNewX();
 			$this->addStandardDefaultViewLists($model,'ju.id');
 
 			$this->userList = $model->getUserList();

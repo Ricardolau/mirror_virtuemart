@@ -41,13 +41,13 @@ defined('_JEXEC') or die('Restricted access');
             <div class="vm-store-category-search">
                 <form action="<?php echo $formAction ?>" method="get">
 
-                    <?php if (!empty($this->searchCustomValues)) { ?>
+                    <?php if (!empty($this->searchCustomValuesAr)) { ?>
                         <div class="vm-store-category-search-custom-values">
                             <?php
                             echo ShopFunctionsF::renderVmSubLayoutAsGrid(
                                 'searchcustomvalues',
                                 array (
-                                    'searchcustomvalues' => $this->searchCustomValues,
+                                    'searchcustomvalues' => $this->searchCustomValuesAr,
                                     'options' => array (
                                         'items_per_row' => array (
                                             'xs' => 2,

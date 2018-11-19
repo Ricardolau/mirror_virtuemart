@@ -34,7 +34,12 @@ class VirtueMartViewCart extends VmView {
 
 		$this->cart = VirtueMartCart::getCart();
 
-    	$this->prepareContinueLink();
+		if ($this->products and is_array($this->products) and count($this->products)>0 ) {
+			$this->prepareContinueLink(reset($this->products));
+		} else {
+			$this->prepareContinueLink();
+		}
+
 		VmTemplate::setVmTemplate($this, 0, 0, $layoutName);
 
 		parent::display($tpl);

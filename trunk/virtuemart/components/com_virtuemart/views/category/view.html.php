@@ -106,8 +106,8 @@ class VirtuemartViewCategory extends VmView {
 		}
 
 		$this->categoryId = vRequest::getInt('virtuemart_category_id', -1);
-		if($this->categoryId === -1 and !empty($menu->query['virtuemart_manufacturer_id'])){
-			$this->categoryId = $menu->query['virtuemart_manufacturer_id'];
+		if($this->categoryId === -1 and !empty($menu->query['virtuemart_category_id'])){
+			$this->categoryId = $menu->query['virtuemart_category_id'];
 			vRequest::setVar('virtuemart_category_id',$this->categoryId);
 		} else if ( $this->categoryId === -1 and $virtuemart_manufacturer_id === -1){
 			$this->categoryId = ShopFunctionsF::getLastVisitedCategoryId();
@@ -210,7 +210,8 @@ class VirtuemartViewCategory extends VmView {
 		$this->orderByList = '';
 
 		$this->searchcustom = '';
-		$this->searchCustomValues = array ();
+		$this->searchCustomValues = '';	//deprecated
+		$this->searchCustomValuesAr = array ();
 
 		if(!empty($this->keyword) or $this->showsearch){
 			vmSetStartTime('getSearchCustom');
@@ -613,10 +614,13 @@ INNER JOIN #__virtuemart_product_categories as cat ON (pc.virtuemart_product_id=
 							}
 							//$v = $app->getUserStateFromRequest ('com_virtuemart.customfields.'.$selected->virtuemart_custom_id, 'customfields['.$selected->virtuemart_custom_id.']', '', 'string');
 
+							//deprecated $this->searchCustomValues
+							$this->searchCustomValues .= '<div class="vm-search-custom-values-group"><div class="vm-custom-title-select">' .  vmText::_( $selected->custom_title ).'</div>'.JHtml::_( 'select.genericlist', $valueOptions, 'customfields['.$selected->virtuemart_custom_id.']', 'class="inputbox vm-chzn-select changeSendForm"', 'virtuemart_custom_id', 'custom_title', $v ) . '</div>';
+
 							// Custom Search Values
 							$selected->value_options    = $valueOptions;
 							$selected->v                = $v;
-							$this->searchCustomValues[] = $selected;
+							$this->searchCustomValuesAr[] = $selected;
 
 						}
 
@@ -630,7 +634,12 @@ INNER JOIN #__virtuemart_product_categories as cat ON (pc.virtuemart_product_id=
 						}*/
 
 				} else if($selected->field_type=="P"){
-                    $this->searchCustomValues[] = $selected;
+					//deprecated $this->searchCustomValues
+					$v = vRequest::getString('customfields['.$selected->virtuemart_custom_id.']');
+					$n = 'customfields['.$selected->virtuemart_custom_id.']';
+					$this->searchCustomValues .= vmText::_( $selected->custom_title ).' <input name="'.$n.'" class="inputbox vm-chzn-select" type="text" size="20" value="'.$v.'"/>';
+
+					$this->searchCustomValuesAr[] = $selected;
 				} else {
 				//Atm not written for other field types
 				/*	$db->setQuery('SELECT `customfield_value` as virtuemart_custom_id,`custom_value` as custom_title FROM `#__virtuemart_product_customfields` WHERE virtuemart_custom_id='.$selected->virtuemart_custom_id);
@@ -647,7 +656,7 @@ INNER JOIN #__virtuemart_product_categories as cat ON (pc.virtuemart_product_id=
 			// add search for declared plugins
 			JPluginHelper::importPlugin('vmcustom');
 			$dispatcher = JDispatcher::getInstance();
-			$plgDisplay = $dispatcher->trigger('plgVmSelectSearchableCustom',array( &$this->options,&$this->searchCustomValues,$this->custom_parent_id ) );
+			$plgDisplay = $dispatcher->trigger('plgVmSelectSearchableCustom',array( &$this->options,&$this->searchCustomValuesAr,$this->custom_parent_id ) );
 		}
 		//vmTime('getSearchCustom after trigger','getSearchCustom');
 		vmJsApi::chosenDropDowns();

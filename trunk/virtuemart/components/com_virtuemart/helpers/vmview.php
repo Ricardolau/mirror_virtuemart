@@ -118,10 +118,16 @@ class VmView extends JViewLegacy{
 
 	}
 
-	function prepareContinueLink(){
+	function prepareContinueLink($product=false){
 
 		$virtuemart_category_id = shopFunctionsF::getLastVisitedCategoryId ();
 		$categoryStr = '';
+
+		if (empty($virtuemart_category_id) and $product) {
+			$virtuemart_category_id = $product->canonCatId;
+			vmdebug('Using product canon cat ',$virtuemart_category_id);
+		}
+
 		if ($virtuemart_category_id) {
 			$categoryStr = '&virtuemart_category_id=' . $virtuemart_category_id;
 		}

@@ -92,13 +92,13 @@ if ($this->showsearch or $this->keyword !== false) {
 			</div>
 			<?php } ?>
 
-			<?php if(!empty($this->searchCustomValues)) { ?>
+			<?php if(!empty($this->searchCustomValuesAr)) { ?>
 			<div class="vm-search-custom-values">
 				<?php
                 echo ShopFunctionsF::renderVmSubLayoutAsGrid(
                     'searchcustomvalues',
                     array (
-                        'searchcustomvalues' => $this->searchCustomValues,
+                        'searchcustomvalues' => $this->searchCustomValuesAr,
                         'options' => array (
                             'items_per_row' => array (
                                 'xs' => 2,

@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access');
 
 echo '<a class="continue_link" href="' . $this->continue_link . '" >' . vmText::_('COM_VIRTUEMART_CONTINUE_SHOPPING') . '</a>';
 echo '<a class="showcart floatright" href="' . $this->cart_link . '">' . vmText::_('COM_VIRTUEMART_CART_SHOW') . '</a>';
-if($this->products){
+if ($this->products and is_array($this->products) and count($this->products)>0 ) {
 	foreach($this->products as $product){
 		if($product->quantity>0){
 			echo '<h4>'.vmText::sprintf('COM_VIRTUEMART_CART_PRODUCT_ADDED',$product->product_name,$product->quantity).'</h4>';

@@ -32,8 +32,8 @@ class JFormFieldVmhelptext extends JFormField {
         VmConfig::loadConfig();
         vmLanguage::loadJLang('com_virtuemart');
         vmLanguage::loadJLang('com_virtuemart_config');
-        //vmdebug('my this',$this);
-        $this->name = (string) $this->element['name'];
+
+		$this->name = (string) $this->element['name'];
         return vmText::_($this->name);
     }
 

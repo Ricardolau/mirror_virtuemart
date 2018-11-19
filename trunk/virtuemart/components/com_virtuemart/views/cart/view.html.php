@@ -140,8 +140,8 @@ class VirtueMartViewCart extends VmView {
 			$forceMethods=vRequest::getInt('forceMethods',false);
 			if (VmConfig::get('oncheckout_opc', 1) or $forceMethods) {
 
-				JPluginHelper::importPlugin('vmshipment');
-				JPluginHelper::importPlugin('vmpayment');
+				//JPluginHelper::importPlugin('vmshipment');
+				//JPluginHelper::importPlugin('vmpayment');
 				//vmdebug('cart view oncheckout_opc ');
 				$lSelectShipment=$this->lSelectShipment() ;
 				$lSelectPayment=$this->lSelectPayment();
@@ -252,7 +252,7 @@ class VirtueMartViewCart extends VmView {
 
 		$shipments_shipment_rates = array();
 
-		JPluginHelper::importPlugin('vmshipment');
+		//JPluginHelper::importPlugin('vmshipment');
 		$dispatcher = JDispatcher::getInstance();
 
 		$d = VmConfig::$_debug;
@@ -308,7 +308,7 @@ class VirtueMartViewCart extends VmView {
 			return;
 		}
 
-		JPluginHelper::importPlugin('vmpayment');
+		//JPluginHelper::importPlugin('vmpayment');
 		$dispatcher = JDispatcher::getInstance();
 		$d = VmConfig::$_debug;
 		if(VmConfig::get('debug_enable_methods',false)){

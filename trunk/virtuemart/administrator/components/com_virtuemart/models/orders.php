@@ -2423,6 +2423,10 @@ vmdebug('my prices',$data);
 		$order['customer_notified'] = 0;
 		$order['comments'] = '';
 
+		JPluginHelper::importPlugin('vmcustom');
+		JPluginHelper::importPlugin('vmcalculation');
+		JPluginHelper::importPlugin('vmshipment');
+		JPluginHelper::importPlugin('vmpayment');
 		$returnValues = $dispatcher->trigger('plgVmConfirmedOrder', array($cart, $order));
 
 		return true;
@@ -2489,6 +2493,7 @@ vmdebug('my prices',$data);
 		$dispatcher = JDispatcher::getInstance();
 
 		JPluginHelper::importPlugin('vmcustom');
+		JPluginHelper::importPlugin('vmcalculation');
 		JPluginHelper::importPlugin('vmshipment');
 		JPluginHelper::importPlugin('vmpayment');
 

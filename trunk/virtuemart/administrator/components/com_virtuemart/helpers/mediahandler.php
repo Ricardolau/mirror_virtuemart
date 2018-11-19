@@ -480,7 +480,7 @@ class VmMediaHandler {
 					$file_alt = vmText::_('COM_VIRTUEMART_NO_IMAGE_SET').' '.$this->file_description;
 					return $this->displayIt($file_url, $file_alt, '',true,'',$withDescr);
 				} else {
-					$file_url = $this->theme_url.'assets/images/vmgeneral/'.VmConfig::get('no_image_set');
+					$file_url = $this->theme_url.'assets/images/vmgeneral/'.VmConfig::get('no_image_set','noimage_new.gif');
 					$file_alt = vmText::_('COM_VIRTUEMART_NO_IMAGE_SET').' '.$this->file_description;
 					return $this->displayIt($file_url, $file_alt, $imageArgs,$lightbox, $effect);
 				}

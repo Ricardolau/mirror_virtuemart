@@ -107,7 +107,7 @@ $params = VmConfig::loadConfig();
 			</tr>
 		<?php }
 
-		echo VmHTML::row('genericlist','COM_VIRTUEMART_ADMIN_CFG_NOIMAGEPAGE',$this->noimagelist, 'no_image_set', 'style="min-width:120px"', 'value', 'text', VmConfig::get('no_image_set'));
+		echo VmHTML::row('genericlist','COM_VIRTUEMART_ADMIN_CFG_NOIMAGEPAGE',$this->noimagelist, 'no_image_set', 'style="min-width:120px"', 'value', 'text', VmConfig::get('no_image_set','noimage_new.gif'));
 		echo VmHTML::row('genericlist','COM_VIRTUEMART_ADMIN_CFG_NOIMAGEFOUND',$this->noimagelist, 'no_image_found', 'style="min-width:120px"', 'value', 'text', VmConfig::get('no_image_found'));
 
 		echo VmHTML::row('input','COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH','forSale_path',VmConfig::get('forSale_path',''),'class="inputbox"','',50,260);

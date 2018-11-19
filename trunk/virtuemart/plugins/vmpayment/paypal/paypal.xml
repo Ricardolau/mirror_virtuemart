@@ -102,7 +102,12 @@
                 <option value="0">COM_VIRTUEMART_NO</option>
                 <option value="1">COM_VIRTUEMART_YES</option>
                 </field-->
-
+                <field class="explayout" name="enable_smart_buttons" type="checkbox" default="0" label="VMPAYMENT_PAYPAL_ENABLE_SMART_BUTTONS" description="VMPAYMENT_PAYPAL_ENABLE_SMART_BUTTONS_TIP" />
+                <field class="explayout" name="offer_credit" type="list" default="0"
+                       label="VMPAYMENT_PAYPAL_OFFER_CREDIT" description="VMPAYMENT_PAYPAL_OFFER_CREDIT_TIP">
+                    <option value="0">COM_VIRTUEMART_NO</option>
+                    <option value="1">COM_VIRTUEMART_YES</option>
+                </field>
                 <!-- For _xclick mandatory, for _cart remove it -->
                 <field name="address_override" type="list" default="0" label="VMPAYMENT_PAYPAL_ADDRESS_OVERRIDE"
                        description="VMPAYMENT_PAYPAL_ADDRESS_OVERRIDE_DESC">
@@ -165,11 +170,7 @@
                     <option value="0">COM_VIRTUEMART_NO</option>
                     <option value="1">COM_VIRTUEMART_YES</option>
                 </field>
-                <field class="explayout" name="offer_credit" type="list" default="0"
-                       label="VMPAYMENT_PAYPAL_OFFER_CREDIT" description="VMPAYMENT_PAYPAL_OFFER_CREDIT_TIP">
-                    <option value="0">COM_VIRTUEMART_NO</option>
-                    <option value="1">COM_VIRTUEMART_YES</option>
-                </field>
+
                 <!-- field class="refund_on_cancel" name="refund_on_cancel" type="list" default="0" label="VMPAYMENT_PAYPAL_REFUND_CANCEL" description="VMPAYMENT_PAYPAL_REFUND_CANCEL_DESC" >
                 <option value="0">COM_VIRTUEMART_NO</option>
                 <option value="1">COM_VIRTUEMART_YES</option>
@@ -341,7 +342,7 @@
                 <!-- ============ -->
                 <field type="vmtitle" default="VMPAYMENT_PAYPAL_LAYOUT_SECTION"
                        description="VMPAYMENT_PAYPAL_LAYOUT_SECTION_DESC"/>
-                <field class="explayout" name="enable_smart_buttons" type="checkbox" default="0" label="VMPAYMENT_PAYPAL_ENABLE_SMART_BUTTONS" description="VMPAYMENT_PAYPAL_ENABLE_SMART_BUTTONS_TIP" />
+
                 <field class="explayout" name="smbt_color" type="list" size="30" label="VMPAYMENT_PAYPAL_SMBT_COLOR"
                        description="VMPAYMENT_PAYPAL_SMBT_COLOR_TIP" default="gold">
                     <option value="gold">VMPAYMENT_PAYPAL_SMBT_COLOR_GOLD</option>

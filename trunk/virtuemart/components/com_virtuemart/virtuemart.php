@@ -128,8 +128,16 @@ if (class_exists($_class)) {
 } else {
     vmDebug('VirtueMart controller not found: '. $_class);
     if (VmConfig::get('handle_404',1)) {
-    	$mainframe = JFactory::getApplication();
-    	$mainframe->redirect(JRoute::_ ('index.php?option=com_virtuemart&view=virtuemart', FALSE));
+		header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
+		if (file_exists($basePath.'/controllers/category.php')) {
+			if (!class_exists($_class)) {
+				require ($basePath.'/controllers/category.php');
+			}
+		}
+		$controller = new VirtueMartControllerCategory();
+		$controller->execute($task);
+		$controller->redirect();
+
     } else {
 		throw new RuntimeException(sprintf('VirtueMart controller not found `%s`.', $_class), 404);
     }

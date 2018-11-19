@@ -118,7 +118,7 @@ legacylayouts=0
     img_resize_enable=1
     img_width=0
     img_height=90
-    no_image_set=noimage.gif
+    no_image_set=noimage_new.gif
     no_image_found=warning.png
     
 ##Product order settings

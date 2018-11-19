@@ -66,8 +66,6 @@ class VmConfig {
 		} else {
 			self::$mType = 'notice';
 		}
-
-
 	}
 
 	static function getStartTime(){
@@ -489,8 +487,14 @@ class VmConfig {
 
 		if($exeTrig and $app->isSite()){
 			// try plugins
-
+			JPluginHelper::importPlugin('vmextended');
+			JPluginHelper::importPlugin('vmcalculation');
 			JPluginHelper::importPlugin('vmuserfield');
+			JPluginHelper::importPlugin('vmcustom');
+			JPluginHelper::importPlugin('vmcoupon');
+			JPluginHelper::importPlugin('vmshipment');
+			JPluginHelper::importPlugin('vmpayment');
+			
 			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger('plgVmInitialise', array());
 			$execTrigger = false;

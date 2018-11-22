@@ -1,0 +1,46 @@
+/* CSS Document */
+
+.form-horizontal .controls
+{
+	margin-left:250px !important;
+}
+.controls .controls, .noleft .controls
+{
+margin-left:0px !important;
+}
+.form-horizontal .control-label
+{
+	width:250px !important;
+}
+.form-horizontal .control-group
+{
+	margin-bottom:12px !important;
+}
+
+#porder_settings ul li
+{
+	 display:block !important;
+	width:50% !important;
+	float:left !important;
+}
+.row-fluid [class*="span"]
+{
+	 margin-left:1.5% !important;
+}
+.row-fluid .span6
+{
+	width:49.25% !important;
+}
+.row-fluid [class*="span"]:first-child
+{
+	margin-left:0px !important;
+}
+.smallinputs td 
+{
+ vertical-align:top !important;	
+}
+.maincontentdiv
+{
+
+
+}

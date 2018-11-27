@@ -488,8 +488,8 @@ class VmConfig {
 		if($exeTrig and $app->isSite()){
 			// try plugins
 			JPluginHelper::importPlugin('vmextended');
-			JPluginHelper::importPlugin('vmcalculation');
 			JPluginHelper::importPlugin('vmuserfield');
+			JPluginHelper::importPlugin('vmcalculation');
 			JPluginHelper::importPlugin('vmcustom');
 			JPluginHelper::importPlugin('vmcoupon');
 			JPluginHelper::importPlugin('vmshipment');

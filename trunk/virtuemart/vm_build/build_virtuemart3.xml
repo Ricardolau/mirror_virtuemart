@@ -5,8 +5,8 @@
     <property name="releasetype" value="BUGFIX"/>
     <property name="vm.version.main" value="3.4.0"/>
     <property name="vm.version" value="3.4.3"/>
-    <property name="joomla.version" value="3.8.12"/>
-    <property name="PHING.VM.REVISION" value="9986"/>
+    <property name="joomla.version" value="3.9.0"/>
+    <property name="PHING.VM.REVISION" value="9991"/>
     <property name="PHING.VM.CODENAME" value="Blue Corvus"/>
     <property name="PHING.VM.UPDATEFOLDER" value="vm3"/>
     <property file="build.properties"/>
@@ -23,6 +23,7 @@
     <property name="site.component.path" value="${export.to}/components/${component.name}"/>
     <property name="admin.component.path" value="${export.to}/administrator/components/${component.name}"/>
     <property name="admin.language.path" value="${export.to}/administrator/language"/>
+    <property name="admin.template.path" value="${export.to}/administrator/templates/"/>
 
     <property name="modules.path" value="${export.to}/modules"/>
     <property name="admin.modules.path" value="${export.to}/administrator/modules"/>
@@ -253,6 +254,12 @@
         <exclude name="**/toolbar/**"/>
     </fileset>
 
+    <fileset dir="${admin.template.path}" id='admin.template.refid' defaultexcludes="true">
+        <include name="**"/>
+        <exclude name=".svn"/>
+        <exclude name=".DS_Store"/>
+    </fileset>
+
     <fileset dir="${admin.component.path}/install" id='install.main.files' defaultexcludes="true">
         <include name="**"/>
         <exclude name=".svn"/>
@@ -414,6 +421,13 @@
         <echo msg="Copying ADMIN COMPONENT files to directory..."/>
         <copy todir="${package.folder.main}/administrator/components/${component.name}">
             <fileset refid="admin.main.refid"/>
+            <filterchain>
+                <expandproperties/>
+            </filterchain>
+        </copy>
+        <echo msg="Copying ADMIN Template files to directory..."/>
+        <copy todir="${package.folder.main}/administrator/templates">
+            <fileset refid="admin.template.refid"/>
             <filterchain>
                 <expandproperties/>
             </filterchain>

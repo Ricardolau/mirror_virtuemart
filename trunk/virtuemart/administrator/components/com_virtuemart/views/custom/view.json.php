@@ -69,20 +69,19 @@ class VirtuemartViewCustom extends JViewLegacy {
 
 				$filename = 'plg_vmcustom_' .  $this->jCustom->element;
 				vmPlugin::loadJLang($filename,'vmcustom',$this->jCustom->element);
+				JForm::addFieldPath(VMPATH_ADMIN .'/fields');
 
 				$this->custom = VmModel::getModel('custom')->getCustom();
-				$varsToPush = vmPlugin::getVarsToPushByXML($formFile,'customForm');
-				$this->custom->form = JForm::getInstance($this->jCustom->element, $formFile, array(),false, '//vmconfig | //config[not(//vmconfig)]');
-				$this->custom->params = new stdClass();
 
-				foreach($varsToPush as $k => $field){
-					if(strpos($k,'_')!=0){
-						$this->custom->params->$k = $field[0];
-					}
-				}
-				$this->custom->form->bind($this->custom->getProperties());
-				$form = $this->custom->form;
+				// Get the payment XML.
+				$form = JForm::getInstance($this->custom->custom_element, $formFile, array(),false, '//vmconfig | //config[not(//vmconfig)]');
+				$this->custom->params = new stdClass();
+				$varsToPush = vmPlugin::getVarsToPushFromForm($form);
+				VmTable::bindParameterableToSubField($this->custom,$varsToPush);
+				$form->bind($this->custom->getProperties());
+
 				include(VMPATH_ADMIN .'/fields/formrenderer.php');
+
 				echo '<input type="hidden" value="'.$this->jCustom->element.'" name="custom_element">';
 			} else {
 				$this->custom->form = null;

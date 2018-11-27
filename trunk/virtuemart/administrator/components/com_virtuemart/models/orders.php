@@ -142,7 +142,7 @@ class VirtueMartModelOrders extends VmModel {
 		}
 
 		$virtuemart_order_id = vRequest::getInt('virtuemart_order_id',$orderID) ;
-		$orderNumber = vRequest::getString('order_number',$orderNumber);
+		$orderNumber = trim(vRequest::getString('order_number',$orderNumber));
 
 		$sess = JFactory::getSession();
 		if(empty($orderNumber)) $h = $virtuemart_order_id; else $h = $orderNumber;
@@ -180,7 +180,7 @@ class VirtueMartModelOrders extends VmModel {
 			if($vmConf and VmConfig::get('ordertracking','guests') != 'guestlink' and VmConfig::get('ordertracking','guests') != 'guests'){
 				return false;
 			}
-			$orderPass = vRequest::getString( 'order_pass', $orderPass );
+			$orderPass = trim(vRequest::getString( 'order_pass', $orderPass ));
 
 			if( empty( $orderPass )) {
 				return false;

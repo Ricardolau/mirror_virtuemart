@@ -191,6 +191,10 @@ class com_virtuemartInstallerScript {
 
 		$this->deleteSwfUploader();
 
+		if(JFolder::exists($this->path .'/administrator/templates/vmadmin')){
+			$this->recurse_copy($this->path .'/administrator/templates/vmadmin',VMPATH_ROOT .'/administrator/templates/vmadmin');
+		}
+
 		$this->displayFinished(false);
 
 		//include($this->path .'/install/install.virtuemart.html.php');
@@ -358,6 +362,11 @@ class com_virtuemartInstallerScript {
 		$this->deleteSwfUploader();
 		$this->deleteOverridenJoomlaFields();
 		$this->updateOldConfigEntries();
+
+		if(JFolder::exists($this->path .'/administrator/templates/vmadmin')){
+			$this->recurse_copy($this->path .'/administrator/templates/vmadmin',VMPATH_ROOT .'/administrator/templates/vmadmin');
+		}
+
 		if($loadVm) $this->displayFinished(true);
 
 		return true;
@@ -372,6 +381,7 @@ class com_virtuemartInstallerScript {
 		$m = VmModel::getModel('config');
 		$m->setVmLanguages();
 	}
+
 
 	private function updateOldConfigEntries(){
 

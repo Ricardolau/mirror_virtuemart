@@ -39,7 +39,7 @@ class vmLanguage {
 			VmConfig::$jDefLang = strtolower(strtr(VmConfig::$jDefLangTag,'-','_'));
 		}
 
-		$l = vmLanguage::getLanguage();
+		$l = JFactory::getLanguage();
 		//Set the "joomla selected language tag" and the joomla language to vmText
 		self::$jSelLangTag = $l->getTag();
 		self::$languages[self::$jSelLangTag] = $l;
@@ -101,17 +101,8 @@ class vmLanguage {
 
 		$langs = (array)VmConfig::get('active_languages',array(VmConfig::$jDefLangTag));
 		VmConfig::$langCount = count($langs);
-		if(!in_array($siteLang, $langs)) {
-			$siteLang = VmConfig::$jDefLangTag;	//Set to shop language
-		}
 
-		VmConfig::$vmlangTag = $siteLang;
-		VmConfig::$vmlang = strtolower(strtr($siteLang,'-','_'));
-
-		VmConfig::$defaultLangTag = VmConfig::$jDefLangTag;
-		VmConfig::$defaultLang = strtolower(strtr(VmConfig::$jDefLangTag,'-','_'));
-
-		if(count($langs)>1){
+		if(VmConfig::$langCount>1){
 			$lfbs = VmConfig::get('vm_lfbs','');
 			/*	This cannot work this way, because the SQL would need a union with left and right join, much too expensive.
 			 *	even worse, the old construction would prefer the secondary language over the first. It can be tested using the customfallback
@@ -139,11 +130,25 @@ class vmLanguage {
 						VmConfig::$defaultLangTag = $fbsAssoc[$siteLang];
 						VmConfig::$defaultLang = strtolower(strtr(VmConfig::$defaultLangTag,'-','_'));
 						//VmConfig::$jDefLangTag = $fbsAssoc[$siteLang];
+						$siteLang = $fbsAssoc[$siteLang];
 					}
 					VmConfig::set('fbsAssoc',$fbsAssoc);
 				}
 			}
 		}
+
+		if(!in_array($siteLang, $langs)) {
+
+			$siteLang = VmConfig::$jDefLangTag;	//Set to shop language
+		}
+
+		VmConfig::$vmlangTag = $siteLang;
+		VmConfig::$vmlang = strtolower(strtr($siteLang,'-','_'));
+
+		VmConfig::$defaultLangTag = VmConfig::$jDefLangTag;
+		VmConfig::$defaultLang = strtolower(strtr(VmConfig::$jDefLangTag,'-','_'));
+
+
 
 		//JLangTag if also activevmlang set as FB, ShopLangTag($jDefLangTag), vmLangTag, vm_lfbs overwrites
 		if(!empty(self::$_loaded) and $alreadyLoaded){
@@ -199,7 +204,7 @@ class vmLanguage {
 			if(self::getUseLangFallback()){
 				$l .= ' Fallback language (VmConfig::$defaultLang): '.VmConfig::$defaultLang;
 			}
-			$l .= ' Selected VM language (VmConfig::$vmlang): '.VmConfig::$vmlang.' '.VmConfig::$vmlangTag.' SEF: '.VmConfig::$vmlangSef;
+			$l .= ' Selected VM language (VmConfig::$vmlang): '.VmConfig::$vmlang.' '.VmConfig::$vmlangTag.' SEF: '.VmConfig::$vmlangSef.' $lfbs = '.VmConfig::get('vm_lfbs',''); ;
 		}
 		vmdebug($l);
 	}

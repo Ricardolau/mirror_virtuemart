@@ -2073,7 +2073,7 @@ vmdebug('$limitStart',$limitStart);
 	 * @param bool $isChild Means not that the product is child or not. It means if the product should be threated as child
 	 * @return bool
 	 */
-	public function store (&$product) {
+	public function store (&$data) {
 
 		vRequest::vmCheckToken();
 
@@ -2082,9 +2082,10 @@ vmdebug('$limitStart',$limitStart);
 			return FALSE;
 		}
 
-		if ($product) {
-			$data = (array)$product;
+		if ($data and is_object($data)) {
+			$data = get_object_vars($data);
 		}
+
 		$isChild = FALSE;
 		if(!empty($data['isChild'])) $isChild = $data['isChild'];
 
@@ -2447,7 +2448,7 @@ vmdebug('$limitStart',$limitStart);
 		$product->product_ordered=0;
 
 		$newId = $this->store ($product);
-		$product->virtuemart_product_id = $newId;
+		//$product->virtuemart_product_id = $newId;
 		JPluginHelper::importPlugin ('vmcustom');
 		$dispatcher = JDispatcher::getInstance ();
 		$result=$dispatcher->trigger ('plgVmCloneProduct', array($product));
@@ -2475,7 +2476,7 @@ vmdebug('$limitStart',$limitStart);
 			}
 		}
 
-		return $product->virtuemart_product_id;
+		return $newId;
 	}
 
 	private function productPricesClone ($virtuemart_product_id) {
@@ -2510,9 +2511,10 @@ vmdebug('$limitStart',$limitStart);
 		$customfields = $cM->getCustomEmbeddedProductCustomFields(array($virtuemart_product_id),0,-1,true);
 
 		if ($customfields) {
-			foreach ($customfields as &$customfield) {
-				$customfield = get_object_vars($customfield);
-				unset($customfield['virtuemart_product_id'], $customfield['virtuemart_customfield_id']);
+			foreach ($customfields as $i=>$customfield) {
+				$cfield = get_object_vars($customfield);
+				unset($cfield['virtuemart_product_id'], $cfield['virtuemart_customfield_id']);
+				$customfields[$i] = $cfield;
 			}
 			return $customfields;
 		}

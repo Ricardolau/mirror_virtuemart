@@ -55,11 +55,12 @@ class VirtuemartControllerProduct extends VmController {
 
 		if($data===0)$data = vRequest::getRequest();
 
+		$this->getStrByAcl(array('product_name','product_desc','product_s_desc','customtitle'),$data);
 		if(vmAccess::manager('raw')){
-			$data['product_name'] = vRequest::get('product_name','');
+			/*$data['product_name'] = vRequest::get('product_name','');
 			$data['product_desc'] = vRequest::get('product_desc','');
 			$data['product_s_desc'] = vRequest::get('product_s_desc','');
-			$data['customtitle'] = vRequest::get('customtitle','');
+			$data['customtitle'] = vRequest::get('customtitle','');*/
 
 			if(isset($data['field'])){
 				$data['field'] = vRequest::get('field');
@@ -75,19 +76,19 @@ class VirtuemartControllerProduct extends VmController {
 
 		} else  {
 			if(vmAccess::manager('html')){
-				$data['product_name'] = vRequest::getHtml('product_name','');
+				/*$data['product_name'] = vRequest::getHtml('product_name','');
 				$data['product_desc'] = vRequest::getHtml('product_desc','');
 				$data['product_s_desc'] = vRequest::getHtml('product_s_desc','');
-				$data['customtitle'] = vRequest::getHtml('customtitle','');
+				$data['customtitle'] = vRequest::getHtml('customtitle','');*/
 
 				if(isset($data['field'])){
 					$data['field'] = vRequest::getHtml('field');
 				}
 			} else {
-				$data['product_name'] = vRequest::getString('product_name','');
+				/*$data['product_name'] = vRequest::getString('product_name','');
 				$data['product_desc'] = vRequest::getString('product_desc','');
 				$data['product_s_desc'] = vRequest::getString('product_s_desc','');
-				$data['customtitle'] = vRequest::getString('customtitle','');
+				$data['customtitle'] = vRequest::getString('customtitle','');*/
 
 				if(isset($data['field'])){
 					$data['field'] = vRequest::getString('field');

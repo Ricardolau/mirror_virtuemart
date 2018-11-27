@@ -43,8 +43,9 @@ class VirtuemartControllerCategory extends VmController {
 		
 		$data = vRequest::getRequest();
 
+		$this->getStrByAcl(array('category_description'),$data);
+
 		$data['category_name'] = vRequest::getHtml('category_name','');
-		$data['category_description'] = vRequest::getHtml('category_description','');
 
 		parent::save($data);
 	}

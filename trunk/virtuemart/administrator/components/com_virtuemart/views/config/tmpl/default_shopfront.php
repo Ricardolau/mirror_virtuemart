@@ -98,7 +98,7 @@ defined('_JEXEC') or die('Restricted access');?>
 		<div>
 			<?php echo VmHTML::checkbox('lstockmail', VmConfig::get('lstockmail')); ?>
 			<span class="hasTip" title="<?php echo vmText::_('COM_VIRTUEMART_CFG_LOWSTOCK_NOTIFY_TIP'); ?>">
-				<label for="reviews_autopublish">
+				<label for="lstockmail">
 					<?php echo vmText::_('COM_VIRTUEMART_CFG_LOWSTOCK_NOTIFY'); ?>
 				</label>
 			</span>

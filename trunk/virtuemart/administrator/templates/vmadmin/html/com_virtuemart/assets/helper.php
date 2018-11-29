@@ -110,7 +110,12 @@ class VmHtml_override{
 			
 		$lang = vmLanguage::getLanguage();
 		
+	
+		
 		$tooltiptext = "";
+		$label_txt = vmText::_($label);
+		
+		$hastooltip = 'hasPopover';
 		
 		if($lang->hasKey($label.'_TIP')){
 			$tooltiptext = htmlentities(vmText::_($label.'_TIP'));
@@ -118,9 +123,14 @@ class VmHtml_override{
 		else if($lang->hasKey($label.'_EXPLAIN')){
 			$tooltiptext = htmlentities(vmText::_($label.'_EXPLAIN'));
 		} 
+		else
+		{
+			$hastooltip = '';
+		}
+		
 		$label = vmText::_($label);
 		if ($func[1]=="checkbox" OR $func[1]=="input") {
-			$label = "\n\t" . '<label class="hasPopover" for="jform_'. $args[0] . '" id="' . $args[0] . '-lbl" data-content="'.$tooltiptext.'" >'.$label."</label>";
+			$label = "\n\t" . '<label class="'.$hastooltip.'" for="jform_'. $args[0] . '" id="' . $args[0] . '-lbl" data-content="'.$tooltiptext.'" >'.$label."</label>";
 		}
 		$html = '';
 		$html .= '<div class="control-group">';
@@ -643,7 +653,29 @@ class VmHtml_override{
 	 *
 	 */
 	public static function booleanlist (  $name, $value,$class='class="inputbox"'){
-		return '<fieldset class="radio">'.JHtml::_( 'select.booleanlist',  $name , $class , $value).'</fieldset>' ;
+		
+		$checked1 = "";
+		$checked2 = "";
+
+		if($value == 1)
+		{
+			$checked1 = 'checked="checked"';
+		}
+		else
+		{
+			$checked2 = 'checked="checked"';
+		}
+		
+		$htmlcode  = '<fieldset id="jform_'.$name.'" class="btn-group btn-group-yesno radio">';
+		$htmlcode .= '<input type="radio" id="jform_'.$name.'0" name="'.$name.'" value="1" '.$checked1.' />';
+		$htmlcode .= '<label for="jform_'.$name.'0" > Yes </label>';
+		$htmlcode .= '<input type="radio" id="jform_'.$name.'1" name="'.$name.'" value="0" '.$checked2.' />';
+		$htmlcode .= '<label for="jform_'.$name.'1" > No </label>';
+		$htmlcode .= '</fieldset>';
+		return $htmlcode;
+
+
+
 	}
 
 	/**

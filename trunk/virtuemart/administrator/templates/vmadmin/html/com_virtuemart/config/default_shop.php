@@ -55,7 +55,7 @@ defined('_JEXEC') or die('Restricted access');?>
        </div>
        <div class="control-group">
 			<div class="control-label">
-				<label id="jform_member_access_number-lbl" for="jform_member_access_number" class="hasPopover" data-content="<?php echo htmlentities(vmText::_('COM_VM_MEMBER_ACCESSNBR_TIP')); ?>"> Shop is offline</label>
+				<label id="jform_member_access_number-lbl" for="jform_member_access_number" class="hasPopover" data-content="<?php echo htmlentities(vmText::_('COM_VM_MEMBER_ACCESSNBR_TIP')); ?>"><?php echo vmText::_('COM_VM_MEMBER_ACCESSNBR')?></label>
 	        </div>
         	<div class="controls">
 				 <?php echo VmHTML_override::input('member_access_number',VmConfig::get('member_access_number','')); ?>

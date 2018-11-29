@@ -17,23 +17,22 @@
  */
 
 $document = JFactory::getDocument();
-$urlTemplateHtml = JURI::root(TRUE) .'/administrator/templates/vmadmin/html';
-$document->addStyleSheet($urlTemplateHtml.'/com_virtuemart/assets/styles.css');
-$document->addStyleSheet($urlTemplateHtml.'/com_virtuemart/assets/style2.css');
-$document->addStyleSheet($urlTemplateHtml.'/com_virtuemart/assets/menu.css');
-$document->addScript($urlTemplateHtml.'/com_virtuemart/assets/script.js');
-$document->addScript($urlTemplateHtml.'/com_virtuemart/assets/sidemenu.js');
+$document->addStyleSheet('templates/isis/html/com_virtuemart/assets/styles.css');
+$document->addStyleSheet('templates/isis/html/com_virtuemart/assets/style2.css');
+$document->addStyleSheet('templates/isis/html/com_virtuemart/assets/menu.css');
+$document->addScript('templates/isis/html/com_virtuemart/assets/script.js');
+$document->addScript('templates/isis/html/com_virtuemart/assets/sidemenu.js');
 
 
 $app = JFactory::getApplication();
 $templatename = $app->getTemplate();
 
-require_once(VMPATH_ROOT .'/administrator/templates/vmadmin/html/com_virtuemart/assets/helper.php');
-require_once(VMPATH_ROOT .'/administrator/templates/vmadmin/html/com_virtuemart/assets/adminui.php');
+require_once("templates/".$templatename."/html/com_virtuemart/assets/helper.php");
+require_once("templates/".$templatename."/html/com_virtuemart/assets/adminui.php");
 
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
-//JHtml::_('behavior.framework', 'mootools-more.js');
+JHtml::_('behavior.framework', 'mootools-more.js');
 JHtml::_('behavior.tooltip');
 
 
@@ -47,7 +46,7 @@ AdminUIHelper_override::startAdminArea($this);
 ?>
 
 <div class="nr-app nr-app-config">
-    <div class="nr-row">
+    <div class="nr-row" style="margin-left:0px;">
 
      
         <div class="nr-main-container"><!-- Main bar started -->

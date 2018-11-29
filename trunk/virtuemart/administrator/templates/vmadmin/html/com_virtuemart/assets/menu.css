@@ -22,7 +22,7 @@
 }
 .virtuemart-admin-area.menu-collapsed .menu-wrapper
 {
-	width:35px !important;
+	width:40px !important;
 }
 .colors {
   float: left;
@@ -46,7 +46,7 @@
 .menuspecial {
 
   float: left;
-  min-width: 260px;
+
   outline: 0;
   position: relative;
 }
@@ -180,7 +180,7 @@
 .virtuemart-admin-area.menu-collapsed .toggler, .virtuemart-admin-area .toggler
 {
 	top:unset !important;
-	left:2px !important;
+	left:-12px !important;
 }
 
 .menuspecial ul .submenuspecial > li > ul.submenuspecial > li > a { padding-left: 45px; }
@@ -291,14 +291,18 @@
 
 .white.menuspecial ul ul.submenuspecial li a { color: #4a4a4a; }
 
-.white.menuspecial > ul > li.active > a { background: #f0f0f0; }
+.white.menuspecial > ul > li.active > a { background: #d8eeff !important; border-bottom:2px solid #2f5c93 !important  }
 
-.white.menuspecial > ul > li:hover > a { background: #f0f0f0; }
+.white.menuspecial > ul > li:hover > a { background: #d8eeff; }
 
-.white.menuspecial > ul > li > a { border-bottom-color: #f0f0f0; }
+.white.menuspecial > ul > li > a { border-bottom-color: #f0f0f0;  }
 
 .white.menuspecial > ul > li > a > .ink { background: rgba(0, 0, 0, 0.1); }
 
+.submenuspecial li a
+{
+	padding-left:32px !important;
+}
 .menu-collapsed .menuspecial {
 	min-width:0px !important;
 }

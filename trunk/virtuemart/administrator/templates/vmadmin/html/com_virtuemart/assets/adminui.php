@@ -105,7 +105,7 @@ class AdminUIHelper_override {
 					<?php echo $vmView->langList; ?>
 				</div>
 			<?php } else {
-				?><a href="index.php?option=com_virtuemart&amp;view=virtuemart" ><img src="<?php echo JURI::root(true).'/administrator/components/com_virtuemart/assets/images/vm_menulogo.png'?>"></a>
+				?><a style="display:none;" href="index.php?option=com_virtuemart&amp;view=virtuemart" ><img src="<?php echo JURI::root(true).'/administrator/components/com_virtuemart/assets/images/vm_menulogo.png'?>"></a>
 			<?php }
 			AdminUIHelper_override::showAdminMenu($vmView);
 

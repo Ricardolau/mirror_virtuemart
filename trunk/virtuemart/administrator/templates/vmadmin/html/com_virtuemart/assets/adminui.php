@@ -237,17 +237,32 @@ class AdminUIHelper_override {
 		var virtuemartcookie="'.$cookieName.'";
 		');
 
-		$html = '<div id="admin-ui-tabs">';
+		$html = '<div class="form-horizontal">';
 
 		$dispatcher = JDispatcher::getInstance();
 		$returnValues = $dispatcher->trigger('plgVmBuildTabs', array(&$view, &$load_template));
 
+		$html .= '<ul class="nav nav-tabs" id="tabTabs">';
+		$class = 'class="active"';
 		foreach ( $load_template as $tab_content => $tab_title ) {
-			$html .= '<div class="tabs" title="' . vmText::_ ( $tab_title ) . '">';
+			$html .= '<li '.$class.'><a href="#'.$tab_content.'" data-toggle="tab">'.vmText::_ ( $tab_title ).'</a></li>';
+			$class = 'class=""';
+		}
+		$html .= '</ul>';
+
+		$html .= '<div class="maincontentdiv"  style="padding:1.5%">
+                      <div class="tab-content" id="tabContent">';
+
+		$class = 'tab-pane active';
+		foreach ( $load_template as $tab_content => $tab_title ) {
+			$html .= '<div id="'.$tab_content.'" class="'.$class.'" title="' . vmText::_ ( $tab_title ) . '">';
 			$html .= $view->loadTemplate ( $tab_content );
 			$html .= '<div class="clear"></div></div>';
+			$class = 'tab-pane';
 		}
-		$html .= '</div>';
+
+
+		$html .= '</div></div></div>';
 		echo $html;
 	}
 

@@ -479,6 +479,14 @@ class PaypalHelperPaypal {
 				if ($paypal_data['txn_type'] != 'recurring_payment' && !$this->_check_email_amount_currency($payments, $paypal_data)) {
 					return FALSE;
 				}
+					//	quorvia set successful status only if parameters allow and are configured
+					// 4. check this status can be updated
+				if (!empty($this->_method->status_ipn_success_updateable)) {
+					if(!$this->_check_ipn_status_confirmed_allowed( $this->_method->status_ipn_success_updateable )) {
+						$this->debugLog( $paypal_data['payment_status'], '_status of order is restricted cannot be set to confirmed', 'debug' );
+						return FALSE;
+					}
+				}
 				// now we can process the payment
 				if (strcmp($paypal_data['payment_status'], 'Authorization') == 0) {
 					$order_history['order_status'] = $this->_method->status_pending;
@@ -695,6 +703,16 @@ class PaypalHelperPaypal {
 		}
 		return false;
 	}
+
+//quorvia should this order status be updated
+	protected function _check_ipn_status_confirmed_allowed ($valid_for_confirmed) {
+
+		if (in_array($this->order['details']['BT']->order_status, $valid_for_confirmed)) {
+					return true;
+		}
+		return false;
+	}
+
 
 	protected function _check_email_amount_currency ($payments, $paypal_data) {
 

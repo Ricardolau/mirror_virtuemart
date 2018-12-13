@@ -4,7 +4,7 @@
  * Paypal payment plugin
  *
  * @author Jeremy Magne
- * @author Valérie Isaksen
+ * @author Valérie Isaksen, Max Milbers
  * @version $Id: paypal.php 7217 2013-09-18 13:42:54Z alatak $
  * @package VirtueMart
  * @subpackage payment
@@ -97,6 +97,7 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 			'log' => array(0, 'int'),
 			'status_pending' => array('', 'char'),
 			'status_success' => array('', 'char'),
+			'status_ipn_success_updateable' => array('', 'char'),
 			'status_canceled' => array('', 'char'),
 			'status_expired' => array('', 'char'),
 			'status_capture' => array('', 'char'),
@@ -535,6 +536,7 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 							$new_status = $this->_currentMethod->status_pending;
 						} else {
 							$new_status = $this->_currentMethod->status_success;
+
 						}
 						if ($this->_currentMethod->payment_type == '_xclick-subscriptions' || $this->_currentMethod->payment_type == '_xclick-payment-plan') {
 							$profilesuccess = $paypalInterface->GetRecurringPaymentsProfileDetails($response['PROFILEID']);

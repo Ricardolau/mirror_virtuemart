@@ -952,7 +952,12 @@ class plgVmCalculationAvalara extends vmCalculationPlugin {
 			}
 
 			if(!empty($product['shipment'])){
-				if(!empty($calc->taxfreightcode)) $line->setTaxCode($calc->taxfreightcode);
+				if(is_object($calc)){
+					if(!empty($calc->taxfreightcode)) $line->setTaxCode($calc->taxfreightcode);
+				} else {
+					if(!empty($calc['taxfreightcode'])) $line->setTaxCode($calc['taxfreightcode']);
+				}
+
 			}
 			$lines[] = $line;
 		}

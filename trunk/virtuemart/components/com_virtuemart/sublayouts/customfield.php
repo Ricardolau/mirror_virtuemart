@@ -810,7 +810,7 @@ class VirtueMartCustomFieldRenderer {
 							continue;
 						}
 						elseif (($productCustom->field_type == 'D')) {
-							vmdebug('my date product customfield',$productCustom);
+							//vmdebug('my date product customfield',$productCustom);
 							if($productCustom->is_input){
 								$value = $params;
 							} else {

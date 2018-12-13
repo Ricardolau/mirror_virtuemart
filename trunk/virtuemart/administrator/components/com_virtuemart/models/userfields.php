@@ -83,14 +83,14 @@ class VirtueMartModelUserfields extends VmModel {
 					$value = implode("|*|",$oValuesArr);
 				}
 				else {
-					if ($value = vmFilter::urlcheck($value) )
+					if ($value = vRequest::filterUrl($value) )
 						$value = str_replace(array('mailto:','http://','https://'),'', $value);
 				}
 				break;
 			case 'email':
 			case 'emailaddress':
 				//vmdebug('emailaddress before filter',$value);
-				$value = vmFilter::mail( $value );
+				$value = vRequest::filter( $value, FILTER_VALIDATE_EMAIL, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH );
 				//$value = str_replace('mailto:','', $value);
 				//$value = str_replace(array('\'','"',',','%','*','/','\\','?','^','`','{','}','|','~'),array(''),$value);
 				//vmdebug('emailaddress after filter',$value);
@@ -137,7 +137,7 @@ class VirtueMartModelUserfields extends VmModel {
 
 			// no HTML TAGS but permit all alphabet
 
-			$value = vmFilter::hl( $value,array('deny_attribute'=>'*'));
+			$value = vRequest::filter( $value,FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
 			$value = preg_replace('@<[\/\!]*?[^<>]*?>@si','',$value);//remove all html tags
 			$value = (string)preg_replace('#on[a-z](.+?)\)#si','',$value);//replace start of script onclick() onload()...
 			$value = trim(str_replace('"', ' ', $value),"'") ;

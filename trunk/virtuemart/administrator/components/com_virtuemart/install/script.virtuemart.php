@@ -363,7 +363,7 @@ class com_virtuemartInstallerScript {
 		$this->deleteOverridenJoomlaFields();
 		$this->updateOldConfigEntries();
 
-		if(JFolder::exists($this->path .'/administrator/templates/vmadmin')){
+		if(JFolder::exists($this->path .'/administrator/templates/vmadmin') and $this->path .'/administrator/templates/vmadmin'!=VMPATH_ROOT .'/administrator/templates/vmadmin'){
 			$this->recurse_copy($this->path .'/administrator/templates/vmadmin',VMPATH_ROOT .'/administrator/templates/vmadmin');
 		}
 

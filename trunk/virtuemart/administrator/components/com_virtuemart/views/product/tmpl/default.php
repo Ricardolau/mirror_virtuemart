@@ -110,7 +110,7 @@ if($this->pagination->limit<=$mediaLimit or $totalList<=$mediaLimit){
 		$keyword = vRequest::getCmd('keyword');
 		foreach ($this->productlist as $key => $product) {
 			$checked = JHtml::_('grid.id', $i , $product->virtuemart_product_id,null,'virtuemart_product_id');
-			$published = JHtml::_('grid.published', $product, $i );
+			//$published = JHtml::_('grid.published', $product, $i );
 			$published = $this->gridPublished( $product, $i );
 
 			$is_featured = $this->toggle($product->product_special, $i,'toggle.product_special');

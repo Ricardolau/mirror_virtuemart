@@ -695,10 +695,11 @@ vmdebug('Found cached cat, but without children');
 		$db = JFactory::getDBO();
 		$menu = JFactory::getApplication()->getMenu();
 		$parents = array();
-		if (empty($query['Itemid'])) {
+		$Itemid = vRequest::getInt('Itemid',false);
+		if (empty($Itemid)) {
 			$menuItem = $menu->getActive();
 		} else {
-			$menuItem = $menu->getItem($query['Itemid']);
+			$menuItem = $menu->getItem($Itemid);
 		}
 		$menuCatid = (empty($menuItem->query['virtuemart_category_id'])) ? 0 : $menuItem->query['virtuemart_category_id'];
 		if ($menuCatid == $virtuemart_category_id) return ;

@@ -428,7 +428,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 	/**
 	 * @param $toConvert array
 	 */
-	public function setConvertDecimal($toConvert) {
+	public function setConvertDecimal(array $toConvert) {
 		$this->_toConvertDec = $toConvert;
 	}
 
@@ -437,10 +437,10 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		if($this->_toConvertDec){
 			foreach($this->_toConvertDec as $f){
 				if(!empty($this->$f)){
-					$this->$f = str_replace(array(',',' '),array('.',''),$this->$f);
+					$this->$f = floatval(str_replace(array(',',' '),array('.',''),$this->$f));
 				} else if(isset($this->$f)){
 					$this->$f = 0.0;
-				}
+				} vmdebug('converted '.$f,$this->$f);
 			}
 		}
 	}
@@ -970,6 +970,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 					//vmdebug('_varsToPushParam empty ',$this);
 				}
 			}
+			$this->convertDec();
 			//vmdebug('vmtable load empty $oid return proto',$this);
 			return $this;
 		}
@@ -1030,6 +1031,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			if($this->_cryptedFields){
 				$this->decryptFields();
 			}
+			$this->convertDec();
 			//vmTime('loaded by cache '.$this->_pkey.' '.$this->_slugAutoName.' '.$oid,'vmtableload');
 			return $this;
 		} else {
@@ -1117,6 +1119,9 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		if($this->_cryptedFields){
 			$this->decryptFields();
 		}
+
+		$this->convertDec();
+
 		//if($this->_translatable) vmTime('loaded '.$this->_langTag.' '.$mainTable.' '.$oid ,'vmtableload');
 		$this->_ltmp = false;
 

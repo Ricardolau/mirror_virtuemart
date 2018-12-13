@@ -57,7 +57,7 @@ class vmPPButton {
 			$text = vmText::_('VMPAYMENT_PAYPAL_EXPCHECKOUT_BUTTON');
         }
 
-		vmdebug('renderCheckoutButton',$method);
+		//vmdebug('renderCheckoutButton',$method);
 		$locale = str_replace('-','_',VmLanguage::$jSelLangTag);
 
 		if(!empty($method->enable_smart_buttons)){

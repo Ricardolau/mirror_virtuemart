@@ -384,7 +384,7 @@ class VmViewAdmin extends JViewLegacy {
 	 */
 	function toggle( $field, $i, $toggle, $imgY = 'tick.png', $imgX = 'publish_x.png', $untoggleable = false )
 	{
-
+		$field = intval($field);
 		$img 	= $field ? $imgY : $imgX;
 		if ($toggle == 'published') {
 			// Stay compatible with grid.published
@@ -408,14 +408,11 @@ class VmViewAdmin extends JViewLegacy {
 
 		if($untoggleable) return $image;
 
-		if (JVM_VERSION < 3){
-			return ('<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $task .'\')" title="'. $action .'">'
-			. $image .'</a>');
-		} else {
+
 			$icon 	= $field ? 'publish' : 'unpublish';
 			return ('<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $task .'\')" title="'. $action .'">'
 			. '<span class="icon-'.$icon.'"><span>' .'</a>');
-		}
+
 
 
 	}

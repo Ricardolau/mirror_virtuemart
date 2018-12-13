@@ -5,9 +5,9 @@
 *
 * @package	VirtueMart
 * @subpackage User
-* @author Oscar van Eijk
+* @author VirtueMart Team
 * @link ${PHING.VM.MAINTAINERURL}
-* @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+* @copyright Copyright (c) 2004 - 2018 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -108,14 +108,7 @@ class VirtuemartControllerUser extends VmController {
 			if (array_key_exists('vendor_accepted_currencies', $data) && is_array($data['vendor_accepted_currencies'])) {
 			    $data['vendor_accepted_currencies'] = implode(',', $data['vendor_accepted_currencies']);
 			}
-			// TODO disallow vendor_store_name as HTML ?
-			$data['vendor_store_name'] = vRequest::getHtml('vendor_store_name');
-			$data['vendor_store_desc'] = vRequest::getHtml('vendor_store_desc');
-			$data['vendor_terms_of_service'] = vRequest::getHtml('vendor_terms_of_service');
-			$data['vendor_legal_info'] = vRequest::getHtml('vendor_legal_info');
-			$data['vendor_letter_css'] = vRequest::getHtml('vendor_letter_css');
-			$data['vendor_letter_header_html'] = vRequest::getHtml('vendor_letter_header_html');
-			$data['vendor_letter_footer_html'] = vRequest::getHtml('vendor_letter_footer_html');
+			$this->getStrByAcl(array('vendor_store_name','vendor_store_desc','vendor_terms_of_service','vendor_legal_info', 'vendor_letter_css', 'vendor_letter_header_html', 'vendor_letter_footer_html'),$data);
 
 			$ids = vRequest::getInt('virtuemart_user_id');
 

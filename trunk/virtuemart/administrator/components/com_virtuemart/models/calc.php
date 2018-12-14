@@ -283,7 +283,7 @@ class VirtueMartModelCalc extends VmModel {
 	}
 
 	static function getTaxes() {
-		return self::getRule(array('TAX','VatTax','TaxBill'));
+		return self::getRule(array('Tax','VatTax','TaxBill'));
 	}
 
 	static function getDiscounts(){

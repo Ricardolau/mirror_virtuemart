@@ -38,7 +38,10 @@ class VirtueMartModelOrders extends VmModel {
 		parent::__construct();
 		$this->setMainTable('orders');
 		$this->addvalidOrderingFieldName(array('order_name','order_email','payment_method','shipment_method','virtuemart_order_id' ) );
+		$this->setToggleName('paid');
 		$this->populateState();
+
+		VmConfig::importVMPlugins(true);
 	}
 
 	function populateState () {
@@ -249,6 +252,7 @@ class VirtueMartModelOrders extends VmModel {
 				$order['details']['has_ST'] = false;
 				$order['details']['ST'] =&$order['details']['BT'];
 			}
+			$order['details']['BT']->paid = floatval($order['details']['BT']->paid);
 		}
 
 		// Get the order history
@@ -260,7 +264,7 @@ class VirtueMartModelOrders extends VmModel {
 		$order['history'] = $db->loadObjectList();
 
 		// Get the order items
-	$q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name, order_item_sku, i.virtuemart_product_id, product_item_price, product_final_price, product_basePriceWithTax, product_discountedPriceWithoutTax, product_priceWithoutTax, product_subtotal_with_tax, product_subtotal_discount, product_tax, product_attribute, order_status,
+	$q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name, order_item_sku, i.virtuemart_product_id, product_item_price, product_final_price, product_basePriceWithTax, product_discountedPriceWithoutTax, product_priceWithoutTax, product_subtotal_with_tax, product_subtotal_discount, product_tax, product_attribute, order_status, paid,
 			intnotes, virtuemart_category_id
 			FROM #__virtuemart_order_items i
 				LEFT JOIN #__virtuemart_products p
@@ -325,6 +329,8 @@ class VirtueMartModelOrders extends VmModel {
 					}
 				}
 			}
+
+			$item->paid = floatval($item->paid);
 			$order['items'][$p] = $item;
 		}
 
@@ -526,23 +532,6 @@ class VirtueMartModelOrders extends VmModel {
 				}
 			}
 
-			//Fallbacks
-			if(!$taxCalcValue){
-				//Could be a new item, missing the tax rules, we try to get one of another product.
-				//get tax calc_value of product VatTax
-				$db = JFactory::getDbo();
-				$sql = 'SELECT * FROM `#__virtuemart_order_calc_rules` WHERE `virtuemart_order_id` = "'.$orderdata->virtuemart_order_id.'" AND `calc_kind` = "VatTax" ';
-				$db->setQuery($sql);
-				if ($vat = $db->loadObject()) {
-					$taxCalcValue = $vat->calc_value;
-					$vat->virtuemart_order_calc_rule_id = 0; 	//We set this here, so that we know the tax is missing and must be inserted
-					vmdebug('updateSingleItem $taxCalcValue loaded by fallback '.$vat->virtuemart_calc_id);
-				} else {
-					$vat = false;
-				}
-
-			}
-
 			//When the product has no discount
 			if($daTax == 'notset'){
 				$daTax = VmConfig::get('taxafterdiscount',$daTax);
@@ -667,7 +656,7 @@ class VirtueMartModelOrders extends VmModel {
 			$table->emptyCache();
 			$table->load($virtuemart_order_item_id);
 
-			JPluginHelper::importPlugin('vmcustom');
+			//JPluginHelper::importPlugin('vmcustom');
 			$dispatcher = JDispatcher::getInstance();
 			$results = $dispatcher->trigger('plgVmOnUpdateSingleItem', array(&$table, &$orderdata));
 
@@ -784,6 +773,70 @@ class VirtueMartModelOrders extends VmModel {
 		$data['product_subtotal_discount'] = $quantity * $itemDiscount;
 vmdebug('my prices',$data);
 		return $data;
+	}
+
+	function toggle($field,$val = NULL, $cidname = 0,$tablename = 0, $view = false  ) {
+
+		if($view and !vmAccess::manager($view.'.edit.state')){
+			return false;
+		}
+		$ok = true;
+
+		if (!in_array($field, $this->_togglesName)) {
+			vmdebug('vmModel function toggle, field '.$field.' is not in white list');
+			return false ;
+		}
+		if($tablename === 0) $tablename = $this->_maintablename;
+		if($cidname === 0) $cidname = $this->_cidName;
+
+		$table = $this->getTable($tablename);
+		$ids = vRequest::getInt( $cidname, vRequest::getInt('cid', array() ) );
+
+		foreach($ids as $id){
+			$table->load( (int)$id );
+			if($field == 'paid'){
+				$toPay = $table->order_total;
+
+				$order = $this->getOrder($id);
+				//vmdebug('order model toggle '.$val,$table->paid,$table->order_total, $order);
+				foreach ($order['items'] as $id => $item) {
+					$os_trigger_refunds = VmConfig::get('os_trigger_refunds', array('R'));
+					if(in_array($item->order_status,$os_trigger_refunds)){
+						//$ok = false;
+						//VmInfo('Cannot set order to paid/unpaid, because there are refunded items. Please check the order manually '.$id);
+						$toPay -= $item->product_subtotal_with_tax;
+					}
+				}
+
+				if (empty($val)){
+					if(!empty($table->paid) and $table->paid != $toPay){
+						$ok = false;
+						VmInfo('Cannot set order to unpaid, paid = '.$table->paid.', but  order total = '.$table->order_total.'. Please check the order manually '.$id);
+					} else {
+						$table->paid = 0.00;
+						$table->store();
+					}
+				} else {
+					if(empty($table->paid) ){
+						$table->paid = $toPay;
+						$table->store();
+					} else if($table->paid != $toPay){
+						$ok = false;
+						VmInfo('Cannot set order to paid, paid = '.$table->paid.', but  order total = '.$toPay.'. Please check the order manually '.$id);
+					}
+				}
+
+
+			} else {
+				if (!$table->toggle($field, $val)) {
+					vmError(get_class( $this ).'::toggle  '.$id);
+					$ok = false;
+				}
+			}
+
+		}
+
+		return $ok;
 	}
 
 	public static function isEmptyDec($d,$n){
@@ -980,16 +1033,11 @@ vmdebug('my prices',$data);
 		//First we must call the payment, the payment manipulates the result of the order_status
 		if($useTriggers){
 
-			JPluginHelper::importPlugin('vmcalculation');
-			JPluginHelper::importPlugin('vmcustom');
 
-			JPluginHelper::importPlugin('vmshipment');
 			$_dispatcher = JDispatcher::getInstance();											//Should we add this? $inputOrder
 			$_returnValues = $_dispatcher->trigger('plgVmOnUpdateOrderShipment',array(&$data,$old_order_status,$inputOrder));
 
 			// Payment decides what to do when order status is updated
-			JPluginHelper::importPlugin('vmpayment');
-			$_dispatcher = JDispatcher::getInstance();											//Should we add this? $inputOrder
 			$_returnValues = $_dispatcher->trigger('plgVmOnUpdateOrderPayment',array(&$data,$old_order_status,$inputOrder));
 			foreach ($_returnValues as $_returnValue) {
 				if ($_returnValue === true) {
@@ -1011,6 +1059,23 @@ vmdebug('my prices',$data);
 				$_dispatcher->trigger('plgVmOnCancelPayment',array(&$data,$old_order_status));
 			}
 		}
+
+		if(empty($data->paidSet)){
+			$os_trigger_paid = VmConfig::get('os_trigger_paid', array('C'));
+			if(in_array($data->order_status,$os_trigger_paid)){
+				$data->paid = $data->order_total;
+				foreach ($inputOrder['items'] as $id => $item) {
+					$os_trigger_refunds = VmConfig::get('os_trigger_refunds', array('R'));
+					if(in_array($item->order_status,$os_trigger_refunds)){
+						//$ok = false;
+						//VmInfo('Cannot set order to paid/unpaid, because there are refunded items. Please check the order manually '.$id);
+						$data->paid -= $item->product_subtotal_with_tax;
+					}
+				}
+
+			}
+		}
+
 
 		if(empty($data->delivery_date)){
 			$del_date_type = VmConfig::get('del_date_type','m');
@@ -1046,7 +1111,7 @@ vmdebug('my prices',$data);
 
 				foreach( $inputOrder as $item_id => $order_item_data ) {
 
-					if(!empty($item_id) and $item_id=='customer_notified') continue;	//Attention, we need the check against empty, else it continues for "0"
+					if(!empty($item_id) and !is_integer($item_id)/*=='customer_notified'*/) continue;	//Attention, we need the check against empty, else it continues for "0"
 
 					$order_item_data['current_order_status'] = $order_item_data['order_status'];
 					if(!isset( $order_item_data['comments'] )) $order_item_data['comments'] = '';
@@ -1058,10 +1123,61 @@ vmdebug('my prices',$data);
 						$inputOrder['comments'] .= ' '.vmText::sprintf( 'COM_VIRTUEMART_ORDER_PRODUCT_ADDED', $order_item_data->order_item_name );
 					}
 					$taxes = array();
-					foreach( $orderCalcs as $calc ) {
 
-						if($calc->virtuemart_order_item_id == $item_id and ($calc->calc_kind == 'VatTax' or $calc->calc_kind == 'DATax')) {
-							$taxes[] = $calc;
+					$remove = $orderCalcs;
+					//if(!empty($order_item_data->product_tax_id)){
+						if(!is_array($order_item_data->product_tax_id)) $order_item_data->product_tax_id = array($order_item_data->product_tax_id);
+
+						foreach( $orderCalcs as $i=>$calc ) {
+
+							if($calc->virtuemart_order_item_id == $item_id and ($calc->calc_kind == 'VatTax' or $calc->calc_kind == 'Tax' or $calc->calc_kind == 'DATax') ) {
+								if($calc->calc_kind == 'VatTax' or $calc->calc_kind == 'Tax'){
+									$k = array_search( $calc->virtuemart_calc_id,$order_item_data->product_tax_id);
+									if($k!==FALSE){
+										$taxes[] = $calc;
+										unset($order_item_data->product_tax_id[$k]);
+										unset($remove[$i]);
+									}
+									/*else {
+
+
+										vmdebug('my taxes now ',$taxes,$calc,$orderCalcRulesTable->loadFieldValues());
+									}*/
+
+								} else {
+									$taxes[] = $calc;
+									unset($remove[$i]);
+								}
+							} else {
+								unset($remove[$i]);
+							}
+						}
+
+						if(!empty($order_item_data->product_tax_id)){
+							$orderCalcRulesTable = $this->getTable('order_calc_rules');
+							foreach( $order_item_data->product_tax_id as $pTaxId ) {
+								if(empty($pTaxId))continue;
+								$sql = 'SELECT * FROM `#__virtuemart_calcs` WHERE `virtuemart_calc_id` = "'.$pTaxId.'" ';
+								$db->setQuery( $sql );
+								$newCalc = $db->loadObject();
+								$newCalc->virtuemart_order_calc_rule_id = 0;
+								$newCalc->virtuemart_order_id = $order_item_data->virtuemart_order_id;
+								$newCalc->virtuemart_vendor_id = $order_item_data->virtuemart_vendor_id;
+								$newCalc->virtuemart_order_item_id = $item_id;
+
+								//$orderCalcRulesTable->bind($calc);
+								$orderCalcRulesTable->bindChecknStore($newCalc);
+								$taxes[] = $orderCalcRulesTable->loadFieldValues();
+								vmdebug('added new tax',$taxes);
+							}
+						}
+					//}
+
+					foreach($remove as $remov){
+						$orderCalcRulesTable = $this->getTable('order_calc_rules');
+						if( ($calc->calc_kind == 'VatTax' or $calc->calc_kind == 'Tax' )) {
+							$orderCalcRulesTable->delete($remov->virtuemart_order_calc_rule_id);
+							vmdebug('To remove ',$remov);
 						}
 					}
 
@@ -1123,7 +1239,7 @@ vmdebug('my prices',$data);
 			$this->notifyCustomer( $data->virtuemart_order_id , $inputOrder );
 // 			}
 
-			JPluginHelper::importPlugin('vmcoupon');
+			//JPluginHelper::importPlugin('vmcoupon');
 			$dispatcher = JDispatcher::getInstance();
 			$returnValues = $dispatcher->trigger('plgVmCouponUpdateOrderStatus', array($data, $old_order_status));
 			if(!empty($returnValues)){
@@ -1307,7 +1423,7 @@ vmdebug('my prices',$data);
 		$_orderData->STsameAsBT = $_cart->STsameAsBT;
 
 		JPluginHelper::importPlugin('vmshopper');
-		JPluginHelper::importPlugin('vmextended');
+		//JPluginHelper::importPlugin('vmextended');
 		$dispatcher = JDispatcher::getInstance();
 		$plg_datas = $dispatcher->trigger('plgVmOnUserOrder',array(&$_orderData));
 
@@ -1765,7 +1881,7 @@ vmdebug('my prices',$data);
 					$orderCalcRules->virtuemart_order_calc_rule_id = null;
 					$orderCalcRules->virtuemart_calc_id = $calc->virtuemart_calc_id;
 					$orderCalcRules->calc_kind = 'payment';
-					$orderCalcRules->calc_rule_name = $calc->calc_name;
+					$orderCalcRules->calc_rule_name = vmText::_($calc->calc_name);
 					$orderCalcRules->calc_amount = $_cart->cartPrices['paymentTax'];
 					$orderCalcRules->calc_value = $calc->calc_value;
 					$orderCalcRules->calc_mathop = $calc->calc_value_mathop;
@@ -1800,7 +1916,7 @@ vmdebug('my prices',$data);
 					$orderCalcRules->virtuemart_order_calc_rule_id = null;
 					$orderCalcRules->virtuemart_calc_id = $calc->virtuemart_calc_id;
 					$orderCalcRules->calc_kind = 'shipment';
-					$orderCalcRules->calc_rule_name = $calc->calc_name;
+					$orderCalcRules->calc_rule_name = vmText::_($calc->calc_name);
 					$orderCalcRules->calc_amount = $_cart->cartPrices['shipmentTax'];
 					$orderCalcRules->calc_value = $calc->calc_value;
 					$orderCalcRules->calc_mathop = $calc->calc_value_mathop;

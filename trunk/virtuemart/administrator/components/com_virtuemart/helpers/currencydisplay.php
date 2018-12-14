@@ -483,5 +483,13 @@ class CurrencyDisplay {
 		return($this->_currency_id);
 	}
 
+	function truncate($val, $name = 'salesPrice'/*, $f="0"*/)
+	{
+		$f = (string)$this->_priceConfig[$name][1];
+		if(($p = strpos($val, '.')) !== false) {
+			$val = floatval(substr($val, 0, $p + 1 + $f));
+		}
+		return $val;
+	}
 }
 // pure php no closing tag

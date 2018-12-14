@@ -554,7 +554,6 @@ class plgVmpaymentAuthorizenet extends vmPSPlugin {
 
 		$this->debugLog($response, "plgVmConfirmedOrder", 'debug');
 
-
 		$authnet_values = array(); // to check the values???
 		// evaluate the response
 		$html = $this->_handleResponse($response, $authnet_values, $order, $dbValues['payment_name']);
@@ -570,6 +569,13 @@ class plgVmpaymentAuthorizenet extends vmPSPlugin {
 				if ($this->declined) {
 					vRequest::setVar('html', $html);
 					$new_status = $this->_currentMethod->payment_declined_status;
+					// GJC added for declined order statuses
+					$modelOrder = VmModel::getModel('orders');
+					$order['order_status'] = $new_status;
+					$order['customer_notified'] = 1;
+					$order['comments'] = '';
+					$modelOrder->updateStatusForOneOrder($order['details']['BT']->virtuemart_order_id, $order, TRUE);
+					// GJC added for declined order statuses
 					$this->_handlePaymentCancel($order['details']['BT']->virtuemart_order_id, $html);
 					return;
 				} else {
@@ -601,7 +607,8 @@ class plgVmpaymentAuthorizenet extends vmPSPlugin {
 		// error while processing the payment
 		$mainframe = JFactory::getApplication();
 		vmWarn($html);
-		$mainframe->redirect(JRoute::_('index.php?option=com_virtuemart&view=cart&task=editpayment', FALSE), vmText::_('COM_VIRTUEMART_CART_ORDERDONE_DATA_NOT_VALID'));
+//GJC you can redirect to cart only
+		$mainframe->redirect(JRoute::_('index.php?option=com_virtuemart&view=cart', FALSE), vmText::_('COM_VIRTUEMART_CART_ORDERDONE_DATA_NOT_VALID'));
 	}
 
 	/**
@@ -1092,7 +1099,7 @@ class plgVmpaymentAuthorizenet extends vmPSPlugin {
 	 * @return mixed Null for methods that aren't active, text (HTML) otherwise
 	 * @author Valerie Isaksen
 	 */
-	public function plgVmOnShowOrderFEPayment($virtuemart_order_id, $virtuemart_paymentmethod_id, &$payment_name) {
+	protected function plgVmOnShowOrderFEPayment($virtuemart_order_id, $virtuemart_paymentmethod_id, &$payment_name) {
 
 		$this->onShowOrderFE($virtuemart_order_id, $virtuemart_paymentmethod_id, $payment_name);
 		return TRUE;
@@ -1107,7 +1114,7 @@ class plgVmpaymentAuthorizenet extends vmPSPlugin {
 	 * @return mixed Null when for payment methods that were not selected, text (HTML) otherwise
 	 * @author Valerie Isaksen
 	 */
-	public function plgVmOnShowOrderPrintPayment($order_number, $method_id) {
+	function plgVmOnShowOrderPrintPayment($order_number, $method_id) {
 
 		return parent::onShowOrderPrint($order_number, $method_id);
 	}

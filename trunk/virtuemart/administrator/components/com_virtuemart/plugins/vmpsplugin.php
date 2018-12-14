@@ -982,7 +982,9 @@ abstract class vmPSPlugin extends vmPlugin {
 			$db->setQuery ($q);
 			$taxrule = $db->loadObject ();
 
-			$html = $taxrule->calc_name . '(' . $taxrule->calc_kind . ':' . $taxrule->calc_value_mathop . $taxrule->calc_value . ')';
+			$lang = vmLanguage::getLanguage();
+			$text = $lang->hasKey($taxrule->calc_name) ? '('.vmText::_($taxrule->calc_name).')' : $taxrule->calc_name;
+			$html = $text . '(' . $taxrule->calc_kind . ':' . $taxrule->calc_value_mathop . $taxrule->calc_value . ')';
 		}
 		return $html;
 	}
@@ -1072,8 +1074,8 @@ abstract class vmPSPlugin extends vmPlugin {
 		if($this->_psType=='payment'){
 			$cartTotalAmountOrig = $this->getCartAmount($cart_prices);
 
-			if(!empty($method->cost_percent_total)) $method->cost_percent_total = 0.0;
-			if(!empty($method->cost_per_transaction)) $method->cost_per_transaction = 0.0;
+			if(empty($method->cost_percent_total)) $method->cost_percent_total = 0.0;
+			if(empty($method->cost_per_transaction)) $method->cost_per_transaction = 0.0;
 
 			if(!$progressive){
 				//Simple

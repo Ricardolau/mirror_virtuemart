@@ -322,6 +322,7 @@ class VirtueMartCart {
 						}
 
 					}
+					VmInfo('COM_VM_LOADED_STORED_CART');
 				}
 			}
 		}
@@ -572,11 +573,11 @@ class VirtueMartCart {
 
 							foreach($customProductData[$customfield->virtuemart_custom_id][$customfield->virtuemart_customfield_id] as $i=>$customData){
 
-								$value = vmFilter::hl( $customData,array('deny_attribute'=>'*'));
+								//$value = vmFilter::hl( $customData,array('deny_attribute'=>'*'));
 								//to strong
 								/* $value = preg_replace('@<[\/\!]*?[^<>]*?>@si','',$value);//remove all html tags  */
 								//lets use instead
-								$value = JComponentHelper::filterText($value);
+								$value = JComponentHelper::filterText($customData);
 								$value = (string)preg_replace('#on[a-z](.+?)\)#si','',$value);//replace start of script onclick() onload()...
 								$value = trim(str_replace('"', ' ', $value),"'") ;
 								$customProductData[$customfield->virtuemart_custom_id][$customfield->virtuemart_customfield_id][$i] = (string)preg_replace('#^\'#si','',$value);
@@ -1230,7 +1231,6 @@ class VirtueMartCart {
 
 			$returnValues = $dispatcher->trigger('plgVmConfirmedOrder', array($this, $orderDetails));
 
-
 			if($this->orderdoneHtml===false){
 				$orderDoneHtml = vRequest::get('html', false);
 				if($orderDoneHtml){
@@ -1431,7 +1431,7 @@ class VirtueMartCart {
 	}
 
 	private function filterCartInput($v){
-		$v = vmFilter::hl( $v,array('deny_attribute'=>'*'));
+		//$v = vmFilter::hl( $v,array('deny_attribute'=>'*'));
 		//to strong
 		/* $value = preg_replace('@<[\/\!]*?[^<>]*?>@si','',$value);//remove all html tags  */
 		//lets use instead

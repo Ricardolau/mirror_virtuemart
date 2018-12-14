@@ -65,7 +65,7 @@ class TableOrder_items extends VmTable {
 	var $order_status = NULL;
 	/** @var text Product attribute */
 	var $product_attribute = NULL;
-
+	var $paid = 0;
 	var $oi_hash = NULL;
 
 	/**
@@ -77,6 +77,7 @@ class TableOrder_items extends VmTable {
 		$this->setLoggable();
 		$this->setHashable('oi_hash');
 		$this->setOmittedHashFields(array('virtuemart_order_item_id','modified_on','modified_by','locked_on','locked_by'));
+		$this->setConvertDecimal(array('paid'));
 	}
 
 }

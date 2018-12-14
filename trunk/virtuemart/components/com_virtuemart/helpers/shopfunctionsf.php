@@ -1157,4 +1157,40 @@ class shopFunctionsF {
 		}
 		return '';
 	}
+
+	static public function summarizeRulesForBill($rules){
+
+		$discountsBill = false;
+		$taxBill = false;
+		foreach($rules as $rule){
+
+			//$handled[$rule->virtuemart_calc_id] = true;
+			$r = new stdClass();
+			$r->virtuemart_calc_id = $rule->virtuemart_calc_id;
+			$r->calc_result = $rule->calc_result;
+			$r->calc_amount = $rule->calc_amount;
+			$r->calc_rule_name = $rule->calc_rule_name;
+			$r->calc_kind = $rule->calc_kind;
+			$r->calc_value = $rule->calc_value;
+
+			if($rule->calc_kind == 'DBTaxRulesBill' or $rule->calc_kind == 'DATaxRulesBill'){
+				$discountsBill[$rule->virtuemart_calc_id] = $r;
+			}
+			if($rule->calc_kind == 'taxRulesBill' or $rule->calc_kind == 'VatTax' or $rule->calc_kind=='payment' or $rule->calc_kind=='shipment'){
+				//vmdebug('method rule',$rule);
+				$r->label = shopFunctionsF::getTaxNameWithValue($rule->calc_rule_name,$rule->calc_value);
+				if(!isset($rule->quantity)) {
+					$rule->quantity =1;
+				}
+				if(isset($taxBill[$rule->virtuemart_calc_id])){
+					$taxBill[$rule->virtuemart_calc_id]->calc_amount += $rule->calc_amount * $rule->quantity ;
+				} else {
+					$taxBill[$rule->virtuemart_calc_id] = $r;
+					$taxBill[$rule->virtuemart_calc_id]->calc_amount += $rule->calc_amount * $rule->quantity ;
+				}
+			}
+		}
+
+		return array('discountsBill' => $discountsBill, 'taxBill' => $taxBill);
+	}
 }

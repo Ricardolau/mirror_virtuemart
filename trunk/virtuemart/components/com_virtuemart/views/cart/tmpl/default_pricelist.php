@@ -33,7 +33,7 @@ defined ('_JEXEC') or die('Restricted access');
 			if(count($this->cart->cartData['VatTax']) < 2) {
 				reset($this->cart->cartData['VatTax']);
 				$taxd = current($this->cart->cartData['VatTax']);
-				$tax = shopFunctionsF::getTaxNameWithValue($taxd['calc_name'],$taxd['calc_value']);
+				$tax = shopFunctionsF::getTaxNameWithValue(vmText::_($taxd['calc_name']),$taxd['calc_value']);
 			}
 		}
 		?>
@@ -163,7 +163,7 @@ if (VmConfig::get ('coupons_enable')) {
 foreach ($this->cart->cartData['DBTaxRulesBill'] as $rule) {
 ?>
 <tr class="sectiontableentry<?php echo $i ?>">
-	<td colspan="4" style="text-align: right;"><?php echo $rule['calc_name'] ?> </td>
+	<td colspan="4" style="text-align: right;"><?php echo vmText::_($rule['calc_name']) ?> </td>
 	<?php if (VmConfig::get ('show_tax')) { ?>
 	<td style="text-align: right;"></td>
 	<?php } ?>
@@ -184,7 +184,7 @@ foreach ($this->cart->cartData['taxRulesBill'] as $rule) {
 	if($rule['calc_value_mathop']=='avalara') continue;
 	?>
 <tr class="sectiontableentry<?php echo $i ?>">
-	<td colspan="4" style="text-align: right;"><?php echo $rule['calc_name'] ?> </td>
+	<td colspan="4" style="text-align: right;"><?php echo vmText::_($rule['calc_name']) ?> </td>
 	<?php if (VmConfig::get ('show_tax')) { ?>
 	<td style="text-align: right;"><?php echo $this->currencyDisplay->createPriceDiv ($rule['virtuemart_calc_id'] . 'Diff', '', $this->cart->cartPrices[$rule['virtuemart_calc_id'] . 'Diff'], FALSE); ?>&nbsp;</td>
 	<?php } ?>
@@ -202,7 +202,7 @@ foreach ($this->cart->cartData['taxRulesBill'] as $rule) {
 foreach ($this->cart->cartData['DATaxRulesBill'] as $rule) {
 	?>
 <tr class="sectiontableentry<?php echo $i ?>">
-	<td colspan="4" style="text-align: right;"><?php echo   $rule['calc_name'] ?> </td>
+	<td colspan="4" style="text-align: right;"><?php echo vmText::_($rule['calc_name']) ?> </td>
 	<?php if (VmConfig::get ('show_tax')) { ?>
 	<td style="text-align: right;">&nbsp;</td>
 	<?php } ?>
@@ -345,7 +345,7 @@ if(!empty($this->cart->cartData)){
 				if(!empty($vatTax['result'])) { ?>
 <tr class="sectiontableentry<?php echo $i ?>">
 	<td colspan="3">&nbsp;</td>
-	<td style="text-align: right;"><?php echo shopFunctionsF::getTaxNameWithValue($vatTax['calc_name'],$vatTax['calc_value']) ?></td>
+	<td style="text-align: right;"><?php echo shopFunctionsF::getTaxNameWithValue(vmText::_($vatTax['calc_name']),$vatTax['calc_value']) ?></td>
 	<td style="text-align: right;"><span class="priceColor2"><?php echo $this->currencyDisplay->createPriceDiv( 'taxAmount', '', $vatTax['result'], FALSE, false, 1.0,false,true ) ?></span></td>
 	<?php if (VmConfig::get ('show_tax')) { ?>
 	<td >&nbsp;</td>

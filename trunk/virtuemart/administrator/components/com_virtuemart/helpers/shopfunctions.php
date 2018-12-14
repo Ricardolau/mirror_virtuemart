@@ -299,8 +299,9 @@ jQuery(".changeSendForm")
 		$taxrates = array();
 		$taxrates[] = JHtml::_ ('select.option', '-1', vmText::_ ('COM_VIRTUEMART_PRODUCT_TAX_NONE'), $name);
 		$taxrates[] = JHtml::_ ('select.option', '0', vmText::_ ('COM_VIRTUEMART_PRODUCT_TAX_NO_SPECIAL'), $name);
+
 		foreach ($taxes as $tax) {
-			$taxrates[] = JHtml::_ ('select.option', $tax->virtuemart_calc_id, $tax->calc_name, $name);
+			$taxrates[] = JHtml::_ ('select.option', $tax->virtuemart_calc_id, vmText::_($tax->calc_name), $name);
 		}
 		$listHTML = JHtml::_ ('Select.genericlist', $taxrates, $name, $class, $name, 'text', $selected,'[');
 		return $listHTML;

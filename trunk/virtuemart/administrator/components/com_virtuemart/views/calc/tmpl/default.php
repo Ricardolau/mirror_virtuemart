@@ -93,7 +93,7 @@ AdminUIHelper::startAdminArea($this);
 					<?php echo $checked; ?>
 				</td>
 				<td align="left">
-					<a href="<?php echo $editlink; ?>"><?php echo $row->calc_name; ?></a>
+					<a href="<?php echo $editlink; ?>"><?php echo vmText::_($row->calc_name); ?></a>
 				</td>
 				<?php  if($this->showVendors){ ?>
 				<td align="left">

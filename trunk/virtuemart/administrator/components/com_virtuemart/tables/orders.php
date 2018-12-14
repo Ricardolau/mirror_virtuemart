@@ -95,6 +95,7 @@ class TableOrders extends VmTableData {
 	var $order_language = NULL;
 	var $delivery_date = NULL;
 	var $STsameAsBT = 0;
+	var $paid = 0;
 	var $o_hash = NULL;
 
 	/**
@@ -112,6 +113,7 @@ class TableOrders extends VmTableData {
 
 		$this->setOmittedHashFields(array('order_pass','order_create_invoice_pass'));
 		$this->setTableShortCut('o');
+		$this->setConvertDecimal(array('paid'));
 	}
 
 	function check(){

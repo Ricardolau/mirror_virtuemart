@@ -385,12 +385,16 @@ class VmConfig {
 		$app = JFactory::getApplication(vmDefines::$_appId);
 		if(!$force){
 			if(!empty(self::$_jpConfig) && !empty(self::$_jpConfig->_params)){
-				if($execTrigger and $app->isSite()){
-					// try plugins
 
-					JPluginHelper::importPlugin('vmuserfield');
-					$dispatcher = JDispatcher::getInstance();
-					$dispatcher->trigger('plgVmInitialise', array());
+				if($execTrigger){
+					// try plugins
+					$isSite = $app->isSite();
+					self::importVMPlugins($isSite);
+					if($isSite){
+
+						$dispatcher = JDispatcher::getInstance();
+						$dispatcher->trigger( 'plgVmInitialise', array() );
+					}
 					$execTrigger = false;
 				}
 				return self::$_jpConfig;
@@ -485,23 +489,39 @@ class VmConfig {
 			if(!empty($link)) $app->redirect($link);
 		}
 
-		if($exeTrig and $app->isSite()){
-			// try plugins
-			JPluginHelper::importPlugin('vmextended');
-			JPluginHelper::importPlugin('vmuserfield');
-			JPluginHelper::importPlugin('vmcalculation');
-			JPluginHelper::importPlugin('vmcustom');
-			JPluginHelper::importPlugin('vmcoupon');
-			JPluginHelper::importPlugin('vmshipment');
-			JPluginHelper::importPlugin('vmpayment');
-			
-			$dispatcher = JDispatcher::getInstance();
-			$dispatcher->trigger('plgVmInitialise', array());
+
+		if($exeTrig){
+
+			$isSite = $app->isSite();
+			self::importVMPlugins($isSite);
+			if($isSite){
+				$dispatcher = JDispatcher::getInstance();
+				$dispatcher->trigger('plgVmInitialise', array());
+			}
+
 			$execTrigger = false;
 		}
 
 		return self::$_jpConfig;
 	}
+
+	static function importVMPlugins($complete = true){
+		 static $executed = false;
+		 if($executed) return;
+		 vmSetStartTime('importPlugins');
+		 JPluginHelper::importPlugin('vmextended');
+		 if($complete){
+			 JPluginHelper::importPlugin('vmuserfield');
+			 JPluginHelper::importPlugin('vmcalculation');
+			 JPluginHelper::importPlugin('vmcustom');
+			 JPluginHelper::importPlugin('vmcoupon');
+			 JPluginHelper::importPlugin('vmshipment');
+			 JPluginHelper::importPlugin('vmpayment');
+			 vmTime('time to import plugins','importPlugins');
+			 $executed = true;
+		 }
+
+	 }
 
 	/**
 	 * Writes the params as string and escape them before

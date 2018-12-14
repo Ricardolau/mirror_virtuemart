@@ -197,6 +197,37 @@ class VirtuemartViewInvoice extends VmView {
 			$this->currencyP = $this->currency;
 		}
 
+		$os_trigger_refunds = VmConfig::get('os_trigger_refunds', array('R'));
+		$this->toRefund = array();
+		$orderDetails['details']['BT']->order_total = $this->currency->truncate(floatval($orderDetails['details']['BT']->order_total));
+		$orderDetails['details']['BT']->toPay = $orderDetails['details']['BT']->order_total;
+		foreach($orderDetails['items'] as $i => $_item) {
+			$orderDetails['items'][$i]->linkedit = 'index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id='.$_item->virtuemart_product_id;
+
+			//I dont like this solution, but it would need changing how an item is loaded
+			$orderDetails['items'][$i]->tax_rule_id = array();
+			foreach($orderDetails['calc_rules'] as$r=>$rule){
+				if(($rule->calc_kind == 'VatTax' or $rule->calc_kind == 'Tax') and $rule->virtuemart_order_item_id == $_item->virtuemart_order_item_id){
+					$orderDetails['calc_rules'][$r]->quantity = $orderDetails['items'][$i]->product_quantity;
+				}
+			}
+
+			if(in_array($_item->order_status,$os_trigger_refunds)){
+				$this->toRefund[] = $_item;
+				$orderDetails['details']['BT']->toPay -= $this->currency->truncate($_item->product_subtotal_with_tax);
+			}
+
+		}
+		$orderDetails['details']['BT']->toPay = $this->currency->truncate(($orderDetails['details']['BT']->toPay));
+
+		$rulesSorted = shopFunctionsF::summarizeRulesForBill($orderDetails['calc_rules']);
+		$this->discountsBill = $rulesSorted['discountsBill'];
+		$this->taxBill = $rulesSorted['taxBill'];
+
+		if($orderDetails['details']['BT']->toPay != $orderDetails['details']['BT']->order_total){
+			$document->setTitle( vmText::_('COM_VIRTUEMART_CREDIT_NOTE') );
+		}
+
 		//Create BT address fields
 		$userFieldsModel = VmModel::getModel('userfields');
 		$_userFields = $userFieldsModel->getUserFields(

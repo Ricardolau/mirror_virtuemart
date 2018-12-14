@@ -259,6 +259,7 @@ class VmController extends JControllerLegacy{
 			$val = (isset($task[2])) ? $task[2] : NULL;
 			$field = $task[1];
 		}
+		$this->_cidName = vRequest::getCmd('cidName', $this->_cidName);
 
 		$model = $this->getModel($this->_cname);
 		if (!$model->toggle($field, $val, $this->_cidName, 0, $this->_cname)) {
@@ -267,7 +268,7 @@ class VmController extends JControllerLegacy{
 			$msg = vmText::sprintf('COM_VIRTUEMART_STRING_TOGGLE_SUCCESS',$this->mainLangKey);
 		}
 
-		$this->setRedirect( $this->redirectPath, $msg);
+		$this->setRedirect( $this->getRedirectPath(), $msg);
 	}
 
 	/**
@@ -369,6 +370,31 @@ class VmController extends JControllerLegacy{
 
 		if(empty($name)) $name = false;
 		return VmModel::getModel($name);
+	}
+
+	function getRedirectPath(){
+
+		$rView = vRequest::getCmd('rview', $this->_cname);
+		$rTask = vRequest::getCmd('rtask', false);
+		$rlayout = vRequest::getCmd('rlayout', false);
+		$rId = vRequest::getInt($this->_cidName,false);
+
+		$p = 'index.php?option=com_virtuemart&view='.$rView;
+		if($rTask){
+			$p .= '&task='.$rTask;
+		}
+		if($rlayout){
+			$p .= '&layout='.$rlayout;
+		}
+		if($rId){
+			if(is_array($rId)){
+				reset($rId);
+				$rId = current($rId);
+			}
+			$p .= '&'.$this->_cidName.'='.$rId;
+		}
+vmdebug('getRedirectPath',$p);
+		return $p;
 	}
 
 }

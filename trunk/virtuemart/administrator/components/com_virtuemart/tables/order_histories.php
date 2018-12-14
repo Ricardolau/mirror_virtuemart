@@ -39,6 +39,7 @@ class TableOrder_histories extends VmTable {
 	var $customer_notified = 0;
 	/** @var text Comments */
 	var $comments = NULL;
+	var $paid = 0;
 	var $o_hash = NULL;
 
 

@@ -67,7 +67,7 @@ class TableOrder_item_histories extends VmTable {
 	var $order_status = NULL;
 	/** @var text Product attribute */
 	var $product_attribute = NULL;
-
+	var $paid = 0;
 	var $oi_hash = NULL;
 
 	var $created_on = NULL;

@@ -105,8 +105,11 @@ class VirtuemartViewOrders extends VmView {
 			, array('captcha' => true, 'delimiters' => true) // Ignore these types
 			, array('delimiter_userinfo','user_is_vendor' ,'username','password', 'password2', 'agreed', 'address_type') // Skips
 			);
+
+
 			$orderbt = $orderDetails['details']['BT'];
 			$orderst = $orderDetails['details']['ST'];//(array_key_exists('ST', $orderDetails['details'])) ? $orderDetails['details']['ST'] : $orderbt;
+
 			$this->userfields = $userFieldsModel->getUserFieldsFilled(
 			$_userFields
 			,$orderbt
@@ -173,12 +176,42 @@ class VirtuemartViewOrders extends VmView {
 			$dispatcher = JDispatcher::getInstance ();
 			$dispatcher->trigger ('plgVmgetEmailCurrency', array($orderDetails['details']['BT']->virtuemart_paymentmethod_id, $orderDetails['details']['BT']->virtuemart_order_id, &$emailCurrencyId));
 
-			$currency = CurrencyDisplay::getInstance ($emailCurrencyId, $orderDetails['details']['BT']->virtuemart_vendor_id);
+			$this->currency = CurrencyDisplay::getInstance ($emailCurrencyId, $orderDetails['details']['BT']->virtuemart_vendor_id);
 			if ($emailCurrencyId) {
-				$currency->exchangeRateShopper = $orderDetails['details']['BT']->user_currency_rate;
+				$this->currency->exchangeRateShopper = $orderDetails['details']['BT']->user_currency_rate;
 			}
-			$this->assignRef ('currency', $currency);
+
 			$this->user_currency_id = $emailCurrencyId;
+
+			$os_trigger_refunds = VmConfig::get('os_trigger_refunds', array('R'));
+			$this->toRefund = array();
+			$orderbt->toPay = floatval($orderbt->order_total);
+			foreach($orderDetails['items'] as $i => $_item) {
+				$orderDetails['items'][$i]->linkedit = 'index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id='.$_item->virtuemart_product_id;
+
+				//I dont like this solution, but it would need changing how an item is loaded
+				$orderDetails['items'][$i]->tax_rule_id = array();
+				foreach($orderDetails['calc_rules'] as $r=>$rule){
+					if(($rule->calc_kind == 'VatTax' or $rule->calc_kind == 'Tax') and $rule->virtuemart_order_item_id == $_item->virtuemart_order_item_id){
+						$orderDetails['calc_rules'][$r]->quantity = $orderDetails['items'][$i]->product_quantity;
+					}
+				}
+
+				if(in_array($_item->order_status,$os_trigger_refunds)){
+					$this->toRefund[] = $_item;
+					$orderbt->toPay -= $this->currency->truncate($_item->product_subtotal_with_tax);
+				}
+
+				vmdebug('foreach($order',$orderbt->toPay);
+			}
+			$orderbt->toPay = $this->currency->truncate(($orderbt->toPay));
+
+			$rulesSorted = shopFunctionsF::summarizeRulesForBill($orderDetails['calc_rules']);
+			$this->discountsBill = $rulesSorted['discountsBill'];
+			$this->taxBill = $rulesSorted['taxBill'];
+
+			$orderDetails['details']['BT'] = $orderbt;
+			$orderDetails['details']['ST'] = $orderst;
 
 			if($l = VmConfig::get('layout_order_detail',false)){
 				$this->setLayout( strtolower( $l ) );

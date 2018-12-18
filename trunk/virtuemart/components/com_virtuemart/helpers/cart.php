@@ -565,6 +565,7 @@ class VirtueMartCart {
 
 
 				$addToCartReturnValues = $dispatcher->trigger('plgVmOnAddToCartFilter',array(&$product, &$customfield, &$customProductData, &$customFiltered));
+				$customProductDataTmp=$customProductData;
 
 				if(!$customFiltered && $customfield->is_input==1){
 					if(isset($customProductData[$customfield->virtuemart_custom_id][$customfield->virtuemart_customfield_id])){

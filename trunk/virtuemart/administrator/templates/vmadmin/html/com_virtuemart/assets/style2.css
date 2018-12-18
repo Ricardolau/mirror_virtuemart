@@ -35,7 +35,8 @@ margin-left:0px !important;
 {
 	margin-left:0px !important;
 }
-.smallinputs td 
+.smallinputs td ,
+.mediuminputs td
 {
  vertical-align:top !important;	
 }
@@ -86,4 +87,4 @@ hr
 .noleft .controls
 {
 	padding-left:0px;
-} 
+}

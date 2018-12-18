@@ -110,27 +110,21 @@ class VmHtml_override{
 			
 		$lang = vmLanguage::getLanguage();
 		
-	
-		
 		$tooltiptext = "";
-		$label_txt = vmText::_($label);
-		
-		$hastooltip = 'hasPopover';
-		
+	    $class="";
 		if($lang->hasKey($label.'_TIP')){
 			$tooltiptext = htmlentities(vmText::_($label.'_TIP'));
 		} //Fallback
 		else if($lang->hasKey($label.'_EXPLAIN')){
 			$tooltiptext = htmlentities(vmText::_($label.'_EXPLAIN'));
-		} 
-		else
-		{
-			$hastooltip = '';
 		}
-		
+		if ($tooltiptext) {
+			$tooltiptext=' data-content="'.$tooltiptext.'"';
+			$class=' class="hasPopover"';
+		}
 		$label = vmText::_($label);
 		if ($func[1]=="checkbox" OR $func[1]=="input") {
-			$label = "\n\t" . '<label class="'.$hastooltip.'" for="jform_'. $args[0] . '" id="' . $args[0] . '-lbl" data-content="'.$tooltiptext.'" >'.$label."</label>";
+			$label = "\n\t" . '<label'.$class.' for="jform_'. $args[0] . '" id="' . $args[0] . '-lbl"'.$tooltiptext.'>'.$label."</label>";
 		}
 		$html = '';
 		$html .= '<div class="control-group">';
@@ -653,7 +647,7 @@ class VmHtml_override{
 	 *
 	 */
 	public static function booleanlist (  $name, $value,$class='class="inputbox"'){
-		
+
 		$checked1 = "";
 		$checked2 = "";
 
@@ -665,7 +659,7 @@ class VmHtml_override{
 		{
 			$checked2 = 'checked="checked"';
 		}
-		
+
 		$htmlcode  = '<fieldset id="jform_'.$name.'" class="btn-group btn-group-yesno radio">';
 		$htmlcode .= '<input type="radio" id="jform_'.$name.'0" name="'.$name.'" value="1" '.$checked1.' />';
 		$htmlcode .= '<label for="jform_'.$name.'0" > Yes </label>';
@@ -727,12 +721,12 @@ class VmHtml_override{
 	}
 
 	/**
-	* @author Patrick Kohl
+	* @author Valérie Isaksen
 	* @var $type type of regular Expression to validate
 	* $type can be I integer, F Float, A date, M, time, T text, L link, U url, P phone
-	*@bool $required field is required
-	*@Int $min minimum of char
-	*@Int $max max of char
+	* @bool $required field is required
+	* @Int $min minimum of char
+	* @Int $max max of char
 	*@var $match original ID field to compare with this such as Email, passsword
 	*@ Return $html class for validate javascript
 	**/
@@ -751,5 +745,30 @@ class VmHtml_override{
 
 		return $html ;
 	}
+
+	/**
+	 * @author Valérie Isaksen
+	 **/
+	static public function renderMetaEdit($obj){
+
+		$options = array(
+			''	=>	vmText::_('JGLOBAL_INDEX_FOLLOW'),
+			'noindex, follow'	=>	vmText::_('JGLOBAL_NOINDEX_FOLLOW'),
+			'index, nofollow'	=>	vmText::_('JGLOBAL_INDEX_NOFOLLOW'),
+			'noindex, nofollow'	=>	vmText::_('JGLOBAL_NOINDEX_NOFOLLOW'),
+			'noodp, noydir'	=>	vmText::_('COM_VIRTUEMART_NOODP_NOYDIR'),
+			'noodp, noydir, nofollow'	=>	vmText::_('COM_VIRTUEMART_NOODP_NOYDIR_NOFOLLOW'),
+		);
+
+		$html []=  VmHTML_override::row('input', 'COM_VIRTUEMART_CUSTOM_PAGE_TITLE', 'customtitle', $obj->customtitle, '', '', 32, 255);
+		$html []=  VmHTML_override::row('textarea', 'COM_VIRTUEMART_METAKEY', 'metakey', $obj->metakey, 'class="inputbox"', 80);
+		$html []=  VmHTML_override::row('textarea', 'COM_VIRTUEMART_METADESC', 'metadesc', $obj->metadesc, 'class="inputbox"', 80);
+		$html []=  VmHTML_override::row('selectList','COM_VIRTUEMART_METAROBOTS','metarobot',$obj->metarobot,$options);
+		$html []=  VmHTML_override::row('input', 'COM_VIRTUEMART_METAAUTHOR', 'metaauthor', $obj->metaauthor, '', '', 32, 255);
+
+		return implode('', $html);
+	}
+
+
 
 }

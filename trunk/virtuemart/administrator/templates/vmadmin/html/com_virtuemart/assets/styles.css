@@ -22,7 +22,15 @@
 {
    width:70px !important;
 }
+.mediuminputs select
+{
+ width:110px !important;
+}
+.mediuminputs input
 
+{
+ width:90px !important;
+}
 
 @-webkit-keyframes spinAround {
  from {

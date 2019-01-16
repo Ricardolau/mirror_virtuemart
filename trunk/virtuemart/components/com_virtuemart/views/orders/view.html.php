@@ -107,12 +107,10 @@ class VirtuemartViewOrders extends VmView {
 			);
 
 
-			$orderbt = $orderDetails['details']['BT'];
-			$orderst = $orderDetails['details']['ST'];//(array_key_exists('ST', $orderDetails['details'])) ? $orderDetails['details']['ST'] : $orderbt;
 
 			$this->userfields = $userFieldsModel->getUserFieldsFilled(
 			$_userFields
-			,$orderbt
+			,$orderDetails['details']['BT']
 			);
 			$_userFields = $userFieldsModel->getUserFields(
 				 'shipment'
@@ -122,7 +120,7 @@ class VirtuemartViewOrders extends VmView {
 
 			$this->shipmentfields = $userFieldsModel->getUserFieldsFilled(
 			$_userFields
-			,$orderst
+			,$orderDetails['details']['ST']
 			);
 
 			$this->shipment_name='';
@@ -185,33 +183,21 @@ class VirtuemartViewOrders extends VmView {
 
 			$os_trigger_refunds = VmConfig::get('os_trigger_refunds', array('R'));
 			$this->toRefund = array();
-			$orderbt->toPay = floatval($orderbt->order_total);
+			$orderDetails['details']['BT']->toPay = floatval($orderDetails['details']['BT']->order_total);
 			foreach($orderDetails['items'] as $i => $_item) {
 				$orderDetails['items'][$i]->linkedit = 'index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id='.$_item->virtuemart_product_id;
 
-				//I dont like this solution, but it would need changing how an item is loaded
-				$orderDetails['items'][$i]->tax_rule_id = array();
-				foreach($orderDetails['calc_rules'] as $r=>$rule){
-					if(($rule->calc_kind == 'VatTax' or $rule->calc_kind == 'Tax') and $rule->virtuemart_order_item_id == $_item->virtuemart_order_item_id){
-						$orderDetails['calc_rules'][$r]->quantity = $orderDetails['items'][$i]->product_quantity;
-					}
-				}
-
 				if(in_array($_item->order_status,$os_trigger_refunds)){
 					$this->toRefund[] = $_item;
-					$orderbt->toPay -= $this->currency->truncate($_item->product_subtotal_with_tax);
+					$orderDetails['details']['BT']->toPay -= $this->currency->roundByPriceConfig($_item->product_subtotal_with_tax);
 				}
-
-				vmdebug('foreach($order',$orderbt->toPay);
 			}
-			$orderbt->toPay = $this->currency->truncate(($orderbt->toPay));
+			$orderDetails['details']['BT']->toPay = $this->currency->roundByPriceConfig(($orderDetails['details']['BT']->toPay));
 
-			$rulesSorted = shopFunctionsF::summarizeRulesForBill($orderDetails['calc_rules']);
+			$rulesSorted = shopFunctionsF::summarizeRulesForBill($orderDetails);
 			$this->discountsBill = $rulesSorted['discountsBill'];
 			$this->taxBill = $rulesSorted['taxBill'];
 
-			$orderDetails['details']['BT'] = $orderbt;
-			$orderDetails['details']['ST'] = $orderst;
 
 			if($l = VmConfig::get('layout_order_detail',false)){
 				$this->setLayout( strtolower( $l ) );

@@ -247,7 +247,7 @@ foreach($this->orderDetails['items'] as $item) {
 	}
 
     ?>   <tr style="border-top-style:double">
-            <td align="left" colspan="3" style="padding-right: 5px;"><strong><?php echo vmText::_('COM_VM_ORDER_BALANCE') ?>:</strong></td>
+            <td align="left" colspan="3" style="padding-right: 5px;"><strong><?php echo vmText::_('COM_VM_ORDER_BALANCE') ?></strong></td>
 
 	<?php
 	$this->orderbt = $this->orderDetails['details']['BT'];

@@ -181,7 +181,7 @@ foreach($this->orderdetails['calc_rules'] as $rule){
 	</tr>
 
         <tr style="border-top-style:double">
-            <td align="left" colspan="3" style="padding-right: 5px;"><strong><?php echo vmText::_('COM_VM_ORDER_BALANCE') ?>:</strong></td>
+            <td align="left" colspan="3" style="padding-right: 5px;"><strong><?php echo vmText::_('COM_VM_ORDER_BALANCE') ?></strong></td>
 
         <?php
 		$this->orderbt = $this->orderdetails['details']['BT'];

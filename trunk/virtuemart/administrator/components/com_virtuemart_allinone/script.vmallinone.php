@@ -129,10 +129,13 @@ class com_virtuemart_allinoneInstallerScript {
 
 
 		$this->installPlugin ('VM Payment - Standard', 'plugin', 'standard', 'vmpayment',1);
+		$this->installPlugin ('VM Payment - PayPal', 'plugin', 'paypal', 'vmpayment');
+		$this->installPlugin ('VM Payment - Sofort Banking/Überweisung', 'plugin', 'sofort', 'vmpayment');
+		$this->installPlugin ('VM Payment - Skrill', 'plugin', 'skrill', 'vmpayment');
 		$this->installPlugin ('VM Payment - Klarna', 'plugin', 'klarna', 'vmpayment');
 		$this->installPlugin ('VM Payment - KlarnaCheckout', 'plugin', 'klarnacheckout', 'vmpayment');
-		$this->installPlugin ('VM Payment - Sofort Banking/Überweisung', 'plugin', 'sofort', 'vmpayment');
-		$this->installPlugin ('VM Payment - PayPal', 'plugin', 'paypal', 'vmpayment');
+
+
 		$this->installPlugin ('VM Payment - Heidelpay', 'plugin', 'heidelpay', 'vmpayment');
 		$this->installPlugin ('VM Payment - Paybox', 'plugin', 'paybox', 'vmpayment');
 
@@ -145,7 +148,7 @@ class com_virtuemart_allinoneInstallerScript {
 		$this->installPlugin ('VM Payment - Realex HPP & API', 'plugin', 'realex_hpp_api', 'vmpayment');
 		$this->installPlugin ('VM UserField - Realex HPP & API', 'plugin', 'realex_hpp_api', 'vmuserfield');
 
-		$this->installPlugin ('VM Payment - Skrill', 'plugin', 'skrill', 'vmpayment');
+
 
 		$this->installPlugin ('VM Payment - Authorize.net', 'plugin', 'authorizenet', 'vmpayment');
 

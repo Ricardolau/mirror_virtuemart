@@ -292,7 +292,7 @@ class VirtueMartCart {
 			$this->virtuemart_cart_id = $cartData['virtuemart_cart_id'];
 			if($cartData and !empty($cartData['cartData'])){
 				$cartData['cartData'] = (object)json_decode($cartData['cartData'],true);
-
+				$add = false;
 				if(!empty($cartData['cartData'])){
 					if(!empty($cartData['cartData']->cartProductsData) and is_array($cartData['cartData']->cartProductsData)){
 						foreach($cartData['cartData']->cartProductsData as $k => $product){
@@ -300,6 +300,7 @@ class VirtueMartCart {
 								if($product==$productses){
 									unset($cartData['cartData']->cartProductsData[$k]);
 								}
+								vmdebug('my stored products ',$product);
 							}
 						}
 					}
@@ -315,14 +316,15 @@ class VirtueMartCart {
 							}
 						} else {
 							if(is_array($value)){
+								if($key=='cartProductsData' and count($value)>0){
+									VmInfo('COM_VM_LOADED_STORED_CART');
+								}
 								$existingSession->$key = array_merge( $value,(array)$existingSession->$key);
 							} else if(empty($existingSession->$key)){
 								$existingSession->$key = $cartData['cartData']->$key;
 							}
 						}
-
 					}
-					VmInfo('COM_VM_LOADED_STORED_CART');
 				}
 			}
 		}
@@ -565,9 +567,9 @@ class VirtueMartCart {
 
 
 				$addToCartReturnValues = $dispatcher->trigger('plgVmOnAddToCartFilter',array(&$product, &$customfield, &$customProductData, &$customFiltered));
-				$customProductDataTmp=$customProductData;
-
-				if(!$customFiltered && $customfield->is_input==1){
+				if($customFiltered){
+					$customProductDataTmp=$customProductData;
+				} else if(!$customFiltered && $customfield->is_input==1){
 					if(isset($customProductData[$customfield->virtuemart_custom_id][$customfield->virtuemart_customfield_id])){
 
 						if(is_array($customProductData[$customfield->virtuemart_custom_id][$customfield->virtuemart_customfield_id])){
@@ -941,15 +943,15 @@ class VirtueMartCart {
 			$this->_confirmDone = true;
 			$this->orderDetails = 0;
 			if($this->confirmedOrder()){
-
+				$this->layout = 'orderdone';
+				$this->setCartIntoSession();
 				return true;
 			}
-
 		}
 
 		$this->_dataValidated = false;
 		$this->_confirmDone = false;
-
+		$this->setCartIntoSession();
 		$app->redirect(JRoute::_('index.php?option=com_virtuemart&view=cart'.$this->getLayoutUrlString(), FALSE), vmText::_('COM_VIRTUEMART_CART_CHECKOUT_DATA_NOT_VALID'));
 
 	}
@@ -971,8 +973,12 @@ class VirtueMartCart {
 		}
 	}
 
-	public function getLayoutUrlString(){
-		$layoutName = vRequest::getCmd('layout', 'default');
+	public function getLayoutUrlString($request=false){
+		if($request){
+			$layoutName = vRequest::getCmd('layout', 'default');
+		} else {
+			$layoutName = $this->layout;
+		}
 		if(!empty($layoutName) and $layoutName!='default'){
 			return '&layout='.$layoutName;
 		} else {
@@ -1139,7 +1145,7 @@ class VirtueMartCart {
 			return $this->redirecter('index.php?option=com_virtuemart&view=cart'.$layoutName,'');
 		} else {
 			$this->_dataValidated = $this->getCartHash();
-
+			$this->_inCheckOut = false;
 			$this->setCartIntoSession(true);
 			if ($this->_redirect) {
 				$app = JFactory::getApplication();
@@ -1792,13 +1798,14 @@ class VirtueMartCart {
 			$data->products[$i]['product_name'] = JHtml::link($url, $product->product_name);
 
 			//  custom product fields display for cart
+			//Todo the customProductData should be renamed, because it is not the same customProductData as used elsewhere
 			$data->products[$i]['customProductData'] = VirtueMartModelCustomfields::CustomsFieldCartModDisplay($product);
 			$data->products[$i]['product_sku'] = $product->product_sku;
-			$data->products[$i]['prices'] = $currencyDisplay->priceDisplay( $product->allPrices[$product->selectedPrice]['subtotal']);
+			$data->products[$i]['prices'] = $currencyDisplay->priceDisplay( $product->allPrices[$product->selectedPrice]['subTotal']);
 			if($withProductImages and !empty($product->images[0])) $data->products[$i]['image']= $product->images[0]->displayMediaThumb ('', FALSE);
 
 			// other possible option to use for display
-			$data->products[$i]['subtotal'] = $currencyDisplay->priceDisplay($product->allPrices[$product->selectedPrice]['subtotal']);
+			$data->products[$i]['subTotal'] = $currencyDisplay->priceDisplay($product->allPrices[$product->selectedPrice]['subTotal']);
 			$data->products[$i]['subtotal_tax_amount'] = $currencyDisplay->priceDisplay($product->allPrices[$product->selectedPrice]['subtotal_tax_amount']);
 			$data->products[$i]['subtotal_discount'] = $currencyDisplay->priceDisplay( $product->allPrices[$product->selectedPrice]['subtotal_discount']);
 			$data->products[$i]['subtotal_with_tax'] = $currencyDisplay->priceDisplay($product->allPrices[$product->selectedPrice]['subtotal_with_tax']);

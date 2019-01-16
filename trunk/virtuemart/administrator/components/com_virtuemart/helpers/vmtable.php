@@ -440,7 +440,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 					$this->$f = floatval(str_replace(array(',',' '),array('.',''),$this->$f));
 				} else if(isset($this->$f)){
 					$this->$f = 0.0;
-				} vmdebug('converted '.$f,$this->$f);
+				}
 			}
 		}
 	}

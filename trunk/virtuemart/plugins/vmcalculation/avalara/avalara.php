@@ -55,16 +55,16 @@ class plgVmCalculationAvalara extends vmCalculationPlugin {
 		$this->_tableId = 'id';
 		$this->_tablepkey = 'id';
 		$this->_tableId = 'id';
-		if (JVM_VERSION > 1) {
-			define ('VMAVALARA_PATH', JPATH_ROOT . DS . 'plugins' . DS . 'vmcalculation' . DS . 'avalara' );
-		} else {
-			define ('VMAVALARA_PATH', JPATH_ROOT . DS . 'plugins' . DS . 'vmcalculation' );
-		}
-		define('VMAVALARA_CLASS_PATH', VMAVALARA_PATH . DS . 'classes' );
 
-		require(VMAVALARA_PATH.DS.'AvaTax.php');	// include in all Avalara Scripts
+		define ('VMAVALARA_PATH', JPATH_ROOT .'/plugins/vmcalculation/avalara' );
 
+		define('VMAVALARA_CLASS_PATH', VMAVALARA_PATH .'/classes' );
+
+		require(VMAVALARA_PATH .'/AvaTax.php');	// include in all Avalara Scripts
+		//require(VMAVALARA_PATH .'/classes/BatchSvc/AvaTaxBatchSvc.php');
 		if(!class_exists('ATConfig')) require (VMAVALARA_CLASS_PATH.DS.'ATConfig.class.php');
+
+		spl_autoload_register('avatax_autoload_register');
 
 	}
 

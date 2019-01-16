@@ -560,21 +560,23 @@ class VirtueMartModelUser extends VmModel {
 			}
 		}
 
-		if(!vmAccess::manager('user.edit')){
-			unset($data['customer_number']);
-		}
-		if(empty($alreadyStoredUserData->customer_number)){
+		if(vmAccess::manager('user.edit')){
 			if(empty($data['customer_number'])){
 				$data['customer_number'] = strtoupper(substr($data['username'],0,2)).substr(md5($data['username']),0,7);
 				//We set this data so that vmshopper plugin know if they should set the customer number
 				$data['customer_number_bycore'] = 1;
 			}
 		} else {
-			if(!vmAccess::manager('user.edit')){
+			unset($data['customer_number']);
+			if(empty($alreadyStoredUserData->customer_number)){
+				$data['customer_number'] = strtoupper(substr($data['username'],0,2)).substr(md5($data['username']),0,7);
+				//We set this data so that vmshopper plugin know if they should set the customer number
+				$data['customer_number_bycore'] = 1;
+			} else {
 				$data['customer_number'] = $alreadyStoredUserData->customer_number;
 			}
 		}
-
+		
 		if($trigger){
 			JPluginHelper::importPlugin('vmextended');
 			JPluginHelper::importPlugin('vmshopper');

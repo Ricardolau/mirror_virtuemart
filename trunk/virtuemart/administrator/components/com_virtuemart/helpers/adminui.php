@@ -199,9 +199,9 @@ class AdminUIHelper {
 
 		?>
         <style>#<?php echo $prefix ?>vmver-<?php echo $token ?> { <?php echo $dplyVer ?>}</style>
-        <div class="vm-installed-version">VirtueMart <?php echo vmVersion::$RELEASE ?></div>
+        <div class="vm-installed-version">VirtueMart <?php echo vmVersion::$RELEASE.' '.vmVersion::$REVISION ?></div>
         <div id="<?php echo $prefix ?>vmver-<?php echo $token ?>" class="vm-installed-version" >
-			<?php echo vmVersion::$CODENAME.' '.vmVersion::$REVISION ?>
+			<?php echo vmVersion::$CODENAME ?>
         </div>
         <div id="<?php echo $prefix.$token ?>">
 			<?php echo $nag; ?>

@@ -28,6 +28,9 @@ defined('_JEXEC') or die('Restricted access');
 		echo VmHTML_override::row('checkbox','COM_VIRTUEMART_ADMIN_ONCHECKOUT_SHOW_STEPS','oncheckout_show_steps',VmConfig::get('oncheckout_show_steps',1),'','','yesno');
 		echo VmHTML_override::row('genericlist','COM_VIRTUEMART_ADMIN_CFG_AUTOMATIC_SHIPMENT',$this->listShipment,'set_automatic_shipment','','virtuemart_shipmentmethod_id','shipment_name',VmConfig::get('set_automatic_shipment',0));
 		echo VmHTML_override::row('genericlist','COM_VIRTUEMART_ADMIN_CFG_AUTOMATIC_PAYMENT',$this->listPayment,'set_automatic_payment','','virtuemart_paymentmethod_id','payment_name',VmConfig::get('set_automatic_payment',0));
+
+		echo VmHTML_override::row('checkbox','COM_VM_CFG_RADICAL_VAT','radicalShipPaymentVat',VmConfig::get('radicalShipPaymentVat',1));
+
 		echo VmHTML_override::row('checkbox','COM_VIRTUEMART_ADMIN_CFG_AGREE_TERMS_ONORDER','agree_to_tos_onorder',VmConfig::get('agree_to_tos_onorder',1),'','','yesno');
 
 		echo VmHTML_override::row('checkbox','COM_VIRTUEMART_ADMIN_ONCHECKOUT_SHOW_PRODUCTIMAGES','oncheckout_show_images',VmConfig::get('oncheckout_show_images',1),'','','yesno');

@@ -99,6 +99,7 @@ class VirtuemartViewOrders extends VmViewAdmin {
 					,'ST_'
 			);
 
+			$os_trigger_refunds = VmConfig::get('os_trigger_refunds', array('R'));
 			// Create an array to allow orderlinestatuses to be translated
 			// We'll probably want to put this somewhere in ShopFunctions...
 			$_orderStatusList = array();
@@ -106,6 +107,13 @@ class VirtuemartViewOrders extends VmViewAdmin {
 				//$_orderStatusList[$orderState->virtuemart_orderstate_id] = $orderState->order_status_name;
 				//When I use update, I have to use this?
 				$_orderStatusList[$orderState->order_status_code] = vmText::_($orderState->order_status_name);
+				if(in_array($orderState->order_status_code,$os_trigger_refunds)) {
+					$orderState->order_status_name = 'Unrecommended '.vmText::_( $orderState->order_status_name );
+					$orderStatesUnpaid[] = $orderState;
+				} else {
+					$orderStatesUnpaid[] = $orderState;
+				}
+
 			}
 
 			$_itemStatusUpdateFields = array();
@@ -115,38 +123,47 @@ class VirtuemartViewOrders extends VmViewAdmin {
 			// for the order item template
 			$_itemStatusUpdateFields[0] = JHtml::_('select.genericlist', $orderStates, "item_id[0][order_status]", $attr, 'order_status_code', 'order_status_name', 'P', 'order_item_status_0',true);
 
-			$os_trigger_refunds = VmConfig::get('os_trigger_refunds', array('R'));
+
 			$this->toRefund = array();
 			$orderbt->toPay = floatval($orderbt->order_total);
 			foreach($order['items'] as $i => $_item) {
-				$_itemStatusUpdateFields[$_item->virtuemart_order_item_id] = JHtml::_('select.genericlist', $orderStates, "item_id[".$_item->virtuemart_order_item_id."][order_status]", $attr, 'order_status_code', 'order_status_name', $_item->order_status, 'order_item_status'.$_item->virtuemart_order_item_id,true);
+
 
 				$order['items'][$i]->linkedit = 'index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id='.$_item->virtuemart_product_id;
 
 				//I dont like this solution, but it would need changing how an item is loaded
 				$order['items'][$i]->tax_rule_id = array();
 				foreach($order['calc_rules'] as $r =>$rule){
-					if(($rule->calc_kind == 'VatTax' or $rule->calc_kind == 'Tax') and $rule->virtuemart_order_item_id == $_item->virtuemart_order_item_id){
-						$order['items'][$i]->tax_rule[] = $rule;
-						$order['items'][$i]->tax_rule_id[] = $rule->virtuemart_calc_id;
-						$order['calc_rules'][$r]->quantity = $order['items'][$i]->product_quantity;
-						vmdebug('Quantity set for calc rule ');
+					if( $rule->virtuemart_order_item_id == $_item->virtuemart_order_item_id){
+
+						if( $rule->calc_kind == 'VatTax' or $rule->calc_kind == 'Tax'){
+							//$order['items'][$i]->tax_rule[$rule->virtuemart_calc_id] = $rule;
+							$order['items'][$i]->tax_rule_id[] = $rule->virtuemart_calc_id;
+						}
+						//$order['items'][$i]->calc_rules[$rule->virtuemart_calc_id] = $rule;
+
 					}
+
 				}
 
 				if(in_array($_item->order_status,$os_trigger_refunds)){
 					$this->toRefund[] = $_item;
-					$orderbt->toPay -= $this->currency->truncate($_item->product_subtotal_with_tax);
+					$orderbt->toPay -= $this->currency->roundByPriceConfig($_item->product_subtotal_with_tax);
+					$usedOStates = $orderStatesUnpaid;
+				} else {
+					$usedOStates = $orderStates;
 				}
 
+				$_itemStatusUpdateFields[$_item->virtuemart_order_item_id] = JHtml::_('select.genericlist', $orderStates, "item_id[".$_item->virtuemart_order_item_id."][order_status]", $attr, 'order_status_code', 'order_status_name', $_item->order_status, 'order_item_status'.$_item->virtuemart_order_item_id,true);
 
 			}
-			$orderbt->toPay = $this->currency->truncate(($orderbt->toPay));
+			$orderbt->toPay = $this->currency->roundByPriceConfig(($orderbt->toPay));
 
-			$rulesSorted = shopFunctionsF::summarizeRulesForBill($order['calc_rules']);
+
+			$rulesSorted = shopFunctionsF::summarizeRulesForBill($order);
 			$this->discountsBill = $rulesSorted['discountsBill'];
 			$this->taxBill = $rulesSorted['taxBill'];
-
+//vmdebug('my taxBill rules',$this->taxBill);
 			if(!isset($_orderStatusList[$orderbt->order_status])){
 				if(empty($orderbt->order_status)){
 					$orderbt->order_status = 'unknown';

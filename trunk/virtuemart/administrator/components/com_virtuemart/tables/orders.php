@@ -51,7 +51,7 @@ class TableOrders extends VmTableData {
 	var $order_billDiscountAmount = 0.00000;
 	/** @var decimal Order  Products Discount amount */
 	var $order_discountAmount = 0.00000;
-	/** @var decimal Order subtotal */
+	/** @var decimal Order subTotal */
 	var $order_subtotal = 0.00000;
 	/** @var decimal Order tax */
 	var $order_tax = 0.00000;

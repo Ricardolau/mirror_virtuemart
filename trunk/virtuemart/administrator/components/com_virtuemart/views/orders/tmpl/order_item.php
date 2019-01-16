@@ -99,9 +99,9 @@ $i=0;
 <td align="right" style="padding-right: 5px;">
 	<?php
 	$item->product_discountedPriceWithoutTax = (float) $item->product_discountedPriceWithoutTax;
-	if (!empty($item->product_discountedPriceWithoutTax) and !empty($item->product_discountedPriceWithoutTax) and $this->currency->truncate($item->product_discountedPriceWithoutTax) != $this->currency->truncate($item->product_priceWithoutTax)) {
-		echo '<span style="text-decoration:line-through">'.$this->currency->priceDisplay($item->product_item_price) .'</span><br />';
-		echo '<span >'.$this->currency->priceDisplay($item->product_discountedPriceWithoutTax) .'</span>';
+	if (!empty($item->product_discountedPriceWithoutTax) and !empty($item->product_priceWithoutTax) and $this->currency->roundByPriceConfig($item->product_discountedPriceWithoutTax) != $this->currency->roundByPriceConfig($item->product_priceWithoutTax)) {
+		echo '<span >'.$this->currency->priceDisplay($item->product_item_price) .'</span><br />';
+		echo '<span style="color:darkgrey" >'.$this->currency->priceDisplay($item->product_discountedPriceWithoutTax) .'</span>';
 	} else {
 		echo '<span >'.$this->currency->priceDisplay($item->product_item_price) .'</span>';
 	}

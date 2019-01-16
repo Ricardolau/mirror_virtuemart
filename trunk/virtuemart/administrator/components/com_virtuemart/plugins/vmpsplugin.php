@@ -1136,31 +1136,53 @@ abstract class vmPSPlugin extends vmPlugin {
 
 			if(!empty($taxrules) ){
 
-				foreach($taxrules as &$rule){
+				$idWithMax = 0;
+				$maxValue = 0.0;
+				foreach($taxrules as $i=>$rule){
 					//Quickn dirty
 					if(!isset($rule['calc_kind'])) $rule = (array)VmModel::getModel('calc')->getCalc($rule['virtuemart_calc_id']);
 
 					if(!isset($rule['subTotal'])) $rule['subTotal'] = 0;
 					if(!isset($rule['taxAmount'])) $rule['taxAmount'] = 0;
 					if(!isset($rule['DBTax'])) $rule['DBTax'] = 0;
-					if(!isset($rule['percentage']) && $rule['subTotal'] < $cart->cartPrices['salesPrice']) {
-						$rule['percentage'] = ($rule['subTotal'] + $rule['DBTax']) / ($cart->cartPrices['salesPrice'] + $cartdiscountBeforeTax);
-					} else if(!isset($rule['percentage'])) {
-						$rule['percentage'] = 1;
+					if(VmConfig::get('radicalShipPaymentVat',true)){
+						if(empty($idWithMax) or $maxValue<=$rule['subTotal']){
+							$idWithMax = $rule['virtuemart_calc_id'];
+							$maxValue = $rule['subTotal'];
+						}
+						$rule['percentage'] = 0;
+					} else {
+						if(!isset($rule['percentage']) && $rule['subTotal'] < $cart->cartPrices['salesPrice']) {
+							$rule['percentage'] = ($rule['subTotal'] + $rule['DBTax']) / ($cart->cartPrices['salesPrice'] + $cartdiscountBeforeTax);
+						} else if(!isset($rule['percentage'])) {
+							$rule['percentage'] = 1;
+						}
 					}
+vmdebug('My TaxPerID '.$rule['subTotal'] .' + '.$rule['DBTax'].' / '.$cart->cartPrices['salesPrice'].' + '.$cartdiscountBeforeTax,$rule['percentage']);
 					$rule['subTotalOld'] = $rule['subTotal'];
 					$rule['subTotal'] = 0;
 					$rule['taxAmountOld'] = $rule['taxAmount'];
 					$rule['taxAmount'] = 0;
+					$taxrules[$i] = $rule;
 				}
 
-				foreach($taxrules as &$rule){
+				foreach($taxrules as $i=>$rule){
+
+					if(VmConfig::get('radicalShipPaymentVat',true) and $idWithMax == $rule['virtuemart_calc_id']) {
+						$rule['percentage'] = 1.0;
+						vmdebug('setCartPrices 100% '.$this->_psType,$idWithMax);
+					}
+
 					$rule['subTotal'] = $cart_prices[$this->_psType . 'Value'] * $rule['percentage'];
 					$rule['psType'] = $this->_psType;
+					$taxrules[$i] = $rule;
 
 					if(!isset($cart_prices[$this->_psType . 'Tax'])) $cart_prices[$this->_psType . 'Tax'] = 0.0;
+
 					$cart_prices[$this->_psType . 'TaxPerID'][$rule['virtuemart_calc_id']] = $calculator->roundInternal($calculator->roundInternal($calculator->interpreteMathOp($rule, $rule['subTotal'])) - $rule['subTotal'], 'salesPrice');
-					$cart_prices[$this->_psType . 'Tax'] += $cart_prices[$this->_psType . 'TaxPerID'][$rule['virtuemart_calc_id']];
+
+
+					$cart_prices[$this->_psType.'Tax'] += $cart_prices[$this->_psType.'TaxPerID'][$rule['virtuemart_calc_id']];
 
 				}
 			}
@@ -1191,8 +1213,7 @@ abstract class vmPSPlugin extends vmPlugin {
 			$cart_prices[$this->_psType . 'Tax'] = 0;
 			$cart_prices[$this->_psType . '_calc_id'] = 0;
 		}
-		//$c[$this->_psType][$method->$idN] =& $cart_prices;
-		//if($_psType='Shipment')vmTrace('setCartPrices '.$cart_prices['salesPrice' . $_psType]);
+
 		return $cart_prices['salesPrice' . $_psType];
 
 	}

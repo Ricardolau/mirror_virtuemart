@@ -11,7 +11,7 @@ defined('_JEXEC') or die();
  * @package	VirtueMart
  * @subpackage Helpers
  * @author Max Milbers
- * @copyright Copyright (c) 2010 - 2015 VirtueMart Team and the authors. All rights reserved.
+ * @copyright Copyright (c) 2010 - 2018 VirtueMart Team and the authors. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -456,10 +456,11 @@ class calculationHelper {
 		//price Without Tax but with calculated discounts AFTER Tax. So it just shows how much the shopper saves, regardless which kind of tax
 		//$this->productPrices['priceWithoutTax'] = $this->productPrices['salesPrice'] - $this->productPrices['taxAmount']; Gives correct result, but is the same as discountedPriceWithoutTax, with just $salesPrice it is wrong, but the same as the last years.
 		$this->productPrices['priceWithoutTax'] = $salesPrice - $this->productPrices['taxAmount'];
+		if (!isset($this->productPrices['discountedPriceWithoutTax'])) $this->productPrices['discountedPriceWithoutTax'] = 0.0;
 		if ($override==1 || $this->productPrices['discountedPriceWithoutTax'] == 0) {
 			$this->productPrices['discountedPriceWithoutTax'] = $this->productPrices['salesPrice'] - $this->productPrices['taxAmount'];
 		}
-		if (!isset($this->productPrices['discountedPriceWithoutTax'])) $this->productPrices['discountedPriceWithoutTax'] = 0.0;
+
 
 		$this->productPrices['variantModification'] = $variant;
 
@@ -740,8 +741,8 @@ class calculationHelper {
 				$this->_cart->cartPrices['discountAmount'] += $this->_cart->products[$cprdkey]->allPrices[$selectedPrice]['subtotal_discount'];
 			}
 			if($this->_currencyDisplay->_priceConfig['priceWithoutTax']) {
-				$this->_cart->products[$cprdkey]->allPrices[$selectedPrice]['subtotal'] = self::roundInternal($this->_cart->products[$cprdkey]->allPrices[$selectedPrice]['priceWithoutTax'],'priceWithoutTax') * $this->_cart->products[$cprdkey]->quantity;
-				$this->_cart->cartPrices['priceWithoutTax'] += $this->_cart->products[$cprdkey]->allPrices[$selectedPrice]['subtotal'];
+				$this->_cart->products[$cprdkey]->allPrices[$selectedPrice]['subTotal'] = self::roundInternal($this->_cart->products[$cprdkey]->allPrices[$selectedPrice]['priceWithoutTax'],'priceWithoutTax') * $this->_cart->products[$cprdkey]->quantity;
+				$this->_cart->cartPrices['priceWithoutTax'] += $this->_cart->products[$cprdkey]->allPrices[$selectedPrice]['subTotal'];
 			}
 			$this->_cart->products[$cprdkey]->prices = $this->_cart->products[$cprdkey]->allPrices[$selectedPrice];
 		}
@@ -1199,7 +1200,7 @@ class calculationHelper {
 			return $testedRules;
 		}
 
-		foreach ($this->allrules[$this->productVendorId][$entrypoint] as $i => &$rule) {
+		foreach ($this->allrules[$this->productVendorId][$entrypoint] as $i => $rule) {
 			$rule = (array) $rule;
 			if(!empty($id)){
 				if($rule['virtuemart_calc_id']==$id){
@@ -1286,6 +1287,8 @@ class calculationHelper {
 			} else {
 				if ($this->_debug) vmdebug('plgVmInGatherEffectRulesProduct $hitsCategory '.(int)$hitsCategory.' $hitsShopper'.(int)$hitsShopper.' $hitsDeliveryArea'.(int)$hitsDeliveryArea.' '.(int)$hitsManufacturer,$rule);
 			}
+
+			$this->allrules[$this->productVendorId][$entrypoint][$i] = $rule;
 		}
 
 		//Test rules in plugins

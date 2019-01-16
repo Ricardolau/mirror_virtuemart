@@ -655,7 +655,7 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
 				</td>
 			</tr>
             <tr style="border-top-style:double">
-                <td align="left" colspan="3" style="padding-right: 5px;"><strong><?php echo vmText::_('COM_VM_ORDER_BALANCE') ?>:</strong></td>
+                <td align="left" colspan="3" style="padding-right: 5px;"><strong><?php echo vmText::_('COM_VM_ORDER_BALANCE') ?></strong></td>
 
             <?php
 
@@ -722,7 +722,7 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
                     $l = vmText::_('COM_VM_ORDER_OUTSTANDING_AMOUNT');
 
                 } else {
-                    $t =  vmText::_('COM_VM_ORDER_PAID');
+                    $t = vmText::_('COM_VM_ORDER_PAID');
                     $l = vmText::_('COM_VM_ORDER_CREDIT_BALANCE');
                 }
 

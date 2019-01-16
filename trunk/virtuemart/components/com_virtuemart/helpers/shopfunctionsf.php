@@ -1158,38 +1158,80 @@ class shopFunctionsF {
 		return '';
 	}
 
-	static public function summarizeRulesForBill($rules){
+	static public function summarizeRulesForBill($order, $payShipment=true){
 
-		$discountsBill = false;
-		$taxBill = false;
-		foreach($rules as $rule){
+		$discountsBill = array();
+		$taxBill = array();
 
-			//$handled[$rule->virtuemart_calc_id] = true;
-			$r = new stdClass();
-			$r->virtuemart_calc_id = $rule->virtuemart_calc_id;
-			$r->calc_result = $rule->calc_result;
-			$r->calc_amount = $rule->calc_amount;
-			$r->calc_rule_name = $rule->calc_rule_name;
-			$r->calc_kind = $rule->calc_kind;
-			$r->calc_value = $rule->calc_value;
+		//vmdebug('summarizeRulesForBill input $rules ',$order);
+		foreach($order['items'] as $item){
+			//vmdebug('summarizeRulesForBill rule added to taxBill ',$item);
+			foreach($order['calc_rules'] as $rule){
 
-			if($rule->calc_kind == 'DBTaxRulesBill' or $rule->calc_kind == 'DATaxRulesBill'){
-				$discountsBill[$rule->virtuemart_calc_id] = $r;
-			}
-			if($rule->calc_kind == 'taxRulesBill' or $rule->calc_kind == 'VatTax' or $rule->calc_kind=='payment' or $rule->calc_kind=='shipment'){
-				//vmdebug('method rule',$rule);
-				$r->label = shopFunctionsF::getTaxNameWithValue($rule->calc_rule_name,$rule->calc_value);
-				if(!isset($rule->quantity)) {
-					$rule->quantity =1;
-				}
-				if(isset($taxBill[$rule->virtuemart_calc_id])){
-					$taxBill[$rule->virtuemart_calc_id]->calc_amount += $rule->calc_amount * $rule->quantity ;
-				} else {
-					$taxBill[$rule->virtuemart_calc_id] = $r;
-					$taxBill[$rule->virtuemart_calc_id]->calc_amount += $rule->calc_amount * $rule->quantity ;
+				if($rule->virtuemart_order_item_id == $item->virtuemart_order_item_id){
+
+					if($rule->calc_kind == 'DBTaxRulesBill' or $rule->calc_kind == 'DATaxRulesBill'){
+						$discountsBill[$rule->virtuemart_calc_id] = $rule;
+					}
+					if($rule->calc_kind == 'taxRulesBill' or $rule->calc_kind == 'VatTax' /*or $rule->calc_kind == 'Tax' */){
+
+						$rule->label = shopFunctionsF::getTaxNameWithValue($rule->calc_rule_name,$rule->calc_value);
+
+						if(!isset($taxBill[$rule->virtuemart_calc_id])){
+							$taxBill[$rule->virtuemart_calc_id] = clone($rule);
+							$taxBill[$rule->virtuemart_calc_id]->calc_amount = 0.0;
+							$taxBill[$rule->virtuemart_calc_id]->subTotal = 0.0;
+						}
+
+						$taxBill[$rule->virtuemart_calc_id]->calc_amount += $rule->calc_amount * $item->product_quantity ;
+						$taxBill[$rule->virtuemart_calc_id]->subTotal += $item->product_subtotal_with_tax;
+					}
 				}
 			}
 		}
+
+vmdebug('summarizeRulesForBill $taxBill',$taxBill);
+        if($payShipment){
+			$idWithMax = 0;
+			if(VmConfig::get('radicalShipPaymentVat',true)){
+
+				$maxValue = 0.0;
+				foreach($order['calc_rules'] as $rule){
+					if($rule->calc_kind == 'taxRulesBill' or $rule->calc_kind == 'VatTax'){
+
+						if(empty($idWithMax) or $maxValue<=$taxBill[$rule->virtuemart_calc_id]->subTotal){
+							$idWithMax = $rule->virtuemart_calc_id;
+							$maxValue = $taxBill[$rule->virtuemart_calc_id]->subTotal;
+						}
+					}
+				}
+				vmdebug('radicalShipPaymentVat my $rule ',$maxValue,$taxBill);
+			}
+
+			foreach($order['calc_rules'] as $i=> $rule) {
+
+				if($rule->calc_kind == 'payment' or $rule->calc_kind == 'shipment') {
+					$keyN= 'order_'.$rule->calc_kind;
+					if(empty($idWithMax)){
+
+                        foreach($taxBill as $tax){
+							$sum = $order['details']['BT']->order_salesPrice;
+							$t1 = $tax->calc_value * 0.01 * $tax->subTotal/$sum;
+							$toAdd = $t1 * $order['details']['BT']->$keyN ;
+							vmdebug('ShipPay Rules $t1 '.$tax->calc_value * 0.01.' * '. $tax->subTotal.'/'.$sum.' = '.$t1);
+							vmdebug('ShipPay Rules $toAdd '.$t1.' * '. $order['details']['BT']->$keyN. ' = '.$toAdd. ' on '.$taxBill[$tax->virtuemart_calc_id]->calc_amount);
+							$taxBill[$tax->virtuemart_calc_id]->calc_amount += $t1 * $order['details']['BT']->$keyN ;
+
+							//vmdebug('ShipPay Rules '.$t1.' * '. $order['details']['BT']->$keyN.'='.$t1 * $order['details']['BT']->$keyN);
+                        }
+
+					} else {
+						$taxBill[$idWithMax]->calc_amount += $rule->calc_amount ;
+
+					}
+				}
+			}
+        }
 
 		return array('discountsBill' => $discountsBill, 'taxBill' => $taxBill);
 	}

@@ -84,6 +84,8 @@ class VirtueMartViewCart extends VmView {
 
 			$pathway->addItem( vmText::_( 'COM_VIRTUEMART_CART_THANKYOU' ) );
 			$document->setTitle( vmText::_( 'COM_VIRTUEMART_CART_THANKYOU' ) );
+			$this->cart->layout = 'default';
+
 		} else {
 			vmLanguage::loadJLang('com_virtuemart_shoppers', true);
 
@@ -172,6 +174,7 @@ class VirtueMartViewCart extends VmView {
 
 			$this->cart->prepareAddressFieldsInCart();
 
+			if($this->cart->layout=='orderdone') $this->cart->layout = 'default';
 			$this->layoutName = $this->cart->layout;
 			if(empty($this->layoutName)) $this->layoutName = 'default';
 

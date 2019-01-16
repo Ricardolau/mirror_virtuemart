@@ -714,8 +714,13 @@ class VirtueMartCustomFieldRenderer {
 
 					//The problem here is that a normal value and an array can be valid. The function should complement, or update the product. So we are not allowed
 					//to override existing values. When the $variantmods array is not set for the key, then we add an array, when the customproto is used more than one time
+					if(!isset($variantmods[$prodcustom->virtuemart_custom_id])){
+						$variantmods[$prodcustom->virtuemart_custom_id] = $prodcustom->virtuemart_customfield_id;
+					}
 					//the missing values are added with an own key.
-					if(!isset($variantmods[$prodcustom->virtuemart_custom_id]) or (is_array($variantmods[$prodcustom->virtuemart_custom_id]) and !isset($variantmods[$prodcustom->virtuemart_custom_id][$prodcustom->virtuemart_customfield_id])) ){
+					if( is_array($variantmods[$prodcustom->virtuemart_custom_id]) and !isset($variantmods[$prodcustom->virtuemart_custom_id][$prodcustom->virtuemart_customfield_id]) ){
+
+
 						$variantmods[$prodcustom->virtuemart_custom_id][$prodcustom->virtuemart_customfield_id] = $prodcustom->virtuemart_customfield_id;
 						//vmdebug('foreach $variantmods $customfield_id ', $prodcustom->virtuemart_custom_id, $prodcustom->virtuemart_customfield_id,$variantmods);
 					}

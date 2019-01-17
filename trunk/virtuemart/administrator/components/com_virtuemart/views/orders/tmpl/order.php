@@ -680,7 +680,7 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
             $colspan = '5';
             if(empty($this->toRefund) and !$detail){
                 echo '<td align="left" colspan="3" style="padding-right: 5px;">'.$t.'</td>';
-                echo '<td><input class="orderEdit" type="text" size="8" name="item_id[paid]" value="'.$this->orderbt->paid.'"/></td>';
+                echo '<td><input class="orderEdit" type="text" size="8" name="paid" value="'.$this->orderbt->paid.'"/></td>';
                 echo '</tr>';
                 $trOpen = false;
             }
@@ -748,7 +748,7 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
                 }
                 $tp .= '<td colspan="'.$colspan.'"></td>';
                 $tp .= '<td align="left" colspan="5" style="padding-right: 5px;">'.$t.'</td>';
-                $tp .= '<td>'.$this->currency->priceDisplay($this->orderbt->paid).'<input class="orderEdit" type="text" size="8" name="item_id[paid]" value="'.$this->orderbt->paid.'"/></td>';
+                $tp .= '<td>'.$this->currency->priceDisplay($this->orderbt->paid).'<input class="orderEdit" type="text" size="8" name="paid" value="'.$this->orderbt->paid.'"/></td>';
                 $tp .= '</tr>';
 
                 $tp .= '<tr>';

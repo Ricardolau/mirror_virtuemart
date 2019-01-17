@@ -1141,7 +1141,7 @@ class shopFunctionsF {
 
 			JPluginHelper::importPlugin('captcha');
 			$dispatcher = JDispatcher::getInstance();
-			$dispatcher->trigger('onInit',$id);
+			$dispatcher->trigger('onInit',array($id));
 			if(version_compare(JVERSION, '3.5', 'ge')){
 				$plugin = JPluginHelper::getPlugin('captcha', 'recaptcha');
 				if(!empty($plugin->params)){
@@ -1163,12 +1163,12 @@ class shopFunctionsF {
 		$discountsBill = array();
 		$taxBill = array();
 
-		//vmdebug('summarizeRulesForBill input $rules ',$order);
 		foreach($order['items'] as $item){
-			//vmdebug('summarizeRulesForBill rule added to taxBill ',$item);
+
 			foreach($order['calc_rules'] as $rule){
 
-				if($rule->virtuemart_order_item_id == $item->virtuemart_order_item_id){
+				//The virtuemart_order_item_id is missing for the payment and shipment rules, these are handled below
+				if(isset($rule->virtuemart_order_item_id) and $rule->virtuemart_order_item_id == $item->virtuemart_order_item_id){
 
 					if($rule->calc_kind == 'DBTaxRulesBill' or $rule->calc_kind == 'DATaxRulesBill'){
 						$discountsBill[$rule->virtuemart_calc_id] = $rule;
@@ -1190,7 +1190,7 @@ class shopFunctionsF {
 			}
 		}
 
-vmdebug('summarizeRulesForBill $taxBill',$taxBill);
+//vmdebug('summarizeRulesForBill $taxBill',$taxBill);
         if($payShipment){
 			$idWithMax = 0;
 			if(VmConfig::get('radicalShipPaymentVat',true)){

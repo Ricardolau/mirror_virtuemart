@@ -263,8 +263,6 @@ class VirtuemartControllerOrders extends VmController {
 
 		$_items = vRequest::getVar('item_id', 0);
 
-		//The order editing often needs some correction. So we disable sending of the emails here
-		$_items['customer_notified'] = 0;
 		$model->updateStatusForOneOrder($_orderID,$_items,true);
 
 		$model->deleteInvoice($_orderID);
@@ -352,7 +350,7 @@ class VirtuemartControllerOrders extends VmController {
 					break;
 				}
 			}
-
+			//prevents sending of email
 			$_items['customer_notified'] = 0;
 			$model->updateStatusForOneOrder($orderId,$_items,true);
 

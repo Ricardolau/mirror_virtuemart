@@ -517,7 +517,7 @@ class com_virtuemart_allinoneInstallerScript {
 				$tablesFields = array_merge ($SQLfields, $loggablefields);
 				$update[$tablename] = array($tablesFields, array(), array());
 				//vmdebug ('install plugin', $update);
-				$app->enqueueMessage (get_class ($this) . ':: VirtueMart2 update ' . $tablename);
+				$app->enqueueMessage (get_class ($this) . ':: VirtueMart update ' . $tablename);
 
 
 				$updater = new GenericTableUpdater();
@@ -526,7 +526,7 @@ class com_virtuemart_allinoneInstallerScript {
 			}
 		} else {
 			$app = JFactory::getApplication ();
-			$app->enqueueMessage (get_class ($this) . ':: VirtueMart2 must be installed, or the tables cant be updated ');
+			$app->enqueueMessage (get_class ($this) . ':: VirtueMart must be installed, or the tables cant be updated ');
 
 		}
 

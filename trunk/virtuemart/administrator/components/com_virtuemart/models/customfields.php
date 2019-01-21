@@ -691,7 +691,7 @@ class VirtueMartModelCustomfields extends VmModel {
 				} else {
 					if(empty($field->custom_value)){
 						$q = 'SELECT `virtuemart_media_id` as value,`file_title` as text FROM `#__virtuemart_medias` WHERE `published`=1
-					AND (`virtuemart_vendor_id`= "' . $virtuemart_vendor_id . '" OR `shared` = "1") ORDER BY `file_title`)';
+					AND (`virtuemart_vendor_id`= "' . $virtuemart_vendor_id . '" OR `shared` = "1" ) ORDER BY `file_title` ';
 						$db = JFactory::getDBO();
 						$db->setQuery ($q);
 						$options = $db->loadObjectList ();

@@ -88,6 +88,13 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
 				$link = 'index.php?option=com_virtuemart&view=orders&task=toggle.paid.'.$val.'&cidName=virtuemart_order_id&virtuemart_order_id[]='.$this->orderID.'&rtask=edit&'.JSession::getFormToken().'=1';
 				echo JHtml::_ ('link', JRoute::_ ($link, FALSE), '<span class="icon-'.$icon.'"><span>', array('title' => vmText::_ ('COM_VIRTUEMART_ORDER_TOGGLE_PAID') . ' ' . $this->orderbt->order_number));
 				/*($this->orderbt->paid, $this->orderID,'toggle.paid'); */echo $this->currency->priceDisplay($this->orderbt->paid); ?></th>
+				<th>
+				<?php
+                    $icon 	= $this->orderbt->invoice_locked ? 'unpublish' : 'publish';
+                    $val    = $this->orderbt->invoice_locked ? '0' : '1';
+                    $link = 'index.php?option=com_virtuemart&view=orders&task=toggle.invoice_locked.'.$val.'&cidName=virtuemart_order_id&virtuemart_order_id[]='.$this->orderID.'&rtask=edit&'.JSession::getFormToken().'=1';
+                    echo JHtml::_ ('link', JRoute::_ ($link, FALSE), '<span class="icon-'.$icon.'"><span>', array('title' => vmText::_ ('COM_VM_ORDER_TOGGLE_INVOICE_LOCKED') . ' ' . $this->orderbt->order_number)); ?>
+                </th>
 			</tr>
 			</thead>
 			<?php
@@ -679,7 +686,8 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
             $trOpen = true;
             $colspan = '5';
             if(empty($this->toRefund) and !$detail){
-                echo '<td align="left" colspan="3" style="padding-right: 5px;">'.$t.'</td>';
+                echo '<td align="left" colspan="2" style="padding-right: 5px;">'.$t.'</td>';
+				echo '<td align="left" style="padding-right: 5px;">'.$this->orderbt->paid_on.'</td>';
                 echo '<td><input class="orderEdit" type="text" size="8" name="paid" value="'.$this->orderbt->paid.'"/></td>';
                 echo '</tr>';
                 $trOpen = false;
@@ -748,7 +756,9 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
                 }
                 $tp .= '<td colspan="'.$colspan.'"></td>';
                 $tp .= '<td align="left" colspan="5" style="padding-right: 5px;">'.$t.'</td>';
+
                 $tp .= '<td>'.$this->currency->priceDisplay($this->orderbt->paid).'<input class="orderEdit" type="text" size="8" name="paid" value="'.$this->orderbt->paid.'"/></td>';
+				//$tp .= '<td align="left" style="padding-right: 5px;">'.$this->orderbt->paid_on.'</td>';
                 $tp .= '</tr>';
 
                 $tp .= '<tr>';

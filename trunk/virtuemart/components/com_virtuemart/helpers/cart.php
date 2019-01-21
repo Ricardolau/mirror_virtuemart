@@ -196,7 +196,7 @@ class VirtueMartCart {
 
 			$multixcart = VmConfig::get('multixcart',0);
 			if(!empty($multixcart)){
-				if($multixcart=='byvendor' or self::$_cart->vendorId==1){
+				if($multixcart=='byvendor' /*or self::$_cart->vendorId==1*/){
 					$vendor = VmModel::getModel('vendor');
 					$vId = $vendor->getLoggedVendor();
 					if(!empty($vId) and $vId!=1){

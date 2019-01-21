@@ -146,8 +146,11 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 
 
 	public function samplePDF() {
+
+		vmDefines::tcpdf();
 		if(!class_exists('VmVendorPDF')){
-			vmError('vmPdf: For the pdf, you must install the tcpdf library at '.VMPATH_LIBS.'/tcpdf');
+			VmLanguage::loadJLang('com_virtuemart_config');
+			vmError('COM_VIRTUEMART_TCPDF_NINSTALLED','COM_VIRTUEMART_TCPDF_NINSTALLED');
 			return 0;
 		}
 
@@ -178,6 +181,8 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 	}
 
 	function getInvoicePDF($orderDetails, $viewName='invoice', $layout='invoice', $format='html', $force = false){
+
+		if($orderDetails['details']['BT']->invoice_locked) return false;
 
 		vmLanguage::loadJLang('com_virtuemart',1);
 

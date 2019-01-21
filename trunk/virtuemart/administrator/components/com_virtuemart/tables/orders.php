@@ -38,6 +38,7 @@ class TableOrders extends VmTableData {
 	var $order_number = NULL;
 	var $order_pass = NULL;
 	var $order_create_invoice_pass = 0;
+	var $invoice_locked = 0;
 	var $customer_number = NULL;
 	/** @var decimal Order total */
 	var $order_total = 0.00000;
@@ -96,6 +97,7 @@ class TableOrders extends VmTableData {
 	var $delivery_date = NULL;
 	var $STsameAsBT = 0;
 	var $paid = 0;
+	var $paid_on = 0;
 	var $o_hash = NULL;
 
 	/**

@@ -39,6 +39,7 @@ class VirtueMartModelOrders extends VmModel {
 		$this->setMainTable('orders');
 		$this->addvalidOrderingFieldName(array('order_name','order_email','payment_method','shipment_method','virtuemart_order_id' ) );
 		$this->setToggleName('paid');
+		$this->setToggleName('invoice_locked');
 		$this->populateState();
 
 		VmConfig::importVMPlugins(true);
@@ -455,7 +456,7 @@ class VirtueMartModelOrders extends VmModel {
 	 * @author Ondřej Spilka - used for item edit also
 	 * @author Maik Künnemann
 	 */
-	public function updateSingleItem($virtuemart_order_item_id, &$orderdata, $orderUpdate = false, /*&$vatTax = false,*/ &$itemTaxes = array())
+	public function updateSingleItem($virtuemart_order_item_id, &$orderdata, $orderUpdate = false, &$itemTaxes = array(), $orderUserId=0)
 	{
 		$virtuemart_order_item_id = (int)$virtuemart_order_item_id;
 		//vmdebug('updateSingleItem',$virtuemart_order_item_id,$orderdata);
@@ -490,16 +491,33 @@ class VirtueMartModelOrders extends VmModel {
 
 			$db = JFactory::getDBO();
 			if(empty($virtuemart_order_item_id) and !empty($data['order_item_sku'])){
-				$q = 'SELECT `virtuemart_product_id` FROM #__virtuemart_products WHERE order_item_sku ="'.$data['order_item_sku'].'"';
+				$q = 'SELECT `virtuemart_product_id` FROM #__virtuemart_products WHERE product_sku ="'.$data['order_item_sku'].'"';
 				$db->setQuery($q);
 				$data['virtuemart_product_id'] = $db->loadResult();
 				vmdebug('vm product id by sku',$data['virtuemart_product_id']);
 
 			}
-			if(!empty($data['virtuemart_product_id'])){
+			if(!empty($data['virtuemart_product_id']) and empty($data['order_item_name'])){
+				VmConfig::$echoDebug = 1;
+				$uM = VmModel::getModel('shoppergroup');
+				if(empty($orderUserId)){
+					$std_grp = $uM->getDefault(0,true);
+					$orderuser_shoppergroups = $std_grp->virtuemart_shoppergroup_id;
+					vmdebug('$orderuser_shoppergroups guest',$orderuser_shoppergroups);
+				} else {
+					$xrefTable = $this->getTable('vmuser_shoppergroups');
+					$orderuser_shoppergroups = $xrefTable->load($orderUserId);
+
+					vmdebug('$orderuser_shoppergroups registered',$orderuser_shoppergroups);
+					$pseudUser = new stdClass();
+					$pseudUser->gueset = 0;
+					$uM->appendShopperGroups($orderuser_shoppergroups,$pseudUser);
+
+				}
+
 
 				$pM = VmModel::getModel('product');
-				$p = $pM->getProduct($data['virtuemart_product_id']);
+				$p = $pM->getProduct($data['virtuemart_product_id'], true, true, true, $data['product_quantity'],$orderuser_shoppergroups);
 
 				if(empty($data['product_item_price'])){
 					$data['product_item_price'] = $p->prices['basePrice'];
@@ -576,8 +594,6 @@ class VirtueMartModelOrders extends VmModel {
 			$data['virtuemart_vendor_id'] = $table->virtuemart_vendor_id;
 		}
 
-
-
 		$table->bindChecknStore($data);
 
 		if(empty($virtuemart_order_item_id) and !empty($table->virtuemart_order_item_id)){
@@ -618,6 +634,9 @@ class VirtueMartModelOrders extends VmModel {
 		}
 		$this->handleStockAfterStatusChangedPerProduct($orderdata->order_status, $oldOrderStatus, $table,$table->product_quantity);
 
+		foreach($orderdata as $key=>$val){
+			if(isset($table->$key)) $orderdata->$key = $table->$key;
+		}
 		return $table;
 	}
 
@@ -1142,8 +1161,8 @@ class VirtueMartModelOrders extends VmModel {
 
 				}
 
-				$orderItemTable = $this->updateSingleItem( $item_id, $order_item_data, true, /*$vatTaxes, */$taxes );
-				//vmdebug('AFter updateSingleItem, my $taxes',$taxes);
+				$orderItemTable = $this->updateSingleItem( $item_id, $order_item_data, true,$taxes, $data->virtuemart_user_id);
+				vmdebug('AFter updateSingleItem, my product_subtotal_with_tax',$order_item_data,$orderItemTable);
 
 				foreach($taxes as $kind ){
 					foreach($kind as $tax){
@@ -1235,6 +1254,7 @@ class VirtueMartModelOrders extends VmModel {
 			//prevents sending of email
 			$inputOrder['customer_notified'] = 0;
 			//vmdebug('Lets store something here',$data,$allTaxes,$summarizedRules);
+			$data->invoice_locked = 1;
 			$data->store();
 			$this->updateBill($virtuemart_order_id, /*$vatTaxes,*/ $allTaxes);
 		} else {
@@ -1262,12 +1282,17 @@ class VirtueMartModelOrders extends VmModel {
 				$this->calculatePaidByOS($data,$inputOrder);
 
 			}
+			$data->invoice_locked = 0;
 			$data->store();
 		}
 
 
 		//Must be below the handling of the order items, else we must add an except as for "customer_notified"
-		if(!empty($inputOrder['comments']))$inputOrder['comments'] = trim($inputOrder['comments']);
+		if(empty($inputOrder['comments'])){
+			$inputOrder['comments'] = '';
+		} else {
+			$inputOrder['comments'] = trim($inputOrder['comments']);
+		}
 		$invM = VmModel::getModel('invoice');
 		//TODO use here needNewInvoiceNumber
 		$inputOrder['order_status'] = $data->order_status;
@@ -1325,16 +1350,17 @@ class VirtueMartModelOrders extends VmModel {
 				$paid = vRequest::getFloat('paid',0);
 				if($paid){
 					$data->paid = $paid;
-				} else {
-					$data->paid = $data->order_total;
 				}
-			} else if(empty($data->paid)){
-				$data->paid = $data->order_total;
 			}
 
 			$os_trigger_paid = VmConfig::get('os_trigger_paid', array('C'));
 			if(in_array($data->order_status,$os_trigger_paid)){
-
+				if(empty($data->paid)){
+					$data->paid = $data->order_total;
+					$date = JFactory::getDate();
+					$today = $date->toSQL();
+					$data->paid_on = $today;
+				}
 				$itms = isset($inputOrder['items'])?$inputOrder['items']:$inputOrder;
 				foreach ($itms as $id => $item) {
 					$os_trigger_refunds = VmConfig::get('os_trigger_refunds', array('R'));
@@ -2278,7 +2304,7 @@ class VirtueMartModelOrders extends VmModel {
 
 	public function createInvoiceByOrder($order){
 
-		if(!isset($order['details']['BT'])) return false;
+		if(!isset($order['details']['BT']) or $order['details']['BT']->order->invoice_locked) return false;
 
 		$inv = false;
 		// florian : added if pdf invoice are enabled

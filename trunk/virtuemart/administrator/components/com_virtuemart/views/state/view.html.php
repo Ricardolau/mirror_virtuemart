@@ -37,9 +37,9 @@ class VirtuemartViewState extends VmViewAdmin {
 
 		$this->virtuemart_country_id = vRequest::getInt('virtuemart_country_id', $this->state->virtuemart_country_id);
 
-        $isNew = (count($this->state) < 1);
+		$isNew = (empty($this->state->virtuemart_state_id));
 
-		if(empty($countryId) && $isNew){
+		if(empty($this->virtuemart_country_id) and $isNew){
 			vmWarn('Country id is 0');
 			return false;
 		}

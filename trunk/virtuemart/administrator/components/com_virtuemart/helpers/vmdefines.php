@@ -251,6 +251,7 @@ class vmDefines {
 		JLoader::register('CouponHelper', $vmpath_site.'/helpers/coupon.php');
 		JLoader::register('shopFunctionsF', $vmpath_site.'/helpers/shopfunctionsf.php');
 		JLoader::register('VmPdf', $vmpath_site.'/helpers/vmpdf.php');
+		JLoader::register('VmVendorPdf', $vmpath_site.'/helpers/vmpdf.php');
 		JLoader::register('VmTemplate', $vmpath_site.'/helpers/vmtemplate.php');
 		JLoader::register('VmView', $vmpath_site.'/helpers/vmview.php');
 		//JLoader::register('VirtuemartViewUser', $vmpath_site.'/views/user/view.html.php'); We must not register views which exists in FE and BE (could be done with "use")

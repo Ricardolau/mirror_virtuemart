@@ -92,12 +92,7 @@ class VirtueMartModelCurrency extends VmModel {
 
 		static $currencies = array();
 		if($vendorId===0){
-			$multix = Vmconfig::get('multix','none');
-			if(strpos($multix,'payment')!==FALSE){
-				$vendorId = VirtueMartModelVendor::getLoggedVendor();
-			} else {
-				$vendorId = 1;
-			}
+			$vendorId = 1;
 		}
 		if(!isset($currencies[$vendorId])){
 			$db = JFactory::getDbo();

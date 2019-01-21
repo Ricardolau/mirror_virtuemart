@@ -176,7 +176,7 @@ class VirtueMartModelShipmentmethod extends VmModel {
 		}
 
 		if(empty($data['virtuemart_vendor_id'])){
-			$data['virtuemart_vendor_id'] = VirtueMartModelVendor::getLoggedVendor();
+			$data['virtuemart_vendor_id'] = vmAccess::isSuperVendor();
 		} else {
 			$data['virtuemart_vendor_id'] = (int) $data['virtuemart_vendor_id'];
 		}

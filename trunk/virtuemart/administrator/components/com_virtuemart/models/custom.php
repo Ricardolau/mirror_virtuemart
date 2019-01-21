@@ -288,7 +288,7 @@ class VirtueMartModelCustom extends VmModel {
 
 		//I think this is obsolete, note by Max
 		if(empty($data['virtuemart_vendor_id'])){
-			$data['virtuemart_vendor_id'] = VirtueMartModelVendor::getLoggedVendor();
+			$data['virtuemart_vendor_id'] = vmAccess::isSuperVendor();
 		} else {
 			$data['virtuemart_vendor_id'] = (int) $data['virtuemart_vendor_id'];
 		}

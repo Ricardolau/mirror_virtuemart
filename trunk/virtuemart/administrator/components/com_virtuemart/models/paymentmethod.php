@@ -170,7 +170,7 @@ class VirtueMartModelPaymentmethod extends VmModel{
 		}
 
 	  	if(empty($data['virtuemart_vendor_id'])){
-	   		$data['virtuemart_vendor_id'] = VirtueMartModelVendor::getLoggedVendor();
+	   		$data['virtuemart_vendor_id'] = vmAccess::isSuperVendor();
 	  	}
 
 		$tCon = array('min_amount','max_amount','cost_per_transaction','cost_min_transaction','cost_percent_total');

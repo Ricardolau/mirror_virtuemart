@@ -65,7 +65,7 @@ abstract class vmCustomPlugin extends vmPlugin {
 			$this->plugin = $this->getVmPluginMethod ($this->plugin->virtuemart_custom_id);
 
 			if (empty($this->plugin->virtuemart_vendor_id)) {
-				$this->plugin->virtuemart_vendor_id = VirtueMartModelVendor::getLoggedVendor ();
+				$this->plugin->virtuemart_vendor_id = vmAccess::isSuperVendor();
 			}
 			$customPlugin = $this->plugin;
 			//   		return $this->plugin;

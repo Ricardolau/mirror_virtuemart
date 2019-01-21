@@ -47,7 +47,7 @@ class VirtueMartModelVendor extends VmModel {
 	/**
 	 * name: getLoggedVendor
 	 * Checks which $vendorId has the just logged in user.
-	 *
+	 * @deprecated
 	 * @author Max Milbers
 	 * @param @param $ownerOnly returns only an id if the vendorOwner is logged in (dont get confused with storeowner)
 	 * returns int $vendorId

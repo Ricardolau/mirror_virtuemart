@@ -6,8 +6,8 @@
     <property name="vm.version.main" value="3.4.0"/>
     <property name="vm.version" value="3.4.3"/>
     <property name="joomla.version" value="3.9.2"/>
-    <property name="PHING.VM.REVISION" value="10005"/>
-    <property name="PHING.VM.CODENAME" value="Blue Corvus"/>
+    <property name="PHING.VM.REVISION" value="10009"/>
+    <property name="PHING.VM.CODENAME" value="Eagle owl"/>
     <property name="PHING.VM.UPDATEFOLDER" value="vm3"/>
     <property file="build.properties"/>
     <target name="title">

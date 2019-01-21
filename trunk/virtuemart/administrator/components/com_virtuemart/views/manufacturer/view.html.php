@@ -68,7 +68,6 @@ class VirtuemartViewManufacturer extends VmViewAdmin {
 
 			$this->addStandardEditViewCommands($this->manufacturer->virtuemart_manufacturer_id);
 
-			$this->virtuemart_vendor_id = VirtueMartModelVendor::getLoggedVendor();
 		}
 		else {
 

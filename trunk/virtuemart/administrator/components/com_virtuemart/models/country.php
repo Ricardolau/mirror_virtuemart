@@ -37,7 +37,7 @@ class VirtueMartModelCountry extends VmModel {
 		parent::__construct();
 		$this->setMainTable('countries');
 		array_unshift($this->_validOrderingFieldName,'country_name');
-		$this->_selectedOrdering = 'country_name';
+		$this->_selectedOrdering = 'ordering, country_name';
 		$this->_selectedOrderingDir = 'ASC';
 
 	}

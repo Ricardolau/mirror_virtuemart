@@ -57,6 +57,10 @@ $states = vmText::_('COM_VIRTUEMART_STATE_S');
 		    <th>
 				<?php echo $this->sort('country_3_code') ?>
 		    </th>
+            <th style="min-width:80px;width:8%;text-align:center;">
+				<?php echo $this->sort( 'c.ordering' , 'COM_VIRTUEMART_ORDERING') ?>
+				<?php echo JHtml::_('grid.order', $this->countries, 'filesave.png', 'saveOrder' ); ?>
+            </th>
 		    <th width="20">
 			    <?php echo $this->sort('published' , 'COM_VIRTUEMART_PUBLISHED') ?>
 		    </th>
@@ -102,6 +106,9 @@ $states = vmText::_('COM_VIRTUEMART_STATE_S');
 		<td>
 			<?php echo $row->country_3_code ; ?>
 		</td>
+		<td class="vm-order">
+            <input class="ordering" type="text" name="order[<?php echo $i?>]" id="order[<?php echo $i?>]" size="5" value="<?php echo $row->ordering; ?>" style="text-align: center" /><span class="vmicon vmicon-16-move"></span>
+        </td>
 		<td align="center">
 			<?php echo $published; ?>
 		</td>

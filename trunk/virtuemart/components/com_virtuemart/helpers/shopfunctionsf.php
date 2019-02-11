@@ -155,23 +155,15 @@ class shopFunctionsF {
 		vmJsApi::jQuery();
 		vmJsApi::chosenDropDowns();
 
-		$sorted_countries = array();
+		//$sorted_countries = array();
+		$countries_list=array();
 		$lang = vmLanguage::getLanguage();
 		$prefix="COM_VIRTUEMART_COUNTRY_";
 		foreach ($countries as  $country) {
 			$country_string = $lang->hasKey($prefix.$country->country_3_code) ?   vmText::_($prefix.$country->country_3_code)  : $country->country_name;
-			$sorted_countries[$country->virtuemart_country_id] = $country_string;
-		}
-
-		asort($sorted_countries);
-
-		$countries_list=array();
-		$i=0;
-		foreach ($sorted_countries as  $key=>$value) {
-			$countries_list[$i] = new stdClass();
-			$countries_list[$i]->$optKey = $key;
-			$countries_list[$i]->$optText = $value;
-			$i++;
+			$countries_list[$country->virtuemart_country_id] = new stdClass();;
+			$countries_list[$country->virtuemart_country_id]->$optKey = $country->virtuemart_country_id;
+			$countries_list[$country->virtuemart_country_id]->$optText = $country_string;
 		}
 
 		if ($required != 0) {
@@ -1164,7 +1156,7 @@ class shopFunctionsF {
 		$taxBill = array();
 
 		foreach($order['items'] as $item){
-
+			vmdebug('summarizeRulesForBill $taxBill',$item->product_subtotal_with_tax);
 			foreach($order['calc_rules'] as $rule){
 
 				//The virtuemart_order_item_id is missing for the payment and shipment rules, these are handled below

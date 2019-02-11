@@ -813,7 +813,7 @@ class calculationHelper {
 			// subTotal for each taxID necessary, equal if calc_categories exists ore not
 			if(!empty($this->_cart->cartData['taxRulesBill'])) {
 				foreach($this->_cart->cartData['taxRulesBill'] as $k=>$trule) {
-					if(empty($this->_cart->cartData['taxRulesBill'][$k]['subTotal'])) $trule['subTotal'] = 0.0;
+					if(empty($this->_cart->cartData['taxRulesBill'][$k]['subTotal'])) $this->_cart->cartData['taxRulesBill'][$k]['subTotal'] = 0.0;
 					if($product->product_tax_id != 0) {
 						if($product->product_tax_id == $k) {
 							$this->_cart->cartData['taxRulesBill'][$k]['subTotal']+= $this->_cart->cartPrices[$cprdkey]['subtotal_with_tax'];

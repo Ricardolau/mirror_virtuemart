@@ -39,7 +39,7 @@ defined('_JEXEC') or die('Restricted access');
 				?>
 			</td>
 			<td style="border:0px;">
-				<input type="submit" name="changeShopper" title="<?php echo vmText::_('COM_VIRTUEMART_SAVE'); ?>" value="<?php echo vmText::_('COM_VIRTUEMART_SAVE'); ?>" class="button"  style="margin-left: 10px;"/>
+				<input type="submit" name="changeShopper" title="<?php echo vmText::_('COM_VIRTUEMART_GO'); ?>" value="<?php echo vmText::_('COM_VIRTUEMART_GO'); ?>" class="button"  style="margin-left: 10px;width:100px"/>
 				<input type="hidden" name="view" value="cart"/>
 				<input type="hidden" name="task" value="changeShopper"/>
 			</td>

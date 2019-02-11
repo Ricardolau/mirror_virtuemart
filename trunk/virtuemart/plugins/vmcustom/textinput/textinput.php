@@ -218,6 +218,9 @@ class plgVmCustomTextinput extends vmCustomPlugin {
 
 
 	function plgVmOnSelfCallFE($type,$name,&$render) {
+		if ($name != $this->_name || $type != 'vmcustom') {
+			return FALSE;
+		}
 		$render->html = '';
 	}
 

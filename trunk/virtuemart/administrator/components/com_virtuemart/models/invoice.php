@@ -82,7 +82,7 @@ class VirtueMartModelInvoice extends VmModel {
 
 		$hashOrder = self::hashOrder($order);
 		$invoice = self::getInvoiceEntry($orderId,true,'*');
-		if(!empty($storedOrder->o_hash) and $storedOrder->o_hash == $hashOrder){
+		if($storedOrder->invoice_locked or (!empty($storedOrder->o_hash) and $storedOrder->o_hash == $hashOrder)){
 			return false;
 		} else {
 
@@ -187,6 +187,9 @@ class VirtueMartModelInvoice extends VmModel {
 		$data['order_status'] = $orderDetails['order_status'];
 
 		$data['virtuemart_vendor_id'] = $orderDetails['virtuemart_vendor_id'];
+
+
+		if($orderDetails['invoice_locked']) return false;
 
 		JPluginHelper::importPlugin('vmextended');
 		JPluginHelper::importPlugin('vmshopper');

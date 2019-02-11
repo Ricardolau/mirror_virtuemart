@@ -1334,7 +1334,7 @@ INSERT INTO `#__virtuemart_states`
 
 INSERT INTO `#__virtuemart_states`
 (`virtuemart_state_id`, `virtuemart_vendor_id`, `virtuemart_country_id`, `state_name`, `state_3_code`, `state_2_code`) VALUES
-(NULL, 1, 105,'Barletta-Andria-Trani','BAT', 'BT'),
+(NULL, 1, 105, 'Barletta-Andria-Trani','BAT', 'BT');
 
 /*!40000 ALTER TABLE `#__virtuemart_states` ENABLE KEYS */;
 

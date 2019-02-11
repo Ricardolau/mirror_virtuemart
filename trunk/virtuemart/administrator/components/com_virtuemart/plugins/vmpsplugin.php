@@ -809,40 +809,17 @@ abstract class vmPSPlugin extends vmPlugin {
 
 	protected function getPluginHtml ($plugin, $selectedPlugin, $pluginSalesPrice) {
 
-		$pluginmethod_id = $this->_idName;
-		$pluginName = $this->_psType . '_name';
-		if ($selectedPlugin == $plugin->$pluginmethod_id) {
-			$checked = 'checked="checked"';
-		} else {
-			$checked = '';
-		}
-
 		$currency = CurrencyDisplay::getInstance ();
-		$costDisplay = "";
-		if ($pluginSalesPrice) {
-			$costDisplay = $currency->priceDisplay( $pluginSalesPrice );
-			$t = vmText::_( 'COM_VIRTUEMART_PLUGIN_COST_DISPLAY' );
-			if(strpos($t,'/')!==FALSE){
-				list($discount, $fee) = explode( '/', vmText::_( 'COM_VIRTUEMART_PLUGIN_COST_DISPLAY' ) );
-				if($pluginSalesPrice>=0) {
-					$costDisplay = '<span class="'.$this->_type.'_cost fee"> ('.$fee.' '.$costDisplay.")</span>";
-				} else if($pluginSalesPrice<0) {
-					$costDisplay = trim(strip_tags($costDisplay),'-');
-					$costDisplay = '<span class="'.$this->_type.'_cost discount"> ('.$discount.' '.$costDisplay.")</span>";
-				}
-			} else {
-				$costDisplay = '<span class="'.$this->_type.'_cost fee"> ('.$t.' '.$costDisplay.")</span>";
-			}
-		}
-		$dynUpdate='';
-		if( VmConfig::get('oncheckout_ajax',false)) {
-			//$url = JRoute::_('index.php?option=com_virtuemart&view=cart&task=updatecart&'. $this->_idName. '='.$plugin->$pluginmethod_id );
-			$dynUpdate=' data-dynamic-update="1" ';
-		}
-		$html = '<input type="radio"'.$dynUpdate.' name="' . $pluginmethod_id . '" id="' . $this->_psType . '_id_' . $plugin->$pluginmethod_id . '"   value="' . $plugin->$pluginmethod_id . '" ' . $checked . ">\n"
-			. '<label for="' . $this->_psType . '_id_' . $plugin->$pluginmethod_id . '">' . '<span class="' . $this->_type . '">' . $plugin->$pluginName . $costDisplay . "</span></label>\n";
+
+		$input = array('plugin' => $plugin,
+		'psType'=>$this->_psType,
+		'selectedPlugin' => $selectedPlugin,
+		'pluginSalesPrice' => $pluginSalesPrice,
+		'currency'=>$currency);
+		$html = shopFunctionsF::renderVmSubLayout('methodprices', $input);
 
 		return $html;
+
 	}
 
 	protected function getHtmlHeaderBE () {

@@ -42,7 +42,7 @@ class VirtueMartModelOrders extends VmModel {
 		$this->setToggleName('invoice_locked');
 		$this->populateState();
 
-		VmConfig::importVMPlugins(true);
+		VmConfig::importVMPlugins('vmpayment');
 	}
 
 	function populateState () {
@@ -590,7 +590,7 @@ class VirtueMartModelOrders extends VmModel {
 			}
 		}
 
-		if(!empty($table->virtuemart_vendor_id)){
+		if(empty($data['virtuemart_vendor_id']) and !empty($table->virtuemart_vendor_id)){
 			$data['virtuemart_vendor_id'] = $table->virtuemart_vendor_id;
 		}
 
@@ -635,6 +635,7 @@ class VirtueMartModelOrders extends VmModel {
 		$this->handleStockAfterStatusChangedPerProduct($orderdata->order_status, $oldOrderStatus, $table,$table->product_quantity);
 
 		foreach($orderdata as $key=>$val){
+			if($key=='virtuemart_vendor_id') continue;	//Todo add multvendor handling
 			if(isset($table->$key)) $orderdata->$key = $table->$key;
 		}
 		return $table;
@@ -1542,8 +1543,7 @@ class VirtueMartModelOrders extends VmModel {
 		}
 		$_orderData->STsameAsBT = $_cart->STsameAsBT;
 
-		JPluginHelper::importPlugin('vmshopper');
-		//JPluginHelper::importPlugin('vmextended');
+		VmConfig::importVMPlugins('vmshopper');
 		$dispatcher = JDispatcher::getInstance();
 		$plg_datas = $dispatcher->trigger('plgVmOnUserOrder',array(&$_orderData));
 
@@ -1814,7 +1814,7 @@ class VirtueMartModelOrders extends VmModel {
 						if($productCustom = VirtueMartModelCustomfields::getCustomEmbeddedProductCustomField( $customfield_id )) {
 							if($productCustom->field_type == "E") {
 
-								JPluginHelper::importPlugin( 'vmcustom' );
+								VmConfig::importVMPlugins( 'vmcustom' );
 								$dispatcher = JDispatcher::getInstance();
 								$dispatcher->trigger( 'plgVmGetProductStockToUpdateByCustom', array(&$tableOrderItems, $param, $productCustom) );
 							}
@@ -2196,8 +2196,7 @@ class VirtueMartModelOrders extends VmModel {
 
 		$payment_name = $shipment_name='';
 
-		JPluginHelper::importPlugin('vmshipment');
-		JPluginHelper::importPlugin('vmpayment');
+		VmConfig::importVMPlugins('vmpayment');
 		$dispatcher = JDispatcher::getInstance();
 		$returnValues = $dispatcher->trigger('plgVmOnShowOrderFEShipment',array(  $order['details']['BT']->virtuemart_order_id, $order['details']['BT']->virtuemart_shipmentmethod_id, &$shipment_name));
 		$returnValues = $dispatcher->trigger('plgVmOnShowOrderFEPayment',array(  $order['details']['BT']->virtuemart_order_id, $order['details']['BT']->virtuemart_paymentmethod_id, &$payment_name));
@@ -2304,7 +2303,7 @@ class VirtueMartModelOrders extends VmModel {
 
 	public function createInvoiceByOrder($order){
 
-		if(!isset($order['details']['BT']) or $order['details']['BT']->order->invoice_locked) return false;
+		//if(!isset($order['details']['BT']) or $order['details']['BT']->order->invoice_locked) return false;
 
 		$inv = false;
 		// florian : added if pdf invoice are enabled
@@ -2367,7 +2366,7 @@ class VirtueMartModelOrders extends VmModel {
 		$table = $this->getTable('order_items');
 
 		//Done in the table already
-		JPluginHelper::importPlugin('vmshipment');
+		VmConfig::importVMPlugins('vmpayment');
 		$_dispatcher = JDispatcher::getInstance();
 		$_returnValues = $_dispatcher->trigger('plgVmOnUpdateOrderLineShipment',array( $data));
 		foreach ($_returnValues as $_retVal) {
@@ -2377,7 +2376,6 @@ class VirtueMartModelOrders extends VmModel {
 			}
 		}
 
-		JPluginHelper::importPlugin('vmpayment');
 		$_returnValues = $_dispatcher->trigger('plgVmOnUpdateOrderLinePayment',array( $data));
 		foreach ($_returnValues as $_retVal) {
 			if ($_retVal === false) {
@@ -2659,10 +2657,7 @@ class VirtueMartModelOrders extends VmModel {
 		$order['customer_notified'] = 0;
 		$order['comments'] = '';
 
-		JPluginHelper::importPlugin('vmcustom');
-		JPluginHelper::importPlugin('vmcalculation');
-		JPluginHelper::importPlugin('vmshipment');
-		JPluginHelper::importPlugin('vmpayment');
+		VmConfig::importVMPlugins('vmpayment');
 		$returnValues = $dispatcher->trigger('plgVmConfirmedOrder', array($cart, $order));
 
 		return true;
@@ -2707,7 +2702,7 @@ class VirtueMartModelOrders extends VmModel {
 		$_orderData->ip_address = $_SERVER['REMOTE_ADDR'];
 
 		$_orderData->order_number ='';
-		JPluginHelper::importPlugin('vmshopper');
+		VmConfig::importVMPlugins('vmshopper');
 		$dispatcher = JDispatcher::getInstance();
 		$_orderData->order_number = $this->genStdOrderNumber($_orderData->virtuemart_vendor_id);
 		$_orderData->order_pass = $this->genStdOrderPass();
@@ -2728,10 +2723,7 @@ class VirtueMartModelOrders extends VmModel {
 
 		$dispatcher = JDispatcher::getInstance();
 
-		JPluginHelper::importPlugin('vmcustom');
-		JPluginHelper::importPlugin('vmcalculation');
-		JPluginHelper::importPlugin('vmshipment');
-		JPluginHelper::importPlugin('vmpayment');
+		VmConfig::importVMPlugins('vmpayment');
 
 		$cart = VirtueMartCart::getCart();
 		$returnValues = $dispatcher->trigger('plgVmConfirmedOrder', array($cart, $order));

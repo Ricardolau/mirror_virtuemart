@@ -22,9 +22,7 @@ AdminUIHelper::startAdminArea($this);
 AdminUIHelper::imitateTabs('start','COM_VIRTUEMART_ORDER_PRINT_PO_LBL');
 
 // Get the plugins
-JPluginHelper::importPlugin('vmshopper');
-JPluginHelper::importPlugin('vmshipment');
-JPluginHelper::importPlugin('vmpayment');
+VmConfig::importVMPlugins('vmpayment');
 
 $jsOrderStatusShopperEmail = '""';
 $j = 'if (typeof Virtuemart === "undefined")
@@ -792,7 +790,7 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
 <table width="100%">
 	<tr>
 		<td valign="top" width="50%"><?php
-		JPluginHelper::importPlugin('vmshipment');
+
 		$_dispatcher = JDispatcher::getInstance();
 		$returnValues = $_dispatcher->trigger('plgVmOnShowOrderBEShipment',array(  $this->orderID,$this->orderbt->virtuemart_shipmentmethod_id, $this->orderdetails));
 
@@ -804,7 +802,7 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
 		?>
 		</td>
 		<td valign="top"><?php
-		JPluginHelper::importPlugin('vmpayment');
+
 		$_dispatcher = JDispatcher::getInstance();
 		$_returnValues = $_dispatcher->trigger('plgVmOnShowOrderBEPayment',array( $this->orderID,$this->orderbt->virtuemart_paymentmethod_id, $this->orderdetails));
 

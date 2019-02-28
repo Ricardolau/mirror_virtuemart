@@ -128,7 +128,7 @@ class VirtueMartModelUserfields extends VmModel {
 
 				if (strpos($fieldType,'plugin')!==false){
 
-					JPluginHelper::importPlugin('vmuserfield');
+					VmConfig::importVMPlugins('vmuserfield');
 					$dispatcher = JDispatcher::getInstance();
 					// vmdebug('params',$params);
 					$dispatcher->trigger('plgVmPrepareUserfieldDataSave',array($fieldType, $fieldName, &$data, &$value, $params) );
@@ -165,7 +165,7 @@ class VirtueMartModelUserfields extends VmModel {
 			}
 			//vmdebug('getUserfield',$id,$name,$this->_cache[$id]);
 			if(strpos($this->_cache[$hash]->type,'plugin')!==false){
-				JPluginHelper::importPlugin('vmuserfield');
+				VmConfig::importVMPlugins('vmuserfield');
 				$dispatcher = JDispatcher::getInstance();
 				$retValue = $dispatcher->trigger('plgVmDeclarePluginParamsUserfieldVM3',array(&$this->_cache[$hash]));
 			}
@@ -267,7 +267,7 @@ class VirtueMartModelUserfields extends VmModel {
 			$db->setQuery($q);
 			$db->execute();
 
-			JPluginHelper::importPlugin('vmuserfield');
+			VmConfig::importVMPlugins('vmuserfield');
 			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger('plgVmOnBeforeUserfieldSave',array( $plgName , &$data, &$field ) );
 		}
@@ -319,7 +319,7 @@ class VirtueMartModelUserfields extends VmModel {
 			return false;
 		}
 		if(strpos($data['type'],'plugin')!==false){
-			JPluginHelper::importPlugin('vmuserfield');
+			VmConfig::importVMPlugins('vmuserfield');
 					$dispatcher = JDispatcher::getInstance();
 					$plgName = substr($data['type'],6);
 					$dispatcher->trigger('plgVmOnStoreInstallPluginTable',array( 'userfield', $data, $field  ) );
@@ -521,7 +521,7 @@ class VirtueMartModelUserfields extends VmModel {
 			}
 		}
 
-		JPluginHelper::importPlugin('vmuserfield');
+		VmConfig::importVMPlugins('vmuserfield');
 		$dispatcher = JDispatcher::getInstance();
 		$dispatcher->trigger('plgVmOnGetUserfields', array($type, &$userFields));
 
@@ -924,7 +924,7 @@ class VirtueMartModelUserfields extends VmModel {
 					default:
 						if(strpos($_fld->type,'plugin')!==false){
 
-							JPluginHelper::importPlugin('vmuserfield');
+							VmConfig::importVMPlugins('vmuserfield');
 							$dispatcher = JDispatcher::getInstance();
 							
 							$_return['fields'][$_fld->name]['value'] = $_return['fields'][$_fld->name]['unescapedvalue']; 

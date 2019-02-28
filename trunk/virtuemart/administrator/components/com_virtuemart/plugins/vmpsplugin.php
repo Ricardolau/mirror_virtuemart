@@ -36,11 +36,26 @@ abstract class vmPSPlugin extends vmPlugin {
 		// 		$this->_configTableIdName = $this->_psType.'_jplugin_id';
 		$this->_loggable = TRUE;
 
-		//$this->_tableChecked = TRUE;
 	}
 
 	public function getVarsToPush () {
 		return self::getVarsToPushByXML($this->_xmlFile,$this->_name.'Form');
+	}
+
+	static public function addVarsToPushCore(&$varsToPush, $payment=1){
+		$varsToPush['categories'] = array('','char');
+		$varsToPush['blocking_categories'] = array('','char');
+		$varsToPush['countries'] = array('','char');
+		$varsToPush['blocking_countries'] = array('','char');
+		$varsToPush['min_amount'] = array('','char');
+		$varsToPush['max_amount'] = array('','char');
+		if($payment){
+
+			$varsToPush['virtuemart_shipmentmethod_ids'] = array('','char');
+		}
+
+		unset($varsToPush['checkConditionsCore']);
+		//$this->checkConditionsCore=true;
 	}
 
 	public function setConvertable($toConvert) {
@@ -899,8 +914,138 @@ abstract class vmPSPlugin extends vmPlugin {
 	 */
 	protected function checkConditions ($cart, $method, $cart_prices) {
 
-		vmAdminInfo ('vmPsPlugin function checkConditions not overriden, gives always back FALSE');
-		return FALSE;
+		//vmAdminInfo ('vmPsPlugin function checkConditions not overriden, gives always back FALSE');
+		//vmdebug('checkConditions',$this->_psType);
+
+
+		if($cart->STsameAsBT == 0){
+			$type = ($cart->ST == 0 ) ? 'BT' : 'ST';
+		} else {
+			$type = 'BT';
+		}
+		$address = $cart -> getST();
+
+		$this->convert_condition_amount($method);
+
+		$this->convertToVendorCurrency($method);
+
+
+
+		//vmdebug('checkConditions getCartAmount',$this->_psType,$method->min_amount,$method->min_amount);
+		if(!empty($method->min_amount) or !empty($method->min_amount)){
+			$amount = $this->getCartAmount($cart_prices);
+			$amount_cond = ($amount >= $method->min_amount AND $amount <= $method->max_amount
+			OR
+			($method->min_amount <= $amount AND ($method->max_amount == 0)));
+			if(!$amount_cond) {
+				vmdebug($this->_psType.'method '.$method->{$this->_psType.'_name'}.' = FALSE for cart amount. NOT within Range of the condition from '.$method->min_amount.' to '.$method->max_amount);
+				return false;
+			}
+		}
+
+		$cat_cond = true;
+		if( !empty($method->categories) or !empty($method->blocking_categories) ){
+			if(!empty($method->categories)) $cat_cond = false;
+			//vmdebug('hmm, my $cat_cond',$method);
+			//if at least one product is  in a certain category, display this shipment
+			if(!is_array($method->categories)) $method->categories = array($method->categories);
+			if(!is_array($method->blocking_categories)) $method->blocking_categories = array($method->blocking_categories);
+
+			$msg = 'None of the products is in a category of the method '.$method->{$this->_psType.'_name'};
+			//Gather used cats
+			foreach($cart->products as $product){
+				if(array_intersect($product->categories,$method->categories)){
+					$cat_cond = true;
+					//break;
+				}
+				if(array_intersect($product->categories,$method->blocking_categories)){
+					$cat_cond = false;
+					$msg = 'At least one of the products is in a category which blockes the method '.$method->{$this->_psType.'_name'};
+					break;
+				}
+			}
+			//if all products in a certain category, display the shipment
+			//if a product has a certain category, DO NOT display the shipment
+			if(!$cat_cond) {
+				vmdebug($msg);
+				return false;
+			}
+		}
+
+		if (!empty($method->virtuemart_shipmentmethod_ids)) {
+
+			if (!is_array($method->virtuemart_shipmentmethod_ids)) {
+				$method->virtuemart_shipmentmethod_ids = array($method->virtuemart_shipmentmethod_ids);
+			}
+			vmdebug('Check for shipment methods ',$cart->virtuemart_shipmentmethod_id,$method->virtuemart_shipmentmethod_ids);
+			if(empty($cart->virtuemart_shipmentmethod_id)){
+				return false;
+			} else {
+				if(!in_array($cart->virtuemart_shipmentmethod_id,$method->virtuemart_shipmentmethod_ids)){
+					vmdebug('Check for shipment method shipment method not allowed for paypal',$cart->virtuemart_shipmentmethod_id,$method->virtuemart_shipmentmethod_ids);
+					return false;
+				}
+				vmdebug('Check for shipment method for '.$method->{$this->_psType.'_name'}.' PASSED');
+			}
+
+		}
+
+		$userFieldsModel = VmModel::getModel('Userfields');
+		if ($userFieldsModel->fieldPublished('virtuemart_country_id', $type)){
+
+			if (!isset($address['virtuemart_country_id'])) {
+				$address['virtuemart_country_id'] = 0;
+			}
+
+			$countries = array();
+			if (!empty($method->countries)) {
+				if (!is_array ($method->countries)) {
+					$countries[0] = $method->countries;
+				} else {
+					$countries = $method->countries;
+				}
+			}
+
+			if (in_array ($address['virtuemart_country_id'], $countries) || count ($countries) == 0) {
+
+				//vmdebug('checkConditions '.$method->shipment_name.' fit ',$weight_cond,(int)$zip_cond,$nbproducts_cond,$orderamount_cond);
+				//vmdebug($this->_psType.'method '.$method->{$this->_psType.'_name'}.' = TRUE for variable virtuemart_country_id = '.$address['virtuemart_country_id'].', Reason: Countries in rule '.implode($countries,', ').' or none set');
+				$country_cond = true;
+			}
+			else{
+				vmdebug($this->_psType.'method '.$method->{$this->_psType.'_name'}.' = FALSE for variable virtuemart_country_id = '.$address['virtuemart_country_id'].', Reason: Country '.implode($countries,', ').' does not fit');
+				return false;
+			}
+
+
+			$blocking_countries = array();
+			if (!empty($method->blocking_countries)) {
+				if (!is_array ($method->blocking_countries)) {
+					$blocking_countries[0] = $method->blocking_countries;
+				} else {
+					$blocking_countries = $method->blocking_countries;
+				}
+			}
+
+			if (count ($blocking_countries) > 0 and in_array ($address['virtuemart_country_id'], $blocking_countries) ) {
+				//vmdebug('checkConditions '.$method->shipment_name.' fit ',$weight_cond,(int)$zip_cond,$nbproducts_cond,$orderamount_cond);
+				vmdebug($this->_psType.'method '.$method->{$this->_psType.'_name'}.' = FALSE for variable virtuemart_country_id = '.$address['virtuemart_country_id'].', Reason: Country '.implode($blocking_countries,', ').' blocks');
+				return false;
+			}
+			else{
+				//vmdebug($this->_psType.'method '.$method->{$this->_psType.'_name'}.' = TRUE for variable virtuemart_country_id = '.$address['virtuemart_country_id'].', Reason: Countries in rule '.implode($countries,', ').' or none set');
+				$country_cond = true;
+			}
+
+		} else {
+			vmdebug($this->_psType.'method '.$method->{$this->_psType.'_name'}.' = TRUE for variable virtuemart_country_id, Reason: no boundary conditions set');
+			$country_cond = true;
+			return true;
+		}
+
+
+
+		return true;
 	}
 
   	/**
@@ -1135,7 +1280,7 @@ abstract class vmPSPlugin extends vmPlugin {
 							$rule['percentage'] = 1;
 						}
 					}
-vmdebug('My TaxPerID '.$rule['subTotal'] .' + '.$rule['DBTax'].' / '.$cart->cartPrices['salesPrice'].' + '.$cartdiscountBeforeTax,$rule['percentage']);
+//vmdebug('My TaxPerID '.$rule['subTotal'] .' + '.$rule['DBTax'].' / '.$cart->cartPrices['salesPrice'].' + '.$cartdiscountBeforeTax,$rule['percentage']);
 					$rule['subTotalOld'] = $rule['subTotal'];
 					$rule['subTotal'] = 0;
 					$rule['taxAmountOld'] = $rule['taxAmount'];

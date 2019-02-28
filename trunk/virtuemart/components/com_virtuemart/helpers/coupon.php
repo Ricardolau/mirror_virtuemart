@@ -36,7 +36,7 @@ abstract class CouponHelper
 		}
 		$couponData = 0;
 
-		JPluginHelper::importPlugin('vmcoupon');
+		VmConfig::importVMPlugins('vmcoupon');
 		$dispatcher = JDispatcher::getInstance();
 		$returnValues = $dispatcher->trigger('plgVmValidateCouponCode', array($_code, $_billTotal));
 		if(!empty($returnValues)){
@@ -116,7 +116,7 @@ abstract class CouponHelper
 	 */
 	static public function RemoveCoupon($_code, $_force = false)
 	{
-		JPluginHelper::importPlugin('vmcoupon');
+		VmConfig::importVMPlugins('vmcoupon');
 		$dispatcher = JDispatcher::getInstance();
 		$returnValues = $dispatcher->trigger('plgVmRemoveCoupon', array($_code, $_force));
 		if(!empty($returnValues)){
@@ -147,7 +147,7 @@ abstract class CouponHelper
 	 * @return boolean True on success
 	 */
 	static public function setInUseCoupon($code, $in_use=true, $coupon_used = null){
-		JPluginHelper::importPlugin('vmcoupon');
+		VmConfig::importVMPlugins('vmcoupon');
 		$dispatcher = JDispatcher::getInstance();
 		$returnValues = $dispatcher->trigger('plgVmCouponInUse', array($code));
 		if(!empty($returnValues)){

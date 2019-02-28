@@ -389,7 +389,7 @@ class VmConfig {
 				if($execTrigger){
 					// try plugins
 					$isSite = $app->isSite();
-					self::importVMPlugins($isSite);
+					self::importVMPlugins('vmextended');
 					if($isSite){
 
 						$dispatcher = JDispatcher::getInstance();
@@ -493,7 +493,7 @@ class VmConfig {
 		if($exeTrig){
 
 			$isSite = $app->isSite();
-			self::importVMPlugins($isSite);
+			self::importVMPlugins('vmextended');
 			if($isSite){
 				$dispatcher = JDispatcher::getInstance();
 				$dispatcher->trigger('plgVmInitialise', array());
@@ -505,23 +505,20 @@ class VmConfig {
 		return self::$_jpConfig;
 	}
 
-	static function importVMPlugins($complete = true){
-		 static $executed = false;
-		 if($executed) return;
-		 vmSetStartTime('importPlugins');
-		 JPluginHelper::importPlugin('vmextended');
-		 if($complete){
-			 JPluginHelper::importPlugin('vmuserfield');
-			 JPluginHelper::importPlugin('vmcalculation');
-			 JPluginHelper::importPlugin('vmcustom');
-			 JPluginHelper::importPlugin('vmcoupon');
-			 JPluginHelper::importPlugin('vmshipment');
-			 JPluginHelper::importPlugin('vmpayment');
-			 vmTime('time to import plugins','importPlugins');
-			 $executed = true;
-		 }
+	static function importVMPlugins($ptype){
 
-	 }
+		 vmSetStartTime('importPlugins');
+		 static $types = array('vmextended','vmuserfield', 'vmcalculation', 'vmcustom', 'vmcoupon', 'vmshipment', 'vmpayment');
+		 foreach($types as $k => $type){
+			 JPluginHelper::importPlugin($type);
+			 unset($types[$k]);
+			 if($type == $ptype){
+			 	break;
+			 }
+		 }
+		vmTime('time to import plugins '.$ptype,'importPlugins');
+
+	}
 
 	/**
 	 * Writes the params as string and escape them before

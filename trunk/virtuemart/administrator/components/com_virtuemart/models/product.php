@@ -686,13 +686,11 @@ class VirtueMartModelProduct extends VmModel {
 
 
 		//This option switches between showing products without the selected language or only products with language.
-		if( $app->isSite() ){	//and !VmConfig::get('prodOnlyWLang',false)){
+		if( $app->isSite() ){
 			if((empty($this->keyword) or $group !== FALSE) and self::$omitLoaded and self::$_alreadyLoadedIds){
 				$where[] = ' ( p.`virtuemart_product_id` NOT IN ('.implode(',',self::$_alreadyLoadedIds).') ) ';
 			}
 
-		} else {
-			//$joinLang = true;
 		}
 
 		$selectLang = '';
@@ -2149,8 +2147,7 @@ vmdebug('$limitStart',$limitStart);
 			unset($data['product_parent_id']);
 		}
 
-		JPluginHelper::importPlugin('vmcustom');
-		JPluginHelper::importPlugin('vmextended');
+		VmConfig::importVMPlugins('vmcustom');
 		$dispatcher = JDispatcher::getInstance();
 		$dispatcher->trigger('plgVmBeforeStoreProduct',array(&$data, &$product_data));
 
@@ -2442,7 +2439,7 @@ vmdebug('$limitStart',$limitStart);
 
 		$newId = $this->store ($product);
 		//$product->virtuemart_product_id = $newId;
-		JPluginHelper::importPlugin ('vmcustom');
+		VmConfig::importVMPlugins ('vmcustom');
 		$dispatcher = JDispatcher::getInstance ();
 		$result=$dispatcher->trigger ('plgVmCloneProduct', array($product));
 
@@ -2609,7 +2606,7 @@ vmdebug('$limitStart',$limitStart);
 
 			// delete plugin on product delete
 			// $ok must be set to false if an error occurs
-			JPluginHelper::importPlugin ('vmcustom');
+			VmConfig::importVMPlugins ('vmcustom');
 			$dispatcher = JDispatcher::getInstance ();
 			$dispatcher->trigger ('plgVmOnDeleteProduct', array($id, &$ok));
 		}

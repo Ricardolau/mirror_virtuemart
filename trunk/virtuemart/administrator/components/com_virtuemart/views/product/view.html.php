@@ -218,8 +218,6 @@ class VirtuemartViewProduct extends VmViewAdmin {
 				$attribs='style= "width: 300px;"';
 				$this->customsList = JHtml::_('select.genericlist', $customsList,'customlist', $attribs,'value','text',null,false,true);
 
-				//$this->assignRef('customsList', $customlist);
-
 				if ($product->product_parent_id > 0) {
 
 					// Set up labels

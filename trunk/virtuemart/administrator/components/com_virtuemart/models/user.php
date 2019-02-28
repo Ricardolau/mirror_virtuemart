@@ -295,8 +295,7 @@ class VirtueMartModelUser extends VmModel {
 		$gid = $user->get('gid'); // Save original gid
 
 		// Preformat and control user datas by plugin
-		JPluginHelper::importPlugin('vmextended');
-		JPluginHelper::importPlugin('vmuserfield');
+		VmConfig::importVMPlugins('vmuserfield');
 		$dispatcher = JDispatcher::getInstance();
 
 		$valid = true ;
@@ -578,8 +577,7 @@ class VirtueMartModelUser extends VmModel {
 		}
 		
 		if($trigger){
-			JPluginHelper::importPlugin('vmextended');
-			JPluginHelper::importPlugin('vmshopper');
+			VmConfig::importVMPlugins('vmshopper');
 			$dispatcher = JDispatcher::getInstance();
 
 			$plg_datas = $dispatcher->trigger('plgVmOnUserStore',array(&$data));

@@ -63,7 +63,7 @@ class vmAccess {
 	 * @author Mattheo Vicini
 	 * @author Max Milbers
 	 */
-	static public function isSuperVendor($uid = 0){
+	static public function isSuperVendor($uid = 0, $task=0){
 
 		if(self::$_site === null) {
 			$app = JFactory::getApplication();
@@ -91,7 +91,7 @@ class vmAccess {
 					vmdebug('Active vendor '.$uid.' '.$virtuemart_vendor_id );
 				} else {
 					$multix = Vmconfig::get('multix','none');
-					if( ($multix == 'none' and self::manager()) or ($multix != 'none' and (self::manager('core') or self::manager('managevendors')) )){
+					if( ($multix == 'none' and self::manager($task)) or ($multix != 'none' and (self::manager($task) or self::manager('managevendors')) )){
 						vmdebug('Active Mainvendor');
 						self::$_virtuemart_vendor_id[$uid] = 1;
 					} else {
@@ -145,11 +145,12 @@ class vmAccess {
 				self::$_manager[$h] = true;
 			} else {
 				self::$_manager[$h] = false;
-				if(self::$_site){
+				$a = $user->authorise('core.manage', 'com_virtuemart');
+				if(!$a and self::$_site){
 					$a = $user->authorise('vm.manage', 'com_virtuemart');
-				} else {
+				} /*else {
 					$a = $user->authorise('core.manage', 'com_virtuemart');
-				}
+				}*/
 
 				if($a){
 					if(empty($task)){

@@ -38,17 +38,17 @@ class JFormFieldVmCurrencies extends JFormFieldList {
 	protected function getOptions() {
 		$options = array();
 
-		$vendor_id = VirtueMartModelVendor::getLoggedVendor();
+		$vendor_id = vmAccess::isSuperVendor();
 		// set currency_id to logged vendor
 		if (empty($this->value)) {
 			$currency = VirtueMartModelVendor::getVendorCurrency($vendor_id);
 			$this->value = $currency->virtuemart_currency_id;
 		}
-		// why not logged vendor? shared is missing
+
 		$db = JFactory::getDBO();
 		$query = 'SELECT `virtuemart_currency_id` AS value, `currency_name` AS text
 			FROM `#__virtuemart_currencies`
-			WHERE `virtuemart_vendor_id` = "1"  AND `published` = "1" ORDER BY `currency_name` ASC ';
+			WHERE (`virtuemart_vendor_id` = "'.$vendor_id.'" OR shared="1")  AND `published` = "1" ORDER BY `currency_name` ASC ';
 		// default value should be vendor currency
 		$db->setQuery($query);
 		$values = $db->loadObjectList();

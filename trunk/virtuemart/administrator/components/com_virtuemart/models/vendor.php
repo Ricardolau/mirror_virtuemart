@@ -173,7 +173,8 @@ class VirtueMartModelVendor extends VmModel {
 	 */
 	function store (&$data) {
 
-		JPluginHelper::importPlugin ('vmvendor');
+		JPluginHelper::importPlugin ('vmvendor');	//plugin type for one function?
+		VmConfig::importVMPlugins ('vmshopper');
 		$dispatcher = JDispatcher::getInstance ();
 		$plg_datas = $dispatcher->trigger ('plgVmOnVendorStore', $data);
 		foreach ($plg_datas as $plg_data) {
@@ -456,9 +457,10 @@ class VirtueMartModelVendor extends VmModel {
 
 	private $_vendorFields = FALSE;
 	public function getVendorAddressFields($vendorId=0){
-		if($vendorId!=0) $this->_id = (int)$vendorId;
+
 		if(!$this->_vendorFields){
-			if(empty($vendorId)) $vendorId = 1;
+			if(empty($vendorId)) $vendorId = vmAccess::isSuperVendor();
+			$this->_id = (int)$vendorId;
 			$userId = VirtueMartModelVendor::getUserIdByVendorId ($vendorId);
 			$userModel = VmModel::getModel ('user');
 			$virtuemart_userinfo_id = $userModel->getBTuserinfo_id ($userId);

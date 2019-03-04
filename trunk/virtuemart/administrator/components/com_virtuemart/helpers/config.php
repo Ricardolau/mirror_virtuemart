@@ -513,10 +513,11 @@ class VmConfig {
 			 JPluginHelper::importPlugin($type);
 			 unset($types[$k]);
 			 if($type == $ptype){
+				vmTime('time to import plugins '.$ptype,'importPlugins');
 			 	break;
 			 }
 		 }
-		vmTime('time to import plugins '.$ptype,'importPlugins');
+
 
 	}
 

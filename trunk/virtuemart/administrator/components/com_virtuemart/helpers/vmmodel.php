@@ -1029,7 +1029,7 @@ class VmModel extends vObject{
 
 			//just an idea
 			if(isset($this->_cache[$this->_id]->virtuemart_vendor_id) && empty($this->_data->virtuemart_vendor_id)){
-				$this->_cache[$this->_id]->virtuemart_vendor_id = VirtueMartModelVendor::getLoggedVendor();
+				$this->_cache[$this->_id]->virtuemart_vendor_id = vmAccess::isSuperVendor();
 			}
 		}
 

@@ -595,7 +595,7 @@ abstract class vModel extends vBasicModel implements vITableable, vIStorable, vI
 			//just an idea
 			if(isset($this->_cache[$this->_id]->virtuemart_vendor_id) && empty($this->_data->virtuemart_vendor_id)){
 				if(!class_exists('VirtueMartModelVendor')) require(VMPATH_ADMIN.'/models/vendor.php');
-				$this->_cache[$this->_id]->virtuemart_vendor_id = VirtueMartModelVendor::getLoggedVendor();
+				$this->_cache[$this->_id]->virtuemart_vendor_id = vmAccess::isSuperVendor();
 			}
 		}
 

@@ -69,6 +69,10 @@ class VirtueMartViewProductdetails extends VmView {
 			if (!empty($quantityArray[0])) {
 				$quantity = $quantityArray[0];
 			}
+
+			//We need to load the cart here, to get correct discounts
+			if(!VmConfig::get('use_as_catalog',false)) $cart = VirtuemartCart::getCart();
+
 			$ratingModel = VmModel::getModel('ratings');
 			$product_model->withRating = $this->showRating = $ratingModel->showRating($virtuemart_product_id);
 			$product = $product_model->getProduct($virtuemart_product_id,TRUE,TRUE,TRUE,$quantity);
@@ -343,12 +347,10 @@ class VirtueMartViewProductdetails extends VmView {
 				shopFunctionsF::triggerContentPlugin($product, 'productdetails','product_desc');
 			}
 
-			$productDisplayShipments = array();
-			$productDisplayPayments = array();
+			$this->productDisplayShipments = array();
+			$this->productDisplayPayments = array();
 
-			JPluginHelper::importPlugin('vmcalculation');
-			JPluginHelper::importPlugin('vmshipment');
-			JPluginHelper::importPlugin('vmpayment');
+			VmConfig::importVMPlugins('vmpayment');
 			$dispatcher = JDispatcher::getInstance();
 
 			$productC = clone($product);

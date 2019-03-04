@@ -197,8 +197,8 @@ class VirtueMartCart {
 			$multixcart = VmConfig::get('multixcart',0);
 			if(!empty($multixcart)){
 				if($multixcart=='byvendor' /*or self::$_cart->vendorId==1*/){
-					$vendor = VmModel::getModel('vendor');
-					$vId = $vendor->getLoggedVendor();
+
+					$vId = vmAccess::isSuperVendor();
 					if(!empty($vId) and $vId!=1){
 						self::$_cart->vendorId = $vId;
 					}
@@ -512,8 +512,8 @@ class VirtueMartCart {
 		$productModel = VmModel::getModel('product');
 		$customFieldsModel = VmModel::getModel('customfields');
 
-		JPluginHelper::importPlugin('vmcustom');
-		JPluginHelper::importPlugin('vmextended');
+		VmConfig::importVMPlugins('vmcustom');
+
 		$dispatcher = JDispatcher::getInstance();
 
 		//Iterate through the prod_id's and perform an add to cart for each one
@@ -734,7 +734,7 @@ class VirtueMartCart {
 		if(isset($this->cartProductsData[$prod_id])){
 			// hook for plugin action "remove from cart"
 
-			JPluginHelper::importPlugin('vmcustom');
+			VmConfig::importVMPlugins('vmcustom');
 			$dispatcher = JDispatcher::getInstance();
 			$addToCartReturnValues = $dispatcher->trigger('plgVmOnRemoveFromCart',array($this,$prod_id));
 			unset($this->cartProductsData[$prod_id]);
@@ -1072,7 +1072,7 @@ class VirtueMartCart {
 		if (empty($this->virtuemart_shipmentmethod_id)) {
 			return $this->redirecter('index.php?option=com_virtuemart&view=cart&task=edit_shipment' , $redirectMsg);
 		} else {
-			JPluginHelper::importPlugin('vmshipment');
+			VmConfig::importVMPlugins('vmshipment');
 			//Add a hook here for other shipment methods, checking the data of the choosed plugin
 			$dispatcher = JDispatcher::getInstance();
 			$retValues = $dispatcher->trigger('plgVmOnCheckoutCheckDataShipment', array(  $this));
@@ -1093,7 +1093,7 @@ class VirtueMartCart {
 			if (empty($this->virtuemart_paymentmethod_id)) {
 				return $this->redirecter('index.php?option=com_virtuemart&view=cart&task=editpayment' , $redirectMsg);
 			} else {
-				JPluginHelper::importPlugin('vmpayment');
+				VmConfig::importVMPlugins('vmpayment');
 				//Add a hook here for other payment methods, checking the data of the choosed plugin
 				$dispatcher = JDispatcher::getInstance();
 				$retValues = $dispatcher->trigger('plgVmOnCheckoutCheckDataPayment', array( $this));
@@ -1229,10 +1229,8 @@ class VirtueMartCart {
 
 			$dispatcher = JDispatcher::getInstance();
 
-			JPluginHelper::importPlugin('vmcalculation');
-			JPluginHelper::importPlugin('vmcustom');
-			JPluginHelper::importPlugin('vmshipment');
-			JPluginHelper::importPlugin('vmpayment');
+
+			VmConfig::importVMPlugins('vmpayment');
 
 			$this->orderDetails = $orderDetails;
 
@@ -1660,7 +1658,7 @@ class VirtueMartCart {
 
 		$this->getCartPrices($force);
 
-		JPluginHelper::importPlugin('vmpayment');
+		VmConfig::importVMPlugins('vmpayment');
 		$dispatcher = JDispatcher::getInstance();
 		$returnValues = $dispatcher->trigger('plgVmgetPaymentCurrency', array( $this->virtuemart_paymentmethod_id, &$this->paymentCurrency));
 
@@ -1676,11 +1674,8 @@ class VirtueMartCart {
 
 		if(!$this->cartAdv){
 			$this->cartAdv=array();
-			JPluginHelper::importPlugin('vmextended');
-			JPluginHelper::importPlugin('vmcoupon');
-			JPluginHelper::importPlugin('vmshipment');
-			JPluginHelper::importPlugin('vmpayment');
-			JPluginHelper::importPlugin('vmuserfield');
+
+			VmConfig::importVMPlugins('vmpayment');
 			$dispatcher = JDispatcher::getInstance();
 			$returnValues = $dispatcher->trigger('plgVmOnCheckoutAdvertise', array( $this, &$this->cartAdv));
 		}
@@ -1694,7 +1689,7 @@ class VirtueMartCart {
 	private function checkForQuantities($product, &$quantity=0) {
 
 		$dispatcher = JDispatcher::getInstance();
-		JPluginHelper::importPlugin('vmcustom');
+		VmConfig::importVMPlugins('vmcustom');
 		// return null to proceed with further VM rules
 		// return true to not validate the quantity with OPC or VM
 		// return false to return errorMsg

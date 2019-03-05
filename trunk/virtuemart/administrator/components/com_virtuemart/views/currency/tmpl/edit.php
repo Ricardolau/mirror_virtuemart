@@ -42,14 +42,17 @@ AdminUIHelper::imitateTabs('start','COM_VIRTUEMART_CURRENCY_DETAILS');
 		<?php echo VmHTML::row('input','COM_VIRTUEMART_CURRENCY_DECIMALSYMBOL','currency_decimal_symbol',vRequest::vmSpecialChars($this->currency->currency_decimal_symbol),'class="inputbox"','',10,10); ?>
 		<?php echo VmHTML::row('input','COM_VIRTUEMART_CURRENCY_THOUSANDS','currency_thousands',vRequest::vmSpecialChars($this->currency->currency_thousands),'class="inputbox"','',10,10); ?>
 		<?php echo VmHTML::row('input','COM_VIRTUEMART_CURRENCY_POSITIVE_DISPLAY','currency_positive_style',vRequest::vmSpecialChars($this->currency->currency_positive_style),'class="inputbox"','',50,50); ?>
-		<?php echo VmHTML::row('input','COM_VIRTUEMART_CURRENCY_NEGATIVE_DISPLAY','currency_negative_style',vRequest::vmSpecialChars($this->currency->currency_negative_style),'class="inputbox"','',50,50); ?>
+		<?php echo VmHTML::row('input','COM_VIRTUEMART_CURRENCY_NEGATIVE_DISPLAY','currency_negative_style',vRequest::vmSpecialChars($this->currency->currency_negative_style),'class="inputbox"','',50,50);
 
+        if($this->showVendors() ){
+			echo VmHTML::row('raw','COM_VIRTUEMART_VENDOR', $this->vendorList );
+		}
+		?>
 	</table>
 	<?php echo vmText::_('COM_VIRTUEMART_CURRENCY_DISPLAY_EXPL'); ?>
 	</fieldset>
 
 </div>
-	<input type="hidden" name="virtuemart_vendor_id" value="<?php echo $this->currency->virtuemart_vendor_id; ?>" />
 	<input type="hidden" name="virtuemart_currency_id" value="<?php echo $this->currency->virtuemart_currency_id; ?>" />
 	<?php echo $this->addStandardHiddenToForm(); ?>
 </form>

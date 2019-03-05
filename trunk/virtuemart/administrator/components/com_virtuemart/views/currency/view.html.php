@@ -49,6 +49,10 @@ class VirtuemartViewCurrency extends VmViewAdmin {
 			$this->SetViewTitle('',$this->currency->currency_name);
 			$this->addStandardEditViewCommands();
 
+			if($this->showVendors()){
+				$this->vendorList= ShopFunctions::renderVendorList($this->currency->virtuemart_vendor_id);
+			}
+
 		} else {
 
 			$this->SetViewTitle();

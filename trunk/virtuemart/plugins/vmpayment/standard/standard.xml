@@ -17,6 +17,7 @@
     <vmconfig>
         <fields name="params">
             <fieldset name="payment"  addfieldpath="/administrator/components/com_virtuemart/fields">
+                <field name="checkConditionsCore" value="1" default="1" type="hidden"/>
                 <field name="payment_currency" type="vmacceptedcurrency" default="" label="VMPAYMENT_STANDARD_CURRENCY"
                        description="VMPAYMENT_STANDARD_CURRENCY_TIP"/>
                 <field name="status_pending" type="vmorderstate" scope="com_virtuemart" default="U"
@@ -36,14 +37,14 @@
                 <field name="payment_info" type="textarea" cols="35" rows="5" label="VMPAYMENT_STANDARD_PAYMENTINFO"
                        description="VMPAYMENT_STANDARD_PAYMENTINFO_TIP"/>
             </fieldset>
-            <fieldset name="restrictions" >
+            <!--fieldset name="restrictions" >
                 <field name="countries" multiple="true" type="vmcountries" scope="com_virtuemart" default=""
                        label="VMPAYMENT_STANDARD_COUNTRIES" description="VMPAYMENT_STANDARD_COUNTRIES_TIP"/>
                 <field name="min_amount" type="text" label="VMPAYMENT_STANDARD_MIN_AMOUNT"
                        description="VMPAYMENT_STANDARD_MIN_AMOUNT_TIP"/>
                 <field name="max_amount" type="text" label="VMPAYMENT_STANDARD_MAX_AMOUNT"
                        description="VMPAYMENT_STANDARD_MAX_AMOUNT_TIP"/>
-            </fieldset>
+            </fieldset-->
             <fieldset name="fee">
                 <field name="cost_per_transaction" type="text" label="VMPAYMENT_STANDARD_COST_PER_TRANSACTION"
                        description="VMPAYMENT_STANDARD_COST_PER_TRANSACTION_TIP"/>

@@ -43,18 +43,40 @@ class VirtuemartViewShipmentmethod extends VmViewAdmin {
 
 			$shipment = $model->getShipment();
 
+			$this->checkConditionsCore = false;
 			// Get the payment XML.
 			$formFile	= vRequest::filterPath( VMPATH_ROOT .'/plugins/vmshipment/'. $shipment->shipment_element .'/'. $shipment->shipment_element . '.xml');
 			if (file_exists($formFile)){
 				$shipment->form = JForm::getInstance($shipment->shipment_element, $formFile, array(),false, '//vmconfig | //config[not(//vmconfig)]');
 				$shipment->params = new stdClass();
 				$varsToPush = vmPlugin::getVarsToPushFromForm($shipment->form);
+
+				/*$fdata = $shipment->form->getData()->toArray();
+				if(isset($fdata['params']['checkConditionsCore'])){
+					$this->checkConditionsCore = true;
+					vmdebug('$this->checkConditionsCore = true');
+					vmPSPlugin::addVarsToPushCore($varsToPush,0);
+				}
+
+				VmTable::bindParameterableToSubField($shipment,$varsToPush);
+				$shipment->form->bind($shipment->getProperties());*/
+
 				VmTable::bindParameterableToSubField($shipment,$varsToPush);
 				$shipment->form->bind($shipment->getProperties());
+
+				$fdata = $shipment->form->getData()->toArray();
+				if(isset($fdata['params']['checkConditionsCore'])){
+					$this->checkConditionsCore = true;
+					vmPSPlugin::addVarsToPushCore($varsToPush,1);
+					VmTable::bindParameterableToSubField($shipment,$varsToPush);
+					$shipment->form->bind($shipment->getProperties());
+					//$this->shipmentList = $this->renderShipmentDropdown($shipment->virtuemart_shipmentmethod_ids);
+				}
 
 			} else {
 				$shipment->form = null;
 			}
+
 
 			if($this->showVendors()){
 				$vendorList= ShopFunctions::renderVendorList($shipment->virtuemart_vendor_id);
@@ -135,6 +157,46 @@ class VirtuemartViewShipmentmethod extends VmViewAdmin {
 		}
 		$attribs='style= "width: 300px;"';
 		return JHtml::_('select.genericlist', $result, 'shipment_jplugin_id', $attribs, $ext_id, 'name', $selected);
+	}
+
+	public function ajaxCategoryDropDown($id){
+
+		$param = '';
+		if(!empty($this->categoryId)){
+			$param = '&virtuemart_category_id='.$this->categoryId;
+		} else if(!empty($this->product->virtuemart_product_id)){
+			$param = '&virtuemart_product_id='.$this->product->virtuemart_product_id;
+		}
+		$eOpt = vmText::sprintf( 'COM_VIRTUEMART_SELECT' ,  vmText::_('COM_VIRTUEMART_CATEGORY'));
+
+		$id = 'categories';
+
+		vmJsApi::addJScript('ajax_catree');
+
+		$j = "jQuery(document).ready(function($) {
+	jQuery(document).ready(function($) {
+		Virtuemart.emptyCatOpt = '".$eOpt."';
+		Virtuemart.param = '".$param."';
+		Virtuemart.isAdmin = '".self::isAdmin()."';
+		Virtuemart.loadCategoryTree('".$id."');
+	});
+});
+";
+		vmJsApi::addJScript('pro-tech.AjaxCategoriesLoad', $j, false, true, true);
+
+		$id = 'blocking_categories';
+		$j = "jQuery(document).ready(function($) {
+	jQuery(document).ready(function($) {
+		Virtuemart.emptyCatOpt = '".$eOpt."';
+		Virtuemart.param = '".$param."';
+		Virtuemart.isAdmin = '".self::isAdmin()."';
+		Virtuemart.loadCategoryTree('".$id."');
+	});
+});
+";
+		//vmJsApi::addJScript('pro-tech.AjaxCategoriesLoad2', $j, false, true, true);
+
+		//vmJsApi::ajaxCategoryDropDown($id, $param, $eOpt);
 	}
 
 }

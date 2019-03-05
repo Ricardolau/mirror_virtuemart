@@ -58,6 +58,8 @@ class VirtuemartViewPaymentMethod extends VmViewAdmin {
 
 			$payment = $model->getPayment();
 
+			$this->checkConditionsCore = false;
+
 			// Get the payment XML.
 			$formFile	= vRequest::filterPath( VMPATH_ROOT .'/plugins/vmpayment/'. $payment->payment_element .'/'. $payment->payment_element . '.xml');
 			if (file_exists($formFile)){
@@ -65,12 +67,33 @@ class VirtuemartViewPaymentMethod extends VmViewAdmin {
 				$payment->form = JForm::getInstance($payment->payment_element, $formFile, array(),false, '//vmconfig | //config[not(//vmconfig)]');
 				$payment->params = new stdClass();
 				$varsToPush = vmPlugin::getVarsToPushFromForm($payment->form);
+
 				VmTable::bindParameterableToSubField($payment,$varsToPush);
 				$payment->form->bind($payment->getProperties());
+
+				$fdata = $payment->form->getData()->toArray();
+				if(isset($fdata['params']['checkConditionsCore'])){
+					$this->checkConditionsCore = true;
+					vmPSPlugin::addVarsToPushCore($varsToPush,1);
+					VmTable::bindParameterableToSubField($payment,$varsToPush);
+					$payment->form->bind($payment->getProperties());
+					$this->shipmentList = $this->renderShipmentDropdown($payment->virtuemart_shipmentmethod_ids);
+				}
 
 			} else {
 				$payment->form = null;
 			}
+
+			/*$this->checkConditionsCore = false;
+			$fdata = $payment->form->getData()->toArray();
+			//vmdebug('$this->checkConditionsCore = true',$fdata);
+			if(isset($fdata['params']['checkConditionsCore'])){
+				//$this->checkConditionsCore = true;
+				$this->shipmentList = $this->renderShipmentDropdown($payment->virtuemart_shipment_ids);
+				vmdebug('$this->checkConditionsCore = true');
+			}*/
+
+
 
 			$this->assignRef('payment',	$payment);
 			$this->vmPPaymentList = self::renderInstalledPaymentPlugins($payment->payment_jplugin_id);
@@ -137,5 +160,36 @@ class VirtuemartViewPaymentMethod extends VmViewAdmin {
 		return $listHTML;
 	}
 
+	function renderShipmentDropdown($virtuemart_shipment_ids){
+
+		$m = VmModel::getModel('shipmentmethod');
+		if(!$m){
+			return parent::getOptions();
+		}
+		$values = $m->getShipments();
+
+		$options = array();
+
+		$lvalue = 'virtuemart_shipmentmethod_id';
+		$ltext = 'shipment_name';
+
+		$lvalue = 'virtuemart_shipmentmethod_id';
+		$ltext = 'shipment_name';
+
+		foreach ($values as $v) {
+			$options[] = JHtml::_('select.option', $v->$lvalue, $v->$ltext);
+		}
+
+		// Merge any additional options in the XML definition.
+		//$options = array_merge(parent::getOptions(), $options);
+
+		//if(!is_array($this->value))$this->value = array($this->value);
+		$name = $idTag = 'virtuemart_shipmentmethod_ids';
+		$attrs['multiple'] = 'multiple';
+		$name .= '[]';
+vmdebug('my options',$options);
+		return JHtml::_ ('select.genericlist', $options, $name, $attrs, 'value', 'text', $virtuemart_shipment_ids, $idTag);
+
+	}
 }
 // pure php not tag

@@ -37,8 +37,11 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 		$this->_tableId = 'id';
 		$this->tableFields = array_keys ($this->getTableSQLFields ());
 		$varsToPush = $this->getVarsToPush ();
+		$this->addVarsToPushCore($varsToPush,0);
+
 		$this->setConfigParameterable ($this->_configTableFieldName, $varsToPush);
-		$this->setConvertable(array('orderamount_start','orderamount_stop','shipment_cost','package_fee'));
+		$this->setConvertable(array('min_amount','max_amount','shipment_cost','package_fee'));
+
 		//vmdebug('Muh constructed plgVmShipmentWeight_countries',$varsToPush);
 	}
 
@@ -235,14 +238,23 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 
 		$this->convert ($method);
 
+		//if($method->min_amount=='')$method->min_amount = $method->orderamount_start;
+		//if($method->max_amount=='')$method->max_amount = $method->orderamount_stop;
+
+		$result[$hash] = parent::checkConditions($cart, $method, $cart_prices);
+
+		if(!$result[$hash]) return false;
+
+/*		$this->convert ($method);
+
 		if($this->_toConvert){
 			$this->convertToVendorCurrency($method);
 		}
 
-
+*/
 		$orderWeight = $this->getOrderWeight ($cart, $method->weight_unit);
 
-		$countries = array();
+/*		$countries = array();
 		if (!empty($method->countries)) {
 			if (!is_array ($method->countries)) {
 				$countries[0] = $method->countries;
@@ -250,17 +262,17 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 				$countries = $method->countries;
 			}
 		}
-
+*/
 
 		$weight_cond = $this->testRange($orderWeight,$method,'weight_start','weight_stop','weight');
 		$nbproducts_cond = $this->_nbproductsCond ($cart, $method);
 
-		if(isset($cart_prices['salesPrice'])){
+/*		if(isset($cart_prices['salesPrice'])){
 			$orderamount_cond = $this->testRange($cart_prices['salesPrice'],$method,'orderamount_start','orderamount_stop','order amount');
 		} else {
 			$orderamount_cond = FALSE;
 		}
-
+*/
 		$userFieldsModel =VmModel::getModel('Userfields');
 		if ($userFieldsModel->fieldPublished('zip', $type)){
 			if (!isset($address['zip'])) {
@@ -271,7 +283,7 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 			$zip_cond = true;
 		}
 
-		if ($userFieldsModel->fieldPublished('virtuemart_country_id', $type)){
+/*		if ($userFieldsModel->fieldPublished('virtuemart_country_id', $type)){
 
 			if (!isset($address['virtuemart_country_id'])) {
 				$address['virtuemart_country_id'] = 0;
@@ -313,9 +325,11 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 			//if all products in a certain category, display the shipment
 			//if a product has a certain category, DO NOT display the shipment
 		}
+*/
 
-		$allconditions = (int) $weight_cond + (int)$zip_cond + (int)$nbproducts_cond + (int)$orderamount_cond + (int)$country_cond + (int)$cat_cond;
-		if($allconditions === 6){
+		//$allconditions = (int) $weight_cond + (int)$zip_cond + (int)$nbproducts_cond + (int)$orderamount_cond + (int)$country_cond + (int)$cat_cond;
+		$allconditions = (int) $weight_cond + (int)$zip_cond + (int)$nbproducts_cond;
+		if($allconditions === 3){
 			$result[$hash] = true;
 			return TRUE;
 		} else {
@@ -335,8 +349,8 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 
 		//$method->weight_start = (float) $method->weight_start;
 		//$method->weight_stop = (float) $method->weight_stop;
-		$method->orderamount_start =  (float)str_replace(',','.',$method->orderamount_start);
-		$method->orderamount_stop =   (float)str_replace(',','.',$method->orderamount_stop);
+		$method->min_amount =  (float)str_replace(',','.',$method->min_amount);
+		$method->max_amount =   (float)str_replace(',','.',$method->max_amount);
 		$method->zip_start = (int)$method->zip_start;
 		$method->zip_stop = (int)$method->zip_stop;
 		$method->nbproducts_start = (int)$method->nbproducts_start;
@@ -408,7 +422,7 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 			$reason = 'no boundary conditions set';
 		}
 
-		vmdebug('shipmentmethod '.$method->shipment_name.' = '.$result.' for variable '.$name.' = '.$value.' Reason: '.$reason);
+		if(!$result) vmdebug('shipmentmethod '.$method->shipment_name.' = '.$result.' for variable '.$name.' = '.$value.' Reason: '.$reason);
 		return $cond;
 	}
 
@@ -582,7 +596,7 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 		if (!empty($this->_psType) and !$this->selectedThis ($this->_psType, $name, $id)) {
 			return FALSE;
 		} else {
-			$tCon = array('weight_start','weight_stop','orderamount_start','orderamount_stop','shipment_cost','package_fee');
+			$tCon = array('weight_start','weight_stop','min_amount','max_amount','shipment_cost','package_fee');
 			foreach($tCon as $f){
 				if(!empty($data[$f])){
 					$data[$f] = str_replace(array(',',' '),array('.',''),$data[$f]);
@@ -600,13 +614,16 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 				vmWarn('VMSHIPMENT_WEIGHT_COUNTRIES_WEIGHT_CONDITION_WRONG');
 			}
 
-			if(!empty($data['orderamount_start']) and !empty($data['orderamount_stop']) and (float)$data['orderamount_start']>=(float)$data['orderamount_stop']){
+			if(!empty($data['min_order']) and !empty($data['max_order']) and (float)$data['min_order']>=(float)$data['max_order']){
 				vmWarn('VMSHIPMENT_WEIGHT_COUNTRIES_AMOUNT_CONDITION_WRONG');
 			}
 
 			if(!empty($data['nbproducts_start']) and !empty($data['nbproducts_stop']) and (float)$data['nbproducts_start']>=(float)$data['nbproducts_stop']){
 				vmWarn('VMSHIPMENT_WEIGHT_COUNTRIES_NBPRODUCTS_CONDITION_WRONG');
 			}
+
+			//$data['orderamount_start'] = $data['min_amount'];
+			//$data['orderamount_stop'] = $data['max_amount'];
 
 			//$data['show_on_pdetails'] = (int) $data['show_on_pdetails'];
 			return $this->setOnTablePluginParams ($name, $id, $table);

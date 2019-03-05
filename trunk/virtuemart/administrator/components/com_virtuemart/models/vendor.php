@@ -47,7 +47,7 @@ class VirtueMartModelVendor extends VmModel {
 	/**
 	 * name: getLoggedVendor
 	 * Checks which $vendorId has the just logged in user.
-	 * @deprecated
+	 * @deprecated use vmAccess::isSuperVendor instead
 	 * @author Max Milbers
 	 * @param @param $ownerOnly returns only an id if the vendorOwner is logged in (dont get confused with storeowner)
 	 * returns int $vendorId
@@ -355,6 +355,7 @@ class VirtueMartModelVendor extends VmModel {
 	 * for administrative jobs like execution of orders or managing products
 	 * Changing of vendorinformation should ONLY be possible by the Mainvendor who is in charge
 	 *
+	 * @deprecated use vmAccess::isSuperVendor instead
 	 * @author by Max Milbers
 	 * @author RolandD
 	 * @param string $type Where the vendor ID should be taken from

@@ -138,14 +138,14 @@ class shopFunctionsF {
 	 * @param string $_prefix Optional prefix for the formtag name attribute
 	 * @return string HTML containing the <select />
 	 */
-	static public function renderCountryList ($countryId = 0, $multiple = FALSE, $_attrib = array(), $_prefix = '', $required = 0, $idTag = 'virtuemart_country_id') {
+	static public function renderCountryList ($countryId = 0, $multiple = FALSE, $_attrib = array(), $_prefix = '', $required = 0, $idTag = 'virtuemart_country_id', $name = 'virtuemart_country_id') {
 
 		$countryModel = VmModel::getModel ('country');
 		$countries = $countryModel->getCountries (TRUE, TRUE, FALSE);
 		$attrs = array();
 		$optText = 'country_name';
 		$optKey = 'virtuemart_country_id';
-		$name = $_prefix.'virtuemart_country_id';
+		$name = $_prefix.$name;
 		$idTag = $_prefix.$idTag;
 		$attrs['class'] = 'virtuemart_country_id';
 		$attrs['class'] = 'vm-chzn-select';
@@ -681,7 +681,12 @@ class shopFunctionsF {
 
 		if(isset($view->doVendor) && !$noVendorMail) {
 			//We need to ensure the language for the vendor here
-			$vendorUserId = VmModel::getModel('vendor')->getUserIdByVendorId(1);
+			if(!empty($vars['virtuemart_vendor_id'])){
+			    $vendorId = $vars['virtuemart_vendor_id'];
+			} else {
+				$vendorId = 1;
+			}
+			$vendorUserId = VmModel::getModel('vendor')->getUserIdByVendorId($vendorId);
 			$vu = JFactory::getUser($vendorUserId);
 			$vLang = $vu->getParam('admin_language',VmConfig::$jDefLangTag);
 

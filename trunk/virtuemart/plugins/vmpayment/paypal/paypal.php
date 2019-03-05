@@ -185,7 +185,7 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 			'offer_credit' => array('', 'int'),
 			'itemise_in_cart' => array('0','int')
 		);
-
+		$this->addVarsToPushCore($varsToPush, 1);
 		$this->setConfigParameterable($this->_configTableFieldName, $varsToPush);
 	}
 
@@ -1040,58 +1040,8 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 			}
 		}
 
+		return parent::checkConditions($cart, $activeMethod, $cart_prices);
 
-		if (!empty($activeMethod->virtuemart_shipmentmethod_ids)) {
-
-			if (!is_array($activeMethod->virtuemart_shipmentmethod_ids)) {
-				$activeMethod->virtuemart_shipmentmethod_ids = array($activeMethod->virtuemart_shipmentmethod_ids);
-			}
-			vmdebug('Check for shipment method ',$cart->virtuemart_shipmentmethod_id,$activeMethod->virtuemart_shipmentmethod_ids);
-			if(empty($cart->virtuemart_shipmentmethod_id)){
-				return false;
-			} else {
-				if(!in_array($cart->virtuemart_shipmentmethod_id,$activeMethod->virtuemart_shipmentmethod_ids)){
-					vmdebug('Check for shipment method shipment method not allowed for paypal',$cart->virtuemart_shipmentmethod_id,$activeMethod->virtuemart_shipmentmethod_ids);
-					return false;
-				}
-				vmdebug('Check for shipment method for paypal PASSED');
-			}
-		}
-
-		$this->convert_condition_amount($activeMethod);
-
-		$address = $cart->getST();
-
-		$amount = $this->getCartAmount($cart_prices);
-		$amount_cond = ($amount >= $activeMethod->min_amount AND $amount <= $activeMethod->max_amount
-			OR
-			($activeMethod->min_amount <= $amount AND ($activeMethod->max_amount == 0)));
-
-		$countries = array();
-		if (!empty($activeMethod->countries)) {
-			if (!is_array($activeMethod->countries)) {
-				$countries[0] = $activeMethod->countries;
-			} else {
-				$countries = $activeMethod->countries;
-			}
-		}
-
-		// probably did not gave his BT:ST address
-		if (!is_array($address)) {
-			$address = array();
-			$address['virtuemart_country_id'] = 0;
-		}
-
-		if (!isset($address['virtuemart_country_id'])) {
-			$address['virtuemart_country_id'] = 0;
-		}
-		if (in_array($address['virtuemart_country_id'], $countries) || count($countries) == 0) {
-			if ($amount_cond) {
-				return TRUE;
-			}
-		}
-
-		return FALSE;
 	}
 
 

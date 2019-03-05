@@ -52,7 +52,7 @@ class plgVmpaymentEway extends vmPSPlugin {
 		$this->_tablepkey = 'id';
 		$this->_tableId = 'id';
 		$varsToPush = $this->getVarsToPush();
-
+		$this->addVarsToPushCore($varsToPush, 1);
 		$this->setConfigParameterable($this->_configTableFieldName, $varsToPush);
 		$this->setConvertable(array('min_amount', 'max_amount', 'cost_per_transaction', 'cost_min_transaction'));
 		$this->setConvertDecimal(array('min_amount', 'max_amount', 'cost_per_transaction', 'cost_min_transaction', 'cost_percent_total'));
@@ -1133,43 +1133,47 @@ jQuery().ready(function($) {
 	 */
 	protected function checkConditions($cart, $method, $cart_prices) {
 
-		$this->convert_condition_amount($method);
-		$amount = $this->getCartAmount($cart_prices);
-		$address = (($cart->ST == 0) ? $cart->BT : $cart->ST);
+		return parent::checkConditions($cart, $method, $cart_prices);
 
-		if ($this->_toConvert) {
-			$this->convertToVendorCurrency($method);
-		}
-		//vmdebug(__CLASS__.' checkConditions',  $amount, $cart_prices['salesPrice'],  $cart_prices['salesPriceCoupon']);
-		$amount_cond = ($amount >= $method->min_amount AND $amount <= $method->max_amount
-			OR
-			($method->min_amount <= $amount AND ($method->max_amount == 0)));
-		if (!$amount_cond) {
-			return FALSE;
-		}
-		$countries = array();
-		if (!empty($method->countries)) {
-			if (!is_array($method->countries)) {
-				$countries[0] = $method->countries;
-			} else {
-				$countries = $method->countries;
-			}
-		}
+		/*		$this->convert_condition_amount($method);
+				$amount = $this->getCartAmount($cart_prices);
+				$address = (($cart->ST == 0) ? $cart->BT : $cart->ST);
 
-		// probably did not gave his BT:ST address
-		if (!is_array($address)) {
-			$address = array();
-			$address['virtuemart_country_id'] = 0;
-		}
+				if ($this->_toConvert) {
+					$this->convertToVendorCurrency($method);
+				}
 
-		if (!isset($address['virtuemart_country_id'])) {
-			$address['virtuemart_country_id'] = 0;
-		}
-		if (count($countries) == 0 || in_array($address['virtuemart_country_id'], $countries)) {
-			return TRUE;
-		}
 
-		return FALSE;
+				//vmdebug(__CLASS__.' checkConditions',  $amount, $cart_prices['salesPrice'],  $cart_prices['salesPriceCoupon']);
+				$amount_cond = ($amount >= $method->min_amount AND $amount <= $method->max_amount
+					OR
+					($method->min_amount <= $amount AND ($method->max_amount == 0)));
+				if (!$amount_cond) {
+					return FALSE;
+				}
+				$countries = array();
+				if (!empty($method->countries)) {
+					if (!is_array($method->countries)) {
+						$countries[0] = $method->countries;
+					} else {
+						$countries = $method->countries;
+					}
+				}
+
+				// probably did not gave his BT:ST address
+				if (!is_array($address)) {
+					$address = array();
+					$address['virtuemart_country_id'] = 0;
+				}
+
+				if (!isset($address['virtuemart_country_id'])) {
+					$address['virtuemart_country_id'] = 0;
+				}
+				if (count($countries) == 0 || in_array($address['virtuemart_country_id'], $countries)) {
+					return TRUE;
+				}
+
+				return FALSE;*/
 	}
 
 

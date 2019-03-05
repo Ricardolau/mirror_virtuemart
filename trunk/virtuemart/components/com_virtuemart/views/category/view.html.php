@@ -257,6 +257,9 @@ class VirtuemartViewCategory extends VmView {
 			$app->setUserState('com_virtuemart.customfields','');
 		}
 
+		//We need to load the cart here, to get correct discounts
+		if(!VmConfig::get('use_as_catalog',false)) $cart = VirtuemartCart::getCart();
+
 		$imgAmount = VmConfig::get('prodimg_browse',1);
 		$dynamic = vRequest::getInt('dynamic',false);
 		$id = vRequest::getInt('virtuemart_product_id',false);
@@ -668,7 +671,7 @@ INNER JOIN #__virtuemart_product_categories as cat ON (pc.virtuemart_product_id=
 
 		if(VmConfig::get('useCustomSearchTrigger',false)){
 			// add search for declared plugins
-			JPluginHelper::importPlugin('vmcustom');
+			VmConfig::importVMPlugins('vmcustom');
 			$dispatcher = JDispatcher::getInstance();
 			$plgDisplay = $dispatcher->trigger('plgVmSelectSearchableCustom',array( &$this->options,&$this->searchCustomValuesAr,$this->custom_parent_id ) );
 		}

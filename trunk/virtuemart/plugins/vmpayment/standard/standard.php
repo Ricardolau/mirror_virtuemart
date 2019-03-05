@@ -32,6 +32,7 @@ class plgVmPaymentStandard extends vmPSPlugin {
 		$this->_tablepkey = 'id';
 		$this->_tableId = 'id';
 		$varsToPush = $this->getVarsToPush ();
+		$this->addVarsToPushCore($varsToPush,1);
 		$this->setConfigParameterable ($this->_configTableFieldName, $varsToPush);
 		$this->setConvertable(array('min_amount','max_amount','cost_per_transaction','cost_min_transaction'));
 		$this->setConvertDecimal(array('min_amount','max_amount','cost_per_transaction','cost_min_transaction','cost_percent_total'));
@@ -240,7 +241,7 @@ class plgVmPaymentStandard extends vmPSPlugin {
 	 * @return true: if the conditions are fulfilled, false otherwise
 	 *
 	 */
-	protected function checkConditions ($cart, $method, $cart_prices) {
+/*	protected function checkConditions ($cart, $method, $cart_prices) {
 
 		$this->convert_condition_amount($method);
 		$amount = $this->getCartAmount($cart_prices);
@@ -280,7 +281,7 @@ class plgVmPaymentStandard extends vmPSPlugin {
 
 		return FALSE;
 	}
-
+*/
 
 	/*
 * We must reimplement this triggers for joomla 1.7

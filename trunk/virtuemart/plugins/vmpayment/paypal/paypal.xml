@@ -15,8 +15,8 @@
     <vmconfig>
         <fields name="params">
             <fieldset name="basic" addfieldpath="/plugins/vmpayment/paypal/paypal/fields">
+                <field name="checkConditionsCore" value="1" default="1" type="hidden"/>
                 <field type="getpaypal" default=""/>
-
                 <field class="level1" type="vmtitle" default="VMPAYMENT_PAYPAL_BASIC_PARAMS"/>
                 <field name="paypalproduct" type="list" default="std" label="VMPAYMENT_PAYPAL_PRODUCTS"
                        description="VMPAYMENT_PAYPAL_PRODUCTS_DESC">
@@ -297,18 +297,18 @@
                 <!-- ============ -->
                 <field type="vmtitle" default="VMPAYMENT_PAYPAL_RESTRICTIONS_SECTION"
                        description="VMPAYMENT_PAYPAL_RESTRICTIONS_SECTION_DESC"/>
-                <field name="countries" type="vmcountries" scope="com_virtuemart" default="" multiple="true"
-                       label="VMPAYMENT_PAYPAL_COUNTRIES" description="VMPAYMENT_PAYPAL_COUNTRIES_DESC"/>
-                <field name="min_amount" type="text" label="VMPAYMENT_PAYPAL_MIN_AMOUNT"
+                <!--field name="countries" type="vmcountries" scope="com_virtuemart" default="" multiple="true"
+                       label="VMPAYMENT_PAYPAL_COUNTRIES" description="VMPAYMENT_PAYPAL_COUNTRIES_DESC"/-->
+                <!--field name="min_amount" type="text" label="VMPAYMENT_PAYPAL_MIN_AMOUNT"
                        description="VMPAYMENT_PAYPAL_MIN_AMOUNT_TIP"/>
                 <field name="max_amount" type="text" label="VMPAYMENT_PAYPAL_MAX_AMOUNT"
-                       description="VMPAYMENT_PAYPAL_MAX_AMOUNT_TIP"/>
+                       description="VMPAYMENT_PAYPAL_MAX_AMOUNT_TIP"/-->
                 <field name="publishup" type="calendar" default="" label="VMPAYMENT_PAYPAL_PUBLISH_UP"
                        description="VMPAYMENT_PAYPAL_PUBLISH_UP_DESC"/>
                 <field name="publishdown" type="calendar" default="" label="VMPAYMENT_PAYPAL_PUBLISH_DOWN"
                        description="VMPAYMENT_PAYPAL_PUBLISH_UP_DESC"/>
-                <field name="virtuemart_shipmentmethod_ids" type="vmListTable" default="" model="shipmentmethod" func = 'getShipments' lvalue="virtuemart_shipmentmethod_id" ltext="shipment_name" label="VMPAYMENT_PAYPAL_FOR_SHIPMENTS" multiple="true"
-                       description="VMPAYMENT_PAYPAL_FOR_SHIPMENTS_TIP"/>
+                <!--field name="virtuemart_shipmentmethod_ids" type="vmListTable" default="" model="shipmentmethod" func = 'getShipments' lvalue="virtuemart_shipmentmethod_id" ltext="shipment_name" label="VMPAYMENT_PAYPAL_FOR_SHIPMENTS" multiple="true"
+                       description="VMPAYMENT_PAYPAL_FOR_SHIPMENTS_TIP"/-->
                 <!-- Currencies -->
                 <!-- ============ -->
                 <field type="vmtitle" default="VMPAYMENT_PAYPAL_CURRENCIES_SECTION"

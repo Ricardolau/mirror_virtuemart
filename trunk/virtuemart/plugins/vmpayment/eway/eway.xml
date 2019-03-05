@@ -29,6 +29,7 @@
 
 
             <fieldset name="eway" addfieldpath="/plugins/vmpayment/eway/fields">
+                <field name="checkConditionsCore" value="1" default="1" type="hidden"/>
                 <field type="note"
                        label="VMPAYMENT_EWAY_SSL_REQUIRED"
                        heading="h4"
@@ -224,7 +225,7 @@
                 <field type="note"
                        label="VMPAYMENT_EWAY_RESTRICTIONS_PARAMS"
                        heading="h4"/>
-                <field name="countries"
+                <!--field name="countries"
                        type="vmcountries"
                        scope="com_virtuemart"
                        default=""
@@ -237,7 +238,7 @@
                 <field name="max_amount"
                        type="text"
                        label="VMPAYMENT_EWAY_MAX_AMOUNT"
-                       description="VMPAYMENT_EWAY_MAX_AMOUNT_DESC"/>
+                       description="VMPAYMENT_EWAY_MAX_AMOUNT_DESC"/-->
                 <field name="cost_per_transaction"
                        type="text"
                        label="VMPAYMENT_EWAY_COST_PER_TRANSACTION"

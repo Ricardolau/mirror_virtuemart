@@ -182,7 +182,6 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 
 	function getInvoicePDF($orderDetails, $viewName='invoice', $layout='invoice', $format='html', $force = false){
 
-		if($orderDetails['details']['BT']->invoice_locked) return false;
 
 		vmLanguage::loadJLang('com_virtuemart',1);
 

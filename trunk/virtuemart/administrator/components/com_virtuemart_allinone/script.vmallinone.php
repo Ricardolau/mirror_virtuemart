@@ -176,6 +176,9 @@ class com_virtuemart_allinoneInstallerScript {
 
 		$this->installPlugin ('VM Framework Loader during Plugin Updates', 'plugin', 'vmLoaderPluginUpdate', 'system', 1);
 
+		$this->updateShipmentWeight_countries_keys();
+
+
 		$task = vRequest::getCmd ('task');
 		if ($task != 'updateDatabase') {
 			self::$html .= "<tr><th>Modules</th><td></td></tr>";
@@ -339,9 +342,19 @@ class com_virtuemart_allinoneInstallerScript {
 			}
 		}
 
-
 	}
 
+	private function updateShipmentWeight_countries_keys(){
+
+		$db = JFactory::getDBO ();
+		$q = 'UPDATE `#__virtuemart_shipmentmethods` SET `shipment_params`= REPLACE(`shipment_params`, "orderamount_start", "min_amount") WHERE `shipment_element` ="weight_countries"';
+		$db->setQuery($q);
+		$db->execute();
+
+		$q = 'UPDATE `#__virtuemart_shipmentmethods` SET `shipment_params`= REPLACE(`shipment_params`, "orderamount_stop", "max_amount") WHERE `shipment_element` ="weight_countries"';
+		$db->setQuery($q);
+		$db->execute();
+	}
 
 
 	private function updateOrderingExtensions(){
@@ -353,20 +366,20 @@ class com_virtuemart_allinoneInstallerScript {
 		$db->setQuery($q);
 		$db->query();
 
-		$order = array('paypal','tco','amazon','realex_hpp_api','sofort','sofort_ideal','klarna','paybox','heidelpay','skrill','klikandpay');
+		$order = array('paypal','tco','sofort','sofort_ideal','klarna','paybox','heidelpay','skrill','klikandpay','realex_hpp_api','amazon');
 		foreach($order as $o=>$el){
 			$q = 'UPDATE `#__extensions` SET `ordering`= "'.$o.'" WHERE `element` ="'.$el.'"';
 			$db->setQuery($q);
-			$db->query();
+			$db->execute();
 		}
 
 		$q = 'UPDATE `#__extensions` SET `ordering`= 100 WHERE `element` ="payzen"';
 		$db->setQuery($q);
-		$db->query();
+		$db->execute();
 
 		$q = 'UPDATE `#__extensions` SET `ordering`= 100 WHERE `element` ="systempay"';
 		$db->setQuery($q);
-		$db->query();
+		$db->execute();
 	}
 
 	/**

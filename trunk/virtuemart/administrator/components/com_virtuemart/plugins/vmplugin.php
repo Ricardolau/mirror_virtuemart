@@ -211,6 +211,34 @@ abstract class vmPlugin extends JPlugin {
 	}
 
 	/**
+	 * Executes a function of a plugin directly, which is loaded via element
+	 *
+	 * @author Max Milbers
+	 * @param $type type of the plugin, for example vmpayment
+	 * @param $element the element of the plugin as written in the extensions table
+	 * @param $trigger the function which was the trigger to execute
+	 * @param $args the arguments (as before for the triggers)
+	 * @return mixed
+	 */
+	static public function directTrigger($type,$element,$trigger, $args){
+
+		$plg = self::createPlugin($type,$element);
+		if($plg){
+			return call_user_func_array(array($plg,$trigger),$args);
+		} else {
+			return false;
+		}
+	}
+
+	static public function createPlugin($type, $element){
+
+		$dispatcher = JDispatcher::getInstance();
+		$plugin = JPluginHelper::getPlugin($type, $element);
+		$className = 'Plg' . str_replace('-', '', $plugin->type) . $plugin->name;
+		// Instantiate and register the plugin.
+		return new $className($dispatcher, (array) $plugin);
+	}
+	/**
 	 * Checks if this plugin should be active by the trigger
 	 *
 	 * @author Max Milbers

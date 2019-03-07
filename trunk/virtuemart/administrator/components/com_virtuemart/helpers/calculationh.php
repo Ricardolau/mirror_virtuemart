@@ -1474,14 +1474,10 @@ class calculationHelper {
 		$this->_cart->checkAutomaticSelectedPlug('shipment');
 		if (empty($this->_cart->virtuemart_shipmentmethod_id)) return;
 
-		$dispatcher = JDispatcher::getInstance();
-		$returnValues = $dispatcher->trigger('plgVmOnSelectedCalculatePriceShipment',array(  $this->_cart, &$this->_cart->cartPrices, &$this->_cart->cartData['shipmentName']  ));
+		$shipM = VmModel::getModel('shipmentmethod');
+		$shipment = $shipM->getShipment($this->_cart->virtuemart_shipmentmethod_id);
+		$shipmentValid = VmPlugin::directTrigger('vmshipment', $shipment->shipment_element, 'plgVmonSelectedCalculatePriceShipment', array( $this->_cart, &$this->_cart->cartPrices, &$this->_cart->cartData['shipmentName']) );
 
-		//Plugin return true if shipment rate is still valid false if not any more
-		$shipmentValid=0;
-		foreach ($returnValues as $returnValue) {
-			$shipmentValid += $returnValue;
-		}
 		if (!$shipmentValid) {
 			vmdebug('calculateShipmentPrice $shipment INVALID set cart->virtuemart_shipmentmethod_id = 0 ',$this->_cart->virtuemart_shipmentmethod_id);
 			$this->_cart->virtuemart_shipmentmethod_id = 0;
@@ -1515,14 +1511,11 @@ class calculationHelper {
 		$this->_cart->checkAutomaticSelectedPlug('payment');
 		if (empty($this->_cart->virtuemart_paymentmethod_id)) return;
 
-		$dispatcher = JDispatcher::getInstance();
-		$returnValues = $dispatcher->trigger('plgVmonSelectedCalculatePricePayment',array( $this->_cart, &$this->_cart->cartPrices, &$this->_cart->cartData['paymentName']  ));
+		$payM = VmModel::getModel('paymentmethod');
+		$payment = $payM->getPayment($this->_cart->virtuemart_paymentmethod_id);
 
-		// Plugin return true if payment plugin is  valid false if not  valid anymore only one value is returned
-		$paymentValid=0;
-		foreach ($returnValues as $returnValue) {
-			$paymentValid += $returnValue;
-		}
+		$paymentValid = VmPlugin::directTrigger('vmpayment', $payment->payment_element, 'plgVmonSelectedCalculatePricePayment', array( $this->_cart, &$this->_cart->cartPrices, &$this->_cart->cartData['paymentName']) );
+
 		if (!$paymentValid) {
 			$this->_cart->virtuemart_paymentmethod_id = 0;
 			$this->_cart->setCartIntoSession();

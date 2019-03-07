@@ -66,7 +66,7 @@ class VmModel extends vObject{
 
 	var $_id 			= 0;
 	var $_data			= null;
-	private static $_cache = array();
+	protected $_cache = array();
 	var $_query 		= null;
 
 	var $_total			= null;

@@ -96,7 +96,7 @@ class VirtuemartViewUser extends VmViewAdmin {
 			$this->lists['shoppergroups'] = ShopFunctions::renderShopperGroupList($userDetails->shopper_groups,true, 'virtuemart_shoppergroup_id');
 			$this->lists['vendors'] = '';
 			if($this->showVendors()){
-				$this->lists['vendors'] = ShopFunctions::renderVendorList($userDetails->virtuemart_vendor_id, 'virtuemart_vendor_id', true);
+				$this->lists['vendors'] = ShopFunctions::renderVendorList($userDetails->virtuemart_vendor_id, 'virtuemart_vendor_id', false);
 			}
 
 			$model->setId($userDetails->JUser->get('id'));
@@ -200,9 +200,11 @@ class VirtuemartViewUser extends VmViewAdmin {
 		} else {
 
 			JToolbarHelper::divider();
-			JToolbarHelper::custom('toggle.user_is_vendor.1', 'publish','','COM_VIRTUEMART_USER_ISVENDOR');
-			JToolbarHelper::custom('toggle.user_is_vendor.0', 'unpublish','','COM_VIRTUEMART_USER_ISNOTVENDOR');
-			JToolbarHelper::divider();
+			if($this->showVendors()){
+				JToolbarHelper::custom('toggle.user_is_vendor.1', 'publish','','COM_VIRTUEMART_USER_ISVENDOR');
+				JToolbarHelper::custom('toggle.user_is_vendor.0', 'unpublish','','COM_VIRTUEMART_USER_ISNOTVENDOR');
+				JToolbarHelper::divider();
+			}
 
 			if (vmAccess::manager('user.delete')) {
 				JToolbarHelper::deleteList();

@@ -198,13 +198,7 @@ class VirtuemartViewCategory extends VmView {
 
 		//No redirect here, for category id = 0 means show ALL categories! note by Max Milbers
 		if ((!empty($this->categoryId) and $this->categoryId!==-1 ) and (empty($category->slug) or !$category->published)) {
-			if(!$category or empty($category->slug)){
-				vmInfo(vmText::_('COM_VIRTUEMART_CAT_NOT_FOUND'));
-			} else {
-				if($category->virtuemart_id>0 and !$category->published){
-					vmInfo('COM_VIRTUEMART_CAT_NOT_PUBL',$category->category_name,$this->categoryId);
-				}
-			}
+
 			$this->handle404();
 		}
 
@@ -713,6 +707,14 @@ INNER JOIN #__virtuemart_product_categories as cat ON (pc.virtuemart_product_id=
 				}
 				vRequest::setVar('virtuemart_category_id', $last_category_id);
 				vRequest::setVar('virtuemart_manufacturer_id', 0);
+
+				if(!$cat or empty($cat->slug)){
+					vmInfo(vmText::_('COM_VIRTUEMART_CAT_NOT_FOUND'));
+				} else {
+					if($cat->virtuemart_id>0 and !$cat->published){
+						vmInfo('COM_VIRTUEMART_CAT_NOT_PUBL',$cat->category_name,$this->categoryId);
+					}
+				}
 				$this->display();
 			}
 		} else {

@@ -92,7 +92,7 @@ class vmAccess {
 				} else {
 					$multix = Vmconfig::get('multix','none');
 					if( ($multix == 'none' and self::manager($task)) or ($multix != 'none' and (self::manager($task) or self::manager('managevendors')) )){
-						vmdebug('Active Mainvendor');
+						vmdebug('Active Mainvendor '.$task);
 						self::$_virtuemart_vendor_id[$uid] = 1;
 					} else {
 						self::$_virtuemart_vendor_id[$uid] = 0;

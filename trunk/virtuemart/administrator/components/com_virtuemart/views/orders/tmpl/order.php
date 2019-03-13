@@ -81,17 +81,36 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
 			<tr>
 				<th><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PO_LBL') ?></th>
 				<th><?php
-				$icon 	= $this->orderbt->paid == $this->orderbt->toPay ? 'publish' : 'unpublish';
-				$val    = $this->orderbt->paid == $this->orderbt->toPay ? '0' : '1';
+				$unequal = (int)$this->currency->truncate($this->orderbt->toPay-$this->orderbt->paid);
+				if($unequal){
+					$icon 	= 'unpublish';
+					$val    = '1';
+					$text   = 'COM_VIRTUEMART_ORDER_SET_PAID';
+				} else {
+					$icon 	= 'publish';
+					$val    = '0';
+					$text   = 'COM_VIRTUEMART_ORDER_SET_UNPAID';
+				}
+
 				$link = 'index.php?option=com_virtuemart&view=orders&task=toggle.paid.'.$val.'&cidName=virtuemart_order_id&virtuemart_order_id[]='.$this->orderID.'&rtask=edit&'.JSession::getFormToken().'=1';
-				echo JHtml::_ ('link', JRoute::_ ($link, FALSE), '<span class="icon-'.$icon.'"><span>', array('title' => vmText::_ ('COM_VIRTUEMART_ORDER_TOGGLE_PAID') . ' ' . $this->orderbt->order_number));
+				echo JHtml::_ ('link', JRoute::_ ($link, FALSE), '<span class="icon-'.$icon.'"><span>', array('title' => vmText::_ ($text) . ' ' . $this->orderbt->order_number));
 				/*($this->orderbt->paid, $this->orderID,'toggle.paid'); */echo $this->currency->priceDisplay($this->orderbt->paid); ?></th>
 				<th>
 				<?php
-                    $icon 	= $this->orderbt->invoice_locked ? 'unpublish' : 'publish';
-                    $val    = $this->orderbt->invoice_locked ? '0' : '1';
+                    if($this->orderbt->invoice_locked){
+                        $icon 	= 'publish';
+                        $val    = '1';
+                        $text   = 'COM_VM_ORDER_INVOICE_LOCK';
+                        $textState = '';
+                    } else {
+                        $icon 	= 'unpublish';
+                        $val    = '0';
+                        $text   = 'COM_VIRTUEMART_INVOICE_UNLOCK';
+						$textState = vmText::_('COM_VM_ORDER_INVOICE_LOCKED');
+                    }
+
                     $link = 'index.php?option=com_virtuemart&view=orders&task=toggle.invoice_locked.'.$val.'&cidName=virtuemart_order_id&virtuemart_order_id[]='.$this->orderID.'&rtask=edit&'.JSession::getFormToken().'=1';
-                    echo JHtml::_ ('link', JRoute::_ ($link, FALSE), '<span class="icon-'.$icon.'"><span>', array('title' => vmText::_ ('COM_VM_ORDER_TOGGLE_INVOICE_LOCKED') . ' ' . $this->orderbt->order_number)); ?>
+                    echo JHtml::_ ('link', JRoute::_ ($link, FALSE), '<span class="icon-'.$icon.'"><span>', array('title' => vmText::_ ($text) . ' ' . $this->orderbt->order_number)); echo $textState; ?>
                 </th>
 			</tr>
 			</thead>

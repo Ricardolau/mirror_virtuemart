@@ -371,8 +371,7 @@ class VirtueMartViewCart extends VmView {
 		$this->html = empty($this->html) ? vRequest::get('html', $this->cart->orderdoneHtml) : $this->html;
 
 		$this->cart->orderdoneHtml = false;
-		$this->cart->setCartIntoSession(true,true);
-
+		$this->cart->setCartIntoSession(false,true);
 	}
 
 	private function checkPaymentMethodsConfigured() {
@@ -431,7 +430,7 @@ class VirtueMartViewCart extends VmView {
 
 		if($this->allowChangeShopper){
 			$this->adminID = vmAccess::getBgManagerId();
-			$superVendor = vmAccess::isSuperVendor($this->adminID);
+			$superVendor = vmAccess::isSuperVendor($this->adminID,'user');
 			if($superVendor){
 				$uModel = VmModel::getModel('user');
 				$result = $uModel->getSwitchUserList($superVendor,$this->adminID);

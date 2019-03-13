@@ -741,8 +741,8 @@ class calculationHelper {
 				$this->_cart->cartPrices['discountAmount'] += $this->_cart->products[$cprdkey]->allPrices[$selectedPrice]['subtotal_discount'];
 			}
 			if($this->_currencyDisplay->_priceConfig['priceWithoutTax']) {
-				$this->_cart->products[$cprdkey]->allPrices[$selectedPrice]['subTotal'] = self::roundInternal($this->_cart->products[$cprdkey]->allPrices[$selectedPrice]['priceWithoutTax'],'priceWithoutTax') * $this->_cart->products[$cprdkey]->quantity;
-				$this->_cart->cartPrices['priceWithoutTax'] += $this->_cart->products[$cprdkey]->allPrices[$selectedPrice]['subTotal'];
+				$this->_cart->products[$cprdkey]->allPrices[$selectedPrice]['subtotal'] = self::roundInternal($this->_cart->products[$cprdkey]->allPrices[$selectedPrice]['priceWithoutTax'],'priceWithoutTax') * $this->_cart->products[$cprdkey]->quantity;
+				$this->_cart->cartPrices['priceWithoutTax'] += $this->_cart->products[$cprdkey]->allPrices[$selectedPrice]['subtotal'];
 			}
 			$this->_cart->products[$cprdkey]->prices = $this->_cart->products[$cprdkey]->allPrices[$selectedPrice];
 		}

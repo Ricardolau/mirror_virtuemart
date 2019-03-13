@@ -68,26 +68,6 @@ class plgVmCustomTextinput extends vmCustomPlugin {
 
 
 	/**
-	 * Function for vm3
-	 * @see components/com_virtuemart/helpers/vmCustomPlugin::plgVmOnViewCart()
-	 * @author Patrick Kohl
-	 */
-	function plgVmOnViewCart($product,$row,&$html) {
-		if (empty($product->productCustom->custom_element) or $product->productCustom->custom_element != $this->_name) return '';
-		if (!$plgParam = $this->GetPluginInCart($product)) return '' ;
-
-		foreach($plgParam as $k => $item){
-
-			if(!empty($item['comment']) ){
-				if($product->productCustom->virtuemart_customfield_id==$k){
-					$html .='<span>'.vmText::_($product->productCustom->custom_title).' '.$item['comment'].'</span>';
-				}
-			}
-		}
-		return true;
-	}
-
-	/**
 	 * Trigger for VM3
 	 * @author Max Milbers
 	 * @param $product

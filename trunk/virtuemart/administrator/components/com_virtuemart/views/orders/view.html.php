@@ -99,22 +99,11 @@ class VirtuemartViewOrders extends VmViewAdmin {
 					,'ST_'
 			);
 
-			$os_trigger_refunds = VmConfig::get('os_trigger_refunds', array('R'));
-			// Create an array to allow orderlinestatuses to be translated
-			// We'll probably want to put this somewhere in ShopFunctions...
-			$_orderStatusList = array();
-			foreach ($orderStates as $orderState) {
-				//$_orderStatusList[$orderState->virtuemart_orderstate_id] = $orderState->order_status_name;
-				//When I use update, I have to use this?
-				$_orderStatusList[$orderState->order_status_code] = vmText::_($orderState->order_status_name);
-				if(in_array($orderState->order_status_code,$os_trigger_refunds)) {
-					$orderState->order_status_name = 'Unrecommended '.vmText::_( $orderState->order_status_name );
-					$orderStatesUnpaid[] = $orderState;
-				} else {
-					$orderStatesUnpaid[] = $orderState;
-				}
 
-			}
+			$_orderStatusList = array();
+			$orderStatesUnpaid = array();
+			$os_trigger_refunds = VmConfig::get('os_trigger_refunds', array('R'));
+			$this->adjustOrderStatuslists($orderStates, $_orderStatusList, $orderStatesUnpaid);
 
 			$_itemStatusUpdateFields = array();
 			$_itemAttributesUpdateFields = array();
@@ -149,12 +138,15 @@ class VirtuemartViewOrders extends VmViewAdmin {
 				if(in_array($_item->order_status,$os_trigger_refunds)){
 					$this->toRefund[] = $_item;
 					$orderbt->toPay -= $this->currency->roundByPriceConfig($_item->product_subtotal_with_tax);
+				}
+
+				if($orderbt->paid < $orderbt->toPay){
 					$usedOStates = $orderStatesUnpaid;
 				} else {
 					$usedOStates = $orderStates;
 				}
 
-				$_itemStatusUpdateFields[$_item->virtuemart_order_item_id] = JHtml::_('select.genericlist', $orderStates, "item_id[".$_item->virtuemart_order_item_id."][order_status]", $attr, 'order_status_code', 'order_status_name', $_item->order_status, 'order_item_status'.$_item->virtuemart_order_item_id,true);
+				$_itemStatusUpdateFields[$_item->virtuemart_order_item_id] = JHtml::_('select.genericlist', $usedOStates, "item_id[".$_item->virtuemart_order_item_id."][order_status]", $attr, 'order_status_code', 'order_status_name', $_item->order_status, 'order_item_status'.$_item->virtuemart_order_item_id,true);
 
 			}
 			$orderbt->toPay = $this->currency->roundByPriceConfig(($orderbt->toPay));
@@ -227,9 +219,15 @@ class VirtuemartViewOrders extends VmViewAdmin {
 			$model = VmModel::getModel();
 			$this->addStandardDefaultViewLists($model,'created_on');
 			$orderStatusModel =VmModel::getModel('orderstatus');
-			$orderstates = vRequest::getCmd('order_status_code','');
-			$this->lists['state_list'] = $orderStatusModel->renderOSList($orderstates,'order_status_code',FALSE,' onchange="this.form.submit();" style="width:180px;"');
-			$this->lists['bulk_state_list'] = $orderStatusModel->renderOSList($orderstates,'order_status_code_bulk',FALSE,'id="order_status_code_bulk" onchange="Virtuemart.set2status();" style="width:180px;"');
+			$order_status_code = vRequest::getCmd('order_status_code','');
+			$this->lists['state_list'] = $orderStatusModel->renderOSList($order_status_code,'order_status_code',FALSE,' onchange="this.form.submit();" style="width:180px;"');
+			$this->lists['bulk_state_list'] = $orderStatusModel->renderOSList($order_status_code,'order_status_code_bulk',FALSE,'id="order_status_code_bulk" onchange="Virtuemart.set2status();" style="width:180px;"');
+
+			$this->orderStatesUnpaid = array();
+			$_orderStatusList= array();
+			$this->adjustOrderStatuslists($orderStates, $_orderStatusList, $this->orderStatesUnpaid);
+			//$this->lists['state_list_unpaid'] = $orderStatusModel->renderOSList($orderStatesUnpaid,'order_status_code',FALSE,' onchange="this.form.submit();" style="width:180px;"');
+
 			$orderslist = $model->getOrdersList();
 
 			$this->assignRef('orderstatuses', $orderStates);
@@ -311,7 +309,28 @@ class VirtuemartViewOrders extends VmViewAdmin {
 		parent::display($tpl);
 	}
 
+	function adjustOrderStatuslists ($orderStates, &$_orderStatusList, &$orderStatesUnpaid){
 
+		$os_trigger_refunds = VmConfig::get('os_trigger_refunds', array('R'));
+		// Create an array to allow orderlinestatuses to be translated
+		// We'll probably want to put this somewhere in ShopFunctions...
+
+		foreach ($orderStates as $orderState) {
+			//$_orderStatusList[$orderState->virtuemart_orderstate_id] = $orderState->order_status_name;
+			//When I use update, I have to use this?
+			$_orderStatusList[$orderState->order_status_code] = vmText::_($orderState->order_status_name);
+			$tmp = clone($orderState);
+			if(in_array($orderState->order_status_code,$os_trigger_refunds)) {
+
+				$tmp->order_status_name = 'Unrecommended '.vmText::_( $orderState->order_status_name );
+				$orderStatesUnpaid[] = $tmp;
+			} else {
+				$orderStatesUnpaid[] = $tmp;
+			}
+
+		}
+
+	}
 	/**
 	 * @author Max Milbers
 	 * @author Valérie Isaksen

@@ -477,9 +477,8 @@ class VirtueMartModelProduct extends VmModel {
 
 
 		if ($isSite) {
-			$usermodel = VmModel::getModel ('user');
-			$currentVMuser = $usermodel->getCurrentUser ();
-			$virtuemart_shoppergroup_ids = (array)$currentVMuser->shopper_groups;
+
+			$virtuemart_shoppergroup_ids = self::getCurrentUserShopperGrps();
 
 			if (is_array ($virtuemart_shoppergroup_ids)) {
 				$sgrgroups = array();
@@ -909,7 +908,22 @@ vmdebug('$limitStart',$limitStart);
 		return array($this->_limitStart, $this->_limit);
 	}
 
+	static public function getCurrentUserShopperGrps(){
 
+		static $ids = false;
+
+		if(!$ids){
+			$usermodel = VmModel::getModel ('user');
+			$currentVMuser = $usermodel->getCurrentUser ();
+			if(!is_array($currentVMuser->shopper_groups)){
+				$ids = (array)$currentVMuser->shopper_groups;
+			} else {
+				$ids = $currentVMuser->shopper_groups;
+			}
+		}
+
+		return $ids;
+	}
 
 	static public function checkIfCached($virtuemart_product_id, $front = NULL, $withCalc = TRUE, $onlyPublished = TRUE, $quantity = 1,$virtuemart_shoppergroup_ids = 0, $withRating = 0){
 
@@ -921,7 +935,7 @@ vmdebug('$limitStart',$limitStart);
 			$virtuemart_shoppergroup_ids = self::$_cacheOpt[$virtuemart_product_id]->virtuemart_shoppergroup_ids;
 			$withRating = self::$_cacheOpt[$virtuemart_product_id]->withRating;
 		} else {
-			$front = !empty($front)?TRUE:0;
+			$front = empty($front)?0:TRUE;
 			$withCalc = $withCalc?TRUE:0;
 			$onlyPublished = $onlyPublished?TRUE:0;
 			$withRating = $withRating?TRUE:0;
@@ -945,17 +959,37 @@ vmdebug('$limitStart',$limitStart);
 		}
 
 
-		$productKey = $virtuemart_product_id.':'.$front.$onlyPublished.':'.$quantity.':'.$virtuemart_shoppergroup_ids.':'.$withCalc.$withRating.VmLanguage::$currLangTag;
+		$productKey = $virtuemart_product_id.':'.$front.$onlyPublished.':'.$quantity.':'.$virtuemart_shoppergroup_ids.':'.(int)$withCalc.(int)$withRating.VmLanguage::$currLangTag;
 
 		if (array_key_exists ($productKey, self::$_products)) {
 			//vmdebug('getProduct, take from cache : '.$productKey);
 			return  array(true,$productKey);
-		} else if(!$withCalc){
-			$productKeyTmp = $virtuemart_product_id.':'.$front.$onlyPublished.':'.$quantity.':'.$virtuemart_shoppergroup_ids.':'.TRUE.$withRating.VmLanguage::$currLangTag;
-			if (array_key_exists ($productKeyTmp,  self::$_products)) {
-				//vmdebug('getProduct, take from cache full product '.$productKeyTmp);
-				return  array(true,$productKeyTmp);
+		} else if(empty($withCalc) or empty($withRating)){
+
+
+			//$productKeyTmp = $virtuemart_product_id.':'.$front.$onlyPublished.':'.$quantity.':'.$virtuemart_shoppergroup_ids.':'.TRUE.TRUE.VmLanguage::$currLangTag;
+			//$productKeyTmp2 = $virtuemart_product_id.':'.$front.$onlyPublished.':'.$quantity.':'.$virtuemart_shoppergroup_ids.':'.TRUE.TRUE.VmLanguage::$currLangTag;
+			$testKeys = array();
+			if(empty($withCalc) and empty($withRating)){
+				$testKeys[] = $virtuemart_product_id.':'.$front.$onlyPublished.':'.$quantity.':'.$virtuemart_shoppergroup_ids.':01'.VmLanguage::$currLangTag;
+				$testKeys[] = $virtuemart_product_id.':'.$front.$onlyPublished.':'.$quantity.':'.$virtuemart_shoppergroup_ids.':10'.VmLanguage::$currLangTag;
+				$testKeys[] = $virtuemart_product_id.':'.$front.$onlyPublished.':'.$quantity.':'.$virtuemart_shoppergroup_ids.':11'.VmLanguage::$currLangTag;
+			} else if(empty($withCalc)){
+				$testKeys[] = $virtuemart_product_id.':'.$front.$onlyPublished.':'.$quantity.':'.$virtuemart_shoppergroup_ids.':01'.VmLanguage::$currLangTag;
+				$testKeys[] = $virtuemart_product_id.':'.$front.$onlyPublished.':'.$quantity.':'.$virtuemart_shoppergroup_ids.':11'.VmLanguage::$currLangTag;
+			} else {
+				$testKeys[] = $virtuemart_product_id.':'.$front.$onlyPublished.':'.$quantity.':'.$virtuemart_shoppergroup_ids.':10'.VmLanguage::$currLangTag;
+				$testKeys[] = $virtuemart_product_id.':'.$front.$onlyPublished.':'.$quantity.':'.$virtuemart_shoppergroup_ids.':11'.VmLanguage::$currLangTag;
 			}
+
+			foreach($testKeys as $key){
+				if (array_key_exists ($key,  self::$_products)) {
+					//vmdebug('getProduct, take from cache full product '.$key.' instead '.$productKey);
+					return  array(true,$key);
+				}
+			}
+			//vmdebug('getProduct, no cached full product '.$key.' for '.$productKey);
+			return  array(false,$productKey);
 		} else {
 			//vmdebug('getProduct, not cached '.$productKey);
 			return array(false,$productKey);
@@ -993,15 +1027,27 @@ vmdebug('$limitStart',$limitStart);
 				$virtuemart_product_id = $this->_id;
 			}
 		}
+		if(empty($quantity)) {
+			vmTrace('getProduct Quanty empty');
+			$quantity = 1;
+		}
+		if($virtuemart_shoppergroup_ids === 0){
+			$virtuemart_shoppergroup_ids = self::getCurrentUserShopperGrps();
+		}
 
-		$checkedProductKey= self::checkIfCached($virtuemart_product_id, $front, $withCalc, $onlyPublished, $quantity,$virtuemart_shoppergroup_ids,$this->withRating);
+		$checkedProductKey= self::checkIfCached($virtuemart_product_id, $front, $withCalc, $onlyPublished, $quantity, $virtuemart_shoppergroup_ids,$this->withRating);
 		if($checkedProductKey[0]){
+
 			if(self::$_products[$checkedProductKey[1]]===false){
 				return false;
-			} else {
+			} else if(is_object(self::$_products[$checkedProductKey[1]])){
 				//vmTime('getProduct return cached clone','getProduct');
 				//vmdebug('getProduct cached',self::$_products[$checkedProductKey[1]]->prices);
+
 				return clone(self::$_products[$checkedProductKey[1]]);
+			} else {
+				vmdebug('getProduct cached self::$_products[$checkedProductKey[1] no object',self::$_products[$checkedProductKey[1]]);
+
 			}
 		}
 		$productKey = $checkedProductKey[1];
@@ -1093,7 +1139,12 @@ vmdebug('$limitStart',$limitStart);
 		$child->customfields = false;
 		$customfieldsModel = VmModel::getModel ('Customfields');
 		$child->modificatorSum = null;
-		$child->customfields = $customfieldsModel->getCustomEmbeddedProductCustomFields ($child->allIds,0,-1, true);
+		if(!empty($child->allIds)){
+			$child->customfields = $customfieldsModel->getCustomEmbeddedProductCustomFields ($child->allIds,0,-1, true);
+		} else {
+			vmTrace('Empty product allIds in getProduct? '. $virtuemart_product_id);
+		}
+
 
 		if ($withCalc) {
 
@@ -1375,17 +1426,7 @@ vmdebug('$limitStart',$limitStart);
 		}
 
 		if($virtuemart_shoppergroup_ids===0){
-			if(isset($this->cUserShprGroups)){
-				$virtuemart_shoppergroup_ids = $this->cUserShprGroups;
-			} else {
-				$usermodel = VmModel::getModel ('user');
-				$cUserShprGroups = $usermodel->getCurrentUser()->shopper_groups;
-				if(is_array($cUserShprGroups)){
-					$this->cUserShprGroups = $virtuemart_shoppergroup_ids = $cUserShprGroups;
-				} else {
-					$this->cUserShprGroups = $virtuemart_shoppergroup_ids = (array)$cUserShprGroups;
-				}
-			}
+			$virtuemart_shoppergroup_ids = self::getCurrentUserShopperGrps();
 		}
 
 		$checkedProductKey = $this->checkIfCachedSingle($virtuemart_product_id, $front, $quantity, $withParent, $virtuemart_shoppergroup_ids, $prices);
@@ -1798,13 +1839,7 @@ vmdebug('$limitStart',$limitStart);
 			return array();
 		}
 
-		$usermodel = VmModel::getModel ('user');
-		$currentVMuser = $usermodel->getCurrentUser ();
-		if(!is_array($currentVMuser->shopper_groups)){
-			$virtuemart_shoppergroup_ids = (array)$currentVMuser->shopper_groups;
-		} else {
-			$virtuemart_shoppergroup_ids = $currentVMuser->shopper_groups;
-		}
+
 
 		$maxNumber = $this->_maxItems;
 		$products = array();
@@ -1813,7 +1848,7 @@ vmdebug('$limitStart',$limitStart);
 
 			foreach ($productIds as $id) {
 
-				if ($product = $this->getProductSingle ((int)$id, $front,1,false,$virtuemart_shoppergroup_ids)) {
+				if ($product = $this->getProductSingle ((int)$id, $front,1,false)) {
 					$products[] = $product;
 					$i++;
 				}
@@ -1826,7 +1861,7 @@ vmdebug('$limitStart',$limitStart);
 		else {
 
 			foreach ($productIds as $id) {
-				if ($product = $this->getProduct ((int)$id, $front, $withCalc, $onlyPublished,1,$virtuemart_shoppergroup_ids)) {
+				if ($product = $this->getProduct ((int)$id, $front, $withCalc, $onlyPublished,1)) {
 					$products[] = $product;
 					$i++;
 				}

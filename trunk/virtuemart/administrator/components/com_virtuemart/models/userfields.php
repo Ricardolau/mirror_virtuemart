@@ -838,10 +838,10 @@ class VirtueMartModelUserfields extends VmModel {
 						if(!empty($_return['fields'][$_fld->name]['value'])){
 							// Translate the value from ID to name
 							$_return['fields'][$_fld->name]['virtuemart_country_id'] = (int)$_return['fields'][$_fld->name]['value'];
-							$db = JFactory::getDBO ();
-							$q = 'SELECT * FROM `#__virtuemart_countries` WHERE virtuemart_country_id = "' . (int)$_return['fields'][$_fld->name]['value'] . '"';
-							$db->setQuery ($q);
-							$r = $db->loadAssoc();
+
+							$countryT = $this->getTable('countries');
+							$r = $countryT->load($_return['fields'][$_fld->name]['value'])->loadFieldValues();
+
 							if($r){
 								$_return['fields'][$_fld->name]['value'] = !empty($r['country_name'])? $r['country_name']:'' ;
 								$_return['fields'][$_fld->name]['country_2_code'] = !empty($r['country_2_code'])? $r['country_2_code']:'' ;

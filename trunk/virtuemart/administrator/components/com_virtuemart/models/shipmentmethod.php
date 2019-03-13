@@ -98,12 +98,8 @@ class VirtueMartModelShipmentmethod extends VmModel {
 				}
 			}
 
-			/* Add the shipmentcarreir shoppergroups */
-			$q = 'SELECT `virtuemart_shoppergroup_id` FROM #__virtuemart_shipmentmethod_shoppergroups WHERE `virtuemart_shipmentmethod_id` = "'.$this->_id.'"';
-			$this->_db->setQuery($q);
-			$this->_cache[$this->_id]->virtuemart_shoppergroup_ids = $this->_db->loadColumn();
-			if(empty($this->_cache[$this->_id]->virtuemart_shoppergroup_ids)) $this->_cache[$this->_id]->virtuemart_shoppergroup_ids = 0;
-
+			/* Add the shipmentmethod shoppergroups */
+			$this->_cache[$this->_id]->virtuemart_shoppergroup_ids = $this->getShipmentShopperGrps($this->_id);
 		}
 
 		return $this->_cache[$this->_id];
@@ -137,17 +133,24 @@ class VirtueMartModelShipmentmethod extends VmModel {
 
 		if(isset($datas)){
 			foreach ($datas as &$data){
-				// Add the shipment shoppergroups
-				$q = 'SELECT `virtuemart_shoppergroup_id` FROM #__virtuemart_shipmentmethod_shoppergroups WHERE `virtuemart_shipmentmethod_id` = "'.$data->virtuemart_shipmentmethod_id.'"';
-				$db = JFactory::getDBO();
-				$db->setQuery($q);
-				$data->virtuemart_shoppergroup_ids = $db->loadColumn();
+				$data->virtuemart_shoppergroup_ids = $this->getShipmentShopperGrps($data->virtuemart_shipmentmethod_id);
 			}
 		}
 		return $datas;
 	}
 
+	public function getShipmentShopperGrps($id){
 
+		static $cache = array();
+		if(!isset($cache[$id])){
+			$q = 'SELECT `virtuemart_shoppergroup_id` FROM #__virtuemart_shipmentmethod_shoppergroups WHERE `virtuemart_shipmentmethod_id` = "'.(int)$id.'"';
+			$db = JFactory::getDBO();
+			$db->setQuery($q);
+			$cache[$id] = $db->loadColumn();
+			if(empty($cache[$id])) $cache[$id] = 0;
+		}
+		return $cache[$id];
+	}
 
 	/**
 	 * Bind the post data to the shipment tables and save it

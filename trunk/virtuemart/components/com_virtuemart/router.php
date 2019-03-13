@@ -860,7 +860,7 @@ class vmrouterHelper {
 				vmdebug( 'There is still no itemid' );
 				$this->Itemid = '';
 			}
-			$this->setMenuItemId();
+
 
 			$this->use_id = VmConfig::get('seo_use_id', false);
 			$this->use_seo_suffix = VmConfig::get('use_seo_suffix', true);
@@ -876,6 +876,7 @@ class vmrouterHelper {
 
 			$this->langFback = vmLanguage::getUseLangFallback();// !VmConfig::get('prodOnlyWLang',false) and VmConfig::$defaultLang!=VmConfig::$vmlang and VmConfig::$langCount>1 );
 			$this->slang = VmLanguage::$currLangTag;
+			$this->setMenuItemId();
 		}
 
 	}
@@ -904,6 +905,9 @@ class vmrouterHelper {
 
 		if((!empty($query['Itemid']) and $query['Itemid']!=self::$_instance->Itemid) or (!empty($query['lang']) and $query['lang']!=self::$_instance->slang)){
 			self::$_instance->Itemid = $query['Itemid'];
+			if (!empty($query['lang'])) {
+				self::$_instance->slang = $query['lang'];
+			}
 			self::$_instance->setMenuItemId();
 		} else {
 			//self::$_instance->Itemid = vRequest::get('Itemid',false);
@@ -1059,8 +1063,8 @@ class vmrouterHelper {
 			if($this->use_seo_suffix){
 				$suffix = $this->seo_sufix;
 			}
-			if(!class_exists('VirtueMartModelProduct')) VmModel::getModel('product');
-			$checkedProductKey= VirtueMartModelProduct::checkIfCached($id,true);
+			$virtuemart_shoppergroup_ids = VirtueMartModelProduct::getCurrentUserShopperGrps();
+			$checkedProductKey= VirtueMartModelProduct::checkIfCached($id,TRUE, FALSE, TRUE, 1, $virtuemart_shoppergroup_ids,0);
 			if($checkedProductKey[0]){
 				if(VirtueMartModelProduct::$_products[$checkedProductKey[1]]===false){
 					$productNamesCache[VmLanguage::$currLangTag][$id] = false;
@@ -1072,7 +1076,7 @@ class vmrouterHelper {
 			if(!isset($productNamesCache[VmLanguage::$currLangTag][$id])){
 				$pModel = VmModel::getModel('product');
 				//Adding shoppergroup could be needed
-				$pr = $pModel->getProduct($id, TRUE, FALSE, TRUE, 1, 0, 0);
+				$pr = $pModel->getProduct($id, TRUE, FALSE, TRUE, 1, $virtuemart_shoppergroup_ids,0);
 				if(!$pr or empty($pr->slug)){
 					$productNamesCache[VmLanguage::$currLangTag][$id] = false;
 				} else {
@@ -1251,19 +1255,25 @@ class vmrouterHelper {
 		$home 	= false ;
 		static $mCache = array();
 
-		$jLangTag = vmLanguage::$currLangTag;
-		$h = $jLangTag;
+		$jLangTag = $this->slang;//vmText::$language->getTag();
+		//$jLangTag = vmLanguage::$currLangTag;
 
-		if(isset($mCache[$h.$this->Itemid])){
-			$this->menu = $mCache[$h.$this->Itemid];
-			//vmdebug('Found cached menu',$h.$this->Itemid);
-			return;
-		}
+
 		$user = JFactory::getUser();
 		$auth = array_unique($user->getAuthorisedViewLevels());
 		//$auth = $user->getAuthorisedViewLevels();
 		//vmdebug('my auth',$auth);
 		$andAccess = ' AND ( access="' . implode ('" OR access="', $auth) . '" ) ';
+
+		$h = $jLangTag.implode($auth).'i';
+		if(isset($mCache[$h.$this->Itemid])){
+			$this->menu = $mCache[$h.$this->Itemid];
+			//vmdebug('Found cached menu',$h.$this->Itemid);
+			return;
+		} else {
+			//vmdebug('Existing cache',$h.$this->Itemid,$mCache);
+		}
+
 
 		$db			= JFactory::getDBO();
 

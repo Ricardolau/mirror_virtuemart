@@ -87,17 +87,25 @@ class VirtueMartModelCustomfields extends VmModel {
 
 	function getCustomEmbeddedProductCustomFields($productIds,$virtuemart_custom_id=0,$cartattribute=-1,$forcefront=FALSE){
 
+		if(empty($productIds)){
+			//vmTrace('Empty product ids in getCustomEmbeddedProductCustomFields? '.implode(',', $productIds));
+			return false;
+		}
 		$app = JFactory::getApplication();
 		$db= JFactory::getDBO ();
 		$q = VirtueMartModelCustomfields::getProductCustomSelectFieldList();
 
 		static $_customFieldByProductId = array();
 
-		$hashCwAttribute = $cartattribute;
-		if($hashCwAttribute==-1) $hashCwAttribute = 2;
+		if($cartattribute<1){
+			$cartattribute = 0;
+		} else {
+			$cartattribute = 1;
+		}
+		$productIdsOrig = $productIds;
 		$productCustomsCached = array();
 		foreach($productIds as $k=>$productId){
-			$hkey = (int)$productId.'_'.$hashCwAttribute;
+			$hkey = (int)$productId.'_'.$cartattribute;
 			if (array_key_exists ($hkey, $_customFieldByProductId)) {
 
 				//Must be cloned!
@@ -109,52 +117,58 @@ class VirtueMartModelCustomfields extends VmModel {
 			}
 		}
 
-		if(is_array($productIds) and count($productIds)>0){
-			$q .= 'WHERE field.`virtuemart_product_id` IN ('.implode(',', $productIds).')';
-		} else if(!empty($productIds)){
-			$q .= 'WHERE field.`virtuemart_product_id` = "'.$productIds.'" ';
-		} else {
-			return $productCustomsCached;
-		}
-		if(!empty($virtuemart_custom_id)){
-			if(is_numeric($virtuemart_custom_id)){
-				$q .= ' AND c.`virtuemart_custom_id`= "' . (int)$virtuemart_custom_id.'" ';
-			} else {
-				$virtuemart_custom_id = substr($virtuemart_custom_id,0,1); //just in case
-				$q .= ' AND c.`field_type`= "' .$virtuemart_custom_id.'" ';
-			}
-		}
-		if(!empty($cartattribute) and $cartattribute!=-1){
-			$q .= ' AND ( `is_cart_attribute` = 1 OR `is_input` = 1) ';
-		}
-		if($forcefront or $app->isSite()){
-			$q .= ' AND c.`published` = "1" ';
-			$forcefront = true;
-		}
+		if(!empty($productIds)){
 
-		if(!empty($virtuemart_custom_id) and $virtuemart_custom_id!==0){
-			$q .= ' ORDER BY field.`ordering` ASC';
-		} else {
+			if(is_array($productIds) and count($productIds)>0){
+				$q .= 'WHERE field.`virtuemart_product_id` IN ('.implode(',', $productIds).')';
+			} else if(!empty($productIds)){
+				$q .= 'WHERE field.`virtuemart_product_id` = "'.$productIds.'" ';
+			}
+
+			if(!empty($virtuemart_custom_id)){
+				if(is_numeric($virtuemart_custom_id)){
+					$q .= ' AND c.`virtuemart_custom_id`= "' . (int)$virtuemart_custom_id.'" ';
+				} else {
+					$virtuemart_custom_id = substr($virtuemart_custom_id,0,1); //just in case
+					$q .= ' AND c.`field_type`= "' .$virtuemart_custom_id.'" ';
+				}
+			}
+			if(!empty($cartattribute)){
+				$q .= ' AND ( `is_cart_attribute` = 1 OR `is_input` = 1) ';
+			}
 			if($forcefront or $app->isSite()){
-				//$q .= ' GROUP BY c.`virtuemart_custom_id`';
+				$q .= ' AND c.`published` = "1" ';
+				$forcefront = true;
 			}
 
-			$q .= ' ORDER BY field.`ordering` ASC';
+			if(!empty($virtuemart_custom_id) and $virtuemart_custom_id!==0){
+				$q .= ' ORDER BY field.`ordering` ASC';
+			} else {
+				if($forcefront or $app->isSite()){
+					//$q .= ' GROUP BY c.`virtuemart_custom_id`';
+				}
+
+				$q .= ' ORDER BY field.`ordering` ASC';
+			}
+
+			$db->setQuery ($q);
+			$productCustoms = $db->loadObjectList ();
+			$err=$db->getErrorMsg();
+			if($err){
+				vmError('getCustomEmbeddedProductCustomFields error in query '.$err);
+			} else if(is_array($productCustoms)){
+
+				foreach($productCustoms as $customfield){
+					$hkey = (int)$customfield->virtuemart_product_id.$cartattribute;
+					$_customFieldByProductId[$hkey][] = $customfield;
+				}
+				$productCustoms = array_merge($productCustomsCached,$productCustoms);
+			}
+
+		} else {
+			$productCustoms = $productCustomsCached;
 		}
 
-		$db->setQuery ($q);
-		$productCustoms = $db->loadObjectList ();
-		$err=$db->getErrorMsg();
-		if($err){
-			vmError('getCustomEmbeddedProductCustomFields error in query '.$err);
-		}
-
-		foreach($productCustoms as $customfield){
-			$hkey = (int)$customfield->virtuemart_product_id.$hashCwAttribute;
-			$_customFieldByProductId[$hkey][] = $customfield;
-		}
-
-		$productCustoms = array_merge($productCustomsCached,$productCustoms);
 		if($productCustoms){
 
 			$customfield_ids = array();
@@ -186,6 +200,7 @@ class VirtueMartModelCustomfields extends VmModel {
 			}
 			return $productCustoms;
 		} else {
+		vmTrace('No customfields for '.implode(',', $productIdsOrig));
 			return array();
 		}
 	}
@@ -1150,7 +1165,7 @@ class VirtueMartModelCustomfields extends VmModel {
 					}
 				}
 				$tableCustomfields->_varsToPushParam = $paramsTemp;
-
+				//vmdebug('storeProductCustomfields bindChecknStore',$fields);
 				$tableCustomfields->bindChecknStore($fields);
 
 				$key = array_search($fields['virtuemart_customfield_id'], $old_customfield_ids );
@@ -1158,14 +1173,14 @@ class VirtueMartModelCustomfields extends VmModel {
 
 			}
 		} else {
-			vmdebug('storeProductCustomfields nothing to store');
+			//vmdebug('storeProductCustomfields nothing to store');
 		}
-		vmdebug('Delete $old_customfield_ids',$old_customfield_ids);
+		//vmdebug('Delete $old_customfield_ids',$old_customfield_ids);
 		if ( count($old_customfield_ids) ) {
 			// delete old unused Customfields
 			$db->setQuery( 'DELETE FROM `#__virtuemart_'.$table.'_customfields` WHERE `virtuemart_customfield_id` in ("'.implode('","', $old_customfield_ids ).'") ');
 			$db->execute();
-			vmdebug('Deleted $old_customfield_ids',$old_customfield_ids);
+			//vmdebug('Deleted $old_customfield_ids',$old_customfield_ids);
 		}
 
 

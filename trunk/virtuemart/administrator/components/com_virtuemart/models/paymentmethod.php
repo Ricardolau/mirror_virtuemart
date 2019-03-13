@@ -89,10 +89,7 @@ class VirtueMartModelPaymentmethod extends VmModel{
 				}
 			}
 
-			$q = 'SELECT `virtuemart_shoppergroup_id` FROM #__virtuemart_paymentmethod_shoppergroups WHERE `virtuemart_paymentmethod_id` = "'.$this->_id.'"';
-			$this->_db->setQuery($q);
-			$this->_cache[$this->_id]->virtuemart_shoppergroup_ids = $this->_db->loadColumn();
-			if(empty($this->_cache[$this->_id]->virtuemart_shoppergroup_ids)) $this->_cache[$this->_id]->virtuemart_shoppergroup_ids = 0;
+			$this->_cache[$this->_id]->virtuemart_shoppergroup_ids = $this->getPaymentShopperGrps($this->_id);
 
 		}
 
@@ -131,17 +128,25 @@ class VirtueMartModelPaymentmethod extends VmModel{
 
 			foreach ($datas as &$data){
 				/* Add the paymentmethod shoppergroups */
-				$q = 'SELECT `virtuemart_shoppergroup_id` FROM #__virtuemart_paymentmethod_shoppergroups WHERE `virtuemart_paymentmethod_id` = "'.$data->virtuemart_paymentmethod_id.'"';
-				$db = JFactory::getDBO();
-				$db->setQuery($q);
-				$data->virtuemart_shoppergroup_ids = $db->loadColumn();
-
+				$data->virtuemart_shoppergroup_ids = $this->getPaymentShopperGrps($data->virtuemart_paymentmethod_id);
 			}
 
 		}
 		return $datas;
 	}
 
+	public function getPaymentShopperGrps($id){
+
+		static $cache = array();
+		if(!isset($cache[$id])){
+			$q = 'SELECT `virtuemart_shoppergroup_id` FROM #__virtuemart_paymentmethod_shoppergroups WHERE `virtuemart_paymentmethod_id` = "'.(int)$id.'"';
+			$db = JFactory::getDBO();
+			$db->setQuery($q);
+			$cache[$id] = $db->loadColumn();
+			if(empty($cache[$id])) $cache[$id] = array();
+		}
+		return $cache[$id];
+	}
 
 	/**
 	 * Bind the post data to the paymentmethod tables and save it

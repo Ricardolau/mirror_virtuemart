@@ -300,11 +300,14 @@ abstract class vmPlugin extends JPlugin {
 	function selectedThisByMethodId ($id = 'type') {
 
 		//if($psType!=$this->_psType) return false;
-
+		static $c = array();
 		if ($id === 'type') {
 			return TRUE;
 		}
 		else {
+
+			if(isset($c[$id])) return $c[$id];
+
 			$db = JFactory::getDBO ();
 
 			$q = 'SELECT vm.* FROM `' . $this->_configTable . '` AS vm,
@@ -316,12 +319,12 @@ abstract class vmPlugin extends JPlugin {
 			$q .= 'AND j.element = "' . $this->_name . '"';
 
 			$db->setQuery ($q);
-			if (!$res = $db->loadObject ()) {
+			if (!$c[$id] = $db->loadObject ()) {
 				// 				vmError('selectedThisByMethodId '.$db->getQuery());
 				return FALSE;
 			}
 			else {
-				return $res;
+				return $c[$id];
 			}
 		}
 	}

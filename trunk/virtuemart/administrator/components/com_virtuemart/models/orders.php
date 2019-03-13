@@ -740,7 +740,7 @@ class VirtueMartModelOrders extends VmModel {
 
 		$table = $this->getTable($tablename);
 		$ids = vRequest::getInt( $cidname, vRequest::getInt('cid', array() ) );
-
+		vmdebug('Toggle paid $ids',$ids);
 		foreach($ids as $id){
 			$table->load( (int)$id );
 			if($field == 'paid'){
@@ -757,8 +757,12 @@ class VirtueMartModelOrders extends VmModel {
 					}
 				}
 
+				$currency = CurrencyDisplay::getInstance();
+
+				$unequal = (int)$currency->truncate($toPay-$table->paid);
+				vmdebug('Toggle paid ',$table->paid,$toPay,$toPay-$table->paid,$unequal);
 				if (empty($val)){
-					if(!empty($table->paid) and $table->paid != $toPay){
+					if(!empty($table->paid) and $unequal){
 						$ok = false;
 						VmInfo('Cannot set order to unpaid, paid = '.$table->paid.', but  order total = '.$table->order_total.'. Please check the order manually '.$id);
 					} else {
@@ -769,7 +773,7 @@ class VirtueMartModelOrders extends VmModel {
 					if(empty($table->paid) ){
 						$table->paid = $toPay;
 						$table->store();
-					} else if($table->paid != $toPay){
+					} else if($unequal){
 						$ok = false;
 						VmInfo('Cannot set order to paid, paid = '.$table->paid.', but  order total = '.$toPay.'. Please check the order manually '.$id);
 					}

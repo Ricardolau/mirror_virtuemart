@@ -120,7 +120,7 @@ class ShopFunctions {
 		$model = new VmModel();
 		$table = $model->getTable($table);
 
-		if(!is_array($idList)){
+		if(!is_array($idList) and !empty($idList) and $tableXref != false){
 			$db = JFactory::getDBO ();
 			$q = 'SELECT `' . $table->getPKey() . '` FROM `#__virtuemart_' . $db->escape ($tableXref) . '` WHERE ' . $db->escape ($tableSecondaryKey) . ' = "' . (int)$idList . '"';
 			$db->setQuery ($q);
@@ -129,23 +129,26 @@ class ShopFunctions {
 
 		$i = 0;
 
-		foreach($idList as $id ){
+		if(is_array($idList) and !empty($idList)){
+			foreach($idList as $id ){
 
-			$item = $table->load ((int)$id);
-			if($translate) $item->$name = vmText::_($item->$name);
-			$link = ', '.JHtml::_('link', JRoute::_('index.php?option=com_virtuemart&view='.$view.'&task=edit&'.$cid.'[]='.$id,false), $item->$name);
-			if($i<$quantity and $i<=count($idList)){
-				$list .= $link;
-			} else if ($i==$quantity and $i<count($idList)){
-				$list .= ',...';
+				$item = $table->load ((int)$id);
+				if($translate) $item->$name = vmText::_($item->$name);
+				$link = ', '.JHtml::_('link', JRoute::_('index.php?option=com_virtuemart&view='.$view.'&task=edit&'.$cid.'[]='.$id,false), $item->$name);
+				if($i<$quantity and $i<=count($idList)){
+					$list .= $link;
+				} else if ($i==$quantity and $i<count($idList)){
+					$list .= ',...';
+				}
+				$ttip .= ', '.$item->$name;
+				if($i>($quantity + 6)) {
+					$ttip .= ',...';
+					break;
+				}
+				$i++;
 			}
-			$ttip .= ', '.$item->$name;
-			if($i>($quantity + 6)) {
-				$ttip .= ',...';
-				break;
-			}
-			$i++;
 		}
+
 
 		if(!$list) return '';
 		$list = substr ($list, 2);

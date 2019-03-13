@@ -70,7 +70,7 @@ class VirtuemartControllerPlugin extends VmController
 		return true;
 	}
 
-	public function getMemberStatus(){
+/*	public function getMemberStatus(){
 
 		JLoader::register('JFormFieldReminder', VMPATH_ADMIN .'/fields/reminder.php');
 
@@ -88,5 +88,5 @@ class VirtuemartControllerPlugin extends VmController
 		}
 
 	}
-
+*/
 }

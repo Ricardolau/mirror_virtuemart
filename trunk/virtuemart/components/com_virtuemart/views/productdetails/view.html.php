@@ -82,7 +82,7 @@ class VirtueMartViewProductdetails extends VmView {
 
 			$customfieldsModel = VmModel::getModel ('Customfields');
 
-			if ($product->customfields){
+			if (!empty($product->customfields)){
 				$customfieldsModel -> displayProductCustomfieldFE ($product, $product->customfields);
 			}
 

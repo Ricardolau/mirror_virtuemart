@@ -621,10 +621,12 @@ class VirtueMartCustomFieldRenderer {
 
 					break;
 				case 'R':
+					$customfield->customfield_value = (int) $customfield->customfield_value;
 					if(empty($customfield->customfield_value)){
 						$customfield->display = 'customfield related product has no value';
 						break;
 					}
+
 					$pModel = VmModel::getModel('product');
 					$related = $pModel->getProduct((int)$customfield->customfield_value,TRUE,$customfield->wPrice,TRUE,1);
 

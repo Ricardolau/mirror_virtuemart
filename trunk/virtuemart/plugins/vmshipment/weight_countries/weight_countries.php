@@ -238,41 +238,15 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 
 		$this->convert ($method);
 
-		//if($method->min_amount=='')$method->min_amount = $method->orderamount_start;
-		//if($method->max_amount=='')$method->max_amount = $method->orderamount_stop;
-
 		$result[$hash] = parent::checkConditions($cart, $method, $cart_prices);
 
 		if(!$result[$hash]) return false;
 
-/*		$this->convert ($method);
-
-		if($this->_toConvert){
-			$this->convertToVendorCurrency($method);
-		}
-
-*/
 		$orderWeight = $this->getOrderWeight ($cart, $method->weight_unit);
-
-/*		$countries = array();
-		if (!empty($method->countries)) {
-			if (!is_array ($method->countries)) {
-				$countries[0] = $method->countries;
-			} else {
-				$countries = $method->countries;
-			}
-		}
-*/
 
 		$weight_cond = $this->testRange($orderWeight,$method,'weight_start','weight_stop','weight');
 		$nbproducts_cond = $this->_nbproductsCond ($cart, $method);
 
-/*		if(isset($cart_prices['salesPrice'])){
-			$orderamount_cond = $this->testRange($cart_prices['salesPrice'],$method,'orderamount_start','orderamount_stop','order amount');
-		} else {
-			$orderamount_cond = FALSE;
-		}
-*/
 		$userFieldsModel =VmModel::getModel('Userfields');
 		if ($userFieldsModel->fieldPublished('zip', $type)){
 			if (!isset($address['zip'])) {
@@ -283,51 +257,6 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 			$zip_cond = true;
 		}
 
-/*		if ($userFieldsModel->fieldPublished('virtuemart_country_id', $type)){
-
-			if (!isset($address['virtuemart_country_id'])) {
-				$address['virtuemart_country_id'] = 0;
-			}
-
-			if (in_array ($address['virtuemart_country_id'], $countries) || count ($countries) == 0) {
-
-				//vmdebug('checkConditions '.$method->shipment_name.' fit ',$weight_cond,(int)$zip_cond,$nbproducts_cond,$orderamount_cond);
-				vmdebug('shipmentmethod '.$method->shipment_name.' = TRUE for variable virtuemart_country_id = '.$address['virtuemart_country_id'].', Reason: Countries in rule '.implode($countries,', ').' or none set');
-				$country_cond = true;
-			}
-			else{
-				vmdebug('shipmentmethod '.$method->shipment_name.' = FALSE for variable virtuemart_country_id = '.$address['virtuemart_country_id'].', Reason: Country '.implode($countries,', ').' does not fit');
-				$country_cond = false;
-			}
-		} else {
-			vmdebug('shipmentmethod '.$method->shipment_name.' = TRUE for variable virtuemart_country_id, Reason: no boundary conditions set');
-			$country_cond = true;
-		}
-
-		$cat_cond = true;
-		if($method->categories or $method->blocking_categories){
-			if($method->categories)$cat_cond = false;
-			//vmdebug('hmm, my value',$method);
-			//if at least one product is  in a certain category, display this shipment
-			if(!is_array($method->categories)) $method->categories = array($method->categories);
-			if(!is_array($method->blocking_categories)) $method->blocking_categories = array($method->blocking_categories);
-			//Gather used cats
-			foreach($cart->products as $product){
-				if(array_intersect($product->categories,$method->categories)){
-					$cat_cond = true;
-					//break;
-				}
-				if(array_intersect($product->categories,$method->blocking_categories)){
-					$cat_cond = false;
-					break;
-				}
-			}
-			//if all products in a certain category, display the shipment
-			//if a product has a certain category, DO NOT display the shipment
-		}
-*/
-
-		//$allconditions = (int) $weight_cond + (int)$zip_cond + (int)$nbproducts_cond + (int)$orderamount_cond + (int)$country_cond + (int)$cat_cond;
 		$allconditions = (int) $weight_cond + (int)$zip_cond + (int)$nbproducts_cond;
 		if($allconditions === 3){
 			$result[$hash] = true;

@@ -483,7 +483,7 @@ abstract class vmPSPlugin extends vmPlugin {
 	protected function getPluginMethods ($vendorId) {
 
 		static $mC = array();
-
+		if(empty($vendorId)) $vendorId = 1;
 		$h = $vendorId.$this->_psType.$this->_name;
 		if(isset($mC[$h])) {
 			$this->methods = $mC[$h];
@@ -936,7 +936,7 @@ abstract class vmPSPlugin extends vmPlugin {
 			$amount = $this->getCartAmount($cart_prices);
 			$amount_cond = ($amount >= $method->min_amount AND $amount <= $method->max_amount
 			OR
-			($method->min_amount <= $amount AND ($method->max_amount == 0)));
+			($method->min_amount <= $amount AND (empty($method->max_amount))));
 			if(!$amount_cond) {
 				vmdebug($this->_psType.'method '.$method->{$this->_psType.'_name'}.' = FALSE for cart amount. NOT within Range of the condition from '.$method->min_amount.' to '.$method->max_amount);
 				return false;
@@ -1292,7 +1292,7 @@ abstract class vmPSPlugin extends vmPlugin {
 
 					if(VmConfig::get('radicalShipPaymentVat',true) and $idWithMax == $rule['virtuemart_calc_id']) {
 						$rule['percentage'] = 1.0;
-						vmdebug('setCartPrices 100% '.$this->_psType,$idWithMax);
+						//vmdebug('setCartPrices 100% '.$this->_psType,$idWithMax);
 					}
 
 					$rule['subTotal'] = $cart_prices[$this->_psType . 'Value'] * $rule['percentage'];

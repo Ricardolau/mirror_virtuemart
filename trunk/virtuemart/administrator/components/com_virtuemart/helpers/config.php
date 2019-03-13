@@ -389,7 +389,7 @@ class VmConfig {
 				if($execTrigger){
 					// try plugins
 					$isSite = $app->isSite();
-					self::importVMPlugins('vmextended');
+					self::importVMPlugins('vmuserfield');
 					if($isSite){
 
 						$dispatcher = JDispatcher::getInstance();
@@ -493,7 +493,7 @@ class VmConfig {
 		if($exeTrig){
 
 			$isSite = $app->isSite();
-			self::importVMPlugins('vmextended');
+			self::importVMPlugins('vmuserfield');
 			if($isSite){
 				$dispatcher = JDispatcher::getInstance();
 				$dispatcher->trigger('plgVmInitialise', array());

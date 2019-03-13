@@ -31,8 +31,8 @@ defined('_JEXEC') or die('Restricted access');
 	    <?php echo VmHTML::row('raw', 'COM_VIRTUEMART_SHIPPING_CLASS_NAME', $this->pluginList);
 
 	    if($this->checkConditionsCore){
-            //echo VmHTML::row('input', 'COM_VM_METHD_MIN_AMOUNT', 'min_amount', $this->shipment->min_amount);
-			//echo VmHTML::row('input', 'COM_VM_METHD_MAX_AMOUNT', 'max_amount', $this->shipment->max_amount);
+            echo VmHTML::row('input', 'COM_VM_METHD_MIN_AMOUNT', 'min_amount', $this->shipment->min_amount);
+			echo VmHTML::row('input', 'COM_VM_METHD_MAX_AMOUNT', 'max_amount', $this->shipment->max_amount);
 	    }
 
 	    echo VmHTML::row('raw', 'COM_VIRTUEMART_SHIPPING_FORM_SHOPPER_GROUP', $this->shopperGroupList);

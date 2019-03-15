@@ -200,7 +200,7 @@ class VirtueMartModelCustomfields extends VmModel {
 			}
 			return $productCustoms;
 		} else {
-		vmTrace('No customfields for '.implode(',', $productIdsOrig));
+			//vmTrace('No customfields for '.implode(',', $productIdsOrig));
 			return array();
 		}
 	}

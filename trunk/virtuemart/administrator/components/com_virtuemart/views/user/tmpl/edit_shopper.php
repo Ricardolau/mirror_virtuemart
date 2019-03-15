@@ -35,6 +35,17 @@ defined('_JEXEC') or die('Restricted access');
 			<td>
 				<?php echo $this->lists['vendors']; ?>
 			</td>
+			<?php if($this->showVendors()) { ?>
+
+            <td class="key">
+                <label for="is_vendor">
+					<?php echo vmText::_('COM_VIRTUEMART_USER_FORM_ISVENDOR') ?>:
+                </label>
+            </td>
+            <?php } ?>
+            <td>
+				<?php echo VmHTML::checkbox('user_is_vendor', $this->userDetails->user_is_vendor); ?>
+            </td>
 		</tr>
 
 		<tr>

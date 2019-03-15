@@ -173,7 +173,7 @@ class VirtueMartModelVendor extends VmModel {
 	 */
 	function store (&$data) {
 
-		JPluginHelper::importPlugin ('vmvendor');	//plugin type for one function?
+		JPluginHelper::importPlugin ('vmvendor');	//plugin type for one function? Developers should use the vmshopper plugin instead
 		VmConfig::importVMPlugins ('vmshopper');
 		$dispatcher = JDispatcher::getInstance ();
 		$plg_datas = $dispatcher->trigger ('plgVmOnVendorStore', $data);
@@ -181,9 +181,19 @@ class VirtueMartModelVendor extends VmModel {
 			$data = array_merge ($plg_data);
 		}
 
-		$oldVendorId = $data['virtuemart_vendor_id'];
-
+		//The language table is involved and checked first, so we cannot use the check function in the vendor table, so we must do the checks here.
+		$givenVendorId = $data['virtuemart_vendor_id'];
 		$table = $this->getTable ('vendors');
+		$userTable = $this->getTable ('vmusers');
+		if(!empty($givenVendorId) and !vmAccess::manager('managevendors')){
+			$userId = self::getUserIdByVendorId($givenVendorId);
+
+			$userTable->load($userId);
+			if(!empty($userTable->virtuemart_vendor_id) and $userTable->virtuemart_vendor_id!=$givenVendorId){
+				VmWarn('User does not fit to vendor, storing cancelled');
+				return false;
+			}
+		}
 
 		/*	if(!$table->checkDataContainsTableFields($data)){
 		 $app = JFactory::getApplication();
@@ -191,18 +201,25 @@ class VirtueMartModelVendor extends VmModel {
 		 return $this->_id;
 	 	}*/
 
-		// Store multiple selectlist entries as a ; separated string
-		if (array_key_exists ('vendor_accepted_currencies', $data) && is_array ($data['vendor_accepted_currencies'])) {
-			$data['vendor_accepted_currencies'] = implode (',', $data['vendor_accepted_currencies']);
-		}
-
 		if(empty($data['vendor_name'])){
+			$data['vendor_name'] = '';
 			if(!empty($data['title'])){
-				$data['vendor_name'] = '';
-				$data['vendor_name'] = $data['title'].' ';
+				$data['vendor_name'] = $data['title'];
 			}
 			if(!empty($data['last_name'])){
-				$data['vendor_name'] .= $data['last_name'];
+				$data['vendor_name'] .= ' '.$data['last_name'];
+			}
+			if(!empty($data['company'])){
+				$data['vendor_name'] .= ' '.$data['company'];
+			}
+			if(empty($data['vendor_name'])){
+
+				if(!empty($data['zip'])){
+					$data['vendor_name'] .= $data['zip'];
+				}
+				if(!empty($data['city'])){
+					$data['vendor_name'] .= $data['city'];
+				}
 			}
 		}
 		if(empty($data['vendor_store_name'])){
@@ -217,13 +234,13 @@ class VirtueMartModelVendor extends VmModel {
 		if(empty($data['vendor_name'])) $data['vendor_name'] = $data['vendor_store_name'];
 
 		if(!vmAccess::manager('managevendors')){
-			if(empty($oldVendorId)){
+			if(empty($givenVendorId)){
 				$data['max_cats_per_product'] = VmConfig::get('max_cats_per_product',-1);
 				$data['max_products'] = VmConfig::get('max_products',-1);
 				$data['max_customers'] = VmConfig::get('max_customers',-1);
 				$data['force_product_pattern'] = VmConfig::get('force_product_pattern',-1);
 			} else {
-				$table->load($oldVendorId);
+				$table->load($givenVendorId);
 				$data['max_cats_per_product'] = $table->max_cats_per_product;
 				$data['max_products'] = $table->max_products;
 				$data['max_customers'] = $table->max_customers;
@@ -243,16 +260,24 @@ class VirtueMartModelVendor extends VmModel {
 			$data['virtuemart_vendor_id'] = $table->virtuemart_vendor_id;
 		}
 
-		if ($this->_id != $oldVendorId) {
+		if ($this->_id != $givenVendorId) {
 
-			vmdebug('Developer notice, tried to update vendor xref should not appear in singlestore $oldVendorId = '.$oldVendorId.' newId = '.$this->_id.' updating');
+			$multix = VmConfig::get('multix', 'none');
+			if($multix == 'none'){
+				vmdebug('Developer notice, tried to update vendor xref should not appear in singlestore $oldVendorId = '.$oldVendorId.' newId = '.$this->_id.' updating');
+			}
 
 			//update user table
-			$usertable = $this->getTable ('vmusers');
-			$usertable->load($data['virtuemart_user_id']);
+			$userTable->load($data['virtuemart_user_id']);
 
-			$usertable->virtuemart_vendor_id = $this->_id;
-			$usertable->store();
+			if(empty($userTable->virtuemart_vendor_id)){
+				$userTable->virtuemart_vendor_id = $this->_id;
+			} else if(!vmAccess::manager('core') and $userTable->virtuemart_vendor_id!=$this->_id){
+				vmError('Vendor created, but table entry of the user has already another vendor id and got not updated. '.$userTable->virtuemart_vendor_id);
+				return false;
+			}
+
+			$userTable->store();
 		}
 		// Process the images
 		$mediaModel = VmModel::getModel ('Media');

@@ -258,7 +258,7 @@ class VirtueMartModelUser extends VmModel {
 			vmError('Developer notice, no data to store for user');
 			return false;
 		}
-
+		vmdebug('User mode store, My data ',$data);
 		//To find out, if we have to register a new user, we take a look on the id of the usermodel object.
 		//The constructor sets automatically the right id.
 		$new = false;
@@ -267,7 +267,7 @@ class VirtueMartModelUser extends VmModel {
 			$user = new JUser();	//thealmega http://forum.virtuemart.net/index.php?topic=99755.msg393758#msg393758
 		} else {
 			$cUser = JFactory::getUser();
-			if(!vmAccess::manager('user.edit') and $cUser->id!=$this->_id){
+			if($cUser->id!=$this->_id and !vmAccess::manager('user.edit') ){
 				vmWarn('Insufficient permission');
 				return false;
 			}
@@ -279,7 +279,7 @@ class VirtueMartModelUser extends VmModel {
 			if($vendorId>1){
 				$vM = VmModel::getModel('vendor');
 				$ven = $vM->getVendor($vendorId);
-				if($ven->max_customers){
+				if($ven->max_customers>=0){
 					$this->setGetCount (true);
 					parent::exeSortSearchListQuery(2,'virtuemart_user_id',' FROM #__virtuemart_vendor_users as vu LEFT JOIN `#__users` as ju ON vu.virtuemart_user_id = ju.id',' WHERE ( `virtuemart_vendor_id` = "'.$vendorId.'" AND ju.`block` = 0) ');
 					$this->setGetCount (false);
@@ -464,7 +464,8 @@ class VirtueMartModelUser extends VmModel {
 		$this->setUserId($newId);
 
 		//Save the VM user stuff
-		if(!$this->saveUserData($data) || !self::storeAddress($data)){
+		$vmUserResult = $this->saveUserData($data);
+		if ( !$vmUserResult || !self::storeAddress($data)){
 			vmError('COM_VIRTUEMART_NOT_ABLE_TO_SAVE_USER_DATA');
 			// 			vmError(vmText::_('COM_VIRTUEMART_NOT_ABLE_TO_SAVE_USERINFO_DATA'));
 		} else {
@@ -496,7 +497,7 @@ class VirtueMartModelUser extends VmModel {
 		}
 
 		//The extra check for isset vendor_currency prevents storing of the vendor if there is no form (edit address cart)
-		if((int)$data['user_is_vendor']==1 and isset($data['vendor_currency'])){
+		if($vmUserResult and (int)$data['user_is_vendor']==1 and isset($data['vendor_currency'])){
 			vmdebug('vendor recognised '.$data['virtuemart_vendor_id']);
 			if($this ->storeVendorData($data)){
 				if ($new) {
@@ -588,7 +589,7 @@ class VirtueMartModelUser extends VmModel {
 
 		$res = $usertable -> bindChecknStore($data);
 		if(!$res){
-			vmError('storing user adress data');
+			vmError('storing user data');
 			$noError = false;
 		}
 
@@ -630,7 +631,9 @@ class VirtueMartModelUser extends VmModel {
 			}
 		}
 
-		if(!empty($data['vendorId']) and $data['vendorId']>1){
+		if(!empty($data['vendorId']) and $data['vendorId']>1 and
+							( 	(empty($data['virtuemart_vendor_id'] and empty($data['user_is_vendor']))) or
+								(!empty($data['virtuemart_vendor_id']) and $data['virtuemart_vendor_id']!=$data['vendorId']) ) ){
 			//$vUserD = array('virtuemart_user_id' => $data['virtuemart_user_id'],'virtuemart_vendor_id' => $data['vendorId']);
 			$vUser = $this->getTable('vendor_users');
 			$vUser->load((int)$data['vendorId']);
@@ -649,7 +652,7 @@ class VirtueMartModelUser extends VmModel {
 
 	public function storeVendorData($data){
 
-		if($data['user_is_vendor'] and vmAccess::manager('user.editshop')){
+		if($data['user_is_vendor'] and vmAccess::manager(array('user.editshop','user.editvendor')) ){
 
 			$vendorModel = VmModel::getModel('vendor');
 
@@ -659,16 +662,26 @@ class VirtueMartModelUser extends VmModel {
 				$data['virtuemart_vendor_id'] = 1;
 				vmdebug('no multivendor, set virtuemart_vendor_id = 1');
 			}
+
+			if($data['virtuemart_vendor_id']==1 and !vmAccess::manager('user.editshop')){
+				$msg = 'You do not have the permission to change the shop data';
+				vmWarn($msg,$msg);
+				return false;
+			}
 			$vendorModel->setId($data['virtuemart_vendor_id']);
 
 			if (!$vendorModel->store($data)) {
 				vmdebug('Error storing vendor',$vendorModel);
 				return false;
+			} else {
+				return true;
 			}
 
+		} else {
+			vmInfo('Missing rights to store the vendor data');
 		}
 
-		return true;
+		return false;
 	}
 
 
@@ -1298,7 +1311,7 @@ class VirtueMartModelUser extends VmModel {
 		if(!empty($whereAnd)){
 			$where .= $whereStr.' ('.implode(' OR ',$whereAnd).')';
 		}
-		$this->setDebugSql(1);
+		//$this->setDebugSql(1);
 		return $this->_data = $this->exeSortSearchListQuery(0,$select,$joinedTables,$where,' GROUP BY ju.id',$this->_getOrdering());
 
 	}

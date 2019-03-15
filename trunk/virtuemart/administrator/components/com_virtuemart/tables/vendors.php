@@ -133,6 +133,26 @@ class TableVendors extends VmTableData {
 
     }
 
+	public function check(){
+
+		if(!empty($this->virtuemart_vendor_id) and !vmAccess::manager('managevendors')){
+			$mV = VmModel::getModel('vendor');
+			$userId = VirtueMartModelVendor::getUserIdByVendorId($this->virtuemart_vendor_id);
+			$userTable = $mV->getTable ('vmusers');
+			$userTable->load($userId);
+			if(!empty($userTable->virtuemart_vendor_id) and $userTable->virtuemart_vendor_id!=$this->virtuemart_vendor_id){
+				VmWarn('User does not fit to vendor, storing cancelled');
+				return false;
+			}
+		}
+
+		// Store multiple selectlist entries as a ; separated string
+		if(!empty($this->vendor_accepted_currencies) and is_array($this->vendor_accepted_currencies)){
+			$this->vendor_accepted_currencies = implode (',', $this->vendor_accepted_currencies);
+		}
+
+		return parent::check();
+	}
 }
 
 //pure php no closing tag

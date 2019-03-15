@@ -88,11 +88,11 @@ class vmAccess {
 
 				if ($virtuemart_vendor_id) {
 					self::$_virtuemart_vendor_id[$uid] = $virtuemart_vendor_id;
-					vmdebug('Active vendor '.$uid.' '.$virtuemart_vendor_id );
+					vmdebug('isSuperVendor Active vendor '.$uid.' '.$virtuemart_vendor_id );
 				} else {
-					$multix = Vmconfig::get('multix','none');
-					if( ($multix == 'none' and self::manager($task)) or ($multix != 'none' and (self::manager($task) or self::manager('managevendors')) )){
-						vmdebug('Active Mainvendor '.$task);
+					//$multix = Vmconfig::get('multix','none');
+					if( /*($multix == 'none' and*/ self::manager($task)/*) or ($multix != 'none' and (self::manager($task) or self::manager('managevendors')) )*/){
+						vmTrace('isSuperVendor Fallback to Mainvendor '.$task);
 						self::$_virtuemart_vendor_id[$uid] = 1;
 					} else {
 						self::$_virtuemart_vendor_id[$uid] = 0;
@@ -101,10 +101,11 @@ class vmAccess {
 			}
 			if($uid==0){
 				self::$_virtuemart_vendor_id[$user->id] = self::$_virtuemart_vendor_id[$uid];
-				vmdebug('Set '.$user->id.' to '.self::$_virtuemart_vendor_id[$uid]);
+				//vmdebug('isSuperVendor Set '.$user->id.' to '.self::$_virtuemart_vendor_id[$uid]);
 			}
 			if(self::$_virtuemart_vendor_id[$uid] <= 0) vmdebug('isSuperVendor Not a vendor '.$uid,self::$_virtuemart_vendor_id[$uid]);
 		}
+		vmdebug('isSuperVendor return for id '.$uid.$task.' vendor id '.self::$_virtuemart_vendor_id[$uid] );
 		return self::$_virtuemart_vendor_id[$uid];
 	}
 

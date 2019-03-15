@@ -104,10 +104,6 @@ class VirtuemartControllerUser extends VmController {
 
 			if($data===0) $data = vRequest::getRequest();
 
-			// Store multiple selectlist entries as a ; separated string
-			if (array_key_exists('vendor_accepted_currencies', $data) && is_array($data['vendor_accepted_currencies'])) {
-			    $data['vendor_accepted_currencies'] = implode(',', $data['vendor_accepted_currencies']);
-			}
 			$this->getStrByAcl(array('vendor_store_name','vendor_store_desc','vendor_terms_of_service','vendor_legal_info', 'vendor_letter_css', 'vendor_letter_header_html', 'vendor_letter_footer_html'),$data);
 
 			$ids = vRequest::getInt('virtuemart_user_id');
@@ -115,10 +111,10 @@ class VirtuemartControllerUser extends VmController {
 			if($ids){
 				if(is_array($ids) and isset($ids[0])){
 					$model->setId((int)$ids[0]);
-					vmdebug('my user controller set '.(int)$ids[0],$ids);
+					//vmdebug('my user controller set '.(int)$ids[0],$ids);
 				} else{
 					$model->setId((int)$ids);
-					vmdebug('my user controller set '.(int)$ids,$ids);
+					//vmdebug('my user controller set '.(int)$ids,$ids);
 				}
 			}
 			$ret=$model->store($data);

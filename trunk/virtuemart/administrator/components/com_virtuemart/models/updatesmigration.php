@@ -71,16 +71,12 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		if (empty($userId)) {
 			vmInfo('No uer id given, can not set vendor relation');
 			return false;
-		} else if($userId===-1){
-			$userId = 0;
 		}
 
-		if (empty($userId)) {
+		if ($userId===-1 or empty($userId)) {
 			$userId = $this->determineStoreOwner();
 			vmdebug('setStoreOwner $userId = '.$userId.' by determineStoreOwner');
 		}
-
-		$utable = $this->getTable('vmusers');
 
 		if ( empty($userId)) return false;
 
@@ -89,11 +85,19 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		$db->setQuery( 'SELECT `virtuemart_user_id` FROM `#__virtuemart_vmusers` WHERE `virtuemart_user_id` ="'.$userId.'" ');
 		$vmuid = $db->loadResult();
 
-		$db->setQuery( 'UPDATE `#__virtuemart_vmusers` SET `virtuemart_vendor_id` = "0", `user_is_vendor` = "0" WHERE `virtuemart_vendor_id` ="1" ');
-		if ($db->execute() == false ) {
-			vmWarn( 'UPDATE __vmusers failed for virtuemart_user_id '.$userId);
-			return false;
+		$multix = Vmconfig::get('multix', 'none');
+
+		$q = 'UPDATE `#__virtuemart_vmusers` SET `virtuemart_vendor_id` = "0", `user_is_vendor` = "0" ';
+		if($multix!='none'){
+			$q = 'WHERE `virtuemart_vendor_id` = "1" ';
 		}
+		$db->setQuery($q);
+		if ($db->execute() == false ) {
+			vmWarn( 'UPDATE __vmusers failed for virtuemart_user_id '.$userId.' query '.$q);
+			//return false;
+		}
+
+		$utable = $this->getTable('vmusers');
 
 		if($vmuid){
 			$data = array('virtuemart_user_id' => $userId, 'virtuemart_vendor_id' => "1", 'user_is_vendor' => "1");

@@ -44,7 +44,7 @@ class com_virtuemartInstallerScript {
 			}
 		}
 
-		VmConfig::loadConfig(true,$fresh);
+		VmConfig::loadConfig(true,$fresh, true, false);
 		VmConfig::loadJLang('com_virtuemart');
 		if(!empty($this->path))vmdebug('com_virtuemartInstallerScript loadVm',$this->path);
 
@@ -385,7 +385,7 @@ class com_virtuemartInstallerScript {
 
 	private function updateOldConfigEntries(){
 
-		$config = VmConfig::loadConfig();
+		$config = VmConfig::loadConfig(FALSE, FALSE, true, false);
 		if(VmConfig::get('featured','none') == 'none'){
 			$config->set('featured', $config->get('show_featured', 1));
 			$config->set('discontinued', $config->get('show_discontinued', 0));
@@ -408,7 +408,7 @@ class com_virtuemartInstallerScript {
 			$confTable = VmModel::getModel('config')->getTable('configs');
 			$confTable->bindChecknStore($data);
 
-			VmConfig::loadConfig(true);
+			VmConfig::loadConfig(FALSE, FALSE, true, false);
 		}
 	}
 

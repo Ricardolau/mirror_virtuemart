@@ -46,7 +46,7 @@ class plgSystemVmLoaderPluginUpdate extends JPlugin {
 					defined('VMPATH_ROOT') or define('VMPATH_ROOT', JPATH_ROOT);
 
 					if(!class_exists('VmConfig')) require_once(VMPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
-					VmConfig::loadConfig(true,false);
+					VmConfig::loadConfig(true,false, false, false);
 				}
 			}
 		}

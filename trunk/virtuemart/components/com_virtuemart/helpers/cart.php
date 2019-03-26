@@ -169,7 +169,7 @@ class VirtueMartCart {
 				}
 			}
 
-			self::$_cart->loadSetRenderBTSTAddress();
+			self::$_cart->setupAddressFieldsForCart();
 
 			if (empty(self::$_cart->virtuemart_shipmentmethod_id) && !empty(self::$_cart->user->virtuemart_shipmentmethod_id)) {
 				self::$_cart->virtuemart_shipmentmethod_id = self::$_cart->user->virtuemart_shipmentmethod_id;
@@ -224,7 +224,92 @@ class VirtueMartCart {
 		return self::$_cart;
 	}
 
+	function setupAddressFieldsForCart($update = false){
 
+		if($this->BT==0) $this->BT = array();
+		if($this->ST==0) $this->ST = array();
+		//vmdebug('prepareAddressFieldsInCart before bind ',$this->BT,$this->ST);
+		$bt = $this->BT;
+		$st = $this->ST;
+		//If the user is logged in and exists, we check if he has already addresses stored
+		if(!empty($this->user->virtuemart_user_id)){
+			//vmdebug('prepareAddressFieldsInCart check for stored BT ',$this->BT,$this->ST);
+			if((empty($this->BT) or count($this->BT)<2)
+									or (!empty($this->selected_shipto) and (empty($this->ST) or count($this->ST)<3))
+											){
+				//vmdebug('prepareAddressFieldsInCart found stored BT ',$bt,$this->BT);
+				foreach ($this->user->userInfo as $address) {
+					if ($address->address_type == 'BT') {
+						$bt = $address->loadFieldValues();
+						//vmdebug('prepareAddressFieldsInCart found stored BT ',$bt,$this->BT);
+						//$this->saveAddressInCart((array) $address, $address->address_type,false);
+					} else {
+						if(!empty($this->selected_shipto) and $address->virtuemart_userinfo_id==$this->selected_shipto){
+							//$this->saveAddressInCart((array) $address, $address->address_type,false,'');
+							$st = $address->loadFieldValues();
+						}
+					}
+				}
+			}
+
+			if(empty($this->selected_shipto)){
+				$this->STsameAsBT = 1;
+				$this->ST = array();
+			}
+		}
+
+		$userFieldsModel = VmModel::getModel('Userfields');
+
+		$types = array('BT','ST');
+		foreach($types as $type){
+			if($type=='ST'){
+				$preFix = 'shipto_';
+				$data = $st;
+			} else {
+				$preFix = '';
+				$data = $bt;
+			}
+
+			$addresstype = $type.'address'; //for example BTaddress
+			if($update or empty($this->$addresstype)){
+				//vmdebug('setupAddressFieldsForCart use data ',$data);
+				$userFields = $userFieldsModel->getUserFieldsFor('cart',$type);
+				$this->$addresstype = $userFieldsModel->getUserFieldsFilled(
+				$userFields
+				,$data
+				,$preFix
+				);
+				//vmdebug('prepareAddressFieldsInCart before bind '.$addresstype,$this->$addresstype,$this->{$type});
+				$this->bindUserfieldToCart($type, $this->$addresstype['fields']);
+
+				//vmdebug('setupAddressFieldsForCart '.$addresstype,$this->{$type});
+			}
+		}
+
+	}
+
+	private function bindUserfieldToCart($type, $prepareUserFields){
+
+		foreach ($prepareUserFields as $name=>$fld) {
+
+			if(!empty($fld['name'])){
+				if(empty($this->{$type}[$name])){
+					//vmdebug('bindUserfieldToCart '.$type.' '.$name, $fld['value']);
+					if($name=='virtuemart_country_id' and !empty( $fld['virtuemart_country_id'])){
+						$this->{$type}[$name] = $fld['virtuemart_country_id'];
+					} else if ($name=='virtuemart_state_id' and !empty( $fld['virtuemart_state_id'])){
+						$this->{$type}[$name] = $fld['virtuemart_state_id'];
+					} else if(!empty( $fld['value'])) {
+						$this->{$type}[$name] = $fld['value'];
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * @deprecated use setupAddressFieldsForCart instead
+	 */
 	function loadSetRenderBTSTAddress(){
 
 		//If the user is logged in and exists, we check if he has already addresses stored
@@ -246,9 +331,11 @@ class VirtueMartCart {
 		}
 	}
 
-
+	/**
+	 * @deprecated use setupAddressFieldsForCart instead
+	 */
 	//function prepareAddressDataInCart($type='BT',$new = false,$virtuemart_user_id = null){
-	function prepareAddressFieldsInCart(){
+	function prepareAddressFieldsInCart($update=false){
 
 		$userFieldsModel = VmModel::getModel('Userfields');
 
@@ -261,12 +348,19 @@ class VirtueMartCart {
 			}
 
 			$addresstype = $type.'address'; //for example BTaddress
-			$userFields = $userFieldsModel->getUserFieldsFor('cart',$type);
-			$this->$addresstype = $userFieldsModel->getUserFieldsFilled(
+			if($update or empty($this->$addresstype)){
+
+				$userFields = $userFieldsModel->getUserFieldsFor('cart',$type);
+				$this->$addresstype = $userFieldsModel->getUserFieldsFilled(
 				$userFields
 				,$this->$type
 				,$preFix
-			);
+				);
+
+				$this->bindUserfieldToCart($type, $this->$addresstype['fields']);
+
+				vmdebug('prepareAddressFieldsInCart '.$addresstype,$this->$type);
+			}
 		}
 
 	}

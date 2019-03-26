@@ -172,7 +172,7 @@ class VirtueMartViewCart extends VmView {
 			}
 			$this->assignRef('select_payment_text', $paymentText);
 
-			$this->cart->prepareAddressFieldsInCart();
+			//$this->cart->prepareAddressFieldsInCart();
 
 			if($this->cart->layout=='orderdone') $this->cart->layout = 'default';
 			$this->layoutName = $this->cart->layout;

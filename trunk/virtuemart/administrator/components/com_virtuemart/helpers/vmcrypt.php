@@ -56,7 +56,7 @@ class vmCrypt {
 			}
 		}
 
-		vmdebug('vmCrypt no mcrypt_encrypt available');
+		vmdebug('vmCrypt no '.$key['method'].' available');
 		return base64_encode ($string);
 	}
 
@@ -271,7 +271,7 @@ class vmCrypt {
 			} else if(function_exists('mcrypt_encrypt')){
 				$method = 'mcrypt_';
 			}
-			vmdebug('create key file '.$size.' '.$key);
+
 			$date = JFactory::getDate();
 			$today = $date->toUnix();
 			$dat = date("Y-m-d H:i:s");
@@ -285,7 +285,10 @@ class vmCrypt {
 						size = "'.$size.'"
 						method = "'.$method.'"
 						; */ ?>';
-			$result = JFile::write($filename, $content);
+			if(JFile::write($filename, $content)){
+				vmdebug('created key file '.$method.' '.$size.' '.$key);
+			}
+
 			//b64 must be 0, else it will be b64 decoded again
 			return array('key'=>$key,'unixtime'=>$today,'date'=>$dat,'b64'=>0,'size'=>$size);
 		} else {

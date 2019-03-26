@@ -97,7 +97,7 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
 				/*($this->orderbt->paid, $this->orderID,'toggle.paid'); */echo $this->currency->priceDisplay($this->orderbt->paid); ?></th>
 				<th>
 				<?php
-                    if($this->orderbt->invoice_locked){
+                    if(empty($this->orderbt->invoice_locked)){
                         $icon 	= 'publish';
                         $val    = '1';
                         $text   = 'COM_VM_ORDER_INVOICE_LOCK';
@@ -691,9 +691,9 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
                 echo '<td align="left" colspan="2" style="padding-right: 5px;">'.$t.'</td>';
                 echo '<td><input class="orderEdit" type="text" size="8" name="paid" value="'.$this->orderbt->paid.'"/></td>';*/
                 //echo '</tr>';
-            } else if($this->orderbt->paid == $this->orderbt->toPay){
+            } else if(!$unequal){
                 $t =  vmText::_('COM_VM_ORDER_PAID');
-            } else if($this->orderbt->paid < $this->orderbt->toPay){
+            } else if($unequal>0.0){
                 $t =  vmText::sprintf('COM_VM_ORDER_PARTIAL_PAID',$this->orderbt->paid);
                 $detail=true;
             } else {
@@ -729,15 +729,17 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
                     echo '<td>'.$this->currency->priceDisplay($item->product_subtotal_with_tax).'</td>';
                     echo '</tr>';
                     $this->orderbt->order_total -= $item->product_subtotal_with_tax;
-                    $colspan = '5';
+                    $colspan1 = '5';
+					$colspan2 = '5';
                 }
             } else {
-                $colspan = '2';
+                $colspan1 = '3';
+				$colspan2 = '4';
             }
-
+			//$colspan = '3';
             if(!empty($this->toRefund) or $detail){
 
-                if($this->orderbt->paid < $this->orderbt->toPay){
+                if($unequal>0.0){
 
                     if (empty($this->orderbt->paid)){
                         $t =  vmText::_('COM_VM_ORDER_UNPAID');
@@ -748,17 +750,18 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
 
                 } else {
                     $t = vmText::_('COM_VM_ORDER_PAID');
-                    $l = vmText::_('COM_VM_ORDER_CREDIT_BALANCE');
+                    $l = vmText::_('COM_VM_ORDER_BALANCE');
                 }
-
+				$totalDiff = (int)$this->currency->truncate($this->orderbt->toPay-$this->orderbt->order_total);
+				vmdebug('mist ',$totalDiff,$this->orderbt->toPay,$this->orderbt->order_total);
                 $tp .= '';
-                if($this->orderbt->toPay!=$this->orderbt->order_total){
+                if($totalDiff){
                     if(!$trOpen){
                         $tp .= '<tr>';
                         $trOpen= true;
                     }
-                    $tp .= '<td colspan="'.$colspan.'"></td>';
-                    $tp .= '<td align="left" colspan="5" style="padding-right: 5px;">'.vmText::_('COM_VM_ORDER_NEW_TOTAL').'</td>';
+                    $tp .= '<td colspan="'.$colspan1.'"></td>';
+                    $tp .= '<td align="left" colspan="'.$colspan2.'" style="padding-right: 5px;">'.vmText::_('COM_VM_ORDER_NEW_TOTAL').'</td>';
                     $tp .= '<td>'.$this->currency->priceDisplay($this->orderbt->toPay).'</td>';
 
                     if($trOpen) {
@@ -771,8 +774,8 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
                     $tp .= '<tr>';
                     $trOpen= true;
                 }
-                $tp .= '<td colspan="'.$colspan.'"></td>';
-                $tp .= '<td align="left" colspan="5" style="padding-right: 5px;">'.$t.'</td>';
+                $tp .= '<td colspan="'.$colspan1.'"></td>';
+                $tp .= '<td align="left" colspan="'.$colspan2.'" style="padding-right: 5px;">'.$t.'</td>';
 
                 $tp .= '<td>'.$this->currency->priceDisplay($this->orderbt->paid).'<input class="orderEdit" type="text" size="8" name="paid" value="'.$this->orderbt->paid.'"/></td>';
 				//$tp .= '<td align="left" style="padding-right: 5px;">'.$this->orderbt->paid_on.'</td>';

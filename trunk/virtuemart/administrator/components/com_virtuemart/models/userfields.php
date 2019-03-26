@@ -319,15 +319,11 @@ class VirtueMartModelUserfields extends VmModel {
 			return false;
 		}
 		if(strpos($data['type'],'plugin')!==false){
-			VmConfig::importVMPlugins('vmuserfield');
-					$dispatcher = JDispatcher::getInstance();
-					$plgName = substr($data['type'],6);
-					$dispatcher->trigger('plgVmOnStoreInstallPluginTable',array( 'userfield', $data, $field  ) );
+			VmPlugin::directTrigger('vmuserfield', $plgName, 'plgVmOnStoreInstallPluginTable', array('userfield' , $data, $field));
 		}
 		if ($reorderRequired) {
 			$field->reorder();
 		}
-
 		vmdebug('storing userfield',$_id);
 		// Alter the user_info database to hold the values
 

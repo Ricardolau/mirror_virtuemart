@@ -245,7 +245,7 @@ foreach($this->orderdetails['calc_rules'] as $rule){
 
             } else {
                 $t =  vmText::_('COM_VM_ORDER_PAID');
-                $l = vmText::_('COM_VM_ORDER_CREDIT_BALANCE');
+                $l = vmText::_('COM_VM_ORDER_BALANCE');
             }
 
             $tp .= '';

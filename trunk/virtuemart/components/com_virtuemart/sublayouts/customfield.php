@@ -443,7 +443,7 @@ class VirtueMartCustomFieldRenderer {
 				case 'B':
 				case 'S':
 				case 'M':
-					if(VmConfig::get('hideEmptyCustomfields',false) and empty($customfield->customfield_value)) continue;
+					if(VmConfig::get('hideEmptyCustomfields',false) and empty($customfield->customfield_value)) break;
 					//vmdebug('Example for params ',$customfield);
 					if(isset($customfield->selectType)){
 						if(empty($customfield->selectType)){

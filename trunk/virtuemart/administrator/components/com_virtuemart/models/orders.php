@@ -1283,7 +1283,7 @@ class VirtueMartModelOrders extends VmModel {
 						$this->updateSingleItem($order_item->virtuemart_order_item_id, $data);
 					}
 				}
-				vmdebug('update order status $inputOrder',$inputOrder);
+				//vmdebug('update order status $inputOrder',$inputOrder);
 				$this->calculatePaidByOS($data,$inputOrder);
 
 			}
@@ -2662,7 +2662,7 @@ class VirtueMartModelOrders extends VmModel {
 		$order['comments'] = '';
 
 		VmConfig::importVMPlugins('vmpayment');
-		$returnValues = $dispatcher->trigger('plgVmConfirmedOrder', array($cart, $order));
+		$returnValues = $dispatcher->trigger('plgVmUpdateOrderHead', array($cart, $order));
 
 		return true;
 	}

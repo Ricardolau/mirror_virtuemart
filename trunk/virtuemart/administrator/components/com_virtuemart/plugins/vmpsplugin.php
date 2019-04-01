@@ -464,10 +464,6 @@ abstract class vmPSPlugin extends vmPlugin {
 	 */
 	final protected function getPluginMethod ($method_id) {
 
-		if (!$this->selectedThisByMethodId ($method_id)) {
-			return FALSE;
-		}
-
 		return $this->getVmPluginMethod ($method_id);
 
 	}
@@ -476,82 +472,105 @@ abstract class vmPSPlugin extends vmPlugin {
 	 * Fill the array with all plugins found with this plugin for the current vendor
 	 * Todo it would be nicer to use here the correct vmtable methods
 	 * @return True when plugins(s) was (were) found for this vendor, false otherwise
-	 * @author Oscar van Eijk
-	 * @author max Milbers
+	 * @author Max Milbers
 	 * @author valerie Isaksen
 	 */
+	static $mC = array();
 	protected function getPluginMethods ($vendorId) {
 
-		static $mC = array();
+		if($this->methods !== null and is_array($this->methods)){
+			return count($this->methods);
+		}
 		if(empty($vendorId)) $vendorId = 1;
-		$h = $vendorId.$this->_psType.$this->_name;
-		if(isset($mC[$h])) {
-			$this->methods = $mC[$h];
+
+		if(empty(self::$mC[$this->_psType])) {
+
+			$usermodel = VmModel::getModel( 'user' );
+			$user = $usermodel->getUser();
+			$user->shopper_groups = (array)$user->shopper_groups;
+
+			$db = JFactory::getDBO();
+
+			$select = 'SELECT i.*, ';
+
+			$extPlgTable = '#__extensions';
+			$extField1 = 'extension_id';
+			$extField2 = 'element';
+
+			$select .= 'j.`'.$extField1.'`,j.`name`, j.`type`, j.`element`, j.`folder`, j.`client_id`, j.`enabled`, j.`access`, j.`protected`, j.`manifest_cache`,
+				j.`params`, j.`custom_data`, j.`system_data`, j.`checked_out`, j.`checked_out_time`, j.`state`,  s.virtuemart_shoppergroup_id ';
+
+			if(!VmConfig::$vmlang) {
+				vmLanguage::initialise();
+			}
+
+			$joins = array();
+
+			$langFields = array($this->_psType.'_name', $this->_psType.'_desc');
+
+			$select .= ', '.implode( ', ', VmModel::joinLangSelectFields( $langFields ) );
+
+			$joins = VmModel::joinLangTables( '#__virtuemart_'.$this->_psType.'methods', 'i', 'virtuemart_'.$this->_psType.'method_id' );
+			array_unshift( $joins, ' FROM #__virtuemart_'.$this->_psType.'methods as i' );
+
+			$joins[] = ' LEFT JOIN `'.$extPlgTable.'` as j ON j.`'.$extField1.'` =  i.`'.$this->_psType.'_jplugin_id` ';
+			$joins[] = ' LEFT OUTER JOIN `#__virtuemart_'.$this->_psType.'method_shoppergroups` AS s ON i.`virtuemart_'.$this->_psType.'method_id` = s.`virtuemart_'.$this->_psType.'method_id` ';
+
+			$q = $select.implode( ' '."\n", $joins );
+			$q .= ' WHERE i.`published` = "1" '.
+			//AND  j.`' . $extField2 . '` = "' . $this->_name . '"
+			'AND  (i.`virtuemart_vendor_id` = "'.$vendorId.'" OR i.`virtuemart_vendor_id` = "0" OR i.`shared` = "1")
+									AND  (';
+
+			foreach( $user->shopper_groups as $groups ) {
+				$q .= ' s.`virtuemart_shoppergroup_id`= "'.(int)$groups.'" OR';
+			}
+			$q .= ' (s.`virtuemart_shoppergroup_id`) IS NULL ) GROUP BY i.`virtuemart_'.$this->_psType.'method_id` ORDER BY i.`ordering`';
+
+
+			$db->setQuery( $q );
+			$allMethods = $db->loadObjectList();
+			//vmdebug('getPluginMethods my query ',str_replace('#__',$db->getPrefix(),$db->getQuery()));
+			//vmdebug( 'loaded all methods for the vendor ', $allMethods );
+			foreach( $allMethods as $methd ) {
+				$h = $vendorId.$methd->element;
+
+				$psType = substr($methd->folder,2);
+				//vmdebug( '$h  methods for the vendor '.$psType, $h );
+				if(!isset( self::$mC[$psType][$h] )) {
+					self::$mC[$psType][$h] = array();
+				}
+				self::$mC[$psType][$h][] = $methd;
+
+			}
+			if($err = $db->getErrorMsg()) {
+				vmError( 'Error in slq vmpsplugin.php function getPluginMethods '.$err );
+			}
+
+		}
+
+
+		$h = $vendorId.$this->_name;
+		//vmdebug('getPluginMethods requesting methods for '.$this->_psType.' '.$h);
+		if(isset(self::$mC[$this->_psType][$h])) {
+			$this->methods = self::$mC[$this->_psType][$h];
+
+			if($this->methods) {
+				foreach( $this->methods as $method ) {
+					VmTable::bindParameterable( $method, $this->_xParams, $this->_varsToPushParam );
+					$this->decryptFields( $method );
+				}
+			} else if($this->methods === null or empty( $this->methods )) {
+				$this->methods = array();
+				//vmError ('Error reading getPluginMethods ' . $q);
+			}
 			//vmdebug('getPluginMethods return cached '.$h);
 			return count($this->methods);
 		}
 
-		$usermodel = VmModel::getModel ('user');
-		$user = $usermodel->getUser ();
-		$user->shopper_groups = (array)$user->shopper_groups;
-
-		$db = JFactory::getDBO ();
-		if(empty($vendorId)) $vendorId = 1;
-		$select = 'SELECT i.*, ';
-
-		$extPlgTable = '#__extensions';
-		$extField1 = 'extension_id';
-		$extField2 = 'element';
-
-		$select .= 'j.`' . $extField1 . '`,j.`name`, j.`type`, j.`element`, j.`folder`, j.`client_id`, j.`enabled`, j.`access`, j.`protected`, j.`manifest_cache`,
-			j.`params`, j.`custom_data`, j.`system_data`, j.`checked_out`, j.`checked_out_time`, j.`state`,  s.virtuemart_shoppergroup_id ';
-
-		if(!VmConfig::$vmlang){
-			vmLanguage::initialise();
-		}
-
-		$joins = array();
-
-		$langFields = array($this->_psType.'_name',$this->_psType.'_desc');
-
-		$select .= ', '.implode(', ',VmModel::joinLangSelectFields($langFields));
-
-		$joins = VmModel::joinLangTables('#__virtuemart_' . $this->_psType . 'methods','i','virtuemart_' . $this->_psType . 'method_id');
-		array_unshift($joins, ' FROM #__virtuemart_' . $this->_psType . 'methods as i');
-
-		$joins[]= ' LEFT JOIN `' . $extPlgTable . '` as j ON j.`' . $extField1 . '` =  i.`' . $this->_psType . '_jplugin_id` ';
-		$joins[]= ' LEFT OUTER JOIN `#__virtuemart_' . $this->_psType . 'method_shoppergroups` AS s ON i.`virtuemart_' . $this->_psType . 'method_id` = s.`virtuemart_' . $this->_psType . 'method_id` ';
-
-		$q = $select.implode(' '."\n",$joins);
-		$q .= ' WHERE i.`published` = "1" AND j.`' . $extField2 . '` = "' . $this->_name . '"
-	    						AND  (i.`virtuemart_vendor_id` = "' . $vendorId . '" OR i.`virtuemart_vendor_id` = "0" OR i.`shared` = "1")
-	    						AND  (';
-
-		foreach ($user->shopper_groups as $groups) {
-			$q .= ' s.`virtuemart_shoppergroup_id`= "' . (int)$groups . '" OR';
-		}
-		$q .= ' (s.`virtuemart_shoppergroup_id`) IS NULL ) GROUP BY i.`virtuemart_' . $this->_psType . 'method_id` ORDER BY i.`ordering`';
-
-
-		$db->setQuery ($q);
-		$this->methods = $db->loadObjectList ();
-		if($err = $db->getErrorMsg()){
-			vmError('Error in slq vmpsplugin.php function getPluginMethods '.$err);
-		}
-
-		if ($this->methods) {
-			foreach ($this->methods as $method) {
-				VmTable::bindParameterable ($method, $this->_xParams, $this->_varsToPushParam);
-				$this->decryptFields($method);
-			}
-		} else if($this->methods===null or empty($this->methods)){
-			$this->methods = array();
-			//vmError ('Error reading getPluginMethods ' . $q);
-		}
-
-		$mC[$h] = $this->methods;
-		//vmdebug('getPluginMethods my query ',str_replace('#__',$db->getPrefix(),$db->getQuery()));
-		return count($this->methods);
+		//self::$mC[$h] = $this->methods;
+		//vmdebug('getPluginMethods there is no method for the plugin with the folder '.$this->_name);
+		return 0;//count($this->methods);
 	}
 
 	function decryptFields($method){
@@ -914,10 +933,6 @@ abstract class vmPSPlugin extends vmPlugin {
 	 */
 	protected function checkConditions ($cart, $method, $cart_prices) {
 
-		//vmAdminInfo ('vmPsPlugin function checkConditions not overriden, gives always back FALSE');
-		//vmdebug('checkConditions',$this->_psType);
-
-
 		if($cart->STsameAsBT == 0){
 			$type = ($cart->ST == 0 ) ? 'BT' : 'ST';
 		} else {
@@ -929,10 +944,10 @@ abstract class vmPSPlugin extends vmPlugin {
 
 		$this->convertToVendorCurrency($method);
 
+		if(!empty($method->min_amount) or !empty($method->max_amount)){
 
-
-		//vmdebug('checkConditions getCartAmount',$this->_psType,$method->min_amount,$method->min_amount);
-		if(!empty($method->min_amount) or !empty($method->min_amount)){
+			if(empty($method->min_amount)) $method->min_amount = 0.0;
+			if(empty($method->max_amount)) $method->max_amount = 0.0;
 			$amount = $this->getCartAmount($cart_prices);
 			$amount_cond = ($amount >= $method->min_amount AND $amount <= $method->max_amount
 			OR

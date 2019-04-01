@@ -110,11 +110,8 @@ abstract class vmPlugin extends JPlugin {
 
 	static public function loadJLang($fname,$type,$name){
 
-		//$jlang = vmLanguage::getLanguage();
-		//$tag = $jlang->getTag();
-		//if(empty($tag)) {
-			$tag = vmLanguage::$currLangTag;
-		//}
+		$tag = vmLanguage::$currLangTag;
+
 		$cvalue = $fname.';'.$type;
 		if(!isset(vmLanguage::$_loaded['plg'][$cvalue])){
 			vmLanguage::$_loaded['plg'][$cvalue] = $name;
@@ -232,11 +229,19 @@ abstract class vmPlugin extends JPlugin {
 
 	static public function createPlugin($type, $element){
 
+		if(empty($type) or empty($element)){
+			vmdebug('Developer error, class vmpluglin function createPlugin: empty type or element');
+		}
 		$dispatcher = JDispatcher::getInstance();
 		$plugin = JPluginHelper::getPlugin($type, $element);
 		$className = 'Plg' . str_replace('-', '', $plugin->type) . $plugin->name;
-		// Instantiate and register the plugin.
-		return new $className($dispatcher, (array) $plugin);
+		if(class_exists($className)){
+			// Instantiate and register the plugin.
+			return new $className($dispatcher, (array) $plugin);
+		} else {
+			return false;
+		}
+
 	}
 	/**
 	 * Checks if this plugin should be active by the trigger
@@ -287,10 +292,11 @@ abstract class vmPlugin extends JPlugin {
 		return true;
 	}
 
+	static $c = null;
 	/**
 	 * Checks if this plugin should be active by the trigger
 	 *
-	 * We should avoid this function, is expensive
+	 * The function loads now all methods and caches them, so it is now cheap to use
 	 *
 	 * @author Max Milbers
 	 * @author Valérie Isaksen
@@ -299,33 +305,34 @@ abstract class vmPlugin extends JPlugin {
 	 */
 	function selectedThisByMethodId ($id = 'type') {
 
-		//if($psType!=$this->_psType) return false;
-		static $c = array();
 		if ($id === 'type') {
 			return TRUE;
 		}
 		else {
 
-			if(isset($c[$id])) return $c[$id];
+			if(empty(self::$c[$this->_psType])){
+				$db = JFactory::getDBO ();
 
-			$db = JFactory::getDBO ();
-
-			$q = 'SELECT vm.* FROM `' . $this->_configTable . '` AS vm,
-						#__extensions AS j WHERE vm.`' . $this->_idName . '` = "' . $id . '"
-						AND vm.' . $this->_psType . '_jplugin_id = j.extension_id ';
-						if (JFactory::getApplication()->isSite() ) {
-							$q .= 'AND vm.published = 1 ';
-						}
-			$q .= 'AND j.element = "' . $this->_name . '"';
-
-			$db->setQuery ($q);
-			if (!$c[$id] = $db->loadObject ()) {
-				// 				vmError('selectedThisByMethodId '.$db->getQuery());
-				return FALSE;
+				$q = 'SELECT vm.* FROM `' . $this->_configTable . '` AS vm, #__extensions AS j 
+					WHERE vm.' . $this->_psType . '_jplugin_id = j.extension_id ';
+				if (JFactory::getApplication()->isSite() ) {
+					$q .= 'AND vm.published = 1 ';
+				}
+				$db->setQuery ($q);
+				self::$c[$this->_psType] = $db->loadObjectList ($this->_idName);
+				//vmdebug('selectedThisByMethodId loaded '.$this->_psType,self::$c);
+			} else {
+				//vmdebug('selectedThisByMethodId cached '.$this->_psType);
 			}
-			else {
-				return $c[$id];
+
+
+			if(isset(self::$c[$this->_psType][$id]) and self::$c[$this->_psType][$id]->{$this->_psType.'_element'} == $this->_name){
+				//vmdebug('selectedThisByMethodId return true');
+				return self::$c[$this->_psType][$id];
+			} else {
+				return false;
 			}
+
 		}
 	}
 
@@ -594,6 +601,7 @@ abstract class vmPlugin extends JPlugin {
 	protected function getVmPluginMethod ($int, $cache = true) {
 
 		if ($this->_vmpCtable === 0 || !$cache) {
+
 			$db = JFactory::getDBO ();
 
 			if (!class_exists ($this->_configTableClassName)) {
@@ -601,7 +609,7 @@ abstract class vmPlugin extends JPlugin {
 			}
 			$this->_vmpCtable = new $this->_configTableClassName($db);
 			if ($this->_xParams !== 0) {
-				$this->_vmpCtable->setParameterable ($this->_configTableFieldName, $this->_varsToPushParam);
+				$this->_vmpCtable->setParameterable ($this->_configTableFieldName, $this->_varsToPushParam,true);
 			}
 
 			if($this->_cryptedFields){
@@ -609,7 +617,8 @@ abstract class vmPlugin extends JPlugin {
 			}
 		}
 
-		return $this->_vmpCtable->load ($int);
+		$return = $this->_vmpCtable->load ($int);
+		return $return;
 	}
 
 	/**

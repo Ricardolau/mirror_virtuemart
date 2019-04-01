@@ -28,6 +28,8 @@ defined('_JEXEC') or die('Restricted access');
  */
 class VirtueMartModelCountry extends VmModel {
 
+	protected static $_countries = array();
+
 	/**
 	 * constructs a VmModel
 	 * setMainTable defines the maintable of the model
@@ -42,6 +44,39 @@ class VirtueMartModelCountry extends VmModel {
 
 	}
 
+	public function getData($id = 0){
+		return self::getCountry($id);
+	}
+
+	static public function getCountry($id, $fieldname = 0){
+
+		if(!isset(self::$_countries[$id])){
+			$c = VmTable::getInstance('countries');
+			$c->load($id, $fieldname);
+			//vmdebug('loaded country ',$id,$fieldname,$c->loadFieldValues());
+			self::$_countries[$c->virtuemart_country_id] = self::$_countries[strtoupper($c->country_name)] = self::$_countries[$c->country_2_code] = self::$_countries[$c->country_3_code] = $c;
+			//vmdebug('loaded country ',$id,$fieldname,self::$_countries[$id]->loadFieldValues());
+		}
+
+		//vmdebug('loaded country ',$id,$fieldname,self::$_countries[$id]->loadFieldValues());
+		if(isset(self::$_countries[$id])){
+			return self::$_countries[$id];
+		} else {
+			return false;
+		}
+
+	}
+
+	static public function getCountryFieldByID ($id, $fld = 'country_name') {
+
+		$c = self::getCountry($id);
+		if($c and isset($c->$fld)){
+			return $c->$fld;
+		} else {
+			return false;
+		}
+	}
+
     /**
      * Retreive a country record given a country code.
      *
@@ -49,7 +84,7 @@ class VirtueMartModelCountry extends VmModel {
      * @param string $code Country code to lookup
      * @return object Country object from database
      */
-    static function getCountryByCode($code) {
+    static public function getCountryByCode($code) {
 
 		if(empty($code)) return false;
 		$db = JFactory::getDBO();
@@ -66,17 +101,13 @@ class VirtueMartModelCountry extends VmModel {
 				$fieldname = 'country_name';
 		}
 
-		static $countries = array();
-
-		if(!isset($countries[$code])){
-			$query = 'SELECT *';
-			$query .= ' FROM `#__virtuemart_countries`';
-			$query .= ' WHERE `' . $fieldname . '` = "' . $db->escape ($code) . '"';
-			$db->setQuery($query);
-			$countries[$code] = $db->loadObject();
+		self::$_countries[$code] = self::getCountry(strtoupper($code), $fieldname);
+		if(self::$_countries[$code]){
+			return self::$_countries[$code]->loadFieldValues(false);
+		} else {
+			return false;
 		}
 
-		return $countries[$code];
     }
 
     /**

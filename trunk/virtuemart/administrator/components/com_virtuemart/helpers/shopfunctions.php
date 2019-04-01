@@ -419,7 +419,7 @@ jQuery(".changeSendForm")
 		$weight_unit_default = explode(',',VmConfig::get('norm_units', 'KG,100G,M,SM,CUBM,L,100ML,P'));
 
 		foreach ($weight_unit_default as  $value) {
-			$wu_list[] = JHtml::_ ('select.option', $value, vmText::_('COM_VIRTUEMART_UNIT_SYMBOL_'.strtoupper(trim($value))), $name);
+			$wu_list[] = JHtml::_ ('select.option', strtoupper(trim($value)), vmText::_('COM_VIRTUEMART_UNIT_SYMBOL_'.strtoupper(trim($value))), $name);
 		}
 		$listHTML = JHtml::_ ('Select.genericlist', $wu_list, $name, '', $name, 'text', $selected);
 		return $listHTML;
@@ -682,7 +682,7 @@ jQuery(".changeSendForm")
 	/**
 	 * Return the countryname or code of a given countryID
 	 *
-	 * @author Oscar van Eijk
+	 * @author Max Milbers
 	 * @access public
 	 * @param int $id Country ID
 	 * @param char $fld Field to return: country_name (default), country_2_code or country_3_code.
@@ -694,18 +694,14 @@ jQuery(".changeSendForm")
 			return '';
 		}
 
-		$id = (int)$id;
-		$db = JFactory::getDBO ();
+		VmModel::getModel('country');
+		VirtueMartModelCountry::getCountryFieldByID($id, $fld);
 
-		$q = 'SELECT `' . $db->escape ($fld) . '` AS fld FROM `#__virtuemart_countries` WHERE virtuemart_country_id = ' . (int)$id;
-		$db->setQuery ($q);
-		return $db->loadResult ();
 	}
 
 	/**
 	 * Return the virtuemart_country_id of a given country name
 	 *
-	 * @author Oscar van Eijk
 	 * @author Max Milbers
 	 * @access public
 	 * @param string $name Country name (can be country_name or country_3_code  or country_2_code )
@@ -718,7 +714,12 @@ jQuery(".changeSendForm")
 		}
 		VmModel::getModel('country');
 		$c = VirtueMartModelCountry::getCountryByCode($name);
-		return $c -> virtuemart_country_id;
+		if($c and isset($c->virtuemart_country_id)){
+			return $c->virtuemart_country_id;
+		} else {
+			return false;
+		}
+
 	}
 
 	/**

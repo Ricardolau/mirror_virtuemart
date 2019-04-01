@@ -391,7 +391,7 @@ class VmModel extends vObject{
 			}
 		}
 
-		if ($table = $this->_createTable($name, $prefix, $options))
+		if ($table = self::_createTable($name, $prefix, $options))
 		{
 			return $table;
 		}
@@ -417,7 +417,7 @@ class VmModel extends vObject{
 	 * @since   11.1
 	 * @see     JTable::getInstance
 	 */
-	protected function _createTable($name, $prefix = 'Table', $config = array())
+	static protected function _createTable($name, $prefix = 'Table', $config = array())
 	{
 		// Clean the model name
 		$name = preg_replace('/[^A-Z0-9_]/i', '', $name);
@@ -730,40 +730,45 @@ class VmModel extends vObject{
 		return $this->_pagination;
 	}
 
-	public function setPaginationLimits(){
+	public function setPaginationLimits($force = false){
 
-		$app = JFactory::getApplication();
-		$view = vRequest::getCmd('view');
-		if (empty($view)) $view = $this->_maintablename;
+		static $exe = true;
+		if($exe or $force){
+			$app = JFactory::getApplication();
+			$view = vRequest::getCmd('view');
+			if (empty($view)) $view = $this->_maintablename;
 
-		$limit = (int)$app->getUserStateFromRequest('com_virtuemart.'.$view.'.limit', 'limit');
-		if(empty($limit)){
-			if($app->isSite()){
-				$limit = VmConfig::get ('llimit_init_FE',24);
-			} else {
-				$limit = VmConfig::get ('llimit_init_BE',30);
+			$limit = (int)$app->getUserStateFromRequest('com_virtuemart.'.$view.'.limit', 'limit');
+			if(empty($limit)){
+				if($app->isSite()){
+					$limit = VmConfig::get ('llimit_init_FE',24);
+				} else {
+					$limit = VmConfig::get ('llimit_init_BE',30);
+				}
 			}
+
+			if(empty($limit)){
+				$limit = 24;
+			}
+			if($limit>$this->_maxItems){
+				$limit = $this->_maxItems;
+			}
+
+			$this->setState('limit', $limit);
+			$this->setState('com_virtuemart.'.$view.'.limit',$limit);
+			$this->_limit = $limit;
+
+			$limitStart = $app->getUserStateFromRequest('com_virtuemart.'.$view.'.limitstart', 'limitstart',  vRequest::getInt('limitstart',0,'GET'), 'int');
+
+			//There is a strange error in the frontend giving back 9 instead of 10, or 24 instead of 25
+			//This functions assures that the steps of limitstart fit with the limit
+			$limitStart = ceil((float)$limitStart/(float)$limit) * $limit;
+			$this->setState('limitstart', $limitStart);
+			$this->setState('com_virtuemart.'.$view.'.limitstart',$limitStart);
+			$this->_limitStart = $limitStart;
+			$exe = false;
 		}
 
-		if(empty($limit)){
-			$limit = 24;
-		}
-		if($limit>$this->_maxItems){
-			$limit = $this->_maxItems;
-		}
-
-		$this->setState('limit', $limit);
-		$this->setState('com_virtuemart.'.$view.'.limit',$limit);
-		$this->_limit = $limit;
-
-		$limitStart = $app->getUserStateFromRequest('com_virtuemart.'.$view.'.limitstart', 'limitstart',  vRequest::getInt('limitstart',0,'GET'), 'int');
-
-		//There is a strange error in the frontend giving back 9 instead of 10, or 24 instead of 25
-		//This functions assures that the steps of limitstart fit with the limit
-		$limitStart = ceil((float)$limitStart/(float)$limit) * $limit;
-		$this->setState('limitstart', $limitStart);
-		$this->setState('com_virtuemart.'.$view.'.limitstart',$limitStart);
-		$this->_limitStart = $limitStart;
 
 		return array($this->_limitStart,$this->_limit);
 	}
@@ -859,7 +864,7 @@ class VmModel extends vObject{
 			vmError('exeSortSearchListQuery '.$err);
 		}
 		if($this->debug === 1) vmdebug('exeSortSearchListQuery result ',$this->ids );
-		if($this->_withCount){
+		if( $this->_withCount ){
 
 			$db->setQuery('SELECT FOUND_ROWS()');
 			$count = $db->loadResult();
@@ -1028,9 +1033,9 @@ class VmModel extends vObject{
 			$this->_cache[$this->_id]->load($this->_id);
 
 			//just an idea
-			if(isset($this->_cache[$this->_id]->virtuemart_vendor_id) && empty($this->_data->virtuemart_vendor_id)){
+			/*if(isset($this->_cache[$this->_id]->virtuemart_vendor_id) && empty($this->_data->virtuemart_vendor_id)){
 				$this->_cache[$this->_id]->virtuemart_vendor_id = vmAccess::isSuperVendor();
-			}
+			}*/
 		}
 
 		return $this->_cache[$this->_id];

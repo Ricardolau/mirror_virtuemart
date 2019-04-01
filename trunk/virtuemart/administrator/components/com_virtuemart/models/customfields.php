@@ -159,7 +159,7 @@ class VirtueMartModelCustomfields extends VmModel {
 			} else if(is_array($productCustoms)){
 
 				foreach($productCustoms as $customfield){
-					$hkey = (int)$customfield->virtuemart_product_id.$cartattribute;
+					$hkey = (int)$customfield->virtuemart_product_id.'_'.$cartattribute;
 					$_customFieldByProductId[$hkey][] = $customfield;
 				}
 				$productCustoms = array_merge($productCustomsCached,$productCustoms);

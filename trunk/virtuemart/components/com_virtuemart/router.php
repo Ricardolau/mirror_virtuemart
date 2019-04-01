@@ -1054,38 +1054,62 @@ class vmrouterHelper {
 		return $catIds;
 	}
 
+	static $productNamesCache = array();
 	/* Get URL safe Product name */
 	public function getProductName($id){
 
-		static $productNamesCache = array();
+
 		static $suffix = '';
-		if(!isset($productNamesCache[VmLanguage::$currLangTag][$id])){
+		static $prTable = false;
+		if(!isset(self::$productNamesCache[VmLanguage::$currLangTag][$id])){
 			if($this->use_seo_suffix){
 				$suffix = $this->seo_sufix;
 			}
-			$virtuemart_shoppergroup_ids = VirtueMartModelProduct::getCurrentUserShopperGrps();
-			$checkedProductKey= VirtueMartModelProduct::checkIfCached($id,TRUE, FALSE, TRUE, 1, $virtuemart_shoppergroup_ids,0);
-			if($checkedProductKey[0]){
-				if(VirtueMartModelProduct::$_products[$checkedProductKey[1]]===false){
-					$productNamesCache[VmLanguage::$currLangTag][$id] = false;
-				} else if(isset(VirtueMartModelProduct::$_products[$checkedProductKey[1]])){
-					$productNamesCache[VmLanguage::$currLangTag][$id] = VirtueMartModelProduct::$_products[$checkedProductKey[1]]->slug.$suffix;
+			if(!$prTable){
+				$prTable = VmTable::getInstance('products');
+			}
+			$i = 0;
+			//vmSetStartTime('Routerloads');
+			if(!isset(self::$productNamesCache[VmLanguage::$currLangTag][$id])){
+
+				$prTable->load($id);
+
+				//a product cannot derive a slug from a parent product
+				//if(empty($prTable->slug) and $prTable->product_parent_id>0 ){}
+
+				if(!$prTable or empty($prTable->slug)){
+					self::$productNamesCache[VmLanguage::$currLangTag][$id] = false;
+				} else {
+					self::$productNamesCache[VmLanguage::$currLangTag][$id] = $prTable->slug.$suffix;
 				}
 			}
 
-			if(!isset($productNamesCache[VmLanguage::$currLangTag][$id])){
+			//*/
+
+			/*$virtuemart_shoppergroup_ids = VirtueMartModelProduct::getCurrentUserShopperGrps();
+			$checkedProductKey= VirtueMartModelProduct::checkIfCached($id,TRUE, FALSE, TRUE, 1, $virtuemart_shoppergroup_ids,0);
+			if($checkedProductKey[0]){
+				if(VirtueMartModelProduct::$_products[$checkedProductKey[1]]===false){
+					self::$productNamesCache[VmLanguage::$currLangTag][$id] = false;
+				} else if(isset(VirtueMartModelProduct::$_products[$checkedProductKey[1]])){
+					self::$productNamesCache[VmLanguage::$currLangTag][$id] = VirtueMartModelProduct::$_products[$checkedProductKey[1]]->slug.$suffix;
+				}
+			}
+
+			if(!isset(self::$productNamesCache[VmLanguage::$currLangTag][$id])){
 				$pModel = VmModel::getModel('product');
 				//Adding shoppergroup could be needed
 				$pr = $pModel->getProduct($id, TRUE, FALSE, TRUE, 1, $virtuemart_shoppergroup_ids,0);
 				if(!$pr or empty($pr->slug)){
-					$productNamesCache[VmLanguage::$currLangTag][$id] = false;
+					self::$productNamesCache[VmLanguage::$currLangTag][$id] = false;
 				} else {
-					$productNamesCache[VmLanguage::$currLangTag][$id] = $pr->slug.$suffix;
+					self::$productNamesCache[VmLanguage::$currLangTag][$id] = $pr->slug.$suffix;
 				}
-			}
+			}//*/
+			//vmTime('Router load  '.$id,'Routerloads');
 		}
 
-		return $productNamesCache[VmLanguage::$currLangTag][$id];
+		return self::$productNamesCache[VmLanguage::$currLangTag][$id];
 	}
 
 	var $counter = 0;

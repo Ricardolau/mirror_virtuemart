@@ -291,6 +291,7 @@ class VirtueMartModelProduct extends VmModel {
 		$app = JFactory::getApplication ();
 		$db = JFactory::getDbo();
 		//$this->setDebugSql(1);
+		//vmdebug('sortSearchListQuery '.$group,$nbrReturnProducts);
 		//User Q.Stanley said that removing group by is increasing the speed of product listing in a bigger shop (10k products) by factor 60
 		//So what was the reason for that we have it? TODO experiemental, find conditions for the need of group by
 		$groupBy = ' group by p.`virtuemart_product_id` ';
@@ -611,6 +612,7 @@ class VirtueMartModelProduct extends VmModel {
 		}
 		$filterOrderDir = '';
 
+		$origReturnPrd = 3;
 		//Group case from the modules
 		if ($group) {
 
@@ -619,15 +621,20 @@ class VirtueMartModelProduct extends VmModel {
 			$groupBy = 'group by p.`virtuemart_product_id` ';
 			switch ($group) {
 				case 'featured':
+
 					$where[] = 'p.`product_special`="1" ';
-					$orderBy = 'ORDER BY RAND()';
+					//$limits = $this->setPaginationLimits();
+					if($isSite){
+						$origReturnPrd = $nbrReturnProducts;
+						//$nbrReturnProducts = $nbrReturnProducts * 3;
+					}
 					break;
 				case 'discontinued':
 					$where[] = 'p.`product_discontinued`="1" ';
 					if($isSite){
-						$orderBy = 'ORDER BY RAND()';
+						$origReturnPrd = $nbrReturnProducts;
+						//$nbrReturnProducts = $nbrReturnProducts * 3;
 					}
-
 					break;
 				case 'latest':
 					$orderBy = 'ORDER BY p.`' . $latest_products_orderBy . '` DESC, p.`virtuemart_product_id` DESC';
@@ -777,10 +784,19 @@ class VirtueMartModelProduct extends VmModel {
 		vmSetStartTime('sortSearchQuery');
 		$product_ids = $this->exeSortSearchListQuery (2, $select, $joinedTables, $whereString, $groupBy, $orderBy, $filterOrderDir, $nbrReturnProducts);
 
-		vmTime('sortSearchQuery products: '.$group,'sortSearchQuery');
-		//vmdebug('exeSortSearchLIstquery orderby ',$product_ids);
-		return $product_ids;
+		if($isSite and ($group=='featured' or $group=='discontinued')){
 
+			$product_idsTmp = $product_ids;
+			shuffle($product_idsTmp);
+			$max = count($product_idsTmp);
+			//vmdebug('Lets get a '.$group.' shuffle',$product_ids,$product_idsTmp);
+			$product_ids = array_slice($product_idsTmp,0,$origReturnPrd);
+			$this->setGetCount(true);
+
+		}
+		vmTime('sortSearchQuery products: '.$group,'sortSearchQuery');
+
+		return $product_ids;
 	}
 
 	public function getProductStockhandle () {
@@ -806,7 +822,7 @@ class VirtueMartModelProduct extends VmModel {
 	 *
 	 * @see VmModel::setPaginationLimits()
 	 */
-	public function setPaginationLimits () {
+	public function setPaginationLimits ( $force = false ) {
 
 		$app = JFactory::getApplication ();
 		$view = vRequest::getCmd ('view','virtuemart');
@@ -1125,7 +1141,7 @@ vmdebug('$limitStart',$limitStart);
 
 		}
 
-		$child->product_name = vRequest::vmHtmlEntities( $child->product_name);
+		//$child->product_name = vRequest::vmHtmlEntities( $child->product_name);
 		//vmdebug('getProduct Time: '.$runtime);
 		$child->published = $published;
 		$child->virtuemart_product_id = $pId;
@@ -3123,6 +3139,8 @@ vmdebug('$limitStart',$limitStart);
 			return 0;
 		}
 		static $parentCache = array();
+		$prTable = false;
+
 		if(!isset($parentCache[$product_id])){
 			//Check if product got already loaded
 			$checkedProductKey= self::checkIfCachedSingle($product_id);
@@ -3137,16 +3155,21 @@ vmdebug('$limitStart',$limitStart);
 			}
 
 			if(!isset($parentCache[$product_id])){
-				$db = JFactory::getDbo();
-				$db->setQuery (' SELECT `product_parent_id` FROM `#__virtuemart_products` WHERE `virtuemart_product_id` =' . (int)$product_id);
-				$parentCache[$product_id] = $db->loadResult ();
-				//vmdebug('getProductParentId executed sql for '.$product_id,$checkedProductKey);
+				if(!$prTable){
+					$prTable = VmTable::getInstance('products');
+				}
+				$prTable->load($product_id);
+				if(isset($prTable->product_parent_id)){
+					$parentCache[$product_id] = $prTable->product_parent_id;
+				}
+				//vmdebug('getProductParentId executed sql for '.$product_id,$parentCache[$product_id]);
 				//vmTrace('getProductParentId executed sql for '.$product_id);
 			}
 
 		} else {
 			//vmdebug('getProductParentId $parentCache',$product_id,$parentCache[$product_id]);
 		}
+		//vmdebug('getProductParentId '.$product_id,$parentCache[$product_id]);
 		return $parentCache[$product_id];
 	}
 

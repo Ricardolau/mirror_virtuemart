@@ -160,7 +160,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 	 * @link	http://docs.joomla.org/JTable/getInstance
 	 * @since   11.1
 	 */
-	public static function getInstance($type, $prefix = 'VmTable', $config = array())
+	public static function getInstance($type, $prefix = 'Table', $config = array())
 	{
 		// Sanitize and prepare the table class name.
 		$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
@@ -184,6 +184,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			}
 			if (!class_exists($tableClass))
 			{
+				VmConfig::$echoDebug=1;
 				vmdebug('Did not find class '.$tableClass.' in file '.$type.'.php in ',$paths,$tryThis);
 				return false;
 			}
@@ -1038,7 +1039,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		$db->setQuery($query);
 
 		$result = $db->loadAssoc();
-
+		//vmdebug('vmtable load $query',$query,$result);
 		if ($result) {
 			$this->_loaded = true;
 			$this->bind($result);
@@ -1612,8 +1613,9 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 				foreach ($this->_translatableFields as $name) {
 					$langTable->$name = $this->$name;
 					if (isset($data->$name)) {
-						//We directly store language stuff "escaped"
-						$langData[$name] = htmlspecialchars(html_entity_decode($data->$name, ENT_QUOTES, "UTF-8"), ENT_QUOTES, "UTF-8");
+						//We directly store language stuff "escaped" escape
+						//$langData[$name] = htmlspecialchars(html_entity_decode($data->$name, ENT_QUOTES, "UTF-8"), ENT_QUOTES, "UTF-8");
+						$langData[$name] = $db->escape(html_entity_decode($data->$name, ENT_QUOTES, "UTF-8") );
 					}
 					unset($dataTable->$name);
 
@@ -1635,7 +1637,8 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 				foreach ($this->_translatableFields as $name) {
 					$langTable->$name = $this->$name;
 					if (isset($data[$name])) {
-						$langData[$name] = htmlspecialchars(html_entity_decode($data[$name], ENT_QUOTES, "UTF-8"), ENT_QUOTES, "UTF-8");
+						//$langData[$name] = htmlspecialchars(html_entity_decode($data[$name], ENT_QUOTES, "UTF-8"), ENT_QUOTES, "UTF-8");
+						$langData[$name] = $db->escape(html_entity_decode($data[$name], ENT_QUOTES, "UTF-8") );
 					}
 					unset($dataTable->$name);
 
@@ -2457,7 +2460,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 	protected function _getAssetParentId($table = null, $id = null)
 	{
 		// For simple cases, parent to the asset root.
-		$assets = self::getInstance('Asset', 'VmTable', array('dbo' => $this->getDbo()));
+		$assets = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
 		$rootId = $assets->getRootId();
 		if (!empty($rootId))
 		{

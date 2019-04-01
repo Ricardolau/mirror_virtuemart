@@ -47,18 +47,10 @@ class VirtuemartControllerShipmentmethod extends VmController {
 
 		$data = vRequest::getPost();
 
-		if(vmAccess::manager('raw')){
-			$data['shipment_name'] = vRequest::get('shipment_name','');
-			$data['shipment_desc'] = vRequest::get('shipment_desc','');
-			if(isset($data['params'])){
-				$data['params'] = vRequest::get('params','');
-			}
-		} else {
-			$data['shipment_name'] = vRequest::getHtml('shipment_name','');
-			$data['shipment_desc'] = vRequest::getHtml('shipment_desc','');
-			if(isset($data['params'])){
-				$data['params'] = vRequest::getHtml('params','');
-			}
+		$data['shipment_name'] = vRequest::getHtml('shipment_name','');
+		$data['shipment_desc'] = vRequest::getHtml('shipment_desc','');
+		if(isset($data['params'])){
+			$data['params'] = vRequest::getHtml('params','');
 		}
 
 		parent::save($data);

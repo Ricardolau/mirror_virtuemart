@@ -6,8 +6,8 @@
 		<action name="vm.manage" title="COM_VM_MANAGE_FE" description="COM_VM_ACL_MANAGE_FE_TIP" />
 		<action name="vm.managevendors" title="COM_VM_MANAGE_VENDORS" description="COM_VM_ACL_MANAGE_VENDORS_TIP" />
 		<!-- action name="core.edit.own" title="JACTION_EDITOWN" description="COM_CONFIG_ACTION_EDITOWN_TIP" /-->
-		<action name="vm.raw" title="COM_VM_ALRAW" description="COM_VM_ALRAW_TIP" />
-		<action name="vm.html" title="COM_VM_ALHTML" description="COM_VM_ALHTML_TIP" />
+		<!--action name="vm.raw" title="COM_VM_ALRAW" description="COM_VM_ALRAW_TIP" />
+		<action name="vm.html" title="COM_VM_ALHTML" description="COM_VM_ALHTML_TIP" /-->
 	</section>
 	<section name="component">
 		<action name="vm.category" title="COM_VM_CAT_MANAGE" description="COM_VM_CAT_MANAGE_TIP" />

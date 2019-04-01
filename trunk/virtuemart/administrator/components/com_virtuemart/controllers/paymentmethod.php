@@ -42,18 +42,11 @@ class VirtuemartControllerPaymentmethod extends VmController {
 
 	function save($data = 0){
 		$data = vRequest::getPost();
-		if(vmAccess::manager('raw')){
-			$data['payment_name'] = vRequest::get('payment_name','');
-			$data['payment_desc'] = vRequest::get('payment_desc','');
-			if(isset($data['params'])){
-				$data['params'] = vRequest::get('params','');
-			}
-		} else {
-			$data['payment_name'] = vRequest::getHtml('payment_name','');
-			$data['payment_desc'] = vRequest::getHtml('payment_desc','');
-			if(isset($data['params'])){
-				$data['params'] = vRequest::getHtml('params','');
-			}
+
+		$data['payment_name'] = vRequest::getHtml('payment_name','');
+		$data['payment_desc'] = vRequest::getHtml('payment_desc','');
+		if(isset($data['params'])){
+			$data['params'] = vRequest::getHtml('params','');
 		}
 
 		parent::save($data);

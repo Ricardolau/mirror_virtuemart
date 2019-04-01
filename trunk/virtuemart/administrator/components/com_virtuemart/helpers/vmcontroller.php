@@ -150,19 +150,11 @@ class VmController extends JControllerLegacy{
 	function getStrByAcl(array $names, &$data=0){
 
 		if($data==0) $data = array();
-		if(vmAccess::manager('raw')){
-			foreach($names as $name){
-				$data[$name] = vRequest::get($name,'');
-			}
-		} else if(vmAccess::manager('html')){
-			foreach($names as $name){
-				$data[$name] = vRequest::getHtml($name,'');
-			}
-		} else {
-			foreach($names as $name){
-				$data[$name] = vRequest::getString($name,'');
-			}
+
+		foreach($names as $name){
+			$data[$name] = vRequest::getHtml($name,'');
 		}
+
 		return $data;
 	}
 

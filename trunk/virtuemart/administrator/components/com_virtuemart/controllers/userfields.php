@@ -52,17 +52,11 @@ class VirtuemartControllerUserfields extends VmController {
 
 		if($data===0) $data = vRequest::getPost();
 
-		if(vmAccess::manager('raw')){
-			$data['description'] = vRequest::get('description','');
-			if(isset($data['params'])){
-				$data['params'] = vRequest::get('params','');
-			}
-		} else {
-			$data['description'] = vRequest::getHtml('description','');
-			if(isset($data['params'])){
-				$data['params'] = vRequest::getHtml('params','');
-			}
+		$data['description'] = vRequest::getHtml('description','');
+		if(isset($data['params'])){
+			$data['params'] = vRequest::getHtml('params','');
 		}
+
 		$data['name'] = vRequest::getCmd('name');
 		// onSaveCustom plugin;
 		parent::save($data);

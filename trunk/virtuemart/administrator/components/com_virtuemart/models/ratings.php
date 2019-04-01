@@ -340,11 +340,15 @@ class VirtueMartModelRatings extends VmModel {
 			$user = JFactory::getUser();
 			$userId = $user->id;
     	}
-		$q = 'SELECT * FROM `#__virtuemart_rating_votes` WHERE `virtuemart_product_id` = "'.(int)$product_id.'" AND `created_by` = "'.(int)$userId.'" ';
-		$db = JFactory::getDBO();
-		$db->setQuery($q);
-		return $db->loadObject();
 
+		if(!empty($userId)){
+			$q = 'SELECT * FROM `#__virtuemart_rating_votes` WHERE `virtuemart_product_id` = "'.(int)$product_id.'" AND `created_by` = "'.(int)$userId.'" ';
+			$db = JFactory::getDBO();
+			$db->setQuery($q);
+			return $db->loadObject();
+		} else {
+			return false;
+		}
     }
 
 	function getAverageVotesByProductId($prId){
@@ -355,10 +359,14 @@ class VirtueMartModelRatings extends VmModel {
 	}
 
 	function getVoteById($id){
-		$q = 'SELECT * FROM `#__virtuemart_rating_votes` WHERE `virtuemart_rating_vote_id` = "'.(int)$id.'"  ';
-		$db = JFactory::getDBO();
-		$db->setQuery($q);
-		return $db->loadObject();
+		if(!empty($userId)){
+			$q = 'SELECT * FROM `#__virtuemart_rating_votes` WHERE `virtuemart_rating_vote_id` = "'.(int)$id.'"  ';
+			$db = JFactory::getDBO();
+			$db->setQuery($q);
+			return $db->loadObject();
+		} else {
+			return false;
+		}
 	}
 
     /**

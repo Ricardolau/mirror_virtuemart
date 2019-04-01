@@ -471,7 +471,8 @@ class com_virtuemart_allinoneInstallerScript {
 			$success =$this->recurse_copy ($src, $dst);
 		}
 
-		//We cannot execute updatePluginTable while package installation, because the VMPATH_ROOT is set to the tmp folder
+		//Execute updatePluginTable while package installation, only if the VMPATH_ROOT is set to the root folder
+
 		if(JPATH_ROOT==VMPATH_ROOT){
 			if ($success) {
 				$this->updatePluginTable ($name, $type, $element, $group, $dst);

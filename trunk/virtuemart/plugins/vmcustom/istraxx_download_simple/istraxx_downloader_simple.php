@@ -5,9 +5,9 @@ defined ('_JEXEC') or     die('Direct Access to ' . basename (__FILE__) . ' is n
  *
  * @version $Id:
  * @package VirtueMart
- * @subpackage Plugins - istraxx download
+ * @subpackage Plugins - istraxx download simple
  * @author Max Milbers
- * @copyright Copyright (C) 2012-2018 iStraxx - All rights reserved.
+ * @copyright Copyright (C) 2012 - 2018 iStraxx UG (haftungsbeschränkt). All rights reserved.
  * @license LGPLv3
  *
  */

@@ -7,12 +7,12 @@ defined ('_JEXEC') or     die('Direct Access to ' . basename (__FILE__) . ' is n
  * @package VirtueMart
  * @subpackage Plugins -${PHING.GROUP} - ${PHING.FILENAME} - ${PHING.VERSION}
  * @author ${PHING.AUTHOR.MAX}
- * @copyright Copyright (C) 2012 - ${PHING.COPYRIGHT.ISTRAXX}
+ * @copyright Copyright (C) 2012 - 2018 iStraxx UG (haftungsbeschr�nkt). All rights reserved.
  * @license LGPLv3
  */
 
 if (!class_exists ('vmCustomPlugin')) {
-	require(JPATH_VM_PLUGINS . DS . 'vmcustomplugin.php');
+	require(VMPATH_PLUGINLIBS . DS . 'vmcustomplugin.php');
 }
 
 class plgVmCustomIstraxx_download_simple extends vmCustomPlugin {
@@ -59,16 +59,16 @@ class plgVmCustomIstraxx_download_simple extends vmCustomPlugin {
 		return $SQLfields;
 	}
 
-	function plgVmOnStoreInstallPluginTable ($jplugin_name,$name,$table) {
+	function plgVmOnStoreInstallPluginTable ($plgType, $data, $table) {
 
-		$this->onStoreInstallPluginTable ($jplugin_name, $name);
+		$this->onStoreInstallPluginTable ($plgType, $data['custom_element']);
 
 		if(is_object($table) and empty($table->is_cart_attribute) or $table->is_input=='0'){
 			//$table->is_input = 0;
 			$table->is_cart_attribute = 1;
 			$table->store();
 		}
-
+		vmdebug('MUuuuuuhhhuuh sooollllte DAAA sein');
 	}
 
 	function plgVmDeclarePluginParamsCustomVM3(&$data){

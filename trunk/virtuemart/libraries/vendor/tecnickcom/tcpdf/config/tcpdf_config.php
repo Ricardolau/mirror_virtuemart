@@ -45,10 +45,11 @@
  * Installation path (/var/www/tcpdf/).
  * By default it is automatically calculated but you can also set it as a fixed string to improve performances.
  */
-defined('DS') or define('DS', DIRECTORY_SEPARATOR);
+
 if (!class_exists( 'VmConfig' )) {
 	require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
-	VmConfig::loadConfig();
+	//Must be loaded without executing the trigger plgVmInitialise
+	VmConfig::loadConfig(FALSE, FALSE, true, false);
 }
 
 

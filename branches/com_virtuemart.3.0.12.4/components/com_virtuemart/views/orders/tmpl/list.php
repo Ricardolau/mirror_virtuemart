@@ -76,7 +76,7 @@ if (count($this->orderlist) == 0) {
 					<?php echo shopFunctionsF::getOrderStatusName($row->order_status); ?>
 				</td>
 				<td align="left">
-					<?php echo $this->currency->priceDisplay($row->order_total, $row->currency); ?>
+					<?php echo $row->currency->priceDisplay($row->order_total, $row->currency); ?>
 				</td>
 			</tr>
 	<?php

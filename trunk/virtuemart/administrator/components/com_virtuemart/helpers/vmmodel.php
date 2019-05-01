@@ -417,7 +417,7 @@ class VmModel extends vObject{
 	 * @since   11.1
 	 * @see     JTable::getInstance
 	 */
-	static protected function _createTable($name, $prefix = 'Table', $config = array())
+	protected function _createTable($name, $prefix = 'Table', $config = array())
 	{
 		// Clean the model name
 		$name = preg_replace('/[^A-Z0-9_]/i', '', $name);

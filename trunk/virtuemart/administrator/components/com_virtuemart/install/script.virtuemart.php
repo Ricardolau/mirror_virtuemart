@@ -61,6 +61,7 @@ class com_virtuemartInstallerScript {
 
 	public function getVMPathRoot(){
 		$source_path = dirname(__FILE__);//JInstaller::getInstance()->getPath('source');
+
 		if(!empty($source_path)){
 			$len = strlen($source_path);
 			//We must remove the install folder to get the root
@@ -1214,8 +1215,7 @@ class com_virtuemartInstallerScript {
 	}
 
 	public function displayFinished($update){
-
-		include(VMPATH_ADMIN.'/views/updatesmigration/tmpl/insfinished.php');
+		require($this->path.'/administrator/components/com_virtuemart/views/updatesmigration/tmpl/insfinished.php');
 
 	}
 

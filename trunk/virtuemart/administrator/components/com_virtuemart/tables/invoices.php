@@ -41,6 +41,8 @@ class TableInvoices extends VmTable {
 
 	var $xhtml = '';
 
+	var $o_hash = '';
+
 	/**
 	 *
 	 * @author Max Milbers

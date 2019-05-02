@@ -52,7 +52,7 @@ class VirtueMartCart {
 	var $automaticSelectedPayment  = false;
 	var $BT = 0;
 	var $ST = 0;
-	var $cartfields = null;
+	var $cartfields = array();
 
 	var $couponCode = '';
 	var $order_language = '';
@@ -166,8 +166,12 @@ class VirtueMartCart {
 					self::$_cart->virtuemart_cart_id			= $sessionCart->virtuemart_cart_id;
 					self::$_cart->orderdoneHtml					= $sessionCart->orderdoneHtml;
 					self::$_cart->virtuemart_order_id			= $sessionCart->virtuemart_order_id;
+					self::$_cart->byDefaultBT					= $sessionCart->byDefaultBT;
+					self::$_cart->byDefaultST					= $sessionCart->byDefaultST;
 				}
 			}
+
+			self::$_cart->selected_shipto = vRequest::getVar('shipto', self::$_cart->selected_shipto);
 
 			self::$_cart->setupAddressFieldsForCart();
 
@@ -228,29 +232,49 @@ class VirtueMartCart {
 
 		if($this->BT==0) $this->BT = array();
 		if($this->ST==0) $this->ST = array();
-		//vmdebug('prepareAddressFieldsInCart before bind ',$this->BT,$this->ST);
+		//vmdebug('setupAddressFieldsForCart before bind ',$this->BT,$this->ST);
 		$bt = $this->BT;
 		$st = $this->ST;
+
+		$default['BT']=true;
+		$default['ST']=true;
+
+		$btloaded = false;
 		//If the user is logged in and exists, we check if he has already addresses stored
 		if(!empty($this->user->virtuemart_user_id)){
-			//vmdebug('prepareAddressFieldsInCart check for stored BT ',$this->BT,$this->ST);
-			if((empty($this->BT) or count($this->BT)<2)
-									or (!empty($this->selected_shipto) and (empty($this->ST) or count($this->ST)<3))
-											){
-				//vmdebug('prepareAddressFieldsInCart found stored BT ',$bt,$this->BT);
+
+
+			//vmdebug('setupAddressFieldsForCart check for stored BT ',$filledJUData,$this->cartfields,$this->BT,$this->byDefaultBT,$alrDefaultNbrBT);
+			//$alrDefaultNbrST = 1 + count($this->byDefaultST);
+			//vmdebug('setupAddressFieldsForCart check for stored ST ',$this->ST,$alrDefaultNbrST);
+
+//			if((empty($this->BT) or count($this->BT)<=$alrDefaultNbrBT)
+//									or (!empty($this->selected_shipto) and (empty($this->ST) or count($this->ST)<=$alrDefaultNbrST))
+//											){
+				//vmdebug('setupAddressFieldsForCart found stored BT ',$bt,$this->BT);
 				foreach ($this->user->userInfo as $address) {
 					if ($address->address_type == 'BT') {
 						$bt = $address->loadFieldValues();
-						//vmdebug('prepareAddressFieldsInCart found stored BT ',$bt,$this->BT);
+						$btloaded = true;
+						//$this->byDefaultBT = array();
+						//$default['BT']=false;
+						//vmdebug('setupAddressFieldsForCart found stored BT ',$bt,$this->BT);
 						//$this->saveAddressInCart((array) $address, $address->address_type,false);
 					} else {
+						vmdebug('setupAddressFieldsForCart found stored ST ',$this->selected_shipto,$address->virtuemart_userinfo_id);
 						if(!empty($this->selected_shipto) and $address->virtuemart_userinfo_id==$this->selected_shipto){
 							//$this->saveAddressInCart((array) $address, $address->address_type,false,'');
 							$st = $address->loadFieldValues();
+							$this->byDefaultST = array();
+							vmdebug('setupAddressFieldsForCart found stored ST ',$st);
+							//$st = self::mergeArraysOverrideEmpty($st, $this->ST);
+							//$this->byDefaultST = array();
+							//$default['ST']=false;
 						}
 					}
 				}
-			}
+
+//			}
 
 			if(empty($this->selected_shipto)){
 				$this->STsameAsBT = 1;
@@ -262,39 +286,102 @@ class VirtueMartCart {
 
 		$types = array('BT','ST');
 		foreach($types as $type){
+			/*if($type=='ST'){
+				$defaults = $this->byDefaultST;
+			} else {
+				$defaults = $this->byDefaultBT;
+			}*/
+
+
 			if($type=='ST'){
 				$preFix = 'shipto_';
 				$data = $st;
 			} else {
 				$preFix = '';
-				$data = $bt;
+				$defaults = $this->byDefaultBT;
+				if(!empty($defaults)){
+					foreach($defaults as $name=>$v){
+						if(isset($this->{$type}[$name])){
+							unset($this->{$type}[$name]);
+						}
+					}
+				}
+				$data = self::mergeArraysOverrideEmpty($bt, $this->BT);;
 			}
 
 			$addresstype = $type.'address'; //for example BTaddress
 			if($update or empty($this->$addresstype)){
-				//vmdebug('setupAddressFieldsForCart use data ',$data);
+
 				$userFields = $userFieldsModel->getUserFieldsFor('cart',$type);
+
+
 				$this->$addresstype = $userFieldsModel->getUserFieldsFilled(
 				$userFields
 				,$data
 				,$preFix
 				);
-				//vmdebug('prepareAddressFieldsInCart before bind '.$addresstype,$this->$addresstype,$this->{$type});
-				$this->bindUserfieldToCart($type, $this->$addresstype['fields']);
 
-				//vmdebug('setupAddressFieldsForCart '.$addresstype,$this->{$type});
+				if(!empty($this->$addresstype['byDefault'])){
+					if($type=='BT'){
+						$this->byDefaultBT = $this->$addresstype['byDefault'];
+						vmdebug('set $defaults BT',$this->byDefaultBT);
+					} else {
+						$this->byDefaultST = $this->$addresstype['byDefault'];
+						vmdebug('set $defaults ST',$this->byDefaultST);
+					}
+				}
+
+				/*$default = false;
+				if($type=='BT'){
+					//Value to keep number of usually already with defaults filled data
+					$filledJUData = 0;
+					$filledJUData += empty($this->BT['name'])? 0:1;
+					$filledJUData += empty($this->BT['user_name'])? 0:1;
+					$filledJUData += empty($this->BT['email'])? 0:1;
+
+					$alrDefaultNbrBT = 1 + $filledJUData +
+					count($this->cartfields) +
+					count($this->byDefaultBT);
+
+					if(empty($this->BT) or count($this->BT)<=$alrDefaultNbrBT){
+						$default=true;
+					}
+				}*/
+
+
+				if(!empty($this->$addresstype['fields'])){
+					$this->bindUserfieldToCart($type, $this->$addresstype['fields']);
+				} else {
+					vmdebug('cart helper found no userfields to bind');
+				}
 			}
 		}
 
+		if($btloaded){
+			$this->byDefaultBT = array();
+		}
 	}
 
-	private function bindUserfieldToCart($type, $prepareUserFields){
+	static public function mergeArraysOverrideEmpty($ar1, $ar2){
+		//vmdebug('mergeArraysOverrideEmpty Going to merge,',$ar1, $ar2);
+		$arr = array_merge($ar1, $ar2);
+		foreach($arr as $n =>$v){
+			if(empty($v) and !empty($ar1[$n])) $arr[$n] = $ar1[$n];
+		}
+		//vmdebug('mergeArraysOverrideEmpty result',$arr);
+		return $arr;
+	}
 
-		foreach ($prepareUserFields as $name=>$fld) {
+	public $byDefaultBT = array();
+	public $byDefaultST = array();
+
+	private function bindUserfieldToCart($type, $userFields){
+
+		foreach ($userFields as $name=>$fld) {
 
 			if(!empty($fld['name'])){
-				if(empty($this->{$type}[$name])){
-					//vmdebug('bindUserfieldToCart '.$type.' '.$name, $fld['value']);
+				if(empty($this->{$type}[$name]) or !empty($userFields['byDefault'][$name])){
+
 					if($name=='virtuemart_country_id' and !empty( $fld['virtuemart_country_id'])){
 						$this->{$type}[$name] = $fld['virtuemart_country_id'];
 					} else if ($name=='virtuemart_state_id' and !empty( $fld['virtuemart_state_id'])){
@@ -429,7 +516,7 @@ class VirtueMartCart {
 	public function storeCart($cartDataToStore = false){
 
 		if($this->tempCart) return;
-		vmSetStartTime('$forceWrite');
+
 		$adminID = vmAccess::getBgManagerId();
 		$currentUser = JFactory::getUser();
 		if(!$currentUser->guest && (!$adminID || $adminID == $currentUser->id)){
@@ -448,7 +535,7 @@ class VirtueMartCart {
 				$this->virtuemart_cart_id = $cObj->virtuemart_cart_id;
 			}
 		}
-		vmTime('storeCart ','$forceWrite');vmTrace('$forceWrite');
+
 	}
 
 	public function deleteCart(){
@@ -531,6 +618,8 @@ class VirtueMartCart {
 		$sessionCart->virtuemart_cart_id			= $this->virtuemart_cart_id;
 		$sessionCart->orderdoneHtml					= $this->orderdoneHtml;
 		$sessionCart->virtuemart_order_id			= $this->virtuemart_order_id;
+		$sessionCart->byDefaultBT					= $this->byDefaultBT;
+		$sessionCart->byDefaultST					= $this->byDefaultST;
 		return $sessionCart;
 	}
 
@@ -1100,6 +1189,8 @@ class VirtueMartCart {
 			return $this->redirecter('index.php?option=com_virtuemart&view=cart'.$layoutName , $redirectMsg);
 		}
 
+		$this->checkForCartQuantities();
+
 		$validUserDataBT = self::validateUserData();
 		if ($validUserDataBT!==true) {	//Important, we can have as result -1,false and true.
 			return $this->redirecter('index.php?option=com_virtuemart&view=user&task=editaddresscart&addrtype=BT' , '');
@@ -1411,6 +1502,8 @@ class VirtueMartCart {
 		$cart->productsQuantity=array();
 		$cart->virtuemart_order_id = false;
 		$cart->layout = VmConfig::get('cartlayout','default');
+		$cart->byDefaultBT = array();
+		$cart->byDefaultST = array();
 		if($session){
 			$cart->deleteCart();
 			$cart->setCartIntoSession(false,true);
@@ -1519,6 +1612,8 @@ class VirtueMartCart {
 		unset($address['password']);
 		unset($address['password2']);
 
+		//We reset the default array
+		$this->{'byDefault'.$type} = array();
 		$this->{$type} = $address;
 
 		if($putIntoSession){
@@ -1772,6 +1867,47 @@ class VirtueMartCart {
 			$returnValues = $dispatcher->trigger('plgVmOnCheckoutAdvertise', array( $this, &$this->cartAdv));
 		}
 		return $this->cartAdv;
+	}
+
+	public function checkForCartQuantities() {
+
+		$quantities = vRequest::getInt('quantity');
+		if(empty($quantities)) return true;
+		$updated = false;
+
+		foreach($quantities as $key=>$quantity){
+			if (isset($this->cartProductsData[$key]) and !empty($quantity) and !isset($_POST['delete_'.$key])) {
+				if($quantity!=$this->cartProductsData[$key]['quantity']){
+					$isok = true;
+					$newTotal = $quantity;
+					if (isset($this->products[$key])) {
+						$product = $this->products[$key];
+						$this->checkForQuantities($product, $newTotal);
+						if ($newTotal !== $quantity) {
+							$quantity = $newTotal;
+							$isok = false;
+						}
+
+					}
+					$this->cartProductsData[$key]['quantity'] = $quantity;
+					$updated = true;
+					if ($isok) {
+						vmInfo('COM_VIRTUEMART_PRODUCT_UPDATED_SUCCESSFULLY');
+					}
+					else {
+
+					}
+				}
+
+			} else {
+				unset($this->cartProductsData[$key]);
+				vmInfo('COM_VIRTUEMART_PRODUCT_REMOVED_SUCCESSFULLY');
+				$updated = true;
+			}
+		}
+
+		$this->setCartIntoSession( false, $updated);
+		return $updated;
 	}
 
 	/** Checks if the quantity is correct

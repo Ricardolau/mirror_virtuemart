@@ -756,9 +756,10 @@ class VirtueMartModelUserfields extends VmModel {
 
 		$_return = array(
 				 'fields' => array()
-		,'functions' => array()
-		,'scripts' => array()
-		,'links' => array()
+		,'functions' => array()	//Why do we still have this?
+		,'scripts' => array() //Why do we still have this?
+		,'links' => array() //Why do we still have this?
+		,'byDefault' => array()
 		);
 
 		$admin = vmAccess::manager();
@@ -772,17 +773,30 @@ class VirtueMartModelUserfields extends VmModel {
 
 				if(!empty($_userDataIn) and isset($_fld->default) and $_fld->default!=''){
 					if(is_array($_userDataIn)){
-						if(!isset($_userDataIn[$_fld->name]))
+						if(!isset($_userDataIn[$_fld->name])){
 							$_userDataIn[$_fld->name] = $_fld->default;
+							$_return['byDefault'][$_fld->name] = 1;
+						}
 					} else {
-						if(!isset($_userDataIn->{$_fld->name}))
+						if(!isset($_userDataIn->{$_fld->name})){
 							$_userDataIn->{$_fld->name} = $_fld->default;
+							$_return['byDefault'][$_fld->name] = 1;
+						}
 					}
 				}
-				
-				$valueO = $valueN = (($_userData == null || !array_key_exists($_fld->name, $_userData))
-				? vmText::_($_fld->default)
-				: $_userData[$_fld->name]);
+
+				if($_userData == null || !array_key_exists($_fld->name, $_userData)){
+
+					if(empty($_fld->default)){
+						$valueO = $valueN = $_fld->default;
+					} else {
+						$_return['byDefault'][$_fld->name] = 1;
+						$valueO = $valueN = vmText::_($_fld->default);
+					}
+				} else {
+					$valueO = $valueN = $_userData[$_fld->name];
+				}
+
 
 				//TODO htmlentites creates problems with non-ascii chars, which exists as htmlentity, for example äöü
 
@@ -1159,17 +1173,32 @@ class VirtueMartModelUserfields extends VmModel {
 	 * @author Max Milbers
 	 * @param string $fieldname
 	 */
-	function getIfRequired($fieldname) {
-		$db = JFactory::getDBO();
-		$q = 'SELECT `required` FROM `#__virtuemart_userfields` WHERE `name` = "'.$db->escape($fieldname).'" limit 0,1';
+	function getIfRequired($fieldname = 0) {
 
-		$db->setQuery($q);
-		$result = $db->loadResult();
-		if(!isset($result)){
-			vmError('userfields getIfRequired '.$q,'Programmer used an unknown userfield '.$fieldname);
+		static $required = null;
+
+		if($required === null){
+			$db = JFactory::getDBO();
+			$q = 'SELECT `name` FROM `#__virtuemart_userfields` WHERE `required` = "1" limit 0,100';
+
+			$db->setQuery($q);
+			$required = $db->loadColumn();
+			if(!isset($required)){
+				vmError('userfields getIfRequired '.$q,'Programmer used an unknown userfield '.$fieldname);
+			}
+			$required = array_flip($required);
+			vmdebug('Required output',$required);
 		}
 
-		return $result;
+		if(empty($fieldname)){
+			return $required;
+		}
+		else if(isset($required[$fieldname])){
+			return true;
+		}
+		else {
+			return false;
+		}
 
 	}
 

@@ -258,7 +258,7 @@ class VirtueMartModelUser extends VmModel {
 			vmError('Developer notice, no data to store for user');
 			return false;
 		}
-		vmdebug('User mode store, My data ',$data);
+
 		//To find out, if we have to register a new user, we take a look on the id of the usermodel object.
 		//The constructor sets automatically the right id.
 		$new = false;
@@ -847,6 +847,7 @@ class VirtueMartModelUser extends VmModel {
 		$return = true;
 		$untested = true;
 		$required  = 0;
+		$filledNotByDefault = 0;
 		$staterequired = true;
 		$missingFields = array();
 		$lang = vmLanguage::getLanguage();
@@ -857,7 +858,8 @@ class VirtueMartModelUser extends VmModel {
 
 				if($untested){
 					$untested = false;
-					if(isset($data['virtuemart_country_id']) and isset($data['virtuemart_state_id']) ){
+					if(!isset($data['virtuemart_state_id'])) $data['virtuemart_state_id'] = 0;
+					if(isset($data['virtuemart_country_id'])){
 						$msg = VirtueMartModelState::testStateCountry($data['virtuemart_country_id'], $data['virtuemart_state_id'], $staterequired);
 					}
 
@@ -884,9 +886,11 @@ class VirtueMartModelUser extends VmModel {
 				else if($data[$field->name] == $field->default){
 					$i++;
 				} else {
-
+					vmdebug('Not filled by default '.$field->name,$field->default,$data[$field->name]);
+					$filledNotByDefault++;
 				}
 			}
+
 		}
 
 		if(empty($required)){
@@ -898,7 +902,8 @@ class VirtueMartModelUser extends VmModel {
 		//vmdebug('my i '.$i.' my data size $showInfo: '.(int)$showInfo.' required: '.(int)$required,$return);
 
 		//if( ($required>2 and ($i+1)<$required) or ($required<=2 and !$return) or $showInfo){
-		if($showInfo or ($required>2 and $i<($required-1)) or ($required<3 and !$return) ){
+		//if($showInfo or ($required>2 and $i<($required-1)) or ($required<3 and !$return) ){
+		if($showInfo or $filledNotByDefault>1 ){
 			foreach($missingFields as $fieldname){
 				vmInfo($fieldname);
 			}

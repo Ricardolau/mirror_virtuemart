@@ -167,6 +167,41 @@ foreach($this->orderDetails['items'] as $item) {
 		}
 	} ?>
 
+	<?php
+	foreach($this->orderDetails['calc_rules'] as $rule){
+		if ($rule->calc_kind== 'DBTaxRulesBill') { ?>
+            <tr>
+                <td colspan="6"  style="text-align: right;" class="pricePad"><?php echo $rule->calc_rule_name ?> </td>
+				<?php if ( VmConfig::get('show_tax')) { ?>
+                    <td style="text-align: right;">&nbsp;</td>
+				<?php } ?>
+                <td style="text-align: right;"><?php echo  $this->currency->priceDisplay($rule->calc_amount,$this->user_currency_id);  ?> </td>
+                <td style="text-align: right;"><?php echo  $this->currency->priceDisplay($rule->calc_amount,$this->user_currency_id);  ?> </td>
+            </tr>
+			<?php
+		} elseif ($rule->calc_kind == 'taxRulesBill') { ?>
+            <tr>
+                <td colspan="6"  style="text-align: right;" class="pricePad"><?php echo $rule->calc_rule_name ?> </td>
+				<?php if ( VmConfig::get('show_tax')) { ?>
+                    <td style="text-align: right;"><?php echo $this->currency->priceDisplay($rule->calc_amount,$this->user_currency_id); ?> </td>
+				<?php } ?>
+                <td style="text-align: right;">&nbsp;</td>
+                <td style="text-align: right;"><?php echo $this->currency->priceDisplay($rule->calc_amount,$this->user_currency_id); ?> </td>
+            </tr>
+			<?php
+		} elseif ($rule->calc_kind == 'DATaxRulesBill') { ?>
+            <tr>
+                <td colspan="6" style="text-align: right;" class="pricePad"><?php echo $rule->calc_rule_name ?> </td>
+				<?php if ( VmConfig::get('show_tax')) { ?>
+                    <td style="text-align: right;">&nbsp;</td>
+				<?php } ?>
+                <td style="text-align: right;"><?php  echo   $this->currency->priceDisplay($rule->calc_amount,$this->user_currency_id);  ?> </td>
+                <td style="text-align: right;"><?php echo $this->currency->priceDisplay($rule->calc_amount,$this->user_currency_id);  ?> </td>
+            </tr>
+			<?php
+		}
+	} ?>
+
 	<tr>
 		<td style="text-align: right;" class="pricePad" colspan="6"><?php echo $this->orderDetails['shipmentName'] ?></td>
 		<?php if ( VmConfig::get('show_tax')) { ?>
@@ -235,8 +270,8 @@ foreach($this->orderDetails['items'] as $item) {
 			if ($rule->calc_kind == 'taxRulesBill' or $rule->calc_kind == 'VatTax' ) { ?>
 				<tr >
 					<td colspan="6" style="text-align: right;" class="pricePad"><?php echo $rule->label ?> </td>
-					<?php if ( VmConfig::get('show_tax')) {  ?>
-					<td style="text-align: right;"><?php echo $this->currency->priceDisplay($rule->calc_result, $this->user_currency_id); ?></td>
+					<?php if ( VmConfig::get('show_tax')) { ?>
+					<td style="text-align: right;"><?php echo $this->currency->priceDisplay($rule->calc_amount, $this->user_currency_id); ?></td>
 					<?php } ?>
 					<td style="text-align: right;">&nbsp;</td>
 					<td style="text-align: right;">&nbsp;</td>

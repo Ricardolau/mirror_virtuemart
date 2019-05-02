@@ -222,12 +222,12 @@ class VirtuemartViewOrders extends VmView {
 					$dispatcher = JDispatcher::getInstance ();
 					$dispatcher->trigger ('plgVmgetEmailCurrency', array($order->virtuemart_paymentmethod_id, $order->virtuemart_order_id, &$emailCurrencyId));
 					
-					$currency = CurrencyDisplay::getInstance ($emailCurrencyId, $vendorId);
-					$this->assignRef ('currency', $currency);
+					$this->currency = CurrencyDisplay::getInstance ($emailCurrencyId, $vendorId);
+
 					if ($emailCurrencyId) {
-						$currency->exchangeRateShopper = $order->user_currency_rate;
+						$this->currency->exchangeRateShopper = $order->user_currency_rate;
 					}
-					$order->currency = $currency;
+					$order->currency = $this->currency;
 					$order->invoiceNumber = $orderModel->getInvoiceNumber($order->virtuemart_order_id);
 					$this->orderlist[$k] = $order;
 				}

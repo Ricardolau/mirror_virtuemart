@@ -217,6 +217,11 @@ class VirtuemartViewInvoice extends VmView {
 		$this->discountsBill = $rulesSorted['discountsBill'];
 		$this->taxBill = $rulesSorted['taxBill'];
 
+		//Fallback for old layouts.
+		foreach($this->taxBill as $i=> $rule) {
+			$this->taxBill[$i]->calc_result = $rule->calc_amount;
+		}
+
 		if($orderDetails['details']['BT']->toPay != $orderDetails['details']['BT']->order_total){
 			$document->setTitle( vmText::_('COM_VIRTUEMART_CREDIT_NOTE') );
 		}

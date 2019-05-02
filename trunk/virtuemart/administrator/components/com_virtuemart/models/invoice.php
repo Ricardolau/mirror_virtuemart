@@ -106,6 +106,7 @@ class VirtueMartModelInvoice extends VmModel {
 
 		//check if there is already an InvoiceEntry
 		$invNu = self::getInvoiceEntry( $orderId, true, '*' );
+		//vmdebug( 'createReferencedInvoiceNumber', $orderId );
 
 		//First lets execute a path check, if the invoice was actually already rendered
 		if($invNu){
@@ -113,10 +114,16 @@ class VirtueMartModelInvoice extends VmModel {
 			if(!$exists){
 				vmdebug('Current invoice number not rendered yet');
 				return false; //No new invoice number created
+			} else {
+				//vmdebug( 'createReferencedInvoiceNumber invoice entry exists already for', $orderId, $invNu );
+				if(!empty($orderDetails['o_hash']) and $orderDetails['o_hash']==$invNu['o_hash']){
+					vmdebug( 'createReferencedInvoiceNumber hash of invoice entry and invoice to create is the same, break', $orderId, $invNu );
+					return false;
+				}
 			}
 		}
 
-		//vmdebug( 'createReferencedInvoiceNumber', $orderId, $invNu );
+		//vmdebug( 'createReferencedInvoiceNumber f', $orderId, $invNu );
 		if(!VmConfig::get( 'ChangedInvCreateNewInvNumber', true ) and $invNu) {
 			$invT = $this->getTable( 'invoices' );
 			$invT->bind( $invNu );

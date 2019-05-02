@@ -113,7 +113,7 @@ class TableOrders extends VmTableData {
 		$this->setLoggable();
 		$this->setHashable('o_hash');
 
-		$this->setOmittedHashFields(array('order_pass','order_create_invoice_pass'));
+		$this->setOmittedHashFields(array('order_pass','order_create_invoice_pass','ip_address','order_status','paid','paid_on','invoice_locked','modified_on','modified_by','locked_on','locked_by'));
 		$this->setTableShortCut('o');
 		$this->setConvertDecimal(array('paid'));
 	}

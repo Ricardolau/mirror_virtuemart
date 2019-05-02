@@ -49,7 +49,7 @@ $i=0;
 <td>
 	<span class='orderView'><?php echo $item->order_item_name; ?></span>
 
-	<input class='orderEdit' type="text"  name="item_id[<?php echo $item->virtuemart_order_item_id; ?>][order_item_name]" value="<?php echo $item->order_item_name; ?>" style="width:90%;min-width:100px" />
+	<input class='orderEdit' type="text"  name="item_id[<?php echo $item->virtuemart_order_item_id; ?>][order_item_name]" value="<?php echo vRequest::vmHtmlEntities($item->order_item_name); ?>" style="width:90%;min-width:100px" />
 	<?php if ($item->virtuemart_order_item_id > 0 ) { ?>
 		<div class="goto-product">
 			<a href="<?php echo $item->linkedit ?>" target="_blank"

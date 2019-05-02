@@ -1159,9 +1159,9 @@ class shopFunctionsF {
 
 		$discountsBill = array();
 		$taxBill = array();
-
+		vmdebug('summarizeRulesForBill $taxBill input',$order['calc_rules']);
 		foreach($order['items'] as $item){
-			vmdebug('summarizeRulesForBill $taxBill',$item->product_subtotal_with_tax);
+			//vmdebug('summarizeRulesForBill $item->product_subtotal_with_tax',$item->product_subtotal_with_tax);
 			foreach($order['calc_rules'] as $rule){
 
 				//The virtuemart_order_item_id is missing for the payment and shipment rules, these are handled below
@@ -1170,7 +1170,7 @@ class shopFunctionsF {
 					if($rule->calc_kind == 'DBTaxRulesBill' or $rule->calc_kind == 'DATaxRulesBill'){
 						$discountsBill[$rule->virtuemart_calc_id] = $rule;
 					}
-					if($rule->calc_kind == 'taxRulesBill' or $rule->calc_kind == 'VatTax' /*or $rule->calc_kind == 'Tax' */){
+					else if($rule->calc_kind == 'taxRulesBill' or $rule->calc_kind == 'VatTax' /*or $rule->calc_kind == 'Tax' */){
 
 						$rule->label = shopFunctionsF::getTaxNameWithValue($rule->calc_rule_name,$rule->calc_value);
 
@@ -1179,15 +1179,16 @@ class shopFunctionsF {
 							$taxBill[$rule->virtuemart_calc_id]->calc_amount = 0.0;
 							$taxBill[$rule->virtuemart_calc_id]->subTotal = 0.0;
 						}
-
+						//vmdebug('summarizeRulesForBill  $rule-> Before', $rule->calc_amount);
 						$taxBill[$rule->virtuemart_calc_id]->calc_amount += $rule->calc_amount * $item->product_quantity ;
+						//vmdebug('summarizeRulesForBill  $rule->calc_amount after multiplied with quantity = '.$item->product_quantity, $rule->calc_amount);
 						$taxBill[$rule->virtuemart_calc_id]->subTotal += $item->product_subtotal_with_tax;
 					}
 				}
 			}
 		}
 
-//vmdebug('summarizeRulesForBill $taxBill',$taxBill);
+
         if($payShipment){
 			$idWithMax = 0;
 			if(VmConfig::get('radicalShipPaymentVat',true)){
@@ -1229,7 +1230,7 @@ class shopFunctionsF {
 				}
 			}
         }
-
+		vmdebug('summarizeRulesForBill $taxBill return',$taxBill);
 		return array('discountsBill' => $discountsBill, 'taxBill' => $taxBill);
 	}
 }

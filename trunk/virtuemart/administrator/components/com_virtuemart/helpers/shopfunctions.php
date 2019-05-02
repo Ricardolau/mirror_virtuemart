@@ -695,7 +695,7 @@ jQuery(".changeSendForm")
 		}
 
 		VmModel::getModel('country');
-		VirtueMartModelCountry::getCountryFieldByID($id, $fld);
+		return VirtueMartModelCountry::getCountryFieldByID($id, $fld);
 
 	}
 

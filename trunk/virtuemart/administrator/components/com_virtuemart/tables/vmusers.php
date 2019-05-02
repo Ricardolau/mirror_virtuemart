@@ -54,7 +54,7 @@ class TableVmusers extends VmTableData {
 			self::$_cache[$md5] = $vmuser;
 		} else $vmuser = self::$_cache[$md5];
 
-		vmdebug('Table '.$this->_tbl.' check loaded old entry',$loggedVendorId,$vmuser);
+		//vmdebug('Table '.$this->_tbl.' check loaded old entry',$loggedVendorId,$vmuser);
 
 		if($vmuser){
 			if(!vmAccess::manager('user.edit')){

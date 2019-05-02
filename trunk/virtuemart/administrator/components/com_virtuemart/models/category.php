@@ -64,7 +64,7 @@ class VirtueMartModelCategory extends VmModel {
 
 		if(!empty($virtuemart_category_id)) $this->_id = (int)$virtuemart_category_id;
 		$childs = (int)$childs;
-		vmdebug('getCategory '.$this->_id.' '.$childs);
+		//vmdebug('getCategory '.$this->_id.' '.$childs);
 		if (isset($this->_cache[$this->_id][$childs][VmLanguage::$currLangTag])) {
 			vmdebug('Found cached cat');
 			return clone($this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]);

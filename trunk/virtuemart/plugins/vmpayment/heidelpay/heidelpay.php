@@ -223,9 +223,9 @@ class plgVmPaymentHeidelpay extends vmPSPlugin {
 			$toCheck = array('last_name', 'first_name', 'middle_name', 'phone_1', 'phone_2', 'fax', 'address_1', 'address_2', 'city', 'virtuemart_state_id', 'virtuemart_country_id', 'zip');
 
 			$bsError = false;
-			
+			$userFieldM = VmModel::getModel('userfields');
 			foreach($toCheck as $val){
-				if(isset($order['details']['ST']->$val)){
+				if($userFieldM->getIfRequired($val) and isset($order['details']['ST']->$val)){
 					if($order['details']['ST']->$val != $order['details']['BT']->$val){
 						$bsError = true;
 						$errorVal = $val;

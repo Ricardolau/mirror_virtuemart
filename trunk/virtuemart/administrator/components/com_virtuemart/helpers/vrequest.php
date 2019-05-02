@@ -144,16 +144,26 @@ class vRequest {
 		return self::get($name, $default, FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
 	}
 
+	public static function recurseFilterText(&$tmp){
+
+		foreach($tmp as $k =>$v){
+			if(is_array($v)){
+				self::recurseFilterText($v);
+			} else {
+				$tmp[$k] = JComponentHelper::filterText($v);
+			}
+		}
+	}
+
 	/**
 	 * - Encodes all characters that has a numerical value <32.
 	 * - keeps "secure" html
 	 */
 	public static function getHtml($name, $default = '', $input = 0){
-		$tmp = self::get($name, $default,FILTER_UNSAFE_RAW,FILTER_FLAG_ENCODE_LOW,$input);
+		$tmp = self::get($name, $default,FILTER_UNSAFE_RAW,FILTER_FLAG_NO_ENCODE,$input);
+
 		if(is_array($tmp)){
-			foreach($tmp as $k =>$v){
-				$tmp[$k] = JComponentHelper::filterText($v);
-			}
+			self::recurseFilterText($tmp);
 			return $tmp;
 		} else {
 			return JComponentHelper::filterText($tmp);

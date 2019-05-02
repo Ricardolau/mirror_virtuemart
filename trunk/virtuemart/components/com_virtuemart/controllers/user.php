@@ -311,8 +311,14 @@ class VirtueMartControllerUser extends JControllerLegacy
 		$userModel->setId($virtuemart_user_id[0]);
 		$userModel->removeAddress($virtuemart_userinfo_id);
 
-		$layout = vRequest::getCmd('layout','edit');
-		$this->setRedirect( JRoute::_('index.php?option=com_virtuemart&view=user&task=edit&virtuemart_user_id[]='.$virtuemart_user_id[0], $this->useXHTML,$this->useSSL) );
+		$cart = VirtueMartCart::getCart();
+		if($cart->_fromCart){
+			$cart->setOutOfCheckout();
+			$this->setRedirect( JRoute::_('index.php?option=com_virtuemart&view=cart', FALSE)  );
+		} else {
+			$this->setRedirect( JRoute::_('index.php?option=com_virtuemart&view=user&task=edit&virtuemart_user_id[]='.$virtuemart_user_id[0], $this->useXHTML,$this->useSSL) );
+		}
+
 	}
 
 	/**

@@ -729,6 +729,10 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		}
 	}
 
+	/**
+	 * @param bool $array
+	 * @return array|stdClass true as array
+	 */
 	function loadFieldValues($array=true){
 
 
@@ -1205,12 +1209,15 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			$this->$tblKey = $this->_db->loadResult();
 		}
 
+		if(!empty($this->_hashName)){
+			$this->hashEntry();
+		}
+
 		if(!empty($this->$tblKey)){
 			$ok = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
 		} else {
 			$p = $this->$tblKey;
 			$ok = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
-
 			if($ok and !empty($this->_hashName)){
 				$oldH= $this->{$this->_hashName};
 				if($p!=$this->$tblKey and !in_array($tblKey,$this->_omittedHashFields)){

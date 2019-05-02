@@ -72,6 +72,10 @@ class VmTableData extends VmTable {
 			}
 		}
 
+		if(!empty($this->_hashName)){
+			$this->hashEntry();
+		}
+
 		if($res){
 			$returnCode = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
 		} else {

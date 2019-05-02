@@ -364,7 +364,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_invoices` (
   `invoice_number` varchar(64),
   `order_status` char(2),
   `xhtml` text,
-  `inv_hash` varchar(33),
+  `o_hash` varchar(33),
   `created_on` datetime NOT NULL default '0000-00-00 00:00:00',
   `created_by` int(1) NOT NULL DEFAULT '0',
   `modified_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',

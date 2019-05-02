@@ -230,7 +230,7 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
 			?>
 			<tr>
 				<td colspan="4">
-				<a href="#" class="show_element"><span class="vmicon vmicon-16-editadd"></span><?php echo vmText::_('COM_VIRTUEMART_ORDER_UPDATE_STATUS') ?></a>
+				<a href="#" class="show_element btn btn-small"><span class="vmicon vmicon-16-editadd"></span><?php echo vmText::_('COM_VIRTUEMART_ORDER_UPDATE_STATUS') ?></a>
 				<div style="display: none; background: white; z-index: 100;"
 					class="element-hidden vm-absolute"
 					id="updateOrderStatus"><?php echo $this->loadTemplate('editstatus'); ?>
@@ -753,7 +753,7 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
                     $l = vmText::_('COM_VM_ORDER_BALANCE');
                 }
 				$totalDiff = (int)$this->currency->truncate($this->orderbt->toPay-$this->orderbt->order_total);
-				vmdebug('mist ',$totalDiff,$this->orderbt->toPay,$this->orderbt->order_total);
+
                 $tp .= '';
                 if($totalDiff){
                     if(!$trOpen){

@@ -49,13 +49,9 @@ abstract class vmPSPlugin extends vmPlugin {
 		$varsToPush['blocking_countries'] = array('','char');
 		$varsToPush['min_amount'] = array('','char');
 		$varsToPush['max_amount'] = array('','char');
-		if($payment){
-
-			$varsToPush['virtuemart_shipmentmethod_ids'] = array('','char');
-		}
+		$varsToPush['virtuemart_shipmentmethod_ids'] = array('','char');
 
 		unset($varsToPush['checkConditionsCore']);
-		//$this->checkConditionsCore=true;
 	}
 
 	public function setConvertable($toConvert) {
@@ -1005,8 +1001,7 @@ abstract class vmPSPlugin extends vmPlugin {
 
 		}
 
-		$userFieldsModel = VmModel::getModel('Userfields');
-		if ($userFieldsModel->fieldPublished('virtuemart_country_id', $type)){
+		if (!empty($method->countries)){
 
 			if (!isset($address['virtuemart_country_id'])) {
 				$address['virtuemart_country_id'] = 0;
@@ -1021,17 +1016,18 @@ abstract class vmPSPlugin extends vmPlugin {
 				}
 			}
 
-			if (in_array ($address['virtuemart_country_id'], $countries) || count ($countries) == 0) {
-
-				//vmdebug('checkConditions '.$method->shipment_name.' fit ',$weight_cond,(int)$zip_cond,$nbproducts_cond,$orderamount_cond);
-				//vmdebug($this->_psType.'method '.$method->{$this->_psType.'_name'}.' = TRUE for variable virtuemart_country_id = '.$address['virtuemart_country_id'].', Reason: Countries in rule '.implode($countries,', ').' or none set');
-				$country_cond = true;
-			}
-			else{
+			if (count ($countries) > 0 and !in_array ($address['virtuemart_country_id'], $countries)) {
 				vmdebug($this->_psType.'method '.$method->{$this->_psType.'_name'}.' = FALSE for variable virtuemart_country_id = '.$address['virtuemart_country_id'].', Reason: Country '.implode($countries,', ').' does not fit');
 				return false;
-			}
 
+			}
+		}
+
+		if (!empty($method->blocking_countries)){
+
+			if (!isset($address['virtuemart_country_id'])) {
+				$address['virtuemart_country_id'] = 0;
+			}
 
 			$blocking_countries = array();
 			if (!empty($method->blocking_countries)) {
@@ -1051,14 +1047,7 @@ abstract class vmPSPlugin extends vmPlugin {
 				//vmdebug($this->_psType.'method '.$method->{$this->_psType.'_name'}.' = TRUE for variable virtuemart_country_id = '.$address['virtuemart_country_id'].', Reason: Countries in rule '.implode($countries,', ').' or none set');
 				$country_cond = true;
 			}
-
-		} else {
-			vmdebug($this->_psType.'method '.$method->{$this->_psType.'_name'}.' = TRUE for variable virtuemart_country_id, Reason: no boundary conditions set');
-			$country_cond = true;
-			return true;
 		}
-
-
 
 		return true;
 	}

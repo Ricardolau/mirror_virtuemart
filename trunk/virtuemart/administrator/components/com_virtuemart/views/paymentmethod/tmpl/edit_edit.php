@@ -51,7 +51,7 @@ defined('_JEXEC') or die('Restricted access');
 
             echo VmHTML::row('raw', 'COM_VM_CATEGORIES_BLOCKING',$raw);
 
-            echo VmHTML::row('raw', 'COM_VM_COUNTRIES',ShopFunctionsF::renderCountryList($this->payment->countries,True));
+            echo VmHTML::row('raw', 'COM_VM_COUNTRIES',ShopFunctionsF::renderCountryList($this->payment->countries,True, array(), '', 0, 'countries', 'countries'));
 			echo VmHTML::row('raw', 'COM_VM_COUNTRIES_BLOCKING',ShopFunctionsF::renderCountryList($this->payment->blocking_countries,True, array(), '', 0, 'blocking_countries', 'blocking_countries'));
 			echo VmHTML::row('raw', 'COM_VM_SHIPMENTS',$this->shipmentList);
 		}

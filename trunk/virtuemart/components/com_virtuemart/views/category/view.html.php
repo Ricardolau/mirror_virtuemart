@@ -447,6 +447,14 @@ class VirtuemartViewCategory extends VmView {
 
 		if(empty($metadesc)){
 			$qdesc =  strip_tags(html_entity_decode($category->category_description,ENT_QUOTES)) ;
+			if(!empty($this->categoryId)){
+				$description=$category->category_description;
+				$name=$category->category_name;
+			} else {
+				$description=$metaObj->mf_desc;
+				$name=$metaObj->mf_name;
+			}
+			$qdesc =  strip_tags(html_entity_decode($description,ENT_QUOTES)) ;
 			$qdesc = shopFunctionsF::limitStringByWord($qdesc,120);
 			$metadesc = $category->category_name . ". ". $qdesc . ' ' .vmText::_('COM_VIRTUEMART_READ_MORE');
 		}
@@ -474,14 +482,16 @@ class VirtuemartViewCategory extends VmView {
 			$title .=' ('.strip_tags(htmlspecialchars_decode($this->keyword)).')';
 		}
 
-		if ($this->virtuemart_manufacturer_id>0 and !empty($this->products['products'])){
+		if ($this->virtuemart_manufacturer_id>0 and  isset($metaObj->mf_name)){
 
 			if(VmConfig::get('addManuNameToCatBrowseTitle',true)){
-				if (!empty($this->products['products'][0])) $title .=' '.$this->products['products'][0]->mf_name ;
+				// in case of multi mf, don't take the one of the 1rst product, but the mf name is in the $metaObj
+				if (isset($metaObj->mf_name)) $title .=' '.$metaObj->mf_name;
 			}
 
 			// Override Category name when viewing manufacturers products !IMPORTANT AFTER page title.
-			if (!empty($this->products['products'][0]) and isset($category->category_name)) $category->category_name = $this->products['products'][0]->mf_name ;
+			// in case of multi mf, don't take the one of the 1rst product, but the mf name is in the $metaObj
+			if (isset($metaObj->mf_name) and isset($category->category_name)) $category->category_name = $metaObj->mf_name ;
 
 		}
 

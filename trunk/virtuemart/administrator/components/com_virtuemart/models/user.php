@@ -578,7 +578,7 @@ class VirtueMartModelUser extends VmModel {
 		}
 		
 		if($trigger){
-			VmConfig::importVMPlugins('vmshopper');
+			JPluginHelper::importPlugin('vmshopper');
 			$dispatcher = JDispatcher::getInstance();
 
 			$plg_datas = $dispatcher->trigger('plgVmOnUserStore',array(&$data));

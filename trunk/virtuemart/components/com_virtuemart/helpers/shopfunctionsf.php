@@ -1136,21 +1136,14 @@ class shopFunctionsF {
 
 		if(VmConfig::get ($config) and JFactory::getUser()->guest==1 ){
 
-			JPluginHelper::importPlugin('captcha');
-			$dispatcher = JDispatcher::getInstance();
-			$dispatcher->trigger('onInit',array($id));
-			if(version_compare(JVERSION, '3.5', 'ge')){
-				$plugin = JPluginHelper::getPlugin('captcha', 'recaptcha');
-				if(!empty($plugin->params)){
-					$params = new JRegistry($plugin->params);
-					if ($params->get('version') != '1.0') {
-						return '<div id="jform_captcha" class="g-recaptcha  required" data-sitekey="'.$params->get('public_key').'" data-theme="'.$params->get('theme2').'" data-size="normal"></div>';
-					}
-				}
+			$reCaptchaName = 'recaptcha'; // the name of the captcha plugin - retrieved from the custom component's parameters
 
-			}
-			JHTML::_('behavior.framework');
-			return '<div id="'.$id.'"></div>';
+			JPluginHelper::importPlugin('captcha', $reCaptchaName); // will load the plugin selected, not all of them - we need to know what plugin's events we need to trigger
+
+			$dispatcher = JEventDispatcher::getInstance();
+			$dispatcher->trigger('onInit', $id);
+			$output = $dispatcher->trigger('onDisplay', array($reCaptchaName, $id, 'class="g-recaptcha required"'));
+			return $output[0];
 		}
 		return '';
 	}
@@ -1167,10 +1160,7 @@ class shopFunctionsF {
 				//The virtuemart_order_item_id is missing for the payment and shipment rules, these are handled below
 				if(isset($rule->virtuemart_order_item_id) and $rule->virtuemart_order_item_id == $item->virtuemart_order_item_id){
 
-					if($rule->calc_kind == 'DBTaxRulesBill' or $rule->calc_kind == 'DATaxRulesBill'){
-						$discountsBill[$rule->virtuemart_calc_id] = $rule;
-					}
-					else if($rule->calc_kind == 'taxRulesBill' or $rule->calc_kind == 'VatTax' /*or $rule->calc_kind == 'Tax' */){
+					if($rule->calc_kind == 'VatTax' /*or $rule->calc_kind == 'Tax' */){
 
 						$rule->label = shopFunctionsF::getTaxNameWithValue($rule->calc_rule_name,$rule->calc_value);
 
@@ -1179,11 +1169,25 @@ class shopFunctionsF {
 							$taxBill[$rule->virtuemart_calc_id]->calc_amount = 0.0;
 							$taxBill[$rule->virtuemart_calc_id]->subTotal = 0.0;
 						}
-						//vmdebug('summarizeRulesForBill  $rule-> Before', $rule->calc_amount);
-						$taxBill[$rule->virtuemart_calc_id]->calc_amount += $rule->calc_amount * $item->product_quantity ;
-						//vmdebug('summarizeRulesForBill  $rule->calc_amount after multiplied with quantity = '.$item->product_quantity, $rule->calc_amount);
-						$taxBill[$rule->virtuemart_calc_id]->subTotal += $item->product_subtotal_with_tax;
+
+                        $taxBill[$rule->virtuemart_calc_id]->calc_amount += $rule->calc_amount * $item->product_quantity ;
+                        //vmdebug('summarizeRulesForBill  $rule->calc_amount after multiplied with quantity = '.$item->product_quantity, $rule->calc_amount);
+                        $taxBill[$rule->virtuemart_calc_id]->subTotal += $item->product_subtotal_with_tax;
+
 					}
+				} else {
+					if($rule->calc_kind == 'DBTaxRulesBill' or $rule->calc_kind == 'DATaxRulesBill'){
+						$discountsBill[$rule->virtuemart_calc_id] = $rule;
+					} else if($rule->calc_kind == 'taxRulesBill'){
+						vmdebug('summarizeRulesForBill  taxRulesBill ', $rule);
+
+						if(!isset($taxBill[$rule->virtuemart_calc_id])){
+							$taxBill[$rule->virtuemart_calc_id] = clone($rule);
+							$taxBill[$rule->virtuemart_calc_id]->subTotal = $taxBill[$rule->virtuemart_calc_id]->calc_amount;
+						}
+
+					}
+
 				}
 			}
 		}

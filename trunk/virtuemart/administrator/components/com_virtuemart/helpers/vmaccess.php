@@ -92,7 +92,7 @@ class vmAccess {
 				} else {
 					//$multix = Vmconfig::get('multix','none');
 					if( /*($multix == 'none' and*/ self::manager($task)/*) or ($multix != 'none' and (self::manager($task) or self::manager('managevendors')) )*/){
-						vmTrace('isSuperVendor Fallback to Mainvendor '.$task);
+						//vmTrace('isSuperVendor Fallback to Mainvendor '.$task);
 						self::$_virtuemart_vendor_id[$uid] = 1;
 					} else {
 						self::$_virtuemart_vendor_id[$uid] = 0;

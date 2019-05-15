@@ -1624,7 +1624,7 @@ class VirtueMartModelOrders extends VmModel {
 		}
 		$_orderData->STsameAsBT = $_cart->STsameAsBT;
 
-		VmConfig::importVMPlugins('vmshopper');
+		JPluginHelper::importPlugin('vmshopper');
 		$dispatcher = JDispatcher::getInstance();
 		$plg_datas = $dispatcher->trigger('plgVmOnUserOrder',array(&$_orderData));
 
@@ -2783,7 +2783,7 @@ class VirtueMartModelOrders extends VmModel {
 		$_orderData->ip_address = $_SERVER['REMOTE_ADDR'];
 
 		$_orderData->order_number ='';
-		VmConfig::importVMPlugins('vmshopper');
+		JPluginHelper::importPlugin('vmshopper');
 		$dispatcher = JDispatcher::getInstance();
 		$_orderData->order_number = $this->genStdOrderNumber($_orderData->virtuemart_vendor_id);
 		$_orderData->order_pass = $this->genStdOrderPass();

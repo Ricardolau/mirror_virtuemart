@@ -174,7 +174,7 @@ class VirtueMartModelVendor extends VmModel {
 	function store (&$data) {
 
 		JPluginHelper::importPlugin ('vmvendor');	//plugin type for one function? Developers should use the vmshopper plugin instead
-		VmConfig::importVMPlugins ('vmshopper');
+		JPluginHelper::importPlugin ('vmshopper');
 		$dispatcher = JDispatcher::getInstance ();
 		$plg_datas = $dispatcher->trigger ('plgVmOnVendorStore', $data);
 		foreach ($plg_datas as $plg_data) {

@@ -328,6 +328,13 @@ class VirtueMartControllerUser extends JControllerLegacy
 	 */
 	function checkCaptcha($retUrl){
 		if(JFactory::getUser()->guest==1 and VmConfig::get ('reg_captcha')){
+
+			$filled = vRequest::getVar ('g-recaptcha-response',false);
+			if(!$filled){
+				vmInfo('COM_VM_FILL_CAPTCHA');
+				return false;
+			}
+
 			$recaptcha = vRequest::getVar ('recaptcha_response_field');
 			JPluginHelper::importPlugin('captcha');
 			$dispatcher = JDispatcher::getInstance();

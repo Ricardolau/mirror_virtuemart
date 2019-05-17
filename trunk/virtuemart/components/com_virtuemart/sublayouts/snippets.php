@@ -35,7 +35,7 @@ if($finalstk > 0){
   "@type": "Product",
   "name": "<?php echo $product->product_name; ?>",
 
-	"brand" :"<?php echo $brand; ?>",
+	<?php /*"brand" :"echo $brand;",*/ ?>
 	"productID" :"<?php echo $product->product_sku; ?>",
 	"sku" :"<?php echo $product->product_sku; ?>",
   <?php if ( $product->images[0]->virtuemart_media_id > 0) { ?>

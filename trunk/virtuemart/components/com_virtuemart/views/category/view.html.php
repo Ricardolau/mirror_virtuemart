@@ -403,6 +403,7 @@ class VirtuemartViewCategory extends VmView {
 		}
 
 		$this->manu_descr = '';
+
 		if(($this->storefront and empty($prefix)) or (empty($this->categoryId) and empty($this->virtuemart_manufacturer_id)) ){
 
 			if(empty($this->vendor->customtitle)){
@@ -446,11 +447,12 @@ class VirtuemartViewCategory extends VmView {
 		}
 
 		if(empty($metadesc)){
-			$qdesc =  strip_tags(html_entity_decode($category->category_description,ENT_QUOTES)) ;
+			$description = '';
 			if(!empty($this->categoryId)){
 				$description=$category->category_description;
 				$name=$category->category_name;
-			} else {
+			} else if(!empty($this->virtuemart_manufacturer_id)){
+				$metaObj = VmModel::getModel('manufacturer')->getManufacturer($this->virtuemart_manufacturer_id);
 				$description=$metaObj->mf_desc;
 				$name=$metaObj->mf_name;
 			}

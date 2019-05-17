@@ -45,6 +45,7 @@ class VirtueMartModelCountry extends VmModel {
 	}
 
 	public function getData($id = 0){
+		if($id==0) $id = $this->_id;
 		return self::getCountry($id);
 	}
 
@@ -53,7 +54,6 @@ class VirtueMartModelCountry extends VmModel {
 		if(!isset(self::$_countries[$id])){
 			$c = VmTable::getInstance('countries');
 			$c->load($id, $fieldname);
-			//vmdebug('loaded country ',$id,$fieldname,$c->loadFieldValues());
 			self::$_countries[$c->virtuemart_country_id] = self::$_countries[strtoupper($c->country_name)] = self::$_countries[$c->country_2_code] = self::$_countries[$c->country_3_code] = $c;
 			//vmdebug('loaded country ',$id,$fieldname,self::$_countries[$id]->loadFieldValues());
 		}

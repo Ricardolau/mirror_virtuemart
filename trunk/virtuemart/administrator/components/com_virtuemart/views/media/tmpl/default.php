@@ -34,10 +34,10 @@ $option = vRequest::getCmd('option');
 				<?php echo $this->displayDefaultViewSearch('COM_VIRTUEMART_NAME','searchMedia') .' '. $this->lists['search_type'].' '. $this->lists['search_role']; ?>
 			 </td>
 			  <td align="left" style="width:10%;min-width:60px">
-				  <?php echo VmHtml::checkbox('missing','missing',1,0); echo '<span class="hasTip" title="'.vmText::_('COM_VM_MEDIA_MISSING_TIP').'" style="vertical-align:middle;padding:4px 0 0;">'.vmText::_('COM_VM_MEDIA_MISSING').'</span>'?>
+				  <?php echo VmHtml::checkbox('missing',vRequest::getInt('missing',0),1,0); echo '<span class="hasTip" title="'.vmText::_('COM_VM_MEDIA_MISSING_TIP').'" style="vertical-align:middle;padding:4px 0 0;">'.vmText::_('COM_VM_MEDIA_MISSING').'</span>'?>
 			  </td>
               <td align="left" style="width:10%;min-width:60px">
-				  <?php echo VmHtml::checkbox('findUnusedMedias','findUnusedMedias',1,0); echo '<span class="hasTip" title="'.vmText::_('COM_VM_MEDIA_UNUSED_TIP').'" style="vertical-align:middle;padding:4px 0 0;">'.vmText::_('COM_VM_MEDIA_UNUSED').'</span>'?>
+				  <?php echo VmHtml::checkbox('findUnusedMedias',vRequest::getInt('findUnusedMedias',0),1,0); echo '<span class="hasTip" title="'.vmText::_('COM_VM_MEDIA_UNUSED_TIP').'" style="vertical-align:middle;padding:4px 0 0;">'.vmText::_('COM_VM_MEDIA_UNUSED').'</span>'?>
               </td>
               <td>
 				  <?php echo $this->lists['vendors'] ?>
@@ -71,7 +71,7 @@ $productfileslist = $this->files;
 	if (count($productfileslist) > 0) {
 		$i = 0;
 		$k = 0;
-		$onlyMissing = vRequest::getCmd('missing',false);
+		//$onlyMissing = vRequest::getCmd('missing',false);
 		foreach ($productfileslist as $key => $productfile) {
 
 			if($productfile->file_is_forSale){
@@ -80,11 +80,7 @@ $productfileslist = $this->files;
 				$fullSizeFilenamePath = VMPATH_ROOT.DS.$productfile->file_url_folder.$productfile->file_name.'.'.$productfile->file_extension;
 			}
 			$fullSizeFilenamePath = vRequest::filterPath($fullSizeFilenamePath);
-			if($onlyMissing){
-				if(file_exists($fullSizeFilenamePath)){
-					continue;
-				}
-			}
+
 			$checked = JHtml::_('grid.id', $i , $productfile->virtuemart_media_id,null,'virtuemart_media_id');
 			if (!is_null($productfile->virtuemart_media_id)) 	$published = $this->gridPublished( $productfile, $i );
 			else $published = '';

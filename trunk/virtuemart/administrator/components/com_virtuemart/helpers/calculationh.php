@@ -352,17 +352,17 @@ class calculationHelper {
 			return false;
 		}
 
-		$prices = $this->setProduct($product, $amount);
-
-		$costPrice = $prices['product_price'];
-		$override = $prices['override'];
-		$product_override_price = $prices['product_override_price'];
-
 		if($variant===TRUE){
 			// Calculate the modificator
 			if(!isset($this->customfieldsModel))$this->customfieldsModel = VmModel::getModel('Customfields');
 			$variant = $this->customfieldsModel->calculateModificators ($product);
 		}
+
+		$prices = $this->setProduct($product, $amount);
+
+		$costPrice = $prices['product_price'];
+		$override = $prices['override'];
+		$product_override_price = $prices['product_override_price'];
 
 		//For Profit, margin, and so on
 		$this->rules['Marge'] = $this->gatherEffectingRulesForProductPrice('Marge', $this->product_marge_id);
@@ -758,7 +758,7 @@ class calculationHelper {
 
 		foreach ($this->_cart->products as $cprdkey => $product) {
 			//for Rules with Categories / Manufacturers
-			foreach($this->_cart->cartData['DBTaxRulesBill'] as &$dbrule){
+			foreach($this->_cart->cartData['DBTaxRulesBill'] as $k=>$dbrule){
 				$applyRule = FALSE;
 				if(!empty($dbrule['calc_categories']) || !empty($dbrule['virtuemart_manufacturers'])){
 					if(!isset($dbrule['subTotal'])) $dbrule['subTotal'] = 0.0;
@@ -807,6 +807,7 @@ class calculationHelper {
 							}
 						}
 					}
+					$this->_cart->cartData['DBTaxRulesBill'][$k] = $dbrule;
 				}
 			}
 
@@ -868,6 +869,8 @@ class calculationHelper {
 			}
 		}
 
+
+
 		// combine the discounts before tax for each taxID
 		foreach ($this->_cart->cartData['VatTax'] as &$rule) {
 			if (!empty($rule['DBTax'])) {
@@ -881,6 +884,14 @@ class calculationHelper {
 
 		// calculate the new subTotal with discounts before tax, necessary for billTotal
 		$this->_cart->cartPrices['toTax'] = $this->_cart->cartPrices['salesPrice'] + $cartdiscountBeforeTax;
+
+		//In case there is one tax per Bill rule we must reduce it also by given discounts. or in this case we just set the correct subtotal
+		if(count($this->_cart->cartData['taxRulesBill'])==1){
+			reset($this->_cart->cartData['taxRulesBill']);
+			$ind = key($this->_cart->cartData['taxRulesBill']);
+			$this->_cart->cartData['taxRulesBill'][$ind]['subTotal'] = $this->_cart->cartPrices['toTax'];
+			//vmdebug('$this->_cart->cartData[\'taxRulesBill\'][$ind]',$ind,$this->_cart->cartData['taxRulesBill']);
+		}
 
 		//Avalara wants to calculate the tax of the shipment. Only disadvantage to set shipping here is that the discounts per bill respectivly the tax per bill
 		// is not considered. Todo create a generic system, for example a param for billing rules, excluding/including shipment/payment
@@ -907,6 +918,7 @@ class calculationHelper {
 
 			if(!empty($rule['subTotal'])) {
 				if (isset($this->_cart->cartData['VatTax'][$k]['DBTax'])) {
+
 					$this->_cart->cartData['taxRulesBill'][$k]['subTotal'] += $this->_cart->cartData['VatTax'][$k]['DBTax'];
 				}
 				if (!isset($rule['percentage']) && $rule['subTotal'] < $this->_cart->cartPrices['salesPrice']) {
@@ -914,7 +926,9 @@ class calculationHelper {
 				} else if (!isset($rule['percentage'])) {
 					$this->_cart->cartData['taxRulesBill'][$k]['percentage'] = 1;
 				}
-				$this->_cart->cartData['taxRulesBill'][$k]['subTotal'] += $totalDiscountBeforeTax * $rule['percentage'];
+				//vmdebug('foreach ($this->_cart->cartData[\'taxRulesBill\']',$this->_cart->cartData['taxRulesBill'][$k]['subTotal']);
+				$this->_cart->cartData['taxRulesBill'][$k]['subTotal'] += $totalDiscountBeforeTax * $this->_cart->cartData['taxRulesBill'][$k]['percentage'];
+
 			} else {
 				$this->_cart->cartData['taxRulesBill'][$k]['subTotal'] = $this->_cart->cartPrices['toTax'];
 			}
@@ -1099,7 +1113,7 @@ class calculationHelper {
 				}
 
 				$cOut = $this->interpreteMathOp($rule, $cIn);
-				//vmdebug('my cout ',$cIn,$cOut,$TaxID,$rule);
+				//vmdebug('my $cIn,$cOut,$TaxID,$rule ',$cIn,$cOut,$TaxID,$rule['subTotal']);
 				$this->_cart->cartPrices[$rule['virtuemart_calc_id'] . 'Diff'] = $this->roundInternal($this->roundInternal($cOut) - $cIn);
 				//$discount += round($this->_cart->cartPrices[$rule['virtuemart_calc_id'] . 'Diff'],$this->_currencyDisplay->_priceConfig['salesPrice'][1]);
 				$discount += $this->roundInternal($this->_cart->cartPrices[$rule['virtuemart_calc_id'] . 'Diff']);

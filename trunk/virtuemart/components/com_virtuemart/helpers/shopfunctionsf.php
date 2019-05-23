@@ -1182,6 +1182,7 @@ class shopFunctionsF {
 						vmdebug('summarizeRulesForBill  taxRulesBill ', $rule);
 
 						if(!isset($taxBill[$rule->virtuemart_calc_id])){
+							$rule->label = shopFunctionsF::getTaxNameWithValue($rule->calc_rule_name,$rule->calc_value);
 							$taxBill[$rule->virtuemart_calc_id] = clone($rule);
 							$taxBill[$rule->virtuemart_calc_id]->subTotal = $taxBill[$rule->virtuemart_calc_id]->calc_amount;
 						}

@@ -828,7 +828,7 @@ class VmModel extends vObject{
 		}
 
 		if($nbrReturnProducts){
-			$limitStart = 0;
+			$limitStart = $this->_limitStart;
 			$limit = $nbrReturnProducts;
 			$this->_withCount = false;
 		} else if($this->_noLimit){
@@ -836,9 +836,9 @@ class VmModel extends vObject{
 			$limitStart = 0;
 			$limit = 0;
 		} else {
-			$limits = $this->setPaginationLimits();
-			$limitStart = $limits[0];
-			$limit = $limits[1];
+			if(empty($this->_limit)) $this->setPaginationLimits();
+			$limitStart = $this->_limitStart;
+			$limit = $this->_limit;
 		}
 
 		if($this->_withCount){

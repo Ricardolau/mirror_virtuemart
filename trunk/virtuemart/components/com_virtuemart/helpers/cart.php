@@ -67,7 +67,7 @@ class VirtueMartCart {
 
 	var $pricesCurrency = null;
 	var $paymentCurrency = null;
-	var $STsameAsBT = 1;
+	var $STsameAsBT = 0;
 	var $selected_shipto = 0;
 	var $productParentOrderable = TRUE;
 	var $_triesValidateCoupon = array();
@@ -172,6 +172,9 @@ class VirtueMartCart {
 			}
 
 			self::$_cart->selected_shipto = vRequest::getVar('shipto', self::$_cart->selected_shipto);
+			if(empty(self::$_cart->selected_shipto)){
+				self::$_cart->STsameAsBT = 1;
+			}
 
 			self::$_cart->setupAddressFieldsForCart();
 
@@ -468,6 +471,7 @@ class VirtueMartCart {
 			}
 
 			$cartData = $carts->loadFieldValues();
+
 			unset($cartData['_inCheckOut']);
 			unset($cartData['_dataValidated']);
 			unset($cartData['_confirmDone']);

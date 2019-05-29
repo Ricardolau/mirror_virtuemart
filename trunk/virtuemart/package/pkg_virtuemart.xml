@@ -14,7 +14,7 @@
   <files>
     <file type="component" id="com_virtuemart" >${component.name}.${vm.version}.${PHING.VM.REVISION}.zip</file>
     <file type="component" id="com_virtuemart_allinone" >${component.name}.${vm.version}.${PHING.VM.REVISION}_ext_aio.zip</file>
-    <file type="component" id="com_tcpdf" >com_tcpdf_1.0.7.zip</file>
+    <file type="component" id="com_tcpdf" >com_tcpdf_1.0.8.zip</file>
     <file type="template" id="vmbeez3" client="site" >vmbeez3_3.2.0.zip</file>
   </files>
  </extension>

@@ -596,17 +596,16 @@ class VmConfig {
 
 		$config = explode('|', $params);
 		foreach($config as $item){
-			$item = explode('=',$item);
+
+			$item = explode('=',$item,2);
 			if(!empty($item[1])){
 				$value = self::parseJsonUnSerialize($item[1],$item[0]);
 				if($value!==null){
 					$pair[$item[0]] = $value;
 				}
-
 			} else {
 				$pair[$item[0]] ='';
 			}
-
 		}
 
 		self::$_jpConfig->_params = $pair;

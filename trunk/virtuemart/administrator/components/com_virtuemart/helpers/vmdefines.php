@@ -262,9 +262,9 @@ class vmDefines {
 
 		static $tcPath = null;
 		if($tcPath === null){
-			$paths = array(VMPATH_LIBS .'/vendor/tecnickcom/tcpdf', VMPATH_LIBS .'/tcpdf');
+			$paths = array('/vendor/tecnickcom/tcpdf', '/tcpdf');
 			foreach($paths as $p){
-				if(file_exists($p.'/tcpdf.php')){
+				if(file_exists(VMPATH_LIBS .$p.'/tcpdf.php')){
 					$tcPath = $p;
 					break;
 				}

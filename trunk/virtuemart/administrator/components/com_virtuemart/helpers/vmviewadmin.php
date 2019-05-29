@@ -444,7 +444,7 @@ class VmViewAdmin extends JViewLegacy {
 		if ($lang->hasKey($key)) {
 			$help_url  = vmText::_($key)."?tmpl=component";
 			$bar = JToolBar::getInstance('toolbar');
-			$bar->appendButton( 'Popup', 'help', 'JTOOLBAR_HELP', $help_url, 960, 500 );
+			$bar->appendButton( 'Popup', 'help', 'JTOOLBAR_HELP', $help_url );
 		}
 
 	}

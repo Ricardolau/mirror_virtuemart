@@ -40,38 +40,34 @@
 // If you define the constant K_TCPDF_EXTERNAL_CONFIG, all the following settings will be ignored.
 // If you use the tcpdf_autoconfig.php, then you can overwrite some values here.
 
-
+JLoader::register('VmConfig', JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
+VmConfig::loadConfig(FALSE, FALSE, true, false);
 /**
  * Installation path (/var/www/tcpdf/).
  * By default it is automatically calculated but you can also set it as a fixed string to improve performances.
  */
+ $cyu = vmDefines::tcpdf();
 
-if (!class_exists( 'VmConfig' )) {
-	require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
-	//Must be loaded without executing the trigger plgVmInitialise
-	VmConfig::loadConfig(FALSE, FALSE, true, false);
-}
-
-
-define("K_PATH_MAIN", vmDefines::tcpdf().'/');
+//echo('vmDefines::tcpdf() '.$cyu);
+define("K_PATH_MAIN", VMPATH_LIBS . vmDefines::tcpdf().'/');
 
 /**
  * URL path to tcpdf installation folder (http://localhost/tcpdf/).
  * By default it is automatically set but you can also set it as a fixed string to improve performances.
  */
-define ('K_PATH_URL', JURI::root().'libraries/tcpdf/');
+define ('K_PATH_URL', '/libraries'. vmDefines::tcpdf().'/');
 
 /**
  * Path for PDF fonts.
  * By default it is automatically set but you can also set it as a fixed string to improve performances.
  */
-define ('K_PATH_FONTS', K_PATH_MAIN.'fonts'.DS);
+define ('K_PATH_FONTS', K_PATH_MAIN.'fonts/');
 
 /**
  * Default images directory.
  * By default it is automatically set but you can also set it as a fixed string to improve performances.
  */
-define ('K_PATH_IMAGES', VMPATH_ROOT.DS.'images'.DS.'tcpdf'.DS);
+//define ('K_PATH_IMAGES', '');
 
 /**
  * Deafult image logo used be the default Header() method.
@@ -107,7 +103,7 @@ define ('PDF_PAGE_ORIENTATION', 'P');
 /**
  * Document creator.
  */
-define ('PDF_CREATOR', 'TCPDF');
+define ('PDF_CREATOR', 'TCPDF, VirtueMart');
 
 /**
  * Document author.
@@ -218,12 +214,12 @@ define('K_THAI_TOPCHARS', true);
  * If true allows to call TCPDF methods using HTML syntax
  * IMPORTANT: For security reason, disable this feature if you are printing user HTML content.
  */
-define('K_TCPDF_CALLS_IN_HTML', true);
+define('K_TCPDF_CALLS_IN_HTML', false);
 
 /**
  * If true and PHP version is greater than 5, then the Error() method throw new exception instead of terminating the execution.
  */
-define('K_TCPDF_THROW_EXCEPTION_ERROR', true);
+define('K_TCPDF_THROW_EXCEPTION_ERROR', false);
 
 /**
  * Default timezone for datetime functions

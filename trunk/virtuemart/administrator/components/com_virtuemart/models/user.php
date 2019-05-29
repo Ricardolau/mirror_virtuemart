@@ -652,7 +652,9 @@ class VirtueMartModelUser extends VmModel {
 
 	public function storeVendorData($data){
 
-		if($data['user_is_vendor'] and vmAccess::manager(array('user.editshop','user.editvendor')) ){
+		if(empty($data['user_is_vendor'])) return true;
+
+		if(vmAccess::manager(array('user.editshop','user.editvendor')) ){
 
 			$vendorModel = VmModel::getModel('vendor');
 
@@ -681,7 +683,7 @@ class VirtueMartModelUser extends VmModel {
 			vmInfo('Missing rights to store the vendor data');
 		}
 
-		return false;
+		return true;
 	}
 
 

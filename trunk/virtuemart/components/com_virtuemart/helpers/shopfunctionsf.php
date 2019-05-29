@@ -1143,7 +1143,7 @@ class shopFunctionsF {
 			$dispatcher = JEventDispatcher::getInstance();
 			$dispatcher->trigger('onInit', $id);
 			$output = $dispatcher->trigger('onDisplay', array($reCaptchaName, $id, 'class="g-recaptcha required"'));
-			return $output[0];
+			return isset($output[0])? $output[0]:'';
 		}
 		return '';
 	}

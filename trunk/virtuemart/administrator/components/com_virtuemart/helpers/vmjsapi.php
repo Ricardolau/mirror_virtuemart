@@ -308,12 +308,7 @@ class vmJsApi{
 			//Very important convention with other 3rd pary developers, must be kept. DOES NOT WORK IN J3
 			if (JFactory::getApplication ()->get ('jquery')) {
 				return FALSE;
-			} else {
-
 			}
-		} else {
-			JHtml::_('jquery.framework');
-			//return true;
 		}
 
 		if($isSite===-1) $isSite = !self::isAdmin();
@@ -321,6 +316,8 @@ class vmJsApi{
 		if (!VmConfig::get ('jquery', true) and $isSite) {
 			vmdebug('Common jQuery is disabled');
 			return FALSE;
+		} else if(JVM_VERSION>2) {
+			JHtml::_('jquery.framework');
 		}
 
 		if(JVM_VERSION<3){
@@ -464,6 +461,11 @@ jQuery(document).ready(function() { // GALT: Start listening for dynamic content
 		if ($done) return true;
 
 		self::vmVariables();
+
+		if(!VmConfig::get ('jquery', true)) {
+			return true;
+		}
+
 		if(VmConfig::get('usefancy',1)){
 			vmJsApi::addJScript( 'fancybox/jquery.fancybox-1.3.4.pack',false,false,false,false,'1.3.4');
 			vmJsApi::css('jquery.fancybox-1.3.4');
@@ -527,7 +529,7 @@ jQuery(document).ready(function($) {
 				}
 
 				$script =
-	'if (typeof Virtuemart === "undefined")
+				'if (typeof Virtuemart === "undefined")
 	var Virtuemart = {};
 	Virtuemart.updateChosenDropdownLayout = function() {
 		var vm2string = {'.$vm2string.'};

@@ -146,26 +146,22 @@ class vmAccess {
 				self::$_manager[$h] = true;
 			} else {
 				self::$_manager[$h] = false;
-				$a = $user->authorise('core.manage', 'com_virtuemart');
-				if(!$a and self::$_site){
-					$a = $user->authorise('vm.manage', 'com_virtuemart');
-				} /*else {
-					$a = $user->authorise('core.manage', 'com_virtuemart');
-				}*/
 
-				if($a){
-					if(empty($task)){
-						self::$_manager[$h] = true;
-					} else {
-						foreach($task as $t){
-							if($user->authorise('vm.'.$t, 'com_virtuemart')){
-								self::$_manager[$h] = true;
-								if(!$and) break;
-							}
-							else if($and) {
-								self::$_manager[$h] = false;
-								break;
-							}
+				if(empty($task)){
+					$a = $user->authorise('core.manage', 'com_virtuemart');
+					if(!$a and self::$_site){
+						$a = $user->authorise('vm.manage', 'com_virtuemart');
+					}
+					self::$_manager[$h] = $a;
+				} else {
+					foreach($task as $t){
+						if($user->authorise('vm.'.$t, 'com_virtuemart')){
+							self::$_manager[$h] = true;
+							if(!$and) break;
+						}
+						else if($and) {
+							self::$_manager[$h] = false;
+							break;
 						}
 					}
 				}

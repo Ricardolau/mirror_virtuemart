@@ -1539,7 +1539,7 @@ class calculationHelper {
 		}
 		if (!$paymentValid) {
 			$this->_cart->virtuemart_paymentmethod_id = 0;
-			$this->_cart->setCartIntoSession();
+			$this->_cart->setCartIntoSession(false,true);
 		}
 		return $this->_cart->cartPrices;
 	}

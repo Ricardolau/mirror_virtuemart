@@ -183,8 +183,8 @@ function virtuemartBuildRoute(&$query) {
 								$Itemid = $helper->rItemid;
 							}
 						}
-						if(!isset($query['Itemid'])){
-							if ($categoryRoute->Itemid) $query['Itemid'] = $categoryRoute->Itemid;
+						if(!$Itemid){
+							if ($categoryRoute->Itemid) $Itemid = $categoryRoute->Itemid;
 							else $Itemid = $jmenu['virtuemart'];
 						}
 
@@ -1264,8 +1264,10 @@ class vmrouterHelper {
 	 */
 	public function checkItemid($id){
 
-		static $res = null;
-		if($res==null){
+		static $res = array();
+		if(isset($res[$id])) {
+			return $res[$id];
+		} else {
 			$user = JFactory::getUser();
 			$auth = array_unique($user->getAuthorisedViewLevels());
 			//$auth = $user->getAuthorisedViewLevels();
@@ -1280,11 +1282,12 @@ class vmrouterHelper {
 
 			$db			= JFactory::getDBO();
 			$db->setQuery($q);
-			$res = $db->loadResult();
+			$r = $db->loadResult();
+			$res[$id] = boolval($r);
 		}
 
 		//vmdebug('checkItemid $res ', $q, $res);
-		return boolval($res);
+		return $res[$id];
 	}
 
 	/* Set $this->menu with the Item ID from Joomla Menus */

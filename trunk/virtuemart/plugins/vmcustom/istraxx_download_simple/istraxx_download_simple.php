@@ -254,18 +254,7 @@ class plgVmCustomIstraxx_download_simple extends vmCustomPlugin {
 			return FALSE;
 		}
 
-		$task = vRequest::getCmd('task');
-		if($task == 'getMemberStatus'){
-			if(!class_exists('JFormFieldReminder')){
-				require(VMPATH_ROOT.$this->getOwnUrl().'/fields/reminder.php');
-			}
-			$pluginId = $this->getJoomlaPluginId();
-			JFormFieldReminder::getMemberStatus($pluginId);
-			return true;
-		}
-
 		$user = JFactory::getUser();
-
 
 		$media_id = vRequest::getInt('media_id',false);
 		if($media_id){

@@ -105,8 +105,7 @@ echo shopFunctionsF::getLoginForm (TRUE, FALSE, $url);
 	</h2>
 
 	<!--<form method="post" id="userForm" name="userForm" action="<?php echo JRoute::_ ('index.php'); ?>" class="form-validate">-->
-	<?php renderControlButtons($this,$rview);
-
+	<?php
 	if (count ($this->userFields['functions']) > 0) {
 		echo '<script language="javascript">' . "\n";
 		echo join ("\n", $this->userFields['functions']);

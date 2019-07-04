@@ -827,10 +827,13 @@ class shopFunctionsF {
 				$mailer->addReplyTo($replyTo);
 			}
 		}
+
+		$mediaToSend = array();
 		if(isset($view->mediaToSend)) {
 			foreach( (array)$view->mediaToSend as $media ) {
 				$mailer->addAttachment( $media );
 			}
+			$mediaToSend = $view->mediaToSend;
 			$view->mediaToSend = array();
 		}
 
@@ -862,8 +865,8 @@ class shopFunctionsF {
 				$recipient = array($recipient);
 			}
 			if (VmConfig::showDebug()) {
-				if(!isset($view->mediaToSend)) $view->mediaToSend = array();
-				vmdebug('Debug mail active, no mail sent. The mail to send subject ' . $subject . ' to "' . implode(' ', $recipient) . '" from ' . $sender[0] . ' ' . $sender[1] . ' ' . vmText::$language->getTag() . '<br>' . $body,$view->mediaToSend);
+
+				vmdebug('Debug mail active, no mail sent. The mail to send subject ' . $subject . ' to "' . implode(' ', $recipient) . '" from ' . $sender[0] . ' ' . $sender[1] . ' ' . vmText::$language->getTag() . '<br>' . $body, $mediaToSend);
 			} else {
 				vmInfo('Debug mail active, no mail sent. The mail to send subject ' . $subject . ' to "' . implode(' ', $recipient) . '" from ' . $sender[0] . ' ' . $sender[1] . '<br>' . $body);
 			}
@@ -1152,7 +1155,7 @@ class shopFunctionsF {
 
 		$discountsBill = array();
 		$taxBill = array();
-		vmdebug('summarizeRulesForBill $taxBill input',$order['calc_rules']);
+		//vmdebug('summarizeRulesForBill $taxBill input',$order['calc_rules']);
 		foreach($order['items'] as $item){
 			//vmdebug('summarizeRulesForBill $item->product_subtotal_with_tax',$item->product_subtotal_with_tax);
 			foreach($order['calc_rules'] as $rule){
@@ -1179,7 +1182,7 @@ class shopFunctionsF {
 					if($rule->calc_kind == 'DBTaxRulesBill' or $rule->calc_kind == 'DATaxRulesBill'){
 						$discountsBill[$rule->virtuemart_calc_id] = $rule;
 					} else if($rule->calc_kind == 'taxRulesBill'){
-						vmdebug('summarizeRulesForBill  taxRulesBill ', $rule);
+						//vmdebug('summarizeRulesForBill  taxRulesBill ', $rule);
 
 						if(!isset($taxBill[$rule->virtuemart_calc_id])){
 							$rule->label = shopFunctionsF::getTaxNameWithValue($rule->calc_rule_name,$rule->calc_value);
@@ -1208,7 +1211,7 @@ class shopFunctionsF {
 						}
 					}
 				}
-				vmdebug('radicalShipPaymentVat my $rule ',$maxValue,$taxBill);
+				//vmdebug('radicalShipPaymentVat my $rule ',$maxValue,$taxBill);
 			}
 
 			foreach($order['calc_rules'] as $i=> $rule) {
@@ -1221,8 +1224,8 @@ class shopFunctionsF {
 							$sum = $order['details']['BT']->order_salesPrice;
 							$t1 = $tax->calc_value * 0.01 * $tax->subTotal/$sum;
 							$toAdd = $t1 * $order['details']['BT']->$keyN ;
-							vmdebug('ShipPay Rules $t1 '.$tax->calc_value * 0.01.' * '. $tax->subTotal.'/'.$sum.' = '.$t1);
-							vmdebug('ShipPay Rules $toAdd '.$t1.' * '. $order['details']['BT']->$keyN. ' = '.$toAdd. ' on '.$taxBill[$tax->virtuemart_calc_id]->calc_amount);
+							//vmdebug('ShipPay Rules $t1 '.$tax->calc_value * 0.01.' * '. $tax->subTotal.'/'.$sum.' = '.$t1);
+							//vmdebug('ShipPay Rules $toAdd '.$t1.' * '. $order['details']['BT']->$keyN. ' = '.$toAdd. ' on '.$taxBill[$tax->virtuemart_calc_id]->calc_amount);
 							$taxBill[$tax->virtuemart_calc_id]->calc_amount += $t1 * $order['details']['BT']->$keyN ;
 
 							//vmdebug('ShipPay Rules '.$t1.' * '. $order['details']['BT']->$keyN.'='.$t1 * $order['details']['BT']->$keyN);
@@ -1235,7 +1238,7 @@ class shopFunctionsF {
 				}
 			}
         }
-		vmdebug('summarizeRulesForBill $taxBill return',$taxBill);
+		//vmdebug('summarizeRulesForBill $taxBill return',$taxBill);
 		return array('discountsBill' => $discountsBill, 'taxBill' => $taxBill);
 	}
 }

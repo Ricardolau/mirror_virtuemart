@@ -110,9 +110,8 @@ class VirtueMartModelCustomfields extends VmModel {
 
 				//Must be cloned!
 				foreach($_customFieldByProductId[$hkey] as $ccust){
-					$clonedCache[] = clone($ccust);
+					$productCustomsCached[] = clone($ccust);
 				}
-				$productCustomsCached = array_merge($productCustomsCached,$clonedCache);
 				unset($productIds[$k]);
 			}
 		}
@@ -986,7 +985,7 @@ class VirtueMartModelCustomfields extends VmModel {
 	public function calculateModificators(&$product, $cart = null) {
 
 		if (!isset($product->modificatorSum)){
-			if($cart === null) $cart = VirtueMartCart::getCart();
+
 			$product->modificatorSum = 0.0;
 			if(!empty($product->customfields)) {
 				foreach( $product->customfields as $k => $productCustom ) {
@@ -994,7 +993,7 @@ class VirtueMartModelCustomfields extends VmModel {
 
 					if(isset($product->cart_item_id)) {
 
-						$cart = VirtueMartCart::getCart();
+						if($cart === null) $cart = VirtueMartCart::getCart();
 
 						if(isset($cart->cartProductsData[$product->cart_item_id]['customProductData'][$productCustom->virtuemart_custom_id][$productCustom->virtuemart_customfield_id])) {
 							$selected = $cart->cartProductsData[$product->cart_item_id]['customProductData'][$productCustom->virtuemart_custom_id][$productCustom->virtuemart_customfield_id];

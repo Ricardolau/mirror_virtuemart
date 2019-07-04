@@ -598,7 +598,7 @@ abstract class vmPlugin extends JPlugin {
 	 * @param $int
 	 * @return mixed
 	 */
-	protected function getVmPluginMethod ($int, $cache = true) {
+	protected function getVmPluginMethod ($int, $cache = false) {
 
 		if ($this->_vmpCtable === 0 || !$cache) {
 

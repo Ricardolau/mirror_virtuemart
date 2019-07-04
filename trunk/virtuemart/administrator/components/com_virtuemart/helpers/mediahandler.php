@@ -555,13 +555,27 @@ class VmMediaHandler {
 	 */
 	function getIcon($imageArgs,$lightbox,$return=false,$withDescr=false,$absUrl = false){
 
+		$file_url = false;
+		$file_alt = false;
+		static $exists = array();
+		$tC = $this->theme_url.'assets/images/vmgeneral/filetype_'.$this->file_extension.'.png';
+
 		if(!empty($this->file_extension)){
-			$file_url = $this->theme_url.'assets/images/vmgeneral/filetype_'.$this->file_extension.'.png';
 			$file_alt = $this->file_description;
-		} else {
+			if(!isset($exists[$this->file_extension])){
+				$exists[$this->file_extension] = file_exists($tC);
+			}
+
+			if($exists[$this->file_extension]){
+				$file_url = $tC;
+			}
+		}
+
+		if(!$file_url){
 			$file_url = $this->theme_url.'assets/images/vmgeneral/'.VmConfig::get('no_image_found');
 			$file_alt = vmText::_('COM_VIRTUEMART_NO_IMAGE_FOUND').' '.$this->file_description;
 		}
+
 		if($return){
 			if($this->file_is_downloadable){
 				return $this->displayIt($file_url, $file_alt, '',true,'',$withDescr,$absUrl);

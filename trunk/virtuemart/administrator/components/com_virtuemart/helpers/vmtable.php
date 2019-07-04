@@ -863,7 +863,6 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			$admin = vmAccess::manager('core');
 
 			if($admin){
-//				vmdebug('setLoggableFieldsForStore ', $this->created_on);
 				if (empty($this->$pkey) and empty($this->created_on)) {
 					$this->created_on = $today;
 				} else if (empty($this->created_on)) {
@@ -1223,7 +1222,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 				if($p!=$this->$tblKey and !in_array($tblKey,$this->_omittedHashFields)){
 					$this->hashEntry();
 					$ok = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
-					vmdebug('Updated entry with correct hash ',$this->_tbl_key,$p,$this->$tblKey,$oldH,$this->{$this->_hashName});
+					vmdebug('VmTable Updated entry with correct hash ',$this->_tbl_key,$p,$this->$tblKey,$oldH,$this->{$this->_hashName});
 				}
 			}
 		}

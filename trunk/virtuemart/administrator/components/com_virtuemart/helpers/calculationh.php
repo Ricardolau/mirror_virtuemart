@@ -1467,47 +1467,87 @@ class calculationHelper {
 		return $this->_cart->cartPrices;
 	}
 
+	private $firstRecalcshipment = true;
+	private $firstRecalcpayment = true;
+
 	/**
-	 * Calculates the effecting Shipment prices for the calculation
-	 * @copyright (c) 2009 VirtueMart Team. All rights reserved.
+	 * Calculates the effecting Shipment/Payment prices for the calculation
+	 * @copyright (c) 2019 VirtueMart Team. All rights reserved.
 	 * @author Max Milbers
 	 * @author Valerie Isaksen
-	 * @param 	$code 	The Id of the coupon
-	 * @return 	$rules 	ids of the coupons
+	 * @param 	$code 	The method type shipment, payment
+	 * @return 	cartPrices 	the prices of the cart
 	 */
-	function calculateShipmentPrice( ) {
 
-		$this->_cart->cartData['shipmentName'] = vmText::_('COM_VIRTUEMART_CART_NO_SHIPMENT_SELECTED');
-		$this->_cart->cartPrices['shipmentValue'] = 0; //could be automatically set to a default set in the globalconfig
-		$this->_cart->cartPrices['shipmentTax'] = 0;
-		$this->_cart->cartPrices['salesPriceShipment'] = 0;
-		$this->_cart->cartPrices['shipment_calc_id'] = 0;
+	function calculateMethodPrice($type){
 
+		if($type=='shipment'){
+			$this->_cart->cartData['shipmentName'] = vmText::_('COM_VIRTUEMART_CART_NO_SHIPMENT_SELECTED');
+			$this->_cart->cartPrices['shipmentValue'] = 0; //could be automatically set to a default set in the globalconfig
+			$this->_cart->cartPrices['shipmentTax'] = 0;
+			$this->_cart->cartPrices['salesPriceShipment'] = 0;
+			$this->_cart->cartPrices['shipment_calc_id'] = 0;
+		} else {
+			$this->_cart->cartData['paymentName'] = vmText::_('COM_VIRTUEMART_CART_NO_PAYMENT_SELECTED');
+			$this->_cart->cartPrices['paymentValue'] = 0; //could be automatically set to a default set in the globalconfig
+			$this->_cart->cartPrices['paymentTax'] = 0;
+			$this->_cart->cartPrices['paymentTotal'] = 0;
+			$this->_cart->cartPrices['salesPricePayment'] = 0;
+			$this->_cart->cartPrices['payment_calc_id'] = 0;
+		}
+
+		$method_id_name = 'virtuemart_'.$type.'method_id';
 		// Handling shipment plugins
-		JPluginHelper::importPlugin('vmshipment');
-		$this->_cart->checkAutomaticSelectedPlug('shipment');
-		if (empty($this->_cart->virtuemart_shipmentmethod_id)) return;
+		//if(empty($this->_cart->$method_id_name)){
+			JPluginHelper::importPlugin('vm'.$type);
+			$this->_cart->checkAutomaticSelectedPlug($type);
+			if(empty($this->_cart->$method_id_name)) return;
+		//}
 
 		$dispatcher = JDispatcher::getInstance();
-		$returnValues = $dispatcher->trigger('plgVmOnSelectedCalculatePriceShipment',array(  $this->_cart, &$this->_cart->cartPrices, &$this->_cart->cartData['shipmentName']  ));
+		$returnValues = $dispatcher->trigger('plgVmonSelectedCalculatePrice'.ucfirst($type),array( $this->_cart, &$this->_cart->cartPrices, &$this->_cart->cartData[$type.'Name']  ));
 
-		//Plugin return true if shipment rate is still valid false if not any more
-		$shipmentValid=0;
+		// Plugin return true if payment plugin is  valid false if not  valid anymore only one value is returned
+		$methodValid=0;
 		foreach ($returnValues as $returnValue) {
-			$shipmentValid += $returnValue;
+			$methodValid += $returnValue;
 		}
-		if (!$shipmentValid) {
-			vmdebug('calculateShipmentPrice $shipment INVALID set cart->virtuemart_shipmentmethod_id = 0 ',$this->_cart->virtuemart_shipmentmethod_id);
-			$this->_cart->virtuemart_shipmentmethod_id = 0;
-			$this->_cart->setCartIntoSession(false,true);
+
+		if (!$methodValid) {
+			vmdebug('calculate'.ucfirst($type).'Price Method INVALID set cart->'.$method_id_name.' = 0 ',$this->_cart->$method_id_name);
+			$this->_cart->$method_id_name = 0;
+			$this->_cart->checkAutomaticSelectedPlug($type);
+			if(!empty($this->_cart->$method_id_name)){
+				vmdebug('my firstRecalc'.$type,(int)$this->{'firstRecalc'.$type});
+				if($this->{'firstRecalc'.$type} ){
+					$this->{'firstRecalc'.$type} = false;
+					return $this->getCheckoutPrices($this->_cart);
+				} else {
+					vmdebug('I will not recalculate twice');
+				}
+				return false;
+			}
+			//$this->_cart->setCartIntoSession(true,true);
 		}
 
 		return $this->_cart->cartPrices;
 	}
 
 	/**
+	 * Calculates the effecting Shipment prices for the calculation
+	 * @copyright (c) 2019 VirtueMart Team. All rights reserved.
+	 * @author Max Milbers
+	 * @author Valerie Isaksen
+	 * @param 	$code 	The Id of the coupon
+	 * @return 	$rules 	ids of the coupons
+	 */
+	function calculateShipmentPrice( ) {
+		return $this->calculateMethodPrice('shipment');
+	}
+
+	/**
 	 * Calculates the effecting Payment prices for the calculation
-	 * @copyright Copyright (c) 2009 VirtueMart Team. All rights reserved.
+	 * @copyright Copyright (c) 2019 VirtueMart Team. All rights reserved.
 	 * @author Max Milbers
 	 * @author Valerie Isaksen
 	 * @param 	$code 	The Id of the paymentmethod
@@ -1516,32 +1556,7 @@ class calculationHelper {
 	 * @return 	$paymentCosts 	The amount of money the customer has to pay. Calculated in shop currency
 	 */
 	function calculatePaymentPrice() {
-
-		$this->_cart->cartData['paymentName'] = vmText::_('COM_VIRTUEMART_CART_NO_PAYMENT_SELECTED');
-		$this->_cart->cartPrices['paymentValue'] = 0; //could be automatically set to a default set in the globalconfig
-		$this->_cart->cartPrices['paymentTax'] = 0;
-		$this->_cart->cartPrices['paymentTotal'] = 0;
-		$this->_cart->cartPrices['salesPricePayment'] = 0;
-		$this->_cart->cartPrices['payment_calc_id'] = 0;
-
-		JPluginHelper::importPlugin('vmpayment');
-
-		$this->_cart->checkAutomaticSelectedPlug('payment');
-		if (empty($this->_cart->virtuemart_paymentmethod_id)) return;
-
-		$dispatcher = JDispatcher::getInstance();
-		$returnValues = $dispatcher->trigger('plgVmonSelectedCalculatePricePayment',array( $this->_cart, &$this->_cart->cartPrices, &$this->_cart->cartData['paymentName']  ));
-
-		// Plugin return true if payment plugin is  valid false if not  valid anymore only one value is returned
-		$paymentValid=0;
-		foreach ($returnValues as $returnValue) {
-			$paymentValid += $returnValue;
-		}
-		if (!$paymentValid) {
-			$this->_cart->virtuemart_paymentmethod_id = 0;
-			$this->_cart->setCartIntoSession(false,true);
-		}
-		return $this->_cart->cartPrices;
+		return $this->calculateMethodPrice('payment');
 	}
 
 	function calculateCustomPriceWithTax($price) {

@@ -313,11 +313,13 @@ class vmJsApi{
 
 		if($isSite===-1) $isSite = !self::isAdmin();
 
+		if(VmConfig::get('jquery_framework',true)) JHtml::_('jquery.framework');
+
 		if (!VmConfig::get ('jquery', true) and $isSite) {
 			vmdebug('Common jQuery is disabled');
 			return FALSE;
 		} else if(JVM_VERSION>2) {
-			JHtml::_('jquery.framework');
+			//JHtml::_('jquery.framework');
 		}
 
 		if(JVM_VERSION<3){

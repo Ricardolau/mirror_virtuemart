@@ -860,11 +860,16 @@ class VirtueMartModelUser extends VmModel {
 
 				if($untested){
 					$untested = false;
-					if(!isset($data['virtuemart_state_id'])) $data['virtuemart_state_id'] = 0;
-					if(isset($data['virtuemart_country_id'])){
-						$msg = VirtueMartModelState::testStateCountry($data['virtuemart_country_id'], $data['virtuemart_state_id'], $staterequired);
+					$stateId = 0;
+					if(isset($data['virtuemart_state_id'])){
+						$stateId = $data['virtuemart_state_id'];
 					}
-
+					if(isset($data['virtuemart_country_id'])){
+						$msg = VirtueMartModelState::testStateCountry($data['virtuemart_country_id'], $stateId, $staterequired);
+					}
+					if(isset($data['virtuemart_state_id'])){
+						$data['virtuemart_state_id'] = $stateId;
+					}
 
 				}
 

@@ -265,7 +265,7 @@ function vmTrace($notice,$force=FALSE, $args = 10){
 				echo $notice.' <pre>'.$body.'</pre>';
 			}
 			$app = JFactory::getApplication();
-			$app ->enqueueMessage($notice.' '.$body.' ');
+			$app ->enqueueMessage('<span class="vmdebug" >'.VmConfig::$maxMessageCount.' vmTrace '.$notice.' '.$body.'</span>');
 		}
 	}
 

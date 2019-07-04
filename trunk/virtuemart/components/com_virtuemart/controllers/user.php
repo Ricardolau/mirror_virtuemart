@@ -176,7 +176,7 @@ class VirtueMartControllerUser extends JControllerLegacy
 				$prefix= '';
 				if ($data['address_type'] == 'STaddress' || $data['address_type'] =='ST') {
 					$prefix = 'shipto_';
-					vmdebug('Storing user ST prefix '.$prefix);
+					$cart->STsameAsBT = 0;
 				}
 				$cart->saveAddressInCart($data, $data['address_type'],true,$prefix);
 			}
@@ -201,7 +201,7 @@ class VirtueMartControllerUser extends JControllerLegacy
 			$msg = (is_array($ret)) ? $ret['message'] : $ret;
 			if($cartObj and !empty($ret)){
 				$cartObj->selected_shipto = $ret;
-				$cartObj->setCartIntoSession();
+				$cartObj->setCartIntoSession(true);
 			}
 		} else {
 

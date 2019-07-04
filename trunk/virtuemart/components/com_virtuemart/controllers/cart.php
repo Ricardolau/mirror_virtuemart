@@ -82,31 +82,6 @@ class VirtueMartControllerCart extends JControllerLegacy {
 		$cart->prepareCartData(false);
 		$html=true;
 
-		if ($cart->virtuemart_shipmentmethod_id==0 and (($s_id = VmConfig::get('set_automatic_shipment',false)) >= 0)){
-			if(empty($s_id)){
-				$methods = VmModel::getModel('Shipmentmethod')->getShipments();
-				if($methods){
-					$s_id = $methods[0]->virtuemart_shipmentmethod_id;
-				}
-			}
-			if(!empty($s_id)){
-				$cart->setShipmentMethod($force, !$html, $s_id);
-				$cart->getCartPrices($force);
-			}
-		}
-
-		if ($cart->virtuemart_paymentmethod_id==0 and (($s_id = VmConfig::get('set_automatic_payment',false)) > 0) and $cart->products){
-			if(empty($s_id)){
-				$methods = VmModel::getModel('paymentmethod')->getPayments();
-				if($methods){
-					$s_id = $methods[0]->virtuemart_paymentmethod_id;
-				}
-			}
-			if(!empty($s_id)){
-				$cart->setPaymentMethod($force, !$html, $s_id);
-				$cart->getCartPrices($force);
-			}
-		}
 
 		$request = vRequest::getRequest();
 		$task = vRequest::getCmd('task');
@@ -150,23 +125,8 @@ class VirtueMartControllerCart extends JControllerLegacy {
 			vRequest::setVar('checkout',true);
 		}
 
+		$cart->storeCartSession = false;
 		$cart->saveCartFieldsInCart();
-
-		/*For storing cartfields
-		$currentUser = JFactory::getUser();
-		$userModel = VmModel::getModel('user');
-
-		if($currentUser->guest!=1 and !empty($currentUser->id)){
-
-			$btId = $userModel->getBTuserinfo_id($currentUser->id);
-			if($btId){
-				$cart->BT['virtuemart_userinfo_id'] = $btId;
-
-				$dataT = $userModel->getTable('userinfos');
-				$dataT->bindChecknStore($cart->BT,true);
-			}
-		}
-		*/
 
 		if($cart->updateProductCart()){
 			//vmInfo('COM_VIRTUEMART_PRODUCT_UPDATED_SUCCESSFULLY');
@@ -223,6 +183,11 @@ class VirtueMartControllerCart extends JControllerLegacy {
 			if($msg) vmInfo($msg);
 			$cart->setOutOfCheckout();
 		}
+
+		//We enable storing of the cart again, execute store session and just set the boolean to store the cart to yes, which is then executed in the display function
+		$cart->storeCartSession = true;
+		$cart->setCartIntoSession(false,true);
+		$cart->storeToDB = true;
 
 		if ($html) {
 			$this->display();

@@ -212,19 +212,15 @@ abstract class vmPSPlugin extends vmPlugin {
 	 */
 	function onCheckAutomaticSelected (VirtueMartCart $cart, array $cart_prices = array(), &$methodCounter = 0) {
 
-		$virtuemart_pluginmethod_id = 0;
+		$virtuemart_pluginmethod_ids = array();
 
-		$nbMethod = $this->getSelectable ($cart, $virtuemart_pluginmethod_id, $cart_prices);
+		$nbMethod = $this->getSelectables ($cart, $virtuemart_pluginmethod_ids, $cart_prices);
 		$methodCounter += $nbMethod;
 
 		if ($nbMethod == NULL) {
 			return NULL;
 		} else {
-			if ($nbMethod == 1) {
-				return $virtuemart_pluginmethod_id;
-			} else {
-				return 0;
-			}
+			return $virtuemart_pluginmethod_ids;
 		}
 	}
 
@@ -803,6 +799,7 @@ abstract class vmPSPlugin extends vmPlugin {
 				if(!empty($logo)){
 					if(JFile::exists(VMPATH_ROOT .'/'. $url .'/'. $logo)){
 						$alt_text = substr ($logo, 0, strpos ($logo, '.'));
+						//Currently we do not see  the images in the invoices, because they are given with absolute URLS, which are needed for the email. We need a better solution here.
 						$img .= '<span class="vmCart' . ucfirst($this->_psType) . 'Logo" ><img align="middle" src="' . JUri::root().$url.'/'.$logo . '"  alt="' . $alt_text . '" /></span> ';
 					}
 				}
@@ -910,6 +907,27 @@ abstract class vmPSPlugin extends vmPlugin {
 				$nbMethod = $nbMethod + $nb;
 				$idName = $this->_idName;
 				$method_id = $method->$idName;
+			} else {
+				unset($this->methods[$k]);
+			}
+		}
+		return $nbMethod;
+	}
+
+	function getSelectables (VirtueMartCart $cart, &$method_ids, $cart_prices) {
+
+		$nbMethod = 0;
+
+		if ($this->getPluginMethods ($cart->vendorId) === 0) {
+			return FALSE;
+		}
+
+		foreach ($this->methods as $k=>$method) {
+			if ($nb = (int)$this->checkConditions ($cart, $method, $cart_prices)) {
+
+				$nbMethod = $nbMethod + $nb;
+				$idName = $this->_idName;
+				$method_ids[] = $method->$idName;
 			} else {
 				unset($this->methods[$k]);
 			}

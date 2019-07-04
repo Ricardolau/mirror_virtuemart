@@ -191,7 +191,9 @@ class VirtueMartViewCart extends VmView {
 			$this->assignRef('order_language',$order_language);
 		}
 
-		
+		if($this->cart->storeToDB){
+			$this->cart->storeCart();
+		}
 
 		$this->useSSL = vmURI::useSSL();
 		$this->useXHTML = false;
@@ -376,6 +378,8 @@ class VirtueMartViewCart extends VmView {
 
 	private function checkPaymentMethodsConfigured() {
 
+		if ($this->cart->virtuemart_paymentmethod_id) return true;
+
 		//For the selection of the payment method we need the total amount to pay.
 		$paymentModel = VmModel::getModel('Paymentmethod');
 		$payments = $paymentModel->getPayments(true, false);
@@ -395,6 +399,8 @@ class VirtueMartViewCart extends VmView {
 	}
 
 	private function checkShipmentMethodsConfigured() {
+
+		if ($this->cart->virtuemart_shipmentmethod_id) return true;
 
 		//For the selection of the shipment method we need the total amount to pay.
 		$shipmentModel = VmModel::getModel('Shipmentmethod');

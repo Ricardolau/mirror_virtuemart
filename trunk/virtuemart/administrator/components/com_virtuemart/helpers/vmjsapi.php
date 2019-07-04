@@ -91,7 +91,7 @@ class vmJsApi{
 	 * @param bool $defer	http://peter.sh/experiments/asynchronous-and-deferred-javascript-execution-explained/
 	 * @param bool $async
 	 */
-	public static function addJScript($name, $script = false, $defer = true, $async = false, $inline = false, $ver = 0){
+	public static function addJScript($name, $script = false, $defer = false, $async = false, $inline = false, $ver = 0){
 		self::$_jsAdd[$name]['script'] = trim($script);
 		self::$_jsAdd[$name]['defer'] = $defer;
 		self::$_jsAdd[$name]['async'] = $async;
@@ -172,8 +172,15 @@ class vmJsApi{
 					} else if(!empty($jsToAdd['ver'])) {
 						$ver = '?vmver='.$jsToAdd['ver'];
 					}
-
-					$document->addScript( $file .$ver,"text/javascript",$jsToAdd['defer'],$jsToAdd['async'] );
+					$options = array();
+					$attribs = array();
+					if($jsToAdd['defer']){
+						$attribs['defer'] = 'defer';
+					}
+					if($jsToAdd['defer']){
+						$attribs['async'] = 'async';
+					}
+					$document->addScript( $file .$ver,"text/javascript",$options,$attribs );
 				}
 
 			} else {
@@ -182,10 +189,20 @@ class vmJsApi{
 				if(!empty($script)) {
 					$script = trim($script,chr(13));
 					$script = trim($script,chr(10));
+
+					$defer = '';
+					if($jsToAdd['defer']){
+						$defer = 'defer';
+					}
+					$async = '';
+					if($jsToAdd['async']){
+						$async = 'async';
+					}
+
 					if($cdata===false){
-						$html .= '<script id="'.$name.'-js" type="text/javascript">//<![CDATA[ '.chr(10).$script.' //]]>'.chr(10).'</script>';
+						$html .= '<script '.$defer.' '.$async.' id="'.$name.'-js" type="text/javascript" >//<![CDATA[ '.chr(10).$script.' //]]>'.chr(10).'</script>';
 					} else {
-						$html .= '<script id="'.$name.'-js" type="text/javascript"> '.$script.' </script>';
+						$html .= '<script '.$defer.' '.$async.' id="'.$name.'-js" type="text/javascript" > '.$script.' </script>';
 					}
 				}
 

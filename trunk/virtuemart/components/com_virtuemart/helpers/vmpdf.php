@@ -35,12 +35,17 @@ class VmPdf {
 	static function createVmPdf($view, $path='', $dest='F', $meta=array()) {
 		if(!$view){
 			// TODO: use some default view???
-			return;
+			$er = 'createVmPdf Cannot render without view';
+			vmError($er, $er);
+			return 0;
 		}
 		
 		if(!class_exists('VmVendorPDF')){
+			$er = 'createVmPdf  Cannot find class VmVendorPDF';
+			vmError($er, $er);
 			return 0;
 		}
+		vmdebug('createVmPdf passed basic conditions to render pdf');
 
 		$pdf = new VmVendorPDF();
 		if (isset($meta['title'])) $pdf->SetTitle($meta['title']);
@@ -62,7 +67,7 @@ class VmPdf {
 		// Close and output PDF document
 		// This method has several options, check the source code documentation for more information.
 		$pdf->Output($path, $dest);
-
+		vmdebug('PDF printed to ',$path);
 		return $path;
 	}
 }
@@ -70,7 +75,7 @@ class VmPdf {
 
 
 
-if(class_exists('TCPDF')){
+//if(class_exists('TCPDF')){
 
 	// Extend the TCPDF class to create custom Header and Footer as configured in the Backend
 	class VmVendorPDF extends TCPDF {
@@ -332,7 +337,7 @@ if(class_exists('TCPDF')){
 		}
 	}
 
-	}
+//	}
 
 }
 

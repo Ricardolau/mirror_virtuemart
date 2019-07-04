@@ -6834,6 +6834,7 @@ class TCPDF {
 		list($x, $y) = $this->checkPageRegions($h, $x, $y);
 		$exurl = ''; // external streams
 		$imsize = FALSE;
+		$imgdata = 0;
 		// check if we are passing an image as file or string
 		if ($file[0] === '@') {
 			// image from string
@@ -6858,6 +6859,7 @@ class TCPDF {
 				}
 			}
 		}
+
 		if (!empty($imgdata)) {
 			// copy image to cache
 			$original_file = $file;
@@ -6875,6 +6877,7 @@ class TCPDF {
 				$file = $original_file;
 			}
 		}
+
 		if ($imsize === FALSE) {
 			if (($w > 0) AND ($h > 0)) {
 				// get measures from specified data
@@ -6882,7 +6885,11 @@ class TCPDF {
 				$ph = $this->getHTMLUnitToUnits($h, 0, $this->pdfunit, true) * $this->imgscale * $this->k;
 				$imsize = array($pw, $ph);
 			} else {
-				$this->Error('[Image] Unable to get the size of the image: '.$file);
+				//$this->Error('[Image] Unable to get the size of the image: '.$file);
+				//VmConfig::$logDebug=1;
+				vmdebug('TCPDF [Image] Unable to get the size of the image. By VirtueMart Team, looks like this error comes from using absolute urls for images: '.$file,$imsize);
+
+				return;	//By VirtueMart Team*/
 			}
 		}
 		// file hash

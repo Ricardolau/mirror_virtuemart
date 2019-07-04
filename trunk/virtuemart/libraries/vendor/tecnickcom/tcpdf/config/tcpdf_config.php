@@ -49,13 +49,13 @@ VmConfig::loadConfig(FALSE, FALSE, true, false);
  $cyu = vmDefines::tcpdf();
 
 //echo('vmDefines::tcpdf() '.$cyu);
-define("K_PATH_MAIN", VMPATH_LIBS . vmDefines::tcpdf().'/');
+define("K_PATH_MAIN", VMPATH_LIBS . $cyu.'/');
 
 /**
  * URL path to tcpdf installation folder (http://localhost/tcpdf/).
  * By default it is automatically set but you can also set it as a fixed string to improve performances.
  */
-define ('K_PATH_URL', '/libraries'. vmDefines::tcpdf().'/');
+define ('K_PATH_URL', '/libraries'. $cyu.'/');
 
 /**
  * Path for PDF fonts.
@@ -67,7 +67,7 @@ define ('K_PATH_FONTS', K_PATH_MAIN.'fonts/');
  * Default images directory.
  * By default it is automatically set but you can also set it as a fixed string to improve performances.
  */
-//define ('K_PATH_IMAGES', '');
+//define ('K_PATH_IMAGES', K_PATH_MAIN.'images/');
 
 /**
  * Deafult image logo used be the default Header() method.

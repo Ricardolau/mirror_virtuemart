@@ -294,7 +294,7 @@ class PaypalHelperPayPalExp extends PaypalHelperPaypal {
 		// THIS IS A DIFFERENT URL FROM VM2
 	//	$post_variables['RETURNURL'] = JURI::root() . 'index.php?option=com_virtuemart&view=plugin&type=vmpayment&name=' . $this->_method->payment_element . '&action=SetExpressCheckout&SetExpressCheckout=done&pm=' . $this->_method->virtuemart_paymentmethod_id;
 
-		$post_variables['RETURNURL'] = JURI::root() . 'index.php?option=com_virtuemart&view=cart&task=setpayment&expresscheckout=done&pm=' . $this->_method->virtuemart_paymentmethod_id . '&Itemid=' . vRequest::getInt('Itemid') . '&lang=' . vRequest::getCmd('lang', '');
+		$post_variables['RETURNURL'] = JURI::root() . 'index.php?option=com_virtuemart&view=cart&task=setpayment&expresscheckout=done&virtuemart_paymentmethod_id=' . $this->_method->virtuemart_paymentmethod_id . '&Itemid=' . vRequest::getInt('Itemid') . '&lang=' . vRequest::getCmd('lang', '');
 
 		$post_variables['CANCELURL'] = JURI::root() . 'index.php?option=com_virtuemart&view=cart&expresscheckout=cancel&Itemid=' . vRequest::getInt('Itemid') . '&lang=' . vRequest::getCmd('lang', '');
 
@@ -361,6 +361,12 @@ class PaypalHelperPayPalExp extends PaypalHelperPaypal {
 
 	public function getExpressCheckoutDetails () {
 
+		$result = null;
+
+		if(isset($result)){
+			return $result;
+		}
+
 		$post_variables = $this->initPostVariables('GetExpressCheckoutDetails');
 		$this->addAcceleratedOnboarding($post_variables);
 
@@ -379,12 +385,15 @@ class PaypalHelperPayPalExp extends PaypalHelperPaypal {
 			$this->storeAddresses();
 			VmInfo('VMPAYMENT_PAYPAL_PROCEED_CHECKOUT');
 
+			//Leads to killerlopp, should not be necessary, because the cart is usually updated after the redirect
 			$cart = VirtueMartCart::getCart();
-			$cart->checkoutData(true);
-			return true;
+			$cart -> setupAddressFieldsForCart(true);
+			//$cart->checkoutData(false);
+			$result = true;
 		} else {
-			return false;
+			$result = false;
 		}
+		return $result;
 	}
 
 	public function ManageLogin () {
@@ -761,7 +770,7 @@ class PaypalHelperPayPalExp extends PaypalHelperPaypal {
 		$addressST['shipto_virtuemart_state_id'] = !empty($this->response['SHIPTOSTATE'])? ShopFunctions::getStateIDByName($this->response['SHIPTOSTATE']): '0';
 		$addressST['shipto_virtuemart_country_id'] = ShopFunctions::getCountryIDByName($this->response['SHIPTOCOUNTRYCODE']);
 		$this->cart->STsameAsBT = 0;
-		$this->cart->setCartIntoSession();
+		//$this->cart->setCartIntoSession();
 		$this->cart->saveAddressInCart($addressST, 'ST', true,'shipto_');
 
 

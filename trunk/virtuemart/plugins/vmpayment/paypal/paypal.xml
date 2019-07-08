@@ -41,23 +41,23 @@
                 <!-- param class="exp std hosted" type="credentials" default="" description=""/ -->
 
                 <field class="api live required" name="api_login_id" type="text" size="80" default=""
-                       label="VMPAYMENT_PAYPAL_USERNAME"/>
+                       label="VMPAYMENT_PAYPAL_USERNAME" autocomplete="off" />
                 <field class="api live required" name="api_password" type="password" size="80" default=""
-                       label="VMPAYMENT_PAYPAL_PASSWORD"/>
+                       label="VMPAYMENT_PAYPAL_PASSWORD" autocomplete="off"/>
 
 
                 <!-- certificate required in production mode -->
                 <field class="api live signature" name="api_signature" type="password" size="80" default=""
-                       label="VMPAYMENT_PAYPAL_SIGNATURE"/>
+                       label="VMPAYMENT_PAYPAL_SIGNATURE" autocomplete="off"/>
                 <field class="authentication live certificate" name="api_certificate" type="getcertificate"
                        directory="paypal" stripext="0" exclude="^_" default=""
-                       label="VMPAYMENT_PAYPAL_CERTIFICATE"/>
+                       label="VMPAYMENT_PAYPAL_CERTIFICATE" autocomplete="off"/>
 
 
                 <field class="api sandbox required" name="sandbox_api_login_id" type="text" size="80" default=""
-                       label="VMPAYMENT_PAYPAL_SANDBOX_USERNAME"/>
+                       label="VMPAYMENT_PAYPAL_SANDBOX_USERNAME" autocomplete="off"/>
                 <field class="api sandbox required" name="sandbox_api_password" type="password" size="80" default=""
-                       label="VMPAYMENT_PAYPAL_SANDBOX_PASSWORD"/>
+                       label="VMPAYMENT_PAYPAL_SANDBOX_PASSWORD" autocomplete="off"/>
                 <!-- sandbox : 2 choices -->
 
                 <field class="authentication sandbox live select" name="authentication" type="list" default="signature"
@@ -71,7 +71,7 @@
                        label="VMPAYMENT_PAYPAL_SANDBOX_SIGNATURE"/>
                 <field class="authentication sandbox certificate" name="sandbox_api_certificate" type="getcertificate"
                        directory="paypal" stripext="0" exclude="^_" default=""
-                       label="VMPAYMENT_PAYPAL_SANDBOX_CERTIFICATE"/>
+                       label="VMPAYMENT_PAYPAL_SANDBOX_CERTIFICATE" autocomplete="off"/>
 
                 <field class="hosted live" name="payflow_vendor" type="text" size="50" default=""
                        label="VMPAYMENT_PAYPAL_PAYFLOW_VENDOR" description="VMPAYMENT_PAYPAL_PAYFLOW_VENDOR_DESC"/>

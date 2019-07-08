@@ -74,7 +74,7 @@ class vmPPButton {
  disallowed: [ paypal.FUNDING.CREDIT ]*/
 },';	//*/
 			}
-			vmJsApi::addJScript('https://www.paypalobjects.com/api/checkout.js',false, false, false);
+			vmJsApi::addJScript('https://www.paypalobjects.com/api/checkout.js',false, false, false, false, '');
 			$j = 'jQuery().ready(
 function($) {
     paypal.Button.render({
@@ -97,7 +97,7 @@ function($) {
 		  })
 		  .then( function (response) {
 			 if (!response || !response.token) {
-				throw new Error(\'There was an error fetching the PayPal token\');
+				throw new Error(\'There was an error fetching the PayPal SmBtn  token\');
 			 }
 			 return response.token;
 		  })

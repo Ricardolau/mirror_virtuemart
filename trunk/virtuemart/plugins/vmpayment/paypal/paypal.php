@@ -247,7 +247,7 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 	 */
 	function plgVmOnProductDisplayPayment($product, &$productDisplay) {
 		//return;
-		$vendorId = 1;
+		$vendorId = empty($product->virtuemart_vendor_id)? 1: $product->virtuemart_vendor_id;
 		if ($this->getPluginMethods($vendorId) === 0) {
 			return FALSE;
 		}
@@ -1440,15 +1440,16 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 				$link = $exp['link'];//'https://www.securecheckout.billmelater.com/paycapture-content/fetch?hash=AU826TU8&content=/bmlweb/ppwpsiw.html';
 			}
 
+			try
+			{
+				$resObj = JHttpFactory::getHttp(null, array('curl', 'stream'))->get($link);
+				$request = $resObj->body;
+			}
+			catch (RuntimeException $e)
+			{
+				return false;
+			}
 
-			$opts = array(
-			'https' => array(
-			'method' => "GET"
-			)
-			);
-
-			$context = stream_context_create( $opts );
-			$request = file_get_contents( $link, false, $context );
 
 			if(!empty( $request )) {
 

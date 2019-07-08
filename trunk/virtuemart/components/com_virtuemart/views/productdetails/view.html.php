@@ -254,12 +254,15 @@ class VirtueMartViewProductdetails extends VmView {
 				}
 
 				// Set Canonic link
+				$canonical = $product->canonical;
 				if($isCustomVariant !==false and !empty($isCustomVariant->usecanonical) and !empty($product->product_parent_id)){
 					$parent = $product_model ->getProduct($product->product_parent_id);
-					$document->addHeadLink( JUri::getInstance()->toString(array('scheme', 'host', 'port')).JRoute::_($parent->canonical), 'canonical', 'rel', '');
-				} else {
-					$document->addHeadLink( JUri::getInstance()->toString(array('scheme', 'host', 'port')).JRoute::_($product->canonical), 'canonical', 'rel', '');
+					if($parent){
+						$canonical = $parent->canonical;
+					}
 				}
+				$document->addHeadLink( JUri::getInstance()->toString(array('scheme', 'host', 'port')).JRoute::_($canonical), 'canonical', 'rel', '');
+
 
 			} else if($format == 'pdf'){
 				defined('K_PATH_IMAGES') or define ('K_PATH_IMAGES', VMPATH_ROOT);

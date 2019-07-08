@@ -159,6 +159,8 @@ class com_virtuemart_allinoneInstallerScript {
 
 		$this->installPlugin ('VM Custom - Customer text input', 'plugin', 'textinput', 'vmcustom', 1);
 		$this->installPlugin ('VM Custom - Product specification', 'plugin', 'specification', 'vmcustom', 1);
+		$this->installPlugin ('VM Custom - iStraxx Download simple', 'plugin', 'istraxx_download_simple', 'vmcustom', 1);
+
 		//$this->installPlugin ('VM Custom - Stockable variants', 'plugin', 'stockable', 'vmcustom', 1);
 		$this->installPlugin ('VM Calculation - Avalara Tax', 'plugin', 'avalara', 'vmcalculation' );
 

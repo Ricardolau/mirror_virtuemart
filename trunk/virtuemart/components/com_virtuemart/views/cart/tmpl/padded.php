@@ -34,7 +34,8 @@ echo '<a class="' . $vmbtn . ' ' . $vmbtnpri . ' showcart floatright" href="' . 
 if ($this->products and is_array($this->products) and count($this->products)>0 ) {
 	foreach($this->products as $product){
 		if($product->quantity>0){
-			echo '<h4>'.vmText::sprintf('COM_VIRTUEMART_CART_PRODUCT_ADDED',$product->product_name,$product->quantity).'</h4>';
+		    $quantity = isset($product->quantityAdded)? $product->quantityAdded: $product->quantity;
+			echo '<h4>'.vmText::sprintf('COM_VIRTUEMART_CART_PRODUCT_ADDED',$product->product_name,$quantity).'</h4>';
 		}
 		if(!empty($product->errorMsg)){
 			echo '<div>'.$product->errorMsg.'</div>';

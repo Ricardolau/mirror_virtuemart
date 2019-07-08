@@ -1251,8 +1251,15 @@ vmdebug('$limitStart',$limitStart);
 		$db = JFactory::getDbo();
 		if(!isset($this->_nullDate))$this->_nullDate = $db->getNullDate();
 		if(!isset($this->_now)){
+
+			$config = JFactory::getConfig();
+			$siteOffset = $config->get('offset');
+			$siteTimezone = new DateTimeZone($siteOffset);
+
 			$jnow = JFactory::getDate();
-			$this->_now = $jnow->toSQL();
+			$date = new JDate($jnow);
+			$date->setTimezone($siteTimezone);
+			$this->_now = $date->format('Y-m-d H:i:s',true);
 		}
 
 		$q = 'SELECT * FROM `#__virtuemart_product_prices` WHERE `virtuemart_product_id` = "'.$productId.'" ';

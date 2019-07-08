@@ -71,16 +71,17 @@ class VirtuemartControllerVirtuemart extends VmController {
 
 			$link = 'https://extensions.virtuemart.net/index.php?option=com_virtuemart&view=plugin&name=istraxx_download_byhost&ackey='.base64_encode( $ackey ).'&host='.$host.'&vmlang='.VmConfig::$vmlangTag.'&sku=VMMS&vmver='.vmVersion::$RELEASE;
 
-			$opts = array(
-				'https'=>array(
-				'method'=>"GET"
-				/*'header'=>"Accept-language: en\r\n" .
-				"Cookie: foo=bar\r\n"*/
-				)
-			);
-			$context = stream_context_create($opts);
+			try {
+				$resObj = JHttpFactory::getHttp(null, array('curl', 'stream'))->get($link);
+				$request = $resObj->body;
+			}
+			catch (RuntimeException $e) {
+				$d = new stdClass();
+				$d->res = 'No connection';
+				$d->html = '<div style="color:red;font-size: 30px;line-height: 32px;">Your SERVER does not support allow_url_fopen, nor cUrl! Registration process stopped. Please enable on your server either allow_url_fopen or cUrl. </div>';
+				$request = json_encode($d);
 
-			$request = file_get_contents($link, false, $context);
+			}
 
 			if(!empty($request)) {
 				/*if(preg_match('@(error|access denied)@i', $request)) {
@@ -89,6 +90,7 @@ class VirtuemartControllerVirtuemart extends VmController {
 					$datat = json_decode($request);
 
 					if(empty($datat->res) or empty($datat->html)){
+					VmConfig::$echoDebug = 1;
 						vmdebug('Data is empty',$data);
 						//$data = new stdClass();
 						$data->msg = 'Error getting validation file';

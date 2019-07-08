@@ -851,7 +851,7 @@ class vmrouterHelper {
 				$this->Itemid = $this->rItemid;
 			}
 
-			$this->useGivenItemid = VmConfig::get('useGivenItemid',true);
+			$this->useGivenItemid = VmConfig::get('useGivenItemid',false);
 			$this->template = JFactory::getApplication()->getTemplate(true);
 			if(empty($this->template) or !isset($this->template->id)){
 				$this->template->id = 0;
@@ -1164,7 +1164,7 @@ class vmrouterHelper {
 
 				//When the child and parent id is the same, this creates a deadlock
 				//add $counter, dont allow more then 10 levels
-				if (!$parProdCat[$id]){
+				if (!isset($parProdCat[$id]) or !$parProdCat[$id]){
 					$this->counter++;
 					if($this->counter<10){
 						$this->getParentProductcategory($parent_id) ;
@@ -1177,6 +1177,7 @@ class vmrouterHelper {
 			$this->counter = 0;
 		}
 
+		if(!isset($parProdCat[$id])) $parProdCat[$id] = 0;
 		return $parProdCat[$id] ;
 	}
 

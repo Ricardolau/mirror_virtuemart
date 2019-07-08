@@ -69,11 +69,6 @@ class plgSystemVmLoaderPluginUpdate extends JPlugin {
 			//$itemID = $jinput->get('Itemid');
 
 			if ($option=='com_users') {
-				$itemID = '';
-				/*if (isset($itemID) && ($itemID !='')) {
-					//I think this would activate wrong menu item
-					$itemID = '&Itemid='.$itemID;
-				}*/
 
 				if($view=='registration' or $task == 'registration.register') {
 					$t = '';
@@ -82,7 +77,7 @@ class plgSystemVmLoaderPluginUpdate extends JPlugin {
 						$t = '&task=saveUser';
 						$msg = 'Use the registration of VirtueMart';
 					}
-					$l = JRoute::_('index.php?option=com_virtuemart&view=user'.$t.$itemID);
+					$l = JRoute::_('index.php?option=com_virtuemart&view=user'.$t);
 					$app->redirect( $l,$msg);
 				}
 			}

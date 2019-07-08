@@ -145,7 +145,7 @@ class VirtueMartModelConfig extends VmModel {
 	 */
 	function getTCPDFFontsList() {
 
-		$dir = vmDefines::tcpdf() .'/fonts';
+		$dir = VMPATH_LIBS.vmDefines::tcpdf() .'/fonts';
 		$result = array();
 		$specfiles = array();
 		if(is_dir($dir)) {
@@ -167,6 +167,8 @@ class VirtueMartModelConfig extends VmModel {
 					}
 				}
 			}
+		} else {
+			vmWarn('Fonts not found in '.$dir);
 		}
 
 		if(empty($specfiles)){

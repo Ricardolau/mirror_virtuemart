@@ -194,7 +194,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 				$productShoppers = $model->getProductShoppersByStatus($product->virtuemart_product_id,$order_status,$lists['filter_order'],$lists['filter_order_Dir'] );
 				$this->assignRef('productShoppers', $productShoppers);
 				$orderstatusModel = VmModel::getModel('orderstatus');
-				$lists['OrderStatus'] = $orderstatusModel->renderOSList($order_status,'order_status',TRUE);
+				$lists['OrderStatus'] = $orderstatusModel->renderOSList($order_status,'order_status',TRUE,'','',false);
 
 				// Add the virtuemart_shoppergroup_ids
 				$cid = JFactory::getUser()->id;

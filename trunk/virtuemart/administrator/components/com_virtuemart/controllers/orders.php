@@ -45,6 +45,7 @@ class VirtuemartControllerOrders extends VmController {
 	public function callInvoiceView(){
 
 		$controller = new VirtueMartControllerInvoice();
+		$controller->unlockInvoice = 1;
 		$controller->display();
 
 	}
@@ -265,8 +266,6 @@ class VirtuemartControllerOrders extends VmController {
 
 		$model->updateStatusForOneOrder($_orderID,$_items,true);
 
-		$model->deleteInvoice($_orderID);
-
 		$app = JFactory::getApplication();
 		$app->redirect('index.php?option=com_virtuemart&view=orders&task=edit&virtuemart_order_id='.$_orderID);
 	}
@@ -282,7 +281,6 @@ class VirtuemartControllerOrders extends VmController {
 		$model = VmModel::getModel();
 		$_orderID = vRequest::getInt('virtuemart_order_id', '');
 		$model->UpdateOrderHead((int)$_orderID, vRequest::getRequest());
-		$model->deleteInvoice($_orderID);
 
 		$mainframe->redirect('index.php?option=com_virtuemart&view=orders&task=edit&virtuemart_order_id='.$_orderID);
 	}
@@ -314,7 +312,6 @@ class VirtuemartControllerOrders extends VmController {
 		$model = VmModel::getModel();
 		$data = vRequest::getRequest();
 		$model->saveOrderLineItem($data);
-		$model->deleteInvoice($orderId);
 
 		$editLink = 'index.php?option=com_virtuemart&view=orders&task=edit&virtuemart_order_id=' . $orderId;
 		$this->setRedirect($editLink, $msg);
@@ -354,7 +351,6 @@ class VirtuemartControllerOrders extends VmController {
 			$_items['customer_notified'] = 0;
 			$model->updateStatusForOneOrder($orderId,$_items,true);
 
-			$model->deleteInvoice($orderId);
 		}
 
 		$editLink = 'index.php?option=com_virtuemart&view=orders&task=edit&virtuemart_order_id=' . $orderId;

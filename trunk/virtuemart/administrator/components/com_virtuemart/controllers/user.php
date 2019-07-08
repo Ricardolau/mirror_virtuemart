@@ -47,8 +47,8 @@ class VirtuemartControllerUser extends VmController {
 
 		//We set here the virtuemart_user_id, when no virtuemart_user_id is set to 0, for adding a new user
 		//In every other case the virtuemart_user_id is sent.
-		$cid = vRequest::getVar('virtuemart_user_id');
-		if(!isset($cid)) vRequest::setVar('virtuemart_user_id', (int)0);
+		$cid = vRequest::getInt('virtuemart_user_id',vRequest::getInt('cid',0));
+		vRequest::setVar('virtuemart_user_id', $cid);
 
 		parent::edit('edit');
 	}

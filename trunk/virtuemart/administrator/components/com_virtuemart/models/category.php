@@ -547,6 +547,10 @@ vmdebug('Found cached cat, but without children');
 		$data['category_layout'] = $data['categorylayout'];
 		$data['category_product_layout'] = $data['productlayout'];
 
+
+		if($data['category_parent_id'] == $data['virtuemart_category_id']){
+			$data['category_parent_id'] = 0;
+		}
 		$table->bindChecknStore($data);
 
 		if(!empty($data['virtuemart_category_id'])){

@@ -90,7 +90,7 @@ class VirtueMartModelOrderstatus extends VmModel {
 
 	}
 
-	function renderOSList($value,$name = 'order_status',$multiple=FALSE,$attrs='',$langkey=''){
+	function renderOSList($value,$name = 'order_status',$multiple=FALSE,$attrs='',$langkey='',$empty=true){
 
 		$idA = $id = $name;
  		$attrs .= ' class="inputbox" ';
@@ -112,8 +112,11 @@ class VirtueMartModelOrderstatus extends VmModel {
 		$hash = md5($hashValue.$name.$attrs);
 		if (!isset($this->_renderStatusList[$hash])) {
 			$orderStates = $this->getOrderStatusNames();
-			$emptyOption = JHtml::_ ('select.option', -1, vmText::_ ($langkey), 'order_status_code', 'order_status_name');
-			array_unshift ($orderStates, $emptyOption);
+			if($empty){
+				$emptyOption = JHtml::_ ('select.option', -1, vmText::_ ($langkey), 'order_status_code', 'order_status_name');
+				array_unshift ($orderStates, $emptyOption);
+			}
+
 			if ($multiple) {
 				$attrs .=' size="'.count($orderStates).'" ';
 			}

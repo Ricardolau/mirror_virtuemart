@@ -122,7 +122,7 @@ class VirtuemartViewCustom extends VmViewAdmin {
 			$this->addStandardDefaultViewCommands();
 			$this->addStandardDefaultViewLists($model);
 			$this->custom_parent_id = vRequest::getInt('custom_parent_id',false);
-			$this->customs = $model->getCustoms($this->custom_parent_id,vRequest::getCmd('keyword'));
+			$this->customs = $model->getCustoms($this->custom_parent_id,vRequest::getVar('keyword'));
 			$this->pagination = $model->getPagination();
 			$model->custom_parent_id = $this->custom_parent_id;
 			$this->customsSelect= $model->displayCustomSelection();

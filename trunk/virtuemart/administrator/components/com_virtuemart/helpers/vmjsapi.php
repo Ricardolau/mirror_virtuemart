@@ -177,7 +177,7 @@ class vmJsApi{
 					if($jsToAdd['defer']){
 						$attribs['defer'] = 'defer';
 					}
-					if($jsToAdd['defer']){
+					if($jsToAdd['async']){
 						$attribs['async'] = 'async';
 					}
 					$document->addScript( $file .$ver,"text/javascript",$options,$attribs );

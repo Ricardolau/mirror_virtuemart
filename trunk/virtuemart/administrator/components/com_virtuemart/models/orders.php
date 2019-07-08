@@ -1020,12 +1020,13 @@ class VirtueMartModelOrders extends VmModel {
 	 */
 	function updateStatusForOneOrder($virtuemart_order_id,$inputOrder,$useTriggers=true){
 
-// 		vmdebug('updateStatusForOneOrder', $inputOrder);
+ 		//vmdebug('updateStatusForOneOrder', $inputOrder);
 
 		/* Update the order */
 		$data = $this->getTable('orders');
 		$data->load($virtuemart_order_id);
 		$old_order_status = $data->order_status;
+		$old_o_hash = $data->o_hash;
 		if(empty($inputOrder['virtuemart_order_id'])){
 			unset($inputOrder['virtuemart_order_id']);
 		}
@@ -1333,8 +1334,12 @@ class VirtueMartModelOrders extends VmModel {
 
 			//prevents sending of email
 			$inputOrder['customer_notified'] = 0;
-			//vmdebug('Lets store something here',$data,$allTaxes,$summarizedRules);
-			$data->invoice_locked = 1;
+			//vmdebug('Lets store something here',$data,$inputOrder['order_status']);
+			if(VirtueMartModelInvoice::needInvoiceByOrderstatus($data->order_status) or VirtueMartModelInvoice::needInvoiceByOrderstatus($data->order_status,'inv_osr', array('R'))){
+				$data->invoice_locked = 1;
+				//vmdebug('SET LOCK');
+			}
+
 			$data->store();
 			$this->updateBill($virtuemart_order_id, /*$vatTaxes,*/ $summarizedRules['taxBill']);
 		} else {
@@ -1358,14 +1363,15 @@ class VirtueMartModelOrders extends VmModel {
 						$this->updateSingleItem($order_item->virtuemart_order_item_id, $data);
 					}
 				}
-				//vmdebug('update order status $inputOrder',$inputOrder);
+
 				$this->calculatePaidByOS($data,$inputOrder);
 
 			}
-			$data->invoice_locked = 0;vmdebug('Going to store the order',$data->o_hash);
+			//$data->invoice_locked = 0;
 			$data->store();
+			vmdebug('Going to store the order', $old_o_hash, $data->o_hash);
 		}
-		vmdebug('Update order status');
+		vmdebug('Update order status ');
 
 		//Must be below the handling of the order items, else we must add an except as for "customer_notified"
 		if(empty($inputOrder['comments'])){
@@ -1376,10 +1382,27 @@ class VirtueMartModelOrders extends VmModel {
 		$invM = VmModel::getModel('invoice');
 		//TODO use here needNewInvoiceNumber
 		$inputOrder['order_status'] = $data->order_status;
-		if(/*$old_order_status!=$data->order_status and*/ VirtueMartModelInvoice::needInvoiceByOrderstatus($inputOrder['order_status'])){
+
+		vmdebug('updateStatusForOneOrder, a new invoice needed? ',(int)$data->invoice_locked, $old_order_status, $data->order_status, $old_o_hash, $data->o_hash);
+
+		if(!$data->invoice_locked and ($old_order_status!=$data->order_status or $old_o_hash != $data->o_hash) and VirtueMartModelInvoice::isInvoiceToBeAttachByOrderstats($inputOrder['order_status'])){
+
+			$layout = 'invoice';
+			$checkHash = true;
+			//$refundOrderStatus = VmConfig::get('inv_osr',array('R'));
+			//if(!in_array($old_order_status, $refundOrderStatus) and VirtueMartModelInvoice::needInvoiceByOrderstatus($inputOrder['order_status'],'inv_osr', array('R') )){
+			if($old_order_status!=$data->order_status){
+				$checkHash = false;
+			}
+
+			if(VirtueMartModelInvoice::needInvoiceByOrderstatus($inputOrder['order_status'],'inv_osr', array('R'))){
+				$layout = 'refund';
+			}
+
 			$inputOrder['o_hash'] = $data->o_hash;
-		vmdebug('We need a new invoice ',$inputOrder);
-			$inputOrder['invoice_number'] = $invM->createReferencedInvoiceNumber($data->virtuemart_order_id, $inputOrder);
+
+			vmdebug('We need a new invoice ',$layout);
+			$inputOrder['invoice_number'] = $invM->createReferencedInvoiceNumber($data->virtuemart_order_id, $inputOrder, $layout, $checkHash);
 		}
 
 		//We need a new invoice, therefore rename the old one.
@@ -1455,7 +1478,7 @@ class VirtueMartModelOrders extends VmModel {
 						$data->paid -= $item->product_subtotal_with_tax;
 					}
 				}
-				vmdebug('my calculatePaidByOS $data->paid',$data->paid);
+				//vmdebug('my calculatePaidByOS $data->paid',$data->paid);
 			}
 		}
 	}
@@ -1615,14 +1638,16 @@ class VirtueMartModelOrders extends VmModel {
 			$_orderData->ip_address = substr($_orderData->ip_address,0,($rpos+1)).'xx';
 		}
 
-
 		//lets merge here the userdata from the cart to the order so that it can be used
 		if(!empty($_cart->BT)){
+			$continue = array('created_on'=>1, 'created_by'=>1, 'modified_on'=>1, 'modified_by'=>1, 'locked_on'=>1, 'locked_by'=>1);
 			foreach($_cart->BT as $k=>$v){
+				if(isset($continue[$k])) continue;
 				$_orderData->$k = $v;
 			}
 		}
 		$_orderData->STsameAsBT = $_cart->STsameAsBT;
+		unset($_orderData->created_on);
 
 		JPluginHelper::importPlugin('vmshopper');
 		$dispatcher = JDispatcher::getInstance();
@@ -1673,7 +1698,7 @@ class VirtueMartModelOrders extends VmModel {
 			$db->setQuery($q . ' WHERE `virtuemart_order_id`= "'.$_cart->virtuemart_order_id.'" AND `order_status` = "P" ');
 			$order = $db->loadAssoc();
 			if(!$order){
-				vmdebug('This should not happen, there is a cart with order_number, but not order stored '.$_cart->virtuemart_order_id);
+				vmdebug('This should not happen, there is a cart with virtuemart_order_id, but not order stored '.$_cart->virtuemart_order_id);
 			}
 		}
 
@@ -2264,7 +2289,6 @@ class VirtueMartModelOrders extends VmModel {
 
 		//Important, the data of the order update mails, payments and invoice should
 		//always be in the database, so using getOrder is the right method
-
 		$vendorModel = VmModel::getModel('vendor');
 
 		//Lets set the language to the Shop default
@@ -2294,7 +2318,7 @@ class VirtueMartModelOrders extends VmModel {
 		$vars['url'] = 'url';
 		if(!isset($newOrderData['doVendor'])) $vars['doVendor'] = false; else $vars['doVendor'] = $newOrderData['doVendor'];
 
-		$invoice = $this->createInvoiceByOrder($order);
+		$invoice = $this->getInvoiceIfAvailable($order);
 		if($invoice){
 			$vars['mediaToSend'][] = $invoice;
 		}
@@ -2325,6 +2349,7 @@ class VirtueMartModelOrders extends VmModel {
 		$sendMail = false;
 		if(!$this->useDefaultEmailOrderStatus and isset($vars['newOrderData']['customer_notified']) and $vars['newOrderData']['customer_notified']==1){
 			$sendMail = true;
+			vmdebug('Send mail by form command');
 		} else {
 			$orderstatusForShopperEmail = VmConfig::get('email_os_s',array('U','C','S','R','X'));
 			if(!is_array($orderstatusForShopperEmail)) $orderstatusForShopperEmail = array($orderstatusForShopperEmail);
@@ -2382,34 +2407,37 @@ class VirtueMartModelOrders extends VmModel {
 		return true;
 	}
 
-	public function createInvoiceByOrder($order){
 
-		//if(!isset($order['details']['BT']) or $order['details']['BT']->order->invoice_locked) return false;
 
+	public function getInvoiceIfAvailable($order){
+
+		vmdebug('getInvoiceIfAvailable start' );
 		$inv = false;
-		// florian : added if pdf invoice are enabled
 		$invoiceNumberDate = array();
-		if ($this->createInvoiceNumber($order['details']['BT'], $invoiceNumberDate )) {
+		$force_create_invoice=vRequest::getInt('create_invoice', -1);
+		$invM = VmModel::getModel('invoice');
+		//TODO we need an array of orderstatus
+		if ( empty($orderDetails['invoice_locked']) and ($force_create_invoice==1 or $invM->isInvoiceToBeAttachByOrderstats($order['details']['BT']->order_status)) ){
 
-			$force_create_invoice=vRequest::getInt('create_invoice', -1);
-			//TODO we need an array of orderstatus
-			if ( VirtueMartModelInvoice::needInvoiceByOrderstatus($order['details']['BT']->order_status) or $force_create_invoice==1 ){
-				if (!shopFunctions::InvoiceNumberReserved($invoiceNumberDate[0])) {
 
-					$controller = new VirtueMartControllerInvoice( array(
-					'model_path' => VMPATH_ADMIN .'/models',
-					'view_path' => VMPATH_SITE .'/views'
-					));
-					$lTag = VmConfig::$vmlangTag;
+			$res = $invM->getExistingIfUnlockedCreateNewInvoiceNumber($order['details']['BT'], $invoiceNumberDate);
 
-					$inv = $controller->getInvoicePDF($order);
-					vmLanguage::setLanguageByTag($lTag);
-				}
+			if ($res and !shopFunctionsF::InvoiceNumberReserved($res[0])) {
+
+				$controller = new VirtueMartControllerInvoice( array(
+				'model_path' => VMPATH_ADMIN .'/models',
+				'view_path' => VMPATH_SITE .'/views'
+				));
+				$lTag = VmConfig::$vmlangTag;
+
+				$inv = $controller->getInvoicePDF($order);
+				vmLanguage::setLanguageByTag($lTag);
 			}
-
 		}
+		vmdebug('getInvoiceIfAvailable',$inv);
 		return $inv;
 	}
+
 
 	/**
 	 * Retrieve the details for an order line item.
@@ -2818,9 +2846,8 @@ class VirtueMartModelOrders extends VmModel {
 	* returns false if an invoice number has not been created  due to some configuration parameters
 	*/
 	function createInvoiceNumber($orderDetails, &$invoiceNumber){
-
 		$invM = VmModel::getModel('invoice');
-		return $invM->createNewInvoiceNumber($orderDetails, $invoiceNumber);
+		return $invM->getExistingIfUnlockedCreateNewInvoiceNumber($orderDetails, $invoiceNumber);
 	}
 
 	static function getInvoiceNumber($virtuemart_order_id) {

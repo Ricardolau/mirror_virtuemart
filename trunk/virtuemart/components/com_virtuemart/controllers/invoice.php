@@ -32,6 +32,8 @@ jimport('joomla.application.component.controller');
 class VirtueMartControllerInvoice extends JControllerLegacy
 {
 
+	var $unlockInvoice = 0;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -65,12 +67,18 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 			$app = JFactory::getApplication();
 			// Create the invoice PDF file on disk and send that back
 			$orderDetails = $this->getOrderDetails();
+
 			if(!$orderDetails){
-				$app->redirect(JRoute::_('/index.php?option=com_virtuemart'));
+				$app->redirect(JRoute::_('index.php?option=com_virtuemart'));
 			}
+
+			if($orderDetails['details']['BT']->invoice_locked and $this->unlockInvoice){
+				$orderDetails['details']['BT']->invoice_locked = 0;
+			}
+
 			$fileLocation = $this->getInvoicePDF($orderDetails, 'invoice',$layout);
 			if(!$fileLocation){
-				$app->redirect(JRoute::_('/index.php?option=com_virtuemart'),'Invoice not created');
+				$app->redirect(JRoute::_('index.php?option=com_virtuemart'),'Invoice not created');
 			}
 
 			$fileName = basename ($fileLocation);
@@ -172,7 +180,7 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 		$templateName = VmTemplate::setTemplate($template);
 
 		if(!empty($templateName)){
-			$TemplateOverrideFolder = JPATH_SITE .'/templates/'.$templateName.'/html/com_virtuemart/invoice';
+			$TemplateOverrideFolder = VMPATH_SITE .'/templates/'.$templateName.'/html/com_virtuemart/invoice';
 			if(file_exists($TemplateOverrideFolder)){
 				$view->addTemplatePath( $TemplateOverrideFolder);
 			}
@@ -182,43 +190,52 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 
 	function getInvoicePDF($orderDetails, $viewName='invoice', $layout='invoice', $format='html', $force = false){
 
-
+		vmdebug('getInvoicePDF start');
 		vmLanguage::loadJLang('com_virtuemart',1);
 
 		$path = VirtueMartModelInvoice::getInvoicePath();
+		if(!$path){
+			vmdebug('getInvoicePDF path missing');
+			return false;
+		}
+		$invM = VmModel::getModel('invoice');
 
 		$invoiceNumber = vRequest::getString('invoiceNumber',false);
 		$invoiceDate = '';
 		if($invoiceNumber) {
-			$q = 'SELECT `invoice_number`, `created_on` FROM #__virtuemart_invoices WHERE `virtuemart_order_id`="'.$orderDetails['details']['BT']->virtuemart_order_id.'" AND `invoice_number` = "'.$invoiceNumber.'"';
-			$db = JFactory::getDbo();
-			$db->setQuery($q);
-			if($res = $db->loadAssoc()){
-				$invoiceNumber = $res['invoice_number'];
-				$invoiceDate = $res['created_on'];
+			vmdebug('getInvoicePDF by invoice number');
+			$inv = $invM->getInvoiceEntry($invoiceNumber, true, '*', 'invoice_number');
+			if($inv and !empty($inv['invoice_number'])){
+				$invoiceDate = $inv['created_on'];
+			} else {
+				vmError('No Invoice found for $invoiceNumber '.$invoiceNumber);
+				return false;
 			}
 		}
 
 		if(empty($invoiceNumber)){
-			$orderModel = VmModel::getModel('orders');
-			$invoiceNumberDate=array();
-			if (!  $orderModel->createInvoiceNumber($orderDetails['details']['BT'], $invoiceNumberDate)) {
-				return false;
-			}
 
-			if(!empty($invoiceNumberDate[0])){
-				$invoiceNumber = $invoiceNumberDate[0];
-				$invoiceDate = $invoiceNumberDate[1];
+			$inv = $invM->getExistingIfUnlockedCreateNewInvoiceNumber($orderDetails['details']['BT'], $invoiceNumber);
+			
+			if(!empty($inv[0])){
+				$invoiceNumber = $inv[0];
+				$invoiceDate = $inv[1];
 			} else {
 				$invoiceNumber = FALSE;
+				vmdebug('getInvoicePDF Cant create pdf, no entry for ',$inv);
+				$r = 'getInvoicePDF Cant create pdf, no entry';
+				vmError($r , $r.' for '.$inv);
+				return false;
 			}
 		}
 
 		if(!$invoiceNumber or empty($invoiceNumber)){
-			vmError('getInvoicePDF Cant create pdf, createInvoiceNumber failed');
+			$r = 'getInvoicePDF Cant create pdf, no entry for '.$invoiceNumber;
+			vmError($r, $r);
 			return 0;
 		}
 		if (shopFunctionsF::InvoiceNumberReserved($invoiceNumber)) {
+			vmdebug('getInvoicePDF InvoiceNumberReserved ',$invoiceNumber);
 			return 0;
 		}
 		
@@ -226,6 +243,7 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 		$path .= shopFunctionsF::getInvoiceName($invoiceNumber, $layout).'.pdf';
 
 		if(file_exists($path) and !$force){
+
 			return $path;
 		}
 
@@ -239,7 +257,7 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 		$view->showHeaderFooter = false;
 
 		$vendorModel = VmModel::getModel('vendor');
-		$virtuemart_vendor_id = 1;	//We could set this automatically by the vendorId stored in the order.
+		$virtuemart_vendor_id = empty($orderDetails['details']['BT']->virtuemart_vendor_id)? 1:$orderDetails['details']['BT']->virtuemart_vendor_id;
 		$vendor = $vendorModel->getVendor($virtuemart_vendor_id);
 		
 		$metadata = array (
@@ -247,6 +265,8 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 				$vendor->vendor_store_name, $view->invoiceNumber, 
 				$orderDetails['details']['BT']->order_number),
 			'keywords' => vmText::_('COM_VIRTUEMART_INVOICE_CREATOR'));
+
+		vmDefines::tcpdf();
 
 		return VmPdf::createVmPdf($view, $path, 'F', $metadata);
 	}

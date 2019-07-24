@@ -8,7 +8,7 @@
  * @author Oscar van Eijk
  * @author Max Milbers
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2014 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2019 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -152,7 +152,6 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 		return $orderModel->getMyOrderDetails(0,false,false,true);
 	}
 
-
 	public function samplePDF() {
 
 		vmDefines::tcpdf();
@@ -180,7 +179,7 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 		$templateName = VmTemplate::setTemplate($template);
 
 		if(!empty($templateName)){
-			$TemplateOverrideFolder = VMPATH_SITE .'/templates/'.$templateName.'/html/com_virtuemart/invoice';
+			$TemplateOverrideFolder = VMPATH_ROOT .'/templates/'.$templateName.'/html/com_virtuemart/invoice';
 			if(file_exists($TemplateOverrideFolder)){
 				$view->addTemplatePath( $TemplateOverrideFolder);
 			}
@@ -216,7 +215,7 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 		if(empty($invoiceNumber)){
 
 			$inv = $invM->getExistingIfUnlockedCreateNewInvoiceNumber($orderDetails['details']['BT'], $invoiceNumber);
-			
+
 			if(!empty($inv[0])){
 				$invoiceNumber = $inv[0];
 				$invoiceDate = $inv[1];
@@ -238,7 +237,7 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 			vmdebug('getInvoicePDF InvoiceNumberReserved ',$invoiceNumber);
 			return 0;
 		}
-		
+
 		//$path .= preg_replace('/[^A-Za-z0-9_\-\.]/', '_', 'vm'.$layout.'_'.$invoiceNumber.'.pdf');
 		$path .= shopFunctionsF::getInvoiceName($invoiceNumber, $layout).'.pdf';
 
@@ -259,10 +258,10 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 		$vendorModel = VmModel::getModel('vendor');
 		$virtuemart_vendor_id = empty($orderDetails['details']['BT']->virtuemart_vendor_id)? 1:$orderDetails['details']['BT']->virtuemart_vendor_id;
 		$vendor = $vendorModel->getVendor($virtuemart_vendor_id);
-		
+
 		$metadata = array (
 			'title' => vmText::sprintf('COM_VIRTUEMART_INVOICE_TITLE',
-				$vendor->vendor_store_name, $view->invoiceNumber, 
+				$vendor->vendor_store_name, $view->invoiceNumber,
 				$orderDetails['details']['BT']->order_number),
 			'keywords' => vmText::_('COM_VIRTUEMART_INVOICE_CREATOR'));
 

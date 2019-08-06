@@ -1584,6 +1584,11 @@ vmdebug('$limitStart',$limitStart);
 				//vmdebug('$product->virtuemart_category_id',$product->virtuemart_category_id);
 				if(empty($product->virtuemart_category_id)){
 					$virtuemart_category_id = vRequest::getInt ('virtuemart_category_id', 0);
+				//quorvia if we are getting a product and we are in admin - we may be going back to a category list - but there may be no category_id from the URL -
+				// we dont want the canon category setting we want the category we are going back to because the product ordering is screwed if we dont use that
+					if(!$front and $this->virtuemart_category_id and $virtuemart_category_id==0){
+						$virtuemart_category_id = $this->virtuemart_category_id;
+					}
 					if ($virtuemart_category_id!==0 and in_array ($virtuemart_category_id, $product->categories)) {
 						$product->virtuemart_category_id = $virtuemart_category_id;
 					} else if(!empty($product->canonCatId)) {
@@ -2048,11 +2053,53 @@ vmdebug('$limitStart',$limitStart);
 		return $neighbors;
 	}
 
+	/**
+	 * @param array $cid
+	 * @param $order
+	 * @param null $filter
+	 * QUORVIA save the product display sequence in the product list table
+	 * do not change the numbers passed from the list
+	 * @return bool
+	 *
+	 * @throws Exception
+	 * @since version	 */
+//	 quorvia created this function because old save order may have an issue
+	function saveorder ($cid = array(), $order, $filter = NULL) {
+		vRequest::vmCheckToken();
+		$virtuemart_category_id = vRequest::getInt ('virtuemart_category_id', 0);
+//		quorvia if no category could be found do not update anything for sequence
+		if ($virtuemart_category_id) {
+
+			$updated = 0;
+			$db = JFactory::getDbo();
+			foreach( $order as $prod => $ord ) {
+				//dont increment - just use the values supplied  but make a positive int
+				$ordering = abs( (int)$ord);
+				$product_id = (int)$prod;
+				if(!empty( $ordering ) and !empty( $product_id )) {
+					$qupdate = 'UPDATE `#__virtuemart_product_categories` SET `ordering` =  '.$ordering.'  WHERE `virtuemart_product_id` =  '.$product_id.'  AND `virtuemart_category_id` = '.$virtuemart_category_id;
+
+					$db->setQuery( $qupdate );
+					if(!$db->execute()) {
+						vmError( $db->getErrorMsg() );
+						return FALSE;
+					}
+				}
+				$updated++;
+			}
+			$msg = vmText::sprintf( 'COM_VIRTUEMART_ITEMS_MOVED', $updated );
+		} else {
+			$msg = vmText::_ ('There is no category_id');
+		}
+			JFactory::getApplication()->redirect( 'index.php?option=com_virtuemart&view=product&virtuemart_category_id='.$virtuemart_category_id, $msg );
+	}
+
+
 
 	/* reorder product in one category
 	 * TODO this not work perfect ! (Note by Patrick Kohl)
 	*/
-	function saveorder ($cid = array(), $order, $filter = NULL) {
+	function saveorder_old ($cid = array(), $order, $filter = NULL) {
 
 		vRequest::vmCheckToken();
 
@@ -2081,7 +2128,7 @@ vmdebug('$limitStart',$limitStart);
 			$db->setQuery ('UPDATE `#__virtuemart_product_categories`
 					SET `ordering` = ' . $i . '
 					WHERE `id` = ' . (int)$key . ' ');
-			if (!$db->query ()) {
+			if (!$db->execute ()) {
 				vmError ($db->getErrorMsg ());
 				return FALSE;
 			}

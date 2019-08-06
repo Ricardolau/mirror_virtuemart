@@ -61,12 +61,14 @@ if ($product_parent_id=vRequest::getInt('product_parent_id', false))   $col_prod
 <?php
 // $this->productlist
 $mediaLimit = (int)VmConfig::get('mediaLimit',20);
+$total = $this->pagination->total;
 $totalList = count($this->productlist);
 if($this->pagination->limit<=$mediaLimit or $totalList<=$mediaLimit){
 	$imgWidth = 90;
 } else {
 	$imgWidth = 30;
 }
+
 
 ?>
 	<table class="adminlist table table-striped" cellspacing="0" cellpadding="0">
@@ -102,7 +104,7 @@ if($this->pagination->limit<=$mediaLimit or $totalList<=$mediaLimit){
 	</thead>
 	<tbody>
 	<?php
-	$total = $this->pagination->total;
+
 
 	if ($totalList ) {
 		$i = 0;
@@ -181,10 +183,13 @@ if($this->pagination->limit<=$mediaLimit or $totalList<=$mediaLimit){
 				<!-- Reorder only when category ID is present -->
 				<?php if ($this->categoryId ) { ?>
 					<td class="order" >
-						<span class="vmicon vmicon-16-move"></span>
+						<?php if($this->showDrag){ ?>
+							<span class="vmicon vmicon-16-move"></span>
+						<?php }?>
 						<span><?php echo $this->pagination->vmOrderUpIcon( $i, $product->ordering, 'orderup', vmText::_('COM_VIRTUEMART_MOVE_UP')  ); ?></span>
 						<span><?php echo $this->pagination->vmOrderDownIcon( $i, $product->ordering, $total , true, 'orderdown', vmText::_('COM_VIRTUEMART_MOVE_DOWN') ); ?></span>
-						<input class="ordering" type="text" name="order[<?php echo $product->id?>]" id="order[<?php echo $i?>]" size="5" value="<?php echo $product->ordering; ?>" style="text-align: center" />
+<!--						quorvia -->
+						<input class="ordering" type="text" name="order[<?php echo $product->virtuemart_product_id?>]" id="order[<?php echo $i?>]" size="5" value="<?php echo $product->ordering; ?>" style="text-align: center" />
 
 						<?php // echo vmCommonHTML::getOrderingField( $product->ordering ); ?>
 					</td>
@@ -233,9 +238,8 @@ if($this->pagination->limit<=$mediaLimit or $totalList<=$mediaLimit){
 
 // DONE BY stephanbais
 /// DRAG AND DROP PRODUCT ORDER HACK
-if ($this->categoryId ) {
+if ($this->categoryId && $this->showDrag) {
 	vmJsApi::addJScript( '/administrator/components/com_virtuemart/assets/js/products.js', false, false );
-	//vmJsApi::addJScript( 'sortableProducts', 'Virtuemart.sortableProducts;' );
 	vmJsApi::addJScript('sortable','Virtuemart.sortable;');
 }
 

@@ -381,6 +381,11 @@ class VirtuemartViewProduct extends VmViewAdmin {
 			//The pagination must now always set AFTER the model load the listing
 			$this->pagination = $model->getPagination();
 
+			$this->showDrag = 0;
+			if($this->pagination->total <= $this->pagination->limit and $model->filter_order_Dir=='ASC' and strpos($model->filter_order,'ordering')!==FALSE){
+				$this->showDrag = 1;
+			}
+
 			VmJsApi::chosenDropDowns();
 
 			//Get the category tree

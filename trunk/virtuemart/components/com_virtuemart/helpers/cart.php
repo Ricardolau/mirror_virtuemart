@@ -182,7 +182,7 @@ class VirtueMartCart {
 				//self::$_cart->STsameAsBT = 1;
 			}
 
-			self::$_cart->setupAddressFieldsForCart();
+			self::$_cart->setupAddressFieldsForCart(true, true);
 
 			if (empty(self::$_cart->virtuemart_shipmentmethod_id) && !empty(self::$_cart->user->virtuemart_shipmentmethod_id)) {
 				self::$_cart->virtuemart_shipmentmethod_id = self::$_cart->user->virtuemart_shipmentmethod_id;
@@ -237,7 +237,7 @@ class VirtueMartCart {
 		return self::$_cart;
 	}
 
-	function setupAddressFieldsForCart($update = false){
+	function setupAddressFieldsForCart($update = false, $onlyDefaults = false){
 
 		if($this->BT==0) $this->BT = array();
 		if($this->ST==0) $this->ST = array();
@@ -341,6 +341,7 @@ class VirtueMartCart {
 				$userFields
 				,$data
 				,$preFix
+				,$onlyDefaults
 				);
 
 				if(!empty($this->$addresstype['byDefault'])){

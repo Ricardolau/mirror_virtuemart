@@ -742,7 +742,7 @@ class VirtueMartModelUserfields extends VmModel {
 	 *    </table>
 	 * </pre>
 	 */
-	public function getUserFieldsFilled($_selection, &$_userDataIn = null, $_prefix = ''){
+	public function getUserFieldsFilled($_selection, &$_userDataIn = null, $_prefix = '', $defaults = false){
 
 		vmLanguage::loadJLang('com_virtuemart_shoppers',TRUE);
 
@@ -816,6 +816,7 @@ class VirtueMartModelUserfields extends VmModel {
 				,'htmlentities' => true  // to provide version check agains previous versions
 				);
 
+				if($defaults and $_fld->name!='virtuemart_country_id' and $_fld->name!='virtuemart_state_id') continue;
 
 				//Set the default on the data
 				/*if(isset($_userData) and empty($_userData[$_fld->name]) and isset($_fld->default) and $_fld->default!='' ){
@@ -841,9 +842,10 @@ class VirtueMartModelUserfields extends VmModel {
 						if ($_fld->size) {
 							$attrib = array('style'=>"width: ".$_fld->size."px");
 						}
-						
-						$_return['fields'][$_fld->name]['formcode'] =
-							ShopFunctionsF::renderCountryList($_return['fields'][$_fld->name]['value'], false, $attrib , $_prefix, $_fld->required,'virtuemart_country_id_field');
+
+						if(!$defaults) {
+							$_return['fields'][$_fld->name]['formcode'] = ShopFunctionsF::renderCountryList($_return['fields'][$_fld->name]['value'], false, $attrib , $_prefix, $_fld->required,'virtuemart_country_id_field');
+						}
 
 						if(!empty($_return['fields'][$_fld->name]['value'])){
 							// Translate the value from ID to name
@@ -877,19 +879,20 @@ class VirtueMartModelUserfields extends VmModel {
 
 					case 'virtuemart_state_id':
 
-						$attrib = array();
-						if ($_fld->size) {
-							$attrib = array('style'=>"width: ".$_fld->size."px");
-						}
-						$_return['fields'][$_fld->name]['formcode'] =
-						shopFunctionsF::renderStateList(	$_return['fields'][$_fld->name]['value'],
-						$_prefix,
-						false,
-						$_fld->required,
+						if(!$defaults) {
+							$attrib = array();
+							if ($_fld->size) {
+								$attrib = array('style'=>"width: ".$_fld->size."px");
+							}
+							$_return['fields'][$_fld->name]['formcode'] =
+							shopFunctionsF::renderStateList(	$_return['fields'][$_fld->name]['value'],
+							$_prefix,
+							false,
+							$_fld->required,
 							$attrib,
-						'virtuemart_state_id_field'
-						);
-
+							'virtuemart_state_id_field'
+							);
+						}
 
 						if(!empty($_return['fields'][$_fld->name]['value'])){
 							// Translate the value from ID to name

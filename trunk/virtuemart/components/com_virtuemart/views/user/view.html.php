@@ -105,6 +105,7 @@ class VirtuemartViewUser extends VmView {
 
 			//New Address is filled here with the data of the cart (we are in the cart)
 			$fieldtype = $this->address_type . 'address';
+			$this->cart->setupAddressFieldsForCart(true);
 			$userFields = $this->cart->$fieldtype;
 
 		} else {

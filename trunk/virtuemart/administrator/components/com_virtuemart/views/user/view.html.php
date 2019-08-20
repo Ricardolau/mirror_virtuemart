@@ -216,7 +216,13 @@ class VirtuemartViewUser extends VmViewAdmin {
 			//JToolbarHelper::addNewX();
 			$this->addStandardDefaultViewLists($model,'ju.id');
 
+			$orders = VmModel::getModel('orders');
 			$this->userList = $model->getUserList();
+			foreach($this->userList as $i=>$user){
+
+				$this->userList[$i]->orderCount = $orders->getOrderCount($user->id);
+				$this->userList[$i]->shoppergroups = VirtueMartModelShopperGroup::getShoppergroupById($user->id);
+			}
 			$this->pagination = $model->getPagination();
 
 			$shoppergroupmodel = VmModel::getModel('shopperGroup');

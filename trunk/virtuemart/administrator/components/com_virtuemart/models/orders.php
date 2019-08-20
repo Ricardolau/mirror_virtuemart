@@ -315,6 +315,14 @@ class VirtueMartModelOrders extends VmModel {
 		return $order;
 	}
 
+	public function getOrderCount($uid){
+		$db = JFactory::getDBO();
+		$q = 'SELECT COUNT(virtuemart_user_id) FROM #__virtuemart_orders WHERE virtuemart_user_id = "'.$uid.'" ';
+		$db->setQuery($q);
+		$r = $db->loadResult();
+		return $r;
+	}
+
 	/**
 	 * Select the products to list on the product list page
 	 * @param $uid integer Optional user ID to get the orders of a single user
@@ -589,9 +597,17 @@ class VirtueMartModelOrders extends VmModel {
 				$data = self::calculateRow($data, $taxCalcValue, $rounding, $daTax, $withTax, $overwriteDiscount);
 //vmdebug('updateSingleItem $taxCalcValue',$taxCalcValue,$data);
 				if($vat->calc_amount!=$data['product_tax']){
+
 					$db = JFactory::getDbo();
-					$q = 'UPDATE `#__virtuemart_order_calc_rules` SET `calc_amount`='.$data['product_tax'].' WHERE `virtuemart_order_id`='.$data['virtuemart_order_id'].' AND `virtuemart_product_id`='.$data['virtuemart_product_id'].' ;';
-					$db->execute($q);
+					$q = 'UPDATE `#__virtuemart_order_calc_rules` SET `calc_amount`='.$data['product_tax'].' WHERE `virtuemart_order_id`='.$data['virtuemart_order_id'].' AND `virtuemart_order_item_id`='.$data['virtuemart_order_item_id'].' ;';
+					$db->setQuery($q);
+					$db->execute();
+					if(!empty($itemTaxes['VatTax'] and count($itemTaxes['VatTax'])==1)){
+						reset($itemTaxes['VatTax']);
+						$key = key($itemTaxes['VatTax']);
+						$itemTaxes['VatTax'][$key]->calc_amount = $data['product_tax'];
+						vmdebug('$itemTaxes ',$itemTaxes);
+					}
 				}
 
 			}

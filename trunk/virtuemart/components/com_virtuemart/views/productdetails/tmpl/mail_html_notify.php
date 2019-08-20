@@ -62,8 +62,11 @@ defined('_JEXEC') or die('');
 					<tr>
 						<td >
 							<?php
-							if(!empty($this->mailbody)) echo nl2br($this->mailbody);
-							else echo vmText::sprintf('COM_VIRTUEMART_CART_NOTIFY_MAIL_HTML', $this->productName,$this->link);
+							if(!empty($this->mailbody)){
+								echo nl2br($this->mailbody);
+							} else {
+								echo vmText::sprintf('COM_VIRTUEMART_CART_NOTIFY_MAIL_HTML', $this->productName,$this->link);
+							}
 							?>
 						</td>
 					</tr>

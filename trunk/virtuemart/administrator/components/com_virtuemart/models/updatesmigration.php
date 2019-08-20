@@ -29,20 +29,6 @@ defined('_JEXEC') or die('Restricted access');
 class VirtueMartModelUpdatesMigration extends VmModel {
 
     /**
-     * Checks the VirtueMart Server for the latest available Version of VirtueMart
-     *
-     * @return string Example: 1.1.2
-     */
-    function getLatestVersion() {
-
-		$url = "http://virtuemart.net/index2.php?option=com_versions&catid=1&myVersion={".VmConfig::getInstalledVersion()."}&task=latestversionastext";
-		$result = VmConnector::handleCommunication($url);
-
-		return $result;
-    }
-
-
-    /**
      * @author Max Milbers
      */
     function determineStoreOwner() {

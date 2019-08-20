@@ -214,7 +214,7 @@ Virtuemart.prdcustomer = jQuery(function($) {
 			else  jQuery('#customer-mail-content').show();
 
 		}
-		else if (email_type = 'customer') {
+		else if (email_type == 'customer') {
 			jQuery('#notify_particulars').hide();
 			jQuery('#customer-mail-content').show();
 			jQuery('#customer-mail-list').show();

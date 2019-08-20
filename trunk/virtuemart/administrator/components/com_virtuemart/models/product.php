@@ -2396,7 +2396,7 @@ vmdebug('$limitStart',$limitStart);
 
 			$data = $this->updateXrefAndChildTables ($data, 'product_manufacturers');
 
-			$storeCats = true;
+			$storeCats = false;
 			if (empty($data['categories']) or (!empty($data['categories'][0]) and $data['categories'][0]!="-2")){
 				$storeCats = true;
 			}

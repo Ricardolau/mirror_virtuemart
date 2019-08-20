@@ -192,7 +192,7 @@ class com_virtuemartInstallerScript {
 
 		$this->deleteSwfUploader();
 
-		if(JFolder::exists($this->path .'/administrator/templates/vmadmin')){
+		if(JFolder::exists($this->path .'/administrator/templates/vmadmin') and $this->path!=VMPATH_ROOT){
 			$this->recurse_copy($this->path .'/administrator/templates/vmadmin',VMPATH_ROOT .'/administrator/templates/vmadmin');
 		}
 

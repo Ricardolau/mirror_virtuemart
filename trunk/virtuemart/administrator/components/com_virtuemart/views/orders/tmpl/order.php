@@ -97,21 +97,21 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
 				/*($this->orderbt->paid, $this->orderID,'toggle.paid'); */echo $this->currency->priceDisplay($this->orderbt->paid); ?></th>
 				<th>
 				<?php
-                    if(empty($this->orderbt->invoice_locked)){
-                        $icon 	= 'publish';
-                        $val    = '1';
-                        $text   = 'COM_VM_ORDER_INVOICE_LOCK';
-                        $textState = '';
-                    } else {
-                        $icon 	= 'unpublish';
-                        $val    = '0';
-                        $text   = 'COM_VIRTUEMART_INVOICE_UNLOCK';
+					if(empty($this->orderbt->invoice_locked)){
+						$icon 	= 'publish';
+						$val    = '1';
+						$text   = 'COM_VM_ORDER_INVOICE_LOCK';
+						$textState = '';
+					} else {
+						$icon 	= 'unpublish';
+						$val    = '0';
+						$text   = 'COM_VIRTUEMART_INVOICE_UNLOCK';
 						$textState = vmText::_('COM_VM_ORDER_INVOICE_LOCKED');
-                    }
+					}
 
-                    $link = 'index.php?option=com_virtuemart&view=orders&task=toggle.invoice_locked.'.$val.'&cidName=virtuemart_order_id&virtuemart_order_id[]='.$this->orderID.'&rtask=edit&'.JSession::getFormToken().'=1';
-                    echo JHtml::_ ('link', JRoute::_ ($link, FALSE), '<span class="icon-'.$icon.'"><span>', array('title' => vmText::_ ($text) . ' ' . $this->orderbt->order_number)); echo $textState; ?>
-                </th>
+					$link = 'index.php?option=com_virtuemart&view=orders&task=toggle.invoice_locked.'.$val.'&cidName=virtuemart_order_id&virtuemart_order_id[]='.$this->orderID.'&rtask=edit&'.JSession::getFormToken().'=1';
+					echo JHtml::_ ('link', JRoute::_ ($link, FALSE), '<span class="icon-'.$icon.'"><span>', array('title' => vmText::_ ($text) . ' ' . $this->orderbt->order_number)); echo $textState; ?>
+				</th>
 			</tr>
 			</thead>
 			<?php
@@ -174,21 +174,12 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
 					if ($this->orderbt->invoiceNumbers) {
 						$countInvoices=count($this->orderbt->invoiceNumbers);
 						foreach ($this->orderbt->invoiceNumbers as $index =>$invoiceNumber){
-							if ($invoiceNumber and !shopFunctionsF::InvoiceNumberReserved($invoiceNumber) ) {
-								$baseUrl = 'index.php?option=com_virtuemart&view=orders&task=callInvoiceView&tmpl=component&virtuemart_order_id=' . $this->orderbt->virtuemart_order_id.'&invoiceNumber='.$invoiceNumber.'&layout=invoice';
 								echo $invoiceNumber;
-							?>
-							 <a title="<?php echo vmText::_('COM_VIRTUEMART_INVOICE_PRINT') ?>"
-								href="javascript:void window.open('<?php echo $baseUrl ?>', 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');"  >
-								 <span class="icon-print"></span>
-							 </a>
-							<?php
 								if ($countInvoices >1 and $index != ($countInvoices-1))  {
 									?>
-									<br />
+									<br>
 									<?php
 								}
-							}
 						}
 					}
 					?>

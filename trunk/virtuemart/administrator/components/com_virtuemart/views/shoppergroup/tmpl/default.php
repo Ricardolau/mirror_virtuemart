@@ -107,7 +107,7 @@ AdminUIHelper::startAdminArea($this);
 			<td align="center">
 				<?php
 				if ($row->default != 0) {
-					echo JHtml::_('image','menu/icon-16-default.png', vmText::_('COM_VIRTUEMART_SHOPPERGROUP_DEFAULT'), NULL, true);
+					echo JHtml::_('image','admin/featured.png', vmText::_('COM_VIRTUEMART_SHOPPERGROUP_DEFAULT'), NULL, true);
 				}
 				?>
 			</td>
@@ -122,7 +122,7 @@ AdminUIHelper::startAdminArea($this);
 			<td align="center">
 				<?php 
 				if ($row->sgrp_additional == 1) {
-					echo JHtml::_('image','menu/icon-16-apply.png', vmText::_('COM_VIRTUEMART_SHOPPERGROUP_ADDITIONAL'), NULL, true);
+					echo JHtml::_('image','admin/icon-16-add.png', vmText::_('COM_VIRTUEMART_SHOPPERGROUP_ADDITIONAL'), NULL, true);
 				}
 				?>
 			</td>

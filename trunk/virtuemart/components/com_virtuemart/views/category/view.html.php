@@ -1,37 +1,37 @@
 <?php
 /**
-*
-* Handle the category view
-*
-* @package	VirtueMart
-* @subpackage
-* @author RolandD
+ *
+ * Handle the category view
+ *
+ * @package	VirtueMart
+ * @subpackage
+ * @author Max Milbers
 * @link ${PHING.VM.MAINTAINERURL}
-* @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
-* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* VirtueMart is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* @version $Id$
-*/
+ * @copyright Copyright (c) 2004 - 2019 VirtueMart Team. All rights reserved.
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * VirtueMart is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * @version $Id$
+ */
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
 /**
-* Handle the category view
-*
-* @package VirtueMart
-* @author Max Milbers
-*/
+ * Handle the category view
+ *
+ * @package VirtueMart
+ * @author Max Milbers
+ */
 class VirtuemartViewCategory extends VmView {
 
 	public function display($tpl = null) {
 
 		//For BC, we convert first the new config param names to the old ones
-		//Attention, this will be removed around 2018.
-		//if(VmConfig::get('legacylayouts',false)){
+		//Attention, this will be removed around 2020.
+		if(VmConfig::get('legacylayouts',false)){
 			VmConfig::set('show_featured', VmConfig::get('featured'));
 			VmConfig::set('show_discontinued', VmConfig::get('discontinued'));
 			VmConfig::set('show_topTen', VmConfig::get('topten'));
@@ -45,7 +45,7 @@ class VirtuemartViewCategory extends VmView {
 			VmConfig::set('latest_products_rows', VmConfig::get('latest_rows'));
 			VmConfig::set('omitLoaded_topTen', VmConfig::get('omitLoaded_topten'));
 			VmConfig::set('showCategory', VmConfig::get('showcategory'));
-		//}
+		}
 
 
 		$this->show_prices  = (int)VmConfig::get('show_prices',1);
@@ -139,8 +139,8 @@ class VirtuemartViewCategory extends VmView {
 		if(empty($this->keyword)) $this->keyword = false;
 
 		if(		(isset($menu->query['virtuemart_category_id']) and $menu->query['virtuemart_category_id']!=$this->categoryId) or
-				(isset($menu->query['virtuemart_manufacturer_id']) and $menu->query['virtuemart_manufacturer_id']!=$this->virtuemart_manufacturer_id) or
-				!empty($this->keyword ) ) {
+		(isset($menu->query['virtuemart_manufacturer_id']) and $menu->query['virtuemart_manufacturer_id']!=$this->virtuemart_manufacturer_id) or
+		!empty($this->keyword ) ) {
 			$prefix = 'stf_';
 		}
 
@@ -165,9 +165,6 @@ class VirtuemartViewCategory extends VmView {
 		'recent' => VmConfig::get('recent',0),
 		'recent_rows' => VmConfig::get('recent_rows',1));
 
-/*		$catParams =
-    [limit_list_step] => 0
-    [limit_list_initial] => 0*/
 
 
 		$categoryModel = VmModel::getModel('category');
@@ -300,7 +297,7 @@ class VirtuemartViewCategory extends VmView {
 			$this->currency = CurrencyDisplay::getInstance( );
 			$display_stock = VmConfig::get('display_stock',1);
 			$showCustoms = VmConfig::get('show_pcustoms',1);
-			
+
 			//Unset the empty product groups to avoid errors with old layouts
 			foreach($this->products as $pType => $productSeries) {
 				if($productSeries===false) unset($this->products[$pType]);
@@ -349,7 +346,7 @@ class VirtuemartViewCategory extends VmView {
 		$categoryModel->addImages($category,$catImgAmount);
 
 		if($this->showcategory){
-		//if($category->category_layout == 'categories' or ($this->categoryId >0 and $this->virtuemart_manufacturer_id <1)){
+
 			$category->children = $categoryModel->getChildCategoryList( $vendorId, $this->categoryId, $categoryModel->getDefaultOrdering(), $categoryModel->_selectedOrderingDir );
 			$categoryModel->addImages($category->children,$catImgAmount);
 		} else {
@@ -457,16 +454,20 @@ class VirtuemartViewCategory extends VmView {
 				$name=$metaObj->mf_name;
 			}
 			$qdesc =  strip_tags(html_entity_decode($description,ENT_QUOTES)) ;
+			$qdesc = str_replace(array("\n", "\r","\t"), "", $qdesc);
+			$qdesc = str_replace(array("  "), " ", $qdesc);
 			$qdesc = shopFunctionsF::limitStringByWord($qdesc,120);
 			$metadesc = $category->category_name . ". ". $qdesc . ' ' .vmText::_('COM_VIRTUEMART_READ_MORE');
 		}
-
+//		quorvia get rid of any excess data
+		$metadesc = str_replace(array("\n", "\r","\t"), "", $metadesc);
+		$metadesc = str_replace(array("  "), " ", $metadesc);
 		$document->setMetaData('description',$metadesc);
 		$document->setMetaData('keywords', $metakey);
 		$document->setMetaData('robots', $metarobot);
 		$document->setMetaData('author', $metaauthor);
 
-	    // Set the titles
+		// Set the titles
 		if (!empty($customtitle)) {
 			$title = strip_tags($customtitle);
 		} elseif (!empty($category->category_name)) {
@@ -477,7 +478,7 @@ class VirtuemartViewCategory extends VmView {
 
 		$title = vmText::_($title);
 
-	  	if(vRequest::getInt('error')){
+		if(vRequest::getInt('error')){
 			$title .=' '.vmText::_('COM_VIRTUEMART_PRODUCT_NOT_FOUND');
 		}
 		if($this->keyword !== false and !empty($this->keyword)){

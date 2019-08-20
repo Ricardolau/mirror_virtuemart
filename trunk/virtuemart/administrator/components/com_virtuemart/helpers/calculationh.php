@@ -231,6 +231,10 @@ class calculationHelper {
 		}
 	}
 
+	public function getShopperGroupId(){
+		return $this->_shopperGroupId;
+	}
+
 	protected function setCountryState($countryId = 0, $stateId = 0) {
 
 		if(!empty($countryId)){

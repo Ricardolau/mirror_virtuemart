@@ -102,6 +102,8 @@ class TableMedias extends VmTable {
 			}
 
 			if (empty($this->virtuemart_media_id)) {
+
+				//Check for already existing entries for the media
 				$q = 'SELECT `virtuemart_media_id`,`file_url` FROM `' . $this->_tbl . '` WHERE `file_url` = "' . $this->_db->escape ($this->file_url) . '" ';
 				$this->_db->setQuery ($q);
 				$unique_id = $this->_db->loadAssocList ();
@@ -132,6 +134,29 @@ class TableMedias extends VmTable {
 			$ok = FALSE;
 		}
 
+
+
+
+
+		if (!empty($this->file_description)) {
+			if (strlen ($this->file_description) > 254) {
+				vmError (vmText::sprintf ('COM_VIRTUEMART_DESCRIPTION_TOO_LONG', strlen ($this->file_description)));
+			}
+		}
+
+//		$app = JFactory::getApplication();
+
+		//vmError('Checking '.$this->file_url);
+
+		if ($this->file_is_forSale) {
+			$lastIndexOfSlash = strrpos ($this->file_url, DS);
+		} else {
+			$lastIndexOfSlash = strrpos ($this->file_url, '/');
+		}
+
+		$name = substr ($this->file_url, $lastIndexOfSlash + 1);
+		$file_extension = strtolower (JFile::getExt ($name));
+
 		if (empty($this->file_title) && !empty($this->file_name)) {
 			$this->file_title = $this->file_name;
 		}
@@ -151,14 +176,15 @@ class TableMedias extends VmTable {
 			if (!empty($unique_id)) {
 				foreach ($unique_id as $item) {
 					if ($item['virtuemart_media_id'] != $this->virtuemart_media_id) {
-						$lastDir = substr ($this->file_url, 0, strrpos ($this->file_url, '/'));
+						/*$lastDir = substr ($this->file_url, 0, strrpos ($this->file_url, '/'));
 						$lastDir = substr ($lastDir, strrpos ($lastDir, '/') + 1);
 						if (!empty($lastDir)) {
 							$this->file_title = $this->file_title . '_' . $lastDir;
 						}
 						else {
 							$this->file_title = $this->file_title . '_' . rand (1, 9);
-						}
+						}*/
+						$this->file_title = $name.'_'.count($unique_id);
 					}
 				}
 			}
@@ -169,25 +195,7 @@ class TableMedias extends VmTable {
 			$ok = FALSE;
 		}
 
-		if (!empty($this->file_description)) {
-			if (strlen ($this->file_description) > 254) {
-				vmError (vmText::sprintf ('COM_VIRTUEMART_DESCRIPTION_TOO_LONG', strlen ($this->file_description)));
-			}
-		}
-
-//		$app = JFactory::getApplication();
-
-		//vmError('Checking '.$this->file_url);
-
 		if (empty($this->file_mimetype)) {
-
-			if (!$this->file_is_forSale) {
-				$lastIndexOfSlash = strrpos ($this->file_url, '/');
-			} else {
-				$lastIndexOfSlash = strrpos ($this->file_url, DS);
-			}
-			$name = substr ($this->file_url, $lastIndexOfSlash + 1);
-			$file_extension = strtolower (JFile::getExt ($name));
 
 			if (empty($name)) {
 				vmError (vmText::_ ('COM_VIRTUEMART_NO_MEDIA'));
@@ -309,6 +317,8 @@ class TableMedias extends VmTable {
 			}
 
 		}
+
+
 
 		//Nasty small hack, should work as long the word for default is in the language longer than 3 words and the first
 		//letter should be always / or something like this

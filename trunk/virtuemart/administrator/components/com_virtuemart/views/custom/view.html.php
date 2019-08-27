@@ -146,8 +146,6 @@ class VirtuemartViewCustom extends VmViewAdmin {
 		$results = $db->loadAssocList($ext_id);
 
 		foreach ($results as $result) {
-        //$filename = 'plg_' .strtolower ( $result['name']).'.sys';
-        //$lang->load($filename, JPATH_ADMINISTRATOR);
 			$filename = 'plg_' .strtolower ( $result['name']).'.sys';
 			vmPlugin::loadJLang($filename,'vmcustom',$result['name']);
 		}

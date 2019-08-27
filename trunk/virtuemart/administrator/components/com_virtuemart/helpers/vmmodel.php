@@ -1002,7 +1002,7 @@ class VmModel extends vObject{
 		}
 
 		$keywords_plural = preg_replace('/\s+/', '%" AND `'.$searchField.'` LIKE "%', $keyword);
-		vmdebug('joinLangLikeField',$keyword,$keywords_plural);
+		//vmdebug('joinLangLikeField',$keyword,$keywords_plural);
 		$filter_search[] =  'l.`'.$searchField . '` LIKE ' . $keywords_plural;
 		if($useFb){
 			$filter_search[] =  'ld.`'.$searchField . '` LIKE ' . $keywords_plural;

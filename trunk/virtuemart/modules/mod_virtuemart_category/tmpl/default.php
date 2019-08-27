@@ -30,7 +30,7 @@ $document->addScriptDeclaration($js);?>
 		$cattext = $category->category_name;
 		if (in_array( $category->virtuemart_category_id, $parentCategories)) {
 			$active_menu = 'class="VmOpen"';
-			} ?>
+		} ?>
 
 	<li <?php echo $active_menu ?>>
 		<div>

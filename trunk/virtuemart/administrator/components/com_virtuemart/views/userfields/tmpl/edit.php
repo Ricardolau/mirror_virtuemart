@@ -56,14 +56,14 @@ AdminUIHelper::imitateTabs('start','COM_VIRTUEMART_USERFIELD_DETAILS');
 					</fieldset>
 				</div>
 
-				<div id="divAgeVerification" style="text-align:left;">
+				<!--div id="divAgeVerification" style="text-align:left;">
 					<fieldset>
-					<legend><?php echo vmText::_('COM_VIRTUEMART_FIELDS_AGEVERIFICATION_ATTRIBUTES'); ?></legend>
+					<legend><?php /*echo vmText::_('COM_VIRTUEMART_FIELDS_AGEVERIFICATION_ATTRIBUTES'); ?></legend>
 						<table class="admintable">
-							<?php echo VmHTML::row('raw','COM_VIRTUEMART_FIELDS_AGEVERIFICATION_MINIMUM', $this->lists['minimum_age'] ); ?>
+							<?php echo VmHTML::row('raw','COM_VIRTUEMART_FIELDS_AGEVERIFICATION_MINIMUM', $this->lists['minimum_age'] );*/?>
 						</table>
 					</fieldset>
-				</div>
+				</div-->
 
 				<div id="divWeb">
 					<fieldset>

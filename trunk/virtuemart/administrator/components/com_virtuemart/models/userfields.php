@@ -169,6 +169,9 @@ class VirtueMartModelUserfields extends VmModel {
 				$dispatcher = JDispatcher::getInstance();
 				$retValue = $dispatcher->trigger('plgVmDeclarePluginParamsUserfieldVM3',array(&$this->_cache[$hash]));
 			}
+			/*else if($this->_cache[$hash]->type=='age_verification'){
+
+			}*/
 			if(!empty($this->_cache[$hash]->_varsToPushParam)){
 				VmTable::bindParameterable($this->_cache[$hash],'userfield_params',$this->_cache[$hash]->_varsToPushParam);
 			}
@@ -957,11 +960,15 @@ class VirtueMartModelUserfields extends VmModel {
 							break;
 						case 'age_verification':
 							// Year range MUST start 100 years ago, for birthday
+							$currentYear = intval(date('Y'));
 							$yOffset = 120;
+							$maxmin = 'minDate: "-'.$yOffset.'y", maxDate: "+'.$yOffset.'Y",';
 						case 'date':
 							$currentYear = intval(date('Y'));
-							$maxmin = 'minDate: -0, maxDate: "+1Y",';
+							if(empty($maxmin))$maxmin = 'minDate: -0, maxDate: "+1Y",';
 							$_return['fields'][$_fld->name]['formcode'] = vmJsApi::jDate($_return['fields'][$_fld->name]['value'],  $_prefix.$_fld->name,$_prefix.$_fld->name . '_field',false,($currentYear-$yOffset).':'.($currentYear+1),$maxmin);
+
+							$maxmin = '';
 							break;
 						case 'emailaddress':
 							if( JFactory::getApplication()->isSite()) {

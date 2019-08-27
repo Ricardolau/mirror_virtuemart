@@ -766,14 +766,11 @@ Virtuemart.requiredMsg = '" .addslashes (vmText::_ ('COM_VIRTUEMART_MISSING_REQU
 			$display .= '<span class="vmicon vmicon-16-logout icon-nofloat js-date-reset"></span>';
 		}
 
-		// If exist exit
-		if ($jDate) {
-			return $display;
-		}
 
-		self::addJScript('datepicker','
+
+		self::addJScript('datepicker'.$name,'
 		jQuery(document).ready( function($) {
-			$(document).on( "focus",".datepicker", function() {
+			$(document).on( "focus","#'.$id.'_text", function() {
 				$( this ).datepicker({
 					changeMonth: true,
 					changeYear: true,
@@ -790,7 +787,10 @@ Virtuemart.requiredMsg = '" .addslashes (vmText::_ ('COM_VIRTUEMART_MISSING_REQU
 		});
 		');
 
-
+		// If exist exit
+		if ($jDate) {
+			return $display;
+		}
 		vmJsApi::css('ui/jquery.ui.all');
 		$lg = vmLanguage::getLanguage();
 		$lang = $lg->getTag();

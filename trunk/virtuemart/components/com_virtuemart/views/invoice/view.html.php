@@ -234,8 +234,18 @@ class VirtuemartViewInvoice extends VmView {
 				, array('delimiter_userinfo','user_is_vendor' ,'username','password', 'password2', 'agreed', 'address_type') // Skips
 		);
 
-		$userfields = $userFieldsModel->getUserFieldsFilled( $_userFields, $orderDetails['details']['BT']);
-		$this->assignRef('userfields', $userfields);
+		$this->userfields = $userFieldsModel->getUserFieldsFilled( $_userFields, $orderDetails['details']['BT']);
+
+		$civility="";
+
+		$this->userfields['BT'] = array();
+		foreach ($this->userfields['fields'] as  $field) {
+			if ($field['name']=="title") {
+				$civility=$field['value'];
+				//break;
+			}
+			$this->userfields['BT'][$field['name']] = &$field;
+		}
 
 		//Create ST address fields
 		$orderst = $orderDetails['details']['ST'];
@@ -251,16 +261,13 @@ class VirtuemartViewInvoice extends VmView {
 				, $skips
 		);
 
-		$shipmentfields = $userFieldsModel->getUserFieldsFilled( $shipmentFieldset, $orderst );
-		$this->assignRef('shipmentfields', $shipmentfields);
+		$this->shipmentfields = $userFieldsModel->getUserFieldsFilled( $shipmentFieldset, $orderst );
 
-		$civility="";
-		foreach ($userfields['fields'] as  $field) {
-			if ($field['name']=="title") {
-				$civility=$field['value'];
-				break;
-			}
+		foreach ($this->shipmentfields as  $field) {
+			$this->userfields['ST'][$field['name']] = &$field;
 		}
+
+
 		$company= empty($orderDetails['details']['BT']->company) ?"":$orderDetails['details']['BT']->company.", ";
 		$shopperName =  $company. $civility.' '.$orderDetails['details']['BT']->first_name.' '.$orderDetails['details']['BT']->last_name;
 		$this->assignRef('shopperName', $shopperName);

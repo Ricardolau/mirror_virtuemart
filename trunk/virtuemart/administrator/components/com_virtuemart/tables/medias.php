@@ -157,8 +157,8 @@ class TableMedias extends VmTable {
 		$name = substr ($this->file_url, $lastIndexOfSlash + 1);
 		$file_extension = strtolower (JFile::getExt ($name));
 
-		if (empty($this->file_title) && !empty($this->file_name)) {
-			$this->file_title = $this->file_name;
+		if (empty($this->file_title) && !empty($name)) {
+			$this->file_title = $name;
 		}
 
 		if (!empty($this->file_title)) {

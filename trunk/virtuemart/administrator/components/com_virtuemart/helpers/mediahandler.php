@@ -214,6 +214,22 @@ class VmMediaHandler {
 		$this->file_path_folder = '';
 		$this->file_url_folder_thumb = '';
 
+		if(strpos($this->file_url,'//')===0){
+			$rdspos = strrpos($this->file_url,'/');
+			if($rdspos!==false){
+				$this->file_name = substr($this->file_url,$rdspos+1);
+				$rdspos = strrpos($this->file_name,'.');
+				if($rdspos!==false){
+					$this->file_extension = strtolower(JFile::getExt($this->file_name));
+					$this->file_name = substr($this->file_name, 0,$rdspos);
+
+				}
+			}else {
+				vmdebug('$name',$this->file_url);
+			}
+			vmdebug('Remote image URL, created file_name',$this->file_name,$this->file_extension);
+		}
+
 		if($this->file_is_forSale==0 and $type!='forSale'){
 
 			$this->file_url_folder = $this->getMediaUrlByView($type);
@@ -240,7 +256,11 @@ class VmMediaHandler {
 			$this->file_name = '';
 			$this->file_extension = '';
 		} else {
-			if($this->file_is_forSale==1){
+
+			if(strpos($this->file_url,'//')===0){
+				$name = '';	// so that the !empty($name ..) case is not executed
+			}
+			else if($this->file_is_forSale==1){
 
 				$rdspos = strrpos($this->file_url,DS);
 				if($rdspos!==false){
@@ -471,7 +491,6 @@ class VmMediaHandler {
 			$imageArgs = $this->filterImageArgs($imageArgs);
 		}
 
-
 		if(empty($this->file_name)){
 
 			if($return){
@@ -487,15 +506,28 @@ class VmMediaHandler {
 			}
 		}
 
-
-		if($this->file_is_forSale){
+		if(strpos($this->file_url,'//')===0){
 			$toChk = $this->file_url;
+			try {
+				$resObj = JHttpFactory::getHttp(null, array('curl', 'stream'))->get($toChk);
+				//vmdebug('Object per URL',$resObj);
+				if($resObj->code!=200){
+					vmdebug('URL does not exists',$toChk,$resObj);
+					vmError(vmText::sprintf('COM_VIRTUEMART_FILE_NOT_FOUND',$toChk));
+				};
+			} catch (RuntimeException $e) {
+				vmError(vmText::sprintf('COM_VIRTUEMART_FILE_NOT_FOUND',$toChk));
+			}
 		} else {
-			$toChk = VMPATH_ROOT.'/'.$this->file_url;
-		}
-		if(!JFile::exists($toChk)){
-			vmdebug('Media file does not exists',$toChk);
-			vmError(vmText::sprintf('COM_VIRTUEMART_FILE_NOT_FOUND',$toChk));
+			if($this->file_is_forSale){
+				$toChk = $this->file_url;
+			} else {
+				$toChk = VMPATH_ROOT.'/'.$this->file_url;
+			}
+			if(!JFile::exists($toChk)){
+				vmdebug('Media file does not exists',$toChk);
+				vmError(vmText::sprintf('COM_VIRTUEMART_FILE_NOT_FOUND',$toChk));
+			}
 		}
 
 		$file_url_thumb = $this -> getFileUrlThumb($width, $height);
@@ -601,7 +633,10 @@ class VmMediaHandler {
 		if ($withDesc) $desc='<span class="vm-img-desc">'.$withDesc.'</span>';
 		else $desc='';
 		$root='';
-		if($absUrl){
+
+		if( substr( $this->file_url, 0, 2) == "//" ) {
+			$root = '';
+		} else if($absUrl){
 			$root = JURI::root(false);
 		} else {
 			$root = JURI::root(true).'/';
@@ -620,7 +655,7 @@ class VmMediaHandler {
 			$image = '<img src="' . $root.$file_url . '" alt="' . $file_alt . '" ' . $args . ' />';//JHtml::image($file_url, $file_alt, $imageArgs);
 			if ($file_alt ) $file_alt = 'title="'.$file_alt.'"';
 			if ($this->file_url and pathinfo($this->file_url, PATHINFO_EXTENSION) and substr( $this->file_url, 0, 4) != "http") {
-				if($this->file_is_forSale){
+				if($this->file_is_forSale or strpos($this->file_url,'//')===0){
 					$href = $this->file_url ;
 				} else {
 					$href = JURI::root() .$this->file_url ;

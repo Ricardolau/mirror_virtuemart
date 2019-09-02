@@ -31,7 +31,7 @@ class VmImage extends VmMediaHandler {
 
 		if(!$this->file_is_forSale){
 			// Remote image URL
-			if( substr( $this->file_url, 0, 4) == "http" ) {
+			if( substr( $this->file_url, 0, 2) == "//" ) {
 				$file_url = $this->file_url;
 				$file_alt = $this->file_title;
 			} else {
@@ -146,19 +146,29 @@ class VmImage extends VmMediaHandler {
 		$root = '';
 		$this->file_name_thumb = $this->createThumbName($width,$height);
 
-		if($this->file_is_forSale==0){
 
-			$fullSizeFilenamePath = VMPATH_ROOT.'/'.$this->file_url_folder.$this->file_name.'.'.$this->file_extension;
+		$exists = false;
+		if(strpos($this->file_url,'//')===0){
+			$fullSizeFilenamePath = $this->file_url;
+			$exists = true;
+			//$resizedFilenamePath = vRequest::filterPath(VMPATH_ROOT.'/'.$this->file_url_folder_thumb.$this->file_name_thumb);
+			vmdebug('Set file url as $fullSizeFilenamePath',$fullSizeFilenamePath,$this->file_name_thumb);
 		} else {
-			$fullSizeFilenamePath = $this->file_url_folder.$this->file_name.'.'.$this->file_extension;
-		}
-		$fullSizeFilenamePath = vRequest::filterPath($fullSizeFilenamePath);
+			if($this->file_is_forSale==0){
 
+				$fullSizeFilenamePath = VMPATH_ROOT.'/'.$this->file_url_folder.$this->file_name.'.'.$this->file_extension;
+			} else {
+				$fullSizeFilenamePath = $this->file_url_folder.$this->file_name.'.'.$this->file_extension;
+			}
+			$fullSizeFilenamePath = vRequest::filterPath($fullSizeFilenamePath);
+			$exists = file_exists($fullSizeFilenamePath);
+
+		}
 		$resizedFilenamePath = vRequest::filterPath(VMPATH_ROOT.'/'.$this->file_url_folder_thumb.$this->file_name_thumb.'.'.$this->file_extension);
 
 		$this->checkPathCreateFolders(vRequest::filterPath($this->file_url_folder_thumb));
 
-		if (file_exists($fullSizeFilenamePath)) {
+		if ($exists) {
 			if(!file_exists($resizedFilenamePath)) {
 				$createdImage = new Img2Thumb( $fullSizeFilenamePath, (int)$width, (int)$height, $resizedFilenamePath, $maxsize, $bgred, $bggreen, $bgblue );
 				if(!$createdImage){

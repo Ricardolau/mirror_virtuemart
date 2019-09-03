@@ -57,7 +57,7 @@ class VirtueMartModelCustomfields extends VmModel {
 	public static function getProductCustomSelectFieldList(){
 
 		$q = 'SELECT c.`virtuemart_custom_id`, c.`custom_parent_id`, c.`virtuemart_vendor_id`, c.`custom_jplugin_id`, c.`custom_element`, c.`admin_only`, c.`custom_title`, c.`show_title` , c.`custom_tip`,
-		c.`custom_value`, c.`custom_desc`, c.`field_type`, c.`is_list`, c.`is_hidden`, c.`is_cart_attribute`, c.`is_input`, c.`layout_pos`, c.`custom_params`, c.`shared`, c.`published`, c.`ordering`, ';
+		c.`custom_value`, c.`custom_desc`, c.`field_type`, c.`is_list`, c.`is_hidden`, c.`is_cart_attribute`, c.`is_input`, c.`layout_pos`, c.`custom_params`, c.`shared`, c.`published`, c.`ordering`, c.`virtuemart_shoppergroup_id`, ';
 		$q .= 'field.`virtuemart_customfield_id`, field.`virtuemart_product_id`, field.`customfield_value`, field.`customfield_price`,
 		field.`customfield_params`, field.`published` as fpublished, field.`override`, field.`disabler`, field.`ordering`
 		FROM `#__virtuemart_customs` AS c LEFT JOIN `#__virtuemart_product_customfields` AS field ON c.`virtuemart_custom_id` = field.`virtuemart_custom_id` ';
@@ -184,7 +184,21 @@ class VirtueMartModelCustomfields extends VmModel {
 			}
 			$virtuemart_customfield_ids = array_unique( array_diff($customfield_ids,$customfield_override_ids));
 
+			$virtuemart_shoppergroup_id = VirtueMartModelProduct::getCurrentUserShopperGrps();
+
 			foreach ($productCustoms as $k =>$field) {
+
+				if(!empty($field->virtuemart_shoppergroup_id)){
+
+					if(!is_array($field->virtuemart_shoppergroup_id))$field->virtuemart_shoppergroup_id = explode(',', $field->virtuemart_shoppergroup_id);
+					$diff = array_intersect($virtuemart_shoppergroup_id, $field->virtuemart_shoppergroup_id);
+
+					if(count($diff)==0){
+						unset($productCustoms[$k]);
+						continue;
+					}
+				}
+
 				if(in_array($field->virtuemart_customfield_id,$virtuemart_customfield_ids)){
 
 					if($forcefront and $field->disabler){

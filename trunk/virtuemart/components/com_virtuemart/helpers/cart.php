@@ -1761,13 +1761,13 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 		$nb = 0;
 		$method_id = array();
 		foreach ($returnValues as $returnValue) {
-			if ( isset($returnValue )) {
+			if ( !empty($returnValue )) {
 				if(is_array($returnValue)){
 					foreach($returnValue as $method){
 						$nb ++;
 						$method_id[] = $method;
 					}
-				} else {
+				} else if($returnValue){
 					$nb ++;
 					$method_id[] = $returnValue;
 				}

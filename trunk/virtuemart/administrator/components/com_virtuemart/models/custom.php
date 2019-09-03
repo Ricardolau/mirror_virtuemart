@@ -94,6 +94,7 @@ class VirtueMartModelCustom extends VmModel {
 			if(!empty($this->_cache[$this->_id]->_varsToPushParam)){
 				VmTable::bindParameterable($this->_cache[$this->_id],'custom_params',$this->_cache[$this->_id]->_varsToPushParam);
 			}
+			$this->_cache[$this->_id]->virtuemart_shoppergroup_id = explode(',',$this->_cache[$this->_id]->virtuemart_shoppergroup_id);
     	}
 
   		return $this->_cache[$this->_id];
@@ -150,6 +151,8 @@ class VirtueMartModelCustom extends VmModel {
 				vmError('The field with id '.$data->virtuemart_custom_id.' and title '.$data->custom_title.' is not longer valid, please delete it from the list');
 			}
 
+			$data->virtuemart_shoppergroup_id = explode(',',$data->virtuemart_shoppergroup_id);
+			$datas->items[$key] = $data;
 		}
 
 		return $datas;
@@ -395,6 +398,13 @@ class VirtueMartModelCustom extends VmModel {
 			$data['custom_value'] = $data['transform'];
 		}
 		$data['transform'] = '';
+		vmdebug(' my data to store',$data);
+		if(empty($data['virtuemart_shoppergroup_id'])){
+			$data['virtuemart_shoppergroup_id'] = '';
+		} else {
+			$data['virtuemart_shoppergroup_id'] = implode(',',$data['virtuemart_shoppergroup_id']);
+		}
+
 
 		$table->bindChecknStore($data);
 

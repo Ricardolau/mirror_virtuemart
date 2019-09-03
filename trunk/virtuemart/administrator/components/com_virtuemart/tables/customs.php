@@ -62,6 +62,7 @@ class TableCustoms extends VmTable {
 	var $is_input		= 0;
 	/** @var int(1)  1= hidden field info */
 	var $is_hidden		= 0;
+	var $virtuemart_shoppergroup_id = '';
 
 	/** @var int(1)  1= cart attributes and price added to cart */
 	var $is_cart_attribute		= 0;
@@ -96,6 +97,7 @@ class TableCustoms extends VmTable {
 		$this->setOrderable('ordering',false);
 		$this->setParameterable('custom_params',array());
 	}
+
 
 	/*
 	* field from 3 table have to be checked at delete

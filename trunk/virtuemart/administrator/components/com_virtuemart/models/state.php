@@ -123,6 +123,7 @@ class VirtueMartModelState extends VmModel {
 				if(!empty($stateId)){
 					$h = $countryId.'.'.$stateId;
 					if(!isset($c[$h])){
+						$db = JFactory::getDBO();
 						//Test if virtuemart_state_id fits to virtuemart_country_id
 						$q = 'SELECT * FROM `#__virtuemart_states` WHERE `virtuemart_country_id`= "'.$countryId.'" AND `virtuemart_state_id`="'.$stateId.'" and `published`="1"';
 						$db->setQuery($q);

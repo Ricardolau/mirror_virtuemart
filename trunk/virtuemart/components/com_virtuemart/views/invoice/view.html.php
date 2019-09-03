@@ -263,7 +263,7 @@ class VirtuemartViewInvoice extends VmView {
 
 		$this->shipmentfields = $userFieldsModel->getUserFieldsFilled( $shipmentFieldset, $orderst );
 
-		foreach ($this->shipmentfields as  $field) {
+		foreach ($this->shipmentfields['fields'] as  $field) {
 			$this->userfields['ST'][$field['name']] = &$field;
 		}
 

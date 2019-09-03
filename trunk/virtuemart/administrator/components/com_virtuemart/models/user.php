@@ -336,14 +336,17 @@ class VirtueMartModelUser extends VmModel {
 		}
 		$data['name'] = str_replace(array('\'','"',',','%','*','/','\\','?','^','`','{','}','|','~'),array(''),$data['name']);
 
-		if(empty ($data['username'])){
-			$username = $user->get('username');
-			if(!empty($username)){
-				$data['username'] = $username;
-			} else {
-				$data['username'] = vRequest::filter($data['username'],FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
-			}
+
+		$usersConfig = JComponentHelper::getParams( 'com_users' );
+		$can_change_username = (int)$usersConfig->get('change_login_name', false);
+
+		$username = $user->get('username');
+		if(!empty($username) and !$can_change_username){
+			$data['username'] = $username;
+		} else {
+			$data['username'] = vRequest::filter($data['username'],FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
 		}
+
 
 		if(empty ($data['password'])){
 			$data['password'] = vRequest::getCmd('password', '');
@@ -389,7 +392,6 @@ class VirtueMartModelUser extends VmModel {
 		if($new){
 			// If user registration is not allowed, show 403 not authorized.
 			// But it is possible for admins and storeadmins to save
-			$usersConfig = JComponentHelper::getParams( 'com_users' );
 
 			$cUser = JFactory::getUser();
 			if($usersConfig->get('allowUserRegistration') == '0' and !(vmAccess::manager('user')) ) {

@@ -1156,6 +1156,8 @@ class VirtueMartModelOrders extends VmModel {
 							unset($order_item_data->product_tax_id[$k]);
 						} else if ($calc->calc_kind=='VatTax' or $calc->calc_kind=='Tax'){
 							$toRemove[] = $calc->virtuemart_order_calc_rule_id;
+						} else {
+							$taxes[$calc->calc_kind][$calc->virtuemart_calc_id] = $calc;
 						}
 					}
 				}
@@ -2299,9 +2301,6 @@ class VirtueMartModelOrders extends VmModel {
 	 */
 	public function notifyCustomer($virtuemart_order_id, $newOrderData = 0 ) {
 
-		if (isset($newOrderData['customer_notified']) && $newOrderData['customer_notified']==0) {
-		    return true;
-		}
 
 		//Important, the data of the order update mails, payments and invoice should
 		//always be in the database, so using getOrder is the right method
@@ -2358,6 +2357,11 @@ class VirtueMartModelOrders extends VmModel {
 			//VmConfig::setLanguageByTag(VmConfig::$jDefLangTag);
 			$view = shopFunctionsF::prepareViewForMail('invoice', $vars);
 			$res = shopFunctionsF::sendVmMail( $view, $vendorEmail, TRUE );
+		}
+
+		if (isset($newOrderData['customer_notified']) && $newOrderData['customer_notified']==0) {
+			vmdebug('notifyCustomer return cause customer_notified == 0');
+			return true;
 		}
 
 		// Send the email
@@ -2885,6 +2889,7 @@ class VirtueMartModelOrders extends VmModel {
 
 	/** Delete Invoice when an item is updated
 	 *
+	 * @deprecated
 	 * @author Valérie Isaksen
 	 * @param $order_id Id of the order
 	 * @return boolean true if deleted successful, false if there was a problem

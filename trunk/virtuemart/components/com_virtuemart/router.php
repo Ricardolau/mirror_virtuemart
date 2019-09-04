@@ -914,8 +914,11 @@ class vmrouterHelper {
 		self::$_instance->query = $query;
 
 		if((!empty($query['Itemid']) and $query['Itemid']!=self::$_instance->Itemid) or (!empty($query['lang']) and $query['lang']!=self::$_instance->slang)){
-			self::$_instance->Itemid = $query['Itemid'];
-			if (!empty($query['lang'])) {
+			if(!empty($query['Itemid']) and $query['Itemid']!=self::$_instance->Itemid){
+				self::$_instance->Itemid = $query['Itemid'];
+			}
+
+			if (!empty($query['lang']) and $query['lang']!=self::$_instance->slang) {
 				self::$_instance->slang = $query['lang'];
 			}
 			self::$_instance->setMenuItemId();

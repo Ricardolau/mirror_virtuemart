@@ -198,7 +198,7 @@ class VirtuemartViewCustom extends VmViewAdmin {
 			$html .= VmHTML::row ('select', 'COM_VIRTUEMART_CUSTOM_IS_LIST', 'is_list', $opt,$datas->is_list,'','value','text',false);
 		}
 		$html .= VmHTML::row ('booleanlist', 'COM_VIRTUEMART_CUSTOM_IS_HIDDEN', 'is_hidden', $datas->is_hidden);
-		$html .= VmHTML::row ('raw', 'COM_VIRTUEMART_CUSTOM_SHOPPERGROUPS', ShopFunctions::renderShopperGroupList($datas->virtuemart_shoppergroup_id));
+		$html .= VmHTML::row ('raw', 'COM_VM_CUSTOM_SHOPPERGROUPS', ShopFunctions::renderShopperGroupList($datas->virtuemart_shoppergroup_id));
 		$html .= VmHTML::inputHidden ($this->_hidden);
 
 		return $html;

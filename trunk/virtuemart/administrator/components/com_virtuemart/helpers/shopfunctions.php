@@ -1073,6 +1073,183 @@ jQuery(".changeSendForm")
 		return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
 	}
 
+	/**
+	 * Gets and, if necessary, creates the security path for a topic.
+	 *	case regcache and vmCrypt::ENCRYPT_SAFEPATH (keys) use the vendorId = 1
+	 *		safepath/regcache or safepath/keys
+	 *	case media needs the vendorId
+	 * 		safepath/vendorId/media
+	 *	case invoice needs the vendorId and created_on
+	 *		safepath/vendorId/inovice and later it should be safepath/vendorId/invoice/year/month
+	 * @param $vendorId
+	 * @param $for
+	 * @param int $created_on
+	 * @return bool
+	 */
+	static function getSafePathFor($vendorId, $for='invoice', $created_on = 0){
+
+		static $safePaths = array();
+		static $safePath = null;
+
+		if(!isset($safePath)) {
+			$safePath = self::checkSafePathBase();
+		}
+
+		if($for=='regcache'){
+			$path = $safePath.$for;
+			$vendorId = 1;
+		} else if ($for==vmCrypt::ENCRYPT_SAFEPATH) {
+			$path = $safePath.$for;
+			$vendorId = 1;
+		} else {
+			vmTrace('getSafePathFor vendorId is empty '.$vendorId.' and for '.$for);
+		}
+
+		if(isset($safePats[$vendorId][$for])) {
+			return $safePaths[$vendorId][$for];
+		}
+
+		if(!$safePath){
+			return false;
+		}
+
+		if ($for=='invoice') {
+
+			$datefolder = '';
+			// for example 'Y/m'
+			if($format = VmConfig::get('InvoiceStorageSort', false)){
+				if($created_on==0){
+					$created_on = time();
+				} else {
+					$created_on = strtotime ($created_on);
+				}
+				$datefolder = '/'.date($format,$created_on);
+			}
+			if(VmConfig::get('InvoiceStoragePerVendor', false)){
+				$ven = $vendorId.'/';
+			} else {
+				$ven = '';
+			}
+			$path = $safePath.$ven.self::getInvoiceFolderName().$datefolder;
+		} else if ($for=='media') {
+
+			if(VmConfig::get('MediaStoragePerVendor', false)){
+				$ven = $vendorId.'/';
+			} else {
+				$ven = '';
+			}
+			$path = $safePath.$vendorId.'/'.$for;
+
+		} else if($for=='regcache'){
+			$path = $safePath.$for;
+			$vendorId = 1;
+		} else if ($for==vmCrypt::ENCRYPT_SAFEPATH) {
+			$path = $safePath.$for;
+			$vendorId = 1;
+		} else {
+			vmdebug('getSafePathFor $for case not found ',$for);
+		}
+
+		$safePaths[$vendorId][$for] = self::checkPath($path, $for);
+
+		return $safePaths[$vendorId][$for];
+
+	}
+
+	static function checkPath($path, $for){
+
+		if(!JFolder::exists( $path )){
+			$created = JFolder::create( $path, 0755);
+			vmLanguage::loadJLang('com_virtuemart');
+			vmLanguage::loadJLang('com_virtuemart_config');
+			if($created){
+				if($for=='invoice'){
+					vmAdminInfo('COM_VIRTUEMART_SAFE_PATH_INVOICE_CREATED');
+				} else {
+					vmAdminInfo('COM_VM_PATH_CREATED', $path, $for);
+				}
+			} else if($for=='invoice'){
+				VmWarn('COM_VIRTUEMART_WARN_SAFE_PATH_NO_INVOICE',vmText::_('COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH'));
+			}
+
+		}
+
+		if (!is_writeable($path)){
+			vmLanguage::loadJLang('com_virtuemart');
+			vmLanguage::loadJLang('com_virtuemart_config');
+			if($for=='invoice'){
+				VmError(vmText::sprintf('COM_VIRTUEMART_WARN_SAFE_PATH_INV_NOT_WRITEABLE',vmText::_('COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH'),$path)
+				,vmText::sprintf('COM_VIRTUEMART_WARN_SAFE_PATH_INV_NOT_WRITEABLE','',''));
+			} else {
+				vmAdminInfo('COM_VM_PATH_UNWRITEABLE', $path, $for);
+			}
+
+			return false;
+		} else {
+			return $path;
+		}
+	}
+
+	/**
+	 * checks for the base of the safe path
+	 * @return bool|null|Value
+	 */
+	static function checkSafePathBase($sPath=0){
+
+		static $safePath = null;
+		if(isset($safePath)) {
+			return $safePath;
+		}
+
+		$safePath = $sPath==0 ? VmConfig::get('forSale_path',0):$sPath;
+
+		if(VmConfig::$installed==false or vRequest::getInt('nosafepathcheck',false) or vRequest::getWord('view')== 'updatesmigration') {
+			return 0;
+		}
+
+		$warn = false;
+		$uri = JFactory::getURI();
+
+
+		if(empty($safePath)){
+			$warn = 'EMPTY';
+		} else {
+			$exists = JFolder::exists($safePath);
+			if(!$exists){
+				$warn = 'WRONG';
+			}
+		}
+
+		if($warn){
+			vmLanguage::loadJLang('com_virtuemart');
+			$safePath = false;
+
+			vmLanguage::loadJLang('com_virtuemart_config');
+			$configlink = $uri->root() . 'administrator/index.php?option=com_virtuemart&view=updatesmigration&show_spwizard=1';
+
+			$t = vmText::sprintf('COM_VM_SAFEPATH_WARN_'.$warn, vmText::_('COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH'), vmText::sprintf('COM_VM_SAFEPATH_WIZARD',$configlink));
+			VmError($t);
+		} else {
+			if(!is_writable( $safePath )){
+				vmLanguage::loadJLang('com_virtuemart');
+				vmLanguage::loadJLang('com_virtuemart_config');
+				vmdebug('checkSafePath $safePath not writeable '.$safePath);
+				VmError(vmText::sprintf('COM_VIRTUEMART_WARN_SAFE_PATH_INV_NOT_WRITEABLE',vmText::_('COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH'),$safePath)
+				,vmText::sprintf('COM_VIRTUEMART_WARN_SAFE_PATH_INV_NOT_WRITEABLE','',''));
+				$safePath = false;
+			}
+
+		}
+
+		return $safePath;
+	}
+
+	/**
+	 * checks for the base safe path and invoice path
+	 * @deprecated use getSafePathFor or checkSafePathBase instead
+	 * @param int $sPath
+	 * @return bool|int|null|Value
+	 */
 	static function checkSafePath($sPath=0){
 		static $safePath = null;
 		if(isset($safePath)) {
@@ -1119,7 +1296,17 @@ jQuery(".changeSendForm")
 				VmError(vmText::sprintf('COM_VIRTUEMART_WARN_SAFE_PATH_INV_NOT_WRITEABLE',vmText::_('COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH'),$safePath)
 				,vmText::sprintf('COM_VIRTUEMART_WARN_SAFE_PATH_INV_NOT_WRITEABLE','',''));
 			} else {
-				if(!is_writable(self::getInvoicePath($safePath) )){
+				$invPath = self::getInvoicePath($safePath);
+				if(!JFolder::exists($invPath)){
+					$created = JFolder::create($invPath);
+					if($created){
+						vmInfo('COM_VIRTUEMART_SAFE_PATH_INVOICE_CREATED');
+					} else {
+						VmWarn('COM_VIRTUEMART_WARN_SAFE_PATH_NO_INVOICE',vmText::_('COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH'));
+					}
+				}
+
+				if(JFolder::exists($invPath) and !is_writable($invPath)){
 					vmLanguage::loadJLang('com_virtuemart');
 					vmLanguage::loadJLang('com_virtuemart_config');
 					vmdebug('checkSafePath $safePath/invoice not writeable '.addslashes($safePath));
@@ -1132,6 +1319,7 @@ jQuery(".changeSendForm")
 
 		return $safePath;
 	}
+
 	/*
 	 * get The invoice Folder Name
 	 * @return the invoice folder name

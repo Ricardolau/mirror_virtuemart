@@ -298,14 +298,19 @@ class vmCrypt {
 
 	public static function getEncryptSafepath () {
 
-		$safePath = ShopFunctions::checkSafePath();
-		if (empty($safePath)) {
-			return NULL;
+		$encryptSafePath = ShopFunctions::getSafePathFor(1, self::ENCRYPT_SAFEPATH);
+		if (empty($encryptSafePath)) {
+			$uri = JFactory::getURI ();
+			$link = $uri->root () . 'administrator/index.php?option=com_virtuemart&view=config';
+			VmError (vmText::sprintf ('COM_VIRTUEMART_CANNOT_STORE_CONFIG', VmConfig::get('forSale_path',0).self::ENCRYPT_SAFEPATH, '<a href="' . $link . '">' . $link . '</a>', vmText::_ ('COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH')));
+			return FALSE;
+		} else {
+			return $encryptSafePath;
 		}
-		$encryptSafePath = $safePath . self::ENCRYPT_SAFEPATH;
+		/*$encryptSafePath = $safePath . self::ENCRYPT_SAFEPATH;
 		self::createEncryptFolder($encryptSafePath);
 
-		return $encryptSafePath;
+		return $encryptSafePath;*/
 	}
 
 	public static function createEncryptFolder ($folderName) {

@@ -304,7 +304,7 @@ class VirtuemartViewOrders extends VmViewAdmin {
 			$bar->appendButton( 'Link', 'back', 'COM_VIRTUEMART_LEAVE', 'index.php?option=com_virtuemart&manage=0' );
 		}
 
-		shopFunctions::checkSafePath();
+		shopFunctions::checkSafePathBase();
 
 		parent::display($tpl);
 	}

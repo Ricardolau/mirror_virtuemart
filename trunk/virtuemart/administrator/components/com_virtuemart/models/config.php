@@ -463,18 +463,6 @@ class VirtueMartModelConfig extends VmModel {
 
 		$safePath = shopFunctions::checkSafePath($safePath);
 
-		if(!empty($safePath)){
-
-			$exists = JFolder::exists($safePath.'invoices');
-			if(!$exists){
-				$created = JFolder::create($safePath.'invoices');
-				if($created){
-					vmInfo('COM_VIRTUEMART_SAFE_PATH_INVOICE_CREATED');
-				} else {
-					VmWarn('COM_VIRTUEMART_WARN_SAFE_PATH_NO_INVOICE',vmText::_('COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH'));
-				}
-			}
-		}
 
 		if(empty($data['vmDefLang'])){
 			$defl = VmConfig::$jDefLangTag;

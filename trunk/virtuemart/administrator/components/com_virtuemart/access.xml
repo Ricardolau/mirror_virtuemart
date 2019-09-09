@@ -75,6 +75,7 @@
 		<action name="vm.media.edit" title="COM_VM_MEDIA_EDIT" description="COM_VM_MEDIA_EDIT_TIP" />
 		<action name="vm.media.create" title="COM_VM_MEDIA_CREATE" description="COM_VM_MEDIA_CREATE_TIP" />
 		<action name="vm.media.delete" title="COM_VM_MEDIA_DELETE" description="COM_VM_MEDIA_DELETE_TIP" />
+		<action name="vm.media.remote" title="COM_VM_MEDIA_REMOTE" description="COM_VM_MEDIA_REMOTE_TIP" />
 		<action name="vm.media.potdang" title="COM_VIRTUEMART_MEDIA_POTENTIAL_DANGEROUS" description="COM_VIRTUEMART_MEDIA_POTENTIAL_DANGEROUS_TIP" />
 		<action name="vm.media.trusteduploader" title="COM_VM_MEDIA_POTENTIAL_TRUSTED_UPLOADER" description="COM_VM_MEDIA_POTENTIAL_TRUSTED_UPLOADER_TIP" />
 	</section>

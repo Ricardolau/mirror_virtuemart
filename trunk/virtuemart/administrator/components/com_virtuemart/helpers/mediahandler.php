@@ -635,7 +635,7 @@ class VmMediaHandler {
 		$root='';
 
 		if( substr( $this->file_url, 0, 2) == "//" ) {
-			$root = '';
+			$root = JURI::root(true).'/';;
 		} else if($absUrl){
 			$root = JURI::root(false);
 		} else {

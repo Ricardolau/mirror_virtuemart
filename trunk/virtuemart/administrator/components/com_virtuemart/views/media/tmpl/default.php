@@ -76,10 +76,14 @@ $productfileslist = $this->files;
 
 			if($productfile->file_is_forSale){
 				$fullSizeFilenamePath = $productfile->file_url_folder.$productfile->file_name.'.'.$productfile->file_extension;
+				$fullSizeFilenamePath = vRequest::filterPath($fullSizeFilenamePath);
+			} else if(strpos($productfile->file_url,'//')===0){
+				$fullSizeFilenamePath = $productfile->file_url;
 			} else {
 				$fullSizeFilenamePath = VMPATH_ROOT.DS.$productfile->file_url_folder.$productfile->file_name.'.'.$productfile->file_extension;
+				$fullSizeFilenamePath = vRequest::filterPath($fullSizeFilenamePath);
 			}
-			$fullSizeFilenamePath = vRequest::filterPath($fullSizeFilenamePath);
+
 
 			$checked = JHtml::_('grid.id', $i , $productfile->virtuemart_media_id,null,'virtuemart_media_id');
 			if (!is_null($productfile->virtuemart_media_id)) 	$published = $this->gridPublished( $productfile, $i );
@@ -112,7 +116,7 @@ $productfileslist = $this->files;
 				<?php
 
 
-					if(file_exists($fullSizeFilenamePath)){
+					if(file_exists($fullSizeFilenamePath) or strpos($fullSizeFilenamePath,'//')===0){
 						echo $productfile->displayMediaThumb();
 					} else {
 						$file_url = $productfile->theme_url.'assets/images/vmgeneral/'.VmConfig::get('no_image_found');

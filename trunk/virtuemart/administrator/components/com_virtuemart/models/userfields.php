@@ -1140,7 +1140,7 @@ class VirtueMartModelUserfields extends VmModel {
 										array_unshift($_values,$obj);
 									}
 
-									$_return['fields'][$_fld->name]['formcode'] = JHTML::_('select.genericlist', $_values, $_prefix.$_fld->name, $_attribs, 'fieldvalue', 'fieldtitle', $_selected);
+									$_return['fields'][$_fld->name]['formcode'] = JHTML::_('select.genericlist', $_values, $_prefix.$_fld->name.'_field', $_attribs, 'fieldvalue', 'fieldtitle', $_selected);
 									if ( !empty($_selected)){
 										foreach ($_values as $_val) {
 											if ( $_val->fieldvalue==$_selected ) {
@@ -1153,7 +1153,7 @@ class VirtueMartModelUserfields extends VmModel {
 									break;
 
 								case 'radio':
-									$_return['fields'][$_fld->name]['formcode'] =  JHtml::_('select.radiolist', $_values, $_prefix.$_fld->name, $_attribs, 'fieldvalue', 'fieldtitle', $_selected);
+									$_return['fields'][$_fld->name]['formcode'] =  JHtml::_('select.radiolist', $_values, $_prefix.$_fld->name.'_field', $_attribs, 'fieldvalue', 'fieldtitle', $_selected);
 									if ( !empty($_selected)){
 										foreach ($_values as $_val) {
 											if (  $_val->fieldvalue==$_selected) {

@@ -168,6 +168,8 @@ class VirtueMartModelCustomfields extends VmModel {
 			$productCustoms = $productCustomsCached;
 		}
 
+		$isSite = $app->isSite();
+
 		if($productCustoms){
 
 			$customfield_ids = array();
@@ -188,7 +190,7 @@ class VirtueMartModelCustomfields extends VmModel {
 
 			foreach ($productCustoms as $k =>$field) {
 
-				if(!empty($field->virtuemart_shoppergroup_id)){
+				if($isSite and !empty($field->virtuemart_shoppergroup_id)){
 
 					if(!is_array($field->virtuemart_shoppergroup_id))$field->virtuemart_shoppergroup_id = explode(',', $field->virtuemart_shoppergroup_id);
 					$diff = array_intersect($virtuemart_shoppergroup_id, $field->virtuemart_shoppergroup_id);

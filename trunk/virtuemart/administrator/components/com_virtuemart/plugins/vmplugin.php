@@ -429,7 +429,7 @@ abstract class vmPlugin extends JPlugin {
 				$updater = new GenericTableUpdater();
 				$updater->updateMyVmTables($update);
 			} else {
-				$query = $this->createTableSQL($name,$tablesFields);
+				$query = $this->createTableSQL($this->_name,$tablesFields);
 				if(empty($query)){
 					return false;
 				} else {

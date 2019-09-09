@@ -220,11 +220,9 @@ class VirtueMartViewProductdetails extends VmView {
 				if($this->cat_productdetails){
 					$category_model->addImages($category->children, 1);
 				}
-
 				$this->assignRef('category', $category);
 
-				//Seems we dont need this anylonger, destroyed the breadcrumb
-				if ($category->parents) {
+				if ($category->parents and !empty($menu->query['view']) and $menu->query['view']!='productdetails') {
 					foreach ($category->parents as $c) {
 						if(is_object($c) and !empty($c->category_name) and !empty($c->published)){
 							$pathway->addItem(strip_tags(vmText::_($c->category_name)), JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id=' . $c->virtuemart_category_id, FALSE));
@@ -237,7 +235,12 @@ class VirtueMartViewProductdetails extends VmView {
 
 			}
 
-			$pathway->addItem(strip_tags(html_entity_decode($product->product_name,ENT_QUOTES)));
+			$addPrdNameCrumb = true;
+
+			if(!empty($menu->query['view']) and $menu->query['view']=='productdetails' and $menu->title == $product->product_name) {
+				$addPrdNameCrumb = false;
+			}
+			if($addPrdNameCrumb)$pathway->addItem(strip_tags(html_entity_decode($product->product_name,ENT_QUOTES)));
 
 			if (!empty($tpl)) {
 				$format = $tpl;

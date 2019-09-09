@@ -166,8 +166,8 @@ class VirtueMartCart {
 					self::$_cart->virtuemart_cart_id			= $sessionCart->virtuemart_cart_id;
 					self::$_cart->orderdoneHtml					= $sessionCart->orderdoneHtml;
 					self::$_cart->virtuemart_order_id			= $sessionCart->virtuemart_order_id;
-					self::$_cart->byDefaultBT					= $sessionCart->byDefaultBT;
-					self::$_cart->byDefaultST					= $sessionCart->byDefaultST;
+					self::$_cart->byDefaultBT					= isset($sessionCart->byDefaultBT)? $sessionCart->byDefaultBT: array();
+					self::$_cart->byDefaultST					= isset($sessionCart->byDefaultST)? $sessionCart->byDefaultST: array();
 					self::$_cart->cartLoaded					= isset($sessionCart->cartLoaded)? $sessionCart->cartLoaded: array();
 				}
 			}

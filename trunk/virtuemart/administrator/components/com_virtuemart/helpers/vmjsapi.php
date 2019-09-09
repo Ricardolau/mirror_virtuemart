@@ -481,6 +481,7 @@ jQuery(document).ready(function() { // GALT: Start listening for dynamic content
 
 		self::vmVariables();
 
+		//I think this should be removed, and replaced by another setting
 		if(!VmConfig::get ('jquery', true)) {
 			return true;
 		}
@@ -740,8 +741,8 @@ Virtuemart.requiredMsg = '" .addslashes (vmText::_ ('COM_VIRTUEMART_MISSING_REQU
 		}
 
 		if (empty($id)) {
-			$id = str_replace(array('[]','[',']'),'.',$name);
-			$id = str_replace('..','.',$id);
+			$id = str_replace(array('[]','[',']','.'),'_',$name);
+			$id = trim(str_replace('__','.',$id),'.');
 		}
 
 		static $jDate;
@@ -768,7 +769,7 @@ Virtuemart.requiredMsg = '" .addslashes (vmText::_ ('COM_VIRTUEMART_MISSING_REQU
 
 
 
-		self::addJScript('datepicker'.$name,'
+		self::addJScript('datepicker'.$id,'
 		jQuery(document).ready( function($) {
 			$(document).on( "focus","#'.$id.'_text", function() {
 				$( this ).datepicker({

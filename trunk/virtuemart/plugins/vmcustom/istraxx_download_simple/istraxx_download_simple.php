@@ -7,7 +7,7 @@ defined ('_JEXEC') or     die('Direct Access to ' . basename (__FILE__) . ' is n
  * @package VirtueMart
  * @subpackage Plugins -${PHING.GROUP} - ${PHING.FILENAME} - ${PHING.VERSION}
  * @author ${PHING.AUTHOR.MAX}
- * @copyright Copyright (C) 2012 - 2018 iStraxx UG (haftungsbeschr�nkt). All rights reserved.
+ * @copyright Copyright (C) 2012 - 2019 iStraxx UG (haftungsbeschr�nkt). All rights reserved.
  * @license LGPLv3
  */
 
@@ -61,14 +61,20 @@ class plgVmCustomIstraxx_download_simple extends vmCustomPlugin {
 
 	function plgVmOnStoreInstallPluginTable ($plgType, $data, $table) {
 
+		if($plgType!=$this->_psType){
+			return false;
+		}
+		if(!empty($data['custom_element']) and $data['custom_element']!=$this->_name){
+			return false;
+		}
 		$this->onStoreInstallPluginTable ($plgType, $data['custom_element']);
 
 		if(is_object($table) and empty($table->is_cart_attribute) or $table->is_input=='0'){
-			//$table->is_input = 0;
+			$table->is_input = 0;
 			$table->is_cart_attribute = 1;
 			$table->store();
 		}
-		vmdebug('MUuuuuuhhhuuh sooollllte DAAA sein');
+
 	}
 
 	function plgVmDeclarePluginParamsCustomVM3(&$data){

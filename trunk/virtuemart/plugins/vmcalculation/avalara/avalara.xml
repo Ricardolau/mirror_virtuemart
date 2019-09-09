@@ -4,7 +4,7 @@
     <creationDate>${PHING.VM.RELDATE}</creationDate>
     <author>Max Milbers</author>
     <authorUrl>${PHING.VM.MAINTAINERURL}</authorUrl>
-    <copyright>Copyright (C) 2013 iStraxx UG (haftungsbeschränkt). All rights reserved</copyright>
+    <copyright>Copyright (C) 2013 - 2019 iStraxx UG (haftungsbeschränkt). All rights reserved</copyright>
     <license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
     <version>${PHING.VM.RELEASE}</version>
     <description>VM - Calculation Avalara Tax; On demand tax calculation for whole U.S.A.</description>

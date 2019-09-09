@@ -8,7 +8,7 @@ defined('_JEXEC') or 	die( 'Direct Access to ' . basename( __FILE__ ) . ' is not
  * @subpackage payment
  * @author Max Milbers
  * @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
- * @copyirght Copyright (C) 2011 - 2014 The VirtueMart Team and authors
+ * @copyirght Copyright (C) 2011 - 2019 The VirtueMart Team and authors
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -134,20 +134,26 @@ class plgVmCustomTextinput extends vmCustomPlugin {
 	 *
 	 * @author Max Milbers
 	 */
-	public function plgVmOnStoreInstallPluginTable($psType,$data,$table) {
+	public function plgVmOnStoreInstallPluginTable($plgType,$data,$table) {
 
-		if($psType!=$this->_psType) return false;
-		if(empty($table->custom_element) or $table->custom_element!=$this->_name ){
+		if($plgType!=$this->_psType){
 			return false;
 		}
+		if(!empty($data['custom_element']) and $data['custom_element']!=$this->_name){
+			return false;
+		}
+
+		$this->onStoreInstallPluginTable ($plgType, $data['custom_element']);
+
 		if(empty($table->is_input)){
 			vmInfo('COM_VIRTUEMART_CUSTOM_IS_CART_INPUT_SET');
 			$table->is_input = 1;
 			$table->store();
 		}
+
 		//Should the textinput use an own internal variable or store it in the params?
 		//Here is no getVmPluginCreateTableSQL defined
- 		//return $this->onStoreInstallPluginTable($psType);
+ 		//return $this->onStoreInstallPluginTable($psType,$data,$table);
 	}
 
 	/**

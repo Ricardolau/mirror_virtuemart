@@ -7,7 +7,7 @@
  * @version $Id$
  * @package VirtueMart
  * @subpackage payment
- * ${PHING.VM.COPYRIGHT}
+ * Copyright (C) 2004 - 2015 Virtuemart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -35,8 +35,7 @@ class JFormFieldGetRealex extends JFormField {
 		vmJsApi::css( 'admin','plugins/vmpayment/realex_hpp_api/realex_hpp_api/assets/css/');
 
 		$url = "http://www.realexpayments.com/partner-referral?id=virtuemart";
-		$logo = '<img src="http://www.realexpayments.com/images/logo_realex_large.png" width="150"/>';
-		$html = '<p><a target="_blank" href="' . $url . '"  >' . $logo . '</a></p>';
+		$html = '';
 		$html .= '<p><a target="_blank" href="' . $url . '" class="signin-button-link">' . vmText::_('VMPAYMENT_REALEX_HPP_API_REGISTER') . '</a>';
 		$html .= ' <a target="_blank" href="http://docs.virtuemart.net/manual/shop-menu/payment-methods/realex-hpp-and-api.html" class="signin-button-link">' . vmText::_('VMPAYMENT_REALEX_HPP_API_DOCUMENTATION') . '</a></p>';
 

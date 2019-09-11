@@ -9,7 +9,7 @@ defined('_JEXEC') or die('Restricted access');
  * @version $Id$
  * @package VirtueMart
  * @subpackage payment
- * ${PHING.VM.COPYRIGHT}
+ * Copyright (C) 2004 - 2015 Virtuemart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or

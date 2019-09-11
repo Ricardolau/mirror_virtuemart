@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension version="2.5" type="plugin" group="vmpayment" method="upgrade">
-    <description>Realex HPP and API</description>
+    <description>Global Payments HPP and API</description>
     <name>realex_hpp_api</name>
     <creationDate>${PHING.VM.RELDATE}</creationDate>
     <author>The VirtueMart Development Team</author>
     <authorUrl>${PHING.VM.MAINTAINERURL}</authorUrl>
-    <copyright>${PHING.VM.COPYRIGHT}</copyright>
+    <copyright>Copyright (C) 2004 - 2019 Virtuemart Team. All rights reserved.</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <version>${PHING.VM.RELEASE}</version>
     <description><![CDATA[<a href="http://realex.com" target="_blank">realex</a> is a popular
@@ -234,7 +234,7 @@
     </vmconfig>
     <updateservers>
         <!-- Note: No spaces or linebreaks allowed between the server tags -->
-        <server type="extension" name="VirtueMart plg_vmpayment_realex_hpp_api Update Site"><![CDATA[http://virtuemart.net/releases/${PHING.VM.UPDATEFOLDER}/plg_vmpayment_realex_hpp_api_update.xml]]></server>
+        <server type="extension" name="VirtueMart plg_vmpayment_realex_hpp_api Update Site"><![CDATA[http://virtuemart.net/releases/vm3/plg_vmpayment_realex_hpp_api_update.xml]]></server>
     </updateservers>
 
 </extension>

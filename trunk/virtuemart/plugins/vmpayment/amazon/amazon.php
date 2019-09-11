@@ -59,6 +59,7 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 		$this->_tablepkey = 'id';
 		$this->_tableId = 'id';
 		$varsToPush = $this->getVarsToPush();
+		$this->addVarsToPushCore($varsToPush, 1);
 		$this->setConfigParameterable($this->_configTableFieldName, $varsToPush);
 
 		$this->setCryptedFields(array('accessKey', 'secretKey'));
@@ -287,7 +288,9 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 		//$this->debugLog( $cart_prices['salesPrice'], 'checkConditions','debug');
 		if(!class_exists('vmAmazonConditions')) require VMPATH_PLUGINS .'/vmpayment/amazon/helper/conditions.php';
 		$vmCond = new vmAmazonConditions();
-		return $vmCond->checkConditions($cart, $method, $cart_prices);
+		if( $vmCond->checkConditions($cart, $method, $cart_prices) ) {
+			return parent::checkConditions($cart, $method, $cart_prices);
+		} else return false;
 	}
 
 	/**

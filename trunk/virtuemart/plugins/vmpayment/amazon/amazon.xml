@@ -19,7 +19,7 @@
         <fields addpath="/administrator/components/com_virtuemart/fields"/>
         <fields name="params">
             <fieldset name="amazon" addfieldpath="/plugins/vmpayment/amazon/fields">
-
+                <field name="checkConditionsCore" value="1" default="1" type="hidden"/>
                 <field type="getamazon" default=""/>
                 <field class="level1" type="vmtitle" default="VMPAYMENT_AMAZON_CONF_ACCOUNT_PARAMS"/>
 

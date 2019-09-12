@@ -1094,6 +1094,9 @@ jQuery(".changeSendForm")
 		if(!isset($safePath)) {
 			$safePath = self::checkSafePathBase();
 		}
+		if(empty($safePath)){
+			return 0;
+		}
 
 		if($for=='regcache'){
 			$path = $safePath.$for;
@@ -1107,10 +1110,6 @@ jQuery(".changeSendForm")
 
 		if(isset($safePats[$vendorId][$for])) {
 			return $safePaths[$vendorId][$for];
-		}
-
-		if(!$safePath){
-			return false;
 		}
 
 		if ($for=='invoice') {
@@ -1152,11 +1151,25 @@ jQuery(".changeSendForm")
 
 		$safePaths[$vendorId][$for] = self::checkPath($path, $for);
 
+		/*if(empty($safePaths[$vendorId][$for])){
+
+			$uri = JFactory::getURI ();
+			vmLanguage::loadJLang('com_virtuemart_config');
+			$configlink = $uri->root() . 'administrator/index.php?option=com_virtuemart&view=updatesmigration&show_spwizard=1';
+
+			$t = vmText::sprintf('COM_VM_SAFEPATH_WARN_EMPTY', vmText::_('COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH'), vmText::sprintf('COM_VM_SAFEPATH_WIZARD',$configlink));
+			VmError($t);
+
+		}*/
+
+
 		return $safePaths[$vendorId][$for];
 
 	}
 
 	static function checkPath($path, $for){
+
+		if(empty($path)) return false;
 
 		if(!JFolder::exists( $path )){
 			$created = JFolder::create( $path, 0755);
@@ -1175,8 +1188,8 @@ jQuery(".changeSendForm")
 		}
 
 		if (!is_writeable($path)){
-			vmLanguage::loadJLang('com_virtuemart');
-			vmLanguage::loadJLang('com_virtuemart_config');
+
+
 			if($for=='invoice'){
 				VmError(vmText::sprintf('COM_VIRTUEMART_WARN_SAFE_PATH_INV_NOT_WRITEABLE',vmText::_('COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH'),$path)
 				,vmText::sprintf('COM_VIRTUEMART_WARN_SAFE_PATH_INV_NOT_WRITEABLE','',''));
@@ -1184,6 +1197,10 @@ jQuery(".changeSendForm")
 				vmAdminInfo('COM_VM_PATH_UNWRITEABLE', $path, $for);
 			}
 
+			vmLanguage::loadJLang('com_virtuemart_config');
+			$uri = JFactory::getURI ();
+			$configlink = $uri->root() . 'administrator/index.php?option=com_virtuemart&view=updatesmigration&show_spwizard=1';
+			$t = vmText::sprintf('COM_VM_SAFEPATH_WARN_WRONG', vmText::_('COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH'), vmText::sprintf('COM_VM_SAFEPATH_WIZARD',$configlink));
 			return false;
 		} else {
 			return $path;
@@ -1206,6 +1223,8 @@ jQuery(".changeSendForm")
 		if(VmConfig::$installed==false or vRequest::getInt('nosafepathcheck',false) or vRequest::getWord('view')== 'updatesmigration') {
 			return 0;
 		}
+
+		$safePath = JPath::clean($safePath);
 
 		$warn = false;
 		$uri = JFactory::getURI();

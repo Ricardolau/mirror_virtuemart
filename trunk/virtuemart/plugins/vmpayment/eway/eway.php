@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Direct Access to ' . basename(__FILE__) . 'is not allo
  * @subpackage Payment
  * @author Valérie Isaksen
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - ${PHING.VM.RELDATE} VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2018 - 2019 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -1119,61 +1119,6 @@ jQuery().ready(function($) {
 			$pluginName .= ' <span style="color:red;font-weight:bold">Sandbox (' . $method->virtuemart_paymentmethod_id . ')</span>';
 		}
 		return $pluginName;
-	}
-
-	/**
-	 * Check if the payment conditions are fulfilled for this payment method
-	 *
-	 * @author: Valerie Isaksen
-	 *
-	 * @param $cart_prices : cart prices
-	 * @param $payment
-	 * @return true: if the conditions are fulfilled, false otherwise
-	 *
-	 */
-	protected function checkConditions($cart, $method, $cart_prices) {
-
-		return parent::checkConditions($cart, $method, $cart_prices);
-
-		/*		$this->convert_condition_amount($method);
-				$amount = $this->getCartAmount($cart_prices);
-				$address = (($cart->ST == 0) ? $cart->BT : $cart->ST);
-
-				if ($this->_toConvert) {
-					$this->convertToVendorCurrency($method);
-				}
-
-
-				//vmdebug(__CLASS__.' checkConditions',  $amount, $cart_prices['salesPrice'],  $cart_prices['salesPriceCoupon']);
-				$amount_cond = ($amount >= $method->min_amount AND $amount <= $method->max_amount
-					OR
-					($method->min_amount <= $amount AND ($method->max_amount == 0)));
-				if (!$amount_cond) {
-					return FALSE;
-				}
-				$countries = array();
-				if (!empty($method->countries)) {
-					if (!is_array($method->countries)) {
-						$countries[0] = $method->countries;
-					} else {
-						$countries = $method->countries;
-					}
-				}
-
-				// probably did not gave his BT:ST address
-				if (!is_array($address)) {
-					$address = array();
-					$address['virtuemart_country_id'] = 0;
-				}
-
-				if (!isset($address['virtuemart_country_id'])) {
-					$address['virtuemart_country_id'] = 0;
-				}
-				if (count($countries) == 0 || in_array($address['virtuemart_country_id'], $countries)) {
-					return TRUE;
-				}
-
-				return FALSE;*/
 	}
 
 

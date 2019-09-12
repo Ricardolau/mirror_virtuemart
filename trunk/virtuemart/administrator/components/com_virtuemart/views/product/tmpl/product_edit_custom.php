@@ -73,7 +73,7 @@ defined('_JEXEC') or die('Restricted access');
 						// R: related categories
 						$tables['categories'] .=  '
 							<div class="vm_thumb_image">
-							    '.$text.'
+								'.$text.'
 								<span class="vmicon vmicon-16-move"></span>
 								<div class="vmicon vmicon-16-remove 4remove"></div>
 								<span>'.$customfield->display.'</span>
@@ -84,7 +84,7 @@ defined('_JEXEC') or die('Restricted access');
 					// R: related products
 						$tables['products'] .=  '
 							<div class="vm_thumb_image">
-							    '.$text.'
+								'.$text.'
 								<span class="vmicon vmicon-16-move"></span>
 								<div class="vmicon vmicon-16-remove 4remove"></div>
 								<span>'.$customfield->display.'</span>
@@ -94,7 +94,7 @@ defined('_JEXEC') or die('Restricted access');
 					} else {
 
 						$checkValue = $customfield->virtuemart_customfield_id;
-						$title = '';
+
 						//$text = '';
 						if(isset($this->fieldTypes[$customfield->field_type])){
 							$type = $this->fieldTypes[$customfield->field_type];
@@ -108,7 +108,7 @@ defined('_JEXEC') or die('Restricted access');
 						}
 
 						if(!empty($title)){
-							$text = '<span style="white-space: nowrap;" class="hasTip" title="'.htmlentities(vmText::_('COM_VIRTUEMART_DIS_DER_CUSTOMFLD_OVERR_DER_TIP')).'">o:'.VmHtml::checkbox('field['.$i.'][override]',$customfield->override,$checkValue).'</span>';
+							$text .= '<span style="white-space: nowrap;" class="hasTip" title="'.htmlentities(vmText::_('COM_VIRTUEMART_DIS_DER_CUSTOMFLD_OVERR_DER_TIP')).'">o:'.VmHtml::checkbox('field['.$i.'][override]',$customfield->override,$checkValue).'</span>';
 						}
 
 						$tables['fields'] .= '<tr class="removable">

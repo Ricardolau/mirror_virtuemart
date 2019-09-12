@@ -302,7 +302,10 @@ class VirtueMartModelVendor extends VmModel {
 
 	static $_vendorCurrencies = array();
 	static function getVendorCurrency ($_vendorId) {
-
+		if(empty($_vendorId)){
+			vmTrace('getVendorCurrency vendor Id empty');
+			$_vendorId = 1;
+		}
 		if(!isset(self::$_vendorCurrencies[$_vendorId])){
 			$db = JFactory::getDBO ();
 			if(VmConfig::get('anyInShopCurrency',true)){

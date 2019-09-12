@@ -462,18 +462,18 @@ class VirtueMartCart {
 			}
 
 			$addresstype = $type.'address'; //for example BTaddress
-			if($update or empty($this->$addresstype)){
+			if($update or empty($this->{$addresstype})){
 
 				$userFields = $userFieldsModel->getUserFieldsFor('cart',$type);
-				$this->$addresstype = $userFieldsModel->getUserFieldsFilled(
+				$this->{$addresstype} = $userFieldsModel->getUserFieldsFilled(
 				$userFields
-				,$this->$type
+				,$this->{$type}
 				,$preFix
 				);
 
-				$this->bindUserfieldToCart($type, $this->$addresstype['fields']);
+				$this->bindUserfieldToCart($type, $this->{$addresstype}['fields']);
 
-				vmdebug('prepareAddressFieldsInCart '.$addresstype,$this->$type);
+				vmdebug('prepareAddressFieldsInCart '.$addresstype,$this->{$type});
 			}
 		}
 

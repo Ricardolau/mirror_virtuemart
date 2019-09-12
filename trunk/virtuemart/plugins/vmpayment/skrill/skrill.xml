@@ -20,6 +20,7 @@
     <vmconfig>
         <fields name="params">
             <fieldset name="basic" addfieldpath="/administrator/components/com_virtuemart/fields">
+                <field name="checkConditionsCore" value="1" default="1" type="hidden"/>
                 <field type="vmtitle" default="VMPAYMENT_SKRILL_ACCOUNT_PARAMS"/>
 
                 <field type="list" name="product" label="VMPAYMENT_SKRILL_PRODUCT"

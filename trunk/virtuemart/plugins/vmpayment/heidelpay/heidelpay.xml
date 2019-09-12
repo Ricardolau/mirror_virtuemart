@@ -19,7 +19,7 @@
         <fields name="params">
 
             <fieldset name="heidelpay" addfieldpath="/plugins/vmpayment/heidelpay/heidelpay/fields">
-
+                <field name="checkConditionsCore" value="1" default="1" type="hidden"/>
                 <field type="spacer" default="VMPAYMENT_HEIDELPAY_PAYMENT"/>
                 <field type="spacer" default=""/>
                 <field type="getheidelpay" level="level1"/>

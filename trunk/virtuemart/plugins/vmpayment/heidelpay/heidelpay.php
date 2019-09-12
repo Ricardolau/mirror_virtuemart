@@ -9,7 +9,7 @@ defined ('_JEXEC') or die();
  * @version 17.08.08
  * @package VirtueMart
  * @subpackage payment
- * @copyright Copyright (C) Heidelberger Payment GmbH
+ * @copyright Copyright (C) Heidelberger Payment GmbH 2014- 2018, The VirtueMart Team 2019
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  */
 if (!class_exists ('vmPSPlugin')) {
@@ -32,6 +32,7 @@ class plgVmPaymentHeidelpay extends vmPSPlugin {
 		$this->secret = strtoupper (sha1 (mt_rand (10000, mt_getrandmax ())));
 
 		$varsToPush = $this->getVarsToPush ();
+		$this->addVarsToPushCore($varsToPush, 1);
 		$this->setConfigParameterable ($this->_configTableFieldName, $varsToPush);
 
 	}
@@ -652,38 +653,6 @@ class plgVmPaymentHeidelpay extends vmPSPlugin {
 		} else {
 			return (utf8_encode (utf8_decode ($string)) == $string);
 		}
-	}
-
-	protected function checkConditions ($cart, $method, $cart_prices) {
-		$address = (($cart->ST == 0) ? $cart->BT : $cart->ST);
-
-		$amount = $cart_prices['salesPrice'];
-		$amount_cond = ($amount >= $method->min_amount AND $amount <= $method->max_amount
-			OR
-			($method->min_amount <= $amount AND ($method->max_amount == 0)));
-
-		$countries = array();
-		if (!empty($method->countries)) {
-			if (!is_array ($method->countries)) {
-				$countries[0] = $method->countries;
-			} else {
-				$countries = $method->countries;
-			}
-		}
-		// probably did not gave his BT:ST address
-		if (!is_array ($address)) {
-			$address = array();
-			$address['virtuemart_country_id'] = 0;
-		}
-		if (!isset($address['virtuemart_country_id'])) {
-			$address['virtuemart_country_id'] = 0;
-		}
-		if (in_array ($address['virtuemart_country_id'], $countries) || count ($countries) == 0) {
-			if ($amount_cond) {
-				return TRUE;
-			}
-		}
-		return FALSE;
 	}
 
 	function createSecretHash ($orderID, $secret) {

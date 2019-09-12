@@ -134,8 +134,7 @@ class AdminUIHelper {
 		$ackey = VmConfig::get('member_access_number','');
 		//$host = JUri::getInstance()->getHost();
 
-		$keyPath = vmCrypt::getEncryptSafepath();
-
+		$keyPath = shopfunctions::getSafePathFor(1,'regcache');
 		if(!empty($keyPath)){
 			$keyPath .= DS.'vmm.ini';
 			if (JFile::exists($keyPath)){

@@ -111,7 +111,7 @@ class VirtuemartControllerVirtuemart extends VmController {
 
 			if(!empty($data->html)){
 
-				$safePath = vmCrypt::getEncryptSafepath();
+				$safePath = shopfunctions::getSafePathFor(1,'regcache');
 				$safePath .= DS.'vmm.ini';
 				$date = JFactory::getDate();
 				$today = $date->toUnix();

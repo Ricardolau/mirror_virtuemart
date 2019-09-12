@@ -453,11 +453,32 @@ class VirtueMartModelConfig extends VmModel {
 				$safePath = $safePath.DS;
 				vmInfo('Corrected safe path, added missing '.DS);
 			}
-			$p =  VMPATH_ROOT.DS;
+			$safePath = JPath::clean($safePath);
+
+			$p =  JPath::clean(VMPATH_ROOT.DS);vmdebug('store config safepath check against root ',$safePath,$p);
 			if(strtolower($safePath) == strtolower($p)){
 				$safePath = '';
-				vmError('Do not use as safepath your virtuemart root folder');
+				vmError('Do not use as safepath your joomla root folder');
 			}
+
+			$p =  JPath::clean(VMPATH_ADMINISTRATOR.DS);
+			if(strtolower($safePath) == strtolower($p)){
+				$safePath = '';
+				vmError('Do not use as safepath your joomla administrator folder');
+			}
+
+			$p =  JPath::clean(VMPATH_ADMIN.DS);
+			if(strtolower($safePath) == strtolower($p)){
+				$safePath = '';
+				vmError('Do not use as safepath your virtuemart component folder in administration');
+			}
+
+			$p =  JPath::clean(VMPATH_SITE.DS);
+			if(strtolower($safePath) == strtolower($p)){
+				$safePath = '';
+				vmError('Do not use as safepath your virtuemart component folder');
+			}
+
 			$config->set('forSale_path',$safePath);
 		}
 

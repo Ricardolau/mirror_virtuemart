@@ -4,7 +4,7 @@
     <creationDate>${PHING.VM.RELDATE}</creationDate>
     <author>The VirtueMart Development Team</author>
     <authorUrl>${PHING.VM.MAINTAINERURL}</authorUrl>
-    <copyright>${PHING.VM.COPYRIGHT}</copyright>
+    <copyright>Copyright (C) 2004 - 2019 Virtuemart Team. All rights reserved.</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <version>${PHING.VM.RELEASE}</version>
     <description>Authorize.net AIM</description>
@@ -17,6 +17,7 @@
     <vmconfig>
         <fields name="params">
             <fieldset name="basic" addfieldpath="/plugins/vmpayment/authorizenet/authorizenet/fields">
+                <field name="checkConditionsCore" value="1" default="1" type="hidden"/>
                 <field type="spacer" default="VMPAYMENT_AUTHORIZENET_AIM" level="level1"/>
                 <field type="spacer" default="VMPAYMENT_AUTHORIZENET_MUST_SSL" level="level1"/>
                 <field type="vmtitle" default="VMPAYMENT_AUTHORIZENET_LIVE_PARAMS" level="level1"/>

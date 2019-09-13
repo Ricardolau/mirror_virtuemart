@@ -1567,7 +1567,7 @@ class VirtueMartModelOrders extends VmModel {
 		$_orderData->virtuemart_order_id = null;
 		$oldOrderNumber = '';
 		if(!empty($_cart->virtuemart_order_id)){
-			$_orderData->virtuemart_order_id = $this->reUsePendingOrder($_cart);
+			$this->deleteOldPendingOrder($_cart);
 			/*if($_orderData->virtuemart_order_id){
 				$order = $this->getOrder($_orderData->virtuemart_order_id);
 				$oldOrderNumber = $order['details']['BT']->order_number;
@@ -1708,7 +1708,11 @@ class VirtueMartModelOrders extends VmModel {
 		return $orderTable->virtuemart_order_id;
 	}
 
-	function reUsePendingOrder($_cart,$customer_number = false){
+	function deleteOldPendingOrder($_cart,$customer_number = false){
+
+		if(VmConfig::get('leavePendingOrders',false)){
+			return false;
+		}
 		$order = false;
 		$db = JFactory::getDbo();
 		$q = 'SELECT * FROM `#__virtuemart_orders` ';
@@ -1718,23 +1722,28 @@ class VirtueMartModelOrders extends VmModel {
 			if(!$order){
 				vmdebug('This should not happen, there is a cart with virtuemart_order_id, but not order stored '.$_cart->virtuemart_order_id);
 			} else {
-				return $order['virtuemart_order_id'];
+				//return $order['virtuemart_order_id'];
 			}
 		}
 
-		if($customer_number and VmConfig::get('reuseorders',true) and !$order){
+		if(!$order and $customer_number ){
+
+			$reUseTimeSql = VmConfig::get('reuseorders','PT1H');
+			if(empty($reUseTimeSql)) return false;
+
 			$jnow = JFactory::getDate();
-			$jnow->sub(new DateInterval('PT1H'));
+			$jnow->sub(new DateInterval($reUseTimeSql));
 			$minushour = $jnow->toSQL();
 			$q .= ' WHERE `customer_number`= "'.$customer_number.'" ';
 			$q .= '	AND `order_status` = "P"
 				AND `created_on` > "'.$minushour.'" ';
 			$db->setQuery($q);
 			$order = $db->loadAssoc();
-			if($order) {
-				$this->remove($order['virtuemart_order_id'],false);
-				return $order['virtuemart_order_id'];
-			}
+		}
+
+		if($order) {
+			$this->remove($order['virtuemart_order_id'],false);
+			return $order['virtuemart_order_id'];
 		}
 
 		return false;
@@ -2516,6 +2525,7 @@ class VirtueMartModelOrders extends VmModel {
 		if($auth and !vmAccess::manager('orders.edit')) {
 			return false;
 		}
+
 		$q ='DELETE from `#__virtuemart_order_items` WHERE `virtuemart_order_id` = ' .(int) $virtuemart_order_id;
 		$db = JFactory::getDBO();
 		$db->setQuery($q);
@@ -2534,6 +2544,11 @@ class VirtueMartModelOrders extends VmModel {
 			vmError($db->getError());
 			$ok = true;
 		}
+
+		$q = "DELETE FROM `#__virtuemart_order_histories`
+			WHERE `virtuemart_order_id`=".(int) $virtuemart_order_id;
+		$this->_db->setQuery($q);
+		$this->_db->execute();
 
 		return $ok;
 	}
@@ -2614,16 +2629,6 @@ class VirtueMartModelOrders extends VmModel {
 
 			$this->removeOrderItems($id, $auth);
 
-			$q = "DELETE FROM `#__virtuemart_order_histories`
-			WHERE `virtuemart_order_id`=".$id;
-			$this->_db->setQuery($q);
-			$this->_db->execute();
-
-			$q = "DELETE FROM `#__virtuemart_order_calc_rules`
-			WHERE `virtuemart_order_id`=".$id;
-			$this->_db->setQuery($q);
-			$this->_db->execute();
-
 			$psTypes = array('shipment','payment');
 			$db = JFactory::getDbo();
 			foreach($psTypes as $_psType){
@@ -2643,8 +2648,7 @@ class VirtueMartModelOrders extends VmModel {
 			}
 
 			// rename invoice number by adding the date, and update the invoice table
-			$this->renameInvoice($id );
-
+			//$this->renameInvoice($id );	//there must be no invoice, (checked above)
 			if (!$table->delete((int)$id)) {
 				$removedOrderMsgs [$order['details']['BT']->order_number] = 'COM_VIRTUEMART_ORDER_PB_WHILE_DELETING';
 			}

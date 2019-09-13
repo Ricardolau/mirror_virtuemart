@@ -497,6 +497,7 @@ class VirtueMartCart {
 				$carts->load($currentUser->id,0,' ORDER BY `modified_on` DESC');
 			}
 
+			$carts->virtuemart_order_id=false;
 			$cartData = $carts->loadFieldValues();
 
 			unset($cartData['_inCheckOut']);

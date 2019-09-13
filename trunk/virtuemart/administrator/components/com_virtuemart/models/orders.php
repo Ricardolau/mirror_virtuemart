@@ -1568,10 +1568,10 @@ class VirtueMartModelOrders extends VmModel {
 		$oldOrderNumber = '';
 		if(!empty($_cart->virtuemart_order_id)){
 			$_orderData->virtuemart_order_id = $this->reUsePendingOrder($_cart);
-			if($_orderData->virtuemart_order_id){
+			/*if($_orderData->virtuemart_order_id){
 				$order = $this->getOrder($_orderData->virtuemart_order_id);
 				$oldOrderNumber = $order['details']['BT']->order_number;
-			}
+			}*/
 		}
 
 		$_orderData->virtuemart_user_id = $_usr->get('id');
@@ -1717,6 +1717,8 @@ class VirtueMartModelOrders extends VmModel {
 			$order = $db->loadAssoc();
 			if(!$order){
 				vmdebug('This should not happen, there is a cart with virtuemart_order_id, but not order stored '.$_cart->virtuemart_order_id);
+			} else {
+				return $order['virtuemart_order_id'];
 			}
 		}
 
@@ -1729,32 +1731,14 @@ class VirtueMartModelOrders extends VmModel {
 				AND `created_on` > "'.$minushour.'" ';
 			$db->setQuery($q);
 			$order = $db->loadAssoc();
-		}
-
-		if($order) {
-			//Dirty hack
-			$this->removeOrderItems( $order['virtuemart_order_id'], false );
-
-			$psTypes = array('shipment','payment');
-			foreach($psTypes as $_psType){
-				if(!empty($order['virtuemart_'.$_psType.'method_id'])){
-					$q = 'SELECT `'.$_psType.'_element` FROM `#__virtuemart_'.$_psType.'methods` ';
-					$q .= 'WHERE `virtuemart_'.$_psType.'method_id` = "'.(int)$order['virtuemart_'.$_psType.'method_id'].'" ';
-					$db->setQuery($q);
-					$plg_name = $db->loadResult();
-					if(empty($plg_name)) continue;
-					$_tablename = '#__virtuemart_' . $_psType . '_plg_' . $plg_name;
-
-					$q = 'DELETE FROM '.$_tablename.' WHERE virtuemart_order_id="'.$order['virtuemart_order_id'].'"';
-					$db->setQuery($q);
-					$db->execute();
-				}
+			if($order) {
+				$this->remove($order['virtuemart_order_id'],false);
+				return $order['virtuemart_order_id'];
 			}
-
-			return $order['virtuemart_order_id'];
-		} else {
-			return false;
 		}
+
+		return false;
+
 	}
 
 	private function getVendorCurrencyId($vendorId){
@@ -2561,9 +2545,9 @@ class VirtueMartModelOrders extends VmModel {
 	 * @param string $orderLineId Order line item number
 	 * @return boolean True of remove was successful, false otherwise
 	 */
-	function removeOrderLineItem($orderLineId) {
+	function removeOrderLineItem($orderLineId, $auth = true) {
 
-		if(!vmAccess::manager('orders.edit')) {
+		if($auth and !vmAccess::manager('orders.edit')) {
 			return false;
 		}
 
@@ -2603,9 +2587,9 @@ class VirtueMartModelOrders extends VmModel {
 	 * @author Patrick Kohl
 	 * @return boolean True is the delete was successful, false otherwise.
 	 */
-	public function remove($ids) {
+	public function remove($ids, $auth = true) {
 
-		if(!vmAccess::manager('orders.delete')) {
+		if($auth and !vmAccess::manager('orders.delete')) {
 			return false;
 		}
 
@@ -2624,11 +2608,11 @@ class VirtueMartModelOrders extends VmModel {
 
 			if(!empty($order['items'])){
 				foreach($order['items'] as $it){
-					$this->removeOrderLineItem($it->virtuemart_order_item_id);
+					$this->removeOrderLineItem($it->virtuemart_order_item_id, $auth);
 				}
 			}
 
-			$this->removeOrderItems($id);
+			$this->removeOrderItems($id, $auth);
 
 			$q = "DELETE FROM `#__virtuemart_order_histories`
 			WHERE `virtuemart_order_id`=".$id;
@@ -2639,6 +2623,24 @@ class VirtueMartModelOrders extends VmModel {
 			WHERE `virtuemart_order_id`=".$id;
 			$this->_db->setQuery($q);
 			$this->_db->execute();
+
+			$psTypes = array('shipment','payment');
+			$db = JFactory::getDbo();
+			foreach($psTypes as $_psType){
+				$idM = 'virtuemart_'.$_psType.'method_id';
+				if(!empty($order['details']['BT']->$idM)){
+					$q = 'SELECT `'.$_psType.'_element` FROM `#__virtuemart_'.$_psType.'methods` ';
+					$q .= 'WHERE `virtuemart_'.$_psType.'method_id` = "'.(int)$order['details']['BT']->$idM.'" ';
+					$db->setQuery($q);
+					$plg_name = $db->loadResult();
+					if(empty($plg_name)) continue;
+					$_tablename = '#__virtuemart_' . $_psType . '_plg_' . $plg_name;
+
+					$q = 'DELETE FROM '.$_tablename.' WHERE virtuemart_order_id="'.$id.'"';
+					$db->setQuery($q);
+					$db->execute();
+				}
+			}
 
 			// rename invoice number by adding the date, and update the invoice table
 			$this->renameInvoice($id );

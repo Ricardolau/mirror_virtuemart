@@ -1104,8 +1104,6 @@ jQuery(".changeSendForm")
 		} else if ($for==vmCrypt::ENCRYPT_SAFEPATH) {
 			$path = $safePath.$for;
 			$vendorId = 1;
-		} else {
-			vmTrace('getSafePathFor vendorId is empty '.$vendorId.' and for '.$for);
 		}
 
 		if(isset($safePats[$vendorId][$for])) {

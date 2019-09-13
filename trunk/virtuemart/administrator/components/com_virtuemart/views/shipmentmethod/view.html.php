@@ -51,26 +51,22 @@ class VirtuemartViewShipmentmethod extends VmViewAdmin {
 				$shipment->params = new stdClass();
 				$varsToPush = vmPlugin::getVarsToPushFromForm($shipment->form);
 
-				/*$fdata = $shipment->form->getData()->toArray();
-				if(isset($fdata['params']['checkConditionsCore'])){
-					$this->checkConditionsCore = true;
-					vmdebug('$this->checkConditionsCore = true');
-					vmPSPlugin::addVarsToPushCore($varsToPush,0);
-				}
-
-				VmTable::bindParameterableToSubField($shipment,$varsToPush);
-				$shipment->form->bind($shipment->getProperties());*/
-
 				VmTable::bindParameterableToSubField($shipment,$varsToPush);
 				$shipment->form->bind($shipment->getProperties());
 
 				$fdata = $shipment->form->getData()->toArray();
-				if(isset($fdata['params']['checkConditionsCore'])){
+				if(isset($fdata['checkConditionsCore']) or isset($fdata['params']['checkConditionsCore'])){
 					$this->checkConditionsCore = true;
-					vmPSPlugin::addVarsToPushCore($varsToPush,1);
+					vmPSPlugin::addVarsToPushCore($varsToPush);
 					VmTable::bindParameterableToSubField($shipment,$varsToPush);
+
+					$toRemove = array();
+					vmPSPlugin::addVarsToPushCore($toRemove,1);
+					foreach($toRemove as $name=>$v){
+						$shipment->form->removeField($name,'params');
+					}
 					$shipment->form->bind($shipment->getProperties());
-					//$this->shipmentList = $this->renderShipmentDropdown($shipment->virtuemart_shipmentmethod_ids);
+					$this->shipmentList = $this->renderShipmentDropdown($shipment->virtuemart_shipmentmethod_ids);
 				}
 
 			} else {

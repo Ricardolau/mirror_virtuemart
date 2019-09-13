@@ -72,10 +72,16 @@ class VirtuemartViewPaymentMethod extends VmViewAdmin {
 				$payment->form->bind($payment->getProperties());
 
 				$fdata = $payment->form->getData()->toArray();
-				if(isset($fdata['params']['checkConditionsCore'])){
+				if(isset($fdata['checkConditionsCore']) or isset($fdata['params']['checkConditionsCore'])){
 					$this->checkConditionsCore = true;
-					vmPSPlugin::addVarsToPushCore($varsToPush,1);
+					vmPSPlugin::addVarsToPushCore($varsToPush);
 					VmTable::bindParameterableToSubField($payment,$varsToPush);
+
+					$toRemove = array();
+					vmPSPlugin::addVarsToPushCore($toRemove,1);
+					foreach($toRemove as $name=>$v){
+						$payment->form->removeField($name,'params');
+					}
 					$payment->form->bind($payment->getProperties());
 					$this->shipmentList = $this->renderShipmentDropdown($payment->virtuemart_shipmentmethod_ids);
 				}

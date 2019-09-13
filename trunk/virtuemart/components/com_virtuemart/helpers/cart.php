@@ -1777,11 +1777,11 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 		vmdebug('checkAutomaticSelectedPlug my $method_ids '.$type,$nb,$method_id);
 		$vm_autoSelected_name = 'automaticSelected'.ucfirst($type);
 
+		$this->$vm_autoSelected_name=false;
 		if(empty($method_id) or empty($method_id[0])){
 			if($nb==0){
 				$this->$vm_method_name = 0;
 			}
-			$this->$vm_autoSelected_name=false;
 			return false;
 		}
 
@@ -1793,14 +1793,13 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 
 		if ($nb==1) {
 			$this->$vm_method_name = $method_id[0];
-			$this->$vm_autoSelected_name=true;
+			$this->$vm_autoSelected_name=true;	//This controlls the variable "automaticSelectedPayment" or "automaticSelectedShipment" which meant before vm3.5, that only one method exists
 
 			vmdebug('FOUND automatic SELECTED '.$type.' !!',$this->$vm_method_name);
 		} else {
 			if(!empty($this->$vm_method_name)){
 				if(!in_array($this->$vm_method_name,$method_id)){
 					$this->$vm_method_name = 0;
-					$this->$vm_autoSelected_name=false;
 					vmdebug('SELECTED Method not among selectables '.$type.' !!',$this->$vm_method_name);
 				}
 			}
@@ -1808,18 +1807,14 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 			if(empty($this->$vm_method_name)){
 				if(empty($setAutomatic)){
 					$this->$vm_method_name = $method_id[0];
-					$this->$vm_autoSelected_name=false;
-
 					vmdebug('SELECTED automatic method  '.$type.' !!',$this->$vm_method_name);
 				} else {
 					if($setAutomatic>0){
 						if(in_array($setAutomatic,$method_id)){
 							$this->$vm_method_name = $setAutomatic;
-							$this->$vm_autoSelected_name=false;
 							vmdebug('SELECTED by automatic method  '.$type.' '.$setAutomatic.'!!',$this->$vm_method_name);
 						} else {
 							$this->$vm_method_name = 0;
-							$this->$vm_autoSelected_name=false;
 							vmdebug('SELECTED NOT by automatic method  '.$type.' '.$setAutomatic.'!!',$this->$vm_method_name);
 						}
 					}

@@ -113,7 +113,8 @@ class VirtuemartViewConfig extends VmViewAdmin {
 		$this->orderDirs[] = JHtml::_('select.option', 'ASC' , vmText::_('Ascending')) ;
 		$this->orderDirs[] = JHtml::_('select.option', 'DESC' , vmText::_('Descending')) ;
 
-		shopFunctions::checkSafePathBase();
+		//shopFunctions::checkSafePathBase();
+		shopFunctions::getSafePathFor(1,'invoice');
 		$this -> checkTCPDFinstalled();
 		$this -> checkVmUserVendor();
 		$this -> checkMysqliUsed();

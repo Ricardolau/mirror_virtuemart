@@ -102,7 +102,7 @@ class PaypalHelperPayPalExp extends PaypalHelperPaypal {
 
 		$post_variables['USER'] = $this->api_login_id;
 		$post_variables['PWD'] = $this->api_password;
-		$post_variables['BUTTONSOURCE'] = self::BNCODE;;
+		$post_variables['BUTTONSOURCE'] = self::BNCODE;
 		if ($this->api_signature) {
 			$post_variables['SIGNATURE'] = $this->api_signature;
 		}

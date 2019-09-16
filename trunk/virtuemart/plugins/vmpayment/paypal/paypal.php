@@ -353,8 +353,12 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 				$payerid = $paypalExpInterface->customerData->getVar('payer_id');
 				if (empty($token) and empty($payerid)) {
 					$paypalExpInterface->customerData->clear();
-					$cart->virtuemart_paymentmethod_id = 0;
-					$cart->setCartIntoSession();
+
+					//unset only Paypal
+					if($this->_currentMethod->virtuemart_paymentmethod_id == $cart->virtuemart_paymentmethod_id){
+						$cart->virtuemart_paymentmethod_id = 0;
+						$cart->setCartIntoSession();
+					}
 					return false;
 				}
 				if (!empty($token) and !empty($payerid)) {
@@ -368,7 +372,7 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 	 * @param $cart
 	 * @return null|string
 	 */
-	function getExpressCheckoutHtml( $cartm, $adv = false) {
+	function getExpressCheckoutHtml( $cart, $adv = false) {
 
 		$html = '';
 		foreach ($this->methods as $this->_currentMethod) {

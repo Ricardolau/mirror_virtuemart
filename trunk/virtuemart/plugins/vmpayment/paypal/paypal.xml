@@ -165,7 +165,7 @@
                     <option value="0">COM_VIRTUEMART_NO</option>
                     <option value="1">COM_VIRTUEMART_YES</option>
                 </field>
-                <field class="explayout" name="itemise_in_cart" type="list" default="0"
+                <field class="explayout" name="itemise_in_cart" type="list" default="1"
                        label="VMPAYMENT_PAYPAL_CART_ITEMISE" description="VMPAYMENT_PAYPAL_CART_ITEMISE_TIP">
                     <option value="0">COM_VIRTUEMART_NO</option>
                     <option value="1">COM_VIRTUEMART_YES</option>

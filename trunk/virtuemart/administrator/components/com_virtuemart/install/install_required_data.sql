@@ -288,7 +288,8 @@ INSERT IGNORE INTO `#__virtuemart_countries` (`virtuemart_country_id`, `virtuema
 (245, 1, 'Serbia', 'SRB', 'RS'),
 (246, 1, 'Sint Maarten (French Antilles)', 'MAF', 'MF'),
 (247, 1, 'Sint Maarten (Netherlands Antilles)', 'SXM', 'SX'),
-(248, 1, 'Palestinian Territory, occupied','PSE','PS');
+(248, 1, 'Palestinian Territory, occupied','PSE','PS'),
+(249, 1, 'Montenegro', 'MNE', 'ME');
 
 /*!40000 ALTER TABLE `#__virtuemart_countries` ENABLE KEYS */;
 

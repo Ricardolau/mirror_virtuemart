@@ -39,8 +39,9 @@ defined('_JEXEC') or die('Restricted access');
 
 				foreach ($this->product->customfields as $k=>$customfield) {
 
-					//vmdebug('displayProductCustomfieldBE',$customfield);
-
+					$checkValue = $customfield->virtuemart_customfield_id;
+					$title = '';
+					$text = '';
 					$customfield->display = $customfieldsModel->displayProductCustomfieldBE ($customfield, $this->product, $i);
 
 					$checkValue = $customfield->virtuemart_customfield_id;
@@ -61,7 +62,6 @@ defined('_JEXEC') or die('Restricted access');
 						$title = vmText::_('COM_VIRTUEMART_CUSTOM_INHERITED').'</br>';
 					}
 
-					$text = '';
 					if(!empty($title)){
 						$text = '<span style="white-space: nowrap;" class="hasTip" title="'.htmlentities(vmText::_('COM_VIRTUEMART_CUSTOMFLD_DIS_DER_TIP')).'">d:'.VmHtml::checkbox('field[' . $i . '][disabler]',$customfield->disabler,$checkValue).'</span>';
 
@@ -93,9 +93,6 @@ defined('_JEXEC') or die('Restricted access');
 
 					} else {
 
-						$checkValue = $customfield->virtuemart_customfield_id;
-
-						//$text = '';
 						if(isset($this->fieldTypes[$customfield->field_type])){
 							$type = $this->fieldTypes[$customfield->field_type];
 						} else {

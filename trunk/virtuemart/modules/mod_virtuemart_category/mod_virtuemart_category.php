@@ -60,7 +60,7 @@ if($level>1){
 }
 //vmdebug('my categories',$categories);
 
-
+$categoryModel->categoryRecursed = 0;
 $parentCategories = $categoryModel->getCategoryRecurse($active_category_id,0);
 
 /* Load tmpl default */

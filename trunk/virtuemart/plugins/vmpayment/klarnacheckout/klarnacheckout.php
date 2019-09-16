@@ -304,7 +304,7 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 				if (!$hide_BTST) {
 					$update['shipping_address']['email'] = $cart->BT['email'];
 					$hide_BTST = false;
-					$address = (($cart->ST == 0) ? $cart->BT : $cart->ST);
+					$address = $cart->getST();
 					if (isset($address['zip']) and !empty($address['zip'])) {
 						$update['shipping_address']['postal_code'] = $cart->BT['zip'];
 					}
@@ -340,7 +340,7 @@ class plgVmPaymentKlarnaCheckout extends vmPSPlugin {
 
 			if (!$this->isDefaultKCOemail($cart->BT['email'])) {
 				$create['shipping_address']['email'] = $cart->BT['email'];
-				$address = (($cart->ST == 0) ? $cart->BT : $cart->ST);
+				$address = $cart->getST();
 				if (isset($address['zip']) and !empty($address['zip'])) {
 					$create['shipping_address']['postal_code'] = $cart->BT['zip'];
 				}
@@ -1477,7 +1477,7 @@ jQuery().ready(function($) {
 
 			if (!isset($cart->BT['email'])) {
 				$create['shipping_address']['email'] = $cart->BT['email'];
-				$address = (($cart->ST == 0) ? $cart->BT : $cart->ST);
+				$address = $cart->getST();
 				if (isset($address['zip']) and !empty($address['zip'])) {
 					$create['shipping_address']['postal_code'] = $cart->BT['zip'];
 				}

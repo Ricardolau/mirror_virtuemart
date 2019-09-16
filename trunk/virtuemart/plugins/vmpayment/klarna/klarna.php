@@ -8,7 +8,7 @@ defined ('_JEXEC') or die();
  * @author Valérie Isaksen
  * @package VirtueMart
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2019 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -210,13 +210,14 @@ class plgVmPaymentKlarna extends vmPSPlugin {
 				$cart->STsameAsBT = 1;
 				$cart->setCartIntoSession ();
 			}
-		} elseif ($cart->BT == 0 or empty($cart->BT)) {
-			$st = $cart->BT;
-			$type = 'BT';
-		} else {
+		} else if(empty($cart->STsameAsBT)){
 			$st = $cart->ST;
 			$type = 'ST';
+		} else {
+			$st = $cart->BT;
+			$type = 'BT';
 		}
+
 		return $st;
 	}
 

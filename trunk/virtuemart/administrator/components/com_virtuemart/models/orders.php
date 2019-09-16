@@ -1710,43 +1710,32 @@ class VirtueMartModelOrders extends VmModel {
 
 	function deleteOldPendingOrder($_cart,$customer_number = false){
 
-		if(VmConfig::get('leavePendingOrders',false)){
+		$reUseTimeSql = VmConfig::get('reuseorders','PT1H');
+		if(empty($reUseTimeSql)) return false;
+
+		$db = JFactory::getDbo();
+		$q = 'SELECT * FROM `#__virtuemart_orders` WHERE `order_status` = "P" ';
+
+		if(!empty($_cart->virtuemart_order_id)){
+			$q .= 'AND `virtuemart_order_id`= "'.$_cart->virtuemart_order_id.'" ';
+		} else if($customer_number){
+			$q .= 'AND `customer_number`= "'.$customer_number.'" ';
+		} else {
 			return false;
 		}
-		$order = false;
-		$db = JFactory::getDbo();
-		$q = 'SELECT * FROM `#__virtuemart_orders` ';
-		if(!empty($_cart->virtuemart_order_id)){
-			$db->setQuery($q . ' WHERE `virtuemart_order_id`= "'.$_cart->virtuemart_order_id.'" AND `order_status` = "P" ');
-			$order = $db->loadAssoc();
-			if(!$order){
-				vmdebug('This should not happen, there is a cart with virtuemart_order_id, but not order stored '.$_cart->virtuemart_order_id);
-			} else {
-				//return $order['virtuemart_order_id'];
-			}
-		}
 
-		if(!$order and $customer_number ){
+		$jnow = JFactory::getDate();
+		$jnow->sub(new DateInterval($reUseTimeSql));
+		$minushour = $jnow->toSQL();
 
-			$reUseTimeSql = VmConfig::get('reuseorders','PT1H');
-			if(empty($reUseTimeSql)) return false;
-
-			$jnow = JFactory::getDate();
-			$jnow->sub(new DateInterval($reUseTimeSql));
-			$minushour = $jnow->toSQL();
-			$q .= ' WHERE `customer_number`= "'.$customer_number.'" ';
-			$q .= '	AND `order_status` = "P"
-				AND `created_on` > "'.$minushour.'" ';
-			$db->setQuery($q);
-			$order = $db->loadAssoc();
-		}
-
+		$q .= 'AND `created_on` > "'.$minushour.'" ';
+		$db->setQuery($q);
+		$order = $db->loadAssoc();
 		if($order) {
-			$this->remove($order['virtuemart_order_id'],false);
+			$this->remove(array($order['virtuemart_order_id']),false);
 			return $order['virtuemart_order_id'];
 		}
 
-		return false;
 
 	}
 

@@ -193,7 +193,7 @@ class VirtuemartViewPaymentMethod extends VmViewAdmin {
 		$name = $idTag = 'virtuemart_shipmentmethod_ids';
 		$attrs['multiple'] = 'multiple';
 		$name .= '[]';
-vmdebug('my options',$options);
+
 		return JHtml::_ ('select.genericlist', $options, $name, $attrs, 'value', 'text', $virtuemart_shipment_ids, $idTag);
 
 	}

@@ -1753,6 +1753,11 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 			return false;
 		}
 
+		$d = VmConfig::$_debug;
+		if(VmConfig::get('debug_enable_methods',false)){
+			VmConfig::$_debug = 1;
+		}
+
 		$counter=0;
 		$dispatcher = JDispatcher::getInstance();
 		$returnValues = $dispatcher->trigger('plgVmOnCheckAutomaticSelected'.ucfirst($type), array(  $this,$this->cartPrices, &$counter));
@@ -1822,7 +1827,7 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 			}
 
 		}
-
+		VmConfig::$_debug = $d;
 		$this->setCartIntoSession();
 		return true;
 	}

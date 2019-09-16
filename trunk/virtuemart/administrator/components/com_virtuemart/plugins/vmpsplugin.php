@@ -947,11 +947,6 @@ abstract class vmPSPlugin extends vmPlugin {
 	 */
 	protected function checkConditions ($cart, $method, $cart_prices) {
 
-		if($cart->STsameAsBT == 0){
-			$type = ($cart->ST == 0 ) ? 'BT' : 'ST';
-		} else {
-			$type = 'BT';
-		}
 		$address = $cart -> getST();
 
 		$this->convert_condition_amount($method);

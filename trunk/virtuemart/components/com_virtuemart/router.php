@@ -984,6 +984,7 @@ class vmrouterHelper {
 					$ismenu = true;
 					$category->Itemid = $this->menu['virtuemart_category_id'][$catId][$manId] ;
 				} else {
+					$catModel->categoryRecursed = 0;
 					$CatParentIds = $catModel->getCategoryRecurse($catId,0) ;
 					/* control if parent categories are joomla menu */
 					foreach ($CatParentIds as $CatParentId) {
@@ -1019,6 +1020,7 @@ class vmrouterHelper {
 		$catModel = VmModel::getModel('category');
 
 		if($this->full) {
+			$catModel->categoryRecursed = 0;
 			if($parent_ids = $catModel->getCategoryRecurse($catId,$catMenuId)){
 
 				$parent_ids = array_reverse($parent_ids) ;

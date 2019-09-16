@@ -707,8 +707,12 @@ vmdebug('Found cached cat, but without children');
 		}
 		$menuCatid = (empty($menuItem->query['virtuemart_category_id'])) ? 0 : $menuItem->query['virtuemart_category_id'];
 		if ($menuCatid == $virtuemart_category_id) return ;
-		$parents_id = array_reverse($this->getCategoryRecurse($virtuemart_category_id,$menuCatid));
 
+		$this->categoryRecursed = 0;
+		$tCats = $this->getCategoryRecurse($virtuemart_category_id,$menuCatid);
+		if(!$tCats) return false;
+
+		$parents_id = array_reverse($tCats);
 
 		//$useFb = vmLanguage::getUseLangFallback();
 		//$useFb2 = vmLanguage::getUseLangFallbackSecondary();
@@ -739,7 +743,7 @@ vmdebug('Found cached cat, but without children');
 		return $parents;
 	}
 
-	private $categoryRecursed = 0;
+	public $categoryRecursed = 0;
 
 	public function getCategoryRecurse($virtuemart_category_id,$catMenuId,$idsArr=true ) {
 

@@ -652,7 +652,7 @@ class VirtueMartModelUserfields extends VmModel {
 	 *
 	 * when used from shipment method, you can use
 	 * $userFieldsModel =VmModel::getModel('Userfields');
-	 * $type = (($cart->ST == 0) ? 'BT' : 'ST');
+	 * $type = (($cart->STsameAsBT == 0) ? 'ST' : 'BT');
 	 * if ($userFieldsModel->fieldPublished('zip', $type)) ....
 	*/
 	public function fieldPublished($_field_name, $_sec='account')

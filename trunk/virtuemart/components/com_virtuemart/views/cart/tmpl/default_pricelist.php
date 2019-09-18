@@ -90,6 +90,10 @@ foreach ($this->cart->products as $pkey => $prow) {
 			onchange="Virtuemart.checkQuantity(this,<?php echo $step?>,'<?php echo vmText::_ ('COM_VIRTUEMART_WRONG_AMOUNT_ADDED',true)?>');"
 			onsubmit="Virtuemart.checkQuantity(this,<?php echo $step?>,'<?php echo vmText::_ ('COM_VIRTUEMART_WRONG_AMOUNT_ADDED',true)?>');"
 			title="<?php echo  vmText::_('COM_VIRTUEMART_CART_UPDATE') ?>" class="quantity-input js-recalculate" size="3" maxlength="4" name="quantity[<?php echo $pkey; ?>]" value="<?php echo $prow->quantity ?>" />
+        <!--span class="quantity-controls js-recalculate">
+				<input type="button" class="quantity-controls quantity-plus"/>
+				<input type="button" class="quantity-controls quantity-minus"/>
+        </span-->
 		<button type="submit" class="vmicon vm2-add_quantity_cart" name="updatecart.<?php echo $pkey ?>" title="<?php echo  vmText::_ ('COM_VIRTUEMART_CART_UPDATE') ?>" data-dynamic-update="1" ></button>
 		<button type="submit" class="vmicon vm2-remove_from_cart" name="delete.<?php echo $pkey ?>" title="<?php echo vmText::_ ('COM_VIRTUEMART_CART_DELETE') ?>" ></button>
 	</td>
@@ -358,6 +362,15 @@ if(!empty($this->cart->cartData)){
 		}
 	}
 }
+/*
+vmJsApi::addJScript( 'vmprices',false,false);
+
+vmJsApi::vmVariables();
+$onReady = 'jQuery(document).ready(function($) {
+
+		Virtuemart.product($(".cart-summary"));
+});';
+vmJsApi::addJScript('ready.vmprices',$onReady);*/
 ?>
 
 </table>

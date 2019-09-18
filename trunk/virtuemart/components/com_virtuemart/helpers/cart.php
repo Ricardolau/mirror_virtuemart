@@ -1917,7 +1917,7 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 					$productTemp = $productsModel->getProduct($productdata['virtuemart_product_id'],TRUE,FALSE,TRUE,$productdata['quantity']);
 
 					if(empty($productTemp->virtuemart_product_id)){
-						vmError('prepareCartData virtuemart_product_id is empty','The product is no longer available');
+						vmError('The product is no longer available; prepareCartData virtuemart_product_id is empty','The product is no longer available');
 						unset($this->cartProductsData[$k]);
 						continue;
 					}

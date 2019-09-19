@@ -4,7 +4,7 @@
     <creationDate>${PHING.VM.RELDATE}</creationDate>
     <author>The VirtueMart Development Team</author>
     <authorUrl>${PHING.VM.MAINTAINERURL}</authorUrl>
-    <copyright>${PHING.VM.COPYRIGHT}</copyright>
+    <copyright>Copyright (C) 2004 - 2019 Virtuemart Team. All rights reserved.</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <version>${PHING.VM.RELEASE}</version>
     <description><![CDATA[<a href="http:/www.sofort.com" target="_blank">Sofort</a> is a popular
@@ -22,6 +22,7 @@
     <fields name="params">
 
     <fieldset name="basic" addfieldpath="/plugins/vmpayment/sofort/sofort/fields">
+        <field name="checkConditionsCore" value="1" default="1" type="hidden"/>
          <field type="spacer" default="VMPAYMENT_SOFORT_PAYMENT_TITLE" level="level1"/>
          <field type="getsofort" level="level1"/>
 

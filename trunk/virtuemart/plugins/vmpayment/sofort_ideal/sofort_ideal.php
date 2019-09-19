@@ -6,7 +6,7 @@ defined('_JEXEC') or die('Restricted access');
  * @version $Id$
  * @package VirtueMart
  * @subpackage payment
- * @copyright Copyright (C) 2004 - 2015 Virtuemart Team. All rights reserved.
+ * @copyright Copyright (C) 2004 - 2019 Virtuemart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -799,7 +799,7 @@ class plgVmPaymentSofort_Ideal extends vmPSPlugin {
 
 		$this->convert_condition_amount($method);
 		$amount = $this->getCartAmount($cart_prices);
-		$address = (($cart->ST == 0) ? $cart->BT : $cart->ST);
+		$address = $cart->getST();
 
 		$amount_cond = ($amount >= $method->min_amount AND $amount <= $method->max_amount
 		OR

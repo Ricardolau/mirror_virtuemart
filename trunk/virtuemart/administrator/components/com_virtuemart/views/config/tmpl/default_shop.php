@@ -55,7 +55,7 @@ defined('_JEXEC') or die('Restricted access');?>
                 <span class="hasTip" title="<?php echo htmlentities(vmText::_('COM_VM_MEMBER_ACCESSNBR_TIP'))?>'"><?php echo vmText::_('COM_VM_MEMBER_ACCESSNBR')?></span>
             </td>
             <td>
-                <?php echo VmHTML::input('member_access_number',VmConfig::get('member_access_number','')); ?>
+                <?php echo VmHTML::input('member_access_number',VmConfig::get('member_access_number',''),'', '',55); ?>
             </td>
             <td>
                 <span class="hasTip" title="<?php echo htmlentities(vmText::sprintf($host,'COM_VM_MEMBER_AGREEMENT_TIP',VmConfig::$vmlangTag,vmVersion::$RELEASE))?>'"><?php echo vmText::_('COM_VM_MEMBER_AGREEMENT')?></span>

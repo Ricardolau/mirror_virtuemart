@@ -363,6 +363,38 @@ jQuery(".changeSendForm")
 		return JHtml::_('select.genericlist',$orderStatusList,'ordering','','value','text',$selected);
 	}
 
+	static function renderShipmentDropdown($virtuemart_shipment_ids){
+
+		$m = VmModel::getModel('shipmentmethod');
+		if(!$m){
+			return parent::getOptions();
+		}
+		$values = $m->getShipments();
+
+		$options = array();
+
+		$lvalue = 'virtuemart_shipmentmethod_id';
+		$ltext = 'shipment_name';
+
+		$lvalue = 'virtuemart_shipmentmethod_id';
+		$ltext = 'shipment_name';
+
+		foreach ($values as $v) {
+			$options[] = JHtml::_('select.option', $v->$lvalue, $v->$ltext);
+		}
+
+		// Merge any additional options in the XML definition.
+		//$options = array_merge(parent::getOptions(), $options);
+
+		//if(!is_array($this->value))$this->value = array($this->value);
+		$name = $idTag = 'virtuemart_shipmentmethod_ids';
+		$attrs['multiple'] = 'multiple';
+		$name .= '[]';
+
+		return JHtml::_ ('select.genericlist', $options, $name, $attrs, 'value', 'text', $virtuemart_shipment_ids, $idTag);
+
+	}
+
 	/**
 	 * Returns all the weight unit
 	 *

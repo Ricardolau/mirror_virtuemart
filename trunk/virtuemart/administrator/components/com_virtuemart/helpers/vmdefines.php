@@ -44,7 +44,7 @@ class vmDefines {
 
 	}
 
-	static function defines ($appId='site'){
+	static function defines ($appId=0){
 
 		static $incl = false;
 		if($incl) return true;
@@ -70,6 +70,14 @@ class vmDefines {
 			//defined('_JEXEC') or define('_JEXEC', 1);
 			$vmPathLibraries = VMPATH_ROOT .'/libraries';
 
+		}
+
+		if($appId===0){
+			if(defined('JVERSION')){
+				$appId = JFactory::getApplication()->getName();
+			} else {
+				$appId = 'site';
+			}
 		}
 
 		defined ('VMPATH_LIBS') or define ('VMPATH_LIBS', $vmPathLibraries);

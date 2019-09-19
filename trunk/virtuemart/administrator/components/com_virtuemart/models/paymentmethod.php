@@ -58,7 +58,7 @@ class VirtueMartModelPaymentmethod extends VmModel{
 			$this->_cache[$this->_id] = $this->getTable('paymentmethods');
 			$this->_cache[$this->_id]->load((int)$this->_id);
 
-			if(empty($this->_cache->virtuemart_vendor_id)){
+			if(empty($this->_cache[$this->_id]->virtuemart_vendor_id)){
 				$this->_cache[$this->_id]->virtuemart_vendor_id = vmAccess::getVendorId('paymentmethod.edit');
 			}
 

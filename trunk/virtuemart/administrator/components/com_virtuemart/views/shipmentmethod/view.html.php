@@ -66,7 +66,7 @@ class VirtuemartViewShipmentmethod extends VmViewAdmin {
 						$shipment->form->removeField($name,'params');
 					}
 					$shipment->form->bind($shipment->getProperties());
-					$this->shipmentList = $this->renderShipmentDropdown($shipment->virtuemart_shipmentmethod_ids);
+					$this->shipmentList = shopfunctions::renderShipmentDropdown($shipment->virtuemart_shipmentmethod_ids);
 				}
 
 			} else {

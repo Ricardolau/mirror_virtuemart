@@ -1313,7 +1313,7 @@ class VirtueMartModelOrders extends VmModel {
 								$t1 = 0.0;
 							}
 
-							vmdebug('ShipPay Rules store '.$vatrule->calc_value * 0.01.' * '. $vatrule->subTotal.'/'.$data->order_salesPrice.' = '.$t1);
+							//vmdebug('ShipPay Rules store '.$vatrule->calc_value * 0.01.' * '. $vatrule->subTotal.'/'.$data->order_salesPrice.' = '.$t1);
 							$data->$keyNTax += $t1 * $data->$keyN;
 							//$summarizedRules['taxBill'][$in]->calc_amount += $data->$keyNTax ;
 
@@ -1329,7 +1329,7 @@ class VirtueMartModelOrders extends VmModel {
 						$ocrTable->bindChecknStore($rule);
 					}
 				// }
-				vmdebug('Add rule to $allTaxes',$rule);
+				//vmdebug('Add rule to $allTaxes',$rule);
 				$allTaxes[] = $rule;
 				//}
 
@@ -1566,13 +1566,9 @@ class VirtueMartModelOrders extends VmModel {
 
 		$_orderData->virtuemart_order_id = null;
 		$oldOrderNumber = '';
-		if(!empty($_cart->virtuemart_order_id)){
-			$this->deleteOldPendingOrder($_cart);
-			/*if($_orderData->virtuemart_order_id){
-				$order = $this->getOrder($_orderData->virtuemart_order_id);
-				$oldOrderNumber = $order['details']['BT']->order_number;
-			}*/
-		}
+
+		$this->deleteOldPendingOrder($_cart);
+
 
 		$_orderData->virtuemart_user_id = $_usr->get('id');
 		$_orderData->virtuemart_vendor_id = $_cart->vendorId;
@@ -1708,18 +1704,18 @@ class VirtueMartModelOrders extends VmModel {
 		return $orderTable->virtuemart_order_id;
 	}
 
-	function deleteOldPendingOrder($_cart,$customer_number = false){
+	function deleteOldPendingOrder($cart){
 
-		$reUseTimeSql = VmConfig::get('reuseorders','PT1H');
+		$reUseTimeSql = VmConfig::get('reuseorders','PT30M');vmdebug('deleteOldPendingOrder '.$reUseTimeSql);
 		if(empty($reUseTimeSql)) return false;
 
 		$db = JFactory::getDbo();
 		$q = 'SELECT * FROM `#__virtuemart_orders` WHERE `order_status` = "P" ';
 
-		if(!empty($_cart->virtuemart_order_id)){
-			$q .= 'AND `virtuemart_order_id`= "'.$_cart->virtuemart_order_id.'" ';
-		} else if($customer_number){
-			$q .= 'AND `customer_number`= "'.$customer_number.'" ';
+		if(!empty($cart->virtuemart_order_id)){
+			$q .= 'AND `virtuemart_order_id`= "'.$cart->virtuemart_order_id.'" ';
+		} else if($cart->customer_number){
+			$q .= 'AND `customer_number`= "'.$cart->customer_number.'" ';
 		} else {
 			return false;
 		}
@@ -1729,7 +1725,7 @@ class VirtueMartModelOrders extends VmModel {
 		$minushour = $jnow->toSQL();
 
 		$q .= 'AND `created_on` > "'.$minushour.'" ';
-		$db->setQuery($q);
+		$db->setQuery($q);vmdebug('deleteOldPendingOrder',$q);
 		$order = $db->loadAssoc();
 		if($order) {
 			$this->remove(array($order['virtuemart_order_id']),false);

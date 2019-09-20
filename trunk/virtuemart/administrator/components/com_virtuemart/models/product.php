@@ -189,10 +189,28 @@ class VirtueMartModelProduct extends VmModel {
 			$this->search_type = vRequest::getVar ('search_type', '');
 			$this->virtuemart_vendor_id = vmAccess::getVendorId();
 
+			//$oldCat = shopFunctionsF::getLastVisitedCategoryId();
 			$this->searchcustoms = $app->getUserStateFromRequest ($option . '.customfields', 'customfields', '', 'array');
 			if(!empty($this->searchcustoms)){
-				if(is_object($this->searchcustoms)) $this->searchcustoms = get_object_vars($this->searchcustoms);
-				$this->searchcustoms = vRequest::filter($this->searchcustoms,FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
+				$oldCat = shopFunctionsF::getLastVisitedCategoryId();
+				$this->virtuemart_category_id = vRequest::getInt ('virtuemart_category_id', FALSE);
+				if($oldCat!=$this->virtuemart_category_id){
+					vmdebug('category id changed and I UNSET');
+					$app->setUserState('com_virtuemart.customfields',null);
+					$this->searchcustoms = array();
+				} else {
+					if(is_array($this->searchcustoms)){
+						foreach($this->searchcustoms as $k=>$f){
+							if(empty($f) or $oldCat!=$this->virtuemart_category_id) $f='';
+							$app->setUserState('com_virtuemart.customfields.'.trim($k),$f);
+							vmdebug('com_virtuemart.customfields.'.trim($k),$f);
+						}
+					}
+					if(is_object($this->searchcustoms)) $this->searchcustoms = get_object_vars($this->searchcustoms);
+					$this->searchcustoms = vRequest::filter($this->searchcustoms,FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
+
+				}
+
 			}
 		}
 		else {

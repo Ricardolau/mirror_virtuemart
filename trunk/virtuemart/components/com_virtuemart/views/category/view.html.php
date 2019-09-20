@@ -199,9 +199,6 @@ class VirtuemartViewCategory extends VmView {
 			$this->handle404();
 		}
 
-		shopFunctionsF::setLastVisitedCategoryId($this->categoryId);
-		shopFunctionsF::setLastVisitedManuId($this->virtuemart_manufacturer_id);
-
 		$ratingModel = VmModel::getModel('ratings');
 		$this->productModel->withRating = $this->showRating = $ratingModel->showRating();
 
@@ -226,27 +223,26 @@ class VirtuemartViewCategory extends VmView {
 		$this->searchCustomValues = '';	//deprecated
 		$this->searchCustomValuesAr = array ();
 
+		$app = JFactory::getApplication();
+
+
 		if(!empty($this->keyword) or $this->showsearch){
 			vmSetStartTime('getSearchCustom');
-			$customfields = vRequest::getString('customfields');
-			$app = JFactory::getApplication();
+			//$customfields = vRequest::getString('customfields');
 
-			if(is_array($customfields)){
-				foreach($customfields as $k=>$f){
-					if(empty($f)) $f='';
-					$app->setUserState('com_virtuemart.customfields.'.trim($k),$f);
-				}
-			}
+
 			vmTime('getSearchCustom after setUserState','getSearchCustom');
 			$this->getSearchCustom();
 			vmTime('getSearchCustom End','getSearchCustom');
 			$this->searchAllCats = $app->getUserStateFromRequest('com_virtuemart.customfields.searchAllCats','searchAllCats',false);
 			//$app->setUserState('com_virtuemart.customfields.searchAllCats',$f);
-
-		} else {
-			$app = JFactory::getApplication();
-			$app->setUserState('com_virtuemart.customfields','');
 		}
+		/*else {
+			$app->setUserState('com_virtuemart.customfields','');
+		}*/
+
+		shopFunctionsF::setLastVisitedCategoryId($this->categoryId);
+		shopFunctionsF::setLastVisitedManuId($this->virtuemart_manufacturer_id);
 
 		//We need to load the cart here, to get correct discounts
 		if(!VmConfig::get('use_as_catalog',false)) $cart = VirtuemartCart::getCart();

@@ -32,10 +32,7 @@ class VirtueMartControllerCart extends JControllerLegacy {
 
 	public function __construct() {
 		parent::__construct();
-		if (VmConfig::get('use_as_catalog', 0)) {
-			$app = JFactory::getApplication();
-			$app->redirect('index.php');
-		}
+
 		$this->useSSL = vmURI::useSSL();	//VmConfig::get('useSSL', 0);
 		$this->useXHTML = false;
 

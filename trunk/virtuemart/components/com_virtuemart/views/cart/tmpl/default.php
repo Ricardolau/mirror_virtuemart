@@ -162,6 +162,8 @@ if( !VmConfig::get('oncheckout_ajax',false)) {
 }
 
 $this->addCheckRequiredJs();
+vmJsApi::addJScript( 'vmprices',false,false);
+
 ?><div style="display:none;" id="cart-js">
 <?php echo vmJsApi::writeJS(); ?>
 </div>

@@ -341,12 +341,22 @@ class VirtueMartModelUser extends VmModel {
 		$can_change_username = (int)$usersConfig->get('change_login_name', false);
 
 		$username = $user->get('username');
-		if(!empty($username) and !$can_change_username){
-			$data['username'] = $username;
-		} else {
+
+
+		if(!empty($data['username'])){
 			$data['username'] = vRequest::filter($data['username'],FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
 		}
 
+		if(!empty($username)){
+			if(!$can_change_username  and !vmAccess::manager('user.edit')){
+				if($data['username']!=$username){
+					vmWarn('You are not allowed to change your username');
+				}
+				$data['username'] = $username;
+			} else if(empty($data['username'])){
+				$data['username'] = $username;
+			}
+		}
 
 		if(empty ($data['password'])){
 			$data['password'] = vRequest::getCmd('password', '');

@@ -187,15 +187,23 @@ class VirtuemartControllerOrders extends VmController {
 		/* Update the statuses */
 		$model = VmModel::getModel('orders');
 
+		$order = array() ;
 		if ($lastTask == 'updatestatus') {
 			// single order is in POST but we need an array
-			$order = array() ;
+
 			$virtuemart_order_id = vRequest::getInt('virtuemart_order_id');
 			$order[$virtuemart_order_id] = (vRequest::getRequest());
 
 			$result = $model->updateOrderStatus($order);
 		} else {
-			$result = $model->updateOrderStatus();
+
+			if($cids = vRequest::getInt('cid',false)){
+				$orders = vRequest::getVar('orders');
+				foreach($cids as $virtuemart_order_id){
+					$order[$virtuemart_order_id] = $orders[$virtuemart_order_id];
+				}
+			}
+			$result = $model->updateOrderStatus($order);
 		}
 
 		$msg='';

@@ -66,6 +66,12 @@ class VirtueMartControllerVendor extends JControllerLegacy
 
 		$user = JFactory::getUser();
 
+		if($user->guest==1) {
+			if(!$this->checkCaptcha( 'index.php?option=com_virtuemart&view=vendor&layout=contact&virtuemart_vendor_id=1' ) ){
+				return ;
+			}
+		}
+
 		$fromMail = vRequest::getVar('email');	//is sanitized then
 		$fromName = vRequest::getVar('name','');//is sanitized then
 		$fromMail = str_replace(array('\'','"',',','%','*','/','\\','?','^','`','{','}','|','~'),array(''),$fromMail);
@@ -97,6 +103,32 @@ class VirtueMartControllerVendor extends JControllerLegacy
 
 		$view->setLayout('mail_confirmed');
 		$view->display();
+	}
+
+	function checkCaptcha($retUrl){
+
+		if(JFactory::getUser()->guest==1 and VmConfig::get ('reg_captcha')){
+
+			$filled = vRequest::getVar ('g-recaptcha-response',false);
+			if(!$filled){
+				vmInfo('COM_VM_FILL_CAPTCHA');
+				return false;
+			}
+
+			$recaptcha = vRequest::getVar ('recaptcha_response_field');
+			JPluginHelper::importPlugin('captcha');
+			$dispatcher = JDispatcher::getInstance();
+			$res = $dispatcher->trigger('onCheckAnswer',$recaptcha);
+			if(!$res[0]){
+				$errmsg = vmText::_('PLG_RECAPTCHA_ERROR_INCORRECT_CAPTCHA_SOL');
+				$this->setRedirect (JRoute::_ ($retUrl . '&captcha=1', FALSE), $errmsg);
+				return FALSE;
+			} else {
+				return TRUE;
+			}
+		} else {
+			return TRUE;
+		}
 	}
 
 }

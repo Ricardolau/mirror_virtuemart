@@ -987,6 +987,7 @@ class VirtueMartModelOrders extends VmModel {
 		$total = 1 ;
 		if(empty($orders)){
 			$orders = array();
+
 			$orderslist = vRequest::getVar('orders',  array());
 			$total = 0 ;
 			// Get the list of orders in post to update
@@ -2194,11 +2195,11 @@ class VirtueMartModelOrders extends VmModel {
 			$db->setQuery($q);
 			$oldHistoryRow = $db->loadObject();
 
-			if(empty($oldHistoryRow) or $oldHistoryRow->order_status_code!=$inputOrder['order_status_code']){
+			//if(empty($oldHistoryRow) or $oldHistoryRow->order_status_code!=$inputOrder['order_status_code']){
 				$_orderHist = $this->getTable('order_histories');
 				$inputOrder['comments'] = nl2br($inputOrder['comments']);	//would be cooler in the table check function
 				$_orderHist->bindChecknStore($inputOrder);
-			}
+			//}
 		}
 	}
 

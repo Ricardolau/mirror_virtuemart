@@ -742,7 +742,7 @@ Virtuemart.requiredMsg = '" .addslashes (vmText::_ ('COM_VIRTUEMART_MISSING_REQU
 
 		if (empty($id)) {
 			$id = str_replace(array('[]','[',']','.'),'_',$name);
-			$id = trim(str_replace('__','.',$id),'.');
+			$id = trim(str_replace('__','_',$id),'.');
 		}
 
 		static $jDate;

@@ -958,7 +958,7 @@ class shopFunctionsF {
 	}
 
 	static public function vmSubstr($str,$s,$e = null){
-		if(function_exists( 'mb_strlen' )) {
+		if(function_exists( 'mb_substr' )) {
 			return mb_substr( $str, $s, $e );
 		} else {
 			return substr( $str, $s, $e );

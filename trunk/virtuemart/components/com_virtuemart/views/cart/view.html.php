@@ -505,19 +505,14 @@ class VirtueMartViewCart extends VmView {
 
 		$updF = '';
 		if( VmConfig::get('oncheckout_ajax',false)) {
-			$updF = 'Virtuemart.updForm();';
+			$updF = 'Virtuemart.updFormS(); return;';
 		}
 
-		$j='jQuery(document).ready(function(){
-    var form = jQuery("#checkoutFormSubmit");
-    jQuery(".output-shipto").find(":radio").change(function(){
-		form.attr("task","checkout");
-		'.$updF.'
-		form.submit();
-    });
-
-    jQuery(".required").change(function(){
-    	var count = 0;
+		$j='if (typeof Virtuemart === "undefined")
+	var Virtuemart = {};
+jQuery(function($) {
+	Virtuemart.autocheck = function (){
+		var count = 0;
     	var hit = 0;
     	jQuery.each(jQuery(".required"), function (key, value){
     		count++;
@@ -525,26 +520,38 @@ class VirtueMartViewCart extends VmView {
         		hit++;
        		}
     	});
-        if(count==hit){
-        	form.attr("task","checkout");
-
-			'.$updF.'
+    	var chkOutBtn = jQuery("#checkoutFormSubmit");
+    	chkOutBtn.attr("task","checkout");
+    	
+    	var form = jQuery("#checkoutForm");
+    	console.log("Required count and hit",count, hit);
+    	if(count==hit){
+    		'.$updF.'
+			chkOutBtn.html("<span>'.vmText::_('COM_VIRTUEMART_ORDER_CONFIRM_MNU').'</span>");
 			form.submit();
-        } else {
-        	form.attr("task","checkout");
+		} else {
+        	//chkOutBtn.attr("task","checkout");
+        	chkOutBtn.html("<span>'.vmText::_('COM_VIRTUEMART_CHECKOUT_TITLE').'</span>");
         }
-    });
-    
-    jQuery("#checkoutForm").change(function(){
-    	var task = form.attr("task");
-    	if(task=="checkout"){
-    		form.html("<span>'.vmText::_('COM_VIRTUEMART_CHECKOUT_TITLE').'</span>");
-    	} else {
-    		form.html("<span>'.vmText::_('COM_VIRTUEMART_ORDER_CONFIRM_MNU').'</span>");
-    	}
-		form.attr("name",task);
+	};
+});
 		
-    });
+		
+jQuery(document).ready(function(){
+	var chkOutBtn = jQuery("#checkoutFormSubmit");
+	var form = jQuery("#checkoutForm");
+	
+	jQuery("#checkoutForm").find("input").bind("change", Virtuemart.autocheck);
+	
+	jQuery(".output-shipto").find("input").unbind("change", Virtuemart.autocheck);
+	
+	jQuery(".output-shipto").find(":radio").bind("change", function(){
+		chkOutBtn.attr("task","checkout");
+		
+		'.$updF.'
+		form.submit();
+	});
+		
 
 });';
 		vmJsApi::addJScript('autocheck',$j);

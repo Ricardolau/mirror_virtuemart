@@ -332,28 +332,27 @@ class VirtueMartCart {
 			}
 
 			$addresstype = $type.'address'; //for example BTaddress
-			if($update or empty($this->$addresstype)){
+			if($update or empty($this->{$addresstype})){
 
 				$userFields = $userFieldsModel->getUserFieldsFor('cart',$type);
 
-
-				$this->$addresstype = $userFieldsModel->getUserFieldsFilled(
+				$this->{$addresstype} = $userFieldsModel->getUserFieldsFilled(
 				$userFields
 				,$data
 				,$preFix
 				,$onlyDefaults
 				);
 
-				if(!empty($this->$addresstype['byDefault'])){
+				if(!empty($this->{$addresstype}['byDefault'])){
 					if($type=='BT'){
-						$this->byDefaultBT = $this->$addresstype['byDefault'];
+						$this->byDefaultBT = $this->{$addresstype}['byDefault'];
 					} else {
-						$this->byDefaultST = $this->$addresstype['byDefault'];
+						$this->byDefaultST = $this->{$addresstype}['byDefault'];
 					}
 				}
 
-				if(!empty($this->$addresstype['fields'])){
-					$this->bindUserfieldToCart($type, $this->$addresstype['fields']);
+				if(!empty($this->{$addresstype}['fields'])){
+					$this->bindUserfieldToCart($type, $this->{$addresstype}['fields']);
 				} else {
 					vmdebug('cart helper found no userfields to bind');
 				}
@@ -1199,6 +1198,11 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 			if($this->confirmedOrder()){
 				$this->layout = 'orderdone';
 				$this->setCartIntoSession();
+				$currentUser = JFactory::getUser();
+				if(!$currentUser->guest) {
+					$um = VmModel::getModel('user');
+					$um->storeAddress($this->BT);
+				}
 				return true;
 			}
 		}
@@ -1263,12 +1267,14 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 
 		$this->checkForCartQuantities();
 
+		$currentUser = JFactory::getUser();
+
 		$validUserDataBT = self::validateUserData();
 		if ($validUserDataBT!==true) {	//Important, we can have as result -1,false and true.
 			return $this->redirecter('index.php?option=com_virtuemart&view=user&task=editaddresscart&addrtype=BT' , '');
 		}
 
-		$currentUser = JFactory::getUser();
+
 		if(!empty($this->STsameAsBT) or (!$currentUser->guest and empty($this->selected_shipto))){	//Guest
 			$this->ST = $this->BT;
 		} else {
@@ -1762,17 +1768,17 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 		$dispatcher = JDispatcher::getInstance();
 		$returnValues = $dispatcher->trigger('plgVmOnCheckAutomaticSelected'.ucfirst($type), array(  $this,$this->cartPrices, &$counter));
 
-//vmdebug('my return value '.$type,$returnValues);
+		vmdebug('checkAutomaticSelectedPlug my return value '.$type,$returnValues);
 		$nb = 0;
 		$method_id = array();
 		foreach ($returnValues as $returnValue) {
-			if ( !empty($returnValue )) {
+			if ( isset($returnValue )) {
 				if(is_array($returnValue)){
 					foreach($returnValue as $method){
 						$nb ++;
 						$method_id[] = $method;
 					}
-				} else if($returnValue){
+				} else /*/if($returnValue )*/{
 					$nb ++;
 					$method_id[] = $returnValue;
 				}
@@ -1782,10 +1788,10 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 		vmdebug('checkAutomaticSelectedPlug my $method_ids '.$type,$nb,$method_id);
 		$vm_autoSelected_name = 'automaticSelected'.ucfirst($type);
 
-		$this->$vm_autoSelected_name=false;
+		$this->{$vm_autoSelected_name}=false;
 		if(empty($method_id) or empty($method_id[0])){
 			if($nb==0){
-				$this->$vm_method_name = 0;
+				$this->{$vm_method_name} = 0;
 			}
 			return false;
 		}
@@ -1797,30 +1803,33 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 		}
 
 		if ($nb==1) {
-			$this->$vm_method_name = $method_id[0];
-			$this->$vm_autoSelected_name=true;	//This controlls the variable "automaticSelectedPayment" or "automaticSelectedShipment" which meant before vm3.5, that only one method exists
+			$this->{$vm_method_name} = $method_id[0];
+			$this->{$vm_autoSelected_name}=true;	//This controlls the variable "automaticSelectedPayment" or "automaticSelectedShipment" which meant before vm3.5, that only one method exists
 
-			vmdebug('FOUND automatic SELECTED '.$type.' !!',$this->$vm_method_name);
+			vmdebug('FOUND automatic SELECTED '.$type.' !!',$this->{$vm_method_name});
 		} else {
-			if(!empty($this->$vm_method_name)){
-				if(!in_array($this->$vm_method_name,$method_id)){
-					$this->$vm_method_name = 0;
-					vmdebug('SELECTED Method not among selectables '.$type.' !!',$this->$vm_method_name);
-				}
-			}
+			//This check breaks old plugins, which return 0 instead a correct method id.
+			//There are a lot checks following executing checkConditions, so it should be okey to uncomment that.
+			/*if(!empty($this->{$vm_method_name})){
+				if(!in_array($this->{$vm_method_name},$method_id)){
 
-			if(empty($this->$vm_method_name)){
+					$this->{$vm_method_name} = 0;
+					vmdebug('SELECTED Method not among selectables '.$type.' !!',$this->{$vm_method_name},$method_id);
+				}
+			}*/
+
+			if(empty($this->{$vm_method_name})){
 				if(empty($setAutomatic)){
-					$this->$vm_method_name = $method_id[0];
-					vmdebug('SELECTED automatic method  '.$type.' !!',$this->$vm_method_name);
+					$this->{$vm_method_name} = $method_id[0];
+					vmdebug('SELECTED automatic method  '.$type.' !!',$this->{$vm_method_name});
 				} else {
 					if($setAutomatic>0){
 						if(in_array($setAutomatic,$method_id)){
-							$this->$vm_method_name = $setAutomatic;
-							vmdebug('SELECTED by automatic method  '.$type.' '.$setAutomatic.'!!',$this->$vm_method_name);
+							$this->{$vm_method_name} = $setAutomatic;
+							vmdebug('SELECTED by automatic method  '.$type.' '.$setAutomatic.'!!',$this->{$vm_method_name});
 						} else {
-							$this->$vm_method_name = 0;
-							vmdebug('SELECTED NOT by automatic method  '.$type.' '.$setAutomatic.'!!',$this->$vm_method_name);
+							$this->{$vm_method_name} = 0;
+							vmdebug('SELECTED NOT by automatic method  '.$type.' '.$setAutomatic.'!!',$this->{$vm_method_name});
 						}
 					}
 				}

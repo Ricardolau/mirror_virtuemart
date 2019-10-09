@@ -1708,7 +1708,11 @@ class VirtueMartModelOrders extends VmModel {
 	function deleteOldPendingOrder($cart){
 
 		$reUseTimeSql = VmConfig::get('reuseorders','PT30M');vmdebug('deleteOldPendingOrder '.$reUseTimeSql);
-		if(empty($reUseTimeSql)) return false;
+		if(empty($reUseTimeSql)){
+			return false;
+		} else if($reUseTimeSql == 1){
+			$reUseTimeSql = 'PT30M';
+		}
 
 		$db = JFactory::getDbo();
 		$q = 'SELECT * FROM `#__virtuemart_orders` WHERE `order_status` = "P" ';

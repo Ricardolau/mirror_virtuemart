@@ -114,10 +114,10 @@ class PaypalHelperPaypal {
 	}
 
 	function getProductAmount ($productPricesUnformatted) {
-		if ($productPricesUnformatted['salesPriceWithDiscount']) {
-			return vmPSPlugin::getAmountValueInCurrency( $productPricesUnformatted['salesPriceWithDiscount'], $this->_method->payment_currency );
-		} else if (!empty($productPricesUnformatted['override']) and !empty($productPricesUnformatted['product_override_price'])) {
+		if (!empty($productPricesUnformatted['override']) and !empty($productPricesUnformatted['product_override_price'])) {
 			return vmPSPlugin::getAmountValueInCurrency( $productPricesUnformatted['product_override_price'], $this->_method->payment_currency );
+		} else if ($productPricesUnformatted['salesPriceWithDiscount']) {
+			return vmPSPlugin::getAmountValueInCurrency( $productPricesUnformatted['salesPriceWithDiscount'], $this->_method->payment_currency );
 		} else {
 			return vmPSPlugin::getAmountValueInCurrency($productPricesUnformatted['salesPrice'], $this->_method->payment_currency);
 		}

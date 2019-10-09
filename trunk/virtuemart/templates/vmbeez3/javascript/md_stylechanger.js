@@ -5,10 +5,11 @@ var currentFontSize = defaultFontSize;
 
 
 
-jQuery().localstorage =
-	(function() {
+Object.append(Browser.Features, {
+	localstorage: (function() {
 		return ('localStorage' in window) && window.localStorage !== null;
-	});
+	})()
+});
 
 function setFontSize(fontSize) {
 	document.body.style.fontSize = fontSize + '%';
@@ -30,18 +31,18 @@ function revertStyles() {
 }
 
 function writeFontSize(value) {
-	if (jQuery().localstorage) {
+	if (Browser.Features.localstorage) {
 		localStorage.fontSize = value;
 	} else {
-		jQuery().cookie("fontSize", value, {duration: 180});
+		Cookie.write("fontSize", value, {duration: 180});
 	}
 }
 
 function readFontSize() {
-	if (jQuery().localstorage) {
+	if (Browser.Features.localstorage) {
 		return localStorage.fontSize;
 	} else {
-		return jQuery().cookie("fontSize");
+		return Cookie.read("fontSize");
 	}
 }
 
@@ -65,7 +66,7 @@ function saveSettings() {
 }
 
 
-jQuery(document).ready( function () {
+window.addEvent('domready', function () {
 
     smaller = Joomla.JText._('TPL_BEEZ3_SMALLER');
     fontSizeTitle = Joomla.JText._('TPL_BEEZ3_FONTSIZE');
@@ -74,7 +75,8 @@ jQuery(document).ready( function () {
     biggerTitle = Joomla.JText._('TPL_BEEZ3_INCREASE_SIZE');
     smallerTitle = Joomla.JText._('TPL_BEEZ3_DECREASE_SIZE');
     resetTitle = Joomla.JText._('TPL_BEEZ3_REVERT_STYLES_TO_DEFAULT');
+
 });
-jQuery(document).ready( setUserOptions);
-jQuery(document).ready( addControls);
-jQuery(document).ready( saveSettings);
+window.addEvent('domready', setUserOptions);
+window.addEvent('domready', addControls);
+window.addEvent('unload', saveSettings);

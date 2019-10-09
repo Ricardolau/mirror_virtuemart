@@ -77,9 +77,8 @@ class VirtueMartControllerCart extends JControllerLegacy {
 		$cart->order_language = vRequest::getString('order_language', $cart->order_language);
 		if(!isset($force))$force = VmConfig::get('oncheckout_opc',true);
 		$cart->prepareCartData(false);
+
 		$html=true;
-
-
 		$request = vRequest::getRequest();
 		$task = vRequest::getCmd('task');
 

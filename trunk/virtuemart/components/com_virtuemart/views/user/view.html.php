@@ -52,8 +52,8 @@ class VirtuemartViewUser extends VmView {
 
 		vmLanguage::loadJLang('com_virtuemart_shoppers',TRUE);
 
-		$mainframe = JFactory::getApplication();
-		$pathway = $mainframe->getPathway();
+		$this->app = JFactory::getApplication();
+		$pathway = $this->app->getPathway();
 		$layoutName = $this->getLayout();
 		if ($layoutName == 'login') {
 			parent::display($tpl);
@@ -100,7 +100,7 @@ class VirtuemartViewUser extends VmView {
 		$task = vRequest::getCmd('task', '');
 
 
-
+		$this->allowRegisterVendor = false;
 		if (($this->cart->_fromCart or $this->cart->getInCheckOut()) && empty($virtuemart_userinfo_id)) {
 
 			//New Address is filled here with the data of the cart (we are in the cart)
@@ -169,7 +169,7 @@ class VirtuemartViewUser extends VmView {
 			$this->setLayout($layoutName);
 		}
 
-		if (!$this->userDetails->JUser->get('id')) {
+		if (!$this->userDetails->virtuemart_user_id) {
 			$corefield_title = vmText::_('COM_VIRTUEMART_USER_CART_INFO_CREATE_ACCOUNT');
 		} else {
 			$corefield_title = vmText::_('COM_VIRTUEMART_YOUR_ACCOUNT_DETAILS');
@@ -180,7 +180,7 @@ class VirtuemartViewUser extends VmView {
 			//$pathway->addItem(vmText::_('COM_VIRTUEMART_YOUR_ACCOUNT_DETAILS'), JRoute::_('index.php?option=com_virtuemart&view=user&&layout=edit'));
 		}
 		$pathway_text = vmText::_('COM_VIRTUEMART_YOUR_ACCOUNT_DETAILS');
-		if (!$this->userDetails->JUser->get('id')) {
+		if (!$this->userDetails->virtuemart_user_id) {
 			if ($this->cart->_fromCart or $this->cart->getInCheckOut()) {
 				if ($this->address_type == 'BT') {
 					$vmfield_title = vmText::_('COM_VIRTUEMART_USER_FORM_EDIT_BILLTO_LBL');
@@ -348,10 +348,17 @@ class VirtuemartViewUser extends VmView {
 
 			$this->vendor = $vendorModel->getVendor();
 			$vendorModel->addImages($this->vendor);
-
+		} else {
+			$m	= $this->app->getMenu();
+			if($m){
+				$am = $m->getActive();
+				if($am) {
+					$params = $am->getParams();
+					$this->allowRegisterVendor = $params->get('allowRegisterVendor');
+				}
+			}
 		}
     }
-
 
 
     /**

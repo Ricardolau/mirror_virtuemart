@@ -6,9 +6,9 @@
  *
  * @package	VirtueMart
  * @subpackage User
- * @author Oscar van Eijk, Eugen Stranz
+ * @author Oscar van Eijk, Eugen Stranz, Max Milbers
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2019 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -59,17 +59,25 @@ foreach($this->userFields['fields'] as $field) {
 		<?php
 			$closeDelimiter = false;
 		} else if(!$openTable){ ?>
-            </table>
+			</table>
 			<?php
 		}
 
-        ?>
-        <fieldset>
-        <legend class="userfields_info"><?php echo $field['title'] ?></legend>
+		if($field['name']=='delimiter_userinfo'){
+			if($this->getLayout() == 'edit'){
+				echo $this->loadTemplate('vmshopper');
+			}
 
-        <?php
-        $closeDelimiter = true;
-        $openTable = true;
+		} else {
+			?>
+			<fieldset>
+			<legend class="userfields_info"><?php echo $field['title'] ?></legend>
+
+			<?php
+		}
+
+		$closeDelimiter = true;
+		$openTable = true;
 
 	} elseif ($field['hidden'] == true) {
 
@@ -108,8 +116,8 @@ foreach($this->userFields['fields'] as $field) {
 }
 
 if($closeDelimiter) { ?>
-    </table>
-    </fieldset>
+	</table>
+	</fieldset>
 	<?php
 	$closeDelimiter = false;
 }

@@ -126,7 +126,7 @@ echo shopFunctionsF::getLoginForm (TRUE, FALSE, $url);
 	// end of captcha addition
 
 	renderControlButtons($this,$rview);
-	if ($this->userDetails->JUser->get ('id')) {
+	if ($this->userDetails->virtuemart_user_id) {
 		echo $this->loadTemplate ('addshipto');
 	} ?>
 	<input type="hidden" name="option" value="com_virtuemart"/>

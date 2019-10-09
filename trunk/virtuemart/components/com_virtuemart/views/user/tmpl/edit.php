@@ -37,12 +37,12 @@ $cancelUrl = JRoute::_($url.'&task=cancel');
 
 ?>
 <form method="post" id="adminForm" name="userForm" action="<?php echo JRoute::_($url) ?>" class="form-validate">
-<?php if($this->userDetails->user_is_vendor){ ?>
+<?php //if($this->userDetails->user_is_vendor){ ?>
     <div class="buttonBar-right">
 	<button class="button" type="submit" onclick="javascript:return myValidator(userForm, true);" ><?php echo $this->button_lbl ?></button>
 	&nbsp;
 <button class="button" type="reset" onclick="window.location.href='<?php echo $cancelUrl ?>'" ><?php echo vmText::_('COM_VIRTUEMART_CANCEL'); ?></button></div>
-    <?php } ?>
+    <?php //} ?>
 <?php // Loading Templates in Tabs
 if($this->userDetails->virtuemart_user_id!=0) {
     $tabarray = array();

@@ -93,21 +93,25 @@ class VirtuemartViewProduct extends VmViewAdmin {
 				$this->shoppergroupList = ShopFunctions::renderShopperGroupList($product->shoppergroups);
 
 				//Do we need the children? If there is a C customfield, we dont want them
-				$isCustomVariant = false;
+				$this->product_childs = false;
 				foreach($product->customfields as $custom){
 					if($custom->field_type == 'C' and $custom->virtuemart_product_id == $virtuemart_product_id){
-						$isCustomVariant = true;
+						$this->product_childs = true;
 						break;
 					}
 				}
-				if(!$isCustomVariant){
+
+				if(!$this->product_childs){
 					$product_childIds = $model->getProductChildIds($virtuemart_product_id);
 
 					$product_childs = array();
 					$childs = 0;
 					$maxChilds = VmConfig::get('maxChilds',80);
 					foreach($product_childIds as $id){
-						if($childs++>$maxChilds) break;
+						if($childs++>$maxChilds) {
+							VmWarn('Could not load all children');
+							break;
+						}
 						$product_childs[] = $model->getProductSingle($id,false);
 					}
 					$this->product_childs = $product_childs;

@@ -113,7 +113,7 @@ class TableProducts extends VmTable {
 				    				'min_order_level'=>array(null,'float'),
 				    				'max_order_level'=>array(null,'float'),
 				    				'step_order_level'=>array(null,'float'),
-									//'product_packaging'=>array(null,'float'),
+									'shared_stock'=>array(0,'int'),
 									'product_box'=>array(null,'float')
 									);
 

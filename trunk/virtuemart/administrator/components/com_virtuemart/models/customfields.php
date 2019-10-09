@@ -59,7 +59,7 @@ class VirtueMartModelCustomfields extends VmModel {
 		$q = 'SELECT c.`virtuemart_custom_id`, c.`custom_parent_id`, c.`virtuemart_vendor_id`, c.`custom_jplugin_id`, c.`custom_element`, c.`admin_only`, c.`custom_title`, c.`show_title` , c.`custom_tip`,
 		c.`custom_value`, c.`custom_desc`, c.`field_type`, c.`is_list`, c.`is_hidden`, c.`is_cart_attribute`, c.`is_input`, c.`layout_pos`, c.`custom_params`, c.`shared`, c.`published`, c.`ordering`, c.`virtuemart_shoppergroup_id`, ';
 		$q .= 'field.`virtuemart_customfield_id`, field.`virtuemart_product_id`, field.`customfield_value`, field.`customfield_price`,
-		field.`customfield_params`, field.`published` as fpublished, field.`override`, field.`disabler`, field.`ordering`
+		field.`customfield_params`, field.`published` as fpublished, field.`override`, field.`disabler`, field.`noninheritable`, field.`ordering`
 		FROM `#__virtuemart_customs` AS c LEFT JOIN `#__virtuemart_product_customfields` AS field ON c.`virtuemart_custom_id` = field.`virtuemart_custom_id` ';
 		return $q;
 	}
@@ -174,12 +174,17 @@ class VirtueMartModelCustomfields extends VmModel {
 
 			$customfield_ids = array();
 			$customfield_override_ids = array();
+			$mainPrId = reset($productIds);
 			foreach($productCustoms as $field){
 
 				if($field->override!=0){
 					$customfield_override_ids[] = $field->override;
 				} else if ($field->disabler!=0) {
+
 					$customfield_override_ids[] = $field->disabler;
+				} else if($field->noninheritable!=0 and $field->virtuemart_product_id!=$mainPrId){
+
+					$customfield_override_ids[] = $field->noninheritable;
 				}
 
 				$customfield_ids[] = $field->virtuemart_customfield_id;
@@ -1045,7 +1050,6 @@ class VirtueMartModelCustomfields extends VmModel {
 					}
 
 					if(!empty($productCustom) and $productCustom->field_type == 'E') {
-
 						JPluginHelper::importPlugin( 'vmcustom' );
 						$dispatcher = JDispatcher::getInstance();
 						$dispatcher->trigger( 'plgVmPrepareCartProduct', array(&$product, &$product->customfields[$k], $selected, &$product->modificatorSum) );

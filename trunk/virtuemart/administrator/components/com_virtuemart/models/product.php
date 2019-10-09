@@ -1106,6 +1106,8 @@ vmdebug('$limitStart',$limitStart);
 		$pId = $child->virtuemart_product_id;
 		$ppId = $child->product_parent_id;
 		$published = $child->published;
+
+		$child->product_realparent_id = $child->product_parent_id;
 		if(!empty($pId)) $child->allIds[] = $pId;
 
 		$i = 0;
@@ -1141,12 +1143,14 @@ vmdebug('$limitStart',$limitStart);
 			$attribs = get_object_vars ($parentProduct);
 
 			foreach ($attribs as $k=> $v) {
-				if (!property_exists($parentProduct, $k)) continue;
-				if ('product_in_stock' != $k and 'product_ordered' != $k) {// Do not copy parent stock into child
-					if (strpos ($k, '_') !== 0 and property_exists($child, $k) and empty($child->$k)) {
-						$child->$k = $v;
-						//	vmdebug($child->product_parent_id.' $child->$k',$child->$k);
-					}
+
+				if (!property_exists($parentProduct, $k) or 'shared_stock' == $k or (!$child->shared_stock and ('product_in_stock' == $k or 'product_ordered' == $k))) {// Do not copy parent stock into child
+					//vmdebug('Do not copy',$k);
+					continue;
+				}
+				if (strpos ($k, '_') !== 0 and property_exists($child, $k) and empty($child->$k)) {
+					$child->$k = $v;
+					//	vmdebug($child->product_parent_id.' $child->$k',$child->$k);
 				}
 			}
 			$i++;
@@ -1174,7 +1178,7 @@ vmdebug('$limitStart',$limitStart);
 		$customfieldsModel = VmModel::getModel ('Customfields');
 		$child->modificatorSum = null;
 		if(!empty($child->allIds)){
-			$child->customfields = $customfieldsModel->getCustomEmbeddedProductCustomFields ($child->allIds,0,-1, true);
+			$child->customfields = $customfieldsModel->getCustomEmbeddedProductCustomFields ($child->allIds,0,-1, true, $child->product_realparent_id);
 		} else {
 			vmTrace('Empty product allIds in getProduct? '. $virtuemart_product_id);
 		}
@@ -1649,6 +1653,12 @@ vmdebug('$limitStart',$limitStart);
 				$product->id = $this->_autoOrder++;
 			}
 
+			if($product->shared_stock){
+				$prT = $this->getTable ('products');
+				$parent = $prT->load ($product->product_parent_id, 0, 0);
+				$product->product_in_stock = $parent->product_in_stock;
+				$product->product_ordered = $parent->product_ordered;
+			}
 			// Check the stock level
 			if (empty($product->product_in_stock)) {
 				$product->product_in_stock = 0;
@@ -2983,8 +2993,13 @@ vmdebug('$limitStart',$limitStart);
 		if (!in_array ($signOrderedStock, $validFields)) {
 			return FALSE;
 		}
-		//sanitize fields
-		$id = (int)$product->virtuemart_product_id;
+
+		$lproduct = $this->getProductSingle($product->virtuemart_product_id);
+		if($lproduct->shared_stock){
+			$productId = $lproduct->product_parent_id;
+		} else {
+			$productId = $product->virtuemart_product_id;
+		}
 
 		$amount = (float)$amount;
 		$update = array();
@@ -3006,7 +3021,7 @@ vmdebug('$limitStart',$limitStart);
 			if ($signOrderedStock != '=') {
 				$update[] = '`product_ordered` = `product_ordered` ' . $signOrderedStock . $amount;
 			}
-			$q = 'UPDATE `#__virtuemart_products` SET ' . implode (", ", $update) . ' WHERE `virtuemart_product_id` = ' . $id;
+			$q = 'UPDATE `#__virtuemart_products` SET ' . implode (", ", $update) . ' WHERE `virtuemart_product_id` = ' . (int)$productId;
 
 			$db = JFactory::getDbo();
 			$db->setQuery ($q);
@@ -3019,10 +3034,10 @@ vmdebug('$limitStart',$limitStart);
 
 				$db->setQuery ('SELECT (IFNULL(`product_in_stock`,"0")+IFNULL(`product_ordered`,"0")) < IFNULL(`low_stock_notification`,"0") '
 				. 'FROM `#__virtuemart_products` '
-				. 'WHERE `virtuemart_product_id` = ' . $id
+				. 'WHERE `virtuemart_product_id` = ' . (int)$productId
 				);
 				if ($db->loadResult () == 1) {
-					$this->lowStockWarningEmail( $id) ;
+					$this->lowStockWarningEmail( $productId) ;
 				}
 			}
 		}

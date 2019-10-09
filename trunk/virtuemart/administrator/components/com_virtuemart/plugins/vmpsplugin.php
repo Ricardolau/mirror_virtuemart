@@ -906,7 +906,7 @@ abstract class vmPSPlugin extends vmPlugin {
 
 				$nbMethod = $nbMethod + $nb;
 				$idName = $this->_idName;
-				$method_id = $method->$idName;
+				$method_id = $method->{$idName};
 			} else {
 				unset($this->methods[$k]);
 			}
@@ -927,7 +927,7 @@ abstract class vmPSPlugin extends vmPlugin {
 
 				$nbMethod = $nbMethod + $nb;
 				$idName = $this->_idName;
-				$method_ids[] = $method->$idName;
+				$method_ids[] = $method->{$idName};
 			} else {
 				unset($this->methods[$k]);
 			}
@@ -972,17 +972,17 @@ abstract class vmPSPlugin extends vmPlugin {
 			if(!empty($method->categories)) $cat_cond = false;
 			//vmdebug('hmm, my $cat_cond',$method);
 			//if at least one product is  in a certain category, display this shipment
-			if(!is_array($method->categories)) $method->categories = array($method->categories);
-			if(!is_array($method->blocking_categories)) $method->blocking_categories = array($method->blocking_categories);
+			if(!empty($method->categories) and !is_array($method->categories)) $method->categories = array($method->categories);
+			if(!empty($method->blocking_categories) and !is_array($method->blocking_categories)) $method->blocking_categories = array($method->blocking_categories);
 
 			$msg = 'None of the products is in a category of the method '.$method->{$this->_psType.'_name'};
 			//Gather used cats
 			foreach($cart->products as $product){
-				if(array_intersect($product->categories,$method->categories)){
+				if(empty($method->categories) or array_intersect($product->categories,$method->categories)){
 					$cat_cond = true;
 					//break;
 				}
-				if(array_intersect($product->categories,$method->blocking_categories)){
+				if(empty($method->blocking_categories) or array_intersect($product->categories,$method->blocking_categories)){
 					$cat_cond = false;
 					$msg = 'At least one of the products is in a category which blockes the method '.$method->{$this->_psType.'_name'};
 					break;
@@ -1271,7 +1271,7 @@ abstract class vmPSPlugin extends vmPlugin {
 			}
 			// end code addition
 			$taxrules = array_merge($cart->cartData['VatTax'],$cart->cartData['taxRulesBill']);
-			//$taxrules = $cart->cartData['VatTax'];
+			//$taxrules = $cart->cartData['VatTax'];	//calculationh. around line 901, disabled
 			$cartdiscountBeforeTax = $calculator->roundInternal($calculator->cartRuleCalculation($cart->cartData['DBTaxRulesBill'], $cart->cartPrices['salesPrice']));
 
 			if(!empty($taxrules) ){

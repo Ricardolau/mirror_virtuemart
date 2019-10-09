@@ -262,7 +262,7 @@ class VirtuemartViewCategory extends VmView {
 		} else {
 
 			//The search must be executed first
-			if($this->showproducts or !empty($this->keyword)) {
+			if(!empty($this->keyword)) {
 
 				if(!$this->keyword) VirtueMartModelProduct::$omitLoaded = VmConfig::get('omitLoaded');
 				// Load the products in the given category
@@ -276,14 +276,28 @@ class VirtuemartViewCategory extends VmView {
 
 			if(!$legacy) {
 				$opt = array('featured', 'discontinued', 'latest', 'topten', 'recent');
-				foreach( $opt as $o ) {
+				if($this->showproducts and empty($this->keyword)){
+					$opt[] = 'products';
+				}
 
-					VirtueMartModelProduct::$omitLoaded = VmConfig::get('omitLoaded_'.$o);
-					//Lets check, if we use the new Frontpages settings
-					if(!empty($this->$o) and !empty($this->{$o.'_rows'})) {
-						$this->products[$o] = $this->productModel->getProductListing( $o, $this->perRow*$this->{$o.'_rows'} );
-						$this->productModel->addImages( $this->products[$o], $imgAmount );
+				foreach( $opt as $o ) {
+					if($o == 'products'){
+						$ids = $this->productModel->sortSearchListQuery (TRUE, $this->categoryId);
+						VirtueMartModelProduct::$_alreadyLoadedIds = array_merge(VirtueMartModelProduct::$_alreadyLoadedIds,$ids);
+						$this->vmPagination = $this->productModel->getPagination($this->perRow);
+						$this->orderByList = $this->productModel->getOrderByList($this->categoryId);
+						$this->products['products'] = $this->productModel->getProducts ($ids);
+						$this->productModel->addImages($this->products['products'], $imgAmount );
+					} else {
+						VirtueMartModelProduct::$omitLoaded = VmConfig::get('omitLoaded_'.$o);
+						//Lets check, if we use the new Frontpages settings
+						if(!empty($this->{$o}) and !empty($this->{$o.'_rows'})) {
+							$this->products[$o] = $this->productModel->getProductListing( $o, $this->perRow*$this->{$o.'_rows'} );
+							$this->productModel->addImages( $this->products[$o], $imgAmount );
+						}
 					}
+
+
 				}
 			}
 		}

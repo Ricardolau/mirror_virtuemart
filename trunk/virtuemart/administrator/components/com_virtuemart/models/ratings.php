@@ -500,14 +500,13 @@ class VirtueMartModelRatings extends VmModel {
 
 		if($allowReview and !empty($data['comment'])){
 			//if(!empty($data['comment'])){
-			$data['comment'] = substr($data['comment'], 0, VmConfig::get('vm_reviews_maximum_comment_length', 2000)) ;
 
-			// no HTML TAGS but permit all alphabet
-			$value =	preg_replace('@<[\/\!]*?[^<>]*?>@si','',$data['comment']);//remove all html tags
-			$value =	(string)preg_replace('#on[a-z](.+?)\)#si','',$value);//replace start of script onclick() onload()...
-			$value = trim(str_replace('"', ' ', $value),"'") ;
-			$data['comment'] =	(string)preg_replace('#^\'#si','',$value);//replace ' at start
-			$data['comment'] = nl2br($data['comment']);  // keep returns
+			$data['comment'] = vRequest::filter($data['comment'],FILTER_SANITIZE_STRING, array());
+			$data['comment'] = ShopfunctionsF::vmSubstr($data['comment'], 0, VmConfig::get('vm_reviews_maximum_comment_length', 2000)) ;
+			$data['comment'] = nl2br($data['comment']);
+
+
+
 			//set to defaut value not used (prevent hack)
 			$data['review_ok'] = 0;
 			$data['review_rating'] = 0;

@@ -762,7 +762,7 @@ class calculationHelper {
 
 		foreach ($this->_cart->products as $cprdkey => $product) {
 			//for Rules with Categories / Manufacturers
-			foreach($this->_cart->cartData['DBTaxRulesBill'] as $k=>$dbrule){
+			foreach($this->_cart->cartData['DBTaxRulesBill'] as $k=>&$dbrule){
 				$applyRule = FALSE;
 				if(!empty($dbrule['calc_categories']) || !empty($dbrule['virtuemart_manufacturers'])){
 					if(!isset($dbrule['subTotal'])) $dbrule['subTotal'] = 0.0;
@@ -780,6 +780,7 @@ class calculationHelper {
 				} else {
 					$applyRule = TRUE;
 				}
+
 				if($applyRule){
 					if(!isset($dbrule['subTotal'])) $dbrule['subTotal'] = 0.0;
 					$dbrule['subTotal'] += $this->_cart->cartPrices[$cprdkey]['subtotal_with_tax'];
@@ -817,32 +818,35 @@ class calculationHelper {
 
 			// subTotal for each taxID necessary, equal if calc_categories exists ore not
 			if(!empty($this->_cart->cartData['taxRulesBill'])) {
-				foreach($this->_cart->cartData['taxRulesBill'] as $k=>$trule) {
-					if(empty($this->_cart->cartData['taxRulesBill'][$k]['subTotal'])) $this->_cart->cartData['taxRulesBill'][$k]['subTotal'] = 0.0;
+
+				foreach($this->_cart->cartData['taxRulesBill'] as $k=>&$trule) {
+					if(empty($trule['subTotal'])) $trule['subTotal'] = 0.0;
 					if($product->product_tax_id != 0) {
 						if($product->product_tax_id == $k) {
-							$this->_cart->cartData['taxRulesBill'][$k]['subTotal']+= $this->_cart->cartPrices[$cprdkey]['subtotal_with_tax'];
+							$trule['subTotal']+= $this->_cart->cartPrices[$cprdkey]['subtotal_with_tax'];
 						}
 					} else if(!empty($trule['calc_categories']) || !empty($trule['virtuemart_manufacturers'])) {
 						$setCat = !empty($trule['calc_categories']) ? array_intersect($trule['calc_categories'],$product->categories) : array();
 						$setMan = !empty($trule['virtuemart_manufacturers']) ? array_intersect($trule['virtuemart_manufacturers'],$product->virtuemart_manufacturer_id) : array();
+
 						if(!empty($trule['calc_categories']) && !empty($trule['virtuemart_manufacturers'])) {
 							if(count($setCat)>0 && count($setMan)>0) {
-								$this->_cart->cartData['taxRulesBill'][$k]['subTotal'] += $this->_cart->cartPrices[$cprdkey]['subtotal_with_tax'];
+								$trule['subTotal'] += $this->_cart->cartPrices[$cprdkey]['subtotal_with_tax'];
 							}
 						} else {
 							if(count($setCat)>0 || count($setMan)>0) {
-								$this->_cart->cartData['taxRulesBill'][$k]['subTotal'] += $this->_cart->cartPrices[$cprdkey]['subtotal_with_tax'];
+								$trule['subTotal'] += $this->_cart->cartPrices[$cprdkey]['subtotal_with_tax'];
 							}
 						}
 					} else {
-						$this->_cart->cartData['taxRulesBill'][$k]['subTotal'] += $this->_cart->cartPrices[$cprdkey]['subtotal_with_tax'];
+						$trule['subTotal'] += $this->_cart->cartPrices[$cprdkey]['subtotal_with_tax'];
 					}
 					//vmdebug('$this->_cart->cartData["taxRulesBill"]',$this->_cart->cartPrices[$cprdkey]);
+					$this->_cart->cartData['taxRulesBill'][$k]=$trule;
 				}
 			}
 
-			foreach($this->_cart->cartData['DATaxRulesBill'] as &$darule) {
+			foreach($this->_cart->cartData['DATaxRulesBill'] as $k=>&$darule) {
 				if(!empty($darule['calc_categories']) || !empty($darule['virtuemart_manufacturers'])) {
 					if(!isset($darule['subTotal'])) $darule['subTotal'] = 0.0;
 					$setCat = !empty($darule['calc_categories']) ? array_intersect($darule['calc_categories'],$product->categories) : array();
@@ -857,6 +861,7 @@ class calculationHelper {
 						}
 					}
 				}
+				$this->_cart->cartData['DATaxRulesBill'][$k]=$trule;
 			}
 
 		}
@@ -893,7 +898,8 @@ class calculationHelper {
 		if(count($this->_cart->cartData['taxRulesBill'])==1){
 			reset($this->_cart->cartData['taxRulesBill']);
 			$ind = key($this->_cart->cartData['taxRulesBill']);
-			$this->_cart->cartData['taxRulesBill'][$ind]['subTotal'] = $this->_cart->cartPrices['toTax'];
+			//Disables, breaks rules per bill per category/manufacturer check vmpsplugin.php setPrices around line 1274
+			//$this->_cart->cartData['taxRulesBill'][$ind]['subTotal'] = $this->_cart->cartPrices['toTax'];
 			//vmdebug('$this->_cart->cartData[\'taxRulesBill\'][$ind]',$ind,$this->_cart->cartData['taxRulesBill']);
 		}
 
@@ -918,24 +924,22 @@ class calculationHelper {
 
 		// now calculate the discount for whole cart and reduce subTotal for each taxRulesBill, to calculate correct tax, also if there are more than one tax rules
 		$totalDiscountBeforeTax = $this->_cart->cartPrices['salesPriceCoupon'];
-		foreach ($this->_cart->cartData['taxRulesBill'] as $k=>$rule) {
+		foreach ($this->_cart->cartData['taxRulesBill'] as $k=>&$rule) {
 
 			if(!empty($rule['subTotal'])) {
 				if (isset($this->_cart->cartData['VatTax'][$k]['DBTax'])) {
-
-					$this->_cart->cartData['taxRulesBill'][$k]['subTotal'] += $this->_cart->cartData['VatTax'][$k]['DBTax'];
+					$rule['subTotal'] += $this->_cart->cartData['VatTax'][$k]['DBTax'];
 				}
 				if (!isset($rule['percentage']) && $rule['subTotal'] < $this->_cart->cartPrices['salesPrice']) {
-					$this->_cart->cartData['taxRulesBill'][$k]['percentage'] = $rule['subTotal'] / ($this->_cart->cartPrices['salesPrice'] + $cartdiscountBeforeTax);
+					$rule['percentage'] = $rule['subTotal'] / ($this->_cart->cartPrices['salesPrice'] + $cartdiscountBeforeTax);
 				} else if (!isset($rule['percentage'])) {
-					$this->_cart->cartData['taxRulesBill'][$k]['percentage'] = 1;
+					$rule['percentage'] = 1;
 				}
-				//vmdebug('foreach ($this->_cart->cartData[\'taxRulesBill\']',$this->_cart->cartData['taxRulesBill'][$k]['subTotal']);
-				$this->_cart->cartData['taxRulesBill'][$k]['subTotal'] += $totalDiscountBeforeTax * $this->_cart->cartData['taxRulesBill'][$k]['percentage'];
-
+				$rule['subTotal'] += $totalDiscountBeforeTax * $rule['percentage'];
 			} else {
-				$this->_cart->cartData['taxRulesBill'][$k]['subTotal'] = $this->_cart->cartPrices['toTax'];
+				$rule['subTotal'] = $this->_cart->cartPrices['toTax'];
 			}
+			$this->_cart->cartData['taxRulesBill'][$k] = $rule;
 		}
 
 		// now each taxRule subTotal is reduced with DBTax and we can calculate the cartTax
@@ -1218,7 +1222,7 @@ class calculationHelper {
 			return $testedRules;
 		}
 
-		foreach ($this->allrules[$this->productVendorId][$entrypoint] as $i => $rule) {
+		foreach ($this->allrules[$this->productVendorId][$entrypoint] as $i => &$rule) {
 			$rule = (array) $rule;
 			if(!empty($id)){
 				if($rule['virtuemart_calc_id']==$id){

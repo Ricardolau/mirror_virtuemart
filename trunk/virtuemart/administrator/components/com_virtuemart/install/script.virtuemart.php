@@ -307,6 +307,10 @@ class com_virtuemartInstallerScript {
 			'customer_note' => '`oc_note` text NOT NULL DEFAULT "" COMMENT \'old customer notes\'',
 		));
 
+		$this->alterTable('#__virtuemart_vendor_users',array(
+		'virtuemart_vendor_id' => '`virtuemart_vendor_user_id` int(1) UNSIGNED NOT NULL DEFAULT \'0\'',
+		));
+
 		JLoader::register('GenericTableUpdater', $this->path .'/administrator/components/com_virtuemart/helpers/tableupdater.php');
 		$updater = new GenericTableUpdater();
 

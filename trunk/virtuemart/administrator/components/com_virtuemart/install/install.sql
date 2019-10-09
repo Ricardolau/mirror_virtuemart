@@ -883,6 +883,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_product_customfields` (
   `customfield_price` decimal(15,6) COMMENT 'price',
   `disabler` INT(1) UNSIGNED NOT NULL DEFAULT '0',
   `override` INT(1) UNSIGNED NOT NULL DEFAULT '0',
+  `noninheritable` INT(1) UNSIGNED NOT NULL DEFAULT '0',
   `customfield_params` text COMMENT 'Param for Plugins',
   `product_sku` varchar(64),
   `product_gtin` varchar(64),
@@ -1270,10 +1271,10 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_vendor_medias` (
 
 CREATE TABLE IF NOT EXISTS `#__virtuemart_vendor_users` (
   `id` int(1) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `virtuemart_vendor_id` int(1) UNSIGNED NOT NULL DEFAULT '0',
+  `virtuemart_vendor_user_id` int(1) UNSIGNED NOT NULL DEFAULT '0',
   `virtuemart_user_id` int(1) UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `virtuemart_vendor_id` (`virtuemart_vendor_id`,`virtuemart_user_id`)
+  UNIQUE KEY `virtuemart_vendor_user_id` (`virtuemart_vendor_user_id`,`virtuemart_user_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------

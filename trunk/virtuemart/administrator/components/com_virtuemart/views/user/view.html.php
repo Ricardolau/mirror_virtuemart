@@ -36,8 +36,9 @@ class VirtuemartViewUser extends VmViewAdmin {
 		vmLanguage::loadJLang('com_virtuemart_shoppers',TRUE);
 
 		$task = vRequest::getCmd('task', 'edit');
+		$isSuperOrVendor = vmAccess::isSuperVendor();
 		if($task == 'editshop'){
-			$isSuperOrVendor = vmAccess::isSuperVendor();
+
 			if(empty($isSuperOrVendor)){
 				JFactory::getApplication()->redirect( 'index.php?option=com_virtuemart', vmText::_('JERROR_ALERTNOAUTHOR'), 'error');
 			} else {
@@ -97,6 +98,19 @@ class VirtuemartViewUser extends VmViewAdmin {
 			$this->lists['vendors'] = '';
 			if($this->showVendors()){
 				$this->lists['vendors'] = ShopFunctions::renderVendorList($userDetails->virtuemart_vendor_id, 'virtuemart_vendor_id', false);
+			}
+
+			$isSuper = vmAccess::isSuperVendor($userDetails->JUser->get('id'),'none');
+
+			if(VmConfig::get('multixcart',0)=='byvendor' and $isSuper==0){
+
+				$db = JFactory::getDbo();
+				$q = 'SELECT virtuemart_vendor_user_id FROM #__virtuemart_vendor_users WHERE virtuemart_user_id = "'.$userDetails->JUser->get('id').'"';
+				$db->setQuery($q);
+				$userDetails->virtuemart_vendor_user_id = $db->loadResult();
+				//$model->getTable('vendor_users');
+				//virtuemart_vendor_user_id
+				$this->lists['vendor'] = ShopFunctions::renderVendorList($userDetails->virtuemart_vendor_user_id, 'virtuemart_vendor_user_id', false);
 			}
 
 			$model->setId($userDetails->JUser->get('id'));
@@ -164,7 +178,6 @@ class VirtuemartViewUser extends VmViewAdmin {
 			}
 
 			if (!empty($userDetails->user_is_vendor)) {
-
 
 
 				$vendorM = VmModel::getModel('vendor');

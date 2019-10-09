@@ -281,7 +281,7 @@ class VirtueMartModelUser extends VmModel {
 				$ven = $vM->getVendor($vendorId);
 				if($ven->max_customers>=0){
 					$this->setGetCount (true);
-					parent::exeSortSearchListQuery(2,'virtuemart_user_id',' FROM #__virtuemart_vendor_users as vu LEFT JOIN `#__users` as ju ON vu.virtuemart_user_id = ju.id',' WHERE ( `virtuemart_vendor_id` = "'.$vendorId.'" AND ju.`block` = 0) ');
+					parent::exeSortSearchListQuery(2,'virtuemart_user_id',' FROM #__virtuemart_vendor_users as vu LEFT JOIN `#__users` as ju ON vu.virtuemart_user_id = ju.id',' WHERE ( `virtuemart_vendor_user_id` = "'.$vendorId.'" AND ju.`block` = 0) ');
 					$this->setGetCount (false);
 					if($ven->max_customers<($this->_total+1)){
 						vmWarn('You are not allowed to register more than '.$ven->max_customers.' users');
@@ -643,17 +643,19 @@ class VirtueMartModelUser extends VmModel {
 			}
 		}
 
-		if(!empty($data['vendorId']) and $data['vendorId']>1 and
+		$admin = JFactory::getApplication()->isClient('administrator');
+		vmdebug('Muh',$data);
+		if(!empty($data['virtuemart_vendor_user_id']) and ($data['virtuemart_vendor_user_id']>1) and
 							( 	(empty($data['virtuemart_vendor_id'] and empty($data['user_is_vendor']))) or
-								(!empty($data['virtuemart_vendor_id']) and $data['virtuemart_vendor_id']!=$data['vendorId']) ) ){
-			//$vUserD = array('virtuemart_user_id' => $data['virtuemart_user_id'],'virtuemart_vendor_id' => $data['vendorId']);
+								(!empty($data['virtuemart_vendor_id']) and $data['virtuemart_vendor_id']!=$data['virtuemart_vendor_user_id']) ) ){
+			//$vUserD = array('virtuemart_user_id' => $data['virtuemart_user_id'],'virtuemart_vendor_id' => $data['virtuemart_vendor_user_id']);
 			$vUser = $this->getTable('vendor_users');
-			$vUser->load((int)$data['vendorId']);
+			$vUser->load((int)$data['virtuemart_vendor_user_id']); vmdebug('Muh 3');
 			if(!$vUser->virtuemart_user_id){
-				$vUser->bind(array('virtuemart_vendor_id'=>(int)$data['vendorId'],'virtuemart_user_id'=>$data['virtuemart_user_id']));
+				$vUser->bind(array('virtuemart_vendor_user_id'=>(int)$data['virtuemart_vendor_user_id'],'virtuemart_user_id'=>$data['virtuemart_user_id']));
 			} else if(!in_array((int)$data['virtuemart_user_id'],$vUser->virtuemart_user_id)){
 				$arr = array_merge($vUser->virtuemart_user_id,(array)$data['virtuemart_user_id']);
-				$vUser->bind(array('virtuemart_vendor_id'=>(int)$data['vendorId'],'virtuemart_user_id'=>$arr));
+				$vUser->bind(array('virtuemart_vendor_user_id'=>(int)$data['virtuemart_vendor_user_id'],'virtuemart_user_id'=>$arr));
 			}
 			$vUser->store();
 
@@ -1186,44 +1188,55 @@ class VirtueMartModelUser extends VmModel {
 
 		if(vmAccess::manager('user.delete')){
 
-			$userInfo = $this->getTable('userinfos');
-			$vm_shoppergroup_xref = $this->getTable('vmuser_shoppergroups');
-			$vmusers = $this->getTable('vmusers');
-			$_status = true;
-			foreach($userIds as $userId) {
+			$superVendor = vmAccess::isSuperVendor();
+			if(VmConfig::get('multixcart',0)=='byvendor' and $superVendor>1){
+				$vm_vendor = $this->getTable('vendor_users');
+				foreach($userIds as $userId) {
+					if (!$vm_vendor->delete($userId)) {
+						vmError('remove user did not work for '.$userId);
+					}
+				}
+			} else {
+				$userInfo = $this->getTable('userinfos');
+				$vm_shoppergroup_xref = $this->getTable('vmuser_shoppergroups');
+				$vmusers = $this->getTable('vmusers');
+				$_status = true;
+				foreach($userIds as $userId) {
 
-				$_JUser = JUser::getInstance($userId);
+					$_JUser = JUser::getInstance($userId);
 
-				if ($this->getSuperAdminCount() <= 1) {
-					// Prevent deletion of the only Super Admin
-					//$_u = JUser::getInstance($userId);
-					if ($_JUser->get('gid') == __SUPER_ADMIN_GID) {
-						vmError(vmText::_('COM_VIRTUEMART_USER_ERR_LASTSUPERADMIN'));
+					if ($this->getSuperAdminCount() <= 1) {
+						// Prevent deletion of the only Super Admin
+						//$_u = JUser::getInstance($userId);
+						if ($_JUser->get('gid') == __SUPER_ADMIN_GID) {
+							vmError(vmText::_('COM_VIRTUEMART_USER_ERR_LASTSUPERADMIN'));
+							$_status = false;
+							continue;
+						}
+					}
+
+					if (!$userInfo->delete($userId)) {
+						return false;
+					}
+
+					if (!$vm_shoppergroup_xref->delete($userId)) {
+						$_status = false;
+						continue;
+					}
+
+					if (!$vmusers->delete($userId)) {
+						$_status = false;
+						continue;
+					}
+
+					if (!$_JUser->delete()) {
+						vmError($_JUser->getError());
 						$_status = false;
 						continue;
 					}
 				}
-
-				if (!$userInfo->delete($userId)) {
-					return false;
-				}
-
-				if (!$vm_shoppergroup_xref->delete($userId)) {
-					$_status = false;
-					continue;
-				}
-
-				if (!$vmusers->delete($userId)) {
-					$_status = false;
-					continue;
-				}
-
-				if (!$_JUser->delete()) {
-					vmError($_JUser->getError());
-					$_status = false;
-					continue;
-				}
 			}
+
 		}
 
 		return $_status;
@@ -1319,7 +1332,7 @@ class VirtueMartModelUser extends VmModel {
 		$whereAnd = array();
 		if(VmConfig::get('multixcart',0)=='byvendor' and $superVendor>1){
 			$joinedTables .= ' LEFT JOIN #__virtuemart_vendor_users AS vu ON ju.id = vmu.virtuemart_user_id';
-			$whereAnd[] = ' vu.virtuemart_vendor_id = '.$superVendor.' ';
+			$whereAnd[] = ' vu.virtuemart_vendor_user_id = '.$superVendor.' ';
 		}
 
 		if(VmConfig::get('multixcart',0)!='none' and vmAccess::manager('managevendors') and $this->searchTable=='vendors'){
@@ -1351,7 +1364,7 @@ class VirtueMartModelUser extends VmModel {
 			if(!empty($search)){
 				$search = ' WHERE (`name` LIKE "%'.$search.'%" OR `username` LIKE "%'.$search.'%" OR `customer_number` LIKE "%'.$search.'%")';
 			} else if($superVendor!=1) {
-				$search = ' WHERE vu.virtuemart_vendor_id = '.$superVendor.' ';
+				$search = ' WHERE vu.virtuemart_vendor_user_id = '.$superVendor.' ';
 			}
 
 			$q = 'SELECT ju.`id`,`name`,`username` FROM `#__users` as ju';

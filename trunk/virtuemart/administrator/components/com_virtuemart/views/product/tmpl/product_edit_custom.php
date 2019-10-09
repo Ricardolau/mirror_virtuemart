@@ -63,9 +63,13 @@ defined('_JEXEC') or die('Restricted access');
 					}
 
 					if(!empty($title)){
-						$text = '<span style="white-space: nowrap;" class="hasTip" title="'.htmlentities(vmText::_('COM_VIRTUEMART_CUSTOMFLD_DIS_DER_TIP')).'">d:'.VmHtml::checkbox('field[' . $i . '][disabler]',$customfield->disabler,$checkValue).'</span>';
-
+						$tip = 'COM_VIRTUEMART_CUSTOMFLD_DIS_DER_TIP';
+						$text = '<span style="white-space: nowrap;" class="hasTip" title="'.htmlentities(vmText::_($tip)).'">d:'.VmHtml::checkbox('field[' . $i . '][disabler]',$customfield->disabler,$checkValue).'</span>';
+					} else {
+						$tip = 'COM_VIRTUEMART_CUSTOMFLD_DIS_INH_TIP';
+						$text = '<span style="white-space: nowrap;" class="hasTip" title="'.htmlentities(vmText::_($tip)).'">disinh:'.VmHtml::checkbox('field[' . $i . '][noninheritable]',$customfield->noninheritable,$checkValue).'</span>';
 					}
+
 
 					if ($customfield->is_cart_attribute) $cartIcone=  'default';
 					else  $cartIcone= 'default-off';

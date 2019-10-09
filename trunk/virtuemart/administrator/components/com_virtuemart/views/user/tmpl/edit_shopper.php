@@ -26,6 +26,19 @@ defined('_JEXEC') or die('Restricted access');
 		<?php echo vmText::_('COM_VIRTUEMART_SHOPPER_FORM_LBL') ?>
 	</legend>
 	<table class="adminform">
+        <tr>
+			<?php if($this->showVendors()) { ?>
+
+                <td class="key">
+                    <label for="is_vendor">
+						<?php echo vmText::_('COM_VIRTUEMART_USER_FORM_ISVENDOR') ?>:
+                    </label>
+                </td>
+			<?php } ?>
+            <td>
+				<?php echo VmHTML::checkbox('user_is_vendor', $this->userDetails->user_is_vendor); ?>
+            </td>
+        </tr>
 		<tr>
 			<td class="key">
 				<label for="virtuemart_vendor_id">
@@ -35,17 +48,18 @@ defined('_JEXEC') or die('Restricted access');
 			<td>
 				<?php echo $this->lists['vendors']; ?>
 			</td>
-			<?php if($this->showVendors()) { ?>
+			<?php if(!empty($this->lists['vendor'])){ ?>
+                <td class="key">
+                    <label for="virtuemart_vendor_id">
+						<?php echo vmText::_('COM_VM_VENDOR_USER') ?>:
+                    </label>
+                </td>
+                <td>
+					<?php echo $this->lists['vendor']; ?>
+                </td>
+			<?php } ?>
 
-            <td class="key">
-                <label for="is_vendor">
-					<?php echo vmText::_('COM_VIRTUEMART_USER_FORM_ISVENDOR') ?>:
-                </label>
-            </td>
-            <?php } ?>
-            <td>
-				<?php echo VmHTML::checkbox('user_is_vendor', $this->userDetails->user_is_vendor); ?>
-            </td>
+
 		</tr>
 
 		<tr>

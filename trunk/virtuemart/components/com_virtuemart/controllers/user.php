@@ -226,14 +226,14 @@ class VirtueMartControllerUser extends JControllerLegacy
 					$userModel->setId(0);
 					$superUser = vmAccess::isSuperVendor();
 					if($superUser>1){
-						$data['vendorId'] = $superUser;
+						$data['virtuemart_vendor_user_id'] = $superUser;
 					}
 					$switch = true;
 				}
 
 				$cart = VirtueMartCart::getCart();
 				if(!empty($cart->vendorId) and $cart->vendorId!=1){
-					$data['vendorId'] = $cart->vendorId;
+					$data['virtuemart_vendor_user_id'] = $cart->vendorId;
 				}
 
 				if(!$cartObj and !isset($data['virtuemart_shoppergroup_id']) and vmAccess::manager('user.edit')){

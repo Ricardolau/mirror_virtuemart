@@ -129,7 +129,8 @@ class Creditcard {
 		$tmp = 0;
 
 		//Add the numbers not doubled earlier ( odd placement )
-		for ($i = 0; $i <= strlen($card_temp); $i = $i + 2) {
+		$l = strlen($card_temp);
+		for ($i = 0; $i < $l; $i = $i + 2) {
 			$tmp = substr($card_temp, $i, 1) + $tmp;
 		}
 

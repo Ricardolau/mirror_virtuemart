@@ -541,7 +541,7 @@ jQuery(document).ready(function(){
 	var chkOutBtn = jQuery("#checkoutFormSubmit");
 	var form = jQuery("#checkoutForm");
 	
-	jQuery("#checkoutForm").find("input").bind("change", Virtuemart.autocheck);
+	jQuery("#checkoutForm").find(":radio, :checkbox").bind("change", Virtuemart.autocheck);
 	
 	jQuery(".output-shipto").find("input").unbind("change", Virtuemart.autocheck);
 	

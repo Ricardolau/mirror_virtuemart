@@ -123,7 +123,13 @@ Virtuemart.cartEffect = function(form) {
 					"autoCenter": true,
 					"closeBtn": false,
 					"closeClick": false,
-					"content": txt
+					"content": txt/*,
+					"autodimension"	: true,
+					"onComplete"	: function () {
+						setTimeout(function(){
+							jQuery.fancybox.close();
+							}, 500);
+					}*/
 				});
 			} else {
 				jQuery.facebox(txt, 'my-groovy-style');

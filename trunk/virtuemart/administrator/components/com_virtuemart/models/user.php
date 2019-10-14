@@ -643,22 +643,29 @@ class VirtueMartModelUser extends VmModel {
 			}
 		}
 
-		$admin = JFactory::getApplication()->isClient('administrator');
-		vmdebug('Muh',$data);
-		if(!empty($data['virtuemart_vendor_user_id']) and ($data['virtuemart_vendor_user_id']>1) and
+		//$admin = JFactory::getApplication()->isClient('administrator');
+
+		if(!empty($data['virtuemart_vendor_user_id']) and is_array($data['virtuemart_vendor_user_id']) or ($data['virtuemart_vendor_user_id']>1) and
 							( 	(empty($data['virtuemart_vendor_id'] and empty($data['user_is_vendor']))) or
 								(!empty($data['virtuemart_vendor_id']) and $data['virtuemart_vendor_id']!=$data['virtuemart_vendor_user_id']) ) ){
 			//$vUserD = array('virtuemart_user_id' => $data['virtuemart_user_id'],'virtuemart_vendor_id' => $data['virtuemart_vendor_user_id']);
 			$vUser = $this->getTable('vendor_users');
-			$vUser->load((int)$data['virtuemart_vendor_user_id']); vmdebug('Muh 3');
-			if(!$vUser->virtuemart_user_id){
-				$vUser->bind(array('virtuemart_vendor_user_id'=>(int)$data['virtuemart_vendor_user_id'],'virtuemart_user_id'=>$data['virtuemart_user_id']));
-			} else if(!in_array((int)$data['virtuemart_user_id'],$vUser->virtuemart_user_id)){
-				$arr = array_merge($vUser->virtuemart_user_id,(array)$data['virtuemart_user_id']);
-				$vUser->bind(array('virtuemart_vendor_user_id'=>(int)$data['virtuemart_vendor_user_id'],'virtuemart_user_id'=>$arr));
-			}
-			$vUser->store();
+			$vUser->load((int)$data['virtuemart_user_id']);
+			vmdebug('vendor_users load',$vUser);
+			$toStore = array('virtuemart_user_id'=>$data['virtuemart_user_id']);
+			if(!$vUser->virtuemart_vendor_user_id){
+				$arr = (array) $data['virtuemart_vendor_user_id'];
+			} else {
+				if(!is_array($data['virtuemart_vendor_user_id'])){
+					$arr = array_unique(array_merge($vUser->virtuemart_vendor_user_id,(array)$data['virtuemart_vendor_user_id']));
+				} else {
+					$arr = $data['virtuemart_vendor_user_id'];
+				}
 
+			}
+			$toStore['virtuemart_vendor_user_id'] = $arr; vmdebug('vendor_users bind',$arr);
+			$vUser->bind($toStore);
+			$vUser->store();
 		}
 
 		return $noError;
@@ -733,10 +740,10 @@ class VirtueMartModelUser extends VmModel {
 				}
 			} else {
 
-				if(!$manager){
-					$userId = $user->id;
-				} else {
+				if($manager and isset($data['virtuemart_user_id'])){
 					$userId = (int)$data['virtuemart_user_id'];
+				} else {
+					$userId = $user->id;
 				}
 				$q = 'SELECT `virtuemart_userinfo_id` FROM `#__virtuemart_userinfos`
 				WHERE `virtuemart_user_id` = '.$userId.'

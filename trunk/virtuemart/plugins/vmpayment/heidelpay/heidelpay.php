@@ -131,18 +131,8 @@ class plgVmPaymentHeidelpay extends vmPSPlugin {
 		$return_context = $session->getId ();
 		$this->_debug = $method->HEIDELPAY_DEBUG;
 
-		if (!class_exists ('VirtueMartModelOrders')) {
-			require(VMPATH_ADMIN . DS . 'models' . DS . 'orders.php');
-		}
-		if (!class_exists ('VirtueMartModelCurrency')) {
-			require(VMPATH_ADMIN . DS . 'models' . DS . 'currency.php');
-		}
-
 		$address = ((isset($order['details']['BT'])) ? $order['details']['BT'] : $order['details']['ST']);
 
-		if (!class_exists ('TableVendors')) {
-			require(VMPATH_ADMIN . DS . 'table' . DS . 'vendors.php');
-		}
 		$vendorModel = VmModel::getModel ('Vendor');
 		$vendorModel->setId (1);
 		$vendor = $vendorModel->getVendor ();

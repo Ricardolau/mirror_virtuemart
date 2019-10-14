@@ -1201,6 +1201,7 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 				$currentUser = JFactory::getUser();
 				if(!$currentUser->guest) {
 					$um = VmModel::getModel('user');
+					$this->BT['address_type'] = 'BT';
 					$um->storeAddress($this->BT);
 				}
 				return true;

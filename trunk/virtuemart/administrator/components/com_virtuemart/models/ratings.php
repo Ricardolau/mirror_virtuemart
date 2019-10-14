@@ -502,7 +502,7 @@ class VirtueMartModelRatings extends VmModel {
 			//if(!empty($data['comment'])){
 
 			$data['comment'] = vRequest::filter($data['comment'],FILTER_SANITIZE_STRING, array());
-			$data['comment'] = ShopfunctionsF::vmSubstr($data['comment'], 0, VmConfig::get('vm_reviews_maximum_comment_length', 2000)) ;
+			$data['comment'] = ShopfunctionsF::vmSubstr($data['comment'], 0, VmConfig::get('reviews_maximum_comment_length', 2000)) ;
 			$data['comment'] = nl2br($data['comment']);
 
 

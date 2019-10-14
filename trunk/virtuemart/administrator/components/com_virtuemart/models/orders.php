@@ -1842,9 +1842,10 @@ class VirtueMartModelOrders extends VmModel {
 		vmdebug( 'handleStockAfterStatusChangedPerProduct '.$oldState.' '.$newState.' '. $quantity, $tableOrderItems->product_quantity);
 		if($newState == $oldState and $quantity == $tableOrderItems->product_quantity) return;
 		// $StatutWhiteList = array('P','C','X','R','S','N');
-		$db = JFactory::getDBO();
+		/*$db = JFactory::getDBO();
 		$db->setQuery('SELECT * FROM `#__virtuemart_orderstates` ');
-		$StatutWhiteList = $db->loadAssocList('order_status_code');
+		$StatutWhiteList = $db->loadAssocList('order_status_code');*/
+		$StatutWhiteList = VirtueMartModelOrderstatus::getOrderStatusNames();
 		// new product is statut N
 		$StatutWhiteList['N'] = Array ( 'order_status_id' => 0 , 'order_status_code' => 'N' , 'order_stock_handle' => 'A');
 		if(!array_key_exists($oldState,$StatutWhiteList) or !array_key_exists($newState,$StatutWhiteList)) {
@@ -2623,9 +2624,9 @@ class VirtueMartModelOrders extends VmModel {
 			$db = JFactory::getDbo();
 			foreach($psTypes as $_psType){
 				$idM = 'virtuemart_'.$_psType.'method_id';
-				if(!empty($order['details']['BT']->$idM)){
+				if(!empty($order['details']['BT']->{$idM})){
 					$q = 'SELECT `'.$_psType.'_element` FROM `#__virtuemart_'.$_psType.'methods` ';
-					$q .= 'WHERE `virtuemart_'.$_psType.'method_id` = "'.(int)$order['details']['BT']->$idM.'" ';
+					$q .= 'WHERE `virtuemart_'.$_psType.'method_id` = "'.(int)$order['details']['BT']->{$idM}.'" ';
 					$db->setQuery($q);
 					$plg_name = $db->loadResult();
 					if(empty($plg_name)) continue;

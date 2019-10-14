@@ -72,7 +72,7 @@ class VirtueMartModelOrderstatus extends VmModel {
 	 * @param char $_code Order status code
 	 * @return string The name of the order status
 	 */
-	public function getOrderStatusNames ($published = true) {
+	static public function getOrderStatusNames ($published = true) {
 		static $orderStatusNames=0;
 		if(empty($orderStatusNames)){
 			if($published){
@@ -80,14 +80,13 @@ class VirtueMartModelOrderstatus extends VmModel {
 			} else {
 				$published = '';
 			}
-			$q = 'SELECT `order_status_name`,`order_status_code` FROM `#__virtuemart_orderstates` '.$published.'order by `ordering` ';
+			$q = 'SELECT `order_status_name`,`order_status_code`,`order_stock_handle` FROM `#__virtuemart_orderstates` '.$published.' order by `ordering` ';
 			$db = JFactory::getDBO();
 			$db->setQuery($q);
 			$orderStatusNames = $db->loadAssocList('order_status_code');
 		}
 
 		return $orderStatusNames;
-
 	}
 
 	function renderOSList($value,$name = 'order_status',$multiple=FALSE,$attrs='',$langkey='',$empty=true){

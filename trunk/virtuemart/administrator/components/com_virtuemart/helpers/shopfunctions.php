@@ -166,7 +166,7 @@ class ShopFunctions {
 	 * @param bool $multiple if the select list should allow multiple selections
 	 * @return string HTML select option list
 	 */
-	static public function renderVendorList ($vendorId=false, $name = 'virtuemart_vendor_id', $sendForm = false) {
+	static public function renderVendorList ($vendorId=false, $name = 'virtuemart_vendor_id', $sendForm = false, $multiple = false) {
 
 		$view = vRequest::getCmd('view',false);
 		
@@ -189,7 +189,7 @@ class ShopFunctions {
 			}
 			return '<span type="text" size="14" class="inputbox" readonly="">' . $vendor . '</span>';
 		} else {
-			return self::renderVendorFullVendorList($vendorId, false, $name, $sendForm);
+			return self::renderVendorFullVendorList($vendorId, $multiple, $name, $sendForm);
 		}
 
 	}

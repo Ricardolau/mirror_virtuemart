@@ -104,13 +104,12 @@ class VirtuemartViewUser extends VmViewAdmin {
 
 			if(VmConfig::get('multixcart',0)=='byvendor' and $isSuper==0){
 
-				$db = JFactory::getDbo();
-				$q = 'SELECT virtuemart_vendor_user_id FROM #__virtuemart_vendor_users WHERE virtuemart_user_id = "'.$userDetails->JUser->get('id').'"';
-				$db->setQuery($q);
-				$userDetails->virtuemart_vendor_user_id = $db->loadResult();
-				//$model->getTable('vendor_users');
-				//virtuemart_vendor_user_id
-				$this->lists['vendor'] = ShopFunctions::renderVendorList($userDetails->virtuemart_vendor_user_id, 'virtuemart_vendor_user_id', false);
+				$vUser = $model->getTable('vendor_users');
+				$vUser->load($userDetails->JUser->get('id'));
+				$userDetails->virtuemart_vendor_user_id = $vUser->virtuemart_vendor_user_id;
+
+
+				$this->lists['vendor'] = ShopFunctions::renderVendorList($userDetails->virtuemart_vendor_user_id, 'virtuemart_vendor_user_id', false, true);
 			}
 
 			$model->setId($userDetails->JUser->get('id'));

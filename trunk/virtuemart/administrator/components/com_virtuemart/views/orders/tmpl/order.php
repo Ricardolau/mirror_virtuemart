@@ -544,7 +544,9 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
 				<td  align="right" style="padding-right: 5px;">&nbsp;</td>
 				<td  align="right" style="padding-right: 5px;">&nbsp;</td>
 				<td   align="right" style="padding-right: 5px;"><?php
-				echo $this->currency->priceDisplay($this->orderbt->coupon_discount);  ?></td>
+				    echo $this->currency->priceDisplay($this->orderbt->coupon_discount);  ?>
+                    <input class='orderEdit' type="text" size="8" name="coupon_discount" value="<?php echo $this->orderbt->coupon_discount; ?>"/>
+				</td>
 			</tr>
 			<?php
 				//}

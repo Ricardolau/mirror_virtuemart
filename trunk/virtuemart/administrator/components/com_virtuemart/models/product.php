@@ -2103,8 +2103,9 @@ vmdebug('$limitStart',$limitStart);
 			foreach( $order as $prod => $ord ) {
 				//dont increment - just use the values supplied  but make a positive int
 				$ordering = abs( (int)$ord);
+				if(empty($ordering)) $ordering = "0";
 				$product_id = (int)$prod;
-				if(!empty( $ordering ) and !empty( $product_id )) {
+				if(!empty( $product_id )) {
 					$qupdate = 'UPDATE `#__virtuemart_product_categories` SET `ordering` =  '.$ordering.'  WHERE `virtuemart_product_id` =  '.$product_id.'  AND `virtuemart_category_id` = '.$virtuemart_category_id;
 
 					$db->setQuery( $qupdate );

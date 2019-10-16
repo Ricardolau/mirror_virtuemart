@@ -92,6 +92,7 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 			'email_currency' => array('', 'char'),
 			'log_ipn' => array('', 'int'),
 			'check_ips' => array('', 'int'),
+			'extra_ips' => array('', 'string'),
 			'payment_logos' => array('', 'char'),
 			'debug' => array(0, 'int'),
 			'log' => array(0, 'int'),

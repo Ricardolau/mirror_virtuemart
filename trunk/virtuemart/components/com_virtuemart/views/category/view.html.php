@@ -264,7 +264,6 @@ class VirtuemartViewCategory extends VmView {
 			//The search must be executed first
 			if(!empty($this->keyword)) {
 
-				if(!$this->keyword) VirtueMartModelProduct::$omitLoaded = VmConfig::get('omitLoaded');
 				// Load the products in the given category
 				$ids = $this->productModel->sortSearchListQuery (TRUE, $this->categoryId);
 				VirtueMartModelProduct::$_alreadyLoadedIds = array_merge(VirtueMartModelProduct::$_alreadyLoadedIds,$ids);
@@ -281,23 +280,23 @@ class VirtuemartViewCategory extends VmView {
 				}
 
 				foreach( $opt as $o ) {
-					if($o == 'products'){
-						$ids = $this->productModel->sortSearchListQuery (TRUE, $this->categoryId);
-						VirtueMartModelProduct::$_alreadyLoadedIds = array_merge(VirtueMartModelProduct::$_alreadyLoadedIds,$ids);
-						$this->vmPagination = $this->productModel->getPagination($this->perRow);
-						$this->orderByList = $this->productModel->getOrderByList($this->categoryId);
-						$this->products['products'] = $this->productModel->getProducts ($ids);
-						$this->productModel->addImages($this->products['products'], $imgAmount );
+					if($o == 'products') {
+						VirtueMartModelProduct::$omitLoaded = VmConfig::get('omitLoaded');
+						$ids = $this->productModel->sortSearchListQuery( TRUE, $this->categoryId );
+						VirtueMartModelProduct::$_alreadyLoadedIds = array_merge( VirtueMartModelProduct::$_alreadyLoadedIds, $ids );
+						$this->vmPagination = $this->productModel->getPagination( $this->perRow );
+						$this->orderByList = $this->productModel->getOrderByList( $this->categoryId );
+
+						$this->products['products'] = $this->productModel->getProducts( $ids );
+						$this->productModel->addImages( $this->products['products'], $imgAmount );
 					} else {
-						VirtueMartModelProduct::$omitLoaded = VmConfig::get('omitLoaded_'.$o);
 						//Lets check, if we use the new Frontpages settings
-						if(!empty($this->{$o}) and !empty($this->{$o.'_rows'})) {
+						VirtueMartModelProduct::$omitLoaded = VmConfig::get( 'omitLoaded_'.$o );
+						if(!empty( $this->{$o} ) and !empty( $this->{$o.'_rows'} )) {
 							$this->products[$o] = $this->productModel->getProductListing( $o, $this->perRow*$this->{$o.'_rows'} );
 							$this->productModel->addImages( $this->products[$o], $imgAmount );
 						}
 					}
-
-
 				}
 			}
 		}

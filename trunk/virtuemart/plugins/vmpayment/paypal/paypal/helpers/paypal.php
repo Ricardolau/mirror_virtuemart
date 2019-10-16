@@ -579,6 +579,11 @@ class PaypalHelperPaypal {
 			$this->debugLog($paypal_iplist, 'checkPaypalIps PRODUCTION', 'debug', false);
 
 		}
+
+		if (isset($this->_method->extra_ips)){
+			$extraIps = explode(',',$this->_method->extra_ips);
+			$paypal_iplist = array_merge($paypal_iplist,$extraIps);
+		}
 		$remoteIPAddress=$this->getRemoteIPAddress();
 		$this->debugLog($remoteIPAddress, 'checkPaypalIps REMOTE ADDRESS', 'debug', false);
 

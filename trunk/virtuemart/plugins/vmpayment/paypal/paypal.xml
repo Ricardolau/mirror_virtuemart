@@ -242,6 +242,9 @@
                     <option value="0">COM_VIRTUEMART_NO</option>
                     <option value="1">COM_VIRTUEMART_YES</option>
                 </field>
+                <field name="extra_ips" type="text" label="VMPAYMENT_PAYPAL_CHECK_IPS_EXTRA"
+                       description="VMPAYMENT_PAYPAL_CHECK_IPS_EXTRA_DESC"/>
+
                 <!-- Order status -->
                 <!-- ============ -->
 

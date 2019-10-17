@@ -1194,9 +1194,10 @@ class VirtueMartModelUser extends VmModel {
 	function remove($userIds) {
 
 		if(vmAccess::manager('user.delete')){
-
+			$_status = true;
 			$superVendor = vmAccess::isSuperVendor();
 			if(VmConfig::get('multixcart',0)=='byvendor' and $superVendor>1){
+
 				$vm_vendor = $this->getTable('vendor_users');
 				foreach($userIds as $userId) {
 					if (!$vm_vendor->delete($userId)) {
@@ -1207,7 +1208,7 @@ class VirtueMartModelUser extends VmModel {
 				$userInfo = $this->getTable('userinfos');
 				$vm_shoppergroup_xref = $this->getTable('vmuser_shoppergroups');
 				$vmusers = $this->getTable('vmusers');
-				$_status = true;
+
 				foreach($userIds as $userId) {
 
 					$_JUser = JUser::getInstance($userId);
@@ -1338,7 +1339,7 @@ class VirtueMartModelUser extends VmModel {
 		$superVendor = vmAccess::isSuperVendor();
 		$whereAnd = array();
 		if(VmConfig::get('multixcart',0)=='byvendor' and $superVendor>1){
-			$joinedTables .= ' LEFT JOIN #__virtuemart_vendor_users AS vu ON ju.id = vmu.virtuemart_user_id';
+			$joinedTables .= ' LEFT JOIN #__virtuemart_vendor_users AS vu ON ju.id = vu.virtuemart_user_id';
 			$whereAnd[] = ' vu.virtuemart_vendor_user_id = '.$superVendor.' ';
 		}
 

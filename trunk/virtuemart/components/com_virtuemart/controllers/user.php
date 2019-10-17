@@ -114,10 +114,9 @@ class VirtueMartControllerUser extends JControllerLegacy
 		$cart = VirtueMartCart::getCart();
 
 		$layout = vRequest::getCmd('layout','edit');
-
+		$msg = $this->saveData($cart);
 		if($cart->_fromCart or $cart->getInCheckOut()){
 
-			$msg = $this->saveData($cart);
 			$task = '';
 			//vmdebug('saveUser _fromCart',(int)$cart->_fromCart,(int)$msg);
 			if(!$msg){
@@ -130,15 +129,14 @@ class VirtueMartControllerUser extends JControllerLegacy
 				$this->setRedirect(JRoute::_('index.php?option=com_virtuemart&view=cart'.$task, FALSE) );
 			}
 		} else {
-			$msg = $this->saveData(false);
 			$this->setRedirect( JRoute::_('index.php?option=com_virtuemart&view=user&layout='.$layout, FALSE) );
 		}
 
 	}
 
 	function saveAddressST(){
-
-		$msg = $this->saveData(false);
+		$cart = VirtueMartCart::getCart();
+		$msg = $this->saveData($cart);
 		$layout = 'edit';// vRequest::getCmd('layout','edit');
 		$this->setRedirect( JRoute::_('index.php?option=com_virtuemart&view=user&layout='.$layout, FALSE) );
 
@@ -170,7 +168,7 @@ class VirtueMartControllerUser extends JControllerLegacy
 		}
 
 		if($cartObj){
-			if($cartObj->_fromCart or $cartObj->getInCheckOut()){
+			//if($cartObj->_fromCart or $cartObj->getInCheckOut()){
 
 				$cart = VirtueMartCart::getCart();
 				$prefix= '';
@@ -179,7 +177,7 @@ class VirtueMartControllerUser extends JControllerLegacy
 					$cart->STsameAsBT = 0;
 				}
 				$cart->saveAddressInCart($data, $data['address_type'],true,$prefix);
-			}
+			//}
 		}
 
 		if(isset($data['vendor_accepted_currencies'])){

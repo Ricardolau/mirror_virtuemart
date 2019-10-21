@@ -1769,7 +1769,7 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 		$dispatcher = JDispatcher::getInstance();
 		$returnValues = $dispatcher->trigger('plgVmOnCheckAutomaticSelected'.ucfirst($type), array(  $this,$this->cartPrices, &$counter));
 
-		vmdebug('checkAutomaticSelectedPlug my return value '.$type,$returnValues);
+		//vmdebug('checkAutomaticSelectedPlug my return value '.$type,$returnValues);
 		$nb = 0;
 		$method_id = array();
 		foreach ($returnValues as $returnValue) {
@@ -1786,7 +1786,7 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 			}
 		}
 
-		vmdebug('checkAutomaticSelectedPlug my $method_ids '.$type,$nb,$method_id);
+		//vmdebug('checkAutomaticSelectedPlug my $method_ids '.$type,$nb,$method_id);
 		$vm_autoSelected_name = 'automaticSelected'.ucfirst($type);
 
 		$this->{$vm_autoSelected_name}=false;

@@ -105,7 +105,7 @@ class vmAccess {
 			}
 			if(self::$_virtuemart_vendor_id[$uid] <= 0) vmdebug('isSuperVendor Not a vendor '.$uid,self::$_virtuemart_vendor_id[$uid]);
 		}
-		vmdebug('isSuperVendor return for id '.$uid.$task.' vendor id '.self::$_virtuemart_vendor_id[$uid] );
+		//vmdebug('isSuperVendor return for id '.$uid.$task.' vendor id '.self::$_virtuemart_vendor_id[$uid] );
 		return self::$_virtuemart_vendor_id[$uid];
 	}
 

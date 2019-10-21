@@ -423,7 +423,6 @@ class VirtueMartCustomFieldRenderer {
 							$yearRange .= ':1';
 						}
 
-						vmdebug('Date my yearrange',$yearRange);
 						//$yearRange = '2018:2020';
 						$customfield->display =  '<span class="product_custom_date">' . vmJsApi::jDate ($date,$customProductDataName.'[' . $customfield->virtuemart_customfield_id . ']', NULL, TRUE, $yearRange) . '</span>'; //vmJsApi::jDate($field->custom_value, 'field['.$row.'][custom_value]','field_'.$row.'_customvalue').$priceInput;
 					}

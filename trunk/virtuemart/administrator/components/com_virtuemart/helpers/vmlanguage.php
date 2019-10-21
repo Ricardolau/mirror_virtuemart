@@ -116,7 +116,7 @@ class vmLanguage {
 				}
 			} else */
 			if(!empty($lfbs)){
-				vmdebug('my lfbs '.$lfbs);
+				//vmdebug('my lfbs '.$lfbs);
 				$pairs = explode(';',$lfbs);
 				if($pairs and count($pairs)>0){
 					$fbsAssoc = array();

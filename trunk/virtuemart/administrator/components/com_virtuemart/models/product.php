@@ -559,7 +559,7 @@ class VirtueMartModelProduct extends VmModel {
 		//vmdebug('my filter ordering ',$this->filter_order);
 		// special  orders case
 		$ff_select_price = '';
-		$filterOrderDir = $this->filter_order_Dir;vmdebug('my filter order ',$this->filter_order);
+		$filterOrderDir = $this->filter_order_Dir;
 		switch ($this->filter_order) {
 			case '`p`.product_special':
 				if($isSite){
@@ -880,7 +880,7 @@ class VirtueMartModelProduct extends VmModel {
 				$limitStartString  = 'com_virtuemart.' . $view . 'c' . $cateid .'m'.$manid. '.limitstart';
 				$limitStart = $app->getUserStateFromRequest ($limitStartString, 'limitstart', vRequest::getInt ('limitstart', 0,'GET'), 'int');
 			}
-vmdebug('$limitStart',$limitStart);
+//vmdebug('setPaginationLimits $limitStart',$limitStart);
 			if(empty($limit) and !empty($category->limit_list_initial)){
 				$suglimit = $category->limit_list_initial;
 			}

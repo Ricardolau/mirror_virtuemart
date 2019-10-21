@@ -29,7 +29,7 @@ defined('_JEXEC') or die('Restricted access');
     </tr>
     <tr>
         <td class=""><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PO_DATE') ?></td>
-        <td align="left"><?php echo vmJsApi::date($this->orderdetails['details']['BT']->created_on, 'LC4', true); ?></td>
+        <td align="left"><?php echo vmJsApi::date($this->orderdetails['details']['BT']->order_created, 'LC4', true); ?></td>
     </tr>
     <tr>
         <td class=""><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PO_STATUS') ?></td>
@@ -37,7 +37,7 @@ defined('_JEXEC') or die('Restricted access');
     </tr>
     <tr>
         <td class=""><?php echo vmText::_('COM_VIRTUEMART_LAST_UPDATED') ?></td>
-        <td align="left"><?php echo vmJsApi::date($this->orderdetails['details']['BT']->modified_on, 'LC4', true); ?></td>
+        <td align="left"><?php echo vmJsApi::date($this->orderdetails['details']['BT']->order_modified, 'LC4', true); ?></td>
     </tr>
     <tr>
         <td class=""><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_SHIPMENT_LBL') ?></td>

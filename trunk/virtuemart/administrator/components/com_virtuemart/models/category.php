@@ -86,6 +86,7 @@ vmdebug('Found cached cat, but without children');
 			} else {
 				$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag] = $this->getTable('categories');
 				if(!empty($this->_id)){
+					$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->_langTag = VmConfig::$vmlang;
 					$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->load($this->_id);
 
 					$xrefTable = $this->getTable('category_medias');

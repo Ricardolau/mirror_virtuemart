@@ -61,7 +61,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 	protected $_hashName = '';
 	protected $_omittedHashFields = array();
 	public $_cryptedFields = false;
-	protected $_langTag = null;
+	public $_langTag = null;
 	public $_ltmp = false;
 	public $_loadedWithLangFallback = 0;
 	public $_loaded = false;
@@ -1042,7 +1042,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		$db->setQuery($query);
 
 		$result = $db->loadAssoc();
-		//vmdebug('vmtable load $query',$query,$result);
+		//if(!empty($this->slug))vmdebug('vmtable load $query',$this->_langTag,$query,$result->slug);
 		if ($result) {
 			$this->_loaded = true;
 			$this->bind($result);
@@ -1093,28 +1093,26 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 				}
 
 
-				//vmdebug('No result for '.$usedLangTag.' '.$this->_pkey.' '.$this->_slugAutoName.', lets check for Fallback lang '.$this->_langTag);
+				//vmdebug('No result for '.$this->_ltmp.' = '.$oid.' '.$this->_pkey.' '.$this->_slugAutoName.', lets check for Fallback lang '.$this->_langTag);
 				
 
 				//vmSetStartTime('lfallback');
 				$this->_loadedWithLangFallback = VmConfig::$defaultLangTag;
 				$this->load($oid, $overWriteLoadName, $andWhere, $tableJoins, $joinKey) ;
 				//vmTime('Time to load language fallback '.$this->_langTag, 'lfallback');
+
+				//if(!empty($this->slug))vmdebug('Set $this->_langTag '.$this->_langTag.' back to Ltmp '.$this->_ltmp,$this->slug);
+				$this->_langTag = $this->_ltmp;
+				$this->_ltmp = false;
+				self::$_cache['l'][$this->_lhash] = $this->loadFieldValues(false);
+
 				return $this;
 			} else {
 				$this->_loaded = false;
 			}
 		}
 
-		if($this->_ltmp){
-			//vmdebug('Set Ltmp '.$this->_ltmp.' back to false');
-			$this->_langTag = $this->_ltmp;
-			self::$_cache['l'][$this->_lhash] = $this->loadFieldValues(false);
-		}
-		else {
-			self::$_cache['l'][$this->_lhash] = $this->loadFieldValues(false);
-		}
-
+		self::$_cache['l'][$this->_lhash] = $this->loadFieldValues(false);
 
 		if($this->_cryptedFields){
 			$this->decryptFields();
@@ -1123,7 +1121,6 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		$this->convertDec();
 
 		//if($this->_translatable) vmTime('loaded '.$this->_langTag.' '.$mainTable.' '.$oid ,'vmtableload');
-		$this->_ltmp = false;
 
 		return $this;
 	}

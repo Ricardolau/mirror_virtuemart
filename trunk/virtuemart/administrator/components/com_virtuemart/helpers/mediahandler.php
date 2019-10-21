@@ -120,7 +120,7 @@ class VmMediaHandler {
 	static function getStoriesFb($suffix = ''){
 
 		$url = 'images/virtuemart/'. $suffix ;
-
+vmdebug('getStoriesFb',VMPATH_ROOT .'/'.$url);
 		if(JFolder::exists(VMPATH_ROOT .'/'.$url)) {
 			return $url;
 		} else {
@@ -227,7 +227,7 @@ class VmMediaHandler {
 			}else {
 				vmdebug('$name',$this->file_url);
 			}
-			vmdebug('Remote image URL, created file_name',$this->file_name,$this->file_extension);
+			//vmdebug('Remote image URL, created file_name',$this->file_name,$this->file_extension);
 		}
 
 		if($this->file_is_forSale==0 and $type!='forSale'){
@@ -349,6 +349,7 @@ class VmMediaHandler {
 
 		} else {
 			$isImage = FALSE;
+			vmTrace('is no image '.$file_extension);
 		}
 
 		return $isImage;
@@ -491,18 +492,24 @@ class VmMediaHandler {
 			$imageArgs = $this->filterImageArgs($imageArgs);
 		}
 
+		$typelessUrl = '';
 		if(empty($this->file_name)){
+			$typelessUrl = static::getStoriesFb('typeless').'/';
 
 			if($return){
 				if($this->file_is_downloadable){
-					$file_url = $this->theme_url.'assets/images/vmgeneral/'.VmConfig::get('downloadable','zip.png');
-					$file_alt = vmText::_('COM_VIRTUEMART_NO_IMAGE_SET').' '.$this->file_description;
-					return $this->displayIt($file_url, $file_alt, '',true,'',$withDescr);
+					$file_name = VmConfig::get('downloadable','zip.png');
+					//return $this->displayIt($file_url, $file_alt, '',true,'',$withDescr);
 				} else {
-					$file_url = $this->theme_url.'assets/images/vmgeneral/'.VmConfig::get('no_image_set','noimage_new.gif');
-					$file_alt = vmText::_('COM_VIRTUEMART_NO_IMAGE_SET').' '.$this->file_description;
-					return $this->displayIt($file_url, $file_alt, $imageArgs,$lightbox, $effect);
+					$file_name = VmConfig::get('no_image_set','noimage_new.gif');
+					//return $this->displayIt($file_url, $file_alt, $imageArgs,$lightbox, $effect);
 				}
+				$this->file_name = JFile::stripExt($file_name);
+				$this->file_url_folder = $this->theme_url.'assets/images/vmgeneral/';
+				$this->file_url = $this->file_url_folder.$file_name;
+				$this->file_url_folder_thumb = $typelessUrl;
+				$this->file_meta = vmText::_('COM_VIRTUEMART_NO_IMAGE_SET').' '.$this->file_description;
+				$this->file_extension = strtolower(JFile::getExt($file_name));
 			}
 		}
 
@@ -524,7 +531,7 @@ class VmMediaHandler {
 			} else {
 				$toChk = VMPATH_ROOT.'/'.$this->file_url;
 			}
-			if(!JFile::exists($toChk)){
+			if(empty($typelessUrl) and !JFile::exists($toChk)){
 				vmdebug('Media file does not exists',$toChk);
 				vmError(vmText::sprintf('COM_VIRTUEMART_FILE_NOT_FOUND',$toChk));
 			}
@@ -550,7 +557,7 @@ class VmMediaHandler {
 
 			$file_url_thumb = $this->createThumb($width,$height);
 			$media_path = VMPATH_ROOT.DS.str_replace('/',DS,$file_url_thumb);
-
+			vmdebug('after createThumb ',$file_url_thumb);
 		}
 		//$this->file_url_thumb = $file_url_thumb;
 
@@ -571,6 +578,7 @@ class VmMediaHandler {
 		} else if(is_a($this,'VmImage')) {
 			$file_url_thumb = $this->createThumbFileUrl($width,$height);
 		} else {
+			vmdebug('No image '.$this->file_name);
 			$file_url_thumb = '';
 		}
 

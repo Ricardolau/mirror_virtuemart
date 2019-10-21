@@ -35,11 +35,19 @@ class VmImage extends VmMediaHandler {
 				$file_url = $this->file_url;
 				$file_alt = $this->file_title;
 			} else {
-				//$rel_path = str_replace('/',DS,$this->file_url_folder);
+
 				$fullSizeFilenamePath = vRequest::filterPath(VMPATH_ROOT.'/'.$this->file_url_folder.$this->file_name.'.'.$this->file_extension);
 				if (!file_exists($fullSizeFilenamePath)) {
-					$file_url = $this->theme_url.'assets/images/vmgeneral/'.VmConfig::get('no_image_found');
+					$typelessUrl = static::getStoriesFb('typeless').'/';
+					$file_name = VmConfig::get('no_image_set','noimage_new.gif');
+					$file_url = $this->theme_url.'assets/images/vmgeneral/'.$file_name;
 					$file_alt = vmText::_('COM_VIRTUEMART_NO_IMAGE_FOUND').' '.$this->file_description;
+					$this->file_name = JFile::stripExt($file_name);
+					$this->file_url_folder = $this->theme_url.'assets/images/vmgeneral/';
+					$this->file_url = $this->file_url_folder.$file_name;
+					$this->file_url_folder_thumb = $typelessUrl;
+					$this->file_meta = vmText::_('COM_VIRTUEMART_NO_IMAGE_SET').' '.$this->file_description;
+					$this->file_extension = strtolower(JFile::getExt($file_name));
 				} else {
 					$file_url = $this->file_url;
 					$file_alt = $this->file_meta;
@@ -145,7 +153,7 @@ class VmImage extends VmMediaHandler {
 
 		$root = '';
 		$this->file_name_thumb = $this->createThumbName($width,$height);
-
+vmdebug('createThumb',$this->file_name_thumb);
 
 		$exists = false;
 		if(strpos($this->file_url,'//')===0){

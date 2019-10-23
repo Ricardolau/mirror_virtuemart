@@ -452,7 +452,7 @@ class plgVmPaymentSofort extends vmPSPlugin {
 
 		$this->storePSPluginInternalData($sofort_data);
 
-		$modelOrder->updateStatusForOneOrder($payments[0]->virtuemart_order_id, $order_history, false);
+		$modelOrder->updateStatusForOneOrder($payments[0]->virtuemart_order_id, $order_history, true);
 	}
 
 	function _checkAmountAndCurrency ($sofort_data, $payments) {

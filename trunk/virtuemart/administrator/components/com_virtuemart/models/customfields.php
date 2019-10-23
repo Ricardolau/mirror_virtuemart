@@ -923,6 +923,10 @@ class VirtueMartModelCustomfields extends VmModel {
 			$table = $data->file_type;
 		}
 
+		//in case there is no media, set the extension to an image, to show "no media set"
+		if(empty($data->file_url)){
+			$data->file_url = '.jpg';
+		}
 		$media = VmMediaHandler::createMedia ($data, $table);
 
 		return $media->displayMediaThumb ('', FALSE, '', TRUE, TRUE, $absUrl, $width, $height);

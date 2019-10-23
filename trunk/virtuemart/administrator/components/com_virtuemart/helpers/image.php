@@ -153,10 +153,9 @@ class VmImage extends VmMediaHandler {
 
 		$root = '';
 		$this->file_name_thumb = $this->createThumbName($width,$height);
-vmdebug('createThumb',$this->file_name_thumb);
 
 		$exists = false;
-		if(strpos($this->file_url,'//')===0){
+		if( substr( $this->file_url, 0, 2) == "//" ) {
 			$fullSizeFilenamePath = $this->file_url;
 			$exists = true;
 			//$resizedFilenamePath = vRequest::filterPath(VMPATH_ROOT.'/'.$this->file_url_folder_thumb.$this->file_name_thumb);

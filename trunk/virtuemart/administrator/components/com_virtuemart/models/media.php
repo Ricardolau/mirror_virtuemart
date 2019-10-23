@@ -456,7 +456,7 @@ LEFT JOIN #__virtuemart_vendor_medias as vm ON pm.virtuemart_media_id = m.virtue
 			$data['published'] = $data['media_published'];
 		}
 
-		if(strpos($data['file_url'],'//')===0 and !vmAccess::manager('media.remote')){
+		if( substr( $data['file_url'], 0, 2) == "//" and !vmAccess::manager('media.remote')){
 			vmWarn('You are not allowed to add/edit remote medias');
 			return $table->virtuemart_media_id;
 		}

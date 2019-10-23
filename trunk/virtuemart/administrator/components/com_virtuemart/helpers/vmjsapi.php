@@ -130,10 +130,10 @@ class vmJsApi{
 				$cdata = true;
 				vmdebug('found CDATA '.$name);
 			} else {
-				if(strpos($file,'/')===0) {
+				if( substr( $file, 0, 1) == "/" ) {
 					$urlType = 1;
 				}
-				if(strpos($file,'//')===0 or strpos($file,'http://')===0 or strpos($file,'https://')===0){
+				if( substr( $file, 0, 2) == "//" or substr( $file, 0, 7) == "http://" or substr( $file, 0, 8) == "https://"){
 					$urlType = 2;
 				}
 			}
@@ -303,7 +303,7 @@ class vmJsApi{
 			}
 
 		}
-		elseif (strpos($path, '//') === FALSE)
+		elseif ( substr( $path, 0, 2) != "//" )
 		{
 			if ($absolute_path) {
 				$path = VMPATH_BASE .'/'.$path;

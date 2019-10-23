@@ -214,7 +214,7 @@ vmdebug('getStoriesFb',VMPATH_ROOT .'/'.$url);
 		$this->file_path_folder = '';
 		$this->file_url_folder_thumb = '';
 
-		if(strpos($this->file_url,'//')===0){
+		if( substr( $this->file_url, 0, 2) == "//" ) {
 			$rdspos = strrpos($this->file_url,'/');
 			if($rdspos!==false){
 				$this->file_name = substr($this->file_url,$rdspos+1);
@@ -236,7 +236,7 @@ vmdebug('getStoriesFb',VMPATH_ROOT .'/'.$url);
 			$this->file_url_folder_thumb = $this->file_url_folder.'resized/';
 			$this->file_path_folder = str_replace('/',DS,$this->file_url_folder);
 		} else {
-			$safePath = shopFunctions::checkSafePath();
+			$safePath = shopFunctions::checkSafePathBase();
 			if(!$safePath){
 				return FALSE;
 			}
@@ -257,7 +257,7 @@ vmdebug('getStoriesFb',VMPATH_ROOT .'/'.$url);
 			$this->file_extension = '';
 		} else {
 
-			if(strpos($this->file_url,'//')===0){
+			if( substr( $this->file_url, 0, 2) == "//" ) {
 				$name = '';	// so that the !empty($name ..) case is not executed
 			}
 			else if($this->file_is_forSale==1){
@@ -513,7 +513,7 @@ vmdebug('getStoriesFb',VMPATH_ROOT .'/'.$url);
 			}
 		}
 
-		if(strpos($this->file_url,'//')===0){
+		if( substr( $this->file_url, 0, 2) == "//" ) {
 			$toChk = $this->file_url;
 			try {
 				$resObj = JHttpFactory::getHttp(null, array('curl', 'stream'))->get($toChk);
@@ -554,10 +554,8 @@ vmdebug('getStoriesFb',VMPATH_ROOT .'/'.$url);
 		}
 
 		if ((empty($file_url_thumb) || !file_exists($media_path)) && is_a($this,'VmImage')) {
-
 			$file_url_thumb = $this->createThumb($width,$height);
 			$media_path = VMPATH_ROOT.DS.str_replace('/',DS,$file_url_thumb);
-			vmdebug('after createThumb ',$file_url_thumb);
 		}
 		//$this->file_url_thumb = $file_url_thumb;
 
@@ -663,7 +661,7 @@ vmdebug('getStoriesFb',VMPATH_ROOT .'/'.$url);
 			$image = '<img src="' . $root.$file_url . '" alt="' . $file_alt . '" ' . $args . ' />';//JHtml::image($file_url, $file_alt, $imageArgs);
 			if ($file_alt ) $file_alt = 'title="'.$file_alt.'"';
 			if ($this->file_url and pathinfo($this->file_url, PATHINFO_EXTENSION) and substr( $this->file_url, 0, 4) != "http") {
-				if($this->file_is_forSale or strpos($this->file_url,'//')===0){
+				if($this->file_is_forSale or substr( $this->file_url, 0, 2) == "//"){
 					$href = $this->file_url ;
 				} else {
 					$href = JURI::root() .$this->file_url ;

@@ -77,7 +77,7 @@ $productfileslist = $this->files;
 			if($productfile->file_is_forSale){
 				$fullSizeFilenamePath = $productfile->file_url_folder.$productfile->file_name.'.'.$productfile->file_extension;
 				$fullSizeFilenamePath = vRequest::filterPath($fullSizeFilenamePath);
-			} else if(strpos($productfile->file_url,'//')===0){
+			} else if( substr( $productfile->file_url, 0, 2) == "//" ){
 				$fullSizeFilenamePath = $productfile->file_url;
 			} else {
 				$fullSizeFilenamePath = VMPATH_ROOT.DS.$productfile->file_url_folder.$productfile->file_name.'.'.$productfile->file_extension;
@@ -116,12 +116,11 @@ $productfileslist = $this->files;
 				<?php
 
 
-					if(file_exists($fullSizeFilenamePath) or strpos($fullSizeFilenamePath,'//')===0){
+					if(file_exists($fullSizeFilenamePath) or substr( $fullSizeFilenamePath, 0, 2) == "//" ){
 						echo $productfile->displayMediaThumb();
 					} else {
 						$file_url = $productfile->theme_url.'assets/images/vmgeneral/'.VmConfig::get('no_image_found');
 						$file_alt = vmText::_('COM_VIRTUEMART_NO_IMAGE_SET').' '.$productfile->file_description;
-						vmdebug('check path $file_url',$file_url,$fullSizeFilenamePath);
 						echo $productfile->displayIt($file_url, $file_alt,'',false);
 					}
 

@@ -38,16 +38,10 @@ class VmImage extends VmMediaHandler {
 
 				$fullSizeFilenamePath = vRequest::filterPath(VMPATH_ROOT.'/'.$this->file_url_folder.$this->file_name.'.'.$this->file_extension);
 				if (!file_exists($fullSizeFilenamePath)) {
-					$typelessUrl = static::getStoriesFb('typeless').'/';
-					$file_name = VmConfig::get('no_image_set','noimage_new.gif');
-					$file_url = $this->theme_url.'assets/images/vmgeneral/'.$file_name;
-					$file_alt = vmText::_('COM_VIRTUEMART_NO_IMAGE_FOUND').' '.$this->file_description;
-					$this->file_name = JFile::stripExt($file_name);
-					$this->file_url_folder = $this->theme_url.'assets/images/vmgeneral/';
-					$this->file_url = $this->file_url_folder.$file_name;
-					$this->file_url_folder_thumb = $typelessUrl;
-					$this->file_meta = vmText::_('COM_VIRTUEMART_NO_IMAGE_SET').' '.$this->file_description;
-					$this->file_extension = strtolower(JFile::getExt($file_name));
+
+					$this->setNoImageSet();
+					$file_url = $this->file_url;
+					$file_alt = $this->file_meta;
 				} else {
 					$file_url = $this->file_url;
 					$file_alt = $this->file_meta;
@@ -74,12 +68,10 @@ class VmImage extends VmMediaHandler {
 
 		$file_name = $this->createThumbName($width,$height);
 		if(empty($this->file_name_thumb)) {
-			vmdebug('createThumbFileUrl empty file_name_thumb ',$this);
+			//vmdebug('createThumbFileUrl empty file_name_thumb ',$this);
 			return false;
 		}
 		$file_url_thumb = $this->file_url_folder_thumb.$this->file_name_thumb.'.'.$this->file_extension;
-
-
 		return $file_url_thumb;
 	}
 
@@ -128,8 +120,10 @@ class VmImage extends VmMediaHandler {
 		}
 
 		if(empty($this->file_name)){
-			vmError('Couldnt create thumb, no name given. Activate vmdebug to understand which database entry is creating this error');
-			vmdebug('createThumb, no name given',$this);
+			if($this->virtuemart_media_id!=0){
+				vmError('Couldnt create thumb, no name given. Activate vmdebug to understand which database entry is creating this error');
+				vmdebug('createThumb, no name given',$this);
+			}
 			return false;
 		}
 

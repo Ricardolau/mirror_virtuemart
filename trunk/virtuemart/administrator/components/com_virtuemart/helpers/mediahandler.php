@@ -41,7 +41,6 @@ class VmMediaHandler {
 	var $file_extension = '';
 	var $virtuemart_media_id = '';
 
-
 	function __construct($id=0){
 
 		$this->virtuemart_media_id = $id;
@@ -119,22 +118,29 @@ class VmMediaHandler {
 
 	static function getStoriesFb($suffix = ''){
 
-		$url = 'images/virtuemart/'. $suffix ;
-vmdebug('getStoriesFb',VMPATH_ROOT .'/'.$url);
-		if(JFolder::exists(VMPATH_ROOT .'/'.$url)) {
-			return $url;
-		} else {
-			$urlOld = 'images/stories/virtuemart/'. $suffix;
-			if(JFolder::exists(VMPATH_ROOT .'/'.$urlOld)){
-				return $urlOld;
+		static $url = null;
+
+		if(!isset($url)){
+			$url = 'images/virtuemart/'. $suffix ;
+			vmdebug('getStoriesFb',VMPATH_ROOT .'/'.$url);
+			if(JFolder::exists(VMPATH_ROOT .'/'.$url)) {
+				return $url;
+			} else {
+				$urlOld = 'images/stories/virtuemart/'. $suffix;
+				if(JFolder::exists(VMPATH_ROOT .'/'.$urlOld)){
+					$url = $urlOld;
+					return $urlOld;
+				}
+			}
+
+			if(JFolder::create(VMPATH_ROOT .'/'.$url)) {
+				return $url;
+			} else {
+				$url = false;
+				return false;
 			}
 		}
 
-		if(JFolder::create(VMPATH_ROOT .'/'.$url)) {
-			return $url;
-		} else {
-			return false;
-		}
 	}
 
 	/**
@@ -311,8 +317,6 @@ vmdebug('getStoriesFb',VMPATH_ROOT .'/'.$url);
 		/*if(!empty($this->file_url) && empty($this->file_url_thumb)){
 			$this->displayMediaThumb('',true,'',false);
 		}*/
-
-
 	}
 
 	public function getUrl(){
@@ -475,6 +479,20 @@ vmdebug('getStoriesFb',VMPATH_ROOT .'/'.$url);
 		return $this->displayMediaThumb($imageArgs ,$lightbox,$effect,true,$description);
 	}
 
+	function setNoImageSet(){
+		if($this->file_is_downloadable){
+			$file_name = VmConfig::get('downloadable','zip.png');
+		} else {
+			$file_name = VmConfig::get('no_image_set','noimage_new.gif');
+		}
+		$this->file_name = JFile::stripExt($file_name);
+		$this->file_url_folder = $this->theme_url.'assets/images/vmgeneral/';
+		$this->file_url = $this->file_url_folder.$file_name;
+		$this->file_url_folder_thumb = static::getStoriesFb('typeless').'/';;
+		$this->file_meta = vmText::_('COM_VIRTUEMART_NO_IMAGE_SET').' '.$this->file_description;
+		$this->file_extension = strtolower(JFile::getExt($file_name));
+	}
+
 	/**
 	 * This function displays the image, when the image is not already a resized one,
 	 * it tries to get first the resized one, or create a resized one or fallback in case
@@ -495,22 +513,6 @@ vmdebug('getStoriesFb',VMPATH_ROOT .'/'.$url);
 		$typelessUrl = '';
 		if(empty($this->file_name)){
 			$typelessUrl = static::getStoriesFb('typeless').'/';
-
-			if($return){
-				if($this->file_is_downloadable){
-					$file_name = VmConfig::get('downloadable','zip.png');
-					//return $this->displayIt($file_url, $file_alt, '',true,'',$withDescr);
-				} else {
-					$file_name = VmConfig::get('no_image_set','noimage_new.gif');
-					//return $this->displayIt($file_url, $file_alt, $imageArgs,$lightbox, $effect);
-				}
-				$this->file_name = JFile::stripExt($file_name);
-				$this->file_url_folder = $this->theme_url.'assets/images/vmgeneral/';
-				$this->file_url = $this->file_url_folder.$file_name;
-				$this->file_url_folder_thumb = $typelessUrl;
-				$this->file_meta = vmText::_('COM_VIRTUEMART_NO_IMAGE_SET').' '.$this->file_description;
-				$this->file_extension = strtolower(JFile::getExt($file_name));
-			}
 		}
 
 		if( substr( $this->file_url, 0, 2) == "//" ) {

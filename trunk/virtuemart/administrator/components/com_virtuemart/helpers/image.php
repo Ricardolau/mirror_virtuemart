@@ -120,10 +120,10 @@ class VmImage extends VmMediaHandler {
 		}
 
 		if(empty($this->file_name)){
-			if($this->virtuemart_media_id!=0){
-				vmError('Couldnt create thumb, no name given. Activate vmdebug to understand which database entry is creating this error');
-				vmdebug('createThumb, no name given',$this);
-			}
+
+			vmError('Couldnt create thumb, no name given. Activate vmdebug to understand which database entry is creating this error');
+			vmdebug('createThumb, no name given',$this);
+
 			return false;
 		}
 

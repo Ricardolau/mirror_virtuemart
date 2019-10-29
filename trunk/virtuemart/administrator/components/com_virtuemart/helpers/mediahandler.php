@@ -40,14 +40,17 @@ class VmMediaHandler {
 	var $file_name = '';
 	var $file_extension = '';
 	var $virtuemart_media_id = '';
+	static $theme_url = null;
 
 	function __construct($id=0){
 
 		$this->virtuemart_media_id = $id;
 
-		$this->theme_url = VmConfig::get('vm_themeurl',0);
-		if(empty($this->theme_url)){
-			$this->theme_url = 'components/com_virtuemart/';
+		if(!isset(self::$theme_url)){
+			self::$theme_url = VmConfig::get('vm_themeurl',0);
+			if(empty(self::$theme_url)){
+				self::$theme_url = 'components/com_virtuemart/';
+			}
 		}
 	}
 
@@ -486,7 +489,7 @@ class VmMediaHandler {
 			$file_name = VmConfig::get('no_image_set','noimage_new.gif');
 		}
 		$this->file_name = JFile::stripExt($file_name);
-		$this->file_url_folder = $this->theme_url.'assets/images/vmgeneral/';
+		$this->file_url_folder = self::$theme_url.'assets/images/vmgeneral/';
 		$this->file_url = $this->file_url_folder.$file_name;
 		$this->file_url_folder_thumb = static::getStoriesFb('typeless').'/';;
 		$this->file_meta = vmText::_('COM_VIRTUEMART_NO_IMAGE_SET').' '.$this->file_description;
@@ -513,6 +516,7 @@ class VmMediaHandler {
 		$typelessUrl = '';
 		if(empty($this->file_name)){
 			$typelessUrl = static::getStoriesFb('typeless').'/';
+			$this->setNoImageSet();
 		}
 
 		if( substr( $this->file_url, 0, 2) == "//" ) {
@@ -598,7 +602,7 @@ class VmMediaHandler {
 		$file_url = false;
 		$file_alt = false;
 		static $exists = array();
-		$tC = $this->theme_url.'assets/images/vmgeneral/filetype_'.$this->file_extension.'.png';
+		$tC = self::$theme_url.'assets/images/vmgeneral/filetype_'.$this->file_extension.'.png';
 
 		if(!empty($this->file_extension)){
 			$file_alt = $this->file_description;
@@ -612,7 +616,7 @@ class VmMediaHandler {
 		}
 
 		if(!$file_url){
-			$file_url = $this->theme_url.'assets/images/vmgeneral/'.VmConfig::get('no_image_found');
+			$file_url = self::$theme_url.'assets/images/vmgeneral/'.VmConfig::get('no_image_found');
 			$file_alt = vmText::_('COM_VIRTUEMART_NO_IMAGE_FOUND').' '.$this->file_description;
 		}
 

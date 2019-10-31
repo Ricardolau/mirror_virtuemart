@@ -9,7 +9,8 @@
  * @author Max Milbers
  * @author	RickG
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2019 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -23,6 +24,8 @@ defined('_JEXEC') or die('Restricted access');
 
 // Hardcoded groupID of the Super Admin
 define ('__SUPER_ADMIN_GID', 25);
+
+use Joomla\CMS\Router\Route;
 
 /**
  * Model class for shop users
@@ -239,6 +242,310 @@ class VirtueMartModelUser extends VmModel {
 		return null;
 	}
 
+	/**
+	 * Method to save the form data.
+	 *
+	 * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved. And the VirtueMart team
+	 *
+	 * @license     GNU General Public License version 2 or later; see LICENSE.txt
+	 * @param   array  $temp  The form data.
+	 *
+	 * @return  mixed  The user id on success, false on failure.
+	 *
+	 * @since   1.6
+	 */
+	public function register($user) {
+
+		$params = JComponentHelper::getParams('com_users');
+
+		$useractivation = $params->get('useractivation');
+		$sendpassword = $params->get('sendpassword', 1);
+
+		// Load the users plugin group.
+		JPluginHelper::importPlugin('user');
+
+		// Store the data.
+		if (!$user->save())
+		{
+			vmError(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $user->getError()));
+
+			return false;
+		}
+
+		$config = JFactory::getConfig();
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// Compile the notification mail values.
+		$data = $user->getProperties();
+		$data['fromname'] = $config->get('fromname');
+		$data['mailfrom'] = $config->get('mailfrom');
+		$data['sitename'] = $config->get('sitename');
+		$data['siteurl'] = JUri::root();
+
+		// Handle account activation/confirmation emails.
+		if ($useractivation == 2)
+		{
+			// Set the link to confirm the user email.
+			$linkMode = $config->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
+
+			$data['activate'] = JRoute::link(
+			'site',
+			'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
+			false,
+			$linkMode,
+			true
+			);
+
+			$emailSubject = JText::sprintf(
+			'COM_USERS_EMAIL_ACCOUNT_DETAILS',
+			$data['name'],
+			$data['sitename']
+			);
+
+			if ($sendpassword)
+			{
+				$emailBody = JText::sprintf(
+				'COM_USERS_EMAIL_REGISTERED_WITH_ADMIN_ACTIVATION_BODY',
+				$data['name'],
+				$data['sitename'],
+				$data['activate'],
+				$data['siteurl'],
+				$data['username'],
+				$data['password_clear']
+				);
+			}
+			else
+			{
+				$emailBody = JText::sprintf(
+				'COM_USERS_EMAIL_REGISTERED_WITH_ADMIN_ACTIVATION_BODY_NOPW',
+				$data['name'],
+				$data['sitename'],
+				$data['activate'],
+				$data['siteurl'],
+				$data['username']
+				);
+			}
+		}
+		elseif ($useractivation == 1)
+		{
+			// Set the link to activate the user account.
+			$linkMode = $config->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
+
+			$data['activate'] = JRoute::link(
+			'site',
+			'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
+			false,
+			$linkMode,
+			true
+			);
+
+			$emailSubject = JText::sprintf(
+			'COM_USERS_EMAIL_ACCOUNT_DETAILS',
+			$data['name'],
+			$data['sitename']
+			);
+
+			if ($sendpassword)
+			{
+				$emailBody = JText::sprintf(
+				'COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_BODY',
+				$data['name'],
+				$data['sitename'],
+				$data['activate'],
+				$data['siteurl'],
+				$data['username'],
+				$data['password_clear']
+				);
+			}
+			else
+			{
+				$emailBody = JText::sprintf(
+				'COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_BODY_NOPW',
+				$data['name'],
+				$data['sitename'],
+				$data['activate'],
+				$data['siteurl'],
+				$data['username']
+				);
+			}
+		}
+		else
+		{
+			$emailSubject = JText::sprintf(
+			'COM_USERS_EMAIL_ACCOUNT_DETAILS',
+			$data['name'],
+			$data['sitename']
+			);
+
+			if ($sendpassword)
+			{
+				$emailBody = JText::sprintf(
+				'COM_USERS_EMAIL_REGISTERED_BODY',
+				$data['name'],
+				$data['sitename'],
+				$data['siteurl'],
+				$data['username'],
+				$data['password_clear']
+				);
+			}
+			else
+			{
+				$emailBody = JText::sprintf(
+				'COM_USERS_EMAIL_REGISTERED_BODY_NOPW',
+				$data['name'],
+				$data['sitename'],
+				$data['siteurl']
+				);
+			}
+		}
+
+		$debug_email = VmConfig::get('debug_mail', false);
+
+		// Send the registration email.
+		if (VmConfig::showDebug() and $debug_email == 'debug_email') {
+			$msg = 'Registration Debug mail active, no mail sent. The mail to send subject ' . $emailSubject . ' to "' .   $data['email'] . '" from ' . $data['mailfrom'] . ' ' . $data['fromname'] . ' ' . vmText::$language->getTag() . '<br>' . $emailBody;
+			vmdebug($msg);
+			$return = true;
+		} else {
+			$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
+		}
+
+
+		// Send Notification mail to administrators
+		if (($params->get('useractivation') < 2) && ($params->get('mail_to_admin') == 1))
+		{
+			$emailSubject = JText::sprintf(
+			'COM_USERS_EMAIL_ACCOUNT_DETAILS',
+			$data['name'],
+			$data['sitename']
+			);
+
+			$emailBodyAdmin = JText::sprintf(
+			'COM_USERS_EMAIL_REGISTERED_NOTIFICATION_TO_ADMIN_BODY',
+			$data['name'],
+			$data['username'],
+			$data['siteurl']
+			);
+
+			// Get all admin users
+			$query->clear()
+			->select($db->quoteName(array('name', 'email', 'sendEmail')))
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('sendEmail') . ' = 1')
+			->where($db->quoteName('block') . ' = 0');
+
+			$db->setQuery($query);
+
+			try
+			{
+				$rows = $db->loadObjectList();
+			}
+			catch (RuntimeException $e)
+			{
+				vmError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+
+				return false;
+			}
+
+
+
+			// Send mail to all superadministrators id
+			foreach ($rows as $row)
+			{
+				if (VmConfig::showDebug() and $debug_email == 'debug_email') {
+					$msg = 'Registration Debug mail active, no mail sent. The mail to send subject ' . $emailSubject . ' to "' .  $row->email . '" from ' . $data['mailfrom'] . ' ' . $data['fromname'] . ' ' . vmText::$language->getTag() . '<br>' . $emailBodyAdmin;
+					vmdebug($msg);
+					$return = true;
+				} else {
+					$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
+				}
+
+
+				// Check for an error.
+				if ($return !== true)
+				{
+					vmError(JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
+
+					return false;
+				}
+			}
+		}
+
+		// Check for an error.
+		if ($return !== true)
+		{
+			vmError(JText::_('COM_USERS_REGISTRATION_SEND_MAIL_FAILED'));
+
+			// Send a system message to administrators receiving system mails
+			$db = $this->getDbo();
+			$query->clear()
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('block') . ' = ' . (int) 0)
+			->where($db->quoteName('sendEmail') . ' = ' . (int) 1);
+			$db->setQuery($query);
+
+			try
+			{
+				$userids = $db->loadColumn();
+			}
+			catch (RuntimeException $e)
+			{
+				vmError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+
+				return false;
+			}
+
+			if (count($userids) > 0)
+			{
+				$jdate = new JDate;
+
+				// Build the query to add the messages
+				foreach ($userids as $userid)
+				{
+					$values = array(
+					$db->quote($userid),
+					$db->quote($userid),
+					$db->quote($jdate->toSql()),
+					$db->quote(JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')),
+					$db->quote(JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username']))
+					);
+					$query->clear()
+					->insert($db->quoteName('#__messages'))
+					->columns($db->quoteName(array('user_id_from', 'user_id_to', 'date_time', 'subject', 'message')))
+					->values(implode(',', $values));
+					$db->setQuery($query);
+
+					try
+					{
+						$db->execute();
+					}
+					catch (RuntimeException $e)
+					{
+						vmError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+
+						return false;
+					}
+				}
+			}
+
+			return false;
+		}
+
+		if ($useractivation == 1)
+		{
+			return 'useractivate';
+		}
+		elseif ($useractivation == 2)
+		{
+			return 'adminactivate';
+		}
+		else
+		{
+			return $user->id;
+		}
+	}
 
 	/**
 	 * Bind the post data to the JUser object and the VM tables, then saves it
@@ -429,17 +736,13 @@ class VirtueMartModelUser extends VmModel {
 			$doUserActivation=false;
 			if ($useractivation == '1' or $useractivation == '2') {
 				$doUserActivation=true;
-			}
-
-			if ($doUserActivation ) {
-				jimport('joomla.user.helper');
 				$user->set('activation', vRequest::getHash( JUserHelper::genRandomPassword()) );
 				$user->set('block', '1');
 				if ($useractivation == '2') {
 					$user->set('guest', '1');
 				}
-				//$user->set('lastvisitDate', '0000-00-00 00:00:00');
 			}
+
 		}
 
 		$option = vRequest::getCmd( 'option');
@@ -459,7 +762,7 @@ class VirtueMartModelUser extends VmModel {
 		JPluginHelper::importPlugin('user');
 
 		// Save the JUser object
-		if (!$user->save()) {
+		if (!$this->register($user)) {
 			$msg = vmText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED',$user->getError());
 			vmError($msg,$msg);
 			return false;
@@ -492,7 +795,7 @@ class VirtueMartModelUser extends VmModel {
 
 				//$doVendor = (boolean) $usersConfig->get('mail_to_admin', true);
 
-				$this->sendRegistrationEmail($user,$password, $useractivation);
+				//$this->sendRegistrationEmail($user,$password, $useractivation);
 				if ($useractivation == '1' ) {
 					vmInfo('COM_VIRTUEMART_REG_COMPLETE_ACTIVATE');
 				} else if ($useractivation == '2' ){
@@ -914,7 +1217,7 @@ class VirtueMartModelUser extends VmModel {
 				else if($data[$field->name] == $field->default){
 					$i++;
 				} else {
-					vmdebug('Not filled by default '.$field->name,$field->default,$data[$field->name]);
+					//vmdebug('Not filled by default '.$field->name,$field->default,$data[$field->name]);
 					$filledNotByDefault++;
 				}
 			}

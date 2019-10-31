@@ -41,6 +41,7 @@ class VmMediaHandler {
 	var $file_extension = '';
 	var $virtuemart_media_id = '';
 	static $theme_url = null;
+	static $url = array();
 
 	function __construct($id=0){
 
@@ -99,7 +100,7 @@ class VmMediaHandler {
 			vmInfo('COM_VIRTUEMART_MEDIA_NO_PATH_TYPE',$type,$link );
 			//Todo add general media_path to config
 			//$relUrl = VmConfig::get('media_path');
-			$relUrl = self::getStoriesFb().'/';
+			$relUrl = self::getStoriesFb('typeless').'/';
 			$this->setRole=true;
 			// 		} else if(!$choosed and empty($relUrl) and $this->file_is_forSale==0){
 		} else if(!$choosed and empty($relUrl) ){
@@ -121,27 +122,26 @@ class VmMediaHandler {
 
 	static function getStoriesFb($suffix = ''){
 
-		static $url = null;
-
-		if(!isset($url)){
-			$url = 'images/virtuemart/'. $suffix ;
-			vmdebug('getStoriesFb',VMPATH_ROOT .'/'.$url);
-			if(JFolder::exists(VMPATH_ROOT .'/'.$url)) {
-				return $url;
+		if(!isset(self::$url[$suffix])){
+			self::$url[$suffix] = 'images/virtuemart/'. $suffix ;
+			if(JFolder::exists(VMPATH_ROOT .'/'.self::$url[$suffix])) {
+				return self::$url[$suffix];
 			} else {
 				$urlOld = 'images/stories/virtuemart/'. $suffix;
 				if(JFolder::exists(VMPATH_ROOT .'/'.$urlOld)){
-					$url = $urlOld;
+					self::$url[$suffix] = $urlOld;
 					return $urlOld;
 				}
 			}
 
-			if(JFolder::create(VMPATH_ROOT .'/'.$url)) {
-				return $url;
+			if(JFolder::create(VMPATH_ROOT .'/'.self::$url[$suffix])) {
+				return self::$url[$suffix];
 			} else {
-				$url = false;
+				self::$url[$suffix] = false;
 				return false;
 			}
+		} else {
+			return self::$url[$suffix];
 		}
 
 	}
@@ -491,7 +491,7 @@ class VmMediaHandler {
 		$this->file_name = JFile::stripExt($file_name);
 		$this->file_url_folder = self::$theme_url.'assets/images/vmgeneral/';
 		$this->file_url = $this->file_url_folder.$file_name;
-		$this->file_url_folder_thumb = static::getStoriesFb('typeless').'/';;
+		$this->file_url_folder_thumb = self::getStoriesFb('typeless').'/';
 		$this->file_meta = vmText::_('COM_VIRTUEMART_NO_IMAGE_SET').' '.$this->file_description;
 		$this->file_extension = strtolower(JFile::getExt($file_name));
 	}

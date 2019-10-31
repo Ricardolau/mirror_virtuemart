@@ -29,7 +29,7 @@ function virtuemartBuildRoute(&$query) {
 	if ($helper->router_disabled) {
 		foreach ($query as $key => $value){
 			if  ($key != 'option')  {
-				if ($key != 'Itemid') {
+				if ($key != 'Itemid' and $key != 'lang') {
 					$segments[]=$key.'/'.$value;
 					unset($query[$key]);
 				}
@@ -796,8 +796,7 @@ function virtuemartParseRoute($segments) {
 
 class vmrouterHelper {
 
-	/* language array */
-	public $lang = null ;
+	public $slang = '';
 	public $query = array();
 	/* Joomla menus ID object from com_virtuemart */
 	public $menu = null ;
@@ -828,6 +827,11 @@ class vmrouterHelper {
 
 	private function __construct($query) {
 
+		$this->template = JFactory::getApplication()->getTemplate(true);
+		if(empty($this->template) or !isset($this->template->id)){
+			$this->template->id = 0;
+		}
+
 		if (!$this->router_disabled = VmConfig::get('seo_disabled', false)) {
 
 			$this->_db = JFactory::getDbo();
@@ -843,11 +847,6 @@ class vmrouterHelper {
 			$this->seo_sufix = '';
 			$this->seo_sufix_size = 0;
 
-			$this->template = JFactory::getApplication()->getTemplate(true);
-			if(empty($this->template) or !isset($this->template->id)){
-				$this->template->id = 0;
-			}
-
 			$this->use_id = VmConfig::get('seo_use_id', false);
 			$this->use_seo_suffix = VmConfig::get('use_seo_suffix', true);
 			$this->seo_sufix = VmConfig::get('seo_sufix', '-detail');
@@ -855,7 +854,7 @@ class vmrouterHelper {
 
 
 			$this->full = VmConfig::get('seo_full',true);
-			$this->useGivenItemid = VmConfig::get('useGivenItemid',false);
+			$this->useGivenItemid = 0;//VmConfig::get('useGivenItemid',false);
 
 			$this->edit = ('edit' == vRequest::getCmd('task') or vRequest::getInt('manage')=='1');
 
@@ -909,8 +908,11 @@ class vmrouterHelper {
 
 		static $lConf = true;
 		if($lConf){
-			if (!class_exists( 'VmConfig' )) {
-				require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
+			if (!class_exists( 'VmConfig' ) or !class_exists('VmLanguage') or !isset(VmLanguage::$currLangTag)) {
+				if (!class_exists( 'VmConfig' )){
+					require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
+				}
+
 				VmConfig::loadConfig(FALSE,FALSE,true,false);    // this is needed in case VmConfig was not yet loaded before
 				vmdebug('Lädt die Config',VmLanguage::$currLangTag);
 			}

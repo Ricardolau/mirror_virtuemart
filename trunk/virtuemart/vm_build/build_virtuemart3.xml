@@ -4,9 +4,9 @@
     <!-- value can be: major, minor, bugfix -->
     <property name="releasetype" value="BUGFIX"/>
     <property name="vm.version.main" value="3.6"/>
-    <property name="vm.version" value="3.6.4"/>
+    <property name="vm.version" value="3.6.6"/>
     <property name="joomla.version" value="3.9.12"/>
-    <property name="PHING.VM.REVISION" value="10186"/>
+    <property name="PHING.VM.REVISION" value="10189"/>
     <property name="PHING.VM.CODENAME" value="Eagle owl"/>
     <property name="PHING.VM.UPDATEFOLDER" value="vm3"/>
     <property file="build.properties"/>

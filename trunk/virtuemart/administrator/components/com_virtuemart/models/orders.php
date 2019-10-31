@@ -403,7 +403,9 @@ class VirtueMartModelOrders extends VmModel {
 			$searchFields[] = 'u.address_1';
 			$searchFields[] = 'u.city';
 			$searchFields[] = 'u.zip';
-//quorvia addedd  ST data searches
+//quorvia added  ST data searches and virtuemart_order_id and order total
+			$searchFields[] = 'o.virtuemart_order_id';
+			$searchFields[] = 'round(o.order_total,2)';
 			$searchFields[] = 'st.last_name';
 			$searchFields[] = 'st.company';
 			$searchFields[] = 'st.city';

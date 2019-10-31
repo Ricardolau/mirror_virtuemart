@@ -864,11 +864,15 @@ class shopFunctionsF {
 			if (!is_array($recipient)) {
 				$recipient = array($recipient);
 			}
+			$no = '';
+			if ($debug_email == 'debug_email') {
+				$no = 'no';
+			}
+			$msg = 'Debug mail active, '.$no.' mail sent. The mail to send subject ' . $subject . ' to "' . implode(' ', $recipient) . '" from ' . $sender[0] . ' ' . $sender[1] . ' ' . vmText::$language->getTag() . '<br>' . $body;
 			if (VmConfig::showDebug()) {
-
-				vmdebug('Debug mail active, no mail sent. The mail to send subject ' . $subject . ' to "' . implode(' ', $recipient) . '" from ' . $sender[0] . ' ' . $sender[1] . ' ' . vmText::$language->getTag() . '<br>' . $body, $mediaToSend);
+				vmdebug($msg, $mediaToSend);
 			} else {
-				vmInfo('Debug mail active, no mail sent. The mail to send subject ' . $subject . ' to "' . implode(' ', $recipient) . '" from ' . $sender[0] . ' ' . $sender[1] . '<br>' . $body);
+				vmInfo($msg);
 			}
 			if ($debug_email == 'debug_email') {
 				return true;
@@ -1112,9 +1116,11 @@ class shopFunctionsF {
 			}
 			$path = $sPath.self::getInvoiceFolderName().DS.self::getInvoiceName($orderInfo->invoiceNumber).'.pdf';
 			//$path .= preg_replace('/[^A-Za-z0-9_\-\.]/', '_', 'vm'.$layout.'_'.$orderInfo->invoiceNumber.'.pdf');
-			if(file_exists($path)){
+			
+			if(file_exists( $path )) {
 				$link = JURI::root(true).'/index.php?option=com_virtuemart&view=invoice&layout=invoice&format=pdf&tmpl=component&order_number='.$orderInfo->order_number.'&order_pass='.$orderInfo->order_pass;
-				$pdf_link = "<a href=\"javascript:void window.open('".$link."', 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');\"  >";
+				$pdf_link = "<a class='button invoice' href=\"javascript:void window.open('".$link."', 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');\"  >";
+				$pdf_link .= $orderInfo->invoiceNumber.' ';
 				$pdf_link .= JHtml::_('image',$icon, vmText::_($descr), NULL, true);
 				$pdf_link .= '</a>';
 				$html = $pdf_link;

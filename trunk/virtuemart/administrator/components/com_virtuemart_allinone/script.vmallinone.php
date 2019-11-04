@@ -32,7 +32,7 @@ class com_virtuemart_allinoneInstallerScript {
 				return false;
 			}
 		}
-		VmConfig::loadConfig();
+		VmConfig::loadConfig(true,true,true,false);
 		if(!method_exists('vRequest','vmSpecialChars')){
 			JFactory::getApplication()->enqueueMessage('Update the VirtueMart Core first ');
 			return false;

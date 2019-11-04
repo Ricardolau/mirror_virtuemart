@@ -8,7 +8,7 @@
  * @version $Id: paypal.php 7217 2013-09-18 13:42:54Z alatak $
  * @package VirtueMart
  * @subpackage payment
- * Copyright (C) 2004 - 2018 Virtuemart Team. All rights reserved.
+ * Copyright (C) 2004 - 2019 Virtuemart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -549,48 +549,31 @@ class PaypalHelperPaypal {
 
 		// Get the list of IP addresses for www.paypal.com and notify.paypal.com
 
-
-        if ($this->_method->sandbox) {
-//			$paypal_iplist = gethostbynamel('ipn.sandbox.paypal.com');
-//			$paypal_iplist = (array)$paypal_iplist;
-//           QUORVIA 2017April24
-            $paypal_sandbox_iplist_ipn       = gethostbynamel('ipn.sandbox.paypal.com');
-            $paypal_sandbox_iplist_ipnpb      = gethostbynamel('ipnpb.sandbox.paypal.com');
-
-            $paypal_iplist = array_merge(
-                $paypal_sandbox_iplist_ipn,
-                $paypal_sandbox_iplist_ipnpb
-            ); // end quorvia
-
+		if ($this->_method->sandbox) {
+			$paypalHosts = array('ipn.sandbox.paypal.com','ipnpb.sandbox.paypal.com');
 		} else {
-            // JH 2017-04-23
-//              QUORVIA 2017April24
-            // Get IP through DNS call
-            // Reporting and order management
-            $paypal_iplist_ipnpb       = gethostbynamel('ipnpb.paypal.com');
-            $paypal_iplist_notify      = gethostbynamel('notify.paypal.com');
-
-            $paypal_iplist = array_merge( // JH 2017-04-23
-            // List of Reporting and order management
-                $paypal_iplist_ipnpb,
-                $paypal_iplist_notify
-            );
-            // JH
-			$this->debugLog($paypal_iplist, 'checkPaypalIps PRODUCTION', 'debug', false);
-
+			$paypalHosts = array('ipnpb.paypal.com','notify.paypal.com');
 		}
 
+		$paypal_iplist = array();
+		foreach($paypalHosts as $host){
+			$ipList = gethostbynamel($host);
+			$paypal_iplist = array_merge($paypal_iplist,$ipList);
+		}
 		if (isset($this->_method->extra_ips)){
 			$extraIps = explode(',',$this->_method->extra_ips);
 			$paypal_iplist = array_merge($paypal_iplist,$extraIps);
 		}
-		$remoteIPAddress=$this->getRemoteIPAddress();
+		$this->debugLog($paypal_iplist, 'checkPaypalIps $paypal_iplist', 'debug', false);
+
+		$remoteIPAddress = ShopFunctions::getClientIP();
+		$hostname = gethostbyaddr($remoteIPAddress);
 		$this->debugLog($remoteIPAddress, 'checkPaypalIps REMOTE ADDRESS', 'debug', false);
 
 		//  test if the remote IP connected here is a valid IP address
-		if (!in_array($remoteIPAddress, $paypal_iplist)) {
+		if (!in_array($remoteIPAddress, $paypal_iplist) and !in_array($hostname, $paypalHosts)) {
 
-			$text = "Error with REMOTE IP ADDRESS = " . $remoteIPAddress . ".
+			$text = "Error with REMOTE IP ADDRESS = " . $remoteIPAddress . ".\n
                         The remote address of the script posting to this notify script does not match a valid PayPal IP address\n
             These are the valid IP Addresses: " . implode(",", $paypal_iplist) . "The Order ID received was: " . $order_number;
 			$this->debugLog($text, 'checkPaypalIps', 'error', false);

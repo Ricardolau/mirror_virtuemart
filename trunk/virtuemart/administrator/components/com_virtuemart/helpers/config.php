@@ -363,6 +363,7 @@ class VmConfig {
 
 		static $execTrigger = true;
 		static $defined = false;
+		static $iniLang = true;
 
 		if(!$defined){
 			JLoader::register('vmDefines', JPATH_ROOT.'/administrator/components/com_virtuemart/helpers/vmdefines.php');
@@ -377,7 +378,10 @@ class VmConfig {
 
 		if($fresh){
 			self::$_jpConfig = new VmConfig();
-			if($lang)vmLanguage::initialise();
+			if($lang and $iniLang){
+				vmLanguage::initialise();
+				$iniLang = false;
+			}
 			return self::$_jpConfig;
 		}
 
@@ -386,7 +390,12 @@ class VmConfig {
 		if(!$force){
 			if(!empty(self::$_jpConfig) && !empty(self::$_jpConfig->_params)){
 
-				if($execTrigger){
+				if($lang and $iniLang){
+					vmLanguage::initialise();
+					$iniLang = false;
+				}
+
+				if($exeTrig and $execTrigger){
 					// try plugins
 					$isSite = $app->isSite();
 					self::importVMPlugins('vmuserfield');
@@ -464,7 +473,7 @@ class VmConfig {
 			self::$_jpConfig->setParams(self::$_jpConfig->_raw);
 		}
 
-		if($lang)vmLanguage::initialise();
+		if($lang and $iniLang)vmLanguage::initialise();
 		self::echoAdmin();
 		self::showDebug();
 		vmLanguage::debugLangVars();
@@ -490,7 +499,7 @@ class VmConfig {
 		}
 
 
-		if($exeTrig){
+		if($exeTrig and $execTrigger){
 
 			$isSite = $app->isSite();
 			self::importVMPlugins('vmuserfield');

@@ -101,12 +101,12 @@ class VirtuemartViewUser extends VmView {
 
 
 		$this->allowRegisterVendor = false;
-		if (($this->cart->_fromCart or $this->cart->getInCheckOut()) && empty($virtuemart_userinfo_id)) {
+		if (($this->cart->_fromCart or $this->cart->getInCheckOut()) or ($new and empty($virtuemart_userinfo_id))) {
 
 			//New Address is filled here with the data of the cart (we are in the cart)
 			$fieldtype = $this->address_type . 'address';
 			$this->cart->setupAddressFieldsForCart(true);
-			$userFields = $this->cart->$fieldtype;
+			$userFields = $this->cart->{$fieldtype};
 
 		} else {
 			if($task=='addST'){

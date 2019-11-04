@@ -254,13 +254,14 @@ class VirtueMartModelUser extends VmModel {
 	 *
 	 * @since   1.6
 	 */
-	public function register($user) {
+	public function register($user, $new) {
 
 		$params = JComponentHelper::getParams('com_users');
 
 		$useractivation = $params->get('useractivation');
 		$sendpassword = $params->get('sendpassword', 1);
 
+		VmLanguage::loadJLang('com_users',1);
 		// Load the users plugin group.
 		JPluginHelper::importPlugin('user');
 
@@ -270,6 +271,8 @@ class VirtueMartModelUser extends VmModel {
 			vmError(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $user->getError()));
 
 			return false;
+		} else if( !$new ){
+			return true;
 		}
 
 		$config = JFactory::getConfig();
@@ -372,32 +375,14 @@ class VirtueMartModelUser extends VmModel {
 		}
 		else
 		{
-			$emailSubject = JText::sprintf(
-			'COM_USERS_EMAIL_ACCOUNT_DETAILS',
-			$data['name'],
-			$data['sitename']
-			);
 
-			if ($sendpassword)
-			{
-				$emailBody = JText::sprintf(
-				'COM_USERS_EMAIL_REGISTERED_BODY',
-				$data['name'],
-				$data['sitename'],
-				$data['siteurl'],
-				$data['username'],
-				$data['password_clear']
-				);
+			$pw = '';
+			if($sendpassword){
+				$pw = $data['password_clear'];
 			}
-			else
-			{
-				$emailBody = JText::sprintf(
-				'COM_USERS_EMAIL_REGISTERED_BODY_NOPW',
-				$data['name'],
-				$data['sitename'],
-				$data['siteurl']
-				);
-			}
+
+			$this->sendRegistrationEmail($user,$pw, $useractivation);
+
 		}
 
 		$debug_email = VmConfig::get('debug_mail', false);
@@ -407,7 +392,7 @@ class VirtueMartModelUser extends VmModel {
 			$msg = 'Registration Debug mail active, no mail sent. The mail to send subject ' . $emailSubject . ' to "' .   $data['email'] . '" from ' . $data['mailfrom'] . ' ' . $data['fromname'] . ' ' . vmText::$language->getTag() . '<br>' . $emailBody;
 			vmdebug($msg);
 			$return = true;
-		} else {
+		} else if(!empty($useractivation)){
 			$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
 		}
 
@@ -478,7 +463,6 @@ class VirtueMartModelUser extends VmModel {
 			vmError(JText::_('COM_USERS_REGISTRATION_SEND_MAIL_FAILED'));
 
 			// Send a system message to administrators receiving system mails
-			$db = $this->getDbo();
 			$query->clear()
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
@@ -762,7 +746,7 @@ class VirtueMartModelUser extends VmModel {
 		JPluginHelper::importPlugin('user');
 
 		// Save the JUser object
-		if (!$this->register($user)) {
+		if (!$this->register($user, $new)) {
 			$msg = vmText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED',$user->getError());
 			vmError($msg,$msg);
 			return false;
@@ -1370,8 +1354,8 @@ class VirtueMartModelUser extends VmModel {
 				$cart = VirtueMartCart::getCart();
 				$adType = $type.'address';
 
-				if(empty($cart->$adType)){
-					$data = $cart->$type;
+				if(empty($cart->{$adType})){
+					$data = $cart->{$type};
 					if(empty($data)) $data = array();
 
 					if($JUser){

@@ -113,8 +113,12 @@ class VirtueMartControllerUser extends JControllerLegacy
 
 		$cart = VirtueMartCart::getCart();
 
-		$layout = vRequest::getCmd('layout','edit');
-		$msg = $this->saveData($cart);
+		if($cart->_fromCart or $cart->getInCheckOut()){
+			$msg = $this->saveData($cart);
+		} else {
+			$msg = $this->saveData(false);
+		}
+
 		if($cart->_fromCart or $cart->getInCheckOut()){
 
 			$task = '';
@@ -129,6 +133,7 @@ class VirtueMartControllerUser extends JControllerLegacy
 				$this->setRedirect(JRoute::_('index.php?option=com_virtuemart&view=cart'.$task, FALSE) );
 			}
 		} else {
+			$layout = vRequest::getCmd('layout','edit');
 			$this->setRedirect( JRoute::_('index.php?option=com_virtuemart&view=user&layout='.$layout, FALSE) );
 		}
 
@@ -167,7 +172,7 @@ class VirtueMartControllerUser extends JControllerLegacy
 			$data['address_type'] = vRequest::getCmd('addrtype','BT');
 		}
 
-		if($cartObj){
+		//if($cartObj){
 			//if($cartObj->_fromCart or $cartObj->getInCheckOut()){
 
 				$cart = VirtueMartCart::getCart();
@@ -178,7 +183,7 @@ class VirtueMartControllerUser extends JControllerLegacy
 				}
 				$cart->saveAddressInCart($data, $data['address_type'],true,$prefix);
 			//}
-		}
+		//}
 
 		if(isset($data['vendor_accepted_currencies'])){
 			// Store multiple selectlist entries as a ; separated string

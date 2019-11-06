@@ -1711,11 +1711,11 @@ class VirtueMartModelOrders extends VmModel {
 
 	function deleteOldPendingOrder($cart){
 
-		$reUseTimeSql = VmConfig::get('reuseorders','PT30M');vmdebug('deleteOldPendingOrder '.$reUseTimeSql);
+		$reUseTimeSql = VmConfig::get('reuseorders','PT2M');vmdebug('deleteOldPendingOrder '.$reUseTimeSql);
 		if(empty($reUseTimeSql)){
 			return false;
 		} else if($reUseTimeSql == 1){
-			$reUseTimeSql = 'PT30M';
+			$reUseTimeSql = 'PT2M';
 		}
 
 		$db = JFactory::getDbo();

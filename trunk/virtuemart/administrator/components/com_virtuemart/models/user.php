@@ -269,7 +269,6 @@ class VirtueMartModelUser extends VmModel {
 		if (!$user->save())
 		{
 			vmError(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $user->getError()));
-
 			return false;
 		} else if( !$new ){
 			return true;
@@ -382,7 +381,7 @@ class VirtueMartModelUser extends VmModel {
 			}
 
 			$this->sendRegistrationEmail($user,$pw, $useractivation);
-
+			return true;
 		}
 
 		$debug_email = VmConfig::get('debug_mail', false);
@@ -439,7 +438,7 @@ class VirtueMartModelUser extends VmModel {
 			foreach ($rows as $row)
 			{
 				if (VmConfig::showDebug() and $debug_email == 'debug_email') {
-					$msg = 'Registration Debug mail active, no mail sent. The mail to send subject ' . $emailSubject . ' to "' .  $row->email . '" from ' . $data['mailfrom'] . ' ' . $data['fromname'] . ' ' . vmText::$language->getTag() . '<br>' . $emailBodyAdmin;
+					$msg = 'Registration Debug mail to admin active, no mail sent. The mail to send subject ' . $emailSubject . ' to "' .  $row->email . '" from ' . $data['mailfrom'] . ' ' . $data['fromname'] . ' ' . vmText::$language->getTag() . '<br>' . $emailBodyAdmin;
 					vmdebug($msg);
 					$return = true;
 				} else {

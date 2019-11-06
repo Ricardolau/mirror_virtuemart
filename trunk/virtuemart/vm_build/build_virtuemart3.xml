@@ -4,9 +4,9 @@
     <!-- value can be: major, minor, bugfix -->
     <property name="releasetype" value="BUGFIX"/>
     <property name="vm.version.main" value="3.6"/>
-    <property name="vm.version" value="3.6.6"/>
+    <property name="vm.version" value="3.6.8"/>
     <property name="joomla.version" value="3.9.12"/>
-    <property name="PHING.VM.REVISION" value="10194"/>
+    <property name="PHING.VM.REVISION" value="10196"/>
     <property name="PHING.VM.CODENAME" value="Eagle owl"/>
     <property name="PHING.VM.UPDATEFOLDER" value="vm3"/>
     <property file="build.properties"/>
@@ -256,6 +256,7 @@
         <exclude name="**/helpers/vmfilter.php"/>
         <exclude name="**/vmf/**"/>
         <exclude name="**/toolbar/**"/>
+        <exclude name="**/templates/**"/>
     </fileset>
 
     <fileset dir="${admin.template.path}" id='admin.template.refid' defaultexcludes="true">
@@ -429,13 +430,13 @@
                 <expandproperties/>
             </filterchain>
         </copy>
-        <echo msg="Copying ADMIN Template files to directory..."/>
+        <!--echo msg="Copying ADMIN Template files to directory..."/>
         <copy todir="${package.folder.main}/administrator/templates">
             <fileset refid="admin.template.refid"/>
             <filterchain>
                 <expandproperties/>
             </filterchain>
-        </copy>
+        </copy-->
         <echo msg="Copying SITE COMPONENT files to directory.. "/>
         <copy todir="${package.folder.main}/components/${component.name}">
             <fileset refid="site.main.files"/>

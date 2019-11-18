@@ -471,6 +471,8 @@ class VirtueMartControllerCart extends JControllerLegacy {
 
 //		Changing shopper empties all existing cart data and give new cart id
 			$cart = VirtueMartCart::getCart(true);
+			$cart->BT = 0;
+			$cart->ST = 0;
 			VirtuemartCart::emptyCartValues($cart,true);
 		} else {
 			//update cart data

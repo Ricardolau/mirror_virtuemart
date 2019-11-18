@@ -669,20 +669,29 @@ class VirtueMartModelOrders extends VmModel {
 	function calculateRow($data, $taxCalcValue, $rounding, $daTax = true, $withTax = true, $overrideDiscount = false){
 
 		$quantity = $data['product_quantity'];
-		if(empty($data['product_subtotal_discount'])){
-			$data['product_subtotal_discount'] = 0.0;
-		} else {
-			$itemDiscount = $data['product_subtotal_discount'];
-			if($itemDiscount<0.0){
-				$itemDiscount = $itemDiscount * (-1);
-			}
-			$itemDiscount = $itemDiscount/$quantity;
-		}
 
 		$taxValue = $taxCalcValue;
 		if(!$withTax){
 			$data['product_tax'] = 0.0;
 			$taxValue = 0.0;
+		}
+
+		if(empty($data['product_subtotal_discount'])){
+			$data['product_subtotal_discount'] = 0.0;
+		} else {
+			$itemDiscount = $data['product_subtotal_discount'];
+
+			if($itemDiscount<0.0){
+				$itemDiscount = $itemDiscount * (-1);
+			}
+
+			if($daTax and VirtueMartModelOrders::isNotEmptyDec($data,'product_basePriceWithTax') and VirtueMartModelOrders::isNotEmptyDec($data,'product_final_price')){
+				$itemDiscount = $data['product_basePriceWithTax'] - $data['product_final_price'];
+			} else if(!$daTax and VirtueMartModelOrders::isEmptyDec($data,'product_subtotal_discount') and VirtueMartModelOrders::isNotEmptyDec($data,'product_final_price') and VirtueMartModelOrders::isNotEmptyDec($data,'product_item_price')){
+				$itemDiscount = round($data['product_item_price'] - $data['product_final_price'] + $data['product_final_price'] * $taxValue/(100 + $taxValue), $rounding);
+			} else {
+				$itemDiscount = $itemDiscount/$quantity;
+			}
 		}
 
 		$roundIntern = 5;
@@ -744,6 +753,13 @@ class VirtueMartModelOrders extends VmModel {
 		if($data['product_subtotal_discount']<0.0){
 			$itemDiscount = $itemDiscount * (-1);
 		}
+		//if($overrideDiscount){
+			if($daTax and VirtueMartModelOrders::isNotEmptyDec($data,'product_basePriceWithTax') and VirtueMartModelOrders::isNotEmptyDec($data,'product_final_price')){
+				$itemDiscount = $data['product_basePriceWithTax'] - $data['product_final_price'];
+			} else if(!$daTax and VirtueMartModelOrders::isEmptyDec($data,'product_subtotal_discount') and VirtueMartModelOrders::isNotEmptyDec($data,'product_final_price')){
+				$itemDiscount = round($data['product_item_price'] - $data['product_final_price'] + $data['product_final_price'] * $taxValue/(100 + $taxValue), $rounding);
+			}
+		//}
 		$data['product_subtotal_discount'] = $quantity * $itemDiscount;
 //vmdebug('my prices',$data);
 		return $data;

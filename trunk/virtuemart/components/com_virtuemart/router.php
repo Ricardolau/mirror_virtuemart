@@ -215,7 +215,7 @@ function virtuemartBuildRoute(&$query) {
 				}
 
 				if(empty($Itemid)){
-					vmdebug('vmRouter case \'productdetails\' No Itemid found, Itemid existing in $query?',$query['Itemid']);
+					vmdebug('vmRouter case \'productdetails\' No Itemid found, Itemid existing in $query?');
 				}  else {
 					$query['Itemid'] = $Itemid;
 				}

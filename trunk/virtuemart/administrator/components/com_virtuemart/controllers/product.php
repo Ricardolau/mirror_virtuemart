@@ -286,6 +286,36 @@ class VirtuemartControllerProduct extends VmController {
 		$app->redirect('index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id='.$l, $msg, $msgtype);
 	}
 
+	/**
+	 * Clone a product
+	 *
+	 * @author Max Milbers
+	 */
+	public function CloneProductWithChildren () {
+		$app = Jfactory::getApplication();
+
+		$model = VmModel::getModel('product');
+		$msgtype = '';
+
+		$cids = vRequest::getInt($this->_cidName, vRequest::getInt('virtuemart_product_id'));
+		if(is_array($cids)){
+			$cids = array_unique($cids);
+		} else {
+			$cids = (array)$cids;
+		}
+		$msg = '';
+		foreach($cids as $cid){
+			$cid = (int) $cid;
+			if ($cid and $l=$model->createCloneWithChildren($cid)) {
+				$msg .= vmText::_('COM_VIRTUEMART_PRODUCT_CLONED_SUCCESSFULLY');
+			} else {
+				$msg .= vmText::_('COM_VIRTUEMART_PRODUCT_NOT_CLONED_SUCCESSFULLY');
+				$msgtype = 'error';
+			}
+		}
+
+		$app->redirect('index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id='.$l, $msg, $msgtype);
+	}
 
 	/**
 	 * Get a list of related products, categories

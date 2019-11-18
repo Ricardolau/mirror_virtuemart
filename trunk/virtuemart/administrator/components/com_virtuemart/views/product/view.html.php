@@ -93,15 +93,15 @@ class VirtuemartViewProduct extends VmViewAdmin {
 				$this->shoppergroupList = ShopFunctions::renderShopperGroupList($product->shoppergroups);
 
 				//Do we need the children? If there is a C customfield, we dont want them
-				$this->product_childs = false;
+				$this->product_childs = true;
 				foreach($product->customfields as $custom){
 					if($custom->field_type == 'C' and $custom->virtuemart_product_id == $virtuemart_product_id){
-						$this->product_childs = true;
+						$this->product_childs = false;
 						break;
 					}
 				}
 
-				if(!$this->product_childs){
+				if($this->product_childs){
 					$product_childIds = $model->getProductChildIds($virtuemart_product_id);
 
 					$product_childs = array();
@@ -109,7 +109,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 					$maxChilds = VmConfig::get('maxChilds',80);
 					foreach($product_childIds as $id){
 						if($childs++>$maxChilds) {
-							VmWarn('Could not load all children');
+							VmWarn('Could not load all children due maxChild setting');
 							break;
 						}
 						$product_childs[] = $model->getProductSingle($id,false);
@@ -410,6 +410,10 @@ class VirtuemartViewProduct extends VmViewAdmin {
 			}
 
 			$bulletList = VmConfig::get('simpleBulletList',0);
+			$vat = VmConfig::get('adminProductListBruttoPrices',0);
+			if($vat){
+				$this->calculator = calculationHelper::getInstance ();
+			}
 
 			foreach ($productlist as $virtuemart_product_id => $product) {
 				if(empty($product->virtuemart_media_id)){
@@ -432,11 +436,20 @@ class VirtuemartViewProduct extends VmViewAdmin {
 					$model->getRawProductPrices($product,1,array(),false,true);
 					$class = 'class="pr-price-derivated"';
 				}
+
 				if(!empty($product->allPrices)) {
 					$product->product_price_display = '<span '.$class.'>';
-					foreach($product->allPrices as $price){
+					foreach($product->allPrices as $k=>$price){
 						//vmdebug('my price',$price);
-						$product->product_price_display .= $currencyDisplay->priceDisplay($price['product_price'],(int)$price['product_currency'],1,true) .'<br>';
+						if($vat){
+							$product->selectedPrice = $k;
+							$this->calculatedPrices = $this->calculator->getProductPrices ($product);
+							//vmdebug('$product->allPrices[$k]',$this->calculatedPrices);
+							$pric = $this->calculatedPrices['salesPrice'];
+						} else {
+							$pric = $price['product_price'];
+						}
+						$product->product_price_display .= $currencyDisplay->priceDisplay($pric,(int)$price['product_currency'],1,true) .'<br>';
 					}
 					$product->product_price_display = substr($product->product_price_display,0,-4) . '</span>';
 					/*$product->product_price_display = $currencyDisplay->priceDisplay($product->allPrices[$product->selectedPrice]['product_price'],(int)$product->allPrices[$product->selectedPrice]['product_currency'],1,true);*/
@@ -519,6 +532,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 				}
 				JToolbarHelper::custom('createchild', 'new', 'new', vmText::_('COM_VIRTUEMART_PRODUCT_CHILD'), !$product_parent);
 				JToolbarHelper::custom('cloneproduct', 'copy', 'copy', vmText::_('COM_VIRTUEMART_PRODUCT_CLONE'), true);
+				JToolbarHelper::custom('cloneproductwithchildren', 'copy', 'copy', vmText::_('COM_VIRTUEMART_PRODUCT_CLONE_WCHILDREN'), true);
 			}
 			JToolbarHelper::custom('addrating', 'default', '', vmText::_('COM_VIRTUEMART_ADD_RATING'), true);
 			$this->addStandardDefaultViewCommands();

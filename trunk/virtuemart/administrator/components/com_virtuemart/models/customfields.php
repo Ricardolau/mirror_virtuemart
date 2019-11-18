@@ -644,6 +644,8 @@ class VirtueMartModelCustomfields extends VmModel {
 });
 ";
 				vmJsApi::addJScript('cvSort',$jsCsort);
+
+				vmdebug('Get child ids for ',$product_id,$childIds,$field);
 				return $html;
 				// 					return 'Automatic Childvariant creation (later you can choose here attributes to show, now product name) </td><td>';
 				break;
@@ -1119,7 +1121,7 @@ class VirtueMartModelCustomfields extends VmModel {
 					}
 				}
 
-				if(!empty($fields['field_type']) and $fields['field_type']=='C'){
+				if(!empty($fields['field_type']) and $fields['field_type']=='C' and !isset($datas['clone']) ){
 					$cM = VmModel::getModel('custom');
 					$c = $cM->getCustom($fields['virtuemart_custom_id'],'');
 
@@ -1166,30 +1168,13 @@ class VirtueMartModelCustomfields extends VmModel {
 					}
 				}
 
-				$fields['virtuemart_'.$table.'_id'] = $id;
-				$tableCustomfields = $this->getTable($table.'_customfields');
-				$tableCustomfields->setPrimaryKey('virtuemart_product_id');
 				if (!empty($datas['customfield_params'][$key]) and !isset($datas['clone']) ) {
 					if (array_key_exists( $key,$datas['customfield_params'])) {
 						$fields = array_merge ((array)$fields, (array)$datas['customfield_params'][$key]);
 					}
 				}
-
-				$tableCustomfields->_xParams = 'customfield_params';
-				VirtueMartModelCustom::setParameterableByFieldType($tableCustomfields,$fields['field_type'],$fields['custom_element'],$fields['custom_jplugin_id']);
-
-				//We do not store default values
-				$paramsTemp = array();
-				foreach($tableCustomfields->_varsToPushParam as $name=>$attrib){
-					if(isset($fields[$name])){
-						$paramsTemp[$name] = $attrib;
-					} else {
-						unset($tableCustomfields->$name);
-					}
-				}
-				$tableCustomfields->_varsToPushParam = $paramsTemp;
-				//vmdebug('storeProductCustomfields bindChecknStore',$fields);
-				$tableCustomfields->bindChecknStore($fields);
+				$fields['virtuemart_'.$table.'_id'] = $id;
+				$this->storeProductCustomfield('product', $fields);
 
 				$key = array_search($fields['virtuemart_customfield_id'], $old_customfield_ids );
 				if ($key !== false ) unset( $old_customfield_ids[ $key ] );
@@ -1214,6 +1199,30 @@ class VirtueMartModelCustomfields extends VmModel {
 				$dispatcher->trigger('plgVmOnStoreProduct', array($datas, $plugin_param ));
 			}
 		}
+
+	}
+
+	public function storeProductCustomfield($table, $fields){
+
+
+		$tableCustomfields = $this->getTable($table.'_customfields');
+		$tableCustomfields->setPrimaryKey('virtuemart_product_id');
+
+		$tableCustomfields->_xParams = 'customfield_params';
+		VirtueMartModelCustom::setParameterableByFieldType($tableCustomfields,$fields['field_type'],$fields['custom_element'],$fields['custom_jplugin_id']);
+
+		//We do not store default values
+		$paramsTemp = array();
+		foreach($tableCustomfields->_varsToPushParam as $name=>$attrib){
+			if(isset($fields[$name])){
+				$paramsTemp[$name] = $attrib;
+			} else {
+				unset($tableCustomfields->{$name});
+			}
+		}
+		$tableCustomfields->_varsToPushParam = $paramsTemp;
+		//vmdebug('storeProductCustomfield bindChecknStore',$fields);
+		$tableCustomfields->bindChecknStore($fields);
 
 	}
 

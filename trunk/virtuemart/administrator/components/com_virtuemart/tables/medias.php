@@ -75,7 +75,6 @@ class TableMedias extends VmTable {
 
 	}
 
-
 	function check () {
 
 		$ok = TRUE;
@@ -133,9 +132,6 @@ class TableMedias extends VmTable {
 			vmError (vmText::_ ('COM_VIRTUEMART_MEDIA_MUST_HAVE_URL'));
 			$ok = FALSE;
 		}
-
-
-
 
 
 		if (!empty($this->file_description)) {
@@ -318,7 +314,11 @@ class TableMedias extends VmTable {
 
 		}
 
-
+		if(substr($this->file_url,0,4)=='http'){
+			$this->file_url = substr($this->file_url,5);
+		} else if(substr($this->file_url,0,5)=='https') {
+			$this->file_url = substr($this->file_url,6);
+		}
 
 		//Nasty small hack, should work as long the word for default is in the language longer than 3 words and the first
 		//letter should be always / or something like this

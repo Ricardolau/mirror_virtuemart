@@ -41,7 +41,7 @@ class VmMediaHandler {
 	var $file_extension = '';
 	var $virtuemart_media_id = '';
 	var $theme_url = null;
-	var $noImageSet = true;
+	var $noImageSet = false;
 	static $stheme_url = null;
 	static $url = array();
 
@@ -498,6 +498,7 @@ class VmMediaHandler {
 		$this->file_meta = vmText::_('COM_VIRTUEMART_NO_IMAGE_SET').' '.$this->file_description;
 		$this->file_extension = strtolower(JFile::getExt($file_name));
 		$this->noImageSet = true;
+		vmTrace('setNoImageSet');
 	}
 
 	/**

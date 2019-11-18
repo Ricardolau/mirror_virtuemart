@@ -423,6 +423,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 
 
 	public function emptyCache(){
+		$this->_loaded = false;
 		self::$_cache = array();
 	}
 
@@ -1063,15 +1064,15 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 								$temp = explode(' as ',$sel);
 								$key = trim($temp[1]);
 								//vmdebug('my $result ',$result[$key]);
-								if (isset($result[$key])) $this->$key = $result[$key]; else $this->$key = false;
+								if (isset($result[$key])) $this->{$key} = $result[$key]; else $this->{$key} = false;
 
 							} else {
-								if (isset($result[$sel])) $this->$sel = $result[$sel];
+								if (isset($result[$sel])) $this->{$sel} = $result[$sel];
 							}
 						}
 					} else {
 
-						if (isset($result[$tableId])) $this->$tableId = $result[$tableId];
+						if (isset($result[$tableId])) $this->{$tableId} = $result[$tableId];
 					}
 				}
 			}

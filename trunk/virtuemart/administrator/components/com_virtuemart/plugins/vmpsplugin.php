@@ -982,7 +982,7 @@ abstract class vmPSPlugin extends vmPlugin {
 					$cat_cond = true;
 					//break;
 				}
-				if(empty($method->blocking_categories) or array_intersect($product->categories,$method->blocking_categories)){
+				if(!empty($method->blocking_categories) and array_intersect($product->categories,$method->blocking_categories)){
 					$cat_cond = false;
 					$msg = 'At least one of the products is in a category which blockes the method '.$method->{$this->_psType.'_name'};
 					break;

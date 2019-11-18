@@ -1146,7 +1146,7 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 		$paypalInterface->loadCustomerData();
 		$paypalInterface->getExtraPluginInfo($this->_currentMethod);
 
-		if (!$paypalInterface->validate()) {
+		if (!$paypalInterface->validate(false)) {
 			if ($this->_currentMethod->paypalproduct != 'api') {
 				VmInfo('VMPAYMENT_PAYPAL_PAYMENT_NOT_VALID');
 			}
@@ -1399,7 +1399,9 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 		if ($expressCheckout == 'cancel') {
 			return true;
 		}
-		if (!$paypalInterface->validate()) {
+
+		$withMsg = $cart->_redirect or $cart->inConfirm;
+		if (!$paypalInterface->validate($withMsg)) {
 			return false;
 		}
 

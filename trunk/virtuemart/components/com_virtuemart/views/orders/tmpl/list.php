@@ -28,6 +28,7 @@ if(VmConfig::get ('ajax_order', TRUE)){
 
 ?>
 <div class="vm-wrap">
+    <div class="vm-orders-information"></div>
 	<div class="vm-orders-list">
 <h1><?php echo vmText::_('COM_VIRTUEMART_ORDERS_VIEW_DEFAULT_TITLE'); ?></h1>
 <?php
@@ -87,7 +88,7 @@ if (count($this->orderlist) == 0) {
 </div>
 <?php } ?>
 	</div>
-	<div class="vm-orders-information"></div>
+
 </div>
 <?php
 if(VmConfig::get ('ajax_order', TRUE)){

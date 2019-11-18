@@ -40,19 +40,22 @@ class VmMediaHandler {
 	var $file_name = '';
 	var $file_extension = '';
 	var $virtuemart_media_id = '';
-	static $theme_url = null;
+	var $theme_url = null;
+	var $noImageSet = true;
+	static $stheme_url = null;
 	static $url = array();
 
 	function __construct($id=0){
 
 		$this->virtuemart_media_id = $id;
 
-		if(!isset(self::$theme_url)){
-			self::$theme_url = VmConfig::get('vm_themeurl',0);
-			if(empty(self::$theme_url)){
-				self::$theme_url = 'components/com_virtuemart/';
+		if(!isset(self::$stheme_url)){
+			self::$stheme_url = VmConfig::get('vm_themeurl',0);
+			if(empty(self::$stheme_url)){
+				self::$stheme_url = 'components/com_virtuemart/';
 			}
 		}
+		$this->theme_url = self::$stheme_url;
 	}
 
 	/**
@@ -489,11 +492,12 @@ class VmMediaHandler {
 			$file_name = VmConfig::get('no_image_set','noimage_new.gif');
 		}
 		$this->file_name = JFile::stripExt($file_name);
-		$this->file_url_folder = self::$theme_url.'assets/images/vmgeneral/';
+		$this->file_url_folder = self::$stheme_url.'assets/images/vmgeneral/';
 		$this->file_url = $this->file_url_folder.$file_name;
 		$this->file_url_folder_thumb = self::getStoriesFb('typeless').'/';
 		$this->file_meta = vmText::_('COM_VIRTUEMART_NO_IMAGE_SET').' '.$this->file_description;
 		$this->file_extension = strtolower(JFile::getExt($file_name));
+		$this->noImageSet = true;
 	}
 
 	/**
@@ -602,7 +606,7 @@ class VmMediaHandler {
 		$file_url = false;
 		$file_alt = false;
 		static $exists = array();
-		$tC = self::$theme_url.'assets/images/vmgeneral/filetype_'.$this->file_extension.'.png';
+		$tC = self::$stheme_url.'assets/images/vmgeneral/filetype_'.$this->file_extension.'.png';
 
 		if(!empty($this->file_extension)){
 			$file_alt = $this->file_description;
@@ -616,7 +620,7 @@ class VmMediaHandler {
 		}
 
 		if(!$file_url){
-			$file_url = self::$theme_url.'assets/images/vmgeneral/'.VmConfig::get('no_image_found');
+			$file_url = self::$stheme_url.'assets/images/vmgeneral/'.VmConfig::get('no_image_found');
 			$file_alt = vmText::_('COM_VIRTUEMART_NO_IMAGE_FOUND').' '.$this->file_description;
 		}
 
@@ -647,7 +651,7 @@ class VmMediaHandler {
 		$root='';
 
 		if( substr( $this->file_url, 0, 2) == "//" ) {
-			$root = JURI::root(true).'/';;
+			$root = '';//JURI::root(true).'/';;
 		} else if($absUrl){
 			$root = JURI::root(false);
 		} else {
@@ -666,8 +670,8 @@ class VmMediaHandler {
 		if($lightbox){
 			$image = '<img src="' . $root.$file_url . '" alt="' . $file_alt . '" ' . $args . ' />';//JHtml::image($file_url, $file_alt, $imageArgs);
 			if ($file_alt ) $file_alt = 'title="'.$file_alt.'"';
-			if ($this->file_url and pathinfo($this->file_url, PATHINFO_EXTENSION) and substr( $this->file_url, 0, 4) != "http") {
-				if($this->file_is_forSale or substr( $this->file_url, 0, 2) == "//"){
+			if ($this->file_url and pathinfo($this->file_url, PATHINFO_EXTENSION) and (substr( $this->file_url, 0, 4) != "http" or substr( $this->file_url, 0, 2) == "//")) {
+				if($this->file_is_forSale ){
 					$href = $this->file_url ;
 				} else {
 					$href = JURI::root() .$this->file_url ;
@@ -930,11 +934,11 @@ class VmMediaHandler {
 		$this->addMediaAction(0,'COM_VIRTUEMART_NONE');
 
 		$view = vRequest::getCmd('view');
-		if($view!='media' || empty($this->file_name)){
+		if($view!='media' or empty($this->file_name) or $this->noImageSet){
 			$this->addMediaAction('upload','COM_VIRTUEMART_FORM_MEDIA_UPLOAD');
 		}
 
-		if(!empty($this->file_name)){
+		if(!empty($this->file_name) and !$this->noImageSet){
 			$this->addMediaAction('replace','COM_VIRTUEMART_FORM_MEDIA_UPLOAD_REPLACE');
 			$this->addMediaAction('replace_thumb','COM_VIRTUEMART_FORM_MEDIA_UPLOAD_REPLACE_THUMB');
 		}
@@ -1243,7 +1247,7 @@ class VmMediaHandler {
 		} else {
 			$readonly = '';
 		}
-
+		if($this->noImageSet) $this->file_url = '';
 		$html .= $this->displayRow('COM_VIRTUEMART_FILES_FORM_FILE_TITLE','file_title');
 		$html .= $this->displayRow('COM_VIRTUEMART_FILES_FORM_FILE_DESCRIPTION','file_description');
 		$html .= $this->displayRow('COM_VIRTUEMART_FILES_FORM_FILE_META','file_meta');

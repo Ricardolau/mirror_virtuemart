@@ -16,6 +16,13 @@
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
+			<field name="showUserShopperGrp" type="radio" default=""
+				   label="COM_VM_SHOW_USER_SHOPPERGRP"
+				   extension="com_virtuemart"
+				   description="COM_VM_SHOW_USER_SHOPPERGRP_DESC" >
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
 		</fieldset>
 	</fields>
 </metadata>

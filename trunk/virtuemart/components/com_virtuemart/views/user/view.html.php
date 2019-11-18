@@ -98,7 +98,9 @@ class VirtuemartViewUser extends VmView {
 
 		$this->cart = VirtueMartCart::getCart();
 		$task = vRequest::getCmd('task', '');
-
+		if($task=='addST'){
+			$this->address_type='ST';
+		}
 
 		$this->allowRegisterVendor = false;
 		if (($this->cart->_fromCart or $this->cart->getInCheckOut()) or ($new and empty($virtuemart_userinfo_id))) {
@@ -109,9 +111,7 @@ class VirtuemartViewUser extends VmView {
 			$userFields = $this->cart->{$fieldtype};
 
 		} else {
-			if($task=='addST'){
-				$this->address_type='ST';
-			}
+
 			if(!$new and empty($virtuemart_userinfo_id)){
 				$virtuemart_userinfo_id = $this->_model->getBTuserinfo_id();
 				vmdebug('Try to get $virtuemart_userinfo_id by type BT', $virtuemart_userinfo_id);
@@ -278,10 +278,15 @@ class VirtuemartViewUser extends VmView {
 
 			$this->_lists['shoppergroups'] = ShopFunctions::renderShopperGroupList($shoppergrps);
 		} else {
-			foreach($_shoppergroup as $group){
-				$this->_lists['shoppergroups'] .= vmText::_($group['shopper_group_name']).', ';
+			$this->getMenuParams();
+			$showUserShopperGrp = $this->params->get('showUserShopperGrp',1);
+			if($showUserShopperGrp){
+				foreach($_shoppergroup as $group){
+					$this->_lists['shoppergroups'] .= vmText::_($group['shopper_group_name']).', ';
+				}
+				$this->_lists['shoppergroups'] = substr($this->_lists['shoppergroups'],0,-2);
 			}
-			$this->_lists['shoppergroups'] = substr($this->_lists['shoppergroups'],0,-2);
+
 		}
 
 		if (!empty($this->userDetails->virtuemart_vendor_id)) {
@@ -349,17 +354,24 @@ class VirtuemartViewUser extends VmView {
 			$this->vendor = $vendorModel->getVendor();
 			$vendorModel->addImages($this->vendor);
 		} else {
+			$this->getMenuParams();
+			$this->allowRegisterVendor = $this->params->get('allowRegisterVendor',0);
+
+		}
+    }
+
+    function getMenuParams(){
+    	static $m = false;
+    	if(!$m){
 			$m	= $this->app->getMenu();
 			if($m){
 				$am = $m->getActive();
 				if($am) {
-					$params = $am->getParams();
-					$this->allowRegisterVendor = $params->get('allowRegisterVendor');
+					$this->params = $am->getParams();
 				}
 			}
-		}
+    	}
     }
-
 
     /**
      * renderMailLayout

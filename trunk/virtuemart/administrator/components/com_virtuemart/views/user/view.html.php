@@ -244,9 +244,12 @@ class VirtuemartViewUser extends VmViewAdmin {
 			'0' => array('searchTable' => 'juser', 'searchTable_name' => vmText::_('COM_VIRTUEMART_ONLY_JUSER')),
 			'1' => array('searchTable' => 'all', 'searchTable_name' => vmText::_('JALL'))
 			);
-
+			$this->vendors = '';
 			if($this->showVendors()){
 				$searchOptionTables[] = array('searchTable' => 'vendors', 'searchTable_name' => vmText::_('COM_VM_ONLY_VENDORS'));
+				$searchOptionTables[] = array('searchTable' => 'shoppers', 'searchTable_name' => vmText::_('COM_VM_ONLY_SHOPPERS'));
+				$vendorId = vRequest::getInt('virtuemart_vendor_id', vmAccess::isSuperVendor());
+				$this->vendors = Shopfunctions::renderVendorList($vendorId, 'virtuemart_vendor_id', true);
 			}
 			$this->searchOptions = JHtml::_('Select.genericlist', $searchOptionTables, 'searchTable', '', 'searchTable', 'searchTable_name', $model->searchTable );
 		}

@@ -630,23 +630,22 @@ class VirtueMartModelUser extends VmModel {
 		$usersConfig = JComponentHelper::getParams( 'com_users' );
 		$can_change_username = (int)$usersConfig->get('change_login_name', false);
 
+		$data['username'] = vRequest::filter($data['username'],FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
+
 		$username = $user->get('username');
-
-
-		if(!empty($data['username'])){
-			$data['username'] = vRequest::filter($data['username'],FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
-		}
-
 		if(!empty($username)){
-			if(!$can_change_username  and !vmAccess::manager('user.edit')){
-				if($data['username']!=$username){
-					vmWarn('You are not allowed to change your username');
+			if(!empty($data['username'])){
+				if(!$can_change_username  and !vmAccess::manager('user.edit')){
+					if($data['username']!=$username){
+						vmWarn('You are not allowed to change your username');
+					}
+					$data['username'] = $username;
 				}
-				$data['username'] = $username;
-			} else if(empty($data['username'])){
+			} else {
 				$data['username'] = $username;
 			}
 		}
+
 
 		if(empty ($data['password'])){
 			$data['password'] = vRequest::getCmd('password', '');
@@ -1622,15 +1621,26 @@ class VirtueMartModelUser extends VmModel {
 			$joinedTables .= ' LEFT JOIN #__virtuemart_userinfos AS ui ON ui.virtuemart_user_id = vmu.virtuemart_user_id';
 		}
 
-		$superVendor = vmAccess::isSuperVendor();
+		if(vmAccess::manager('managevendors')){
+			$vendorId = vRequest::getInt('virtuemart_vendor_id', vmAccess::isSuperVendor());
+		} else {
+			$vendorId = vmAccess::isSuperVendor();
+		}
+		
 		$whereAnd = array();
-		if(VmConfig::get('multixcart',0)=='byvendor' and $superVendor>1){
+		if(VmConfig::get('multixcart',0)!='none' and $vendorId>1){
 			$joinedTables .= ' LEFT JOIN #__virtuemart_vendor_users AS vu ON ju.id = vu.virtuemart_user_id';
-			$whereAnd[] = ' vu.virtuemart_vendor_user_id = '.$superVendor.' ';
+			$whereAnd[] = ' vu.virtuemart_vendor_user_id = '.$vendorId.' ';
 		}
 
-		if(VmConfig::get('multixcart',0)!='none' and vmAccess::manager('managevendors') and $this->searchTable=='vendors'){
-			$whereAnd[] = ' vmu.virtuemart_vendor_id > 1 or (vmu.user_is_vendor>0 and vmu.virtuemart_vendor_id != "1")  ';
+		if(VmConfig::get('multixcart',0)!='none' and vmAccess::manager('managevendors')){
+
+			if ($this->searchTable=='vendors') {
+				$whereAnd[] = ' vmu.virtuemart_vendor_id > 1 or (vmu.user_is_vendor>0 and vmu.virtuemart_vendor_id != "1")  ';
+			} else if ($this->searchTable=='shoppers') {
+				$whereAnd[] = ' vmu.user_is_vendor==0  ';
+			}
+
 		}
 
 		$where = '';
@@ -1642,7 +1652,7 @@ class VirtueMartModelUser extends VmModel {
 		if(!empty($whereAnd)){
 			$where .= $whereStr.' ('.implode(' OR ',$whereAnd).')';
 		}
-		//$this->setDebugSql(1);
+		$this->setDebugSql(1);
 		return $this->_data = $this->exeSortSearchListQuery(0,$select,$joinedTables,$where,' GROUP BY ju.id',$this->_getOrdering());
 
 	}

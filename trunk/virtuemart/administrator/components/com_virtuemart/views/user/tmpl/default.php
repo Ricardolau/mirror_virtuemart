@@ -33,6 +33,12 @@ AdminUIHelper::startAdminArea($this);
 				<button class="btn btn-small" onclick="this.form.submit();"><?php echo vmText::_('COM_VIRTUEMART_GO'); ?></button>
 				<button class="btn btn-small" onclick="document.adminForm.search.value='';this.form.submit();"><?php echo vmText::_('COM_VIRTUEMART_RESET'); ?></button>
 			</td>
+			<?php if(!empty($this->vendors)){ ?>
+			<td>
+				<?php echo $this->vendors ?>
+            </td>
+			<?php } ?>
+
 		</tr>
 		</table>
 	</div>

@@ -738,7 +738,7 @@ INNER JOIN #__virtuemart_product_categories as cat ON (pc.virtuemart_product_id=
 				if(!$cat or empty($cat->slug)){
 					vmInfo(vmText::_('COM_VIRTUEMART_CAT_NOT_FOUND'));
 				} else {
-					if($cat->virtuemart_id>0 and !$cat->published){
+					if($cat->virtuemart_category_id>0 and !$cat->published){
 						vmInfo('COM_VIRTUEMART_CAT_NOT_PUBL',$cat->category_name,$this->categoryId);
 					}
 				}

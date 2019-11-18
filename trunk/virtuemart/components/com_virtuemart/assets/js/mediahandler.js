@@ -22,6 +22,7 @@ jQuery(document).ready(function($){
 			//$(this).autocomplete( 'option' , 'source' , '". JURI::root(false) ."administrator/index.php?option=com_virtuemart&view=product&task=getData&format=json&type=relatedcategories&row='+nextCustom )
 		},
 		minLength:1,
+		delay: 400,
 		html: true
 	});
 	$('.js-pages').click(function (e) {

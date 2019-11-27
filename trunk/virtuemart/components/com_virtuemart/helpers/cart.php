@@ -1581,12 +1581,26 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 		$cart->productsQuantity=array();
 		$cart->virtuemart_order_id = false;
 		$cart->layout = VmConfig::get('cartlayout','default');
-		$cart->byDefaultBT = array();
-		$cart->byDefaultST = array();
+
 		if($session){
 			$cart->deleteCart();
 			$cart->setCartIntoSession(false,true);
 		}
+	}
+
+	function resetEntireCart(){
+
+		self::emptyCartValues($this, false);
+		$this->user = false;
+		$this->customer_number = '';
+		$this->BT = 0;
+		$this->ST = 0;
+		$this->BTaddress = 0;
+		$this->STaddress = 0;
+		$this->deleteCart();
+		$this->virtuemart_cart_id = 0;
+		$this->setCartIntoSession(false,true);
+
 	}
 
 	function saveCartFieldsInCart(){
@@ -1760,6 +1774,12 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 			return false;
 		}
 
+		$setAutomatic = VmConfig::get('set_automatic_'.$type,'0');
+
+		if ($setAutomatic =='-1') {
+			return false;
+		}
+
 		$d = VmConfig::$_debug;
 		if(VmConfig::get('debug_enable_methods',false)){
 			VmConfig::$_debug = 1;
@@ -1779,7 +1799,7 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 						$nb ++;
 						$method_id[] = $method;
 					}
-				} else /*/if($returnValue )*/{
+				} else {
 					$nb ++;
 					$method_id[] = $returnValue;
 				}
@@ -1797,11 +1817,6 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 			return false;
 		}
 
-		$setAutomatic = VmConfig::get('set_automatic_'.$type,'0');
-
-		if ($setAutomatic =='-1') {
-			return false;
-		}
 
 		if ($nb==1) {
 			$this->{$vm_method_name} = $method_id[0];

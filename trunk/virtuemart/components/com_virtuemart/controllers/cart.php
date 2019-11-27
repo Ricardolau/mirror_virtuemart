@@ -461,44 +461,48 @@ class VirtueMartControllerCart extends JControllerLegacy {
 		if(!empty($userID)){
 			$newUser = JFactory::getUser($userID);
 			$session->set('user', $newUser);
+			session_write_close();
+			session_start();
 		} else {
 			$newUser = new stdClass();
 			$newUser->email = '';
 		}
 
+		$cart = VirtueMartCart::getCart();
 		//behaviour on admin change shopper
-		if (VmConfig::get('ChangeShopperDeleteCart', 0)) {
+		if (VmConfig::get('ChangeShopperDeleteCart', 1)) {
 
 //		Changing shopper empties all existing cart data and give new cart id
-			$cart = VirtueMartCart::getCart(true);
-			$cart->BT = 0;
-			$cart->ST = 0;
-			VirtuemartCart::emptyCartValues($cart,true);
-		} else {
-			//update cart data
-			$cart = VirtueMartCart::getCart();
+			$cart->resetEntireCart();
+			vmdebug('Cart deleted',$cart);
 		}
 
-		$usermodel = VmModel::getModel('user');
-		$data = $usermodel->getUserAddressList($userID, 'BT');
+		if(!empty($userID)){
+			$usermodel = VmModel::getModel('user');
+			$data = $usermodel->getUserAddressList($userID, 'BT');
 
-		if(isset($data[0])){
-			foreach($data[0] as $k => $v) {
-				$data[$k] = $v;
+			if(isset($data[0])){
+				foreach($data[0] as $k => $v) {
+					$data[$k] = $v;
+				}
+			} else {
+				$cart->BT = array();
 			}
+
+			$cart->BT['email'] = $newUser->email;
+			$cart->saveAddressInCart($data, 'BT');
 		} else {
 			$cart->BT = 0;
 		}
 
-		$cart->BT['email'] = $newUser->email;
 
 		$cart->ST = 0;
 		$cart->STsameAsBT = 1;
 		$cart->selected_shipto = 0;
 		$cart->virtuemart_shipmentmethod_id = 0;
 		$cart->virtuemart_paymentmethod_id = 0;
-		$cart->saveAddressInCart($data, 'BT');
 
+		$cart->setCartIntoSession();
 		$this->resetShopperGroup(false);
 
 		$msg = vmText::sprintf('COM_VIRTUEMART_CART_CHANGED_SHOPPER_SUCCESSFULLY', $newUser->name .' ('.$newUser->username.')');

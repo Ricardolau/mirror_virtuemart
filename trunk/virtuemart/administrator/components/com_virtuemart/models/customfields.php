@@ -331,8 +331,8 @@ class VirtueMartModelCustomfields extends VmModel {
 			if($selectoption->voption=='clabels'){
 				$name = 'field[' . $row . '][options]['.$product_id.']['.$k.']';
 				$myoption = false;
-				if(isset($field->options->$product_id)){
-					$myoption = $field->options->$product_id;
+				if(isset($field->options->{$product_id})){
+					$myoption = $field->options->{$product_id};
 				}
 
 				if($myoption and !isset($myoption[$k])){
@@ -422,7 +422,7 @@ class VirtueMartModelCustomfields extends VmModel {
 					$selectOption->values = '';
 					$c = 0;
 					$field->selectoptions = new stdClass();
-					$field->selectoptions->$c = $selectOption;
+					$field->selectoptions->{$c} = $selectOption;
 					$field->options = new stdClass();
 
 				} else if(is_array($field->selectoptions)){

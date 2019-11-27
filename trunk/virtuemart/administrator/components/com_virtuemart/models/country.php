@@ -70,8 +70,8 @@ class VirtueMartModelCountry extends VmModel {
 	static public function getCountryFieldByID ($id, $fld = 'country_name') {
 
 		$c = self::getCountry($id);
-		if($c and isset($c->$fld)){
-			return $c->$fld;
+		if($c and isset($c->{$fld})){
+			return $c->{$fld};
 		} else {
 			return false;
 		}

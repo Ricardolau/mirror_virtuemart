@@ -1048,7 +1048,7 @@ class VmModel extends vObject{
 
 		if($table->bindChecknStore($data)){
 			$_idName = $this->_idName;
-			$this->_id = $table->$_idName;
+			$this->_id = $table->{$_idName};
 			$this->_cache[$this->_id] = $table;
 			return $this->_id;
 		} else {
@@ -1158,7 +1158,7 @@ class VmModel extends vObject{
 		{
 			$table->load( (int) $cid[$i] );
 			// track categories
-			if ($filter) $groupings[] = $table->$filter;
+			if ($filter) $groupings[] = $table->{$filter};
 
 			if ($table->ordering != $order[$i])
 			{

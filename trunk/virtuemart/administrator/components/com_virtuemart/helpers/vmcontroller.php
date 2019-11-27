@@ -109,7 +109,7 @@ class VmController extends JControllerLegacy{
 				foreach ($urlparams as $key => $value)
 				{
 					// Add your safe url parameters with variable type as value {@see JFilterInput::clean()}.
-					$registeredurlparams->$key = $value;
+					$registeredurlparams->{$key} = $value;
 				}
 
 				$app->set('registeredurlparams', $registeredurlparams);

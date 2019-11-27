@@ -149,7 +149,7 @@ class TableOrders extends VmTableData {
 
 		$k = $this->_tbl_key;
 		if ($id===null) {
-			$id = $this->$k;
+			$id = $this->{$k};
 		}
 
 		$this->_db->setQuery('DELETE from `#__virtuemart_order_userinfos` WHERE `virtuemart_order_id` = ' . (int)$id);

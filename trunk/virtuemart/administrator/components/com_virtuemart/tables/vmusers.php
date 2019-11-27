@@ -46,7 +46,7 @@ class TableVmusers extends VmTableData {
 
 		$tbl_key = $this->_tbl_key;
 
-		$q = 'SELECT `virtuemart_vendor_id`,`user_is_vendor`,`virtuemart_user_id` FROM `' . $this->_tbl . '` WHERE `' . $this->_tbl_key . '`="' . $this->$tbl_key . '" ';
+		$q = 'SELECT `virtuemart_vendor_id`,`user_is_vendor`,`virtuemart_user_id` FROM `' . $this->_tbl . '` WHERE `' . $this->_tbl_key . '`="' . $this->{$tbl_key} . '" ';
 		$md5 = md5($q);
 		if (!isset(self::$_cache[$md5])) {
 			$this->_db->setQuery($q);

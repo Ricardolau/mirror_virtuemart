@@ -68,8 +68,8 @@ class ShopFunctions {
 		foreach($idList as $id ){
 
 			$item = $table->load ((int)$id);
-			if($translate) $item->$name = vmText::_($item->$name);
-			$link = JHtml::_('link', JRoute::_('index.php?option=com_virtuemart&view='.$view.'&task=edit&'.$cid.'[]='.$id,false), $item->$name);
+			if($translate) $item->{$name} = vmText::_($item->{$name});
+			$link = JHtml::_('link', JRoute::_('index.php?option=com_virtuemart&view='.$view.'&task=edit&'.$cid.'[]='.$id,false), $item->{$name});
 			if($i<$quantity and $i<=count($idList)){
 				$list .= '<li>' . $link . '</li>';
 			} else if ($i==$quantity and $i<count($idList)){
@@ -133,14 +133,14 @@ class ShopFunctions {
 			foreach($idList as $id ){
 
 				$item = $table->load ((int)$id);
-				if($translate) $item->$name = vmText::_($item->$name);
-				$link = ', '.JHtml::_('link', JRoute::_('index.php?option=com_virtuemart&view='.$view.'&task=edit&'.$cid.'[]='.$id,false), $item->$name);
+				if($translate) $item->{$name} = vmText::_($item->{$name});
+				$link = ', '.JHtml::_('link', JRoute::_('index.php?option=com_virtuemart&view='.$view.'&task=edit&'.$cid.'[]='.$id,false), $item->{$name});
 				if($i<$quantity and $i<=count($idList)){
 					$list .= $link;
 				} else if ($i==$quantity and $i<count($idList)){
 					$list .= ',...';
 				}
-				$ttip .= ', '.$item->$name;
+				$ttip .= ', '.$item->{$name};
 				if($i>($quantity + 6)) {
 					$ttip .= ',...';
 					break;
@@ -380,7 +380,7 @@ jQuery(".changeSendForm")
 		$ltext = 'shipment_name';
 
 		foreach ($values as $v) {
-			$options[] = JHtml::_('select.option', $v->$lvalue, $v->$ltext);
+			$options[] = JHtml::_('select.option', $v->{$lvalue}, $v->{$ltext});
 		}
 
 		// Merge any additional options in the XML definition.

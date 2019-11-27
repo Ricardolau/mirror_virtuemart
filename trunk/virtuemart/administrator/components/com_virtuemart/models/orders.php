@@ -296,8 +296,8 @@ class VirtueMartModelOrders extends VmModel {
 				$pvar = get_object_vars($product);
 
 				foreach ( $pvar as $k => $v) {
-					if (!isset($item->$k) and strpos ($k, '_') !== 0 and property_exists($product, $k)) {
-						$item->$k = $v;
+					if (!isset($item->{$k}) and strpos ($k, '_') !== 0 and property_exists($product, $k)) {
+						$item->{$k} = $v;
 					}
 				}
 			}
@@ -661,7 +661,7 @@ class VirtueMartModelOrders extends VmModel {
 
 		foreach($orderdata as $key=>$val){
 			if($key=='virtuemart_vendor_id') continue;	//Todo add multvendor handling
-			if(isset($table->$key)) $orderdata->$key = $table->$key;
+			if(isset($table->{$key})) $orderdata->{$key} = $table->{$key};
 		}
 		return $table;
 	}
@@ -1287,7 +1287,7 @@ class VirtueMartModelOrders extends VmModel {
 					//$ocrTable->bindChecknStore($rule);
 				}
 				//$allTaxes[] = $rule;
-				$data->$keyN = vRequest::getString($keyN,0.0);
+				$data->{$keyN} = vRequest::getString($keyN,0.0);
 
 				//There is a VAT available
 /*				if( (/*count($summarizedRules['taxBill'])==1 or * VmConfig::get('radicalShipPaymentVat',true)) and isset($summarizedRules['taxBill'][$idWithMax])){
@@ -1314,7 +1314,7 @@ class VirtueMartModelOrders extends VmModel {
 					$data->$keyNTax = $rule->calc_amount;
 					//vmdebug('Use radicalShipPaymentVat with $idWithMax '.$idWithMax,$summarizedRules['taxBill'][$idWithMax]->subTotal,$data->$keyNTax, $rule);
 				} else { */
-					$data->$keyNTax = 0.0;
+					$data->{$keyNTax} = 0.0;
 					$t1 = 0.0;
 					if(VmConfig::get('radicalShipPaymentVat',true)){
 						$r = $summarizedRules['taxBill'][$idWithMax];
@@ -1324,7 +1324,7 @@ class VirtueMartModelOrders extends VmModel {
 						$rule->calc_amount = round(floatval($rule->calc_amount), 5);
 						$data->$keyNTax = $rule->calc_amount;*/
 						$t1 = 0.0;
-						$data->$keyNTax = $r->calc_value * 0.01  * $data->$keyN;
+						$data->{$keyNTax} = $r->calc_value * 0.01  * $data->{$keyN};
 					} else {
 						foreach($summarizedRules['taxBill'] as $in=>$vatrule){
 
@@ -1335,14 +1335,14 @@ class VirtueMartModelOrders extends VmModel {
 							}
 
 							//vmdebug('ShipPay Rules store '.$vatrule->calc_value * 0.01.' * '. $vatrule->subTotal.'/'.$data->order_salesPrice.' = '.$t1);
-							$data->$keyNTax += $t1 * $data->$keyN;
+							$data->{$keyNTax} += $t1 * $data->{$keyN};
 							//$summarizedRules['taxBill'][$in]->calc_amount += $data->$keyNTax ;
 
 						}
 					}
 
-					if($data->$keyNTax != $rule->calc_amount){
-						$rule->calc_amount = $data->$keyNTax;
+					if($data->{$keyNTax} != $rule->calc_amount){
+						$rule->calc_amount = $data->{$keyNTax};
 						$rule->calc_value = $t1 * 100.0;
 						//vmdebug('ShipPay Rules set',$rule);
 
@@ -1678,7 +1678,7 @@ class VirtueMartModelOrders extends VmModel {
 			$continue = array('created_on'=>1, 'created_by'=>1, 'modified_on'=>1, 'modified_by'=>1, 'locked_on'=>1, 'locked_by'=>1);
 			foreach($_cart->BT as $k=>$v){
 				if(isset($continue[$k])) continue;
-				$_orderData->$k = $v;
+				$_orderData->{$k} = $v;
 			}
 		}
 		$_orderData->STsameAsBT = $_cart->STsameAsBT;
@@ -2397,7 +2397,7 @@ class VirtueMartModelOrders extends VmModel {
 			$shopperEmail = array();
 			$shopperEmailFields = VmConfig::get('email_sf_s',array('email'));
 			foreach ($shopperEmailFields as $field) {
-				if (!empty($order['details']['BT']->$field)) $shopperEmail[] = $order['details']['BT']->$field;
+				if (!empty($order['details']['BT']->{$field})) $shopperEmail[] = $order['details']['BT']->{$field};
 			}
 			if (count($shopperEmail) < 1) $shopperEmail[] = $order['details']['BT']->email;
 

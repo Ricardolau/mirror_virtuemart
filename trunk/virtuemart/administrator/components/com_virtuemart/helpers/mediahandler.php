@@ -173,7 +173,7 @@ class VmMediaHandler {
 
 		$attribsImage = $table->getProperties();
 		foreach($attribsImage as $k=>$v){
-			$media->$k = $v;
+			$media->{$k} = $v;
 		}
 
 		if(empty($type)){
@@ -498,7 +498,6 @@ class VmMediaHandler {
 		$this->file_meta = vmText::_('COM_VIRTUEMART_NO_IMAGE_SET').' '.$this->file_description;
 		$this->file_extension = strtolower(JFile::getExt($file_name));
 		$this->noImageSet = true;
-		vmTrace('setNoImageSet');
 	}
 
 	/**
@@ -1368,7 +1367,7 @@ class VmMediaHandler {
 	 * @param string $name
 	 */
 	private function displayRow($descr, $name,$readonly='',$value = null){
-		$v = (isset($value))? $value: $this->$name;
+		$v = (isset($value))? $value: $this->{$name};
 		$html = '<tr>
 	<td class="labelcell">'.vmText::_($descr).'</td>
 	<td> <input type="text" '.$readonly.' class="inputbox" name="media['.$name.']" size="70" value="'.$v.'" /></td>

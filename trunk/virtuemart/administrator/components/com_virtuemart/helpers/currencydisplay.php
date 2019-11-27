@@ -191,7 +191,7 @@ class CurrencyDisplay {
 			if($sprgrp->custom_price_display){
 				if($sprgrp->show_prices){
 					foreach(self::$priceNames as $name){
-						$show = (int)$sprgrp->$name;
+						$show = (int)$sprgrp->{$name};
 						$text = (int)$sprgrp->{$name.'Text'};
 						$round = (int)$sprgrp->{$name.'Rounding'};
 						if($round==-1){

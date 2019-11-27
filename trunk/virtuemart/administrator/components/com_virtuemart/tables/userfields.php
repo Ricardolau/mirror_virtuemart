@@ -132,7 +132,7 @@ class TableUserfields extends VmTable {
 			$whereKey = $this->_pkey;
 		}
 		
-		$query = 'SELECT `'.$this->_tbl_key.'` FROM `'.$table.'` WHERE '.$whereKey.' = "' .$this->$k . '"';
+		$query = 'SELECT `'.$this->_tbl_key.'` FROM `'.$table.'` WHERE '.$whereKey.' = "' .$this->{$k} . '"';
 		
 		// stAn - it should be better to add this directly to the controller of the shopper fields
 		// only additionally, controllers are not considered as safe.

@@ -183,7 +183,7 @@ class TableCategories extends VmTable {
 		{
 			$query = 'UPDATE '. $this->_tbl
 			. ' SET ordering = '. (int) $row->ordering
-			. ' WHERE '. $this->_tbl_key .' = '. $this->_db->Quote($this->$k)
+			. ' WHERE '. $this->_tbl_key .' = '. $this->_db->Quote($this->{$k})
 			;
 			$this->_db->setQuery( $query );
 
@@ -195,14 +195,14 @@ class TableCategories extends VmTable {
 
 			$query = 'UPDATE '.$this->_tbl
 			. ' SET ordering = '.(int) $this->ordering
-			. ' WHERE '.$this->_tbl_key.' = '.$this->_db->Quote($row->$k)
+			. ' WHERE '.$this->_tbl_key.' = '.$this->_db->Quote($row->{$k})
 			;
 			$this->_db->setQuery( $query );
 
 			if (!$this->_db->execute())
 			{
 				$err = $this->_db->getErrorMsg();
-				vmError( 'TableCategories move isset row this->k '.$err, 'TableCategories move isset row $row->$k ' );
+				vmError( 'TableCategories move isset row this->k '.$err, 'TableCategories move isset row $row->{$k} ' );
 			}
 
 			$this->ordering = $row->ordering;
@@ -211,7 +211,7 @@ class TableCategories extends VmTable {
 		{
 			$query = 'UPDATE '. $this->_tbl
 			. ' SET ordering = '.(int) $this->ordering
-			. ' WHERE '. $this->_tbl_key .' = '. $this->_db->Quote($this->$k)
+			. ' WHERE '. $this->_tbl_key .' = '. $this->_db->Quote($this->{$k})
 			;
 			$this->_db->setQuery( $query );
 
@@ -267,7 +267,7 @@ class TableCategories extends VmTable {
 					$orders[$i]->ordering = $i+1;
 					$query = 'UPDATE '.$this->_tbl
 					. ' SET ordering = '. (int) $orders[$i]->ordering
-					. ' WHERE '. $k .' = '. $this->_db->Quote($orders[$i]->$k)
+					. ' WHERE '. $k .' = '. $this->_db->Quote($orders[$i]->{$k})
 					;
 					$this->_db->setQuery( $query);
 					$this->_db->execute();

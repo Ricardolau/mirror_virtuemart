@@ -136,7 +136,7 @@ $i = 0;
 									$attrib = $custom->customfield_value;
 
 									if(property_exists($child,$attrib)){
-										$childAttrib = $child->$attrib;
+										$childAttrib = $child->{$attrib};
 									} else {
 										vmdebug('unset? use Fallback product_name instead $attrib '.$attrib,$child);
 										$childAttrib = '';//$child->product_name;

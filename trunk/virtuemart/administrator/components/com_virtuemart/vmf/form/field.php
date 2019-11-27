@@ -469,13 +469,13 @@ abstract class vFormField
 			case 'autofocus':
 			case 'hidden':
 				$value = (string) $value;
-				$this->$name = ($value === 'true' || $value === $name || $value === '1');
+				$this->{$name} = ($value === 'true' || $value === $name || $value === '1');
 				break;
 
 			case 'autocomplete':
 				$value = (string) $value;
 				$value = ($value == 'on' || $value == '') ? 'on' : $value;
-				$this->$name = ($value === 'false' || $value === 'off' || $value === '0') ? false : $value;
+				$this->{$name} = ($value === 'false' || $value === 'off' || $value === '0') ? false : $value;
 				break;
 
 			case 'spellcheck':

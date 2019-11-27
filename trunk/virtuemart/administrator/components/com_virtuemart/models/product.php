@@ -644,14 +644,14 @@ class VirtueMartModelProduct extends VmModel {
 					//$limits = $this->setPaginationLimits();
 					if($isSite){
 						$origReturnPrd = $nbrReturnProducts;
-						//$nbrReturnProducts = $nbrReturnProducts * 3;
+						$nbrReturnProducts = $nbrReturnProducts * 3;
 					}
 					break;
 				case 'discontinued':
 					$where[] = 'p.`product_discontinued`="1" ';
 					if($isSite){
 						$origReturnPrd = $nbrReturnProducts;
-						//$nbrReturnProducts = $nbrReturnProducts * 3;
+						$nbrReturnProducts = $nbrReturnProducts * 3;
 					}
 					break;
 				case 'latest':
@@ -1848,7 +1848,7 @@ class VirtueMartModelProduct extends VmModel {
 		return $products;
 	}
 
-	public function getProductsListing ($group = FALSE, $nbrReturnProducts = FALSE, $withCalc = TRUE, $onlyPublished = TRUE, $single = FALSE, $filterCategory = TRUE, $category_id = 0, $filterManufacturer = TRUE, $manufacturer_id = 0, $omit = 0) {
+	static public function getProductsListing ($group = FALSE, $nbrReturnProducts = FALSE, $withCalc = TRUE, $onlyPublished = TRUE, $single = FALSE, $filterCategory = TRUE, $category_id = 0, $filterManufacturer = TRUE, $manufacturer_id = 0, $omit = 0) {
 
 		$productModel = VmModel::getModel('Product');
 		$products = array();

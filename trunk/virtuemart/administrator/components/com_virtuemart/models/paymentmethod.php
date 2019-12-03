@@ -83,8 +83,8 @@ class VirtueMartModelPaymentmethod extends VmModel{
 				}
 
 				foreach($this->_cache[$this->_id]->getCryptedFields() as $field){
-					if(isset($this->_cache[$this->_id]->$field)){
-						$this->_cache[$this->_id]->$field = vmCrypt::decrypt($this->_cache[$this->_id]->$field,$date);
+					if(isset($this->_cache[$this->_id]->{$field})){
+						$this->_cache[$this->_id]->{$field} = vmCrypt::decrypt($this->_cache[$this->_id]->{$field},$date);
 					}
 				}
 			}

@@ -551,7 +551,7 @@ class VirtueMartModelUserfields extends VmModel {
 		} else {
 			$sec = $_sec;
 		}
-		$cache_hash = md5($sec.json_encode($_switches).json_encode($_skip).$this->_selectedOrdering.$this->_selectedOrderingDir);
+		$cache_hash = crc32($sec.json_encode($_switches).json_encode($_skip).$this->_selectedOrdering.$this->_selectedOrderingDir);
 		if (isset(self::$_cache_ordered[$cache_hash])) return self::$_cache_ordered[$cache_hash];
 
 		$_q = 'SELECT * FROM `#__virtuemart_userfields` WHERE 1 = 1 ';

@@ -142,13 +142,13 @@ echo $this->loadTemplate('images');
 		$productDisplayTypes = array('productDisplayShipments', 'productDisplayPayments');
 		foreach ($productDisplayTypes as $productDisplayType) {
 
-			if(empty($this->$productDisplayType)){
+			if(empty($this->{$productDisplayType})){
 				continue;
-			} else if (!is_array($this->$productDisplayType)) {
-				$this->$productDisplayType = array($this->$productDisplayType);
+			} else if (!is_array($this->{$productDisplayType})) {
+				$this->{$productDisplayType} = array($this->{$productDisplayType});
 			}
 
-			foreach ($this->$productDisplayType as $productDisplay) {
+			foreach ($this->{$productDisplayType} as $productDisplay) {
 
 				if(empty($productDisplay)){
 					continue;

@@ -85,8 +85,8 @@ class VmView extends JViewLegacy{
 		if($lPath){
 			if($viewData!==0 and is_array($viewData)){
 				foreach($viewData as $k => $v){
-					if ('_' != substr($k, 0, 1) and !isset($this->$k)) {
-						$this->$k = $v;
+					if ('_' != substr($k, 0, 1) and !isset($this->{$k})) {
+						$this->{$k} = $v;
 					}
 				}
 			}

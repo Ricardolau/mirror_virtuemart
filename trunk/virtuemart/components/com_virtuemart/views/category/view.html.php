@@ -179,10 +179,10 @@ class VirtuemartViewCategory extends VmView {
 		$this->assignRef('category', $category);
 
 		foreach($paramNames as $k => $v){
-			if(!isset($category->$k) or $category->$k==''){
-				$this->$k = $menu->params->get($prefix.$k,$v);
-			} else if(isset($category->$k)){
-				$this->$k = $category->$k;
+			if(!isset($category->{$k}) or $category->{$k}==''){
+				$this->{$k} = $menu->params->get($prefix.$k,$v);
+			} else if(isset($category->{$k})){
+				$this->{$k} = $category->{$k};
 			}
 		}
 

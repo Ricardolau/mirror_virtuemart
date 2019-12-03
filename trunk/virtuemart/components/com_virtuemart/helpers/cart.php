@@ -555,11 +555,11 @@ class VirtueMartCart {
 								if($key=='cartProductsData' and count($value)>0){
 									VmInfo('COM_VM_LOADED_STORED_CART');
 								} else if ($key=='BT' or $key=='ST'){
-									$existingSession->$key = $this->unsetDefaults($key, $existingSession->$key);
+									$existingSession->{$key} = $this->unsetDefaults($key, $existingSession->{$key});
 								}
-								$existingSession->$key = array_merge( $value,(array)$existingSession->$key);
-							} else if(empty($existingSession->$key)){
-								$existingSession->$key = $cartData['cartData']->$key;
+								$existingSession->{$key} = array_merge( $value,(array)$existingSession->{$key});
+							} else if(empty($existingSession->{$key})){
+								$existingSession->{$key} = $cartData['cartData']->{$key};
 							}
 						}
 					}
@@ -959,7 +959,7 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 			if(get_class($a)!=get_class($b))
 				return false;
 			foreach($a as $key => $val) {
-				if(!self::deepCompare($val,$b->$key))
+				if(!self::deepCompare($val,$b->{$key}))
 					return false;
 			}
 			return true;

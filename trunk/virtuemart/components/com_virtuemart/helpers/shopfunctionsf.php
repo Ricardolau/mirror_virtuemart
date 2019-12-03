@@ -162,8 +162,8 @@ class shopFunctionsF {
 		foreach ($countries as  $country) {
 			$country_string = $lang->hasKey($prefix.$country->country_3_code) ?   vmText::_($prefix.$country->country_3_code)  : $country->country_name;
 			$countries_list[$country->virtuemart_country_id] = new stdClass();;
-			$countries_list[$country->virtuemart_country_id]->$optKey = $country->virtuemart_country_id;
-			$countries_list[$country->virtuemart_country_id]->$optText = $country_string;
+			$countries_list[$country->virtuemart_country_id]->{$optKey} = $country->virtuemart_country_id;
+			$countries_list[$country->virtuemart_country_id]->{$optText} = $country_string;
 		}
 
 		if ($required != 0) {
@@ -724,7 +724,7 @@ class shopFunctionsF {
 		}
 
 		foreach( $vars as $key => $val ) {
-			$view->$key = $val;
+			$view->{$key} = $val;
 		}
 
 		return $view;
@@ -1051,7 +1051,7 @@ class shopFunctionsF {
 	// add content plugin //
 		$dispatcher = JDispatcher::getInstance ();
 		JPluginHelper::importPlugin ('content');
-		$article->text = $article->$field;
+		$article->text = $article->{$field};
 
 		jimport ('joomla.registry.registry');
 		$params = new JRegistry('');
@@ -1070,7 +1070,7 @@ class shopFunctionsF {
 		$res = $dispatcher->trigger ('onContentAfterDisplay', array('com_virtuemart.'.$context, &$article, &$params, 0));
 		$article->event->afterDisplayContent = trim (implode ("\n", $res));
 
-		$article->$field = $article->text;
+		$article->{$field} = $article->text;
 	}
 
 	static public function mask_string($cc, $mask_char='X'){
@@ -1229,10 +1229,10 @@ class shopFunctionsF {
                         foreach($taxBill as $tax){
 							$sum = $order['details']['BT']->order_salesPrice;
 							$t1 = $tax->calc_value * 0.01 * $tax->subTotal/$sum;
-							$toAdd = $t1 * $order['details']['BT']->$keyN ;
+							$toAdd = $t1 * $order['details']['BT']->{$keyN} ;
 							//vmdebug('ShipPay Rules $t1 '.$tax->calc_value * 0.01.' * '. $tax->subTotal.'/'.$sum.' = '.$t1);
 							//vmdebug('ShipPay Rules $toAdd '.$t1.' * '. $order['details']['BT']->$keyN. ' = '.$toAdd. ' on '.$taxBill[$tax->virtuemart_calc_id]->calc_amount);
-							$taxBill[$tax->virtuemart_calc_id]->calc_amount += $t1 * $order['details']['BT']->$keyN ;
+							$taxBill[$tax->virtuemart_calc_id]->calc_amount += $t1 * $order['details']['BT']->{$keyN} ;
 
 							//vmdebug('ShipPay Rules '.$t1.' * '. $order['details']['BT']->$keyN.'='.$t1 * $order['details']['BT']->$keyN);
                         }

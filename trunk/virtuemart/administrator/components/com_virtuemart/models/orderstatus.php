@@ -108,7 +108,7 @@ class VirtueMartModelOrderstatus extends VmModel {
 			$hashValue = $value;
 		}
 
-		$hash = md5($hashValue.$name.$attrs);
+		$hash = crc32($hashValue.$name.$attrs);
 		if (!isset($this->_renderStatusList[$hash])) {
 			$orderStates = $this->getOrderStatusNames();
 			if($empty){

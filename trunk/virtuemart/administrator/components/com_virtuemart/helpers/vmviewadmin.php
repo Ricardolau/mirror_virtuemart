@@ -51,7 +51,7 @@ class VmViewAdmin extends JViewLegacy {
 			//or $this->canDo->get('core.admin')
 			//or $this->canDo->get('vm.'.$view) ) { //Super administrators always have access
 
-			if(JFactory::getApplication()->isSite()){
+			if(JFactory::getApplication()->isClient('site')){
 				$unoverridable = array('category','manufacturer','user');	//This views have the same name and must not be overridable
 				if(!in_array($view,$unoverridable)){
 					$template = VmTemplate::getDefaultTemplate();
@@ -106,7 +106,7 @@ class VmViewAdmin extends JViewLegacy {
 		JToolbarHelper::spacer('2');
 		self::showACLPref($view);
 		self::showHelp ( $showHelp);
-		if(JFactory::getApplication()->isSite()){
+		if(JFactory::getApplication()->isClient('site')){
 			$bar = JToolBar::getInstance('toolbar');
 			$bar->appendButton('Link', 'back', 'COM_VIRTUEMART_LEAVE', 'index.php?option=com_virtuemart&manage=0');
 		}
@@ -318,7 +318,7 @@ class VmViewAdmin extends JViewLegacy {
 			$this->langList = '<input name ="vmlang" type="hidden" value="'.$selectedLangue.'" >'.$flagImg.' <b> '.$defautName.'</b>';
 		}
 
-		if(JFactory::getApplication()->isSite()){
+		if(JFactory::getApplication()->isClient('site')){
 			$bar = JToolBar::getInstance('toolbar');
 			$bar->appendButton('Link', 'back', 'COM_VIRTUEMART_LEAVE', 'index.php?option=com_virtuemart&manage=0');
 		}
@@ -364,7 +364,7 @@ class VmViewAdmin extends JViewLegacy {
 			<input type="hidden" name="filter_order_Dir" value="'.$this->lists['filter_order_Dir'].'" />';
 		}
 
-		if(vRequest::getInt('manage',false) or JFactory::getApplication()->isSite()){
+		if(vRequest::getInt('manage',false) or JFactory::getApplication()->isClient('site')){
 			$hidden .='<input type="hidden" name="manage" value="1" />';
 		}
 		return  $hidden.'

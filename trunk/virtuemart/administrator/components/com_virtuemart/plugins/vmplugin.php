@@ -315,7 +315,7 @@ abstract class vmPlugin extends JPlugin {
 
 				$q = 'SELECT vm.* FROM `' . $this->_configTable . '` AS vm, #__extensions AS j 
 					WHERE vm.' . $this->_psType . '_jplugin_id = j.extension_id ';
-				if (JFactory::getApplication()->isSite() ) {
+				if (VmConfig::isSite() ) {
 					$q .= 'AND vm.published = 1 ';
 				}
 				$db->setQuery ($q);

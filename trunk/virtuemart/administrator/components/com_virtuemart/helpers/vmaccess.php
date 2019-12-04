@@ -66,8 +66,7 @@ class vmAccess {
 	static public function isSuperVendor($uid = 0, $task=0){
 
 		if(self::$_site === null) {
-			$app = JFactory::getApplication();
-			self::$_site = $app->isSite();
+			self::$_site = VmConfig::isSite();
 		}
 
 		if(!isset(self::$_cu[$uid])){
@@ -174,8 +173,7 @@ class vmAccess {
 	public static function getVendorId($task=0, $uid = 0, $name = 'virtuemart_vendor_id'){
 
 		if(self::$_site === null) {
-			$app = JFactory::getApplication();
-			self::$_site = $app->isSite();
+			self::$_site = VmConfig::isSite();
 		}
 
 		if(self::$_site){

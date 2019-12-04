@@ -385,8 +385,7 @@ class VirtueMartModelRatings extends VmModel {
 
 		if(empty($data)) $data = vRequest::getPost();
 
-		$app = JFactory::getApplication();
-		if( $app->isSite() ){
+		if(VmConfig::isSite() ){
 			$user = JFactory::getUser();
 			$data['created_by'] = $user->id;
 			$allowReview = $this->allowReview($virtuemart_product_id);

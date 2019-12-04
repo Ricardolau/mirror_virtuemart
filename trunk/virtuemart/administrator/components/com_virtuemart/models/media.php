@@ -90,7 +90,7 @@ class VirtueMartModelMedia extends VmModel {
 				if(!empty($id)){
 					if (!isset($_medias[$id])) {
 						$data->load((int)$id);
-						if($app->isSite()){
+						if(VmConfig::isSite()){
 							if($data->published==0){
 								$_medias[$id] = $this->createVoidMedia($type,$mime);
 								continue;
@@ -98,7 +98,7 @@ class VirtueMartModelMedia extends VmModel {
 						}
 						$file_type 	= empty($data->file_type)? $type:$data->file_type;
 						$mime		= empty($data->file_mimetype)? $mime:$data->file_mimetype;
-						if($app->isSite()){
+						if(VmConfig::isSite()){
 							$selectedLangue = explode(",", $data->file_lang);
 							$lang =  vmLanguage::getLanguage();
 							if(in_array($lang->getTag(), $selectedLangue) || $data->file_lang == '') {

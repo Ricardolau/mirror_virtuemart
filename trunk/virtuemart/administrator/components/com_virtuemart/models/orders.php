@@ -2421,8 +2421,7 @@ class VirtueMartModelOrders extends VmModel {
 		}
 
 		//quicknDirty to prevent that an email is sent twice
-		$app = JFactory::getApplication();
-		if($app->isSite()){
+		if(VmConfig::isSite()){
 
 			$cart = VirtueMartCart::getCart();
 			$cart->customer_notified = true;

@@ -481,6 +481,7 @@ class VmModel extends vObject{
 	 * Gets an array of objects from the results of database query.
 	 *
 	 * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+	 * @copyright	Copyright (C) 2019 The VirtueMart Team
 	 * @license     GNU General Public License version 2 or later; see LICENSE
 	 *
 	 * @param   string   $query       The query.
@@ -491,12 +492,18 @@ class VmModel extends vObject{
 	 *
 	 * @since   11.1
 	 */
-	protected function _getList($query, $limitstart = 0, $limit = 0)
-	{
-		$this->_db->setQuery($query, $limitstart, $limit);
-		$result = $this->_db->loadObjectList();
+	protected function _getList($query, $limitstart = 0, $limit = 0) {
 
-		return $result;
+		static $c = array();
+		$h = crc32($query);
+		if(isset($c[$h])){
+			return $c[$h];
+		} else {
+			$this->_db->setQuery($query, $limitstart, $limit);
+			$c[$h] = $this->_db->loadObjectList();
+			return $c[$h];
+		}
+
 	}
 
 	/**
@@ -740,7 +747,7 @@ class VmModel extends vObject{
 
 			$limit = (int)$app->getUserStateFromRequest('com_virtuemart.'.$view.'.limit', 'limit');
 			if(empty($limit)){
-				if($app->isSite()){
+				if(VmConfig::isSite()){
 					$limit = VmConfig::get ('llimit_init_FE',24);
 				} else {
 					$limit = VmConfig::get ('llimit_init_BE',30);
@@ -907,16 +914,12 @@ class VmModel extends vObject{
 
 	static public function joinLangTables($tablename, $prefix, $on, $method = 0){
 
-		static $isSite = null;
-
 		$useFb = vmLanguage::getUseLangFallback();
 		$useFb2 = vmLanguage::getUseLangFallbackSecondary();
-		$isSite = vmConfig::isSite();
-
 
 		if($method===0){
 			$method = 'LEFT JOIN';
-			if($isSite and VmConfig::get('prodOnlyWLang',false)){
+			if(VmConfig::isSite() and VmConfig::get('prodOnlyWLang',false)){
 				$method = 'INNER JOIN';
 			}
 		} else {

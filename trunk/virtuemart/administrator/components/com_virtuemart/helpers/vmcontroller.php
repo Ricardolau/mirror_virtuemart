@@ -80,8 +80,7 @@ class VmController extends JControllerLegacy{
 
 		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath));
 
-		$app = JFactory::getApplication();
-		if($app->isSite()){
+		if(VmConfig::isSite()){
 			$view->addTemplatePath(VMPATH_ADMIN.'/views/'.$viewName.'/tmpl');
 		}
 
@@ -182,7 +181,7 @@ class VmController extends JControllerLegacy{
 
 		$redir = $this->redirectPath;
 
-		if( JFactory::getApplication()->isSite()){
+		if( VmConfig::isSite()){
 			$redir .= '&tmpl=component';
 		}
 
@@ -341,7 +340,7 @@ class VmController extends JControllerLegacy{
 		if (!$model->saveorder($cid, $order)) {
 			$msg = 'error';
 		} else {
-			if(JFactory::getApplication()->isAdmin() and VmConfig::showDebug()){
+			if(!VmConfig::isSite() and VmConfig::showDebug()){
 				$msg = vmText::sprintf('COM_VIRTUEMART_NEW_ORDERING_SAVEDF',$this->mainLangKey);
 			} else {
 				$msg = vmText::sprintf('COM_VIRTUEMART_NEW_ORDERING_SAVED');

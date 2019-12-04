@@ -974,7 +974,8 @@ class VirtueMartModelUserfields extends VmModel {
 							$maxmin = '';
 							break;
 						case 'emailaddress':
-							if( JFactory::getApplication()->isSite()) {
+
+							if( VmConfig::isSite()) {
 								if(empty($_return['fields'][$_fld->name]['value']) && $_fld->required) {
 									$_return['fields'][$_fld->name]['value'] = JFactory::getUser()->email;
 								}

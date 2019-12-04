@@ -320,7 +320,7 @@ class AdminUIHelper {
 		$moduleId = vRequest::getInt ( 'module_id', 0 );
 		$menuItems = AdminUIHelper::_getAdminMenu ( $moduleId );
 		$app = JFactory::getApplication();
-		$isSite = $app->isSite();
+		$isSite = VmConfig::isSite();
 		?>
 		<div id="admin-ui-menu" class="admin-ui-menu">
 			<?php

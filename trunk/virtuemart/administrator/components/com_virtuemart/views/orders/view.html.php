@@ -299,7 +299,7 @@ class VirtuemartViewOrders extends VmViewAdmin {
 			$this->pagination = $model->getPagination();
 
 		}
-		if($app->isSite()) {
+		if($app->isClient('site')) {
 			$bar = JToolBar::getInstance( 'toolbar' );
 			$bar->appendButton( 'Link', 'back', 'COM_VIRTUEMART_LEAVE', 'index.php?option=com_virtuemart&manage=0' );
 		}

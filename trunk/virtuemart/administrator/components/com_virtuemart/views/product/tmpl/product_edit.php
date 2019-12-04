@@ -61,7 +61,7 @@ vmJsApi::addJScript( '/administrator/components/com_virtuemart/assets/js/product
 
 $app = JFactory::getApplication();
 $l = 'index.php?option=com_virtuemart&view=product&task=getData&format=json&virtuemart_product_id='.$this->product->virtuemart_product_id;
-if($app->isAdmin()){
+if($app->isClient('administrator')){
 	$jsonLink = JURI::root(false).'administrator/'.$l;
 } else {
 	$jsonLink = JRoute::_($l);
@@ -84,5 +84,3 @@ $j = 'if (typeof Virtuemart === "undefined")
 	';
 vmJsApi::addJScript('onReadyProduct',$j);
 
-
-//$document->addScriptDeclaration( 'jQuery(window).load(function(){ jQuery.ajaxSetup({ cache: false }); })'); ?>

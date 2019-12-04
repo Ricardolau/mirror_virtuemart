@@ -1111,8 +1111,8 @@ class VirtueMartModelUser extends VmModel {
 
 			$userinfo->bindChecknStore($userfielddata);
 
-			$app = JFactory::getApplication();
-			if($app->isSite()){
+
+			if(VmConfig::isSite()){
 
 				$cart = VirtuemartCart::getCart();
 				if($cart){

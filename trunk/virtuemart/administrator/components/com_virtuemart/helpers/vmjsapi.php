@@ -34,13 +34,7 @@ class vmJsApi{
 
 	}
 
-	private static function isAdmin(){
 
-		if(!isset(self::$_be)){
-			self::$_be = JFactory::getApplication()->isAdmin();
-		}
-		return self::$_be;
-	}
 
 	public static function safe_json_encode($value){
 		if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
@@ -328,7 +322,7 @@ class vmJsApi{
 			}
 		}
 
-		if($isSite===-1) $isSite = !self::isAdmin();
+		if($isSite===-1) $isSite = VmConfig::isSite();
 
 		if(VmConfig::get('jquery_framework',true)) JHtml::_('jquery.framework');
 
@@ -407,7 +401,7 @@ class vmJsApi{
 	// Virtuemart product and price script
 	static function jPrice() {
 
-		if(!VmConfig::get( 'jprice', TRUE ) and !self::isAdmin()) {
+		if(!VmConfig::get( 'jprice', TRUE ) and !VmConfig::isSite()) {
 			return FALSE;
 		}
 		static $jPrice = false;
@@ -439,7 +433,7 @@ class vmJsApi{
 	}
 
 	static function jSite() {
-		if (!VmConfig::get ('jsite', TRUE) and !self::isAdmin()) {
+		if (!VmConfig::get ('jsite', TRUE) and VmConfig::isSite()) {
 			return FALSE;
 		}
 		self::addJScript('vmsite',false,false);
@@ -532,17 +526,17 @@ jQuery(document).ready(function($) {
 		static $chosenDropDowns = false;
 
 		if(!$chosenDropDowns){
-			$be = self::isAdmin();
-			if(VmConfig::get ('jchosen', 0) or $be){
+
+			if(VmConfig::get ('jchosen', 0) or !VmConfig::isSite()){
 				vmJsApi::addJScript('chosen.jquery.min',false,false);
-				if(!$be and !vRequest::getInt('manage',false)) {
+				if(VmConfig::isSite() and !vRequest::getInt('manage',false)) {
 					vmJsApi::addJScript('vmprices');
 				}
 				vmJsApi::css('chosen');
 
 				$selectText = 'COM_VIRTUEMART_DRDOWN_AVA2ALL';
 				$vm2string = "editImage: 'edit image',select_all_text: '".vmText::_('COM_VIRTUEMART_DRDOWN_SELALL')."',select_some_options_text: '".vmText::_($selectText)."'" ;
-				if($be or vRequest::getInt('manage',false)){
+				if(!VmConfig::isSite() or vRequest::getInt('manage',false)){
 					$selector = 'jQuery("select:not(.vm-chzn-add)")';
 				} else {
 					$selector = 'jQuery("select.vm-chzn-select")';
@@ -853,6 +847,16 @@ Virtuemart.requiredMsg = '" .addslashes (vmText::_ ('COM_VIRTUEMART_MISSING_REQU
 		vmJsApi::addJScript('vmkeepalive',false, true, false);
 	}
 
+	private static function isAdminForJs(){
+
+		if(VmConfig::isSite()){
+			return 'false';
+		} else {
+			return 'true';
+		}
+
+	}
+
 	static function ajaxCategoryDropDown($id, $param, $emptyOpt){
 
 		vmJsApi::addJScript('ajax_catree');
@@ -860,7 +864,7 @@ Virtuemart.requiredMsg = '" .addslashes (vmText::_ ('COM_VIRTUEMART_MISSING_REQU
 	jQuery(document).ready(function($) {
 		Virtuemart.emptyCatOpt = '".$emptyOpt."';
 		Virtuemart.param = '".$param."';
-		Virtuemart.isAdmin = '".self::isAdmin()."';
+		Virtuemart.isAdmin = '".self::isAdminForJs()."';
 		Virtuemart.loadCategoryTree('".$id."');
 	});
 });

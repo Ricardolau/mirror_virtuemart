@@ -107,7 +107,7 @@ class CurrencyDisplay {
 
 			if(empty($currencyId)){
 				$app = JFactory::getApplication();
-				if($app->isSite()){
+				if(VmConfig::isSite()){
 					self::$_instance[$h]->_currency_id = $app->getUserStateFromRequest( "virtuemart_currency_id", 'virtuemart_currency_id',vRequest::getInt('virtuemart_currency_id', 0));
 				}
 				if(empty(self::$_instance[$h]->_currency_id)){

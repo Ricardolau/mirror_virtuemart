@@ -169,7 +169,7 @@ class ShopFunctions {
 	static public function renderVendorList ($vendorId=false, $name = 'virtuemart_vendor_id', $sendForm = false, $multiple = false) {
 
 		$view = vRequest::getCmd('view',false);
-		
+
 		if($vendorId === false){
 			if(vmAccess::manager('managevendors')){
 				$vendorId = strtolower (JFactory::getApplication()->getUserStateFromRequest ('com_virtuemart.'.$view.'.virtuemart_vendor_id', 'virtuemart_vendor_id', vmAccess::getVendorId(), 'int'));
@@ -196,11 +196,14 @@ class ShopFunctions {
 
 	static public function renderVendorFullVendorList($vendorId, $multiple = false, $name = 'virtuemart_vendor_id', $sendForm = true){
 
-		$db = JFactory::getDBO ();
+		static $vendors = false;
+		if(!$vendors){
+			$db = JFactory::getDBO ();
 
-		$q = 'SELECT `virtuemart_vendor_id`,`vendor_name` FROM #__virtuemart_vendors ORDER BY `vendor_name` ASC';
-		$db->setQuery ($q);
-		$vendors = $db->loadAssocList ();
+			$q = 'SELECT `virtuemart_vendor_id`,`vendor_name` FROM #__virtuemart_vendors ORDER BY `vendor_name` ASC';
+			$db->setQuery ($q);
+			$vendors = $db->loadAssocList ();
+		}
 
 		$attrs = array();
 
@@ -626,12 +629,11 @@ jQuery(".changeSendForm")
 		$hash = crc32(implode('.',$selectedCategories).':'.$cid.':'.$level.implode('.',$disabledFields));
 		if (empty(self::$categoryTree[$hash])) {
 
-			$app = JFactory::getApplication ();
 			$cache = VmConfig::getCache ('com_virtuemart_cats');
 			$cache->setCaching (1);
 
 			$vendorId = vmAccess::isSuperVendor();
-			self::$categoryTree[$hash] = $cache->call (array('ShopFunctions', 'categoryListTreeLoop'), $selectedCategories, $cid, $level, $disabledFields,$app->isSite(),$vendorId,VmConfig::$vmlang);
+			self::$categoryTree[$hash] = $cache->call (array('ShopFunctions', 'categoryListTreeLoop'), $selectedCategories, $cid, $level, $disabledFields,VmConfig::isSite(),$vendorId,VmConfig::$vmlang);
 
 			//self::$categoryTree[$hash] = ShopFunctions::categoryListTreeLoop($selectedCategories, $cid, $level, $disabledFields,$app->isSite(),$vendorId,VmConfig::$vmlang);
 		}

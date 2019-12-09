@@ -274,7 +274,7 @@ class VmConfig {
 	 */
 	public static function getCache($group = '', $handler = 'callback', $storage = null, $site = true)
 	{
-		$hash = md5($group . $handler . $storage);
+		$hash = $group . $handler . $storage;
 
 		if (isset(self::$cache[$hash]))
 		{
@@ -397,7 +397,7 @@ class VmConfig {
 
 				if($exeTrig and $execTrigger){
 					// try plugins
-					$isSite = $app->isSite();
+					$isSite = VmConfig::isSite();
 					self::importVMPlugins('vmuserfield');
 					if($isSite){
 
@@ -432,7 +432,7 @@ class VmConfig {
 			$knownLangs = $db->loadColumn();
 			//vmdebug('Selected language '.$selectedLang.' $knownLangs ',$knownLangs);
 
-			if($app->isAdmin() and !$redirected and !in_array(vmLanguage::$currLangTag,$knownLangs)){
+			if($app->isClient('administrator') and !$redirected and !in_array(vmLanguage::$currLangTag,$knownLangs)){
 				$msg = 'Install your selected language <b>'.vmLanguage::$currLangTag.'</b> in <a href="'.$link.'">joomla language manager</a>';
 				$app->enqueueMessage($msg);
 			}
@@ -501,7 +501,7 @@ class VmConfig {
 
 		if($exeTrig and $execTrigger){
 
-			$isSite = $app->isSite();
+			$isSite = VmConfig::isSite();
 			self::importVMPlugins('vmuserfield');
 			if($isSite){
 				$dispatcher = JDispatcher::getInstance();
@@ -681,7 +681,7 @@ class VmConfig {
 
 		if(self::$isSite===null){
 			$app = JFactory::getApplication ();
-			if($app->isAdmin() or (vRequest::getInt('manage',false) and vmAccess::manager('manage'))){
+			if($app->isClient('administrator') or (vRequest::getInt('manage',false) and vmAccess::manager('manage'))){
 				self::$isSite = false;
 			} else {
 				self::$isSite = true;

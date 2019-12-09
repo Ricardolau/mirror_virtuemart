@@ -132,7 +132,7 @@ class VmTemplate {
 			}
 		}
 
-		if( (!empty($template) and $template!='default') or JFactory::getApplication()->isAdmin()){
+		if( (!empty($template) and $template!='default') or JFactory::getApplication()->isClient('administrator')){
 			self::setTemplate( $template );
 		}
 

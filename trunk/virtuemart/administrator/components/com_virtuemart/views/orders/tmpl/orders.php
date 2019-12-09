@@ -97,11 +97,12 @@ $styleDateCol = 'style="width:5%;min-width:110px"';
 				</td>
 				<td>
 					<?php
+					$orderName = html_entity_decode($order->order_name);
 					if ($order->virtuemart_user_id) {
-						$userlink = JROUTE::_ ('index.php?option=com_virtuemart&view=user&task=edit&virtuemart_user_id[]=' . $order->virtuemart_user_id, FALSE);
-						echo JHtml::_ ('link', JRoute::_ ($userlink, FALSE), $order->order_name, array('title' => vmText::_ ('COM_VIRTUEMART_ORDER_EDIT_USER') . ' ' .  $order->order_name));
+						$userlink = JRoute::_ ('index.php?option=com_virtuemart&view=user&task=edit&virtuemart_user_id[]=' . $order->virtuemart_user_id, FALSE);
+						echo JHtml::_ ('link', $userlink, FALSE, $orderName, array('title' => vmText::_ ('COM_VIRTUEMART_ORDER_EDIT_USER') . ' ' .  $orderName));
 					} else {
-						echo $order->order_name;
+						echo $orderName;
 					}
 					echo '<br>';
 					echo $order->order_email;

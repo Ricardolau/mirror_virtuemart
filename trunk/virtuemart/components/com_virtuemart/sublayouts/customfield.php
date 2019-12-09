@@ -53,7 +53,7 @@ class VirtueMartCustomFieldRenderer {
 			$customProductDataName = 'customProductData['.$product->virtuemart_product_id.']['.$customfield->virtuemart_custom_id.']';
 
 			//This is a kind of fallback, setting default of custom if there is no value of the productcustom
-			$customfield->customfield_value = empty($customfield->customfield_value) ? $customfield->custom_value : $customfield->customfield_value;
+			$customfield->customfield_value = (!isset($customfield->customfield_value) or $customfield->customfield_value==='') ? $customfield->custom_value : $customfield->customfield_value;
 
 			$type = $customfield->field_type;
 
@@ -581,11 +581,11 @@ class VirtueMartCustomFieldRenderer {
 					} else if($attr == 'product_weight') {
 						$dim = $product->product_weight_uom;
 					}
-					if(!isset($product->$attr)){
+					if(!isset($product->{$attr})){
 						logInfo('customfield.php: case P, property '.$attr.' does not exists. virtuemart_custom_id: '.$customfield->virtuemart_custom_id);
 						break;
 					}
-					$val = $product->$attr;
+					$val = $product->{$attr};
 					if($customfield->round!=0){
 						if(empty($customfield->digits)) $customfield->digits = 0;
 						$val = $currency->getFormattedNumber($val,$customfield->digits);
@@ -786,7 +786,7 @@ class VirtueMartCustomFieldRenderer {
 								$productDB = VmModel::getModel('product')->getProduct($product->virtuemart_product_id);
 								if($productDB){
 									$attr = $productCustom->customfield_value;
-									$product->$attr = $productDB->$attr;
+									$product->{$attr} = $productDB->{$attr};
 								}
 							}
 							$value = vmText::_( $product->{$productCustom->customfield_value} );

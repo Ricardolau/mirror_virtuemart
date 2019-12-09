@@ -278,8 +278,12 @@ class VirtuemartViewUser extends VmView {
 
 			$this->_lists['shoppergroups'] = ShopFunctions::renderShopperGroupList($shoppergrps);
 		} else {
+			$showUserShopperGrp = true;
 			$this->getMenuParams();
-			$showUserShopperGrp = $this->params->get('showUserShopperGrp',1);
+			if(!empty($this->params)){
+				$showUserShopperGrp = $this->params->get('showUserShopperGrp',1);
+			}
+
 			if($showUserShopperGrp){
 				foreach($_shoppergroup as $group){
 					$this->_lists['shoppergroups'] .= vmText::_($group['shopper_group_name']).', ';
@@ -355,8 +359,10 @@ class VirtuemartViewUser extends VmView {
 			$vendorModel->addImages($this->vendor);
 		} else {
 			$this->getMenuParams();
-			$this->allowRegisterVendor = $this->params->get('allowRegisterVendor',0);
-
+			$this->allowRegisterVendor = 0;
+			if(!empty($this->params)){
+				$this->allowRegisterVendor = $this->params->get('allowRegisterVendor',0);
+			}
 		}
     }
 

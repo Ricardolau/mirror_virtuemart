@@ -375,13 +375,13 @@ class VirtueMartViewProductdetails extends VmView {
 
 			foreach ($productDisplayTypes as $productDisplayType) {
 
-				if(empty($this->$productDisplayType)){
+				if(empty($this->{$productDisplayType})){
 					continue;
-				} else if (!is_array($this->$productDisplayType)){
-					$this->$productDisplayType = array($this->$productDisplayType);
+				} else if (!is_array($this->{$productDisplayType})){
+					$this->{$productDisplayType} = array($this->{$productDisplayType});
 				}
 
-				foreach( $this->$productDisplayType as $k=>$productDisplay ) {
+				foreach( $this->{$productDisplayType} as $k=>$productDisplay ) {
 
 					if(empty($productDisplay)){
 						continue;
@@ -418,7 +418,7 @@ class VirtueMartViewProductdetails extends VmView {
 			vmJsApi::chosenDropDowns();
 
 //This must be loaded after the customfields are rendered (they may need to overwrite the handlers)
-			if (VmConfig::get ('jdynupdate', TRUE) or $app->isAdmin()) {
+			if (VmConfig::get ('jdynupdate', TRUE) or !VmConfig::isSite()) {
 				vmJsApi::jDynUpdate();
 			}
 

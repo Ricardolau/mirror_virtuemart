@@ -52,7 +52,7 @@ $i=0;
 				<label><?php echo VmHTML::checkbox('product_discontinued', $this->product->product_discontinued); echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_DISCONTINUED') ?></label>
 			</td>
 			<td>
-				<span class="hastip" title="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_ALIAS_TIP');?>"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_ALIAS') ?></span>
+				<span class="hasTooltip" title="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_ALIAS_TIP');?>"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_ALIAS') ?></span>
 			</td>
 			<td height="18" >
 				<input type="text" class="inputbox"  name="slug" id="slug" value="<?php echo $this->product->slug; ?>" size="32" maxlength="255" />
@@ -63,19 +63,19 @@ $i=0;
 		<?php $i = 1 - $i; ?>
 		<tr class="row<?php echo $i?>">
 			<td>
-				<span  class="hastip" title="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_SKU_TIP') ?>"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_SKU') ?></span>
+				<span  class="hasTooltip" title="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_SKU_TIP') ?>"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_SKU') ?></span>
 			</td>
 			<td>
 				<input type="text" class="inputbox" name="product_sku" id="product_sku" value="<?php echo $this->product->product_sku; ?>" size="32" maxlength="255" />
 			</td>
 			<td width="130px">
-				<span class="hastip" title="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_GTIN_TIP') ?>"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_GTIN') ?></span>
+				<span class="hasTooltip" title="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_GTIN_TIP') ?>"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_GTIN') ?></span>
 			</td>
 			<td>
 				<input type="text" class="inputbox" name="product_gtin" id="product_gtin" value="<?php echo $this->product->product_gtin; ?>" size="32" maxlength="64" />
 			</td>
 			<td>
-				<span class="hastip" title="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_MPN_TIP') ?>"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_MPN') ?></span>
+				<span class="hasTooltip" title="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_MPN_TIP') ?>"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_MPN') ?></span>
 			</td>
 			<td>
 				<input type="text" class="inputbox" name="product_mpn" id="product_mpn" value="<?php echo $this->product->product_mpn; ?>" size="32" maxlength="64" />
@@ -305,7 +305,7 @@ if ($link) {
 ?>
 	</div>
 </div>
-<span class="hastip" title="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_PARENTID_TIP') ?>"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_PARENTID') ?></span>
+<span class="hasTooltip" title="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_PARENTID_TIP') ?>"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_PARENTID') ?></span>
 <input type="text" class="inputbox" name="product_parent_id" id="product_parent_id" value="<?php echo $this->product->product_parent_id; ?>" size="16" maxlength="64" />
 
 <div class="clear"></div>

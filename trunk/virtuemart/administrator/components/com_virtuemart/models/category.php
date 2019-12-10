@@ -325,11 +325,7 @@ vmdebug('Found cached cat, but without children');
 			$vendorId = vmAccess::isSuperVendor();
 		}
 
-		$app = JFactory::getApplication();
-		$isSite = true;
-		if($app->isAdmin() or (vRequest::getInt('manage',false) and vmAccess::manager('manage')) ){
-			$isSite = false;
-		}
+		$isSite = VmConfig::isSite();
 
 		if($vendorId!=1){
 			if($isSite and $vendorId==0){
@@ -377,7 +373,7 @@ vmdebug('Found cached cat, but without children');
 		}
 		$ordering = $this->_getOrdering();
 
-		$hash = md5($keyword.'.'.(int)$parentId.VmLanguage::$currLangTag.(int)$childId.$this->_selectedOrderingDir.(int)$vendorId.$this->_selectedOrdering);
+		$hash = crc32($keyword.'.'.(int)$parentId.VmLanguage::$currLangTag.(int)$childId.$this->_selectedOrderingDir.(int)$vendorId.$this->_selectedOrdering);
 		if(!isset($cats[$hash])){
 			$cats[$hash] = $this->_category_tree = $this->exeSortSearchListQuery(0,$select,$joins,$whereString,'GROUP BY virtuemart_category_id',$ordering );
 		}

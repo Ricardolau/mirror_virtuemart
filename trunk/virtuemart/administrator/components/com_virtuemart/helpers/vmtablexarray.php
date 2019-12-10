@@ -119,7 +119,7 @@ class VmTableXarray extends VmTable {
 		$skey = $this->_skey;
 		$this->{$pkey} = $oid;
 
-		$hash = md5((int)$oid. $skey . $this->_tbl . $pkey . $orderby);
+		$hash = crc32((int)$oid. $skey . $this->_tbl . $pkey . $orderby);
 
 		if (!isset (self::$_cache['ar'][$hash])) {
 			$q = 'SELECT `'.$skey.'` FROM `'.$this->_tbl.'` WHERE `'.$pkey.'` = "'.(int)$oid.'" '.$orderby;
@@ -222,7 +222,7 @@ class VmTableXarray extends VmTable {
 
                 if($this->_autoOrdering){
                     $oKey = $this->_orderingKey;
-                    $obj->{$okey} = $myOrdering++;
+                    $obj->{$oKey} = $myOrdering++;
                 }
 
                 // If the new row does not exist in the old rows, we will insert it

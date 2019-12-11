@@ -930,8 +930,8 @@ class VirtueMartModelUser extends VmModel {
 
 		//$admin = JFactory::getApplication()->isClient('administrator');
 
-		if(!empty($data['virtuemart_vendor_user_id']) and is_array($data['virtuemart_vendor_user_id']) or ($data['virtuemart_vendor_user_id']>1) and
-							( 	(empty($data['virtuemart_vendor_id'] and empty($data['user_is_vendor']))) or
+		if(!empty($data['virtuemart_vendor_user_id']) and (is_array($data['virtuemart_vendor_user_id']) or $data['virtuemart_vendor_user_id']>1) and
+							( 	(empty($data['virtuemart_vendor_id']) and empty($data['user_is_vendor'])) or
 								(!empty($data['virtuemart_vendor_id']) and $data['virtuemart_vendor_id']!=$data['virtuemart_vendor_user_id']) ) ){
 			//$vUserD = array('virtuemart_user_id' => $data['virtuemart_user_id'],'virtuemart_vendor_id' => $data['virtuemart_vendor_user_id']);
 			$vUser = $this->getTable('vendor_users');

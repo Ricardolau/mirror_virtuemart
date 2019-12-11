@@ -116,6 +116,8 @@ class VirtueMartModelCustomfields extends VmModel {
 			}
 		}
 
+		$isSite = VmConfig::isSite();
+
 		if(!empty($productIds)){
 
 			if(is_array($productIds) and count($productIds)>0){
@@ -133,9 +135,9 @@ class VirtueMartModelCustomfields extends VmModel {
 				}
 			}
 			if(!empty($cartattribute)){
-				$q .= ' AND ( `is_cart_attribute` = 1 OR `is_input` = 1) ';
+				$q .= ' AND ( `is_cart_attribute` = 1 OR `is_input` = 1 OR `searchable` = 1) ';
 			}
-			if($forcefront or $app->isSite()){
+			if($forcefront or $isSite){
 				$q .= ' AND c.`published` = "1" ';
 				$forcefront = true;
 			}
@@ -143,9 +145,9 @@ class VirtueMartModelCustomfields extends VmModel {
 			if(!empty($virtuemart_custom_id) and $virtuemart_custom_id!==0){
 				$q .= ' ORDER BY field.`ordering` ASC';
 			} else {
-				if($forcefront or $app->isSite()){
-					//$q .= ' GROUP BY c.`virtuemart_custom_id`';
-				}
+				/*if($forcefront or $app->isSite()){
+					$q .= ' GROUP BY c.`virtuemart_custom_id`';
+				}*/
 
 				$q .= ' ORDER BY field.`ordering` ASC';
 			}
@@ -168,7 +170,7 @@ class VirtueMartModelCustomfields extends VmModel {
 			$productCustoms = $productCustomsCached;
 		}
 
-		$isSite = $app->isSite();
+
 
 		if($productCustoms){
 
@@ -370,7 +372,7 @@ class VirtueMartModelCustomfields extends VmModel {
 	public function displayProductCustomfieldBE ($field, $product, $row) {
 
 		//This is a kind of fallback, setting default of custom if there is no value of the productcustom
-		$field->customfield_value = empty($field->customfield_value) ? $field->custom_value : $field->customfield_value;
+		$field->customfield_value = (!isset($field->customfield_value) or $field->customfield_value==='') ? $field->custom_value : $field->customfield_value;
 		$field->customfield_price = empty($field->customfield_price) ? 0 : $field->customfield_price;
 
 		if(is_object($product)){

@@ -46,7 +46,7 @@ class vmLanguage {
 		vmText::$language = $l;
 
 		$siteLang = self::$currLangTag = self::$jSelLangTag;
-		if( JFactory::getApplication()->isAdmin()){
+		if( !VmConfig::isSite()){
 			$siteLang = vRequest::getString('vmlang',$siteLang );
 			if (!$siteLang) {
 				$siteLang = self::$jSelLangTag;
@@ -81,8 +81,8 @@ class vmLanguage {
 				self::$cgULF = null;
 				self::$cgULFS = null;
 			}
-
 		}
+
 		self::setLanguage($siteLang);
 
 		// this code is uses logic derived from language filter plugin in j3 and should work on most 2.5 versions as well
@@ -92,7 +92,6 @@ class vmLanguage {
 			if(isset($languages[$siteLang])){
 				VmConfig::$vmlangSef = $languages[$siteLang]->sef;
 			} else {
-
 				if(isset($languages[self::$jSelLangTag])){
 					VmConfig::$vmlangSef = $languages[self::$jSelLangTag]->sef;
 				}
@@ -101,6 +100,17 @@ class vmLanguage {
 
 		$langs = (array)VmConfig::get('active_languages',array(VmConfig::$jDefLangTag));
 		VmConfig::$langCount = count($langs);
+
+		if(!in_array($siteLang, $langs)) {
+			vmdebug('Selected siteLang is not in $langs',$siteLang, $langs);
+			$siteLang = VmConfig::$jDefLangTag;	//Set to shop language
+		}
+
+		VmConfig::$vmlangTag = $siteLang;
+		VmConfig::$vmlang = strtolower(strtr($siteLang,'-','_'));
+
+		VmConfig::$defaultLangTag = VmConfig::$jDefLangTag;
+		VmConfig::$defaultLang = strtolower(strtr(VmConfig::$jDefLangTag,'-','_'));
 
 		if(VmConfig::$langCount>1){
 			$lfbs = VmConfig::get('vm_lfbs','');
@@ -127,26 +137,17 @@ class vmLanguage {
 						}
 					}
 					if(isset($fbsAssoc[$siteLang])){
+
 						VmConfig::$defaultLangTag = $fbsAssoc[$siteLang];
 						VmConfig::$defaultLang = strtolower(strtr(VmConfig::$defaultLangTag,'-','_'));
-						//VmConfig::$jDefLangTag = $fbsAssoc[$siteLang];
-						$siteLang = $fbsAssoc[$siteLang];
+
+						vmdebug('Set lang fallback for '.$siteLang.' to '.VmConfig::$defaultLang,VmConfig::$jDefLang);
 					}
 					VmConfig::set('fbsAssoc',$fbsAssoc);
 				}
 			}
 		}
 
-		if(!in_array($siteLang, $langs)) {
-			vmdebug('Selected siteLang is not in $langs',$siteLang, $langs);
-			$siteLang = VmConfig::$jDefLangTag;	//Set to shop language
-		}
-
-		VmConfig::$vmlangTag = $siteLang;
-		VmConfig::$vmlang = strtolower(strtr($siteLang,'-','_'));
-
-		VmConfig::$defaultLangTag = VmConfig::$jDefLangTag;
-		VmConfig::$defaultLang = strtolower(strtr(VmConfig::$jDefLangTag,'-','_'));
 
 
 
@@ -240,6 +241,9 @@ class vmLanguage {
 
 		}
 
+		$app = JFactory::getDbo();
+		$app->set('language', self::$languages[$tag]);
+		JFactory::$language = self::$languages[$tag];
 		return self::$languages[$tag];
 	}
 

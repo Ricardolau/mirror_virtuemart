@@ -219,7 +219,7 @@ function virtuemartBuildRoute(&$query) {
 				}  else {
 					$query['Itemid'] = $Itemid;
 				}
-
+				unset($query['start']);
 				unset($query['limitstart']);
 				unset($query['limit']);
 				unset($query['virtuemart_category_id']);
@@ -914,7 +914,7 @@ class vmrouterHelper {
 				}
 
 				VmConfig::loadConfig(FALSE,FALSE,true,false);    // this is needed in case VmConfig was not yet loaded before
-				vmdebug('Lädt die Config',VmLanguage::$currLangTag);
+				//vmdebug('Router Instance, loaded current Lang Tag in config ',VmLanguage::$currLangTag, VmConfig::$vmlang);
 			}
 
 			$lConf = false;
@@ -1239,16 +1239,18 @@ class vmrouterHelper {
 		}
 
 		static $prodIds = array();
-		$categoryName = end($names);
+		$categoryName = array_pop($names);
 
-		$hash = md5($productName.VmConfig::$vmlang);
+		$hash = base64_encode($productName.VmConfig::$vmlang);
 
 		if(!isset($prodIds[$hash])){
 			$prodIds[$hash]['virtuemart_product_id'] = $this->getFieldOfObjectWithLangFallBack('#__virtuemart_products_', 'virtuemart_product_id', 'virtuemart_product_id', 'slug', $productName);
 			if(empty($categoryName) and empty($catId)){
 				$prodIds[$hash]['virtuemart_category_id'] = false;
-			} else {
+			} else if(!empty($categoryName)){
 				$prodIds[$hash]['virtuemart_category_id'] = $this->getCategoryId($categoryName,$catId ) ;
+			} else {
+				$prodIds[$hash]['virtuemart_category_id'] = false;
 			}
 		}
 
@@ -1287,13 +1289,23 @@ class vmrouterHelper {
 			return $ids[$hash];
 		}
 
+		//It is useless to search for an entry with empty where value.
+		if(empty($value)) return false;
+
 		$select = implode(', ',VmModel::joinLangSelectFields(array($name), true));
 		$joins = implode(' ',VmModel::joinLangTables(substr($table,0,-1),'i',$idname,'FROM'));
 		$wherenames = implode(', ',VmModel::joinLangSelectFields(array($wherename), false));
+
 		$q = 'SELECT '.$select.' '.$joins.' WHERE '.$wherenames.' = "'.$this->_db->escape($value).'"';
-
+		$useFb = vmLanguage::getUseLangFallback();
+		if(($useFb)){
+			$q .= ' OR ld.'.$wherename.' = "'.$this->_db->escape($value).'"';
+		}
+		$useFb2 = vmLanguage::getUseLangFallbackSecondary();
+		if(($useFb2)){
+			$q .= ' OR ljd.'.$wherename.' = "'.$this->_db->escape($value).'"';
+		}
 		$this->_db->setQuery($q);
-
 		$ids[$hash] = $this->_db->loadResult();
 		if($err = $this->_db->getErrorMsg()){
 			vmError('Error in slq router.php function getFieldOfObjectWithLangFallBack '.$err);
@@ -1350,7 +1362,7 @@ class vmrouterHelper {
 		$user = JFactory::getUser();
 		$auth = array_unique($user->getAuthorisedViewLevels());
 		//$auth = $user->getAuthorisedViewLevels();
-		//vmdebug('my auth',$auth);
+
 		$andAccess = ' AND ( access="' . implode ('" OR access="', $auth) . '" ) ';
 
 		$h = $jLangTag.implode($auth).'i';
@@ -1373,7 +1385,7 @@ class vmrouterHelper {
 		$q .= ' ORDER BY `language` DESC';
 		$db->setQuery($q);
 		$menuVmitems = $db->loadObjectList();
-
+		//vmdebug('setMenuItemId $q',$q);
 		$homeid =0;
 
 		$this->menu = array();

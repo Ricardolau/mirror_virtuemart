@@ -986,7 +986,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			$langTable = $this->_tbl . '_' . $this->_langTag;
 
 			$select = 'SELECT `' . $mainTable . '`.* ,`' . $langTable . '`.* ';
-			$from = ' FROM `' . $mainTable . '` INNER JOIN `' . $langTable . '` using (`' . $this->_tbl_key . '`)';
+			$from = ' FROM `' . $mainTable . '` INNER JOIN `' . $langTable . '` ON `' . $mainTable . '`.`' . $this->_tbl_key . '` = `' . $langTable . '`.`' . $this->_tbl_key . '` ';
 		} else {
 			$mainTable = $this->_tbl;
 			$select = 'SELECT `' . $mainTable . '`.* ';
@@ -1042,7 +1042,12 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		$db = $this->getDBO();
 		$db->setQuery($query);
 
+		if($this->_translatable and empty($this->_langTag)) {
+			vmTrace('vmTable the lang tag is empty!');
+			return $this;
+		}
 		$result = $db->loadAssoc();
+
 		//if(!empty($this->slug))vmdebug('vmtable load $query',$this->_langTag,$query,$result->slug);
 		if ($result) {
 			$this->_loaded = true;
@@ -1079,33 +1084,44 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		} else {
 
 			if($this->_translatable and VmConfig::$langCount>1 and $this->_langTag!=VmConfig::$jDefLang ){
-//vmdebug('Load fallback ',$this->_ltmp,$this->_langTag,VmConfig::$jDefLang,VmConfig::$defaultLang);
+				//if(empty($this->_ltmp)) vmdebug('Load fallback '.$this->_pkey,$this->{$this->_pkey},$this->_langTag);
+				//if($this->_ltmp) vmdebug('Execute fallback '.$this->_pkey,$this->{$this->_pkey},$this->_langTag,$this->_ltmp);
 				//$usedLangTag = $this->_langTag;
+				$first = true;
+				if(!$this->_ltmp){
+					$this->_ltmp = $this->_langTag;
+				} else {
+					$first = false;
+				}
 				if(VmConfig::$defaultLang!=VmConfig::$jDefLang){
 					if($this->_langTag != VmConfig::$defaultLang ){
-						$this->_ltmp = $this->_langTag;
+
 						$this->_langTag = VmConfig::$defaultLang;
+						$this->_loadedWithLangFallback = VmConfig::$defaultLangTag;
 					} else {
 						$this->_langTag = VmConfig::$jDefLang;
+						$this->_loadedWithLangFallback = VmConfig::$jDefLangTag;
 					}
+
 				} else {
-					$this->_ltmp = $this->_langTag;
+					//$this->_ltmp = $this->_langTag;
 					$this->_langTag = VmConfig::$defaultLang;
+					$this->_loadedWithLangFallback = VmConfig::$jDefLangTag;
 				}
 
+				//vmdebug('No result for table '.$this->_ltmp.' testing Fallback '.$this->_langTag.' '.$this->_pkey.' = '.$oid.'  '.$this->_slugAutoName);
 
-				//vmdebug('No result for '.$this->_ltmp.' = '.$oid.' '.$this->_pkey.' '.$this->_slugAutoName.', lets check for Fallback lang '.$this->_langTag);
-				
-
-				//vmSetStartTime('lfallback');
-				$this->_loadedWithLangFallback = VmConfig::$defaultLangTag;
+				vmSetStartTime('lfallback');
+				$lhash = $this->_lhash;
 				$this->load($oid, $overWriteLoadName, $andWhere, $tableJoins, $joinKey) ;
 				//vmTime('Time to load language fallback '.$this->_langTag, 'lfallback');
+				self::$_cache['l'][$lhash] = $this->loadFieldValues(false);
 
 				//if(!empty($this->slug))vmdebug('Set $this->_langTag '.$this->_langTag.' back to Ltmp '.$this->_ltmp,$this->slug);
-				$this->_langTag = $this->_ltmp;
-				$this->_ltmp = false;
-				self::$_cache['l'][$this->_lhash] = $this->loadFieldValues(false);
+				if($this->_ltmp and $first){
+					$this->_langTag = $this->_ltmp;
+					$this->_ltmp = false;
+				}
 
 				return $this;
 			} else {
@@ -1128,7 +1144,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 
 
 	function getHash($value) {
-		$hashFunction = Vmconfig::get('hashFunction', 'md5');
+		$hashFunction = VmConfig::get('hashFunction', 'crc32');
 		return call_user_func_array($hashFunction, array(&$value));
 	}
 
@@ -1949,7 +1965,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 
 			// ok, we have a problem here - previous or next item has the same ordering as the current one
 			// we need to fix the ordering be reordering it all
-			if ((int)$row->{$orderingkey} == $c_order) {
+			if ((int)$row->{$orderingKey} == $c_order) {
 				// if we fix this while loading the ordering, it will slow down FE
 			}
 
@@ -1968,7 +1984,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 
 			// update the currently selected to have the same ordering as the next or previous
 			$query = 'UPDATE ' . $this->_tbl
-				. ' SET `' . $this->_orderingKey . '` = ' . (int)$row->{$orderingkey}
+				. ' SET `' . $this->_orderingKey . '` = ' . (int)$row->{$orderingKey}
 				. ' WHERE ' . $this->_tbl_key . ' = "' . (int)$cid . '" LIMIT 1';
 			$this->_db->setQuery($query);
 			//echo $query.'<br />'; die();
@@ -1978,14 +1994,14 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			}
 
 			// stAn, what for is this?
-			$this->ordering = $row->{$orderingkey};
+			$this->ordering = $row->{$orderingKey};
 
 
 		} else {
 			// stAn: why should we update the same line with the same information when no next or previous found (?)
 
 			$query = 'UPDATE ' . $this->_tbl
-				. ' SET `' . $this->_orderingKey . '` = ' . (int)$this->{$orderingkey}
+				. ' SET `' . $this->_orderingKey . '` = ' . (int)$this->{$orderingKey}
 				. ' WHERE ' . $this->_tbl_key . ' = "' . $this->_db->escape($this->{$k}) . '" LIMIT 1';
 			$this->_db->setQuery($query);
 
@@ -2068,11 +2084,11 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		$orderingKey = $this->_orderingKey;
 		// compact the ordering numbers
 		for ($i = 0, $n = count($orders); $i < $n; $i++) {
-			if ($orders[$i]->{$orderingkey} >= 0) {
-				if ($orders[$i]->{$orderingkey} != $i + 1) {
-					$orders[$i]->{$orderingkey} = $i + 1;
+			if ($orders[$i]->{$orderingKey} >= 0) {
+				if ($orders[$i]->{$orderingKey} != $i + 1) {
+					$orders[$i]->{$orderingKey} = $i + 1;
 					$query = 'UPDATE ' . $this->_tbl
-						. ' SET `' . $this->_orderingKey . '` = "' . $this->_db->escape($orders[$i]->{$orderingkey}) . '"
+						. ' SET `' . $this->_orderingKey . '` = "' . $this->_db->escape($orders[$i]->{$orderingKey}) . '"
 					 WHERE ' . $k . ' = "' . $this->_db->escape($orders[$i]->{$k}) . '"';
 					$this->_db->setQuery($query);
 					$this->_db->execute();

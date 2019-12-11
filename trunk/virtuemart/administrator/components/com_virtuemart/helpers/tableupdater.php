@@ -118,7 +118,7 @@ class GenericTableUpdater extends VmModel{
 // 					$fields['vendor_legal_info'] = 'varchar('.VmConfig::get('dblegalsize',1100).') '.$linedefault;
 
 					$fields['vendor_store_desc'] = 'text '.$linedefaulttext;
-					$fields['vendor_terms_of_service'] = 'text '.$linedefaulttext;
+					$fields['vendor_terms_of_service'] = 'mediumtext '.$linedefaulttext;
 					$fields['vendor_legal_info'] = 'text '.$linedefaulttext;
 
 					$fields['vendor_letter_css'] = 'text '.$linedefaulttext;
@@ -147,7 +147,7 @@ class GenericTableUpdater extends VmModel{
 				}
 			} else {
 				vmdebug('dblayoutstrict false');
-				$fields['vendor_terms_of_service'] = 'text '.$linedefaulttext;
+				$fields['vendor_terms_of_service'] = 'mediumtext '.$linedefaulttext;
 				$key = array_search('vendor_terms_of_service', $translatableFields);
 				unset($translatableFields[$key]);
 

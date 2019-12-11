@@ -77,14 +77,16 @@ class VirtueMartCustomFieldRenderer {
 					}
 					$stockhandle = VmConfig::get('stockhandle_products', false) && $product->product_stockhandle ? $product->product_stockhandle : VmConfig::get('stockhandle','none');
 
-					$q = 'SELECT `virtuemart_product_id` FROM #__virtuemart_products WHERE product_parent_id = "'.$customfield->virtuemart_product_id.'" and ( published = "1" ';
+
+					$extra = ' and ( published = "1" ';
 					if($stockhandle == 'disableit_children'){
-						$q .= ' AND (`product_in_stock` - `product_ordered`) > "0" ';
+						$extra .= ' AND (`product_in_stock` - `product_ordered`) > "0" ';
 					}
-					$q .= ');';
-					$db = JFactory::getDbo();
-					$db->setQuery($q);
-					$avail = $db->loadColumn();
+					$extra .= ')';
+
+
+					$productModel = VmModel::getModel ('product');
+					$avail = $productModel->getProductChildIds($customfield->virtuemart_product_id, $extra);
 					if(!in_array($customfield->virtuemart_product_id,$avail)){
 						array_unshift($avail,$customfield->virtuemart_product_id);
 					}

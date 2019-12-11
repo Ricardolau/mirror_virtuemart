@@ -600,7 +600,7 @@ class VirtueMartModelCustomfields extends VmModel {
 				if ($link) {
 					$html .= '<a href="'. $link .'" class="btn btn-small">';
 				} else {
-					$html .= '<span class="hasTip" title="'.vmText::_ ('COM_VIRTUEMART_PRODUCT_ADD_CHILD_TIP').'">';
+					$html .= '<span class="hasTooltip" title="'.vmText::_ ('COM_VIRTUEMART_PRODUCT_ADD_CHILD_TIP').'">';
 				}
 				$html .= vmText::_('COM_VIRTUEMART_PRODUCT_ADD_CHILD');
 				if ($link) {

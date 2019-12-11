@@ -52,13 +52,13 @@ defined('_JEXEC') or die('Restricted access');?>
         </tr>
         <tr>
             <td class="key">
-                <span class="hasTip" title="<?php echo htmlentities(vmText::_('COM_VM_MEMBER_ACCESSNBR_TIP'))?>'"><?php echo vmText::_('COM_VM_MEMBER_ACCESSNBR')?></span>
+                <span class="hasTooltip" title="<?php echo htmlentities(vmText::_('COM_VM_MEMBER_ACCESSNBR_TIP'))?>'"><?php echo vmText::_('COM_VM_MEMBER_ACCESSNBR')?></span>
             </td>
             <td>
                 <?php echo VmHTML::input('member_access_number',VmConfig::get('member_access_number',''),'', '',55); ?>
             </td>
             <td>
-                <span class="hasTip" title="<?php echo htmlentities(vmText::sprintf($host,'COM_VM_MEMBER_AGREEMENT_TIP',VmConfig::$vmlangTag,vmVersion::$RELEASE))?>'"><?php echo vmText::_('COM_VM_MEMBER_AGREEMENT')?></span>
+                <span class="hasTooltip" title="<?php echo htmlentities(vmText::sprintf($host,'COM_VM_MEMBER_AGREEMENT_TIP',VmConfig::$vmlangTag,vmVersion::$RELEASE))?>'"><?php echo vmText::_('COM_VM_MEMBER_AGREEMENT')?></span>
             </td>
         </tr>
          <?php
@@ -73,7 +73,7 @@ defined('_JEXEC') or die('Restricted access');?>
 	<?php echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_CFG_ENABLE_ENGLISH','enableEnglish',VmConfig::get('enableEnglish',1)); ?>
         <tr>
             <td class="key">
-					<span class="hasTip" title="<?php echo vmText::_('COM_VM_CFG_SHOPLANG_TIP'); ?>">
+					<span class="hasTooltip" title="<?php echo vmText::_('COM_VM_CFG_SHOPLANG_TIP'); ?>">
 						<?php echo vmText::sprintf('COM_VM_CFG_SHOPLANG',VmConfig::$jDefLang); ?>
 					</span>
             </td>
@@ -84,7 +84,7 @@ defined('_JEXEC') or die('Restricted access');?>
         </tr>
 	    <tr>
 			<td class="key">
-					<span class="hasTip" title="<?php echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_MULTILANGUE_TIP'); ?>">
+					<span class="hasTooltip" title="<?php echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_MULTILANGUE_TIP'); ?>">
 						<?php echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_MULTILANGUE'); ?>
 					</span>
 			</td>

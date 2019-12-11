@@ -43,7 +43,7 @@ $i = 0;
 						<?php if ($link) { ?>
 						<a href="<?php echo $link ?>" class="btn btn-small">
 							<?php } else { ?>
-							<span class="hasTip" title="<?php echo vmText::_ ('COM_VIRTUEMART_PRODUCT_ADD_CHILD_TIP'); ?>">
+							<span class="hasTooltip" title="<?php echo vmText::_ ('COM_VIRTUEMART_PRODUCT_ADD_CHILD_TIP'); ?>">
 							<?php } ?>
 							<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_ADD_CHILD');?>
 							<?php if ($link) { ?>

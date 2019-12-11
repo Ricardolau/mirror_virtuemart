@@ -51,7 +51,7 @@ $params = VmConfig::loadConfig();
     </fieldset>
 
     <fieldset>
-        <legend class="hasTip" title="<?php echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_FRONT_CSS_JS_SETTINGS_TIP'); ?>">
+        <legend class="hasTooltip" title="<?php echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_FRONT_CSS_JS_SETTINGS_TIP'); ?>">
 			<?php echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_FRONT_CSS_JS_SETTINGS'); ?>
         </legend>
         <table class="admintable">

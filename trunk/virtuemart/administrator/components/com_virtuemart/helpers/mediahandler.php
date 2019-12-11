@@ -1057,7 +1057,7 @@ class VmMediaHandler {
 		$html='';
 		$html .= '<fieldset class="checkboxes">' ;
 		$html .= '<legend>'.vmText::_('COM_VIRTUEMART_IMAGES').'</legend>';
-		$html .=  '<span style="height:18px;vertical-align: middle;margin:4px" class="hasTip always-left" title="'.vmText::_('COM_VIRTUEMART_SEARCH_MEDIA_TIP').'">'.vmText::_('COM_VIRTUEMART_SEARCH_MEDIA') . '</span>';
+		$html .=  '<span style="height:18px;vertical-align: middle;margin:4px" class="hasTooltip always-left" title="'.vmText::_('COM_VIRTUEMART_SEARCH_MEDIA_TIP').'">'.vmText::_('COM_VIRTUEMART_SEARCH_MEDIA') . '</span>';
 		$html .=   '
 				<input type="text" name="searchMedia" id="searchMedia" style="height:18px;vertical-align: middle;margin:4px;width:250px" data-start="0" value="' .vRequest::getString('searchMedia') . '" class="text_area always-left" />
 				<button class="reset-value fg-button" style="height:18px;vertical-align: middle;margin:4px">'.vmText::_('COM_VIRTUEMART_RESET') .'</button>
@@ -1262,7 +1262,7 @@ class VmMediaHandler {
 			$html .= '<tr>
 	<td class="labelcell">'.vmText::_('COM_VIRTUEMART_FILES_FORM_FILE_URL_THUMB').'</td>
 	<td>
-		<span class="hasTip" title="'.$file_url_thumb.'">
+		<span class="hasTooltip" title="'.$file_url_thumb.'">
 			<input type="text" '.$readonly.' class="inputbox" name="media[file_url_thumb]" size="50" value="" />
 			<span>'.vmText::sprintf('COM_VIRTUEMART_DEFAULT_URL','').'</span>
 		</span>
@@ -1306,7 +1306,7 @@ class VmMediaHandler {
 			$configM = VmModel::getModel('config');
 			$languages = $configM->getActiveLanguages($selectedImageLangue,'media[active_languages][]');
 			$html .= '<tr>
-					<td class="labelcell"><span class="hasTip" title="' . vmText::_ ('COM_VIRTUEMART_FILES_FORM_LANGUAGE_TIP') . '">' . vmText::_ ('COM_VIRTUEMART_FILES_FORM_LANGUAGE') . '</span></td>
+					<td class="labelcell"><span class="hasTooltip" title="' . vmText::_ ('COM_VIRTUEMART_FILES_FORM_LANGUAGE_TIP') . '">' . vmText::_ ('COM_VIRTUEMART_FILES_FORM_LANGUAGE') . '</span></td>
 					<td><fieldset class="inputbox">'.$languages.'</fieldset></td>
 					</tr>';
 		}

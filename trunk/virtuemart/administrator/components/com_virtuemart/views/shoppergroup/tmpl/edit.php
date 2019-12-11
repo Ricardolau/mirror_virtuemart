@@ -42,7 +42,7 @@ AdminUIHelper::imitateTabs('start', 'COM_VIRTUEMART_SHOPPERGROUP_NAME');
 				<tr>
 					<td width="110" class="key">
 					<label for="default">
-						<span class="hasTip" title="<?php echo vmText::_('COM_VIRTUEMART_SHOPPERGROUP_DEFAULT_TIP'); ?>">
+						<span class="hasTooltip" title="<?php echo vmText::_('COM_VIRTUEMART_SHOPPERGROUP_DEFAULT_TIP'); ?>">
 						<?php echo vmText::_('COM_VIRTUEMART_SHOPPERGROUP_DEFAULT'); ?>
 						</span>
 					</label>

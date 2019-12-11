@@ -59,6 +59,8 @@ class AdminUIHelper {
 			VmJsApi::chosenDropDowns();
 		}
 
+		JHtml::_('bootstrap.tooltip');
+
 		vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/jquery.coookie.js');
 		vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/vm2admin.js');
 

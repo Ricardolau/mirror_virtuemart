@@ -201,7 +201,7 @@ WHERE published="1"';
 		//$lang =vmLanguage::getLanguage();
 		$tip = self::getTip($label);
 		if($tip){
-			$label = '<span class="hasTip" title="'.htmlentities(vmText::_($tip)).'">'.vmText::_($label).'</span>' ;
+			$label = '<span class="hasTooltip" title="'.htmlentities(vmText::_($tip)).'">'.vmText::_($label).'</span>' ;
 		} else {
 			$label = vmText::_($label);
 		}
@@ -242,7 +242,7 @@ WHERE published="1"';
 			<td class="key">';
 		if ($tip){
 			$html .= '
-				<span class="editlinktip hasTip" title="' . vmText::_ ($tip) . '">
+				<span class="editlinktip hasTooltip" title="' . vmText::_ ($tip) . '">
 					<label>' . vmText::_ ($langkey) . '</label>
 				</span>';
 		} else {

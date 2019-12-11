@@ -124,7 +124,7 @@ $i=0;
 				?><input type="hidden" value="<?php echo $this->product->ordering ?>" name="ordering"> <?php
 			} ?>
 			<td>
-				<span class="hasTip" title="<?php echo vmText::_ ('COM_VIRTUEMART_SHOPPER_FORM_GROUP_PRODUCT_TIP'); ?>">
+				<span class="hasTooltip" title="<?php echo vmText::_ ('COM_VIRTUEMART_SHOPPER_FORM_GROUP_PRODUCT_TIP'); ?>">
 				<?php echo vmText::_('COM_VIRTUEMART_SHOPPER_FORM_GROUP') ?></span>
 			</td>
 			<td>
@@ -143,7 +143,7 @@ $i=0;
 		</tr>
         <tr>
             <td>
-            	<span class="hasTip" title="<?php echo vmText::_ ('COM_VIRTUEMART_PRODUCT_FORM_CANONICAL_CATEGORY_TIP'); ?>">
+            	<span class="hasTooltip" title="<?php echo vmText::_ ('COM_VIRTUEMART_PRODUCT_FORM_CANONICAL_CATEGORY_TIP'); ?>">
                     <?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_CANONICAL_CATEGORY') ?></span>
 			    <?php
 			    $this->categoryTree = ShopFunctions::categoryListTree($this->product->product_canon_category_id);
@@ -294,7 +294,7 @@ echo '<div class="button2-left '.$add_child_button.' btn-wrapper">
 		if ($link) {
 			echo  '<a href="'. $link .'" class="btn btn-small">';
 			} else {
-			echo  '<span class="hasTip" title="'.vmText::_ ('COM_VIRTUEMART_PRODUCT_ADD_CHILD_TIP').'">';
+			echo  '<span class="hasTooltip" title="'.vmText::_ ('COM_VIRTUEMART_PRODUCT_ADD_CHILD_TIP').'">';
 				}
 echo  vmText::_('COM_VIRTUEMART_PRODUCT_ADD_CHILD');
 if ($link) {

@@ -154,7 +154,7 @@ class ShopFunctions {
 		$list = substr ($list, 2);
 		$ttip = substr ($ttip, 2);
 
-		return '<span class="hasTip" title="'.$ttip.'" >' . $list . '</span>';
+		return '<span class="hasTooltip" title="'.$ttip.'" >' . $list . '</span>';
 	}
 
 	/**

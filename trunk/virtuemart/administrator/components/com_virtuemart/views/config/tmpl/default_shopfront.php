@@ -91,13 +91,13 @@ defined('_JEXEC') or die('Restricted access');?>
 <td>
 	<fieldset class="checkboxes">
 		<legend>
-			<span class="hasTip" title="<?php echo vmText::_('COM_VIRTUEMART_CFG_POOS_ENABLE_EXPLAIN'); ?>">
+			<span class="hasTooltip" title="<?php echo vmText::_('COM_VIRTUEMART_CFG_POOS_ENABLE_EXPLAIN'); ?>">
 				<?php echo vmText::_('COM_VIRTUEMART_CFG_POOS_ENABLE'); ?>
 			</span>
 		</legend>
 		<div>
 			<?php echo VmHTML::checkbox('lstockmail', VmConfig::get('lstockmail')); ?>
-			<span class="hasTip" title="<?php echo vmText::_('COM_VIRTUEMART_CFG_LOWSTOCK_NOTIFY_TIP'); ?>">
+			<span class="hasTooltip" title="<?php echo vmText::_('COM_VIRTUEMART_CFG_LOWSTOCK_NOTIFY_TIP'); ?>">
 				<label for="lstockmail">
 					<?php echo vmText::_('COM_VIRTUEMART_CFG_LOWSTOCK_NOTIFY'); ?>
 				</label>
@@ -105,7 +105,7 @@ defined('_JEXEC') or die('Restricted access');?>
 		</div>
 		<div>
 			<?php echo VmHTML::checkbox('stockhandle_products', VmConfig::get('stockhandle_products')); ?>
-			<span class="hasTip" title="<?php echo vmText::_('COM_VIRTUEMART_CFG_POOS_DISCONTINUED_PRODUCTS_TIP'); ?>">
+			<span class="hasTooltip" title="<?php echo vmText::_('COM_VIRTUEMART_CFG_POOS_DISCONTINUED_PRODUCTS_TIP'); ?>">
 				<label for="stockhandle_products">
 					<?php echo vmText::_('COM_VIRTUEMART_CFG_POOS_DISCONTINUED_PRODUCTS'); ?>
 				</label>
@@ -122,7 +122,7 @@ defined('_JEXEC') or die('Restricted access');?>
 		echo VmHTML::radioList('stockhandle', VmConfig::get('stockhandle', 'none'), $options);
 		?>
 		<div style="font-weight:bold;">
-					<span class="hasTip" title="<?php echo vmText::_('COM_VIRTUEMART_AVAILABILITY_EXPLAIN'); ?>">
+					<span class="hasTooltip" title="<?php echo vmText::_('COM_VIRTUEMART_AVAILABILITY_EXPLAIN'); ?>">
 						<?php echo vmText::_('COM_VIRTUEMART_AVAILABILITY'); ?>
 					</span>
 		</div>

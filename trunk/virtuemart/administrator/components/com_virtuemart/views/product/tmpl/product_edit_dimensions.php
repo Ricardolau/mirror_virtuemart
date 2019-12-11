@@ -54,7 +54,7 @@ defined('_JEXEC') or die('Restricted access');?>
    
     <tr class="row0">
 		<th style="text-align:right;">
-        <span class="hasTip" title="<?php echo vmText::sprintf('COM_VIRTUEMART_PRODUCT_PACKAGING_DESCRIPTION',vmText::_('COM_VIRTUEMART_UNIT_NAME_L'),vmText::_('COM_VIRTUEMART_PRODUCT_UNIT'),vmText::_('COM_VIRTUEMART_UNIT_NAME_100ML')); ?>">
+        <span class="hasTooltip" title="<?php echo vmText::sprintf('COM_VIRTUEMART_PRODUCT_PACKAGING_DESCRIPTION',vmText::_('COM_VIRTUEMART_UNIT_NAME_L'),vmText::_('COM_VIRTUEMART_PRODUCT_UNIT'),vmText::_('COM_VIRTUEMART_UNIT_NAME_100ML')); ?>">
         <?php echo vmText::_('COM_VIRTUEMART_PRODUCT_PACKAGING') ?>
          </span>
 		</th>
@@ -65,7 +65,7 @@ defined('_JEXEC') or die('Restricted access');?>
     </tr>
     <tr class="row1">
 		<th style="text-align:right;">
-                <span class="hasTip" title="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_BOX_DESCRIPTION'); ?>">
+                <span class="hasTooltip" title="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_BOX_DESCRIPTION'); ?>">
                 <?php echo vmText::_('COM_VIRTUEMART_PRODUCT_BOX') ?>
                 </span></th>
       <td>

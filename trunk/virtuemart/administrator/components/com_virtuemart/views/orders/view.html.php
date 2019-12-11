@@ -345,25 +345,25 @@ class VirtuemartViewOrders extends VmViewAdmin {
 		/* Print view URL */
 		$print_url = $baseUrl .'&layout=invoice';
 		$print_link = "<a href=\"javascript:void window.open('$print_url', 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');\"  >";
-		$print_link .= '<span class="hasTip print_32" title="' . vmText::_ ('COM_VIRTUEMART_PRINT').' '. $order->order_number.'">&nbsp;</span></a>';
+		$print_link .= '<span class="hasTooltip print_32" title="' . vmText::_ ('COM_VIRTUEMART_PRINT').' '. $order->order_number.'">&nbsp;</span></a>';
 		$invoice_links_array = array();
 		$deliverynote_link = '';
 		$pdfDummi= '&d='.rand(0,100);
 		if (!$order->invoiceNumbers) {
 			$invoice_url = $baseUrl .'&layout=invoice&format=pdf&create_invoice='.$order->order_create_invoice_pass.$pdfDummi;
-			$invoice_links_array[]= "<a href=\"$invoice_url\"  >".'<span class="hasTip invoicenew_32" title="' . vmText::_ ('COM_VIRTUEMART_INVOICE_CREATE') . '"></span></a>';
+			$invoice_links_array[]= "<a href=\"$invoice_url\"  >".'<span class="hasTooltip invoicenew_32" title="' . vmText::_ ('COM_VIRTUEMART_INVOICE_CREATE') . '"></span></a>';
 		} else {
 			foreach ($order->invoiceNumbers as $invoiceNumber) {
 				if (!shopFunctions::InvoiceNumberReserved ($invoiceNumber)) {
 					$invoice_url = $baseUrl .'&layout=invoice&format=pdf'.$pdfDummi.'&invoiceNumber='.$invoiceNumber;
-					$invoice_links_array[] = "<a href=\"$invoice_url\"  >" . '<span class="hasTip invoice_32" title="' . vmText::_ ('COM_VIRTUEMART_INVOICE') .' '.$invoiceNumber. '"></span></a>';
+					$invoice_links_array[] = "<a href=\"$invoice_url\"  >" . '<span class="hasTooltip invoice_32" title="' . vmText::_ ('COM_VIRTUEMART_INVOICE') .' '.$invoiceNumber. '"></span></a>';
 				}
 			}
 		}
 
 		if (!$order->invoiceNumbers) {
 			$deliverynote_url = $baseUrl .'&layout=deliverynote&format=pdf&create_invoice='.$order->order_create_invoice_pass.$pdfDummi;
-			$deliverynote_link = "<a href=\"$deliverynote_url\"  >" . '<span class="hasTip deliverynotenew_32" title="' . vmText::_ ('COM_VIRTUEMART_DELIVERYNOTE_CREATE') . '"></span></a>';
+			$deliverynote_link = "<a href=\"$deliverynote_url\"  >" . '<span class="hasTooltip deliverynotenew_32" title="' . vmText::_ ('COM_VIRTUEMART_DELIVERYNOTE_CREATE') . '"></span></a>';
 		} else {
 			/*
 			 * TODO: InvoiceNumberReserved is used by some payments like Klarna
@@ -371,7 +371,7 @@ class VirtuemartViewOrders extends VmViewAdmin {
 			$invoiceNumber= $order->invoiceNumbers [0];
 			if (!shopFunctionsF::InvoiceNumberReserved ($invoiceNumber)) {
 				$deliverynote_url = $baseUrl .'&layout=deliverynote&format=pdf&virtuemart_order_id=' . $order->virtuemart_order_id .$pdfDummi;
-				$deliverynote_link = "<a href=\"$deliverynote_url\"  >" . '<span class="hasTip deliverynote_32" title="' . vmText::_ ('COM_VIRTUEMART_DELIVERYNOTE').' '.$invoiceNumber . '"></span></a>';
+				$deliverynote_link = "<a href=\"$deliverynote_url\"  >" . '<span class="hasTooltip deliverynote_32" title="' . vmText::_ ('COM_VIRTUEMART_DELIVERYNOTE').' '.$invoiceNumber . '"></span></a>';
 		}
 
 		}

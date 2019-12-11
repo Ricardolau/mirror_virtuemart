@@ -161,6 +161,12 @@ class VirtueMartModelCalc extends VmModel {
 			$retValue = $dispatcher->trigger ('plgVmDeclarePluginParams', array('custom',$custom_element, $custom_jplugin_id, &$xParams, &$varsToPush));
 		//}*/
 
+		$table->has_categories = empty($data['calc_categories'])? 0:1;
+		$table->has_shoppergroups = empty($data['virtuemart_shoppergroup_id'])? 0:1;
+		$table->has_manufacturers = empty($data['virtuemart_manufacturer_id'])? 0:1;
+		$table->has_countries = empty($data['virtuemart_country_id'])? 0:1;
+		$table->has_states = empty($data['virtuemart_state_id'])? 0:1;
+
 		if(!$table->bindChecknStore($data)){
 			return false;
 		}

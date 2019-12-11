@@ -91,8 +91,16 @@ class TableProducts extends VmTable {
 	var $metaauthor	= '';
 	/** @var string Name of the details page to use for showing product details in the front end */
 	var $layout = '';
-       /** @var int published or unpublished */
+	/** @var int published or unpublished */
 	var $published = 1;
+	/** following vars store if there is content in the xref tables */
+	var $has_categories = null;
+	var $has_manufacturers = null;
+	var $has_medias = null;
+	var $has_prices = null;
+	var $has_shoppergroups = null;
+	/*var $has_children = null;*/
+
 	/** @var int product_canon_category_id used to force a canonical category useful for items in more than one category */
 	var $product_canon_category_id = null;
 

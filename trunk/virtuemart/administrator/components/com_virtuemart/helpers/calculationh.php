@@ -243,7 +243,7 @@ class calculationHelper {
 			return;
 		}
 
-		if ($this->_app->isAdmin()) {
+		if (!VmConfig::isSite()) {
 
 			$userModel = VmModel::getModel('user');
 			$userDetails = $userModel->getUser();
@@ -715,7 +715,7 @@ class calculationHelper {
 
 			//$variantmod = $customfieldModel->calculateModificators($this->_cart->products[$cprdkey], $this->_cart);
 			$productPrice = $this->getProductPrices($this->_cart->products[$cprdkey],TRUE, $this->_cart->products[$cprdkey]->quantity);
-			//vmTrace('getProductPrices $productPrice '.$variantmod.' '.$productPrice['basePriceVariant'].' '.$productPrice['salesPrice']);
+
 			//vmdebug('getCheckoutPrices ',$productPrice['salesPrice']);
 			$selectedPrice = $this->_cart->products[$cprdkey]->selectedPrice;
 			$this->_cart->products[$cprdkey]->allPrices[$selectedPrice] = array_merge($this->_cart->products[$cprdkey]->allPrices[$selectedPrice],$productPrice);
@@ -768,6 +768,7 @@ class calculationHelper {
 					if(!isset($dbrule['subTotal'])) $dbrule['subTotal'] = 0.0;
 					$setCat = !empty($dbrule['calc_categories']) ? array_intersect($dbrule['calc_categories'],$product->categories) : array();
 					$setMan = !empty($dbrule['virtuemart_manufacturers']) ? array_intersect($dbrule['virtuemart_manufacturers'],$product->virtuemart_manufacturer_id) : array();
+
 					if(!empty($dbrule['calc_categories']) && !empty($dbrule['virtuemart_manufacturers'])) {
 						if(count($setCat)>0 && count($setMan)>0) {
 							$applyRule = TRUE;
@@ -855,30 +856,37 @@ class calculationHelper {
 						if(count($setCat)>0 && count($setMan)>0) {
 							$darule['subTotal'] += $this->_cart->cartPrices[$cprdkey]['subtotal_with_tax'];
 						}
-					} else {
-						if(count($setCat)>0 || count($setMan)>0) {
-							$darule['subTotal'] += $this->_cart->cartPrices[$cprdkey]['subtotal_with_tax'];
-						}
+					} else if(count($setCat)>0 || count($setMan)>0) {
+
+						$darule['subTotal'] += $this->_cart->cartPrices[$cprdkey]['subtotal_with_tax'];
 					}
+
 				}
-				$this->_cart->cartData['DATaxRulesBill'][$k]=$trule;
+				$this->_cart->cartData['DATaxRulesBill'][$k]=$darule;
 			}
 
 		}
 
-		// Calculate the discount from all rules before tax to calculate billTotal
-		$cartdiscountBeforeTax = $this->roundInternal($this->cartRuleCalculation($this->_cart->cartData['DBTaxRulesBill'], $this->_cart->cartPrices['salesPrice']));
-
 		// We need the discount for each taxID to reduce the total discount before calculate percentage from hole cart discounts
-		foreach ($this->_cart->cartData['DBTaxRulesBill'] as &$rule) {
+		foreach ($this->_cart->cartData['DBTaxRulesBill'] as $k=>&$rule) {
 			if (!empty($rule['subTotalPerTaxID'])) {
 				foreach ($rule['subTotalPerTaxID'] as $k=>$DBTax) {
 					$this->roundInternal($this->cartRuleCalculation($this->_cart->cartData['DBTaxRulesBill'], $this->_cart->cartPrices['salesPrice'], $k, true));
 				}
+			} //When the rule got not active, we remove the rule
+			else if(empty($rule['subTotal'])){
+				//vmdebug('calc_categories unset $dbrule ',$rule);
+				unset($this->_cart->cartData['DBTaxRulesBill'][$k]);
 			}
 		}
 
-
+//When the rule got not active, we remove the rule
+		foreach ($this->_cart->cartData['DATaxRulesBill'] as $k=>&$rule) {
+			vmdebug('calc_categories $darule[\'subTotal\'] ',$rule['subTotal']);
+			if(empty($rule['subTotal'])){
+				unset($this->_cart->cartData['DATaxRulesBill'][$k]);
+			}
+		}
 
 		// combine the discounts before tax for each taxID
 		foreach ($this->_cart->cartData['VatTax'] as &$rule) {
@@ -890,6 +898,9 @@ class calculationHelper {
 				$rule['DBTax'] = $sum;
 			}
 		}
+
+		// Calculate the discount from all rules before tax to calculate billTotal
+		$cartdiscountBeforeTax = $this->roundInternal($this->cartRuleCalculation($this->_cart->cartData['DBTaxRulesBill'], $this->_cart->cartPrices['salesPrice']));
 
 		// calculate the new subTotal with discounts before tax, necessary for billTotal
 		$this->_cart->cartPrices['toTax'] = $this->_cart->cartPrices['salesPrice'] + $cartdiscountBeforeTax;
@@ -1126,7 +1137,7 @@ class calculationHelper {
 				//$discount += round($this->_cart->cartPrices[$rule['virtuemart_calc_id'] . 'Diff'],$this->_currencyDisplay->_priceConfig['salesPrice'][1]);
 				$discount += $this->roundInternal($this->_cart->cartPrices[$rule['virtuemart_calc_id'] . 'Diff']);
 				//vmdebug('my cout ',$cOut,$discount,$rule['subTotal'],$TaxID);
-				if(isset($rule['subTotal']) and $TaxID != 0 and $DBTax == true) {
+				if(isset($rule['subTotal']) and $TaxID != 0 and $TaxID != -1 and $DBTax == true) {
 					if(isset($rule['subTotalPerTaxID'][$TaxID])) {
 						$cIn = $rule['subTotalPerTaxID'][$TaxID];
 						$cOut = $this->interpreteMathOp($rule, $cIn);
@@ -1234,12 +1245,24 @@ class calculationHelper {
 			if(!empty($rule['for_override'])){
 				continue;
 			}
-			if(!isset($rule['calc_categories'])){
 
+			if(!isset($rule['has_categories'])){
+				vmdebug('Rule !isset has_category');
+			} else if($rule['has_categories'] === NULL){
+				vmdebug('Rule NULLL has_category');
+			}
+
+			$storeHasCategories = false;
+			if(!isset($rule['calc_categories']) and (!isset($rule['has_categories']) or $rule['has_categories'])){
 				$q = 'SELECT `virtuemart_category_id` FROM #__virtuemart_calc_categories WHERE `virtuemart_calc_id`="' . $rule['virtuemart_calc_id'] . '"';
 				$this->_db->setQuery($q);
 				$rule['calc_categories'] = $this->_db->loadColumn();
-				//vmdebug('loaded cat rules '.$rule['virtuemart_calc_id']);
+				if(!isset($rule['has_categories'])){
+					$storeHasCategories = (int)!empty($rule['calc_categories'] );
+					vmdebug('Store the category "hasCategory"');
+				}
+			} else {
+				$rule['calc_categories'] = false;
 			}
 
 			$hitsCategory = true;
@@ -1248,11 +1271,17 @@ class calculationHelper {
 				$hitsCategory = $this->testRulePartEffecting($rule['calc_categories'], $this->_cats);
 			}
 
-			if(!isset($rule['virtuemart_shoppergroup_ids'])){
+
+			$storeHasShoppergroups = false;
+			if(!isset($rule['virtuemart_shoppergroup_ids']) and (!isset($rule['has_shoppergroups']) or $rule['has_shoppergroups'])){
 				$q = 'SELECT `virtuemart_shoppergroup_id` FROM #__virtuemart_calc_shoppergroups WHERE `virtuemart_calc_id`="' . $rule['virtuemart_calc_id'] . '"';
 				$this->_db->setQuery($q);
 				$rule['virtuemart_shoppergroup_ids'] = $this->_db->loadColumn();
-				//vmdebug('loaded shoppergrp rules '.$rule['virtuemart_calc_id']);
+				if(!$rule['has_shoppergroups']){
+					$storeHasShoppergroups = (int)!empty($rule['virtuemart_shoppergroup_ids'] );
+				}
+			} else {
+				$rule['virtuemart_shoppergroup_ids'] = false;
 			}
 
 			$hitsShopper = true;
@@ -1260,18 +1289,28 @@ class calculationHelper {
 				$hitsShopper = $this->testRulePartEffecting($rule['virtuemart_shoppergroup_ids'], $this->_shopperGroupId);
 			}
 
-			if(!isset($rule['calc_countries'])){
+			$storeHasCountries = false;
+			if(!isset($rule['calc_countries']) and (!isset($rule['has_countries']) or $rule['has_countries'])){
 				$q = 'SELECT `virtuemart_country_id` FROM #__virtuemart_calc_countries WHERE `virtuemart_calc_id`="' . $rule["virtuemart_calc_id"] . '"';
 				$this->_db->setQuery($q);
 				$rule['calc_countries'] = $this->_db->loadColumn();
-				//vmdebug('loaded country rules '.$rule['virtuemart_calc_id']);
+				if(!$rule['has_countries']){
+					$storeHasCountries = (int)!empty($rule['calc_countries'] );
+				}
+			} else {
+				$rule['calc_countries'] = false;
 			}
 
-			if(!isset($rule['virtuemart_state_ids'])){
+			$storeHasStates = false;
+			if(!isset($rule['virtuemart_state_ids']) and (!isset($rule['has_states']) or $rule['has_states'])){
 				$q = 'SELECT `virtuemart_state_id` FROM #__virtuemart_calc_states WHERE `virtuemart_calc_id`="' . $rule["virtuemart_calc_id"] . '"';
 				$this->_db->setQuery($q);
 				$rule['virtuemart_state_ids'] = $this->_db->loadColumn();
-				//vmdebug('loaded state rules '.$rule['virtuemart_calc_id']);
+				if(!$rule['has_states']){
+					$storeHasStates = (int)!empty($rule['virtuemart_state_ids'] );
+				}
+			} else {
+				$rule['virtuemart_state_ids'] = false;
 			}
 
 			$hitsDeliveryArea = true;
@@ -1289,11 +1328,16 @@ class calculationHelper {
 				}
 			}
 
-			if(!isset($rule['virtuemart_manufacturers'])){
+			$storeHasManufacturers = false;
+			if(!isset($rule['virtuemart_manufacturers']) and (!isset($rule['has_manufacturers']) or $rule['has_manufacturers'])){
 				$q = 'SELECT `virtuemart_manufacturer_id` FROM #__virtuemart_calc_manufacturers WHERE `virtuemart_calc_id`="' . $rule['virtuemart_calc_id'] . '"';
 				$this->_db->setQuery($q);
 				$rule['virtuemart_manufacturers'] = $this->_db->loadColumn();
-				//vmdebug('loaded manus rules '.$rule['virtuemart_calc_id']);
+				if(!$rule['has_manufacturers']){
+					$storeHasManufacturers = (int)!empty($rule['virtuemart_manufacturers'] );
+				}
+			} else {
+				$rule['virtuemart_manufacturers'] = false;
 			}
 
 			$hitsManufacturer = true;
@@ -1311,6 +1355,38 @@ class calculationHelper {
 			}
 
 			$this->allrules[$this->productVendorId][$entrypoint][$i] = $rule;
+
+			if($storeHasShoppergroups!==false or $storeHasManufacturers!==false or $storeHasCategories!==false or $storeHasCountries!==false or $storeHasStates!==false) {
+
+				$q = '';
+				if($storeHasShoppergroups !== false) {
+					$q .= ' `has_shoppergroups`='.$storeHasShoppergroups.',';
+				}
+				if($storeHasManufacturers !== false) {
+					$q .= ' `has_manufacturers`='.$storeHasManufacturers.',';
+				}
+				if($storeHasCategories !== false) {
+					$q .= ' `has_categories`='.$storeHasCategories.',';
+				}
+				if($storeHasCountries !== false) {
+					$q .= ' `has_countries`='.$storeHasCountries.',';
+				}
+				if($storeHasStates !== false) {
+					$q .= ' `has_states`='.$storeHasStates.',';
+				}
+				//vmdebug('Update? product store HasXref '.$product->virtuemart_product_id,$q);
+				if(!empty( $q )) {
+
+					$q = rtrim( $q, ',' );
+					vmSetStartTime( 'letsUpdateRule' );
+					$db = JFactory::getDbo();
+					$q = 'UPDATE #__virtuemart_calcs SET '.$q.' WHERE `virtuemart_calc_id`='.$rule['virtuemart_calc_id'].';';
+					$db->setQuery( $q );
+					$db->execute();
+					vmdebug( 'Updated calc, store HasXref '.$rule['virtuemart_calc_id'], $q );
+					vmTime( 'Updated calc', 'letsUpdateRule' ,false);
+				}
+			}
 		}
 
 		//Test rules in plugins
@@ -1456,7 +1532,7 @@ class calculationHelper {
 		if(!empty($this->_cart->cartData[$type])){
 
 			if(!empty($this->_cart->cartData[$type][0])){
-				$this->_cart->$virtuemart_typemethod_id = $this->_cart->cartData[$type][0][$virtuemart_typemethod_id];
+				$this->_cart->{$virtuemart_typemethod_id} = $this->_cart->cartData[$type][0][$virtuemart_typemethod_id];
 				$this->_cart->cartData[$type.'Name'] = vmText::_($this->_cart->cartData[$type][0][$type.'Name']);
 				//Here the values then
 				$this->_cart->cartPrices[$type.'Value'] = $this->_cart->cartData[$type][0][$type.'Value']; //could be automatically set to a default set in the globalconfig
@@ -1509,7 +1585,7 @@ class calculationHelper {
 		//if(empty($this->_cart->$method_id_name)){
 			JPluginHelper::importPlugin('vm'.$type);
 			$this->_cart->checkAutomaticSelectedPlug($type);
-			if(empty($this->_cart->$method_id_name)) return;
+			if(empty($this->_cart->{$method_id_name})) return;
 		//}
 
 		$dispatcher = JDispatcher::getInstance();
@@ -1522,10 +1598,10 @@ class calculationHelper {
 		}
 
 		if (!$methodValid) {
-			vmdebug('calculate'.ucfirst($type).'Price Method INVALID set cart->'.$method_id_name.' = 0 ',$this->_cart->$method_id_name);
-			$this->_cart->$method_id_name = 0;
+			vmdebug('calculate'.ucfirst($type).'Price Method INVALID set cart->'.$method_id_name.' = 0 ',$this->_cart->{$method_id_name});
+			$this->_cart->{$method_id_name} = 0;
 			$this->_cart->checkAutomaticSelectedPlug($type);
-			if(!empty($this->_cart->$method_id_name)){
+			if(!empty($this->_cart->{$method_id_name})){
 				vmdebug('my firstRecalc'.$type,(int)$this->{'firstRecalc'.$type});
 				if($this->{'firstRecalc'.$type} ){
 					$this->{'firstRecalc'.$type} = false;

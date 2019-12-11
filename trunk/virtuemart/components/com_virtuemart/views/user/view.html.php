@@ -213,13 +213,23 @@ class VirtuemartViewUser extends VmView {
 
 		$this->add_product_link="";
 		$this->manage_link="";
+		if (empty(VmConfig::get('bootstrap', ''))) {
+			$vmbtn = "vm-btn";
+			$vmbtnpri ="vm-btn-primary";
+			$vmbtnsec = "vm-btn-secondary";
+		} else {
+			$vmbtn = "btn";
+			$vmbtnpri = "btn-primary";
+			$vmbtnsec = "btn-secondary";
+		}
+
 		if(ShopFunctionsF::isFEmanager('manage'/*,'category','product','inventory','ratings','custom','calc','manufacturer','orders','report','user'*/) ){
 			$mlnk = JURI::root() . 'index.php?option=com_virtuemart&tmpl=component&manage=1' ;
-			$this->manage_link = $this->linkIcon($mlnk, 'JACTION_MANAGE', 'new', false, false, true, true);
+			$this->manage_link = $this->linkIcon($mlnk, 'JACTION_MANAGE', 'new', false, false, true, true, 'class="'.$vmbtn.' '.$vmbtnpri.'"');
 		}
 		if(ShopFunctionsF::isFEmanager('product.edit')){
 			$aplnk = JURI::root() . 'index.php?option=com_virtuemart&tmpl=component&view=product&view=product&task=edit&virtuemart_product_id=0&manage=1' ;
-			$this->add_product_link = $this->linkIcon($aplnk, 'COM_VIRTUEMART_PRODUCT_ADD_PRODUCT', 'new', false, false, true, true);
+			$this->add_product_link = $this->linkIcon($aplnk, 'COM_VIRTUEMART_PRODUCT_ADD_PRODUCT', 'new', false, false, true, true, 'class="'.$vmbtn.' '.$vmbtnpri.'"');
 		}
 
 		$document = JFactory::getDocument();

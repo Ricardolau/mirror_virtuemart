@@ -155,16 +155,25 @@ class shopFunctionsF {
 		vmJsApi::jQuery();
 		vmJsApi::chosenDropDowns();
 
-		//$sorted_countries = array();
 		$countries_list=array();
 		$lang = vmLanguage::getLanguage();
 		$prefix="COM_VIRTUEMART_COUNTRY_";
+
 		foreach ($countries as  $country) {
+
 			$country_string = $lang->hasKey($prefix.$country->country_3_code) ?   vmText::_($prefix.$country->country_3_code)  : $country->country_name;
-			$countries_list[$country->virtuemart_country_id] = new stdClass();;
-			$countries_list[$country->virtuemart_country_id]->{$optKey} = $country->virtuemart_country_id;
-			$countries_list[$country->virtuemart_country_id]->{$optText} = $country_string;
+
+			$ckey = 0;
+			if($country->ordering){
+				$ckey = $country->ordering;
+			} else {
+				$ckey = $country_string;
+			}
+			$countries_list[$ckey] = new stdClass();;
+			$countries_list[$ckey]->{$optKey} = $country->virtuemart_country_id;
+			$countries_list[$ckey]->{$optText} = $country_string;
 		}
+		ksort($countries_list);
 
 		if ($required != 0) {
 			$attrs['class'] .= ' required';

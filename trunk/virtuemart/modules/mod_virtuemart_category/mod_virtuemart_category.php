@@ -36,28 +36,11 @@ $layout = $params->get('layout','default');
 $active_category_id = vRequest::getInt('virtuemart_category_id', '0');
 $vendorId = '1';
 
-$categories = $categoryModel->getChildCategoryList($vendorId, $category_id);
+$level = (int)$params->get('level','2');
+$media = (int)$params->get('media', 0);
 
-// We dont use image here
-//$categoryModel->addImages($categories);
-
-if(empty($categories)) return false;
-
-$level = $params->get('level','2');
-
-if($level>1){
-	foreach ($categories as $i => $category) {
-		$categories[$i]->childs = $categoryModel->getChildCategoryList($vendorId, $category->virtuemart_category_id) ;
-		// No image used here
-		//$categoryModel->addImages($category->childs);
-		//Yehyeh, very cheap done.
-		if($level>2){
-			foreach ($categories[$i]->childs as $j => $cat) {
-				$categories[$i]->childs[$j]->childs = $categoryModel->getChildCategoryList( $vendorId, $cat->virtuemart_category_id );
-			}
-		}
-	}
-}
+$categories = array();
+VirtueMartModelCategory::rekurseCategories($vendorId, $category_id, $categories, $level, 0, true, '', 'c.ordering, category_name', 'ASC', true);
 //vmdebug('my categories',$categories);
 
 $categoryModel->categoryRecursed = 0;

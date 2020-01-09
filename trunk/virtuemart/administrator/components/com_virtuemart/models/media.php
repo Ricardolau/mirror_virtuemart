@@ -417,11 +417,13 @@ LEFT JOIN #__virtuemart_vendor_medias as vm ON pm.virtuemart_media_id = m.virtue
 
 		//set the relations
 		$table = $this->getTable($type.'_medias');
-		//vmdebug('my data before storing media',$data);
-		// Bind the form fields to the country table
-		$table->bindChecknStore($data);
 
-		return $table->virtuemart_media_id;
+		$table->bind($data);
+
+		// Bind the form fields to the country table
+		return  $table->bindChecknStore($data);
+
+		//return $table->virtuemart_media_id;
 
 	}
 

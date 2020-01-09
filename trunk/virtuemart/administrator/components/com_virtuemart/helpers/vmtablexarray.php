@@ -266,7 +266,7 @@ class VmTableXarray extends VmTable {
              }
         }
 
- 	return $returnCode;
+ 	return $this->_svalue;
 
     }
 

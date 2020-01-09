@@ -143,6 +143,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_calc_states` (
 
 CREATE TABLE IF NOT EXISTS `#__virtuemart_categories` (
   `virtuemart_category_id` int(1) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `category_parent_id` int(1) UNSIGNED,
   `virtuemart_vendor_id` int(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT 'Belongs to vendor',
   `category_template` varchar(128),
   `category_layout` varchar(64),
@@ -157,6 +158,8 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_categories` (
   `ordering` int(1) NOT NULL DEFAULT '0',
   `shared` tinyint(1) NOT NULL DEFAULT '0',
   `published` tinyint(1) NOT NULL DEFAULT '1',
+  `has_children` int(1),
+  `has_medias` int(1),
   `created_on` datetime NOT NULL default '0000-00-00 00:00:00',
   `created_by` int(1) NOT NULL DEFAULT '0',
   `modified_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -172,7 +175,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_categories` (
 
 -- --------------------------------------------------------
 
---
+-- Obsolete since vm3.6.12
 -- Table structure for table `#__virtuemart_category_categories`
 --
 

@@ -1431,6 +1431,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 				//This is the case when a vendor buys products of vendor1
 				if (strpos($this->_tbl,'virtuemart_order_items')===FALSE and strpos($this->_tbl,'virtuemart_carts')===FALSE) {
 					vmdebug('Blocked storing, logged vendor ' . $loggedVendorId . ' but data belongs to ' . $virtuemart_vendor_id,$this->_tbl);
+					VmError('Blocked storing of the object, you are not the owner');
 					return false;
 				} else {
 					$this->virtuemart_vendor_id = $virtuemart_vendor_id;
@@ -1711,7 +1712,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			if ($ok) {
 
 				if(!$langOnly){
-					$dataTable->bindChecknStoreNoLang($data, $preload);
+					$ok = $dataTable->bindChecknStoreNoLang($data, $preload);
 					$this->bind($dataTable);
 					$langTable->{$tblKey} = !empty($this->{$tblKey}) ? $this->{$tblKey} : 0;
 					//vmdebug('bindChecknStoreNoLang my $tblKey '.$tblKey.' '.$langTable->{$tblKey});

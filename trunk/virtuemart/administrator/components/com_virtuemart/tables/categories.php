@@ -31,6 +31,8 @@ class TableCategories extends VmTable {
 
 	/** @var int Primary key */
 	var $virtuemart_category_id	= null;
+
+	var $category_parent_id = null;
 	/** @var integer Product id */
 	var $virtuemart_vendor_id		= 0;
 	/** @var string Category name */
@@ -69,6 +71,9 @@ class TableCategories extends VmTable {
 	var $metaauthor	= '';
         /** @var integer Category publish or not */
 	var $published			= 0;
+
+	var $has_children = null;
+	var $has_medias = null;
 
 	/**
 	 * Class contructor

@@ -223,11 +223,11 @@ class VirtuemartViewUser extends VmView {
 			$vmbtnsec = "btn-secondary";
 		}
 
-		if(ShopFunctionsF::isFEmanager('manage'/*,'category','product','inventory','ratings','custom','calc','manufacturer','orders','report','user'*/) ){
+		if(ShopFunctionsF::isFEmanager() ){
 			$mlnk = JURI::root() . 'index.php?option=com_virtuemart&tmpl=component&manage=1' ;
 			$this->manage_link = $this->linkIcon($mlnk, 'JACTION_MANAGE', 'new', false, false, true, true, 'class="'.$vmbtn.' '.$vmbtnpri.'"');
 		}
-		if(ShopFunctionsF::isFEmanager('product.edit')){
+		if(ShopFunctionsF::isFEmanager(array('product.add','product.edit'))){
 			$aplnk = JURI::root() . 'index.php?option=com_virtuemart&tmpl=component&view=product&view=product&task=edit&virtuemart_product_id=0&manage=1' ;
 			$this->add_product_link = $this->linkIcon($aplnk, 'COM_VIRTUEMART_PRODUCT_ADD_PRODUCT', 'new', false, false, true, true, 'class="'.$vmbtn.' '.$vmbtnpri.'"');
 		}

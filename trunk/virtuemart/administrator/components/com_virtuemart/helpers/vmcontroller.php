@@ -10,7 +10,7 @@ defined ('_JEXEC') or die();
  * @package	VirtueMart
  * @subpackage Helpers
  * @author Max Milbers
- * @copyright Copyright (c) 2011 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2011 - 2019 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -80,7 +80,7 @@ class VmController extends JControllerLegacy{
 
 		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath));
 
-		if(VmConfig::isSite()){
+		if(VmConfig::isSiteByApp()){
 			$view->addTemplatePath(VMPATH_ADMIN.'/views/'.$viewName.'/tmpl');
 		}
 
@@ -181,7 +181,7 @@ class VmController extends JControllerLegacy{
 
 		$redir = $this->redirectPath;
 
-		if( VmConfig::isSite()){
+		if( VmConfig::isSiteByApp()){
 			$redir .= '&tmpl=component';
 		}
 

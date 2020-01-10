@@ -174,10 +174,9 @@ class VirtueMartModelUser extends VmModel {
 
 		if(empty($this->_data->shopper_groups)) $this->_data->shopper_groups = array();
 
-		$site = JFactory::getApplication ()->isSite ();
-		if ($site) {
+		if (VmConfig::isSite()) {
 			$shoppergroupmodel = VmModel::getModel('ShopperGroup');
-			$shoppergroupmodel->appendShopperGroups($this->_data->shopper_groups,$this->_data->JUser,$site);
+			$shoppergroupmodel->appendShopperGroups($this->_data->shopper_groups,$this->_data->JUser,1);
 		}
 
 		if(!empty($this->_id)) {
@@ -928,8 +927,6 @@ class VirtueMartModelUser extends VmModel {
 			}
 		}
 
-		//$admin = JFactory::getApplication()->isClient('administrator');
-
 		if(!empty($data['virtuemart_vendor_user_id']) and (is_array($data['virtuemart_vendor_user_id']) or $data['virtuemart_vendor_user_id']>1) and
 							( 	(empty($data['virtuemart_vendor_id']) and empty($data['user_is_vendor'])) or
 								(!empty($data['virtuemart_vendor_id']) and $data['virtuemart_vendor_id']!=$data['virtuemart_vendor_user_id']) ) ){
@@ -1652,7 +1649,7 @@ class VirtueMartModelUser extends VmModel {
 		if(!empty($whereAnd)){
 			$where .= $whereStr.' ('.implode(' OR ',$whereAnd).')';
 		}
-		$this->setDebugSql(1);
+		//$this->setDebugSql(1);
 		return $this->_data = $this->exeSortSearchListQuery(0,$select,$joinedTables,$where,' GROUP BY ju.id',$this->_getOrdering());
 
 	}

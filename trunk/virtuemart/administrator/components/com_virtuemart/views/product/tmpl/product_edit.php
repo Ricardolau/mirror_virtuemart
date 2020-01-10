@@ -61,7 +61,7 @@ vmJsApi::addJScript( '/administrator/components/com_virtuemart/assets/js/product
 
 $app = JFactory::getApplication();
 $l = 'index.php?option=com_virtuemart&view=product&task=getData&format=json&virtuemart_product_id='.$this->product->virtuemart_product_id;
-if($app->isClient('administrator')){
+if(!VmConfig::isSiteByApp()){
 	$jsonLink = JURI::root(false).'administrator/'.$l;
 } else {
 	$jsonLink = JRoute::_($l);

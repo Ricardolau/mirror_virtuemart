@@ -264,7 +264,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 					if($product->canonCatId) $canonLink = '&virtuemart_category_id='.$product->canonCatId;
 
 					$text = '<a href="'.juri::root().'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id='.$product->virtuemart_product_id.$canonLink.'&Itemid='. $menuItemID .'" target="_blank" >'. $product->product_name.$sku.'<span class="vm2-modallink"></span></a>';
-					if($app->isClient('site')){
+					if(VmConfig::isSiteByApp()){
 						$manEx = '';
 						if(VmConfig::get('previewProductLeaveManager', false)){
 							$manEx = '&manage=0';

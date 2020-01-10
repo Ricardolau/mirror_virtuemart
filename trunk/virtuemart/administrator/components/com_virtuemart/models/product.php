@@ -44,9 +44,7 @@ class VirtueMartModelProduct extends VmModel {
 		$this->starttime = microtime (TRUE);
 		$this->maxScriptTime = VmConfig::getExecutionTime() * 0.99 - 2;
 
-
-		$app = JFactory::getApplication ();
-		if ($app->isSite ()) {
+		if (VmConfig::isSite ()) {
 			$this->_validOrderingFieldName = array();
 			$browseOrderByFields = VmConfig::get ('browse_orderby_fields',array('pc.ordering,product_name','`p`.product_sku','category_name','mf_name'));
 			$this->addvalidOrderingFieldName (array('pc.ordering,product_name'));
@@ -163,7 +161,7 @@ class VirtueMartModelProduct extends VmModel {
 
 		$valid_search_fields = VmConfig::get ('browse_search_fields',array());
 		$task = '';
-		if ($app->isSite () and !vRequest::getInt('manage',false)) {
+		if (VmConfig::isSite()) {
 			$filter_order = vRequest::getString ('orderby', "0");
 
 			if($filter_order == "0"){
@@ -847,7 +845,7 @@ class VirtueMartModelProduct extends VmModel {
 		$limit = (int)$app->getUserStateFromRequest ($limitString, 'limit');
 
 		$limitStartString  = 'com_virtuemart.' . $view . '.limitstart';
-		if ($app->isSite () and ($cateid != -1 or $manid != 0) ) {
+		if (VmConfig::isSite() and ($cateid != -1 or $manid != 0) ) {
 
 			//vmdebug('setPaginationLimits is site and $cateid,$manid ',$cateid,$manid);
 			$lastCatId = ShopFunctionsf::getLastVisitedCategoryId ();
@@ -1498,6 +1496,7 @@ class VirtueMartModelProduct extends VmModel {
 			if(!$res or (empty($product->virtuemart_vendor_id) and empty($product->slug))){
 				self::$_productsSingle[$checkedProductKey[1]] = false;
 				vmError('Could not find product by id', 'Could not find product with id '.$product->virtuemart_product_id.', still existing?');
+				//vmdebug('Product was not found',$product);
 				$pr = $this->fillVoidProduct ($front);
 				return $pr;
 			}
@@ -1879,8 +1878,7 @@ vmSetStartTime('letsUpdateProducts');
 	public function getProductListing ($group = FALSE, $nbrReturnProducts = FALSE, $withCalc = TRUE, $onlyPublished = TRUE, $single = FALSE, $filterCategory = TRUE, $category_id = 0, $filterManufacturer = TRUE, $manufacturer_id = 0) {
 
 		$ids = array();
-		$app = JFactory::getApplication ();
-		if ($app->isSite ()) {
+		if (VmConfig::isSite()) {
 			$front = TRUE;
 			if (!vmAccess::manager()) {
 				$onlyPublished = TRUE;
@@ -1943,8 +1941,7 @@ vmSetStartTime('letsUpdateProducts');
 	 */
 	public function setFilter () {
 
-		$app = JFactory::getApplication ();
-		if (!$app->isSite ()) { //persisted filter only in admin
+		if (!VmConfig::isSite ()) { //persisted filter only in admin
 			$view = vRequest::getCmd ('view');
 			$mainframe = JFactory::getApplication ();
 			$this->virtuemart_category_id = $mainframe->getUserStateFromRequest ('com_virtuemart.' . $view . '.filter.virtuemart_category_id', 'virtuemart_category_id', 0, 'int');
@@ -2361,7 +2358,7 @@ vmSetStartTime('letsUpdateProducts');
 		$product_data->has_prices = (isset($data['mprices']['product_price']) and count($data['mprices']['product_price']) > 0)? 1:0;
 		$product_data->has_shoppergroups = empty($data['virtuemart_shoppergroup_id'])? 0:1;
 		$product_data->has_manufacturers = empty($data['virtuemart_manufacturer_id'])? 0:1;
-		$product_data->has_media = empty($data['virtuemart_media_id'])? 0:1;
+		$product_data->has_medias = empty($data['virtuemart_media_id'])? 0:1;
 		$product_data->has_categories = empty($data['categories'])? 0:1;
 
 		VmConfig::importVMPlugins('vmcustom');
@@ -3246,7 +3243,7 @@ vmdebug('createCloneWithChildren relation',$relation);
 			}
 
 			$app = JFactory::getApplication ();
-			if ($app->isSite () && !VmConfig::get ('use_as_catalog', 0) && VmConfig::get ('stockhandle_products', false)) {
+			if (VmConfig::isSite () && !VmConfig::get ('use_as_catalog', 0) && VmConfig::get ('stockhandle_products', false)) {
 				$product_stockhandle = $this->getProductStockhandle();
 				if ($product_stockhandle->disableit || VmConfig::get ('stockhandle', 'none') == 'disableit') {
 					$q .= ' AND ( CASE
@@ -3255,11 +3252,11 @@ vmdebug('createCloneWithChildren relation',$relation);
 									ELSE 1
 								  END = 1 ) ';
 				}
-			} else if ($app->isSite () && !VmConfig::get ('use_as_catalog', 0) && VmConfig::get ('stockhandle', 'none') == 'disableit') {
+			} else if (VmConfig::isSite () && !VmConfig::get ('use_as_catalog', 0) && VmConfig::get ('stockhandle', 'none') == 'disableit') {
 				$q .= ' AND (p.`product_in_stock` - p.`product_ordered`) > "0" ';
 			}
 
-			if ($app->isSite ()) {
+			if (VmConfig::isSite ()) {
 				$q .= ' AND p.`published`="1"';
 			}
 

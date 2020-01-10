@@ -432,7 +432,7 @@ class VmConfig {
 			$knownLangs = $db->loadColumn();
 			//vmdebug('Selected language '.$selectedLang.' $knownLangs ',$knownLangs);
 
-			if($app->isClient('administrator') and !$redirected and !in_array(vmLanguage::$currLangTag,$knownLangs)){
+			if(!VmConfig::isSiteByApp() and !$redirected and !in_array(vmLanguage::$currLangTag,$knownLangs)){
 				$msg = 'Install your selected language <b>'.vmLanguage::$currLangTag.'</b> in <a href="'.$link.'">joomla language manager</a>';
 				$app->enqueueMessage($msg);
 			}
@@ -442,7 +442,7 @@ class VmConfig {
 				if(!$redirected and !$install){
 					$link = 'index.php?option=com_virtuemart&view=updatesmigration&redirected=1&nosafepathcheck=1';
 
-					if($app->isSite()){
+					if(VmConfig::isSiteByApp()){
 						$link = JUri::root(true).'/administrator/'.$link;
 					} else {
 						if(empty($msg)) $msg = 'COM_VM_INSTALLATION_INFO';
@@ -677,16 +677,28 @@ class VmConfig {
 	}
 
 	static private $isSite = null;
+	static private $siteByApp = null;
+
 	static public function isSite(){
 
 		if(self::$isSite===null){
-			$app = JFactory::getApplication ();
-			if($app->isClient('administrator') or (vRequest::getInt('manage',false) and vmAccess::manager('manage'))){
+			$sess = JFactory::getSession();
+			$manage = vRequest::getInt('manage',$sess->get('manage', false,'vm'));
+			if(!self::isSiteByApp() or ($manage and vmAccess::manager('manage'))){
 				self::$isSite = false;
 			} else {
 				self::$isSite = true;
 			}
 		}
 		return self::$isSite;
+	}
+
+	static function isSiteByApp(){
+		if(vmDefines::$_appId=='site'){
+			self::$siteByApp = true;
+		} else {
+			self::$siteByApp = false;
+		}
+		return self::$siteByApp;
 	}
 }

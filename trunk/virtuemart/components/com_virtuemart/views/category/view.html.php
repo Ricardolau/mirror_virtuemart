@@ -191,7 +191,7 @@ class VirtuemartViewCategory extends VmView {
 		$this->perRow = $this->products_per_row = empty($category->products_per_row)? $menu->params->get($prefix.'products_per_row',$paramNames['products_per_row']):$category->products_per_row;
 
 		$vendorId = $category->virtuemart_vendor_id;
-
+		if(empty($vendorId)) $vendorId = 1; //If we are in the root category, the id is empty
 
 		//No redirect here, for category id = 0 means show ALL categories! note by Max Milbers
 		if ((!empty($this->categoryId) and $this->categoryId!==-1 ) and (empty($category->slug) or !$category->published)) {

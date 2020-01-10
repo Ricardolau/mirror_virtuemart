@@ -51,12 +51,13 @@ class VmViewAdmin extends JViewLegacy {
 			//or $this->canDo->get('core.admin')
 			//or $this->canDo->get('vm.'.$view) ) { //Super administrators always have access
 
-			if(JFactory::getApplication()->isClient('site')){
+			if(VmConfig::isSiteByApp()){
 				$unoverridable = array('category','manufacturer','user');	//This views have the same name and must not be overridable
+				$template = VmTemplate::getDefaultTemplate();
 				if(!in_array($view,$unoverridable)){
-					$template = VmTemplate::getDefaultTemplate();
 					$this->addTemplatePath (VMPATH_ROOT .'/templates/'. $template['template'] .'/html/com_virtuemart/'. $this->_name);
 				}
+				$this->addTemplatePath (VMPATH_ROOT .'/templates/'. $template['template'] .'/html/com_virtuemart/'. $this->_name.'Admin');
 			}
 			if(VmConfig::get('newBackendTemplate')) $this->addTemplatePath (VMPATH_ROOT .'/administrator/templates/vmadmin/html/com_virtuemart/'. $this->_name);
 
@@ -106,7 +107,7 @@ class VmViewAdmin extends JViewLegacy {
 		JToolbarHelper::spacer('2');
 		self::showACLPref($view);
 		self::showHelp ( $showHelp);
-		if(JFactory::getApplication()->isClient('site')){
+		if(VmConfig::isSiteByApp()){
 			$bar = JToolBar::getInstance('toolbar');
 			$bar->appendButton('Link', 'back', 'COM_VIRTUEMART_LEAVE', 'index.php?option=com_virtuemart&manage=0');
 		}
@@ -318,7 +319,7 @@ class VmViewAdmin extends JViewLegacy {
 			$this->langList = '<input name ="vmlang" type="hidden" value="'.$selectedLangue.'" >'.$flagImg.' <b> '.$defautName.'</b>';
 		}
 
-		if(JFactory::getApplication()->isClient('site')){
+		if(VmConfig::isSiteByApp()){
 			$bar = JToolBar::getInstance('toolbar');
 			$bar->appendButton('Link', 'back', 'COM_VIRTUEMART_LEAVE', 'index.php?option=com_virtuemart&manage=0');
 		}
@@ -364,7 +365,7 @@ class VmViewAdmin extends JViewLegacy {
 			<input type="hidden" name="filter_order_Dir" value="'.$this->lists['filter_order_Dir'].'" />';
 		}
 
-		if(vRequest::getInt('manage',false) or JFactory::getApplication()->isClient('site')){
+		if(VmConfig::isSite()){
 			$hidden .='<input type="hidden" name="manage" value="1" />';
 		}
 		return  $hidden.'

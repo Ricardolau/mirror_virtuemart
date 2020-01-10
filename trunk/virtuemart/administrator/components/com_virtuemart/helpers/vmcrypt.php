@@ -301,9 +301,18 @@ class vmCrypt {
 		return ShopFunctions::getSafePathFor(1, self::ENCRYPT_SAFEPATH);
 	}
 
+	/**
+	 * @deprecated
+	 * @param $folderName
+	 * @return bool
+	 */
 	public static function createEncryptFolder ($folderName) {
 		jimport('joomla.filesystem.folder');
 
+		if(empty($folderName) or $folderName == VMPATH_ROOT){
+			vmdebug('Create EncryptFolder $folderName must not be empty or VMPATH_ROOT',$folderName);
+			return false;
+		}
 		//$folderName = self::_getEncryptSafepath ();
 
 		$exists = JFolder::exists ($folderName);

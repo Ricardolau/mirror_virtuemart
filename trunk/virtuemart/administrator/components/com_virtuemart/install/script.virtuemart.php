@@ -368,6 +368,7 @@ class com_virtuemartInstallerScript {
 		$this->deleteOverridenJoomlaFields();
 		$this->updateOldConfigEntries();
 
+		$this->updateCategories();
 		if(JFolder::exists($this->path .'/administrator/templates/vmadmin') and $this->path .'/administrator/templates/vmadmin'!=VMPATH_ROOT .'/administrator/templates/vmadmin'){
 			$this->recurse_copy($this->path .'/administrator/templates/vmadmin',VMPATH_ROOT .'/administrator/templates/vmadmin');
 		}
@@ -387,6 +388,9 @@ class com_virtuemartInstallerScript {
 		$m->setVmLanguages();
 	}
 
+	private function updateCategories(){
+		VirtueMartModelCategory::updateCategories();
+	}
 
 	private function updateOldConfigEntries(){
 

@@ -15,7 +15,13 @@ defined ('_JEXEC') or die();
 
 class vmLanguage {
 
+	/** @var string Joomla Default Site Language Tag */
+	public static $jDefLangTag = '';
+
+	/** @var string Joomla Selected Site Language Tag*/
 	public static $jSelLangTag = false;
+
+	/** @var string Current Selected Virtuemart Language Tag*/
 	public static $currLangTag = false;
 	public static $jLangCount = 1;
 	public static $languages = array();
@@ -60,19 +66,21 @@ class vmLanguage {
 	static public function getShopDefaultSiteLangTagByJoomla(){
 
 		$l= VmConfig::get('vmDefLang','');
-		if(empty($l)) {
-			if (class_exists('JComponentHelper') && (method_exists('JComponentHelper', 'getParams'))) {
-				$params = JComponentHelper::getParams('com_languages');
-				$l = $params->get('site', 'en-GB');
-			} else {
-				$l = 'en-GB';//use default joomla
-				vmError('JComponentHelper not found');
+
+		if (class_exists('JComponentHelper') && (method_exists('JComponentHelper', 'getParams'))) {
+			$params = JComponentHelper::getParams('com_languages');
+			self::$jDefLangTag = $params->get('site', 'en-GB');
+			if(empty($l)) {
+				$l = self::$jDefLangTag;
 			}
+		} else {
+			$l = 'en-GB';//use default joomla
+			vmError('JComponentHelper not found');
 		}
 		return $l;
 	}
 
-	static public function setLanguageByTag($siteLang, $alreadyLoaded = true){
+	static public function setLanguageByTag($siteLang, $alreadyLoaded = true, $jLObjToApp = false){
 
 		if(empty($siteLang)){
 			$siteLang = self::$currLangTag;
@@ -83,7 +91,7 @@ class vmLanguage {
 			}
 		}
 
-		self::setLanguage($siteLang);
+		self::setLanguage($siteLang, $jLObjToApp);
 
 		// this code is uses logic derived from language filter plugin in j3 and should work on most 2.5 versions as well
 		if (class_exists('JLanguageHelper') && (method_exists('JLanguageHelper', 'getLanguages'))) {
@@ -207,7 +215,7 @@ class vmLanguage {
 			}
 			$l .= ' Selected VM language (VmConfig::$vmlang): '.VmConfig::$vmlang.' '.VmConfig::$vmlangTag.' SEF: '.VmConfig::$vmlangSef.' $lfbs = '.VmConfig::get('vm_lfbs',''); ;
 		}
-		vmdebug($l);
+		//vmdebug($l);
 	}
 
 
@@ -217,33 +225,62 @@ class vmLanguage {
 			self::getLanguage($tag);
 		}
 		if(!empty(self::$languages[$tag])) {
+
 			vmText::$language = self::$languages[$tag];
-			//vmdebug('vmText is now set to '.$tag,vmText::$language );
+			self::$currLangTag = $tag;
+
+			//There are plugins working with languages. They rely often on the standard JLanguage, so einjecting our JLanguage Object
+			//can create serious side effects. We may set the argument to true for emails, invoices and similar.
+			$jLObjToApp = VmConfig::get('ReInjectJLanguage', false);
+			if($jLObjToApp){
+				$app = JFactory::getApplication();
+				try{
+					$app->set('language', $tag);
+					JFactory::$language =& self::$languages[$tag];
+
+				} catch (Exception $e) {
+					vmError('Could not set language');
+					return;
+				}
+
+				//@author     Yireo (info@yireo.com)
+				if (method_exists($app, 'loadLanguage')) {
+					$app->loadLanguage(self::$languages[$tag]);
+				}
+
+				//@author     Yireo (info@yireo.com)
+				if (method_exists($app, 'setLanguageFilter')) {
+					$app->setLanguageFilter(true);
+				}
+
+				// Falang override @author     Yireo (info@yireo.com)
+				$registry = JFactory::getConfig();
+				$registry->set('config.defaultlang', self::$jSelLangTag);
+
+				// Falang override @author     Yireo (info@yireo.com)
+				JComponentHelper::getParams('com_languages')
+				->set('site', self::$jSelLangTag);//*/
+			}
+
+			//vmTrace('setLanguage '.$tag, true, 15);	//*/
+		} else {
+			vmError('Could not set language '.$tag);
 		}
-		self::$currLangTag = $tag;
+
 
 	}
-
+	
 	static public function getLanguage($tag = 0){
 
 		if(empty($tag)) {
 			$tag = VmConfig::$vmlangTag;	//When the tag was changed, the jSelLangTag would be wrong
 		}
 
+		//We dont need the case for the standard language, because it is set in the initialise function
 		if(!isset(self::$languages[$tag])) {
-			if($tag == self::$jSelLangTag) {
-				self::$languages[$tag] = JFactory::getLanguage();
-				//vmdebug('loadJLang created $l->getTag '.$tag);
-			} else {
-				self::$languages[$tag] = JLanguage::getInstance($tag, false);
-				//vmdebug('loadJLang created JLanguage::getInstance '.$tag,self::$languages[$tag]);
-			}
-
+			self::$languages[$tag] = JLanguage::getInstance($tag, false);
 		}
 
-		$app = JFactory::getDbo();
-		$app->set('language', self::$languages[$tag]);
-		JFactory::$language = self::$languages[$tag];
 		return self::$languages[$tag];
 	}
 
@@ -349,10 +386,10 @@ class vmLanguage {
 
 	static $cgULF = null;
 
-	static public function getUseLangFallback(){
+	static public function getUseLangFallback($fresh = false){
 
 		//static $cgULF = null;
-		if(self::$cgULF===null){
+		if(self::$cgULF===null or $fresh){
 			if(VmConfig::$langCount>1 and VmConfig::$defaultLang!=VmConfig::$vmlang and !VmConfig::get('prodOnlyWLang',false) ){
 				self::$cgULF = true;
 			} else {
@@ -365,9 +402,9 @@ class vmLanguage {
 
 	static $cgULFS = null;
 
-	static public function getUseLangFallbackSecondary(){
+	static public function getUseLangFallbackSecondary($fresh = false){
 
-		if(self::$cgULFS===null){
+		if(self::$cgULFS===null or $fresh){
 			if(self::getUseLangFallback() and VmConfig::$defaultLang!=VmConfig::$jDefLang and VmConfig::$jDefLang!=VmConfig::$vmlang){
 				self::$cgULFS = true;
 			} else {

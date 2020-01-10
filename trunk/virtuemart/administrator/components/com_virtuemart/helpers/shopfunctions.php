@@ -666,30 +666,28 @@ jQuery(".changeSendForm")
 
 		$categoryModel->_noLimit = TRUE;
 
-		$records = $categoryModel->getCategories ($isSite, $cid,false,'',$vendorId);
-
+		//$records = $categoryModel->getCategories ($isSite, $cid, false, '', $vendorId);
+		$records = $categoryModel->getChildCategoryList($vendorId, $cid );
 		$selected = "";
 		if (!empty($records)) {
 			foreach ($records as $key => $category) {
 
-				$childId = $category->category_child_id;
-
-				if ($childId != $cid) {
-					if (in_array ($childId, $selectedCategories)) {
+				if ($category->virtuemart_category_id != $cid) {
+					if (in_array ($category->virtuemart_category_id, $selectedCategories)) {
 						$selected = 'selected=\"selected\"';
 					} else {
 						$selected = '';
 					}
 
 					$disabled = '';
-					if (in_array ($childId, $disabledFields)) {
+					if (in_array ($category->virtuemart_category_id, $disabledFields)) {
 						$disabled = 'disabled="disabled"';
 					}
 
 					if ($disabled != '' && stristr ($_SERVER['HTTP_USER_AGENT'], 'msie')) {
 						//IE7 suffers from a bug, which makes disabled option fields selectable
 					} else {
-						$categoryTree .= '<option ' . $selected . ' ' . $disabled . ' value="' . $childId . '">';
+						$categoryTree .= '<option ' . $selected . ' ' . $disabled . ' value="' . $category->virtuemart_category_id . '">';
 						$categoryName = $category->category_name;
 						if(VmConfig::get('full_catname_tree',0)) {
 							if (!empty($categoryParentName)) {
@@ -702,8 +700,8 @@ jQuery(".changeSendForm")
 					}
 				}
 
-				if ($categoryModel->hasChildren ($childId)) {
-					self::categoryListTreeLoop ($selectedCategories, $childId, $level, $disabledFields,$isSite, $vendorId, $vmlang, $categoryName);
+				if ($category->has_children) {
+					self::categoryListTreeLoop ($selectedCategories, $category->virtuemart_category_id, $level, $disabledFields,$isSite, $vendorId, $vmlang, $categoryName);
 				}
 
 			}
@@ -1202,6 +1200,7 @@ jQuery(".changeSendForm")
 	static function checkPath($path, $for){
 
 		if(empty($path)) return false;
+		if($path==VMPATH_ROOT) return false;
 
 		if(!JFolder::exists( $path )){
 			$created = JFolder::create( $path, 0755);
@@ -1245,22 +1244,27 @@ jQuery(".changeSendForm")
 	 */
 	static function checkSafePathBase($sPath=0){
 
-		static $safePath = null;
-		if(isset($safePath)) {
-			return $safePath;
+		static $safePathReady = null;
+
+		if(isset($safePathReady) and $sPath==0) {
+			vmdebug('checkSafePathBase return cached '.$safePathReady);
+			return $safePathReady;
 		}
 
 		$safePath = $sPath==0 ? VmConfig::get('forSale_path',0):$sPath;
 
-		if(VmConfig::$installed==false or vRequest::getInt('nosafepathcheck',false) or vRequest::getWord('view')== 'updatesmigration') {
+		if(VmConfig::$installed==false or vRequest::getInt('nosafepathcheck',false) or vRequest::getWord('view')== 'updatesmigration') { vmdebug('checkSafePathBase for not executed'.$safePath);
 			return 0;
 		}
 
 		$safePath = JPath::clean($safePath);
+		if($safePath == VMPATH_ROOT){
+			$safePath = 0;
+			vmdebug('checkSafePathBase JPath::clean result in VMPATH_ROOT return 0');
+		}
 
 		$warn = false;
 		$uri = JFactory::getURI();
-
 
 		if(empty($safePath)){
 			$warn = 'EMPTY';
@@ -1291,6 +1295,8 @@ jQuery(".changeSendForm")
 			}
 
 		}
+		if($sPath==0) $safePathReady = $safePath;
+
 
 		return $safePath;
 	}
@@ -1303,7 +1309,7 @@ jQuery(".changeSendForm")
 	 */
 	static function checkSafePath($sPath=0){
 		static $safePath = null;
-		if(isset($safePath)) {
+		if(isset($safePath) and $sPath==0) {
 			return $safePath;
 		}
 

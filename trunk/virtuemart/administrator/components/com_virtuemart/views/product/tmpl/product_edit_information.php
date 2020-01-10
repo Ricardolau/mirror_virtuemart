@@ -150,7 +150,7 @@ $i=0;
 			    ?>
             </td>
             <td>
-                <select class="inputbox" id="product_canon_category_id" name="product_canon_category_id"  value="<?php echo $this->product->product_canon_category_id ?>"  size="10">
+                <select class="vm-drop" id="product_canon_category_id" name="product_canon_category_id"  value="<?php echo $this->product->product_canon_category_id ?>"  size="10">
                     <option value="">No override</option>
 				    <?php echo $this->categoryTree; ?>
                 </select>

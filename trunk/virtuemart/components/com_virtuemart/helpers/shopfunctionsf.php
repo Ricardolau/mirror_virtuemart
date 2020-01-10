@@ -81,8 +81,9 @@ class shopFunctionsF {
 	}
 
 	static public function isFEmanager ($task = 0) {
-		if(JFactory::getUser()->guest) return false;
-		return vmAccess::manager($task);
+
+        return vmAccess::isFEmanager($task);
+
 	}
 
 	/**
@@ -159,21 +160,7 @@ class shopFunctionsF {
 		$lang = vmLanguage::getLanguage();
 		$prefix="COM_VIRTUEMART_COUNTRY_";
 
-		foreach ($countries as  $country) {
-
-			$country_string = $lang->hasKey($prefix.$country->country_3_code) ?   vmText::_($prefix.$country->country_3_code)  : $country->country_name;
-
-			$ckey = 0;
-			if($country->ordering){
-				$ckey = $country->ordering;
-			} else {
-				$ckey = $country_string;
-			}
-			$countries_list[$ckey] = new stdClass();;
-			$countries_list[$ckey]->{$optKey} = $country->virtuemart_country_id;
-			$countries_list[$ckey]->{$optText} = $country_string;
-		}
-		ksort($countries_list);
+		$countries_list = shopfunctionsF::kSortUmlaut($countries, $prefix, 'country_3_code', 'country_name', $optKey, $optText);
 
 		if ($required != 0) {
 			$attrs['class'] .= ' required';
@@ -196,6 +183,31 @@ class shopFunctionsF {
 
 		return JHtml::_ ('select.genericlist', $countries_list, $name, $attrs, $optKey, $optText, $countryId, $idTag);
 	}
+
+    static function kSortUmlaut($objArray, $prefix, $code, $name, $optKey, $optText){
+
+		$lang = vmLanguage::getLanguage();
+		$aSearch   = array("Ä","ä","Ö","ö","Ü","ü","ß","-");
+		$aReplace  = array("Ae","ae","Oe","oe","Ue","ue","ss"," ");
+		$ret = array();
+		foreach ($objArray as  $obj) {
+			$trValue = $lang->hasKey($prefix.$obj->country_3_code) ?   vmText::_($prefix.$obj->{$code})  : $obj->{$name};
+
+			$ckey = 0;
+			if($obj->ordering){
+				$ckey = $obj->ordering;
+			} else {
+				$ckey = str_replace($aSearch, $aReplace, $trValue);// $country_string;
+			}
+			//vmdebug('we had here '.$ckey,$objArray[$ckey]);
+			$ret[$ckey] = new stdClass();;
+			$ret[$ckey]->{$optKey} = $obj->virtuemart_country_id;
+			$ret[$ckey]->{$optText} = $trValue;
+		}
+
+		ksort($ret);
+		return $ret;
+    }
 
 	/**
 	 * Render a simple state list

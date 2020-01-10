@@ -226,8 +226,8 @@ class calculationHelper {
 			}
 			if(!$this->_shopperGroupId) $this->_shopperGroupId = array();
 			$shoppergroupmodel = VmModel::getModel('ShopperGroup');
-			$site = JFactory::getApplication ()->isSite ();
-			$shoppergroupmodel->appendShopperGroups($this->_shopperGroupId,$user,$site,$vendorId);
+			$onlyPublished = VmConfig::isSite();
+			$shoppergroupmodel->appendShopperGroups($this->_shopperGroupId,$user,$onlyPublished,$vendorId);
 		}
 	}
 
@@ -1253,36 +1253,41 @@ class calculationHelper {
 			}
 
 			$storeHasCategories = false;
-			if(!isset($rule['calc_categories']) and (!isset($rule['has_categories']) or $rule['has_categories'])){
-				$q = 'SELECT `virtuemart_category_id` FROM #__virtuemart_calc_categories WHERE `virtuemart_calc_id`="' . $rule['virtuemart_calc_id'] . '"';
-				$this->_db->setQuery($q);
-				$rule['calc_categories'] = $this->_db->loadColumn();
-				if(!isset($rule['has_categories'])){
-					$storeHasCategories = (int)!empty($rule['calc_categories'] );
-					vmdebug('Store the category "hasCategory"');
+			if(!isset($rule['calc_categories'])){
+				if(!isset($rule['has_categories']) or $rule['has_categories']){
+					$q = 'SELECT `virtuemart_category_id` FROM #__virtuemart_calc_categories WHERE `virtuemart_calc_id`="' . $rule['virtuemart_calc_id'] . '"';
+					$this->_db->setQuery($q);
+					$rule['calc_categories'] = $this->_db->loadColumn();
+					if(!isset($rule['has_categories'])){
+						$storeHasCategories = (int)!empty($rule['calc_categories'] );
+						vmdebug('Store the category "hasCategory"');
+					}
+				} else {
+					$rule['calc_categories'] = false;
 				}
-			} else {
-				$rule['calc_categories'] = false;
 			}
 
 			$hitsCategory = true;
 			if (isset($this->_cats)) {
-				if ($this->_debug) vmdebug('loaded cat rules ',$this->_cats,$rule['calc_categories']);
 				$hitsCategory = $this->testRulePartEffecting($rule['calc_categories'], $this->_cats);
+				if ($this->_debug) vmdebug('loaded cat rules ',(int)$hitsCategory,$this->_cats,$rule['calc_categories']);
 			}
 
 
 			$storeHasShoppergroups = false;
-			if(!isset($rule['virtuemart_shoppergroup_ids']) and (!isset($rule['has_shoppergroups']) or $rule['has_shoppergroups'])){
-				$q = 'SELECT `virtuemart_shoppergroup_id` FROM #__virtuemart_calc_shoppergroups WHERE `virtuemart_calc_id`="' . $rule['virtuemart_calc_id'] . '"';
-				$this->_db->setQuery($q);
-				$rule['virtuemart_shoppergroup_ids'] = $this->_db->loadColumn();
-				if(!$rule['has_shoppergroups']){
-					$storeHasShoppergroups = (int)!empty($rule['virtuemart_shoppergroup_ids'] );
+			if(!isset($rule['virtuemart_shoppergroup_ids'])){
+				if( !isset($rule['has_shoppergroups']) or $rule['has_shoppergroups'] ){
+					$q = 'SELECT `virtuemart_shoppergroup_id` FROM #__virtuemart_calc_shoppergroups WHERE `virtuemart_calc_id`="' . $rule['virtuemart_calc_id'] . '"';
+					$this->_db->setQuery($q);
+					$rule['virtuemart_shoppergroup_ids'] = $this->_db->loadColumn();
+					if(!$rule['has_shoppergroups']){
+						$storeHasShoppergroups = (int)!empty($rule['virtuemart_shoppergroup_ids'] );
+					}
+				} else {
+					$rule['virtuemart_shoppergroup_ids'] = false;
 				}
-			} else {
-				$rule['virtuemart_shoppergroup_ids'] = false;
 			}
+
 
 			$hitsShopper = true;
 			if (isset($this->_shopperGroupId)) {
@@ -1290,27 +1295,31 @@ class calculationHelper {
 			}
 
 			$storeHasCountries = false;
-			if(!isset($rule['calc_countries']) and (!isset($rule['has_countries']) or $rule['has_countries'])){
-				$q = 'SELECT `virtuemart_country_id` FROM #__virtuemart_calc_countries WHERE `virtuemart_calc_id`="' . $rule["virtuemart_calc_id"] . '"';
-				$this->_db->setQuery($q);
-				$rule['calc_countries'] = $this->_db->loadColumn();
-				if(!$rule['has_countries']){
-					$storeHasCountries = (int)!empty($rule['calc_countries'] );
+			if(!isset($rule['calc_countries'])){
+				if(!isset($rule['has_countries']) or $rule['has_countries']){
+					$q = 'SELECT `virtuemart_country_id` FROM #__virtuemart_calc_countries WHERE `virtuemart_calc_id`="' . $rule["virtuemart_calc_id"] . '"';
+					$this->_db->setQuery($q);
+					$rule['calc_countries'] = $this->_db->loadColumn();
+					if(!$rule['has_countries']){
+						$storeHasCountries = (int)!empty($rule['calc_countries'] );
+					}
+				} else {
+					$rule['calc_countries'] = false;
 				}
-			} else {
-				$rule['calc_countries'] = false;
 			}
 
 			$storeHasStates = false;
-			if(!isset($rule['virtuemart_state_ids']) and (!isset($rule['has_states']) or $rule['has_states'])){
-				$q = 'SELECT `virtuemart_state_id` FROM #__virtuemart_calc_states WHERE `virtuemart_calc_id`="' . $rule["virtuemart_calc_id"] . '"';
-				$this->_db->setQuery($q);
-				$rule['virtuemart_state_ids'] = $this->_db->loadColumn();
-				if(!$rule['has_states']){
-					$storeHasStates = (int)!empty($rule['virtuemart_state_ids'] );
+			if(!isset($rule['virtuemart_state_ids'])){
+				if(!isset($rule['has_states']) or $rule['has_states']){
+					$q = 'SELECT `virtuemart_state_id` FROM #__virtuemart_calc_states WHERE `virtuemart_calc_id`="' . $rule["virtuemart_calc_id"] . '"';
+					$this->_db->setQuery($q);
+					$rule['virtuemart_state_ids'] = $this->_db->loadColumn();
+					if(!$rule['has_states']){
+						$storeHasStates = (int)!empty($rule['virtuemart_state_ids'] );
+					}
+				} else {
+					$rule['virtuemart_state_ids'] = false;
 				}
-			} else {
-				$rule['virtuemart_state_ids'] = false;
 			}
 
 			$hitsDeliveryArea = true;
@@ -1329,16 +1338,20 @@ class calculationHelper {
 			}
 
 			$storeHasManufacturers = false;
-			if(!isset($rule['virtuemart_manufacturers']) and (!isset($rule['has_manufacturers']) or $rule['has_manufacturers'])){
-				$q = 'SELECT `virtuemart_manufacturer_id` FROM #__virtuemart_calc_manufacturers WHERE `virtuemart_calc_id`="' . $rule['virtuemart_calc_id'] . '"';
-				$this->_db->setQuery($q);
-				$rule['virtuemart_manufacturers'] = $this->_db->loadColumn();
-				if(!$rule['has_manufacturers']){
-					$storeHasManufacturers = (int)!empty($rule['virtuemart_manufacturers'] );
+			if(!isset($rule['virtuemart_manufacturers'])){
+				if( !isset($rule['has_manufacturers']) or $rule['has_manufacturers']){
+					$q = 'SELECT `virtuemart_manufacturer_id` FROM #__virtuemart_calc_manufacturers WHERE `virtuemart_calc_id`="' . $rule['virtuemart_calc_id'] . '"';
+					$this->_db->setQuery($q);
+					$rule['virtuemart_manufacturers'] = $this->_db->loadColumn();
+					if(!$rule['has_manufacturers']){
+						$storeHasManufacturers = (int)!empty($rule['virtuemart_manufacturers'] );
+					}
+				} else {
+					$rule['virtuemart_manufacturers'] = false;
 				}
-			} else {
-				$rule['virtuemart_manufacturers'] = false;
 			}
+
+
 
 			$hitsManufacturer = true;
 			if (isset($this->_manufacturerId)) {
@@ -1351,7 +1364,7 @@ class calculationHelper {
 
 				$testedRules[$rule['virtuemart_calc_id']] = $rule;
 			} else {
-				if ($this->_debug) vmdebug('plgVmInGatherEffectRulesProduct $hitsCategory '.(int)$hitsCategory.' $hitsShopper'.(int)$hitsShopper.' $hitsDeliveryArea'.(int)$hitsDeliveryArea.' '.(int)$hitsManufacturer,$rule);
+				if ($this->_debug) vmdebug('plgVmInGatherEffectRulesProduct $hitsCategory '.(int)$hitsCategory.' $hitsShopper'.(int)$hitsShopper.' $hitsDeliveryArea'.(int)$hitsDeliveryArea.' '.(int)$hitsManufacturer.' delivery Country',$this->_deliveryCountry,$rule);
 			}
 
 			$this->allrules[$this->productVendorId][$entrypoint][$i] = $rule;
@@ -1794,7 +1807,7 @@ class calculationHelper {
 	 */
 	function testRulePartEffecting($rule, $data) {
 
-		if (!isset($rule))
+		if (empty($rule))
 			return true;
 		if (!isset($data))
 			return false;

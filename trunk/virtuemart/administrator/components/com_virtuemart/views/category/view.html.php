@@ -66,7 +66,9 @@ class VirtuemartViewCategory extends VmViewAdmin {
 				$category->virtuemart_vendor_id = vmAccess::getVendorId();
 			}*/
 
-			$parent = $model->getParentCategory( $category->virtuemart_category_id );
+			$parent = $this->getTable('categories');
+			$parent->load((int) $category->category_parent_id);
+			//$parent = $model->getParentCategory( $category->virtuemart_category_id );
 			$this->assignRef('parent', $parent);
 
 			$this->jTemplateList = ShopFunctions::renderTemplateList(vmText::_('COM_VIRTUEMART_ADMIN_CFG_JOOMLA_TEMPLATE_DEFAULT'));

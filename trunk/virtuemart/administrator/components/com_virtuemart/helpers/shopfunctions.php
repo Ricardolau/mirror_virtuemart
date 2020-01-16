@@ -372,7 +372,10 @@ jQuery(".changeSendForm")
 		if(!$m){
 			return parent::getOptions();
 		}
+
+		$m->_noLimit = true;
 		$values = $m->getShipments();
+		$m->_noLimit = false;
 
 		$options = array();
 

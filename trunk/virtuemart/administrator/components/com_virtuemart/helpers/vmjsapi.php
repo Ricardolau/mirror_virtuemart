@@ -433,7 +433,7 @@ class vmJsApi{
 	}
 
 	static function jSite() {
-		if(VmConfig::isSite() and VmConfig::get ('jsite', TRUE)){
+		if(!VmConfig::isSite() or VmConfig::get ('jsite', TRUE)){
 			self::addJScript('vmsite',false,false);
 		}
 	}

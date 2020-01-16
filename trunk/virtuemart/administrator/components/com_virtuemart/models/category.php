@@ -493,11 +493,11 @@ vmdebug('Found cached cat, but without children');
 		$vendorId = 1;
 		if ($cat_id > 0) {
 			$q = 'SELECT count(`p`.virtuemart_product_id) AS total	
-  FROM `#__virtuemart_product_categories` as `pc`
-  LEFT JOIN `#__virtuemart_products` as `p` ON `pc`.virtuemart_product_id = `p`.virtuemart_product_id
-  WHERE `pc`.`virtuemart_category_id` = "'.(int)$cat_id.'"
-  AND `p`.`virtuemart_vendor_id` = "'.(int)$vendorId.'"
-  AND `p`.`published` = "1" ';
+	  FROM `#__virtuemart_product_categories` as `pc`
+	  LEFT JOIN `#__virtuemart_products` as `p` ON `pc`.virtuemart_product_id = `p`.virtuemart_product_id
+	  WHERE `pc`.`virtuemart_category_id` = "'.(int)$cat_id.'"
+	  AND `p`.`virtuemart_vendor_id` = "'.(int)$vendorId.'"
+	  AND `p`.`published` = "1" ';
 			$db->setQuery($q);
 			$count = $db->loadResult();
 		} else $count=0 ;
@@ -520,12 +520,12 @@ vmdebug('Found cached cat, but without children');
 		$row = $this->getTable('categories');
 		$row->load($id);
 
-		$query = 'SELECT `category_parent_id` FROM `#__virtuemart_category_categories` WHERE `category_child_id` = '. (int)$row->virtuemart_category_id ;
+		/*$query = 'SELECT `category_parent_id` FROM `#__virtuemart_category_categories` WHERE `category_child_id` = '. (int)$row->virtuemart_category_id ;
 		$db = JFactory::getDBO();
 		$db->setQuery($query);
-		$parent = $db->loadObject();
+		$parent = $db->loadObject();*/
 
-		if (!$row->move( $movement, $parent->category_parent_id)) {
+		if (!$row->move( $movement, $row->category_parent_id)) {
 			return false;
 		}
 
@@ -546,8 +546,6 @@ vmdebug('Found cached cat, but without children');
 		$row = $this->getTable('categories');
 
 		$query = 'SELECT `category_parent_id` FROM `#__virtuemart_categories` c
-				  LEFT JOIN `#__virtuemart_category_categories` cx
-				  ON c.`virtuemart_category_id` = cx.`category_child_id`
 			      WHERE c.`virtuemart_category_id` = %s';
 
 		$db = JFactory::getDBO();
@@ -581,6 +579,7 @@ vmdebug('Found cached cat, but without children');
 	/**
 	 * Retrieve the detail record for the parent category of $categoryd
 	 *
+	 * @deprecated
 	 * @author jseros
 	 * @param int $categoryId Child category id
 	 * @return JTable parent category data
@@ -599,6 +598,7 @@ vmdebug('Found cached cat, but without children');
 	/**
 	 * Retrieve category child-parent relation record
 	 *
+	 * @deprecated
 	 * @author jseros
 	 * @param int $virtuemart_category_id
 	 * @return object Record of parent relation

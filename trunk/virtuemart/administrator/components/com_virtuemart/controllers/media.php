@@ -39,15 +39,6 @@ class VirtuemartControllerMedia extends VmController {
 
 	}
 
-
-	/**
-	 * for ajax call media
-	 */
-	function viewJson() {
-		$view = $this->getView('media', 'json');
-		$view->display(null);
-	}
-
 	function save($data = 0){
 
 		$fileModel = VmModel::getModel('media');

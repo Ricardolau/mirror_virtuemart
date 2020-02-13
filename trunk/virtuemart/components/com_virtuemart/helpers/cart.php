@@ -254,7 +254,18 @@ class VirtueMartCart {
 		$stloaded = false;
 		//If the user is logged in and exists, we check if he has already addresses stored
 		if(!empty($this->user->virtuemart_user_id)){
-
+			//quorvia load stored shopper addresses regardless what is in cart
+			if(VmConfig::get( 'alwaysLoadStoredShopperAddress', 0 )) {
+				foreach( $this->user->userInfo as $address ) {
+					if($address->address_type == 'BT') {
+						$this->saveAddressInCart( (array)$address, $address->address_type, FALSE );
+					} else {
+						if(!empty( $this->selected_shipto ) and $address->virtuemart_userinfo_id == $this->selected_shipto) {
+							$this->saveAddressInCart( (array)$address, $address->address_type, FALSE, '' );
+						}
+					}
+				}
+			}
 			$loadBT = true;
 			$countBT = count($this->BT) - count($this->cartfields);
 			vmdebug('my setupAddressFieldsForCart $countBT $this->byDefaultBT',(int)$countBT, (int) count($this->byDefaultBT));
@@ -574,6 +585,13 @@ class VirtueMartCart {
 	public function storeCart($cartDataToStore = false){
 
 		if($this->tempCart) return;
+		//quorvia dont store non completed cart data for reuse on logout based on being in a shoppergroup
+		$quorvia_savecart = VmConfig::get('shoppergroupDontSaveCart', 0 );
+		if ($quorvia_savecart > 0 ){
+			if(!empty($this->user->shopper_groups) AND in_array($quorvia_savecart, $this->user->shopper_groups)) {
+				return;
+			}
+		}
 
 		$adminID = vmAccess::getBgManagerId();
 		$currentUser = JFactory::getUser();
@@ -583,6 +601,8 @@ class VirtueMartCart {
 			if(!$cartDataToStore){
 				$data = $this->getCartDataToStore();
 				unset($data->cartLoaded);
+				unset($data->BT);
+				unset($data->ST);
 				$cartDataToStore = json_encode($data);
 			}
 
@@ -811,11 +831,10 @@ class VirtueMartCart {
 			$product->customfields = $customFieldsModel->getCustomEmbeddedProductCustomFields($product->allIds,0,1);
 			$customProductDataTmp=array();
 
-			// Some customfields may prevent the product being added to the cart
-			$customFiltered = false;
-
 			foreach($product->customfields as $customfield){
 
+				// Some customfields may prevent the product being added to the cart
+				$customFiltered = false;
 
 				$addToCartReturnValues = $dispatcher->trigger('plgVmOnAddToCartFilter',array(&$product, &$customfield, &$customProductData, &$customFiltered));
 				if($customFiltered){
@@ -1277,7 +1296,14 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 
 
 		if(!empty($this->STsameAsBT) or (!$currentUser->guest and empty($this->selected_shipto))){	//Guest
-			$this->ST = $this->BT;
+//			quorvia consider whether the store wants to populate empty ST address with the BT address
+			$populate_empty_ST = VmConfig::get('populateEmptyST', 1 );
+			if($this->_confirmDone or $populate_empty_ST ){ //quorvia added to prevent population of ST address with BT address before the cart is confirmed
+				$this->ST = $this->BT;
+			} else {
+				$this->ST = 0;
+			}
+
 		} else {
 			if ($this->selected_shipto >0 ) {
 				$userModel = VmModel::getModel('user');

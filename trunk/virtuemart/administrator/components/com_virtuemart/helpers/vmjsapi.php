@@ -433,7 +433,7 @@ class vmJsApi{
 	}
 
 	static function jSite() {
-		if(!VmConfig::isSite() or VmConfig::get ('jsite', TRUE)){
+		if(VmConfig::get ('jsite', TRUE) or !VmConfig::isSite()){
 			self::addJScript('vmsite',false,false);
 		}
 	}
@@ -528,7 +528,7 @@ jQuery(document).ready(function($) {
 
 			if(VmConfig::get ('jchosen', 0) or !VmConfig::isSite()){
 				vmJsApi::addJScript('chosen.jquery.min',false,false);
-				vmdebug('chosenDropDowns jchosen or not isSite');
+				//vmdebug('chosenDropDowns jchosen or not isSite');
 				if(VmConfig::isSite()) {
 					vmJsApi::addJScript('vmprices');
 					$selector = 'jQuery("select.vm-chzn-select")';;
@@ -853,7 +853,7 @@ Virtuemart.requiredMsg = '" .addslashes (vmText::_ ('COM_VIRTUEMART_MISSING_REQU
 	jQuery(document).ready(function($) {
 		Virtuemart.emptyCatOpt = '".$emptyOpt."';
 		Virtuemart.param = '".$param."';
-		Virtuemart.isAdmin = '".VmConfig::isSite()."';
+		Virtuemart.isAdmin = '".!VmConfig::isSiteByApp()."';
 		Virtuemart.loadCategoryTree('".$id."');
 	});
 });

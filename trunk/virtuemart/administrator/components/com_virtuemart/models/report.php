@@ -262,6 +262,10 @@ class VirtuemartModelReport extends VmModel {
 			case 'year':
 				$this->intervals = 'YEAR( o.created_on )';
 				break;
+//				quorvia
+			case 'yearmonth':
+				$this->intervals = 'DATE_FORMAT(o.created_on,"%Y-%M")';
+				break;
 			default:
 				break;
 		}
@@ -449,6 +453,11 @@ class VirtuemartModelReport extends VmModel {
 			'name'  => vmText::_ ('COM_VIRTUEMART_REPORT_PERIOD_THIS_YEAR'),
 			'from'  => date ('Y-m-d', mktime (0, 0, 0, 1, 1, date ('Y', $curDate))),
 			'until' => date ('Y-m-d', mktime (0, 0, 0, 12, 31, date ('Y', $curDate))));
+//		quorvia
+		$this->date_presets['last-two-years'] = array(
+			'name'  => vmText::_ ('COM_VIRTUEMART_REPORT_PERIOD_START_LAST_YEARS'),
+			'from'  => date ('Y-m-d', mktime (0, 0, 0, 1, 1, date ('Y', $curDate) -2)),
+			'until' => date ('Y-m-d', $curDate));
 
 	}
 
@@ -481,6 +490,8 @@ class VirtuemartModelReport extends VmModel {
 		$options[] = JHtml::_ ('select.option', vmText::_ ('COM_VIRTUEMART_REPORT_INTERVAL_GROUP_WEEKLY'), 'week');
 		$options[] = JHtml::_ ('select.option', vmText::_ ('COM_VIRTUEMART_REPORT_INTERVAL_GROUP_MONTHLY'), 'month');
 		$options[] = JHtml::_ ('select.option', vmText::_ ('COM_VIRTUEMART_REPORT_INTERVAL_GROUP_YEARLY'), 'year');
+//		quorvia
+		$options[] = JHtml::_ ('select.option', vmText::_ ('COM_VIRTUEMART_REPORT_INTERVAL_GROUP_YEARMONTH'), 'yearmonth');
 		//$listHTML = JHtml::_ ('select.genericlist', $options, 'intervals', 'class="inputbox" onchange="this.form.submit();" size="5"', 'text', 'value', $intervals);
 		$listHTML = JHtml::_ ('select.genericlist', $options, 'intervals', 'class="inputbox" size="6"', 'text', 'value', $intervals);
 		return $listHTML;

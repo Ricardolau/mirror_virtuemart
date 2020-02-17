@@ -913,10 +913,6 @@ class VirtueMartModelUser extends VmModel {
 			$shoppergroupData = array('virtuemart_user_id'=>$this->_id,'virtuemart_shoppergroup_id'=>$data['virtuemart_shoppergroup_id']);
 
 			$res = $user_shoppergroups_table -> bindChecknStore($shoppergroupData);
-			if(!$res){
-				vmError('Set shoppergroup error');
-				$noError = false;
-			}
 
 		}
 
@@ -933,7 +929,7 @@ class VirtueMartModelUser extends VmModel {
 			//$vUserD = array('virtuemart_user_id' => $data['virtuemart_user_id'],'virtuemart_vendor_id' => $data['virtuemart_vendor_user_id']);
 			$vUser = $this->getTable('vendor_users');
 			$vUser->load((int)$data['virtuemart_user_id']);
-			vmdebug('vendor_users load',$vUser);
+
 			$toStore = array('virtuemart_user_id'=>$data['virtuemart_user_id']);
 			if(!$vUser->virtuemart_vendor_user_id){
 				$arr = (array) $data['virtuemart_vendor_user_id'];
@@ -1473,7 +1469,7 @@ class VirtueMartModelUser extends VmModel {
 	 *
 	 * @return boolean True is the remove was successful, false otherwise.
 	 */
-	function remove($userIds) {
+	function remove($userIds, $deleteJUser = true) {
 
 		if(vmAccess::manager('user.delete')){
 			$_status = true;
@@ -1519,7 +1515,7 @@ class VirtueMartModelUser extends VmModel {
 						continue;
 					}
 
-					if (!$_JUser->delete()) {
+					if ($deleteJUser and !$_JUser->delete()) {
 						vmError($_JUser->getError());
 						$_status = false;
 						continue;

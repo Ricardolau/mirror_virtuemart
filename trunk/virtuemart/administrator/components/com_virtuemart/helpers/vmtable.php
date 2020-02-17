@@ -1019,8 +1019,17 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		//the cast to int here destroyed the query for keys like virtuemart_userinfo_id, so no cast on $oid
 		// $query = $select.$from.' WHERE '. $mainTable .'.`'.$this->_tbl_key.'` = "'.$oid.'"';
 		if ($andWhere === 0) $andWhere = '';
-		$query = $select . $from . ' WHERE `' . $mainTable . '`.`' . $k . '` = "' . $oid . '" ' . $andWhere;
 
+
+		if($this->_translatable and in_array($k,$this->_translatableFields)){
+			$whereTable = $langTable;
+		} else {
+			$whereTable = $mainTable;
+		}
+
+		$query = $select . $from . ' WHERE `' . $whereTable . '`.`' . $k . '` = "' . $oid . '" ' . $andWhere;
+	//	VmConfig::$echoDebug = 1;
+//vmdebug('Muh',$query); die;
 		//We dont need the $hashVarsToPush in the has, because the parameteres are later bind to it.
 		$this->_lhash = $this->getHash($oid. $select . $k . $mainTable . $andWhere /*. $hashVarsToPush*/);
 
@@ -1408,7 +1417,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			//$user = JFactory::getUser();
 			//$loggedVendorId = vmAccess::isSuperVendor($user->id);
 			$loggedVendorId = vmAccess::isSuperVendor();
-			vmdebug('Table '.$this->_tbl.' check '.$loggedVendorId);
+			//vmdebug('Table '.$this->_tbl.' check $loggedVendorId '.$loggedVendorId);
 			$user_is_vendor = 0;
 			$tbl_key = $this->_tbl_key;
 			$className = get_class($this);
@@ -1819,7 +1828,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		}
 
 		if ($ok) {
-			if (!$this->store($this->_updateNulls)) {
+			if (!$this->store($this->_updateNulls) and $this->_db->getErrorMsg()) {
 				$ok = false;
 				$msg .= ' store';
 				vmdebug('Problem in store ' . get_class($this) . ' ' . $this->_db->getErrorMsg());

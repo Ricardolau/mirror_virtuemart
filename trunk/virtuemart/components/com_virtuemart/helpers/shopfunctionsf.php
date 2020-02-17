@@ -849,15 +849,6 @@ class shopFunctionsF {
 			}
 		}
 
-		$mediaToSend = array();
-		if(isset($view->mediaToSend)) {
-			foreach( (array)$view->mediaToSend as $media ) {
-				$mailer->addAttachment( $media );
-			}
-			$mediaToSend = $view->mediaToSend;
-			$view->mediaToSend = array();
-		}
-
 		// set proper sender
 		$sender = array();
 		if(!empty($view->vendorEmail) and VmConfig::get( 'useVendorEmail', 0 )) {
@@ -873,14 +864,26 @@ class shopFunctionsF {
 				$sender = array( $config->get( 'mailfrom' ), $config->get( 'fromname' ) );
 			}
 		}
-		$mailer->setSender( $sender );
 
 		$mailer->setSender($sender);
+
+		$mediaToSend = array();
+		if(isset($view->mediaToSend)) {
+			foreach( (array)$view->mediaToSend as $media ) {
+				$mailer->addAttachment( $media );
+			}
+			$mediaToSend = $view->mediaToSend;
+			$view->mediaToSend = array();
+		}
+
+		$dispatcher = JDispatcher::getInstance();
+		$dispatcher->trigger('plgVmOnSendVmEmail',array(&$view,&$mailer,$noVendorMail));
+
 		$debug_email = VmConfig::get('debug_mail', false);
 		if (VmConfig::get('debug_mail', false) == '1') {
 			$debug_email = 'debug_email';
-
 		}
+
 		if ($debug_email) {
 			if (!is_array($recipient)) {
 				$recipient = array($recipient);

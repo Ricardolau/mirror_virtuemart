@@ -228,7 +228,7 @@ function toggleType( sType ) {
 		default:
 			//pluginistraxx_euvatchecker
 <?php if(!$this->userField->virtuemart_userfield_id) : ?>
-			jQuery('#fieldPluginBody').load( 'index.php?option=com_virtuemart&view=userfields&task=viewJson&format=json&field='+sType , function() { jQuery(this).find("[title]").vm2admin('tips',tip_image) });
+			jQuery('#fieldPluginBody').load( 'index.php?option=com_virtuemart&view=userfields&format=json&field='+sType , function() { jQuery(this).find("[title]").vm2admin('tips',tip_image) });
 <?php endif; ?>
 			if (sType.substring(0,6) == "plugin") jQuery('#divPlugin').slideDown();
 		break;

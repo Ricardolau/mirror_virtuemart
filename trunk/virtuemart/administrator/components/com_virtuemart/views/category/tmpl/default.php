@@ -139,7 +139,7 @@ AdminUIHelper::startAdminArea($this);
 			}
 			$repeat = $cat->level;
 
-			if($repeat > 1){
+			if($repeat > 0){
 				$categoryLevel = str_repeat(".&nbsp;&nbsp;&nbsp;", $repeat - 1);
 				$categoryLevel .= "<sup>|_</sup>&nbsp;";
 			}

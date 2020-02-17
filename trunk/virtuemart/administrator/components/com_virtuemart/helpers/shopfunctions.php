@@ -370,7 +370,7 @@ jQuery(".changeSendForm")
 
 		$m = VmModel::getModel('shipmentmethod');
 		if(!$m){
-			return parent::getOptions();
+			return false;
 		}
 
 		$m->_noLimit = true;
@@ -382,17 +382,10 @@ jQuery(".changeSendForm")
 		$lvalue = 'virtuemart_shipmentmethod_id';
 		$ltext = 'shipment_name';
 
-		$lvalue = 'virtuemart_shipmentmethod_id';
-		$ltext = 'shipment_name';
-
 		foreach ($values as $v) {
 			$options[] = JHtml::_('select.option', $v->{$lvalue}, $v->{$ltext});
 		}
 
-		// Merge any additional options in the XML definition.
-		//$options = array_merge(parent::getOptions(), $options);
-
-		//if(!is_array($this->value))$this->value = array($this->value);
 		$name = $idTag = 'virtuemart_shipmentmethod_ids';
 		$attrs['multiple'] = 'multiple';
 		$name .= '[]';
@@ -444,6 +437,10 @@ jQuery(".changeSendForm")
 	static function renderWeightUnitList ($name, $selected) {
 
 		$weight_unit_default = self::getWeightUnit ();
+
+		//In case a unit got stored, which is not in the default list, we add the unit here, else we would lose the information
+		if ((!empty($selected)) && (!in_array($selected, $weight_unit_default))) $weight_unit_default[$selected] = $selected;
+
 		foreach ($weight_unit_default as  $key => $value) {
 			$wu_list[] = JHtml::_ ('select.option', $key, $value, $name);
 		}
@@ -456,8 +453,10 @@ jQuery(".changeSendForm")
 
 		$weight_unit_default = explode(',',VmConfig::get('norm_units', 'KG,100G,M,SM,CUBM,L,100ML,P'));
 
+		if ((!empty($selected)) && (!in_array($selected, $weight_unit_default))) $weight_unit_default[] = $selected;
+
 		foreach ($weight_unit_default as  $value) {
-			$wu_list[] = JHtml::_ ('select.option', strtoupper(trim($value)), vmText::_('COM_VIRTUEMART_UNIT_SYMBOL_'.strtoupper(trim($value))), $name);
+			$wu_list[] = JHtml::_ ('select.option', trim($value), vmText::_('COM_VIRTUEMART_UNIT_SYMBOL_'.strtoupper(trim($value))), $name);
 		}
 		$listHTML = JHtml::_ ('Select.genericlist', $wu_list, $name, '', $name, 'text', $selected);
 		return $listHTML;
@@ -657,7 +656,7 @@ jQuery(".changeSendForm")
 	 * @return string 	$category_tree HTML: Category tree list
 	 */
 	static public function categoryListTreeLoop ($selectedCategories = array(), $cid = 0, $level = 0, $disabledFields = array(), $isSite, $vendorId, $vmlang,$categoryParentName='') {
-
+		vmSetStartTime('categoryListTreeLoop');
 		static $categoryTree = '';
 		if($level==0) {
 			$categoryTree = '';
@@ -709,7 +708,7 @@ jQuery(".changeSendForm")
 
 			}
 		}
-
+		vmTime('categoryListTreeLoop','categoryListTreeLoop');
 		return $categoryTree;
 	}
 

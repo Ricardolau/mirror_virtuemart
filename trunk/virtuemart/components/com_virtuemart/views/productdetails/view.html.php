@@ -408,11 +408,16 @@ class VirtueMartViewProductdetails extends VmView {
 				$category->category_template = VmConfig::get('categorytemplate');
 			}
 
-			shopFunctionsF::setVmTemplate($this, $category->category_template, 0, $category->category_product_layout, $product->layout);
+			if(vRequest::getCmd( 'layout', 'default' )=='notify') $this->setLayout('notify'); //Added by Seyi Awofadeju to catch notify layout
+
+			$layout = $this->getLayout();
+			if ( ($layout === 'default' || empty($layout)) and !empty($product->layout) ) {
+				$layout = $product->layout;
+			}
+			shopFunctionsF::setVmTemplate($this, $category->category_template, 0, $category->category_product_layout, $layout);
 
 			VirtueMartModelProduct::addProductToRecent($virtuemart_product_id);
 
-			if(vRequest::getCmd( 'layout', 'default' )=='notify') $this->setLayout('notify'); //Added by Seyi Awofadeju to catch notify layout
 			vmLanguage::loadJLang('com_virtuemart');
 
 			vmJsApi::chosenDropDowns();

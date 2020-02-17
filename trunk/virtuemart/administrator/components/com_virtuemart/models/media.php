@@ -420,7 +420,7 @@ LEFT JOIN #__virtuemart_vendor_medias as vm ON pm.virtuemart_media_id = m.virtue
 
 		$table->bind($data);
 
-		// Bind the form fields to the country table
+		// Bind the media to the product
 		return  $table->bindChecknStore($data);
 
 		//return $table->virtuemart_media_id;

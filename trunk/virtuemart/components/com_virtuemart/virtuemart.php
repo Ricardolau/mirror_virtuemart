@@ -29,12 +29,12 @@ vmSetStartTime('vmStart');
 
 vmLanguage::loadJLang('com_virtuemart', true);
 
-$_controller = vRequest::getCmd('view', vRequest::getCmd('controller', 'virtuemart')) ;
+$_controller = vRequest::getCmd('view', vRequest::getCmd('controller', 'category')) ;
 $task = vRequest::getCmd('task','') ;
 
-if(VmConfig::get('shop_is_offline',0) and $task!='feed' and $_controller!='virtuemart'){	//yes, quickndirty
-	$_controller = 'virtuemart';
-	vRequest::setVar('view', 'virtuemart');
+if(VmConfig::get('shop_is_offline',0) and $task!='feed' and $_controller!='category'){	//yes, quickndirty
+	$_controller = 'category';
+	vRequest::setVar('view', 'category');
 	$task='';
 	$basePath = VMPATH_SITE;
 } else {

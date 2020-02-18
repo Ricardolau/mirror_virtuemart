@@ -227,13 +227,10 @@ class VirtuemartViewCategory extends VmView {
 
 
 		if(!empty($this->keyword) or $this->showsearch){
-			vmSetStartTime('getSearchCustom');
-			//$customfields = vRequest::getString('customfields');
+			//vmSetStartTime('getSearchCustom');
 
-
-			vmTime('getSearchCustom after setUserState','getSearchCustom');
 			$this->getSearchCustom();
-			vmTime('getSearchCustom End','getSearchCustom');
+			//vmTime('getSearchCustom End','getSearchCustom');
 			$this->searchAllCats = $app->getUserStateFromRequest('com_virtuemart.customfields.searchAllCats','searchAllCats',false);
 			//$app->setUserState('com_virtuemart.customfields.searchAllCats',$f);
 		}

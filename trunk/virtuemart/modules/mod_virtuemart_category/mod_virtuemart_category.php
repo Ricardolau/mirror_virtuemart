@@ -40,9 +40,10 @@ $level = (int)$params->get('level','2');
 $media = (int)$params->get('media', 0);
 
 $categories = array();
-VirtueMartModelCategory::rekurseCategories($vendorId, $category_id, $categories, $level, 0, true, '', 'c.ordering, category_name', 'ASC', true);
-//vmdebug('my categories',$categories);
-
+vmSetStartTime('categories');
+VirtueMartModelCategory::rekurseCategories($vendorId, $category_id, $categories, $level, 0, 0,true, '', 'c.ordering, category_name', 'ASC', true);
+vmTime('my categories module time','categories');
+//vmdebug('my categories in category module',$categories);
 $categoryModel->categoryRecursed = 0;
 $parentCategories = $categoryModel->getCategoryRecurse($active_category_id,0);
 

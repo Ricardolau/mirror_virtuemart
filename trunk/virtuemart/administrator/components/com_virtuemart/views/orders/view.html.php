@@ -56,7 +56,10 @@ class VirtuemartViewOrders extends VmViewAdmin {
 
 			$_orderID = $order['details']['BT']->virtuemart_order_id;
 			$orderbt = $order['details']['BT'];
-			$orderst = $order['details']['ST'];//(array_key_exists('ST', $order['details'])) ? $order['details']['ST'] : $orderbt;
+//			quorvia consider whether the store wants to populate empty ST address with the BT address
+			if (($order['details']['has_ST'] == true OR VmConfig::get('populateEmptyST', 1 ) == 1) and isset($order['details']['ST']) ) {
+				$orderst = $order['details']['ST'];
+			}
 			$invM = VmModel::getModel('invoice');
 			$orderbt ->invoiceNumbers = $invM->getInvoiceNumbers($orderbt->virtuemart_order_id);
 

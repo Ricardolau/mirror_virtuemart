@@ -769,7 +769,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_paymentmethods` (
   PRIMARY KEY (`virtuemart_paymentmethod_id`),
 	KEY `payment_jplugin_id` (`payment_jplugin_id`),
 	KEY `virtuemart_vendor_id` (`virtuemart_vendor_id`),
-	KEY `payment_element` (payment_element,`virtuemart_vendor_id`),
+	KEY `payment_element` (`payment_element`,`virtuemart_vendor_id`),
 	KEY `ordering` (`ordering`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='The payment methods of your store' AUTO_INCREMENT=1 ;
 
@@ -911,6 +911,9 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_product_customfields` (
   `locked_by` int(1) UNSIGNED NOT NULL DEFAULT '0',
   `ordering` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`virtuemart_customfield_id`),
+  UNIQUE KEY `unique_custf_prd_value` (`virtuemart_customfield_id`,`virtuemart_product_id`,`virtuemart_custom_id`,`customfield_value`(50)),
+  KEY `unique_cust_prd_value` (`virtuemart_custom_id`,`virtuemart_product_id`,`customfield_value`(50)),
+  KEY `customfield_value` (`customfield_value`(50)),
   KEY `virtuemart_product_id` (`virtuemart_product_id`,`ordering`),
   KEY `virtuemart_custom_id` (`virtuemart_custom_id`),
   KEY `published` (`published`),
@@ -1084,7 +1087,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_shipmentmethods` (
   `locked_by` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`virtuemart_shipmentmethod_id`),
 	KEY `shipment_jplugin_id` (`shipment_jplugin_id`),
-	KEY `shipment_element` (shipment_element,`virtuemart_vendor_id`),
+	KEY `shipment_element` (`shipment_element`,`virtuemart_vendor_id`),
 	KEY `ordering` (`ordering`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Shipment created from the shipment plugins' AUTO_INCREMENT=1 ;
 

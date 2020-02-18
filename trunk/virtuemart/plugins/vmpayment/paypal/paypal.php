@@ -1400,7 +1400,7 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 			return true;
 		}
 
-		$withMsg = $cart->_redirect or $cart->inConfirm;
+		$withMsg = $cart->_redirect or $cart->_inConfirm;
 		if (!$paypalInterface->validate($withMsg)) {
 			return false;
 		}

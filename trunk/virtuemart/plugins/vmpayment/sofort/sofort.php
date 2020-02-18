@@ -651,7 +651,7 @@ class plgVmPaymentSofort extends vmPSPlugin {
 			}
 		}
 		$htmla = array();
-		$html = '';
+
 		vmLanguage::loadJLang('com_virtuemart');
 		$currency = CurrencyDisplay::getInstance();
 		foreach ($this->methods as $this->_currentMethod) {
@@ -669,7 +669,7 @@ class plgVmPaymentSofort extends vmPSPlugin {
 				} else {
 					$checked = '';
 				}
-				$html .= $this->renderByLayout('display_payment', array(
+				$html = $this->renderByLayout('display_payment', array(
 				                                                       'plugin' => $this->_currentMethod,
 				                                                       'checked' => $checked,
 				                                                       'payment_logo' => $logo,

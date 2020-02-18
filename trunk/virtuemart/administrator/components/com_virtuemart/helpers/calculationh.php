@@ -372,9 +372,9 @@ class calculationHelper {
 		$this->rules['Marge'] = $this->gatherEffectingRulesForProductPrice('Marge', $this->product_marge_id);
 
 		$this->productPrices['costPrice'] = $costPrice;
-		$basePriceShopCurrency = $this->roundInternal($this->_currencyDisplay->convertCurrencyTo((int) $this->productCurrency, $costPrice,true));
-		//vmdebug('my pure $basePriceShopCurrency',$costPrice,$this->productCurrency,$basePriceShopCurrency);
-		$basePriceMargin = $this->roundInternal($this->executeCalculation($this->rules['Marge'], $basePriceShopCurrency));
+		$basePriceShopCurrency = $this->roundInternal($this->_currencyDisplay->convertCurrencyTo((int) $this->productCurrency, $costPrice,true),'basePrice');
+
+		$basePriceMargin = $this->roundInternal($this->executeCalculation($this->rules['Marge'], $basePriceShopCurrency),'basePrice');
 		$this->basePrice = $basePriceShopCurrency = $this->productPrices['basePrice'] = !empty($basePriceMargin) ? $basePriceMargin : $basePriceShopCurrency;
 
 		if (!empty($variant)) {
@@ -1788,11 +1788,12 @@ class calculationHelper {
 
 		if(!$this->_roundindig and $name!==0){
 			if(isset($this->_currencyDisplay->_priceConfig[$name][1])){
-				//vmdebug('roundInternal rounding use '.$this->_currencyDisplay->_priceConfig[$name][1].' digits');
+				//vmdebug('roundInternal rounding '.$name.' use '.$this->_currencyDisplay->_priceConfig[$name][1].' digits');
 				return round($value,$this->_currencyDisplay->_priceConfig[$name][1]);
 			} else {
-				vmdebug('roundInternal rounding not found for '.$name,$this->_currencyDisplay->_priceConfig[$name]);
-				return round($value, $this->_internalDigits);
+				//vmdebug('roundInternal rounding not found for '.$name.' use salesPrice');
+				return round($value, $this->_currencyDisplay->_priceConfig['salesPrice'][1]);
+
 			}
 		} else {
 			return round($value, $this->_internalDigits);

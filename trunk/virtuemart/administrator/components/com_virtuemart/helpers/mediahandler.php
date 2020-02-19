@@ -161,9 +161,7 @@ class VmMediaHandler {
 	 */
 	static public function createMedia($table,$type='',$file_mimetype=''){
 
-		$extension = strtolower(JFile::getExt($table->file_url));
-
-		$isImage = self::isImage($extension);
+		$isImage = self::isImage($table->file_url);
 
 		if($isImage){
 			$media = new VmImage();
@@ -352,14 +350,16 @@ class VmMediaHandler {
 	 * @param string $file_mimetype
 	 * @param string $file_extension
 	 */
-	static private function isImage($file_extension=0){
+	static private function isImage($file_url){
+
+		$file_extension = strtolower(JFile::getExt($file_url));
 
 		if($file_extension == 'jpg' || $file_extension == 'jpeg' || $file_extension == 'png' || $file_extension == 'gif'){
 			$isImage = TRUE;
 
 		} else {
 			$isImage = FALSE;
-			vmTrace('is no image '.$file_extension);
+			vmTrace('is no image '.$file_url);
 		}
 
 		return $isImage;
@@ -934,11 +934,11 @@ class VmMediaHandler {
 		$this->addMediaAction(0,'COM_VIRTUEMART_NONE');
 
 		$view = vRequest::getCmd('view');
-		if($view!='media' or empty($this->file_name) or $this->noImageSet){
+		if($view!='media' or empty($this->virtuemart_media_id) /*or $this->noImageSet*/){
 			$this->addMediaAction('upload','COM_VIRTUEMART_FORM_MEDIA_UPLOAD');
 		}
 
-		if(!empty($this->file_name) and !$this->noImageSet){
+		if(!empty($this->virtuemart_media_id) or (!empty($this->file_name) and !$this->noImageSet)){
 			$this->addMediaAction('replace','COM_VIRTUEMART_FORM_MEDIA_UPLOAD_REPLACE');
 			$this->addMediaAction('replace_thumb','COM_VIRTUEMART_FORM_MEDIA_UPLOAD_REPLACE_THUMB');
 		}
@@ -1037,7 +1037,7 @@ class VmMediaHandler {
 
 		$j = 'if (typeof Virtuemart === "undefined")
 	var Virtuemart = {};
-	Virtuemart.medialink = "'. JURI::root(false) .'administrator/index.php?option=com_virtuemart&view=media&task=viewJson&format=json&mediatype='.$type.'";';
+	Virtuemart.medialink = "'. vmURI::createUrlWithPrefix('index.php?option=com_virtuemart&view=media&format=json&mediatype='.$type) .'";';
 		$j .= "jQuery(document).ready(function(){ jQuery('#ImagesContainer').vmmedia('media','".$type."','0') }); " ;
 		vmJsApi::addJScript('mediahandler.vars',$j);
 		vmJsApi::addJScript('mediahandler');

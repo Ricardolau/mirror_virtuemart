@@ -2133,7 +2133,7 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 		}
 
 		// Check for the minimum and maximum quantities
-		$min = $product->min_order_level;
+		$min = (int)$product->min_order_level;
 		if ($min != 0 && $quantity < $min){
 			$quantity = $min;
 			$product->errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_MIN_ORDER', $min, $product->product_name);
@@ -2141,18 +2141,51 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 			if (!$checkForDisable) return false;
 		}
 
-		$max = $product->max_order_level;
+		
+
+		$step = $product->step_order_level;
+		
+		$max = (int)$product->max_order_level;
+		
+		
+		
+		if ($step != 0 && ($quantity%$step)!= 0) {
+			/* 
+				stAn - with step quantity we have these options: 
+				- we raise it by default to next step
+				- the next step may not be valid against max_order_level (set quantity=0)
+				- so we lower it to previous step
+				- which may not be valid against min_order_level  (set quantity=0)
+				- or previous step is smaller than 0   (set quantity=0)
+				
+				stAn get next value - example:
+				q=500, step=3 => 500 - (2) + 3 = 501 
+			*/
+			
+			$quantity = $quantity - ($quantity%$step) + $step;
+			if ((!empty($product->max_order_level)) && ($quantity > (int)$product->max_order_level)) {
+				//get previous step quantity and have it validated by next section: 
+				$quantity = $quantity - $step; 
+				if ($quantity < 0) $quantity = 0; 
+				if ($quantity < (int)$product->min_order_level) {
+					$quantity = 0; 
+				}
+			}
+
+			$product->errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_STEP_ORDER', $step);
+			vmWarn($product->errorMsg);
+			if (!$checkForDisable) return false;
+			
+			/*stAn, next step is larger than max_order_level and previous step is smaller then zero OR smaller then min_order_level*/
+			if (empty($quantity)) {
+				return false; //stAn - can we really return false for invalid value ?
+			}
+		}
+		
+		
 		if ($max != 0 && $quantity > $max) {
 			$quantity = $max;
 			$product->errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_MAX_ORDER', $max, $product->product_name);
-			vmWarn($product->errorMsg);
-			if (!$checkForDisable) return false;
-		}
-
-		$step = $product->step_order_level;
-		if ($step != 0 && ($quantity%$step)!= 0) {
-			$quantity = $quantity + ($quantity%$step);
-			$product->errorMsg = vmText::sprintf('COM_VIRTUEMART_CART_STEP_ORDER', $step);
 			vmWarn($product->errorMsg);
 			if (!$checkForDisable) return false;
 		}

@@ -106,6 +106,14 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		$this->setRedirect($this->redirectPath, $msg);
 	}
 
+	function reset_Has_x_Fields(){
+
+		$model = $this->getModel('updatesMigration');
+		$model->reset_Has_x_Fields();
+
+		$this->setRedirect($this->redirectPath, 'COM_VM_HASX_FIELDS_RESET');
+	}
+
 	/**
 	 * Install sample data into the database
 	 *

@@ -728,6 +728,23 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 
 	}
 
+	public function reset_Has_x_Fields(){
+
+		$db = JFactory::getDbo();
+
+		$q = 'UPDATE #__virtuemart_calcs SET `has_categories`=NULL,`has_shoppergroups`=NULL,`has_countries`=NULL,`has_manufacturers`=NULL, `has_states`=NULL';
+		$db->setQuery($q);
+		$db->execute();
+
+		$q = 'UPDATE #__virtuemart_categories SET `has_children`=NULL,`has_medias`=NULL';
+		$db->setQuery($q);
+		$db->execute();
+
+		$q = 'UPDATE #__virtuemart_products SET `has_categories`=NULL,`has_shoppergroups`=NULL,`has_medias`=NULL,`has_manufacturers`=NULL, `has_prices`=NULL';
+		$db->setQuery($q);
+		$db->execute();
+
+	}
 }
 
 //pure php no tag

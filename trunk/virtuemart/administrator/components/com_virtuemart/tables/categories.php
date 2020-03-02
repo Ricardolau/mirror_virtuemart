@@ -98,8 +98,9 @@ class TableCategories extends VmTable {
 					'showproducts' => array('','int'),
 					'omitLoaded' => array('','int'),
 					'showsearch' => array('','int'),
-					'productsublayout' => array('','int'),
-				/*	'products_per_row' => array('','int'),*/
+					'productsublayout' => array('','char'),
+					/*'categorylayout' => array('','char'),
+					'productlayout' => array('','char'),*/
 					'featured' => array('','int'),
 					'featured_rows' => array('','int'),
 					'omitLoaded_featured' => array('','int'),

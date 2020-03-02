@@ -880,20 +880,7 @@ class VmModel extends vObject{
 				$count = 0;
 			}
 			$this->_total = $count;
-			if($limitStart>=$count){
-				if(empty($limit)){
-					$limit = 1.0;
-				}
-				$limitStart = floor($count/$limit);
-				$db->setQuery($q,$limitStart,$limit);
-				if($object == 2){
-					$this->ids = $db->loadColumn();
-				} else if($object == 1 ){
-					$this->ids = $db->loadAssocList();
-				} else {
-					$this->ids = $db->loadObjectList();
-				}
-			}
+
 		} else {
 			$this->_withCount = true;
 		}

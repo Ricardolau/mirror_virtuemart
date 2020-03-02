@@ -91,6 +91,7 @@ class VirtueMartModelCustomfields extends VmModel {
 			//vmTrace('Empty product ids in getCustomEmbeddedProductCustomFields? '.implode(',', $productIds));
 			return false;
 		}
+
 		$app = JFactory::getApplication();
 		$db= JFactory::getDBO ();
 		$q = VirtueMartModelCustomfields::getProductCustomSelectFieldList();
@@ -102,6 +103,7 @@ class VirtueMartModelCustomfields extends VmModel {
 		} else {
 			$cartattribute = 1;
 		}
+
 		$productIdsOrig = $productIds;
 		$productCustomsCached = array();
 		foreach($productIds as $k=>$productId){
@@ -296,7 +298,10 @@ class VirtueMartModelCustomfields extends VmModel {
 
 	private function renderProductChildLine($i,$line,$field,$productModel,$row,$showSku){
 
+		if(empty($line['vm_product_id'])) return 'empty vm_product_id';
 		$child = $productModel->getProductSingle($line['vm_product_id'],false);
+		if(!$child) return 'Could not find product with id '.$line['vm_product_id'];
+
 		$readonly = '';
 		$classBox = 'class="inputbox"';
 		if($line['parent_id'] == $line['vm_product_id']){

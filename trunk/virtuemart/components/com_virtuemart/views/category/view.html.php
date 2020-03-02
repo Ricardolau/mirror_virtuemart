@@ -384,7 +384,7 @@ class VirtuemartViewCategory extends VmView {
 		}
 
 
-		shopFunctionsF::setVmTemplate($this,$category->category_template,0,$category->category_layout);
+		VmTemplate::setVmTemplate($this,$category->category_template,0,$category->category_layout);
 
 
 		$customtitle = '';

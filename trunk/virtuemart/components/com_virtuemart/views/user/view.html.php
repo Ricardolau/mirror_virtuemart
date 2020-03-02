@@ -240,7 +240,7 @@ class VirtuemartViewUser extends VmView {
 		$this->assignRef('corefield_title', $corefield_title);
 		$this->assignRef('vmfield_title', $vmfield_title);
 
-		shopFunctionsF::setVmTemplate($this, 0, 0, $layoutName);
+		VmTemplate::setVmTemplate($this, 0, 0, $layoutName);
 
 		$this->captcha = shopFunctionsF::renderCaptcha();
 

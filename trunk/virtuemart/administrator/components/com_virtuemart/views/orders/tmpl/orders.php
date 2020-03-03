@@ -112,7 +112,14 @@ $styleDateCol = 'style="width:5%;min-width:110px"';
 				<!-- Payment method -->
 				<td><?php echo $order->payment_method; ?></td>
 				<!-- Shipment method -->
-				<td><?php echo $order->shipment_method; ?></td>
+<!--				quorvia-->
+				<?php $shipmentcolorStyle = '';
+				if (!empty($this->shipmentColors[$order->virtuemart_shipmentmethod_id])) {
+					$shipmentcolorStyle = "background-color:" . $this->shipmentColors[$order->virtuemart_shipmentmethod_id];
+				}
+				?>
+				<td style="<?php echo $shipmentcolorStyle ?>">
+				<?php echo $order->shipment_method; ?></td>
 				<!-- Print view -->
 				<?php
 					$this->createPrintLinks($order,$print_link,$deliverynote_link,$invoice_link);

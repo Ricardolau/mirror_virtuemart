@@ -115,25 +115,8 @@ class VirtuemartViewShipmentmethod extends VmViewAdmin {
 
 		parent::display($tpl);
 	}
-	function getParams($raw) {
 
-		if (!empty($raw)) {
-			$params = explode('|', substr($raw, 0,-1));
-			foreach($params as $param){
-				$item = explode('=',$param);
-				if(!empty($item[1])){
-					$pair[$item[0]] = str_replace('"','', $item[1]);
-				} else {
-					$pair[$item[0]] ='';
-				}
-
-			}
-		}
-		return $pair;
-	}
-
-	function renderInstalledShipmentPlugins($selected)
-	{
+	function renderInstalledShipmentPlugins($selected) {
 		$db = JFactory::getDBO();
 
 		$table = '#__extensions';

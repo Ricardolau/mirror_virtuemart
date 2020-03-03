@@ -98,6 +98,7 @@ class calculationHelper {
 
 		//round only with internal digits
 		$this->_roundindig = VmConfig::get('roundindig',FALSE);
+		$this->optimisedCalcSql = VmConfig::get('optimisedCalcSql',true);
 	}
 
 	static public function getInstance($vendorId = 1, $countryId = 0, $stateId = 0) {
@@ -1254,7 +1255,7 @@ class calculationHelper {
 
 			$storeHasCategories = false;
 			if(!isset($rule['calc_categories'])){
-				if(!isset($rule['has_categories']) or $rule['has_categories']){
+				if(!isset($rule['has_categories']) or $rule['has_categories'] or !$this->optimisedCalcSql ){
 					$q = 'SELECT `virtuemart_category_id` FROM #__virtuemart_calc_categories WHERE `virtuemart_calc_id`="' . $rule['virtuemart_calc_id'] . '"';
 					$this->_db->setQuery($q);
 					$rule['calc_categories'] = $this->_db->loadColumn();
@@ -1276,7 +1277,7 @@ class calculationHelper {
 
 			$storeHasShoppergroups = false;
 			if(!isset($rule['virtuemart_shoppergroup_ids'])){
-				if( !isset($rule['has_shoppergroups']) or $rule['has_shoppergroups'] ){
+				if( !isset($rule['has_shoppergroups']) or $rule['has_shoppergroups'] or !$this->optimisedCalcSql ){
 					$q = 'SELECT `virtuemart_shoppergroup_id` FROM #__virtuemart_calc_shoppergroups WHERE `virtuemart_calc_id`="' . $rule['virtuemart_calc_id'] . '"';
 					$this->_db->setQuery($q);
 					$rule['virtuemart_shoppergroup_ids'] = $this->_db->loadColumn();
@@ -1296,7 +1297,7 @@ class calculationHelper {
 
 			$storeHasCountries = false;
 			if(!isset($rule['calc_countries'])){
-				if(!isset($rule['has_countries']) or $rule['has_countries']){
+				if(!isset($rule['has_countries']) or $rule['has_countries']  or !$this->optimisedCalcSql){
 					$q = 'SELECT `virtuemart_country_id` FROM #__virtuemart_calc_countries WHERE `virtuemart_calc_id`="' . $rule["virtuemart_calc_id"] . '"';
 					$this->_db->setQuery($q);
 					$rule['calc_countries'] = $this->_db->loadColumn();
@@ -1310,7 +1311,7 @@ class calculationHelper {
 
 			$storeHasStates = false;
 			if(!isset($rule['virtuemart_state_ids'])){
-				if(!isset($rule['has_states']) or $rule['has_states']){
+				if(!isset($rule['has_states']) or $rule['has_states'] or !$this->optimisedCalcSql){
 					$q = 'SELECT `virtuemart_state_id` FROM #__virtuemart_calc_states WHERE `virtuemart_calc_id`="' . $rule["virtuemart_calc_id"] . '"';
 					$this->_db->setQuery($q);
 					$rule['virtuemart_state_ids'] = $this->_db->loadColumn();
@@ -1339,7 +1340,7 @@ class calculationHelper {
 
 			$storeHasManufacturers = false;
 			if(!isset($rule['virtuemart_manufacturers'])){
-				if( !isset($rule['has_manufacturers']) or $rule['has_manufacturers']){
+				if( !isset($rule['has_manufacturers']) or $rule['has_manufacturers'] or !$this->optimisedCalcSql ){
 					$q = 'SELECT `virtuemart_manufacturer_id` FROM #__virtuemart_calc_manufacturers WHERE `virtuemart_calc_id`="' . $rule['virtuemart_calc_id'] . '"';
 					$this->_db->setQuery($q);
 					$rule['virtuemart_manufacturers'] = $this->_db->loadColumn();
@@ -1368,6 +1369,8 @@ class calculationHelper {
 			}
 
 			$this->allrules[$this->productVendorId][$entrypoint][$i] = $rule;
+
+			if(!$this->optimisedCalcSql) continue;
 
 			if($storeHasShoppergroups!==false or $storeHasManufacturers!==false or $storeHasCategories!==false or $storeHasCountries!==false or $storeHasStates!==false) {
 

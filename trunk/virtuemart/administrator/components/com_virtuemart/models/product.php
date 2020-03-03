@@ -204,7 +204,7 @@ class VirtueMartModelProduct extends VmModel {
 					$this->searchcustoms = vRequest::filter($this->searchcustoms,FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
 
 			}
-			vmdebug('$this->searchcustoms vRequest::filter',$this->searchcustoms);
+			//vmdebug('$this->searchcustoms vRequest::filter',$this->searchcustoms);
 		}
 		else {
 			$task = vRequest::getCmd('task','');
@@ -1041,7 +1041,7 @@ class VirtueMartModelProduct extends VmModel {
 	 */
 	public function getProduct ($virtuemart_product_id = NULL, $front = TRUE, $withCalc = TRUE, $onlyPublished = TRUE, $quantity = 1,$virtuemart_shoppergroup_ids = 0) {
 
-		//vmSetStartTime('getProduct');
+		vmSetStartTime('getProduct');
 		if (isset($virtuemart_product_id)) {
 			$virtuemart_product_id = $this->setId ($virtuemart_product_id);
 		}
@@ -1062,7 +1062,7 @@ class VirtueMartModelProduct extends VmModel {
 			$virtuemart_shoppergroup_ids = self::getCurrentUserShopperGrps();
 		}
 
-		$checkedProductKey= self::checkIfCached($virtuemart_product_id, $front, $withCalc, $onlyPublished, $quantity, $virtuemart_shoppergroup_ids,$this->withRating);
+		$checkedProductKey = self::checkIfCached($virtuemart_product_id, $front, $withCalc, $onlyPublished, $quantity, $virtuemart_shoppergroup_ids,$this->withRating);
 		if($checkedProductKey[0]){
 
 			if(self::$_products[$checkedProductKey[1]]===false){
@@ -1088,7 +1088,7 @@ class VirtueMartModelProduct extends VmModel {
 
 		if (!$child->published && $onlyPublished) {
 			self::$_products[$productKey] = false;
-			vmTime('getProduct return false, not published','getProduct');
+			vmTime('getProduct return false, not published '.$virtuemart_product_id,'getProduct');
 			return FALSE;
 		}
 
@@ -1101,7 +1101,11 @@ class VirtueMartModelProduct extends VmModel {
 		$published = $child->published;
 
 		$child->product_realparent_id = $child->product_parent_id;
-		if(!empty($pId)) $child->allIds[] = $pId;
+		if(!empty($pId)){
+			$child->allIds[] = $pId;
+		} else {
+			vmdebug('getProduct $pId empty ',$virtuemart_product_id,$pId);
+		}
 
 		$i = 0;
 		$runtime = microtime (TRUE) - $this->starttime;
@@ -1174,7 +1178,7 @@ class VirtueMartModelProduct extends VmModel {
 		$customfieldsModel = VmModel::getModel ('Customfields');
 		$child->modificatorSum = null;
 		if(!empty($child->allIds)){
-			$child->customfields = $customfieldsModel->getCustomEmbeddedProductCustomFields ($child->allIds,0,-1, true, $child->product_realparent_id);
+			$child->customfields = $customfieldsModel->getCustomEmbeddedProductCustomFields ($child->allIds,0,-1, FALSE);
 		} else {
 			vmTrace('Empty product allIds in getProduct? '. $virtuemart_product_id);
 		}
@@ -1257,7 +1261,7 @@ class VirtueMartModelProduct extends VmModel {
 		if(!self::$_products[$productKey]){
 			return false;
 		} else {
-			//vmdebug('getProduct fresh',$child);
+			//vmdebug('getProduct fresh',$child->customfields);
 			//vmTime('getProduct loaded ','getProduct');
 			return $child;//clone(self::$_products[$productKey]);
 		}
@@ -1492,19 +1496,29 @@ class VirtueMartModelProduct extends VmModel {
 		if (!empty($this->_id)) {
 
 			$product = $this->getTable ('products');
+
 			$res = $product->load ($this->_id, 0, 0);
+
 			if(!$res or (empty($product->virtuemart_vendor_id) and empty($product->slug))){
+
 				self::$_productsSingle[$checkedProductKey[1]] = false;
-				vmError('Could not find product by id', 'Could not find product with id '.$product->virtuemart_product_id.', still existing?');
+				if(empty($product->slug)){
+					vmError('Could not find product by language', 'Could not find product with id '.$product->virtuemart_product_id.', entries exists for language? '.VmLanguage::$currLangTag);
+				} else {
+					vmError('Could not find product by id', 'Could not find product with id '.$product->virtuemart_product_id.', still existing?');
+				}
+
 				//vmdebug('Product was not found',$product);
 				$pr = $this->fillVoidProduct ($front);
 				return $pr;
 			}
+
+			$optimised = VmConfig::get('optimisedProductSql', true);
 			$product->allIds = array();
 
 			$storeHasMedias = false;
 			$product->virtuemart_media_id = false;
-			if(!isset($product->has_medias) or $product->has_medias){
+			if(!$optimised or !isset($product->has_medias) or $product->has_medias){
 				$xrefTable = $this->getTable ('product_medias');
 				$product->virtuemart_media_id = $xrefTable->load ((int)$this->_id);
 				//vmdebug('getProductSingle loaded media',$product->has_medias);
@@ -1515,7 +1529,7 @@ class VirtueMartModelProduct extends VmModel {
 
 			// Load the shoppers the product is available to for Custom Shopper Visibility
 			$storeHasShoppergroups = false;
-			if(!isset($product->has_shoppergroups) or $product->has_shoppergroups){
+			if(!$optimised or !isset($product->has_shoppergroups) or $product->has_shoppergroups){
 				$product->shoppergroups = $this->getTable('product_shoppergroups')->load($this->_id);
 				//vmdebug('getProductSingle loaded product_shoppergroups', $storeHasShoppergroups);
 				if(!isset($product->has_shoppergroups)){
@@ -1546,7 +1560,7 @@ class VirtueMartModelProduct extends VmModel {
 			}
 
 			$storeHasManufacturers = false;
-			if(!isset($product->has_manufacturers) or $product->has_manufacturers){
+			if(!$optimised or !isset($product->has_manufacturers) or $product->has_manufacturers){
 				$product->virtuemart_manufacturer_id = $this->getTable('product_manufacturers')->load($this->_id);
 				//vmdebug('getProductSingle loaded product_manufacturers',$product->has_manufacturers);
 				if(!isset($product->has_manufacturers)){
@@ -1569,7 +1583,7 @@ class VirtueMartModelProduct extends VmModel {
 
 			// Load the categories the product is in
 			$storeHasCategories = false;
-			if(!isset($product->has_categories) or $product->has_categories){
+			if(!$optimised or !isset($product->has_categories) or $product->has_categories){
 				$product->categoryItem = $this->getProductCategories ($this->_id); //We need also the unpublished categories, else the calculation rules do not work
 				//vmdebug('getProductSingle loaded categories',$product->has_medias);
 				if(!isset($product->has_categories)){
@@ -1579,7 +1593,7 @@ class VirtueMartModelProduct extends VmModel {
 
 
 
-			if($storeHasMedias!==false or $storeHasShoppergroups!==false or $storeHasManufacturers!==false or $storeHasCategories!==false or $storeHasPrices!==false){
+			if($optimised and ($storeHasMedias!==false or $storeHasShoppergroups!==false or $storeHasManufacturers!==false or $storeHasCategories!==false or $storeHasPrices!==false)){
 
 
 				$q = '';
@@ -1628,7 +1642,7 @@ vmSetStartTime('letsUpdateProducts');
 						if (!empty($product->product_canon_category_id)  && $category['virtuemart_category_id'] == $product->product_canon_category_id ){
 							$product->canonCatId = $product->product_canon_category_id;
 							$product->canonCatIdname = $category['category_name'];
-							vmdebug('Canon cat found');
+							//vmdebug('Canon cat found');
 						}
 						$public_cats[] = $category['virtuemart_category_id'];
 					}
@@ -2323,10 +2337,6 @@ vmSetStartTime('letsUpdateProducts');
 			}
 		}
 
-		if($ven->force_product_pattern>0 and empty($data['product_parent_id'])){
-			$data['product_parent_id'] = $ven->force_product_pattern;
-		}
-
 		if(!vmAccess::manager('product.edit.state')){
 			if( (empty($data['virtuemart_product_id']) or empty($product_data->virtuemart_product_id))){
 				$data['published'] = 0;
@@ -2349,17 +2359,29 @@ vmSetStartTime('letsUpdateProducts');
 			}
 		}
 
+		if($ven->force_product_pattern>0 and empty($data['product_parent_id']) and $ven->force_product_pattern!=$data['virtuemart_product_id']){
+			$data['product_parent_id'] = $ven->force_product_pattern;
+		}
+
 		//We prevent with this line, that someone is storing a product as its own parent
-		if(!empty($product_data->product_parent_id) and $product_data->product_parent_id == $data['virtuemart_product_id']){
-			$product_data->product_parent_id = 0;
-			unset($data['product_parent_id']);
+		if(!empty($data['product_parent_id']) and !empty($data['virtuemart_product_id']) and $data['product_parent_id'] == $data['virtuemart_product_id']){
+			$data['product_parent_id'] = 0;
 		}
 
 		$product_data->has_prices = (isset($data['mprices']['product_price']) and count($data['mprices']['product_price']) > 0)? 1:0;
-		$product_data->has_shoppergroups = empty($data['virtuemart_shoppergroup_id'])? 0:1;
-		$product_data->has_manufacturers = empty($data['virtuemart_manufacturer_id'])? 0:1;
-		$product_data->has_medias = empty($data['virtuemart_media_id'])? 0:1;
-		$product_data->has_categories = empty($data['categories'])? 0:1;
+
+		if (!$isChild) {
+			$product_data->has_shoppergroups = empty($data['virtuemart_shoppergroup_id'])? 0:1;
+			$product_data->has_manufacturers = empty($data['virtuemart_manufacturer_id'])? 0:1;
+			//$product_data->has_medias = !empty($data['virtuemart_media_id']) or !empty($data['media']['virtuemart_media_id'])? 1:0;
+			$product_data->has_categories = empty($data['categories'])? 0:1;
+			if(!empty($data['virtuemart_media_id']) or !empty($data['media']['virtuemart_media_id']) or !empty($data['media']['media_action'])){
+				$product_data->has_medias = 1;
+			} else {
+				$product_data->has_medias = 0;
+			}
+		}
+
 
 		VmConfig::importVMPlugins('vmcustom');
 		$dispatcher = JDispatcher::getInstance();
@@ -2532,7 +2554,6 @@ vmSetStartTime('letsUpdateProducts');
 			}
 
 			// Update waiting list
-			//TODO what is this doing?
 			if (!empty($data['notify_users'])) {
 				if ($data['product_in_stock'] > 0 && $data['notify_users'] == '1') {
 					$waitinglist = VmModel::getModel ('Waitinglist');

@@ -137,7 +137,9 @@ defined('_JEXEC') or die('Restricted access');?>
 			// 				'all'	=> vmText::_('COM_VIRTUEMART_ADMIN_CFG_ENABLE_DEBUG_ALL')
 		);
 		echo VmHTML::row('radiolist','COM_VIRTUEMART_CFG_MULTIX_CART','multixcart',VmConfig::get('multixcart',0), $optMultiX);
-
+		echo VmHTML::row('checkbox','COM_VM_USE_OPTIMISED_PRODUCT_SQL','optimisedProductSql',VmConfig::get('optimisedProductSql',1));
+		echo VmHTML::row('checkbox','COM_VM_USE_OPTIMISED_CALC_SQL','optimisedCalcSql',VmConfig::get('optimisedCalcSql',1));
+		echo VmHTML::row('checkbox','COM_VM_USE_OPTIMISED_CAT_SQL','optimisedCatSql',VmConfig::get('optimisedCatSql',1));
 		?>
 
 	</table>

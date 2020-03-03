@@ -43,6 +43,7 @@ abstract class vmPSPlugin extends vmPlugin {
 	}
 
 	static public function addVarsToPushCore(&$varsToPush, $payment=1){
+
 		$varsToPush['categories'] = array('','char');
 		$varsToPush['blocking_categories'] = array('','char');
 		$varsToPush['countries'] = array('','char');

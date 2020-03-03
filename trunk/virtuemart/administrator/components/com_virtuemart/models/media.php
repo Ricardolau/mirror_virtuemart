@@ -418,7 +418,7 @@ LEFT JOIN #__virtuemart_vendor_medias as vm ON pm.virtuemart_media_id = m.virtue
 		//set the relations
 		$table = $this->getTable($type.'_medias');
 
-		$table->bind($data);
+		$table->bind($data); //There was a special reason for the double bind?
 
 		// Bind the media to the product
 		return  $table->bindChecknStore($data);

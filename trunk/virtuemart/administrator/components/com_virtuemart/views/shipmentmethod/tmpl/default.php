@@ -69,9 +69,15 @@ AdminUIHelper::startAdminArea($this);
 			if(empty($row->shipment_name)){
 				$row->shipment_name = vmText::sprintf('COM_VM_TRANSLATION_MISSING','virtuemart_shipment_id',$row->virtuemart_shipmentmethod_id);
 			}
+
+//			quorvia display shipment method color style
+			$colorStyle = '';
+			if (!empty($row->display_color)) {
+				$colorStyle = 'style="background-color:' . $row->display_color.'"';
+			}
 	?>
 			<tr class="row<?php echo $k; ?>">
-				<td class="admin-checkbox">
+				<td class="admin-checkbox" <?php echo $colorStyle ?>>
 					<?php echo $checked; ?>
 				</td>
 				<td align="left">

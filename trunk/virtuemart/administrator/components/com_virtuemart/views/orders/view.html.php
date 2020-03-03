@@ -234,11 +234,21 @@ class VirtuemartViewOrders extends VmViewAdmin {
 			$orderslist = $model->getOrdersList();
 
 			$this->assignRef('orderstatuses', $orderStates);
-			$orderStatesColors=array();
+			$this->orderStatesColors=array();
 			foreach($orderStates as $orderState) {
-				$orderStatesColors[$orderState->order_status_code]=$orderState->order_status_color;
+				$this->orderStatesColors[$orderState->order_status_code]=$orderState->order_status_color;
 			}
-			$this->assignRef('orderStatesColors', $orderStatesColors);
+
+
+			// quorvia added for display colors
+			$shipmentMethodModel=VmModel::getModel('shipmentmethod');
+			$shipmentMethods = $shipmentMethodModel->getShipments(false);
+			$this->shipmentColors=array();
+			foreach($shipmentMethods as $shipmentMethod) {
+				if (!empty($shipmentMethod->display_color)) {
+					$this->shipmentColors[$shipmentMethod->virtuemart_shipmentmethod_id] = $shipmentMethod->display_color;
+				}
+			}
 
 			$this->lists['vendors']='';
 			if($this->showVendors()){
@@ -381,4 +391,3 @@ class VirtuemartViewOrders extends VmViewAdmin {
 		$invoice_links=implode(' ', $invoice_links_array);
 	}
 }
-

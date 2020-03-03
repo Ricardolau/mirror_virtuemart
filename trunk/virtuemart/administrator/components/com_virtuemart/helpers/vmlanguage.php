@@ -269,7 +269,7 @@ class vmLanguage {
 
 
 	}
-	
+
 	static public function getLanguage($tag = 0){
 
 		if(empty($tag)) {

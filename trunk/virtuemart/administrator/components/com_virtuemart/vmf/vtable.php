@@ -229,9 +229,9 @@ abstract class vTable extends vBasicModel implements vITable {
 		}
 
 		if (is_object($data)) {
-			$data->$tblKey = !empty($this->$tblKey) ? $this->$tblKey : 0;
+			$data->$tblKey = !empty($this->{$tblKey}) ? $this->{$tblKey} : 0;
 		} else {
-			$data[$tblKey] = !empty($this->$tblKey) ? $this->$tblKey : 0;
+			$data[$tblKey] = !empty($this->{$tblKey}) ? $this->{$tblKey} : 0;
 		}
 
 		// 		vmdebug('bindChecknStore '.get_class($this).' '.$this->_db->getErrorMsg());

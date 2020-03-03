@@ -78,8 +78,8 @@ class VirtuemartViewReport extends VmViewAdmin {
 		$orderstatusM =VmModel::getModel('orderstatus');
 		$this->lists['select_date'] = $model->renderDateSelectList();
 
-//		$orderstates = vRequest::getVar ('order_status_code', VmConfig::get('revenue_report_statuses', array('C','S'));
 
+		$orderstates = vRequest::getVar ('order_status_code', VmConfig::get('revenue_report_statuses', array('C','S') ));
 		$this->lists['state_list'] = $orderstatusM->renderOSList($orderstates,'order_status_code',TRUE);
 		$this->lists['intervals'] = $model->renderIntervalsList();
 		$this->from_period = $model->from_period;

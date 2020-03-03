@@ -1631,7 +1631,7 @@ class VirtueMartModelUser extends VmModel {
 			if ($this->searchTable=='vendors') {
 				$whereAnd[] = ' vmu.virtuemart_vendor_id > 1 or (vmu.user_is_vendor>0 and vmu.virtuemart_vendor_id != "1")  ';
 			} else if ($this->searchTable=='shoppers') {
-				$whereAnd[] = ' vmu.user_is_vendor==0  ';
+				$whereAnd[] = ' vmu.user_is_vendor = 0  ';
 			}
 
 		}

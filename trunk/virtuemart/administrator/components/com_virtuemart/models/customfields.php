@@ -652,7 +652,7 @@ class VirtueMartModelCustomfields extends VmModel {
 ";
 				vmJsApi::addJScript('cvSort',$jsCsort);
 
-				vmdebug('Get child ids for ',$product_id,$childIds,$field);
+				//vmdebug('Get child ids for ',$product_id,$childIds,$field);
 				return $html;
 				// 					return 'Automatic Childvariant creation (later you can choose here attributes to show, now product name) </td><td>';
 				break;

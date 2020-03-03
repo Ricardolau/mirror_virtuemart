@@ -43,6 +43,12 @@ class VmView extends JViewLegacy{
 			$this->setLayout($bs.'-'.$l);
 			vmdebug('my layout here ',$bs.$l);
 		}
+
+		if(!VmConfig::get('useLayoutOverrides',1)){
+			//we just add the default again, so it is first in queque
+			$this->addTemplatePath(VMPATH_ROOT .'/components/com_virtuemart/views/'.$this->_name.'/tmpl');
+		}
+
 		$result = $this->loadTemplate($tpl);
 		if ($result instanceof Exception) {
 			return $result;
@@ -108,7 +114,7 @@ class VmView extends JViewLegacy{
 		$tP = VMPATH_ROOT .'/templates/'. $template .'/html/com_virtuemart/sublayouts/'. $name .'.php';
 		$nP = VMPATH_SITE .'/sublayouts/'. $name . '.php';
 
-		if (JFile::exists ($tP)) {
+		if (VmConfig::get('useLayoutOverrides',1) and JFile::exists ($tP)) {
 			return $tP;
 		} else if (JFile::exists ($nP)) {
 			return $nP;

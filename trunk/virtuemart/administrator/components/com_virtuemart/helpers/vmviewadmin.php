@@ -41,20 +41,18 @@ class VmViewAdmin extends JViewLegacy {
 	* Override the display function to include ACL
 	* Redirect to the control panel when user does not have access
 	*/
-	public function display($tpl = null)
-	{
-		$view = vRequest::getCmd('view', vRequest::getCmd('controller','virtuemart'));
+	public function display($tpl = null) {
 
-		if ($view == 'virtuemart' //Virtuemart view is always allowed since this is the page we redirect to in case the user does not have the rights
-		or $view == 'about' //About view always displayed
-		or $this->manager($view) ) {
+		if ($this->_name == 'virtuemart' //Virtuemart view is always allowed since this is the page we redirect to in case the user does not have the rights
+		or $this->_name == 'about' //About view always displayed
+		or $this->manager($this->_name) ) {
 			//or $this->canDo->get('core.admin')
 			//or $this->canDo->get('vm.'.$view) ) { //Super administrators always have access
 
-			if(VmConfig::isSiteByApp()){
+			if(VmConfig::get('useLayoutOverrides',1) and VmConfig::isSiteByApp()){
 				$unoverridable = array('category','manufacturer','user');	//This views have the same name and must not be overridable
 				$template = VmTemplate::getDefaultTemplate();
-				if(!in_array($view,$unoverridable)){
+				if(!in_array($this->_name,$unoverridable)){
 					$this->addTemplatePath (VMPATH_ROOT .'/templates/'. $template['template'] .'/html/com_virtuemart/'. $this->_name);
 				}
 				$this->addTemplatePath (VMPATH_ROOT .'/templates/'. $template['template'] .'/html/com_virtuemart/'. $this->_name.'Admin');

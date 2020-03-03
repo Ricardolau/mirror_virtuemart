@@ -736,7 +736,7 @@ class shopFunctionsF {
 
 		$template = VmTemplate::loadVmTemplateStyle();
 		VmTemplate::setTemplate($template);
-		if($template){
+		if($template and VmConfig::get('useLayoutOverrides',1)){
 			if(is_array($template) and isset($template['template'])){
 				$view->addTemplatePath( VMPATH_ROOT .'/templates/'.$template['template'].'/html/com_virtuemart/'.$viewName );
 			} else {

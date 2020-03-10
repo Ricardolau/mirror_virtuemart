@@ -129,9 +129,11 @@ class VirtueMartCustomFieldRenderer {
 						$selectType = 'select.radiolist';
 						$class = '';
 						$dom = '';
+						$idTagK = VmHtml::ensureUniqueId($idTag.'cvard'.$k);
 					} else {
 						vmJsApi::chosenDropDowns();
 						$dom = 'select';
+						$idTagK = '[';	//Joomla workaround to get a list without id
 					}
 
 					$attribs = array('class'=>$class.' cvselection no-vm-bind','style'=>'min-width:70px;');
@@ -186,7 +188,7 @@ class VirtueMartCustomFieldRenderer {
 						if(empty($selected)){
 							$product->orderable=false;
 						}
-						//$idTagK = $idTag.'cvard'.$k;
+
 						if($customfield->showlabels){
 							if( in_array($soption->voption,VirtueMartModelCustomfields::$dimensions) ){
 								$soption->slabel = vmText::_('COM_VIRTUEMART_'.strtoupper($soption->voption));
@@ -198,7 +200,7 @@ class VirtueMartCustomFieldRenderer {
 							}
 
 						}
-						$idTagK = '[';	//Joomla workaround to get a list without id
+
 						$attribs['data-cvsel'] = 'field' . $customfield->virtuemart_customfield_id ;
 						$fname = $fieldname.'['.$k.']';
 						$html .= JHtml::_ ($selectType, $options, $fname, $attribs , "value", "text", $selected,$idTagK);

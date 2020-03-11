@@ -199,21 +199,17 @@ vmdebug('Found cached cat, but without children');
 		//$key = (int)$vendorId.'_'.(int)$virtuemart_category_id.$selectedOrdering.$orderDir.VmLanguage::$currLangTag ;
 		//We have here our internal key to preven calling of the cache
 		//if (! array_key_exists ($key,$_childCategoryList)){
-			vmSetStartTime('com_virtuemart_cat_childs');
+		vmSetStartTime('com_virtuemart_cat_childs');
 
-			if($useCache){
-				$cache = VmConfig::getCache('com_virtuemart_cat_childs','callback');
-				$cache->setCaching(true);
-				//vmdebug('Calling cache getChildCategoryListObject');
-				return  $cache->call( array( 'VirtueMartModelCategory', 'getChildCategoryListObject' ),$vendorId, $virtuemart_category_id, false, $onlyPublished, true, '', $selectedOrdering, $orderDir, 0, 0);
-			} else {
-				return  VirtueMartModelCategory::getChildCategoryListObject($vendorId, $virtuemart_category_id, false, $onlyPublished, true, '', $selectedOrdering, $orderDir, 0, 0);
-			}
+		if($useCache){
+			$cache = VmConfig::getCache('com_virtuemart_cat_childs','callback');
+			$cache->setCaching(true);
+			vmdebug('Calling cache getChildCategoryListObject');
+			return  $cache->call( array( 'VirtueMartModelCategory', 'getChildCategoryListObject' ),$vendorId, $virtuemart_category_id, false, $onlyPublished, true, '', $selectedOrdering, $orderDir, 0, 0);
+		} else {
+			return  VirtueMartModelCategory::getChildCategoryListObject($vendorId, $virtuemart_category_id, false, $onlyPublished, true, '', $selectedOrdering, $orderDir, 0, 0);
+		}
 
-			//vmTime('Time to load cats '.(int)$useCache,'com_virtuemart_cat_childs');
-		//}
-
-		return $_childCategoryList[$key];
 	}
 
 	/**
@@ -255,7 +251,17 @@ vmdebug('Found cached cat, but without children');
 		if($childId){
 			$where[]= ' c.`virtuemart_category_id` = ' . (int)$childId . ' ';
 		} else if ( empty( $keyword )){
-			$where[]= ' c.`category_parent_id` = ' . (int)$virtuemart_category_id . ' ';
+			if(self::$_optimisedCatSql){
+				$orNull= '';
+				if(empty($virtuemart_category_id)){
+					$orNull = 'OR isNull(c.`category_parent_id`)';
+				}
+				$where[]= ' (c.`category_parent_id` = ' . (int)$virtuemart_category_id . ' '.$orNull.')';
+
+			} else {
+				$where[]= ' cx.`category_parent_id` = ' . (int)$virtuemart_category_id . ' ';
+			}
+
 		}
 
 		if(VmConfig::get('multix')!='none'){
@@ -319,12 +325,15 @@ vmdebug('Found cached cat, but without children');
 		//vmdebug('getChildCategoryListObject',$query,$childList);
 
 		if(!empty($childList)){
-			if($media or !self::$_optimisedCatSql){ vmSetStartTime('new table',0);
+			if($media or !self::$_optimisedCatSql){
 				$xrefTable = new TableCategory_medias($db);
 				foreach($childList as $child){
 					if(!self::$_optimisedCatSql){
 						$child->has_medias = 1;
 						$child->has_children = 1;
+					}
+					if(!isset($child->has_children) or !isset($child->has_medias) or !isset($child->category_parent_id)){
+						self::updateCategory($child->virtuemart_category_id,$db);
 					}
 					if($child->has_medias){
 
@@ -335,10 +344,8 @@ vmdebug('Found cached cat, but without children');
 						$child->virtuemart_media_id = $xrefTable->load($child->virtuemart_category_id);
 					} else {
 						$child->virtuemart_media_id = false;
-						if(!isset($child->has_children) or !isset($child->has_medias) or !isset($child->category_parent_id)){
-							self::updateCategory($child->virtuemart_category_id,$db);
-						}
 					}
+
 				}
 			}
 		}
@@ -517,7 +524,7 @@ vmdebug('Found cached cat, but without children');
 		$select .= ', '.implode(', ',self::joinLangSelectFields($langFields));
 		$joins .= implode(' ',self::joinLangTables($this->_maintable,'c','virtuemart_category_id'));
 
-		//$joins .= ' LEFT JOIN `#__virtuemart_category_categories` AS cx ON c.`virtuemart_category_id` = cx.`category_child_id`';
+		$joins .= ' LEFT JOIN `#__virtuemart_category_categories` AS cx ON c.`virtuemart_category_id` = cx.`category_child_id`';
 
 
 		$whereOr = array();
@@ -756,7 +763,6 @@ vmdebug('Found cached cat, but without children');
 		$data['has_children'] = 0;
 		if(!empty($data['virtuemart_category_id'])){
 			$data['has_children'] = (int)$this->hasChildren($data['virtuemart_category_id']);
-			vmdebug('my has children?',$data['has_children']);
 		}
 
 
@@ -906,12 +912,12 @@ vmdebug('Found cached cat, but without children');
 	 * @param int $virtuemart_category_id the category ID to check
 	 * @return boolean true when the category has childs, false when not
 	 */
-	static public function hasChildren($virtuemart_category_id) {
+	static public function hasChildren($virtuemart_category_id, $useXref = false) {
 
 		static $hasChildrenCache=array();
 		if(!isset($hasChildrenCache[$virtuemart_category_id])){
 			$db = JFactory::getDBO();
-			if(self::$_optimisedCatSql){
+			if(self::$_optimisedCatSql and !$useXref){
 				$q = 'virtuemart_category_id FROM `#__virtuemart_categories`';
 			} else {
 				$q = '`category_child_id` FROM `#__virtuemart_category_categories`';
@@ -920,7 +926,7 @@ vmdebug('Found cached cat, but without children');
 			$db->setQuery('SELECT '. $q .' WHERE `category_parent_id` = "'.(int)$virtuemart_category_id.'"');
 			$db->execute();
 			$res = $db->loadResult();
-			vmdebug('hasChildren',(int)$res);
+
 			if ($res){
 				$hasChildrenCache[$virtuemart_category_id] = true;
 			} else {
@@ -1008,9 +1014,16 @@ vmdebug('Found cached cat, but without children');
 			$ids = $resId[$hash];
 		} else if (!empty($virtuemart_category_id)){
 			$db	= JFactory::getDBO();
-			$q = "SELECT `category_child_id` AS `child`, `category_parent_id` AS `parent`
+			if(self::$_optimisedCatSql){
+				$q = "SELECT `virtuemart_category_id` AS `child`, `category_parent_id` AS `parent`
+				FROM  #__virtuemart_categories 
+				WHERE `virtuemart_category_id`= ".(int)$virtuemart_category_id;
+			} else {
+				$q = "SELECT `category_child_id` AS `child`, `category_parent_id` AS `parent`
 				FROM  #__virtuemart_category_categories AS `xref`
 				WHERE `xref`.`category_child_id`= ".(int)$virtuemart_category_id;
+			}
+
 			$db->setQuery($q);
 			$ids = $resId[$hash] = $db->loadObject();
 		}
@@ -1049,16 +1062,16 @@ vmdebug('Found cached cat, but without children');
 
 		if(empty($catId)) return;
 
-		$has_children = self::hasChildren($catId);
-		$q = 'SELECT category_parent_id FROM #__virtuemart_category_categories WHERE category_child_id = '.$catId.' ;';
+		$has_children = self::hasChildren($catId, true);
+		$q = 'SELECT category_parent_id, ordering FROM #__virtuemart_category_categories WHERE category_child_id = '.$catId.' ;';
 		$db->setQuery($q);
-		$category_parent_id = $db->loadResult();
+		$xrefRes = $db->loadAssoc();
 
 		$q = 'SELECT count(*) FROM #__virtuemart_category_medias WHERE virtuemart_category_id = '.$catId.' ;';
 		$db->setQuery($q);
 		$has_medias = $db->loadResult();
 
-		$q = 'UPDATE #__virtuemart_categories SET `category_parent_id`='.(int)$category_parent_id.', `has_children`='.(int)$has_children.', `has_medias`='.(int)$has_medias.'
+		$q = 'UPDATE #__virtuemart_categories SET `category_parent_id`='.(int)$xrefRes['category_parent_id'].', `ordering`='.(int)$xrefRes['ordering'].', `has_children`='.(int)$has_children.', `has_medias`='.(int)$has_medias.'
 	WHERE  `virtuemart_category_id`='.$catId.';';
 		$db->setQuery($q);
 		$db->execute();

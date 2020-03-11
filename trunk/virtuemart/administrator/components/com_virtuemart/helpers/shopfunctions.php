@@ -219,12 +219,6 @@ class ShopFunctions {
 		}
 
 		if($sendForm){
-			$j = 'jQuery(document).ready(function() {
-jQuery(".changeSendForm")
-	.off("change",Virtuemart.sendCurrForm)
-    .on("change",Virtuemart.sendCurrForm);
-})';
-			vmJsApi::addJScript('sendFormChange',$j);
 			$attrs['class'] .= ' changeSendForm';
 
 		}

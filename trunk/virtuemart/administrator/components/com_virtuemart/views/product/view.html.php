@@ -358,7 +358,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 			$customsList = $customModel->getCustomsList ();
 			$emptyOption = JHtml::_ ('select.option', '', vmText::_ ('COM_VM_SELECT_CUSTOM'), 'value', 'text');
 			array_unshift ($customsList, $emptyOption);
-			$attribs='style= "width: 300px;"';
+			$attribs='class="changeSendForm" style= "width: 300px;"';
 			$selected = '';
 			if(!empty($model->virtuemart_custom_id[0])){
 				$selected = $model->virtuemart_custom_id[0];

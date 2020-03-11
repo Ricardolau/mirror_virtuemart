@@ -236,6 +236,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 			if (!class_exists ('plgVmPaymentStandard')) require(VMPATH_ROOT .'/'. $url .'/standard.php');
 			$this->installPluginTable('plgVmPaymentStandard','#__virtuemart_payment_plg_standard','Payment Standard Table');
 		}
+		VirtueMartModelCategory::updateCategories();
 		vmInfo(vmText::_('COM_VIRTUEMART_SAMPLE_DATA_INSTALLED'));
 	}
 
@@ -736,7 +737,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		$db->setQuery($q);
 		$db->execute();
 
-		$q = 'UPDATE #__virtuemart_categories SET `has_children`=NULL,`has_medias`=NULL';
+		$q = 'UPDATE #__virtuemart_categories SET `has_children`=NULL,`has_medias`=NULL, `category_parent_id`=NULL, `ordering`=NULL';
 		$db->setQuery($q);
 		$db->execute();
 
@@ -744,6 +745,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		$db->setQuery($q);
 		$db->execute();
 
+		VirtueMartModelCategory::updateCategories();
 	}
 }
 

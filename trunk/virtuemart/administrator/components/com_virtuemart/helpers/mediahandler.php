@@ -895,7 +895,7 @@ class VmMediaHandler {
 			$this->file_url_folder = $this->getMediaUrlByView($data['media_attributes']);	//media_roles
 			$this->file_url_folder_thumb = $this->file_url_folder.'resized/';
 
-			$typelessUrl = 'images/stories/virtuemart/typeless/'.$this->file_name;
+			$typelessUrl = static::getStoriesFb('typeless').'/'.$this->file_name;
 			vmdebug('the Urls',$data['media_roles'],$typelessUrl,$this->file_url_folder.$this->file_name);
 			if(!file_exists($this->file_url_folder.$this->file_name) and file_exists($typelessUrl)){
 				vmdebug('Execute move');

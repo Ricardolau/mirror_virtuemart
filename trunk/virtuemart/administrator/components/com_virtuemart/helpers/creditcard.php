@@ -81,9 +81,9 @@ class Creditcard {
 	static function _strtonum($string) {
 		$nstr = "";
 		for ($i = 0; $i < strlen($string); $i++) {
-			if (!is_numeric($string{$i}))
+			if (!is_numeric($string[$i]))
 				continue;
-			$nstr = "$nstr" . $string{$i};
+			$nstr = "$nstr" . $string[$i];
 		}
 		return $nstr;
 	}

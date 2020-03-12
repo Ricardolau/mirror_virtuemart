@@ -129,11 +129,11 @@ class VirtueMartCustomFieldRenderer {
 						$selectType = 'select.radiolist';
 						$class = '';
 						$dom = '';
-						$idTagK = VmHtml::ensureUniqueId($idTag.'cvard'.$k);
+						//$idTagK = VmHtml::ensureUniqueId($idTag.'cvard'.$k);
 					} else {
 						vmJsApi::chosenDropDowns();
 						$dom = 'select';
-						$idTagK = '[';	//Joomla workaround to get a list without id
+						//$idTagK = '[';	//Joomla workaround to get a list without id
 					}
 
 					$attribs = array('class'=>$class.' cvselection no-vm-bind','style'=>'min-width:70px;');
@@ -154,6 +154,8 @@ class VirtueMartCustomFieldRenderer {
 						$html .= '<div class="custom_field_C_container">';
 						$options = array();
 						$selected = false;
+						$idTagK = VmHtml::ensureUniqueId($idTag);
+
 						if(isset($dropdowns[$k])){
 							foreach($dropdowns[$k] as $i=> $elem){
 
@@ -176,6 +178,7 @@ class VirtueMartCustomFieldRenderer {
 								$o = new stdClass();
 								$o->value = $elem;
 								$o->text = $text;
+								$o->id = VmHtml::ensureUniqueId($idTagK.'-'.$i);
 								$options[] = $o;
 
 								if($productSelection and $productSelection[$k] == $elem){
@@ -203,7 +206,9 @@ class VirtueMartCustomFieldRenderer {
 
 						$attribs['data-cvsel'] = 'field' . $customfield->virtuemart_customfield_id ;
 						$fname = $fieldname.'['.$k.']';
-						$html .= JHtml::_ ($selectType, $options, $fname, $attribs , "value", "text", $selected,$idTagK);
+
+						//$html .= JHtml::_ ($selectType, $options, $fname, $attribs , "value", "text", $selected,$idTagK);
+						$html .= JHtml::_ ($selectType, $options, $fname, $attribs , "value", "text", $selected, $idTagK);
 						$html .= '</div>';
 					}
 

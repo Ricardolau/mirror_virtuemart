@@ -121,12 +121,46 @@ class VirtuemartViewCategory extends VmViewAdmin {
 			vmJsApi::ajaxCategoryDropDown('top_category_id', $param, vmText::_('COM_VIRTUEMART_CATEGORY_FORM_TOP_LEVEL'));
 
 			$this->categories = $model->getCategoryTree($topCategory,0,false,$this->lists['search']);
+
+			$catsOrderUpDown = array();
+
 			foreach($this->categories as $i=>$c){
-				$this->categories[$i]->productcount = $model->countProducts($this->categories[$i]->virtuemart_category_id);
+				$this->categories[$i]->productcount = $model->countProducts($c->virtuemart_category_id);
+
+				if(empty($catsOrderUpDown[$c->category_parent_id])){
+					$catsOrderUpDown[$c->category_parent_id]['max'] = $c->ordering;
+					$catsOrderUpDown[$c->category_parent_id]['min'] = $c->ordering;
+				} else {
+					$catsOrderUpDown[$c->category_parent_id]['max'] = max($catsOrderUpDown[$c->category_parent_id]['max'],$c->ordering);
+					$catsOrderUpDown[$c->category_parent_id]['min'] = min($catsOrderUpDown[$c->category_parent_id]['min'],$c->ordering);
+				}
+
+			}
+
+			foreach($this->categories as $i=>$c){
+				if($c->ordering == $catsOrderUpDown[$c->category_parent_id]['max']){
+					$this->categories[$i]->showOrderDown = false;
+				} else {
+					$this->categories[$i]->showOrderDown = true;
+				}
+
+				if($c->ordering == $catsOrderUpDown[$c->category_parent_id]['min']){
+					$this->categories[$i]->showOrderUp = false;
+				} else {
+					$this->categories[$i]->showOrderUp = true;
+				}
 			}
 
 			$this->catpagination = $model->getPagination();
+
+			$this->showDrag = 0;
+			if(count($this->categories) <= $this->catpagination->limit and $model->_selectedOrderingDir=='ASC' and strpos($model->_selectedOrdering,'ordering')!==FALSE and count($catsOrderUpDown)==1){
+				$this->showDrag = 1;
+			}
+
+			//vmdebug('my categories',$this->categories);
 		}
+
 
 		parent::display($tpl);
 	}

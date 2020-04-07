@@ -120,6 +120,7 @@ class TableCategories extends VmTable {
 		$this->setParameterable('cat_params',$varsToPushParam);
 		$this->setSlug('category_name');
 		$this->setTableShortCut('c');
+		$this->setOrderable();
 	}
 
 	public function check(){
@@ -136,6 +137,25 @@ class TableCategories extends VmTable {
 		return parent::check();
 	}
 
+	public function move( $dirn, $where = 0, $orderingKey=0, $cid = 0 ){
+
+		$res = parent::move($dirn, 'category_parent_id = "'.(int)$this->category_parent_id.'"', $orderingKey);
+		$this->synchroniseTableOrdering($this->category_parent_id);
+	}
+
+	public function synchroniseTableOrdering($category_parent_id){
+
+		$orderingKey = 'ordering';
+		$q = 'SELECT virtuemart_category_id,'.$orderingKey.' FROM #__virtuemart_categories WHERE category_parent_id = "'.(int)$category_parent_id.'" ';
+		$this->_db->setQuery($q);
+		$res = $this->_db->loadAssocList('virtuemart_category_id',$orderingKey);
+		foreach($res as $id=>$ordering){
+			$q = 'UPDATE #__virtuemart_category_categories SET '.$orderingKey.'="'.$ordering.'" WHERE category_child_id = "'.$id.'" ';
+			$this->_db->setQuery($q);
+			$this->_db->execute();
+		}
+	}
+
 	/**
 	 * Overwrite method
 	 *
@@ -144,7 +164,7 @@ class TableCategories extends VmTable {
 	 * @param $parent_id category parent id
 	 * @param $where sql WHERE clausule
 	 */
-	public function move( $dirn, $parent_id = 0, $where='' )
+/*	public function move( $dirn, $parent_id = 0, $where='' )
 	{
 		if (!in_array( 'ordering',  array_keys($this->getProperties())))
 		{
@@ -154,37 +174,52 @@ class TableCategories extends VmTable {
 
 		$k = $this->_tbl_key;
 
-		$sql = "SELECT c.".$this->_tbl_key.", c.ordering FROM ".$this->_tbl." c
-				LEFT JOIN #__virtuemart_category_categories cx
-				ON c.virtuemart_category_id = cx.category_child_id";
+		if(VmConfig::get('optimisedCatSql', false)){
+			$prefix = 'c';
+		} else {
+			$prefix = 'cx';
+		}
 
-		$condition = 'cx.category_parent_id = '. $this->_db->Quote($parent_id);
-		$where = ($where ? ' AND '.$condition : $condition);
+		$sql = 'SELECT '.$this->_tablePreFix.$this->_tbl_key.', '.$this->_tablePreFix.$this->_orderingKey.' FROM '.$this->_tbl.' as c ';
+
+
+		if(!VmConfig::get('optimisedCatSql', false)){
+
+			$sql .= ' LEFT JOIN #__virtuemart_category_categories as cx
+				ON c.virtuemart_category_id = cx.category_child_id';
+		}
+
+		$condition = $prefix.'.category_parent_id = '. $this->_db->Quote($parent_id);
+
+		$where .= !empty($where) ? ' AND '.$condition : $condition;
 
 		if ($dirn < 0)
 		{
-			$sql .= ' WHERE c.ordering < '.(int) $this->ordering;
-			$sql .= ($where ? ' AND '.$where : '');
-			$sql .= ' ORDER BY c.ordering DESC';
+			$sign = ' < ';
+			$orderDir = 'DESC';
 		}
 		else if ($dirn > 0)
 		{
-			$sql .= ' WHERE c.ordering > '.(int) $this->ordering;
-			$sql .= ($where ? ' AND '. $where : '');
-			$sql .= ' ORDER BY c.ordering';
+			$sign = ' > ';
+			$orderDir = '';
 		}
 		else
 		{
-			$sql .= ' WHERE c.ordering = '.(int) $this->ordering;
-			$sql .= ($where ? ' AND '.$where : '');
-			$sql .= ' ORDER BY c.ordering';
+			$sign = ' = ';
+			$orderDir = '';
 		}
 
+		$sql .= 'WHERE '.$prefix.'.'.$this->_orderingKey.$sign.(int) $this->ordering;
+		$sql .= !empty($where) ? ' AND '.$where : '';
+		$sql .= ' ORDER BY '.$prefix.'.'.$this->_orderingKey.' '.$orderDir;
 		$this->_db->setQuery( $sql, 0, 1 );
 
 
 		$row = null;
 		$row = $this->_db->loadObject();
+
+		//vmdebug('VmTable Category move my sql and row',$sql,$row);
+
 		if (isset($row))
 		{
 			$query = 'UPDATE '. $this->_tbl
@@ -229,6 +264,7 @@ class TableCategories extends VmTable {
 		}
 		return true;
 	}
+*/
 
 	/**
 	 * Overwrite method

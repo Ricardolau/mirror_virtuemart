@@ -98,6 +98,8 @@ class VirtuemartViewCategory extends VmView {
 		ShopFunctionsF::setLastVisitedItemId($itemId);
 		$this->Itemid = $itemId;
 
+		$this->productModel = VmModel::getModel('product');
+		$this->keyword = $this->productModel->keyword;
 
 		$this->virtuemart_manufacturer_id = vRequest::getInt('virtuemart_manufacturer_id', -1 );
 		if($this->virtuemart_manufacturer_id ===-1 and !empty($menu->query['virtuemart_manufacturer_id'])){
@@ -109,7 +111,7 @@ class VirtuemartViewCategory extends VmView {
 		if($this->categoryId === -1 and !empty($menu->query['virtuemart_category_id'])){
 			$this->categoryId = $menu->query['virtuemart_category_id'];
 			vRequest::setVar('virtuemart_category_id',$this->categoryId);
-		} else if ( $this->categoryId === -1 and $this->virtuemart_manufacturer_id === -1){
+		} else if ( $this->categoryId === -1 and $this->virtuemart_manufacturer_id === -1 and empty($this->keyword)){
 
 			$this->categoryId = ShopFunctionsF::getLastVisitedCategoryId();
 		}
@@ -133,8 +135,7 @@ class VirtuemartViewCategory extends VmView {
 
 		$prefix = '';
 
-		$this->productModel = VmModel::getModel('product');
-		$this->keyword = $this->productModel->keyword;
+
 
 		if(empty($this->keyword)) $this->keyword = false;
 

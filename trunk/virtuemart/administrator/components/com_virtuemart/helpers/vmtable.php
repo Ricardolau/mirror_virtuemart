@@ -1857,12 +1857,13 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 	 */
 	function fixOrdering($where = '') {
 
-		$where = $where ? ' WHERE ' . $where : '';
+		$where = !empty($where) ? ' WHERE ' . $where : '';
 		// fast check for duplicities
-		$q = 'SELECT `' . $this->_tbl_key . '` FROM `' . $this->_tbl . '` GROUP BY `' . $this->_orderingKey . '` HAVING COUNT(*) >= 2 ' . $where . ' LIMIT 1';
+		$q = 'SELECT `' . $this->_tbl_key . '` FROM `' . $this->_tbl . '` ' . $where . '  GROUP BY `' . $this->_orderingKey . '` HAVING COUNT(*) >= 2  LIMIT 1';
 		$this->_db->setQuery($q);
 		$res = $this->_db->loadAssocList();
-		if (empty($res)) return true;
+		//vmdebug('fixOrdering my query get duplicates',$q,$res);
+		//if (empty($res)) return true;
 
 		$q = ' SELECT `' . $this->_tbl_key . '` FROM `' . $this->_tbl . '` ' . $where . ' ORDER BY `' . $this->_orderingKey . '` ASC';
 		$this->_db->setQuery($q, 0, 999999);
@@ -1871,7 +1872,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		if (!empty($e)) {
 			vmError(get_class($this) . $e);
 		}
-		echo $q . "<br />\n";
+
 		// no data in the table
 		if (empty($res)) return true;
 		// we will set ordering to 5,10,15,20,25 so there is enough space in between for manual editing
@@ -1896,130 +1897,86 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 	 * @param $dirn
 	 * @param $where
 	 */
-	function move($dirn, $where = '', $orderingkey = 0) {
+	function move($dirn, $whereIn = '', $orderingkey = 0, $cid = 0) {
 
-		// for some reason this function is not used from categories
-		$this->fixOrdering();
+		if($cid === 0){
+			$cid = vRequest::getInt($this->_pkeyForm,vRequest::getInt($this->_pkey,false));
+			if(empty($cid) and !empty($this->{$this->_pkey})){
+				$cid = $this->{$this->_pkey};
+			}
+		}
 
-		$k = $this->_tbl_key;
-		// problem here was that $this->{$k} returned (0)
-
-		$cid = vRequest::getInt($this->_pkeyForm,vRequest::getInt($this->_pkey,false));
 
 		if (!empty($cid) && (is_array($cid))) {
 			$cid = reset($cid);
-		} else {
-				vmError(get_class($this) . ' is missing cid information !');
-				return false;
-		}		// stAn: if somebody knows how to get current `ordering` of selected cid (i.e. virtuemart_userinfo_id or virtuemart_category_id from defined vars, you can review the code below)
-		$q = "SELECT `" . $this->_orderingKey . '` FROM `' . $this->_tbl . '` WHERE `' . $this->_tbl_key . "` = '" . (int)$cid . "' limit 0,1";
+		} else if(empty($cid)){
+			vmError(get_class($this) . ' is missing cid information !');
+			return false;
+		}
 
-		if (!isset(self::$_cache[md5($q)])) {
+		if (empty($orderingkey))
+			$orderingkey = $this->_orderingKey;
+
+		//if not loaded already, load the ordering of the current item
+		if(!$this->_loaded){
+			$q = "SELECT `" . $orderingkey . '` FROM `' . $this->_tbl . '` WHERE `' . $this->_tbl_key . "` = '" . (int)$cid . "' limit 0,1";
 			$this->_db->setQuery($q);
-			$c_order = $this->_db->loadResult(); // current ordering value of cid
-		} else {
-			$c_order = self::$_cache[md5($q)];
+			$this->{$orderingkey} = $this->_db->loadResult();
+			$e = $this->_db->getErrorMsg();
+			if (!empty($e)) {
+				vmError(get_class($this) . $e);
+			}
+
 		}
 
-		$this->{$orderingkey} = $c_order;
-
-		$e = $this->_db->getErrorMsg();
-		if (!empty($e)) {
-			vmError(get_class($this) . $e);
-		}
-		// stAn addition:
-		$where .= ' `' . $this->_tbl_key . '` <> ' . (int)$cid . ' ';
-		// explanation:
-		// select one above or under which is not cid and update/set it's ordering of the original cid
-		// could be done with one complex query... but this is more straitforward and the speed is not that much needed in this one
-
-		if (!empty($orderingkey))
-			$this->_orderingKey = $orderingkey;
+		$excl = ' `' . $this->_tbl_key . '` != ' . (int)$cid . ' ';
+		$where = ($whereIn ? $whereIn.' AND ' . $excl : $excl);
 
 		if (!in_array($this->_orderingKey, array_keys($this->getProperties()))) {
 			vmError(get_class($this) . ' does not support ordering');
 			return false;
 		}
 
-		$k = $this->_tbl_key; // virtuemart_userfield_id column name
-
-		$orderingKey = $this->_orderingKey; // ordering column name
-
+		//Lets load the ordering of the next row, so that we can directly use the value of the next row for the ordering value of the current row
 		$sql = 'SELECT `' . $this->_tbl_key . '`, `' . $this->_orderingKey . '` FROM ' . $this->_tbl;
 
 		if ($dirn < 0) {
-			$sql .= ' WHERE `' . $this->_orderingKey . '` <= ' . (int)$c_order;
-			$sql .= ($where ? ' AND ' . $where : '');
-			$sql .= ' ORDER BY `' . $this->_orderingKey . '` DESC';
+			$sign = ' < ';		//<=
+			$orderDir = 'DESC';
 		} else if ($dirn > 0) {
-			$sql .= ' WHERE `' . $this->_orderingKey . '` >= ' . (int)$c_order;
-			$sql .= ($where ? ' AND ' . $where : '');
-			$sql .= ' ORDER BY `' . $this->_orderingKey . '`';
+			$sign = ' > ';		//>=
+			$orderDir = '';
 		} else {
-			$sql .= ' WHERE `' . $this->_orderingKey . '` = ' . (int)$c_order;
-			$sql .= ($where ? ' AND ' . $where : '');
-			$sql .= ' ORDER BY `' . $this->_orderingKey . '`';
+			$sign = ' = ';
+			$orderDir = '';
 		}
 
+		$sql .= ' WHERE `' . $orderingkey . '` '.$sign.' ' . (int)$this->{$orderingkey};
+		$sql .= ($where ? ' AND ' . $where : '');
+		$sql .= ' ORDER BY `' . $orderingkey . '` '.$orderDir;
 
-		if (!isset(self::$_cache[md5($sql)])) {
-			$this->_db->setQuery($sql, 0, 1);
+		$this->_db->setQuery($sql, 0, 1);
 
+		$nextRow = $this->_db->loadObject();
 
-			$row = null;
-			$row = $this->_db->loadObject();
-		} else $row = self::$_cache[md5($sql)];
+		if (isset($nextRow)) {
+			//We use directly the direction input to calculate the new ordering value $nextRow->{$orderingkey} + $dirn
+			$query = 'UPDATE '.$this->_tbl
+			.' SET `'.$this->_orderingKey.'` = '.(int)($nextRow->{$orderingkey} + $dirn)
+			.' WHERE '.$this->_tbl_key.' = "'.(int)$cid.'" LIMIT 1;';
 
-
-		if (isset($row)) {
-
-			// ok, we have a problem here - previous or next item has the same ordering as the current one
-			// we need to fix the ordering be reordering it all
-			if ((int)$row->{$orderingKey} == $c_order) {
-				// if we fix this while loading the ordering, it will slow down FE
-			}
-
-			// update the next or previous to have the same ordering as the selected
-			$query = 'UPDATE ' . $this->_tbl
-				. ' SET `' . $this->_orderingKey . '` = ' . (int)$c_order
-				. ' WHERE ' . $this->_tbl_key . ' = ' . (int)$row->{$k} . ' LIMIT 1';
-
-			$this->_db->setQuery($query);
-			echo "\n" . $query . '<br />';
-
-			if (!$this->_db->execute()) {
-				$err = $this->_db->getErrorMsg();
-				vmError( get_class($this) . ':: move isset row $row->{$k}' . $err);
-			}
-
-			// update the currently selected to have the same ordering as the next or previous
-			$query = 'UPDATE ' . $this->_tbl
-				. ' SET `' . $this->_orderingKey . '` = ' . (int)$row->{$orderingKey}
-				. ' WHERE ' . $this->_tbl_key . ' = "' . (int)$cid . '" LIMIT 1';
-			$this->_db->setQuery($query);
-			//echo $query.'<br />'; die();
-			if (!$this->_db->execute()) {
-				$err = $this->_db->getErrorMsg();
-				vmError( get_class($this) . ':: move isset row $row->{$k}' . $err);
-			}
-
-			// stAn, what for is this?
-			$this->ordering = $row->{$orderingKey};
-
-
+			$this->_db->setQuery( $query );
+			vmdebug('Update with query ',$query);
 		} else {
-			// stAn: why should we update the same line with the same information when no next or previous found (?)
-
-			$query = 'UPDATE ' . $this->_tbl
-				. ' SET `' . $this->_orderingKey . '` = ' . (int)$this->{$orderingKey}
-				. ' WHERE ' . $this->_tbl_key . ' = "' . $this->_db->escape($this->{$k}) . '" LIMIT 1';
-			$this->_db->setQuery($query);
-
-			if (!$this->_db->execute()) {
-				$err = $this->_db->getErrorMsg();
-				vmError( get_class($this) . ':: move update $this->{$k}' . $err);
-			}
+			//Should not happen, if there is no next row, then the command to order down/up was accidently given (for example the gui provided accidently an order up icon
 		}
+
+		if (!$this->_db->execute()) {
+			$err = $this->_db->getErrorMsg();
+			vmError( get_class($this) . ':: move isset row $row->{$k}' . $err);
+		}
+
+		$this->fixOrdering($whereIn);
 		return true;
 	}
 
@@ -2229,6 +2186,12 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			$this->{$field} = $val;
 		}
 		$k = $this->_tbl_key;
+		if(empty($this->{$k})){
+
+			vmdebug('Cannot toggle '.get_class($this).' '.$this->_tbl_key.' empty ',$this->{$this->_pkey});
+			$k = $this->_pkey;
+			return false;
+		}
 		$q = 'UPDATE `' . $this->_tbl . '` SET `' . $field . '` = "' . $this->{$field} . '" WHERE `' . $k . '` = "' . $this->{$k} . '" ';
 		$this->_db->setQuery($q);
 		if (!$res = $this->_db->execute()) {

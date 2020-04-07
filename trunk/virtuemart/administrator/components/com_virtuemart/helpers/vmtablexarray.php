@@ -56,7 +56,7 @@ class VmTableXarray extends VmTable {
 	* swap the ordering of a record in the Xref tables
 	* @param  $direction , 1/-1 The increment to reorder by
 	*/
-	function move($direction, $where='', $orderingkey=0) {
+/*	function move($direction, $where='', $orderingkey=0) {
 
     	if(empty($this->_skey) ) {
     		vmError( 'No secondary keys defined in VmTableXarray '.$this->_tbl );
@@ -92,7 +92,8 @@ class VmTableXarray extends VmTable {
 				vmError( get_class( $this ).':: move '. $err, get_class( $this ).':: move error' );
 			}
 		}
-	}
+	}*/
+
     /**
      * Records in this table are arrays. Therefore we need to overload the load() function.
      * TODO, this function is giving back the array, not the table, it is not working like the other table, so we should change that

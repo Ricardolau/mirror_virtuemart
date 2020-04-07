@@ -389,7 +389,7 @@ vmdebug('Found cached cat, but without children');
 			//$this->rekurseCats($parentId,$level,$onlyPublished,$keyword,$sortedCats, 0, $limit );
 			$this->rekurseCategories($vendorId, $parentId, $sortedCats, $level, 0, $limitStart + $limit, $onlyPublished, $keyword, $this->_selectedOrdering,$this->_selectedOrderingDir, $tree);
 			//vmdebug('My sorted cats ',$sortedCats);
-			$this->_total = $this->getTotal();
+			$this->_total = count($sortedCats);
 		}
 
 		$this->_noLimit = false;
@@ -561,6 +561,7 @@ vmdebug('Found cached cat, but without children');
 		$hash = crc32($keyword.'.'.(int)$parentId.VmLanguage::$currLangTag.(int)$childId.$this->_selectedOrderingDir.(int)$vendorId.$this->_selectedOrdering);
 		if(!isset($cats[$hash])){
 			$cats[$hash] = $this->_category_tree = $this->exeSortSearchListQuery(0,$select,$joins,$whereString,'GROUP BY virtuemart_category_id',$ordering );
+			$this->_total = count($cats[$hash]);
 		}
 
 		return $cats[$hash];
@@ -633,12 +634,7 @@ vmdebug('Found cached cat, but without children');
 		$row = $this->getTable('categories');
 		$row->load($id);
 
-		/*$query = 'SELECT `category_parent_id` FROM `#__virtuemart_category_categories` WHERE `category_child_id` = '. (int)$row->virtuemart_category_id ;
-		$db = JFactory::getDBO();
-		$db->setQuery($query);
-		$parent = $db->loadObject();*/
-
-		if (!$row->move( $movement, $row->category_parent_id)) {
+		if (!$row->move( $movement, 'category_parent_id = "'.(int)$row->category_parent_id.'"' )) {
 			return false;
 		}
 
@@ -654,9 +650,11 @@ vmdebug('Found cached cat, but without children');
 	 * @return bool
 	 */
 	public function setOrder($cats, $order){
+
 		$total		= count( $cats );
 		$groupings	= array();
 		$row = $this->getTable('categories');
+		$rowLegacy = $this->getTable('category_categories');
 
 		$query = 'SELECT `category_parent_id` FROM `#__virtuemart_categories` c
 			      WHERE c.`virtuemart_category_id` = %s';
@@ -675,13 +673,19 @@ vmdebug('Found cached cat, but without children');
 				if (!$row->toggle('ordering',$row->ordering)) {
 					return false;
 				}
+				/*$q = 'UPDATE #__virtuemart_category_categories SET ordering ="'.$row->ordering.'" WHERE category_child_id = "'.$cats[$i].'" ';
+				$this->_db->setQuery($q);
+				$this->_db->execute();*/
+
 			}
 		}
 
 		// execute reorder for each parent group
 		$groupings = array_unique( $groupings );
 		foreach ($groupings as $group){
-			$row->reorder($group);
+
+			$row->fixOrdering('category_parent_id = "'.(int)$group.'"');
+			$row->synchroniseTableOrdering($group);
 		}
 
 		$this->clearCategoryRelatedCaches();

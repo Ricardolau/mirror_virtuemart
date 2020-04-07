@@ -456,7 +456,7 @@ class VmMediaHandler {
 			$supportedTypes .= vmText::_('COM_VIRTUEMART_FILES_FORM_MIME_CONTENT_TYPE_NOT_SUPPORTED').'<br />';
 		}
 
-		$supportedTypes .= vmText::_('COM_VIRTUEMART_FILES_FORM_IMAGETYPES_SUPPORTED'). implode($aSupportedTypes,', ');
+		$supportedTypes .= vmText::_('COM_VIRTUEMART_FILES_FORM_IMAGETYPES_SUPPORTED'). implode(', ', $aSupportedTypes);
 
 		return $supportedTypes;
 	}
@@ -495,7 +495,7 @@ class VmMediaHandler {
 		$this->file_url_folder = self::$stheme_url.'assets/images/vmgeneral/';
 		$this->file_url = $this->file_url_folder.$file_name;
 		$this->file_url_folder_thumb = self::getStoriesFb('typeless').'/';
-		$this->file_meta = vmText::_('COM_VIRTUEMART_NO_IMAGE_SET').' '.$this->file_description;
+		//$this->file_meta = vmText::_('COM_VIRTUEMART_NO_IMAGE_SET').' '.$this->file_description;
 		$this->file_extension = strtolower(JFile::getExt($file_name));
 		$this->noImageSet = true;
 	}
@@ -557,7 +557,7 @@ class VmMediaHandler {
 			} else if(!empty($this->file_name)) {
 				$file_alt = $this->file_name;
 			} else {
-				$file_alt = '';
+				$file_alt = vmText::_('COM_VIRTUEMART_NO_IMAGE_SET');
 			}
 		} else {
 			$file_alt = $this->file_meta;

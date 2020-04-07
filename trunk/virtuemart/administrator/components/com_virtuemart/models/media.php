@@ -299,10 +299,12 @@ class VirtueMartModelMedia extends VmModel {
 		$sec = 0;
 		$idc = 0;
 		$this->_limitStart = 0;	//Else a user have to click on the first page to get all orphaned
+		$data = array();
 		while($idc<$limits[1] and $sec<1000){
 			$ids = $this->getFiles(false, false, $virtuemart_product_id, $cat_id, array(), $this->_limit * 2);
 			if(!empty($ids)){
 				$medias = $this->createMediaByIds($ids);
+
 				foreach($medias as $m){
 					if($m->file_is_forSale){
 						$fSizeFnamePath = $m->file_url_folder.$m->file_name.'.'.$m->file_extension;

@@ -43,6 +43,7 @@ class VmHtml{
 			while(isset(self::$_usedId[$id.$c])){
 				$c++;
 			}
+			//vmdebug(' ensureUniqueId new id',$id.$c, self::$_usedId );
 			$id = $id.$c;
 		}
 		self::$_usedId[$id] = 1;
@@ -579,7 +580,7 @@ class VmHtml{
 					$checked = 'checked="checked"';
 				}
 			}
-			$id = $name.$key;
+			$id = self::ensureUniqueId(str_replace(array('[',']'),'',$name.$key)) ;
 			$html .= "\n\t" . '<label for="' . $id . '" id="' . $id . '-lbl" class="radio">';
 			$html .= "\n\t\n\t" . '<input type="radio" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($key, ENT_QUOTES) . '" '.$checked.' ' . $extra. ' />' . $val;
 			$html .= "\n\t" . "</label>".$separator."\n";

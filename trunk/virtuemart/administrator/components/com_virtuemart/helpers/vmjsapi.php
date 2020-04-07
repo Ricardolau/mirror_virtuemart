@@ -174,7 +174,9 @@ class vmJsApi{
 					if($jsToAdd['async']){
 						$attribs['async'] = 'async';
 					}
-					$document->addScript( $file .$ver,"text/javascript",$options,$attribs );
+
+					$attribs['mime'] = "text/javascript";
+					$document->addScript( $file .$ver, $options, $attribs );
 				}
 
 			} else {

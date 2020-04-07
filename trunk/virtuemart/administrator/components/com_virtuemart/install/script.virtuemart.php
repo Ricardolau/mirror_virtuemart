@@ -1037,7 +1037,9 @@ class com_virtuemartInstallerScript {
 				$query = 'ALTER TABLE `'.$tablename.'` '.$command.' COLUMN `'.$fieldname.'` '.$alterCommand;
 
 				$this->_db->setQuery($query);
-				if(!$this->_db->execute()){
+				try {
+					$this->_db->execute();
+				} catch (Exception $e) {
 					$app = JFactory::getApplication();
 					$app->enqueueMessage('Error: Install alterTable '.$this->_db->getErrorMsg() );
 					$ok = false;

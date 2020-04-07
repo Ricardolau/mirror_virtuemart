@@ -6,9 +6,9 @@
 	<author>Angie Radtke, adapted by the VirtueMart team</author>
 	<authorEmail>team@virtuemart.net</authorEmail>
 	<authorUrl>http://virtuemart.net</authorUrl>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters, 2016 - 2020 Virtuemart Team, Inc. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2020 Open Source Matters, 2016 - 2020 Virtuemart Team, Inc. All rights reserved. Includes j3.9.16 security fix</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>3.4.0</version>
+	<version>3.4.2</version>
 	<description>TPL_BEEZ3_XML_DESCRIPTION</description>
 
 	<files>

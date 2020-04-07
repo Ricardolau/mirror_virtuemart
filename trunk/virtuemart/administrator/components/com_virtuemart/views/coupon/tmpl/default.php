@@ -41,6 +41,7 @@ AdminUIHelper::startAdminArea($this);
 			</table>
 		</div>
 		<div id="resultscounter" ><?php echo $this->pagination->getResultsCounter();?></div>
+		<div id="coupon_usage_cont" ><a style="background-color: #2f6f2f;color: #fff;text-decoration: none;padding: 6px 8px;display: inline-block;margin: 10px;" href="index.php?option=com_virtuemart&view=coupon&cid[]=6&layout=coupons_data">Coupon Usage / Analytics</a></div>
 	</div>
     <div id="editcell">
 	    <table class="adminlist table table-striped" cellspacing="0" cellpadding="0">

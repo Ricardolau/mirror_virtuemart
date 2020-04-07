@@ -1102,6 +1102,29 @@ class calculationHelper {
 
 		$this->_cart->cartPrices['salesPriceCoupon'] = ($_value_is_total ? $_data->coupon_value * -1 : ($this->_cart->cartPrices['salesPrice'] * ($_data->coupon_value / 100)) * -1);
 
+		/* Malik Coupon */
+		$allowed_product_ids = explode(',',$_data->virtuemart_product_ids);
+		$allowed_productcat_ids = explode(',',$_data->virtuemart_category_ids);
+		
+		if(!empty($_data->virtuemart_product_ids) || !empty($_data->virtuemart_category_ids)){
+			
+			$sizeof_cartitems_by_product = count($this->_cart->productsQuantity);
+			
+			$coupon_discount = 0;
+			
+			for($i = 0; $i < $sizeof_cartitems_by_product; $i++){ 
+				if(in_array($this->_cart->cartPrices[$i]['virtuemart_product_id'],$allowed_product_ids) || (array_intersect($this->_cart->products[$i]->categories, $allowed_productcat_ids))){
+					$coupon_discount += ($this->_cart->cartPrices[$i]['salesPriceTt'] * ($_data->coupon_value / 100));
+				}
+			}
+			
+			$this->_cart->cartPrices['salesPriceCoupon'] = ($_value_is_total ? $_data->coupon_value * -1 : $coupon_discount * -1);
+		}
+		
+		if($_data->coupon_value_max > 0){
+			$this->_cart->cartPrices['salesPriceCoupon'] = (abs($this->_cart->cartPrices['salesPriceCoupon']) > $_data->coupon_value_max) ? $_data->coupon_value_max * -1 : $this->_cart->cartPrices['salesPriceCoupon'];
+		}
+		
 		$this->_cart->cartPrices['couponTax'] = 0;
 		$this->_cart->cartPrices['couponValue'] = $this->_cart->cartPrices['salesPriceCoupon'] - $this->_cart->cartPrices['couponTax'];
 

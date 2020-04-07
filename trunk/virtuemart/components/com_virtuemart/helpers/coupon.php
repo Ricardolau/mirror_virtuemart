@@ -95,12 +95,19 @@ abstract class CouponHelper
 	 * @author Oscar van Eijk
 	 * @return object Coupon details
 	 */
+		
 	static public function getCouponDetails($_code)
 	{
 		$_db = JFactory::getDBO();
 		$_q = 'SELECT `percent_or_total` '
 			. ', `coupon_type` '
 			. ', `coupon_value` '
+			. ', `coupon_value_max` '	//Malik
+			. ', `virtuemart_coupon_max_attempt_per_user` '
+			. ', `virtuemart_shoppergroup_ids` '
+			. ', `virtuemart_shopper_ids` '
+			. ', `virtuemart_product_ids` '
+			. ', `virtuemart_category_ids` '					   
 			. 'FROM `#__virtuemart_coupons` '
 			. 'WHERE `coupon_code` = "' . $_db->escape($_code) . '"';
 		$_db->setQuery($_q);
@@ -133,11 +140,14 @@ abstract class CouponHelper
 				return true;
 			}
 		}
-		$_db = JFactory::getDBO();
+		// Changes Modified Malik
+		// To not delete gift coupons when used.
+		/* $_db = JFactory::getDBO();
 		$_q = 'DELETE FROM `#__virtuemart_coupons` '
 			. 'WHERE `coupon_code` = "' . $_db->escape($_code) . '"';
-		$_db->setQuery($_q);
-		return ($_db->query() !== false);
+		$_db->setQuery($_q); */
+		
+		return true;
 	}
 	/**
 	 * Remove a coupon from the database

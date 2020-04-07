@@ -45,9 +45,17 @@ class TableCoupons extends VmTable {
 	var $coupon_expiry_date 	= '';
 	/** @var decimal Coupon valid value */
 	var $coupon_value_valid 	= 0;
+	/** @var decimal Coupon max value */
+	var $coupon_value_max 	= 0;
+	var $virtuemart_coupon_max_attempt_per_user = 0;
+	var $virtuemart_shoppergroup_ids 	= '';
+	var $virtuemart_shopper_ids 	= '';
+	var $virtuemart_product_ids 	= '';
+	var $virtuemart_category_ids 	= '';
 	/** @var decimal Coupon valid value */
 	var $coupon_used			= 0;
 	var $published				= 0;
+
 	/**
 	 * @author RickG, Max Milbers
 	 * @param JDataBase $db

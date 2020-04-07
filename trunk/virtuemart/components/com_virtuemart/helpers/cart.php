@@ -1072,7 +1072,7 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 	 * @access public
 	 * @return string On error the message text, otherwise an empty string
 	 */
-	public function setCouponCode($coupon_code) {
+	public function setCouponCodeOld($coupon_code) {
 
 		if(empty($coupon_code) or $coupon_code == vmText::_('COM_VIRTUEMART_COUPON_CODE_ENTER')) {
 			$this->couponCode = '';
@@ -1101,12 +1101,128 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 
 	}
 
-	public function validateCoupon($coupon_code){
+	public function setCouponCode($coupon_code) {
 
-		$timeDeleteTries = time() - (24 * 60 * 60);
-		foreach($this->_triesValidateCoupon as $k=>$v){
-			if($k<8 or $k<$timeDeleteTries){
-				unset($this->_triesValidateCoupon[$k]);
+		$db = JFactory::getDbo();
+
+		$currentUser = JFactory::getUser();
+		$allow_coupon = 0;
+		$coupon_details = CouponHelper::getCouponDetails( $coupon_code );
+
+		$userAttempts = 0;
+
+		if($currentUser->id) {
+			$query = $db->getQuery( true );
+
+			$query->select( 'count(vo.virtuemart_order_id)' );
+			$query->from( $db->quoteName( '#__virtuemart_orders', 'vo' ) );
+			$query->join( 'INNER', $db->quoteName( '#__virtuemart_vmusers', 'vv' ).' ON ('.$db->quoteName( 'vo.virtuemart_user_id' ).' = '.$db->quoteName( 'vv.virtuemart_user_id' ).')' );
+			$query->where( 'vo.virtuemart_user_id = '.$currentUser->id.'' );
+
+			$db->setQuery( $query );
+
+			$userAttempts = $db->loadResult();
+		}
+
+		if(($coupon_details->virtuemart_coupon_max_attempt_per_user>0) && ($userAttempts>0)) {
+			if($userAttempts>=$coupon_details->virtuemart_coupon_max_attempt_per_user) {
+				$this->couponCode = '';
+				return 'Maximum coupon usage limit reached, please try different code.';
+			}
+		}
+
+		if(!empty( $coupon_details->virtuemart_shoppergroup_ids ) || !empty( $coupon_details->virtuemart_shopper_ids )) {
+			if(!empty( $coupon_details->virtuemart_shoppergroup_ids )) {
+				$query = $db->getQuery( true );
+
+				$query->select( $db->quoteName( array('virtuemart_user_id', 'virtuemart_shoppergroup_id') ) );
+				$query->from( $db->quoteName( '#__virtuemart_vmuser_shoppergroups' ) );
+				$query->where( 'virtuemart_user_id = '.$currentUser->id.' AND virtuemart_shoppergroup_id IN ('.$coupon_details->virtuemart_shoppergroup_ids.')' );
+
+				$db->setQuery( $query );
+
+				$isNotAllowed = $db->loadObjectList();
+
+				$allow_coupon = ($isNotAllowed) ? 0 : 1;
+			}
+
+			if(!empty( $coupon_details->virtuemart_shopper_ids ) && $allow_coupon == 0) {
+				$query = $db->getQuery( true );
+
+				$query->select( $db->quoteName( array('virtuemart_user_id') ) );
+				$query->from( $db->quoteName( '#__virtuemart_vmusers' ) );
+				$query->where( 'virtuemart_user_id IN ('.$coupon_details->virtuemart_shopper_ids.')' );
+
+				$db->setQuery( $query );
+
+				$allowedUsersList = $db->loadColumn();
+
+				$allow_coupon = (in_array( $currentUser->id, $allowedUsersList )) ? 1 : 0;
+			}
+
+			if(empty( $coupon_details->virtuemart_shoppergroup_ids ) && $allow_coupon == 0) {
+				$virtuemart_shoppergroup_ids_arr = explode( ',', $coupon_details->virtuemart_shoppergroup_ids );
+
+				if(($currentUser->id && in_array( 2, $virtuemart_shoppergroup_ids_arr )) || (!$currentUser->id && in_array( 1, $virtuemart_shoppergroup_ids_arr ))) {
+					$allow_coupon = 1;
+				}
+			}
+
+		} else if(empty( $coupon_details->virtuemart_shoppergroup_ids ) && empty( $coupon_details->virtuemart_shopper_ids )) {
+			$allow_coupon = 1;
+		}
+
+		$allowed_product_ids = explode( ',', $coupon_details->virtuemart_product_ids );
+		$allowed_productcat_ids = explode( ',', $coupon_details->virtuemart_category_ids );
+
+		if(!empty( $coupon_details->virtuemart_product_ids ) || !empty( $coupon_details->virtuemart_category_ids )) {
+			$sizeof_cartitems_by_product = count( $this->productsQuantity );
+			$allow_coupon_byproduct = 0;
+			for( $i = 0; $i<$sizeof_cartitems_by_product; $i++ ) {
+				if(in_array( $this->cartPrices[$i]['virtuemart_product_id'], $allowed_product_ids ) || (array_intersect( $this->products[$i]->categories, $allowed_productcat_ids ))) {
+					$allow_coupon_byproduct = 1;
+					break;
+				}
+			}
+
+			$allow_coupon = ($allow_coupon_byproduct == 1) ? 1 : 0;
+		}
+
+		if($allow_coupon == 0) {
+			$this->couponCode = '';
+			return 'Coupon code not valid, please try different code.';
+		}
+
+		if(empty( $coupon_code ) or $coupon_code == vmText::_( 'COM_VIRTUEMART_COUPON_CODE_ENTER' )) {
+			$this->couponCode = '';
+			return false;
+		} else if($this->couponCode == $coupon_code) {
+			return;
+		}
+
+		$this->prepareCartData();
+
+		$msg = $this->validateCoupon( $coupon_code );
+		//$this->getCartPrices();
+		if(empty( $msg )) {
+			$this->couponCode = $coupon_code;
+
+			$this->prepareCartData( true );
+			$this->setCartIntoSession( true, true );
+			return vmText::_( 'COM_VIRTUEMART_CART_COUPON_VALID' );
+		} else {
+			$this->couponCode = '';
+			$this->setCartIntoSession( true, true );
+			return $msg;
+		}
+	}
+
+	public function validateCoupon ($coupon_code) {
+
+		$timeDeleteTries = time() - (24*60*60);
+		foreach( $this->_triesValidateCoupon as $k => $v ) {
+			if($k<8 or $k<$timeDeleteTries) {
+				unset( $this->_triesValidateCoupon[$k] );
 			}
 		}
 

@@ -5,8 +5,8 @@
     <property name="releasetype" value="BUGFIX"/>
     <property name="vm.version.main" value="3.6"/>
     <property name="vm.version" value="3.6.11"/>
-    <property name="joomla.version" value="3.9.14"/>
-    <property name="PHING.VM.REVISION" value="10240"/>
+    <property name="joomla.version" value="3.9.16"/>
+    <property name="PHING.VM.REVISION" value="10292"/>
     <property name="PHING.VM.CODENAME" value="Eagle owl"/>
     <property name="PHING.VM.UPDATEFOLDER" value="vm3"/>
     <property file="build.properties"/>

@@ -189,7 +189,7 @@ if(!empty($this->orderByList)) { ?>
 </div>
 
 <?php
-if(VmConfig::get ('ajax_category', false)){
+if(VmConfig::get ('jdynupdate', false)){
 	$j = "Virtuemart.container = jQuery('.category-view');
 	Virtuemart.containerSelector = '.category-view';";
 

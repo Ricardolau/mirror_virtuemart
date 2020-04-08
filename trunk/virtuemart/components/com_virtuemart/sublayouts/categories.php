@@ -37,7 +37,7 @@ $category_cellwidth = ' width'.floor ( 100 / $categories_per_row );
 $verticalseparator = " vertical-separator";
 
 $ajaxUpdate = '';
-if(VmConfig::get ('ajax_category', false)){
+if(VmConfig::get ('jdynupdate', false)){
 	$ajaxUpdate = 'data-dynamic-update="1"';
 }
 ?>

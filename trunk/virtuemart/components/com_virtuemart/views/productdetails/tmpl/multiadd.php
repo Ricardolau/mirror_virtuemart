@@ -198,7 +198,7 @@ echo '<form method="post" class="product js-recalculate" action="'.JRoute::_('in
 					<noscript><input type="hidden" name="task" value="add" /></noscript>
 					<?php if(!empty($childProductIds)){ ?>
 						<span class="addtocart-button">
-						<?php echo shopFunctionsF::getAddToCartButton(TRUE); ?>
+						<?php echo self::renderVmSubLayout('addtocartbtn',array('orderable'=>$this->product->orderable)); ?>
 						</span>
 					<?php } ?>
 				</form>

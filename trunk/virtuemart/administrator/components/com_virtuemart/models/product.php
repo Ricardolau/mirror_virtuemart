@@ -1094,6 +1094,7 @@ class VirtueMartModelProduct extends VmModel {
 
 		if(!isset($child->orderable)){
 			$child->orderable = TRUE;
+			$child->show_notify = false;
 		}
 		//store the original parent id
 		$pId = $child->virtuemart_product_id;
@@ -1246,6 +1247,17 @@ class VirtueMartModelProduct extends VmModel {
 			}
 			else if ($product_available_date != '0000-00-00' and $current_date < $product_available_date) {
 				$child->availability = vmText::_('COM_VIRTUEMART_PRODUCT_AVAILABLE_DATE') .': '. JHtml::_('date', $child->product_available_date, vmText::_('DATE_FORMAT_LC4'));
+			}
+
+			if ($child->min_order_level > 0) {
+				$minOrderLevel = $child->min_order_level;
+			} else {
+				$minOrderLevel = 1;
+			}
+
+			if (($stockhandle == 'disableit' or $stockhandle == 'disableadd') and ($child->product_in_stock - $child->product_ordered) < $minOrderLevel) {
+				$child->orderable = false;
+				$child->show_notify = true;
 			}
 
 			foreach(self::$decimals as $decimal){

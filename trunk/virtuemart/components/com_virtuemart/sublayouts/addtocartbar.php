@@ -89,7 +89,7 @@ if (!VmConfig::get('use_as_catalog', 0)  ) {
 	<?php
 	// Display the quantity box
 	$stockhandle = VmConfig::get('stockhandle_products', false) && $product->product_stockhandle ? $product->product_stockhandle : VmConfig::get('stockhandle','none');
-	if (($stockhandle == 'disableit' or $stockhandle == 'disableadd') and ($product->product_in_stock - $product->product_ordered) < $minOrderLevel) { ?>
+	if ($product->show_notify) { ?>
         <a class="notify <?php echo $vmbtn.' '.$vmbtnsec?>" href="<?php echo JRoute::_ ('index.php?option=com_virtuemart&view=productdetails&layout=notify&virtuemart_product_id=' . $product->virtuemart_product_id); ?>" ><?php echo vmText::_ ('COM_VIRTUEMART_CART_NOTIFY') ?></a><?php
 	} else {
 		$tmpPrice = (float) $product->prices['costPrice'];

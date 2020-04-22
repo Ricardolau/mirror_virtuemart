@@ -205,9 +205,13 @@ vmdebug('Found cached cat, but without children');
 			$cache = VmConfig::getCache('com_virtuemart_cat_childs','callback');
 			$cache->setCaching(true);
 			vmdebug('Calling cache getChildCategoryListObject');
-			return  $cache->call( array( 'VirtueMartModelCategory', 'getChildCategoryListObject' ),$vendorId, $virtuemart_category_id, false, $onlyPublished, true, '', $selectedOrdering, $orderDir, 0, 0);
+			$cats = $cache->call( array( 'VirtueMartModelCategory', 'getChildCategoryListObject' ),$vendorId, $virtuemart_category_id, false, $onlyPublished, true, '', $selectedOrdering, $orderDir, 0, 0);
+			vmTime('getChildCategoryList getChildCategoryListObject cached '.$virtuemart_category_id,'com_virtuemart_cat_childs');
+			return $cats;
 		} else {
-			return  VirtueMartModelCategory::getChildCategoryListObject($vendorId, $virtuemart_category_id, false, $onlyPublished, true, '', $selectedOrdering, $orderDir, 0, 0);
+			$cats = VirtueMartModelCategory::getChildCategoryListObject($vendorId, $virtuemart_category_id, false, $onlyPublished, true, '', $selectedOrdering, $orderDir, 0, 0);
+			vmTime('getChildCategoryList getChildCategoryListObject '.$virtuemart_category_id,'com_virtuemart_cat_childs');
+			return $cats;
 		}
 
 	}
@@ -225,11 +229,11 @@ vmdebug('Found cached cat, but without children');
 	 * @return mixed
 	 */
 	static public function getChildCategoryListObject($vendorId, $virtuemart_category_id = 0, $childId = false, $onlyPublished = true, $media = true, $keyword = '', $selectedOrdering = null, $orderDir = null, $limitStart = 0, $limit = 0) {
-
+		vmSetStartTime('getChildCategoryListObject');
 		static $cats = array ();
 		$h = (int)$vendorId.'_'.(int)$virtuemart_category_id.'_'.$childId.$selectedOrdering.(int)$onlyPublished.$orderDir.(int)$media.VmLanguage::$currLangTag.$limitStart.$keyword.$limit.$selectedOrdering.$orderDir ;
 		if ( isset($cats[$h])){
-			vmdebug('getChildCategoryListObject return cached'.$h);
+			//vmdebug('getChildCategoryListObject return cached'.$h);
 			return $cats[$h];
 		}
 
@@ -353,6 +357,7 @@ vmdebug('Found cached cat, but without children');
 		//$count = count($childList);
 		//vmdebug('getChildCategoryListObject count result '.$query,$count );
 		$cats[$h] = $childList;
+		vmTime('getChildCategoryListObject summed up','getChildCategoryListObject',false);
 		return $childList;
 	}
 

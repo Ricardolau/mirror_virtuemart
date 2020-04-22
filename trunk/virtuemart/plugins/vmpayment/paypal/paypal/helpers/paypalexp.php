@@ -38,6 +38,7 @@ class PaypalHelperPayPalExp extends PaypalHelperPaypal {
 
 	function __construct ($method, $paypalPlugin) {
 		parent::__construct($method, $paypalPlugin);
+
 		//Set the credentials
 		if ($this->_method->sandbox) {
 			$this->api_login_id = $this->_method->sandbox_api_login_id;
@@ -57,6 +58,7 @@ class PaypalHelperPayPalExp extends PaypalHelperPaypal {
 			$this->api_password = trim($this->_method->api_password);
 			$this->merchant_email = trim($this->_method->paypal_merchant_email);
 		}
+
 		if ((!$this->ExpCredentialsValid() OR !$this->isAacceleratedOnboardingValid())) {
 			$text = vmText::sprintf('VMPAYMENT_PAYPAL_CREDENTIALS_NOT_SET', $this->_method->payment_name, $this->_method->virtuemart_paymentmethod_id);
 			vmError($text, $text);

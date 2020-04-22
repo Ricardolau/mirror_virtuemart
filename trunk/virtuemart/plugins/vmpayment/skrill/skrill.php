@@ -634,7 +634,12 @@ class plgVmpaymentSkrill extends vmPSPlugin {
      */
 	protected function getBillingCountryCode() {
 		$billingAddress = $this->getAddress('BT');
-    	return  ShopFunctions::getCountryByID($billingAddress['virtuemart_country_id'], 'country_3_code');
+		if(isset($billingAddress['virtuemart_country_id'])){
+			return  ShopFunctions::getCountryByID($billingAddress['virtuemart_country_id'], 'country_3_code');
+		} else {
+			return false;
+		}
+
 	}
 
 	/**

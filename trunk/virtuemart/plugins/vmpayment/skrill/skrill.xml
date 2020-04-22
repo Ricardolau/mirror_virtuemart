@@ -22,7 +22,7 @@
         <fields name="params">
             <fieldset name="basic" addfieldpath="/plugins/vmpayment/skrill/fields">
               <!-- Account Credentials -->
-                <field name="skrillConditionsCore" value="1" default="1" type="hidden"/>
+                <field name="checkConditionsCore" value="1" default="1" type="hidden"/>
                 <field type="getskrill" default=""/>
                 <field type="vmtitle" default="VMPAYMENT_SKRILL_ACCOUNT_PARAMS"/>
                 <field type="text" required="true" name="skrill_general_merchant_id" size="50" label="SKRILL_BACKEND_MID"

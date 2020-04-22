@@ -896,13 +896,14 @@ class ShopFunctions {
 	static public function getEnumeratedCategories ($onlyPublished = TRUE, $withParentId = FALSE, $parentId = 0, $name = '', $attribs = '', $key = '', $text = '', $selected = NULL) {
 
 		$categoryModel = VmModel::getModel ('category');
-
+		$categoryModel->_noLimit = true;
 		$categories = $categoryModel->getCategories ($onlyPublished, $parentId);
-
+		$categoryModel->_noLimit = false;
 		foreach ($categories as $index => $cat) {
 			$cat->category_name = $cat->ordering . '. ' . $cat->category_name;
 			$categories[$index] = $cat;
 		}
+
 		return JHtml::_ ('Select.genericlist', $categories, $name, $attribs, $key, $text, $selected, $name);
 	}
 

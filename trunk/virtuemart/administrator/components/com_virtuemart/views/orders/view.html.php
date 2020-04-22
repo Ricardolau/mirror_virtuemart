@@ -242,6 +242,7 @@ class VirtuemartViewOrders extends VmViewAdmin {
 
 			// quorvia added for display colors
 			$shipmentMethodModel=VmModel::getModel('shipmentmethod');
+			$shipmentMethodModel->_noLimit = true;
 			$shipmentMethods = $shipmentMethodModel->getShipments(false);
 			$this->shipmentColors=array();
 			foreach($shipmentMethods as $shipmentMethod) {

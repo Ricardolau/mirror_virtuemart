@@ -690,8 +690,14 @@ class VmMediaHandler {
 
 			return $lightboxImage;
 		} else {
-
-			return '<img src="' . $root.$file_url . '" alt="' . $file_alt . '" ' . $args . ' />'.$desc;
+			if(!isset(VmConfig::$lazyLoad)){
+				if(VmConfig::get('lazyLoad',true)){
+					VmConfig::$lazyLoad = 'loading="lazy"';
+				} else {
+					VmConfig::$lazyLoad = '';
+				}
+			}
+			return '<img '.VmConfig::$lazyLoad.' src="' . $root.$file_url . '" alt="' . $file_alt . '" ' . $args . ' />'.$desc;
 		}
 	}
 

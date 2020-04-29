@@ -923,7 +923,7 @@ class VirtueMartModelCustomfields extends VmModel {
 		return self::displayProductCustomfieldSelected ($item, '<div class="vm-customfield-cart">', 'plgVmDisplayInOrder' . $view);
 	}
 
-	static function displayCustomMedia ($media_id, $table = 'product', $width = false, $height = false, $absUrl = false) {
+	static function displayCustomMedia ($media_id, $table = 'product', $width = false, $height = false, $absUrl = false, $attribs = '') {
 
 		$db = JFactory::getDBO ();
 		$data = new TableMedias($db);
@@ -938,7 +938,7 @@ class VirtueMartModelCustomfields extends VmModel {
 		}
 		$media = VmMediaHandler::createMedia ($data, $table);
 
-		return $media->displayMediaThumb ('', FALSE, '', TRUE, TRUE, $absUrl, $width, $height);
+		return $media->displayMediaThumb ($attribs, FALSE, '', TRUE, TRUE, $absUrl, $width, $height);
 	}
 
 	/**

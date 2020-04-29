@@ -48,7 +48,7 @@ class VmConfig {
 	var $_params = array();
 	var $_raw = array();
 	public static $installed = false;
-
+	public static $lazyLoad = null;
 
 	private function __construct() {
 

@@ -1941,7 +1941,7 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 						$nb ++;
 						$method_id[] = $method;
 					}
-				} else {
+				} else if ($returnValue){
 					$nb ++;
 					$method_id[] = $returnValue;
 				}

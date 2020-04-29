@@ -2404,6 +2404,10 @@ class VirtueMartModelOrders extends VmModel {
 			$view = shopFunctionsF::prepareViewForMail('invoice', $vars);
 			$res = shopFunctionsF::sendVmMail( $view, $shopperEmail, false );
 
+			//invoice_sent
+			/*$orderTable = $this->getTable('orders');
+			$orderTable->virtuemart_order_id = $virtuemart_order_id;
+			$orderTable->toggle( 'invoice_sent', 1);*/
 		}
 
 		if(is_object($res) or !$res){

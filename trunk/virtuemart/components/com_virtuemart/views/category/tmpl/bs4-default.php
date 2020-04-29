@@ -294,7 +294,7 @@ jQuery(document).ready(function () {
     </div>
 
 <?php
-if (VmConfig::get('jdynupdate', FALSE))
+if (VmConfig::get('ajax_category', FALSE))
 {
     $j = "Virtuemart.container = jQuery('.category-view');
 	Virtuemart.containerSelector = '.category-view';";

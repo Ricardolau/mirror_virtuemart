@@ -55,7 +55,7 @@ class VirtuemartControllerProduct extends VmController {
 
 		if($data===0)$data = vRequest::getRequest();
 
-		$this->getStrByAcl(array('product_name','product_desc','product_s_desc','customtitle'),$data);
+		$this->getStrByAcl(array('product_name','product_desc','product_s_desc','customtitle', 'customfield_params'),$data);
 
 		if(isset($data['field'])){
 			$data['field'] = vRequest::getHtml('field');

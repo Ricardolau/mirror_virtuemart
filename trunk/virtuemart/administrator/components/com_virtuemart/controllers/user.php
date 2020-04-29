@@ -104,7 +104,7 @@ class VirtuemartControllerUser extends VmController {
 
 			if($data===0) $data = vRequest::getRequest();
 
-			$this->getStrByAcl(array('vendor_store_name','vendor_store_desc','vendor_terms_of_service','vendor_legal_info', 'vendor_letter_css', 'vendor_letter_header_html', 'vendor_letter_footer_html'),$data);
+			$this->getStrByAcl(array('vendor_store_name','vendor_store_desc','vendor_terms_of_service','vendor_legal_info', 'vendor_letter_css', 'vendor_letter_header_html', 'vendor_letter_footer_html', 'vendor_mail_free1','vendor_mail_free2'),$data);
 
 			$ids = vRequest::getInt('virtuemart_user_id');
 

@@ -1250,7 +1250,7 @@ class com_virtuemartInstallerScript {
 		JLoader::register('GenericTableUpdater', $vmpath_admin.'/helpers/tableupdater.php');
 		JLoader::register('VmController', $vmpath_admin.'/helpers/vmcontroller.php');
 		JLoader::register('vmCrypt', $vmpath_admin.'/helpers/vmcrypt.php');
-		JLoader::register('vmFilter', $vmpath_admin.'/helpers/vmfilter.php');
+		//JLoader::register('vmFilter', $vmpath_admin.'/helpers/vmfilter.php');
 		JLoader::register('vmJsApi', $vmpath_admin.'/helpers/vmjsapi.php');
 		JLoader::register('vmLanguage', $vmpath_admin.'/helpers/vmlanguage.php');
 		JLoader::register('VmModel', $vmpath_admin.'/helpers/vmmodel.php');

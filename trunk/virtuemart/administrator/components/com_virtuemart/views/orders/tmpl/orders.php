@@ -100,7 +100,7 @@ $styleDateCol = 'style="width:5%;min-width:110px"';
 					$orderName = html_entity_decode($order->order_name);
 					if ($order->virtuemart_user_id) {
 						$userlink = JRoute::_ ('index.php?option=com_virtuemart&view=user&task=edit&virtuemart_user_id[]=' . $order->virtuemart_user_id, FALSE);
-						echo JHtml::_ ('link', $userlink, FALSE, $orderName, array('title' => vmText::_ ('COM_VIRTUEMART_ORDER_EDIT_USER') . ' ' .  $orderName));
+						echo JHtml::_ ('link', $userlink, $orderName, array('title' => vmText::_ ('COM_VIRTUEMART_ORDER_EDIT_USER') . ' ' .  $orderName) );
 					} else {
 						echo $orderName;
 					}

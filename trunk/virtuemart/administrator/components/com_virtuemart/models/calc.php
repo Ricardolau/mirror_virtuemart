@@ -72,7 +72,7 @@ class VirtueMartModelCalc extends VmModel {
 			$xrefTable = $this->getTable('calc_manufacturers');
 			$this->_cache[$this->_id]->virtuemart_manufacturers = $xrefTable->load($this->_id);
 
-			JPluginHelper::importPlugin('vmcalculation');
+			VmConfig::importVMPlugins('vmcalculation');
 			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger('plgVmGetPluginInternalDataCalc',array(&$this->_cache[$this->_id]));
 
@@ -112,7 +112,7 @@ class VirtueMartModelCalc extends VmModel {
 
 			$data->currencyName = ShopFunctions::getCurrencyByID($data->calc_currency);
 
-			JPluginHelper::importPlugin('vmcalculation');
+			VmConfig::importVMPlugins('vmcalculation');
 			$dispatcher = JDispatcher::getInstance();
 			$error = $dispatcher->trigger('plgVmGetPluginInternalDataCalcList',array(&$data));
 		}
@@ -154,7 +154,7 @@ class VirtueMartModelCalc extends VmModel {
 
 		//Missing in calculation plugins,... plgVmGetTablePluginParams or declare
 		//if ($type == 'E') {
-		/*	JPluginHelper::importPlugin ('vmcalculation');
+		/*	VmConfig::importVMPlugins ('vmcalculation');
 			$dispatcher = JDispatcher::getInstance ();
 			//We call here vmplugin->getTablePluginParams which sets the xParam and the varsToPush of the Plugin
 			vmdebug('setParameterableByFieldType before trigger plgVmGetTablePluginParams ',$xParams,$varsToPush);
@@ -186,7 +186,7 @@ class VirtueMartModelCalc extends VmModel {
 		$xrefTable = $this->getTable('calc_manufacturers');
     	$xrefTable->bindChecknStore($data);
 
-		JPluginHelper::importPlugin('vmcalculation');
+		VmConfig::importVMPlugins('vmcalculation');
 		$dispatcher = JDispatcher::getInstance();
 		//$error = $dispatcher->trigger('plgVmStorePluginInternalDataCalc',array(&$data));
 		$error = $dispatcher->trigger('plgVmOnStoreInstallPluginTable',array('calculation',$data,$table));
@@ -279,7 +279,7 @@ class VirtueMartModelCalc extends VmModel {
 				$ok = false;
 			}
 
-			JPluginHelper::importPlugin('vmcalculation');
+			VmConfig::importVMPlugins('vmcalculation');
 			$dispatcher = JDispatcher::getInstance();
 			$returnValues = $dispatcher->trigger('plgVmDeleteCalculationRow', array( $id));
 

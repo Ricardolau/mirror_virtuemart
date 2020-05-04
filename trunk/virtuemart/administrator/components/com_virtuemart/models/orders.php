@@ -630,7 +630,7 @@ class VirtueMartModelOrders extends VmModel {
 			$table->emptyCache();
 			$table->load($virtuemart_order_item_id);
 
-			//JPluginHelper::importPlugin('vmcustom');
+			//VmConfig::importVMPlugins('vmcustom');
 			$dispatcher = JDispatcher::getInstance();
 			$results = $dispatcher->trigger('plgVmOnUpdateSingleItem', array(&$table, &$orderdata));
 
@@ -1463,7 +1463,7 @@ class VirtueMartModelOrders extends VmModel {
 		$this->notifyCustomer( $data->virtuemart_order_id , $inputOrder );
 // 			}
 
-		//JPluginHelper::importPlugin('vmcoupon');
+		//VmConfig::importVMPlugins('vmcoupon');
 		$dispatcher = JDispatcher::getInstance();
 		$returnValues = $dispatcher->trigger('plgVmCouponUpdateOrderStatus', array($data, $old_order_status));
 		if(!empty($returnValues)){

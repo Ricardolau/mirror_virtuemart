@@ -208,13 +208,15 @@ class VirtueMartModelShipmentmethod extends VmModel {
 
 		$varsToPushParam = $table->_varsToPushParam;
 
+		VmConfig::importVMPlugins('vmshipment');
+		
 		if(isset($data['shipment_jplugin_id'])){
 
 			$q = 'UPDATE `#__extensions` SET `enabled`= 1 WHERE `extension_id` = "'.$data['shipment_jplugin_id'].'"';
 			$db->setQuery($q);
 			$db->execute();
 			
-			JPluginHelper::importPlugin('vmshipment');
+			
 			$dispatcher = JDispatcher::getInstance();
 			//bad trigger, we should just give it data, so that the plugins itself can check the data to be stored
 			//so this trigger is now deprecated and will be deleted in vm2.2
@@ -235,7 +237,6 @@ class VirtueMartModelShipmentmethod extends VmModel {
 		$xrefTable = $this->getTable('shipmentmethod_shoppergroups');
 		$xrefTable->bindChecknStore($data);
 
-		JPluginHelper::importPlugin('vmshipment');
 		//Add a hook here for other shipment methods, checking the data of the choosed plugin
 		$dispatcher = JDispatcher::getInstance();
 		$retValues = $dispatcher->trigger('plgVmOnStoreInstallShipmentPluginTable', array(  $data['shipment_jplugin_id']));

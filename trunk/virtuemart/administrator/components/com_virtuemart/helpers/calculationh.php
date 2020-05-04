@@ -1075,7 +1075,7 @@ class calculationHelper {
 	 */
 	protected function couponHandler($_code) {
 
-		JPluginHelper::importPlugin('vmcoupon');
+		VmConfig::importVMPlugins('vmcoupon');
 		$dispatcher = JDispatcher::getInstance();
 		$returnValues = $dispatcher->trigger('plgVmCouponHandler', array($_code,&$this->_cart->cartData, &$this->_cart->cartPrices));
 		if(!empty($returnValues)){
@@ -1430,7 +1430,7 @@ class calculationHelper {
 
 		//Test rules in plugins
 		if(!empty($testedRules) and count($testedRules)>0){
-			JPluginHelper::importPlugin('vmcalculation');
+			VmConfig::importVMPlugins('vmcalculation');
 			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger('plgVmInGatherEffectRulesProduct',array(&$this,&$testedRules));
 			if ($this->_debug) vmdebug('plgVmInGatherEffectRulesProduct rules',$testedRules);
@@ -1529,7 +1529,7 @@ class calculationHelper {
 
 		//Test rules in plugins
 		if(!empty($testedRules) and count($testedRules)>0){
-			JPluginHelper::importPlugin('vmcalculation');
+			VmConfig::importVMPlugins('vmcalculation');
 			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger('plgVmInGatherEffectRulesBill', array(&$this, &$testedRules));
 		}
@@ -1545,7 +1545,7 @@ class calculationHelper {
 	function calculateDisplayedPlugins($type){
 
 		// Handling shipment plugins
-		JPluginHelper::importPlugin('vm'.$type);
+		VmConfig::importVMPlugins('vm'.$type);
 
 		//We use one trigger to load all possible plugins and store as result an array of the pluginmethods and their display.
 		//we select the first if there is one.
@@ -1622,7 +1622,7 @@ class calculationHelper {
 		$method_id_name = 'virtuemart_'.$type.'method_id';
 		// Handling shipment plugins
 		//if(empty($this->_cart->$method_id_name)){
-			JPluginHelper::importPlugin('vm'.$type);
+			VmConfig::importVMPlugins('vm'.$type);
 			$this->_cart->checkAutomaticSelectedPlug($type);
 			if(empty($this->_cart->{$method_id_name})) return;
 		//}
@@ -1788,7 +1788,7 @@ class calculationHelper {
 			}
 		} else {
 
-			JPluginHelper::importPlugin('vmcalculation');
+			VmConfig::importVMPlugins('vmcalculation');
 			$dispatcher = JDispatcher::getInstance();
 
 			$calculated = $dispatcher->trigger('plgVmInterpreteMathOp', array($this, $rule, $price,$this->_revert));

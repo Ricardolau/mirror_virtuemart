@@ -223,10 +223,7 @@ class VirtueMartModelInvoice extends VmModel {
 
 		if($orderDetails['invoice_locked']) return false;
 
-		JPluginHelper::importPlugin('vmextended');
-		JPluginHelper::importPlugin('vmshopper');
-		JPluginHelper::importPlugin('vmshipment');
-		JPluginHelper::importPlugin('vmpayment');
+		VmConfig::importVMPlugins('vmpayment');
 
 		$dispatcher = JDispatcher::getInstance();
 		// plugin returns invoice number, 0 if it does not want an invoice number to be created by Vm

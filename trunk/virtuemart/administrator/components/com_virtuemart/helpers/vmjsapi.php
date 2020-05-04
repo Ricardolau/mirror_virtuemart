@@ -706,14 +706,23 @@ Virtuemart.requiredMsg = '" .addslashes (vmText::_ ('COM_VIRTUEMART_MISSING_REQU
 				// If exist exit
 				vmJsApi::css ( $cssFile ) ;
 			} else {
-				$cssFile = 'vm-' . $direction .'-common';
-				vmJsApi::css ( $cssFile ) ;
+//			quorvia allow a combined by hidden cfg and dont load ratings/reviews css if none are used
+				$combined = VmConfig::get( 'VMcombinedCssFE', 0 );
+				if($combined) {
+					$cssFile = 'vm-'.$direction.'-combined-min';
+					vmJsApi::css( $cssFile );
+				} else {
+					$cssFile = 'vm-' . $direction .'-common';
+					vmJsApi::css ( $cssFile ) ;
 
-				$cssFile = 'vm-' . $direction .'-site';
-				vmJsApi::css ( $cssFile ) ;
-
-				$cssFile = 'vm-' . $direction .'-reviews';
-				vmJsApi::css ( $cssFile ) ;
+					$cssFile = 'vm-' . $direction .'-site';
+					vmJsApi::css ( $cssFile ) ;
+					
+					if(VmConfig::get( 'showReviewFor', 'none' ) != 'none' and VmConfig::get( 'showRatingFor', 'none' ) !='none') {
+						$cssFile = 'vm-'.$direction.'-reviews';
+						vmJsApi::css( $cssFile );
+					}
+				}
 			}
 			$cssSite = TRUE;
 		}

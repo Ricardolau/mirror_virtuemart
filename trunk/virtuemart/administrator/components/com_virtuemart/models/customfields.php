@@ -790,7 +790,7 @@ class VirtueMartModelCustomfields extends VmModel {
 				$html = '<input type="hidden" value="' . $field->customfield_value . '" name="field[' . $row . '][customfield_value]" />';
 
 				//vmdebug('displayProductCustomfieldBE $field',$field);
-				JPluginHelper::importPlugin ('vmcustom', $field->custom_element);
+				VmConfig::importVMPlugins ('vmcustom', $field->custom_element);
 				$dispatcher = JDispatcher::getInstance ();
 				$retValue = '';
 				$dispatcher->trigger ('plgVmOnProductEdit', array($field, $product_id, &$row, &$retValue));
@@ -1063,7 +1063,7 @@ class VirtueMartModelCustomfields extends VmModel {
 					}
 
 					if(!empty($productCustom) and $productCustom->field_type == 'E') {
-						JPluginHelper::importPlugin( 'vmcustom' );
+						VmConfig::importVMPlugins( 'vmcustom' );
 						$dispatcher = JDispatcher::getInstance();
 						$dispatcher->trigger( 'plgVmPrepareCartProduct', array(&$product, &$product->customfields[$k], $selected, &$product->modificatorSum) );
 					} else {
@@ -1199,7 +1199,7 @@ class VirtueMartModelCustomfields extends VmModel {
 		}
 
 
-		JPluginHelper::importPlugin('vmcustom');
+		VmConfig::importVMPlugins('vmcustom');
 		$dispatcher = JDispatcher::getInstance();
 		if (isset($datas['customfield_params']) and is_array($datas['customfield_params'])) {
 			foreach ($datas['customfield_params'] as $key => $plugin_param ) {

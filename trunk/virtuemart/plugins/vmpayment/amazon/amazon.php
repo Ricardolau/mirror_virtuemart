@@ -2950,9 +2950,9 @@ $('.amazonDetailsOpener').click(function() {
 	 * @return null if no plugin was found, 0 if more then one plugin was found,  virtuemart_xxx_id if only one plugin is found
 	 *
 	 */
-	public function plgVmOnCheckAutomaticSelectedPayment(VirtueMartCart $cart, array $cart_prices = array()) {
+	function plgVmOnCheckAutomaticSelectedPayment (VirtueMartCart $cart, array $cart_prices = array(), &$paymentCounter) {
 
-		return $this->onCheckAutomaticSelected($cart, $cart_prices);
+		return $this->onCheckAutomaticSelected ($cart, $cart_prices, $paymentCounter);
 	}
 
 	/**

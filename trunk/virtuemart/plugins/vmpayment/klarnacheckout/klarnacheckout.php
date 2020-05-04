@@ -1544,9 +1544,7 @@ jQuery().ready(function($) {
 	 *
 	 */
 	function plgVmOnCheckAutomaticSelectedPayment(VirtueMartCart $cart, array $cart_prices = array(), &$paymentCounter) {
-
 		return $this->onCheckAutomaticSelected($cart, $cart_prices, $paymentCounter);
-
 	}
 
 	/**
@@ -1558,7 +1556,6 @@ jQuery().ready(function($) {
 	 * @author Valerie Isaksen
 	 */
 	public function plgVmOnShowOrderFEPayment($virtuemart_order_id, $virtuemart_paymentmethod_id, &$payment_name) {
-
 		$this->onShowOrderFE($virtuemart_order_id, $virtuemart_paymentmethod_id, $payment_name);
 	}
 

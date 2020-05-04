@@ -1124,7 +1124,7 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 			$userAttempts = $db->loadResult();
 		}
 
-		if(($coupon_details->virtuemart_coupon_max_attempt_per_user>0) && ($userAttempts>0)) {
+		if($userAttempts>0 and ( !empty($coupon_details->virtuemart_coupon_max_attempt_per_user) and $coupon_details->virtuemart_coupon_max_attempt_per_user>0 )) {
 			if($userAttempts>=$coupon_details->virtuemart_coupon_max_attempt_per_user) {
 				$this->couponCode = '';
 				return 'Maximum coupon usage limit reached, please try different code.';
@@ -1172,10 +1172,18 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 			$allow_coupon = 1;
 		}
 
-		$allowed_product_ids = explode( ',', $coupon_details->virtuemart_product_ids );
-		$allowed_productcat_ids = explode( ',', $coupon_details->virtuemart_category_ids );
 
 		if(!empty( $coupon_details->virtuemart_product_ids ) || !empty( $coupon_details->virtuemart_category_ids )) {
+
+			$allowed_product_ids = array();
+			if(!empty($coupon_details->virtuemart_product_ids)){
+				$allowed_product_ids = explode( ',', $coupon_details->virtuemart_product_ids );
+			}
+
+			$allowed_productcat_ids = array();
+			if(!empty($coupon_details->virtuemart_category_ids)){
+				$allowed_productcat_ids = explode( ',', $coupon_details->virtuemart_category_ids );
+			}
 			$sizeof_cartitems_by_product = count( $this->productsQuantity );
 			$allow_coupon_byproduct = 0;
 			for( $i = 0; $i<$sizeof_cartitems_by_product; $i++ ) {
@@ -1927,11 +1935,19 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 			VmConfig::$_debug = 1;
 		}
 
+		$trigger = 'plgVmOnCheckAutomaticSelected';
+		if(VmConfig::get('checkAutomaticLegacy',false)){
+			$trigger .= ucfirst($type);
+		}
+
 		$counter=0;
 		$dispatcher = JDispatcher::getInstance();
-		$returnValues = $dispatcher->trigger('plgVmOnCheckAutomaticSelected'.ucfirst($type), array(  $this,$this->cartPrices, &$counter));
+		$returnValues = $dispatcher->trigger($trigger, array(  $this,$this->cartPrices, &$counter, $type));
 
-		//vmdebug('checkAutomaticSelectedPlug my return value '.$type,$returnValues);
+		vmdebug('checkAutomaticSelectedPlug my return value '.$type,$returnValues);
+
+		$vm_autoSelected_name = 'automaticSelected'.ucfirst($type);
+		$this->{$vm_autoSelected_name}=false;
 		$nb = 0;
 		$method_id = array();
 		foreach ($returnValues as $returnValue) {
@@ -1944,14 +1960,18 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 				} else if ($returnValue){
 					$nb ++;
 					$method_id[] = $returnValue;
+				} else if ( $returnValue === 0) {
+					//Here are the old plugins
+					//$this->{$vm_autoSelected_name}=true;
+					vmdebug('Old plugin detected, no method given');
 				}
 			}
 		}
 
-		//vmdebug('checkAutomaticSelectedPlug my $method_ids '.$type,$nb,$method_id);
-		$vm_autoSelected_name = 'automaticSelected'.ucfirst($type);
+		vmdebug('checkAutomaticSelectedPlug my $method_ids '.$type,$nb,$method_id);
 
-		$this->{$vm_autoSelected_name}=false;
+
+
 		if(empty($method_id) or empty($method_id[0])){
 			if($nb==0){
 				$this->{$vm_method_name} = 0;

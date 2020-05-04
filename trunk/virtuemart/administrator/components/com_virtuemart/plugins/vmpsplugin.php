@@ -200,6 +200,11 @@ abstract class vmPSPlugin extends vmPlugin {
 		return TRUE;
 	}
 
+	function plgVmOnCheckAutomaticSelected (VirtueMartCart $cart, array $cart_prices, &$shipCounter, $type) {
+		if($type!=$this->_psType) return ;
+		return $this->onCheckAutomaticSelected ($cart, $cart_prices, $shipCounter);
+
+	}
 
 	/**
 	 * onCheckAutomaticSelected

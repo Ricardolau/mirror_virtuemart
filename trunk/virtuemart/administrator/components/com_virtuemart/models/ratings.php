@@ -69,6 +69,7 @@ class VirtueMartModelRatings extends VmModel {
 		} else {
 			$myarray = array('created_on','product_name','virtuemart_rating_id');
 			$this->removevalidOrderingFieldName('pr.created_on');
+			$this->removevalidOrderingFieldName('pr.locked_on');
 			$this->removevalidOrderingFieldName('virtuemart_rating_review_id');
 			$this->removevalidOrderingFieldName('vote');
 			$this->_selectedOrdering = 'created_on';
@@ -118,20 +119,24 @@ class VirtueMartModelRatings extends VmModel {
      */
     public function getRatings() {
 
-     	$tables = ' FROM `#__virtuemart_ratings` AS `r` JOIN `#__virtuemart_products_'.VmConfig::$vmlang.'` AS `pr`
+     	$tables = ' FROM `#__virtuemart_ratings` AS `r` INNER JOIN `#__virtuemart_products_'.VmConfig::$vmlang.'` AS `pr`
      			ON r.`virtuemart_product_id` = pr.`virtuemart_product_id` ';
+     	$tables .= ' INNER JOIN `#__virtuemart_rating_reviews` AS `rw`
+     			ON r.`virtuemart_product_id` = rw.`virtuemart_product_id` ';
 
+     
 		$whereString = '';
 		if(VmConfig::get('multix','none')!='none'){
 			$tables .= ' LEFT JOIN  `#__virtuemart_products` as p ON r.`virtuemart_product_id` = p.`virtuemart_product_id`';
+
 			$virtuemart_vendor_id = vmAccess::getVendorId();
 			if(!empty($virtuemart_vendor_id)){
 				$whereString = ' WHERE virtuemart_vendor_id="'.$virtuemart_vendor_id.'"';
 			}
 		}
 
-     	$this->_data = $this->exeSortSearchListQuery(0,' r.*,pr.`product_name` ',$tables,$whereString,'',$this->_getOrdering());
-
+     	$this->_data = $this->exeSortSearchListQuery(0,' r.*,rw.review_language,rw.virtuemart_rating_review_id,pr.`product_name` ',$tables,$whereString,'',$this->_getOrdering());
+     	//vmdebug('test',$this->_data);
      	return $this->_data;
     }
 
@@ -186,8 +191,14 @@ class VirtueMartModelRatings extends VmModel {
 	    }
 		static $reviews = array();
 		$hash = VmConfig::$vmlang.$virtuemart_product_id.$this->_selectedOrderingDir.$this->_selectedOrdering;
-		if(!isset($reviews[$hash])){
 
+		if(!isset($reviews[$hash])){
+		    $app = JFactory::getApplication();
+		    $language_filter = VmConfig::get('reviews_languagefilter');
+
+            if (VmConfig::get('reviews_autopublish')) {
+                
+            }
 			$jKind = 'INNER';
 			if($virtuemart_vendor_id){
 				$jKind = 'LEFT';
@@ -204,10 +215,16 @@ class VirtueMartModelRatings extends VmModel {
 			(`pr`.`virtuemart_rating_vote_id` IS NOT NULL AND `rv`.`virtuemart_rating_vote_id`=`pr`.`virtuemart_rating_vote_id` ) XOR
 			(`pr`.`virtuemart_rating_vote_id` IS NULL AND (`rv`.`virtuemart_product_id`=`pr`.`virtuemart_product_id` and `rv`.`created_by`=`pr`.`created_by`) )';
 		$tables .= 'LEFT JOIN `#__users` AS `u`	ON `pr`.`created_by` = `u`.`id`';
-*/
+		*/
+			
+
 			$whereString = ' WHERE  `pr`.`virtuemart_product_id` = "'.$virtuemart_product_id.'" ';
 			if(!empty($virtuemart_vendor_id)){
 				$whereString .= ' AND `p`.virtuemart_vendor_id="'.$virtuemart_vendor_id.'"';
+			}
+			vmdebug('$app->isAdmin()',$app->isAdmin());
+			if($language_filter && !$app->isAdmin()) {
+			    $whereString .= ' AND `pr`.review_language="'.VmConfig::$vmlang.'"';
 			}
 			self::$_select = self::getSelect();
 			$reviews[$hash] = $this->exeSortSearchListQuery(0,self::$_select,$tables,$whereString,'',$this->_getOrdering(), '', $num_reviews);
@@ -510,6 +527,7 @@ class VirtueMartModelRatings extends VmModel {
 			$data['review_ok'] = 0;
 			$data['review_rating'] = 0;
 			$data['review_editable'] = 0;
+			$data['review_language'] = $data['review_language'];
 			// Check if ratings are auto-published (set to 0 prevent injected by user)
 			//
 

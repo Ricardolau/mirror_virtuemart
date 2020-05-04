@@ -1008,6 +1008,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_rating_reviews` (
   `review_rates` int(1) UNSIGNED NOT NULL DEFAULT '0',
   `review_ratingcount` int(1) UNSIGNED NOT NULL DEFAULT '0',
   `review_rating` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `review_language` varchar(10) DEFAULT NULL,
   `review_editable` tinyint(1) NOT NULL DEFAULT '1',
   `lastip` char(50) NOT NULL DEFAULT '0',
   `published` tinyint(1) NOT NULL DEFAULT '1',

@@ -20,12 +20,6 @@ defined ('_JEXEC') or die('Restricted access');
 if (!class_exists ('vmPSPlugin')) {
 	require(VMPATH_PLUGINLIBS .'/vmpsplugin.php');
 }
-if (!class_exists('SkrillPaymentCore'))
-{
-	$path = VMPATH_ROOT .'/plugins/vmpayment/skrill/helpers/core.php';
-	if(file_exists($path)) require $path;
-}
-
 
 class plgVmpaymentSkrill extends vmPSPlugin {
 
@@ -56,7 +50,11 @@ class plgVmpaymentSkrill extends vmPSPlugin {
 
 		parent::__construct ($subject, $config);
 
-
+		if (!class_exists('SkrillPaymentCore'))
+		{
+			$path = VMPATH_ROOT .'/plugins/vmpayment/skrill/helpers/core.php';
+			if(file_exists($path)) require $path;
+		}
 
 		// unique filelanguage for all SKRILL methods
 		$jlang = JFactory::getLanguage ();
@@ -152,7 +150,7 @@ class plgVmpaymentSkrill extends vmPSPlugin {
 		$html = '<table>' . "\n";
 		$html .= $this->getHtmlRow ('COM_VIRTUEMART_PAYMENT_NAME', $payment_name);
 		if (!empty($paymentTable)) {
-			$html .= $this->getHtmlRow ('SKRILL_ORDER_NUMBER', $paymentTable->order_number);
+			$html .= $this->getHtmlRow (vmText::_('VMPAYMENT_SKRILL_ORDER_NUMBER'), $paymentTable->order_number);
 		}
 		$html .= '</table>' . "\n";
 
@@ -1018,7 +1016,6 @@ class plgVmpaymentSkrill extends vmPSPlugin {
 
 		foreach ($this->methods as $this->_currentMethod) {
 			if ($this->checkConditions($cart, $this->_currentMethod, $cart->cartPrices)) {
-
 				$html = '';
 				$cartPrices=$cart->cartPrices;
 				if (isset($this->_currentMethod->cost_method)) {
@@ -1058,37 +1055,6 @@ class plgVmpaymentSkrill extends vmPSPlugin {
 	function plgVmOnCheckAutomaticSelectedPayment (VirtueMartCart $cart, array $cart_prices = array(), &$paymentCounter) {
 
 		return $this->onCheckAutomaticSelected ($cart, $cart_prices, $paymentCounter);
-	}
-
-	/**
-	 * Checks how many plugins are available. If only one, the user will not have the choice. Enter edit_xxx page
-	 * The plugin must check first if it is the correct type
-	 * This function extends from vmPSPlugin class in VirtueMart
-	 *
-	 * @param   object  $cart 			cart
-	 * @param   array  	$cartPrices 	cart prices
-	 * @param   string  $methodCounter 	method counter
-	 * @return  null if no plugin was found, 0 if more then one plugin was found,  virtuemart_xxx_id if only one plugin is found
-	 * @since   1.0.0
-	 */
-	public function onCheckAutomaticSelected(VirtueMartCart $cart, array $cartPrices = array(), &$methodCounter = 0)
-	{
-		$virtuemartPluginMethodId = 0;
-		$nbMethod = $this->getSelectable($cart, $virtuemartPluginMethodId, $cartPrices);
-		$methodCounter += $nbMethod;
-
-		if ($nbMethod == null)
-		{
-			return null;
-		}
-		else
-		{
-			if ( $methodCounter <= 1 ) {
-				return 0;	
-			} else {
-				return $virtuemartPluginMethodId;
-			}
-		}
 	}
 
 	/**

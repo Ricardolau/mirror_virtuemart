@@ -90,7 +90,7 @@ class SkrillPaymentCore
             )
         ),
 		"skrill_pch" => array(
-            'allowedCountries'  => array('AUT','GRC','HRV','HUN','ITA','MLT','PRT','ROU','SVN','ESP', 'CHE')
+            'allowedCountries'  => array('AUT','BEL','CAN','CZE','DNK','FRA','GRC','HRV','HUN','IRL','ITA','LUX','MLT','NLD','POL','PRT','ROU','SVK','SVN','SWE','ESP','CHE','GBR')
         ),
 		"skrill_acc" => array(
 			"allowedCountries" => "ALL"
@@ -107,7 +107,7 @@ class SkrillPaymentCore
 		"skrill_obt" => array(
             'allowedCountries'  => array(
                 'AUT','BEL','BGR','DNK','ESP','EST','FIN','FRA','DEU','HUN',
-                'ITA','LVA','NLD','NOR','POL','PRT','SWE','GBR','USA'
+                'ITA','LVA','NLD','NOR','POL','PRT','SWE','GBR','USA', 'GRC'
             )
         ),
 		"skrill_gir" => array(
@@ -210,6 +210,11 @@ class SkrillPaymentCore
 		"skrill_btc" => array(
             'allowedCountries' => 'ALL',
             'exceptedCountries' => array('CUB','SDN','SYR','PRK','IRN','KGZ','BOL','ECU','BGD','CAN','USA','TUR')
+        ),
+        "skrill_idl" => array(
+            'allowedCountries'  => array(
+                'NLD'
+            )
         )
 	);
 

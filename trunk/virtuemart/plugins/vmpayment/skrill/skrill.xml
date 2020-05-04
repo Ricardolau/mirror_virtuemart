@@ -342,6 +342,16 @@
                 </field>
                 <field type="vmtitle" class="skrill-countries" default="" description="SKRILL_BTC_COUNTRIES"/>
                 <field type="text"  name="skrill_btc_sort_order" size="2" default="30" label="BACKEND_CH_ORDER"/>
+
+                <!-- SKRILL iDEAL -->
+                <field type="vmtitle" default="SKRILL_BACKEND_PM_IDL"
+                       description=""/>
+                <field name="skrill_idl_active" type="list" default="1" label="BACKEND_CH_ACTIVE">
+                    <option value="0">COM_VIRTUEMART_NO</option>
+                    <option value="1">COM_VIRTUEMART_YES</option>
+                </field>
+                <field type="vmtitle" class="skrill-countries" default="" description="SKRILL_IDL_COUNTRIES"/>
+                <field type="text"  name="skrill_idl_sort_order" size="2" default="2" label="BACKEND_CH_ORDER"/>
             </fieldset>
         </fields>
     </vmconfig>

@@ -37,7 +37,7 @@ class JFormFieldGetSkrill extends JFormField {
 		$logoSkrillWidgetUrl = JURI::root() . '/plugins/vmpayment/skrill/assets/images/skrill_widget.png';
 		$signUpLogo = JURI::root() . '/plugins/vmpayment/skrill/assets/images/signup.png';
 		$verifyLogo = JURI::root() . '/plugins/vmpayment/skrill/assets/images/verify.png';
-		$guideLogo = JURI::root() . '/plugins/vmpayment/skrill/assets/images/guide.jpg';
+		$guideLogo = JURI::root() . '/plugins/vmpayment/skrill/assets/images/guide.png';
 		$logoSkrillUrl = '<img alt="skrill logo" src="'.$logoSkrillUrl.'" class="skrill-logo" />';
 		$logoWidgetUrl = '<img alt="skrill widget" src="'.$logoSkrillWidgetUrl.'" class="skrill-about-image" />';
 		$html = '<div class="skrill-header-group">

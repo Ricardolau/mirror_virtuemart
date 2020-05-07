@@ -92,7 +92,6 @@ class VirtueMartControllerCart extends JControllerLegacy {
 		} else {
 			//$cart->_inCheckOut = false;
 			$redirect = (isset($request['checkout']) or $task=='checkout' );
-
 			if( VmConfig::get('directCheckout',false) and !$redirect and !$cart->getInCheckOut() and !vRequest::getInt('dynamic',0) and !$cart->_dataValidated) {
 				$redirect = true;
 				vmdebug('directCheckout');
@@ -109,7 +108,11 @@ class VirtueMartControllerCart extends JControllerLegacy {
 		return $this;
 	}
 
-	public function updatecart($html=true,$force = null){
+	public function updateCartNoMethods($html=true,$force = null){
+		return $this->updatecart($html, $force, false);
+	}
+
+	public function updatecart($html=true,$force = null, $methods = true){
 
 		$cart = VirtueMartCart::getCart();
 		$cart->_fromCart = true;
@@ -163,8 +166,10 @@ class VirtueMartControllerCart extends JControllerLegacy {
 
 		if(!isset($force))$force = VmConfig::get('oncheckout_opc',true);
 
-		$cart->setShipmentMethod($force, !$html);
-		$cart->setPaymentMethod($force, !$html);
+		if($methods){
+			$cart->setShipmentMethod($force, !$html);
+			$cart->setPaymentMethod($force, !$html);
+		}
 
 		VmConfig::importVMPlugins('vmcustom');
 

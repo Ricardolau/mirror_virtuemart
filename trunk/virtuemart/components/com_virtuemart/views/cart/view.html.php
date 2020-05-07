@@ -514,23 +514,25 @@ jQuery(function($) {
 	Virtuemart.autocheck = function (){
 		var count = 0;
     	var hit = 0;
-    	jQuery.each(jQuery(".required"), function (key, value){
+    	$.each($(".required"), function (key, value){
     		count++;
-    		if(jQuery(this).attr("checked")){
+    		if($(this).attr("checked")){
         		hit++;
        		}
     	});
-    	var chkOutBtn = jQuery("#checkoutFormSubmit");
-    	chkOutBtn.attr("task","checkout");
+    	var chkOutBtn = $("#checkoutFormSubmit");
+
+    	$(\'input[name="task"]\').val("updateCartNoMethods");
+    	var form = $("#checkoutForm");
     	
-    	var form = jQuery("#checkoutForm");
-    	console.log("Required count and hit",count, hit);
+    	//console.log("Required count and hit",count, hit,form);
     	if(count==hit){
     		'.$updF.'
 			chkOutBtn.html("<span>'.vmText::_('COM_VIRTUEMART_ORDER_CONFIRM_MNU').'</span>");
+			chkOutBtn.attr("task","confirm");
 			form.submit();
 		} else {
-        	//chkOutBtn.attr("task","checkout");
+        	chkOutBtn.attr("task","checkout");
         	chkOutBtn.html("<span>'.vmText::_('COM_VIRTUEMART_CHECKOUT_TITLE').'</span>");
         }
 	};

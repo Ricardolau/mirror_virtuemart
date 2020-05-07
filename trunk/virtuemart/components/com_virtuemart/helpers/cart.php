@@ -1505,7 +1505,7 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 		if($this->cartPrices['salesPrice']>0.0){
 			if (empty($this->virtuemart_paymentmethod_id)) {
 				return $this->redirecter('index.php?option=com_virtuemart&view=cart&task=editpayment' , $redirectMsg);
-			} else {
+			} else /*if ($redirect)*/ {
 				VmConfig::importVMPlugins('vmpayment');
 				//Add a hook here for other payment methods, checking the data of the choosed plugin
 				$dispatcher = JDispatcher::getInstance();
@@ -1520,7 +1520,9 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 						// 	NOTE: inactive plugins will always return null, so that value cannot be used for anything else!
 					}
 				}
-			}
+			} /*else {
+
+			}*/
 		}
 
 		$validUserDataCart = self::validateUserData('cartfields',$this->cartfields,$this->_redirect);

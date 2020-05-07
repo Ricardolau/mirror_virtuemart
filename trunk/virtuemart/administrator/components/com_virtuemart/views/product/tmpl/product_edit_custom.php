@@ -117,7 +117,7 @@ defined('_JEXEC') or die('Restricted access');
 							<b>'.vmText::_($type).'</b> '.vmText::_($customfield->custom_title).'</span><br/>
 								'.$title.' '.$text.'
 								<span class="vmicon vmicon-16-'.$cartIcone.'"></span>';
-						if($customfield->virtuemart_product_id==$this->product->virtuemart_product_id or $customfield->override!=0){
+						if(($customfield->virtuemart_product_id==$this->product->virtuemart_product_id or $customfield->override!=0) and $customfield->disabler==0){
 							$tables['fields'] .= '<span class="vmicon vmicon-16-move"></span>
 							<span class="vmicon vmicon-16-remove 4remove"></span>';
 						}

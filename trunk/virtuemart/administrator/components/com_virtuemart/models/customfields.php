@@ -7,7 +7,7 @@
  * @subpackage
  * @author Max Milbers
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved by the author.
+ * @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved by the author.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -1098,33 +1098,47 @@ class VirtueMartModelCustomfields extends VmModel {
 
 		// Get old IDS
 		$db = JFactory::getDBO();
-		$db->setQuery( 'SELECT `virtuemart_customfield_id` FROM `#__virtuemart_'.$table.'_customfields` as `PC` WHERE `PC`.virtuemart_'.$table.'_id ='.$id );
-		$old_customfield_ids = $db->loadColumn();
+		$db->setQuery( 'SELECT * FROM `#__virtuemart_'.$table.'_customfields` as `PC` WHERE `PC`.virtuemart_'.$table.'_id ='.$id );
+
+		$oldCustomfields = $db->loadAssocList('virtuemart_customfield_id');
+		$old_customfield_ids = array_keys($oldCustomfields);
+
 		if (!empty( $datas['field'])) {
 
 			foreach($datas['field'] as $key => $fields){
 
 				if(!empty($datas['field'][$key]['virtuemart_product_id']) and (int)$datas['field'][$key]['virtuemart_product_id']!=$id){
-					//aha the field is from the parent, what we do with it?
+					//vmdebug('The field is from the parent',$fields);
 					$fields['override'] = (int)$fields['override'];
 					$fields['disabler'] = (int)$fields['disabler'];
 					if($fields['override']!=0 or $fields['disabler']!=0){
-						//If it is set now as override, store it as clone, therefore set the virtuemart_customfield_id = 0
 						if($fields['override']!=0){
 							$fields['override'] = $fields['virtuemart_customfield_id'];
 						}
 						if($fields['disabler']!=0){
 							$fields['disabler'] = $fields['virtuemart_customfield_id'];
 						}
-						$fields['virtuemart_customfield_id'] = 0;
+
+						if(!empty($fields['virtuemart_customfield_id']) and empty($oldCustomfields[$fields['virtuemart_customfield_id']]['virtuemart_customfield_id'])){
+							//vmdebug('It is set now as override, store it as clone, therefore set the virtuemart_customfield_id = 0');
+							$fields['virtuemart_customfield_id'] = 0;
+						}
 					}
 					else {
+						//vmdebug('there is no override/disabler set',$fields,$oldCustomfields[$fields['virtuemart_customfield_id']]);
 						//we do not store customfields inherited by the parent, therefore
 						$key = array_search($fields['virtuemart_customfield_id'], $old_customfield_ids );
 						if ($key !== false ){
 							unset( $old_customfield_ids[ $key ] );
 						}
 						continue;
+					}
+				}
+				else {
+					//vmdebug('The field is from the current product',$fields);
+					if($fields['override']==0 and $fields['disabler']==0 and !empty($fields['virtuemart_customfield_id']) and (!empty($oldCustomfields[$fields['virtuemart_customfield_id']]['disabler']) or !empty($oldCustomfields[$fields['virtuemart_customfield_id']]['override']) )){
+						//vmdebug('Remove customfield override/disabler',$fields['virtuemart_customfield_id']);
+						$old_customfield_ids[] = $fields['virtuemart_customfield_id'];
 					}
 				}
 

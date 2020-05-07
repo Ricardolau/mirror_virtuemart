@@ -154,9 +154,13 @@ class VirtuemartViewCoupon extends VmViewAdmin {
 			}
 		}
 
-		if ($layoutName == 'coupons_data') {
+		if ($layoutName == 'couponsdata') {
 			$coupon = $model->getCoupon();
 			$this->coupons_data = $model->getCouponsData();
+			$this->pagination = $model->getPagination();
+			if($this->showVendors()){
+				$this->vendorList = Shopfunctions::renderVendorList(vmAccess::getVendorId(), 'virtuemart_vendor_id', true);
+			}
 		} else {
 			$this->addStandardDefaultViewCommands();
 			$this->addStandardDefaultViewLists($model);
@@ -168,8 +172,9 @@ class VirtuemartViewCoupon extends VmViewAdmin {
 			if($this->showVendors()){
 				$this->vendorList = Shopfunctions::renderVendorList($model->virtuemart_vendor_id, 'virtuemart_vendor_id', true);
 			}
+			$this->SetViewTitle('COUPON');
 		}
-		
+
 		parent::display($tpl);
 	}
 

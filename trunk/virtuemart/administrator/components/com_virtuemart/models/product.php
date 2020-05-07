@@ -7,7 +7,7 @@
  * @subpackage
  * @author Max Milbers, Patrick Kohl, Valerie Isaksen
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2018 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -1515,9 +1515,9 @@ class VirtueMartModelProduct extends VmModel {
 
 				self::$_productsSingle[$checkedProductKey[1]] = false;
 				if(empty($product->slug)){
-					vmError('Could not find product by language', 'Could not find product with id '.$product->virtuemart_product_id.', entries exists for language? '.VmLanguage::$currLangTag);
+					vmError('Could not find product with id '.$product->virtuemart_product_id.', entries exists for language? '.VmLanguage::$currLangTag);
 				} else {
-					vmError('Could not find product by id', 'Could not find product with id '.$product->virtuemart_product_id.', still existing?');
+					vmError('Could not find product with id '.$product->virtuemart_product_id.', still existing?');
 				}
 
 				//vmdebug('Product was not found',$product);

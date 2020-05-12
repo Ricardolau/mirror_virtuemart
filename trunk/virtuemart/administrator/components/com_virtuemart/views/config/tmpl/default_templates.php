@@ -56,6 +56,7 @@ $params = VmConfig::loadConfig();
         </legend>
         <table class="admintable">
 			<?php
+			echo VmHTML::row('checkbox','COM_VM_CFG_USE_LAZYLOAD','lazyLoad', VmConfig::get('lazyLoad',1));
 			echo VmHTML::row('checkbox','COM_VM_USE_LAYOUT_OVERR','useLayoutOverrides', VmConfig::get('useLayoutOverrides',1));
 			echo VmHTML::row('checkbox','COM_VIRTUEMART_CFG_FANCY','usefancy', VmConfig::get('usefancy',1));
 			echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_CFG_FRONT_CSS','css', VmConfig::get('css',1));

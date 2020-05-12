@@ -511,7 +511,7 @@ class VmMediaHandler {
 	 * @param string $effect alternative lightbox display
 	 * @param boolean $withDesc display the image media description
 	 */
-	function displayMediaThumb($imageArgs='',$lightbox=true,$effect="class='modal' rel='group'",$return = true,$withDescr = false,$absUrl = false, $width=0,$height=0){
+	function displayMediaThumb($imageArgs=array(),$lightbox=true,$effect="class='modal' rel='group'",$return = true,$withDescr = false,$absUrl = false, $width=0,$height=0){
 
 		if(!empty($this->file_class)){
 			$imageArgs = $this->filterImageArgs($imageArgs);
@@ -644,7 +644,7 @@ class VmMediaHandler {
 	 * @param string $imageArgs attributes for displaying the images
 	 * @param boolean $lightbox use lightbox
 	 */
-	function displayIt($file_url, $file_alt, $imageArgs,$lightbox, $effect ="class='modal'",$withDesc=false,$absUrl = false){
+	function displayIt($file_url, $file_alt, $imageArgs, $lightbox, $effect ="class='modal'",$withDesc=false,$absUrl = false){
 
 		if ($withDesc) $desc='<span class="vm-img-desc">'.$withDesc.'</span>';
 		else $desc='';
@@ -658,17 +658,56 @@ class VmMediaHandler {
 			$root = JURI::root(true).'/';
 		}
 
-		$args = '';
-		if(is_array($imageArgs)){
-			foreach($imageArgs as $k=>$v){
-				$args .= ' '.$k.'="'.$v.'" ';
+
+		if(!isset(VmConfig::$lazyLoad)){
+			if(VmConfig::get('lazyLoad',false)){
+				VmConfig::$lazyLoad = true;//'loading="lazy"';
+			} else {
+				VmConfig::$lazyLoad = false;
 			}
-		} else {
-			$args = $imageArgs;
 		}
 
+		if(empty($imageArgs)){
+			$imageArgs = array();
+		} else if(!is_array($imageArgs)){
+
+			$sp = explode('=', $imageArgs);
+			if(count($sp) == 2){
+				$imageArgs = [$sp[0] => trim($sp[1],'"')];
+			} else {
+				$imageArgs[0] =  [$imageArgs];
+			}
+		}
+
+		if(VmConfig::$lazyLoad){
+			$imageArgs['loading'] = 'lazy';
+		}
+
+		if(!isset($imageArgs['src'])){
+			$imageArgs['src'] = $root.$file_url;
+		} else if($imageArgs['src']){
+			$imageArgs[$imageArgs['src']] = $root.$file_url;
+			unset($imageArgs['src']);
+		}
+
+		if(empty($imageArgs['alt']) and !empty($file_alt)){
+			$imageArgs['alt'] = $file_alt;
+		}
+
+		$args = '';
+		if(!empty($imageArgs)){
+			foreach($imageArgs as $k=>$v){
+				if(!empty($k) and !empty($v)){
+					$args .= ' '.$k.'="'.$v.'" ';
+				}
+				else if($k===0) $args .= ' '.$v.' ';
+			}
+		}
+
+		$image = '<img ' . $args . ' />';
+
 		if($lightbox){
-			$image = '<img src="' . $root.$file_url . '" alt="' . $file_alt . '" ' . $args . ' />';//JHtml::image($file_url, $file_alt, $imageArgs);
+
 			if ($file_alt ) $file_alt = 'title="'.$file_alt.'"';
 			if ($this->file_url and pathinfo($this->file_url, PATHINFO_EXTENSION) and (substr( $this->file_url, 0, 4) != "http" or substr( $this->file_url, 0, 2) == "//")) {
 				if($this->file_is_forSale ){
@@ -690,14 +729,8 @@ class VmMediaHandler {
 
 			return $lightboxImage;
 		} else {
-			if(!isset(VmConfig::$lazyLoad)){
-				if(VmConfig::get('lazyLoad',true)){
-					VmConfig::$lazyLoad = 'loading="lazy"';
-				} else {
-					VmConfig::$lazyLoad = '';
-				}
-			}
-			return '<img '.VmConfig::$lazyLoad.' src="' . $root.$file_url . '" alt="' . $file_alt . '" ' . $args . ' />'.$desc;
+
+			return $image . $desc;
 		}
 	}
 

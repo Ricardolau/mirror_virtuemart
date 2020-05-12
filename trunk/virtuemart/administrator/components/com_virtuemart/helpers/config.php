@@ -559,17 +559,13 @@ class VmConfig {
 
 		$value = '';
 		if ($key) {
-
 			if (empty(self::$_jpConfig->_params) && $allow_load) {
 				self::loadConfig();
 			}
 
-			if (!empty(self::$_jpConfig->_params)) {
-				if(array_key_exists($key,self::$_jpConfig->_params) && isset(self::$_jpConfig->_params[$key])){
+			if (!empty(self::$_jpConfig->_params) and isset(self::$_jpConfig->_params[$key])) {
 					$value = self::$_jpConfig->_params[$key];
-				} else {
-					$value = $default;
-				}
+
 
 			} else {
 				$value = $default;

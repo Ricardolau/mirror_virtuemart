@@ -90,7 +90,7 @@ if (!VmConfig::get('use_as_catalog', 0)  ) {
 	// Display the quantity box
 	$stockhandle = VmConfig::get('stockhandle_products', false) && $product->product_stockhandle ? $product->product_stockhandle : VmConfig::get('stockhandle','none');
 	if ($product->show_notify) { ?>
-        <a class="notify <?php echo $vmbtn.' '.$vmbtnsec?>" href="<?php echo JRoute::_ ('index.php?option=com_virtuemart&view=productdetails&layout=notify&virtuemart_product_id=' . $product->virtuemart_product_id); ?>" ><?php echo vmText::_ ('COM_VIRTUEMART_CART_NOTIFY') ?></a><?php
+        <a class="notify <?php echo $vmbtn.' '.$vmbtnsec ?>" href="<?php echo JRoute::_ ('index.php?option=com_virtuemart&view=productdetails&layout=notify&virtuemart_product_id=' . $product->virtuemart_product_id); ?>" ><?php echo vmText::_ ('COM_VIRTUEMART_CART_NOTIFY') ?></a><?php
 	} else {
 		$tmpPrice = (float) $product->prices['costPrice'];
 		if (!( VmConfig::get('askprice', true) and empty($tmpPrice) ) ) {
@@ -105,10 +105,10 @@ if (!VmConfig::get('use_as_catalog', 0)  ) {
                        value="<?php echo $init; ?>" data-init="<?php echo $init; ?>" data-step="<?php echo $step; ?>" <?php echo $maxOrder; ?> />
 			</span>
 			<?php if ($product->orderable) { ?>
-                <span class="quantity-controls js-recalculate">
-				<input type="button" class="quantity-controls quantity-plus"/>
-				<input type="button" class="quantity-controls quantity-minus"/>
-			</span>
+				<span class="quantity-controls js-recalculate">
+					<input type="button" class="quantity-controls quantity-plus"/>
+					<input type="button" class="quantity-controls quantity-minus"/>
+				</span>
 			<?php }
 
 			if(!empty($addtoCartButton)){

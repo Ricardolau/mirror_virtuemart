@@ -967,7 +967,7 @@ class VirtueMartModelOrders extends VmModel {
 					`order_billDiscountAmount`=`order_discountAmount`+'.$calc_rules_discount_amount.',
 					`order_salesPrice`=(SELECT sum(product_final_price*product_quantity) FROM #__virtuemart_order_items where `virtuemart_order_id`='.$ordid.'),
 					`order_tax`=(SELECT sum( product_tax*product_quantity) FROM #__virtuemart_order_items where `virtuemart_order_id`='.$ordid.'),
-					`order_subtotal`=(SELECT sum(ROUND(product_item_price, '. $rounding .')*product_quantity) FROM #__virtuemart_order_items where `virtuemart_order_id`='.$ordid.'), ';
+					`order_subtotal`=(SELECT sum(ROUND(product_item_price, '. $rounding .')*product_quantity) + /*product_subtotal_discount*/ FROM #__virtuemart_order_items where `virtuemart_order_id`='.$ordid.'), ';
 
 				if($calculate_billTaxAmount) {
 					$sql .= '`order_billTaxAmount`= /*`order_shipment_tax`+`order_payment_tax`+*/ '.$calc_rules_tax_amount.' + '.$calc_rules_vattax_amount;

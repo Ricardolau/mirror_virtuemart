@@ -828,6 +828,7 @@ class PaypalHelperPayPalExp extends PaypalHelperPaypal {
 
 	function validate ($enqueueMessage = true) {
 		//if (!$this->customerData->getVar('token') || $this->cart->virtuemart_paymentmethod_id != $this->customerData->getVar('selected_method')) {
+		if(!$enqueueMessage) return parent::validate();
 		if (!$this->customerData->getVar('token')) {
 			$this->getToken();
 			//Code stops here as the getToken method should redirect to PayPal

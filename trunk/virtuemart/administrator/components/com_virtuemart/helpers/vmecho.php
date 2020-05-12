@@ -291,7 +291,7 @@ function vmSetStartTime($n='cur', $t = 0){
 	}
 }
 
-function vmTime($descr,$name='cur', $reset = true){
+function vmTime( $descr, $name='cur', $reset = true, $output = true){
 	static $dt = 0.0;
 	if (empty($descr)) {
 		$descr = $name;
@@ -314,12 +314,12 @@ function vmTime($descr,$name='cur', $reset = true){
 		if(!$reset) $dt = VmConfig::$_starttime[$name]['Z'];
 
 		if ($name == 'cur') {
-			vmdebug ('vmTime: ' . $descr . ' time consumed ' . $dt);
+			if($output) vmdebug ('vmTime: ' . $descr . ' time consumed ' . $dt);
 			VmConfig::$_starttime[$name]['t'] = microtime (TRUE);
 		}
 		else {
 			$tmp = 'vmTime: ' . $descr . ': ' . $dt;
-			vmdebug ($tmp);
+			if($output) vmdebug ($tmp);
 			if($reset) VmConfig::$_starttime[$name]['t'] = $t;
 		}
 	}

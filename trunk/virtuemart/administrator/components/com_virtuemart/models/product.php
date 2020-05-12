@@ -155,6 +155,8 @@ class VirtueMartModelProduct extends VmModel {
 	 */
 	protected function populateState () {
 
+		if($this->__state_set) return ;
+
 		$app = JFactory::getApplication ();
 		$option = 'com_virtuemart';
 		$view = vRequest::getCmd('view','product');
@@ -264,6 +266,7 @@ class VirtueMartModelProduct extends VmModel {
 		$this->searchplugin = vRequest::getInt ('custom_parent_id', 0);
 
 		$this->__state_set = true;
+
 	}
 
 	/**
@@ -1952,7 +1955,6 @@ vmSetStartTime('letsUpdateProducts');
 	static public function getProductsListing ($group = FALSE, $nbrReturnProducts = FALSE, $withCalc = TRUE, $onlyPublished = TRUE, $single = FALSE, $filterCategory = TRUE, $category_id = 0, $filterManufacturer = TRUE, $manufacturer_id = 0, $omit = 0) {
 
 		$productModel = VmModel::getModel('Product');
-		$products = array();
 		VirtueMartModelProduct::$omitLoaded = $omit;
 		$productModel->_withCount = false;
 		$products = $productModel->getProductListing($group, $nbrReturnProducts, $withCalc, $onlyPublished, $single, $filterCategory, $category_id, $filterManufacturer, $manufacturer_id);//*/

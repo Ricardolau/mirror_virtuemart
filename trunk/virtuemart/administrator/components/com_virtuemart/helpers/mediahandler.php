@@ -668,39 +668,40 @@ class VmMediaHandler {
 		}
 
 		if(empty($imageArgs)){
-			$imageArgs = array();
+			$attribs = array();
 		} else if(!is_array($imageArgs)){
 
 			$sp = explode('=', $imageArgs);
 			if(count($sp) == 2){
-				$imageArgs = [$sp[0] => trim($sp[1],'"')];
+				$attribs = [$sp[0] => trim($sp[1],'"')];
 			} else {
-				$imageArgs[0] =  [$imageArgs];
+				$attribs[0] =  $imageArgs;
 			}
 		}
 
 		if(VmConfig::$lazyLoad){
-			$imageArgs['loading'] = 'lazy';
+			$attribs['loading'] = 'lazy';
 		}
 
 		if(!isset($imageArgs['src'])){
-			$imageArgs['src'] = $root.$file_url;
+			$attribs['src'] = $root.$file_url;
 		} else if($imageArgs['src']){
-			$imageArgs[$imageArgs['src']] = $root.$file_url;
-			unset($imageArgs['src']);
+			$attribs[$imageArgs['src']] = $root.$file_url;
 		}
 
 		if(empty($imageArgs['alt']) and !empty($file_alt)){
-			$imageArgs['alt'] = $file_alt;
+			$attribs['alt'] = $file_alt;
 		}
 
 		$args = '';
-		if(!empty($imageArgs)){
-			foreach($imageArgs as $k=>$v){
+		if(!empty($attribs)){
+			foreach($attribs as $k=>$v){
 				if(!empty($k) and !empty($v)){
 					$args .= ' '.$k.'="'.$v.'" ';
 				}
-				else if($k===0) $args .= ' '.$v.' ';
+				else if($k===0){
+					$args .= ' '.$v.' ';
+				}
 			}
 		}
 

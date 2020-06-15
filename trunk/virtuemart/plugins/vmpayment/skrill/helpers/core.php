@@ -84,13 +84,13 @@ class SkrillPaymentCore
 		),
 		"skrill_psc" => array(
             'allowedCountries'  => array(
-                'ASM','AUT','BEL','CAN','HRV','CYP','CZE','DNK','FIN','FRA','DEU','GUM','HUN','IRL','ITA','LVA','LUX',
-                'MLT','MEX','NLD','MNP','NOR','POL','PRT','PRI','ROU','SVK','SVN','ESP','SWE','CHE','TUR','GBR','USA',
+                'ASM','AUT','BEL','CAN','HRV','CYP','CZE','DNK','FIN','FRA','DEU','GUM','HUN','IRL','ISL','ITA','LVA','LUX',
+                'MLT','MEX','NLD','MNP','NOR','POL','PRT','PRI','PRY','ROU','SVK','SVN','ESP','SWE','CHE','TUR','GBR','USA',
                 'VIR'
             )
         ),
 		"skrill_pch" => array(
-            'allowedCountries'  => array('AUT','BEL','CAN','CZE','DNK','FRA','GRC','HRV','HUN','IRL','ITA','LUX','MLT','NLD','POL','PRT','ROU','SVK','SVN','SWE','ESP','CHE','GBR')
+            'allowedCountries'  => array('AUT','BEL','CAN','CYP','CZE','DNK','FRA','GRC','HRV','HUN','IRL','ITA','LTU','LUX','MLT','NLD','POL','PRT','ROU','SVK','SVN','SWE','ESP','CHE','GBR')
         ),
 		"skrill_acc" => array(
 			"allowedCountries" => "ALL"

@@ -632,12 +632,7 @@ class plgVmpaymentSkrill extends vmPSPlugin {
      */
 	protected function getBillingCountryCode() {
 		$billingAddress = $this->getAddress('BT');
-		if(isset($billingAddress['virtuemart_country_id'])){
-			return  ShopFunctions::getCountryByID($billingAddress['virtuemart_country_id'], 'country_3_code');
-		} else {
-			return false;
-		}
-
+    	return  ShopFunctions::getCountryByID($billingAddress['virtuemart_country_id'], 'country_3_code');
 	}
 
 	/**
@@ -1054,7 +1049,7 @@ class plgVmpaymentSkrill extends vmPSPlugin {
 	 */
 	function plgVmOnCheckAutomaticSelectedPayment (VirtueMartCart $cart, array $cart_prices = array(), &$paymentCounter) {
 
-		return $this->onCheckAutomaticSelected ($cart, $cart_prices, $paymentCounter);
+		return parent::onCheckAutomaticSelected ($cart, $cart_prices, $paymentCounter);
 	}
 
 	/**

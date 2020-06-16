@@ -317,12 +317,6 @@ class vmJsApi{
 	 */
 	static function jQuery($isSite=-1) {
 
-		if(JVM_VERSION<3){
-			//Very important convention with other 3rd pary developers, must be kept. DOES NOT WORK IN J3
-			if (JFactory::getApplication ()->get ('jquery')) {
-				return FALSE;
-			}
-		}
 
 		if($isSite===-1) $isSite = VmConfig::isSiteByApp();	//Maybe VmConfig::isSite()
 
@@ -331,27 +325,11 @@ class vmJsApi{
 		if (!VmConfig::get ('jquery', true) and $isSite) {
 			vmdebug('Common jQuery is disabled');
 			return FALSE;
-		} else if(JVM_VERSION>2) {
-			//JHtml::_('jquery.framework');
-		}
-
-		if(JVM_VERSION<3){
-			if(VmConfig::get('google_jquery',true)){
-				self::addJScript('jquery.min','//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js',false,false, false, '1.11.3');
-				self::addJScript( 'jquery-migrate.min',false,false,false,false,'');
-			} else {
-				self::addJScript( 'jquery.min',false,false,false,false,'1.11.0');
-				self::addJScript( 'jquery-migrate.min',false,false,false,false,'');
-			}
 		}
 
 		self::jQueryUi();
 
 		self::addJScript( 'jquery.noconflict',false,false,true,false,'');
-		//Very important convention with other 3rd pary developers, must be kept DOES NOT WORK IN J3
-		if(JVM_VERSION<3){
-			JFactory::getApplication()->set('jquery',TRUE);
-		}
 
 		self::vmVariables();
 

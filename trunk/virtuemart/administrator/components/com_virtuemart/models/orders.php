@@ -1124,8 +1124,8 @@ class VirtueMartModelOrders extends VmModel {
 
 		//if ($data->store()) {
 
-		$task= vRequest::getCmd('task',0);
-		$view= vRequest::getCmd('view',0);
+		$task = vRequest::getCmd('task',0);
+		$view = vRequest::getCmd('view',0);
 
 		//The item_id of the request is already given as inputOrder by the calling function (controller). inputOrder could be manipulated by the
 		//controller and so we must not use the request data here.

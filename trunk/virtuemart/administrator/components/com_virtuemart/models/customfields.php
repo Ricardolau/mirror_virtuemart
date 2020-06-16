@@ -331,7 +331,7 @@ class VirtueMartModelCustomfields extends VmModel {
 		$product_id = $line['vm_product_id'];
 		if(empty($field->selectoptions)) $field->selectoptions = array();
 		foreach($field->selectoptions as $k=>$selectoption){
-			//vmdebug('my $field->options',$field->options);
+		//	vmdebug('my $field->options',$field->options);
 			//if(!isset($field->options)) continue;
 
 			$class ='';
@@ -342,10 +342,10 @@ class VirtueMartModelCustomfields extends VmModel {
 					$myoption = $field->options->{$product_id};
 				}
 
-				if($myoption and !isset($myoption[$k])){
-					$value = '';
-				} else {
+				if($myoption and is_array($myoption) and isset($myoption[$k])){
 					$value = trim($myoption[$k]);
+				} else {
+					$value = '';
 				}
 				$idTag = 'cvarl.'.$product_id.'s'.$k;
 			} else {
@@ -1136,7 +1136,7 @@ class VirtueMartModelCustomfields extends VmModel {
 				}
 				else {
 					//vmdebug('The field is from the current product',$fields);
-					if($fields['override']==0 and $fields['disabler']==0 and !empty($fields['virtuemart_customfield_id']) and (!empty($oldCustomfields[$fields['virtuemart_customfield_id']]['disabler']) or !empty($oldCustomfields[$fields['virtuemart_customfield_id']]['override']) )){
+					if(empty($fields['override']) and empty($fields['disabler']) and !empty($fields['virtuemart_customfield_id']) and (!empty($oldCustomfields[$fields['virtuemart_customfield_id']]['disabler']) or !empty($oldCustomfields[$fields['virtuemart_customfield_id']]['override']) )){
 						//vmdebug('Remove customfield override/disabler',$fields['virtuemart_customfield_id']);
 						$old_customfield_ids[] = $fields['virtuemart_customfield_id'];
 					}

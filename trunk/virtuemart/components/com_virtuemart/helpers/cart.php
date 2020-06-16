@@ -270,7 +270,7 @@ class VirtueMartCart {
 			$countBT = count($this->BT) - count($this->cartfields);
 			vmdebug('my setupAddressFieldsForCart $countBT $this->byDefaultBT',(int)$countBT, (int) count($this->byDefaultBT));
 			//Check if the address is already loaded
-			if( (count($this->BT) - count($this->cartfields)) > count($this->byDefaultBT) ){
+			if( $countBT > count($this->byDefaultBT) ){
 				$loadBT = false;
 			}
 

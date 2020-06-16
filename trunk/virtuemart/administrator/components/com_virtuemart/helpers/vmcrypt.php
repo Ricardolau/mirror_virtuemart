@@ -222,6 +222,10 @@ class vmCrypt {
 
 		if(vmCrypt::$existingKeys===null){
 			$keyPath = self::getEncryptSafepath ();
+			if(empty($keyPath)){
+				vmCrypt::$existingKeys=false;
+				return false;
+			}
 			$dir = opendir($keyPath);
 			if(is_resource($dir)){
 				vmCrypt::$existingKeys = array();
@@ -261,6 +265,10 @@ class vmCrypt {
 	private static function _createKeyFile($size = 32){
 
 		$keyPath = self::getEncryptSafepath ();
+		if(empty($keyPath)){
+			return false;
+		}
+
 		$usedKey = date("ymd");
 		$filename = $keyPath . DS . $usedKey . '.ini';
 		if (!JFile::exists ($filename)) {

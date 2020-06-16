@@ -36,6 +36,12 @@ vmJsApi::addJScript('show_prices',$js,true);
 					echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_CFG_PRICE_ROUNDINDIG','roundindig',VmConfig::get('roundindig',1));
 					echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_CFG_PRICE_CVARSWT','cVarswT',VmConfig::get('cVarswT',1));
 
+					$opt = array(
+					'0' => vmText::_('COM_VM_PRICES_BY_CURRENY_NONE'),
+					'1' => vmText::_('COM_VM_PRICES_BY_CURRENY'),
+					'2' => vmText::_('COM_VM_PRICES_BY_CURRENY_RESTRICTIV')
+					);
+					echo VmHTML::row('genericlist','COM_VM_CFG_PRICES_BY_CURRENCY',$opt, 'pricesbyCurrency', '', 'value', 'text', VmConfig::get('pricesbyCurrency',0));
 					echo VmHTML::row('genericlist','COM_VIRTUEMART_ADMIN_CFG_PRICE_ORDERBY',$this->orderDirs, 'price_orderby', '', 'value', 'text', VmConfig::get('price_orderby','DESC'));
 					?>
 				</table>

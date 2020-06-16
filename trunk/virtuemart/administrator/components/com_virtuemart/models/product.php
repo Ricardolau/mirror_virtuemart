@@ -1380,17 +1380,19 @@ class VirtueMartModelProduct extends VmModel {
 			}
 		}
 
+		$emptySpgrpPrice = 0;
 		$pbC = VmConfig::get('pricesbyCurrency',false);
 		if($front and $pbC){
 			$app = JFactory::getApplication();
 
 			$calculator = calculationHelper::getInstance();
 			$cur = (int)$app->getUserStateFromRequest( 'virtuemart_currency_id', 'virtuemart_currency_id',$calculator->vendorCurrency );
+			$emptySpgrpPrice = null;
 		}
 
 		$product->selectedPrice = null;
 		if(!empty($product->allPrices) and is_array($product->allPrices)){
-			$emptySpgrpPrice = 0;
+
 			$product->has_prices = count($product->allPrices);
 			foreach($product->allPrices as $k=>$price){
 
@@ -1415,21 +1417,35 @@ class VirtueMartModelProduct extends VmModel {
 					$quantityFits = false;
 				}
 
-				if(empty($price['virtuemart_shoppergroup_id']) and empty($emptySpgrpPrice) and $quantityFits ){
-					$emptySpgrpPrice = $k;
-				} else if( $quantityFits ){
-					$product->selectedPrice = $k;
+				$currency = true;
+				if($front and $pbC==2){
+					$currency = false;
+
+					if($cur and $cur==$price['product_currency']){
+						$currency = true;
+						//$product->selectedPrice = $k;
+						//break;
+					}
 				}
 
-				if($front and $pbC){
+				if(empty($price['virtuemart_shoppergroup_id']) and empty($emptySpgrpPrice) and $quantityFits and $currency){
+					$emptySpgrpPrice = $k;
+					//vmdebug('Set default price',(int)$k);
+				} else if( $quantityFits and $currency ){
+					$product->selectedPrice = $k;
+					//vmdebug('Set price by quantity/currency',(int)$k);
+				}
+
+				if($front and $pbC==1){
 					if($cur and $cur==$price['product_currency']){
 						$product->selectedPrice = $k;
+						//vmdebug('Set price by currency',(int)$k);
 						break;
 					}
 				}
 			}
 
-			if(!isset($product->selectedPrice)){
+			if(!isset($product->selectedPrice) and isset($emptySpgrpPrice)){
 				$product->selectedPrice = $emptySpgrpPrice;
 			}
 

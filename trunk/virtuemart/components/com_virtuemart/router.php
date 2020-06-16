@@ -30,6 +30,9 @@ function virtuemartBuildRoute(&$query) {
 		foreach ($query as $key => $value){
 			if  ($key != 'option')  {
 				if ($key != 'Itemid' and $key != 'lang') {
+					if(is_array($value)){
+							$value = implode(',',$value);
+					}
 					$segments[]=$key.'/'.$value;
 					unset($query[$key]);
 				}
@@ -375,7 +378,12 @@ function virtuemartParseRoute($segments) {
 	if ($helper->router_disabled) {
 		$total = count($segments);
 		for ($i = 0; $i < $total; $i=$i+2) {
-			$vars[ $segments[$i] ] = $segments[$i+1];
+			if(strpos($segments[$i+1],',')!==false){
+				$vars[ $segments[$i] ] = explode(',',$segments[$i+1]);
+			} else {
+				$vars[ $segments[$i] ] = $segments[$i+1];
+			}
+
 		}
 		if(isset($vars[ 'start'])) {
 			$vars[ 'limitstart'] = $vars[ 'start'];

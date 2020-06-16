@@ -844,6 +844,7 @@ class VirtueMartModelUserfields extends VmModel {
 					// 					break;
 					case 'virtuemart_country_id':
 
+						VmLanguage::loadJLang('com_virtuemart_countries');
 						$attrib = array();
 						if ($_fld->size) {
 							$attrib = array('style'=>"width: ".$_fld->size."px");

@@ -66,7 +66,7 @@ $params = VmConfig::loadConfig();
 			echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_CFG_FRONT_JSITE','jsite', VmConfig::get('jsite',1));
 			echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_CFG_FRONT_JCHOSEN','jchosen', VmConfig::get('jchosen',1));
 			echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_CFG_FRONT_JDYNUPDATE','jdynupdate', VmConfig::get('jdynupdate',1));
-			echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_CFG_FRONT_AJAX_CATEGORY','ajax_category', VmConfig::get('ajax_category',1));
+			echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_CFG_FRONT_AJAX_CATEGORY','ajax_category', VmConfig::get('ajax_category',0));
 			echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_CFG_ENABLE_GOOGLE_JQUERY','google_jquery', VmConfig::get('google_jquery',0));
 			//echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_CFG_JS_CSS_MINIFIED','minified', VmConfig::get('minified',1));
 			?>

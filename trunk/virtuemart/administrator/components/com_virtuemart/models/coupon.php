@@ -106,7 +106,8 @@ class VirtueMartModelCoupon extends VmModel {
 
 		return $this->_data = $this->exeSortSearchListQuery(0,'*',' FROM `#__virtuemart_coupons`',$whereString,'',$this->_getOrdering());
 	}
-	/* Changes Modified */
+
+	/* Changes Modified *
 	function getVmUsers() {
 		$db = JFactory::getDbo();
 
@@ -118,12 +119,13 @@ class VirtueMartModelCoupon extends VmModel {
 			->join('INNER', $db->quoteName('#__users', 'us') . ' ON (' . $db->quoteName('vmu.virtuemart_user_id') . ' = ' . $db->quoteName('us.id') . ')')
 			->order($db->quoteName('us.name') . ' ASC');
 
-		$db->setQuery($query);
+		$results = $this->exeSortSearchListQuery(0,'vmu.*, us.id, us.username, us.name, us.email',' FROM `#__virtuemart_vmusers` as vmu ','INNER JOIN '. $db->quoteName('#__users', 'us') . ' ON (' . $db->quoteName('vmu.virtuemart_user_id') . ' = ' . $db->quoteName('us.id') . ')','',$this->_getOrdering());
+		//$db->setQuery($query);
 
-		$results = $db->loadObjectList();
-		
+		//$results = $db->loadObjectList();
+		vmdebug('used?');
 		return $results;
-	}
+	}*/
 	
 	/* Changes Modified */
 	function getCouponsData() {
@@ -136,8 +138,12 @@ class VirtueMartModelCoupon extends VmModel {
 		$filter_from_date = vRequest::getVar('filter_from_date', '');
 		$filter_to_date = vRequest::getVar('filter_to_date', '');
 
+
+		$limitStart = $this->_limitStart;
+		$limit = $this->_limit;
+
 		$query
-			->select(array('vo.virtuemart_order_id', 'vo.virtuemart_user_id', 'vo.virtuemart_vendor_id', 'vo.order_number', 'vo.order_total', 'vo.created_on', 'vo.coupon_discount', 'vo.customer_number', 'vc.coupon_code', 'vu.name'))
+			->select(array('SQL_CALC_FOUND_ROWS vo.virtuemart_order_id', 'vo.virtuemart_user_id', 'vo.virtuemart_vendor_id', 'vo.order_number', 'vo.order_total', 'vo.created_on', 'vo.coupon_discount', 'vo.customer_number', 'vc.coupon_code', 'vu.name'))
 			->from($db->quoteName('#__virtuemart_orders', 'vo'))
 			->join('RIGHT', $db->quoteName('#__virtuemart_coupons', 'vc') . ' ON (' . $db->quoteName('vo.coupon_code') . ' = ' . $db->quoteName('vc.coupon_code') . ')')
 			->join('LEFT', $db->quoteName('#__users', 'vu') . ' ON (' . $db->quoteName('vo.virtuemart_user_id') . ' = ' . $db->quoteName('vu.id') . ')');
@@ -158,10 +164,19 @@ class VirtueMartModelCoupon extends VmModel {
 			
 			$query->order($db->quoteName('vo.created_on') . ' DESC');
 
-		$db->setQuery($query);
+		if(empty($this->_limit)) $this->setPaginationLimits();
+		$db->setQuery($query, $this->_limitStart, $this->_limit);
 
 		$results = $db->loadObjectList();
-		
+
+		$db->setQuery('SELECT FOUND_ROWS()');
+		$count = $db->loadResult();
+
+		if($count == false){
+			$count = 0;
+		}
+		$this->_total = $count;
+
 		return $results;
 	}
 

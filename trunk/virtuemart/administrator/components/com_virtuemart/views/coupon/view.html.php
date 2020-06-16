@@ -155,7 +155,7 @@ class VirtuemartViewCoupon extends VmViewAdmin {
 		}
 
 		if ($layoutName == 'couponsdata') {
-			$coupon = $model->getCoupon();
+
 			$this->coupons_data = $model->getCouponsData();
 			$this->pagination = $model->getPagination();
 			if($this->showVendors()){

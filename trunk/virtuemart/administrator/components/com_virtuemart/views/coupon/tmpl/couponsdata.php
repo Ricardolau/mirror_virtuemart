@@ -41,6 +41,7 @@ AdminUIHelper::startAdminArea($this);
 					</td>
 				</tr>
 			</table>
+            <div id="resultscounter" ><?php echo $this->pagination->getResultsCounter();?></div>
 		</div>
 	</div>
     <div id="editcell">
@@ -103,7 +104,7 @@ AdminUIHelper::startAdminArea($this);
 	    <tfoot>
 		<tr>
 		    <td colspan="10">
-			<?php // echo $this->pagination->getListFooter(); ?>
+			<?php echo $this->pagination->getListFooter(); ?>
 		    </td>
 		</tr>
 	    </tfoot>

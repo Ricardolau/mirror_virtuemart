@@ -10,7 +10,7 @@
  * @author Oscar van Eijk
  * @author RolandD
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -539,15 +539,17 @@ jQuery(function($) {
 });
 		
 		
-jQuery(document).ready(function(){
-	var chkOutBtn = jQuery("#checkoutFormSubmit");
-	var form = jQuery("#checkoutForm");
+jQuery(document).ready(function( $ ){
+	var chkOutBtn = $("#checkoutFormSubmit");
+	var form = $("#checkoutForm");
 	
-	jQuery("#checkoutForm").find(":radio, :checkbox").bind("change", Virtuemart.autocheck);
+	$("#checkoutForm").find(":radio, :checkbox").bind("change", Virtuemart.autocheck);
 	
-	jQuery(".output-shipto").find("input").unbind("change", Virtuemart.autocheck);
+	$("input[type=radio][name=virtuemart_paymentmethod_id]").unbind("change", Virtuemart.autocheck);
+	$("input[type=radio][name=virtuemart_shipmentmethod_id]").unbind("change", Virtuemart.autocheck);
 	
-	jQuery(".output-shipto").find(":radio").bind("change", function(){
+	$(".output-shipto").find("input").unbind("change", Virtuemart.autocheck);
+	$(".output-shipto").find(":radio").bind("change", function(){
 		chkOutBtn.attr("task","checkout");
 		
 		'.$updF.'

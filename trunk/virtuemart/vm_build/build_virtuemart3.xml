@@ -4,9 +4,9 @@
     <!-- value can be: major, minor, bugfix -->
     <property name="releasetype" value="BUGFIX"/>
     <property name="vm.version.main" value="3.8"/>
-    <property name="vm.version" value="3.8.0"/>
+    <property name="vm.version" value="3.8.3"/>
     <property name="joomla.version" value="3.9.18"/>
-    <property name="PHING.VM.REVISION" value="10320"/>
+    <property name="PHING.VM.REVISION" value="10329"/>
     <property name="PHING.VM.CODENAME" value="Eagle owl"/>
     <property name="PHING.VM.UPDATEFOLDER" value="vm3"/>
     <property file="build.properties"/>
@@ -208,13 +208,14 @@
         <exclude name="**/th-TH/**"/>
         <exclude name="**/zh-CN/**"/>
         <exclude name="**/zh-TW/**"/>
-        <exclude name="index.html"/>
+        <exclude name="**/index.html"/>
         <exclude name="**/joomla/cache/**"/>
-        <exclude name="vmfile.php"/>
+        <exclude name="**/vmfile.php"/>
         <exclude name="**/vm_update/**"/>
         <exclude name="**/tmpl/bs2-**"/>
         <exclude name="**/tmpl/bs3-**"/>
         <exclude name="**/tmpl/bs4-**"/>
+        <exclude name="**/jquery.min.js"/>
     </fileset>
     <!-- ============================================  -->
     <!--  FILESET ALL FUL INSTALLER FILES -->
@@ -231,6 +232,7 @@
         <exclude name="**/vmf/**"/>
         <exclude name="**/com_virtuemart/toolbar**"/>
         <exclude name="**/vmbeez5/**"/>
+        <exclude name="**/jquery.min.js"/>
     </fileset>
 
 
@@ -246,6 +248,7 @@
         <exclude name="**/tmpl/bs2-**"/>
         <exclude name="**/tmpl/bs3-**"/>
         <exclude name="**/tmpl/bs4-**"/>
+        <exclude name="**/jquery.min.js"/>
     </fileset>
 
     <fileset dir="${admin.component.path}" id='admin.main.refid' defaultexcludes="true">

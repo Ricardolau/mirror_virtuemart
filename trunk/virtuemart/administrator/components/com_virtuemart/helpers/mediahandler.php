@@ -658,7 +658,6 @@ class VmMediaHandler {
 			$root = JURI::root(true).'/';
 		}
 
-
 		if(!isset(VmConfig::$lazyLoad)){
 			if(VmConfig::get('lazyLoad',false)){
 				VmConfig::$lazyLoad = true;//'loading="lazy"';
@@ -668,7 +667,7 @@ class VmMediaHandler {
 		}
 
 		if(empty($imageArgs)){
-			$attribs = array();
+			$imageArgs = array();
 		} else if(!is_array($imageArgs)){
 
 			$sp = explode('=', $imageArgs);
@@ -677,25 +676,26 @@ class VmMediaHandler {
 			} else {
 				$attribs[0] =  $imageArgs;
 			}
+			$imageArgs = $attribs;
 		}
 
 		if(VmConfig::$lazyLoad){
-			$attribs['loading'] = 'lazy';
+			$imageArgs['loading'] = 'lazy';
 		}
 
 		if(!isset($imageArgs['src'])){
-			$attribs['src'] = $root.$file_url;
+			$imageArgs['src'] = $root.$file_url;
 		} else if($imageArgs['src']){
-			$attribs[$imageArgs['src']] = $root.$file_url;
+			$imageArgs[$imageArgs['src']] = $root.$file_url;
 		}
 
 		if(empty($imageArgs['alt']) and !empty($file_alt)){
-			$attribs['alt'] = $file_alt;
+			$imageArgs['alt'] = $file_alt;
 		}
 
 		$args = '';
-		if(!empty($attribs)){
-			foreach($attribs as $k=>$v){
+		if(!empty($imageArgs)){
+			foreach($imageArgs as $k=>$v){
 				if(!empty($k) and !empty($v)){
 					$args .= ' '.$k.'="'.$v.'" ';
 				}
@@ -1256,7 +1256,7 @@ class VmMediaHandler {
 </td>
 <td>';
 
-		$html .= VmHtml::checkbox('media[media_published]',$checked,1,0,'class="inputbox"','media[media_published]') ;
+		$html .= VmHtml::checkbox('media[media_published]', $checked,1,0,'class="inputbox"','media[media_published]') ;
 		//<input type="checkbox" class="inputbox" id="media_published'.$identify.'" name="media_published'.$identify.'" '.$checked.' size="16" value="1" />
 
 		$html .='</td>';

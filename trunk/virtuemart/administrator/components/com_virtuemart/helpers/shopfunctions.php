@@ -1469,7 +1469,8 @@ class ShopFunctions {
 	static public function renderMetaEdit($obj){
 
 		$options = array(
-			''	=>	vmText::_('JGLOBAL_INDEX_FOLLOW'),
+			''	=>	vmText::_('COM_VIRTUEMART_DRDOWN_NONE'),
+			'index, follow'	=>	vmText::_('JGLOBAL_INDEX_FOLLOW'),
 			'noindex, follow'	=>	vmText::_('JGLOBAL_NOINDEX_FOLLOW'),
 			'index, nofollow'	=>	vmText::_('JGLOBAL_INDEX_NOFOLLOW'),
 			'noindex, nofollow'	=>	vmText::_('JGLOBAL_NOINDEX_NOFOLLOW'),

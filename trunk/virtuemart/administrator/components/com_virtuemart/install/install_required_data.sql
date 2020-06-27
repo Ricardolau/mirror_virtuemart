@@ -347,7 +347,7 @@ INSERT IGNORE INTO `#__virtuemart_currencies` (`virtuemart_currency_id`, `virtue
 	(67, 1, 'Israeli new sheqel', '', 'ILS', 376, 0.00000, '₪', '2', ',', '', '{number} {symbol}', '{sign}{number} {symbol}'),
 	(68, 1, 'Indian rupee', '', 'INR', 356, 0.00000, '₨', '2', ',', '', '{number} {symbol}', '{sign}{number} {symbol}'),
 	(69, 1, 'Iraqi dinar', '', 'IQD', 368, 0.00000, 'ع.د', '0', '', '', '{number} {symbol}', '{sign}{number} {symbol}'),
-	(70, 1, 'Iranian rial', '', 'IRR', 364, 0.00000, '﷼', '2', ',', '', '{number} {symbol}', '{sign}{number}{symb0l}'),
+	(70, 1, 'Iranian rial', '', 'IRR', 364, 0.00000, '﷼', '2', ',', '', '{number} {symbol}', '{sign}{number}{symbol}'),
 	(73, 1, 'Jamaican dollar', '', 'JMD', 388, 0.00000, 'J$', '2', ',', '', '{number} {symbol}', '{sign}{number} {symbol}'),
 	(74, 1, 'Jordanian dinar', '', 'JOD', 400, 0.00000, 'د.ا', '2', ',', '', '{number} {symbol}', '{sign}{number} {symbol}'),
 	(75, 1, 'Japanese yen', '', 'JPY', 392, 0.00000, '¥', '0', ',', '', '{number} {symbol}', '{sign}{number} {symbol}'),

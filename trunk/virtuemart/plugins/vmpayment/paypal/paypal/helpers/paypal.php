@@ -518,7 +518,23 @@ class PaypalHelperPaypal {
 				$order_history['order_status'] = $this->_method->status_denied;
 			} elseif (isset ($paypal_data['payment_status'])) {
 				// voided
-				$order_history['order_status'] = $this->_method->status_canceled;
+//				quorvia check to see what to do with any other payment_status
+				$other_status_ignore = false;
+				if (!empty ($this->_method->ignore_other)) {
+					$empty_ignore = $this->_method->ignore_other;
+				}
+//				if we ignore none found payment_status - just update order history
+				if ($other_status_ignore) {
+					$order_history['comments'] = vmText::_( 'VMPAYMENT_PAYPAL_IPN_NOTIFICATION_RECEIVED' );
+					$order_history['customer_notified'] = 0;
+				} else {
+//				default is to do something with none found payment_status
+					if(!empty ( $this->_method->status_other )) {
+						$order_history['order_status'] = $this->_method->status_other;
+					} else {
+						$order_history['order_status'] = $this->_method->status_canceled;
+					}
+				}
 			} else {
 				/*
 				* a notification was received that concerns one of the payment (since $paypal_data['invoice'] is found in our table),

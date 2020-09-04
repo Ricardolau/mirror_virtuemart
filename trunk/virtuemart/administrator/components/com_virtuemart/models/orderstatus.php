@@ -72,7 +72,7 @@ class VirtueMartModelOrderstatus extends VmModel {
 	 * @param char $_code Order status code
 	 * @return string The name of the order status
 	 */
-	static public function getOrderStatusNames ($published = true) {
+	public function getOrderStatusNames ($published = true) {
 		static $orderStatusNames=0;
 		if(empty($orderStatusNames)){
 			if($published){
@@ -80,16 +80,17 @@ class VirtueMartModelOrderstatus extends VmModel {
 			} else {
 				$published = '';
 			}
-			$q = 'SELECT `order_status_name`,`order_status_code`,`order_stock_handle` FROM `#__virtuemart_orderstates` '.$published.' order by `ordering` ';
+			$q = 'SELECT `order_status_name`,`order_status_code` FROM `#__virtuemart_orderstates` '.$published.'order by `ordering` ';
 			$db = JFactory::getDBO();
 			$db->setQuery($q);
 			$orderStatusNames = $db->loadAssocList('order_status_code');
 		}
 
 		return $orderStatusNames;
+
 	}
 
-	function renderOSList($value,$name = 'order_status',$multiple=FALSE,$attrs='',$langkey='',$empty=true){
+	function renderOSList($value,$name = 'order_status',$multiple=FALSE,$attrs='',$langkey=''){
 
 		$idA = $id = $name;
  		$attrs .= ' class="inputbox" ';
@@ -108,14 +109,11 @@ class VirtueMartModelOrderstatus extends VmModel {
 			$hashValue = $value;
 		}
 
-		$hash = crc32($hashValue.$name.$attrs);
+		$hash = md5($hashValue.$name.$attrs);
 		if (!isset($this->_renderStatusList[$hash])) {
 			$orderStates = $this->getOrderStatusNames();
-			if($empty){
-				$emptyOption = JHtml::_ ('select.option', -1, vmText::_ ($langkey), 'order_status_code', 'order_status_name');
-				array_unshift ($orderStates, $emptyOption);
-			}
-
+			$emptyOption = JHtml::_ ('select.option', -1, vmText::_ ($langkey), 'order_status_code', 'order_status_name');
+			array_unshift ($orderStates, $emptyOption);
 			if ($multiple) {
 				$attrs .=' size="'.count($orderStates).'" ';
 			}

@@ -51,6 +51,8 @@ abstract class vmPSPlugin extends vmPlugin {
 		$varsToPush['min_amount'] = array('','char');
 		$varsToPush['max_amount'] = array('','char');
 		$varsToPush['virtuemart_shipmentmethod_ids'] = array('','char');
+		$varsToPush['byCoupon'] = array('','int');
+		$varsToPush['couponCode'] = array('','char');
 
 		unset($varsToPush['checkConditionsCore']);
 	}
@@ -955,6 +957,13 @@ abstract class vmPSPlugin extends vmPlugin {
 
 		$address = $cart -> getST();
 
+		if(!empty($method->byCoupon) ){
+			if(empty($method->couponCode) and empty($cart->couponCode)){
+				return false;
+			} else if(!empty($method->couponCode) and $method->couponCode!=$cart->couponCode){
+				return false;
+			}
+		}
 		$this->convert_condition_amount($method);
 
 		$this->convertToVendorCurrency($method);
@@ -1036,7 +1045,7 @@ abstract class vmPSPlugin extends vmPlugin {
 			}
 
 			if (count ($countries) > 0 and !in_array ($address['virtuemart_country_id'], $countries)) {
-				vmdebug($this->_psType.'method '.$method->{$this->_psType.'_name'}.' = FALSE for variable virtuemart_country_id = '.$address['virtuemart_country_id'].', Reason: Country '.implode($countries,', ').' does not fit');
+				vmdebug($this->_psType.'method '.$method->{$this->_psType.'_name'}.' = FALSE for variable virtuemart_country_id = '.$address['virtuemart_country_id'].', Reason: Country '.implode(', ', $countries).' does not fit');
 				return false;
 
 			}

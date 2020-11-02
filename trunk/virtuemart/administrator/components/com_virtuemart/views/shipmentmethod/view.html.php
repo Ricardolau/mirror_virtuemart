@@ -32,7 +32,6 @@ class VirtuemartViewShipmentmethod extends VmViewAdmin {
 
 		$model = VmModel::getModel();
 
-		$layoutName = vRequest::getCmd('layout', 'default');
 		$this->SetViewTitle();
 
 		$layoutName = vRequest::getCmd('layout', 'default');

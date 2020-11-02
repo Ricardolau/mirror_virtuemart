@@ -111,7 +111,7 @@ class vmDefines {
 		defined ('JPATH_VM_SITE') or define('JPATH_VM_SITE', VMPATH_SITE );
 		defined ('JPATH_VM_ADMINISTRATOR') or define('JPATH_VM_ADMINISTRATOR', VMPATH_ADMIN);
 // define( 'VMPATH_ADMIN', JPATH_ROOT.'/administrator'.'/components'.'/com_virtuemart' );
-		defined('JPATH_VM_PLUGINS') or define( 'JPATH_VM_PLUGINS', VMPATH_PLUGINLIBS );
+		defined('JPATH_VM_PLUGINS') or define( 'JPATH_VM_PLUGINS', VMPATH_PLUGINS );
 		defined('JPATH_VM_MODULES') or define( 'JPATH_VM_MODULES', VMPATH_MODULES );
 
 		//This number is for obstruction, similar to the prefix jos_ of joomla it should be avoided

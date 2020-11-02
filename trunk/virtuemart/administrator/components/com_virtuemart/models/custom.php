@@ -85,8 +85,8 @@ class VirtueMartModelCustom extends VmModel {
 			$this->_cache[$this->_id]->customfield_params = '';
 		    if ($this->_cache[$this->_id]->field_type == 'E') {
 			    JPluginHelper::importPlugin ('vmcustom');
-			    $dispatcher = JDispatcher::getInstance ();
-			    $retValue = $dispatcher->trigger ('plgVmDeclarePluginParamsCustomVM3', array(&$this->_cache[$this->_id]));
+                VmPlugin::directTrigger('vmcustom', $this->_cache[$this->_id]->custom_element, 'plgVmDeclarePluginParamsCustomVM3', array(&$this->_cache[$this->_id]));
+                vmdebug('getCustom after directTrigger plgVmDeclarePluginParamsCustomVM3',$this->_cache[$this->_id]->_varsToPushParam);
 		    }
 			//exaample 	vm2 withParent="0"|parentOrderable="0"|
 			//			vm3 withParent="1"|parentOrderable="1"|
@@ -467,10 +467,12 @@ class VirtueMartModelCustom extends VmModel {
 
 		if ($type == 'E') {
 			JPluginHelper::importPlugin ('vmcustom');
-			$dispatcher = JDispatcher::getInstance ();
+			//$dispatcher = JDispatcher::getInstance ();
 			//We call here vmplugin->getTablePluginParams which sets the xParam and the varsToPush of the Plugin
 			//vmdebug('setParameterableByFieldType before trigger plgVmGetTablePluginParams ',$custom_element, $custom_jplugin_id, $xParams,$varsToPush);
-			$retValue = $dispatcher->trigger ('plgVmGetTablePluginParams', array('custom',$custom_element, $custom_jplugin_id, &$xParams, &$varsToPush));
+            VmPlugin::directTrigger('vmcustom', $custom_element, 'plgVmGetTablePluginParams', array('custom' ,$custom_element, $custom_jplugin_id, &$xParams, &$varsToPush));
+			//vmdebug('setParameterableByFieldType',$xParams, $varsToPush);
+            //$retValue = $dispatcher->trigger ('plgVmGetTablePluginParams', array('custom',$custom_element, $custom_jplugin_id, &$xParams, &$varsToPush));
 		}
 		$xParams = $table->_xParams;
 		if(!empty($varsToPush)){
@@ -481,7 +483,7 @@ class VirtueMartModelCustom extends VmModel {
 
 	static function getVarsToPush($type){
 
-		$varsToPush = 0;
+		$varsToPush = array();
 		if($type=='A'){
 			$varsToPush = array(
 				'withParent'        => array(0, 'int'),

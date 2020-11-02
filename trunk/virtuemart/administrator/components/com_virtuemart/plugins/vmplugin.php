@@ -561,8 +561,13 @@ abstract class vmPlugin extends JPlugin {
 	 * @return bool
 	 */
 	protected function declarePluginParams ($psType, &$data, $blind=0, $blind2=0) {
-		
+
 		if(!empty($this->_psType)){
+
+		    if($this->_psType!=$psType){
+                return FALSE;
+            }
+
 			$element = $this->_psType.'_element';
 			$jplugin_id = $this->_psType.'_jplugin_id';
 			if(empty($data->{$element})) $data->{$element} = 0;
@@ -590,7 +595,7 @@ abstract class vmPlugin extends JPlugin {
 		if($this->_cryptedFields){
 			$data->setCryptedFields($this->_cryptedFields);
 		}
-		//vmdebug('my params ',$data->_varsToPushParam);
+
 		return TRUE;
 	}
 
@@ -787,7 +792,7 @@ abstract class vmPlugin extends JPlugin {
 	 * @return mixed
 	 * @author Valérie Isaksen
 	 */
-	public function getTemplatePath($pluginName, $group, $layout = 'default') {
+	static public function getTemplatePath($pluginName, $group, $layout = 'default') {
 		$layoutPath = vmPlugin::_getLayoutPath ($pluginName, 'vm' . $group, $layout);
 		return str_replace('/' . $layout . '.php','',$layoutPath );
 	}

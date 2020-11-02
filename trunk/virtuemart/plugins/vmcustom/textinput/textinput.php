@@ -8,7 +8,7 @@ defined('_JEXEC') or 	die( 'Direct Access to ' . basename( __FILE__ ) . ' is not
  * @subpackage payment
  * @author Max Milbers
  * @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
- * @copyirght Copyright (C) 2011 - 2019 The VirtueMart Team and authors
+ * @copyirght Copyright (C) 2011 - 2020 The VirtueMart Team and authors
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -26,7 +26,8 @@ class plgVmCustomTextinput extends vmCustomPlugin {
 		parent::__construct($subject, $config);
 
 		$varsToPush = array(	'custom_size'=>array(0.0,'int'),
-			'custom_price_by_letter'=>array(0.0,'bool')
+			'custom_price_by_letter'=>array(0.0,'bool'),
+            'required_letters'=>array('0','int')
 		);
 
 		$this->setConfigParameterable('customfield_params',$varsToPush);
@@ -48,7 +49,9 @@ class plgVmCustomTextinput extends vmCustomPlugin {
 		$options = array(0=>'VMCUSTOM_TEXTINPUT_PRICE_BY_INPUT',1=>'VMCUSTOM_TEXTINPUT_PRICE_BY_LETTER');
 		$html .= VmHTML::row('select','VMCUSTOM_TEXTINPUT_PRICE_BY_LETTER_OR_INPUT','customfield_params['.$row.'][custom_price_by_letter]',$options,$field->custom_price_by_letter,'','value','text',false);
 
-		//$html .= ($field->custom_price_by_letter==1)?vmText::_('VMCUSTOM_TEXTINPUT_PRICE_BY_LETTER'):vmText::_('VMCUSTOM_TEXTINPUT_PRICE_BY_INPUT');
+
+        $html .= VmHTML::row('input','VMCUSTOM_TEXTINPUT_REQUIRED_LETTERS','customfield_params['.$row.'][required_letters]',$field->required_letters);
+
 		$html .='</td>
 		</tr>
 				</table>
@@ -62,7 +65,9 @@ class plgVmCustomTextinput extends vmCustomPlugin {
 
 		if ($group->custom_element != $this->_name) return '';
 		$group->display .= $this->renderByLayout('default',array(&$product,&$group) );
-
+        if(!empty($group->required_letters)){
+            $product->orderable=false;
+        }
 		return true;
 	}
 
@@ -188,19 +193,69 @@ class plgVmCustomTextinput extends vmCustomPlugin {
 		//$product->product_name .= 'Ice Saw';
 		//vmdebug('plgVmPrepareCartProduct we can modify the product here');
 
-		if (!empty($selected['comment'])) {
-			if ($customfield->custom_price_by_letter ==1) {
-				$charcount = strlen (html_entity_decode ($selected['comment']));
-			} else {
-				$charcount = 1.0;
-			}
-			$modificatorSum += $charcount * $customfield->customfield_price ;
-		} else {
-			$modificatorSum += 0.0;
-		}
+        $charCount = 0;
+        if (!empty($selected['comment'])) {
+            $charCount = strlen (html_entity_decode ($selected['comment']));
+        }
+
+        if ($customfield->custom_price_by_letter ==1) {
+            $modificatorSum += $charCount * $customfield->customfield_price ;
+        } else {
+            $modificatorSum += $customfield->customfield_price ;
+        }
+
+        if(!empty($customfield->required_letters) and $charCount<$customfield->required_letters){
+            VmInfo('VMCUSTOM_TEXTINPUT_REQUIRED_LETTERS_HINT',$customfield->required_letters);
+            return false;
+        }
 
 		return true;
 	}
+
+    /**
+     * Trigger to use custom filter on customer inputs
+     * @param $type
+     * @param $name
+     * @param $render
+     * @return false
+     */
+	function plgVmOnAddToCartFilter (&$product, &$customfield, &$customProductData, &$customFiltered){
+
+        if ($customfield->custom_element != $this->_name ) {
+            return FALSE;
+        }
+	    if(!empty($customfield->required_letters)){
+            vmdebug('There is $customfield->required_letters ',$customfield->required_letters,$customProductData[$customfield->virtuemart_custom_id][$customfield->virtuemart_customfield_id]);
+	        if(empty($customProductData[$customfield->virtuemart_custom_id][$customfield->virtuemart_customfield_id]['comment'])){
+
+                VmInfo('Product not added to cart, missing required letters %s',$customfield->required_letters);
+                $product->remove = true;
+                //$customProductData['virtuemart_product_id'] =0;
+                return false;
+            } else {
+
+                $charCount = strlen (html_entity_decode ($customProductData[$customfield->virtuemart_custom_id][$customfield->virtuemart_customfield_id]['comment']));
+                if($charCount<$customfield->required_letters){
+                    VmInfo('VMCUSTOM_TEXTINPUT_REQUIRED_LETTERS_HINT',$customfield->required_letters);
+                    //$product->quantity = 0;
+                    $product->remove = true;
+                    return false;
+                }
+            }
+	        //vmdebug('There is something',$customProductData);
+        }
+    }
+
+    /**
+     * Trigger to manipulate the cart after adding a product.
+     * @param $type
+     * @param $name
+     * @param $render
+     * @return false
+     */
+/*    function plgVmOnAddToCart (&$cart){
+
+    }*/
 
 
 	function plgVmOnSelfCallFE($type,$name,&$render) {

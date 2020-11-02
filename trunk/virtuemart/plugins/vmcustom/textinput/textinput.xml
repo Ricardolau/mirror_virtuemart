@@ -25,6 +25,7 @@
                 <option value="0">VMCUSTOM_TEXTINPUT_PRICE_BY_INPUT</option>
                 <option value="1">VMCUSTOM_TEXTINPUT_PRICE_BY_LETTER</option>
             </field>
+            <field name="required_letters" type="text"  size="15"  default="0" label="VMCUSTOM_TEXTINPUT_REQUIRED_LETTERS" description="VMCUSTOM_TEXTINPUT_REQUIRED_LETTERS_DESC" />
             </fieldset>
         </fields>
     </vmconfig>

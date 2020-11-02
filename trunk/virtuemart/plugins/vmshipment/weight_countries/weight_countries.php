@@ -8,7 +8,7 @@ defined ('_JEXEC') or die('Restricted access');
  * @version $Id$
  * @package VirtueMart
  * @subpackage Plugins - shipment
- * @copyright Copyright (C) 2004-2012 VirtueMart Team - All rights reserved.
+ * @copyright Copyright (C) 2004-2020 VirtueMart Team - All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -17,7 +17,7 @@ defined ('_JEXEC') or die('Restricted access');
  * See /administrator/components/com_virtuemart/COPYRIGHT.php for copyright notices and details.
  *
  * http://virtuemart.org
- * @author Valerie Isaksen
+ * @author Valerie Isaksen, Max Milbers
  *
  */
 
@@ -127,6 +127,11 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 		$values['tax_id'] = $method->tax_id;
 		$this->storePSPluginInternalData ($values);
 
+		$extra = $this->renderByLayout( 'orderdone', array("method" => $this->_currentMethod, 'order' => $order, 'cart'=>$cart) );
+		if(!empty($extra)){
+			$cart->orderdoneHtml = $extra;
+			// $cart->setCartIntoSession(false,true);
+		}
 		return TRUE;
 	}
 

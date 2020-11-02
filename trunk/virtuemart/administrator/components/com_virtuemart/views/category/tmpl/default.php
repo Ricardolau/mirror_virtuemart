@@ -56,6 +56,11 @@ AdminUIHelper::startAdminArea($this);
 				<option value=""><?php echo vmText::sprintf( 'COM_VIRTUEMART_SELECT' ,  vmText::_('COM_VIRTUEMART_CATEGORY_FORM_TOP_LEVEL')) ; ?></option>
 			</select>
 			</td>
+            <?php if($this->showVendors()){ ?>
+            <td>
+                <?php echo $this->lists['vendors']; ?>
+            </td>
+            <?php } ?>
 			<td>
 				<?php echo $this->catpagination->getLimitBox(); ?>
 			</td>

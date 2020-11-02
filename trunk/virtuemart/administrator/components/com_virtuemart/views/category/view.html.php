@@ -31,7 +31,7 @@ class VirtuemartViewCategory extends VmViewAdmin {
 
 	function display($tpl = null) {
 
-		$model = VmModel::getModel();
+		$model = VmModel::getModel('category');
 		$layoutName = $this->getLayout();
 
 		$task = vRequest::getCmd('task',$layoutName);
@@ -90,9 +90,9 @@ class VirtuemartViewCategory extends VmViewAdmin {
 			}
 			vmJsApi::ajaxCategoryDropDown('category_parent_id', $param, vmText::_('COM_VIRTUEMART_CATEGORY_FORM_TOP_LEVEL'));
 
+			$this->vendorList = '';
 			if($this->showVendors()){
-				$vendorList= ShopFunctions::renderVendorList($category->virtuemart_vendor_id);
-				$this->assignRef('vendorList', $vendorList);
+                $this->vendorList= ShopFunctions::renderVendorList($category->virtuemart_vendor_id);
 			}
 
 			$this->assignRef('category', $category);
@@ -120,43 +120,15 @@ class VirtuemartViewCategory extends VmViewAdmin {
 			}
 			vmJsApi::ajaxCategoryDropDown('top_category_id', $param, vmText::_('COM_VIRTUEMART_CATEGORY_FORM_TOP_LEVEL'));
 
-			$this->categories = $model->getCategoryTree($topCategory,0,false,$this->lists['search']);
+            $vendor_id = $app->getUserStateFromRequest ( 'com_virtuemart.category.vendor_id', 'virtuemart_vendor_id', '', 'int');
+			$this->categories = $model->getCategoryTree($topCategory,0,false,$this->lists['search'], '', '', false, $vendor_id);
 
-			$catsOrderUpDown = array();
+			$this->setPaginationDragAndOrderIcons($this->categories);
 
-			foreach($this->categories as $i=>$c){
-				$this->categories[$i]->productcount = $model->countProducts($c->virtuemart_category_id);
-
-				if(empty($catsOrderUpDown[$c->category_parent_id])){
-					$catsOrderUpDown[$c->category_parent_id]['max'] = $c->ordering;
-					$catsOrderUpDown[$c->category_parent_id]['min'] = $c->ordering;
-				} else {
-					$catsOrderUpDown[$c->category_parent_id]['max'] = max($catsOrderUpDown[$c->category_parent_id]['max'],$c->ordering);
-					$catsOrderUpDown[$c->category_parent_id]['min'] = min($catsOrderUpDown[$c->category_parent_id]['min'],$c->ordering);
-				}
-
-			}
-
-			foreach($this->categories as $i=>$c){
-				if($c->ordering == $catsOrderUpDown[$c->category_parent_id]['max']){
-					$this->categories[$i]->showOrderDown = false;
-				} else {
-					$this->categories[$i]->showOrderDown = true;
-				}
-
-				if($c->ordering == $catsOrderUpDown[$c->category_parent_id]['min']){
-					$this->categories[$i]->showOrderUp = false;
-				} else {
-					$this->categories[$i]->showOrderUp = true;
-				}
-			}
-
-			$this->catpagination = $model->getPagination();
-
-			$this->showDrag = 0;
-			if(count($this->categories) <= $this->catpagination->limit and $model->_selectedOrderingDir=='ASC' and strpos($model->_selectedOrdering,'ordering')!==FALSE and count($catsOrderUpDown)==1){
-				$this->showDrag = 1;
-			}
+            $this->lists['vendors'] = '';
+            if($this->showVendors()){
+                $this->lists['vendors'] = Shopfunctions::renderVendorList($vendor_id, 'virtuemart_vendor_id', true);
+            }
 
 			//vmdebug('my categories',$this->categories);
 		}
@@ -165,6 +137,44 @@ class VirtuemartViewCategory extends VmViewAdmin {
 		parent::display($tpl);
 	}
 
+	function setPaginationDragAndOrderIcons(&$categories){
+
+		$catsOrderUpDown = array();
+		$model = VmModel::getModel('category');
+		foreach($categories as $i=>$c){
+			$categories[$i]->productcount = $model->countProducts($c->virtuemart_category_id);
+
+			if(empty($catsOrderUpDown[$c->category_parent_id])){
+				$catsOrderUpDown[$c->category_parent_id]['max'] = $c->ordering;
+				$catsOrderUpDown[$c->category_parent_id]['min'] = $c->ordering;
+			} else {
+				$catsOrderUpDown[$c->category_parent_id]['max'] = max($catsOrderUpDown[$c->category_parent_id]['max'],$c->ordering);
+				$catsOrderUpDown[$c->category_parent_id]['min'] = min($catsOrderUpDown[$c->category_parent_id]['min'],$c->ordering);
+			}
+
+		}
+
+		foreach($categories as $i=>$c){
+			if($c->ordering == $catsOrderUpDown[$c->category_parent_id]['max']){
+				$categories[$i]->showOrderDown = false;
+			} else {
+				$categories[$i]->showOrderDown = true;
+			}
+
+			if($c->ordering == $catsOrderUpDown[$c->category_parent_id]['min']){
+				$categories[$i]->showOrderUp = false;
+			} else {
+				$categories[$i]->showOrderUp = true;
+			}
+		}
+
+		$this->catpagination = $model->getPagination();
+
+		$this->showDrag = 0;
+		if(count($categories) <= $this->catpagination->limit and $model->_selectedOrderingDir=='ASC' and strpos($model->_selectedOrdering,'ordering')!==FALSE and count($catsOrderUpDown)==1){
+			$this->showDrag = 1;
+		}
+	}
 }
 
 // pure php no closing tag

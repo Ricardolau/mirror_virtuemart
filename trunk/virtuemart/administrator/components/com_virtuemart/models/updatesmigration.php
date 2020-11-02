@@ -75,7 +75,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 
 		$q = 'UPDATE `#__virtuemart_vmusers` SET `virtuemart_vendor_id` = "0", `user_is_vendor` = "0" ';
 		if($multix!='none'){
-			$q = 'WHERE `virtuemart_vendor_id` = "1" ';
+			$q .= 'WHERE `virtuemart_vendor_id` = "1" ';
 		}
 		$db->setQuery($q);
 		if ($db->execute() == false ) {

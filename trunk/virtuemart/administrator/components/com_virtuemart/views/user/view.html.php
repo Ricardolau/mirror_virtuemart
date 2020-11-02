@@ -63,7 +63,7 @@ class VirtuemartViewUser extends VmViewAdmin {
 
 			$editor = JFactory::getEditor();
 
-			$userDetails = $model->getUser();
+			$userDetails = $model->getUser($userId);
 
 			if($task == 'editshop' && $userDetails->user_is_vendor){
 // 				$model->setCurrent();
@@ -95,6 +95,7 @@ class VirtuemartViewUser extends VmViewAdmin {
 
 			// Shopper info
 			$this->lists['shoppergroups'] = ShopFunctions::renderShopperGroupList($userDetails->shopper_groups,true, 'virtuemart_shoppergroup_id');
+
 			$this->lists['vendors'] = '';
 			if($this->showVendors()){
 				$this->lists['vendors'] = ShopFunctions::renderVendorList($userDetails->virtuemart_vendor_id, 'virtuemart_vendor_id', false);
@@ -107,8 +108,6 @@ class VirtuemartViewUser extends VmViewAdmin {
 				$vUser = $model->getTable('vendor_users');
 				$vUser->load($userDetails->JUser->get('id'));
 				$userDetails->virtuemart_vendor_user_id = $vUser->virtuemart_vendor_user_id;
-
-
 				$this->lists['vendor'] = ShopFunctions::renderVendorList($userDetails->virtuemart_vendor_user_id, 'virtuemart_vendor_user_id', false, true);
 			}
 

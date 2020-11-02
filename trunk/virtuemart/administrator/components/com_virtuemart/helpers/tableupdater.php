@@ -731,7 +731,7 @@ class GenericTableUpdater extends VmModel{
 		//Attention user_infos is not in here, because it an contain customised fields. #__virtuemart_order_userinfos #__virtuemart_userinfos
 		//This is currently not working as intended, because the config is not deleted before, it is better to create an extra command for this, when we need it later
 
-
+		$lastDebug = '';
 		foreach($fields as $fieldname => $alterCommand){
 
 			if((microtime(true)-$this->starttime) >= ($this->maxScriptTime)){
@@ -819,7 +819,7 @@ class GenericTableUpdater extends VmModel{
 				}
 				catch(Exception $e) {
 					//stAn, there is no need to fail the script due to alter
-					vmInfo( 'FAILED: '.$lastDebug.' '.$query );
+					vmInfo( 'FAILED: '.$e->getMessage().' '.$query );
 				}
 			}
 			$after = ' AFTER `'.$fieldname.'` ';

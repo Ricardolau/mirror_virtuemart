@@ -40,7 +40,7 @@ class vmText
 
 
 	public static function setLanguage(&$l){
-		self::$language =$l;
+		self::$language = $l;
 	}
 
 	/**

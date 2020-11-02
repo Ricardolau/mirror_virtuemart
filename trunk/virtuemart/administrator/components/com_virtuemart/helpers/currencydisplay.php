@@ -10,7 +10,7 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
  * @subpackage classes
  *
  * @author Max Milbers
- * @copyright Copyright (C) 2004-2008 Soeren Eberhardt-Biermann, 2011-2014 The Virtuemart Team and Author - All rights reserved.
+ * @copyright Copyright (C) 2004-2008 Soeren Eberhardt-Biermann, 2011-2020 The Virtuemart Team and Author - All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -206,7 +206,7 @@ class CurrencyDisplay {
 						$show = VmConfig::get($name,0);
 						$text = VmConfig::get($name.'Text',0);
 						$round = VmConfig::get($name.'Rounding',$this->_nbDecimal);
-						if($round==-1){
+						if($round<0){
 							$round = $this->_nbDecimal;
 						}
 						$this->_priceConfig[$name] = array($show,$round,$text);
@@ -231,7 +231,6 @@ class CurrencyDisplay {
 	 * return integer $currencyId: displayed Currency
 	 */
 	public function getCurrencyForDisplay( $currencyId=0 ){
-
 
 		return $this->_currency_id;
 	}

@@ -8,7 +8,7 @@
  * @subpackage Cart
  * @author Max Milbers
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2018 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -31,7 +31,7 @@ defined('_JEXEC') or die('Restricted access');
 class VirtueMartCart {
 
 	var $products = array();
-	var $_productAdded = true;
+	var $_productAdded = false;
 	var $_calculated = false;
 	var $_inCheckOut = false;
 	var $_inConfirm = false;
@@ -84,6 +84,8 @@ class VirtueMartCart {
 	var $pricesUnformatted = array();
 
 	private static $_cart = null;
+	static $_carts = null;
+
 	var $tempCart = false;
 	var $useSSL = 1;
 	var $storeCartSession = true;
@@ -100,6 +102,7 @@ class VirtueMartCart {
 		}
 	}
 
+	private static $lastVendorId = 1;
 	/**
 	 * Get the cart from the session
 	 *
@@ -107,15 +110,58 @@ class VirtueMartCart {
 	 * @access public
 	 * @param array $cart the cart to store in the session
 	 */
-	public static function &getCart($forceNew=false, $options = array(), $cartData=NULL) {
+	public static function &getCart($forceNew=false, $options = array(), $cartData=NULL, $vendorId = NULL) {
 
-		if(empty(self::$_cart) or $forceNew){
+		$multixcart = VmConfig::get('multixcart',0);
+
+		if(empty($multixcart)){
+			$vendorId = 1;
+			//vmdebug('No Multicart vendorId = 1');
+		} else {
+			if($vendorId === NULL){
+				$session = JFactory::getSession($options);
+				$lastVendorId = $session->get('vmcartlastVendorId', 0, 'vm');
+				if($lastVendorId!=0){
+					$vendorId = $lastVendorId;
+					//vmdebug('getCart use lastVendorId',$lastVendorId);
+				}
+				if($multixcart=='byvendor' /*or self::$_cart->vendorId==1*/){
+
+					$vId = vmAccess::isSuperVendor();
+					if(!empty($vId) and $vId!=1){
+						$vendorId = $vId;
+					}
+
+				}
+				if($multixcart=='byselection' or $multixcart=='byproduct'){
+					$tmpVendId = vRequest::getInt('virtuemart_vendor_id',$vendorId, false);
+					if($tmpVendId!=false){
+						$vendorId = $tmpVendId;
+					}
+				}
+
+				if(empty($vendorId)) $vendorId = 1;
+
+				//vmdebug('getCart Multicart vendorId '.$multixcart,$vendorId);
+			}
+		}
+
+
+		if(empty(self::$_carts[$vendorId]) or $forceNew){
 
 			self::$_cart = new VirtueMartCart;
 
+			self::$_cart->vendorId	 					= $vendorId;
 			if (empty($cartData)) {
-				$session = JFactory::getSession($options);
-				$cartSession = $session->get('vmcart', 0, 'vm');
+				if(!isset($session)) $session = JFactory::getSession($options);
+				if($multixcart!='byproduct'){
+					$cartSession = $session->get('vmcart', 0, 'vm');
+				}
+				else {
+					$cartSession = $session->get('vmcarts.'.$vendorId, 0, 'vm');
+
+				}
+
 				if (!empty($cartSession)) {
 					$sessionCart = (object)json_decode( $cartSession ,true);
 
@@ -136,7 +182,7 @@ class VirtueMartCart {
 
 				if(isset($sessionCart->cartProductsData)){
 					self::$_cart->cartProductsData 				= $sessionCart->cartProductsData;
-					self::$_cart->vendorId	 					= $sessionCart->vendorId;
+
 					self::$_cart->lastVisitedCategoryId	 		= $sessionCart->lastVisitedCategoryId;
 					self::$_cart->virtuemart_shipmentmethod_id	= $sessionCart->virtuemart_shipmentmethod_id;
 					self::$_cart->virtuemart_paymentmethod_id 	= $sessionCart->virtuemart_paymentmethod_id;
@@ -208,30 +254,21 @@ class VirtueMartCart {
 				self::$_cart->customer_number = 'nonreg_'.shopFunctionsF::vmSubstr($firstName,0,2).shopFunctionsF::vmSubstr($lastName,0,2).shopFunctionsF::vmSubstr($email,0,2).$qdate;
 			}
 
-			$multixcart = VmConfig::get('multixcart',0);
-			if(!empty($multixcart)){
-				if($multixcart=='byvendor' /*or self::$_cart->vendorId==1*/){
-
-					$vId = vmAccess::isSuperVendor();
-					if(!empty($vId) and $vId!=1){
-						self::$_cart->vendorId = $vId;
-					}
-					if(empty(self::$_cart->vendorId)) self::$_cart->vendorId = 1;
-				}
-				if($multixcart=='byselection'){
-					self::$_cart->vendorId = vRequest::getInt('virtuemart_vendor_id',self::$_cart->vendorId);
-				}
-			}
-
 			//We need to check for the amount of products. A cart in Multix mode using the first product
 			// to determine the vendorId is a valid if there is no product in the cart
 			$cp = count(self::$_cart->cartProductsData);
 			if( $cp >0 and empty(self::$_cart->vendorId)){
 				self::$_cart->vendorId = 1;
-			} else if ($cp == 0 and !empty($multixcart)) {
-				self::$_cart->vendorId = 0;
 			}
-			//vmdebug('Created new cart',self::$_cart->vendorId);
+
+			$session->set('vmcartlastVendorId', $vendorId, 'vm');
+			self::$lastVendorId = $vendorId;
+			self::$_carts[self::$_cart->vendorId] = self::$_cart;
+		} else {
+
+			if(!isset($session)) $session = JFactory::getSession($options);
+			$session->set('vmcartlastVendorId', $vendorId, 'vm');
+			self::$_cart = self::$_carts[$vendorId];
 		}
 
 		return self::$_cart;
@@ -650,7 +687,13 @@ class VirtueMartCart {
 			$session = JFactory::getSession();
 			$sessionCart = $this->getCartDataToStore();
 			$sessionCart = json_encode($sessionCart);
-			$session->set('vmcart', $sessionCart,'vm');
+			$multixcart = VmConfig::get('multixcart',0);
+			if($multixcart!='byproduct'){
+				$session->set('vmcart', $sessionCart,'vm');
+			} else {
+				$session->set('vmcart', $sessionCart,'vm');
+				$session->set('vmcarts.'.$this->vendorId, $sessionCart,'vm');
+			}
 		}
 
 		if($forceWrite){
@@ -718,6 +761,12 @@ class VirtueMartCart {
 	 */
 	public function removeCartFromSession() {
 		$session = JFactory::getSession();
+		$carts = $session->get('vmcarts', 0,'vm');
+        if($carts != 0){
+            unset($carts->{$this->vendorId});
+            $session->set('vmcarts', $carts, 'vm');
+        }
+
 		$session->set('vmcart', 0, 'vm');
 	}
 
@@ -779,13 +828,42 @@ class VirtueMartCart {
 		}
 
 		$products = array();
-		$this->_productAdded = true;
+
 		$productModel = VmModel::getModel('product');
 		$customFieldsModel = VmModel::getModel('customfields');
 
 		VmConfig::importVMPlugins('vmcustom');
 
 		$dispatcher = JDispatcher::getInstance();
+
+		//We may have to create a new cart for multicart, so we add them now
+        $multixcart = VmConfig::get('multixcart',0);
+        if($multixcart=='byproduct' ){
+            foreach ($virtuemart_product_ids as $p_key => $virtuemart_product_id) {
+                if(empty($virtuemart_product_id)){
+                    vmWarn('Product could not be added with virtuemart_product_id = 0');
+                    unset($virtuemart_product_ids[$virtuemart_product_id]);
+                    continue;
+                } /*else {
+                    $productData['virtuemart_product_id'] = (int)$virtuemart_product_id;
+                }*/
+
+                if(!empty( $post['quantity'][$p_key])){
+                    $productData['quantity'] = (int) $post['quantity'][$p_key];
+                } else {
+                    continue;
+                }
+
+                $productTemp = $productModel->getProduct($virtuemart_product_id, true, false,true,$productData['quantity']);
+                $productTemp->modificatorSum = null;
+                $product = clone($productTemp);
+
+                if(!isset(self::$_carts[$product->virtuemart_vendor_id])){
+                    VirtuemartCart::getCart(false, array(), NULL,$product->virtuemart_vendor_id);
+                }
+
+            }
+        }
 
 		//Iterate through the prod_id's and perform an add to cart for each one
 		foreach ($virtuemart_product_ids as $p_key => $virtuemart_product_id) {
@@ -804,7 +882,7 @@ class VirtueMartCart {
 			if(!empty( $post['quantity'][$p_key])){
 				$productData['quantity'] = (int) $post['quantity'][$p_key];
 			} else {
-					continue;
+				continue;
 			}
 
 			if(!empty( $post['customProductData'][$virtuemart_product_id])){
@@ -819,14 +897,7 @@ class VirtueMartCart {
 			$productTemp->modificatorSum = null;
 			$product = clone($productTemp);
 
-			if(VmConfig::get('multixcart',0)=='byproduct'){
-				if(empty($this->vendorId)) $this->vendorId = $product->virtuemart_vendor_id;
-				if(!empty($this->vendorId) and $this->vendorId != $product->virtuemart_vendor_id){
-					//Product of another vendor recognised, for now we just return false,
-					//later we will create here another cart (multicart)
-					return false;
-				}
-			}
+			$productData['virtuemart_vendor_id'] = $product->virtuemart_vendor_id;
 
 			$product->customfields = $customFieldsModel->getCustomEmbeddedProductCustomFields($product->allIds,0,1);
 			$customProductDataTmp=array();
@@ -837,6 +908,10 @@ class VirtueMartCart {
 				$customFiltered = false;
 
 				$addToCartReturnValues = $dispatcher->trigger('plgVmOnAddToCartFilter',array(&$product, &$customfield, &$customProductData, &$customFiltered));
+				if(!empty($product->remove)){
+					vmdebug('Remove product');
+					break;
+				}
 				if($customFiltered){
 					$customProductDataTmp=$customProductData;
 				} else if(!$customFiltered && $customfield->is_input==1){
@@ -878,98 +953,114 @@ class VirtueMartCart {
 
 			$productData['customProductData'] = $customProductDataTmp;
 
-
-			$unsetA = array();
-			$found = false;
-
-
-			//Now lets check if there is already a product stored with the same id, if yes, increase quantity and recalculate
-			foreach($this->cartProductsData as $k => &$cartProductData){
-				$cartProductData = (array)$cartProductData;
-				if(empty($cartProductData['virtuemart_product_id'])){
-					$unsetA[] = $k;
-					$errorMsg = true;
-				} else {
-					if($cartProductData['virtuemart_product_id'] == $productData['virtuemart_product_id']){
-
-						//Okey, the id is already the same, so lets check the customProductData
-						$diff = !$this->deepCompare($cartProductData['customProductData'],$productData['customProductData']);
-
-						if(!$diff){
-vmdebug('my cartLoaded ',$k,$this->cartLoaded);
-							if(!empty($this->cartLoaded[$k])){
-								$newTotal = $productData['quantity'];	//We assume the customer entered a correct new quantity.
-								unset($this->cartLoaded[$k]);
-							} else {
-								$newTotal = $cartProductData['quantity'] + $productData['quantity'];
-							}
-
-
-							if(!$product)$product = $this->getProduct((int) $productData['virtuemart_product_id'],$cartProductData['quantity']);
-							if(empty($product->virtuemart_product_id)){
-								vmWarn('COM_VIRTUEMART_PRODUCT_NOT_FOUND');
-								$unsetA[] = $k;
-
-							} else {
-								$this->checkForQuantities($product, $newTotal);
-								vmdebug("add to cart did checkForQuantities",$newTotal,$productData['quantity']);
-								$product->quantityAdded = $newTotal - $cartProductData['quantity'];
-								$product->quantity = $newTotal;
-								$cartProductData['quantity'] = $newTotal;
-
-								vmdebug('add to cart did $product->quantityAdded  ',$cartProductData['quantity']);
-							}
-							$found = TRUE;
-							break;
-						} else {
-							vmdebug('product variant is different, I add to cart');
-						}
-					}
-				}
-
-				//add products to remove to array
-				if($cartProductData['quantity']==0){
-					$unsetA[] = $k;
-				}
-
+			if(!empty($product->remove)){
+				continue;
 			}
 
-			if(!$found){
-				if(!$product)$product = $this->getProduct( (int)$productData['virtuemart_product_id'],$productData['quantity']);
-				if(!empty($product->virtuemart_product_id)){
+			$found = false;
+			$unsetA = array();
+			foreach(self::$_carts as $cart) {
 
-					$this->checkForQuantities($product, $product->quantity);
-					vmdebug('my $productData $productData ',$productData);
-					if(!empty($product->quantity)){
-						$productData['quantity'] = $product->quantity;
-						$this->cartProductsData[] = $productData;
+				if($multixcart=='byproduct' /*or $multixcart =='multicart'*/){
+					if($cart->vendorId != $productData['virtuemart_vendor_id']) continue;
+				}
+
+				//Now lets check if there is already a product stored with the same id, if yes, increase quantity and recalculate
+				foreach( $cart->cartProductsData as $k => &$cartProductData ) {
+					$cartProductData = (array)$cartProductData;
+
+
+
+
+					if(empty( $cartProductData['virtuemart_product_id'] )) {
+						$unsetA[] = $k;
+						$errorMsg = true;
+					} else {
+						if($cartProductData['virtuemart_product_id'] == $productData['virtuemart_product_id']) {
+
+							//Okey, the id is already the same, so lets check the customProductData
+							$diff = !$cart->deepCompare( $cartProductData['customProductData'], $productData['customProductData'] );
+
+							if(!$diff) {
+								vmdebug( 'my cartLoaded ', $k, $cart->cartLoaded );
+								if(!empty( $cart->cartLoaded[$k] )) {
+									$newTotal = $productData['quantity'];    //We assume the customer entered a correct new quantity.
+									unset( $cart->cartLoaded[$k] );
+								} else {
+									$newTotal = $cartProductData['quantity'] + $productData['quantity'];
+								}
+
+
+								if(!$product) $product = $cart->getProduct( (int)$productData['virtuemart_product_id'], $cartProductData['quantity'] );
+								if(empty( $product->virtuemart_product_id )) {
+									vmWarn( 'COM_VIRTUEMART_PRODUCT_NOT_FOUND' );
+									$unsetA[] = $k;
+
+								} else {
+									$cart->checkForQuantities( $product, $newTotal );
+									vmdebug( "add to cart did checkForQuantities", $newTotal, $productData['quantity'] );
+									$product->quantityAdded = $newTotal - $cartProductData['quantity'];
+									$product->quantity = $newTotal;
+									$cartProductData['quantity'] = $newTotal;
+									$cart->_productAdded = true;
+									vmdebug( 'add to cart did $product->quantityAdded  ', $cartProductData['quantity'] );
+								}
+								$found = TRUE;
+								break;
+							} else {
+								vmdebug( 'product variant is different, I add to cart' );
+								$cart->_productAdded = true;
+							}
+						}
+					}
+
+					//add products to remove to array
+					if($cartProductData['quantity'] == 0) {
+						$unsetA[] = $k;
+					}
+
+				}
+
+				if(!$found) {
+					if(!$product) $product = $cart->getProduct( (int)$productData['virtuemart_product_id'], $productData['quantity'] );
+					if(!empty( $product->virtuemart_product_id )) {
+
+						$cart->checkForQuantities( $product, $product->quantity );
+						vmdebug( 'my $productData $productData ', $productData );
+						if(!empty( $product->quantity )) {
+							$productData['quantity'] = $product->quantity;
+							$cart->cartProductsData[] = $productData;
+						} else {
+							$errorMsg = true;
+						}
 					} else {
 						$errorMsg = true;
 					}
-				} else {
-					$errorMsg = true;
+
 				}
 
-			}
+				if($product) {
+					$products[] = $product;
+				}
 
-			if($product){
-				$products[] = $product;
-			}
+				//Remove the products which have quantity=0
+				foreach( $unsetA as $v ) {
+					unset( $cart->cartProductsData[$v] );
+				}
 
-			//Remove the products which have quantity=0
-			foreach($unsetA as $v){
-				unset($this->cartProductsData[$v]);
+				JPluginHelper::importPlugin('vmextended');
+				$dispatcher = JDispatcher::getInstance();
+				$dispatcher->trigger('plgVmOnAddToCart',array(&$cart));
+
+				if ($updateSession== false) return false ;
+				$cart->_dataValidated = false;
+				// End Iteration through Prod id's
+				$cart->setCartIntoSession(true);
+
 			}
 		}
 
-		JPluginHelper::importPlugin('vmextended');
-		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger('plgVmOnAddToCart',array(&$this));
 
-		if ($updateSession== false) return false ;
-		$this->_dataValidated = false;
-		// End Iteration through Prod id's
-		$this->setCartIntoSession(true);
 		return $products;
 	}
 
@@ -1052,16 +1143,6 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 
 		$this->setCartIntoSession($updated, true);
 		return $updated;
-	}
-
-
-	/**
-	* Get the category ID from a product ID
-	*
-	* @deprecated, useless function, already done in the product model
-	*/
-	public function getCardCategoryId($virtuemart_product_id) {
-		return 0;
 	}
 
 	/**
@@ -1946,7 +2027,7 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 		$dispatcher = JDispatcher::getInstance();
 		$returnValues = $dispatcher->trigger($trigger, array(  $this,$this->cartPrices, &$counter, $type));
 
-		vmdebug('checkAutomaticSelectedPlug my return value '.$type,$returnValues);
+		//vmdebug('checkAutomaticSelectedPlug my return value '.$type,$returnValues);
 
 		$vm_autoSelected_name = 'automaticSelected'.ucfirst($type);
 		$this->{$vm_autoSelected_name}=false;
@@ -1970,7 +2051,7 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 			}
 		}
 
-		vmdebug('checkAutomaticSelectedPlug my $method_ids '.$type,$nb,$method_id);
+		//vmdebug('checkAutomaticSelectedPlug my $method_ids '.$type,$nb,$method_id);
 
 
 
@@ -2351,9 +2432,9 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 	}
 
 	// Render the code for Ajax Cart
-	function prepareAjaxData($withProductImages=false){
+	function prepareAjaxData($withProductImages=false, $force = false){
 
-		$this->prepareCartData(false);
+		$this->prepareCartData($force);
 		$data = new stdClass();
 		$data->products = array();
 		$data->totalProduct = 0;
@@ -2402,13 +2483,18 @@ vmdebug('my cartLoaded ',$k,$this->cartLoaded);
 		else $data->totalProductTxt = vmText::_('COM_VIRTUEMART_EMPTY_CART');
 		if (false && $data->dataValidated == true) {
 			$taskRoute = '&task=confirm';
-			$linkName = vmText::_('COM_VIRTUEMART_ORDER_CONFIRM_MNU');
+            $data->linkName = vmText::_('COM_VIRTUEMART_ORDER_CONFIRM_MNU');
 		} else {
 			$taskRoute = '';
-			$linkName = vmText::_('COM_VIRTUEMART_CART_SHOW');
+            $data->linkName = vmText::_('COM_VIRTUEMART_CART_SHOW');
 		}
 
-		$data->cart_show = '<a style ="float:right;" href="'.JRoute::_("index.php?option=com_virtuemart&view=cart".$taskRoute,$this->useSSL).'" rel="nofollow" >'.$linkName.'</a>';
+		$multixcart = VmConfig::get('multixcart',0);
+		if(!empty($multixcart)){
+			$taskRoute .= '&virtuemart_vendor_id='.$this->vendorId;
+		}
+		$data->cart_show_link = JRoute::_("index.php?option=com_virtuemart&view=cart".$taskRoute,$this->useSSL);
+		$data->cart_show = '<a style ="float:right;" href="'.$data->cart_show_link.'" rel="nofollow" >'.$data->linkName.'</a>';
 		$data->billTotal = vmText::sprintf('COM_VIRTUEMART_CART_TOTALP',$data->billTotal);
 
 		return $data ;

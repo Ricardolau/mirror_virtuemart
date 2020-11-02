@@ -118,6 +118,7 @@ class VirtuemartViewConfig extends VmViewAdmin {
 		$this -> checkTCPDFinstalled();
 		$this -> checkVmUserVendor();
 		$this -> checkMysqliUsed();
+		$this -> checkPriceDisplayByShoppergroup();
 		//$this -> checkClientIP();
 		parent::display($tpl);
 	}
@@ -182,6 +183,20 @@ WHERE published="1"';
 	private function checkClientIP(){
 		$revproxvar = VmConfig::get('revproxvar','');
 		if(!empty($revproxvar)) vmdebug('My server variable ',$_SERVER);
+	}
+
+	private function checkPriceDisplayByShoppergroup(){
+
+		$db = JFactory::getDBO();
+		$q = 'SELECT shopper_group_name from #__virtuemart_shoppergroups where price_display IS NOT NULL ;';
+		$db->setQuery($q);
+
+		$this->shopgrp_price = $db->loadAssoc();
+		/*if($db->loadAssoc()){
+			$this->shopgrp_price = true;
+		} else $this->shopgrp_price = false;*/
+
+
 	}
 
 	public static function getTip($label){

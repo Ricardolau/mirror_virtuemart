@@ -51,7 +51,7 @@ class VirtuemartViewShopperGroup extends VmViewAdmin {
 			$this->assignRef('shoppergroup',	$shoppergroup);
 
 			$this->addStandardEditViewCommands();
-
+			$this->shopgrp_price = false;
 		} else {
 			$this->SetViewTitle();
 

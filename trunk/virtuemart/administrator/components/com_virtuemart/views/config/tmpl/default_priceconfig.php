@@ -19,7 +19,10 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 
 <table class="admintable" id="show_hide_prices">
-<?php	if($showPricesLine) echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_CFG_SHOW_PRICES', 'show_prices', $show_prices ); ?>
+<?php
+if($this->shopgrp_price) echo '<tr><td colspan="2">'.vmText::sprintf('COM_VM_PRICEDISPLAY_CONFIGURED_BY SHOPPERGRPS',implode(',',$this->shopgrp_price)).'</td></tr>';
+if($showPricesLine) echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_CFG_SHOW_PRICES', 'show_prices', $show_prices ); ?>
+
 		    <tr>
 			<th></th>
 			<th><?php echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_PRICES_LABEL'); ?></th>

@@ -7,7 +7,7 @@
  * @subpackage
  * @author
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -27,6 +27,10 @@ defined('_JEXEC') or die('Restricted access');
  */
 
 class VirtuemartViewProduct extends VmViewAdmin {
+
+	public $showDrag = 0;
+	public $showOrderUp = 0;
+	public $showOrderDown = 0;
 
 	function display($tpl = null) {
 
@@ -66,7 +70,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 				$superVendor =  vmAccess::isSuperVendor();
 				$vendorId = vmAccess::getVendorId();
 
-				if(!empty($product->virtuemart_vendor_id) and $superVendor !=1 and $vendorId!=$product->virtuemart_vendor_id){
+				if(!empty($product->virtuemart_product_id) and !empty($product->virtuemart_vendor_id) and $superVendor !=1 and $vendorId!=$product->virtuemart_vendor_id){
 					$app->redirect( 'index.php?option=com_virtuemart&view=virtuemart', vmText::_('COM_VIRTUEMART_ALERTNOTAUTHOR'), 'error');
 				}
 				if(!empty($product->product_parent_id)){
@@ -369,6 +373,19 @@ class VirtuemartViewProduct extends VmViewAdmin {
 
 			$this->addStandardDefaultViewLists($model,'created_on');
 
+            //Get the category tree
+            //$this->virtuemart_category_id = $this->categoryId = $model->virtuemart_category_id; //OSP switched to filter in model, was vRequest::getInt('virtuemart_category_id');
+            $this->categoryId = vRequest::getInt('virtuemart_category_id',false);
+            if($this->categoryId===false){
+                $this->categoryId = 0;
+            }
+            $model->virtuemart_category_id = $this->virtuemart_category_id = $this->categoryId;
+
+            $this->showOrdering = false;
+			if( $this->categoryId and count($this->categoryId) < 1) {
+				$this->showOrdering = true;
+			}
+
 			$superVendor = vmAccess::isSuperVendor();
 			if(empty($superVendor)){
 				$productlist = array();
@@ -385,15 +402,14 @@ class VirtuemartViewProduct extends VmViewAdmin {
 			//The pagination must now always set AFTER the model load the listing
 			$this->pagination = $model->getPagination();
 
-			$this->showDrag = 0;
+
 			if($this->pagination->total <= $this->pagination->limit and $model->filter_order_Dir=='ASC' and strpos($model->filter_order,'ordering')!==FALSE){
 				$this->showDrag = 1;
 			}
 
 			VmJsApi::chosenDropDowns();
 
-			//Get the category tree
-			$this->virtuemart_category_id=$this->categoryId = $model->virtuemart_category_id; //OSP switched to filter in model, was vRequest::getInt('virtuemart_category_id');
+
 
 			$this->ajaxCategoryDropDown('virtuemart_category_id');
 
@@ -440,6 +456,9 @@ class VirtuemartViewProduct extends VmViewAdmin {
 				if(!empty($product->allPrices)) {
 					$product->product_price_display = '<span '.$class.'>';
 					foreach($product->allPrices as $k=>$price){
+
+						//Use price currency instead of vendor currency */
+                        $currencyDisplay = CurrencyDisplay::getInstance($price['product_currency']);
 						//vmdebug('my price',$price);
 						if($vat){
 							$product->selectedPrice = $k;
@@ -520,6 +539,10 @@ class VirtuemartViewProduct extends VmViewAdmin {
 								'af' => vmText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_DATE_AFTER')
 			);
 			$this->lists['search_order'] = VmHTML::selectList('search_order', $model->search_order,$options, 1, "", 'style="width:100px;"');
+
+			$opt = array('-1'=> vmText::_('COM_VIRTUEMART_ALL'), '1' => vmText::_('COM_VIRTUEMART_PUBLISHED'), '0' => vmText::_('COM_VIRTUEMART_UNPUBLISHED'));
+
+			$this->lists['published'] = VmHTML::selectList('published', $model->published, $opt,1,false,'class="changeSendForm"');
 
 			// Toolbar
 			if (vmAccess::manager('product.edit')) {
@@ -624,7 +647,15 @@ class VirtuemartViewProduct extends VmViewAdmin {
 
 		$param = '';
 		if(!empty($this->categoryId)){
-			$param = '&virtuemart_category_id='.$this->categoryId;
+		    if(is_array($this->categoryId)){
+		        foreach($this->categoryId as $cid){
+		            if(empty($cid)) continue;
+                    $param .= '&virtuemart_category_id[]='.$cid;
+                }
+            } else {
+                $param = '&virtuemart_category_id='.$this->categoryId;
+            }
+
 		} else if(!empty($this->product->virtuemart_product_id)){
 			$param = '&virtuemart_product_id='.$this->product->virtuemart_product_id;
 		}

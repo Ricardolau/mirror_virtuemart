@@ -348,6 +348,7 @@ class TCPDF_STATIC {
 			header('Content-Length: '.$length);
 		}
 		echo $data;
+		return;
 	}
 
 	/**

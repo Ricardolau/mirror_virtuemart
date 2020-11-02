@@ -7,7 +7,7 @@
  * @subpackage Cart
  * @author Max Milbers
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2014 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -72,7 +72,14 @@ class VirtueMartControllerCart extends JControllerLegacy {
 
 		$view->assignRef('document', $document);
 
-		$cart = VirtueMartCart::getCart();
+		$vendorId = NULL;
+		$multixcart = VmConfig::get('multixcart',0);
+		if($multixcart == 'byproduct'){
+			$vendorId = vRequest::getInt('virtuemart_vendor_id',NULL);
+			vmdebug('Controller cart display, my cart call by vendorId',$vendorId);
+		}
+
+		$cart = VirtueMartCart::getCart(false, array(), NULL, $vendorId);
 
 		$cart->order_language = vRequest::getString('order_language', $cart->order_language);
 		if(!isset($force))$force = VmConfig::get('oncheckout_opc',true);
@@ -240,6 +247,7 @@ class VirtueMartControllerCart extends JControllerLegacy {
 			$type = 'error';
 			$mainframe->redirect('index.php', $msg, $type);
 		}
+
 		$cart = VirtueMartCart::getCart();
 		if ($cart) {
 			$virtuemart_product_ids = vRequest::getInt('virtuemart_product_id');
@@ -272,14 +280,22 @@ class VirtueMartControllerCart extends JControllerLegacy {
 			ob_start();
 		}
 		$this->json = new stdClass();
-		$cart = VirtueMartCart::getCart();
+
+		$virtuemart_product_ids = vRequest::getInt('virtuemart_product_id');
+
+		if(is_array($virtuemart_product_ids)){
+			$prId = $virtuemart_product_ids[0];
+		} else {
+			$prId = $virtuemart_product_ids;
+		}
+
+		$productT = VmModel::getModel('product')->getTable('products')->load($prId);
+		$cart = VirtueMartCart::getCart( false, array(), NULL, $productT->virtuemart_vendor_id);
+
 		if ($cart) {
 			$view = $this->getView ('cart', 'json');
 			$virtuemart_category_id = shopFunctionsF::getLastVisitedCategoryId();
 
-			$virtuemart_product_ids = vRequest::getInt('virtuemart_product_id');
-
-			$view = $this->getView ('cart', 'json');
 			$errorMsg = 0;
 
 			$products = $cart->add($virtuemart_product_ids, $errorMsg );

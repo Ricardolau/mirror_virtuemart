@@ -89,6 +89,7 @@ vmJsApi::vmValidator();
 			?></div>
 
 		<?php // Continue and Checkout Button END ?>
+        <input type='hidden' name='virtuemart_vendor_id' value='<?php echo $this->cart->vendorId; ?>'/>
 		<input type='hidden' name='order_language' value='<?php echo $this->order_language; ?>'/>
 		<input type='hidden' name='task' value='updatecart'/>
 		<input type='hidden' name='option' value='com_virtuemart'/>
@@ -109,7 +110,7 @@ jQuery(document).ready(function() {
 }); ");
 }
 
-$orderDoneLink = JRoute::_('index.php?option=com_virtuemart&view=cart&task=orderdone');
+
 
 vmJsApi::addJScript('vm-checkoutFormSubmit',"
 Virtuemart.bCheckoutButton = function(e) {
@@ -122,7 +123,7 @@ Virtuemart.bCheckoutButton = function(e) {
 	var name = jQuery(this).attr('name');
 	var div = '<input name=\"'+name+'\" value=\"1\" type=\"hidden\">';
     if(name=='confirm'){
-        jQuery('#checkoutForm').attr('action','".$orderDoneLink."');
+        jQuery('#checkoutForm').attr('action','".$this->orderDoneLink."');
     }
 	jQuery('#checkoutForm').append(div);
 	//Virtuemart.updForm();

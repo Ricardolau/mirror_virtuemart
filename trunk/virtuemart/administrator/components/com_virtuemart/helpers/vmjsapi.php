@@ -107,6 +107,7 @@ class vmJsApi{
 		$html = '';
 		$headInline = '';
 		$document = JFactory::getDocument();
+
 		foreach(self::$_jsAdd as $name => &$jsToAdd){
 
 			if($jsToAdd['written']) continue;

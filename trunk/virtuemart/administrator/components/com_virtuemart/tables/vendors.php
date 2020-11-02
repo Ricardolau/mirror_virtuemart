@@ -130,7 +130,6 @@ class TableVendors extends VmTableData {
 
 		$this->setParameterable('vendor_params',$varsToPushParam);
 		$this->setTableShortCut('v');
-
     }
 
 	public function check(){

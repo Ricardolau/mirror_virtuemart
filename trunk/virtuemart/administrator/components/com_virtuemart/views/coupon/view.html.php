@@ -124,7 +124,7 @@ class VirtuemartViewCoupon extends VmViewAdmin {
 			$query
 				->select(array('vmp.virtuemart_product_id as value', 'vmpegb.product_name as text'))
 				->from($db->quoteName('#__virtuemart_products', 'vmp'))
-				->join('LEFT', $db->quoteName('#__virtuemart_products_en_gb', 'vmpegb') . ' ON (' . $db->quoteName('vmp.virtuemart_product_id') . ' = ' . $db->quoteName('vmpegb.virtuemart_product_id') . ')')
+				->join('LEFT', $db->quoteName('#__virtuemart_products_' . VmConfig::$vmlang, 'vmpegb') . ' ON (' . $db->quoteName('vmp.virtuemart_product_id') . ' = ' . $db->quoteName('vmpegb.virtuemart_product_id') . ')')
 				->where($db->quoteName('vmp.published') . ' = 1')
 				->order($db->quoteName('vmpegb.product_name') . ' ASC');
 			$db->setQuery($query);
@@ -139,7 +139,7 @@ class VirtuemartViewCoupon extends VmViewAdmin {
 			$query
 				->select(array('vmc.virtuemart_category_id as value', 'vceg.category_name as text'))
 				->from($db->quoteName('#__virtuemart_categories', 'vmc'))
-				->join('LEFT', $db->quoteName('#__virtuemart_categories_en_gb', 'vceg') . ' ON (' . $db->quoteName('vmc.virtuemart_category_id') . ' = ' . $db->quoteName('vceg.virtuemart_category_id') . ')')
+				->join('LEFT', $db->quoteName('#__virtuemart_categories_' . VmConfig::$vmlang, 'vceg') . ' ON (' . $db->quoteName('vmc.virtuemart_category_id') . ' = ' . $db->quoteName('vceg.virtuemart_category_id') . ')')
 				->where($db->quoteName('vmc.published') . ' = 1');
 			$db->setQuery($query);
 			$options = array_merge($options, $db->loadObjectList());

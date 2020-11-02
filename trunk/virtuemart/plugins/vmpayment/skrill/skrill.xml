@@ -8,7 +8,7 @@
     <license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
     <version>${PHING.VM.RELEASE}</version>
     <description><![CDATA[<a href="http://www.skrill.com" target="_blank">skrill</a> is a popular
-  payment provider authorised by the Financial Services Authority of the United Kingdom (FSA). ]]>
+  payment provider authorised by the Financial Services Authority of the United Kingdom (FCA). ]]>
     </description>
 
     <files>

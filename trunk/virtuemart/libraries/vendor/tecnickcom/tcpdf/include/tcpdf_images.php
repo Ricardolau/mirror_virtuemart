@@ -5,6 +5,7 @@
 // Begin       : 2002-08-03
 // Last Update : 2014-11-15
 // Author      : Nicola Asuni - Tecnick.com LTD - www.tecnick.com - info@tecnick.com
+// Bugfixer    : VirtueMart Team 2020
 // License     : GNU-LGPL v3 (http://www.gnu.org/copyleft/lesser.html)
 // -------------------------------------------------------------------
 // Copyright (C) 2002-2014 Nicola Asuni - Tecnick.com LTD
@@ -311,7 +312,7 @@ class TCPDF_IMAGES {
 					if ($n > 0) {
 						$trns = array();
 						for ($i = 0; $i < $n; ++ $i) {
-							$trns[] = ord($t{$i});
+							$trns[] = ord($t[$i]);
 						}
 					}
 				}

@@ -9,7 +9,7 @@
  * @subpackage Helpers
  * @author Max Milbers
  * @copyright Copyright (C) 2014 Open Source Matters, Inc. All rights reserved.
- * @copyright Copyright (c) 2011 - 2018 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2011 - 2020 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -67,6 +67,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 	public $_loaded = false;
 	protected $_updateNulls = false;
 	protected $_toConvertDec = false;
+	protected $_genericVendorId = true;
 
 	/**
 	 * @param string $table
@@ -601,9 +602,11 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			}
 
 			foreach ($varsToPushParam as $key => $v) {
-				if (!isset($obj->{$key})) {
+			    if(empty($key)){
+                    vmdebug('Something went wrong in vmTable bindParameterable, empty key for $varsToPushParam',$varsToPushParam,$obj);
+                    vmTrace('vmTable key empty');
+                } else if (!isset($obj->{$key})) {
 					$obj->{$key} = $v[0];
-					//vmdebug('Set standard '.$key. ' = '.$v[0]);
 				}
 			}
 		} else {
@@ -1407,7 +1410,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		$multix = Vmconfig::get('multix', 'none');
 		//Lets check if the user is admin or the mainvendor
 		$virtuemart_vendor_id = false;
-		//Quickndirty is removed and set in derived classes, but cant be avoided for the vendor language tables
+		//Quickndirty is removed and set in derived classes (per override or $this->_genericVendorId = false;), but cant be avoided for the vendor language tables
 		if ($multix == 'none' or strpos($this->_tbl,'virtuemart_vendors')!==FALSE) {
 			if ($multix == 'none'){
 				$this->virtuemart_vendor_id = 1;
@@ -1461,6 +1464,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 				//Admins are allowed to do anything. We just trhow some messages
 				if (!empty($virtuemart_vendor_id) and $loggedVendorId != $virtuemart_vendor_id) {
 					vmdebug('Admin with vendor id ' . $loggedVendorId . ' is using for storing vendor id ' . $this->virtuemart_vendor_id);
+					VmTrace('Sowas hier');
 				}
 				else if (empty($virtuemart_vendor_id) and empty($this->virtuemart_vendor_id)) {
 					if(strpos($this->_tbl,'virtuemart_vendors')===FALSE and strpos($this->_tbl,'virtuemart_vmusers')===FALSE){
@@ -1601,7 +1605,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		}
 
 
-		if (property_exists($this,'virtuemart_vendor_id') ) {
+		if ($this->_genericVendorId and property_exists($this,'virtuemart_vendor_id') ) {
 			if(!$this->setCheckVendorId()){
 				return false;
 			}

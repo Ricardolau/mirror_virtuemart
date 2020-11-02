@@ -155,12 +155,8 @@ vmdebug('Found cached cat, but without children');
 	 */
 	public function getChildCategoryList($vendorId, $virtuemart_category_id,$selectedOrdering = null, $orderDir = null, $useCache = true) {
 
-		if(empty($this) or get_class($this)!='VirtueMartModelCategory'){
-			$useCache = false;
-		} else {
-			$useCache = VmConfig::get('UseCachegetChildCategoryList',false);
-		}
-		//$useCache = false;
+
+
 		if($selectedOrdering===null){
 			if($useCache){
 				$selectedOrdering = $this->_selectedOrdering;
@@ -199,23 +195,34 @@ vmdebug('Found cached cat, but without children');
 		//$key = (int)$vendorId.'_'.(int)$virtuemart_category_id.$selectedOrdering.$orderDir.VmLanguage::$currLangTag ;
 		//We have here our internal key to preven calling of the cache
 		//if (! array_key_exists ($key,$_childCategoryList)){
+
+		return self::getChildCategoryListObjectByCachedOption($vendorId, $virtuemart_category_id, $onlyPublished, true, '', $selectedOrdering, $orderDir);
+
+	}
+
+	static public function getChildCategoryListObjectByCachedOption($vendorId, $virtuemart_category_id, $onlyPublished, $media, $keyword, $selectedOrdering, $orderDir, $limitStart = 0, $limit = 0){
+
 		vmSetStartTime('com_virtuemart_cat_childs');
+
+		/*if(empty($this) or get_class($this)!='VirtueMartModelCategory'){
+			$useCache = false;
+		} else {*/
+			$useCache = VmConfig::get('UseCachegetChildCategoryList',true);
+		//}
 
 		if($useCache){
 			$cache = VmConfig::getCache('com_virtuemart_cat_childs','callback');
 			$cache->setCaching(true);
-			vmdebug('Calling cache getChildCategoryListObject');
-			$cats = $cache->call( array( 'VirtueMartModelCategory', 'getChildCategoryListObject' ),$vendorId, $virtuemart_category_id, false, $onlyPublished, true, '', $selectedOrdering, $orderDir, 0, 0);
+			$cats = $cache->call( array( 'VirtueMartModelCategory', 'getChildCategoryListObject' ),$vendorId, $virtuemart_category_id, false, $onlyPublished, $media, $keyword, $selectedOrdering, $orderDir, 0, 0);
 			vmTime('getChildCategoryList getChildCategoryListObject cached '.$virtuemart_category_id,'com_virtuemart_cat_childs');
 			return $cats;
 		} else {
-			$cats = VirtueMartModelCategory::getChildCategoryListObject($vendorId, $virtuemart_category_id, false, $onlyPublished, true, '', $selectedOrdering, $orderDir, 0, 0);
+			$cats = VirtueMartModelCategory::getChildCategoryListObject($vendorId, $virtuemart_category_id, false, $onlyPublished, $media, $keyword, $selectedOrdering, $orderDir, 0, 0);vmTrace('hmmm');
 			vmTime('getChildCategoryList getChildCategoryListObject '.$virtuemart_category_id,'com_virtuemart_cat_childs');
 			return $cats;
 		}
 
 	}
-
 	/**
 	 * Be aware we need the lang to assure that the cache works properly. The cache needs all parameters
 	 * in the function call to use the right hash
@@ -357,12 +364,12 @@ vmdebug('Found cached cat, but without children');
 		//$count = count($childList);
 		//vmdebug('getChildCategoryListObject count result '.$query,$count );
 		$cats[$h] = $childList;
-		vmTime('getChildCategoryListObject summed up','getChildCategoryListObject',false);
+		//vmTime('getChildCategoryListObject summed up','getChildCategoryListObject',false);
 		return $childList;
 	}
 
 
-	public function getCategoryTree($parentId=0, $level = 2, $onlyPublished = true,$keyword = '', $limitStart = '',$limit = '', $tree = false){
+	public function getCategoryTree($parentId=0, $level = 2, $onlyPublished = true,$keyword = '', $limitStart = '',$limit = '', $tree = false, $vendorId = 0){
 
 		$sortedCats = array();
 
@@ -374,12 +381,11 @@ vmdebug('Found cached cat, but without children');
 
 		$this->_noLimit = true;
 
-
-
+        if(empty($vendorId)) $vendorId = vmAccess::isSuperVendor();
 		if($keyword!=''){
 			//$sortedCats = self::getCategories($onlyPublished, false, false, $keyword);
-			$vendorId = vmAccess::isSuperVendor();
-			$sortedCats = $this->getChildCategoryListObject( $vendorId, $parentId, false, $onlyPublished, true, $keyword);
+			$sortedCats = self::getChildCategoryListObjectByCachedOption($vendorId, $parentId, $onlyPublished, true, $keyword, $this->_selectedOrdering, $this->_selectedOrderingDir);
+			//$sortedCats = $this->getChildCategoryListObject( $vendorId, $parentId, false, $onlyPublished, true, $keyword);
 			if(!empty($sortedCats)){
 				$siblingCount = count($sortedCats);
 				foreach ($sortedCats as $key => &$category) {
@@ -389,7 +395,7 @@ vmdebug('Found cached cat, but without children');
 			$this->_total = count($sortedCats);
 
 		} else {
-			$vendorId = vmAccess::isSuperVendor();
+
 			//$sortedCats = self::getChildCategoryListObject($vendorId, $parentId, $this->_selectedOrdering,$this->_selectedOrderingDir);
 			//$this->rekurseCats($parentId,$level,$onlyPublished,$keyword,$sortedCats, 0, $limit );
 			$this->rekurseCategories($vendorId, $parentId, $sortedCats, $level, 0, $limitStart + $limit, $onlyPublished, $keyword, $this->_selectedOrdering,$this->_selectedOrderingDir, $tree);
@@ -423,7 +429,8 @@ vmdebug('Found cached cat, but without children');
 
 		if(($deep===0 or empty($level) or $deep <= $level) /*and (empty($limit) or count($cats)<$limit)*/){
 
-			$children = self::getChildCategoryListObject($vendorId, $parentId, false, $onlyPublished, $media, $keyword, $selectedOrdering, $selectedOrderingDir, $limitStart, $limit);
+			$children = self::getChildCategoryListObjectByCachedOption($vendorId, $parentId, $onlyPublished, $media, $keyword, $selectedOrdering, $selectedOrderingDir, $limitStart, $limit);
+			//$children = self::getChildCategoryListObject($vendorId, $parentId, false, $onlyPublished, $media, $keyword, $selectedOrdering, $selectedOrderingDir, $limitStart, $limit);
 
 			$siblingCount = count($children);
 
@@ -1069,21 +1076,27 @@ vmdebug('Found cached cat, but without children');
 
 	static function updateCategory($catId,$db){
 
-		if(empty($catId)) return;
+		if(empty($catId) or $catId<0) return;
 
 		$has_children = self::hasChildren($catId, true);
 		$q = 'SELECT category_parent_id, ordering FROM #__virtuemart_category_categories WHERE category_child_id = '.$catId.' ;';
 		$db->setQuery($q);
 		$xrefRes = $db->loadAssoc();
-
+		if(!isset($xrefRes['category_parent_id'])){
+			VmConfig::$echoDebug = 1;
+			vmTrace('updateCategory');
+			vmdebug('updateCategory '.$q,$xrefRes);
+		}
 		$q = 'SELECT count(*) FROM #__virtuemart_category_medias WHERE virtuemart_category_id = '.$catId.' ;';
 		$db->setQuery($q);
 		$has_medias = $db->loadResult();
 
-		$q = 'UPDATE #__virtuemart_categories SET `category_parent_id`='.(int)$xrefRes['category_parent_id'].', `ordering`='.(int)$xrefRes['ordering'].', `has_children`='.(int)$has_children.', `has_medias`='.(int)$has_medias.'
+		$q = 'UPDATE #__virtuemart_categories SET `category_parent_id`='.(int)$xrefRes['category_parent_id'].', `ordering`='.(int)$xrefRes['ordering'].', 
+		`has_children`='.(int)$has_children.', `has_medias`='.(int)$has_medias.'
 	WHERE  `virtuemart_category_id`='.$catId.';';
 		$db->setQuery($q);
 		$db->execute();
+
 		//vmdebug('my updateCategory',$q);
 	}
 }

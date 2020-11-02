@@ -253,7 +253,19 @@ class VmViewAdmin extends JViewLegacy {
 
 			$this->lang = vRequest::getVar('vmlang', $this->lang);
 			// list of languages installed in #__extensions (may be more than the ones in the Language manager > Content if the user did not added them)
-			$languages = JLanguageHelper::createLanguageList($selectedLangue, constant('VMPATH_ROOT'), true);
+
+			//$languages = JLanguageHelper::createLanguageList($selectedLangue, constant('VMPATH_ROOT'), true);
+			$JLanguages = JHtml::_('contentlanguage.existing');
+			$languages = [];
+			foreach ($JLanguages as $i => $lang){
+
+				$language = array();
+				$language['value'] = $lang->value;
+				$language['text'] = $lang->text;
+				$language['selected'] = ($lang->value == $selectedLangue) ? 'selected="selected"' : '' ;
+				$languages[] = $language;
+			}
+
 			$activeVmLangs = (VmConfig::get('active_languages', array(VmConfig::$jDefLangTag)) );
 			$flagCss="";
 			foreach ($languages as $k => &$joomlaLang) {

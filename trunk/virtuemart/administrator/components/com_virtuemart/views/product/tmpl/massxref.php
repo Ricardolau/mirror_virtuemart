@@ -18,6 +18,18 @@ defined ('_JEXEC') or die();
 */
 
 if($this->task=='massxref_cats' or $this->task=='massxref_cats_exe'){
+
+
+	$document = JFactory::getDocument();
+
+	JLoader::register('VirtuemartControllerCategory', VMPATH_ADMIN.'/controllers/category.php');
+	$catController = new VirtuemartControllerCategory();
+
+	JLoader::register('virtuemartViewCategory', VMPATH_ADMIN.'/views/category/view.html.php');
+	$view = $catController->getView('category', 'default');
+	$view ->setPaginationDragAndOrderIcons($this->categories);
+	//$view->display();
+
 	include(VMPATH_ADMIN .'/views/category/tmpl/default.php');
 }
 

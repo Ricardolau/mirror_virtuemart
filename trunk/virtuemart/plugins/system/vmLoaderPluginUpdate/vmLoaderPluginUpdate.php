@@ -52,6 +52,12 @@ class plgSystemVmLoaderPluginUpdate extends JPlugin {
 				}
 			}
 		}
+
+		if($this->params->get('loadAlwaysVmConfig', false) and  JFactory::getApplication()->getName() == "site"){
+			defined('VMPATH_ROOT') or define('VMPATH_ROOT', JPATH_ROOT);
+			if(!class_exists('VmConfig')) require(VMPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
+			VmConfig::loadConfig(false,false, true, false);
+		}
 	}
 
 	function onUserAfterDelete($user, $dummy, $err) {

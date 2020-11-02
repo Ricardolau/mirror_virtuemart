@@ -5,7 +5,7 @@
 	<author>The VirtueMart Development Team</author>
 	<author>Reinhold Kainhofer</author>
 	<copyright>Copyright (C) 2017 Reinhold Kainhofer.</copyright>
-	<copyright>Copyright (C) 2018 - 2019 The VirtueMart Development Team.</copyright>
+	<copyright>Copyright (C) 2018 - 2020 The VirtueMart Development Team.</copyright>
 	<license>http://www.gnu.org/licenses/gpl.html GNU/GPL v3+</license>
 	<authorUrl>http://www.virtuemart.net/</authorUrl>
 	<version>1.0.2</version>
@@ -24,6 +24,16 @@
 				label="VMSYSTEM_COMUSER_REDIRECT"
 				extension="com_virtuemart"
 				description="VMSYSTEM_COMUSER_REDIRECT_TIP">
+				<option value="1">COM_VIRTUEMART_YES</option>
+				<option value="0">COM_VIRTUEMART_NO</option>
+			</field>
+			<field name="loadAlwaysVmConfig"
+				   class="btn-group btn-yes-no radio"
+				   type="radio"
+				   default="0"
+				   label="VMSYSTEM_LOAD_VMCONFIG"
+				   extension="com_virtuemart"
+				   description="VMSYSTEM_LOAD_VMCONFIG_TIP">
 				<option value="1">COM_VIRTUEMART_YES</option>
 				<option value="0">COM_VIRTUEMART_NO</option>
 			</field>

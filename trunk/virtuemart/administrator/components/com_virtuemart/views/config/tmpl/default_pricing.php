@@ -37,7 +37,7 @@ vmJsApi::addJScript('show_prices',$js,true);
 					echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_CFG_PRICE_CVARSWT','cVarswT',VmConfig::get('cVarswT',1));
 
 					$opt = array(
-					'0' => vmText::_('COM_VM_PRICES_BY_CURRENCY_NONE'),
+					'0' => vmText::_('JNONE'),
 					'1' => vmText::_('COM_VM_PRICES_BY_CURRENCY'),
 					'2' => vmText::_('COM_VM_PRICES_BY_CURRENCY_RESTRICTIV')
 					);

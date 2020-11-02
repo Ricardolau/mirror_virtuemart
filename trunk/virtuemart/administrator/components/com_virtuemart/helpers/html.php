@@ -108,10 +108,10 @@ class VmHtml{
 			$args[] = &$passedArgs[$k];
 		}
 
-		$lang =vmLanguage::getLanguage();
+		$lang = vmText::$language; //vmLanguage::getLanguage();
 
 		$tip = '';
-		if($lang->hasKey($label.'_TIP')){
+		if($lang->hasKey($label.'_TIP',true )){
 			$tip = $label.'_TIP' ;
 		} //Fallback
 		else if($lang->hasKey($label.'_EXPLAIN')){

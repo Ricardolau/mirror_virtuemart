@@ -37,7 +37,7 @@ class VirtuemartControllerPlugin extends JControllerLegacy {
 		if (!$type = vRequest::getCmd ('vmtype', NULL)) {
 			$type = vRequest::getCmd ('type', 'vmcustom');
 		}
-		$typeWhiteList = array('vmcustom', 'vmcalculation', 'vmuserfield', 'vmpayment', 'vmshipment');
+		$typeWhiteList = array('vmcustom', 'vmextended','vmcalculation', 'vmuserfield', 'vmpayment', 'vmshipment');
 		if (!in_array ($type, $typeWhiteList)) {
 			return FALSE;
 		}

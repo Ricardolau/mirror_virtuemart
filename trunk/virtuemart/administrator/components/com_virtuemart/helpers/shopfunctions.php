@@ -1173,6 +1173,8 @@ class ShopFunctions {
 			$path = $safePath.$for;
 			$vendorId = 1;
 		} else {
+			$path = $safePath.$for;
+			$vendorId = 1;
 			vmdebug('getSafePathFor $for case not found ',$for);
 		}
 

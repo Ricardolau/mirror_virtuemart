@@ -150,6 +150,10 @@ class VirtueMartModelCalc extends VmModel {
 		} else {
 			$expireDate = JFactory::getDate($data['publish_down']);
 			$data['publish_down']	= $expireDate->toSQL();
+			if($data['publish_down']){
+				$data['publish_down'] = substr($data['publish_down'],0,-8) .'23:59:59';
+			}
+			//vmdebug('My expiry date of the calc rule',$data);
 		}
 
 		//Missing in calculation plugins,... plgVmGetTablePluginParams or declare

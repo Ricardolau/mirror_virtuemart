@@ -9,7 +9,7 @@
  * @author Max Milbers
  * @author	RickG
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2019 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved.
  * @copyright Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -57,7 +57,7 @@ class VirtueMartModelUser extends VmModel {
 	/**
 	 * public function Resets the user id and data
 	 *
-	 *
+	 * @depreacted
 	 * @author Max Milbers
 	 */
 	public function setId($cid){
@@ -74,7 +74,7 @@ class VirtueMartModelUser extends VmModel {
 				//vmdebug('setId setCurrent $user',$user->get('id'));
 			} else {
 				if($cid != $user->id){
-					$user = JFactory::getUser();
+
 					if(vmAccess::manager(array('user','user.edit'))){
 						$userId = $cid;
 						//vmdebug('setId is Manager',$userId);
@@ -135,16 +135,23 @@ class VirtueMartModelUser extends VmModel {
 		}
 	}
 
+    static $_users = array();
 
 	/**
 	 * Retrieve the detail record for the current $id if the data has not already been loaded.
 	 * @author Max Milbers
 	 */
-	function getUser(){
+	function &getUser($id = 0){
 
-		if(!empty($this->_data)) return $this->_data;
+	    if(empty($id)){
+	        $id = $this->_id;
+        } else {
+            $this->_id = $id;
+        }
 
-		$db = JFactory::getDBO();
+        if(!empty($id) and isset(self::$_users[$id])){
+            return self::$_users[$id];
+        }
 
 		$this->_data = $this->getTable('vmusers');
 		$this->_data->load((int)$this->_id);
@@ -179,7 +186,9 @@ class VirtueMartModelUser extends VmModel {
 			$shoppergroupmodel->appendShopperGroups($this->_data->shopper_groups,$this->_data->JUser,1);
 		}
 
-		if(!empty($this->_id)) {
+        $db = JFactory::getDBO();
+
+        if(!empty($this->_id)) {
 			$q = 'SELECT `virtuemart_userinfo_id` FROM `#__virtuemart_userinfos` WHERE `virtuemart_user_id` = "' . (int)$this->_id.'" ORDER BY `address_type` ASC';
 			$db->setQuery($q);
 			$userInfo_ids = $db->loadColumn(0);
@@ -218,8 +227,8 @@ class VirtueMartModelUser extends VmModel {
 			$vendorModel->setId($this->_data->virtuemart_vendor_id);
 			$this->_data->vendor = $vendorModel->getVendor();
 		}
-
-		return $this->_data;
+        self::$_users[$id] = $this->_data;
+		return self::$_users[$id];
 	}
 
 
@@ -529,6 +538,122 @@ class VirtueMartModelUser extends VmModel {
 		}
 	}
 
+    /**
+     * Little function that checks if a vendor has already too much customers (For VirtueMart used for salesMan)
+     * @return false
+     */
+	public function checkVendorMaxCustomer(){
+
+        if(VmConfig::get('multix','none')!='none'){
+            $vendorId = vmAccess::isSuperVendor();
+            vmdebug('checkVendorMaxCustomer grmbl',$vendorId);
+            if($vendorId>1){
+                $vM = VmModel::getModel('vendor');
+                $ven = $vM->getVendor($vendorId);
+                if($ven->max_customers>0){
+                    $this->setGetCount (true);
+                    parent::exeSortSearchListQuery(2,'virtuemart_user_id',' FROM #__virtuemart_vendor_users as vu LEFT JOIN `#__users` as ju ON vu.virtuemart_user_id = ju.id',' WHERE ( `virtuemart_vendor_user_id` = "'.$vendorId.'" AND ju.`block` = 0) ');
+                    $this->setGetCount (false);
+                    if($ven->max_customers<($this->_total+1)){
+                        vmWarn('You are not allowed to register more than '.$ven->max_customers.' users');
+                        return false;
+                    }
+                }
+            }
+            vmdebug('checkVendorMaxCustomer grmbl seltsam',$vendorId);
+        }
+        vmdebug('checkVendorMaxCustomer grmbl return true');
+        return true;
+    }
+
+    static public function filterAndWhiteListJUserData(&$user, &$data, $new, $usersConfig){
+
+        // This construction is necessary, because this function is used to register a new JUser, so we need all the JUser data in $data.
+        // On the other hand this function is also used just for updating JUser data, like the email for the BT address. In this case the
+        // name, username, password and so on is already stored in the JUser and dont need to be entered again.
+
+        if(empty ($data['email'])){
+            $email = $user->get('email');
+            if(!empty($email)){
+                $data['email'] = $email;
+            }
+        } else {
+            $data['email'] =  vRequest::filter($data['email'],FILTER_VALIDATE_EMAIL,FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH);
+        }
+        //$data['email'] = str_replace(array('\'','"',',','%','*','/','\\','?','^','`','{','}','|','~'),array(''),$data['email']);
+
+        //This is important, when a user changes his email address from the cart,
+        //that means using view user layout edit_address (which is called from the cart)
+        $user->set('email',$data['email']);
+
+        if(empty ($data['name'])){
+            $name = $user->get('name');
+            if(!empty($name)){
+                $data['name'] = $name;
+            }
+
+        } else {
+            $data['name'] = vRequest::filter($data['name'],FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
+
+        }
+        $data['name'] = str_replace(array('\'','"',',','%','*','/','\\','?','^','`','{','}','|','~'),array(''),$data['name']);
+
+        $can_change_username = (int)$usersConfig->get('change_login_name', false);
+
+        $data['username'] = vRequest::filter($data['username'],FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
+
+        $username = $user->get('username');
+        if(!empty($username)){
+            if(!empty($data['username'])){
+                if(!$can_change_username  and !vmAccess::manager('user.edit')){
+                    if($data['username']!=$username){
+                        vmWarn('You are not allowed to change your username');
+                    }
+                    $data['username'] = $username;
+                }
+            } else {
+                $data['username'] = $username;
+            }
+        }
+
+
+        if(empty ($data['password'])){
+            $data['password'] = vRequest::getCmd('password', '');
+            if($data['password']!=vRequest::get('password')){
+                vmError('Password contained invalid character combination.');
+                return false;
+            }
+        }
+
+        if(empty ($data['password2'])){
+            $data['password2'] = vRequest::getCmd('password2');
+            if($data['password2']!=vRequest::get('password2')){
+                vmError('Password2 contained invalid character combination.');
+                return false;
+            }
+        }
+
+        if(!$new and empty($data['password2'])){
+            unset($data['password']);
+            unset($data['password2']);
+        }
+
+        //if(!vmAccess::manager('core')){
+            $whiteDataToBind = array();
+            if(isset($data['name'])) $whiteDataToBind['name'] = $data['name'];
+            if(isset($data['username'])) $whiteDataToBind['username'] = $data['username'];
+            if(isset($data['email'])) $whiteDataToBind['email'] = $data['email'];
+            if(isset($data['language'])) $whiteDataToBind['language'] = $data['language'];
+            if(isset($data['editor'])) $whiteDataToBind['editor'] = $data['editor'];
+            if(isset($data['password'])) $whiteDataToBind['password'] = $data['password'];
+            if(isset($data['password2'])) $whiteDataToBind['password2'] = $data['password2'];
+            unset($data['isRoot']);
+       /* } else {
+            $whiteDataToBind = $data;
+        }*/
+        return $whiteDataToBind;
+    }
+
 	/**
 	 * Bind the post data to the JUser object and the VM tables, then saves it
 	 * It is used to register new users
@@ -547,7 +672,7 @@ class VirtueMartModelUser extends VmModel {
 			vmError('Developer notice, no data to store for user');
 			return false;
 		}
-
+        vmdebug('VM Usermodel store $data',$data);
 		//To find out, if we have to register a new user, we take a look on the id of the usermodel object.
 		//The constructor sets automatically the right id.
 		$new = false;
@@ -563,23 +688,11 @@ class VirtueMartModelUser extends VmModel {
 			$user = JFactory::getUser($this->_id);
 		}
 
-		if(VmConfig::get('multix','none')!='none'){
-			$vendorId = vmAccess::isSuperVendor();
-			if($vendorId>1){
-				$vM = VmModel::getModel('vendor');
-				$ven = $vM->getVendor($vendorId);
-				if($ven->max_customers>=0){
-					$this->setGetCount (true);
-					parent::exeSortSearchListQuery(2,'virtuemart_user_id',' FROM #__virtuemart_vendor_users as vu LEFT JOIN `#__users` as ju ON vu.virtuemart_user_id = ju.id',' WHERE ( `virtuemart_vendor_user_id` = "'.$vendorId.'" AND ju.`block` = 0) ');
-					$this->setGetCount (false);
-					if($ven->max_customers<($this->_total+1)){
-						vmWarn('You are not allowed to register more than '.$ven->max_customers.' users');
-						return false;
-					}
-				}
-			}
+		if(!$this->checkVendorMaxCustomer()){
+		    vmdebug('Model VMuser Max Customers reached ');
+		    return false;
+        }
 
-		}
 
 		$gid = $user->get('gid'); // Save original gid
 
@@ -594,93 +707,10 @@ class VirtueMartModelUser extends VmModel {
 			return false;
 		}
 
-		// Before I used this "if($cart && !$new)"
-		// This construction is necessary, because this function is used to register a new JUser, so we need all the JUser data in $data.
-		// On the other hand this function is also used just for updating JUser data, like the email for the BT address. In this case the
-		// name, username, password and so on is already stored in the JUser and dont need to be entered again.
+        $usersConfig = JComponentHelper::getParams( 'com_users' );
+        $whiteDataToBind = self::filterAndWhiteListJUserData($user, $data, $new, $usersConfig);
 
-		if(empty ($data['email'])){
-			$email = $user->get('email');
-			if(!empty($email)){
-				$data['email'] = $email;
-			}
-		} else {
-			$data['email'] =  vRequest::filter($data['email'],FILTER_VALIDATE_EMAIL,FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH);
-		}
-		//$data['email'] = str_replace(array('\'','"',',','%','*','/','\\','?','^','`','{','}','|','~'),array(''),$data['email']);
-
-		//This is important, when a user changes his email address from the cart,
-		//that means using view user layout edit_address (which is called from the cart)
-		$user->set('email',$data['email']);
-
-		if(empty ($data['name'])){
-			$name = $user->get('name');
-			if(!empty($name)){
-				$data['name'] = $name;
-			}
-
-		} else {
-			$data['name'] = vRequest::filter($data['name'],FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
-
-		}
-		$data['name'] = str_replace(array('\'','"',',','%','*','/','\\','?','^','`','{','}','|','~'),array(''),$data['name']);
-
-
-		$usersConfig = JComponentHelper::getParams( 'com_users' );
-		$can_change_username = (int)$usersConfig->get('change_login_name', false);
-
-		$data['username'] = vRequest::filter($data['username'],FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
-
-		$username = $user->get('username');
-		if(!empty($username)){
-			if(!empty($data['username'])){
-				if(!$can_change_username  and !vmAccess::manager('user.edit')){
-					if($data['username']!=$username){
-						vmWarn('You are not allowed to change your username');
-					}
-					$data['username'] = $username;
-				}
-			} else {
-				$data['username'] = $username;
-			}
-		}
-
-
-		if(empty ($data['password'])){
-			$data['password'] = vRequest::getCmd('password', '');
-			if($data['password']!=vRequest::get('password')){
-				vmError('Password contained invalid character combination.');
-				return false;
-			}
-		}
-
-		if(empty ($data['password2'])){
-			$data['password2'] = vRequest::getCmd('password2');
-			if($data['password2']!=vRequest::get('password2')){
-				vmError('Password2 contained invalid character combination.');
-				return false;
-			}
-		}
-
-		if(!$new and empty($data['password2'])){
-			unset($data['password']);
-			unset($data['password2']);
-		}
-
-		if(!vmAccess::manager('core')){
-			$whiteDataToBind = array();
-			if(isset($data['name'])) $whiteDataToBind['name'] = $data['name'];
-			if(isset($data['username'])) $whiteDataToBind['username'] = $data['username'];
-			if(isset($data['email'])) $whiteDataToBind['email'] = $data['email'];
-			if(isset($data['language'])) $whiteDataToBind['language'] = $data['language'];
-			if(isset($data['editor'])) $whiteDataToBind['editor'] = $data['editor'];
-			if(isset($data['password'])) $whiteDataToBind['password'] = $data['password'];
-			if(isset($data['password2'])) $whiteDataToBind['password2'] = $data['password2'];
-			unset($data['isRoot']);
-		} else {
-			$whiteDataToBind = $data;
-		}
-
+        vmdebug('VM Usermodel store $whiteDataToBind',$whiteDataToBind);
 		// Bind Joomla userdata
 		if (!$user->bind($whiteDataToBind)) {
 			vmdebug('Couldnt bind data to joomla user');
@@ -718,7 +748,7 @@ class VirtueMartModelUser extends VmModel {
 			if ($useractivation == '1' or $useractivation == '2') {
 				$doUserActivation=true;
 				$user->set('activation', vRequest::getHash( JUserHelper::genRandomPassword()) );
-				$user->set('block', '1');
+				$user->set('block', '0');
 				if ($useractivation == '2') {
 					$user->set('guest', '1');
 				}
@@ -1263,7 +1293,8 @@ class VirtueMartModelUser extends VmModel {
 	}
 
 	function getBTuserinfo_id($id = 0){
-		if(empty($db)) $db = JFactory::getDBO();
+
+		$db = JFactory::getDBO();
 
 		if($id == 0){
 			$id = $this->_id;
@@ -1299,15 +1330,15 @@ class VirtueMartModelUser extends VmModel {
 		/*
 		 * JUser  or $this->_id is the logged user
 		 */
-		if(!empty($this->_data->JUser) and $this->_data->JUser->id==$this->_id){
+/*		if(!empty($this->_data->JUser) and $this->_data->JUser->id==$this->_id){
 			$JUser = $this->_data->JUser;
 		} else {
 			if(empty($this->_data)){
 				$JUser = JUser::getInstance($this->_id);
-			} else {
+/*			} else {
 				$JUser = $this->_data->JUser = JUser::getInstance($this->_id);
 			}
-		}
+		}*/
 
 		$data = null;
 		$userFields = array();
@@ -1316,11 +1347,13 @@ class VirtueMartModelUser extends VmModel {
 			$dataT = $this->getTable('userinfos');
 			$data = $dataT->load($uid);
 
+            $JUser = JUser::getInstance($data->virtuemart_user_id);
+
 			if($data->virtuemart_user_id!==0 and !$isVendor){
 
-				$user = JFactory::getUser();
-				if(!vmAccess::manager()){
-					if($data->virtuemart_user_id!=$this->_id){
+				if(!vmAccess::manager('user')){
+				    $cUser = JFactory::getUser();
+					if($data->virtuemart_user_id!=$cUser->id){
 						vmError('Blocked attempt loading userinfo, you got logged');
 						echo 'Hacking attempt loading userinfo, you got logged';
 						return false;
@@ -1339,6 +1372,7 @@ class VirtueMartModelUser extends VmModel {
 			}
 		} else {
 			vmdebug('getUserInfoInUserFields case empty $uid');
+            $JUser = JFactory::getUser();
 			//New Address is filled here with the data of the cart (we are in the userview)
 			if($cart){
 
@@ -1597,9 +1631,9 @@ class VirtueMartModelUser extends VmModel {
 			, IFNULL(sg.shopper_group_name, "") AS shopper_group_name ';
 
 		if ($search) {
-			if($this->searchTable!='juser'){
+			/*if($this->searchTable!='juser'){
 				$select .= ' , ui.name as uiname ';
-			}
+			}*/
 
 			foreach($userFieldsValid as $ufield){
 				$select .= ' , '.$ufield;

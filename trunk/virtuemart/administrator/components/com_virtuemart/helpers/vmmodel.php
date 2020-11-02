@@ -860,6 +860,7 @@ class VmModel extends vObject{
 			$db->setQuery($q,$limitStart,$limit);
 		}
 		if($this->debug === 1) vmdebug('exeSortSearchListQuery my $limitStart '.$limitStart.'  $limit '.$limit.' q ',str_replace('#__',$db->getPrefix(),$db->getQuery()) );
+
 		if($object == 2){
 			 $this->ids = $db->loadColumn();
 		} else if($object == 1 ){

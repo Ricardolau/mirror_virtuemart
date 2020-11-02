@@ -5,9 +5,9 @@
  *
  * @package    VirtueMart
  * @subpackage
- * @author RolandD, RickG
+ * @author Max Milbers
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -25,6 +25,8 @@ defined ('_JEXEC') or die('Restricted access');
  * @package        VirtueMart
  */
 class VirtueMartModelVendor extends VmModel {
+
+    static $vendors = array();
 
 	/**
 	 * constructs a VmModel
@@ -76,25 +78,25 @@ class VirtueMartModelVendor extends VmModel {
 
 		if(!empty($vendor_id)) $this->_id = (int)$vendor_id;
 
-		if (empty($this->_cache[$this->_id][VmConfig::$vmlang])) {
+		if (empty(self::$vendors[$this->_id][VmConfig::$vmlang])) {
 
-			$this->_cache[$this->_id][VmConfig::$vmlang] = $this->getTable ('vendors');
-			$this->_cache[$this->_id][VmConfig::$vmlang]->load ($this->_id);
+			self::$vendors[$this->_id][VmConfig::$vmlang] = $this->getTable ('vendors');
+			self::$vendors[$this->_id][VmConfig::$vmlang]->load ($this->_id);
 // 			vmdebug('getVendor',$this->_id,$this->_data);
 			// Convert ; separated string into array
-			if ($this->_cache[$this->_id][VmConfig::$vmlang]->vendor_accepted_currencies) {
-				$this->_cache[$this->_id][VmConfig::$vmlang]->vendor_accepted_currencies = explode (',', $this->_cache[$this->_id][VmConfig::$vmlang]->vendor_accepted_currencies);
+			if (self::$vendors[$this->_id][VmConfig::$vmlang]->vendor_accepted_currencies) {
+				self::$vendors[$this->_id][VmConfig::$vmlang]->vendor_accepted_currencies = explode (',', self::$vendors[$this->_id][VmConfig::$vmlang]->vendor_accepted_currencies);
 			} else {
-				$this->_cache[$this->_id][VmConfig::$vmlang]->vendor_accepted_currencies = array();
+				self::$vendors[$this->_id][VmConfig::$vmlang]->vendor_accepted_currencies = array();
 			}
 
 			//Todo, check this construction
 			$xrefTable = $this->getTable ('vendor_medias');
-			$this->_cache[$this->_id][VmConfig::$vmlang]->virtuemart_media_id = $xrefTable->load ($this->_id);
+			self::$vendors[$this->_id][VmConfig::$vmlang]->virtuemart_media_id = $xrefTable->load ($this->_id);
 
 		}
 
-		return $this->_cache[$this->_id][VmConfig::$vmlang];
+		return self::$vendors[$this->_id][VmConfig::$vmlang];
 	}
 
 	/**
@@ -269,7 +271,7 @@ class VirtueMartModelVendor extends VmModel {
 
 			$multix = VmConfig::get('multix', 'none');
 			if($multix == 'none'){
-				vmdebug('Developer notice, tried to update vendor xref should not appear in singlestore $oldVendorId = '.$oldVendorId.' newId = '.$this->_id.' updating');
+				vmdebug('Developer notice, tried to update vendor xref should not appear in singlestore $oldVendorId = '.$givenVendorId.' newId = '.$this->_id.' updating');
 			}
 
 			//update user table

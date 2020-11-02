@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 defined('_JEXEC') or die('Restricted access');
 /**
@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted access');
  * @author Max Milbers, Valerie Isaksen
  *
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -54,7 +54,7 @@ foreach ($this->orderDetails['items'] as $item) {
 	echo $item->product_basePriceWithTax . "\n";
     }
 
-    echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_TOTAL') . $item->product_final_price;
+    echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_TOTAL') . $item->product_subtotal_with_tax;
     if (VmConfig::get('show_tax')) {
 	echo ' (' . vmText::_('COM_VIRTUEMART_ORDER_PRINT_PRODUCT_TAX') . ':' . $this->currency->priceDisplay($item->product_tax,$this->user_currency_id) . ')' . "\n";
     }

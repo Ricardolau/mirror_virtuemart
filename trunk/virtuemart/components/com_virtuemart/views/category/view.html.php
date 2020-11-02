@@ -272,8 +272,11 @@ class VirtuemartViewCategory extends VmView {
 			}
 
 			if($legacy) {
+
 				if($this->showproducts){
 					$opt = array('products');
+				} else {
+					$opt = array();
 				}
 			} else {
 				$opt = array('featured', 'discontinued', 'latest', 'topten', 'recent');

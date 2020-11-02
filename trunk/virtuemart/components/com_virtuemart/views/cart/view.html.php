@@ -57,7 +57,7 @@ class VirtueMartViewCart extends VmView {
 
 		$format = vRequest::getCmd('format');
 
-		$this->cart = VirtueMartCart::getCart();
+		$this->cart = VirtueMartCart::getCart();//false, array(), NULL, $vendorId);
 
 		$this->cart->prepareVendor();
 
@@ -84,7 +84,7 @@ class VirtueMartViewCart extends VmView {
 
 			$pathway->addItem( vmText::_( 'COM_VIRTUEMART_CART_THANKYOU' ) );
 			$document->setTitle( vmText::_( 'COM_VIRTUEMART_CART_THANKYOU' ) );
-			$this->cart->layout = 'default';
+			$this->cart->layout = VmConfig::get('cartlayout','default');
 
 		} else {
 			vmLanguage::loadJLang('com_virtuemart_shoppers', true);
@@ -137,7 +137,15 @@ class VirtueMartViewCart extends VmView {
 			if( VmConfig::get('oncheckout_ajax',false)) {
 				$dynUpdate=' data-dynamic-update="1" ';
 			}
+
 			$this->checkout_link_html = '<button type="submit" id="checkoutFormSubmit" name="'.$this->checkout_task.'" value="1" class="vm-button-correct" '.$dynUpdate.' ><span>' . $text . '</span> </button>';
+
+            $multixcart = VmConfig::get('multixcart',0);
+			$vendorId = '';
+            if($multixcart == 'byproduct'){
+                $vendorId = '&virtuemart_vendor_id='.$this->cart->vendorId;
+            }
+            $this->orderDoneLink = JRoute::_('index.php?option=com_virtuemart&view=cart&task=orderdone'.$vendorId);
 
 			$forceMethods=vRequest::getInt('forceMethods',false);
 			if (VmConfig::get('oncheckout_opc', 1) or $forceMethods) {
@@ -174,9 +182,8 @@ class VirtueMartViewCart extends VmView {
 
 			//$this->cart->prepareAddressFieldsInCart();
 
-			if($this->cart->layout=='orderdone') $this->cart->layout = 'default';
+			if(empty($this->cart->layout) or $this->cart->layout=='orderdone') $this->cart->layout = VmConfig::get('cartlayout','default');
 			$this->layoutName = $this->cart->layout;
-			if(empty($this->layoutName)) $this->layoutName = 'default';
 
 			if ($this->cart->layoutPath) {
 				$this->addTemplatePath($this->cart->layoutPath);
@@ -370,7 +377,13 @@ class VirtueMartViewCart extends VmView {
 
 		//Show Thank you page or error due payment plugins like paypal express
 		//Do not change this. It contains the payment form
-		$this->html = empty($this->html) ? vRequest::get('html', $this->cart->orderdoneHtml) : $this->html;
+		//$this->html = empty($this->html) ? vRequest::get('html', $this->cart->orderdoneHtml) : $this->html;
+        //vmdebug('lOrderDone',$this->cart->orderdoneHtml,$this->html);
+        if(!empty($this->cart->orderdoneHtml)){
+            $this->html = $this->cart->orderdoneHtml;
+        } else if($byRequestHtml= vRequest::get('html', false)){
+            $this->html = $byRequestHtml;
+        }
 
 		$this->cart->orderdoneHtml = false;
 		$this->cart->setCartIntoSession(false,true);

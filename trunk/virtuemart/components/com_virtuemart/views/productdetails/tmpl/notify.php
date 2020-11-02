@@ -7,7 +7,7 @@
  * @subpackage
  * @author Max Milbers, Valerie Isaksen
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -34,6 +34,9 @@ vmJsApi::vmValidator();
     <input type="hidden" name="virtuemart_user_id" value="<?php echo $this->user->id; ?>" />
     <input type="hidden" name="task" value="notifycustomer" />
     <input type="hidden" name="controller" value="productdetails" />
-    <?php echo JHtml::_( 'form.token' ); ?>
+    <?php 
+	
+	echo shopfunctionsF::renderCaptcha('notify_captcha'); 
+	echo JHtml::_( 'form.token' ); ?>
   </form>
 </div>

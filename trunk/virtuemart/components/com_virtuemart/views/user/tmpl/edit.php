@@ -5,9 +5,9 @@
 *
 * @package	VirtueMart
 * @subpackage User
-* @author Oscar van Eijk
+* @author Oscar van Eijk, Max Milbers, Stan
 * @link ${PHING.VM.MAINTAINERURL}
-* @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+* @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -76,15 +76,11 @@ if($this->userDetails->virtuemart_user_id!=0) {
     echo $this->loadTemplate ( 'shopper' );
 	echo $this->captcha;
 	// captcha addition
-	/*if(VmConfig::get ('reg_captcha')){
-		JHTML::_('behavior.framework');
-		JPluginHelper::importPlugin('captcha');
-		$dispatcher = JDispatcher::getInstance(); $dispatcher->trigger('onInit','dynamic_recaptcha_1');
-		?>
-		<div id="dynamic_recaptcha_1"></div>
-		<?php
-	}*/
+
  }
+
+//stAn - with hidden config of reg_captcha_logged=1 we can trigger captcha for logged in if needed as well, or add user input filter plugin for antispam
+echo $this->captcha;
 
 // end of captcha addition
 ?>

@@ -6,9 +6,9 @@
  * @package    VirtueMart
  * @subpackage Helpers
  *
- * @author Max Milbers
+ * @author Max Milbers, StAn
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2015 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -1166,19 +1166,110 @@ class shopFunctionsF {
 	}
 
 	static public function renderCaptcha($config = 'reg_captcha',$id = 'dynamic_recaptcha_1'){
-
-		if(VmConfig::get ($config) and JFactory::getUser()->guest==1 ){
-
-			$reCaptchaName = 'recaptcha'; // the name of the captcha plugin - retrieved from the custom component's parameters
-
-			JPluginHelper::importPlugin('captcha', $reCaptchaName); // will load the plugin selected, not all of them - we need to know what plugin's events we need to trigger
+		//stAn - allow to renderCaptcha for logged in users as well if they use hidden config reg_captcha_logged OR ask_captcha_logged
+		
+		//duplicate captchas on same site (notify+ask+review...)
+		static $counter; 
+		if (empty($counter)) $counter = 1; 
+		if ($id === 'dynamic_recaptcha_1') {
+			$id = 'dynamic_recaptcha_'.$counter; 
+			$counter++; 
+		}
+		
+		if(VmConfig::get ($config) and ((JFactory::getUser()->guest==1) || (VmConfig::get ($config.'_logged')))) {
+			//stAn - get joomla global config captcha:
+			$reCaptchaName = JFactory::getConfig()->get('captcha', 'recaptcha'); 
+			if ($reCaptchaName === '0') {
+				//joomla global captcha is set to use defafault, include all enabled captcha plugins
+				JPluginHelper::importPlugin('captcha'); //include all enabled plugins
+			}
+			else {
+				//include on the one enabled in global config
+				JPluginHelper::importPlugin('captcha', $reCaptchaName); // will load the plugin selected, not all of them - we need to know what plugin's events we need to trigger
+			}
 
 			$dispatcher = JEventDispatcher::getInstance();
-			$dispatcher->trigger('onInit', $id);
-			$output = $dispatcher->trigger('onDisplay', array($reCaptchaName, $id, 'class="g-recaptcha required"'));
-			return isset($output[0])? $output[0]:'';
+			try 
+			{
+				$dispatcher->trigger('onInit', $id);
+				$output = $dispatcher->trigger('onDisplay', array($reCaptchaName, $id, 'class="g-recaptcha required"'));
+			}
+			catch (Exception $e) {
+				//we have a display timeout or other error within the captcha plugin
+				//stAn - so we don't supress the error completely here (maybe vmDebug for admins woudl be better):
+				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error'); 																					  
+				if (empty($output)) $output = array(); 
+			}
+			
+			$out = ''; 
+			foreach ($output as $html) {
+				//null, 0 or false:
+				if (empty($html)) continue; 
+				$out .= $html; 
+			}
+			return $out; 
 		}
 		return '';
+	}
+
+	/**
+	 * Check the Joomla ReCaptcha Plg
+	 *
+	 * @author Maik Künnemann, Stan, Max Milbers
+	 */
+	static function checkCaptcha($config='reg_captcha'){
+		/*stAn - captcha can be called also for logged in users, especially ask a question or similar:
+		if(JFactory::getUser()->guest==1 and 
+		*/
+		if(VmConfig::get ($config) and ((JFactory::getUser()->guest==1) || (VmConfig::get ($config.'_logged'))) ){
+
+			/*stAn - this has to be validated within the plugin, not here
+			$filled = vRequest::getVar ('g-recaptcha-response',false);
+			if (!$filled){
+				vmInfo('COM_VM_FILL_CAPTCHA');
+				return false;
+			}
+			*/
+			/*
+			stAn, note, the $recaptcha variable is here just for historical usage, it is not used by current core plugins
+			$recaptcha = vRequest::getVar ('recaptcha_response_field');
+			attacker could trick the captcha system to validate against his crafted input and thus leaving this up to the plugin is a better solution
+			*/
+			$recaptcha = null;
+			JPluginHelper::importPlugin('captcha');
+			$dispatcher = JDispatcher::getInstance();
+			try
+			{
+				$res = $dispatcher->trigger('onCheckAnswer',array($recaptcha));
+			}
+			catch (Exception $e) {
+				$errmsg = $e->getMessage();
+				/*google specs here: https://developers.google.com/recaptcha/docs/verify 
+				  for other cases it returns joomla strings
+				*/
+				switch ($errmsg) {
+					case 'missing-input-secret':
+					case 'invalid-input-secret':
+					case 'invalid-input-response':
+					case 'bad-request':
+					case 'timeout-or-duplicate':
+						$errmsg = vmText::_('PLG_RECAPTCHA_ERROR_INCORRECT_CAPTCHA_SOL');
+						break; 
+				}
+				
+				return $errmsg;
+			}
+			foreach ($res as $ret) {
+				//stAn - captchas return (bool)FALSE when call is not allowed, for other cases like NULL we must not trigger an error
+				if ($ret === false) {
+					$errmsg = vmText::_('PLG_RECAPTCHA_ERROR_INCORRECT_CAPTCHA_SOL');
+					return $errmsg;
+				}
+			}
+		}
+		//no captcha enabled
+		return TRUE;
+
 	}
 
 	static public function summarizeRulesForBill($order, $payShipment=true){

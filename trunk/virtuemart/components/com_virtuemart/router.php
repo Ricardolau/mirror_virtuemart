@@ -378,12 +378,13 @@ function virtuemartParseRoute($segments) {
 	if ($helper->router_disabled) {
 		$total = count($segments);
 		for ($i = 0; $i < $total; $i=$i+2) {
-			if(strpos($segments[$i+1],',')!==false){
-				$vars[ $segments[$i] ] = explode(',',$segments[$i+1]);
-			} else {
-				$vars[ $segments[$i] ] = $segments[$i+1];
+			if(isset($segments[$i+1])){
+				if(isset($segments[$i+1]) and strpos($segments[$i+1],',')!==false){
+					$vars[ $segments[$i] ] = explode(',',$segments[$i+1]);
+				} else {
+					$vars[ $segments[$i] ] = $segments[$i+1];
+				}
 			}
-
 		}
 		if(isset($vars[ 'start'])) {
 			$vars[ 'limitstart'] = $vars[ 'start'];
@@ -791,7 +792,7 @@ function virtuemartParseRoute($segments) {
 			$vars['virtuemart_category_id'] = $id;
 			$vars['view'] = 'category' ;
 		}
-		if(empty($vars['virtuemart_category_id'])) {
+		if(!isset($vars['virtuemart_category_id'])) {
 			$vars['error'] = '404';
 			$vars['virtuemart_category_id'] = -2;
 		}
@@ -897,7 +898,11 @@ class vmrouterHelper {
 			$this->setRoutingQuery($query);
 			//vmdebug('Router initialised with language '.$this->slang);
 
-			self:$debug = VmConfig::get('debug_enable_router',0);
+			self::$debug = VmConfig::get('debug_enable_router',0);
+			if(self::$debug){
+				VmConfig::$_debug = true;
+			}
+
 		}
 	}
 
@@ -933,6 +938,7 @@ class vmrouterHelper {
 
 		static $lConf = true;
 		if($lConf){
+
 			if (!class_exists( 'VmConfig' ) or !class_exists('VmLanguage') or !isset(VmLanguage::$currLangTag)) {
 				if (!class_exists( 'VmConfig' )){
 					require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');

@@ -255,6 +255,10 @@
                     <option value="0">COM_VIRTUEMART_NO</option>
                     <option value="1">COM_VIRTUEMART_YES</option>
                 </field-->
+                <field class="allow_status_refunds" name="allow_status_refunds" type="list" default="1"
+                       label="VMPAYMENT_PAYPAL_STATUS_ALLOW_REFUNDS" description="VMPAYMENT_PAYPAL_STATUS_ALLOW_REFUNDS_DESC">
+                    <option value="0">COM_VIRTUEMART_NO</option>
+                    <option value="1">COM_VIRTUEMART_YES</option>                </field>
                 <field name="status_pending" type="vmorderstate" scope="com_virtuemart" default="U"
                        label="VMPAYMENT_PAYPAL_STATUS_PENDING" description="VMPAYMENT_PAYPAL_STATUS_PENDING_TIP"/>
                 <field name="status_success" type="vmorderstate" scope="com_virtuemart" default="C"
@@ -534,6 +538,6 @@
     </vmconfig>
     <updateservers>
         <!-- Note: No spaces or linebreaks allowed between the server tags -->
-        <server type="extension" name="VirtueMart plg_vmpayment_paypal Update Site"><![CDATA[http://virtuemart.net/releases/${PHING.VM.UPDATEFOLDER}/plg_vmpayment_paypal_update.xml]]></server></updateservers>
+        <server type="extension" name="VirtueMart plg_vmpayment_paypal Update Site"><![CDATA[http://virtuemart.net/releases/vm3/plg_vmpayment_paypal_update.xml]]></server></updateservers>
 
 </extension>

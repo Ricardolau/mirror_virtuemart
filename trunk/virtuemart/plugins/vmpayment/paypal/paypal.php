@@ -8,7 +8,7 @@
  * @version $Id: paypal.php 7217 2013-09-18 13:42:54Z alatak $
  * @package VirtueMart
  * @subpackage payment
- * Copyright (C) 2004 - 2019 Virtuemart Team. All rights reserved.
+ * Copyright (C) 2004 - 2020 Virtuemart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -96,6 +96,8 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 			'payment_logos' => array('', 'char'),
 			'debug' => array(0, 'int'),
 			'log' => array(0, 'int'),
+			//			Allow refunds from VM
+			'allow_status_refunds' => array('1','int'),
 			'status_pending' => array('', 'char'),
 			'status_success' => array('', 'char'),
 			'status_ipn_success_updateable' => array('', 'char'),
@@ -1216,21 +1218,22 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 				$paypalInterface->debugLog(vmText::_('VMPAYMENT_PAYPAL_API_TRANSACTION_CAPTURED'), 'plgVmOnUpdateOrderPayment', 'message', true);
 				$this->_storePaypalInternalData(  $paypalInterface->getResponse(false), $order->virtuemart_order_id, $payment->virtuemart_paymentmethod_id, $order->order_number);
 			}
-
-		} elseif ($order->order_status == $this->_currentMethod->status_refunded /*OR $order->order_status == $this->_currentMethod->status_canceled*/) {
-			$paypalInterface = $this->_loadPayPalInterface();
-			$paypalInterface->setOrder($order);
-			$paypalInterface->setTotal($order->order_total);
-			$paypalInterface->loadCustomerData();
-			if ($paypalInterface->RefundTransaction($payment)) {
-				if ($this->_currentMethod->payment_type == '_xclick-subscriptions') {
-					$paypalInterface->debugLog(vmText::_('VMPAYMENT_PAYPAL_SUBSCRIPTION_CANCELLED'), 'plgVmOnUpdateOrderPayment Refund', 'message', true);
-				} else {
-					//Mark the order as refunded
-					// $order->order_status = $method->status_refunded;
-					$paypalInterface->debugLog(vmText::_('VMPAYMENT_PAYPAL_API_TRANSACTION_REFUNDED'), 'plgVmOnUpdateOrderPayment Refund', 'message', true);
+		} elseif ($this->_currentMethod->allow_status_refunds == "1") {
+			if ($order->order_status == $this->_currentMethod->status_refunded /*OR $order->order_status == $this->_currentMethod->status_canceled*/){
+				$paypalInterface = $this->_loadPayPalInterface();
+				$paypalInterface->setOrder($order);
+				$paypalInterface->setTotal($order->order_total);
+				$paypalInterface->loadCustomerData();
+				if ($paypalInterface->RefundTransaction($payment)){
+					if ($this->_currentMethod->payment_type == '_xclick-subscriptions'){
+						$paypalInterface->debugLog(vmText::_('VMPAYMENT_PAYPAL_SUBSCRIPTION_CANCELLED'), 'plgVmOnUpdateOrderPayment Refund', 'message', true);
+					} else {
+						//Mark the order as refunded
+						// $order->order_status = $method->status_refunded;
+						$paypalInterface->debugLog(vmText::_('VMPAYMENT_PAYPAL_API_TRANSACTION_REFUNDED'), 'plgVmOnUpdateOrderPayment Refund', 'message', true);
+					}
+					$this->_storePaypalInternalData($paypalInterface->getResponse(false), $order->virtuemart_order_id, $payment->virtuemart_paymentmethod_id, $order->order_number);
 				}
-				$this->_storePaypalInternalData( $paypalInterface->getResponse(false), $order->virtuemart_order_id, $payment->virtuemart_paymentmethod_id, $order->order_number);
 			}
 		}
 

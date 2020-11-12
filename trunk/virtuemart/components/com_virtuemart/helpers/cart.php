@@ -260,9 +260,9 @@ class VirtueMartCart {
 			if( $cp >0 and empty(self::$_cart->vendorId)){
 				self::$_cart->vendorId = 1;
 			}
-
 			$session->set('vmcartlastVendorId', $vendorId, 'vm');
 			self::$lastVendorId = $vendorId;
+
 			self::$_carts[self::$_cart->vendorId] = self::$_cart;
 		} else {
 
@@ -622,10 +622,16 @@ class VirtueMartCart {
 	public function storeCart($cartDataToStore = false){
 
 		if($this->tempCart) return;
-		//quorvia dont store non completed cart data for reuse on logout based on being in a shoppergroup
-		$quorvia_savecart = VmConfig::get('shoppergroupDontSaveCart', 0 );
-		if ($quorvia_savecart > 0 ){
-			if(!empty($this->user->shopper_groups) AND in_array($quorvia_savecart, $this->user->shopper_groups)) {
+		//quorvia dont store non completed carts for logged in users
+		$Cartsdontsave = VmConfig::get('CartsDontSave', 0 );
+		if ($Cartsdontsave){
+				return;
+		}
+
+		//quorvia dont store non completed cart data for shoppergroup
+		$CartsdontsaveShopperGroup = VmConfig::get('CartsDontSaveByshoppergroup', 0 );
+		if ($CartsdontsaveShopperGroup > 0 ){
+			if(!empty($this->user->shopper_groups) AND in_array($CartsdontsaveShopperGroup, $this->user->shopper_groups)) {
 				return;
 			}
 		}
@@ -640,6 +646,14 @@ class VirtueMartCart {
 				unset($data->cartLoaded);
 				unset($data->BT);
 				unset($data->ST);
+				//quorvia dont store cartfields e.g. TOS, Customer_note
+				$CartsdontsaveCartfields = VmConfig::get('CartsDontSaveCartFields', 0 );
+				if($CartsdontsaveCartfields) {
+//				this could just be more focussed if necessary
+//					$data->cartfields['customer_note'] = '';
+//					unset($data->cartfields['tos']);
+					$data->cartfields = '';
+				}
 				$cartDataToStore = json_encode($data);
 			}
 

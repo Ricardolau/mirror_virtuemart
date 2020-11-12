@@ -46,6 +46,8 @@
 #layout_order_list=list
 #discontinuedPrdsBrowseable=1		//Keep discontinued products browseable
 
+# AllowMultipleCatsFilter = 0 //Set to 1 to allow to filter the product list in the backend by more than one category
+
 useSSL=0
 dangeroustools=0
 debug_enable=none
@@ -108,6 +110,12 @@ recent_rows=1
 latest=1
 latest_rows=1
 legacylayouts=0
+
+
+#CartsDontSave = 0 //dont store carts for logged in shoppers
+#CartsDontSaveByshoppergroup=50 //dont store carts for shoppers in this shoppergroup
+#CartsDontSaveCartFields=1 //dont store cart fields when storing a cart for a shopper
+
 
 ##Paths
     assets_general_path=components/com_virtuemart/assets/

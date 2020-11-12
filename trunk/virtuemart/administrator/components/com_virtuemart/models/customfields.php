@@ -1215,8 +1215,17 @@ class VirtueMartModelCustomfields extends VmModel {
 		} else {
 			//vmdebug('storeProductCustomfields nothing to store');
 		}
-		//vmdebug('Delete $old_customfield_ids',$old_customfield_ids);
+
+		VmConfig::importVMPlugins('vmcustom');
+		$dispatcher = JDispatcher::getInstance();
+
+		vmdebug('Delete $old_customfield_ids',$old_customfield_ids);
 		if ( count($old_customfield_ids) ) {
+
+			// call the plugins to delete their records
+			foreach ($old_customfield_ids as $old_customfield_id) {
+				$dispatcher->trigger('plgVmOnCustomfieldRemove', array($oldCustomfields[$old_customfield_id]));
+			}
 			// delete old unused Customfields
 			$db->setQuery( 'DELETE FROM `#__virtuemart_'.$table.'_customfields` WHERE `virtuemart_customfield_id` in ("'.implode('","', $old_customfield_ids ).'") ');
 			$db->execute();
@@ -1224,11 +1233,10 @@ class VirtueMartModelCustomfields extends VmModel {
 		}
 
 
-		VmConfig::importVMPlugins('vmcustom');
-		$dispatcher = JDispatcher::getInstance();
+
 		if (isset($datas['customfield_params']) and is_array($datas['customfield_params'])) {
 			foreach ($datas['customfield_params'] as $key => $plugin_param ) {
-				$dispatcher->trigger('plgVmOnStoreProduct', array($datas, $plugin_param ));
+				$dispatcher->trigger('plgVmOnStoreProduct', array($datas, $plugin_param, $old_customfield_ids ));
 			}
 		}
 

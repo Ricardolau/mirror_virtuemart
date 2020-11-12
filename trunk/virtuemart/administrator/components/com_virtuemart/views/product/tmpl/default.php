@@ -22,7 +22,10 @@ AdminUIHelper::startAdminArea($this);
 
 /* Load some variables */
 
-
+$multipleCats = '';
+if(VmConfig::get('AllowMultipleCatsFilter',false)){
+	$multipleCats = 'multiple="multiple"';
+}
 // OSP in view.html.php $virtuemart_category_id = vRequest::getInt('virtuemart_category_id', false);
 if ($product_parent_id=vRequest::getInt('product_parent_id', false))   $col_product_name='COM_VIRTUEMART_PRODUCT_CHILDREN_LIST'; else $col_product_name='COM_VIRTUEMART_PRODUCT_NAME';
 
@@ -32,8 +35,8 @@ if ($product_parent_id=vRequest::getInt('product_parent_id', false))   $col_prod
 <span id="filterbox">
 	<span>
 			<?php echo vmText::_('COM_VIRTUEMART_FILTER') ?>:
-				<select class="changeSendForm inputbox" id="virtuemart_category_id" multiple="multiple" name="virtuemart_category_id[]"  >
-					<option value=""><?php echo vmText::sprintf( 'COM_VIRTUEMART_SELECT' ,  vmText::_('COM_VIRTUEMART_CATEGORY')) ; ?></option>
+				<select class="changeSendForm inputbox" id="virtuemart_category_id" <?php echo $multipleCats; ?> name="virtuemart_category_id[]" value="0" >
+					<option value=""><?php echo vmText::sprintf( 'COM_VIRTUEMART_UNSELECT' ,  vmText::_('COM_VIRTUEMART_CATEGORY')) ; ?></option>
 				</select>
 					 <?php echo JHtml::_('select.genericlist', $this->manufacturers, 'virtuemart_manufacturer_id', 'class="inputbox" onchange="document.adminForm.submit(); return false;"', 'value', 'text',
 					 	$this->model->virtuemart_manufacturer_id );

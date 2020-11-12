@@ -382,7 +382,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
             $model->virtuemart_category_id = $this->virtuemart_category_id = $this->categoryId;
 
             $this->showOrdering = false;
-			if( $this->categoryId and count($this->categoryId) < 1) {
+			if( $this->categoryId and count($this->categoryId) == 1) {
 				$this->showOrdering = true;
 			}
 
@@ -659,7 +659,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 		} else if(!empty($this->product->virtuemart_product_id)){
 			$param = '&virtuemart_product_id='.$this->product->virtuemart_product_id;
 		}
-		$eOpt = vmText::sprintf( 'COM_VIRTUEMART_SELECT' ,  vmText::_('COM_VIRTUEMART_CATEGORY'));
+		$eOpt = vmText::sprintf( 'COM_VIRTUEMART_UNSELECT' ,  vmText::_('COM_VIRTUEMART_CATEGORY'));
 		vmJsApi::ajaxCategoryDropDown($id, $param, $eOpt);
 	}
 }

@@ -56,8 +56,8 @@ defined('_JEXEC') or die('Restricted access');
 			echo VmHTML::row('raw', 'COM_VIRTUEMART_COUNTRIES',ShopFunctionsF::renderCountryList($this->shipment->countries,True, array(), '', 0, 'countries', 'countries'));
 			echo VmHTML::row('raw', 'COM_VIRTUEMART_COUNTRIES_BLOCKING',ShopFunctionsF::renderCountryList($this->shipment->blocking_countries,True, array(), '', 0, 'blocking_countries', 'blocking_countries'));
 
-			echo VmHtml::row('checkbox', 'COM_VM_ENABLE_BY_COUPON', 'byCoupon', $this->payment->byCoupon);
-			echo VmHtml::row('input', 'COM_VM_ENABLE_BY_COUPON_BY_CODE', 'couponCode', $this->payment->couponCode);
+			echo VmHtml::row('checkbox', 'COM_VM_ENABLE_BY_COUPON', 'byCoupon', $this->shipment->byCoupon);
+			echo VmHtml::row('input', 'COM_VM_ENABLE_BY_COUPON_BY_CODE', 'couponCode', $this->shipment->couponCode);
 		}
 
 

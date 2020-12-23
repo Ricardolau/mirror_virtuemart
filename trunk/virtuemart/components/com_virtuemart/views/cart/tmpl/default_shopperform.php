@@ -8,7 +8,7 @@
  * @author Maik K�nnemann
  *
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2013 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -18,6 +18,9 @@
  */
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
+
+vmJsApi::chosenDropDowns();
+
 ?>
 
 
@@ -32,7 +35,7 @@ defined('_JEXEC') or die('Restricted access');
 			</td>
 			<td style="border:0px; width: 5%;"></td>
 			<td style="border:0px;">
-				<?php 
+				<?php
 
 				$currentUser = $this->cart->user->virtuemart_user_id;
 				echo JHtml::_('Select.genericlist', $this->userList, 'userID', 'class="vm-chzn-select" style="width: 200px"', 'id', 'displayedName', $currentUser,'userIDcart');

@@ -179,11 +179,11 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 
 		$html = '<table class="adminlist table">' . "\n";
 		$html .= $this->getHtmlHeaderBE ();
-		$html .= $this->getHtmlRowBE ('WEIGHT_COUNTRIES_SHIPPING_NAME', $shipinfo->shipment_name);
-		$html .= $this->getHtmlRowBE ('WEIGHT_COUNTRIES_WEIGHT', $shipinfo->order_weight . ' ' . ShopFunctions::renderWeightUnit ($shipinfo->shipment_weight_unit));
-		$html .= $this->getHtmlRowBE ('WEIGHT_COUNTRIES_COST', $currency->priceDisplay ($shipinfo->shipment_cost));
-		$html .= $this->getHtmlRowBE ('WEIGHT_COUNTRIES_PACKAGE_FEE', $currency->priceDisplay ($shipinfo->shipment_package_fee));
-		$html .= $this->getHtmlRowBE ('WEIGHT_COUNTRIES_TAX', $taxDisplay);
+		$html .= $this->getHtmlRowBE ('COM_VIRTUEMART_SHIPMENT_NAME', $shipinfo->shipment_name);
+		$html .= $this->getHtmlRowBE ('VMSHIPMENT_WEIGHT_COUNTRIES_WEIGHT', $shipinfo->order_weight . ' ' . ShopFunctions::renderWeightUnit ($shipinfo->shipment_weight_unit));
+		$html .= $this->getHtmlRowBE ('VMSHIPMENT_WEIGHT_COUNTRIES_COST', $currency->priceDisplay ($shipinfo->shipment_cost));
+		$html .= $this->getHtmlRowBE ('VMSHIPMENT_WEIGHT_COUNTRIES_PACKAGE_FEE', $currency->priceDisplay ($shipinfo->shipment_package_fee));
+		$html .= $this->getHtmlRowBE ('VMSHIPMENT_WEIGHT_COUNTRIES_TAX', $taxDisplay);
 		$html .= '</table>' . "\n";
 
 		return $html;

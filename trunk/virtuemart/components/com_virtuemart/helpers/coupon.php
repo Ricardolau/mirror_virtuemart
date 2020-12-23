@@ -48,9 +48,9 @@ abstract class CouponHelper
 		}
 		if(empty($couponData)){
 			$_db = JFactory::getDBO();
-			$_q = 'SELECT IFNULL( NOW() >= `coupon_start_date` OR `coupon_start_date`="0000-00-00 00:00:00" , 1 ) AS started
+			$_q = 'SELECT IFNULL( UTC_TIMESTAMP() >= `coupon_start_date` OR `coupon_start_date`="0000-00-00 00:00:00" , 1 ) AS started
     				, `coupon_start_date`
-    				,  IFNULL (`coupon_expiry_date`!="0000-00-00 00:00:00" and NOW() > `coupon_expiry_date`,0) AS `ended`
+    				,  IFNULL (`coupon_expiry_date`!="0000-00-00 00:00:00" and UTC_TIMESTAMP() > `coupon_expiry_date`,0) AS `ended`
     				, `coupon_expiry_date`
     				, `coupon_value_valid`
     				, `coupon_used`

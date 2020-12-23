@@ -52,25 +52,13 @@ class vmDefines {
 
 		defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 
-		if(defined('JVERSION')){	//We are in joomla
-			defined ('VMPATH_ROOT') or define ('VMPATH_ROOT', JPATH_ROOT);
-			defined('JVM_VERSION') or define ('JVM_VERSION', 3);
-			defined('VM_USE_BOOTSTRAP') or define ('VM_USE_BOOTSTRAP', 1);
-			$vmPathLibraries = JPATH_PLATFORM;
+		self::define_VMPATH_LIBS();
 
-			defined('WP_VERSION') or define ('WP_VERSION', 0);
-		} else {
-			defined ('JVM_VERSION') or define ('JVM_VERSION', 0);
 
-			//Todo ???? need to be checked
-			!defined ('WPINC') or define ('WP_VERSION', get_bloginfo('version'));
+		defined ('VMPATH_ADMINISTRATOR') or define ('VMPATH_ADMINISTRATOR',	VMPATH_ROOT .'/administrator');
+		defined ('VMPATH_ADMIN') or define ('VMPATH_ADMIN', VMPATH_ADMINISTRATOR .'/components/com_virtuemart' );
 
-			//defined ('VMPATH_ROOT') or define ('VMPATH_ROOT', dirname( __FILE__ ));
-
-			//defined('_JEXEC') or define('_JEXEC', 1);
-			$vmPathLibraries = VMPATH_ROOT .'/libraries';
-
-		}
+		defined('VM_VERSION') or define ('VM_VERSION', 3);
 
 		if($appId===0){
 			if(defined('JVERSION')){
@@ -79,13 +67,6 @@ class vmDefines {
 				$appId = 'site';
 			}
 		}
-
-		defined ('VMPATH_LIBS') or define ('VMPATH_LIBS', $vmPathLibraries);
-
-		defined ('VMPATH_ADMINISTRATOR') or define ('VMPATH_ADMINISTRATOR',	VMPATH_ROOT .'/administrator');
-		defined ('VMPATH_ADMIN') or define ('VMPATH_ADMIN', VMPATH_ADMINISTRATOR .'/components/com_virtuemart' );
-
-		defined('VM_VERSION') or define ('VM_VERSION', 3);
 
 		self::$_appId = $appId;
 
@@ -159,12 +140,38 @@ class vmDefines {
 		//defined('JPATH_SITE') or define('JPATH_SITE','VMPATH_SITE');
 	}
 
+	static public function define_VMPATH_LIBS () {
+		if(defined('JVERSION')){	//We are in joomla
+			defined ('VMPATH_ROOT') or define ('VMPATH_ROOT', JPATH_ROOT);
+			defined('JVM_VERSION') or define ('JVM_VERSION', 3);
+			defined('VM_USE_BOOTSTRAP') or define ('VM_USE_BOOTSTRAP', 1);
+			$vmPathLibraries = JPATH_PLATFORM;
+
+			defined('WP_VERSION') or define ('WP_VERSION', 0);
+		} else {
+			defined ('JVM_VERSION') or define ('JVM_VERSION', 0);
+
+			//Todo ???? need to be checked
+			!defined ('WPINC') or define ('WP_VERSION', get_bloginfo('version'));
+
+			//defined ('VMPATH_ROOT') or define ('VMPATH_ROOT', dirname( __FILE__ ));
+
+			//defined('_JEXEC') or define('_JEXEC', 1);
+			$vmPathLibraries = VMPATH_ROOT .'/libraries';
+
+		}
+
+		defined ('VMPATH_LIBS') or define ('VMPATH_LIBS', $vmPathLibraries);
+	}
+
 	static public function core($rootPath = VMPATH_ROOT){
 
 		$vmpath_admin = $rootPath.'/administrator/components/com_virtuemart';
 		$vmpath_pluginlibs = $vmpath_admin.'/plugins';
 		$vmpath_site = $rootPath.'/components/com_virtuemart';
 		//if(!class_exists('JFile')) require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'file.php');
+
+		if(!defined(VMPATH_LIBS)) self::define_VMPATH_LIBS();
 		JLoader::register('JFile', VMPATH_LIBS.'/joomla/filesystem/file.php');
 		JLoader::register('JFolder', VMPATH_LIBS.'/joomla/filesystem/folder.php');
 		//JLoader::register('JToolbarHelper', JPATH_ADMINISTRATOR.'/includes/toolbar.php');

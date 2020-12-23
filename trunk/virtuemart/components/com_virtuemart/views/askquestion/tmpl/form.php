@@ -5,9 +5,9 @@
  *
  * @package	VirtueMart
  * @subpackage
- * @author Kohl Patrick, Maik Künnemann
+ * @author Kohl Patrick, Maik Künnemann, Max Milbers
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2018 Virtuemart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2020 Virtuemart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -41,6 +41,23 @@ if (empty ( $this->product )) {
 		echo $this->login;
 	}
 	if(empty($this->login) or VmConfig::get('recommend_unauth',false)){
+
+		if (!empty($this->user->name)) {
+			$ask_name = $this->user->name;
+		} elseif (!empty($sessData['name'])) {
+			$ask_name = $sessData['name'];
+		} else {
+			$ask_name = '';
+		}
+
+		if (!empty($this->user->email)) {
+			$ask_email = $this->user->email;
+		} elseif (!empty($sessData['email'])) {
+			$ask_email = $sessData['email'];
+		} else {
+			$ask_email = '';
+		}
+
 		?>
 		<div class="ask-a-question-view">
 			<h1><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_ASK_QUESTION') ?></h1>
@@ -66,17 +83,17 @@ if (empty ( $this->product )) {
 					<table class="askform">
 						<tr>
 							<td><label for="name"><?php echo vmText::_('COM_VIRTUEMART_USER_FORM_NAME') ?> : </label></td>
-							<td><input type="text" class="validate[required,minSize[3],maxSize[64]]" value="<?php echo $this->user->name ? $this->user->name : $sessData['name'] ?>" name="name" id="name" size="30"  validation="required name"/></td>
+							<td><input type="text" class="validate[required,minSize[3],maxSize[64]]" value="<?php echo $ask_name ?>" name="name" id="name" size="30"  validation="required name"/></td>
 						</tr>
 						<tr>
 							<td><label for="email"><?php echo vmText::_('COM_VIRTUEMART_USER_FORM_EMAIL') ?> : </label></td>
-							<td><input type="text" class="validate[required,custom[email]]" value="<?php echo $this->user->email ? $this->user->email : $sessData['email'] ?>" name="email" id="email" size="30"  validation="required email"/></td>
+							<td><input type="text" class="validate[required,custom[email]]" value="<?php echo $ask_email ?>" name="email" id="email" size="30"  validation="required email"/></td>
 						</tr>
 						<tr>
 							<td colspan="2"><label for="comment"><?php echo vmText::sprintf('COM_VIRTUEMART_ASK_COMMENT', $min, $max); ?></label></td>
 						</tr>
 						<tr>
-							<td colspan="2"><textarea title="<?php echo vmText::sprintf('COM_VIRTUEMART_ASK_COMMENT', $min, $max) ?>" class="validate[required,minSize[<?php echo $min ?>],maxSize[<?php echo $max ?>]] field" id="comment" name="comment" rows="8"><?php echo $sessData['comment'] ?></textarea></td>
+							<td colspan="2"><textarea title="<?php echo vmText::sprintf('COM_VIRTUEMART_ASK_COMMENT', $min, $max) ?>" class="validate[required,minSize[<?php echo $min ?>],maxSize[<?php echo $max ?>]] field" id="comment" name="comment" rows="8"><?php if(!empty($sessData['comment'])) echo $sessData['comment'] ?></textarea></td>
 						</tr>
 					</table>
 					<div class="submit">

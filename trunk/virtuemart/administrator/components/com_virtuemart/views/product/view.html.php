@@ -373,17 +373,15 @@ class VirtuemartViewProduct extends VmViewAdmin {
 
 			$this->addStandardDefaultViewLists($model,'created_on');
 
-            //Get the category tree
-            //$this->virtuemart_category_id = $this->categoryId = $model->virtuemart_category_id; //OSP switched to filter in model, was vRequest::getInt('virtuemart_category_id');
-            $this->categoryId = vRequest::getInt('virtuemart_category_id',false);
-            if($this->categoryId===false){
-                $this->categoryId = 0;
-            }
-            $model->virtuemart_category_id = $this->virtuemart_category_id = $this->categoryId;
+			//Get the category tree
+			$this->virtuemart_category_id = $model->virtuemart_category_id; //OSP switched to filter in model, was vRequest::getInt('virtuemart_category_id');
 
-            $this->showOrdering = false;
-			if( $this->categoryId and count($this->categoryId) == 1) {
-				$this->showOrdering = true;
+			if(!is_array($this->virtuemart_category_id)) $this->virtuemart_category_id = array($this->virtuemart_category_id);
+
+
+			$this->showOrdering = false;
+			if( $this->virtuemart_category_id and count($this->virtuemart_category_id) == 1) {
+				$this->showOrdering = reset ($this->virtuemart_category_id);
 			}
 
 			$superVendor = vmAccess::isSuperVendor();
@@ -408,8 +406,6 @@ class VirtuemartViewProduct extends VmViewAdmin {
 			}
 
 			VmJsApi::chosenDropDowns();
-
-
 
 			$this->ajaxCategoryDropDown('virtuemart_category_id');
 
@@ -643,24 +639,33 @@ class VirtuemartViewProduct extends VmViewAdmin {
 		return $c[$product_parent_id];
 	}
 
-	public function ajaxCategoryDropDown($id){
+	public function ajaxCategoryDropDown($name){
 
 		$param = '';
-		if(!empty($this->categoryId)){
-		    if(is_array($this->categoryId)){
-		        foreach($this->categoryId as $cid){
+		if(!empty($this->virtuemart_category_id)){
+		    if(is_array($this->virtuemart_category_id)){
+		        foreach($this->virtuemart_category_id as $cid){
 		            if(empty($cid)) continue;
-                    $param .= '&virtuemart_category_id[]='.$cid;
+                    $param .= '&'.$name.'[]='.$cid;
                 }
             } else {
-                $param = '&virtuemart_category_id='.$this->categoryId;
+                $param = '&'.$name.'='.$this->virtuemart_category_id;
             }
 
 		} else if(!empty($this->product->virtuemart_product_id)){
 			$param = '&virtuemart_product_id='.$this->product->virtuemart_product_id;
 		}
-		$eOpt = vmText::sprintf( 'COM_VIRTUEMART_UNSELECT' ,  vmText::_('COM_VIRTUEMART_CATEGORY'));
-		vmJsApi::ajaxCategoryDropDown($id, $param, $eOpt);
+
+
+		$this->selectCatStr = '';//'COM_VIRTUEMART_SELECT';
+		if(VmConfig::get('AllowMultipleCatsFilter',false)){
+			$this->selectCatStr = 'COM_VIRTUEMART_UNSELECT';
+		} else {
+			$this->selectCatStr = 'COM_VIRTUEMART_SELECT';
+		}
+		$eOpt = vmText::sprintf( $this->selectCatStr ,  vmText::_('COM_VIRTUEMART_CATEGORY'));
+
+		vmJsApi::ajaxCategoryDropDown($name, $param, $eOpt);
 	}
 }
 

@@ -21,10 +21,11 @@ defined('_JEXEC') or die('Restricted access');
 AdminUIHelper::startAdminArea($this);
 
 /* Load some variables */
-
+$class = 'changeSendForm inputbox';
 $multipleCats = '';
 if(VmConfig::get('AllowMultipleCatsFilter',false)){
 	$multipleCats = 'multiple="multiple"';
+	$class = 'inputbox';
 }
 // OSP in view.html.php $virtuemart_category_id = vRequest::getInt('virtuemart_category_id', false);
 if ($product_parent_id=vRequest::getInt('product_parent_id', false))   $col_product_name='COM_VIRTUEMART_PRODUCT_CHILDREN_LIST'; else $col_product_name='COM_VIRTUEMART_PRODUCT_NAME';
@@ -35,8 +36,8 @@ if ($product_parent_id=vRequest::getInt('product_parent_id', false))   $col_prod
 <span id="filterbox">
 	<span>
 			<?php echo vmText::_('COM_VIRTUEMART_FILTER') ?>:
-				<select class="changeSendForm inputbox" id="virtuemart_category_id" <?php echo $multipleCats; ?> name="virtuemart_category_id[]" value="0" >
-					<option value=""><?php echo vmText::sprintf( 'COM_VIRTUEMART_UNSELECT' ,  vmText::_('COM_VIRTUEMART_CATEGORY')) ; ?></option>
+				<select class="<?php echo $class ?>" id="virtuemart_category_id" <?php echo $multipleCats; ?> name="virtuemart_category_id[]" value="0" >
+					<option value=""><?php echo vmText::sprintf( $this->selectCatStr ,  vmText::_('COM_VIRTUEMART_CATEGORY')) ; ?></option>
 				</select>
 					 <?php echo JHtml::_('select.genericlist', $this->manufacturers, 'virtuemart_manufacturer_id', 'class="inputbox" onchange="document.adminForm.submit(); return false;"', 'value', 'text',
 					 	$this->model->virtuemart_manufacturer_id );
@@ -94,9 +95,9 @@ if($this->pagination->limit<=$mediaLimit or $totalList<=$mediaLimit){
 		<?php
 		$num_rows = 0;
 		if( $this->showOrdering ) { ?>
-			<th style="min-width:100px;width:5%;">
+			<th style="min-width:40px;width:6%;max-width:70px;">
 				<?php echo $this->sort('pc.ordering', 'COM_VIRTUEMART_FIELDMANAGER_REORDER'); ?>
-				<?php echo JHtml::_('grid.order', $this->productlist); //vmCommonHTML::getSaveOrderButton( $num_rows, 'changeordering' ); ?>
+				<?php echo JHtml::_('grid.order', $this->productlist); ?>
 			</th>
 		<?php } ?>
 		<th width="10%"><?php echo $this->sort('mf_name', 'COM_VIRTUEMART_MANUFACTURER_S') ; ?></th>
@@ -181,23 +182,25 @@ if($this->pagination->limit<=$mediaLimit or $totalList<=$mediaLimit){
 					echo $product->categoriesList;
 					//  show canonical category if set
 					if(!empty($product->product_canon_category_id)  && $product->product_canon_category_id > 0){
-						echo '<p style = "color:red;">CanonCat: '. $product->canonCatIdname.'</p>';
+						echo '<p style = "color:#ff0000;">CanonCat: ' . $product->canonCatIdname.'</p>';
 					}
 				?></td>
 				<!-- Reorder only when category ID is present -->
-				<?php if ($this->showOrdering ) { ?>
+				<?php if ($this->showOrdering ) {
 					<td class="order" >
-						<?php if($this->showDrag){ ?>
-							<span class="vmicon vmicon-16-move"></span>
-						<?php }?>
-						<span><?php echo $this->pagination->vmOrderUpIcon( $i, $product->ordering, 'orderup', vmText::_('COM_VIRTUEMART_MOVE_UP')  ); ?></span>
-						<span><?php echo $this->pagination->vmOrderDownIcon( $i, $product->ordering, ($total * 5)-3, true, 'orderdown', vmText::_('COM_VIRTUEMART_MOVE_DOWN') ); ?></span>
-<!--						quorvia -->
-						<input class="ordering" type="text" name="order[<?php echo $product->virtuemart_product_id?>]" id="order[<?php echo $i?>]" size="5" value="<?php echo $product->ordering; ?>" style="text-align: center" />
 
-						<?php // echo vmCommonHTML::getOrderingField( $product->ordering ); ?>
+						<?php if($this->showOrdering == $product->virtuemart_category_id){
+							if($this->showDrag){ ?>
+								<span class="vmicon vmicon-16-move"></span>
+							<?php }
+							/* ?>
+							<span><?php echo $this->pagination->vmOrderUpIcon( $i, $product->ordering, 'orderup', vmText::_('COM_VIRTUEMART_MOVE_UP')  ); ?></span>
+							<span><?php echo $this->pagination->vmOrderDownIcon( $i, $product->ordering, ($total * 5)-3, true, 'orderdown', vmText::_('COM_VIRTUEMART_MOVE_DOWN') ); ?></span>
+							*/ ?>
+							<input class="ordering" type="text" name="order[<?php echo $product->virtuemart_product_id?>]" id="order[<?php echo $i?>]" size="5" value="<?php echo $product->ordering; ?>" style="text-align: center" />
+						<?php } ?>
 					</td>
-				<?php }  ?>
+				<?php } ?>
 				<!-- Manufacturer name -->
 				<td><?php
 					echo $product->manuList;

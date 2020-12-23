@@ -458,42 +458,36 @@ class VirtueMartModelProduct extends VmModel {
 			$virtuemart_category_id = false;
 		}
 
+		if (!empty($virtuemart_category_id )){
+			if( is_array($virtuemart_category_id)) {
+				$virtuemart_category_id = array_filter($virtuemart_category_id);
+			} else {
+				$virtuemart_category_id = array($virtuemart_category_id);
+			}
+		}
 		if (!empty($virtuemart_category_id )) {
 			$joinCategory = TRUE;
+
 			if(VmConfig::get('show_subcat_products',false)){
 				/*GJC add subcat products*/
 				$catmodel = VmModel::getModel ('category');
-				$childcats = $catmodel->getChildCategoryList(1, $virtuemart_category_id,null, null, true);
 				$cats = '';
-				foreach($childcats as $k=>$childcat){
-					if(!empty($childcat->virtuemart_category_id)){
-						$cats = $childcat->virtuemart_category_id .',';
+				foreach($virtuemart_category_id as $catId){
+					$childcats = $catmodel->getChildCategoryList(1, $catId,null, null, true);
+					foreach($childcats as $k=>$childcat){
+						if(!empty($childcat->virtuemart_category_id)){
+							$cats .= $childcat->virtuemart_category_id .',';
+						}
 					}
+					$cats .= $catId;
 				}
+
                 if(!empty($cats)){
                     $joinCategory = TRUE;
-					$cats .= $virtuemart_category_id;
                     $where[] = ' `pc`.`virtuemart_category_id` IN ('.$cats.') ';
-                } else {
-					$where[] = ' `pc`.`virtuemart_category_id` = ' . $virtuemart_category_id;
-				}
-			} else {
-			    if(is_array($virtuemart_category_id)){
-                    $cats = false;
-                    foreach($virtuemart_category_id as $k=>$cat){
-						if(empty($cat)){
-							unset($virtuemart_category_id[$k]);
-						}
-                    }
-					if(!empty($virtuemart_category_id)){
-                        $where[] = ' `pc`.`virtuemart_category_id` IN ('.implode(',',$virtuemart_category_id).') ';
-                    }
-                } else {
-                    $where[] = ' `pc`.`virtuemart_category_id` = ' . $virtuemart_category_id;
                 }
-
-
-
+			} else {
+				$where[] = ' `pc`.`virtuemart_category_id` IN ('.implode(',',$virtuemart_category_id).') ';
 			}
 		} else if ($isSite) {
 			if (!VmConfig::get('show_uncat_parent_products',TRUE)) {
@@ -1650,7 +1644,7 @@ class VirtueMartModelProduct extends VmModel {
 			$storeHasCategories = false;
 			if(!$optimised or !isset($product->has_categories) or $product->has_categories){
 				$product->categoryItem = $this->getProductCategories ($this->_id); //We need also the unpublished categories, else the calculation rules do not work
-				//vmdebug('getProductSingle loaded categories',$product->has_medias);
+				//vmdebug('getProductSingle loaded categories',$product->categoryItem);
 				if(!isset($product->has_categories)){
 					$storeHasCategories = (int)!empty($product->categoryItem );
 				}
@@ -1698,6 +1692,7 @@ vmSetStartTime('letsUpdateProducts');
 			$product->canonCatIdname = '';
 			$public_cats = array();
 			$product->categories = array();
+
 			if(!empty($product->categoryItem)){
 				$tmp = array();
 				foreach($product->categoryItem as $category){
@@ -1710,6 +1705,7 @@ vmSetStartTime('letsUpdateProducts');
 							//vmdebug('Canon cat found');
 						}
 						$public_cats[] = $category['virtuemart_category_id'];
+
 					}
 					$tmp[] = $category['virtuemart_category_id'];
 				}
@@ -1760,7 +1756,13 @@ vmSetStartTime('letsUpdateProducts');
 				}
 				//vmdebug('$product->virtuemart_category_id',$product->virtuemart_category_id);
 				if(empty($product->virtuemart_category_id)){
-					$virtuemart_category_id = vRequest::getInt ('virtuemart_category_id', 0);
+					//$virtuemart_category_id = vRequest::getInt ('virtuemart_category_id', 0);
+					if(is_array($this->virtuemart_category_id)){
+						$virtuemart_category_id = reset($this->virtuemart_category_id);
+					} else{
+						$virtuemart_category_id = $this->virtuemart_category_id;
+					}
+
 				//quorvia if we are getting a product and we are in admin - we may be going back to a category list - but there may be no category_id from the URL -
 				// we dont want the canon category setting we want the category we are going back to because the product ordering is screwed if we dont use that
 					if(!$front and $this->virtuemart_category_id and $virtuemart_category_id==0){
@@ -1772,8 +1774,8 @@ vmSetStartTime('letsUpdateProducts');
 						$product->virtuemart_category_id = $product->canonCatId;
 						//} else if (!$front and !empty($product->categories) and is_array ($product->categories) and array_key_exists (0, $product->categories)) {
 						//why the restriction why we should use it for BE only?
-					} else if (!empty($product->categories) and is_array ($product->categories) and array_key_exists (0, $product->categories)) {
-						$product->virtuemart_category_id = $product->categories[0];
+					} else if (!empty($product->categories) and is_array ($product->categories) ) {
+						$product->virtuemart_category_id = reset($product->categories);
 						//vmdebug('I take for product the main category ',$product->virtuemart_category_id,$product->categories);
 					}
 				}
@@ -2337,12 +2339,22 @@ vmSetStartTime('letsUpdateProducts');
 	function move ($direction, $filter = NULL) {
 
 		vRequest::vmCheckToken();
+		$virtuemart_category_id = vRequest::getInt ('virtuemart_category_id', 0);
+		if(is_array($virtuemart_category_id)) $virtuemart_category_id = reset($virtuemart_category_id);
+		if(empty($virtuemart_category_id)) return;
+
+		$virtuemart_product_id = vRequest::getInt ('virtuemart_product_id', 0);
+		if(is_array($virtuemart_product_id)) $virtuemart_product_id = reset($virtuemart_product_id);
+		if(empty($virtuemart_product_id)) return;
 
 		// Check for request forgeries
 		$table = $this->getTable ('product_categories');
-		$table->move ($direction);
+		$table->load($virtuemart_product_id, 0, ' AND virtuemart_category_id = '.$virtuemart_category_id);
+		$table->virtuemart_category_id = $virtuemart_category_id;
 
-		JFactory::getApplication ()->redirect ('index.php?option=com_virtuemart&view=product&virtuemart_category_id=' . vRequest::getInt ('virtuemart_category_id', 0));
+		$table->move ($direction,' virtuemart_category_id = '.$virtuemart_category_id);
+
+		JFactory::getApplication ()->redirect ('index.php?option=com_virtuemart&view=product&virtuemart_category_id='.$virtuemart_category_id);
 	}
 
 	/**

@@ -10,7 +10,7 @@ defined ('_JEXEC') or die('Direct Access to ' . basename (__FILE__) . ' is not a
  * @subpackage Helpers
  * @author Max Milbers
  * @author Patrick Kohl
- * @copyright Copyright (c) 2004-2008 Soeren Eberhardt-Biermann, 2009 - 2018 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004-2008 Soeren Eberhardt-Biermann, 2009 - 2020 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL 2, see COPYRIGHT.php
  * @version $Id$
  */
@@ -1252,7 +1252,8 @@ class ShopFunctions {
 
 		$safePath = $sPath==0 ? VmConfig::get('forSale_path',0):$sPath;
 
-		if(VmConfig::$installed==false or vRequest::getInt('nosafepathcheck',false) or vRequest::getWord('view')== 'updatesmigration') { vmdebug('checkSafePathBase for not executed'.$safePath);
+		if(VmConfig::$installed==false or vRequest::getInt('nosafepathcheck',false) or vRequest::getWord('view')== 'updatesmigration') {
+			//vmdebug('checkSafePathBase for not executed '.$safePath);
 			return 0;
 		}
 

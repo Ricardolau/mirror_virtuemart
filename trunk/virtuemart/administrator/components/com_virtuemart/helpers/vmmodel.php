@@ -391,7 +391,7 @@ class VmModel extends vObject{
 			}
 		}
 
-		if ($table = self::_createTable($name, $prefix, $options))
+		if ($table = $this->_createTable($name, $prefix, $options))
 		{
 			return $table;
 		}

@@ -6,8 +6,8 @@ defined('_JEXEC') or die('Restricted access');
  * @version $Id: tableupdater.php 4657 2011-11-10 12:06:03Z Milbo $
  * @package VirtueMart
  * @subpackage core
- * @author Max Milbers
- * @copyright Copyright (C) 2011- 2016 by the virtuemart team - All rights reserved.
+ * @author Max Milbers, StAn
+ * @copyright Copyright (C) 2011- 2020 by the VirtueMart team - All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL 2, see COPYRIGHT.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -763,6 +763,7 @@ class GenericTableUpdater extends VmModel{
 
 				if ($oldColumn != $alterCommand ) {
 					$pr = '';
+					vmdebug('alterColumns columns different '.$fieldname,$oldColumn,$alterCommand);
 					//If the field is an auto_increment, we add to the sql the creation of the primary key
 					if( (strpos($alterCommand,'AUTO_INCREMENT')!==false xor strpos($oldColumn,'AUTO_INCREMENT')!==false)){
 						$pr = ', ADD PRIMARY KEY (`'.$fieldname.'`)';

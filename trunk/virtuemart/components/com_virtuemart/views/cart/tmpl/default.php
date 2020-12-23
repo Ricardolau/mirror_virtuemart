@@ -8,7 +8,7 @@
  * @author Max Milbers
  *
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2016 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -57,7 +57,6 @@ vmJsApi::vmValidator();
 	if ($this->allowChangeShopper and !$this->isPdf){
 		echo $this->loadTemplate ('shopperform');
 	}
-
 
 	$taskRoute = '';
 	?><form method="post" id="checkoutForm" name="checkoutForm" action="<?php echo JRoute::_ ('index.php?option=com_virtuemart&view=cart' . $taskRoute, $this->useXHTML, $this->useSSL); ?>">

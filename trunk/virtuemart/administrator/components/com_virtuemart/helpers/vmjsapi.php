@@ -9,7 +9,7 @@ defined ('_JEXEC') or die();
  * @package    VirtueMart
  * @subpackage Helpers
  * @author Max Milbers
- * @copyright Copyright (c) 2014 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2014 - 2020 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -836,7 +836,7 @@ Virtuemart.requiredMsg = '" .addslashes (vmText::_ ('COM_VIRTUEMART_MISSING_REQU
 	}
 
 
-	static function ajaxCategoryDropDown($id, $param, $emptyOpt){
+	static function ajaxCategoryDropDown($name, $param, $emptyOpt){
 
 		vmJsApi::addJScript('ajax_catree');
 		$j = "jQuery(document).ready(function($) {
@@ -844,7 +844,7 @@ Virtuemart.requiredMsg = '" .addslashes (vmText::_ ('COM_VIRTUEMART_MISSING_REQU
 		Virtuemart.emptyCatOpt = '".$emptyOpt."';
 		Virtuemart.param = '".$param."';
 		Virtuemart.isAdmin = '".!VmConfig::isSiteByApp()."';
-		Virtuemart.loadCategoryTree('".$id."');
+		Virtuemart.loadCategoryTree('".$name."');
 	});
 });
 ";

@@ -114,12 +114,13 @@ class VirtueMartCart {
 
 		$multixcart = VmConfig::get('multixcart',0);
 
+		$session = JFactory::getSession($options);
 		if(empty($multixcart)){
 			$vendorId = 1;
 			//vmdebug('No Multicart vendorId = 1');
 		} else {
 			if($vendorId === NULL){
-				$session = JFactory::getSession($options);
+
 				$lastVendorId = $session->get('vmcartlastVendorId', 0, 'vm');
 				if($lastVendorId!=0){
 					$vendorId = $lastVendorId;
@@ -153,7 +154,7 @@ class VirtueMartCart {
 
 			self::$_cart->vendorId	 					= $vendorId;
 			if (empty($cartData)) {
-				if(!isset($session)) $session = JFactory::getSession($options);
+
 				if($multixcart!='byproduct'){
 					$cartSession = $session->get('vmcart', 0, 'vm');
 				}
@@ -260,13 +261,13 @@ class VirtueMartCart {
 			if( $cp >0 and empty(self::$_cart->vendorId)){
 				self::$_cart->vendorId = 1;
 			}
+
 			$session->set('vmcartlastVendorId', $vendorId, 'vm');
 			self::$lastVendorId = $vendorId;
 
 			self::$_carts[self::$_cart->vendorId] = self::$_cart;
 		} else {
 
-			if(!isset($session)) $session = JFactory::getSession($options);
 			$session->set('vmcartlastVendorId', $vendorId, 'vm');
 			self::$_cart = self::$_carts[$vendorId];
 		}
@@ -1378,7 +1379,7 @@ class VirtueMartCart {
 			if($type){
 				$_retValues = $_dispatcher->trigger('plgVmOnSelectCheckPayment', array( $this, &$msg));
 			} else {
-				$_retValues = $_dispatcher->trigger('plgVmOnSelectCheckShipment', array( &$this));
+				$_retValues = $_dispatcher->trigger('plgVmOnSelectCheckShipment', array( &$this, &$msg ));
 			}
 
 			$dataValid = true;
@@ -1626,6 +1627,7 @@ class VirtueMartCart {
 			if($this->_redirect){
 				$this->_inCheckOut = false;
 				$redirectMsg = null;
+				vmdebug('_redirect due missing cartfields '.$layoutName,$validUserDataCart);
 				return $this->redirecter('index.php?option=com_virtuemart&view=cart'.$layoutName , $redirectMsg);
 			}
 			$this->_blockConfirm = true;
@@ -1795,7 +1797,7 @@ class VirtueMartCart {
 	 * @author Valerie Cartan Isaksen
 	 *
 	 */
-	static public function emptyCartValues(&$cart, $session = true){
+	static public function emptyCartValues( &$cart, $session = true){
 
 		//if we used a coupon, we must set it in final use now
 		$couponCode = '';
@@ -1833,6 +1835,9 @@ class VirtueMartCart {
 			$cart->deleteCart();
 			$cart->setCartIntoSession(false,true);
 		}
+		//It looks like we need this to prevent, that the cart gets the old layout back (orderdone)
+		$cart = VirtueMartCart::getCart(true);
+		//vmdebug('emptyCartValues emptied',$test->layout);
 	}
 
 	function resetEntireCart(){

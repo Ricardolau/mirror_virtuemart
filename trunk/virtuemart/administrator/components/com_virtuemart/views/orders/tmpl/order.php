@@ -6,7 +6,7 @@
  * @subpackage Orders
  * @author Oscar van Eijk, Max Milbers, Valérie Isaksen
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2016 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -255,13 +255,14 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
 <table class="adminlist table" >
 	<?php // if ($this->orderbt->customer_note || true) {
 	if(true){ ?>
-	<tr>
-		<td valign="top" width="50%">
-					<table class="adminlist" cellspacing="0" cellpadding="0">
+
+
 						<thead>
-						<tr>
-						<th colspan="2"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PAYMENT_SHIPMENT') ?></th>
-						</tr>
+
+						<th colspan="2" width="50%"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PAYMENT_SHIPMENT') ?></th>
+
+						<th colspan="2" width="50%"><?php echo vmText::_('COM_VIRTUEMART_ORDER_NOTE') ?></th>
+
 						</thead>
 					<tr>
 						<td><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PAYMENT_LBL') ?></td>
@@ -285,6 +286,9 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
 							}
 							?>
 						</td>
+						<td>
+							<?php echo '<textarea class="textarea" name="order_note" cols="60" rows="2">'.$this->orderbt->order_note.' </textarea>' ?>
+						</td>
 					</tr>
 					<tr>
 						<td><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_SHIPMENT_LBL') ?></td>
@@ -307,9 +311,6 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
 						<td class="key"><?php echo vmText::_('COM_VIRTUEMART_DELIVERY_DATE') ?></td>
 						<td><input type="text" maxlength="190" class="required" value="<?php echo $this->orderbt->delivery_date; ?>" size="30" name="delivery_date" id="delivery_date_field"></td>
 					</tr>
-					</table>
-				</td>
-	</tr>
 	<?php } ?>
 </table>
 &nbsp;

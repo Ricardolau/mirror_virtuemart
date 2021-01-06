@@ -7,7 +7,7 @@
 * @subpackage Orders
 * @author RolandD
 * @link ${PHING.VM.MAINTAINERURL}
-* @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+* @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -34,6 +34,8 @@ class TableOrders extends VmTableData {
 	var $virtuemart_user_id = 0;
 	/** @var int Vendor ID */
 	var $virtuemart_vendor_id = 0;
+
+	var $order_note = '';
 	/** @var int Order number */
 	var $order_number = NULL;
 	var $order_pass = NULL;
@@ -113,7 +115,7 @@ class TableOrders extends VmTableData {
 		$this->setLoggable();
 		$this->setHashable('o_hash');
 
-		$this->setOmittedHashFields(array('order_pass','order_create_invoice_pass','ip_address','order_status','paid','paid_on','invoice_locked','modified_on','modified_by','locked_on','locked_by'));
+		$this->setOmittedHashFields(array('order_note','order_pass','order_create_invoice_pass','ip_address','order_status','paid','paid_on','invoice_locked','modified_on','modified_by','locked_on','locked_by'));
 		$this->setTableShortCut('o');
 		$this->setConvertDecimal(array('paid'));
 	}

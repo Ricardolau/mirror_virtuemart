@@ -3,9 +3,15 @@
  * VirtueMart script file
  *
  * This file is executed during install/upgrade and uninstall
- *
- * @author Max Milbers, RickG, impleri
  * @package VirtueMart
+ * @author Max Milbers, RickG, impleri
+ * @copyright Copyright (C) 2011- 2020 by the VirtueMart team - All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL 3, or later see COPYRIGHT.php
+ * VirtueMart is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+
  */
 defined('_JEXEC') or die('Restricted access');
 
@@ -28,7 +34,7 @@ class com_virtuemartInstallerScript {
 		if(!class_exists('VmConfig')){
 			require_once($this->path .'/administrator/components/com_virtuemart/helpers/config.php');
 		} else {
-			if($this->path!=VMPATH_ROOT){
+			if(!defined(VMPATH_ROOT) or $this->path!=VMPATH_ROOT){
 
 				//$app = JFactory::getApplication();
 				//$app->enqueueMessage(JText::_('COM_VM_INSTALL_VMCONFIG_ALREADY_LOADED'),'warning');
@@ -305,6 +311,10 @@ class com_virtuemartInstallerScript {
 
 		$this->alterTable('#__virtuemart_orders',array(
 			'customer_note' => '`oc_note` text NOT NULL DEFAULT "" COMMENT \'old customer notes\'',
+		));
+
+		$this->alterTable('#__virtuemart_orders',array(
+			'oc_note' => '`oc_note` text NOT NULL DEFAULT "" COMMENT \'old customer notes\'',
 		));
 
 		$this->alterTable('#__virtuemart_vendor_users',array(

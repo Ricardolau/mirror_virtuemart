@@ -226,7 +226,7 @@ class VirtueMartModelOrders extends VmModel {
 		$order = array();
 
 		// Get the order details
-		$q = "SELECT  o.*, o.created_on as order_created, o.modified_on as order_modified, u.*, s.order_status_name
+		$q = "SELECT  o.*, o.created_on as order_created, o.modified_on as order_modified, u.*, s.*
 			FROM #__virtuemart_orders o
 			LEFT JOIN #__virtuemart_orderstates s
 			ON s.order_status_code = o.order_status

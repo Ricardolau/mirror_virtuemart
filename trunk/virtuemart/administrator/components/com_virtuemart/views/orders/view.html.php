@@ -251,9 +251,10 @@ class VirtuemartViewOrders extends VmViewAdmin {
 				}
 			}
 
+			$vendor_id = $app->getUserStateFromRequest ( 'com_virtuemart.category.vendor_id', 'virtuemart_vendor_id', '', 'int');
 			$this->lists['vendors']='';
 			if($this->showVendors()){
-			//	$this->lists['vendors'] = Shopfunctions::renderVendorList(userstate missing, 'virtuemart_vendor_id', true);
+				$this->lists['vendors'] = Shopfunctions::renderVendorList($vendor_id, 'virtuemart_vendor_id', true);
 			}
 
 			/* Apply currency This must be done per order since it's vendor specific */

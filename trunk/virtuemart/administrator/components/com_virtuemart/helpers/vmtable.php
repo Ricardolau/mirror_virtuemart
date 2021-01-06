@@ -43,11 +43,11 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 	protected $_tbl_keys = '';
 	protected $_pkey = '';
 	protected $_pkeyForm = '';
-	protected $_obkeys = array();
+	public $_obkeys = array();
 	protected $_unique = false;
-	protected $_unique_name = array();
+	public $_unique_name = array();
 	protected $_orderingKey = 'ordering';
-	protected $_slugAutoName = '';
+	public $_slugAutoName = '';
 	protected $_slugName = '';
 	protected $_db = false;
 	protected $_rules;
@@ -77,7 +77,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 	function __construct($table, $key, &$db) {
 
 		$this->_tbl = $table;
-		$this->_db =& $db;
+		$this->_db = &$db;
 		$this->_pkey = $key;
 		$this->_pkeyForm = 'cid';
 
@@ -1862,16 +1862,10 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 	function fixOrdering($where = '') {
 
 		$where = !empty($where) ? ' WHERE ' . $where : '';
-		// fast check for duplicities
-		$q = 'SELECT `' . $this->_tbl_key . '` FROM `' . $this->_tbl . '` ' . $where . '  GROUP BY `' . $this->_orderingKey . '` HAVING COUNT(*) >= 2  LIMIT 1';
-		$this->_db->setQuery($q);
-		$res = $this->_db->loadAssocList();
-		//vmdebug('fixOrdering my query get duplicates',$q,$res);
-		//if (empty($res)) return true;
 
-		$q = ' SELECT `' . $this->_tbl_key . '` FROM `' . $this->_tbl . '` ' . $where . ' ORDER BY `' . $this->_orderingKey . '` ASC';
+		$q = ' SELECT * FROM `' . $this->_tbl . '` ' . $where . ' ORDER BY `' . $this->_orderingKey . '` ASC';
 		$this->_db->setQuery($q, 0, 999999);
-		$res = $this->_db->loadAssocList();
+		$res = $this->_db->loadAssocList(); vmdebug('Fix Ordering my query ',$q);
 		$e = $this->_db->getErrorMsg();
 		if (!empty($e)) {
 			vmError(get_class($this) . $e);
@@ -1885,11 +1879,12 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		// it is not really optimized to load full table into array, a while loop would be better especially when having thousands of categories
 		foreach ($res as $row) {
 			$q = 'UPDATE  `' . $this->_tbl . '` SET `' . $this->_orderingKey . '` = ' . (int)$start . ' WHERE `' . $this->_tbl_key . '`= ' . $row[$this->_tbl_key] . ' LIMIT 1';
-
+			vmdebug('Fix Ordering my Update query ',$q);
 			$this->_db->setQuery($q);
 			$r = $this->_db->execute($q);
 			$start = $start + 5;
 		}
+
 
 	}
 
@@ -1921,25 +1916,18 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		if (empty($orderingkey))
 			$orderingkey = $this->_orderingKey;
 
-		//if not loaded already, load the ordering of the current item
-		if(!$this->_loaded){
-			$q = "SELECT `" . $orderingkey . '` FROM `' . $this->_tbl . '` WHERE `' . $this->_tbl_key . "` = '" . (int)$cid . "' limit 0,1";
-			$this->_db->setQuery($q);
-			$this->{$orderingkey} = $this->_db->loadResult();
-			$e = $this->_db->getErrorMsg();
-			if (!empty($e)) {
-				vmError(get_class($this) . $e);
-			}
-
+		if (!in_array($orderingkey, array_keys($this->getProperties()))) {
+			vmError(get_class($this) . ' does not support ordering');
+			return false;
 		}
+
+		$this->loadOrderingCurrentItem($cid, $orderingkey);
+
 
 		$excl = ' `' . $this->_tbl_key . '` != ' . (int)$cid . ' ';
 		$where = ($whereIn ? $whereIn.' AND ' . $excl : $excl);
 
-		if (!in_array($this->_orderingKey, array_keys($this->getProperties()))) {
-			vmError(get_class($this) . ' does not support ordering');
-			return false;
-		}
+
 
 		//Lets load the ordering of the next row, so that we can directly use the value of the next row for the ordering value of the current row
 		$sql = 'SELECT `' . $this->_tbl_key . '`, `' . $this->_orderingKey . '` FROM ' . $this->_tbl;
@@ -1962,26 +1950,49 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		$this->_db->setQuery($sql, 0, 1);
 
 		$nextRow = $this->_db->loadObject();
+		vmdebug('vmTable Move loaded $nextRow ',$sql);
 
 		if (isset($nextRow)) {
 			//We use directly the direction input to calculate the new ordering value $nextRow->{$orderingkey} + $dirn
 			$query = 'UPDATE '.$this->_tbl
 			.' SET `'.$this->_orderingKey.'` = '.(int)($nextRow->{$orderingkey} + $dirn)
-			.' WHERE '.$this->_tbl_key.' = "'.(int)$cid.'" LIMIT 1;';
+			.' WHERE '.$this->_pkey.' = "'.(int)$cid.'" LIMIT 1;';
 
 			$this->_db->setQuery( $query );
 			vmdebug('Update with query ',$query);
+
+			if (!$this->_db->execute()) {
+				$err = $this->_db->getErrorMsg();
+				vmError( get_class($this) . ':: move isset row $row->{$k}' . $err);
+			}
+
 		} else {
 			//Should not happen, if there is no next row, then the command to order down/up was accidently given (for example the gui provided accidently an order up icon
 		}
 
-		if (!$this->_db->execute()) {
-			$err = $this->_db->getErrorMsg();
-			vmError( get_class($this) . ':: move isset row $row->{$k}' . $err);
-		}
+
 
 		$this->fixOrdering($whereIn);
+		vmdebug('vmtable move return true');
 		return true;
+	}
+
+	function loadOrderingCurrentItem( $cid, $orderingkey, $array = 0 ) {
+		//if not loaded already, load the ordering of the current item
+		if(!$this->_loaded){
+			$q = 'SELECT `' . $orderingkey . '` FROM `' . $this->_tbl . '` WHERE `' . $this->_tbl_key . '` = "' . (int)$cid . '" limit 0,1 ';
+			$this->_db->setQuery($q);
+			$tmp = $this->_db->loadResult();
+			$this->{$orderingkey} = $this->_db->loadResult();
+			vmdebug('vmTable Move loaded ordering of current item ',$q, $orderingkey, $tmp, $this->{$orderingkey});
+			$e = $this->_db->getErrorMsg();
+			if (!empty($e)) {
+				vmError(get_class($this) . $e);
+			}
+		} else {
+			vmdebug('vmTable Move ordering of current item ', $this->{$orderingkey});
+		}
+
 	}
 
 	/**

@@ -8,7 +8,7 @@
 * @author Max Milbers
 * @author jseros, RickG
 * @link ${PHING.VM.MAINTAINERURL}
-* @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+* @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -217,7 +217,7 @@ vmdebug('Found cached cat, but without children');
 			vmTime('getChildCategoryList getChildCategoryListObject cached '.$virtuemart_category_id,'com_virtuemart_cat_childs');
 			return $cats;
 		} else {
-			$cats = VirtueMartModelCategory::getChildCategoryListObject($vendorId, $virtuemart_category_id, false, $onlyPublished, $media, $keyword, $selectedOrdering, $orderDir, 0, 0);vmTrace('hmmm');
+			$cats = VirtueMartModelCategory::getChildCategoryListObject($vendorId, $virtuemart_category_id, false, $onlyPublished, $media, $keyword, $selectedOrdering, $orderDir, 0, 0);
 			vmTime('getChildCategoryList getChildCategoryListObject '.$virtuemart_category_id,'com_virtuemart_cat_childs');
 			return $cats;
 		}
@@ -646,11 +646,10 @@ vmdebug('Found cached cat, but without children');
 		$row = $this->getTable('categories');
 		$row->load($id);
 
-		if (!$row->move( $movement, 'category_parent_id = "'.(int)$row->category_parent_id.'"' )) {
-			return false;
-		}
+		$return = $row->move( $movement, 'category_parent_id = "'.(int)$row->category_parent_id.'"' )) {
+		self::clearCategoryRelatedCaches();
 
-		return true;
+		return $return;
 	}
 
 
@@ -700,7 +699,7 @@ vmdebug('Found cached cat, but without children');
 			$row->synchroniseTableOrdering($group);
 		}
 
-		$this->clearCategoryRelatedCaches();
+		self::clearCategoryRelatedCaches();
 
 		return true;
 	}
@@ -810,7 +809,7 @@ vmdebug('Found cached cat, but without children');
 		}
 
 
-		$this->clearCategoryRelatedCaches();
+		self::clearCategoryRelatedCaches();
 
 		if(!empty($data['category_parent_id'])){
 			$q = 'UPDATE #__virtuemart_categories SET `has_children`= 1
@@ -908,18 +907,19 @@ vmdebug('Found cached cat, but without children');
 			vmError( $db->getErrorMsg() );
 		}
 
-		$this->clearCategoryRelatedCaches();
+		self::clearCategoryRelatedCaches();
 
 		return true;
 	}
 
-	public function clearCategoryRelatedCaches(){
-
+	static public function clearCategoryRelatedCaches(){
 		$cache = VmConfig::getCache();
 		$cache->clean('com_virtuemart_cats');
 		$cache->clean('com_virtuemart_cat_childs');
 		$cache->clean('mod_virtuemart_product');
 		$cache->clean('mod_virtuemart_category');
+		$cache->clean('com_virtuemart_cat_manus');
+		vmdebug('Category related caches cleared');
 	}
 
 	/**
@@ -1057,7 +1057,7 @@ vmdebug('Found cached cat, but without children');
 
 	function toggle($field,$val = NULL, $cidname = 0,$tablename = 0, $view = false  ) {
 		$result = parent::toggle($field,$val, $cidname, $tablename, $view );
-		$this->clearCategoryRelatedCaches();
+		self::clearCategoryRelatedCaches();
 		return $result;
 	}
 

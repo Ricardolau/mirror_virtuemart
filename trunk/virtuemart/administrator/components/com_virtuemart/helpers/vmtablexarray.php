@@ -108,8 +108,6 @@ class VmTableXarray extends VmTable {
     		return false;
     	}
 
-    	if(empty($db)) $db = JFactory::getDBO();
-
 		if($this->_orderable){
 			$orderby = 'ORDER BY `'.$this->_orderingKey.'`';
 		} else {
@@ -120,12 +118,14 @@ class VmTableXarray extends VmTable {
 		$skey = $this->_skey;
 		$this->{$pkey} = $oid;
 
+		if ($andWhere === 0) $andWhere = '';
+
 		$hash = crc32((int)$oid. $skey . $this->_tbl . $pkey . $orderby);
 
 		if (!isset (self::$_cache['ar'][$hash])) {
-			$q = 'SELECT `'.$skey.'` FROM `'.$this->_tbl.'` WHERE `'.$pkey.'` = "'.(int)$oid.'" '.$orderby;
-			$db->setQuery($q);
-			$result = $db->loadColumn();
+			$q = 'SELECT `'.$skey.'` FROM `'.$this->_tbl.'` WHERE `'.$pkey.'` = "'.(int)$oid.'" '.$andWhere.' '.$orderby;
+			$this->_db->setQuery($q);
+			$result = $this->_db->loadColumn();
 			if(!$result){
 				//vmError(get_class( $this ).':: load'  );
 				self::$_cache['ar'][$hash] = false;
@@ -307,5 +307,24 @@ class VmTableXarray extends VmTable {
 
     	return true;
     }
+
+	function loadOrderingCurrentItem( $cid, $orderingkey, $array = 0 ) {
+
+		$svalue = $this->{$this->_skeyForm};
+		if(is_array($svalue)){
+			$svalue = reset($svalue);
+		}
+
+		$q = $q = 'SELECT `' . $orderingkey . '` FROM `' . $this->_tbl . '` WHERE `' . $this->_pkeyForm . '` = "' . (int)$cid . '" AND '.$this->_skeyForm.' = "'.$svalue.'" limit 0,1 ';
+		$this->_db->setQuery($q);
+		$this->{$orderingkey} = $this->_db->loadResult();
+		vmdebug('vmTableXarray Move loaded ordering of current item ',$q, $orderingkey, $this->{$orderingkey});
+		$e = $this->_db->getErrorMsg();
+		if (!empty($e)) {
+			vmError(get_class($this) . $e);
+		}
+
+
+	}
 
 }

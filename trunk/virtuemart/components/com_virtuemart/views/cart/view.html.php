@@ -53,7 +53,7 @@ class VirtueMartViewCart extends VmView {
 		$document->setMetaData('robots','NOINDEX, NOFOLLOW, NOARCHIVE, NOSNIPPET');
 
 		$this->layoutName = $this->getLayout();
-		if (!$this->layoutName) $this->layoutName = vRequest::getCmd('layout', 'default');
+		if (!$this->layoutName) $this->layoutName = vRequest::getCmd('cartlayout', 'default');
 
 		$format = vRequest::getCmd('format');
 

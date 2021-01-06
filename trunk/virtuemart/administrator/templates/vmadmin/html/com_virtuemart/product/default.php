@@ -7,7 +7,7 @@
 * @subpackage
 * @author
 * @link https://virtuemart.net
-* @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+* @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -90,7 +90,7 @@ if($this->pagination->limit<=$mediaLimit or $totalList<=$mediaLimit){
 		if( $this->categoryId ) { ?>
 			<th style="min-width:100px;width:5%;">
 				<?php echo $this->sort('pc.ordering', 'COM_VIRTUEMART_FIELDMANAGER_REORDER'); ?>
-				<?php echo JHtml::_('grid.order', $this->productlist); //vmCommonHTML::getSaveOrderButton( $num_rows, 'changeordering' ); ?>
+				<?php echo JHtml::_('grid.order', $this->productlist); ?>
 			</th>
 		<?php } ?>
 		<th width="10%"><?php echo $this->sort('mf_name', 'COM_VIRTUEMART_MANUFACTURER_S') ; ?></th>

@@ -21,8 +21,8 @@ jQuery().ready(function ($) {
 		"skrill_aob",
 		"skrill_aci",
 		"skrill_aup",
-		"skrill_btc",
-		"skrill_idl"
+		"skrill_idl",
+		"skrill_sft"
 	];
 	var reset_cursor_style = function()
 	{

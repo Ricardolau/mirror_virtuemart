@@ -113,6 +113,9 @@ class SkrillPaymentCore
 		"skrill_gir" => array(
             'allowedCountries'  => array('DEU')
         ),
+        "skrill_sft" => array(
+            'allowedCountries'  => array('DEU','AUT','BEL','NLD','ITA','FRA','POL','HUN','SLV','CZE','GBR')
+        ),
 		"skrill_ebt" => array(
             'allowedCountries'  => array('SWE')
         ),
@@ -206,10 +209,6 @@ class SkrillPaymentCore
         ),
 		"skrill_aup" => array(
             'allowedCountries' => array('CHN')
-        ),
-		"skrill_btc" => array(
-            'allowedCountries' => 'ALL',
-            'exceptedCountries' => array('CUB','SDN','SYR','PRK','IRN','KGZ','BOL','ECU','BGD','CAN','USA','TUR')
         ),
         "skrill_idl" => array(
             'allowedCountries'  => array(

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension version="3.4.5" type="plugin" group="vmpayment">
     <name>Skrill</name>
-    <creationDate>${PHING.VM.RELDATE}</creationDate>
-    <author>VirtueMart Development Team, Skrill Holdings Limited</author>
-    <authorUrl>${PHING.VM.MAINTAINERURL}</authorUrl>
+    <creationDate>November 22 2019</creationDate>
+    <author>Skrill Holdings Limited</author>
+    <authorUrl>${PHING.VM.MAINTAINERURL}, http://www.skrill.com</authorUrl>
     <copyright>${PHING.VM.COPYRIGHT}, Copyright (C) 2019 Skrill.</copyright>
     <license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
-    <version>${PHING.VM.RELEASE}</version>
+    <version>1.0.02</version>
     <description><![CDATA[<a href="http://www.skrill.com" target="_blank">skrill</a> is a popular
-  payment provider authorised by the Financial Services Authority of the United Kingdom (FCA). ]]>
+  payment provider authorised by the Financial Services Authority of the United Kingdom (FSA). ]]>
     </description>
 
     <files>
@@ -332,16 +332,6 @@
                 </field>
                 <field type="vmtitle" class="skrill-countries" default="" description="SKRILL_AUP_COUNTRIES"/>
                 <field type="text"  name="skrill_aup_sort_order" size="2" default="29" label="BACKEND_CH_ORDER"/>
-
-                <!-- SKRILL Bitcoin -->
-                <field type="vmtitle" default="SKRILL_BACKEND_PM_BTC"
-                       description=""/>
-                <field name="skrill_btc_active" type="list" default="1" label="BACKEND_CH_ACTIVE">
-                    <option value="0">COM_VIRTUEMART_NO</option>
-                    <option value="1">COM_VIRTUEMART_YES</option>
-                </field>
-                <field type="vmtitle" class="skrill-countries" default="" description="SKRILL_BTC_COUNTRIES"/>
-                <field type="text"  name="skrill_btc_sort_order" size="2" default="30" label="BACKEND_CH_ORDER"/>
 
                 <!-- SKRILL iDEAL -->
                 <field type="vmtitle" default="SKRILL_BACKEND_PM_IDL"

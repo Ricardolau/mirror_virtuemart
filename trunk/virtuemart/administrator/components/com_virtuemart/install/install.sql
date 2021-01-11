@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_adminmenuentries` (
   `link` char(64) NOT NULL DEFAULT '0',
   `depends` char(64) NOT NULL DEFAULT '' COMMENT 'Names of the Parameters, this Item depends on',
   `icon_class` char(96),
+  `uikit_icon` char(96),
   `ordering` int(1) NOT NULL DEFAULT '0',
   `published` tinyint(1) NOT NULL DEFAULT '1',
   `tooltip` char(128),

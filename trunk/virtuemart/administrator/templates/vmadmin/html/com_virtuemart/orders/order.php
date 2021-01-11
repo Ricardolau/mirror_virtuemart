@@ -614,99 +614,138 @@ $linkTogglePaid = 'index.php?option=com_virtuemart&view=orders&task=toggle.paid.
 			</div>
 			<!-- /ST -->
 
-			<!-- Order status -->
-			<div class="uk-width-1-3@l uk-width-1-1@m">
-				<div class="uk-card   uk-card-small uk-card-vm" id="vm-order-history">
-					<div class="uk-card-header">
 
-						<div class="uk-card-title">
+			<div class="uk-width-1-3@l uk-width-1-1@m">
+				<div>
+					<div class="uk-child-width-1-1 uk-grid-small" uk-grid>
+						<div>
+							<div class="uk-card   uk-card-small uk-card-vm" id="vm-order-note">
+								<div class="uk-card-header">
+
+									<div class="uk-card-title">
+							<span class="md-color-cyan-600 uk-margin-small-right"
+									uk-icon="icon: lock; ratio: 1.2"></span>
+										<?php echo vmText::_('COM_VIRTUEMART_ORDER_NOTE') ?>
+									</div>
+								</div>
+								<div class="uk-card-body">
+								<textarea class="textarea" name="order_note" cols="60"
+										rows="2"><?php echo $this->orderbt->order_note ?></textarea>
+
+								</div>
+								<div class="uk-card-footer uk-text-center">
+									<button class="uk-button uk-button-small uk-button-primary">
+										<?php echo vmText::_('COM_VIRTUEMART_SAVE'); ?>
+									</button>
+									<a href="#" onClick="javascript:Virtuemart.resetOrderHead(event);"
+											class="uk-button uk-button-small uk-button-default"
+									>
+										<?php echo vmText::_('COM_VIRTUEMART_CANCEL'); ?>
+									</a>
+								</div>
+							</div>
+						</div>
+
+						<!-- Order status -->
+						<div>
+							<div class="uk-card   uk-card-small uk-card-vm" id="vm-order-history">
+								<div class="uk-card-header">
+
+									<div class="uk-card-title">
 							<span class="md-color-cyan-600 uk-margin-small-right"
 									uk-icon="icon: commenting; ratio: 1.2"></span>
-							<?php echo vmText::_('COM_VIRTUEMART_ORDER_HISTORY') ?>
-						</div>
-					</div>
-					<div class="uk-card-body">
-						<table class="uk-table uk-table-small uk-table-stripped">
-							<thead>
-							<tr>
-								<th><?php echo vmText::_('COM_VIRTUEMART_ORDER_HISTORY_DATE_ADDED') ?></th>
-								<th><?php echo vmText::_('COM_VIRTUEMART_ORDER_HISTORY_CUSTOMER_NOTIFIED') ?></th>
-								<th><?php echo vmText::_('COM_VIRTUEMART_ORDER_LIST_STATUS') ?></th>
-								<th><?php echo vmText::_('COM_VIRTUEMART_COMMENT') ?></th>
-							</tr>
-							</thead>
-							<?php
-							foreach ($this->orderdetails['history'] as $this->orderbt_event) {
-								?>
-								<tr>
-									<td>
-										<?php echo vmJsApi::date($this->orderbt_event->created_on, 'LC2', true); ?>
-									</td>
-									<?php
-									if ($this->orderbt_event->customer_notified == 1) {
-										?>
-										<td class="uk-text-center">
-											<span class="uk-text-success" uk-icon="icon: check"></span>
-										</td>
+										<?php echo vmText::_('COM_VIRTUEMART_ORDER_HISTORY') ?>
+									</div>
+								</div>
+								<div class="uk-card-body">
+									<table class="uk-table uk-table-small uk-table-stripped">
+										<thead>
+										<tr>
+											<th><?php echo vmText::_('COM_VIRTUEMART_ORDER_HISTORY_DATE_ADDED') ?></th>
+											<th><?php echo vmText::_('COM_VIRTUEMART_ORDER_HISTORY_CUSTOMER_NOTIFIED') ?></th>
+											<th><?php echo vmText::_('COM_VIRTUEMART_ORDER_LIST_STATUS') ?></th>
+											<th><?php echo vmText::_('COM_VIRTUEMART_COMMENT') ?></th>
+										</tr>
+										</thead>
 										<?php
-									} else {
-										?>
-										<td class="uk-text-center">
-											<span uk-icon="icon: close"></span>
-										</td>
-										<?php
-									}
-									if (!isset($this->orderstatuslist[$this->orderbt_event->order_status_code])) {
-										if (empty($this->orderbt_event->order_status_code)) {
-											$this->orderbt_event->order_status_code = 'unknown';
+										foreach ($this->orderdetails['history'] as $this->orderbt_event) {
+											?>
+											<tr>
+												<td>
+													<?php echo vmJsApi::date($this->orderbt_event->created_on, 'LC2', true); ?>
+												</td>
+												<?php
+												if ($this->orderbt_event->customer_notified == 1) {
+													?>
+													<td class="uk-text-center">
+														<span class="uk-text-success" uk-icon="icon: check"></span>
+													</td>
+													<?php
+												} else {
+													?>
+													<td class="uk-text-center">
+														<span uk-icon="icon: close"></span>
+													</td>
+													<?php
+												}
+												if (!isset($this->orderstatuslist[$this->orderbt_event->order_status_code])) {
+													if (empty($this->orderbt_event->order_status_code)) {
+														$this->orderbt_event->order_status_code = 'unknown';
+													}
+													$this->orderstatuslist[$this->orderbt_event->order_status_code] = vmText::sprintf('COM_VIRTUEMART_UNKNOWN_ORDER_STATUS', $this->orderbt_event->order_status_code);
+												}
+												?>
+												<td align="center">
+													<?php echo $this->orderstatuslist[$this->orderbt_event->order_status_code]; ?>
+												</td>
+												<td align="center">
+													<?php echo $this->orderbt_event->comments; ?>
+												</td>
+											</tr>
+											<?php
+
 										}
-										$this->orderstatuslist[$this->orderbt_event->order_status_code] = vmText::sprintf('COM_VIRTUEMART_UNKNOWN_ORDER_STATUS', $this->orderbt_event->order_status_code);
-									}
-									?>
-									<td align="center">
-										<?php echo $this->orderstatuslist[$this->orderbt_event->order_status_code]; ?>
-									</td>
-									<td align="center">
-										<?php echo $this->orderbt_event->comments; ?>
-									</td>
-								</tr>
-								<?php
+										?>
+										<?php
+										// Load additional plugins
+										$_dispatcher = JDispatcher::getInstance();
+										$_returnValues1 = $_dispatcher->trigger('plgVmOnUpdateOrderBEPayment', array($this->orderID));
+										$_returnValues2 = $_dispatcher->trigger('plgVmOnUpdateOrderBEShipment', array($this->orderID));
+										$_returnValues = array_merge($_returnValues1, $_returnValues2);
+										$_plg = '';
+										foreach ($_returnValues as $_returnValue) {
+											if ($_returnValue !== null) {
+												?>
+												<tr>
+													<td colspan="4">
+														<?php echo $_returnValue; ?>
+													</td>
+												</tr>
+												<?php
+											}
+										}
+										?>
+									</table>
 
-							}
-							?>
-							<?php
-							// Load additional plugins
-							$_dispatcher = JDispatcher::getInstance();
-							$_returnValues1 = $_dispatcher->trigger('plgVmOnUpdateOrderBEPayment', array($this->orderID));
-							$_returnValues2 = $_dispatcher->trigger('plgVmOnUpdateOrderBEShipment', array($this->orderID));
-							$_returnValues = array_merge($_returnValues1, $_returnValues2);
-							$_plg = '';
-							foreach ($_returnValues as $_returnValue) {
-								if ($_returnValue !== null) {
-									?>
-									<tr>
-										<td colspan="4">
-											<?php echo $_returnValue; ?>
-										</td>
-									</tr>
-									<?php
-								}
-							}
-							?>
-						</table>
-
-					</div>
-					<div class="uk-card-footer uk-text-center">
-						<div class="uk-inline">
-							<button id="update-status-button" class="uk-button uk-button-small uk-button-primary"
-									type="button">
-								<?php echo vmText::_('COM_VIRTUEMART_ORDER_UPDATE_STATUS') ?>
-							</button>
+								</div>
+								<div class="uk-card-footer uk-text-center">
+									<div class="uk-inline">
+										<button id="update-status-button"
+												class="uk-button uk-button-small uk-button-primary"
+												type="button">
+											<?php echo vmText::_('COM_VIRTUEMART_ORDER_UPDATE_STATUS') ?>
+										</button>
+									</div>
+								</div>
+							</div>
 						</div>
+						<!-- /Order status -->
 					</div>
 				</div>
+
+
 			</div>
-			<!-- /Order status -->
+
 
 		</div>
 		<!-- /BT, ST, Order status -->

@@ -1,8 +1,6 @@
 <?php
 /**
  *
- * Description
- *
  * @package    VirtueMart
  * @subpackage Config
  * @author RickG, Valérie Isaksen

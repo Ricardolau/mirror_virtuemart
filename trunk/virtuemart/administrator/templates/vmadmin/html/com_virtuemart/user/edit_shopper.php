@@ -74,7 +74,7 @@ defined('_JEXEC') or die('Restricted access');
 			<div class="uk-card-header">
 				<div class="uk-card-title">
 						<span class="md-color-cyan-600 uk-margin-small-right"
-								uk-icon="icon: info; ratio: 1.2"></span>
+								uk-icon="icon: id-card; ratio: 1.2"></span>
 					<?php echo vmText::_('COM_VIRTUEMART_USERFIELDS_FORM_LBL'); ?>
 				</div>
 			</div>
@@ -201,7 +201,7 @@ defined('_JEXEC') or die('Restricted access');
 			<div class="uk-card-header">
 				<div class="uk-card-title">
 						<span class="md-color-cyan-600 uk-margin-small-right"
-								uk-icon="icon: home; ratio: 1.2"></span>
+								uk-icon="icon: cog; ratio: 1.2"></span>
 					<?php echo vmText::_('COM_VIRTUEMART_USER_FORM_LEGEND_PARAMETERS'); ?>
 				</div>
 			</div>
@@ -220,7 +220,7 @@ defined('_JEXEC') or die('Restricted access');
 			<div class="uk-card-header">
 				<div class="uk-card-title">
 						<span class="md-color-cyan-600 uk-margin-small-right"
-								uk-icon="icon: home; ratio: 1.2"></span>
+								uk-icon="icon: info; ratio: 1.2"></span>
 					<?php echo vmText::_('COM_VIRTUEMART_USER_FORM_LEGEND_CONTACTINFO'); ?>
 				</div>
 			</div>

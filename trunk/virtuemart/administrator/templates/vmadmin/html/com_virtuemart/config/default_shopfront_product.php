@@ -23,7 +23,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<div class="uk-card-header">
 		<div class="uk-card-title">
 						<span class="md-color-cyan-600 uk-margin-small-right"
-								uk-icon="icon: new-product; ratio: 1.2"></span>
+								uk-icon="icon: product; ratio: 1.2"></span>
 			<?php echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_PRODUCT_LISTING'); ?>
 		</div>
 	</div>

@@ -369,8 +369,7 @@ $linkTogglePaid = 'index.php?option=com_virtuemart&view=orders&task=toggle.paid.
 							<span class=" uk-margin-small-left"><?php echo vmJsApi::date($this->orderbt->created_on, 'LC2', true); ?></span>
 						</div>
 						<?php
-						// TODO
-						$this->orderbt->coupon_code = "XYZ";
+
 						if ($this->orderbt->coupon_code) {
 							?>
 							<div class="uk-margin-small-top">

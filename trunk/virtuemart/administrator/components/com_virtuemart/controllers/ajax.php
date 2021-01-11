@@ -23,11 +23,8 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.controller');
 
 
-
 use Joomla\CMS\Response\JsonResponse;
 
-$adminTemplate = VMPATH_ROOT . '/administrator/templates/isis/html/com_virtuemart/';
-JLoader::register('mustacheHelper', $adminTemplate . 'helpers/mustachehelper.php');
 
 class VirtueMartControllerAjax extends JControllerLegacy {
 	public function __construct() {

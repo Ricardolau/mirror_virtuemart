@@ -30,7 +30,7 @@ vmJsApi::JvalideForm();
 		<div class="uk-card-header">
 			<div class="uk-card-title">
 						<span class="md-color-cyan-600 uk-margin-small-right"
-								uk-icon="icon: magic-wand; ratio: 1.2"></span>
+								uk-icon="icon: customfield; ratio: 1.2"></span>
 				<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_CUSTOM_FIELD') ?>
 			</div>
 		</div>

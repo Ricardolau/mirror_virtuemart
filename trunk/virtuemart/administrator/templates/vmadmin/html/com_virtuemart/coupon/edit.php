@@ -1,8 +1,6 @@
 <?php
 /**
  *
- * Description
- *
  * @package    VirtueMart
  * @subpackage coupon
  * @author RickG, Max Milbers

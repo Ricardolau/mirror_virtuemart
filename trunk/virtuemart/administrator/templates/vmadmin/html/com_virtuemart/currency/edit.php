@@ -1,8 +1,6 @@
 <?php
 /**
  *
- * Description
- *
  * @package    VirtueMart
  * @subpackage Currency
  * @author Max Milbers, RickG

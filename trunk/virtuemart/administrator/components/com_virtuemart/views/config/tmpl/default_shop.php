@@ -140,6 +140,8 @@ defined('_JEXEC') or die('Restricted access');?>
 		echo VmHTML::row('checkbox','COM_VM_USE_OPTIMISED_PRODUCT_SQL','optimisedProductSql',VmConfig::get('optimisedProductSql',1));
 		echo VmHTML::row('checkbox','COM_VM_USE_OPTIMISED_CALC_SQL','optimisedCalcSql',VmConfig::get('optimisedCalcSql',1));
 		echo VmHTML::row('checkbox','COM_VM_USE_OPTIMISED_CAT_SQL','optimisedCatSql',VmConfig::get('optimisedCatSql',1));
+		echo VmHTML::row('checkbox', 'Test new admin template (beta)', 'newBackendTemplate', VmConfig::get('newBackendTemplate', 0));
+
 		?>
 
 	</table>

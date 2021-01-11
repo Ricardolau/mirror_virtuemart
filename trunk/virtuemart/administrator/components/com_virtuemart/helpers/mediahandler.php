@@ -1390,7 +1390,7 @@ class VmMediaHandler {
 	 *
 	 * @param array $optionsarray Allowed values are $this->_actions and $this->_attributes
 	 */
-	private function getOptions($optionsarray){
+	public function getOptions($optionsarray){
 
 		$options=array();
 		foreach($optionsarray as $optionName=>$langkey){

@@ -5,9 +5,9 @@
  *
  * @package    VirtueMart
  * @subpackage Product
- * @author RolandD, Patrick khol, Valérie Isaksen
- * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+ * @author RolandD, Patrick khol
+ * @link https://virtuemart.net
+ * @copyright Copyright (c) 2004 - ${PHING.VM.COPYRIGHT} VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -20,8 +20,12 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
+?>
+
+
+<?php
 $i = 0;
-$customfields = array('categories' => array(), 'products' => array(), 'fields' => array(), 'customPlugins' => array(),);
+$tables = array('categories' => '', 'products' => '', 'fields' => '', 'customPlugins' => '',);
 if (isset($this->product->customfields)) {
 	$customfieldsModel = VmModel::getModel('customfields');
 
@@ -30,164 +34,160 @@ if (isset($this->product->customfields)) {
 
 	foreach ($this->product->customfields as $k => $customfield) {
 
-		//vmdebug('displayProductCustomfieldBE',$customfield);
-
+		$checkValue = $customfield->virtuemart_customfield_id;
+		$title = '';
+		$text = '';
 		$customfield->display = $customfieldsModel->displayProductCustomfieldBE($customfield, $this->product, $i);
 
-		if ($customfield->is_cart_attribute) {
-			$customfield->cartIcon = 'default';
+		$checkValue = $customfield->virtuemart_customfield_id;
+		if ($customfield->override != 0 or $customfield->disabler != 0) {
+
+			if (!empty($customfield->disabler)) {
+				$checkValue = $customfield->disabler;
+			}
+			if (!empty($customfield->override)) {
+				$checkValue = $customfield->override;
+			}
+			$title = vmText::sprintf('COM_VIRTUEMART_CUSTOM_OVERRIDE', $checkValue) . '</br>';
+			if ($customfield->disabler != 0) {
+				$title = vmText::sprintf('COM_VIRTUEMART_CUSTOM_DISABLED', $checkValue) . '</br>';
+			}
+
+			if ($customfield->override != 0) {
+				$title = vmText::sprintf('COM_VIRTUEMART_CUSTOM_OVERRIDE', $checkValue) . '</br>';
+			}
+
 		} else {
-			$customfield->cartIcon = 'default-off';
+			if ($customfield->virtuemart_product_id == $this->product->product_parent_id) {
+				$title = vmText::_('COM_VIRTUEMART_CUSTOM_INHERITED') . '</br>';
+			}
+		}
+		$disableDerivedCheckbox='';
+		$nonInheritableCheckbox='';
+		if (!empty($title)) {
+			$tip = 'COM_VIRTUEMART_CUSTOMFLD_DIS_DER_TIP';
+			$text = '<span style="white-space: nowrap;" class="hasTooltip" title="' . htmlentities(vmText::_($tip)) . '">d:' . VmHtml::checkbox('field[' . $i . '][disabler]', $customfield->disabler, $checkValue) . '</span>';
+			$disableDerived = '<span style="white-space: nowrap;" class="hasTooltip" title="' . htmlentities(vmText::_($tip)) . '">d:' . VmHtml::checkbox('field[' . $i . '][disabler]', $customfield->disabler, $checkValue) . '</span>';
+			$disableDerivedCheckbox =VmHtml::checkbox('field[' . $i . '][disabler]', $customfield->disabler, $checkValue);
+		} else {
+			$tip = 'COM_VIRTUEMART_CUSTOMFLD_DIS_INH_TIP';
+			$text = '<span style="white-space: nowrap;" class="hasTooltip" title="' . htmlentities(vmText::_($tip)) . '">disinh:' . VmHtml::checkbox('field[' . $i . '][noninheritable]', $customfield->noninheritable, $checkValue) . '</span>';
+		$nonInheritableCheckbox=VmHtml::checkbox('field[' . $i . '][noninheritable]', $customfield->noninheritable, $checkValue);
+		}
+
+
+		if ($customfield->is_cart_attribute) {
+			$cartIcone = 'default';
+		} else {
+			$cartIcone = 'default-off';
 		}
 		if ($customfield->field_type == 'Z') {
 			// R: related categories
-			$customfields['categories'][] = $customfield;
+			$relatedcategory= new stdClass();
+			$relatedcategory->displayHTML=$customfield->display;
+			$relatedcategory->hiddenHTML=VirtueMartModelCustomfields::setEditCustomHidden($customfield, $i);
+			$relatedcategory->title=$title;
+			$relatedcategory->disableDerivedCheckbox=$disableDerivedCheckbox;
+			$relatedcategory->nonInheritableCheckbox=$nonInheritableCheckbox;
+			$relatedcategories[] =$relatedcategory;
 
 		} elseif ($customfield->field_type == 'R') {
 			// R: related products
-			$customfields['products'] [] = $customfield;
-
+			$relatedproduct= new stdClass();
+			$relatedproduct->displayHTML=$customfield->display;
+			$relatedproduct->hiddenHTML=VirtueMartModelCustomfields::setEditCustomHidden($customfield, $i);
+			$relatedproduct->title=$title;
+			$relatedproduct->disableDerivedCheckbox=$disableDerivedCheckbox;
+			$relatedproduct->nonInheritableCheckbox=$nonInheritableCheckbox;
+			$relatedproducts[] =$relatedproduct;
 		} else {
-
-			$customfields['fields'][] = $customfield;
-
-		}
-		$i++;
-	}
-}
-
-
-?>
-
-<div class="well nr-well ">
-	<h4><?php echo vmText::_('COM_VIRTUEMART_RELATED_CATEGORIES'); ?></h4>
-	<div class="well-desc"></div>
-	<?php echo vmText::_('COM_VIRTUEMART_CATEGORIES_RELATED_SEARCH'); ?>
-	<div class="jsonSuggestResults relatedcategoriesSearch">
-		<input type="text" size="40" name="search" id="relatedcategoriesSearch" value=""/>
-		<button class="reset-value btn"><?php echo vmText::_('COM_VIRTUEMART_RESET') ?></button>
-	</div>
-	<div id="custom_categories" class="ui-sortable">
-		<?php
-		foreach ($customfields['categories'] as $index => $customfield) {
-			?>
-			<div class="vm_thumb_image">
-				<span class="vmicon vmicon-16-move"></span>
-				<div class="vmicon vmicon-16-remove 4remove"></div>
-				<div><?php echo $customfield->display ?></div>
-				<?php echo VirtueMartModelCustomfields::setEditCustomHidden($customfield, $index) ?>
-			</div>
-			<?php
-		}
-		?>
-	</div>
-</div>
-
-
-<div class="well nr-well ">
-	<h4><?php echo vmText::_('COM_VIRTUEMART_RELATED_PRODUCTS'); ?></h4>
-	<div class="well-desc"></div>
-	<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_RELATED_SEARCH'); ?>
-	<div class="jsonSuggestResults relatedproductsSearch">
-		<input type="text" size="40" name="search" id="relatedproductsSearch" value=""/>
-		<button class="reset-value btn"><?php echo vmText::_('COM_VIRTUEMART_RESET') ?></button>
-	</div>
-	<div id="custom_products" class="ui-sortable">
-		<?php
-		foreach ($customfields['products'] as $index => $customfield) {
-			?>
-			<div class="vm_thumb_image">
-				<span class="vmicon vmicon-16-move"></span>
-				<div class="vmicon vmicon-16-remove 4remove"></div>
-				<div><?php echo $customfield->display ?></div>
-				<?php echo VirtueMartModelCustomfields::setEditCustomHidden($customfield, $index) ?>
-			</div>
-			<?php
-		}
-		?>
-	</div>
-</div>
-
-
-<div class="well nr-well ">
-	<h4><?php echo vmText::_('COM_VIRTUEMART_CUSTOM_FIELD_TYPE'); ?></h4>
-	<div class="well-desc"></div>
-	<?php echo $this->customsList; ?>
-
-	<div id="custom_fields" class="ui-sortable">
-		<?php
-
-		foreach ($customfields['fields'] as $index => $customfield) {
-			$checkValue = $customfield->virtuemart_customfield_id;
-			$title = '';
-			$text = '';
+			$customcf= new stdClass();
 			if (isset($this->fieldTypes[$customfield->field_type])) {
 				$type = $this->fieldTypes[$customfield->field_type];
 			} else {
 				$type = 'deprecated';
 			}
+			$customcf->type=$type;
+			$colspan = '';
 
-			if ($customfield->override != 0 or $customfield->disabler != 0) {
+			if ($customfield->field_type == 'C') {
+				$colspan = 'colspan="2" ';
+			}
+			$customcf->overrideCheckbox='';
+			if (!empty($title)) {
+				$text .= '<span style="white-space: nowrap;" class="hasTooltip" title="' . htmlentities(vmText::_('COM_VIRTUEMART_DIS_DER_CUSTOMFLD_OVERR_DER_TIP')) . '">o:' . VmHtml::checkbox('field[' . $i . '][override]', $customfield->override, $checkValue) . '</span>';
+				$overrideCheckbox =  VmHtml::checkbox('field[' . $i . '][override]', $customfield->override, $checkValue) ;
+				$customcf->overrideCheckbox=$overrideCheckbox;
 
-				if (!empty($customfield->disabler)) {
-					$checkValue = $customfield->disabler;
-				}
-				if (!empty($customfield->override)) {
-					$checkValue = $customfield->override;
-				}
-				$title = vmText::sprintf('COM_VIRTUEMART_CUSTOM_OVERRIDE', $checkValue);
-				if ($customfield->disabler != 0) {
-					$title = vmText::sprintf('COM_VIRTUEMART_CUSTOM_DISABLED', $checkValue);
-				}
-
-				if ($customfield->override != 0) {
-					$title = vmText::sprintf('COM_VIRTUEMART_CUSTOM_OVERRIDE', $checkValue);
-				}
-
-			} else {
-				if ($customfield->virtuemart_product_id == $this->product->product_parent_id) {
-					$title = vmText::_('COM_VIRTUEMART_CUSTOM_INHERITED') . '</br>';
-				}
 			}
 
-			?>
-			<div class="removable">
-				<div>
-					<?php echo vmText::_($type) . ' ' . vmText::_($customfield->custom_title) ?>
-				</div>
-				<div>
-					<?php echo $title; ?>
-					<?php
-					if (!empty($title)) { ?>
-						<span class="hasTip"
-							  title="<?php echo htmlentities(vmText::_('COM_VIRTUEMART_CUSTOMFLD_DIS_DER_TIP')) ?>">d:<?php echo VmHtml::checkbox('field[' . $i . '][disabler]', $customfield->disabler, $checkValue) ?></span>
-						<span class="hasTip"
-							  title="<?php echo htmlentities(vmText::_('COM_VIRTUEMART_DIS_DER_CUSTOMFLD_OVERR_DER_TIP')) ?>">o:<?php echo VmHtml::checkbox('field[' . $i . '][override]', $customfield->override, $checkValue) ?></span>
-						<?php
-					}
-					?>
-				</div>
-				<div>
-					<span class="vmicon vmicon-16-<?php echo $customfield->cartIcon ?>"></span>
-				</div>
-				<?php
-				if ($customfield->virtuemart_product_id == $this->product->virtuemart_product_id or $customfield->override != 0) {
-					?>
-					<span class="vmicon vmicon-16-move"></span>
-					<span class="vmicon vmicon-16-remove 4remove"></span>
-					<?php
-				}
-				?>
-				<?php echo VirtueMartModelCustomfields::setEditCustomHidden($customfield, $i); ?>
-				<?php echo $customfield->display; ?>
-			</div>
-			<?php
+			$tables['fields'] .= '<tr class="removable">
+							<td >
+							<b>' . vmText::_($type) . '</b> ' . vmText::_($customfield->custom_title) . '</span><br/>
+								' . $title . ' ' . $text . '
+								<span class="vmicon vmicon-16-' . $cartIcone . '"></span>';
+			$customcf->type=vmText::_($type) ;
+			$customcf->title=vmText::_($customfield->custom_title) ;
+			$customcf->is_cart_attribute=$customfield->is_cart_attribute;
+			$customcf->canMove=false;
+			$customcf->canRemove=false;
+			if (($customfield->virtuemart_product_id == $this->product->virtuemart_product_id or $customfield->override != 0) and $customfield->disabler == 0) {
+				$tables['fields'] .= '<span class="vmicon vmicon-16-move"></span>
+							<span class="vmicon vmicon-16-remove 4remove"></span>';
+				$customcf->canMove=true;
+				$customcf->canRemove=true;
+			}
+			$tables['fields'] .= VirtueMartModelCustomfields::setEditCustomHidden($customfield, $i)
+				. '</td>
+							<td ' . $colspan . '>' . $customfield->display . '</td>
+						 </tr>';
+			$customcf->hiddenHTML=VirtueMartModelCustomfields::setEditCustomHidden($customfield, $i);
+			$customcf->displayHTML=$customfield->display;
+			$customcfs[]=$customcf;
 		}
+
+		$i++;
+	}
+}
+
+$emptyTable = '
+				<tr>
+					<td colspan="8">' . vmText::_('COM_VIRTUEMART_CUSTOM_NO_TYPES') . '</td>
+				<tr>';
+
+
+$this->relatedcategories=$relatedcategories;
+$this->tables=$tables;
+?>
+<div class="uk-grid-small uk-child-width-1-1" uk-grid>
+	<div>
+		<?php
+		$this->relatedType="categories";
+		$this->relatedDatas=$relatedcategories;
+		$this->relatedIcon='category';
+		echo $this->loadTemplate('custom_relatedcf');
+		$this->relatedType="";
+		$this->relatedDatas=array();
+		?>
+	</div>
+	<div>
+		<?php
+		$this->relatedType="products";
+		$this->relatedDatas=$relatedproducts;
+		$this->relatedIcon='new-product';
+		echo $this->loadTemplate('custom_relatedcf') ;
+		$this->relatedType="";
+		$this->relatedDatas=array();
+		?>
+	</div>
+
+	<div>
+		<?php
+		$this->customcfs=$customcfs;
+		echo $this->loadTemplate('custom_customs')
 		?>
 	</div>
 </div>
-
-
 
 
 

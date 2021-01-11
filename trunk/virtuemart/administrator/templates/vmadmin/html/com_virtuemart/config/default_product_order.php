@@ -18,90 +18,74 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access'); ?>
 
-<div class="">
-<div class="span6">
-  <div class="well nr-well ">
- 
-	 <h4><?php echo vmText::_('COM_VIRTUEMART_BROWSE_ORDERBY_DEFAULT_FIELD_LBL'); ?></h4>
-     <div class="well-desc"></div>
-     
-         <div class="control-group">
-              <div class="control-label">
-                <label id="jform_<?php echo vmText::_('COM_VIRTUEMART_BROWSE_ORDERBY_DEFAULT_FIELD_LBL'); ?>-lbl" for="jform_<?php echo vmText::_('COM_VIRTUEMART_BROWSE_ORDERBY_DEFAULT_FIELD_LBL'); ?>_alt" class="hasPopover" data-content="<?php echo vmText::_('COM_VIRTUEMART_BROWSE_ORDERBY_DEFAULT_FIELD_LBL_TIP'); ?>"> <?php echo vmText::_('COM_VIRTUEMART_BROWSE_ORDERBY_DEFAULT_FIELD_LBL'); ?></label>
-              </div>
-               <div class="controls">
-             		<?php echo JHtml::_('Select.genericlist', $this->orderByFieldsProduct->select, 'browse_orderby_field', 'size=1', 'value', 'text', VmConfig::get('browse_orderby_field', 'product_name'), 'product_name');
+<div class="" uk-grid>
+	<div>
+		<div class="uk-card uk-card-small uk-card-vm">
+			<div class="uk-card-header">
+				<div class="uk-card-title">
+						<span class="md-color-cyan-600 uk-margin-small-right"
+								uk-icon="icon: settings; ratio: 1.2"></span>
+					<?php echo vmText::_('COM_VIRTUEMART_BROWSE_ORDERBY_DEFAULT_FIELD_TITLE'); ?>
+				</div>
+			</div>
+			<div class="uk-card-body">
+				<div class="uk-clearfix">
+					<div class="uk-form-label">
+					<span
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_BROWSE_ORDERBY_DEFAULT_FIELD_LBL_TIP'); ?>">
+									<?php echo vmText::_('COM_VIRTUEMART_BROWSE_ORDERBY_DEFAULT_FIELD_LBL'); ?>
+								</span>
+					</div>
+					<div class="uk-form-controls">
+						<?php echo JHtml::_('Select.genericlist', $this->orderByFieldsProduct->select, 'browse_orderby_field', 'size=1', 'value', 'text', VmConfig::get('browse_orderby_field', 'product_name'), 'product_name');
 
-							 ?>
-              </div>
-              
-               <div class="control-group" style="margin-top:10px;">
-                   <div class="control-label">
-                   </div>
-	               <div class="controls">
-                    <?php 
-					echo JHtml::_('select.genericlist', $this->orderDirs, 'prd_brws_orderby_dir', 'size=10', 'value', 'text', VmConfig::get('prd_brws_orderby_dir', 'ASC') );
-					?>
-				
-                   </div>
-               </div>
-            </div>
-     </div>
-     <div class="well nr-well ">
-         <h4><?php echo vmText::_('COM_VIRTUEMART_BROWSE_ORDERBY_FIELDS_LBL'); ?></h4>
-         <div class="well-desc"><?php echo vmText::_('COM_VIRTUEMART_BROWSE_ORDERBY_FIELDS_LBL_TIP'); ?></div>
-         
-         <fieldset class="checkbox 2colums">
-         <?php
-			echo $this->orderByFieldsProduct->checkbox; 
-			?>
-         </fieldset>
-     </div>
+						echo JHtml::_('select.genericlist', $this->orderDirs, 'prd_brws_orderby_dir', 'size=10', 'value', 'text', VmConfig::get('prd_brws_orderby_dir', 'ASC')); ?>
+					</div>
+				</div>
+
+				<div class="uk-clearfix">
+					<div class="uk-form-label">
+						<span
+								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_BROWSE_CAT_ORDERBY_DEFAULT_FIELD_LBL_TIP'); ?>">
+								<?php echo vmText::_('COM_VIRTUEMART_BROWSE_CAT_ORDERBY_DEFAULT_FIELD_LBL'); ?>
+							</span>
+					</div>
+					<div class="uk-form-controls">
+						<?php //Fallback, if someone used an old ordering: "ordering"
+						$ordering = VmConfig::get('browse_cat_orderby_field', 'c.ordering,category_name');
+						if (!in_array($ordering, VirtueMartModelCategory::$_validOrderingFields)) {
+							$ordering = 'c.ordering,category_name';
+						}
+						echo JHtml::_('Select.genericlist', $this->orderByFieldsCat, 'browse_cat_orderby_field', 'size=1', 'value', 'text', $ordering, 'category_name');
+						echo JHtml::_('select.genericlist', $this->orderDirs, 'cat_brws_orderby_dir', 'size=10', 'value', 'text', VmConfig::get('cat_brws_orderby_dir', 'ASC')); ?>
+					</div>
+				</div>
+
+
+				<div class="uk-clearfix uk-margin-medium-top">
+					<div class="uk-form-label">
+						<span
+								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_BROWSE_ORDERBY_FIELDS_LBL_TIP'); ?>">
+									<?php echo vmText::_('COM_VIRTUEMART_BROWSE_ORDERBY_FIELDS_LBL'); ?>
+								</span>
+					</div>
+					<div class="uk-form-controls checkbox">
+						<?php echo $this->orderByFieldsProduct->checkbox; ?>
+					</div>
+				</div>
+				<div class="uk-clearfix  uk-margin-medium-top">
+					<div class="uk-form-label">
+						<span
+								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_BROWSE_SEARCH_FIELDS_LBL_TIP'); ?>">
+									<?php echo vmText::_('COM_VIRTUEMART_BROWSE_SEARCH_FIELDS_LBL'); ?>
+								</span>
+					</div>
+					<div class="uk-form-controls checkbox">
+						<?php echo $this->searchFields->checkbox; ?>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-<div class="span6">
-   <div class="well nr-well ">
-	 <h4><?php echo vmText::_('COM_VIRTUEMART_BROWSE_CAT_ORDERBY_DEFAULT_FIELD_LBL'); ?></h4>
-     <div class="well-desc"></div>           
-           
-            
-             <div class="control-group">
-              <div class="control-label">
-                <label id="jform_<?php echo vmText::_('COM_VIRTUEMART_BROWSE_CAT_ORDERBY_DEFAULT_FIELD_LBL'); ?>-lbl" for="jform_<?php echo vmText::_('COM_VIRTUEMART_BROWSE_CAT_ORDERBY_DEFAULT_FIELD_LBL'); ?>_alt" class="hasPopover" data-content="<?php echo vmText::_('COM_VIRTUEMART_BROWSE_CAT_ORDERBY_DEFAULT_FIELD_LBL_TIP'); ?>"> <?php echo vmText::_('COM_VIRTUEMART_BROWSE_CAT_ORDERBY_DEFAULT_FIELD_LBL'); ?></label>
-              </div>
-               <div class="controls">
-             		<?php //Fallback, if someone used an old ordering: "ordering"
-							$ordering = VmConfig::get('browse_cat_orderby_field', 'c.ordering,category_name');
-							if(!in_array($ordering,VirtueMartModelCategory::$_validOrderingFields)){
-								$ordering = 'c.ordering,category_name';
-							}
-							echo JHtml::_('Select.genericlist', $this->orderByFieldsCat, 'browse_cat_orderby_field', 'size=1', 'value', 'text', $ordering, 'category_name');
-							 ?>
-              </div>
-               <div class="control-group" style="margin-top:10px;">
-                   <div class="control-label">
-                   </div>
-	               <div class="controls">
-                    <?php 
-					echo JHtml::_('select.genericlist', $this->orderDirs, 'cat_brws_orderby_dir', 'size=10', 'value', 'text', VmConfig::get('cat_brws_orderby_dir', 'ASC') );
-					?>
-				
-                   </div>
-               </div>
-            </div>
-        </div>
-        
-         <div class="well nr-well ">
-             <h4><?php echo vmText::_('COM_VIRTUEMART_BROWSE_SEARCH_FIELDS_LBL'); ?></h4>
-             <div class="well-desc"><?php echo vmText::_('COM_VIRTUEMART_BROWSE_SEARCH_FIELDS_LBL_TIP'); ?></div>
-             
-             <fieldset class="checkbox 2colums">
-             <?php
-                echo $this->searchFields->checkbox; 
-                ?>
-             </fieldset>
-         </div>
-        
-    </div>
- </div>
-				
-		
+

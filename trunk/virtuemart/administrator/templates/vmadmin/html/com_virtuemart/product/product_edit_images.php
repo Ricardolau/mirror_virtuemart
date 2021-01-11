@@ -5,9 +5,9 @@
  *
  * @package    VirtueMart
  * @subpackage Product
- * @author Valérie Isaksen
- * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+ * @author RolandD
+ * @link https://virtuemart.net
+ * @copyright Copyright (c) 2004 - ${PHING.VM.COPYRIGHT} VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -21,25 +21,26 @@ defined('_JEXEC') or die('Restricted access');
 
 
 ?>
-<div class="well nr-well">
-	<h4>
-		<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRODUCT_IMAGES_LBL') ?>
-	</h4>
-	<div class="well-desc"></div>
-	<div class="selectimage">
-		<?php
-		if (empty($this->product->images[0]->virtuemart_media_id)) {
-			$this->product->images[0]->addHidden('file_is_product_image', '1');
-		}
-		if (!empty($this->product->virtuemart_media_id)) {
-			echo $this->product->images[0]->displayFilesHandler($this->product->virtuemart_media_id, 'product');
-		} else {
-			echo $this->product->images[0]->displayFilesHandler(null, 'product');
-		}
+
+<div class="selectimage">
+
+	<?php
+	if (empty($this->product->images[0]->virtuemart_media_id)) {
 		?>
-	</div>
+		<!-- MEDIA Hidden -->
+		<input type="hidden"  name="file_is_product_image" value="1" />
+	<?php
+	}
+	if (!empty($this->product->virtuemart_media_id)) {
+		echo VmuikitMediaHandler::displayFilesHandler($this->product->images[0], $this->product->virtuemart_media_id, 'product');
+
+	} else {
+		echo VmuikitMediaHandler::displayFilesHandler($this->product->images[0], null, 'product');
+
+	}
+	?>
 </div>
-<div class="well nr-well">
+<div class="uk-margin-medium-top">
 	<?php
 	//echo '<div width="100px">'.vmText::_('COM_VIRTUEMART_RTB_AD').'</div>';
 	$jlang = vmLanguage::getLanguage();
@@ -57,3 +58,4 @@ defined('_JEXEC') or die('Restricted access');
 	echo '<a href="' . $url . '" target="_blank" alt="' . vmText::_('COM_VIRTUEMART_RTB_AD') . '"><img  style="width: 150px;" src="' . $imgUrl . '" title="' . vmText::_('COM_VIRTUEMART_RTB_AD') . '"></a>';
 	?>
 </div>
+

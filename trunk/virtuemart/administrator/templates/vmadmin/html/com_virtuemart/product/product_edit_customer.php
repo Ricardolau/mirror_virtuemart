@@ -5,9 +5,9 @@
  *
  * @package    VirtueMart
  * @subpackage Product
- * @author Seyi, Valérie Isaksen
- * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2012 VirtueMart Team. All rights reserved.
+ * @author Seyi
+ * @link https://virtuemart.net
+ * @copyright Copyright (c) 2004 - ${PHING.VM.COPYRIGHT} VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -43,7 +43,7 @@ $i = 0;
 			<div id="notify_particulars" style="padding-left:20px;">
 				<div><input type="checkbox" name="notification_template" id="notification_template" value="1" CHECKED>
 					<label for="notification_template">
-						<span class="hasTip" title="<?php echo vmText::_ ('COM_VIRTUEMART_PRODUCT_USE_NOTIFY_TEMPLATE_TIP'); ?>">
+						<span class="hasTooltip" title="<?php echo vmText::_ ('COM_VIRTUEMART_PRODUCT_USE_NOTIFY_TEMPLATE_TIP'); ?>">
 						<?php echo vmText::_ ('COM_VIRTUEMART_PRODUCT_USE_NOTIFY_TEMPLATE'); ?></span>
 					</label>
 				</div>
@@ -52,9 +52,9 @@ $i = 0;
 			<br/>
 
 			<div class="mailing">
-				<div class="button2-left btn-wrapper btn btn-small" data-type="sendmail">
+				<div class="button2-left btn-wrapper  uk-button uk-button-small uk-button-primary" data-type="sendmail">
 					<div class="blank" style="padding:0 6px;cursor: pointer;" title="<?php echo vmText::_ ('COM_VIRTUEMART_PRODUCT_EMAIL_SEND_TIP'); ?>">
-						<span class="vmicon vmicon-16-email"></span>
+						<span uk-icon="icon: mail" class="uk-margin-small-right"></span>
 						<?php echo vmText::_ ('COM_VIRTUEMART_PRODUCT_EMAIL_SEND'); ?>
 					</div>
 				</div>
@@ -81,7 +81,7 @@ $i = 0;
 	<tr class="row<?php echo $i?>">
 		<td width="21%" valign="top">
 			<div id="customer-mail-list">
-				<span class="hasTip" title="<?php echo vmText::_ ('COM_VIRTUEMART_PRODUCT_EMAIL_ORDER_ITEM_STATUS_TIP'); ?>">
+				<span class="hasTooltip" title="<?php echo vmText::_ ('COM_VIRTUEMART_PRODUCT_EMAIL_ORDER_ITEM_STATUS_TIP'); ?>">
 				<strong><?php echo vmText::_ ('COM_VIRTUEMART_PRODUCT_EMAIL_ORDER_ITEM_STATUS') ?></strong>
 				</span><br/>
 				<?php echo $this->lists['OrderStatus'];?>
@@ -151,14 +151,14 @@ $i = 0;
 				<?php } ?>
 			</div>
 
-			</div>
 		</td>
 	</tr>
 	<tr>
 		<td>
 			<?php
-			$aflink = '<a target="_blank" href="https://www.acyba.com/?partner_id=19513"><img title="AcyMailing2" src="https://www.acyba.com/images/banners/affiliate2.png"/></a>';
-			echo vmText::sprintf('COM_VIRTUEMART_AD_ACY',$aflink);
+			// ALK Problem with that link
+			//$aflink = '<a target="_blank" href="https://www.acyba.com/?partner_id=19513"><img title="AcyMailing2" src="https://www.acyba.com/images/banners/affiliate2.png"/></a>';
+			//echo vmText::sprintf('COM_VIRTUEMART_AD_ACY',$aflink);
 			?>
 		</td>
 	</tr>

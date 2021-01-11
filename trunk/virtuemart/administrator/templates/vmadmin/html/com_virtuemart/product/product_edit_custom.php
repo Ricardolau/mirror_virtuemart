@@ -174,7 +174,7 @@ $this->tables=$tables;
 		<?php
 		$this->relatedType="products";
 		$this->relatedDatas=$relatedproducts;
-		$this->relatedIcon='new-product';
+		$this->relatedIcon='product';
 		echo $this->loadTemplate('custom_relatedcf') ;
 		$this->relatedType="";
 		$this->relatedDatas=array();

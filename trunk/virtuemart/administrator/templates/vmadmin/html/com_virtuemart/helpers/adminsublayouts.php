@@ -1,5 +1,6 @@
 <?php
 /**
+ *
  * sublayouts for the admin template
  *
  * @package	VirtueMart

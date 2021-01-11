@@ -1,7 +1,6 @@
 <?php
 /**
  *
- * Description
  *
  * @package    VirtueMart
  * @subpackage

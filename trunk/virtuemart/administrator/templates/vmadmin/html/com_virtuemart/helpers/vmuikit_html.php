@@ -1,5 +1,6 @@
 <?php
 /**
+ *
  * HTML helper class
  *
  * This class was developed to provide some standard HTML functions.

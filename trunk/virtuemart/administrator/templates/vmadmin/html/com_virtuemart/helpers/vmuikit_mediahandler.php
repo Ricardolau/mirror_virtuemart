@@ -1,5 +1,6 @@
 <?php
 /**
+ *
  * Media file handler class
  *
  * This class provides some file handling functions that are used throughout the VirtueMart shop.

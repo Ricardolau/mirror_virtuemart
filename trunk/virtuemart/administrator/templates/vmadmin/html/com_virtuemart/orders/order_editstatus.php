@@ -1,5 +1,6 @@
 <?php
 /**
+ *
  * Popup form to edit the formstatus
  *
  * @package	VirtueMart

@@ -1,5 +1,6 @@
 <?php
 /**
+ *
  * Print orderdetails
  *
  * @package	VirtueMart

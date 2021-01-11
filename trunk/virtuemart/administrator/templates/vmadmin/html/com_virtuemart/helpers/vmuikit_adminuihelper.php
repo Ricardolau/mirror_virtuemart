@@ -1,5 +1,6 @@
 <?php
 /**
+ *
  * Administrator menu helper class New admin template
  *
  * @package	VirtueMart

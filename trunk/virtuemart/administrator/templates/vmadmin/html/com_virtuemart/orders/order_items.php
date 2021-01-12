@@ -1,0 +1,503 @@
+<?php
+/**
+ *
+ * Display Order items
+ *
+ * @package    VirtueMart
+ * @subpackage Orders
+ * @author Oscar van Eijk, Max Milbers, Valérie Isaksen
+ * @link https://virtuemart.net
+ * @copyright Copyright (c) 2004 - ${PHING.VM.COPYRIGHT} VirtueMart Team. All rights reserved.
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * VirtueMart is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * @version $Id$
+ */
+
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die('Restricted access');
+?>
+
+
+<div class="uk-width-1-1">
+	<div class="uk-card   uk-card-small uk-card-vm">
+		<div class="uk-card-header">
+			<div class="uk-grid uk-grid-small" id="vm-order-items">
+				<div class="uk-width-auto">
+
+					<div class="uk-card-title">
+						<span class="md-color-cyan-600 uk-margin-small-right"
+								uk-icon="icon: cart; ratio: 1.2"></span>
+						<?php echo vmText::_('COM_VIRTUEMART_ORDER_ITEMS') ?>
+					</div>
+				</div>
+				<div class="uk-width-expand">
+					<?php if (vmAccess::manager('orders.edit')) { ?>
+
+						<a href="#"
+								class="uk-button uk-button-small uk-button-primary uk-margin-small-right enableEdit">
+							<span uk-icon="icon: pencil"></span>
+							<?php echo vmText::_('COM_VIRTUEMART_ORDER_ITEMS_EDIT'); ?>
+						</a>
+						<a href="#" id="add-order-item"
+								class="uk-button uk-button-small uk-button-primary uk-margin-small-right  orderEdit">
+							<span uk-icon="icon: plus-circle"></span>
+							<?php echo vmText::_('COM_VIRTUEMART_ORDER_ITEM_NEW'); ?>
+						</a>
+						<a href="#"
+								class="uk-button uk-button-small uk-button-default  uk-margin-small-right cancelEdit orderEdit">
+							<span uk-icon="icon: trash"></span>
+							<?php echo vmText::_('COM_VIRTUEMART_ORDER_ITEMS_EDIT_CANCEL'); ?>
+						</a>
+					<?php } ?>
+
+					<?php if (vmAccess::manager('orders.status') or vmAccess::manager('orders.edit')) { ?>
+						<a class="uk-button uk-button-small uk-button-primary  updateOrderItemStatus orderEdit"
+								href="#">
+							<span uk-icon="icon: check"></span>
+							<?php echo vmText::_('COM_VIRTUEMART_ORDER_ITEMS_SAVE'); ?></a>
+					<?php } ?>
+				</div>
+			</div>
+		</div>
+		<div class="uk-card-body">
+			<div class="">
+				<table width="100%" id="order-items-table">
+					<tr>
+						<td colspan="2">
+							<form action="index.php" method="post" name="orderItemForm"
+									id="orderItemForm"><!-- Update linestatus form -->
+								<table class="adminlist table" id="itemTable">
+									<thead>
+									<tr>
+										<!--<th class="title" width="5%" align="left"><?php echo vmText::_('COM_VIRTUEMART_ORDER_EDIT_ACTIONS') ?></th> -->
+										<th class="title" width="3" align="left">#</th>
+										<th class="title" width="47"
+												align="left"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_QUANTITY') ?></th>
+										<th class="title" width="*"
+												align="left"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_NAME') ?></th>
+										<th class="title" width="10%"
+												align="left"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_SKU') ?></th>
+										<th class="title"
+												width="10%"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_ITEM_STATUS') ?></th>
+										<th class="title"
+												width="50"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_NET') ?></th>
+										<th class="title"
+												width="50"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_BASEWITHTAX') ?></th>
+										<th class="title"
+												width="50"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_GROSS') ?></th>
+										<th class="title" width="50"><?php
+											if (is_array($this->taxBill) and count($this->taxBill) == 1) {
+												reset($this->taxBill);
+												$t = current($this->taxBill);
+												echo shopFunctionsF::getTaxNameWithValue($t->calc_rule_name, $t->calc_value);
+											} else {
+												echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PRODUCT_TAX');
+											}
+											//echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_TAX') ?></th>
+										<th class="title"
+												width="50"> <?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_DISCOUNT') ?></th>
+										<th class="title"
+												width="5%"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_TOTAL') ?></th>
+									</tr>
+									</thead>
+									<?php $i = 1;
+									$i = 1;
+									$rowColor = 0;
+									$nbItems = count($this->orderdetails['items']);
+									$this->itemsCounter = 0;
+
+
+									foreach ($this->orderdetails['items'] as $index => $item) { ?>
+										<?php
+										$this->item = $item;
+										$tmpl = "add-tmpl-" . $index;
+
+										?>
+										<tr id="<?php echo $tmpl ?>"
+												class="order-item <?php echo $rowColor ?> ">
+											<?php //echo vmText::_ ('COM_VIRTUEMART_PRODUCT_PRICE_ORDER');
+											echo $this->loadTemplate('item'); ?>
+										</tr>
+
+										<?php
+									}
+									// TODO move that to fillVoidOrderItem, from the table ?
+									$emptyItem = new stdClass();
+									$emptyItem->product_quantity = 0;
+									$emptyItem->virtuemart_order_item_id = 0; // 0-xx-yy : cloned or new order tiem
+									$emptyItem->virtuemart_product_id = '';
+									$emptyItem->order_item_sku = '';
+									$emptyItem->order_item_name = '';
+									$emptyItem->order_status = '';
+									$emptyItem->product_discountedPriceWithoutTax = '';
+									$emptyItem->product_item_price = '';
+									$emptyItem->product_basePriceWithTax = '';
+									$emptyItem->product_final_price = '';
+									$emptyItem->product_tax = '';
+									$emptyItem->product_subtotal_discount = '';
+									$emptyItem->product_subtotal_with_tax = '';
+									$emptyItem->order_status = 'P';
+									$emptyItem->linkedit = '';
+									$emptyItem->tax_rule = 0;
+									$emptyItem->tax_rule_id = array();
+									$this->item = $emptyItem;
+									?>
+									<tr id="add-tmpl" class="removable row<?php echo $rowColor ?>">
+										<?php echo $this->loadTemplate('item'); ?>
+									</tr>
+									<!--/table -->
+									<input type="hidden" name="task" value=""/>
+									<input type="hidden" name="option" value="com_virtuemart"/>
+									<input type="hidden" name="view" value="orders"/>
+									<input type="hidden" name="virtuemart_order_id"
+											value="<?php echo $this->orderID; ?>"/>
+									<input type="hidden" name="virtuemart_paymentmethod_id"
+											value="<?php echo $this->orderbt->virtuemart_paymentmethod_id; ?>"/>
+									<input type="hidden" name="virtuemart_shipmentmethod_id"
+											value="<?php echo $this->orderbt->virtuemart_shipmentmethod_id; ?>"/>
+									<input type="hidden" name="order_total"
+											value="<?php echo $this->orderbt->order_total; ?>"/>
+									<?php echo JHtml::_('form.token'); ?>
+							</form> <!-- Update linestatus form -->
+									<!--table class="adminlist" cellspacing="0" cellpadding="0" -->
+					<tr>
+						<td align="left"
+								colspan="1">
+							<?php $editLineLink = JRoute::_('index.php?option=com_virtuemart&view=orders&orderId=' . $this->orderbt->virtuemart_order_id . '&orderLineId=0&tmpl=component&task=editOrderItem'); ?>
+							<!-- <a href="<?php echo $editLineLink; ?>" class="modal"> <?php echo JHtml::_('image', 'administrator/components/com_virtuemart/assets/images/icon_16/icon-16-editadd.png', "New Item"); ?>
+				New Item </a>-->
+						</td>
+						<td align="right" colspan="4">
+							<div align="right">
+								<strong> <?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_SUBTOTAL') ?>:
+								</strong></div>
+						</td>
+						<td align="right"
+								style="padding-right: 5px;"><?php echo $this->currency->priceDisplay($this->orderbt->order_subtotal); ?></td>
+						<td align="right" style="padding-right: 5px;">&nbsp;</td>
+						<td align="right" style="padding-right: 5px;">&nbsp;</td>
+						<td align="right"
+								style="padding-right: 5px;"><?php echo $this->currency->priceDisplay($this->orderbt->order_tax); ?></td>
+						<td align="right"> <?php echo $this->currency->priceDisplay($this->orderbt->order_discountAmount); ?></td>
+						<td width="15%" align="right"
+								style="padding-right: 5px;"><?php echo $this->currency->priceDisplay($this->orderbt->order_salesPrice); ?></td>
+					</tr>
+					<?php
+					/* COUPON DISCOUNT */
+					//if (VmConfig::get('coupons_enable') == '1') {
+
+					if ($this->orderbt->coupon_discount > 0 || $this->orderbt->coupon_discount < 0) {
+						?>
+						<tr>
+							<td align="right" colspan="5">
+								<strong><?php echo vmText::_('COM_VIRTUEMART_COUPON_DISCOUNT') ?></strong></td>
+							<td align="right" style="padding-right: 5px;">&nbsp;</td>
+							<td align="right" style="padding-right: 5px;">&nbsp;</td>
+							<td align="right" style="padding-right: 5px;">&nbsp;</td>
+							<td align="right" style="padding-right: 5px;">&nbsp;</td>
+							<td align="right" style="padding-right: 5px;">&nbsp;</td>
+							<td align="right" style="padding-right: 5px;"><?php
+								echo $this->currency->priceDisplay($this->orderbt->coupon_discount); ?>
+								<input class='orderEdit' type="text" size="8" name="coupon_discount"
+										value="<?php echo $this->orderbt->coupon_discount; ?>"/>
+							</td>
+						</tr>
+						<?php
+						//}
+					} ?>
+
+
+
+					<?php
+					foreach ($this->orderdetails['calc_rules'] as $rule) {
+						if ($rule->calc_kind == 'DBTaxRulesBill') { ?>
+							<tr>
+								<td colspan="5" align="right"><?php echo $rule->calc_rule_name ?> </td>
+								<td align="right" colspan="3"></td>
+
+								<td align="right">
+									<!--
+					<?php echo $this->currency->priceDisplay($rule->calc_amount); ?>
+					<input class='orderEdit' type="text" size="8" name="calc_rules[<?php echo $rule->calc_kind ?>][<?php echo $rule->virtuemart_order_calc_rule_id ?>][calc_tax]" value="<?php echo $rule->calc_amount; ?>"/>
+				-->
+								</td>
+								<td align="right"><?php echo $this->currency->priceDisplay($rule->calc_amount); ?></td>
+								<td align="right" style="padding-right: 5px;">
+									<?php echo $this->currency->priceDisplay($rule->calc_amount); ?>
+									<input class='orderEdit' type="text" size="8"
+											name="calc_rules[<?php echo $rule->calc_kind ?>][<?php echo $rule->virtuemart_order_calc_rule_id ?>]"
+											value="<?php echo $rule->calc_amount; ?>"/>
+								</td>
+							</tr>
+							<?php
+						} elseif ($rule->calc_kind == 'taxRulesBill') { ?>
+							<tr>
+								<td colspan="5" align="right"><?php echo $rule->calc_rule_name ?> </td>
+								<td align="right" colspan="3"></td>
+								<td align="right"><?php echo $this->currency->priceDisplay($rule->calc_amount); ?></td>
+								<td align="right"></td>
+								<td align="right" style="padding-right: 5px;">
+									<?php echo $this->currency->priceDisplay($rule->calc_amount); ?>
+									<input class='orderEdit' type="text" size="8"
+											name="calc_rules[<?php echo $rule->calc_kind ?>][<?php echo $rule->virtuemart_order_calc_rule_id ?>]"
+											value="<?php echo $rule->calc_amount; ?>"/>
+								</td>
+							</tr>
+							<?php
+						} elseif ($rule->calc_kind == 'DATaxRulesBill') { ?>
+							<tr>
+								<td colspan="5" align="right"><?php echo $rule->calc_rule_name ?> </td>
+								<td align="right" colspan="3"></td>
+
+								<td align="right"></td>
+								<td align="right"><?php echo $this->currency->priceDisplay($rule->calc_amount); ?></td>
+								<td align="right" style="padding-right: 5px;">
+									<?php echo $this->currency->priceDisplay($rule->calc_amount); ?>
+									<input class='orderEdit' type="text" size="8"
+											name="calc_rules[<?php echo $rule->calc_kind ?>][<?php echo $rule->virtuemart_order_calc_rule_id ?>]"
+											value="<?php echo $rule->calc_amount; ?>"/>
+								</td>
+							</tr>
+
+							<?php
+						}
+
+					}
+					?>
+
+					<tr>
+						<td align="right" colspan="5">
+							<strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_SHIPPING') ?>:</strong>
+						</td>
+						<td align="right"
+								style="padding-right: 5px;"><?php echo $this->currency->priceDisplay($this->orderbt->order_shipment); ?>
+							<input class='orderEdit' type="text" size="8" name="order_shipment"
+									value="<?php echo $this->orderbt->order_shipment; ?>"/>
+						</td>
+						<td align="right" style="padding-right: 5px;">&nbsp;</td>
+						<td align="right" style="padding-right: 5px;">&nbsp;</td>
+						<td align="right"
+								style="padding-right: 5px;"><?php echo $this->currency->priceDisplay($this->orderbt->order_shipment_tax); ?>
+							<input class='orderEdit' type="text" size="12" name="order_shipment_tax"
+									value="<?php echo $this->orderbt->order_shipment_tax; ?>"/>
+						</td>
+						<td align="right" style="padding-right: 5px;">&nbsp;</td>
+						<td align="right"
+								style="padding-right: 5px;"><?php echo $this->currency->priceDisplay($this->orderbt->order_shipment + $this->orderbt->order_shipment_tax); ?></td>
+
+					</tr>
+					<tr>
+						<td align="right" colspan="5">
+							<strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PAYMENT') ?>:</strong></td>
+						<td align="right"
+								style="padding-right: 5px;"><?php echo $this->currency->priceDisplay($this->orderbt->order_payment); ?>
+							<input class='orderEdit' type="text" size="8" name="order_payment"
+									value="<?php echo $this->orderbt->order_payment; ?>"/>
+						</td>
+						<td align="right" style="padding-right: 5px;">&nbsp;</td>
+						<td align="right" style="padding-right: 5px;">&nbsp;</td>
+						<td align="right"
+								style="padding-right: 5px;"><?php echo $this->currency->priceDisplay($this->orderbt->order_payment_tax); ?>
+							<input class='orderEdit' type="text" size="12" name="order_payment_tax"
+									value="<?php echo $this->orderbt->order_payment_tax; ?>"/>
+						</td>
+						<td align="right" style="padding-right: 5px;">&nbsp;</td>
+						<td align="right"
+								style="padding-right: 5px;"><?php echo $this->currency->priceDisplay($this->orderbt->order_payment + $this->orderbt->order_payment_tax); ?></td>
+
+					</tr>
+					<?php
+					if (is_array($this->taxBill) and count($this->taxBill) != 1) {
+						reset($this->taxBill);
+						foreach ($this->taxBill as $rule) {
+							if ($rule->calc_kind != 'taxRulesBill' and $rule->calc_kind != 'VatTax') {
+								continue;
+							}
+							?>
+							<tr>
+							<td colspan="5" align="right"><?php echo $rule->calc_rule_name ?> </td>
+							<td align="right" colspan="3"></td>
+							<td align="right" style="padding-right: 5px;">
+								<?php echo $this->currency->priceDisplay($rule->calc_amount);
+								/* <input class='orderEdit' type="text" size="8"
+										name="calc_rules[<?php echo $rule->calc_kind ?>][<?php echo $rule->virtuemart_calc_id ?>]"
+										value="<?php echo $rule->calc_amount; ?>"/>*/
+								?>
+							</td>
+							<td align="right" colspan="2"></td>
+							</tr><?php
+						}
+					}
+
+					?>
+					<tr>
+						<td align="right" colspan="5">
+							<strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_TOTAL') ?>:</strong></td>
+						<td align="right" style="padding-right: 5px;">&nbsp;</td>
+						<td align="right" style="padding-right: 5px;">&nbsp;</td>
+						<td align="right" style="padding-right: 5px;">&nbsp;</td>
+						<td align="right" style="padding-right: 5px;">
+							<?php echo $this->currency->priceDisplay($this->orderbt->order_billTaxAmount); ?>
+							<input class='orderEdit' type="text" size="12" name="order_billTaxAmount"
+									value="<?php echo $this->orderbt->order_billTaxAmount; ?>"/>
+							<span style="display: block; font-size: 80%;"
+									title="<?php echo vmText::_('COM_VIRTUEMART_ORDER_EDIT_CALCULATE_DESC'); ?>">
+						<input class='orderEdit' type="checkbox" name="calculate_billTaxAmount" value="1"
+								checked/> <label class='orderEdit'
+										for="calculate_billTaxAmount"><?php echo vmText::_('COM_VIRTUEMART_ORDER_EDIT_CALCULATE'); ?></label>
+					</span>
+						</td>
+						<td align="right" style="padding-right: 5px;">
+							<strong><?php echo $this->currency->priceDisplay($this->orderbt->order_billDiscountAmount); ?></strong>
+						</td>
+						<td align="right" style="padding-right: 5px;">
+							<strong><?php echo $this->currency->priceDisplay($this->orderbt->order_total); ?></strong>
+						</td>
+					</tr>
+					<tr style="border-top-style:double">
+						<td align="left" colspan="3" style="padding-right: 5px;">
+							<strong><?php echo vmText::_('COM_VM_ORDER_BALANCE') ?></strong></td>
+
+						<?php
+
+						$tp = '';
+						$detail = false;
+						if (empty($this->orderbt->paid)) {
+							$t = vmText::_('COM_VM_ORDER_UNPAID');
+							/*echo '<td colspan="1"></td>';
+							echo '<td align="left" colspan="2" style="padding-right: 5px;">'.$t.'</td>';
+							echo '<td><input class="orderEdit" type="text" size="8" name="paid" value="'.$this->orderbt->paid.'"/></td>';*/
+							//echo '</tr>';
+						} else {
+
+							if (!$this->unequal) {
+								$t = vmText::_('COM_VM_ORDER_PAID');
+							} else {
+								if ($this->unequal > 0.0) {
+									$t = vmText::sprintf('COM_VM_ORDER_PARTIAL_PAID', $this->orderbt->paid);
+									$detail = true;
+								} else {
+									$t = vmText::sprintf('COM_VM_ORDER_CREDIT_BALANCE', $this->orderbt->paid);
+									$detail = true;
+								}
+							}
+						}
+						$trOpen = true;
+						$colspan = '5';
+						if (empty($this->toRefund) and !$detail) {
+							echo '<td align="left" colspan="2" style="padding-right: 5px;">' . $t . '</td>';
+							echo '<td align="left" style="padding-right: 5px;">' . $this->orderbt->paid_on . '</td>';
+							echo '<td><input class="orderEdit" type="text" size="8" name="paid" value="' . $this->orderbt->paid . '"/></td>';
+							echo '</tr>';
+							$trOpen = false;
+						}
+
+						if (!empty($this->toRefund)) {
+							echo '<td colspan="8">' . vmText::_('COM_VM_ORDER_PRODUCTS_TO_REFUND') . '</td>';
+							if ($trOpen) {
+								echo '</tr>';
+								$trOpen = false;
+							}
+							foreach ($this->toRefund as $index => $item) {
+
+								$tmpl = "refund-tmpl-" . $index;
+
+								echo '<tr id="' . $tmpl . '" class="order-item ' . $rowColor . ' ">';
+								echo '<td colspan="3"></td>';
+								echo '<td colspan="3">' . $item->order_item_name . '</td>';
+								echo '<td colspan="2">' . $item->order_item_sku . '</td>';
+								echo '<td>' . $this->currency->priceDisplay($item->product_tax) . '</td>';
+								echo '<td></td>';
+								echo '<td>' . $this->currency->priceDisplay($item->product_subtotal_with_tax) . '</td>';
+								echo '</tr>';
+								$this->orderbt->order_total -= $item->product_subtotal_with_tax;
+								$colspan1 = '5';
+								$colspan2 = '5';
+							}
+						} else {
+							$colspan1 = '3';
+							$colspan2 = '4';
+						}
+						//$colspan = '3';
+						if (!empty($this->toRefund) or $detail) {
+
+							if ($this->unequal > 0.0) {
+
+								if (empty($this->orderbt->paid)) {
+									$t = vmText::_('COM_VM_ORDER_UNPAID');
+								} else {
+									$t = vmText::_('COM_VM_ORDER_PARTIAL_PAID');
+								}
+								$l = vmText::_('COM_VM_ORDER_OUTSTANDING_AMOUNT');
+
+							} else {
+								$t = vmText::_('COM_VM_ORDER_PAID');
+								$l = vmText::_('COM_VM_ORDER_BALANCE');
+							}
+							$totalDiff = (int)$this->currency->truncate($this->orderbt->toPay - $this->orderbt->order_total);
+
+							$tp .= '';
+							if ($totalDiff) {
+								if (!$trOpen) {
+									$tp .= '<tr>';
+									$trOpen = true;
+								}
+								$tp .= '<td colspan="' . $colspan1 . '"></td>';
+								$tp .= '<td align="left" colspan="' . $colspan2 . '" style="padding-right: 5px;">' . vmText::_('COM_VM_ORDER_NEW_TOTAL') . '</td>';
+								$tp .= '<td>' . $this->currency->priceDisplay($this->orderbt->toPay) . '</td>';
+
+								if ($trOpen) {
+									$tp .= '</tr>';
+									$trOpen = false;
+								}
+							}
+
+							if (!$trOpen) {
+								$tp .= '<tr>';
+								$trOpen = true;
+							}
+							$tp .= '<td colspan="' . $colspan1 . '"></td>';
+							$tp .= '<td align="left" colspan="' . $colspan2 . '" style="padding-right: 5px;">' . $t . '</td>';
+
+							$tp .= '<td>' . $this->currency->priceDisplay($this->orderbt->paid) . '<input class="orderEdit" type="text" size="8" name="paid" value="' . $this->orderbt->paid . '"/></td>';
+							//$tp .= '<td align="left" style="padding-right: 5px;">'.$this->orderbt->paid_on.'</td>';
+							$tp .= '</tr>';
+
+							$tp .= '<tr>';
+							$tp .= '<td colspan="5"></td>';
+							$tp .= '<td align="right" colspan="5" style="padding-right: 5px;">' . $l . '</td>';
+							$tp .= '<td align="right" >' . $this->currency->priceDisplay(abs($this->orderbt->order_total - $this->orderbt->paid)) . '</td>';
+							echo $tp;
+						}
+						if ($trOpen) {
+							echo '</tr>';
+							$trOpen = false;
+						}
+
+						if ($this->orderbt->user_currency_rate != 1.0) { ?>
+					<tr>
+						<td align="right" colspan="5">
+							<em><?php echo vmText::_('COM_VIRTUEMART_ORDER_USER_CURRENCY_RATE') ?>:</em></td>
+						<td align="right" style="padding-right: 5px;">&nbsp;</td>
+						<td align="right" style="padding-right: 5px;">&nbsp;</td>
+						<td align="right" style="padding-right: 5px;">&nbsp;</td>
+						<td align="right" style="padding-right: 5px;">&nbsp;</td>
+						<td align="right" style="padding-right: 5px;">&nbsp;</td>
+						<td align="right" style="padding-right: 5px;">
+							<em><?php echo $this->orderbt->user_currency_rate ?></em></td>
+					</tr>
+				<?php }
+				?>
+				</table>
+				</td>
+				</tr>
+				</table>
+
+			</div>
+		</div>
+	</div>
+</div>
+

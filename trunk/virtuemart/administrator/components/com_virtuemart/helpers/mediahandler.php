@@ -952,7 +952,7 @@ class VmMediaHandler {
 		return $data;
 	}
 
-	private $_actions = array();
+	public $_actions = array();
 	/**
 	 * This method can be used to add extra actions to the media
 	 *

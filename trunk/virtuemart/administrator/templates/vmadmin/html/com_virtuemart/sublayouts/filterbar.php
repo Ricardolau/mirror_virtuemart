@@ -149,7 +149,7 @@ if ($search) {
 							uk-dropdown="mode: click;animation: uk-animation-slide-bottom-small; duration: 1000">
 
 						<?php
-						if ($tool['subtitle']) {
+						if (isset($tool['subtitle']) && $tool['subtitle']) {
 							?>
 							<div class="">
 								<?php

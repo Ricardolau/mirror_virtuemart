@@ -40,13 +40,13 @@ $isSite = $app->isSite();
 ?>
 <div class="vmuikit-menu-bottom  uk-child-width-1-1 uk-grid-small" uk-grid>
 	<div>
-			<div class="uk-card uk-card-small uk-card-body uk-card-secondary uk-text-center">VirtueMart <?php echo vmVersion::$RELEASE . ' ' . vmVersion::$REVISION ?></div>
+			<div class="uk-card uk-card-small uk-card-body uk-text-center">VirtueMart <?php echo vmVersion::$RELEASE . ' ' . vmVersion::$REVISION ?></div>
 	</div>
 	<div>
-			<div class="uk-card uk-card-small uk-card-body uk-card-secondary">
+			<div class="uk-card uk-card-small uk-card-body ">
 				<ul class="uk-subnav uk-flex uk-flex-center uk-child-width-1-5" data-uk-grid>
 					<li>
-						<a href="https://virtuemart.net" target="_blank" class="uk-icon-link" uk-icon="icon: home" uk-tooltip="Home"></a>
+						<a href="https://virtuemart.net" target="_blank" class="uk-icon-link" uk-icon="icon: home" uk-tooltip="VirtueMart.net"></a>
 					</li>
 					<li>
 						<a href="https://www.facebook.com/virtuemart" target="_blank" class="uk-icon-link" uk-icon="icon: facebook" uk-tooltip="Facebook"></a>

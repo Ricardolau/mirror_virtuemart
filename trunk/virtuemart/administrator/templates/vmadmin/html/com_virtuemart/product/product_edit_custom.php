@@ -24,6 +24,8 @@ defined('_JEXEC') or die('Restricted access');
 
 
 <?php
+$relatedcategories=array();
+$relatedproducts=array();
 $i = 0;
 $tables = array('categories' => '', 'products' => '', 'fields' => '', 'customPlugins' => '',);
 if (isset($this->product->customfields)) {

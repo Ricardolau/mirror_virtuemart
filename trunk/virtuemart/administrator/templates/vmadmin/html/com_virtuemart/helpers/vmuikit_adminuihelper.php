@@ -86,10 +86,12 @@ class vmuikitAdminUIHelper {
 		$adminTemplatePath = '/administrator/templates/vmadmin/html/com_virtuemart/';
 		$adminTemplateUikit = $adminTemplatePath . 'assets/uikit/';
 		$document = JFactory::getDocument();
+
 		$document->addStyleSheet($adminTemplatePath . 'assets/uikit/css/uikit.min.css');
 		$document->addStyleSheet($adminTemplatePath . 'assets/css/vmuikit.css');
 		$document->addStyleSheet($adminTemplatePath . 'assets/css/colors.css');
-		$document->addScript($adminTemplateUikit . 'js/uikit.min.js');//ALK TODO
+
+		$document->addScript($adminTemplateUikit . 'js/uikit.min.js');
 		$document->addScript($adminTemplateUikit . 'js/uikit-icons.min.js');
 
 		/* EOF Load UIKIT */

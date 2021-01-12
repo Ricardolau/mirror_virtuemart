@@ -46,7 +46,7 @@ $VmMediaHandler->addMediaActionByType();
 			</div>
 
 			<div id="vmuikit-image-preview"
-					class="uk-margin-top uk-child-width-1-4 uk-flex uk-flex-center uk-flex-middle uk-hidden"
+					class="uk-margin-top uk-child-width-1-1 uk-child-width-1-4@m uk-flex uk-flex-center uk-flex-middle uk-hidden"
 					uk-scrollspy="cls: uk-animation-scale-up; target: .uk-card-vm; delay: 80">
 				<div class="uk-card uk-card-small uk-card-vm " id="image-preview-card">
 

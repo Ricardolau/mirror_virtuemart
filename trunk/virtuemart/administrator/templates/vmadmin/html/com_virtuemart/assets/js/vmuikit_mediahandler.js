@@ -129,6 +129,48 @@ jQuery(document).ready(function ($) {
 			})
 		}
 	})
+	
+	
+	$('.vmuikit-js-edit-image').click(function (e) {
+		//var virtuemart_media_id = $(this).parent().find("input").val();
+		//console.log('edit-image', virtuemart_media_id)
+		var closest = $(this).closest('.vmuikit-js-thumb-image')
+		var virtuemart_media_id = closest.find('input[name=\'virtuemart_media_id[]\']').val()
+		console.log('edit-image', virtuemart_media_id)
+		$.getJSON('index.php?option=com_virtuemart&view=media&format=json&virtuemart_media_id=' + virtuemart_media_id,
+				function (datas, textStatus) {
+					if (datas.msg == 'OK') {
+						$('#vmuikit-js-display-image').attr('src', datas.file_root + datas.file_url)
+						$('#vmuikit-js-display-image').attr('alt', datas.file_title)
+						$('#file_title').html(datas.file_title)
+						if (datas.published == 1) $('#adminForm [name=\'media[media_published]\']').attr('checked', true)
+						else $('#adminForm [name=media_published]').attr('checked', false)
+						if (datas.file_is_downloadable == 0) {
+							$('#media_rolesfile_is_displayable').attr('checked', true)
+							//$("#adminForm [name=media_roles]").filter("value='file_is_downloadable'").attr('checked', false);
+						} else {
+							//$("#adminForm [name=media_roles]").filter("value='file_is_displayable'").attr('checked', false);
+							$('#media_rolesfile_is_downloadable').attr('checked', true)
+						}
+						$('#adminForm [name=\'media[file_title]\']').val(datas.file_title)
+						$('#adminForm [name=\'media[file_description]\']').val(datas.file_description)
+						$('#adminForm [name=\'media[file_meta]\']').val(datas.file_meta)
+						$('#adminForm [name=\'media[file_class]\']').val(datas.file_class)
+						$('#adminForm [name=\'media[file_url]\']').val(datas.file_url)
+						$('#adminForm [name=\'media[file_url_thumb]\']').val(datas.file_url_thumb)
+						var lang = datas.file_lang.split(',')
+						$('#adminForm [name=\'media[active_languages][]\']').val(lang).trigger('liszt:updated')
+						$('[name=\'media[active_media_id]\']').val(datas.virtuemart_media_id)
+						if (typeof datas.file_url_thumb !== 'undefined') {
+							$('.vmuikit-js-info-image').attr('src', datas.file_root + datas.file_url_thumb_dyn)
+						} else {
+							$('.vmuikit-js-info-image').attr('src', '')
+						}
+					} else $('#file_title').html(datas.msg)
+				})
+	})
+	
+	
 });
 
 (function ($) {

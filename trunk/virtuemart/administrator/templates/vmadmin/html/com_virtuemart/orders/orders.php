@@ -155,7 +155,7 @@ $tools[]=$tool;
 							<!-- Last modified -->
 							<td><?php echo vmJsApi::date($order->modified_on, 'LC2', TRUE); ?></td>
 							<!-- Status -->
-							<td>
+							<td class="uk-text-center@m">
 								<?php
 								// 	function toggle( $field, $i, $toggle, $imgY = 'tick.png', $imgX = 'publish_x.png', $untoggleable = false )
 								echo $this->toggle($order->paid, $i, 'toggle.paid'); ?>
@@ -220,8 +220,8 @@ $tools[]=$tool;
 							</td>
 
 							<!-- Total -->
-							<td><?php echo $order->order_total; ?></td>
-							<td><?php echo JHtml::_('link', JRoute::_($link, FALSE), $order->virtuemart_order_id, array('title' => vmText::_('COM_VIRTUEMART_ORDER_EDIT_ORDER_ID') . ' ' . $order->virtuemart_order_id)); ?></td>
+							<td class="uk-text-nowrap"><?php echo $order->order_total; ?></td>
+							<td class="uk-text-center@m"><?php echo JHtml::_('link', JRoute::_($link, FALSE), $order->virtuemart_order_id, array('title' => vmText::_('COM_VIRTUEMART_ORDER_EDIT_ORDER_ID') . ' ' . $order->virtuemart_order_id)); ?></td>
 
 						</tr>
 						<?php

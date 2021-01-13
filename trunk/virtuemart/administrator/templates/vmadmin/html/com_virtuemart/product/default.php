@@ -93,29 +93,29 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 						<input type="checkbox" name="toggle" value=""
 								onclick="Joomla.checkAll(this)"/></th>
 
-					<th width="20%"><?php echo $this->sort('product_name', $col_product_name) ?> </th>
+					<th ><?php echo $this->sort('product_name', $col_product_name) ?> </th>
 					<?php if (!$product_parent_id) { ?>
-						<th width="10%"><?php echo $this->sort('product_parent_id', 'COM_VIRTUEMART_PRODUCT_CHILDREN_OF'); ?></th>
+						<th class="uk-table-shrink"><?php echo $this->sort('product_parent_id', 'COM_VIRTUEMART_PRODUCT_CHILDREN_OF'); ?></th>
 					<?php } ?>
-					<th width="80px"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_PARENT_LIST_CHILDREN'); ?></th>
+					<th class="uk-table-shrink"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_PARENT_LIST_CHILDREN'); ?></th>
 					<th style="min-width:<?php echo $imgWidth ?>px;width:5%;"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_MEDIA'); ?></th>
 					<th><?php echo $this->sort('`p`.product_sku', 'COM_VIRTUEMART_PRODUCT_SKU') ?></th>
-					<th width="90px"><?php echo $this->sort('product_price', 'COM_VIRTUEMART_PRODUCT_PRICE_TITLE'); ?></th>
+					<th ><?php echo $this->sort('product_price', 'COM_VIRTUEMART_PRODUCT_PRICE_TITLE'); ?></th>
 					<?php /*		<th><?php echo JHtml::_('grid.sort', 'COM_VIRTUEMART_CATEGORY', 'c.category_name', $this->lists['filter_order_Dir'], $this->lists['filter_order'] ); ?></th> */ ?>
-					<th width="15%"><?php echo vmText::_('COM_VIRTUEMART_CATEGORY'); ?></th>
+					<th class="uk-table-shrink"><?php echo vmText::_('COM_VIRTUEMART_CATEGORY'); ?></th>
 					<!-- Only show reordering fields when a category ID is selected! -->
 					<?php
 					$num_rows = 0;
 					if ($this->showOrdering) { ?>
-						<th style="min-width:100px;width:5%;">
+						<th >
 							<?php echo $this->sort('pc.ordering', 'COM_VIRTUEMART_FIELDMANAGER_REORDER'); ?>
 							<?php echo JHtml::_('grid.order', $this->productlist); //vmCommonHTML::getSaveOrderButton( $num_rows, 'changeordering' ); ?>
 						</th>
 					<?php } ?>
-					<th width="10%"><?php echo $this->sort('mf_name', 'COM_VIRTUEMART_MANUFACTURER_S'); ?></th>
-					<th width="40px"><?php echo vmText::_('COM_VIRTUEMART_REVIEW_S'); ?></th>
-					<th width="40px"><?php echo $this->sort('product_special', 'COM_VIRTUEMART_PRODUCT_FORM_SPECIAL'); ?> </th>
-					<th width="40px"><?php echo $this->sort('published'); ?></th>
+					<th ><?php echo $this->sort('mf_name', 'COM_VIRTUEMART_MANUFACTURER_S'); ?></th>
+					<th ><?php echo vmText::_('COM_VIRTUEMART_REVIEW_S'); ?></th>
+					<th class="uk-table-shrink"><?php echo $this->sort('product_special', 'COM_VIRTUEMART_PRODUCT_FORM_SPECIAL'); ?> </th>
+					<th ><?php echo $this->sort('published'); ?></th>
 					<th><?php echo $this->sort('p.virtuemart_product_id', 'COM_VIRTUEMART_ID') ?></th>
 				</tr>
 				</thead>
@@ -139,7 +139,7 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 							<!-- Checkbox -->
 							<td class="admin-checkbox"><?php echo $checked; ?></td>
 
-							<td align="left>">
+							<td >
 								<!--<span style="float:left; clear:left"> -->
 								<?php
 								if (empty($product->product_name)) {
@@ -156,7 +156,7 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 									//}
 									?></td>
 							<?php } ?>
-							<td><?php
+							<td class=""><?php
 								echo $product->childlist_link;
 								?>
 							</td>
@@ -165,7 +165,7 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 							// Create URL
 							$link = JRoute::_('index.php?view=media&virtuemart_product_id=' . $product->virtuemart_product_id . '&option=com_virtuemart');
 							?>
-							<td align="center">
+							<td >
 								<?php
 								// We show the images only when less than 21 products are displayeed -->
 
@@ -184,11 +184,12 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 							<!-- Product SKU -->
 							<td><?php echo $product->product_sku; ?></td>
 							<!-- Product price -->
-							<td align="right"><?php
+							<td ><?php
 								if (isset($product->product_price_display)) {
 									echo $product->product_price_display;
 								}
-								?></td>
+								?>
+							</td>
 							<!-- Category name -->
 							<td><?php
 								echo $product->categoriesList;
@@ -196,7 +197,8 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 								if (!empty($product->product_canon_category_id) && $product->product_canon_category_id > 0) {
 									echo '<p style = "color:red;">CanonCat: ' . $product->canonCatIdname . '</p>';
 								}
-								?></td>
+								?>
+							</td>
 							<!-- Reorder only when category ID is present -->
 							<?php if ($this->showOrdering) { ?>
 								<td class="order">
@@ -218,20 +220,21 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 							<td><?php
 								echo $product->manuList;
 
-								?></td>
+								?>
+							</td>
 
 							<!-- Reviews -->
 							<?php $link = vRequest::vmSpecialChars('index.php?option=com_virtuemart&view=ratings&task=listreviews&virtuemart_product_id=' . $product->virtuemart_product_id); ?>
-							<td align="center"><?php echo JHtml::_('link', $link, $product->reviews); ?></td>
-							<td align="center">
+							<td class="uk-text-center@m"><?php echo JHtml::_('link', $link, $product->reviews); ?></td>
+							<td class="uk-text-center@m">
 								<?php
 								echo $is_featured;
 								?>
 							</td>
 							<!-- published -->
-							<td align="center"><?php echo $published; ?></td>
+							<td class="uk-text-center@m"><?php echo $published; ?></td>
 							<!-- Vendor name -->
-							<td align="right"><?php echo $product->virtuemart_product_id; // echo $product->vendor_name; ?></td>
+							<td><?php echo $product->virtuemart_product_id; // echo $product->vendor_name; ?></td>
 						</tr>
 						<?php
 						$k = 1 - $k;

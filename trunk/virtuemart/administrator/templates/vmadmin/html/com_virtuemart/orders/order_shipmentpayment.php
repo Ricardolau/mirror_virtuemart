@@ -31,7 +31,7 @@ VmConfig::importVMPlugins('vmpayment');
 			<div class="uk-card-title">
 						<span class="md-color-cyan-600 uk-margin-small-right"
 								uk-icon="icon: shipment; ratio: 1.2"></span>
-				<?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_SHIP_TO_LBL') ?>
+				<?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_SHIPMENT_LBL') ?>
 			</div>
 		</div>
 		<div class="uk-card-body">

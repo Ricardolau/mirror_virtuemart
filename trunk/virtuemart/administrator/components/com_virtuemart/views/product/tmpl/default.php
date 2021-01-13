@@ -186,7 +186,7 @@ if($this->pagination->limit<=$mediaLimit or $totalList<=$mediaLimit){
 					}
 				?></td>
 				<!-- Reorder only when category ID is present -->
-				<?php if ($this->showOrdering ) {
+				<?php if ($this->showOrdering ) { ?>
 					<td class="order" >
 
 						<?php if($this->showOrdering == $product->virtuemart_category_id){

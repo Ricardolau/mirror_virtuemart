@@ -347,7 +347,7 @@ if ($canSearch) {
 <?php
 $adminTemplate = VMPATH_ROOT . '/administrator/templates/vmadmin/html/com_virtuemart/';
 $adminTemplatePath = '/administrator/templates/vmadmin/html/com_virtuemart/';
-$document = JFactory::getDocument();
+
 $urlTemplateHtml = JURI::root(TRUE) .'/administrator/templates/vmadmin/html';
 //Virtuemart.medialink = "' . vmURI::createUrlWithPrefix('index.php?option=com_virtuemart&view=media&format=json&mediatype=' . $type) . '";';
 
@@ -360,8 +360,9 @@ $j .='Virtuemart.mediaScript = "' . JURI::root(TRUE) .'/administrator/templates/
 $j .= "jQuery(document).ready(function(){ jQuery('#vmuikit-js-images-container').vmuikitmedia('media','" . $type . "','0') }); ";
 vmJsApi::addJScript('mediahandler.vars', $j);
 //vmJsApi::addJScript('mediahandler');
+$adminTemplatePath = '/administrator/templates/vmadmin/html/com_virtuemart/';
+vmJsApi::addJScript($adminTemplatePath . 'assets/js/vmuikit_mediahandler.js');
 
-$document->addScript($adminTemplatePath . 'assets/js/vmuikit_mediahandler.js');
 
 
 foreach ($medias as $key => &$image) {

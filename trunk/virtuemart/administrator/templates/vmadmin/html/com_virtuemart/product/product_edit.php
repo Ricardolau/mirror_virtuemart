@@ -24,7 +24,6 @@ JLoader::register('vmuikitAdminUIHelper', $adminTemplate . 'helpers/vmuikit_admi
 
 vmuikitAdminUIHelper::startAdminArea($this);
 
-$document = JFactory::getDocument();
 
 vmJsApi::JvalideForm();
 $this->editor = JFactory::getEditor();

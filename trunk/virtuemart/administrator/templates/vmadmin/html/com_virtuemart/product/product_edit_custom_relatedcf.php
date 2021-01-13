@@ -99,7 +99,7 @@ $relatedIcon = $this->relatedIcon;
 <?php
 $adminTemplate = VMPATH_ROOT . '/administrator/templates/vmadmin/html/com_virtuemart/';
 $adminTemplatePath = '/administrator/templates/vmadmin/html/com_virtuemart/';
-$document = JFactory::getDocument();
+
 
 // the template is the same for categories and products
 $js = "

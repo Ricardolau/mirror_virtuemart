@@ -986,7 +986,7 @@ class VmMediaHandler {
 	}
 
 
-	private $_mLocation = array();
+	public $_mLocation = array();
 
 	/**
 	 * This method can be used to add extra attributes to the media

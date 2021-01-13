@@ -19,9 +19,6 @@ defined ('_JEXEC') or die();
 
 if($this->task=='massxref_cats' or $this->task=='massxref_cats_exe'){
 
-
-	$document = JFactory::getDocument();
-
 	JLoader::register('VirtuemartControllerCategory', VMPATH_ADMIN.'/controllers/category.php');
 	$catController = new VirtuemartControllerCategory();
 

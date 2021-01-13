@@ -73,7 +73,6 @@ $customcfs = $this->customcfs;
 <?php
 $adminTemplate = VMPATH_ROOT . '/administrator/templates/vmadmin/html/com_virtuemart/';
 $adminTemplatePath = '/administrator/templates/vmadmin/html/com_virtuemart/';
-$document = JFactory::getDocument();
 
 $js = "
 	var template = jQuery('#vmuikit-js-customcf-template').html()

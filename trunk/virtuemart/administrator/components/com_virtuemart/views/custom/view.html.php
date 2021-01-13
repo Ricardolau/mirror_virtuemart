@@ -208,7 +208,7 @@ class VirtuemartViewCustom extends VmViewAdmin {
 	 *
 	 * @param array $optionsarray
 	 */
-	private function getOptions ($field_types) {
+	public function getOptions ($field_types) {
 
 		$options = array();
 		foreach ($field_types as $optionName=> $langkey) {

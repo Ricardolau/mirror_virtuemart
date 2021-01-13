@@ -73,7 +73,7 @@ echo adminSublayouts::renderAdminVmSubLayout('customcf_template');
 
 
 <?php vmuikitAdminUIHelper::endAdminArea();
-
+$adminTemplatePath = '/administrator/templates/vmadmin/html/com_virtuemart/';
 vmJsApi::addJScript( '/administrator/components/com_virtuemart/assets/js/dynotable.js', false, false );
 //vmJsApi::addJScript( '/administrator/components/com_virtuemart/assets/js/products.js', false, false );
 vmJsApi::addJScript( $adminTemplatePath . 'assets/js/vmuikit_products.js', false, false );
@@ -106,7 +106,7 @@ $j = 'if (typeof Virtuemart === "undefined")
 	Virtuemart.token = "'.JSession::getFormToken().'";
 	';
 
-$j .='Virtuemart.productScript = "' . JURI::root(TRUE) .'/administrator/templates/vmadmin/html/com_virtuemart/assets/js/vmuikit_product.js' .'";';
+$j .='Virtuemart.productScript = "/administrator/templates/vmadmin/html/com_virtuemart/assets/js/vmuikit_products.js";';
 
 
 vmJsApi::addJScript('onReadyProduct',$j);

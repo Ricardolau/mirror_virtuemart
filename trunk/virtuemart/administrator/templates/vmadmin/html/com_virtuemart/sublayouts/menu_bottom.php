@@ -27,14 +27,6 @@ if (!isset(VmConfig::$installed)) {
 if (!VmConfig::$installed) {
 	return false;
 }
-/** @var TYPE_NAME $viewData */
-$vmView = $viewData['vmView'];
-$currentView = JRequest::getVar('view');
-$moduleId = vRequest::getInt('module_id', 0);
-$menuItems = vmuikitAdminUIHelper::_getAdminMenu($moduleId);
-
-$app = JFactory::getApplication();
-$isSite = $app->isSite();
 
 
 ?>

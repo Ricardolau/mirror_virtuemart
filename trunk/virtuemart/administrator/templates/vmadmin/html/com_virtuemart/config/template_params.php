@@ -40,6 +40,7 @@ VirtuemartViewConfig::$options = $options;
 <div class="uk-card-body">
 
 	<?php
+	/** @var TYPE_NAME $params */
 	echo VmuikitHtml::row('genericlist', 'COM_VIRTUEMART_ADMIN_CFG_SHOW_STORE_DESC', $options, 'show_store_desc', '', 'value', 'text', $params->get('show_store_desc', 1));
 	echo VmuikitHtml::row('genericlist', 'COM_VIRTUEMART_ADMIN_CFG_SHOW_CATEGORYDESC', $options, 'showcategory_desc', '', 'value', 'text', $params->get('showcategory_desc', 1));
 	echo VmuikitHtml::row('genericlist', 'COM_VIRTUEMART_ADMIN_CFG_SHOW_SEARCH', $options, 'showsearch', '', 'value', 'text', $params->get('showsearch', 1));

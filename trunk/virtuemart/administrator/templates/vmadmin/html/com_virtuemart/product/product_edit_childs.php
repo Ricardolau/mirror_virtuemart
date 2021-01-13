@@ -65,10 +65,9 @@ $i = 0;
 							title="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_ADD_CHILD_TIP'); ?>">
 							<?php } ?>
 							<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_ADD_CHILD'); ?>
-							<?php if ($link) { ?>
+							</span>
+					<?php if ($link) { ?>
 				</a>
-			<?php } else { ?>
-				</span>
 			<?php } ?>
 			</div>
 		</div>
@@ -89,14 +88,12 @@ $i = 0;
 
 			<table class="uk-table uk-table-striped uk-table-responsive">
 				<tr>
-					<th style="text-align: left !important;"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_CHILD') ?></th>
-					<th style="text-align: left !important;"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_CHILD_NAME') ?></th>
-					<th style="text-align: left !important;"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_GTIN') ?></th>
-					<th style="text-align: left !important;"
-							width="5%"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_COST') ?></th>
-					<th style="text-align: left !important;"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_IN_STOCK') ?></th>
-					<th style="text-align: left !important;"
-							width="5%"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_ORDERED_STOCK') ?></th>
+					<th ><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_CHILD') ?></th>
+					<th ><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_CHILD_NAME') ?></th>
+					<th ><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_GTIN') ?></th>
+					<th ><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_COST') ?></th>
+					<th ><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_IN_STOCK') ?></th>
+					<th ><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_ORDERED_STOCK') ?></th>
 					<?php
 					$js = '';
 					$disabled = '';
@@ -107,7 +104,7 @@ $i = 0;
 							$js = true;
 						}
 						?>
-						<th style="text-align: left !important;">
+						<th >
 							<?php echo vmText::sprintf('COM_VIRTUEMART_PRODUCT_CUSTOM_FIELD_N', vmText::_('COM_VIRTUEMART_' . strtoupper($custom->customfield_value))) ?>
 						</th>
 					<?php }
@@ -121,10 +118,8 @@ $i = 0;
 						vmJsApi::addJScript('vm-childProductName', $js);
 					}
 					?>
-					<th style="text-align: left !important;"
-							width="5%"><?php echo vmText::_('COM_VIRTUEMART_ORDERING') ?></th>
-					<th style="text-align: left !important;"
-							width="5%"><?php echo vmText::_('COM_VIRTUEMART_PUBLISHED') ?></th>
+					<th ><?php echo vmText::_('COM_VIRTUEMART_ORDERING') ?></th>
+					<th ><?php echo vmText::_('COM_VIRTUEMART_PUBLISHED') ?></th>
 				</tr>
 				<?php foreach ($this->product_childs as $child) {
 					$i = 1 - $i; ?>
@@ -143,7 +138,7 @@ $i = 0;
 									maxlength="64" value="<?php echo $child->product_gtin ?>"/></td>
 
 						<td>
-							<input type="text" class="inputbox"
+							<input type="text" class="inputbox uk-form-width-small"
 									name="childs[<?php echo $child->virtuemart_product_id ?>][mprices][product_price][]"
 									size="10"
 									value="<?php echo $child->allPrices[$child->selectedPrice]['product_price'] ?>"/><input
@@ -179,7 +174,7 @@ $i = 0;
 						}
 						?>
 						<td>
-							<input type="text" class="inputbox input-small"
+							<input type="text" class="inputbox uk-form-width-xsmall"
 									name="childs[<?php echo $child->virtuemart_product_id ?>][pordering]" size="2"
 									value="<?php echo $child->pordering ?>"/></td>
 						</td>

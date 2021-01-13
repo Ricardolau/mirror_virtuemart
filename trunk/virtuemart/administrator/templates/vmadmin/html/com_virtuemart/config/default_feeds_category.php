@@ -41,7 +41,7 @@ defined('_JEXEC') or die('Restricted access');
 		$options[] = JHtml::_('select.option', 'product_s_desc', vmText::_('COM_VIRTUEMART_PRODUCT_FORM_S_DESC'));
 		$options[] = JHtml::_('select.option', 'product_desc', vmText::_('COM_VIRTUEMART_PRODUCT_FORM_DESCRIPTION'));
 		echo VmuikitHtml::row('genericlist', 'COM_VIRTUEMART_ADMIN_CFG_FEED_DESCRIPTION_TYPE', $options, 'feed_cat_description_type', 'size=1', 'value', 'text', VmConfig::get('feed_cat_description_type', 0));
-		echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ADMIN_CFG_FEED_MAX_TEXT_LENGTH', 'feed_cat_max_text_length', VmConfig::get('feed_cat_max_text_length', '500'), "", "", 4);
+		echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ADMIN_CFG_FEED_MAX_TEXT_LENGTH', 'feed_cat_max_text_length', VmConfig::get('feed_cat_max_text_length', '500'), 'class="uk-form-width-xsmall"', "", 4);
 		?>
 	</div>
 </div>

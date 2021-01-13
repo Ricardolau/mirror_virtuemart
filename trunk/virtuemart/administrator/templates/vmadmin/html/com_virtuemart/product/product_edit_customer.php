@@ -22,7 +22,7 @@ $stockhandle = $this->product->product_stockhandle ? $this->product->product_sto
 
 $i = 0;
 ?>
-<table class="adminform">
+<table class="uk-table uk-table-striped uk-table-responsive">
 	<tbody>
 	<tr class="row<?php echo $i?>">
 		<td width="21%" valign="top">
@@ -87,16 +87,16 @@ $i = 0;
 				<?php echo $this->lists['OrderStatus'];?>
 				<br/> <br/>
 				<div style="font-weight:bold;"><?php echo vmText::sprintf ('COM_VIRTUEMART_PRODUCT_SHOPPERS_LIST', $this->product->product_name); ?></div>
-				<table class="adminlist table ui-sortable" cellspacing="0" cellpadding="0">
+				<table class="uk-table uk-table-striped uk-table-responsive ui-sortable" >
 					<thead>
 					<tr>
-						<th class="title"><?php echo $this->sort ('ou.first_name', 'COM_VIRTUEMART_NAME','edit');?></th>
-						<th class="title"><?php echo $this->sort ('ou.email', 'COM_VIRTUEMART_EMAIL','edit');?></th>
-						<th class="title"><?php echo vmText::_ ('COM_VIRTUEMART_SHOPPER_FORM_PHONE');?></th>
-						<th class="title"><?php echo vmText::_ ('COM_VIRTUEMART_ORDER_PRINT_QUANTITY');?></th>
-						<th class="title"><?php echo vmText::_ ('COM_VIRTUEMART_ORDER_PRINT_ITEM_STATUS');?></th>
-						<th class="title"><?php echo $this->sort ('o.order_number', 'COM_VIRTUEMART_ORDER_NUMBER', 'edit');?></th>
-						<th class="title"><?php echo $this->sort ('order_date', 'COM_VIRTUEMART_ORDER_CDATE','edit');?></th>
+						<th ><?php echo $this->sort ('ou.first_name', 'COM_VIRTUEMART_NAME','edit');?></th>
+						<th  ><?php echo $this->sort ('ou.email', 'COM_VIRTUEMART_EMAIL','edit');?></th>
+						<th  ><?php echo vmText::_ ('COM_VIRTUEMART_SHOPPER_FORM_PHONE');?></th>
+						<th  ><?php echo vmText::_ ('COM_VIRTUEMART_ORDER_PRINT_QUANTITY');?></th>
+						<th  ><?php echo vmText::_ ('COM_VIRTUEMART_ORDER_PRINT_ITEM_STATUS');?></th>
+						<th  ><?php echo $this->sort ('o.order_number', 'COM_VIRTUEMART_ORDER_NUMBER', 'edit');?></th>
+						<th  ><?php echo $this->sort ('order_date', 'COM_VIRTUEMART_ORDER_CDATE','edit');?></th>
 					</tr>
 					</thead>
 					<tbody id="customers-list">

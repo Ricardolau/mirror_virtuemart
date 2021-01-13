@@ -131,9 +131,11 @@ if (isset($this->product->customfields)) {
 								<span class="vmicon vmicon-16-' . $cartIcone . '"></span>';
 			$customcf->type=vmText::_($type) ;
 			$customcf->title=vmText::_($customfield->custom_title) ;
-			$customcf->is_cart_attribute=$customfield->is_cart_attribute;
+			$customcf->is_cart_attribute=(int)$customfield->is_cart_attribute;
 			$customcf->canMove=false;
 			$customcf->canRemove=false;
+			$customcf->searchable=(int)$customfield->searchable;
+			$customcf->layout_pos=$customfield->layout_pos;
 			if (($customfield->virtuemart_product_id == $this->product->virtuemart_product_id or $customfield->override != 0) and $customfield->disabler == 0) {
 				$tables['fields'] .= '<span class="vmicon vmicon-16-move"></span>
 							<span class="vmicon vmicon-16-remove 4remove"></span>';

@@ -41,6 +41,24 @@ defined('_JEXEC') or die('Restricted access');
 						</div>
 					</div>
 					{{/is_cart_attribute}}
+					{{#searchable}}
+					<div class="uk-navbar-item">
+						<div class="uk-icon-button md-bg-grey-200"
+								uk-tooltip="<?php echo vmText::_('COM_VM_CUSTOM_IS_SEARCHABLE') ?>"
+						>
+							<span uk-icon="icon: search; ratio: 0.75"></span>
+						</div>
+					</div>
+					{{/searchable}}
+					{{#layout_pos}}
+					<div class="uk-navbar-item">
+						<div class="md-bg-grey-200"
+								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_CUSTOM_LAYOUT_POS') ?>"
+						>
+							<span class="uk-label md-bg-grey-200 md-color-grey-600" >{{layout_pos}}</span>
+						</div>
+					</div>
+					{{/layout_pos}}
 				</div>
 
 				<div class="uk-navbar-right">
@@ -79,6 +97,9 @@ defined('_JEXEC') or die('Restricted access');
 			{{#displayHTML }}
 			{{{displayHTML}}}
 			{{/displayHTML }}
+			{{#hiddenHTML }}
+			{{{hiddenHTML}}}
+			{{/hiddenHTML }}
 		</div>
 
 	</div>

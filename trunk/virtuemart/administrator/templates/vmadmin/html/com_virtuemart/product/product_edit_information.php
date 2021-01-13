@@ -159,7 +159,7 @@ $i = 0;
 
 
 						?>
-						<table border="0" width="100%" cellpadding="2" cellspacing="3" id="mainPriceTable" class="uk-table uk-table-xsmall uk-table-responsive  ">
+						<table  id="mainPriceTable" class="uk-table uk-table-xsmall uk-table-responsive  ">
 							<tbody id="productPriceBody">
 							<?php
 

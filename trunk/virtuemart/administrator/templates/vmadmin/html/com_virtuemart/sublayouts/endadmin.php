@@ -23,8 +23,6 @@ defined ( '_JEXEC' ) or die ();
 defined('_JEXEC') or die();
 
 
-/** @var TYPE_NAME $viewData */
-$vmView=$viewData['vmView'];
 ?>
 
 		</div>

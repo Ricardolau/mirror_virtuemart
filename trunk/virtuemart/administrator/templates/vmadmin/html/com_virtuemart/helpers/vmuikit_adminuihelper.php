@@ -76,30 +76,28 @@ class vmuikitAdminUIHelper {
 		}
 
 		JHtml::_('bootstrap.tooltip');
-		/* BOF Load UIKIT */
-		$min = '.min';
-		if (VmConfig::get('newBackendTemplateDebug')) {
-			$min = '';
-		}
+		/* BOF Load New admin template files */
+		$adminTemplateCssPath = 'administrator/templates/vmadmin/html/com_virtuemart/';
+		$adminTemplateCssUikit = $adminTemplateCssPath . 'assets/uikit/css';
+		$adminTemplateCssVm = $adminTemplateCssPath . 'assets/css';
 
-		$adminTemplate = VMPATH_ROOT . '/administrator/templates/vmadmin/html/com_virtuemart/';
+		vmJsApi::css('uikit.min',$adminTemplateCssUikit);
+		vmJsApi::css('vmuikit',$adminTemplateCssVm);
+		vmJsApi::css('colors',$adminTemplateCssVm);
+
+
 		$adminTemplatePath = '/administrator/templates/vmadmin/html/com_virtuemart/';
 		$adminTemplateUikit = $adminTemplatePath . 'assets/uikit/';
-		$document = JFactory::getDocument();
+		vmJsApi::addJScript($adminTemplateUikit . 'js/uikit.min.js');
+		vmJsApi::addJScript($adminTemplateUikit . 'js/uikit-icons.min.js');
+		vmJsApi::addJScript($adminTemplatePath . 'assets/js/vmuikit-icons.js');
 
-		$document->addStyleSheet($adminTemplatePath . 'assets/uikit/css/uikit.min.css');
-		$document->addStyleSheet($adminTemplatePath . 'assets/css/vmuikit.css');
-		$document->addStyleSheet($adminTemplatePath . 'assets/css/colors.css');
-
-		$document->addScript($adminTemplateUikit . 'js/uikit.min.js');
-		$document->addScript($adminTemplateUikit . 'js/uikit-icons.min.js');
-
-		/* EOF Load UIKIT */
+		/* EOF Load New admin template files */
 
 		vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/jquery.coookie.js');
 		vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/vm2admin.js');
 		vmJsApi::addJScript($adminTemplatePath.'assets/js/vmuikit_vm2admin.js');
-		vmJsApi::addJScript($adminTemplatePath.'assets/js/vmuikit-icons.js');
+
 
 
 		if (!self::$backEnd) {

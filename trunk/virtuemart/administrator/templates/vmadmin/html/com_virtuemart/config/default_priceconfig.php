@@ -24,37 +24,41 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 
 <table class="uk-table uk-table-striped uk-table-responsive" id="show_hide_prices">
-	<?php
-	if ($this->shopgrp_price) {
-		?>
-		<tr>
-			<td colspan="4">
-				<?php
-				echo vmText::sprintf('COM_VM_PRICEDISPLAY_CONFIGURED_BY SHOPPERGRPS', implode(',', $this->shopgrp_price));
-				?>
-			</td>
-		</tr>
-		<?php
-	}
 
-	if ($showPricesLine) {
-?>
-		<tr>
-			<td><?php echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_SHOW_PRICES'); ?></td>
-			<td><?php echo VmHTML::checkbox('show_prices', $show_prices); ?></td>
-			<td></td>
-			<td></td>
-		</tr>
-	<?php
-	}
-	?>
-
+	<thead>
 	<tr>
 		<th></th>
 		<th><?php echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_PRICES_LABEL'); ?></th>
 		<th><?php echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_PRICES_TEXT'); ?></th>
 		<th><?php echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_PRICES_ROUNDING'); ?></th>
 	</tr>
+	</thead>
+	<tbody>
+	<?php
+	if ($this->shopgrp_price) {
+		?>
+		<caption>
+			<?php
+			echo vmText::sprintf('COM_VM_PRICEDISPLAY_CONFIGURED_BY SHOPPERGRPS', implode(',', $this->shopgrp_price));
+			?>
+		</caption>
+		<?php
+	}
+
+	if ($showPricesLine) {
+		?>
+
+		<tr>
+			<td><?php echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_SHOW_PRICES'); ?></td>
+			<td><?php echo VmHTML::checkbox('show_prices', $show_prices); ?></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<?php
+	}
+	?>
+
+
 	<?php
 	echo VirtuemartViewConfig::writePriceConfigLine($params, 'basePrice', 'COM_VIRTUEMART_ADMIN_CFG_PRICE_BASEPRICE');
 	echo VirtuemartViewConfig::writePriceConfigLine($params, 'variantModification', 'COM_VIRTUEMART_ADMIN_CFG_PRICE_VARMOD');
@@ -73,5 +77,7 @@ defined('_JEXEC') or die('Restricted access');
 	echo VirtuemartViewConfig::writePriceConfigLine($params, 'discountAmountTt', 'COM_VIRTUEMART_ADMIN_CFG_PRICE_DISC_AMOUNT_TT');
 	echo VirtuemartViewConfig::writePriceConfigLine($params, 'unitPrice', 'COM_VIRTUEMART_ADMIN_CFG_PRICE_UNITPRICE');
 	?>
+	</tbody>
+
 </table>
 		

@@ -29,7 +29,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</div>
 	</div>
 	<div class="uk-card-body">
-		<?php echo VmuikitHtml::row('checkbox', 'COM_VIRTUEMART_COUPONS_ENABLE', 'coupons_enable', VmConfig::get('coupons_enable', 0));
+		<?php echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_COUPONS_ENABLE', 'coupons_enable', VmConfig::get('coupons_enable', 0));
+
 
 		$_defaultExpTime = array(
 			'1,D' => '1 ' . vmText::_('COM_VIRTUEMART_DAY')

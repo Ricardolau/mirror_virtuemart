@@ -69,12 +69,12 @@ if (isset($this->product->customfields)) {
 		$nonInheritableCheckbox='';
 		if (!empty($title)) {
 			$tip = 'COM_VIRTUEMART_CUSTOMFLD_DIS_DER_TIP';
-			$text = '<span style="white-space: nowrap;" class="hasTooltip" title="' . htmlentities(vmText::_($tip)) . '">d:' . VmHtml::checkbox('field[' . $i . '][disabler]', $customfield->disabler, $checkValue) . '</span>';
-			$disableDerived = '<span style="white-space: nowrap;" class="hasTooltip" title="' . htmlentities(vmText::_($tip)) . '">d:' . VmHtml::checkbox('field[' . $i . '][disabler]', $customfield->disabler, $checkValue) . '</span>';
+			$text = '<span style="white-space: nowrap;" uk-tooltip="' . htmlentities(vmText::_($tip)) . '">d:' . VmHtml::checkbox('field[' . $i . '][disabler]', $customfield->disabler, $checkValue) . '</span>';
+			$disableDerived = '<span style="white-space: nowrap;" uk-tooltip="' . htmlentities(vmText::_($tip)) . '">d:' . VmHtml::checkbox('field[' . $i . '][disabler]', $customfield->disabler, $checkValue) . '</span>';
 			$disableDerivedCheckbox =VmHtml::checkbox('field[' . $i . '][disabler]', $customfield->disabler, $checkValue);
 		} else {
 			$tip = 'COM_VIRTUEMART_CUSTOMFLD_DIS_INH_TIP';
-			$text = '<span style="white-space: nowrap;" class="hasTooltip" title="' . htmlentities(vmText::_($tip)) . '">disinh:' . VmHtml::checkbox('field[' . $i . '][noninheritable]', $customfield->noninheritable, $checkValue) . '</span>';
+			$text = '<span style="white-space: nowrap;" uk-tooltip="' . htmlentities(vmText::_($tip)) . '">disinh:' . VmHtml::checkbox('field[' . $i . '][noninheritable]', $customfield->noninheritable, $checkValue) . '</span>';
 		$nonInheritableCheckbox=VmHtml::checkbox('field[' . $i . '][noninheritable]', $customfield->noninheritable, $checkValue);
 		}
 
@@ -118,7 +118,7 @@ if (isset($this->product->customfields)) {
 			}
 			$customcf->overrideCheckbox='';
 			if (!empty($title)) {
-				$text .= '<span style="white-space: nowrap;" class="hasTooltip" title="' . htmlentities(vmText::_('COM_VIRTUEMART_DIS_DER_CUSTOMFLD_OVERR_DER_TIP')) . '">o:' . VmHtml::checkbox('field[' . $i . '][override]', $customfield->override, $checkValue) . '</span>';
+				$text .= '<span style="white-space: nowrap;" uk-tooltip="' . htmlentities(vmText::_('COM_VIRTUEMART_DIS_DER_CUSTOMFLD_OVERR_DER_TIP')) . '">o:' . VmHtml::checkbox('field[' . $i . '][override]', $customfield->override, $checkValue) . '</span>';
 				$overrideCheckbox =  VmHtml::checkbox('field[' . $i . '][override]', $customfield->override, $checkValue) ;
 				$customcf->overrideCheckbox=$overrideCheckbox;
 

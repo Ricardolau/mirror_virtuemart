@@ -195,8 +195,7 @@ defined('_JEXEC') or die('Restricted access');
 											<input type="checkbox" name="mprices[use_desired_price][]" value="1"/>
 											<strong>
 												<span
-														class="hasTooltip"
-														title="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_CALCULATE_PRICE_FINAL_TIP'); ?>">
+														uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_CALCULATE_PRICE_FINAL_TIP'); ?>">
 												<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_CALCULATE_PRICE_FINAL'); ?>
 												</span>
 											</strong>

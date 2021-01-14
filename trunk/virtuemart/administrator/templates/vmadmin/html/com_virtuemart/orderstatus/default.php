@@ -84,7 +84,7 @@ vmLanguage::loadJLang('com_virtuemart_config');
 				$image = 'admin/checked_out.png';
 				$image = JHtml::_('image', $image, vmText::_('COM_VIRTUEMART_ORDER_STATUS_CODE_CORE'), '', true);
 				$checked = ($coreStatus) ?
-					'<span class="hasTooltip" title="' . vmText::_('COM_VIRTUEMART_ORDER_STATUS_CODE_CORE') . '">' . $image . '</span>' :
+					'<span   uk-tooltip="' . vmText::_('COM_VIRTUEMART_ORDER_STATUS_CODE_CORE') . '">' . $image . '</span>' :
 					JHtml::_('grid.id', $i, $row->virtuemart_orderstate_id);
 
 				$editlink = JROUTE::_('index.php?option=com_virtuemart&view=orderstatus&task=edit&cid[]=' . $row->virtuemart_orderstate_id);

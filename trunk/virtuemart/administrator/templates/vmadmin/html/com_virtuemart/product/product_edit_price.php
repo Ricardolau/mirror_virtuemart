@@ -30,9 +30,7 @@ $rowColor = 0;
 	<tr class="row<?php echo $rowColor ?>">
 		<td width="120px">
 			<div style="text-align: right; font-weight: bold;">
-								<span
-										class="hasTooltip"
-										title="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_COST_TIP'); ?>">
+								<span uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_COST_TIP'); ?>">
 									<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_COST') ?>
 								</span>
 			</div>
@@ -56,8 +54,8 @@ $rowColor = 0;
 		<td style="background: #d5d5d5;padding:0;width:1px;"></td>
 
 		<td colspan="2">
- 			<span class="hasTooltip" style="font-weight: bold;"
-					title="<?php echo vmText::_('COM_VIRTUEMART_SHOPPER_FORM_GROUP_PRICE_TIP'); ?>">
+ 			<span style="font-weight: bold;"
+					uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_SHOPPER_FORM_GROUP_PRICE_TIP'); ?>">
 						<?php echo vmText::_('COM_VIRTUEMART_SHOPPER_FORM_GROUP') ?></span>
 			<?php echo $this->lists['shoppergroups']; ?>
 		</td>
@@ -67,8 +65,8 @@ $rowColor = 0;
 		<td>
 			<div style="text-align: right; font-weight: bold;">
 								<span
-										class="hasTooltip"
-										title="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_BASE_TIP'); ?>">
+
+										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_BASE_TIP'); ?>">
 									<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_BASE') ?>
 								</span>
 			</div>
@@ -89,8 +87,7 @@ $rowColor = 0;
 			<?php echo $this->lists['taxrates']; ?><br/>
 		</td>
 		<td>
-	                        <span class="hasTooltip"
-									title="<?php echo vmText::_('COM_VIRTUEMART_RULES_EFFECTING_TIP') ?>">
+	                        <span uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_RULES_EFFECTING_TIP') ?>">
 							<?php echo vmText::_('COM_VIRTUEMART_TAX_EFFECTING') . '<br />' . $this->taxRules ?>
 		                    </span>
 		</td>
@@ -106,9 +103,7 @@ $rowColor = 0;
 	<tr class="row<?php echo $rowColor ?>">
 		<td>
 			<div style="text-align: right; font-weight: bold;">
-				<span
-						class="hasTooltip"
-						title="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_FINAL_TIP'); ?>">
+				<span uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_FINAL_TIP'); ?>">
 					<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_FINAL') ?>
 				</span>
 			</div>
@@ -129,7 +124,7 @@ $rowColor = 0;
 			<?php echo $this->lists['discounts']; ?> <br/>
 		</td>
 		<td>
-	                    <span class="hasTooltip" title="<?php echo vmText::_('COM_VIRTUEMART_RULES_EFFECTING_TIP') ?>">
+	                    <span uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_RULES_EFFECTING_TIP') ?>">
 						<?php if (!empty($this->DBTaxRules)) {
 							echo vmText::_('COM_VIRTUEMART_RULES_EFFECTING') . '</span><br />' . $this->DBTaxRules . '<br />';
 
@@ -155,9 +150,7 @@ $rowColor = 0;
 
 		<td width="60px">
 			<div style="text-align: right; font-weight: bold;">
-				<span
-						class="hasTooltip"
-						title="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_DISCOUNT_OVERRIDE_TIP'); ?>">
+				<span uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_DISCOUNT_OVERRIDE_TIP'); ?>">
 					<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_DISCOUNT_OVERRIDE') ?>
 				</span>
 			</div>
@@ -177,9 +170,7 @@ $rowColor = 0;
 			echo '<input type="checkbox" name="mprices[use_desired_price][' . $this->priceCounter . ']" value="1"/>'
 			?>
 			<strong>
-			<span
-					class="hasTooltip"
-					title="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_CALCULATE_PRICE_FINAL_TIP'); ?>">
+			<span uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_CALCULATE_PRICE_FINAL_TIP'); ?>">
 			<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_CALCULATE_PRICE_FINAL'); ?>
 			</span>
 			</strong>

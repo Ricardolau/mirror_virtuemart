@@ -33,21 +33,16 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</div>
 	<div class="uk-card-body">
 		<div>
-			<?php echo VmuikitHtml::checkbox('lstockmail', VmConfig::get('lstockmail')); ?>
-			<span uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_CFG_LOWSTOCK_NOTIFY_TIP'); ?>">
-				<label for="lstockmail">
-					<?php echo vmText::_('COM_VIRTUEMART_CFG_LOWSTOCK_NOTIFY'); ?>
-				</label>
-			</span>
+
+			<?php
+			echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_CFG_LOWSTOCK_NOTIFY', 'lstockmail', VmConfig::get('lstockmail'));
+			?>
 		</div>
 		<div>
-			<?php echo VmuikitHtml::checkbox('stockhandle_products', VmConfig::get('stockhandle_products')); ?>
-			<span
-					uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_CFG_POOS_DISCONTINUED_PRODUCTS_TIP'); ?>">
-				<label for="stockhandle_products">
-					<?php echo vmText::_('COM_VIRTUEMART_CFG_POOS_DISCONTINUED_PRODUCTS'); ?>
-				</label>
-				</span>
+			<?php
+			echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_CFG_POOS_DISCONTINUED_PRODUCTS', 'stockhandle_products', VmConfig::get('stockhandle_products'));
+			?>
+
 		</div>
 		<?php
 		$options = array(
@@ -60,7 +55,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		echo VmuikitHtml::radioList('stockhandle', VmConfig::get('stockhandle', 'none'), $options);
 		?>
 		<div style="font-weight:bold;">
-					<span class="hasTooltip" title="<?php echo vmText::_('COM_VIRTUEMART_AVAILABILITY_EXPLAIN'); ?>">
+					<span class="" uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_AVAILABILITY_EXPLAIN'); ?>">
 						<?php echo vmText::_('COM_VIRTUEMART_AVAILABILITY'); ?>
 					</span>
 		</div>

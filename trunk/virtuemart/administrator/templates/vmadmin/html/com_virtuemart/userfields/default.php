@@ -88,7 +88,7 @@ vmuikitAdminUIHelper::startAdminArea($this);
 			$image = JHtml::_('image', $image, vmText::_('COM_VIRTUEMART_FIELDMANAGER_COREFIELD'),null,true);
 			//$checked = '<div style="position: relative;">'.JHtml::_('grid.id', $i, null,$row->virtuemart_userfield_id);
 			$checked = JHtml::_('grid.id', $i ,$row->virtuemart_userfield_id,null,'virtuemart_userfield_id');
-			if ($coreField) $checked.='<span class="hasTooltip" style="position: absolute; margin-left:-3px;" title="'. vmText::_('COM_VIRTUEMART_FIELDMANAGER_COREFIELD').'">'. $image .'</span>';
+			if ($coreField) $checked.='<span   style="position: absolute; margin-left:-3px;" uk-tooltip="'. vmText::_('COM_VIRTUEMART_FIELDMANAGER_COREFIELD').'">'. $image .'</span>';
 			$checked .= '</div>';
 			$checked_out = $coreField ? 'style="position: relative;"' : '';
 			// There is no reason not to allow moving of the core fields. We only need to disable deletion of them

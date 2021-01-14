@@ -55,10 +55,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			</div>
 		</div>
 		<?php
-		echo VmuikitHtml::row('checkbox', 'COM_VM_CFG_NO_FALLBACK', 'prodOnlyWLang', VmConfig::get('prodOnlyWLang', 0));
+		echo VmuikitHtml::row('booleanlist', 'COM_VM_CFG_NO_FALLBACK', 'prodOnlyWLang', VmConfig::get('prodOnlyWLang', 0));
+
 		//echo VmuikitHtml::row('checkbox','COM_VM_CFG_DUAL_FALLBACK','dualFallback',VmConfig::get('dualFallback',1));
 		echo VmuikitHtml::row('input', 'COM_VM_CFG_CUSTOM_FALLBACK', 'vm_lfbs', VmConfig::get('vm_lfbs', ''));
-		echo VmuikitHtml::row('checkbox', 'COM_VM_CFG_REINJECTJLANGUAGE', 'ReInjectJLanguage', VmConfig::get('ReInjectJLanguage', 0));
+		echo VmuikitHtml::row('booleanlist', 'COM_VM_CFG_REINJECTJLANGUAGE', 'ReInjectJLanguage', VmConfig::get('ReInjectJLanguage', 0));
 		?>
 	</div>
 </div>

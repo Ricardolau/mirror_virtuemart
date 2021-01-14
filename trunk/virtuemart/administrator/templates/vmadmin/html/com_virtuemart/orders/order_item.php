@@ -30,12 +30,12 @@ $i=0;
 	<?php // TODO COM_VIRTUEMART_ORDER_DELETE_ITEM_JS : _JS Why ? ?>
 	<?php if(vmAccess::manager('orders.edit')) { ?>
 		<?php if (!VmConfig::get('ordersAddOnly',false)) { ?>
-			<a href="#" title="<?php echo vmText::_('COM_VIRTUEMART_ORDER_DELETE_ITEM_JS'). ' ' . $item->order_item_name ; ?>"
+			<a href="#" uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_DELETE_ITEM_JS'). ' ' . $item->order_item_name ; ?>"
 					onClick="javascript:Virtuemart.removeItem(event,<?php echo $item->virtuemart_order_item_id; ?>);">
-				<span class="vmicon vmicon-16-remove 4remove orderEdit"></span></a>
+				<div class=" 4remove orderEdit" uk-icon="icon: trash"></div></a>
 		<?php } ?>
 		<?php //TODO: change vmicon-16-move and create vmicon-16-clone class ?>
-		<span class="icon-copy order-item-clone orderEdit hasTooltip" title="<?php echo vmText::_('COM_VIRTUEMART_ORDER_ITEM_CLONE'). ' ' . $item->order_item_name ; ?>"></span>
+		<div class=" order-item-clone orderEdit uk-margin-small-top" uk-icon="icon: copy" uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_ITEM_CLONE'). ' ' . $item->order_item_name ; ?>"></div>
 	<?php } ?>
 </td>
 <td>
@@ -54,8 +54,8 @@ $i=0;
 	<?php if ($item->virtuemart_order_item_id > 0 ) { ?>
 		<div class="goto-product">
 			<a href="<?php echo $item->linkedit ?>" target="_blank"
-					title="<?php echo vmText::_('COM_VM_GOTO_PRODUCT') . ' ' . $item->order_item_name ?>">
-				<span class="vm2-modallink"></span>
+					uk-tooltip="<?php echo vmText::_('COM_VM_GOTO_PRODUCT') . ' ' . $item->order_item_name ?>">
+				<span uk-icon="icon: link"></span>
 			</a>
 		</div>
 

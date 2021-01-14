@@ -27,73 +27,87 @@ vmuikitAdminUIHelper::startAdminArea($this);
 vmuikitAdminUIHelper::imitateTabs('start', 'COM_VIRTUEMART_SHOPPERGROUP_NAME');
 
 ?>
-	<div class="uk-card   uk-card-small uk-card-vm ">
-		<div class="uk-card-header">
-			<div class="uk-card-title">
-						<span class="md-color-cyan-600 uk-margin-small-right"
-								uk-icon="icon: users; ratio: 1.2"></span>
-				<?php echo vmText::_('COM_VIRTUEMART_SHOPPERGROUP_DETAILS') ?>
-			</div>
-		</div>
-		<div class="uk-card-body">
+	<form action="index.php" method="post" name="adminForm" id="adminForm" class="uk-form-horizontal">
+		<div class="uk-child-width-1-1" uk-grid>
+			<div>
 
-			<form action="index.php" method="post" name="adminForm" id="adminForm" class="uk-form-horizontal">
-
-				<?php
-				echo VmuikitHtml::row('input', 'COM_VIRTUEMART_SHOPPERGROUP_NAME', 'shopper_group_name', $this->shoppergroup->shopper_group_name, 'class="required"');
-				echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_PUBLISHED', 'published', $this->shoppergroup->published);
-				/*if($this->showVendors() ){
-					echo VmuikitHtml::row('raw','COM_VIRTUEMART_VENDOR', $this->vendorList );
-				}*/
-				if ($this->shoppergroup->default == 1) {
-					?>
-					<div class="uk-clearfix">
-						<div class="uk-form-label">
-					<span class="hasTooltip"
-							title="<?php echo vmText::_('COM_VIRTUEMART_SHOPPERGROUP_DEFAULT_TIP'); ?>">
-									<?php echo vmText::_('COM_VIRTUEMART_SHOPPERGROUP_DEFAULT'); ?>
-								</span>
-						</div>
-						<div class="uk-form-controls">
-							<?php echo JHtml::_('image', 'menu/icon-16-default.png', vmText::_('COM_VIRTUEMART_SHOPPERGROUP_DEFAULT'), NULL, true); ?>
+				<div class="uk-card   uk-card-small uk-card-vm ">
+					<div class="uk-card-header">
+						<div class="uk-card-title">
+					<span class="md-color-cyan-600 uk-margin-small-right"
+							uk-icon="icon: users; ratio: 1.2"></span>
+							<?php echo vmText::_('COM_VIRTUEMART_SHOPPERGROUP_DETAILS') ?>
 						</div>
 					</div>
+					<div class="uk-card-body">
+						<?php
+						echo VmuikitHtml::row('input', 'COM_VIRTUEMART_SHOPPERGROUP_NAME', 'shopper_group_name', $this->shoppergroup->shopper_group_name, 'class="required"');
+						echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_PUBLISHED', 'published', $this->shoppergroup->published);
+						/*if($this->showVendors() ){
+							echo VmuikitHtml::row('raw','COM_VIRTUEMART_VENDOR', $this->vendorList );
+						}*/
+						if ($this->shoppergroup->default == 1) {
+							?>
+							<div class="uk-clearfix">
+								<div class="uk-form-label">
+							<span uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_SHOPPERGROUP_DEFAULT_TIP'); ?>">
+								<?php echo vmText::_('COM_VIRTUEMART_SHOPPERGROUP_DEFAULT'); ?>
+							</span>
+								</div>
+								<div class="uk-form-controls">
+									<?php echo JHtml::_('image', 'menu/icon-16-default.png', vmText::_('COM_VIRTUEMART_SHOPPERGROUP_DEFAULT'), NULL, true); ?>
+								</div>
+							</div>
 
-				<?php }
-				echo VmuikitHtml::row('textarea', 'COM_VIRTUEMART_SHOPPERGROUP_DESCRIPTION', 'shopper_group_desc', $this->shoppergroup->shopper_group_desc);
+						<?php }
+						echo VmuikitHtml::row('textarea', 'COM_VIRTUEMART_SHOPPERGROUP_DESCRIPTION', 'shopper_group_desc', $this->shoppergroup->shopper_group_desc);
 
-				if ($this->shoppergroup->default < 1) {
-					echo VmuikitHtml::row('checkbox', 'COM_VIRTUEMART_SHOPPERGROUP_ADDITIONAL', 'sgrp_additional', $this->shoppergroup->sgrp_additional);
-				} else {
+						if ($this->shoppergroup->default < 1) {
+							echo VmuikitHtml::row('checkbox', 'COM_VIRTUEMART_SHOPPERGROUP_ADDITIONAL', 'sgrp_additional', $this->shoppergroup->sgrp_additional);
+						} else {
 
-				}
-				?>
-				<h3 class="uk-heading-line uk-margin-small-bottom">
-					<span><?php echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_PRICES'); ?></span>
-				</h3>
-
-
-				<?php
-				$attributes = 'id="show_prices"';
-				echo VmuikitHtml::row('checkbox', 'COM_VIRTUEMART_SHOPPERGROUP_ENABLE_PRICE_DISPLAY', 'custom_price_display', $this->shoppergroup->custom_price_display, 1, 0, $attributes); ?>
-
-
-				<?php
-				$params = $this->shoppergroup;
-				$show_prices = $this->shoppergroup->show_prices;
-				$showPricesLine = true;
-				include($adminTemplate . '/config/default_priceconfig.php');
-				?>
+						}
+						?>
+					</div>
+				</div>
+			</div>
+			<div>
+				<div class="uk-card   uk-card-small uk-card-vm ">
+					<div class="uk-card-header">
+						<div class="uk-card-title">
+					<span class="md-color-cyan-600 uk-margin-small-right"
+							uk-icon="icon: tag; ratio: 1.2"></span>
+							<?php echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_PRICES') ?>
+						</div>
+					</div>
+					<div class="uk-card-body">
 
 
-				<input type="hidden" name="default" value="<?php echo $this->shoppergroup->default ?>"/>
-				<input type="hidden" name="virtuemart_shoppergroup_id"
-						value="<?php echo $this->shoppergroup->virtuemart_shoppergroup_id; ?>"/>
-				<?php echo $this->addStandardHiddenToForm(); ?>
+						<?php
+						$attributes = 'id="show_prices"';
+						echo VmuikitHtml::row('checkbox', 'COM_VIRTUEMART_SHOPPERGROUP_ENABLE_PRICE_DISPLAY', 'custom_price_display', $this->shoppergroup->custom_price_display, 1, 0, $attributes); ?>
 
-			</form>
+
+						<?php
+						$params = $this->shoppergroup;
+						$show_prices = $this->shoppergroup->show_prices;
+						$showPricesLine = true;
+						include($adminTemplate . '/config/default_priceconfig.php');
+						?>
+
+
+						<input type="hidden" name="default" value="<?php echo $this->shoppergroup->default ?>"/>
+						<input type="hidden" name="virtuemart_shoppergroup_id"
+								value="<?php echo $this->shoppergroup->virtuemart_shoppergroup_id; ?>"/>
+						<?php echo $this->addStandardHiddenToForm(); ?>
+
+
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
+
+	</form>
 <?php
 vmuikitAdminUIHelper::imitateTabs('end');
 vmuikitAdminUIHelper::endAdminArea();

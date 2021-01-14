@@ -69,8 +69,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 				<div class="uk-margin">
 					<label class="uk-form-label">
-			        <span class="hasTooltip"
-							title="<?php echo vmText::sprintf('COM_VIRTUEMART_PRODUCT_PACKAGING_DESCRIPTION', vmText::_('COM_VIRTUEMART_UNIT_NAME_L'), vmText::_('COM_VIRTUEMART_PRODUCT_UNIT'), vmText::_('COM_VIRTUEMART_UNIT_NAME_100ML')); ?>">
+			        <span uk-tooltip="<?php echo vmText::sprintf('COM_VIRTUEMART_PRODUCT_PACKAGING_DESCRIPTION', vmText::_('COM_VIRTUEMART_UNIT_NAME_L'), vmText::_('COM_VIRTUEMART_PRODUCT_UNIT'), vmText::_('COM_VIRTUEMART_UNIT_NAME_100ML')); ?>">
         <?php echo vmText::_('COM_VIRTUEMART_PRODUCT_PACKAGING') ?>
          </span>
 					</label>
@@ -84,8 +83,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 				<div class="uk-margin">
 					<label class="uk-form-label">
-			           <span class="hasTooltip"
-							   title="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_BOX_DESCRIPTION'); ?>">
+			           <span uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_BOX_DESCRIPTION'); ?>">
                 <?php echo vmText::_('COM_VIRTUEMART_PRODUCT_BOX') ?>
                 </span>
 					</label>

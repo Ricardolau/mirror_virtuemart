@@ -116,10 +116,22 @@ $i = 0;
 									<?php
 									echo vmText::sprintf('COM_VIRTUEMART_PRODUCT_FORM_PRICES', $this->activeShoppergroups);
 									if ($this->deliveryCountry) {
+										?>
+										<span class="uk-margin-small-left">
+									<?php
 										echo vmText::sprintf('COM_VIRTUEMART_PRODUCT_FORM_PRICES_COUNTRY', $this->deliveryCountry);
+										?>
+										</span>
+									<?php
 									}
 									if ($this->deliveryState) {
+									?>
+									<span class="uk-margin-small-left">
+									<?php
 										echo vmText::sprintf('COM_VIRTUEMART_PRODUCT_FORM_PRICES_STATE', $this->deliveryState);
+									?>
+										</span>
+										<?php
 									}
 									?>
 								</div>
@@ -293,8 +305,7 @@ $i = 0;
 								<?php
 								} else {
 								?>
-								<span class="hasTooltip"
-										title="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_ADD_CHILD_TIP') ?>">
+								<span uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_ADD_CHILD_TIP') ?>">
 						<?php
 						}
 						?>

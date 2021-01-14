@@ -34,8 +34,8 @@ $option = vRequest::getCmd('option');
 				$extras[]=$this->lists['search_type'];
 				$extras[]=$this->lists['search_role'];
 
-				$extras[]=VmHtml::checkbox('missing', vRequest::getInt('missing', 0), 1, 0).' '.'<span class="hasTooltip" title="' . vmText::_('COM_VM_MEDIA_MISSING_TIP') . '" style="vertical-align:middle;padding:4px 0 0;">' . vmText::_('COM_VM_MEDIA_MISSING') . '</span>';
-				$extras[]= VmHtml::checkbox('findUnusedMedias', vRequest::getInt('findUnusedMedias', 0), 1, 0).'<span class="hasTooltip" title="' . vmText::_('COM_VM_MEDIA_UNUSED_TIP') . '" style="vertical-align:middle;padding:4px 0 0;">' . vmText::_('COM_VM_MEDIA_UNUSED') . '</span>' ;
+				$extras[]=VmHtml::checkbox('missing', vRequest::getInt('missing', 0), 1, 0).' '.'<span   uk-tooltip="' . vmText::_('COM_VM_MEDIA_MISSING_TIP') . '" style="vertical-align:middle;padding:4px 0 0;">' . vmText::_('COM_VM_MEDIA_MISSING') . '</span>';
+				$extras[]= VmHtml::checkbox('findUnusedMedias', vRequest::getInt('findUnusedMedias', 0), 1, 0).'<span   uk-tooltip="' . vmText::_('COM_VM_MEDIA_UNUSED_TIP') . '" style="vertical-align:middle;padding:4px 0 0;">' . vmText::_('COM_VM_MEDIA_UNUSED') . '</span>' ;
 
 				$extras[]=$this->lists['vendors'];
 

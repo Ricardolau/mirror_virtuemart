@@ -38,10 +38,10 @@ $type = 'checkbox';
 		echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_CFG_ADDITIONAL_IMAGES', 'add_img_main', VmConfig::get('add_img_main'));
 		if (function_exists('imagecreatefromjpeg')) {
 			echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_ADMIN_CFG_DYNAMIC_THUMBNAIL_RESIZING', 'img_resize_enable', VmConfig::get('img_resize_enable', 1));
-			echo VmuikitHtml::row('input', 'COM_VM_CFG_MEDIA_WIDTH', 'img_width_full', VmConfig::get('img_width_full', ''), "", "", 4);
-			echo VmuikitHtml::row('input', 'COM_VM_CFG_MEDIA_HEIGHT', 'img_height_full', VmConfig::get('img_height_full', ''), "", "", 4);
-			echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ADMIN_CFG_THUMBNAIL_WIDTH', 'img_width', VmConfig::get('img_width', ''), "", "", 4);
-			echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ADMIN_CFG_THUMBNAIL_HEIGHT', 'img_height', VmConfig::get('img_height', 90), "", "", 4);
+			echo VmuikitHtml::row('input', 'COM_VM_CFG_MEDIA_WIDTH', 'img_width_full', VmConfig::get('img_width_full', ''), 'class="uk-form-width-xsmall"', "", 4);
+			echo VmuikitHtml::row('input', 'COM_VM_CFG_MEDIA_HEIGHT', 'img_height_full', VmConfig::get('img_height_full', ''), 'class="uk-form-width-xsmall"', "", 4);
+			echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ADMIN_CFG_THUMBNAIL_WIDTH', 'img_width', VmConfig::get('img_width', ''), 'class="uk-form-width-xsmall"', "", 4);
+			echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ADMIN_CFG_THUMBNAIL_HEIGHT', 'img_height', VmConfig::get('img_height', 90), 'class="uk-form-width-xsmall"', "", 4);
 
 		} else { ?>
 			<strong><?php echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_GD_MISSING'); ?></strong>

@@ -31,7 +31,7 @@ vmuikitAdminUIHelper::startAdminArea($this);
 		<thead>
 		<tr>
 
-			<th class="admin-checkbox">
+			<th>
 				<input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)" />
 			</th>
 			<th >
@@ -83,7 +83,7 @@ vmuikitAdminUIHelper::startAdminArea($this);
 			?>
 			<tr class="<?php echo "row".$k; ?>">
 
-				<td class="admin-checkbox">
+				<td>
 					<?php echo $checked; ?>
 				</td>
 				<td align="left">

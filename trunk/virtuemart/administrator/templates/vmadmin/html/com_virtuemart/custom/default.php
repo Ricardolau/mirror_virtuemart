@@ -58,7 +58,7 @@ $customs = $this->customs->items;
 	<table class="uk-table uk-table-striped uk-table-responsive">
 	<thead>
 	<tr>
-		<th class="admin-checkbox"><input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)" /></th>
+		<th><input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)" /></th>
 		<th width="8%"><?php echo vmText::_('COM_VIRTUEMART_CUSTOM_GROUP'); ?></th>
 		<th width="30%"><?php echo vmText::_('COM_VIRTUEMART_TITLE'); ?></th>
 		<th width="35%"><?php echo vmText::_('COM_VIRTUEMART_CUSTOM_FIELD_DESCRIPTION'); ?></th>
@@ -93,7 +93,7 @@ $customs = $this->customs->items;
 			?>
 			<tr class="row<?php echo $k ; ?>">
 				<!-- Checkbox -->
-				<td class="admin-checkbox"><?php echo $checked; ?></td>
+				<td><?php echo $checked; ?></td>
 				<?php
 				$link = "index.php?view=custom&keyword=".urlencode($keyword)."&custom_parent_id=".$custom->custom_parent_id."&option=".$option;
 				?>

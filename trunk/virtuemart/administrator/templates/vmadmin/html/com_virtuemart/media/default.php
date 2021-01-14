@@ -62,7 +62,7 @@ $option = vRequest::getCmd('option');
 		<table class="uk-table uk-table-striped uk-table-responsive">
 			<thead>
 			<tr>
-				<th class="admin-checkbox"><input type="checkbox" name="toggle" value=""
+				<th><input type="checkbox" name="toggle" value=""
 							onclick="Joomla.checkAll(this)"/></th>
 				<?php /*<th><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_NAME'); ?></th>*/ ?>
 				<th width="30%"><?php echo $this->sort('file_title', 'COM_VIRTUEMART_FILES_LIST_FILETITLE') ?></th>
@@ -104,7 +104,7 @@ $option = vRequest::getCmd('option');
 					?>
 					<tr class="row<?php echo $k; ?>">
 						<!-- Checkbox -->
-						<td class="admin-checkbox"><?php echo $checked; ?></td>
+						<td><?php echo $checked; ?></td>
 						<!-- Product name -->
 						<?php
 						$link = ""; //"index.php?view=media&limitstart=".$pagination->limitstart."&keyword=".urlencode($keyword)."&option=".$option;

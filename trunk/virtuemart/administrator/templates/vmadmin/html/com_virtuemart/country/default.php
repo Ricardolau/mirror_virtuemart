@@ -50,7 +50,7 @@ $states = vmText::_('COM_VIRTUEMART_STATE_S');
 			<table class="uk-table uk-table-striped uk-table-responsive">
 				<thead>
 				<tr>
-					<th class="admin-checkbox">
+					<th>
 						<input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)"/>
 					</th>
 					<th>
@@ -88,7 +88,7 @@ $states = vmText::_('COM_VIRTUEMART_STATE_S');
 					$statelink = JROUTE::_('index.php?option=com_virtuemart&view=state&view=state&virtuemart_country_id=' . $row->virtuemart_country_id);
 					?>
 					<tr class="row<?php echo $k; ?>">
-						<td class="admin-checkbox">
+						<td>
 							<?php echo $checked; ?>
 						</td>
 						<td align="left">

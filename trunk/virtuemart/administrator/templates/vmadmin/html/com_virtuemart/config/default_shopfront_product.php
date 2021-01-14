@@ -37,7 +37,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_UNCAT_CHILD_PRODUCTS_SHOW', 'show_uncat_child_products', VmConfig::get('show_uncat_child_products', 0));
 		echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_SHOW_PRODUCTS_UNPUBLISHED_CATEGORIES', 'show_unpub_cat_products', VmConfig::get('show_unpub_cat_products', 1));
 		echo VmuikitHtml::row('booleanlist', 'COM_VM_PRODUCTDETAILS_DISPL_CATS', 'cat_productdetails', VmConfig::get('cat_productdetails', 0));
-		echo VmuikitHtml::row('input', 'COM_VIRTUEMART_LATEST_PRODUCTS_DAYS', 'latest_products_days', VmConfig::get('latest_products_days', 7), 'class="inputbox"', '', 4, 4);
+		echo VmuikitHtml::row('input', 'COM_VIRTUEMART_LATEST_PRODUCTS_DAYS', 'latest_products_days', VmConfig::get('latest_products_days', 7), 'class="uk-form-width-xsmall"', '', 4, 4);
 		$latest_products_orderBy = array(
 			'modified_on' => vmText::_('COM_VIRTUEMART_LATEST_PRODUCTS_ORDERBY_MODIFIED'),
 			'created_on' => vmText::_('COM_VIRTUEMART_LATEST_PRODUCTS_ORDERBY_CREATED')

@@ -34,8 +34,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_RECCOMEND_UNATUH', 'recommend_unauth', VmConfig::get('recommend_unauth', 0));
 		echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_ASK_QUESTION_CAPTCHA', 'ask_captcha', VmConfig::get('ask_captcha', 0));
 		echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_ASK_QUESTION_SHOW', 'ask_question', VmConfig::get('ask_question', 0));
-		echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ASK_QUESTION_MIN_LENGTH', 'asks_minimum_comment_length', VmConfig::get('asks_minimum_comment_length', 50), 'class="inputbox"', '', 4, 4);
-		echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ASK_QUESTION_MAX_LENGTH', 'asks_maximum_comment_length', VmConfig::get('asks_maximum_comment_length', 2000), 'class="inputbox"', '', 5, 5);
+		echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ASK_QUESTION_MIN_LENGTH', 'asks_minimum_comment_length', VmConfig::get('asks_minimum_comment_length', 50), 'class="uk-form-width-xsmall"', '', 4, 4);
+		echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ASK_QUESTION_MAX_LENGTH', 'asks_maximum_comment_length', VmConfig::get('asks_maximum_comment_length', 2000), 'class="uk-form-width-xsmall"', '', 5, 5);
 		?>
 	</div>
 </div>

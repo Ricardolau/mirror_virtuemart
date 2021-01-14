@@ -28,7 +28,7 @@ vmLanguage::loadJLang('com_virtuemart_config');
 		<table class="uk-table uk-table-striped uk-table-responsive">
 			<thead>
 			<tr>
-				<th class="admin-checkbox">
+				<th>
 					<input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)"/>
 				</th>
 				<th>
@@ -96,7 +96,7 @@ vmLanguage::loadJLang('com_virtuemart_config');
 				}
 				?>
 				<tr class="row<?php echo $k; ?>">
-					<td class="admin-checkbox" <?php echo $colorStyle ?>>
+					<td <?php echo $colorStyle ?>>
 						<?php echo $checked; ?>
 					</td>
 					<td align="left">

@@ -51,7 +51,7 @@ vmuikitAdminUIHelper::startAdminArea($this);
 	<table class="uk-table uk-table-striped uk-table-responsive">
 		<thead>
 		<tr>
-			<th class="admin-checkbox">
+			<th>
 				<input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)" />
 			</th>
 			<th width="20%"><?php echo $this->sort('calc_name', 'COM_VIRTUEMART_NAME') ; ?></th>
@@ -100,7 +100,7 @@ vmuikitAdminUIHelper::startAdminArea($this);
 			?>
 			<tr class="<?php echo "row".$k; ?>">
 
-				<td class="admin-checkbox">
+				<td>
 					<?php echo $checked; ?>
 				</td>
 				<td align="left">

@@ -89,7 +89,7 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 			<table class="uk-table uk-table-striped uk-table-responsive">
 				<thead>
 				<tr>
-					<th class="admin-checkbox">
+					<th>
 						<input type="checkbox" name="toggle" value=""
 								onclick="Joomla.checkAll(this)"/></th>
 
@@ -137,7 +137,7 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 						?>
 						<tr class="row<?php echo $k; ?>">
 							<!-- Checkbox -->
-							<td class="admin-checkbox"><?php echo $checked; ?></td>
+							<td><?php echo $checked; ?></td>
 
 							<td >
 								<!--<span style="float:left; clear:left"> -->

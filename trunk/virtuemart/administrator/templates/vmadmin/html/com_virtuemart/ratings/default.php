@@ -60,7 +60,7 @@ $extras[]=
 	<table class="uk-table uk-table-striped uk-table-responsive">
 	<thead>
 	<tr>
-		<th class="admin-checkbox"><input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)" /></th>
+		<th><input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)" /></th>
 		<th width="40%"><?php echo $this->sort('created_on', 'COM_VIRTUEMART_DATE') ; ?></th>
 		<th width="40%"><?php echo $this->sort('product_name') ; ?></th>
 		<th width="20%"><?php echo vmText::_('COM_VIRTUEMART_REVIEW_LANGUAGE') ; ?></th>
@@ -81,7 +81,7 @@ $extras[]=
 			?>
 			<tr class="row<?php echo $k ; ?>">
 				<!-- Checkbox -->
-				<td class="admin-checkbox"><?php echo $checked; ?></td>
+				<td><?php echo $checked; ?></td>
 				<!-- Username + time -->
 				<?php $link = 'index.php?option='.$option.'&view=ratings&task=listreviews&virtuemart_product_id='.$review->virtuemart_product_id; ?>
 				<td><?php echo JHtml::_('link', $link,vmJsApi::date($review->created_on,'LC2',true) , array("title" => vmText::_('COM_VIRTUEMART_RATING_EDIT_TITLE'))); ?></td>

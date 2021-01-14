@@ -43,7 +43,7 @@ vmuikitAdminUIHelper::startAdminArea($this);
 		<table class="uk-table uk-table-striped uk-table-responsive">
 		<thead>
 		<tr>
-			<th class="admin-checkbox">
+			<th>
 				<input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)" />
 			</th>
 
@@ -106,7 +106,7 @@ vmuikitAdminUIHelper::startAdminArea($this);
 			$disabled = ($ordering ?  '' : 'disabled="disabled"');
 		?>
 			<tr class="row<?php echo $k ; ?>">
-				<td class="admin-checkbox" <?php echo $checked_out; ?>>
+				<td <?php echo $checked_out; ?>>
 					<?php echo $checked; ?>
 				</td>
 

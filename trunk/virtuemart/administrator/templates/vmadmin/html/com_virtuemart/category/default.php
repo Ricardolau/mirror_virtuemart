@@ -77,7 +77,7 @@ vmuikitAdminUIHelper::startAdminArea($this);
 		<thead>
 		<tr>
 
-			<th class="admin-checkbox">
+			<th>
 				<input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)"/>
 			</th>
 			<th align="left" width="20%">
@@ -151,7 +151,7 @@ vmuikitAdminUIHelper::startAdminArea($this);
 			?>
 			<tr class="<?php echo "row" . $k; ?>">
 
-				<td class="admin-checkbox"><?php echo $checked; ?></td>
+				<td><?php echo $checked; ?></td>
 				<td align="left">
 					<span class="categoryLevel"><?php echo $categoryLevel; ?></span>
 					<a href="<?php echo $editlink; ?>"><?php echo $cat->category_name; ?></a>

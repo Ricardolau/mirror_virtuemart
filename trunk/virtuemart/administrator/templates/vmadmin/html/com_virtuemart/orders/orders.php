@@ -64,7 +64,7 @@ $tools[]=$tool;
 			<table class="uk-table uk-table-striped uk-table-responsive">
 				<thead>
 				<tr>
-					<th class="admin-checkbox">
+					<th>
 						<input type="checkbox" name="toggle" value=""
 								onclick="Joomla.checkAll(this)"/>
 					</th>
@@ -100,7 +100,7 @@ $tools[]=$tool;
 						?>
 						<tr class="row<?php echo $k . ' status-' . strtolower($order->order_status); ?>">
 							<!-- Checkbox -->
-							<td class="admin-checkbox"><?php echo $checked; ?></td>
+							<td><?php echo $checked; ?></td>
 							<!-- Order id -->
 							<?php
 							$link = 'index.php?option=com_virtuemart&view=orders&task=edit&virtuemart_order_id=' . $order->virtuemart_order_id;

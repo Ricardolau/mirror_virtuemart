@@ -41,7 +41,7 @@ vmuikitAdminUIHelper::startAdminArea($this);
 		<table class="uk-table uk-table-striped uk-table-responsive">
 			<thead>
 			<tr>
-				<th class="admin-checkbox"><input type="checkbox" name="toggle" value=""
+				<th><input type="checkbox" name="toggle" value=""
 							onclick="Joomla.checkAll(this)"/></th>
 				<th><?php echo $this->sort('product_name') ?></th>
 				<th><?php echo $this->sort('product_sku') ?></th>
@@ -76,7 +76,7 @@ vmuikitAdminUIHelper::startAdminArea($this);
 					?>
 					<tr class="row<?php echo $k; ?>">
 						<!-- Checkbox -->
-						<td class="admin-checkbox"><?php echo $checked; ?></td>
+						<td><?php echo $checked; ?></td>
 						<!-- Product name -->
 						<?php
 						$link = 'index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id=' . $product->virtuemart_product_id . '&product_parent_id=' . $product->product_parent_id;

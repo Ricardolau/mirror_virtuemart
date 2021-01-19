@@ -19,7 +19,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');?>
 
-<div class="uk-child-width-1-2@m" uk-grid>
+<div class="uk-child-width-1-2@m uk-grid-match uk-grid-small" uk-grid>
 	<div>
 		<?php echo $this->loadTemplate('shopfront_settings') ?>
 	</div>

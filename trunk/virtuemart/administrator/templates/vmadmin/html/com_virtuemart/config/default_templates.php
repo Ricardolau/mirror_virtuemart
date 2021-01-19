@@ -24,7 +24,7 @@ $params = VmConfig::loadConfig();
 $type = 'checkbox';
 
 ?>
-<div class="uk-child-width-1-2@m" uk-grid>
+<div class="uk-child-width-1-2@m uk-grid-match uk-grid-small" uk-grid>
 	<!-- template_params -->
 	<div >
 		<?php echo $this->loadTemplate('templates_params') ?>

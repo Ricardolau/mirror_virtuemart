@@ -18,7 +18,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access'); ?>
 
-<div class="" uk-grid>
+<div class="uk-grid-match uk-grid-small" uk-grid>
 	<div>
 		<div class="uk-card uk-card-small uk-card-vm">
 			<div class="uk-card-header">

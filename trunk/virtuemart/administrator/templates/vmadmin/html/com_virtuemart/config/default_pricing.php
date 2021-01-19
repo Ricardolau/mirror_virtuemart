@@ -22,7 +22,7 @@ $js = 'Virtuemart.showprices;';
 vmJsApi::addJScript('show_prices',$js,true);
 
 ?>
-<div class="uk-child-width-1-2@m" uk-grid>
+<div class="uk-child-width-1-2@m uk-grid-match uk-grid-small" uk-grid>
 	<div>
 		<?php echo $this->loadTemplate('pricing_config') ?>
 	</div>

@@ -91,7 +91,7 @@ vmJsApi::addJScript('vmuikit-remindTab', "
 			<div id="vmuikit-menu-wrapper-offcanvas" class="vmuikit-menu-wrapper">
 
 				<div class="uk-flex uk-flex-column">
-					<button class="uk-button uk-button-small uk-button-default uk-margin-small-bottom vmuikit-js-menu-offcanvas-toggle uk-visible@m">
+					<button class="uk-button uk-button-small uk-button-default uk-margin-small-bottom vmuikit-js-menu-offcanvas-toggle uk-visible@m" uk-tooltip="<?php echo vmText::_('COM_VM_SHOW_MENU') ?>">
 						<a class="uk-icon-link" uk-icon="arrow-right"></a>
 					</button>
 					<button class="uk-button uk-button-small uk-button-default "
@@ -154,9 +154,9 @@ vmJsApi::addJScript('vmuikit-remindTab', "
 				id="vmuikit-menu-wrapper<?php echo $hideMenu ?>">
 			<div class="vmuikit-menu-wrapper uk-light uk-background-secondary">
 				<div uk-height-viewport="offset-top: true;offset-bottom: true">
-					<div class="uk-text-center uk-margin-small-top">
+					<div class="uk-text-left ">
 
-						<button class="uk-button uk-button-small uk-button-default uk-margin-small-top vmuikit-js-menu-offcanvas-toggle"
+						<button class="uk-button uk-button-small uk-button-link  vmuikit-js-menu-offcanvas-toggle" uk-tooltip="<?php echo vmText::_('COM_VM_HIDE_MENU') ?>"
 								type="button">
 							<span uk-icon="arrow-left"></span>
 						</button>
@@ -166,7 +166,7 @@ vmJsApi::addJScript('vmuikit-remindTab', "
 					<div id="vmuikit-menu">
 
 						<div class="">
-							<div class="menu-logo uk-flex uk-flex-middle uk-flex-center uk-light  uk-padding-xsmall vmuikit-menu-toggle">
+							<div class="menu-logo uk-flex uk-flex-middle uk-flex-center uk-light   vmuikit-menu-toggle">
 								<a href="index.php?option=com_virtuemart&amp;view=virtuemart"><img
 											src="<?php echo JURI::root(true) . '/administrator/components/com_virtuemart/assets/images/vm_menulogo.png' ?>">
 								</a>

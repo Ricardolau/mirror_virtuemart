@@ -91,9 +91,9 @@ vmJsApi::addJScript('vmuikit-remindTab', "
 			<div id="vmuikit-menu-wrapper-offcanvas" class="vmuikit-menu-wrapper">
 
 				<div class="uk-flex uk-flex-column">
-					<button class="uk-button uk-button-small uk-button-default uk-margin-small-bottom vmuikit-js-menu-offcanvas-toggle uk-visible@m" uk-tooltip="<?php echo vmText::_('COM_VM_SHOW_MENU') ?>">
-						<a class="uk-icon-link" uk-icon="arrow-right"></a>
-					</button>
+					<a href="#" class="uk-icon-button uk-margin-small-bottom vmuikit-js-menu-offcanvas-toggle uk-visible@m" uk-tooltip="<?php echo vmText::_('COM_VM_SHOW_MENU') ?>">
+						<span class="uk-icon-button" uk-icon="arrow-right"></span>
+					</a>
 					<button class="uk-button uk-button-small uk-button-default "
 							uk-toggle="target: #vmuikit-menu-offcanvas-toggle">
 						<span uk-icon="menu"></span>
@@ -156,10 +156,10 @@ vmJsApi::addJScript('vmuikit-remindTab', "
 				<div uk-height-viewport="offset-top: true;offset-bottom: true">
 					<div class="uk-text-left ">
 
-						<button class="uk-button uk-button-small uk-button-link  vmuikit-js-menu-offcanvas-toggle" uk-tooltip="<?php echo vmText::_('COM_VM_HIDE_MENU') ?>"
+						<a href="#" class="uk-icon-button  vmuikit-js-menu-offcanvas-toggle" uk-tooltip="<?php echo vmText::_('COM_VM_HIDE_MENU') ?>"
 								type="button">
 							<span uk-icon="arrow-left"></span>
-						</button>
+						</a>
 
 					</div>
 

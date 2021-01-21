@@ -39,7 +39,7 @@ defined('_JEXEC') or die('Restricted access');
 		?>
 		<caption>
 			<?php
-			echo vmText::sprintf('COM_VM_PRICEDISPLAY_CONFIGURED_BY SHOPPERGRPS', implode(',', $this->shopgrp_price));
+			echo vmText::sprintf('COM_VM_PRICEDISPLAY_CONFIGURED_BY_SHOPPERGRPS', implode(',', $this->shopgrp_price));
 			?>
 		</caption>
 		<?php

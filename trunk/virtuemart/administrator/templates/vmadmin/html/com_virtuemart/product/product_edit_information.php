@@ -136,15 +136,6 @@ $i = 0;
 									?>
 								</div>
 							</div>
-							<div>
-								<div>
-
-									<a  class="uk-button uk-button-small uk-link" href="#" id="add_new_price"
-											uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_ADD_PRICE') ?>">
-										<span class="" uk-icon="icon: plus-circle; ratio: 1"></span>
-									</a>
-								</div>
-							</div>
 
 						</div>
 
@@ -269,6 +260,17 @@ $i = 0;
 
 
 				</div>
+
+				<div class="uk-card-footer">
+					<div>
+
+						<a  class="uk-button uk-button-small uk-button-primary" href="#" id="add_new_price"
+								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_ADD_PRICE') ?>">
+							<span class="uk-margin-small-right" uk-icon="icon: plus; ratio: 1"></span><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_ADD_PRICE') ?>
+						</a>
+					</div>
+				</div>
+
 			</div>
 		</div>
 
@@ -296,7 +298,7 @@ $i = 0;
 					</div>
 				</div>
 				<div class="uk-card-body">
-					<div class="button2-left <?php echo $add_child_button ?> btn-wrapper">
+					<div class="uk-margin-small <?php echo $add_child_button ?> ">
 						<div class="blank">
 							<?php
 							if ($link) {
@@ -309,7 +311,7 @@ $i = 0;
 						<?php
 						}
 						?>
-						<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_ADD_CHILD') ?>
+						<span class="uk-margin-small-right" uk-icon="icon: plus; ratio: 1"></span><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_ADD_CHILD') ?>
 
 						<?php
 						if ($link) {

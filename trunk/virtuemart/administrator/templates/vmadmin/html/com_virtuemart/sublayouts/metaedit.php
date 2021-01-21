@@ -45,8 +45,8 @@ $options = array(
 
 
 		echo VmuikitHtml::row('input', 'COM_VIRTUEMART_CUSTOM_PAGE_TITLE', 'customtitle', $obj->customtitle);
-		echo VmuikitHtml::row('textarea', 'COM_VIRTUEMART_METAKEY', 'metakey', $obj->metakey, 'class="inputbox"', 80);
-		echo VmuikitHtml::row('textarea', 'COM_VIRTUEMART_METADESC', 'metadesc', $obj->metadesc, 'class="inputbox"', 80);
+		echo VmuikitHtml::row('textarea', 'COM_VIRTUEMART_METAKEY', 'metakey', $obj->metakey, 'class="uk-textarea  uk-margin-small-bottom"', 80);
+		echo VmuikitHtml::row('textarea', 'COM_VIRTUEMART_METADESC', 'metadesc', $obj->metadesc, 'class="uk-textarea  uk-margin-small-bottom"', 80);
 		echo VmuikitHtml::row('selectList', 'COM_VIRTUEMART_METAROBOTS', 'metarobot', $obj->metarobot, $options);
 		echo VmuikitHtml::row('input', 'COM_VIRTUEMART_METAAUTHOR', 'metaauthor', $obj->metaauthor);
 		?>

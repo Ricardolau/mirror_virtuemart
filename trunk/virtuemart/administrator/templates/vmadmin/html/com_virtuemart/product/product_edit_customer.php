@@ -72,7 +72,7 @@ $i = 0;
 				<input type="text" class="mail-subject" id="mail-subject" size="100"   value="<?php echo vmText::sprintf ('COM_VIRTUEMART_PRODUCT_EMAIL_SHOPPERS_SUBJECT',$this->product->product_name) ?>">
 
 				<div><?php echo vmText::_ ('COM_VIRTUEMART_PRODUCT_EMAIL_CONTENT') ?></div>
-				<textarea style="width: 100%;" class="inputbox"   id="mail-body" cols="35" rows="10"></textarea>
+				<textarea class="uk-textarea"   id="mail-body" ></textarea>
 				<br/>
 			</div>
 		</td>

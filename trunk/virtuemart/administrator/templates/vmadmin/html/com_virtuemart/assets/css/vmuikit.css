@@ -2,7 +2,10 @@
 #vmuikit-menu-wrapper{
     width: 250px;
 }
-
+/* over the Joomla navbar */
+.vmuikit-menu-offcanvas-toggle.uk-offcanvas-overlay.uk-open{
+    z-index: 1050;
+}
 
 /* Smaller Header */
 .uk-navbar-nav > li > a,
@@ -416,4 +419,11 @@ label.invalid {
 
 .uk-light .uk-card-secondary{
     background:rgba(0, 0, 0, 0.8);
+}
+.uk-label-order{
+    font-size: revert;
+    text-transform: none;
+    max-width: 100px;
+    white-space: normal;
+    padding: 0 5px;
 }

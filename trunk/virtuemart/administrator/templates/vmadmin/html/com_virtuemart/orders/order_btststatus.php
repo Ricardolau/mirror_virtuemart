@@ -156,9 +156,7 @@ defined('_JEXEC') or die('Restricted access');
 						</div>
 					</div>
 					<div class="uk-card-body">
-								<textarea class="textarea" name="order_note" cols="60"
-										rows="2"><?php echo $this->orderbt->order_note ?></textarea>
-
+								<textarea class="textarea" name="order_note" cols="60" rows="2"><?php echo $this->orderbt->order_note ?></textarea>
 					</div>
 					<div class="uk-card-footer uk-text-center">
 						<button class="uk-button uk-button-small uk-button-primary">

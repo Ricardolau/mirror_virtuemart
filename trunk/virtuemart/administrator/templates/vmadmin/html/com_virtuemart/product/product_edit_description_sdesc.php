@@ -30,8 +30,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</div>
 	<div class="uk-card-body">
 
-				<textarea class="inputbox" name="product_s_desc" id="product_s_desc" cols="65"
-						rows="3"><?php echo $this->product->product_s_desc; ?></textarea>
+				<textarea class="uk-textarea" name="product_s_desc" id="product_s_desc" ><?php echo $this->product->product_s_desc; ?></textarea>
 	</div>
 </div>
 

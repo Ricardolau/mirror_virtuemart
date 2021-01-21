@@ -433,3 +433,13 @@ label.invalid {
 .uk-label-order a {
     color: #FFF;
 }
+#orderForm .uk-card-vm input,#orderForm  .uk-card-vm textarea,#orderForm .uk-card-vm .uneditable-input {
+    width: 95%;
+}
+.stock-normal {
+    background-color: #a5d6a7 !important;
+}
+/* fixes radio button on the shipment and payment that uses template.css */
+#adminForm .control-input .radio input[type="radio"], #adminForm .control-input .checkbox input[type="checkbox"] {
+    margin-left: 0 ;
+}

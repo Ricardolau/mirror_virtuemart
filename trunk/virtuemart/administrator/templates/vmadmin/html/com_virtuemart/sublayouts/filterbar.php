@@ -2,7 +2,7 @@
 /**
  *
  * @package VirtueMart
- * @subpackage Sublayouts  build tabs end
+ * @subpackage Sublayouts  filter
  * @author Eugen Stranz, Max Milbers
  * @copyright Copyright (c) 2004 - ${PHING.VM.COPYRIGHT} VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php

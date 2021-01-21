@@ -74,8 +74,8 @@ defined('_JEXEC') or die('Restricted access');
 			<div class="uk-card-header">
 				<div class="uk-card-title">
 						<span class="md-color-cyan-600 uk-margin-small-right"
-								uk-icon="icon: id-card; ratio: 1.2"></span>
-					<?php echo vmText::_('COM_VIRTUEMART_USERFIELDS_FORM_LBL'); ?>
+								uk-icon="icon: user; ratio: 1.2"></span>
+                    <?php echo vmText::_('COM_VIRTUEMART_USER_FORM_LEGEND_USERDETAILS'); ?>
 				</div>
 			</div>
 			<div class="uk-card-body">
@@ -98,9 +98,9 @@ defined('_JEXEC') or die('Restricted access');
 					}
 					if ($field ['type'] == 'delimiter') {
 						?>
-						<h4>
+						<h3>
 							<?php echo $field['title'] ?>
-						</h4>
+						</h3>
 						<?php
 						continue;
 					}
@@ -136,9 +136,10 @@ defined('_JEXEC') or die('Restricted access');
 		submitform('contact')
 	}
 </script>
-<div class="uk-grid-match uk-grid-small uk-child-width-1-3@m" uk-grid>
+
+<div class="uk-margin-top uk-grid-match uk-grid-small uk-child-width-1-3@m" uk-grid>
 	<div>
-		<div class="uk-card   uk-card-small uk-card-vm">
+		<div class="uk-card uk-card-small uk-card-vm">
 			<div class="uk-card-header">
 				<div class="uk-card-title">
 						<span class="md-color-cyan-600 uk-margin-small-right"

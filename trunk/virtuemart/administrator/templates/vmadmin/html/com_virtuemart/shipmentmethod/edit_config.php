@@ -27,7 +27,7 @@ if ($this->shipment->shipment_jplugin_id) {
 						<span class="md-color-cyan-600 uk-margin-small-right"
 								uk-icon="icon: cog; ratio: 1.2"></span>
 				<?php echo $this->shipment->shipment_name ?>
-				<div class="uk-text-meta"><?php echo VmText::_('COM_VIRTUEMART_SHIPMENT_CLASS_NAME') . ": " . $this->shipment->shipment_element ?></div>
+				<div class="uk-text-meta"><?php echo VmText::_('COM_VIRTUEMART_SHIPPING_CLASS_NAME') . ": " . $this->shipment->shipment_element ?></div>
 			</div>
 		</div>
 		<div class="uk-card-body">

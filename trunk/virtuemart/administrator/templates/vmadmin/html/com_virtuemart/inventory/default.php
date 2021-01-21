@@ -44,12 +44,12 @@ vmuikitAdminUIHelper::startAdminArea($this);
 				<th><input type="checkbox" name="toggle" value=""
 							onclick="Joomla.checkAll(this)"/></th>
 				<th><?php echo $this->sort('product_name') ?></th>
-				<th><?php echo $this->sort('product_sku') ?></th>
-				<th><?php echo $this->sort('product_in_stock', 'COM_VIRTUEMART_PRODUCT_FORM_IN_STOCK') ?></th>
-				<th><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_ORDERED_STOCK') ?> </th>
-				<th><?php echo $this->sort('product_price', 'COM_VIRTUEMART_PRODUCT_FORM_PRICE_COST') ?></th>
-				<th><?php echo $this->sort('product_price', 'COM_VIRTUEMART_PRODUCT_INVENTORY_PRICE') ?></th>
-				<th><?php echo $this->sort('product_weight', 'COM_VIRTUEMART_PRODUCT_INVENTORY_WEIGHT') ?></th>
+				<th class="uk-text-center@m"><?php echo $this->sort('product_sku') ?></th>
+				<th class="uk-text-right@m"><?php echo $this->sort('product_in_stock', 'COM_VIRTUEMART_PRODUCT_FORM_IN_STOCK') ?></th>
+				<th class="uk-text-right@m uk-table-shrink"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_ORDERED_STOCK') ?> </th>
+				<th class="uk-text-right@m"><?php echo $this->sort('product_price', 'COM_VIRTUEMART_PRODUCT_FORM_PRICE_COST') ?></th>
+				<th class="uk-text-right@m"><?php echo $this->sort('product_price', 'COM_VIRTUEMART_PRODUCT_INVENTORY_PRICE') ?></th>
+				<th class="uk-text-right@m"><?php echo $this->sort('product_weight', 'COM_VIRTUEMART_PRODUCT_INVENTORY_WEIGHT') ?></th>
 				<th><?php echo $this->sort('published') ?></th>
 			</tr>
 			</thead>
@@ -72,23 +72,23 @@ vmuikitAdminUIHelper::startAdminArea($this);
 						$stockstatut = "normal";
 					}
 
-					$stockstatut = 'class="stock-' . $stockstatut . '" title="' . vmText::_('COM_VIRTUEMART_STOCK_LEVEL_' . $stockstatut) . '"';
+					//$stockstatut = 'class="uk-text-center@m stock-' . $stockstatut . '" title="' . vmText::_('COM_VIRTUEMART_STOCK_LEVEL_' . $stockstatut) . '"';
 					?>
 					<tr class="row<?php echo $k; ?>">
 						<!-- Checkbox -->
-						<td><?php echo $checked; ?></td>
+						<td ><?php echo $checked; ?></td>
 						<!-- Product name -->
 						<?php
 						$link = 'index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id=' . $product->virtuemart_product_id . '&product_parent_id=' . $product->product_parent_id;
 						?>
 						<td><?php echo JHtml::_('link', JRoute::_($link, FALSE), $product->product_name, array('title' => vmText::_('COM_VIRTUEMART_EDIT') . ' ' . htmlentities($product->product_name))); ?></td>
-						<td><?php echo $product->product_sku; ?></td>
-						<td <?php echo $stockstatut; ?>><?php echo $product->product_in_stock; ?></td>
-						<td <?php echo $stockstatut; ?> width="5%"><?php echo $product->product_ordered; ?></td>
-						<td><?php echo $product->product_price_display; ?></td>
-						<td><?php echo $product->product_instock_value; ?></td>
-						<td><?php echo $product->product_weight . " " . $product->weigth_unit_display; ?></td>
-						<td><?php echo $published; ?></td>
+						<td class="uk-text-center@m"><?php echo $product->product_sku; ?></td>
+						<td class="uk-text-right@m"><span uk-tooltip="<?php echo  vmText::_('COM_VIRTUEMART_STOCK_LEVEL_' . $stockstatut) ?>" class="uk-label stock-<?php echo $stockstatut ?>"><?php echo $product->product_in_stock; ?></span></td>
+						<td class="uk-text-right@m" ><span uk-tooltip="<?php echo  vmText::_('COM_VIRTUEMART_STOCK_LEVEL_' . $stockstatut) ?>" class="uk-label stock-<?php echo $stockstatut ?>"><?php echo $product->product_ordered; ?></span></td>
+						<td class="uk-text-right@m"><?php echo $product->product_price_display; ?></td>
+						<td class="uk-text-right@m"><?php echo $product->product_instock_value; ?></td>
+						<td class="uk-text-right@m"><?php echo $product->product_weight . " " . $product->weigth_unit_display; ?></td>
+						<td class="uk-text-center@m"><?php echo $published; ?></td>
 					</tr>
 					<?php
 

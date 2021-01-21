@@ -199,26 +199,25 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 								}
 								?>
 							</td>
-							<!-- Reorder only when category ID is present -->
-							<?php if ($this->showOrdering) { ?>
-								<td class="order">
-									<?php if ($this->showDrag) { ?>
-										<span class="vmicon vmicon-16-move"></span>
-									<?php } ?>
-									<span><?php echo $this->pagination->vmOrderUpIcon($i, $product->ordering, 'orderup', vmText::_('COM_VIRTUEMART_MOVE_UP')); ?></span>
-									<span><?php echo $this->pagination->vmOrderDownIcon($i, $product->ordering, ($total * 5) - 3, true, 'orderdown', vmText::_('COM_VIRTUEMART_MOVE_DOWN')); ?></span>
-									<!--						quorvia -->
-									<input class="ordering" type="text"
-											name="order[<?php echo $product->virtuemart_product_id ?>]"
-											id="order[<?php echo $i ?>]" size="5"
-											value="<?php echo $product->ordering; ?>" style="text-align: center"/>
+                            <!-- Reorder only when category ID is present -->
+                            <?php if ($this->showOrdering ) { ?>
+                                <td class="order" >
 
-									<?php // echo vmCommonHTML::getOrderingField( $product->ordering ); ?>
-								</td>
-							<?php } ?>
-							<!-- Manufacturer name -->
-							<td><?php
-								echo $product->manuList;
+						<?php if($this->showOrdering == $product->virtuemart_category_id){
+							if($this->showDrag){ ?>
+								<span class="vmicon vmicon-16-move"></span>
+							<?php }
+							/* ?>
+							<span><?php echo $this->pagination->vmOrderUpIcon( $i, $product->ordering, 'orderup', vmText::_('COM_VIRTUEMART_MOVE_UP')  ); ?></span>
+							<span><?php echo $this->pagination->vmOrderDownIcon( $i, $product->ordering, ($total * 5)-3, true, 'orderdown', vmText::_('COM_VIRTUEMART_MOVE_DOWN') ); ?></span>
+							*/ ?>
+							<input class="ordering" type="text" name="order[<?php echo $product->virtuemart_product_id?>]" id="order[<?php echo $i?>]" size="5" value="<?php echo $product->ordering; ?>" style="text-align: center" />
+						<?php } ?>
+					</td>
+				<?php } ?>
+				<!-- Manufacturer name -->
+				<td><?php
+					echo $product->manuList;
 
 								?>
 							</td>

@@ -69,7 +69,7 @@ $i = 0;
 		<td width="21%" valign="top">
 			<div id="customer-mail-content">
 				<div><?php echo vmText::_ ('COM_VIRTUEMART_PRODUCT_EMAIL_SUBJECT') ?></div>
-				<input type="text" class="mail-subject" id="mail-subject" size="100"   value="<?php echo vmText::sprintf ('COM_VIRTUEMART_PRODUCT_EMAIL_SHOPPERS_SUBJECT',$this->product->product_name) ?>">
+				<input type="text" class="mail-subject input-xxlarge" id="mail-subject" size="100"   value="<?php echo vmText::sprintf ('COM_VIRTUEMART_PRODUCT_EMAIL_SHOPPERS_SUBJECT',$this->product->product_name) ?>">
 
 				<div><?php echo vmText::_ ('COM_VIRTUEMART_PRODUCT_EMAIL_CONTENT') ?></div>
 				<textarea class="uk-textarea"   id="mail-body" ></textarea>

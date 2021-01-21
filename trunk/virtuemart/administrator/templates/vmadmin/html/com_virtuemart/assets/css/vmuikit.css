@@ -420,10 +420,16 @@ label.invalid {
 .uk-light .uk-card-secondary{
     background:rgba(0, 0, 0, 0.8);
 }
+.uk-label {
+    background-color:#b0bec5
+}
 .uk-label-order{
     font-size: revert;
     text-transform: none;
-    max-width: 100px;
     white-space: normal;
-    padding: 0 5px;
+    padding: 3px 5px;
+    display: block;
+}
+.uk-label-order a {
+    color: #FFF;
 }

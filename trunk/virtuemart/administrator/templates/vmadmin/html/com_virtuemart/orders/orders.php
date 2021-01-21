@@ -96,7 +96,31 @@ $styleDateCol = '';
 					foreach ($this->orderslist as $key => $order) {
 						$checked = JHtml::_('grid.id', $i, $order->virtuemart_order_id);
 
-						//vmdebug('My order',$order);
+//				setup some order variables
+//                      colors
+						$statuscolorStyle = '';
+						if (!empty($this->orderStatesColors[$order->order_status])) {
+							$statuscolorStyle = "background-color:" . $this->orderStatesColors[$order->order_status];
+						}
+
+						$shipmentcolorStyle = '';
+						if (!empty($this->shipmentColors[$order->virtuemart_shipmentmethod_id])) {
+							$shipmentcolorStyle = "background-color:" . $this->shipmentColors[$order->virtuemart_shipmentmethod_id];
+						}
+
+//                     order paid determined items
+						if ($order->paid < $order->order_total) {
+							$orderStati = $this->orderStatesUnpaid;
+						} else {
+							$orderStati = $this->orderstatuses;
+						}
+//                        order status name for display
+						$status_name = ' ';
+						foreach ($orderStati as $orderSt) {
+							if ($orderSt->order_status_code == $order->order_status) {
+								$status_name = $orderSt->order_status_name;
+							}
+						}
 						?>
 						<tr class="row<?php echo $k . ' status-' . strtolower($order->order_status); ?>">
 							<!-- Checkbox -->
@@ -105,9 +129,13 @@ $styleDateCol = '';
 							<?php
 							$link = 'index.php?option=com_virtuemart&view=orders&task=edit&virtuemart_order_id=' . $order->virtuemart_order_id;
 							?>
-							<td><?php echo JHtml::_('link', JRoute::_($link, FALSE), $order->order_number, array('title' => vmText::_('COM_VIRTUEMART_ORDER_EDIT_ORDER_NUMBER') . ' ' . $order->order_number));
-								echo '<br>';
-								echo implode('<br>', $order->invoiceNumbers); ?>
+							<td >
+								<div class="uk-label uk-label-order" style="<?php echo $statuscolorStyle ?>">
+									<?php echo JHtml::_('link', JRoute::_($link, FALSE), $order->order_number, array('title' => vmText::_('COM_VIRTUEMART_ORDER_EDIT_ORDER_NUMBER') . ' ' . $order->order_number)); ?>
+								</div>
+								<?php
+								echo implode('<br>', $order->invoiceNumbers);
+								?>
 							</td>
 							<td>
 								<?php
@@ -128,26 +156,18 @@ $styleDateCol = '';
 								<span class="uk-label  uk-label-order"><?php echo $order->payment_method; ?></span>
 							</td>
 							<!-- Shipment method -->
-							<!--				quorvia-->
-							<?php $shipmentcolorStyle = '';
-							if (!empty($this->shipmentColors[$order->virtuemart_shipmentmethod_id])) {
-								$shipmentcolorStyle = "background-color:" . $this->shipmentColors[$order->virtuemart_shipmentmethod_id];
-							}
-							?>
 							<td>
-								<span class="uk-label uk-label-order"
-										style="<?php echo $shipmentcolorStyle ?>"><?php echo $order->shipment_method; ?></span>
+
+								<div class="uk-label uk-label-order"
+										style="<?php echo $shipmentcolorStyle ?>"><?php echo $order->shipment_method; ?></div>
+
+
 							</td>
 							<!-- Print view -->
-
-							<?php
-
-							?>
 							<td>
 								<?php
 								echo adminSublayouts::renderAdminVmSubLayout('print_links',
 									array('order' => $order)
-
 								);
 								?>
 							</td>
@@ -161,41 +181,18 @@ $styleDateCol = '';
 								// 	function toggle( $field, $i, $toggle, $imgY = 'tick.png', $imgX = 'publish_x.png', $untoggleable = false )
 								echo $this->toggle($order->paid, $i, 'toggle.paid'); ?>
 							</td>
-							<?php
-							$colorStyle = '';
-							if (!empty($this->orderStatesColors[$order->order_status])) {
-								$colorStyle = "background-color:" . $this->orderStatesColors[$order->order_status];
-							}
-							?>
+
 							<td>
-
-								<?php
-								if ($order->paid < $order->order_total) {
-									$orderStati = $this->orderStatesUnpaid;
-								} else {
-									$orderStati = $this->orderstatuses;
-								}
-								$status_name = ' ';
-								foreach ($orderStati as $orderSt) {
-									if ($orderSt->order_status_code == $order->order_status) {
-										$status_name = $orderSt->order_status_name;
-									}
-								}
-
-								?>
-
-								<div class="uk-label  uk-label-order" style="<?php echo $colorStyle ?>">
+								<div class="uk-label  uk-label-order" style="<?php echo $statuscolorStyle ?>">
 									<?php echo vmText::_($status_name) ?>
 									<span class="" uk-icon="icon:  triangle-down"></span>
 								</div>
-
-
 								<div class="uk-width-large uk-form-horizontal uk-card-tab-content"
 										uk-dropdown="mode: click;animation: uk-animation-slide-bottom-small; duration: 1000">
 									<div class=" ">
-										<div class="uk-card-title"><span
-													class="md-color-cyan-600 uk-margin-small-right"
-													uk-icon="icon: comment; ratio: 1.2"></span><?php echo vmText::_('COM_VIRTUEMART_ORDER_UPDATE_STATUS') ?>
+										<div class="uk-card-title">
+											<span class="md-color-cyan-600 uk-margin-small-right" uk-icon="icon: comment; ratio: 1.2"></span>
+											<?php echo vmText::_('COM_VIRTUEMART_ORDER_UPDATE_STATUS') ?>
 										</div>
 										<hr/>
 
@@ -207,15 +204,13 @@ $styleDateCol = '';
 												?>
 											</div>
 										</div>
-
-
 										<input type="hidden"
 												name="orders[<?php echo $order->virtuemart_order_id; ?>][current_order_status]"
 												value="<?php echo $order->order_status; ?>"/>
 										<input type="hidden"
 												name="orders[<?php echo $order->virtuemart_order_id; ?>][coupon_code]"
-												value="<?php echo $order->coupon_code; ?>"/> <br/>
-
+												value="<?php echo $order->coupon_code; ?>"/>
+										<br>
 										<?php
 										echo VmuikitHtml::row('checkbox', 'COM_VIRTUEMART_ORDER_LIST_NOTIFY', 'orders[' . $order->virtuemart_order_id . '][customer_notified]', 0);
 										echo VmuikitHtml::row('checkbox', 'COM_VIRTUEMART_ORDER_HISTORY_INCLUDE_COMMENT', 'orders[' . $order->virtuemart_order_id . '][customer_send_comment]', 1);
@@ -231,10 +226,7 @@ $styleDateCol = '';
 										</div>
 									</div>
 								</div><!-- uk-dropdown -->
-
-
 							</td>
-
 							<!-- Total -->
 							<td class="uk-text-nowrap uk-text-right@m"><?php echo $order->order_total; ?></td>
 							<td class="uk-text-center@m"><?php echo JHtml::_('link', JRoute::_($link, FALSE), $order->virtuemart_order_id, array('title' => vmText::_('COM_VIRTUEMART_ORDER_EDIT_ORDER_ID') . ' ' . $order->virtuemart_order_id)); ?></td>

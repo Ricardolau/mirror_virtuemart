@@ -145,7 +145,7 @@ if ($search) {
 						?>
 						<span class="uk-margin-small-left" uk-icon="icon:  triangle-down"></span>
 					</button>
-					<div class="uk-width-xlarge uk-form-horizontal"
+					<div class="uk-form-horizontal"
 							uk-dropdown="mode: click;animation: uk-animation-slide-bottom-small; duration: 1000">
 
 						<?php

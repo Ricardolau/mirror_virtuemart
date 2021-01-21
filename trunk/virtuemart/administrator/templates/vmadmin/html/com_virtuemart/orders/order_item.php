@@ -92,12 +92,12 @@ $i=0;
 	<input class='orderEdit' type="text" size="10" name="item_id[<?php echo $item->virtuemart_order_item_id; ?>][virtuemart_product_id]" value="<?php echo $item->virtuemart_product_id; ?>" placeholder="<?php echo vmText::_('COM_VIRTUEMART_ORDER_ITEM_ENTER_PRODUCT_ID') ?>"/>
 
 </td>
-<td align="center">
+<td class="uk-text-center@m">
 	<!--<?php echo $this->orderstatuslist[$item->order_status]; ?><br />-->
 	<?php echo $this->itemstatusupdatefields[$item->virtuemart_order_item_id]; ?>
 
 </td>
-<td class="" >
+<td class="uk-text-right@m" >
 	<?php
 	$item->product_discountedPriceWithoutTax = (float) $item->product_discountedPriceWithoutTax;
 	if (!empty($item->product_discountedPriceWithoutTax) and !empty($item->product_priceWithoutTax) and $this->currency->roundByPriceConfig($item->product_discountedPriceWithoutTax) != $this->currency->roundByPriceConfig($item->product_priceWithoutTax)) {
@@ -109,26 +109,26 @@ $i=0;
 	?><br />
 	<input class='orderEdit' type="text" size="8" name="item_id[<?php echo $item->virtuemart_order_item_id; ?>][product_item_price]" value="<?php echo $item->product_item_price; ?>"/>
 </td>
-<td class="" >
+<td class="uk-text-right@m" >
 	<?php echo $this->currency->priceDisplay($item->product_basePriceWithTax); ?><br />
 	<input class='orderEdit' type="text" size="8" name="item_id[<?php echo $item->virtuemart_order_item_id; ?>][product_basePriceWithTax]" value="<?php echo $item->product_basePriceWithTax; ?>"/>
 </td>
-<td class="" >
+<td class="uk-text-right@m" >
 	<?php echo $this->currency->priceDisplay($item->product_final_price); ?><br />
 	<input class='orderEdit' type="text" size="8" name="item_id[<?php echo $item->virtuemart_order_item_id; ?>][product_final_price]" value="<?php echo $item->product_final_price; ?>"/>
 </td>
-<td class="" >
+<td class="uk-text-right@m" >
 	<?php echo $this->currency->priceDisplay( $item->product_tax); ?><br />
 	<input class='orderEdit' type="text" size="12" name="item_id[<?php echo $item->virtuemart_order_item_id; ?>][product_tax]" value="<?php echo $item->product_tax; ?>"/>
 	<span style="display: block; font-size: 80%;" title="<?php echo vmText::_('COM_VIRTUEMART_ORDER_EDIT_CALCULATE_DESC'); ?>">
 			<input class='orderEdit' type="checkbox" name="item_id[<?php echo $item->virtuemart_order_item_id; ?>][calculate_product_tax]" value="1" checked="checked" /> <label class='orderEdit' for="calculate_product_tax"><?php echo vmText::_('COM_VIRTUEMART_ORDER_EDIT_CALCULATE'); ?></label>
 		</span>
 </td>
-<td class="" >
+<td class="uk-text-right@m" >
 	<?php echo $this->currency->priceDisplay( $item->product_subtotal_discount); ?><br />
 	<input class='orderEdit' type="text" size="8" name="item_id[<?php echo $item->virtuemart_order_item_id; ?>][product_subtotal_discount]" value="<?php echo $item->product_subtotal_discount; ?>"/>
 </td>
-<td class="" >
+<td class="uk-text-right@m" >
 	<?php
 	$item->product_basePriceWithTax = (float) $item->product_basePriceWithTax;
 	if(!empty($item->product_basePriceWithTax) && $item->product_basePriceWithTax != $item->product_final_price ) {

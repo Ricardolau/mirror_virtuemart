@@ -74,7 +74,7 @@ defined('_JEXEC') or die('Restricted access');
 <!-- /BT -->
 <!-- ST -->
 <div class="">
-	<div class="uk-card   uk-card-small uk-card-vm order-st">
+	<div class="uk-card   uk-card-small uk-card-vm">
 		<div class="uk-card-header">
 			<div class="uk-card-title">
 						<span class="md-color-cyan-600 uk-margin-small-right"
@@ -87,12 +87,12 @@ defined('_JEXEC') or die('Restricted access');
 				if ($this->orderdetails['details']['has_ST'] == false) {
 					?>
 
-					<div class="uk-width-1-3@m">
+					<div class="uk-width-1-3@m uk-margin-small-bottom">
 						<div class="">
 							<label for="STsameAsBT"><?php echo vmText::_('COM_VM_ST_SAME_AS_BT') ?></label>
 						</div>
 					</div>
-					<div class="uk-width-2-3@m">
+					<div class="uk-width-2-3@m uk-margin-small-bottom">
 						<div class="">
 							<input id="STsameAsBT" type="checkbox" checked name="STsameAsBT"
 									value="1"/>
@@ -112,7 +112,7 @@ defined('_JEXEC') or die('Restricted access');
 							</label>
 						</div>
 					</div>
-					<div class="uk-width-2-3@m">
+					<div class="uk-width-2-3@m  order-st">
 						<div class="">
 							<?php
 							if ($_field['type'] === 'hidden') {
@@ -156,7 +156,7 @@ defined('_JEXEC') or die('Restricted access');
 						</div>
 					</div>
 					<div class="uk-card-body">
-								<textarea class="textarea" name="order_note" cols="60" rows="2"><?php echo $this->orderbt->order_note ?></textarea>
+								<textarea class="uk-textarea" name="order_note" cols="60" rows="2"><?php echo $this->orderbt->order_note ?></textarea>
 					</div>
 					<div class="uk-card-footer uk-text-center">
 						<button class="uk-button uk-button-small uk-button-primary">

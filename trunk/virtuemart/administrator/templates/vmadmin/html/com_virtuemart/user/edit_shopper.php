@@ -20,7 +20,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 ?>
-<div class="uk-grid-match uk-grid-small uk-child-width-1-2@m" uk-grid>
+<div class="uk-grid-match uk-grid-small uk-child-width-1-1 uk-child-width-1-2@l" uk-grid>
 	<div>
 		<div class="uk-card   uk-card-small uk-card-vm">
 			<div class="uk-card-header">
@@ -47,7 +47,7 @@ defined('_JEXEC') or die('Restricted access');
 	</div>
 	<?php if ($this->userDetails->JUser->get('id')) { ?>
 		<div>
-			<div class="uk-card   uk-card-small uk-card-vm">
+			<div class="uk-card uk-card-small uk-card-vm">
 				<div class="uk-card-header">
 					<div class="uk-card-title">
 						<span class="md-color-cyan-600 uk-margin-small-right"
@@ -70,12 +70,12 @@ defined('_JEXEC') or die('Restricted access');
 	<?php } ?>
 
 	<div>
-		<div class="uk-card   uk-card-small uk-card-vm">
+		<div class="uk-card uk-card-small uk-card-vm">
 			<div class="uk-card-header">
 				<div class="uk-card-title">
 						<span class="md-color-cyan-600 uk-margin-small-right"
 								uk-icon="icon: user; ratio: 1.2"></span>
-                    <?php echo vmText::_('COM_VIRTUEMART_USER_FORM_LEGEND_USERDETAILS'); ?>
+					<?php echo vmText::_('COM_VIRTUEMART_USER_FORM_LEGEND_USERDETAILS'); ?>
 				</div>
 			</div>
 			<div class="uk-card-body">

@@ -35,7 +35,7 @@ vmuikitAdminUIHelper::imitateTabs('start', 'COM_VIRTUEMART_MANUFACTURER_CATEGORY
 			<form action="index.php" method="post" name="adminForm" id="adminForm" class="uk-form-horizontal">
 				<?php echo VmuikitHtml::row('input', 'COM_VIRTUEMART_MANUFACTURER_CATEGORY_NAME', 'mf_category_name', $this->manufacturerCategory->mf_category_name); ?>
 				<?php echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_PUBLISHED', 'published', $this->manufacturerCategory->published); ?>
-				<?php echo VmuikitHtml::row('textarea', 'COM_VIRTUEMART_MANUFACTURER_CATEGORY_DESCRIPTION', 'mf_category_desc', $this->manufacturerCategory->mf_category_desc); ?>
+				<?php echo VmuikitHtml::row('textarea', 'COM_VIRTUEMART_MANUFACTURER_CATEGORY_DESCRIPTION', 'mf_category_desc', $this->manufacturerCategory->mf_category_desc,'class="uk-textarea"'); ?>
 
 
 				<input type="hidden" name="virtuemart_manufacturercategories_id"

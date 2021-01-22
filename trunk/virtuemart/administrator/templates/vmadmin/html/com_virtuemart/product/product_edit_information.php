@@ -345,7 +345,7 @@ $i = 0;
 				</div>
 				<div class="uk-card-body">
 					<?php
-					echo VmuikitHtml::row('textarea', 'COM_VIRTUEMART_PRODUCT_PRINT_INTNOTES', 'intnotes', $this->product->intnotes);
+					echo VmuikitHtml::row('textarea', 'COM_VIRTUEMART_PRODUCT_PRINT_INTNOTES', 'intnotes', $this->product->intnotes,'class="uk-textarea"');
 					?>
 
 

@@ -60,7 +60,7 @@ vmuikitAdminUIHelper::imitateTabs('start', 'COM_VIRTUEMART_SHOPPERGROUP_NAME');
 							</div>
 
 						<?php }
-						echo VmuikitHtml::row('textarea', 'COM_VIRTUEMART_SHOPPERGROUP_DESCRIPTION', 'shopper_group_desc', $this->shoppergroup->shopper_group_desc);
+						echo VmuikitHtml::row('textarea', 'COM_VIRTUEMART_SHOPPERGROUP_DESCRIPTION', 'shopper_group_desc', $this->shoppergroup->shopper_group_desc,'class="uk-textarea"', 80);
 
 						if ($this->shoppergroup->default < 1) {
 							echo VmuikitHtml::row('checkbox', 'COM_VIRTUEMART_SHOPPERGROUP_ADDITIONAL', 'sgrp_additional', $this->shoppergroup->sgrp_additional);

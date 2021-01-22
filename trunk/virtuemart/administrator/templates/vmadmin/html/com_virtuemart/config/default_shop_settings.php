@@ -31,7 +31,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<div class="uk-card-body">
 		<?php
 		echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_ADMIN_CFG_SHOP_OFFLINE', 'shop_is_offline', VmConfig::get('shop_is_offline', 0));
-		echo VmuikitHtml::row('textarea', 'COM_VIRTUEMART_ADMIN_CFG_SHOP_OFFLINE_MSG', 'offline_message', VmConfig::get('offline_message', 'Our Shop is currently down for maintenance. Please check back again soon.'));
+		echo VmuikitHtml::row('textarea', 'COM_VIRTUEMART_ADMIN_CFG_SHOP_OFFLINE_MSG', 'offline_message', VmConfig::get('offline_message', 'Our Shop is currently down for maintenance. Please check back again soon.'),'class="uk-textarea"');
 		echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_ADMIN_CFG_USE_ONLY_AS_CATALOGUE', 'use_as_catalog', VmConfig::get('use_as_catalog', 0));
 		echo VmuikitHtml::row('genericlist', 'COM_VIRTUEMART_CFG_CURRENCY_MODULE', $this->currConverterList, 'currency_converter_module', 'size=1', 'value', 'text', VmConfig::get('currency_converter_module', 'convertECB.php'));
 		echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_ADMIN_CFG_ENABLE_CONTENT_PLUGIN', 'enable_content_plugin', VmConfig::get('enable_content_plugin', 0));

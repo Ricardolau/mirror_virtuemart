@@ -72,8 +72,10 @@ echo JHtml::_('select.radiolist', $rating_options, 'vote', 'id="vote" class="inp
 					<td width="24%" align="left" valign="top">
 			<?php echo vmText::_('COM_VIRTUEMART_REVIEW'); ?>
         	</td>
-					<td width="76%" align="left"><textarea onblur="refresh_counter();"
+					<td width="76%" align="left">
+						<textarea onblur="refresh_counter();"
 							onfocus="refresh_counter();" onkeypress="refresh_counter();"
+							class="uk-textarea"
 							rows="20" cols="60" name="comment"><?php echo $this->rating->comment; ?></textarea>
 					</td>
 				</tr>

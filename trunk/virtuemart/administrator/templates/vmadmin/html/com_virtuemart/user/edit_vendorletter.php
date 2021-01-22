@@ -164,7 +164,7 @@ if (!vmAccess::manager('user.editshop')) {
 				echo VmuikitHtml::row('input', 'COM_VIRTUEMART_VENDOR_LETTER_FONT_SIZE', 'vendor_letter_font_size', $this->vendor->vendor_letter_font_size) . ' pt';
 				echo VmuikitHtml::row('input', 'COM_VIRTUEMART_VENDOR_LETTER_FONT_SIZE_HEADER', 'vendor_letter_header_font_size', $this->vendor->vendor_letter_header_font_size) . ' pt';
 				echo VmuikitHtml::row('input', 'COM_VIRTUEMART_VENDOR_LETTER_FONT_SIZE_FOOTER', 'vendor_letter_footer_font_size', $this->vendor->vendor_letter_footer_font_size) . ' pt';
-				echo VmuikitHtml::row('textarea', 'COM_VIRTUEMART_VENDOR_LETTER_CSS', 'vendor_letter_css', $this->vendor->vendor_letter_css);
+				echo VmuikitHtml::row('textarea', 'COM_VIRTUEMART_VENDOR_LETTER_CSS', 'vendor_letter_css', $this->vendor->vendor_letter_css,'class="uk-textarea"');
 
 				?>
 

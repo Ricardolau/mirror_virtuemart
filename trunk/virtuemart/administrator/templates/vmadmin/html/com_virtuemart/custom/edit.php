@@ -75,7 +75,7 @@ vmJsApi::JvalideForm();
 				echo VmuikitHtml::row('booleanlist', 'COM_VM_CUSTOM_IS_SEARCHABLE', 'searchable', $this->custom->searchable);
 				echo VmuikitHtml::row('input', 'COM_VIRTUEMART_DESCRIPTION', 'custom_desc', $this->custom->custom_desc);
 				// change input by type
-				echo VmuikitHtml::row('textarea', 'COM_VIRTUEMART_CUSTOM_DEFAULT', 'custom_value', $this->custom->custom_value);
+				echo VmuikitHtml::row('textarea', 'COM_VIRTUEMART_CUSTOM_DEFAULT', 'custom_value', $this->custom->custom_value,'class="uk-textarea"', 80);
 				echo VmuikitHtml::row('input', 'COM_VIRTUEMART_CUSTOM_TIP', 'custom_tip', $this->custom->custom_tip);
 				echo VmuikitHtml::row('input', 'COM_VIRTUEMART_CUSTOM_LAYOUT_POS', 'layout_pos', $this->custom->layout_pos);
 				//echo VmuikitHtml::row('booleanlist','COM_VIRTUEMART_CUSTOM_GROUP','custom_parent_id',$this->getCustomsList(),  $this->custom->custom_parent_id,'');

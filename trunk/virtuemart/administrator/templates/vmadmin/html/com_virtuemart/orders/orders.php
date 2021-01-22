@@ -35,7 +35,7 @@ $styleDateCol = '';
 				VmuikitHtml::row('checkbox', 'COM_VIRTUEMART_ORDER_LIST_NOTIFY', 'customer_notified', 0),
 				VmuikitHtml::row('checkbox', 'COM_VIRTUEMART_ORDER_HISTORY_INCLUDE_COMMENT', 'customer_send_comment', 1),
 				VmuikitHtml::row('checkbox', 'COM_VIRTUEMART_ORDER_UPDATE_LINESTATUS', 'update_lines', 1),
-				VmuikitHtml::row('textarea', 'COM_VIRTUEMART_ADD_COMMENT', 'comments', ''),
+				VmuikitHtml::row('textarea', 'COM_VIRTUEMART_ADD_COMMENT', 'comments', '','class="uk-textarea"', 80)
 			);
 			$tool['footer'] = '
 <button onclick="Joomla.submitbutton(\'updatestatus\');" class="uk-button uk-button-small uk-button-primary uk-text-center">

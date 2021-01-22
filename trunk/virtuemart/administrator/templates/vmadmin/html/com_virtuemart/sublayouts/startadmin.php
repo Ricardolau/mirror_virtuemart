@@ -112,9 +112,9 @@ vmJsApi::addJScript('vmuikit-remindTab', "
 
 							<div class="uk-flex uk-flex-middle uk-flex-left">
 								<div class="vm-menu-logo uk-padding-xsmall  uk-light   vmuikit-menu-toggle">
-									<a href="index.php?option=com_virtuemart&amp;view=virtuemart" class="uk-padding-small uk-padding-remove-vertical">
+									<div  class="uk-padding-small uk-padding-remove-vertical">
 										<img src="<?php echo JURI::root(true) . '/administrator/components/com_virtuemart/assets/images/vm_menulogo.png' ?>">
-									</a>
+									</div>
 								</div>
 							</div>
 							<?php
@@ -158,11 +158,11 @@ vmJsApi::addJScript('vmuikit-remindTab', "
 
 						<div class="">
 							<div class="uk-grid-collapse" uk-grid>
-								<div class="uk-width-expand uk-flex uk-flex-middle uk-flex-center">
+								<div class="uk-width-expand uk-flex uk-flex-middle uk-flex-left">
 									<div class="vm-menu-logo uk-padding-xsmall  uk-light   vmuikit-menu-toggle">
-										<a href="index.php?option=com_virtuemart&amp;view=virtuemart">
+										<div class="uk-padding-xsmall" >
 											<img src="<?php echo JURI::root(true) . '/administrator/components/com_virtuemart/assets/images/vm_menulogo.png' ?>">
-										</a>
+										</div>
 									</div>
 								</div>
 								<div class="uk-width-auto">

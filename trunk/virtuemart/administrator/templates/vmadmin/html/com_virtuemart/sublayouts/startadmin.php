@@ -98,7 +98,7 @@ vmJsApi::addJScript('vmuikit-remindTab', "
 							uk-toggle="target: #vmuikit-menu-offcanvas-toggle"
 							uk-tooltip="<?php echo vmText::_('COM_VM_TOGGLE_MENU') ?>"
 					>
-						<span class="uk-margin-small-right" uk-icon="menu"></span><span class="uk-hidden@m"><?php echo vmText::_('COM_VM_VIEW_VM_MENU') ?></span>
+						<span uk-icon="menu"></span><span class="uk-margin-small-left uk-hidden@m"><?php echo vmText::_('COM_VM_VIEW_VM_MENU') ?></span>
 
 					</button>
 
@@ -109,19 +109,14 @@ vmJsApi::addJScript('vmuikit-remindTab', "
 					<div class="uk-offcanvas-bar">
 						<button class="uk-offcanvas-close " type="button" uk-close></button>
 						<div class="vmuikit-menu-offcanvas">
-							<div class="menu-logo uk-flex uk-flex-middle uk-flex-center uk-light  uk-padding-xsmall vmuikit-menu-toggle">
-								<a href="index.php?option=com_virtuemart&amp;view=virtuemart"><img
-											src="<?php echo JURI::root(true) . '/administrator/components/com_virtuemart/assets/images/vm_menulogo.png' ?>">
-								</a>
-							</div>
-							<div class="mini-menu-logo uk-flex uk-flex-middle uk-flex-center uk-light  uk-padding-xsmall vmuikit-menu-toggle"
-									hidden>
-								<a href="index.php?option=com_virtuemart&amp;view=virtuemart"><img
-											src="<?php echo JURI::root(true) . '/administrator/templates/vmadmin/html/com_virtuemart/assets/images/vm_minimenulogo.png' ?>">
-								</a>
-							</div>
 
-
+							<div class="uk-flex uk-flex-middle uk-flex-left">
+								<div class="vm-menu-logo uk-padding-xsmall  uk-light   vmuikit-menu-toggle">
+									<a href="index.php?option=com_virtuemart&amp;view=virtuemart" class="uk-padding-small uk-padding-remove-vertical">
+										<img src="<?php echo JURI::root(true) . '/administrator/components/com_virtuemart/assets/images/vm_menulogo.png' ?>">
+									</a>
+								</div>
+							</div>
 							<?php
 							/*  TODO ATTENTION
 							if (!empty($vmView->langList)) {
@@ -157,27 +152,30 @@ vmJsApi::addJScript('vmuikit-remindTab', "
 				id="vmuikit-menu-wrapper<?php echo $hideMenu ?>">
 			<div class="vmuikit-menu-wrapper uk-light uk-background-secondary">
 				<div uk-height-viewport="offset-top: true;offset-bottom: true">
-					<div class="uk-text-right ">
-						<a href="#" class="uk-icon-button  vmuikit-js-menu-offcanvas-toggle md-color-white" uk-tooltip="<?php echo vmText::_('COM_VM_HIDE_MENU') ?>"
-								type="button">
-							<span uk-icon="arrow-left"></span>
-						</a>
-					</div>
+
 
 					<div id="vmuikit-menu">
 
 						<div class="">
-							<div class="menu-logo uk-flex uk-flex-middle uk-flex-center uk-light   vmuikit-menu-toggle">
-								<a href="index.php?option=com_virtuemart&amp;view=virtuemart"><img
-											src="<?php echo JURI::root(true) . '/administrator/components/com_virtuemart/assets/images/vm_menulogo.png' ?>">
-								</a>
+							<div class="uk-grid-collapse" uk-grid>
+								<div class="uk-width-expand uk-flex uk-flex-middle uk-flex-center">
+									<div class="vm-menu-logo uk-padding-xsmall  uk-light   vmuikit-menu-toggle">
+										<a href="index.php?option=com_virtuemart&amp;view=virtuemart">
+											<img src="<?php echo JURI::root(true) . '/administrator/components/com_virtuemart/assets/images/vm_menulogo.png' ?>">
+										</a>
+									</div>
+								</div>
+								<div class="uk-width-auto">
+									<div class="uk-flex uk-flex-top uk-flex-right ">
+										<a href="#" class=" uk-icon-button  vmuikit-js-menu-offcanvas-toggle md-color-white" uk-tooltip="<?php echo vmText::_('COM_VM_HIDE_MENU') ?>"
+												type="button">
+											<span uk-icon="arrow-left"></span>
+										</a>
+									</div>
+								</div>
+
 							</div>
-							<div class="mini-menu-logo uk-flex uk-flex-middle uk-flex-center uk-light  uk-padding-xsmall vmuikit-menu-toggle"
-									hidden>
-								<a href="index.php?option=com_virtuemart&amp;view=virtuemart"><img
-											src="<?php echo JURI::root(true) . '/administrator/templates/vmadmin/html/com_virtuemart/assets/images/vm_minimenulogo.png' ?>">
-								</a>
-							</div>
+
 							<?php if (!empty($vmView->langList)) { ?>
 								<div class="menu-langlist uk-flex uk-flex-middle uk-flex-center uk-light uk-padding-xsmall">
 									<?php echo $vmView->langList; ?>

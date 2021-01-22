@@ -42,7 +42,7 @@ $collapse = false;
 
 ?>
 
-<div class="vmuikit-menu uk-padding  uk-padding-remove-horizontal">
+<div class="vmuikit-menu uk-padding-xsmall">
 	<ul class="uk-nav uk-nav-default uk-nav-parent-icon" uk-nav>
 		<?php
 		foreach ($menuItems as $item) {

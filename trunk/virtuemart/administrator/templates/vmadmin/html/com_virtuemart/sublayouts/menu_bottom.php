@@ -41,15 +41,16 @@ if (!VmConfig::$installed) {
 						<a href="https://virtuemart.net" target="_blank" class="uk-icon-link" uk-icon="icon: home" uk-tooltip="VirtueMart.net"></a>
 					</li>
 					<li>
+						<a href="https://extensions.virtuemart.net" target="_blank" class="uk-icon-link" uk-icon="icon: nut" uk-tooltip="Extensions"></a>
+					</li>
+                    <li>
+						<a href="https://docs.virtuemart.net/" target="_blank" class="uk-icon-link" uk-icon="icon: copy" uk-tooltip="User guides"></a>
+					</li>
+					<li>
+						<a href="https://forum.virtuemart.net/index.php" class="uk-icon-link" uk-tooltip="Forum" uk-icon="icon: comments"></a>
+					</li>
+					<li>
 						<a href="https://www.facebook.com/virtuemart" target="_blank" class="uk-icon-link" uk-icon="icon: facebook" uk-tooltip="Facebook"></a>
-					</li>
-					<li>
-						<a href="https://extensions.virtuemart.net" target="_blank" class="uk-icon-link" uk-icon="icon: more"
-								uk-tooltip="Extensions"></a>
-					</li>
-
-					<li>
-						<a href="#" class="uk-icon-link" uk-tooltip="Forum" uk-icon="icon: comments"></a>
 					</li>
 				</ul>
 			</div>

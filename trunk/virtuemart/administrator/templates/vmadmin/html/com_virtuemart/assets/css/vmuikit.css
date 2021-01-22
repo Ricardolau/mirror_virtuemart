@@ -6,6 +6,9 @@
 .vmuikit-menu-offcanvas-toggle.uk-offcanvas-overlay.uk-open{
     z-index: 1050;
 }
+.uk-offcanvas-bar {
+    padding:0;
+}
 
 /* Smaller Header */
 .uk-navbar-nav > li > a,
@@ -21,6 +24,9 @@
     background-color: #222A30;
     margin-left: -12px;
 }
+.vm-menu-logo img {
+    max-width: 120px;
+}
 .uk-nav-header {
     background-color: rgba(0, 0, 0, 0.8);
 }
@@ -28,12 +34,14 @@
 
 /* Left bar links */
 .vmuikit-menu-wrapper ul.uk-nav-default > li > a {
-    padding: 8px 20px;
+    padding: 8px 10px;
     border-left: 4px solid transparent;
     transition: all 0.20s ease-out;
     border-bottom: 1px solid #222222;
 }
-
+.vmuikit-menu-wrapper .uk-nav-header {
+    font-size: .8rem;
+}
 .vmuikit-menu-wrapper ul.uk-nav-default li.uk-nav-header {
     padding: 20px 20px 8px 20px;
 }

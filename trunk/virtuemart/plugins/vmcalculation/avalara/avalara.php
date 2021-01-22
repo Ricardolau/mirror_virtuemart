@@ -869,7 +869,7 @@ class plgVmCalculationAvalara extends vmCalculationPlugin {
 		$virtuemart_userinfo_id = $userModel->getBTuserinfo_id ($userId);
 		// this is needed to set the correct user id for the vendor when the user is logged
 		$userModel->getVendor($calc['virtuemart_vendor_id']);
-		$vendorFieldsArray = $userModel->getUserInfoInUserFields ('mail', 'BT', $virtuemart_userinfo_id, FALSE, TRUE);
+		$vendorFieldsArray = $userModel->getUserInfoInUserFields ('mail', 'BT', $virtuemart_userinfo_id, FALSE, TRUE, $userId);
 		$vendorFields = $vendorFieldsArray[$virtuemart_userinfo_id];
 
 		$origin->setLine1($vendorFields['fields']['address_1']['value']);

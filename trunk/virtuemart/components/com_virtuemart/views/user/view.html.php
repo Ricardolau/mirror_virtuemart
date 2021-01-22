@@ -74,7 +74,7 @@ class VirtuemartViewUser extends VmView {
 		$editor = JFactory::getEditor();
 
 		$virtuemart_user_id = vRequest::getInt('virtuemart_user_id',false);
-		if($virtuemart_user_id and is_array($virtuemart_user_id)) $virtuemart_user_id = $virtuemart_user_id[0];
+		if($virtuemart_user_id and is_array($virtuemart_user_id)) $virtuemart_user_id = reset($virtuemart_user_id);
 
 		$this->_model->setId($virtuemart_user_id);
 
@@ -116,7 +116,7 @@ class VirtuemartViewUser extends VmView {
 				$virtuemart_userinfo_id = $this->_model->getBTuserinfo_id();
 				vmdebug('Try to get $virtuemart_userinfo_id by type BT', $virtuemart_userinfo_id);
 			}
-			$userFields = $this->_model->getUserInfoInUserFields($layoutName, $this->address_type, $virtuemart_userinfo_id,false);
+			$userFields = $this->_model->getUserInfoInUserFields($layoutName, $this->address_type, $virtuemart_userinfo_id, false, false, $virtuemart_user_id);
 			if (!$new && empty($userFields[$virtuemart_userinfo_id])) {
 				$virtuemart_userinfo_id = $this->_model->getBTuserinfo_id();
 				vmdebug('$userFields by getBTuserinfo_id',$userFields);

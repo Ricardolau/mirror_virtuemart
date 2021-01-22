@@ -66,20 +66,23 @@ Virtuemart.updateImageEventListeners = function() {
 vmJsApi::addJScript('imagepopup',$imageJS);
 
 if (!empty($this->product->images)) {
-	$image = $this->product->images[0];
-	?>
-	<div class="main-image">
+	$image = reset($this->product->images);
+	if(!empty($image) and is_object($image)){
+		?>
+		<div class="main-image">
+			<?php
+			$width = VmConfig::get('img_width_full', 0);
+			$height = VmConfig::get('img_height_full', 0);
+			if(!empty($width) or !empty($height)){
+				echo $image->displayMediaThumb("",true,"rel='vm-additional-images'", true, true, false, $width, $height);
+			} else {
+				echo $image->displayMediaFull("",true,"rel='vm-additional-images'");
+			}
+			?>
+			<div class="clear"></div>
+		</div>
 		<?php
-		$width = VmConfig::get('img_width_full', 0);
-		$height = VmConfig::get('img_height_full', 0);
-		if(!empty($width) or !empty($height)){
-			echo $image->displayMediaThumb("",true,"rel='vm-additional-images'", true, true, false, $width, $height);
-		} else {
-			echo $image->displayMediaFull("",true,"rel='vm-additional-images'");
-		}
-		 ?>
-		<div class="clear"></div>
-	</div>
-	<?php
+	}
+
 }
 ?>

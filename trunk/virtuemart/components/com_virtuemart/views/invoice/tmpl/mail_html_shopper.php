@@ -29,11 +29,15 @@
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
-$orderlink = JURI::root().'index.php?option=com_virtuemart&view=orders&layout=details&order_number='.$this->orderDetails['details']['BT']->order_number;
-$ordertracking = VmConfig::get('ordertracking','guests');
-if( VmConfig::get('ordertracking','guests') == 'guestlink' or (VmConfig::get('ordertracking','guests') == 'guests' and empty($this->orderDetails['details']['BT']->virtuemart_user_id))){
-	$orderlink .= '&order_pass='.$this->orderDetails['details']['BT']->order_pass;
+
+$orderlink = JURI::root().'index.php?option=com_virtuemart&view=orders';
+if(VmConfig::get('ordertracking','guests') != 'none'){
+	$orderlink .= '&layout=details&order_number='.$this->orderDetails['details']['BT']->order_number;
+	if( VmConfig::get('ordertracking','guests') == 'guestlink' or (VmConfig::get('ordertracking','guests') == 'guests' and empty($this->orderDetails['details']['BT']->virtuemart_user_id))){
+		$orderlink .= '&order_pass='.$this->orderDetails['details']['BT']->order_pass;
+	}
 }
+
 
 ?>
 

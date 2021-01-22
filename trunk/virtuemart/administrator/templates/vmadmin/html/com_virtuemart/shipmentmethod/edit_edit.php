@@ -61,8 +61,8 @@ if ($this->checkConditionsCore) {
 	echo VmuikitHtml::row('raw', 'COM_VIRTUEMART_COUNTRIES', ShopFunctionsF::renderCountryList($this->shipment->countries, True, array(), '', 0, 'countries', 'countries'));
 	echo VmuikitHtml::row('raw', 'COM_VIRTUEMART_COUNTRIES_BLOCKING', ShopFunctionsF::renderCountryList($this->shipment->blocking_countries, True, array(), '', 0, 'blocking_countries', 'blocking_countries'));
 
-	echo VmuikitHtml::row('checkbox', 'COM_VM_ENABLE_BY_COUPON', 'byCoupon', $this->payment->byCoupon);
-	echo VmuikitHtml::row('input', 'COM_VM_ENABLE_BY_COUPON_BY_CODE', 'couponCode', $this->payment->couponCode);
+	echo VmuikitHtml::row('checkbox', 'COM_VM_ENABLE_BY_COUPON', 'byCoupon', $this->shipment->byCoupon);
+	echo VmuikitHtml::row('input', 'COM_VM_ENABLE_BY_COUPON_BY_CODE', 'couponCode', $this->shipment->couponCode);
 }
 
 

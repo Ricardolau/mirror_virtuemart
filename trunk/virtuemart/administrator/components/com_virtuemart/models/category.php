@@ -646,7 +646,7 @@ vmdebug('Found cached cat, but without children');
 		$row = $this->getTable('categories');
 		$row->load($id);
 
-		$return = $row->move( $movement, 'category_parent_id = "'.(int)$row->category_parent_id.'"' )) {
+		$return = $row->move( $movement, 'category_parent_id = "'.(int)$row->category_parent_id.'"' );
 		self::clearCategoryRelatedCaches();
 
 		return $return;

@@ -61,7 +61,7 @@ class VirtueMartViewVirtueMart extends VmView {
 
 		$document = JFactory::getDocument();
 
-		if(!VmConfig::get('shop_is_offline',0)){
+		//if(!VmConfig::get('shop_is_offline',0)){
 
 
 			if (VmConfig::get ('enable_content_plugin', 0)) {
@@ -169,9 +169,9 @@ class VirtueMartViewVirtueMart extends VmView {
 				$document->addHeadLink(JRoute::_($link . '&type=atom', FALSE), 'alternate', 'rel', $attribs);
 			}
 			vmJsApi::jPrice();
-		} else {
+		/*} else {
 			$this->setLayout('off_line');
-		}
+		}*/
 
 		$error = vRequest::getInt('error',0);
 

@@ -3,6 +3,7 @@
 *
 * Description
 *
+* @deprecated see https://docs.virtuemart.net/faqs/245-how-to-set-the-shop-in-maintenance-mode.html
 * @package	VirtueMart
 * @subpackage
 * @author

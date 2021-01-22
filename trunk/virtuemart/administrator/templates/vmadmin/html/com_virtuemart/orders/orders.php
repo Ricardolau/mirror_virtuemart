@@ -76,13 +76,13 @@ $styleDateCol = '';
 					<th><?php echo $this->sort('payment_method', 'COM_VIRTUEMART_ORDER_PRINT_PAYMENT_LBL') ?></th>
 					<th><?php echo $this->sort('shipment_method', 'COM_VIRTUEMART_ORDER_PRINT_SHIPMENT_LBL') ?></th>
 					<th><?php echo vmText::_('COM_VIRTUEMART_PRINT_VIEW'); ?></th>
-					<th class="admin-dates"><?php echo $this->sort('created_on', 'COM_VIRTUEMART_ORDER_CDATE') ?></th>
-					<th class="admin-dates"><?php echo $this->sort('modified_on', 'COM_VIRTUEMART_ORDER_LIST_MDATE') ?></th>
+					<th class="uk-width-small admin-dates"><?php echo $this->sort('created_on', 'COM_VIRTUEMART_ORDER_CDATE') ?></th>
+					<th class="uk-width-small admin-dates"><?php echo $this->sort('modified_on', 'COM_VIRTUEMART_ORDER_LIST_MDATE') ?></th>
 					<th><?php echo $this->sort('paid', 'COM_VM_ORDER_PAID') ?></th>
 					<th><?php echo $this->sort('order_status', 'COM_VIRTUEMART_STATUS') ?></th>
 					<!--<th style="min-width:130px;width:5%;"><?php echo vmText::_('COM_VIRTUEMART_ORDER_LIST_NOTIFY'); ?></th>-->
 					<th><?php echo $this->sort('order_total', 'COM_VIRTUEMART_TOTAL') ?></th>
-					<th class="uk-table-shrink"><?php echo $this->sort('virtuemart_order_id', 'COM_VIRTUEMART_ORDER_LIST_ID') ?></th>
+					<th class="uk-table-shrink"><?php echo $this->sort('virtuemart_order_id', 'COM_VIRTUEMART_ID') ?></th>
 
 				</tr>
 				</thead>

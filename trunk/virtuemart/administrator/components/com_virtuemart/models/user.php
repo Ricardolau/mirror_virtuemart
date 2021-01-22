@@ -748,7 +748,7 @@ class VirtueMartModelUser extends VmModel {
 			if ($useractivation == '1' or $useractivation == '2') {
 				$doUserActivation=true;
 				$user->set('activation', vRequest::getHash( JUserHelper::genRandomPassword()) );
-				$user->set('block', '0');
+				$user->set('block', '1');
 				if ($useractivation == '2') {
 					$user->set('guest', '1');
 				}
@@ -1317,7 +1317,7 @@ class VirtueMartModelUser extends VmModel {
 	 *
 	 * @author Max Milbers
 	 */
-	function getUserInfoInUserFields($layoutName, $type,$uid,$cart=true,$isVendor=false ){
+	function getUserInfoInUserFields($layoutName, $type, $uid, $cart=true, $isVendor=false, $virtuemart_user_id = null ){
 
 		$userFieldsModel = VmModel::getModel('userfields');
 		$prepareUserFields = $userFieldsModel->getUserFieldsFor( $layoutName, $type );
@@ -1327,9 +1327,7 @@ class VirtueMartModelUser extends VmModel {
 		} else {
 			$preFix = '';
 		}
-		/*
-		 * JUser  or $this->_id is the logged user
-		 */
+
 /*		if(!empty($this->_data->JUser) and $this->_data->JUser->id==$this->_id){
 			$JUser = $this->_data->JUser;
 		} else {
@@ -1371,8 +1369,19 @@ class VirtueMartModelUser extends VmModel {
 
 			}
 		} else {
-			vmdebug('getUserInfoInUserFields case empty $uid');
-            $JUser = JFactory::getUser();
+
+			/* Fallback if $virtuemart_user_id is not given
+ 			 */
+			if($virtuemart_user_id === null){
+				$virtuemart_user_id = vRequest::getInt('virtuemart_user_id',0);
+				if(is_array($virtuemart_user_id)) $virtuemart_user_id = reset($virtuemart_user_id);
+
+				if(empty($virtuemart_user_id) and !empty($this->_data->JUser)){
+					$virtuemart_user_id = $this->_data->JUser->id;
+				}
+			}
+			vmdebug('getUserInfoInUserFields case empty $uid but $virtuemart_user_id ',$virtuemart_user_id);
+            $JUser = JFactory::getUser($virtuemart_user_id);
 			//New Address is filled here with the data of the cart (we are in the userview)
 			if($cart){
 

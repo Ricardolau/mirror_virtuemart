@@ -214,6 +214,8 @@ class VirtuemartViewProduct extends VmViewAdmin {
 				}
 
 				$this->calculator = calculationHelper::getInstance ();
+				$this->calculator->_cart = new stdClass();
+				$this->calculator->_cart->cartPrices = array();
 				$this->deliveryCountry = ShopFunctions::getCountryByID ($this->calculator->_deliveryCountry,  'country_3_code');
 				$this->deliveryState = ShopFunctions::getStateByID ($this->calculator->_deliveryState,  'state_3_code');
 

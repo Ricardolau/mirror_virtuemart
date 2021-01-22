@@ -123,7 +123,7 @@ class VirtuemartViewUser extends VmViewAdmin {
 			}
 
 			$virtuemart_userinfo_id_BT = $model->getBTuserinfo_id($userId);
-			$userFieldsArray = $model->getUserInfoInUserFields($layoutName,'BT',$virtuemart_userinfo_id_BT,false);
+			$userFieldsArray = $model->getUserInfoInUserFields($layoutName,'BT',$virtuemart_userinfo_id_BT, false, false, $userId);
 			$userFieldsBT = $userFieldsArray[$virtuemart_userinfo_id_BT];
 
 			// Load the required scripts
@@ -147,7 +147,7 @@ class VirtuemartViewUser extends VmViewAdmin {
 			$virtuemart_userinfo_id = 0;
 			if ($layoutName == 'edit_shipto' or $task=='addST' or $addrtype=='ST') {
 				$virtuemart_userinfo_id = vRequest::getString('virtuemart_userinfo_id', '0','');
-				$userFieldsArray = $model->getUserInfoInUserFields($layoutName,'ST',$virtuemart_userinfo_id,false);
+				$userFieldsArray = $model->getUserInfoInUserFields($layoutName,'ST',$virtuemart_userinfo_id, false, false, $userId);
 				if($new ){
 					$virtuemart_userinfo_id = 0;
 

@@ -366,11 +366,11 @@ class vmJsApi{
 				$v .= 'var Itemid = "";'."\n";
 			}
 			$v .= 'Virtuemart.addtocart_popup = "'.VmConfig::get('addtocart_popup',1).'"'." ; \n";
+			$v .= 'var vmCartError = Virtuemart.vmCartError = "'. addslashes( vmText::_('COM_VIRTUEMART_MINICART_ERROR_JS') ).'";'."\n" ;
 			if(VmConfig::get('usefancy',1)) {
 				$v .= "var usefancy = true;\n";
 			} else {//This is just there for the backward compatibility
 				$v .= "var vmCartText = '". addslashes( vmText::_('COM_VIRTUEMART_CART_PRODUCT_ADDED') )."' ;\n" ;
-				$v .= "var vmCartError = '". addslashes( vmText::_('COM_VIRTUEMART_MINICART_ERROR_JS') )."' ;\n" ;
 				//This is necessary though and should not be removed without rethinking the whole construction
 				$v .= "usefancy = false;\n";
 			}

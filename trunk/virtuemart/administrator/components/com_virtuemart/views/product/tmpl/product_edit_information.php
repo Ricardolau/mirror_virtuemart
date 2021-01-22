@@ -184,6 +184,7 @@ $i=0;
 	$rowColor = 0;
 
 	$calculator = $this->calculator;
+
 	$currency_model = VmModel::getModel ('currency');
 	$currencies = $currency_model->getCurrencies ();
 

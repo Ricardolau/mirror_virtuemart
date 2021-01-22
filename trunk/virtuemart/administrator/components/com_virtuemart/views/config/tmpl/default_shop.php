@@ -7,7 +7,7 @@
  * @subpackage Config
  * @author RickG
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -21,8 +21,16 @@ defined('_JEXEC') or die('Restricted access');?>
 <fieldset>
 	<legend><?php echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_SHOP_SETTINGS'); ?></legend>
 	<table class="admintable">
-		<?php
-			echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_CFG_SHOP_OFFLINE','shop_is_offline',VmConfig::get('shop_is_offline',0));
+        <tr>
+            <td class="key">
+				<?php echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_SHOP_OFFLINE'); ?>
+            </td>
+            <td colspan="2">
+				<?php echo vmText::sprintf('COM_VIRTUEMART_ADMIN_CFG_SHOP_OFFLINE_EXPLAIN','<a target="_blank" href="https://docs.virtuemart.net/faqs/245-how-to-set-the-shop-in-maintenance-mode.html">How To Set The Shop In Maintenance Mode</a>'); ?>
+            </td>
+        </tr>
+		<?php /*
+			///echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_CFG_SHOP_OFFLINE','shop_is_offline',VmConfig::get('shop_is_offline',0));
 		?>
 		<tr>
 			<td class="key">
@@ -33,7 +41,7 @@ defined('_JEXEC') or die('Restricted access');?>
 				          style="text-align: left;"><?php echo VmConfig::get('offline_message', 'Our Shop is currently down for maintenance. Please check back again soon.'); ?></textarea>
 			</td>
 		</tr>
-		<?php
+		<?php */
 			echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_CFG_USE_ONLY_AS_CATALOGUE','use_as_catalog',VmConfig::get('use_as_catalog',0));
 			echo VmHTML::row('genericlist','COM_VIRTUEMART_CFG_CURRENCY_MODULE',$this->currConverterList, 'currency_converter_module', 'size=1', 'value', 'text', VmConfig::get('currency_converter_module', 'convertECB.php'));
 			echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_CFG_ENABLE_CONTENT_PLUGIN','enable_content_plugin',VmConfig::get('enable_content_plugin',0));

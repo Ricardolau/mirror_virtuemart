@@ -211,7 +211,7 @@ $styleDateCol = '';
 							<td class="uk-text-center@m">
 								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 										uk-tooltip="<?php echo vmText::_('COM_VM_ORDER_PAID') ?>"
-										uk-icon="icon: check"></span>
+										uk-icon="icon: tag"></span>
 								<?php
 								// 	function toggle( $field, $i, $toggle, $imgY = 'tick.png', $imgX = 'publish_x.png', $untoggleable = false )
 								echo $this->toggle($order->paid, $i, 'toggle.paid'); ?>

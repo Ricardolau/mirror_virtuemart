@@ -74,21 +74,55 @@ vmuikitAdminUIHelper::startAdminArea($this);
 
 					//$stockstatut = 'class="uk-text-center@m stock-' . $stockstatut . '" title="' . vmText::_('COM_VIRTUEMART_STOCK_LEVEL_' . $stockstatut) . '"';
 					?>
-					<tr class="row<?php echo $k; ?>">
+					<div class="row<?php echo $k; ?>">
 						<!-- Checkbox -->
 						<td ><?php echo $checked; ?></td>
 						<!-- Product name -->
 						<?php
 						$link = 'index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id=' . $product->virtuemart_product_id . '&product_parent_id=' . $product->product_parent_id;
 						?>
-						<td><?php echo JHtml::_('link', JRoute::_($link, FALSE), $product->product_name, array('title' => vmText::_('COM_VIRTUEMART_EDIT') . ' ' . htmlentities($product->product_name))); ?></td>
-						<td class="uk-text-center@m"><?php echo $product->product_sku; ?></td>
-						<td class="uk-text-right@m"><span uk-tooltip="<?php echo  vmText::_('COM_VIRTUEMART_STOCK_LEVEL_' . $stockstatut) ?>" class="uk-label stock-<?php echo $stockstatut ?>"><?php echo $product->product_in_stock; ?></span></td>
-						<td class="uk-text-right@m" ><span uk-tooltip="<?php echo  vmText::_('COM_VIRTUEMART_STOCK_LEVEL_' . $stockstatut) ?>" class="uk-label stock-<?php echo $stockstatut ?>"><?php echo $product->product_ordered; ?></span></td>
-						<td class="uk-text-right@m"><?php echo $product->product_price_display; ?></td>
-						<td class="uk-text-right@m"><?php echo $product->product_instock_value; ?></td>
-						<td class="uk-text-right@m"><?php echo $product->product_weight . " " . $product->weigth_unit_display; ?></td>
-						<td class="uk-text-center@m"><?php echo $published; ?></td>
+						<td>
+							<div class="uk-label uk-label-vm stock-<?php echo $stockstatut ?> uk-width-1-1">
+							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_NAME') ?>"
+									uk-icon="icon: info"></span>
+							<?php echo JHtml::_('link', JRoute::_($link, FALSE), $product->product_name, array('title' => vmText::_('COM_VIRTUEMART_EDIT') . ' ' . htmlentities($product->product_name))); ?></td>
+					</div>
+						<td class="uk-text-center@m">
+							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_SKU') ?>"
+									uk-icon="icon: barcode"></span>
+							<?php echo $product->product_sku; ?></td>
+						<td class="uk-text-right@m">
+							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_IN_STOCK') ?>"
+									uk-icon="icon: inventory"></span>
+							<span uk-tooltip="<?php echo  vmText::_('COM_VIRTUEMART_STOCK_LEVEL_' . $stockstatut) ?>" class="uk-label stock-<?php echo $stockstatut ?>"><?php echo $product->product_in_stock; ?></span></td>
+						<td class="uk-text-right@m" >
+							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_ORDERED_STOCK') ?>"
+									uk-icon="icon: cart"></span>
+							<span uk-tooltip="<?php echo  vmText::_('COM_VIRTUEMART_STOCK_LEVEL_' . $stockstatut) ?>" class="uk-label stock-<?php echo $stockstatut ?>"><?php echo $product->product_ordered; ?></span></td>
+						<td class="uk-text-right@m">
+							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_COST') ?>"
+									uk-icon="icon: tag"></span>
+							<?php echo $product->product_price_display; ?></td>
+						<td class="uk-text-right@m">
+							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_INVENTORY_PRICE') ?>"
+									uk-icon="icon: calculator"></span>
+							<?php echo $product->product_instock_value; ?></td>
+						<td class="uk-text-right@m">
+							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_INVENTORY_WEIGHT') ?>"
+									uk-icon="icon: weight"></span>
+							<?php echo $product->product_weight . " " . $product->weigth_unit_display; ?></td>
+						<td class="uk-text-center@m">
+							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PUBLISHED') ?>"
+									uk-icon="icon: eye"></span>
+							<?php echo $published; ?></td>
 					</tr>
 					<?php
 

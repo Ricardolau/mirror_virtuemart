@@ -140,23 +140,33 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 							<td><?php echo $checked; ?></td>
 
 							<td >
-								<!--<span style="float:left; clear:left"> -->
+								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_NAME') ?>"
+										uk-icon="icon: info"></span>
 								<?php
 								if (empty($product->product_name)) {
 									$product->product_name = vmText::sprintf('COM_VM_TRANSLATION_MISSING', 'virtuemart_product_id', $product->virtuemart_product_id);
 								}
 								echo JHtml::_('link', JRoute::_($link), vRequest::vmHtmlEntities($product->product_name), array('title' => vmText::_('COM_VIRTUEMART_EDIT') . ' ' . vRequest::vmHtmlEntities($product->product_name))); ?>
-								<!-- </span>  -->
+
 							</td>
 
 							<?php if (!$product_parent_id) { ?>
-								<td><?php
+								<td>
+									<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+											uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_CHILDREN_OF') ?>"
+											uk-icon="icon: tree"></span>
+									<?php
 									//if ($product->product_parent_id  ) {
 									echo $product->parent_link;
 									//}
 									?></td>
 							<?php } ?>
-							<td class=""><?php
+							<td class="">
+								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_PARENT_LIST_CHILDREN') ?>"
+										uk-icon="icon: tree"></span>
+								<?php
 								echo $product->childlist_link;
 								?>
 							</td>
@@ -166,6 +176,9 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 							$link = JRoute::_('index.php?view=media&virtuemart_product_id=' . $product->virtuemart_product_id . '&option=com_virtuemart');
 							?>
 							<td >
+								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_MEDIA') ?>"
+										uk-icon="icon: image"></span>
 								<?php
 								// We show the images only when less than 21 products are displayeed -->
 
@@ -182,16 +195,28 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 								?>
 							</td>
 							<!-- Product SKU -->
-							<td><?php echo $product->product_sku; ?></td>
+							<td>
+								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_SKU') ?>"
+										uk-icon="icon: barcode"></span>
+								<?php echo $product->product_sku; ?></td>
 							<!-- Product price -->
-							<td ><?php
+							<td >
+								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_PRICE_TITLE') ?>"
+										uk-icon="icon: tag"></span>
+								<?php
 								if (isset($product->product_price_display)) {
 									echo $product->product_price_display;
 								}
 								?>
 							</td>
 							<!-- Category name -->
-							<td><?php
+							<td>
+								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_CATEGORY') ?>"
+										uk-icon="icon: category"></span>
+								<?php
 								echo $product->categoriesList;
 								//  show canonical category if set
 								if (!empty($product->product_canon_category_id) && $product->product_canon_category_id > 0) {
@@ -204,6 +229,11 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
                                 <td class="order" >
 
 						<?php if($this->showOrdering == $product->virtuemart_category_id){
+							?>
+							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_FIELDMANAGER_REORDER') ?>"
+									uk-icon="icon: arrow-up"></span>
+								<?php
 							if($this->showDrag){ ?>
 								<span class="vmicon vmicon-16-move"></span>
 							<?php }
@@ -216,7 +246,12 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 					</td>
 				<?php } ?>
 				<!-- Manufacturer name -->
-				<td><?php
+				<td>
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_MANUFACTURER_S') ?>"
+							uk-icon="icon: manufacturer"></span>
+
+					<?php
 					echo $product->manuList;
 
 								?>
@@ -224,16 +259,34 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 
 							<!-- Reviews -->
 							<?php $link = vRequest::vmSpecialChars('index.php?option=com_virtuemart&view=ratings&task=listreviews&virtuemart_product_id=' . $product->virtuemart_product_id); ?>
-							<td class="uk-text-center@m"><?php echo JHtml::_('link', $link, $product->reviews); ?></td>
 							<td class="uk-text-center@m">
+								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_REVIEW_S') ?>"
+										uk-icon="icon: comments"></span>
+
+								<?php echo JHtml::_('link', $link, $product->reviews); ?></td>
+							<td class="uk-text-center@m">
+								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_SPECIAL') ?>"
+										uk-icon="icon: heart"></span>
 								<?php
 								echo $is_featured;
 								?>
 							</td>
 							<!-- published -->
-							<td class="uk-text-center@m"><?php echo $published; ?></td>
+							<td class="uk-text-center@m">
+								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PUBLISHED') ?>"
+										uk-icon="icon: eye"></span>
+
+								<?php echo $published; ?></td>
 							<!-- Vendor name -->
-							<td><?php echo $product->virtuemart_product_id; // echo $product->vendor_name; ?></td>
+							<td>
+								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ID') ?>"
+										uk-icon="icon: hashtag"></span>
+
+								<?php echo $product->virtuemart_product_id; // echo $product->vendor_name; ?></td>
 						</tr>
 						<?php
 						$k = 1 - $k;

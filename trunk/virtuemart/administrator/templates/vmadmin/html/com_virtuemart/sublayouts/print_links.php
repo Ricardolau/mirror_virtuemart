@@ -32,7 +32,7 @@ $baseUrl = 'index.php?option=com_virtuemart&view=orders&task=callInvoiceView&tmp
 $print_url = $baseUrl . '&layout=invoice';
 ?>
 	<a href="javascript:void window.open('<?php echo $print_url ?>', 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');"
-			class="<?php echo $hrefClass ?> md-color-cyan-600 uk-margin-small-right"
+			class="<?php echo $hrefClass ?> md-color-green-600 uk-margin-small-right"
 	>
 		<span  uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRINT') . ' ' . $order->order_number ?>">
 			<span uk-icon="icon: print; ratio: <?php echo $iconRatio ?>"></span>

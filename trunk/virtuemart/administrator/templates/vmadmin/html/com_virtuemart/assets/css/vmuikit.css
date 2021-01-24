@@ -431,15 +431,21 @@ label.invalid {
 .uk-label {
     background-color:#b0bec5
 }
-.uk-label-order{
+.uk-label-vm{
     font-size: revert;
     text-transform: none;
     white-space: normal;
     padding: 3px 5px;
     display: block;
 }
-.uk-label-order a {
+.uk-label-vm a {
     color: #FFF;
+}
+/* Phone landscape and smaller */
+@media (max-width: 959px) {
+    .uk-label-vm{
+        display: inline-block;
+    }
 }
 #orderForm .uk-card-vm input,#orderForm  .uk-card-vm textarea,#orderForm .uk-card-vm .uneditable-input {
     width: 95%;

@@ -73,16 +73,16 @@ if (($intervalTitle == 'week') or ($intervalTitle == 'month')) {
 				<th>
 					<?php echo $this->sort('created_on', 'COM_VIRTUEMART_' . $intervalTitle); ?>
 				</th>
-				<th class="right">
+				<th class="uk-text-right@m">
 					<?php echo $this->sort('o.virtuemart_order_id', 'COM_VIRTUEMART_REPORT_BASIC_ORDERS'); ?>
 				</th>
-				<th class="right">
+				<th class="uk-text-right@m">
 					<?php echo $this->sort('product_quantity', 'COM_VIRTUEMART_REPORT_BASIC_TOTAL_ITEMS'); ?>
 				</th>
-				<th class="right">
+				<th class="uk-text-right@m">
 					<?php echo $this->sort('order_subtotal_netto', 'COM_VIRTUEMART_REPORT_BASIC_REVENUE_NETTO'); ?>
 				</th>
-				<th class="right">
+				<th class="uk-text-right@m">
 					<?php echo $this->sort('order_subtotal_brutto', 'COM_VIRTUEMART_REPORT_BASIC_REVENUE_BRUTTO'); ?>
 				</th>
 				<?php
@@ -92,14 +92,14 @@ if (($intervalTitle == 'week') or ($intervalTitle == 'month')) {
 					<th>
 						<?php echo $this->sort('order_item_name', 'COM_VIRTUEMART_PRODUCT_NAME'); ?>
 					</th>
-					<th>
+					<th class="uk-text-right@m">
 						<?php echo $this->sort('virtuemart_product_id', 'COM_VIRTUEMART_PRODUCT_ID'); ?>
 					</th>
 					<?php
 				} else /*if(VmConfig::get('multix','none')!='none')*/
 				{
 				?>
-				<th class="right"><?php
+				<th class="uk-text-right@m"><?php
 					echo $this->sort('coupon_discount', 'COM_VIRTUEMART_COUPON');
 					}
 					?>
@@ -115,14 +115,14 @@ if (($intervalTitle == 'week') or ($intervalTitle == 'month')) {
 				$s = 0;
 				?>
 				<tr class="row<?php echo $i; ?>">
-					<td align="center">
+					<td >
 						<?php echo $r['intervals'];
 						if ($addDateInfo) {
 							echo ' (' . substr($r['created_on'], 0, 4) . ')';
 						}
 						?>
 					</td>
-					<td class="right">
+					<td class="uk-text-right@m">
 						<?php
 						if ($intervals == 'orders') {
 							$link = 'index.php?option=com_virtuemart&view=orders&task=edit&virtuemart_order_id=' . $r['virtuemart_order_id'];
@@ -133,26 +133,26 @@ if (($intervalTitle == 'week') or ($intervalTitle == 'month')) {
 						}
 						?>
 					</td>
-					<td class="right">
+					<td class="uk-text-right@m">
 						<?php echo $r['product_quantity']; ?>
 					</td>
-					<td class="right">
+					<td class="uk-text-right@m">
 						<?php echo $r['order_subtotal_netto']; ?>
 					</td>
-					<td class="right">
+					<td class="uk-text-right@m">
 						<?php echo $r['order_subtotal_brutto']; ?>
 					</td>
 					<?php if ($intervals == 'product_s') {
 						?>
-						<td align="center">
+						<td>
 							<?php echo $r['order_item_name']; ?>
 						</td>
-						<td align="center">
+						<td  class="uk-text-right@m">
 							<?php echo $r['virtuemart_product_id']; ?>
 						</td>
 
 					<?php } else /*if(VmConfig::get('multix','none')!='none')*/ { ?>
-						<td class="right">
+						<td class="uk-text-right@m">
 							<?php echo $r['coupon_discount']; ?>
 						</td>
 					<?php } ?>
@@ -165,11 +165,11 @@ if (($intervalTitle == 'week') or ($intervalTitle == 'month')) {
 			</tbody>
 			<thead>
 			<tr>
-				<td class="right"><strong><?php echo vmText::_('COM_VIRTUEMART_TOTAL') . ' : '; ?></strong></td>
-				<td class="right"><strong><?php echo $this->totalReport['number_of_ordersTotal'] ?></strong></td>
-				<td class="right"><strong><?php echo $this->totalReport['itemsSoldTotal']; ?></strong></td>
-				<td class="right"><strong><?php echo $this->totalReport['revenueTotal_netto']; ?></strong></td>
-				<td class="right"><strong><?php echo $this->totalReport['revenueTotal_brutto']; ?></strong></td>
+				<td class="uk-text-right@m"><strong><?php echo vmText::_('COM_VIRTUEMART_TOTAL') . ' : '; ?></strong></td>
+				<td class="uk-text-right@m"><strong><?php echo $this->totalReport['number_of_ordersTotal'] ?></strong></td>
+				<td class="uk-text-right@m"><strong><?php echo $this->totalReport['itemsSoldTotal']; ?></strong></td>
+				<td class="uk-text-right@m"><strong><?php echo $this->totalReport['revenueTotal_netto']; ?></strong></td>
+				<td class="uk-text-right@m"><strong><?php echo $this->totalReport['revenueTotal_brutto']; ?></strong></td>
 				<td></td>
 			</tr>
 			</thead>

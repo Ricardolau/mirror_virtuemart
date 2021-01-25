@@ -80,21 +80,21 @@ vmuikitAdminUIHelper::startAdminArea($this);
 			<th>
 				<input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)"/>
 			</th>
-			<th align="left" width="20%">
+			<th>
 				<?php echo $this->sort('category_name') ?>
 			</th>
-			<th align="left" width="65%">
+			<th>
 				<?php echo $this->sort('category_description', 'COM_VIRTUEMART_DESCRIPTION'); ?>
 			</th>
-			<th style="min-width:80px;width:8%;text-align:center;">
+			<th class="uk-text-center">
 				<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_S'); ?>
 			</th>
 
-			<th style="min-width:80px;width:8%;text-align:center;">
+			<th class="uk-table-shrink">
 				<?php echo $this->sort('c.ordering', 'COM_VIRTUEMART_ORDERING') ?>
 				<?php echo JHtml::_('grid.order', $this->categories, 'filesave.png', 'saveOrder'); ?>
 			</th>
-			<th align="center">
+			<th lass="uk-text-center">
 				<?php echo $this->sort('c.published', 'COM_VIRTUEMART_PUBLISHED') ?>
 			</th>
 			<?php if ($this->showVendors()) { ?>
@@ -152,25 +152,34 @@ vmuikitAdminUIHelper::startAdminArea($this);
 			<tr class="<?php echo "row" . $k; ?>">
 
 				<td><?php echo $checked; ?></td>
-				<td align="left">
+				<td>
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_CATEGORY_NAME') ?>"
+							uk-icon="icon: info"></span>
 					<span class="categoryLevel"><?php echo $categoryLevel; ?></span>
 					<a href="<?php echo $editlink; ?>"><?php echo $cat->category_name; ?></a>
 				</td>
-				<td align="left">
-
+				<td>
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_DESCRIPTION') ?>"
+							uk-icon="icon: pencil"></span>
 					<?php
 					/*$descr = htmlspecialchars_decode($cat->category_description);
 					echo shopFunctionsF::limitStringByWord(JFilterOutput::cleanText($descr),200);*/
 					echo shopFunctionsF::limitStringByWord(strip_tags($cat->category_description), 200); ?>
 				</td>
 				<td>
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_S') ?>"
+							uk-icon="icon: eye"></span>
 					<?php echo $this->categories[$i]->productcount;//ShopFunctions::countProductsByCategory($row->virtuemart_category_id);
 					?>
-					&nbsp;<a
-							href="<?php echo $showProductsLink; ?>">[ <?php echo vmText::_('COM_VIRTUEMART_SHOW'); ?> ]</a>
+					&nbsp;<a href="<?php echo $showProductsLink; ?>">[ <?php echo vmText::_('COM_VIRTUEMART_SHOW'); ?> ]</a>
 				</td>
-				<td align="center" class="vm-order">
-
+				<td class="uk-text-center@m vm-order">
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDERING') ?>"
+							uk-icon="icon: arrow-up"></span>
 					<?php if ($this->showDrag) { ?>
 						<span class="vmicon vmicon-16-move"></span>
 					<?php }
@@ -187,20 +196,27 @@ vmuikitAdminUIHelper::startAdminArea($this);
 					<input class="ordering" type="text" name="order[<?php echo $i ?>]" id="order[<?php echo $i ?>]"
 							size="5" value="<?php echo $cat->ordering; ?>" style="text-align: center"/>
 				</td>
-				<td align="center">
+				<td class="uk-text-center@m">
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PUBLISHED') ?>"
+							uk-icon="icon: eye"></span>
 					<?php echo $published; ?>
 				</td>
 				<?php
 				if ((Vmconfig::get('multix', 'none') != 'none')) {
 					?>
-					<td align="center">
+					<td class="uk-text-center@m">
 						<?php echo $shared; ?>
 					</td>
 					<?php
 				}
 				?>
-				<td><?php echo $cat->virtuemart_category_id; // echo $product->vendor_name;
-					?></td>
+				<td>
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ID') ?>"
+							uk-icon="icon: hashtag"></span>
+					<?php echo $cat->virtuemart_category_id; // echo $product->vendor_name; ?>
+				</td>
 				<!--td >
 					<span class="vmicon vmicon-16-move"></span>
 				</td-->

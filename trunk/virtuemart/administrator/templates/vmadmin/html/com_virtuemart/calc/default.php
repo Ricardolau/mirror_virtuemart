@@ -54,14 +54,14 @@ vmuikitAdminUIHelper::startAdminArea($this);
 			<th>
 				<input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)" />
 			</th>
-			<th width="20%"><?php echo $this->sort('calc_name', 'COM_VIRTUEMART_NAME') ; ?></th>
+			<th ><?php echo $this->sort('calc_name', 'COM_VIRTUEMART_NAME') ; ?></th>
 			<?php if($this->showVendors){ ?>
-			<th width="10px">
+			<th>
 				<?php echo vmText::_('COM_VIRTUEMART_VENDOR');  ?>
 			</th><?php }  ?>
-			<th width="25%"><?php echo $this->sort('calc_descr' , 'COM_VIRTUEMART_DESCRIPTION'); ?></th>
+			<th><?php echo $this->sort('calc_descr' , 'COM_VIRTUEMART_DESCRIPTION'); ?></th>
 			<th><?php echo $this->sort('ordering') ; ?></th>
-			<th style="min-width:120px;width:5%;" ><?php echo $this->sort('calc_kind') ; ?></th>
+			<th  ><?php echo $this->sort('calc_kind') ; ?></th>
 			<th><?php echo vmText::_('COM_VIRTUEMART_CALC_VALUE_MATHOP'); ?></th>
 			<th><?php echo $this->sort('calc_value' , 'COM_VIRTUEMART_VALUE'); ?></th>
 			<th><?php echo $this->sort('calc_currency' , 'COM_VIRTUEMART_CURRENCY'); ?></th>
@@ -78,7 +78,7 @@ vmuikitAdminUIHelper::startAdminArea($this);
 			<th><?php echo vmText::_('COM_VIRTUEMART_STATE_IDS'); ?></th>
 			<th><?php echo vmText::_('COM_VIRTUEMART_PUBLISHED'); ?></th>
 			<?php if($this->showVendors){ ?>
-			<th width="20">
+			<th >
 				<?php echo vmText::_( 'COM_VIRTUEMART_SHARED')  ?>
 			</th><?php }  ?>
 			<th><?php echo $this->sort('virtuemart_calc_id', 'COM_VIRTUEMART_ID')  ?></th>
@@ -107,7 +107,7 @@ vmuikitAdminUIHelper::startAdminArea($this);
 					<a href="<?php echo $editlink; ?>"><?php echo vmText::_($row->calc_name); ?></a>
 				</td>
 				<?php  if($this->showVendors){ ?>
-				<td align="left">
+				<td >
 					<?php echo $row->virtuemart_vendor_id; ?>
 				</td>
 				<?php } ?>
@@ -117,10 +117,10 @@ vmuikitAdminUIHelper::startAdminArea($this);
 				<td>
 					<?php echo $row->ordering; ?>
 				</td>
-				<td align="center" >
+				<td  >
 					<?php echo $row->calc_kind; ?>
 				</td>
-				<td align="center" >
+				<td  >
 					<?php echo $row->calc_value_mathop; ?>
 				</td>
 				<td>
@@ -176,13 +176,13 @@ vmuikitAdminUIHelper::startAdminArea($this);
 
 				<?php
 				if($this->showVendors){
-				?><td align="center">
+				?><td >
 					   <?php echo $this->toggle($row->shared, $i, 'toggle.shared'); ?>
 			        </td>
 				<?php
 				}
 			?>
-				<td align="right">
+				<td >
 					<?php echo $row->virtuemart_calc_id; ?>
 				</td>
 			</tr>

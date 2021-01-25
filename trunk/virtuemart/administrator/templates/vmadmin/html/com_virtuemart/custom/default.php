@@ -59,10 +59,10 @@ $customs = $this->customs->items;
 	<thead>
 	<tr>
 		<th><input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)" /></th>
-		<th width="8%"><?php echo vmText::_('COM_VIRTUEMART_CUSTOM_GROUP'); ?></th>
-		<th width="30%"><?php echo vmText::_('COM_VIRTUEMART_TITLE'); ?></th>
-		<th width="35%"><?php echo vmText::_('COM_VIRTUEMART_CUSTOM_FIELD_DESCRIPTION'); ?></th>
-        <th width="8%"><?php echo vmText::_('COM_VIRTUEMART_CUSTOM_LAYOUT_POS'); ?></th>
+		<th ><?php echo vmText::_('COM_VIRTUEMART_CUSTOM_GROUP'); ?></th>
+		<th><?php echo vmText::_('COM_VIRTUEMART_TITLE'); ?></th>
+		<th ><?php echo vmText::_('COM_VIRTUEMART_CUSTOM_FIELD_DESCRIPTION'); ?></th>
+        <th ><?php echo vmText::_('COM_VIRTUEMART_CUSTOM_LAYOUT_POS'); ?></th>
 		<th><?php echo vmText::_('COM_VIRTUEMART_CUSTOM_FIELD_TYPE'); ?></th>
 		<th><?php echo vmText::_('COM_VIRTUEMART_CUSTOM_IS_CART_ATTRIBUTE'); ?></th>
 		<th><?php echo vmText::_('COM_VIRTUEMART_CUSTOM_ADMIN_ONLY'); ?></th>
@@ -72,8 +72,8 @@ $customs = $this->customs->items;
 			echo JHtml::_('grid.order',  $customs ).'</th>';
 		}
 		?>
-		<th style="max-width:80px;text-align:center;" ><?php echo vmText::_('COM_VIRTUEMART_PUBLISHED'); ?></th>
-		  <th min-width="8px"><?php echo $this->sort('virtuemart_custom_id', 'COM_VIRTUEMART_ID')  ?></th>
+		<th class="uk-text-center@m"><?php echo vmText::_('COM_VIRTUEMART_PUBLISHED'); ?></th>
+		  <th class="uk-text-center@m"><?php echo $this->sort('virtuemart_custom_id', 'COM_VIRTUEMART_ID')  ?></th>
 	</tr>
 	</thead>
 	<tbody>
@@ -97,7 +97,11 @@ $customs = $this->customs->items;
 				<?php
 				$link = "index.php?view=custom&keyword=".urlencode($keyword)."&custom_parent_id=".$custom->custom_parent_id."&option=".$option;
 				?>
-				<td><?php
+				<td>
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_CUSTOM_GROUP') ?>"
+							uk-icon="icon: group"></span>
+					<?php
 
                             $lang = vmLanguage::getLanguage();
                             $text = $lang->hasKey($custom->group_title) ? vmText::_($custom->group_title) : $custom->group_title;
@@ -110,21 +114,54 @@ $customs = $this->customs->items;
 				if ($custom->is_cart_attribute) $cartIcon=  'default';
 							 else  $cartIcon= 'default-off';
 				?>
-				<td><?php echo JHtml::_('link', JRoute::_($link, FALSE), vmText::_($custom->custom_title), array('title' => vmText::_('COM_VIRTUEMART_EDIT').' '.htmlentities($custom->custom_title))); ?></td>
-				<td><?php echo vmText::_($custom->custom_desc); ?></td>
-                <td><?php echo vmText::_($custom->layout_pos); ?></td>
-				<td><?php echo vmText::_($custom->field_type_display); ?></td>
-				<td><span class="vmicon vmicon-16-<?php echo $cartIcon ?>"></span></td>
 				<td>
-					<a href="javascript:void(0);" onclick="return listItemTask('cb<?php echo $i;?>','toggle.admin_only')" title="<?php echo ($custom->admin_only ) ? vmText::_('COM_VIRTUEMART_YES') : vmText::_('COM_VIRTUEMART_NO');?>">
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_TITLE') ?>"
+							uk-icon="icon: info"></span>
+
+					<?php echo JHtml::_('link', JRoute::_($link, FALSE), vmText::_($custom->custom_title), array('title' => vmText::_('COM_VIRTUEMART_EDIT').' '.htmlentities($custom->custom_title))); ?></td>
+				<td>
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_CUSTOM_FIELD_DESCRIPTION') ?>"
+							uk-icon="icon: pencil"></span>
+					<?php echo vmText::_($custom->custom_desc); ?></td>
+                <td>
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_CUSTOM_LAYOUT_POS') ?>"
+							uk-icon="icon: location"></span>
+					<?php echo vmText::_($custom->layout_pos); ?></td>
+				<td>
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_CUSTOM_FIELD_TYPE') ?>"
+							uk-icon="icon: question"></span>
+					<?php echo vmText::_($custom->field_type_display); ?></td>
+				<td class="uk-text-center@m">
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_CUSTOM_IS_CART_ATTRIBUTE') ?>"
+							uk-icon="icon: cart"></span>
+					<span class="vmicon vmicon-16-<?php echo $cartIcon ?>"></span>
+				</td>
+				<td class="uk-text-center@m">
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_CUSTOM_ADMIN_ONLY') ?>"
+							uk-icon="icon: cart"></span>
+					<a  href="javascript:void(0);" onclick="return Joomla.listItemTask('cb<?php echo $i;?>','toggle.admin_only')" title="<?php echo ($custom->admin_only ) ? vmText::_('COM_VIRTUEMART_YES') : vmText::_('COM_VIRTUEMART_NO');?>">
 					<span class="vmicon <?php echo ( $custom->admin_only  ? 'vmicon-16-checkin' : 'vmicon-16-bug' );?>"></span></a></td>
-				<td><a href="javascript:void(0);" onclick="return listItemTask('cb<?php echo $i;?>','toggle.is_hidden')" title="<?php echo ($custom->is_hidden ) ? vmText::_('COM_VIRTUEMART_YES') : vmText::_('COM_VIRTUEMART_NO');?>">
-					<span class="vmicon <?php echo ( $custom->is_hidden  ? 'vmicon-16-checkin' : 'vmicon-16-bug' );?>"></span></a></td>
+				<td class="uk-text-center@m">
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_CUSTOM_IS_HIDDEN') ?>"
+							uk-icon="icon: disable"></span>
+					<a  href="javascript:void(0);" onclick="return Joomla.listItemTask('cb<?php echo $i;?>','toggle.is_hidden')" title="<?php echo ($custom->is_hidden ) ? vmText::_('COM_VIRTUEMART_YES') : vmText::_('COM_VIRTUEMART_NO');?>">
+					<span class="vmicon <?php echo ( $custom->is_hidden  ? 'vmicon-16-checkin' : 'vmicon-16-bug' );?>"></span></a>
+				</td>
 
 					<?php
 					if(!empty($this->custom_parent_id)){
 					?>
-						<td align="center" class="order">
+						<td class="uk-text-center@m order">
+							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDERING') ?>"
+									uk-icon="icon: arrow-up"></span>
 							<span class="vmicon vmicon-16-move"></span>
 						<!--span><?php echo $this->pagination->vmOrderUpIcon($i, $custom->ordering, 'orderUp', vmText::_('COM_VIRTUEMART_MOVE_UP')); ?></span>
 						<span><?php echo $this->pagination->vmOrderDownIcon( $i, $custom->ordering, $n, true, 'orderDown', vmText::_('COM_VIRTUEMART_MOVE_DOWN')); ?></span-->
@@ -135,8 +172,18 @@ $customs = $this->customs->items;
 					?>
 
 
-				<td style="text-align:center;" ><?php echo $published; ?></td>
-				<td><?php echo $custom->virtuemart_custom_id; ?></td>
+				<td  class="uk-text-center@m">
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PUBLISHED') ?>"
+							uk-icon="icon: eye"></span>
+					<?php echo $published; ?>
+				</td>
+				<td>
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ID') ?>"
+							uk-icon="icon: hashtag"></span>
+					<?php echo $custom->virtuemart_custom_id; ?>
+				</td>
 			</tr>
 		<?php
 			$k = 1 - $k;

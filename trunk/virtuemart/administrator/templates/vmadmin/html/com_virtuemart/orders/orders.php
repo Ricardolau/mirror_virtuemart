@@ -177,8 +177,8 @@ $styleDateCol = '';
 							<!-- Shipment method -->
 							<td>
 								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
-									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_SHIPMENT_LBL') ?>"
-									uk-icon="icon: shipment"></span>
+										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_SHIPMENT_LBL') ?>"
+										uk-icon="icon: shipment"></span>
 								<div class="uk-label uk-label-vm"
 										style="<?php echo $shipmentcolorStyle ?>"><?php echo $order->shipment_method; ?></div>
 
@@ -218,7 +218,7 @@ $styleDateCol = '';
 							</td>
 
 							<td>
-									<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 											uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_STATUS') ?>"
 											uk-icon="icon: future"></span>
 								<div class="uk-label  uk-label-vm" style="<?php echo $statuscolorStyle ?>">

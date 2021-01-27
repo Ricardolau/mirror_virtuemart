@@ -87,7 +87,7 @@ $i = 0;
 				<?php echo $this->lists['OrderStatus'];?>
 				<br/> <br/>
 				<div style="font-weight:bold;"><?php echo vmText::sprintf ('COM_VIRTUEMART_PRODUCT_SHOPPERS_LIST', $this->product->product_name); ?></div>
-				<table class="uk-table uk-table-striped uk-table-responsive ui-sortable" >
+				<table class="uk-table uk-table-small uk-table-striped uk-table-responsive ui-sortable" >
 					<thead>
 					<tr>
 						<th ><?php echo $this->sort ('ou.first_name', 'COM_VIRTUEMART_NAME','edit');?></th>

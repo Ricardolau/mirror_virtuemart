@@ -25,7 +25,7 @@ vmLanguage::loadJLang('com_virtuemart_config');
 ?>
 <form action="index.php" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<table class="uk-table uk-table-striped uk-table-responsive">
+		<table class="uk-table uk-table-small uk-table-striped uk-table-responsive">
 			<thead>
 			<tr>
 				<th>

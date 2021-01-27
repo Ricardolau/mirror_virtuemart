@@ -381,6 +381,9 @@ label.invalid {
 .uk-card-header-hidden {
     display: none;
 }
+.uk-table-small td, .uk-table-small th {
+    padding: 8px;
+}
 .uk-table-xsmall td, .uk-table-xsmall th {
     padding: 5px;
 }

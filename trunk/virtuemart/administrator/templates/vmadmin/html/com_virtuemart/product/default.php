@@ -86,7 +86,7 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 
 
 			?>
-			<table class="uk-table uk-table-striped uk-table-responsive">
+			<table class="uk-table uk-table-small uk-table-striped uk-table-responsive">
 				<thead>
 				<tr>
 					<th>
@@ -98,7 +98,7 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 						<th class="uk-table-shrink"><?php echo $this->sort('product_parent_id', 'COM_VIRTUEMART_PRODUCT_CHILDREN_OF'); ?></th>
 					<?php } ?>
 					<th class="uk-table-shrink"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_PARENT_LIST_CHILDREN'); ?></th>
-					<th style="min-width:<?php echo $imgWidth ?>px;width:5%;"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_MEDIA'); ?></th>
+					<th class="uk-table-shrink"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_MEDIA'); ?></th>
 					<th><?php echo $this->sort('`p`.product_sku', 'COM_VIRTUEMART_PRODUCT_SKU') ?></th>
 					<th ><?php echo $this->sort('product_price', 'COM_VIRTUEMART_PRODUCT_PRICE_TITLE'); ?></th>
 					<?php /*		<th><?php echo JHtml::_('grid.sort', 'COM_VIRTUEMART_CATEGORY', 'c.category_name', $this->lists['filter_order_Dir'], $this->lists['filter_order'] ); ?></th> */ ?>
@@ -113,10 +113,10 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 						</th>
 					<?php } ?>
 					<th ><?php echo $this->sort('mf_name', 'COM_VIRTUEMART_MANUFACTURER_S'); ?></th>
-					<th ><?php echo vmText::_('COM_VIRTUEMART_REVIEW_S'); ?></th>
+					<th class="uk-text-center@m"><?php echo vmText::_('COM_VIRTUEMART_REVIEW_S'); ?></th>
 					<th class="uk-table-shrink"><?php echo $this->sort('product_special', 'COM_VIRTUEMART_PRODUCT_FORM_SPECIAL'); ?> </th>
-					<th ><?php echo $this->sort('published'); ?></th>
-					<th><?php echo $this->sort('p.virtuemart_product_id', 'COM_VIRTUEMART_ID') ?></th>
+					<th class="uk-text-center@m"><?php echo $this->sort('published'); ?></th>
+					<th class="uk-text-center@m"><?php echo $this->sort('p.virtuemart_product_id', 'COM_VIRTUEMART_ID') ?></th>
 				</tr>
 				</thead>
 				<tbody>
@@ -207,7 +207,7 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 										uk-icon="icon: tag"></span>
 								<?php
 								if (isset($product->product_price_display)) {
-									echo $product->product_price_display;
+										echo $product->product_price_display;
 								}
 								?>
 							</td>
@@ -281,12 +281,13 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 
 								<?php echo $published; ?></td>
 							<!-- Vendor name -->
-							<td>
+							<td class="uk-text-center@m">
 								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ID') ?>"
 										uk-icon="icon: hashtag"></span>
 
-								<?php echo $product->virtuemart_product_id; // echo $product->vendor_name; ?></td>
+								<?php echo $product->virtuemart_product_id; // echo $product->vendor_name; ?>
+							</td>
 						</tr>
 						<?php
 						$k = 1 - $k;

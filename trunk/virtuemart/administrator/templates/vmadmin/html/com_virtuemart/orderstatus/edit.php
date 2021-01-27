@@ -78,7 +78,7 @@ vmuikitAdminUIHelper::imitateTabs('start', 'COM_VIRTUEMART_ORDERSTATUS_DETAILS')
 			</div>
 			<div class="uk-card-body">
 
-				<table class="uk-table uk-table-striped uk-table-responsive">
+				<table class="uk-table uk-table-small uk-table-striped uk-table-responsive">
 					<thead>
 					<tr>
 						<th>

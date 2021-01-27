@@ -61,7 +61,7 @@ $styleDateCol = '';
 
 
 		<div>
-			<table class="uk-table uk-table-striped uk-table-responsive">
+			<table class="uk-table  uk-table-small uk-table-striped uk-table-responsive">
 				<thead>
 				<tr>
 					<th>
@@ -231,7 +231,7 @@ $styleDateCol = '';
 										<div class="uk-card-title">
 											<span class="md-color-grey-500 uk-margin-small-right"
 													uk-icon="icon: comment; ratio: 1.2"></span>
-											<?php echo vmText::_('COM_VIRTUEMART_ORDER_UPDATE_STATUS') ?>
+											<?php echo  vmText::_('COM_VIRTUEMART_ORDER_UPDATE_STATUS').' '.$order->order_number  ?>
 										</div>
 										<hr/>
 

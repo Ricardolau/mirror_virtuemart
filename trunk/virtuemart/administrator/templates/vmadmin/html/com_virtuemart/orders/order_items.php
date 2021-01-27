@@ -69,7 +69,7 @@ defined('_JEXEC') or die('Restricted access');
 						<td colspan="2">
 							<form action="index.php" method="post" name="orderItemForm"
 									id="orderItemForm"><!-- Update linestatus form -->
-								<table  id="itemTable" class="uk-table uk-table-striped uk-table-responsive">
+								<table  id="itemTable" class="uk-table  uk-table-small uk-table-striped uk-table-responsive">
 									<thead>
 									<tr>
 										<!--<th class="title" width="5%" align="left"><?php echo vmText::_('COM_VIRTUEMART_ORDER_EDIT_ACTIONS') ?></th> -->

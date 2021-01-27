@@ -39,7 +39,7 @@ vmuikitAdminUIHelper::imitateTabs('start', 'COM_VIRTUEMART_USERFIELD_DETAILS');
 		<form action="index.php" method="post" name="adminForm" id="adminForm" class="uk-form-horizontal">
 
 
-			<table class="uk-table  uk-table-responsive">
+			<table class="uk-table  uk-table-small uk-table-responsive">
 				<?php echo VmHTML::row('raw', 'COM_VIRTUEMART_FIELDMANAGER_TYPE', $this->lists['type']); ?>
 
 				<!-- Start Type specific attributes -->

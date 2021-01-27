@@ -38,7 +38,7 @@ vmuikitAdminUIHelper::startAdminArea($this);
 		?>
 	</div>
 	<div id="editcell">
-		<table class="uk-table uk-table-striped uk-table-responsive">
+		<table class="uk-table uk-table-small uk-table-striped uk-table-responsive">
 			<thead>
 			<tr>
 				<th><input type="checkbox" name="toggle" value=""

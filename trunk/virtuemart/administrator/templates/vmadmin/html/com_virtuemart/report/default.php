@@ -67,7 +67,7 @@ if (($intervalTitle == 'week') or ($intervalTitle == 'month')) {
 
 	</div>
 	<div id="editcell">
-		<table class="uk-table uk-table-striped uk-table-responsive" cellspacing="0" cellpadding="0">
+		<table class="uk-table uk-table-small uk-table-striped uk-table-responsive" cellspacing="0" cellpadding="0">
 			<thead>
 			<tr>
 				<th>

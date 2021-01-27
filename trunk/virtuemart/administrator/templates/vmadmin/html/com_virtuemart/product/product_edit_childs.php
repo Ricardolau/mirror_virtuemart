@@ -85,7 +85,7 @@ $i = 0;
 			// vmdebug('ma $customs',$customs);
 			?>
 
-			<table class="uk-table uk-table-striped uk-table-responsive">
+			<table class="uk-table uk-table-small uk-table-striped uk-table-responsive">
 				<tr>
 					<th ><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_CHILD') ?></th>
 					<th ><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_CHILD_NAME') ?></th>

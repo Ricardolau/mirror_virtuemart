@@ -23,7 +23,7 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 
-<table class="uk-table uk-table-striped uk-table-responsive" id="show_hide_prices">
+<table class="uk-table uk-table-small uk-table-striped uk-table-responsive" id="show_hide_prices">
 
 	<thead>
 	<tr>

@@ -94,7 +94,7 @@ vmJsApi::addJScript('vmuikit-remindTab', "
 					<a href="#" class="uk-icon-button uk-margin-small-bottom vmuikit-js-menu-offcanvas-toggle uk-visible@m" uk-tooltip="<?php echo vmText::_('COM_VM_SHOW_MENU') ?>">
 						<span class="uk-icon-button" uk-icon="arrow-right"></span>
 					</a>
-					<button class="uk-button uk-button-small uk-button-default "
+					<button class="uk-button uk-button-small uk-button-default uk-padding-remove "
 							uk-toggle="target: #vmuikit-menu-offcanvas-toggle"
 							uk-tooltip="<?php echo vmText::_('COM_VM_TOGGLE_MENU') ?>"
 					>

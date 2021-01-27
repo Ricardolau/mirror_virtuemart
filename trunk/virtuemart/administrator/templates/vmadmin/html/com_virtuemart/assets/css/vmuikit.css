@@ -139,8 +139,7 @@
     color: rgba(0, 0, 0, .54);
     position: relative;
     padding: 8px 12px;
-    font-size: 14px;
-    font-size: .875rem;
+    font-size: 12px;
     border-radius: 3px 3px 0 0;
     -webkit-transition: background 140ms cubic-bezier(.55, 0, .1, 1);
     transition: background 140ms cubic-bezier(.55, 0, .1, 1);

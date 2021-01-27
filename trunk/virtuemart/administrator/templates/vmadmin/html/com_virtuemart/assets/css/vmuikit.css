@@ -432,7 +432,7 @@ label.invalid {
     background:rgba(0, 0, 0, 0.8);
 }
 .uk-label {
-    background-color:#b0bec5
+    background-color:transparent
 }
 .uk-label-vm{
     font-size: revert;

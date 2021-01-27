@@ -440,10 +440,10 @@ label.invalid {
     white-space: normal;
     padding: 3px 5px;
     display: block;
+    color: unset;
 }
-.uk-label-vm a {
-    color: #FFF;
-}
+
+
 /* Phone landscape and smaller */
 @media (max-width: 959px) {
     .uk-label-vm{

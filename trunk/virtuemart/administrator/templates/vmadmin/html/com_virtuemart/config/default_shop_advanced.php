@@ -30,6 +30,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</div>
 	<div class="uk-card-body">
 		<?php
+		if(!$this->admintTemplateInstalled){
+			echo '<tr><td colspan="2">'.vmText::_('COM_VM_CFG_ADMINTEMPLATE_MISSING').'</td></tr>';
+		}
+		echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_CFG_TEST_ADMIN_TEMPLATE', 'backendTemplate', VmConfig::get('backendTemplate', 1));
 		$optDebug = array(
 			'none' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_ENABLE_DEBUG_NONE'),
 			'admin' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_ENABLE_DEBUG_ADMIN'),
@@ -60,7 +64,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		echo VmuikitHtml::row('booleanlist', 'COM_VM_USE_OPTIMISED_PRODUCT_SQL', 'optimisedProductSql', VmConfig::get('optimisedProductSql', 1));
 		echo VmuikitHtml::row('booleanlist', 'COM_VM_USE_OPTIMISED_CALC_SQL', 'optimisedCalcSql', VmConfig::get('optimisedCalcSql', 1));
 		echo VmuikitHtml::row('booleanlist', 'COM_VM_USE_OPTIMISED_CAT_SQL', 'optimisedCatSql', VmConfig::get('optimisedCatSql', 1));
-		echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_CFG_TEST_ADMIN_TEMPLATE', 'newBackendTemplate', VmConfig::get('newBackendTemplate', 1));
 		?>
 	</div>
 </div>

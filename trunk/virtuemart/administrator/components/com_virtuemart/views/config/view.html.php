@@ -119,6 +119,9 @@ class VirtuemartViewConfig extends VmViewAdmin {
 		$this -> checkVmUserVendor();
 		$this -> checkMysqliUsed();
 		$this -> checkPriceDisplayByShoppergroup();
+
+		$this->admintTemplateInstalled = JFile::exists(VMPATH_ROOT .'/administrator/templates/vmadmin/html/com_virtuemart/config/default.php');
+
 		//$this -> checkClientIP();
 		parent::display($tpl);
 	}

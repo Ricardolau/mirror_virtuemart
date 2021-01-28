@@ -57,7 +57,7 @@ class VmViewAdmin extends JViewLegacy {
 				}
 				$this->addTemplatePath (VMPATH_ROOT .'/templates/'. $template['template'] .'/html/com_virtuemart/'. $this->_name.'Admin');
 			}
-			if(VmConfig::get('newBackendTemplate')) $this->addTemplatePath (VMPATH_ROOT .'/administrator/templates/vmadmin/html/com_virtuemart/'. $this->_name);
+			if(VmConfig::get('backendTemplate')) $this->addTemplatePath (VMPATH_ROOT .'/administrator/templates/vmadmin/html/com_virtuemart/'. $this->_name);
 
 			$result = $this->loadTemplate($tpl);
 			if ($result instanceof Exception) {

@@ -107,7 +107,7 @@ defined('_JEXEC') or die('Restricted access');?>
 		echo VmHTML::row('checkbox','COM_VM_CFG_NO_FALLBACK','prodOnlyWLang',VmConfig::get('prodOnlyWLang',0));
 		//echo VmHTML::row('checkbox','COM_VM_CFG_DUAL_FALLBACK','dualFallback',VmConfig::get('dualFallback',1));
 		echo VmHTML::row('input','COM_VM_CFG_CUSTOM_FALLBACK','vm_lfbs',VmConfig::get('vm_lfbs',''));
-        echo VmHTML::row('checkbox','COM_VM_CFG_REINJECTJLANGUAGE','ReInjectJLanguage',VmConfig::get('ReInjectJLanguage',0));
+		echo VmHTML::row('checkbox','COM_VM_CFG_REINJECTJLANGUAGE','ReInjectJLanguage',VmConfig::get('ReInjectJLanguage',0));
 		?>
 
 	</table>
@@ -119,14 +119,20 @@ defined('_JEXEC') or die('Restricted access');?>
 	<legend><?php echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_SHOP_ADVANCED'); ?></legend>
 	<table class="admintable">
 		<?php
+			if(!$this->admintTemplateInstalled){
+				echo '<tr><td colspan="2">'.vmText::_('COM_VM_CFG_ADMINTEMPLATE_MISSING').'</td></tr>';
+			}
+			echo VmHTML::row('checkbox', 'COM_VM_CFG_ADMINTEMPLATE', 'backendTemplate', VmConfig::get('backendTemplate', 0));
+
+
 			$optDebug = array(
 				'none' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_ENABLE_DEBUG_NONE'),
 				'admin' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_ENABLE_DEBUG_ADMIN'),
 				'all' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_ENABLE_DEBUG_ALL')
 			);
 			echo VmHTML::row('radiolist','COM_VIRTUEMART_ADMIN_CFG_ENABLE_DEBUG','debug_enable',VmConfig::get('debug_enable','none'), $optDebug);
-		    echo VmHTML::row('checkbox','COM_VM_CFG_ENABLE_DEBUG_METHODS','debug_enable_methods',VmConfig::get('debug_enable_methods',0));
-		    echo VmHTML::row('checkbox','COM_VM_CFG_ENABLE_DEBUG_ROUTER','debug_enable_router',VmConfig::get('debug_enable_router',0));
+			echo VmHTML::row('checkbox','COM_VM_CFG_ENABLE_DEBUG_METHODS','debug_enable_methods',VmConfig::get('debug_enable_methods',0));
+			echo VmHTML::row('checkbox','COM_VM_CFG_ENABLE_DEBUG_ROUTER','debug_enable_router',VmConfig::get('debug_enable_router',0));
 			echo VmHTML::row('radiolist','COM_VIRTUEMART_CFG_DEV','vmdev',VmConfig::get('vmdev',0), $optDebug);
 			echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_CFG_DANGEROUS_TOOLS','dangeroustools',VmConfig::get('dangeroustools',0));
 			echo VmHTML::row('input','COM_VIRTUEMART_REV_PROXY_VAR','revproxvar',VmConfig::get('revproxvar',''));
@@ -148,7 +154,8 @@ defined('_JEXEC') or die('Restricted access');?>
 		echo VmHTML::row('checkbox','COM_VM_USE_OPTIMISED_PRODUCT_SQL','optimisedProductSql',VmConfig::get('optimisedProductSql',1));
 		echo VmHTML::row('checkbox','COM_VM_USE_OPTIMISED_CALC_SQL','optimisedCalcSql',VmConfig::get('optimisedCalcSql',1));
 		echo VmHTML::row('checkbox','COM_VM_USE_OPTIMISED_CAT_SQL','optimisedCatSql',VmConfig::get('optimisedCatSql',1));
-		echo VmHTML::row('checkbox', 'Test new admin template (beta)', 'newBackendTemplate', VmConfig::get('newBackendTemplate', 0));
+
+
 
 		?>
 

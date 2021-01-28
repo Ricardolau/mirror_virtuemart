@@ -1379,7 +1379,8 @@ class VirtueMartCart {
 			if($type){
 				$_retValues = $_dispatcher->trigger('plgVmOnSelectCheckPayment', array( $this, &$msg));
 			} else {
-				$_retValues = $_dispatcher->trigger('plgVmOnSelectCheckShipment', array( &$this, &$msg ));
+				$cart = &$this;
+				$_retValues = $_dispatcher->trigger('plgVmOnSelectCheckShipment', array( &$cart ));
 			}
 
 			$dataValid = true;
@@ -2337,8 +2338,9 @@ class VirtueMartCart {
 		// return false to return errorMsg
 		//if to allow to adjust the current quantity
 		$adjustQ = false; 
-		$errorMsg = ''; 
-		$retValues = $dispatcher->trigger('plgVmOnCheckoutCheckStock', array(  &$this, &$product, &$quantity, &$errorMsg, &$adjustQ));
+		$errorMsg = '';
+		$cart = &$this;
+		$retValues = $dispatcher->trigger('plgVmOnCheckoutCheckStock', array(  &$cart, &$product, &$quantity, &$errorMsg, &$adjustQ));
 		
 		foreach ($retValues as $v) {
 			if ($v === false) {

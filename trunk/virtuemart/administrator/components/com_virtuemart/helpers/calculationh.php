@@ -1432,7 +1432,8 @@ class calculationHelper {
 		if(!empty($testedRules) and count($testedRules)>0){
 			VmConfig::importVMPlugins('vmcalculation');
 			$dispatcher = JDispatcher::getInstance();
-			$dispatcher->trigger('plgVmInGatherEffectRulesProduct',array(&$this,&$testedRules));
+			$calc = &$this;
+			$dispatcher->trigger('plgVmInGatherEffectRulesProduct',array(&$calc,&$testedRules));
 			if ($this->_debug) vmdebug('plgVmInGatherEffectRulesProduct rules',$testedRules);
 		}
 
@@ -1531,7 +1532,8 @@ class calculationHelper {
 		if(!empty($testedRules) and count($testedRules)>0){
 			VmConfig::importVMPlugins('vmcalculation');
 			$dispatcher = JDispatcher::getInstance();
-			$dispatcher->trigger('plgVmInGatherEffectRulesBill', array(&$this, &$testedRules));
+			$calc = &$this;
+			$dispatcher->trigger('plgVmInGatherEffectRulesBill', array(&$calc, &$testedRules));
 		}
 
 		$testedRulesCached[$cartVendorId][$entrypoint] = $testedRules;

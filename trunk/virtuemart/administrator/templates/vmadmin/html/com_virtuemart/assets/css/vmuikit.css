@@ -28,7 +28,7 @@
     max-width: 120px;
 }
 .uk-nav-header {
-    background-color: #1B1B1B;
+    background-color: #171717;
 }
 /* Left bar */
 
@@ -49,7 +49,7 @@
 .vmuikit-menu-wrapper ul.uk-nav-default > li > a:hover, .vmuikit-menu-wrapper ul.uk-nav-default > li.uk-open > a {
     border-left: 4px solid #00acc1;
     color: white;
-    background-color: #1B1B1B;
+    background-color: #171717;
     -webkit-transition: background 90ms cubic-bezier(.55, 0, .1, 1);
     transition: background 90ms cubic-bezier(.55, 0, .1, 1);
 }
@@ -58,7 +58,7 @@
 }
 .vmuikit-menu-wrapper ul.uk-nav-default li .uk-nav-sub li a:hover {
     color: white;
-    background-color: #1B1B1B;
+    background-color: #171717;
     border-left: 2px solid #00acc1;
     -webkit-transition: background 90ms cubic-bezier(.55, 0, .1, 1);
     transition: background 90ms cubic-bezier(.55, 0, .1, 1);
@@ -428,7 +428,7 @@ label.invalid {
 }
 
 .uk-light .uk-card-secondary{
-    background-color:#1B1B1B;
+    background-color:#171717;
 }
 .uk-label {
     background-color:#eee;

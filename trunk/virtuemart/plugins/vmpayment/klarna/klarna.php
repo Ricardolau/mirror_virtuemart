@@ -172,7 +172,7 @@ class plgVmPaymentKlarna extends vmPSPlugin {
 	 * @param        $countryId
 	 * @param string $fld
 	 */
-	function _getCountryCode ($cart = NULL, &$countryCode, &$countryId, $fld = 'country_3_code') {
+	function _getCountryCode ($cart, &$countryCode, &$countryId, $fld = 'country_3_code') {
 
 		if ($cart == '') {
 			if (!class_exists ('VirtueMartCart')) {
@@ -272,7 +272,7 @@ class plgVmPaymentKlarna extends vmPSPlugin {
 	 *
 	 * @author Valerie Isaksen
 	 */
-	public function plgVmDisplayListFEPayment (VirtueMartCart $cart, $selected = 0, &$htmlIn) {
+	public function plgVmDisplayListFEPayment (VirtueMartCart $cart, $selected, &$htmlIn) {
 
 		$html = $this->displayListFEPayment ($cart, $selected);
 		if (!empty($html)) {
@@ -1772,7 +1772,7 @@ class plgVmPaymentKlarna extends vmPSPlugin {
 	 * @return null if no plugin was found, 0 if more then one plugin was found,  virtuemart_xxx_id if only one plugin is found
 	 *
 	 */
-	function plgVmOnCheckAutomaticSelectedPayment (VirtueMartCart $cart, array $cart_prices = array(), &$paymentCounter) {
+	function plgVmOnCheckAutomaticSelectedPayment (VirtueMartCart $cart, array $cart_prices, &$paymentCounter) {
 
 		$nbMethod = 0;
 

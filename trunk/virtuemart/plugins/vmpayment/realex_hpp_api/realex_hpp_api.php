@@ -1004,7 +1004,7 @@ class plgVmPaymentRealex_hpp_api extends vmPSPlugin {
 	 * On errors, JError::raiseWarning (or JError::raiseError) must be used to set a message.
 	 *
 	 */
-	public function plgVmDisplayListFEPayment (VirtueMartCart $cart, $selected = 0, &$htmlIn) {
+	public function plgVmDisplayListFEPayment (VirtueMartCart $cart, $selected, &$htmlIn) {
 
 		if ($this->getPluginMethods($cart->vendorId) === 0) {
 			if (empty($this->_name)) {

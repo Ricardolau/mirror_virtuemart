@@ -528,7 +528,7 @@ class plgVmPaymentHeidelpay extends vmPSPlugin {
 		return $this->OnSelectCheck ($cart);
 	}
 
-	public function plgVmDisplayListFEPayment (VirtueMartCart $cart, $selected = 0, &$htmlIn) {
+	public function plgVmDisplayListFEPayment (VirtueMartCart $cart, $selected, &$htmlIn) {
 		return $this->displayListFE ($cart, $selected, $htmlIn);
 	}
 

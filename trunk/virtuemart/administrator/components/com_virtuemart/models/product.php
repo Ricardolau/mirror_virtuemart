@@ -2247,7 +2247,7 @@ vmSetStartTime('letsUpdateProducts');
 	 * @throws Exception
 	 * @since version	 */
 //	 quorvia created this function because old save order may have an issue
-	function saveorder ($cid = array(), $order, $filter = NULL) {
+	function saveorder ($cid, $order, $filter = NULL) {
 		vRequest::vmCheckToken();
 		$virtuemart_category_id = vRequest::getInt ('virtuemart_category_id', 0);
 		if(is_array($virtuemart_category_id)) $virtuemart_category_id = reset($virtuemart_category_id);
@@ -2280,56 +2280,6 @@ vmSetStartTime('letsUpdateProducts');
 			JFactory::getApplication()->redirect( 'index.php?option=com_virtuemart&view=product&virtuemart_category_id='.$virtuemart_category_id, $msg );
 	}
 
-
-
-	/* reorder product in one category
-	 * TODO this not work perfect ! (Note by Patrick Kohl)
-	*/
-	function saveorder_old ($cid = array(), $order, $filter = NULL) {
-
-		vRequest::vmCheckToken();
-
-		$db = JFactory::getDbo();
-		$virtuemart_category_id = vRequest::getInt ('virtuemart_category_id', 0);
-
-		$q = 'SELECT `id`,`ordering` FROM `#__virtuemart_product_categories`
-			WHERE virtuemart_category_id=' . (int)$virtuemart_category_id . '
-			ORDER BY `ordering` ASC';
-		$db->setQuery ($q);
-		$pkey_orders = $db->loadObjectList ();
-
-		$tableOrdering = array();
-		foreach ($pkey_orders as $orderTmp) {
-			$tableOrdering[$orderTmp->id] = $orderTmp->ordering;
-		}
-		// set and save new ordering
-		foreach ($order as $key => $ord) {
-			$tableOrdering[$key] = $ord;
-		}
-		asort ($tableOrdering);
-		$i = 1;
-		$ordered = 0;
-		foreach ($tableOrdering as $key => $ord) {
-
-			$db->setQuery ('UPDATE `#__virtuemart_product_categories`
-					SET `ordering` = ' . $i . '
-					WHERE `id` = ' . (int)$key . ' ');
-			if (!$db->execute ()) {
-				vmError ($db->getErrorMsg ());
-				return FALSE;
-			}
-			$ordered++;
-			$i++;
-		}
-		if ($ordered) {
-			$msg = vmText::sprintf ('COM_VIRTUEMART_ITEMS_MOVED', $ordered);
-		}
-		else {
-			$msg = vmText::_ ('COM_VIRTUEMART_ITEMS_NOT_MOVED');
-		}
-		JFactory::getApplication ()->redirect ('index.php?option=com_virtuemart&view=product&virtuemart_category_id=' . $virtuemart_category_id, $msg);
-
-	}
 
 	/**
 	 * Moves the order of a record

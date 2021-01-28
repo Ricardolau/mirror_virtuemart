@@ -649,7 +649,7 @@ class ShopFunctions {
 	 * @param int 		$level 		Internally used for recursion
 	 * @return string 	$category_tree HTML: Category tree list
 	 */
-	static public function categoryListTreeLoop ($selectedCategories = array(), $cid = 0, $level = 0, $disabledFields = array(), $isSite, $vendorId, $vmlang,$categoryParentName='') {
+	static public function categoryListTreeLoop ($selectedCategories, $cid, $level, $disabledFields, $isSite, $vendorId, $vmlang,$categoryParentName='') {
 		vmSetStartTime('categoryListTreeLoop');
 		static $categoryTree = '';
 		if($level==0) {

@@ -694,7 +694,7 @@ class plgVmpaymentKlikandpay extends vmPSPlugin {
 	 *
 	 * @author Valerie Isaksen
 	 */
-	public function plgVmDisplayListFEPayment(VirtueMartCart $cart, $selected = 0, &$htmlIn) {
+	public function plgVmDisplayListFEPayment(VirtueMartCart $cart, $selected, &$htmlIn) {
 
 		return $this->displayListFE($cart, $selected, $htmlIn);
 	}
@@ -715,7 +715,7 @@ class plgVmpaymentKlikandpay extends vmPSPlugin {
 	 * @return null if no plugin was found, 0 if more then one plugin was found,  virtuemart_xxx_id if only one plugin is found
 	 *
 	 */
-	function plgVmOnCheckAutomaticSelectedPayment (VirtueMartCart $cart, array $cart_prices = array(), &$paymentCounter) {
+	function plgVmOnCheckAutomaticSelectedPayment (VirtueMartCart $cart, array $cart_prices, &$paymentCounter) {
 
 		return $this->onCheckAutomaticSelected ($cart, $cart_prices, $paymentCounter);
 	}

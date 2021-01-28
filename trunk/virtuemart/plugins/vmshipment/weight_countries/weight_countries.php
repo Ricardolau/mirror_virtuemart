@@ -47,13 +47,13 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 
 	/**
 	 * Create the table for this plugin if it does not yet exist.
-	 *
+	 * @deprecated
 	 * @author Valérie Isaksen
-	 */
+	 *
 	public function getVmPluginCreateTableSQL () {
 
 		return $this->createTableSQL ('Shipment Weight Countries Table');
-	}
+	}*/
 
 	/**
 	 * @return array
@@ -444,7 +444,7 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 	 * @author Valerie Isaksen
 	 * @author Max Milbers
 	 */
-	public function plgVmDisplayListFEShipment (VirtueMartCart $cart, $selected = 0, &$htmlIn) {
+	public function plgVmDisplayListFEShipment (VirtueMartCart $cart, $selected, &$htmlIn) {
 
 		return $this->displayListFE ($cart, $selected, $htmlIn);
 	}

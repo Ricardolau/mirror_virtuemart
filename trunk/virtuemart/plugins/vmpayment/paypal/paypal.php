@@ -1266,7 +1266,7 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 	 * @return bool
 	 */
 
-	public function plgVmDisplayListFEPayment(VirtueMartCart $cart, $selected = 0, &$htmlIn) {
+	public function plgVmDisplayListFEPayment(VirtueMartCart $cart, $selected, &$htmlIn) {
 
 		if ($this->getPluginMethods($cart->vendorId) === 0) {
 			if (empty($this->_name)) {
@@ -1528,7 +1528,7 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 
 	// Checks how many plugins are available. If only one, the user will not have the choice. Enter edit_xxx page
 	// The plugin must check first if it is the correct type
-	function plgVmOnCheckAutomaticSelectedPayment(VirtueMartCart $cart, array $cart_prices = array(), &$paymentCounter) {
+	function plgVmOnCheckAutomaticSelectedPayment(VirtueMartCart $cart, array $cart_prices, &$paymentCounter) {
 		return $this->onCheckAutomaticSelected($cart, $cart_prices, $paymentCounter);
 	}
 

@@ -183,7 +183,7 @@ class VmView extends JViewLegacy{
 		return;
 	}
 
-	function linkIcon($link,$altText ='',$boutonName,$verifyConfigValue=false, $modal = true, $use_icon=true,$use_text=false,$class = ''){
+	function linkIcon( $link, $altText, $boutonName, $verifyConfigValue = false, $modal = true, $use_icon = true, $use_text = false, $class = ''){
 		if ($verifyConfigValue) {
 			if ( !VmConfig::get($verifyConfigValue, 0) ) return '';
 		}

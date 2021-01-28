@@ -427,6 +427,7 @@ label.invalid {
     color: rgba(255,255,255,.8);
 }
 
+.uk-offcanvas-bar .uk-card-secondary,
 .uk-light .uk-card-secondary{
     background-color:#171717;
 }

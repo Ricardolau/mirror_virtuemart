@@ -57,6 +57,7 @@ if($cache and $Product_group!='recent'){
 	$cache	= VmConfig::getCache('mod_virtuemart_product');
 	$cache->setCaching(1);
 	$cache->setLifeTime($cachetime);
+	$db = JFactory::getDbo();
 	$products = $cache->call( array( 'VirtueMartModelProduct', 'getProductsListing' ),$Product_group, $max_items, $show_price, true, false,$filter_category, $category_id, $filter_manufacturer, $manufacturer_id, $params->get( 'omitLoaded', 0));
 	if ($products) {
 		vmdebug('Use cached mod products');

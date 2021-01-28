@@ -6,7 +6,7 @@ if( !defined( '_JEXEC' ) ) die('Restricted access');
  * @version $Id$
  * @package VirtueMart
  * @subpackage Report
- * @copyright Copyright (C) VirtueMart Team - All rights reserved.
+ * @copyright Copyright (C) 2010 - 2021 VirtueMart Team - All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -41,6 +41,11 @@ class VirtuemartViewReport extends VmViewAdmin {
 
 		$this->addStandardDefaultViewLists($model);
 		$revenueBasic = $model->getRevenue();
+
+		$totalReport['number_of_ordersTotal']=0;
+		$totalReport['itemsSoldTotal']=0;
+		$totalReport['revenueTotal_netto']=0;
+		$totalReport['revenueTotal_brutto']=0;
 
 		if($revenueBasic){
 			$totalReport['revenueTotal_brutto']= $totalReport['revenueTotal_netto']= $totalReport['number_of_ordersTotal'] = $totalReport['itemsSoldTotal'] = 0 ;

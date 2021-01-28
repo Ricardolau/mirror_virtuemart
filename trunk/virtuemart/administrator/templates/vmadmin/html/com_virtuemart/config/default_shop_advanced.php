@@ -30,9 +30,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</div>
 	<div class="uk-card-body">
 		<?php
-		if(!$this->admintTemplateInstalled){
-			echo '<tr><td colspan="2">'.vmText::_('COM_VM_CFG_ADMINTEMPLATE_MISSING').'</td></tr>';
-		}
 		echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_CFG_TEST_ADMIN_TEMPLATE', 'backendTemplate', VmConfig::get('backendTemplate', 1));
 		$optDebug = array(
 			'none' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_ENABLE_DEBUG_NONE'),

@@ -8,7 +8,7 @@
 * @auhtor Max Milbers
 * @author RickG
 * @link ${PHING.VM.MAINTAINERURL}
-* @copyright Copyright (c) 2004 - 2014 VirtueMart Team and authors. All rights reserved.
+* @copyright Copyright (c) 2004 - 2021 VirtueMart Team and authors. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -51,7 +51,7 @@ class VirtuemartControllerConfig extends VmController {
 
 		$data = vRequest::getPost();
 
-		if(strpos($data['offline_message'],'|')!==false){
+		if(isset($data['offline_message']) && strpos($data['offline_message'],'|')!==false){
 			$data['offline_message'] = str_replace('|','',$data['offline_message']);
 		}
 

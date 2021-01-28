@@ -1241,9 +1241,10 @@ class com_virtuemartInstallerScript {
 		$vmpath_admin = $rootPath.'/administrator/components/com_virtuemart';
 		$vmpath_pluginlibs = $vmpath_admin.'/plugins';
 		$vmpath_site = $rootPath.'/components/com_virtuemart';
+		$libsPath = VMPATH_ROOT .'/libraries';
 
-		JLoader::register('JFile', VMPATH_LIBS.'/joomla/filesystem/file.php');
-		JLoader::register('JFolder', VMPATH_LIBS.'/joomla/filesystem/folder.php');
+		JLoader::register('JFile', $libsPath .'/joomla/filesystem/file.php');
+		JLoader::register('JFolder', $libsPath .'/joomla/filesystem/folder.php');
 
 		JLoader::register('vmVersion', $vmpath_admin.'/version.php');
 		JLoader::register('AdminUIHelper', $vmpath_admin.'/helpers/adminui.php');

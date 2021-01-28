@@ -6,9 +6,9 @@ defined ('_JEXEC') or die('Restricted access');
  *
  * @package    VirtueMart
  * @subpackage Plugins
- * @author Valérie Isaksen
+ * @author Valérie Isaksen, Max Milbers
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2011 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -212,7 +212,7 @@ abstract class vmPlugin extends JPlugin {
 	 *
 	 * @author Max Milbers
 	 * @param $type type of the plugin, for example vmpayment
-	 * @param $element the element of the plugin as written in the extensions table
+	 * @param $element the element of the plugin as written in the extensions table (usually lowercase)
 	 * @param $trigger the function which was the trigger to execute
 	 * @param $args the arguments (as before for the triggers)
 	 * @return mixed
@@ -239,6 +239,7 @@ abstract class vmPlugin extends JPlugin {
 			// Instantiate and register the plugin.
 			return new $className($dispatcher, (array) $plugin);
 		} else {
+			vmdebug('VmPlugin function createPlugin, class does not exist',$type,$element);
 			return false;
 		}
 
@@ -428,6 +429,7 @@ abstract class vmPlugin extends JPlugin {
 				vmdebug(get_class($this) . ':: VirtueMart update ' . $this->_tablename);
 				$updater = new GenericTableUpdater();
 				$updater->updateMyVmTables($update);
+				return true;
 			} else {
 				$query = $this->createTableSQL($this->_name,$tablesFields);
 				if(empty($query)){
@@ -438,6 +440,7 @@ abstract class vmPlugin extends JPlugin {
 						vmWarn($this->_name . '::onStoreInstallPluginTable: ' . vmText::_ ('COM_VIRTUEMART_SQL_ERROR') . ' ' . $db->stderr (TRUE));
 						echo $this->_name . '::onStoreInstallPluginTable: ' . vmText::_ ('COM_VIRTUEMART_SQL_ERROR') . ' ' . $db->stderr (TRUE);
 					} else {
+						vmInfo('created table '.$this->_tablename);
 						return true;
 					}
 				}

@@ -132,8 +132,8 @@ class com_virtuemart_allinoneInstallerScript {
 		$this->installPlugin ('VM Payment - PayPal', 'plugin', 'paypal', 'vmpayment');
 		$this->installPlugin ('VM Payment - Sofort Banking/Überweisung', 'plugin', 'sofort', 'vmpayment');
 		$this->installPlugin ('VM Payment - Skrill', 'plugin', 'skrill', 'vmpayment');
-		$this->installPlugin ('VM Payment - Klarna', 'plugin', 'klarna', 'vmpayment');
-		$this->installPlugin ('VM Payment - KlarnaCheckout', 'plugin', 'klarnacheckout', 'vmpayment');
+/*		$this->installPlugin ('VM Payment - Klarna', 'plugin', 'klarna', 'vmpayment');
+		$this->installPlugin ('VM Payment - KlarnaCheckout', 'plugin', 'klarnacheckout', 'vmpayment');*/
 
 
 		$this->installPlugin ('VM Payment - Heidelpay', 'plugin', 'heidelpay', 'vmpayment');

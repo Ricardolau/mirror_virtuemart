@@ -10,7 +10,7 @@ defined ('_JEXEC') or die('Restricted access');
  * @version $Id: standard.php 5122 2011-12-18 22:24:49Z alatak $
  * @package VirtueMart
  * @subpackage payment
- * @copyright Copyright (c) 2004 - 2019 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -40,13 +40,13 @@ class plgVmPaymentStandard extends vmPSPlugin {
 
 	/**
 	 * Create the table for this plugin if it does not yet exist.
-	 *
+	 * @deprecated
 	 * @author Valérie Isaksen
-	 */
+	 *
 	public function getVmPluginCreateTableSQL () {
 
 		return $this->createTableSQL ('Payment Standard Table');
-	}
+	}*/
 
 	/**
 	 * Fields to create the payment table
@@ -222,71 +222,10 @@ class plgVmPaymentStandard extends vmPSPlugin {
 		return $html;
 	}
 
-	/*	function getCosts (VirtueMartCart $cart, $method, $cart_prices) {
-
-			if (preg_match ('/%$/', $method->cost_percent_total)) {
-				$cost_percent_total = substr ($method->cost_percent_total, 0, -1);
-			} else {
-				$cost_percent_total = $method->cost_percent_total;
-			}
-			return ($method->cost_per_transaction + ($cart_prices['salesPrice'] * $cost_percent_total * 0.01));
-		}
-	*/
-	/**
-	 * Check if the payment conditions are fulfilled for this payment method
-	 *
-	 * @author: Valerie Isaksen
-	 *
-	 * @param $cart_prices: cart prices
-	 * @param $payment
-	 * @return true: if the conditions are fulfilled, false otherwise
-	 *
-	 */
-/*	protected function checkConditions ($cart, $method, $cart_prices) {
-
-		$this->convert_condition_amount($method);
-		$amount = $this->getCartAmount($cart_prices);
-		$address = $cart -> getST();
-
-		if($this->_toConvert){
-			$this->convertToVendorCurrency($method);
-		}
-		//vmdebug('standard checkConditions',  $amount, $cart_prices['salesPrice'],  $cart_prices['salesPriceCoupon']);
-		$amount_cond = ($amount >= $method->min_amount AND $amount <= $method->max_amount
-			OR
-			($method->min_amount <= $amount AND ($method->max_amount == 0)));
-		if (!$amount_cond) {
-			return FALSE;
-		}
-		$countries = array();
-		if (!empty($method->countries)) {
-			if (!is_array ($method->countries)) {
-				$countries[0] = $method->countries;
-			} else {
-				$countries = $method->countries;
-			}
-		}
-
-		// probably did not gave his BT:ST address
-		if (!is_array ($address)) {
-			$address = array();
-			$address['virtuemart_country_id'] = 0;
-		}
-
-		if (!isset($address['virtuemart_country_id'])) {
-			$address['virtuemart_country_id'] = 0;
-		}
-		if (count ($countries) == 0 || in_array ($address['virtuemart_country_id'], $countries) ) {
-			return TRUE;
-		}
-
-		return FALSE;
-	}
-*/
 
 	/*
-* We must reimplement this triggers for joomla 1.7
-*/
+	* We must reimplement this triggers for joomla 1.7
+	*/
 
 	/**
 	 * Create the table for this plugin if it does not yet exist.
@@ -329,7 +268,7 @@ class plgVmPaymentStandard extends vmPSPlugin {
 	 * @author Valerie Isaksen
 	 * @author Max Milbers
 	 */
-	public function plgVmDisplayListFEPayment (VirtueMartCart $cart, $selected = 0, &$htmlIn) {
+	public function plgVmDisplayListFEPayment (VirtueMartCart $cart, $selected, &$htmlIn) {
 
 		return $this->displayListFE ($cart, $selected, $htmlIn);
 	}
@@ -376,7 +315,7 @@ class plgVmPaymentStandard extends vmPSPlugin {
 	 * @return null if no plugin was found, 0 if more then one plugin was found,  virtuemart_xxx_id if only one plugin is found
 	 *
 	 */
-	function plgVmOnCheckAutomaticSelectedPayment (VirtueMartCart $cart, array $cart_prices = array(), &$paymentCounter) {
+	function plgVmOnCheckAutomaticSelectedPayment (VirtueMartCart $cart, array $cart_prices, &$paymentCounter) {
 		return $this->onCheckAutomaticSelected ($cart, $cart_prices, $paymentCounter);
 	}
 

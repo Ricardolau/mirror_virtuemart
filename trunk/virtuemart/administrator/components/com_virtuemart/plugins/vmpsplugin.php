@@ -9,7 +9,7 @@ defined ('_JEXEC') or die('Restricted access');
  * @author Max Milbers
  * @author Valérie Isaksen
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (C) 2004-2020 Virtuemart Team. All rights reserved.
+ * @copyright Copyright (C) 2004-2021 Virtuemart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -125,7 +125,7 @@ abstract class vmPSPlugin extends vmPlugin {
 	 * @author Valerie Isaksen
 	 * @author Max Milbers
 	 */
-	public function displayListFE (VirtueMartCart $cart, $selected = 0, &$htmlIn) {
+	public function displayListFE (VirtueMartCart $cart, $selected, &$htmlIn) {
 
 		if ($this->getPluginMethods ($cart->vendorId) === 0) {
 			if (empty($this->_name)) {

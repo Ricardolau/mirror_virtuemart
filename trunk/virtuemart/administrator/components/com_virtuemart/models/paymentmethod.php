@@ -7,7 +7,7 @@
 * @subpackage  Payment
 * @author Max Milbers
 * @link ${PHING.VM.MAINTAINERURL}
-* @copyright Copyright (c) 2004 - 2014 VirtueMart Team. All rights reserved.
+* @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -210,10 +210,7 @@ class VirtueMartModelPaymentmethod extends VmModel{
 		$xrefTable = $this->getTable('paymentmethod_shoppergroups');
 		$xrefTable->bindChecknStore($data);
 
-
-		//Add a hook here for other payment methods, checking the data of the choosed plugin
-		$dispatcher = JDispatcher::getInstance();
-		$retValues = $dispatcher->trigger('plgVmOnStoreInstallPaymentPluginTable', array(  $data['payment_jplugin_id']));
+		VmPlugin::directTrigger('vmpayment', $data['payment_element'], 'OnStoreInstallPluginTable', array( $data['payment_jplugin_id'] ));
 
 		return $table->virtuemart_paymentmethod_id;
 	}

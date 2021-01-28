@@ -24,8 +24,15 @@ defined('_JEXEC') or die('Restricted access');
  *
  * @package	VirtueMart
  * @subpackage Shipment
- * @author RickG
+ * @author Max Milbers
+ * @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL3, see LICENSE.php
+ * VirtueMart is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
  */
+
 class VirtueMartModelShipmentmethod extends VmModel {
 
 	//    /** @var integer Primary key */
@@ -237,9 +244,7 @@ class VirtueMartModelShipmentmethod extends VmModel {
 		$xrefTable = $this->getTable('shipmentmethod_shoppergroups');
 		$xrefTable->bindChecknStore($data);
 
-		//Add a hook here for other shipment methods, checking the data of the choosed plugin
-		$dispatcher = JDispatcher::getInstance();
-		$retValues = $dispatcher->trigger('plgVmOnStoreInstallShipmentPluginTable', array(  $data['shipment_jplugin_id']));
+		VmPlugin::directTrigger('vmshipment', $data['shipment_element'], 'OnStoreInstallPluginTable', array($data['shipment_jplugin_id']));
 
 		return $table->virtuemart_shipmentmethod_id;
 	}

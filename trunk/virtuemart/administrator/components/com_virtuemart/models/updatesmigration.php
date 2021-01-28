@@ -7,7 +7,7 @@
 * @subpackage updatesMigration
 * @author Max Milbers, RickG
 * @link ${PHING.VM.MAINTAINERURL}
-* @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+* @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -24,7 +24,7 @@ defined('_JEXEC') or die('Restricted access');
  *
  * @package	VirtueMart
  * @subpackage updatesMigration
- * @author Max Milbers, RickG
+ * @author Max Milbers
  */
 class VirtueMartModelUpdatesMigration extends VmModel {
 
@@ -214,7 +214,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 			$url = '/plugins/vmshipment/weight_countries';
 
 			if (!class_exists ('plgVmShipmentWeight_countries')) require(VMPATH_ROOT .'/'. $url .'/weight_countries.php');
-			$this->installPluginTable('plgVmShipmentWeight_countries','#__virtuemart_shipment_plg_weight_countries','Shipment Weight Countries Table');
+			VmPlugin::directTrigger('vmshipment', 'weight_countries', 'plgVmOnStoreInstallShipmentPluginTable', array($shipment_plg_id));
 		}
 
 		$q = 'SELECT `extension_id` FROM #__extensions WHERE element = "standard" AND folder = "vmpayment"';
@@ -234,7 +234,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 			$url = '/plugins/vmpayment/standard';
 
 			if (!class_exists ('plgVmPaymentStandard')) require(VMPATH_ROOT .'/'. $url .'/standard.php');
-			$this->installPluginTable('plgVmPaymentStandard','#__virtuemart_payment_plg_standard','Payment Standard Table');
+			VmPlugin::directTrigger('vmpayment', 'standard', 'plgVmOnStoreInstallPaymentPluginTable', array($payment_plg_id));
 		}
 		VirtueMartModelCategory::updateCategories();
 		vmInfo(vmText::_('COM_VIRTUEMART_SAMPLE_DATA_INSTALLED'));
@@ -294,35 +294,6 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 
 	}
 
-	function installPluginTable ($className,$tablename,$tableComment) {
-
-		$query = "CREATE TABLE IF NOT EXISTS `" . $tablename . "` (";
-		if(!empty($tablesFields)){
-			foreach ($tablesFields as $fieldname => $fieldtype) {
-				$query .= '`' . $fieldname . '` ' . $fieldtype . " , ";
-			}
-		} else {
-			$SQLfields = call_user_func($className."::getTableSQLFields");
-			//$SQLfields = $className::getTableSQLFields ();
-		//	$loggablefields = $className::getTableSQLLoggablefields ();
-			$loggablefields = call_user_func($className."::getTableSQLLoggablefields");
-			foreach ($SQLfields as $fieldname => $fieldtype) {
-				$query .= '`' . $fieldname . '` ' . $fieldtype . " , ";
-			}
-			foreach ($loggablefields as $fieldname => $fieldtype) {
-				$query .= '`' . $fieldname . '` ' . $fieldtype . ", ";
-			}
-		}
-
-		$query .= "	      PRIMARY KEY (`id`)
-	    ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='" . $tableComment . "' AUTO_INCREMENT=1 ;";
-		$db = JFactory::getDBO();
-		$db->setQuery($query);
-		if (!$db->execute ()) {
-			vmError ( $className.'::onStoreInstallPluginTable: ' . vmText::_ ('COM_VIRTUEMART_SQL_ERROR') . ' ' . $db->stderr (TRUE));
-		}
-
-	}
 
 
     function restoreSystemDefaults() {

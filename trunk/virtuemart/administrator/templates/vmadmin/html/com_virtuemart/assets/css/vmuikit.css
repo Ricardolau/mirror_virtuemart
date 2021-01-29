@@ -431,6 +431,15 @@ label.invalid {
 .uk-light .uk-card-secondary{
     background-color:#171717;
 }
+
+.uk-card-membership{
+    background-color:#171717;
+    color:#80deea;
+}
+.uk-button-membership{
+    color:#00bcd4;
+    border: 1px solid #00bcd4;
+}
 .uk-label {
     background-color:#eee;
 }

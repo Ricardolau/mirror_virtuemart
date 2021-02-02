@@ -22,7 +22,7 @@ $stockhandle = $this->product->product_stockhandle ? $this->product->product_sto
 
 $i = 0;
 ?>
-<table class="uk-table uk-table-striped uk-table-responsive">
+<table class="uk-table uk-table-small uk-table-striped uk-table-responsive">
 	<tbody>
 	<tr class="row<?php echo $i?>">
 		<td width="21%" valign="top">

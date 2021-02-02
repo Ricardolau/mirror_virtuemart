@@ -20,7 +20,7 @@
 defined('_JEXEC') or die('Restricted access');
 ?>
 
-<table class="uk-table uk-table-striped uk-table-responsive">
+<table class="uk-table uk-table-small uk-table-striped uk-table-responsive">
 		<tr>
 			<th colspan="2" class="title"><?php echo vmText::_('COM_VIRTUEMART_STATISTIC_STATISTICS') ?></th>
 		</tr>

@@ -47,7 +47,7 @@ $states = vmText::_('COM_VIRTUEMART_STATE_S');
 
 
 		<div id="editcell">
-			<table class="adminlist uk-table uk-table-striped uk-table-responsive" >
+			<table class="uk-table uk-table-small uk-table-striped uk-table-responsive" >
 				<thead>
 				<tr>
 					<th class="uk-table-shrink">

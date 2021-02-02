@@ -50,7 +50,7 @@ vmuikitAdminUIHelper::startAdminArea($this);
 				<th class="uk-text-right@m"><?php echo $this->sort('product_price', 'COM_VIRTUEMART_PRODUCT_FORM_PRICE_COST') ?></th>
 				<th class="uk-text-right@m"><?php echo $this->sort('product_price', 'COM_VIRTUEMART_PRODUCT_INVENTORY_PRICE') ?></th>
 				<th class="uk-text-right@m"><?php echo $this->sort('product_weight', 'COM_VIRTUEMART_PRODUCT_INVENTORY_WEIGHT') ?></th>
-				<th><?php echo $this->sort('published') ?></th>
+				<th class="uk-text-center@m"><?php echo $this->sort('published') ?></th>
 			</tr>
 			</thead>
 			<tbody>
@@ -122,7 +122,8 @@ vmuikitAdminUIHelper::startAdminArea($this);
 							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PUBLISHED') ?>"
 									uk-icon="icon: eye"></span>
-							<?php echo $published; ?></td>
+							<?php echo $published; ?>
+						</td>
 					</tr>
 					<?php
 

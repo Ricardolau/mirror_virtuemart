@@ -98,35 +98,35 @@ vmLanguage::loadJLang('com_virtuemart_config');
 				}
 				?>
 				<tr class="row<?php echo $k; ?>">
-					<td >
+					<td>
 						<?php echo $checked; ?>
 					</td>
-					<td >
+					<td>
 						<div class="uk-label uk-label-vm uk-width-1-1" <?php echo $colorStyle ?>>
 							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_NAME') ?>"
 									uk-icon="icon: pencil"></span>
-						<?php
-						$lang = vmLanguage::getLanguage();
-						if ($lang->hasKey($row->order_status_name)) {
-							echo '<a href="' . $editlink . '">' . vmText::_($row->order_status_name) . '</a> (' . $row->order_status_name . ')';
-						} else {
-							echo '<a href="' . $editlink . '">' . $row->order_status_name . '</a> ';
-						}
-						?>
+							<?php
+							$lang = vmLanguage::getLanguage();
+							if ($lang->hasKey($row->order_status_name)) {
+								echo '<a href="' . $editlink . '">' . vmText::_($row->order_status_name) . '</a> (' . $row->order_status_name . ')';
+							} else {
+								echo '<a href="' . $editlink . '">' . $row->order_status_name . '</a> ';
+							}
+							?>
 						</div>
 					</td>
-					<td  >
+					<td>
 						<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_CODE') ?>"
 								uk-icon="icon: info"></span>
 						<?php echo $row->order_status_code; ?>
 					</td>
 
-					<td >
-<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
-		uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_EMAIL_VENDOR') ?>"
-		uk-icon="icon: shop"></span>
+					<td>
+						<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_EMAIL_VENDOR') ?>"
+								uk-icon="icon: shop"></span>
 						<?php
 						if (in_array($row->order_status_code, VmConfig::get('email_os_v', array('U', 'C', 'R', 'X')))) {
 							?>
@@ -136,7 +136,7 @@ vmLanguage::loadJLang('com_virtuemart_config');
 						?>
 					</td>
 
-					<td  >
+					<td>
 						<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_EMAIL_SHOPPER') ?>"
 								uk-icon="icon: user"></span>
@@ -146,13 +146,12 @@ vmLanguage::loadJLang('com_virtuemart_config');
 							<span uk-icon="icon: mail"></span>
 							<?php
 						}
-
 						?>
 					</td>
 					<td>
-<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
-		uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_EMAIL_ATTACHMENT') ?>"
-		uk-icon="icon: file"></span>
+						<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_EMAIL_ATTACHMENT') ?>"
+								uk-icon="icon: file"></span>
 						<?php
 						if (in_array($row->order_status_code, VmConfig::get('attach_os', array('')))) {
 							?>
@@ -162,7 +161,7 @@ vmLanguage::loadJLang('com_virtuemart_config');
 						?>
 					</td>
 
-					<td  >
+					<td>
 						<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_CREATE_INVOICE') ?>"
 								uk-icon="icon: file-pdf"></span>
@@ -181,10 +180,10 @@ vmLanguage::loadJLang('com_virtuemart_config');
 						?>
 					</td>
 
-					<td  >
-<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
-		uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_ALLOW_EDIT') ?>"
-		uk-icon="icon: pencil"></span>
+					<td>
+						<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_ALLOW_EDIT') ?>"
+								uk-icon="icon: pencil"></span>
 						<?php
 						if (in_array($row->order_status_code, VmConfig::get('order_allowedit_os', array('P', 'U')))) {
 							?>
@@ -198,13 +197,13 @@ vmLanguage::loadJLang('com_virtuemart_config');
 						?>
 					</td>
 
-					<td  >
+					<td>
 						<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_STOCK_HANDLE') ?>"
 								uk-icon="icon: inventory"></span>
 						<?php echo vmText::_($this->stockHandelList[$row->order_stock_handle]); ?>
 					</td>
-					<td  >
+					<td>
 						<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_DO_REFUND') ?>"
 								uk-icon="icon: pencil"></span>
@@ -216,7 +215,7 @@ vmLanguage::loadJLang('com_virtuemart_config');
 						}
 						?>
 					</td>
-					<td >
+					<td>
 						<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_DELIVERY_DATE') ?>"
 								uk-icon="icon: calendar"></span>
@@ -235,11 +234,11 @@ vmLanguage::loadJLang('com_virtuemart_config');
 						}
 						?>
 					</td>
-					<td  class="order uk-visible@m">
+					<td class="order uk-visible@m">
 						<span><?php echo $this->pagination->vmOrderUpIcon($i, $row->ordering, 'orderUp', vmText::_('COM_VIRTUEMART_MOVE_UP')); ?></span>
 						<span><?php echo $this->pagination->vmOrderDownIcon($i, $row->ordering, $n, true, 'orderDown', vmText::_('COM_VIRTUEMART_MOVE_DOWN')); ?></span>
 						<input class="ordering" type="text" name="order[<?php echo $i ?>]" id="order[<?php echo $i ?>]"
-								size="5" value="<?php echo $row->ordering; ?>" style="text-align: center"/>
+								size="5" value="<?php echo $row->ordering; ?>" />
 					</td>
 					<td class="uk-text-center@m">
 						<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"

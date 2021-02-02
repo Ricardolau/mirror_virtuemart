@@ -57,6 +57,7 @@ defined('_JEXEC') or die('Restricted access');
 						</div>
 					</div>
 					{{/images}}
+					{{^images}}<h4 class="uk-h4"><?php echo vmText::_('COM_VIRTUEMART_NO_MEDIA_FILES') ?></h4>{{/images}}
 				</div>
 
 			</div>

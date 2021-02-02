@@ -60,7 +60,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<span uk-tooltip="<?php echo htmlentities(vmText::_('COM_VM_MEMBER_ACCESSNBR_TIP')) ?>"><?php echo vmText::_('COM_VM_MEMBER_ACCESSNBR'); ?></span>
 			</div>
 			<div class="uk-form-controls">
-				<?php echo VmuikitHtml::input('member_access_number', VmConfig::get('member_access_number', ''), '', '', 55); ?>
+				<?php echo VmuikitHtml::input('member_access_number', VmConfig::get('member_access_number', ''), 'class="uk-form-width-1-1"', '', 55); ?>
 			</div>
 		</div>
 		<div class="uk-clearfix">

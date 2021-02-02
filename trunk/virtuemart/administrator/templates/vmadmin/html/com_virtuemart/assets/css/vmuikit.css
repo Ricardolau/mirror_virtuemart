@@ -473,9 +473,11 @@ label.invalid {
     margin-left: 0 ;
 }
 
-input.uk-form-width-1-1{
+input[type="text"].uk-form-width-1-1{
+    box-sizing: border-box;
     width: 100%;
     max-width: 100%;
+    height: unset;
 }
 /*
 .vmicon {

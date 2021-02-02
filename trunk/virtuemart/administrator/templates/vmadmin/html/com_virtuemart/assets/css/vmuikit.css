@@ -17,7 +17,6 @@
     /* navbar height */
     min-height: 52px;
     padding: 0 8px;
-    font-size: 0.55rem;
 }
 
 .navbar-logo {
@@ -89,7 +88,6 @@
 .filter-bar .uk-navbar-toggle {
     min-height: 52px;
     padding: 0 8px;
-    font-size: 0.55rem;
 }
 
 #searchMedia .vmuikit-filter-search input[type="text"],
@@ -474,3 +472,16 @@ label.invalid {
 #adminForm .control-input .radio input[type="radio"], #adminForm .control-input .checkbox input[type="checkbox"] {
     margin-left: 0 ;
 }
+
+
+/*
+.vmicon {
+    background: no-repeat top left;
+    background-color:transparent;
+    width: unset;
+    height: unset;
+    float: none;
+    margin-right: 0;
+    opacity:unset;
+}
+*/

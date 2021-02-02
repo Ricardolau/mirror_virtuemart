@@ -30,7 +30,7 @@ vmuikitAdminUIHelper::startAdminArea($this);
 <div id="massxref_task">
 	<table class="">
 		<tr>
-			<td align="left">
+			<td >
 				<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_XREF_TASK') ?>
 			</td>
 			<td>
@@ -55,27 +55,27 @@ vmuikitAdminUIHelper::startAdminArea($this);
 			<th>
 				<input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)" />
 			</th>
-			<th width="40%">
+			<th >
 				<?php echo vmText::_('COM_VIRTUEMART_SHOPPERGROUP_NAME'); ?>
 			</th>
-			<th width="60%">
+			<th>
 				<?php echo vmText::_('COM_VIRTUEMART_SHOPPERGROUP_DESCRIPTION'); ?>
 			</th>
-			<th width="40">
+			  <th class="uk-table-shrink">
 				<?php echo vmText::_('COM_VIRTUEMART_DEFAULT'); ?>
 			</th>
-			<th width="30px" >
+			  <th class="uk-table-shrink">
 				<?php echo vmText::_('COM_VIRTUEMART_PUBLISHED'); ?>
 			</th>
 			<?php if((Vmconfig::get('multix','none')!='none') && $this->showVendors){ ?>
-			<th>
+				<th class="uk-table-shrink">
 				<?php echo vmText::_('COM_VIRTUEMART_VENDOR'); ?>
 			</th>
 			<?php } ?>
-			<th width="30px" >
+			  <th class="uk-table-shrink">
 				<?php echo vmText::_('COM_VIRTUEMART_ADDITIONAL'); ?>
 			</th>
-			<th>
+			  <th class="uk-table-shrink">
 				<?php echo $this->sort('virtuemart_shoppergroup_id', 'COM_VIRTUEMART_ID')  ?>
 			</th>
 		  </tr>
@@ -99,35 +99,56 @@ vmuikitAdminUIHelper::startAdminArea($this);
 			<td>
 				<?php echo $checked; ?>
 			</td>
-			<td align="left">
+			<td >
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_SHOPPERGROUP_NAME') ?>"
+							uk-icon="icon: pencil"></span>
 			  <a href="<?php echo $editlink; ?>"><?php echo vmText::_($row->shopper_group_name); ?></a>
 			</td>
-			<td align="left">
+			<td >
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_SHOPPERGROUP_DESCRIPTION') ?>"
+							uk-icon="icon: commenting"></span>
 				<?php echo vmText::_($row->shopper_group_desc); ?>
 			</td>
-			<td align="center">
+			<td class="uk-text-center@m">
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_DEFAULT') ?>"
+							uk-icon="icon: star"></span>
 				<?php
 				if ($row->default != 0) {
 					echo JHtml::_('image','admin/featured.png', vmText::_('COM_VIRTUEMART_SHOPPERGROUP_DEFAULT'), NULL, true);
 				}
 				?>
 			</td>
-			<td align="center">
+			<td class="uk-text-center@m">
+				<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+						uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PUBLISHED') ?>"
+						uk-icon="icon: eye"></span>
 				<?php echo $published; ?>
 			</td>
 			<?php if((Vmconfig::get('multix','none')!='none') && $this->showVendors){ ?>
-			<td align="left">
+			<td >
+				<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+						uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_VENDOR') ?>"
+						uk-icon="icon: shop"></span>
 				<?php echo $row->virtuemart_vendor_id; ?>
 			</td>
 			<?php } ?>
-			<td align="center">
+			<td class="uk-text-center@m">
+				<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+						uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ADDITIONAL') ?>"
+						uk-icon="icon: plus"></span>
 				<?php 
 				if ($row->sgrp_additional == 1) {
 					echo JHtml::_('image','admin/icon-16-add.png', vmText::_('COM_VIRTUEMART_SHOPPERGROUP_ADDITIONAL'), NULL, true);
 				}
 				?>
 			</td>
-			<td align="left">
+			<td >
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ID') ?>"
+							uk-icon="icon: hashtag"></span>
 				<?php echo $row->virtuemart_shoppergroup_id; ?>
 			</td>
 		  </tr><?php

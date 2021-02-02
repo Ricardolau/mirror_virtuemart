@@ -39,21 +39,25 @@ vmuikitAdminUIHelper::startAdminArea($this);
 					<th>
 						<?php echo vmText::_('COM_VIRTUEMART_SHIPMENT_LIST_DESCRIPTION_LBL'); ?>
 					</th>
-					<th width="20">
+					<th >
 						<?php echo vmText::_('COM_VIRTUEMART_SHIPPING_SHOPPERGROUPS'); ?>
 					</th>
 					<th>
 						<?php echo $this->sort('i.shipment_element', 'COM_VIRTUEMART_SHIPMENTMETHOD'); ?>
 					</th>
-					<th>
+					<td class="uk-visible@m">
 						<?php echo $this->sort('i.ordering', 'COM_VIRTUEMART_LIST_ORDER'); ?>
 					</th>
-					<th width="20"><?php echo $this->sort('i.published', 'COM_VIRTUEMART_PUBLISHED'); ?></th>
+					<th class="uk-table-shrink">
+						<?php echo $this->sort('i.published', 'COM_VIRTUEMART_PUBLISHED'); ?>
+					</th>
 					<?php if ($this->showVendors()) { ?>
-						<th width="20">
+						<th class="uk-table-shrink">
 						<?php echo vmText::_('COM_VIRTUEMART_SHARED') ?>
 						</th><?php } ?>
-					<th><?php echo $this->sort('i.virtuemart_shipmentmethod_id', 'COM_VIRTUEMART_ID') ?></th>
+					<th class="uk-table-shrink">
+						<?php echo $this->sort('i.virtuemart_shipmentmethod_id', 'COM_VIRTUEMART_ID') ?>
+					</th>
 				</tr>
 				</thead>
 				<?php
@@ -78,38 +82,69 @@ vmuikitAdminUIHelper::startAdminArea($this);
 						$colorStyle = 'style="background-color:' . $row->display_color . '"';
 					}
 					?>
+
 					<tr class="row<?php echo $k; ?>">
-						<td <?php echo $colorStyle ?>>
+						<td >
 							<?php echo $checked; ?>
 						</td>
-						<td align="left">
+						<td >
+							<div class="uk-label uk-label-vm uk-width-1-1" <?php echo $colorStyle ?>>
+								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_SHIPMENT_NAME_LBL') ?>"
+										uk-icon="icon: pencil"></span>
+
 							<?php echo JHtml::_('link', $editlink, vmText::_($row->shipment_name)); ?>
 							<?php if ($set_automatic_shipment == $row->virtuemart_shipmentmethod_id) {
-								?><i class="icon-featured"></i><?php
+								?>
+								<span class="uk-hidden@m uk-margin-small-left md-color-grey-500"
+										uk-tooltip="<?php echo vmText::_('') ?>"
+										uk-icon="icon: heart"></span>
+								<?php
 							}
 							?>
+							</div>
 						</td>
-						<td align="left">
+						<td >
+								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_SHIPMENT_LIST_DESCRIPTION_LBL') ?>"
+										uk-icon="icon: commenting"></span>
 							<?php echo $row->shipment_desc; ?>
 						</td>
 						<td>
+								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_SHIPPING_SHOPPERGROUPS') ?>"
+										uk-icon="icon: users"></span>
 							<?php echo $row->shipmentShoppersList; ?>
 						</td>
-						<td align="left">
+						<td >
+								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_SHIPMENTMETHOD') ?>"
+										uk-icon="icon: question"></span>
 							<?php echo $row->shipment_element; //JHtml::_('link', $editlink, vmText::_($row->shipment_element)); ?>
 						</td>
-						<td align="left">
+						<td class="uk-visible@m">
 							<?php echo vmText::_($row->ordering); ?>
 						</td>
-						<td><?php echo $published; ?></td>
+						<td>
+							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PUBLISHED') ?>"
+									uk-icon="icon: eye"></span>
+							<?php echo $published; ?>
+						</td>
 						<?php
 						if ($this->showVendors) {
 							?>
-							<td align="center">
+							<td class="uk-text-center@m">
+								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_SHARED') ?>"
+										uk-icon="icon: question"></span>
 							<?php echo $shared; ?>
 							</td>
 						<?php } ?>
-						<td align="center">
+						<td class="uk-text-center@m">
+								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ID') ?>"
+										uk-icon="icon: hashtag"></span>
 							<?php echo $row->virtuemart_shipmentmethod_id; ?>
 						</td>
 

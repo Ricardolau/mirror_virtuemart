@@ -58,17 +58,7 @@ defined('_JEXEC') or die('Restricted access');
 			</div>
 
 		</div>
-		<div class="uk-card-footer uk-text-center">
-			<button class="uk-button uk-button-small uk-button-primary">
-				<?php echo vmText::_('COM_VIRTUEMART_SAVE'); ?>
-			</button>
 
-			<a href="#" onClick="javascript:Virtuemart.resetOrderHead(event);"
-					class="uk-button uk-button-small uk-button-default">
-				<?php echo vmText::_('COM_VIRTUEMART_CANCEL'); ?>
-			</a>
-
-		</div>
 	</div>
 </div>
 <!-- /BT -->
@@ -127,16 +117,7 @@ defined('_JEXEC') or die('Restricted access');
 			</div>
 
 		</div>
-		<div class="uk-card-footer uk-text-center">
-			<button class="uk-button uk-button-small uk-button-primary">
-				<?php echo vmText::_('COM_VIRTUEMART_SAVE'); ?>
-			</button>
-			<a href="#" onClick="javascript:Virtuemart.resetOrderHead(event);"
-					class="uk-button uk-button-small uk-button-default"
-			>
-				<?php echo vmText::_('COM_VIRTUEMART_CANCEL'); ?>
-			</a>
-		</div>
+
 	</div>
 </div>
 <!-- /ST -->
@@ -158,16 +139,7 @@ defined('_JEXEC') or die('Restricted access');
 					<div class="uk-card-body">
 								<textarea class="uk-textarea" name="order_note" cols="60" rows="2"><?php echo $this->orderbt->order_note ?></textarea>
 					</div>
-					<div class="uk-card-footer uk-text-center">
-						<button class="uk-button uk-button-small uk-button-primary">
-							<?php echo vmText::_('COM_VIRTUEMART_SAVE'); ?>
-						</button>
-						<a href="#" onClick="javascript:Virtuemart.resetOrderHead(event);"
-								class="uk-button uk-button-small uk-button-default"
-						>
-							<?php echo vmText::_('COM_VIRTUEMART_CANCEL'); ?>
-						</a>
-					</div>
+
 				</div>
 			</div>
 

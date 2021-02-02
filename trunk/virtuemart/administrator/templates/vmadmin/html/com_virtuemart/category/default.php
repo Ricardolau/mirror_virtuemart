@@ -155,14 +155,14 @@ vmuikitAdminUIHelper::startAdminArea($this);
 				<td>
 					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_CATEGORY_NAME') ?>"
-							uk-icon="icon: info"></span>
+							uk-icon="icon: pencil"></span>
 					<span class="categoryLevel"><?php echo $categoryLevel; ?></span>
 					<a href="<?php echo $editlink; ?>"><?php echo $cat->category_name; ?></a>
 				</td>
 				<td>
 					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_DESCRIPTION') ?>"
-							uk-icon="icon: pencil"></span>
+							uk-icon="icon: commenting"></span>
 					<?php
 					/*$descr = htmlspecialchars_decode($cat->category_description);
 					echo shopFunctionsF::limitStringByWord(JFilterOutput::cleanText($descr),200);*/

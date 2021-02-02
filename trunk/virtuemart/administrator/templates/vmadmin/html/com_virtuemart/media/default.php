@@ -2,7 +2,7 @@
 /**
  *
  *
- * @package	VirtueMart
+ * @package    VirtueMart
  * @subpackage
  * @author Max Milbers
  * @link ${PHING.VM.MAINTAINERURL}
@@ -29,30 +29,30 @@ $option = vRequest::getCmd('option');
 ?>
 	<form action="index.php?option=com_virtuemart&view=media" method="post" name="adminForm" id="adminForm">
 		<div id="filterbox" class="filter-bar">
-				<?php
-				$extras=array();
-				$extras[]=$this->lists['search_type'];
-				$extras[]=$this->lists['search_role'];
+			<?php
+			$extras = array();
+			$extras[] = $this->lists['search_type'];
+			$extras[] = $this->lists['search_role'];
 
-				$extras[]=VmHtml::checkbox('missing', vRequest::getInt('missing', 0), 1, 0).' '.'<span   uk-tooltip="' . vmText::_('COM_VM_MEDIA_MISSING_TIP') . '" style="vertical-align:middle;padding:4px 0 0;">' . vmText::_('COM_VM_MEDIA_MISSING') . '</span>';
-				$extras[]= VmHtml::checkbox('findUnusedMedias', vRequest::getInt('findUnusedMedias', 0), 1, 0).'<span   uk-tooltip="' . vmText::_('COM_VM_MEDIA_UNUSED_TIP') . '" style="vertical-align:middle;padding:4px 0 0;">' . vmText::_('COM_VM_MEDIA_UNUSED') . '</span>' ;
+			$extras[] = VmHtml::checkbox('missing', vRequest::getInt('missing', 0), 1, 0) . ' ' . '<span   uk-tooltip="' . vmText::_('COM_VM_MEDIA_MISSING_TIP') . '" style="vertical-align:middle;padding:4px 0 0;">' . vmText::_('COM_VM_MEDIA_MISSING') . '</span>';
+			$extras[] = VmHtml::checkbox('findUnusedMedias', vRequest::getInt('findUnusedMedias', 0), 1, 0) . '<span   uk-tooltip="' . vmText::_('COM_VM_MEDIA_UNUSED_TIP') . '" style="vertical-align:middle;padding:4px 0 0;">' . vmText::_('COM_VM_MEDIA_UNUSED') . '</span>';
 
-				$extras[]=$this->lists['vendors'];
-
-
-				echo adminSublayouts::renderAdminVmSubLayout('filterbar',
-					array(
-						'search'=>array(
-							'label'=>'COM_VIRTUEMART_NAME',
-							'name'=>'searchMedia',
-							'value'=>vRequest::getVar('searchMedia')
-						),
-						'extras'=>$extras,
-						'resultsCounter'=>$this->pagination->getResultsCounter()
-					));
+			$extras[] = $this->lists['vendors'];
 
 
-				?>
+			echo adminSublayouts::renderAdminVmSubLayout('filterbar',
+				array(
+					'search' => array(
+						'label' => 'COM_VIRTUEMART_NAME',
+						'name' => 'searchMedia',
+						'value' => vRequest::getVar('searchMedia')
+					),
+					'extras' => $extras,
+					'resultsCounter' => $this->pagination->getResultsCounter()
+				));
+
+
+			?>
 		</div>
 		<?php
 		$productfileslist = $this->files;
@@ -114,9 +114,19 @@ $option = vRequest::getCmd('option');
 							<?php */
 						$link = 'index.php?option=' . $option . '&view=media&task=edit&virtuemart_media_id[]=' . $productfile->virtuemart_media_id;
 						?>
-						<td><?php echo JHtml::_('link', JRoute::_($link, FALSE), $productfile->file_title, array('title' => vmText::_('COM_VIRTUEMART_EDIT') . ' ' . $productfile->file_title)); ?></td>
+						<td>
+											<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+													uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_FILES_LIST_FILETITLE') ?>"
+													uk-icon="icon: pencil"></span>
+
+							<?php echo JHtml::_('link', JRoute::_($link, FALSE), $productfile->file_title, array('title' => vmText::_('COM_VIRTUEMART_EDIT') . ' ' . $productfile->file_title)); ?>
+						</td>
 						<!-- File role -->
-						<td><?php
+						<td>
+											<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+													uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_FILES_LIST_ROLE') ?>"
+													uk-icon="icon: info"></span>
+							<?php
 							//Just to have something, we could make this nicer with Icons
 							if (!empty($productfile->file_is_product_image)) {
 								echo vmText::_('COM_VIRTUEMART_' . strtoupper($productfile->file_type) . '_IMAGE');
@@ -132,6 +142,9 @@ $option = vRequest::getCmd('option');
 						</td>
 						<!-- Preview -->
 						<td>
+											<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+													uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_VIEW') ?>"
+													uk-icon="icon: image"></span>
 							<?php
 
 
@@ -147,14 +160,31 @@ $option = vRequest::getCmd('option');
 							?>
 						</td>
 						<!-- File title -->
-						<td><?php echo $productfile->file_name; ?></td>
+						<td>
+											<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+													uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_FILES_LIST_FILENAME') ?>"
+													uk-icon="icon: info"></span>
+							<?php echo $productfile->file_name; ?></td>
 						<!-- File extension -->
-						<td style="overflow:hidden;"><span
-									class="vmicon vmicon-16-ext_<?php echo $productfile->file_extension; ?>"></span><?php echo $productfile->file_extension; ?>
+						<td style="overflow:hidden;">
+							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_FILES_LIST_FILETYPE') ?>"
+									uk-icon="icon: info"></span>
+							<span class="vmicon vmicon-16-ext_<?php echo $productfile->file_extension; ?>"></span><?php echo $productfile->file_extension; ?>
 						</td>
 						<!-- published -->
-						<td><?php echo $published; ?></td>
-						<td><?php echo $productfile->virtuemart_media_id; ?></td>
+						<td>
+							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PUBLISHED') ?>"
+									uk-icon="icon: eye"></span>
+							<?php echo $published; ?>
+						</td>
+						<td>
+							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ID') ?>"
+									uk-icon="icon: hashtag"></span>
+							<?php echo $productfile->virtuemart_media_id; ?>
+						</td>
 					</tr>
 					<?php
 					$k = 1 - $k;

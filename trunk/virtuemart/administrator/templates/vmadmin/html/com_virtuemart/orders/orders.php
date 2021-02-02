@@ -81,7 +81,7 @@ $styleDateCol = '';
 					<th><?php echo $this->sort('paid', 'COM_VM_ORDER_PAID') ?></th>
 					<th><?php echo $this->sort('order_status', 'COM_VIRTUEMART_STATUS') ?></th>
 					<!--<th style="min-width:130px;width:5%;"><?php echo vmText::_('COM_VIRTUEMART_ORDER_LIST_NOTIFY'); ?></th>-->
-					<th><?php echo $this->sort('order_total', 'COM_VIRTUEMART_TOTAL') ?></th>
+					<th class="uk-text-right@m"><?php echo $this->sort('order_total', 'COM_VIRTUEMART_TOTAL') ?></th>
 					<th class="uk-table-shrink"><?php echo $this->sort('virtuemart_order_id', 'COM_VIRTUEMART_ID') ?></th>
 
 				</tr>
@@ -134,7 +134,7 @@ $styleDateCol = '';
 										style="<?php echo $statuscolorStyle ?>">
 									<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 											uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_LIST_NUMBER') ?>"
-											uk-icon="icon: hashtag"></span>
+											uk-icon="icon: pencil"></span>
 									<?php echo JHtml::_('link', JRoute::_($link, FALSE), $order->order_number, array('title' => vmText::_('COM_VIRTUEMART_ORDER_EDIT_ORDER_NUMBER') . ' ' . $order->order_number)); ?>
 								</div>
 
@@ -271,7 +271,8 @@ $styleDateCol = '';
 									<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 											uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_TOTAL') ?>"
 											uk-icon="icon: cart"></span>
-								<?php echo $order->order_total; ?></td>
+								<?php echo $order->order_total; ?>
+							</td>
 							<td class="uk-text-center@m">
 								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ID') ?>"

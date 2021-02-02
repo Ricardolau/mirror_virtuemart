@@ -33,7 +33,7 @@ defined('_JEXEC') or die('Restricted access');
 						<?php echo vmText::_('COM_VIRTUEMART_ORDER_ITEMS') ?>
 					</div>
 				</div>
-				<div class="uk-width-expand">
+				<div class="uk-width-expand uk-margin-large-left">
 					<?php if (vmAccess::manager('orders.edit')) { ?>
 
 						<a href="#"

@@ -18,8 +18,9 @@
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
-
+$iconRatio=1.2;
 ?>
+
 
 <div id="filterbox" class="filter-bar">
 	<?php
@@ -28,7 +29,7 @@ defined('_JEXEC') or die('Restricted access');
 	$extras[] = adminSublayouts::renderAdminVmSubLayout('print_links',
 		array(
 			'order' => $this->orderbt,
-			'iconRatio' => 1.2,
+			'iconRatio' =>$iconRatio,
 			'hrefClass' => 'uk-icon-button',
 		)
 
@@ -39,31 +40,26 @@ defined('_JEXEC') or die('Restricted access');
 		$labelPaid = 'COM_VIRTUEMART_ORDER_IS_UNPAID';
 		$colorPaidTool = 'md-color-red-600';
 		$textPaidAction = 'COM_VIRTUEMART_ORDER_SET_PAID';
-		$colorPaidAction = 'md-bg-green-600 md-color-white';
 		$valPaid = '1';
 	} else {
 		$labelPaid = 'COM_VIRTUEMART_ORDER_IS_PAID';
 		$colorPaidTool = 'md-color-green-600';
 		$textPaidAction = 'COM_VIRTUEMART_ORDER_SET_UNPAID';
-		$colorPaidAction = 'md-bg-red-600 md-color-white';
 		$valPaid = '0';
 
 	}
 	$linkPaid = 'index.php?option=com_virtuemart&view=orders&task=toggle.paid.' . $valPaid . '&cidName=virtuemart_order_id&virtuemart_order_id[]=' . $this->orderID . '&rtask=edit&' . JSession::getFormToken() . '=1';
 
+	$extras[]=
+		'<a href="' . JRoute::_($linkPaid, FALSE) . '"
+			class="uk-icon-button uk-icon-button-small uk-button-default ' . $colorPaidTool . '  uk-margin-small-right">
+		<span uk-tooltip="'. vmText::_($textPaidAction) .'">
+			<span uk-icon="icon: tag; ratio: '.$iconRatio .'"></span>
+		</span>
+		</a>';
 
-	$tool['title'] = vmText::_($labelPaid);
-	$tool['button'] = $colorPaidTool;
-	//$tool['subtitle'] = $texPaid;
-	$tool['fields'] = array();
-	$tool['footer'] = '
-<a href="' . JRoute::_($linkPaid, FALSE) . '" class="uk-button uk-button-small ' . $colorPaidAction . ' uk-text-center">' .
-		vmText::_($textPaidAction)
-		. '</a>
 
-';
 
-	$tools[] = $tool;
 
 	if (empty($this->orderbt->invoice_locked)) {
 		$valLocked = '1';
@@ -82,17 +78,31 @@ defined('_JEXEC') or die('Restricted access');
 	}
 	$linkLocked = 'index.php?option=com_virtuemart&view=orders&task=toggle.invoice_locked.' . $valLocked . '&cidName=virtuemart_order_id&virtuemart_order_id[]=' . $this->orderID . '&rtask=edit&' . JSession::getFormToken() . '=1';
 
-	$tool['title'] = '<span><span uk-icon="icon: ' . $iconLocked . '"; ratio: 1.2"></span>';//vmText::_($labelLocked);
-	$tool['button'] = $colorLockedTool;
-	//$tool['subtitle'] = $texPaid;
-	$tool['fields'] = array();
-	$tool['footer'] = '
-<a href="' . JRoute::_($linkLocked, FALSE) . '" class="uk-button uk-button-small ' . $colorLockedAction . ' uk-text-center">' .
-		vmText::_($textLockedAction)
-		. '</a>
 
-';
-	$tools[] = $tool;
+	$extras[]=
+		'<a href="' . JRoute::_($linkLocked, FALSE) . '"
+				class="uk-icon-button uk-icon-button-small uk-button-default ' . $colorLockedTool . ' ">
+		<span uk-tooltip="'. vmText::_($textLockedAction) .'">
+			<span uk-icon="icon:'.$iconLocked .'; ratio: '.$iconRatio .'"></span>
+		</span>
+		</a>';
+
+
+		$extras[]='
+	<div class="uk-margin-xlarge-left">
+			<button class="uk-button uk-button-small uk-button-primary">
+				<span class="uk-margin-small-right"
+						uk-icon="icon: check"></span>'. vmText::_('COM_VIRTUEMART_ORDER_SAVE_USER_INFO').'
+	</button>
+	<a href="#" onClick="javascript:Virtuemart.resetOrderHead(event);"
+			class="uk-button uk-button-small uk-button-default md-bg-white"
+	>
+				<span class="uk-margin-small-right"
+						uk-icon="icon: close"></span>
+		'. vmText::_('COM_VIRTUEMART_ORDER_RESET').'
+	</a>
+</div>';
+
 
 
 	echo adminSublayouts::renderAdminVmSubLayout('filterbar',
@@ -100,10 +110,9 @@ defined('_JEXEC') or die('Restricted access');
 			'search' => array(
 				'label' => 'COM_VIRTUEMART_ORDER_PRINT_NAME',
 				'name' => 'search',
-				'value' => vRequest::getVar('filter_coupon')
+				'value' => vRequest::getVar('search')
 			),
 			'extras' => $extras,
-			'tools' => $tools,
 		));
 
 

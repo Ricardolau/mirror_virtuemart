@@ -51,9 +51,22 @@ $this->unequal = (int)$this->currency->truncate($this->orderbt->toPay - $this->o
 		<input type="hidden" name="virtuemart_order_id" value="<?php echo $this->orderID; ?>"/>
 		<?php echo JHtml::_('form.token'); ?>
 		<?php echo $this->loadTemplate('filter') ?>
-
-
-	</form>
+<!--
+		<div class="uk-width-1-1 uk-margin-small uk-text-center">
+			<button class="uk-button uk-button-small uk-button-primary">
+				<span class="uk-margin-small-right"
+						uk-icon="icon: check"></span>
+				<?php echo vmText::_('COM_VIRTUEMART_ORDER_SAVE_USER_INFO'); ?>
+			</button>
+			<a href="#" onClick="javascript:Virtuemart.resetOrderHead(event);"
+					class="uk-button uk-button-small uk-button-default"
+			>
+				<span class="uk-margin-small-right"
+						uk-icon="icon: close"></span>
+				<?php echo vmText::_('COM_VIRTUEMART_ORDER_RESET'); ?>
+			</a>
+		</div>
+-->
 	<!-- HEADER -->
 	<div class="uk-child-width-1-5@xl uk-child-width-1-3@l uk-child-width-1-2@s uk-grid-small uk-grid-match" uk-grid>
 		<?php echo $this->loadTemplate('header') ?>
@@ -61,7 +74,7 @@ $this->unequal = (int)$this->currency->truncate($this->orderbt->toPay - $this->o
 	<!-- /HEADER -->
 
 
-	<form action="index.php" method="post" name="orderForm" id="orderForm" class="uk-margin-medium-top">
+
 		<div class="uk-child-width-1-3@l uk-child-width-1-2@m uk-grid uk-grid-small uk-grid-match" uk-grid>
 		<?php echo $this->loadTemplate('btststatus') ?>
 		<!-- /BT, ST, Order status -->

@@ -116,6 +116,9 @@ if (($intervalTitle == 'week') or ($intervalTitle == 'month')) {
 				?>
 				<tr class="row<?php echo $i; ?>">
 					<td >
+							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_' . $intervalTitle) ?>"
+									uk-icon="icon: calendar"></span>
 						<?php echo $r['intervals'];
 						if ($addDateInfo) {
 							echo ' (' . substr($r['created_on'], 0, 4) . ')';
@@ -123,6 +126,9 @@ if (($intervalTitle == 'week') or ($intervalTitle == 'month')) {
 						?>
 					</td>
 					<td class="uk-text-right@m">
+							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_REPORT_BASIC_ORDERS') ?>"
+									uk-icon="icon: cart"></span>
 						<?php
 						if ($intervals == 'orders') {
 							$link = 'index.php?option=com_virtuemart&view=orders&task=edit&virtuemart_order_id=' . $r['virtuemart_order_id'];
@@ -134,25 +140,43 @@ if (($intervalTitle == 'week') or ($intervalTitle == 'month')) {
 						?>
 					</td>
 					<td class="uk-text-right@m">
+							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_REPORT_BASIC_TOTAL_ITEMS') ?>"
+									uk-icon="icon: product"></span>
 						<?php echo $r['product_quantity']; ?>
 					</td>
 					<td class="uk-text-right@m">
+							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_REPORT_BASIC_REVENUE_NETTO') ?>"
+									uk-icon="icon: revenue"></span>
 						<?php echo $r['order_subtotal_netto']; ?>
 					</td>
 					<td class="uk-text-right@m">
+							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_REPORT_BASIC_REVENUE_BRUTTO') ?>"
+									uk-icon="icon: revenue"></span>
 						<?php echo $r['order_subtotal_brutto']; ?>
 					</td>
 					<?php if ($intervals == 'product_s') {
 						?>
 						<td>
+								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_NAME') ?>"
+										uk-icon="icon: product"></span>
 							<?php echo $r['order_item_name']; ?>
 						</td>
 						<td  class="uk-text-right@m">
+							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ID') ?>"
+									uk-icon="icon: hashtag"></span>
 							<?php echo $r['virtuemart_product_id']; ?>
 						</td>
 
 					<?php } else /*if(VmConfig::get('multix','none')!='none')*/ { ?>
 						<td class="uk-text-right@m">
+								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_COUPON') ?>"
+										uk-icon="icon: gift-box"></span>
 							<?php echo $r['coupon_discount']; ?>
 						</td>
 					<?php } ?>

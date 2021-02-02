@@ -43,7 +43,7 @@ vmuikitAdminUIHelper::startAdminArea($this);
 		<table class="uk-table uk-table-small uk-table-striped uk-table-responsive">
 		<thead>
 		<tr>
-			<th>
+			<th class="uk-table-shrink">
 				<input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)" />
 			</th>
 
@@ -56,26 +56,28 @@ vmuikitAdminUIHelper::startAdminArea($this);
 			<th>
 			<?php echo $this->sort('type','COM_VIRTUEMART_FIELDMANAGER_TYPE') ?>
 			</th>
-			<th width="20">
+			<th class="uk-table-shrink">
 				<?php echo vmText::_('COM_VIRTUEMART_FIELDMANAGER_REQUIRED'); ?>
 			</th>
-			<th width="20">
+			<th class="uk-table-shrink">
 				<?php echo vmText::_('COM_VIRTUEMART_PUBLISHED'); ?>
 			</th>
-			<th width="20">
+			<th class="uk-table-shrink">
 				<?php echo vmText::_('COM_VIRTUEMART_FIELDMANAGER_SHOW_ON_CART'); ?>
 			</th>
-			<th width="20">
+			<th class="uk-table-shrink">
 				<?php echo vmText::_('COM_VIRTUEMART_FIELDMANAGER_SHOW_ON_SHIPPING'); ?>
 			</th>
-			<th width="20">
+			<th class="uk-table-shrink">
 				<?php echo vmText::_('COM_VIRTUEMART_FIELDMANAGER_SHOW_ON_ACCOUNT'); ?>
 			</th>
-			<th>
+			<th class="uk-table-shrink uk-visible@m">
 			<?php echo $this->sort('ordering','COM_VIRTUEMART_FIELDMANAGER_REORDER') ?>
 			<?php echo JHtml::_('grid.order',  $this->userfieldsList ); ?>
 			</th>
-			 <th><?php echo $this->sort('virtuemart_userfield_id', 'COM_VIRTUEMART_ID')  ?></th>
+			<th class="uk-table-shrink uk-text-center@m">
+				 <?php echo $this->sort('virtuemart_userfield_id', 'COM_VIRTUEMART_ID')  ?>
+			 </th>
 		</tr>
 		</thead>
 		<?php
@@ -110,36 +112,63 @@ vmuikitAdminUIHelper::startAdminArea($this);
 					<?php echo $checked; ?>
 				</td>
 
-				<td align="left">
+				<td >
+						<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_FIELDMANAGER_NAME') ?>"
+								uk-icon="icon: pencil"></span>
 					<a href="<?php echo $editlink; ?>"><?php echo $row->name; ?></a>
 				</td>
-				<td align="left">
+				<td >
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_FIELDMANAGER_TITLE') ?>"
+							uk-icon="icon: question"></span>
 					<?php echo vmText::_($row->title); ?>
 				</td>
-				<td align="left">
+				<td >
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_FIELDMANAGER_TYPE') ?>"
+							uk-icon="icon: question"></span>
 					<?php echo vmText::_($row->type); ?>
 				</td>
-				<td align="center">
+				<td class="uk-text-center@m">
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_FIELDMANAGER_REQUIRED') ?>"
+							uk-icon="icon: question"></span>
 					<?php echo $required; ?>
 				</td>
-				<td align="center">
+				<td class="uk-text-center@m">
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PUBLISHED') ?>"
+							uk-icon="icon: eye"></span>
 					<?php echo $published; ?>
 				</td>
-				<td align="center">
+				<td class="uk-text-center@m">
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_FIELDMANAGER_SHOW_ON_CART') ?>"
+							uk-icon="icon: cart"></span>
 					<?php echo $registration; ?>
 				</td>
-				<td align="center">
+				<td class="uk-text-center@m">
+						<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_FIELDMANAGER_SHOW_ON_SHIPPING') ?>"
+								uk-icon="icon: shipment"></span>
 					<?php echo $shipment; ?>
 				</td>
-				<td align="center">
+				<td class="uk-text-center@m">
+					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_FIELDMANAGER_SHOW_ON_ACCOUNT') ?>"
+							uk-icon="icon: id-card"></span>
 					<?php echo $account; ?>
 				</td>
-				<td class="order">
+				<td class="order uk-visible@m">
 					<span><?php echo $this->pagination->vmOrderUpIcon( $i, $ordering, 'orderup', vmText::_('COM_VIRTUEMART_MOVE_UP')  ); ?></span>
 					<span><?php echo $this->pagination->vmOrderDownIcon( $i, $ordering, $n, true, 'orderdown', vmText::_('COM_VIRTUEMART_MOVE_DOWN') ); ?></span>
 					<input type="text" name="order[]" size="5" value="<?php echo $row->ordering;?>" <?php echo $disabled ?> class="ordering" style="text-align: center" />
 			</td>
-			<td width="10">
+			<td >
+				<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+						uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ID') ?>"
+						uk-icon="icon: hashtag"></span>
 					<?php echo $row->virtuemart_userfield_id; ?>
 				</td>
 			</tr>

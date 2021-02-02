@@ -26,7 +26,7 @@ VmConfig::importVMPlugins('vmpayment');
 ?>
 <!-- Shipment -->
 <div class="">
-	<div class="uk-card   uk-card-small uk-card-vm " id="vm-order-shipment-payment">
+	<div class="uk-card   uk-card-small uk-card-vm " id="vm-order-shipment">
 		<div class="uk-card-header">
 			<div class="uk-card-title">
 						<span class="md-color-cyan-600 uk-margin-small-right"
@@ -56,7 +56,7 @@ VmConfig::importVMPlugins('vmpayment');
 <!-- /Shipment -->
 <!-- Payment -->
 <div class="">
-	<div class="uk-card   uk-card-small uk-card-vm ">
+	<div class="uk-card   uk-card-small uk-card-vm " id="vm-order-payment">
 		<div class="uk-card-header">
 			<div class="uk-card-title">
 						<span class="md-color-cyan-600 uk-margin-small-right"

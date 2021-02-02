@@ -151,7 +151,7 @@ if ($search) {
 						<?php
 						if (isset($tool['subtitle']) && $tool['subtitle']) {
 							?>
-							<div class="">
+							<div class="uk-text-meta">
 								<?php
 								echo $tool['subtitle'];
 								?>

@@ -47,11 +47,11 @@ $states = vmText::_('COM_VIRTUEMART_STATE_S');
 
 
 		<div id="editcell">
-			<table class="uk-table uk-table-striped uk-table-responsive">
+			<table class="adminlist uk-table uk-table-striped uk-table-responsive" >
 				<thead>
 				<tr>
-					<th>
-						<input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)"/>
+					<th class="uk-table-shrink">
+						<input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)" />
 					</th>
 					<th>
 						<?php echo $this->sort('country_name') ?>
@@ -65,46 +65,45 @@ $states = vmText::_('COM_VIRTUEMART_STATE_S');
 					<th>
 						<?php echo $this->sort('country_3_code') ?>
 					</th>
-					<th style="min-width:80px;width:8%;text-align:center;">
-						<?php echo $this->sort('c.ordering', 'COM_VIRTUEMART_ORDERING') ?>
-						<?php echo JHtml::_('grid.order', $this->countries, 'filesave.png', 'saveOrder'); ?>
+					<th class="uk-visible@m">
+						<?php echo $this->sort( 'c.ordering' , 'COM_VIRTUEMART_ORDERING') ?>
+						<?php echo JHtml::_('grid.order', $this->countries, 'filesave.png', 'saveOrder' ); ?>
 					</th>
-					<th width="20">
-						<?php echo $this->sort('published', 'COM_VIRTUEMART_PUBLISHED') ?>
+					<th class="uk-table-shrink uk-text-center@m">
+						<?php echo $this->sort('published' , 'COM_VIRTUEMART_PUBLISHED') ?>
 					</th>
-					<th width="20">
+					<th class="uk-table-shrink uk-text-center@m">
 						<?php echo $this->sort('virtuemart_country_id') ?>
 					</th>
 				</tr>
 				</thead>
 				<?php
 				$k = 0;
-				for ($i = 0, $n = count($this->countries); $i < $n; $i++) {
+				for ($i=0, $n=count( $this->countries ); $i < $n; $i++) {
 					$row = $this->countries[$i];
 
 					$checked = JHtml::_('grid.id', $i, $row->virtuemart_country_id);
-					$published = $this->gridPublished($row, $i);
+					$published = $this->gridPublished( $row, $i );
 					$editlink = JROUTE::_('index.php?option=com_virtuemart&view=country&task=edit&cid[]=' . $row->virtuemart_country_id);
-					$statelink = JROUTE::_('index.php?option=com_virtuemart&view=state&view=state&virtuemart_country_id=' . $row->virtuemart_country_id);
+					$statelink	= JROUTE::_('index.php?option=com_virtuemart&view=state&view=state&virtuemart_country_id=' . $row->virtuemart_country_id);
 					?>
-					<tr class="row<?php echo $k; ?>">
-						<td>
+					<tr class="row<?php echo $k ; ?>">
+						<td >
 							<?php echo $checked; ?>
 						</td>
-						<td align="left">
+						<td >
 							<?php
-							$prefix = "COM_VIRTUEMART_COUNTRY_";
-							$country_string = vmText::_($prefix . $row->country_3_code); ?>
+							$prefix="COM_VIRTUEMART_COUNTRY_";
+							$country_string= vmText::_($prefix.$row->country_3_code); ?>
 							<a href="<?php echo $editlink; ?>"><?php echo $row->country_name ?> </a>&nbsp;
 							<?php
-							$lang = vmLanguage::getLanguage();
-							if ($lang->hasKey($prefix . $row->country_3_code)) {
-								echo "(" . $country_string . ") ";
+							$lang =vmLanguage::getLanguage();
+							if ($lang->hasKey($prefix.$row->country_3_code)) {
+								echo "(".$country_string.") ";
 							}
 							?>
 
-							<a title="<?php echo vmText::sprintf('COM_VIRTUEMART_STATES_VIEW_LINK', $country_string); ?>"
-									href="<?php echo $statelink; ?>">[<?php echo $states ?>]</a>
+							<a title="<?php echo vmText::sprintf('COM_VIRTUEMART_STATES_VIEW_LINK', $country_string ); ?>" href="<?php echo $statelink; ?>">[<?php echo $states ?>]</a>
 						</td>
 						<?php /* TODO not implemented				<td align="left">
 			<?php echo $row->virtuemart_worldzone_id; ?>
@@ -113,17 +112,15 @@ $states = vmText::_('COM_VIRTUEMART_STATE_S');
 							<?php echo $row->country_2_code; ?>
 						</td>
 						<td>
-							<?php echo $row->country_3_code; ?>
+							<?php echo $row->country_3_code ; ?>
 						</td>
-						<td class="vm-order">
-							<input class="ordering" type="text" name="order[<?php echo $i ?>]"
-									id="order[<?php echo $i ?>]" size="5" value="<?php echo $row->ordering; ?>"
-									style="text-align: center"/><span class="vmicon vmicon-16-move"></span>
+						<td class="vm-order uk-visible@m">
+							<input class="ordering" type="text" name="order[<?php echo $i?>]" id="order[<?php echo $i?>]" size="5" value="<?php echo $row->ordering; ?>" style="text-align: center" /><span class="vmicon vmicon-16-move"></span>
 						</td>
-						<td align="center">
+						<td class="uk-text-center@m">
 							<?php echo $published; ?>
 						</td>
-						<td align="center">
+						<td class="uk-text-center@m">
 							<?php echo $row->virtuemart_country_id; ?>
 						</td>
 					</tr>

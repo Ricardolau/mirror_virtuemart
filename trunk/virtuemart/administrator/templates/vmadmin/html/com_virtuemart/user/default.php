@@ -82,15 +82,27 @@ vmuikitAdminUIHelper::startAdminArea($this);
 						<?php echo $checked; ?>
 					</td>
 					<td>
+						<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_USERNAME') ?>"
+								uk-icon="icon: pencil"></span>
 						<a href="<?php echo $editlink; ?>"><?php echo $row->username; ?></a>
 					</td>
 					<td>
+						<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_USER_DISPLAYED_NAME') ?>"
+								uk-icon="icon: user"></span>
 						<?php echo $row->name; ?>
 					</td>
 					<td>
+							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_EMAIL') ?>"
+									uk-icon="icon: mail"></span>
 						<?php echo $row->email; ?>
 					</td>
 					<td>
+							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_USER_IS_VENDOR') ?>"
+									uk-icon="icon: users"></span>
 						<?php
 
 						if (!empty($row->shoppergroups)) {
@@ -99,14 +111,24 @@ vmuikitAdminUIHelper::startAdminArea($this);
 							}
 						} ?>
 					</td>
-					<td class="uk-text-center@m"><?php echo $row->orderCount; ?>
+					<td class="uk-text-center@m">
+						<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDERS') ?>"
+								uk-icon="icon: cart"></span>
+						<?php echo $row->orderCount; ?>
 					</td>
 					<?php if (Vmconfig::get('multix', 'none') !== 'none') { ?>
 						<td class="uk-text-center@m">
+							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_USER_IS_VENDOR') ?>"
+									uk-icon="icon: shop"></span>
 							<?php echo $is_vendor; ?>
 						</td>
 					<?php } ?>
 					<td class="uk-text-center@m">
+						<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ID') ?>"
+								uk-icon="icon: hashtag"></span>
 						<?php echo $row->id; ?>
 					</td>
 				</tr>

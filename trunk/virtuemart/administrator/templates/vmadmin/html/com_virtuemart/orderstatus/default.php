@@ -61,14 +61,16 @@ vmLanguage::loadJLang('com_virtuemart_config');
 				<th>
 					<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_DELIVERY_DATE'); ?>
 				</th>
-				<th>
+				<th class="uk-visible@m">
 					<?php echo $this->sort('ordering') ?>
 					<?php echo JHtml::_('grid.order', $this->orderStatusList); ?>
 				</th>
-				<th width="20">
+				<th class="uk-table-shrink">
 					<?php echo vmText::_('COM_VIRTUEMART_PUBLISHED'); ?>
 				</th>
-				<th><?php echo $this->sort('virtuemart_orderstate_id', 'COM_VIRTUEMART_ID') ?></th>
+				<th class="uk-table-shrink">
+					<?php echo $this->sort('virtuemart_orderstate_id', 'COM_VIRTUEMART_ID') ?>
+				</th>
 			</tr>
 			</thead>
 			<?php
@@ -96,10 +98,14 @@ vmLanguage::loadJLang('com_virtuemart_config');
 				}
 				?>
 				<tr class="row<?php echo $k; ?>">
-					<td <?php echo $colorStyle ?>>
+					<td >
 						<?php echo $checked; ?>
 					</td>
-					<td align="left">
+					<td >
+						<div class="uk-label uk-label-vm uk-width-1-1" <?php echo $colorStyle ?>>
+							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_NAME') ?>"
+									uk-icon="icon: pencil"></span>
 						<?php
 						$lang = vmLanguage::getLanguage();
 						if ($lang->hasKey($row->order_status_name)) {
@@ -108,71 +114,112 @@ vmLanguage::loadJLang('com_virtuemart_config');
 							echo '<a href="' . $editlink . '">' . $row->order_status_name . '</a> ';
 						}
 						?>
+						</div>
 					</td>
-					<td align="left">
+					<td  >
+						<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_CODE') ?>"
+								uk-icon="icon: info"></span>
 						<?php echo $row->order_status_code; ?>
 					</td>
 
-					<td align="left">
-
+					<td >
+<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+		uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_EMAIL_VENDOR') ?>"
+		uk-icon="icon: shop"></span>
 						<?php
 						if (in_array($row->order_status_code, VmConfig::get('email_os_v', array('U', 'C', 'R', 'X')))) {
-							echo '<span class="icon-mail-2"><span></span></span>';
+							?>
+							<span uk-icon="icon: mail"></span>
+							<?php
 						}
 						?>
 					</td>
 
-					<td align="left">
+					<td  >
+						<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_EMAIL_SHOPPER') ?>"
+								uk-icon="icon: user"></span>
 						<?php
 						if (in_array($row->order_status_code, VmConfig::get('email_os_s', array('U', 'C', 'S', 'R', 'X')))) {
-							echo '<span class="icon-mail-2"><span></span></span>';
+							?>
+							<span uk-icon="icon: mail"></span>
+							<?php
 						}
 
 						?>
 					</td>
-					<td align="left">
-
+					<td>
+<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+		uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_EMAIL_ATTACHMENT') ?>"
+		uk-icon="icon: file"></span>
 						<?php
 						if (in_array($row->order_status_code, VmConfig::get('attach_os', array('')))) {
-							echo '<span class="icon-mail-2"></span><span class="icon-file-2 text-success"><span></span></span>';
+							?>
+							<span class="md-color-green-600" uk-icon="icon: file"></span>
+							<?php
 						}
 						?>
 					</td>
 
-					<td align="left">
+					<td  >
+						<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_CREATE_INVOICE') ?>"
+								uk-icon="icon: file-pdf"></span>
 						<?php
 						if (in_array($row->order_status_code, VmConfig::get('inv_os', array('C')))) {
 							if (in_array($row->order_status_code, VmConfig::get('refund_os', array('R')))) {
-								echo '<span class="icon-file-2 text-error"><span></span></span>';
+								?>
+								<span class="md-color-red-600" uk-icon="icon: file-pdf"></span>
+								<?php
 							} else {
-								echo '<span class="icon-file-2 text-success"><span></span></span>';
+								?>
+								<span class="md-color-green-600" uk-icon="icon: file-pdf"></span>
+								<?php
 							}
 						}
 						?>
 					</td>
 
-					<td align="left">
-
+					<td  >
+<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+		uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_ALLOW_EDIT') ?>"
+		uk-icon="icon: pencil"></span>
 						<?php
 						if (in_array($row->order_status_code, VmConfig::get('order_allowedit_os', array('P', 'U')))) {
-							echo '<span class="icon-pencil-2 text-success"><span></span></span>';
+							?>
+							<span class="md-color-green-600" uk-icon="icon: pencil"></span>
+							<?php
 						} else {
-							echo '<span class="icon-lock"><span></span></span>';
+							?>
+							<span class="" uk-icon="icon: lock"></span>
+							<?php
 						}
 						?>
 					</td>
 
-					<td align="left">
+					<td  >
+						<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_STOCK_HANDLE') ?>"
+								uk-icon="icon: inventory"></span>
 						<?php echo vmText::_($this->stockHandelList[$row->order_stock_handle]); ?>
 					</td>
-					<td align="left">
+					<td  >
+						<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_DO_REFUND') ?>"
+								uk-icon="icon: pencil"></span>
 						<?php
 						if (in_array($row->order_status_code, VmConfig::get('refund_os', array('R')))) {
-							echo '<span class="icon-undo-2 text-error"><span></span></span>';
+							?>
+							<span class="md-color-red-600" uk-icon="icon: reply"></span>
+							<?php
 						}
 						?>
 					</td>
-					<td align="left">
+					<td >
+						<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_DELIVERY_DATE') ?>"
+								uk-icon="icon: calendar"></span>
 						<?php
 						$del_date_type = VmConfig::get('del_date_type', array('m'));
 						if ($del_date_type == 'm') {
@@ -182,18 +229,28 @@ vmLanguage::loadJLang('com_virtuemart_config');
 							$del_date_type = array($del_date_type);
 						}
 						if (in_array($row->order_status_code, $del_date_type)) {
-							echo '<span class="icon-box-add text-success"><span></span></span>';
+							?>
+							<span class="md-color-green-600" uk-icon="icon: calendar"></span>
+							<?php
 						}
 						?>
 					</td>
-					<td align="center" class="order">
+					<td  class="order uk-visible@m">
 						<span><?php echo $this->pagination->vmOrderUpIcon($i, $row->ordering, 'orderUp', vmText::_('COM_VIRTUEMART_MOVE_UP')); ?></span>
 						<span><?php echo $this->pagination->vmOrderDownIcon($i, $row->ordering, $n, true, 'orderDown', vmText::_('COM_VIRTUEMART_MOVE_DOWN')); ?></span>
 						<input class="ordering" type="text" name="order[<?php echo $i ?>]" id="order[<?php echo $i ?>]"
 								size="5" value="<?php echo $row->ordering; ?>" style="text-align: center"/>
 					</td>
-					<td align="center"><?php echo $published; ?></td>
-					<td width="10">
+					<td class="uk-text-center@m">
+						<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PUBLISHED') ?>"
+								uk-icon="icon: eye"></span>
+						<?php echo $published; ?>
+					</td>
+					<td class="uk-text-center@m">
+							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ID') ?>"
+									uk-icon="icon: hashtag"></span>
 						<?php echo $row->virtuemart_orderstate_id; ?>
 					</td>
 				</tr>

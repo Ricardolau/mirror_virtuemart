@@ -52,7 +52,7 @@ $relatedIcon = $this->relatedIcon;
 
 										<input type="text" size="40" name="search"
 												class="vmuikit-js-reset-input-value"
-												placeholder="<?php echo vmText::_('COM_VIRTUEMART_CATEGORIES_RELATED_SEARCH'); ?>"
+												placeholder="<?php echo vmText::_('COM_VIRTUEMART_'.strtoupper($relatedType).'_RELATED_SEARCH'); ?>"
 												value=""/>
 
 										<a class="vmuikit-js-relatedcf-search uk-button uk-button-small uk-button-default"

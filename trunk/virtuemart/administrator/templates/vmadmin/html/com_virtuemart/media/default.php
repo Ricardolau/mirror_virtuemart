@@ -65,13 +65,13 @@ $option = vRequest::getCmd('option');
 				<th><input type="checkbox" name="toggle" value=""
 							onclick="Joomla.checkAll(this)"/></th>
 				<?php /*<th><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_NAME'); ?></th>*/ ?>
-				<th width="30%"><?php echo $this->sort('file_title', 'COM_VIRTUEMART_FILES_LIST_FILETITLE') ?></th>
-				<th style="min-width:100px;width:5%;"><?php echo $this->sort('file_type', 'COM_VIRTUEMART_FILES_LIST_ROLE') ?></th>
-				<th width="50%"><?php echo vmText::_('COM_VIRTUEMART_VIEW'); ?></th>
-				<th style="min-width:120px;width:15%;"><?php echo vmText::_('COM_VIRTUEMART_FILES_LIST_FILENAME'); ?></th>
-				<th style="min-width:30px;width:1%;max-width:40px;"><?php echo vmText::_('COM_VIRTUEMART_FILES_LIST_FILETYPE'); ?></th>
-				<th><?php echo $this->sort('published', 'COM_VIRTUEMART_PUBLISHED'); ?></th>
-				<th><?php echo $this->sort('virtuemart_media_id', 'COM_VIRTUEMART_ID') ?></th>
+				<th ><?php echo $this->sort('file_title', 'COM_VIRTUEMART_FILES_LIST_FILETITLE') ?></th>
+				<th ><?php echo $this->sort('file_type', 'COM_VIRTUEMART_FILES_LIST_ROLE') ?></th>
+				<th ><?php echo vmText::_('COM_VIRTUEMART_VIEW'); ?></th>
+				<th ><?php echo vmText::_('COM_VIRTUEMART_FILES_LIST_FILENAME'); ?></th>
+				<th class="uk-table-shrink uk-text-center@m"><?php echo vmText::_('COM_VIRTUEMART_FILES_LIST_FILETYPE'); ?></th>
+				<th class="uk-table-shrink uk-text-center@m"><?php echo $this->sort('published', 'COM_VIRTUEMART_PUBLISHED'); ?></th>
+				<th class="uk-table-shrink uk-text-center@m"><?php echo $this->sort('virtuemart_media_id', 'COM_VIRTUEMART_ID') ?></th>
 			</tr>
 			</thead>
 			<tbody>
@@ -166,20 +166,20 @@ $option = vRequest::getCmd('option');
 													uk-icon="icon: info"></span>
 							<?php echo $productfile->file_name; ?></td>
 						<!-- File extension -->
-						<td style="overflow:hidden;">
+						<td >
 							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_FILES_LIST_FILETYPE') ?>"
 									uk-icon="icon: info"></span>
 							<span class="vmicon vmicon-16-ext_<?php echo $productfile->file_extension; ?>"></span><?php echo $productfile->file_extension; ?>
 						</td>
 						<!-- published -->
-						<td>
+						<td class="uk-text-center@m">
 							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PUBLISHED') ?>"
 									uk-icon="icon: eye"></span>
 							<?php echo $published; ?>
 						</td>
-						<td>
+						<td class="uk-text-center@m">
 							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ID') ?>"
 									uk-icon="icon: hashtag"></span>

@@ -51,14 +51,14 @@ $type = 'checkbox';
 		echo VmuikitHtml::row('genericlist', 'COM_VIRTUEMART_ADMIN_CFG_NOIMAGEPAGE', $this->noimagelist, 'no_image_set', 'style="min-width:120px"', 'value', 'text', VmConfig::get('no_image_set', 'noimage_new.gif'));
 		echo VmuikitHtml::row('genericlist', 'COM_VIRTUEMART_ADMIN_CFG_NOIMAGEFOUND', $this->noimagelist, 'no_image_found', 'style="min-width:120px"', 'value', 'text', VmConfig::get('no_image_found'));
 
-		echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH', 'forSale_path', VmConfig::get('forSale_path', ''), 'class="uk-form-width-large"', '', 50, 260);
-		echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH_THUMB', 'forSale_path_thumb', VmConfig::get('forSale_path_thumb', ''), 'class="uk-form-width-large"', '', 50, 260);
+		echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH', 'forSale_path', VmConfig::get('forSale_path', ''), 'class="uk-form-width-1-1"', '', 50, 260);
+		echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH_THUMB', 'forSale_path_thumb', VmConfig::get('forSale_path_thumb', ''), 'class="uk-form-width-1-1"', '', 50, 260);
 
-		echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ADMIN_CFG_ASSETS_GENERAL_PATH', 'assets_general_path', VmConfig::get('assets_general_path', ''), 'class="uk-form-width-large"', '', 50, 260);
-		echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ADMIN_CFG_MEDIA_CATEGORY_PATH', 'media_category_path', VmConfig::get('media_category_path', ''), 'class="uk-form-width-large"', '', 50, 260);
-		echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ADMIN_CFG_MEDIA_PRODUCT_PATH', 'media_product_path', VmConfig::get('media_product_path', ''), 'class="uk-form-width-large"', '', 50, 260);
-		echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ADMIN_CFG_MEDIA_MANUFACTURER_PATH', 'media_manufacturer_path', VmConfig::get('media_manufacturer_path', ''), 'class="uk-form-width-large"', '', 50, 260);
-		echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ADMIN_CFG_MEDIA_VENDOR_PATH', 'media_vendor_path', VmConfig::get('media_vendor_path', ''), 'class="uk-form-width-large"', '', 50, 260);
+		echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ADMIN_CFG_ASSETS_GENERAL_PATH', 'assets_general_path', VmConfig::get('assets_general_path', ''), 'class="uk-form-width-1-1"', '', 50, 260);
+		echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ADMIN_CFG_MEDIA_CATEGORY_PATH', 'media_category_path', VmConfig::get('media_category_path', ''), 'class="uk-form-width-1-1"', '', 50, 260);
+		echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ADMIN_CFG_MEDIA_PRODUCT_PATH', 'media_product_path', VmConfig::get('media_product_path', ''), 'class="uk-form-width-1-1"', '', 50, 260);
+		echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ADMIN_CFG_MEDIA_MANUFACTURER_PATH', 'media_manufacturer_path', VmConfig::get('media_manufacturer_path', ''), 'class="uk-form-width-1-1"', '', 50, 260);
+		echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ADMIN_CFG_MEDIA_VENDOR_PATH', 'media_vendor_path', VmConfig::get('media_vendor_path', ''), 'class="uk-form-width-1-1"', '', 50, 260);
 
 		?>
 	</div>

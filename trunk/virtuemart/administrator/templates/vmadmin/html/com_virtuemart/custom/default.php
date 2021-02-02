@@ -175,7 +175,7 @@ $iconRatio=1;
 							?>
 							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_CUSTOM_ADMIN_ONLY') ?>"
-							uk-icon="icon: warning"></span>
+							uk-icon="icon: shop"></span>
 							<a href="javascript:void(0);"
 									class="uk-icon-button uk-button-default"
 									onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','toggle.admin_only')"

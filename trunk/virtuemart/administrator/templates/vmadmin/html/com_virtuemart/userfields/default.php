@@ -111,7 +111,6 @@ vmuikitAdminUIHelper::startAdminArea($this);
 				<td <?php echo $checked_out; ?>>
 					<?php echo $checked; ?>
 				</td>
-
 				<td >
 						<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_FIELDMANAGER_NAME') ?>"

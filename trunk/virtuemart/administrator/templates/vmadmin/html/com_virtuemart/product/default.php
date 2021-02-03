@@ -62,9 +62,9 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 			echo adminSublayouts::renderAdminVmSubLayout('filterbar',
 				array(
 					'search' => array(
-						'label' => 'COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_DATE',
-						'name' => 'search',
-						'value' => vRequest::getVar('search')
+						'label' => 'COM_VIRTUEMART_PRODUCT_LIST_SEARCH_PRODUCT',
+						'name' => 'filter_product',
+						'value' => $this->filter_product
 					),
 					'extras' => $extras,
 					'resultsCounter' => $this->pagination->getResultsCounter(),

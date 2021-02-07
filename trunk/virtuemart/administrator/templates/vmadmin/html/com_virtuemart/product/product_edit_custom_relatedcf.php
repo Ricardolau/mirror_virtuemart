@@ -51,30 +51,27 @@ $relatedIcon = $this->relatedIcon;
 									<div class="uk-button-group vmuikit-filter-search ">
 
 										<input type="text" size="40" name="search"
-												class="vmuikit-js-reset-input-value"
+												id="related<?php echo $relatedType ?>Search"
+												class="vmuikit-js-reset-input-value ui-autocomplete-input"
 												placeholder="<?php echo vmText::_('COM_VIRTUEMART_'.strtoupper($relatedType).'_RELATED_SEARCH'); ?>"
 												value=""/>
-
+											<!--
 										<a class="vmuikit-js-relatedcf-search uk-button uk-button-small uk-button-default"
 												data-relatedcf="related<?php echo ($relatedType) ?>"
 												type="button">
 											<span uk-icon="search"></span>
 										</a>
+										-->
 										<button class="vmuikit-js-reset-value uk-button uk-button-small uk-button-default">
-											<span uk-icon="close"></span></button>
+											<span uk-icon="close"></span>
+										</button>
 
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="search-related<?php echo ($relatedType) ?>-result uk-dropdown" id="search-related<?php echo ($relatedType) ?>-result"
-							uk-dropdown="pos: bottom-justify; boundary: .search-related<?php echo ($relatedType) ?>-boundary; boundary-align: true;mode:click;animation: uk-animation-slide-top-small; duration: 1000">
 
-								<!-- insert search related<?php echo strtoupper($relatedType) ?> result here : done in the JS-->
-								<div id="search-related<?php echo ($relatedType) ?>-output" ></div>
-
-					</div>
 					<!-- /SEARCH RELATED<?php echo strtoupper($relatedType) ?> -->
 
 

@@ -98,7 +98,7 @@ class VmuikitHtml{
 						'</label>
 						<div class="uk-form-controls">
 
-							'.'<input type="text" '.$readonly.' class="inputbox" name="media['.$name.']" size="70" value="'.$v.'" />' .
+							'.'<input type="text" '.$readonly.'  name="media['.$name.']" size="70" value="'.$v.'" />' .
 						'</div>
 					</div>
 		';

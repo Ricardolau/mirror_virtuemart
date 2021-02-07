@@ -1,5 +1,7 @@
 /**
  * Created by Milbo on 18.11.2016.
+ * http://www.w3big.com/jqueryui/example-autocomplete.html
+ * http://www.w3big.com/try/try.php?filename=jqueryui-example-autocomplete-custom-data render item  Custom data and display
  */
 
 if (typeof Virtuemart === "undefined")
@@ -73,51 +75,77 @@ Virtuemart.customfields = jQuery(function($) {
 		});
 	});
 	
-	$('.vmuikit-js-relatedcf-search').click(function (e) {
-		var obj = $(this).closest('.vmuikit-filter-search')
-		var term=obj.find("input")
-		var relatedcf= $(this).attr('data-relatedcf')
-
-		$.getJSON(Virtuemart.vmUikitLink+'&type='+relatedcf+'&row='+Virtuemart.nextCustom + 'term='+term ,
-				function (data) {
-					// TODO Script URL dyn
-					//	console.log("getJSON vmUikitLink", data);
-					$.getScript(Virtuemart.productScript).done(function(script, textStatus) {})
-					.fail(function(jqxhr, settings, exception) {
-						console.log("could not get " +Virtuemart.productScript +" script.");
-					});
-					var template = $('#search-relatedcf-template').html()
-					var rendered = Mustache.render(template, {"relatedDatas": data ,"relatedcf":relatedcf})
-					output="#search-"+relatedcf+"-output"
-					dropdown="#search-"+relatedcf+"-result"
-					//console.log("getJSON dropdown show", rendered);
-					$(output).html (rendered)
-					UIkit.dropdown(dropdown).show();
-				}
-		)
-	})
-	$('.vmuikit-js-relatedcf-select').click(function (e) {
-		var objCard=	$(this).closest('.vmuikit-js-cf-card')
-		var objBody=objCard.find('.vmuikit-js-cf-card-body')
-		var data= {}
-		var datas= []
-		data.displayHTML = objBody.html()
-		data.hiddenHTML = ''
-		datas.push(data)
-		// in sublayouts/relatedcf_template.php: template is the same for categories and products
-		var template = $('#display-selected-cf-template').html()
-		console.log('template',template)
-		var relatedcf= $(this).attr('data-relatedcf')
-		var rendered = Mustache.render(template, {"relatedDatas": datas ,"relatedcf":relatedcf})
-		console.log('rendered',rendered)
-		var container='#vmuikit-js-'+relatedcf+'-container'
-		console.log('container',container)
-		var renderedHTML=$(container).html() + rendered
-		$(container).html(renderedHTML)
-		dropdown="#search-"+relatedcf+"-result"
-		console.log('dropdown',dropdown)
-		UIkit.dropdown(dropdown).hide();
-	})
+	// vmuikit-js-relatedproducts-container
+	// vmuikit-js-relatedcf
+var relatedproductsSearch=	$('input#relatedproductsSearch').autocomplete({
+		source: Virtuemart.vmUikitLink+'&type=relatedproducts&row='+Virtuemart.nextCustom,
+		select: function(event, ui){
+			relatedcf='products'
+			var template = $('#display-selected-cf-template').html()
+			var rendered = Mustache.render(template, {"relatedDatas": ui.item ,"relatedcf":'products'})
+			var container='#vmuikit-js-relatedproducts-container'
+			var renderedHTML=$(container).html() + rendered
+			$(container).html(renderedHTML)
+			$(this).val("");
+			Virtuemart.nextCustom++;
+			$(this).autocomplete( 'option' , 'source' , Virtuemart.vmUikitLink+'&type=relatedproducts&row='+Virtuemart.nextCustom )
+			// clear the input
+			event.preventDefault();
+		},
+		minLength:1,
+		delay: 400,
+		html: true
+	});
+	relatedproductsSearch.data( "ui-autocomplete" )._resizeMenu = function(  ) {
+		var width = $('.search-relatedproducts-boundary').outerWidth();
+		this.menu.element.outerWidth( width );
+	};
+	relatedproductsSearch	.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+		// sublayouts/mustache/search_relatedcf.php
+		var template = $('#search-relatedcf-template').html()
+		var rendered = Mustache.render(template, {"relatedData": item ,"relatedcf":'products'})
+		ul.addClass('uk-child-width-1-2@s uk-child-width-1-4@m uk-child-width-1-6@l'); //Ul custom class here
+		return $( "<li>" )
+		.append( rendered )
+		.appendTo( ul );
+	};
+	
+	
+	
+	var relatedcategoriesSearch=	$('input#relatedcategoriesSearch').autocomplete({
+		source: Virtuemart.vmUikitLink+'&type=relatedcategories&row='+Virtuemart.nextCustom,
+		select: function(event, ui){
+			relatedcf='categories'
+			var template = $('#display-selected-cf-template').html()
+			var rendered = Mustache.render(template, {"relatedDatas": ui.item ,"relatedcf":'categories'})
+			var container='#vmuikit-js-relatedcategories-container'
+			console.log('container',container)
+			var renderedHTML=$(container).html() + rendered
+			$(container).html(renderedHTML)
+			$(this).val("");
+			Virtuemart.nextCustom++;
+			$(this).autocomplete( 'option' , 'source' , Virtuemart.vmUikitLink+'&type=relatedcategories&row='+Virtuemart.nextCustom )
+			// clear the input
+			event.preventDefault();
+		},
+		minLength:1,
+		delay: 400,
+		html: true
+	});
+	relatedcategoriesSearch.data( "ui-autocomplete" )._resizeMenu = function(  ) {
+		var width = $('.search-relatedcategories-boundary').outerWidth();
+		this.menu.element.outerWidth( width );
+	};
+	relatedcategoriesSearch	.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+		// sublayouts/mustache/search_relatedcf.php
+		var template = $('#search-relatedcf-template').html()
+		var rendered = Mustache.render(template, {"relatedData": item ,"relatedcf":'categories'})
+		ul.addClass('uk-child-width-1-2@s uk-child-width-1-4@m uk-child-width-1-6@l'); //Ul custom class here
+		return $( "<li>" )
+		.append( rendered )
+		.appendTo( ul );
+	};
+ 
 	
 	
 	eventNames = 'click.remove keydown.remove change.remove focus.remove'; // all events you wish to bind to

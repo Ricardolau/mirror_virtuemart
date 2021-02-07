@@ -67,7 +67,7 @@ class VirtueMartControllerAjax extends JControllerLegacy {
 						$field = 'l.' . $langField;
 					}
 
-					$query .= ' CONCAT(' . $field . ', "::", c.virtuemart_category_id) AS value';
+					$query .= ' CONCAT(' . $field . ', "[", c.virtuemart_category_id,"]") AS value';
 					$query .= ' FROM `#__virtuemart_categories` AS c ';
 
 					$joinedTables = VmModel::joinLangTables('#__virtuemart_categories', 'c', 'virtuemart_category_id');
@@ -98,7 +98,7 @@ class VirtueMartControllerAjax extends JControllerLegacy {
 						$field = 'l.'.$langField;
 					}
 
-					$query .= ' CONCAT('.$field.', "::", p.product_sku) AS value';
+					$query .= ' CONCAT('.$field.', " [", p.product_sku, "]") AS value';
 					$query .= ' FROM `#__virtuemart_products` AS p ';
 
 					$joinedTables = VmModel::joinLangTables('#__virtuemart_products','p','virtuemart_product_id');
@@ -240,7 +240,9 @@ class VirtueMartControllerAjax extends JControllerLegacy {
 		$row = vRequest::getInt('row', false);
 		$model = VmModel::getModel('Customfields');
 		$db = JFactory::getDBO();
-		$db->setQuery($query . ' limit 0,50');
+		$start = vRequest::getInt('start', 0);
+		$max = vRequest::getInt('max', 25);
+		$db->setQuery($query . ' limit '.$start.','.$max);
 		$json = $db->loadObjectList();
 		if (!($json)) {
 			echo('setRelatedHtml ' . $query);
@@ -265,6 +267,7 @@ class VirtueMartControllerAjax extends JControllerLegacy {
 			$json[$k]->hiddenHTML = $model->setEditCustomHidden($custom, $row);
 
 		}
+
 		return $json;
 	}
 
@@ -282,6 +285,7 @@ class VirtueMartControllerAjax extends JControllerLegacy {
 		foreach ($list['images'] as $key => $vmImage) {
 			$image = new stdClass();
 			$image->virtuemart_media_id = $vmImage->virtuemart_media_id;
+
 			$image->file_title = $vmImage->file_title;
 			$image->file_meta = $vmImage->file_meta;
 			$image->file_description = $vmImage->file_description;

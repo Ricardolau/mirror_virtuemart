@@ -20,40 +20,18 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 <div id="search-relatedcf-template">
-	<div class="vmuikit-relatedcf">
-
-		<div class="uk-card-small uk-card-body">
-
-			<div class="vmuikit-js-thumb-image vmuikit-thumb_image">
-				<div class="uk-dropdown-grid uk-grid-small uk-grid-match uk-child-width-1-2@s uk-child-width-1-4@m uk-child-width-1-6@l"
-						uk-grid>
-					{{#relatedDatas}}
-					<div class="">
-						<div class="vmuikit-js-cf-card uk-card uk-card-small uk-card-vm uk-padding-small">
-							<div class="uk-card-header uk-text-center">
-								<a class="vmuikit-js-relatedcf-select uk-button uk-button-small uk-button-primary"
-										data-relatedcf="{{relatedcf}}"
-										href="#"
-										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_RELATEDCF_SELECT') ?>"
-								>
-									<?php echo vmText::_('COM_VIRTUEMART_RELATEDCF_SELECT') ?>
-								</a>
-
-							</div>
-							<div class="vmuikit-js-cf-card-body uk-card-body vmuikit-js-cf-selected">
-								{{{hiddenHTML}}}
-								{{{displayHTML}}}
-							</div>
-
-						</div>
-
-					</div>
-					{{/relatedDatas}}
+	{{#relatedData}}
+	<div class="">
+		<div class="vmuikit-js-cf-card uk-card uk-card-small uk-card-vm uk-padding-small">
+			<div uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_RELATEDCF_SELECT') ?>">
+				<div class="vmuikit-js-cf-card-body uk-card-body">
+					{{{hiddenHTML}}}
+					{{{displayHTML}}}
 				</div>
-
 			</div>
 		</div>
 	</div>
+	{{/relatedData}}
 </div>
 
 

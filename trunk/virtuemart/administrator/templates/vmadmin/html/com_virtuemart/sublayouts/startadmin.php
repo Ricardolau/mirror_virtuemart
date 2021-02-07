@@ -56,8 +56,7 @@ vmJsApi::addJScript('vmuikit-remindTab', "
 			$('#content-box [title]').vm2admin('tips',tip_image);
 			$('.vmuikit-js-reset-value').click( function(e){
 				e.preventDefault();
-				none = '';
-				$(this).parent().find('.vmuikit-js-reset-input-value').val(none);
+				$(this).parent().find('.vmuikit-js-reset-input-value').val('');
 			});
 		});	");
 

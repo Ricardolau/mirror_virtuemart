@@ -504,8 +504,8 @@ input[type="text"].uk-form-width-1-1{
     z-index: 1000;
     float: left;
     min-width: 160px;
-    padding: 5px 0;
-    margin: 2px 0 0;
+    padding: 5px;
+    margin: 2px  0;
     list-style: none;
     font-size: 14px;
     text-align: left;
@@ -517,13 +517,15 @@ input[type="text"].uk-form-width-1-1{
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
     background-clip: padding-box;
 }
-
+.ui-autocomplete li{
+    padding : 5px
+}
 .ui-autocomplete > li > div {
     display: block;
     padding: 3px 20px;
     clear: both;
     font-weight: normal;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: revert;
     font-size: 13px;
     line-height: 18px;
     color: #333;

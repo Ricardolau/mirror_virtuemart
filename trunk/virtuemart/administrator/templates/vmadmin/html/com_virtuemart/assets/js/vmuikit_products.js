@@ -56,7 +56,7 @@ Virtuemart.customfields = jQuery(function($) {
 
 	$('select#customlist').chosen().change(function(e) {
 		selected = $(this).find( 'option:selected').val() ;
-		$.getJSON(Virtuemart.vmUikitLink+'&type=fields&id='+selected+'&row='+Virtuemart.nextCustom,
+		$.getJSON(Virtuemart.vmUikitRelatedLink+'&type=fields&id='+selected+'&row='+Virtuemart.nextCustom,
 				function (data) {
 					// TODO Script URL dyn
 					 console.log("getJSON customlist", data, Virtuemart.nextCustom);
@@ -78,7 +78,7 @@ Virtuemart.customfields = jQuery(function($) {
 	// vmuikit-js-relatedproducts-container
 	// vmuikit-js-relatedcf
 var relatedproductsSearch=	$('input#relatedproductsSearch').autocomplete({
-		source: Virtuemart.vmUikitLink+'&type=relatedproducts&row='+Virtuemart.nextCustom,
+		source: Virtuemart.vmUikitRelatedLink+'&type=relatedproducts&row='+Virtuemart.nextCustom,
 		select: function(event, ui){
 			relatedcf='products'
 			var template = $('#display-selected-cf-template').html()
@@ -88,7 +88,7 @@ var relatedproductsSearch=	$('input#relatedproductsSearch').autocomplete({
 			$(container).html(renderedHTML)
 			$(this).val("");
 			Virtuemart.nextCustom++;
-			$(this).autocomplete( 'option' , 'source' , Virtuemart.vmUikitLink+'&type=relatedproducts&row='+Virtuemart.nextCustom )
+			$(this).autocomplete( 'option' , 'source' , Virtuemart.vmUikitRelatedLink+'&type=relatedproducts&row='+Virtuemart.nextCustom )
 			// clear the input
 			event.preventDefault();
 		},
@@ -113,7 +113,7 @@ var relatedproductsSearch=	$('input#relatedproductsSearch').autocomplete({
 	
 	
 	var relatedcategoriesSearch=	$('input#relatedcategoriesSearch').autocomplete({
-		source: Virtuemart.vmUikitLink+'&type=relatedcategories&row='+Virtuemart.nextCustom,
+		source: Virtuemart.vmUikitRelatedLink+'&type=relatedcategories&row='+Virtuemart.nextCustom,
 		select: function(event, ui){
 			relatedcf='categories'
 			var template = $('#display-selected-cf-template').html()
@@ -124,7 +124,7 @@ var relatedproductsSearch=	$('input#relatedproductsSearch').autocomplete({
 			$(container).html(renderedHTML)
 			$(this).val("");
 			Virtuemart.nextCustom++;
-			$(this).autocomplete( 'option' , 'source' , Virtuemart.vmUikitLink+'&type=relatedcategories&row='+Virtuemart.nextCustom )
+			$(this).autocomplete( 'option' , 'source' , Virtuemart.vmUikitRelatedLink+'&type=relatedcategories&row='+Virtuemart.nextCustom )
 			// clear the input
 			event.preventDefault();
 		},

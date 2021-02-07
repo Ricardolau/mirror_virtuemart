@@ -44,7 +44,7 @@ $images = $medias;
 ?>
 <!-- BOF TEMPLATE displayimage_mustache -->
 <div>
-	<div id="vmuikit-js-thumb-images-template">
+	<div id="vmuikit-js-thumb-medias-template">
 		<?php echo adminSublayouts::renderAdminVmSubLayout('mustache/displayimage'); ?>
 	</div>
 </div>
@@ -52,7 +52,7 @@ $images = $medias;
 <!-- EOF TEMPLATE displayimage_mustache -->
 <?php
 $js = "
-	var template = jQuery('#vmuikit-js-thumb-images-template').html()
+	var template = jQuery('#vmuikit-js-thumb-medias-template').html()
 	var rendered = Mustache.render(template,
 			{
 				'images': " . json_encode($images) . " ,

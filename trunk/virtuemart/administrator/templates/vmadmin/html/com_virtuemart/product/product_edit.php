@@ -83,17 +83,17 @@ $l = 'index.php?option=com_virtuemart&view=product&task=getData&format=json&virt
 $link = 'index.php?option=com_virtuemart&view=ajax&task=getProductData&format=json&virtuemart_product_id='.$this->product->virtuemart_product_id;
 if(!VmConfig::isSiteByApp()){
 	$jsonLink = JURI::root(false).'administrator/'.$l;
-	$vmUikitLink = JURI::root(false).'administrator/'.$link;
+	$vmUikitRelatedLink = JURI::root(false).'administrator/'.$link;
 } else {
 	$jsonLink = JRoute::_($l);
-	$vmUikitLink = JRoute::_($link);
+	$vmUikitRelatedLink = JRoute::_($link);
 }
 
 $j = 'if (typeof Virtuemart === "undefined")
 	var Virtuemart = {};
 	Virtuemart.nextCustom ="'.count($this->product->customfields).'";
 	
-	Virtuemart.vmUikitLink ="'.$vmUikitLink.'";
+	Virtuemart.vmUikitRelatedLink ="'.$vmUikitRelatedLink.'";
 	Virtuemart.virtuemart_product_id ="'.$this->product->virtuemart_product_id.'";
 	Virtuemart.urlDomain = "'.JURI::root ().'";
 	Virtuemart.msgsent = "'.addslashes (vmText::_ ('COM_VIRTUEMART_PRODUCT_NOTIFY_MESSAGE_SENT')).'";

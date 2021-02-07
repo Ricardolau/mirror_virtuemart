@@ -19,9 +19,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 ?>
-{{#images}}
+{{#medias}}
 <div class="vmuikit-js-thumb-image vmuikit-thumb_image">
-	<div class="uk-card uk-card-small uk-card-vm " id="card-media-image-{{virtuemart_media_id}}">
+	<div class="uk-card uk-card-small uk-card-vm ">
 		<div class="uk-card-header">
 			<div class="uk-grid uk-grid-small uk-grid-divider uk-flex uk-flex-right" uk-grid>
 				<div class="uk-width-auto uk-text-right">
@@ -78,7 +78,7 @@ defined('_JEXEC') or die('Restricted access');
 
 	</div>
 </div>
-{{/images}}
+{{/medias}}
 
 
 

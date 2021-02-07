@@ -20,7 +20,7 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 <div id="search-media-template">
-	{{#image}}
+	{{#media}}
 	<div class="">
 		<div class="vmuikit-js-media-card uk-card uk-card-small uk-card-vm ">
 			<div class="" uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_IMAGE_SELECT') ?> {{ file_title }}">
@@ -40,7 +40,7 @@ defined('_JEXEC') or die('Restricted access');
 			</div>
 		</div>
 	</div>
-	{{/image}}
+	{{/media}}
 </div>
 
 

@@ -16,44 +16,55 @@ jQuery(document).ready(function ($) {
 		if (media.start > 0) media.start = 0
 	})
 	
-	var media = $('#vmuikit-js-search-media').data();
-	var searchMedia = $('input#vmuikit-js-search-media');
+	var media = $('#vmuikit-js-search-media').data()
+	var searchMedia = $('input#vmuikit-js-search-media')
 	searchMedia.click(function () {
-		if (media.start>0) media.start=0;
-	});
-	var searchMediaAuto=searchMedia.autocomplete({
-		source: Virtuemart.medialink,
-		select: function(event, ui){
-			var item=ui.item
-			image.file_url_thumb_img='<img src="'+item.file_url_thumb+'" alt="'+item.file_title+'" />'
+		if (media.start > 0) media.start = 0
+	})
+	var searchMediaAuto = searchMedia.autocomplete({
+		source:Virtuemart.medialink,
+		select:function (event, ui) {
+			var item = ui.item
+			//	image.file_url_thumb_img='<img src="'+item.file_url_thumb+'" alt="'+item.file_title+'" />'
 			var template = $('#display-selected-media-template').html()
-			var rendered = Mustache.render(template, {"images": item ,})
-			var container=$('#vmuikit-js-images-container')
-			var renderedHTML=$(container).html() + rendered
+			var rendered = Mustache.render(template, {'medias':ui.item})
+			var container = $('#vmuikit-js-medias-container')
+			var renderedHTML = $(container).html() + rendered
 			$(container).html(renderedHTML)
-			$(this).val("");
-			event.preventDefault();
+			$(this).val('')
+			event.preventDefault()
 		},
 		minLength:1,
-		delay: 400,
-		html: true
+		delay:400,
+		html:true
+	})
+	
+	searchMediaAuto.data('ui-autocomplete')._resizeMenu = function () {
+		var width = $('.search-media-boundary').outerWidth()
+		this.menu.element.outerWidth(width)
+	}
+ 
+	searchMediaAuto.data('ui-autocomplete')._renderItem = function (ul, item) {
+		// sublayouts/mustache/search_media.php
+		var template = $('#search-media-template').html()
+		var rendered = Mustache.render(template, {'media':item})
+	  ul.addClass('uk-child-width-1-2@s uk-child-width-1-4@m uk-child-width-1-6@l') //Ul custom class here
+		return $('<li>')
+		.append('<a>' + rendered + '</a>')
+		.appendTo(ul)
+	}
+	
+	$('.vmuikit-js-pages').click(function (e) {
+		e.preventDefault();
+		if (searchMedia.val() =='') {
+			searchMedia.val(' ');
+			media.start = 0;
+		} else if ($(this).hasClass('vmuikit-js-next')) media.start = media.start+16 ;
+		else if (media.start > 0) media.start = media.start-16 ;
+		searchMedia.autocomplete( 'option' , 'source' , Virtuemart.medialink+'&start='+media.start );
+		searchMedia.autocomplete( 'search');
 	});
-
-	searchMediaAuto.data( "ui-autocomplete" )._resizeMenu = function(  ) {
-		var width = $('.search-media-boundary').outerWidth();
-		this.menu.element.outerWidth( width );
-	};
-/*
-searchMediaAuto	.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-	// sublayouts/mustache/search_medias.php
-	var template = $('#search-media-template').html()
-	var rendered = Mustache.render(template, {"image": item })
-	ul.addClass('uk-child-width-1-2@s uk-child-width-1-4@m uk-child-width-1-6@l'); //Ul custom class here
-	return $( "<li>" )
-	.append( rendered )
-	.appendTo( ul );
-};
-*/
+	
 	
 	function imgPreviewCard (readerResult, filename) {
 		$('#vmuikit-image-preview').removeClass('uk-hidden')
@@ -67,7 +78,6 @@ searchMediaAuto	.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
 		$('#image-preview-card-image').html(img)
 		return
 	}
-	
 	
 	$('[name="upload"]').on('change', function (e) {
 		e.preventDefault()
@@ -96,8 +106,8 @@ searchMediaAuto	.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
 		var media_action = $('#vmuikit-js-upload').find('[name=\'media[media_action]\']:checked')
 		if (typeof $(media_action[0]).val() != 'undefined' && $(media_action[0]).val() == 0) {
 			var mediaActionDefaultChecked = $('#vmuikit-js-upload').find('[id=\'media[media_action]upload\']')
-			if(mediaActionDefaultChecked.length == 0) {
-				mediaActionDefaultChecked =$('#vmuikit-js-upload').find('[id=\'media[media_action]replace\']')
+			if (mediaActionDefaultChecked.length == 0) {
+				mediaActionDefaultChecked = $('#vmuikit-js-upload').find('[id=\'media[media_action]replace\']')
 			}
 			mediaActionDefaultChecked.attr('checked', true)
 		}
@@ -111,16 +121,14 @@ searchMediaAuto	.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
 			$('#image-preview-card-image').text('')
 		}
 	})
- 
 	
-	$('#vmuikit-js-images-container').sortable({
+	$('#vmuikit-js-medias-container').sortable({
 		update:function (event, ui) {
 			$(this).find('.ordering').each(function (index, element) {
 				$(element).val(index)
 			})
 		}
 	})
-	
 	
 	$('.vmuikit-js-edit-image').click(function (e) {
 		//var virtuemart_media_id = $(this).parent().find("input").val();
@@ -161,7 +169,6 @@ searchMediaAuto	.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
 				})
 	})
 	
-	
 });
 
 (function ($) {
@@ -185,20 +192,16 @@ searchMediaAuto	.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
 				}
 				return '<div class="media-pagination">' + (title && title.length ? '<b>' + title + '</b>' : '') + ' ' + pagination + '</div>'
 			}
- 
-
-
+			
 			$('#media-dialog').delegate('.vmuikit-js-thumb-image', 'click', function (event) {
 				event.preventDefault()
 				var id = $(this).find('input').val(), ok = 0
 				var inputArray = new Array()
-				$('#vmuikit-js-images-container input:hidden').each(
+				$('#vmuikit-js-medias-container input:hidden').each(
 						function () {
 							inputArray.push($(this).val())
 						}
 				)
- 
-				
 			})
 			
 			$('#vmuikit-admin-ui-tabs').delegate('.vmuikit-js-remove', 'click', function () {
@@ -206,8 +209,7 @@ searchMediaAuto	.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
 					$(this).remove()
 				})
 			})
- 
-		 
+			
 		}
 	}
 	$.fn.vmuikitmedia = function (method) {

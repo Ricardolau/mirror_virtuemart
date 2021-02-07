@@ -83,7 +83,7 @@ if ($canSearch) {
 									</div>
 								</div>
 								<div class="uk-navbar-item">
-									<!--
+
 									<div class="uk-button-group ">
 										<a href="#"
 												class="vmuikit-js-pages vmuikit-js-previous ui-state-default uk-button uk-button-small uk-button-default"
@@ -96,7 +96,7 @@ if ($canSearch) {
 											<span uk-icon="icon: triangle-right"></span>
 										</a>
 									</div>
--->
+
 
 								</div><!-- uk-navbar-left -->
 							</div>
@@ -108,8 +108,8 @@ if ($canSearch) {
 
 
 					<!-- BOF DISPLAY MEDIAS -->
-					<div id="vmuikit-js-images-container"
-							class="vmuikit-js-images-container uk-margin-medium-top uk-grid uk-grid-small uk-child-width-1-2@s uk-child-width-1-4@m uk-child-width-1-5@l  uk-child-width-1-6@xl uk-grid-match"
+					<div id="vmuikit-js-medias-container"
+							class="vmuikit-js-medias-container uk-margin-medium-top uk-grid uk-grid-small uk-child-width-1-2@s uk-child-width-1-4@m uk-child-width-1-5@l  uk-child-width-1-6@xl uk-grid-match"
 							uk-grid>
 
 
@@ -345,14 +345,19 @@ $adminTemplatePath = '/administrator/templates/vmadmin/html/com_virtuemart/';
 
 $urlTemplateHtml = JURI::root(TRUE) .'/administrator/templates/vmadmin/html';
 //Virtuemart.medialink = "' . vmURI::createUrlWithPrefix('index.php?option=com_virtuemart&view=media&format=json&mediatype=' . $type) . '";';
+$link = 'index.php?option=com_virtuemart&view=ajax&task=getMedias&format=json&mediatype=' . $type ;
+if(!VmConfig::isSiteByApp()){
+	$link = JURI::root(false).'administrator/'.$link;
+} else {
+	$link = JRoute::_($link);
+}
 
 $j = 'if (typeof Virtuemart === "undefined")
 	var Virtuemart = {};
-	Virtuemart.medialink = "' . vmURI::createUrlWithPrefix('index.php?option=com_virtuemart&view=ajax&task=getMedias&format=json&mediatype=' . $type) . '";';
+	Virtuemart.medialink = "' . $link . '";';
 
-$j .='Virtuemart.mediaScript = "' . JURI::root(TRUE) .'/administrator/templates/vmadmin/html/com_virtuemart/assets/js/vmuikit_mediahandler.js' .'";';
 
-$j .= "jQuery(document).ready(function(){ jQuery('#vmuikit-js-images-container').vmuikitmedia('media','" . $type . "','0') }); ";
+$j .= "jQuery(document).ready(function(){ jQuery('#vmuikit-js-medias-container').vmuikitmedia('media','" . $type . "','0') }); ";
 vmJsApi::addJScript('mediahandler.vars', $j);
 //vmJsApi::addJScript('mediahandler');
 $adminTemplatePath = '/administrator/templates/vmadmin/html/com_virtuemart/';
@@ -374,13 +379,13 @@ foreach ($medias as $key => &$image) {
 $images = $medias;
 
 $js = "
-	var template = jQuery('#vmuikit-js-thumb-images-template').html()
+	var template = jQuery('#vmuikit-js-thumb-medias-template').html()
 	var rendered = Mustache.render(template,
 			{
-				'images': " . json_encode($images) . " ,
+				'medias': " . json_encode($images) . " ,
 			}
 	)
-	jQuery('#vmuikit-js-images-container').html(rendered)
+	jQuery('#vmuikit-js-medias-container').html(rendered)
 
 ";
 

@@ -31,7 +31,7 @@ defined ( '_JEXEC' ) or die ();
 
 <!-- BOF TEMPLATE TO DISPLAY IMAGES -->
 <div style=" display: none; ">
-	<div id="vmuikit-js-thumb-images-template">
+	<div id="vmuikit-js-thumb-medias-template">
 		<?php
 		echo adminSublayouts::renderAdminVmSubLayout('mustache/displayimage', array());
 		?>

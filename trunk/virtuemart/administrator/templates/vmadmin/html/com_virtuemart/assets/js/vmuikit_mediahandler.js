@@ -15,54 +15,45 @@ jQuery(document).ready(function ($) {
 	searchMedia.click(function () {
 		if (media.start > 0) media.start = 0
 	})
+	
+	var media = $('#vmuikit-js-search-media').data();
+	var searchMedia = $('input#vmuikit-js-search-media');
+	searchMedia.click(function () {
+		if (media.start>0) media.start=0;
+	});
+	var searchMediaAuto=searchMedia.autocomplete({
+		source: Virtuemart.medialink,
+		select: function(event, ui){
+			var item=ui.item
+			image.file_url_thumb_img='<img src="'+item.file_url_thumb+'" alt="'+item.file_title+'" />'
+			var template = $('#display-selected-media-template').html()
+			var rendered = Mustache.render(template, {"images": item ,})
+			var container=$('#vmuikit-js-images-container')
+			var renderedHTML=$(container).html() + rendered
+			$(container).html(renderedHTML)
+			$(this).val("");
+			event.preventDefault();
+		},
+		minLength:1,
+		delay: 400,
+		html: true
+	});
 
-	$('.vmuikit-js-pages').click(function (e) {
-		e.preventDefault()
-		if (searchMedia.val() == '') {
-			searchMedia.val(' ')
-			media.start = 0
-		} else if ($(this).hasClass('vmuikit-js-next')) media.start = media.start + 16
-		else if (media.start > 0) media.start = media.start - 16
- 
-		$.getJSON(Virtuemart.medialink + '&start=' + media.start,
-				function (data) {
-			// TODO Script URL dyn
-					$.getScript(Virtuemart.mediaScript).done(function(script, textStatus) {})
-					.fail(function(jqxhr, settings, exception) {
-						console.log("could not get '+Virtuemart.mediaScript+' script.");
-					});
-					var template = $('#search-media-template').html()
-					var rendered = Mustache.render(template, {"images": data ,})
-					console.log("getJSON dropdown show", rendered);
-					$('#search-media-output').html(rendered)
-					UIkit.dropdown('#search-media-result').show();
-					
-				}
-		)
-	})
-	$('.vmuikit-js-select-media').click(function (e) {
-		console.log('vmuikit-js-select-media click')
-		var obj=$(this)
-		var image= {}
-		var images= []
-		image.virtuemart_media_id = parseInt(obj.attr('data-virtuemart-media-id'))
-		image.file_url_thumb = obj.attr('data-file-url-thumb')
-		image.file_title = obj.attr('data-file-title')
-		image.file_description = obj.attr('data-file-description')
-		image.file_meta = obj.attr('data-file-meta')
-		image.file_url = obj.attr('data-file-url')
-		image.ordering = obj.attr('data-ordering')
- 
-		image.file_url_thumb_img='<img src="'+image.file_url_thumb+'" alt="'+image.file_title+'" />'
-		
-		images.push(image)
-		var template = $('#display-selected-media-template').html()
-		var rendered = Mustache.render(template, {"images": images ,})
-		var container=$('#vmuikit-js-images-container')
-		var renderedHTML=$(container).html() + rendered
-		$(container).html(renderedHTML)
-		UIkit.dropdown('#search-media-result').hide();
-	})
+	searchMediaAuto.data( "ui-autocomplete" )._resizeMenu = function(  ) {
+		var width = $('.search-media-boundary').outerWidth();
+		this.menu.element.outerWidth( width );
+	};
+/*
+searchMediaAuto	.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+	// sublayouts/mustache/search_medias.php
+	var template = $('#search-media-template').html()
+	var rendered = Mustache.render(template, {"image": item })
+	ul.addClass('uk-child-width-1-2@s uk-child-width-1-4@m uk-child-width-1-6@l'); //Ul custom class here
+	return $( "<li>" )
+	.append( rendered )
+	.appendTo( ul );
+};
+*/
 	
 	function imgPreviewCard (readerResult, filename) {
 		$('#vmuikit-image-preview').removeClass('uk-hidden')

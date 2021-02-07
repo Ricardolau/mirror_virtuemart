@@ -286,6 +286,8 @@ class VirtueMartControllerAjax extends JControllerLegacy {
 			$image = new stdClass();
 			$image->virtuemart_media_id = $vmImage->virtuemart_media_id;
 
+			$image->value = $vmImage->file_title;
+			$image->label = $vmImage->file_title;
 			$image->file_title = $vmImage->file_title;
 			$image->file_meta = $vmImage->file_meta;
 			$image->file_description = $vmImage->file_description;

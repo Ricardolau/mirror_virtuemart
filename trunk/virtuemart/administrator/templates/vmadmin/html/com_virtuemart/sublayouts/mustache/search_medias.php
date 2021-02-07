@@ -20,50 +20,29 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 <div id="search-media-template">
-	<div class="uk-card-vmx">
-
-		<div class="uk-card-small uk-card-body">
-
-			<div class="vmuikit-js-thumb-image vmuikit-thumb_image">
-				<div class="uk-dropdown-grid uk-grid-small uk-grid-match uk-child-width-auto" uk-grid>
-					{{#images}}
-					<div class="">
-						<div class="uk-card uk-card-small uk-card-vm "
-								id="card-media-image-{{ virtuemart_media_id }}">
-							<a class="vmuikit-js-select-media" href="#"
-									uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_IMAGE_SELECT') ?> {{ file_title }}"
-									data-virtuemart-media-id="{{ virtuemart_media_id }}"
-									data-file-url-thumb="{{ file_url_thumb}}"
-									data-file-title="{{ file_title}}"
-									data-file-description="{{ file_description }}"
-									data-file-meta="{{ file_meta}}"
-									data-file-url="{{ file_url}}"
-									data-ordering="{{ ordering }}"
-							>
-								<div class="uk-card-media">
-									<div class="uk-inline-clip  uk-flex uk-flex-center uk-flex-middle">
-										{{#file_url_thumb_img }}
-										{{{file_url_thumb_img }}}
-										{{/file_url_thumb_img }}
-									</div>
-
-								</div>
-								<div class="uk-card-footer">
-									<h6 class="uk-margin-small-bottom uk-margin-remove-adjacent uk-text-bold">{{ file_title }}</h6>
-									<p class="uk-text-small">{{ file_description }}</p>
-									<p class="uk-text-small uk-text-muted">{{ file_meta }}</p>
-								</div>
-							</a>
-						</div>
+	{{#image}}
+	<div class="">
+		<div class="vmuikit-js-media-card uk-card uk-card-small uk-card-vm ">
+			<div class="" uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_IMAGE_SELECT') ?> {{ file_title }}">
+				<div class="uk-card-media">
+					<div class="uk-inline-clip  uk-flex uk-flex-center uk-flex-middle">
+						{{#file_url_thumb_img }}
+						{{{file_url_thumb_img }}}
+						{{/file_url_thumb_img }}
 					</div>
-					{{/images}}
-					{{^images}}<h4 class="uk-h4"><?php echo vmText::_('COM_VIRTUEMART_NO_MEDIA_FILES') ?></h4>{{/images}}
-				</div>
 
+				</div>
+				<div class="uk-card-footer">
+					<h6 class="uk-margin-small-bottom uk-margin-remove-adjacent uk-text-bold">{{ file_title }}</h6>
+					<p class="uk-text-small">{{ file_description }}</p>
+					<p class="uk-text-small uk-text-muted">{{ file_meta }}</p>
+				</div>
 			</div>
 		</div>
 	</div>
+	{{/image}}
 </div>
+
 
 
 

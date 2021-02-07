@@ -68,21 +68,22 @@ if ($canSearch) {
 								<div class="uk-navbar-item">
 									<div class="uk-button-group vmuikit-filter-search ">
 										<input type="text" name="searchMedia" id="vmuikit-js-search-media"
-												data-start="0"
 												placeholder="<?php echo vmText::_('COM_VIRTUEMART_SEARCH_MEDIA'); ?>"
 												value="<?php echo vRequest::getString('searchMedia') ?>"
-												class="vmuikit-filter-search-input vmuikit-js-search-media vmuikit-js-reset-input-value"/>
-
+												class="vmuikit-filter-search-input vmuikit-js-reset-input-value ui-autocomplete-input"/>
+<!--
 										<a class="vmuikit-js-pages vmuikit-js-next  uk-button uk-button-small uk-button-default"
 												type="button">
 											<span uk-icon="search"></span>
 										</a>
+										-->
 										<button class="vmuikit-js-reset-value uk-button uk-button-small uk-button-default">
 											<span uk-icon="close"></span></button>
 
 									</div>
 								</div>
 								<div class="uk-navbar-item">
+									<!--
 									<div class="uk-button-group ">
 										<a href="#"
 												class="vmuikit-js-pages vmuikit-js-previous ui-state-default uk-button uk-button-small uk-button-default"
@@ -95,19 +96,13 @@ if ($canSearch) {
 											<span uk-icon="icon: triangle-right"></span>
 										</a>
 									</div>
-
+-->
 
 								</div><!-- uk-navbar-left -->
 							</div>
 
 
 						</div>
-					</div>
-					<div class="search-media-result uk-dropdown" id="search-media-result"
-							uk-dropdown="pos: bottom-justify; boundary: .search-media-boundary; boundary-align: true;mode:click;animation: uk-animation-slide-top-small; duration: 1000">
-
-						<!-- insert search medias result here : done in the JS-->
-						<div id="search-media-output"></div>
 					</div>
 					<!-- EOF SEARCH MEDIA -->
 

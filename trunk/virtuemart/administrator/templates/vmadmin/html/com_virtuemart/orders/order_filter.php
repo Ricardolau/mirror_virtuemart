@@ -89,19 +89,19 @@ $iconRatio=1.2;
 
 
 		$extras[]='
-	<div class="uk-margin-xlarge-left">
-			<button class="uk-button uk-button-small uk-button-primary">
-				<span class="uk-margin-small-right"
-						uk-icon="icon: check"></span>'. vmText::_('COM_VIRTUEMART_ORDER_SAVE_USER_INFO').'
-	</button>
-	<a href="#" onClick="javascript:Virtuemart.resetOrderHead(event);"
-			class="uk-button uk-button-small uk-button-default md-bg-white"
-	>
-				<span class="uk-margin-small-right"
-						uk-icon="icon: close"></span>
-		'. vmText::_('COM_VIRTUEMART_ORDER_RESET').'
-	</a>
-</div>';
+				<div class="uk-margin-xlarge-left">
+						<a  href="#"  class="updateOrder uk-button uk-button-small uk-button-primary">
+							<span class="uk-margin-small-right"
+									uk-icon="icon: check"></span>'. vmText::_('COM_VIRTUEMART_ORDER_SAVE_USER_INFO').'
+				</a>
+				<a href="#" onClick="javascript:Virtuemart.resetOrderHead(event);"
+						class="uk-button uk-button-small uk-button-default md-bg-white"
+				>
+							<span class="uk-margin-small-right"
+									uk-icon="icon: close"></span>
+					'. vmText::_('COM_VIRTUEMART_ORDER_RESET').'
+				</a>
+			</div>';
 
 
 

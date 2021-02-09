@@ -180,7 +180,9 @@ $styleDateCol = '';
 										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_SHIPMENT_LBL') ?>"
 										uk-icon="icon: shipment"></span>
 								<div class="uk-label uk-label-vm"
-										style="<?php echo $shipmentcolorStyle ?>"><?php echo $order->shipment_method; ?></div>
+										style="<?php echo $shipmentcolorStyle ?>">
+									<?php echo $order->shipment_method; ?>
+								</div>
 
 
 							</td>

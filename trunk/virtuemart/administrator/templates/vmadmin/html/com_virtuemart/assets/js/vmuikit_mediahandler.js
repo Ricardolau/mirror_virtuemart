@@ -23,6 +23,9 @@ jQuery(document).ready(function ($) {
 	})
 	var searchMediaAuto = searchMedia.autocomplete({
 		source:Virtuemart.medialink,
+		position: {
+			offset: '-8 0' // Shift 20px to the left, 4px down.
+		},
 		select:function (event, ui) {
 			var item = ui.item
 			//	image.file_url_thumb_img='<img src="'+item.file_url_thumb+'" alt="'+item.file_title+'" />'

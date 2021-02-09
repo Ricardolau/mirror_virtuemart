@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access');
 <div id="search-media-template">
 	{{#media}}
 	<div class="">
-		<div class="vmuikit-js-media-card uk-card uk-card-small uk-card-vm ">
+		<div class="vmuikit-js-media-card uk-card uk-card-small uk-card-vm uk-padding-small">
 			<div class="" uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_IMAGE_SELECT') ?> {{ file_title }}">
 				<div class="uk-card-media">
 					<div class="uk-inline-clip  uk-flex uk-flex-center uk-flex-middle">
@@ -33,9 +33,9 @@ defined('_JEXEC') or die('Restricted access');
 
 				</div>
 				<div class="uk-card-footer">
-					<h6 class="uk-margin-small-bottom uk-margin-remove-adjacent uk-text-bold">{{ file_title }}</h6>
-					<p class="uk-text-small">{{ file_description }}</p>
-					<p class="uk-text-small uk-text-muted">{{ file_meta }}</p>
+					<h6 class="uk-margin-remove uk-text-bold">{{ file_title }}</h6>
+					<p class="uk-margin-remove uk-text-small">{{ file_description }}</p>
+					<p class="uk-margin-remove uk-text-small uk-text-muted">{{ file_meta }}</p>
 				</div>
 			</div>
 		</div>

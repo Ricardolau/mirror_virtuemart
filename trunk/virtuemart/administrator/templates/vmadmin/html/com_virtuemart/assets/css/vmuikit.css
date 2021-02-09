@@ -431,11 +431,11 @@ label.invalid {
 
 .uk-card-membership{
     background-color:#171717;
-    color:#80deea;
+    color:#0097a7;
 }
 .uk-button-membership{
-    color:#80deea;
-    border: 1px solid #80deea;
+    color:#0097a7;
+    border: 1px solid #0097a7;
     background: transparent;
 }
 .uk-button-membership:focus, .uk-button-membership:hover{
@@ -567,4 +567,9 @@ input[type="text"].uk-form-width-1-1{
 .custom_related_title, .custom_related_image {
     display: block;
     clear: both;
+}
+.menu-langlist,
+.menu-langlist a,
+.menu-langlist a:hover{
+    color: #333;
 }

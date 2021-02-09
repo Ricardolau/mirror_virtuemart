@@ -30,6 +30,10 @@ $lang->load('com_virtuemart_missing', $adminTemplate, null, false, true);
 $vmView = $viewData['vmView'];
 $selectText = $viewData['selectText'];
 $menuItems = $viewData['menuItems'];
+/* TODO This is a temprory fiw to be able to test the template without having to do a vm release */
+if (!empty($vmView->langList)) {
+	$vmView->langList = str_replace('id="vmlang"', '', $vmView->langList);
+}
 
 $hideMenu = false;
 
@@ -117,7 +121,7 @@ vmJsApi::addJScript('vmuikit-remindTab', "
 								</div>
 							</div>
 							<?php
-							/*  TODO ATTENTION
+
 							if (!empty($vmView->langList)) {
 								$vmView->langList=str_replace('id="vmlang"', 'id="vmlang-offcanvas"',$vmView->langList);
 								?>
@@ -126,7 +130,7 @@ vmJsApi::addJScript('vmuikit-remindTab', "
 								</div>
 
 							<?php }
-							*/
+
 							?>
 
 							<?php echo adminSublayouts::renderAdminVmSubLayout('menu',
@@ -175,7 +179,8 @@ vmJsApi::addJScript('vmuikit-remindTab', "
 
 							</div>
 
-							<?php if (!empty($vmView->langList)) { ?>
+							<?php if (!empty($vmView->langList)) {
+								?>
 								<div class="menu-langlist uk-flex uk-flex-middle uk-flex-center uk-light uk-padding-xsmall">
 									<?php echo $vmView->langList; ?>
 								</div>

@@ -51,46 +51,25 @@ $this->unequal = (int)$this->currency->truncate($this->orderbt->toPay - $this->o
 		<input type="hidden" name="virtuemart_order_id" value="<?php echo $this->orderID; ?>"/>
 		<?php echo JHtml::_('form.token'); ?>
 		<?php echo $this->loadTemplate('filter') ?>
-<!--
-		<div class="uk-width-1-1 uk-margin-small uk-text-center">
-			<button class="uk-button uk-button-small uk-button-primary">
-				<span class="uk-margin-small-right"
-						uk-icon="icon: check"></span>
-				<?php echo vmText::_('COM_VIRTUEMART_ORDER_SAVE_USER_INFO'); ?>
-			</button>
-			<a href="#" onClick="javascript:Virtuemart.resetOrderHead(event);"
-					class="uk-button uk-button-small uk-button-default"
-			>
-				<span class="uk-margin-small-right"
-						uk-icon="icon: close"></span>
-				<?php echo vmText::_('COM_VIRTUEMART_ORDER_RESET'); ?>
-			</a>
-		</div>
--->
+	</form>
+
+	<form action="index.php" method="post" name="orderForm" id="orderForm">
 	<!-- HEADER -->
 	<div class="uk-child-width-1-5@xl uk-child-width-1-3@l uk-child-width-1-2@s uk-grid-small uk-grid-match" uk-grid>
 		<?php echo $this->loadTemplate('header') ?>
 	</div>
 	<!-- /HEADER -->
-
-
-
-		<div class="uk-child-width-1-3@l uk-child-width-1-2@m uk-grid uk-grid-small uk-grid-match" uk-grid>
+	<div class="uk-child-width-1-3@l uk-child-width-1-2@m uk-grid uk-grid-small uk-grid-match" uk-grid>
 		<?php echo $this->loadTemplate('btststatus') ?>
-		<!-- /BT, ST, Order status -->
-		<input type="hidden" name="task" value="updateOrderHead"/>
-		<input type="hidden" name="option" value="com_virtuemart"/>
-		<input type="hidden" name="view" value="orders"/>
-		<input type="hidden" name="virtuemart_order_id" value="<?php echo $this->orderID; ?>"/>
-		<input type="hidden" name="old_virtuemart_paymentmethod_id"
-				value="<?php echo $this->orderbt->virtuemart_paymentmethod_id; ?>"/>
-		<input type="hidden" name="old_virtuemart_shipmentmethod_id"
-				value="<?php echo $this->orderbt->virtuemart_shipmentmethod_id; ?>"/>
-		<?php echo JHtml::_('form.token'); ?>
-		</div>
-
+	</div>
+		<input type="hidden" name="task" value="updateOrderHead" />
+		<input type="hidden" name="option" value="com_virtuemart" />
+		<input type="hidden" name="view" value="orders" />
+		<input type="hidden" name="virtuemart_order_id" value="<?php echo $this->orderID; ?>" />
+		<input type="hidden" name="old_virtuemart_paymentmethod_id" value="<?php echo $this->orderbt->virtuemart_paymentmethod_id; ?>" />
+		<input type="hidden" name="old_virtuemart_shipmentmethod_id" value="<?php echo $this->orderbt->virtuemart_shipmentmethod_id; ?>" />
+		<?php echo JHtml::_( 'form.token' ); ?>
 	</form>
-
 	<!-- Update order status Form -->
 	<div uk-dropdown="toggle:#update-status-button; mode:click;boundary: #update-status-button; boundary-align: true">
 		<?php echo $this->loadTemplate('editstatus'); ?>
@@ -115,7 +94,6 @@ $this->unequal = (int)$this->currency->truncate($this->orderbt->toPay - $this->o
 
 vmuikitAdminUIHelper::imitateTabs('end');
 vmuikitAdminUIHelper::endAdminArea();
-
 
 
 vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/dynotable.js', false, false);

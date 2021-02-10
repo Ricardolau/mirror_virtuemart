@@ -38,6 +38,13 @@ if (!empty($vmView->langList)) {
 $hideMenu = false;
 
 $menuCookie = JFactory::getApplication()->input->cookie->getString('vmmenu', 'visible');
+// the previous template uses the value 'show' / 'hide'
+if ($menuCookie == 'show') {
+	$menuCookie = 'visible';
+}
+if ($menuCookie == 'hide') {
+	$menuCookie = 'hidden';
+}
 $vmMenuCookie = ($menuCookie == 'visible') ? 'uk-visible@m' : 'uk-hidden@m';
 $offcanvasMenuCookie = ($menuCookie == 'hidden') ? 'uk-visible@m' : 'uk-hidden@m';
 
@@ -94,14 +101,17 @@ vmJsApi::addJScript('vmuikit-remindTab', "
 			<div id="vmuikit-menu-wrapper-offcanvas" class="vmuikit-menu-wrapper">
 
 				<div class="uk-flex uk-flex-column">
-					<a href="#" class="uk-icon-button uk-margin-small-bottom vmuikit-js-menu-offcanvas-toggle uk-visible@m" uk-tooltip="<?php echo vmText::_('COM_VM_SHOW_MENU') ?>">
+					<a href="#"
+							class="uk-icon-button uk-margin-small-bottom vmuikit-js-menu-offcanvas-toggle uk-visible@m"
+							uk-tooltip="<?php echo vmText::_('COM_VM_SHOW_MENU') ?>">
 						<span class="uk-icon-button" uk-icon="arrow-right"></span>
 					</a>
 					<button class="uk-button uk-button-small uk-button-default uk-padding-remove "
 							uk-toggle="target: #vmuikit-menu-offcanvas-toggle"
 							uk-tooltip="<?php echo vmText::_('COM_VM_TOGGLE_MENU') ?>"
 					>
-						<span uk-icon="menu"></span><span class="uk-margin-small-left uk-hidden@m"><?php echo vmText::_('COM_VM_VIEW_VM_MENU') ?></span>
+						<span uk-icon="menu"></span><span
+								class="uk-margin-small-left uk-hidden@m"><?php echo vmText::_('COM_VM_VIEW_VM_MENU') ?></span>
 
 					</button>
 
@@ -115,7 +125,7 @@ vmJsApi::addJScript('vmuikit-remindTab', "
 
 							<div class="uk-flex uk-flex-middle uk-flex-left">
 								<div class="vm-menu-logo uk-padding-xsmall  uk-light   vmuikit-menu-toggle">
-									<div  class="uk-padding-small uk-padding-remove-vertical">
+									<div class="uk-padding-small uk-padding-remove-vertical">
 										<img src="<?php echo JURI::root(true) . '/administrator/components/com_virtuemart/assets/images/vm_menulogo.png' ?>">
 									</div>
 								</div>
@@ -123,7 +133,6 @@ vmJsApi::addJScript('vmuikit-remindTab', "
 							<?php
 
 							if (!empty($vmView->langList)) {
-								$vmView->langList=str_replace('id="vmlang"', 'id="vmlang-offcanvas"',$vmView->langList);
 								?>
 								<div class="menu-langlist uk-flex uk-flex-middle uk-flex-center uk-light uk-padding-xsmall">
 									<?php echo $vmView->langList; ?>
@@ -163,14 +172,16 @@ vmJsApi::addJScript('vmuikit-remindTab', "
 							<div class="uk-grid-collapse" uk-grid>
 								<div class="uk-width-expand uk-flex uk-flex-middle uk-flex-left">
 									<div class="vm-menu-logo uk-padding-xsmall  uk-light   vmuikit-menu-toggle">
-										<div class="uk-padding-xsmall" >
+										<div class="uk-padding-xsmall">
 											<img src="<?php echo JURI::root(true) . '/administrator/components/com_virtuemart/assets/images/vm_menulogo.png' ?>">
 										</div>
 									</div>
 								</div>
 								<div class="uk-width-auto">
 									<div class="uk-flex uk-flex-top uk-flex-right ">
-										<a href="#" class=" uk-icon-button  vmuikit-js-menu-offcanvas-toggle md-color-white" uk-tooltip="<?php echo vmText::_('COM_VM_HIDE_MENU') ?>"
+										<a href="#"
+												class=" uk-icon-button  vmuikit-js-menu-offcanvas-toggle md-color-white"
+												uk-tooltip="<?php echo vmText::_('COM_VM_HIDE_MENU') ?>"
 												type="button">
 											<span uk-icon="arrow-left"></span>
 										</a>

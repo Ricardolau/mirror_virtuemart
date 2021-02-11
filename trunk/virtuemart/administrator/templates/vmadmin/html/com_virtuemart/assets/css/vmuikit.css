@@ -454,7 +454,9 @@ label.invalid {
     color: unset;
 }
 
-
+.uk-label-vm a {
+    color: #255681;
+}
 /* Phone landscape and smaller */
 @media (max-width: 959px) {
     .uk-label-vm{

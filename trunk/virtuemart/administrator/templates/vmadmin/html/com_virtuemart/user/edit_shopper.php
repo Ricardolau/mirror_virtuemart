@@ -27,7 +27,11 @@ defined('_JEXEC') or die('Restricted access');
 				<div class="uk-card-title">
 						<span class="md-color-cyan-600 uk-margin-small-right"
 								uk-icon="icon: user; ratio: 1.2"></span>
-					<?php echo vmText::_('COM_VIRTUEMART_SHOPPER_FORM_LBL'); ?>
+					<?php if($this->userDetails->user_is_vendor) {
+						echo vmText::_('COM_VIRTUEMART_VENDOR_FORM_INFO_LBL');
+					} else {
+						echo vmText::_('COM_VIRTUEMART_SHOPPER_FORM_LBL');
+					} ?>
 				</div>
 			</div>
 			<div class="uk-card-body">
@@ -74,8 +78,15 @@ defined('_JEXEC') or die('Restricted access');
 			<div class="uk-card-header">
 				<div class="uk-card-title">
 						<span class="md-color-cyan-600 uk-margin-small-right"
-								uk-icon="icon: user; ratio: 1.2"></span>
-					<?php echo vmText::_('COM_VIRTUEMART_USER_FORM_LEGEND_USERDETAILS'); ?>
+								uk-icon="icon: id-card; ratio: 1.2"></span>
+					<?php
+					if ($this->userDetails->user_is_vendor) {
+						$key='COM_VIRTUEMART_USER_FORM_LEGEND_VENDORDETAILS';
+					} else {
+						$key='COM_VIRTUEMART_USER_FORM_LEGEND_USERDETAILS';
+					}
+					?>
+					<?php echo vmText::_($key); ?>
 				</div>
 			</div>
 			<div class="uk-card-body">

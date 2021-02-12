@@ -45,7 +45,12 @@ if($this->userDetails->user_is_vendor){
 if (!empty($this->shipToFields) and !$this->new) {
 	$tabarray['shipto'] = 'COM_VIRTUEMART_USER_FORM_SHIPTO_LBL';
 }
-$tabarray['shopper'] = 'COM_VIRTUEMART_SHOPPER_FORM_LBL';
+if ($this->userDetails->user_is_vendor) {
+	$key='COM_VIRTUEMART_VENDOR_FORM_INFO_LBL';
+} else {
+	$key='COM_VIRTUEMART_SHOPPER_FORM_LBL';
+}
+$tabarray['shopper'] =$key;
 if (($_ordcnt = count($this->orderlist)) > 0) {
 	$tabarray['orderlist'] = 'COM_VIRTUEMART_ORDER_LIST_LBL';
 }

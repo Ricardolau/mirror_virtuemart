@@ -20,7 +20,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 <table class="admintable" id="show_hide_prices">
 <?php
-if($this->shopgrp_price) echo '<tr><td colspan="2">'.vmText::sprintf('COM_VM_PRICEDISPLAY_CONFIGURED_BY SHOPPERGRPS',implode(',',$this->shopgrp_price)).'</td></tr>';
+if($this->shopgrp_price) echo '<tr><td colspan="2">'.vmText::sprintf('COM_VM_PRICEDISPLAY_CONFIGURED_BY_SHOPPERGRPS',implode(',',$this->shopgrp_price)).'</td></tr>';
 if($showPricesLine) echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_CFG_SHOW_PRICES', 'show_prices', $show_prices ); ?>
 
 		    <tr>
@@ -48,4 +48,3 @@ echo VirtuemartViewConfig::writePriceConfigLine($params, 'discountAmountTt', 'CO
 echo VirtuemartViewConfig::writePriceConfigLine($params, 'unitPrice', 'COM_VIRTUEMART_ADMIN_CFG_PRICE_UNITPRICE');
 ?>
 		</table>
-		

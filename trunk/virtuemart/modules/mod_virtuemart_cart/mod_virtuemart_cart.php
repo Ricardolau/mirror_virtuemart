@@ -3,11 +3,18 @@ defined('_JEXEC') or  die( 'Direct Access to '.basename(__FILE__).' is not allow
 /*
 *Cart Ajax Module
 *
-* @version $Id$
-* @package VirtueMart
-* @subpackage modules
-*
-* @link ${PHING.VM.MAINTAINERURL}
+ * @version $Id$
+ * @package VirtueMart
+ * @subpackage modules
+ *
+ * @author Sören, Max Milbers, Spyros
+ * @link ${PHING.VM.MAINTAINERURL}
+ * @copyright Copyright (c) 2005 - 2021 VirtueMart Team. All rights reserved.
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * VirtueMart is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
 */
 
 if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
@@ -31,6 +38,8 @@ vmJsApi::cssSite();
 $moduleclass_sfx 	= $params->get('moduleclass_sfx', '');
 $show_price 		= (bool)$params->get( 'show_price', 1 ); // Display the Product Price?
 $show_product_list 	= (bool)$params->get( 'show_product_list', 1 ); // Display the Product Price?
+$dropdown_icon = $params->get( 'dropdown_icon', '' ); // User selected cart icon
+$dropdown_alignment = (bool)$params->get( 'dropdown_alignment', 1 ); // Dropdown alignment
 
 $options = array();
 $session = JFactory::getSession($options);
@@ -44,7 +53,11 @@ if($multixcart!='byproduct'){
 }
 
 $cart = VirtueMartCart::getCart();
-$data = $cart->prepareAjaxData();
+if (VmConfig::get('oncheckout_show_images')) {
+    $data = $cart->prepareAjaxData(true);
+} else {
+    $data = $cart->prepareAjaxData();
+}
 $vendorId = $cart->vendorId;
 //vmdebug('cart module '.$multixcart,$vendorId,$carts);
 if(!empty($carts)){

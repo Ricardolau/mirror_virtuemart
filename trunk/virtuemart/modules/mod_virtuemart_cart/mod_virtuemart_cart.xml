@@ -50,6 +50,17 @@
           <option value="0">No</option>
           <option value="1">Yes</option>
         </field>
+        <field name="dropdown_icon" label="MOD_VIRTUEMART_CART_DROPDOWN_ICON" description="MOD_VIRTUEMART_CART_DROPDOWN_ICON_DESC" type="media" />
+        <field
+          name="dropdown_alignment"
+          type="list"
+          default="1"
+          label="MOD_VIRTUEMART_CART_DROPDOWN_ALIGNMENT"
+          description="MOD_VIRTUEMART_CART_DROPDOWN_ALIGNMENT_DESC"
+          >
+          <option value="0">Left</option>
+          <option value="1">Right</option>
+        </field>        
       </fieldset>
       <fieldset name="advanced">
 				<field

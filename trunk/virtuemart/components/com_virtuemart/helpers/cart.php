@@ -712,8 +712,10 @@ class VirtueMartCart {
 		}
 
 		if($forceWrite){
-			session_write_close();
-			session_start();
+			if (!headers_sent()) {
+				session_write_close();
+				session_start();
+			}
 		}
 
 		if($this->storeCartSession and $storeDb){
@@ -844,7 +846,6 @@ class VirtueMartCart {
 
 		$products = array();
 
-		$productModel = VmModel::getModel('product');
 		$customFieldsModel = VmModel::getModel('customfields');
 
 		VmConfig::importVMPlugins('vmcustom');
@@ -869,9 +870,10 @@ class VirtueMartCart {
                     continue;
                 }
 
-                $productTemp = $productModel->getProduct($virtuemart_product_id, true, false,true,$productData['quantity']);
+                $product = VirtueMartCart::getProduct($virtuemart_product_id, $productData['quantity']);
+                /*$productTemp = $productModel->getProduct($virtuemart_product_id, true, false,true,$productData['quantity']);
                 $productTemp->modificatorSum = null;
-                $product = clone($productTemp);
+                $product = clone($productTemp);*/
 
                 if(!isset(self::$_carts[$product->virtuemart_vendor_id])){
                     VirtuemartCart::getCart(false, array(), NULL,$product->virtuemart_vendor_id);
@@ -908,9 +910,10 @@ class VirtueMartCart {
 			}
 
 			//Now we check if the delivered customProductData is correct and add missing
-			$productTemp = $productModel->getProduct($virtuemart_product_id, true, false,true,$productData['quantity']);
+			$product = VirtueMartCart::getProduct($virtuemart_product_id, $productData['quantity']);
+			/*$productTemp = $productModel->getProduct($virtuemart_product_id, true, false,true,$productData['quantity']);
 			$productTemp->modificatorSum = null;
-			$product = clone($productTemp);
+			$product = clone($productTemp);*/
 
 			$productData['virtuemart_vendor_id'] = $product->virtuemart_vendor_id;
 
@@ -1006,7 +1009,7 @@ class VirtueMartCart {
 								}
 
 
-								if(!$product) $product = $cart->getProduct( (int)$productData['virtuemart_product_id'], $cartProductData['quantity'] );
+								if(!$product) $product = VirtueMartCart::getProduct( (int)$productData['virtuemart_product_id'], $cartProductData['quantity'] );
 								if(empty( $product->virtuemart_product_id )) {
 									vmWarn( 'COM_VIRTUEMART_PRODUCT_NOT_FOUND' );
 									$unsetA[] = $k;
@@ -1037,7 +1040,7 @@ class VirtueMartCart {
 				}
 
 				if(!$found) {
-					if(!$product) $product = $cart->getProduct( (int)$productData['virtuemart_product_id'], $productData['quantity'] );
+					if(!$product) $product = VirtueMartCart::getProduct( (int)$productData['virtuemart_product_id'], $productData['quantity'] );
 					if(!empty( $product->virtuemart_product_id )) {
 
 						$cart->checkForQuantities( $product, $product->quantity );
@@ -2186,6 +2189,19 @@ class VirtueMartCart {
 		}
 	}
 
+	static function getProduct( $virtuemart_product_id, $quantity){
+		$productModel = VmModel::getModel('product');
+		$productTemp = $productModel->getProduct($virtuemart_product_id, true, false, true,$quantity);
+		if(empty($productTemp->virtuemart_product_id)){
+			vmError('The product is no longer available; cart getProduct is empty','The product is no longer available');
+			vmTrace('Product empty');
+			return false;
+		}
+		$productTemp->modificatorSum = null;
+		//Very important! must be cloned, else all products with same id get the same productCustomData due the product cache
+		return clone($productTemp);
+	}
+
 	function prepareCartData($force=true){
 
 		//$this->totalProduct = 0;
@@ -2204,17 +2220,18 @@ class VirtueMartCart {
 					}
 					$productdata['quantity'] = (int)$productdata['quantity'];
 					//Important, must not use calculation, would lead to wrong prices, because the full cart is not know yet.
-					$productTemp = $productsModel->getProduct($productdata['virtuemart_product_id'],TRUE,FALSE,TRUE,$productdata['quantity']);
+					$product = VirtueMartCart::getProduct($productdata['virtuemart_product_id'], $productdata['quantity']);
 
-					if(empty($productTemp->virtuemart_product_id)){
+					/*$productTemp = $productsModel->getProduct($productdata['virtuemart_product_id'],TRUE,FALSE,TRUE,$productdata['quantity']);*/
+					if(!$product){
 						vmError('The product is no longer available; prepareCartData virtuemart_product_id is empty','The product is no longer available');
 						unset($this->cartProductsData[$k]);
 						continue;
 					}
 
 					//Very important! must be cloned, else all products with same id get the same productCustomData due the product cache
-					$productTemp->modificatorSum = null;
-					$product = clone($productTemp);
+/*					$productTemp->modificatorSum = null;
+					$product = clone($productTemp);*/
 
 					$productdata['virtuemart_product_id'] = (int)$productdata['virtuemart_product_id'];
 
@@ -2515,7 +2532,7 @@ class VirtueMartCart {
 			$taskRoute .= '&virtuemart_vendor_id='.$this->vendorId;
 		}
 		$data->cart_show_link = JRoute::_("index.php?option=com_virtuemart&view=cart".$taskRoute,$this->useSSL);
-		$data->cart_show = '<a style ="float:right;" href="'.$data->cart_show_link.'" rel="nofollow" >'.$data->linkName.'</a>';
+		$data->cart_show = '<a class="details" style="float:right;" href="'.$data->cart_show_link.'" rel="nofollow" >'.$data->linkName.'</a>';
 		$data->billTotal = vmText::sprintf('COM_VIRTUEMART_CART_TOTALP',$data->billTotal);
 
 		return $data ;

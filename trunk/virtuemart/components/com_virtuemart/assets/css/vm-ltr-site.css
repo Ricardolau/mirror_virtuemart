@@ -1592,3 +1592,124 @@ div[class*="-view"] .row{
     width: 100%;
   }
 }
+
+/* Dropdown cart module */
+.dropdownCart {
+    position: relative;
+    display: inline-block
+}
+
+.dropdownCart-btn {
+    background-color: transparent;
+    border: none;
+    padding: 0 10px 0 0;
+    display: flex;
+    position: relative;
+    white-space: nowrap;
+}
+
+.dropdownCart-btn::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-top: 4px solid #000;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 5px;
+}
+
+.dropdownCart-icon {
+    display: block;
+    margin-right: 5px;
+    width: 20px;
+}
+
+.dropdownCart-container {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 15px;
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 1;
+    width: 300px;
+    box-shadow: 0 0 15px 0 rgba(0,0,0,0.2);
+}
+
+.dropdown_align_left {
+    left: 0;
+    right: auto;
+}
+
+.dropdownCart .vm_cart_products {
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.dropdownCart .product_row {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+    padding-bottom: 10px
+}
+
+.dropdownCart .product_row:last-child {
+    border: none;
+    margin-bottom: 0
+}
+
+.dropdownCart .product_row_info {
+    display: flex;
+    align-items: center;
+}
+
+.dropdownCart .product_row_info .image {
+    width: 60px;
+    flex-shrink: 0
+}
+
+.dropdownCart .product_price {
+    text-align: right;
+    white-space: nowrap;
+    width: 80px;
+    flex-shrink: 0
+}
+
+.dropdownCart .product_name {
+    flex-grow: 1;
+    padding: 0 15px
+}
+
+.dropdownCart .vm-customfield-mod:not(:empty) {
+    margin-top: 10px;
+}
+
+.dropdownCart .vm-customfield-mod span {
+    float: none;
+}
+
+.dropdownCart .total {
+    text-align: center;
+    margin: 0 0 10px;
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+}
+
+.dropdownCart .total:empty {
+    display: none;
+}
+
+.dropdownCart .show_cart {
+    text-align: center;
+}
+
+.dropdownCart .show_cart a {
+    float: none !important;
+}

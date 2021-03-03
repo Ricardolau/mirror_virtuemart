@@ -7,7 +7,7 @@
 * @subpackage OrderStatus
 * @author Oscar van Eijk
 * @link ${PHING.VM.MAINTAINERURL}
-* @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+* @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -42,6 +42,10 @@ vmLanguage::loadJLang('com_virtuemart_config');
 			<th>
 				<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_EMAIL_SHOPPER'); ?>
 			</th>
+            <th>
+				<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_EMAIL_LAYOUT'); ?>
+			</th>
+
             <th>
 	            <?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_EMAIL_ATTACHMENT'); ?>
             </th>
@@ -120,20 +124,24 @@ vmLanguage::loadJLang('com_virtuemart_config');
 					?>
 				</td>
 
-                <td align="left">
+				<td align="left">
 					<?php
 					if (in_array($row->order_status_code,  VmConfig::get('email_os_s',array('U','C','S','R','X'))))
 						echo '<span class="icon-mail-2"><span></span></span>';
 
 					?>
-                </td>
-                <td align="left">
+				</td>
+<!--				quorvia new email override option -->
+				<td align="left">
+					<?php echo $row->order_status_email_layout; ?>
+					</td>
+				<td align="left">
 
 					<?php
 					if (in_array($row->order_status_code,  VmConfig::get('attach_os',array(''))))
 						echo '<span class="icon-mail-2"></span><span class="icon-file-2 text-success"><span></span></span>';
 					?>
-                </td>
+				</td>
 
                 <td align="left">
 					<?php

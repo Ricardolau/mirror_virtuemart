@@ -7,7 +7,7 @@
  * @subpackage Orders
  * @author Oscar van Eijk
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -124,34 +124,6 @@ class VirtuemartViewInvoice extends VmView {
 		if ($this->print and $this->format=='html') {
 			$order_print=true;
 		}
-
-		//TODO check and remove. I think this was just an old fallback
-        // if it is order print, invoice number should not be created, either it is there, either it has not been created
-		/*if(empty($this->invoiceNumber) and !$order_print){
-		    $invoiceNumberDate = array();
-			if (  $orderModel->createInvoiceNumber($orderDetails['details']['BT'], $invoiceNumberDate)) {
-                if (shopFunctionsF::InvoiceNumberReserved( $invoiceNumberDate[0])) {
-	                if  ($this->uselayout!='mail') {
-		                $document->setTitle( vmText::_('COM_VIRTUEMART_PAYMENT_INVOICE') );
-                        return ;
-	                }
-                }
-			    $this->invoiceNumber = $invoiceNumberDate[0];
-			    $this->invoiceDate = $invoiceNumberDate[1];
-			    if(!$this->invoiceNumber or empty($this->invoiceNumber)){
-				    vmError('invoice view Cant create pdf, createInvoiceNumber failed');
-				    vmTrace('invoice view Cant create pdf');
-				    if  ($this->uselayout!='mail') {
-					    return ;
-				    }
-			    }
-			} else {
-				// Could OR should not create Invoice Number, createInvoiceNumber failed
-				if  ($this->uselayout!='mail') {
-					return ;
-				}
-			}
-		}*/
 
 		$virtuemart_vendor_id = $orderDetails['details']['BT']->virtuemart_vendor_id;
 
@@ -361,6 +333,13 @@ class VirtuemartViewInvoice extends VmView {
 		$this->uselayout = 'mail';
 
 		$attach = VmConfig::get('attach',false);
+
+		//quorvia is there a mail layout override for this status
+		if(isset($this->statusemailoverride)  && !empty($this->statusemailoverride) ) {
+			//we append "_" + statusmailoverride to uselayout to facilitate shopper and vendor handling in the layout
+			$this->uselayout .= "_".$this->statusemailoverride;
+		}
+		//quorvia end
 		if(empty($this->mediaToSend))$this->mediaToSend = array();
 		if(empty($this->recipient)) $this->recipient = $recipient;
 		if(!empty($attach) and !$doVendor and in_array($this->orderDetails['details']['BT']->order_status,VmConfig::get('attach_os',0)) ){

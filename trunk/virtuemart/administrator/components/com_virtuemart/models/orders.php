@@ -10,7 +10,7 @@
  * @author Patrick Kohl
  * @author Valerie Isaksen
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2019 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -139,17 +139,22 @@ class VirtueMartModelOrders extends VmModel {
 	 *
 	 * @return array
 	 */
-	public function getMyOrderDetails($orderID = 0, $orderNumber = false, $orderPass = false, $vmConf=true){
+	public function getMyOrderDetails($orderID = 0, $orderNumber = false, $orderPass = false, $vmConf=true) {
 
-		if(VmConfig::get('ordertracking','guests') == 'none' and !vmAccess::manager('orders')){
+		if (VmConfig::get('ordertracking', 'guests') == 'none' and !vmAccess::manager('orders')) {
 			return false;
 		}
 
-		$virtuemart_order_id = vRequest::getInt('virtuemart_order_id',$orderID) ;
-		$orderNumber = trim(vRequest::getString('order_number',$orderNumber));
+		$virtuemart_order_id = vRequest::getInt('virtuemart_order_id', $orderID);
+		$orderNumber = trim(vRequest::getString('order_number', $orderNumber));
 
 		$sess = JFactory::getSession();
-		if(empty($orderNumber)) $h = $virtuemart_order_id; else $h = $orderNumber;
+		if (empty($orderNumber)) {
+			$h = $virtuemart_order_id;
+		} else {
+			$h = $orderNumber;
+		}
+
 		$tries = $sess->get('getOrderDetails.'.$h,0);
 		if($tries>6){
 			vmDebug ('Too many tries, Invalid order_number/password '.vmText::_('COM_VIRTUEMART_RESTRICTED_ACCESS'));
@@ -2347,6 +2352,20 @@ class VirtueMartModelOrders extends VmModel {
 		$vars = array();
 		$vars['orderDetails']=$order;
 
+		$vars['statusemailoverride']  = '';
+		// quorvia - get a unique layout for this order status if configured
+		$orderstatesModel = VmModel::getModel ('Orderstatus');
+		$orderstatuses = $orderstatesModel->getOrderStatusList (false);
+		$statuscodes = array_column($orderstatuses, 'order_status_code');
+		$srow = array_search((string)$order['details']['BT']->order_status,$statuscodes);
+		if(isset($srow)){
+			// vars gets reset every notify so ok here
+			if(!empty($orderstatuses[$srow]->order_status_email_layout)){
+				$vars['statusemailoverride']  = $orderstatuses[$srow]->order_status_email_layout;
+			}
+		}
+//quorvia end
+
 		$payment_name = $shipment_name='';
 
 		VmConfig::importVMPlugins('vmpayment');
@@ -2464,7 +2483,12 @@ class VirtueMartModelOrders extends VmModel {
 	}
 
 
-
+	/** getInvoiceIfAvailable called in notify customer.
+	 *
+	 *  calls VirtueMartControllerInvoice->getInvoicePDF, which calls VmPdf::createVmPdf
+	 * @param $order
+	 * @return false|int|mixed|string|void
+	 */
 	public function getInvoiceIfAvailable($order){
 
 		vmdebug('getInvoiceIfAvailable start' );

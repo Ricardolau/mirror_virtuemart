@@ -7,7 +7,7 @@
  * @subpackage OrderStatus
  * @author Oscar van Eijk
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -48,6 +48,7 @@ AdminUIHelper::imitateTabs('start', 'COM_VIRTUEMART_ORDERSTATUS_DETAILS');
 		<?php echo VmHTML::row('select','COM_VIRTUEMART_ORDER_STATUS_STOCK_HANDLE', 'order_stock_handle', $this->stockHandelList ,$this->orderStatus->order_stock_handle,'','value', 'text',false) ; ?>
 		<?php echo VmHTML::row('color','COM_VIRTUEMART_ORDER_STATUS_COLOR', 'order_status_color',  $this->orderStatus->order_status_color,'','value', 'text',false) ; ?>
 		<?php echo VmHTML::row('input', 'COM_VIRTUEMART_ORDER_STATUS_CODE', 'order_status_code', $this->orderStatus->order_status_code, 'class="inputbox '.$readonly.'" '.$readonly.'', '', 3, 1); ?>
+		<?php echo VmHTML::row('input','COM_VIRTUEMART_ORDER_STATUS_EMAIL_LAYOUT', 'order_status_email_layout', $this->orderStatus->order_status_email_layout ,'class="inputbox"', '', 80, 80, $text); ?>
 		<?php echo VmHTML::row('editor', 'COM_VIRTUEMART_DESCRIPTION', 'order_status_description', $this->orderStatus->order_status_description, '100%;', '250', array('image', 'pagebreak', 'readmore')); ?>
 		<?php echo VmHTML::row('raw', 'COM_VIRTUEMART_VENDOR', $this->lists['vendors']); ?>
 		<?php echo VmHTML::row('raw', 'COM_VIRTUEMART_ORDERING', $this->ordering); ?>

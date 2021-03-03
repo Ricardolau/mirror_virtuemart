@@ -90,7 +90,8 @@ class SkrillPaymentCore
             )
         ),
 		"skrill_pch" => array(
-            'allowedCountries'  => array('AUT','BEL','CAN','CYP','CZE','DNK','FRA','GRC','HRV','HUN','IRL','ITA','LTU','LUX','MLT','NLD','POL','PRT','ROU','SVK','SVN','SWE','ESP','CHE','GBR')
+            'allowedCountries'  => array('AUT','BEL','CAN','CYP','CZE','DNK','FRA','GRC','HRV','HUN','IRL','ITA','LTU','LUX','MLT','NLD','POL','PRT','ROU','SVK','SVN','SWE','ESP','CHE','GBR', 'USA', 'BGR', 'LVA', 'MEX'
+            )
         ),
 		"skrill_acc" => array(
 			"allowedCountries" => "ALL"

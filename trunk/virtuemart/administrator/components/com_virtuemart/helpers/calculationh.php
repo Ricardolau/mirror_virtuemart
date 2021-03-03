@@ -244,6 +244,10 @@ class calculationHelper {
 			return;
 		}
 
+		if(empty($this->_cart)){
+			$this->_cart = VirtueMartCart::getCart();
+		}
+		
 		if (!VmConfig::isSite()) {
 
 			$userModel = VmModel::getModel('user');
@@ -267,10 +271,7 @@ class calculationHelper {
 		}
 
 
-		if(empty($this->_cart)){
-			$this->_cart = VirtueMartCart::getCart();
 
-		}
 
 		/*if($this->_cart->BT===0){
 			$this->_cart->prepareAddressFieldsInCart();
@@ -1210,7 +1211,7 @@ class calculationHelper {
 				$cOut = $this->interpreteMathOp($rule, $cIn);
 				$tmp = $this->roundInternal($this->roundInternal($cOut) - $cIn);
 
-				if($setCartPrices){
+				if($setCartPrices and isset($this->_cart->cartPrices)){
 					$this->_cart->cartPrices[$rule['virtuemart_calc_id'] . 'Diff'] = $tmp;
 				}
 				//okey, this is a bit flawless logic, but should work

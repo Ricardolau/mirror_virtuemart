@@ -118,7 +118,7 @@ if(vRequest::getInt('print',false)){ ?>
 	echo shopFunctionsF::renderVmSubLayout('customfields',array('product'=>$this->product,'position'=>'ontop'));
     ?>
 
-    <div class="vm-product-container">
+    <div class="vm-product-container data-vm="product-container"">
 	<div class="vm-product-media-container">
 <?php
 echo $this->loadTemplate('images');
@@ -139,26 +139,13 @@ echo $this->loadTemplate('images');
 		<?php
 		echo shopFunctionsF::renderVmSubLayout('rating', array('showRating' => $this->showRating, 'product' => $this->product));
 
-		$productDisplayTypes = array('productDisplayShipments', 'productDisplayPayments');
-		foreach ($productDisplayTypes as $productDisplayType) {
+		foreach ($this->productDisplayTypes as $type=>$productDisplayType) {
 
-			if(empty($this->{$productDisplayType})){
-				continue;
-			} else if (!is_array($this->{$productDisplayType})) {
-				$this->{$productDisplayType} = array($this->{$productDisplayType});
-			}
-
-			foreach ($this->{$productDisplayType} as $productDisplay) {
-
-				if(empty($productDisplay)){
-					continue;
-				} else if (!is_array($productDisplay)){
-					$productDisplay = array($productDisplay);
-				}
+			foreach ($productDisplayType as $productDisplay) {
 
 				foreach ($productDisplay as $virtuemart_method_id =>$productDisplayHtml) {
 					?>
-					<div class="<?php echo substr($productDisplayType, 0, -1) ?> <?php echo substr($productDisplayType, 0, -1).'-'.$virtuemart_method_id ?>">
+					<div class="<?php echo substr($type, 0, -1) ?> <?php echo substr($type, 0, -1).'-'.$virtuemart_method_id ?>">
 						<?php
 						echo $productDisplayHtml;
 						?>
@@ -174,6 +161,9 @@ echo '<form method="post" class="product js-recalculate" action="'.JRoute::_('in
 					$childProductIds = $this->product_model->getProductChildIds($this->product->virtuemart_product_id);
 					if(empty($childProductIds)){
 						echo shopFunctionsF::renderVmSubLayout('prices',array('product'=>$this->product,'currency'=>$this->currency));
+
+								echo shopFunctionsF::renderVmSubLayout('customfields',array('product'=>$this->product,'position'=>'addtocart'));
+
 						?> <div class="clear"></div><?php
 						echo shopFunctionsF::renderVmSubLayout('addtocartbar',array('product'=>$this->product));
 						echo shopFunctionsF::renderVmSubLayout('stockhandle',array('product'=>$this->product));

@@ -36,7 +36,7 @@ if(VmConfig::get('usefancy',1)){
 		";
 } else {
 
-	vmJsApi::addJScript( 'facebox', false, false );
+	vmJsApi::addJScript( 'facebox', false, true );
 	vmJsApi::css( 'facebox' );
     $Modal ="
     		$('a.ask-a-question, a.printModal, a.recommened-to-friend, a.manuModal').click(function(event){

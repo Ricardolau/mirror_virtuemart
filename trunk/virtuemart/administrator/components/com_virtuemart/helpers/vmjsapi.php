@@ -135,8 +135,6 @@ class vmJsApi{
 
 			if($jsToAdd['inline'] or !$jsToAdd['script'] or $urlType){
 
-
-
 				if(!$urlType and !$jsToAdd['inline']){
 					$file = vmJsApi::setPath($file,false,'');
 				} else if($urlType === 1){
@@ -210,6 +208,7 @@ class vmJsApi{
 		if(!empty($headInline)){
 			$document->addScriptDeclaration( '//<![CDATA[ '.chr(10).$headInline.' //]]>'.chr(10) );
 		}
+
 		return $html;
 	}
 
@@ -464,7 +463,7 @@ jQuery(document).ready(function() { // GALT: Start listening for dynamic content
 			vmJsApi::addJScript( 'fancybox/jquery.fancybox-1.3.4.pack',false,false,false,false,'1.3.4');
 			vmJsApi::css('jquery.fancybox-1.3.4');
 		} else {
-			vmJsApi::addJScript( 'facebox', false, false, false, false, '' );
+			vmJsApi::addJScript( 'facebox', false, true, false, false, '' );
 			vmJsApi::css( 'facebox' );
 		}
 

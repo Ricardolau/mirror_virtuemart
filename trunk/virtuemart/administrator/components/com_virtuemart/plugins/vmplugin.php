@@ -234,12 +234,20 @@ abstract class vmPlugin extends JPlugin {
 		}
 		$dispatcher = JDispatcher::getInstance();
 		$plugin = JPluginHelper::getPlugin($type, $element);
+		if(!isset($plugin->type) or !isset($plugin->name)){
+			vmdebug('VmPlugin function createPlugin, type or name not set',$type,$element);
+			vmTrace('VmPlugin function createPlugin, type or name not set '. $type .' '. $element);
+			vmError('VmPlugin function createPlugin, type or name not set '. $type .' '. $element);
+			return false;
+		}
 		$className = 'Plg' . str_replace('-', '', $plugin->type) . $plugin->name;
 		if(class_exists($className)){
 			// Instantiate and register the plugin.
 			return new $className($dispatcher, (array) $plugin);
 		} else {
 			vmdebug('VmPlugin function createPlugin, class does not exist',$type,$element);
+			vmTrace('VmPlugin function createPlugin, class does not exist '. $type .' '. $element);
+			vmError('VmPlugin function createPlugin, class does not exist '. $type .' '. $element,'VmPlugin function createPlugin, class does not exist');
 			return false;
 		}
 

@@ -187,6 +187,17 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 		return $view;
 	}
 
+	/**
+	 * Creates pdf invoice
+	 * calls VmPdf::createVmPdf
+	 *
+	 * @param $orderDetails
+	 * @param string $viewName
+	 * @param string $layout
+	 * @param string $format
+	 * @param false $force
+	 * @return false|int|mixed|string|void
+	 */
 	function getInvoicePDF($orderDetails, $viewName='invoice', $layout='invoice', $format='html', $force = false){
 
 		vmdebug('getInvoicePDF start');

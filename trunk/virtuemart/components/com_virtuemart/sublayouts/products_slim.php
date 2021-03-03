@@ -84,11 +84,10 @@ foreach ($viewData['products'] as $type => $products ) {
 			$show_vertical_separator = $verticalseparator;
 		}
 
-			// Show Products
-			?>
-            <div class="product floatleft<?php echo $cellwidth.$show_vertical_separator ?>">
-
-                    <div class="width30 floatleft center">
+		// Show Products ?>
+	<div class="product floatleft<?php echo $cellwidth.$show_vertical_separator ?>">
+		<div class="spacer product-container" data-vm="product-container">
+		<div class="width30 floatleft center" >
                         <a title="<?php echo $product->product_name ?>" rel="vm-additional-images" href="<?php echo $product->link; ?>">
 							<?php
 							echo $product->images[0]->displayMediaThumb( 'class="browseProductImage"', false );
@@ -134,7 +133,7 @@ foreach ($viewData['products'] as $type => $products ) {
                 </div>
                 <!-- end of spacer -->
             </div> <!-- end of product -->
-
+		</div>
 		<?php
         $nb ++;
       // Do we need to close the current row now?

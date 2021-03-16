@@ -19,6 +19,99 @@
 defined('_JEXEC') or die('Restricted access');
 
 ?>
+
+<ul class="uk-list uk-list-striped"  uk-sortable="handle: .uk-sortable-handle">
+	{{#customcfs}}
+	<li>
+		<div class="vmuikit-js-customcf vmuikit-customcf vmuikit-customcf-striped">
+			<div class="sortable uk-grid-small uk-grid-divider" uk-grid>
+				<div class="uk-width-auto@m">
+					<div class="">
+						<div class="uk-grid-small" uk-grid>
+							<div class="uk-width-auto@m">
+								<div class="uk-iconnav uk-iconnav-vertical">
+									{{#overrideCheckbox }}
+										<label class="uk-link"
+												uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_CUSTOMFLD_DIS_DER_TIP') ?>">
+											<span class="" uk-icon="icon: disable; ratio: 0.75"></span>
+											{{{overrideCheckbox}}}
+										</label>
+									{{/overrideCheckbox }}
+									{{#canMove}}
+										<a uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_CUSTOMFIELD_SORTABLE') ?>"
+												href="#"
+												class="uk-sortable-handle">
+											<span class="" uk-icon="icon: move; ratio: 0.75"></span>
+										</a>
+									{{/canMove}}
+									{{#canRemove}}
+										<div class="uk-link vmuikit-js-remove"
+												uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_CUSTOMFIELD_REMOVE') ?>">
+											<span class="" uk-icon="icon: trash; ratio: 0.75"></span>
+										</div>
+									{{/canRemove}}
+								</div>
+							</div>
+
+							<div class="uk-width-expand@m">
+								<div class="">
+
+									<div class="uk-text-bold">{{title}}</div>
+									<div class="uk-text-meta">{{type}}</div>
+									<div class="uk-iconnav">
+										{{#is_cart_attribute}}
+										<div class=""
+												uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_CUSTOM_IS_CART_ATTRIBUTE') ?>"
+										>
+											<span uk-icon="icon: cart; ratio: 0.75"></span>
+										</div>
+										{{/is_cart_attribute}}
+										{{#searchable}}
+										<div class=""
+												uk-tooltip="<?php echo vmText::_('COM_VM_CUSTOM_IS_SEARCHABLE') ?>"
+										>
+											<span uk-icon="icon: search; ratio: 0.75"></span>
+										</div>
+										{{/searchable}}
+										{{#layout_pos}}
+										<div class=""
+												uk-tooltip="{{layout_pos}}"
+										>
+											<span uk-icon="icon: location; ratio: 0.75"></span>
+										</div>
+										{{/layout_pos}}
+									</div>
+
+								</div>
+
+
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+
+				<div class="uk-width-expand@m">
+					<div class="">
+						{{#displayHTML }}
+						{{{displayHTML}}}
+						{{/displayHTML }}
+						{{#hiddenHTML }}
+						{{{hiddenHTML}}}
+						{{/hiddenHTML }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</li>
+	{{/customcfs}}
+</ul>
+<?php
+return
+?>
+
+
 {{#customcfs}}
 <div class="vmuikit-js-customcf vmuikit-customcf">
 	<div class="uk-card uk-card-small uk-card-vm ">
@@ -34,7 +127,7 @@ defined('_JEXEC') or die('Restricted access');
 					</div>
 					{{#is_cart_attribute}}
 					<div class="uk-navbar-item">
-						<div class="uk-icon-button md-bg-grey-200"
+						<div class="uk-icon-button md-bg-grey-400"
 								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_CUSTOM_IS_CART_ATTRIBUTE') ?>"
 						>
 							<span uk-icon="icon: cart; ratio: 0.75"></span>
@@ -43,7 +136,7 @@ defined('_JEXEC') or die('Restricted access');
 					{{/is_cart_attribute}}
 					{{#searchable}}
 					<div class="uk-navbar-item">
-						<div class="uk-icon-button md-bg-grey-200"
+						<div class="uk-icon-button md-bg-grey-400"
 								uk-tooltip="<?php echo vmText::_('COM_VM_CUSTOM_IS_SEARCHABLE') ?>"
 						>
 							<span uk-icon="icon: search; ratio: 0.75"></span>
@@ -52,10 +145,10 @@ defined('_JEXEC') or die('Restricted access');
 					{{/searchable}}
 					{{#layout_pos}}
 					<div class="uk-navbar-item">
-						<div class="md-bg-grey-200"
+						<div class="md-bg-grey-400"
 								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_CUSTOM_LAYOUT_POS') ?>"
 						>
-							<span class="uk-label md-bg-grey-200 md-color-grey-600" >{{layout_pos}}</span>
+							<span class="uk-label md-bg-grey-400 md-color-grey-600">{{layout_pos}}</span>
 						</div>
 					</div>
 					{{/layout_pos}}

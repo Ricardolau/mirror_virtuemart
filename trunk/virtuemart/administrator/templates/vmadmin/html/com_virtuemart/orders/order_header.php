@@ -114,7 +114,7 @@ $linkTogglePaid = 'index.php?option=com_virtuemart&view=orders&task=toggle.paid.
 						array(
 							'order' => $this->orderbt,
 							'iconRatio' => $iconRatio,
-							'hrefClass' => 'uk-icon-button',
+							'iconClass' => 'uk-icon-button',
 							'linkType' => array('print')
 						)
 
@@ -275,7 +275,7 @@ if ($this->orderbt->virtuemart_user_id) {
 						array(
 							'order' => $this->orderbt,
 							'iconRatio' => $iconRatio,
-							'hrefClass' => 'uk-icon-button',
+							'iconClass' => 'uk-icon-button',
 							'linkType' => array('invoices')
 						)
 
@@ -454,7 +454,7 @@ if ($this->orderbt->virtuemart_user_id) {
 						array(
 							'order' => $this->orderbt,
 							'iconRatio' => $iconRatio,
-							'hrefClass' => 'uk-icon-button',
+							'iconClass' => 'uk-icon-button',
 							'linkType' => array('deliverynote')
 						));
 					?>

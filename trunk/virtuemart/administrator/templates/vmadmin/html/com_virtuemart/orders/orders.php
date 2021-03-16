@@ -69,6 +69,8 @@ $styleDateCol = '';
 								onclick="Joomla.checkAll(this)"/>
 					</th>
 					<th><?php echo $this->sort('order_number', 'COM_VIRTUEMART_ORDER_LIST_NUMBER') ?> / <?php echo vmText::_('COM_VIRTUEMART_INVOICE') ?></th>
+					<th><?php echo $this->sort('order_status', 'COM_VIRTUEMART_STATUS') ?></th>
+
 					<th>
 						<?php echo $this->sort('order_name', 'COM_VIRTUEMART_ORDER_PRINT_NAME') . ' / ';
 						echo $this->sort('order_email', 'COM_VIRTUEMART_EMAIL') ?>
@@ -79,7 +81,7 @@ $styleDateCol = '';
 					<th class="uk-width-small admin-dates"><?php echo $this->sort('created_on', 'COM_VIRTUEMART_ORDER_CDATE') ?></th>
 					<th class="uk-width-small admin-dates"><?php echo $this->sort('modified_on', 'COM_VIRTUEMART_ORDER_LIST_MDATE') ?></th>
 					<th><?php echo $this->sort('paid', 'COM_VM_ORDER_PAID') ?></th>
-					<th><?php echo $this->sort('order_status', 'COM_VIRTUEMART_STATUS') ?></th>
+
 					<!--<th style="min-width:130px;width:5%;"><?php echo vmText::_('COM_VIRTUEMART_ORDER_LIST_NOTIFY'); ?></th>-->
 					<th class="uk-text-right@m"><?php echo $this->sort('order_total', 'COM_VIRTUEMART_TOTAL') ?></th>
 					<th class="uk-table-shrink"><?php echo $this->sort('virtuemart_order_id', 'COM_VIRTUEMART_ID') ?></th>
@@ -145,6 +147,80 @@ $styleDateCol = '';
 								</span>
 
 							</td>
+							<!-- Status -->
+							<td>
+								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_STATUS') ?>"
+										uk-icon="icon: future"></span>
+								<?php
+								if($order->paid < $order->order_total){
+									$orderStati = $this->orderStatesUnpaid;
+								} else {
+									$orderStati = $this->orderstatuses;
+								}
+								?>
+								<div class="uk-label  uk-label-vm" style="<?php echo $statuscolorStyle ?>">
+								<?php
+								echo JHtml::_ ('select.genericlist',
+									$orderStati, "orders[" . $order->virtuemart_order_id . "][order_status]",
+									'class="orderstatus_select" style="width:180px;"', 'order_status_code', 'order_status_name', $order->order_status, 'order_status' . $i, TRUE); ?>
+								<input type="hidden" name="orders[<?php echo $order->virtuemart_order_id; ?>][current_order_status]" value="<?php echo $order->order_status; ?>"/>
+								<input type="hidden" name="orders[<?php echo $order->virtuemart_order_id; ?>][coupon_code]" value="<?php echo $order->coupon_code; ?>"/>
+								</div>
+								<textarea class="element-hidden vm-order_comment vm-showable" name="orders[<?php echo $order->virtuemart_order_id; ?>][comments]" cols="5" rows="5"></textarea>
+								<?php echo JHtml::_ ('link', '#', vmText::_ ('COM_VIRTUEMART_ADD_COMMENT'), array('class' => 'show_comment')); ?>
+
+								<!--
+								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
+										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_STATUS') ?>"
+										uk-icon="icon: future"></span>
+								<div class="uk-label  uk-label-vm" style="<?php echo $statuscolorStyle ?>">
+									<?php echo vmText::_($status_name) ?>
+									<span class="" uk-icon="icon:  triangle-down"></span>
+								</div>
+								<div class="uk-width-large uk-form-horizontal uk-card-tab-content"
+										uk-dropdown="mode: click;animation: uk-animation-slide-bottom-small; duration: 1000">
+									<div class=" ">
+										<div class="uk-card-title">
+											<span class="md-color-grey-500 uk-margin-small-right"
+													uk-icon="icon: comment; ratio: 1.2"></span>
+											<?php echo  vmText::_('COM_VIRTUEMART_ORDER_UPDATE_STATUS').' '.$order->order_number  ?>
+										</div>
+										<hr/>
+
+										<div class="uk-clearfix">
+											<label class="uk-form-label"><?php echo vmText::_('COM_VIRTUEMART_ORDERSTATUS') ?></label>
+											<div class="uk-form-controls">
+												<?php
+												echo JHtml::_('select.genericlist', $orderStati, "orders[" . $order->virtuemart_order_id . "][order_status]", 'class="orderstatus_select" style="width:180px"', 'order_status_code', 'order_status_name', $order->order_status, 'order_status' . $i, TRUE);
+												?>
+											</div>
+										</div>
+										<input type="hidden"
+												name="orders[<?php echo $order->virtuemart_order_id; ?>][current_order_status]"
+												value="<?php echo $order->order_status; ?>"/>
+										<input type="hidden"
+												name="orders[<?php echo $order->virtuemart_order_id; ?>][coupon_code]"
+												value="<?php echo $order->coupon_code; ?>"/>
+										<br>
+										<?php
+										echo VmuikitHtml::row('checkbox', 'COM_VIRTUEMART_ORDER_LIST_NOTIFY', 'orders[' . $order->virtuemart_order_id . '][customer_notified]', 0);
+										echo VmuikitHtml::row('checkbox', 'COM_VIRTUEMART_ORDER_HISTORY_INCLUDE_COMMENT', 'orders[' . $order->virtuemart_order_id . '][customer_send_comment]', 1);
+										echo VmuikitHtml::row('checkbox', 'COM_VIRTUEMART_ORDER_UPDATE_LINESTATUS', 'orders[' . $order->virtuemart_order_id . '][update_lines]', 1);
+										echo VmuikitHtml::row('textarea', 'COM_VIRTUEMART_ADD_COMMENT', 'orders[' . $order->virtuemart_order_id . '][comments]', '', 'class="uk-textarea"');
+										?>
+										<hr/>
+										<div class="uk-text-center">
+											<button onclick="Joomla.submitbutton('updatestatus');"
+													class="uk-button uk-button-small uk-button-primary">
+												<?php echo vmText::_('COM_VIRTUEMART_UPDATE_STATUS') ?>
+											</button>
+										</div>
+									</div>
+								</div>
+-->
+<!-- uk-dropdown -->
+							</td>
 							<td>
 								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_NAME') ?>"
@@ -193,7 +269,7 @@ $styleDateCol = '';
 											uk-icon="icon: print"></span>
 								<?php
 								echo adminSublayouts::renderAdminVmSubLayout('print_links',
-									array('order' => $order)
+									array('order' => $order, 'iconClass' => 'uk-icon-button uk-icon-button-small uk-button-default',)
 								);
 								?>
 							</td>
@@ -209,65 +285,22 @@ $styleDateCol = '';
 										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_LIST_MDATE') ?>"
 										uk-icon="icon: clock"></span>
 								<?php echo vmJsApi::date($order->modified_on, 'LC2', TRUE); ?></td>
-							<!-- Status -->
+
 							<td class="uk-text-center@m">
 								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 										uk-tooltip="<?php echo vmText::_('COM_VM_ORDER_PAID') ?>"
 										uk-icon="icon: tag"></span>
 								<?php
 								// 	function toggle( $field, $i, $toggle, $imgY = 'tick.png', $imgX = 'publish_x.png', $untoggleable = false )
-								echo $this->toggle($order->paid, $i, 'toggle.paid'); ?>
+								//echo $this->toggle($order->paid, $i, 'toggle.paid');
+
+								echo adminSublayouts::renderAdminVmSubLayout('toggle',
+									array('field' => $order->paid, 'i'=>$i, 'toggle'=>'toggle.paid','icon'=>'paid2')
+								)
+
+								?>
 							</td>
 
-							<td>
-								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
-											uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_STATUS') ?>"
-											uk-icon="icon: future"></span>
-								<div class="uk-label  uk-label-vm" style="<?php echo $statuscolorStyle ?>">
-									<?php echo vmText::_($status_name) ?>
-									<span class="" uk-icon="icon:  triangle-down"></span>
-								</div>
-								<div class="uk-width-large uk-form-horizontal uk-card-tab-content"
-										uk-dropdown="mode: click;animation: uk-animation-slide-bottom-small; duration: 1000">
-									<div class=" ">
-										<div class="uk-card-title">
-											<span class="md-color-grey-500 uk-margin-small-right"
-													uk-icon="icon: comment; ratio: 1.2"></span>
-											<?php echo  vmText::_('COM_VIRTUEMART_ORDER_UPDATE_STATUS').' '.$order->order_number  ?>
-										</div>
-										<hr/>
-
-										<div class="uk-clearfix">
-											<label class="uk-form-label"><?php echo vmText::_('COM_VIRTUEMART_ORDERSTATUS') ?></label>
-											<div class="uk-form-controls">
-												<?php
-												echo JHtml::_('select.genericlist', $orderStati, "orders[" . $order->virtuemart_order_id . "][order_status]", 'class="orderstatus_select" style="width:180px"', 'order_status_code', 'order_status_name', $order->order_status, 'order_status' . $i, TRUE);
-												?>
-											</div>
-										</div>
-										<input type="hidden"
-												name="orders[<?php echo $order->virtuemart_order_id; ?>][current_order_status]"
-												value="<?php echo $order->order_status; ?>"/>
-										<input type="hidden"
-												name="orders[<?php echo $order->virtuemart_order_id; ?>][coupon_code]"
-												value="<?php echo $order->coupon_code; ?>"/>
-										<br>
-										<?php
-										echo VmuikitHtml::row('checkbox', 'COM_VIRTUEMART_ORDER_LIST_NOTIFY', 'orders[' . $order->virtuemart_order_id . '][customer_notified]', 0);
-										echo VmuikitHtml::row('checkbox', 'COM_VIRTUEMART_ORDER_HISTORY_INCLUDE_COMMENT', 'orders[' . $order->virtuemart_order_id . '][customer_send_comment]', 1);
-										echo VmuikitHtml::row('checkbox', 'COM_VIRTUEMART_ORDER_UPDATE_LINESTATUS', 'orders[' . $order->virtuemart_order_id . '][update_lines]', 1);
-										echo VmuikitHtml::row('textarea', 'COM_VIRTUEMART_ADD_COMMENT', 'orders[' . $order->virtuemart_order_id . '][comments]', '', 'class="uk-textarea"');
-										?>
-										<hr/>
-										<div class="uk-text-center">
-											<button onclick="Joomla.submitbutton('updatestatus');"
-													class="uk-button uk-button-small uk-button-primary">
-												<?php echo vmText::_('COM_VIRTUEMART_UPDATE_STATUS') ?>
-											</button>
-										</div>
-									</div>
-								</div><!-- uk-dropdown -->
-							</td>
 							<!-- Total -->
 							<td class="uk-text-nowrap uk-text-right@m">
 									<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"

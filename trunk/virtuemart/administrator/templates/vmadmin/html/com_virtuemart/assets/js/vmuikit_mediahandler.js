@@ -136,7 +136,9 @@ jQuery(document).ready(function ($) {
 	$('.vmuikit-js-edit-image').click(function (e) {
 		//var virtuemart_media_id = $(this).parent().find("input").val();
 		//console.log('edit-image', virtuemart_media_id)
+		$("#vmuikit-js-medias-container").find('.uk-card-vm').removeClass("vmuikit-js-thumb_image-selected");
 		var closest = $(this).closest('.vmuikit-js-thumb-image')
+		closest.find('.uk-card-vm').addClass("vmuikit-js-thumb_image-selected");
 		var virtuemart_media_id = closest.find('input[name=\'virtuemart_media_id[]\']').val()
 		console.log('edit-image', virtuemart_media_id)
 		$.getJSON('index.php?option=com_virtuemart&view=media&format=json&virtuemart_media_id=' + virtuemart_media_id,

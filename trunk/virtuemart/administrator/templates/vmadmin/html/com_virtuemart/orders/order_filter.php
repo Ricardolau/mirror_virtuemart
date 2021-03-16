@@ -18,7 +18,7 @@
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
-$iconRatio=1.2;
+$iconRatio=1;
 ?>
 
 
@@ -30,7 +30,7 @@ $iconRatio=1.2;
 		array(
 			'order' => $this->orderbt,
 			'iconRatio' =>$iconRatio,
-			'hrefClass' => 'uk-icon-button',
+			'iconClass' => 'uk-icon-button',
 		)
 
 	);
@@ -38,7 +38,7 @@ $iconRatio=1.2;
 
 	if ($this->unequal) {
 		$labelPaid = 'COM_VIRTUEMART_ORDER_IS_UNPAID';
-		$colorPaidTool = 'md-color-red-600';
+		$colorPaidTool = 'md-color-grey-400';
 		$textPaidAction = 'COM_VIRTUEMART_ORDER_SET_PAID';
 		$valPaid = '1';
 	} else {
@@ -52,9 +52,9 @@ $iconRatio=1.2;
 
 	$extras[]=
 		'<a href="' . JRoute::_($linkPaid, FALSE) . '"
-			class="uk-icon-button uk-icon-button-small uk-button-default ' . $colorPaidTool . '  uk-margin-small-right">
+			class="uk-icon-button   uk-button-default ' . $colorPaidTool . '  uk-margin-xsmall-right">
 		<span uk-tooltip="'. vmText::_($textPaidAction) .'">
-			<span uk-icon="icon: tag; ratio: '.$iconRatio .'"></span>
+			<span uk-icon="icon: paid2; ratio: '.$iconRatio .'"></span>
 		</span>
 		</a>';
 

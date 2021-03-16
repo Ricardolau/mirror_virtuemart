@@ -44,8 +44,12 @@ vmLanguage::loadJLang('com_virtuemart_config');
 					<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_EMAIL_SHOPPER'); ?>
 				</th>
 				<th>
+					<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_EMAIL_LAYOUT'); ?>
+				</th>
+				<th>
 					<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_EMAIL_ATTACHMENT'); ?>
 				</th>
+
 				<th>
 					<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_CREATE_INVOICE'); ?>
 				</th>
@@ -148,6 +152,11 @@ vmLanguage::loadJLang('com_virtuemart_config');
 						}
 						?>
 					</td>
+					<td >
+						<?php echo $row->order_status_email_layout; ?>
+					</td>
+
+
 					<td>
 						<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 								uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_EMAIL_ATTACHMENT') ?>"
@@ -155,7 +164,7 @@ vmLanguage::loadJLang('com_virtuemart_config');
 						<?php
 						if (in_array($row->order_status_code, VmConfig::get('attach_os', array('')))) {
 							?>
-							<span class="md-color-green-600" uk-icon="icon: file"></span>
+							<span class="md-color-green-800" uk-icon="icon: file"></span>
 							<?php
 						}
 						?>
@@ -169,11 +178,11 @@ vmLanguage::loadJLang('com_virtuemart_config');
 						if (in_array($row->order_status_code, VmConfig::get('inv_os', array('C')))) {
 							if (in_array($row->order_status_code, VmConfig::get('refund_os', array('R')))) {
 								?>
-								<span class="md-color-red-600" uk-icon="icon: file-pdf"></span>
+								<span class="md-color-red-800" uk-icon="icon: file-pdf"></span>
 								<?php
 							} else {
 								?>
-								<span class="md-color-green-600" uk-icon="icon: file-pdf"></span>
+								<span class="md-color-green-800" uk-icon="icon: file-pdf"></span>
 								<?php
 							}
 						}
@@ -187,7 +196,7 @@ vmLanguage::loadJLang('com_virtuemart_config');
 						<?php
 						if (in_array($row->order_status_code, VmConfig::get('order_allowedit_os', array('P', 'U')))) {
 							?>
-							<span class="md-color-green-600" uk-icon="icon: pencil"></span>
+							<span class="md-color-green-800" uk-icon="icon: pencil"></span>
 							<?php
 						} else {
 							?>
@@ -210,7 +219,7 @@ vmLanguage::loadJLang('com_virtuemart_config');
 						<?php
 						if (in_array($row->order_status_code, VmConfig::get('refund_os', array('R')))) {
 							?>
-							<span class="md-color-red-600" uk-icon="icon: reply"></span>
+							<span class="md-color-red-800" uk-icon="icon: reply"></span>
 							<?php
 						}
 						?>
@@ -229,7 +238,7 @@ vmLanguage::loadJLang('com_virtuemart_config');
 						}
 						if (in_array($row->order_status_code, $del_date_type)) {
 							?>
-							<span class="md-color-green-600" uk-icon="icon: calendar"></span>
+							<span class="md-color-green-800" uk-icon="icon: calendar"></span>
 							<?php
 						}
 						?>

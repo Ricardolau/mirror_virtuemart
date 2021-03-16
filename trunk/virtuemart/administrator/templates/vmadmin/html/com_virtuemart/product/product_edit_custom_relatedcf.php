@@ -77,7 +77,7 @@ $relatedIcon = $this->relatedIcon;
 
 					<!-- DISPLAY RELATED<?php echo strtoupper($relatedType) ?> -->
 					<div id="vmuikit-js-related<?php echo ($relatedType) ?>-container"
-							class="vmuikit-js-cf-container uk-margin-medium-top uk-grid uk-grid-small uk-child-width-1-2@s uk-child-width-1-4@m uk-child-width-1-5@l  uk-child-width-1-6@xl uk-grid-match"
+							class="vmuikit-js-cf-container uk-margin-medium-top uk-grid uk-grid-small uk-child-width-auto uk-grid-match"
 							uk-grid>
 					</div>
 					<!-- EOF DISPLAY RELATED<?php echo strtoupper($relatedType) ?> -->

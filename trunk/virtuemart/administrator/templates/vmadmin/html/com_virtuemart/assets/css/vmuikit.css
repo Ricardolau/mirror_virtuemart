@@ -66,7 +66,7 @@
     border-left: 2px solid #0097a7;
 }
 .vmuikit-menu-wrapper ul.uk-nav-default li .uk-nav-sub li a {
-    padding:8px 20px;
+    padding:8px 14px;
     border-left: 2px solid transparent;
     transition: all 0.20s ease-out;
     color: rgba(255,255,255,.8);
@@ -100,7 +100,7 @@
 
 /* UIKIT override */
 .uk-padding-xsmall {
-    padding: 10px;
+    padding: 5px;
 }
 
 .uk-heading-primary {
@@ -113,7 +113,9 @@
     -webkit-transition: box-shadow 0.55s cubic-bezier(.4, 0, .2, 1);
     transition: box-shadow 0.55s cubic-bezier(.4, 0, .2, 1);
 }
-
+.uk-margin-lxsmal-right {
+    margin-right: 5px !important;
+}
 .uk-margin-xxsmall-left {
     margin-left: 2px !important;
 }
@@ -297,7 +299,9 @@
     /* 1 */
     border: 0;
 }
-
+.vmuikit-js-thumb_image-selected{
+    border-color: #00acc1 !important;
+}
 /* FORM */
 textarea:hover, input[type="text"]:hover,
 input[type="password"]:hover, input[type="datetime"]:hover, input[type="datetime-local"]:hover, input[type="date"]:hover, input[type="month"]:hover, input[type="time"]:hover, input[type="week"]:hover, input[type="number"]:hover, input[type="email"]:hover, input[type="url"]:hover, input[type="search"]:hover, input[type="tel"]:hover, input[type="color"]:hover, .uneditable-input:hover {
@@ -524,7 +528,7 @@ input[type="text"].uk-form-width-1-1{
 }
 .ui-autocomplete > li > div {
     display: block;
-    padding: 3px 20px;
+    padding: 3px 5px;
     clear: both;
     font-weight: normal;
     font-family: revert;
@@ -556,6 +560,10 @@ input[type="text"].uk-form-width-1-1{
 .ui-autocomplete .vmuikit-js-media-card ,
 .ui-autocomplete .vmuikit-js-cf-card {
      height: 200px;
+    overflow: hidden;
+}
+.vmuikit-js-cf-card-body{
+    padding:5px
 }
 .custom_related_title, .custom_related_image {
     display: block;
@@ -569,9 +577,15 @@ input[type="text"].uk-form-width-1-1{
 .custom_related_title, .custom_related_image {
     display: block;
     clear: both;
+    max-width: 100px;
 }
 .menu-langlist,
 .menu-langlist a,
 .menu-langlist a:hover{
     color: #333;
+}
+
+.uk-icon-button-small {
+    width: 25px;
+    height: 25px;
 }

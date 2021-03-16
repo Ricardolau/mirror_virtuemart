@@ -64,7 +64,10 @@ defined('_JEXEC') or die('Restricted access');
 					// <a
 					// href="/administrator/index.php?option=com_virtuemart&view=user&task=addST&new=1&addrtype=ST&virtuemart_user_id[]=134&37079fa6c004f852b97fa1bca43b89ef=1">
 					//<span class="vmicon vmicon-16-editadd"></span> Add Address </a><ul></ul>
-					$this->lists['shipTo'] = str_replace('<span class="vmicon vmicon-16-editadd"></span>', '<span uk-icon="plus-circle"></span>', $this->lists['shipTo']);
+					$this->lists['shipTo'] = str_replace('<span class="vmicon vmicon-16-editadd"></span>', '<span class="uk-margin-small-right" uk-icon="plus"></span>', $this->lists['shipTo']);
+
+					$this->lists['shipTo'] = str_replace('href', 'class="uk-button uk-button-small uk-button-primary uk-margin-small-top" href', $this->lists['shipTo']);
+
 
 					echo $this->lists['shipTo'];
 					?>

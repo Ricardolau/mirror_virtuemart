@@ -26,7 +26,7 @@ $option = vRequest::getCmd('option');
 
 /* Load some variables */
 $keyword = vRequest::getCmd('keyword', null);
-$iconRatio=1;
+$iconRatio=0.75;
 ?>
 	<form action="index.php?option=com_virtuemart&view=custom" method="post" name="adminForm" id="adminForm">
 
@@ -149,10 +149,10 @@ $iconRatio=1;
 						<td class="uk-text-center@m">
 							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_CUSTOM_IS_CART_ATTRIBUTE') ?>"
-							uk-icon="icon: cart"></span>
+							uk-icon="icon: cart2"></span>
 							<?php
 							if ($custom->is_cart_attribute) {
-								$cartIconColor = 'md-color-green-600';
+								$cartIconColor = 'md-color-green-800';
 								$cartIconText = 'COM_VIRTUEMART_CUSTOM_IS_CART_ATTRIBUTE';
 							} else {
 								$cartIconColor = 'md-color-grey-400';
@@ -161,12 +161,12 @@ $iconRatio=1;
 							?>
 							<span class="<?php echo $cartIconColor ?>"
 									uk-tooltip="<?php echo vmText::_($cartIconText) ?>"
-									uk-icon="icon: cart;ratio:<?php echo $iconRatio ?>"></span>
+									uk-icon="icon: cart2;ratio:<?php echo $iconRatio ?>"></span>
 						</td>
 						<td class="uk-text-center@m">
 							<?php
 							if ($custom->admin_only) {
-								$adminColor = 'md-color-green-600';
+								$adminColor = 'md-color-green-800';
 								$adminText = 'COM_VIRTUEMART_CUSTOM_ADMIN_ONLY';
 							} else {
 								$adminColor = 'md-color-grey-400';
@@ -175,21 +175,21 @@ $iconRatio=1;
 							?>
 							<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_CUSTOM_ADMIN_ONLY') ?>"
-							uk-icon="icon: shop"></span>
+							uk-icon="icon: 'shop"></span>
 							<a href="javascript:void(0);"
-									class="uk-icon-button uk-button-default"
+									class="uk-icon-button uk-icon-button-small uk-button-default"
 									onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','toggle.admin_only')"
 									uk-tooltip="<?php echo vmText::_($adminText); ?>">
 								<span class="<?php echo $adminColor ?>"
 										uk-tooltip="<?php echo vmText::_($adminText) ?>"
-										uk-icon="icon: shop;ratio:<?php echo $iconRatio ?>"></span>
+										uk-icon="icon: shop2;ratio:<?php echo $iconRatio ?>"></span>
 
 							</a>
 						</td>
 						<td class="uk-text-center@m">
 							<?php
-							if ($custom->admin_only) {
-								$hiddenColor = 'md-color-green-600';
+							if ($custom->is_hidden) {
+								$hiddenColor = 'md-color-green-800';
 								$hiddenText = 'COM_VIRTUEMART_CUSTOM_IS_HIDDEN';
 								$hiddenIcon = 'disable';
 							} else {
@@ -202,7 +202,7 @@ $iconRatio=1;
 							uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_CUSTOM_IS_HIDDEN') ?>"
 							uk-icon="icon: disable"></span>
 							<a href="javascript:void(0);"
-									class="uk-icon-button uk-button-default"
+									class="uk-icon-button uk-icon-button-small uk-button-default"
 									onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','toggle.is_hidden')"
 									uk-tooltip="<?php echo vmText::_($hiddenText); ?>">
 									<span class="<?php echo $hiddenColor ?>"

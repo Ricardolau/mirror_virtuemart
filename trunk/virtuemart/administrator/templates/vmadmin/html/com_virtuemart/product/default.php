@@ -225,7 +225,7 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 							//  show canonical category if set
 							if (!empty($product->product_canon_category_id) && $product->product_canon_category_id > 0) {
 								?>
-								<div class="md-color-orange-600">
+								<div class="md-color-orange-800">
 									<?php echo 'CanonCat: ' . $product->canonCatIdname; ?>
 								</div>
 								<?php
@@ -283,11 +283,11 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 							<?php /* TODO ?>
 								<?php
 								if ($product->product_special) {
-									$color = 'md-color-green-600';
+									$color = 'md-color-green-800';
 									$text = 'COM_VIRTUEMART_PUBLISHED';
 									$icon='heart';
 								} else {
-									$color = 'md-color-grey-600';
+									$color = 'md-color-grey-800';
 									$text='COM_VIRTUEMART_PUBLISHED';
 									$icon='heart';
 								}
@@ -307,7 +307,10 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 								<?php  */ ?>
 
 							<?php
-							echo $is_featured;
+							// 					$is_featured = $this->toggle($product->product_special, $i, 'toggle.product_special');
+							echo adminSublayouts::renderAdminVmSubLayout('toggle',
+								array('field' => $product->product_special, 'i'=>$i, 'toggle'=>'toggle.product_special','icon'=>'heart2')
+							)
 							?>
 
 						</td>
@@ -316,11 +319,11 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 							<?php /* TODO ?>
 								<?php
 								if ($product->published) {
-									$color = 'md-color-green-600';
+									$color = 'md-color-green-800';
 									$text = 'COM_VIRTUEMART_PUBLISHED';
 									$icon='check';
 								} else {
-									$color = 'md-color-red-600';
+									$color = 'md-color-red-800';
 									$text='COM_VIRTUEMART_PUBLISHED';
 									$icon='close';
 								}

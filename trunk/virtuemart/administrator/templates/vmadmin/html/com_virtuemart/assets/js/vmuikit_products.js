@@ -104,7 +104,7 @@ var relatedproductsSearch=	$('input#relatedproductsSearch').autocomplete({
 		// sublayouts/mustache/search_relatedcf.php
 		var template = $('#search-relatedcf-template').html()
 		var rendered = Mustache.render(template, {"relatedData": item ,"relatedcf":'products'})
-		ul.addClass('uk-child-width-1-2@s uk-child-width-1-4@m uk-child-width-1-6@l'); //Ul custom class here
+		ul.addClass('uk-child-width-auto'); //Ul custom class here
 		return $( "<li>" )
 		.append( rendered )
 		.appendTo( ul );
@@ -140,7 +140,7 @@ var relatedproductsSearch=	$('input#relatedproductsSearch').autocomplete({
 		// sublayouts/mustache/search_relatedcf.php
 		var template = $('#search-relatedcf-template').html()
 		var rendered = Mustache.render(template, {"relatedData": item ,"relatedcf":'categories'})
-		ul.addClass('uk-child-width-1-2@s uk-child-width-1-4@m uk-child-width-1-6@l'); //Ul custom class here
+		ul.addClass('uk-child-width-auto'); //Ul custom class here
 		return $( "<li>" )
 		.append( rendered )
 		.appendTo( ul );

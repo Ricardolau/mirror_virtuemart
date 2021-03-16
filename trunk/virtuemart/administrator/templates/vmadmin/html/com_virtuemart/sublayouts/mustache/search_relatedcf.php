@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access');
 <div id="search-relatedcf-template">
 	{{#relatedData}}
 	<div class="">
-		<div class="vmuikit-js-cf-card uk-card uk-card-small uk-card-vm uk-padding-small">
+		<div class="vmuikit-js-cf-card uk-card uk-card-small uk-card-vm">
 			<div uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_RELATEDCF_SELECT') ?>">
 				<div class="vmuikit-js-cf-card-body uk-card-body">
 					{{{hiddenHTML}}}

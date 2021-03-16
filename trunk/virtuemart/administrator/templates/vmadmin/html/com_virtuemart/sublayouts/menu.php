@@ -81,7 +81,7 @@ $collapse = false;
 					<?php
 					if ($collapse) {
 						?>
-						<span class="uk-margin-small-right uk-nav-sub-icon"
+						<span class="uk-margin-xsmall-right uk-nav-sub-icon"
 								uk-icon="<?php echo $item ['items'][0]['uikit_icon'] ?>"></span>
 						<?php
 					}

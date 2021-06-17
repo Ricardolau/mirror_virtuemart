@@ -8,7 +8,7 @@
  * @subpackage Cart
  * @author Max Milbers
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -911,9 +911,7 @@ class VirtueMartCart {
 
 			//Now we check if the delivered customProductData is correct and add missing
 			$product = VirtueMartCart::getProduct($virtuemart_product_id, $productData['quantity']);
-			/*$productTemp = $productModel->getProduct($virtuemart_product_id, true, false,true,$productData['quantity']);
-			$productTemp->modificatorSum = null;
-			$product = clone($productTemp);*/
+			if(!$product) return false;
 
 			$productData['virtuemart_vendor_id'] = $product->virtuemart_vendor_id;
 
@@ -2222,16 +2220,12 @@ class VirtueMartCart {
 					//Important, must not use calculation, would lead to wrong prices, because the full cart is not know yet.
 					$product = VirtueMartCart::getProduct($productdata['virtuemart_product_id'], $productdata['quantity']);
 
-					/*$productTemp = $productsModel->getProduct($productdata['virtuemart_product_id'],TRUE,FALSE,TRUE,$productdata['quantity']);*/
 					if(!$product){
 						vmError('The product is no longer available; prepareCartData virtuemart_product_id is empty','The product is no longer available');
 						unset($this->cartProductsData[$k]);
 						continue;
 					}
 
-					//Very important! must be cloned, else all products with same id get the same productCustomData due the product cache
-/*					$productTemp->modificatorSum = null;
-					$product = clone($productTemp);*/
 
 					$productdata['virtuemart_product_id'] = (int)$productdata['virtuemart_product_id'];
 

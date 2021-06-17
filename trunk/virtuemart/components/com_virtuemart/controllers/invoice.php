@@ -76,7 +76,7 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 				$orderDetails['details']['BT']->invoice_locked = 0;
 			}
 
-			$fileLocation = $this->getInvoicePDF($orderDetails, 'invoice',$layout);
+			$fileLocation = $this->getInvoicePDF($orderDetails, 'invoice', $layout);
 			if(!$fileLocation){
 				$app->redirect(JRoute::_('index.php?option=com_virtuemart'),'Invoice not created');
 			}
@@ -198,7 +198,7 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 	 * @param false $force
 	 * @return false|int|mixed|string|void
 	 */
-	function getInvoicePDF($orderDetails, $viewName='invoice', $layout='invoice', $format='html', $force = false){
+	function getInvoicePDF($order, $viewName='invoice', $layout='invoice', $format='html', $force = false){
 
 		vmdebug('getInvoicePDF start');
 		vmLanguage::loadJLang('com_virtuemart',1);
@@ -223,9 +223,9 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 			}
 		}
 
-		if(empty($invoiceNumber)){
+		if( $layout == 'invoice' and empty($invoiceNumber) ){
 
-			$inv = $invM->getExistingIfUnlockedCreateNewInvoiceNumber($orderDetails['details']['BT'], $invoiceNumber);
+			$inv = $invM->getExistingIfUnlockedCreateNewInvoiceNumber($order['details']['BT'], $invoiceNumber);
 
 			if(!empty($inv[0])){
 				$invoiceNumber = $inv[0];
@@ -234,23 +234,30 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 				$invoiceNumber = FALSE;
 				vmdebug('getInvoicePDF Cant create pdf, no entry for ',$inv);
 				$r = 'getInvoicePDF Cant create pdf, no entry';
-				vmError($r , $r.' for '.$inv);
+				vmError($r , $r.' for layout '.$layout);
 				return false;
 			}
 		}
 
-		if(!$invoiceNumber or empty($invoiceNumber)){
-			$r = 'getInvoicePDF Cant create pdf, no entry for '.$invoiceNumber;
+		if( $layout == 'invoice' and (!$invoiceNumber or empty($invoiceNumber))){
+			$r = 'getInvoicePDF Cant create pdf, no entry for layout '.$layout;
 			vmError($r, $r);
 			return 0;
 		}
-		if (shopFunctionsF::InvoiceNumberReserved($invoiceNumber)) {
+
+		if( $layout=='invoice' and shopFunctionsF::InvoiceNumberReserved($invoiceNumber)) {
 			vmdebug('getInvoicePDF InvoiceNumberReserved ',$invoiceNumber);
 			return 0;
 		}
 
+		if(empty($invoiceNumber) and $layout = 'deliverynote'){
+			$fileNumber = $order['details']['BT']->order_number;
+		} else {
+			$fileNumber = $invoiceNumber;
+		}
+
 		//$path .= preg_replace('/[^A-Za-z0-9_\-\.]/', '_', 'vm'.$layout.'_'.$invoiceNumber.'.pdf');
-		$path .= shopFunctionsF::getInvoiceName($invoiceNumber, $layout).'.pdf';
+		$path .= shopFunctionsF::getInvoiceName($fileNumber, $layout).'.pdf';
 
 		if(file_exists($path) and !$force){
 
@@ -262,18 +269,18 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 		$view->invoiceNumber = $invoiceNumber;
 		$view->invoiceDate = $invoiceDate;
 
-		$view->orderDetails = $orderDetails;
+		$view->orderDetails = $order;
 		$view->uselayout = $layout;
 		$view->showHeaderFooter = false;
 
 		$vendorModel = VmModel::getModel('vendor');
-		$virtuemart_vendor_id = empty($orderDetails['details']['BT']->virtuemart_vendor_id)? 1:$orderDetails['details']['BT']->virtuemart_vendor_id;
+		$virtuemart_vendor_id = empty($order['details']['BT']->virtuemart_vendor_id)? 1:$order['details']['BT']->virtuemart_vendor_id;
 		$vendor = $vendorModel->getVendor($virtuemart_vendor_id);
 
 		$metadata = array (
 			'title' => vmText::sprintf('COM_VIRTUEMART_INVOICE_TITLE',
 				$vendor->vendor_store_name, $view->invoiceNumber,
-				$orderDetails['details']['BT']->order_number),
+				$order['details']['BT']->order_number),
 			'keywords' => vmText::_('COM_VIRTUEMART_INVOICE_CREATOR'));
 
 		vmDefines::tcpdf();

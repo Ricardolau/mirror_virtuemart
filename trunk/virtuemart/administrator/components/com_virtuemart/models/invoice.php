@@ -224,38 +224,47 @@ class VirtueMartModelInvoice extends VmModel {
 
 		if($orderDetails['invoice_locked']) return false;
 
-		VmConfig::importVMPlugins('vmpayment');
-
-		$dispatcher = JDispatcher::getInstance();
-		// plugin returns invoice number, 0 if it does not want an invoice number to be created by Vm
-		$plg_datas = $dispatcher->trigger('plgVmOnUserInvoice',array($orderDetails,&$data));
-
-		if(empty($data['invoice_number']) ) {
-			// check the default configuration
-			$orderstatusForInvoice = VmConfig::get('inv_os',array('C'));
-			if(!is_array($orderstatusForInvoice)) $orderstatusForInvoice = array($orderstatusForInvoice); //for backward compatibility 2.0.8e
-
-			$force_create_invoice=vRequest::getCmd('create_invoice', -1);
-
-			if ( in_array($orderDetails['order_status'],$orderstatusForInvoice) or $force_create_invoice==$orderDetails['order_create_invoice_pass'] ){
-				$q = 'SELECT COUNT(1) FROM `#__virtuemart_invoices` WHERE `virtuemart_vendor_id`= "'.$orderDetails['virtuemart_vendor_id'].'" '; // AND `order_status` = "'.$orderDetails->order_status.'" ';
-				$db = JFactory::getDBO();
-				$db->setQuery($q);
-
-				$count = $db->loadResult()+1;
-				vmdebug('createStoreNewInvoiceNumber count and query ',$count,$q);
-
-				$date = date("Y-m-d");
-				$data['invoice_number'] = str_replace('-', '', substr($date,2,8)).vmCrypt::getHumanToken(4).'0'.$count;
-
-			} else {
-				return false;
-			}
-		}
-
 		$table = $this->getTable('invoices');
 
-		$table->bindChecknStore($data);
+		//QuicknDirty
+		$deliveryNote = vRequest::getCmd('layout','');
+		if($deliveryNote=='deliverynote'){
+			$tmp = self::getInvoiceEntry($data['virtuemart_order_id'], true , '*');
+			$table->invoice_number = isset($tmp['invoice_number'])? $tmp['invoice_number']:'';
+			$table->created_on = isset($tmp['created_on'])? $tmp['created_on']:'';
+			VmConfig::importVMPlugins('vmpayment');
+
+		} else {
+
+			$dispatcher = JDispatcher::getInstance();
+			// plugin returns invoice number, 0 if it does not want an invoice number to be created by Vm
+			$plg_datas = $dispatcher->trigger('plgVmOnUserInvoice',array($orderDetails,&$data));
+
+			if(empty($data['invoice_number']) ) {
+				// check the default configuration
+				$orderstatusForInvoice = VmConfig::get('inv_os',array('C'));
+				if(!is_array($orderstatusForInvoice)) $orderstatusForInvoice = array($orderstatusForInvoice); //for backward compatibility 2.0.8e
+
+				$force_create_invoice=vRequest::getCmd('create_invoice', -1);
+
+				if ( in_array($orderDetails['order_status'],$orderstatusForInvoice) or $force_create_invoice==$orderDetails['order_create_invoice_pass'] ){
+					$q = 'SELECT COUNT(1) FROM `#__virtuemart_invoices` WHERE `virtuemart_vendor_id`= "'.$orderDetails['virtuemart_vendor_id'].'" '; // AND `order_status` = "'.$orderDetails->order_status.'" ';
+					$db = JFactory::getDBO();
+					$db->setQuery($q);
+
+					$count = $db->loadResult()+1;
+					vmdebug('createStoreNewInvoiceNumber count and query ',$count,$q);
+
+					$date = date("Y-m-d");
+					$data['invoice_number'] = str_replace('-', '', substr($date,2,8)).vmCrypt::getHumanToken(4).'0'.$count;
+
+				} else {
+					return false;
+				}
+			}
+
+			$table->bindChecknStore($data);
+		}
 
 		return array($table->invoice_number,$table->created_on);
 	}

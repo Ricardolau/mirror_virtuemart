@@ -34,21 +34,30 @@
           description="MOD_VIRTUEMART_CATEGORY_SUBLEVEL_DESC"
         />
         <field
-					name="layout"
-					type="modulelayout"
-					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+          name="layout"
+          type="modulelayout"
+          label="JFIELD_ALT_LAYOUT_LABEL"
+          description="JFIELD_ALT_MODULE_LAYOUT_DESC"
         />
         <field
-          name="cache"
-          type="list"
-          default="0"
-          label="COM_MODULES_FIELD_CACHING_LABEL"
-          description="COM_MODULES_FIELD_CACHING_DESC"
-          >
-          <option value="0">No</option>
-          <option value="1">Yes</option>
+                name="vmcache"
+                type="list"
+                default="1"
+                label="MOD_VIRTUEMART_PRODUCT_CACHING_LABEL"
+                description="MOD_VIRTUEMART_PRODUCT_CACHING_DESC"
+        >
+          <option value="0">JNO</option>
+          <option value="1">JYES</option>
         </field>
+        <field
+                name="vmcachetime"
+                type="text"
+                default="300"
+                label="MOD_VIRTUEMART_PRODUCT_CACHING_TIME_LABEL"
+                description="MOD_VIRTUEMART_PRODUCT_CACHING_TIME_DESC"
+        />
+      </fieldset>
+      <fieldset name="advanced">
         <field
           name="moduleclass_sfx"
           type="text"

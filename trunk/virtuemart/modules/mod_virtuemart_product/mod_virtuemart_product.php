@@ -8,89 +8,44 @@ defined('_JEXEC') or die( 'Direct Access to '.basename(__FILE__).' is not allowe
 * @subpackage modules
 *
 * @copyright (C) 2010 - Patrick Kohl
-* @copyright (C) 2011 - 2017 The VirtueMart Team
+* @copyright (C) 2011 - 2021 The VirtueMart Team
 * @author Max Milbers, Valerie Isaksen, Alexander Steiner
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 * VirtueMart is Free Software.
 * VirtueMart comes with absolute no warranty.
 *
-* @link ${PHING.VM.MAINTAINERURL}
+* @link https://virtuemart.net
 */
 
 if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 
 VmConfig::loadConfig();
-vmLanguage::loadJLang('mod_virtuemart_product', true);
-
-// Setting
-$max_items = 		$params->get( 'max_items', 2 ); //maximum number of items to display
-$layout = $params->get('layout','default');
-$category_id = 		$params->get( 'virtuemart_category_id', null ); // Display products from this category only
-$filter_category = 	(bool)$params->get( 'filter_category', 0 ); // Filter the category
-$manufacturer_id = 	$params->get( 'virtuemart_manufacturer_id', null ); // Display products from this manufacturer only
-$filter_manufacturer = 	(bool)$params->get( 'filter_manufacturer', 0 ); // Filter the manufacturer
-$display_style = 	$params->get( 'display_style', "div" ); // Display Style
-$products_per_row = $params->get( 'products_per_row', 1 ); // Display X products per Row
-$show_price = 		(bool)$params->get( 'show_price', 1 ); // Display the Product Price?
-$show_addtocart = 	(bool)$params->get( 'show_addtocart', 1 ); // Display the "Add-to-Cart" Link?
-$headerText = 		$params->get( 'headerText', '' ); // Display a Header Text
-$footerText = 		$params->get( 'footerText', ''); // Display a footerText
-$Product_group = 	$params->get( 'product_group', 'featured'); // Display a footerText
 
 $mainframe = Jfactory::getApplication();
 $virtuemart_currency_id = $mainframe->getUserStateFromRequest( "virtuemart_currency_id", 'virtuemart_currency_id',vRequest::getInt('virtuemart_currency_id',0) );
 
-
 vmJsApi::jPrice();
 vmJsApi::cssSite();
 
+$Product_group = 	$params->get( 'product_group', 'featured'); // Display a footerText
 $cache = $params->get( 'vmcache', true );
-$cachetime = $params->get( 'vmcachetime', 2 );
+$cachetime = $params->get( 'vmcachetime', 60 );
 $products = false;
 //vmdebug('$params for mod products',$params);
 
-$productModel = VmModel::getModel('Product');
+if (!class_exists( 'mod_virtuemart_product' )) require(JPATH_ROOT .'/modules/mod_virtuemart_product/helper.php');
 
 if($cache and $Product_group!='recent'){
-	vmdebug('Use cache for mod products');
 	//$key = 'products'.$category_id.'.'.$max_items.'.'.$filter_category.'.'.$display_style.'.'.$products_per_row.'.'.$show_price.'.'.$show_addtocart.'.'.$Product_group.'.'.$virtuemart_currency_id.'.'.$category_id.'.'.$filter_manufacturer.'.'.$manufacturer_id;
 	$cache	= VmConfig::getCache('mod_virtuemart_product');
 	$cache->setCaching(1);
 	$cache->setLifeTime($cachetime);
 	$db = JFactory::getDbo();
-	$products = $cache->call( array( 'VirtueMartModelProduct', 'getProductsListing' ),$Product_group, $max_items, $show_price, true, false,$filter_category, $category_id, $filter_manufacturer, $manufacturer_id, $params->get( 'omitLoaded', 0));
-	if ($products) {
-		vmdebug('Use cached mod products');
-	}
+	echo $cache->call( array( 'mod_virtuemart_product', 'displayProductsMod' ), $params, $Product_group);
+	vmdebug('Use cached mod products');
+} else {
+	echo mod_virtuemart_product::displayProductsMod($params, $Product_group);
 }
-
-if(!$products){
-	$vendorId = vRequest::getInt('vendorid', 1);
-
-	if ($filter_category ) $filter_category = TRUE;
-	VirtueMartModelProduct::$omitLoaded = $params->get( 'omitLoaded', 0);
-	$products = $productModel->getProductListing($Product_group, $max_items, $show_price, true, false,$filter_category, $category_id, $filter_manufacturer, $manufacturer_id, $params->get( 'omitLoaded', 0));
-}
-
-if(empty($products)) return false;
-
-$productModel->addImages($products);
-
-shopFunctionsF::sortLoadProductCustomsStockInd($products,$productModel);
-if(empty($products)) return false;
-
-$totalProd = 		count( $products);
-
-$currency = CurrencyDisplay::getInstance( );
-
-ob_start();
-
-/* Load tmpl default */
-require(JModuleHelper::getLayoutPath('mod_virtuemart_product',$layout));
-$output = ob_get_clean();
-echo $output;
-
-
 
 echo vmJsApi::writeJS();
 ?>

@@ -1,27 +1,8 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-/* ID for jQuery dropdown */
-$ID = str_replace('.', '_', substr(microtime(true), -8, 8));
-$js="
-//<![CDATA[
-jQuery(document).ready(function() {
-		jQuery('#VMmenu".$ID." li.VmClose ul').hide();
-		jQuery('#VMmenu".$ID." li .VmArrowdown').click(
-		function() {
 
-			if (jQuery(this).parent().next('ul').is(':hidden')) {
-				jQuery('#VMmenu".$ID." ul:visible').delay(500).slideUp(500,'linear').parents('li').addClass('VmClose').removeClass('VmOpen');
-				jQuery(this).parent().next('ul').slideDown(500,'linear');
-				jQuery(this).parents('li').addClass('VmOpen').removeClass('VmClose');
-			}
-		});
-	});
-//]]>
-" ;
-
-$document = JFactory::getDocument();
-$document->addScriptDeclaration($js);?>
+?>
 
 <ul class="VMmenu<?php echo $class_sfx ?>" id="<?php echo "VMmenu".$ID ?>">
 	<?php foreach ($categories as $category) {
@@ -53,7 +34,6 @@ $document->addScriptDeclaration($js);?>
 				} ?>
 				<li <?php echo $active_child_menu; ?>>
 					<div ><?php echo JHTML::link($caturl, $cattext); ?></div>
-				</li>
 				<?php
 				if(!empty($child->childs)){ ?>
 					<ul class="menu<?php echo $class_sfx; ?>">
@@ -71,8 +51,9 @@ $document->addScriptDeclaration($js);?>
 							<?php
 						} ?>
 					</ul>
-					<?php
-				}
+				<?php } ?>
+				</li>
+			<?php
 			} ?>
 		</ul>
 		<?php } ?>

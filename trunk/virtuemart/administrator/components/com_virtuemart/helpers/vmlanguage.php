@@ -110,7 +110,7 @@ class vmLanguage {
 		VmConfig::$langCount = count($langs);
 
 		if(!in_array($siteLang, $langs)) {
-			vmdebug('Selected siteLang is not in $langs',$siteLang, $langs);
+			vmError('Selected siteLang '. $siteLang.' is not in $langs '.implode(', ',$langs));
 			$siteLang = VmConfig::$jDefLangTag;	//Set to shop language
 		}
 

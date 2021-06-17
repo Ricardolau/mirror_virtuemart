@@ -54,9 +54,11 @@ class vmCrypt {
 				//vmdebug('vmCrypt encrypt the used key '.$key);
 				return base64_encode( $iv.mcrypt_encrypt( MCRYPT_RIJNDAEL_256, $key['key'], $string, MCRYPT_MODE_CBC, $iv ) );
 			}
+		} else {
+			vmdebug('vmCrypt empty key '); return false;
 		}
 
-		vmdebug('vmCrypt no '.$key['method'].' available');
+		vmdebug('vmCrypt method not available',$key);
 		return base64_encode ($string);
 	}
 

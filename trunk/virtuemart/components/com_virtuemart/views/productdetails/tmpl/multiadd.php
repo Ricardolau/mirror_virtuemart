@@ -178,6 +178,7 @@ echo '<form method="post" class="product js-recalculate" action="'.JRoute::_('in
 								echo shopFunctionsF::renderVmSubLayout('addtocartbar',array('product'=>$product,'init'=>0));
 								echo shopFunctionsF::renderVmSubLayout('stockhandle',array('product'=>$product));
 								echo '</div>';
+								echo '<div class="clear"></div>';
 							}
 						}
 					}
@@ -188,7 +189,7 @@ echo '<form method="post" class="product js-recalculate" action="'.JRoute::_('in
 					<noscript><input type="hidden" name="task" value="add" /></noscript>
 					<?php if(!empty($childProductIds)){ ?>
 						<span class="addtocart-button">
-						<?php echo self::renderVmSubLayout('addtocartbtn',array('orderable'=>$this->product->orderable)); ?>
+						<?php echo ShopFunctionsF::renderVmSubLayout('addtocartbtn',array('orderable'=>$this->product->orderable)); ?>
 						</span>
 					<?php } ?>
 				</form>

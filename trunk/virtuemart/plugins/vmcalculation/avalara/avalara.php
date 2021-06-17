@@ -116,7 +116,7 @@ class plgVmCalculationAvalara extends vmCalculationPlugin {
  		$entryPoints[] = array('calc_value_mathop' => 'avalara', 'calc_value_mathop_name' => 'Avalara');
 	}
 
-	function plgVmOnDisplayEdit(&$calc,&$html){
+	function plgVmOnDisplayEditCalc(&$calc,&$html){
 
 		$html .= '<fieldset>
 	<legend>'.vmText::_('VMCALCULATION_AVALARA').'</legend>

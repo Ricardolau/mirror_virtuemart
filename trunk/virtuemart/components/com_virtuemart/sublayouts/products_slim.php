@@ -86,54 +86,51 @@ foreach ($viewData['products'] as $type => $products ) {
 
 		// Show Products ?>
 	<div class="product floatleft<?php echo $cellwidth.$show_vertical_separator ?>">
-		<div class="spacer product-container" data-vm="product-container">
-		<div class="width30 floatleft center" >
-                        <a title="<?php echo $product->product_name ?>" rel="vm-additional-images" href="<?php echo $product->link; ?>">
-							<?php
-							echo $product->images[0]->displayMediaThumb( 'class="browseProductImage"', false );
-							?>
-                        </a>
+		<div class="spacer product-container" style="overflow:hidden;" data-vm="product-container">
+		    <div class="width30 floatleft center" >
+                <a title="<?php echo $product->product_name ?>" rel="vm-additional-images" href="<?php echo $product->link; ?>">
+                    <?php
+                    echo $product->images[0]->displayMediaThumb( 'class="browseProductImage"', false );
+                    ?>
+                </a>
 
-						<?php
-						if(VmConfig::get( 'display_stock', 1 )) { ?>
-                            <!-- 						if (!VmConfig::get('use_as_catalog') and !(VmConfig::get('stockhandle','none')=='none')){?> -->
-                            <div class="paddingtop8">
-                                <span class="vmicon vm2-<?php echo $product->stock->stock_level ?>"
-                                      title="<?php echo $product->stock->stock_tip ?>"></span>
-                                <span class="stock-level"><?php echo JText::_( 'COM_VIRTUEMART_STOCK_LEVEL_DISPLAY_TITLE_TIP' ) ?></span>
-                            </div>
-						<?php } ?>
+                <?php
+                if(VmConfig::get( 'display_stock', 1 )) { ?>
+                    <!-- 						if (!VmConfig::get('use_as_catalog') and !(VmConfig::get('stockhandle','none')=='none')){?> -->
+                    <div class="paddingtop8">
+                        <span class="vmicon vm2-<?php echo $product->stock->stock_level ?>"
+                              title="<?php echo $product->stock->stock_tip ?>"></span>
+                        <span class="stock-level"><?php echo JText::_( 'COM_VIRTUEMART_STOCK_LEVEL_DISPLAY_TITLE_TIP' ) ?></span>
                     </div>
+                <?php } ?>
+            </div>
 
-                    <div class="width70 floatright">
+            <div class="width70 floatright">
+                <h2><?php echo JHTML::link( $product->link, $product->product_name ); ?></h2>
 
-                        <h2><?php echo JHTML::link( $product->link, $product->product_name ); ?></h2>
-
-                        <?php //echo $rowsHeight[$row]['price'] ?>
-                        <div class="vm3pr-<?php echo $rowsHeight[$row]['price'] ?>"> <?php
-                            echo shopFunctionsF::renderVmSubLayout('prices',array('product'=>$product,'currency'=>$currency)); ?>
-                            <div class="clear"></div>
-                        </div>
-                        <?php //echo $rowsHeight[$row]['customs'] ?>
-                        <div class="vm3pr-<?php echo $rowsHeight[$row]['customfields'] ?>"> <?php
-                            echo shopFunctionsF::renderVmSubLayout('addtocart',array('product'=>$product,'rowHeights'=>$rowsHeight[$row], 'position' => array('ontop', 'addtocart'))); ?>
-                        </div>
-
-                        <div class="vm-details-button">
-                            <?php // Product Details Button
-                            $link = empty($product->link)? $product->canonical:$product->link;
-                            echo JHtml::link($link.$ItemidStr,vmText::_ ( 'COM_VIRTUEMART_PRODUCT_DETAILS' ), array ('title' => $product->product_name, 'class' => 'product-details' ) );
-                            //echo JHtml::link ( JRoute::_ ( 'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' . $product->virtuemart_product_id . '&virtuemart_category_id=' . $product->virtuemart_category_id , FALSE), vmText::_ ( 'COM_VIRTUEMART_PRODUCT_DETAILS' ), array ('title' => $product->product_name, 'class' => 'product-details' ) );
-                            ?>
-                        </div>
+                <?php //echo $rowsHeight[$row]['price'] ?>
+                <div class="vm3pr-<?php echo $rowsHeight[$row]['price'] ?>"> <?php
+                    echo shopFunctionsF::renderVmSubLayout('prices',array('product'=>$product,'currency'=>$currency)); ?>
                     <div class="clear"></div>
-					<?php if($dynamic){
-						echo vmJsApi::writeJS();
-					} ?>
                 </div>
-                <!-- end of spacer -->
-            </div> <!-- end of product -->
-		</div>
+                <?php //echo $rowsHeight[$row]['customs'] ?>
+                <div class="vm3pr-<?php echo $rowsHeight[$row]['customfields'] ?>"> <?php
+                    echo shopFunctionsF::renderVmSubLayout('addtocart',array('product'=>$product,'rowHeights'=>$rowsHeight[$row], 'position' => array('ontop', 'addtocart'))); ?>
+                </div>
+
+                <div class="vm-details-button">
+                    <?php // Product Details Button
+                    $link = empty($product->link)? $product->canonical:$product->link;
+                    echo JHtml::link($link.$ItemidStr,vmText::_ ( 'COM_VIRTUEMART_PRODUCT_DETAILS' ), array ('title' => $product->product_name, 'class' => 'product-details' ) );
+                    //echo JHtml::link ( JRoute::_ ( 'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' . $product->virtuemart_product_id . '&virtuemart_category_id=' . $product->virtuemart_category_id , FALSE), vmText::_ ( 'COM_VIRTUEMART_PRODUCT_DETAILS' ), array ('title' => $product->product_name, 'class' => 'product-details' ) );
+                    ?>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+            <!-- end of spacer -->
+        </div> <!-- end of product -->
+    </div>
 		<?php
         $nb ++;
       // Do we need to close the current row now?

@@ -73,13 +73,14 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 		if(!class_exists('vmAmazonSession')) require VMPATH_PLUGINS .'/vmpayment/amazon/helper/session.php';
 		$this->_session = new vmAmazonSession();
 
+	}
 
-		if(!JFactory::getApplication()->isSite()) {
+	public function amazonAdminJsCss(){
+		if(!VmConfig::isSite()) {
 			vmJsApi::jQuery();
 			vmJsApi::addJScript('amazonadmin','/plugins/vmpayment/amazon/assets/js/admin.js');
 			JFactory::getDocument()->addStyleSheet(JURI::root(true) . '/plugins/vmpayment/amazon/assets/css/amazon-admin.css');
 		}
-
 	}
 
 	protected function getVmPluginCreateTableSQL() {
@@ -216,7 +217,7 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 	private function renderAddressbookWallet($readOnlyWidgets = false) {
 		//if ($this->getRenderAddressDoneFromSession()) { return;}
 		if(vRequest::getCmd('task')=='updatecartJS') return '';
-		$this->loadVmClass('VirtueMartCart', JPATH_VM_SITE . DS . 'helpers' . DS . 'cart.php');
+
 		$cart = VirtueMartCart::getCart();
 		$this->setCartLayout($cart);
 
@@ -372,10 +373,6 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 		$amaRegion = 'eu';
 
 		$cFields = array('secretKey','accessKey');
-
-		if(!class_exists('vmCrypt')){
-			require(VMPATH_ADMIN.DS.'helpers'.DS.'vmcrypt.php');
-		}
 
 		if(isset($this->_currentMethod->modified_on)){
 			$date = JFactory::getDate($this->_currentMethod->modified_on);
@@ -605,7 +602,6 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 	 * @param $payment
 	 */
 	private function retrieveIPNConfirmOrderReference($payment) {
-		$this->loadVmClass('VirtueMartModelOrders', JPATH_VM_ADMINISTRATOR . DS . 'models' . DS . 'orders.php');
 
 		$orderModel = VmModel::getModel('orders');
 		$order = $orderModel->getOrder($payment->virtuemart_order_id);
@@ -627,7 +623,6 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 	 * @param $payment
 	 */
 	private function retrieveIPNRefund($payment) {
-		$this->loadVmClass('VirtueMartModelOrders', JPATH_VM_ADMINISTRATOR . DS . 'models' . DS . 'orders.php');
 
 		$orderModel = VmModel::getModel('orders');
 		$order = $orderModel->getOrder($payment->virtuemart_order_id);
@@ -679,7 +674,7 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 	 * @param $payment
 	 */
 	private function retrieveIPNAuthorization($payment) {
-		$this->loadVmClass('VirtueMartModelOrders', JPATH_VM_ADMINISTRATOR . DS . 'models' . DS . 'orders.php');
+
 		if(!($payments = $this->getDatasByOrderId($payment->virtuemart_order_id))) {
 			// JError::raiseWarning(500, $db->getErrorMsg());
 			return null;
@@ -736,7 +731,6 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 	 * @param $payment
 	 */
 	private function retrieveIPNCapture($payment) {
-		$this->loadVmClass('VirtueMartModelOrders', JPATH_VM_ADMINISTRATOR . DS . 'models' . DS . 'orders.php');
 
 		$orderModel = VmModel::getModel('orders');
 		$order = $orderModel->getOrder($payment->virtuemart_order_id);
@@ -777,6 +771,8 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 		$order = $orderModel->getOrder($virtuemart_order_id);
 		$this->_order_number = $this->getUniqueReferenceId($order['details']['BT']->order_number);
 		$this->_amount = vRequest::getFloat('amount');
+
+		$this->amazonAdminJsCss();
 
 		switch ($action) {
 			case 'refundPayment':
@@ -1731,9 +1727,6 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 
 	private function onInvalidPaymentNewAuthorization() {
 
-		$this->loadVmClass('VirtueMartModelOrders', JPATH_VM_ADMINISTRATOR . DS . 'models' . DS . 'orders.php');
-		$this->loadVmClass('VirtueMartCart', JPATH_VM_SITE . DS . 'helpers' . DS . 'cart.php');
-
 		$this->_amazonOrderReferenceId = $this->_session->getAmazonOrderReferenceIdFromSession($this->_currentMethod->virtuemart_paymentmethod_id);
 		if(!$this->_amazonOrderReferenceId) {
 			$this->onErrorRedirectToCart();
@@ -1763,7 +1756,7 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 		$order = $orderModel->getOrder($virtuemart_order_id);
 		$this->_amount = $this->getTotalInPaymentCurrency($this->getOffAmazonPaymentsService_Client(), $order['details']['BT']->order_total, $order['details']['BT']->order_currency);
 		$this->_order_number = $this->getUniqueReferenceId($order['details']['BT']->order_number);
-		$this->loadVmClass('VirtueMartCart', JPATH_VM_SITE . DS . 'helpers' . DS . 'cart.php');
+
 		$cart = $cart = VirtueMartCart::getCart();
 		$html = $this->vmConfirmedOrder($cart, $order, false);
 
@@ -2287,13 +2280,7 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 	 */
 	function plgVmOnPaymentResponseReceived(&$html) {
 
-		$this->loadVmClass('VirtueMartCart', JPATH_VM_SITE . DS . 'helpers' . DS . 'cart.php');
-
-		if(!class_exists('shopFunctionsF')) {
-			require(JPATH_VM_SITE . DS . 'helpers' . DS . 'shopfunctionsf.php');
-		}
-		$this->loadVmClass('VirtueMartModelOrders', JPATH_VM_ADMINISTRATOR . DS . 'models' . DS . 'orders.php');
-
+		$this->amazonAdminJsCss();
 
 		vmLanguage::loadJLang('com_virtuemart_orders', TRUE);
 
@@ -2317,9 +2304,6 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 	}
 
 	function plgVmOnUserPaymentCancel() {
-
-		$this->loadVmClass('VirtueMartModelOrders', JPATH_VM_ADMINISTRATOR . DS . 'models' . DS . 'orders.php');
-
 
 		$order_number = vRequest::getUword('on');
 		if(!$order_number) {
@@ -2357,6 +2341,7 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 			return NULL; // Another method was selected, do nothing
 		}
 
+		$this->amazonAdminJsCss();
 		$payments = $this->getDatasByOrderId($virtuemart_order_id);
 		$html = '<table class="adminlist table"  >' . "\n";
 		$html .= $this->getHtmlHeaderBE();
@@ -2368,7 +2353,6 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 	}
 
 	private function showActionOrderBEPayment($virtuemart_order_id, $virtuemart_paymentmethod_id, $payments) {
-		//return;
 
 		$orderModel = VmModel::getModel('orders');
 		$order = $orderModel->getOrder($virtuemart_order_id);
@@ -2402,6 +2386,7 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 
 		$doc = JFactory::getDocument();
 
+		$this->amazonAdminJsCss();
 		$doc->addScriptDeclaration("
 	//<![CDATA[
 
@@ -2431,7 +2416,7 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 
 	private function showOrderBEPayment($virtuemart_order_id, $payments) {
 
-
+		$this->amazonAdminJsCss();
 		$db = JFactory::getDBO();
 		$query = 'SHOW COLUMNS FROM `' . $this->_tablename . '` ';
 		$db->setQuery($query);
@@ -2780,7 +2765,6 @@ $('.amazonDetailsOpener').click(function() {
 		//$html = '<input type="radio" name="virtuemart_paymentmethod_id" id="' . $this->_psType . '_id_' . $plugin->virtuemart_paymentmethod_id . '"   value="' . $plugin->virtuemart_paymentmethod_id . '" ' . $checked . ">\n". '<label for="' . $this->_psType . '_id_' . $plugin->virtuemart_paymentmethod_id . '">' . '<span class="' . $this->_type . '">' . $plugin->payment_name . $costDisplay . "</span></label>\n";
 
 		// IF NOT SELECTED Then display the Pay With amazon Button
-		$this->loadVmClass('VirtueMartCart', JPATH_VM_SITE . DS . 'helpers' . DS . 'cart.php');
 
 		//$this->debug('', 'updateCartWithAmazonAddress', 'debug');
 		$cart = VirtueMartCart::getCart();
@@ -3027,7 +3011,6 @@ $('.amazonDetailsOpener').click(function() {
 	 */
 	function updateCartWithAmazonAddress() {
 
-		$this->loadVmClass('VirtueMartCart', JPATH_VM_SITE . DS . 'helpers' . DS . 'cart.php');
 		$return = array();
 
 		$cart = VirtueMartCart::getCart();
@@ -3102,9 +3085,6 @@ $('.amazonDetailsOpener').click(function() {
 	}
 
 	function updateCartWithDefaultAmazonAddress($cart, $STsameAsBT = true) {
-
-		$this->loadVmClass('VirtueMartCart', JPATH_VM_SITE . DS . 'helpers' . DS . 'cart.php');
-
 
 		$this->_amazonOrderReferenceId = $this->_session->getAmazonOrderReferenceIdFromSession($this->_currentMethod->virtuemart_paymentmethod_id);
 		if(empty($this->_amazonOrderReferenceId)) {
@@ -3222,7 +3202,6 @@ $('.amazonDetailsOpener').click(function() {
 
 
 		$this->loadAmazonClass('OffAmazonPaymentsNotifications_Client');
-		$this->loadVmClass('VirtueMartModelOrders', JPATH_VM_ADMINISTRATOR . DS . 'models' . DS . 'orders.php');
 
 		try {
 			$config['merchantId'] = $this->_currentMethod->sellerId;
@@ -3741,16 +3720,6 @@ $('.amazonDetailsOpener').click(function() {
 			}
 		}
 
-	}
-
-	function loadVmClass($className, $fileName) {
-		if(!class_exists($className)) {
-			if(file_exists($fileName)) {
-				require($fileName);
-			} else {
-				vmError('Programming error:' . __FUNCTION__ . ' trying to load:' . $fileName);
-			}
-		}
 	}
 
 	function getallheaders() {

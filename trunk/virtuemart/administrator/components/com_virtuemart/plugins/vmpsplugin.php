@@ -945,6 +945,17 @@ abstract class vmPSPlugin extends vmPlugin {
 	}
 
 	/**
+	 * If getSelectable or getSelectables was used, then methods may got removed. For some jobs, we need them back.
+	 *
+	 * @param $vendorId
+	 */
+	public function reloadPlugins($vendorId)
+	{
+		$this->methods = null;
+		$this->getPluginMethods($vendorId);
+	}
+
+	/**
 	 *
 	 * Enter description here ...
 	 *

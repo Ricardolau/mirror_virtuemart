@@ -7,7 +7,7 @@
 * @subpackage
 * @author
 * @link ${PHING.VM.MAINTAINERURL}
-* @copyright Copyright (c) 2004 - 2012 VirtueMart Team. All rights reserved.
+* @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -41,6 +41,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 	function display($tpl = null) {
 
 		$filter = trim(vRequest::getVar('q', vRequest::getVar('term', '') ));
+		$showChilds = vRequest::getInt('showChilds', false);
 
 		$id = vRequest::getInt('id', false);
 		$virtuemart_product_id = vRequest::getInt('virtuemart_product_id',array());
@@ -75,11 +76,21 @@ class VirtuemartViewProduct extends VmViewAdmin {
 			if (!empty($filter)){
 				$filter = '"%'.$this->db->escape( $filter, true ).'%"';
 				$fields = VmModel::joinLangLikeFields(array('product_name'),$filter);
-				$query .=  ' WHERE '.implode (' OR ', $fields) ;
-				$query .= ' OR p.product_sku LIKE '.$filter;
+				$query .=  ' WHERE ('.implode (' OR ', $fields) ;
+				$query .= ' OR p.product_sku LIKE '.$filter.') AND p.published = 1';
+				if ($showChilds == '0') {
+					$query .= ' AND p.product_parent_id = 0';
+				}
 			}
 
-			self::setRelatedHtml($product_id,$query,'R');
+			$name = vRequest::getCmd('name','');
+			if($name == 'search'){
+				$type = 'R';
+			} else {
+				$type = 'RC';
+			}
+
+			self::setRelatedHtml($product_id,$query,$type, $name);
 		}
 		else if ($this->type=='relatedcategories') {
 
@@ -176,7 +187,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 					$colspan ='';
 					if ($field->field_type =='E') {
 						$this->model->bindCustomEmbeddedFieldParams($field,'E');
-					} else if($field->field_type == 'C'){
+					} else if($field->field_type == 'C' or $field->field_type == 'RC'){
 						$colspan = 'colspan="2" ';
 					}
 
@@ -269,7 +280,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 
 	
 	
-	function setRelatedHtml($product_id,$query,$fieldType) {
+	function setRelatedHtml($product_id,$query,$fieldType, $name = '') {
 
 
 		$this->db->setQuery($query.' limit 0,50');
@@ -278,6 +289,8 @@ class VirtuemartViewProduct extends VmViewAdmin {
 			echo('setRelatedHtml '.$query);
 			return;
 		}
+		///VmConfig::$echoDebug = true;
+		vmdebug('setRelatedHtml query $this->json',$query, $this->json);
 		$query = 'SELECT * FROM `#__virtuemart_customs` WHERE field_type ="'.$fieldType.'" ';
 		$this->db->setQuery($query);
 		$custom = $this->db->loadObject();
@@ -288,18 +301,31 @@ class VirtuemartViewProduct extends VmViewAdmin {
 		$custom->virtuemart_product_id = $product_id;
 		/*$m = count($this->json);
 		vmdebug('setRelatedHtml '.str_replace('#__',$this->db->getPrefix(),$this->db->getQuery()),$m);*/
+
+		//vmdebug('setRelatedHtml', $custom,$this->json);
 		foreach ($this->json as $k=>$related) {
 
 			$custom->customfield_value = $related->id;
 
+			//QuicknDirty, we change here the display to R, because we dont want the search again
+			$setEditCustomHidden = true;
+			if($custom->field_type == 'RC'){
+				$custom->field_type = 'R';
+				//$setEditCustomHidden= false;
+			}
 			$display = $this->model->displayProductCustomfieldBE($custom,$related->id,$this->row);
 
 			$html = '<div class="vm_thumb_image">
 				<span class="vmicon vmicon-16-move"></span>
 				<div class="vmicon vmicon-16-remove 4remove"></div>
-				<span>'.$display.'</span>
-				'.$this->model->setEditCustomHidden($custom, $this->row).'
-				</div>';
+				<span>'.$display.'</span>';
+
+
+			if($setEditCustomHidden){
+				$html .= $this->model->setEditCustomHidden($custom, $this->row);
+			}
+
+			$html .= '</div>';
 
 			$this->json[$k]->label = $html;
 

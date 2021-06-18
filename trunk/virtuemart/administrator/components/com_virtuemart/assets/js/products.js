@@ -24,8 +24,8 @@ Virtuemart.customfields = jQuery(function($) {
 				$(element).val(index);
 			});
 		});
-		$('#custom_products').sortable({cursorAt: { top: 0, left: 0 },handle: '.vmicon-16-move'});
-		$('#custom_products').bind('sortupdate', function(event, ui) {
+		$('.custom_products').sortable({cursorAt: { top: 0, left: 0 },handle: '.vmicon-16-move'});
+		$('.custom_products').bind('sortupdate', function(event, ui) {
 			$(this).find('.ordering').each(function(index,element) {
 				$(element).val(index);
 			});
@@ -50,31 +50,67 @@ Virtuemart.customfields = jQuery(function($) {
 		});
 	});
 
-	$('input#relatedproductsSearch').autocomplete({
-		source: Virtuemart.jsonLink+'&type=relatedproducts&row='+Virtuemart.nextCustom,
-		select: function(event, ui){
-			$('#custom_products').append(ui.item.label);
-			$('#custom_products').trigger('sortupdate');
-			Virtuemart.nextCustom++;
-			$(this).autocomplete( 'option' , 'source' , Virtuemart.jsonLink+'&type=relatedproducts&row='+Virtuemart.nextCustom )
-		},
-		minLength:1,
-		delay: 400,
-		html: true
-	});
-	$('input#relatedcategoriesSearch').autocomplete({
+	function relatedProductsAutocomplete () {
+		//$('input.vmjs-relatedproductsSearch').on('keyup', function(){
+		$('input.vmjs-relatedproductsSearch').each( function(i, el) {
+			el = $(el);
+			el.autocomplete({
 
-		source: Virtuemart.jsonLink+'&type=relatedcategories&row='+Virtuemart.nextCustom,
-		select: function(event, ui){
-			$('#custom_categories').append(ui.item.label);
-			$('#custom_categories').trigger('sortupdate');
-			Virtuemart.nextCustom++;
-			$(this).autocomplete( 'option' , 'source' , Virtuemart.jsonLink+'&type=relatedcategories&row='+Virtuemart.nextCustom )
-		},
-		minLength:1,
-		delay: 400,
-		html: true
-	});
+				source: Virtuemart.jsonLink+'&type=relatedproducts&row='+$(this).attr("data-row")+Virtuemart.showChilds+'&name='+$(this).attr("name"),
+				select: function(event, ui){
+					//$('.custom_products').append(ui.item.label);
+					$(this).closest(".jsonSuggestResults").parent().find(".custom_products").append(ui.item.label);
+					$('.custom_products').trigger('sortupdate');
+					Virtuemart.nextCustom++;
+					$(this).autocomplete( 'option' , 'source' , Virtuemart.jsonLink+'&type=relatedproducts&row='+Virtuemart.nextCustom+Virtuemart.showChilds+'&name='+$(this).attr("name") )
+				},
+				minLength:1,
+				delay: 400,
+				html: true
+			});
+		});
+	}
+
+	$(document).ready(
+		console.log('document ready'),
+    	relatedProductsAutocomplete (),
+		relatedCategoriesAutocomplete()
+	);
+    // Check if we need to display child products when searching for related products
+    $('input[name="showchilds"]').change(function(){
+
+        var value = $(this).val();
+        if ( value == '0' ) {
+
+            $(this).val('1');
+            Virtuemart.showChilds = '&showChilds=1';
+            relatedProductsAutocomplete ();
+
+        } else {
+
+            $(this).val('0');
+            Virtuemart.showChilds = '&showChilds=0';
+            relatedProductsAutocomplete ();
+
+        }
+    });
+
+	function relatedCategoriesAutocomplete () {
+		$('input#relatedcategoriesSearch').autocomplete({
+
+			source: Virtuemart.jsonLink+'&type=relatedcategories&row='+Virtuemart.nextCustom,
+			select: function(event, ui){
+				$('#custom_categories').append(ui.item.label);
+				$('#custom_categories').trigger('sortupdate');
+				Virtuemart.nextCustom++;
+				$(this).autocomplete( 'option' , 'source' , Virtuemart.jsonLink+'&type=relatedcategories&row='+Virtuemart.nextCustom )
+			},
+			minLength:1,
+			delay: 400,
+			html: true
+		});
+	}
+
 
 
 	eventNames = 'click.remove keydown.remove change.remove focus.remove'; // all events you wish to bind to

@@ -628,63 +628,82 @@ class VirtueMartCustomFieldRenderer {
 					}
 
 					break;
+
+				case 'RC':
+					$pModel = VmModel::getModel('product');
+					if(!empty($customfield->customfield_value)){
+						$prodIds = explode(',', $customfield->customfield_value);
+						foreach($prodIds as $pId){
+							$related = $pModel->getProduct((int)$pId,TRUE,$customfield->wPrice,TRUE,1);
+							if(!$related) continue;
+							$customfield->display .= VirtueMartCustomFieldRenderer::renderRelatedProduct($customfield,$related);
+						}
+					}
+					break;
 				case 'R':
 					$customfield->customfield_value = (int) $customfield->customfield_value;
+
 					if(empty($customfield->customfield_value)){
 						$customfield->display = 'customfield related product has no value';
-						break;
+						return;
 					}
-
 					$pModel = VmModel::getModel('product');
 					$related = $pModel->getProduct((int)$customfield->customfield_value,TRUE,$customfield->wPrice,TRUE,1);
 
 					if(!$related) break;
 
-					$thumb = '';
-					if($customfield->wImage) {
-						if(!empty( $related->virtuemart_media_id[0] )) {
-							$thumb = VirtueMartModelCustomfields::displayCustomMedia( $related->virtuemart_media_id[0], 'product', $customfield->width, $customfield->height ).' ';
-						} else {
-							$thumb = VirtueMartModelCustomfields::displayCustomMedia( 0, 'product', $customfield->width, $customfield->height ).' ';
-						}
-					}
-
-					if($customfield->waddtocart){
-						if (!empty($related->customfields)) {
-
-							$customfieldsModel = VmModel::getModel ('customfields');
-							if(empty($customfield->from)) {
-								$customfield->from = $related->virtuemart_product_id;
-								$customfieldsModel -> displayProductCustomfieldFE ($related, $related->customfields);
-							} else if($customfield->from!=$related->virtuemart_product_id){
-								$customfieldsModel -> displayProductCustomfieldFE ($related, $related->customfields);
-							}
-
-						}
-						$isCustomVariant = false;
-						if (!empty($related->customfields)) {
-							foreach ($related->customfields as $k => $custom) {
-								if($custom->field_type == 'C' and $custom->virtuemart_product_id != (int)$customfield->customfield_value){
-									$isCustomVariant = $custom;
-								}
-								if (!empty($custom->layout_pos)) {
-									$related->customfieldsSorted[$custom->layout_pos][] = $custom;
-								} else {
-									$related->customfieldsSorted['normal'][] = $custom;
-								}
-								unset($related->customfields);
-							}
-
-						}
-					}
-					$customfield->display = shopFunctionsF::renderVmSubLayout('related',array('customfield'=>$customfield,'related'=>$related, 'thumb'=>$thumb));
-
+					$customfield->display = VirtueMartCustomFieldRenderer::renderRelatedProduct($customfield,$related);
 					break;
 			}
 
 			$viewData['customfields'][$key] = $customfield;
 			//vmdebug('my customfields '.$type,$viewData['customfields'][$k]->display);
 		}
+
+	}
+
+	static function renderRelatedProduct($customfield,$related){
+
+
+		$thumb = '';
+		if($customfield->wImage) {
+			if(!empty( $related->virtuemart_media_id[0] )) {
+				$thumb = VirtueMartModelCustomfields::displayCustomMedia( $related->virtuemart_media_id[0], 'product', $customfield->width, $customfield->height ).' ';
+			} else {
+				$thumb = VirtueMartModelCustomfields::displayCustomMedia( 0, 'product', $customfield->width, $customfield->height ).' ';
+			}
+		}
+
+		if($customfield->waddtocart){
+			if (!empty($related->customfields)) {
+
+				$customfieldsModel = VmModel::getModel ('customfields');
+				if(empty($customfield->from)) {
+					$customfield->from = $related->virtuemart_product_id;
+					$customfieldsModel -> displayProductCustomfieldFE ($related, $related->customfields);
+				} else if($customfield->from!=$related->virtuemart_product_id){
+					$customfieldsModel -> displayProductCustomfieldFE ($related, $related->customfields);
+				}
+
+			}
+			$isCustomVariant = false;
+			if (!empty($related->customfields)) {
+				foreach ($related->customfields as $k => $custom) {
+					if($custom->field_type == 'C' and $custom->virtuemart_product_id != (int)$customfield->customfield_value){
+						$isCustomVariant = $custom;
+					}
+					if (!empty($custom->layout_pos)) {
+						$related->customfieldsSorted[$custom->layout_pos][] = $custom;
+					} else {
+						$related->customfieldsSorted['normal'][] = $custom;
+					}
+					unset($related->customfields);
+				}
+
+			}
+		}
+		return shopFunctionsF::renderVmSubLayout('related',array('customfield'=>$customfield,'related'=>$related, 'thumb'=>$thumb));
+
 
 	}
 

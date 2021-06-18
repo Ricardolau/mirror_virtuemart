@@ -7,7 +7,7 @@
 * @subpackage
 * @author Max Milbers
 * @link ${PHING.VM.MAINTAINERURL}
-* @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved by the author.
+* @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved by the author.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -55,6 +55,7 @@ class VirtueMartModelCustom extends VmModel {
 			'E' => 'COM_VIRTUEMART_CUSTOM_EXTENSION',
 			'G' => 'COM_VIRTUEMART_CUSTOM_GROUP',
 			'R'=>'COM_VIRTUEMART_RELATED_PRODUCTS',
+			'RC'=>'COM_VIRTUEMART_CUSTOM_RELATED_PRODUCTS',
 			'Z'=>'COM_VIRTUEMART_RELATED_CATEGORIES'
 		);
 
@@ -373,6 +374,7 @@ class VirtueMartModelCustom extends VmModel {
 			$q = 'UPDATE `#__extensions` SET `enabled`= 1, `state` = 0 WHERE `extension_id` = "'.$data['custom_jplugin_id'].'"';
 			$db->setQuery($q);
 			$db->execute();
+
 		}
 
 		$table->field_type = $data['field_type'];
@@ -466,13 +468,9 @@ class VirtueMartModelCustom extends VmModel {
 		$xParams = $table->_xParams;
 
 		if ($type == 'E') {
-			JPluginHelper::importPlugin ('vmcustom');
-			//$dispatcher = JDispatcher::getInstance ();
 			//We call here vmplugin->getTablePluginParams which sets the xParam and the varsToPush of the Plugin
 			//vmdebug('setParameterableByFieldType before trigger plgVmGetTablePluginParams ',$custom_element, $custom_jplugin_id, $xParams,$varsToPush);
             VmPlugin::directTrigger('vmcustom', $custom_element, 'plgVmGetTablePluginParams', array('custom' ,$custom_element, $custom_jplugin_id, &$xParams, &$varsToPush));
-			//vmdebug('setParameterableByFieldType',$xParams, $varsToPush);
-            //$retValue = $dispatcher->trigger ('plgVmGetTablePluginParams', array('custom',$custom_element, $custom_jplugin_id, &$xParams, &$varsToPush));
 		}
 		$xParams = $table->_xParams;
 		if(!empty($varsToPush)){
@@ -527,7 +525,7 @@ class VirtueMartModelCustom extends VmModel {
 				'selectType'	=> array(1, 'int'),
 				'multiplyPrice'	=> array('', 'string')
 			);
-		} else if($type=='R'){
+		} else if($type=='R' or $type=='RC'){
 			$varsToPush = array(
 				'waddtocart' => array(0, 'int'),
 				'wPrice'	=> array(0, 'int'),

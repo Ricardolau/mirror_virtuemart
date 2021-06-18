@@ -312,6 +312,11 @@ class VirtueMartModelCustomfields extends VmModel {
 		if(empty($line['vm_product_id'])) return 'empty vm_product_id';
 		$child = $productModel->getProductSingle($line['vm_product_id'],false);
 		if(!$child) return 'Could not find product with id '.$line['vm_product_id'];
+		if(empty($child->allPrices)){
+			$child->allPrices[$child->selectedPrice]['product_price'] = '';
+			$child->allPrices[$child->selectedPrice]['virtuemart_product_price_id'] = '';
+		}
+
 
 		$readonly = '';
 		$classBox = 'class="inputbox"';
@@ -848,11 +853,56 @@ class VirtueMartModelCustomfields extends VmModel {
 				} else {
 					$thumb = $this->displayCustomMedia (0).' ';
 				}
-				$display = '<input type="hidden" value="' . $field->customfield_value . '" name="field[' . $row . '][customfield_value]" />';
-				$display .= '<span class="custom_related_image">'.$thumb.'</span><span class="custom_related_title">';
-				$display .= JHtml::link ('index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id=' . $related->virtuemart_product_id , $related->product_name, array('title' => $related->product_name,'target'=>'blank')).'</span>';
-				return $display;
+				$display = '<input type="hidden" value="' . $field->customfield_value . '" name="field[' . $row . '][customfield_value][]" />';
+				$display .= '<span class="custom_related_image">'.$thumb.'</span>';
+				if($related){
+					$display .= '<span class="custom_related_title">'.JHtml::link ('index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id=' . $related->virtuemart_product_id , $related->product_name, array('title' => $related->product_name,'target'=>'blank')).'</span>';
+				}
 
+
+
+				return $display;
+			case 'RC':
+
+				$prodIds = explode(',', $field->customfield_value);
+				$prodStr = '';
+				foreach($prodIds as $pid){
+					if(empty($pid)) continue;
+					$pModel = VmModel::getModel('product');
+					$related = $pModel->getProduct((int)$pid,TRUE,FALSE,FALSE,1);
+					if(!$related) continue;
+					if (!empty($related->virtuemart_media_id[0])) {
+						$thumb = $this->displayCustomMedia ($related->virtuemart_media_id[0]).' ';
+					} else {
+						$thumb = $this->displayCustomMedia (0).' ';
+					}
+
+					if($pid==$related->product_parent_id){
+						$title = vmText::_('COM_VIRTUEMART_CUSTOM_INHERITED').'</br>';
+					}
+
+					$prodStr .= '<div class="vm_thumb_image">
+									
+									<span class="vmicon vmicon-16-move"></span>
+									<div class="vmicon vmicon-16-remove 4remove"></div>';
+					$prodStr .= '<span><input type="hidden" value="' . $related->virtuemart_product_id . '" name="field[' . $row . '][customfield_value][]" />';
+					$prodStr .= '<span class="custom_related_image">'.$thumb.'</span>';
+					if($related){
+						$prodStr .= '<span class="custom_related_title">'.JHtml::link ('index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id=' . $related->virtuemart_product_id , $related->product_name, array('title' => $related->product_name,'target'=>'blank')).'</span>';
+					}
+					$prodStr .= '</span></div>';
+
+				}
+
+				$display = '<legend>'. vmText::_('COM_VIRTUEMART_RELATED_PRODUCTS').'</legend>
+'.  vmText::_('COM_VIRTUEMART_PRODUCT_RELATED_SEARCH') .'
+<div class="jsonSuggestResults" style="width: auto;">
+	<input type="text" size="40" name="searchRelatedCustom" class="vmjs-relatedproductsSearch" value="" data-row="'.$row.'" />
+	<button class="reset-value btn">'. vmText::_('COM_VIRTUEMART_RESET') .'</button>
+	<label class="checkbox"><input type="checkbox" name="showchilds" value="0" />'. vmText::_('COM_VIRTUEMART_CATEGORIES_RELATED_SEARCH_CHILDS') .'</label>
+</div>
+<div class="custom_products" class="ui-sortable">'.   $prodStr .'</div>';
+				return $display;
 		}
 	}
 
@@ -1097,7 +1147,7 @@ class VirtueMartModelCustomfields extends VmModel {
 	@array $data	: array of customfields
 	@int     $id		: The concerned id (eg. product_id)
 	*/
-	public function storeProductCustomfields($table,$datas, $id) {
+	public function storeProductCustomfields($table, $datas, $id) {
 
 		vRequest::vmCheckToken('Invalid token in storeProductCustomfields');
 		//Sanitize id
@@ -1206,6 +1256,13 @@ class VirtueMartModelCustomfields extends VmModel {
 					}
 				}
 				$fields['virtuemart_'.$table.'_id'] = $id;
+
+				if(!empty($fields['field_type']) and ( $fields['field_type']=='RC' or $fields['field_type']=='R' ) and !isset($datas['clone']) ){
+					if(is_array($fields['customfield_value'])){
+						$fields['customfield_value'] = implode(',',$fields['customfield_value']);
+					}
+				}
+
 				$this->storeProductCustomfield('product', $fields);
 
 				$key = array_search($fields['virtuemart_customfield_id'], $old_customfield_ids );
@@ -1244,7 +1301,7 @@ class VirtueMartModelCustomfields extends VmModel {
 
 	public function storeProductCustomfield($table, $fields){
 
-
+		vmdebug('storeProductCustomfield',$this->_toConvertDec);
 		$tableCustomfields = $this->getTable($table.'_customfields');
 		$tableCustomfields->setPrimaryKey('virtuemart_product_id');
 
@@ -1261,7 +1318,7 @@ class VirtueMartModelCustomfields extends VmModel {
 			}
 		}
 		$tableCustomfields->_varsToPushParam = $paramsTemp;
-		//vmdebug('storeProductCustomfield bindChecknStore',$fields);
+
 		$tableCustomfields->bindChecknStore($fields);
 
 	}

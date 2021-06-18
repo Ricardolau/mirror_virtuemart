@@ -113,7 +113,7 @@ if (isset($this->product->customfields)) {
 			$customcf->type=$type;
 			$colspan = '';
 
-			if ($customfield->field_type == 'C') {
+			if ($customfield->field_type == 'C' or $customfield->field_type == 'RC') {
 				$colspan = 'colspan="2" ';
 			}
 			$customcf->overrideCheckbox='';

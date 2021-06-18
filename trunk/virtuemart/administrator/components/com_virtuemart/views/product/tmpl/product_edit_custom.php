@@ -7,7 +7,7 @@
 * @subpackage Product
 * @author RolandD, Patrick khol, Valérie Isaksen
 * @link ${PHING.VM.MAINTAINERURL}
-* @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+* @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -104,7 +104,7 @@ defined('_JEXEC') or die('Restricted access');
 						}
 						$colspan = '';
 
-						if($customfield->field_type == 'C'){
+						if($customfield->field_type == 'C' or $customfield->field_type == 'RC'){
 							$colspan = 'colspan="2" ';
 						}
 
@@ -149,10 +149,11 @@ defined('_JEXEC') or die('Restricted access');
 				<legend><?php echo vmText::_('COM_VIRTUEMART_RELATED_PRODUCTS'); ?></legend>
 				<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_RELATED_SEARCH'); ?>
 				<div class="jsonSuggestResults" style="width: auto;">
-					<input type="text" size="40" name="search" id="relatedproductsSearch" value="" />
+					<input type="text" size="40" name="search" class="vmjs-relatedproductsSearch" value="" data-row="<?php echo count($this->product->customfields) ?>" />
 					<button class="reset-value btn"><?php echo vmText::_('COM_VIRTUEMART_RESET') ?></button>
+					<label class="checkbox"><input type="checkbox" name="showchilds" value='0' /><?php echo vmText::_('COM_VIRTUEMART_CATEGORIES_RELATED_SEARCH_CHILDS'); ?></label>
 				</div>
-				<div id="custom_products" class="ui-sortable"><?php echo  $tables['products']; ?></div>
+				<div class="custom_products" class="ui-sortable"><?php echo  $tables['products']; ?></div>
 			</fieldset>
 
 			<fieldset style="background-color:#F9F9F9;">

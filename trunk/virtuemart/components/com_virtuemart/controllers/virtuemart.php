@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access');
 
 /**
  * VirtueMart Component Controller
- *
+ * @deprecated
  * @package		VirtueMart
  */
 class VirtueMartControllerVirtuemart extends JControllerLegacy

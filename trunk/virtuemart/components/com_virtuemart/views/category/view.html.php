@@ -203,20 +203,6 @@ class VirtuemartViewCategory extends VmView {
 		$ratingModel = VmModel::getModel('ratings');
 		$this->productModel->withRating = $this->showRating = $ratingModel->showRating();
 
-		//Would be nice to have the ordering configurable.
-		$this->products = array();
-		if(!empty($this->keyword)){
-			$this->products['products'] = false;
-		}
-		$this->products['featured'] = false;
-		$this->products['discontinued'] = false;
-		$this->products['latest'] = false;
-		$this->products['topten'] = false;
-		$this->products['recent'] = false;
-		if(empty($this->keyword)){
-			$this->products['products'] = false;
-		}
-
 		$this->vmPagination = '';
 		$this->orderByList = '';
 
@@ -249,6 +235,9 @@ class VirtuemartViewCategory extends VmView {
 		$dynamic = vRequest::getInt('dynamic',false);
 		$id = vRequest::getInt('virtuemart_product_id',false);
 		$legacy = VmConfig::get('legacylayouts',1);
+
+		$this->products = array();
+
 		if ($dynamic and $id) {
 			$p = $this->productModel->getProduct ($id);
 			$this->products['products'][] = $p;
@@ -260,8 +249,8 @@ class VirtuemartViewCategory extends VmView {
 		} else {
 
 			//The search must be executed first
-			if(!empty($this->keyword)) {
-
+			if(!empty($this->keyword) or !empty($this->productModel->searchcustoms)) {
+				vmdebug('Lets load the search',$this->keyword,$this->productModel->searchcustoms);
 				// Load the products in the given category
 				$ids = $this->productModel->sortSearchListQuery (TRUE, $this->categoryId);
 				VirtueMartModelProduct::$_alreadyLoadedIds = array_merge(VirtueMartModelProduct::$_alreadyLoadedIds,$ids);
@@ -279,14 +268,21 @@ class VirtuemartViewCategory extends VmView {
 					$opt = array();
 				}
 			} else {
-				$opt = array('featured', 'discontinued', 'latest', 'topten', 'recent');
-				if($this->showproducts and empty($this->keyword)){
+				$sequence = VmConfig::get('ProductGroupsSequence','');
+				if(empty($sequence)){
+					$opt = array('featured', 'discontinued', 'latest', 'topten', 'recent');
+				} else {
+					$opt = explode(',',$sequence);
+				}
+
+				if($this->showproducts and empty($this->keyword) and empty($this->productModel->searchcustoms)){
 					$opt[] = 'products';
 				}
 			}
 
 			foreach( $opt as $o ) {
 				if($o == 'products') {
+					vmdebug('Lets load the products');
 					VirtueMartModelProduct::$omitLoaded = VmConfig::get('omitLoaded');
 					$ids = $this->productModel->sortSearchListQuery( TRUE, $this->categoryId );
 					VirtueMartModelProduct::$_alreadyLoadedIds = array_merge( VirtueMartModelProduct::$_alreadyLoadedIds, $ids );
@@ -689,6 +685,8 @@ INNER JOIN #__virtuemart_product_categories as cat ON (pc.virtuemart_product_id=
 
 				}
 			}
+
+			$this->combineTags = $app->getUserStateFromRequest('combineTags','combineTags', true,'int');
 		}
 
 		if(VmConfig::get('useCustomSearchTrigger',false)){

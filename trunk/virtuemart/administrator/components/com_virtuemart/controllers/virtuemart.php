@@ -78,7 +78,7 @@ class VirtuemartControllerVirtuemart extends VmController {
 			catch (RuntimeException $e) {
 				$d = new stdClass();
 				$d->res = 'No connection';
-				$d->html = '<div style="color:red;font-size: 30px;line-height: 32px;">Your SERVER does not support allow_url_fopen, nor cUrl! Registration process stopped. Please enable on your server either allow_url_fopen or cUrl. </div>';
+				$d->html = '<div style="color:#ff0000;font-size: 30px;line-height: 32px;">Your SERVER does not support allow_url_fopen, nor cUrl! Registration process stopped. Please enable on your server either allow_url_fopen or cUrl. </div>';
 				$request = json_encode($d);
 
 			}

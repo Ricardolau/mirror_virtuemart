@@ -112,6 +112,8 @@ if ($this->showsearch or $this->keyword !== false) {
                 );
                 ?>
 			</div>
+                <div><?php echo vmText::_('COM_VM_COMBINETAGS');
+                    echo VmHtml::checkbox ('combineTags', $this->combineTags, 1, 0, '', 'combineTags'); ?></div>
 			<?php } ?>
 			<div class="vm-search-custom-search-input">
 				<input name="keyword" class="inputbox" type="text" size="40" value="<?php echo $this->keyword ?>"/>

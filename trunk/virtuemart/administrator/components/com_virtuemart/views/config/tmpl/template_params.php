@@ -37,6 +37,9 @@ VirtuemartViewConfig::$options = $options;
 		echo VmHTML::row('genericlist','COM_VIRTUEMART_ADMIN_CFG_SHOW_STORE_DESC',$options, 'show_store_desc', '', 'value', 'text', $params->get('show_store_desc',1));
 		echo VmHTML::row('genericlist','COM_VIRTUEMART_ADMIN_CFG_SHOW_CATEGORYDESC',$options, 'showcategory_desc', '', 'value', 'text', $params->get('showcategory_desc',1));
 		echo VmHTML::row('genericlist','COM_VIRTUEMART_ADMIN_CFG_SHOW_SEARCH',$options, 'showsearch', '', 'value', 'text', $params->get('showsearch',1));
+		if(vRequest::getCmd('view')=='config'){
+			echo VmHtml::row('input','COM_VM_PRODUCTGROUPSSEQUENCE','ProductGroupsSequence',VmConfig::get('ProductGroupsSequence', 'featured, discontinued, latest, topten, recent'));
+		}
 
 		echo '</table>';
 		echo '<table class="admintable">';
@@ -45,9 +48,14 @@ VirtuemartViewConfig::$options = $options;
 <th style="min-width:40px;width:8%;text-align: center;"><span class="hasTooltip" title="'.htmlentities(vmText::_('COM_VM_ADMIN_CFG_PER_ROW_TIP')).'">'.vmText::_('COM_VM_ADMIN_CFG_PER_ROW').'</span></th>
 <th style="min-width:40px;width:8%;text-align: center;"><span class="hasTooltip" title="'.htmlentities(vmText::_('COM_VM_ADMIN_CFG_OMIT_TIP')).'">'.vmText::_('COM_VM_ADMIN_CFG_OMIT').'</span></th>
 </tr>';
+
+
+
 		echo VirtuemartViewConfig::rowShopFrontSet($params, 'COM_VIRTUEMART_ADMIN_CFG_SHOW_CATEGORY', 'showcategory', 'categories_per_row', 0, 3);
 		echo VirtuemartViewConfig::rowShopFrontSet($params, 'COM_VIRTUEMART_ADMIN_CFG_SHOW_PRODUCTS', 'showproducts', 'products_per_row', 'omitLoaded', 3);
-		if(vRequest::getCmd('view')=='config')echo VirtuemartViewConfig::rowShopFrontSet($params, 'COM_VIRTUEMART_ADMIN_CFG_SHOW_MANUFACTURERS', 'show_manufacturers','manufacturer_per_row', 0, 3);
+		if(vRequest::getCmd('view')=='config'){
+		    echo VirtuemartViewConfig::rowShopFrontSet($params, 'COM_VIRTUEMART_ADMIN_CFG_SHOW_MANUFACTURERS', 'show_manufacturers','manufacturer_per_row', 0, 3);
+		}
 		echo '</table>';
 
 		echo '<table class="admintable">';

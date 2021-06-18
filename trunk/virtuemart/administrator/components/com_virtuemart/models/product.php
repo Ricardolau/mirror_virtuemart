@@ -204,7 +204,9 @@ class VirtueMartModelProduct extends VmModel {
 
 					if(is_object($this->searchcustoms)) $this->searchcustoms = get_object_vars($this->searchcustoms);
 					$this->searchcustoms = vRequest::filter($this->searchcustoms,FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
-
+				foreach($this->searchcustoms as $k=>$v){
+					if(empty($v)) unset($this->searchcustoms[$k]);
+				}
 			}
 			//vmdebug('$this->searchcustoms vRequest::filter',$this->searchcustoms);
 		}
@@ -300,12 +302,13 @@ class VirtueMartModelProduct extends VmModel {
 	 *
 	 * @author Max Milbers
 	 */
-	function sortSearchListQuery ($onlyPublished = TRUE, $virtuemart_category_id = FALSE, $group = FALSE, $nbrReturnProducts = FALSE, $langFields = array()) {
+	function sortSearchListQuery ($onlyPublished = TRUE, $virtuemart_category_id = FALSE, $group = FALSE, $nbrReturnProducts = FALSE, $langFields = array(), $searchcustoms = null) {
 
 		$app = JFactory::getApplication ();
 		$db = JFactory::getDbo();
 		//$this->setDebugSql(1); //VmConfig::$echoDebug = true;
 		//vmdebug('sortSearchListQuery '.$group,$nbrReturnProducts);
+
 		//User Q.Stanley said that removing group by is increasing the speed of product listing in a bigger shop (10k products) by factor 60
 		//So what was the reason for that we have it? TODO experiemental, find conditions for the need of group by
 		$groupBy = ' group by p.`virtuemart_product_id` ';
@@ -334,16 +337,31 @@ class VirtueMartModelProduct extends VmModel {
 		$this->useLback = vmLanguage::getUseLangFallback();
 		$this->useJLback = vmLanguage::getUseLangFallbackSecondary();
 
-		if (!empty($this->searchcustoms) or !empty($this->virtuemart_custom_id)) {
+		if($searchcustoms===null){
+			$searchcustoms = $this->searchcustoms;
+		}
+
+		if (!empty($searchcustoms) or !empty($this->virtuemart_custom_id)) {
 			$joinCustom = TRUE;
 
-			if (!empty($this->searchcustoms)){
-				if($this->debug === 1) vmdebug('sortSearchListQuery',$this->searchcustoms);
-				foreach ($this->searchcustoms as $key => $searchcustom) {
+			$and = vRequest::get('combineTags',true);
+			if (!empty($searchcustoms)){
+				if($this->debug === 1) vmdebug('sortSearchListQuery',$searchcustoms);
+
+				$first = true;
+				foreach ($searchcustoms as $key => $searchcustom) {
 					if(empty($searchcustom)) continue;
-					$custom_search[] = '(pf.`virtuemart_custom_id`="' . (int)$key . '" and pf.`customfield_value` like "%' . $db->escape ($searchcustom, TRUE) . '%")';
-					//$custom_search_value[] = 'pf.`customfield_value` like "%' . $db->escape ($searchcustom, TRUE) . '%"';
-					//$custom_search_key[] = 'pf.`virtuemart_custom_id`="' . (int)$key . '"';
+					if(!empty($searchcustom) and !empty((int)$key)){
+						if($first){
+							//$custom_search[] = '(pf.`virtuemart_custom_id`="' . (int)$key . '" and pf.`customfield_value` like "%' . $db->escape($searchcustom, TRUE) . '%")';
+							$custom_search[] = '(pf.`virtuemart_custom_id`="' . (int)$key . '" and pf.`customfield_value` = "' . $db->escape(trim($searchcustom), TRUE) . '")';
+							$first = false;
+						} else {
+							//$custom_search[] = 'p.`virtuemart_product_id` IN ( SELECT h.`virtuemart_product_id` FROM `#__virtuemart_product_customfields` as h
+						//WHERE h.`virtuemart_custom_id`="' . (int)$key . '" and h.`customfield_value` like "%' . $db->escape ($searchcustom, TRUE) . '%")';
+							$custom_search[] = 'p.`virtuemart_product_id` IN ( SELECT h.`virtuemart_product_id` FROM `#__virtuemart_product_customfields` as h
+						WHERE h.`virtuemart_custom_id`="' . (int)$key . '" and h.`customfield_value` = "' . $db->escape (trim($searchcustom), TRUE) . '")';						}
+					}
 				}
 			}
 
@@ -358,7 +376,12 @@ class VirtueMartModelProduct extends VmModel {
 			if(!empty($custom_search)){
 
 				if(empty($this->searchcustoms)) $this->searchcustoms = true;
-				$where[] = " ( " . implode (' OR ', $custom_search) . " ) ";
+				if($and){
+					$andor= ' AND ';
+				} else {
+					$andor= ' OR ';
+				}
+				$where[] = " ( " . implode ($andor, $custom_search) . " ) ";
 				//$where[] = " ( " . implode (' AND ', $custom_search_value) . " AND (".implode (' OR ', $custom_search_key).")) ";
 				if($this->searchAllCats){
 					$virtuemart_category_id = FALSE;
@@ -368,7 +391,7 @@ class VirtueMartModelProduct extends VmModel {
 			}
 
 		}
-
+		$filter_search = array();
 		if (!empty($this->keyword) and $group === FALSE) {
 
 			$keyword = vRequest::filter(html_entity_decode($this->keyword, ENT_QUOTES, "UTF-8"),FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
@@ -377,7 +400,7 @@ class VirtueMartModelProduct extends VmModel {
 
 			//$keyword = '"%' . $db->escape ($this->keyword, TRUE) . '%"';
 			//vmdebug('Current search field',$this->valid_search_fields);
-			$filter_search = array();
+
 			foreach ($this->valid_search_fields as $searchField) {
 				$prodLangFB = false;
 				if ($searchField == 'category_name' || $searchField == 'category_description') {
@@ -490,14 +513,19 @@ class VirtueMartModelProduct extends VmModel {
 				$where[] = ' `pc`.`virtuemart_category_id` IN ('.implode(',',$virtuemart_category_id).') ';
 			}
 		} else if ($isSite) {
-			if (!VmConfig::get('show_uncat_parent_products',TRUE)) {
-				$joinCategory = TRUE;
-				$where[] = ' ((p.`product_parent_id` = "0" AND `pc`.`virtuemart_category_id` > "0") OR p.`product_parent_id` > "0") ';
+			
+			if($this->searchcustoms or !empty($filter_search)){
+				if (!VmConfig::get('show_uncat_parent_products',TRUE)) {
+					$joinCategory = TRUE;
+					$where[] = ' ((p.`product_parent_id` = "0" AND `pc`.`virtuemart_category_id` > "0") OR p.`product_parent_id` > "0") ';
+				}
+				if (!VmConfig::get('show_uncat_child_products',TRUE)) {
+					$joinCategory = TRUE;
+					$where[] = ' ((p.`product_parent_id` > "0" AND `pc`.`virtuemart_category_id` > "0") OR p.`product_parent_id` = "0") ';
+				}
 			}
-			if (!VmConfig::get('show_uncat_child_products',TRUE)) {
-				$joinCategory = TRUE;
-				$where[] = ' ((p.`product_parent_id` > "0" AND `pc`.`virtuemart_category_id` > "0") OR p.`product_parent_id` = "0") ';
-			}
+
+
 		}
 
 		if ($isSite and !VmConfig::get('show_unpub_cat_products',TRUE)) {
@@ -1556,13 +1584,15 @@ class VirtueMartModelProduct extends VmModel {
 
 			$product = $this->getTable ('products');
 
-			$res = $product->load ($this->_id, 0, 0);
+			$res = $product->load ($this->_id, 0, 0);//->loadFieldValues(false);
+
 
 			if(!$res or (empty($product->virtuemart_vendor_id) and empty($product->slug))){
 
 				self::$_productsSingle[$checkedProductKey[1]] = false;
 				if(empty($product->slug)){
-					vmError('Could not find product with id '.$product->virtuemart_product_id.', entries exists for language? '.VmLanguage::$currLangTag);
+					$msg = 'Could not find product with id '.$product->virtuemart_product_id.', entries exists for language? '.VmLanguage::$currLangTag;
+					vmError($msg,$msg.' You may contact the administrator');
 				} else {
 					vmError('Could not find product with id '.$product->virtuemart_product_id.', still existing?');
 				}
@@ -1991,7 +2021,7 @@ vmSetStartTime('letsUpdateProducts');
 		if($group == 'recent'){
 			$ids = self::getRecentProductIds($nbrReturnProducts);	// get recent viewed from browser session
 		} else {
-			$ids = $this->sortSearchListQuery ($onlyPublished, $this->virtuemart_category_id, $group, $nbrReturnProducts);
+			$ids = $this->sortSearchListQuery ($onlyPublished, $this->virtuemart_category_id, $group, $nbrReturnProducts, array(), false);
 			if($ids){
 				self::$_alreadyLoadedIds = array_merge(self::$_alreadyLoadedIds,$ids);
 			}

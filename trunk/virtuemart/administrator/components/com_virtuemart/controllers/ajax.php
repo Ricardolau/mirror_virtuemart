@@ -182,7 +182,7 @@ class VirtueMartControllerAjax extends JControllerLegacy {
 								if ($field->field_type == 'E') {
 									$modelCustomfields->bindCustomEmbeddedFieldParams($field, 'E');
 								} else {
-									if ($field->field_type == 'C') {
+									if ($field->field_type == 'C' or $field->field_type == 'RC') {
 										$colspan = 'colspan="2" ';
 									}
 								}
@@ -256,8 +256,7 @@ class VirtueMartControllerAjax extends JControllerLegacy {
 			return false;
 		}
 		$custom->virtuemart_product_id = $product_id;
-		/*$m = count($json);
-		vmdebug('setRelatedHtml '.str_replace('#__',$db->getPrefix(),$db->getQuery()),$m);*/
+
 		foreach ($json as $k => $related) {
 
 			$custom->customfield_value = $related->id;

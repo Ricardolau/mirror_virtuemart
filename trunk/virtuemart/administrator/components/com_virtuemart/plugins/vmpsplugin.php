@@ -36,6 +36,8 @@ abstract class vmPSPlugin extends vmPlugin {
 		// 		$this->_configTableIdName = $this->_psType.'_jplugin_id';
 		$this->_loggable = TRUE;
 
+		//We set the usually existing values convertible (converts , to .)
+		$this->setConvertDecimal(array('min_amount','max_amount','cost_per_transaction','cost_min_transaction','cost_percent_total','shipment_cost','package_fee'));
 	}
 
 	public function getVarsToPush () {
@@ -53,6 +55,7 @@ abstract class vmPSPlugin extends vmPlugin {
 		$varsToPush['virtuemart_shipmentmethod_ids'] = array('','char');
 		$varsToPush['byCoupon'] = array('','int');
 		$varsToPush['couponCode'] = array('','char');
+
 
 		unset($varsToPush['checkConditionsCore']);
 	}

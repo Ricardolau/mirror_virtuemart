@@ -470,7 +470,7 @@ class VirtueMartModelCustom extends VmModel {
 		if ($type == 'E') {
 			//We call here vmplugin->getTablePluginParams which sets the xParam and the varsToPush of the Plugin
 			//vmdebug('setParameterableByFieldType before trigger plgVmGetTablePluginParams ',$custom_element, $custom_jplugin_id, $xParams,$varsToPush);
-            VmPlugin::directTrigger('vmcustom', $custom_element, 'plgVmGetTablePluginParams', array('custom' ,$custom_element, $custom_jplugin_id, &$xParams, &$varsToPush));
+			VmPlugin::directTrigger('vmcustom', $custom_element, 'plgVmGetTablePluginParams', array('custom' ,$custom_element, $custom_jplugin_id, &$xParams, &$varsToPush, &$table));
 		}
 		$xParams = $table->_xParams;
 		if(!empty($varsToPush)){

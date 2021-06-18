@@ -178,12 +178,7 @@ class VirtueMartModelPaymentmethod extends VmModel{
 	   		$data['virtuemart_vendor_id'] = vmAccess::isSuperVendor();
 	  	}
 
-		$tCon = array('min_amount','max_amount','cost_per_transaction','cost_min_transaction','cost_percent_total');
-		foreach($tCon as $f){
-			if(!empty($data[$f])){
-				$data[$f] = str_replace(array(',',' '),array('.',''),$data[$f]);
-			}
-		}
+
 
 		$table = $this->getTable('paymentmethods');
 

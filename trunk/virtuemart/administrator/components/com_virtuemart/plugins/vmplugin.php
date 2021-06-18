@@ -89,19 +89,6 @@ abstract class vmPlugin extends JPlugin {
 		$this->_toConvertDec = $toConvert;
 	}
 
-	public function convertDec(&$data){
-
-		if($this->_toConvertDec){
-			foreach($this->_toConvertDec as $f){
-				if(!empty($data[$f])){
-					$data[$f] = str_replace(array(',',' '),array('.',''),$data[$f]);
-				} else if(isset($data[$f])){
-					$data[$f] = 0.0;
-				}
-			}
-		}
-	}
-
 	public function loadJLangThis($fname,$type=0,$name=0){
 		if(empty($type)) $type = $this->_type;
 		if(empty($name)) $name = $this->_name;
@@ -548,7 +535,7 @@ abstract class vmPlugin extends JPlugin {
 	 * @param $varsToPush
 	 * @return bool
 	 */
-	protected function getTablePluginParams ($psType,$name, $id, &$xParams,&$varsToPush) {
+	protected function getTablePluginParams ($psType,$name, $id, &$xParams, &$varsToPush, &$table=0) {
 
 		if (!empty($this->_psType) and !$this->selectedThis ($psType, $name, $id)) {
 			//vmdebug('getTablePluginParams return ',$psType, $this->_psType, $name, $this->_name, $id,$this->_jid);
@@ -557,6 +544,7 @@ abstract class vmPlugin extends JPlugin {
 
 		$varsToPush = $this->_varsToPushParam;
 		$xParams = $this->_xParams;
+		if($table!=0) $table->setConvertDecimal($this->_toConvertDec);
 		//vmdebug('getTablePluginParams '.$name.' sets xParams '.$xParams.' vars',$varsToPush);
 	}
 
@@ -579,6 +567,8 @@ abstract class vmPlugin extends JPlugin {
 			}
 
 			$table->setParameterable ($this->_xParams, $this->_varsToPushParam);
+			$table->setConvertDecimal($this->_toConvertDec);
+
 			return TRUE;
 		}
 

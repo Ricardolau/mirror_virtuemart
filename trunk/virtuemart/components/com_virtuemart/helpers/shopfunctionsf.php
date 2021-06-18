@@ -187,27 +187,83 @@ class shopFunctionsF {
     static function kSortUmlaut($objArray, $prefix, $code, $name, $optKey, $optText){
 
 		$lang = vmLanguage::getLanguage();
-		$aSearch   = array("Ä","ä","Ö","ö","Ü","ü","ß","-");
-		$aReplace  = array("Ae","ae","Oe","oe","Ue","ue","ss"," ");
+
+		$default_locale = 'en-GB';
+		if (class_exists('ResourceBundle')) {
+			$locales = ResourceBundle::getLocales('');
+			$l = JFactory::getLanguage();
+			$x = $l->getLocale();
+
+			foreach ($x as $locale) {
+				if (in_array($locale, $locales)) {
+					$default_locale = $locale;
+					break;
+				}
+			}
+		}
+
 		$ret = array();
 		foreach ($objArray as  $obj) {
-			$trValue = $lang->hasKey($prefix.$obj->country_3_code) ?   vmText::_($prefix.$obj->{$code})  : $obj->{$name};
+			$trValue = $lang->hasKey($prefix.$obj->{$code}) ?   vmText::_($prefix.$obj->{$code})  : $obj->{$name};
 
 			$ckey = 0;
 			if($obj->ordering){
 				$ckey = $obj->ordering;
 			} else {
-				$ckey = str_replace($aSearch, $aReplace, $trValue);// $country_string;
+				$ckey = self::removeAccent($trValue);
 			}
+
 			//vmdebug('we had here '.$ckey,$objArray[$ckey]);
 			$ret[$ckey] = new stdClass();;
 			$ret[$ckey]->{$optKey} = $obj->virtuemart_country_id;
 			$ret[$ckey]->{$optText} = $trValue;
+			$ret[$ckey]->optText = $optText;
+			$ret[$ckey]->locale = $default_locale;
+		}
+
+		if (class_exists('ResourceBundle') && (class_exists('Collator'))) {
+			usort($ret, array('shopfunctionsf', "sortByLocale"));
+
+			return $ret;
 		}
 
 		ksort($ret);
 		return $ret;
     }
+
+	/**
+     * Expects Object $a and Object $b
+     * each object has to have a->optText="any selector" which compares values in a->{any selector}
+	 * each object has to have a->locale assigned in which the sorting occurs
+     * @author stAn of Rupostel
+	 * @param $a
+	 * @param $b
+	 * @return int
+	 */
+	public static function sortByLocale($a, $b) {
+		if (empty($a)) return 0;
+		if (empty($b)) return 0;
+
+
+		$key = $a->optText;
+
+		if (!isset($a->{$key})) return 0;
+		if (!isset($b->{$key})) return 0;
+
+		$c = new Collator($a->locale);
+		if (empty($c)) {
+			$c = new Collator('');
+		}
+
+		return $c->compare($a->{$key}, $b->{$key});
+	}
+
+	public static function removeAccent($str)
+	{
+		$a = array('À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Æ', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ð', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ø', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'ß', 'à', 'á', 'â', 'ã', 'ä', 'å', 'æ', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ', 'Ā', 'ā', 'Ă', 'ă', 'Ą', 'ą', 'Ć', 'ć', 'Ĉ', 'ĉ', 'Ċ', 'ċ', 'Č', 'č', 'Ď', 'ď', 'Đ', 'đ', 'Ē', 'ē', 'Ĕ', 'ĕ', 'Ė', 'ė', 'Ę', 'ę', 'Ě', 'ě', 'Ĝ', 'ĝ', 'Ğ', 'ğ', 'Ġ', 'ġ', 'Ģ', 'ģ', 'Ĥ', 'ĥ', 'Ħ', 'ħ', 'Ĩ', 'ĩ', 'Ī', 'ī', 'Ĭ', 'ĭ', 'Į', 'į', 'İ', 'ı', 'Ĳ', 'ĳ', 'Ĵ', 'ĵ', 'Ķ', 'ķ', 'Ĺ', 'ĺ', 'Ļ', 'ļ', 'Ľ', 'ľ', 'Ŀ', 'ŀ', 'Ł', 'ł', 'Ń', 'ń', 'Ņ', 'ņ', 'Ň', 'ň', 'ŉ', 'Ō', 'ō', 'Ŏ', 'ŏ', 'Ő', 'ő', 'Œ', 'œ', 'Ŕ', 'ŕ', 'Ŗ', 'ŗ', 'Ř', 'ř', 'Ś', 'ś', 'Ŝ', 'ŝ', 'Ş', 'ş', 'Š', 'š', 'Ţ', 'ţ', 'Ť', 'ť', 'Ŧ', 'ŧ', 'Ũ', 'ũ', 'Ū', 'ū', 'Ŭ', 'ŭ', 'Ů', 'ů', 'Ű', 'ű', 'Ų', 'ų', 'Ŵ', 'ŵ', 'Ŷ', 'ŷ', 'Ÿ', 'Ź', 'ź', 'Ż', 'ż', 'Ž', 'ž', 'ſ', 'ƒ', 'Ơ', 'ơ', 'Ư', 'ư', 'Ǎ', 'ǎ', 'Ǐ', 'ǐ', 'Ǒ', 'ǒ', 'Ǔ', 'ǔ', 'Ǖ', 'ǖ', 'Ǘ', 'ǘ', 'Ǚ', 'ǚ', 'Ǜ', 'ǜ', 'Ǻ', 'ǻ', 'Ǽ', 'ǽ', 'Ǿ', 'ǿ');
+		$b = array('A', 'A', 'A', 'A', 'AE', 'A', 'AE', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'D', 'N', 'O', 'O', 'O', 'O', 'OE', 'O', 'U', 'U', 'UE', 'U', 'Y', 'ss', 'a', 'a', 'a', 'a', 'ae', 'a', 'ae', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'oe', 'o', 'o', 'u', 'u', 'ue', 'u', 'y', 'y', 'A', 'a', 'A', 'a', 'A', 'a', 'C', 'c', 'C', 'c', 'C', 'c', 'C', 'c', 'D', 'd', 'D', 'd', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'G', 'g', 'G', 'g', 'G', 'g', 'G', 'g', 'H', 'h', 'H', 'h', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'IJ', 'ij', 'J', 'j', 'K', 'k', 'L', 'l', 'L', 'l', 'L', 'l', 'L', 'l', 'l', 'l', 'N', 'n', 'N', 'n', 'N', 'n', 'n', 'O', 'o', 'O', 'o', 'O', 'o', 'OE', 'oe', 'R', 'r', 'R', 'r', 'R', 'r', 'S', 's', 'S', 's', 'S', 's', 'S', 's', 'T', 't', 'T', 't', 'T', 't', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'W', 'w', 'Y', 'y', 'Y', 'Z', 'z', 'Z', 'z', 'Z', 'z', 's', 'f', 'O', 'o', 'U', 'u', 'A', 'a', 'I', 'i', 'O', 'o', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'A', 'a', 'AE', 'ae', 'O', 'o');
+		return str_replace($a, $b, $str);
+	}
 
 	/**
 	 * Render a simple state list

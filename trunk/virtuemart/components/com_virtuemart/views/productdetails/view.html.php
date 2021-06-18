@@ -76,12 +76,14 @@ class VirtueMartViewProductdetails extends VmView {
 			$ratingModel = VmModel::getModel('ratings');
 			$product_model->withRating = $this->showRating = $ratingModel->showRating($virtuemart_product_id);
 			$product = $product_model->getProduct($virtuemart_product_id,TRUE,TRUE,TRUE,$quantity);
+
 			$this->assignRef('product', $product);
 
 			$last_category_id = shopFunctionsF::getLastVisitedCategoryId();
 
 			$customfieldsModel = VmModel::getModel ('Customfields');
 
+			//Attention, this deletes the tmp rules/product (not allRules) of the calculationHelper, due calculation of the related products
 			if (!empty($product->customfields)){
 				$customfieldsModel -> displayProductCustomfieldFE ($product, $product->customfields);
 			}

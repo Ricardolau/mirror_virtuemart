@@ -8,7 +8,7 @@
  * @author Max Milbers
  * @todo handle child products
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2015 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2015 - 2021 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -41,7 +41,7 @@ if (!empty($product->step_order_level)){
 	if(!empty($init)){
 		if($init<$step){
 			$init = $step;
-		} else {
+		} else if($init>$step){
 			$init = ceil($init/$step) * $step;
 
 		}

@@ -350,6 +350,13 @@ class calculationHelper {
 		if (empty($amount)) {
 			$amount = 1;
 		}
+
+		if(!empty($product->min_order_level) and $amount< $product->min_order_level){
+			$amount=$product->min_order_level;
+		} else	if (!empty($product->step_order_level) and $amount< $product->step_order_level){
+			$amount=$product->step_order_level;
+		}
+
 		$this->_amount = $amount;
 
 		//We already have the productobject, no need for extra sql

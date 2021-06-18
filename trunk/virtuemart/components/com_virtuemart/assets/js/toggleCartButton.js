@@ -33,7 +33,7 @@ if (typeof iStraxx === "undefined")
         } else return false;
     }
 
-    iStraxx.toggleCartButton = function(add, event){
+    iStraxx.toggleAddToCartButton = function(add, event){
 
         if(event.data === null){
             var cart = iStraxx.getCartArea($(event.currentTarget));

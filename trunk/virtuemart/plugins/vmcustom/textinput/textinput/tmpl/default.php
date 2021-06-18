@@ -1,6 +1,6 @@
 <?php
-	defined('_JEXEC') or die();
-	$class='no-vm-bind vmcustom-textinput';
+defined('_JEXEC') or die();
+$class='no-vm-bind vmcustom-textinput';
 $product = $viewData[0];
 $params = $viewData[1];
 $nameJs = 'customProductData['.$product->virtuemart_product_id.']['.$params->virtuemart_custom_id.']';
@@ -14,23 +14,23 @@ if(!empty($params->customfield_price)){
 
 ?>
 
-	<input class="<?php echo $class ?>"
-		   type="text" value=""
-		   size="<?php echo $params->custom_size ?>"
-		   name="<?php echo $name?>"
-		><br />
+    <input class="<?php echo $class ?>"
+           type="text" value=""
+           size="<?php echo $params->custom_size ?>"
+           name="<?php echo $name?>"
+    ><br />
 <?php
 
 $checkMin = '';
 $ButtonTexts = '';
 if(!empty($params->required_letters)){
-    $ButtonTexts = 'Virtuemart.BtncartAddToo = "'.vmText::_( 'COM_VIRTUEMART_CART_ADD_TO' ).'";
+	$ButtonTexts = 'Virtuemart.BtncartAddToo = "'.vmText::_( 'COM_VIRTUEMART_CART_ADD_TO' ).'";
                     Virtuemart.BtncartEnterText = "'.vmText::_( 'VMCUSTOM_TEXTINPUT_ENTER_TEXT' ).'";';
-    $checkMin = 'Virtuemart.checkCharCount($(this), event);';
-    vmJsApi::addJScript('toggleCartButton');
+	$checkMin = 'Virtuemart.checkCharCount($(this), event, formProduct);';
+	vmJsApi::addJScript('toggleCartButton');
 }
-	//javascript to update price
-	$j = 'var test = function($) {
+//javascript to update price
+$j = 'var test = function($) {
 '.$ButtonTexts.'
 	$(".vmcustom-textinput").keyup(function(event) {
 			formProduct = $(this).parents("form.product");
@@ -42,8 +42,8 @@ if(!empty($params->required_letters)){
 		    var charCount; 
 		    
 		    var addToCart = true;
-		    console.log("New try ");
-		    $("[name*=\''.$nameJs.'\']").each(function (){
+		    
+		    formProduct.find("[name$=\'[comment]\']").each(function (){
 		        charCount = $(this).val().length;
 		        console.log("My charcount ",charCount,this);
 		        if(charCount<'.$params->required_letters.'){
@@ -58,47 +58,30 @@ if(!empty($params->required_letters)){
 		            console.log("Set Green ",this);
 		        }
 		    });
+		    
 		    var button;
+
+			event.data = {};
+		    event.data.cartform = formProduct;
 		    if(addToCart){
+		        console.log("Enable AddToCartButton");
+            } else {
+                console.log("Disable AddToCartButton");
+            }
+            
+            button = iStraxx.toggleAddToCartButton(addToCart, event);
+            if(typeof button[0] !== "undefined"){
+                button[0].innerHTML=Virtuemart.BtncartAddToo;
+                button[0].css("color","black");
+                console.log("My Button",button);
+            } else {
+                button.innerHTML=Virtuemart.BtncartAddToo;
+            }
 		        
-		        button = iStraxx.toggleButton(true, event);
-		        if(typeof button[0] !== "undefined"){
-		            button[0].innerHTML=Virtuemart.BtncartAddToo;
-		            console.log("My Button",button);
-		        }
-		        
-		        
-		        //Extra
-		        event.data.cartform = $(".addtocart_inner").find(".js-recalculate");
-		        button = iStraxx.toggleButton(true, event);
-		        if(typeof button[0] !== "undefined"){
-		            button[0].innerHTML=Virtuemart.BtncartAddToo;
-		        }
-		        
-		    } else {
-		        obj.css("border-color", "red");
-		        button = iStraxx.toggleButton(false, event);
-		        if(typeof button[0] !== "undefined"){
-		            button[0].innerHTML=Virtuemart.BtncartEnterText;
-		        }
-		        
-		        
-		        //Extra
-		        event.data.cartform = $(".addtocart_inner").find(".js-recalculate");
-		        button = iStraxx.toggleButton(false, event);
-		        if(typeof button[0] !== "undefined"){
-		            button[0].innerHTML=Virtuemart.BtncartEnterText;
-		        } else {
-		            button.innerHTML=Virtuemart.BtncartEnterText;
-		        }
-		        
-		    }
-		    //console.log("lets se what we have here",obj);
-		    //obj.border = "red";
 		};
 };
 jQuery("body").on("updateVirtueMartProductDetail", test);
 jQuery(document).ready(test);';
-	vmJsApi::addJScript('textinput',$j);
+vmJsApi::addJScript('textinput',$j);
 
 ?>

@@ -227,25 +227,44 @@ abstract class vmPlugin extends JPlugin {
 		}
 	}
 
+	/** Creates a plugin object. Used by the directTrigger and therefore loads also unpublished plugins.
+	 * Otherwise, we would not be able to use the plug-in functions during the method saving process.
+	 * @param $type
+	 * @param $element
+	 * @return false|mixed
+	 */
 	static public function createPlugin($type, $element){
 
 		if(empty($type) or empty($element)){
 			vmdebug('Developer error, class vmpluglin function createPlugin: empty type or element');
 		}
-		$dispatcher = JDispatcher::getInstance();
+
+		JPluginHelper::importPlugin($type);
 		$plugin = JPluginHelper::getPlugin($type, $element);
 		if(!isset($plugin->type) or !isset($plugin->name)){
-			vmdebug('VmPlugin function createPlugin, type or name not set',$type,$element);
-			vmTrace('VmPlugin function createPlugin, type or name not set '. $type .' '. $element);
-			vmError('VmPlugin function createPlugin, type or name not set '. $type .' '. $element);
-			return false;
+			if(!empty($type) and !empty($element)) {
+				vmdebug('VmPlugin function createPlugin, plugin unpublished', $type, $element);
+				//vmTrace('VmPlugin function createPlugin, plugin unpublished '. $type .' '. $element);
+				//vmError('VmPlugin function createPlugin, plugin unpublished '. $type .' '. $element);
+
+			} else {
+				vmdebug('VmPlugin function createPlugin, type or name empty',$type,$element);
+				vmTrace('VmPlugin function createPlugin, type or name empty '. $type .' '. $element);
+				vmError('VmPlugin function createPlugin, type or name empty '. $type .' '. $element);
+			}
 		}
-		$className = 'Plg' . str_replace('-', '', $plugin->type) . $plugin->name;
+
+		$className = 'Plg' . str_replace('-', '', $type) . $element;
+
+		if(!class_exists($className) and JFile::exists(VMPATH_PLUGINS.'/'.$type.'/'.$element.'/'.$element.'.php')){
+			require(VMPATH_PLUGINS.'/'.$type.'/'.$element.'/'.$element.'.php');
+		}
 		if(class_exists($className)){
 			// Instantiate and register the plugin.
+			$dispatcher = JEventDispatcher::getInstance();
 			return new $className($dispatcher, (array) $plugin);
 		} else {
-			vmdebug('VmPlugin function createPlugin, class does not exist',$type,$element);
+			vmdebug('VmPlugin function createPlugin, class does not exist '.$className, $type, $element);
 			vmTrace('VmPlugin function createPlugin, class does not exist '. $type .' '. $element);
 			vmError('VmPlugin function createPlugin, class does not exist '. $type .' '. $element,'VmPlugin function createPlugin, class does not exist');
 			return false;
@@ -707,6 +726,10 @@ abstract class vmPlugin extends JPlugin {
 		if($this->_cryptedFields){
 			//I think that should be set on $table, not _vmpCtable
 			$this->_vmpCtable->setCryptedFields($this->_cryptedFields);
+		}
+
+		if($this->_toConvertDec){
+			$this->_vmpItable->setConvertDecimal($this->_toConvertDec);
 		}
 
 		/*if (!$this->_tableChecked) {

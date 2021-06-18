@@ -90,10 +90,11 @@ class VirtueMartModelOrders extends VmModel {
 		return $orderId;
 
 	}
+
 	/**
-	 * This function seems completly broken, JRequests are not allowed in the model, sql not escaped
-	 * This function gets the secured order Number, to send with paiement
-	 *
+	 * This function gets the secured order Number
+	 * @param $virtuemart_order_id
+	 * @return string/null
 	 */
 	public function getOrderNumber($virtuemart_order_id){
 
@@ -105,14 +106,14 @@ class VirtueMartModelOrders extends VmModel {
 
 	}
 
-	/**
-	 * Was also broken, actually used?
-	 *
-	 * get next/previous order id
-	 *
-	 */
 
-	public function getOrderId($order_id, $direction ='DESC') {
+	/**
+	 * Get next orderId
+	 * @param $order_id
+	 * @param string $direction
+	 * @return int|mixed|null
+	 */
+	public function getNextOrderId($order_id, $direction ='DESC') {
 
 		if ($direction == 'ASC') {
 			$arrow ='>';
@@ -133,7 +134,7 @@ class VirtueMartModelOrders extends VmModel {
 
 	/**
 	 * This is a proxy function to return an order safely, we may set the getOrder function to private
-	 * Maybe the right place would be the controller, cause there are JRequests in it. But for a fast solution,
+	 * Maybe the right place would be the controller, cause there are vRequests in it. But for a fast solution,
 	 * still better than to have it 3-4 times in the view.html.php of the views.
 	 * @author Max Milbers
 	 *

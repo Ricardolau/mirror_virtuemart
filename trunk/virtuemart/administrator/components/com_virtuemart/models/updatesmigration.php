@@ -503,7 +503,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 	/**
 	 * @param $type= 'plugin'
 	 * @param $element= 'textinput'
-	 * @param $src = path . DS . 'plugins' . DS . $group . DS . $element;
+	 * @param $src = path .'/plugins/'. $group .'/'. $element;
 	 *
 	 */
 	public function updateJoomlaUpdateServer( $type, $element, $dst, $group=''  ){
@@ -594,7 +594,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 	/**
 	 * @param $type= 'plugin'
 	 * @param $element= 'textinput'
-	 * @param $src = path . DS . 'plugins' . DS . $group . DS . $element;
+	 * @param $src = path .'/plugins/'. $group .'/'. $element;
 	 */
 	static function getExtensionXmlFileName($type, $element, $dst ){
 		if ($type=='plugin') {
@@ -602,7 +602,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		} else if ($type=='module'){
 			$extensionXmlFileName = $dst .'/'. $element .'/'. $element. '.xml';
 		} else {
-			$extensionXmlFileName = $dst;//;. DS . $element.DS . $element. '.xml';
+			$extensionXmlFileName = $dst;
 		}
 		return $extensionXmlFileName;
 	}

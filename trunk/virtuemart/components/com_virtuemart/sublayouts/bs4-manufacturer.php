@@ -1,4 +1,18 @@
 <?php
+
+/**
+ *
+ * renders the categories
+ *
+ * @package     VirtueMart
+ * @subpackage
+ * @author      Eugen Stranz
+ * @link        ${PHING.VM.MAINTAINERURL}
+ * @copyright   Copyright (c) 2018 VirtueMart Team. All rights reserved.
+ * @license     https://www.gnu.org/licenses/gpl-3.0.html GNU/GPL
+ * @version     $Id: bs4-manufacturer.php 8024 2014-06-12 15:08:59Z Milbo $
+ */
+
 // Joomla Security Check - no direct access to this file 
 // Prevents File Path Exposure
 defined('_JEXEC') or die('Restricted access');

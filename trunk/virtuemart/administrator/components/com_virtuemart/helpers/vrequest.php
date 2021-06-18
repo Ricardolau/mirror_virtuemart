@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Class vRequest
  * Gets filtered request values.
@@ -6,7 +7,7 @@
  * @package    VirtueMart
  * @subpackage Helpers
  * @author Max Milbers
- * @copyright Copyright (c) 2014 iStraxx UG (haftungsbeschränkt). All rights reserved.
+ * @copyright Copyright (c) 2014 - 2019 iStraxx UG (haftungsbeschränkt). All rights reserved.
  * @license MIT, see http://opensource.org/licenses/MIT
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal

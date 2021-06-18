@@ -15,6 +15,8 @@
  * @version $Id: default_addtocart.php 7833 2014-04-09 15:04:59Z Milbo $
  */
 
+defined('_JEXEC') or die('Restricted access');
+
 $plugin = $viewData['plugin'];
 $psType = $viewData['psType'];
 $selectedPlugin = $viewData['selectedPlugin'];

@@ -210,7 +210,7 @@ abstract class vmCustomPlugin extends vmPlugin {
 	}
 
 	/**
-	 * This stores the data of the plugin, attention NOT the configuration of the pluginmethod,
+	 * This stores the data of the plugin, attention NOT the configuration of the pluginmethod,OnStoreProduct return because
 	 * this function should never be triggered only called from triggered functions.
 	 *
 	 * @author Max Milbers

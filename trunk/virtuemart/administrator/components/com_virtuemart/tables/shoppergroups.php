@@ -6,7 +6,8 @@
  * @subpackage ShopperGroup
  * @author Max Milbers
  * @author Markus Öhler
- * @copyright Copyright (c) 2011 - 2014 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2011 - 2018 VirtueMart Team. All rights reserved.
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GNU/GPL
  */
 
 defined('_JEXEC') or die();

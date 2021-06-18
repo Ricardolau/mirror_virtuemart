@@ -3,13 +3,13 @@
  *
  * loads the add to cart button
  *
- * @package    VirtueMart
+ * @package     VirtueMart
  * @subpackage
- * @author     Max Milbers, Valerie Isaksen
- * @link       ${PHING.VM.MAINTAINERURL}
- * @copyright  Copyright (c) 2015 VirtueMart Team. All rights reserved.
- * @license    http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
- * @version    $Id: addtocartbtn.php 8024 2014-06-12 15:08:59Z Milbo $
+ * @author      Max Milbers, Valerie Isaksen
+ * @link        ${PHING.VM.MAINTAINERURL}
+ * @copyright   Copyright (c) 2015 VirtueMart Team. All rights reserved.
+ * @license     https://www.gnu.org/licenses/gpl-3.0.html GNU/GPL
+ * @version     $Id: addtocartbtn.php 8024 2014-06-12 15:08:59Z Milbo $
  */
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');

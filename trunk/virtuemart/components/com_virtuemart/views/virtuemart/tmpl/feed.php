@@ -1,4 +1,18 @@
 <?php
+
+/**
+ *
+ * renders the VirtueMart product Feeds
+ *
+ * @package     VirtueMart
+ * @subpackage
+ * @author      Max Milbers
+ * @link        ${PHING.VM.MAINTAINERURL}
+ * @copyright   Copyright (c) 2014 VirtueMart Team. All rights reserved.
+ * @license     https://www.gnu.org/licenses/gpl-3.0.html GNU/GPL
+ * @version     $Id: feed.php 8024 2014-06-12 15:08:59Z Milbo $
+ */
+
 defined('_JEXEC') or die('Restricted access');
 
 

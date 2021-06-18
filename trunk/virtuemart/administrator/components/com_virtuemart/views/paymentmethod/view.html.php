@@ -31,9 +31,6 @@ class VirtuemartViewPaymentMethod extends VmViewAdmin {
 
 	function display($tpl = null) {
 
-		// Load the helper(s)
-		//$this->addHelperPath(VMPATH_ADMIN.DS.'helpers');
-
 		$this->user = JFactory::getUser();
 		$model = VmModel::getModel('paymentmethod');
 

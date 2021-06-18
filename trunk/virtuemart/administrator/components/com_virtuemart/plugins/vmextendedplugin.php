@@ -8,7 +8,10 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
  *
  * @package	VirtueMart
  * @subpackage Plugins
- * @author Christopher Roussel
+ * @author Christopher Roussel, Max Milbers
+ * @link ${PHING.VM.MAINTAINERURL}
+ * @copyright Copyright (c) 2011 - 2021 VirtueMart Team. All rights reserved.
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GNU/GPL
  */
 
 
@@ -73,7 +76,7 @@ abstract class vmExtendedPlugin extends vmPlugin {
 	public function onVmAdminController ($controller) { return null; }
 /*		example:
 		if ($controller = 'myplug') {
-			require_once($this->_path.DS.'controllers'.DS.'myplug_admin.php');
+			require_once($this->_path .'/controllers/myplug_admin.php');
 			return true;
 		}*/
 
@@ -88,7 +91,7 @@ abstract class vmExtendedPlugin extends vmPlugin {
 	public function onVmSiteController ($controller) { return null; }
 /*		example:
 		if ($controller = 'myplug') {
-			require_once($this->_path.DS.'controllers'.DS.'myplug.php');
+			require_once($this->_path .'/controllers/myplug.php');
 			return true;
 		}*/
 
@@ -99,7 +102,7 @@ abstract class vmExtendedPlugin extends vmPlugin {
 	 */
 	public function onVmSqlRemove (&$updater) { return null; }
 /*		example:
-		$filename = $this->_path.DS.'install'.DS.'uninstall_required_data.sql';
+		$filename = $this->_path .'/install/uninstall_required_data.sql';
 		$updater->execSQLFile($filename);*/
 
 	/**
@@ -109,7 +112,7 @@ abstract class vmExtendedPlugin extends vmPlugin {
 	 */
 	public function onVmSqlRestore (&$updater) { return null; }
 /*		example:
-		$filename = $this->_path.DS.'install'.DS.'install_required_data.sql';
+		$filename = $this->_path .'/install/install_required_data.sql';
 		$updater->execSQLFile($filename);*/
 
 }

@@ -3,22 +3,25 @@
 defined ('_JEXEC') or die();
 
 /**
-* class Image2Thumbnail
-* Thumbnail creation with PHP4 and GDLib (recommended, but not mandatory: 2.0.1 !)
-*
-*
-* @author     Andreas Martens <heyn@plautdietsch.de>
-* @author     Patrick Teague <webdude@veslach.com>
-* @author     Soeren Eberhardt <soeren|at|virtuemart.net>
-*@version	1.0b
-*@date       modified 11/22/2004
-*@modifications
-*   - added support for GDLib < 2.0.1
-*	- added support for reading gif images
-*	- makes jpg thumbnails
-*	- changed several groups of 'if' statements to single 'switch' statements
-*   - commented out original code so modification could be identified.
-*/
+ * class Image2Thumbnail
+ * Thumbnail creation with PHP4 and GDLib (recommended, but not mandatory: 2.0.1 !)
+ *
+ * @author     Andreas Martens <heyn@plautdietsch.de>
+ * @author     Patrick Teague <webdude@veslach.com>
+ * @author     Soeren Eberhardt <soeren|at|virtuemart.net>
+ * @author		Max Milbers
+ *@version	1.0b
+ *@date       modified 11/22/2004
+ *@modifications
+ *   - added support for GDLib < 2.0.1
+ *	- added support for reading gif images
+ *	- makes jpg thumbnails
+ *	- changed several groups of 'if' statements to single 'switch' statements
+ *   - commented out original code so modification could be identified.
+ * @copyright 2004? The Copyright maybe got lost. So I set now our latest known date (by svn)
+ * @copyright 2011 - 2018 The VirtueMart Team
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GNU/GPL
+ */
 
 class Img2Thumb	{
 // New modification

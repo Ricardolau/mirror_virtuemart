@@ -860,7 +860,7 @@ class Migrator extends VmModel{
 		$this->_db->setQuery($q);
 		$oldMfCategories = $this->_db->loadAssocList();
 
-		if(!class_exists('TableManufacturercategories')) require(VMPATH_ADMIN . DS . 'tables' . DS . 'manufacturercategories.php');
+		if(!class_exists('TableManufacturercategories')) require(VMPATH_ADMIN .'/tables/manufacturercategories.php');
 
 		$alreadyKnownIds = $this->getMigrationProgress('mfcats');
 		// 		$oldtonewMfCats = array();

@@ -9,6 +9,7 @@
  * @subpackage Helpers
  * @author Max Milbers
  * @copyright Copyright (c) 2011-2018 VirtueMart Team. All rights reserved by the author.
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GNU/GPL
  */
 
 defined('_JEXEC') or die();

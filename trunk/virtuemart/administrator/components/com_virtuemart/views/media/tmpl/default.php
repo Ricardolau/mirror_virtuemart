@@ -80,7 +80,7 @@ $productfileslist = $this->files;
 			} else if( substr( $productfile->file_url, 0, 2) == "//" ){
 				$fullSizeFilenamePath = $productfile->file_url;
 			} else {
-				$fullSizeFilenamePath = VMPATH_ROOT.DS.$productfile->file_url_folder.$productfile->file_name.'.'.$productfile->file_extension;
+				$fullSizeFilenamePath = VMPATH_ROOT.'/'.$productfile->file_url_folder.$productfile->file_name.'.'.$productfile->file_extension;
 				$fullSizeFilenamePath = vRequest::filterPath($fullSizeFilenamePath);
 			}
 

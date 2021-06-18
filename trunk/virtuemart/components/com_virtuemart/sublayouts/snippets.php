@@ -1,4 +1,17 @@
 <?php
+/**
+ *
+ * renders the search engine snippets
+ *
+ * @package     VirtueMart
+ * @subpackage
+ * @author      The VirtueMart Team
+ * @link        ${PHING.VM.MAINTAINERURL}
+ * @copyright   Copyright (c) 2015 - 2019 VirtueMart Team. All rights reserved.
+ * @license     https://www.gnu.org/licenses/gpl-3.0.html GNU/GPL
+ * @version     $Id: snippets.php 8024 2014-06-12 15:08:59Z Milbo $
+ */
+
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 $document = JFactory::getDocument ();

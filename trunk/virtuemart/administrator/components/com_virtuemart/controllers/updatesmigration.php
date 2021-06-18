@@ -753,7 +753,7 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		} else {
 			$p = '';
 		}
-		//$p = VMPATH_ROOT.DS.'installation'.DS.'sql'.DS.'mysql'.DS.'joomla.sql';
+		//$p = VMPATH_ROOT.'/installation/sql/mysql/joomla.sql';
 		$msg = 'You are using joomla 3, or File '.$p.' not found';
 		if(file_exists($p)){
 			$updater = new GenericTableUpdater();

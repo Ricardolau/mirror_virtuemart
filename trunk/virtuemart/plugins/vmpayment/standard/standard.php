@@ -35,7 +35,7 @@ class plgVmPaymentStandard extends vmPSPlugin {
 		$this->addVarsToPushCore($varsToPush,1);
 		$this->setConfigParameterable ($this->_configTableFieldName, $varsToPush);
 		$this->setConvertable(array('min_amount','max_amount','cost_per_transaction','cost_min_transaction'));
-		$this->setConvertDecimal(array('min_amount','max_amount','cost_per_transaction','cost_min_transaction','cost_percent_total'));
+		//$this->setConvertDecimal(array('min_amount','max_amount','cost_per_transaction','cost_min_transaction','cost_percent_total'));
 	}
 
 	/**

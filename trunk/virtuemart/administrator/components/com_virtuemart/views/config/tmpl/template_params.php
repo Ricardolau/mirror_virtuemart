@@ -38,7 +38,7 @@ VirtuemartViewConfig::$options = $options;
 		echo VmHTML::row('genericlist','COM_VIRTUEMART_ADMIN_CFG_SHOW_CATEGORYDESC',$options, 'showcategory_desc', '', 'value', 'text', $params->get('showcategory_desc',1));
 		echo VmHTML::row('genericlist','COM_VIRTUEMART_ADMIN_CFG_SHOW_SEARCH',$options, 'showsearch', '', 'value', 'text', $params->get('showsearch',1));
 		if(vRequest::getCmd('view')=='config'){
-			echo VmHtml::row('input','COM_VM_PRODUCTGROUPSSEQUENCE','ProductGroupsSequence',VmConfig::get('ProductGroupsSequence', 'featured, discontinued, latest, topten, recent'));
+			echo VmHtml::row('input','COM_VM_PRODUCT_GROUPS_SEQUENCE','ProductGroupsSequence',VmConfig::get('ProductGroupsSequence', 'featured, discontinued, latest, topten, recent'));
 		}
 
 		echo '</table>';

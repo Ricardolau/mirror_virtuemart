@@ -87,7 +87,7 @@ class VirtueMartModelCustom extends VmModel {
 		    if ($this->_cache[$this->_id]->field_type == 'E') {
 			    JPluginHelper::importPlugin ('vmcustom');
                 VmPlugin::directTrigger('vmcustom', $this->_cache[$this->_id]->custom_element, 'plgVmDeclarePluginParamsCustomVM3', array(&$this->_cache[$this->_id]));
-                vmdebug('getCustom after directTrigger plgVmDeclarePluginParamsCustomVM3',$this->_cache[$this->_id]->_varsToPushParam);
+                //vmdebug('getCustom after directTrigger plgVmDeclarePluginParamsCustomVM3',$this->_cache[$this->_id]->_varsToPushParam);
 		    }
 			//exaample 	vm2 withParent="0"|parentOrderable="0"|
 			//			vm3 withParent="1"|parentOrderable="1"|
@@ -405,6 +405,10 @@ class VirtueMartModelCustom extends VmModel {
 			$data['virtuemart_shoppergroup_id'] = '';
 		} else {
 			$data['virtuemart_shoppergroup_id'] = implode(',',$data['virtuemart_shoppergroup_id']);
+		}
+
+		if(VmConfig::get('strictCustomfieldTags', false)){
+			$data['custom_value'] = str_replace('-', ' ', $data['custom_value']);;
 		}
 
 

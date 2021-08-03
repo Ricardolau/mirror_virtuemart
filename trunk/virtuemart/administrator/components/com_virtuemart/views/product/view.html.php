@@ -288,6 +288,8 @@ class VirtuemartViewProduct extends VmViewAdmin {
 				VmJsApi::chosenDropDowns();
 				$this->ajaxCategoryDropDown('categories');
 
+				$this->expertPrices = VmConfig::get('expertPrices', false);
+
 				break;
 
 			case 'massxref_cats':

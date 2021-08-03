@@ -59,7 +59,8 @@ class VirtueMartModelCustomfields extends VmModel {
 		$q = 'SELECT c.`virtuemart_custom_id`, c.`custom_parent_id`, c.`virtuemart_vendor_id`, c.`custom_jplugin_id`, c.`custom_element`, c.`admin_only`, c.`custom_title`, c.`show_title` , c.`custom_tip`,
 		c.`custom_value`, c.`custom_desc`, c.`field_type`, c.`is_list`, c.`is_hidden`, c.`is_cart_attribute`, c.`is_input`, c.`searchable`, c.`layout_pos`, c.`custom_params`, c.`shared`, c.`published`, c.`ordering`, c.`virtuemart_shoppergroup_id`, ';
 		$q .= 'field.`virtuemart_customfield_id`, field.`virtuemart_product_id`, field.`customfield_value`, field.`customfield_price`,
-		field.`customfield_params`, field.`published` as fpublished, field.`override`, field.`disabler`, field.`noninheritable`, field.`ordering`
+		field.`customfield_params`, field.`published` as fpublished, field.`override`, field.`disabler`, field.`noninheritable`, field.`ordering`,
+		field.`product_sku`, field.`product_gtin`, field.`product_mpn`
 		FROM `#__virtuemart_customs` AS c LEFT JOIN `#__virtuemart_product_customfields` AS field ON c.`virtuemart_custom_id` = field.`virtuemart_custom_id` ';
 		return $q;
 	}
@@ -420,6 +421,14 @@ class VirtueMartModelCustomfields extends VmModel {
 			$priceInput = ' ';
 		}
 
+		$serials = '';
+		if($field->field_type!='A' and $field->field_type!='C'){
+			$serials = '<td><span style="white-space: nowrap;">'.vmText::_('COM_VIRTUEMART_PRODUCT_SKU').'<input type="text" size="12" style="text-align:right;" value="' . $field->product_sku . '" name="field[' . $row . '][product_sku]" /> </span></td>';
+			$serials .= '<td><span style="white-space: nowrap;">'.vmText::_('COM_VIRTUEMART_PRODUCT_GTIN').'<input type="text" size="12" style="text-align:right;" value="' . $field->product_gtin . '" name="field[' . $row . '][product_gtin]" /> </span></td>';
+			$serials .= '<td><span style="white-space: nowrap;">'.vmText::_('COM_VIRTUEMART_PRODUCT_MPN').'<input type="text" size="12" style="text-align:right;" value="' . $field->product_mpn . '" name="field[' . $row . '][product_mpn]" /> </span></td>';
+
+		}
+
 		switch ($field->field_type) {
 
 			case 'C':
@@ -707,9 +716,9 @@ class VirtueMartModelCustomfields extends VmModel {
 					}
 
 					$currentValue = $field->customfield_value;
-					return $priceInput . '</td><td>'.JHtml::_ ('select.genericlist', $options, 'field[' . $row . '][customfield_value]', NULL, 'value', 'text', $currentValue) ;
+					return $priceInput . '</td><td>'.JHtml::_ ('select.genericlist', $options, 'field[' . $row . '][customfield_value]', NULL, 'value', 'text', $currentValue).$serials ;
 				} else{
-					return $priceInput . '</td><td><input type="text" value="' . vmText::_($field->customfield_value) . '" name="field[' . $row . '][customfield_value]" />';
+					return $priceInput . '</td><td><input type="text" value="' . vmText::_($field->customfield_value) . '" name="field[' . $row . '][customfield_value]" />'.$serials;
 					break;
 				}
 
@@ -731,7 +740,7 @@ class VirtueMartModelCustomfields extends VmModel {
 					$html .= '<input type="text" value="' . $field->digits . '" name="field[' . $row . '][round]" />';
 				}
 
-				return $html;
+				return $html.$serials;
 			/* parent hint, this is a GROUP and should be G not P*/
 			case 'G':
 				return $field->customfield_value . '<input type="hidden" value="' . $field->customfield_value . '" name="field[' . $row . '][customfield_value]" /></td><td>';
@@ -747,7 +756,7 @@ class VirtueMartModelCustomfields extends VmModel {
 					foreach($values as $val){
 						$html .= $this->displayCustomMedia ($val,'product');
 					}
-					return $html;
+					return $html.$serials;
 				} else {
 					if(empty($field->custom_value)){
 						$q = 'SELECT `virtuemart_media_id` as value,`file_title` as text FROM `#__virtuemart_medias` WHERE `published`=1
@@ -772,7 +781,7 @@ class VirtueMartModelCustomfields extends VmModel {
 						}
 					}
 
-					return $priceInput . '</td><td>' . JHtml::_ ('select.genericlist', $options, 'field[' . $row . '][customfield_value]', '', 'value', 'text', $field->customfield_value);
+					return $priceInput . '</td><td>' . JHtml::_ ('select.genericlist', $options, 'field[' . $row . '][customfield_value]', '', 'value', 'text', $field->customfield_value).$serials;
 				}
 
 				break;

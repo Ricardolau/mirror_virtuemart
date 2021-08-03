@@ -48,7 +48,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 	public $_unique_name = array();
 	protected $_orderingKey = 'ordering';
 	public $_slugAutoName = '';
-	protected $_slugName = '';
+	public $_slugName = '';
 	protected $_db = false;
 	protected $_rules;
 	protected $_trackAssets = false;

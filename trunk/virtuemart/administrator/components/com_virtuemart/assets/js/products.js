@@ -1,5 +1,9 @@
 /**
  * Created by Milbo on 18.11.2016.
+ * @package	VirtueMart
+ * @author Max Milbers
+ * @copyright Copyright (c) 2016 - 2021 VirtueMart Team. All rights reserved.
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  */
 
 if (typeof Virtuemart === "undefined")
@@ -72,7 +76,6 @@ Virtuemart.customfields = jQuery(function($) {
 	}
 
 	$(document).ready(
-		console.log('document ready'),
     	relatedProductsAutocomplete (),
 		relatedCategoriesAutocomplete()
 	);

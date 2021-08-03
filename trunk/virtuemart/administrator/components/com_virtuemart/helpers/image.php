@@ -8,7 +8,7 @@
  * @package	VirtueMart
  * @subpackage Helpers
  * @author Max Milbers
- * @copyright Copyright (c) 2004-2008 Soeren Eberhardt-Biermann, 2009 2018 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004-2008 Soeren Eberhardt-Biermann, 2009 - 2021 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL 2, see COPYRIGHT.php
  */
 
@@ -68,7 +68,7 @@ class VmImage extends VmMediaHandler {
 
 		$file_name = $this->createThumbName($width,$height);
 		if(empty($this->file_name_thumb)) {
-			vmdebug('createThumbFileUrl empty file_name_thumb ',$this);
+			//vmdebug('createThumbFileUrl empty file_name_thumb ',$this);
 			return false;
 		}
 		$file_url_thumb = $this->file_url_folder_thumb.$this->file_name_thumb.'.'.$this->file_extension;

@@ -355,7 +355,7 @@ class VmController extends JControllerLegacy{
 	 * for this
 	 * @see JController::getModel()
 	 */
-	function getModel($name = '', $prefix = '', $config = array()){
+	public function getModel($name = '', $prefix = '', $config = array()){
 
 		if(empty($name)) $name = false;
 		return VmModel::getModel($name);

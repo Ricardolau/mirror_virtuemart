@@ -202,6 +202,8 @@ class com_virtuemartInstallerScript {
 			$this->recurse_copy($this->path .'/administrator/templates/vmadmin',VMPATH_ROOT .'/administrator/templates/vmadmin');
 		}
 
+		$this->addActionLogEntry();
+
 		$this->displayFinished(false);
 
 		//include($this->path .'/install/install.virtuemart.html.php');
@@ -384,9 +386,55 @@ class com_virtuemartInstallerScript {
 			$this->recurse_copy($this->path .'/administrator/templates/vmadmin',VMPATH_ROOT .'/administrator/templates/vmadmin');
 		}
 
+		$this->addActionLogEntry();
+
 		if($loadVm) $this->displayFinished(true);
 
 		return true;
+	}
+
+	private function addActionLogEntry(){
+
+		$extension = 'com_virtuemart';
+		$db = JFactory::getDbo();
+		$db->setQuery('SELECT `id` FROM #__action_logs_extensions Where extension="'.$extension.'"');
+		$id = $db->loadResult();
+		if(!$id){
+			$db->setQuery(' INSERT into #__action_logs_extensions (extension) VALUES ('.$db->Quote($extension).') ' );
+			try {
+				// If it fails, it will throw a RuntimeException
+				$result = $db->execute();
+			} catch (RuntimeException $e) {
+				JFactory::getApplication()->enqueueMessage($e->getMessage());
+				return false;
+			}
+		}
+
+/*		$extension = 'com_virtuemart';
+		$db = JFactory::getDbo();
+		$db->setQuery('SELECT `id` FROM #__action_log_config Where type_alias="'.$extension.'.product.added"');
+		$id = $db->loadResult();
+		if(!$id){
+			$logConf = new stdClass();
+			$logConf->id = 0;
+			$logConf->type_title = 'VM product.added';
+			$logConf->type_alias = $extension.'.product.added';
+			$logConf->id_holder = 'virtuemart_product_id';
+			$logConf->title_holder = 'Für was ist das?';
+			$logConf->table_name = '#__virtuemart_products';
+			$logConf->text_prefix = 'COM_VM';
+
+			try {
+				// If it fails, it will throw a RuntimeException
+				// Insert the object into the table.
+				$result = $db->insertObject('#__action_log_config', $logConf);
+			} catch (RuntimeException $e) {
+				JFactory::getApplication()->enqueueMessage($e->getMessage());
+				return false;
+			}
+		}*/
+
+
 	}
 
 	private function installLanguageTables(){

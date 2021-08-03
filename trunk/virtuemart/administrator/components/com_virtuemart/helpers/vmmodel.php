@@ -531,7 +531,7 @@ class VmModel extends vObject{
 	 * @author Patrick Kohl
 	 * @author Max Milbers
 	 */
-	static function getModel($name=false){
+	static function getModel($name=false, $componentPath = VMPATH_ADMIN){
 
 		if (!$name){
 			$name = vRequest::getCmd('view','');
@@ -540,11 +540,10 @@ class VmModel extends vObject{
 		$name = strtolower($name);
 		$className = 'VirtueMartModel'.ucfirst($name);
 
-
 		if(empty(self::$_vmmodels[strtolower($className)])){
 			if( !class_exists($className) ){
 
-				$modelPath = VMPATH_ADMIN .'/models/'.$name.'.php';
+				$modelPath = $componentPath .'/models/'.$name.'.php';
 
 				if( file_exists($modelPath) ){
 					require( $modelPath );

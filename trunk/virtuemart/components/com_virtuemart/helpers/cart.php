@@ -1839,7 +1839,6 @@ class VirtueMartCart {
 		}
 		//It looks like we need this to prevent, that the cart gets the old layout back (orderdone)
 		$cart = VirtueMartCart::getCart(true);
-		//vmdebug('emptyCartValues emptied',$test->layout);
 	}
 
 	function resetEntireCart(){

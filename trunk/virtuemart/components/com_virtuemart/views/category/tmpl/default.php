@@ -112,9 +112,13 @@ if ($this->showsearch or $this->keyword !== false) {
                 );
                 ?>
 			</div>
-                <div><?php echo vmText::_('COM_VM_COMBINETAGS');
-                    echo VmHtml::checkbox ('combineTags', $this->combineTags, 1, 0, '', 'combineTags'); ?></div>
-			<?php } ?>
+                <?php if(count($this->searchCustomValuesAr)>1){
+                    ?>
+                    <div><?php echo vmText::_('COM_VM_COMBINETAGS');
+						echo VmHtml::checkbox ('combineTags', $this->combineTags, 1, 0, '', 'combineTags'); ?></div>
+                <?php }
+
+			 } ?>
 			<div class="vm-search-custom-search-input">
 				<input name="keyword" class="inputbox" type="text" size="40" value="<?php echo $this->keyword ?>"/>
 				<input type="submit" value="<?php echo vmText::_ ('COM_VIRTUEMART_SEARCH') ?>" class="button" onclick="this.form.keyword.focus();"/>

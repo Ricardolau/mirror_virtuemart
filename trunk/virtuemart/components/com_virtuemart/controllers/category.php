@@ -33,6 +33,13 @@ class VirtueMartControllerCategory extends JControllerLegacy {
      	 parent::__construct();
 
      	 $this->registerTask('browse','category');
+
+	    $clearCart = vRequest::getInt('clearCart');
+
+	    if($clearCart){
+		    $cart = VirtueMartCart::getCart();
+		    $cart->emptyCart();
+	    }
    	}
 
 	public function display($cachable = false, $urlparams = false)  {

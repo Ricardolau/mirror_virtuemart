@@ -348,19 +348,27 @@ class VirtueMartModelProduct extends VmModel {
 			if (!empty($searchcustoms)){
 				if($this->debug === 1) vmdebug('sortSearchListQuery',$searchcustoms);
 
+
 				$first = true;
 				foreach ($searchcustoms as $key => $searchcustom) {
 					if(empty($searchcustom)) continue;
 					if(!empty($searchcustom) and !empty((int)$key)){
+
+						if(VmConfig::get('strictCustomfieldTags', false)){
+							$searchCustomSQ = '= "' . $db->escape(trim($searchcustom), TRUE).'"';
+						} else {
+							$searchCustomSQ = 'like "%' . $db->escape(trim($searchcustom), TRUE).'%"';
+						}
+
 						if($first){
 							//$custom_search[] = '(pf.`virtuemart_custom_id`="' . (int)$key . '" and pf.`customfield_value` like "%' . $db->escape($searchcustom, TRUE) . '%")';
-							$custom_search[] = '(pf.`virtuemart_custom_id`="' . (int)$key . '" and pf.`customfield_value` = "' . $db->escape(trim($searchcustom), TRUE) . '")';
+							$custom_search[] = '(pf.`virtuemart_custom_id`="' . (int)$key . '" and pf.`customfield_value` '.$searchCustomSQ.')';
 							$first = false;
 						} else {
 							//$custom_search[] = 'p.`virtuemart_product_id` IN ( SELECT h.`virtuemart_product_id` FROM `#__virtuemart_product_customfields` as h
 						//WHERE h.`virtuemart_custom_id`="' . (int)$key . '" and h.`customfield_value` like "%' . $db->escape ($searchcustom, TRUE) . '%")';
 							$custom_search[] = 'p.`virtuemart_product_id` IN ( SELECT h.`virtuemart_product_id` FROM `#__virtuemart_product_customfields` as h
-						WHERE h.`virtuemart_custom_id`="' . (int)$key . '" and h.`customfield_value` = "' . $db->escape (trim($searchcustom), TRUE) . '")';						}
+						WHERE h.`virtuemart_custom_id`="' . (int)$key . '" and h.`customfield_value` '.$searchCustomSQ.')';						}
 					}
 				}
 			}

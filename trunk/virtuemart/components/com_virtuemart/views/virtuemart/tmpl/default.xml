@@ -7,15 +7,18 @@
 		<name>COM_VIRTUEMART_VIRTUEMART_VIEW_DEFAULT_TITLE</name>
 		<description><![CDATA[COM_VIRTUEMART_VIRTUEMART_VIEW_DEFAULT_TITLE_DESC]]></description>
 	</state>
-    <fields name="request">
-    <fieldset name="request"
-              addfieldpath="/administrator/components/com_virtuemart/fields">
-    <field name="productsublayout" type="vmproductsublayout"
-           label="COM_VIRTUEMART_CFG_PRODUCTS_SUBLAYOUT"
-           extension="com_virtuemart"
-           description="COM_VIRTUEMART_CFG_PRODUCTS_SUBLAYOUT_TIP" />
-    </fieldset>
-    </fields>
+	<fields name="request">
+		<fieldset name="request" >
+			<field name="manage" type="radio"
+				   default="1"
+				   label="COM_VIRTUEMART_MANAGE" required="true"
+				   extension="com_virtuemart"
+				   description="COM_VIRTUEMART_MANAGE" >
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+		</fieldset>
+	</fields>
 </metadata>
 
 

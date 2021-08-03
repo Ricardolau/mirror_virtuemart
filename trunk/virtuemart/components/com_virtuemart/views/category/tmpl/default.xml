@@ -5,7 +5,7 @@
 	</layout>
     <fields name="request" addfieldpath="/administrator/components/com_virtuemart/fields">
         <fieldset name="request" >
-    <field name="virtuemart_category_id" type="vmcategory"
+            <field name="virtuemart_category_id" type="vmcategory"
                    default="0"
                    label="COM_VIRTUEMART_CATEGORY_FIELD_SELECT_TITLE" required="true"
                    extension="com_virtuemart"
@@ -15,6 +15,14 @@
                    label="COM_VIRTUEMART_MANUFACTURER_FIELD_SELECT_TITLE" required="true"
                    extension="com_virtuemart"
                    description="COM_VIRTUEMART_MANUFACTURER_FIELD_SELECT_TITLE_DESC" />
+            <field name="clearCart" type="radio"
+                   default="0"
+                   label="COM_VIRTUEMART_CLEAR_CART" required="false"
+                   extension="com_virtuemart"
+                   description="COM_VIRTUEMART_CLEAR_CART_DESC" >
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
         </fieldset>
     </fields>
     <fields name="params" addfieldpath="/administrator/components/com_virtuemart/fields">

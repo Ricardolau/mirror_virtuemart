@@ -46,7 +46,7 @@ Virtuemart.loadCategoryTree = function(id){
 	jQuery.ajax({
 		type: 'GET',
 		url: Virtuemart.vmSiteurl+Virtuemart.adminSuffix+'index.php',
-		cache: 'false',
+		cache: false,
 		data: Virtuemart.ajaxCategoryUrl,
 		success:function(json){
 			jQuery('select#'+id).switchClass('chzn-done','chzn-select');

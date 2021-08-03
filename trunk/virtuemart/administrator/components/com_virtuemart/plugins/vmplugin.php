@@ -85,7 +85,8 @@ abstract class vmPlugin extends JPlugin {
 		}
 	}
 
-	public function setConvertDecimal($toConvert) {
+	public function setConvertDecimal(array $toConvert) {
+
 		$this->_toConvertDec = $toConvert;
 	}
 
@@ -205,13 +206,26 @@ abstract class vmPlugin extends JPlugin {
 	 * @return mixed
 	 */
 	static public function directTrigger($type,$element,$trigger, $args){
+		//vmdebug('Calling directTrigger',$type,$element,$trigger, $args);
 
-		$plg = self::createPlugin($type,$element);
-		if($plg){
-			return call_user_func_array(array($plg,$trigger),$args);
+		JPluginHelper::importPlugin($type);
+		if(empty($element)){
+			$plugins = JPluginHelper::getPlugin($type);
+			foreach($plugins as $plugin){
+				$plg = self::createPlugin($type,$plugin->name);
+				if($plg){
+					call_user_func_array(array($plg,$trigger),$args);
+				}
+			}
 		} else {
-			return false;
+			$plg = self::createPlugin($type,$element);
+			if($plg){
+				return call_user_func_array(array($plg,$trigger),$args);
+			} else {
+				return false;
+			}
 		}
+
 	}
 
 	/** Creates a plugin object. Used by the directTrigger and therefore loads also unpublished plugins.
@@ -226,7 +240,6 @@ abstract class vmPlugin extends JPlugin {
 			vmdebug('Developer error, class vmpluglin function createPlugin: empty type or element');
 		}
 
-		JPluginHelper::importPlugin($type);
 		$plugin = JPluginHelper::getPlugin($type, $element);
 		if(!isset($plugin->type) or !isset($plugin->name)){
 			if(!empty($type) and !empty($element)) {
@@ -714,12 +727,11 @@ abstract class vmPlugin extends JPlugin {
 		}
 
 		if($this->_cryptedFields){
-			//I think that should be set on $table, not _vmpCtable
-			$this->_vmpCtable->setCryptedFields($this->_cryptedFields);
+			$table->setCryptedFields($this->_cryptedFields);
 		}
 
-		if($this->_toConvertDec){
-			$this->_vmpItable->setConvertDecimal($this->_toConvertDec);
+		if($this->_toConvertDec and is_array($this->_toConvertDec) ){
+			$table->setConvertDecimal($this->_toConvertDec);
 		}
 
 		/*if (!$this->_tableChecked) {
@@ -821,4 +833,26 @@ abstract class vmPlugin extends JPlugin {
 		return str_replace('/' . $layout . '.php','',$layoutPath );
 	}
 
+	function plgVmOnDisplayEditCustoms($custom_id, &$html) {
+		if ($this->_type == 'vmcustoms'){
+			return $this->plgVmOnDisplayEdit($custom_id, $html);
+		}
+
+	}
+
+	function plgVmOnDisplayEditCalc(&$calc, &$html) {
+		if ($this->_type == 'vmcalculation'){
+			return $this->plgVmOnDisplayEdit($calc, $html);
+		}
+
+	}
+
+	/**
+	 * @param $custom_id
+	 * @param $html
+	 * @deprecated Use plgVmOnDisplayEditCustoms or plgVmOnDisplayEditCalc instead
+	 */
+	function plgVmOnDisplayEdit($custom_id, &$html) {
+
+	}
 }

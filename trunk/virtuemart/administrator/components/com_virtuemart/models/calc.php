@@ -190,10 +190,8 @@ class VirtueMartModelCalc extends VmModel {
 		$xrefTable = $this->getTable('calc_manufacturers');
     	$xrefTable->bindChecknStore($data);
 
-		VmConfig::importVMPlugins('vmcalculation');
-		$dispatcher = JDispatcher::getInstance();
-		//$error = $dispatcher->trigger('plgVmStorePluginInternalDataCalc',array(&$data));
-		$error = $dispatcher->trigger('plgVmOnStoreInstallPluginTable',array('calculation',$data,$table));
+
+		$error = VmPlugin::directTrigger('vmcalculation', '', 'plgVmOnStoreInstallPluginTable', array('calculation',$data,$table));
 
 		return $table->virtuemart_calc_id;
 	}

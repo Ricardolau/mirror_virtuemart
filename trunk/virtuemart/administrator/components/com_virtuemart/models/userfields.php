@@ -818,6 +818,7 @@ class VirtueMartModelUserfields extends VmModel {
 				,'htmlentities' => true  // to provide version check agains previous versions
 				);
 
+				//I wonder about this one, maybe forgotten debugging code?
 				if($defaults and $_fld->name!='virtuemart_country_id' and $_fld->name!='virtuemart_state_id') continue;
 
 				$placeholder = '';

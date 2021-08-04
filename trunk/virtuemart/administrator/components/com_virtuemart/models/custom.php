@@ -496,7 +496,10 @@ class VirtueMartModelCustom extends VmModel {
 		} else if($type=='P'){
 			$varsToPush = array(
 			'round' 	=> array('', 'int'),
-			'digits' 	=> array('', 'string') //actually an int, but the type determines at the moment also the GUI
+			'digits' 	=> array('', 'string'), //actually an int, but the type determines at the moment also the GUI
+			'product_sku' => array('', 'string'),
+			'product_gtin' => array('', 'string'),
+			'product_mpn' => array('', 'string')
 			);
 		} else if($type=='C'){
 			$varsToPush = array(
@@ -519,7 +522,10 @@ class VirtueMartModelCustom extends VmModel {
 				'addEmpty'		=> array(0, 'int'),
 				'selectType'	=> array(0, 'int'),
 				'multiplyPrice'	=> array('', 'string'),
-				'transform'	=> array('', 'area')
+				'transform'	=> array('', 'area'),
+				'product_sku' => array('', 'string'),
+				'product_gtin' => array('', 'string'),
+				'product_mpn' => array('', 'string')
 			);
 		} else if($type=='M'){
 			$varsToPush = array(
@@ -527,7 +533,10 @@ class VirtueMartModelCustom extends VmModel {
 				'height'	=> array('', 'string'),
 				'addEmpty'		=> array(0, 'int'),
 				'selectType'	=> array(1, 'int'),
-				'multiplyPrice'	=> array('', 'string')
+				'multiplyPrice'	=> array('', 'string'),
+				'product_sku' => array('', 'string'),
+				'product_gtin' => array('', 'string'),
+				'product_mpn' => array('', 'string')
 			);
 		} else if($type=='R' or $type=='RC'){
 			$varsToPush = array(

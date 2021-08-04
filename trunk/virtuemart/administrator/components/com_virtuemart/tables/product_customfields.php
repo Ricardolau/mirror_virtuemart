@@ -36,6 +36,10 @@ class TableProduct_customfields extends VmTable {
 	var $customfield_price	= null;
 
     var $customfield_params = '';
+    var $product_sku = '';
+	var $product_gtin = '';
+	var $product_mpn = '';
+
 	/** @var int custom published or not */
 	var $published		= 0;
 

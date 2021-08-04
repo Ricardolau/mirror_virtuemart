@@ -9,7 +9,7 @@ defined ('_JEXEC') or die();
  * @package    VirtueMart
  * @subpackage Helpers
  * @author Max Milbers
- * @copyright Copyright (c) 2014 - 2020 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2014 - 2021 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -844,6 +844,7 @@ Virtuemart.requiredMsg = '" .addslashes (vmText::_ ('COM_VIRTUEMART_MISSING_REQU
 		Virtuemart.param = '".$param."';
 		Virtuemart.isAdmin = '".!VmConfig::isSiteByApp()."';
 		Virtuemart.loadCategoryTree('".$name."');
+		Virtuemart.selectSomeCategory = '".vmText::_('COM_VIRTUEMART_DRDOWN_FILTER_BY_CATEGORY')."';
 	});
 });
 ";

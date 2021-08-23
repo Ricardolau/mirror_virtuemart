@@ -6,7 +6,7 @@
  * @package	VirtueMart
  * @subpackage Helpers
  * @author Max Milbers
- * @copyright Copyright (c) 2011 - 2014 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2011 - 2021 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -860,16 +860,18 @@ class VmModel extends vObject{
 		}
 		if($this->debug === 1) vmdebug('exeSortSearchListQuery my $limitStart '.$limitStart.'  $limit '.$limit.' q ',str_replace('#__',$db->getPrefix(),$db->getQuery()) );
 
-		if($object == 2){
-			 $this->ids = $db->loadColumn();
-		} else if($object == 1 ){
-			 $this->ids = $db->loadAssocList();
-		} else {
-			 $this->ids = $db->loadObjectList();
+		try{
+			if($object == 2){
+				$this->ids = $db->loadColumn();
+			} else if($object == 1 ){
+				$this->ids = $db->loadAssocList();
+			} else {
+				$this->ids = $db->loadObjectList();
+			}
+		} catch (Exception $e) {
+			vmError('exeSortSearchListQuery '.$e->getMessage());
 		}
-		if($err=$db->getErrorMsg()){
-			vmError('exeSortSearchListQuery '.$err);
-		}
+
 		if($this->debug === 1) vmdebug('exeSortSearchListQuery result ',$this->ids );
 		if( $this->_withCount ){
 
@@ -886,10 +888,6 @@ class VmModel extends vObject{
 		}
 
 		if(empty($this->ids)){
-			$errors = $db->getErrorMsg();
-			if( !empty( $errors)){
-				vmdebug('exeSortSearchListQuery error in class '.get_class($this).' sql:',$db->getErrorMsg());
-			}
 			if($object == 2 or $object == 1){
 				$this->ids = array();
 			}
@@ -1119,12 +1117,10 @@ class VmModel extends vObject{
 	{
 		$table = $this->getTable($this->_maintablename);
 		if (!$table->load($this->_id)) {
-			vmError('VmModel move '.$table->getDbo()->getErrorMsg());
 			return false;
 		}
 
 		if (!$table->move( $direction, $filter )) {
-			vmError('VmModel move '.$table->getDbo()->getErrorMsg());
 			return false;
 		}
 
@@ -1154,7 +1150,6 @@ class VmModel extends vObject{
 			{
 				$table->ordering = $order[$i];
 				if (!$table->store()) {
-					vmError('VmModel saveorder '.$table->getDbo()->getErrorMsg());
 					return false;
 				}
 			}

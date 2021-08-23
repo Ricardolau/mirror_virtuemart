@@ -7,7 +7,7 @@ defined('_JEXEC') or die('Restricted access');
  * @package VirtueMart
  * @subpackage core
  * @author Max Milbers, StAn
- * @copyright Copyright (C) 2011- 2020 by the VirtueMart team - All rights reserved.
+ * @copyright Copyright (C) 2011- 2021 by the VirtueMart team - All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL 2, see COPYRIGHT.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -317,10 +317,13 @@ class GenericTableUpdater extends VmModel{
  		//vmdebug('updateMyVmTables $tables',$tables); return false;
 		// 	vmdebug('Parsed tables',$tables); //return;
 		$this->_db->setQuery('SHOW TABLES LIKE "%'.$like.'%"');
-		if (!$existingtables = $this->_db->loadColumn()) {
-			vmError('updateMyVmTables '.$this->_db->getErrorMsg());
+		try {
+			$existingtables = $this->_db->loadColumn();
+		} catch (Exception $e) {
+			vmError('updateMyVmTables '.$e->getMessage());
 			return false;
 		}
+
 		//vmdebug('updateMyVmTables $existingtables',$existingtables);
 		$i = 0;
 		$demandedTables = array();
@@ -396,15 +399,14 @@ class GenericTableUpdater extends VmModel{
 
 		$this->_db->setQuery($q);
 		try {
-		if(!$this->_db->execute()){
-			vmError('createTable ERROR :'.$this->_db->getErrorMsg() );
-		} else {
-			vmInfo('created table '.$tablename);
-		}
+			if($this->_db->execute()){
+
+				vmInfo('created table '.$tablename);
+			}
 		}
 		catch(Exception $e) {
-				vmInfo('FAILED: createTable ERROR :'.$this->_db->getErrorMsg() );
-			}
+			vmError('FAILED: createTable ERROR :'.$e->getMessage() );
+		}
 // 		$this->_app->enqueueMessage($q);
 	}
 
@@ -631,18 +633,13 @@ class GenericTableUpdater extends VmModel{
 
 			$this->_db->setQuery($query);
 			try {
-				$ok = $this->_db->execute();
+				if($this->_db->execute()){
+					vmInfo('alterTable DROP INDEX '.$tablename.'.'.$eKey->Key_name );
+				}
+			} catch(Exception $e) {
+				vmError('FAILED: alterTable DROP INDEX '.$tablename.'.'.$eKey->Key_name.' : '.$e->getMessage() );
 			}
-			catch(Exception $e) {
-				$ok = false; 
-			}
-			if(!$ok){
-				$this->_app->enqueueMessage('FAILED: alterTable DROP INDEX '.$tablename.'.'.$eKey->Key_name.' :'.$this->_db->getErrorMsg() );
-			} else {
-				//$dropped++;
-				//vmdebug('alterKey: Dropped KEY `'.$eKey->Key_name.'` in table `'.$tablename.'`');
-				$this->_app->enqueueMessage('alterTable DROP INDEX '.$tablename.'.'.$eKey->Key_name );
-			}
+
 		}
 
 		foreach($keys as $name =>$value){
@@ -656,18 +653,17 @@ class GenericTableUpdater extends VmModel{
 			$query = "ALTER TABLE `".$tablename."` ADD ".$value ;
 			$action = 'ADD';
 
+			$this->_db->setQuery($query);
 			if(!empty($query)){
-				$this->_db->setQuery($query);
+
 				try {
-				if(!$this->_db->execute()){
-					$this->_app = JFactory::getApplication();
-					$this->_app->enqueueMessage('alterKey '.$action.' INDEX '.$name.': '.$this->_db->getErrorMsg() );
-				} else {
- 					//vmdebug('alterKey: a:'.$action.' KEY `'.$name.'` in table `'.$tablename.'` '.$this->_db->getQuery());
-				}
+					if($this->_db->execute()){
+						$this->_app = JFactory::getApplication();
+						vmInfo('alterKey '.$action.' INDEX '.$name );
+					}
 				}
 				catch(Exception $e) {
-					$this->_app->enqueueMessage('FAILED: alterKey '.$action.' INDEX '.$name.': '.$this->_db->getErrorMsg() );
+					vmError('FAILED: alterKey '.$action.' INDEX '.$name.': '.$e->getMessage() );
 				}
 			}
 		}
@@ -783,12 +779,11 @@ class GenericTableUpdater extends VmModel{
 						continue; 
 					}
 					else {
-						
-					$query = 'ALTER TABLE `'.$tablename.'` CHANGE COLUMN `'.$fieldname.'` `'.$fieldname.'` '.$alterCommand.' '.$after.$pr;
-					$action = 'CHANGE';
-					$altered++;
-					$lastdebug = 'alterColumns '.$tablename.' from '.$oldColumn.' to '.$fieldname.' '.$alterCommand;
-					vmInfo($lastdebug);
+						$query = 'ALTER TABLE `'.$tablename.'` CHANGE COLUMN `'.$fieldname.'` `'.$fieldname.'` '.$alterCommand.' '.$after.$pr;
+						$action = 'CHANGE';
+						$altered++;
+						$lastdebug = 'alterColumns '.$tablename.' from '.$oldColumn.' to '.$fieldname.' '.$alterCommand;
+						vmInfo($lastdebug);
 					}
 				}
 			}
@@ -810,13 +805,12 @@ class GenericTableUpdater extends VmModel{
 			if (!empty($query)) {
 				$this->_db->setQuery($query);
 				$msg = 'alterTable '.$action.' '.$tablename.'.'.$fieldname;
-				try 
-				{
-				if(!$this->_db->execute() ){
-					vmError( $msg, $msg.$query );
-				} else {
-					vmInfo( $msg );
-				}
+				try {
+					if(!$this->_db->execute() ){
+						vmError( $msg, $msg.$query );
+					} else {
+						vmInfo( $msg );
+					}
 				}
 				catch(Exception $e) {
 					//stAn, there is no need to fail the script due to alter
@@ -855,10 +849,6 @@ class GenericTableUpdater extends VmModel{
 
 		if($dropped != 0 or $altered !=0 or $added!=0){
 			$this->_app->enqueueMessage('Table updated: Tablename '.$tablename.' dropped: '.$dropped.' altered: '.$altered.' added: '.$added);
-			$err = $this->_db->getErrorMsg();
-			if(!empty($err)){
-				vmError('Tableupdater updating table '.$tablename.' throws error '.$err);
-			}
 		}
 
 		return true;
@@ -939,12 +929,12 @@ class GenericTableUpdater extends VmModel{
 
 					$this->_db->setQuery($query);
 					try {
-					if(!$this->_db->execute()){
-						vmError('alterTable '.$action.' '.$tablename.'.'.$fieldname.' :'.$this->_db->getErrorMsg() );
-					}
+						if($this->_db->execute()){
+							vmInfo('alterTable '.$action.' '.$tablename.'.'.$fieldname );
+						}
 					}
 					catch(Exception $e) {
-						vmInfo('FAILED: alterTable '.$action.' '.$tablename.'.'.$fieldname.' :'.$this->_db->getErrorMsg() );
+						vmError('FAILED: alterTable '.$action.' '.$tablename.'.'.$fieldname.' :'.$e->getMessage() );
 					}
 				}
 			}
@@ -1000,7 +990,8 @@ class GenericTableUpdater extends VmModel{
 
 	private function getdefault($string){
 		if (isset($string)) {
-			if(strpos($string,'CURRENT_TIMESTAMP')!==FALSE){
+			if(strpos(strtolower($string),'current_timestamp')!==FALSE){
+
 				return  " DEFAULT ".trim($string);
 			} else {
 				return  " DEFAULT '".trim($string)."'";
@@ -1015,19 +1006,23 @@ class GenericTableUpdater extends VmModel{
 
 		$continue = true;
 		$this->_db->setQuery($q);
-		if(!$this->_db->execute()){
-			vmError($msg.' db error '. $this->_db->getErrorMsg());
-			vmError($msg.' db error '. $this->_db->getQuery());
-			$entries = array();
-			$continue = false;
-		} else {
-			$entries = $this->_db->loadAssocList();
-			$count = count($entries);
-			vmInfo($msg. ' found '.$count.' vm1 entries for migration ');
-			$startLimit += $maxItems;
-			if($count<$maxItems){
+		try{
+			if($this->_db->execute()){
+				$entries = $this->_db->loadAssocList();
+				$count = count($entries);
+				vmInfo($msg. ' found '.$count.' vm1 entries for migration ');
+				$startLimit += $maxItems;
+				if($count<$maxItems){
+					$continue = false;
+				}
+			} else {
+				$entries = array();
 				$continue = false;
 			}
+		} catch (Exception $e){
+			vmError($msg.' db error '. $e->getMessage().' '. $this->_db->getQuery());
+			$entries = array();
+			$continue = false;
 		}
 
 		return array($entries,$startLimit,$continue);

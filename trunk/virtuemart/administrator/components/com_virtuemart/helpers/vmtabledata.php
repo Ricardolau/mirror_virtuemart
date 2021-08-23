@@ -6,7 +6,7 @@
  * @package	VirtueMart
  * @subpackage Helpers
  * @author Max Milbers
- * @copyright Copyright (c) 2011 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2011 - 2021 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -76,20 +76,26 @@ class VmTableData extends VmTable {
 			$this->hashEntry();
 		}
 
-		if($res){
-			$returnCode = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
-		} else {
-			$p = $this->{$tblKey};
-			$returnCode = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
-			if($returnCode and !empty($this->_hashName)){
-				$oldH= $this->{$this->_hashName};
-				if($p!=$this->{$tblKey} and !in_array($tblKey,$this->_omittedHashFields)){
-					$this->hashEntry();
-					$ok = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
-					vmdebug('VmTableData Updated entry with correct hash ',$this->_tbl_key,$p,$this->{$tblKey},$oldH,$this->{$this->_hashName});
+		try{
+			if($res){
+				$returnCode = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
+			} else {
+				$p = $this->{$tblKey};
+				$returnCode = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
+				if($returnCode and !empty($this->_hashName)){
+					$oldH= $this->{$this->_hashName};
+					if($p!=$this->{$tblKey} and !in_array($tblKey,$this->_omittedHashFields)){
+						$this->hashEntry();
+						$ok = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
+						vmdebug('VmTableData Updated entry with correct hash ',$this->_tbl_key,$p,$this->{$tblKey},$oldH,$this->{$this->_hashName});
+					}
 				}
 			}
+		} catch (Exception $e) {
+			vmError(get_class($this) . '::store failed - ' . $e->getMessage());
+			return false;
 		}
+
 
 		//reset Params
 		if(isset($this->_tmpParams) and is_array($this->_tmpParams)){
@@ -99,13 +105,10 @@ class VmTableData extends VmTable {
 		}
 		$this->_tmpParams = false;
 
-		if (!$returnCode) {
-			vmError(get_class($this) . '::store failed - ' . $this->_db->getErrorMsg());
-			return false;
-		}
-		else {
-
+		if ($returnCode) {
 			return true;
+		} else {
+			return false;
 		}
 
 	}

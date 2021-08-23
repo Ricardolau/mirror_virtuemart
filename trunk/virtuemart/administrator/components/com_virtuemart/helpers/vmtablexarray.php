@@ -9,7 +9,7 @@
  * @package	VirtueMart
  * @subpackage Helpers
  * @author Max Milbers
- * @copyright Copyright (c) 2011 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2011 - 2021 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -242,9 +242,11 @@ class VmTableXarray extends VmTable {
             $q  = 'DELETE FROM `'.$this->_tbl.'` WHERE `' . $pkey.'` = "'. $pvalue .'" ';
             $db->setQuery($q);
 
-            if(!$db->execute()){
-                $returnCode = false;
-                vmError(get_class( $this ).':: store '.$db->getErrorMsg());
+            try{
+	            $db->execute();
+            } catch (Exception $e){
+	            $returnCode = false;
+	            vmError(get_class( $this ).':: store '.$e->getMessage());
             }
         }
 
@@ -259,10 +261,13 @@ class VmTableXarray extends VmTable {
                     // If the old row does not exist in the new rows, we will delete it
                     $q  = 'DELETE FROM `'.$this->_tbl.'` WHERE `' . $tblkey.'` = "'. $objList[$i]->{$tblkey} .'" ';
                     $db->setQuery($q);
-                    if(!$db->execute()){
-                        $returnCode = false;
-                        vmError(get_class( $this ).':: store'.$db->getErrorMsg());
-                    }
+
+	                try{
+		                $db->execute();
+	                } catch (Exception $e){
+		                $returnCode = false;
+		                vmError(get_class( $this ).':: store '.$e->getMessage());
+	                }
                 }
              }
         }
@@ -300,10 +305,12 @@ class VmTableXarray extends VmTable {
 		$db = JFactory::getDbo();
     	$q  = 'DELETE FROM `'.$this->_tbl.'` WHERE `'.$this->_pkey.'` = "'. $this->_pvalue.'" ';
     	$db->setQuery($q);
-    	if(!$db->execute()){
-    		vmError(get_class( $this ).':: store'.$db->getErrorMsg(),'Couldnt delete relations');
-    		return false;
-    	}
+	    try{
+		    $db->execute();
+	    } catch (Exception $e){
+		    vmError(get_class( $this ).':: store '.$e->getMessage(),'Couldnt delete relations');
+		    return false;
+	    }
 
     	return true;
     }
@@ -317,13 +324,12 @@ class VmTableXarray extends VmTable {
 
 		$q = $q = 'SELECT `' . $orderingkey . '` FROM `' . $this->_tbl . '` WHERE `' . $this->_pkeyForm . '` = "' . (int)$cid . '" AND '.$this->_skeyForm.' = "'.$svalue.'" limit 0,1 ';
 		$this->_db->setQuery($q);
-		$this->{$orderingkey} = $this->_db->loadResult();
-		vmdebug('vmTableXarray Move loaded ordering of current item ',$q, $orderingkey, $this->{$orderingkey});
-		$e = $this->_db->getErrorMsg();
-		if (!empty($e)) {
-			vmError(get_class($this) . $e);
+		try{
+			$this->{$orderingkey} = $this->_db->loadResult();
+			vmdebug('vmTableXarray Move loaded ordering of current item ',$q, $orderingkey, $this->{$orderingkey});
+		} catch (Exception $e){
+			vmError(get_class($this) .' '. $e->getMessage());
 		}
-
 
 	}
 

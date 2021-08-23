@@ -9,7 +9,7 @@
  * @subpackage Helpers
  * @author Max Milbers
  * @copyright Copyright (C) 2014 Open Source Matters, Inc. All rights reserved.
- * @copyright Copyright (c) 2011 - 2020 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2011 - 2021 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -1328,10 +1328,11 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			$query->where($this->_db->quoteName($tblKey) . ' = ' . (int) $this->{$tblKey});
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->execute())
-			{
-				$e = new JException(vmText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED_UPDATE_ASSET_ID', $this->_db->getErrorMsg()));
-				vmError($e);
+			try {
+				$this->_db->execute();
+			} catch (Exception $e) {
+				$em = vmText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED_UPDATE_ASSET_ID', $e->getMessage);
+				vmError($em);
 				return false;
 			}
 		}
@@ -1718,7 +1719,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			if ($ok) {
 				if (!$langTable->check()) {
 					$ok = false;
-					vmdebug('Check returned false ' . get_class($langTable) . ' ' . $this->_tbl . ' ' . $langTable->_db->getErrorMsg());
+					vmdebug('Check returned false ' . get_class($langTable) . ' ' . $this->_tbl );
 				}
 			}
 
@@ -1747,7 +1748,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 							if ($ok) {
 								if (!$langTable->check()) {
 									$ok = false;
-									vmdebug('Check returned false ' . get_class($langTable) . ' ' . $this->_tbl . ' ' . $langTable->_db->getErrorMsg());
+									vmdebug('Check returned false ' . get_class($langTable) . ' ' . $this->_tbl );
 								}
 							}
 						}
@@ -1758,7 +1759,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 					if (!$langTable->store()) {
 						$ok = false;
 						// $msg .= ' store';
-						vmdebug('Problem in store with langtable ' . get_class($langTable) . ' with ' . $tblKey . ' = ' . $this->{$tblKey} . ' ' . $langTable->_db->getErrorMsg());
+						vmdebug('Problem in store with langtable ' . get_class($langTable) . ' with ' . $tblKey . ' = ' . $this->{$tblKey} );
 					} else {
 						$this->bind($langTable);
 
@@ -1826,16 +1827,18 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			if (!$this->check()) {
 				$ok = false;
 				$msg .= ' check';
-				vmdebug('Check returned false ' . get_class($this) . ' ' . $this->_db->getErrorMsg());
+				vmdebug('Check returned false ' . get_class($this) );
 				return false;
 			}
 		}
 
 		if ($ok) {
-			if (!$this->store($this->_updateNulls) and $this->_db->getErrorMsg()) {
+			try{
+				$this->store($this->_updateNulls);
+			} catch (Exception $e) {
 				$ok = false;
 				$msg .= ' store';
-				vmdebug('Problem in store ' . get_class($this) . ' ' . $this->_db->getErrorMsg());
+				vmdebug('Problem in store ' . get_class($this).' '.$msg);
 				return false;
 			}
 		}
@@ -1847,7 +1850,6 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			$data[$tblKey] = !empty($this->{$tblKey}) ? $this->{$tblKey} : 0;
 		}
 
-		// 		vmdebug('bindChecknStore '.get_class($this).' '.$this->_db->getErrorMsg());
 		//This should return $ok and not the data, because it is already updated due use of reference
 		return $data;
 	}
@@ -1865,11 +1867,12 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 
 		$q = ' SELECT * FROM `' . $this->_tbl . '` ' . $where . ' ORDER BY `' . $this->_orderingKey . '` ASC';
 		$this->_db->setQuery($q, 0, 999999);
-		$res = $this->_db->loadAssocList(); vmdebug('Fix Ordering my query ',$q);
-		$e = $this->_db->getErrorMsg();
-		if (!empty($e)) {
-			vmError(get_class($this) . $e);
+		try{
+			$res = $this->_db->loadAssocList();
+		} catch (Exception $e){
+			vmError(get_class($this) . $e->getMessage());
 		}
+
 
 		// no data in the table
 		if (empty($res)) return true;
@@ -1961,9 +1964,10 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			$this->_db->setQuery( $query );
 			vmdebug('Update with query ',$query);
 
-			if (!$this->_db->execute()) {
-				$err = $this->_db->getErrorMsg();
-				vmError( get_class($this) . ':: move isset row $row->{$k}' . $err);
+			try{
+				$this->_db->execute();
+			} catch (Exception $e){
+				vmError( get_class($this) . ':: move isset row $row->{$k}' . $e->getMessage());
 			}
 
 		} else {
@@ -1982,12 +1986,12 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		if(!$this->_loaded){
 			$q = 'SELECT `' . $orderingkey . '` FROM `' . $this->_tbl . '` WHERE `' . $this->_tbl_key . '` = "' . (int)$cid . '" limit 0,1 ';
 			$this->_db->setQuery($q);
-			$tmp = $this->_db->loadResult();
-			$this->{$orderingkey} = $this->_db->loadResult();
-			vmdebug('vmTable Move loaded ordering of current item ',$q, $orderingkey, $tmp, $this->{$orderingkey});
-			$e = $this->_db->getErrorMsg();
-			if (!empty($e)) {
-				vmError(get_class($this) . $e);
+
+			try {
+				$this->{$orderingkey} = $this->_db->loadResult();
+				vmdebug('vmTable Move loaded ordering of current item ',$q, $orderingkey, $this->{$orderingkey});
+			} catch (Exception $e) {
+				vmError(get_class($this) . $e->getMessage());
 			}
 		} else {
 			vmdebug('vmTable Move ordering of current item ', $this->{$orderingkey});
@@ -2018,13 +2022,16 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			($where ? ' WHERE ' . $where : '');
 		if (!isset(self::$_cache[md5($query)])) {
 			$this->_db->setQuery($query);
-			$maxord = $this->_db->loadResult();
+			try{
+				$maxord = $this->_db->loadResult();
+			} catch (Exception $e) {
+				vmError(get_class($this) . ' getNextOrder ' . $e->getMessage());
+				return false;
+			}
+
+
 		} else $maxord = self::$_cache[md5($query)];
 
-		if ($this->_db->getErrorNum()) {
-			vmError(get_class($this) . ' getNextOrder ' . $this->_db->getErrorMsg());
-			return false;
-		}
 		return $maxord + 1;
 	}
 
@@ -2059,10 +2066,13 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			. ' WHERE `' . $this->_orderingKey . '` >= 0' . ($where ? ' AND ' . $where : '')
 			. ' ORDER BY `' . $this->_orderingKey . '` ' . $order2;
 		$this->_db->setQuery($query);
-		if (!($orders = $this->_db->loadObjectList())) {
-			vmError(get_class($this) . ' reorder ' . $this->_db->getErrorMsg());
+		try{
+			$orders = $this->_db->loadObjectList();
+		} catch (Exception $e) {
+			vmError(get_class($this) . ' reorder ' . $e->getMessage());
 			return false;
 		}
+
 		$orderingKey = $this->_orderingKey;
 		// compact the ordering numbers
 		for ($i = 0, $n = count($orders); $i < $n; $i++) {
@@ -2209,10 +2219,10 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		}
 		$q = 'UPDATE `' . $this->_tbl . '` SET `' . $field . '` = "' . $this->{$field} . '" WHERE `' . $k . '` = "' . $this->{$k} . '" ';
 		$this->_db->setQuery($q);
-		if (!$res = $this->_db->execute()) {
-			vmError('There was an error toggling ' . $field, $this->_db->getErrorMsg());
-		} else {
-			vmdebug('Toggled '.$q );
+		try{
+			$res = $this->_db->execute();
+		} catch (Exception $e) {
+			vmError('There was an error toggling ' . $field, $e->getMessage());
 		}
 
 		return $res;
@@ -2294,11 +2304,13 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 				$query = 'DELETE FROM `' . $table . '` WHERE ' . $this->_tbl_key . ' = "' . $row . '"';
 				$this->_db->setQuery($query);
 
-				if (!$this->_db->execute()) {
-					vmError($this->_db->getErrorMsg());
-					vmError('checkAndDelete ' . $this->_db->getErrorMsg());
+				try {
+					$this->_db->execute();
+				} catch (Exception $e) {
+					vmError('checkAndDelete ' . $this->_db->getMessage());
 					$ok = 0;
 				}
+
 			}
 
 		}
@@ -2379,11 +2391,13 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 
 		$this->_db->setQuery($_sql);
 
-		$this->_db->execute();
-		if ($this->_db->getErrorNum() != 0) {
-			vmError(get_class($this) . '::modify table - ' . $this->_db->getErrorMsg() . '<br /> values: action ' . $_act . ', columname: ' . $_col . ', type: ' . $_type . ', columname2: ' . $_col2);
+		try{
+			$this->_db->execute();
+		} catch (Exception $e){
+			vmError(get_class($this) . '::modify table - ' . $e->getMessage() . '<br /> values: action ' . $_act . ', columname: ' . $_col . ', type: ' . $_type . ', columname2: ' . $_col2);
 			return false;
 		}
+
 		vmdebug('_modifyColumn executed successfully ' . $_sql);
 		return true;
 	}

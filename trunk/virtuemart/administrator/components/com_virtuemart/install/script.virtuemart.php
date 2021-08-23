@@ -332,7 +332,6 @@ class com_virtuemartInstallerScript {
 
 		$this->checkAddDefaultShoppergroups();
 
-		//$this->adjustDefaultOrderStates();
 		$this->addMissingOrderstati();
 		$this->adjustMenuParamsCategoryView();
 		$this->fixOrdersVendorId();
@@ -543,17 +542,11 @@ class com_virtuemartInstallerScript {
 				$q = 'UPDATE #__virtuemart_orders SET `virtuemart_vendor_id`=1 WHERE virtuemart_vendor_id = "0" ';
 				$this->_db->setQuery($q);
 				$res = $this->_db->execute();
-				$err = $this->_db->getErrorMsg();
-				if(!empty($err)){
-					vmError('fixOrdersVendorId update orders '.$err);
-				}
+
 				$q = 'UPDATE #__virtuemart_order_items SET `virtuemart_vendor_id`=1 WHERE virtuemart_vendor_id = "0" ';
 				$this->_db->setQuery($q);
 				$res = $this->_db->execute();
-				$err = $this->_db->getErrorMsg();
-				if(!empty($err)){
-					vmError('fixOrdersVendorId update order_item '.$err);
-				}
+
 			}
 
 		}
@@ -727,33 +720,6 @@ class com_virtuemartInstallerScript {
 		}
 	}
 
-	private function adjustDefaultOrderStates(){
-
-		if(empty($this->_db)){
-			$this->_db = JFactory::getDBO();
-		}
-
-		$order_stock_handles = array('P'=>'R', 'C'=>'R', 'X'=>'A', 'R'=>'A', 'S'=>'O');
-
-		foreach($order_stock_handles as $k=>$v){
-
-			$q = 'SELECT `order_stock_handle` FROM `#__virtuemart_orderstates`';
-			$this->_db->setQuery($q);
-			$res = $this->_db->execute();
-			$err = $this->_db->getErrorMsg();
-			if(empty($res) and empty($err) ){
-				$q = 'UPDATE `#__virtuemart_orderstates` SET `order_stock_handle`="'.$v.'" WHERE  `order_status_code`="'.$k.'" ;';
-				$this->_db->setQuery($q);
-
-				if(!$this->_db->execute()){
-					$app = JFactory::getApplication();
-					$app->enqueueMessage('Error: Install alterTable '.$this->_db->getErrorMsg() );
-					$ok = false;
-				}
-			}
-		}
-
-	}
 
 	public function removeOldMenuLinks(){
 
@@ -993,83 +959,84 @@ class com_virtuemartInstallerScript {
 		$db = JFactory::getDBO();
 		$q = 'UPDATE `#__virtuemart_product_customfields` SET `published`= "1"  WHERE `published`="0" ';
 		$db->setQuery($q);
-		$db->execute();
-		$err = $db->getErrorMsg();
-		if(!empty($err)){
-			vmError('updateCustomfieldsPublished update published '.$err);
+		try {
+			$db->execute();
+		} catch (Exception $e) {
+			vmError('updateCustomfieldsPublished update published '.$e->getMessage());
 		}
 
 		$q = "UPDATE `#__virtuemart_customs` SET `field_type`='S',`is_cart_attribute`=1,`is_input`=1,`is_list`='0' WHERE `field_type`='V'";
-		$db->setQuery($q);
-		$db->execute();
-		$err = $db->getErrorMsg();
-		if(!empty($err)){
-			vmError('updateCustomfieldsPublished migrateCustoms '.$err);
+		$db->setQuery($q);#		try {
+		try {
+			$db->execute();
+		} catch (Exception $e) {
+			vmError('updateCustomfieldsPublished migrateCustoms '.$e->getMessage());
 		}
 
 		$q = "UPDATE `#__virtuemart_customs` SET `is_input`=1 WHERE `field_type`='M' AND `is_cart_attribute`=1";
 		$db->setQuery($q);
-		$db->execute();
-		$err = $db->getErrorMsg();
-		if(!empty($err)){
-			vmError('updateCustomfieldsPublished migrateCustoms '.$err);
+		try {
+			$db->execute();
+		} catch (Exception $e) {
+			vmError('updateCustomfieldsPublished migrateCustoms '.$e->getMessage());
 		}
 
 		$q = "UPDATE `#__virtuemart_customs` SET `field_type`='S' WHERE `field_type`='I'";
 		$db->setQuery($q);
-		$db->execute();
-		$err = $db->getErrorMsg();
-		if(!empty($err)){
-			vmError('updateCustomfieldsPublished migrateCustoms '.$err);
+		try {
+			$db->execute();
+		} catch (Exception $e) {
+			vmError('updateCustomfieldsPublished migrateCustoms '.$e->getMessage());
 		}
 
 		$q = "UPDATE `#__virtuemart_customs` SET `field_type`='S', `custom_value`='JYES;JNO',`is_list`='1' WHERE `field_type`='B'";
 		$db->setQuery($q);
-		$db->execute();
-		$err = $db->getErrorMsg();
-		if(!empty($err)){
-			vmError('updateCustomfieldsPublished migrateCustoms '.$err);
+		try {
+			$db->execute();
+		} catch (Exception $e) {
+			vmError('updateCustomfieldsPublished migrateCustoms '.$e->getMessage());
 		}
 
 		$q = "UPDATE `#__virtuemart_customs` SET `layout_pos`='addtocart' WHERE `is_input`='1'";
 		$db->setQuery($q);
-		$db->execute();
-		$err = $db->getErrorMsg();
-		if(!empty($err)){
-			vmError('updateCustomfieldsPublished migrateCustoms '.$err);
+		try {
+			$db->execute();
+		} catch (Exception $e) {
+			vmError('updateCustomfieldsPublished migrateCustoms '.$e->getMessage());
 		}
 
 		$q = "UPDATE `#__virtuemart_customs` SET `layout_pos`='ontop',`is_cart_attribute`=1 WHERE `field_type`='A'";
 		$db->setQuery($q);
-		$db->execute();
-		$err = $db->getErrorMsg();
-		if(!empty($err)){
-			vmError('updateCustomfieldsPublished migrateCustoms '.$err);
+		try {
+			$db->execute();
+		} catch (Exception $e) {
+			vmError('updateCustomfieldsPublished migrateCustoms '.$e->getMessage());
 		}
 
 		$q = "UPDATE `#__virtuemart_customs` SET `layout_pos`='related_products' WHERE `field_type`='R'";
 		$db->setQuery($q);
-		$db->execute();
-		$err = $db->getErrorMsg();
-		if(!empty($err)){
-			vmError('updateCustomfieldsPublished migrateCustoms '.$err);
+		try {
+			$db->execute();
+		} catch (Exception $e) {
+			vmError('updateCustomfieldsPublished migrateCustoms '.$e->getMessage());
 		}
 
 		$q = "UPDATE `#__virtuemart_customs` SET `layout_pos`='related_categories' WHERE `field_type`='Z'";
 		$db->setQuery($q);
-		$db->execute();
-		$err = $db->getErrorMsg();
-		if(!empty($err)){
-			vmError('updateCustomfieldsPublished migrateCustoms '.$err);
+		try {
+			$db->execute();
+		} catch (Exception $e) {
+			vmError('updateCustomfieldsPublished migrateCustoms '.$e->getMessage());
 		}
 
 		$q = "UPDATE `#__virtuemart_customs` SET `field_type`='G' WHERE `field_type`='P'";
 		$db->setQuery($q);
-		$db->execute();
-		$err = $db->getErrorMsg();
-		if(!empty($err)){
-			vmError('updateCustomfieldsPublished migrateCustoms '.$err);
+		try {
+			$db->execute();
+		} catch (Exception $e) {
+			vmError('updateCustomfieldsPublished migrateCustoms '.$e->getMessage());
 		}
+
 	}
 
 	/**
@@ -1099,7 +1066,7 @@ class com_virtuemartInstallerScript {
 					$this->_db->execute();
 				} catch (Exception $e) {
 					$app = JFactory::getApplication();
-					$app->enqueueMessage('Error: Install alterTable '.$this->_db->getErrorMsg() );
+					$app->enqueueMessage('Error: Install alterTable '.$e->getMessage() );
 					$ok = false;
 				}
 			}
@@ -1123,18 +1090,19 @@ class com_virtuemartInstallerScript {
 		$columns = $this->_db->loadColumn(0);
 
 		if(!in_array($field,$columns)){
-
-
+			
 			$query = 'ALTER TABLE `'.$table.'` ADD '.$field.' '.$fieldType;
 			$this->_db->setQuery($query);
-			if(!$this->_db->execute()){
+			try{
+				$this->_db->execute();
+			} catch (Exception $e) {
 				$app = JFactory::getApplication();
-				$app->enqueueMessage('Error: Install checkAddFieldToTable '.$this->_db->getErrorMsg() );
+				$app->enqueueMessage('Error: Install checkAddFieldToTable '.$e->getMessage() );
 				return false;
-			} else {
-				vmdebug('checkAddFieldToTable added '.$field);
-				return true;
 			}
+
+			vmdebug('checkAddFieldToTable added '.$field);
+			return true;
 		}
 		return false;
 	}

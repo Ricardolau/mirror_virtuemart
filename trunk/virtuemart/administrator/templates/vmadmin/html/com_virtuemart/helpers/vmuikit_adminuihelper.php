@@ -76,14 +76,17 @@ class vmuikitAdminUIHelper {
 		}
 
 		JHtml::_('bootstrap.tooltip');
+		JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'top'));
+
 		/* BOF Load New admin template files */
 		$adminTemplateCssPath = 'administrator/templates/vmadmin/html/com_virtuemart/';
 		$adminTemplateCssUikit = $adminTemplateCssPath . 'assets/uikit/css';
 		$adminTemplateCssVm = $adminTemplateCssPath . 'assets/css';
 
 		vmJsApi::css('uikit.min',$adminTemplateCssUikit);
-		vmJsApi::css('vmuikit',$adminTemplateCssVm);
 		vmJsApi::css('colors',$adminTemplateCssVm);
+		vmJsApi::css('vmuikit',$adminTemplateCssVm);
+
 
 
 		$adminTemplatePath = '/administrator/templates/vmadmin/html/com_virtuemart/';
@@ -98,7 +101,9 @@ class vmuikitAdminUIHelper {
 		vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/vm2admin.js');
 		vmJsApi::addJScript($adminTemplatePath.'assets/js/vmuikit_vm2admin.js');
 
-
+		if(VmConfig::get('midnightStyle',false)){
+			vmJsApi::css('midnight',$adminTemplateCssVm);
+		}
 
 		if (!self::$backEnd) {
 			//JToolbarHelper
@@ -106,11 +111,14 @@ class vmuikitAdminUIHelper {
 			echo adminSublayouts::renderAdminVmSubLayout('toolbar', array('bar' => $bar));
 		}
 		$menuItems = self::getMenuItems();
+		$fnag =  self::writeVmm();
 		echo adminSublayouts::renderAdminVmSubLayout('startadmin',
 			array('vmView' => $vmView,
 				'selectText' => $selectText,
-				'menuItems' => $menuItems
+				'menuItems' => $menuItems,
+                'fnag' => $fnag
 			));
+
 
 	}
 
@@ -162,7 +170,7 @@ class vmuikitAdminUIHelper {
 			//style="background:#FF6A00;padding:5px 5px 5px 5px;-webkit-appearance: button;-moz-appearance: button;appearance: button;"
 
 			$nag = '
-                <div style="width:auto;background:#FFFBA0;padding:8px 8px 8px 8px;font-size:14px;border:1px solid #FF6A00;">
+                <div style="width:auto;background:#FFFBA0;padding:8px 8px 8px 8px;font-size:14px;border:1px solid #FF6A00;color:#000000">
                     <p style="text-align:left;">Like VirtueMart?</p>
                     <p style="text-align:center;font-weight:bold;">Become a Supporter</p>
                     <p style="text-align:center;">Reliable Security and Advanced Development thanks to our members</p>
@@ -195,8 +203,13 @@ class vmuikitAdminUIHelper {
 			}
 		}
 
-
-		?>
+		return '<div id="'.$prefix.'vmver-'.$token.'" class="vm-installed-version">
+			    '.vmVersion::$CODENAME.'
+		</div>
+		<div id="'.$prefix . $token .'">
+			'.$nag.'
+		</div>';
+/*		?>
 		<style>#<?php echo $prefix ?>vmver-<?php echo $token ?> {
 			<?php echo $dplyVer ?>
             }</style>
@@ -206,7 +219,8 @@ class vmuikitAdminUIHelper {
 		</div>
 		<div id="<?php echo $prefix . $token ?>">
 			<?php echo $nag; ?>
-		</div> <?php
+		</div> <?php*/
+
 
 	}
 

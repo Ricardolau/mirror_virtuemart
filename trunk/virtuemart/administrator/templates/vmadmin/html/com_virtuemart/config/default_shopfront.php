@@ -24,19 +24,19 @@ defined('_JEXEC') or die('Restricted access');?>
 		<?php echo $this->loadTemplate('shopfront_settings') ?>
 	</div>
 	<div>
-		<?php echo $this->loadTemplate('shopfront_stock') ?>
+		<?php echo $this->loadTemplate('shopfront_coupon') ?>
 	</div>
 	<div>
 		<?php echo $this->loadTemplate('shopfront_recommendask') ?>
 	</div>
 	<div>
-		<?php echo $this->loadTemplate('shopfront_review') ?>
-	</div>
-	<div>
-		<?php echo $this->loadTemplate('shopfront_coupon') ?>
+		<?php echo $this->loadTemplate('shopfront_stock') ?>
 	</div>
 	<div>
 		<?php echo $this->loadTemplate('shopfront_product') ?>
+	</div>
+	<div>
+		<?php echo $this->loadTemplate('shopfront_review') ?>
 	</div>
 </div>
 <?php

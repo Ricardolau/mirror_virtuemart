@@ -55,7 +55,7 @@ $i = 0;
 								}
 
 								$categories = '<select class="vm-drop" id="categories" name="categories[]" multiple="multiple"
-						data-placeholder="' . vmText::_('COM_VIRTUEMART_DRDOWN_SELECT_SOME_OPTIONS') . '">
+						data-placeholder="' . vmText::_('COM_VIRTUEMART_DRDOWN_SELECT_CATEGORY') . '">
 					<option value="-2" selected="selected">Do not store</option>
 				</select>';
 								echo VmuikitHtml::row('raw', 'COM_VIRTUEMART_CATEGORY_S', $categories);
@@ -214,15 +214,27 @@ $i = 0;
 								if (!isset($this->product->allPrices[$k]['product_tax_id'])) {
 									$this->product->allPrices[$k]['product_tax_id'] = 0;
 								}
-								$this->lists['taxrates'] = ShopFunctions::renderTaxList ($this->product->allPrices[$k]['product_tax_id'], 'mprices[product_tax_id][]','class="'.$class.'"');
+
+								if($this->expertPrices or !empty($this->product->allPrices[$k]['product_tax_id'])){
+									$this->lists['taxrates'] = ShopFunctions::renderTaxList ($this->product->allPrices[$k]['product_tax_id'], 'mprices[product_tax_id][]','class="'.$class.'"');
+								} else {
+									$this->lists['taxrates'] = '';
+                                }
 								if (!isset($this->product->allPrices[$k]['product_discount_id'])) {
 									$this->product->allPrices[$k]['product_discount_id'] = 0;
 								}
-								$this->lists['discounts'] = $this->renderDiscountList ($this->product->allPrices[$k]['product_discount_id'], 'mprices[product_discount_id][]');
 
-								$this->lists['shoppergroups'] = ShopFunctions::renderShopperGroupList ($this->product->allPrices[$k]['virtuemart_shoppergroup_id'], false, 'mprices[virtuemart_shoppergroup_id][]', 'COM_VIRTUEMART_DRDOWN_AVA2ALL',array('class'=>$class));
+                                if($this->expertPrices or !empty($this->product->allPrices[$k]['product_discount_id'])){
+	                                $this->lists['discounts'] = $this->renderDiscountList ($this->product->allPrices[$k]['product_discount_id'], 'mprices[product_discount_id][]');
+                                }else {
+	                                $this->lists['discounts'] = '';
+                                }
 
-
+								//if($this->expertPrices or !empty($this->product->allPrices[$k]['virtuemart_shoppergroup_id'])){
+									$this->lists['shoppergroups'] = ShopFunctions::renderShopperGroupList ($this->product->allPrices[$k]['virtuemart_shoppergroup_id'], false, 'mprices[virtuemart_shoppergroup_id][]', 'COM_VIRTUEMART_DRDOWN_AVA2ALL',array('class'=>$class));
+								/*}else {
+									$this->lists['shoppergroups'] = '';
+								}*/
 
 								?>
 								<tr id="<?php echo $tmpl ?>" class="removable row<?php echo $rowColor?>">

@@ -151,6 +151,7 @@ vmJsApi::addJScript('vmuikit-remindTab', "
 						</div>
 
 					</div>
+					<?php echo $viewData['fnag'] ?>;
 				</div>
 				<!-- /OFFCANVAS  MENU -->
 			</div>
@@ -209,7 +210,7 @@ vmJsApi::addJScript('vmuikit-remindTab', "
 						</div>
 
 					</div>
-
+					<?php echo $viewData['fnag'] ?>;
 				</div>
 			</div>
 

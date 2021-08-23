@@ -55,9 +55,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			</div>
 		</div>
 
-		<div class="uk-clearfix">
+		<div class="uk-clearfix hasPopover" data-content="<?php echo htmlentities(vmText::_('COM_VM_MEMBER_ACCESSNBR_TIP')) ?>">
 			<div class="uk-form-label">
-				<span uk-tooltip="<?php echo htmlentities(vmText::_('COM_VM_MEMBER_ACCESSNBR_TIP')) ?>"><?php echo vmText::_('COM_VM_MEMBER_ACCESSNBR'); ?></span>
+				<span  ><?php echo vmText::_('COM_VM_MEMBER_ACCESSNBR'); ?></span>
 			</div>
 			<div class="uk-form-controls">
 				<?php echo VmuikitHtml::input('member_access_number', VmConfig::get('member_access_number', ''), 'class="uk-form-width-1-1"', '', 55); ?>

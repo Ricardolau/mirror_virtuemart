@@ -31,6 +31,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<div class="uk-card-body">
 		<?php
 		echo VmuikitHtml::row('booleanlist', 'COM_VM_CFG_ADMINTEMPLATE', 'backendTemplate', VmConfig::get('backendTemplate', 1));
+		echo VmuikitHtml::row('booleanlist', 'COM_VM_CFG_ADMINTEMPLATE_MIDNIGHT', 'midnightStyle', VmConfig::get('midnightStyle', 0));
 		$optDebug = array(
 			'none' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_ENABLE_DEBUG_NONE'),
 			'admin' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_ENABLE_DEBUG_ADMIN'),

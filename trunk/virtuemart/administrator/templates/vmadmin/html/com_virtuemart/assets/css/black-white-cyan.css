@@ -1,33 +1,4 @@
 /* VM UIKIT MENU */
-/* theme
- * Isis blue #10223e, #1a3867
- * VM,
- * darkBlue 3071A9 027DE5,
- * lightBlue 00A1DF
- * midnight 511F07, 985e36, 4d2f1b
-  381f00 381100, 321400
- */
-
-.md-color-cyan-600 {
-    color: #00A1DF!important;
-}
-
-#vmuikit-menu {
-    background-color: #10223e;
-}
-
-.uk-nav-header {
-    background-color: #00A1DF;
-}
-
-.uk-parent {
-   background-color: #1a3867;
-}
-
-.uk-background-secondary {
-    background-color: #10223e;
-}
-
 #vmuikit-menu-wrapper{
     width: 230px;
 }
@@ -55,14 +26,9 @@
 .vm-menu-logo img {
     max-width: 120px;
 }
-
-.uk-active>.uk-icon-link,.uk-icon-link:active{
-    color:#00A1DF
-}
-
-/*.uk-nav-header {
+.uk-nav-header {
     background-color: #171717;
-}*/
+}
 /* Left bar */
 
 /* Left bar links */
@@ -80,24 +46,24 @@
 }
 
 .vmuikit-menu-wrapper ul.uk-nav-default > li > a:hover, .vmuikit-menu-wrapper ul.uk-nav-default > li.uk-open > a {
-    border-left: 4px solid #00A1DF;
+    border-left: 4px solid #00acc1;
     color: white;
-    background-color: #10223e;
+    background-color: #171717;
     -webkit-transition: background 90ms cubic-bezier(.55, 0, .1, 1);
     transition: background 90ms cubic-bezier(.55, 0, .1, 1);
 }
 .vmuikit-menu-wrapper ul.uk-nav-default > li.uk-active > a {
-    border-left: 4px solid #00A1DF;
+    border-left: 4px solid #0097a7;
 }
 .vmuikit-menu-wrapper ul.uk-nav-default li .uk-nav-sub li a:hover {
     color: white;
-    background-color: #10223e;
-    border-left: 2px solid #00A1DF;
+    background-color: #171717;
+    border-left: 2px solid #00acc1;
     -webkit-transition: background 90ms cubic-bezier(.55, 0, .1, 1);
     transition: background 90ms cubic-bezier(.55, 0, .1, 1);
 }
 .vmuikit-menu-wrapper ul.uk-nav-default li .uk-nav-sub li.uk-active > a {
-    border-left: 2px solid #00A1DF;
+    border-left: 2px solid #0097a7;
 }
 .vmuikit-menu-wrapper ul.uk-nav-default li .uk-nav-sub li a {
     padding:8px 14px;
@@ -111,7 +77,7 @@
 }
 
 .uk-light a.uk-nav-header.uk-text-primary {
-    color: #00A1DF;
+    color: #00acc1;
 }
 
 
@@ -189,7 +155,7 @@
     width: 0;
     -webkit-transition: all 140ms ease;
     transition: all 140ms ease;
-    background: #00A1DF
+    background: #00acc1
 }
 
 .uk-tab > * > a:hover {
@@ -290,16 +256,16 @@
 }
 
 .uk-button-primary {
-    border: 1px solid #00A1DF;
-    color: #00A1DF;
-    background-color: #10223e;
+    border: 1px solid #0097a7;
+    color: #0097a7;
+    background-color: #FFF;
 }
 
 .uk-button-primary:hover,
 .uk-button-primary:focus {
     border: 1px solid #006064;
-    color: #FFF;
-    background-color: #1a3867;
+    color: #006064;
+    background-color: #FFF;
 }
 
 .uk-card-default .uk-card-media {
@@ -319,22 +285,22 @@
     border-top: 1px solid #e5e5e5;
 }
 .uk-progress::-webkit-progress-value {
-    background-color: #00A1DF;
+    background-color: #00acc1;
     transition: width 0.6s ease;
 }
 
 .uk-progress::-moz-progress-bar {
-    background-color: #00A1DF;
+    background-color: #00acc1;
 }
 
 .uk-progress::-ms-fill {
-    background-color: #00A1DF;
+    background-color: #00acc1;
     transition: width 0.6s ease;
     /* 1 */
     border: 0;
 }
 .vmuikit-js-thumb_image-selected{
-    border-color: #00A1DF !important;
+    border-color: #00acc1 !important;
 }
 /* FORM */
 textarea:hover, input[type="text"]:hover,
@@ -376,7 +342,7 @@ fieldset.radio {
 }
 
 .uk-card-vm {
-    border: 1px solid #515151;
+    border: 1px solid #e5e5e5;
 }
 
 .uk-card-title {
@@ -393,7 +359,7 @@ fieldset.radio {
 }
 
 .required {
-    border-color: #46a546 !important
+    border-color: #ffe0b2 !important
 }
 
 .invalid {
@@ -467,6 +433,19 @@ label.invalid {
     background-color:#171717;
 }
 
+.uk-card-membership{
+    background-color:#171717;
+    color:#0097a7;
+}
+.uk-button-membership{
+    color:#0097a7;
+    border: 1px solid #0097a7;
+    background: transparent;
+}
+.uk-button-membership:focus, .uk-button-membership:hover{
+    color:#0097a7;
+    border: 1px solid #0097a7;
+}
 .uk-label {
     background-color:#eee;
 }
@@ -603,7 +582,7 @@ input[type="text"].uk-form-width-1-1{
 .menu-langlist,
 .menu-langlist a,
 .menu-langlist a:hover{
-    color: #b3b3b3;
+    color: #333;
 }
 
 .uk-icon-button-small {

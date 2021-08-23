@@ -21,9 +21,16 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access'); ?>
 
-
 <?php
 $rowColor = 0;
+
+$visibility = '';
+$visibilityStyle = '';
+if(!$this->expertPrices){
+	$visibility ='visibility:hidden';
+	$visibilityStyle = 'style="'.$visibility.'"';
+}
+
 ?>
 <table class="adminform productPriceTable">
 
@@ -31,7 +38,7 @@ $rowColor = 0;
 		<td width="120px">
 			<div style="text-align: right; font-weight: bold;">
 								<span uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_COST_TIP'); ?>">
-									<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_COST') ?>
+									<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_COST');  ?>
 								</span>
 			</div>
 		</td>
@@ -53,12 +60,15 @@ $rowColor = 0;
 		</td>
 		<td style="background: #d5d5d5;padding:0;width:1px;"></td>
 
-		<td colspan="2">
+		<?php //if($this->expertPrices or !empty($this->lists['shoppergroups'])){ ?>
+            <td colspan="2" >
  			<span style="font-weight: bold;"
-					uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_SHOPPER_FORM_GROUP_PRICE_TIP'); ?>">
+                  uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_SHOPPER_FORM_GROUP_PRICE_TIP'); ?>">
 						<?php echo vmText::_('COM_VIRTUEMART_SHOPPER_FORM_GROUP') ?></span>
-			<?php echo $this->lists['shoppergroups']; ?>
-		</td>
+				<?php echo $this->lists['shoppergroups']; ?>
+            </td>
+		<?php //} ?>
+
 	</tr>
 	<?php $rowColor = 1 - $rowColor; ?>
 	<tr class="row<?php echo $rowColor ?>">
@@ -67,7 +77,7 @@ $rowColor = 0;
 								<span
 
 										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_BASE_TIP'); ?>">
-									<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_BASE') ?>
+									<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_BASE'); echo ' '; echo $this->vendor_currency_symb;?>
 								</span>
 			</div>
 		</td>
@@ -78,33 +88,38 @@ $rowColor = 0;
 					name="mprices[basePrice][]"
 					size="12"
 					value="<?php echo $this->product->allPrices[$this->product->selectedPrice]['basePrice']; ?>"/>&nbsp;
-			<?php echo $this->vendor_currency_symb; ?>
+
 		</td>
 		<?php /*    <td width="17%"><div style="text-align: right; font-weight: bold;">
 							<?php echo vmText::_('COM_VIRTUEMART_RATE_FORM_VAT_ID') ?></div>
-                        </td> */ ?>
+                        </td> */
+        if(!empty($this->lists['taxrates'])){ ?>
 		<td>
-			<?php echo $this->lists['taxrates']; ?><br/>
+			<?php
+			    echo $this->lists['taxrates']; ?><br/>
 		</td>
+        <?php } ?>
 		<td>
 	                        <span uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_RULES_EFFECTING_TIP') ?>">
 							<?php echo vmText::_('COM_VIRTUEMART_TAX_EFFECTING') . '<br />' . $this->taxRules ?>
 		                    </span>
 		</td>
 		<td style="background: #d5d5d5;padding:0;width:1px;"></td>
+		<?php if($this->expertPrices){ ?>
 		<td>
 			<?php ?>
 		</td>
 		<td>
 			<?php ?>
 		</td>
+		<?php } ?>
 	</tr>
 	<?php $rowColor = 1 - $rowColor; ?>
 	<tr class="row<?php echo $rowColor ?>">
 		<td>
 			<div style="text-align: right; font-weight: bold;">
 				<span uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_FINAL_TIP'); ?>">
-					<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_FINAL') ?>
+					<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_FINAL'); echo ' '; echo $this->vendor_currency_symb;?>
 				</span>
 			</div>
 		</td>
@@ -115,13 +130,23 @@ $rowColor = 0;
 					size="12"
 					style="text-align:right;"
 					value="<?php echo $this->product->allPrices[$this->product->selectedPrice]['salesPriceTemp']; ?>"/>
-			<?php echo $this->vendor_currency_symb; ?>
 		</td>
 		<?php /*  <td width="17%"><div style="text-align: right; font-weight: bold;">
 							<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_DISCOUNT_TYPE') ?></div>
                         </td>*/ ?>
 		<td>
-			<?php echo $this->lists['discounts']; ?> <br/>
+			<?php if(empty($this->lists['discounts'])) {
+				echo '<input type="checkbox" name="mprices[use_desired_price][' . $this->priceCounter . ']" value="1"/>'
+			?>
+                <strong>
+			<span uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_CALCULATE_PRICE_FINAL_TIP'); ?>">
+			<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_CALCULATE_PRICE_FINAL'); ?>
+			</span>
+            </strong><?php
+
+            } else {
+			    echo $this->lists['discounts'];
+            } ?> <br/>
 		</td>
 		<td>
 	                    <span uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_RULES_EFFECTING_TIP') ?>">
@@ -137,16 +162,24 @@ $rowColor = 0;
 						</span>
 		</td>
 		<td style="background: #d5d5d5;padding:0;width:1px;"></td>
-		<td nowrap>
-			<?php echo vmJsApi::jDate($this->product->allPrices[$this->product->selectedPrice]['product_price_publish_up'], 'mprices[product_price_publish_up][]'); ?>
-		</td>
-		<td nowrap>
-			<?php echo vmJsApi::jDate($this->product->allPrices[$this->product->selectedPrice]['product_price_publish_down'], 'mprices[product_price_publish_down][]'); ?>
-		</td>
+        <?php if($this->expertPrices or $this->product->allPrices[$this->product->selectedPrice]['product_price_publish_up']!="0000-00-00 00:00:00" or $this->product->allPrices[$this->product->selectedPrice]['product_price_publish_down']!="0000-00-00 00:00:00"){ ?>
+            <td nowrap >
+		        <?php echo vmJsApi::jDate($this->product->allPrices[$this->product->selectedPrice]['product_price_publish_up'], 'mprices[product_price_publish_up][]'); ?>
+            </td>
+            <td nowrap >
+		        <?php echo vmJsApi::jDate($this->product->allPrices[$this->product->selectedPrice]['product_price_publish_down'], 'mprices[product_price_publish_down][]'); ?>
+            </td>
+		<?php } ?>
+
 	</tr>
 
-	<?php $rowColor = 1 - $rowColor; ?>
-	<tr class="row<?php echo $rowColor ?>">
+	<?php $rowColor = 1 - $rowColor;
+	    if($this->expertPrices or !empty($this->product->allPrices[$this->product->selectedPrice]['product_override_price'])
+		    or !empty($this->product->allPrices[$this->product->selectedPrice]['price_quantity_start'])
+		    or !empty($this->product->allPrices[$this->product->selectedPrice]['price_quantity_end']) ){
+
+	?>
+	<tr class="row<?php echo $rowColor ?>" >
 
 		<td width="60px">
 			<div style="text-align: right; font-weight: bold;">
@@ -155,6 +188,7 @@ $rowColor = 0;
 				</span>
 			</div>
 		</td>
+
 		<td colspan="3">
 			<div style="margin-right: 20px; display: inline">
 				<input type="text"
@@ -203,6 +237,7 @@ $rowColor = 0;
 					value="<?php echo $this->product->allPrices[$this->product->selectedPrice]['price_quantity_end'] ?>"/>
 		</td>
 	</tr>
+    <?php } ?>
 </table>
 
 

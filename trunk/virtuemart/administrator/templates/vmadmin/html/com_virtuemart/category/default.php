@@ -94,7 +94,7 @@ vmuikitAdminUIHelper::startAdminArea($this);
 				<?php echo $this->sort('c.ordering', 'COM_VIRTUEMART_ORDERING') ?>
 				<?php echo JHtml::_('grid.order', $this->categories, 'filesave.png', 'saveOrder'); ?>
 			</th>
-			<th lass="uk-text-center">
+			<th class="uk-text-center">
 				<?php echo $this->sort('c.published', 'COM_VIRTUEMART_PUBLISHED') ?>
 			</th>
 			<?php if ($this->showVendors()) { ?>
@@ -185,16 +185,19 @@ vmuikitAdminUIHelper::startAdminArea($this);
 					<?php }
 
 					if ($cat->showOrderUp) {
-						echo '<span>' . $this->catpagination->vmOrderUpIcon($i, $cat->ordering, 'orderUp', vmText::_('COM_VIRTUEMART_MOVE_UP')) . '</span>';
+						echo '<span style="float: left;">' . $this->catpagination->vmOrderUpIcon($i, $cat->ordering, 'orderUp', vmText::_('COM_VIRTUEMART_MOVE_UP')) . '</span>';
+						if($cat->showOrderDown){
+							//echo '<br>';
+						}
 					}
-
+					?> <input class="ordering" type="text" name="order[<?php echo $i ?>]" id="order[<?php echo $i ?>]"
+							size="5" value="<?php echo $cat->ordering; ?>" style="text-align: center"/>  <?php
 					if ($cat->showOrderDown) {
-						echo '<span>' . JHtml::_('jgrid.orderDown', $i, 'orderDown', '', 'COM_VIRTUEMART_MOVE_DOWN', true, 'cb') . '</span>';
+						echo '<span style="float: left;">' . JHtml::_('jgrid.orderDown', $i, 'orderDown', '', 'COM_VIRTUEMART_MOVE_DOWN', true, 'cb') . '</span>';
 					}
 
 					?>
-					<input class="ordering" type="text" name="order[<?php echo $i ?>]" id="order[<?php echo $i ?>]"
-							size="5" value="<?php echo $cat->ordering; ?>" style="text-align: center"/>
+
 				</td>
 				<td class="uk-text-center@m">
 					<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"

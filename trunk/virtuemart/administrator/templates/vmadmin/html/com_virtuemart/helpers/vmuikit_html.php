@@ -130,24 +130,38 @@ class VmuikitHtml{
 			foreach ($passedArgs as $k => $v) {
 			    $args[] = &$passedArgs[$k];
 			}
-			
-		$lang = vmLanguage::getLanguage();
+
+	    $lang = vmText::$language; //vmLanguage::getLanguage();
 		
 		$tooltiptext = "";
-	    $class="uk-form-label";
-		if($lang->hasKey($label.'_TIP')){
+	    $class="uk-clearfix";
+		/*if($lang->hasKey($label.'_TIP')){
 			$tooltiptext = htmlentities(vmText::_($label.'_TIP'));
 		} //Fallback
 		else if($lang->hasKey($label.'_EXPLAIN')){
 			$tooltiptext = htmlentities(vmText::_($label.'_EXPLAIN'));
 		}
-		if ($tooltiptext) {
-			$tooltiptext=' data-content="'.$tooltiptext.'"';
-			$class.=' hasPopover';
+	    if ($tooltiptext) {
+		    $tooltiptext=' data-content="'.$tooltiptext.'"';
+		    $class.=' hasPopover';
+	    }*/
+
+	    $tip = '';
+	    if($lang->hasKey($label.'_TIP',true )){
+		    $tip = $label.'_TIP' ;
+	    } //Fallback
+	    else if($lang->hasKey($label.'_EXPLAIN')){
+		    $tip = $label.'_EXPLAIN' ;
+	    }
+
+	    $popUP = '';
+		if ($tip) {
+			$tooltiptext=' data-content="'.htmlentities(vmText::_($tip)).'" ';
+			$popUP .=' hasPopover';
 		}
 		$label = vmText::_($label);
 		if ($func[1]=="checkbox" OR $func[1]=="input") {
-			$label = "\n\t" . '<label class="'.$class.'" 
+			$label = "\n\t" . '<label class="uk-form-label" 
 			for="'. $args[0] . '" 
 			id="' . $args[0] . '-lbl"'.$tooltiptext.'>'.$label."</label>";
 		}else {
@@ -157,7 +171,7 @@ class VmuikitHtml{
 			'</div>';
 		}
 		$html = '';
-		$html .= '<div class="uk-clearfix">';
+		$html .= '<div class="uk-clearfix'.$popUP.'" '.$tooltiptext.'>';
 		//$html .= '<div class="uk-form-label">';
 		$html .= $label;
 		//$html .= '</div>';

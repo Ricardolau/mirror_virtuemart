@@ -91,11 +91,11 @@ vmJsApi::JvalideForm();
 				?>
 
 
-				<div class="uk-margin well" id="custom_plg">
+				<div class="uk-margin" id="custom_plg">
 					<label class="uk-form-label">
 						<?php echo vmText::_('COM_VIRTUEMART_SELECT_CUSTOM_PLUGIN'); ?>
 					</label>
-					<div class="uk-form-controls well">
+					<div class="uk-form-controls">
 						<?php if (!$this->custom->form) {
 							echo $this->pluginList;
 						} ?>

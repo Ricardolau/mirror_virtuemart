@@ -48,6 +48,7 @@ vmJsApi::addJScript('show_prices', $js, true);
 		);
 		echo VmuikitHtml::row('genericlist', 'COM_VM_CFG_PRICES_BY_CURRENCY', $opt, 'pricesbyCurrency', '', 'value', 'text', VmConfig::get('pricesbyCurrency', 0));
 		echo VmuikitHtml::row('genericlist', 'COM_VIRTUEMART_ADMIN_CFG_PRICE_ORDERBY', $this->orderDirs, 'price_orderby', '', 'value', 'text', VmConfig::get('price_orderby', 'DESC'));
+		echo VmuikitHtml::row('booleanlist', 'COM_VM_CFG_EXPERTPRICES', 'expertPrices', VmConfig::get('expertPrices', false));
 		?>
 
 	</div>

@@ -55,19 +55,4 @@ if (!VmConfig::$installed) {
 				</ul>
 			</div>
 	</div>
-	<div>
-		<div class="uk-card uk-card-small uk-card-membership uk-card-body">
-			<div class="uk-text-center">
-				<div class="uk-margin-small uk-text-bold">Like VirtueMart?</div>
-				<div>Become a Supporter</div>
-				<div>Reliable Security and Advanced Development thanks to our members</div>
-
-				<div class="uk-margin-small">
-					<a href="http://extensions.virtuemart.net/support-updates/virtuemart-membership" target="_blank" >
-						<button class="uk-button uk-button-small uk-button-membership">Buy now</button>
-					</a>
-				</div>
-			</div>
-		</div>
-	</div>
 </div>

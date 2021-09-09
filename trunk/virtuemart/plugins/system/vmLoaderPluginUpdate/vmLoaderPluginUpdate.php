@@ -21,7 +21,7 @@ jimport('joomla.event.plugin');
 
 class plgSystemVmLoaderPluginUpdate extends JPlugin {
 
-	protected $autoloadLanguage = true;
+	protected $autoloadLanguage = false;
 
 	function __construct(&$subject, $config = array()) {
 		parent::__construct($subject, $config);
@@ -53,11 +53,12 @@ class plgSystemVmLoaderPluginUpdate extends JPlugin {
 			}
 		}
 
-		if($this->params->get('loadAlwaysVmConfig', false) and  JFactory::getApplication()->getName() == "site"){
+		if(JFactory::getApplication()->isClient('site') and $this->params->get('loadAlwaysVmConfig', false) ){
 			defined('VMPATH_ROOT') or define('VMPATH_ROOT', JPATH_ROOT);
 			if(!class_exists('VmConfig')) require(VMPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 			VmConfig::loadConfig(false,false, true, false);
 		}
+
 	}
 
 	function onUserAfterDelete($user, $dummy, $err) {
@@ -76,7 +77,7 @@ class plgSystemVmLoaderPluginUpdate extends JPlugin {
 
 		$app = JFactory::getApplication();
 		//if($app->isClient('administrator')) return;
-		if($app->isAdmin()) return;
+		if($app->isClient('administrator')) return;
 
 		$r = $this->params->get('comuserredirect', true);
 		if($r){

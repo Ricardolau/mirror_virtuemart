@@ -11,7 +11,7 @@
 	<version>1.0.2</version>
 	<description>PLG_SYSTEM_VMLOADERPLUGINUPDATE_DESC</description>
 	<files>
-		<filename plugin="vmLoaderPluginUpdate">vmLoaderPluginUpdate.php</filename>
+		<filename plugin="vmloaderpluginupdate">vmLoaderPluginUpdate.php</filename>
 		<folder>language</folder>
 	</files>
 	<config>

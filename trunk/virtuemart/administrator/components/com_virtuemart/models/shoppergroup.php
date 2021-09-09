@@ -97,20 +97,24 @@ class VirtueMartModelShopperGroup extends VmModel {
 			$db = JFactory::getDBO();
 			$db->setQuery($q);
 
-			if(!$res = $db->loadObject()){
-				$app = JFactory::getApplication();
-				$app->enqueueMessage('Attention no standard shopper group set '.$db->getErrorMsg());
+			try {
+				$defShopGrpId = $db->loadObject();
+			} catch (Exception $e){
+				vmError('Shoppergroup getDefault; Attention no standard shopper group set '.$e->getMessage());
 				$default[$vendorId][$kind] = false;
-			} else {
-				if(!$res = $this->getShopperGroup($res->virtuemart_shoppergroup_id)){
+			}
 
-				}
+			try {
+				$res = $this->getShopperGroup($defShopGrpId->virtuemart_shoppergroup_id);
 				vmLanguage::loadJLang('com_virtuemart_shoppers',TRUE);
 				$res->shopper_group_name = vmText::_($res->shopper_group_name);
 				$res->shopper_group_desc = vmText::_($res->shopper_group_desc);
 				//vmdebug('my default shoppergroup ',$res);
 				$default[$vendorId][$kind] =  $res;
+			} catch (Exception $e){
+				vmError('Shoppergroup getDefault; Attention could not load default shoppergroup with id '.$defShopGrpId.' '.$e->getMessage());
 			}
+
 		}
 
 		return $default[$vendorId][$kind];

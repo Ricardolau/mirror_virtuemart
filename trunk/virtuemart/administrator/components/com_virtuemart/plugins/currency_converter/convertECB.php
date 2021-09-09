@@ -50,7 +50,7 @@ class convertECB {
 			$cache->setLifeTime(360); // check 4 time per day
 			$cache->setCaching(1); //enable caching
 
-			$globalCurrencyConverter = $cache->call( array( 'convertECB', 'getSetExchangeRates' ),$this->document_address );
+			$globalCurrencyConverter = $cache->get( array( 'convertECB', 'getSetExchangeRates' ),array($this->document_address ));
 		}
 
 		if(!$globalCurrencyConverter ){

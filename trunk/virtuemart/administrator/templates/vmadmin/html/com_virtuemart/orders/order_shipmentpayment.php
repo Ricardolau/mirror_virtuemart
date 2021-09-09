@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access');
 
 
 // Get the plugins
-VmConfig::importVMPlugins('vmpayment');
+vDispatcher::importVMPlugins('vmpayment');
 
 ?>
 <!-- Shipment -->
@@ -38,8 +38,7 @@ VmConfig::importVMPlugins('vmpayment');
 			<div class="uk-grid-collapse" uk-grid>
 				<?php
 
-				$_dispatcher = JDispatcher::getInstance();
-				$returnValues = $_dispatcher->trigger('plgVmOnShowOrderBEShipment', array($this->orderID, $this->orderbt->virtuemart_shipmentmethod_id, $this->orderdetails));
+				$returnValues = vDispatcher::trigger('plgVmOnShowOrderBEShipment', array($this->orderID, $this->orderbt->virtuemart_shipmentmethod_id, $this->orderdetails));
 
 				foreach ($returnValues as $returnValue) {
 					if ($returnValue !== null) {
@@ -67,8 +66,7 @@ VmConfig::importVMPlugins('vmpayment');
 			<div class="uk-grid-collapse" uk-grid>
 				<?php
 
-				$_dispatcher = JDispatcher::getInstance();
-				$_returnValues = $_dispatcher->trigger('plgVmOnShowOrderBEPayment', array($this->orderID, $this->orderbt->virtuemart_paymentmethod_id, $this->orderdetails));
+				$_returnValues = vDispatcher::trigger('plgVmOnShowOrderBEPayment', array($this->orderID, $this->orderbt->virtuemart_paymentmethod_id, $this->orderdetails));
 
 				foreach ($_returnValues as $_returnValue) {
 					if ($_returnValue !== null) {

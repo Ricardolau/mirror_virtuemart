@@ -72,10 +72,13 @@ class JFormFieldVmRules extends JFormFieldRules {
 		$query->from($db->quoteName('#__assets'));
 		$query->where($db->quoteName('name') . ' = ' . $db->quote($component));
 		$db->setQuery($query);
-		$assetId = (int)$db->loadResult();
-		if ($error = $db->getErrorMsg()) {
-			vmError($error);
+
+		try {
+			$assetId = (int)$db->loadResult();
+		} catch (Exception $e){
+			vmError('vmRules '.$e->getMessage());
 		}
+
 
 		// Full width format.
 		// Get the rules for just this asset (non-recursive).

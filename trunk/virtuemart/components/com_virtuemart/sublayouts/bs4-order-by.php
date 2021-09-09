@@ -59,11 +59,9 @@ if (VmConfig::get('show_manufacturers')) {
 	if (TRUE) {
 		$cache = VmConfig::getCache('com_virtuemart_cat_manus', 'callback');
 		$cache->setCaching(TRUE);
-		$manufacturers = $cache->call(
+		$manufacturers = $cache->get(
 			array ('VirtueMartModelManufacturer', 'getManufacturersOfProductsInCategory'),
-			$virtuemart_category_id,
-			VmConfig::$vmlang,
-			$mlang
+			array($virtuemart_category_id, VmConfig::$vmlang, $mlang)
 		);
 		vmTime('Manufacturers by Cache', 'mcaching');
 	} else {

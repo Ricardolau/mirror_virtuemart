@@ -60,7 +60,7 @@ if($cache){
 	$cache->setCaching(1);
 	$cache->setLifeTime($cachetime);
 	$db = JFactory::getDbo();
-	echo $cache->call( array( 'mod_virtuemart_category', 'displayCatsMod' ), $params, $ID, $active_category_id, $category_id, $layout);
+	echo $cache->get( array( 'mod_virtuemart_category', 'displayCatsMod' ), array($params, $ID, $active_category_id, $category_id, $layout));
 	vmdebug('Use cached mod category');
 } else {
 	echo mod_virtuemart_category::displayCatsMod($params, $ID, $active_category_id, $category_id);

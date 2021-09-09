@@ -10,7 +10,7 @@ defined ('_JEXEC') or die('Direct Access to ' . basename (__FILE__) . ' is not a
  * @subpackage Helpers
  * @author Max Milbers
  * @author Patrick Kohl
- * @copyright Copyright (c) 2004-2008 Soeren Eberhardt-Biermann, 2009 - 2020 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004-2008 Soeren Eberhardt-Biermann, 2009 - 2021 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL 2, see COPYRIGHT.php
  * @version $Id$
  */
@@ -629,7 +629,7 @@ class ShopFunctions {
 			$cache->setCaching (1);
 
 			$vendorId = vmAccess::isSuperVendor();
-			self::$categoryTree[$hash] = $cache->call (array('ShopFunctions', 'categoryListTreeLoop'), $selectedCategories, $cid, $level, $disabledFields,VmConfig::isSite(),$vendorId,VmConfig::$vmlang);
+			self::$categoryTree[$hash] = $cache->get (array('ShopFunctions', 'categoryListTreeLoop'), array($selectedCategories, $cid, $level, $disabledFields,VmConfig::isSite(),$vendorId,VmConfig::$vmlang));
 
 			//self::$categoryTree[$hash] = ShopFunctions::categoryListTreeLoop($selectedCategories, $cid, $level, $disabledFields,$app->isSite(),$vendorId,VmConfig::$vmlang);
 		}
@@ -1228,7 +1228,7 @@ class ShopFunctions {
 			}
 
 			vmLanguage::loadJLang('com_virtuemart_config');
-			$uri = JFactory::getURI ();
+			$uri = JUri::getInstance(); 
 			$configlink = $uri->root() . 'administrator/index.php?option=com_virtuemart&view=updatesmigration&show_spwizard=1';
 			$t = vmText::sprintf('COM_VM_SAFEPATH_WARN_WRONG', vmText::_('COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH'), vmText::sprintf('COM_VM_SAFEPATH_WIZARD',$configlink));
 			return false;
@@ -1264,7 +1264,7 @@ class ShopFunctions {
 		}
 
 		$warn = false;
-		$uri = JFactory::getURI();
+		$uri = JUri::getInstance(); 
 
 		if(empty($safePath)){
 			$warn = 'EMPTY';
@@ -1324,7 +1324,7 @@ class ShopFunctions {
 		}
 
 		$warn = false;
-		$uri = JFactory::getURI();
+		$uri = JUri::getInstance(); 
 
 
 		if(empty($safePath)){
@@ -1443,7 +1443,7 @@ class ShopFunctions {
 			$html .= vmText::_($order_info['order_item_status_name']);
 			$html .= '</td>
 			<td class="order_number">';
-				$uri = JFactory::getURI();
+				$uri = JUri::getInstance(); 
 				$link = $uri->root() . 'administrator/index.php?option=com_virtuemart&view=orders&task=edit&virtuemart_order_id=' . $order_info['order_id'];
 				$html .= JHtml::_ ('link', $link, $order_info['order_number'], array('title' => vmText::_ ('COM_VIRTUEMART_ORDER_EDIT_ORDER_NUMBER') . ' ' . $order_info['order_number']));
 			$first=FALSE;

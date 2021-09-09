@@ -51,25 +51,27 @@ class VirtuemartControllerPlugin extends JControllerLegacy {
 		}
 
 		JPluginHelper::importPlugin ($type, $name);
-		$dispatcher = JDispatcher::getInstance ();
+
 		// if you want only one render simple in the plugin use jExit();
 		// or $render is an array of code to echo as html or json Objects!
 		$render = NULL;
-		$dispatcher->trigger ('plgVmOnSelfCallFE', array($type, $name, &$render));
+		vDispatcher::trigger ('plgVmOnSelfCallFE', array($type, $name, &$render));
 		if ($render) {
+
+			$app = JFactory::getApplication();
 			// Get the document object.
 			$document = JFactory::getDocument ();
 			if (vRequest::getCmd ('cache') == 'no') {
-				JResponse::setHeader ('Cache-Control', 'no-cache, must-revalidate');
-				JResponse::setHeader ('Expires', 'Mon, 6 Jul 2000 10:00:00 GMT');
+				$app->setHeader ('Cache-Control', 'no-cache, must-revalidate');
+				$app->setHeader ('Expires', 'Mon, 6 Jul 2000 10:00:00 GMT');
 			}
 			$format = vRequest::getCmd ('format', 'json');
 			if ($format == 'json') {
 				$document->setMimeEncoding ('application/json');
 				// Change the suggested filename.
-				JResponse::setHeader ('Content-Disposition', 'attachment;filename="' . $type . '.json"');
-				JResponse::setHeader("Content-type","application/json");
-				JResponse::sendHeaders();
+				$app->setHeader ('Content-Disposition', 'attachment;filename="' . $type . '.json"');
+				$app->setHeader("Content-type","application/json");
+				$app->sendHeaders();
 				echo json_encode ($render);
 				jExit();
 			}

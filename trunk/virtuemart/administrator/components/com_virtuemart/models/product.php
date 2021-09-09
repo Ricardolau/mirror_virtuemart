@@ -839,8 +839,7 @@ class VirtueMartModelProduct extends VmModel {
 
 		if ($this->searchplugin !== 0) {
 			JPluginHelper::importPlugin('vmcustom');
-			$dispatcher = JDispatcher::getInstance();
-			$dispatcher->trigger('plgVmBeforeProductSearch', array(&$select, &$joinedTables, &$where, &$groupBy, &$orderBy,&$joinLang));
+			vDispatcher::trigger('plgVmBeforeProductSearch', array(&$select, &$joinedTables, &$where, &$groupBy, &$orderBy,&$joinLang));
 		}
 
 		if (count ($where) > 0) {
@@ -1385,9 +1384,14 @@ class VirtueMartModelProduct extends VmModel {
 		$hash = $productId.','.implode('.',$virtuemart_shoppergroup_ids).','.(int)$front; //md5($q);
 
 		if(!isset($loadedProductPrices[$hash])){
-			$db->setQuery($q);
-			$prices = $db->loadAssocList();
-			$err = $db->getErrorMsg();
+			$err = ''; 
+			try {
+				$db->setQuery($q);
+				$prices = $db->loadAssocList();
+			} catch(Exception $e) {
+				$err = $e->getMessage(); 
+			}
+			
 			if(!empty($err)){
 				vmError('getProductSingle '.$err);
 			} else {
@@ -2304,9 +2308,14 @@ vmSetStartTime('letsUpdateProducts');
 					$qupdate = 'UPDATE `#__virtuemart_product_categories` SET `ordering` =  '.$ordering.'  WHERE `virtuemart_product_id` =  '.$product_id.'  AND `virtuemart_category_id` = '.$virtuemart_category_id;
 
 					$db->setQuery( $qupdate );
-					if(!$db->execute()) {
-						vmError( $db->getErrorMsg() );
-						return FALSE;
+					try {
+						if(!$db->execute()) {
+						
+							return FALSE;
+						}
+					} catch (Exception $e) {
+						vmError( $e->getMessage() );
+						return false; 
 					}
 				}
 				$updated++;
@@ -2450,9 +2459,8 @@ vmSetStartTime('letsUpdateProducts');
 		}
 
 
-		VmConfig::importVMPlugins('vmcustom');
-		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger('plgVmBeforeStoreProduct',array(&$data, &$product_data));
+		vDispatcher::importVMPlugins('vmcustom');
+		vDispatcher::trigger('plgVmBeforeStoreProduct',array(&$data, &$product_data));
 
 		$stored = $product_data->bindChecknStore ($data, false);
 
@@ -2566,8 +2574,13 @@ vmSetStartTime('letsUpdateProducts');
 			$db = JFactory::getDbo();
 			// delete old unused Prices
 			$db->setQuery( 'DELETE FROM `#__virtuemart_product_prices` WHERE `virtuemart_product_price_id` in ("'.implode('","', $oldPriceIdsSql ).'") ');
-			$db->execute();
-			$err = $db->getErrorMsg();
+			$err = ''; 
+			try {
+				$db->execute();
+			} catch(Exception $e) {
+				$err = $e->getMessage();
+			}
+			
 			if(!empty($err)){
 				vmWarn('In store prodcut, deleting old price error',$err);
 			}
@@ -2637,7 +2650,7 @@ vmSetStartTime('letsUpdateProducts');
 		$cache = VmConfig::getCache('com_virtuemart_cat_manus','callback');
 		$cache->clean();
 
-		$dispatcher->trigger('plgVmAfterStoreProduct',array(&$data, &$product_data));
+		vDispatcher::trigger('plgVmAfterStoreProduct',array(&$data, &$product_data));
 
 		return $product_data->virtuemart_product_id;
 	}
@@ -2803,9 +2816,8 @@ vmdebug('createCloneWithChildren relation',$relation);
 
 		$newId = $this->store ($product);
 		//$product->virtuemart_product_id = $newId;
-		VmConfig::importVMPlugins ('vmcustom');
-		$dispatcher = JDispatcher::getInstance ();
-		$result=$dispatcher->trigger ('plgVmCloneProduct', array($product));
+		vDispatcher::importVMPlugins ('vmcustom');
+		$result=vDispatcher::trigger ('plgVmCloneProduct', array($product));
 
 		$langs = VmConfig::get('active_languages', array(VmConfig::$jDefLangTag));
 		if ($langs and count($langs)>1){
@@ -2935,8 +2947,12 @@ vmdebug('createCloneWithChildren relation',$relation);
 				//Delete media xref
 				$query = 'DELETE FROM `#__virtuemart_product_customfields` WHERE `virtuemart_customfield_id` IN ('. $listInString .') ';
 				$db->setQuery($query);
-				if(!$db->execute()){
-					vmError( $db->getError() );
+				try {
+					if(!$db->execute()){
+						vmError( 'SQL Error' );
+					}
+				} catch (Exception $e) {
+					vmError( $e->getMessage() );
 				}
 			}
 
@@ -2970,9 +2986,8 @@ vmdebug('createCloneWithChildren relation',$relation);
 
 			// delete plugin on product delete
 			// $ok must be set to false if an error occurs
-			VmConfig::importVMPlugins ('vmcustom');
-			$dispatcher = JDispatcher::getInstance ();
-			$dispatcher->trigger ('plgVmOnDeleteProduct', array($id, &$ok));
+			vDispatcher::importVMPlugins ('vmcustom');
+			vDispatcher::trigger ('plgVmOnDeleteProduct', array($id, &$ok));
 		}
 
 		return $ok;
@@ -3058,7 +3073,7 @@ vmdebug('createCloneWithChildren relation',$relation);
 			if(true){
 				$cache = VmConfig::getCache('com_virtuemart_cat_manus','callback');
 				$cache->setCaching(true);
-				$manufacturers = $cache->call( array( 'VirtueMartModelManufacturer', 'getManufacturersOfProductsInCategory' ),$virtuemart_category_id,VmConfig::$vmlang,$mlang);
+				$manufacturers = $cache->get( array( 'VirtueMartModelManufacturer', 'getManufacturersOfProductsInCategory' ),array($virtuemart_category_id,VmConfig::$vmlang,$mlang));
 				vmTime('Manufacturers by Cache','mcaching');
 			} else {
 				$manufacturers = $manuM ->getManufacturersOfProductsInCategory($virtuemart_category_id,VmConfig::$vmlang,$mlang);
@@ -3354,14 +3369,17 @@ vmdebug('createCloneWithChildren relation',$relation);
 			$q .= ' GROUP BY p.`virtuemart_product_id` ORDER BY p.pordering ASC';
 			$db = JFactory::getDbo();
 			$db->setQuery ($q);
-			$r = $db->loadColumn();
-			if($r and count($r)>0){
-				$this->_uncategorizedChildren[$this->_id] = $r;
-			} else {
-				$this->_uncategorizedChildren[$this->_id] = array();
+			$err = ''; 
+			try {
+				$r = $db->loadColumn();
+				if($r and count($r)>0){
+					$this->_uncategorizedChildren[$this->_id] = $r;
+				} else {
+					$this->_uncategorizedChildren[$this->_id] = array();
+				}
+			} catch (Exception $e) {
+				$err = $e->getMessage(); 
 			}
-
-			$err = $db->getErrorMsg ();
 			if (!empty($err)) {
 				vmError ('getUncategorizedChildren sql error ' . $err, 'getUncategorizedChildren sql error');
 				vmdebug ('getUncategorizedChildren ' . $err);

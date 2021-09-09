@@ -214,7 +214,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 			$url = '/plugins/vmshipment/weight_countries';
 
 			if (!class_exists ('plgVmShipmentWeight_countries')) require(VMPATH_ROOT .'/'. $url .'/weight_countries.php');
-			VmPlugin::directTrigger('vmshipment', 'weight_countries', 'plgVmOnStoreInstallShipmentPluginTable', array($shipment_plg_id));
+			vDispatcher::directTrigger('vmshipment', 'weight_countries', 'plgVmOnStoreInstallShipmentPluginTable', array($shipment_plg_id));
 		}
 
 		$q = 'SELECT `extension_id` FROM #__extensions WHERE element = "standard" AND folder = "vmpayment"';
@@ -234,7 +234,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 			$url = '/plugins/vmpayment/standard';
 
 			if (!class_exists ('plgVmPaymentStandard')) require(VMPATH_ROOT .'/'. $url .'/standard.php');
-			VmPlugin::directTrigger('vmpayment', 'standard', 'plgVmOnStoreInstallPaymentPluginTable', array($payment_plg_id));
+			vDispatcher::directTrigger('vmpayment', 'standard', 'plgVmOnStoreInstallPaymentPluginTable', array($payment_plg_id));
 		}
 		VirtueMartModelCategory::updateCategories();
 		vmInfo(vmText::_('COM_VIRTUEMART_SAMPLE_DATA_INSTALLED'));
@@ -299,8 +299,8 @@ class VirtueMartModelUpdatesMigration extends VmModel {
     function restoreSystemDefaults() {
 
 		JPluginHelper::importPlugin('vmextended');
-		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger('onVmSqlRemove', $this);
+
+	    vDispatcher::trigger('onVmSqlRemove', $this);
 
 		$filename = VMPATH_ROOT .'/administrator/components/com_virtuemart/install/uninstall_essential_data.sql';
 		$this->execSQLFile($filename);
@@ -317,14 +317,10 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		$filename = VMPATH_ROOT .'/administrator/components/com_virtuemart/install/install_required_data.sql';
 		$this->execSQLFile($filename);
 
-
 		$updater = new GenericTableUpdater();
 		$updater->createLanguageTables();
 
-
-		JPluginHelper::importPlugin('vmextended');
-		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger('onVmSqlRestore', $this);
+	    vDispatcher::trigger('onVmSqlRestore', $this);
     }
 
     function restoreSystemTablesCompletly() {
@@ -344,8 +340,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		$updater->createLanguageTables();
 
 		JPluginHelper::importPlugin('vmextended');
-		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger('onVmSqlRestore', $this);
+	    vDispatcher::trigger('onVmSqlRestore', array($this));
     }
 
     /**
@@ -430,7 +425,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		$prefix = $config->get('dbprefix').'virtuemart_%';
 		$db->setQuery('SHOW TABLES LIKE "'.$prefix.'"');
 		if (!$tables = $db->loadColumn()) {
-			vmInfo ('removeAllVMTables no tables found '.$db->getErrorMsg());
+			vmInfo ('removeAllVMTables no tables found ');
 		    return false;
 		}
 
@@ -472,8 +467,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
      */
     function removeAllVMData() {
 		JPluginHelper::importPlugin('vmextended');
-		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger('onVmSqlRemove', $this);
+	    vDispatcher::trigger('onVmSqlRemove', array($this));
 
 		$filename = VMPATH_ROOT .'/administrator/components/com_virtuemart/install/uninstall_data.sql';
 		$this->execSQLFile($filename);
@@ -580,7 +574,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 						$query="UPDATE `#__update_sites` SET `location`=".trim($db->quote((string)$xml->updateservers->server))."
 					         WHERE update_site_id=".(int)$update_sites_extensions->update_site_id;
 						$db->setQuery($query);
-						$db->query();
+						$db->execute();
 					}
 				}
 
@@ -653,11 +647,12 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		$q = 'UPDATE `#__virtuemart_medias` SET `file_url_thumb`=""';
 
 		$db->setQuery($q);
-		$db->execute();
-		$err = $db->getErrorMsg();
-		if(!empty($err)){
-			vmError('resetThumbs Update entries failed ',$err);
+		try{
+			$db->execute();
+		} catch (Exception $e){
+			vmError('resetThumbs Update entries failed '.$q);
 		}
+
 		jimport('joomla.filesystem.folder');
 		$tmpimg_resize_enable = VmConfig::get('img_resize_enable',1);
 

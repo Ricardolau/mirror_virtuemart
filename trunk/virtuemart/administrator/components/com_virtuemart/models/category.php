@@ -213,7 +213,7 @@ vmdebug('Found cached cat, but without children');
 		if($useCache){
 			$cache = VmConfig::getCache('com_virtuemart_cat_childs','callback');
 			$cache->setCaching(true);
-			$cats = $cache->call( array( 'VirtueMartModelCategory', 'getChildCategoryListObject' ),$vendorId, $virtuemart_category_id, false, $onlyPublished, $media, $keyword, $selectedOrdering, $orderDir, 0, 0);
+			$cats = $cache->get( array( 'VirtueMartModelCategory', 'getChildCategoryListObject' ), array($vendorId, $virtuemart_category_id, false, $onlyPublished, $media, $keyword, $selectedOrdering, $orderDir, 0, 0));
 			vmTime('getChildCategoryList getChildCategoryListObject cached '.$virtuemart_category_id,'com_virtuemart_cat_childs');
 			return $cats;
 		} else {
@@ -868,9 +868,12 @@ vmdebug('Found cached cat, but without children');
 				//Delete media xref
 				$query = 'DELETE FROM `#__virtuemart_product_customfields` WHERE `virtuemart_customfield_id` IN ('. $listInString .') ';
 				$db->setQuery($query);
-				if(!$db->execute()){
-					vmError( $db->getErrorMsg() );
+				try {
+					$db->execute();
+				} catch (Exception $e){
+					vmError('category remove '.$e->getMessage());
 				}
+
 			}
 		}
 
@@ -879,32 +882,37 @@ vmdebug('Found cached cat, but without children');
 		//Delete media xref
 		$query = 'DELETE FROM `#__virtuemart_category_medias` WHERE `virtuemart_category_id` IN ('. $cidInString .') ';
 		$db->setQuery($query);
-		if(!$db->execute()){
-			vmError( $db->getErrorMsg() );
+		try {
+			$db->execute();
+		} catch (Exception $e){
+			vmError('category_medias remove '.$e->getMessage());
 		}
 
 		//deleting product relations
 		$query = 'DELETE FROM `#__virtuemart_product_categories` WHERE `virtuemart_category_id` IN ('. $cidInString .') ';
 		$db->setQuery($query);
-
-		if(!$db->execute()){
-			vmError( $db->getErrorMsg() );
+		try {
+			$db->execute();
+		} catch (Exception $e){
+			vmError('category_product_categories remove '.$e->getMessage());
 		}
 
 		//deleting category relations
 		$query = 'DELETE FROM `#__virtuemart_category_categories` WHERE `category_child_id` IN ('. $cidInString .') ';
 		$db->setQuery($query);
-
-		if(!$db->execute()){
-			vmError( $db->getErrorMsg() );
+		try {
+			$db->execute();
+		} catch (Exception $e){
+			vmError('category_category_categories remove '.$e->getMessage());
 		}
 
 		//updating parent relations
 		$query = 'UPDATE `#__virtuemart_category_categories` SET `category_parent_id` = 0 WHERE `category_parent_id` IN ('. $cidInString .') ';
 		$db->setQuery($query);
-
-		if(!$db->execute()){
-			vmError( $db->getErrorMsg() );
+		try {
+			$db->execute();
+		} catch (Exception $e){
+			vmError('category_category_categories update '.$e->getMessage());
 		}
 
 		self::clearCategoryRelatedCaches();
@@ -992,17 +1000,17 @@ vmdebug('Found cached cat, but without children');
 
 		foreach ($parents_id as $id ) {
 			$db->setQuery($q.(int)$id);
-			if($db->getErrorMsg()){
-				vmError('Error in sql ',$db->getErrorMsg());
-			}
-			if($cat=$db->loadObject()){
+
+			try {
+				$cat=$db->loadObject();
 				$parents[] = $cat;
-			} else {
+			} catch (Exception $e){
+				vmError('category getParentsList '.$e->getMessage());
 				if(VmConfig::$echoAdmin){
 					vmWarn('category with id '.(int)$id.' is missing the main language ');
 				}
-
 			}
+
 		}
 
 		return $parents;

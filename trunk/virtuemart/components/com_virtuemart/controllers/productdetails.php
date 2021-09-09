@@ -140,9 +140,8 @@ class VirtueMartControllerProductdetails extends JControllerLegacy {
 		$VendorEmail = $vendorModel->getVendorEmail ($vars['product']->virtuemart_vendor_id);
 
 		JPluginHelper::importPlugin ('system');
-		VmConfig::importVMPlugins('userfield');
-		$dispatcher = JDispatcher::getInstance ();
-		$dispatcher->trigger ('plgVmOnAskQuestion', array(&$VendorEmail, &$vars, &$view));
+		vDispatcher::importVMPlugins('userfield');
+		vDispatcher::trigger ('plgVmOnAskQuestion', array(&$VendorEmail, &$vars, &$view));
 
 		$vars['vendor'] = array('vendor_store_name' => $fromName);
 
@@ -311,12 +310,13 @@ class VirtueMartControllerProductdetails extends JControllerLegacy {
 		$priceFormated['messages'] = $msgrenderer->render('Message');
 		$document->setType($previoustype);
 
-		JResponse::setHeader ('Cache-Control', 'no-cache, must-revalidate');
-		JResponse::setHeader ('Expires', 'Mon, 6 Jul 2000 10:00:00 GMT');
+		$app = JFactory::getApplication();
+		$app->setHeader ('Cache-Control', 'no-cache, must-revalidate');
+		$app->setHeader ('Expires', 'Mon, 6 Jul 2000 10:00:00 GMT');
 		// Set the MIME type for JSON output.
 		$document->setMimeEncoding ('application/json');
 		//JResponse::setHeader ('Content-Disposition', 'attachment;filename="recalculate.json"', TRUE);
-		JResponse::sendHeaders ();
+		$app->sendHeaders ();
 		echo json_encode ($priceFormated);
 		jexit ();
 	}

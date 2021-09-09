@@ -76,9 +76,8 @@ vmJsApi::jDate();
 					<?php
 
 					JPluginHelper::importPlugin('vmcalculation');
-					$dispatcher = JDispatcher::getInstance();
 					$html = '';
-					$returnValues = $dispatcher->trigger('plgVmOnDisplayEditCalc', array(&$this->calc, &$html));
+					$returnValues = vDispatcher::trigger('plgVmOnDisplayEditCalc', array(&$this->calc, &$html));
 					echo $html;
 
 					if ($this->showVendors()) {

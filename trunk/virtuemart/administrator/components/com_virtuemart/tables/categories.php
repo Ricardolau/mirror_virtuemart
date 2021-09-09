@@ -294,11 +294,13 @@ class TableCategories extends VmTable {
 		. ' ORDER BY c.ordering'.$order2;
 
 		$this->_db->setQuery( $query );
-		if (!($orders = $this->_db->loadObjectList()))
-		{
-			vmError($this->_db->getErrorMsg());
+		try {
+			$orders = $this->_db->loadObjectList();
+		} catch (Exception $e){
+			vmError('Table Categories reorder '.$e->getMessage());
 			return false;
 		}
+
 		// compact the ordering numbers
 		for ($i=0, $n=count( $orders ); $i < $n; $i++)
 		{

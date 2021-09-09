@@ -156,14 +156,14 @@ class VirtueMartModelVendor extends VmModel {
 			$db = JFactory::getDBO ();
 			$query = 'SELECT `virtuemart_user_id` FROM `#__virtuemart_vmusers` WHERE `virtuemart_vendor_id`=' . (int)$vendorId;
 			$db->setQuery ($query);
-			$result = $db->loadResult ();
-			$err = $db->getErrorMsg ();
-			if (!empty($err)) {
-				$uIds[$vendorId] = 0;
-				vmError ('getUserIdByVendorId ' . $err, 'Failed to retrieve user id by vendor');
-			} else {
+			try {
+				$result = $db->loadResult ();
 				$uIds[$vendorId] = (int)$result;
+			} catch (Exception $e){
+				$uIds[$vendorId] = 0;
+				vmError ('getUserIdByVendorId ' . $e->getMessage(), 'Failed to retrieve user id by vendor');
 			}
+
 			return $uIds[$vendorId];
 		}
 	}
@@ -182,8 +182,8 @@ class VirtueMartModelVendor extends VmModel {
 
 		JPluginHelper::importPlugin ('vmvendor');	//plugin type for one function? Developers should use the vmshopper plugin instead
 		JPluginHelper::importPlugin ('vmshopper');
-		$dispatcher = JDispatcher::getInstance ();
-		$plg_datas = $dispatcher->trigger ('plgVmOnVendorStore', $data);
+
+		$plg_datas = vDispatcher::trigger ('plgVmOnVendorStore', $data);
 		foreach ($plg_datas as $plg_data) {
 			$data = array_merge ($plg_data);
 		}
@@ -290,7 +290,7 @@ class VirtueMartModelVendor extends VmModel {
 		$mediaModel = VmModel::getModel ('Media');
 		$mediaModel->storeMedia ($data, 'vendor');
 
-		$plg_datas = $dispatcher->trigger ('plgVmAfterVendorStore', $data);
+		$plg_datas = vDispatcher::trigger ('plgVmAfterVendorStore', $data);
 		foreach ($plg_datas as $plg_data) {
 			$data = array_merge ($plg_data);
 		}

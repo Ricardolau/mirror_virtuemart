@@ -158,10 +158,13 @@ class TableUserfields extends VmTable {
 				$query = 'DELETE FROM `'.$table.'` WHERE '.$this->_tbl_key.' = "'.$row.'"';
 				$this->_db->setQuery( $query );
 
-				if (!$this->_db->execute()){
-					vmError('checkAndDelete '.$this->_db->getErrorMsg());
+				try {
+					$this->_db->execute();
+				} catch (Exception $e){
+					vmError('Table userfields checkAndDelete '.$e->getMessage());
 					$ok = 0;
 				}
+
 			}
 
 		}

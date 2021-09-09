@@ -205,9 +205,9 @@ defined('_JEXEC') or die('Restricted access');
 							?>
 							<?php
 							// Load additional plugins
-							$_dispatcher = JDispatcher::getInstance();
-							$_returnValues1 = $_dispatcher->trigger('plgVmOnUpdateOrderBEPayment', array($this->orderID));
-							$_returnValues2 = $_dispatcher->trigger('plgVmOnUpdateOrderBEShipment', array($this->orderID));
+
+							$_returnValues1 = vDispatcher::trigger('plgVmOnUpdateOrderBEPayment', array($this->orderID));
+							$_returnValues2 = vDispatcher::trigger('plgVmOnUpdateOrderBEShipment', array($this->orderID));
 							$_returnValues = array_merge($_returnValues1, $_returnValues2);
 							$_plg = '';
 							foreach ($_returnValues as $_returnValue) {

@@ -98,7 +98,11 @@ echo JHtml::_('select.radiolist', $rating_options, 'vote', 'id="vote" class="inp
         	</td>
 		<td width="76%" align="left">
 	<?php
-            $editor = JFactory::getEditor();
+            if (JVM_VERSION < 4) {
+                $editor = JFactory::getEditor();
+            } else {
+                $editor = JEditor::getInstance();
+            }
             echo $editor->display('comment', $this->rating->comment, '100%', '100', '60', '20', false);
             ?>
 	</td>

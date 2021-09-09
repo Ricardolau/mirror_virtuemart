@@ -71,7 +71,11 @@ class VirtuemartViewUser extends VmView {
 		$this->_model = VmModel::getModel('user');
 
 		//$this->_model->setCurrent(); //without this, the administrator can edit users in the FE, permission is handled in the usermodel, but maybe unsecure?
-		$editor = JFactory::getEditor();
+	    if (JVM_VERSION < 4) {
+		    $this->editor = JFactory::getEditor();
+	    } else {
+		    $this->editor = JEditor::getInstance();
+	    }
 
 		$virtuemart_user_id = vRequest::getInt('virtuemart_user_id',false);
 		if($virtuemart_user_id and is_array($virtuemart_user_id)) $virtuemart_user_id = reset($virtuemart_user_id);
@@ -155,7 +159,6 @@ class VirtuemartViewUser extends VmView {
 
 		$this->assignRef('lists', $this->_lists);
 
-		$this->assignRef('editor', $editor);
 
 		if ($layoutName == 'mailregisteruser') {
 			$vendorModel = VmModel::getModel('vendor');
@@ -336,7 +339,11 @@ class VirtuemartViewUser extends VmView {
 		$this->_lists['block'] = JHtml::_('select.booleanlist', 'block', 'class="inputbox"', $this->userDetails->JUser->get('block'), 'COM_VIRTUEMART_YES', 'COM_VIRTUEMART_NO');
 		$this->_lists['sendEmail'] = JHtml::_('select.booleanlist', 'sendEmail', 'class="inputbox"', $this->userDetails->JUser->get('sendEmail'), 'COM_VIRTUEMART_YES', 'COM_VIRTUEMART_NO');
 
-		$this->_lists['params'] = $this->userDetails->JUser->getParameters(true);
+		//In J4 it seems not allowed to load all Parameters, but to it is allowed to load a parameter with getParam(key, def)
+	    if (method_exists($this->userDetails->JUser, 'getParameters')) {
+		    $this->_lists['params'] = $this->userDetails->JUser->getParameters(true);
+	    }
+
 
 		$this->_lists['custnumber'] = $this->_model->getCustomerNumberById();
 

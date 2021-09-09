@@ -6,13 +6,15 @@
  *
  * @package	VirtueMart
  * @subpackage Helpers
- * @author RickG
- * @copyright Copyright (c) 2004-2008 Soeren Eberhardt-Biermann, 2009 - 2018 VirtueMart Team. All rights reserved.
+ * @author Max Milbers, RickG
+ * @copyright Copyright (c) 2004-2008 Soeren Eberhardt-Biermann, 2009 - 2021 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL 2, see COPYRIGHT.php
  */
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * HTML Helper
@@ -268,7 +270,7 @@ class VmHtml{
 		{
 			if (is_array($options['list.attr']))
 			{
-				$attribs = JArrayHelper::toString($options['list.attr']);
+				$attribs = ArrayHelper::toString($options['list.attr']);
 			}
 			else
 			{
@@ -438,7 +440,7 @@ class VmHtml{
 			}
 			if (is_array($attr))
 			{
-				$attr = JArrayHelper::toString($attr);
+				$attr = ArrayHelper::toString($attr);
 			}
 			else
 			{
@@ -648,7 +650,11 @@ class VmHtml{
 	 * @param string $value
 	 */
 	public static function editor($name,$value,$size='100%',$height='300',$hide = array('pagebreak', 'readmore')){
-		$editor =JFactory::getEditor();
+		if(JVM_VERSION<4){
+			$editor = JFactory::getEditor();
+		} else {
+			$editor = JEditor::getInstance();
+		}
 		return $editor->display($name, $value, $size, $height, null, null ,$hide )  ;
 	}
 

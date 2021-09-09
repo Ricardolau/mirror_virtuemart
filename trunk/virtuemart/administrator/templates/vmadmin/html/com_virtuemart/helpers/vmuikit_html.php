@@ -754,7 +754,11 @@ class VmuikitHtml{
 	 * @param string $value
 	 */
 	public static function editor($name,$value,$size='100%',$height='300',$hide = array('pagebreak', 'readmore')){
-		$editor =JFactory::getEditor();
+		if (JVM_VERSION < 4) {
+			$editor = JFactory::getEditor();
+		} else {
+			$editor = JEditor::getInstance();
+		}
 		return $editor->display($name, $value, $size, $height, null, null ,$hide )  ;
 	}
 

@@ -26,7 +26,6 @@ vmuikitAdminUIHelper::startAdminArea($this);
 
 
 vmJsApi::JvalideForm();
-$this->editor = JFactory::getEditor();
 
 ?>
 <form method="post" name="adminForm"

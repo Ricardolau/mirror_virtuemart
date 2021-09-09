@@ -26,7 +26,8 @@ defined('_JEXEC') or die('Restricted access');?>
 			
 <fieldset>
 	<legend><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_DESCRIPTION'); echo $this->origLang ?></legend>
-	<?php echo $this->editor->display('product_desc',  $this->product->product_desc, '90%;', '450', '55', '10', array('pagebreak', 'readmore') ) ; ?>
+
+    <?php echo $this->editor->display('product_desc',  $this->product->product_desc, '90%;', '450', '55', '10', array('pagebreak', 'readmore') ) ; ?>
 </fieldset>
 
 <fieldset>

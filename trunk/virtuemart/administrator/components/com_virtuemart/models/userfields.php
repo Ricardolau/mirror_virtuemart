@@ -126,10 +126,8 @@ class VirtueMartModelUserfields extends VmModel {
 
 				if (strpos($fieldType,'plugin')!==false){
 
-					VmConfig::importVMPlugins('vmuserfield');
-					$dispatcher = JDispatcher::getInstance();
-					// vmdebug('params',$params);
-					$dispatcher->trigger('plgVmPrepareUserfieldDataSave',array($fieldType, $fieldName, &$data, &$value, $params) );
+					vDispatcher::importVMPlugins('vmuserfield');
+					vDispatcher::trigger('plgVmPrepareUserfieldDataSave',array($fieldType, $fieldName, &$data, &$value, $params) );
 					return $value;
 				}
 
@@ -163,9 +161,8 @@ class VirtueMartModelUserfields extends VmModel {
 			}
 			//vmdebug('getUserfield',$id,$name,$this->_cache[$id]);
 			if(strpos($this->_cache[$hash]->type,'plugin')!==false){
-				VmConfig::importVMPlugins('vmuserfield');
-				$dispatcher = JDispatcher::getInstance();
-				$retValue = $dispatcher->trigger('plgVmDeclarePluginParamsUserfieldVM3',array(&$this->_cache[$hash]));
+				vDispatcher::importVMPlugins('vmuserfield');
+				$retValue = vDispatcher::trigger('plgVmDeclarePluginParamsUserfieldVM3',array(&$this->_cache[$hash]));
 			}
 			/*else if($this->_cache[$hash]->type=='age_verification'){
 
@@ -268,9 +265,8 @@ class VirtueMartModelUserfields extends VmModel {
 			$db->setQuery($q);
 			$db->execute();
 
-			VmConfig::importVMPlugins('vmuserfield');
-			$dispatcher = JDispatcher::getInstance();
-			$dispatcher->trigger('plgVmOnBeforeUserfieldSave',array( $plgName , &$data, &$field ) );
+			vDispatcher::importVMPlugins('vmuserfield');
+			vDispatcher::trigger('plgVmOnBeforeUserfieldSave',array( $plgName , &$data, &$field ) );
 		}
 
 		if (!$field->bind($data)) {
@@ -320,7 +316,7 @@ class VirtueMartModelUserfields extends VmModel {
 			return false;
 		}
 		if(strpos($data['type'],'plugin')!==false){
-			VmPlugin::directTrigger('vmuserfield', $plgName, 'plgVmOnStoreInstallPluginTable', array('userfield' , $data, $field));
+			vDispatcher::directTrigger('vmuserfield', $plgName, 'plgVmOnStoreInstallPluginTable', array('userfield' , $data, $field));
 		}
 		if ($reorderRequired) {
 			$field->reorder();
@@ -518,10 +514,10 @@ class VirtueMartModelUserfields extends VmModel {
 			}
 		}
 
-		VmConfig::importVMPlugins('vmuserfield');
+		vDispatcher::importVMPlugins('vmuserfield');
 		JPluginHelper::importPlugin('user');
-		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger('plgVmOnGetUserfields', array($type, &$userFields));
+
+		vDispatcher::trigger('plgVmOnGetUserfields', array($type, &$userFields));
 
 		$c[$h] = $userFields;
 		return $userFields;
@@ -944,12 +940,11 @@ class VirtueMartModelUserfields extends VmModel {
 					default:
 						if(strpos($_fld->type,'plugin')!==false){
 
-							VmConfig::importVMPlugins('vmuserfield');
-							$dispatcher = JDispatcher::getInstance();
+							vDispatcher::importVMPlugins('vmuserfield');
 							
 							$_return['fields'][$_fld->name]['value'] = $_return['fields'][$_fld->name]['unescapedvalue']; 
-							$_return['fields'][$_fld->name]['htmlentities'] = false; 
-							$dispatcher->trigger('plgVmOnUserfieldDisplay',array($_prefix, $_fld,isset($_userData['virtuemart_user_id'])?$_userData['virtuemart_user_id']:0,  &$_return) );
+							$_return['fields'][$_fld->name]['htmlentities'] = false;
+							vDispatcher::trigger('plgVmOnUserfieldDisplay',array($_prefix, $_fld,isset($_userData['virtuemart_user_id'])?$_userData['virtuemart_user_id']:0,  &$_return) );
 							break;
 						}
 					switch( $_fld->type ) {
@@ -1010,7 +1005,11 @@ class VirtueMartModelUserfields extends VmModel {
 							break;
 						case 'editorta':
 							jimport( 'joomla.html.editor' );
-							$editor = JFactory::getEditor();
+							if (JVM_VERSION < 4) {
+								$editor = JFactory::getEditor();
+							} else {
+								$editor = JEditor::getInstance();
+							}
 							
 							$_return['fields'][$_fld->name]['value'] = $_return['fields'][$_fld->name]['unescapedvalue']; 
 							$_return['fields'][$_fld->name]['htmlentities'] = false; 

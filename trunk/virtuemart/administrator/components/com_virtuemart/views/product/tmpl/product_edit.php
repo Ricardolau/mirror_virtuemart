@@ -23,7 +23,6 @@ AdminUIHelper::startAdminArea($this);
 $document = JFactory::getDocument();
 
 vmJsApi::JvalideForm();
-$this->editor = JFactory::getEditor();
 
 ?>
 <form method="post" name="adminForm" action="index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id=<?php echo $this->product->virtuemart_product_id; ?>" enctype="multipart/form-data" id="adminForm">

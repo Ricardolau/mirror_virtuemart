@@ -22,7 +22,6 @@ $adminTemplate = VMPATH_ROOT . '/administrator/templates/vmadmin/html/com_virtue
 JLoader::register('vmuikitAdminUIHelper', $adminTemplate . 'helpers/vmuikit_adminuihelper.php');
 
 vmuikitAdminUIHelper::startAdminArea($this);
-$editor = JFactory::getEditor();
 ?>
 
 	<form action="index.php" method="post" id="adminForm" name="adminForm" enctype="multipart/form-data" class="uk-form-horizontal">

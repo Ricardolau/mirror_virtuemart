@@ -48,14 +48,11 @@ class AdminUIHelper {
 
 		if($view!='virtuemart'){
 			vmJsApi::css('chosen');
-			vmJsApi::css('jquery.fancybox-1.3.4');
 			vmJsApi::css('ui/jquery.ui.all');
 		}
 
 		if($view!='virtuemart') {
-			vmJsApi::addJScript('fancybox/jquery.mousewheel-3.0.4.pack',false,false);
-			vmJsApi::addJScript('fancybox/jquery.easing-1.3.pack',false,false);
-			vmJsApi::addJScript('fancybox/jquery.fancybox-1.3.4.pack',false,false);
+
 			VmJsApi::chosenDropDowns();
 		}
 
@@ -240,8 +237,7 @@ class AdminUIHelper {
 
 		$html = '<div id="admin-ui-tabs">';
 
-		$dispatcher = JDispatcher::getInstance();
-		$returnValues = $dispatcher->trigger('plgVmBuildTabs', array(&$view, &$load_template));
+		$returnValues = vDispatcher::trigger('plgVmBuildTabs', array(&$view, &$load_template));
 
 		foreach ( $load_template as $tab_content => $tab_title ) {
 			$html .= '<div class="tabs" title="' . vmText::_ ( $tab_title ) . '">';

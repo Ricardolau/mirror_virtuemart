@@ -61,7 +61,11 @@ class VirtuemartViewUser extends VmViewAdmin {
 
 		if ($layoutName == 'edit' || $layoutName == 'edit_shipto') {
 
-			$editor = JFactory::getEditor();
+			if(JVM_VERSION<4){
+				$this->editor = JFactory::getEditor();
+			} else {
+				$this->editor = JEditor::getInstance();
+			}
 
 			$userDetails = $model->getUser($userId);
 
@@ -91,7 +95,12 @@ class VirtuemartViewUser extends VmViewAdmin {
 			$this->lists['canSetMailopt'] = $currentUser->authorise('workflow', 'email_events');
 			$this->lists['block'] = JHtml::_('select.booleanlist', 'block',      'class="inputbox"', $userDetails->JUser->get('block'),     'COM_VIRTUEMART_YES', 'COM_VIRTUEMART_NO');
 			$this->lists['sendEmail'] = JHtml::_('select.booleanlist', 'sendEmail',  'class="inputbox"', $userDetails->JUser->get('sendEmail'), 'COM_VIRTUEMART_YES', 'COM_VIRTUEMART_NO');
-			$this->lists['params'] = $userDetails->JUser->getParameters(true);
+
+			if(JVM_VERSION<4){
+				$this->lists['params'] = $userDetails->JUser->getParameters(true);
+			} else {
+				$this->lists['params'] = 'Todo for j4';
+			}
 
 			// Shopper info
 			$this->lists['shoppergroups'] = ShopFunctions::renderShopperGroupList($userDetails->shopper_groups,true, 'virtuemart_shoppergroup_id');
@@ -151,8 +160,6 @@ class VirtuemartViewUser extends VmViewAdmin {
 				if($new ){
 					$virtuemart_userinfo_id = 0;
 
-				} else {
-
 				}
 				$userFieldsST = $userFieldsArray[$virtuemart_userinfo_id];
 				$this->assignRef('shipToFields', $userFieldsST);
@@ -206,7 +213,6 @@ class VirtuemartViewUser extends VmViewAdmin {
 
 			$this->assignRef('orderlist', $orderList);
 			$this->assignRef('contactDetails', $_contactDetails);
-			$this->assignRef('editor', $editor);
 
 		} else {
 

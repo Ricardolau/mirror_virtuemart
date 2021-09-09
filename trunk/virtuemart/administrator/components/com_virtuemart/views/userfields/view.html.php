@@ -42,7 +42,11 @@ class VirtuemartViewUserfields extends VmViewAdmin {
 		$lists['coreFields'] = $model->getCoreFields();
 
 		if ($layoutName == 'edit') {
-			$this->editor = JFactory::getEditor();
+			if (JVM_VERSION < 4) {
+				$this->editor = JFactory::getEditor();
+			} else {
+				$this->editor = JEditor::getInstance();
+			}
 
 			$this->userField = $model->getUserfield();
 			//vmdebug('user plugin $this->userField',$this->userField);
@@ -171,7 +175,7 @@ class VirtuemartViewUserfields extends VmViewAdmin {
 
 			// search filter
 			$search = $mainframe->getUserStateFromRequest( $option.'search', 'search', '', 'string');
-			$search = JString::strtolower( $search );
+			$search = utf8_strtolower( $search );
 			$this->lists['search']= $search;
 		}
 		$this->lists['coreFields'] = $lists['coreFields'];

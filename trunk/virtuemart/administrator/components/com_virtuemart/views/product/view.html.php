@@ -248,6 +248,11 @@ class VirtuemartViewProduct extends VmViewAdmin {
 					$delete_message = vmText::_('COM_VIRTUEMART_PRODUCT_FORM_DELETE_PRODUCT_MSG');
 				}
 
+				if (JVM_VERSION < 4) {
+					$this->editor = JFactory::getEditor();
+				} else {
+					$this->editor = JEditor::getInstance();
+				}
 
 				$this->assignRef('product', $product);
 

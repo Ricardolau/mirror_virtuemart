@@ -20,7 +20,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 AdminUIHelper::startAdminArea($this);
-$editor = JFactory::getEditor();
+
 ?>
 
 <form action="index.php" method="post" id="adminForm" name="adminForm" enctype="multipart/form-data">

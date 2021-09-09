@@ -836,14 +836,14 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 					$json['error_msg'] = $this->rendererErrorMessage($return['error_msg']);
 				}
 
-
-				JResponse::setHeader('Cache-Control', 'no-cache, must-revalidate');
-				JResponse::setHeader('Expires', 'Mon, 6 Jul 2000 10:00:00 GMT');
+				$app = JFactory::getApplication();
+				$app->setHeader('Cache-Control', 'no-cache, must-revalidate');
+				$app->setHeader('Expires', 'Mon, 6 Jul 2000 10:00:00 GMT');
 				// Set the MIME type for JSON output.
 				$document = JFactory::getDocument();
 				$document->setMimeEncoding('application/json');
-				JResponse::setHeader('Content-Disposition', 'attachment;filename="amazon.json"', TRUE);
-				JResponse::sendHeaders();
+				$app->setHeader('Content-Disposition', 'attachment;filename="amazon.json"', TRUE);
+				$app->sendHeaders();
 
 				echo json_encode($json);
 				jExit();
@@ -854,13 +854,14 @@ class plgVmpaymentAmazon extends vmPSPlugin {
 			case 'leaveAmazonCheckout':
 				$this->leaveAmazonCheckout();
 				$json = array();
-				JResponse::setHeader('Cache-Control', 'no-cache, must-revalidate');
-				JResponse::setHeader('Expires', 'Mon, 6 Jul 2000 10:00:00 GMT');
+				$app = JFactory::getApplication();
+				$app->setHeader('Cache-Control', 'no-cache, must-revalidate');
+				$app->setHeader('Expires', 'Mon, 6 Jul 2000 10:00:00 GMT');
 				// Set the MIME type for JSON output.
 				$document = JFactory::getDocument();
 				$document->setMimeEncoding('application/json');
-				JResponse::setHeader('Content-Disposition', 'attachment;filename="amazon.json"', TRUE);
-				JResponse::sendHeaders();
+				$app->setHeader('Content-Disposition', 'attachment;filename="amazon.json"', TRUE);
+				$app->sendHeaders();
 
 				echo json_encode($json);
 				jExit();

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class vRequest
  * Gets filtered request values.
@@ -7,7 +6,7 @@
  * @package    VirtueMart
  * @subpackage Helpers
  * @author Max Milbers
- * @copyright Copyright (c) 2014 - 2019 iStraxx UG (haftungsbeschränkt). All rights reserved.
+ * @copyright Copyright (c) 2014 - 2021 iStraxx UG (haftungsbeschränkt). All rights reserved.
  * @license MIT, see http://opensource.org/licenses/MIT
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -212,7 +211,7 @@ class vRequest {
 				if(JVM_VERSION>2){
 					$router = JFactory::getApplication()->getRouter();
 					$vars = $router->getVars();
-					if($router->getMode() and !empty($vars)){
+					if(!empty($vars)){
 						$source = array_merge($_GET,$vars);
 					}
 				}
@@ -288,7 +287,7 @@ class vRequest {
 		if(JVM_VERSION>2){
 			$router = JFactory::getApplication()->getRouter();
 			$vars = $router->getVars();
-			if($router->getMode() and !empty($vars)){
+			if(!empty($vars)){
 				$source = array_merge($_GET,$vars);
 			}
 		}

@@ -30,6 +30,16 @@ class VmView extends JViewLegacy{
 	var $writeJs = true;
 	var $useSSL = 0;
 
+	/**
+	 * @depreacted
+	 * @param string $key
+	 * @param mixed $val
+	 * @return bool|void
+	 */
+	public function assignRef($key, &$val) {
+		$this->{$key} =& $val; 
+	}
+	
 	public function display($tpl = null) {
 
 		if($this->isMail or $this->isPdf){

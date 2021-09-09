@@ -34,8 +34,9 @@ class VirtueMartControllerState extends JControllerLegacy {
 		foreach($countries as $country){
 			$states[$country] = $stateModel->getStates((int)$country,true,true );
 		}
-		JResponse::setHeader("Content-type","application/json");
-		JResponse::sendHeaders();
+		$app = JFactory::getApplication(); 
+		$app->setHeader("Content-type","application/json");
+		$app->sendHeaders();
 		echo json_encode($states);
 
 		jExit();

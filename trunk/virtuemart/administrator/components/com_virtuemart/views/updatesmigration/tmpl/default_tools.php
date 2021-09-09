@@ -108,8 +108,8 @@ defined('_JEXEC') or die('Restricted access');
 
 <?php
     if(!VmConfig::get('dangeroustools', false)){
-        $uri = JFactory::getURI();
-        $link = $uri->root() . 'administrator/index.php?option=com_virtuemart&view=config';
+        
+        $link = Juri::root() . 'administrator/index.php?option=com_virtuemart&view=config';
         ?>
 
         <div class="vmquote" style="text-align:left;margin-left:20px;">

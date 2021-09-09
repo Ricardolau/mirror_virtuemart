@@ -36,7 +36,9 @@ class VmViewAdmin extends JViewLegacy {
 	function __construct($config = array()) {
 		parent::__construct($config);
 	}
-
+	public function assignRef($key, &$val) {
+		$this->{$key} =& $val; 
+	}
 	/*
 	* Override the display function to include ACL
 	* Redirect to the control panel when user does not have access
@@ -317,7 +319,9 @@ class VmViewAdmin extends JViewLegacy {
 			
 		} else {
 			$jlang = vmLanguage::getLanguage();
-			$langs = $jlang->getKnownLanguages();
+			/*$langs = $jlang->getKnownLanguages();*/
+			
+			$langs = \Joomla\CMS\Language\LanguageHelper::getKnownLanguages(); 
 			$defautName = $selectedLangue;
 			$flagImg = $selectedLangue;
 			if(isset($languagesByCode[$selectedLangue])){

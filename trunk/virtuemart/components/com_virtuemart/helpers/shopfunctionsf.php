@@ -20,6 +20,7 @@
 // Check to ensure this file is included in Joomla!
 defined( '_JEXEC' ) or die('Restricted access');
 
+use Joomla\Utilities\ArrayHelper as JArrayHelper;
 
 class shopFunctionsF {
 
@@ -32,9 +33,9 @@ class shopFunctionsF {
 			$show = VmConfig::get( 'oncheckout_show_register', 1 );
 		}
 		if($show == 1) {
-			//This is deprecated and will be replaced by the commented lines below (vmView instead of VirtuemartViewUser)
-			//$view = new VirtuemartViewUser();
-			$view = new vmView();
+			//We use as dummy view the invoice, joomla 4 dont want to work with a generic view
+			$view = new VirtuemartViewInvoice();
+			//$view = new vmView();
 			$body = $view->renderVmSubLayout($layout,array('show' => $show, 'order' => $order, 'from_cart' => $cart, 'url' => $url));
 		}
 
@@ -932,8 +933,7 @@ class shopFunctionsF {
 			$view->mediaToSend = array();
 		}
 
-		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger('plgVmOnSendVmEmail',array(&$view,&$mailer,$noVendorMail));
+		vDispatcher::trigger('plgVmOnSendVmEmail',array(&$view,&$mailer,$noVendorMail));
 
 		$debug_email = VmConfig::get('debug_mail', false);
 		if (VmConfig::get('debug_mail', false) == '1') {
@@ -1129,7 +1129,6 @@ class shopFunctionsF {
 
 	static function triggerContentPlugin(  &$article, $context, $field) {
 	// add content plugin //
-		$dispatcher = JDispatcher::getInstance ();
 		JPluginHelper::importPlugin ('content');
 		$article->text = $article->{$field};
 
@@ -1138,16 +1137,16 @@ class shopFunctionsF {
 		if (!isset($article->event)) {
 			$article->event = new stdClass();
 		}
-		$results = $dispatcher->trigger ('onContentPrepare', array('com_virtuemart.'.$context, &$article, &$params, 0));
+		$results = vDispatcher::trigger ('onContentPrepare', array('com_virtuemart.'.$context, &$article, &$params, 0));
 		// More events for 3rd party content plugins
 		// This do not disturb actual plugins, because we don't modify $vendor->text
-		$res = $dispatcher->trigger ('onContentAfterTitle', array('com_virtuemart.'.$context, &$article, &$params, 0));
+		$res = vDispatcher::trigger ('onContentAfterTitle', array('com_virtuemart.'.$context, &$article, &$params, 0));
 		$article->event->afterDisplayTitle = trim (implode ("\n", $res));
 
-		$res = $dispatcher->trigger ('onContentBeforeDisplay', array('com_virtuemart.'.$context, &$article, &$params, 0));
+		$res = vDispatcher::trigger ('onContentBeforeDisplay', array('com_virtuemart.'.$context, &$article, &$params, 0));
 		$article->event->beforeDisplayContent = trim (implode ("\n", $res));
 
-		$res = $dispatcher->trigger ('onContentAfterDisplay', array('com_virtuemart.'.$context, &$article, &$params, 0));
+		$res = vDispatcher::trigger ('onContentAfterDisplay', array('com_virtuemart.'.$context, &$article, &$params, 0));
 		$article->event->afterDisplayContent = trim (implode ("\n", $res));
 
 		$article->{$field} = $article->text;
@@ -1244,11 +1243,10 @@ class shopFunctionsF {
 				JPluginHelper::importPlugin('captcha', $reCaptchaName); // will load the plugin selected, not all of them - we need to know what plugin's events we need to trigger
 			}
 
-			$dispatcher = JEventDispatcher::getInstance();
 			try 
 			{
 				$dispatcher->trigger('onInit', $id);
-				$output = $dispatcher->trigger('onDisplay', array($reCaptchaName, $id, 'class="g-recaptcha required"'));
+				$output = vDispatcher::trigger('onDisplay', array($reCaptchaName, $id, 'class="g-recaptcha required"'));
 			}
 			catch (Exception $e) {
 				//we have a display timeout or other error within the captcha plugin
@@ -1293,10 +1291,9 @@ class shopFunctionsF {
 			*/
 			$recaptcha = null;
 			JPluginHelper::importPlugin('captcha');
-			$dispatcher = JDispatcher::getInstance();
 			try
 			{
-				$res = $dispatcher->trigger('onCheckAnswer',array($recaptcha));
+				$res = vDispatcher::trigger('onCheckAnswer',array($recaptcha));
 			}
 			catch (Exception $e) {
 				$errmsg = $e->getMessage();

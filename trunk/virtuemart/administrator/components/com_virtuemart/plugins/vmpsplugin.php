@@ -501,7 +501,11 @@ abstract class vmPSPlugin extends vmPlugin {
 			$extField2 = 'element';
 
 			$select .= 'j.`'.$extField1.'`,j.`name`, j.`type`, j.`element`, j.`folder`, j.`client_id`, j.`enabled`, j.`access`, j.`protected`, j.`manifest_cache`,
-				j.`params`, j.`custom_data`, j.`system_data`, j.`checked_out`, j.`checked_out_time`, j.`state`,  s.virtuemart_shoppergroup_id ';
+				j.`params`, j.`custom_data`, j.`checked_out`, j.`checked_out_time`, j.`state`, s.virtuemart_shoppergroup_id ';
+
+			if(JVM_VERSION == 3){
+				$select .= ', j.`system_data` ';
+			}
 
 			if(!VmConfig::$vmlang) {
 				vmLanguage::initialise();
@@ -532,7 +536,12 @@ abstract class vmPSPlugin extends vmPlugin {
 
 
 			$db->setQuery( $q );
-			$allMethods = $db->loadObjectList();
+			try {
+				$allMethods = $db->loadObjectList();
+			} catch (Exception $e){
+				mError( 'Error in slq vmpsplugin.php function getPluginMethods '.$e->getMessage() );
+			}
+
 			//vmdebug('getPluginMethods my query ',str_replace('#__',$db->getPrefix(),$db->getQuery()));
 			//vmdebug( 'loaded all methods for the vendor ', $allMethods );
 			foreach( $allMethods as $methd ) {
@@ -546,12 +555,8 @@ abstract class vmPSPlugin extends vmPlugin {
 				self::$mC[$psType][$h][] = $methd;
 
 			}
-			if($err = $db->getErrorMsg()) {
-				vmError( 'Error in slq vmpsplugin.php function getPluginMethods '.$err );
-			}
 
 		}
-
 
 		$h = $vendorId.$this->_name;
 		//vmdebug('getPluginMethods requesting methods for '.$this->_psType.' '.$h);

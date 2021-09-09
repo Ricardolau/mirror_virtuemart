@@ -201,7 +201,8 @@ class VirtueMartViewProductdetails extends VmView {
 
 
 			if(!empty($menu) ){
-				$t = $menu->params->get('cat_productdetails','');
+				$menuParams = $menu->getParams();
+				$t = $menuParams->get('cat_productdetails','');
 				if($t!=''){
 					$this->cat_productdetails = $t;
 				}
@@ -358,8 +359,7 @@ class VirtueMartViewProductdetails extends VmView {
 			$this->productDisplayShipments = array();
 			$this->productDisplayPayments = array();
 
-			VmConfig::importVMPlugins('vmpayment');
-			$dispatcher = JDispatcher::getInstance();
+			vDispatcher::importVMPlugins('vmpayment');
 
 			$productC = clone($product);
 			$d = VmConfig::$_debug;
@@ -367,8 +367,8 @@ class VirtueMartViewProductdetails extends VmView {
 				VmConfig::$_debug = 1;
 			}
 			//@Todo lets use only one trigger
-			$returnValues = $dispatcher->trigger('plgVmOnProductDisplayShipment', array($productC, &$this->productDisplayShipments));
-			$returnValues = $dispatcher->trigger('plgVmOnProductDisplayPayment', array($productC, &$this->productDisplayPayments));
+			$returnValues = vDispatcher::trigger('plgVmOnProductDisplayShipment', array($productC, &$this->productDisplayShipments));
+			$returnValues = vDispatcher::trigger('plgVmOnProductDisplayPayment', array($productC, &$this->productDisplayPayments));
 
 			$this->productDisplayTypes = array();
 			$productDisplayTypes = array();

@@ -183,7 +183,8 @@ class VirtueMartViewVirtueMart extends VmView {
 			if(empty($this->vendor->customtitle)){
 
 				if ($menu){
-					$menuTitle = $menu->params->get('page_title');
+					$menuParams = $menu->getParams();
+					$menuTitle = $menuParams->get('page_title');
 					if(empty($menuTitle)) {
 						$menuTitle = vmText::sprintf('COM_VIRTUEMART_HOME',$this->vendor->vendor_store_name);
 					}

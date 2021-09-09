@@ -27,6 +27,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class VirtuemartViewCategory extends VmView {
 
+	public $combineTags = true;
 	public function display($tpl = null) {
 
 		//For BC, we convert first the new config param names to the old ones
@@ -84,10 +85,12 @@ class VirtuemartViewCategory extends VmView {
 
 		if(empty($menu)){
 			$menu = new stdClass;
-			$menu->params = new JRegistry();
+			$menuParams = new JRegistry();
+		} else {
+			$menuParams = $menu->getParams();
 		}
 
-		$stf_itemid = $menu->params->get('stf_itemid',false);
+		$stf_itemid = $menuParams->get('stf_itemid',false);
 		if(!empty($stf_itemid) ){
 			$mstf=$menus->getItem($stf_itemid);
 			if(!empty($mstf)){
@@ -181,15 +184,15 @@ class VirtuemartViewCategory extends VmView {
 
 		foreach($paramNames as $k => $v){
 			if(!isset($category->{$k}) or $category->{$k}==''){
-				$this->{$k} = $menu->params->get($prefix.$k,$v);
+				$this->{$k} = $menuParams->get($prefix.$k,$v);
 			} else if(isset($category->{$k})){
 				$this->{$k} = $category->{$k};
 			}
 		}
 
-		$this->storefront = $menu->params->get('storefront',0);
+		$this->storefront = $menuParams->get('storefront',0);
 
-		$this->perRow = $this->products_per_row = empty($category->products_per_row)? $menu->params->get($prefix.'products_per_row',$paramNames['products_per_row']):$category->products_per_row;
+		$this->perRow = $this->products_per_row = empty($category->products_per_row)? $menuParams->get($prefix.'products_per_row',$paramNames['products_per_row']):$category->products_per_row;
 
 		$vendorId = $category->virtuemart_vendor_id;
 		if(empty($vendorId)) $vendorId = 1; //If we are in the root category, the id is empty
@@ -393,10 +396,10 @@ class VirtuemartViewCategory extends VmView {
 		$metarobot = '';
 		$metaauthor = '';
 
-		$metadesc = $menu->params->get('menu-meta_description');
-		$metakey = $menu->params->get('menu-meta_keywords');
-		$metarobot = $menu->params->get('robots');
-		$customtitle = $menu->params->get('page_title');
+		$metadesc = $menuParams->get('menu-meta_description');
+		$metakey = $menuParams->get('menu-meta_keywords');
+		$metarobot = $menuParams->get('robots');
+		$customtitle = $menuParams->get('page_title');
 
 
 		if(($this->storefront and empty($prefix)) or $this->show_store_desc or empty($this->categoryId)){
@@ -691,9 +694,8 @@ INNER JOIN #__virtuemart_product_categories as cat ON (pc.virtuemart_product_id=
 
 		if(VmConfig::get('useCustomSearchTrigger',false)){
 			// add search for declared plugins
-			VmConfig::importVMPlugins('vmcustom');
-			$dispatcher = JDispatcher::getInstance();
-			$plgDisplay = $dispatcher->trigger('plgVmSelectSearchableCustom',array( &$this->options,&$this->searchCustomValuesAr,$this->custom_parent_id ) );
+			vDispatcher::importVMPlugins('vmcustom');
+			$plgDisplay = vDispatcher::trigger('plgVmSelectSearchableCustom',array( &$this->options,&$this->searchCustomValuesAr,$this->custom_parent_id ) );
 		}
 		//vmTime('getSearchCustom after trigger','getSearchCustom');
 		vmJsApi::chosenDropDowns();

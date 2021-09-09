@@ -106,7 +106,7 @@ $productfileslist = $this->files;
 				<td><?php
 					//Just to have something, we could make this nicer with Icons
 					if(!empty($productfile->file_is_product_image)) echo vmText::_('COM_VIRTUEMART_'.strtoupper($productfile->file_type).'_IMAGE') ;
-					if(!empty($productfile->file_is_downloadable)) echo vmText::_('COM_VIRTUEMART_DOWNLOADABLE') ;
+					//if(!empty($productfile->file_is_downloadable)) echo vmText::_('COM_VIRTUEMART_DOWNLOADABLE') ;
 					if(!empty($productfile->file_is_forSale)) echo  vmText::_('COM_VIRTUEMART_FOR_SALE');
 
 					?>

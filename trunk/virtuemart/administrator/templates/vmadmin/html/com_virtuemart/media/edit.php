@@ -59,7 +59,7 @@ vmuikitAdminUIHelper::imitateTabs('start', 'COM_VIRTUEMART_PRODUCT_MEDIA');
 
 <?php
 // TODO: do we need the native script ?
-vmJsApi::addJScript('mediahandler');
+vmJsApi::mediaHandler();
 
 vmuikitAdminUIHelper::imitateTabs('end');
 vmuikitAdminUIHelper::endAdminArea();

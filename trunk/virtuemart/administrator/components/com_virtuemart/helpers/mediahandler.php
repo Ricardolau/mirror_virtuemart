@@ -312,7 +312,7 @@ class VmMediaHandler {
 
 		}
 
-		if($this->file_is_downloadable) $this->media_role = 'file_is_downloadable';
+		//if($this->file_is_downloadable) $this->media_role = 'file_is_downloadable';
 		if($this->file_is_forSale) $this->media_role = 'file_is_forSale';
 		if(empty($this->media_role)) $this->media_role = 'file_is_displayable';
 
@@ -487,11 +487,11 @@ class VmMediaHandler {
 	}
 
 	function setNoImageSet(){
-		if($this->file_is_downloadable){
+		/*if($this->file_is_downloadable){
 			$file_name = VmConfig::get('downloadable','zip.png');
-		} else {
+		} else {*/
 			$file_name = VmConfig::get('no_image_set','noimage_new.gif');
-		}
+		//}
 		$this->file_name = JFile::stripExt($file_name);
 		$this->file_url_folder = self::$stheme_url.'assets/images/vmgeneral/';
 		$this->file_url = $this->file_url_folder.$file_name;
@@ -626,11 +626,11 @@ class VmMediaHandler {
 		}
 
 		if($return){
-			if($this->file_is_downloadable){
+			/*if($this->file_is_downloadable){
 				return $this->displayIt($file_url, $file_alt, '',true,'',$withDescr,$absUrl);
-			} else {
+			} else {*/
 				return $this->displayIt($file_url, $file_alt, $imageArgs,$lightbox,'',$withDescr,$absUrl);
-			}
+			//}
 		}
 
 	}
@@ -722,12 +722,12 @@ class VmMediaHandler {
 				$href = $root.$file_url ;
 			}
 
-			if ($this->file_is_downloadable) {
+			/*if ($this->file_is_downloadable) {
 				$lightboxImage = '<a '.$file_alt.' '.$effect.' href="'.$href.'">'.$image.$desc.'</a>';
-			} else {
+			} else {*/
 				$lightboxImage = '<a '.$file_alt.' '.$effect.' href="'.$href.'">'.$image.'</a>';
 				$lightboxImage = $lightboxImage.$desc;
-			}
+			//}
 
 			return $lightboxImage;
 		} else {
@@ -918,11 +918,11 @@ class VmMediaHandler {
 
 		if(empty($data['media_roles'])) return $data;
 
-		if($data['media_roles'] == 'file_is_downloadable'){
+		/*if($data['media_roles'] == 'file_is_downloadable'){
 			$this->file_is_downloadable = 1;
 			$this->file_is_forSale = 0;
 		}
-		else if($data['media_roles'] == 'file_is_forSale'){
+		else */if($data['media_roles'] == 'file_is_forSale'){
 			$this->file_is_downloadable = 0;
 			$this->file_is_forSale = 1;
 			$this->file_url_folder = VmConfig::get('forSale_path');
@@ -1016,7 +1016,7 @@ class VmMediaHandler {
 			$this->addMediaAttributes('vendor','COM_VIRTUEMART_FORM_MEDIA_SET_VENDOR');
 
 			$this->_mRoles['file_is_displayable'] = 'COM_VIRTUEMART_FORM_MEDIA_DISPLAYABLE' ;
-			$this->_mRoles['file_is_downloadable'] = 'COM_VIRTUEMART_FORM_MEDIA_DOWNLOADABLE' ;
+			//$this->_mRoles['file_is_downloadable'] = 'COM_VIRTUEMART_FORM_MEDIA_DOWNLOADABLE' ;
 			$this->_mRoles['file_is_forSale'] = 'COM_VIRTUEMART_FORM_MEDIA_SET_FORSALE' ;
 		} else {
 
@@ -1024,7 +1024,7 @@ class VmMediaHandler {
 				$this->_mRoles['file_is_forSale'] = 'COM_VIRTUEMART_FORM_MEDIA_SET_FORSALE' ;
 			} else {
 				$this->_mRoles['file_is_displayable'] = 'COM_VIRTUEMART_FORM_MEDIA_DISPLAYABLE' ;
-				$this->_mRoles['file_is_downloadable'] = 'COM_VIRTUEMART_FORM_MEDIA_DOWNLOADABLE' ;
+				//$this->_mRoles['file_is_downloadable'] = 'COM_VIRTUEMART_FORM_MEDIA_DOWNLOADABLE' ;
 
 			}
 		}
@@ -1081,7 +1081,7 @@ class VmMediaHandler {
 	Virtuemart.medialink = "'. vmURI::createUrlWithPrefix('index.php?option=com_virtuemart&view=media&format=json&mediatype='.$type) .'";';
 		$j .= "jQuery(document).ready(function(){ jQuery('#ImagesContainer').vmmedia('media','".$type."','0') }); " ;
 		vmJsApi::addJScript('mediahandler.vars',$j);
-		vmJsApi::addJScript('mediahandler');
+		vmJsApi::mediaHandler();
 
 		return $html;
 	}

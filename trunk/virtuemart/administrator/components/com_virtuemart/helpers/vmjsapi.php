@@ -378,6 +378,26 @@ class vmJsApi{
 		}
 	}
 
+	static function mediaHandler(){
+		vmJsApi::addJScript('mediahandler');
+		vmJsApi::fancybox();
+	}
+
+	static function fancybox(){
+		if(JVM_VERSION < 4){
+			vmJsApi::addJScript( 'fancybox/jquery.fancybox-1.3.4.pack',false,false,false,false,'1.3.4');
+		} else {
+			vmJsApi::addJScript( 'fancybox/jquery.fancybox-1.3.4.2.pack',false,false,false,false,'1.3.4.2');
+		}
+
+		vmJsApi::css('jquery.fancybox-1.3.4');
+
+		if(!Vmconfig::isSite()){
+			vmJsApi::addJScript('fancybox/jquery.mousewheel-3.0.4.pack',false,false);
+			vmJsApi::addJScript('fancybox/jquery.easing-1.3.pack',false,false);
+		}
+	}
+
 	// Virtuemart product and price script
 	static function jPrice() {
 
@@ -396,7 +416,7 @@ class vmJsApi{
 		vmJsApi::jSite();
 
 
-		if(VmConfig::get('addtocart_popup',1)) {
+		if(VmConfig::isSite() and VmConfig::get('addtocart_popup',1)) {
 			self::loadPopUpLib();
 		}
 
@@ -460,8 +480,8 @@ jQuery(document).ready(function() { // GALT: Start listening for dynamic content
 		}
 
 		if(VmConfig::get('usefancy',1)){
-			vmJsApi::addJScript( 'fancybox/jquery.fancybox-1.3.4.pack',false,false,false,false,'1.3.4');
-			vmJsApi::css('jquery.fancybox-1.3.4');
+			self::fancybox();
+
 		} else {
 			vmJsApi::addJScript( 'facebox', false, true, false, false, '' );
 			vmJsApi::css( 'facebox' );
@@ -502,12 +522,18 @@ jQuery(document).ready(function($) {
 	}
 
 	static function chosenDropDowns(){
-		static $chosenDropDowns = false;
+		static $loaded = false;
 
-		if(!$chosenDropDowns){
+		if(!$loaded){
 
 			if(VmConfig::get ('jchosen', 0) or !VmConfig::isSite()){
-				vmJsApi::addJScript('chosen.jquery.min',false,false);
+				if(JVM_VERSION >3){
+					JHtml::_('formbehavior.chosen');
+				} else {
+					vmJsApi::addJScript('chosen.jquery.min',false,false);
+					vmJsApi::css('chosen');
+				}
+
 				//vmdebug('chosenDropDowns jchosen or not isSite');
 				if(VmConfig::isSite()) {
 					vmJsApi::addJScript('vmprices');
@@ -515,7 +541,7 @@ jQuery(document).ready(function($) {
 				} else {
 					$selector = 'jQuery("select:not(.vm-chzn-add)")';
 				}
-				vmJsApi::css('chosen');
+
 
 				$selectText = 'COM_VIRTUEMART_DRDOWN_AVA2ALL';
 				$vm2string = "editImage: 'edit image',select_all_text: '".vmText::_('COM_VIRTUEMART_DRDOWN_SELALL')."',select_some_options_text: '".vmText::_($selectText)."'" ;
@@ -535,7 +561,7 @@ jQuery(document).ready(function($) {
 
 				self::addJScript('updateChosen',$script);
 			}
-			$chosenDropDowns = true;
+			$loaded = true;
 
 		}
 		return;

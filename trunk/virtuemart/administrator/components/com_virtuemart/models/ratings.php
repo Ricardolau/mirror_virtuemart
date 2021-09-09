@@ -222,8 +222,8 @@ class VirtueMartModelRatings extends VmModel {
 			if(!empty($virtuemart_vendor_id)){
 				$whereString .= ' AND `p`.virtuemart_vendor_id="'.$virtuemart_vendor_id.'"';
 			}
-			vmdebug('$app->isAdmin()',$app->isAdmin());
-			if($language_filter && !$app->isAdmin()) {
+			
+			if($language_filter && VmConfig::isSite()) {
 			    $whereString .= ' AND `pr`.review_language="'.VmConfig::$vmlang.'"';
 			}
 			self::$_select = self::getSelect();

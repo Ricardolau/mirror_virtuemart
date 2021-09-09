@@ -91,7 +91,7 @@ class VirtueMartModelConfig extends VmModel {
 		return self::getLayouts($dirs,0,$ignore, $emptyOption);
 	}
 
-	static function getLayouts($dirs,$type=0,$ignore=0, $emptyOption = true){
+	static function getLayouts($dirs,$type=0, $ignore=0, $emptyOption = true, $extension = 'php'){
 
 		$result = array();
 		if(!empty($emptyOption)){
@@ -117,7 +117,7 @@ class VirtueMartModelConfig extends VmModel {
 								vmError('Attention file '.$file.' has no extension in directory '.$dir.DS.$file);
 								$path_info['extension'] = '';
 							}
-							if ($path_info['extension'] == 'php' && !in_array($file,$alreadyAddedFile)) {
+							if ($path_info['extension'] == $extension && !in_array($file,$alreadyAddedFile)) {
 								$alreadyAddedFile[] = $file;
 								$add = JHtml::_('select.option', $path_info['filename'], $path_info['filename']);
 								if($path_info['filename'] == 'default'){
@@ -295,9 +295,8 @@ class VirtueMartModelConfig extends VmModel {
 	function getActiveLanguages($active_languages, $name = 'active_languages[]', $multiple = true, $placeholder = 'COM_VIRTUEMART_DRDOWN_NOTMULTILINGUAL') {
 
 		$activeLangs = array() ;
-		$language =vmLanguage::getLanguage();
-		$jLangs = $language->getKnownLanguages(VMPATH_ROOT);
 
+		$jLangs = \Joomla\CMS\Language\LanguageHelper::getKnownLanguages(VMPATH_ROOT); 
 		foreach ($jLangs as $jLang) {
 			$jlangTag = strtolower(strtr($jLang['tag'],'-','_'));
 			$activeLangs[] = JHtml::_('select.option', $jLang['tag'] , $jLang['name']) ;
@@ -584,9 +583,15 @@ class VirtueMartModelConfig extends VmModel {
 
 		$db = JFactory::getDBO();
 		$query = 'SHOW TABLES LIKE "'.$db->getPrefix().'virtuemart%"';
+		$err = ''; 
+		try {
 		$db->setQuery($query);
 		$vmTables = $db->loadColumn();
-		$err = $db->getError();
+		}
+		catch(Exception $e) {
+			$err = $e->getMessage(); 
+		}
+		
 		if(!empty($err) or !$vmTables or count($vmTables)<50){	//52 tables for a normal installation
 			return false;
 		} else {

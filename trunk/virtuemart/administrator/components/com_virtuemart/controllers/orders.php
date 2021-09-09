@@ -238,7 +238,7 @@ class VirtuemartControllerOrders extends VmController {
 
 		$data = vRequest::getRequest();
 		$model = VmModel::getModel();
-		$model->updateItemStatus(JArrayHelper::toObject($data), $data['new_status']);
+		$model->updateItemStatus(Joomla\Utilities\ArrayHelper::toObject($data), $data['new_status']);
 
 		$mainframe->redirect('index.php?option=com_virtuemart&view=orders&task=edit&virtuemart_order_id='.$data['virtuemart_order_id']);
 	}

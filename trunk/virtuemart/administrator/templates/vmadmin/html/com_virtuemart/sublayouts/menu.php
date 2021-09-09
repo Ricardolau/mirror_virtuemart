@@ -35,8 +35,6 @@ $task = vRequest::getVar('task');
 $moduleId = vRequest::getInt('module_id', 0);
 $menuItems = vmuikitAdminUIHelper::_getAdminMenu($moduleId);
 
-$app = JFactory::getApplication();
-$isSite = $app->isSite();
 $collapse = false;
 
 
@@ -116,7 +114,7 @@ $collapse = false;
 									$url = ($link ['link'] === '') ? 'index.php?option=com_virtuemart' : $link ['link'];
 									$url .= $link ['view'] ? "&view=" . $link ['view'] : '';
 									$url .= $link ['task'] ? "&task=" . $link ['task'] : '';
-									$url .= $isSite ? '&tmpl=component&manage=1' : '';
+									$url .= VmConfig::isSite() ? '&tmpl=component&manage=1' : '';
 									// $url .= $link['extra'] ? $link['extra'] : '';
 									$url = vRequest::vmSpecialChars($url);
 								}

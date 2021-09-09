@@ -122,6 +122,9 @@ class VirtuemartViewConfig extends VmViewAdmin {
 
 		$this->admintTemplateInstalled = JFile::exists(VMPATH_ROOT .'/administrator/templates/vmadmin/html/com_virtuemart/config/default.php');
 
+		if(VmConfig::get('backendTemplate', 1)){
+			$this->cssThemes = VirtuemartModelConfig::getLayouts(array(VMPATH_ROOT.'/administrator/templates/vmadmin/html/com_virtuemart/assets/css'), 0, array('colors.css'), false, 'css');
+		}
 		//$this -> checkClientIP();
 		parent::display($tpl);
 	}

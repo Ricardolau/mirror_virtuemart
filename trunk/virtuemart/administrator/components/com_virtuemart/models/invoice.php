@@ -232,13 +232,12 @@ class VirtueMartModelInvoice extends VmModel {
 			$tmp = self::getInvoiceEntry($data['virtuemart_order_id'], true , '*');
 			$table->invoice_number = isset($tmp['invoice_number'])? $tmp['invoice_number']:'';
 			$table->created_on = isset($tmp['created_on'])? $tmp['created_on']:'';
-			VmConfig::importVMPlugins('vmpayment');
+			vDispatcher::importVMPlugins('vmpayment');
 
 		} else {
 
-			$dispatcher = JDispatcher::getInstance();
 			// plugin returns invoice number, 0 if it does not want an invoice number to be created by Vm
-			$plg_datas = $dispatcher->trigger('plgVmOnUserInvoice',array($orderDetails,&$data));
+			$plg_datas = vDispatcher::trigger('plgVmOnUserInvoice',array($orderDetails,&$data));
 
 			if(empty($data['invoice_number']) ) {
 				// check the default configuration

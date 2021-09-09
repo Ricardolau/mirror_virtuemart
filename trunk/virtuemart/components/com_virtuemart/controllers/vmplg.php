@@ -64,10 +64,9 @@ class VirtueMartControllerVmplg extends JControllerLegacy {
 	JPluginHelper::importPlugin('vmpayment');
 
 	$return_context = "";
-	$dispatcher = JDispatcher::getInstance();
 	$html = "";
 	$paymentResponse = vmText::_('COM_VIRTUEMART_CART_THANKYOU');
-	$returnValues = $dispatcher->trigger('plgVmOnPaymentResponseReceived', array( 'html' => &$html,&$paymentResponse));
+	$returnValues = vDispatcher::trigger('plgVmOnPaymentResponseReceived', array( 'html' => &$html,&$paymentResponse));
 
 	$view = $this->getView('vmplg', 'html');
 	$layoutName = vRequest::getVar('layout', 'default');
@@ -89,11 +88,10 @@ class VirtueMartControllerVmplg extends JControllerLegacy {
 	    JPluginHelper::importPlugin('vmshipment');
 
 	    $return_context = "";
-	    $dispatcher = JDispatcher::getInstance();
 
 	    $html = "";
 	    $shipmentResponse = vmText::_('COM_VIRTUEMART_CART_THANKYOU');
-	    $dispatcher->trigger('plgVmOnShipmentResponseReceived', array( 'html' => &$html,&$shipmentResponse));
+	    vDispatcher::trigger('plgVmOnShipmentResponseReceived', array( 'html' => &$html,&$shipmentResponse));
 
     }
 
@@ -113,8 +111,7 @@ class VirtueMartControllerVmplg extends JControllerLegacy {
     }
 
 	JPluginHelper::importPlugin('vmpayment');
-	$dispatcher = JDispatcher::getInstance();
-	$dispatcher->trigger('plgVmOnUserPaymentCancel', array());
+    vDispatcher::trigger('plgVmOnUserPaymentCancel', array());
 
 	//Todo this could be useful, prevent errors and spares one sql later, but for a mayor version
 	/*
@@ -137,11 +134,8 @@ class VirtueMartControllerVmplg extends JControllerLegacy {
      */
     function pluginNotification() {
 
-	JPluginHelper::importPlugin('vmpayment');
-
-	$dispatcher = JDispatcher::getInstance();
-	$returnValues = $dispatcher->trigger('plgVmOnPaymentNotification', array());
-
+		JPluginHelper::importPlugin('vmpayment');
+		$returnValues = vDispatcher::trigger('plgVmOnPaymentNotification', array());
     }
 
 

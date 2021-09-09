@@ -264,14 +264,11 @@ class VirtueMartViewCart extends VmView {
 
 		$shipments_shipment_rates = array();
 
-		//JPluginHelper::importPlugin('vmshipment');
-		$dispatcher = JDispatcher::getInstance();
-
 		$d = VmConfig::$_debug;
 		if(VmConfig::get('debug_enable_methods',false)){
 			VmConfig::$_debug = 1;
 		}
-		$returnValues = $dispatcher->trigger('plgVmDisplayListFEShipment', array( $this->cart, $selectedShipment, &$shipments_shipment_rates));
+		$returnValues = vDispatcher::trigger('plgVmDisplayListFEShipment', array( $this->cart, $selectedShipment, &$shipments_shipment_rates));
 		VmConfig::$_debug = $d;
 		// if no shipment rate defined
 		$found_shipment_method =count($shipments_shipment_rates);
@@ -320,13 +317,11 @@ class VirtueMartViewCart extends VmView {
 			return;
 		}
 
-		//JPluginHelper::importPlugin('vmpayment');
-		$dispatcher = JDispatcher::getInstance();
 		$d = VmConfig::$_debug;
 		if(VmConfig::get('debug_enable_methods',false)){
 			VmConfig::$_debug = 1;
 		}
-		$returnValues = $dispatcher->trigger('plgVmDisplayListFEPayment', array($this->cart, $selectedPayment, &$this->paymentplugins_payments));
+		$returnValues = vDispatcher::trigger('plgVmDisplayListFEPayment', array($this->cart, $selectedPayment, &$this->paymentplugins_payments));
 		VmConfig::$_debug = $d;
 
 		$this->found_payment_method =count($this->paymentplugins_payments);

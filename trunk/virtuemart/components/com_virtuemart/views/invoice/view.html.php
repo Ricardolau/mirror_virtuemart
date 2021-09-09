@@ -147,9 +147,8 @@ class VirtuemartViewInvoice extends VmView {
 		/*
 		 * Deprecated trigger will be renamed or removed
 		 */
-		VmConfig::importVMPlugins('vmpayment');
-	    $dispatcher = JDispatcher::getInstance();
-	    $dispatcher->trigger('plgVmgetEmailCurrency',array( $orderDetails['details']['BT']->virtuemart_paymentmethod_id, $orderDetails['details']['BT']->virtuemart_order_id, &$this->user_currency_id));
+		vDispatcher::importVMPlugins('vmpayment');
+		vDispatcher::trigger('plgVmgetEmailCurrency',array( $orderDetails['details']['BT']->virtuemart_paymentmethod_id, $orderDetails['details']['BT']->virtuemart_order_id, &$this->user_currency_id));
 
 		$this->currency = CurrencyDisplay::getInstance($this->user_currency_id,$virtuemart_vendor_id);
 		if ($this->user_currency_id) {
@@ -274,15 +273,13 @@ class VirtuemartViewInvoice extends VmView {
 		}
 
 		if (empty($orderDetails['shipmentName']) ) {
-			VmConfig::importVMPlugins('vmshipment');
-		    $dispatcher = JDispatcher::getInstance();
-		    $returnValues = $dispatcher->trigger('plgVmOnShowOrderFEShipment',array(  $orderDetails['details']['BT']->virtuemart_order_id, $orderDetails['details']['BT']->virtuemart_shipmentmethod_id, &$orderDetails['shipmentName']));
+			vDispatcher::importVMPlugins('vmshipment');
+		    $returnValues = vDispatcher::trigger('plgVmOnShowOrderFEShipment',array(  $orderDetails['details']['BT']->virtuemart_order_id, $orderDetails['details']['BT']->virtuemart_shipmentmethod_id, &$orderDetails['shipmentName']));
 		}
 
 		if (empty($orderDetails['paymentName']) ) {
-			VmConfig::importVMPlugins('vmpayment');
-		    $dispatcher = JDispatcher::getInstance();
-		    $returnValues = $dispatcher->trigger('plgVmOnShowOrderFEPayment',array( $orderDetails['details']['BT']->virtuemart_order_id, $orderDetails['details']['BT']->virtuemart_paymentmethod_id,  &$orderDetails['paymentName']));
+			vDispatcher::importVMPlugins('vmpayment');
+		    $returnValues = vDispatcher::trigger('plgVmOnShowOrderFEPayment',array( $orderDetails['details']['BT']->virtuemart_order_id, $orderDetails['details']['BT']->virtuemart_paymentmethod_id,  &$orderDetails['paymentName']));
 
 		}
 

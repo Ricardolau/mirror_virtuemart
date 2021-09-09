@@ -22,7 +22,7 @@ AdminUIHelper::startAdminArea($this);
 AdminUIHelper::imitateTabs('start','COM_VIRTUEMART_ORDER_PRINT_PO_LBL');
 
 // Get the plugins
-VmConfig::importVMPlugins('vmpayment');
+vDispatcher::importVMPlugins('vmpayment');
 
 $jsOrderStatusShopperEmail = '""';
 $j = 'if (typeof Virtuemart === "undefined")
@@ -231,9 +231,9 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
 
 			<?php
 				// Load additional plugins
-				$_dispatcher = JDispatcher::getInstance();
-				$_returnValues1 = $_dispatcher->trigger('plgVmOnUpdateOrderBEPayment',array($this->orderID));
-				$_returnValues2 = $_dispatcher->trigger('plgVmOnUpdateOrderBEShipment',array(  $this->orderID));
+
+				$_returnValues1 = vDispatcher::trigger('plgVmOnUpdateOrderBEPayment',array($this->orderID));
+				$_returnValues2 = vDispatcher::trigger('plgVmOnUpdateOrderBEShipment',array(  $this->orderID));
 				$_returnValues = array_merge($_returnValues1, $_returnValues2);
 				$_plg = '';
 				foreach ($_returnValues as $_returnValue) {
@@ -807,8 +807,7 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
 	<tr>
 		<td valign="top" width="50%"><?php
 
-		$_dispatcher = JDispatcher::getInstance();
-		$returnValues = $_dispatcher->trigger('plgVmOnShowOrderBEShipment',array(  $this->orderID,$this->orderbt->virtuemart_shipmentmethod_id, $this->orderdetails));
+		$returnValues = vDispatcher::trigger('plgVmOnShowOrderBEShipment',array(  $this->orderID,$this->orderbt->virtuemart_shipmentmethod_id, $this->orderdetails));
 
 		foreach ($returnValues as $returnValue) {
 			if ($returnValue !== null) {
@@ -819,8 +818,7 @@ vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/orders.j
 		</td>
 		<td valign="top"><?php
 
-		$_dispatcher = JDispatcher::getInstance();
-		$_returnValues = $_dispatcher->trigger('plgVmOnShowOrderBEPayment',array( $this->orderID,$this->orderbt->virtuemart_paymentmethod_id, $this->orderdetails));
+		$_returnValues = vDispatcher::trigger('plgVmOnShowOrderBEPayment',array( $this->orderID,$this->orderbt->virtuemart_paymentmethod_id, $this->orderdetails));
 
 		foreach ($_returnValues as $_returnValue) {
 			if ($_returnValue !== null) {

@@ -81,9 +81,8 @@ class VirtueMartModelShipmentmethod extends VmModel {
 			$varsToPushParam = $this->_cache[$this->_id]->_varsToPushParam;
 			if ($this->_cache[$this->_id]->shipment_jplugin_id) {
 				JPluginHelper::importPlugin ('vmshipment');
-				$dispatcher = JDispatcher::getInstance ();
 				$blind = 0;
-				$retValue = $dispatcher->trigger ('plgVmDeclarePluginParamsShipmentVM3', array(&$this->_cache[$this->_id]));
+				$retValue = vDispatcher::trigger ('plgVmDeclarePluginParamsShipmentVM3', array(&$this->_cache[$this->_id]));
 			}
 
 			if(empty($this->_cache[$this->_id]->_varsToPushParam)){
@@ -215,21 +214,19 @@ class VirtueMartModelShipmentmethod extends VmModel {
 
 		$varsToPushParam = $table->_varsToPushParam;
 
-		VmConfig::importVMPlugins('vmshipment');
+		vDispatcher::importVMPlugins('vmshipment');
 		
 		if(isset($data['shipment_jplugin_id'])){
 
 			$q = 'UPDATE `#__extensions` SET `enabled`= 1 WHERE `extension_id` = "'.$data['shipment_jplugin_id'].'"';
 			$db->setQuery($q);
 			$db->execute();
-			
-			
-			$dispatcher = JDispatcher::getInstance();
+
 			//bad trigger, we should just give it data, so that the plugins itself can check the data to be stored
 			//so this trigger is now deprecated and will be deleted in vm2.2
-			$retValue = $dispatcher->trigger('plgVmSetOnTablePluginParamsShipment',array( $data['shipment_element'],$data['shipment_jplugin_id'],&$table));
+			//$retValue = vDispatcher::trigger('plgVmSetOnTablePluginParamsShipment',array( $data['shipment_element'],$data['shipment_jplugin_id'],&$table));
 
-			$retValue = $dispatcher->trigger('plgVmSetOnTablePluginShipment',array( &$data,&$table));
+			$retValue = vDispatcher::directTrigger( 'vmshipment',$data['shipment_element'],'plgVmSetOnTablePluginShipment',array( &$data,&$table));
 
 		}
 
@@ -244,7 +241,7 @@ class VirtueMartModelShipmentmethod extends VmModel {
 		$xrefTable = $this->getTable('shipmentmethod_shoppergroups');
 		$xrefTable->bindChecknStore($data);
 
-		VmPlugin::directTrigger('vmshipment', $data['shipment_element'], 'OnStoreInstallPluginTable', array($data['shipment_jplugin_id']));
+		vDispatcher::directTrigger('vmshipment', $data['shipment_element'], 'OnStoreInstallPluginTable', array($data['shipment_jplugin_id']));
 
 		return $table->virtuemart_shipmentmethod_id;
 	}

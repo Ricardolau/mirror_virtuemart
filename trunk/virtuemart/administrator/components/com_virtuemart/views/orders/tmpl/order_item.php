@@ -64,8 +64,7 @@ $i=0;
 			echo '<div>' . $product_attribute . '</div>';
 		}
 
-		$_dispatcher = JDispatcher::getInstance();
-		$_returnValues = $_dispatcher->trigger('plgVmOnShowOrderLineBEShipment', array($this->orderID, $item->virtuemart_order_item_id));
+		$_returnValues = vDispatcher::trigger('plgVmOnShowOrderLineBEShipment', array($this->orderID, $item->virtuemart_order_item_id));
 		$_plg = '';
 		foreach ($_returnValues as $_returnValue) {
 			if ($_returnValue !== null) {

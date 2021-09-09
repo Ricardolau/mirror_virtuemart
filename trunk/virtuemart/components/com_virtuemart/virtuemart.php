@@ -100,8 +100,7 @@ if (file_exists($basePath.'/controllers/'.$_controller.'.php')) {
 else {
 	// try plugins
 	JPluginHelper::importPlugin('vmextended');
-	$dispatcher = JDispatcher::getInstance();
-	$rets = $dispatcher->trigger($trigger, array($_controller));
+	$rets = vDispatcher::trigger($trigger, array($_controller));
 
 	foreach($rets as $ret){
 		if($ret) return true;

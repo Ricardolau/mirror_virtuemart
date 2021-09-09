@@ -56,9 +56,8 @@ if ($this->show and $user->id == 0  ) {
     }
 
     $html = '';
-    VmConfig::importVMPlugins('vmpayment');
-    $dispatcher = JDispatcher::getInstance();
-    $returnValues = $dispatcher->trigger('plgVmDisplayLogin', array($this, &$html, $this->from_cart));
+    vDispatcher::importVMPlugins('vmpayment');
+    $returnValues = vDispatcher::trigger('plgVmDisplayLogin', array($this, &$html, $this->from_cart));
 
     if (is_array($html)) {
 		foreach ($html as $login) {

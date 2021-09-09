@@ -170,9 +170,7 @@ class VirtuemartViewCalc extends VmViewAdmin {
 		);
 
 		JPluginHelper::importPlugin('vmcalculation');
-		$dispatcher = JDispatcher::getInstance();
-
-		$answer = $dispatcher->trigger('plgVmAddMathOp', array(&$mathOps));
+		$answer = vDispatcher::trigger('plgVmAddMathOp', array(&$mathOps));
 
 		$listHTML = JHtml::_('Select.genericlist', $mathOps, 'calc_value_mathop', 'style="width:70px;"', 'calc_value_mathop', 'calc_value_mathop_name', $selected );
 		return $listHTML;

@@ -63,9 +63,8 @@ class VirtueMartModelPaymentmethod extends VmModel{
 			}
 
 			if($this->_cache[$this->_id]->payment_jplugin_id){
-				VmConfig::importVMPlugins('vmpayment');
-				$dispatcher = JDispatcher::getInstance();
-				$retValue = $dispatcher->trigger ('plgVmDeclarePluginParamsPaymentVM3', array(&$this->_cache[$this->_id]));
+				vDispatcher::importVMPlugins('vmpayment');
+				$retValue = vDispatcher::trigger ('plgVmDeclarePluginParamsPaymentVM3', array(&$this->_cache[$this->_id]));
 			}
 
 			if(!empty($this->_cache[$this->_id]->_varsToPushParam)){
@@ -176,13 +175,15 @@ class VirtueMartModelPaymentmethod extends VmModel{
 
 	  	if(empty($data['virtuemart_vendor_id'])){
 	   		$data['virtuemart_vendor_id'] = vmAccess::isSuperVendor();
-	  	}
+	  	} else {
+		    $data['virtuemart_vendor_id'] = (int) $data['virtuemart_vendor_id'];
+	    }
 
 
 
 		$table = $this->getTable('paymentmethods');
 
-		VmConfig::importVMPlugins('vmpayment');
+		vDispatcher::importVMPlugins('vmpayment');
 		if(isset($data['payment_jplugin_id'])){
 
 			$q = 'SELECT `element` FROM `#__extensions` WHERE `extension_id` = "'.$data['payment_jplugin_id'].'"';
@@ -194,9 +195,8 @@ class VirtueMartModelPaymentmethod extends VmModel{
 			$db->setQuery($q);
 			$db->execute();
 
-			$dispatcher = JDispatcher::getInstance();
-			$retValue = $dispatcher->trigger('plgVmSetOnTablePluginParamsPayment',array( $data['payment_element'],$data['payment_jplugin_id'],&$table));
-			$retValue = $dispatcher->trigger('plgVmSetOnTablePluginPayment',array( &$data,&$table));
+			$retValue = vDispatcher::directTrigger( 'vmpayment', $data['payment_element'], 'plgVmSetOnTablePluginParamsPayment',array( $data['payment_element'],$data['payment_jplugin_id'],&$table));
+			//$retValue = vDispatcher::trigger('plgVmSetOnTablePluginPayment',array( &$data,&$table));
 		}
 
 		$table->bindChecknStore($data);
@@ -205,7 +205,7 @@ class VirtueMartModelPaymentmethod extends VmModel{
 		$xrefTable = $this->getTable('paymentmethod_shoppergroups');
 		$xrefTable->bindChecknStore($data);
 
-		VmPlugin::directTrigger('vmpayment', $data['payment_element'], 'OnStoreInstallPluginTable', array( $data['payment_jplugin_id'] ));
+		vDispatcher::directTrigger('vmpayment', $data['payment_element'], 'OnStoreInstallPluginTable', array( $data['payment_jplugin_id'] ));
 
 		return $table->virtuemart_paymentmethod_id;
 	}

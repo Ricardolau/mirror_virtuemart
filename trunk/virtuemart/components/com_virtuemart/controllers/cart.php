@@ -178,10 +178,9 @@ class VirtueMartControllerCart extends JControllerLegacy {
 			$cart->setPaymentMethod($force, !$html);
 		}
 
-		VmConfig::importVMPlugins('vmcustom');
+		vDispatcher::importVMPlugins('vmcustom');
 
-		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger('plgVmOnUpdateCart',array(&$cart, &$force, &$html));
+		vDispatcher::trigger('plgVmOnUpdateCart',array(&$cart, &$force, &$html));
 
 		$cart->prepareCartData();
 

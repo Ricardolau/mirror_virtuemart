@@ -697,11 +697,10 @@ class VirtueMartModelUser extends VmModel {
 		$gid = $user->get('gid'); // Save original gid
 
 		// Preformat and control user datas by plugin
-		VmConfig::importVMPlugins('vmuserfield');
-		$dispatcher = JDispatcher::getInstance();
+		vDispatcher::importVMPlugins('vmuserfield');
 
-		$valid = true ;
-		$dispatcher->trigger('plgVmOnBeforeUserfieldDataSave',array(&$valid,$this->_id,&$data,$user ));
+		$valid = true ; vmdebug('my data');
+		vDispatcher::trigger('plgVmOnBeforeUserfieldDataSave',array(&$valid,$this->_id,&$data,$user ));
 		// $valid must be false if plugin detect an error
 		if( !$valid ) {
 			return false;
@@ -905,9 +904,8 @@ class VirtueMartModelUser extends VmModel {
 		
 		if($trigger){
 			JPluginHelper::importPlugin('vmshopper');
-			$dispatcher = JDispatcher::getInstance();
 
-			$plg_datas = $dispatcher->trigger('plgVmOnUserStore',array(&$data));
+			$plg_datas = vDispatcher::trigger('plgVmOnUserStore',array(&$data));
 			foreach($plg_datas as $plg_data){
 				// 			$data = array_merge($plg_data,$data);
 			}
@@ -947,7 +945,7 @@ class VirtueMartModelUser extends VmModel {
 		}
 
 		if($trigger){
-			$plg_datas = $dispatcher->trigger('plgVmAfterUserStore',array($data));
+			$plg_datas = vDispatcher::trigger('plgVmAfterUserStore',array($data));
 			foreach($plg_datas as $plg_data){
 				$data = array_merge($plg_data);
 			}

@@ -143,7 +143,14 @@ class vmDefines {
 	static public function define_VMPATH_LIBS () {
 		if(defined('JVERSION')){	//We are in joomla
 			defined ('VMPATH_ROOT') or define ('VMPATH_ROOT', JPATH_ROOT);
-			defined('JVM_VERSION') or define ('JVM_VERSION', 3);
+			if (strpos(JVERSION, '-')!==false) {
+				$delimiter = '-';
+			} else {
+				$delimiter = '.';
+			}
+			$ja = explode( $delimiter, JVERSION);
+			$jversion = $ja[0];
+			defined('JVM_VERSION') or define ('JVM_VERSION', $jversion);
 			defined('VM_USE_BOOTSTRAP') or define ('VM_USE_BOOTSTRAP', 1);
 			$vmPathLibraries = JPATH_PLATFORM;
 
@@ -175,6 +182,8 @@ class vmDefines {
 		JLoader::register('JFile', VMPATH_LIBS.'/joomla/filesystem/file.php');
 		JLoader::register('JFolder', VMPATH_LIBS.'/joomla/filesystem/folder.php');
 		//JLoader::register('JToolbarHelper', JPATH_ADMINISTRATOR.'/includes/toolbar.php');
+
+		JLoader::register('vDispatcher', $vmpath_admin.'/helpers/vdispatcher.php');
 
 		JLoader::register('vmVersion', $vmpath_admin.'/version.php');
 		JLoader::register('AdminUIHelper', $vmpath_admin.'/helpers/adminui.php');

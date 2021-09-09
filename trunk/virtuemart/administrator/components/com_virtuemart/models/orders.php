@@ -42,7 +42,7 @@ class VirtueMartModelOrders extends VmModel {
 		$this->setToggleName('invoice_locked');
 		$this->populateState();
 
-		VmConfig::importVMPlugins('vmpayment');
+		vDispatcher::importVMPlugins('vmpayment');
 	}
 
 	function populateState () {
@@ -660,9 +660,9 @@ class VirtueMartModelOrders extends VmModel {
 			$table->emptyCache();
 			$table->load($virtuemart_order_item_id);
 
-			//VmConfig::importVMPlugins('vmcustom');
-			$dispatcher = JDispatcher::getInstance();
-			$results = $dispatcher->trigger('plgVmOnUpdateSingleItem', array(&$table, &$orderdata));
+			//vDispatcher::importVMPlugins('vmcustom');
+
+			$results = vDispatcher::trigger('plgVmOnUpdateSingleItem', array(&$table, &$orderdata));
 
 			if($dataT['oi_hash']!=$table->oi_hash){
 				if(empty($dataT['virtuemart_order_item_id'])){
@@ -1111,12 +1111,13 @@ class VirtueMartModelOrders extends VmModel {
 		//First we must call the payment, the payment manipulates the result of the order_status
 		if($useTriggers){
 
+			vDispatcher::importVMPlugins('vmpayment');
 
-			$_dispatcher = JDispatcher::getInstance();											//Should we add this? $inputOrder
-			$_returnValues = $_dispatcher->trigger('plgVmOnUpdateOrderShipment',array(&$data,$old_order_status,$inputOrder));
+			//Should we add this? $inputOrder
+			$_returnValues = vDispatcher::trigger('plgVmOnUpdateOrderShipment',array(&$data,$old_order_status,$inputOrder));
 
 			// Payment decides what to do when order status is updated
-			$_returnValues = $_dispatcher->trigger('plgVmOnUpdateOrderPayment',array(&$data,$old_order_status,$inputOrder));
+			$_returnValues = vDispatcher::trigger('plgVmOnUpdateOrderPayment',array(&$data,$old_order_status,$inputOrder));
 			foreach ($_returnValues as $_returnValue) {
 				if ($_returnValue === true) {
 					break; // Plugin was successfull
@@ -1132,9 +1133,8 @@ class VirtueMartModelOrders extends VmModel {
 			*/
 			if ($data->order_status == "X") {
 
-				$_dispatcher = JDispatcher::getInstance();
 				//Should be renamed to plgVmOnCancelOrder
-				$_dispatcher->trigger('plgVmOnCancelPayment',array(&$data,$old_order_status));
+				vDispatcher::trigger('plgVmOnCancelPayment',array(&$data,$old_order_status));
 			}
 		}
 
@@ -1493,9 +1493,8 @@ class VirtueMartModelOrders extends VmModel {
 		$this->notifyCustomer( $data->virtuemart_order_id , $inputOrder );
 // 			}
 
-		//VmConfig::importVMPlugins('vmcoupon');
-		$dispatcher = JDispatcher::getInstance();
-		$returnValues = $dispatcher->trigger('plgVmCouponUpdateOrderStatus', array($data, $old_order_status));
+		//vDispatcher::importVMPlugins('vmcoupon');
+		$returnValues = vDispatcher::trigger('plgVmCouponUpdateOrderStatus', array($data, $old_order_status));
 		if(!empty($returnValues)){
 			foreach ($returnValues as $returnValue) {
 				if ($returnValue !== null  ) {
@@ -1716,8 +1715,7 @@ class VirtueMartModelOrders extends VmModel {
 		unset($_orderData->created_on);
 
 		JPluginHelper::importPlugin('vmshopper');
-		$dispatcher = JDispatcher::getInstance();
-		$plg_datas = $dispatcher->trigger('plgVmOnUserOrder',array(&$_orderData));
+		$plg_datas = vDispatcher::trigger('plgVmOnUserOrder',array(&$_orderData));
 
 
 		$i = 0;
@@ -1973,9 +1971,8 @@ class VirtueMartModelOrders extends VmModel {
 						if($productCustom = VirtueMartModelCustomfields::getCustomEmbeddedProductCustomField( $customfield_id )) {
 							if($productCustom->field_type == "E") {
 
-								VmConfig::importVMPlugins( 'vmcustom' );
-								$dispatcher = JDispatcher::getInstance();
-								$dispatcher->trigger( 'plgVmGetProductStockToUpdateByCustom', array(&$tableOrderItems, $param, $productCustom) );
+								vDispatcher::importVMPlugins( 'vmcustom' );
+								vDispatcher::trigger( 'plgVmGetProductStockToUpdateByCustom', array(&$tableOrderItems, $param, $productCustom) );
 							}
 						}
 					}
@@ -2369,12 +2366,11 @@ class VirtueMartModelOrders extends VmModel {
 
 		$payment_name = $shipment_name='';
 
-		VmConfig::importVMPlugins('vmpayment');
-		$dispatcher = JDispatcher::getInstance();
-		$returnValues = $dispatcher->trigger('plgVmOnShowOrderFEShipment',array(  $order['details']['BT']->virtuemart_order_id, $order['details']['BT']->virtuemart_shipmentmethod_id, &$shipment_name));
-		$returnValues = $dispatcher->trigger('plgVmOnShowOrderFEPayment',array(  $order['details']['BT']->virtuemart_order_id, $order['details']['BT']->virtuemart_paymentmethod_id, &$payment_name));
-		$order['shipmentName']=$shipment_name;
-		$order['paymentName']=$payment_name;
+		vDispatcher::importVMPlugins('vmpayment');
+		$returnValues = vDispatcher::trigger('plgVmOnShowOrderFEShipment',array(  $order['details']['BT']->virtuemart_order_id, $order['details']['BT']->virtuemart_shipmentmethod_id, &$shipment_name));
+		$returnValues = vDispatcher::trigger('plgVmOnShowOrderFEPayment',array(  $order['details']['BT']->virtuemart_order_id, $order['details']['BT']->virtuemart_paymentmethod_id, &$payment_name));
+		$order['shipmentName'] = $shipment_name;
+		$order['paymentName'] = $payment_name;
 		if($newOrderData!=0){	//We do not really need that
 			$vars['newOrderData'] = (array)$newOrderData;
 		}
@@ -2556,9 +2552,9 @@ class VirtueMartModelOrders extends VmModel {
 		$table = $this->getTable('order_items');
 
 		//Done in the table already
-		VmConfig::importVMPlugins('vmpayment');
-		$_dispatcher = JDispatcher::getInstance();
-		$_returnValues = $_dispatcher->trigger('plgVmOnUpdateOrderLineShipment',array( $data));
+		vDispatcher::importVMPlugins('vmpayment');
+
+		$_returnValues = vDispatcher::trigger('plgVmOnUpdateOrderLineShipment',array( $data));
 		foreach ($_returnValues as $_retVal) {
 			if ($_retVal === false) {
 				// Stop as soon as the first active plugin returned a failure status
@@ -2566,7 +2562,7 @@ class VirtueMartModelOrders extends VmModel {
 			}
 		}
 
-		$_returnValues = $_dispatcher->trigger('plgVmOnUpdateOrderLinePayment',array( $data));
+		$_returnValues = vDispatcher::trigger('plgVmOnUpdateOrderLinePayment',array( $data));
 		foreach ($_returnValues as $_retVal) {
 			if ($_retVal === false) {
 				// Stop as soon as the first active plugin returned a failure status
@@ -2814,8 +2810,6 @@ class VirtueMartModelOrders extends VmModel {
 		$orderModel = VmModel::getModel('orders');
 		$order = $orderModel->getOrder($virtuemart_order_id);
 
-		$dispatcher = JDispatcher::getInstance();
-
 		// Update Payment Method
 		if($_orderData['old_virtuemart_paymentmethod_id'] != $_orderData['virtuemart_paymentmethod_id']) {
 
@@ -2860,8 +2854,8 @@ class VirtueMartModelOrders extends VmModel {
 		$order['customer_notified'] = 0;
 		$order['comments'] = '';
 
-		VmConfig::importVMPlugins('vmpayment');
-		$returnValues = $dispatcher->trigger('plgVmUpdateOrderHead', array($cart, $order));
+		vDispatcher::importVMPlugins('vmpayment');
+		$returnValues = vDispatcher::trigger('plgVmUpdateOrderHead', array($cart, $order));
 
 		return true;
 	}
@@ -2906,7 +2900,6 @@ class VirtueMartModelOrders extends VmModel {
 
 		$_orderData->order_number ='';
 		JPluginHelper::importPlugin('vmshopper');
-		$dispatcher = JDispatcher::getInstance();
 		$_orderData->order_number = $this->genStdOrderNumber($_orderData->virtuemart_vendor_id);
 		$_orderData->order_pass = $this->genStdOrderPass();
 		$_orderData->order_create_invoice_pass = $this->genStdCreateInvoicePass();
@@ -2924,12 +2917,10 @@ class VirtueMartModelOrders extends VmModel {
 		$orderModel = VmModel::getModel('orders');
 		$order= $orderModel->getOrder($_orderID);
 
-		$dispatcher = JDispatcher::getInstance();
-
-		VmConfig::importVMPlugins('vmpayment');
+		vDispatcher::importVMPlugins('vmpayment');
 
 		$cart = VirtueMartCart::getCart();
-		$returnValues = $dispatcher->trigger('plgVmConfirmedOrder', array($cart, $order));
+		$returnValues = vDispatcher::trigger('plgVmConfirmedOrder', array($cart, $order));
 
 		return $_orderID;
 	}

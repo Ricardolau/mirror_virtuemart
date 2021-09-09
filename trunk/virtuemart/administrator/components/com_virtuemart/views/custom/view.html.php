@@ -45,8 +45,7 @@ class VirtuemartViewCustom extends VmViewAdmin {
 			$this->customfields = VmModel::getModel('customfields');
  			//vmdebug('VirtuemartViewCustom',$this->custom);
 			JPluginHelper::importPlugin('vmcustom');
-			$dispatcher = JDispatcher::getInstance();
-			$retValue = $dispatcher->trigger('plgVmOnDisplayEditCustoms',array($this->custom->virtuemart_custom_id,&$this->customPlugin));
+			$retValue = vDispatcher::trigger('plgVmOnDisplayEditCustoms',array($this->custom->virtuemart_custom_id,&$this->customPlugin));
 
 			$this->SetViewTitle('PRODUCT_CUSTOM_FIELD', $this->custom->custom_title);
 

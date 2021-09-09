@@ -125,15 +125,13 @@ class VirtuemartViewOrders extends VmView {
 
 			$this->shipment_name='';
 
-			VmConfig::importVMPlugins('vmshipment');
-			$dispatcher = JDispatcher::getInstance();
-			$returnValues = $dispatcher->trigger('plgVmOnShowOrderFEShipment',array(  $orderDetails['details']['BT']->virtuemart_order_id, $orderDetails['details']['BT']->virtuemart_shipmentmethod_id, &$this->shipment_name));
+			vDispatcher::importVMPlugins('vmshipment');
+			$returnValues = vDispatcher::trigger('plgVmOnShowOrderFEShipment',array(  $orderDetails['details']['BT']->virtuemart_order_id, $orderDetails['details']['BT']->virtuemart_shipmentmethod_id, &$this->shipment_name));
 
 			$this->payment_name='';
 
-			VmConfig::importVMPlugins('vmpayment');
-			$dispatcher = JDispatcher::getInstance();
-			$returnValues = $dispatcher->trigger('plgVmOnShowOrderFEPayment',array( $orderDetails['details']['BT']->virtuemart_order_id, $orderDetails['details']['BT']->virtuemart_paymentmethod_id,  &$this->payment_name));
+			vDispatcher::importVMPlugins('vmpayment');
+			$returnValues = vDispatcher::trigger('plgVmOnShowOrderFEPayment',array( $orderDetails['details']['BT']->virtuemart_order_id, $orderDetails['details']['BT']->virtuemart_paymentmethod_id,  &$this->payment_name));
 
 			if($format=='pdf'){
 				$invoiceNumberDate = array();
@@ -170,9 +168,8 @@ class VirtuemartViewOrders extends VmView {
 			/*
 			 * Deprecated trigger will be renamed or removed
 			 */
-			VmConfig::importVMPlugins ('vmpayment');
-			$dispatcher = JDispatcher::getInstance ();
-			$dispatcher->trigger ('plgVmgetEmailCurrency', array($orderDetails['details']['BT']->virtuemart_paymentmethod_id, $orderDetails['details']['BT']->virtuemart_order_id, &$emailCurrencyId));
+			vDispatcher::importVMPlugins ('vmpayment');
+			vDispatcher::trigger ('plgVmgetEmailCurrency', array($orderDetails['details']['BT']->virtuemart_paymentmethod_id, $orderDetails['details']['BT']->virtuemart_order_id, &$emailCurrencyId));
 
 			$this->currency = CurrencyDisplay::getInstance ($emailCurrencyId, $orderDetails['details']['BT']->virtuemart_vendor_id);
 			if ($emailCurrencyId) {
@@ -218,9 +215,8 @@ class VirtuemartViewOrders extends VmView {
 					$emailCurrencyId = $order->user_currency_id;
 					$exchangeRate = FALSE;
 
-					VmConfig::importVMPlugins ('vmpayment');
-					$dispatcher = JDispatcher::getInstance ();
-					$dispatcher->trigger ('plgVmgetEmailCurrency', array($order->virtuemart_paymentmethod_id, $order->virtuemart_order_id, &$emailCurrencyId));
+					vDispatcher::importVMPlugins ('vmpayment');
+					vDispatcher::trigger ('plgVmgetEmailCurrency', array($order->virtuemart_paymentmethod_id, $order->virtuemart_order_id, &$emailCurrencyId));
 					
 					$this->currency = CurrencyDisplay::getInstance ($emailCurrencyId, $vendorId);
 

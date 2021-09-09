@@ -38,8 +38,7 @@ if($_controller) {
 		// try plugins
 
 		JPluginHelper::importPlugin('vmextended');
-		$dispatcher = JDispatcher::getInstance();
-		$results = $dispatcher->trigger('onVmAdminController', array($_controller));
+		$results = vDispatcher::trigger('onVmAdminController', array($_controller));
 
 		if (empty($results)) {
 			$app = JFactory::getApplication();

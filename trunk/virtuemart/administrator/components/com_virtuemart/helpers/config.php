@@ -401,8 +401,7 @@ class VmConfig {
 					self::importVMPlugins('vmuserfield');
 					if($isSite){
 
-						$dispatcher = JDispatcher::getInstance();
-						$dispatcher->trigger( 'plgVmInitialise', array() );
+						vDispatcher::trigger( 'plgVmInitialise', array() );
 					}
 					$execTrigger = false;
 				}
@@ -502,10 +501,9 @@ class VmConfig {
 		if($exeTrig and $execTrigger){
 
 			$isSite = VmConfig::isSite();
-			self::importVMPlugins('vmuserfield');
+			vDispatcher::importVMPlugins('vmuserfield');
 			if($isSite){
-				$dispatcher = JDispatcher::getInstance();
-				$dispatcher->trigger('plgVmInitialise', array());
+				vDispatcher::trigger('plgVmInitialise', array());
 			}
 
 			$execTrigger = false;
@@ -514,20 +512,13 @@ class VmConfig {
 		return self::$_jpConfig;
 	}
 
+	/**
+	 * Imports VM-Plugin in the correct order of types (
+	 * @deprecated Use class vDispatcher instead.
+	 * @param $ptype
+	 */
 	static function importVMPlugins($ptype){
-
-		 vmSetStartTime('importPlugins');
-		 static $types = array('vmextended','vmuserfield', 'vmcalculation', 'vmcustom', 'vmcoupon', 'vmshipment', 'vmpayment');
-		 foreach($types as $k => $type){
-			 JPluginHelper::importPlugin($type);
-			 unset($types[$k]);
-			 if($type == $ptype){
-				vmTime('time to import plugins '.$ptype,'importPlugins');
-			 	break;
-			 }
-		 }
-
-
+		vDispatcher::importVMPlugins($ptype);
 	}
 
 	/**

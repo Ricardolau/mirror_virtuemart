@@ -72,9 +72,8 @@ class VirtueMartModelCalc extends VmModel {
 			$xrefTable = $this->getTable('calc_manufacturers');
 			$this->_cache[$this->_id]->virtuemart_manufacturers = $xrefTable->load($this->_id);
 
-			VmConfig::importVMPlugins('vmcalculation');
-			$dispatcher = JDispatcher::getInstance();
-			$dispatcher->trigger('plgVmGetPluginInternalDataCalc',array(&$this->_cache[$this->_id]));
+			vDispatcher::importVMPlugins('vmcalculation');
+			vDispatcher::trigger('plgVmGetPluginInternalDataCalc',array(&$this->_cache[$this->_id]));
 
   		}
 
@@ -112,9 +111,8 @@ class VirtueMartModelCalc extends VmModel {
 
 			$data->currencyName = ShopFunctions::getCurrencyByID($data->calc_currency);
 
-			VmConfig::importVMPlugins('vmcalculation');
-			$dispatcher = JDispatcher::getInstance();
-			$error = $dispatcher->trigger('plgVmGetPluginInternalDataCalcList',array(&$data));
+			vDispatcher::importVMPlugins('vmcalculation');
+			$error = vDispatcher::trigger('plgVmGetPluginInternalDataCalcList',array(&$data));
 		}
 
 		return $datas;
@@ -158,7 +156,7 @@ class VirtueMartModelCalc extends VmModel {
 
 		//Missing in calculation plugins,... plgVmGetTablePluginParams or declare
 		//if ($type == 'E') {
-		/*	VmConfig::importVMPlugins ('vmcalculation');
+		/*	vDispatcher::importVMPlugins ('vmcalculation');
 			$dispatcher = JDispatcher::getInstance ();
 			//We call here vmplugin->getTablePluginParams which sets the xParam and the varsToPush of the Plugin
 			vmdebug('setParameterableByFieldType before trigger plgVmGetTablePluginParams ',$xParams,$varsToPush);
@@ -191,7 +189,7 @@ class VirtueMartModelCalc extends VmModel {
     	$xrefTable->bindChecknStore($data);
 
 
-		$error = VmPlugin::directTrigger('vmcalculation', '', 'plgVmOnStoreInstallPluginTable', array('calculation',$data,$table));
+		$error = vDispatcher::directTrigger('vmcalculation', '', 'plgVmOnStoreInstallPluginTable', array('calculation',$data,$table));
 
 		return $table->virtuemart_calc_id;
 	}
@@ -281,9 +279,8 @@ class VirtueMartModelCalc extends VmModel {
 				$ok = false;
 			}
 
-			VmConfig::importVMPlugins('vmcalculation');
-			$dispatcher = JDispatcher::getInstance();
-			$returnValues = $dispatcher->trigger('plgVmDeleteCalculationRow', array( $id));
+			vDispatcher::importVMPlugins('vmcalculation');
+			$returnValues = vDispatcher::trigger('plgVmDeleteCalculationRow', array( $id));
 
 		}
 

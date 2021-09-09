@@ -60,8 +60,23 @@ abstract class vmPlugin extends JPlugin {
 	 */
 	function __construct (& $subject, $config) {
 
+		$this->autoloadLanguage = false;
 		parent::__construct( $subject, $config );
 
+		if(JVM_VERSION>3){
+			if (class_exists('ReflectionClass') and (method_exists($this, 'registerLegacyListener'))) {
+				$class = new ReflectionClass($this);
+				$methods = $class->getMethods(\ReflectionMethod::IS_PUBLIC);
+				foreach ($methods as $m) {
+
+					$methodName = $m->name;
+
+					if (strpos($methodName, '_') !== 0) {
+						$this->registerLegacyListener($methodName);
+					}
+				}
+			}
+		}
 		//systemplugins must not load the language
 		$wLang = ($this->_type != 'system');
 
@@ -83,6 +98,7 @@ abstract class vmPlugin extends JPlugin {
 		if(!JFile::exists($this->_xmlFile)){
 			$this->_xmlFile	= vRequest::filterPath( JPATH_ROOT .'/plugins/' . $this->_type .'/'.  $this->_name .'/'. $this->_name . '.xml');
 		}
+		//vmTrace('Plugin constructed '.$this->_type.' '.$this->_name);
 	}
 
 	public function setConvertDecimal(array $toConvert) {
@@ -199,6 +215,7 @@ abstract class vmPlugin extends JPlugin {
 	 * Executes a function of a plugin directly, which is loaded via element
 	 *
 	 * @author Max Milbers
+	 * @deprecated Use function in class vDispatcher instead
 	 * @param $type type of the plugin, for example vmpayment
 	 * @param $element the element of the plugin as written in the extensions table (usually lowercase)
 	 * @param $trigger the function which was the trigger to execute
@@ -206,69 +223,19 @@ abstract class vmPlugin extends JPlugin {
 	 * @return mixed
 	 */
 	static public function directTrigger($type,$element,$trigger, $args){
-		//vmdebug('Calling directTrigger',$type,$element,$trigger, $args);
-
-		JPluginHelper::importPlugin($type);
-		if(empty($element)){
-			$plugins = JPluginHelper::getPlugin($type);
-			foreach($plugins as $plugin){
-				$plg = self::createPlugin($type,$plugin->name);
-				if($plg){
-					call_user_func_array(array($plg,$trigger),$args);
-				}
-			}
-		} else {
-			$plg = self::createPlugin($type,$element);
-			if($plg){
-				return call_user_func_array(array($plg,$trigger),$args);
-			} else {
-				return false;
-			}
-		}
-
+		return vDispatcher::directTrigger($type,$element,$trigger, $args);
 	}
 
 	/** Creates a plugin object. Used by the directTrigger and therefore loads also unpublished plugins.
 	 * Otherwise, we would not be able to use the plug-in functions during the method saving process.
+	 * @deprecated Use the class vDispatcher instead
 	 * @param $type
 	 * @param $element
 	 * @return false|mixed
 	 */
 	static public function createPlugin($type, $element){
 
-		if(empty($type) or empty($element)){
-			vmdebug('Developer error, class vmpluglin function createPlugin: empty type or element');
-		}
-
-		$plugin = JPluginHelper::getPlugin($type, $element);
-		if(!isset($plugin->type) or !isset($plugin->name)){
-			if(!empty($type) and !empty($element)) {
-				vmdebug('VmPlugin function createPlugin, plugin unpublished', $type, $element);
-				//vmTrace('VmPlugin function createPlugin, plugin unpublished '. $type .' '. $element);
-				//vmError('VmPlugin function createPlugin, plugin unpublished '. $type .' '. $element);
-
-			} else {
-				vmdebug('VmPlugin function createPlugin, type or name empty',$type,$element);
-				vmTrace('VmPlugin function createPlugin, type or name empty '. $type .' '. $element);
-				vmError('VmPlugin function createPlugin, type or name empty '. $type .' '. $element);
-			}
-		}
-
-		$className = 'Plg' . str_replace('-', '', $type) . $element;
-
-		if(!class_exists($className) and JFile::exists(VMPATH_PLUGINS.'/'.$type.'/'.$element.'/'.$element.'.php')){
-			require(VMPATH_PLUGINS.'/'.$type.'/'.$element.'/'.$element.'.php');
-		}
-		if(class_exists($className)){
-			// Instantiate and register the plugin.
-			$dispatcher = JEventDispatcher::getInstance();
-			return new $className($dispatcher, (array) $plugin);
-		} else {
-			vmdebug('VmPlugin function createPlugin, class does not exist '.$className, $type, $element);
-			vmTrace('VmPlugin function createPlugin, class does not exist '. $type .' '. $element);
-			vmError('VmPlugin function createPlugin, class does not exist '. $type .' '. $element,'VmPlugin function createPlugin, class does not exist');
-			return false;
-		}
+		return vDispatcher::createPlugin($type, $element);
 
 	}
 	/**
@@ -411,14 +378,13 @@ abstract class vmPlugin extends JPlugin {
 					WHERE j.element = "' . $this->_name . '" AND j.`folder` = "' . $this->_type . '" and `enabled`= "1" and `state`="0" ';
 
 		$db->setQuery ($q);
-		$this->_jid = $db->loadResult ();
-		if (!$this->_jid) {
-			vmError ('getJoomlaPluginId ' . $db->getErrorMsg ());
+		try {
+			$this->_jid = $db->loadResult ();
+		} catch (Exception $e){
+			vmError ('getJoomlaPluginId ' . $e->getMessage() );
 			return FALSE;
 		}
-		else {
-			return $this->_jid;
-		}
+		return $this->_jid;
 	}
 
 	/**

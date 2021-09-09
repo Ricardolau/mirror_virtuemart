@@ -86,7 +86,7 @@ class VirtueMartModelCustom extends VmModel {
 			$this->_cache[$this->_id]->customfield_params = '';
 		    if ($this->_cache[$this->_id]->field_type == 'E') {
 			    JPluginHelper::importPlugin ('vmcustom');
-                VmPlugin::directTrigger('vmcustom', $this->_cache[$this->_id]->custom_element, 'plgVmDeclarePluginParamsCustomVM3', array(&$this->_cache[$this->_id]));
+                vDispatcher::directTrigger('vmcustom', $this->_cache[$this->_id]->custom_element, 'plgVmDeclarePluginParamsCustomVM3', array(&$this->_cache[$this->_id]));
                 //vmdebug('getCustom after directTrigger plgVmDeclarePluginParamsCustomVM3',$this->_cache[$this->_id]->_varsToPushParam);
 		    }
 			//exaample 	vm2 withParent="0"|parentOrderable="0"|
@@ -416,7 +416,7 @@ class VirtueMartModelCustom extends VmModel {
 
 		if($table->field_type == 'E'){
 			JPluginHelper::importPlugin('vmcustom');
-			VmPlugin::directTrigger('vmcustom', $data['custom_element'], 'plgVmOnStoreInstallPluginTable', array('custom' , $data, $table));
+			vDispatcher::directTrigger('vmcustom', $data['custom_element'], 'plgVmOnStoreInstallPluginTable', array('custom' , $data, $table));
 		}
 
 		return $table->virtuemart_custom_id ;
@@ -474,7 +474,7 @@ class VirtueMartModelCustom extends VmModel {
 		if ($type == 'E') {
 			//We call here vmplugin->getTablePluginParams which sets the xParam and the varsToPush of the Plugin
 			//vmdebug('setParameterableByFieldType before trigger plgVmGetTablePluginParams ',$custom_element, $custom_jplugin_id, $xParams,$varsToPush);
-			VmPlugin::directTrigger('vmcustom', $custom_element, 'plgVmGetTablePluginParams', array('custom' ,$custom_element, $custom_jplugin_id, &$xParams, &$varsToPush, &$table));
+			vDispatcher::directTrigger('vmcustom', $custom_element, 'plgVmGetTablePluginParams', array('custom' ,$custom_element, $custom_jplugin_id, &$xParams, &$varsToPush, &$table));
 		}
 		$xParams = $table->_xParams;
 		if(!empty($varsToPush)){

@@ -26,7 +26,7 @@ vmuikitAdminUIHelper::startAdminArea($this);
 vmuikitAdminUIHelper::imitateTabs('start', 'COM_VIRTUEMART_ORDER_PRINT_PO_LBL', 'uk-card-small');
 
 // Get the plugins
-VmConfig::importVMPlugins('vmpayment');
+vDispatcher::importVMPlugins('vmpayment');
 
 $jsOrderStatusShopperEmail = '""';
 $j = 'if (typeof Virtuemart === "undefined")

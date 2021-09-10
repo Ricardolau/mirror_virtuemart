@@ -51,9 +51,10 @@ Virtuemart.loadCategoryTree = function(id){
 		success:function(json){
 			jQuery('select#'+id).switchClass('chzn-done','chzn-select');
 			jQuery('select#'+id).html('<option value=\"0\">'+Virtuemart.emptyCatOpt+'</option>'+json.value);
-			jQuery('[data-vm="ajax_cat_load"]').remove();
-			jQuery('select#'+id).chosen();
+			jQuery('select#'+id).chosen({select_some_options_text:Virtuemart.selectSomeCategory});
+			jQuery('select#'+id).trigger("chosen:updated");
 			Virtuemart.stopVmLoading();
+			jQuery('[data-vm="ajax_cat_load"]').remove();
 		}
 	});
 };

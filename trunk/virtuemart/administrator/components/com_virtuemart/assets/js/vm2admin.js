@@ -208,3 +208,15 @@ Virtuemart.sortable = jQuery(function($) {
 
 // load defaut scripts
 jQuery.noConflict();
+
+if (typeof window['listItemTask'] === 'undefined') {
+	
+	function listItemTask(arg1 ,arg2, cform) {
+		if (typeof cform === 'undefined') {
+			return Joomla.listItemTask(arg1, arg2); 
+		}
+		else {
+			return Joomla.listItemTask(arg1, arg2, cform); 
+		}
+	}
+}

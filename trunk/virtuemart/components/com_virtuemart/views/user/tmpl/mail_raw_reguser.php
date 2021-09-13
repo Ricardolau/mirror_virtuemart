@@ -10,7 +10,7 @@ defined('_JEXEC') or die('');
  * @author Max Milbers
  * @author Valérie Isaksen
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -22,9 +22,11 @@ $li = "\n";
 
 echo vmText::sprintf('COM_VIRTUEMART_WELCOME_USER', $this->user->name) . $li . $li;
 
+$activationLink = '';
 if (!empty($this->activationLink)) {
     $activationLink = '<a class="default" href="' . JURI::root() . $this->activationLink . '>' . vmText::_('COM_VIRTUEMART_LINK_ACTIVATE_ACCOUNT') . '</a>';
 }
+
 echo $activationLink . $li;
 echo vmText::_('COM_VIRTUEMART_SHOPPER_REGISTRATION_DATA') . $li;
 

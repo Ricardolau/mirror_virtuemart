@@ -293,8 +293,8 @@ class com_virtuemartInstallerScript {
 
 		$this->alterTable('#__virtuemart_product_prices',
 			array(
-			'product_price_vdate' => '`product_price_publish_up` datetime NOT NULL default \'0000-00-00 00:00:00\' NULL AFTER `product_currency`',
-			'product_price_edate' => '`product_price_publish_down` datetime NOT NULL default \'0000-00-00 00:00:00\' AFTER `product_price_publish_up`'
+			'product_price_vdate' => '`product_price_publish_up` datetime AFTER `product_currency`',
+			'product_price_edate' => '`product_price_publish_down` datetime AFTER `product_price_publish_up`'
 		));
 		$this->alterTable('#__virtuemart_customs',array(
 			'custom_field_desc' => '`custom_desc` varchar(4095) COMMENT \'description or unit\'',
@@ -640,7 +640,7 @@ class com_virtuemartInstallerScript {
 					' WHERE id = '.(int) $menu['id'];
 					$this->_db->setQuery( $q);
 
-					if (!$this->_db->query()) {
+					if (!$this->_db->execute()) {
 						$m = 'Updating vm category menu failed '.$q;
 						vmError($m, $m);
 					} else {

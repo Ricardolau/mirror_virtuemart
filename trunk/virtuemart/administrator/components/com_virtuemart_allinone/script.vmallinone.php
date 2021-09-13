@@ -7,14 +7,11 @@ defined ('_JEXEC') or die('Restricted access');
  *
  * This file is executed during install/upgrade and uninstall
  *
- * @author Max Milbers, Valérie Isaksen
+ * @author Max Milbers, Valérie Isaksen, stAn
+ * @copyright (c) 2012 - 2021 VirtueMart Team. All rights reserved.
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @package VirtueMart
  */
-
-
-
-
-
 
 
 class com_virtuemart_allinoneInstallerScript {
@@ -314,7 +311,7 @@ class com_virtuemart_allinoneInstallerScript {
 								SET `payment_params`= "'.$payment_params.'" , `payment_jplugin_id` = '.$skrill_jplugin_id.' , `payment_element`= "skrill"
 								 WHERE `virtuemart_paymentmethod_id` ='.$moneybooker->virtuemart_paymentmethod_id;
 				$db->setQuery($q);
-				$db->query();
+				$db->execute();
 				$app->enqueueMessage ("Updated payment method: ".$moneybooker->payment_element.". Uses skrill now");
 			}
 
@@ -324,7 +321,7 @@ class com_virtuemart_allinoneInstallerScript {
 		$q="DELETE FROM  `#__extensions` WHERE  `#__extensions`.`folder` =  'vmpayment'
 			AND `#__extensions`.`element` LIKE  'moneybookers%'";
 		$db->setQuery($q);
-		$db->query();
+		$db->execute();
 
 		$path =JPATH_ROOT .'/plugins/vmpayment';
 		$moneybookers_variants=array('', '_acc', '_did','_gir','_idl','_obt', '_pwy','_sft', '_wlt');
@@ -366,7 +363,7 @@ class com_virtuemart_allinoneInstallerScript {
 
 		$q = 'UPDATE `#__extensions` SET `ordering`= 20 WHERE `folder` ="vmpayment"';
 		$db->setQuery($q);
-		$db->query();
+		$db->execute();
 
 		$order = array('paypal','tco','sofort','sofort_ideal','klarna','paybox','heidelpay','skrill','klikandpay','realex_hpp_api','amazon');
 		foreach($order as $o=>$el){
@@ -404,14 +401,19 @@ class com_virtuemart_allinoneInstallerScript {
 				$data['access'] = 1;
 				$tableName = '#__extensions';
 				$idfield = 'extension_id';
-
+				
+				$data['params'] = ''; 
+				$data['custom_data'] = ''; 
+				$data['manifest_cache'] = ''; 
+					
 				$data['name'] = $name;
 				$data['type'] = $type;
 				$data['element'] = $element;
 				$data['folder'] = $group;
 
 				$data['client_id'] = 0;
-
+				$data['package_id'] = 0; 
+				$data['locked'] = 0; 
 				$db = JFactory::getDBO();
 				$q = 'SELECT COUNT(*) FROM `' . $tableName . '` WHERE `element` = "' . $element . '" and folder = "' . $group . '" ';
 				$db->setQuery($q);
@@ -423,7 +425,7 @@ class com_virtuemart_allinoneInstallerScript {
 					$duplicatedPlugin = $db->loadResult();
 					$q = 'DELETE FROM `' . $tableName . '` WHERE ' . $idfield . ' = ' . $duplicatedPlugin;
 					$db->setQuery($q);
-					$db->query();
+					$db->execute();
 				}
 
 				//We write ALWAYS in the table,like this the version number is updated
@@ -435,9 +437,15 @@ class com_virtuemart_allinoneInstallerScript {
 					$ext_id = $db->loadResult();
 					$q = 'UPDATE `#__extensions`  SET `manifest_cache` ="' . $db->escape($data['manifest_cache']) . '" WHERE extension_id=' . $ext_id . ';';
 					$db->setQuery($q);
-					if (!$db->query()) {
+
+					try {
+						if (!$db->execute()) {
+							$app = JFactory::getApplication();
+							$app->enqueueMessage(get_class($this) . '::  Error');
+						}
+					} catch(Exception $e) {
 						$app = JFactory::getApplication();
-						$app->enqueueMessage(get_class($this) . '::  ' . $db->getErrorMsg());
+						$app->enqueueMessage(get_class($this) . ':: '.$e->getMessage());
 					}
 				} else {
 					if (!$table->bind($data)) {
@@ -514,9 +522,15 @@ class com_virtuemart_allinoneInstallerScript {
 			$pluginClassname = 'plg' . ucfirst ($group) . ucfirst ($element);
 
 			//Let's get the global dispatcher
-			$dispatcher = JDispatcher::getInstance ();
-			$config = array('type' => $group, 'name' => $element, 'params' => '');
-			$plugin = new $pluginClassname($dispatcher, $config);
+			//$dispatcher = JDispatcher::getInstance ();
+			//$config = array('type' => $group, 'name' => $element, 'params' => '');
+			try {
+				$plugin = vDispatcher::createPlugin($group, $element); //new $pluginClassname($dispatcher, $config);
+			}
+			catch (Exception $e) {
+				//errros in sql during plugin instalalation and updates
+				$app->enqueueMessage (get_class ($this) . ':: vDispatcher::createPlugin ' . $e->getMessage());
+			}
 
 			$_psType = substr ($group, 2);
 
@@ -620,7 +634,7 @@ class com_virtuemart_allinoneInstallerScript {
 				//$q = 'UPDATE `#__modules_menu` SET `menuid`= "0" WHERE `moduleid`= "'.$moduleid.'" ';
 			}
 			$db->setQuery($q);
-			$db->query();
+			$db->execute();
 		}
 
 
@@ -631,21 +645,58 @@ class com_virtuemart_allinoneInstallerScript {
 		//				$manifestCache = str_replace('"', '\'', $data["manifest_cache"]);
 		$action = '';
 		$manifest_cache = json_encode(JInstaller::parseXMLInstallFile($src . '/' . $module  . '.xml'));
-		if (empty($ext_id)) {
-			$q = 'INSERT INTO `#__extensions` 	(`name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `ordering`) VALUES
-															( "' . $module . '" , "module", "' . $module . '", "", "' . $client_id . '", "1","' . $access . '", "0", "' . $db->escape($manifest_cache) . '", "' . $db->escape($params) . '","' . $ordering . '");';
-		} else {
-			$q = 'UPDATE `#__extensions`  SET `manifest_cache` ="' . $db->escape($manifest_cache) . '", state=0 WHERE extension_id='.$ext_id.';';
+															
+		$tableExt = JTable::getInstance('extension');
+		if (!empty($ext_id)) {
+			$data['extension_id'] = $ext_id;
 		}
-		$db->setQuery($q);
-		if (!$db->query()) {
+
+		$data['enabled'] = 1;
+		$data['access'] = $access;
+		$data['protected'] = 0;
+		$tableName = '#__extensions';
+		$idfield = 'extension_id';
+		$type = 'module';
+
+		$data['params'] = '';
+		$data['custom_data'] = '';
+		$data['manifest_cache'] = $manifest_cache;
+		$data['params'] = $params;
+		$data['name'] = $module;
+		$data['type'] = 'module';
+		$data['element'] = $module;
+		$data['folder'] = '';
+		$data['ordering'] = $ordering;
+		$data['client_id'] = $client_id;
+		$data['package_id'] = 0;
+		$data['locked'] = 0;
+
+		if (!$tableExt->bind($data)) {
 			$app = JFactory::getApplication();
-			$app->enqueueMessage(get_class($this) . '::  ' . $db->getErrorMsg());
+			$app->enqueueMessage('VMInstaller table->bind throws error for ' . $module . ' ' . $type );
 		}
+
+		if (!$tableExt->check($data)) {
+			$app = JFactory::getApplication();
+			$app->enqueueMessage('VMInstaller table->check throws error for ' . $module . ' ' . $type );
+
+		}
+
+		$ret = $tableExt->store($data);
+		if (!$ret) {
+			$app = JFactory::getApplication();
+			$app->enqueueMessage('VMInstaller table->store throws error for ' . $module . ' ' . $type );
+		}
+
+		$errors = $table->getErrors();
+		foreach ($errors as $error) {
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(get_class($this) . '::store ' . $error);
+		}
+
 		$installTask = empty($ext_id) ? 'installed' : 'updated';
 		self::$html .= '<tr><td>' . $title . '</td><td> '.$installTask.'</td></tr>';
-
-
+		
 		//$this->updateJoomlaUpdateServer( 'module', $module, $dst   );
 	}
 
@@ -693,7 +744,7 @@ class com_virtuemart_allinoneInstallerScript {
 				$query = 'ALTER TABLE `' . $tablename . '` ' . $command . ' COLUMN `' . $fieldname . '` ' . $alterCommand;
 
 				$this->db->setQuery ($query);
-				$this->db->query ();
+				$this->db->execute();
 			}
 		}
 
@@ -717,12 +768,18 @@ class com_virtuemart_allinoneInstallerScript {
 
 			$query = 'ALTER TABLE `' . $table . '` ADD ' . $field . ' ' . $fieldType;
 			$this->db->setQuery ($query);
-			if (!$this->db->query ()) {
-				$app = JFactory::getApplication ();
-				$app->enqueueMessage ('Install checkAddFieldToTable ' . $this->db->getErrorMsg ());
-				return FALSE;
-			} else {
-				return TRUE;
+
+			try {
+				if (!$this->db->execute()) {
+					$app = JFactory::getApplication ();
+					$app->enqueueMessage ('Install checkAddFieldToTable Error');
+					return FALSE;
+				} else {
+					return TRUE;
+				}
+			} catch(Exception $e) {
+				$app->enqueueMessage ('Install checkAddFieldToTable ' . $e->getMessage());
+				return false; 
 			}
 		}
 		return FALSE;

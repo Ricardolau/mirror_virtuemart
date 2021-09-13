@@ -145,7 +145,7 @@ class VirtuemartModelReport extends VmModel {
 			$c->setCaching (1);
 			$c->setLifeTime($cache);
 
-			return $c->call (array('VirtuemartModelReport', 'getRevenueDiag'),$this->virtuemart_vendor_id,$orderstates,$intervals,$filterorders,$orderdir,$virtuemart_product_id,$this->from_period,$this->until_period);
+			return $c->get (array('VirtuemartModelReport', 'getRevenueDiag'), array($this->virtuemart_vendor_id,$orderstates,$intervals,$filterorders,$orderdir,$virtuemart_product_id,$this->from_period,$this->until_period));
 		} else {
 			return $this->getRevenueSortListOrderQuery ($this->virtuemart_vendor_id,$orderstates,$intervals,$filterorders,$orderdir,$virtuemart_product_id);
 		}

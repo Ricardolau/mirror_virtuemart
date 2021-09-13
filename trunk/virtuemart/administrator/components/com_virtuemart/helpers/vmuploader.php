@@ -218,14 +218,14 @@ class vmUploader {
 	 * @param string $urlfolder relative url of the folder where to store the media
 	 * @return name of the uploaded file
 	 */
-	static function uploadFile($urlfolder, &$obj, $overwrite = false){
+	static function uploadFile($urlfolder, &$obj, $overwrite = false, $fieldname = 'upload'){
 
 		if(empty($urlfolder) OR strlen($urlfolder)<2){
 			vmError('Not able to upload file, give path/url empty/too short '.$urlfolder.' please correct path in your virtuemart config');
 			return false;
 		}
 
-		$media = vRequest::getFiles('upload');
+		$media = vRequest::getFiles($fieldname);
 		if(empty($media) or !isset($media['error']) ){
 			vmError('Recieved no data for upload','Recieved no data for upload');
 			vmdebug('no data in uploadFile ',$_FILES);

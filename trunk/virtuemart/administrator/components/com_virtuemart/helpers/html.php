@@ -158,8 +158,7 @@ class VmHtml{
 	}
 
 	/**
-	 * The sense is unclear !
-	 * @deprecated
+	 * Used with row
 	 * @param $value
 	 * @return mixed
 	 */
@@ -537,18 +536,17 @@ class VmHtml{
 		// Including fallback code for HTML5 non supported browsers.
 		vmJsApi::jQuery();
 
-		if (JVM_VERSION > 1) {
-			$class = ' class="minicolors"';
+		$class = ' class="minicolors"';
+
+		if (JVM_VERSION < 4) {
+			JHtml::_('behavior.colorpicker');
+			$type = 'text';
 		} else {
-			$class = ' class="input-colorpicker"';
-			JHtml::_('script', 'system/html5fallback.js', false, true);
+			$type = 'color';
 		}
-
-		JHtml::_('behavior.colorpicker');
-
-		return '<input type="text" name="' . $name . '" ' . ' value="'
-		. htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '"' . $class
-		. '/>';
+		return '<input type="'.$type.'" name="' . $name . '" ' . ' value="'
+			. htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '"' . $class
+			. '/>';
 
 	}
 

@@ -32,7 +32,7 @@ class JFormFieldGetPaypal extends JFormField {
 
 	protected function getInput() {
 
-		JHtml::_('behavior.colorpicker');
+		//JHtml::_('behavior.colorpicker');
 
 		vmJsApi::addJScript( '/plugins/vmpayment/paypal/paypal/assets/js/admin.js');
 		vmJsApi::css('paypal', 'plugins/vmpayment/paypal/paypal/assets/css/');

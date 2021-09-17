@@ -64,14 +64,11 @@ class vmuikitAdminUIHelper {
 
 		if ($view != 'virtuemart') {
 			vmJsApi::css('chosen');
-			vmJsApi::css('jquery.fancybox-1.3.4');
+			//vmJsApi::css('jquery.fancybox-1.3.4');
 			vmJsApi::css('ui/jquery.ui.all');
 		}
 
 		if ($view != 'virtuemart') {
-			vmJsApi::addJScript('fancybox/jquery.mousewheel-3.0.4.pack', false, false);
-			vmJsApi::addJScript('fancybox/jquery.easing-1.3.pack', false, false);
-			vmJsApi::addJScript('fancybox/jquery.fancybox-1.3.4.pack', false, false);
 			VmJsApi::chosenDropDowns();
 		}
 
@@ -85,9 +82,8 @@ class vmuikitAdminUIHelper {
 
 		vmJsApi::css('uikit.min',$adminTemplateCssUikit);
 		vmJsApi::css('colors',$adminTemplateCssVm);
-		vmJsApi::css('vmuikit',$adminTemplateCssVm);
 
-
+		vmJsApi::css(VmConfig::get('backendStyle', 'default-white-blue'),$adminTemplateCssVm);
 
 		$adminTemplatePath = '/administrator/templates/vmadmin/html/com_virtuemart/';
 		$adminTemplateUikit = $adminTemplatePath . 'assets/uikit/';
@@ -101,9 +97,6 @@ class vmuikitAdminUIHelper {
 		vmJsApi::addJScript('/administrator/components/com_virtuemart/assets/js/vm2admin.js');
 		vmJsApi::addJScript($adminTemplatePath.'assets/js/vmuikit_vm2admin.js');
 
-		if(VmConfig::get('midnightStyle',false)){
-			vmJsApi::css('midnight',$adminTemplateCssVm);
-		}
 
 		if (!self::$backEnd) {
 			//JToolbarHelper
@@ -247,8 +240,8 @@ class vmuikitAdminUIHelper {
 	 */
 	static public function buildTabs($view, $load_template = array(), $cookieName = '', $width = 'uk-width-1-1', $css='') {
 // $width = 'uk-width-2-3@m'
-		$dispatcher = JDispatcher::getInstance();
-		$returnValues = $dispatcher->trigger('plgVmBuildTabs', array(&$view, &$load_template));
+
+		$returnValues = vDispatcher::trigger('plgVmBuildTabs', array(&$view, &$load_template));
 
 		echo adminSublayouts::renderAdminVmSubLayout('buildtabs',
 			array(

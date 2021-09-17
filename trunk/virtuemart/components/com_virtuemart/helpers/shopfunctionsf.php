@@ -1245,7 +1245,7 @@ class shopFunctionsF {
 
 			try 
 			{
-				$dispatcher->trigger('onInit', $id);
+				vDispatcher::trigger('onInit', $id);
 				$output = vDispatcher::trigger('onDisplay', array($reCaptchaName, $id, 'class="g-recaptcha required"'));
 			}
 			catch (Exception $e) {

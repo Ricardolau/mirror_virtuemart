@@ -155,11 +155,13 @@ class VirtueMartModelCustomfields extends VmModel {
 			}
 
 			$db->setQuery ($q);
-			$productCustoms = $db->loadObjectList ();
-			$err=$db->getErrorMsg();
-			if($err){
-				vmError('getCustomEmbeddedProductCustomFields error in query '.$err);
-			} else if(is_array($productCustoms)){
+			try {
+				$productCustoms = $db->loadObjectList ();
+			} catch (Exception $e){
+				vmError('getCustomEmbeddedProductCustomFields error in query '.$e->getMessage());
+			}
+
+			if($productCustoms and is_array($productCustoms)){
 
 				foreach($productCustoms as $customfield){
 					$hkey = (int)$customfield->virtuemart_product_id.'_'.$virtuemart_custom_id;//.'_'.$cartattribute;
@@ -252,7 +254,7 @@ class VirtueMartModelCustomfields extends VmModel {
 					$obj->_varsToPushParam = $varsToPushPlg[$obj->virtuemart_custom_id];
 				} else {
 					JPluginHelper::importPlugin ('vmcustom');
-                    VmPlugin::directTrigger('vmcustom', $obj->custom_element, 'plgVmDeclarePluginParamsCustomVM3', array(&$obj));
+                    vDispatcher::directTrigger('vmcustom', $obj->custom_element, 'plgVmDeclarePluginParamsCustomVM3', array(&$obj));
 					$varsToPushPlg[$obj->virtuemart_custom_id] = false;
 					if(!empty($obj->_varsToPushParam)){
 						$varsToPushPlg[$obj->virtuemart_custom_id] = $obj->_varsToPushParam;
@@ -422,12 +424,16 @@ class VirtueMartModelCustomfields extends VmModel {
 		}
 
 		$serials = '';
-		if($field->field_type!='A' and $field->field_type!='C'){
+		if(isset($field->product_sku)){
 			$serials = '<td><span style="white-space: nowrap;">'.vmText::_('COM_VIRTUEMART_PRODUCT_SKU').'<input type="text" size="12" style="text-align:right;" value="' . $field->product_sku . '" name="field[' . $row . '][product_sku]" /> </span></td>';
-			$serials .= '<td><span style="white-space: nowrap;">'.vmText::_('COM_VIRTUEMART_PRODUCT_GTIN').'<input type="text" size="12" style="text-align:right;" value="' . $field->product_gtin . '" name="field[' . $row . '][product_gtin]" /> </span></td>';
-			$serials .= '<td><span style="white-space: nowrap;">'.vmText::_('COM_VIRTUEMART_PRODUCT_MPN').'<input type="text" size="12" style="text-align:right;" value="' . $field->product_mpn . '" name="field[' . $row . '][product_mpn]" /> </span></td>';
-
 		}
+		if(isset($field->product_gtin)){
+			$serials .= '<td><span style="white-space: nowrap;">'.vmText::_('COM_VIRTUEMART_PRODUCT_GTIN').'<input type="text" size="12" style="text-align:right;" value="' . $field->product_gtin . '" name="field[' . $row . '][product_gtin]" /> </span></td>';
+		}
+		if(isset($field->product_mpn)){
+			$serials .= '<td><span style="white-space: nowrap;">'.vmText::_('COM_VIRTUEMART_PRODUCT_MPN').'<input type="text" size="12" style="text-align:right;" value="' . $field->product_mpn . '" name="field[' . $row . '][product_mpn]" /> </span></td>';
+		}
+
 
 		switch ($field->field_type) {
 
@@ -795,7 +801,11 @@ class VirtueMartModelCustomfields extends VmModel {
         // Not sure why this block is needed to get it to work when editing the customfield (the subsequent block works fine when creating it, ie. in JS)
 				$document = JFactory::getDocument();
 				if (strcasecmp(get_class($document),'JDocumentHTML') === 0) {
-					$editor = JFactory::getEditor();
+					if (JVM_VERSION < 4) {
+						$editor = JFactory::getEditor();
+					} else {
+						$editor = JEditor::getInstance();
+					}
 					return '</td><td>'.$editor->display('field['.$row.'][customfield_value]',$field->customfield_value, '550', '400', '60', '20', false);
 				}
 				return $priceInput . '</td><td><textarea class="mceInsertContentNew" name="field[' . $row . '][customfield_value]" id="field-' . $row . '-customfield_value">' . $field->customfield_value . '</textarea>
@@ -815,10 +825,9 @@ class VirtueMartModelCustomfields extends VmModel {
 				$html = '<input type="hidden" value="' . $field->customfield_value . '" name="field[' . $row . '][customfield_value]" />';
 
 				//vmdebug('displayProductCustomfieldBE $field',$field);
-				VmConfig::importVMPlugins ('vmcustom', $field->custom_element);
-				$dispatcher = JDispatcher::getInstance ();
+				vDispatcher::importVMPlugins ('vmcustom', $field->custom_element);
 				$retValue = '';
-				$dispatcher->trigger ('plgVmOnProductEdit', array($field, $product_id, &$row, &$retValue));
+				vDispatcher::trigger('plgVmOnProductEdit', array($field, $product_id, &$row, &$retValue));
 
 				return $html . $priceInput   . '</td><td>'. $retValue;
 				break;
@@ -1133,9 +1142,8 @@ class VirtueMartModelCustomfields extends VmModel {
 					}
 
 					if(!empty($productCustom) and $productCustom->field_type == 'E') {
-						VmConfig::importVMPlugins( 'vmcustom' );
-						$dispatcher = JDispatcher::getInstance();
-						$dispatcher->trigger( 'plgVmPrepareCartProduct', array(&$product, &$product->customfields[$k], $selected, &$product->modificatorSum) );
+						vDispatcher::importVMPlugins( 'vmcustom' );
+						vDispatcher::trigger( 'plgVmPrepareCartProduct', array(&$product, &$product->customfields[$k], $selected, &$product->modificatorSum) );
 					} else {
 						if($productCustom->customfield_price) {
 
@@ -1221,6 +1229,9 @@ class VirtueMartModelCustomfields extends VmModel {
 						$sCustId = $c->sCustomId;
 						$labels = array();
 						foreach($fields['selectoptions'] as $k => $option){
+							if (is_object($option)) {
+								$option = Joomla\Utilities\ArrayHelper::fromObject($option);
+							}
 							if($option['voption'] == 'clabels' and !empty($option['clabel'])){
 								$labels[$k] = $option['clabel'];
 							}
@@ -1282,15 +1293,15 @@ class VirtueMartModelCustomfields extends VmModel {
 			//vmdebug('storeProductCustomfields nothing to store');
 		}
 
-		VmConfig::importVMPlugins('vmcustom');
-		$dispatcher = JDispatcher::getInstance();
+		vDispatcher::importVMPlugins('vmcustom');
+
 
 		vmdebug('Delete $old_customfield_ids',$old_customfield_ids);
-		if ( count($old_customfield_ids) ) {
 
+		if ( count($old_customfield_ids) ) {
 			// call the plugins to delete their records
 			foreach ($old_customfield_ids as $old_customfield_id) {
-				$dispatcher->trigger('plgVmOnCustomfieldRemove', array($oldCustomfields[$old_customfield_id]));
+				vDispatcher::trigger('plgVmOnCustomfieldRemove', array($oldCustomfields[$old_customfield_id]));
 			}
 			// delete old unused Customfields
 			$db->setQuery( 'DELETE FROM `#__virtuemart_'.$table.'_customfields` WHERE `virtuemart_customfield_id` in ("'.implode('","', $old_customfield_ids ).'") ');
@@ -1302,7 +1313,7 @@ class VirtueMartModelCustomfields extends VmModel {
 
 		if (isset($datas['customfield_params']) and is_array($datas['customfield_params'])) {
 			foreach ($datas['customfield_params'] as $key => $plugin_param ) {
-				$dispatcher->trigger('plgVmOnStoreProduct', array($datas, $plugin_param, $old_customfield_ids ));
+				vDispatcher::trigger('plgVmOnStoreProduct', array($datas, $plugin_param, $old_customfield_ids ));
 			}
 		}
 
@@ -1310,7 +1321,6 @@ class VirtueMartModelCustomfields extends VmModel {
 
 	public function storeProductCustomfield($table, $fields){
 
-		vmdebug('storeProductCustomfield',$this->_toConvertDec);
 		$tableCustomfields = $this->getTable($table.'_customfields');
 		$tableCustomfields->setPrimaryKey('virtuemart_product_id');
 

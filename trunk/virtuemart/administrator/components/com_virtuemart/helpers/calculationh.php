@@ -162,8 +162,8 @@ class calculationHelper {
 			$q .= ' WHERE `calc_kind` IN (' . implode(",",$epoints). ' )
                 AND `published`="1"
                 AND (`virtuemart_vendor_id`="' . $id . '" OR `shared`="1" )
-				AND ( publish_up = "' . $this->_db->escape($this->_nullDate) . '" OR publish_up <= "' . $this->_db->escape($this->_now) . '" )
-				AND ( publish_down = "' . $this->_db->escape($this->_nullDate) . '" OR publish_down >= "' . $this->_db->escape($this->_now) . '" )';
+				AND ( '.VmTable::checkFieldNullDateSQL('publish_up').' OR publish_up <= "' . $this->_db->escape($this->_now) . '" )
+				AND ( '.VmTable::checkFieldNullDateSQL('publish_down').' OR publish_down >= "' . $this->_db->escape($this->_now) . '" )';
 
 			$q .= $shopperGrpJoin . $countryGrpJoin . $stateGrpJoin;
 
@@ -1083,9 +1083,9 @@ class calculationHelper {
 	 */
 	protected function couponHandler($_code) {
 
-		VmConfig::importVMPlugins('vmcoupon');
-		$dispatcher = JDispatcher::getInstance();
-		$returnValues = $dispatcher->trigger('plgVmCouponHandler', array($_code,&$this->_cart->cartData, &$this->_cart->cartPrices));
+		vDispatcher::importVMPlugins('vmcoupon');
+
+		$returnValues = vDispatcher::trigger('plgVmCouponHandler', array($_code,&$this->_cart->cartData, &$this->_cart->cartPrices));
 		if(!empty($returnValues)){
 			foreach ($returnValues as $returnValue) {
 				if ($returnValue !== null  ) {
@@ -1438,10 +1438,10 @@ class calculationHelper {
 
 		//Test rules in plugins
 		if(!empty($testedRules) and count($testedRules)>0){
-			VmConfig::importVMPlugins('vmcalculation');
-			$dispatcher = JDispatcher::getInstance();
+			vDispatcher::importVMPlugins('vmcalculation');
+
 			$calc = &$this;
-			$dispatcher->trigger('plgVmInGatherEffectRulesProduct',array(&$calc,&$testedRules));
+			vDispatcher::trigger('plgVmInGatherEffectRulesProduct',array(&$calc,&$testedRules));
 			if ($this->_debug) vmdebug('plgVmInGatherEffectRulesProduct rules',$testedRules);
 		}
 
@@ -1538,10 +1538,10 @@ class calculationHelper {
 
 		//Test rules in plugins
 		if(!empty($testedRules) and count($testedRules)>0){
-			VmConfig::importVMPlugins('vmcalculation');
-			$dispatcher = JDispatcher::getInstance();
+			vDispatcher::importVMPlugins('vmcalculation');
+
 			$calc = &$this;
-			$dispatcher->trigger('plgVmInGatherEffectRulesBill', array(&$calc, &$testedRules));
+			vDispatcher::trigger('plgVmInGatherEffectRulesBill', array(&$calc, &$testedRules));
 		}
 
 		$testedRulesCached[$cartVendorId][$entrypoint] = $testedRules;
@@ -1555,7 +1555,7 @@ class calculationHelper {
 	function calculateDisplayedPlugins($type){
 
 		// Handling shipment plugins
-		VmConfig::importVMPlugins('vm'.$type);
+		vDispatcher::importVMPlugins('vm'.$type);
 
 		//We use one trigger to load all possible plugins and store as result an array of the pluginmethods and their display.
 		//we select the first if there is one.
@@ -1564,8 +1564,7 @@ class calculationHelper {
 		//The plugin write the results into the cart array $cartData['$type'] = array($methods);
 		//The methods must have the rendered display
 
-		$dispatcher = JDispatcher::getInstance();
-		$returnValues = $dispatcher->trigger('plgVmCalculateDisplayedCartOptions'.ucfirst($type),array(&$this->_cart));
+		$returnValues = vDispatcher::trigger('plgVmCalculateDisplayedCartOptions'.ucfirst($type),array(&$this->_cart));
 
 		//Plugin return true if no method is configured for the plugin
 		foreach ($returnValues as $returnValue) {
@@ -1632,13 +1631,12 @@ class calculationHelper {
 		$method_id_name = 'virtuemart_'.$type.'method_id';
 		// Handling shipment plugins
 		//if(empty($this->_cart->$method_id_name)){
-			VmConfig::importVMPlugins('vm'.$type);
+			vDispatcher::importVMPlugins('vm'.$type);
 			$this->_cart->checkAutomaticSelectedPlug($type);
 			if(empty($this->_cart->{$method_id_name})) return;
 		//}
 
-		$dispatcher = JDispatcher::getInstance();
-		$returnValues = $dispatcher->trigger('plgVmonSelectedCalculatePrice'.ucfirst($type),array( $this->_cart, &$this->_cart->cartPrices, &$this->_cart->cartData[$type.'Name']  ));
+		$returnValues = vDispatcher::trigger('plgVmonSelectedCalculatePrice'.ucfirst($type),array( $this->_cart, &$this->_cart->cartPrices, &$this->_cart->cartData[$type.'Name']  ));
 
 		// Plugin return true if payment plugin is  valid false if not  valid anymore only one value is returned
 		$methodValid=0;
@@ -1798,10 +1796,9 @@ class calculationHelper {
 			}
 		} else {
 
-			VmConfig::importVMPlugins('vmcalculation');
-			$dispatcher = JDispatcher::getInstance();
+			vDispatcher::importVMPlugins('vmcalculation');
 
-			$calculated = $dispatcher->trigger('plgVmInterpreteMathOp', array($this, $rule, $price,$this->_revert));
+			$calculated = vDispatcher::trigger('plgVmInterpreteMathOp', array($this, $rule, $price,$this->_revert));
 			if($calculated){
 				foreach($calculated as $calc){
 					if($calc) return $calc;

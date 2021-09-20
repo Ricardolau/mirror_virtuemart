@@ -1062,7 +1062,6 @@ class VirtueMartCart {
 					unset( $cart->cartProductsData[$v] );
 				}
 
-				JPluginHelper::importPlugin('vmextended');
 				vDispatcher::trigger('plgVmOnAddToCart',array(&$cart));
 
 				if ($updateSession== false) return false ;

@@ -6,7 +6,7 @@ defined('_JEXEC') or  die( 'Direct Access to '.basename(__FILE__).' is not allow
 * @package VirtueMart
 * @subpackage modules
 *
-* @copyright (C) 2011-2015 The Virtuemart Team
+* @copyright (C) 2011-2021 The Virtuemart Team
 *
 *
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
@@ -63,7 +63,7 @@ if($cache){
 	echo $cache->get( array( 'mod_virtuemart_category', 'displayCatsMod' ), array($params, $ID, $active_category_id, $category_id, $layout));
 	vmdebug('Use cached mod category');
 } else {
-	echo mod_virtuemart_category::displayCatsMod($params, $ID, $active_category_id, $category_id);
+	echo mod_virtuemart_category::displayCatsMod($params, $ID, $active_category_id, $category_id, $layout);
 }
 
 echo vmJsApi::writeJS();

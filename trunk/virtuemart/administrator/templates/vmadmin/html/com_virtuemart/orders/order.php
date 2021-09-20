@@ -7,7 +7,7 @@
  * @subpackage Orders
  * @author Oscar van Eijk, Max Milbers, Valérie Isaksen
  * @link https://virtuemart.net
- * @copyright Copyright (c) 2004 - ${PHING.VM.COPYRIGHT} VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 21 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -112,7 +112,7 @@ $j = 'jQuery(document).ready(function ($) {
             },
             onBeforeRowInsert:function (newTr) {
             	var randomNumber = Math.floor(Math.random() * 100);
-            	$(newTr).find("*").andSelf().filter("[name]").each(function () {
+            	$(newTr).find("*").addBack().filter("[name]").each(function () {
             		var name=this.name;
             		var needle = "item_id["
 					var newname = name.replace(needle, needle+"0-"+randomNumber+"-");

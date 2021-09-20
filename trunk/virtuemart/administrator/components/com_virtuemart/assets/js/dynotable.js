@@ -57,7 +57,7 @@ if (typeof Virtuemart === "undefined")
 					$(tbod).parents("table").first().show();
 				}
 
-				$(clonedRow).find('*').andSelf().filter('[id]').each(function () {
+				$(clonedRow).find('*').addBack().filter('[id]').each(function () {
 					//change to something else so we don't have ids with the same name
 					var randomNumber = Math.floor(Math.random() * 100);
                     this.id += '__c'+randomNumber;

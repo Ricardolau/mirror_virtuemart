@@ -73,6 +73,7 @@ class TableCalcs extends VmTable
 
 		$this->setObligatoryKeys('calc_name');
 		$this->setObligatoryKeys('calc_kind');
+		$this->setDateFields(array('publish_up','publish_down'));
 		$this->setLoggable();
 
 	}

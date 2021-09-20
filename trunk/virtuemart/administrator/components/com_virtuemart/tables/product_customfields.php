@@ -5,7 +5,7 @@
 * @subpackage product
 * @author Max Milbers
 * @link ${PHING.VM.MAINTAINERURL}
-* @copyright Copyright (c) 2011 - 2014 VirtueMart Team. All rights reserved.
+* @copyright Copyright (c) 2011 - 2021 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -57,18 +57,7 @@ class TableProduct_customfields extends VmTable {
 		// $this->setSecondaryKey('virtuemart_customfield_id');
 		$this->setLoggable();
 		$this->setOrderable();
-
-	}
-
-	function check(){
-
-		if($this->customfield_price !== null and $this->customfield_price !== ''){
-			$this->customfield_price = str_replace(array(',',' '),array('.',''),$this->customfield_price);
-		} else {
-			$this->customfield_price = 0;
-		}
-
-		return parent::check();
+		$this->setConvertDecimal(array('customfield_price'));
 	}
 
 }

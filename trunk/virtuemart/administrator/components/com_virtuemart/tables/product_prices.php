@@ -6,9 +6,9 @@
  *
  * @package	VirtueMart
  * @subpackage Product
- * @author RolandD
+ * @author Max Milbers
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -55,7 +55,6 @@ class TableProduct_prices extends VmTableData {
     var $price_quantity_end = null;
 
     /**
-     * @author RolandD
      * @param JDataBase $db
      */
     function __construct(&$db) {
@@ -64,26 +63,10 @@ class TableProduct_prices extends VmTableData {
         $this->setPrimaryKey('virtuemart_product_price_id');
 		$this->setLoggable();
 		$this->setTableShortCut('pp');
+		$this->setConvertDecimal(array('product_price','product_override_price'));
+		$this->setDateFields(array('product_price_publish_up','product_price_publish_down'));
 		$this->_updateNulls = true;
     }
-
-    /**
-     * @author Max Milbers
-     * @param
-     */
-
-	function check(){
-
-		if(isset($this->product_price)){
-			$this->product_price = str_replace(array(',',' '),array('.',''),$this->product_price);
-		}
-
-		if(isset($this->product_override_price)){
-			$this->product_override_price = str_replace(array(',',' '),array('.',''),$this->product_override_price);
-		}
-
-		return parent::check();
-	}
 
 }
 

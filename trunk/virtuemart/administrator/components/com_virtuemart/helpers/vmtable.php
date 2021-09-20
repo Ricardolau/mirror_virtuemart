@@ -30,9 +30,9 @@ defined('_JEXEC') or die();
  *
  */
 
+Use \Joomla\CMS\Table\TableInterface as JTableInterface;
 
-
-class VmTable extends vObject implements JObservableInterface, JTableInterface {
+class VmTable extends vObject implements \JTableInterface {
 
 	protected static $_cache = array();
 	private $_lhash = 0;
@@ -112,7 +112,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			$this->access = (int) JFactory::getConfig()->get('access');
 		}
 
-		if(JVM_VERSION>2){
+		if(JVM_VERSION==2){
 			// Implement JObservableInterface:
 			// Create observer updater and attaches all observers interested by $this class:
 			$this->_observers = new JObserverUpdater($this);
@@ -446,6 +446,29 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 				}
 			}
 		}
+	}
+
+	public function setDateFields(array $dateFields){
+		$this->_dateFields = $dateFields;
+	}
+
+	public function convertDateFields(){
+
+		if($this->_dateFields){
+			foreach($this->_dateFields as $f){
+				if(!empty($this->{$f})){
+					$date = new JDate($this->{$f});
+					$this->{$f} = $date->toSQL();
+				} else {
+					$this->{$f} = null;
+				}
+			}
+		}
+	}
+
+	static function checkFieldNullDateSQL($fieldname){
+
+		return ' ( ISNULL("'.$fieldname.'") or '.$fieldname.'="0000-00-00 00:00:00") ';
 	}
 
 	/**
@@ -1214,6 +1237,8 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			}
 		}
 
+		$this->convertDateFields();
+
 		$this->storeParams();
 
 		if (!empty($this->asset_id)) {
@@ -1239,18 +1264,39 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 		}
 
 		if(!empty($this->{$tblKey})){
-			$ok = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
+			try {
+				$ok = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
+			} catch (Exception $e){
+				vmError('vmTable store updateObject '.$e->getMessage());
+			}
+
 		} else {
 			$p = $this->{$tblKey};
-			$ok = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
+			try {
+				$ok = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
+			} catch (Exception $e){
+				vmError('vmTable store insertObject '.$e->getMessage());
+			}
+
 			if($ok and !empty($this->_hashName)){
 				$oldH= $this->{$this->_hashName};
 				if($p!=$this->{$tblKey} and !in_array($tblKey,$this->_omittedHashFields)){
 					$this->hashEntry();
-					$ok = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
+					try {
+						$ok = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
+					} catch (Exception $e){
+						vmError('vmTable store updateObject hash '.$e->getMessage());
+					}
+
 					vmdebug('VmTable Updated entry with correct hash ',$this->_tbl_key,$p,$this->{$tblKey},$oldH,$this->{$this->_hashName});
 				}
 			}
+		}
+
+		// If the store failed return false.
+		if (!$ok) {
+			vmError(vmText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), $e->getMessage()));
+			return false;
 		}
 
 		//reset Params
@@ -1266,12 +1312,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 				$this->decryptFields();
 		}
 
-		// If the store failed return false.
-		if (!$ok) {
-			$e = new JException(vmText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), $this->_db->getErrorMsg()));
-			vmError($e);
-			return false;
-		}
+
 
 		// If the table is not set to track assets return true.
 		if (!$this->_trackAssets) {
@@ -1559,7 +1600,7 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 			}
 
 			// Trim white spaces at beginning and end of alias and make lowercase
-			$this->{$slugName} = trim(JString::strtolower($this->{$slugName}));
+			$this->{$slugName} = trim(utf8_strtolower($this->{$slugName}));
 			$this->{$slugName} = str_replace(array('`','´',"'"),'',$this->{$slugName});
 
 			$this->{$slugName} = vRequest::filterUword($this->{$slugName},'-,_,|','-');
@@ -2512,4 +2553,64 @@ class VmTable extends vObject implements JObservableInterface, JTableInterface {
 	{
 		$this->_observers->attachObserver($observer);
 	}
+
+	/**
+	 * Returns the identity (primary key) value of this record
+	 *
+	 * @return  mixed
+	 *
+	 * @since   4.0.0
+	 */
+	public function getId()
+	{
+		$key = $this->getKeyName();
+
+		return $this->$key;
+	}
+
+	/**
+	 * Check if the record has a property (applying a column alias if it exists)
+	 *
+	 * @param   string  $key  key to be checked
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.9.11
+	 */
+	public function hasField($key)
+	{
+		$key = $this->getColumnAlias($key);
+
+		return property_exists($this, $key);
+	}
+
+	/**
+	 * Method to return the real name of a "special" column such as ordering, hits, published
+	 * etc etc. In this way you are free to follow your db naming convention and use the
+	 * built in \Joomla functions.
+	 *
+	 * @param   string  $column  Name of the "special" column (ie ordering, hits)
+	 *
+	 * @return  string  The string that identify the special
+	 *
+	 * @since   3.4
+	 */
+	public function getColumnAlias($column)
+	{
+		// Get the column data if set
+		if (isset($this->_columnAlias[$column]))
+		{
+			$return = $this->_columnAlias[$column];
+		}
+		else
+		{
+			$return = $column;
+		}
+
+		// Sanitize the name
+		$return = preg_replace('#[^A-Z0-9_]#i', '', $return);
+
+		return $return;
+	}
+
 }

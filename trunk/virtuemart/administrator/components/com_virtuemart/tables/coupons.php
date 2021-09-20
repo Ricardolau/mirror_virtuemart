@@ -64,6 +64,7 @@ class TableCoupons extends VmTable {
 	{
 		parent::__construct('#__virtuemart_coupons', 'virtuemart_coupon_id', $db);
 		$this->setObligatoryKeys('coupon_code');
+		$this->setDateFields(array('coupon_start_date','coupon_expiry_date'));
 		$this->setLoggable();
 	}
 

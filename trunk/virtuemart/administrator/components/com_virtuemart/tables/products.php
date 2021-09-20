@@ -126,6 +126,7 @@ class TableProducts extends VmTable {
 									);
 
 		$this->setParameterable('product_params',$varsToPushParam);
+		$this->setDateFields(array('product_available_date'));
 		$this->_updateNulls = true;
 		$this->published = VmConfig::get('product.published',1);
 	}

@@ -33,3 +33,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		?>
 	</table>
 </fieldset>
+<fieldset>
+    <legend><?php echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_CACHING'); ?></legend>
+    <table class="admintable">
+		<?php
+		echo VmHTML::row('checkbox','COM_VM_CACHE_CHILD_CATTREE','UseCachegetChildCategoryList', VmConfig::get('UseCachegetChildCategoryList', 1));
+		echo VmHTML::row('checkbox','COM_VM_CACHE_GET_CATEGORY_ROUTE','useCacheVmGetCategoryRoute', VmConfig::get('useCacheVmGetCategoryRoute', 1));
+		echo VmHTML::row('checkbox','COM_VM_CACHE_GET_ORDERBY_LIST','UseCachegetOrderByList', VmConfig::get('UseCachegetOrderByList', 1));
+
+		?>
+    </table>
+</fieldset>

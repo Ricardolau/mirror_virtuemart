@@ -41,3 +41,20 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		?>
 	</div>
 </div>
+<div class="uk-card uk-card-small uk-card-vm">
+    <div class="uk-card-header">
+        <div class="uk-card-title">
+						<span class="md-color-cyan-600 uk-margin-small-right"
+                              uk-icon="icon: search; ratio: 1.2"></span>
+			<?php echo vmText::_('COM_VM_CACHE_SETTINGS'); ?>
+        </div>
+    </div>
+    <div class="uk-card-body">
+
+		<?php
+		echo VmuikitHtml::row('checkbox','COM_VM_CACHE_CHILD_CATTREE','UseCachegetChildCategoryList', VmConfig::get('UseCachegetChildCategoryList', 1));
+		echo VmuikitHtml::row('checkbox','COM_VM_CACHE_GET_CATEGORY_ROUTE','useCacheVmGetCategoryRoute', VmConfig::get('useCacheVmGetCategoryRoute', 1));
+		echo VmuikitHtml::row('checkbox','COM_VM_CACHE_GET_ORDERBY_LIST','UseCachegetOrderByList', VmConfig::get('UseCachegetOrderByList', 1));
+        ?>
+   </div>
+</div>

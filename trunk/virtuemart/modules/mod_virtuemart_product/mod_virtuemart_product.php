@@ -37,6 +37,7 @@ if (!class_exists( 'mod_virtuemart_product' )) require(JPATH_ROOT .'/modules/mod
 
 if($cache and $Product_group!='recent'){
 	//$key = 'products'.$category_id.'.'.$max_items.'.'.$filter_category.'.'.$display_style.'.'.$products_per_row.'.'.$show_price.'.'.$show_addtocart.'.'.$Product_group.'.'.$virtuemart_currency_id.'.'.$category_id.'.'.$filter_manufacturer.'.'.$manufacturer_id;
+
 	$cache	= VmConfig::getCache('mod_virtuemart_product');
 	$cache->setCaching(1);
 	$cache->setLifeTime($cachetime);

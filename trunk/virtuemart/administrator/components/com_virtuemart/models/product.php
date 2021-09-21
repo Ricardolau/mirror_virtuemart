@@ -27,7 +27,7 @@ class VirtueMartModelProduct extends VmModel {
 	 *
 	 * @var integer
 	 */
-	var $products = NULL;
+	var $products = array();
 	static $decimals = array('product_length','product_width','product_height','product_weight','product_packaging');
 	var $_onlyQuery 	= false;
 
@@ -86,9 +86,9 @@ class VirtueMartModelProduct extends VmModel {
 	var $filter_order = 'p.virtuemart_product_id';
 	var $filter_order_Dir = 'DESC';
 	var $valid_BE_search_fields = array('product_name', '`p`.product_sku','`l`.`slug`', 'product_s_desc', '`l`.`metadesc`');
-	private $_autoOrder = 0;
-	private $orderByString = 0;
-	private $listing = FALSE;
+	var $_autoOrder = 0;
+	var $orderByString = 0;
+	var $listing = FALSE;
 
 
 	static function getValidProductFilterArray () {
@@ -304,7 +304,32 @@ class VirtueMartModelProduct extends VmModel {
 	 */
 	function sortSearchListQuery ($onlyPublished = TRUE, $virtuemart_category_id = FALSE, $group = FALSE, $nbrReturnProducts = FALSE, $langFields = array(), $searchcustoms = null) {
 
-		$app = JFactory::getApplication ();
+
+		/*
+		 * Plugins must return an array with product ids
+		 */
+		$result = array();
+		$used = vDispatcher::trigger('plgVmMySortSearchListQuery',
+			array(
+				&$this,
+				&$result,
+				$this->keyword,
+				$onlyPublished,
+				$virtuemart_category_id,
+				$group,$nbrReturnProducts,
+				$langFields,
+				$searchcustoms
+			));
+
+		if($used){
+			foreach ($used as $ret) {
+				if ($ret === true) {
+					return $result;
+					//if plugin returns true, return it's values from the result
+				}
+			}
+		}
+
 		$db = JFactory::getDbo();
 		//$this->setDebugSql(1); //VmConfig::$echoDebug = true;
 		//vmdebug('sortSearchListQuery '.$group,$nbrReturnProducts);
@@ -1016,6 +1041,13 @@ class VirtueMartModelProduct extends VmModel {
 		}
 
 		return $ids;
+	}
+
+	static public function emptyStaticCache(){
+		self::$_products = array();
+		self::$_productsSingle = array();
+		self::$_cacheOpt = array();
+		self::$_cacheOptSingle = array();
 	}
 
 	static public function checkIfCached($virtuemart_product_id, $front = NULL, $withCalc = TRUE, $onlyPublished = TRUE, $quantity = 1,$virtuemart_shoppergroup_ids = 0, $withRating = 0){
@@ -2647,7 +2679,7 @@ vmSetStartTime('letsUpdateProducts');
 
 		}
 
-		$cache = VmConfig::getCache('com_virtuemart_cat_manus','callback');
+		$cache = VmConfig::getCache('com_virtuemart_orderby_manus','callback');
 		$cache->clean();
 
 		vDispatcher::trigger('plgVmAfterStoreProduct',array(&$data, &$product_data));
@@ -3041,7 +3073,6 @@ vmdebug('createCloneWithChildren relation',$relation);
 			$getArray['virtuemart_category_id'] = 0;
 		}
 
-		$Itemid = '';
 
 		$fieldLink = vmURI::getCurrentUrlBy('request', false, true, array('orderby','dir'));
 
@@ -3062,140 +3093,50 @@ vmdebug('createCloneWithChildren relation',$relation);
 			$orderbyTxt = '&orderby=' . $orderby;
 		}
 
-		$manufacturerTxt = '';
-		$manufacturerLink = '';
-		if (VmConfig::get ('show_manufacturers')) {
+		$useCache = VmConfig::get('UseCachegetOrderByList',true);
 
-			$manuM = VmModel::getModel('manufacturer');
+		if (VmConfig::get ('show_manufacturers',true)) {
+
 			vmSetStartTime('mcaching');
-			$mlang= vmLanguage::getUseLangFallback();
-
-			if(true){
-				$cache = VmConfig::getCache('com_virtuemart_cat_manus','callback');
+			if($useCache){
+				$cache = VmConfig::getCache('com_virtuemart_orderby_manus','callback');
 				$cache->setCaching(true);
-				$manufacturers = $cache->get( array( 'VirtueMartModelManufacturer', 'getManufacturersOfProductsInCategory' ),array($virtuemart_category_id,VmConfig::$vmlang,$mlang));
-				vmTime('Manufacturers by Cache','mcaching');
+
+				$manuList = $cache->get( array( 'VirtueMartModelProduct', 'getManufacturerOrderByList' ),array($virtuemart_category_id, $fieldLink, $orderbyTxt, $orderDirLink));
+				vmTime('Manufacturers Dropdown by Cache','mcaching');
 			} else {
-				$manufacturers = $manuM ->getManufacturersOfProductsInCategory($virtuemart_category_id,VmConfig::$vmlang,$mlang);
-				vmTime('Manufacturers by function','mcaching');
+				$manuList = VirtueMartModelProduct::getManufacturerOrderByList($virtuemart_category_id, $fieldLink, $orderbyTxt, $orderDirLink);
+				vmTime('Manufacturers Dropdown by function','mcaching');
 			}
 
-			// manufacturer link list
-			$manufacturerLink = '';
-			$virtuemart_manufacturer_id = vRequest::getInt ('virtuemart_manufacturer_id', 0);
-			if (!empty($virtuemart_manufacturer_id)) {
-				$manufacturerTxt = '&virtuemart_manufacturer_id=' . $virtuemart_manufacturer_id;
-			}
-
-			if (count ($manufacturers) > 0) {
-				if (count ($manufacturers) > 1) {
-					$manufacturerLink = '<div class="orderlist">';
-					if ($virtuemart_manufacturer_id > 0) {
-						$allLink = str_replace($manufacturerTxt,$fieldLink,'');
-						$allLink .= '&virtuemart_manufacturer_id=0';
-						$manufacturerLink .= '<div><a title="" href="' . JRoute::_ ($allLink . $orderbyTxt . $orderDirLink , FALSE) . '">' . vmText::_ ('COM_VIRTUEMART_SEARCH_SELECT_ALL_MANUFACTURER') . '</a></div>';
-					}
-					foreach ($manufacturers as $mf) {
-						$l = str_replace($manufacturerTxt,'',$fieldLink) . '&virtuemart_manufacturer_id=' . $mf->virtuemart_manufacturer_id . $orderbyTxt . $orderDirLink . $Itemid;
-						$link = JRoute::_ ($l,FALSE);
-						if ($mf->virtuemart_manufacturer_id != $virtuemart_manufacturer_id) {
-							$manufacturerLink .= '<div><a title="' . $mf->mf_name . '" href="' . $link . '">' . $mf->mf_name . '</a></div>';
-						}
-						else {
-							$currentManufacturerLink = '<div class="title">' . vmText::_ ('COM_VIRTUEMART_PRODUCT_DETAILS_MANUFACTURER_LBL') . '</div><div class="activeOrder">' . $mf->mf_name . '</div>';
-						}
-					}
-					$manufacturerLink .= '</div>';
-				}
-				elseif ($virtuemart_manufacturer_id > 0) {
-					$currentManufacturerLink = '<div class="title">' . vmText::_ ('COM_VIRTUEMART_PRODUCT_DETAILS_MANUFACTURER_LBL') . '</div><div class="activeOrder">' . $manufacturers[0]->mf_name . '</div>';
-				}
-				else {
-					$currentManufacturerLink = '<div class="title">' . vmText::_ ('COM_VIRTUEMART_PRODUCT_DETAILS_MANUFACTURER_LBL') . '</div><div class="Order"> ' . $manufacturers[0]->mf_name . '</div>';
-				}
-			}
 		}
 
-		/* order by link list*/
-		$orderByLink = '';
-		$fields = VmConfig::get ('browse_orderby_fields');
-		if (count ($fields) > 1) {
-			$orderByLink = '<div class="orderlist">';
-			foreach ($fields as $field) {
-				if ($field != $orderby) {
+		vmSetStartTime('orderBy');
+		/*if($useCache){
+			$cache = VmConfig::getCache('com_virtuemart_orderby','callback');
+			$cache->setCaching(true);
 
-					$dotps = strrpos ($field, '.');
-					if ($dotps !== FALSE) {
-						$prefix = substr ($field, 0, $dotps + 1);
-						$fieldWithoutPrefix = substr ($field, $dotps + 1);
-					}
-					else {
-						$prefix = '';
-						$fieldWithoutPrefix = $field;
-					}
+			$orderByList = $cache->get( array( 'ShopFunctionsF','renderVmSubLayout'),(array('orderby',array('orderby' => $orderby, 'fieldLink' => $fieldLink, 'orderDir' =>$orderDir, 'orderbyTxt' => $orderbyTxt, 'orderDirLink' => $orderDirLink) )));
 
-					$text = vmText::_ ('COM_VIRTUEMART_' . strtoupper (str_replace(array(',',' '),array('_',''),$fieldWithoutPrefix)));
+			vmTime('OrderByList by Cache','orderBy');
+		} else {*/
+			$orderByList = ShopFunctionsF::renderVmSubLayout('orderby',array('orderby' => $orderby, 'fieldLink' => $fieldLink, 'orderDir' =>$orderDir, 'orderbyTxt' => $orderbyTxt, 'orderDirLink' => $orderDirLink));
+			vmTime('OrderByList by function','orderBy');
+		//}
 
-					$field = explode('.',$field);
-					if(isset($field[1])){
-						$field = $field[1];
-					} else {
-						$field = $field[0];
-					}
-					$link = JRoute::_ ($fieldLink . $manufacturerTxt . '&orderby=' . $field . $Itemid,FALSE);
-
-					$orderByLink .= '<div><a title="' . $text . '" href="' . $link . '">' . $text . '</a></div>';
-				}
-			}
-			$orderByLink .= '</div>';
-		}
-
-		if($orderDir == 'ASC'){
-			$orderDir = 'DESC';
-		} else {
-			$orderDir = 'ASC';
-		}
-
-		if ($orderDir != $orderDirConf ) {
-			$orderDirLink = '&dir=' . $orderDir;	//was '&order='
-		} else {
-			$orderDirLink = '';
-		}
-
-		$orderDirTxt = vmText::_ ('COM_VIRTUEMART_'.$orderDir);
-
-		$link = JRoute::_ ($fieldLink . $manufacturerTxt . $orderbyTxt . $orderDirLink . $Itemid,FALSE);
-
-		// full string list
-		if ($orderby == '') {
-			$orderby = $orderbyCfg;
-		}
-		$orderby = strtoupper ($orderby);
-
-
-		$dotps = strrpos ($orderby, '.');
-		if ($dotps !== FALSE) {
-			$prefix = substr ($orderby, 0, $dotps + 1);
-			$orderby = substr ($orderby, $dotps + 1);
-		}
-		else {
-			$prefix = '';
-		}
-		$orderby=str_replace(',','_',$orderby);
-		$orderByList = '<div class="orderlistcontainer"><div class="title">' . vmText::_ ('COM_VIRTUEMART_ORDERBY') . '</div><div class="activeOrder"><a title="' . $orderDirTxt . '" href="' . $link . '">' . vmText::_ ('COM_VIRTUEMART_SEARCH_ORDER_' . $orderby) . ' ' . $orderDirTxt . '</a></div>';
-		$orderByList .= $orderByLink . '</div>';
-
-		$manuList = '';
-		if (VmConfig::get ('show_manufacturers') && count ($manufacturers) > 0) {
-			if (empty ($currentManufacturerLink)) {
-				$currentManufacturerLink = '<div class="title">' . vmText::_ ('COM_VIRTUEMART_PRODUCT_DETAILS_MANUFACTURER_LBL') . '</div><div class="activeOrder">' . vmText::_ ('COM_VIRTUEMART_SEARCH_SELECT_MANUFACTURER') . '</div>';
-			}
-			$manuList = ' <div class="orderlistcontainer">' . $currentManufacturerLink;
-			$manuList .= $manufacturerLink . '</div><div class="clear"></div>';
-
-		}
 
 		return array('orderby'=> $orderByList, 'manufacturer'=> $manuList);
+	}
+
+	static public function getManufacturerOrderByList($virtuemart_category_id, $fieldLink, $orderbyTxt, $orderDirLink){
+
+		$manuM = VmModel::getModel('manufacturer');
+		vmSetStartTime('mcaching');
+		$mlang= vmLanguage::getUseLangFallback();
+
+		$manufacturers = $manuM ->getManufacturersOfProductsInCategory($virtuemart_category_id,VmConfig::$vmlang,$mlang);
+		$manuList = ShopFunctionsF::renderVmSubLayout('orderbymanu',array('manufacturers' => $manufacturers, 'fieldLink' => $fieldLink, 'orderbyTxt' => $orderbyTxt, 'orderDirLink' => $orderDirLink));
+		return $manuList;
 	}
 
 // **************************************************

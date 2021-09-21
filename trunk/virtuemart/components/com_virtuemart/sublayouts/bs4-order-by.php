@@ -57,7 +57,7 @@ if (VmConfig::get('show_manufacturers')) {
 	$mlang = vmLanguage::getUseLangFallback();
 
 	if (TRUE) {
-		$cache = VmConfig::getCache('com_virtuemart_cat_manus', 'callback');
+		$cache = VmConfig::getCache('com_virtuemart_orderby_manus', 'callback');
 		$cache->setCaching(TRUE);
 		$manufacturers = $cache->get(
 			array ('VirtueMartModelManufacturer', 'getManufacturersOfProductsInCategory'),

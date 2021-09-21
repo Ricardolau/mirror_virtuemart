@@ -349,14 +349,13 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 			$cache = VmConfig::getCache();
 			//$cache = JFactory::getCache();
 			$cache->clean('com_virtuemart_cats');
-			$cache->clean('com_virtuemart_cat_childs');
+			$cache->clean('com_virtuemart_orderby_manus');
+			$cache->clean('com_virtuemart_cats_route');
 			$cache->clean('mod_virtuemart_product');
 			$cache->clean('mod_virtuemart_category');
 			$cache->clean('com_virtuemart_rss');
-			$cache->clean('com_virtuemart_cat_manus');
 			$cache->clean('com_virtuemart_revenue');
 			$cache->clean('convertECB');
-			$cache->clean('_virtuemart');
 			$cache->clean('com_plugins');
 			$cache->clean('_system');
 			$cache->clean('page');

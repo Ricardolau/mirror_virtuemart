@@ -19,6 +19,68 @@ if(  !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not
  */
 defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 
+use Joomla\CMS\Application\SiteApplication;
+use Joomla\CMS\Component\Router\RouterView;
+use Joomla\CMS\Component\Router\Rules\MenuRules;
+use Joomla\CMS\Component\Router\Rules\NomenuRules;
+use Joomla\CMS\Component\Router\Rules\StandardRules;
+use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Database\ParameterType;
+
+if(version_compare(JVERSION,'4.0.0','ge')) {
+
+	/**
+	* Routing class from com_contact
+	*
+	* @since  3.3
+	*/
+	class VirtuemartRouter extends RouterView {
+
+		/**
+		 * Content Component router constructor
+		 *
+		 * @param   SiteApplication           $app              The application object
+		 * @param   AbstractMenu              $menu             The menu object to work with
+		 */
+		public function __construct(SiteApplication $app, AbstractMenu $menu) {
+
+			parent::__construct($app, $menu);
+
+			$this->attachRule(new MenuRules($this));
+			$this->attachRule(new StandardRules($this));
+			$this->attachRule(new NomenuRules($this));
+
+		}
+
+		public function parse(&$segments) {
+			require_once(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_virtuemart'.DIRECTORY_SEPARATOR.'router.php');
+			$ret = virtuemartParseRoute($segments);
+			$segments = array();
+			$ret['option'] = 'com_virtuemart';
+			$app = JFactory::getApplication();
+			foreach ($ret as $key=>$val) {
+				$app->input->set($key, $val);
+				if (class_exists('JRequest')) {
+					JRequest::setVar($key, $val);
+				}
+				if (class_exists('vRequest')) {
+					vRequest::setVar($key, $val);
+				}
+			}
+
+			return $ret;
+		}
+
+		public function build(&$query) {
+		  require_once(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_virtuemart'.DIRECTORY_SEPARATOR.'router.php');
+		  $ret = virtuemartBuildRoute($query);
+		  return $ret;
+		}
+
+	}
+
+}
 
 function virtuemartBuildRoute(&$query) {
 
@@ -1020,19 +1082,41 @@ class vmrouterHelper {
 
 	public function getCategoryRoute($catId,$manId){
 
-		$cache = VmConfig::getCache('_virtuemart','');
+		vmSetStartTime('getCategoryRoute');
+
 		$key = $catId. VmConfig::$vmlang . $manId; // internal cache key
-		if (!($CategoryRoute = $cache->get($key))) {
-			$CategoryRoute = $this->getCategoryRouteNocache($catId,$manId);
-			$cache->store($CategoryRoute, $key);
+		if (!isset(self::$_catRoute[$key])){
+
+			if(VmConfig::get('useCacheVmGetCategoryRoute',1)) {
+				vmdebug('getCategoryRoute key '.$key.' not in internal Cache', self::$_catRoute);
+				$cache = VmConfig::getCache('com_virtuemart_cats_route','');
+				self::$_catRoute = $cache->get('com_virtuemart_cats_route');
+				if(isset(self::$_catRoute[$key])){
+					$CategoryRoute = self::$_catRoute[$key];
+				} else {
+
+					$CategoryRoute = $this->getCategoryRouteNocache($catId,$manId);
+					vmdebug('getCategoryRoute store outdated cache', $key, self::$_catRoute);
+					$cache->store(self::$_catRoute, 'com_virtuemart_cats_route');
+				}
+
+			} else {
+				$CategoryRoute = $this->getCategoryRouteNocache($catId,$manId);
+			}
+
+		} else {
+			$CategoryRoute = self::$_catRoute[$key];
 		}
+
+		//vmTime('getCategoryRoute time','getCategoryRoute', false);
 		return $CategoryRoute ;
 	}
 
 	/* Get Joomla menu item and the route for category */
 	public function getCategoryRouteNocache($catId,$manId){
 
-		if (! array_key_exists ($catId . 'mf' . $manId . VmConfig::$vmlang, self::$_catRoute)){
+		$key = $catId. VmConfig::$vmlang . $manId;
+		if (!isset(self::$_catRoute[$key])){
 			$category = new stdClass();
 			$category->route = '';
 			$category->Itemid = 0;
@@ -1069,10 +1153,10 @@ class vmrouterHelper {
 				$category->route .= $this->CategoryName[$this->slang][$catId] ;
 				if ($menuCatid == 0  && $this->menu['virtuemart']) $category->Itemid = $this->menu['virtuemart'] ;
 			}
-			self::$_catRoute[$catId . 'mf' . $manId . VmConfig::$vmlang] = $category;
+			self::$_catRoute[$key] = $category;
 		}
 
-		return self::$_catRoute[$catId . 'mf' . $manId . VmConfig::$vmlang] ;
+		return self::$_catRoute[$key] ;
 	}
 
 	/*get url safe names of category and parents categories  */
@@ -1330,10 +1414,12 @@ class vmrouterHelper {
 			$q .= ' OR ljd.'.$wherename.' = "'.$this->_db->escape($value).'"';
 		}
 		$this->_db->setQuery($q);
-		$ids[$hash] = $this->_db->loadResult();
-		if($err = $this->_db->getErrorMsg()){
-			vmError('Error in slq router.php function getFieldOfObjectWithLangFallBack '.$err);
+		try{
+			$ids[$hash] = $this->_db->loadResult();
+		} catch (Exception $e){
+			vmError('Error in slq router.php function getFieldOfObjectWithLangFallBack '.$e->getMessage());
 		}
+
 		if($ids[$hash]===null){
 			$ids[$hash] = false;
 		}

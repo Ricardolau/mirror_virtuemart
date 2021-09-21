@@ -43,8 +43,8 @@
                 name="vmcache"
                 type="list"
                 default="1"
-                label="MOD_VIRTUEMART_PRODUCT_CACHING_LABEL"
-                description="MOD_VIRTUEMART_PRODUCT_CACHING_DESC"
+                label="MOD_VIRTUEMART_CATEGORY_CACHING_LABEL"
+                description="MOD_VIRTUEMART_CATEGORY_CACHING_DESC"
         >
           <option value="0">JNO</option>
           <option value="1">JYES</option>
@@ -52,9 +52,9 @@
         <field
                 name="vmcachetime"
                 type="text"
-                default="300"
-                label="MOD_VIRTUEMART_PRODUCT_CACHING_TIME_LABEL"
-                description="MOD_VIRTUEMART_PRODUCT_CACHING_TIME_DESC"
+                default="1800"
+                label="MOD_VIRTUEMART_CATEGORY_CACHING_TIME_LABEL"
+                description="MOD_VIRTUEMART_CATEGORY_CACHING_TIME_DESC"
         />
       </fieldset>
       <fieldset name="advanced">

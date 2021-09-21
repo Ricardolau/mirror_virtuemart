@@ -622,19 +622,11 @@ class ShopFunctions {
 		if(!is_array($selectedCategories)){
 			$selectedCategories = array($selectedCategories);
 		}
-		$hash = crc32(implode('.',$selectedCategories).':'.$cid.':'.$level.implode('.',$disabledFields));
-		if (empty(self::$categoryTree[$hash])) {
 
-			$cache = VmConfig::getCache ('com_virtuemart_cats');
-			$cache->setCaching (1);
+		$vendorId = vmAccess::isSuperVendor();
+		self::$categoryTree = ShopFunctions::categoryListTreeLoop($selectedCategories, $cid, $level, $disabledFields, VmConfig::isSite(), $vendorId, VmConfig::$vmlang);
 
-			$vendorId = vmAccess::isSuperVendor();
-			self::$categoryTree[$hash] = $cache->get (array('ShopFunctions', 'categoryListTreeLoop'), array($selectedCategories, $cid, $level, $disabledFields,VmConfig::isSite(),$vendorId,VmConfig::$vmlang));
-
-			//self::$categoryTree[$hash] = ShopFunctions::categoryListTreeLoop($selectedCategories, $cid, $level, $disabledFields,$app->isSite(),$vendorId,VmConfig::$vmlang);
-		}
-
-		return self::$categoryTree[$hash];
+		return self::$categoryTree;
 	}
 
 
